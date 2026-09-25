@@ -1,0 +1,2454 @@
+{
+  "schema": "CP6_AUDIT_T2_FROZEN_CASES_V1",
+  "source": "GitHub Actions job logs run 36125151913; exact writer d1bc8ad; no historical relabel",
+  "run_id": 36125151913,
+  "workflow_head": "79e887e763f1ac1a0db60a55198b5d400b6f9915",
+  "jobs": [
+    {
+      "job_id": 108039445366,
+      "label": "AR 174",
+      "conclusion": "success",
+      "artifact_id": 10858967717,
+      "groups": {
+        "AR_SEQUENTIAL": [
+          {
+            "id": "CUSTOMER_RECEIVABLE_ORIGINAL_PROBE",
+            "status": "PASS"
+          },
+          {
+            "id": "CUSTOMER_RECEIVABLE_IMPORTED_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "CUSTOMER_RECEIVABLE_LEGACY_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "CUSTOMER_RECEIVABLE_NONOVERLAP",
+            "status": "PASS"
+          },
+          {
+            "id": "SUPPLIER_PAYABLE_ORIGINAL_PROBE",
+            "status": "PASS"
+          },
+          {
+            "id": "SUPPLIER_PAYABLE_IMPORTED_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "SUPPLIER_PAYABLE_LEGACY_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "SUPPLIER_PAYABLE_NONOVERLAP",
+            "status": "PASS"
+          },
+          {
+            "id": "VENDOR_PAYABLE_ORIGINAL_PROBE",
+            "status": "PASS"
+          },
+          {
+            "id": "VENDOR_PAYABLE_IMPORTED_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "VENDOR_PAYABLE_LEGACY_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "VENDOR_PAYABLE_NONOVERLAP",
+            "status": "PASS"
+          },
+          {
+            "id": "CONTRACTOR_RECEIVABLE_ORIGINAL_PROBE",
+            "status": "PASS"
+          },
+          {
+            "id": "CONTRACTOR_RECEIVABLE_IMPORTED_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "CONTRACTOR_RECEIVABLE_LEGACY_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "CONTRACTOR_RECEIVABLE_NONOVERLAP",
+            "status": "PASS"
+          },
+          {
+            "id": "CONTRACTOR_PAYABLE_ORIGINAL_PROBE",
+            "status": "PASS"
+          },
+          {
+            "id": "CONTRACTOR_PAYABLE_IMPORTED_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "CONTRACTOR_PAYABLE_LEGACY_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "CONTRACTOR_PAYABLE_NONOVERLAP",
+            "status": "PASS"
+          },
+          {
+            "id": "CASH_BANK_ORIGINAL_PROBE",
+            "status": "PASS"
+          },
+          {
+            "id": "CASH_BANK_IMPORTED_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "CASH_BANK_LEGACY_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "CASH_BANK_NONOVERLAP",
+            "status": "PASS"
+          },
+          {
+            "id": "MATERIAL_ORIGINAL_PROBE",
+            "status": "PASS"
+          },
+          {
+            "id": "MATERIAL_IMPORTED_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "MATERIAL_LEGACY_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "MATERIAL_NONOVERLAP",
+            "status": "PASS"
+          },
+          {
+            "id": "FINISHED_GOODS_ORIGINAL_PROBE",
+            "status": "PASS"
+          },
+          {
+            "id": "FINISHED_GOODS_IMPORTED_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "FINISHED_GOODS_LEGACY_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "FINISHED_GOODS_NONOVERLAP",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP_ORIGINAL_PROBE",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP_IMPORTED_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP_LEGACY_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP_NONOVERLAP",
+            "status": "PASS"
+          },
+          {
+            "id": "BS_ORIGINAL_PROBE",
+            "status": "PASS"
+          },
+          {
+            "id": "BS_IMPORTED_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "BS_LEGACY_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "BS_NONOVERLAP",
+            "status": "PASS"
+          },
+          {
+            "id": "RPC_REPLAY_STALE_PAYLOAD_REVOKED",
+            "status": "PASS"
+          },
+          {
+            "id": "LATEST_DRAFT_TOTAL_REPLAY",
+            "status": "PASS"
+          },
+          {
+            "id": "ACCESSORY_CONNECTED:12",
+            "status": "PASS"
+          },
+          {
+            "id": "ACCESSORY_CONNECTED:144",
+            "status": "PASS"
+          },
+          {
+            "id": "ACCESSORY_CONNECTED_ZERO",
+            "status": "PASS"
+          },
+          {
+            "id": "ACCESSORY_CONNECTED_MASTER",
+            "status": "PASS"
+          },
+          {
+            "id": "ACCESSORY_CONNECTED_DELETE",
+            "status": "PASS"
+          },
+          {
+            "id": "ACCESSORY_CONNECTED_AUTHORIZATION",
+            "status": "PASS"
+          },
+          {
+            "id": "ACCESSORY_CONNECTED_REFUSAL:FRACTIONAL",
+            "status": "PASS"
+          },
+          {
+            "id": "ACCESSORY_CONNECTED_REFUSAL:NUMBER",
+            "status": "PASS"
+          },
+          {
+            "id": "ACCESSORY_CONNECTED_REFUSAL:PRICE_PRECISION",
+            "status": "PASS"
+          },
+          {
+            "id": "ACCESSORY_CONNECTED_REFUSAL:PRICE_COMMA",
+            "status": "PASS"
+          },
+          {
+            "id": "ACCESSORY_CONNECTED_REFUSAL:PRICE_NEGATIVE",
+            "status": "PASS"
+          },
+          {
+            "id": "ACCESSORY_CONNECTED_REFUSAL:OVER_STOCK",
+            "status": "PASS"
+          },
+          {
+            "id": "ACCESSORY_CONNECTED_REFUSAL:EMPTY_LOCATION",
+            "status": "PASS"
+          },
+          {
+            "id": "ACCESSORY_CONNECTED_REFUSAL:FUTURE",
+            "status": "PASS"
+          },
+          {
+            "id": "ACCESSORY_CONNECTED_REFUSAL:BAD_DATE",
+            "status": "PASS"
+          },
+          {
+            "id": "ACCESSORY_CONNECTED_REFUSAL:UNKNOWN_FIELD",
+            "status": "PASS"
+          },
+          {
+            "id": "ACCESSORY_CONNECTED_REFUSAL:DUPLICATE",
+            "status": "PASS"
+          },
+          {
+            "id": "ACCESSORY_CONNECTED_REFUSAL:STALE_PRICE",
+            "status": "PASS"
+          },
+          {
+            "id": "ACCESSORY_CONNECTED_REFUSAL:MASTER_FRACTION",
+            "status": "PASS"
+          },
+          {
+            "id": "ACCESSORY_CONNECTED_REFUSAL:STALE_VERSION",
+            "status": "PASS"
+          },
+          {
+            "id": "ACCESSORY_CONNECTED_REFUSAL:POSTED_EDIT",
+            "status": "PASS"
+          },
+          {
+            "id": "RECEIPT_LIFECYCLE:False:False:UTC",
+            "status": "PASS"
+          },
+          {
+            "id": "RECEIPT_LIFECYCLE:True:False:UTC",
+            "status": "PASS"
+          },
+          {
+            "id": "RECEIPT_LIFECYCLE:False:True:UTC",
+            "status": "PASS"
+          },
+          {
+            "id": "RECEIPT_LIFECYCLE:True:True:Pacific/Kiritimati",
+            "status": "PASS"
+          },
+          {
+            "id": "RECEIPT_RETURN:False:False",
+            "status": "PASS"
+          },
+          {
+            "id": "RECEIPT_RETURN:False:True",
+            "status": "PASS"
+          },
+          {
+            "id": "RECEIPT_RETURN:True:False",
+            "status": "PASS"
+          },
+          {
+            "id": "RECEIPT_RETURN:True:True",
+            "status": "PASS"
+          },
+          {
+            "id": "RECEIPT_PRODUCTION:False",
+            "status": "PASS"
+          },
+          {
+            "id": "RECEIPT_PRODUCTION:True",
+            "status": "PASS"
+          },
+          {
+            "id": "RECEIPT_DOCUMENT_CENTS",
+            "status": "PASS"
+          },
+          {
+            "id": "RECEIPT_PAYMENT",
+            "status": "PASS"
+          },
+          {
+            "id": "RECEIPT_SOURCE_DRIFT",
+            "status": "PASS"
+          },
+          {
+            "id": "RECEIPT_REFUSAL:MISSING_SOURCE",
+            "status": "PASS"
+          },
+          {
+            "id": "RECEIPT_REFUSAL:PRE_CUTOVER_CONSUMPTION",
+            "status": "PASS"
+          },
+          {
+            "id": "RECEIPT_REFUSAL:COST_MISMATCH",
+            "status": "PASS"
+          },
+          {
+            "id": "RECEIPT_REFUSAL:FUTURE_RECEIPT",
+            "status": "PASS"
+          },
+          {
+            "id": "RECEIPT_REFUSAL:DUPLICATE_LINE",
+            "status": "PASS"
+          },
+          {
+            "id": "RECEIPT_REFUSAL:CROSS_BATCH",
+            "status": "PASS"
+          },
+          {
+            "id": "RECEIPT_REFUSAL:LEGACY_AFTER_IMPORT",
+            "status": "PASS"
+          },
+          {
+            "id": "RECEIPT_REFUSAL:IMMUTABLE_RECEIPT",
+            "status": "PASS"
+          },
+          {
+            "id": "RECEIPT_REFUSAL:INVOICE_BEFORE_CUTOVER",
+            "status": "PASS"
+          },
+          {
+            "id": "RECEIPT_REFUSAL:SUMMARY_AFTER_IMPORT",
+            "status": "PASS"
+          },
+          {
+            "id": "RECEIPT_REFUSAL:LEGACY_FINALIZE_OMITS_RECEIPT",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCTION_ORIGIN:SEWING:False:False",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCTION_ORIGIN:LAUNDRY:True:False",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCTION_ORIGIN:LAUNDRY:False:True",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCTION_ORIGIN_REFUSAL:MISSING_CUSTODY",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCTION_ORIGIN_REFUSAL:MISSING_PO",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCTION_ORIGIN_REFUSAL:FRACTIONAL_PCS",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCTION_ORIGIN_REFUSAL:MISSING_COST",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCTION_ORIGIN_REFUSAL:BS_SIZE_MISMATCH",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCTION_ORIGIN_REFUSAL:BS_MISSING_HOLDER",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCTION_ORIGIN_REFUSAL:PO_TARGET_TOO_SMALL",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCTION_ORIGIN_REFUSAL:ORIGIN_OVER_VALUE",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCTION_ORIGIN_REFUSAL:ORIGIN_MISSING_TARGET",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCTION_ORIGIN_REFUSAL:ORIGIN_DUPLICATE",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCTION_ORIGIN_REFUSAL:ORIGIN_MISSING_RECEIPT",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCTION_ORIGIN_REFUSAL:MISSING_ORIGIN",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCTION_ORIGIN_REFUSAL:BS_CONTROL_VALUE",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCTION_ORIGIN_REFUSAL:WIP_CONTROL_QUANTITY",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCTION_ORIGIN_REFUSAL:OVER_OUTPUT",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCTION_ORIGIN_REFUSAL:STALE_OUTPUT",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCTION_ORIGIN_REFUSAL:WRONG_PRODUCT",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCTION_ORIGIN_REFUSAL:OUTPUT_BEFORE_CUTOVER",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCTION_ORIGIN_REWORK",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCTION_ORIGIN_LATEST_DRAFT",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCTION_ORIGIN_SOLD",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCTION_ORIGIN_GUARDS",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCTION_ORIGIN_GUARDS_FULLY_CONSUMED",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCTION_ORIGIN_UNCHANGED_PRICE",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_LIFECYCLE:USED:False",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_LIFECYCLE:USED:True",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_LIFECYCLE:REMAINING:False",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_LIFECYCLE:REMAINING:True",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_REFUSAL:STALE",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_REFUSAL:OVER",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_REFUSAL:NEGATIVE",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_REFUSAL:PRECISION",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_REFUSAL:NUMBER",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_REFUSAL:FUTURE",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_REFUSAL:BEFORE_RECEIPT",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_REFUSAL:COUNT_BEFORE_MOVEMENT",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_REFUSAL:WRONG_LOCATION",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_REFUSAL:NOT_POCKET",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_REFUSAL:ZERO",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_PROTECTIONS",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_AUTHORIZATION",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_PERIOD_LIFECYCLE:False:False",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_PERIOD_LIFECYCLE:False:True",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_PERIOD_LIFECYCLE:True:False",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_PERIOD_LIFECYCLE:True:True",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_PERIOD_REFUSAL:STALE_COST",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_PERIOD_REFUSAL:FUTURE",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_PERIOD_REFUSAL:REVERSED_RANGE",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_PERIOD_REFUSAL:TOO_LONG",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_PERIOD_REFUSAL:EMPTY_REASON",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_PERIOD_REFUSAL:OVERLAP",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_PERIOD_REFUSAL:NO_OUTPUT",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_PERIOD_REFUSAL:EMPTY_PERIOD",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_PERIOD_PROTECTIONS",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_PERIOD_AUTHORIZATION",
+            "status": "PASS"
+          },
+          {
+            "id": "POCKET_PERIOD_MIXED_ROUNDING",
+            "status": "PASS"
+          }
+        ],
+        "AR_CONCURRENCY": [
+          {
+            "id": "CONCURRENT_CUSTOMER_RECEIVABLE_IMPORTED_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "CONCURRENT_CUSTOMER_RECEIVABLE_LEGACY_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "CONCURRENT_SUPPLIER_PAYABLE_IMPORTED_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "CONCURRENT_SUPPLIER_PAYABLE_LEGACY_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "CONCURRENT_VENDOR_PAYABLE_IMPORTED_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "CONCURRENT_VENDOR_PAYABLE_LEGACY_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "CONCURRENT_CONTRACTOR_RECEIVABLE_IMPORTED_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "CONCURRENT_CONTRACTOR_RECEIVABLE_LEGACY_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "CONCURRENT_CONTRACTOR_PAYABLE_IMPORTED_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "CONCURRENT_CONTRACTOR_PAYABLE_LEGACY_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "CONCURRENT_CASH_BANK_IMPORTED_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "CONCURRENT_CASH_BANK_LEGACY_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "CONCURRENT_MATERIAL_IMPORTED_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "CONCURRENT_MATERIAL_LEGACY_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "CONCURRENT_FINISHED_GOODS_IMPORTED_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "CONCURRENT_FINISHED_GOODS_LEGACY_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "CONCURRENT_WIP_IMPORTED_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "CONCURRENT_WIP_LEGACY_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "CONCURRENT_BS_IMPORTED_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "CONCURRENT_BS_LEGACY_FIRST",
+            "status": "PASS"
+          },
+          {
+            "id": "WINNER_ABORT_IMPORTED",
+            "status": "PASS"
+          },
+          {
+            "id": "SAME_HEADER_IMPORTED",
+            "status": "PASS"
+          },
+          {
+            "id": "WINNER_ABORT_LEGACY",
+            "status": "PASS"
+          },
+          {
+            "id": "SAME_HEADER_LEGACY",
+            "status": "PASS"
+          },
+          {
+            "id": "REQUEST_CONCURRENT_REPLAY",
+            "status": "PASS"
+          },
+          {
+            "id": "REQUEST_CONCURRENT_PAYLOAD",
+            "status": "PASS"
+          },
+          {
+            "id": "REQUEST_CONCURRENT_ACTION",
+            "status": "PASS"
+          },
+          {
+            "id": "STALE_SNAPSHOT_ISOLATION",
+            "status": "PASS"
+          }
+        ]
+      }
+    },
+    {
+      "job_id": 108039445443,
+      "label": "AT/AU 41",
+      "conclusion": "success",
+      "artifact_id": 10859687248,
+      "groups": {
+        "AT_CASES": [
+          {
+            "id": "WIP_VERSION:UTC:AUTO_CURRENT",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP_VERSION:UTC:EXPLICIT_CURRENT",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP_VERSION:UTC:EXPIRED_ID",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP_VERSION:UTC:OLD_INACTIVE",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP_VERSION:Pacific/Kiritimati:AUTO_CURRENT",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP_VERSION:Pacific/Kiritimati:EXPLICIT_CURRENT",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP_VERSION:Pacific/Kiritimati:EXPIRED_ID",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP_VERSION:Pacific/Kiritimati:OLD_INACTIVE",
+            "status": "PASS"
+          },
+          {
+            "id": "HISTORICAL_BS:True:False",
+            "status": "PASS"
+          },
+          {
+            "id": "HISTORICAL_BS:True:True",
+            "status": "PASS"
+          },
+          {
+            "id": "HISTORICAL_BS:False:False",
+            "status": "PASS"
+          },
+          {
+            "id": "HISTORICAL_BS:False:True",
+            "status": "PASS"
+          },
+          {
+            "id": "INTRADAY:MIDNIGHT",
+            "status": "PASS"
+          },
+          {
+            "id": "INTRADAY:AMBIGUOUS_DAY",
+            "status": "PASS"
+          },
+          {
+            "id": "INTRADAY:EARLY_ID",
+            "status": "PASS"
+          },
+          {
+            "id": "INTRADAY:LATE_ID",
+            "status": "PASS"
+          }
+        ],
+        "AT_CONCURRENCY": [
+          {
+            "id": "TEMPORAL_MASTER_ABORT",
+            "status": "PASS"
+          },
+          {
+            "id": "TEMPORAL_MASTER_COMMIT",
+            "status": "PASS"
+          },
+          {
+            "id": "TEMPORAL_OUTPUT_ABORT",
+            "status": "PASS"
+          },
+          {
+            "id": "TEMPORAL_OUTPUT_COMMIT",
+            "status": "PASS"
+          }
+        ],
+        "AU_CASES": [
+          {
+            "id": "MASTER:DISPLAY_NAME",
+            "status": "PASS"
+          },
+          {
+            "id": "MASTER:UNUSED_IDENTITY",
+            "status": "PASS"
+          },
+          {
+            "id": "MASTER:USED_SUCCESSOR",
+            "status": "PASS"
+          },
+          {
+            "id": "MASTER:CANCEL_FUTURE",
+            "status": "PASS"
+          },
+          {
+            "id": "AU:NAME_ONLY",
+            "status": "PASS"
+          },
+          {
+            "id": "AU:PRICE_REFERENCE",
+            "status": "PASS"
+          },
+          {
+            "id": "AU:CANCEL_USED",
+            "status": "PASS"
+          },
+          {
+            "id": "AU:PHYSICAL_HISTORY",
+            "status": "PASS"
+          },
+          {
+            "id": "AU:REPLAY",
+            "status": "PASS"
+          },
+          {
+            "id": "AU:FORGED_CONTEXT",
+            "status": "PASS"
+          },
+          {
+            "id": "AU:FORGED_INSERT",
+            "status": "PASS"
+          },
+          {
+            "id": "AU:FORGED_UPDATE",
+            "status": "PASS"
+          },
+          {
+            "id": "AU:FORGED_UNUSED",
+            "status": "PASS"
+          },
+          {
+            "id": "AU:FORGED_CHILD_ID",
+            "status": "PASS"
+          },
+          {
+            "id": "AU:INVALID_CHILD",
+            "status": "PASS"
+          }
+        ],
+        "AU_CONCURRENCY": [
+          {
+            "id": "MASTER_MASTER_ABORT",
+            "status": "PASS"
+          },
+          {
+            "id": "MASTER_MASTER_COMMIT",
+            "status": "PASS"
+          },
+          {
+            "id": "MASTER_OUTPUT_ABORT",
+            "status": "PASS"
+          },
+          {
+            "id": "MASTER_OUTPUT_COMMIT",
+            "status": "PASS"
+          },
+          {
+            "id": "MASTER_VALIDATION_ABORT",
+            "status": "PASS"
+          },
+          {
+            "id": "MASTER_VALIDATION_COMMIT",
+            "status": "PASS"
+          }
+        ]
+      }
+    },
+    {
+      "job_id": 108039445222,
+      "label": "Regresi 326 + AS 34 + oracle C0 25",
+      "conclusion": "success",
+      "artifact_id": 10859463234,
+      "groups": {
+        "BUSINESS": [
+          {
+            "id": "CROSS:DAY:FABRIC:DIRECT:Asia/Jakarta",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FABRIC:DIRECT:UTC",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FABRIC:DIRECT:Asia/Tokyo",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FABRIC:DIRECT:Pacific/Kiritimati",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FABRIC:DIRECT:Etc/GMT+12",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FABRIC:IMPORT:Asia/Jakarta",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FABRIC:IMPORT:UTC",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FABRIC:IMPORT:Asia/Tokyo",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FABRIC:IMPORT:Pacific/Kiritimati",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FABRIC:IMPORT:Etc/GMT+12",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FABRIC_ROLL:DIRECT:Asia/Jakarta",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FABRIC_ROLL:DIRECT:UTC",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FABRIC_ROLL:DIRECT:Asia/Tokyo",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FABRIC_ROLL:DIRECT:Pacific/Kiritimati",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FABRIC_ROLL:DIRECT:Etc/GMT+12",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FABRIC_ROLL:IMPORT:Asia/Jakarta",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FABRIC_ROLL:IMPORT:UTC",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FABRIC_ROLL:IMPORT:Asia/Tokyo",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FABRIC_ROLL:IMPORT:Pacific/Kiritimati",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FABRIC_ROLL:IMPORT:Etc/GMT+12",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:ACCESSORY:DIRECT:Asia/Jakarta",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:ACCESSORY:DIRECT:UTC",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:ACCESSORY:DIRECT:Asia/Tokyo",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:ACCESSORY:DIRECT:Pacific/Kiritimati",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:ACCESSORY:DIRECT:Etc/GMT+12",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:ACCESSORY:IMPORT:Asia/Jakarta",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:ACCESSORY:IMPORT:UTC",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:ACCESSORY:IMPORT:Asia/Tokyo",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:ACCESSORY:IMPORT:Pacific/Kiritimati",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:ACCESSORY:IMPORT:Etc/GMT+12",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FINISHED_GOODS:DIRECT:Asia/Jakarta",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FINISHED_GOODS:DIRECT:UTC",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FINISHED_GOODS:DIRECT:Asia/Tokyo",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FINISHED_GOODS:DIRECT:Pacific/Kiritimati",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FINISHED_GOODS:DIRECT:Etc/GMT+12",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FINISHED_GOODS_PRICE:DIRECT:Asia/Jakarta",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FINISHED_GOODS_PRICE:DIRECT:UTC",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FINISHED_GOODS_PRICE:DIRECT:Asia/Tokyo",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FINISHED_GOODS_PRICE:DIRECT:Pacific/Kiritimati",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:FINISHED_GOODS_PRICE:DIRECT:Etc/GMT+12",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:BS:DIRECT:Asia/Jakarta",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:BS:DIRECT:UTC",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:BS:DIRECT:Asia/Tokyo",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:BS:DIRECT:Pacific/Kiritimati",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:BS:DIRECT:Etc/GMT+12",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:BS_PRODUCT:DIRECT:Asia/Jakarta",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:BS_PRODUCT:DIRECT:UTC",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:BS_PRODUCT:DIRECT:Asia/Tokyo",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:BS_PRODUCT:DIRECT:Pacific/Kiritimati",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:BS_PRODUCT:DIRECT:Etc/GMT+12",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:ATTENDANCE:DIRECT:Asia/Jakarta",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:ATTENDANCE:DIRECT:UTC",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:ATTENDANCE:DIRECT:Asia/Tokyo",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:ATTENDANCE:DIRECT:Pacific/Kiritimati",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:DAY:ATTENDANCE:DIRECT:Etc/GMT+12",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:OPENING_SUBLEDGER:OPENING_READY",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:OPENING_SUBLEDGER:OPENING_LAST_CENT",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:OPENING_SUBLEDGER:OPENING_OVERPAY",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:OPENING_SUBLEDGER:OPENING_CORRECTION",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:OPENING_SUBLEDGER:OPENING_REVERSE_CORRECTION",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:OPENING_SUBLEDGER:OPENING_REVERSE_SETTLEMENT",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:OPENING_SUBLEDGER:SUPPLIER_LAST_CENT",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:OPENING_SUBLEDGER:SUPPLIER_OVERPAY",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:OPENING_SUBLEDGER:SUPPLIER_REVERSE_PAYMENT",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:OPENING_SUBLEDGER:SUPPLIER_CORRECTION",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:OPENING_SUBLEDGER:SUPPLIER_REVERSE_CORRECTION",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:OPENING_SUBLEDGER:SUPPLIER_RETURN",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:OPENING_SUBLEDGER:OPENING_PARTIES",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:OPENING_SUBLEDGER:SUPPLIER_VALID_LIFECYCLE",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:OPENING_SUBLEDGER:SUPPLIER_INVOICE_LIFECYCLE",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:OPENING_SUBLEDGER:FRACTIONAL_PURCHASES",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:OPENING_SUBLEDGER:SUPPLIER_AMOUNT_WASH",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:OPENING_SUBLEDGER:OPENING_PARTY_WASH",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:OPENING_SUBLEDGER:OPENING_STATUS_FAULT",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:OPENING_SUBLEDGER:PAYMENT_INVERSE_FAULT",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_CENT:CORRECTION_ROUND_DELTA",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_CENT:CORRECTION_HALF_CENT",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_CENT:MULTI_PURCHASE_INVOICE",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_CENT:PARTIAL_INVOICE",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_CENT:SPLIT_RETURN",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_CENT:CORRECTION_ZERO_INVERSE",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_CENT:CORRECTION_CHAIN",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_CENT:NONFIFO_INVOICE_INVERSE",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_CENT:INVOICE_PAY_REVERSE",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_CENT:INVOICE_RETURN_INVERSE",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_CENT:NONFIFO_RETURN_INVERSE",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_CENT:SUBCENT_RETURN_INVERSE",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_CENT:ZERO_CENT_POSTING_FACT",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_CENT:FACT_LEDGER_FAULT",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_CENT:CROSS_SOURCE_INVERSE_IDENTITY",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_RETURN:NO_INVOICE_TWO_ROLL_FULL",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_RETURN:DIRECT_FINAL_TWO_ROLL_FULL",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_RETURN:FULL_INVOICE_TWO_ROLL_FULL",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_RETURN:PARTIAL_ONE_ROLL_FULL",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_RETURN:PARTIAL_TWO_RETURN_DOCUMENTS",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_RETURN:PARTIAL_TWO_LINES_BELOW_CAP",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_RETURN:HIGH_CREDIT_ATOMIC_REFUSAL",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_RETURN:PARTIAL_TWO_ROLL_FULL",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_RETURN:PARTIAL_TWO_LINES_CROSS_CAP",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_RETURN:PARTIAL_THREE_ROLL_FULL",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_RETURN:SPLIT_INVOICES_TWO_ROLL_FULL",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_RETURN:REPRICED_PARTIAL_TWO_ROLL_FULL",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_RETURN:PRIOR_RELIEF_CROSS_REMAINING_CAP",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_RETURN:LOW_CREDIT_SILENT_MISPOST",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_RETURN:LOW_CREDIT_PAYMENT_CAPACITY",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_RETURN:LATE_INVOICE_LAUNDER",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_RETURN:RETURN_REVERSE_RESTORE",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:SUPPLIER_RETURN:FRACTIONAL_QUANTITY",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:INVOICE:False:Asia/Jakarta:20",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:INVOICE:False:Asia/Jakarta:20.003",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:INVOICE:False:UTC:20",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:INVOICE:False:UTC:20.003",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:INVOICE:False:Etc/GMT+12:20",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:INVOICE:False:Etc/GMT+12:20.003",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:INVOICE:False:Pacific/Kiritimati:20",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:INVOICE:False:Pacific/Kiritimati:20.003",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:INVOICE:True:Asia/Jakarta:20",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:INVOICE:True:Asia/Jakarta:20.003",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:INVOICE:True:UTC:20",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:INVOICE:True:UTC:20.003",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:INVOICE:True:Etc/GMT+12:20",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:INVOICE:True:Etc/GMT+12:20.003",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:INVOICE:True:Pacific/Kiritimati:20",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:INVOICE:True:Pacific/Kiritimati:20.003",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:CASH_LINKED:0",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:CASH_LINKED:1",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:CASH_LINKED:2",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:CASH_LINKED:3",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:CASH_LINKED:4",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:CASH_LINKED:5",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:CASH_LINKED:6",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:CASH_LINKED:7",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:CASH_LINKED:8",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:CASH_LINKED:9",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:F_A01",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:F_A02",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:F_A03",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:H_R02",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:H_R03_UNDERPAID",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:H_R03_PAID_RETURN",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:H_R03_OVERPAID",
+            "status": "PASS"
+          },
+          {
+            "id": "CROSS:ORIGINAL_DRAFT_LIFECYCLE",
+            "status": "PASS"
+          },
+          {
+            "id": "WORK:WORK_CENTS",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "WORK:WORK_ZERO_RATE",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "WORK:WORK_UNPAID",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "WORK:WORK_PARTIAL_PAY",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "WORK:WORK_TIMEZONE",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "WORK:DIRECT_POST",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "WORK:PO_CONTRACTOR",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "WORK:SNAPSHOT_DELETE",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "WORK:PAYABLE_EXCEEDS_COMPLETED",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "WORK:NEGATIVE_PAYABLE",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "WORK:EMPTY_POST",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "WORK:BEFORE_PICKUP",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "WORK:FUTURE",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "WORK:DOUBLE_POST",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "WORK:POSTED_EDIT",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "WORK:POSTED_DELETE",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "WORK:POSTED_HEADER",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "WORK:REVERSE_REUSE",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "WORK:ROLE_UNREGISTERED",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "WORK:ROLE_INACTIVE_OWNER",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "WORK:ROLE_EMPTY_CLAIMS",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "WORK:HPP_THROUGH_SALE_0",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "WORK:HPP_THROUGH_SALE_1.27",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "INVOICE:UTC:4:False",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "INVOICE:UTC:4:True",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "INVOICE:UTC:7:False",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "INVOICE:UTC:7:True",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "INVOICE:Asia/Jakarta:4:False",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "INVOICE:Asia/Jakarta:4:True",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "INVOICE:Asia/Jakarta:7:False",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "INVOICE:Asia/Jakarta:7:True",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "INVOICE:Pacific/Kiritimati:4:False",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "INVOICE:Pacific/Kiritimati:4:True",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "INVOICE:Pacific/Kiritimati:7:False",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "INVOICE:Pacific/Kiritimati:7:True",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "INVOICE:America/Los_Angeles:4:False",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "INVOICE:America/Los_Angeles:4:True",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "INVOICE:America/Los_Angeles:7:False",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "INVOICE:America/Los_Angeles:7:True",
+            "status": "CONTROL_PASS"
+          },
+          {
+            "id": "CALENDAR:1_MONTHS:UTC:False",
+            "status": "DATE_POLICY_REVIEW_REQUIRED"
+          },
+          {
+            "id": "CALENDAR:1_MONTHS:UTC:True",
+            "status": "PASS"
+          },
+          {
+            "id": "CALENDAR:1_MONTHS:Pacific/Kiritimati:False",
+            "status": "DATE_POLICY_REVIEW_REQUIRED"
+          },
+          {
+            "id": "CALENDAR:1_MONTHS:Pacific/Kiritimati:True",
+            "status": "PASS"
+          },
+          {
+            "id": "CALENDAR:2_MONTHS:UTC:False",
+            "status": "DATE_POLICY_REVIEW_REQUIRED"
+          },
+          {
+            "id": "CALENDAR:2_MONTHS:UTC:True",
+            "status": "PASS"
+          },
+          {
+            "id": "CALENDAR:2_MONTHS:Pacific/Kiritimati:False",
+            "status": "DATE_POLICY_REVIEW_REQUIRED"
+          },
+          {
+            "id": "CALENDAR:2_MONTHS:Pacific/Kiritimati:True",
+            "status": "PASS"
+          },
+          {
+            "id": "CALENDAR:3_MONTHS:UTC:False",
+            "status": "DATE_POLICY_REVIEW_REQUIRED"
+          },
+          {
+            "id": "CALENDAR:3_MONTHS:UTC:True",
+            "status": "PASS"
+          },
+          {
+            "id": "CALENDAR:3_MONTHS:Pacific/Kiritimati:False",
+            "status": "DATE_POLICY_REVIEW_REQUIRED"
+          },
+          {
+            "id": "CALENDAR:3_MONTHS:Pacific/Kiritimati:True",
+            "status": "PASS"
+          },
+          {
+            "id": "CALENDAR:JAN31:UTC:False",
+            "status": "DATE_POLICY_REVIEW_REQUIRED"
+          },
+          {
+            "id": "CALENDAR:JAN31:UTC:True",
+            "status": "PASS"
+          },
+          {
+            "id": "CALENDAR:JAN31:Pacific/Kiritimati:False",
+            "status": "DATE_POLICY_REVIEW_REQUIRED"
+          },
+          {
+            "id": "CALENDAR:JAN31:Pacific/Kiritimati:True",
+            "status": "PASS"
+          },
+          {
+            "id": "CALENDAR:FEB28:UTC:False",
+            "status": "DATE_POLICY_REVIEW_REQUIRED"
+          },
+          {
+            "id": "CALENDAR:FEB28:UTC:True",
+            "status": "PASS"
+          },
+          {
+            "id": "CALENDAR:FEB28:Pacific/Kiritimati:False",
+            "status": "DATE_POLICY_REVIEW_REQUIRED"
+          },
+          {
+            "id": "CALENDAR:FEB28:Pacific/Kiritimati:True",
+            "status": "PASS"
+          },
+          {
+            "id": "CALENDAR:MAY31:UTC:False",
+            "status": "DATE_POLICY_REVIEW_REQUIRED"
+          },
+          {
+            "id": "CALENDAR:MAY31:UTC:True",
+            "status": "PASS"
+          },
+          {
+            "id": "CALENDAR:MAY31:Pacific/Kiritimati:False",
+            "status": "DATE_POLICY_REVIEW_REQUIRED"
+          },
+          {
+            "id": "CALENDAR:MAY31:Pacific/Kiritimati:True",
+            "status": "PASS"
+          },
+          {
+            "id": "IMPORT:VALID",
+            "status": "PASS"
+          },
+          {
+            "id": "IMPORT:MISSING_LOCATION",
+            "status": "PASS"
+          },
+          {
+            "id": "IMPORT:NEGATIVE_QTY",
+            "status": "PASS"
+          },
+          {
+            "id": "IMPORT:DUPLICATE_SOURCE",
+            "status": "PASS"
+          },
+          {
+            "id": "IMPORT:NONNUMERIC_QTY",
+            "status": "PASS"
+          },
+          {
+            "id": "IMPORT:MISSING_COST",
+            "status": "PASS"
+          },
+          {
+            "id": "IMPORT_VALUE:qty:NaN",
+            "status": "PASS"
+          },
+          {
+            "id": "IMPORT_VALUE:qty:Infinity",
+            "status": "PASS"
+          },
+          {
+            "id": "IMPORT_VALUE:qty:-Infinity",
+            "status": "PASS"
+          },
+          {
+            "id": "IMPORT_VALUE:unit_cost:NaN",
+            "status": "PASS"
+          },
+          {
+            "id": "IMPORT_VALUE:unit_cost:ten",
+            "status": "PASS"
+          },
+          {
+            "id": "IMPORT_VALUE:unit_cost:-1",
+            "status": "PASS"
+          },
+          {
+            "id": "IMPORT_VALUE:unit_cost: ",
+            "status": "PASS"
+          },
+          {
+            "id": "REWORK:0:CONTRACTOR:failed=False",
+            "status": "PASS"
+          },
+          {
+            "id": "REWORK:0:CONTRACTOR:failed=True",
+            "status": "PASS"
+          },
+          {
+            "id": "REWORK:0:LAUNDRY:failed=False",
+            "status": "PASS"
+          },
+          {
+            "id": "REWORK:0:LAUNDRY:failed=True",
+            "status": "PASS"
+          },
+          {
+            "id": "REWORK:4:CONTRACTOR:failed=False",
+            "status": "PASS"
+          },
+          {
+            "id": "REWORK:4:CONTRACTOR:failed=True",
+            "status": "PASS"
+          },
+          {
+            "id": "REWORK:4:LAUNDRY:failed=False",
+            "status": "PASS"
+          },
+          {
+            "id": "REWORK:4:LAUNDRY:failed=True",
+            "status": "PASS"
+          },
+          {
+            "id": "REWORK:MIXED_RATES:CONTRACTOR:failed=False",
+            "status": "PASS"
+          },
+          {
+            "id": "REWORK:MIXED_RATES:CONTRACTOR:failed=True",
+            "status": "PASS"
+          },
+          {
+            "id": "REWORK:MIXED_RATES:LAUNDRY:failed=False",
+            "status": "PASS"
+          },
+          {
+            "id": "REWORK:MIXED_RATES:LAUNDRY:failed=True",
+            "status": "PASS"
+          }
+        ],
+        "IMPORTS": [
+          {
+            "id": "OPENING_REF:material_sku",
+            "status": "PASS"
+          },
+          {
+            "id": "OPENING_REF:location_code",
+            "status": "PASS"
+          },
+          {
+            "id": "OPENING_REF:model_code",
+            "status": "PASS"
+          },
+          {
+            "id": "OPENING_REF:contractor_code",
+            "status": "PASS"
+          },
+          {
+            "id": "OPENING_REF:customer_code",
+            "status": "PASS"
+          },
+          {
+            "id": "OPENING_REF:supplier_code",
+            "status": "PASS"
+          },
+          {
+            "id": "OPENING_REF:vendor_code",
+            "status": "PASS"
+          },
+          {
+            "id": "OPENING_REF:cash_account_code",
+            "status": "PASS"
+          },
+          {
+            "id": "OPENING_REF:product_sku",
+            "status": "PASS"
+          },
+          {
+            "id": "EDIT_PREPARED_DRAFT",
+            "status": "PASS"
+          },
+          {
+            "id": "MASTER_REF:PRODUCT:model_code",
+            "status": "PASS"
+          },
+          {
+            "id": "MASTER_REF:PRODUCT:brand_code",
+            "status": "PASS"
+          },
+          {
+            "id": "MASTER_REF:PRODUCT:size_code",
+            "status": "PASS"
+          },
+          {
+            "id": "MASTER_REF:MATERIAL:unit_code",
+            "status": "PASS"
+          },
+          {
+            "id": "MASTER_REF:MATERIAL:accessory_category_code",
+            "status": "PASS"
+          },
+          {
+            "id": "MASTER_REF:OPEN_PO:model_code",
+            "status": "PASS"
+          },
+          {
+            "id": "MASTER_REF:OPEN_PO:contractor_code",
+            "status": "PASS"
+          },
+          {
+            "id": "STAGED_MATERIAL",
+            "status": "PASS"
+          },
+          {
+            "id": "STAGED_INVALID_PARENT",
+            "status": "PASS"
+          },
+          {
+            "id": "DUPLICATE_MASTER",
+            "status": "PASS"
+          },
+          {
+            "id": "STAGED_PRODUCT",
+            "status": "PASS"
+          },
+          {
+            "id": "VALID_PARTY:CONTRACTOR_RECEIVABLE",
+            "status": "PASS"
+          },
+          {
+            "id": "VALID_PARTY:CONTRACTOR_PAYABLE",
+            "status": "PASS"
+          },
+          {
+            "id": "VALID_PARTY:CUSTOMER_RECEIVABLE",
+            "status": "PASS"
+          },
+          {
+            "id": "VALID_PARTY:SUPPLIER_PAYABLE",
+            "status": "PASS"
+          },
+          {
+            "id": "VALID_PARTY:VENDOR_PAYABLE",
+            "status": "PASS"
+          },
+          {
+            "id": "VALID_PARTY:CASH_BANK",
+            "status": "PASS"
+          },
+          {
+            "id": "RECOVERED_SALE:CONTRACTOR:False",
+            "status": "PASS"
+          },
+          {
+            "id": "RECOVERED_SALE:CONTRACTOR:True",
+            "status": "PASS"
+          },
+          {
+            "id": "RECOVERED_SALE:LAUNDRY:False",
+            "status": "PASS"
+          },
+          {
+            "id": "RECOVERED_SALE:LAUNDRY:True",
+            "status": "PASS"
+          }
+        ],
+        "VALUES": [
+          {
+            "id": "DIRECT_MATERIAL_DRAFT",
+            "status": "PASS"
+          },
+          {
+            "id": "DIRECT_STAGE:ROW",
+            "status": "PASS"
+          },
+          {
+            "id": "DIRECT_STAGE:BATCH",
+            "status": "PASS"
+          },
+          {
+            "id": "ROLL_DRAFT:False",
+            "status": "PASS"
+          },
+          {
+            "id": "ROLL_DRAFT:True",
+            "status": "PASS"
+          },
+          {
+            "id": "BS:False:2",
+            "status": "PASS"
+          },
+          {
+            "id": "BS:False:1.5",
+            "status": "PASS"
+          },
+          {
+            "id": "BS:False:-2",
+            "status": "PASS"
+          },
+          {
+            "id": "BS:False:0",
+            "status": "PASS"
+          },
+          {
+            "id": "BS:False:None",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP:False:AMOUNT",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP:False:COST",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP:False:NEGATIVE_AMOUNT",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP:False:NEGATIVE_QTY",
+            "status": "PASS"
+          },
+          {
+            "id": "BS:True:2",
+            "status": "PASS"
+          },
+          {
+            "id": "BS:True:1.5",
+            "status": "PASS"
+          },
+          {
+            "id": "BS:True:-2",
+            "status": "PASS"
+          },
+          {
+            "id": "BS:True:0",
+            "status": "PASS"
+          },
+          {
+            "id": "BS:True:None",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP:True:AMOUNT",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP:True:COST",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP:True:NEGATIVE_AMOUNT",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP:True:NEGATIVE_QTY",
+            "status": "PASS"
+          },
+          {
+            "id": "TYPED:CUSTOMER:is_active",
+            "status": "PASS"
+          },
+          {
+            "id": "TYPED:SIZE:sort_order",
+            "status": "PASS"
+          },
+          {
+            "id": "TYPED:SUPPLIER:supplier_type",
+            "status": "PASS"
+          },
+          {
+            "id": "TYPED:CONTRACTOR:attendance_required",
+            "status": "PASS"
+          },
+          {
+            "id": "BOOL:BRAND",
+            "status": "PASS"
+          },
+          {
+            "id": "BOOL:SIZE",
+            "status": "PASS"
+          },
+          {
+            "id": "BOOL:MODEL",
+            "status": "PASS"
+          },
+          {
+            "id": "BOOL:PRODUCT",
+            "status": "PASS"
+          },
+          {
+            "id": "BOOL:CUSTOMER",
+            "status": "PASS"
+          },
+          {
+            "id": "BOOL:SUPPLIER",
+            "status": "PASS"
+          },
+          {
+            "id": "BOOL:CONTRACTOR",
+            "status": "PASS"
+          },
+          {
+            "id": "BOOL:ACCESSORY_CATEGORY",
+            "status": "PASS"
+          },
+          {
+            "id": "BOOL:MATERIAL",
+            "status": "PASS"
+          },
+          {
+            "id": "PRODUCT_PORTAL_BOOL",
+            "status": "PASS"
+          },
+          {
+            "id": "OPEN_PO:target_qty_pcs:1.5",
+            "status": "PASS"
+          },
+          {
+            "id": "OPEN_PO:target_qty_pcs:-1",
+            "status": "PASS"
+          },
+          {
+            "id": "OPEN_PO:target_dozens:-1",
+            "status": "PASS"
+          },
+          {
+            "id": "OPEN_PO:physical_start_at:not-a-date",
+            "status": "PASS"
+          },
+          {
+            "id": "SIZE_WIDTH",
+            "status": "PASS"
+          },
+          {
+            "id": "VALID_BOOL:False",
+            "status": "PASS"
+          },
+          {
+            "id": "VALID_BOOL:True",
+            "status": "PASS"
+          },
+          {
+            "id": "VALID_BOOL:",
+            "status": "PASS"
+          },
+          {
+            "id": "VALID_BOOL:None",
+            "status": "PASS"
+          },
+          {
+            "id": "VALID_BOOL:no",
+            "status": "PASS"
+          },
+          {
+            "id": "VALID_BOOL:0",
+            "status": "PASS"
+          },
+          {
+            "id": "VALID_ENUM_NORMALIZATION",
+            "status": "PASS"
+          },
+          {
+            "id": "MIXED_REPAIR",
+            "status": "PASS"
+          },
+          {
+            "id": "DIRECT_NAN:MATERIAL:qty",
+            "status": "PASS"
+          },
+          {
+            "id": "DIRECT_NAN:MATERIAL:amount",
+            "status": "PASS"
+          },
+          {
+            "id": "DIRECT_NAN:MATERIAL:unit_cost_snapshot",
+            "status": "PASS"
+          },
+          {
+            "id": "DIRECT_NAN:WIP:qty",
+            "status": "PASS"
+          },
+          {
+            "id": "DIRECT_NAN:WIP:amount",
+            "status": "PASS"
+          },
+          {
+            "id": "DIRECT_NAN:WIP:unit_cost_snapshot",
+            "status": "PASS"
+          },
+          {
+            "id": "DIRECT_NAN:BS:qty",
+            "status": "PASS"
+          },
+          {
+            "id": "DIRECT_NAN:BS:amount",
+            "status": "PASS"
+          },
+          {
+            "id": "DIRECT_NAN:BS:unit_cost_snapshot",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP_EXPLICIT:False:{}",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP_EXPLICIT:False:{\"qty\": \"2\"}",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP_EXPLICIT:False:{\"qty\": \"2\", \"unit_cost\": \"-1\"}",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP_EXPLICIT:True:{}",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP_EXPLICIT:True:{\"qty\": \"2\"}",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP_EXPLICIT:True:{\"qty\": \"2\", \"unit_cost\": \"-1\"}",
+            "status": "PASS"
+          }
+        ],
+        "NEW_CASES": [
+          {
+            "id": "DATE:False:Asia/Jakarta:False:20.003",
+            "status": "PASS"
+          },
+          {
+            "id": "DATE:False:Asia/Jakarta:True:20",
+            "status": "COUNTEREXAMPLE"
+          },
+          {
+            "id": "DATE:False:Asia/Jakarta:True:20.003",
+            "status": "COUNTEREXAMPLE"
+          },
+          {
+            "id": "DATE:False:UTC:False:20.003",
+            "status": "PASS"
+          },
+          {
+            "id": "DATE:False:UTC:True:20",
+            "status": "COUNTEREXAMPLE"
+          },
+          {
+            "id": "DATE:False:UTC:True:20.003",
+            "status": "COUNTEREXAMPLE"
+          },
+          {
+            "id": "DATE:False:Etc/GMT+12:False:20.003",
+            "status": "PASS"
+          },
+          {
+            "id": "DATE:False:Etc/GMT+12:True:20",
+            "status": "COUNTEREXAMPLE"
+          },
+          {
+            "id": "DATE:False:Etc/GMT+12:True:20.003",
+            "status": "COUNTEREXAMPLE"
+          },
+          {
+            "id": "DATE:False:Pacific/Kiritimati:False:20.003",
+            "status": "PASS"
+          },
+          {
+            "id": "DATE:False:Pacific/Kiritimati:True:20",
+            "status": "COUNTEREXAMPLE"
+          },
+          {
+            "id": "DATE:False:Pacific/Kiritimati:True:20.003",
+            "status": "COUNTEREXAMPLE"
+          },
+          {
+            "id": "DATE:True:Asia/Jakarta:False:20.003",
+            "status": "PASS"
+          },
+          {
+            "id": "DATE:True:Asia/Jakarta:True:20",
+            "status": "PASS"
+          },
+          {
+            "id": "DATE:True:Asia/Jakarta:True:20.003",
+            "status": "PASS"
+          },
+          {
+            "id": "DATE:True:UTC:False:20.003",
+            "status": "PASS"
+          },
+          {
+            "id": "DATE:True:UTC:True:20",
+            "status": "PASS"
+          },
+          {
+            "id": "DATE:True:UTC:True:20.003",
+            "status": "PASS"
+          },
+          {
+            "id": "DATE:True:Etc/GMT+12:False:20.003",
+            "status": "PASS"
+          },
+          {
+            "id": "DATE:True:Etc/GMT+12:True:20",
+            "status": "PASS"
+          },
+          {
+            "id": "DATE:True:Etc/GMT+12:True:20.003",
+            "status": "PASS"
+          },
+          {
+            "id": "DATE:True:Pacific/Kiritimati:False:20.003",
+            "status": "PASS"
+          },
+          {
+            "id": "DATE:True:Pacific/Kiritimati:True:20",
+            "status": "PASS"
+          },
+          {
+            "id": "DATE:True:Pacific/Kiritimati:True:20.003",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP_IDENTITY:UNIQUE",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP_IDENTITY:AMBIGUOUS",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP_IDENTITY:EXPLICIT_SECOND",
+            "status": "PASS"
+          },
+          {
+            "id": "STAGED_BS_BRAND_MODEL",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP_GUARD:BRAND_SECOND",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP_GUARD:WRONG_BRAND",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP_GUARD:CONFLICTING_ID",
+            "status": "PASS"
+          },
+          {
+            "id": "WIP_GUARD:FUTURE_ID",
+            "status": "PASS"
+          },
+          {
+            "id": "ADJUSTMENT_DATE:False",
+            "status": "INCOMPLETE"
+          },
+          {
+            "id": "ADJUSTMENT_DATE:True",
+            "status": "PASS"
+          }
+        ],
+        "T2_C0_ORACLE": [
+          {
+            "id": "G8C0:AS:DATE:False:Asia/Jakarta:True:20",
+            "status": "PASS"
+          },
+          {
+            "id": "G8C0:AS:DATE:False:Asia/Jakarta:True:20.003",
+            "status": "PASS"
+          },
+          {
+            "id": "G8C0:AS:DATE:False:UTC:True:20",
+            "status": "PASS"
+          },
+          {
+            "id": "G8C0:AS:DATE:False:UTC:True:20.003",
+            "status": "PASS"
+          },
+          {
+            "id": "G8C0:AS:DATE:False:Etc/GMT+12:True:20",
+            "status": "PASS"
+          },
+          {
+            "id": "G8C0:AS:DATE:False:Etc/GMT+12:True:20.003",
+            "status": "PASS"
+          },
+          {
+            "id": "G8C0:AS:DATE:False:Pacific/Kiritimati:True:20",
+            "status": "PASS"
+          },
+          {
+            "id": "G8C0:AS:DATE:False:Pacific/Kiritimati:True:20.003",
+            "status": "PASS"
+          },
+          {
+            "id": "G8C0:CALENDAR:1_MONTHS:UTC:False",
+            "status": "PASS"
+          },
+          {
+            "id": "G8C0:CALENDAR:1_MONTHS:Pacific/Kiritimati:False",
+            "status": "PASS"
+          },
+          {
+            "id": "G8C0:CALENDAR:2_MONTHS:UTC:False",
+            "status": "PASS"
+          },
+          {
+            "id": "G8C0:CALENDAR:2_MONTHS:Pacific/Kiritimati:False",
+            "status": "PASS"
+          },
+          {
+            "id": "G8C0:CALENDAR:3_MONTHS:UTC:False",
+            "status": "PASS"
+          },
+          {
+            "id": "G8C0:CALENDAR:3_MONTHS:Pacific/Kiritimati:False",
+            "status": "PASS"
+          },
+          {
+            "id": "G8C0:CALENDAR:JAN31:UTC:False",
+            "status": "PASS"
+          },
+          {
+            "id": "G8C0:CALENDAR:JAN31:Pacific/Kiritimati:False",
+            "status": "PASS"
+          },
+          {
+            "id": "G8C0:CALENDAR:FEB28:UTC:False",
+            "status": "PASS"
+          },
+          {
+            "id": "G8C0:CALENDAR:FEB28:Pacific/Kiritimati:False",
+            "status": "PASS"
+          },
+          {
+            "id": "G8C0:CALENDAR:MAY31:UTC:False",
+            "status": "PASS"
+          },
+          {
+            "id": "G8C0:CALENDAR:MAY31:Pacific/Kiritimati:False",
+            "status": "PASS"
+          },
+          {
+            "id": "G8C0:AO:INVOICE:UTC:False",
+            "status": "PASS"
+          },
+          {
+            "id": "G8C0:AO:INVOICE:UTC:True",
+            "status": "PASS"
+          },
+          {
+            "id": "G8C0:AO:INVOICE:Pacific/Kiritimati:False",
+            "status": "PASS"
+          },
+          {
+            "id": "G8C0:AO:INVOICE:Pacific/Kiritimati:True",
+            "status": "PASS"
+          },
+          {
+            "id": "G8C0:AS:ADJUSTMENT_DATE:False",
+            "status": "PASS"
+          }
+        ]
+      }
+    }
+  ]
+}

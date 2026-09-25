@@ -1,0 +1,30 @@
+{
+  "phase": "R9_AUTH_BROWSER_RECOVERY_UNKNOWN_PARSER",
+  "tool_head": "d1bc8adff3ba1a2a7001ef39e4819d0c3813d00b",
+  "product_dev": "b6d81f93a1e244178193178aec765facfd1b5488",
+  "contract_oracle": {
+    "W10": "M:1679, M:3819",
+    "W13": "M:3825; unknown is not numeric zero; healthy20/10 and actual refetch required",
+    "W11": "M:3825; answered parser refusal is not an unanswered network failure"
+  },
+  "files": [
+    {"path": "audit/scenarios/r9_browser/gpt_r9_recovery.mjs", "sha256": "f92482bbcf3aae433fb2f86c3f630798c80f8a54cc98ffc9fbe6cf9d5d222828"},
+    {"path": "audit/scenarios/r9_browser/gpt_r9_laundry.mjs", "sha256": "823fab5705cd3ecfd02f0cc5a8dc3058888358f58d6b5b42b3b5401d70a4bb2c"},
+    {"path": "audit/scenarios/r9_browser/gpt_r9_qc.mjs", "sha256": "e1b3e8c72ac438238d3205fdd164824ad3289f9371cf8c5153d9197d41e5679a"},
+    {"path": "audit/scenarios/r9_browser/gpt_r9_parser_error.mjs", "sha256": "0e4c3b126cda011a15edf40a92cb10da7cb9afb1ff3b017e7aa95b86c7dac7ac"},
+    {"path": "audit/scenarios/recovery_round8/gpt_recovery_browser.mjs", "sha256": "015097817df43ea4719c827e919c5cb7ae5814a5d19444231e8b434e7f067d79"},
+    {"path": "audit/scenarios/unknown_round8/gpt_unknown_browser_rev5.mjs", "sha256": "fb071a8cb557bdea113a3e3e2f4137d0e561a08c91956f35c4e1617ace4a5a42"},
+    {"path": "audit/scenarios/unknown_round8/gpt_unknown_fixture_rev5.py", "sha256": "401e32610062b8c737307d58603b89823669d38c33a3296354cc837e6a36f729"},
+    {"path": "audit/scenarios/unknown_round8/gpt_unknown_browser_rev6.mjs", "sha256": "77044ff34ecd361e8cf18cef24db3ed7a7bd0c83379f73a758d6580e569813bb"},
+    {"path": "audit/scenarios/unknown_round8/gpt_unknown_fixture_rev6.py", "sha256": "b85b0ddda85380f3afe59896c11e0685ef3b141506ac2fe79198a01b09322bce"},
+    {"path": "audit/scenarios/unknown_round8/browser_only.py", "sha256": "bf60eb539e39e20d5493080376b4139ba046aeb78b20dfbe213457793afa24d5"}
+  ],
+  "cases_by_job": {
+    "recovery": ["G8UI:RECOVERY:PATTERN_COMMIT_REPLY_LOST", "G8UI:RECOVERY:ROLE_DUPLICATE_COMMIT_REPLY_LOST"],
+    "laundry": ["G8UI:UNKNOWN:LAUNDRY_HEALTHY_CONTROL:rev5", "G8UI:UNKNOWN:LAUNDRY_INITIAL_READ:rev5"],
+    "qc": ["G8UI:UNKNOWN:QC_HEALTHY_CONTROL:rev6", "G8UI:UNKNOWN:QC_INITIAL_READ:rev6"],
+    "parser": ["G9UI:W11:PARSER_ERROR_VS_NETWORK"]
+  },
+  "scope": "Single workflow, four independent disposable clones, real Auth + browser + PostgREST, no source/response rewriting. W11 uses invalid inherited test seed as deliberate parser input; W13 uses new valid UUID fixtures and isolate seed rows, all modifications in clone.",
+  "production_go": false
+}
