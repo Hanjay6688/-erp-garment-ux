@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""T3: AW, AX and AY as release candidates of the combined package, with the AO..AV guard set.
+"""T3: AW, AX, AY, AZ and BA as release candidates of the combined package, with the AO..AV guard set.
 
 AW (close readiness engine) and AX (finished goods without a production source) passed T1 as development files
 (supabase/dev/cp6_aw_t1_family.sql, cp6_ax_t1_family.sql). This builder wraps each T1 body unchanged (only the ledger
@@ -28,6 +28,7 @@ import json,re,sys
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'scripts'))
 import cp6_t3_release_package as package
+import cp6_ba_build as ba
 
 SRC=ROOT/'supabase/release/cp6-t3-src'
 MIGRATIONS=ROOT/'supabase/migrations'
@@ -56,6 +57,10 @@ FILES=[
                    'erp.refresh_accessory_hpp_after_material_recost(uuid,text)','erp.reverse_qc(uuid,text)',
                    'erp.reverse_rework_completion(uuid,text)','erp.complete_initial_import_wip_v1(jsonb)',
                    'erp.post_material_supplier_invoice(uuid)','erp.post_material_purchase_cost_correction(uuid)'],new_tables=[]),
+    dict(key='BA',stamp='20260925010000',name='erp_v2_6_20ba_cp6_audit_closure',version='v2.6.20ba',
+         body=ROOT/'supabase/dev/cp6_ba_t1_family.sql',title='independent audit closure (import identity, dated WIP and advance capacity, WIP product binding, recost cents, selectors, single close filing)',
+         description='Independent audit closure: import identity, dated WIP and advance capacity, WIP product binding, recost cents, selectors, single close filing',
+         replaced=list(ba.REPLACED),new_tables=list(ba.NEW_TABLES)),
 ]
 PLACEHOLDER='0'*64
 # The package capsules AO..AV (AO..AW for AX) are checked like AV checks AO..AU; the capsules of this builder are left out

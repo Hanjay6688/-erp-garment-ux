@@ -1,0 +1,1575 @@
+{
+ "label": "T1_FAMILY",
+ "run": 36086922752,
+ "job": 107920776243,
+ "head": "ab593e41e096cea4afbacba32a39913cd32d97e0",
+ "phase": "before",
+ "source": "GitHub Actions job log (tail), parsed; per-case JSON lines as printed by scripts/cp6_ba_probe.py (fixture quieting lists omitted)",
+ "summary": {
+  "ba_probe_phase": "before",
+  "status": "REVIEW_COMPLETE",
+  "label": "T1_FAMILY",
+  "phase": "before",
+  "production_go": false,
+  "independent_acceptance": false,
+  "release_evidence": false,
+  "planned": {
+   "A1:MATERIAL_SECOND_BATCH_SAME_ITEM": [
+    "COUNTEREXAMPLE"
+   ],
+   "A1:MATERIAL_SECOND_BATCH_EARLIER_CUTOVER": [
+    "COUNTEREXAMPLE"
+   ],
+   "A1:FINISHED_GOODS_SECOND_BATCH_SAME_ITEM": [
+    "COUNTEREXAMPLE"
+   ],
+   "A1:CASH_BANK_SECOND_BATCH_SAME_ACCOUNT": [
+    "COUNTEREXAMPLE"
+   ],
+   "A1:WIP_SUMMARY_SECOND_BATCH_SAME_MODEL_STAGE": [
+    "COUNTEREXAMPLE"
+   ],
+   "A1:BS_SUMMARY_SECOND_BATCH_SAME_PRODUCT": [
+    "COUNTEREXAMPLE"
+   ],
+   "A1:MATERIAL_SECOND_BATCH_OTHER_WAREHOUSE_CONTROL": [
+    "PASS"
+   ],
+   "A1:FINISHED_GOODS_SECOND_BATCH_OTHER_WAREHOUSE_CONTROL": [
+    "PASS"
+   ],
+   "A3:COMPLETE_DATED_BEFORE_REVERSAL": [
+    "COUNTEREXAMPLE"
+   ],
+   "A3:COMPLETE_ON_REVERSAL_DAY_CONTROL": [
+    "PASS",
+    "COUNTEREXAMPLE"
+   ],
+   "A3:BACKDATED_COMPLETE_FITS_LATER_DAYS_CONTROL": [
+    "PASS"
+   ],
+   "A10:BOUND_PRODUCT_OUTPUT_OTHER_PRODUCT": [
+    "COUNTEREXAMPLE"
+   ],
+   "A10:UNBOUND_SOURCE_BRAND_COLOR_MISMATCH": [
+    "COUNTEREXAMPLE"
+   ],
+   "A10:BOUND_PRODUCT_SAME_PRODUCT_CONTROL": [
+    "PASS"
+   ],
+   "A10:UNBOUND_SOURCE_MATCHING_CONTROL": [
+    "PASS"
+   ],
+   "A10:UNBOUND_SOURCE_NO_ATTRIBUTES_CONTROL": [
+    "PASS"
+   ],
+   "A9:REFUND_SUPPLIER_DATED_CAPACITY": [
+    "COUNTEREXAMPLE"
+   ],
+   "A9:REFUND_SUPPLIER_ORDERED_CONTROL": [
+    "PASS"
+   ],
+   "A9:REFUND_CUSTOMER_DATED_CAPACITY": [
+    "COUNTEREXAMPLE"
+   ],
+   "A9:REFUND_CUSTOMER_ORDERED_CONTROL": [
+    "PASS"
+   ],
+   "A9:REFUND_VENDOR_DATED_CAPACITY": [
+    "COUNTEREXAMPLE"
+   ],
+   "A9:REFUND_VENDOR_ORDERED_CONTROL": [
+    "PASS"
+   ],
+   "A9:APPLY_SUPPLIER_DATED_CAPACITY": [
+    "COUNTEREXAMPLE"
+   ],
+   "A9:APPLY_SUPPLIER_ORDERED_CONTROL": [
+    "PASS"
+   ],
+   "A9:APPLY_CUSTOMER_DATED_CAPACITY": [
+    "COUNTEREXAMPLE"
+   ],
+   "A9:APPLY_CUSTOMER_ORDERED_CONTROL": [
+    "PASS"
+   ],
+   "A9:APPLY_VENDOR_DATED_CAPACITY": [
+    "COUNTEREXAMPLE"
+   ],
+   "A9:APPLY_VENDOR_ORDERED_CONTROL": [
+    "PASS"
+   ],
+   "A9:S04_TRANSFER_BACK_BEFORE_ARRIVAL_REFUSED": [
+    "PASS"
+   ],
+   "A9:S04_TRANSFER_BACK_AFTER_ARRIVAL_CONTROL": [
+    "PASS"
+   ],
+   "A4:CENT_DIRECT_UP": [
+    "COUNTEREXAMPLE"
+   ],
+   "A4:CENT_DIRECT_DOWN": [
+    "COUNTEREXAMPLE"
+   ],
+   "A4:CENT_INVOICE_UP": [
+    "COUNTEREXAMPLE"
+   ],
+   "A4:CENT_INVOICE_DOWN": [
+    "COUNTEREXAMPLE"
+   ],
+   "A5:BS_OLD_CLAIMABLE_DELIVERY_AFTER_100_NEWER": [
+    "COUNTEREXAMPLE"
+   ],
+   "A5:IMPORT_OLDEST_DRAFT_AFTER_51": [
+    "COUNTEREXAMPLE"
+   ],
+   "A6:SECOND_CLOSE_SAME_DATE": [
+    "COUNTEREXAMPLE"
+   ],
+   "A6:CLOSE_AGAIN_AFTER_REOPEN_CONTROL": [
+    "PASS"
+   ]
+  },
+  "ba_cases": {
+   "status": "COUNTEREXAMPLE",
+   "counts": {
+    "COUNTEREXAMPLE": 23,
+    "PASS": 15
+   }
+  },
+  "final": {
+   "A1:MATERIAL_SECOND_BATCH_SAME_ITEM": "COUNTEREXAMPLE",
+   "A1:MATERIAL_SECOND_BATCH_EARLIER_CUTOVER": "COUNTEREXAMPLE",
+   "A1:FINISHED_GOODS_SECOND_BATCH_SAME_ITEM": "COUNTEREXAMPLE",
+   "A1:CASH_BANK_SECOND_BATCH_SAME_ACCOUNT": "COUNTEREXAMPLE",
+   "A1:WIP_SUMMARY_SECOND_BATCH_SAME_MODEL_STAGE": "COUNTEREXAMPLE",
+   "A1:BS_SUMMARY_SECOND_BATCH_SAME_PRODUCT": "COUNTEREXAMPLE",
+   "A1:MATERIAL_SECOND_BATCH_OTHER_WAREHOUSE_CONTROL": "PASS",
+   "A1:FINISHED_GOODS_SECOND_BATCH_OTHER_WAREHOUSE_CONTROL": "PASS",
+   "A3:COMPLETE_DATED_BEFORE_REVERSAL": "COUNTEREXAMPLE",
+   "A3:COMPLETE_ON_REVERSAL_DAY_CONTROL": "COUNTEREXAMPLE",
+   "A3:BACKDATED_COMPLETE_FITS_LATER_DAYS_CONTROL": "PASS",
+   "A10:BOUND_PRODUCT_OUTPUT_OTHER_PRODUCT": "COUNTEREXAMPLE",
+   "A10:UNBOUND_SOURCE_BRAND_COLOR_MISMATCH": "COUNTEREXAMPLE",
+   "A10:BOUND_PRODUCT_SAME_PRODUCT_CONTROL": "PASS",
+   "A10:UNBOUND_SOURCE_MATCHING_CONTROL": "PASS",
+   "A10:UNBOUND_SOURCE_NO_ATTRIBUTES_CONTROL": "PASS",
+   "A9:REFUND_SUPPLIER_DATED_CAPACITY": "COUNTEREXAMPLE",
+   "A9:REFUND_SUPPLIER_ORDERED_CONTROL": "PASS",
+   "A9:REFUND_CUSTOMER_DATED_CAPACITY": "COUNTEREXAMPLE",
+   "A9:REFUND_CUSTOMER_ORDERED_CONTROL": "PASS",
+   "A9:REFUND_VENDOR_DATED_CAPACITY": "COUNTEREXAMPLE",
+   "A9:REFUND_VENDOR_ORDERED_CONTROL": "PASS",
+   "A9:APPLY_SUPPLIER_DATED_CAPACITY": "COUNTEREXAMPLE",
+   "A9:APPLY_SUPPLIER_ORDERED_CONTROL": "PASS",
+   "A9:APPLY_CUSTOMER_DATED_CAPACITY": "COUNTEREXAMPLE",
+   "A9:APPLY_CUSTOMER_ORDERED_CONTROL": "PASS",
+   "A9:APPLY_VENDOR_DATED_CAPACITY": "COUNTEREXAMPLE",
+   "A9:APPLY_VENDOR_ORDERED_CONTROL": "PASS",
+   "A9:S04_TRANSFER_BACK_BEFORE_ARRIVAL_REFUSED": "PASS",
+   "A9:S04_TRANSFER_BACK_AFTER_ARRIVAL_CONTROL": "PASS",
+   "A4:CENT_DIRECT_UP": "COUNTEREXAMPLE",
+   "A4:CENT_DIRECT_DOWN": "COUNTEREXAMPLE",
+   "A4:CENT_INVOICE_UP": "COUNTEREXAMPLE",
+   "A4:CENT_INVOICE_DOWN": "COUNTEREXAMPLE",
+   "A5:BS_OLD_CLAIMABLE_DELIVERY_AFTER_100_NEWER": "COUNTEREXAMPLE",
+   "A5:IMPORT_OLDEST_DRAFT_AFTER_51": "COUNTEREXAMPLE",
+   "A6:SECOND_CLOSE_SAME_DATE": "COUNTEREXAMPLE",
+   "A6:CLOSE_AGAIN_AFTER_REOPEN_CONTROL": "PASS"
+  },
+  "expectation_mismatch": {},
+  "primary_unchanged": true,
+  "clone_remaining": 0,
+  "au_install": "PASS",
+  "av_install": "PASS",
+  "aw_install": {
+   "stage": "AV_PLUS_AW_T1",
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+   "ax_sql_sha256": null,
+   "ay_sql_sha256": null,
+   "az_sql_sha256": null,
+   "ba_sql_sha256": null,
+   "ba_functions": null,
+   "replaced_by_later_family": null,
+   "az_replaced_by_later_family": null
+  },
+  "ax_install": {
+   "stage": "AV_PLUS_AW_PLUS_AX_T1",
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+   "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+   "ay_sql_sha256": null,
+   "az_sql_sha256": null,
+   "ba_sql_sha256": null,
+   "ba_functions": null,
+   "replaced_by_later_family": null,
+   "az_replaced_by_later_family": null
+  },
+  "ay_install": {
+   "stage": "AV_PLUS_AW_AX_AY_T1",
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+   "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+   "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+   "az_sql_sha256": null,
+   "ba_sql_sha256": null,
+   "ba_functions": null,
+   "replaced_by_later_family": null,
+   "az_replaced_by_later_family": null
+  },
+  "az_install": {
+   "stage": "AV_PLUS_AW_AX_AY_AZ_T1",
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+   "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+   "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+   "az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9",
+   "ba_sql_sha256": null,
+   "ba_functions": null,
+   "replaced_by_later_family": null,
+   "az_replaced_by_later_family": null
+  },
+  "ba_install": null
+ },
+ "setup": {
+  "ba_probe_setup": {
+   "au_install": "PASS",
+   "av_install": "PASS",
+   "az_install": {
+    "stage": "AV_PLUS_AW_AX_AY_AZ_T1",
+    "label": "T1_FAMILY",
+    "functions": 13,
+    "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+    "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+    "av_coverage": {
+     "registry": {
+      "erp.fg_lots.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "produced_at of every lot except GOOD returned by rework"
+      },
+      "erp.bs_cases.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+      },
+      "erp.sales_items.product_id": {
+       "class": "SALES",
+       "reason": "Sale of existing stock"
+      },
+      "erp.journal_lines.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "Journal dimension"
+      },
+      "erp.fg_stock_movements.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Movement of an existing lot"
+      },
+      "erp.sales_return_items.product_id": {
+       "class": "SALES",
+       "reason": "Return of sold stock"
+      },
+      "erp.fg_adjustment_items.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Adjusts an existing lot"
+      },
+      "erp.fg_inventory_balances.product_id": {
+       "class": "DERIVED",
+       "reason": "Balance cache keyed by product/location/grade"
+      },
+      "erp.opening_balance_items.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+      },
+      "erp.stock_policy_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated stock policy"
+      },
+      "erp.accessory_bom_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated accessory BOM; no stock instant"
+      },
+      "erp.product_conversions.to_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+      },
+      "erp.product_price_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated price"
+      },
+      "erp.product_conversions.from_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion source, validated as EXISTING_STOCK"
+      },
+      "erp.qc_inspection_items.final_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "QC input; the facts are fg_lots and bs_cases"
+      },
+      "erp.fg_accessory_cost_snapshots.product_id": {
+       "class": "DERIVED",
+       "reason": "Cost snapshot of an FG lot"
+      },
+      "erp.po_accessory_bom_commitments.product_id": {
+       "class": "MASTER",
+       "reason": "PO accessory BOM commitment"
+      },
+      "erp.stock_explainability_snapshots.product_id": {
+       "class": "REPORT",
+       "reason": "Stock explanation snapshot"
+      },
+      "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "HPP to GL synchronisation event"
+      },
+      "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Laundry receipt input; the BS fact is bs_cases"
+      },
+      "erp.product_identity_mutation_context_v1.product_id": {
+       "class": "AUTHORIZATION",
+       "reason": "Private one-use identity edit context"
+      },
+      "erp.laundry_receipt_bs_product_allocations.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+      },
+      "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+       "class": "DERIVED",
+       "reason": "Accounting entitlement of an FG lot"
+      }
+     },
+     "references": 23,
+     "new_stock_fact_tables": [
+      "bs_cases",
+      "fg_lots"
+     ]
+    },
+    "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+    "catalog": {
+     "revaluation_movement_indexes": [],
+     "accessory_total_hpp_cost": [
+      "s",
+      "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+     ]
+    },
+    "az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9"
+   },
+   "ba_install": null
+  }
+ },
+ "cases": [
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A1:MATERIAL_SECOND_BATCH_SAME_ITEM",
+   "kind": "MATERIAL",
+   "second_cutover": "2026-09-24",
+   "other_location": false,
+   "posted_headers": 2,
+   "ledger_delta": {
+    "62f7aa96-1b72-4977-b3d9-36af9041a4d3": "-15.75",
+    "f9912b87-fe33-4bd8-8a65-0b1fb69316a6": "15.75"
+   },
+   "finalize": {
+    "action": "FINALIZE",
+    "status": "POSTED",
+    "batch_id": "2c03f306-1d17-4eea-9162-15e04c62f1d2",
+    "revision": "446fdbfba462694e0999c05af24bd941a30c3ebd6d2c36213f5581169a7e9de5",
+    "error_rows": 0,
+    "request_id": "4572c9b5-8506-48ee-9a4c-0ddb6d3481e7",
+    "total_rows": 2,
+    "valid_rows": 2
+   },
+   "status": "COUNTEREXAMPLE",
+   "expected_refusal": null,
+   "refusal": null,
+   "result": null,
+   "harm_observed": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A1:MATERIAL_SECOND_BATCH_EARLIER_CUTOVER",
+   "kind": "MATERIAL",
+   "second_cutover": "2026-09-23",
+   "other_location": false,
+   "posted_headers": 2,
+   "ledger_delta": {
+    "62f7aa96-1b72-4977-b3d9-36af9041a4d3": "-15.75",
+    "f9912b87-fe33-4bd8-8a65-0b1fb69316a6": "15.75"
+   },
+   "finalize": {
+    "action": "FINALIZE",
+    "status": "POSTED",
+    "batch_id": "4ca55ffb-c5cc-4b4a-8759-540e61301cb1",
+    "revision": "d60b0e86e25c9f781219fd1dbc0687b7e684bc4b467f8b74045d87942a74377b",
+    "error_rows": 0,
+    "request_id": "9b8b7f96-e7a0-4bff-9561-f1e609624e1d",
+    "total_rows": 2,
+    "valid_rows": 2
+   },
+   "status": "COUNTEREXAMPLE",
+   "expected_refusal": null,
+   "refusal": null,
+   "result": null,
+   "harm_observed": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A1:FINISHED_GOODS_SECOND_BATCH_SAME_ITEM",
+   "kind": "FINISHED_GOODS",
+   "second_cutover": "2026-09-24",
+   "other_location": false,
+   "posted_headers": 2,
+   "ledger_delta": {
+    "20a7533b-5578-4799-9973-90ab000e9e43": "15.75",
+    "62f7aa96-1b72-4977-b3d9-36af9041a4d3": "-15.75"
+   },
+   "finalize": {
+    "action": "FINALIZE",
+    "status": "POSTED",
+    "batch_id": "f6f2fa20-f1a2-4971-83e8-299b80e4c82c",
+    "revision": "116eb58ff876aee8df75c5249231941e2a0649facf14f8a6123faea527fc6a0c",
+    "error_rows": 0,
+    "request_id": "c05d65fd-0031-4a54-a831-836d813b4306",
+    "total_rows": 2,
+    "valid_rows": 2
+   },
+   "status": "COUNTEREXAMPLE",
+   "expected_refusal": null,
+   "refusal": null,
+   "result": null,
+   "harm_observed": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A1:CASH_BANK_SECOND_BATCH_SAME_ACCOUNT",
+   "kind": "CASH_BANK",
+   "second_cutover": "2026-09-24",
+   "other_location": false,
+   "posted_headers": 2,
+   "ledger_delta": {
+    "72bfb772-c991-46d5-a23d-698094fe5d11": "17.25",
+    "62f7aa96-1b72-4977-b3d9-36af9041a4d3": "-17.25"
+   },
+   "finalize": {
+    "action": "FINALIZE",
+    "status": "POSTED",
+    "batch_id": "3ae6e726-0c74-412a-829e-e3ef06f94019",
+    "revision": "7314ea8ff591649c79f4b612f4e1b57bdd57d8378b9495117932af3412f82bc9",
+    "error_rows": 0,
+    "request_id": "bbf346dc-8b4f-4042-a40b-9cab4f01150d",
+    "total_rows": 2,
+    "valid_rows": 2
+   },
+   "status": "COUNTEREXAMPLE",
+   "expected_refusal": null,
+   "refusal": null,
+   "result": null,
+   "harm_observed": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A1:WIP_SUMMARY_SECOND_BATCH_SAME_MODEL_STAGE",
+   "kind": "WIP",
+   "second_cutover": "2026-09-24",
+   "other_location": false,
+   "posted_headers": 2,
+   "ledger_delta": {
+    "62f7aa96-1b72-4977-b3d9-36af9041a4d3": "-17.25",
+    "9ce89e21-9a21-40e5-859d-237b89d5a767": "17.25"
+   },
+   "finalize": {
+    "action": "FINALIZE",
+    "status": "POSTED",
+    "batch_id": "dff5f611-8abe-4588-8fc0-b95cd57040b2",
+    "revision": "05322d6fd05ba7a90fa9ea7bd8aca8f84fd5c57ab10f78e9e68b9e13be903c27",
+    "error_rows": 0,
+    "request_id": "ed824f40-7b2a-4f24-a3c6-a21a0b33f762",
+    "total_rows": 2,
+    "valid_rows": 2
+   },
+   "status": "COUNTEREXAMPLE",
+   "expected_refusal": null,
+   "refusal": null,
+   "result": null,
+   "harm_observed": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A1:BS_SUMMARY_SECOND_BATCH_SAME_PRODUCT",
+   "kind": "BS",
+   "second_cutover": "2026-09-24",
+   "other_location": false,
+   "posted_headers": 2,
+   "ledger_delta": {},
+   "finalize": {
+    "action": "FINALIZE",
+    "status": "POSTED",
+    "batch_id": "1d86bd4d-5b47-4f71-8ad7-27f3d83a3341",
+    "revision": "a98b0c2b0b98938bcd5046eeb10585ad2729f193da803e8a6982b3416d239dfe",
+    "error_rows": 0,
+    "request_id": "932e67bd-6d2b-4ac7-adab-6100f8ecf703",
+    "total_rows": 2,
+    "valid_rows": 2
+   },
+   "status": "COUNTEREXAMPLE",
+   "expected_refusal": null,
+   "refusal": null,
+   "result": null,
+   "harm_observed": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A1:MATERIAL_SECOND_BATCH_OTHER_WAREHOUSE_CONTROL",
+   "kind": "MATERIAL",
+   "second_cutover": "2026-09-24",
+   "other_location": true,
+   "posted_headers": 2,
+   "ledger_delta": {
+    "62f7aa96-1b72-4977-b3d9-36af9041a4d3": "-15.75",
+    "f9912b87-fe33-4bd8-8a65-0b1fb69316a6": "15.75"
+   },
+   "finalize": {
+    "action": "FINALIZE",
+    "status": "POSTED",
+    "batch_id": "b56ef34e-471a-4643-a789-57ff36ba7725",
+    "revision": "387c94d4b685fdaf35f38474ce5d0d3aa3122cb1432fb0182640a91e1fcf9caa",
+    "error_rows": 0,
+    "request_id": "d6a2ac80-667c-438d-a049-331f60c3c7c8",
+    "total_rows": 3,
+    "valid_rows": 3
+   },
+   "status": "PASS",
+   "refusal": null,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A1:FINISHED_GOODS_SECOND_BATCH_OTHER_WAREHOUSE_CONTROL",
+   "kind": "FINISHED_GOODS",
+   "second_cutover": "2026-09-24",
+   "other_location": true,
+   "posted_headers": 2,
+   "ledger_delta": {
+    "20a7533b-5578-4799-9973-90ab000e9e43": "15.75",
+    "62f7aa96-1b72-4977-b3d9-36af9041a4d3": "-15.75"
+   },
+   "finalize": {
+    "action": "FINALIZE",
+    "status": "POSTED",
+    "batch_id": "1946c759-c115-46b0-9598-7268ff3a07d7",
+    "revision": "0bfa1916cba319c2312226dcc185626262cae36e27cb3b429e71d40469988662",
+    "error_rows": 0,
+    "request_id": "139981f2-349e-440a-b785-b27384e579df",
+    "total_rows": 3,
+    "valid_rows": 3
+   },
+   "status": "PASS",
+   "refusal": null,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A3:COMPLETE_DATED_BEFORE_REVERSAL",
+   "sewing_minimum": -8,
+   "timeline": [
+    [
+     "2026-09-16 17:00:00+00:00",
+     "INITIAL_IMPORT_WIP_OPENING",
+     "8",
+     "8"
+    ],
+    [
+     "2026-09-21 17:00:00+00:00",
+     "INITIAL_IMPORT_WIP",
+     "-8",
+     "0"
+    ],
+    [
+     "2026-09-23 17:00:00+00:00",
+     "INITIAL_IMPORT_WIP",
+     "-8",
+     "-8"
+    ],
+    [
+     "2026-09-25 02:39:11.794153+00:00",
+     "INITIAL_IMPORT_WIP_REVERSE",
+     "8",
+     "0"
+    ]
+   ],
+   "oracle": "SI-02: SEWING pieces never negative on the physical timeline; the pieces came back only today",
+   "status": "COUNTEREXAMPLE",
+   "expected_refusal": null,
+   "refusal": null,
+   "result": {
+    "action": "WIP_OUTPUT",
+    "lot_id": "f33c77e4-d8ff-4839-8ae6-08dfb6884a33",
+    "status": "POSTED",
+    "batch_id": "2582d3f4-a485-4658-92d4-c1a374ce7d01",
+    "operation": "COMPLETE",
+    "output_id": "7e44d1a2-1c42-48cc-b581-bbf636f7d62d",
+    "request_id": "1f198fec-7d07-4e2f-9225-f6b5dfb6d82f"
+   },
+   "harm_observed": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A3:COMPLETE_ON_REVERSAL_DAY_CONTROL",
+   "sewing_minimum": -8,
+   "timeline": [
+    [
+     "2026-09-16 17:00:00+00:00",
+     "INITIAL_IMPORT_WIP_OPENING",
+     "8",
+     "8"
+    ],
+    [
+     "2026-09-21 17:00:00+00:00",
+     "INITIAL_IMPORT_WIP",
+     "-8",
+     "0"
+    ],
+    [
+     "2026-09-24 17:00:00+00:00",
+     "INITIAL_IMPORT_WIP",
+     "-8",
+     "-8"
+    ],
+    [
+     "2026-09-25 02:39:12.353976+00:00",
+     "INITIAL_IMPORT_WIP_REVERSE",
+     "8",
+     "0"
+    ]
+   ],
+   "output": {
+    "action": "WIP_OUTPUT",
+    "lot_id": "5dd78c1c-d71c-4f4d-908f-aac58dc2cfde",
+    "status": "POSTED",
+    "batch_id": "a7d4a188-75ce-48a1-96cd-2ca5200b3d50",
+    "operation": "COMPLETE",
+    "output_id": "44d295a9-e053-4b54-bbf5-2405a3be54d3",
+    "request_id": "d5b260c5-1f2e-497d-8bbe-cc128eee739a"
+   },
+   "oracle": "completion on the reversal day posts; the physical timeline stays non-negative within the day",
+   "status": "COUNTEREXAMPLE",
+   "refusal": null,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A3:BACKDATED_COMPLETE_FITS_LATER_DAYS_CONTROL",
+   "sewing_minimum": 0,
+   "timeline": [
+    [
+     "2026-09-16 17:00:00+00:00",
+     "INITIAL_IMPORT_WIP_OPENING",
+     "8",
+     "8"
+    ],
+    [
+     "2026-09-21 17:00:00+00:00",
+     "INITIAL_IMPORT_WIP",
+     "-5",
+     "3"
+    ],
+    [
+     "2026-09-23 17:00:00+00:00",
+     "INITIAL_IMPORT_WIP",
+     "-3",
+     "0"
+    ]
+   ],
+   "output": {
+    "action": "WIP_OUTPUT",
+    "lot_id": "3442b06b-b54f-42f8-8e7c-d7161c10d395",
+    "status": "POSTED",
+    "batch_id": "790b3a19-1f61-4190-9312-8df3a0ed4ae5",
+    "operation": "COMPLETE",
+    "output_id": "2c7bdecb-f458-4f63-8cc9-a52acf753ade",
+    "request_id": "6788bfb0-21d5-4852-afca-5694d59a258f"
+   },
+   "oracle": "a backdated completion that fits every later day (5 of 8, 3 more later) posts",
+   "status": "PASS",
+   "refusal": null,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A10:BOUND_PRODUCT_OUTPUT_OTHER_PRODUCT",
+   "opening_product": true,
+   "source_attributes": true,
+   "output_suffix": "B",
+   "output_product": "c2927354-a64c-4a9d-8dd0-333e3963eb6b",
+   "source_product": "38165007-75b8-43fa-a277-7e73c6d99f1d",
+   "status": "COUNTEREXAMPLE",
+   "expected_refusal": null,
+   "refusal": null,
+   "result": {
+    "action": "WIP_OUTPUT",
+    "lot_id": "d289c4a3-9394-46ee-b194-8120c1c46437",
+    "status": "POSTED",
+    "batch_id": "978b2059-c663-42a2-93a3-1009ab9d8b7d",
+    "operation": "COMPLETE",
+    "output_id": "f07ba6b2-89ff-43cd-8ad5-db3334e6e3ae",
+    "request_id": "21a35d91-b6d7-4213-b09f-d9d55871e1b6"
+   },
+   "harm_observed": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A10:UNBOUND_SOURCE_BRAND_COLOR_MISMATCH",
+   "opening_product": false,
+   "source_attributes": true,
+   "output_suffix": "B",
+   "output_product": "167405ec-584f-49ae-b50c-cc64cbce2535",
+   "source_product": null,
+   "status": "COUNTEREXAMPLE",
+   "expected_refusal": null,
+   "refusal": null,
+   "result": {
+    "action": "WIP_OUTPUT",
+    "lot_id": "c75baeb2-1379-4b2c-a38a-268804ae4519",
+    "status": "POSTED",
+    "batch_id": "5a671bf6-c61f-48a3-8b02-95128c8db85a",
+    "operation": "COMPLETE",
+    "output_id": "6e2f20c4-49c1-4758-aa02-bd250cad1d43",
+    "request_id": "57022aa3-c020-4295-905a-468d2f38d8ee"
+   },
+   "harm_observed": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A10:BOUND_PRODUCT_SAME_PRODUCT_CONTROL",
+   "identity_record": null,
+   "expected_identity": null,
+   "output": {
+    "action": "WIP_OUTPUT",
+    "lot_id": "40e79093-4627-4a78-87bc-2e461266756c",
+    "status": "POSTED",
+    "batch_id": "84adeba4-12f3-4120-8bb5-52a0344c84fa",
+    "operation": "COMPLETE",
+    "output_id": "92756684-549b-479a-8c42-dd4c6e697b3b",
+    "request_id": "1b2d4fce-0b86-4981-bd4d-666ee7a83ce1"
+   },
+   "opening_product": true,
+   "source_attributes": true,
+   "output_suffix": "A",
+   "output_product": "cffa6bad-7fb2-4ce2-a6d1-897455fbcf7d",
+   "source_product": "cffa6bad-7fb2-4ce2-a6d1-897455fbcf7d",
+   "status": "PASS",
+   "refusal": null,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A10:UNBOUND_SOURCE_MATCHING_CONTROL",
+   "identity_record": null,
+   "expected_identity": null,
+   "output": {
+    "action": "WIP_OUTPUT",
+    "lot_id": "c0458442-ebc5-4b00-805f-77b4b330a4e9",
+    "status": "POSTED",
+    "batch_id": "27192020-3b45-4024-9706-5b45c45d5d7b",
+    "operation": "COMPLETE",
+    "output_id": "85a2bcc8-73e2-4dcd-952d-dd04361049df",
+    "request_id": "39c8c59b-68c4-4ab7-8f40-d1bc1269e5dd"
+   },
+   "opening_product": false,
+   "source_attributes": true,
+   "output_suffix": "A",
+   "output_product": "2aece5f2-5c04-4f5a-b3fe-99f64a1e6411",
+   "source_product": null,
+   "status": "PASS",
+   "refusal": null,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A10:UNBOUND_SOURCE_NO_ATTRIBUTES_CONTROL",
+   "identity_record": null,
+   "expected_identity": null,
+   "output": {
+    "action": "WIP_OUTPUT",
+    "lot_id": "28e25792-af8e-4c44-9a2b-9fe6ce97b6db",
+    "status": "POSTED",
+    "batch_id": "9fe8a447-920a-4665-a326-cbb8a97804db",
+    "operation": "COMPLETE",
+    "output_id": "df9cc4e3-f313-43a3-8bfc-63ce3a083316",
+    "request_id": "f1a9ce8d-4cc1-4495-a6a7-a620ec6893e3"
+   },
+   "opening_product": false,
+   "source_attributes": false,
+   "output_suffix": "A",
+   "output_product": "c3bd4a1f-6631-4b92-8047-3e16b39e7e52",
+   "source_product": null,
+   "status": "PASS",
+   "refusal": null,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A9:REFUND_SUPPLIER_DATED_CAPACITY",
+   "kind": "SUPPLIER",
+   "operation": "REFUND",
+   "correction_day": "2026-09-23",
+   "use_day": "2026-09-21",
+   "advance_asof": {
+    "2026-09-17": "67.25",
+    "2026-09-21": "-32.75",
+    "2026-09-23": "0.00",
+    "2026-09-25": "0.00"
+   },
+   "oracle": "D02=A: a refund/use needs the capacity it has on its own date and every later day",
+   "status": "COUNTEREXAMPLE",
+   "expected_refusal": null,
+   "refusal": null,
+   "result": {
+    "action": "PREPAYMENT",
+    "status": "POSTED",
+    "batch_id": "d8641239-6b2a-44d9-8d2f-283e63e203b6",
+    "revision": "42dd9a981ecdf44b1d7b80463a8cd182710962ee4a5d0537a063e1825bb380c0",
+    "error_rows": null,
+    "request_id": "169ab6bd-25c2-49cc-9c43-fc7a68df1b63",
+    "total_rows": null,
+    "valid_rows": null
+   },
+   "harm_observed": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A9:REFUND_SUPPLIER_ORDERED_CONTROL",
+   "expected_asof": {
+    "2026-09-17": "67.25",
+    "2026-09-21": "100.00",
+    "2026-09-23": "0.00",
+    "2026-09-25": "0.00"
+   },
+   "kind": "SUPPLIER",
+   "operation": "REFUND",
+   "correction_day": "2026-09-21",
+   "use_day": "2026-09-23",
+   "advance_asof": {
+    "2026-09-17": "67.25",
+    "2026-09-21": "100.00",
+    "2026-09-23": "0.00",
+    "2026-09-25": "0.00"
+   },
+   "status": "PASS",
+   "refusal": null,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A9:REFUND_CUSTOMER_DATED_CAPACITY",
+   "kind": "CUSTOMER",
+   "operation": "REFUND",
+   "correction_day": "2026-09-23",
+   "use_day": "2026-09-21",
+   "advance_asof": {
+    "2026-09-17": "67.25",
+    "2026-09-21": "-32.75",
+    "2026-09-23": "0.00",
+    "2026-09-25": "0.00"
+   },
+   "oracle": "D02=A: a refund/use needs the capacity it has on its own date and every later day",
+   "status": "COUNTEREXAMPLE",
+   "expected_refusal": null,
+   "refusal": null,
+   "result": {
+    "action": "PREPAYMENT",
+    "status": "POSTED",
+    "batch_id": "20b5aa61-019a-40dc-b1b5-938837e3d6fa",
+    "revision": "b36dbed0732448ad3ca64ea9e8082982db1d900cc5589e38ff96079b73406aae",
+    "error_rows": null,
+    "request_id": "aeaddf43-565f-484b-a52d-d0c36311400c",
+    "total_rows": null,
+    "valid_rows": null
+   },
+   "harm_observed": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A9:REFUND_CUSTOMER_ORDERED_CONTROL",
+   "expected_asof": {
+    "2026-09-17": "67.25",
+    "2026-09-21": "100.00",
+    "2026-09-23": "0.00",
+    "2026-09-25": "0.00"
+   },
+   "kind": "CUSTOMER",
+   "operation": "REFUND",
+   "correction_day": "2026-09-21",
+   "use_day": "2026-09-23",
+   "advance_asof": {
+    "2026-09-17": "67.25",
+    "2026-09-21": "100.00",
+    "2026-09-23": "0.00",
+    "2026-09-25": "0.00"
+   },
+   "status": "PASS",
+   "refusal": null,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A9:REFUND_VENDOR_DATED_CAPACITY",
+   "kind": "VENDOR",
+   "operation": "REFUND",
+   "correction_day": "2026-09-23",
+   "use_day": "2026-09-21",
+   "advance_asof": {
+    "2026-09-17": "67.25",
+    "2026-09-21": "-32.75",
+    "2026-09-23": "0.00",
+    "2026-09-25": "0.00"
+   },
+   "oracle": "D02=A: a refund/use needs the capacity it has on its own date and every later day",
+   "status": "COUNTEREXAMPLE",
+   "expected_refusal": null,
+   "refusal": null,
+   "result": {
+    "action": "PREPAYMENT",
+    "status": "POSTED",
+    "batch_id": "98e0daa6-d147-4986-9bf9-21f41aa23415",
+    "revision": "a290bcaf0d05b85996dea086889bf08dea9dafbe42477dbd73a8b24df07f9d2a",
+    "error_rows": null,
+    "request_id": "8ab3ad10-2451-4089-bddd-4d92b8400551",
+    "total_rows": null,
+    "valid_rows": null
+   },
+   "harm_observed": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A9:REFUND_VENDOR_ORDERED_CONTROL",
+   "expected_asof": {
+    "2026-09-17": "67.25",
+    "2026-09-21": "100.00",
+    "2026-09-23": "0.00",
+    "2026-09-25": "0.00"
+   },
+   "kind": "VENDOR",
+   "operation": "REFUND",
+   "correction_day": "2026-09-21",
+   "use_day": "2026-09-23",
+   "advance_asof": {
+    "2026-09-17": "67.25",
+    "2026-09-21": "100.00",
+    "2026-09-23": "0.00",
+    "2026-09-25": "0.00"
+   },
+   "status": "PASS",
+   "refusal": null,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A9:APPLY_SUPPLIER_DATED_CAPACITY",
+   "kind": "SUPPLIER",
+   "operation": "APPLY",
+   "correction_day": "2026-09-23",
+   "use_day": "2026-09-21",
+   "advance_asof": {
+    "2026-09-17": "67.25",
+    "2026-09-21": "-32.75",
+    "2026-09-23": "0.00",
+    "2026-09-25": "0.00"
+   },
+   "oracle": "D02=A: a refund/use needs the capacity it has on its own date and every later day",
+   "status": "COUNTEREXAMPLE",
+   "expected_refusal": null,
+   "refusal": null,
+   "result": {
+    "action": "PREPAYMENT",
+    "status": "POSTED",
+    "batch_id": "b50a8468-b02b-4f09-adb3-dc28fbd2b1fd",
+    "revision": "8909d58dd05bdd8b0109cfede8b778d0b9b1e2029aee076e1a5181575ce169cb",
+    "error_rows": null,
+    "request_id": "25023ee8-5e9b-4a63-8858-c3aa0ddbe0bb",
+    "total_rows": null,
+    "valid_rows": null
+   },
+   "harm_observed": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A9:APPLY_SUPPLIER_ORDERED_CONTROL",
+   "expected_asof": {
+    "2026-09-17": "67.25",
+    "2026-09-21": "100.00",
+    "2026-09-23": "0.00",
+    "2026-09-25": "0.00"
+   },
+   "kind": "SUPPLIER",
+   "operation": "APPLY",
+   "correction_day": "2026-09-21",
+   "use_day": "2026-09-23",
+   "advance_asof": {
+    "2026-09-17": "67.25",
+    "2026-09-21": "100.00",
+    "2026-09-23": "0.00",
+    "2026-09-25": "0.00"
+   },
+   "status": "PASS",
+   "refusal": null,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A9:APPLY_CUSTOMER_DATED_CAPACITY",
+   "kind": "CUSTOMER",
+   "operation": "APPLY",
+   "correction_day": "2026-09-23",
+   "use_day": "2026-09-21",
+   "advance_asof": {
+    "2026-09-17": "67.25",
+    "2026-09-21": "-32.75",
+    "2026-09-23": "0.00",
+    "2026-09-25": "0.00"
+   },
+   "oracle": "D02=A: a refund/use needs the capacity it has on its own date and every later day",
+   "status": "COUNTEREXAMPLE",
+   "expected_refusal": null,
+   "refusal": null,
+   "result": {
+    "action": "PREPAYMENT",
+    "status": "POSTED",
+    "batch_id": "da773d9b-2b18-4429-84bf-f961402609d9",
+    "revision": "3faaf5c9019472a40f90f24d58938d4227506833792df8a062f555df02c23a87",
+    "error_rows": null,
+    "request_id": "4aae8c81-53a6-4e82-9e8a-93bbde5eca48",
+    "total_rows": null,
+    "valid_rows": null
+   },
+   "harm_observed": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A9:APPLY_CUSTOMER_ORDERED_CONTROL",
+   "expected_asof": {
+    "2026-09-17": "67.25",
+    "2026-09-21": "100.00",
+    "2026-09-23": "0.00",
+    "2026-09-25": "0.00"
+   },
+   "kind": "CUSTOMER",
+   "operation": "APPLY",
+   "correction_day": "2026-09-21",
+   "use_day": "2026-09-23",
+   "advance_asof": {
+    "2026-09-17": "67.25",
+    "2026-09-21": "100.00",
+    "2026-09-23": "0.00",
+    "2026-09-25": "0.00"
+   },
+   "status": "PASS",
+   "refusal": null,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A9:APPLY_VENDOR_DATED_CAPACITY",
+   "kind": "VENDOR",
+   "operation": "APPLY",
+   "correction_day": "2026-09-23",
+   "use_day": "2026-09-21",
+   "advance_asof": {
+    "2026-09-17": "67.25",
+    "2026-09-21": "-32.75",
+    "2026-09-23": "0.00",
+    "2026-09-25": "0.00"
+   },
+   "oracle": "D02=A: a refund/use needs the capacity it has on its own date and every later day",
+   "status": "COUNTEREXAMPLE",
+   "expected_refusal": null,
+   "refusal": null,
+   "result": {
+    "action": "PREPAYMENT",
+    "status": "POSTED",
+    "batch_id": "a54b5220-8aba-4bfd-8df4-567429976ec0",
+    "revision": "4aabae8142e4e3e8f1e050142637354ec577df5254cda16a69973498211d451a",
+    "error_rows": null,
+    "request_id": "c19c7b1c-765e-4351-b354-495363c44946",
+    "total_rows": null,
+    "valid_rows": null
+   },
+   "harm_observed": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A9:APPLY_VENDOR_ORDERED_CONTROL",
+   "expected_asof": {
+    "2026-09-17": "67.25",
+    "2026-09-21": "100.00",
+    "2026-09-23": "0.00",
+    "2026-09-25": "0.00"
+   },
+   "kind": "VENDOR",
+   "operation": "APPLY",
+   "correction_day": "2026-09-21",
+   "use_day": "2026-09-23",
+   "advance_asof": {
+    "2026-09-17": "67.25",
+    "2026-09-21": "100.00",
+    "2026-09-23": "0.00",
+    "2026-09-25": "0.00"
+   },
+   "status": "PASS",
+   "refusal": null,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A9:S04_TRANSFER_BACK_BEFORE_ARRIVAL_REFUSED",
+   "transfer_back_day": "2026-09-22",
+   "warehouse_history_minimum": "10.000000",
+   "warehouse_history": [
+    [
+     "2026-09-23 03:00:00+00:00",
+     "TRANSFER_IN",
+     "10.000000",
+     "10.000000"
+    ]
+   ],
+   "transfer": null,
+   "status": "PASS",
+   "refusal": {
+    "sqlstate": "P0001",
+    "message": "AM_BACKDATE_WOULD_CREATE_NEGATIVE_LOCATION_ROLL_HISTORY for material 84895da7-d72f-410e-bbdf-344e0a83e240"
+   },
+   "expected_refusal": "AM_BACKDATE_WOULD_CREATE_NEGATIVE_LOCATION_ROLL_HISTORY",
+   "oracle": "D02=A / AUD-S04: stock arriving later does not fund an earlier outflow of the same warehouse and roll",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A9:S04_TRANSFER_BACK_AFTER_ARRIVAL_CONTROL",
+   "transfer_back_day": "2026-09-24",
+   "warehouse_history_minimum": "5.000000",
+   "warehouse_history": [
+    [
+     "2026-09-23 03:00:00+00:00",
+     "TRANSFER_IN",
+     "10.000000",
+     "10.000000"
+    ],
+    [
+     "2026-09-24 03:00:00+00:00",
+     "TRANSFER_OUT",
+     "-5.000000",
+     "5.000000"
+    ]
+   ],
+   "transfer": {
+    "status": "POSTED",
+    "posted_at": "2026-09-25T02:39:23.484517+00:00",
+    "row_version": 2,
+    "movement_count": 2,
+    "material_transfer_id": "be40e616-bce8-4d59-ade9-4e5b62f5364a"
+   },
+   "status": "PASS",
+   "refusal": null,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A4:CENT_DIRECT_UP",
+   "status": "COUNTEREXAMPLE",
+   "kind": "DIRECT",
+   "old": "10.005",
+   "new": "10.014",
+   "raw_qty": "0.000000",
+   "mismatches": {
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": {
+      "expected": "0.00",
+      "actual": "-0.01"
+     },
+     "WIP": {
+      "expected": "10.01",
+      "actual": "10.02"
+     }
+    },
+    "2026-09-25": {
+     "MATERIAL_INVENTORY": {
+      "expected": "0.00",
+      "actual": "-0.01"
+     },
+     "WIP": {
+      "expected": "10.01",
+      "actual": "10.02"
+     }
+    }
+   },
+   "observed": {
+    "2026-09-21": {
+     "MATERIAL_INVENTORY": "10.01",
+     "WIP": "0.00",
+     "AP_SUPPLIER": "-10.01",
+     "GRNI_MATERIAL": "0"
+    },
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "10.01",
+     "AP_SUPPLIER": "-10.01",
+     "GRNI_MATERIAL": "0"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "-0.01",
+     "WIP": "10.02",
+     "AP_SUPPLIER": "-10.01",
+     "GRNI_MATERIAL": "0"
+    },
+    "2026-09-25": {
+     "MATERIAL_INVENTORY": "-0.01",
+     "WIP": "10.02",
+     "AP_SUPPLIER": "-10.01",
+     "GRNI_MATERIAL": "0"
+    }
+   },
+   "expected": {
+    "2026-09-21": {
+     "MATERIAL_INVENTORY": "10.01",
+     "WIP": "0.00",
+     "AP_SUPPLIER": "-10.01",
+     "GRNI_MATERIAL": "0.00"
+    },
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "10.01",
+     "AP_SUPPLIER": "-10.01",
+     "GRNI_MATERIAL": "0.00"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "10.01",
+     "AP_SUPPLIER": "-10.01",
+     "GRNI_MATERIAL": "0.00"
+    },
+    "2026-09-25": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "10.01",
+     "AP_SUPPLIER": "-10.01",
+     "GRNI_MATERIAL": "0.00"
+    }
+   },
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A4:CENT_DIRECT_DOWN",
+   "status": "COUNTEREXAMPLE",
+   "kind": "DIRECT",
+   "old": "10.014",
+   "new": "10.005",
+   "raw_qty": "0.000000",
+   "mismatches": {
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": {
+      "expected": "0.00",
+      "actual": "0.01"
+     },
+     "WIP": {
+      "expected": "10.01",
+      "actual": "10.00"
+     }
+    },
+    "2026-09-25": {
+     "MATERIAL_INVENTORY": {
+      "expected": "0.00",
+      "actual": "0.01"
+     },
+     "WIP": {
+      "expected": "10.01",
+      "actual": "10.00"
+     }
+    }
+   },
+   "observed": {
+    "2026-09-21": {
+     "MATERIAL_INVENTORY": "10.01",
+     "WIP": "0.00",
+     "AP_SUPPLIER": "-10.01",
+     "GRNI_MATERIAL": "0"
+    },
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "10.01",
+     "AP_SUPPLIER": "-10.01",
+     "GRNI_MATERIAL": "0"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "0.01",
+     "WIP": "10.00",
+     "AP_SUPPLIER": "-10.01",
+     "GRNI_MATERIAL": "0"
+    },
+    "2026-09-25": {
+     "MATERIAL_INVENTORY": "0.01",
+     "WIP": "10.00",
+     "AP_SUPPLIER": "-10.01",
+     "GRNI_MATERIAL": "0"
+    }
+   },
+   "expected": {
+    "2026-09-21": {
+     "MATERIAL_INVENTORY": "10.01",
+     "WIP": "0.00",
+     "AP_SUPPLIER": "-10.01",
+     "GRNI_MATERIAL": "0.00"
+    },
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "10.01",
+     "AP_SUPPLIER": "-10.01",
+     "GRNI_MATERIAL": "0.00"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "10.01",
+     "AP_SUPPLIER": "-10.01",
+     "GRNI_MATERIAL": "0.00"
+    },
+    "2026-09-25": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "10.01",
+     "AP_SUPPLIER": "-10.01",
+     "GRNI_MATERIAL": "0.00"
+    }
+   },
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A4:CENT_INVOICE_UP",
+   "status": "COUNTEREXAMPLE",
+   "kind": "INVOICE",
+   "old": "10.005",
+   "new": "10.014",
+   "raw_qty": "0.000000",
+   "mismatches": {
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": {
+      "expected": "0.00",
+      "actual": "-0.01"
+     },
+     "WIP": {
+      "expected": "10.01",
+      "actual": "10.02"
+     }
+    },
+    "2026-09-25": {
+     "MATERIAL_INVENTORY": {
+      "expected": "0.00",
+      "actual": "-0.01"
+     },
+     "WIP": {
+      "expected": "10.01",
+      "actual": "10.02"
+     }
+    }
+   },
+   "observed": {
+    "2026-09-21": {
+     "MATERIAL_INVENTORY": "10.01",
+     "WIP": "0.00",
+     "AP_SUPPLIER": "0.00",
+     "GRNI_MATERIAL": "-10.01"
+    },
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "10.01",
+     "AP_SUPPLIER": "0.00",
+     "GRNI_MATERIAL": "-10.01"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "-0.01",
+     "WIP": "10.02",
+     "AP_SUPPLIER": "-10.01",
+     "GRNI_MATERIAL": "0.00"
+    },
+    "2026-09-25": {
+     "MATERIAL_INVENTORY": "-0.01",
+     "WIP": "10.02",
+     "AP_SUPPLIER": "-10.01",
+     "GRNI_MATERIAL": "0.00"
+    }
+   },
+   "expected": {
+    "2026-09-21": {
+     "MATERIAL_INVENTORY": "10.01",
+     "WIP": "0.00",
+     "AP_SUPPLIER": "0.00",
+     "GRNI_MATERIAL": "-10.01"
+    },
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "10.01",
+     "AP_SUPPLIER": "0.00",
+     "GRNI_MATERIAL": "-10.01"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "10.01",
+     "AP_SUPPLIER": "-10.01",
+     "GRNI_MATERIAL": "0.00"
+    },
+    "2026-09-25": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "10.01",
+     "AP_SUPPLIER": "-10.01",
+     "GRNI_MATERIAL": "0.00"
+    }
+   },
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A4:CENT_INVOICE_DOWN",
+   "status": "COUNTEREXAMPLE",
+   "kind": "INVOICE",
+   "old": "10.014",
+   "new": "10.005",
+   "raw_qty": "0.000000",
+   "mismatches": {
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": {
+      "expected": "0.00",
+      "actual": "0.01"
+     },
+     "WIP": {
+      "expected": "10.01",
+      "actual": "10.00"
+     }
+    },
+    "2026-09-25": {
+     "MATERIAL_INVENTORY": {
+      "expected": "0.00",
+      "actual": "0.01"
+     },
+     "WIP": {
+      "expected": "10.01",
+      "actual": "10.00"
+     }
+    }
+   },
+   "observed": {
+    "2026-09-21": {
+     "MATERIAL_INVENTORY": "10.01",
+     "WIP": "0.00",
+     "AP_SUPPLIER": "0.00",
+     "GRNI_MATERIAL": "-10.01"
+    },
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "10.01",
+     "AP_SUPPLIER": "0.00",
+     "GRNI_MATERIAL": "-10.01"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "0.01",
+     "WIP": "10.00",
+     "AP_SUPPLIER": "-10.01",
+     "GRNI_MATERIAL": "0.00"
+    },
+    "2026-09-25": {
+     "MATERIAL_INVENTORY": "0.01",
+     "WIP": "10.00",
+     "AP_SUPPLIER": "-10.01",
+     "GRNI_MATERIAL": "0.00"
+    }
+   },
+   "expected": {
+    "2026-09-21": {
+     "MATERIAL_INVENTORY": "10.01",
+     "WIP": "0.00",
+     "AP_SUPPLIER": "0.00",
+     "GRNI_MATERIAL": "-10.01"
+    },
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "10.01",
+     "AP_SUPPLIER": "0.00",
+     "GRNI_MATERIAL": "-10.01"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "10.01",
+     "AP_SUPPLIER": "-10.01",
+     "GRNI_MATERIAL": "0.00"
+    },
+    "2026-09-25": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "10.01",
+     "AP_SUPPLIER": "-10.01",
+     "GRNI_MATERIAL": "0.00"
+    }
+   },
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A5:BS_OLD_CLAIMABLE_DELIVERY_AFTER_100_NEWER",
+   "clones": 101,
+   "listed": 100,
+   "old_listed": false,
+   "old": null,
+   "newer_listed": 100,
+   "zero_capacity_listed": 0,
+   "status": "COUNTEREXAMPLE",
+   "oracle": "CP6-04: an old source that can still be claimed stays selectable after 100 newer ones",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A5:IMPORT_OLDEST_DRAFT_AFTER_51",
+   "status": "COUNTEREXAMPLE",
+   "created": 51,
+   "listed": 50,
+   "oldest_listed": false,
+   "authored_listed": 50,
+   "oracle": "CP6-04: an older editable draft stays discoverable after 51 drafts",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A6:SECOND_CLOSE_SAME_DATE",
+   "closed_through": "2026-09-24",
+   "reopened": false,
+   "filings_before_second": 1,
+   "filings_after_second": 2,
+   "second": "ACCEPTED",
+   "second_error": null,
+   "status": "COUNTEREXAMPLE",
+   "expected_refusal": null,
+   "refusal": null,
+   "result": null,
+   "harm_observed": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "BA_CASES_BEFORE",
+   "case": "A6:CLOSE_AGAIN_AFTER_REOPEN_CONTROL",
+   "closed_through": "2026-09-24",
+   "reopened": true,
+   "filings_before_second": 1,
+   "filings_after_second": 2,
+   "second": "ACCEPTED",
+   "second_error": null,
+   "status": "PASS",
+   "refusal": null,
+   "full_boundary_restored": true
+  }
+ ]
+}

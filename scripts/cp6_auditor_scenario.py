@@ -3,9 +3,10 @@
 independent acceptance of AY rev7.4 and AZ rev2.1 needs a runtime the auditor controls). Label AUDITOR_SCENARIO:
 not release evidence, production_go=false.
 
-Chain: the untouched AN clone of the CP6 probe workflows, then AU, AV, AW, AX, AY and (phase after) AZ from the committed
-T1 family files, exactly as scripts/cp6_az_probe.py installs them. The committed candidate is verified before any case runs
-(AY/AZ function text equal to the committed files, T1 markers).
+Chain: the untouched AN clone of the CP6 probe workflows, then AU, AV, AW, AX, AY from the committed T1 family files;
+phase after adds AZ and BA (the current candidate, BA: the independent audit's product fixes, see scripts/cp6_ba_build.py),
+phase pre_ba adds AZ only (the candidate before BA), phase before adds neither. The committed candidate is verified before
+any case runs (function text equal to the committed files, T1 markers).
 
 The scenario is plain Python supplied at dispatch time (workflow input, base64), written by the auditor, not by the writer.
 It defines at least one of
@@ -33,6 +34,7 @@ import cp6_aw_probe as awp
 import cp6_ax_probe as axp
 import cp6_ay_probe as ayp
 import cp6_az_probe as azp
+import cp6_ba_probe as bap
 import cp6_auditor_modes as modes
 r1,boundary,prior=awp.r1,awp.boundary,awp.prior
 
@@ -63,8 +65,9 @@ def run(phase,scenario):
         report['au_install']=awp.au_runtime.change('install',boundary.PG,control_url)['status']
         report['av_install']=awp.av_runtime.change('install',boundary.PG,control_url)['status']
         report['aw_install']=awp.install_aw();report['ax_install']=axp.install_ax();report['ay_install']=ayp.install_ay();verify=ayp.ay_verified
-        if phase=='after':report['az_install']=azp.install_az();verify=azp.az_verified
-        print(json.dumps(dict(auditor_setup={k:report.get(k) for k in ('au_install','av_install','ay_install','az_install')}),default=str),flush=True)
+        if phase in('pre_ba','after'):report['az_install']=azp.install_az();verify=azp.az_verified
+        if phase=='after':report['ba_install']=bap.install_ba();verify=bap.ba_verified
+        print(json.dumps(dict(auditor_setup={k:report.get(k) for k in ('au_install','av_install','ay_install','az_install','ba_install')}),default=str),flush=True)
         group=r1.group('AUDITOR_CASES_'+phase.upper(),getattr(module,'cases',None) or (lambda cur,today:[]),verify)
         report['auditor_cases']={k:group[k] for k in ('status','counts')}
         complete=group['status']!='INCOMPLETE'
@@ -91,6 +94,6 @@ def run(phase,scenario):
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser()
-    parser.add_argument('--phase',choices=('before','after'),required=True)
+    parser.add_argument('--phase',choices=('before','pre_ba','after'),required=True)
     parser.add_argument('--scenario',required=True)
     args=parser.parse_args();run(args.phase,args.scenario)

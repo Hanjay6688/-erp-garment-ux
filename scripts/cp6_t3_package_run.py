@@ -70,9 +70,11 @@ def capsule_compare(url):
 
 def verify_awx():
     import cp6_az_probe as azp
+    import cp6_ba_probe as bap
     with psycopg.connect(boundary.ADMIN) as conn,conn.cursor() as cur:
-        result=azp.az_verified(cur);conn.rollback()
-    return {k:result.get(k) for k in ('stage','functions','sql_sha256','ax_sql_sha256','ay_sql_sha256','az_sql_sha256')}
+        # The committed package decides the stage: with BA in it, BA and every earlier family are verified.
+        result=(bap.ba_verified if bap.ba_installed(cur) else azp.az_verified)(cur);conn.rollback()
+    return {k:result.get(k) for k in ('stage','functions','sql_sha256','ax_sql_sha256','ay_sql_sha256','az_sql_sha256','ba_sql_sha256')}
 
 
 def run(mode):
@@ -95,7 +97,7 @@ def run(mode):
         assert report['hosted_capsules']['equal'],'T3_CLONE_CAPSULES_NOT_HOSTED'
         advisors_AB=advisors(boundary.PG)
         committed=AUDITOR/'docs/evidence/cp6-t3/release_pins.json'
-        # AC..AV and the AW/AX/AY/AZ release candidates are all files of the one package; AW/AX/AY/AZ T1 verification follows.
+        # AC..AV and the AW/AX/AY/AZ/BA release candidates are all files of the one package; AW..BA T1 verification follows.
         stages=[('PACKAGE',lambda:(package.capture if mode=='capture' else package.install)(OUT/('T3_PACKAGE_FILES_%s.json'%mode.upper()))['status']),
                 ('AW_AX_AY_AZ_VERIFY',lambda:verify_awx())]
         for name,operation in stages:

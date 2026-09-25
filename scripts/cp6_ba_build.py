@@ -385,7 +385,7 @@ def build():
            'end $t1_guard$;',SCHEMA,FLOOR.rstrip('\n'),opening,wip,advance,reval,close,cover,bs,imports,
            'do $coverage$ begin perform erp.assert_new_stock_cutoff_coverage_v1(); end $coverage$;',
            f"insert into erp.schema_migrations(version,description) values('{VERSION}',"
-           "'T1_FAMILY development install of BA (CP6 audit closure: import identity, dated WIP remaining, WIP product binding, dated advance and stock capacity, recost cents, single close filing); not a release package');",'commit;','']
+           "'T1_FAMILY development install of BA (CP6 audit closure: import identity, dated WIP remaining, WIP product binding, dated advance capacity, recost cents, selectors, single close filing); not a release package');",'commit;','']
     return '\n'.join(parts)
 
 

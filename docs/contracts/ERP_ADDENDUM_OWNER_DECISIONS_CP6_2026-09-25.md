@@ -190,7 +190,8 @@ Aturan:
    bergantung padanya. Bug baseline tidak boleh ditunda dengan menyebutnya CR.
 3. **Daftar acceptance ID per fitur (C6).** Isinya: baseline CP6, CR yang sudah masuk kandidat, CR yang ditunda, dan
    dependensi CP7. Daftar ini disusun writer, ditinjau auditor, lalu disahkan owner sebagai lampiran addendum ini.
-   **Status: menyusul** (lampiran C6).
+   **Status: draf usulan writer** di `ERP_ADDENDUM_OWNER_DECISIONS_CP6_2026-09-25_LAMPIRAN_C6.md`, menunggu
+   tinjauan auditor terhadap M:1691–1699, M:1753–1757, dan M:4448–4479.
 4. **Butir yang sudah masuk kandidat** tidak boleh diam-diam diberi N/A. Owner memilih salah satu: diuji tuntas, atau
    kandidat direvisi secara eksplisit.
 
@@ -205,7 +206,7 @@ Owner diminta menandai salah satu pilihan per keputusan. Hash addendum yang disa
 | D03 (termasuk pencatatan "tidak diketahui" 5.3) | ☐ | ☐ |
 | D04 | ☐ | ☐ |
 | D05 (akun lawan OTHER_INCOME) | ☐ | ☐ |
-| D06 (lampiran C6 menyusul) | ☐ | ☐ |
+| D06 (termasuk lampiran C6 setelah ditinjau auditor) | ☐ | ☐ |
 
 Nama/tanda tangan owner: ____________________ Tanggal: ____________
 

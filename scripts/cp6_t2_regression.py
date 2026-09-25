@@ -1,4 +1,4 @@
-"""T2 regression for the combined CP6 candidate: AU + AV + AW, AX, AY and AZ (T1 installs).
+"""T2 regression for the combined CP6 candidate: AU + AV + AW, AX, AY, AZ and BA (T1 installs).
 
 Owner decision A+B: once every family passes its T1 probe, the whole existing regression runs once on the combined
 candidate, then goes to independent audit. The case declarations, oracles and race schedules are the unchanged ones
@@ -20,6 +20,10 @@ the seed items over the whole reopened range (not only the last 120 days), and r
 for that whole range before the closing date is put back; any refused step or a range that is not READY stops the group
 (its cases are not run). The run-3 side channel is opt-in (CP6_T2_DIAG=1) and reads inside a savepoint that is rolled
 back, so the case starts in the session state it had without it.
+
+BA (25 Sep): the candidate now includes BA, the independent audit's product fixes (A1 import identity, A3 dated WIP
+remaining, A4 recost cents, A5 selectors, A6 single close filing, A9 dated advance capacity, A10 WIP product binding).
+Cases that move against the recorded outcomes are listed for disposition as before; the frozen results stay recorded.
 
 Run 5 (owner, 24 Sep): "lengkapi persiapan tes yang tidak sedang menguji payroll, perbaiki lima benturan absensi, lalu
 jalankan ulang"; an approved payroll may still be a debt, so no test is made to pay, and tests about unpaid or partly
@@ -64,6 +68,7 @@ import cp6_aw_probe as awp
 import cp6_ax_probe as axp
 import cp6_ay_probe as ayp
 import cp6_az_probe as azp
+import cp6_ba_probe as bap
 import cp6_regression_identity as identity
 
 LABEL=os.environ.get('CP6_T2_LABEL','T2_PRELIMINARY')
@@ -334,15 +339,16 @@ avt.group=group
 
 
 def change(kind,pg,control_url):
-    """AV through its own closed-admission runtime, then the AW, AX, AY and AZ T1 installs (development files)."""
+    """AV through its own closed-admission runtime, then the AW, AX, AY, AZ and BA T1 installs (development files; BA: the
+    independent audit's product fixes, 25 Sep 2026)."""
     assert kind=='install'
     av=av_runtime.change('install',pg,control_url)
-    aw=awp.install_aw();ax=axp.install_ax();ay=ayp.install_ay();az=azp.install_az()
-    return dict(status='PASS' if av['status']=='PASS' else 'FAIL',av=av['status'],aw=aw,ax=ax,ay=ay,az=az)
+    aw=awp.install_aw();ax=axp.install_ax();ay=ayp.install_ay();az=azp.install_az();ba=bap.install_ba()
+    return dict(status='PASS' if av['status']=='PASS' else 'FAIL',av=av['status'],aw=aw,ax=ax,ay=ay,az=az,ba=ba)
 
 
 # The trial modules read `runtime`; point them at the combined candidate without touching their code.
-avt.runtime=types.SimpleNamespace(change=change,verified=azp.az_verified,pins=av_runtime.pins,
+avt.runtime=types.SimpleNamespace(change=change,verified=bap.ba_verified,pins=av_runtime.pins,
                                   qualify=None,refuse_post_use=None)
 
 
@@ -354,7 +360,7 @@ def ar_phase(report):
     seq=avt.group('AR_SEQUENTIAL',avt.ar_sequential)
     report['sequential']={k:seq[k] for k in ('status','counts')}
     with avt.psycopg.connect(avt.ADMIN) as conn,conn.cursor() as cur:
-        azp.az_verified(cur)
+        bap.ba_verified(cur)
         today=cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date").fetchone()[0]
     races=[]
     for kind in avt.inherited.KINDS:
