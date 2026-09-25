@@ -1,4 +1,5 @@
-"""rev2: P03 case query fixed (supplier invoices/payments looked up by supplier; run 36132268786 INCOMPLETE was the auditor SQL, 38/38 other cases PASS).
+"""rev3: P03 journal-type check accepts OPENING_UNINVOICED_RECEIPT (the opening GRNI obligation journal of M:831; rev2 FAIL was the auditor check). Pinned to the BB final head.
+rev2: P03 case query fixed (supplier invoices/payments looked up by supplier; run 36132268786 INCOMPLETE was the auditor SQL, 38/38 other cases PASS).
 Fable BB T1 independent rerun on the exact writer head (round 10). Label T1_FAMILY / AUDITOR_SCENARIO, never release evidence.
 
 Runs the writer's own BB PLAN unchanged (exact head, before and after) and appends Fable cases with oracles from the contract
@@ -104,7 +105,7 @@ def p03_no_duplicate(cur,today):
     old_docs=cur.execute("select (select count(*) from erp.material_supplier_invoices where supplier_id=%s),(select count(*) from erp.supplier_payments p join erp.material_purchase_headers h on h.id=p.purchase_id where h.supplier_id=%s)",(supplier,supplier)).fetchone()
     checks=dict(inventory_22=delta.get(inv)=='22.00',grni_12_unbilled_only=delta.get(grni)=='-12.00',ap_7_open_part_only=delta.get(ap)=='-7.00',
                 obligation_basis_equals_inventory=D('12.00')+D('7.00')+D('3.00')==D('22.00') and delta.get(inv)=='22.00',
-                native_ap_zero=st['native_ap']==0,no_minted_invoice_or_payment=old_docs==(0,0),only_opening_journal=set(types)<={'OPENING_BALANCE'})
+                native_ap_zero=st['native_ap']==0,no_minted_invoice_or_payment=old_docs==(0,0),only_opening_journals=set(types)<={'OPENING_BALANCE','OPENING_UNINVOICED_RECEIPT'})
     return bb.verdict(checks,delta=delta,state={k:str(v) for k,v in st.items()},journals=types,oracle='Fable ALL-P03 pre-code oracle: one receipt basis, GRNI = unbilled x c, AP = open invoiced part, no duplicate obligation')
 
 FABLE=[('FAB:S01_OPENING_AR_DIRECTION',('PASS',),s01_direction),

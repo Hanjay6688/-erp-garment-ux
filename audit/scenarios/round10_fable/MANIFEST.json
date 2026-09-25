@@ -1,10 +1,10 @@
 {
- "writer_head": "db9e2764c25667cabd82e1f93b4346b33c2233d8",
+ "writer_head": "4c61acad2270e11a2aca762237790a68cf36278a",
  "files": [
   {
    "path": "fable_bb_independent.py",
-   "sha256": "61900b50fb6de7d04ac7fa66ea5b714bcdd60a4157c017a423e1c81278dad5f1",
-   "rev": 2
+   "sha256": "0ee91c5b9e215fae3638bd032813ebecb118192393e0697693694ffb46286c98",
+   "rev": 3
   }
  ],
  "label": "T1_FAMILY/AUDITOR_SCENARIO",

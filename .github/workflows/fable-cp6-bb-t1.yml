@@ -1,4 +1,4 @@
-name: Fable CP6 Round 10 BB T1 Independent Rerun (writer PLAN + Fable cases, rev2) on head db9e276
+name: Fable CP6 Round 10 BB T1 Independent Rerun (writer PLAN + Fable cases, rev3) on BB final head 4c61aca
 'on':
   push:
     branches:
@@ -56,13 +56,13 @@ jobs:
       with:
         path: auditor
         fetch-depth: 0
-        ref: db9e2764c25667cabd82e1f93b4346b33c2233d8
+        ref: 4c61acad2270e11a2aca762237790a68cf36278a
     - uses: actions/checkout@v4
       with:
         path: review
         fetch-depth: 0
     - name: Assert frozen BB product and tool source
-      run: test "$(git -C auditor rev-parse HEAD)" = db9e2764c25667cabd82e1f93b4346b33c2233d8
+      run: test "$(git -C auditor rev-parse HEAD)" = 4c61acad2270e11a2aca762237790a68cf36278a
     - uses: actions/checkout@v4
       with:
         path: harness
