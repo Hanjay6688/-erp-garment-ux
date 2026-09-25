@@ -2,8 +2,10 @@
  "label": "T2_REGRESSION",
  "run": 36113586943,
  "job": 108002352632,
- "head": null,
- "run_identity": null,
+ "head": "1dcf21b4d6adb3b612f012619c092b55cb7f425b",
+ "run_identity": {
+  "note": "run_identity line is outside the retrieved log tail; run 36113586943 is a workflow_dispatch on 1dcf21b (product = release package of 1dcf21b, BA dev b6d81f9)"
+ },
  "production_go": false,
  "release_evidence": false,
  "jobs": {
@@ -255,7 +257,9 @@
   "calendar_decision": "Owner 24 Sep: 12 kalender HOLD - tanggal perpindahan nilai ke WIP mengikuti hari potong; status tetap HOLD.",
   "note": "Frozen results stand (INCOMPLETE/COUNTEREXAMPLE/HOLD); MATCH is the approved oracle, not a frozen PASS."
  },
- "ao_trial": null,
+ "ao_trial": {
+  "note": "T2_AO_TRIAL line outside the retrieved log tail; the job concluded success"
+ },
  "verdict": null,
  "calendar_policy_frozen": [],
  "fixture_summary": {
