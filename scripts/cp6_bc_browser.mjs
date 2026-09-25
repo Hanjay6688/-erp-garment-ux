@@ -158,7 +158,9 @@ export async function cases(ui, today) {
         // Empty result, then a read error and a slow read on the same page.
         await p.getByLabel('Cari nota aksesori').fill('TIDAK-ADA-' + fx.code)
         await p.getByRole('button', { name: 'Cari nota', exact: true }).click()
-        const empty = await p.getByText('Belum ada nota aksesori hitung yang cocok.').isVisible()
+        // isVisible() does not wait; the empty result appears once the search read returns (run 36177813548).
+        let empty = false
+        try { await ui.expect(p.getByText('Belum ada nota aksesori hitung yang cocok.')).toBeVisible({ timeout: 10000 }); empty = true } catch { empty = false }
         const workspace = u => u.pathname.endsWith('/rpc/erp_get_accessory_issue_workspace_v1')
         await p.route(workspace, r => r.fulfill({ status: 500, contentType: 'application/json', body: JSON.stringify({ code: 'XX000', message: 'uji galat baca nota', details: null, hint: null }) }))
         await p.getByRole('button', { name: 'Muat ulang', exact: true }).click()
