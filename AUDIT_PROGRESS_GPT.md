@@ -124,3 +124,12 @@ Oracle lanjutan **GPT sendiri** dibekukan di `audit/scenarios/r12_bc_gpt/ORACLE.
 Status per gate penuh tidak berubah: C6-01 HOLD; C6-02 HOLD; C6-03 UNVERIFIED; C6-04 HOLD; C6-05 HOLD; C6-06 UNVERIFIED; C6-07 HOLD; C6-08 UNVERIFIED; C6-09 UNVERIFIED; C6-10 HOLD. Dasar baris per gate di tabel atas. Untuk BC khusus: ACC-C12 **PARTIAL/UNVERIFIED**, F3 non-RFC **UNVERIFIED pada data nyata**; browser v4 ACCEPT hanya lokal. CP6 HOLD / audit_complete=false / production_go=false.
 
 **LANGKAH BERIKUTNYA:** tulis `.py` dan modul browser sendiri untuk GBC-1–3 yang menguji boundary asli, catat sha256 ke progres, jalankan satu workflow BC di runtime klon pada head produk BC yang dipin, simpan run/job/per-kasus di `out/gpt_bc_*`, lalu baru simpulkan cakupan BC GPT. Fable dapat mengompilasi koreksi ini; lanjut BD sesudah BC follow-up terdisposisi tanpa mengubah hasil historis.
+
+
+## Skenario GPT BC dibekukan sebelum run
+
+- `audit/scenarios/r12_bc_gpt/gpt_bc_followup.py` sha256 `35f9aaf22de529a1ac436001d38ddfc3a18111c33e36a9d79687bc0c7586d8c2`, commit `b4610dec0781885e1513cdcdd290963b88281022`: GBC-1 dua custody key dan kontrol penerimaan fisik baru. Helper writer hanya menyiapkan fixture/API; expected ditulis GPT pada oracle `34c74486…`. Bila sumber fisik tak punya ID yang bisa dipastikan sama, status wajib INCOMPLETE/NEEDS_SOURCE_IDENTITY_POLICY.
+- `audit/scenarios/r12_bc_gpt/gpt_bc_browser.mjs` sha256 `0fa516b3cd0a3cc165393b25c06bd947b456fbed7a39318aeb9f5f49d25f39a2`, commit `bd9ada10407af657b00a29599c6cd12384cdbf84`: GBC-2 halaman nota dengan UUID legacy aktif vs kontrol v4; modifikasi seed hanya di klon. Keterkaitan hosted belum diketahui.
+- Kedua berkas lulus `python -m py_compile` / `node --check`. GBC-3 filter lintas tab masih BELUM ditulis. Run/job belum ada; tidak ada PASS baru. Gate C6-07 HOLD, C6-08 UNVERIFIED; seluruh CP6 HOLD.
+
+**LANGKAH BERIKUTNYA:** dispatch satu workflow native pada head alat BC pinned `62d05c43b981dc031bca260e8b4809aadcd9a01c`; simpan run/job/per-kasus dan `primary_unchanged`. Jika tool atau fixture error, catat INCOMPLETE. Setelah GBC-1/2, tulis/dispatch GBC-3 atau dokumentasikan batasnya; jangan menaikkan BC ke ACCEPT hanya berdasarkan hasil orang lain.
