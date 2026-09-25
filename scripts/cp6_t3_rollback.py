@@ -398,6 +398,13 @@ def capture(out):
 STATE_TABLES="select c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and c.relkind in('r','p') and c.relname<>'schema_migrations' order by 1"
 FULL="select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(h,',' order by h),''),'UTF8'),'sha256'),'hex') from(select encode(extensions.digest(convert_to((to_jsonb(t))::text,'UTF8'),'sha256'),'hex') h from erp.%I t)s"
 STABLE="select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(h,',' order by h),''),'UTF8'),'sha256'),'hex') from(select encode(extensions.digest(convert_to((to_jsonb(t)-array['captured_at','boundary_snapshot'])::text,'UTF8'),'sha256'),'hex') h from erp.%I t)s"
+# Rows a release file seeds at install carry the install's own time and, for the event log, a generated id; a reinstall
+# writes new ones, like a capsule's capture time. Only these columns of the declared seeded tables are left out of the
+# reinstall comparison; every other column (key, status, value, version, set_by, reason, request_id) must be equal, and
+# the seed itself is checked by the release file (<KEY>_SEED_CHANGED / <KEY>_SEED_NOT_PENDING).
+SEED_INSTALL_TIME={'bc_policy_settings_v1':('set_at',),'bc_policy_setting_events_v1':('id','set_at')}
+assert set(SEED_INSTALL_TIME)=={t for f in awx.FILES for t in (f.get('seeded') or {})},'T3_ROLLBACK_SEEDED_TABLES_NOT_DECLARED'
+SEEDED="select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(h,',' order by h),''),'UTF8'),'sha256'),'hex') from(select encode(extensions.digest(convert_to((to_jsonb(t)-%s)::text,'UTF8'),'sha256'),'hex') h from erp.%I t)s"
 
 
 def state(url,block):
@@ -411,7 +418,10 @@ def state(url,block):
         full={};stable={}
         for t in tables:
             full[t]=list(cur.execute(sql.SQL(FULL.replace('%I','{}')).format(sql.Identifier(t))).fetchone())
-            stable[t]=list(cur.execute(sql.SQL((STABLE if t.endswith('_rollback_capsule') else FULL).replace('%I','{}')).format(sql.Identifier(t))).fetchone())
+            if t in SEED_INSTALL_TIME:
+                q=SEEDED.replace('%s',"array[%s]::text[]"%','.join("'%s'"%c for c in SEED_INSTALL_TIME[t]))
+            else:q=STABLE if t.endswith('_rollback_capsule') else FULL
+            stable[t]=list(cur.execute(sql.SQL(q.replace('%I','{}')).format(sql.Identifier(t))).fetchone())
         platform=[list(r) for r in cur.execute("select version,name,encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') "
                                                "from supabase_migrations.schema_migrations order by version").fetchall()]
         markers=[list(r) for r in cur.execute('select version,description from erp.schema_migrations order by version').fetchall()]
@@ -540,7 +550,7 @@ def cycle(out):
         before1,after1=install_all('reinstall')
         for k in ALL:
             d=diff(after0[k],after1[k],strict=False)
-            check('REINSTALL_%s_SAME_AS_FIRST_INSTALL'%k,not d,differences=d,compared='catalog, ledgers, rows (capsule capture time and boundary aside)')
+            check('REINSTALL_%s_SAME_AS_FIRST_INSTALL'%k,not d,differences=d,compared='catalog, ledgers, rows (capsule capture time and boundary, seeded rows install time and event id aside)')
         down(2,before1)
         check('CYCLE_2_ENDS_AT_AB',not diff(before0[ALL[0]],state(package.CLONE,block),strict=True))
         # Post-use matrix: each file installed, one committed business transaction, then its rollback must refuse and
