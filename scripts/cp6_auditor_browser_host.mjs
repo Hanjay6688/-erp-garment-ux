@@ -34,7 +34,7 @@ const phase = (process.env.AUDITOR_BROWSER_PHASE || 'after').toUpperCase(), toda
 const anon = process.env.SUPABASE_ANON_KEY, service = process.env.SUPABASE_SERVICE_ROLE_KEY
 assert.ok(script && db && out && anon && service, 'AUDITOR_BROWSER_ENVIRONMENT')
 assert.match(db, /\/cp6_auditor_browser$/, 'AUDITOR_BROWSER_ONLY_ON_ITS_COPY')
-const origin = 'http://127.0.0.1:4177', api = 'http://127.0.0.1:54328', restPort = 54329, authPort = 54321
+const origin = 'http://127.0.0.1:4176', api = 'http://127.0.0.1:54328', restPort = 54329, authPort = 54321
 const VOCABULARY = ['PASS', 'FAIL', 'COUNTEREXAMPLE', 'INCOMPLETE']
 const secrets = [anon, service], users = []
 const report = { status: 'INCOMPLETE', label: 'AUDITOR_SCENARIO', mode: 'BROWSER', phase, planned: [], cases: {}, console_errors: [],
@@ -104,7 +104,7 @@ async function start() {
   const safeEnv = Object.fromEntries(['PATH', 'HOME', 'CI', 'TMPDIR', 'RUNNER_TEMP', 'PLAYWRIGHT_BROWSERS_PATH'].filter(k => process.env[k]).map(k => [k, process.env[k]]))
   execFileSync('npm', ['run', 'build:cp6-disposable'], { env: { ...safeEnv, VITE_ERP_RUNTIME_MODE: 'DISPOSABLE_TEST', VITE_SUPABASE_URL: api,
     VITE_SUPABASE_ANON_KEY: anon }, stdio: ['ignore', 'pipe', 'pipe'] })
-  preview = spawn(resolve('node_modules/.bin/vite'), ['preview', '--outDir', 'cp6-ui-build', '--host', '127.0.0.1', '--port', '4177', '--strictPort'],
+  preview = spawn(resolve('node_modules/.bin/vite'), ['preview', '--outDir', 'cp6-ui-build', '--host', '127.0.0.1', '--port', '4176', '--strictPort'],
     { env: safeEnv, stdio: 'ignore' })
   await expect.poll(async () => { try { return (await fetch(origin)).status } catch { return 0 } }, { timeout: 30000 }).toBe(200)
   browser = await chromium.launch()
