@@ -1,5 +1,13 @@
 # CP6 audit — active round 8 checkpoint
 
+## QC rev6 IN_FLIGHT — Laundry sudah terbukti
+
+Run [36106777202](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36106777202), job **107980988537**, audit **a5a2d6eab8fd20b88ee27526ebdf8a273ec49bcd**. Dua kasus QC saja, tool9dd7bc2/produka095a9d. Manifest `audit/scenarios/unknown_round8/MANIFEST_rev6.json`. Laundry rev5 healthy/refetch20 PASS dan initial0 COUNTEREXAMPLE tetap bukti yang berlaku.
+
+LANGKAH BERIKUTNYA: kumpulkan QC healthy10 dan unknown/refetch10 beserta cleanup; catat raw status, kemudian perbarui bagian aktif laporan/progress/handoff/index. Tidak mengulang Laundry atau melabel ulang rev1–5. CP6 HOLD.
+
+
+
 ## Rev5: CP6-06 Laundry terkonfirmasi native; QC perlu fixture tanpa benturan nama
 
 Run **36106291785/job107979461548**, audit **a4b65b9**, LOG SHA256**c671cb4ee423900d2f4fb58679850ad756eda9d7b1eb463d584d32142bf99304**. Hasil **1PASS +1COUNTEREXAMPLE +2INCOMPLETE**.
