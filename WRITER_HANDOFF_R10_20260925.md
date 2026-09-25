@@ -37,10 +37,15 @@ Untuk revisi lampiran C6 (rev4) sebelum owner menandatangani D06, perbaiki teks 
 - GPT: `out/r9_acc_oracle.md`, `out/r9_lau_oracle.md`, `out/r9_all_oracle.md` (+ errata S01: Dr AR 70 / Cr OPENING_EQUITY 70).
 Writer memakai keduanya sebagai target; hasil PASS hanya dari run auditor pada head exact.
 
-## 5. Family BB (72bf53f → fbafa51)
+## 4a. Tambahan setelah uji sendiri Fable (12:10Z)
+- W7: Fable menguji 9 bentuk keluaran tidak sah (status di luar kosakata, None, huruf kecil, tanpa kunci, non-dict, exception) di cases/races/HTTP — semua INCOMPLETE dengan nilai asli dicatat. W7 tertutup penuh.
+- T3 rinci & rollback 127/127: dikonfirmasi dari log run Fable sendiri (bukan lagi klaim GPT).
+- Sen per-PO: varian berurutan (stok nol di antara penerimaan) PASS per PO di run Fable dan GPT; selisih 1 sen hanya pada stok bertumpuk. Pertanyaan kecil untuk owner/writer (P3): apakah HPP per PO boleh meleset 1 sen dari dokumen bahannya saat beberapa penerimaan bertumpuk (rata-rata bergerak)? Kontrak hanya menjamin total & per tanggal.
+
+## 5. Family BB (72bf53f → fbafa51 → db9e276)
 - Writer probe BB di 72bf53f gagal alat (`dict() got multiple values for keyword argument 'case'`, `scripts/cp6_bb_probe.py:325`) — diperbaiki writer di fbafa51 (per pesan commit). GPT menjalankan versi independen pada 72bf53f: after 25/25 PASS, before 20 NO_ROUTE + 2 COUNTEREXAMPLE + 3 PASS (run 36127700002).
 - **Temuan cakupan GPT (P2, disetujui Fable secara teks):** "BB plus ALL W05" terlalu luas — BB hanya menutup hutang vendor laundry (finansial); fisik 10 kirim/2 kembali/1 hilang, klaim, failed attempt, harga unknown belum ada. Labeli W05 PARTIAL sampai BD.
-- **Fable belum mengaudit BB.** Putaran BB Fable pada head fbafa51: review sumber `cp6_bb_objects_financial.sql`/`_purchase.sql` + `cp6_bb_t1_family.sql` (≈4.100 baris), skenario sendiri per keadaan ALL yang diklaim (P02, P03, S01, S03, A03, Y01, W05-finansial) memakai oracle pra-kode §4, race dua sesi, T2/T3/rollback BB. Mohon: head BB **final** (bukan per commit) + tabel kasus BB dengan ID ALL yang diklaim, agar auditor tidak mengejar head yang bergerak.
+- **Fable sudah menjalankan ulang BB pada db9e276** (run 36132268786, rev2 36132808005): PLAN writer 34/34 PASS (after) dan 34 NO_ROUTE + 2 COUNTEREXAMPLE + kontrol (before) — cocok dengan klaim; 5 kasus Fable tambahan (arah jurnal S01, pelunasan tepat lalu 0,01 ditolak, dua parsial reverse-pertama, balance batch lain ditolak, P03 tanpa kewajiban ganda). Yang belum: race dua sesi pada satu balance, HTTP/UI, T2/T3/rollback BB, family BC–BE. Sisa putaran BB Fable: review sumber `cp6_bb_objects_financial.sql`/`_purchase.sql` + `cp6_bb_t1_family.sql` (≈4.100 baris), skenario sendiri per keadaan ALL yang diklaim (P02, P03, S01, S03, A03, Y01, W05-finansial) memakai oracle pra-kode §4, race dua sesi, T2/T3/rollback BB. Mohon: head BB **final** (bukan per commit) + tabel kasus BB dengan ID ALL yang diklaim, agar auditor tidak mengejar head yang bergerak.
 
 ## 6. Batas
 Baca saja; tidak ada push ke cabang writer; tidak ada SQL ke hosted; tidak menyentuh main/competition/production/legacy. Skenario GPT dipakai ulang hanya sebagai file beku; hasil GPT dibaca setelah fase independen Fable selesai.

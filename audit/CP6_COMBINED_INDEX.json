@@ -1426,7 +1426,7 @@
  },
  "findings_status_r9": {
   "W2": "CLOSED",
-  "W7": "CLOSED",
+  "W7": "CLOSED_FULL_9_INVALID_OUTPUT_FORMS",
   "W8": "CLOSED_NOTED_P3_PER_PO_CENT",
   "W9": "CLOSED",
   "W10": "CLOSED",
@@ -1435,7 +1435,8 @@
   "LAU_T14": "CLOSED",
   "CP6_01_browser": "CONFIRMED_12",
   "C0": "25_of_25",
-  "verdict": "HOLD_audit_complete_false_production_go_false"
+  "verdict": "HOLD_audit_complete_false_production_go_false",
+  "W8_per_po_cent": "OPEN_P3_MIXED_STOCK_ONLY_STAGGERED_PASS"
  },
  "fable_crossreview_gpt_r9": {
   "doc": "out/fable_crossreview_gpt_r9.md",
@@ -1461,10 +1462,17 @@
  },
  "candidate_bb": {
   "writer_heads": [
-   "72bf53f8d808e18fd3e2866491f28667c1b6193d",
-   "fbafa51"
+   "72bf53f",
+   "fbafa51",
+   "db9e276"
   ],
-  "fable_status": "NOT_YET_AUDITED",
+  "fable_runs": {
+   "bb_t1_rev1": 36132268786,
+   "bb_t1_rev2": 36132808005,
+   "w7_tool_probe": 36132001602,
+   "xaudit_8_rev3_staggered": 36132361821
+  },
+  "fable_status": "T1_CONFIRMED_ON_db9e276_writer_34_of_34; fable extra 4/4 (+P03 rev2 pending)",
   "gpt_t1_on_72bf53f": "25_of_25_after_PASS_run_36127700002"
  }
 }
