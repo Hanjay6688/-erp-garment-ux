@@ -1368,8 +1368,8 @@
       "name": "erp_v2_6_20ba_cp6_audit_closure",
       "closed_admission": true,
       "source": "supabase/release/cp6-t3-src/20260925010000_erp_v2_6_20ba_cp6_audit_closure.sql",
-      "source_sha256": "3c10c1c50625191b8bbdbb47d883dd6d6eef6a4e17a7271cbdfe518539ddef3d",
-      "package_sha256": "135facce6b15b80cd2df8dbeb4c7cf8b1c818c0a14252aff5766e951ac1d7cd0",
+      "source_sha256": "63f80c2299c5c024c2ea45cefe2cb9da330bb3ffc84baedcbd56683c1a86f49b",
+      "package_sha256": "899296bbcc07cb1ed50ae85264a92b42c1e088fa08dc4f743676f6138e9acd8e",
       "substitutions": [
         {
           "kind": "LEDGER",
@@ -1578,8 +1578,8 @@
   "release_evidence": false,
   "rollbacks": "NOT_TESTED",
   "pins": {
-    "file": "docs/evidence/cp6-t3/release_pins.json",
-    "blob_sha256": "d61ef045217b386a4de577617c30f605881066f1bdaa700b27c7159af7fd3b1b",
+    "file": "../../../tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/pins_b6d81f9.txt",
+    "blob_sha256": "15aa4a854d5a9c13cb68eeb845b872be238b1ae8c2ac43f10579f13dd9d4ff17",
     "blob_bytes": 74975
   }
 }
