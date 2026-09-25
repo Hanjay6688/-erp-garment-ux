@@ -1,4 +1,4 @@
-"""T2 regression for the combined CP6 candidate: AU + AV + AW, AX, AY, AZ, BA, BB and BC (T1 installs).
+"""T2 regression for the combined CP6 candidate: AU + AV + AW, AX, AY, AZ, BA, BB, BC and BD (T1 installs).
 
 Owner decision A+B: once every family passes its T1 probe, the whole existing regression runs once on the combined
 candidate, then goes to independent audit. The case declarations, oracles and race schedules are the unchanged ones
@@ -21,6 +21,8 @@ for that whole range before the closing date is put back; any refused step or a 
 (its cases are not run). The run-3 side channel is opt-in (CP6_T2_DIAG=1) and reads inside a savepoint that is rolled
 back, so the case starts in the session state it had without it.
 
+BD (25 Sep, owner: every CR in CP6): the candidate also includes BD, priced laundry deliveries, vendor invoices, the laundry
+policy settings pending by default and ALL-W05 (scripts/cp6_bd_build.py).
 BC (25 Sep, owner: every CR in CP6): the candidate also includes BC, the accessory service, return and inspection
 workflow with its owner policy settings pending by default (scripts/cp6_bc_build.py).
 BB (25 Sep, owner: every ALL state in CP6): the candidate also includes BB, the open cutover states of ALL (opening
@@ -75,6 +77,7 @@ import cp6_az_probe as azp
 import cp6_ba_probe as bap
 import cp6_bb_probe as bbp
 import cp6_bc_probe as bcp
+import cp6_bd_probe as bdp
 import cp6_regression_identity as identity
 
 LABEL=os.environ.get('CP6_T2_LABEL','T2_PRELIMINARY')
@@ -358,12 +361,12 @@ def change(kind,pg,control_url):
     independent audit's product fixes, 25 Sep 2026)."""
     assert kind=='install'
     av=av_runtime.change('install',pg,control_url)
-    aw=awp.install_aw();ax=axp.install_ax();ay=ayp.install_ay();az=azp.install_az();ba=bap.install_ba();bb=bbp.install_bb();bc=bcp.install_bc()
-    return dict(status='PASS' if av['status']=='PASS' else 'FAIL',av=av['status'],aw=aw,ax=ax,ay=ay,az=az,ba=ba,bb=bb,bc=bc)
+    aw=awp.install_aw();ax=axp.install_ax();ay=ayp.install_ay();az=azp.install_az();ba=bap.install_ba();bb=bbp.install_bb();bc=bcp.install_bc();bd=bdp.install_bd()
+    return dict(status='PASS' if av['status']=='PASS' else 'FAIL',av=av['status'],aw=aw,ax=ax,ay=ay,az=az,ba=ba,bb=bb,bc=bc,bd=bd)
 
 
 # The trial modules read `runtime`; point them at the combined candidate without touching their code.
-avt.runtime=types.SimpleNamespace(change=change,verified=bcp.bc_verified,pins=av_runtime.pins,
+avt.runtime=types.SimpleNamespace(change=change,verified=bdp.bd_verified,pins=av_runtime.pins,
                                   qualify=None,refuse_post_use=None)
 
 
@@ -375,7 +378,7 @@ def ar_phase(report):
     seq=avt.group('AR_SEQUENTIAL',avt.ar_sequential)
     report['sequential']={k:seq[k] for k in ('status','counts')}
     with avt.psycopg.connect(avt.ADMIN) as conn,conn.cursor() as cur:
-        bcp.bc_verified(cur)
+        bdp.bd_verified(cur)
         today=cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date").fetchone()[0]
     races=[]
     for kind in avt.inherited.KINDS:
@@ -655,7 +658,7 @@ def c0_oracle_group():
 
     saved=runner.r1.OUT;runner.r1.OUT=avt.OUT   # the group's JSON goes with the T2 artifact
     try:
-        group=runner.strict_group('T2_C0_ORACLE',cases,bcp.bc_verified)
+        group=runner.strict_group('T2_C0_ORACLE',cases,bdp.bd_verified)
     finally:
         runner.r1.OUT=saved
     return dict(status=group['status'],counts=group.get('counts'),final=group.get('final'),planned=len(group.get('planned_case_ids') or []),

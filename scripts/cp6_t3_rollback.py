@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""T3 rollback of the whole release package, AC..BC: pre-use only, exact restore, reverse order.
+"""T3 rollback of the whole release package, AC..BD: pre-use only, exact restore, reverse order.
 
 AW..BA exist only as files of the combined release package (supabase/release/cp6-t3); each keeps a private rollback
 capsule of the functions it replaces and a before/after hash of every erp table and of both ledgers, but the package
@@ -43,7 +43,7 @@ import cp6_t3_rollback_acav as acav
 RELEASE=ROOT/'supabase/release/cp6-t3'
 OUTDIR=ROOT/'supabase/release/cp6-t3-rollbacks'
 CAPTURE=ROOT/'docs/evidence/cp6-t3/rollback_capture.json'
-KEYS=['AW','AX','AY','AZ','BA','BB','BC']
+KEYS=['AW','AX','AY','AZ','BA','BB','BC','BD']
 # AC..AV: release variants of the reviewed test-chain rollbacks (scripts/cp6_t3_rollback_acav.py); AW..BA: built here from
 # the capture. ALL is the whole package in install order.
 ALL=acav.KEYS+KEYS

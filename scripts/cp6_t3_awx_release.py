@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""T3: AW, AX, AY, AZ, BA, BB and BC as release candidates of the combined package, with the AO..AV guard set.
+"""T3: AW, AX, AY, AZ, BA, BB, BC and BD as release candidates of the combined package, with the AO..AV guard set.
 
 AW (close readiness engine) and AX (finished goods without a production source) passed T1 as development files
 (supabase/dev/cp6_aw_t1_family.sql, cp6_ax_t1_family.sql). This builder wraps each T1 body unchanged (only the ledger
@@ -31,6 +31,7 @@ import cp6_t3_release_package as package
 import cp6_ba_build as ba
 import cp6_bb_build as bb
 import cp6_bc_build as bc
+import cp6_bd_build as bd
 
 SRC=ROOT/'supabase/release/cp6-t3-src'
 MIGRATIONS=ROOT/'supabase/migrations'
@@ -84,6 +85,18 @@ FILES=[
                      " or exists(select 1 from erp.bc_policy_setting_events_v1 where status<>'PENDING_POLICY_VALUE' or value is not null or version<>1)"
                      " or (select array_agg(policy_key order by policy_key) from erp.bc_policy_settings_v1) is distinct from"
                      " array['ACC_DEC01','ACC_DEC03','ACC_DEC04','ACC_DEC05','ACC_DEC06','ACC_DEC07','ERP_DEC02']::text[]")),
+    # BD adds no column; it seeds its six laundry policy settings as PENDING_POLICY_VALUE (fail-closed defaults, no value), puts
+    # one guard trigger on erp.laundry_receipts (a billed receipt cannot be reversed) and adds the ALL-W05 tables; every other
+    # new table stays empty.
+    dict(key='BD',stamp='20260925040000',name='erp_v2_6_20bd_cp6_laundry_prices_invoices',version=bd.VERSION,
+         body=ROOT/'supabase/dev/cp6_bd_t1_family.sql',title='priced laundry deliveries, vendor invoices and owner laundry policy settings (LAU-05b, LAU-DEC01..06, ALL-W05)',
+         description='Priced laundry deliveries (package, components, lump sum, minimum, scoped rates), vendor invoices, laundry policy settings pending by default, opening laundry claims and uninvoiced returns',
+         replaced=list(bd.REPLACED),new_tables=list(bd.NEW_TABLES),
+         seeded={'bd_policy_settings_v1':6,'bd_policy_setting_events_v1':6},
+         seed_check=("exists(select 1 from erp.bd_policy_settings_v1 where status<>'PENDING_POLICY_VALUE' or value is not null or version<>1 or set_by is not null)"
+                     " or exists(select 1 from erp.bd_policy_setting_events_v1 where status<>'PENDING_POLICY_VALUE' or value is not null or version<>1)"
+                     " or (select array_agg(policy_key order by policy_key) from erp.bd_policy_settings_v1) is distinct from"
+                     " array['LAU_DEC01','LAU_DEC02','LAU_DEC03','LAU_DEC04','LAU_DEC05','LAU_DEC06']::text[]")),
 ]
 PLACEHOLDER='0'*64
 # The package capsules AO..AV (AO..AW for AX) are checked like AV checks AO..AU; the capsules of this builder are left out
