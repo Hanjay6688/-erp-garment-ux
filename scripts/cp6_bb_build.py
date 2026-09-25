@@ -32,6 +32,18 @@ runs (AP, AR, AC migrations and the BA T1 file) with checked substitutions only,
      (erp.sync_material_purchase_grni_on_status and the AP_OPENING_RECEIPT_* detectors) covers only the unbilled part; the
      invoiced money stays the imported document, settled by OPENING_SETTLEMENT. erp.check_initial_import_receipt_v1 and
      erp.apply_initial_import_receipts_v1 carry the part.
+  P04 (ALL-P04) purchase orders open at cutover: new file OPEN_PURCHASE_ORDER (ordered, received and cancelled before cutover,
+     remaining) makes a commitment registry and one native DRAFT receipt per order for the remaining quantity; nothing is
+     received, costed or journaled at import. A trigger on erp.material_purchase_headers keeps such a draft from being deleted
+     or changing supplier and refuses its posting before cutover, for a material the order lacks or over the remaining
+     quantity (cancellations and posted receipts counted, reversed receipts not). Action PURCHASE_COMMITMENT cancels a
+     remainder or reopens it as a new draft.
+  Y02 (ALL-Y02) earned but unapproved work before cutover: new file OPENING_PAYROLL_ENTITLEMENT (sewing work with earned,
+     paid and carried quantity and rate; attendance period, days and rate; GOOD/BOM reimbursement) keeps the detail and names
+     the imported CONTRACTOR_PAYABLE document carrying its money (paid through payroll like Y01; Afui-type contractors without
+     attendance are refused attendance, a contractor with native work or attendance before cutover is refused). A carried
+     component is paid later through an OPENING_CARRY payroll line (action PAYROLL_ENTITLEMENT ALLOCATE_CARRY), recognized by
+     the ordinary approval and never above the carried quantity.
   F6 erp.assert_new_stock_cutoff_coverage_v1 (BA's version): the two new product references are classified (a return right
      is a SOURCE_DOCUMENT whose stock fact is the RETURN lot validated as NEW_STOCK at receipt; a receipt is DERIVED).
 Label T1_FAMILY: development install on the disposable chain AN -> AU -> AV -> AW..BA, not a release package.
@@ -49,12 +61,12 @@ AC=ROOT/'supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_c
 BA=ROOT/'supabase/dev/cp6_ba_t1_family.sql'
 CATALOG=ROOT/'src/initialImportCatalog.json'
 CATALOG_BB=ROOT/'src/initialImportCatalogBB.json'
-OBJECTS=[ROOT/'scripts/cp6_bb_objects_financial.sql',ROOT/'scripts/cp6_bb_objects_purchase.sql']
+OBJECTS=[ROOT/'scripts/cp6_bb_objects_financial.sql',ROOT/'scripts/cp6_bb_objects_purchase.sql',ROOT/'scripts/cp6_bb_objects_labour.sql']
 FIXTURE=ROOT/'supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz'
 OUT=ROOT/'supabase/dev/cp6_bb_t1_family.sql'
 VERSION='v2.6.20bb'
-NEW_ENTITIES=['LEGACY_DOCUMENT','OPENING_CUSTOMER_CREDIT','OPENING_SALE_RETURN']
-NEW_ACTIONS=['OPENING_SETTLEMENT','CUSTOMER_CREDIT','OPENING_RETURN']
+NEW_ENTITIES=['LEGACY_DOCUMENT','OPENING_CUSTOMER_CREDIT','OPENING_SALE_RETURN','OPEN_PURCHASE_ORDER','OPENING_PAYROLL_ENTITLEMENT']
+NEW_ACTIONS=['OPENING_SETTLEMENT','CUSTOMER_CREDIT','OPENING_RETURN','PURCHASE_COMMITMENT','PAYROLL_ENTITLEMENT']
 
 # ---------------------------------------------------------------- F1 erp.post_opening_subledger_settlement (AP)
 OSS_HEAD='CREATE OR REPLACE FUNCTION erp.post_opening_subledger_settlement(p_settlement_id uuid)'
@@ -135,11 +147,13 @@ REV_HEAD='CREATE OR REPLACE FUNCTION erp.initial_import_revision_v1(p_batch_id u
 REV_OLD="""     where h.migration_batch_id=p_batch_id),'[]'::jsonb)
  )::text"""
 REV_NEW="""     where h.migration_batch_id=p_batch_id),'[]'::jsonb),
-   'bb',erp.bb_financial_revision_part_v1(p_batch_id)
+   'bb',erp.bb_financial_revision_part_v1(p_batch_id),
+   'bb_purchase',erp.bb_purchase_revision_part_v1(p_batch_id),
+   'bb_labour',erp.bb_labour_revision_part_v1(p_batch_id)
  )::text"""
 WS_HEAD='CREATE OR REPLACE FUNCTION erp.get_initial_import_workspace_v1(p_batch_id uuid DEFAULT NULL)'
 WS_OLD='   ) into v_batch;\n end if;'
-WS_NEW='   ) into v_batch;\n   -- BB: opening balances with their settlements and payroll lines, customer credits, return rights, legacy documents.\n   v_batch:=v_batch||erp.bb_financial_workspace_v1(b.id);\n end if;'
+WS_NEW='   ) into v_batch;\n   -- BB: opening balances with their settlements and payroll lines, customer credits, return rights, legacy documents.\n   v_batch:=v_batch||erp.bb_financial_workspace_v1(b.id)||erp.bb_purchase_workspace_v1(b.id)||erp.bb_labour_workspace_v1(b.id);\n end if;'
 STAGE_HEAD='CREATE OR REPLACE FUNCTION erp.stage_migration_row(p_batch_id uuid, p_entity_type text, p_source_row_no integer, p_legacy_key text, p_source_payload jsonb, p_normalized_payload jsonb)'
 STAGE_OLD="'LAUNDRY_VENDOR','LOCATION','CHART_ACCOUNT','CASH_ACCOUNT') then\n    raise exception 'Unsupported migration entity_type %',v_type;"
 STAGE_NEW="'LAUNDRY_VENDOR','LOCATION','CHART_ACCOUNT','CASH_ACCOUNT',"+','.join("'%s'"%e for e in NEW_ENTITIES)+") then\n    raise exception 'Unsupported migration entity_type %',v_type;"
@@ -156,7 +170,7 @@ ROUTER_ACTIONS_NEW="if v_action is null or v_action not in('CREATE','SAVE_FILE',
 ROUTER_LOCK_OLD="if v_action in('FINALIZE','WIP_OUTPUT') then\n   perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));"
 ROUTER_LOCK_NEW="if v_action in('FINALIZE','WIP_OUTPUT','OPENING_RETURN') then\n   perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));"
 ROUTER_BRANCH_OLD=" elsif v_action='PREPAYMENT' then\n"
-ROUTER_BRANCH_NEW=""" elsif v_action in('OPENING_SETTLEMENT','CUSTOMER_CREDIT','OPENING_RETURN') then
+ROUTER_BRANCH_NEW=""" elsif v_action in('OPENING_SETTLEMENT','CUSTOMER_CREDIT','OPENING_RETURN','PURCHASE_COMMITMENT','PAYROLL_ENTITLEMENT') then
    -- BB: continuations of a posted import (ALL-P02/S01/S03/Y01), one transaction and one request identity each.
    v_batch:=(p_payload->>'batch_id')::uuid;
    select * into b from erp.migration_batches where id=v_batch for update;
@@ -165,6 +179,8 @@ ROUTER_BRANCH_NEW=""" elsif v_action in('OPENING_SETTLEMENT','CUSTOMER_CREDIT','
      raise exception 'STALE_VERSION: saldo impor berubah; muat ulang sebelum melanjutkan';end if;
    v_result:=case v_action when 'OPENING_SETTLEMENT' then erp.bb_manage_opening_settlement_v1(p_payload,p_client_request_id)
      when 'CUSTOMER_CREDIT' then erp.bb_manage_customer_credit_v1(p_payload,p_client_request_id)
+     when 'PURCHASE_COMMITMENT' then erp.bb_manage_purchase_commitment_v1(p_payload,p_client_request_id)
+     when 'PAYROLL_ENTITLEMENT' then erp.bb_manage_payroll_entitlement_v1(p_payload,p_client_request_id)
      else erp.bb_manage_opening_sale_return_v1(p_payload,p_client_request_id) end;
    v_result:=v_result||jsonb_build_object('request_id',p_client_request_id,'action',v_action,'batch_id',v_batch,'status','POSTED',
      'revision',erp.initial_import_revision_v1(v_batch));
@@ -176,9 +192,9 @@ ROUTER_NUMERIC_NEW="if v_field in('qty','opening_qty','unit_cost','amount','orig
 ROUTER_PRECISION_OLD="if (v_field in('amount','original_amount','settled_before_cutover') and v_number<>round(v_number,2))"
 ROUTER_PRECISION_NEW="if (v_field in('amount','original_amount','settled_before_cutover','credit_unit_price') and v_number<>round(v_number,2))"
 ROUTER_VALIDATE_OLD='     perform erp.validate_initial_prepayments_v1(b.id);\n'
-ROUTER_VALIDATE_NEW=ROUTER_VALIDATE_OLD+'     perform erp.bb_validate_financial_imports_v1(b.id);\n'
+ROUTER_VALIDATE_NEW=ROUTER_VALIDATE_OLD+'     perform erp.bb_validate_financial_imports_v1(b.id);\n     perform erp.bb_validate_purchase_imports_v1(b.id);\n     perform erp.bb_validate_labour_imports_v1(b.id);\n'
 ROUTER_APPLY_OLD='       perform erp.apply_initial_prepayments_v1(b.id);\n'
-ROUTER_APPLY_NEW=ROUTER_APPLY_OLD+'       perform erp.bb_apply_financial_imports_v1(b.id);\n'
+ROUTER_APPLY_NEW=ROUTER_APPLY_OLD+'       perform erp.bb_apply_financial_imports_v1(b.id);\n       perform erp.bb_apply_purchase_imports_v1(b.id);\n       perform erp.bb_apply_labour_imports_v1(b.id);\n'
 
 # ---------------------------------------------------------------- P03 one receipt, part invoiced before cutover
 # Native purchase helpers restored from the CP4.5a catalog fixture (their current text; v2.6.20q edited the match refresh
@@ -263,6 +279,12 @@ CHECKS_HEAD='CREATE OR REPLACE FUNCTION erp.run_v267_financial_truth_checks()'
 CHECKS_SOURCE_OLD="(ca.id is null and erp.initial_prepayment_account_v1(x.id) is null)"
 CHECKS_SOURCE_NEW="(ca.id is null and erp.initial_prepayment_account_v1(x.id) is null and erp.bb_opening_credit_account_v1(x.id) is null)"
 CHECKS_ACCOUNT_OLD="coalesce(erp.initial_prepayment_account_v1(x.id),ca.coa_account_id)"
+# V2620M_OPENING_SUBLEDGER_STATE: the settled amount also counts the imported contractor payables paid by a PAID payroll
+# (ALL-Y01 OPENING_PAYABLE lines), exactly like the cash advance deductions of AP; nothing else of the check changes.
+CHECKS_STATE_OLD=("      where d.opening_cash_advance_balance_id=b.id and p.status='PAID'),0) paid) x")
+CHECKS_STATE_NEW=("      where d.opening_cash_advance_balance_id=b.id and p.status='PAID'),0)\n"
+  "    +coalesce((select sum(r.amount) from erp.payroll_reimbursements r join erp.payroll_settlements p on p.id=r.payroll_id\n"
+  "      where r.opening_payable_balance_id=b.id and p.status='PAID'),0) paid) x")
 CHECKS_ACCOUNT_NEW="coalesce(erp.initial_prepayment_account_v1(x.id),erp.bb_opening_credit_account_v1(x.id),ca.coa_account_id)"
 
 REPLACED=['erp.post_opening_subledger_settlement(uuid)','erp.post_opening_financial_correction(uuid,numeric,text,date)',
@@ -273,7 +295,8 @@ REPLACED=['erp.post_opening_subledger_settlement(uuid)','erp.post_opening_financ
           'erp.assert_new_stock_cutoff_coverage_v1()','erp.material_purchase_posted_invoice_qty(uuid)',
           'erp.material_purchase_current_unit_cost(uuid)','erp.refresh_material_purchase_item_match_state(uuid)',
           'erp.sync_material_purchase_grni_on_status()','erp.check_initial_import_receipt_v1(uuid,uuid)','erp.apply_initial_import_receipts_v1(uuid)']
-NEW_TABLES=['bb_receipt_invoiced_parts_v1','bb_legacy_documents_v1','bb_customer_credits_v1','bb_customer_credit_events_v1','bb_opening_sale_return_rights_v1',
+NEW_TABLES=['bb_payroll_entitlements_v1','bb_purchase_commitments_v1','bb_purchase_commitment_lines_v1','bb_purchase_commitment_drafts_v1',
+            'bb_purchase_commitment_cancellations_v1','bb_receipt_invoiced_parts_v1','bb_legacy_documents_v1','bb_customer_credits_v1','bb_customer_credit_events_v1','bb_opening_sale_return_rights_v1',
             'bb_opening_sale_return_receipts_v1','bb_opening_credits_v1']
 
 
@@ -350,7 +373,8 @@ def build():
     stage=function(AP,STAGE_HEAD,[(STAGE_OLD,STAGE_NEW)])
     base=function(AP,BASE_HEAD,[(BASE_OLD,BASE_NEW)])
     final=function(AP,FINAL_HEAD,[(FINAL_OLD,FINAL_NEW)])
-    checks=function(AP,CHECKS_HEAD,[(CHECKS_SOURCE_OLD,CHECKS_SOURCE_NEW),(CHECKS_GRNI_OLD,CHECKS_GRNI_NEW),(CHECKS_COST_OLD,CHECKS_COST_NEW)])
+    checks=function(AP,CHECKS_HEAD,[(CHECKS_SOURCE_OLD,CHECKS_SOURCE_NEW),(CHECKS_GRNI_OLD,CHECKS_GRNI_NEW),(CHECKS_COST_OLD,CHECKS_COST_NEW),
+                                    (CHECKS_STATE_OLD,CHECKS_STATE_NEW)])
     assert checks.count(CHECKS_ACCOUNT_OLD)==2,'BB_CHECKS_ACCOUNT_SITES'
     checks=checks.replace(CHECKS_ACCOUNT_OLD,CHECKS_ACCOUNT_NEW)
     cover=function(BA,COVER_HEAD,[(COVER_OLD,COVER_NEW)])

@@ -8,6 +8,7 @@ name: CP6 BB T1 Family Probe
     - scripts/cp6_bb_build.py
     - scripts/cp6_bb_objects_financial.sql
     - scripts/cp6_bb_objects_purchase.sql
+    - scripts/cp6_bb_objects_labour.sql
     - src/initialImportCatalogBB.json
     - scripts/cp6_layers.py
     - supabase/dev/cp6_bb_t1_family.sql

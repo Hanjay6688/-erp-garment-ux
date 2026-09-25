@@ -562,6 +562,7 @@ def y01_payroll(cur,today):
     paid=dict(bank=bank(cur,fx)-before_bank,upah=balance_row(cur,fx,'UPAH-OLD')[2],reimb=balance_row(cur,fx,'REIMB-OLD')[2],
               kasbon=balance_row(cur,fx,'KASBON-OLD')[2])
     net=cur.execute('select net_payable from erp.payroll_settlements where id=%s',(p,)).fetchone()[0]
+    paid_clean,paid_detectors=truth_clean(cur)
     cur.execute('grant usage on schema erp to authenticated');bap.api.ordinary(cur)
     cur.execute('select erp.reverse_paid_payroll(%s,%s)',(p,'BB probe payroll reversal'));api.admin(cur)
     restored=dict(bank=bank(cur,fx)-before_bank,upah=balance_row(cur,fx,'UPAH-OLD')[2],reimb=balance_row(cur,fx,'REIMB-OLD')[2],
@@ -569,10 +570,10 @@ def y01_payroll(cur,today):
     clean,detectors=truth_clean(cur)
     return verdict(dict(net_30=net==D('30.00'),no_second_accrual=accruals==0,bank_minus_30=paid['bank']==D('-30.00'),
                         payables_settled=paid['upah']==0 and paid['reimb']==0,advance_settled=paid['kasbon']==0,
-                        reserved_cash_settle_refused=over['ok'],
+                        reserved_cash_settle_refused=over['ok'],detectors_zero_when_paid=paid_clean,
                         restored=restored==dict(bank=D(0),upah=D('40.00'),reimb=D('20.00'),kasbon=D('30.00')),
                         ledger_restored=moved(before,gl(cur))=={},detectors_zero=clean),
-                   paid={k:str(v) for k,v in paid.items()},restored={k:str(v) for k,v in restored.items()},net=str(net),detectors=detectors,
+                   paid={k:str(v) for k,v in paid.items()},restored={k:str(v) for k,v in restored.items()},net=str(net),detectors=[paid_detectors,detectors],
                    journals=journal_types(cur,start))
 
 
@@ -695,6 +696,216 @@ def p03_refusal(cur,today,variant):
         return verdict(dict(refused_at_validation=expected in str(exc)),variant=variant,errors=str(exc)[:1500])
 
 
+# ---------------------------------------------------------------- P04: purchase orders open at cutover
+
+def p04_rows(cutover,ordered='10',received='0',cancelled='0',remaining='10'):
+    return {'SUPPLIER':[dict(supplier_code='{C}',supplier_name='BB P04 supplier',supplier_type='MATERIAL')],
+            'LOCATION':[dict(location_code='{C}',location_name='BB P04 gudang',location_type='RAW_MATERIAL_WAREHOUSE')],
+            'MATERIAL':[dict(material_sku='{C}',material_name='BB P04 benang',material_type='OTHER',unit_code='PCS')],
+            'OPEN_PURCHASE_ORDER':[dict(po_number='PO-{C}',po_line_number='1',po_date=str(cutover-timedelta(days=5)),supplier_code='{C}',
+                                        location_code='{C}',material_sku='{C}',ordered_qty=ordered,received_before_cutover_qty=received,
+                                        cancelled_before_cutover_qty=cancelled,remaining_qty=remaining,unit_price='3')]}
+
+
+def p04_draft(cur,batch):
+    commitment=ws(cur,batch)['purchase_commitments'][0]
+    drafts=[d for d in commitment['drafts'] if d['status']=='DRAFT']
+    return commitment,(drafts[0] if drafts else None)
+
+
+def p04_save(cur,draft,material,supplier,location,qty,at):
+    payload=dict(id=draft['purchase_id'],purchase_number=draft['purchase_number'],supplier_id=supplier,physical_at=at,location_id=location,
+                 change_reason='BB P04 real receipt',lines=[dict(material_id=material,qty=str(qty),unit_price='3')])
+    return receipt_trial.rpc(api,cur,'save_material_purchase_draft_v2',json.dumps(payload,default=str),uuid.uuid4(),int(draft['row_version']))
+
+
+def p04_post(cur,purchase):
+    api.admin(cur)
+    version=cur.execute('select row_version from erp.material_purchase_headers where id=%s',(purchase,)).fetchone()[0]
+    return receipt_trial.rpc(api,cur,'post_material_purchase_v2',purchase,uuid.uuid4(),version,'BB P04 post receipt')
+
+
+def p04_cycle(cur,today):
+    """ALL-P04 (auditor: "Define an unreceived purchase order and a partially received draft at cutover; map remaining quantity,
+    original identity, approval and cancellation without receiving stock again")."""
+    cutover=today-timedelta(days=10);rows=p04_rows(cutover)
+    if not bb_installed(cur):
+        code='BB'+uuid.uuid4().hex[:12]
+        batch=api.call(cur,'CREATE',dict(batch_code=code,cutover_date=str(cutover)))['batch_id']
+        line={k:(v.replace('{C}',code) if isinstance(v,str) else v) for k,v in rows['OPEN_PURCHASE_ORDER'][0].items()}
+        return no_route(cur,lambda:api.upload(cur,batch,'OPEN_PURCHASE_ORDER',[line]))
+    before=gl(cur)
+    batch,code,cutover=post_batch(cur,today,rows)
+    api.admin(cur)
+    supplier,material,location=[str(x) for x in cur.execute('''select s.id,m.id,l.id from erp.suppliers s,erp.materials m,erp.locations l
+        where s.supplier_code=%s and m.material_sku=%s and l.location_code=%s''',(code,code,code)).fetchone()]
+    stock=lambda:cur.execute('select coalesce(sum(qty_signed),0) from erp.material_stock_movements where material_id=%s',(material,)).fetchone()[0]
+    import_delta=moved(before,gl(cur));stock_import=stock()
+    commitment,draft=p04_draft(cur,batch)
+    draft_qty=cur.execute('select sum(qty) from erp.material_purchase_items where purchase_id=%s',(draft['purchase_id'],)).fetchone()[0]
+    now_at=str(now(cur))
+    p04_save(cur,draft,material,supplier,location,6,now_at);p04_post(cur,draft['purchase_id'])
+    api.admin(cur);after_first=moved(before,gl(cur));stock_first=stock()
+    remaining_first=p04_draft(cur,batch)[0]['lines'][0]['remaining_qty']
+    act(cur,'PURCHASE_COMMITMENT',batch,operation='REOPEN_REMAINDER',commitment_id=commitment['id'],reason='BB P04 remainder')
+    _,reopened=p04_draft(cur,batch)
+    reopened_qty=cur.execute('select sum(qty) from erp.material_purchase_items where purchase_id=%s',(reopened['purchase_id'],)).fetchone()[0]
+    p04_save(cur,reopened,material,supplier,location,5,now_at);_,reopened=p04_draft(cur,batch)
+    over=refused(cur,lambda:p04_post(cur,reopened['purchase_id']),'P04_EXCEEDS_REMAINING')
+    p04_save(cur,reopened,material,supplier,location,4,str(cutover-timedelta(days=1))+'T10:00:00+07:00');_,reopened=p04_draft(cur,batch)
+    early=refused(cur,lambda:p04_post(cur,reopened['purchase_id']),'P04_BEFORE_CUTOVER')
+    act(cur,'PURCHASE_COMMITMENT',batch,operation='CANCEL',commitment_id=commitment['id'],line_id=commitment['lines'][0]['id'],qty='4',
+        effective_date=str(today),reason='BB P04 supplier cannot deliver the rest')
+    p04_save(cur,reopened,material,supplier,location,4,now_at);_,reopened=p04_draft(cur,batch)
+    after_cancel=refused(cur,lambda:p04_post(cur,reopened['purchase_id']),'P04_EXCEEDS_REMAINING')
+    delete=refused(cur,lambda:(api.admin(cur),cur.execute('delete from erp.material_purchase_headers where id=%s',(reopened['purchase_id'],))),'P04_DELETE_USE_CANCEL')
+    receipt_trial.rpc(api,cur,'reverse_material_purchase',draft['purchase_id'],'BB P04 reverse the receipt')
+    remaining_reversed=p04_draft(cur,batch)[0]['lines'][0]['remaining_qty']
+    api.admin(cur);stock_reversed=stock();detectors=detectors_ok(cur)
+    grni=account(cur,'GRNI_MATERIAL');inventory=account(cur,'MATERIAL_INVENTORY')
+    return verdict(dict(nothing_posted_at_import=import_delta=={} and stock_import==0,draft_for_remaining=draft_qty==10,
+                        receive_six=stock_first==6 and after_first.get(grni)=='-18.00' and after_first.get(inventory)=='18.00',
+                        remaining_four=D(remaining_first)==4,reopened_four=reopened_qty==4,over_remaining_refused=over['ok'],
+                        before_cutover_refused=early['ok'],after_cancel_refused=after_cancel['ok'],delete_refused=delete['ok'],
+                        reversal_restores_remaining=D(remaining_reversed)==6 and stock_reversed==0,detectors_zero=detectors is True),
+                   import_delta=import_delta,after_first=after_first,remaining=[remaining_first,remaining_reversed],detectors=detectors,
+                   refusals=[over['refusal'],early['refusal'],after_cancel['refusal'],delete['refusal']])
+
+
+def p04_refusal(cur,today,variant):
+    cutover=today-timedelta(days=10)
+    if not bb_installed(cur):return p04_cycle(cur,today)
+    if variant=='EQUATION':
+        try:post_batch(cur,today,p04_rows(cutover,ordered='10',received='3',remaining='8'));return dict(status='FAIL',note='posted')
+        except AssertionError as exc:return verdict(dict(refused_at_validation='P04_REMAINING_EQUATION' in str(exc)),errors=str(exc)[:1200])
+    batch,code,cutover=post_batch(cur,today,p04_rows(cutover))
+    second={'OPEN_PURCHASE_ORDER':[dict(po_number='PO-'+code,po_line_number='1',po_date=str(cutover-timedelta(days=5)),supplier_code=code,
+                                         location_code=code,material_sku=code,ordered_qty='2',received_before_cutover_qty='0',
+                                         cancelled_before_cutover_qty='0',remaining_qty='2',unit_price='3')]}
+    try:post_batch(cur,today,second,cutover_days=5);return dict(status='FAIL',note='posted twice')
+    except AssertionError as exc:return verdict(dict(refused_at_validation='P04_DUPLICATE_PO' in str(exc)),errors=str(exc)[:1200])
+
+
+# ---------------------------------------------------------------- Y02: earned but unapproved work before cutover
+
+def y02_rows(cutover,attendance='true',doc_amount='134.00'):
+    """Mandor Epi: sewing earned 40, paid 10, carried 4 at 2.50 (65.00 open); attendance 5.5 days x 20 less 50 paid (60.00);
+    GOOD/BOM reimbursement 12 x 0.75 (9.00). One CONTRACTOR_PAYABLE document NJ-{C} of 134.00 carries the money."""
+    day=str(cutover-timedelta(days=12))
+    return {'CHART_ACCOUNT':[dict(account_code='{C}B',account_name='BB Y02 bank',account_type='ASSET',report_group='CURRENT_ASSETS',normal_balance='DEBIT')],
+            'CASH_ACCOUNT':[dict(cash_account_code='{C}',cash_account_name='BB Y02 bank',coa_account_code='{C}B',account_kind='BANK')],
+            'CONTRACTOR':[dict(contractor_code='{C}',contractor_name='BB Epi',contractor_type='MANDOR',attendance_required=attendance)],
+            'OPENING_BALANCE_ITEM':[dict(balance_type='CONTRACTOR_PAYABLE',contractor_code='{C}',amount=doc_amount,control_key='CP',document_number='NJ-{C}',
+                                         document_date=day,original_amount=str(D(doc_amount)+75),settled_before_cutover='75.00'),
+                                    dict(balance_type='CASH_BANK',cash_account_code='{C}',amount='1000.00',control_key='CASH')],
+            'OPENING_CONTROL':[dict(control_key='CP',balance_type='CONTRACTOR_PAYABLE',amount=doc_amount),dict(control_key='CASH',balance_type='CASH_BANK',amount='1000.00')],
+            'OPENING_PAYROLL_ENTITLEMENT':[
+                dict(kind='SEWING_WORK',contractor_code='{C}',document_number='NJ-{C}',line_number='1',document_date=day,rate='2.50',
+                     work_component_code='{C}J',earned_qty='40',paid_before_qty='10',carry_qty='4'),
+                dict(kind='ATTENDANCE',contractor_code='{C}',document_number='NJ-{C}',line_number='2',document_date=day,rate='20',
+                     worker_name='Epi A',period_start=str(cutover-timedelta(days=20)),period_end=str(cutover-timedelta(days=14)),days='5.5',paid_before_amount='50'),
+                dict(kind='ACCESSORY_REIMBURSEMENT',contractor_code='{C}',document_number='NJ-{C}',line_number='3',document_date=day,rate='0.75',
+                     category_code='ACC',good_qty='12',paid_before_amount='0')]}
+
+
+def y02_post(cur,today,**kw):
+    """The Y02 fixture with its work component (a master the import does not create)."""
+    cutover=today-timedelta(days=10);code='BB'+uuid.uuid4().hex[:12]
+    api.admin(cur);cur.execute("insert into erp.work_components(component_code,component_name,component_category,is_active) values(%s,%s,'LABOR',true)",
+                               (code+'J','BB Y02 jahit'))
+    rows=y02_rows(cutover,**kw)
+    boundary.historical.prior.set_open_period(cur,cutover-timedelta(days=1))
+    batch=api.call(cur,'CREATE',dict(batch_code=code,cutover_date=str(cutover)))['batch_id']
+    for entity,payloads in rows.items():
+        api.upload(cur,batch,entity,[{k:(v.replace('{C}',code) if isinstance(v,str) else v) for k,v in p.items()} for p in payloads])
+    checked=api.invoke(cur,'VALIDATE',batch)
+    if checked.get('error_rows')!=0:
+        api.admin(cur)
+        errors=cur.execute("select entity_type,validation_errors::text from erp.migration_staging_rows where batch_id=%s and validation_status='ERROR'",(batch,)).fetchall()
+        raise AssertionError(('BB_FIXTURE_REFUSED',checked,errors))
+    assert api.invoke(cur,'FINALIZE',batch).get('status')=='POSTED'
+    api.admin(cur)
+    contractor,cash=cur.execute('select c.id,k.id from erp.contractors c,erp.cash_accounts k where c.contractor_code=%s and k.cash_account_code=%s',(code,code)).fetchone()
+    balance=cur.execute('''select b.id from erp.initial_import_financial_sources f join erp.opening_subledger_balances b on b.opening_item_id=f.opening_item_id
+        where f.batch_id=%s and f.balance_type='CONTRACTOR_PAYABLE' ''',(batch,)).fetchone()[0]
+    return dict(batch=batch,code=code,cutover=cutover,contractor=contractor,cash=str(cash),balances={'NJ':str(balance)})
+
+
+def payroll_of(cur,fx,today,back=0):
+    """A one-day payroll period `back` days before today (periods of one contractor never overlap), paid today."""
+    api.admin(cur);day=today-timedelta(days=back)
+    return str(cur.execute("""insert into erp.payroll_settlements(payroll_number,contractor_id,period_start,period_end,manual_adjustment,payment_date,
+        payment_cash_account_id) values(%s,%s,%s,%s,0,%s,%s) returning id""",('BBY2-'+uuid.uuid4().hex,fx['contractor'],day,day,today,fx['cash'])).fetchone()[0])
+
+
+def payroll_version(cur,p):
+    api.admin(cur);return str(cur.execute('select row_version from erp.payroll_settlements where id=%s',(p,)).fetchone()[0])
+
+
+def payroll_call(cur,name,*args):
+    api.admin(cur);cur.execute('grant usage on schema erp to authenticated');bap.api.ordinary(cur)
+    cur.execute('select erp.'+name+'('+','.join(['%s']*len(args))+')',args);api.admin(cur)
+
+
+def y02_cycle(cur,today):
+    """ALL-Y02 (auditor: "retain unique source entitlement, partial payment and carry state, approve/pay/inverse with no synthetic
+    historical production")."""
+    if not bb_installed(cur):
+        code='BB'+uuid.uuid4().hex[:12]
+        batch=api.call(cur,'CREATE',dict(batch_code=code,cutover_date=str(today-timedelta(days=10))))['batch_id']
+        return no_route(cur,lambda:api.upload(cur,batch,'OPENING_PAYROLL_ENTITLEMENT',[dict(kind='SEWING_WORK',contractor_code=code,
+            document_number='NJ',line_number='1',document_date=str(today-timedelta(days=20)),rate='2.50')]))
+    api.admin(cur)
+    native=lambda:cur.execute('''select (select count(*) from erp.work_completion_events),(select count(*) from erp.attendance_records),
+        (select count(*) from erp.contractor_accessory_reimbursement_entitlements),(select count(*) from erp.sewing_terminal_events)''').fetchone()
+    native_before=native();before=gl(cur)
+    fx=y02_post(cur,today)
+    native_after=native();import_delta=moved(before,gl(cur))
+    entitlements=ws(cur,fx['batch'])['payroll_entitlements']
+    sewing=[e for e in entitlements if e['kind']=='SEWING_WORK'][0]
+    bank0=bank(cur,fx)
+    p1=payroll_of(cur,fx,today,2)
+    act(cur,'OPENING_SETTLEMENT',fx['batch'],operation='ALLOCATE_PAYROLL',balance_id=fx['balances']['NJ'],payroll_id=p1,amount='99.00',
+        expected_payroll_version=payroll_version(cur,p1))
+    payroll_call(cur,'approve_payroll',p1)
+    accrual1=cur.execute("select count(*) from erp.journal_entries where source_id=%s and source_type='PAYROLL_EXTRA_ACCRUAL'",(p1,)).fetchone()[0]
+    payroll_call(cur,'post_payroll_payment',p1)
+    bank1=bank(cur,fx);left1=balance_row(cur,fx,'NJ')[2]
+    p2=payroll_of(cur,fx,today,1)
+    act(cur,'OPENING_SETTLEMENT',fx['batch'],operation='ALLOCATE_PAYROLL',balance_id=fx['balances']['NJ'],payroll_id=p2,amount='35.00',
+        expected_payroll_version=payroll_version(cur,p2))
+    act(cur,'PAYROLL_ENTITLEMENT',fx['batch'],operation='ALLOCATE_CARRY',entitlement_id=sewing['id'],payroll_id=p2,qty='4',
+        expected_payroll_version=payroll_version(cur,p2))
+    labor=account(cur,'LABOR_COST');before_p2=gl(cur)
+    payroll_call(cur,'approve_payroll',p2);payroll_call(cur,'post_payroll_payment',p2)
+    p2_delta=moved(before_p2,gl(cur));bank2=bank(cur,fx);left2=balance_row(cur,fx,'NJ')[2]
+    carry2=[e for e in ws(cur,fx['batch'])['payroll_entitlements'] if e['kind']=='SEWING_WORK'][0]['carry_remaining']
+    p3=payroll_of(cur,fx,today)
+    more=refused(cur,lambda:act(cur,'PAYROLL_ENTITLEMENT',fx['batch'],operation='ALLOCATE_CARRY',entitlement_id=sewing['id'],payroll_id=p3,qty='1',
+        expected_payroll_version=payroll_version(cur,p3)),'Y02_CARRY_EXCEEDS')
+    payroll_call(cur,'reverse_paid_payroll',p2,'BB Y02 reverse second payroll')
+    carry3=[e for e in ws(cur,fx['batch'])['payroll_entitlements'] if e['kind']=='SEWING_WORK'][0]['carry_remaining']
+    bank3=bank(cur,fx);left3=balance_row(cur,fx,'NJ')[2]
+    clean,detectors=truth_clean(cur)
+    payable=account(cur,'CONTRACTOR_PAYABLE')
+    return verdict(dict(no_native_history=native_after==native_before,payable_134=import_delta.get(payable)=='-134.00',
+                        three_entitlements=len(entitlements)==3 and D(sewing['amount'])==D('65.00') and D(sewing['carry_qty'])==4,
+                        first_payroll_no_accrual=accrual1==0,first_payroll_bank=bank1==bank0-99 and left1==D('35.00'),
+                        carry_recognized_at_approval=p2_delta.get(labor)=='10.00',second_payroll_bank=bank2==bank1-45 and left2==0,
+                        carry_used=D(carry2)==0,carry_over_refused=more['ok'],
+                        reversal_restores=D(carry3)==4 and bank3==bank1 and left3==D('35.00'),detectors_zero=clean),
+                   import_delta=import_delta,p2_delta=p2_delta,bank=[str(bank0),str(bank1),str(bank2),str(bank3)],
+                   remaining=[str(left1),str(left2),str(left3)],carry=[carry2,carry3],detectors=detectors,native=[native_before,native_after])
+
+
+def y02_refusal(cur,today,variant):
+    if not bb_installed(cur):return y02_cycle(cur,today)
+    kw=dict(attendance='false') if variant=='NO_ATTENDANCE' else dict(doc_amount='130.00')
+    expected='Y02_ATTENDANCE_NOT_REQUIRED' if variant=='NO_ATTENDANCE' else 'Y02_EQUATION'
+    try:y02_post(cur,today,**kw);return dict(status='FAIL',variant=variant,note='posted')
+    except AssertionError as exc:return verdict(dict(refused_at_validation=expected in str(exc)),variant=variant,errors=str(exc)[:1500])
+
+
 # ---------------------------------------------------------------- registration
 
 PLAN=[('F:P02_SETTLE_AND_REVERSE','NO_ROUTE',lambda c,t:settle_cycle(c,t,'SUPPLIER_PAYABLE')),
@@ -724,7 +935,13 @@ PLAN=[('F:P02_SETTLE_AND_REVERSE','NO_ROUTE',lambda c,t:settle_cycle(c,t,'SUPPLI
       ('P:P03_RECEIPT_PART_INVOICED','NO_ROUTE',p03_split),
       ('P:P03_INVOICE_DOCUMENT_REQUIRED','NO_ROUTE',lambda c,t:p03_refusal(c,t,'NO_DOCUMENT')),
       ('P:P03_STOCK_COST_NOT_BLENDED_REFUSED','NO_ROUTE',lambda c,t:p03_refusal(c,t,'NOT_BLENDED')),
-      ('P:P03_QUANTITY_EQUATION_REFUSED','NO_ROUTE',lambda c,t:p03_refusal(c,t,'EQUATION'))]
+      ('P:P03_QUANTITY_EQUATION_REFUSED','NO_ROUTE',lambda c,t:p03_refusal(c,t,'EQUATION')),
+      ('P:P04_OPEN_ORDER_RECEIVE_REOPEN_CANCEL','NO_ROUTE',p04_cycle),
+      ('P:P04_REMAINING_EQUATION_REFUSED','NO_ROUTE',lambda c,t:p04_refusal(c,t,'EQUATION')),
+      ('P:P04_SAME_ORDER_LATER_BATCH_REFUSED','NO_ROUTE',lambda c,t:p04_refusal(c,t,'DUPLICATE')),
+      ('P:Y02_ENTITLEMENTS_PAYROLL_AND_CARRY','NO_ROUTE',y02_cycle),
+      ('P:Y02_ATTENDANCE_WITHOUT_ATTENDANCE_REFUSED','NO_ROUTE',lambda c,t:y02_refusal(c,t,'NO_ATTENDANCE')),
+      ('P:Y02_ENTITLEMENTS_NOT_EQUAL_DOCUMENT_REFUSED','NO_ROUTE',lambda c,t:y02_refusal(c,t,'EQUATION'))]
 assert len({k for k,_,_ in PLAN})==len(PLAN),'BB_DUPLICATE_CASE_ID'
 
 

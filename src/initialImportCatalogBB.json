@@ -69,6 +69,69 @@
       "notes": "Catatan"
     }
   },
+  "OPEN_PURCHASE_ORDER": {
+    "label": "PO pembelian yang belum diterima penuh saat saldo awal",
+    "required": [
+      "po_number",
+      "po_line_number",
+      "po_date",
+      "supplier_code",
+      "location_code",
+      "material_sku",
+      "ordered_qty",
+      "received_before_cutover_qty",
+      "cancelled_before_cutover_qty",
+      "remaining_qty",
+      "unit_price"
+    ],
+    "fields": {
+      "po_number": "Nomor PO pembelian",
+      "po_line_number": "Nomor baris PO",
+      "po_date": "Tanggal PO",
+      "supplier_code": "Kode supplier",
+      "location_code": "Kode gudang tujuan",
+      "material_sku": "Kode bahan",
+      "ordered_qty": "Jumlah dipesan",
+      "received_before_cutover_qty": "Sudah diterima sebelum saldo awal",
+      "cancelled_before_cutover_qty": "Sudah dibatalkan sebelum saldo awal",
+      "remaining_qty": "Sisa yang masih ditunggu",
+      "unit_price": "Harga estimasi per satuan",
+      "expected_date": "Perkiraan tanggal datang",
+      "notes": "Catatan"
+    }
+  },
+  "OPENING_PAYROLL_ENTITLEMENT": {
+    "label": "Hak upah, absensi, atau reimburse sebelum saldo awal yang belum disetujui",
+    "required": [
+      "kind",
+      "contractor_code",
+      "document_number",
+      "line_number",
+      "document_date",
+      "rate"
+    ],
+    "fields": {
+      "kind": "Jenis hak (SEWING_WORK/ATTENDANCE/ACCESSORY_REIMBURSEMENT)",
+      "contractor_code": "Kode mandor",
+      "document_number": "Nomor dokumen hutang mandor",
+      "line_number": "Nomor baris",
+      "document_date": "Tanggal hak timbul",
+      "rate": "Tarif",
+      "po_number": "Nomor PO (upah jahit)",
+      "work_component_code": "Kode komponen kerja",
+      "earned_qty": "Jumlah dikerjakan",
+      "paid_before_qty": "Jumlah sudah dibayar sebelum saldo awal",
+      "carry_qty": "Jumlah komponen dibawa (carry)",
+      "worker_name": "Nama pekerja (absensi)",
+      "period_start": "Awal periode absensi",
+      "period_end": "Akhir periode absensi",
+      "days": "Jumlah hari dibayar",
+      "category_code": "Kode kategori aksesori",
+      "good_qty": "Jumlah GOOD",
+      "paid_before_amount": "Nominal sudah dibayar sebelum saldo awal",
+      "notes": "Catatan"
+    }
+  },
   "_extend": {
     "UNINVOICED_RECEIPT": {
       "fields": {
