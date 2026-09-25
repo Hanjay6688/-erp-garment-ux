@@ -1,4 +1,4 @@
-"""rev2: column names fixed (system_created_at; target_wash_process_id on the delivery header); oracles unchanged.
+"""rev3: staggered variant added (receipt i on day d+i, cut the same day, so the material stock is zero between receipts; each PO must then carry exactly its own document value: total AND per PO). rev2: column names fixed (system_created_at; target_wash_process_id on the delivery header); oracles unchanged.
 AUDITOR SCENARIO xaudit_8 (round 9, Fable, independent): W8 several-receipt cents and LAU-T14 rate at send time.
 Tool head d1bc8ad (writer round 9). Oracles from the contract only:
  W8  M:1022/M:1059-1065/M:3818/M:3820 + rounding half away from zero (M:485): each purchase document is rounded on its own;
@@ -60,18 +60,24 @@ def reprice(cur,fx,kind,day,price):
     payload=dict(purchase_id=fx['purchase'],supplier_invoice_number='XA8-LINV-'+uuid.uuid4().hex[:12],invoice_date=str(day),received_at=prod.at(day,15),reason='XA8 late invoice at '+price,lines=[dict(purchase_item_id=fx['item'],qty_invoiced=1,final_unit_price=price)])
     prod.zone(cur,'Asia/Jakarta');r=prod.rpc(cur,'erp.finalize_material_purchase_invoice_v2',payload,uuid.uuid4(),version);api.admin(cur);return r
 
-def multi_receipt(cur,today,kind,n,p0,p1):
+def multi_receipt(cur,today,kind,n,p0,p1,staggered=False):
     d=today-timedelta(days=5);days=[d+timedelta(days=i) for i in range(6)]
     awp.boundary.historical.prior.set_open_period(cur,d-timedelta(days=1))
     before=azp.ledger_days(cur,days,[])
     fxs=[];pos=[]
-    for i in range(n):
-        fx=receipt(cur,d,p0,kind,fxs[0] if fxs else None);fxs.append(fx)
-    for fx in fxs:pos.append(azp.cut(cur,fx,d+timedelta(days=1),1,8+len(pos)))
+    if staggered:
+        # receipt i on day d+i at 10:00 and its cut the same day at 11:00+i: stock returns to zero before the next receipt
+        for i in range(n):
+            fx=receipt(cur,d+timedelta(days=i),p0,kind,fxs[0] if fxs else None);fxs.append(fx)
+            pos.append(azp.cut(cur,fx,d+timedelta(days=i),1,11+i))
+    else:
+        for i in range(n):
+            fx=receipt(cur,d,p0,kind,fxs[0] if fxs else None);fxs.append(fx)
+        for fx in fxs:pos.append(azp.cut(cur,fx,d+timedelta(days=1),1,8+len(pos)))
     mid=azp.ledger_days(cur,days,pos)
     docs=[]
     for fx in fxs:
-        r,err=attempt(cur,lambda fx=fx:reprice(cur,fx,kind,d+timedelta(days=2),p1))
+        r,err=attempt(cur,lambda fx=fx:reprice(cur,fx,kind,d+timedelta(days=(n+1) if staggered else 2),p1))
         docs.append(dict(result=str(r)[:200] if r is not None else None,refusal=err))
         if err:break
     prod.owner(cur);cur.execute('select erp.process_cost_recalc_queue(100)');api.admin(cur)
@@ -88,7 +94,7 @@ def multi_receipt(cur,today,kind,n,p0,p1):
                 wip_equals_sum_of_rounded_documents=delta['WIP']==expected_wip,no_negative_daily_inventory=all(D(v['MATERIAL_INVENTORY'])>=0 for v in daily.values()),
                 wip_per_po_each_equals_rounded_document=all(D(after[last]['WIP_PO'][str(p)])==cents(p1) for p in pos))
     status='INCOMPLETE' if errs else ('PASS' if all(checks.values()) else 'COUNTEREXAMPLE')
-    return dict(status=status,checks=checks,kind=kind,receipts=n,p0=p0,p1=p1,receipt_day=str(d),cut_day=str(d+timedelta(days=1)),reprice_day=str(d+timedelta(days=2)),
+    return dict(status=status,checks=checks,kind=kind,receipts=n,staggered=staggered,p0=p0,p1=p1,receipt_day=str(d),cut_day=str(d+timedelta(days=1)),reprice_day=str(d+timedelta(days=2)),
                 delta_after_cut=delta_mid,delta_end=delta,expected_wip=expected_wip,expected_wip_before=expected_wip_before,raw_qty=raw,daily_delta=daily,
                 wip_per_po_end={k:v for k,v in after[last]['WIP_PO'].items()},movements=[[str(x) for x in m] for m in moves],documents=docs,
                 expected='M:1022/M:1059-1065/M:3818/M:3820 + M:485 rounding: %d documents of 1 unit each rounded on their own; consumed material leaves qty 0 and value 0; WIP = %s; each PO carries its own rounded document value'%(n,expected_wip))
@@ -147,6 +153,8 @@ def cases(cur,today):
             out.append(('XA8:W8_TWO_RECEIPTS_%s_%s'%(kind,label),wrap(multi_receipt,kind,2,p0,p1)))
     out.append(('XA8:W8_THREE_RECEIPTS_INVOICE_UP',wrap(multi_receipt,'INVOICE',3,'10.00','10.005')))
     out.append(('XA8:W8_THREE_RECEIPTS_DIRECT_DOWN',wrap(multi_receipt,'DIRECT',3,'10.01','10.004')))
+    out.append(('XA8:W8_THREE_STAGGERED_INVOICE_UP',wrap(multi_receipt,'INVOICE',3,'10.00','10.005',True)))
+    out.append(('XA8:W8_THREE_STAGGERED_DIRECT_DOWN',wrap(multi_receipt,'DIRECT',3,'10.01','10.004',True)))
     for mode in ('UP','DOWN','CONTROL','GAP'):
         out.append(('XA8:LAU_T14_RATE_%s_BETWEEN_SEND_AND_RECEIPT'%mode,wrap(lau_t14,mode)))
     return out
