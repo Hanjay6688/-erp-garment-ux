@@ -1,0 +1,16 @@
+{
+  "run_id": 36106291785,
+  "job_id": 107979461548,
+  "audit_commit": "a4b65b9631bb0f316b4420d1882bfa1df2ce44b2",
+  "status": "IN_FLIGHT",
+  "manifest": "audit/scenarios/unknown_round8/MANIFEST_rev5.json",
+  "planned": [
+    "G8UI:UNKNOWN:LAUNDRY_HEALTHY_CONTROL:rev5",
+    "G8UI:UNKNOWN:LAUNDRY_INITIAL_READ:rev5",
+    "G8UI:UNKNOWN:QC_HEALTHY_CONTROL:rev5",
+    "G8UI:UNKNOWN:QC_INITIAL_READ:rev5"
+  ],
+  "tool_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
+  "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
+  "production_go": false
+}

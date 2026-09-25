@@ -1,5 +1,13 @@
 # CP6 audit — active round 8 checkpoint
 
+## Rev5 run identity — IN_FLIGHT
+
+Run [36106291785](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36106291785), job **107979461548**, audit **a4b65b9631bb0f316b4420d1882bfa1df2ce44b2**. Tool9dd7bc2 / produka095a9d; manifest_rev5 berisi empat kasus kontrol/unknown. Rev4 telah direkam sebagai4INCOMPLETE akibat pemanggilan API private. Rev5 hanya memakai facade publik kebijakan mandor dengan field/token sesuai master.
+
+LANGKAH BERIKUTNYA: ambil LOG job ini ketika selesai, simpan empat hasil dan cleanup di `out/gpt_unknown_run_36106291785.json`, lalu perbarui laporan/handoff. Semua hasil lama tetap beku. CP6 HOLD.
+
+
+
 ## Rev4 selesai INCOMPLETE; rev5 memperbaiki pemilihan API fixture
 
 Run **36105734698/job107977705679** (audit aa26d9f), LOG SHA256**95f06033aa5085923aadc4bb2ce351d80a3bd68a39366e9e5383322349d89d8d**: **4INCOMPLETE**. Public import berhasil sampai assertion UUIDv4, tetapi fixture memanggil fungsi private `erp.set_contractor_hpp_policy_v1` yang tidak di-grant EXECUTE kepada actor. Kedua setup rollback; browser users0, paired unknown tidak dijalankan. Auth counts pulih, console0, browserDB0, clone0, primary unchanged. Ini kesalahan pemilihan API fixture auditor, bukan bug produk.
