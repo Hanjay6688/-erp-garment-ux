@@ -2,7 +2,17 @@
 
 Tanggal: 23 September 2026 (WIB). Writer: Claude Code (sesi cloud). Peninjau berikutnya: ChatGPT.
 
-> **Pembaruan terbaru (25 September 2026, perbaikan audit independen `AUDIT_WRITER_HANDOFF_CP6.md`): baca §28.**
+> **Pembaruan terbaru (25 September 2026, putaran 9, `WRITER_HANDOFF_R9_20260925.md`): baca §29.**
+> - §29: W1–W13 dari handoff auditor putaran 9.
+>   - **Produk:** W8 sen multi-penerimaan (ternyata regresi BA), W9 `changed_since_filing` sesuai C0 §3.4, LAU-T14
+>     (penerimaan laundry memakai tarif saat kirim, ditemukan saat inventaris C6), W10/W11/W13 di frontend.
+>   - **Alat:** W7 grup ketat race/HTTP, W2 grup oracle C0 di T2 (25/25), W4 INCOMPLETE terstruktur, dan cek data cutover
+>     (UUID + alias CASH_BANK).
+>   - **Dokumen:** lampiran C6 rev2 dengan crosswalk 75 ID, dan inventaris jalur impor 22 keadaan ALL.
+>   - Hasil CI di §29.5. Pertanyaan owner (D06 dan scope ALL) di §29.8.
+> - CP6 tetap HOLD, `audit_complete=false`, `production_go=false`.
+>
+> **Pembaruan sebelumnya (25 September 2026, perbaikan audit independen `AUDIT_WRITER_HANDOFF_CP6.md`): baca §28.**
 > - §28: keluarga BA (A1, A3, A4, A5, A6, A9, A10) dan A2 di frontend; regresi T2 akibat BA ditemukan dan diperbaiki; alat B1–B6 (grup ketat dan self-test, gate T3, rollback AC..BA varian rilis dengan siklus penuh dan matriks post-use, mode browser, ringkasan fixture, identitas run); addendum C0: D01–D05 disahkan tertulis owner (25 Sep, bagian 9 addendum); D06 menunggu tinjauan auditor atas draf lampiran C6.
 > - Produk acuan `a095a9d`; hasil CI di §28.6; cara menjalankan ulang di §28.8. A7 dan A8 (opsional) belum dikerjakan.
 > - Penerimaan independen menunggu rerun auditor. MATCH adalah oracle yang disetujui, bukan PASS kasus beku. Label T1_FAMILY/T2_REGRESSION/T3_PREP/AUDITOR_SCENARIO, bukan bukti rilis.
@@ -2073,3 +2083,280 @@ Bukti putaran ini: `docs/evidence/cp6-ba/native_t1_run36090518293_{before,after}
 - Addendum C0: D01–D05 sudah disahkan tertulis owner (bagian 9, termasuk 3.4 dan 5.3; berkas sha256 `e83d56e6…0c99`,
   teks bagian 1–8 = versi `d39762da…926d`). Auditor diminta mencatat hash dan mencocokkan kutipannya. Yang tersisa:
   tinjauan auditor atas lampiran C6, lalu pengesahan D06 oleh owner.
+
+## 29. Putaran kesembilan: tugas W1–W13 dari handoff auditor R9 (25 September 2026) (writer Claude)
+
+Label run: T1_FAMILY, T2_REGRESSION, T3_PREP, dan AUDITOR_SCENARIO. Semuanya bukan bukti rilis dan bukan penerimaan
+independen.
+
+Status yang tidak berubah:
+- CP6 tetap HOLD, `audit_complete=false`, `production_go=false`.
+- 12 HOLD historis tetap HOLD. Hasil beku tidak dilabel ulang.
+- Tidak ada SQL ke hosted. Cabang kompetisi tetap `ca7f095`.
+- `main`, Cloudflare, Supabase hosted, dan ERP-Garment lama tidak disentuh.
+
+Sumber tugas (dibaca saja): `WRITER_HANDOFF_R9_20260925.md` (commit `c95d6b9`) dan `AUDIT_WRITER_HANDOFF_CP6.md` (commit
+`a96bcaa`), keduanya di cabang auditor `audit/cp6-final-20260924-gpt-a0bcadf`. Kandidat yang dinilai auditor: produk
+`a095a9d`, alat `9dd7bc2`.
+
+### 29.1 Produk
+
+| Tugas | Temuan | Perbaikan | Commit | Bukti |
+| --- | --- | --- | --- | --- |
+| W8 (CP6-03 sisa) | Dua penerimaan @10,00 dikoreksi ke 10,005: WIP 20,01, bahan 0,01 pada qty 0 (GPT run 36097284096) | Di `erp.sync_material_cost_revaluation` (BA), setiap gerakan pemakaian membawa selisih antara nilai dokumen pembelian (dibulatkan per dokumen) dan nilai yang diambil rata-rata bergerak, untuk penerimaan sejak pemakaian sebelumnya. Nilai dokumen diambil dari `input_unit_cost` gerakan penerimaan (lihat catatan di bawah tabel) | `75df787`, `1a443d7` | Probe BA `A4:MULTI_CENT_{DIRECT,INVOICE}_{UP,DOWN}`: PASS dengan BA (run 36112108521 dan run final) |
+| W9 (C0 D01 §3.4) | Laporan di tanggal yang sudah difiling menandai `changed_since_filing` hanya selama tanggal itu tidak READY. Setelah recost diproses, penanda kembali false, padahal gambaran yang difiling sudah dikoreksi | `erp.get_owner_financial_snapshot_v2` (BA) menandai bila tanggal tidak READY, atau bila ada jurnal koreksi yang dibuat sesudah filing (lihat catatan di bawah tabel) | `1a443d7`, `b6d81f9` | Probe BA `W9:CHANGED_SINCE_FILING_AFTER_PROCESSED_CORRECTION`: tanpa BA COUNTEREXAMPLE, dengan BA PASS. Kontrol `W9:FILED_DATE_WITHOUT_LATER_CORRECTION_CONTROL` PASS di kedua fase |
+| LAU-T14 (ditemukan saat inventaris W1) | POST_RECEIPT (20ac:9154–9165) memakai tarif pada waktu penerimaan, sehingga versi tarif baru di antara kirim dan kembali mengubah biaya kiriman. Ini melanggar M:4474 (LAU-DEC03: jangan reprice menurut tanggal kembali) | `erp.save_laundry_qc_action_v1` (BA, dari 20ac): penerimaan memakai tarif proses aktual yang berlaku saat barang dikirim. Estimasi kirim dan attempt cuci gagal tetap memakai waktunya sendiri | `1a57266` | Probe BA `LAU_T14:RECEIPT_AFTER_A_LATER_RATE_VERSION`: tanpa BA 9,00 (COUNTEREXAMPLE), dengan BA 7,00 (PASS). Kontrol PASS di kedua fase (run 36112408914) |
+| W13 (CP6-06) | KPI Laundry/QC tampil 0 saat baca awal gagal | `src/components/Cp6Kpi.tsx`: tampil "—, belum diketahui" selama workspace belum terbaca; 0 dari server tetap 0; banner dan kunci tulis tetap | `21acae1` | Tes DOM `Cp6Kpi.dom.test.tsx` |
+| W10 (CP6-05) | Pola dan duplikasi Role membuat UUID baru pada klik ulang setelah balasan hilang | `src/lib/requestEnvelope.ts` (lihat catatan di bawah tabel) | `21acae1` | `requestEnvelope.test.ts` |
+| W11 | Semua exception tampil sebagai "Layanan UAT belum dapat dihubungi" | `src/lib/clientError.ts`: hanya kegagalan tanpa jawaban server (TypeError/abort, status 0/502/503/504, kata jaringan tanpa kode) yang dianggap jaringan; penolakan parser atau server tampil dengan pesannya sendiri (kode `REJECTED`) | `21acae1` | `clientError.test.ts` |
+
+**Catatan W8.**
+- **Kenapa `input_unit_cost`.** Koreksi harga langsung menghitung ulang sebelum koreksinya berstatus POSTED. Pada saat
+  itu `material_purchase_current_unit_cost` masih mengembalikan harga lama; varian DIRECT gagal karena ini di run
+  36110211074.
+- **Dokumen multi-bahan.** Sen tingkat dokumen dibebankan ke material dengan id terkecil.
+- **Asal temuan (jujur).** Pada fase tanpa BA (AU..AZ), keempat kasus sudah PASS (run 36112408914). Contoh tandingan
+  auditor berasal dari aturan sen A4 versi pertama BA (produk `a095a9d`), jadi ini regresi BA yang kini diperbaiki. Kasus
+  probe menjadi kontrol regresi, dengan expected PASS di kedua fase (`f990c74`).
+
+**Catatan W9.**
+- **Aturannya.** Laporan menandai `changed_since_filing` bila ada jurnal koreksi dengan tanggal ekonomi ≤ tanggal
+  laporan dan dibukukan sesudah periode yang difiling, yang dibuat sesudah filing.
+- **Cara membedakan "sesudah filing".** `erp.close_accounting_through` (BA) mencatat di readiness filing daftar jurnal
+  sejenis yang sudah ada saat filing (`booked_after_filed_period`). Filing tetap immutable. Filing sebelum BA dianggap
+  daftarnya kosong.
+- **Alasan daftar itu diperlukan.** Seed yang dijinakkan sudah punya akrual payroll bertanggal ekonomi 2026-02-01 yang
+  dibukukan hari ini (run 36112108521). Selain itu, `posting_at` memakai `now()`, sehingga tidak bisa mengurutkan filing
+  dan koreksi dalam satu transaksi.
+
+**Catatan W10.**
+- Amplop request (id, rpc, argumen, fingerprint) disimpan sebelum kirim.
+- Klik ulang dengan perubahan yang sama mengirim ulang UUID dan argumen yang sama. Server `_idempotency_begin`
+  mengembalikan hasil lama, jadi efeknya tetap satu.
+- Perubahan lain menunggu. Tombol "Kirim ulang perubahan tertunda" tersedia.
+- Nama RPC tetap literal di setiap call site.
+
+**Lapisan BA sekarang.** BA menggantikan 10 fungsi:
+- 8 sebelumnya;
+- `erp.get_owner_financial_snapshot_v2(date,date,date)` untuk W9;
+- `erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)` untuk LAU-T14.
+
+Registry lapisan mengikuti `scripts/cp6_ba_build.py` (`REPLACED`).
+
+### 29.2 Alat
+
+**W7 (`scripts/cp6_auditor_modes.py`).** Mode race dan HTTP sekarang memakai grup ketat mode savepoint:
+- ID ganda menolak grup sebelum operasi apa pun.
+- Hasil bukan dict, atau status di luar PASS/FAIL/COUNTEREXAMPLE/INCOMPLETE, menjadi INCOMPLETE. Nilai aslinya dicatat.
+- Sesi yang tertinggal di salinan membuat kasus INCOMPLETE lalu diputus. Pool `authenticator` PostgREST dikecualikan di
+  mode HTTP.
+- Planned, final, dan missing dicetak.
+- Bukti: skenario auditor `audit/scenarios/round8/gpt_tool_modes.py` pada `21acae1` (run 36109589498). Hasilnya
+  `AUDITOR_RACES_AFTER` dan `AUDITOR_HTTP_AFTER` ditolak dengan `AUDITOR_DUPLICATE_CASE_IDS`, status run INCOMPLETE, dan
+  job merah. Itu hasil yang diminta.
+
+**W2 (`scripts/cp6_t2_regression.py`).** Oracle C0 auditor dijalankan sebagai grup `T2_C0_ORACLE`:
+- Berkasnya `audit/scenarios/c0_round8/gpt_c0_oracles.py`, disalin byte demi byte ke `scripts/cp6_c0_oracles_auditor.py`
+  dengan sha256 `7c2c19b6…6a7` dipin.
+- Grup memakai runner ketat auditor (`cp6_auditor_runner.strict_group`), bukan grup T2 yang dijinakkan, jadi tidak ada
+  quiet seed maupun completion payroll. Ini sama dengan run auditor 36098555186 dan 36099496005.
+- Kasus ADJUSTMENT_DATE mendapat koreksi transport auditor (transport_rev2), yaitu hanya mengembalikan USAGE yang dicabut
+  helper penerimaan.
+- Selain 25 PASS, hasil apa pun menjadi DISPOSITION_REQUIRED.
+- Assertion dan hasil beku 25 ID lama tidak disentuh. Fixture ADJUSTMENT_DATE dengan max(E, tanggal penyesuaian)
+  (D01 §3.3) ada di grup ini dan di oracle B yang sudah disetujui owner.
+
+**W4.**
+- `cp6_auditor_runner.strict_group`: kasus yang meng-COMMIT atau me-rollback transaksi grup menjadi INCOMPLETE
+  terstruktur (`AUDITOR_CASE_ENDED_GROUP_TRANSACTION`), grup berhenti, dan kasus berikutnya tercatat missing. Sebelumnya
+  grup crash dengan `savepoint "auditor_case" does not exist`. Self-test runner mendapat kasus `ST:COMMITS`.
+- Browser host mencatat tahap gagal (`failed_stage` START/CASES). Dengan begitu `users_created 0` terbaca sebagai
+  "berhenti di START", bukan hasil kasus.
+
+**W12 (b) dan W6 (`scripts/cp6_cutover_data_checks.py`).** Skrip ini hanya membaca (transaksi read only):
+- **uuid_quality:** pola UUID frontend (`laundryQcModel.ts:123`) dicek terhadap setiap kolom uuid skema erp, ditambah
+  default uuid non-v4.
+- **cash_bank_aliases:** cash account aktif yang berbagi satu akun COA.
+- Install T3 mencatat keduanya pada clone final. Di baseline hosted-faithful hasilnya CLEAN (765 kolom) dan NONE (run
+  36112870391).
+- Skrip yang sama dijalankan owner/operator pada salinan drill cutover data hosted/legacy:
+  `python3 scripts/cp6_cutover_data_checks.py --pgurl …`. Hasil FOUND harus diselesaikan sebelum cutover.
+
+### 29.3 Dokumen: W1, lampiran C6 rev2
+
+`docs/contracts/ERP_ADDENDUM_OWNER_DECISIONS_CP6_2026-09-25_LAMPIRAN_C6.md` (commit `d841cba`, sha256 `06b6b5e7…a566`):
+- **Pemisahan baris:**
+  - ACC-04 → 04a BASELINE / 04b CR-TUNDA.
+  - LAU-05 → 05a BASELINE / 05b CR-TUNDA. 05b adalah perluasan M:3729–3737 yang sudah disetujui tetapi belum diterapkan.
+  - LAU-06 → cuci ulang BASELINE / celup ulang CR-TUNDA.
+- **Baris keputusan:** LAU-07 diganti LAU-DEC01–06. ACC-DEC01–07 dan ERP-DEC02 mendapat baris sendiri, masing-masing
+  dengan keadaan kandidat dan hal yang ditahannya.
+- **Inventaris sumber per fitur:** entrypoint publik, storage, UI, dan status, dengan kata kunci pencarian untuk yang
+  ABSENT. Tidak ada CR-MASUK.
+- **Temuan baseline:** LAU-T14, diperbaiki di BA.
+- **Crosswalk 75 ID asli:** 36 LAU dan 39 ACC, semua UNVERIFIED dengan penunjuk ke bukti parsial.
+- **Pilihan owner O2** per baris CR-TUNDA.
+
+### 29.4 Tidak dikerjakan, dengan alasan
+
+| Tugas | Alasan |
+| --- | --- |
+| W12 (a): seed uji ke UUID v4 | Id `a1000000…`/`a2000000…` dirujuk harness auditor yang dipin (`c6b0e4fb`, mis. `ATTENDANCE_CONTRACTOR`) dan 20+ fixture/SQL uji beku. Mengubahnya akan memindahkan hasil beku. Seed hanya dipakai DB uji sekali pakai. Data produksi dibuat dengan `gen_random_uuid()`, dan cek drill (b) memeriksa data nyata |
+| W3: cabut grant `authenticated` di `erp.prepare_migration_opening_balance` | Opsional P3. Auditor sudah memastikan fungsi ini tidak terjangkau lewat HTTP publik (tanpa USAGE skema dan tanpa facade). Perubahan ACL di luar daftar fungsi BA butuh capsule rollback ACL tambahan. Ditunda ke successor, tidak diubah diam-diam |
+| W5: pesan STALE_VERSION | Sesuai catatan auditor: produk tidak diubah hanya untuk pesan selama kandidat dibekukan. Penolakan race sudah aman (`POCKET_PERIOD_BUSY`) |
+| W6: alias CASH_BANK | Identitas impor tetap per `cash_account_id` (BA A1). Pertanyaan alias nyata dijawab oleh cek drill `cash_bank_aliases` pada data hosted; writer tidak boleh membaca hosted |
+
+### 29.5 Hasil CI
+
+Semua run memakai CI sekali pakai.
+
+**Produk acuan.**
+- Terakhir berubah: dev BA `b6d81f9`, lalu paket T3 `1dcf21b` dan rollback `61d88ee`.
+- Frontend: `21acae1`.
+- Sesudah itu hanya alat (`f990c74`, harapan probe) dan bukti/dokumen yang berubah.
+
+| Workflow | Run | Head | Hasil |
+| --- | --- | --- | --- |
+| CP6 BA T1 Family Probe | 36112965907 | `f990c74` (produk `b6d81f9`) | after 47/47 PASS; before 25 COUNTEREXAMPLE + 22 PASS sesuai rencana; tidak ada expectation mismatch; primary tidak berubah, clone terhapus |
+| CP6 T2 Combined Regression | 36113586943 | `1dcf21b` | Identitas per kasus sama dengan referensi: business 230, imports 31, values 65 tanpa perpindahan. NEW_CASES hanya 9 perpindahan beku yang sudah tercatat: 8 DATE dengan oracle AS MATCH 8/8; `ADJUSTMENT_DATE:False` INCOMPLETE dengan oracle B MATCH. 12 HOLD identik. **Grup baru T2_C0_ORACLE 25/25 PASS.** AR, AT/AU, dan race hijau |
+| CP6 T3 Release Package | 36113911869 | `61d88ee` | Install 25 berkas dan verifikasi AW..BA; advisor baru hanya 56 × INFO `rls_enabled_no_policy` erp; drill RESTORED_SAME_MEANING; cek data cutover CLEAN/NONE; gate true. Browser AT/AU 10/10 PASS, 0 console error. Capture mereproduksi pin yang dikomit (`15aa4a85…ff17`, equal) |
+| CP6 T3 Rollback | 36113267241 / 36113867725 | `1dcf21b` / `61d88ee` | CAPTURED (`1f0a0fcc…b9fd`) / siklus 127/127 PASS, primary tidak berubah |
+| CP6 Candidate CodeQL | 36113589299 | `1dcf21b` | actions, c-cpp, python, javascript-typescript: 0 hasil |
+| CP6 Auditor Scenario | 36109589498 (dispatch `gpt_tool_modes.py`) / 36112965965 (push) | `21acae1` / `f990c74` | W7: grup race/HTTP ditolak (INCOMPLETE, merah sesuai harapan) / RUN_COMPLETE, self-test SELFTEST_PASS termasuk `ST:COMMITS` |
+
+**Run merah putaran ini.** Semuanya disimpan dan tidak dilabel ulang.
+
+*Probe BA:*
+- **36110211074 (`75df787`):** DIRECT gagal (current_unit_cost basi saat koreksi). Diperbaiki di `1a443d7`.
+- **36112108521 (`1a443d7`):** W9 INCOMPLETE (koreksi seed yang sudah dikenal filing). Diperbaiki di `b6d81f9`.
+- **36112408914 (`1a57266`):** sama, ditambah fase before MULTI_CENT PASS, yang mengungkap asal regresi BA. Harapan dikoreksi di `f990c74`.
+- **36112870435 (`b6d81f9`):** fase before masih berharapan lama. Fase after lulus penuh.
+
+*Paket T3:*
+- 36110211041, 36112409047, dan 36112870391: paket basi dengan sengaja (`differ ["BA"]`). 36112870391 adalah sumber pin.
+- Capture 36113264960 membandingkan dengan pin lama yang dikomit; paketnya sendiri sudah benar.
+- 36112966052 dibatalkan (paket basi).
+
+*Rollback:* 36113264970 dibatalkan (cycle sebelum capture ulang).
+
+**Bukti putaran ini.**
+- `docs/evidence/cp6-ba/native_t1_run36112965907_{before,after}.json`
+- `docs/evidence/cp6-t2/run36113586943_round9.json`
+- `docs/evidence/cp6-t3/run36113911869_package25_round9.json`
+- `docs/evidence/cp6-t3/rollback_cycle_run36113867725_round9.json`
+- `docs/evidence/cp6-t3/codeql_run36113589299_round9.json`
+- `docs/evidence/cp6-t3/release_pins.json`
+- `docs/evidence/cp6-t3/rollback_capture.json`
+
+### 29.6 ALL: jalur impor yang ada per keadaan (untuk `out/gpt_all_round8_binding.md`)
+
+Inventaris ini hanya membaca, pada kandidat. Status bukan hasil uji: MAPPED berarti jalurnya ada, bukan berarti sudah PASS.
+
+**Singkatan.**
+- AP, AR, AS, AZ, BA = berkas paket `supabase/release/cp6-t3/*_20{ap,ar,as,az,ba}_*.sql`. AC = migration 20ac.
+  BSR = migration 19 (CP5 BS resolution).
+- FX = skema baseline.
+- OBI = entitas OPENING_BALANCE_ITEM.
+
+**Jalur impor.** Semuanya lewat `public.erp_save_initial_import_action_v1` (AP:1705) → `erp.save_initial_import_action_v1`
+(AR:504):
+1. SAVE_FILE per entitas (AR:575–617).
+2. FINALIZE (AR:629–642), yang berurutan menjalankan:
+   - master;
+   - `apply_migration_open_pos`;
+   - `prepare_migration_opening_balance`;
+   - `post_opening_balance` (BA);
+   - `apply_initial_import_receipts_v1`;
+   - `apply_initial_prepayments_v1`;
+   - `finalize_migration_batch`.
+
+**OSS (settlement saldo awal).** Baris DRAFT di `erp.opening_subledger_settlements`, lalu
+`erp.post_opening_subledger_settlement` (AP:4655–4671); pembaliknya di AP:5321. Belum ada facade publik maupun UI untuk
+ini.
+
+| Keadaan | Status | Jalur impor | Lanjutan sesudah impor | Yang belum ada |
+| --- | --- | --- | --- | --- |
+| P01 diterima belum ditagih, sebagian terpakai | MAPPED | UNINVOICED_RECEIPT + stok sisa (MATERIAL_ROLL/OBI MATERIAL, `opening_source_key`) + OPENING_COST_ORIGIN untuk yang terpakai | invoice supplier (`save_material_supplier_invoice_draft_v2` AC:10194, `post_material_supplier_invoice_v2`) → recost origin (AP:6421); bayar `post_supplier_payment` atau APPLY uang muka | Qty terima wajib = sisa + terpakai (AP:4407–4413) |
+| P02 hutang supplier sebagian dibayar | MAPPED | OBI SUPPLIER_PAYABLE (dokumen, nilai asli, `settled_before_cutover`) | OSS cabang supplier; APPLY uang muka supplier ke target OPENING | Tidak ada invoice native, jadi tidak ada retur/match ke invoice lama |
+| P03 terima sebagian ditagih | PARTIAL | dua baris: SUPPLIER_PAYABLE (bagian tertagih) + UNINVOICED_RECEIPT (qty belum tertagih) | seperti P01 + P02 | Satu identitas penerimaan untuk kedua bagian; qty tertagih tidak tersimpan di penerimaan |
+| P04 PO belum diterima / draf pengadaan | NO_ADAPTER | — | — | Impor hanya menulis penerimaan POSTED (AP:4544). Dicari: purchase order, PURCHASE_ORDER, OPEN_PURCHASE, header DRAFT |
+| S01 invoice penjualan lama belum lunas | MAPPED | OBI CUSTOMER_RECEIVABLE (dokumen) | OSS cabang AR; APPLY uang muka pelanggan ke OPENING | Tidak ada `sales_headers`, jadi tidak ada retur/nota kredit ke invoice lama |
+| S02 draf penjualan dengan reservasi | NO_ADAPTER | — (stok FG bisa diimpor, reservasi tidak) | — | Dicari: sales_headers, save_sale_draft_v2, reserve |
+| S03 retur/kredit/refund pelanggan terbuka | PARTIAL | kredit pelanggan sebagai OPENING_ADVANCE CUSTOMER | PREPAYMENT APPLY/REFUND (BA) | Retur fisik penjualan lama (`sales_returns` tidak ditulis). Apakah uang muka sah sebagai pengganti nota kredit adalah pertanyaan kontrak |
+| Y01 upah/reimburse mandor diakui belum dibayar | MAPPED | OBI CONTRACTOR_PAYABLE | OSS, tunai saja | Tidak bisa dinetting di payroll (payroll hanya menaut CASH_ADVANCE, AP:192–195) |
+| Y02 jahit/absensi belum disetujui, carry komponen, reimburse belum dialokasi | NO_ADAPTER | — | — | Impor tidak menulis `payroll_work_items`, absensi, `sewing_terminal_events`, entitlement reimburse; dok impor melarang mengarang histori (`docs/cp6-initial-import-progress.md:166`) |
+| A01 uang muka supplier/pelanggan/vendor laundry | MAPPED | OPENING_ADVANCE (SUPPLIER/CUSTOMER/VENDOR) | aksi PREPAYMENT → `manage_initial_prepayment_v1` (BA): APPLY/REVERSE_PAYMENT/REFUND/CORRECT/REVERSE_EVENT | — |
+| A02 kasbon mandor dipotong payroll | MAPPED | OBI CONTRACTOR_RECEIVABLE + `source_kind` CONTRACTOR_CASH_ADVANCE | ALLOCATE_CASH_ADVANCE → `set_opening_cash_advance_payroll_v1` (AP:4936) → potongan payroll; bayar `post_payroll_payment`; tunai lewat OSS | — |
+| A03 settlement historis / dokumen habis | PARTIAL | agregat `settled_before_cutover` pada OBI keuangan dan OPENING_ADVANCE | tidak perlu (hanya histori) | Dokumen yang sudah lunas penuh ditolak (sisa harus >0); pembayaran historis per transaksi tidak disimpan |
+| W01 header PO terbuka | MAPPED | OPEN_PO → `apply_migration_open_pos` (AC:2108) | alur produksi native; guard selesai/batal (AP:6510–6520) | Prasyarat pola/BOM/potong tidak diimpor (belum ditelusuri penuh, UNSURE) |
+| W02 WIP fisik SEWING/LAUNDRY | PARTIAL | OBI WIP (PO, ukuran, tahap, pemegang, `source key`, `accessory_cost_included`) | WIP_OUTPUT → `complete_initial_import_wip_v1` (BA): COMPLETE ke FG QC_GOOD / REVERSE | Memindah WIP SEWING pembuka ke laundry, BS dari WIP pembuka, upah sesudah cutover |
+| W03 BS bernilai | MAPPED | OBI BS (PO, SKU, ukuran, tahap termasuk QC, pemegang) → `bs_cases` LEGACY | `erp_save_bs_resolution_action_v1` (BSR:1127): CLASSIFY/REWORK/DISPOSE/HOLD/CLAIM | BS tanpa PO bernilai 0 (AP:2342) |
+| W04 potongan menunggu pickup | NO_ADAPTER | — (OPEN_PO tahap CUTTING hanya header) | — | Dicari: cutting_groups, cutting_pickups, CUTTING |
+| W05 laundry di luar, cuci gagal, klaim, invoice lama | PARTIAL | WIP tahap LAUNDRY + vendor; OBI VENDOR_PAYABLE; OPENING_ADVANCE VENDOR | WIP_OUTPUT; OSS AP vendor; APPLY ke invoice vendor | Attempt gagal, klaim pending, penerimaan belum tertagih (tidak ada delivery/receipt/claim laundry yang ditulis). SAVE_CLAIM pada BS pembuka: UNSURE |
+| W06 rework terkirim/sebagian/komponen belum dibayar | NO_ADAPTER | — (proksi: impor BS lalu rework baru; komponen sebagai CONTRACTOR_PAYABLE gabungan) | — | Dicari: rework_orders, rework_component_lines |
+| C01 aksesori/kain kantong perusahaan | MAPPED | OBI MATERIAL (aksesori); MATERIAL_ROLL (kain kantong) | `erp_save_accessory_issue_action_v1`; `erp_save_pocket_fabric_action_v1` REGISTER/POST | — |
+| C02 nota aksesori mandor sebelum cutover | PARTIAL | hutang sebagai OBI CONTRACTOR_RECEIVABLE (BALANCE) atau CASH_ADVANCE bila dipotong payroll | BALANCE: OSS tunai; CASH_ADVANCE: payroll | Identitas nota aksesori; retur aksesori tak terpakai ke nota lama |
+| C03 titipan/karantina/pemulihan aksesori | NO_ADAPTER | — (proksi: OBI MATERIAL di lokasi mana pun, tercatat stok perusahaan) | — | Dicari: custody, quarantine, karantina, titipan, recovered |
+| C04 kain kantong sudah ditarik / periode alokasi terbuka | NO_ADAPTER | — | — | `pocket_fabric_usage` dan periode tidak ditulis impor |
+
+Ringkasan:
+- **MAPPED 9:** P01, P02, S01, Y01, A01, A02, W01, W03, C01.
+- **PARTIAL 6:** P03, S03, A03, W02, W05, C02.
+- **NO_ADAPTER 7:** P04, S02, Y02, W04, W06, C03, C04.
+
+Catatan:
+- Aksi impor yang diterima (AR:519): CREATE, SAVE_FILE, VALIDATE, FINALIZE, ALLOCATE_CASH_ADVANCE, PREPAYMENT, dan
+  WIP_OUTPUT.
+- Entitas SAVE_FILE:
+  - master: LAUNDRY_VENDOR, LOCATION, CHART_ACCOUNT, CASH_ACCOUNT, BRAND, SIZE, MODEL, PRODUCT, CUSTOMER, SUPPLIER,
+    CONTRACTOR, ACCESSORY_CATEGORY, MATERIAL;
+  - pembuka: MATERIAL_ROLL, OPENING_BALANCE_ITEM, OPEN_PO, UNINVOICED_RECEIPT, OPENING_ADVANCE, OPENING_COST_ORIGIN.
+- OPENING_CONTROL hanya dicek terhadap baris detail, tidak pernah diposting.
+- Workspace impor hanya menampilkan penerimaan belum tertagih, kasbon, payroll uang muka, uang muka, dan sumber produksi.
+  Saldo AR/AP pembuka biasa belum punya lanjutan di UI (OSS tanpa facade).
+- Kontrak (M:369–379, M:930–938) melarang mengarang histori lama demi adapter. Keadaan NO_ADAPTER adalah celah bukti atau
+  celah adapter, bukan bukti fitur global tidak ada.
+- **Pertanyaan scope ALL untuk owner ada di 29.8.**
+
+### 29.7 Untuk auditor: head baru dan cara menjalankan ulang
+
+**Identitas.**
+- Head baru: commit yang memuat bagian ini (hash lengkap ada di pesan serah terima).
+- Produk acuan: dev BA `b6d81f9`, paket T3 `1dcf21b`, rollback `61d88ee`, frontend `21acae1`.
+- Setiap run mencetak `run_identity`.
+- Cabang kompetisi tetap `ca7f095`. Tidak ada SQL ke hosted.
+
+**Skenario auditor** (`cp6-auditor-scenario.yml`, phase=after, `scenario_b64` = berkas dari `audit/scenarios/`):
+
+| Tugas | Skenario | Yang diharapkan |
+| --- | --- | --- |
+| W8 | `round8/gpt_round8.py`, empat kasus `G8:MULTI_CENT_*` | UP: WIP 20,02 dan bahan 0. DOWN: WIP 20,00 dan bahan 0. Kasus satu penerimaan tetap PASS |
+| W7 | `round8/gpt_tool_modes.py` | Grup race/HTTP ditolak (sudah terlihat di run 36109589498) |
+| W10 | `recovery_round8/gpt_recovery_browser.mjs` (input `browser_b64`) | Klik ulang setelah balasan hilang mengirim UUID dan payload yang sama, satu efek, tanpa 409 karena request baru |
+| W13 | `unknown_round8/gpt_unknown_browser_rev6.mjs` + setup rev6 | KPI awal "—, belum diketahui", bukan 0. Kontrol sehat 20/10 tetap |
+| W11 | Browser dengan input tidak valid | Pesan parser tampil apa adanya |
+| W9 | Kasus AO tertutup C0 | Sesudah koreksi diproses, `changed_since_filing=true`; filing dan nilai hari yang difiling tidak berubah |
+| LAU-T14 | Ditulis auditor | Tarif naik di antara kirim dan terima; biaya aktual tetap tarif saat kirim |
+
+**Alat.**
+- **T2:** dispatch CP6 T2 Combined Regression. Grup `T2_C0_ORACLE` ikut berjalan, bersama identitas per ID.
+- **T3:** CP6 T3 Release Package (tiga job) dan CP6 T3 Rollback (auto = cycle).
+- **Drill cutover (W12/W6):** `python3 scripts/cp6_cutover_data_checks.py --pgurl <salinan drill>` hanya membaca. Writer
+  tidak menjalankannya pada data hosted.
+
+### 29.8 Yang masih terbuka dan pertanyaan owner
+
+**Pertanyaan owner:**
+- **O2 (D06).** Sahkan lampiran C6 rev2 sesudah auditor mencocokkannya. Termasuk pilihan per CR-TUNDA (tabel bagian 7
+  lampiran): ACC-04b, LAU-05b, dan LAU-06b, masing-masing successor sebelum consumer CP7 atau masuk kandidat final CP6.
+- **ALL scope (bagian 29.6).** Semua 22 keadaan harus dibuktikan sebelum go, atau cukup keadaan yang benar-benar ada di
+  data cutover? Bila opsi kedua, owner atau operator menyebut keadaan yang ada, dan drill cutover menjadi buktinya. Tujuh
+  keadaan NO_ADAPTER dan enam PARTIAL di 29.6 menentukan besar pekerjaannya.
+
+**Sisa audit (tidak ada indikasi cacat, yang belum ada adalah buktinya):**
+- 75 kasus C6 (menunggu O2);
+- matriks izin/lokasi penuh;
+- payroll/BS/settlement lengkap;
+- data hosted/legacy lewat drill.
+
+**Status.** CP6 tetap HOLD, `audit_complete=false`, `production_go=false`.
