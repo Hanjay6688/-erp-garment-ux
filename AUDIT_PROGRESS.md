@@ -843,3 +843,7 @@ QC rev6 diverifikasi dari log: healthy PASS (10), unknown COUNTEREXAMPLE (KPI 0)
 ## Fable — putaran 9 fase independen selesai (2026-09-25T11:57Z)
 - Rev2 browser: W10 2/2 PASS, W13 Laundry 2/2 PASS (QC via rev6), WIB pickup 4/4 PASS (INCOMPLETE sebelumnya = locator). Semua W putaran 8 tertutup pada d1bc8ad; register final di `out/fable_r9_results.md` §12. Vonis tetap HOLD (scope baru owner: family BB–BE).
 - Berikutnya: baca hasil GPT putaran 9, verifikasi silang, kompilasi.
+
+## Fable — audit silang GPT putaran 9 + handoff writer putaran 10 (2026-09-25T11:44:35Z)
+- GPT r9: 0 REFUTED; business/browser/T2/crosswalk/mapping/S01-errata CONFIRMED; T3/rollback rincian PARTIAL (status saja); W11 CLOSED lewat log GPT 108036762327. Scope-contract GPT: pertanyaan owner sudah terjawab ke Fable; koreksi teks lampiran diteruskan ke writer.
+- BB (72bf53f/fbafa51) belum diaudit Fable; GPT sudah T1 25/25 pada 72bf53f. Handoff: `WRITER_HANDOFF_R10_20260925.md`.

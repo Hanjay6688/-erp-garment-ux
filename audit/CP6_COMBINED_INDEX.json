@@ -1430,11 +1430,41 @@
   "W8": "CLOSED_NOTED_P3_PER_PO_CENT",
   "W9": "CLOSED",
   "W10": "CLOSED",
-  "W11": "CLOSED_SOURCE_BROWSER_INDIRECT",
+  "W11": "CLOSED",
   "W13": "CLOSED",
   "LAU_T14": "CLOSED",
   "CP6_01_browser": "CONFIRMED_12",
   "C0": "25_of_25",
   "verdict": "HOLD_audit_complete_false_production_go_false"
+ },
+ "fable_crossreview_gpt_r9": {
+  "doc": "out/fable_crossreview_gpt_r9.md",
+  "refuted": 0,
+  "confirmed": [
+   "business_tool_run",
+   "browser_rev1_locator",
+   "browser_rev2",
+   "t2",
+   "c6_crosswalk",
+   "all_mapping",
+   "s01_errata",
+   "scope_contract_text"
+  ],
+  "partial": [
+   "t3_details",
+   "rollback_details"
+  ],
+  "noted": [
+   "bb_72bf53f_gpt_t1",
+   "writer_head_fbafa51_pending_fable"
+  ]
+ },
+ "candidate_bb": {
+  "writer_heads": [
+   "72bf53f8d808e18fd3e2866491f28667c1b6193d",
+   "fbafa51"
+  ],
+  "fable_status": "NOT_YET_AUDITED",
+  "gpt_t1_on_72bf53f": "25_of_25_after_PASS_run_36127700002"
  }
 }

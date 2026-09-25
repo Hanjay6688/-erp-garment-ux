@@ -165,7 +165,7 @@ Baca saja; tidak ada push ke `claude/new-session-deapao`; tidak ada SQL ke hoste
 | W8 | CLOSED (NOTED P3 per-PO ±1 sen pada ≥3 penerimaan; dokumen multi-bahan belum diuji) | xaudit_8 rev2 |
 | W9 | CLOSED | xaudit_9 3/3 |
 | W10 | CLOSED | recovery rev2 2/2 |
-| W11 | CLOSED secara sumber; browser tidak langsung | clientError.ts; rev5/rev6 |
+| W11 | CLOSED | clientError.ts; log GPT job 108036762327 dibaca langsung (pesan parser vs tak terjawab) — lihat `out/fable_crossreview_gpt_r9.md` |
 | W13 | CLOSED | rev6 QC 2/2, rev5 Laundry 2/2 |
 | LAU-T14 | CLOSED | xaudit_8 rev2 4/4 |
 | CP6-01 browser 12 kasus | CONFIRMED | cutting/bs 8 (§9) + pickup rev2 4 (§11) |
