@@ -1,6 +1,6 @@
 -- CP6 BB rollback: exact pre-use restore of the T3 release package to its predecessor; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_rollback.py from supabase/release/cp6-t3/20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql (sha256 ed95f1e84a8a924a830de9362ff890769875d01671b4e83c77208daf23a8df34) and docs/evidence/cp6-t3/rollback_capture.json (sha256 85278162ab008e4352ab985761b7f502cea41fa6ec6d8ccf6d30aa7cf0c005a4).
+-- Built by scripts/cp6_t3_rollback.py from supabase/release/cp6-t3/20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql (sha256 ed95f1e84a8a924a830de9362ff890769875d01671b4e83c77208daf23a8df34) and docs/evidence/cp6-t3/rollback_capture.json (sha256 f9eeb8d3e87ed217362abc9b82ef2ed81f67cae7927037aafe876d722977402d).
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
 do $closed_admission$
