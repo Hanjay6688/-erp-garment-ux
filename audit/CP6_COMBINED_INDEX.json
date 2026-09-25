@@ -118,10 +118,10 @@
    "evidence": "XA1job107797410652 danXA2job107807966805: correction/invoice, nilai−0.01/up dan+0.01/down, qty0.",
    "next": "Pin pembulatan resmi pada posted values; jangan memakai half-even Python sebagai aturan ERP otomatis. Uji konsumen FG/COGS/jurnal/report setelah perbaikan.",
    "fable_native_update": "GPT MONEY×4 (run 36065350201, termasuk AP/GRNI endpoint) + Fable XA:U03/XA2 (direct+invoice): ±0,01 pada qty 0.",
-   "updated_at": "2026-09-25T05:00:11Z",
-   "status_r8": "CLOSED_SINGLE_RECEIPT_ON_a095a9d",
+   "updated_at": "2026-09-25T05:39:58Z",
+   "status_r8": "CLOSED_SINGLE_RECEIPT_ON_a095a9d; MULTI_RECEIPT_RESIDUAL_CONFIRMED_P2",
    "evidence_r8": "xaudit_1_rev2 U03 ×2, xaudit_2_rev2 invoice ×2, MONEY ×4 PASS; rev1 DOWN = oracle auditor HALF_EVEN salah (ditarik); batas multi-penerimaan ≤0,01 diakui writer",
-   "fable_update": "r8 (head 9dd7bc2, produk a095a9d): CLOSED_SINGLE_RECEIPT_ON_a095a9d — xaudit_1_rev2 U03 ×2, xaudit_2_rev2 invoice ×2, MONEY ×4 PASS; rev1 DOWN = oracle auditor HALF_EVEN salah (ditarik); batas multi-penerimaan ≤0,01 diakui writer"
+   "fable_update": "r8 (head 9dd7bc2, produk a095a9d): CLOSED_SINGLE_RECEIPT_ON_a095a9d — xaudit_1_rev2 U03 ×2, xaudit_2_rev2 invoice ×2, MONEY ×4 PASS; rev1 DOWN = oracle auditor HALF_EVEN salah (ditarik); batas multi-penerimaan ≤0,01 diakui writer | GPT run 36097284096 MULTI_CENT ×4 COUNTEREXAMPLE (0,01 tersisa pada qty 0 dengan dua penerimaan) — residu multi-penerimaan CONFIRMED natively, P2; handoff W8."
   },
   {
    "id": "CP6-04",
@@ -682,7 +682,7 @@
    "result": "PASS 2/2 — CP6-19 REFUTED on legit app path"
   }
  ],
- "fable_last_update": "2026-09-25T05:29:02Z",
+ "fable_last_update": "2026-09-25T05:39:58Z",
  "adversarial_verification_round": {
   "at": "2026-09-24T22:33:14Z",
   "findings": [
@@ -890,5 +890,26 @@
   "a7_a8_decision": "A7 tidak perlu (P3, aman); A8 direkomendasikan sebelum rilis (hardening kecil), tidak menahan gate",
   "verdict": "CP6 HOLD, audit_complete=false, production_go=false",
   "gpt_c6_review_concurs": "out/gpt_round8_c6_review.md (1443f16): ACC-04/LAU-05 split; crosswalk to all original IDs required; R8-C6-01 P2 doc gap"
+ },
+ "fable_crossreview_gpt_r8": {
+  "at": "2026-09-25T05:39:58Z",
+  "file": "out/fable_crossreview_gpt_r8.md",
+  "gpt_commits_reviewed": [
+   "1443f16",
+   "f28a871",
+   "44a23d8",
+   "3027609"
+  ],
+  "confirmed": [
+   "C0 24/25 (run 36098555186 log read)",
+   "R8-B1-01 tool gap race/http (job 107952095197 log read + source)",
+   "MULTI_CENT ×4 CP6-03 residual (from GPT JSON)",
+   "C6 R8-C6-01"
+  ],
+  "new_writer_items": [
+   "W7 strict group for race/http",
+   "W8 CP6-03 multi-receipt residual"
+  ],
+  "gpt_status": "IN_PROGRESS"
  }
 }
