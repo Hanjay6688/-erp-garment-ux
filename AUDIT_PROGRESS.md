@@ -1,5 +1,9 @@
 # CP6 audit — active round 8 checkpoint
 
+## GPT phase2 run in flight
+Run [36098555186](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36098555186), job107955933618, audit commit7afd3d6, 25 C0 fresh oracles, pinned9dd7bc2/producta095a9d. Ledger out/gpt_c0_run_36098555186.json. Results BELUM; CI independently continues. Latest user question about D03 §5.3 answered: option1 matches the ratified handoff, with model/size checks, filled attributes binding and missing attributes explicitly unknown. This recommendation itself is not a new owner ratification.
+LANGKAH BERIKUTNYA: read this job's completed LOG, compare per-case results with frozen out/gpt_c0_oracle_freeze.md, persist immediately. Then browser/HTTP and T3 cross-review. CP6 HOLD.
+
 ## GPT phase2 C0 oracle freeze
 25 fresh oracle cases frozen at SHA256 7c2c19b6e722d325ba902cfd9eb1ae2f98d4e2ec27245070ab485df0af9e66a7 in audit/scenarios/c0_round8/gpt_c0_oracles.py. Full formulas, old-ID mapping, contract references and Fable cross-review: out/gpt_c0_oracle_freeze.md. Status per new case BELUM until next audit-only workflow finishes. Prior native run36097284096 results committed10a9ce8; CP6-03 residual and B1 race/HTTP remain HOLD. C0 accepted as owner-supplied ratified authority; D06 excluded.
 LANGKAH BERIKUTNYA: obtain workflow run triggered by this commit; persist run/jobIDs, read its 25 case JSON and cleanup; then browser/HTTP valid-call phase and T3/rollback/CodeQL cross-review. Preserve historical HOLD.
