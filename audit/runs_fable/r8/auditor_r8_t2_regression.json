@@ -1,0 +1,6892 @@
+[
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "erp_functions": 534,
+  "new_public_readers": 1,
+  "objects": 692,
+  "production_go": false
+ },
+ {
+  "run_identity": {
+   "label": "T2_REGRESSION",
+   "tool_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
+   "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
+   "product_paths": [
+    "supabase/migrations",
+    "supabase/dev",
+    "supabase/release",
+    "supabase/rollbacks",
+    "src"
+   ],
+   "run_id": "36095707100",
+   "run_attempt": "1",
+   "workflow": "CP6 T2 Combined Regression",
+   "job": "phase",
+   "event": "workflow_dispatch",
+   "github_sha": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
+   "release_evidence": false,
+   "production_go": false,
+   "phase": "regression",
+   "seed": "QUIETED"
+  }
+ },
+ {
+  "t2_label": "T2_REGRESSION",
+  "phase": "regression",
+  "seed": "QUIETED"
+ },
+ {
+  "group": "T2_SEED_QUIETED",
+  "target": "BUSINESS",
+  "closed_through": "2026-08-31",
+  "window": [
+   "2026-01-02",
+   "2026-09-25"
+  ],
+  "attendance": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "periods": [
+     [
+      "2026-01-02",
+      "2026-01-31"
+     ],
+     [
+      "2026-02-02",
+      "2026-02-28"
+     ],
+     [
+      "2026-03-02",
+      "2026-03-31"
+     ],
+     [
+      "2026-04-02",
+      "2026-09-21"
+     ],
+     [
+      "2026-09-22",
+      "2026-09-23"
+     ],
+     [
+      "2026-09-24",
+      "2026-09-25"
+     ]
+    ]
+   },
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000002",
+    "periods": [
+     [
+      "2026-01-02",
+      "2026-09-21"
+     ],
+     [
+      "2026-09-22",
+      "2026-09-23"
+     ],
+     [
+      "2026-09-24",
+      "2026-09-25"
+     ]
+    ]
+   },
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000003",
+    "periods": [
+     [
+      "2026-01-02",
+      "2026-09-21"
+     ],
+     [
+      "2026-09-22",
+      "2026-09-23"
+     ],
+     [
+      "2026-09-24",
+      "2026-09-25"
+     ]
+    ]
+   },
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000005",
+    "periods": [
+     [
+      "2026-02-02",
+      "2026-09-21"
+     ],
+     [
+      "2026-09-22",
+      "2026-09-23"
+     ],
+     [
+      "2026-09-24",
+      "2026-09-25"
+     ]
+    ]
+   }
+  ],
+  "approved": [
+   "a6000000-0000-0000-0000-000000000021"
+  ],
+  "work_payrolls": 3,
+  "refused": [],
+  "reopened_range": [
+   "2026-01-02",
+   "2026-08-31"
+  ],
+  "reopened_status": "READY",
+  "reopened_blockers": [],
+  "after_status": "READY",
+  "after_blockers": []
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FABRIC:DIRECT:Asia/Jakarta",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FABRIC:DIRECT:UTC",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FABRIC:DIRECT:Asia/Tokyo",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FABRIC:DIRECT:Pacific/Kiritimati",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FABRIC:DIRECT:Etc/GMT+12",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FABRIC:IMPORT:Asia/Jakarta",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FABRIC:IMPORT:UTC",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FABRIC:IMPORT:Asia/Tokyo",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FABRIC:IMPORT:Pacific/Kiritimati",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FABRIC:IMPORT:Etc/GMT+12",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FABRIC_ROLL:DIRECT:Asia/Jakarta",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FABRIC_ROLL:DIRECT:UTC",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FABRIC_ROLL:DIRECT:Asia/Tokyo",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FABRIC_ROLL:DIRECT:Pacific/Kiritimati",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FABRIC_ROLL:DIRECT:Etc/GMT+12",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FABRIC_ROLL:IMPORT:Asia/Jakarta",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FABRIC_ROLL:IMPORT:UTC",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FABRIC_ROLL:IMPORT:Asia/Tokyo",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FABRIC_ROLL:IMPORT:Pacific/Kiritimati",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FABRIC_ROLL:IMPORT:Etc/GMT+12",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:ACCESSORY:DIRECT:Asia/Jakarta",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:ACCESSORY:DIRECT:UTC",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:ACCESSORY:DIRECT:Asia/Tokyo",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:ACCESSORY:DIRECT:Pacific/Kiritimati",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:ACCESSORY:DIRECT:Etc/GMT+12",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:ACCESSORY:IMPORT:Asia/Jakarta",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:ACCESSORY:IMPORT:UTC",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:ACCESSORY:IMPORT:Asia/Tokyo",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:ACCESSORY:IMPORT:Pacific/Kiritimati",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:ACCESSORY:IMPORT:Etc/GMT+12",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FINISHED_GOODS:DIRECT:Asia/Jakarta",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FINISHED_GOODS:DIRECT:UTC",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FINISHED_GOODS:DIRECT:Asia/Tokyo",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FINISHED_GOODS:DIRECT:Pacific/Kiritimati",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FINISHED_GOODS:DIRECT:Etc/GMT+12",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FINISHED_GOODS_PRICE:DIRECT:Asia/Jakarta",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FINISHED_GOODS_PRICE:DIRECT:UTC",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FINISHED_GOODS_PRICE:DIRECT:Asia/Tokyo",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FINISHED_GOODS_PRICE:DIRECT:Pacific/Kiritimati",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:FINISHED_GOODS_PRICE:DIRECT:Etc/GMT+12",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:BS:DIRECT:Asia/Jakarta",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:BS:DIRECT:UTC",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:BS:DIRECT:Asia/Tokyo",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:BS:DIRECT:Pacific/Kiritimati",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:BS:DIRECT:Etc/GMT+12",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:BS_PRODUCT:DIRECT:Asia/Jakarta",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:BS_PRODUCT:DIRECT:UTC",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:BS_PRODUCT:DIRECT:Asia/Tokyo",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:BS_PRODUCT:DIRECT:Pacific/Kiritimati",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:BS_PRODUCT:DIRECT:Etc/GMT+12",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CROSS:DAY:ATTENDANCE:DIRECT:Asia/Jakarta",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-22",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 0,
+    "attendance_days": 2,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:ATTENDANCE:DIRECT:Asia/Jakarta",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CROSS:DAY:ATTENDANCE:DIRECT:UTC",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-22",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 0,
+    "attendance_days": 2,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:ATTENDANCE:DIRECT:UTC",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CROSS:DAY:ATTENDANCE:DIRECT:Asia/Tokyo",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-22",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 0,
+    "attendance_days": 2,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:ATTENDANCE:DIRECT:Asia/Tokyo",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CROSS:DAY:ATTENDANCE:DIRECT:Pacific/Kiritimati",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-22",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 0,
+    "attendance_days": 2,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:ATTENDANCE:DIRECT:Pacific/Kiritimati",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CROSS:DAY:ATTENDANCE:DIRECT:Etc/GMT+12",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-22",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 0,
+    "attendance_days": 2,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:DAY:ATTENDANCE:DIRECT:Etc/GMT+12",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:OPENING_SUBLEDGER:OPENING_READY",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:OPENING_SUBLEDGER:OPENING_LAST_CENT",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:OPENING_SUBLEDGER:OPENING_OVERPAY",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:OPENING_SUBLEDGER:OPENING_CORRECTION",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:OPENING_SUBLEDGER:OPENING_REVERSE_CORRECTION",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:OPENING_SUBLEDGER:OPENING_REVERSE_SETTLEMENT",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:OPENING_SUBLEDGER:SUPPLIER_LAST_CENT",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:OPENING_SUBLEDGER:SUPPLIER_OVERPAY",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:OPENING_SUBLEDGER:SUPPLIER_REVERSE_PAYMENT",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:OPENING_SUBLEDGER:SUPPLIER_CORRECTION",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:OPENING_SUBLEDGER:SUPPLIER_REVERSE_CORRECTION",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:OPENING_SUBLEDGER:SUPPLIER_RETURN",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:OPENING_SUBLEDGER:OPENING_PARTIES",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:OPENING_SUBLEDGER:SUPPLIER_VALID_LIFECYCLE",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:OPENING_SUBLEDGER:SUPPLIER_INVOICE_LIFECYCLE",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:OPENING_SUBLEDGER:FRACTIONAL_PURCHASES",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:OPENING_SUBLEDGER:SUPPLIER_AMOUNT_WASH",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:OPENING_SUBLEDGER:OPENING_PARTY_WASH",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:OPENING_SUBLEDGER:OPENING_STATUS_FAULT",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:OPENING_SUBLEDGER:PAYMENT_INVERSE_FAULT",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_CENT:CORRECTION_ROUND_DELTA",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_CENT:CORRECTION_HALF_CENT",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_CENT:MULTI_PURCHASE_INVOICE",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_CENT:PARTIAL_INVOICE",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_CENT:SPLIT_RETURN",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_CENT:CORRECTION_ZERO_INVERSE",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_CENT:CORRECTION_CHAIN",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_CENT:NONFIFO_INVOICE_INVERSE",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_CENT:INVOICE_PAY_REVERSE",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_CENT:INVOICE_RETURN_INVERSE",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_CENT:NONFIFO_RETURN_INVERSE",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_CENT:SUBCENT_RETURN_INVERSE",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_CENT:ZERO_CENT_POSTING_FACT",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_CENT:FACT_LEDGER_FAULT",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_CENT:CROSS_SOURCE_INVERSE_IDENTITY",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_RETURN:NO_INVOICE_TWO_ROLL_FULL",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_RETURN:DIRECT_FINAL_TWO_ROLL_FULL",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_RETURN:FULL_INVOICE_TWO_ROLL_FULL",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_RETURN:PARTIAL_ONE_ROLL_FULL",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_RETURN:PARTIAL_TWO_RETURN_DOCUMENTS",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_RETURN:PARTIAL_TWO_LINES_BELOW_CAP",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_RETURN:HIGH_CREDIT_ATOMIC_REFUSAL",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_RETURN:PARTIAL_TWO_ROLL_FULL",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_RETURN:PARTIAL_TWO_LINES_CROSS_CAP",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_RETURN:PARTIAL_THREE_ROLL_FULL",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_RETURN:SPLIT_INVOICES_TWO_ROLL_FULL",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_RETURN:REPRICED_PARTIAL_TWO_ROLL_FULL",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_RETURN:PRIOR_RELIEF_CROSS_REMAINING_CAP",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_RETURN:LOW_CREDIT_SILENT_MISPOST",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_RETURN:LOW_CREDIT_PAYMENT_CAPACITY",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_RETURN:LATE_INVOICE_LAUNDER",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_RETURN:RETURN_REVERSE_RESTORE",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:SUPPLIER_RETURN:FRACTIONAL_QUANTITY",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:INVOICE:False:Asia/Jakarta:20",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:INVOICE:False:Asia/Jakarta:20.003",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:INVOICE:False:UTC:20",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:INVOICE:False:UTC:20.003",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:INVOICE:False:Etc/GMT+12:20",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:INVOICE:False:Etc/GMT+12:20.003",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:INVOICE:False:Pacific/Kiritimati:20",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:INVOICE:False:Pacific/Kiritimati:20.003",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CROSS:INVOICE:True:Asia/Jakarta:20",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:INVOICE:True:Asia/Jakarta:20",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CROSS:INVOICE:True:Asia/Jakarta:20.003",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:INVOICE:True:Asia/Jakarta:20.003",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CROSS:INVOICE:True:UTC:20",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:INVOICE:True:UTC:20",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CROSS:INVOICE:True:UTC:20.003",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:INVOICE:True:UTC:20.003",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CROSS:INVOICE:True:Etc/GMT+12:20",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:INVOICE:True:Etc/GMT+12:20",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CROSS:INVOICE:True:Etc/GMT+12:20.003",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:INVOICE:True:Etc/GMT+12:20.003",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CROSS:INVOICE:True:Pacific/Kiritimati:20",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:INVOICE:True:Pacific/Kiritimati:20",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CROSS:INVOICE:True:Pacific/Kiritimati:20.003",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:INVOICE:True:Pacific/Kiritimati:20.003",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:CASH_LINKED:0",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CROSS:CASH_LINKED:1",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-08-30",
+    "end": "2026-09-01",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": [
+     {
+      "id": "d44b8896-43a4-4bc9-aecb-739a3cb1598c",
+      "status": "APPROVED",
+      "start": "2026-08-30",
+      "end": "2026-09-01"
+     }
+    ]
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:CASH_LINKED:1",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:CASH_LINKED:2",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:CASH_LINKED:3",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CROSS:CASH_LINKED:4",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-08-30",
+    "end": "2026-09-01",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": [
+     {
+      "id": "d44b8896-43a4-4bc9-aecb-739a3cb1598c",
+      "status": "APPROVED",
+      "start": "2026-08-30",
+      "end": "2026-09-01"
+     }
+    ]
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:CASH_LINKED:4",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:CASH_LINKED:5",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:CASH_LINKED:6",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:CASH_LINKED:7",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:CASH_LINKED:8",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:CASH_LINKED:9",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:F_A01",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:F_A02",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:F_A03",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CROSS:H_R02",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-08-30",
+    "end": "2026-09-01",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": [
+     {
+      "id": "d44b8896-43a4-4bc9-aecb-739a3cb1598c",
+      "status": "APPROVED",
+      "start": "2026-08-30",
+      "end": "2026-09-01"
+     }
+    ]
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:H_R02",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:H_R03_UNDERPAID",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:H_R03_PAID_RETURN",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:H_R03_OVERPAID",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CROSS:ORIGINAL_DRAFT_LIFECYCLE",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "WORK:WORK_CENTS",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-20",
+    "end": "2026-09-20",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "WORK:WORK_CENTS",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "WORK:WORK_ZERO_RATE",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-20",
+    "end": "2026-09-20",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "WORK:WORK_ZERO_RATE",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "WORK:WORK_UNPAID",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "WORK:WORK_PARTIAL_PAY",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-20",
+    "end": "2026-09-20",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "WORK:WORK_PARTIAL_PAY",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "WORK:WORK_TIMEZONE",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-20",
+    "end": "2026-09-20",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "WORK:WORK_TIMEZONE",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "WORK:DIRECT_POST",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "WORK:PO_CONTRACTOR",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "WORK:SNAPSHOT_DELETE",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "WORK:PAYABLE_EXCEEDS_COMPLETED",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "WORK:NEGATIVE_PAYABLE",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "WORK:EMPTY_POST",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "WORK:BEFORE_PICKUP",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "WORK:FUTURE",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "WORK:DOUBLE_POST",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "WORK:POSTED_EDIT",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "WORK:POSTED_DELETE",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "WORK:POSTED_HEADER",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "WORK:REVERSE_REUSE",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-20",
+    "end": "2026-09-20",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "WORK:REVERSE_REUSE",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "WORK:ROLE_UNREGISTERED",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "WORK:ROLE_INACTIVE_OWNER",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "WORK:ROLE_EMPTY_CLAIMS",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "WORK:HPP_THROUGH_SALE_0",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-20",
+    "end": "2026-09-20",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "WORK:HPP_THROUGH_SALE_0",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "WORK:HPP_THROUGH_SALE_1.27",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-20",
+    "end": "2026-09-20",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "WORK:HPP_THROUGH_SALE_1.27",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "INVOICE:UTC:4:False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "INVOICE:UTC:4:False",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "INVOICE:UTC:4:True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "INVOICE:UTC:4:True",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "INVOICE:UTC:7:False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "INVOICE:UTC:7:False",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "INVOICE:UTC:7:True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "INVOICE:UTC:7:True",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "INVOICE:Asia/Jakarta:4:False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "INVOICE:Asia/Jakarta:4:False",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "INVOICE:Asia/Jakarta:4:True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "INVOICE:Asia/Jakarta:4:True",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "INVOICE:Asia/Jakarta:7:False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "INVOICE:Asia/Jakarta:7:False",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "INVOICE:Asia/Jakarta:7:True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "INVOICE:Asia/Jakarta:7:True",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "INVOICE:Pacific/Kiritimati:4:False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "INVOICE:Pacific/Kiritimati:4:False",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "INVOICE:Pacific/Kiritimati:4:True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "INVOICE:Pacific/Kiritimati:4:True",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "INVOICE:Pacific/Kiritimati:7:False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "INVOICE:Pacific/Kiritimati:7:False",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "INVOICE:Pacific/Kiritimati:7:True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "INVOICE:Pacific/Kiritimati:7:True",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "INVOICE:America/Los_Angeles:4:False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "INVOICE:America/Los_Angeles:4:False",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "INVOICE:America/Los_Angeles:4:True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "INVOICE:America/Los_Angeles:4:True",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "INVOICE:America/Los_Angeles:7:False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "INVOICE:America/Los_Angeles:7:False",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "INVOICE:America/Los_Angeles:7:True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "INVOICE:America/Los_Angeles:7:True",
+  "status": "CONTROL_PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CALENDAR:1_MONTHS:UTC:False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-08-25",
+    "end": "2026-08-25",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CALENDAR:1_MONTHS:UTC:False",
+  "status": "DATE_POLICY_REVIEW_REQUIRED"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CALENDAR:1_MONTHS:UTC:True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-08-25",
+    "end": "2026-08-25",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CALENDAR:1_MONTHS:UTC:True",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CALENDAR:1_MONTHS:Pacific/Kiritimati:False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-08-25",
+    "end": "2026-08-25",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CALENDAR:1_MONTHS:Pacific/Kiritimati:False",
+  "status": "DATE_POLICY_REVIEW_REQUIRED"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CALENDAR:1_MONTHS:Pacific/Kiritimati:True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-08-25",
+    "end": "2026-08-25",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CALENDAR:1_MONTHS:Pacific/Kiritimati:True",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CALENDAR:2_MONTHS:UTC:False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-07-25",
+    "end": "2026-07-25",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CALENDAR:2_MONTHS:UTC:False",
+  "status": "DATE_POLICY_REVIEW_REQUIRED"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CALENDAR:2_MONTHS:UTC:True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-07-25",
+    "end": "2026-07-25",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CALENDAR:2_MONTHS:UTC:True",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CALENDAR:2_MONTHS:Pacific/Kiritimati:False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-07-25",
+    "end": "2026-07-25",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CALENDAR:2_MONTHS:Pacific/Kiritimati:False",
+  "status": "DATE_POLICY_REVIEW_REQUIRED"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CALENDAR:2_MONTHS:Pacific/Kiritimati:True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-07-25",
+    "end": "2026-07-25",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CALENDAR:2_MONTHS:Pacific/Kiritimati:True",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CALENDAR:3_MONTHS:UTC:False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-06-25",
+    "end": "2026-06-25",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CALENDAR:3_MONTHS:UTC:False",
+  "status": "DATE_POLICY_REVIEW_REQUIRED"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CALENDAR:3_MONTHS:UTC:True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-06-25",
+    "end": "2026-06-25",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CALENDAR:3_MONTHS:UTC:True",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CALENDAR:3_MONTHS:Pacific/Kiritimati:False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-06-25",
+    "end": "2026-06-25",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CALENDAR:3_MONTHS:Pacific/Kiritimati:False",
+  "status": "DATE_POLICY_REVIEW_REQUIRED"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CALENDAR:3_MONTHS:Pacific/Kiritimati:True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-06-25",
+    "end": "2026-06-25",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CALENDAR:3_MONTHS:Pacific/Kiritimati:True",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CALENDAR:JAN31:UTC:False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-02-01",
+    "end": "2026-02-01",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": [
+     {
+      "id": "a6000000-0000-0000-0000-000000000020",
+      "status": "APPROVED",
+      "start": "2026-02-01",
+      "end": "2026-02-01"
+     }
+    ]
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CALENDAR:JAN31:UTC:False",
+  "status": "DATE_POLICY_REVIEW_REQUIRED"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CALENDAR:JAN31:UTC:True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-02-01",
+    "end": "2026-02-01",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": [
+     {
+      "id": "a6000000-0000-0000-0000-000000000020",
+      "status": "APPROVED",
+      "start": "2026-02-01",
+      "end": "2026-02-01"
+     }
+    ]
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CALENDAR:JAN31:UTC:True",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CALENDAR:JAN31:Pacific/Kiritimati:False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-02-01",
+    "end": "2026-02-01",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": [
+     {
+      "id": "a6000000-0000-0000-0000-000000000020",
+      "status": "APPROVED",
+      "start": "2026-02-01",
+      "end": "2026-02-01"
+     }
+    ]
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CALENDAR:JAN31:Pacific/Kiritimati:False",
+  "status": "DATE_POLICY_REVIEW_REQUIRED"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CALENDAR:JAN31:Pacific/Kiritimati:True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-02-01",
+    "end": "2026-02-01",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": [
+     {
+      "id": "a6000000-0000-0000-0000-000000000020",
+      "status": "APPROVED",
+      "start": "2026-02-01",
+      "end": "2026-02-01"
+     }
+    ]
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CALENDAR:JAN31:Pacific/Kiritimati:True",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CALENDAR:FEB28:UTC:False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-03-01",
+    "end": "2026-03-01",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": [
+     {
+      "id": "a6000000-0000-0000-0000-000000000030",
+      "status": "APPROVED",
+      "start": "2026-03-01",
+      "end": "2026-03-01"
+     }
+    ]
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CALENDAR:FEB28:UTC:False",
+  "status": "DATE_POLICY_REVIEW_REQUIRED"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CALENDAR:FEB28:UTC:True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-03-01",
+    "end": "2026-03-01",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": [
+     {
+      "id": "a6000000-0000-0000-0000-000000000030",
+      "status": "APPROVED",
+      "start": "2026-03-01",
+      "end": "2026-03-01"
+     }
+    ]
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CALENDAR:FEB28:UTC:True",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CALENDAR:FEB28:Pacific/Kiritimati:False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-03-01",
+    "end": "2026-03-01",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": [
+     {
+      "id": "a6000000-0000-0000-0000-000000000030",
+      "status": "APPROVED",
+      "start": "2026-03-01",
+      "end": "2026-03-01"
+     }
+    ]
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CALENDAR:FEB28:Pacific/Kiritimati:False",
+  "status": "DATE_POLICY_REVIEW_REQUIRED"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CALENDAR:FEB28:Pacific/Kiritimati:True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-03-01",
+    "end": "2026-03-01",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": [
+     {
+      "id": "a6000000-0000-0000-0000-000000000030",
+      "status": "APPROVED",
+      "start": "2026-03-01",
+      "end": "2026-03-01"
+     }
+    ]
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CALENDAR:FEB28:Pacific/Kiritimati:True",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CALENDAR:MAY31:UTC:False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-06-01",
+    "end": "2026-06-01",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CALENDAR:MAY31:UTC:False",
+  "status": "DATE_POLICY_REVIEW_REQUIRED"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CALENDAR:MAY31:UTC:True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-06-01",
+    "end": "2026-06-01",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CALENDAR:MAY31:UTC:True",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CALENDAR:MAY31:Pacific/Kiritimati:False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-06-01",
+    "end": "2026-06-01",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CALENDAR:MAY31:Pacific/Kiritimati:False",
+  "status": "DATE_POLICY_REVIEW_REQUIRED"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "CALENDAR:MAY31:Pacific/Kiritimati:True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-06-01",
+    "end": "2026-06-01",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "CALENDAR:MAY31:Pacific/Kiritimati:True",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "IMPORT:VALID",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "IMPORT:MISSING_LOCATION",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "IMPORT:NEGATIVE_QTY",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "IMPORT:DUPLICATE_SOURCE",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "IMPORT:NONNUMERIC_QTY",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "IMPORT:MISSING_COST",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "IMPORT_VALUE:qty:NaN",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "IMPORT_VALUE:qty:Infinity",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "IMPORT_VALUE:qty:-Infinity",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "IMPORT_VALUE:unit_cost:NaN",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "IMPORT_VALUE:unit_cost:ten",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "IMPORT_VALUE:unit_cost:-1",
+  "status": "PASS"
+ },
+ {
+  "group": "BUSINESS",
+  "case": "IMPORT_VALUE:unit_cost: ",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "REWORK:0:CONTRACTOR:failed=False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "REWORK:0:CONTRACTOR:failed=False",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "REWORK:0:CONTRACTOR:failed=True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "REWORK:0:CONTRACTOR:failed=True",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "REWORK:0:LAUNDRY:failed=False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "REWORK:0:LAUNDRY:failed=False",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "REWORK:0:LAUNDRY:failed=True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "REWORK:0:LAUNDRY:failed=True",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "REWORK:4:CONTRACTOR:failed=False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "REWORK:4:CONTRACTOR:failed=False",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "REWORK:4:CONTRACTOR:failed=True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "REWORK:4:CONTRACTOR:failed=True",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "REWORK:4:LAUNDRY:failed=False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "REWORK:4:LAUNDRY:failed=False",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "REWORK:4:LAUNDRY:failed=True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "REWORK:4:LAUNDRY:failed=True",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "REWORK:MIXED_RATES:CONTRACTOR:failed=False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "REWORK:MIXED_RATES:CONTRACTOR:failed=False",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "REWORK:MIXED_RATES:CONTRACTOR:failed=True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "REWORK:MIXED_RATES:CONTRACTOR:failed=True",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "REWORK:MIXED_RATES:LAUNDRY:failed=False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "REWORK:MIXED_RATES:LAUNDRY:failed=False",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "REWORK:MIXED_RATES:LAUNDRY:failed=True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "BUSINESS",
+  "case": "REWORK:MIXED_RATES:LAUNDRY:failed=True",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_SEED_QUIETED",
+  "target": "IMPORTS",
+  "closed_through": "2026-08-31",
+  "window": [
+   "2026-01-02",
+   "2026-09-25"
+  ],
+  "attendance": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "periods": [
+     [
+      "2026-01-02",
+      "2026-01-31"
+     ],
+     [
+      "2026-02-02",
+      "2026-02-28"
+     ],
+     [
+      "2026-03-02",
+      "2026-03-31"
+     ],
+     [
+      "2026-04-02",
+      "2026-09-21"
+     ],
+     [
+      "2026-09-22",
+      "2026-09-23"
+     ],
+     [
+      "2026-09-24",
+      "2026-09-25"
+     ]
+    ]
+   },
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000002",
+    "periods": [
+     [
+      "2026-01-02",
+      "2026-09-21"
+     ],
+     [
+      "2026-09-22",
+      "2026-09-23"
+     ],
+     [
+      "2026-09-24",
+      "2026-09-25"
+     ]
+    ]
+   },
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000003",
+    "periods": [
+     [
+      "2026-01-02",
+      "2026-09-21"
+     ],
+     [
+      "2026-09-22",
+      "2026-09-23"
+     ],
+     [
+      "2026-09-24",
+      "2026-09-25"
+     ]
+    ]
+   },
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000005",
+    "periods": [
+     [
+      "2026-02-02",
+      "2026-09-21"
+     ],
+     [
+      "2026-09-22",
+      "2026-09-23"
+     ],
+     [
+      "2026-09-24",
+      "2026-09-25"
+     ]
+    ]
+   }
+  ],
+  "approved": [
+   "a6000000-0000-0000-0000-000000000021"
+  ],
+  "work_payrolls": 3,
+  "refused": [],
+  "reopened_range": [
+   "2026-01-02",
+   "2026-08-31"
+  ],
+  "reopened_status": "READY",
+  "reopened_blockers": [],
+  "after_status": "READY",
+  "after_blockers": []
+ },
+ {
+  "group": "IMPORTS",
+  "case": "OPENING_REF:material_sku",
+  "status": "PASS"
+ },
+ {
+  "group": "IMPORTS",
+  "case": "OPENING_REF:location_code",
+  "status": "PASS"
+ },
+ {
+  "group": "IMPORTS",
+  "case": "OPENING_REF:model_code",
+  "status": "PASS"
+ },
+ {
+  "group": "IMPORTS",
+  "case": "OPENING_REF:contractor_code",
+  "status": "PASS"
+ },
+ {
+  "group": "IMPORTS",
+  "case": "OPENING_REF:customer_code",
+  "status": "PASS"
+ },
+ {
+  "group": "IMPORTS",
+  "case": "OPENING_REF:supplier_code",
+  "status": "PASS"
+ },
+ {
+  "group": "IMPORTS",
+  "case": "OPENING_REF:vendor_code",
+  "status": "PASS"
+ },
+ {
+  "group": "IMPORTS",
+  "case": "OPENING_REF:cash_account_code",
+  "status": "PASS"
+ },
+ {
+  "group": "IMPORTS",
+  "case": "OPENING_REF:product_sku",
+  "status": "PASS"
+ },
+ {
+  "group": "IMPORTS",
+  "case": "EDIT_PREPARED_DRAFT",
+  "status": "PASS"
+ },
+ {
+  "group": "IMPORTS",
+  "case": "MASTER_REF:PRODUCT:model_code",
+  "status": "PASS"
+ },
+ {
+  "group": "IMPORTS",
+  "case": "MASTER_REF:PRODUCT:brand_code",
+  "status": "PASS"
+ },
+ {
+  "group": "IMPORTS",
+  "case": "MASTER_REF:PRODUCT:size_code",
+  "status": "PASS"
+ },
+ {
+  "group": "IMPORTS",
+  "case": "MASTER_REF:MATERIAL:unit_code",
+  "status": "PASS"
+ },
+ {
+  "group": "IMPORTS",
+  "case": "MASTER_REF:MATERIAL:accessory_category_code",
+  "status": "PASS"
+ },
+ {
+  "group": "IMPORTS",
+  "case": "MASTER_REF:OPEN_PO:model_code",
+  "status": "PASS"
+ },
+ {
+  "group": "IMPORTS",
+  "case": "MASTER_REF:OPEN_PO:contractor_code",
+  "status": "PASS"
+ },
+ {
+  "group": "IMPORTS",
+  "case": "STAGED_MATERIAL",
+  "status": "PASS"
+ },
+ {
+  "group": "IMPORTS",
+  "case": "STAGED_INVALID_PARENT",
+  "status": "PASS"
+ },
+ {
+  "group": "IMPORTS",
+  "case": "DUPLICATE_MASTER",
+  "status": "PASS"
+ },
+ {
+  "group": "IMPORTS",
+  "case": "STAGED_PRODUCT",
+  "status": "PASS"
+ },
+ {
+  "group": "IMPORTS",
+  "case": "VALID_PARTY:CONTRACTOR_RECEIVABLE",
+  "status": "PASS"
+ },
+ {
+  "group": "IMPORTS",
+  "case": "VALID_PARTY:CONTRACTOR_PAYABLE",
+  "status": "PASS"
+ },
+ {
+  "group": "IMPORTS",
+  "case": "VALID_PARTY:CUSTOMER_RECEIVABLE",
+  "status": "PASS"
+ },
+ {
+  "group": "IMPORTS",
+  "case": "VALID_PARTY:SUPPLIER_PAYABLE",
+  "status": "PASS"
+ },
+ {
+  "group": "IMPORTS",
+  "case": "VALID_PARTY:VENDOR_PAYABLE",
+  "status": "PASS"
+ },
+ {
+  "group": "IMPORTS",
+  "case": "VALID_PARTY:CASH_BANK",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "RECOVERED_SALE:CONTRACTOR:False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "IMPORTS",
+  "case": "RECOVERED_SALE:CONTRACTOR:False",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "RECOVERED_SALE:CONTRACTOR:True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "IMPORTS",
+  "case": "RECOVERED_SALE:CONTRACTOR:True",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "RECOVERED_SALE:LAUNDRY:False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "IMPORTS",
+  "case": "RECOVERED_SALE:LAUNDRY:False",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "RECOVERED_SALE:LAUNDRY:True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "IMPORTS",
+  "case": "RECOVERED_SALE:LAUNDRY:True",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_SEED_QUIETED",
+  "target": "VALUES",
+  "closed_through": "2026-08-31",
+  "window": [
+   "2026-01-02",
+   "2026-09-25"
+  ],
+  "attendance": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "periods": [
+     [
+      "2026-01-02",
+      "2026-01-31"
+     ],
+     [
+      "2026-02-02",
+      "2026-02-28"
+     ],
+     [
+      "2026-03-02",
+      "2026-03-31"
+     ],
+     [
+      "2026-04-02",
+      "2026-09-21"
+     ],
+     [
+      "2026-09-22",
+      "2026-09-23"
+     ],
+     [
+      "2026-09-24",
+      "2026-09-25"
+     ]
+    ]
+   },
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000002",
+    "periods": [
+     [
+      "2026-01-02",
+      "2026-09-21"
+     ],
+     [
+      "2026-09-22",
+      "2026-09-23"
+     ],
+     [
+      "2026-09-24",
+      "2026-09-25"
+     ]
+    ]
+   },
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000003",
+    "periods": [
+     [
+      "2026-01-02",
+      "2026-09-21"
+     ],
+     [
+      "2026-09-22",
+      "2026-09-23"
+     ],
+     [
+      "2026-09-24",
+      "2026-09-25"
+     ]
+    ]
+   },
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000005",
+    "periods": [
+     [
+      "2026-02-02",
+      "2026-09-21"
+     ],
+     [
+      "2026-09-22",
+      "2026-09-23"
+     ],
+     [
+      "2026-09-24",
+      "2026-09-25"
+     ]
+    ]
+   }
+  ],
+  "approved": [
+   "a6000000-0000-0000-0000-000000000021"
+  ],
+  "work_payrolls": 3,
+  "refused": [],
+  "reopened_range": [
+   "2026-01-02",
+   "2026-08-31"
+  ],
+  "reopened_status": "READY",
+  "reopened_blockers": [],
+  "after_status": "READY",
+  "after_blockers": []
+ },
+ {
+  "group": "VALUES",
+  "case": "DIRECT_MATERIAL_DRAFT",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "DIRECT_STAGE:ROW",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "DIRECT_STAGE:BATCH",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "ROLL_DRAFT:False",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "ROLL_DRAFT:True",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "BS:False:2",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "BS:False:1.5",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "BS:False:-2",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "BS:False:0",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "BS:False:None",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "WIP:False:AMOUNT",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "WIP:False:COST",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "WIP:False:NEGATIVE_AMOUNT",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "WIP:False:NEGATIVE_QTY",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "BS:True:2",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "BS:True:1.5",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "BS:True:-2",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "BS:True:0",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "BS:True:None",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "WIP:True:AMOUNT",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "WIP:True:COST",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "WIP:True:NEGATIVE_AMOUNT",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "WIP:True:NEGATIVE_QTY",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "TYPED:CUSTOMER:is_active",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "TYPED:SIZE:sort_order",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "TYPED:SUPPLIER:supplier_type",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "TYPED:CONTRACTOR:attendance_required",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "BOOL:BRAND",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "BOOL:SIZE",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "BOOL:MODEL",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "BOOL:PRODUCT",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "BOOL:CUSTOMER",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "BOOL:SUPPLIER",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "BOOL:CONTRACTOR",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "BOOL:ACCESSORY_CATEGORY",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "BOOL:MATERIAL",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "PRODUCT_PORTAL_BOOL",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "OPEN_PO:target_qty_pcs:1.5",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "OPEN_PO:target_qty_pcs:-1",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "OPEN_PO:target_dozens:-1",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "OPEN_PO:physical_start_at:not-a-date",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "SIZE_WIDTH",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "VALID_BOOL:False",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "VALID_BOOL:True",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "VALID_BOOL:",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "VALID_BOOL:None",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "VALID_BOOL:no",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "VALID_BOOL:0",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "VALID_ENUM_NORMALIZATION",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "MIXED_REPAIR",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "DIRECT_NAN:MATERIAL:qty",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "DIRECT_NAN:MATERIAL:amount",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "DIRECT_NAN:MATERIAL:unit_cost_snapshot",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "DIRECT_NAN:WIP:qty",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "DIRECT_NAN:WIP:amount",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "DIRECT_NAN:WIP:unit_cost_snapshot",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "DIRECT_NAN:BS:qty",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "DIRECT_NAN:BS:amount",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "DIRECT_NAN:BS:unit_cost_snapshot",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "WIP_EXPLICIT:False:{}",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "WIP_EXPLICIT:False:{\"qty\": \"2\"}",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "WIP_EXPLICIT:False:{\"qty\": \"2\", \"unit_cost\": \"-1\"}",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "WIP_EXPLICIT:True:{}",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "WIP_EXPLICIT:True:{\"qty\": \"2\"}",
+  "status": "PASS"
+ },
+ {
+  "group": "VALUES",
+  "case": "WIP_EXPLICIT:True:{\"qty\": \"2\", \"unit_cost\": \"-1\"}",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_SEED_QUIETED",
+  "target": "NEW_CASES",
+  "closed_through": "2026-08-31",
+  "window": [
+   "2026-01-02",
+   "2026-09-25"
+  ],
+  "attendance": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "periods": [
+     [
+      "2026-01-02",
+      "2026-01-31"
+     ],
+     [
+      "2026-02-02",
+      "2026-02-28"
+     ],
+     [
+      "2026-03-02",
+      "2026-03-31"
+     ],
+     [
+      "2026-04-02",
+      "2026-09-21"
+     ],
+     [
+      "2026-09-22",
+      "2026-09-23"
+     ],
+     [
+      "2026-09-24",
+      "2026-09-25"
+     ]
+    ]
+   },
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000002",
+    "periods": [
+     [
+      "2026-01-02",
+      "2026-09-21"
+     ],
+     [
+      "2026-09-22",
+      "2026-09-23"
+     ],
+     [
+      "2026-09-24",
+      "2026-09-25"
+     ]
+    ]
+   },
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000003",
+    "periods": [
+     [
+      "2026-01-02",
+      "2026-09-21"
+     ],
+     [
+      "2026-09-22",
+      "2026-09-23"
+     ],
+     [
+      "2026-09-24",
+      "2026-09-25"
+     ]
+    ]
+   },
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000005",
+    "periods": [
+     [
+      "2026-02-02",
+      "2026-09-21"
+     ],
+     [
+      "2026-09-22",
+      "2026-09-23"
+     ],
+     [
+      "2026-09-24",
+      "2026-09-25"
+     ]
+    ]
+   }
+  ],
+  "approved": [
+   "a6000000-0000-0000-0000-000000000021"
+  ],
+  "work_payrolls": 3,
+  "refused": [],
+  "reopened_range": [
+   "2026-01-02",
+   "2026-08-31"
+  ],
+  "reopened_status": "READY",
+  "reopened_blockers": [],
+  "after_status": "READY",
+  "after_blockers": []
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "DATE:False:Asia/Jakarta:False:20.003",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "DATE:False:Asia/Jakarta:True:20",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "T2_APPROVED_ORACLE",
+  "case": "DATE:False:Asia/Jakarta:True:20",
+  "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+  "status": "MATCH",
+  "invoice_date": "2026-09-22",
+  "cut_goods_and_sale_day": "2026-09-23",
+  "checks": {
+   "scope": true,
+   "replay_exact": true,
+   "context_cleared": true,
+   "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+   "revaluation_events_on_cutting_day": true,
+   "revaluation_journals_on_cutting_day": true,
+   "hpp_events_on_goods_and_sale_day": true,
+   "hpp_journals_on_goods_and_sale_day": true,
+   "other_journals_are_the_supplier_invoice_on_E": true,
+   "old_oracle_failed_only_on_dates": true
+  },
+  "fixture": {
+   "po": [
+    "6ddc9132-f9de-478c-8a78-00d358998c39"
+   ],
+   "lot_days": [
+    "2026-09-23"
+   ],
+   "sale_days": [
+    "2026-09-23"
+   ],
+   "returns": 0,
+   "cut_days": [
+    "2026-09-23"
+   ],
+   "revaluation_journals": [
+    "ca032f63-5dc4-438a-90a7-2c9471acf554"
+   ],
+   "event_journals": [
+    "2592d0c0-95b8-47d6-ad5a-3efe94f7828a"
+   ],
+   "other_journals": [
+    [
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-22",
+     "2026-09-22"
+    ]
+   ]
+  },
+  "old_oracle_status": "COUNTEREXAMPLE",
+  "old_oracle_mismatch_keys": [
+   "hpp_events",
+   "journal_posting_date",
+   "revaluation_events"
+  ]
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "DATE:False:Asia/Jakarta:True:20",
+  "status": "COUNTEREXAMPLE",
+  "closed": false,
+  "partial": true,
+  "cost": "20",
+  "caller_zone": "Asia/Jakarta",
+  "invoice_date": "2026-09-22",
+  "recognition_date": "2026-09-22",
+  "observations": {
+   "revaluation_events": [
+    [
+     "c3483c99-f58f-48f1-8d02-d3f2a01c46a1",
+     "2026-09-23",
+     "-100.00",
+     "WIP"
+    ]
+   ],
+   "hpp_events": [
+    [
+     "723e83f6-65e8-47af-95ed-9cc266feedde",
+     "2026-09-23",
+     "30.000000",
+     "20.000000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "2592d0c0-95b8-47d6-ad5a-3efe94f7828a",
+     "PO_HPP_GL_SYNC",
+     "2026-09-23",
+     "2026-09-23",
+     "POSTED"
+    ],
+    [
+     "aca27a6b-058c-433c-a048-57295b87d91e",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ],
+    [
+     "ca032f63-5dc4-438a-90a7-2c9471acf554",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-23",
+     "2026-09-23",
+     "POSTED"
+    ]
+   ]
+  },
+  "mismatches": {
+   "revaluation_events": {
+    "expected": "2026-09-22",
+    "actual": [
+     [
+      "c3483c99-f58f-48f1-8d02-d3f2a01c46a1",
+      "2026-09-23",
+      "-100.00",
+      "WIP"
+     ]
+    ]
+   },
+   "hpp_events": {
+    "expected": "2026-09-22",
+    "actual": [
+     [
+      "723e83f6-65e8-47af-95ed-9cc266feedde",
+      "2026-09-23",
+      "30.000000",
+      "20.000000",
+      "0.000000"
+     ]
+    ]
+   },
+   "journal_posting_date": {
+    "expected": "2026-09-22",
+    "actual": [
+     [
+      "2592d0c0-95b8-47d6-ad5a-3efe94f7828a",
+      "PO_HPP_GL_SYNC",
+      "2026-09-23",
+      "2026-09-23",
+      "POSTED"
+     ],
+     [
+      "aca27a6b-058c-433c-a048-57295b87d91e",
+      "MATERIAL_SUPPLIER_INVOICE",
+      "2026-09-22",
+      "2026-09-22",
+      "POSTED"
+     ],
+     [
+      "ca032f63-5dc4-438a-90a7-2c9471acf554",
+      "MATERIAL_COST_REVALUATION",
+      "2026-09-23",
+      "2026-09-23",
+      "POSTED"
+     ]
+    ]
+   }
+  },
+  "replay_exact": true,
+  "context_cleared": true,
+  "approved_oracle_20260924": {
+   "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+   "status": "MATCH",
+   "invoice_date": "2026-09-22",
+   "cut_goods_and_sale_day": "2026-09-23",
+   "checks": {
+    "scope": true,
+    "replay_exact": true,
+    "context_cleared": true,
+    "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+    "revaluation_events_on_cutting_day": true,
+    "revaluation_journals_on_cutting_day": true,
+    "hpp_events_on_goods_and_sale_day": true,
+    "hpp_journals_on_goods_and_sale_day": true,
+    "other_journals_are_the_supplier_invoice_on_E": true,
+    "old_oracle_failed_only_on_dates": true
+   },
+   "fixture": {
+    "po": [
+     "6ddc9132-f9de-478c-8a78-00d358998c39"
+    ],
+    "lot_days": [
+     "2026-09-23"
+    ],
+    "sale_days": [
+     "2026-09-23"
+    ],
+    "returns": 0,
+    "cut_days": [
+     "2026-09-23"
+    ],
+    "revaluation_journals": [
+     "ca032f63-5dc4-438a-90a7-2c9471acf554"
+    ],
+    "event_journals": [
+     "2592d0c0-95b8-47d6-ad5a-3efe94f7828a"
+    ],
+    "other_journals": [
+     [
+      "MATERIAL_SUPPLIER_INVOICE",
+      "2026-09-22",
+      "2026-09-22"
+     ]
+    ]
+   },
+   "old_oracle_status": "COUNTEREXAMPLE",
+   "old_oracle_mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date",
+    "revaluation_events"
+   ]
+  },
+  "full_boundary_restored": true
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "DATE:False:Asia/Jakarta:True:20.003",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "T2_APPROVED_ORACLE",
+  "case": "DATE:False:Asia/Jakarta:True:20.003",
+  "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+  "status": "MATCH",
+  "invoice_date": "2026-09-22",
+  "cut_goods_and_sale_day": "2026-09-23",
+  "checks": {
+   "scope": true,
+   "replay_exact": true,
+   "context_cleared": true,
+   "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+   "revaluation_events_on_cutting_day": true,
+   "revaluation_journals_on_cutting_day": true,
+   "hpp_events_on_goods_and_sale_day": true,
+   "hpp_journals_on_goods_and_sale_day": true,
+   "other_journals_are_the_supplier_invoice_on_E": true,
+   "old_oracle_failed_only_on_dates": true
+  },
+  "fixture": {
+   "po": [
+    "e31c9f7a-4073-4f01-8574-59e3fafc6e25"
+   ],
+   "lot_days": [
+    "2026-09-23"
+   ],
+   "sale_days": [
+    "2026-09-23"
+   ],
+   "returns": 0,
+   "cut_days": [
+    "2026-09-23"
+   ],
+   "revaluation_journals": [
+    "7139682d-3ff5-4441-919b-bd51099376e3"
+   ],
+   "event_journals": [
+    "ad10b497-be6d-459c-ab42-1fbee58f2981"
+   ],
+   "other_journals": [
+    [
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-22",
+     "2026-09-22"
+    ]
+   ]
+  },
+  "old_oracle_status": "COUNTEREXAMPLE",
+  "old_oracle_mismatch_keys": [
+   "hpp_events",
+   "journal_posting_date",
+   "revaluation_events"
+  ]
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "DATE:False:Asia/Jakarta:True:20.003",
+  "status": "COUNTEREXAMPLE",
+  "closed": false,
+  "partial": true,
+  "cost": "20.003",
+  "caller_zone": "Asia/Jakarta",
+  "invoice_date": "2026-09-22",
+  "recognition_date": "2026-09-22",
+  "observations": {
+   "revaluation_events": [
+    [
+     "28d0d266-3243-4f8d-b742-521b2b4970bd",
+     "2026-09-23",
+     "-100.03",
+     "WIP"
+    ]
+   ],
+   "hpp_events": [
+    [
+     "1506f23c-0da1-4e78-8eb3-0db4f8fa6434",
+     "2026-09-23",
+     "30.010000",
+     "20.010000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "7139682d-3ff5-4441-919b-bd51099376e3",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-23",
+     "2026-09-23",
+     "POSTED"
+    ],
+    [
+     "ace37629-c499-422e-b886-d382c3bf00cc",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ],
+    [
+     "ad10b497-be6d-459c-ab42-1fbee58f2981",
+     "PO_HPP_GL_SYNC",
+     "2026-09-23",
+     "2026-09-23",
+     "POSTED"
+    ]
+   ]
+  },
+  "mismatches": {
+   "revaluation_events": {
+    "expected": "2026-09-22",
+    "actual": [
+     [
+      "28d0d266-3243-4f8d-b742-521b2b4970bd",
+      "2026-09-23",
+      "-100.03",
+      "WIP"
+     ]
+    ]
+   },
+   "hpp_events": {
+    "expected": "2026-09-22",
+    "actual": [
+     [
+      "1506f23c-0da1-4e78-8eb3-0db4f8fa6434",
+      "2026-09-23",
+      "30.010000",
+      "20.010000",
+      "0.000000"
+     ]
+    ]
+   },
+   "journal_posting_date": {
+    "expected": "2026-09-22",
+    "actual": [
+     [
+      "7139682d-3ff5-4441-919b-bd51099376e3",
+      "MATERIAL_COST_REVALUATION",
+      "2026-09-23",
+      "2026-09-23",
+      "POSTED"
+     ],
+     [
+      "ace37629-c499-422e-b886-d382c3bf00cc",
+      "MATERIAL_SUPPLIER_INVOICE",
+      "2026-09-22",
+      "2026-09-22",
+      "POSTED"
+     ],
+     [
+      "ad10b497-be6d-459c-ab42-1fbee58f2981",
+      "PO_HPP_GL_SYNC",
+      "2026-09-23",
+      "2026-09-23",
+      "POSTED"
+     ]
+    ]
+   }
+  },
+  "replay_exact": true,
+  "context_cleared": true,
+  "approved_oracle_20260924": {
+   "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+   "status": "MATCH",
+   "invoice_date": "2026-09-22",
+   "cut_goods_and_sale_day": "2026-09-23",
+   "checks": {
+    "scope": true,
+    "replay_exact": true,
+    "context_cleared": true,
+    "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+    "revaluation_events_on_cutting_day": true,
+    "revaluation_journals_on_cutting_day": true,
+    "hpp_events_on_goods_and_sale_day": true,
+    "hpp_journals_on_goods_and_sale_day": true,
+    "other_journals_are_the_supplier_invoice_on_E": true,
+    "old_oracle_failed_only_on_dates": true
+   },
+   "fixture": {
+    "po": [
+     "e31c9f7a-4073-4f01-8574-59e3fafc6e25"
+    ],
+    "lot_days": [
+     "2026-09-23"
+    ],
+    "sale_days": [
+     "2026-09-23"
+    ],
+    "returns": 0,
+    "cut_days": [
+     "2026-09-23"
+    ],
+    "revaluation_journals": [
+     "7139682d-3ff5-4441-919b-bd51099376e3"
+    ],
+    "event_journals": [
+     "ad10b497-be6d-459c-ab42-1fbee58f2981"
+    ],
+    "other_journals": [
+     [
+      "MATERIAL_SUPPLIER_INVOICE",
+      "2026-09-22",
+      "2026-09-22"
+     ]
+    ]
+   },
+   "old_oracle_status": "COUNTEREXAMPLE",
+   "old_oracle_mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date",
+    "revaluation_events"
+   ]
+  },
+  "full_boundary_restored": true
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "DATE:False:UTC:False:20.003",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "DATE:False:UTC:True:20",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "T2_APPROVED_ORACLE",
+  "case": "DATE:False:UTC:True:20",
+  "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+  "status": "MATCH",
+  "invoice_date": "2026-09-22",
+  "cut_goods_and_sale_day": "2026-09-23",
+  "checks": {
+   "scope": true,
+   "replay_exact": true,
+   "context_cleared": true,
+   "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+   "revaluation_events_on_cutting_day": true,
+   "revaluation_journals_on_cutting_day": true,
+   "hpp_events_on_goods_and_sale_day": true,
+   "hpp_journals_on_goods_and_sale_day": true,
+   "other_journals_are_the_supplier_invoice_on_E": true,
+   "old_oracle_failed_only_on_dates": true
+  },
+  "fixture": {
+   "po": [
+    "8088b126-d37f-440c-9fb4-db87fb5e0d22"
+   ],
+   "lot_days": [
+    "2026-09-23"
+   ],
+   "sale_days": [
+    "2026-09-23"
+   ],
+   "returns": 0,
+   "cut_days": [
+    "2026-09-23"
+   ],
+   "revaluation_journals": [
+    "9f45ff2c-5e88-4dd4-9fe1-af78799029db"
+   ],
+   "event_journals": [
+    "9a851894-75f0-4bdb-bcce-f1ff13afd20f"
+   ],
+   "other_journals": [
+    [
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-22",
+     "2026-09-22"
+    ]
+   ]
+  },
+  "old_oracle_status": "COUNTEREXAMPLE",
+  "old_oracle_mismatch_keys": [
+   "hpp_events",
+   "journal_posting_date",
+   "revaluation_events"
+  ]
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "DATE:False:UTC:True:20",
+  "status": "COUNTEREXAMPLE",
+  "closed": false,
+  "partial": true,
+  "cost": "20",
+  "caller_zone": "UTC",
+  "invoice_date": "2026-09-22",
+  "recognition_date": "2026-09-22",
+  "observations": {
+   "revaluation_events": [
+    [
+     "6590c69a-7a78-431f-915b-00d720e986c9",
+     "2026-09-23",
+     "-100.00",
+     "WIP"
+    ]
+   ],
+   "hpp_events": [
+    [
+     "b29bd399-4638-4752-905f-bf0af7f0af28",
+     "2026-09-23",
+     "30.000000",
+     "20.000000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "57d73810-7695-4724-8392-135e37e883c7",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ],
+    [
+     "9a851894-75f0-4bdb-bcce-f1ff13afd20f",
+     "PO_HPP_GL_SYNC",
+     "2026-09-23",
+     "2026-09-23",
+     "POSTED"
+    ],
+    [
+     "9f45ff2c-5e88-4dd4-9fe1-af78799029db",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-23",
+     "2026-09-23",
+     "POSTED"
+    ]
+   ]
+  },
+  "mismatches": {
+   "revaluation_events": {
+    "expected": "2026-09-22",
+    "actual": [
+     [
+      "6590c69a-7a78-431f-915b-00d720e986c9",
+      "2026-09-23",
+      "-100.00",
+      "WIP"
+     ]
+    ]
+   },
+   "hpp_events": {
+    "expected": "2026-09-22",
+    "actual": [
+     [
+      "b29bd399-4638-4752-905f-bf0af7f0af28",
+      "2026-09-23",
+      "30.000000",
+      "20.000000",
+      "0.000000"
+     ]
+    ]
+   },
+   "journal_posting_date": {
+    "expected": "2026-09-22",
+    "actual": [
+     [
+      "57d73810-7695-4724-8392-135e37e883c7",
+      "MATERIAL_SUPPLIER_INVOICE",
+      "2026-09-22",
+      "2026-09-22",
+      "POSTED"
+     ],
+     [
+      "9a851894-75f0-4bdb-bcce-f1ff13afd20f",
+      "PO_HPP_GL_SYNC",
+      "2026-09-23",
+      "2026-09-23",
+      "POSTED"
+     ],
+     [
+      "9f45ff2c-5e88-4dd4-9fe1-af78799029db",
+      "MATERIAL_COST_REVALUATION",
+      "2026-09-23",
+      "2026-09-23",
+      "POSTED"
+     ]
+    ]
+   }
+  },
+  "replay_exact": true,
+  "context_cleared": true,
+  "approved_oracle_20260924": {
+   "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+   "status": "MATCH",
+   "invoice_date": "2026-09-22",
+   "cut_goods_and_sale_day": "2026-09-23",
+   "checks": {
+    "scope": true,
+    "replay_exact": true,
+    "context_cleared": true,
+    "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+    "revaluation_events_on_cutting_day": true,
+    "revaluation_journals_on_cutting_day": true,
+    "hpp_events_on_goods_and_sale_day": true,
+    "hpp_journals_on_goods_and_sale_day": true,
+    "other_journals_are_the_supplier_invoice_on_E": true,
+    "old_oracle_failed_only_on_dates": true
+   },
+   "fixture": {
+    "po": [
+     "8088b126-d37f-440c-9fb4-db87fb5e0d22"
+    ],
+    "lot_days": [
+     "2026-09-23"
+    ],
+    "sale_days": [
+     "2026-09-23"
+    ],
+    "returns": 0,
+    "cut_days": [
+     "2026-09-23"
+    ],
+    "revaluation_journals": [
+     "9f45ff2c-5e88-4dd4-9fe1-af78799029db"
+    ],
+    "event_journals": [
+     "9a851894-75f0-4bdb-bcce-f1ff13afd20f"
+    ],
+    "other_journals": [
+     [
+      "MATERIAL_SUPPLIER_INVOICE",
+      "2026-09-22",
+      "2026-09-22"
+     ]
+    ]
+   },
+   "old_oracle_status": "COUNTEREXAMPLE",
+   "old_oracle_mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date",
+    "revaluation_events"
+   ]
+  },
+  "full_boundary_restored": true
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "DATE:False:UTC:True:20.003",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "T2_APPROVED_ORACLE",
+  "case": "DATE:False:UTC:True:20.003",
+  "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+  "status": "MATCH",
+  "invoice_date": "2026-09-22",
+  "cut_goods_and_sale_day": "2026-09-23",
+  "checks": {
+   "scope": true,
+   "replay_exact": true,
+   "context_cleared": true,
+   "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+   "revaluation_events_on_cutting_day": true,
+   "revaluation_journals_on_cutting_day": true,
+   "hpp_events_on_goods_and_sale_day": true,
+   "hpp_journals_on_goods_and_sale_day": true,
+   "other_journals_are_the_supplier_invoice_on_E": true,
+   "old_oracle_failed_only_on_dates": true
+  },
+  "fixture": {
+   "po": [
+    "64a14d0e-ac4b-47a6-b4df-1f81e4bcef67"
+   ],
+   "lot_days": [
+    "2026-09-23"
+   ],
+   "sale_days": [
+    "2026-09-23"
+   ],
+   "returns": 0,
+   "cut_days": [
+    "2026-09-23"
+   ],
+   "revaluation_journals": [
+    "2fe62245-e296-44f0-97a1-cc09c3ab3698"
+   ],
+   "event_journals": [
+    "5a5c966e-1324-4d0b-890d-3d233bd24dcb"
+   ],
+   "other_journals": [
+    [
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-22",
+     "2026-09-22"
+    ]
+   ]
+  },
+  "old_oracle_status": "COUNTEREXAMPLE",
+  "old_oracle_mismatch_keys": [
+   "hpp_events",
+   "journal_posting_date",
+   "revaluation_events"
+  ]
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "DATE:False:UTC:True:20.003",
+  "status": "COUNTEREXAMPLE",
+  "closed": false,
+  "partial": true,
+  "cost": "20.003",
+  "caller_zone": "UTC",
+  "invoice_date": "2026-09-22",
+  "recognition_date": "2026-09-22",
+  "observations": {
+   "revaluation_events": [
+    [
+     "c820ce59-253d-4cb4-8965-ec414cbc2b67",
+     "2026-09-23",
+     "-100.03",
+     "WIP"
+    ]
+   ],
+   "hpp_events": [
+    [
+     "da0eeaf5-a568-4717-b3d3-ba74be601385",
+     "2026-09-23",
+     "30.010000",
+     "20.010000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "2fe62245-e296-44f0-97a1-cc09c3ab3698",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-23",
+     "2026-09-23",
+     "POSTED"
+    ],
+    [
+     "56163e8d-22c8-4380-abc4-23c2a6ababc3",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ],
+    [
+     "5a5c966e-1324-4d0b-890d-3d233bd24dcb",
+     "PO_HPP_GL_SYNC",
+     "2026-09-23",
+     "2026-09-23",
+     "POSTED"
+    ]
+   ]
+  },
+  "mismatches": {
+   "revaluation_events": {
+    "expected": "2026-09-22",
+    "actual": [
+     [
+      "c820ce59-253d-4cb4-8965-ec414cbc2b67",
+      "2026-09-23",
+      "-100.03",
+      "WIP"
+     ]
+    ]
+   },
+   "hpp_events": {
+    "expected": "2026-09-22",
+    "actual": [
+     [
+      "da0eeaf5-a568-4717-b3d3-ba74be601385",
+      "2026-09-23",
+      "30.010000",
+      "20.010000",
+      "0.000000"
+     ]
+    ]
+   },
+   "journal_posting_date": {
+    "expected": "2026-09-22",
+    "actual": [
+     [
+      "2fe62245-e296-44f0-97a1-cc09c3ab3698",
+      "MATERIAL_COST_REVALUATION",
+      "2026-09-23",
+      "2026-09-23",
+      "POSTED"
+     ],
+     [
+      "56163e8d-22c8-4380-abc4-23c2a6ababc3",
+      "MATERIAL_SUPPLIER_INVOICE",
+      "2026-09-22",
+      "2026-09-22",
+      "POSTED"
+     ],
+     [
+      "5a5c966e-1324-4d0b-890d-3d233bd24dcb",
+      "PO_HPP_GL_SYNC",
+      "2026-09-23",
+      "2026-09-23",
+      "POSTED"
+     ]
+    ]
+   }
+  },
+  "replay_exact": true,
+  "context_cleared": true,
+  "approved_oracle_20260924": {
+   "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+   "status": "MATCH",
+   "invoice_date": "2026-09-22",
+   "cut_goods_and_sale_day": "2026-09-23",
+   "checks": {
+    "scope": true,
+    "replay_exact": true,
+    "context_cleared": true,
+    "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+    "revaluation_events_on_cutting_day": true,
+    "revaluation_journals_on_cutting_day": true,
+    "hpp_events_on_goods_and_sale_day": true,
+    "hpp_journals_on_goods_and_sale_day": true,
+    "other_journals_are_the_supplier_invoice_on_E": true,
+    "old_oracle_failed_only_on_dates": true
+   },
+   "fixture": {
+    "po": [
+     "64a14d0e-ac4b-47a6-b4df-1f81e4bcef67"
+    ],
+    "lot_days": [
+     "2026-09-23"
+    ],
+    "sale_days": [
+     "2026-09-23"
+    ],
+    "returns": 0,
+    "cut_days": [
+     "2026-09-23"
+    ],
+    "revaluation_journals": [
+     "2fe62245-e296-44f0-97a1-cc09c3ab3698"
+    ],
+    "event_journals": [
+     "5a5c966e-1324-4d0b-890d-3d233bd24dcb"
+    ],
+    "other_journals": [
+     [
+      "MATERIAL_SUPPLIER_INVOICE",
+      "2026-09-22",
+      "2026-09-22"
+     ]
+    ]
+   },
+   "old_oracle_status": "COUNTEREXAMPLE",
+   "old_oracle_mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date",
+    "revaluation_events"
+   ]
+  },
+  "full_boundary_restored": true
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "DATE:False:Etc/GMT+12:False:20.003",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "DATE:False:Etc/GMT+12:True:20",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "T2_APPROVED_ORACLE",
+  "case": "DATE:False:Etc/GMT+12:True:20",
+  "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+  "status": "MATCH",
+  "invoice_date": "2026-09-22",
+  "cut_goods_and_sale_day": "2026-09-23",
+  "checks": {
+   "scope": true,
+   "replay_exact": true,
+   "context_cleared": true,
+   "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+   "revaluation_events_on_cutting_day": true,
+   "revaluation_journals_on_cutting_day": true,
+   "hpp_events_on_goods_and_sale_day": true,
+   "hpp_journals_on_goods_and_sale_day": true,
+   "other_journals_are_the_supplier_invoice_on_E": true,
+   "old_oracle_failed_only_on_dates": true
+  },
+  "fixture": {
+   "po": [
+    "282f7eb1-5aac-48d6-887f-ac62389846e8"
+   ],
+   "lot_days": [
+    "2026-09-23"
+   ],
+   "sale_days": [
+    "2026-09-23"
+   ],
+   "returns": 0,
+   "cut_days": [
+    "2026-09-23"
+   ],
+   "revaluation_journals": [
+    "0419b18b-f995-427d-a7e2-0114cfc350d0"
+   ],
+   "event_journals": [
+    "76d85d0e-9100-47e1-b7d1-3a5e9f3aa304"
+   ],
+   "other_journals": [
+    [
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-22",
+     "2026-09-22"
+    ]
+   ]
+  },
+  "old_oracle_status": "COUNTEREXAMPLE",
+  "old_oracle_mismatch_keys": [
+   "hpp_events",
+   "journal_posting_date",
+   "revaluation_events"
+  ]
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "DATE:False:Etc/GMT+12:True:20",
+  "status": "COUNTEREXAMPLE",
+  "closed": false,
+  "partial": true,
+  "cost": "20",
+  "caller_zone": "Etc/GMT+12",
+  "invoice_date": "2026-09-22",
+  "recognition_date": "2026-09-22",
+  "observations": {
+   "revaluation_events": [
+    [
+     "5d8c4049-dcb5-4953-8725-72652930005d",
+     "2026-09-23",
+     "-100.00",
+     "WIP"
+    ]
+   ],
+   "hpp_events": [
+    [
+     "a849f3e2-42f0-415f-be64-017dcfcc3e36",
+     "2026-09-23",
+     "30.000000",
+     "20.000000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "0419b18b-f995-427d-a7e2-0114cfc350d0",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-23",
+     "2026-09-23",
+     "POSTED"
+    ],
+    [
+     "26207b52-c3b6-44cb-9511-19bb919b0e64",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ],
+    [
+     "76d85d0e-9100-47e1-b7d1-3a5e9f3aa304",
+     "PO_HPP_GL_SYNC",
+     "2026-09-23",
+     "2026-09-23",
+     "POSTED"
+    ]
+   ]
+  },
+  "mismatches": {
+   "revaluation_events": {
+    "expected": "2026-09-22",
+    "actual": [
+     [
+      "5d8c4049-dcb5-4953-8725-72652930005d",
+      "2026-09-23",
+      "-100.00",
+      "WIP"
+     ]
+    ]
+   },
+   "hpp_events": {
+    "expected": "2026-09-22",
+    "actual": [
+     [
+      "a849f3e2-42f0-415f-be64-017dcfcc3e36",
+      "2026-09-23",
+      "30.000000",
+      "20.000000",
+      "0.000000"
+     ]
+    ]
+   },
+   "journal_posting_date": {
+    "expected": "2026-09-22",
+    "actual": [
+     [
+      "0419b18b-f995-427d-a7e2-0114cfc350d0",
+      "MATERIAL_COST_REVALUATION",
+      "2026-09-23",
+      "2026-09-23",
+      "POSTED"
+     ],
+     [
+      "26207b52-c3b6-44cb-9511-19bb919b0e64",
+      "MATERIAL_SUPPLIER_INVOICE",
+      "2026-09-22",
+      "2026-09-22",
+      "POSTED"
+     ],
+     [
+      "76d85d0e-9100-47e1-b7d1-3a5e9f3aa304",
+      "PO_HPP_GL_SYNC",
+      "2026-09-23",
+      "2026-09-23",
+      "POSTED"
+     ]
+    ]
+   }
+  },
+  "replay_exact": true,
+  "context_cleared": true,
+  "approved_oracle_20260924": {
+   "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+   "status": "MATCH",
+   "invoice_date": "2026-09-22",
+   "cut_goods_and_sale_day": "2026-09-23",
+   "checks": {
+    "scope": true,
+    "replay_exact": true,
+    "context_cleared": true,
+    "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+    "revaluation_events_on_cutting_day": true,
+    "revaluation_journals_on_cutting_day": true,
+    "hpp_events_on_goods_and_sale_day": true,
+    "hpp_journals_on_goods_and_sale_day": true,
+    "other_journals_are_the_supplier_invoice_on_E": true,
+    "old_oracle_failed_only_on_dates": true
+   },
+   "fixture": {
+    "po": [
+     "282f7eb1-5aac-48d6-887f-ac62389846e8"
+    ],
+    "lot_days": [
+     "2026-09-23"
+    ],
+    "sale_days": [
+     "2026-09-23"
+    ],
+    "returns": 0,
+    "cut_days": [
+     "2026-09-23"
+    ],
+    "revaluation_journals": [
+     "0419b18b-f995-427d-a7e2-0114cfc350d0"
+    ],
+    "event_journals": [
+     "76d85d0e-9100-47e1-b7d1-3a5e9f3aa304"
+    ],
+    "other_journals": [
+     [
+      "MATERIAL_SUPPLIER_INVOICE",
+      "2026-09-22",
+      "2026-09-22"
+     ]
+    ]
+   },
+   "old_oracle_status": "COUNTEREXAMPLE",
+   "old_oracle_mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date",
+    "revaluation_events"
+   ]
+  },
+  "full_boundary_restored": true
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "DATE:False:Etc/GMT+12:True:20.003",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "T2_APPROVED_ORACLE",
+  "case": "DATE:False:Etc/GMT+12:True:20.003",
+  "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+  "status": "MATCH",
+  "invoice_date": "2026-09-22",
+  "cut_goods_and_sale_day": "2026-09-23",
+  "checks": {
+   "scope": true,
+   "replay_exact": true,
+   "context_cleared": true,
+   "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+   "revaluation_events_on_cutting_day": true,
+   "revaluation_journals_on_cutting_day": true,
+   "hpp_events_on_goods_and_sale_day": true,
+   "hpp_journals_on_goods_and_sale_day": true,
+   "other_journals_are_the_supplier_invoice_on_E": true,
+   "old_oracle_failed_only_on_dates": true
+  },
+  "fixture": {
+   "po": [
+    "a1c78bcc-8794-4ff6-878c-d058ef0f232c"
+   ],
+   "lot_days": [
+    "2026-09-23"
+   ],
+   "sale_days": [
+    "2026-09-23"
+   ],
+   "returns": 0,
+   "cut_days": [
+    "2026-09-23"
+   ],
+   "revaluation_journals": [
+    "50f8f093-58db-4bf0-ac20-dde4aac5f73a"
+   ],
+   "event_journals": [
+    "3baade8f-d675-4cba-b080-3deb9e03873f"
+   ],
+   "other_journals": [
+    [
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-22",
+     "2026-09-22"
+    ]
+   ]
+  },
+  "old_oracle_status": "COUNTEREXAMPLE",
+  "old_oracle_mismatch_keys": [
+   "hpp_events",
+   "journal_posting_date",
+   "revaluation_events"
+  ]
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "DATE:False:Etc/GMT+12:True:20.003",
+  "status": "COUNTEREXAMPLE",
+  "closed": false,
+  "partial": true,
+  "cost": "20.003",
+  "caller_zone": "Etc/GMT+12",
+  "invoice_date": "2026-09-22",
+  "recognition_date": "2026-09-22",
+  "observations": {
+   "revaluation_events": [
+    [
+     "c0b4ccd3-f92e-4248-bb9d-771ae2be7b56",
+     "2026-09-23",
+     "-100.03",
+     "WIP"
+    ]
+   ],
+   "hpp_events": [
+    [
+     "c3e2489a-e93b-49c0-b566-a87754d5b7a6",
+     "2026-09-23",
+     "30.010000",
+     "20.010000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "27b19599-6e5b-47b7-a7f3-50323f1414c6",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ],
+    [
+     "3baade8f-d675-4cba-b080-3deb9e03873f",
+     "PO_HPP_GL_SYNC",
+     "2026-09-23",
+     "2026-09-23",
+     "POSTED"
+    ],
+    [
+     "50f8f093-58db-4bf0-ac20-dde4aac5f73a",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-23",
+     "2026-09-23",
+     "POSTED"
+    ]
+   ]
+  },
+  "mismatches": {
+   "revaluation_events": {
+    "expected": "2026-09-22",
+    "actual": [
+     [
+      "c0b4ccd3-f92e-4248-bb9d-771ae2be7b56",
+      "2026-09-23",
+      "-100.03",
+      "WIP"
+     ]
+    ]
+   },
+   "hpp_events": {
+    "expected": "2026-09-22",
+    "actual": [
+     [
+      "c3e2489a-e93b-49c0-b566-a87754d5b7a6",
+      "2026-09-23",
+      "30.010000",
+      "20.010000",
+      "0.000000"
+     ]
+    ]
+   },
+   "journal_posting_date": {
+    "expected": "2026-09-22",
+    "actual": [
+     [
+      "27b19599-6e5b-47b7-a7f3-50323f1414c6",
+      "MATERIAL_SUPPLIER_INVOICE",
+      "2026-09-22",
+      "2026-09-22",
+      "POSTED"
+     ],
+     [
+      "3baade8f-d675-4cba-b080-3deb9e03873f",
+      "PO_HPP_GL_SYNC",
+      "2026-09-23",
+      "2026-09-23",
+      "POSTED"
+     ],
+     [
+      "50f8f093-58db-4bf0-ac20-dde4aac5f73a",
+      "MATERIAL_COST_REVALUATION",
+      "2026-09-23",
+      "2026-09-23",
+      "POSTED"
+     ]
+    ]
+   }
+  },
+  "replay_exact": true,
+  "context_cleared": true,
+  "approved_oracle_20260924": {
+   "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+   "status": "MATCH",
+   "invoice_date": "2026-09-22",
+   "cut_goods_and_sale_day": "2026-09-23",
+   "checks": {
+    "scope": true,
+    "replay_exact": true,
+    "context_cleared": true,
+    "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+    "revaluation_events_on_cutting_day": true,
+    "revaluation_journals_on_cutting_day": true,
+    "hpp_events_on_goods_and_sale_day": true,
+    "hpp_journals_on_goods_and_sale_day": true,
+    "other_journals_are_the_supplier_invoice_on_E": true,
+    "old_oracle_failed_only_on_dates": true
+   },
+   "fixture": {
+    "po": [
+     "a1c78bcc-8794-4ff6-878c-d058ef0f232c"
+    ],
+    "lot_days": [
+     "2026-09-23"
+    ],
+    "sale_days": [
+     "2026-09-23"
+    ],
+    "returns": 0,
+    "cut_days": [
+     "2026-09-23"
+    ],
+    "revaluation_journals": [
+     "50f8f093-58db-4bf0-ac20-dde4aac5f73a"
+    ],
+    "event_journals": [
+     "3baade8f-d675-4cba-b080-3deb9e03873f"
+    ],
+    "other_journals": [
+     [
+      "MATERIAL_SUPPLIER_INVOICE",
+      "2026-09-22",
+      "2026-09-22"
+     ]
+    ]
+   },
+   "old_oracle_status": "COUNTEREXAMPLE",
+   "old_oracle_mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date",
+    "revaluation_events"
+   ]
+  },
+  "full_boundary_restored": true
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "DATE:False:Pacific/Kiritimati:False:20.003",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "DATE:False:Pacific/Kiritimati:True:20",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "T2_APPROVED_ORACLE",
+  "case": "DATE:False:Pacific/Kiritimati:True:20",
+  "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+  "status": "MATCH",
+  "invoice_date": "2026-09-22",
+  "cut_goods_and_sale_day": "2026-09-23",
+  "checks": {
+   "scope": true,
+   "replay_exact": true,
+   "context_cleared": true,
+   "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+   "revaluation_events_on_cutting_day": true,
+   "revaluation_journals_on_cutting_day": true,
+   "hpp_events_on_goods_and_sale_day": true,
+   "hpp_journals_on_goods_and_sale_day": true,
+   "other_journals_are_the_supplier_invoice_on_E": true,
+   "old_oracle_failed_only_on_dates": true
+  },
+  "fixture": {
+   "po": [
+    "ae05b8c5-33fe-4412-a719-d765b87e1901"
+   ],
+   "lot_days": [
+    "2026-09-23"
+   ],
+   "sale_days": [
+    "2026-09-23"
+   ],
+   "returns": 0,
+   "cut_days": [
+    "2026-09-23"
+   ],
+   "revaluation_journals": [
+    "34db0e13-ffb1-4cac-9967-b46d7bca3759"
+   ],
+   "event_journals": [
+    "af0a111a-f185-43d0-8287-57535c61c19e"
+   ],
+   "other_journals": [
+    [
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-22",
+     "2026-09-22"
+    ]
+   ]
+  },
+  "old_oracle_status": "COUNTEREXAMPLE",
+  "old_oracle_mismatch_keys": [
+   "hpp_events",
+   "journal_posting_date",
+   "revaluation_events"
+  ]
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "DATE:False:Pacific/Kiritimati:True:20",
+  "status": "COUNTEREXAMPLE",
+  "closed": false,
+  "partial": true,
+  "cost": "20",
+  "caller_zone": "Pacific/Kiritimati",
+  "invoice_date": "2026-09-22",
+  "recognition_date": "2026-09-22",
+  "observations": {
+   "revaluation_events": [
+    [
+     "1cdfe70a-c52b-443b-8916-29149b212408",
+     "2026-09-23",
+     "-100.00",
+     "WIP"
+    ]
+   ],
+   "hpp_events": [
+    [
+     "ebf74924-470e-44cd-868e-dbed3d1cab77",
+     "2026-09-23",
+     "30.000000",
+     "20.000000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "34db0e13-ffb1-4cac-9967-b46d7bca3759",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-23",
+     "2026-09-23",
+     "POSTED"
+    ],
+    [
+     "86009d11-13fa-40a5-8260-15bdb79da5ea",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ],
+    [
+     "af0a111a-f185-43d0-8287-57535c61c19e",
+     "PO_HPP_GL_SYNC",
+     "2026-09-23",
+     "2026-09-23",
+     "POSTED"
+    ]
+   ]
+  },
+  "mismatches": {
+   "revaluation_events": {
+    "expected": "2026-09-22",
+    "actual": [
+     [
+      "1cdfe70a-c52b-443b-8916-29149b212408",
+      "2026-09-23",
+      "-100.00",
+      "WIP"
+     ]
+    ]
+   },
+   "hpp_events": {
+    "expected": "2026-09-22",
+    "actual": [
+     [
+      "ebf74924-470e-44cd-868e-dbed3d1cab77",
+      "2026-09-23",
+      "30.000000",
+      "20.000000",
+      "0.000000"
+     ]
+    ]
+   },
+   "journal_posting_date": {
+    "expected": "2026-09-22",
+    "actual": [
+     [
+      "34db0e13-ffb1-4cac-9967-b46d7bca3759",
+      "MATERIAL_COST_REVALUATION",
+      "2026-09-23",
+      "2026-09-23",
+      "POSTED"
+     ],
+     [
+      "86009d11-13fa-40a5-8260-15bdb79da5ea",
+      "MATERIAL_SUPPLIER_INVOICE",
+      "2026-09-22",
+      "2026-09-22",
+      "POSTED"
+     ],
+     [
+      "af0a111a-f185-43d0-8287-57535c61c19e",
+      "PO_HPP_GL_SYNC",
+      "2026-09-23",
+      "2026-09-23",
+      "POSTED"
+     ]
+    ]
+   }
+  },
+  "replay_exact": true,
+  "context_cleared": true,
+  "approved_oracle_20260924": {
+   "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+   "status": "MATCH",
+   "invoice_date": "2026-09-22",
+   "cut_goods_and_sale_day": "2026-09-23",
+   "checks": {
+    "scope": true,
+    "replay_exact": true,
+    "context_cleared": true,
+    "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+    "revaluation_events_on_cutting_day": true,
+    "revaluation_journals_on_cutting_day": true,
+    "hpp_events_on_goods_and_sale_day": true,
+    "hpp_journals_on_goods_and_sale_day": true,
+    "other_journals_are_the_supplier_invoice_on_E": true,
+    "old_oracle_failed_only_on_dates": true
+   },
+   "fixture": {
+    "po": [
+     "ae05b8c5-33fe-4412-a719-d765b87e1901"
+    ],
+    "lot_days": [
+     "2026-09-23"
+    ],
+    "sale_days": [
+     "2026-09-23"
+    ],
+    "returns": 0,
+    "cut_days": [
+     "2026-09-23"
+    ],
+    "revaluation_journals": [
+     "34db0e13-ffb1-4cac-9967-b46d7bca3759"
+    ],
+    "event_journals": [
+     "af0a111a-f185-43d0-8287-57535c61c19e"
+    ],
+    "other_journals": [
+     [
+      "MATERIAL_SUPPLIER_INVOICE",
+      "2026-09-22",
+      "2026-09-22"
+     ]
+    ]
+   },
+   "old_oracle_status": "COUNTEREXAMPLE",
+   "old_oracle_mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date",
+    "revaluation_events"
+   ]
+  },
+  "full_boundary_restored": true
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "DATE:False:Pacific/Kiritimati:True:20.003",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "T2_APPROVED_ORACLE",
+  "case": "DATE:False:Pacific/Kiritimati:True:20.003",
+  "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+  "status": "MATCH",
+  "invoice_date": "2026-09-22",
+  "cut_goods_and_sale_day": "2026-09-23",
+  "checks": {
+   "scope": true,
+   "replay_exact": true,
+   "context_cleared": true,
+   "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+   "revaluation_events_on_cutting_day": true,
+   "revaluation_journals_on_cutting_day": true,
+   "hpp_events_on_goods_and_sale_day": true,
+   "hpp_journals_on_goods_and_sale_day": true,
+   "other_journals_are_the_supplier_invoice_on_E": true,
+   "old_oracle_failed_only_on_dates": true
+  },
+  "fixture": {
+   "po": [
+    "adbc7404-699f-456b-baa2-c4832c61ca5c"
+   ],
+   "lot_days": [
+    "2026-09-23"
+   ],
+   "sale_days": [
+    "2026-09-23"
+   ],
+   "returns": 0,
+   "cut_days": [
+    "2026-09-23"
+   ],
+   "revaluation_journals": [
+    "474d70f1-aa46-4f60-a549-bd0a62a1409e"
+   ],
+   "event_journals": [
+    "3361b95b-565a-4852-a76b-35b3f69983ca"
+   ],
+   "other_journals": [
+    [
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-22",
+     "2026-09-22"
+    ]
+   ]
+  },
+  "old_oracle_status": "COUNTEREXAMPLE",
+  "old_oracle_mismatch_keys": [
+   "hpp_events",
+   "journal_posting_date",
+   "revaluation_events"
+  ]
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "DATE:False:Pacific/Kiritimati:True:20.003",
+  "status": "COUNTEREXAMPLE",
+  "closed": false,
+  "partial": true,
+  "cost": "20.003",
+  "caller_zone": "Pacific/Kiritimati",
+  "invoice_date": "2026-09-22",
+  "recognition_date": "2026-09-22",
+  "observations": {
+   "revaluation_events": [
+    [
+     "0b812ef0-34d7-4a9d-a2ab-cfedd3576275",
+     "2026-09-23",
+     "-100.03",
+     "WIP"
+    ]
+   ],
+   "hpp_events": [
+    [
+     "595fcf64-8937-4653-878e-3ddddb85a807",
+     "2026-09-23",
+     "30.010000",
+     "20.010000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "3361b95b-565a-4852-a76b-35b3f69983ca",
+     "PO_HPP_GL_SYNC",
+     "2026-09-23",
+     "2026-09-23",
+     "POSTED"
+    ],
+    [
+     "474d70f1-aa46-4f60-a549-bd0a62a1409e",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-23",
+     "2026-09-23",
+     "POSTED"
+    ],
+    [
+     "4f056f7d-daeb-4a34-a59f-1879199d8dce",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ]
+   ]
+  },
+  "mismatches": {
+   "revaluation_events": {
+    "expected": "2026-09-22",
+    "actual": [
+     [
+      "0b812ef0-34d7-4a9d-a2ab-cfedd3576275",
+      "2026-09-23",
+      "-100.03",
+      "WIP"
+     ]
+    ]
+   },
+   "hpp_events": {
+    "expected": "2026-09-22",
+    "actual": [
+     [
+      "595fcf64-8937-4653-878e-3ddddb85a807",
+      "2026-09-23",
+      "30.010000",
+      "20.010000",
+      "0.000000"
+     ]
+    ]
+   },
+   "journal_posting_date": {
+    "expected": "2026-09-22",
+    "actual": [
+     [
+      "3361b95b-565a-4852-a76b-35b3f69983ca",
+      "PO_HPP_GL_SYNC",
+      "2026-09-23",
+      "2026-09-23",
+      "POSTED"
+     ],
+     [
+      "474d70f1-aa46-4f60-a549-bd0a62a1409e",
+      "MATERIAL_COST_REVALUATION",
+      "2026-09-23",
+      "2026-09-23",
+      "POSTED"
+     ],
+     [
+      "4f056f7d-daeb-4a34-a59f-1879199d8dce",
+      "MATERIAL_SUPPLIER_INVOICE",
+      "2026-09-22",
+      "2026-09-22",
+      "POSTED"
+     ]
+    ]
+   }
+  },
+  "replay_exact": true,
+  "context_cleared": true,
+  "approved_oracle_20260924": {
+   "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+   "status": "MATCH",
+   "invoice_date": "2026-09-22",
+   "cut_goods_and_sale_day": "2026-09-23",
+   "checks": {
+    "scope": true,
+    "replay_exact": true,
+    "context_cleared": true,
+    "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+    "revaluation_events_on_cutting_day": true,
+    "revaluation_journals_on_cutting_day": true,
+    "hpp_events_on_goods_and_sale_day": true,
+    "hpp_journals_on_goods_and_sale_day": true,
+    "other_journals_are_the_supplier_invoice_on_E": true,
+    "old_oracle_failed_only_on_dates": true
+   },
+   "fixture": {
+    "po": [
+     "adbc7404-699f-456b-baa2-c4832c61ca5c"
+    ],
+    "lot_days": [
+     "2026-09-23"
+    ],
+    "sale_days": [
+     "2026-09-23"
+    ],
+    "returns": 0,
+    "cut_days": [
+     "2026-09-23"
+    ],
+    "revaluation_journals": [
+     "474d70f1-aa46-4f60-a549-bd0a62a1409e"
+    ],
+    "event_journals": [
+     "3361b95b-565a-4852-a76b-35b3f69983ca"
+    ],
+    "other_journals": [
+     [
+      "MATERIAL_SUPPLIER_INVOICE",
+      "2026-09-22",
+      "2026-09-22"
+     ]
+    ]
+   },
+   "old_oracle_status": "COUNTEREXAMPLE",
+   "old_oracle_mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date",
+    "revaluation_events"
+   ]
+  },
+  "full_boundary_restored": true
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "DATE:True:Asia/Jakarta:False:20.003",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "DATE:True:Asia/Jakarta:True:20",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "DATE:True:Asia/Jakarta:True:20",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "DATE:True:Asia/Jakarta:True:20.003",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "DATE:True:Asia/Jakarta:True:20.003",
+  "status": "PASS"
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "DATE:True:UTC:False:20.003",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "DATE:True:UTC:True:20",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "DATE:True:UTC:True:20",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "DATE:True:UTC:True:20.003",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "DATE:True:UTC:True:20.003",
+  "status": "PASS"
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "DATE:True:Etc/GMT+12:False:20.003",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "DATE:True:Etc/GMT+12:True:20",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "DATE:True:Etc/GMT+12:True:20",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "DATE:True:Etc/GMT+12:True:20.003",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "DATE:True:Etc/GMT+12:True:20.003",
+  "status": "PASS"
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "DATE:True:Pacific/Kiritimati:False:20.003",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "DATE:True:Pacific/Kiritimati:True:20",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "DATE:True:Pacific/Kiritimati:True:20",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "DATE:True:Pacific/Kiritimati:True:20.003",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-09-23",
+    "end": "2026-09-23",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "DATE:True:Pacific/Kiritimati:True:20.003",
+  "status": "PASS"
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "WIP_IDENTITY:UNIQUE",
+  "status": "PASS"
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "WIP_IDENTITY:AMBIGUOUS",
+  "status": "PASS"
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "WIP_IDENTITY:EXPLICIT_SECOND",
+  "status": "PASS"
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "STAGED_BS_BRAND_MODEL",
+  "status": "PASS"
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "WIP_GUARD:BRAND_SECOND",
+  "status": "PASS"
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "WIP_GUARD:WRONG_BRAND",
+  "status": "PASS"
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "WIP_GUARD:CONFLICTING_ID",
+  "status": "PASS"
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "WIP_GUARD:FUTURE_ID",
+  "status": "PASS"
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "ADJUSTMENT_DATE:False",
+  "status": "INCOMPLETE",
+  "error": "[(datetime.date(2026, 9, 23), datetime.date(2026, 9, 23), datetime.date(2026, 9, 23), {'1487cd75-3cf9-424b-84ca-f7545b70b023': 20.01, 'f9912b87-fe33-4bd8-8a65-0b1fb69316a6': -20.01})]",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_av_trial.py\", line 71, in group\n    try:row=operation()\n            ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp6_t2_regression.py\", line 311, in run\n    return op()\n           ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_as_cases.py\", line 161, in <lambda>\n    cases.append(('ADJUSTMENT_DATE:'+str(closed),lambda c=closed:adjustment_date(cur,today,c)))\n                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_as_cases.py\", line 107, in adjustment_date\n    assert rows and all(r[1]==f['purchase_day'] for r in rows), rows\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: [(datetime.date(2026, 9, 23), datetime.date(2026, 9, 23), datetime.date(2026, 9, 23), {'1487cd75-3cf9-424b-84ca-f7545b70b023': 20.01, 'f9912b87-fe33-4bd8-8a65-0b1fb69316a6': -20.01})]\n",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "NEW_CASES",
+  "case": "ADJUSTMENT_DATE:True",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_CALENDAR_POLICY",
+  "case": "CALENDAR:1_MONTHS:Pacific/Kiritimati:False",
+  "status": "COUNTEREXAMPLE",
+  "mismatches": [
+   {
+    "material_event_date": [
+     "5d6f0518-877f-4242-89f9-edae1e4b1e5e",
+     "2026-08-25",
+     "5.25",
+     "WIP"
+    ]
+   },
+   {
+    "material_event_date": [
+     "5d6f0518-877f-4242-89f9-edae1e4b1e5e",
+     "2026-08-25",
+     "5.25",
+     "WIP"
+    ]
+   }
+  ]
+ },
+ {
+  "group": "T2_CALENDAR_POLICY",
+  "case": "CALENDAR:1_MONTHS:UTC:False",
+  "status": "COUNTEREXAMPLE",
+  "mismatches": [
+   {
+    "material_event_date": [
+     "7d1dd42e-b260-4502-9b83-259d79464fd1",
+     "2026-08-25",
+     "5.25",
+     "WIP"
+    ]
+   },
+   {
+    "material_event_date": [
+     "7d1dd42e-b260-4502-9b83-259d79464fd1",
+     "2026-08-25",
+     "5.25",
+     "WIP"
+    ]
+   }
+  ]
+ },
+ {
+  "group": "T2_CALENDAR_POLICY",
+  "case": "CALENDAR:2_MONTHS:Pacific/Kiritimati:False",
+  "status": "COUNTEREXAMPLE",
+  "mismatches": [
+   {
+    "material_event_date": [
+     "8599f593-bf98-41c9-8451-08eecfa16241",
+     "2026-07-25",
+     "5.25",
+     "WIP"
+    ]
+   },
+   {
+    "material_event_date": [
+     "8599f593-bf98-41c9-8451-08eecfa16241",
+     "2026-07-25",
+     "5.25",
+     "WIP"
+    ]
+   }
+  ]
+ },
+ {
+  "group": "T2_CALENDAR_POLICY",
+  "case": "CALENDAR:2_MONTHS:UTC:False",
+  "status": "COUNTEREXAMPLE",
+  "mismatches": [
+   {
+    "material_event_date": [
+     "b5737f3b-1022-42da-9c10-9d9f398e3f2d",
+     "2026-07-25",
+     "5.25",
+     "WIP"
+    ]
+   },
+   {
+    "material_event_date": [
+     "b5737f3b-1022-42da-9c10-9d9f398e3f2d",
+     "2026-07-25",
+     "5.25",
+     "WIP"
+    ]
+   }
+  ]
+ },
+ {
+  "group": "T2_CALENDAR_POLICY",
+  "case": "CALENDAR:3_MONTHS:Pacific/Kiritimati:False",
+  "status": "COUNTEREXAMPLE",
+  "mismatches": [
+   {
+    "material_event_date": [
+     "0955512b-9ecc-46a3-829d-ea8c2a76f93f",
+     "2026-06-25",
+     "5.25",
+     "WIP"
+    ]
+   },
+   {
+    "material_event_date": [
+     "0955512b-9ecc-46a3-829d-ea8c2a76f93f",
+     "2026-06-25",
+     "5.25",
+     "WIP"
+    ]
+   }
+  ]
+ },
+ {
+  "group": "T2_CALENDAR_POLICY",
+  "case": "CALENDAR:3_MONTHS:UTC:False",
+  "status": "COUNTEREXAMPLE",
+  "mismatches": [
+   {
+    "material_event_date": [
+     "ae3b2729-e160-4c3a-8ae3-afdd2141bbaa",
+     "2026-06-25",
+     "5.25",
+     "WIP"
+    ]
+   },
+   {
+    "material_event_date": [
+     "ae3b2729-e160-4c3a-8ae3-afdd2141bbaa",
+     "2026-06-25",
+     "5.25",
+     "WIP"
+    ]
+   }
+  ]
+ },
+ {
+  "group": "T2_CALENDAR_POLICY",
+  "case": "CALENDAR:FEB28:Pacific/Kiritimati:False",
+  "status": "COUNTEREXAMPLE",
+  "mismatches": [
+   {
+    "material_event_date": [
+     "a07bdc11-f037-42db-abdf-0fbf342cb2d5",
+     "2026-03-01",
+     "5.25",
+     "WIP"
+    ]
+   },
+   {
+    "material_event_date": [
+     "a07bdc11-f037-42db-abdf-0fbf342cb2d5",
+     "2026-03-01",
+     "5.25",
+     "WIP"
+    ]
+   }
+  ]
+ },
+ {
+  "group": "T2_CALENDAR_POLICY",
+  "case": "CALENDAR:FEB28:UTC:False",
+  "status": "COUNTEREXAMPLE",
+  "mismatches": [
+   {
+    "material_event_date": [
+     "df598344-a6de-4c7b-baa0-5d7827e01936",
+     "2026-03-01",
+     "5.25",
+     "WIP"
+    ]
+   },
+   {
+    "material_event_date": [
+     "df598344-a6de-4c7b-baa0-5d7827e01936",
+     "2026-03-01",
+     "5.25",
+     "WIP"
+    ]
+   }
+  ]
+ },
+ {
+  "group": "T2_CALENDAR_POLICY",
+  "case": "CALENDAR:JAN31:Pacific/Kiritimati:False",
+  "status": "COUNTEREXAMPLE",
+  "mismatches": [
+   {
+    "material_event_date": [
+     "d5e3ba0f-3973-4f0d-b59b-5ff9b9593f89",
+     "2026-02-01",
+     "5.25",
+     "WIP"
+    ]
+   },
+   {
+    "material_event_date": [
+     "d5e3ba0f-3973-4f0d-b59b-5ff9b9593f89",
+     "2026-02-01",
+     "5.25",
+     "WIP"
+    ]
+   }
+  ]
+ },
+ {
+  "group": "T2_CALENDAR_POLICY",
+  "case": "CALENDAR:JAN31:UTC:False",
+  "status": "COUNTEREXAMPLE",
+  "mismatches": [
+   {
+    "material_event_date": [
+     "b8827130-4c23-47e2-aac4-936e8c741aa6",
+     "2026-02-01",
+     "5.25",
+     "WIP"
+    ]
+   },
+   {
+    "material_event_date": [
+     "b8827130-4c23-47e2-aac4-936e8c741aa6",
+     "2026-02-01",
+     "5.25",
+     "WIP"
+    ]
+   }
+  ]
+ },
+ {
+  "group": "T2_CALENDAR_POLICY",
+  "case": "CALENDAR:MAY31:Pacific/Kiritimati:False",
+  "status": "COUNTEREXAMPLE",
+  "mismatches": [
+   {
+    "material_event_date": [
+     "c28e2951-f8c3-43c4-8742-ea8e06dec45c",
+     "2026-06-01",
+     "5.25",
+     "WIP"
+    ]
+   },
+   {
+    "material_event_date": [
+     "c28e2951-f8c3-43c4-8742-ea8e06dec45c",
+     "2026-06-01",
+     "5.25",
+     "WIP"
+    ]
+   }
+  ]
+ },
+ {
+  "group": "T2_CALENDAR_POLICY",
+  "case": "CALENDAR:MAY31:UTC:False",
+  "status": "COUNTEREXAMPLE",
+  "mismatches": [
+   {
+    "material_event_date": [
+     "4c0bfbdf-1bce-4da8-87b3-e2560462efc2",
+     "2026-06-01",
+     "5.25",
+     "WIP"
+    ]
+   },
+   {
+    "material_event_date": [
+     "4c0bfbdf-1bce-4da8-87b3-e2560462efc2",
+     "2026-06-01",
+     "5.25",
+     "WIP"
+    ]
+   }
+  ]
+ },
+ {
+  "group": "T2_REGRESSION_VERDICT",
+  "status": "DISPOSITION_REQUIRED",
+  "new_cases": {
+   "status": "INCOMPLETE",
+   "counts": {
+    "PASS": 25,
+    "COUNTEREXAMPLE": 8,
+    "INCOMPLETE": 1
+   }
+  },
+  "calendar_policy_count": 12
+ },
+ {
+  "group": "T2_SEED_QUIETED",
+  "target": "AO_TRIAL",
+  "closed_through": "2026-08-31",
+  "window": [
+   "2026-01-02",
+   "2026-09-25"
+  ],
+  "attendance": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "periods": [
+     [
+      "2026-01-02",
+      "2026-01-31"
+     ],
+     [
+      "2026-02-02",
+      "2026-02-28"
+     ],
+     [
+      "2026-03-02",
+      "2026-03-31"
+     ],
+     [
+      "2026-04-02",
+      "2026-09-21"
+     ],
+     [
+      "2026-09-22",
+      "2026-09-23"
+     ],
+     [
+      "2026-09-24",
+      "2026-09-25"
+     ]
+    ]
+   },
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000002",
+    "periods": [
+     [
+      "2026-01-02",
+      "2026-09-21"
+     ],
+     [
+      "2026-09-22",
+      "2026-09-23"
+     ],
+     [
+      "2026-09-24",
+      "2026-09-25"
+     ]
+    ]
+   },
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000003",
+    "periods": [
+     [
+      "2026-01-02",
+      "2026-09-21"
+     ],
+     [
+      "2026-09-22",
+      "2026-09-23"
+     ],
+     [
+      "2026-09-24",
+      "2026-09-25"
+     ]
+    ]
+   },
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000005",
+    "periods": [
+     [
+      "2026-02-02",
+      "2026-09-21"
+     ],
+     [
+      "2026-09-22",
+      "2026-09-23"
+     ],
+     [
+      "2026-09-24",
+      "2026-09-25"
+     ]
+    ]
+   }
+  ],
+  "approved": [
+   "a6000000-0000-0000-0000-000000000021"
+  ],
+  "work_payrolls": 3,
+  "refused": [],
+  "reopened_range": [
+   "2026-01-02",
+   "2026-08-31"
+  ],
+  "reopened_status": "READY",
+  "reopened_blockers": [],
+  "after_status": "READY",
+  "after_blockers": []
+ },
+ {
+  "group": "AO_TRIAL",
+  "case": "RETAIL:12",
+  "status": "PASS"
+ },
+ {
+  "group": "AO_TRIAL",
+  "case": "RETAIL:144",
+  "status": "PASS"
+ },
+ {
+  "group": "AO_TRIAL",
+  "case": "BAD_PRICE:-1",
+  "status": "PASS"
+ },
+ {
+  "group": "AO_TRIAL",
+  "case": "BAD_PRICE:NaN",
+  "status": "PASS"
+ },
+ {
+  "group": "AO_TRIAL",
+  "case": "BAD_PRICE:0.005",
+  "status": "PASS"
+ },
+ {
+  "group": "AO_TRIAL",
+  "case": "FRACTIONAL_PCS",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "INVOICE:UTC:False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-07-25",
+    "end": "2026-07-25",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "AO_TRIAL",
+  "case": "INVOICE:UTC:False",
+  "status": "INCOMPLETE",
+  "error": "[(UUID('cb6a0849-7bf9-4b7e-8298-f2c683bfab2c'), 'MATERIAL_COST_REVALUATION', datetime.date(2026, 7, 25), datetime.date(2026, 7, 25)), (UUID('235d19ac-eaaf-4596-9381-771f85ebd04a'), 'PO_HPP_GL_SYNC', datetime.date(2026, 7, 25), datetime.date(2026, 7, 25)), (UUID('9dcacf30-26b4-4760-a91f-69ece9e2791e'), 'MATERIAL_SUPPLIER_INVOICE', datetime.date(2026, 7, 24), datetime.date(2026, 7, 24))]",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_av_trial.py\", line 71, in group\n    try:row=operation()\n            ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp6_t2_regression.py\", line 311, in run\n    return op()\n           ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp6_t2_regression.py\", line 459, in <lambda>\n    cases+=[('INVOICE:'+z+':'+str(c),lambda z=z,c=c:invoice_date(cur,today,z,c)) for z in ('UTC','Pacific/Kiritimati') for c in (False,True)]\n                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"cp6_initial_import_ao_trial.py\", line 60, in invoice_date\n    try:result=calendar.calendar_case(cur,today,invoice,received,zone,closed)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_final_gap_native.py\", line 87, in calendar_case\n    return calendar_case_body(cur, today, purchased, received, zone, closed)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_final_gap_native.py\", line 130, in calendar_case_body\n    response = production.rpc(cur, 'erp.finalize_material_purchase_invoice_v2', payload, request, int(version))\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"cp6_initial_import_ao_trial.py\", line 54, in traced_rpc\n    assert all(r[2]==invoice and r[3]==(today if closed else invoice) for r in fresh),fresh\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: [(UUID('cb6a0849-7bf9-4b7e-8298-f2c683bfab2c'), 'MATERIAL_COST_REVALUATION', datetime.date(2026, 7, 25), datetime.date(2026, 7, 25)), (UUID('235d19ac-eaaf-4596-9381-771f85ebd04a'), 'PO_HPP_GL_SYNC', datetime.date(2026, 7, 25), datetime.date(2026, 7, 25)), (UUID('9dcacf30-26b4-4760-a91f-69ece9e2791e'), 'MATERIAL_SUPPLIER_INVOICE', datetime.date(2026, 7, 24), datetime.date(2026, 7, 24))]\n",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "INVOICE:UTC:True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-07-25",
+    "end": "2026-07-25",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "AO_TRIAL",
+  "case": "INVOICE:UTC:True",
+  "status": "INCOMPLETE",
+  "error": "[(UUID('8b88728f-ead0-4238-9317-18d801b2b80f'), datetime.date(2026, 9, 25), Decimal('5.25'), 'WIP')]",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_av_trial.py\", line 71, in group\n    try:row=operation()\n            ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp6_t2_regression.py\", line 311, in run\n    return op()\n           ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp6_t2_regression.py\", line 459, in <lambda>\n    cases+=[('INVOICE:'+z+':'+str(c),lambda z=z,c=c:invoice_date(cur,today,z,c)) for z in ('UTC','Pacific/Kiritimati') for c in (False,True)]\n                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"cp6_initial_import_ao_trial.py\", line 67, in invoice_date\n    assert o['state']['revaluation_events'] and all(r[1]==invoice for r in o['state']['revaluation_events']),o['state']['revaluation_events']\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: [(UUID('8b88728f-ead0-4238-9317-18d801b2b80f'), datetime.date(2026, 9, 25), Decimal('5.25'), 'WIP')]\n",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "INVOICE:Pacific/Kiritimati:False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-07-25",
+    "end": "2026-07-25",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "AO_TRIAL",
+  "case": "INVOICE:Pacific/Kiritimati:False",
+  "status": "INCOMPLETE",
+  "error": "[(UUID('b211c1eb-96ab-49b8-a789-a09e511a9f58'), 'MATERIAL_COST_REVALUATION', datetime.date(2026, 7, 25), datetime.date(2026, 7, 25)), (UUID('dea84055-42a9-4f02-b7ce-7822155d9cef'), 'PO_HPP_GL_SYNC', datetime.date(2026, 7, 25), datetime.date(2026, 7, 25)), (UUID('a45f33a1-2e9d-4f77-8f52-0f836518015f'), 'MATERIAL_SUPPLIER_INVOICE', datetime.date(2026, 7, 24), datetime.date(2026, 7, 24))]",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_av_trial.py\", line 71, in group\n    try:row=operation()\n            ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp6_t2_regression.py\", line 311, in run\n    return op()\n           ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp6_t2_regression.py\", line 459, in <lambda>\n    cases+=[('INVOICE:'+z+':'+str(c),lambda z=z,c=c:invoice_date(cur,today,z,c)) for z in ('UTC','Pacific/Kiritimati') for c in (False,True)]\n                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"cp6_initial_import_ao_trial.py\", line 60, in invoice_date\n    try:result=calendar.calendar_case(cur,today,invoice,received,zone,closed)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_final_gap_native.py\", line 87, in calendar_case\n    return calendar_case_body(cur, today, purchased, received, zone, closed)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_final_gap_native.py\", line 130, in calendar_case_body\n    response = production.rpc(cur, 'erp.finalize_material_purchase_invoice_v2', payload, request, int(version))\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"cp6_initial_import_ao_trial.py\", line 54, in traced_rpc\n    assert all(r[2]==invoice and r[3]==(today if closed else invoice) for r in fresh),fresh\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: [(UUID('b211c1eb-96ab-49b8-a789-a09e511a9f58'), 'MATERIAL_COST_REVALUATION', datetime.date(2026, 7, 25), datetime.date(2026, 7, 25)), (UUID('dea84055-42a9-4f02-b7ce-7822155d9cef'), 'PO_HPP_GL_SYNC', datetime.date(2026, 7, 25), datetime.date(2026, 7, 25)), (UUID('a45f33a1-2e9d-4f77-8f52-0f836518015f'), 'MATERIAL_SUPPLIER_INVOICE', datetime.date(2026, 7, 24), datetime.date(2026, 7, 24))]\n",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "INVOICE:Pacific/Kiritimati:True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-07-25",
+    "end": "2026-07-25",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "AO_TRIAL",
+  "case": "INVOICE:Pacific/Kiritimati:True",
+  "status": "INCOMPLETE",
+  "error": "[(UUID('034c9368-b1fe-4c2d-99b8-51d8357b66b1'), datetime.date(2026, 9, 25), Decimal('5.25'), 'WIP')]",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_av_trial.py\", line 71, in group\n    try:row=operation()\n            ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp6_t2_regression.py\", line 311, in run\n    return op()\n           ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp6_t2_regression.py\", line 459, in <lambda>\n    cases+=[('INVOICE:'+z+':'+str(c),lambda z=z,c=c:invoice_date(cur,today,z,c)) for z in ('UTC','Pacific/Kiritimati') for c in (False,True)]\n                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"cp6_initial_import_ao_trial.py\", line 67, in invoice_date\n    assert o['state']['revaluation_events'] and all(r[1]==invoice for r in o['state']['revaluation_events']),o['state']['revaluation_events']\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: [(UUID('034c9368-b1fe-4c2d-99b8-51d8357b66b1'), datetime.date(2026, 9, 25), Decimal('5.25'), 'WIP')]\n",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AO_TRIAL",
+  "case": "DIRECT_CORRECTION_REVERSAL:False",
+  "status": "PASS"
+ },
+ {
+  "group": "AO_TRIAL",
+  "case": "DIRECT_CORRECTION_REVERSAL:True",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_AO_TRIAL",
+  "status": "INCOMPLETE",
+  "counts": {
+   "PASS": 8,
+   "INCOMPLETE": 4
+  },
+  "source_sha256": "279f0091e8cdfd93b651b5423fc59ad830b899392ebc069db21738366b83ce3f",
+  "foundation": "PRESENT",
+  "moved": {
+   "INVOICE:UTC:False": "INCOMPLETE",
+   "INVOICE:UTC:True": "INCOMPLETE",
+   "INVOICE:Pacific/Kiritimati:False": "INCOMPLETE",
+   "INVOICE:Pacific/Kiritimati:True": "INCOMPLETE"
+  }
+ },
+ {
+  "group": "T2_SEED_QUIETED",
+  "target": "APPROVED_ORACLE_B",
+  "closed_through": "2026-08-31",
+  "window": [
+   "2026-01-02",
+   "2026-09-25"
+  ],
+  "attendance": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "periods": [
+     [
+      "2026-01-02",
+      "2026-01-31"
+     ],
+     [
+      "2026-02-02",
+      "2026-02-28"
+     ],
+     [
+      "2026-03-02",
+      "2026-03-31"
+     ],
+     [
+      "2026-04-02",
+      "2026-09-21"
+     ],
+     [
+      "2026-09-22",
+      "2026-09-23"
+     ],
+     [
+      "2026-09-24",
+      "2026-09-25"
+     ]
+    ]
+   },
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000002",
+    "periods": [
+     [
+      "2026-01-02",
+      "2026-09-21"
+     ],
+     [
+      "2026-09-22",
+      "2026-09-23"
+     ],
+     [
+      "2026-09-24",
+      "2026-09-25"
+     ]
+    ]
+   },
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000003",
+    "periods": [
+     [
+      "2026-01-02",
+      "2026-09-21"
+     ],
+     [
+      "2026-09-22",
+      "2026-09-23"
+     ],
+     [
+      "2026-09-24",
+      "2026-09-25"
+     ]
+    ]
+   },
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000005",
+    "periods": [
+     [
+      "2026-02-02",
+      "2026-09-21"
+     ],
+     [
+      "2026-09-22",
+      "2026-09-23"
+     ],
+     [
+      "2026-09-24",
+      "2026-09-25"
+     ]
+    ]
+   }
+  ],
+  "approved": [
+   "a6000000-0000-0000-0000-000000000021"
+  ],
+  "work_payrolls": 3,
+  "refused": [],
+  "reopened_range": [
+   "2026-01-02",
+   "2026-08-31"
+  ],
+  "reopened_status": "READY",
+  "reopened_blockers": [],
+  "after_status": "READY",
+  "after_blockers": []
+ },
+ {
+  "group": "APPROVED_ORACLE_B",
+  "case": "AS:ADJUSTMENT_DATE:False",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "AO:INVOICE:UTC:False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-07-25",
+    "end": "2026-07-25",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "APPROVED_ORACLE_B",
+  "case": "AO:INVOICE:UTC:False",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "AO:INVOICE:UTC:True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-07-25",
+    "end": "2026-07-25",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "APPROVED_ORACLE_B",
+  "case": "AO:INVOICE:UTC:True",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "AO:INVOICE:Pacific/Kiritimati:False",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-07-25",
+    "end": "2026-07-25",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "APPROVED_ORACLE_B",
+  "case": "AO:INVOICE:Pacific/Kiritimati:False",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_FIXTURE_PAYROLL",
+  "case": "AO:INVOICE:Pacific/Kiritimati:True",
+  "payrolls": [
+   {
+    "contractor": "a1000000-0000-0000-0000-000000000001",
+    "start": "2026-07-25",
+    "end": "2026-07-25",
+    "status": "APPROVED",
+    "work_lines": 1,
+    "attendance_days": 0,
+    "redone_unpaid": []
+   }
+  ],
+  "refused": null
+ },
+ {
+  "group": "APPROVED_ORACLE_B",
+  "case": "AO:INVOICE:Pacific/Kiritimati:True",
+  "status": "PASS"
+ },
+ {
+  "group": "T2_APPROVED_ORACLE_B",
+  "status": "WRITER_PASS",
+  "counts": {
+   "PASS": 5
+  },
+  "cases": {
+   "AS:ADJUSTMENT_DATE:False": {
+    "approved_oracle": "MATCH",
+    "decision": "Owner 24 Sep: ADJUSTMENT_DATE tidak disahkan otomatis; telusuri pembaca effective_date, bila aman ubah oracle tanggalnya dengan bukti. Writer trace: readers are run_v267_financial_truth_checks V2620T_MATERIAL_ADJUSTMENT_FACT_LEDGER (fact effective_date = its own journal economic_date; AZ sets both to the same date) and the pocket_period_recost trigger (pocket recost journal date); no reader requires the invoice date. Proof in the case: those checks and the pocket checks do not increase after the invoice and after its reversal."
+   },
+   "AO:INVOICE:UTC:False": {
+    "approved_oracle": "MATCH",
+    "decision": "Owner 24 Sep: AO periode terbuka - tanggal koreksi WIP/FG mengikuti hari barangnya berpindah tahap; jurnal invoice tetap pada tanggal invoice."
+   },
+   "AO:INVOICE:UTC:True": {
+    "approved_oracle": "MATCH",
+    "decision": "Owner 24 Sep: AO periode tertutup - tanggal posting mengikuti hari pengakuan, tanggal ekonomi invoice tetap tersimpan (sejak AS)."
+   },
+   "AO:INVOICE:Pacific/Kiritimati:False": {
+    "approved_oracle": "MATCH",
+    "decision": "Owner 24 Sep: AO periode terbuka - tanggal koreksi WIP/FG mengikuti hari barangnya berpindah tahap; jurnal invoice tetap pada tanggal invoice."
+   },
+   "AO:INVOICE:Pacific/Kiritimati:True": {
+    "approved_oracle": "MATCH",
+    "decision": "Owner 24 Sep: AO periode tertutup - tanggal posting mengikuti hari pengakuan, tanggal ekonomi invoice tetap tersimpan (sejak AS)."
+   }
+  },
+  "error": null,
+  "sources": {
+   "invoice_date": "6866fc38df433df26deea728b738d873e328463b31dcd76e8c62ad145848a2db",
+   "adjustment_date": "a97ea019627259998b975aff866e10eb6775e9f9bc70999602a79ff7013e39fc"
+  },
+  "calendar_policy": {
+   "CALENDAR:1_MONTHS:UTC:False": "MATCH",
+   "CALENDAR:1_MONTHS:Pacific/Kiritimati:False": "MATCH",
+   "CALENDAR:2_MONTHS:UTC:False": "MATCH",
+   "CALENDAR:2_MONTHS:Pacific/Kiritimati:False": "MATCH",
+   "CALENDAR:3_MONTHS:UTC:False": "MATCH",
+   "CALENDAR:3_MONTHS:Pacific/Kiritimati:False": "MATCH",
+   "CALENDAR:JAN31:UTC:False": "MATCH",
+   "CALENDAR:JAN31:Pacific/Kiritimati:False": "MATCH",
+   "CALENDAR:FEB28:UTC:False": "MATCH",
+   "CALENDAR:FEB28:Pacific/Kiritimati:False": "MATCH",
+   "CALENDAR:MAY31:UTC:False": "MATCH",
+   "CALENDAR:MAY31:Pacific/Kiritimati:False": "MATCH"
+  },
+  "calendar_decision": "Owner 24 Sep: 12 kalender HOLD - tanggal perpindahan nilai ke WIP mengikuti hari potong; status tetap HOLD.",
+  "note": "Frozen results stand (INCOMPLETE/COUNTEREXAMPLE/HOLD); MATCH is the approved oracle, not a frozen PASS."
+ },
+ {
+  "group": "T2_APPROVED_ORACLE_SUMMARY",
+  "results": {
+   "DATE:False:Asia/Jakarta:True:20": "MATCH",
+   "DATE:False:Asia/Jakarta:True:20.003": "MATCH",
+   "DATE:False:UTC:True:20": "MATCH",
+   "DATE:False:UTC:True:20.003": "MATCH",
+   "DATE:False:Etc/GMT+12:True:20": "MATCH",
+   "DATE:False:Etc/GMT+12:True:20.003": "MATCH",
+   "DATE:False:Pacific/Kiritimati:True:20": "MATCH",
+   "DATE:False:Pacific/Kiritimati:True:20.003": "MATCH"
+  },
+  "match": 8,
+  "of": 8
+ },
+ {
+  "group": "T2_IDENTITY",
+  "groups": {
+   "BUSINESS": {
+    "expected": 230,
+    "observed": 230,
+    "added": [],
+    "removed": [],
+    "moved": [],
+    "order_unchanged": true
+   },
+   "IMPORTS": {
+    "expected": 31,
+    "observed": 31,
+    "added": [],
+    "removed": [],
+    "moved": [],
+    "order_unchanged": true
+   },
+   "VALUES": {
+    "expected": 65,
+    "observed": 65,
+    "added": [],
+    "removed": [],
+    "moved": [],
+    "order_unchanged": true
+   },
+   "NEW_CASES": {
+    "expected": 34,
+    "observed": 34,
+    "added": [],
+    "removed": [],
+    "moved": [
+     {
+      "case": "DATE:False:Asia/Jakarta:True:20",
+      "expected": "PASS",
+      "observed": "COUNTEREXAMPLE"
+     },
+     {
+      "case": "DATE:False:Asia/Jakarta:True:20.003",
+      "expected": "PASS",
+      "observed": "COUNTEREXAMPLE"
+     },
+     {
+      "case": "DATE:False:UTC:True:20",
+      "expected": "PASS",
+      "observed": "COUNTEREXAMPLE"
+     },
+     {
+      "case": "DATE:False:UTC:True:20.003",
+      "expected": "PASS",
+      "observed": "COUNTEREXAMPLE"
+     },
+     {
+      "case": "DATE:False:Etc/GMT+12:True:20",
+      "expected": "PASS",
+      "observed": "COUNTEREXAMPLE"
+     },
+     {
+      "case": "DATE:False:Etc/GMT+12:True:20.003",
+      "expected": "PASS",
+      "observed": "COUNTEREXAMPLE"
+     },
+     {
+      "case": "DATE:False:Pacific/Kiritimati:True:20",
+      "expected": "PASS",
+      "observed": "COUNTEREXAMPLE"
+     },
+     {
+      "case": "DATE:False:Pacific/Kiritimati:True:20.003",
+      "expected": "PASS",
+      "observed": "COUNTEREXAMPLE"
+     },
+     {
+      "case": "ADJUSTMENT_DATE:False",
+      "expected": "PASS",
+      "observed": "INCOMPLETE"
+     }
+    ],
+    "order_unchanged": true
+   }
+  },
+  "holds": {
+   "expected": 12,
+   "observed": 12,
+   "identical": true,
+   "expected_count_is_recorded": true,
+   "left_hold": [],
+   "entered_hold": []
+  },
+  "status": "DISPOSITION_REQUIRED"
+ },
+ {
+  "group": "T2_FIXTURE_SUMMARY",
+  "mode": "PAYROLL_APPROVED",
+  "seed": "QUIETED",
+  "count": 103,
+  "cases": [
+   "CROSS:DAY:ATTENDANCE:DIRECT:Asia/Jakarta",
+   "CROSS:DAY:ATTENDANCE:DIRECT:UTC",
+   "CROSS:DAY:ATTENDANCE:DIRECT:Asia/Tokyo",
+   "CROSS:DAY:ATTENDANCE:DIRECT:Pacific/Kiritimati",
+   "CROSS:DAY:ATTENDANCE:DIRECT:Etc/GMT+12",
+   "CROSS:INVOICE:True:Asia/Jakarta:20",
+   "CROSS:INVOICE:True:Asia/Jakarta:20.003",
+   "CROSS:INVOICE:True:UTC:20",
+   "CROSS:INVOICE:True:UTC:20.003",
+   "CROSS:INVOICE:True:Etc/GMT+12:20",
+   "CROSS:INVOICE:True:Etc/GMT+12:20.003",
+   "CROSS:INVOICE:True:Pacific/Kiritimati:20",
+   "CROSS:INVOICE:True:Pacific/Kiritimati:20.003",
+   "CROSS:CASH_LINKED:1",
+   "CROSS:CASH_LINKED:4",
+   "CROSS:H_R02",
+   "WORK:WORK_CENTS",
+   "WORK:WORK_ZERO_RATE",
+   "WORK:WORK_PARTIAL_PAY",
+   "WORK:WORK_TIMEZONE",
+   "WORK:REVERSE_REUSE",
+   "WORK:HPP_THROUGH_SALE_0",
+   "WORK:HPP_THROUGH_SALE_1.27",
+   "INVOICE:UTC:4:False",
+   "INVOICE:UTC:4:True",
+   "INVOICE:UTC:7:False",
+   "INVOICE:UTC:7:True",
+   "INVOICE:Asia/Jakarta:4:False",
+   "INVOICE:Asia/Jakarta:4:True",
+   "INVOICE:Asia/Jakarta:7:False",
+   "INVOICE:Asia/Jakarta:7:True",
+   "INVOICE:Pacific/Kiritimati:4:False",
+   "INVOICE:Pacific/Kiritimati:4:True",
+   "INVOICE:Pacific/Kiritimati:7:False",
+   "INVOICE:Pacific/Kiritimati:7:True",
+   "INVOICE:America/Los_Angeles:4:False",
+   "INVOICE:America/Los_Angeles:4:True",
+   "INVOICE:America/Los_Angeles:7:False",
+   "INVOICE:America/Los_Angeles:7:True",
+   "CALENDAR:1_MONTHS:UTC:False",
+   "CALENDAR:1_MONTHS:UTC:True",
+   "CALENDAR:1_MONTHS:Pacific/Kiritimati:False",
+   "CALENDAR:1_MONTHS:Pacific/Kiritimati:True",
+   "CALENDAR:2_MONTHS:UTC:False",
+   "CALENDAR:2_MONTHS:UTC:True",
+   "CALENDAR:2_MONTHS:Pacific/Kiritimati:False",
+   "CALENDAR:2_MONTHS:Pacific/Kiritimati:True",
+   "CALENDAR:3_MONTHS:UTC:False",
+   "CALENDAR:3_MONTHS:UTC:True",
+   "CALENDAR:3_MONTHS:Pacific/Kiritimati:False",
+   "CALENDAR:3_MONTHS:Pacific/Kiritimati:True",
+   "CALENDAR:JAN31:UTC:False",
+   "CALENDAR:JAN31:UTC:True",
+   "CALENDAR:JAN31:Pacific/Kiritimati:False",
+   "CALENDAR:JAN31:Pacific/Kiritimati:True",
+   "CALENDAR:FEB28:UTC:False",
+   "CALENDAR:FEB28:UTC:True",
+   "CALENDAR:FEB28:Pacific/Kiritimati:False",
+   "CALENDAR:FEB28:Pacific/Kiritimati:True",
+   "CALENDAR:MAY31:UTC:False",
+   "CALENDAR:MAY31:UTC:True",
+   "CALENDAR:MAY31:Pacific/Kiritimati:False",
+   "CALENDAR:MAY31:Pacific/Kiritimati:True",
+   "REWORK:0:CONTRACTOR:failed=False",
+   "REWORK:0:CONTRACTOR:failed=True",
+   "REWORK:0:LAUNDRY:failed=False",
+   "REWORK:0:LAUNDRY:failed=True",
+   "REWORK:4:CONTRACTOR:failed=False",
+   "REWORK:4:CONTRACTOR:failed=True",
+   "REWORK:4:LAUNDRY:failed=False",
+   "REWORK:4:LAUNDRY:failed=True",
+   "REWORK:MIXED_RATES:CONTRACTOR:failed=False",
+   "REWORK:MIXED_RATES:CONTRACTOR:failed=True",
+   "REWORK:MIXED_RATES:LAUNDRY:failed=False",
+   "REWORK:MIXED_RATES:LAUNDRY:failed=True",
+   "RECOVERED_SALE:CONTRACTOR:False",
+   "RECOVERED_SALE:CONTRACTOR:True",
+   "RECOVERED_SALE:LAUNDRY:False",
+   "RECOVERED_SALE:LAUNDRY:True",
+   "DATE:False:Asia/Jakarta:True:20",
+   "DATE:False:Asia/Jakarta:True:20.003",
+   "DATE:False:UTC:True:20",
+   "DATE:False:UTC:True:20.003",
+   "DATE:False:Etc/GMT+12:True:20",
+   "DATE:False:Etc/GMT+12:True:20.003",
+   "DATE:False:Pacific/Kiritimati:True:20",
+   "DATE:False:Pacific/Kiritimati:True:20.003",
+   "DATE:True:Asia/Jakarta:True:20",
+   "DATE:True:Asia/Jakarta:True:20.003",
+   "DATE:True:UTC:True:20",
+   "DATE:True:UTC:True:20.003",
+   "DATE:True:Etc/GMT+12:True:20",
+   "DATE:True:Etc/GMT+12:True:20.003",
+   "DATE:True:Pacific/Kiritimati:True:20",
+   "DATE:True:Pacific/Kiritimati:True:20.003",
+   "INVOICE:UTC:False",
+   "INVOICE:UTC:True",
+   "INVOICE:Pacific/Kiritimati:False",
+   "INVOICE:Pacific/Kiritimati:True",
+   "AO:INVOICE:UTC:False",
+   "AO:INVOICE:UTC:True",
+   "AO:INVOICE:Pacific/Kiritimati:False",
+   "AO:INVOICE:Pacific/Kiritimati:True"
+  ],
+  "payrolls": 103,
+  "refused": []
+ },
+ {
+  "av_trial_phase": "regression",
+  "status": "DISPOSITION_REQUIRED",
+  "phase": "regression",
+  "production_go": false,
+  "independent_acceptance": false,
+  "auditor_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
+  "av_pins": "193e84efac8ead7cab681071e40070e1f9249f82cec1b7972f0576e8df25a2dc",
+  "original_oracle_sources": {
+   "scripts/cp6_v2620al_review.py": "5577b261dbab8951454dd2794d7c68f067ba6c4593829a34416ef31f48e06fb9",
+   "scripts/cp6_v2620al_import_review.py": "c0a1217f1437b94e5241c2b568bd7c582be4e2a2292b17214dee959b91a429af",
+   "scripts/cp6_v2620al_value_review.py": "f2386d3472107e465ff8c110f5e91c78863d7eacad021573984c1f9a340a7b58",
+   "scripts/cp6_v2620al_import_concurrency.py": "10dbcaebe616aab10450a31dc047041f2a9c4813f30eb22838bec4cbfa70dd25",
+   "scripts/cp6_v2620al_direct_concurrency.py": "2a755622abc59c6913a2deb17b1f246d79c555b84af346f1c8224bf4dab2d792",
+   "scripts/cp6_final_ak_independent.py": "9644b71e3a8ace79fb0de94ed517686330f175f2706b5e641fc6c7e200d39feb",
+   "scripts/cp6_v2620ai_family.py": "9d18d1ced8f90f75559177cb82c4a2b17f9d97636e1bfd8898e6ecf080dd0ee6",
+   "scripts/cp6_ai_independent_review.py": "0a4949a5f5c1b02ada3a29b369e225d8b3f6c962a9946708b02e4875c7688e83",
+   "scripts/cp6_final_crossflow_review.py": "316125ca0e9350e31efb6af029b7e936a50d51a6714c5d12b884e98a4b394d24",
+   "scripts/cp6_final_gap_native.py": "283ffb4d6f0db9dfdfa1e592b5b52a3809681e3eed5570fdfd6f2930f5bfe9d1"
+  },
+  "au_install": "PASS",
+  "av_install": "PASS",
+  "groups": {
+   "business": {
+    "status": "WRITER_PASS",
+    "counts": {
+     "PASS": 179,
+     "CONTROL_PASS": 39,
+     "DATE_POLICY_REVIEW_REQUIRED": 12
+    },
+    "matches_au_outcome": true
+   },
+   "imports": {
+    "status": "WRITER_PASS",
+    "counts": {
+     "PASS": 31
+    },
+    "matches_au_outcome": true
+   },
+   "values": {
+    "status": "WRITER_PASS",
+    "counts": {
+     "PASS": 65
+    },
+    "matches_au_outcome": true
+   }
+  },
+  "moved_cases": {},
+  "new_cases": {
+   "status": "INCOMPLETE",
+   "counts": {
+    "PASS": 25,
+    "COUNTEREXAMPLE": 8,
+    "INCOMPLETE": 1
+   }
+  },
+  "ao_trial": {
+   "status": "INCOMPLETE",
+   "counts": {
+    "PASS": 8,
+    "INCOMPLETE": 4
+   },
+   "source_sha256": "279f0091e8cdfd93b651b5423fc59ad830b899392ebc069db21738366b83ce3f",
+   "foundation": "PRESENT",
+   "moved": {
+    "INVOICE:UTC:False": "INCOMPLETE",
+    "INVOICE:UTC:True": "INCOMPLETE",
+    "INVOICE:Pacific/Kiritimati:False": "INCOMPLETE",
+    "INVOICE:Pacific/Kiritimati:True": "INCOMPLETE"
+   }
+  },
+  "approved_oracle_20260924b": {
+   "status": "WRITER_PASS",
+   "counts": {
+    "PASS": 5
+   },
+   "cases": {
+    "AS:ADJUSTMENT_DATE:False": {
+     "approved_oracle": "MATCH",
+     "decision": "Owner 24 Sep: ADJUSTMENT_DATE tidak disahkan otomatis; telusuri pembaca effective_date, bila aman ubah oracle tanggalnya dengan bukti. Writer trace: readers are run_v267_financial_truth_checks V2620T_MATERIAL_ADJUSTMENT_FACT_LEDGER (fact effective_date = its own journal economic_date; AZ sets both to the same date) and the pocket_period_recost trigger (pocket recost journal date); no reader requires the invoice date. Proof in the case: those checks and the pocket checks do not increase after the invoice and after its reversal."
+    },
+    "AO:INVOICE:UTC:False": {
+     "approved_oracle": "MATCH",
+     "decision": "Owner 24 Sep: AO periode terbuka - tanggal koreksi WIP/FG mengikuti hari barangnya berpindah tahap; jurnal invoice tetap pada tanggal invoice."
+    },
+    "AO:INVOICE:UTC:True": {
+     "approved_oracle": "MATCH",
+     "decision": "Owner 24 Sep: AO periode tertutup - tanggal posting mengikuti hari pengakuan, tanggal ekonomi invoice tetap tersimpan (sejak AS)."
+    },
+    "AO:INVOICE:Pacific/Kiritimati:False": {
+     "approved_oracle": "MATCH",
+     "decision": "Owner 24 Sep: AO periode terbuka - tanggal koreksi WIP/FG mengikuti hari barangnya berpindah tahap; jurnal invoice tetap pada tanggal invoice."
+    },
+    "AO:INVOICE:Pacific/Kiritimati:True": {
+     "approved_oracle": "MATCH",
+     "decision": "Owner 24 Sep: AO periode tertutup - tanggal posting mengikuti hari pengakuan, tanggal ekonomi invoice tetap tersimpan (sejak AS)."
+    }
+   },
+   "error": null,
+   "sources": {
+    "invoice_date": "6866fc38df433df26deea728b738d873e328463b31dcd76e8c62ad145848a2db",
+    "adjustment_date": "a97ea019627259998b975aff866e10eb6775e9f9bc70999602a79ff7013e39fc"
+   },
+   "calendar_policy": {
+    "CALENDAR:1_MONTHS:UTC:False": "MATCH",
+    "CALENDAR:1_MONTHS:Pacific/Kiritimati:False": "MATCH",
+    "CALENDAR:2_MONTHS:UTC:False": "MATCH",
+    "CALENDAR:2_MONTHS:Pacific/Kiritimati:False": "MATCH",
+    "CALENDAR:3_MONTHS:UTC:False": "MATCH",
+    "CALENDAR:3_MONTHS:Pacific/Kiritimati:False": "MATCH",
+    "CALENDAR:JAN31:UTC:False": "MATCH",
+    "CALENDAR:JAN31:Pacific/Kiritimati:False": "MATCH",
+    "CALENDAR:FEB28:UTC:False": "MATCH",
+    "CALENDAR:FEB28:Pacific/Kiritimati:False": "MATCH",
+    "CALENDAR:MAY31:UTC:False": "MATCH",
+    "CALENDAR:MAY31:Pacific/Kiritimati:False": "MATCH"
+   },
+   "calendar_decision": "Owner 24 Sep: 12 kalender HOLD - tanggal perpindahan nilai ke WIP mengikuti hari potong; status tetap HOLD.",
+   "note": "Frozen results stand (INCOMPLETE/COUNTEREXAMPLE/HOLD); MATCH is the approved oracle, not a frozen PASS."
+  },
+  "approved_oracle_20260924": {
+   "results": {
+    "DATE:False:Asia/Jakarta:True:20": "MATCH",
+    "DATE:False:Asia/Jakarta:True:20.003": "MATCH",
+    "DATE:False:UTC:True:20": "MATCH",
+    "DATE:False:UTC:True:20.003": "MATCH",
+    "DATE:False:Etc/GMT+12:True:20": "MATCH",
+    "DATE:False:Etc/GMT+12:True:20.003": "MATCH",
+    "DATE:False:Pacific/Kiritimati:True:20": "MATCH",
+    "DATE:False:Pacific/Kiritimati:True:20.003": "MATCH"
+   },
+   "match": 8,
+   "of": 8
+  },
+  "per_case_identity": {
+   "groups": {
+    "BUSINESS": {
+     "expected": 230,
+     "observed": 230,
+     "added": [],
+     "removed": [],
+     "moved": [],
+     "order_unchanged": true
+    },
+    "IMPORTS": {
+     "expected": 31,
+     "observed": 31,
+     "added": [],
+     "removed": [],
+     "moved": [],
+     "order_unchanged": true
+    },
+    "VALUES": {
+     "expected": 65,
+     "observed": 65,
+     "added": [],
+     "removed": [],
+     "moved": [],
+     "order_unchanged": true
+    },
+    "NEW_CASES": {
+     "expected": 34,
+     "observed": 34,
+     "added": [],
+     "removed": [],
+     "moved": [
+      {
+       "case": "DATE:False:Asia/Jakarta:True:20",
+       "expected": "PASS",
+       "observed": "COUNTEREXAMPLE"
+      },
+      {
+       "case": "DATE:False:Asia/Jakarta:True:20.003",
+       "expected": "PASS",
+       "observed": "COUNTEREXAMPLE"
+      },
+      {
+       "case": "DATE:False:UTC:True:20",
+       "expected": "PASS",
+       "observed": "COUNTEREXAMPLE"
+      },
+      {
+       "case": "DATE:False:UTC:True:20.003",
+       "expected": "PASS",
+       "observed": "COUNTEREXAMPLE"
+      },
+      {
+       "case": "DATE:False:Etc/GMT+12:True:20",
+       "expected": "PASS",
+       "observed": "COUNTEREXAMPLE"
+      },
+      {
+       "case": "DATE:False:Etc/GMT+12:True:20.003",
+       "expected": "PASS",
+       "observed": "COUNTEREXAMPLE"
+      },
+      {
+       "case": "DATE:False:Pacific/Kiritimati:True:20",
+       "expected": "PASS",
+       "observed": "COUNTEREXAMPLE"
+      },
+      {
+       "case": "DATE:False:Pacific/Kiritimati:True:20.003",
+       "expected": "PASS",
+       "observed": "COUNTEREXAMPLE"
+      },
+      {
+       "case": "ADJUSTMENT_DATE:False",
+       "expected": "PASS",
+       "observed": "INCOMPLETE"
+      }
+     ],
+     "order_unchanged": true
+    }
+   },
+   "holds": {
+    "expected": 12,
+    "observed": 12,
+    "identical": true,
+    "expected_count_is_recorded": true,
+    "left_hold": [],
+    "entered_hold": []
+   },
+   "status": "DISPOSITION_REQUIRED"
+  },
+  "fixture_completions": {
+   "mode": "PAYROLL_APPROVED",
+   "seed": "QUIETED",
+   "count": 103,
+   "cases": [
+    "CROSS:DAY:ATTENDANCE:DIRECT:Asia/Jakarta",
+    "CROSS:DAY:ATTENDANCE:DIRECT:UTC",
+    "CROSS:DAY:ATTENDANCE:DIRECT:Asia/Tokyo",
+    "CROSS:DAY:ATTENDANCE:DIRECT:Pacific/Kiritimati",
+    "CROSS:DAY:ATTENDANCE:DIRECT:Etc/GMT+12",
+    "CROSS:INVOICE:True:Asia/Jakarta:20",
+    "CROSS:INVOICE:True:Asia/Jakarta:20.003",
+    "CROSS:INVOICE:True:UTC:20",
+    "CROSS:INVOICE:True:UTC:20.003",
+    "CROSS:INVOICE:True:Etc/GMT+12:20",
+    "CROSS:INVOICE:True:Etc/GMT+12:20.003",
+    "CROSS:INVOICE:True:Pacific/Kiritimati:20",
+    "CROSS:INVOICE:True:Pacific/Kiritimati:20.003",
+    "CROSS:CASH_LINKED:1",
+    "CROSS:CASH_LINKED:4",
+    "CROSS:H_R02",
+    "WORK:WORK_CENTS",
+    "WORK:WORK_ZERO_RATE",
+    "WORK:WORK_PARTIAL_PAY",
+    "WORK:WORK_TIMEZONE",
+    "WORK:REVERSE_REUSE",
+    "WORK:HPP_THROUGH_SALE_0",
+    "WORK:HPP_THROUGH_SALE_1.27",
+    "INVOICE:UTC:4:False",
+    "INVOICE:UTC:4:True",
+    "INVOICE:UTC:7:False",
+    "INVOICE:UTC:7:True",
+    "INVOICE:Asia/Jakarta:4:False",
+    "INVOICE:Asia/Jakarta:4:True",
+    "INVOICE:Asia/Jakarta:7:False",
+    "INVOICE:Asia/Jakarta:7:True",
+    "INVOICE:Pacific/Kiritimati:4:False",
+    "INVOICE:Pacific/Kiritimati:4:True",
+    "INVOICE:Pacific/Kiritimati:7:False",
+    "INVOICE:Pacific/Kiritimati:7:True",
+    "INVOICE:America/Los_Angeles:4:False",
+    "INVOICE:America/Los_Angeles:4:True",
+    "INVOICE:America/Los_Angeles:7:False",
+    "INVOICE:America/Los_Angeles:7:True",
+    "CALENDAR:1_MONTHS:UTC:False",
+    "CALENDAR:1_MONTHS:UTC:True",
+    "CALENDAR:1_MONTHS:Pacific/Kiritimati:False",
+    "CALENDAR:1_MONTHS:Pacific/Kiritimati:True",
+    "CALENDAR:2_MONTHS:UTC:False",
+    "CALENDAR:2_MONTHS:UTC:True",
+    "CALENDAR:2_MONTHS:Pacific/Kiritimati:False",
+    "CALENDAR:2_MONTHS:Pacific/Kiritimati:True",
+    "CALENDAR:3_MONTHS:UTC:False",
+    "CALENDAR:3_MONTHS:UTC:True",
+    "CALENDAR:3_MONTHS:Pacific/Kiritimati:False",
+    "CALENDAR:3_MONTHS:Pacific/Kiritimati:True",
+    "CALENDAR:JAN31:UTC:False",
+    "CALENDAR:JAN31:UTC:True",
+    "CALENDAR:JAN31:Pacific/Kiritimati:False",
+    "CALENDAR:JAN31:Pacific/Kiritimati:True",
+    "CALENDAR:FEB28:UTC:False",
+    "CALENDAR:FEB28:UTC:True",
+    "CALENDAR:FEB28:Pacific/Kiritimati:False",
+    "CALENDAR:FEB28:Pacific/Kiritimati:True",
+    "CALENDAR:MAY31:UTC:False",
+    "CALENDAR:MAY31:UTC:True",
+    "CALENDAR:MAY31:Pacific/Kiritimati:False",
+    "CALENDAR:MAY31:Pacific/Kiritimati:True",
+    "REWORK:0:CONTRACTOR:failed=False",
+    "REWORK:0:CONTRACTOR:failed=True",
+    "REWORK:0:LAUNDRY:failed=False",
+    "REWORK:0:LAUNDRY:failed=True",
+    "REWORK:4:CONTRACTOR:failed=False",
+    "REWORK:4:CONTRACTOR:failed=True",
+    "REWORK:4:LAUNDRY:failed=False",
+    "REWORK:4:LAUNDRY:failed=True",
+    "REWORK:MIXED_RATES:CONTRACTOR:failed=False",
+    "REWORK:MIXED_RATES:CONTRACTOR:failed=True",
+    "REWORK:MIXED_RATES:LAUNDRY:failed=False",
+    "REWORK:MIXED_RATES:LAUNDRY:failed=True",
+    "RECOVERED_SALE:CONTRACTOR:False",
+    "RECOVERED_SALE:CONTRACTOR:True",
+    "RECOVERED_SALE:LAUNDRY:False",
+    "RECOVERED_SALE:LAUNDRY:True",
+    "DATE:False:Asia/Jakarta:True:20",
+    "DATE:False:Asia/Jakarta:True:20.003",
+    "DATE:False:UTC:True:20",
+    "DATE:False:UTC:True:20.003",
+    "DATE:False:Etc/GMT+12:True:20",
+    "DATE:False:Etc/GMT+12:True:20.003",
+    "DATE:False:Pacific/Kiritimati:True:20",
+    "DATE:False:Pacific/Kiritimati:True:20.003",
+    "DATE:True:Asia/Jakarta:True:20",
+    "DATE:True:Asia/Jakarta:True:20.003",
+    "DATE:True:UTC:True:20",
+    "DATE:True:UTC:True:20.003",
+    "DATE:True:Etc/GMT+12:True:20",
+    "DATE:True:Etc/GMT+12:True:20.003",
+    "DATE:True:Pacific/Kiritimati:True:20",
+    "DATE:True:Pacific/Kiritimati:True:20.003",
+    "INVOICE:UTC:False",
+    "INVOICE:UTC:True",
+    "INVOICE:Pacific/Kiritimati:False",
+    "INVOICE:Pacific/Kiritimati:True",
+    "AO:INVOICE:UTC:False",
+    "AO:INVOICE:UTC:True",
+    "AO:INVOICE:Pacific/Kiritimati:False",
+    "AO:INVOICE:Pacific/Kiritimati:True"
+   ],
+   "payrolls": 103,
+   "refused": []
+  },
+  "primary_unchanged": true,
+  "clone_remaining": 0
+ }
+]

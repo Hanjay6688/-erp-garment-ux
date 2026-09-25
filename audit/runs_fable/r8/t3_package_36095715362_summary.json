@@ -1,0 +1,56 @@
+{
+ "run_id": 36095715362,
+ "head": "9dd7bc2",
+ "product_ref": "a095a9d",
+ "jobs": {
+  "install": 107947449272,
+  "pins": 107947449368,
+  "browser": 107947449378
+ },
+ "install": {
+  "status": "ALL_STAGES_INSTALLED",
+  "files": 25,
+  "keys": "AC..BA all PASS",
+  "verify": "AV_PLUS_AW_AX_AY_AZ_BA_T1 functions 12, ba_sql_sha256 06d6dccb5243832e07deead99d19a5b359f2cd65b1dc8917b2fa006e780c1f37",
+  "advisors": {
+   "status": "REVIEW_REQUIRED",
+   "before": 73,
+   "after": 129,
+   "added_kind": "rls_enabled_no_policy INFO only (erp tables incl. rollback capsules, initial_import_*, pocket_*, initial_import_wip_output_identity_v1)",
+   "removed": 0
+  },
+  "drill": "RESTORED_SAME_MEANING (19 pg_cron-only restore errors explained; data identical; engine READY equal)",
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "gate": {
+   "installed": true,
+   "primary_unchanged": true,
+   "backup_restore_drill": true,
+   "security_advisors": true
+  }
+ },
+ "browser": {
+  "status": "BROWSER_PASS",
+  "cases_pass": 10,
+  "cases": [
+   "REAL_LOGIN_PAGE",
+   "ANONYMOUS_REFUSED",
+   "REAL_PASSWORD_BROWSER_LOGIN",
+   "AMBIGUOUS_REFUSED_0",
+   "LOST_REPLY_RELOAD_EXACT_REPLAY",
+   "EXACT_BRAND_STOCK_HPP_0",
+   "LINKED_INVERSE_0",
+   "AMBIGUOUS_REFUSED_1",
+   "EXACT_BRAND_STOCK_HPP_1",
+   "LINKED_INVERSE_1"
+  ],
+  "console_errors": 0,
+  "primary_unchanged": true
+ },
+ "hosted_capsules_equal": true,
+ "release_evidence": false,
+ "production_go": false,
+ "label": "T3_PREP",
+ "source": "job logs read by auditor via GitHub API 25 Sep 2026 ~04:50 UTC"
+}

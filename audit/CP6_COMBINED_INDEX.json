@@ -81,7 +81,11 @@
     "notes": "out/verify_CP6-01.md: tiga halaman aktif di mode CONNECTED (src/config/runtime.ts) tanpa guard zona perangkat; RPC cast ::timestamptz tanpa validasi WIB; facade aksesori (…20ap…:502-503) justru memaksa sufiks +07:00 (guard ada, tidak dipakai); scope CP6 via M:1708/1710.",
     "verified_at": "2026-09-24T22:33:14Z",
     "model": "sonnet (agen terpisah, lensa kode+kontrak)"
-   }
+   },
+   "status_r8": "CLOSED_BY_SOURCE_REVIEW_ON_a095a9d",
+   "evidence_r8": "INDEPENDENT_SOURCE_REVIEW out/fable_ba_source_review.md A2 (3 halaman helper WIB, test writer 4 zona); belum ada run browser auditor sendiri",
+   "updated_at": "2026-09-25T05:00:11Z",
+   "fable_update": "r8 (head 9dd7bc2, produk a095a9d): CLOSED_BY_SOURCE_REVIEW_ON_a095a9d — INDEPENDENT_SOURCE_REVIEW out/fable_ba_source_review.md A2 (3 halaman helper WIB, test writer 4 zona); belum ada run browser auditor sendiri"
   },
   {
    "id": "CP6-02",
@@ -96,7 +100,10 @@
    "evidence": "Run36048357523/job107797410652, XA:U02; secondPOSTED, prefix−8pcs/WIPGLPO−20.",
    "next": "Writer perbaiki kapasitas bertanggal; native kasus negatif dan kontrol tanggal≥reversal, exact refusal, replay, inverse dan cleanup.",
    "fable_native_update": "GPT batch SI-02 (run 36065350201) + Fable XA:U02 (run 36048357523): prefix SEWING −8.",
-   "updated_at": "2026-09-24T22:14:39Z"
+   "updated_at": "2026-09-25T05:00:11Z",
+   "status_r8": "CLOSED_ON_a095a9d",
+   "evidence_r8": "U02 PASS (36095533518, 36096186788); xaudit_7 A3 ×2; SI-02 menolak BA_WIP_OUTPUT_EXCEEDS_DATED_REMAINING",
+   "fable_update": "r8 (head 9dd7bc2, produk a095a9d): CLOSED_ON_a095a9d — U02 PASS (36095533518, 36096186788); xaudit_7 A3 ×2; SI-02 menolak BA_WIP_OUTPUT_EXCEEDS_DATED_REMAINING"
   },
   {
    "id": "CP6-03",
@@ -111,7 +118,10 @@
    "evidence": "XA1job107797410652 danXA2job107807966805: correction/invoice, nilai−0.01/up dan+0.01/down, qty0.",
    "next": "Pin pembulatan resmi pada posted values; jangan memakai half-even Python sebagai aturan ERP otomatis. Uji konsumen FG/COGS/jurnal/report setelah perbaikan.",
    "fable_native_update": "GPT MONEY×4 (run 36065350201, termasuk AP/GRNI endpoint) + Fable XA:U03/XA2 (direct+invoice): ±0,01 pada qty 0.",
-   "updated_at": "2026-09-24T22:14:39Z"
+   "updated_at": "2026-09-25T05:00:11Z",
+   "status_r8": "CLOSED_SINGLE_RECEIPT_ON_a095a9d",
+   "evidence_r8": "xaudit_1_rev2 U03 ×2, xaudit_2_rev2 invoice ×2, MONEY ×4 PASS; rev1 DOWN = oracle auditor HALF_EVEN salah (ditarik); batas multi-penerimaan ≤0,01 diakui writer",
+   "fable_update": "r8 (head 9dd7bc2, produk a095a9d): CLOSED_SINGLE_RECEIPT_ON_a095a9d — xaudit_1_rev2 U03 ×2, xaudit_2_rev2 invoice ×2, MONEY ×4 PASS; rev1 DOWN = oracle auditor HALF_EVEN salah (ditarik); batas multi-penerimaan ≤0,01 diakui writer"
   },
   {
    "id": "CP6-04",
@@ -127,7 +137,10 @@
    "evidence": "BSLIMIT100 dan UI filterlokal; XA2job107807966805 omittedoldqty10. Import/pocket50 dan payroll/prepayment100 source review saja. Reconstructed initial-import51case now prepared: UI discovery is limited, but known-UUID public reader works; nativeNOT_RUN.",
    "next": "Pisahkan subcakupan BS/import/pocket/payroll/prepay; fixture101/51 sah, netclaimable, search/paging dan UI action. NativeBS cloning bukan fullproducerproof.",
    "fable_native_update": "BS 101 (Fable XA2, run 36051514868) CONFIRMED; import 51-draft (GPT case, Fable fix run 36066079063 job 107856040296) COUNTEREXAMPLE: draf tertua hilang dari selector recent(50), terbaca via UUID. Pocket/payroll/prepayment selector belum native.",
-   "updated_at": "2026-09-24T22:17:06Z"
+   "updated_at": "2026-09-25T05:00:11Z",
+   "status_r8": "CLOSED_ON_a095a9d",
+   "evidence_r8": "selector-101 PASS (36095540820, 36096194323); selector-51 PASS (36095555898)",
+   "fable_update": "r8 (head 9dd7bc2, produk a095a9d): CLOSED_ON_a095a9d — selector-101 PASS (36095540820, 36096194323); selector-51 PASS (36095555898)"
   },
   {
    "id": "CP6-05",
@@ -165,7 +178,7 @@
    "evidence": "Opening67.25D−8,correction100D−2,refund100D−4 memprediksi−32.75;6kasus supplier/customer/vendor belumrun.",
    "next": "Run newly reconstructed six-case advance source with reviewed actor/fixtures and exact ordered/backdated ledger oracles; original missing hash not reused. Unexpected refusal INCOMPLETE; no native execution yet.",
    "fable_native_update": "BCR1-ADVANCE-{SUPPLIER,CUSTOMER,VENDOR}-DATED_CAPACITY COUNTEREXAMPLE (run 36065350201): refund backdated 100 sebelum koreksi → saldo uang muka −32,75 pada 21–22 Sep; ORDERED_CONTROL 3× PASS.",
-   "updated_at": "2026-09-25T01:35:00Z",
+   "updated_at": "2026-09-25T05:00:11Z",
    "adversarial_verification": {
     "verdict": "CONFIRMED_TECHNICAL_PRIORITY_REVISED",
     "priority_after": "P2",
@@ -173,7 +186,9 @@
     "verified_at": "2026-09-24T22:33:14Z",
     "model": "sonnet (agen terpisah, lensa kode+kontrak)"
    },
-   "fable_update": "D02=A disahkan owner (OWNER_CONFIRMED_CHAT 25 Sep): kapasitas per tanggal → cacat produk wajib; lihat handoff A9/C2."
+   "fable_update": "D02=A disahkan owner (OWNER_CONFIRMED_CHAT 25 Sep): kapasitas per tanggal → cacat produk wajib; lihat handoff A9/C2. | r8 (head 9dd7bc2, produk a095a9d): CLOSED_ON_a095a9d_D02 — ORDERED_CONTROL ×3 PASS, DATED ×3 ditolak BA_ADVANCE_DATED_CAPACITY (36095563286); xaudit_7 A9 ×3 termasuk batas hari koreksi",
+   "status_r8": "CLOSED_ON_a095a9d_D02",
+   "evidence_r8": "ORDERED_CONTROL ×3 PASS, DATED ×3 ditolak BA_ADVANCE_DATED_CAPACITY (36095563286); xaudit_7 A9 ×3 termasuk batas hari koreksi"
   },
   {
    "id": "CP6-08",
@@ -199,14 +214,17 @@
    "evidence": "Open2run36045629594/job107788356714 menerima batchbaru,qty7→14,inventory+15.75; tidak ada sharedphysical/documentID.",
    "next": "Tetapkan identitas dokumen/sumber; negative same-source dan positive distinct-source/partialimport. Jangan syaratkan semua sameSKU/date ditolak.",
    "fable_native_update": "XA5:R1 (run 36065517737): holder memblokir worker (kunci ada), setelah commit worker juga POSTED → 3 header POSTED / qty 21 untuk 7 unit. Oracle identitas sumber fisik sama tetap perlu kasus negative same-source/positive distinct-source.",
-   "updated_at": "2026-09-24T22:14:39Z",
+   "updated_at": "2026-09-25T05:00:11Z",
    "adversarial_verification": {
     "verdict": "CONFIRMED",
     "priority_after": "P1",
     "notes": "out/verify_CP6-09.md: predikat XOR AR:372 tidak pernah membandingkan impor vs impor; tidak ada indeks unik/identitas dokumen untuk item MATERIAL/FG; delta ledger non-vacuous (open_2) + race dua sesi. Risiko sudah diungkap writer (docs/cp6-ar-opening-overlap.md:59-62) — instance terukur dari gap yang diakui.",
     "verified_at": "2026-09-24T22:33:14Z",
     "model": "sonnet (agen terpisah, lensa kode+kontrak)"
-   }
+   },
+   "status_r8": "CLOSED_ON_a095a9d",
+   "evidence_r8": "open_1 13/13 (36095519048), open_2 4/4 (36095526291), xaudit_7 A1 ×2 (36095963570), R1 dua sesi substantif (36096178430; rev3 36096552454)",
+   "fable_update": "r8 (head 9dd7bc2, produk a095a9d): CLOSED_ON_a095a9d — open_1 13/13 (36095519048), open_2 4/4 (36095526291), xaudit_7 A1 ×2 (36095963570), R1 dua sesi substantif (36096178430; rev3 36096552454)"
   },
   {
    "id": "CP6-10",
@@ -339,8 +357,10 @@
    "evidence": "Source memilihpayloadproduct+modelPO+sizesource; originalSI01NOT_RUN.",
    "next": "Perjelas makna binding dari kontrak, validpositive alternativeproduct, wrongidentity refusal, exactsource lineage.",
    "fable_native_update": "SI-01 (run 36065350201): WIP produk A/brand A/Blue diselesaikan sebagai produk B/brand B/Red → POSTED; sumber cp6_az_t1_family.sql:855-862 tidak merujuk product_id item opening. Keputusan pengikatan produk opsional tetap owner.",
-   "updated_at": "2026-09-25T01:35:00Z",
-   "fable_update": "D03=A disahkan owner (OWNER_CONFIRMED_CHAT 25 Sep): produk WIP awal mengikat bila diisi → cacat produk; lihat handoff A10/C3."
+   "updated_at": "2026-09-25T05:00:11Z",
+   "fable_update": "D03=A disahkan owner (OWNER_CONFIRMED_CHAT 25 Sep): produk WIP awal mengikat bila diisi → cacat produk; lihat handoff A10/C3. | r8 (head 9dd7bc2, produk a095a9d): CLOSED_ON_a095a9d_D03 — SI-01 ditolak BA_WIP_OUTPUT_PRODUCT_BOUND (36095563286); xaudit_7 A10 ×4 termasuk provenance unknown (D03 §5.3)",
+   "status_r8": "CLOSED_ON_a095a9d_D03",
+   "evidence_r8": "SI-01 ditolak BA_WIP_OUTPUT_PRODUCT_BOUND (36095563286); xaudit_7 A10 ×4 termasuk provenance unknown (D03 §5.3)"
   },
   {
    "id": "CP6-19",
@@ -356,8 +376,10 @@
    "evidence": "OriginalSI04 tersedia di audit/scenarios/stock_import_scenario.py, belumnative. | Fable: audit/runs_fable/auditor_xaudit6_36080176237.json, auditor_xaudit6_rev2_36080510340.json, auditor_xaudit6_rev3_36081137254.json",
    "next": "Opsional writer: persempit grant prepare_migration_opening_balance atau tambah cek item-vs-staging; auditor rerun xaudit_6.py pada head baru bila jalur impor berubah.",
    "fable_native_update": "SI-04 (run 36065350201): item DRAFT ter-prepare diedit 8→4 lalu FINALIZE POSTED dengan sumber 8/40 dan stage 8. Caveat: edit via SQL sebagai ordinary + grant USAGE test-only runtime.",
-   "updated_at": "2026-09-25T01:30:36Z",
-   "fable_update": "xaudit_6 rev3 (sha 060fab3c…, run 36081137254, job 107903146957, head d284e9b, phase after): 2/2 PASS. Edit konsisten setelah VALIDATE → FINALIZE memposting isi terakhir (item 4/20.00, sumber 4, stage events 4, satu baris WIP). Setelah prepare via RPC ter-expose (authenticated) SAVE_FILE ditolak eksplisit (\"Batch ini sudah menerapkan master melalui jalur lama\"). SAVE_FILE menghapus item DRAFT prepared (20ap:1634-1636). rev1 36080176237 dan rev2 36080510340 INCOMPLETE karena file edit ditolak validasi produk (fixture). SI-04 (edit SQL langsung) tetap tercatat, kelas bukan jalur aplikasi. Residu P3: prepare RPC di-grant ke authenticated dan tidak memverifikasi ulang item yang sudah ada (20ap:2283)."
+   "updated_at": "2026-09-25T05:00:11Z",
+   "fable_update": "xaudit_6 rev3 (sha 060fab3c…, run 36081137254, job 107903146957, head d284e9b, phase after): 2/2 PASS. Edit konsisten setelah VALIDATE → FINALIZE memposting isi terakhir (item 4/20.00, sumber 4, stage events 4, satu baris WIP). Setelah prepare via RPC ter-expose (authenticated) SAVE_FILE ditolak eksplisit (\"Batch ini sudah menerapkan master melalui jalur lama\"). SAVE_FILE menghapus item DRAFT prepared (20ap:1634-1636). rev1 36080176237 dan rev2 36080510340 INCOMPLETE karena file edit ditolak validasi produk (fixture). SI-04 (edit SQL langsung) tetap tercatat, kelas bukan jalur aplikasi. Residu P3: prepare RPC di-grant ke authenticated dan tidak memverifikasi ulang item yang sudah ada (20ap:2283). | r8 (head 9dd7bc2, produk a095a9d): REFUTED_ON_LEGIT_APP_PATH_RESIDUAL_P3_RECOMMENDED — A8 belum dikerjakan; auditor merekomendasikan cabut grant authenticated pada prepare RPC sebelum rilis; tidak menahan gate",
+   "status_r8": "REFUTED_ON_LEGIT_APP_PATH_RESIDUAL_P3_RECOMMENDED",
+   "evidence_r8": "A8 belum dikerjakan; auditor merekomendasikan cabut grant authenticated pada prepare RPC sebelum rilis; tidak menahan gate"
   },
   {
    "id": "CP6-20",
@@ -419,14 +441,17 @@
    "oracle": "M:3816 (atomic/idempotent), M:1057-1065/S06: satu penutupan per tanggal; filing immutable (cp6_aw_t1_family.sql:907-909)",
    "evidence": "XA5:R2 run 36065517737 job 107854232896: preflight READY; holder close sukses; worker BLOCKED lalu sukses; accounting_close_filings_v1 untuk tanggal itu = 2. Guard hanya menolak tanggal lebih awal (cp6_aw_t1_family.sql:632).",
    "next": "Writer: close tanggal == closed_through saat ini harus ditolak/idempoten (tanpa filing baru); tes berurutan dan dua sesi.",
-   "updated_at": "2026-09-24T22:14:39Z",
+   "updated_at": "2026-09-25T05:00:11Z",
    "adversarial_verification": {
     "verdict": "CONFIRMED_TECHNICAL_PRIORITY_REVISED",
     "priority_after": "P3",
     "notes": "out/verify_CP6-24.md: filing kedua memang dibuat (juga sekuensial; guard identik dengan pendahulu AC:2398+), tetapi tanpa dampak terbukti: refresh checkpoint upsert idempoten, pembaca snapshot (previous_closed_through<as_of<=closed_through) mengabaikan filing degeneratif; beberapa filing per tanggal memang pola reopen/reclose. Oracle awal (M:3816-3819 UUID idempoten; M:1057-1065) salah sasaran; S06 (M:5777, 6049-6072) terpenuhi. Diturunkan P2→P3: perbaikan kebersihan (no-op/unique index).",
     "verified_at": "2026-09-24T22:33:14Z",
     "model": "sonnet (agen terpisah, lensa kode+kontrak)"
-   }
+   },
+   "status_r8": "CLOSED_ON_a095a9d",
+   "evidence_r8": "R2 dua sesi satu filing (36095548305, 36096178430); xaudit_7 A6 close tanggal berikutnya tetap jalan",
+   "fable_update": "r8 (head 9dd7bc2, produk a095a9d): CLOSED_ON_a095a9d — R2 dua sesi satu filing (36095548305, 36096178430); xaudit_7 A6 close tanggal berikutnya tetap jalan"
   },
   {
    "id": "CP6-25",
@@ -439,7 +464,10 @@
    "oracle": "M:369-371 versi sisa usang ditolak; M:3816 fail-closed",
    "evidence": "XA5:R3 run 36065517737: worker ditolak P0001 POCKET_PERIOD_BUSY (NO_CONTENTION), output total 8 (tidak ganda).",
    "next": "Opsional: pesan penolakan versi usang saat kunci pocket period sibuk.",
-   "updated_at": "2026-09-24T22:14:39Z"
+   "updated_at": "2026-09-25T05:00:11Z",
+   "status_r8": "OPEN_P3_NOT_BLOCKING",
+   "evidence_r8": "R3 tetap POCKET_PERIOD_BUSY (aman); A7 tidak dikerjakan writer; auditor: tidak perlu untuk gate",
+   "fable_update": "r8 (head 9dd7bc2, produk a095a9d): OPEN_P3_NOT_BLOCKING — R3 tetap POCKET_PERIOD_BUSY (aman); A7 tidak dikerjakan writer; auditor: tidak perlu untuk gate"
   }
  ],
  "blockers": [
@@ -474,7 +502,8 @@
    "detail": "out/race_blocker_review.md",
    "implementation_owner": "Claude Opus Max",
    "historical_cause": "Actor/JWT session context and schema grants from main uncommitted group are invisible to side sessions; source connection prevents CREATE DATABASE TEMPLATE within that group.",
-   "fable_update": "Oracle auditor dijalankan pada mode runtime writer (run 36065517737): R1/R2/R3 dan H1/H2/H3; lihat out/fable_native15_xaudit5_results.md. Browser→HTTP→runtime UI masih terbuka."
+   "fable_update": "Oracle auditor dijalankan pada mode runtime writer (run 36065517737): R1/R2/R3 dan H1/H2/H3; lihat out/fable_native15_xaudit5_results.md. Browser→HTTP→runtime UI masih terbuka.",
+   "fable_r8": "R2 dua sesi PASS; R1 dua sesi substantif PASS pada a095a9d (36096178430; rev3 36096552454)."
   },
   {
    "id": "BLOCKER-02",
@@ -501,7 +530,8 @@
    "detail": "out/http_blocker_review.md",
    "implementation_owner": "Claude Opus Max",
    "historical_cause": "xaudit_4 extracts signing secret and mints claims; this is not real Auth login. Classifier event itself only externally reported.",
-   "fable_update": "Oracle auditor dijalankan pada mode runtime writer (run 36065517737): R1/R2/R3 dan H1/H2/H3; lihat out/fable_native15_xaudit5_results.md. Browser→HTTP→runtime UI masih terbuka."
+   "fable_update": "Oracle auditor dijalankan pada mode runtime writer (run 36065517737): R1/R2/R3 dan H1/H2/H3; lihat out/fable_native15_xaudit5_results.md. Browser→HTTP→runtime UI masih terbuka.",
+   "fable_r8": "H2/H3 PASS ulang; T3 browser flow writer 10/10 (REUSED); skenario browser auditor sendiri belum dibuat."
   },
   {
    "id": "BLOCKER-03",
@@ -535,7 +565,8 @@
    "next": "Read out/writer_6140edb_review.md and ledger. Independently review generatedSQL/helper, guarded catalog scope, capsule normalization of captured_at AND boundary_snapshot, and post-use audit_logs fixture coverage. Do not redo oldabsence/capture investigation. AZ→AW returns toAV only; AC..AV release qualification requires separate work.",
    "detail": "out/writer_6140edb_review.md",
    "implementation_owner": "Claude Opus Max",
-   "historical_cause": "AW..AZ rollback artifacts/mode absent; AC release digest not admitted by old rollback; manifestNOT_TESTED."
+   "historical_cause": "AW..AZ rollback artifacts/mode absent; AC release digest not admitted by old rollback; manifestNOT_TESTED.",
+   "fable_r8": "T3 rollback AC..BA auto/cycle 127/127 PASS (run 36095723676); T3 package gate all true (36095715362). Tooling terbukti; kualifikasi rilis tetap T3_PREP."
   },
   {
    "id": "BLOCKER-04",
@@ -651,7 +682,7 @@
    "result": "PASS 2/2 — CP6-19 REFUTED on legit app path"
   }
  ],
- "fable_last_update": "2026-09-25T01:35:00Z",
+ "fable_last_update": "2026-09-25T05:00:11Z",
  "adversarial_verification_round": {
   "at": "2026-09-24T22:33:14Z",
   "findings": [
@@ -699,5 +730,150 @@
    "contract_files_changed": false,
    "label": "OWNER_CONFIRMED_CHAT"
   }
+ },
+ "candidate_r8": {
+  "tool_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
+  "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
+  "product_diff_a095a9d_to_head_empty": true,
+  "note": "kandidat baru (BA family + frontend WIB); hasil pada 9add57e tetap tercatat"
+ },
+ "fable_round8": {
+  "at": "2026-09-25T05:00:11Z",
+  "results": "out/fable_r8_results.md",
+  "handoff_input": "audit/input/WRITER_HANDOFF_R8_20260925.md",
+  "runs_dir": "audit/runs_fable/r8/",
+  "runs": [
+   {
+    "name": "open_1",
+    "run_id": 36095519048,
+    "job_id": 107946864058,
+    "sha": "983a66f5",
+    "result": "13/13 PASS"
+   },
+   {
+    "name": "open_2",
+    "run_id": 36095526291,
+    "job_id": 107946886331,
+    "sha": "e8b84000",
+    "result": "4/4 PASS + 1 informational INCOMPLETE"
+   },
+   {
+    "name": "xaudit_1 rev1",
+    "run_id": 36095533518,
+    "job_id": 107946908312,
+    "sha": "32a872e5",
+    "result": "3 PASS, 1 COUNTEREXAMPLE = oracle rounding error (withdrawn)"
+   },
+   {
+    "name": "xaudit_1_rev2",
+    "run_id": 36096186788,
+    "job_id": 107948841888,
+    "sha": "dad4331b",
+    "result": "4/4 PASS (job red: runtime browser sample INCOMPLETE, tool flake)"
+   },
+   {
+    "name": "xaudit_2 rev1",
+    "run_id": 36095540820,
+    "job_id": 107946929867,
+    "sha": "108b3ebc",
+    "result": "4 PASS, 1 COUNTEREXAMPLE = oracle rounding error (withdrawn)"
+   },
+   {
+    "name": "xaudit_2_rev2",
+    "run_id": 36096194323,
+    "job_id": 107948864042,
+    "sha": "06e6149c",
+    "result": "5/5 PASS"
+   },
+   {
+    "name": "xaudit_5 rev1",
+    "run_id": 36095548305,
+    "job_id": 107946952466,
+    "sha": "815781e1",
+    "result": "R1 INCOMPLETE (scenario design), R2 PASS, R3 CE-on-message, H1 dummy, H2/H3 PASS"
+   },
+   {
+    "name": "xaudit_5 rev2",
+    "run_id": 36096178430,
+    "job_id": 107948820241,
+    "sha": "4fec5b0d",
+    "result": "R1 substantively PASS (check nesting bug), R2 PASS"
+   },
+   {
+    "name": "xaudit_5 rev3",
+    "run_id": 36096552454,
+    "sha": "ca2f7301",
+    "result": "PENDING"
+   },
+   {
+    "name": "import_selector_fable_fix",
+    "run_id": 36095555898,
+    "job_id": 107946973741,
+    "sha": "d510df61",
+    "result": "PASS"
+   },
+   {
+    "name": "combined_native15",
+    "run_id": 36095563286,
+    "job_id": 107946997431,
+    "sha": "cec2ad52",
+    "result": "10 PASS, 6 INCOMPLETE (refusals with ratified codes; frozen GPT oracle rejects PASS-from-error), 1 CE (SI-04 SQL edit)"
+   },
+   {
+    "name": "rt_probe_1",
+    "run_id": 36095570725,
+    "job_id": 107947018623,
+    "sha": "13b3b800",
+    "result": "group refused AUDITOR_DUPLICATE_CASE_IDS (B1 proven)"
+   },
+   {
+    "name": "rt_probe_2",
+    "run_id": 36095577982,
+    "job_id": 107947039844,
+    "sha": "cd6df40c",
+    "result": "leak flagged INCOMPLETE (B1 proven); COMMIT on case connection crashes group (P3 tool)"
+   },
+   {
+    "name": "xaudit_7 rev1",
+    "run_id": 36095943675,
+    "job_id": 107948129125,
+    "sha": "3ed20b76",
+    "result": "fixture field error (auditor), unused"
+   },
+   {
+    "name": "xaudit_7 rev2",
+    "run_id": 36095963570,
+    "job_id": 107948186316,
+    "sha": "e21d9d0c",
+    "result": "12/12 PASS"
+   },
+   {
+    "name": "T2",
+    "run_id": 36095707100,
+    "result": "identity identical to reference; 25 frozen unchanged; not green by design"
+   },
+   {
+    "name": "T3 package",
+    "run_id": 36095715362,
+    "result": "ALL_STAGES_INSTALLED, gate all true, browser 10/10, T3_PREP"
+   },
+   {
+    "name": "T3 rollback auto/cycle",
+    "run_id": 36095723676,
+    "job_id": 107947475610,
+    "result": "127/127 PASS"
+   }
+  ],
+  "documents": {
+   "addendum_sha256_verified": "e83d56e66812011c9a7a4057bf29987d0bcf62aabc17ad23ab422170abb00c99",
+   "sections_1_8_at_5d54472": "d39762da0520f30268a73244e7471b7d990138e3cbe36475d639c7cfca8e926d",
+   "annex_c6_sha256_verified": "72621c8a978573506b8c829a2a8790de948f6cb10e83ecd14dfddf35d495bc0d",
+   "section9_quote_label": "UNVERIFIED_OWNER_DECISION (writer-chat quote) until owner confirms addendum text to auditor"
+  },
+  "c6_review": "out/fable_c6_annex_review.md — 9/11 cocok; ACC-04 dan LAU-05 salah label CR-TUNDA; 7 sub-keputusan M:4448-4479 tanpa baris; D06 belum bisa disahkan",
+  "t2_oracles": "out/fable_t2_oracles_post_addendum.md — 24/25 PASS di bawah D01, ADJUSTMENT_DATE INCOMPLETE (fixture); CP6-07/18 oracle",
+  "ba_source_review": "out/fable_ba_source_review.md — A3/A6/A9/A10/A2 CLOSED; A4 CLOSED single-receipt; A1 PARTIAL (legacy-vs-legacy di luar klaim; CASH_BANK per cash_account_id)",
+  "a7_a8_decision": "A7 tidak perlu (P3, aman); A8 direkomendasikan sebelum rilis (hardening kecil), tidak menahan gate",
+  "verdict": "CP6 HOLD, audit_complete=false, production_go=false"
  }
 }

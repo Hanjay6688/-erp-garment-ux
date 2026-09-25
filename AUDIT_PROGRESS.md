@@ -346,3 +346,26 @@ Owner: "Ya, semua sesuai usulan" (A untuk D01–D06, akun lawan AX = OTHER_INCOM
 1. Writer: C0 addendum keputusan owner → pengesahan tertulis; A1–A3 + A9 (P1); A4, A5, A10, C6 (P2); A6–A8, C4 (P3); B1–B6; rollback AC..AV; push head baru.
 2. Auditor: setelah C0 ada, tulis oracle 25 kasus T2 + CP6-07/18; rerun skenario terdampak pada head baru; same/distinct-source CP6-09; cakupan ALL; browser→HTTP→runtime.
 3. Verdict tetap CP6 HOLD, audit_complete=false, production_go=false.
+
+## Fable — putaran 8 selesai sebagian (2026-09-25T05:00:11Z), head alat 9dd7bc2, produk a095a9d
+Handoff writer disimpan: `audit/input/WRITER_HANDOFF_R8_20260925.md`. Hasil: `out/fable_r8_results.md`; JSON per run: `audit/runs_fable/r8/`; review: `out/fable_c6_annex_review.md`, `out/fable_ba_source_review.md`, `out/fable_t2_oracles_post_addendum.md`.
+| Run | Skenario/workflow | Hasil |
+|---|---|---|
+| 36095519048 | open_1 983a66f5 | 13/13 PASS |
+| 36095526291 | open_2 e8b84000 | 4/4 PASS (+1 informatif) |
+| 36095533518 / 36096186788 | xaudit_1 rev1 32a872e5 / rev2 dad4331b | rev1 1 CE = oracle rounding salah; rev2 4/4 PASS |
+| 36095540820 / 36096194323 | xaudit_2 rev1 108b3ebc / rev2 06e6149c | rev1 1 CE = oracle rounding salah; rev2 5/5 PASS |
+| 36095548305 / 36096178430 / 36096552454 | xaudit_5 rev1 815781e1 / rev2 4fec5b0d / rev3 ca2f7301 | R2 PASS; R1 rev2 substantif PASS (cek bug), rev3 menyusul |
+| 36095555898 | import_selector_fable_fix d510df61 | PASS |
+| 36095563286 | combined_native15 cec2ad52 | 10 PASS, 6 INCOMPLETE (penolakan dengan kode yang disahkan; oracle beku GPT), 1 CE SI-04 |
+| 36095570725 / 36095577982 | rt_probe_1 / rt_probe_2 | B1 terbukti (dup → grup ditolak; bocor → INCOMPLETE) |
+| 36095943675 / 36095963570 | xaudit_7 rev1 3ed20b76 / rev2 e21d9d0c | rev1 fixture salah; rev2 12/12 PASS |
+| 36095707100 | T2 | identik referensi; 25 beku tetap |
+| 36095715362 | T3 package | ALL_STAGES_INSTALLED, gate true, browser 10/10 |
+| 36095723676 | T3 rollback auto/cycle | 127/127 PASS |
+
+### NEXT STEPS (Fable)
+1. Isi hasil rev3 xaudit_5 (run 36096552454) di `out/fable_r8_results.md` §9.
+2. Writer W1–W6, owner O1–O3 (lihat banner `AUDIT_WRITER_HANDOFF_CP6.md`).
+3. Auditor: rerun C6 setelah W1; T2 dengan grup oracle baru; skenario browser B4; cakupan ALL; A4 multi-penerimaan.
+4. Verdict tetap CP6 HOLD, audit_complete=false, production_go=false.

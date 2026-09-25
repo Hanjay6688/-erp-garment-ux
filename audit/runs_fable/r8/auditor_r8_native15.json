@@ -1,0 +1,3541 @@
+[
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "erp_functions": 534,
+  "new_public_readers": 1,
+  "objects": 692,
+  "production_go": false
+ },
+ {
+  "auditor_scenario_sha256": "cec2ad521835476cf702119486e637d3eff4b62d8f72197a9ca2c2d50cf1fadb",
+  "bytes": 47183,
+  "phase": "after"
+ },
+ {
+  "run_identity": {
+   "label": "AUDITOR_SCENARIO",
+   "tool_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
+   "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
+   "product_paths": [
+    "supabase/migrations",
+    "supabase/dev",
+    "supabase/release",
+    "supabase/rollbacks",
+    "src"
+   ],
+   "run_id": "36095563286",
+   "run_attempt": "1",
+   "workflow": "CP6 Auditor Scenario",
+   "job": "phase",
+   "event": "workflow_dispatch",
+   "github_sha": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
+   "release_evidence": false,
+   "production_go": false,
+   "phase": "after",
+   "scenario_sha256": "cec2ad521835476cf702119486e637d3eff4b62d8f72197a9ca2c2d50cf1fadb"
+  }
+ },
+ {
+  "auditor_setup": {
+   "au_install": "PASS",
+   "av_install": "PASS",
+   "ay_install": {
+    "stage": "AV_PLUS_AW_AX_AY_T1",
+    "label": "T1_FAMILY",
+    "functions": 13,
+    "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+    "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+    "av_coverage": {
+     "registry": {
+      "erp.fg_lots.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "produced_at of every lot except GOOD returned by rework"
+      },
+      "erp.bs_cases.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+      },
+      "erp.sales_items.product_id": {
+       "class": "SALES",
+       "reason": "Sale of existing stock"
+      },
+      "erp.journal_lines.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "Journal dimension"
+      },
+      "erp.fg_stock_movements.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Movement of an existing lot"
+      },
+      "erp.sales_return_items.product_id": {
+       "class": "SALES",
+       "reason": "Return of sold stock"
+      },
+      "erp.fg_adjustment_items.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Adjusts an existing lot"
+      },
+      "erp.fg_inventory_balances.product_id": {
+       "class": "DERIVED",
+       "reason": "Balance cache keyed by product/location/grade"
+      },
+      "erp.opening_balance_items.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+      },
+      "erp.stock_policy_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated stock policy"
+      },
+      "erp.accessory_bom_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated accessory BOM; no stock instant"
+      },
+      "erp.product_conversions.to_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+      },
+      "erp.product_price_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated price"
+      },
+      "erp.product_conversions.from_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion source, validated as EXISTING_STOCK"
+      },
+      "erp.qc_inspection_items.final_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "QC input; the facts are fg_lots and bs_cases"
+      },
+      "erp.fg_accessory_cost_snapshots.product_id": {
+       "class": "DERIVED",
+       "reason": "Cost snapshot of an FG lot"
+      },
+      "erp.po_accessory_bom_commitments.product_id": {
+       "class": "MASTER",
+       "reason": "PO accessory BOM commitment"
+      },
+      "erp.stock_explainability_snapshots.product_id": {
+       "class": "REPORT",
+       "reason": "Stock explanation snapshot"
+      },
+      "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "HPP to GL synchronisation event"
+      },
+      "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Laundry receipt input; the BS fact is bs_cases"
+      },
+      "erp.product_identity_mutation_context_v1.product_id": {
+       "class": "AUTHORIZATION",
+       "reason": "Private one-use identity edit context"
+      },
+      "erp.laundry_receipt_bs_product_allocations.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+      },
+      "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+       "class": "DERIVED",
+       "reason": "Accounting entitlement of an FG lot"
+      }
+     },
+     "references": 23,
+     "new_stock_fact_tables": [
+      "bs_cases",
+      "fg_lots"
+     ]
+    },
+    "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+    "catalog": {
+     "revaluation_movement_indexes": [],
+     "accessory_total_hpp_cost": [
+      "s",
+      "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+     ]
+    }
+   },
+   "az_install": {
+    "stage": "AV_PLUS_AW_AX_AY_AZ_T1",
+    "label": "T1_FAMILY",
+    "functions": 13,
+    "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+    "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+    "av_coverage": {
+     "registry": {
+      "erp.fg_lots.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "produced_at of every lot except GOOD returned by rework"
+      },
+      "erp.bs_cases.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+      },
+      "erp.sales_items.product_id": {
+       "class": "SALES",
+       "reason": "Sale of existing stock"
+      },
+      "erp.journal_lines.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "Journal dimension"
+      },
+      "erp.fg_stock_movements.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Movement of an existing lot"
+      },
+      "erp.sales_return_items.product_id": {
+       "class": "SALES",
+       "reason": "Return of sold stock"
+      },
+      "erp.fg_adjustment_items.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Adjusts an existing lot"
+      },
+      "erp.fg_inventory_balances.product_id": {
+       "class": "DERIVED",
+       "reason": "Balance cache keyed by product/location/grade"
+      },
+      "erp.opening_balance_items.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+      },
+      "erp.stock_policy_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated stock policy"
+      },
+      "erp.accessory_bom_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated accessory BOM; no stock instant"
+      },
+      "erp.product_conversions.to_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+      },
+      "erp.product_price_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated price"
+      },
+      "erp.product_conversions.from_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion source, validated as EXISTING_STOCK"
+      },
+      "erp.qc_inspection_items.final_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "QC input; the facts are fg_lots and bs_cases"
+      },
+      "erp.fg_accessory_cost_snapshots.product_id": {
+       "class": "DERIVED",
+       "reason": "Cost snapshot of an FG lot"
+      },
+      "erp.po_accessory_bom_commitments.product_id": {
+       "class": "MASTER",
+       "reason": "PO accessory BOM commitment"
+      },
+      "erp.stock_explainability_snapshots.product_id": {
+       "class": "REPORT",
+       "reason": "Stock explanation snapshot"
+      },
+      "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "HPP to GL synchronisation event"
+      },
+      "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Laundry receipt input; the BS fact is bs_cases"
+      },
+      "erp.product_identity_mutation_context_v1.product_id": {
+       "class": "AUTHORIZATION",
+       "reason": "Private one-use identity edit context"
+      },
+      "erp.laundry_receipt_bs_product_allocations.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+      },
+      "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+       "class": "DERIVED",
+       "reason": "Accounting entitlement of an FG lot"
+      }
+     },
+     "references": 23,
+     "new_stock_fact_tables": [
+      "bs_cases",
+      "fg_lots"
+     ]
+    },
+    "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+    "catalog": {
+     "revaluation_movement_indexes": [],
+     "accessory_total_hpp_cost": [
+      "s",
+      "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+     ]
+    },
+    "az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9"
+   },
+   "ba_install": {
+    "stage": "AV_PLUS_AW_AX_AY_AZ_BA_T1",
+    "label": "T1_FAMILY",
+    "functions": 12,
+    "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+    "replaced_by_later_family": [
+     "erp.close_accounting_through(date,text)"
+    ],
+    "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+    "av_coverage": {
+     "registry": {
+      "erp.fg_lots.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "produced_at of every lot except GOOD returned by rework"
+      },
+      "erp.bs_cases.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+      },
+      "erp.sales_items.product_id": {
+       "class": "SALES",
+       "reason": "Sale of existing stock"
+      },
+      "erp.journal_lines.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "Journal dimension"
+      },
+      "erp.fg_stock_movements.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Movement of an existing lot"
+      },
+      "erp.sales_return_items.product_id": {
+       "class": "SALES",
+       "reason": "Return of sold stock"
+      },
+      "erp.fg_adjustment_items.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Adjusts an existing lot"
+      },
+      "erp.fg_inventory_balances.product_id": {
+       "class": "DERIVED",
+       "reason": "Balance cache keyed by product/location/grade"
+      },
+      "erp.opening_balance_items.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+      },
+      "erp.stock_policy_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated stock policy"
+      },
+      "erp.accessory_bom_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated accessory BOM; no stock instant"
+      },
+      "erp.product_conversions.to_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+      },
+      "erp.product_price_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated price"
+      },
+      "erp.product_conversions.from_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion source, validated as EXISTING_STOCK"
+      },
+      "erp.qc_inspection_items.final_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "QC input; the facts are fg_lots and bs_cases"
+      },
+      "erp.fg_accessory_cost_snapshots.product_id": {
+       "class": "DERIVED",
+       "reason": "Cost snapshot of an FG lot"
+      },
+      "erp.po_accessory_bom_commitments.product_id": {
+       "class": "MASTER",
+       "reason": "PO accessory BOM commitment"
+      },
+      "erp.stock_explainability_snapshots.product_id": {
+       "class": "REPORT",
+       "reason": "Stock explanation snapshot"
+      },
+      "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "HPP to GL synchronisation event"
+      },
+      "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Laundry receipt input; the BS fact is bs_cases"
+      },
+      "erp.product_identity_mutation_context_v1.product_id": {
+       "class": "AUTHORIZATION",
+       "reason": "Private one-use identity edit context"
+      },
+      "erp.laundry_receipt_bs_product_allocations.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+      },
+      "erp.initial_import_wip_output_identity_v1.output_product_id": {
+       "class": "DERIVED",
+       "reason": "Provenance of an opening WIP output; the stock fact is its fg_lots lot"
+      },
+      "erp.initial_import_wip_output_identity_v1.opening_product_id": {
+       "class": "DERIVED",
+       "reason": "Provenance of an opening WIP output: the product filled in on its opening item"
+      },
+      "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+       "class": "DERIVED",
+       "reason": "Accounting entitlement of an FG lot"
+      }
+     },
+     "references": 25,
+     "new_stock_fact_tables": [
+      "bs_cases",
+      "fg_lots"
+     ]
+    },
+    "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+    "catalog": {
+     "revaluation_movement_indexes": [],
+     "accessory_total_hpp_cost": [
+      "s",
+      "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+     ]
+    },
+    "az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9",
+    "az_replaced_by_later_family": [
+     "erp.complete_initial_import_wip_v1(jsonb)",
+     "erp.sync_material_cost_revaluation(uuid)"
+    ],
+    "ba_sql_sha256": "06d6dccb5243832e07deead99d19a5b359f2cd65b1dc8917b2fa006e780c1f37",
+    "ba_functions": [
+     "erp.post_opening_balance(uuid)",
+     "erp.complete_initial_import_wip_v1(jsonb)",
+     "erp.manage_initial_prepayment_v1(jsonb)",
+     "erp.sync_material_cost_revaluation(uuid)",
+     "erp.close_accounting_through(date,text)",
+     "erp.assert_new_stock_cutoff_coverage_v1()",
+     "erp.get_bs_resolution_workspace_v1(text,text,uuid,text,integer,integer)",
+     "erp.get_initial_import_workspace_v1(uuid)",
+     "erp.initial_prepayment_dated_floor_v1(uuid,date)"
+    ]
+   }
+  }
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "SI-01-identified-wip-output-identity",
+  "status": "INCOMPLETE",
+  "reason": "No exact source-identity refusal exists in candidate; do not infer PASS from an error",
+  "error": {
+   "message": "BA_WIP_OUTPUT_PRODUCT_BOUND: saldo WIP awal ini terikat pada produk yang diisi di sumbernya; hasil tidak boleh menjadi produk, merek, warna, atau ukuran lain",
+   "sqlstate": "P0001"
+  },
+  "auditor_member": {
+   "file": "stock_import_scenario.py",
+   "sha256": "ff92e8d973ebb75c05ba8ac6b47da96565c9b50760c91b247f331a765d18df81",
+   "provenance": "FROZEN_EXACT",
+   "case_id": "SI-01-identified-wip-output-identity"
+  },
+  "evidence_scope": "Native DB case if executed; no HTTP/browser/race/rollback qualification",
+  "oracle_review_required": "Optional opening-product binding remains unresolved; raw status is not an accepted defect",
+  "full_boundary_restored": true,
+  "public_schema_unchanged": true,
+  "session_leaks": {
+   "advisory_locks": 0,
+   "advisory_lock_keys": [],
+   "other_sessions": []
+  }
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "SI-02-reversed-wip-dated-capacity",
+  "status": "INCOMPLETE",
+  "reason": "No exact dated-WIP capacity refusal exists in candidate; do not infer PASS from an error",
+  "error": {
+   "message": "BA_WIP_OUTPUT_EXCEEDS_DATED_REMAINING: pada 2026-09-24 atau sesudahnya hanya 0 pcs tersisa di tahap sumber; hasil bertanggal lebih awal tidak boleh memakai potongan yang baru kembali kemudian",
+   "sqlstate": "P0001"
+  },
+  "auditor_member": {
+   "file": "stock_import_scenario.py",
+   "sha256": "ff92e8d973ebb75c05ba8ac6b47da96565c9b50760c91b247f331a765d18df81",
+   "provenance": "FROZEN_EXACT",
+   "case_id": "SI-02-reversed-wip-dated-capacity"
+  },
+  "evidence_scope": "Native DB case if executed; no HTTP/browser/race/rollback qualification",
+  "full_boundary_restored": true,
+  "public_schema_unchanged": true,
+  "session_leaks": {
+   "advisory_locks": 0,
+   "advisory_lock_keys": [],
+   "other_sessions": []
+  }
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "SI-03-wip-retry-exact-envelope",
+  "status": "PASS",
+  "identical_response": true,
+  "exact_refusal": "client_request_id was already used with a different payload",
+  "facts_unchanged": true,
+  "auditor_member": {
+   "file": "stock_import_scenario.py",
+   "sha256": "ff92e8d973ebb75c05ba8ac6b47da96565c9b50760c91b247f331a765d18df81",
+   "provenance": "FROZEN_EXACT",
+   "case_id": "SI-03-wip-retry-exact-envelope"
+  },
+  "evidence_scope": "Native DB case if executed; no HTTP/browser/race/rollback qualification",
+  "full_boundary_restored": true,
+  "public_schema_unchanged": true,
+  "session_leaks": {
+   "advisory_locks": 0,
+   "advisory_lock_keys": [],
+   "other_sessions": []
+  }
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "SI-04-prepared-wip-latest-item",
+  "status": "COUNTEREXAMPLE",
+  "oracle": "Latest editable draft must be reconciled with controls and physical source before posting",
+  "rpc": {
+   "action": "FINALIZE",
+   "status": "POSTED",
+   "batch_id": "7cdf749f-2f51-4fff-b756-c5562184a973",
+   "revision": "43314022a9d8ec3612ba40d25ba67d01d890fd4311d1f55fc2ccc1f7efc4d175",
+   "error_rows": 0,
+   "request_id": "bff5c30f-bcc3-4ec4-b9ee-19e29266ae0d",
+   "total_rows": 11,
+   "valid_rows": 11
+  },
+  "actual": {
+   "item_qty": "4.000000",
+   "item_amount": "20.00",
+   "source_qty": 8,
+   "source_original_amount": "40.00",
+   "header_status": "POSTED",
+   "opening_stage_qty": 8
+  },
+  "caveat": "Exercises owner-authorized native prepare and ordinary DRAFT item editing; runtime itself grants erp schema USAGE before cases",
+  "auditor_member": {
+   "file": "stock_import_scenario.py",
+   "sha256": "ff92e8d973ebb75c05ba8ac6b47da96565c9b50760c91b247f331a765d18df81",
+   "provenance": "FROZEN_EXACT",
+   "case_id": "SI-04-prepared-wip-latest-item"
+  },
+  "evidence_scope": "Native DB case if executed; no HTTP/browser/race/rollback qualification",
+  "full_boundary_restored": true,
+  "public_schema_unchanged": true,
+  "session_leaks": {
+   "advisory_locks": 0,
+   "advisory_lock_keys": [],
+   "other_sessions": []
+  }
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "BLIND-MONEY-CENT-DIRECT-UP",
+  "status": "PASS",
+  "oracle": "Receipt and full issue each one unit: endpoint-rounded cost; raw stock and its value zero after full consumption.",
+  "kind": "DIRECT",
+  "price_before": "10.005",
+  "price_after": "10.014",
+  "fixture": {
+   "material": "8496bef9-bb8b-4055-a70d-b8be369479a0",
+   "purchase": "30775b98-eed7-4bb7-bb1d-69021bf09619",
+   "item": "074784e3-fd66-41ac-bf96-f05c72a06c1a",
+   "location": "ae73cde3-6f88-43d2-9948-07ecb213eae7",
+   "roll": "9fd71968-ecaa-458e-b331-6beff832b4cd"
+  },
+  "po_id": "0c1e4025-d08f-4fd4-92af-8873efbd7286",
+  "command_result": "09364dae-4709-445d-93e7-10abacc2d240",
+  "observed": {
+   "2026-09-21": {
+    "MATERIAL_INVENTORY": "10.01",
+    "WIP": "0.00",
+    "FG_INVENTORY": "0",
+    "COGS": "0",
+    "AP_SUPPLIER": "-10.01",
+    "GRNI_MATERIAL": "0"
+   },
+   "2026-09-22": {
+    "MATERIAL_INVENTORY": "0.00",
+    "WIP": "10.01",
+    "FG_INVENTORY": "0",
+    "COGS": "0",
+    "AP_SUPPLIER": "-10.01",
+    "GRNI_MATERIAL": "0"
+   },
+   "2026-09-23": {
+    "MATERIAL_INVENTORY": "0.00",
+    "WIP": "10.01",
+    "FG_INVENTORY": "0",
+    "COGS": "0",
+    "AP_SUPPLIER": "-10.01",
+    "GRNI_MATERIAL": "0"
+   },
+   "2026-09-25": {
+    "MATERIAL_INVENTORY": "0.00",
+    "WIP": "10.01",
+    "FG_INVENTORY": "0",
+    "COGS": "0",
+    "AP_SUPPLIER": "-10.01",
+    "GRNI_MATERIAL": "0"
+   }
+  },
+  "expected": {
+   "2026-09-21": {
+    "MATERIAL_INVENTORY": "10.01",
+    "WIP": "0.00",
+    "FG_INVENTORY": "0.00",
+    "COGS": "0.00",
+    "AP_SUPPLIER": "-10.01",
+    "GRNI_MATERIAL": "0.00"
+   },
+   "2026-09-22": {
+    "MATERIAL_INVENTORY": "0.00",
+    "WIP": "10.01",
+    "FG_INVENTORY": "0.00",
+    "COGS": "0.00",
+    "AP_SUPPLIER": "-10.01",
+    "GRNI_MATERIAL": "0.00"
+   },
+   "2026-09-23": {
+    "MATERIAL_INVENTORY": "0.00",
+    "WIP": "10.01",
+    "FG_INVENTORY": "0.00",
+    "COGS": "0.00",
+    "AP_SUPPLIER": "-10.01",
+    "GRNI_MATERIAL": "0.00"
+   },
+   "2026-09-25": {
+    "MATERIAL_INVENTORY": "0.00",
+    "WIP": "10.01",
+    "FG_INVENTORY": "0.00",
+    "COGS": "0.00",
+    "AP_SUPPLIER": "-10.01",
+    "GRNI_MATERIAL": "0.00"
+   }
+  },
+  "mismatches": {},
+  "raw_quantity": "0.000000",
+  "movements": [
+   [
+    "PURCHASE",
+    "1.000000",
+    "10.005000",
+    "10.014000"
+   ],
+   [
+    "CUTTING_ISSUE",
+    "-1.000000",
+    "10.005000",
+    "10.014000"
+   ]
+  ],
+  "events": [],
+  "confidence": {
+   "info": [],
+   "as_of": "2026-09-25",
+   "engine": "PERIOD_READINESS_V1",
+   "filing": null,
+   "status": "BLOCKED",
+   "blockers": [
+    {
+     "code": "ATTENDANCE_CELL_MISSING",
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "reason": "Absensi CP3 R3 Worker A (CP3 R3 Normal A) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "POLICY",
+     "reference": {
+      "worker_id": "32e9379f-597b-42af-9312-8355f40f182b",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R3 Worker A",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000001",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R3 Normal A"
+     },
+     "impact_date": "2026-09-21"
+    },
+    {
+     "code": "ATTENDANCE_CELL_MISSING",
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "reason": "Absensi CP3 R3 Worker Special (CP3 R3 Special) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "POLICY",
+     "reference": {
+      "worker_id": "be93b8d5-9e57-428f-8f0a-9d831592cf29",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R3 Worker Special",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000003",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R3 Special"
+     },
+     "impact_date": "2026-09-21"
+    },
+    {
+     "code": "ATTENDANCE_CELL_MISSING",
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "reason": "Absensi CP3 R4 Worker C (CP3 R4 Pending Approval C) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "POLICY",
+     "reference": {
+      "worker_id": "dc0db005-9c99-4021-934b-3470387d5fa4",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R4 Worker C",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000005",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R4 Pending Approval C"
+     },
+     "impact_date": "2026-09-21"
+    },
+    {
+     "code": "ATTENDANCE_CELL_MISSING",
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "reason": "Absensi CP3 R3 Worker B (CP3 R3 Normal B) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "POLICY",
+     "reference": {
+      "worker_id": "df679200-a898-4f1e-8f4a-e34ca5ebd6cb",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R3 Worker B",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000002",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R3 Normal B"
+     },
+     "impact_date": "2026-09-21"
+    },
+    {
+     "code": "PAYROLL_NOT_APPROVED",
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "reason": "Payroll CP3R4-PAY-C-FEB-PENDING (2026-02-01 s/d 2026-02-01) masih CALCULATED; belum disetujui.",
+     "severity": "POLICY",
+     "reference": {
+      "status": "CALCULATED",
+      "payroll_id": "a6000000-0000-0000-0000-000000000021",
+      "period_end": "2026-02-01",
+      "period_start": "2026-02-01",
+      "contractor_id": "a1000000-0000-0000-0000-000000000005",
+      "payroll_number": "CP3R4-PAY-C-FEB-PENDING"
+     },
+     "impact_date": "2026-02-01"
+    },
+    {
+     "code": "PAYROLL_WORK_UNCOVERED",
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000004: 1 baris (100 pcs) pada atau sebelum 2026-09-25 belum masuk payroll.",
+     "severity": "POLICY",
+     "reference": {
+      "lines": 1,
+      "contractor_id": "a1000000-0000-0000-0000-000000000004",
+      "remaining_qty": 100,
+      "remaining_amount": 100.0,
+      "first_eligible_at": "2026-01-01T13:00:00+07:00"
+     },
+     "impact_date": "2026-01-01"
+    },
+    {
+     "code": "PAYROLL_WORK_UNCOVERED",
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000006: 1 baris (5 pcs) pada atau sebelum 2026-09-25 belum masuk payroll.",
+     "severity": "POLICY",
+     "reference": {
+      "lines": 1,
+      "contractor_id": "a1000000-0000-0000-0000-000000000006",
+      "remaining_qty": 5,
+      "remaining_amount": 0.0,
+      "first_eligible_at": "2026-04-01T10:00:00+07:00"
+     },
+     "impact_date": "2026-04-01"
+    },
+    {
+     "code": "PAYROLL_WORK_UNCOVERED",
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 2 baris (20 pcs) pada atau sebelum 2026-09-25 belum masuk payroll.",
+     "severity": "POLICY",
+     "reference": {
+      "lines": 2,
+      "contractor_id": "a1000000-0000-0000-0000-000000000001",
+      "remaining_qty": 20,
+      "remaining_amount": 0.0,
+      "first_eligible_at": "2026-08-30T17:00:00+07:00"
+     },
+     "impact_date": "2026-08-30"
+    }
+   ],
+   "window_from": "2026-09-21",
+   "failed_checks": [
+    {
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "details": "Absensi CP3 R3 Worker A (CP3 R3 Normal A) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "CRITICAL",
+     "reference": {
+      "worker_id": "32e9379f-597b-42af-9312-8355f40f182b",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R3 Worker A",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000001",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R3 Normal A"
+     },
+     "check_name": "ATTENDANCE_CELL_MISSING",
+     "impact_date": "2026-09-21",
+     "issue_count": 1
+    },
+    {
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "details": "Absensi CP3 R3 Worker Special (CP3 R3 Special) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "CRITICAL",
+     "reference": {
+      "worker_id": "be93b8d5-9e57-428f-8f0a-9d831592cf29",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R3 Worker Special",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000003",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R3 Special"
+     },
+     "check_name": "ATTENDANCE_CELL_MISSING",
+     "impact_date": "2026-09-21",
+     "issue_count": 1
+    },
+    {
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "details": "Absensi CP3 R4 Worker C (CP3 R4 Pending Approval C) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "CRITICAL",
+     "reference": {
+      "worker_id": "dc0db005-9c99-4021-934b-3470387d5fa4",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R4 Worker C",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000005",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R4 Pending Approval C"
+     },
+     "check_name": "ATTENDANCE_CELL_MISSING",
+     "impact_date": "2026-09-21",
+     "issue_count": 1
+    },
+    {
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "details": "Absensi CP3 R3 Worker B (CP3 R3 Normal B) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "CRITICAL",
+     "reference": {
+      "worker_id": "df679200-a898-4f1e-8f4a-e34ca5ebd6cb",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R3 Worker B",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000002",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R3 Normal B"
+     },
+     "check_name": "ATTENDANCE_CELL_MISSING",
+     "impact_date": "2026-09-21",
+     "issue_count": 1
+    },
+    {
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "details": "Payroll CP3R4-PAY-C-FEB-PENDING (2026-02-01 s/d 2026-02-01) masih CALCULATED; belum disetujui.",
+     "severity": "CRITICAL",
+     "reference": {
+      "status": "CALCULATED",
+      "payroll_id": "a6000000-0000-0000-0000-000000000021",
+      "period_end": "2026-02-01",
+      "period_start": "2026-02-01",
+      "contractor_id": "a1000000-0000-0000-0000-000000000005",
+      "payroll_number": "CP3R4-PAY-C-FEB-PENDING"
+     },
+     "check_name": "PAYROLL_NOT_APPROVED",
+     "impact_date": "2026-02-01",
+     "issue_count": 1
+    },
+    {
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "details": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000004: 1 baris (100 pcs) pada atau sebelum 2026-09-25 belum masuk payroll.",
+     "severity": "CRITICAL",
+     "reference": {
+      "lines": 1,
+      "contractor_id": "a1000000-0000-0000-0000-000000000004",
+      "remaining_qty": 100,
+      "remaining_amount": 100.0,
+      "first_eligible_at": "2026-01-01T13:00:00+07:00"
+     },
+     "check_name": "PAYROLL_WORK_UNCOVERED",
+     "impact_date": "2026-01-01",
+     "issue_count": 1
+    },
+    {
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "details": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000006: 1 baris (5 pcs) pada atau sebelum 2026-09-25 belum masuk payroll.",
+     "severity": "CRITICAL",
+     "reference": {
+      "lines": 1,
+      "contractor_id": "a1000000-0000-0000-0000-000000000006",
+      "remaining_qty": 5,
+      "remaining_amount": 0.0,
+      "first_eligible_at": "2026-04-01T10:00:00+07:00"
+     },
+     "check_name": "PAYROLL_WORK_UNCOVERED",
+     "impact_date": "2026-04-01",
+     "issue_count": 1
+    },
+    {
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "details": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 2 baris (20 pcs) pada atau sebelum 2026-09-25 belum masuk payroll.",
+     "severity": "CRITICAL",
+     "reference": {
+      "lines": 2,
+      "contractor_id": "a1000000-0000-0000-0000-000000000001",
+      "remaining_qty": 20,
+      "remaining_amount": 0.0,
+      "first_eligible_at": "2026-08-30T17:00:00+07:00"
+     },
+     "check_name": "PAYROLL_WORK_UNCOVERED",
+     "impact_date": "2026-08-30",
+     "issue_count": 1
+    }
+   ],
+   "closed_through": "2026-09-20",
+   "warning_issue_count": 0,
+   "changed_since_filing": false,
+   "critical_issue_count": 8,
+   "pending_cost_recalc_count": 0
+  },
+  "auditor_member": {
+   "file": "money_dates_scenario.py",
+   "sha256": "cfa1157b7ea39e6f5162d85a540ed5e22c30d8fef9ddfe840b5a9bf2f631d9ef",
+   "provenance": "FROZEN_EXACT",
+   "case_id": "BLIND-MONEY-CENT-DIRECT-UP"
+  },
+  "evidence_scope": "Native DB case if executed; no HTTP/browser/race/rollback qualification",
+  "rounding_oracle": "Original ROUND_HALF_UP endpoint oracle; compare with actual authoritative posted amounts, especially DOWN",
+  "full_boundary_restored": true,
+  "public_schema_unchanged": true,
+  "session_leaks": {
+   "advisory_locks": 0,
+   "advisory_lock_keys": [],
+   "other_sessions": []
+  }
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "BLIND-MONEY-CENT-DIRECT-DOWN",
+  "status": "PASS",
+  "oracle": "Receipt and full issue each one unit: endpoint-rounded cost; raw stock and its value zero after full consumption.",
+  "kind": "DIRECT",
+  "price_before": "10.014",
+  "price_after": "10.005",
+  "fixture": {
+   "material": "7b7f8a22-14e1-4676-a600-36750f412568",
+   "purchase": "6cb1b4e6-21e5-48de-9ac8-6f0fd2be9cc5",
+   "item": "e5aa4e14-771e-41a2-bea8-a6d9a6ae2bbf",
+   "location": "f2bcb539-41c4-4dcf-91f3-f31f89c33226",
+   "roll": "969978dc-c0c9-4686-b7a7-54039ff471d6"
+  },
+  "po_id": "e7074d31-1f15-4fca-af39-439514d72cc5",
+  "command_result": "9d56d224-a803-47f9-a10f-7656c11185b3",
+  "observed": {
+   "2026-09-21": {
+    "MATERIAL_INVENTORY": "10.01",
+    "WIP": "0.00",
+    "FG_INVENTORY": "0",
+    "COGS": "0",
+    "AP_SUPPLIER": "-10.01",
+    "GRNI_MATERIAL": "0"
+   },
+   "2026-09-22": {
+    "MATERIAL_INVENTORY": "0.00",
+    "WIP": "10.01",
+    "FG_INVENTORY": "0",
+    "COGS": "0",
+    "AP_SUPPLIER": "-10.01",
+    "GRNI_MATERIAL": "0"
+   },
+   "2026-09-23": {
+    "MATERIAL_INVENTORY": "0.00",
+    "WIP": "10.01",
+    "FG_INVENTORY": "0",
+    "COGS": "0",
+    "AP_SUPPLIER": "-10.01",
+    "GRNI_MATERIAL": "0"
+   },
+   "2026-09-25": {
+    "MATERIAL_INVENTORY": "0.00",
+    "WIP": "10.01",
+    "FG_INVENTORY": "0",
+    "COGS": "0",
+    "AP_SUPPLIER": "-10.01",
+    "GRNI_MATERIAL": "0"
+   }
+  },
+  "expected": {
+   "2026-09-21": {
+    "MATERIAL_INVENTORY": "10.01",
+    "WIP": "0.00",
+    "FG_INVENTORY": "0.00",
+    "COGS": "0.00",
+    "AP_SUPPLIER": "-10.01",
+    "GRNI_MATERIAL": "0.00"
+   },
+   "2026-09-22": {
+    "MATERIAL_INVENTORY": "0.00",
+    "WIP": "10.01",
+    "FG_INVENTORY": "0.00",
+    "COGS": "0.00",
+    "AP_SUPPLIER": "-10.01",
+    "GRNI_MATERIAL": "0.00"
+   },
+   "2026-09-23": {
+    "MATERIAL_INVENTORY": "0.00",
+    "WIP": "10.01",
+    "FG_INVENTORY": "0.00",
+    "COGS": "0.00",
+    "AP_SUPPLIER": "-10.01",
+    "GRNI_MATERIAL": "0.00"
+   },
+   "2026-09-25": {
+    "MATERIAL_INVENTORY": "0.00",
+    "WIP": "10.01",
+    "FG_INVENTORY": "0.00",
+    "COGS": "0.00",
+    "AP_SUPPLIER": "-10.01",
+    "GRNI_MATERIAL": "0.00"
+   }
+  },
+  "mismatches": {},
+  "raw_quantity": "0.000000",
+  "movements": [
+   [
+    "PURCHASE",
+    "1.000000",
+    "10.014000",
+    "10.005000"
+   ],
+   [
+    "CUTTING_ISSUE",
+    "-1.000000",
+    "10.014000",
+    "10.005000"
+   ]
+  ],
+  "events": [],
+  "confidence": {
+   "info": [],
+   "as_of": "2026-09-25",
+   "engine": "PERIOD_READINESS_V1",
+   "filing": null,
+   "status": "BLOCKED",
+   "blockers": [
+    {
+     "code": "ATTENDANCE_CELL_MISSING",
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "reason": "Absensi CP3 R3 Worker A (CP3 R3 Normal A) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "POLICY",
+     "reference": {
+      "worker_id": "32e9379f-597b-42af-9312-8355f40f182b",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R3 Worker A",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000001",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R3 Normal A"
+     },
+     "impact_date": "2026-09-21"
+    },
+    {
+     "code": "ATTENDANCE_CELL_MISSING",
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "reason": "Absensi CP3 R3 Worker Special (CP3 R3 Special) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "POLICY",
+     "reference": {
+      "worker_id": "be93b8d5-9e57-428f-8f0a-9d831592cf29",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R3 Worker Special",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000003",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R3 Special"
+     },
+     "impact_date": "2026-09-21"
+    },
+    {
+     "code": "ATTENDANCE_CELL_MISSING",
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "reason": "Absensi CP3 R4 Worker C (CP3 R4 Pending Approval C) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "POLICY",
+     "reference": {
+      "worker_id": "dc0db005-9c99-4021-934b-3470387d5fa4",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R4 Worker C",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000005",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R4 Pending Approval C"
+     },
+     "impact_date": "2026-09-21"
+    },
+    {
+     "code": "ATTENDANCE_CELL_MISSING",
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "reason": "Absensi CP3 R3 Worker B (CP3 R3 Normal B) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "POLICY",
+     "reference": {
+      "worker_id": "df679200-a898-4f1e-8f4a-e34ca5ebd6cb",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R3 Worker B",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000002",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R3 Normal B"
+     },
+     "impact_date": "2026-09-21"
+    },
+    {
+     "code": "PAYROLL_NOT_APPROVED",
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "reason": "Payroll CP3R4-PAY-C-FEB-PENDING (2026-02-01 s/d 2026-02-01) masih CALCULATED; belum disetujui.",
+     "severity": "POLICY",
+     "reference": {
+      "status": "CALCULATED",
+      "payroll_id": "a6000000-0000-0000-0000-000000000021",
+      "period_end": "2026-02-01",
+      "period_start": "2026-02-01",
+      "contractor_id": "a1000000-0000-0000-0000-000000000005",
+      "payroll_number": "CP3R4-PAY-C-FEB-PENDING"
+     },
+     "impact_date": "2026-02-01"
+    },
+    {
+     "code": "PAYROLL_WORK_UNCOVERED",
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000004: 1 baris (100 pcs) pada atau sebelum 2026-09-25 belum masuk payroll.",
+     "severity": "POLICY",
+     "reference": {
+      "lines": 1,
+      "contractor_id": "a1000000-0000-0000-0000-000000000004",
+      "remaining_qty": 100,
+      "remaining_amount": 100.0,
+      "first_eligible_at": "2026-01-01T13:00:00+07:00"
+     },
+     "impact_date": "2026-01-01"
+    },
+    {
+     "code": "PAYROLL_WORK_UNCOVERED",
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000006: 1 baris (5 pcs) pada atau sebelum 2026-09-25 belum masuk payroll.",
+     "severity": "POLICY",
+     "reference": {
+      "lines": 1,
+      "contractor_id": "a1000000-0000-0000-0000-000000000006",
+      "remaining_qty": 5,
+      "remaining_amount": 0.0,
+      "first_eligible_at": "2026-04-01T10:00:00+07:00"
+     },
+     "impact_date": "2026-04-01"
+    },
+    {
+     "code": "PAYROLL_WORK_UNCOVERED",
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 2 baris (20 pcs) pada atau sebelum 2026-09-25 belum masuk payroll.",
+     "severity": "POLICY",
+     "reference": {
+      "lines": 2,
+      "contractor_id": "a1000000-0000-0000-0000-000000000001",
+      "remaining_qty": 20,
+      "remaining_amount": 0.0,
+      "first_eligible_at": "2026-08-30T17:00:00+07:00"
+     },
+     "impact_date": "2026-08-30"
+    }
+   ],
+   "window_from": "2026-09-21",
+   "failed_checks": [
+    {
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "details": "Absensi CP3 R3 Worker A (CP3 R3 Normal A) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "CRITICAL",
+     "reference": {
+      "worker_id": "32e9379f-597b-42af-9312-8355f40f182b",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R3 Worker A",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000001",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R3 Normal A"
+     },
+     "check_name": "ATTENDANCE_CELL_MISSING",
+     "impact_date": "2026-09-21",
+     "issue_count": 1
+    },
+    {
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "details": "Absensi CP3 R3 Worker Special (CP3 R3 Special) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "CRITICAL",
+     "reference": {
+      "worker_id": "be93b8d5-9e57-428f-8f0a-9d831592cf29",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R3 Worker Special",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000003",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R3 Special"
+     },
+     "check_name": "ATTENDANCE_CELL_MISSING",
+     "impact_date": "2026-09-21",
+     "issue_count": 1
+    },
+    {
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "details": "Absensi CP3 R4 Worker C (CP3 R4 Pending Approval C) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "CRITICAL",
+     "reference": {
+      "worker_id": "dc0db005-9c99-4021-934b-3470387d5fa4",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R4 Worker C",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000005",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R4 Pending Approval C"
+     },
+     "check_name": "ATTENDANCE_CELL_MISSING",
+     "impact_date": "2026-09-21",
+     "issue_count": 1
+    },
+    {
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "details": "Absensi CP3 R3 Worker B (CP3 R3 Normal B) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "CRITICAL",
+     "reference": {
+      "worker_id": "df679200-a898-4f1e-8f4a-e34ca5ebd6cb",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R3 Worker B",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000002",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R3 Normal B"
+     },
+     "check_name": "ATTENDANCE_CELL_MISSING",
+     "impact_date": "2026-09-21",
+     "issue_count": 1
+    },
+    {
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "details": "Payroll CP3R4-PAY-C-FEB-PENDING (2026-02-01 s/d 2026-02-01) masih CALCULATED; belum disetujui.",
+     "severity": "CRITICAL",
+     "reference": {
+      "status": "CALCULATED",
+      "payroll_id": "a6000000-0000-0000-0000-000000000021",
+      "period_end": "2026-02-01",
+      "period_start": "2026-02-01",
+      "contractor_id": "a1000000-0000-0000-0000-000000000005",
+      "payroll_number": "CP3R4-PAY-C-FEB-PENDING"
+     },
+     "check_name": "PAYROLL_NOT_APPROVED",
+     "impact_date": "2026-02-01",
+     "issue_count": 1
+    },
+    {
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "details": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000004: 1 baris (100 pcs) pada atau sebelum 2026-09-25 belum masuk payroll.",
+     "severity": "CRITICAL",
+     "reference": {
+      "lines": 1,
+      "contractor_id": "a1000000-0000-0000-0000-000000000004",
+      "remaining_qty": 100,
+      "remaining_amount": 100.0,
+      "first_eligible_at": "2026-01-01T13:00:00+07:00"
+     },
+     "check_name": "PAYROLL_WORK_UNCOVERED",
+     "impact_date": "2026-01-01",
+     "issue_count": 1
+    },
+    {
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "details": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000006: 1 baris (5 pcs) pada atau sebelum 2026-09-25 belum masuk payroll.",
+     "severity": "CRITICAL",
+     "reference": {
+      "lines": 1,
+      "contractor_id": "a1000000-0000-0000-0000-000000000006",
+      "remaining_qty": 5,
+      "remaining_amount": 0.0,
+      "first_eligible_at": "2026-04-01T10:00:00+07:00"
+     },
+     "check_name": "PAYROLL_WORK_UNCOVERED",
+     "impact_date": "2026-04-01",
+     "issue_count": 1
+    },
+    {
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "details": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 2 baris (20 pcs) pada atau sebelum 2026-09-25 belum masuk payroll.",
+     "severity": "CRITICAL",
+     "reference": {
+      "lines": 2,
+      "contractor_id": "a1000000-0000-0000-0000-000000000001",
+      "remaining_qty": 20,
+      "remaining_amount": 0.0,
+      "first_eligible_at": "2026-08-30T17:00:00+07:00"
+     },
+     "check_name": "PAYROLL_WORK_UNCOVERED",
+     "impact_date": "2026-08-30",
+     "issue_count": 1
+    }
+   ],
+   "closed_through": "2026-09-20",
+   "warning_issue_count": 0,
+   "changed_since_filing": false,
+   "critical_issue_count": 8,
+   "pending_cost_recalc_count": 0
+  },
+  "auditor_member": {
+   "file": "money_dates_scenario.py",
+   "sha256": "cfa1157b7ea39e6f5162d85a540ed5e22c30d8fef9ddfe840b5a9bf2f631d9ef",
+   "provenance": "FROZEN_EXACT",
+   "case_id": "BLIND-MONEY-CENT-DIRECT-DOWN"
+  },
+  "evidence_scope": "Native DB case if executed; no HTTP/browser/race/rollback qualification",
+  "rounding_oracle": "Original ROUND_HALF_UP endpoint oracle; compare with actual authoritative posted amounts, especially DOWN",
+  "full_boundary_restored": true,
+  "public_schema_unchanged": true,
+  "session_leaks": {
+   "advisory_locks": 0,
+   "advisory_lock_keys": [],
+   "other_sessions": []
+  }
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "BLIND-MONEY-CENT-INVOICE-UP",
+  "status": "PASS",
+  "oracle": "Receipt and full issue each one unit: endpoint-rounded cost; raw stock and its value zero after full consumption.",
+  "kind": "INVOICE",
+  "price_before": "10.005",
+  "price_after": "10.014",
+  "fixture": {
+   "material": "6742b076-6e63-4969-8602-a36b9d87b555",
+   "purchase": "ad6a43a2-2331-4f35-8b6b-836c5f3bf990",
+   "item": "c1071394-d807-4a6b-8881-dd257776de50",
+   "roll": "2e1b7412-efd0-4649-b027-8038432504c3",
+   "location": "a19dcf32-152b-4072-b007-103146ff15b1"
+  },
+  "po_id": "8bfe6399-40c8-4af4-a32a-8aa40f9eac7b",
+  "command_result": {
+   "price_state": "FINAL",
+   "purchase_id": "ad6a43a2-2331-4f35-8b6b-836c5f3bf990",
+   "row_version": 3,
+   "correction_id": "46706f8f-2644-49b0-82f1-71966a2620d5",
+   "supplier_invoice_id": "46706f8f-2644-49b0-82f1-71966a2620d5",
+   "supplier_invoice_number": "BM-INV-d5c8341105664bd99d7ffd1e01f826de"
+  },
+  "observed": {
+   "2026-09-21": {
+    "MATERIAL_INVENTORY": "10.01",
+    "WIP": "0.00",
+    "FG_INVENTORY": "0",
+    "COGS": "0",
+    "AP_SUPPLIER": "0.00",
+    "GRNI_MATERIAL": "-10.01"
+   },
+   "2026-09-22": {
+    "MATERIAL_INVENTORY": "0.00",
+    "WIP": "10.01",
+    "FG_INVENTORY": "0",
+    "COGS": "0",
+    "AP_SUPPLIER": "0.00",
+    "GRNI_MATERIAL": "-10.01"
+   },
+   "2026-09-23": {
+    "MATERIAL_INVENTORY": "0.00",
+    "WIP": "10.01",
+    "FG_INVENTORY": "0",
+    "COGS": "0",
+    "AP_SUPPLIER": "-10.01",
+    "GRNI_MATERIAL": "0.00"
+   },
+   "2026-09-25": {
+    "MATERIAL_INVENTORY": "0.00",
+    "WIP": "10.01",
+    "FG_INVENTORY": "0",
+    "COGS": "0",
+    "AP_SUPPLIER": "-10.01",
+    "GRNI_MATERIAL": "0.00"
+   }
+  },
+  "expected": {
+   "2026-09-21": {
+    "MATERIAL_INVENTORY": "10.01",
+    "WIP": "0.00",
+    "FG_INVENTORY": "0.00",
+    "COGS": "0.00",
+    "AP_SUPPLIER": "0.00",
+    "GRNI_MATERIAL": "-10.01"
+   },
+   "2026-09-22": {
+    "MATERIAL_INVENTORY": "0.00",
+    "WIP": "10.01",
+    "FG_INVENTORY": "0.00",
+    "COGS": "0.00",
+    "AP_SUPPLIER": "0.00",
+    "GRNI_MATERIAL": "-10.01"
+   },
+   "2026-09-23": {
+    "MATERIAL_INVENTORY": "0.00",
+    "WIP": "10.01",
+    "FG_INVENTORY": "0.00",
+    "COGS": "0.00",
+    "AP_SUPPLIER": "-10.01",
+    "GRNI_MATERIAL": "0.00"
+   },
+   "2026-09-25": {
+    "MATERIAL_INVENTORY": "0.00",
+    "WIP": "10.01",
+    "FG_INVENTORY": "0.00",
+    "COGS": "0.00",
+    "AP_SUPPLIER": "-10.01",
+    "GRNI_MATERIAL": "0.00"
+   }
+  },
+  "mismatches": {},
+  "raw_quantity": "0.000000",
+  "movements": [
+   [
+    "PURCHASE",
+    "1.000000",
+    "10.005000",
+    "10.014000"
+   ],
+   [
+    "CUTTING_ISSUE",
+    "-1.000000",
+    "10.005000",
+    "10.014000"
+   ]
+  ],
+  "events": [],
+  "confidence": {
+   "info": [],
+   "as_of": "2026-09-25",
+   "engine": "PERIOD_READINESS_V1",
+   "filing": null,
+   "status": "BLOCKED",
+   "blockers": [
+    {
+     "code": "ATTENDANCE_CELL_MISSING",
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "reason": "Absensi CP3 R3 Worker A (CP3 R3 Normal A) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "POLICY",
+     "reference": {
+      "worker_id": "32e9379f-597b-42af-9312-8355f40f182b",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R3 Worker A",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000001",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R3 Normal A"
+     },
+     "impact_date": "2026-09-21"
+    },
+    {
+     "code": "ATTENDANCE_CELL_MISSING",
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "reason": "Absensi CP3 R3 Worker Special (CP3 R3 Special) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "POLICY",
+     "reference": {
+      "worker_id": "be93b8d5-9e57-428f-8f0a-9d831592cf29",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R3 Worker Special",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000003",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R3 Special"
+     },
+     "impact_date": "2026-09-21"
+    },
+    {
+     "code": "ATTENDANCE_CELL_MISSING",
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "reason": "Absensi CP3 R4 Worker C (CP3 R4 Pending Approval C) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "POLICY",
+     "reference": {
+      "worker_id": "dc0db005-9c99-4021-934b-3470387d5fa4",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R4 Worker C",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000005",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R4 Pending Approval C"
+     },
+     "impact_date": "2026-09-21"
+    },
+    {
+     "code": "ATTENDANCE_CELL_MISSING",
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "reason": "Absensi CP3 R3 Worker B (CP3 R3 Normal B) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "POLICY",
+     "reference": {
+      "worker_id": "df679200-a898-4f1e-8f4a-e34ca5ebd6cb",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R3 Worker B",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000002",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R3 Normal B"
+     },
+     "impact_date": "2026-09-21"
+    },
+    {
+     "code": "PAYROLL_NOT_APPROVED",
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "reason": "Payroll CP3R4-PAY-C-FEB-PENDING (2026-02-01 s/d 2026-02-01) masih CALCULATED; belum disetujui.",
+     "severity": "POLICY",
+     "reference": {
+      "status": "CALCULATED",
+      "payroll_id": "a6000000-0000-0000-0000-000000000021",
+      "period_end": "2026-02-01",
+      "period_start": "2026-02-01",
+      "contractor_id": "a1000000-0000-0000-0000-000000000005",
+      "payroll_number": "CP3R4-PAY-C-FEB-PENDING"
+     },
+     "impact_date": "2026-02-01"
+    },
+    {
+     "code": "PAYROLL_WORK_UNCOVERED",
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000004: 1 baris (100 pcs) pada atau sebelum 2026-09-25 belum masuk payroll.",
+     "severity": "POLICY",
+     "reference": {
+      "lines": 1,
+      "contractor_id": "a1000000-0000-0000-0000-000000000004",
+      "remaining_qty": 100,
+      "remaining_amount": 100.0,
+      "first_eligible_at": "2026-01-01T13:00:00+07:00"
+     },
+     "impact_date": "2026-01-01"
+    },
+    {
+     "code": "PAYROLL_WORK_UNCOVERED",
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000006: 1 baris (5 pcs) pada atau sebelum 2026-09-25 belum masuk payroll.",
+     "severity": "POLICY",
+     "reference": {
+      "lines": 1,
+      "contractor_id": "a1000000-0000-0000-0000-000000000006",
+      "remaining_qty": 5,
+      "remaining_amount": 0.0,
+      "first_eligible_at": "2026-04-01T10:00:00+07:00"
+     },
+     "impact_date": "2026-04-01"
+    },
+    {
+     "code": "PAYROLL_WORK_UNCOVERED",
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 2 baris (20 pcs) pada atau sebelum 2026-09-25 belum masuk payroll.",
+     "severity": "POLICY",
+     "reference": {
+      "lines": 2,
+      "contractor_id": "a1000000-0000-0000-0000-000000000001",
+      "remaining_qty": 20,
+      "remaining_amount": 0.0,
+      "first_eligible_at": "2026-08-30T17:00:00+07:00"
+     },
+     "impact_date": "2026-08-30"
+    }
+   ],
+   "window_from": "2026-09-21",
+   "failed_checks": [
+    {
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "details": "Absensi CP3 R3 Worker A (CP3 R3 Normal A) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "CRITICAL",
+     "reference": {
+      "worker_id": "32e9379f-597b-42af-9312-8355f40f182b",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R3 Worker A",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000001",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R3 Normal A"
+     },
+     "check_name": "ATTENDANCE_CELL_MISSING",
+     "impact_date": "2026-09-21",
+     "issue_count": 1
+    },
+    {
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "details": "Absensi CP3 R3 Worker Special (CP3 R3 Special) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "CRITICAL",
+     "reference": {
+      "worker_id": "be93b8d5-9e57-428f-8f0a-9d831592cf29",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R3 Worker Special",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000003",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R3 Special"
+     },
+     "check_name": "ATTENDANCE_CELL_MISSING",
+     "impact_date": "2026-09-21",
+     "issue_count": 1
+    },
+    {
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "details": "Absensi CP3 R4 Worker C (CP3 R4 Pending Approval C) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "CRITICAL",
+     "reference": {
+      "worker_id": "dc0db005-9c99-4021-934b-3470387d5fa4",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R4 Worker C",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000005",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R4 Pending Approval C"
+     },
+     "check_name": "ATTENDANCE_CELL_MISSING",
+     "impact_date": "2026-09-21",
+     "issue_count": 1
+    },
+    {
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "details": "Absensi CP3 R3 Worker B (CP3 R3 Normal B) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "CRITICAL",
+     "reference": {
+      "worker_id": "df679200-a898-4f1e-8f4a-e34ca5ebd6cb",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R3 Worker B",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000002",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R3 Normal B"
+     },
+     "check_name": "ATTENDANCE_CELL_MISSING",
+     "impact_date": "2026-09-21",
+     "issue_count": 1
+    },
+    {
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "details": "Payroll CP3R4-PAY-C-FEB-PENDING (2026-02-01 s/d 2026-02-01) masih CALCULATED; belum disetujui.",
+     "severity": "CRITICAL",
+     "reference": {
+      "status": "CALCULATED",
+      "payroll_id": "a6000000-0000-0000-0000-000000000021",
+      "period_end": "2026-02-01",
+      "period_start": "2026-02-01",
+      "contractor_id": "a1000000-0000-0000-0000-000000000005",
+      "payroll_number": "CP3R4-PAY-C-FEB-PENDING"
+     },
+     "check_name": "PAYROLL_NOT_APPROVED",
+     "impact_date": "2026-02-01",
+     "issue_count": 1
+    },
+    {
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "details": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000004: 1 baris (100 pcs) pada atau sebelum 2026-09-25 belum masuk payroll.",
+     "severity": "CRITICAL",
+     "reference": {
+      "lines": 1,
+      "contractor_id": "a1000000-0000-0000-0000-000000000004",
+      "remaining_qty": 100,
+      "remaining_amount": 100.0,
+      "first_eligible_at": "2026-01-01T13:00:00+07:00"
+     },
+     "check_name": "PAYROLL_WORK_UNCOVERED",
+     "impact_date": "2026-01-01",
+     "issue_count": 1
+    },
+    {
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "details": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000006: 1 baris (5 pcs) pada atau sebelum 2026-09-25 belum masuk payroll.",
+     "severity": "CRITICAL",
+     "reference": {
+      "lines": 1,
+      "contractor_id": "a1000000-0000-0000-0000-000000000006",
+      "remaining_qty": 5,
+      "remaining_amount": 0.0,
+      "first_eligible_at": "2026-04-01T10:00:00+07:00"
+     },
+     "check_name": "PAYROLL_WORK_UNCOVERED",
+     "impact_date": "2026-04-01",
+     "issue_count": 1
+    },
+    {
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "details": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 2 baris (20 pcs) pada atau sebelum 2026-09-25 belum masuk payroll.",
+     "severity": "CRITICAL",
+     "reference": {
+      "lines": 2,
+      "contractor_id": "a1000000-0000-0000-0000-000000000001",
+      "remaining_qty": 20,
+      "remaining_amount": 0.0,
+      "first_eligible_at": "2026-08-30T17:00:00+07:00"
+     },
+     "check_name": "PAYROLL_WORK_UNCOVERED",
+     "impact_date": "2026-08-30",
+     "issue_count": 1
+    }
+   ],
+   "closed_through": "2026-09-20",
+   "warning_issue_count": 0,
+   "changed_since_filing": false,
+   "critical_issue_count": 8,
+   "pending_cost_recalc_count": 0
+  },
+  "auditor_member": {
+   "file": "money_dates_scenario.py",
+   "sha256": "cfa1157b7ea39e6f5162d85a540ed5e22c30d8fef9ddfe840b5a9bf2f631d9ef",
+   "provenance": "FROZEN_EXACT",
+   "case_id": "BLIND-MONEY-CENT-INVOICE-UP"
+  },
+  "evidence_scope": "Native DB case if executed; no HTTP/browser/race/rollback qualification",
+  "rounding_oracle": "Original ROUND_HALF_UP endpoint oracle; compare with actual authoritative posted amounts, especially DOWN",
+  "full_boundary_restored": true,
+  "public_schema_unchanged": true,
+  "session_leaks": {
+   "advisory_locks": 0,
+   "advisory_lock_keys": [],
+   "other_sessions": []
+  }
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "BLIND-MONEY-CENT-INVOICE-DOWN",
+  "status": "PASS",
+  "oracle": "Receipt and full issue each one unit: endpoint-rounded cost; raw stock and its value zero after full consumption.",
+  "kind": "INVOICE",
+  "price_before": "10.014",
+  "price_after": "10.005",
+  "fixture": {
+   "material": "d50e6547-587f-42f9-8bed-8c0931d76392",
+   "purchase": "0402e679-2c44-475f-9214-0fe3632aac0a",
+   "item": "9cc2b658-9153-4989-b203-865125f9983c",
+   "roll": "749211af-ab74-4ad3-b0c0-e9eb14680fe8",
+   "location": "f809b1be-de5d-4ab1-b9f7-77028595112f"
+  },
+  "po_id": "37de931d-1db2-4087-bfc2-893f17bec0b1",
+  "command_result": {
+   "price_state": "FINAL",
+   "purchase_id": "0402e679-2c44-475f-9214-0fe3632aac0a",
+   "row_version": 3,
+   "correction_id": "432a59c3-ca37-4994-9feb-2873674aa0fc",
+   "supplier_invoice_id": "432a59c3-ca37-4994-9feb-2873674aa0fc",
+   "supplier_invoice_number": "BM-INV-7c3089d7142d47339202e678ae4d8856"
+  },
+  "observed": {
+   "2026-09-21": {
+    "MATERIAL_INVENTORY": "10.01",
+    "WIP": "0.00",
+    "FG_INVENTORY": "0",
+    "COGS": "0",
+    "AP_SUPPLIER": "0.00",
+    "GRNI_MATERIAL": "-10.01"
+   },
+   "2026-09-22": {
+    "MATERIAL_INVENTORY": "0.00",
+    "WIP": "10.01",
+    "FG_INVENTORY": "0",
+    "COGS": "0",
+    "AP_SUPPLIER": "0.00",
+    "GRNI_MATERIAL": "-10.01"
+   },
+   "2026-09-23": {
+    "MATERIAL_INVENTORY": "0.00",
+    "WIP": "10.01",
+    "FG_INVENTORY": "0",
+    "COGS": "0",
+    "AP_SUPPLIER": "-10.01",
+    "GRNI_MATERIAL": "0.00"
+   },
+   "2026-09-25": {
+    "MATERIAL_INVENTORY": "0.00",
+    "WIP": "10.01",
+    "FG_INVENTORY": "0",
+    "COGS": "0",
+    "AP_SUPPLIER": "-10.01",
+    "GRNI_MATERIAL": "0.00"
+   }
+  },
+  "expected": {
+   "2026-09-21": {
+    "MATERIAL_INVENTORY": "10.01",
+    "WIP": "0.00",
+    "FG_INVENTORY": "0.00",
+    "COGS": "0.00",
+    "AP_SUPPLIER": "0.00",
+    "GRNI_MATERIAL": "-10.01"
+   },
+   "2026-09-22": {
+    "MATERIAL_INVENTORY": "0.00",
+    "WIP": "10.01",
+    "FG_INVENTORY": "0.00",
+    "COGS": "0.00",
+    "AP_SUPPLIER": "0.00",
+    "GRNI_MATERIAL": "-10.01"
+   },
+   "2026-09-23": {
+    "MATERIAL_INVENTORY": "0.00",
+    "WIP": "10.01",
+    "FG_INVENTORY": "0.00",
+    "COGS": "0.00",
+    "AP_SUPPLIER": "-10.01",
+    "GRNI_MATERIAL": "0.00"
+   },
+   "2026-09-25": {
+    "MATERIAL_INVENTORY": "0.00",
+    "WIP": "10.01",
+    "FG_INVENTORY": "0.00",
+    "COGS": "0.00",
+    "AP_SUPPLIER": "-10.01",
+    "GRNI_MATERIAL": "0.00"
+   }
+  },
+  "mismatches": {},
+  "raw_quantity": "0.000000",
+  "movements": [
+   [
+    "PURCHASE",
+    "1.000000",
+    "10.014000",
+    "10.005000"
+   ],
+   [
+    "CUTTING_ISSUE",
+    "-1.000000",
+    "10.014000",
+    "10.005000"
+   ]
+  ],
+  "events": [],
+  "confidence": {
+   "info": [],
+   "as_of": "2026-09-25",
+   "engine": "PERIOD_READINESS_V1",
+   "filing": null,
+   "status": "BLOCKED",
+   "blockers": [
+    {
+     "code": "ATTENDANCE_CELL_MISSING",
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "reason": "Absensi CP3 R3 Worker A (CP3 R3 Normal A) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "POLICY",
+     "reference": {
+      "worker_id": "32e9379f-597b-42af-9312-8355f40f182b",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R3 Worker A",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000001",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R3 Normal A"
+     },
+     "impact_date": "2026-09-21"
+    },
+    {
+     "code": "ATTENDANCE_CELL_MISSING",
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "reason": "Absensi CP3 R3 Worker Special (CP3 R3 Special) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "POLICY",
+     "reference": {
+      "worker_id": "be93b8d5-9e57-428f-8f0a-9d831592cf29",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R3 Worker Special",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000003",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R3 Special"
+     },
+     "impact_date": "2026-09-21"
+    },
+    {
+     "code": "ATTENDANCE_CELL_MISSING",
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "reason": "Absensi CP3 R4 Worker C (CP3 R4 Pending Approval C) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "POLICY",
+     "reference": {
+      "worker_id": "dc0db005-9c99-4021-934b-3470387d5fa4",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R4 Worker C",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000005",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R4 Pending Approval C"
+     },
+     "impact_date": "2026-09-21"
+    },
+    {
+     "code": "ATTENDANCE_CELL_MISSING",
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "reason": "Absensi CP3 R3 Worker B (CP3 R3 Normal B) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "POLICY",
+     "reference": {
+      "worker_id": "df679200-a898-4f1e-8f4a-e34ca5ebd6cb",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R3 Worker B",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000002",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R3 Normal B"
+     },
+     "impact_date": "2026-09-21"
+    },
+    {
+     "code": "PAYROLL_NOT_APPROVED",
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "reason": "Payroll CP3R4-PAY-C-FEB-PENDING (2026-02-01 s/d 2026-02-01) masih CALCULATED; belum disetujui.",
+     "severity": "POLICY",
+     "reference": {
+      "status": "CALCULATED",
+      "payroll_id": "a6000000-0000-0000-0000-000000000021",
+      "period_end": "2026-02-01",
+      "period_start": "2026-02-01",
+      "contractor_id": "a1000000-0000-0000-0000-000000000005",
+      "payroll_number": "CP3R4-PAY-C-FEB-PENDING"
+     },
+     "impact_date": "2026-02-01"
+    },
+    {
+     "code": "PAYROLL_WORK_UNCOVERED",
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000004: 1 baris (100 pcs) pada atau sebelum 2026-09-25 belum masuk payroll.",
+     "severity": "POLICY",
+     "reference": {
+      "lines": 1,
+      "contractor_id": "a1000000-0000-0000-0000-000000000004",
+      "remaining_qty": 100,
+      "remaining_amount": 100.0,
+      "first_eligible_at": "2026-01-01T13:00:00+07:00"
+     },
+     "impact_date": "2026-01-01"
+    },
+    {
+     "code": "PAYROLL_WORK_UNCOVERED",
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000006: 1 baris (5 pcs) pada atau sebelum 2026-09-25 belum masuk payroll.",
+     "severity": "POLICY",
+     "reference": {
+      "lines": 1,
+      "contractor_id": "a1000000-0000-0000-0000-000000000006",
+      "remaining_qty": 5,
+      "remaining_amount": 0.0,
+      "first_eligible_at": "2026-04-01T10:00:00+07:00"
+     },
+     "impact_date": "2026-04-01"
+    },
+    {
+     "code": "PAYROLL_WORK_UNCOVERED",
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 2 baris (20 pcs) pada atau sebelum 2026-09-25 belum masuk payroll.",
+     "severity": "POLICY",
+     "reference": {
+      "lines": 2,
+      "contractor_id": "a1000000-0000-0000-0000-000000000001",
+      "remaining_qty": 20,
+      "remaining_amount": 0.0,
+      "first_eligible_at": "2026-08-30T17:00:00+07:00"
+     },
+     "impact_date": "2026-08-30"
+    }
+   ],
+   "window_from": "2026-09-21",
+   "failed_checks": [
+    {
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "details": "Absensi CP3 R3 Worker A (CP3 R3 Normal A) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "CRITICAL",
+     "reference": {
+      "worker_id": "32e9379f-597b-42af-9312-8355f40f182b",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R3 Worker A",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000001",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R3 Normal A"
+     },
+     "check_name": "ATTENDANCE_CELL_MISSING",
+     "impact_date": "2026-09-21",
+     "issue_count": 1
+    },
+    {
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "details": "Absensi CP3 R3 Worker Special (CP3 R3 Special) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "CRITICAL",
+     "reference": {
+      "worker_id": "be93b8d5-9e57-428f-8f0a-9d831592cf29",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R3 Worker Special",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000003",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R3 Special"
+     },
+     "check_name": "ATTENDANCE_CELL_MISSING",
+     "impact_date": "2026-09-21",
+     "issue_count": 1
+    },
+    {
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "details": "Absensi CP3 R4 Worker C (CP3 R4 Pending Approval C) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "CRITICAL",
+     "reference": {
+      "worker_id": "dc0db005-9c99-4021-934b-3470387d5fa4",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R4 Worker C",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000005",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R4 Pending Approval C"
+     },
+     "check_name": "ATTENDANCE_CELL_MISSING",
+     "impact_date": "2026-09-21",
+     "issue_count": 1
+    },
+    {
+     "scope": "WINDOW",
+     "family": "ATTENDANCE",
+     "details": "Absensi CP3 R3 Worker B (CP3 R3 Normal B) kosong 5 hari antara 2026-09-21 dan 2026-09-25; hari libur dicatat OFF.",
+     "severity": "CRITICAL",
+     "reference": {
+      "worker_id": "df679200-a898-4f1e-8f4a-e34ca5ebd6cb",
+      "sample_days": [
+       "2026-09-21",
+       "2026-09-22",
+       "2026-09-23",
+       "2026-09-24",
+       "2026-09-25"
+      ],
+      "window_from": "2026-09-21",
+      "worker_name": "CP3 R3 Worker B",
+      "last_missing": "2026-09-25",
+      "missing_days": 5,
+      "contractor_id": "a1000000-0000-0000-0000-000000000002",
+      "first_missing": "2026-09-21",
+      "contractor_name": "CP3 R3 Normal B"
+     },
+     "check_name": "ATTENDANCE_CELL_MISSING",
+     "impact_date": "2026-09-21",
+     "issue_count": 1
+    },
+    {
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "details": "Payroll CP3R4-PAY-C-FEB-PENDING (2026-02-01 s/d 2026-02-01) masih CALCULATED; belum disetujui.",
+     "severity": "CRITICAL",
+     "reference": {
+      "status": "CALCULATED",
+      "payroll_id": "a6000000-0000-0000-0000-000000000021",
+      "period_end": "2026-02-01",
+      "period_start": "2026-02-01",
+      "contractor_id": "a1000000-0000-0000-0000-000000000005",
+      "payroll_number": "CP3R4-PAY-C-FEB-PENDING"
+     },
+     "check_name": "PAYROLL_NOT_APPROVED",
+     "impact_date": "2026-02-01",
+     "issue_count": 1
+    },
+    {
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "details": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000004: 1 baris (100 pcs) pada atau sebelum 2026-09-25 belum masuk payroll.",
+     "severity": "CRITICAL",
+     "reference": {
+      "lines": 1,
+      "contractor_id": "a1000000-0000-0000-0000-000000000004",
+      "remaining_qty": 100,
+      "remaining_amount": 100.0,
+      "first_eligible_at": "2026-01-01T13:00:00+07:00"
+     },
+     "check_name": "PAYROLL_WORK_UNCOVERED",
+     "impact_date": "2026-01-01",
+     "issue_count": 1
+    },
+    {
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "details": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000006: 1 baris (5 pcs) pada atau sebelum 2026-09-25 belum masuk payroll.",
+     "severity": "CRITICAL",
+     "reference": {
+      "lines": 1,
+      "contractor_id": "a1000000-0000-0000-0000-000000000006",
+      "remaining_qty": 5,
+      "remaining_amount": 0.0,
+      "first_eligible_at": "2026-04-01T10:00:00+07:00"
+     },
+     "check_name": "PAYROLL_WORK_UNCOVERED",
+     "impact_date": "2026-04-01",
+     "issue_count": 1
+    },
+    {
+     "scope": "AS_OF",
+     "family": "PAYROLL",
+     "details": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 2 baris (20 pcs) pada atau sebelum 2026-09-25 belum masuk payroll.",
+     "severity": "CRITICAL",
+     "reference": {
+      "lines": 2,
+      "contractor_id": "a1000000-0000-0000-0000-000000000001",
+      "remaining_qty": 20,
+      "remaining_amount": 0.0,
+      "first_eligible_at": "2026-08-30T17:00:00+07:00"
+     },
+     "check_name": "PAYROLL_WORK_UNCOVERED",
+     "impact_date": "2026-08-30",
+     "issue_count": 1
+    }
+   ],
+   "closed_through": "2026-09-20",
+   "warning_issue_count": 0,
+   "changed_since_filing": false,
+   "critical_issue_count": 8,
+   "pending_cost_recalc_count": 0
+  },
+  "auditor_member": {
+   "file": "money_dates_scenario.py",
+   "sha256": "cfa1157b7ea39e6f5162d85a540ed5e22c30d8fef9ddfe840b5a9bf2f631d9ef",
+   "provenance": "FROZEN_EXACT",
+   "case_id": "BLIND-MONEY-CENT-INVOICE-DOWN"
+  },
+  "evidence_scope": "Native DB case if executed; no HTTP/browser/race/rollback qualification",
+  "rounding_oracle": "Original ROUND_HALF_UP endpoint oracle; compare with actual authoritative posted amounts, especially DOWN",
+  "full_boundary_restored": true,
+  "public_schema_unchanged": true,
+  "session_leaks": {
+   "advisory_locks": 0,
+   "advisory_lock_keys": [],
+   "other_sessions": []
+  }
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "BCR1-ADVANCE-SUPPLIER-ORDERED_CONTROL",
+  "status": "PASS",
+  "kind": "SUPPLIER",
+  "backdated": false,
+  "fixture": {
+   "batch": "0f409612-222d-48bf-91f9-966560e3f0ec",
+   "advance": "5a379561-8f25-41e0-8065-08057634c579",
+   "account": "79da1638-e296-4048-91fb-c5cb0d3a2e26",
+   "cash": "49bf571b-a745-4db8-988f-2cca881af734",
+   "bank_account": "81462868-306b-4bb5-9cec-a6fc7ba45d07",
+   "cutover": "2026-09-17",
+   "kind": "SUPPLIER"
+  },
+  "correction_day": "2026-09-21",
+  "refund_day": "2026-09-23",
+  "opening_advance": "67.25",
+  "opening_bank": "100.00",
+  "expected": {
+   "2026-09-17": {
+    "advance": "67.25",
+    "bank": "100.00"
+   },
+   "2026-09-21": {
+    "advance": "100.00",
+    "bank": "100.00"
+   },
+   "2026-09-23": {
+    "advance": "0.00",
+    "bank": "200.00"
+   },
+   "2026-09-25": {
+    "advance": "0.00",
+    "bank": "200.00"
+   }
+  },
+  "observed": {
+   "2026-09-17": {
+    "advance": "67.25",
+    "bank": "100.00"
+   },
+   "2026-09-21": {
+    "advance": "100.00",
+    "bank": "100.00"
+   },
+   "2026-09-23": {
+    "advance": "0.00",
+    "bank": "200.00"
+   },
+   "2026-09-25": {
+    "advance": "0.00",
+    "bank": "200.00"
+   }
+  },
+  "raw_journal": [
+   [
+    "2026-09-17",
+    "2026-09-17",
+    "OPENING_PREPAYMENT",
+    "67.25",
+    "0.00"
+   ],
+   [
+    "2026-09-21",
+    "2026-09-21",
+    "PREPAYMENT_EVENT",
+    "32.75",
+    "0.00"
+   ],
+   [
+    "2026-09-23",
+    "2026-09-23",
+    "PREPAYMENT_EVENT",
+    "0.00",
+    "100.00"
+   ]
+  ],
+  "events": [
+   [
+    "CORRECTION",
+    "CORRECTION",
+    "32.75",
+    "2026-09-21"
+   ],
+   [
+    "REFUND",
+    "REFUND",
+    "-100.00",
+    "2026-09-23"
+   ]
+  ],
+  "source_immutable": true,
+  "economic_and_posting_dates_preserved": true,
+  "exact_replay": true,
+  "scope": "Public native import RPC with ordinary authenticated actor; no HTTP/UI proof.",
+  "auditor_member": {
+   "file": "business_scenarios_reconstructed.py",
+   "sha256": "90625484eded3a0a68e8852f9c19e9e9286887c1d905821abc89931b42029618",
+   "provenance": "RECONSTRUCTED_POST_LOCK",
+   "case_id": "BCR1-ADVANCE-SUPPLIER-ORDERED_CONTROL"
+  },
+  "evidence_scope": "Native DB case if executed; no HTTP/browser/race/rollback qualification",
+  "oracle_inference": "Dated-prefix rule applied to monetary advance capacity; exact refusal remains unspecified",
+  "full_boundary_restored": true,
+  "public_schema_unchanged": true,
+  "session_leaks": {
+   "advisory_locks": 0,
+   "advisory_lock_keys": [],
+   "other_sessions": []
+  }
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "BCR1-ADVANCE-SUPPLIER-DATED_CAPACITY",
+  "status": "INCOMPLETE",
+  "kind": "SUPPLIER",
+  "backdated": true,
+  "stage": "REFUND_REFUSED_UNCLASSIFIED",
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "BA_ADVANCE_DATED_CAPACITY: sisa uang muka pada 2026-09-21 dan tanggal sesudahnya tidak mencukupi; kapasitas dari tanggal yang lebih akhir tidak boleh dipakai lebih awal"
+  },
+  "atomic_event_observation": true,
+  "source_unchanged": true,
+  "expected": "Dated-capacity refusal needs an exact contract/product oracle; arbitrary SQL refusal is not PASS.",
+  "auditor_member": {
+   "file": "business_scenarios_reconstructed.py",
+   "sha256": "90625484eded3a0a68e8852f9c19e9e9286887c1d905821abc89931b42029618",
+   "provenance": "RECONSTRUCTED_POST_LOCK",
+   "case_id": "BCR1-ADVANCE-SUPPLIER-DATED_CAPACITY"
+  },
+  "evidence_scope": "Native DB case if executed; no HTTP/browser/race/rollback qualification",
+  "oracle_inference": "Dated-prefix rule applied to monetary advance capacity; exact refusal remains unspecified",
+  "full_boundary_restored": true,
+  "public_schema_unchanged": true,
+  "session_leaks": {
+   "advisory_locks": 0,
+   "advisory_lock_keys": [],
+   "other_sessions": []
+  }
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "BCR1-ADVANCE-CUSTOMER-ORDERED_CONTROL",
+  "status": "PASS",
+  "kind": "CUSTOMER",
+  "backdated": false,
+  "fixture": {
+   "batch": "f0659093-7694-4b5c-a155-b63ede925d7e",
+   "advance": "8f48ffeb-a640-471e-b369-064929c6eec1",
+   "account": "654e3c33-bf85-45cd-8a2f-d05c26cf6265",
+   "cash": "947c110e-4210-4f22-a636-8021232d970c",
+   "bank_account": "4ffff1b5-5726-4d9a-8377-84f1f84e0981",
+   "cutover": "2026-09-17",
+   "kind": "CUSTOMER"
+  },
+  "correction_day": "2026-09-21",
+  "refund_day": "2026-09-23",
+  "opening_advance": "67.25",
+  "opening_bank": "100.00",
+  "expected": {
+   "2026-09-17": {
+    "advance": "67.25",
+    "bank": "100.00"
+   },
+   "2026-09-21": {
+    "advance": "100.00",
+    "bank": "100.00"
+   },
+   "2026-09-23": {
+    "advance": "0.00",
+    "bank": "0.00"
+   },
+   "2026-09-25": {
+    "advance": "0.00",
+    "bank": "0.00"
+   }
+  },
+  "observed": {
+   "2026-09-17": {
+    "advance": "67.25",
+    "bank": "100.00"
+   },
+   "2026-09-21": {
+    "advance": "100.00",
+    "bank": "100.00"
+   },
+   "2026-09-23": {
+    "advance": "-0.00",
+    "bank": "0.00"
+   },
+   "2026-09-25": {
+    "advance": "-0.00",
+    "bank": "0.00"
+   }
+  },
+  "raw_journal": [
+   [
+    "2026-09-17",
+    "2026-09-17",
+    "OPENING_PREPAYMENT",
+    "0.00",
+    "67.25"
+   ],
+   [
+    "2026-09-21",
+    "2026-09-21",
+    "PREPAYMENT_EVENT",
+    "0.00",
+    "32.75"
+   ],
+   [
+    "2026-09-23",
+    "2026-09-23",
+    "PREPAYMENT_EVENT",
+    "100.00",
+    "0.00"
+   ]
+  ],
+  "events": [
+   [
+    "CORRECTION",
+    "CORRECTION",
+    "32.75",
+    "2026-09-21"
+   ],
+   [
+    "REFUND",
+    "REFUND",
+    "-100.00",
+    "2026-09-23"
+   ]
+  ],
+  "source_immutable": true,
+  "economic_and_posting_dates_preserved": true,
+  "exact_replay": true,
+  "scope": "Public native import RPC with ordinary authenticated actor; no HTTP/UI proof.",
+  "auditor_member": {
+   "file": "business_scenarios_reconstructed.py",
+   "sha256": "90625484eded3a0a68e8852f9c19e9e9286887c1d905821abc89931b42029618",
+   "provenance": "RECONSTRUCTED_POST_LOCK",
+   "case_id": "BCR1-ADVANCE-CUSTOMER-ORDERED_CONTROL"
+  },
+  "evidence_scope": "Native DB case if executed; no HTTP/browser/race/rollback qualification",
+  "oracle_inference": "Dated-prefix rule applied to monetary advance capacity; exact refusal remains unspecified",
+  "full_boundary_restored": true,
+  "public_schema_unchanged": true,
+  "session_leaks": {
+   "advisory_locks": 0,
+   "advisory_lock_keys": [],
+   "other_sessions": []
+  }
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "BCR1-ADVANCE-CUSTOMER-DATED_CAPACITY",
+  "status": "INCOMPLETE",
+  "kind": "CUSTOMER",
+  "backdated": true,
+  "stage": "REFUND_REFUSED_UNCLASSIFIED",
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "BA_ADVANCE_DATED_CAPACITY: sisa uang muka pada 2026-09-21 dan tanggal sesudahnya tidak mencukupi; kapasitas dari tanggal yang lebih akhir tidak boleh dipakai lebih awal"
+  },
+  "atomic_event_observation": true,
+  "source_unchanged": true,
+  "expected": "Dated-capacity refusal needs an exact contract/product oracle; arbitrary SQL refusal is not PASS.",
+  "auditor_member": {
+   "file": "business_scenarios_reconstructed.py",
+   "sha256": "90625484eded3a0a68e8852f9c19e9e9286887c1d905821abc89931b42029618",
+   "provenance": "RECONSTRUCTED_POST_LOCK",
+   "case_id": "BCR1-ADVANCE-CUSTOMER-DATED_CAPACITY"
+  },
+  "evidence_scope": "Native DB case if executed; no HTTP/browser/race/rollback qualification",
+  "oracle_inference": "Dated-prefix rule applied to monetary advance capacity; exact refusal remains unspecified",
+  "full_boundary_restored": true,
+  "public_schema_unchanged": true,
+  "session_leaks": {
+   "advisory_locks": 0,
+   "advisory_lock_keys": [],
+   "other_sessions": []
+  }
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "BCR1-ADVANCE-VENDOR-ORDERED_CONTROL",
+  "status": "PASS",
+  "kind": "VENDOR",
+  "backdated": false,
+  "fixture": {
+   "batch": "084a2d9d-d77b-4818-9084-de0b07b42892",
+   "advance": "c86454b8-a68c-4f77-a848-93082b9228a2",
+   "account": "abcb28ea-6b29-4e8e-84c6-a67f015dd7bd",
+   "cash": "b031b4f4-326d-40b4-a4fa-769de8e5085a",
+   "bank_account": "bcf3fb2e-71bf-4625-b3a6-2d98ac451a78",
+   "cutover": "2026-09-17",
+   "kind": "VENDOR"
+  },
+  "correction_day": "2026-09-21",
+  "refund_day": "2026-09-23",
+  "opening_advance": "67.25",
+  "opening_bank": "100.00",
+  "expected": {
+   "2026-09-17": {
+    "advance": "67.25",
+    "bank": "100.00"
+   },
+   "2026-09-21": {
+    "advance": "100.00",
+    "bank": "100.00"
+   },
+   "2026-09-23": {
+    "advance": "0.00",
+    "bank": "200.00"
+   },
+   "2026-09-25": {
+    "advance": "0.00",
+    "bank": "200.00"
+   }
+  },
+  "observed": {
+   "2026-09-17": {
+    "advance": "67.25",
+    "bank": "100.00"
+   },
+   "2026-09-21": {
+    "advance": "100.00",
+    "bank": "100.00"
+   },
+   "2026-09-23": {
+    "advance": "0.00",
+    "bank": "200.00"
+   },
+   "2026-09-25": {
+    "advance": "0.00",
+    "bank": "200.00"
+   }
+  },
+  "raw_journal": [
+   [
+    "2026-09-17",
+    "2026-09-17",
+    "OPENING_PREPAYMENT",
+    "67.25",
+    "0.00"
+   ],
+   [
+    "2026-09-21",
+    "2026-09-21",
+    "PREPAYMENT_EVENT",
+    "32.75",
+    "0.00"
+   ],
+   [
+    "2026-09-23",
+    "2026-09-23",
+    "PREPAYMENT_EVENT",
+    "0.00",
+    "100.00"
+   ]
+  ],
+  "events": [
+   [
+    "CORRECTION",
+    "CORRECTION",
+    "32.75",
+    "2026-09-21"
+   ],
+   [
+    "REFUND",
+    "REFUND",
+    "-100.00",
+    "2026-09-23"
+   ]
+  ],
+  "source_immutable": true,
+  "economic_and_posting_dates_preserved": true,
+  "exact_replay": true,
+  "scope": "Public native import RPC with ordinary authenticated actor; no HTTP/UI proof.",
+  "auditor_member": {
+   "file": "business_scenarios_reconstructed.py",
+   "sha256": "90625484eded3a0a68e8852f9c19e9e9286887c1d905821abc89931b42029618",
+   "provenance": "RECONSTRUCTED_POST_LOCK",
+   "case_id": "BCR1-ADVANCE-VENDOR-ORDERED_CONTROL"
+  },
+  "evidence_scope": "Native DB case if executed; no HTTP/browser/race/rollback qualification",
+  "oracle_inference": "Dated-prefix rule applied to monetary advance capacity; exact refusal remains unspecified",
+  "full_boundary_restored": true,
+  "public_schema_unchanged": true,
+  "session_leaks": {
+   "advisory_locks": 0,
+   "advisory_lock_keys": [],
+   "other_sessions": []
+  }
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "BCR1-ADVANCE-VENDOR-DATED_CAPACITY",
+  "status": "INCOMPLETE",
+  "kind": "VENDOR",
+  "backdated": true,
+  "stage": "REFUND_REFUSED_UNCLASSIFIED",
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "BA_ADVANCE_DATED_CAPACITY: sisa uang muka pada 2026-09-21 dan tanggal sesudahnya tidak mencukupi; kapasitas dari tanggal yang lebih akhir tidak boleh dipakai lebih awal"
+  },
+  "atomic_event_observation": true,
+  "source_unchanged": true,
+  "expected": "Dated-capacity refusal needs an exact contract/product oracle; arbitrary SQL refusal is not PASS.",
+  "auditor_member": {
+   "file": "business_scenarios_reconstructed.py",
+   "sha256": "90625484eded3a0a68e8852f9c19e9e9286887c1d905821abc89931b42029618",
+   "provenance": "RECONSTRUCTED_POST_LOCK",
+   "case_id": "BCR1-ADVANCE-VENDOR-DATED_CAPACITY"
+  },
+  "evidence_scope": "Native DB case if executed; no HTTP/browser/race/rollback qualification",
+  "oracle_inference": "Dated-prefix rule applied to monetary advance capacity; exact refusal remains unspecified",
+  "full_boundary_restored": true,
+  "public_schema_unchanged": true,
+  "session_leaks": {
+   "advisory_locks": 0,
+   "advisory_lock_keys": [],
+   "other_sessions": []
+  }
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "XI:C_SEL_01_INITIAL_IMPORT_51_DRAFT_SELECTOR",
+  "status": "INCOMPLETE",
+  "error": "column p.id does not exist\nLINE 2:            join erp.app_permissions p on p.id=rp.permission_...\n                                                 ^",
+  "traceback": "Traceback (most recent call last):\n  File \"audit/scenarios/import_selector_reconstructed.py\", line 143, in selector_51\n  File \"audit/scenarios/import_selector_reconstructed.py\", line 47, in _probe\n  File \"audit/scenarios/import_selector_reconstructed.py\", line 36, in _actor\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.UndefinedColumn: column p.id does not exist\nLINE 2:            join erp.app_permissions p on p.id=rp.permission_...\n                                                 ^\n",
+  "fixture_rolled_back_to_savepoint": true,
+  "auditor_member": {
+   "file": "import_selector_reconstructed.py",
+   "sha256": "66d0524c7665a5a68b55f3dbf6934bc5742395ed5832ffbd2301cd7d70d5e6ac",
+   "provenance": "RECONSTRUCTED_POST_LOCK",
+   "case_id": "XI:C_SEL_01_INITIAL_IMPORT_51_DRAFT_SELECTOR"
+  },
+  "evidence_scope": "Native DB case if executed; no HTTP/browser/race/rollback qualification",
+  "full_boundary_restored": true,
+  "public_schema_unchanged": true,
+  "session_leaks": {
+   "advisory_locks": 0,
+   "advisory_lock_keys": [],
+   "other_sessions": []
+  }
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "planned": [
+   "SI-01-identified-wip-output-identity",
+   "SI-02-reversed-wip-dated-capacity",
+   "SI-03-wip-retry-exact-envelope",
+   "SI-04-prepared-wip-latest-item",
+   "BLIND-MONEY-CENT-DIRECT-UP",
+   "BLIND-MONEY-CENT-DIRECT-DOWN",
+   "BLIND-MONEY-CENT-INVOICE-UP",
+   "BLIND-MONEY-CENT-INVOICE-DOWN",
+   "BCR1-ADVANCE-SUPPLIER-ORDERED_CONTROL",
+   "BCR1-ADVANCE-SUPPLIER-DATED_CAPACITY",
+   "BCR1-ADVANCE-CUSTOMER-ORDERED_CONTROL",
+   "BCR1-ADVANCE-CUSTOMER-DATED_CAPACITY",
+   "BCR1-ADVANCE-VENDOR-ORDERED_CONTROL",
+   "BCR1-ADVANCE-VENDOR-DATED_CAPACITY",
+   "XI:C_SEL_01_INITIAL_IMPORT_51_DRAFT_SELECTOR"
+  ],
+  "final": {
+   "SI-01-identified-wip-output-identity": "INCOMPLETE",
+   "SI-02-reversed-wip-dated-capacity": "INCOMPLETE",
+   "SI-03-wip-retry-exact-envelope": "PASS",
+   "SI-04-prepared-wip-latest-item": "COUNTEREXAMPLE",
+   "BLIND-MONEY-CENT-DIRECT-UP": "PASS",
+   "BLIND-MONEY-CENT-DIRECT-DOWN": "PASS",
+   "BLIND-MONEY-CENT-INVOICE-UP": "PASS",
+   "BLIND-MONEY-CENT-INVOICE-DOWN": "PASS",
+   "BCR1-ADVANCE-SUPPLIER-ORDERED_CONTROL": "PASS",
+   "BCR1-ADVANCE-SUPPLIER-DATED_CAPACITY": "INCOMPLETE",
+   "BCR1-ADVANCE-CUSTOMER-ORDERED_CONTROL": "PASS",
+   "BCR1-ADVANCE-CUSTOMER-DATED_CAPACITY": "INCOMPLETE",
+   "BCR1-ADVANCE-VENDOR-ORDERED_CONTROL": "PASS",
+   "BCR1-ADVANCE-VENDOR-DATED_CAPACITY": "INCOMPLETE",
+   "XI:C_SEL_01_INITIAL_IMPORT_51_DRAFT_SELECTOR": "INCOMPLETE"
+  },
+  "missing": [],
+  "status": "INCOMPLETE"
+ },
+ {
+  "auditor_browser_script_sha256": "4d34b3affd60cc35cbe5a51918dc24b7fdb82cf4ec188d7ea79dc831510afdb6",
+  "bytes": 1484
+ },
+ {
+  "group": "AUDITOR_BROWSER_AFTER",
+  "case": "SAMPLE_BROWSER:LOGIN_PAGE_WITHOUT_SESSION",
+  "status": "PASS"
+ },
+ {
+  "group": "AUDITOR_BROWSER_AFTER",
+  "case": "SAMPLE_BROWSER:OWNER_SIGNS_IN_GUDANG_REFUSED_PREFLIGHT",
+  "status": "PASS",
+  "owner_title_seen": true,
+  "owner": {
+   "status": 200,
+   "readiness": "BLOCKED"
+  },
+  "gudang": {
+   "status": 400,
+   "message": "OWNER or ADMIN access required"
+  }
+ },
+ {
+  "group": "AUDITOR_BROWSER_AFTER",
+  "planned": [
+   "SAMPLE_BROWSER:LOGIN_PAGE_WITHOUT_SESSION",
+   "SAMPLE_BROWSER:OWNER_SIGNS_IN_GUDANG_REFUSED_PREFLIGHT"
+  ],
+  "final": {
+   "SAMPLE_BROWSER:LOGIN_PAGE_WITHOUT_SESSION": "PASS",
+   "SAMPLE_BROWSER:OWNER_SIGNS_IN_GUDANG_REFUSED_PREFLIGHT": "PASS"
+  },
+  "status": "RUN_COMPLETE",
+  "console_errors": 0,
+  "users_created": 2,
+  "auth_cleanup_failures": []
+ },
+ {
+  "auditor_phase": "after",
+  "status": "INCOMPLETE",
+  "label": "AUDITOR_SCENARIO",
+  "phase": "after",
+  "scenario_sha256": "cec2ad521835476cf702119486e637d3eff4b62d8f72197a9ca2c2d50cf1fadb",
+  "production_go": false,
+  "independent_acceptance": false,
+  "release_evidence": false,
+  "run_identity": {
+   "label": "AUDITOR_SCENARIO",
+   "tool_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
+   "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
+   "product_paths": [
+    "supabase/migrations",
+    "supabase/dev",
+    "supabase/release",
+    "supabase/rollbacks",
+    "src"
+   ],
+   "run_id": "36095563286",
+   "run_attempt": "1",
+   "workflow": "CP6 Auditor Scenario",
+   "job": "phase",
+   "event": "workflow_dispatch",
+   "github_sha": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
+   "release_evidence": false,
+   "production_go": false,
+   "phase": "after",
+   "scenario_sha256": "cec2ad521835476cf702119486e637d3eff4b62d8f72197a9ca2c2d50cf1fadb"
+  },
+  "au_install": "PASS",
+  "av_install": "PASS",
+  "aw_install": {
+   "stage": "AV_PLUS_AW_T1",
+   "label": "T1_FAMILY",
+   "functions": 13,
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32"
+  },
+  "ax_install": {
+   "stage": "AV_PLUS_AW_PLUS_AX_T1",
+   "label": "T1_FAMILY",
+   "functions": 13,
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+   "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+   "av_coverage": {
+    "registry": {
+     "erp.fg_lots.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "produced_at of every lot except GOOD returned by rework"
+     },
+     "erp.bs_cases.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+     },
+     "erp.sales_items.product_id": {
+      "class": "SALES",
+      "reason": "Sale of existing stock"
+     },
+     "erp.journal_lines.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "Journal dimension"
+     },
+     "erp.fg_stock_movements.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Movement of an existing lot"
+     },
+     "erp.sales_return_items.product_id": {
+      "class": "SALES",
+      "reason": "Return of sold stock"
+     },
+     "erp.fg_adjustment_items.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Adjusts an existing lot"
+     },
+     "erp.fg_inventory_balances.product_id": {
+      "class": "DERIVED",
+      "reason": "Balance cache keyed by product/location/grade"
+     },
+     "erp.opening_balance_items.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+     },
+     "erp.stock_policy_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated stock policy"
+     },
+     "erp.accessory_bom_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated accessory BOM; no stock instant"
+     },
+     "erp.product_conversions.to_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+     },
+     "erp.product_price_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated price"
+     },
+     "erp.product_conversions.from_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion source, validated as EXISTING_STOCK"
+     },
+     "erp.qc_inspection_items.final_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "QC input; the facts are fg_lots and bs_cases"
+     },
+     "erp.fg_accessory_cost_snapshots.product_id": {
+      "class": "DERIVED",
+      "reason": "Cost snapshot of an FG lot"
+     },
+     "erp.po_accessory_bom_commitments.product_id": {
+      "class": "MASTER",
+      "reason": "PO accessory BOM commitment"
+     },
+     "erp.stock_explainability_snapshots.product_id": {
+      "class": "REPORT",
+      "reason": "Stock explanation snapshot"
+     },
+     "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "HPP to GL synchronisation event"
+     },
+     "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Laundry receipt input; the BS fact is bs_cases"
+     },
+     "erp.product_identity_mutation_context_v1.product_id": {
+      "class": "AUTHORIZATION",
+      "reason": "Private one-use identity edit context"
+     },
+     "erp.laundry_receipt_bs_product_allocations.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+     },
+     "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+      "class": "DERIVED",
+      "reason": "Accounting entitlement of an FG lot"
+     }
+    },
+    "references": 23,
+    "new_stock_fact_tables": [
+     "bs_cases",
+     "fg_lots"
+    ]
+   }
+  },
+  "ay_install": {
+   "stage": "AV_PLUS_AW_AX_AY_T1",
+   "label": "T1_FAMILY",
+   "functions": 13,
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+   "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+   "av_coverage": {
+    "registry": {
+     "erp.fg_lots.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "produced_at of every lot except GOOD returned by rework"
+     },
+     "erp.bs_cases.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+     },
+     "erp.sales_items.product_id": {
+      "class": "SALES",
+      "reason": "Sale of existing stock"
+     },
+     "erp.journal_lines.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "Journal dimension"
+     },
+     "erp.fg_stock_movements.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Movement of an existing lot"
+     },
+     "erp.sales_return_items.product_id": {
+      "class": "SALES",
+      "reason": "Return of sold stock"
+     },
+     "erp.fg_adjustment_items.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Adjusts an existing lot"
+     },
+     "erp.fg_inventory_balances.product_id": {
+      "class": "DERIVED",
+      "reason": "Balance cache keyed by product/location/grade"
+     },
+     "erp.opening_balance_items.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+     },
+     "erp.stock_policy_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated stock policy"
+     },
+     "erp.accessory_bom_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated accessory BOM; no stock instant"
+     },
+     "erp.product_conversions.to_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+     },
+     "erp.product_price_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated price"
+     },
+     "erp.product_conversions.from_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion source, validated as EXISTING_STOCK"
+     },
+     "erp.qc_inspection_items.final_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "QC input; the facts are fg_lots and bs_cases"
+     },
+     "erp.fg_accessory_cost_snapshots.product_id": {
+      "class": "DERIVED",
+      "reason": "Cost snapshot of an FG lot"
+     },
+     "erp.po_accessory_bom_commitments.product_id": {
+      "class": "MASTER",
+      "reason": "PO accessory BOM commitment"
+     },
+     "erp.stock_explainability_snapshots.product_id": {
+      "class": "REPORT",
+      "reason": "Stock explanation snapshot"
+     },
+     "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "HPP to GL synchronisation event"
+     },
+     "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Laundry receipt input; the BS fact is bs_cases"
+     },
+     "erp.product_identity_mutation_context_v1.product_id": {
+      "class": "AUTHORIZATION",
+      "reason": "Private one-use identity edit context"
+     },
+     "erp.laundry_receipt_bs_product_allocations.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+     },
+     "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+      "class": "DERIVED",
+      "reason": "Accounting entitlement of an FG lot"
+     }
+    },
+    "references": 23,
+    "new_stock_fact_tables": [
+     "bs_cases",
+     "fg_lots"
+    ]
+   },
+   "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+   "catalog": {
+    "revaluation_movement_indexes": [],
+    "accessory_total_hpp_cost": [
+     "s",
+     "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+    ]
+   }
+  },
+  "az_install": {
+   "stage": "AV_PLUS_AW_AX_AY_AZ_T1",
+   "label": "T1_FAMILY",
+   "functions": 13,
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+   "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+   "av_coverage": {
+    "registry": {
+     "erp.fg_lots.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "produced_at of every lot except GOOD returned by rework"
+     },
+     "erp.bs_cases.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+     },
+     "erp.sales_items.product_id": {
+      "class": "SALES",
+      "reason": "Sale of existing stock"
+     },
+     "erp.journal_lines.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "Journal dimension"
+     },
+     "erp.fg_stock_movements.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Movement of an existing lot"
+     },
+     "erp.sales_return_items.product_id": {
+      "class": "SALES",
+      "reason": "Return of sold stock"
+     },
+     "erp.fg_adjustment_items.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Adjusts an existing lot"
+     },
+     "erp.fg_inventory_balances.product_id": {
+      "class": "DERIVED",
+      "reason": "Balance cache keyed by product/location/grade"
+     },
+     "erp.opening_balance_items.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+     },
+     "erp.stock_policy_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated stock policy"
+     },
+     "erp.accessory_bom_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated accessory BOM; no stock instant"
+     },
+     "erp.product_conversions.to_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+     },
+     "erp.product_price_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated price"
+     },
+     "erp.product_conversions.from_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion source, validated as EXISTING_STOCK"
+     },
+     "erp.qc_inspection_items.final_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "QC input; the facts are fg_lots and bs_cases"
+     },
+     "erp.fg_accessory_cost_snapshots.product_id": {
+      "class": "DERIVED",
+      "reason": "Cost snapshot of an FG lot"
+     },
+     "erp.po_accessory_bom_commitments.product_id": {
+      "class": "MASTER",
+      "reason": "PO accessory BOM commitment"
+     },
+     "erp.stock_explainability_snapshots.product_id": {
+      "class": "REPORT",
+      "reason": "Stock explanation snapshot"
+     },
+     "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "HPP to GL synchronisation event"
+     },
+     "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Laundry receipt input; the BS fact is bs_cases"
+     },
+     "erp.product_identity_mutation_context_v1.product_id": {
+      "class": "AUTHORIZATION",
+      "reason": "Private one-use identity edit context"
+     },
+     "erp.laundry_receipt_bs_product_allocations.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+     },
+     "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+      "class": "DERIVED",
+      "reason": "Accounting entitlement of an FG lot"
+     }
+    },
+    "references": 23,
+    "new_stock_fact_tables": [
+     "bs_cases",
+     "fg_lots"
+    ]
+   },
+   "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+   "catalog": {
+    "revaluation_movement_indexes": [],
+    "accessory_total_hpp_cost": [
+     "s",
+     "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+    ]
+   },
+   "az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9"
+  },
+  "ba_install": {
+   "stage": "AV_PLUS_AW_AX_AY_AZ_BA_T1",
+   "label": "T1_FAMILY",
+   "functions": 12,
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+   "replaced_by_later_family": [
+    "erp.close_accounting_through(date,text)"
+   ],
+   "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+   "av_coverage": {
+    "registry": {
+     "erp.fg_lots.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "produced_at of every lot except GOOD returned by rework"
+     },
+     "erp.bs_cases.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+     },
+     "erp.sales_items.product_id": {
+      "class": "SALES",
+      "reason": "Sale of existing stock"
+     },
+     "erp.journal_lines.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "Journal dimension"
+     },
+     "erp.fg_stock_movements.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Movement of an existing lot"
+     },
+     "erp.sales_return_items.product_id": {
+      "class": "SALES",
+      "reason": "Return of sold stock"
+     },
+     "erp.fg_adjustment_items.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Adjusts an existing lot"
+     },
+     "erp.fg_inventory_balances.product_id": {
+      "class": "DERIVED",
+      "reason": "Balance cache keyed by product/location/grade"
+     },
+     "erp.opening_balance_items.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+     },
+     "erp.stock_policy_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated stock policy"
+     },
+     "erp.accessory_bom_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated accessory BOM; no stock instant"
+     },
+     "erp.product_conversions.to_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+     },
+     "erp.product_price_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated price"
+     },
+     "erp.product_conversions.from_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion source, validated as EXISTING_STOCK"
+     },
+     "erp.qc_inspection_items.final_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "QC input; the facts are fg_lots and bs_cases"
+     },
+     "erp.fg_accessory_cost_snapshots.product_id": {
+      "class": "DERIVED",
+      "reason": "Cost snapshot of an FG lot"
+     },
+     "erp.po_accessory_bom_commitments.product_id": {
+      "class": "MASTER",
+      "reason": "PO accessory BOM commitment"
+     },
+     "erp.stock_explainability_snapshots.product_id": {
+      "class": "REPORT",
+      "reason": "Stock explanation snapshot"
+     },
+     "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "HPP to GL synchronisation event"
+     },
+     "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Laundry receipt input; the BS fact is bs_cases"
+     },
+     "erp.product_identity_mutation_context_v1.product_id": {
+      "class": "AUTHORIZATION",
+      "reason": "Private one-use identity edit context"
+     },
+     "erp.laundry_receipt_bs_product_allocations.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+     },
+     "erp.initial_import_wip_output_identity_v1.output_product_id": {
+      "class": "DERIVED",
+      "reason": "Provenance of an opening WIP output; the stock fact is its fg_lots lot"
+     },
+     "erp.initial_import_wip_output_identity_v1.opening_product_id": {
+      "class": "DERIVED",
+      "reason": "Provenance of an opening WIP output: the product filled in on its opening item"
+     },
+     "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+      "class": "DERIVED",
+      "reason": "Accounting entitlement of an FG lot"
+     }
+    },
+    "references": 25,
+    "new_stock_fact_tables": [
+     "bs_cases",
+     "fg_lots"
+    ]
+   },
+   "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+   "catalog": {
+    "revaluation_movement_indexes": [],
+    "accessory_total_hpp_cost": [
+     "s",
+     "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+    ]
+   },
+   "az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9",
+   "az_replaced_by_later_family": [
+    "erp.complete_initial_import_wip_v1(jsonb)",
+    "erp.sync_material_cost_revaluation(uuid)"
+   ],
+   "ba_sql_sha256": "06d6dccb5243832e07deead99d19a5b359f2cd65b1dc8917b2fa006e780c1f37",
+   "ba_functions": [
+    "erp.post_opening_balance(uuid)",
+    "erp.complete_initial_import_wip_v1(jsonb)",
+    "erp.manage_initial_prepayment_v1(jsonb)",
+    "erp.sync_material_cost_revaluation(uuid)",
+    "erp.close_accounting_through(date,text)",
+    "erp.assert_new_stock_cutoff_coverage_v1()",
+    "erp.get_bs_resolution_workspace_v1(text,text,uuid,text,integer,integer)",
+    "erp.get_initial_import_workspace_v1(uuid)",
+    "erp.initial_prepayment_dated_floor_v1(uuid,date)"
+   ]
+  },
+  "auditor_cases": {
+   "status": "INCOMPLETE",
+   "counts": {
+    "INCOMPLETE": 6,
+    "PASS": 8,
+    "COUNTEREXAMPLE": 1
+   },
+   "planned_case_ids": [
+    "SI-01-identified-wip-output-identity",
+    "SI-02-reversed-wip-dated-capacity",
+    "SI-03-wip-retry-exact-envelope",
+    "SI-04-prepared-wip-latest-item",
+    "BLIND-MONEY-CENT-DIRECT-UP",
+    "BLIND-MONEY-CENT-DIRECT-DOWN",
+    "BLIND-MONEY-CENT-INVOICE-UP",
+    "BLIND-MONEY-CENT-INVOICE-DOWN",
+    "BCR1-ADVANCE-SUPPLIER-ORDERED_CONTROL",
+    "BCR1-ADVANCE-SUPPLIER-DATED_CAPACITY",
+    "BCR1-ADVANCE-CUSTOMER-ORDERED_CONTROL",
+    "BCR1-ADVANCE-CUSTOMER-DATED_CAPACITY",
+    "BCR1-ADVANCE-VENDOR-ORDERED_CONTROL",
+    "BCR1-ADVANCE-VENDOR-DATED_CAPACITY",
+    "XI:C_SEL_01_INITIAL_IMPORT_51_DRAFT_SELECTOR"
+   ],
+   "final": {
+    "SI-01-identified-wip-output-identity": "INCOMPLETE",
+    "SI-02-reversed-wip-dated-capacity": "INCOMPLETE",
+    "SI-03-wip-retry-exact-envelope": "PASS",
+    "SI-04-prepared-wip-latest-item": "COUNTEREXAMPLE",
+    "BLIND-MONEY-CENT-DIRECT-UP": "PASS",
+    "BLIND-MONEY-CENT-DIRECT-DOWN": "PASS",
+    "BLIND-MONEY-CENT-INVOICE-UP": "PASS",
+    "BLIND-MONEY-CENT-INVOICE-DOWN": "PASS",
+    "BCR1-ADVANCE-SUPPLIER-ORDERED_CONTROL": "PASS",
+    "BCR1-ADVANCE-SUPPLIER-DATED_CAPACITY": "INCOMPLETE",
+    "BCR1-ADVANCE-CUSTOMER-ORDERED_CONTROL": "PASS",
+    "BCR1-ADVANCE-CUSTOMER-DATED_CAPACITY": "INCOMPLETE",
+    "BCR1-ADVANCE-VENDOR-ORDERED_CONTROL": "PASS",
+    "BCR1-ADVANCE-VENDOR-DATED_CAPACITY": "INCOMPLETE",
+    "XI:C_SEL_01_INITIAL_IMPORT_51_DRAFT_SELECTOR": "INCOMPLETE"
+   },
+   "error": null
+  },
+  "auditor_browser": {
+   "status": "RUN_COMPLETE",
+   "counts": {
+    "PASS": 2
+   },
+   "script_sha256": "4d34b3affd60cc35cbe5a51918dc24b7fdb82cf4ec188d7ea79dc831510afdb6",
+   "database_remaining": 0,
+   "cleanup": {
+    "users_created": 0,
+    "cleanup_failures": [],
+    "rest_remaining": false
+   },
+   "auth_counts": {
+    "before": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "after": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "restored": true
+   },
+   "console_errors": 0,
+   "users_created": 2,
+   "error": null
+  },
+  "primary_unchanged": true,
+  "clone_remaining": 0
+ }
+]

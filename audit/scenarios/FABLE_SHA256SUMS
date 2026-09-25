@@ -17,3 +17,8 @@ e8b84000396cc6e9ee27cdd49a50ea3d3806386a7b916e7868fc9b974709e9e0  open_2.py
 cec2ad521835476cf702119486e637d3eff4b62d8f72197a9ca2c2d50cf1fadb  combined_native15_reconstructed.py
 060fab3c44041b30770bcfe3b5f6993e0bbb4f0872723a6cf86fbcf6299b6d26  xaudit_6.py
 # xaudit_6.py rev1 338ec169… (run 36080176237) dan rev2 819ce35d7ad3665a4d9fabd4b2899d3ae5461fc03daa2d67d84a926be816b139 (run 36080510340) tidak disimpan sebagai file; isi rev1/rev2 dapat direkonstruksi dari docstring rev3 dan JSON run.
+# r8 (head 9dd7bc2 / product a095a9d)
+dad4331b4893674439674cb8eb9b92d2f72adee5e1a5555f5ff7b37b203214b0  xaudit_1_rev2.py
+06e6149ce93f7710dff5779c551b1e09a6dfe11cee6c33b662b08b20a2aae1dd  xaudit_2_rev2.py
+ca2f7301d9200a0a3c9f82177580ce808fb41eeaf73ba45fb2b53766220f2c05  xaudit_5.py  (rev3; rev2 4fec5b0d…, rev1 815781e1… tercatat di runs_fable/r8)
+e21d9d0ca6ee59f2df9dc41c5f1e0648a4183892961e3b15e29a5512b4a33cd9  xaudit_7.py  (rev2; rev1 3ed20b76… tidak dipakai)

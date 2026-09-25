@@ -1,4 +1,4 @@
-"""AUDITOR SCENARIO xaudit_5 — two-session races and REAL Auth/HTTP cases on the writer's new runtime modes
+"""AUDITOR SCENARIO xaudit_5 rev3 (rev2 4fec5b0d run 36096178430: R1 substantively passed — exactly one POSTED, worker refused BA_IMPORT_OPENING_ALREADY_POSTED under BLOCKED contention — but the auditor check read the wrapper level instead of the op result; rev3 fixes the check only) (r8: R1 rewritten — rev1 pre-committed the first import, so with BA both sessions were refused before racing; now a fresh item (material M1 of the seed, NEW warehouse B created by a committed setup batch) is FINALIZEd by both sessions; op refusals are caught and recorded) — two-session races and REAL Auth/HTTP cases on the writer's new runtime modes
 (scripts/cp6_auditor_modes.py at tool head d284e9b; product reference 9add57e, forward product unchanged).
 RACES (tools.two_sessions: holder keeps its transaction open, worker runs concurrently, holder commits):
   R1 two sessions FINALIZE two import batches of the SAME opening item (F1-12/CP6-09 under concurrency): oracle M:138/M:1043
@@ -39,21 +39,38 @@ def races(tools,today):
         with tools.connect() as c,c.cursor() as cur:
             api.admin(cur);first=ovp.imported(cur,today,'MATERIAL')
             row=cur.execute("select m.material_sku,l.location_code,i.qty,i.unit_cost_snapshot from erp.opening_balance_items i join erp.materials m on m.id=i.material_id join erp.locations l on l.id=i.location_id where i.opening_id=%s",(first,)).fetchone()
+            # setup (committed): warehouse B and an unrelated material M2 posted there, so (M1,B) is a fresh, not-yet-posted item
+            setup='XA5S'+uuid.uuid4().hex[:10]
+            sb=api.call(cur,'CREATE',dict(batch_code=setup,cutover_date=str(today-timedelta(days=1))))['batch_id']
+            api.upload(cur,sb,'LOCATION',[dict(location_code=setup,location_name='XA5 warehouse B',location_type='RAW_MATERIAL_WAREHOUSE')])
+            api.upload(cur,sb,'MATERIAL',[dict(material_sku=setup,material_name='XA5 unrelated material',material_type='OTHER',unit_code='PCS')])
+            api.upload(cur,sb,'OPENING_BALANCE_ITEM',[dict(balance_type='MATERIAL',control_key='CHECK',material_sku=setup,location_code=setup,qty='1',unit_cost='1')])
+            api.upload(cur,sb,'OPENING_CONTROL',[dict(balance_type='MATERIAL',control_key='CHECK',qty='1',amount='1.00')])
+            posted_setup=api.invoke(cur,'FINALIZE',sb);assert posted_setup.get('status')=='POSTED',('XA5_SETUP_NOT_POSTED',posted_setup)
             c.commit()
+        location_b=setup
         def finalize_same_item(cur):
             api.admin(cur);code='XA5'+uuid.uuid4().hex[:10]
-            batch=api.call(cur,'CREATE',dict(batch_code=code,cutover_date=str(today-timedelta(days=1))))['batch_id']
-            api.upload(cur,batch,'OPENING_BALANCE_ITEM',[dict(balance_type='MATERIAL',control_key='CHECK',material_sku=row[0],location_code=row[1],qty=str(row[2]),unit_cost=str(row[3]))])
-            api.upload(cur,batch,'OPENING_CONTROL',[dict(balance_type='MATERIAL',control_key='CHECK',qty=str(row[2]),amount=str(row[2]*row[3]))])
-            return api.invoke(cur,'FINALIZE',batch)
+            try:
+                batch=api.call(cur,'CREATE',dict(batch_code=code,cutover_date=str(today-timedelta(days=1))))['batch_id']
+                api.upload(cur,batch,'OPENING_BALANCE_ITEM',[dict(balance_type='MATERIAL',control_key='CHECK',material_sku=row[0],location_code=location_b,qty=str(row[2]),unit_cost=str(row[3]))])
+                api.upload(cur,batch,'OPENING_CONTROL',[dict(balance_type='MATERIAL',control_key='CHECK',qty=str(row[2]),amount=str(row[2]*row[3]))])
+                return dict(ok=True,result=api.invoke(cur,'FINALIZE',batch))
+            except psycopg.Error as exc:
+                return dict(ok=False,sqlstate=exc.sqlstate,message=(exc.diag.message_primary or str(exc))[:300])
         held,contention,outcome=tools.two_sessions(finalize_same_item,finalize_same_item,True)
         with tools.connect() as c,c.cursor() as cur:
             api.admin(cur)
-            posted=cur.execute("select count(*),coalesce(sum(i.qty),0)::text from erp.opening_balance_items i join erp.opening_balance_headers h on h.id=i.opening_id join erp.locations l on l.id=i.location_id where h.status='POSTED' and l.location_code=%s",(row[1],)).fetchone()
-        checks=dict(no_further_posted_beyond_first=posted[0]<=1)
-        return dict(status='PASS' if checks['no_further_posted_beyond_first'] else 'COUNTEREXAMPLE',checks=checks,holder=str(held)[:200],contention=contention,worker=outcome,
-                    posted_items_for_location=posted[0],posted_qty=posted[1],
-                    expected='M:138/M:1043 under two real sessions: the same opening item is never POSTED again (first import only); contention kind recorded')
+            posted=cur.execute("select count(*),coalesce(sum(i.qty),0)::text from erp.opening_balance_items i join erp.opening_balance_headers h on h.id=i.opening_id join erp.locations l on l.id=i.location_id join erp.materials m on m.id=i.material_id where h.status='POSTED' and l.location_code=%s and m.material_sku=%s",(location_b,row[0])).fetchone()
+        held_ok=isinstance(held,dict) and held.get('ok') and isinstance(held.get('result'),dict) and held['result'].get('status')=='POSTED'
+        # tools.two_sessions wraps the worker's return value as {'ok': True, 'result': <value>}; the op itself returns {'ok': False, ...} on refusal
+        inner=outcome.get('result') if isinstance(outcome,dict) and isinstance(outcome.get('result'),dict) and 'ok' in outcome['result'] else outcome
+        worker_refused=isinstance(inner,dict) and inner.get('ok') is False
+        checks=dict(exactly_one_posted=posted[0]==1,holder_posted=bool(held_ok),worker_refused=worker_refused,
+                    worker_message_is_ba_guard=worker_refused and str(inner.get('message','')).startswith('BA_IMPORT_OPENING_ALREADY_POSTED'))
+        return dict(status='PASS' if checks['exactly_one_posted'] and checks['holder_posted'] and checks['worker_refused'] else 'COUNTEREXAMPLE',checks=checks,
+                    holder=str(held)[:200],contention=contention,worker=outcome,posted_items=posted[0],posted_qty=posted[1],
+                    expected='M:138/M:1043 (A1) under two real sessions on a fresh item: exactly one POSTED opening for (M1,B); the other session refused (BA_IMPORT_OPENING_ALREADY_POSTED expected); contention kind recorded')
 
     def r2_close_same_date():
         d=today-timedelta(days=1);d0=today-timedelta(days=4)
