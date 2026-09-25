@@ -1,0 +1,36 @@
+{
+ "label": "T3_PREP",
+ "production_go": false,
+ "release_evidence": false,
+ "workflow": "CP6 Candidate CodeQL (T3)",
+ "queries": "security-extended",
+ "gate": "scripts/cp6_codeql_artifact_gate.py (fails on any result or incomplete execution; prints CODEQL_FINDING per result)",
+ "runs": [
+  {
+   "run": 36113589299,
+   "head_sha": "1dcf21b4d6adb3b612f012619c092b55cb7f425b",
+   "status": "PASS",
+   "jobs": {
+    "actions": {
+     "job": 108002360628,
+     "gate": "PASS"
+    },
+    "c-cpp": {
+     "job": 108002360428,
+     "gate": "PASS"
+    },
+    "python": {
+     "job": 108002360722,
+     "gate": "PASS",
+     "result_count": 0,
+     "artifact_zip_sha256": "02fc07bc0856a1f9016cd0e84209c3fa1452bc3643707da5ca006c5fe2b5a3b7"
+    },
+    "javascript-typescript": {
+     "job": 108002360780,
+     "gate": "PASS"
+    }
+   },
+   "note": "Round 9 head 1dcf21b: product b6d81f9 plus the rebuilt T3 package; covers the round 9 frontend (21acae1: W10 request envelope, W11 client error, W13 unknown KPIs) and the Python tools (W2, W4, W7, W12/W6 checks). Every language job green means result_count 0 (the gate fails on any result); the python count is quoted from its log."
+  }
+ ]
+}
