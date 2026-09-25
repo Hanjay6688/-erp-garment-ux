@@ -1,6 +1,6 @@
 -- CP6 BA rollback: exact pre-use restore of the T3 release package to its predecessor; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_rollback.py from supabase/release/cp6-t3/20260925010000_erp_v2_6_20ba_cp6_audit_closure.sql (sha256 135facce6b15b80cd2df8dbeb4c7cf8b1c818c0a14252aff5766e951ac1d7cd0) and docs/evidence/cp6-t3/rollback_capture.json (sha256 8b375814bc969968c1f88ab0e1c140a05890b6c7ef3a58785114dad01c681b47).
+-- Built by scripts/cp6_t3_rollback.py from supabase/release/cp6-t3/20260925010000_erp_v2_6_20ba_cp6_audit_closure.sql (sha256 899296bbcc07cb1ed50ae85264a92b42c1e088fa08dc4f743676f6138e9acd8e) and docs/evidence/cp6-t3/rollback_capture.json (sha256 1f0a0fccffcab7d36dab857bf9287e9465f32d536e98522b1e84e2076ab3b9fd).
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
 do $closed_admission$
@@ -23,7 +23,7 @@ do $platform$ begin
  if not exists(select 1 from erp.schema_migrations where version='v2.6.20ba')
   or (select count(*) from supabase_migrations.schema_migrations where name='erp_v2_6_20ba_cp6_audit_closure')<>1
   or not exists(select 1 from supabase_migrations.schema_migrations where version='20260925010000' and name='erp_v2_6_20ba_cp6_audit_closure'
-   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')='135facce6b15b80cd2df8dbeb4c7cf8b1c818c0a14252aff5766e951ac1d7cd0')
+   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')='899296bbcc07cb1ed50ae85264a92b42c1e088fa08dc4f743676f6138e9acd8e')
   or exists(select 1 from supabase_migrations.schema_migrations where version>'20260925010000')
  then raise exception 'BA_ROLLBACK_PLATFORM_OR_SUCCESSOR';end if;
 end $platform$;
@@ -102,7 +102,7 @@ with relations as (
 select coalesce(jsonb_object_agg(k,encode(extensions.digest(convert_to(v::text,'UTF8'),'sha256'),'hex')),'{}'::jsonb) from objects
 ) catalog;
  select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(length(key)::text||':'||key||':'||value,E'\n' order by key collate "C"),''),'UTF8'),'sha256'),'hex') into object_count,fingerprint from jsonb_each_text(actual);
- if object_count<>7314 or fingerprint is distinct from '3fe2f0ccdeb8136cd9c7b47ebbc67743a10c64afeadb71e78fa5148b1487989b' then
+ if object_count<>7314 or fingerprint is distinct from '0e3febbb85ac5c9a7863035b889daa671f3b820ad2f88b8cffe428de2cb8bc7a' then
   raise exception 'BA_ROLLBACK_CATALOG_DRIFT';
  end if;
 end $catalog_guard$;
@@ -147,7 +147,7 @@ begin
    or exists(select 1 from pg_attribute p cross join lateral aclexplode(p.attacl)a where p.attrelid='erp.cp6_v2620ba_rollback_capsule'::regclass and a.grantee<>'postgres'::regrole)
    or exists(select 1 from pg_policy where polrelid='erp.cp6_v2620ba_rollback_capsule'::regclass)
    or exists(select 1 from pg_trigger where tgrelid='erp.cp6_v2620ba_rollback_capsule'::regclass and not tgisinternal)
-   or (select count(*) from erp.cp6_v2620ba_rollback_capsule)<>8 then raise exception 'BA_CAPSULE_SECURITY_OR_COUNT';end if;
+   or (select count(*) from erp.cp6_v2620ba_rollback_capsule)<>10 then raise exception 'BA_CAPSULE_SECURITY_OR_COUNT';end if;
  select jsonb_build_object(
    'relation',(select jsonb_build_array(relkind,relpersistence,relreplident,relispartition,reloptions) from pg_class where oid='erp.cp6_v2620an_rollback_capsule'::regclass),
    'columns',(select jsonb_agg(jsonb_build_array(a.attname,format_type(a.atttypid,a.atttypmod),a.attnotnull,a.attidentity,a.attgenerated,pg_get_expr(d.adbin,d.adrelid)) order by a.attnum) from pg_attribute a left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum where a.attrelid='erp.cp6_v2620an_rollback_capsule'::regclass and a.attnum>0 and not a.attisdropped),
@@ -160,9 +160,9 @@ begin
    'indexes',(select jsonb_agg(jsonb_build_array(indisunique,indisprimary,indisexclusion,indisvalid,indisready,indkey::text,indclass::text,indoption::text,pg_get_expr(indexprs,indrelid),pg_get_expr(indpred,indrelid)) order by indkey::text) from pg_index where indrelid='erp.cp6_v2620ba_rollback_capsule'::regclass)) into actual;
  if actual is distinct from expected then raise exception 'BA_CAPSULE_SHAPE_DRIFT';end if;
  select boundary_snapshot into boundary from erp.cp6_v2620ba_rollback_capsule limit 1;
- if 8>0 and (boundary is null or exists(select 1 from erp.cp6_v2620ba_rollback_capsule where boundary_snapshot is distinct from boundary)
+ if 10>0 and (boundary is null or exists(select 1 from erp.cp6_v2620ba_rollback_capsule where boundary_snapshot is distinct from boundary)
   or not(boundary ?& array['before','after','platform_before','markers_before'])) then raise exception 'BA_CAPSULE_BOUNDARY';end if;
- if exists(select 1 from erp.cp6_v2620ba_rollback_capsule where object_regidentity<>all(array['erp.post_opening_balance(uuid)','erp.complete_initial_import_wip_v1(jsonb)','erp.manage_initial_prepayment_v1(jsonb)','erp.sync_material_cost_revaluation(uuid)','erp.close_accounting_through(date,text)','erp.assert_new_stock_cutoff_coverage_v1()','erp.get_bs_resolution_workspace_v1(text,text,uuid,text,integer,integer)','erp.get_initial_import_workspace_v1(uuid)']::text[])
+ if exists(select 1 from erp.cp6_v2620ba_rollback_capsule where object_regidentity<>all(array['erp.post_opening_balance(uuid)','erp.complete_initial_import_wip_v1(jsonb)','erp.manage_initial_prepayment_v1(jsonb)','erp.sync_material_cost_revaluation(uuid)','erp.close_accounting_through(date,text)','erp.assert_new_stock_cutoff_coverage_v1()','erp.get_bs_resolution_workspace_v1(text,text,uuid,text,integer,integer)','erp.get_initial_import_workspace_v1(uuid)','erp.get_owner_financial_snapshot_v2(date,date,date)','erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)']::text[])
    or definition_sha256 is distinct from encode(extensions.digest(convert_to(object_definition,'UTF8'),'sha256'),'hex')
    or installed_definition_sha256 is null or installed_definition_sha256=definition_sha256
    or installed_definition_sha256 is distinct from encode(extensions.digest(convert_to(pg_get_functiondef(to_regprocedure(object_regidentity)),'UTF8'),'sha256'),'hex'))
@@ -188,7 +188,7 @@ do $restore_function$ declare r record; begin
   where encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex') is distinct from x.definition_sha256
    or array(select a::text from unnest(p.proacl)a order by a::text) is distinct from x.acl_snapshot
    or pg_get_userbyid(p.proowner) is distinct from x.owner_snapshot)
-  or (select count(*) from erp.cp6_v2620ba_rollback_capsule x where to_regprocedure(x.object_regidentity) is not null)<>8
+  or (select count(*) from erp.cp6_v2620ba_rollback_capsule x where to_regprocedure(x.object_regidentity) is not null)<>10
  then raise exception 'BA_FUNCTION_RESTORE_MISMATCH';end if;
 end $restore_function$;
 drop table erp.initial_import_wip_output_identity_v1;
