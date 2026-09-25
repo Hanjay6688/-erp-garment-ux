@@ -1400,7 +1400,8 @@
    "t3_package": 36121924229,
    "t3_rollback_infra_fail": 36121935168,
    "t3_rollback_rerun": 36123219619,
-   "multifile_workflow": 36123210828
+   "multifile_workflow": 36123210828,
+   "multifile_rev2": 36130179246
   },
   "run_json_dir": "audit/runs_fable/r9/",
   "pre_code_oracles": {
@@ -1409,7 +1410,7 @@
    "label": "AGENT_DRAFT_FABLE_SPOTCHECK"
   },
   "scope_decision_annex_c6_rev3_s0": "UNVERIFIED_OWNER_DECISION",
-  "status": "INDEPENDENT_PHASE_RESULTS_RECORDED_S9_S10"
+  "status": "INDEPENDENT_PHASE_COMPLETE"
  },
  "scope_decision_annex_c6_rev3_s0": {
   "status": "OWNER_CONFIRMED_TO_AUDITOR",
@@ -1422,5 +1423,18 @@
    "D06 ratified after revision"
   ],
   "where": "out/fable_r9_results.md §5a"
+ },
+ "findings_status_r9": {
+  "W2": "CLOSED",
+  "W7": "CLOSED",
+  "W8": "CLOSED_NOTED_P3_PER_PO_CENT",
+  "W9": "CLOSED",
+  "W10": "CLOSED",
+  "W11": "CLOSED_SOURCE_BROWSER_INDIRECT",
+  "W13": "CLOSED",
+  "LAU_T14": "CLOSED",
+  "CP6_01_browser": "CONFIRMED_12",
+  "C0": "25_of_25",
+  "verdict": "HOLD_audit_complete_false_production_go_false"
  }
 }

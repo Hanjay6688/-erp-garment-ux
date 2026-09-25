@@ -147,3 +147,32 @@ Baca saja; tidak ada push ke `claude/new-session-deapao`; tidak ada SQL ke hoste
 | Browser WIB pickup | 4 zona INCOMPLETE (timeout label) — menunggu diagnostik rev2 (§11) |
 | T2 / T3 package / T3 rollback / CodeQL | T2 identik (holds 12/12); T3 package success; T3 rollback success (rerun); CodeQL tidak di-dispatch ulang oleh Fable (writer 36113589299 success pada 1dcf21b, REUSED) |
 | Scope owner (lampiran rev3 §0) | **OWNER_CONFIRMED_TO_AUDITOR** (§5a): keempat poin tafsir writer benar |
+
+## 11. Run rev2 browser (workflow multi-file, run 36130179246, commit d491a05) — 2026-09-25T11:55Z
+
+| Job | Skenario | Hasil | Klasifikasi |
+|---|---|---|---|
+| 108055393873 | `round9_fable/fable_recovery_browser_rev2.mjs` (kasus GPT beku, locator `[role="alert"]`) | **2/2 PASS**: PATTERN dan ROLE — balasan pertama dibuang oleh route, klik ulang mengirim envelope yang **sama** (`sameEnvelope=true`), server membalas replay exact (`replayExact=true`), satu baris di DB (`afterFirst`=`afterRetry`, version 1); setelah replay berhasil banner tertunda kosong | **W10 CLOSED** natively di browser (M:1679/M:3819, CP6-05 Pola & Hak Akses) |
+| 108055393969 | `unknown_round8/gpt_unknown_browser_rev5.mjs` (GPT beku, fixture v4) | Laundry **2/2 PASS**: kontrol sehat render nyata; baca awal gagal → 4 KPI "— belum diketahui · data belum termuat" (`dropped_reads=2`), setelah "Muat ulang data" KPI = 20. QC 2 INCOMPLETE pada tahap FIXTURE (`imports.finalize` assert POSTED — tabrakan nama merek fixture rev5 yang sudah diketahui putaran 8; rev6 QC PASS di §9) | **W13 Laundry CLOSED**; W13 QC CLOSED (rev6). W11 (pesan asli) terbukti secara tidak langsung: jalur rev5/rev6 menampilkan alert dengan pesan, bukan "Layanan UAT belum dapat dihubungi" (tidak diverifikasi teks per kasus — sisa kecil) |
+| 108055394215 | `round9_fable/fable_wib_pickup_rev2.mjs` (kasus GPT beku, diagnostik) | **4/4 PASS** di 4 zona: payload browser = tersimpan = `2026-09-23T17:30:00Z` untuk input WIB 00:30. Diagnostik: `mandor_exact_label_count=0` — `getByLabel('Mandor',{exact:true})` tidak menemukan kontrol karena nama aksesibel select mencakup teks opsi terpilih ("Mandor Pilih Mandor…"); panel `.cpick-setup` normal (6 mandor seed) | **CP6-01 pickup CONFIRMED** pada d1bc8ad. INCOMPLETE di §9 = **cacat locator skenario** (perbedaan komputasi accessible name, bukan produk; `ConnectedPickupPage.tsx` tidak berubah a095a9d..d1bc8ad) |
+
+## 12. Register final putaran 9 (fase independen selesai)
+
+| Item | Status d1bc8ad | Bukti |
+|---|---|---|
+| W2 | CLOSED | T2 `T2_C0_ORACLE` 25/25; retry native 25/25 |
+| W7 | CLOSED | grup ditolak `AUDITOR_DUPLICATE_CASE_IDS` sebelum operasi |
+| W8 | CLOSED (NOTED P3 per-PO ±1 sen pada ≥3 penerimaan; dokumen multi-bahan belum diuji) | xaudit_8 rev2 |
+| W9 | CLOSED | xaudit_9 3/3 |
+| W10 | CLOSED | recovery rev2 2/2 |
+| W11 | CLOSED secara sumber; browser tidak langsung | clientError.ts; rev5/rev6 |
+| W13 | CLOSED | rev6 QC 2/2, rev5 Laundry 2/2 |
+| LAU-T14 | CLOSED | xaudit_8 rev2 4/4 |
+| CP6-01 browser 12 kasus | CONFIRMED | cutting/bs 8 (§9) + pickup rev2 4 (§11) |
+| C0 25 kasus | CONFIRMED 25/25 | §1 + §9 |
+| HTTP Auth nyata 3 | CONFIRMED | §9 |
+| T2 / T3 package / T3 rollback | identik / success / success | §2, §9 |
+| Scope owner | OWNER_CONFIRMED_TO_AUDITOR | §5a |
+| Sisa | W12 drill hosted (di luar batas auditor), W3/W5/W6 opsional, W8 multi-bahan, O2/D06 revisi lampiran, family BB–BE belum ada |
+
+Vonis: **CP6 HOLD, `audit_complete=false`, `production_go=false`** — semua temuan putaran 8 tertutup pada d1bc8ad; gate sekarang menunggu family BB–BE (scope owner §5a) dan revisi lampiran C6.

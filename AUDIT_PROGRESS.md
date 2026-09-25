@@ -839,3 +839,7 @@ QC rev6 diverifikasi dari log: healthy PASS (10), unknown COUNTEREXAMPLE (KPI 0)
 ## Fable — putaran 9: hasil susulan + konfirmasi scope owner (2026-09-25T11:37:30Z)
 - xaudit_8 rev2: W8 2 penerimaan 4/4 PASS, LAU-T14 4/4 PASS (termasuk GAP), 3 penerimaan COUNTEREXAMPLE hanya pada check per-PO auditor (NOTED P3, M:485). xaudit_9: W9 3/3 PASS. T3 rollback rerun success. Multi-file: rev6 QC 2/2 PASS; C0 retry PASS (25/25); HTTP 3/3; WIB 8 PASS + pickup 4 INCOMPLETE (timeout label); recovery rev1 4 INCOMPLETE (locator strict-mode karena banner W10; fixture rev1 UUID). Rev2 auditor (recovery, pickup diagnostik, unknown rev5) run 36130179246 berjalan.
 - Owner menjawab pertanyaan scope: "Ya, keempat poin benar" → OWNER_CONFIRMED_TO_AUDITOR (out/fable_r9_results.md §5a).
+
+## Fable — putaran 9 fase independen selesai (2026-09-25T11:57Z)
+- Rev2 browser: W10 2/2 PASS, W13 Laundry 2/2 PASS (QC via rev6), WIB pickup 4/4 PASS (INCOMPLETE sebelumnya = locator). Semua W putaran 8 tertutup pada d1bc8ad; register final di `out/fable_r9_results.md` §12. Vonis tetap HOLD (scope baru owner: family BB–BE).
+- Berikutnya: baca hasil GPT putaran 9, verifikasi silang, kompilasi.
