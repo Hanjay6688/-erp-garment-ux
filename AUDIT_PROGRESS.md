@@ -1,5 +1,15 @@
 # CP6 audit — active round 8 checkpoint
 
+## QC rev6 selesai; CP6-06 kini terbukti pada Laundry dan QC
+
+Run **36106777202/job107980988537**, audit **a5a2d6e**, LOG SHA256**02e9cf2969ab5958d325bb969364b4e73148065fac8f4a94676c33b7dcb01707**: **1PASS healthy +1COUNTEREXAMPLE unknown**, tidak ada INCOMPLETE. QC RPC Auth200, parser asli menerima, UI**10**; read diputus → KPI**0** dengan error/write lock; gangguan dilepas → refetch200/parser/UI**10**, error hilang. Seed ID tidak muncul; satu produk seed disisihkan melalui flag fixture, FG movement rows tidak berubah oleh perubahan flag. Auth2user/counts pulih, console0, browserDB0, clone0, primary unchanged.
+
+Digabung dengan Laundry rev5 **36106291785/job107979461548** (healthy20 + unknown0 + refetch20): dua healthy control PASS, dua CP6-06 COUNTEREXAMPLE. Kegagalan setup rev1–4 dan QC rev5 tetap INCOMPLETE; tidak dilabel ulang. **Green job/RUN_COMPLETE pada QC berarti kasus selesai, bukan produk lulus.** Tidak ada bug refetch, duplikasi, bypass atau false-finality yang dibuktikan oleh kasus ini. Oracle M3825.
+
+LANGKAH BERIKUTNYA: hentikan rerun diagnostik yang sudah terjawab; perbarui bagian aktif laporan, handoff writer, handoff gabungan dan index. CP6-06 meminta representasi unknown terpisah dari0; W11 pesan parser/network dan W12 kualitas seed/data terpisah. Seluruh CP6 tetap HOLD, audit_complete=false, production_go=false. Tidak ada run GPT yang masih berjalan.
+
+
+
 ## QC rev6 IN_FLIGHT — Laundry sudah terbukti
 
 Run [36106777202](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36106777202), job **107980988537**, audit **a5a2d6eab8fd20b88ee27526ebdf8a273ec49bcd**. Dua kasus QC saja, tool9dd7bc2/produka095a9d. Manifest `audit/scenarios/unknown_round8/MANIFEST_rev6.json`. Laundry rev5 healthy/refetch20 PASS dan initial0 COUNTEREXAMPLE tetap bukti yang berlaku.
