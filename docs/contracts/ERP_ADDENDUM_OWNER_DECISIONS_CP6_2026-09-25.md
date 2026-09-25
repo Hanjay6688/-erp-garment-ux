@@ -1,7 +1,7 @@
 # Addendum keputusan owner CP6 — ERP-ADD-CP6-2026-09-25-01
 
-**Status: D01–D05 disahkan tertulis oleh owner (25 September 2026, kutipan di bagian 9). D06 tetap OWNER_CONFIRMED_CHAT
-sampai lampiran C6 ditinjau auditor dan disahkan owner.**
+**Status: D01–D06 disahkan owner (25 September 2026, kutipan di bagian 9). D06 mencakup lampiran C6 rev4 (commit
+`4c61acad`, sha256 `42e04815…`); nilai kebijakan `PENDING_POLICY_VALUE` tetap pending sampai owner menyetujui angkanya.**
 Addendum ini tidak mengubah teks ketiga kontrak. Isinya memperjelas cara menerapkan klausul yang dirujuk untuk keputusan
 D01–D06. Sampai owner mengesahkannya secara tertulis (bagian 9), label setiap keputusan tetap OWNER_CONFIRMED_CHAT.
 CP6 tetap HOLD, `production_go=false`, dan 12 butir HOLD historis tetap HOLD.
@@ -191,9 +191,9 @@ Aturan:
    bergantung padanya. Bug baseline tidak boleh ditunda dengan menyebutnya CR.
 3. **Daftar acceptance ID per fitur (C6).** Isinya: baseline CP6, CR yang sudah masuk kandidat, CR yang ditunda, dan
    dependensi CP7. Daftar ini disusun writer, ditinjau auditor, lalu disahkan owner sebagai lampiran addendum ini.
-   **Status: usulan writer rev4** di `ERP_ADDENDUM_OWNER_DECISIONS_CP6_2026-09-25_LAMPIRAN_C6.md` (memuat keputusan
-   scope owner 25 September dan perbaikan T1 dari handoff auditor gabungan), menunggu pencocokan auditor lalu tanda tangan
-   owner.
+   **Status: DISAHKAN (D06), 25 September 2026.** Lampiran `ERP_ADDENDUM_OWNER_DECISIONS_CP6_2026-09-25_LAMPIRAN_C6.md`
+   rev4 pada commit `4c61acad2270e11a2aca762237790a68cf36278a`, sha256
+   `42e0481579497c0acfe45d7092681741d431efaaeb7c200533051690b1d25f35`, disahkan owner (lihat bagian 9).
 4. **Butir yang sudah masuk kandidat** tidak boleh diam-diam diberi N/A. Owner memilih salah satu: diuji tuntas, atau
    kandidat direvisi secara eksplisit.
 
@@ -208,7 +208,7 @@ Owner diminta menandai salah satu pilihan per keputusan. Hash addendum yang disa
 | D03 (termasuk pencatatan "tidak diketahui" 5.3) | ☑ | ☐ |
 | D04 | ☑ | ☐ |
 | D05 (akun lawan OTHER_INCOME) | ☑ | ☐ |
-| D06 (termasuk lampiran C6 setelah ditinjau auditor) | ☐ menunggu tinjauan auditor atas lampiran C6 | ☐ |
+| D06 (termasuk lampiran C6 rev4) | ☑ | ☐ |
 
 Nama/tanda tangan owner: pengesahan tertulis owner di chat sesi writer Claude (kutipan apa adanya di bawah).
 Tanggal: 25 September 2026.
@@ -221,6 +221,17 @@ Catatan pengesahan (dicatat writer Claude, dicocokkan auditor):
   `d39762da0520f30268a73244e7471b7d990138e3cbe36475d639c7cfca8e926d` (commit `5d54472`). Sesudah pengesahan, yang
   berubah hanya baris status di awal dan isian bagian 9 ini.
 - D06 dan lampiran C6 disahkan terpisah setelah auditor mencocokkan setiap baris lampiran dengan teks master.
+- **D06 disahkan 25 September 2026, 15:55 UTC**, langsung kepada auditor (label OWNER_CONFIRMED_TO_AUDITOR; dicatat auditor
+  di `OWNER_DECISIONS_CP6_DRAFT.md`, cabang `audit/cp6-final-20260924-gpt-a0bcadf`, commit `66cbdc4`, dan diteruskan ke writer
+  di handoff auditor putaran 11). Teks owner, apa adanya:
+  > Saya sahkan Lampiran C6 rev4 pada commit `4c61acad` sebagai keputusan D06, termasuk cakupan ACC-04b, LAU-05b, LAU-06b,
+  > dan ALL 22. Nilai kebijakan yang bertanda `PENDING_POLICY_VALUE` tetap pending sampai saya setujui angkanya. Pengesahan
+  > lampiran ini bukan penerimaan hasil uji; CP6 tetap HOLD dan `production_go=false`.
+- Teks lampiran yang disahkan: rev4 pada commit `4c61acad2270e11a2aca762237790a68cf36278a`, sha256
+  `42e0481579497c0acfe45d7092681741d431efaaeb7c200533051690b1d25f35`. Sesudah pengesahan, di lampiran hanya baris status
+  di awal dan centang bagian 7 butir 2 yang berubah.
+- Pada keputusan yang sama owner memilih **opsi A untuk T3** (sen per PO pada stok bertumpuk); catatan dan perbaikan
+  kalimatnya ada di `docs/cp6-t3-cent-per-po-and-t5-advisor-note.md`.
 
-Sebelum baris di atas diisi, addendum ini tetap berlabel OWNER_CONFIRMED_CHAT. Pengesahan kebijakan tidak membuat gate
-mana pun ACCEPT dan tidak memberi production GO.
+D01–D06 kini terisi. Pengesahan keputusan ini tidak membuat gate mana pun ACCEPT dan tidak memberi production GO; CP6 tetap
+HOLD, `audit_complete=false`, `production_go=false`.

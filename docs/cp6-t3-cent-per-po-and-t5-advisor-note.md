@@ -1,6 +1,6 @@
 # CP6: penjelasan sen per PO pada stok bertumpuk (handoff T3) dan catatan advisor paket rilis (handoff T5)
 
-Penulis: writer. Label `WRITER_EXPLANATION`, bukan bukti independen. CP6 tetap HOLD, `audit_complete=false`,
+Penulis: writer. Label `WRITER_EXPLANATION`, bukan bukti independen. Diperbarui 25 September 2026 sesudah keputusan owner T3 = opsi A. CP6 tetap HOLD, `audit_complete=false`,
 `production_go=false`. Dokumen ini tidak mengubah hasil beku mana pun: dua `COUNTEREXAMPLE` Fable (xaudit_8, run
 36123155393) dan tiga `PASS` GPT (run 36132246344) tetap seperti tercatat.
 
@@ -62,18 +62,41 @@ Kasus bertahap GPT (stok nol di antara penerimaan) menghasilkan 10,01 × 3. Alas
 - **Dijamin dan terbukti:** total nilai, nilai per tanggal, dan jejak sumber (M:6632), nilai stok nol saat stok habis, dan pembulatan kewajiban per dokumen (M:835).
 - **Tidak diatur kontrak:** apakah **setiap PO** harus memikul persis sen dokumen yang "dipakainya". Pada rata-rata bergerak, unit di stok campuran tidak punya identitas dokumen. Karena itu, pembagian sen per PO bergantung pada urutan pemakaian dan paritas pembulatan stok. M:485 hanya membahas pembagian satu biaya kain kantong. Klasifikasi auditor tetap **UNVERIFIED P3**, bukan blocker gate.
 
-### Permintaan keputusan owner (satu pertanyaan, tidak menghambat gate)
+### Keputusan owner: T3 = opsi A (25 September 2026, 15:55 UTC)
 
-Pada stok bahan campuran dari beberapa nota, bolehkah HPP per PO berbeda paling banyak 1 sen per dokumen dari notanya, selama total, tanggal, dan jejaknya tepat?
+Owner memilih opsi A langsung kepada auditor (label OWNER_CONFIRMED_TO_AUDITOR; `OWNER_DECISIONS_CP6_DRAFT.md`, cabang
+`audit/cp6-final-20260924-gpt-a0bcadf`, commit `66cbdc4`). Teks owner, apa adanya:
 
-- **A. Boleh (usulan writer, tanpa perubahan kode).** Aturan sekarang tetap: rata-rata bergerak, dan selisih sen dokumen dibawa ke pemakaian berikutnya.
-- **B. Tidak boleh.** Setiap pemakaian dinilai `round(qty × rata2)`, dan sisa sen masuk ke pemakaian yang menghabiskan stok. Pada kasus ini hasilnya 10,01 × 3, tetapi PO terakhir tetap bisa berbeda 1 sen pada pola lain. Satu-satunya cara agar setiap PO selalu sama dengan notanya adalah penilaian per roll (identifikasi khusus). Itu mengganti metode biaya kontrak (rata-rata bergerak) dan perlu CR.
+> Untuk T3 saya pilih **A**: bahan sejenis yang bercampur tetap memakai rata-rata bergerak. Saya paham selisih pembulatan
+> dari beberapa nota dapat terkumpul pada satu PO—contoh yang diuji: 10,05 dibanding 10,01. Jangan tulis batas tetap
+> "paling banyak 1 sen per PO". Total nilai, nilai per tanggal, stok saat habis, dan jejak sumber serta penyesuaiannya
+> wajib tetap cocok dan diuji. Kalau kelak ada bahan yang harus dinilai khusus per roll, ajukan CR terpisah. Tolong
+> perbaiki kalimat pertanyaan T3 dan catat keputusan ini.
 
-Sampai owner memilih, yang berlaku adalah A (keadaan sekarang). Tidak ada kode yang diubah untuk T3.
+Yang berlaku:
+
+- **Metode:** bahan sejenis yang bercampur dari beberapa nota tetap dinilai dengan rata-rata bergerak. Selisih sen setiap
+  dokumen dibawa ke pemakaian berikutnya (aturan BA W8 di atas).
+- **Tidak ada batas tetap per PO.** Selisih pembulatan dari beberapa nota dapat terkumpul pada satu PO. Contoh yang diuji
+  auditor: 10,05 dibanding 10,01. Karena itu dokumen ini tidak menjanjikan selisih per PO dalam batas sen tertentu.
+- **Yang wajib cocok dan diuji** pada setiap tumpukan nota: (1) total nilai sama dengan jumlah dokumen yang dibulatkan per
+  dokumen; (2) nilai per tanggal; (3) stok habis bernilai 0; (4) jejak sumber dan penyesuaian (setiap koreksi tertaut ke
+  dokumen dan gerakan asalnya). Probe BA mengunci keempatnya pada n nota bertumpuk, n = 3 dan n = 10
+  (`scripts/cp6_ba_probe.py`, kasus `A4:STACKED_RECEIPTS_*`).
+- **Penilaian per roll** (identifikasi khusus) bukan bagian keputusan ini. Bila kelak dibutuhkan untuk bahan tertentu, ia
+  diajukan sebagai CR terpisah.
+
+Tidak ada kode produk yang diubah untuk T3.
+
+Riwayat: sebelum keputusan ini, pertanyaan T3 di dokumen ini menawarkan batas "1 sen per dokumen per PO" sebagai opsi A.
+Kalimat itu keliru (selisih beberapa nota dapat terkumpul pada satu PO) dan sudah diganti sesuai keputusan owner di atas.
 
 ## T5. Catatan rilis: advisor keamanan INFO `rls_enabled_no_policy` (disengaja)
 
-Run T3 install terakhir (c793d51, job 108076155383) memasang paket 25 berkas (AC..BA) di baseline yang setara hosted. Hasil advisor: sebelum 73, sesudah 129, bertambah **56**, dihapus 0. Semua tambahan berjenis `INFO rls_enabled_no_policy` pada schema `erp`:
+**Angka berlaku (paket 26 berkas AC..BB):** advisor sebelum 73, sesudah 148, bertambah **75**, dihapus 0, semuanya `INFO
+rls_enabled_no_policy` pada schema `erp` (run T3 install 36141649832, rincian di akhir bagian ini). Riwayatnya:
+
+Run T3 install sebelumnya (c793d51, job 108076155383) memasang paket 25 berkas (AC..BA) di baseline yang setara hosted. Hasil advisor: sebelum 73, sesudah 129, bertambah **56**, dihapus 0. Semua tambahan berjenis `INFO rls_enabled_no_policy` pada schema `erp`:
 
 - 26 tabel `cp6_v2620*_rollback_capsule` (termasuk `relation_rollback_capsule` AC): salinan rollback.
 - 14 tabel `initial_import_*`: sumber dan riwayat impor saldo awal.

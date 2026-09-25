@@ -1,6 +1,12 @@
 # Lampiran C6: daftar acceptance per fitur aksesori dan laundry (pengesahannya = "D06")
 
-**Status: USULAN WRITER rev4, 25 September 2026. OWNER_ACK_REQUIRED, belum ditandatangani.** Rev4 memperbaiki rev3 menurut
+**Status: DISAHKAN (D06), 25 September 2026, 15:55 UTC.** Owner mengesahkan rev4 pada commit
+`4c61acad2270e11a2aca762237790a68cf36278a` (sha256 berkas `42e0481579497c0acfe45d7092681741d431efaaeb7c200533051690b1d25f35`)
+langsung kepada auditor; teks owner dikutip di addendum induk bagian 9. Sesudah pengesahan hanya baris status ini dan centang
+bagian 7 butir 2 yang berubah. Nilai `PENDING_POLICY_VALUE` tetap pending sampai owner menyetujui angkanya; pengesahan bukan
+penerimaan uji; CP6 tetap HOLD dan `production_go=false`.
+
+Riwayat: USULAN WRITER rev4, 25 September 2026 (OWNER_ACK_REQUIRED sampai pengesahan di atas). Rev4 memperbaiki rev3 menurut
 handoff auditor gabungan `AUDIT_WRITER_HANDOFF_CP6.md` tugas T1 (cabang `audit/cp6-final-20260924-gpt-a0bcadf`, commit
 08294c2) dan audit teks GPT `out/r9_scope_contract.md`. Daftar perubahan ada di bagian 8.
 
@@ -370,9 +376,9 @@ Auditor diminta mencocokkan hitungan ini dengan JSON.
    - Tautkan bukti per kasus di bagian 6 setelah BC, BD, dan BE dibangun.
    - Pindahkan baris yang ternyata CR-MASUK.
 2. **Owner, pengesahan "D06" atas rev4.** Yang disahkan:
-   - ☐ bagian 0 butir 1–5, termasuk LAU-06b sebagai scope tambahan dengan pagar identitas;
-   - ☐ semua nilai kebijakan tetap `PENDING_POLICY_VALUE` (default ditolak/pending) sampai owner melihat angkanya;
-   - ☐ penerimaan runtime tetap lewat bukti per kasus, bukan lewat pengesahan ini.
+   - ☑ bagian 0 butir 1–5, termasuk LAU-06b sebagai scope tambahan dengan pagar identitas;
+   - ☑ semua nilai kebijakan tetap `PENDING_POLICY_VALUE` (default ditolak/pending) sampai owner melihat angkanya;
+   - ☑ penerimaan runtime tetap lewat bukti per kasus, bukan lewat pengesahan ini.
 
 Nilai kebijakan (ACC-DEC01, 03–07, ERP-DEC02, LAU-DEC01–06) **tidak perlu diputus sekarang.** Keputusannya hanya menahan
 fitur terkait. Owner mengisi nilainya saat persiapan cutover, kecuali ingin memutus sekarang.

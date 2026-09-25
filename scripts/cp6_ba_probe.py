@@ -569,6 +569,57 @@ def a4_multi_cents(cur,today,kind,old,new):
                 oracle='sum of the separately rounded documents; used-up material has zero value (no per-receipt tolerance)')
 
 
+def a4_stacked(cur,today,kind,n,old,new):
+    """Owner decision T3 = option A (25 Sep 2026, 15:55 UTC, relayed in auditor handoff round 11): mixed stock of one material
+    from n separate documents (n >= 3, including 10) keeps the moving average; rounding cents of several documents may gather
+    on one PO, so no per-PO bound is asserted. What must hold and is tested here: (1) total value = the documents rounded
+    separately (M:835); (2) the value on every date (MATERIAL before the cuts, WIP from the cuts, AP/GRNI); (3) the used-up
+    stock is worth 0; (4) the source trail of every cost and adjustment: each cut and each revaluation journal of this
+    material names a cutting movement of one of the n POs, and the per-PO WIP adds up to the total. n receipts of one unit
+    at `old` on d-4, one cut per unit for n new POs on d-3 (the stock is mixed when cut), each document corrected (DIRECT)
+    or invoiced (INVOICE) at `new` on d-2."""
+    receipt_day,cutting_day,invoice_day=[today-timedelta(days=d) for d in (4,3,2)]
+    days=[receipt_day,cutting_day,invoice_day,today]
+    boundary.historical.prior.set_open_period(cur,receipt_day-timedelta(days=1))
+    before=daily(cur,days)
+    first=azp.final_receipt(cur,receipt_day,qty=1,price=old) if kind=='DIRECT' else estimated_one(cur,receipt_day,old)
+    api.admin(cur)
+    first['roll']=cur.execute('select id from erp.material_rolls where purchase_item_id=%s',(first['item'],)).fetchone()[0]
+    receipts=[first]+[second_receipt(cur,first,receipt_day,old,kind) for _ in range(n-1)]
+    pos=[azp.cut(cur,fx,cutting_day,1,8+i) for i,fx in enumerate(receipts)]
+    for fx in receipts:reprice(cur,fx,kind,invoice_day,today,new)
+    chain.production.owner(cur);cur.execute('select erp.process_cost_recalc_queue(100)');api.admin(cur)
+    after=daily(cur,days)
+    observed={day:{k:after[day][k]-before[day][k] for k in KEYS} for day in after}
+    expected={}
+    for day in days:
+        amount=(cents(new) if day>=invoice_day else cents(old))*n
+        row=dict.fromkeys(KEYS,D('0.00'))
+        row['MATERIAL_INVENTORY' if day<cutting_day else 'WIP']=amount
+        row['AP_SUPPLIER' if kind=='DIRECT' or day>=invoice_day else 'GRNI_MATERIAL']=-amount
+        expected[str(day)]=row
+    mismatch={day:{k:dict(expected=str(expected[day][k]),actual=str(observed[day][k])) for k in KEYS if expected[day][k]!=observed[day][k]} for day in observed}
+    mismatch={day:row for day,row in mismatch.items() if row}
+    material=first['material']
+    qty,cached_qty=cur.execute("""select coalesce((select sum(qty_signed) from erp.material_stock_movements where material_id=m.id),0),
+        m.cached_stock_qty from erp.materials m where m.id=%s""",(material,)).fetchone()
+    per_po={str(po):D(str(cur.execute("""select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id
+        where l.po_id=%s and l.account_id=erp.account_id('WIP') and j.status in('POSTED','REVERSED')""",(po,)).fetchone()[0])) for po in pos}
+    trail=cur.execute("""select count(*),count(*) filter(where e.journal_entry_id is not null and m.source_type='CUTTING_GROUP' and cg.po_id=any(%s::uuid[])
+        and m.material_id=e.material_id) from erp.material_cost_revaluation_events e join erp.material_stock_movements m on m.id=e.movement_id
+        left join erp.cutting_groups cg on cg.id=m.source_id where e.material_id=%s""",([str(p) for p in pos],material)).fetchone()
+    cuts=cur.execute("""select count(*),count(distinct cg.po_id) from erp.material_stock_movements m join erp.cutting_groups cg on cg.id=m.source_id
+        where m.material_id=%s and m.source_type='CUTTING_GROUP' and m.movement_type='CUTTING_ISSUE' and m.reversal_of_id is null""",(material,)).fetchone()
+    total=cents(new)*n
+    checks=dict(total_value=observed[str(today)]['WIP']==total,value_per_date=not mismatch,
+        used_up_zero=D(str(qty))==0 and D(str(cached_qty))==0 and observed[str(today)]['MATERIAL_INVENTORY']==0,
+        trail_cuts=tuple(cuts)==(n,n),trail_adjustments=trail[0]==trail[1],per_po_adds_up=sum(per_po.values())==total)
+    status='PASS' if all(checks.values()) else ('FAIL' if ba_installed(cur) else 'COUNTEREXAMPLE')
+    return dict(status=status,kind=kind,n=n,old=old,new=new,checks=checks,mismatches=mismatch,per_po={k:str(v) for k,v in per_po.items()},
+                revaluation_events=trail[0],observed=plain(observed),expected=plain(expected),
+                oracle='owner T3 option A: total, per date, used-up = 0, source trail; no per-PO bound')
+
+
 def two_material_receipt(cur,day,prices,kind):
     """One purchase document on `day` 10:00 with two new materials of one unit each at `prices` (one roll per line), FINAL with
     a supplier invoice number (DIRECT) or ESTIMATED (INVOICE). Returns the document and one fixture per line, lowest
@@ -895,6 +946,10 @@ PLAN+=[('A4:MULTI_CENT_%s_HALF_AT_CUT'%kind,('PASS','COUNTEREXAMPLE'),lambda c,t
 # 'before' expectation was stated by an oracle, so 'before' admits either outcome; the gate is phase 'after' = PASS.
 PLAN+=[('A4:MULTI_MATERIAL_DOC_%s_%s'%(kind,label),('PASS','COUNTEREXAMPLE'),lambda c,t,k=kind,o=o,n=n:a4_multi_material(c,t,k,o,n))
        for kind in ('DIRECT','INVOICE') for label,o,n in (('UP','10.005','10.014'),('DOWN','10.014','10.005'))]
+# Owner decision T3 = option A (auditor handoff round 11): n stacked documents of one material, n = 3 and 10. No oracle states a
+# phase 'before' outcome, so 'before' admits either; the gate is phase 'after' = PASS.
+PLAN+=[('A4:STACKED_RECEIPTS_%s_N%s_%s'%(kind,n,label),('PASS','COUNTEREXAMPLE'),lambda c,t,k=kind,n=n,o=o,w=w:a4_stacked(c,t,k,n,o,w))
+       for kind in ('DIRECT','INVOICE') for n in (3,10) for label,o,w in (('UP','10.00','10.005'),('DOWN','10.01','10.004'))]
 PLAN+=[('A5:BS_OLD_CLAIMABLE_DELIVERY_AFTER_100_NEWER','COUNTEREXAMPLE',a5_bs_sources),
        ('A5:IMPORT_OLDEST_DRAFT_AFTER_51','COUNTEREXAMPLE',a5_import_drafts)]
 PLAN+=[('A6:SECOND_CLOSE_SAME_DATE','COUNTEREXAMPLE',lambda c,t:a6_close(c,t,False)),
