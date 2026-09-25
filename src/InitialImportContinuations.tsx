@@ -120,10 +120,10 @@ export function PurchaseCommitmentsPanel({ bb, locked, manage }: { bb: InitialIm
       <label>Batalkan jumlah<input aria-label="Jumlah PO dibatalkan" inputMode="decimal" disabled={locked} value={qty} onChange={e => setQty(e.target.value)}/></label>
       <label>Tanggal<input aria-label="Tanggal pembatalan PO" type="date" disabled={locked} value={date} onChange={e => setDate(e.target.value)}/></label>
       <label>Alasan<input aria-label="Alasan PO" disabled={locked} value={reason} onChange={e => setReason(e.target.value)}/></label>
-      <button type="button" disabled={locked || !line || !quantityText(qty) || !/[1-9]/.test(qty) || !dateOk(date) || !reason.trim() || openDraft} onClick={() => { if (line) send({ operation:'CANCEL', line_id:line.id, qty:qty.trim().replace(',', '.'), effective_date:date }) }}>Batalkan sisa</button>
+      <button type="button" disabled={locked || !line || !quantityText(qty) || !/[1-9]/.test(qty) || !dateOk(date) || !reason.trim()} onClick={() => { if (line) send({ operation:'CANCEL', line_id:line.id, qty:qty.trim().replace(',', '.'), effective_date:date }) }}>Batalkan sisa</button>
       <button type="button" disabled={locked || openDraft || !reason.trim() || !selected.lines.some(l => /[1-9]/.test(l.remaining_qty))} onClick={() => send({ operation:'REOPEN_REMAINDER' })}>Buat draft penerimaan untuk sisa</button>
     </div>
-    {openDraft && <p>Selesaikan atau hapus draft penerimaan yang masih terbuka sebelum membatalkan sisa atau membuat draft baru.</p>}
+    {openDraft && <p>Draft penerimaan untuk sisa PO masih terbuka; posting draft itu sebelum membuat draft baru. Sisa yang tidak akan datang tetap bisa dibatalkan.</p>}
   </section>
 }
 
