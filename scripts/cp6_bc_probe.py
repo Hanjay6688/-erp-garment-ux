@@ -248,7 +248,7 @@ def fixture(cur,today,stock_qty=1000,cost='2.00',zones=True,days=6,purchase=True
     received=today-timedelta(days=days)
     fx=dict(code=code,category=str(cat),material=str(mat),main=str(main),other=str(other),fg=str(fg),inactive=str(inactive),mandor=str(mandor),
             cash=str(cash),received=received,pcs=pcs,supplier=str(supplier))
-    if not purchase:return fx
+    if not purchase:return zones_for(cur,fx,code) if zones else fx
     saved=internal(cur,'save_material_purchase_draft_v2',Jsonb(dict(purchase_number=code+'P',supplier_id=str(supplier),location_id=str(main),
         physical_at=local_at(received,9),change_reason='BC fixture receipt',lines=[dict(material_id=str(mat),qty=stock_qty,unit_price=cost,
         price_state='ESTIMATED',price_source='MANUAL_ESTIMATE')])),str(uuid.uuid4()),None)
@@ -256,7 +256,12 @@ def fixture(cur,today,stock_qty=1000,cost='2.00',zones=True,days=6,purchase=True
     fx=dict(code=code,category=str(cat),material=str(mat),main=str(main),other=str(other),fg=str(fg),inactive=str(inactive),mandor=str(mandor),
             cash=str(cash),purchase=str(saved['purchase_id']),item=str(one(cur,'select id from erp.material_purchase_items where purchase_id=%s',saved['purchase_id'])),
             received=received,pcs=pcs,supplier=str(supplier))
-    if zones and bc_installed(cur):
+    return zones_for(cur,fx,code) if zones else fx
+
+
+def zones_for(cur,fx,code):
+    """The three BC zones of a fixture (after BC only)."""
+    if bc_installed(cur):
         for kind in ('SERVICE_POST','INSPECTION','DAMAGED'):
             fx[kind]=svc(cur,'REGISTER_ZONE',dict(zone_kind=kind,location_code=code+kind[:2],location_name='BC '+kind,reason='BC probe zone'))['location_id']
     return fx
@@ -1118,6 +1123,36 @@ def all_c03_refusals(cur,today):
                    errors=errs,upload=upload['refusal'])
 
 
+def c12_opname_baseline(cur,today):
+    """ACC-C12 (M:5290; Fable: "baseline dicatat sebagai entri opening/adjustment, bukan nota/PO palsu; stok ditetapkan sekali ...
+    nilai yang tidak bersumber jelas ditandai pending, bukan final ... Dilarang: sistem mengarang nota/PO ... item sama dihitung dua
+    kali (opname + penerimaan normal berikutnya)"; r9: "do not fabricate contractor note or add duplicate stock. Unknown value
+    remains pending"). An opening count of 5 at a known cost 2.00 in the warehouse and 3 of unknown value found at the same count:
+    the 5 are opening stock, the 3 wait in the inspection area as pending value; no note, purchase or contractor debt is made;
+    a later ordinary receipt of 10 adds exactly 10."""
+    fx=fixture(cur,today,purchase=False)
+    rows=bbp.masters()
+    rows['OPENING_BALANCE_ITEM']=[dict(balance_type='MATERIAL',material_sku=fx['code'],location_code=fx['code']+'W',qty='5',unit_cost='2.00',control_key='STOCK',opening_source_key='OPNAME')]
+    rows['OPENING_CONTROL']=[dict(control_key='STOCK',balance_type='MATERIAL',qty='5',amount='10.00')]
+    rows['OPENING_ACCESSORY_CUSTODY']=[dict(custody_kind='PENDING_VALUE',custody_key='{C}-OPN',material_sku=fx['code'],location_code=fx['code']+'IN',
+                                            condition='WAITING',qty='3',notes='opname: dokumen dan harga asal hilang')]
+    if not bc_installed(cur):return no_route(cur,lambda:bbp.post_batch(cur,today,rows))
+    counts=lambda:q(cur,"""select (select count(*) from erp.contractor_material_issues),(select count(*) from erp.material_purchase_headers),
+        (select count(*) from erp.opening_subledger_balances)""")[0]
+    c0=counts();b0=ledger(cur)
+    batch,code,cutover=bbp.post_batch(cur,today,rows)
+    imported=delta(b0,ledger(cur));c1=counts()
+    lot=[l for l in ws(cur,dict(query=fx['code']))['lots'] if l['source_kind']=='OPENING_PENDING_VALUE']
+    main=stock(cur,fx['material'],fx['main']);inspection=stock(cur,fx['material'],fx['INSPECTION'])
+    saved=internal(cur,'save_material_purchase_draft_v2',Jsonb(dict(purchase_number=fx['code']+'R',supplier_id=fx['supplier'],location_id=fx['main'],
+        physical_at=local_at(today,9),change_reason='BC C12 penerimaan biasa',lines=[dict(material_id=fx['material'],qty=10,unit_price='2.00',
+        price_state='ESTIMATED',price_source='MANUAL_ESTIMATE')])),str(uuid.uuid4()),None)
+    internal(cur,'post_material_purchase_v2',saved['purchase_id'],str(uuid.uuid4()),saved['row_version'],'BC C12 penerimaan biasa')
+    return verdict(dict(opening_value_once=imported=={'MATERIAL_INVENTORY':D('10.00')},no_fabricated_documents=c1==c0,
+        counted_once=main==5 and inspection==0,unknown_value_pending=bool(lot) and lot[0]['value_status']=='Belum dinilai' and D(lot[0]['state']['waiting'])==3,
+        later_receipt_adds_exactly=stock(cur,fx['material'],fx['main'])==15),imported={k:str(v) for k,v in imported.items()},counts=[list(c0),list(c1)])
+
+
 # ================================================================ L: the six BA-era ALL states, import -> continuation -> inverse
 # Auditor round 11: P01, A01, A02, W01, W03 and C01 were routed in the writer's inventory (handoff §29.6) without a run. Each case
 # below imports the state, continues it through the existing native route and reverses it, against the r9 ALL oracle (and Fable's
@@ -1492,7 +1527,8 @@ PLAN=[('B01:FILL_POST_KEEPS_TOTAL','NO_ROUTE',b01_fill),
       ('ALL:C02_OLD_NOTE_PARTLY_PAID_RETURN','NO_ROUTE',all_c02),
       ('ALL:C02_IMPORT_REFUSALS','NO_ROUTE',all_c02_refusals),
       ('ALL:C03_CUSTODY_STATES','NO_ROUTE',all_c03),
-      ('ALL:C03_IMPORT_REFUSALS','NO_ROUTE',all_c03_refusals)]+L_CASES
+      ('ALL:C03_IMPORT_REFUSALS','NO_ROUTE',all_c03_refusals),
+      ('C12:OPNAME_BASELINE_INCOMPLETE_SOURCE','NO_ROUTE',c12_opname_baseline)]+L_CASES
 assert len({k for k,_,_ in PLAN})==len(PLAN),'BC_DUPLICATE_CASE_ID'
 
 
