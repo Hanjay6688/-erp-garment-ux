@@ -1,0 +1,24 @@
+{
+  "phase": "PICKUP_BROWSER_RETRY",
+  "tool_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
+  "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
+  "files": [
+    {
+      "path": "gpt_pickup_browser_rev2.mjs",
+      "sha256": "b2a93bec69de54a5060d80331de29d908786cd6a26f00ff4819bc4ffc8589127",
+      "bytes": 6148
+    },
+    {
+      "path": "browser_only.py",
+      "sha256": "7b28638625563686684de7e602184130710ad686e96bdec893e9ed7d1a3cc369",
+      "bytes": 125
+    },
+    {
+      "path": "../browser_round8/gpt_browser_fixture.py",
+      "sha256": "87ff3f918a5bfc802623d3471619ad65e8e09f9b25e22dcdb4bb9d3df324bb1a",
+      "bytes": 2980
+    }
+  ],
+  "label": "AUDITOR_SCENARIO",
+  "production_go": false
+}
