@@ -4,7 +4,7 @@ batch, minimum charge, scoped rates per model/size/colour) and the laundry polic
 25 Sep 2026: every CR and every ALL state built and tested in CP6; policy rows are application settings with a fail-closed
 default).
 
-New objects come from scripts/cp6_bd_objects_{policy,master,pricing,invoice,router}.sql; every existing function is taken from the
+New objects come from scripts/cp6_bd_objects_{policy,master,pricing,import,invoice,router}.sql; every existing function is taken from the
 definition the chain currently runs (AC/20 migrations, the AW, AY and BA T1 files) with checked substitutions only:
   L1 erp.save_laundry_qc_action_v1 (BA):
      POST_DELIVERY  inside the BD facade (context POST_PRICED_DELIVERY) the line takes the priced average rate (NULL while a
@@ -31,24 +31,39 @@ definition the chain currently runs (AC/20 migrations, the AW, AY and BA T1 file
 Laundry vendor invoices (scripts/cp6_bd_objects_invoice.sql, LAU-T16..T19, T21..T23): L3 also subtracts the estimate a posted
 invoice line released from the accrual, adds its product-cost variance to HPP (PO, group and lot), and stops a fully invoiced
 source from keeping the HPP pending.
+ALL-W05 physical (scripts/cp6_bd_objects_import.sql, src/initialImportCatalogBD.json):
+  L10 import pipeline (BC texts of erp.stage_migration_row, erp._validate_migration_batch_base, erp.finalize_migration_batch,
+      erp.save_initial_import_action_v1, erp.get_initial_import_workspace_v1, erp.initial_import_revision_v1): the files
+      OPENING_LAUNDRY_CLAIM and OPENING_LAUNDRY_UNINVOICED are validated and applied after BC's.
+  L11 erp.complete_initial_import_wip_v1, erp.initial_import_production_rows_v1, erp.guard_initial_import_po_completion_v1 (BB):
+      pieces held by a laundry claim are not in the remaining WIP (today and on every dated check of BA A3); pieces a resolved
+      claim lost count as done when the PO finishes; WIP_OUTPUT takes the claim operations (OPEN_CLAIM, RECOVER_CLAIM,
+      RESOLVE_CLAIM, CANCEL_CLAIM, REVERSE_CLAIM_EVENT) under the same locks and remaining check as a completion.
+  L12 erp.get_wip_control_v1 (AP): an opening row whose pieces a laundry claim still holds unresolved is listed as active.
+  L4 also reports BD_OPENING_LAUNDRY_PRICE_UNKNOWN: an opening uninvoiced record without an estimate, not yet fully billed.
 Label T1_FAMILY: development install on the disposable chain AN -> AU -> AV -> AW..BA -> BB -> BC, not a release package.
 
 Usage: python3 scripts/cp6_bd_build.py            # writes supabase/dev/cp6_bd_t1_family.sql
        python3 scripts/cp6_bd_build.py --check
 """
 from pathlib import Path
-import hashlib,re,sys
+import hashlib,json,re,sys
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'scripts'))
 from cp6_bc_build import last_definition,substitute
+import cp6_bc_build as bc
 
 M20=ROOT/'supabase/migrations/20260904111157_erp_v2_6_20_cp6_laundry_qc_fg_authoritative.sql'
 AC=ROOT/'supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql'
 AW=ROOT/'supabase/dev/cp6_aw_t1_family.sql'
 AY=ROOT/'supabase/dev/cp6_ay_t1_family.sql'
 BA=ROOT/'supabase/dev/cp6_ba_t1_family.sql'
-OBJECTS=[ROOT/f'scripts/cp6_bd_objects_{p}.sql' for p in ('policy','master','pricing','invoice','router')]
+OBJECTS=[ROOT/f'scripts/cp6_bd_objects_{p}.sql' for p in ('policy','master','pricing','import','invoice','router')]
+BB=ROOT/'supabase/dev/cp6_bb_t1_family.sql'
+BC=ROOT/'supabase/dev/cp6_bc_t1_family.sql'
+CATALOG_BD=ROOT/'src/initialImportCatalogBD.json'
+NEW_ENTITIES=['OPENING_LAUNDRY_CLAIM','OPENING_LAUNDRY_UNINVOICED']
 AJ=ROOT/'supabase/migrations/20260916202400_erp_v2_6_20aj_cp6_rework_output_lineage.sql'
 OUT=ROOT/'supabase/dev/cp6_bd_t1_family.sql'
 VERSION='v2.6.20bd'
@@ -184,6 +199,14 @@ BLOCKER_NEW='''  -- BD (LAU-05b, LAU-T12): a component price of a priced deliver
   where not bp.total_complete and ld.status not in('DRAFT','REVERSED') and ld.physical_at<v_end
     and not(ldl.estimated_rate_snapshot is null and ldl.qty_sent_pcs-coalesce(rc.costed_qty,0)>0);
 
+  -- BD (ALL-W05): laundry work returned before cutover whose value is still unknown (no estimate, not fully billed).
+  return query
+  select 'LAUNDRY'::text,'BD_OPENING_LAUNDRY_PRICE_UNKNOWN'::text,'POLICY'::text,'AS_OF'::text,u.receipt_date,
+    jsonb_build_object('opening_uninvoiced_id',u.id,'document_number',u.document_number,'vendor_id',u.vendor_id,'category',u.category,'qty',u.qty),
+    format('Nilai laundry saldo awal %s (%s) belum diketahui; isi estimasi atau posting invoice vendornya.',u.document_number,u.category)
+  from erp.bd_opening_laundry_uninvoiced_v1 u
+  where u.estimated_amount is null and u.receipt_date<=p_through and not erp.bd_opening_invoiced_v1(u.id);
+
 '''+BLOCKER_ANCHOR
 BLOCKER_SUBS=[(BLOCKER_ANCHOR,BLOCKER_NEW)]
 
@@ -244,13 +267,69 @@ RECEIPT_LINE_NEW=RECEIPT_LINE_OLD+'''  -- BD: a receipt line of a priced deliver
 '''
 RECEIPT_LINE_SUBS=[(RECEIPT_LINE_OLD,RECEIPT_LINE_NEW)]
 
+# ---------------------------------------------------------------- L10 import pipeline (BC texts)
+BC_LIST="'OPENING_ACCESSORY_NOTE_LINE','OPENING_ACCESSORY_CUSTODY'"
+BD_LIST=BC_LIST+','+bc.entities(NEW_ENTITIES)
+STAGE_SUBS=[(BC_LIST+") then\n    raise exception 'Unsupported migration entity_type %'",BD_LIST+") then\n    raise exception 'Unsupported migration entity_type %'")]
+BASE_SUBS=[(BC_LIST+")\n",BD_LIST+")\n")]
+FINAL_SUBS=[(BC_LIST+") and posted_entity_id is null)",BD_LIST+") and posted_entity_id is null)")]
+ROUTER_SUBS=[("     perform erp.bc_validate_imports_v1(b.id);\n","     perform erp.bc_validate_imports_v1(b.id);\n     perform erp.bd_validate_imports_v1(b.id);\n"),
+             ("       perform erp.bc_apply_imports_v1(b.id);\n","       perform erp.bc_apply_imports_v1(b.id);\n       perform erp.bd_apply_imports_v1(b.id);\n")]
+WS_SUBS=[("||erp.bc_import_workspace_v1(b.id);","||erp.bc_import_workspace_v1(b.id)||erp.bd_import_workspace_v1(b.id);")]
+REV_SUBS=[("   'bc',erp.bc_import_revision_part_v1(p_batch_id)\n )::text","   'bc',erp.bc_import_revision_part_v1(p_batch_id),\n   'bd',erp.bd_import_revision_part_v1(p_batch_id)\n )::text")]
+
+# ---------------------------------------------------------------- L11 opening WIP remaining (BB texts)
+COMPLETE_SUBS=[
+    (" select s.qty_pcs-coalesce(sum(o.qty_pcs),0)-erp.bb_wip_split_active_qty_v1(i.id) into v_remaining",
+     " select s.qty_pcs-coalesce(sum(o.qty_pcs),0)-erp.bb_wip_split_active_qty_v1(i.id)-erp.bd_opening_claim_held_qty_v1(i.id) into v_remaining"),
+    (" if v_op in('PICKUP','REVERSE_PICKUP','REVERSE_SPLIT') then return erp.bb_manage_opening_wip_v1(p_payload,s.opening_item_id);end if;\n",
+     " if v_op in('PICKUP','REVERSE_PICKUP','REVERSE_SPLIT') then return erp.bb_manage_opening_wip_v1(p_payload,s.opening_item_id);end if;\n"
+     " -- BD (ALL-W05): a laundry claim on opening WIP at a laundry vendor (open, recover, resolve, cancel, reverse an event).\n"
+     " if v_op in('OPEN_CLAIM','RECOVER_CLAIM','RESOLVE_CLAIM','CANCEL_CLAIM','REVERSE_CLAIM_EVENT') then\n"
+     "  return erp.bd_manage_opening_claim_v1(p_payload,s.opening_item_id);end if;\n"),
+    ("      -erp.bb_wip_split_net_asof_v1(i.id,d.day) left_qty\n",
+     "      -erp.bb_wip_split_net_asof_v1(i.id,d.day)-erp.bd_opening_claim_held_asof_v1(i.id,d.day) left_qty\n"),
+    ("          union select x.day from erp.bb_wip_split_days_v1(i.id) x(day)) d\n",
+     "          union select x.day from erp.bb_wip_split_days_v1(i.id) x(day)\n          union select x.day from erp.bd_opening_claim_days_v1(i.id) x(day)) d\n")]
+ROWS_SUBS=[("    s.qty_pcs-case when s.bs_case_id is null then coalesce(o.qty,0)+erp.bb_wip_split_active_qty_v1(s.opening_item_id) else coalesce(br.qty,0) end,",
+            "    s.qty_pcs-case when s.bs_case_id is null then coalesce(o.qty,0)+erp.bb_wip_split_active_qty_v1(s.opening_item_id)+erp.bd_opening_claim_held_qty_v1(s.opening_item_id) else coalesce(br.qty,0) end,"),
+           ("'bb',erp.bb_wip_row_part_v1(s.opening_item_id),","'bb',erp.bb_wip_row_part_v1(s.opening_item_id),'bd',erp.bd_wip_row_part_v1(s.opening_item_id),")]
+# ---------------------------------------------------------------- L12 WIP status (AP): an opening row with an open claim is active
+AP_MIG=ROOT/'supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql'
+WIP_CONTROL_SUBS=[("     where p_pattern_id is null and (v_filter='ALL' or ((x->>'remaining_qty_pcs')::integer>0)=(v_filter='ACTIVE'))\n",
+                   "     where p_pattern_id is null and (v_filter='ALL' or ((x->>'remaining_qty_pcs')::integer>0\n"
+                   "       -- BD (ALL-W05): pieces a laundry claim still holds unresolved keep the row active.\n"
+                   "       or coalesce((x->'bd'->>'held_qty_pcs')::integer-(x->'bd'->>'lost_qty_pcs')::integer,0)>0)=(v_filter='ACTIVE'))\n")]
+PO_GUARD_SUBS=[("      +erp.bb_wip_split_active_qty_v1(s.opening_item_id) end\n",
+                "      +erp.bb_wip_split_active_qty_v1(s.opening_item_id)+erp.bd_opening_claim_lost_qty_v1(s.opening_item_id) end\n")]
+
+
+def catalog():
+    base=bc.catalog();extra=json.loads(CATALOG_BD.read_text())
+    assert not set(base)&set(extra),'BD_CATALOG_OVERLAP'
+    for e in NEW_ENTITIES:assert e in extra,('BD_CATALOG_ENTITY_MISSING',e)
+    return {**base,**extra}
+
+
+def router():
+    body=substitute(last_definition(BC,'save_initial_import_action_v1'),ROUTER_SUBS,'router')
+    old=re.search(r"v_catalog constant jsonb:=('.*?')::jsonb;",body,re.S)
+    assert old and body.count(old.group(0))==1
+    return body.replace(old.group(0),'v_catalog constant jsonb:='+"'"+json.dumps(catalog(),ensure_ascii=False).replace("'","''")+"'"+'::jsonb;')
+
+
 REPLACED=['erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','erp.post_laundry_delivery(uuid)','erp.desired_laundry_accrual(uuid)',
           'erp.rebuild_po_hpp(uuid,text)','erp.period_blockers_v1(date,date)','erp.set_laundry_rate_owner_estimate_v1(uuid,numeric,text)',
-          'erp.validate_laundry_receipt_line()','erp.cp6_lot_failed_wash_cost_v2620e(uuid)','erp.guard_cp6_vendor_invoice_receipt_on_post_v2620()','erp.post_sale(uuid)']
+          'erp.validate_laundry_receipt_line()','erp.cp6_lot_failed_wash_cost_v2620e(uuid)','erp.guard_cp6_vendor_invoice_receipt_on_post_v2620()','erp.post_sale(uuid)',
+          'erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)','erp._validate_migration_batch_base(uuid)',
+          'erp.finalize_migration_batch(uuid)','erp.save_initial_import_action_v1(text,jsonb,uuid)',
+          'erp.get_initial_import_workspace_v1(uuid)','erp.initial_import_revision_v1(uuid)','erp.complete_initial_import_wip_v1(jsonb)',
+          'erp.initial_import_production_rows_v1(uuid)','erp.guard_initial_import_po_completion_v1()','erp.get_wip_control_v1(text,uuid,text,text)']
 NEW_TABLES=['bd_policy_settings_v1','bd_policy_setting_events_v1','bd_execution_context_v1','bd_laundry_vendor_terms_v1','bd_laundry_components_v1',
             'bd_laundry_component_rates_v1','bd_laundry_packages_v1','bd_laundry_package_components_v1','bd_laundry_package_rates_v1',
             'bd_laundry_scoped_rates_v1','bd_requests_v1','bd_laundry_priced_lines_v1','bd_laundry_charge_lines_v1','bd_laundry_charge_shares_v1',
-            'bd_laundry_size_estimates_v1','bd_laundry_receipt_allocations_v1','bd_laundry_invoices_v1','bd_laundry_invoice_lines_v1']
+            'bd_laundry_size_estimates_v1','bd_laundry_receipt_allocations_v1','bd_laundry_invoices_v1','bd_laundry_invoice_lines_v1',
+            'bd_opening_laundry_claims_v1','bd_opening_laundry_claim_events_v1','bd_opening_laundry_uninvoiced_v1']
 
 
 def objects():
@@ -271,15 +350,25 @@ def build():
     receipt_line=substitute(last_definition(M20,'validate_laundry_receipt_line'),RECEIPT_LINE_SUBS,'receipt line')
     sale=substitute(last_definition(AG,'post_sale',end='$function$\n$definition$;')[:-len('\n$definition$;')]+';',SALE_SUBS,'post sale')
     attempt=substitute(last_definition(AJ,'cp6_lot_failed_wash_cost_v2620e',end='$function$\n$definition$;')[:-len('\n$definition$;')]+';',ATTEMPT_SUBS,'attempt lot cost')
+    stage=substitute(last_definition(BC,'stage_migration_row'),STAGE_SUBS,'stage')
+    base=substitute(last_definition(BC,'_validate_migration_batch_base'),BASE_SUBS,'base')
+    final=substitute(last_definition(BC,'finalize_migration_batch'),FINAL_SUBS,'finalize')
+    ws=substitute(last_definition(BC,'get_initial_import_workspace_v1'),WS_SUBS,'import workspace')
+    rev=substitute(last_definition(BC,'initial_import_revision_v1'),REV_SUBS,'revision')
+    complete=substitute(last_definition(BB,'complete_initial_import_wip_v1'),COMPLETE_SUBS,'complete wip')
+    rows=substitute(last_definition(BB,'initial_import_production_rows_v1'),ROWS_SUBS,'production rows')
+    po_guard=substitute(last_definition(BB,'guard_initial_import_po_completion_v1'),PO_GUARD_SUBS,'po guard')
+    wip_control=substitute(last_definition(AP_MIG,'get_wip_control_v1'),WIP_CONTROL_SUBS,'wip control')
     parts=['-- CP6 BD priced laundry deliveries (LAU-05b) and laundry policy settings LAU-DEC01..06 (owner decision 25 Sep 2026): T1_FAMILY development install (NOT a release package).',
-           '-- Generated by scripts/cp6_bd_build.py from scripts/cp6_bd_objects_*.sql, the 20/AC migrations and the AW/AY/BA T1 files; do not edit by hand.',
+           '-- Generated by scripts/cp6_bd_build.py from scripts/cp6_bd_objects_*.sql, the 20/AC/AG/AJ migrations and the AW/AY/BA/BB/BC T1 files; do not edit by hand.',
            'begin;',"set local lock_timeout='10s';set local statement_timeout='240s';set local search_path='';",
            'do $t1_guard$','begin',
            " if not exists(select 1 from erp.schema_migrations where version='v2.6.20bc') then raise exception 'BD_T1_REQUIRES_BC'; end if;",
            f" if exists(select 1 from erp.schema_migrations where version='{VERSION}') or to_regclass('erp.bd_laundry_priced_lines_v1') is not null then raise exception 'BD_T1_ALREADY_INSTALLED'; end if;",
            'end $t1_guard$;',objects(),facade,post_delivery,accrual,rebuild,blockers,estimate,receipt_line,attempt,invoice_guard(),sale,
+           stage,base,final,router(),ws,rev,complete,rows,po_guard,wip_control,
            f"insert into erp.schema_migrations(version,description) values('{VERSION}',"
-           "'T1_FAMILY development install of BD (priced laundry deliveries: package, components with partial coverage, lump sum per batch, minimum charge, scoped rates; exact per-size receipt shares; policy settings LAU-DEC01..06); not a release package');",
+           "'T1_FAMILY development install of BD (priced laundry deliveries: package, components with partial coverage, lump sum per batch, minimum charge, scoped rates; exact per-size receipt shares; laundry vendor invoices; policy settings LAU-DEC01..06; ALL-W05 laundry claims and uninvoiced returns at cutover); not a release package');",
            'commit;','']
     return '\n'.join(parts)
 

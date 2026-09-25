@@ -4,6 +4,16 @@ export type OpeningWipSplit = { id: string; bs_case_id: string; bs_number: strin
 export type OpeningWipState = { current_stage: 'CUTTING' | 'SEWING' | 'LAUNDRY' | 'QC'; location_code: string | null;
   pickup: { id: string; contractor_code: string; contractor_name: string; date: string; po_contractor_assigned: boolean } | null;
   split_qty_pcs: number; splits: OpeningWipSplit[] }
+/** BD (ALL-W05): documented laundry claims on an opening WIP at a laundry vendor. Held pieces are not in the remaining WIP;
+ *  lost pieces (a resolved claim) stay held for good. Quantities and states only: the row is also read by production viewers. */
+export type OpeningLaundryClaimEvent = { event_id: string; kind: 'RECOVER' | 'RESOLVE'; qty: number; date: string;
+  resolution: 'SETTLED' | 'WRITTEN_OFF' | null; reversed: boolean }
+export type OpeningLaundryClaim = { claim_id: string; claim_number: string; claim_type: 'MISSING' | 'STUCK' | 'DAMAGE'; origin: 'IMPORT' | 'CONTINUATION';
+  qty_claimed: number; recovered: number; lost: number; state: 'OPEN' | 'RECOVERED' | 'SETTLED' | 'WRITTEN_OFF' | 'CANCELLED'; claim_date: string;
+  dispatch_number: string | null; vendor_code: string; row_version: string; events: OpeningLaundryClaimEvent[] }
+export type OpeningLaundryClaims = { held_qty_pcs: number; lost_qty_pcs: number; claims: OpeningLaundryClaim[] }
+export const CLAIM_TYPE_LABEL = { MISSING: 'Hilang', STUCK: 'Tertahan', DAMAGE: 'Rusak' } as const
+export const CLAIM_STATE_LABEL = { OPEN: 'Terbuka', RECOVERED: 'Sudah kembali', SETTLED: 'Selesai dengan kompensasi', WRITTEN_OFF: 'Dihapus', CANCELLED: 'Dibatalkan' } as const
 export type InitialProductionSource = {
   opening_item_id: string; source_key: string; batch_id: string; po_number: string;
   balance_type: 'WIP' | 'BS'; stage: 'CUTTING' | 'SEWING' | 'LAUNDRY' | 'QC'; size_code: string;
@@ -12,6 +22,7 @@ export type InitialProductionSource = {
   original_amount?: string; current_amount?: string;
   outputs: { id: string; qty_pcs: number; date: string; reversed: boolean }[];
   bb?: OpeningWipState;
+  bd?: OpeningLaundryClaims;
 }
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 function object(value: unknown): Record<string, unknown> {
@@ -56,6 +67,33 @@ function openingWipState(r: Record<string, unknown>): OpeningWipState {
   return { current_stage:r.current_stage as OpeningWipState['current_stage'], location_code:r.location_code === null || r.location_code === undefined ? null : text(r.location_code),
     pickup, split_qty_pcs, splits }
 }
+function laundryClaims(value: unknown): OpeningLaundryClaims {
+  const part = object(value)
+  if (!Array.isArray(part.claims)) throw new Error('Klaim laundry saldo awal tidak lengkap.')
+  const claims = part.claims.map((candidate): OpeningLaundryClaim => {
+    const c = object(candidate)
+    if (!['MISSING', 'STUCK', 'DAMAGE'].includes(String(c.claim_type)) || (c.origin !== 'IMPORT' && c.origin !== 'CONTINUATION')
+      || !['OPEN', 'RECOVERED', 'SETTLED', 'WRITTEN_OFF', 'CANCELLED'].includes(String(c.state)) || !Array.isArray(c.events)
+      || typeof c.row_version !== 'string' || !/^[1-9][0-9]{0,18}$/.test(c.row_version)) throw new Error('Klaim laundry saldo awal tidak valid.')
+    const events = c.events.map((value): OpeningLaundryClaimEvent => {
+      const e = object(value)
+      if ((e.kind !== 'RECOVER' && e.kind !== 'RESOLVE') || typeof e.reversed !== 'boolean'
+        || (e.kind === 'RESOLVE' ? e.resolution !== 'SETTLED' && e.resolution !== 'WRITTEN_OFF' : e.resolution !== null)) throw new Error('Kejadian klaim laundry tidak valid.')
+      return { event_id:text(e.event_id, true), kind:e.kind, qty:count(e.qty), date:day(e.date), resolution:e.resolution as OpeningLaundryClaimEvent['resolution'], reversed:e.reversed }
+    })
+    const qty_claimed = count(c.qty_claimed), recovered = count(c.recovered), lost = count(c.lost)
+    const active = (kind: 'RECOVER' | 'RESOLVE') => events.filter(e => e.kind === kind && !e.reversed).reduce((sum, e) => sum + e.qty, 0)
+    if (!qty_claimed || recovered !== active('RECOVER') || lost !== active('RESOLVE') || recovered + lost > qty_claimed) throw new Error('Jumlah klaim laundry tidak cocok.')
+    return { claim_id:text(c.claim_id, true), claim_number:text(c.claim_number), claim_type:c.claim_type as OpeningLaundryClaim['claim_type'], origin:c.origin,
+      qty_claimed, recovered, lost, state:c.state as OpeningLaundryClaim['state'], claim_date:day(c.claim_date),
+      dispatch_number:c.dispatch_number === null ? null : text(c.dispatch_number), vendor_code:text(c.vendor_code), row_version:c.row_version, events }
+  })
+  const held_qty_pcs = count(part.held_qty_pcs), lost_qty_pcs = count(part.lost_qty_pcs)
+  const live = claims.filter(c => c.state !== 'CANCELLED')
+  if (held_qty_pcs !== live.reduce((sum, c) => sum + c.qty_claimed - c.recovered, 0) || lost_qty_pcs !== live.reduce((sum, c) => sum + c.lost, 0))
+    throw new Error('Jumlah klaim laundry tidak cocok.')
+  return { held_qty_pcs, lost_qty_pcs, claims }
+}
 export function parseInitialProductionSources(value: unknown, withMoney = false): InitialProductionSource[] {
   // A missing collection is an incomplete read, not an empty one; only an explicit [] establishes zero.
   if (value === undefined) throw new Error('Daftar saldo produksi tidak terbaca lengkap.')
@@ -68,8 +106,10 @@ export function parseInitialProductionSources(value: unknown, withMoney = false)
     if (r.balance_type !== 'WIP' && r.balance_type !== 'BS') throw new Error('Jenis saldo produksi tidak valid.')
     if (!['CUTTING', 'SEWING', 'LAUNDRY', 'QC'].includes(String(r.stage)) || (r.stage === 'CUTTING' && r.balance_type !== 'WIP')) throw new Error('Tahap saldo produksi tidak valid.')
     const bb = r.bb === undefined && r.current_stage === undefined ? undefined : openingWipState(r)
-    const qty = count(r.qty_pcs), remaining = count(r.remaining_qty_pcs), completed = count(r.completed_qty_pcs), split = bb?.split_qty_pcs ?? 0
-    if (!qty || remaining > qty || completed > qty || (r.balance_type === 'WIP' && remaining + completed + split !== qty)) throw new Error('Sisa saldo produksi tidak cocok.')
+    const bd = r.bd === undefined ? undefined : laundryClaims(r.bd)
+    if (bd && bd.claims.length && (r.balance_type !== 'WIP' || r.stage !== 'LAUNDRY')) throw new Error('Klaim laundry hanya untuk WIP di vendor laundry.')
+    const qty = count(r.qty_pcs), remaining = count(r.remaining_qty_pcs), completed = count(r.completed_qty_pcs), split = bb?.split_qty_pcs ?? 0, held = bd?.held_qty_pcs ?? 0
+    if (!qty || remaining > qty || completed > qty || (r.balance_type === 'WIP' && remaining + completed + split + held !== qty)) throw new Error('Sisa saldo produksi tidak cocok.')
     if (!Array.isArray(r.outputs)) throw new Error('Riwayat hasil WIP tidak lengkap.')
     const outputs = r.outputs.map(value => {
       const o = object(value)
@@ -79,6 +119,6 @@ export function parseInitialProductionSources(value: unknown, withMoney = false)
     return { opening_item_id:id, source_key:text(r.source_key), batch_id:text(r.batch_id, true), po_number:text(r.po_number),
       balance_type:r.balance_type, stage:r.stage as InitialProductionSource['stage'], size_code:text(r.size_code), qty_pcs:qty, remaining_qty_pcs:remaining, completed_qty_pcs:completed,
       contractor_name:r.contractor_name === null ? null : text(r.contractor_name), vendor_name:r.vendor_name === null ? null : text(r.vendor_name),
-      ...(withMoney ? { original_amount:money(r.original_amount), current_amount:money(r.current_amount) } : {}), outputs, ...(bb ? { bb } : {}) }
+      ...(withMoney ? { original_amount:money(r.original_amount), current_amount:money(r.current_amount) } : {}), outputs, ...(bb ? { bb } : {}), ...(bd ? { bd } : {}) }
   })
 }

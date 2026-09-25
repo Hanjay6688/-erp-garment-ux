@@ -1,0 +1,44 @@
+{
+  "OPENING_LAUNDRY_CLAIM": {
+    "label": "Klaim laundry yang terdokumentasi atas WIP di vendor (hilang, tertahan, rusak)",
+    "required": [
+      "claim_number",
+      "source_key",
+      "vendor_code",
+      "claim_type",
+      "qty",
+      "claim_date"
+    ],
+    "fields": {
+      "claim_number": "Nomor klaim",
+      "source_key": "Kode rincian WIP laundry (opening_source_key)",
+      "vendor_code": "Kode laundry (sama dengan pemegang WIP)",
+      "claim_type": "Jenis klaim (MISSING, STUCK, DAMAGE)",
+      "qty": "Jumlah PCS yang diklaim",
+      "claim_date": "Tanggal klaim (sebelum atau pada tanggal saldo awal)",
+      "dispatch_number": "Nomor kirim laundry lama",
+      "notes": "Catatan"
+    }
+  },
+  "OPENING_LAUNDRY_UNINVOICED": {
+    "label": "Hasil laundry yang sudah kembali sebelum cutover tetapi belum ditagih vendor",
+    "required": [
+      "document_number",
+      "vendor_code",
+      "receipt_date",
+      "category",
+      "qty"
+    ],
+    "fields": {
+      "document_number": "Nomor terima laundry lama",
+      "vendor_code": "Kode laundry",
+      "receipt_date": "Tanggal terima (sebelum atau pada tanggal saldo awal)",
+      "category": "Kategori tagihan (GOOD, BS, FAILED_ATTEMPT)",
+      "qty": "Jumlah PCS belum ditagih",
+      "estimated_amount": "Estimasi tagihan yang terbukti (kosong = belum diketahui)",
+      "po_number": "Nomor PO asal",
+      "dispatch_number": "Nomor kirim laundry lama",
+      "notes": "Catatan"
+    }
+  }
+}

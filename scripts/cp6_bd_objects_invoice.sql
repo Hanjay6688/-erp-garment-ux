@@ -11,6 +11,10 @@
 -- reversed; a paid one cannot (reverse the payment first, or correct with a correction line). The payable is an ordinary
 -- erp.vendor_invoices row (total >= 0), so vendor payments, AP checks and aging see it; the journal is VENDOR_INVOICE on it.
 -- The receipt lines stay ESTIMATED: the released estimate and the product variance are read by accrual and HPP.
+-- ALL-W05: a line may instead bill an opening record of laundry work returned before cutover and not yet billed
+-- (opening_uninvoiced_id, scripts/cp6_bd_objects_import.sql): its capacity is the record's quantity in its one category, it
+-- releases the record's opening accrual (Dr ACCRUED_MANUFACTURING; nothing while the estimate is unknown), and a difference is
+-- no PO's product cost, so it needs LAU-DEC06 VARIANCE_ACCOUNT (BD_OPENING_VARIANCE_NEEDS_ACCOUNT otherwise).
 
 create table erp.bd_laundry_invoices_v1(
   id uuid primary key default gen_random_uuid(),
@@ -46,7 +50,9 @@ create table erp.bd_laundry_invoice_lines_v1(
   invoice_id uuid not null references erp.bd_laundry_invoices_v1(id),
   line_no integer not null,
   line_kind text not null check(line_kind in('BILL','CORRECTION')),
-  receipt_line_id uuid not null references erp.laundry_receipt_lines(id),
+  receipt_line_id uuid references erp.laundry_receipt_lines(id),
+  -- ALL-W05: or an opening record of laundry work returned before cutover and not yet billed (scripts/cp6_bd_objects_import.sql).
+  opening_uninvoiced_id uuid references erp.bd_opening_laundry_uninvoiced_v1(id),
   category text not null check(category in('GOOD','BS','FAILED_ATTEMPT')),
   qty integer not null check(qty>=0),
   amount numeric(18,2) not null,
@@ -60,9 +66,11 @@ create table erp.bd_laundry_invoice_lines_v1(
   product_variance numeric(18,2),
   completes_source boolean not null default false,
   unique(invoice_id,line_no),
-  check((line_kind='BILL' and qty>0 and amount>=0) or (line_kind='CORRECTION' and qty=0 and amount<>0))
+  check((line_kind='BILL' and qty>0 and amount>=0) or (line_kind='CORRECTION' and qty=0 and amount<>0)),
+  check(num_nonnulls(receipt_line_id,opening_uninvoiced_id)=1)
 );
 create index bd_laundry_invoice_lines_v1_source on erp.bd_laundry_invoice_lines_v1(receipt_line_id);
+create index bd_laundry_invoice_lines_v1_opening on erp.bd_laundry_invoice_lines_v1(opening_uninvoiced_id);
 
 -- ---------------------------------------------------------------- source facts
 -- Pieces and capacity of a receipt line per category (a failed-wash attempt line holds only FAILED_ATTEMPT).
@@ -116,6 +124,28 @@ AS $function$
     where l.receipt_line_id=p_receipt_line and l.completes_source and i.status='POSTED')
 $function$;
 
+-- ALL-W05: the same facts of an opening uninvoiced record (one category, its quantity).
+CREATE OR REPLACE FUNCTION erp.bd_opening_billed_v1(p_source uuid)
+ RETURNS integer LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select coalesce(sum(l.qty),0)::integer from erp.bd_laundry_invoice_lines_v1 l join erp.bd_laundry_invoices_v1 i on i.id=l.invoice_id
+  where l.opening_uninvoiced_id=p_source and l.line_kind='BILL' and i.status='POSTED'
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.bd_opening_released_v1(p_source uuid)
+ RETURNS numeric LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select coalesce(sum(l.released_estimate),0) from erp.bd_laundry_invoice_lines_v1 l join erp.bd_laundry_invoices_v1 i on i.id=l.invoice_id
+  where l.opening_uninvoiced_id=p_source and i.status='POSTED'
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.bd_opening_invoiced_v1(p_source uuid)
+ RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select exists(select 1 from erp.bd_laundry_invoice_lines_v1 l join erp.bd_laundry_invoices_v1 i on i.id=l.invoice_id
+    where l.opening_uninvoiced_id=p_source and l.completes_source and i.status='POSTED')
+$function$;
+
 -- A receipt billed by a posted invoice cannot be reversed (the baseline refuses the same for its own invoice items).
 CREATE OR REPLACE FUNCTION erp.bd_guard_invoiced_receipt_v1()
  RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
@@ -136,6 +166,7 @@ CREATE OR REPLACE FUNCTION erp.bd_invoice_lines_json_v1(p_invoice uuid)
  RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
 AS $function$
   select coalesce(jsonb_agg(jsonb_build_object('id',l.id,'line_no',l.line_no,'line_kind',l.line_kind,'receipt_line_id',l.receipt_line_id,
+    'opening_uninvoiced_id',l.opening_uninvoiced_id,
     'category',l.category,'qty',l.qty,'amount',l.amount::text,'note',l.note,'po_id',l.po_id,'discount_share',l.discount_share::text,
     'rounding_share',l.rounding_share::text,'net_amount',l.net_amount::text,'released_estimate',l.released_estimate::text,
     'variance',l.variance::text,'product_variance',l.product_variance::text,'completes_source',l.completes_source) order by l.line_no),'[]'::jsonb)
@@ -160,7 +191,7 @@ CREATE OR REPLACE FUNCTION erp.bd_save_invoice_draft_v1(p_payload jsonb,p_reques
  RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
 AS $function$
 declare v_id uuid;i erp.bd_laundry_invoices_v1%rowtype;v_vendor uuid;v_x jsonb;v_no integer:=0;v_rl record;v_kind text;v_qty integer;v_amount numeric;
-  v_rounding numeric;
+  v_rounding numeric;v_open erp.bd_opening_laundry_uninvoiced_v1%rowtype;
 begin
   perform erp.require_owner_admin();perform erp.require_permission('finance.hpp.manage');
   perform erp._cp3_assert_closed_json_object(p_payload,array['vendor_id','invoice_number','invoice_date','header_total','lines'],
@@ -202,8 +233,10 @@ begin
   end if;
   for v_x in select value from jsonb_array_elements(p_payload->'lines') loop
     v_no:=v_no+1;
-    perform erp._cp3_assert_closed_json_object(v_x,array['line_kind','receipt_line_id','category','qty','amount'],
-      array['line_kind','receipt_line_id','category','qty','amount','note'],'invoice line');
+    perform erp._cp3_assert_closed_json_object(v_x,array['line_kind','category','qty','amount'],
+      array['line_kind','receipt_line_id','opening_uninvoiced_id','category','qty','amount','note'],'invoice line');
+    if (v_x ? 'receipt_line_id')=(v_x ? 'opening_uninvoiced_id') then
+      raise exception 'BD_INVOICE_SOURCE: setiap baris menunjuk satu sumber, baris penerimaan (receipt_line_id) atau penerimaan saldo awal (opening_uninvoiced_id)';end if;
     v_kind:=v_x->>'line_kind';
     if v_kind not in('BILL','CORRECTION') then raise exception 'BD_INVOICE_LINE_KIND: BILL atau CORRECTION';end if;
     if v_x->>'category' not in('GOOD','BS','FAILED_ATTEMPT') then raise exception 'BD_INVOICE_CATEGORY: GOOD, BS atau FAILED_ATTEMPT';end if;
@@ -214,6 +247,15 @@ begin
     v_amount:=(v_x->>'amount')::numeric;
     if v_kind='BILL' and (v_qty<=0 or v_amount<0) then raise exception 'BD_INVOICE_LINE: baris tagih wajib qty > 0 dan nominal >= 0';end if;
     if v_kind='CORRECTION' and (v_qty<>0 or v_amount=0) then raise exception 'BD_INVOICE_LINE: baris koreksi wajib qty 0 dan nominal tidak nol';end if;
+    if v_x ? 'opening_uninvoiced_id' then
+      select * into v_open from erp.bd_opening_laundry_uninvoiced_v1 where id=erp.bd_uuid_v1(v_x,'opening_uninvoiced_id',true);
+      if v_open.id is null then raise exception 'BD_INVOICE_SOURCE: penerimaan laundry saldo awal tidak ditemukan';end if;
+      if v_open.vendor_id<>v_vendor then raise exception 'BD_INVOICE_VENDOR: penerimaan saldo awal milik vendor lain';end if;
+      if v_open.category<>v_x->>'category' then raise exception 'BD_INVOICE_CATEGORY: penerimaan saldo awal ini berkategori %',v_open.category;end if;
+      insert into erp.bd_laundry_invoice_lines_v1(invoice_id,line_no,line_kind,opening_uninvoiced_id,category,qty,amount,note,po_id)
+      values(i.id,v_no,v_kind,v_open.id,v_x->>'category',v_qty,v_amount,nullif(btrim(coalesce(v_x->>'note','')),''),v_open.po_id);
+      continue;
+    end if;
     select rl.id,d.vendor_id,d.po_id,r.status into v_rl from erp.laundry_receipt_lines rl join erp.laundry_receipts r on r.id=rl.receipt_id
       join erp.laundry_delivery_lines dl on dl.id=rl.delivery_line_id join erp.laundry_deliveries d on d.id=dl.delivery_id
       where rl.id=erp.bd_uuid_v1(v_x,'receipt_line_id',true);
@@ -246,7 +288,7 @@ AS $function$
 declare i erp.bd_laundry_invoices_v1%rowtype;l record;v_dec02 jsonb;v_dec03 jsonb;v_dec06 jsonb;v_versions jsonb:='{}'::jsonb;v_billable jsonb;
   v_gross numeric:=0;v_positive numeric:=0;v_payable numeric;v_weights integer[]:='{}';v_ids uuid[]:='{}';v_split numeric[];k integer;v_last uuid;
   v_pool numeric;v_pieces integer;v_prior numeric;v_released numeric;v_complete boolean;v_cap integer;v_billed integer;v_paid boolean;
-  v_lines jsonb:='[]'::jsonb;v_po record;v_journal uuid;v_group uuid;v_line_ids uuid[];
+  v_lines jsonb:='[]'::jsonb;v_po record;v_journal uuid;v_group uuid;v_line_ids uuid[];v_net numeric;v_open_rel numeric;v_open_var numeric;
 begin
   perform erp.require_owner_admin();perform erp.require_permission('finance.hpp.manage');
   perform erp._cp3_assert_closed_json_object(p_payload,array['invoice_id','expected_version'],array['invoice_id','expected_version'],'post invoice');
@@ -278,6 +320,8 @@ begin
   end loop;
   select array_agg(distinct x.receipt_line_id order by x.receipt_line_id) into v_line_ids from erp.bd_laundry_invoice_lines_v1 x where x.invoice_id=i.id;
   perform 1 from erp.laundry_receipt_lines where id=any(v_line_ids) order by id for update;
+  perform 1 from erp.bd_opening_laundry_uninvoiced_v1 where id in(select x.opening_uninvoiced_id from erp.bd_laundry_invoice_lines_v1 x where x.invoice_id=i.id)
+    order by id for update;
   -- Discount spread over the billed amounts (largest remainder on cents); rounding on the last billing line.
   for l in select * from erp.bd_laundry_invoice_lines_v1 where invoice_id=i.id order by line_no loop
     v_gross:=v_gross+l.amount;
@@ -299,8 +343,44 @@ begin
     raise exception 'BD_INVOICE_TOTAL_MISMATCH: total invoice % tidak sama dengan baris - diskon + pembulatan + pajak = %',i.header_total,v_payable;end if;
   if i.header_total<=0 then raise exception 'BD_INVOICE_TOTAL_MISMATCH: total invoice harus lebih dari 0';end if;
   -- Each line in order: category billable, capacity, released estimate, variance.
-  for l in select x.*,rl.actual_cost,rl.actual_cost_status,rl.delivery_line_id from erp.bd_laundry_invoice_lines_v1 x
-      join erp.laundry_receipt_lines rl on rl.id=x.receipt_line_id where x.invoice_id=i.id order by x.line_no loop
+  for l in select x.*,rl.actual_cost,rl.actual_cost_status,rl.delivery_line_id,u.accrued_amount opening_pool,u.qty opening_qty
+      from erp.bd_laundry_invoice_lines_v1 x left join erp.laundry_receipt_lines rl on rl.id=x.receipt_line_id
+      left join erp.bd_opening_laundry_uninvoiced_v1 u on u.id=x.opening_uninvoiced_id where x.invoice_id=i.id order by x.line_no loop
+    -- ALL-W05: an opening record of work returned before cutover releases its opening accrual (none while its estimate is
+    -- unknown); the difference is not a PO's product cost, so it needs the owner's LAU-DEC06 variance account.
+    if l.opening_uninvoiced_id is not null then
+      if not v_billable @> to_jsonb(l.category) then
+        raise exception 'BD_CATEGORY_NOT_BILLABLE: LAU-DEC02 tidak menetapkan % sebagai qty yang ditagih',l.category;end if;
+      v_pool:=l.opening_pool;
+      v_prior:=erp.bd_opening_released_v1(l.opening_uninvoiced_id)+coalesce((select sum(x.released_estimate) from erp.bd_laundry_invoice_lines_v1 x
+        where x.invoice_id=i.id and x.opening_uninvoiced_id=l.opening_uninvoiced_id and x.line_no<l.line_no),0);
+      if l.line_kind='BILL' then
+        v_billed:=erp.bd_opening_billed_v1(l.opening_uninvoiced_id)+coalesce((select sum(x.qty) from erp.bd_laundry_invoice_lines_v1 x
+          where x.invoice_id=i.id and x.opening_uninvoiced_id=l.opening_uninvoiced_id and x.line_kind='BILL' and x.line_no<l.line_no),0);
+        if v_billed+l.qty>l.opening_qty then
+          raise exception 'BD_INVOICE_CAPACITY: % % sudah ditagih dari % yang tersedia pada penerimaan saldo awal ini; diminta %',v_billed,l.category,l.opening_qty,l.qty;end if;
+        v_complete:=v_billed+l.qty>=l.opening_qty;
+        if v_complete then v_released:=v_pool-v_prior;
+        else v_released:=least(round(v_pool*l.qty/l.opening_qty,2),v_pool-v_prior);end if;
+      else
+        if not exists(select 1 from erp.bd_laundry_invoice_lines_v1 x join erp.bd_laundry_invoices_v1 y on y.id=x.invoice_id
+            where x.opening_uninvoiced_id=l.opening_uninvoiced_id and x.line_kind='BILL' and (y.status='POSTED' or (y.id=i.id and x.line_no<l.line_no))) then
+          raise exception 'BD_CORRECTION_WITHOUT_BILL: koreksi hanya untuk sumber yang sudah ditagih';end if;
+        select exists(select 1 from erp.bd_laundry_invoice_lines_v1 x join erp.bd_laundry_invoices_v1 y on y.id=x.invoice_id
+            join erp.vendor_payments p on p.vendor_invoice_id=y.id and p.status='POSTED'
+            where x.opening_uninvoiced_id=l.opening_uninvoiced_id and y.status='POSTED') into v_paid;
+        if v_paid and v_dec06->>'after_payment'<>'CORRECTION_DOCUMENT' then
+          raise exception 'BD_PAID_CORRECTION_REFUSED: invoice sumber sudah dibayar dan LAU-DEC06 tidak mengizinkan dokumen koreksi';end if;
+        v_released:=0;v_complete:=false;
+      end if;
+      if v_released<0 then raise exception 'BD_INTERNAL: estimasi yang dilepas negatif';end if;
+      v_net:=l.amount-l.discount_share+l.rounding_share;
+      if v_net-v_released<>0 and v_dec06->>'variance_mode'<>'VARIANCE_ACCOUNT' then
+        raise exception 'BD_OPENING_VARIANCE_NEEDS_ACCOUNT: selisih % pada penerimaan laundry saldo awal bukan biaya produk PO; LAU-DEC06 harus memakai akun selisih (VARIANCE_ACCOUNT)',v_net-v_released;end if;
+      update erp.bd_laundry_invoice_lines_v1 x set net_amount=v_net,released_estimate=v_released,variance=v_net-v_released,product_variance=0,
+        completes_source=v_complete where x.id=l.id;
+      continue;
+    end if;
     if l.actual_cost_status<>'ESTIMATED' or l.actual_cost is null then
       raise exception 'BD_INVOICE_SOURCE_NOT_ESTIMATED: baris penerimaan belum berbiaya estimasi atau sudah final (status %)',l.actual_cost_status;end if;
     if not erp.bd_line_complete_v1(l.delivery_line_id) then
@@ -346,7 +426,7 @@ begin
     raise exception 'BD_INVOICE_LINE: nilai bersih baris tagih negatif';end if;
   -- Journal: cost per PO (WIP), variance account when chosen, input tax, payable to the vendor.
   for v_po in select po_id,sum(net_amount) net,sum(released_estimate) rel,sum(variance) var from erp.bd_laundry_invoice_lines_v1
-      where invoice_id=i.id group by po_id order by po_id loop
+      where invoice_id=i.id and opening_uninvoiced_id is null group by po_id order by po_id loop
     if v_dec06->>'variance_mode'='PRODUCT_COST' then
       if v_po.net<>0 then v_lines:=v_lines||jsonb_build_object('mapping_key','WIP','debit',greatest(v_po.net,0),'credit',greatest(-v_po.net,0),'po_id',v_po.po_id,'vendor_id',i.vendor_id);end if;
     else
@@ -355,6 +435,13 @@ begin
         'credit',greatest(-v_po.var,0),'po_id',v_po.po_id,'vendor_id',i.vendor_id,'description','Selisih invoice laundry');end if;
     end if;
   end loop;
+  -- ALL-W05: opening records release the opening accrual; their difference goes to the owner's variance account.
+  select coalesce(sum(released_estimate),0),coalesce(sum(variance),0) into v_open_rel,v_open_var from erp.bd_laundry_invoice_lines_v1
+    where invoice_id=i.id and opening_uninvoiced_id is not null;
+  if v_open_rel<>0 then v_lines:=v_lines||jsonb_build_object('mapping_key','ACCRUED_MANUFACTURING','debit',v_open_rel,'credit',0,'vendor_id',i.vendor_id,
+    'description','Akrual laundry saldo awal');end if;
+  if v_open_var<>0 then v_lines:=v_lines||jsonb_build_object('account_id',v_dec06->>'variance_account_id','debit',greatest(v_open_var,0),
+    'credit',greatest(-v_open_var,0),'vendor_id',i.vendor_id,'description','Selisih invoice laundry saldo awal');end if;
   if i.tax_amount>0 then v_lines:=v_lines||jsonb_build_object('account_id',v_dec03->>'tax_account_id','debit',i.tax_amount,'credit',0,'vendor_id',i.vendor_id,'description','Pajak masukan invoice laundry');end if;
   v_lines:=v_lines||jsonb_build_object('mapping_key','AP_VENDOR','debit',0,'credit',i.header_total,'vendor_id',i.vendor_id);
   -- The payable as an ordinary laundry vendor invoice (payments and AP checks read it).
@@ -376,7 +463,7 @@ CREATE OR REPLACE FUNCTION erp.bd_invoice_resync_v1(p_invoice uuid,p_date date)
 AS $function$
 declare v_po uuid;
 begin
-  for v_po in select distinct po_id from erp.bd_laundry_invoice_lines_v1 where invoice_id=p_invoice order by 1 loop
+  for v_po in select distinct po_id from erp.bd_laundry_invoice_lines_v1 where invoice_id=p_invoice and receipt_line_id is not null order by 1 loop
     perform erp.sync_laundry_accrual(v_po,p_date);
     if exists(select 1 from erp.fg_lots where po_id=v_po) then
       perform erp.rebuild_po_hpp(v_po,'BD laundry vendor invoice');
@@ -391,6 +478,7 @@ CREATE OR REPLACE FUNCTION erp.bd_reverse_invoice_v1(p_payload jsonb,p_request u
  RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
 AS $function$
 declare i erp.bd_laundry_invoices_v1%rowtype;v_reason text:=nullif(btrim(p_payload->>'reason'),'');v_rev uuid;v_group uuid;v_line_ids uuid[];
+  v_open_ids uuid[];
 begin
   perform erp.require_owner_admin();perform erp.require_permission('finance.hpp.manage');
   perform erp._cp3_assert_closed_json_object(p_payload,array['invoice_id','expected_version','reason'],array['invoice_id','expected_version','reason'],'reverse invoice');
@@ -407,9 +495,12 @@ begin
   end loop;
   select array_agg(distinct x.receipt_line_id order by x.receipt_line_id) into v_line_ids from erp.bd_laundry_invoice_lines_v1 x where x.invoice_id=i.id;
   perform 1 from erp.laundry_receipt_lines where id=any(v_line_ids) order by id for update;
+  select array_agg(distinct x.opening_uninvoiced_id order by x.opening_uninvoiced_id) into v_open_ids from erp.bd_laundry_invoice_lines_v1 x
+    where x.invoice_id=i.id and x.opening_uninvoiced_id is not null;
+  perform 1 from erp.bd_opening_laundry_uninvoiced_v1 where id=any(v_open_ids) order by id for update;
   -- A later invoice that completed the same source took the residual after this one; reverse that one first.
   if exists(select 1 from erp.bd_laundry_invoice_lines_v1 x join erp.bd_laundry_invoices_v1 y on y.id=x.invoice_id
-      where y.status='POSTED' and y.id<>i.id and x.receipt_line_id=any(v_line_ids) and y.posted_at>i.posted_at) then
+      where y.status='POSTED' and y.id<>i.id and (x.receipt_line_id=any(v_line_ids) or x.opening_uninvoiced_id=any(v_open_ids)) and y.posted_at>i.posted_at) then
     raise exception 'BD_LATER_INVOICE_EXISTS: invoice lain yang diposting sesudahnya menagih sumber yang sama; batalkan yang terbaru dulu';end if;
   v_rev:=erp.reverse_journal(i.journal_id,'Batal invoice laundry: '||v_reason);
   update erp.vendor_invoices set status='REVERSED' where id=i.id;

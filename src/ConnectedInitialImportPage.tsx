@@ -9,10 +9,11 @@ import { useProductionMutation, type ProductionMutationHandlers } from './usePro
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import type { Json } from './types/database.preconnect'
 import './initial-import.css'
-import { parseInitialProductionSources, type InitialProductionSource } from './initialProduction'
+import { CLAIM_STATE_LABEL, CLAIM_TYPE_LABEL, parseInitialProductionSources, type InitialProductionSource } from './initialProduction'
 import { parseInitialImportBB, type InitialImportBB } from './initialImportBB'
 import { parseInitialImportBC, type InitialImportBC } from './initialImportBC'
-import { CustomerCreditsPanel, OpeningAccessoriesPanel, OpenSalesDraftsPanel, OpeningBalancesPanel, OpeningReworksPanel, PayrollEntitlementsPanel, PurchaseCommitmentsPanel, ReturnRightsPanel } from './InitialImportContinuations'
+import { parseInitialImportBD, type InitialImportBD } from './initialImportBD'
+import { CustomerCreditsPanel, OpeningAccessoriesPanel, OpeningLaundryPanel, OpenSalesDraftsPanel, OpeningBalancesPanel, OpeningReworksPanel, PayrollEntitlementsPanel, PurchaseCommitmentsPanel, ReturnRightsPanel } from './InitialImportContinuations'
 
 type Row = InitialImportRow & { id: string; entity: InitialImportEntity; validation_status: string; errors: string[]; applied: boolean }
 type AdvanceAllocation = { payroll_id: string; payroll_number: string; status: string; row_version: string; amount: string }
@@ -26,7 +27,7 @@ type Prepayment = { id: string; party_type: 'SUPPLIER' | 'CUSTOMER' | 'VENDOR'; 
   payments: { id: string; number: string; status: string; amount: string }[];
   events: { id: string; kind: string; delta: string; date: string; reason: string; reversed: boolean }[] }
 type CashAccount = { id: string; name: string }
-type Batch = { id: string; code: string; status: string; cutover_at: string; revision: string; rows: Row[]; cash_advances: CashAdvance[]; advance_payrolls: AdvancePayroll[]; prepayments: Prepayment[]; prepayment_cash_accounts: CashAccount[]; production_sources: InitialProductionSource[]; bb: InitialImportBB | null; bc: InitialImportBC | null }
+type Batch = { id: string; code: string; status: string; cutover_at: string; revision: string; rows: Row[]; cash_advances: CashAdvance[]; advance_payrolls: AdvancePayroll[]; prepayments: Prepayment[]; prepayment_cash_accounts: CashAccount[]; production_sources: InitialProductionSource[]; bb: InitialImportBB | null; bc: InitialImportBC | null; bd: InitialImportBD | null }
 type Workspace = { batch: Batch | null; recent: { id: string; batch_code: string; status: string }[] }
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 function object(value: unknown): Record<string, unknown> {
@@ -114,7 +115,7 @@ export function parseInitialImportWorkspace(value: unknown): Workspace {
     if (typeof c.id !== 'string' || !uuid.test(c.id) || typeof c.name !== 'string') throw new Error('Rekening pengembalian uang muka tidak valid.')
     return { id:c.id, name:c.name }
   })
-  return { recent, batch: { id:b.id, code:b.code, status:b.status, cutover_at:b.cutover_at, revision:b.revision, rows, cash_advances, advance_payrolls, prepayments, prepayment_cash_accounts, production_sources:parseInitialProductionSources(b.production_sources, true), bb:parseInitialImportBB(b), bc:parseInitialImportBC(b) } }
+  return { recent, batch: { id:b.id, code:b.code, status:b.status, cutover_at:b.cutover_at, revision:b.revision, rows, cash_advances, advance_payrolls, prepayments, prepayment_cash_accounts, production_sources:parseInitialProductionSources(b.production_sources, true), bb:parseInitialImportBB(b), bc:parseInitialImportBC(b), bd:parseInitialImportBD(b) } }
 }
 
 function ProductionBalances({ batch, locked, manage }: { batch: Batch; locked: boolean; manage: (payload: Record<string, Json>) => void }) {
@@ -132,6 +133,7 @@ function ProductionBalances({ batch, locked, manage }: { batch: Batch; locked: b
     <label>Rincian produksi<select aria-label="Rincian produksi awal" value={selected.opening_item_id} disabled={locked} onChange={e => { setSelectedId(e.target.value); setQty(''); setSku(''); setBrand('') }}>{batch.production_sources.map(s => <option key={s.opening_item_id} value={s.opening_item_id}>{s.po_number} · {s.balance_type} {s.stage} · {s.size_code} · {s.source_key}</option>)}</select></label>
     <p>{waiting ? `Menunggu pickup di lokasi ${state?.location_code ?? ''}` : (selected.stage === 'LAUNDRY' ? selected.vendor_name : selected.contractor_name ?? selected.vendor_name) ?? 'Pemegang mengikuti rincian saldo'} · Awal {selected.qty_pcs} pcs · Sisa {selected.remaining_qty_pcs} pcs{state && state.split_qty_pcs > 0 ? ` · Dipisah BS ${state.split_qty_pcs} pcs` : ''}{state && state.current_stage !== selected.stage ? ` · Tahap sekarang ${state.current_stage}` : ''}</p>
     <p>Nilai asal Rp {selected.original_amount?.replace('.', ',')} · Nilai asal setelah koreksi Rp {selected.current_amount?.replace('.', ',')}</p>
+    {selected.bd && selected.bd.held_qty_pcs > 0 && <p>Diklaim ke laundry {selected.bd.held_qty_pcs} pcs{selected.bd.lost_qty_pcs > 0 ? ` (hilang final ${selected.bd.lost_qty_pcs} pcs)` : ''}</p>}
     {state?.pickup && <p>Di-pickup {state.pickup.contractor_name} pada {state.pickup.date}{!activeOutputs && !activeSplits && <button type="button" disabled={locked || !reason.trim()} onClick={() => send({ operation:'REVERSE_PICKUP' })}>Batalkan pickup</button>}</p>}
     {selected.balance_type === 'BS' ? <p>Lanjutkan pemeriksaan, rework, atau pengeluaran melalui halaman BS/Rework.</p> : waiting ? <>
       <p>Potongan ini belum diambil mandor. Catat pickup dahulu; hasil, pisah BS, dan upah baru bisa dicatat sejak tanggal pickup.</p>
@@ -143,8 +145,48 @@ function ProductionBalances({ batch, locked, manage }: { batch: Batch; locked: b
       {mode === 'SPLIT_BS' && <p>Pcs BS menjadi kasus BS dengan nilai per pcs dari saldo awal; lanjutkan rework atau pengeluarannya di halaman BS/Rework.</p>}
       {selected.outputs.length > 0 && <ul>{selected.outputs.map(o => <li key={o.id}>{o.date} · {o.qty_pcs} pcs · {o.reversed ? 'Dibatalkan' : 'Sudah masuk barang jadi'}{!o.reversed && <button type="button" disabled={locked || !reason.trim()} onClick={() => send({ operation:'REVERSE', output_id:o.id })}>Batalkan hasil {o.date}</button>}</li>)}</ul>}
       {state && state.splits.length > 0 && <ul>{state.splits.map(s => <li key={s.id}>{s.date} · BS {s.bs_number} · {s.qty_pcs} pcs · {s.reversed ? 'Dibatalkan' : s.bs_status}{!s.reversed && s.bs_status === 'OPEN' && s.resolved_qty_pcs === 0 && <button type="button" disabled={locked || !reason.trim()} onClick={() => send({ operation:'REVERSE_SPLIT', split_id:s.id })}>Batalkan pisah BS {s.date}</button>}</li>)}</ul>}
+      {selected.stage === 'LAUNDRY' && selected.bd && <LaundryClaims key={selected.opening_item_id} source={selected} locked={locked} send={payload => manage({ opening_item_id:selected.opening_item_id, expected_remaining:String(selected.remaining_qty_pcs), ...payload })}/>}
     </>}
   </section>
+}
+
+/** BD (ALL-W05): documented laundry claims on an opening WIP at a laundry vendor. Held pieces are not goods and cannot be
+ *  completed until they come back; a resolved claim's pieces are lost for good (their opening value closes with the PO). */
+function LaundryClaims({ source, locked, send }: { source: InitialProductionSource; locked: boolean; send: (payload: Record<string, Json>) => void }) {
+  const [reason, setReason] = useState(''), [number, setNumber] = useState(''), [type, setType] = useState<'MISSING' | 'STUCK' | 'DAMAGE'>('MISSING')
+  const [qty, setQty] = useState(''), [date, setDate] = useState(''), [resolution, setResolution] = useState<'WRITTEN_OFF' | 'SETTLED'>('WRITTEN_OFF')
+  const [compensation, setCompensation] = useState('')
+  const claims = source.bd?.claims ?? []
+  const pcs = /^[1-9][0-9]*$/.test(qty) ? Number(qty) : 0
+  const compensationOk = resolution === 'WRITTEN_OFF' ? compensation.trim() === '' : /^\d{1,15}(\.\d{2})?$/.test(compensation.trim())
+  const claimSend = (payload: Record<string, Json>) => send({ reason:reason.trim(), ...payload })
+  return <div aria-label="Klaim laundry saldo awal">
+    <h3>Klaim laundry</h3>
+    <p>Potongan yang diklaim tidak ikut sisa WIP dan tidak dapat disahkan sebagai barang jadi sampai kembali. Klaim yang diselesaikan menutup potongannya; nilai awalnya dibebankan saat PO selesai.</p>
+    <div className="initial-import-toolbar"><label>Catatan klaim<input aria-label="Catatan klaim laundry" value={reason} disabled={locked} onChange={e => setReason(e.target.value)}/></label>
+      <label>Jumlah (pcs)<input aria-label="Jumlah klaim laundry" inputMode="numeric" value={qty} disabled={locked} onChange={e => setQty(e.target.value)}/></label>
+      <label>Tanggal<input aria-label="Tanggal klaim laundry" type="date" value={date} disabled={locked} onChange={e => setDate(e.target.value)}/></label></div>
+    {claims.length === 0 ? <p>Belum ada klaim laundry pada rincian ini.</p> : <ul>{claims.map(c => {
+      const open = c.state === 'OPEN'
+      const holding = c.qty_claimed - c.recovered - c.lost
+      const target = { claim_id:c.claim_id, expected_version:c.row_version }
+      return <li key={c.claim_id}>
+        <strong>{c.claim_number}</strong> · {CLAIM_TYPE_LABEL[c.claim_type]} · diklaim {c.qty_claimed} pcs · kembali {c.recovered} pcs · hilang {c.lost} pcs · {CLAIM_STATE_LABEL[c.state]}{c.dispatch_number ? ` · kirim lama ${c.dispatch_number}` : ''}{c.origin === 'IMPORT' ? ' · dari impor' : ' · sesudah saldo awal'}
+        {open && holding > 0 && <>
+          <button type="button" disabled={locked || !reason.trim() || !pcs || pcs > holding || !date} onClick={() => claimSend({ operation:'RECOVER_CLAIM', ...target, qty_pcs:qty, date })}>Catat potongan kembali</button>
+          <label>Penyelesaian<select aria-label={`Penyelesaian klaim ${c.claim_number}`} value={resolution} disabled={locked} onChange={e => setResolution(e.target.value as 'WRITTEN_OFF' | 'SETTLED')}><option value="WRITTEN_OFF">Hapus tanpa kompensasi</option><option value="SETTLED">Selesai dengan kompensasi</option></select></label>
+          {resolution === 'SETTLED' && <label>Kompensasi (Rp)<input aria-label={`Kompensasi klaim ${c.claim_number}`} inputMode="decimal" value={compensation} disabled={locked} onChange={e => setCompensation(e.target.value)}/></label>}
+          <button type="button" disabled={locked || !reason.trim() || !date || !compensationOk} onClick={() => claimSend({ operation:'RESOLVE_CLAIM', ...target, resolution, date, ...(resolution === 'SETTLED' ? { compensation_amount:compensation.trim() } : {}) })}>Selesaikan {holding} pcs</button>
+        </>}
+        {c.origin === 'CONTINUATION' && c.state !== 'CANCELLED' && !c.events.some(e => !e.reversed) && <button type="button" disabled={locked || !reason.trim()} onClick={() => claimSend({ operation:'CANCEL_CLAIM', ...target })}>Batalkan klaim</button>}
+        {c.events.length > 0 && <ul>{c.events.map(e => <li key={e.event_id}>{e.date} · {e.kind === 'RECOVER' ? `kembali ${e.qty} pcs` : `${e.resolution === 'SETTLED' ? 'selesai dengan kompensasi' : 'dihapus'} ${e.qty} pcs`}{e.reversed ? ' · dibatalkan' : ''}
+          {!e.reversed && c.state !== 'CANCELLED' && <button type="button" disabled={locked || !reason.trim()} onClick={() => claimSend({ operation:'REVERSE_CLAIM_EVENT', claim_id:c.claim_id, expected_version:c.row_version, event_id:e.event_id })}>Batalkan kejadian {e.date}</button>}</li>)}</ul>}
+      </li>
+    })}</ul>}
+    <div className="initial-import-toolbar"><label>Nomor klaim baru<input aria-label="Nomor klaim laundry baru" value={number} disabled={locked} onChange={e => setNumber(e.target.value)}/></label>
+      <label>Jenis<select aria-label="Jenis klaim laundry baru" value={type} disabled={locked} onChange={e => setType(e.target.value as 'MISSING' | 'STUCK' | 'DAMAGE')}>{(['MISSING', 'STUCK', 'DAMAGE'] as const).map(k => <option key={k} value={k}>{CLAIM_TYPE_LABEL[k]}</option>)}</select></label>
+      <button type="button" disabled={locked || !reason.trim() || !number.trim() || !pcs || pcs > source.remaining_qty_pcs || !date} onClick={() => claimSend({ operation:'OPEN_CLAIM', claim_number:number.trim(), claim_type:type, qty_pcs:qty, date })}>Catat klaim baru</button></div>
+  </div>
 }
 
 function CashAdvanceBalances({ batch, locked, allocate }: { batch: Batch; locked: boolean; allocate: (payload: Record<string, Json>) => void }) {
@@ -309,6 +351,7 @@ function ImportWorkspace() {
         <OpeningReworksPanel bb={batch.bb}/>
         <OpenSalesDraftsPanel bb={batch.bb}/>
         {batch.bc && (batch.bc.accessory_note_lines.length > 0 || batch.bc.accessory_custody.length > 0) && <OpeningAccessoriesPanel bc={batch.bc}/>}
+        {batch.bd && (batch.bd.laundry_claims.length > 0 || batch.bd.laundry_uninvoiced.length > 0) && <OpeningLaundryPanel bd={batch.bd}/>}
         {batch.bb.legacy_documents > 0 && <p className="initial-import-help">{batch.bb.legacy_documents} dokumen lama yang sudah lunas tercatat sebagai riwayat; tidak ada saldo atau kas baru darinya.</p>}
       </>}
       <div className="panel initial-import-toolbar"><label>Jenis data<select disabled={locked || Boolean(editor)} value={entity} onChange={(event) => { setEntity(event.target.value as InitialImportEntity); setPage(0); readFileSequence.current++ }}>{Object.entries(initialImportCatalog).map(([key, item]) => <option key={key} value={key}>{item.label}</option>)}</select></label><button type="button" onClick={download}><Download size={16}/> Unduh template</button>{!posted && <label className="initial-import-upload"><FileUp size={16}/> Pilih file CSV<input aria-label="Pilih file CSV" type="file" accept=".csv,.tsv,text/csv" disabled={locked || Boolean(editor)} onChange={(event) => { const file = event.target.files?.[0]; event.target.value = ''; void upload(file) }}/></label>}</div>

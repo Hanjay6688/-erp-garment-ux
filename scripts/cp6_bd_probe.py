@@ -1,14 +1,16 @@
 """BD T1_FAMILY probe: priced laundry deliveries (LAU-05b: package, components with partial coverage, lump sum per batch,
-minimum charge, scoped rates) and the laundry policy settings LAU-DEC01..06, before and after.
+minimum charge, scoped rates), laundry vendor invoices, the laundry policy settings LAU-DEC01..06 and ALL-W05 physical
+(laundry claims and uninvoiced returns at cutover), before and after.
 
 Label T1_FAMILY: targeted family evidence on the disposable chain AN -> AU -> AV -> AW..AZ -> BA -> BB -> BC (+ BD in phase
 'after'), never release evidence. Oracles come from the contract (M:4339-4374 LAU-T01..T36, LAU-05b, LAU-DEC01..06 M:4472-4477)
-and the auditors' pre-code oracles (gpt_lau.md, fable_lau.md), never from observed behaviour; where two readings differ the
+and the auditors' pre-code oracles (gpt_lau.md, fable_lau.md; ALL-W05 from the r9 ALL oracle), never from observed behaviour; where two readings differ the
 more fail-closed one is used. Amounts are synthetic fixtures (no real tariff is invented). Outcomes:
   NO_ROUTE       phase 'before' only: no BD facade before BD (the public RPC is unknown); nothing changes.
   PASS / FAIL    the oracle holds / does not hold. A refusal with another code, or a wrong NO_ROUTE, is INCOMPLETE.
 Each case runs inside the group's rolled-back savepoint; nothing is committed to the clone.
 """
+from datetime import timedelta
 from decimal import Decimal
 from pathlib import Path
 import argparse,hashlib,json,os,re,subprocess,sys,traceback,uuid
@@ -723,6 +725,221 @@ def dec04_sale_unknown_laundry(cur,today):
     return verdict(dict(pending_refused=pending['ok'],refuse_refused=refuse['ok'],nothing_posted=posted_none==0,
         allowed_but_close_blocked=blocked==['BD_LAUNDRY_COMPONENT_PRICE_UNKNOWN'],known_then_sold=posted==2),blocked=blocked,refusals=[pending,refuse])
 
+# ---------------------------------------------------------------- ALL-W05 physical: laundry away at cutover (import)
+W05_KEYS=('WIP','OPENING_EQUITY','AP_VENDOR','OTHER_EXPENSE','ACCRUED_MANUFACTURING','FG_INVENTORY')
+
+
+def w05_rows(today,claims=((None,'MISSING','1'),),payable=None,stage='LAUNDRY',uninvoiced=()):
+    """The auditor's ALL-W05 fixture (r9): laundry {C} held 10 PCS of PO {C}; 2 came back before cutover (not opening WIP); the
+    8 still away are the BB opening WIP at stage LAUNDRY held by laundry {C} (40.00, 5.00 a piece); the documented claims
+    on them are dated before cutover (number, type, qty). `payable` adds the vendor's opening payable (original, settled)."""
+    rows=bbp.production_rows(stage=stage)
+    before=str(today-timedelta(days=12))
+    for i,(number,kind,qty) in enumerate(claims):
+        rows.setdefault('OPENING_LAUNDRY_CLAIM',[]).append(dict(claim_number=number or '{C}-KL%d'%(i+1),source_key='WIP',vendor_code='{C}',
+            claim_type=kind,qty=qty,claim_date=before,dispatch_number='KRM-LAMA-7',notes='dikirim 10, kembali 2 sebelum cutover'))
+    if payable:
+        doc=bbp.document('VENDOR_PAYABLE','vendor_code','INV-LAMA-{C}',*payable);doc.pop('_days');doc['document_date']=str(today-timedelta(days=40))
+        rows['OPENING_BALANCE_ITEM'].append(doc)
+        rows['OPENING_CONTROL'].append(dict(control_key='VENDOR_PAYABLE',balance_type='VENDOR_PAYABLE',amount=doc['amount']))
+    if uninvoiced:rows['OPENING_LAUNDRY_UNINVOICED']=list(uninvoiced)
+    return rows
+
+
+def claim_of(cur,fx,index=0):
+    return bbp.source_of(cur,fx)['bd']['claims'][index]
+
+
+def claim_op(cur,fx,operation,claim=None,**kw):
+    if claim is not None:kw.update(claim_id=claim['claim_id'],expected_version=claim['row_version'])
+    return bbp.wip_op(cur,fx,operation,**kw)
+
+
+def w05_custody_claim(cur,today):
+    """ALL-W05 (r9): only the 8 pieces still away are imported; the documented claim holds 1 of them apart (residual custody 7,
+    claim 1); import posts no laundry, payment or claim journal (the WIP 40.00 against opening equity only); completing 8 is
+    refused (a claimed piece is not ready goods); the PO cannot finish while the claim is open; the 7 come back and are
+    completed at 5.00 a piece (the WIP status still lists the row as active: a claim holds 1); the claim is written off (no journal: no vendor charge or expense without a priced source);
+    the PO then finishes and the baseline residual close expenses the lost piece's 5.00 once (WIP 0)."""
+    rows=w05_rows(today)
+    if not bd_installed(cur):return no_route(cur,lambda:bbp.production_post(cur,today,rows))
+    b0=bcp.ledger(cur,W05_KEYS);j0=one(cur,'select count(*) from erp.journal_entries')
+    fx=bbp.production_post(cur,today,rows)
+    imported=bcp.delta(b0,bcp.ledger(cur,W05_KEYS))
+    # Journals the import wrote: none of a laundry claim, accrual, settlement or vendor invoice.
+    claim_journals=one(cur,"""select count(*) from (select source_type from erp.journal_entries order by created_at desc,id limit %s) j
+        where j.source_type in('BD_OPENING_LAUNDRY_CLAIM','LAUNDRY_CLAIM_SETTLEMENT','BD_OPENING_LAUNDRY_ACCRUAL','VENDOR_INVOICE')""",
+        one(cur,'select count(*) from erp.journal_entries')-j0)
+    s=bbp.source_of(cur,fx);claim=s['bd']['claims'][0]
+    listed=[c for c in api.read(cur,fx['batch'])['batch']['laundry_claims'] if c['claim_id']==claim['claim_id']]
+    over=bcp.denied(cur,lambda:bbp.complete(cur,fx,today,8),'tidak melebihi sisa WIP')
+    bbp.complete(cur,fx,today,7)
+    after=bbp.source_of(cur,fx)
+    active=lambda:[x['opening_item_id'] for x in one(cur,"select erp.get_wip_control_v1('ACTIVE',null,'PATTERN',%s)",fx['code'])['opening_rows']]
+    active_while_claimed=active()==[s['opening_item_id']]
+    finish_open=bcp.denied(cur,lambda:internal(cur,'finish_production_order',fx['po']),'WIP/BS saldo awal yang belum selesai')
+    b1=bcp.ledger(cur,W05_KEYS)
+    claim_op(cur,fx,'RESOLVE_CLAIM',claim_of(cur,fx),resolution='WRITTEN_OFF',date=str(today))
+    written=bcp.delta(b1,bcp.ledger(cur,W05_KEYS))
+    resolved=claim_of(cur,fx)
+    inactive_after=active()==[]
+    b2=bcp.ledger(cur,W05_KEYS)
+    internal(cur,'finish_production_order',fx['po'])
+    closed=bcp.delta(b2,bcp.ledger(cur,W05_KEYS))
+    return verdict(dict(import_wip_only=imported.get('WIP')==D('40.00') and set(imported)<={'WIP','OPENING_EQUITY'} and claim_journals==0,
+        separate_states=(s['qty_pcs'],s['remaining_qty_pcs'],s['bd']['held_qty_pcs'],claim['state'],claim['qty_claimed'])==(8,7,1,'OPEN',1),
+        provenance=bool(listed) and listed[0]['dispatch_number']=='KRM-LAMA-7' and listed[0]['origin']=='IMPORT',
+        claimed_not_goods=over['ok'],completed_seven=after['remaining_qty_pcs']==0 and after['completed_qty_pcs']==7,
+        wip_status_active_while_claimed=active_while_claimed and inactive_after,
+        finish_waits_for_claim=finish_open['ok'],write_off_no_journal=written=={},
+        resolved=(resolved['state'],resolved['lost'])==('WRITTEN_OFF',1),
+        lost_value_once=closed=={'WIP':D('-5.00'),'OTHER_EXPENSE':D('5.00')}),
+        imported={k:str(v) for k,v in imported.items()},closed={k:str(v) for k,v in closed.items()},source=s,refusals=[over,finish_open])
+
+
+def w05_claim_continuations(cur,today):
+    """ALL-W05 continuations on the canonical path (WIP_OUTPUT: same locks and remaining check as a completion). 2 PCS of 8
+    claimed MISSING at cutover; 1 comes back (RECOVER_CLAIM, remaining 7). A claim after cutover (OPEN_CLAIM) takes only unheld
+    pieces (8 refused while 7 are left), a claim number is used once, an imported claim is not cancelled (it is recovered) and
+    a claim opened after cutover is cancelled; it held its piece until the day it was cancelled, so completing 7 dated the day
+    before is refused (BA A3 dated remaining). The 7 are completed, so the recovery can no longer be reversed; recovering more
+    than the claim still holds is refused. A SETTLED compensation above the vendor's payable (50.00) is refused; 3.00 posts
+    once AP_VENDOR 3.00 / OTHER_EXPENSE -3.00, a second resolution is refused, and reversing it reverses its journal."""
+    rows=w05_rows(today,claims=((None,'MISSING','2'),),payable=('50.00','0.00'))
+    if not bd_installed(cur):return no_route(cur,lambda:bbp.production_post(cur,today,rows))
+    fx=bbp.production_post(cur,today,rows)
+    claim_op(cur,fx,'RECOVER_CLAIM',claim_of(cur,fx),qty_pcs='1',date=str(today))
+    recovered=bbp.source_of(cur,fx)
+    number=claim_of(cur,fx)['claim_number']
+    too_many=refused(cur,lambda:claim_op(cur,fx,'OPEN_CLAIM',claim_number=fx['code']+'-K9',claim_type='STUCK',qty_pcs='8',date=str(today)),
+                     'BD_W05_CLAIM_EXCEEDS_REMAINING')
+    duplicate=refused(cur,lambda:claim_op(cur,fx,'OPEN_CLAIM',claim_number=number,claim_type='STUCK',qty_pcs='1',date=str(today)),'BD_W05_DUPLICATE_CLAIM')
+    claim_op(cur,fx,'OPEN_CLAIM',claim_number=fx['code']+'-K9',claim_type='STUCK',qty_pcs='1',date=str(today))
+    opened=bbp.source_of(cur,fx)
+    later=[c for c in opened['bd']['claims'] if c['origin']=='CONTINUATION'][0]
+    imported_cancel=refused(cur,lambda:claim_op(cur,fx,'CANCEL_CLAIM',claim_of(cur,fx)),'BD_W05_IMPORTED_CLAIM')
+    claim_op(cur,fx,'CANCEL_CLAIM',later)
+    cancelled=bbp.source_of(cur,fx)
+    dated=refused(cur,lambda:bbp.complete(cur,fx,today,7),'BA_WIP_OUTPUT_EXCEEDS_DATED_REMAINING')
+    bbp.complete(cur,fx,bcp.REAL_TODAY,7)
+    c=[x for x in bbp.source_of(cur,fx)['bd']['claims'] if x['origin']=='IMPORT'][0]
+    event=[e for e in c['events'] if e['kind']=='RECOVER'][0]['event_id']
+    in_use=refused(cur,lambda:claim_op(cur,fx,'REVERSE_CLAIM_EVENT',c,event_id=event),'BD_W05_RECOVERED_IN_USE')
+    over_recover=refused(cur,lambda:claim_op(cur,fx,'RECOVER_CLAIM',c,qty_pcs='2',date=str(today)),'BD_W05_RECOVER_EXCEEDS_CLAIM')
+    above=refused(cur,lambda:claim_op(cur,fx,'RESOLVE_CLAIM',c,resolution='SETTLED',compensation_amount='60.00',date=str(today)),
+                  'BD_W05_COMPENSATION_EXCEEDS_PAYABLE')
+    b0=bcp.ledger(cur,W05_KEYS)
+    claim_op(cur,fx,'RESOLVE_CLAIM',c,resolution='SETTLED',compensation_amount='3.00',date=str(today))
+    settled=bcp.delta(b0,bcp.ledger(cur,W05_KEYS))
+    c=claim_of(cur,fx) if claim_of(cur,fx)['origin']=='IMPORT' else claim_of(cur,fx,1)
+    twice=refused(cur,lambda:claim_op(cur,fx,'RESOLVE_CLAIM',c,resolution='WRITTEN_OFF',date=str(today)),'BD_W05_CLAIM_RESOLVED')
+    resolve_event=[e for e in c['events'] if e['kind']=='RESOLVE' and not e['reversed']][0]['event_id']
+    claim_op(cur,fx,'REVERSE_CLAIM_EVENT',c,event_id=resolve_event)
+    back=bcp.ledger(cur,W05_KEYS)
+    return verdict(dict(recovered_to_wip=(recovered['remaining_qty_pcs'],recovered['bd']['held_qty_pcs'])==(7,1),
+        later_claim_unheld_only=too_many['ok'],number_once=duplicate['ok'],later_claim_holds=opened['remaining_qty_pcs']==6,
+        imported_not_cancelled=imported_cancel['ok'],later_cancelled=cancelled['remaining_qty_pcs']==7,held_until_cancelled=dated['ok'],
+        recovery_in_use=in_use['ok'],
+        recover_capacity=over_recover['ok'],compensation_capped=above['ok'],
+        compensation_once=settled=={'AP_VENDOR':D('3.00'),'OTHER_EXPENSE':D('-3.00')},resolved_once=twice['ok'],inverse=back==b0),
+        settled={k:str(v) for k,v in settled.items()},refusals=[too_many,duplicate,imported_cancel,dated,in_use,over_recover,above,twice])
+
+
+def w05_import_refusals(cur,today):
+    """ALL-W05 import refusals (r9 negatives): claims above the pieces away (9 of 8), a claim of another vendor, a claim dated
+    after cutover (a later claim is a continuation), a claim on a row that is not WIP at a laundry, a claim number used twice;
+    an uninvoiced receipt imported twice (same document and category), a zero estimate (unknown stays empty, never a zero
+    journal), and a receipt dated after cutover."""
+    before=str(today-timedelta(days=12))
+    claim=lambda number,qty,**kw:dict(dict(claim_number='{C}-'+number,source_key='WIP',vendor_code='{C}',claim_type='MISSING',qty=qty,claim_date=before),**kw)
+    rows=w05_rows(today,claims=())
+    rows['OPENING_LAUNDRY_CLAIM']=[claim('A','5'),claim('B','4'),claim('V','1',vendor_code='ZZ'+uuid.uuid4().hex[:6]),
+        claim('L','1',claim_date=str(today)),claim('S','1',source_key='TIDAK-ADA'),claim('D','1'),claim('D','1')]
+    rec=lambda doc,**kw:dict(dict(document_number=doc,vendor_code='{C}',receipt_date=before,category='GOOD',qty='3'),**kw)
+    rows['OPENING_LAUNDRY_UNINVOICED']=[rec('R1'),rec('R1'),rec('R2',estimated_amount='0.00'),rec('R3',receipt_date=str(today))]
+    if not bd_installed(cur):return no_route(cur,lambda:bbp.production_post(cur,today,rows,expect=True))
+    errs=bbp.production_post(cur,today,rows,expect=True)['errors']
+    sewing=w05_rows(today,stage='SEWING')
+    errs2=bbp.production_post(cur,today,sewing,expect=True)['errors']
+    text=lambda es,entity:' | '.join(e for k,e in es if k==entity)
+    c,u,c2=text(errs,'OPENING_LAUNDRY_CLAIM'),text(errs,'OPENING_LAUNDRY_UNINVOICED'),text(errs2,'OPENING_LAUNDRY_CLAIM')
+    return verdict(dict(exceeds_source=c.count('BD_W05_CLAIM_EXCEEDS_SOURCE')>=2,vendor=('BD_W05_VENDOR_MISMATCH' in c),
+        after_cutover='BD_W05_CLAIM_AFTER_CUTOVER' in c,no_source='BD_W05_SOURCE_REQUIRED' in c,duplicate=c.count('BD_W05_DUPLICATE_CLAIM')==2,
+        not_laundry='BD_W05_SOURCE_REQUIRED' in c2,receipt_twice=u.count('BD_W05_DUPLICATE_RECEIPT')==2,zero_estimate='BB_AMOUNT_INVALID' in u,
+        receipt_after_cutover='receipt_date:' in u),claims=c,uninvoiced=u,sewing=c2)
+
+
+def opening_invoice(cur,vendor,day,lines,header,post=True):
+    payload=dict(vendor_id=vendor,invoice_number='INV-'+uuid.uuid4().hex[:10],invoice_date=str(day),header_total=header,
+                 lines=[dict(line_kind=l.get('kind','BILL'),opening_uninvoiced_id=l['source'],category=l.get('category','GOOD'),qty=l.get('qty',0),
+                             amount=l['amount']) for l in lines])
+    draft=bd(cur,'SAVE_INVOICE_DRAFT',payload)
+    return post_draft(cur,draft) if post else draft
+
+
+def w05_uninvoiced(cur,today):
+    """ALL-W05 old receipt/invoice (r9: no second bill, no vendor charge without an accepted priced source, unknown value stays
+    pending and blocks financial finalization, no zero journal). Imported: A = 10 GOOD returned before cutover with an
+    evidenced estimate 70,000 (opening accrual ACCRUED_MANUFACTURING -70,000 / OPENING_EQUITY +70,000, as the supplier GRNI
+    opening); B = 2 FAILED_ATTEMPT with no estimate (nothing journaled; close blocked BD_OPENING_LAUNDRY_PRICE_UNKNOWN).
+    The vendor bills A 6 for 42,000 (releases 42,000), then 5 more is over capacity; 4 for 30,000 leaves a 2,000 difference
+    that is no PO's product cost, refused under PRODUCT_COST (BD_OPENING_VARIANCE_NEEDS_ACCOUNT) and posted to the owner's
+    variance account under VARIANCE_ACCOUNT (A's accrual back to 0). B cannot be billed as GOOD; GUDANG cannot set its
+    estimate; the owner sets 8,000 (accrual, blocker gone); its invoice of 8,000 releases it; reversing that invoice
+    restores the accrual and the payable."""
+    rows=bbp.masters()
+    before=str(today-timedelta(days=12))
+    rows['OPENING_LAUNDRY_UNINVOICED']=[dict(document_number='{C}-TRM-1',vendor_code='{C}',receipt_date=before,category='GOOD',qty='10',
+                                             estimated_amount='70000.00',dispatch_number='KRM-LAMA-3'),
+                                        dict(document_number='{C}-TRM-2',vendor_code='{C}',receipt_date=before,category='FAILED_ATTEMPT',qty='2')]
+    if not bd_installed(cur):return no_route(cur,lambda:bbp.post_batch(cur,today,rows))
+    b0=bcp.ledger(cur,W05_KEYS)
+    batch,code,cutover=bbp.post_batch(cur,today,rows)
+    imported=bcp.delta(b0,bcp.ledger(cur,W05_KEYS))
+    vendor=one(cur,'select id::text from erp.laundry_vendors where vendor_code=%s',code)
+    src={u['category']:u for u in bd_ws(cur,dict(vendor_id=vendor))['opening_uninvoiced']}
+    a,b=src['GOOD']['id'],src['FAILED_ATTEMPT']['id']
+    blocked=lambda s:sorted(r[0] for r in q(cur,"select code from erp.period_blockers_v1(%s,null) where reference->>'opening_uninvoiced_id'=%s",today,s))
+    before_blockers=(blocked(a),blocked(b))
+    invoice_policies(cur)
+    first=opening_invoice(cur,vendor,today,[dict(source=a,qty=6,amount='42000.00')],'42000.00')
+    over=refused(cur,lambda:opening_invoice(cur,vendor,today,[dict(source=a,qty=5,amount='35000.00')],'35000.00'),'BD_INVOICE_CAPACITY')
+    no_account=refused(cur,lambda:opening_invoice(cur,vendor,today,[dict(source=a,qty=4,amount='30000.00')],'30000.00'),'BD_OPENING_VARIANCE_NEEDS_ACCOUNT')
+    expense=one(cur,"select id::text from erp.chart_accounts where account_type='EXPENSE' and is_postable and is_active and account_code='5100'")
+    invoice_policies(cur,mode='VARIANCE_ACCOUNT',account=expense)
+    v0=bcp.gl_account(cur,expense)
+    second=opening_invoice(cur,vendor,today,[dict(source=a,qty=4,amount='30000.00')],'30000.00')
+    variance=bcp.gl_account(cur,expense)-v0
+    wrong=refused(cur,lambda:opening_invoice(cur,vendor,today,[dict(source=b,qty=2,amount='8000.00')],'8000.00',post=False),'BD_INVOICE_CATEGORY')
+    version=lambda s:[u for u in bd_ws(cur,dict(vendor_id=vendor))['opening_uninvoiced'] if u['id']==s][0]['row_version']
+    gudang=user(cur,'GUDANG')
+    denied=bcp.denied(cur,lambda:bd(cur,'SET_OPENING_ESTIMATE',dict(opening_uninvoiced_id=b,expected_version=version(b),estimated_amount='8000.00',
+        reason='x'),auth=gudang),'')
+    b1=bcp.ledger(cur,W05_KEYS)
+    bd(cur,'SET_OPENING_ESTIMATE',dict(opening_uninvoiced_id=b,expected_version=version(b),estimated_amount='8000.00',reason='nota vendor lisan'))
+    estimated=bcp.delta(b1,bcp.ledger(cur,W05_KEYS))
+    after_estimate=blocked(b)
+    b2=bcp.ledger(cur,W05_KEYS)
+    third=opening_invoice(cur,vendor,today,[dict(source=b,category='FAILED_ATTEMPT',qty=2,amount='8000.00')],'8000.00')
+    billed=bcp.delta(b2,bcp.ledger(cur,W05_KEYS))
+    bd(cur,'REVERSE_INVOICE',dict(invoice_id=third['invoice_id'],expected_version=third['row_version'],reason='salah vendor'))
+    reversed_=bcp.ledger(cur,W05_KEYS)==b2
+    end={u['category']:u for u in bd_ws(cur,dict(vendor_id=vendor))['opening_uninvoiced']}
+    l1,l2=first['lines'][0],second['lines'][0]
+    return verdict(dict(import_accrual_only=imported=={'ACCRUED_MANUFACTURING':D('-70000.00'),'OPENING_EQUITY':D('70000.00')},
+        states=(src['GOOD']['estimate_status'],src['FAILED_ATTEMPT']['estimate_status'])==('KNOWN','UNKNOWN'),
+        unknown_blocks_close=before_blockers==([],['BD_OPENING_LAUNDRY_PRICE_UNKNOWN']),
+        partial_release=(l1['released_estimate'],l1['variance'],l1['completes_source'])==('42000.00','0.00',False),capacity=over['ok'],
+        variance_needs_account=no_account['ok'],
+        residual_release=(l2['released_estimate'],l2['variance'],l2['product_variance'],l2['completes_source'])==('28000.00','2000.00','0.00',True)
+          and variance==2000,
+        category=wrong['ok'],estimate_owner_only=denied['ok'],
+        estimate_accrual=estimated=={'ACCRUED_MANUFACTURING':D('-8000.00'),'OPENING_EQUITY':D('8000.00')} and after_estimate==[],
+        billed_releases=billed=={'ACCRUED_MANUFACTURING':D('8000.00'),'AP_VENDOR':D('-8000.00')},inverse=reversed_,
+        end=(end['GOOD']['billed'],end['GOOD']['invoiced'],end['FAILED_ATTEMPT']['billed'],end['FAILED_ATTEMPT']['invoiced'])==(10,True,0,False)),
+        lines=[l1,l2],imported={k:str(v) for k,v in imported.items()},billed={k:str(v) for k,v in billed.items()},
+        refusals=[over,no_account,wrong,denied])
+
 
 PLAN=[('POLICY:LAU_DEC_SETTINGS_OWNER_VERSIONED_PENDING','NO_ROUTE',policy_settings),
       ('T02:PACKAGE_ONE_CHARGE_PHYSICAL_QTY','NO_ROUTE',t02_package),
@@ -746,7 +963,11 @@ PLAN=[('POLICY:LAU_DEC_SETTINGS_OWNER_VERSIONED_PENDING','NO_ROUTE',policy_setti
       ('T23:REVERSE_PAY_CORRECT','NO_ROUTE',t23_reverse_pay_correct),
       ('DEC02:BILLABLE_CATEGORIES_ACCESS','NO_ROUTE',dec02_categories),
       ('T22:VARIANCE_TO_FG_AND_COGS','NO_ROUTE',t22_variance_to_fg_and_cogs),
-      ('DEC04:SALE_UNKNOWN_LAUNDRY_PRICE','NO_ROUTE',dec04_sale_unknown_laundry)]
+      ('DEC04:SALE_UNKNOWN_LAUNDRY_PRICE','NO_ROUTE',dec04_sale_unknown_laundry),
+      ('W05:OPENING_CUSTODY_CLAIM_SEPARATE','NO_ROUTE',w05_custody_claim),
+      ('W05:CLAIM_CONTINUATIONS','NO_ROUTE',w05_claim_continuations),
+      ('W05:IMPORT_REFUSALS','NO_ROUTE',w05_import_refusals),
+      ('W05:UNINVOICED_ACCRUAL_INVOICE','NO_ROUTE',w05_uninvoiced)]
 assert len({k for k,_,_ in PLAN})==len(PLAN),'BD_DUPLICATE_CASE_ID'
 
 

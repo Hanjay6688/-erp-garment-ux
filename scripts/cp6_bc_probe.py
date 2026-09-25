@@ -59,7 +59,11 @@ def bc_functions():
 def bc_verified(cur):
     base=bbp.bb_verified(cur)
     assert bc_installed(cur),'BC_T1_MARKER'
+    # A function a later T1 family replaced (cp6_layers) is verified by that family, not against BC's text (as BB).
+    later=awp.layers.superseded(cur,after=bc.VERSION)
+    later_names={s.split('(')[0] for s in later}
     for name in bc_functions():
+        if name.split('(')[0] in later_names:continue
         schema,proname=name.split('(')[0].split('.')
         rows=cur.execute("select p.oid::regprocedure::text,p.prosrc from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname=%s and p.proname=%s",
                          (schema,proname)).fetchall()
@@ -67,8 +71,11 @@ def bc_verified(cur):
         assert rows[0][1]==dev_source(name),('BC_T1_FUNCTION_NOT_CURRENT',name)
     for table in bc.NEW_TABLES:
         assert cur.execute('select to_regclass(%s) is not null',('erp.'+table,)).fetchone()[0],('BC_T1_TABLE_MISSING',table)
-    return dict(base,stage='AV_PLUS_AW_AX_AY_AZ_BA_BB_BC_T1',bc_sql_sha256=hashlib.sha256(BC_SQL.read_bytes()).hexdigest(),
+    result=dict(base,stage='AV_PLUS_AW_AX_AY_AZ_BA_BB_BC_T1',bc_sql_sha256=hashlib.sha256(BC_SQL.read_bytes()).hexdigest(),
                 bc_functions=list(bc_functions()))
+    replaced=sorted(n for n in bc_functions() if n.split('(')[0] in later_names)
+    if replaced:result['bc_replaced_by_later_family']=replaced
+    return result
 
 
 def install_bc():

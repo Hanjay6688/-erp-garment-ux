@@ -2,6 +2,8 @@ import { useState } from 'react'
 import type { Json } from './types/database.preconnect'
 import type { InitialImportBB } from './initialImportBB'
 import type { InitialImportBC } from './initialImportBC'
+import { UNINVOICED_CATEGORY_LABEL, type InitialImportBD } from './initialImportBD'
+import { CLAIM_TYPE_LABEL } from './initialProduction'
 
 // BB (ALL open cutover states): continuations of a posted import. Every action goes through the import RPC with the
 // batch's revision; the server re-checks dates, capacity and state. Nothing here computes a balance.
@@ -185,3 +187,21 @@ export function OpeningAccessoriesPanel({ bc }: { bc: InitialImportBC }) {
         <td>{pcs(c.qty)}</td><td>{c.waiting === null ? '—' : pcs(c.waiting)}</td><td>{c.usable === null ? '—' : pcs(c.usable)}</td><td>{c.damaged === null ? '—' : pcs(c.damaged)}</td><td>{c.value_status}</td></tr>)}</tbody></table></div>}
   </section>
 }
+
+/** BD (ALL-W05): laundry claims and uninvoiced laundry returns at cutover. Claims continue on the opening WIP row; an uninvoiced
+ *  return is billed (and an unknown estimate set) on the laundry price page. An unknown estimate keeps close blocked. */
+export function OpeningLaundryPanel({ bd }: { bd: InitialImportBD }) {
+  return <section className="panel initial-import-advances" aria-label="Laundry saldo awal">
+    <h2>Laundry saldo awal</h2>
+    <p>Klaim laundry lama dan hasil laundry yang sudah kembali sebelum saldo awal tetapi belum ditagih vendor. Klaim dilanjutkan pada rincian WIP laundry di atas; tagihan dan estimasi yang belum diketahui dicatat di halaman Harga laundry.</p>
+    {bd.laundry_claims.length > 0 && <div className="initial-import-table"><table><thead><tr><th>Klaim</th><th>PO · rincian WIP</th><th>Laundry</th><th>Jenis</th><th>Diklaim</th><th>Sudah kembali</th><th>Tanggal</th><th>Kirim lama</th><th>Kompensasi</th></tr></thead>
+      <tbody>{bd.laundry_claims.map(c => <tr key={c.claim_id}><td>{c.claim_number}{c.cancelled ? ' (dibatalkan)' : ''}</td><td>{c.po_number} · {c.source_key}</td><td>{c.vendor_code}</td>
+        <td>{CLAIM_TYPE_LABEL[c.claim_type]}</td><td>{c.qty_claimed} pcs</td><td>{c.recovered} pcs</td><td>{c.claim_date}</td><td>{c.dispatch_number ?? '—'}</td>
+        <td>{c.compensation_amount === null ? '—' : money(c.compensation_amount)}</td></tr>)}</tbody></table></div>}
+    {bd.laundry_uninvoiced.length > 0 && <div className="initial-import-table"><table><thead><tr><th>Terima lama</th><th>Laundry</th><th>Kategori</th><th>Jumlah</th><th>Sudah ditagih</th><th>Estimasi</th><th>Estimasi dilepas</th><th>Status</th></tr></thead>
+      <tbody>{bd.laundry_uninvoiced.map(u => <tr key={u.id}><td>{u.document_number} · {u.receipt_date}</td><td>{u.vendor_code}</td><td>{UNINVOICED_CATEGORY_LABEL[u.category]}</td>
+        <td>{u.qty} pcs</td><td>{u.billed} pcs</td><td>{u.estimated_amount === null ? 'Belum diketahui' : money(u.estimated_amount)}</td><td>{money(u.released)}</td>
+        <td>{u.invoiced ? 'Sudah ditagih penuh' : u.estimate_status === 'UNKNOWN' ? 'Nilai belum diketahui · tutup buku tertahan' : 'Menunggu invoice vendor'}</td></tr>)}</tbody></table></div>}
+  </section>
+}
+
