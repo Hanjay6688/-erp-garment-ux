@@ -1,0 +1,25 @@
+{
+ "label": "T3_PREP",
+ "production_go": false,
+ "release_evidence": false,
+ "runs": [
+  {
+   "run": 36113267241,
+   "mode": "capture",
+   "head_sha": "1dcf21b4d6adb3b612f012619c092b55cb7f425b",
+   "status": "CAPTURED",
+   "capture_sha256": "1f0a0fccffcab7d36dab857bf9287e9465f32d536e98522b1e84e2076ab3b9fd",
+   "note": "AW..AZ captures unchanged; BA capsule 10 functions (8 + get_owner_financial_snapshot_v2 for W9 + save_laundry_qc_action_v1 for LAU-T14)"
+  },
+  {
+   "run": 36113867725,
+   "mode": "cycle",
+   "head_sha": "61d88ee5224b2fb2da2af6f4df214fbaacf9f161",
+   "job": 108003251150,
+   "status": "PASS",
+   "checks": "127/127 PASS",
+   "primary_unchanged": true,
+   "note": "Refusals without change, two rollback and reinstall cycles BA..AC to AB, post-use matrix; rollbacks rebuilt from the capture above (AC..AV release variants unchanged)."
+  }
+ ]
+}
