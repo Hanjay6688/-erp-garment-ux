@@ -45,9 +45,19 @@ Cara kerja: setiap commit GPT di `audit/cp6-final-20260924-gpt-a0bcadf` dibaca; 
 | CodeQL run 36090824553 memindai d113bed, bukan 9dd7bc2; satu diff file eksekusi sesudahnya (port preview browser 4177→4176 di host browser auditor); 0 hasil di 4 bahasa | Fable tidak memindai ulang; catatan scope diterima: CodeQL 0-hasil berlaku untuk d113bed, dan diff ke 9dd7bc2 hanya alat auditor (bukan produk) — konsisten dengan diff produk a095a9d..9dd7bc2 kosong yang Fable verifikasi | NOTED |
 | Bukti T2 fixture summary (QUIETED/PAYROLL_APPROVED) tidak membuktikan kasus readiness negatif | Setuju; tidak ada klaim Fable yang bergantung padanya | NOTED |
 
+## Putaran 6 — konsolidasi akhir GPT (commit f69b75c) — 2026-09-25T06:07:56Z
+| Klaim GPT | Verifikasi Fable | Label |
+|---|---|---|
+| Konsolidasi selesai: bagian "terkini" di `AUDIT_REPORT_CP6.md`, `AUDIT_WRITER_HANDOFF_CP6.md` (W1–W9), `AUDIT_HANDOFF_CP6.md`, `AUDIT_PROGRESS.md`, index `gpt_round8`; "tidak ada run GPT yang masih ditunggu" | Semua bagian Fable (banner putaran 8, `fable_round8`, `fable_crossreview_gpt_r8`, `owner_decision_preparation`, `candidate_r8`, `status_r8` per temuan) dipertahankan. Penomoran W1–W9 sama dengan milik Fable; tidak ada temuan duplikat | CONFIRMED |
+| Putusan: CP6 HOLD, audit_complete=false, production_go=false; gate GPT 4 HOLD / 6 UNVERIFIED / 0 ACCEPT; GATE-16/D06 HOLD terpisah | Sama dengan putusan Fable. Temuan aktif terdeduplikasi (CP6-03/W8 P2, R8-B1-01/W7 P2, R8-C6-01/W1 P2, W9 P3, CP6-05/06 lokal lama) sesuai register Fable | CONFIRMED |
+| Tabel "sudah ditutup": CP6-01 12/12 browser; CP6-02/07/09/18 VERIFIED_INDEPENDENT untuk kasus tercatat; CP6-04 dua selector; CP6-24 race; C0 25/25; HTTP matriks; T3 subgate teknis diterima dengan batas | Setiap baris cocok dengan bukti yang Fable baca sendiri dari log (putaran 1–5 di atas) atau dari run Fable sendiri | CONFIRMED |
+| CP6-19 `status_r8` diubah GPT menjadi "NO_STALE_POST_PROVED_ON_LEGIT_APP_PATH_LEGACY_EDITABILITY_UNVERIFIED" | Konsisten dengan perbedaan interpretasi yang dicatat di putaran 1; Fable menerima rumusan itu (fakta sama, residu = A8/W3) | CONFIRMED |
+
+**Kesimpulan audit silang putaran 8 (Fable):** tidak ada klaim GPT yang REFUTED. Dua koreksi GPT atas Fable diterima (angka AR terpotong; formulasi split C6). Dua temuan GPT yang tidak ada di Fable dikonfirmasi dari log/sumber dan masuk handoff (R8-B1-01/W7, MULTI_CENT/W8). Dua auditor konvergen pada putusan dan daftar tugas W1–W9 / O2. Audit silang putaran 8 **selesai**; pekerjaan berikutnya menunggu writer (W1, W2, W7, W8, W9) dan owner (O2), sementara auditor dapat melanjutkan cakupan ALL/CP6-05/06 secara mandiri.
+
 ## Status GPT (dari `out/gpt_phase2_review_20260925.md` LANGKAH BERIKUTNYA)
 1. Rerun hanya kasus ADJUSTMENT_DATE setelah akses baca diperbaiki. 2. Fase native browser/timezone/HTTP sendiri termasuk A8 reachability. 3. Konsolidasi residu CP6-03 dan B1 ke handoff writer; C6 crosswalk; rekomendasi A7/A8.
-GPT **belum selesai** (rencana terakhir: konsolidasi laporan, index gabungan dan handoff writer; mempertahankan CP6-03/B1/C6 dan cakupan tersisa). Fable mengikuti commit berikutnya dan memperbarui dokumen ini.
+GPT **selesai** untuk putaran 8 (commit f69b75c): "konsolidasi audit silang putaran 8 selesai; tindak lanjut temuan dan cakupan belum selesai". Fable mengikuti commit berikutnya dan memperbarui dokumen ini.
 
 ## Dampak ke register (Fable)
 - Baru **W7 (tool, P2)**: perluas grup ketat B1 ke mode race dan HTTP (kosakata status, ID ganda, cek bocor) — `scripts/cp6_auditor_modes.py run_races/run_http/finish`.
