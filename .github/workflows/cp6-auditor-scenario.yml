@@ -25,6 +25,14 @@ name: CP6 Auditor Scenario
         description: Base64 of the auditor's ES module for the browser mode (exports cases(ui, today)); empty runs the browser sample
         required: false
         default: ''
+      scenario_path:
+        description: Instead of scenario_b64, a scenario file committed on the dispatched ref (scripts/cp6_*.py, e.g. the writer's scripts/cp6_bb_modes.py)
+        required: false
+        default: ''
+      browser_path:
+        description: Instead of browser_b64, a browser module committed on the dispatched ref (scripts/cp6_*.mjs)
+        required: false
+        default: ''
       phase:
         description: after = AN..AY plus AZ, BA and BB (current candidate); pre_bb = plus AZ and BA; pre_ba = plus AZ only; before = without AZ
         required: false
@@ -330,27 +338,39 @@ jobs:
     - name: Write the auditor scenario
       env:
         SCENARIO_B64: ${{ inputs.scenario_b64 }}
+        SCENARIO_PATH: ${{ inputs.scenario_path }}
       run: |
         set -euo pipefail
         python - <<'PY'
-        import base64,os,pathlib
+        import base64,hashlib,os,pathlib,re
         target=pathlib.Path(os.environ['RUNNER_TEMP'])/'auditor_scenario.py'
-        data=os.environ.get('SCENARIO_B64','').strip()
-        target.write_bytes(base64.b64decode(data,validate=True) if data else pathlib.Path('auditor/scripts/cp6_auditor_scenario_sample.py').read_bytes())
-        print(target,target.stat().st_size)
+        data=os.environ.get('SCENARIO_B64','').strip();path=os.environ.get('SCENARIO_PATH','').strip()
+        assert not (data and path),'SCENARIO_B64_OR_PATH_NOT_BOTH'
+        if path:
+            assert re.fullmatch(r'scripts/cp6_[a-z0-9_]+\.py',path),'SCENARIO_PATH_NOT_ALLOWED'
+            target.write_bytes(pathlib.Path('auditor',path).read_bytes())
+        else:
+            target.write_bytes(base64.b64decode(data,validate=True) if data else pathlib.Path('auditor/scripts/cp6_auditor_scenario_sample.py').read_bytes())
+        print(target,target.stat().st_size,path or ('b64' if data else 'sample'),hashlib.sha256(target.read_bytes()).hexdigest())
         PY
     - name: Write the auditor browser module
       if: matrix.key == 'auditor'
       env:
         BROWSER_B64: ${{ inputs.browser_b64 }}
+        BROWSER_PATH: ${{ inputs.browser_path }}
       run: |
         set -euo pipefail
         python - <<'PY'
-        import base64,os,pathlib
+        import base64,hashlib,os,pathlib,re
         target=pathlib.Path(os.environ['RUNNER_TEMP'])/'auditor_browser.mjs'
-        data=os.environ.get('BROWSER_B64','').strip()
-        target.write_bytes(base64.b64decode(data,validate=True) if data else pathlib.Path('auditor/scripts/cp6_auditor_browser_sample.mjs').read_bytes())
-        print(target,target.stat().st_size)
+        data=os.environ.get('BROWSER_B64','').strip();path=os.environ.get('BROWSER_PATH','').strip()
+        assert not (data and path),'BROWSER_B64_OR_PATH_NOT_BOTH'
+        if path:
+            assert re.fullmatch(r'scripts/cp6_[a-z0-9_]+\.mjs',path),'BROWSER_PATH_NOT_ALLOWED'
+            target.write_bytes(pathlib.Path('auditor',path).read_bytes())
+        else:
+            target.write_bytes(base64.b64decode(data,validate=True) if data else pathlib.Path('auditor/scripts/cp6_auditor_browser_sample.mjs').read_bytes())
+        print(target,target.stat().st_size,path or ('b64' if data else 'sample'),hashlib.sha256(target.read_bytes()).hexdigest())
         PY
     - name: Install browser dependencies for the candidate UI
       if: matrix.key == 'auditor'
