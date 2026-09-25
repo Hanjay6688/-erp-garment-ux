@@ -143,9 +143,10 @@ export async function cases(ui, today) {
         const loadError = await p.getByRole('alert').count()
         // Desktop: fill, reload in the middle (nothing is kept locally or posted), fill again, POST by double-click.
         const first = await fillNote(ui, p, fx, mandor, today, 7, 9)
+        // A reload starts the app again at its home page (the page is not kept in the URL); the user opens the note page again.
         await p.reload()
-        await ui.expect(p.getByRole('heading', { name: 'Nota Ambil Aksesori', exact: true })).toBeVisible()
-        await ui.expect(p.getByRole('button', { name: 'Muat ulang', exact: true })).toBeEnabled()
+        await ui.expect(p.locator('.top-title strong')).toBeVisible()
+        await openNotes(ui, owner)
         const afterReload = { notes: notes(first), stock: main(), form_number: await p.getByLabel('Nomor nota aksesori').inputValue() }
         const number = await fillNote(ui, p, fx, mandor, today, 7, 10)
         await p.getByRole('button', { name: 'Periksa pengesahan', exact: true }).click()
