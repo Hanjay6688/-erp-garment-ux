@@ -156,9 +156,10 @@
       "oracle": "M1679,3819: UUID/payload yang commitnya ambigu dipertahankan untuk rekonsiliasi.",
       "evidence": "Pattern/Access/quick-create7localchecks4PASS/3FAIL; tidak ada bukti committed duplicate.",
       "next": "Lost response setelah commit melalui UI/Auth/RPC nyata, reload/tab-switch, rekonsiliasi UUID lama dan tepat satu efek domain.",
-      "status_r8": "OPEN_HISTORICAL_LOCAL_FINDING_R8_NATIVE_UNVERIFIED",
-      "evidence_r8": "No round8 lost-response/reload browser case yet. Do not promote local retry envelope observations to committed duplicate effects.",
-      "gpt_updated_at": "2026-09-25T06:03:00Z"
+      "status_r8": "CONFIRMED_NATIVE_BROWSER_AMBIGUOUS_COMMIT_RECOVERY_P2",
+      "evidence_r8": "36102303107/job107967209608: Pattern and role duplicate firstHTTP200 truly committed, dropped reply, retry newUUID (role newcode), HTTP409; one row retained by unique guard. M1679/M3819 envelope/replay failure, not data duplication.",
+      "gpt_updated_at": "2026-09-25T06:03:00Z",
+      "next_r8": "W10 preserve exact pending envelope and reconcile original request; rerun same two browser cases."
     },
     {
       "id": "CP6-06",
@@ -1096,6 +1097,17 @@
           107960458342
         ],
         "ledger": "out/gpt_pickup_run_36100064157.json"
+      },
+      {
+        "run_id": 36102303107,
+        "job_ids": [
+          107967209608
+        ],
+        "ledger": "out/gpt_recovery_run_36102303107.json",
+        "counts": {
+          "COUNTEREXAMPLE": 2,
+          "INCOMPLETE": 2
+        }
       }
     ],
     "new_c0_cases": {
