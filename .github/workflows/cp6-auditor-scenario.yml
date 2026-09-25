@@ -7,6 +7,8 @@ name: CP6 Auditor Scenario
     - scripts/cp6_auditor_scenario.py
     - scripts/cp6_auditor_scenario_sample.py
     - scripts/cp6_auditor_modes.py
+    - scripts/cp6_auditor_runner.py
+    - scripts/cp6_auditor_scenario_selftest.py
     - scripts/cp6_ba_probe.py
     - .github/workflows/cp6-auditor-scenario.yml
   workflow_dispatch:
@@ -47,6 +49,10 @@ jobs:
           label: Auditor scenario on the final CP6 candidate (AUDITOR_SCENARIO)
           script: cp6_auditor_scenario.py
           proof: auditor
+        - key: selftest
+          label: Auditor runtime self-test (B1 strict group; tool check, not product evidence)
+          script: cp6_auditor_scenario.py
+          proof: auditor-selftest
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
       CP6_AC_INDEPENDENT_CONFIRM: postgres
@@ -328,7 +334,13 @@ jobs:
       working-directory: writer
       env:
         SCENARIO_PHASE: ${{ inputs.phase || 'after' }}
-      run: python '../auditor/scripts/${{ matrix.script }}' --phase "$SCENARIO_PHASE" --scenario "$RUNNER_TEMP/auditor_scenario.py"
+      run: |
+        set -euo pipefail
+        if [ '${{ matrix.key }}' = selftest ]; then
+          python '../auditor/scripts/${{ matrix.script }}' --phase before --scenario ../auditor/scripts/cp6_auditor_scenario_selftest.py --selftest
+        else
+          python '../auditor/scripts/${{ matrix.script }}' --phase "$SCENARIO_PHASE" --scenario "$RUNNER_TEMP/auditor_scenario.py"
+        fi
     - name: Remove disposable database
       if: always()
       working-directory: base
@@ -336,6 +348,6 @@ jobs:
     - uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: cp6-auditor-scenario-${{ github.run_id }}
+        name: cp6-auditor-scenario-${{ github.run_id }}-${{ matrix.key }}
         path: auditor/cp6-proof/${{ matrix.proof }}
         retention-days: 30

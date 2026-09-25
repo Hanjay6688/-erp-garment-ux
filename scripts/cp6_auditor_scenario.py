@@ -16,8 +16,9 @@ It defines at least one of
 where each callable returns a dict with at least 'status'. Races and HTTP cases are described in
 scripts/cp6_auditor_modes.py. It may import the probe helpers already on sys.path
 (import cp6_az_probe as azp: produce, cut_only, invoice, ledger_days, adjust, final_receipt, ...; cp6_aw_probe as awp:
-preflight; chain.production for the ordinary product RPCs). Each case runs inside a savepoint that is rolled back (as in
-the writer's probes); its full result is printed as one JSON line. The scenario file's sha256 is printed first, so the
+preflight; chain.production for the ordinary product RPCs). Each case runs inside a savepoint that is rolled back, through the strict
+group of scripts/cp6_auditor_runner.py (duplicate ids refused; status vocabulary; public schema, advisory locks and other
+sessions checked after every case); its full result is printed as one JSON line. The scenario file's sha256 is printed first, so the
 auditor can tie the log to the file.
 
 Usage (workflow .github/workflows/cp6-auditor-scenario.yml):
@@ -36,6 +37,7 @@ import cp6_ay_probe as ayp
 import cp6_az_probe as azp
 import cp6_ba_probe as bap
 import cp6_auditor_modes as modes
+import cp6_auditor_runner as runner
 r1,boundary,prior=awp.r1,awp.boundary,awp.prior
 
 OUT=AUDITOR/'cp6-proof/auditor'
@@ -49,7 +51,7 @@ def load(path):
     return module
 
 
-def run(phase,scenario):
+def run(phase,scenario,selftest=False):
     assert os.environ.get('CP6_AR_CONFIRM')=='cp6_rollback' and os.environ.get('CP6_DATABASE_CONTAINER')=='supabase_db_cp5-local'
     text=Path(scenario).read_bytes()
     print(json.dumps(dict(auditor_scenario_sha256=hashlib.sha256(text).hexdigest(),bytes=len(text),phase=phase)),flush=True)
@@ -68,9 +70,19 @@ def run(phase,scenario):
         if phase in('pre_ba','after'):report['az_install']=azp.install_az();verify=azp.az_verified
         if phase=='after':report['ba_install']=bap.install_ba();verify=bap.ba_verified
         print(json.dumps(dict(auditor_setup={k:report.get(k) for k in ('au_install','av_install','ay_install','az_install','ba_install')}),default=str),flush=True)
-        group=r1.group('AUDITOR_CASES_'+phase.upper(),getattr(module,'cases',None) or (lambda cur,today:[]),verify)
-        report['auditor_cases']={k:group[k] for k in ('status','counts')}
+        # B1 (CP6-10): the strict group (duplicate ids refused, status vocabulary, public schema, advisory locks and
+        # leaked sessions checked after every case, planned vs final printed).
+        group=runner.strict_group('AUDITOR_CASES_'+phase.upper(),getattr(module,'cases',None) or (lambda cur,today:[]),verify)
+        report['auditor_cases']={k:group.get(k) for k in ('status','counts','planned_case_ids','final','error')}
         complete=group['status']!='INCOMPLETE'
+        if selftest:
+            duplicate=runner.strict_group('AUDITOR_SELFTEST_DUPLICATE_IDS',
+                lambda cur,today:[('ST:SAME',lambda:dict(status='PASS')),('ST:SAME',lambda:dict(status='PASS'))],verify)
+            verdict=module.check(group.get('cases'))
+            report['selftest']=dict(cases=verdict,planned_equal=group.get('planned_case_ids')==list(module.EXPECTED),
+                                    duplicate_group_refused=duplicate.get('error')=='AUDITOR_DUPLICATE_CASE_IDS' and not duplicate['cases'])
+            complete=all(v['ok'] for v in verdict.values()) and report['selftest']['planned_equal'] and report['selftest']['duplicate_group_refused']
+            print(json.dumps(dict(auditor_selftest=report['selftest']),default=str),flush=True)
         # Two-session and HTTP modes run on committed copies of the installed clone, after the savepoint cases.
         if callable(getattr(module,'races',None)):
             races=modes.run_races(module,verify,phase);report['auditor_races']={k:races.get(k) for k in ('status','counts','database_remaining','error')}
@@ -79,7 +91,7 @@ def run(phase,scenario):
             http=modes.run_http(module,verify,phase)
             report['auditor_http']={k:http.get(k) for k in ('status','counts','database_remaining','cleanup','auth_counts','error')}
             complete=complete and http['status']=='RUN_COMPLETE'
-        report['status']='RUN_COMPLETE' if complete else 'INCOMPLETE'
+        report['status']=('SELFTEST_PASS' if complete else 'SELFTEST_FAIL') if selftest else ('RUN_COMPLETE' if complete else 'INCOMPLETE')
     except Exception as exc:report.update(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc())
     finally:
         subprocess.run(['docker','exec','supabase_db_cp5-local','dropdb','-U','supabase_admin','--if-exists','--force','--maintenance-db=template1','cp6_rollback'],check=True)
@@ -89,11 +101,12 @@ def run(phase,scenario):
         if not report['primary_unchanged'] or report['clone_remaining']:report['status']='INCOMPLETE'
     print(json.dumps(dict(auditor_phase=phase,**report),default=str),flush=True)
     # The job fails only when the run itself is incomplete; case outcomes (PASS/FAIL/COUNTEREXAMPLE) are the auditor's to read.
-    assert report['status']=='RUN_COMPLETE',report.get('error','AUDITOR_RUN_INCOMPLETE')
+    assert report['status']==('SELFTEST_PASS' if selftest else 'RUN_COMPLETE'),report.get('error',report['status'])
 
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser()
     parser.add_argument('--phase',choices=('before','pre_ba','after'),required=True)
     parser.add_argument('--scenario',required=True)
-    args=parser.parse_args();run(args.phase,args.scenario)
+    parser.add_argument('--selftest',action='store_true',help='the runner self-test (B1): expect the scenario EXPECTED statuses')
+    args=parser.parse_args();run(args.phase,args.scenario,args.selftest)

@@ -27,6 +27,18 @@ from cp6_t3_aligned_install import advisors,advisor_delta
 
 boundary=awp.boundary
 OUT=AUDITOR/'cp6-proof/t3'
+# B2 (independent audit CP6-11): the job is green only on the whole gate below. The one reviewed advisor class that a
+# release adds is INFO rls_enabled_no_policy on erp tables (owner-only tables with RLS on and no policy, reached only
+# through security-definer RPCs; 54 of them at 208afce). Any other new finding, or a finding that cannot be compared,
+# turns the job red.
+ACCEPTED_NEW_ADVISOR=('rls_enabled_no_policy','INFO','erp')
+DRILL_OK=('RESTORED_IDENTICAL','RESTORED_SAME_MEANING')
+
+
+def advisors_ok(delta):
+    if delta.get('status')=='NO_NEW_FINDINGS':return True
+    return delta.get('status')=='REVIEW_REQUIRED' and all(
+        (f.get('name'),f.get('level'),(f.get('metadata') or {}).get('schema'))==ACCEPTED_NEW_ADVISOR for f in delta.get('added',[]))
 
 
 def fingerprint(url):
@@ -144,10 +156,14 @@ def run(mode):
             report['primary_unchanged']=primary is not None and boundary.snapshot(cur)==primary
             report['auth_users_after']=cur.execute('select count(*) from auth.users').fetchone()[0]
         save()
+    gate=dict(installed=report['status'] in ('ALL_STAGES_INSTALLED','BROWSER_PASS'),primary_unchanged=report.get('primary_unchanged') is True)
+    if mode!='browser':
+        gate.update(backup_restore_drill=report.get('backup_restore_drill') in DRILL_OK,
+                    security_advisors=advisors_ok(((report.get('security_advisors') or {}).get('delta')) or {}))
+    report['gate']=gate;save()
     print(json.dumps(dict(t3_package_run={k:v for k,v in report.items() if k not in('stages','security_advisors')}),default=str)[:8000],flush=True)
-    # Every outcome is recorded above; the job is green only when the whole candidate installed (and, in browser mode,
-    # the flow passed), so a green job can be cited without reading the log.
-    assert report['status'] in ('ALL_STAGES_INSTALLED','BROWSER_PASS'),(report['status'],report.get('error'))
+    # Every outcome is recorded above; the job is red unless every part of the gate holds (read the gate line in the log).
+    assert all(gate.values()),(report['status'],gate,report.get('error'))
     if mode=='capture':
         # The capture job also compares with the committed package: a difference means the committed package is stale, so
         # the job is red; the new pins are in the log (T3_PINS_CHUNK) for the rebuild.
