@@ -1,0 +1,19 @@
+{
+  "phase": "R9_BUSINESS_TOOL_FIRST_DISPATCH",
+  "tool_head": "d1bc8adff3ba1a2a7001ef39e4819d0c3813d00b",
+  "product_ref": "b6d81f93a1e244178193178aec765facfd1b5488",
+  "oracle_contracts": {
+    "ERP_V3_2_Master_Pulih_20260923.md": "f21ac70360915a1f1021b42a3918e862ca7d11cf88c1b90c5627b4490c69af07",
+    "ERP_V3_2_Perubahan_Pulih_20260923.md": "92966cd6ed27e64123be6c52e2263bfbdb3db91c97f2e441c3bdc98589397676",
+    "ERP_ADDENDUM_BUSINESS_REPORT_CP7_2026-09-18.md": "4566ab6f1c8e53bc21c70c0c777f780b526305815e04d5913a5c858dfaa85886"
+  },
+  "files": [
+    {"path": "audit/scenarios/r9_round/gpt_r9_business.py", "sha256": "0831e7a1eaec067bf781e760d8cd02217a3107c7bbbf488104ff9bc84a724825"},
+    {"path": "audit/scenarios/r9_round/gpt_r9_tool_unknown.py", "sha256": "5e851b22829e486e5308b0e8dbf9072a64b42064cc106f0ed074f9646dc20c85"},
+    {"path": "audit/scenarios/round8/gpt_round8.py", "sha256": "695faf3e6d4d393705d423940b47012ae2c9b4ccf68dc509fc7f1b7b64bee77b"},
+    {"path": "audit/scenarios/round8/gpt_tool_modes.py", "sha256": "0cad838261da653b2fd3b594042148e4ff54d1db6fa04c256add36b195c8df85"}
+  ],
+  "cases": ["W8:4_MULTI_CENT", "W9:POST_CORRECTION_AND_CONTROL", "LAU_T14:LATER_RATE_AND_CONTROL", "W7:DUPLICATE_IDS", "W7:UNKNOWN_STATUS"],
+  "expected_tool_jobs": "deliberately fail closed / INCOMPLETE on invalid auditor groups",
+  "all_other_gates": "UNVERIFIED"
+}
