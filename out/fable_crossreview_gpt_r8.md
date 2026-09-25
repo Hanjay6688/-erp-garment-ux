@@ -74,6 +74,22 @@ Tidak ada run Fable; tidak menyentuh skenario GPT. Bahan: diagnostik yang GPT si
 | Terpisah dari itu: pada bacaan awal yang gagal, UI merender empat KPI **0** dengan banner error dan tulis terkunci | `ConnectedLaundryPage.tsx:412-416` (`?? 0`), `ConnectedQcFinalPage.tsx` sejenis | Inilah CP6-06 (M:3825 "unknown ≠ 0"): sudah teramati di rev2 tanpa perlu kontrol positif; yang belum terbukti hanya "refetch memulihkan" |
 **Rekomendasi Fable (tanpa menunggu rev3):** (1) untuk writer, calon **W11 (P3 UX)**: exception klien (parser/kontrak) tidak boleh ditampilkan sebagai "layanan tidak dapat dihubungi" — tampilkan pesan parser asli agar operator dan auditor tahu bedanya jaringan vs data; (2) CP6-06 dapat dinilai dari fakta rev2: KPI menampilkan 0 saat data unknown (banner + kunci tulis adalah mitigasi, bukan pemenuhan M:3825); (3) kontrol positif GPT kemungkinan gagal karena fixture vs invarian parser, bukan karena produk gagal refetch — jangan dipromosikan jadi cacat recovery sebelum rev3.
 
+## Putaran 9 — penyebab kegagalan kontrol positif "unknown" ditemukan dari sumber (Fable, tanpa run) — 2026-09-25T06:47:49Z
+**Rantai sebab (semua diverifikasi di kandidat a095a9d):**
+1. Respons refetch berisi produk dengan `model_id = a2000000-0000-0000-0000-000000000001` (tertangkap GPT di `refetch_products`).
+2. Frontend memvalidasi setiap ID dengan `uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i` (`src/laundryQcModel.ts:123`); nibble versi harus 1–8. Diuji Fable dengan Node memakai regex persis dari sumber: `a2000000-…-000000000001` **REJECTED**; size/brand/produk lain (`c8c10000-0000-4000-8000-…`, `d125102c-8397-4cfc-…`) OK.
+3. `parseProduct` → `id(raw.model_id,'Model produk')` melempar `Error('Model produk bukan UUID valid.')` (`laundryQcModel.ts:151,224`).
+4. `useLaundryQcWorkspace.load()` menangkap exception itu dan menampilkan `normalizeClientError(error).message`; karena `Error` biasa tidak cocok dengan kode mana pun, fallback = `BACKEND_UNAVAILABLE` "Layanan UAT belum dapat dihubungi. Coba lagi setelah status diperiksa." (`src/lib/clientError.ts:71`). `setWorkspace` tidak pernah dipanggil → KPI tetap 0.
+5. Asal ID itu: seed uji `supabase/tests/cp3_r3_full_schema_seed.sql` (model `CP3R3-MODEL`, dipakai juga oleh tes cp4/cp5 rollback) — UUID buatan tangan dengan nibble versi 0, **bukan data produk** dan bukan hasil `gen_random_uuid()`.
+
+**Kesimpulan:** kontrol positif GPT gagal karena data seed uji tidak lolos validator UUID frontend, bukan karena produk gagal memulihkan data setelah refetch. Prediksi untuk rev3 GPT (parser murni): pesan asli = "Model produk bukan UUID valid.".
+
+**Dampak dan tindak lanjut:**
+- Untuk GPT: pakai fixture produk/model yang dibuat lewat API (UUID v4) atau model seed lain yang valid; ulangi kontrol positif. Kalau UI lalu menampilkan 20/10, kontrol positif PASS dan CP6-06 tinggal soal KPI 0 saat unknown.
+- Untuk writer, **W11 (P3 UX, baru)**: exception klien (parser/kontrak) ditampilkan sebagai "layanan tidak dapat dihubungi" — tampilkan pesan asli (mis. kode `CLIENT_CONTRACT_MISMATCH`) agar jaringan vs data bisa dibedakan oleh operator/auditor. Bukti: `clientError.ts:71` fallback + kasus ini.
+- Untuk writer/T3, **pertanyaan W12 (P3)**: pastikan tidak ada UUID non-standar (nibble versi 0 atau varian non-RFC) pada data hosted/legacy untuk tabel yang dibaca facade CP6 (products/models/sizes/brands/…); satu baris seperti itu membuat halaman Laundry/QC tidak dapat memuat sama sekali dengan pesan yang menyesatkan. Cek ini boleh masuk drill T3 (bukan tugas auditor pada hosted).
+- CP6-06 (M:3825 unknown ≠ 0): fakta rev2 tetap — saat data belum dimuat, KPI merender 0 (`ConnectedLaundryPage.tsx:412-416`, QC sejenis) dengan banner error dan tulis terkunci. Penilaian akhir menunggu kontrol positif yang bersih.
+
 ## Status GPT (dari `out/gpt_phase2_review_20260925.md` LANGKAH BERIKUTNYA)
 1. Rerun hanya kasus ADJUSTMENT_DATE setelah akses baca diperbaiki. 2. Fase native browser/timezone/HTTP sendiri termasuk A8 reachability. 3. Konsolidasi residu CP6-03 dan B1 ke handoff writer; C6 crosswalk; rekomendasi A7/A8.
 GPT menyatakan konsolidasi selesai (f69b75c) tetapi **melanjutkan celah cakupan** (CP6-05/06 browser, binding ALL). Fable mengikuti lagi. Rencana GPT berikutnya: retry diagnostik 2 kasus unknown, lalu pembaruan laporan/index. Fable mengikuti commit berikutnya dan memperbarui dokumen ini.

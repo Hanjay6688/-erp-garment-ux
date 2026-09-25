@@ -690,3 +690,6 @@ CP6-05 dikonfirmasi (log job 107967209608 + sumber: hanya PatternPage/AccessCont
 
 ## Fable — pra-diagnosis kasus unknown GPT (2026-09-25T06:40:53Z)
 Dari sumber: UI "Layanan UAT belum dapat dihubungi" setelah HTTP 200 = exception klien pasca-respons (kemungkinan penolakan parser, `laundryQcModel.ts:649-655` atau invarian baris) yang disamarkan `normalizeClientError` fallback (`clientError.ts:71`). Calon W11 (P3 UX). CP6-06 (KPI 0 saat unknown) sudah teramati di rev2. Menunggu rev3 GPT untuk pesan parser asli.
+
+## Fable — sebab kegagalan kontrol positif unknown ditemukan (2026-09-25T06:47:49Z)
+Seed uji model_id a2000000-…-000000000001 (cp3_r3_full_schema_seed.sql) ditolak regex UUID frontend (laundryQcModel.ts:123) → parser melempar "Model produk bukan UUID valid." → disamarkan clientError.ts:71 menjadi "Layanan UAT belum dapat dihubungi". Bukan produk gagal refetch. W11 (UX pesan) dan W12 (cek UUID data hosted) ditambahkan. Menunggu rev3 GPT untuk konfirmasi pesan parser.
