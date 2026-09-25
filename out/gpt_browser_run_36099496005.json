@@ -1,0 +1,16 @@
+{
+  "run_id": 36099496005,
+  "job_id": 107958771209,
+  "status": "in_progress",
+  "audit_commit": "71b62c21653ab7bf4ac73f889becd12fce8f4d89",
+  "tool_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
+  "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
+  "planned": {
+    "native": 1,
+    "http": 3,
+    "browser": 12
+  },
+  "results": null,
+  "label": "AUDITOR_SCENARIO",
+  "production_go": false
+}

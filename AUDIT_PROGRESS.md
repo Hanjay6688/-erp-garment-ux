@@ -1,5 +1,8 @@
 # CP6 audit — active round 8 checkpoint
 
+## GPT phase3 run in flight
+Run [36099496005](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36099496005), job107958771209; audit71b62c2. Native1+HTTP3+browser12; all BELUM. Full ledger out/gpt_browser_run_36099496005.json. Same candidate9dd7bc2/a095a9d. LANGKAH BERIKUTNYA: retrieve completed LOG and record results/cleanup, resolve fixture-only issues separately, then combined report/handoff. C6 75-case crosswalk being reconciled; no blanket deferral of old findings. CP6HOLD.
+
 ## GPT phase3 browser/HTTP prepared
 Native phase2 result24PASS/1INCOMPLETE and T3 cross-review saved3027609. Browser/HTTP plan frozen in out/gpt_browser_oracle_freeze.md; hashes in audit/scenarios/browser_round8/MANIFEST.json. Twelve realbrowser WIB cases,3validHTTP cases,1C0 adjustment transport retry; statusBELUM. Workflow pins same9dd7bc2/a095a9d. No product edits.
 LANGKAH BERIKUTNYA: retrieve run/job triggered by this commit; persist IDs, then per-case results/cleanup; reconcile remainingC6/closeflag/A7A8 and update combined handoff/report. CP6HOLD,production_go=false.
