@@ -165,3 +165,12 @@ Urutan yang saya sarankan: D01 dan D02 dulu (mempengaruhi 25 kasus T2 + CP6-07),
 ## Konfirmasi owner ke auditor — scope CP6 (lampiran C6 rev3 §0) — 2026-09-25T11:37:30Z
 Pertanyaan auditor: tafsir writer 4 poin (semua CR ACC-04b/LAU-05b/LAU-06b termasuk ganti SKU hasil BS dibangun & diuji di CP6; ALL = 22 keadaan; kebijakan M §14 sebagai pengaturan aplikasi dengan default aman; D06 disahkan setelah revisi) — benar sebagai keputusan owner?
 Jawaban owner (pilihan): **"Ya, keempat poin benar"**. Status: OWNER_CONFIRMED_TO_AUDITOR. Catatan auditor: nilai default tiap kebijakan tetap PENDING_POLICY_VALUE sampai owner melihatnya tertulis; D06/lampiran disahkan setelah revisi.
+
+## Keputusan owner langsung ke auditor — D06 dan T3 — 2026-09-25T15:55:00Z (OWNER_CONFIRMED_TO_AUDITOR)
+Teks owner (verbatim):
+> Saya sahkan Lampiran C6 rev4 pada commit `4c61acad` sebagai keputusan D06, termasuk cakupan ACC-04b, LAU-05b, LAU-06b, dan ALL 22. Nilai kebijakan yang bertanda `PENDING_POLICY_VALUE` tetap pending sampai saya setujui angkanya. Pengesahan lampiran ini bukan penerimaan hasil uji; CP6 tetap HOLD dan `production_go=false`.
+>
+> Untuk T3 saya pilih **A**: bahan sejenis yang bercampur tetap memakai rata-rata bergerak. Saya paham selisih pembulatan dari beberapa nota dapat terkumpul pada satu PO—contoh yang diuji: 10,05 dibanding 10,01. Jangan tulis batas tetap "paling banyak 1 sen per PO". Total nilai, nilai per tanggal, stok saat habis, dan jejak sumber serta penyesuaiannya wajib tetap cocok dan diuji. Kalau kelak ada bahan yang harus dinilai khusus per roll, ajukan CR terpisah. Tolong perbaiki kalimat pertanyaan T3 dan catat keputusan ini.
+
+Identitas dokumen yang disahkan: `docs/contracts/ERP_ADDENDUM_OWNER_DECISIONS_CP6_2026-09-25_LAMPIRAN_C6.md` pada `4c61acad2270e11a2aca762237790a68cf36278a`, sha256 `42e0481579497c0acfe45d7092681741d431efaaeb7c200533051690b1d25f35` (rev4, commit b7833e0). Catatan T3 writer yang dirujuk: `docs/cp6-t3-cent-per-po-and-t5-advisor-note.md` sha256 `f883c52cb5f5e2e1650f045428e45158d9c6b0925f2249c8cbab497648a0ff28`.
+Status: **D06 DISAHKAN** (scope ACC-04b, LAU-05b, LAU-06b, ALL 22; nilai kebijakan tetap PENDING_POLICY_VALUE). **T3 = opsi A** (rata-rata bergerak; oracle wajib: total, per tanggal, stok habis = nilai 0, jejak sumber/penyesuaian; tanpa batas tetap "1 sen per PO"; penilaian per roll = CR terpisah). Pengesahan ≠ penerimaan uji; CP6 HOLD, production_go=false.

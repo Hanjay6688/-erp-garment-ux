@@ -1505,10 +1505,36 @@
  "handoff_tasks_status": {
   "T1": "CONFIRMED_annex_rev4_ready_for_D06",
   "T2": "CONFIRMED_on_4c61aca",
-  "T3": "EXPLAINED_owner_question_A_or_B_default_A",
+  "T3": "DECIDED_A_writer_to_fix_wording",
   "T4": "CONFIRMED_xaudit_8_rev4",
   "T5": "CONFIRMED",
   "T6": "OPERATOR_PENDING",
   "T7": "OPTIONAL_OPEN"
+ },
+ "owner_decisions": {
+  "D06": {
+   "status": "OWNER_CONFIRMED_TO_AUDITOR",
+   "annex_commit": "4c61acad2270e11a2aca762237790a68cf36278a",
+   "scope": [
+    "ACC-04b",
+    "LAU-05b",
+    "LAU-06b",
+    "ALL_22"
+   ],
+   "policy_values": "PENDING_POLICY_VALUE",
+   "note": "ratification is not test acceptance; CP6 HOLD; production_go=false"
+  },
+  "T3_cent_per_po": {
+   "status": "OWNER_CONFIRMED_TO_AUDITOR",
+   "choice": "A_moving_average",
+   "no_fixed_1_cent_per_po_bound": true,
+   "mandatory_oracles": [
+    "total value",
+    "per-date value",
+    "zero value at zero stock",
+    "source and adjustment trail"
+   ],
+   "per_roll_valuation": "separate CR"
+  }
  }
 }

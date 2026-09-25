@@ -927,3 +927,6 @@ QC rev6 diverifikasi dari log: healthy PASS (10), unknown COUNTEREXAMPLE (KPI 0)
 
 ## Fable — cek silang GPT BB round 10 (2026-09-25T16:30Z)
 - S02 dua draf berbagi stok: CONFIRMED konsisten. Pool 10 dokumen: CONFIRMED; memperjelas T3 — PO pertama menyerap sen dari semua dokumen bertumpuk (10,05 vs dokumen 10,01), batas = n sen untuk n dokumen bertumpuk, bukan 1 sen per PO. Writer diminta memperbaiki kalimat pertanyaan owner. Tidak ada REFUTED.
+
+## Fable — keputusan owner D06 + T3 dicatat (2026-09-25T15:55:00Z)
+- D06 disahkan atas lampiran C6 rev4 @4c61acad (sha 42e0481579497c0a…), scope ACC-04b/LAU-05b/LAU-06b/ALL 22; nilai kebijakan pending; pengesahan ≠ penerimaan uji. T3 = A (rata-rata bergerak; tanpa batas tetap 1 sen per PO; oracle wajib total/per tanggal/stok habis/jejak; per roll = CR). Dicatat di OWNER_DECISIONS_CP6_DRAFT.md, out/fable_r11_results.md §8, handoff gabungan, indeks. Writer: perbaiki kalimat T3 + catat di addendum induk.
