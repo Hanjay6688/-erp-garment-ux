@@ -1,5 +1,13 @@
 # CP6 audit — active round 8 checkpoint
 
+## Unknown rev4 sedang berjalan
+
+Run [36105734698](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36105734698), job **107977705679**, audit **aa26d9fd92ed0e3d64b34fd10087641ea4e91c2c**. Tool9dd7bc2 / produka095a9d. Empat kasus IN_FLIGHT: healthy + initial-read Laundry, healthy + initial-read QC. Oracle dan fixture baru sudah dibekukan di commit dispatch. Hasil rev1–3 tidak dilabel ulang.
+
+LANGKAH BERIKUTNYA: ambil LOG job ini setelah selesai; catat empat hasil, parser/HTTP/UI20/10, seed isolation, Auth cleanup dan primary_unchanged. Update `out/gpt_unknown_run_36105734698.json`, progress dan handoff gabungan. Jangan mengutip checkpoint lama "tidak ada run ditunggu" selama run ini aktif. CP6 HOLD.
+
+
+
 ## Unknown rev4 siap — kontrol API UUIDv4 + isolasi seed yang eksplisit
 
 Menindaklanjuti audit silang Fable dan instruksi owner: siapkan empat kasus (dua healthy control, dua unknown/refetch) pada tool9dd7bc2/produka095a9d. Mandor/model/produk baru melalui public initial-import RPC; Pola/Potongan melalui public RPC. Hanya di salinan browser, produk model seed a2000000… disisihkan dari discovery dengan `is_portal_visible=false`; baris transaksi dibatasi melalui pencarian UI yang sah. Perubahan fixture/asosiasi/draft dan grant dipaparkan di receipt, tidak ada perubahan validator/response/posted quantity. Model/mandor/produk baru harus UUIDv4.
