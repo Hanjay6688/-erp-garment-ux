@@ -1,5 +1,9 @@
 # CP6 audit — active round 8 checkpoint
 
+## GPT pickup-only retry prepared
+Run36099496005 result committed19caeb9: nativeadjustmentPASS,validHTTP3PASS,browser8PASS/4INCOMPLETE. Retryonly4pickupcases. Fix testselector to source-unique .cpick-setup select; add visibleformdiagnostic if anything else blocks. No oracle/fixture/productchange; no rerun of already-passingbusinesscases. Browser SHA256 b2a93bec69de54a5060d80331de29d908786cd6a26f00ff4819bc4ffc8589127; allreceipts audit/scenarios/pickup_round8/MANIFEST.json. Nativefactoryempty bydesign; no ordinary-case acceptance inferred.
+LANGKAH BERIKUTNYA: obtain run/job for thiscommit, saveIDs, then read4browsercases/cleanup. Finish combinedreport/handoff with25newC0PASS andexactremaininggates. CP6HOLD.
+
 ## GPT browser phase1 result — 25 September 2026
 Run36099496005/job107958771209, audit71b62c2, exacttool9dd7bc2/producta095a9d. Logs line2123–2144, per-case proof in out/gpt_browser_run_36099496005.json.
 
