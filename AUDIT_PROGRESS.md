@@ -1,5 +1,10 @@
 # CP6 audit — active round 8 checkpoint
 
+## Recovery/unknown retry in flight
+
+Run [36102303107](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36102303107), job **107967209608**, audit commit **6156adb62399a908fe16f5b51fd7b1c06c001274**. Four scenarios unchanged; only the workflow path corrected. Previous run36101907250 is NOT_RUN/INCOMPLETE and retained. Ledger `out/gpt_recovery_run_36102303107.json`. LANGKAH BERIKUTNYA: collect this job's completed LOG and four per-case outcomes, verify primary/clone/Auth cleanup, update CP6-05/06 and shared handoff. CP6 HOLD.
+
+
 ## Recovery run36101907250 completed INCOMPLETE — auditor path error
 
 Job107966011162, log SHA256523590ddadb0fd232ccabbf3151123d503ded3cc5efa58d811d13147508aceb1: browser file path erroneously ended `_rev2.mjs` after workflow phase replacement. **All four browser cases NOT_RUN**, no product failure or PASS. Native factory empty intentionally. Primary_unchanged=true, clone_remaining0. Full error/identity/log-line data in `out/gpt_recovery_run_36101907250.json`.
