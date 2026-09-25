@@ -1,5 +1,10 @@
 # CP6 audit — active round 8 checkpoint
 
+## Recovery/unknown browser run in flight
+
+Run [36101907250](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36101907250), job **107966011162**, audit commit **18d61463a6d8ffbe3cc9fca32a95df3c1ea373a5**. Four browser cases, status BELUM/IN_FLIGHT. Exact tool9dd7bc2/producta095a9d; frozen manifest and oracle in prior checkpoint. Ledger `out/gpt_recovery_run_36101907250.json`. LANGKAH BERIKUTNYA: read completed job LOG, preserve raw per-case JSON and cleanup, adjudicate CP6-05/06; fix only setup if INCOMPLETE. CP6 HOLD.
+
+
 ## Active phase — recovery/unknown browser prepared
 
 The selected round8 report/handoff is consolidated in f69b75c. Continue unblocked full-CP6 gaps CP6-05/06 on the same9dd7bc2/a095a9d. Four cases now frozen in `out/gpt_recovery_unknown_oracle_freeze.md`: real commit then lost reply for Pattern/role duplicate; failed initial Laundry/QC reads with nonzero truth and successful refetch controls. All four BELUM. Fault injection affects transport only; empty role permission set/no assigned user; disposable only.
