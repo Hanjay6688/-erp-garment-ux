@@ -742,3 +742,6 @@ Dari sumber: UI "Layanan UAT belum dapat dihubungi" setelah HTTP 200 = exception
 
 ## Fable — sebab kegagalan kontrol positif unknown ditemukan (2026-09-25T06:47:49Z)
 Seed uji model_id a2000000-…-000000000001 (cp3_r3_full_schema_seed.sql) ditolak regex UUID frontend (laundryQcModel.ts:123) → parser melempar "Model produk bukan UUID valid." → disamarkan clientError.ts:71 menjadi "Layanan UAT belum dapat dihubungi". Bukan produk gagal refetch. W11 (UX pesan) dan W12 (cek UUID data hosted) ditambahkan. Menunggu rev3 GPT untuk konfirmasi pesan parser.
+
+## Fable — audit silang GPT iterasi 10 (2026-09-25T07:17:58Z)
+Rev5 GPT diverifikasi dari log: Laundry healthy PASS (20), Laundry unknown COUNTEREXAMPLE (KPI 0 saat read gagal; refetch 20) → CP6-06 CONFIRMED (Laundry) P2 → W13. Rev3 parser message = prediksi Fable. QC menunggu rev6 (fixture nama merek unik).
