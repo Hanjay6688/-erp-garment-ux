@@ -1,5 +1,14 @@
 # CP6 audit — active round 8 checkpoint
 
+## Active phase — recovery/unknown browser prepared
+
+The selected round8 report/handoff is consolidated in f69b75c. Continue unblocked full-CP6 gaps CP6-05/06 on the same9dd7bc2/a095a9d. Four cases now frozen in `out/gpt_recovery_unknown_oracle_freeze.md`: real commit then lost reply for Pattern/role duplicate; failed initial Laundry/QC reads with nonzero truth and successful refetch controls. All four BELUM. Fault injection affects transport only; empty role permission set/no assigned user; disposable only.
+
+Source review records were written incrementally by file in the oracle note. Syntactic validation and three scenario hashes passed; no native result claimed yet. Manifest `audit/scenarios/recovery_round8/MANIFEST.json`: browser SHA256015097817df43ea4719c827e919c5cb7ae5814a5d19444231e8b434e7f067d79; fixture0ce92ba1baa9496efd825aaa4f1fd8f12e4b49e0c2d4b5f136d8ff9f69bc3cb0; browser-only factorybf60eb539e39e20d5493080376b4139ba046aeb78b20dfbe213457793afa24d5.
+
+LANGKAH BERIKUTNYA: obtain run/job for this push immediately, persist IDs, then inspect four per-case results and cleanup. Resolve test/setup errors without changing oracle; update existing CP6-05/06 rather than invent duplicate IDs. CP6 HOLD, audit_complete=false, production_go=false.
+
+
 <!-- GPT_R8_CURRENT_PROGRESS_BEGIN -->
 ## LANGKAH BERIKUTNYA — checkpoint aktif putaran 8
 

@@ -5,7 +5,7 @@ name: GPT CP6 Round 8 Independent Audit
     - audit/cp6-final-20260924-gpt-a0bcadf
     paths:
     - .github/workflows/gpt-cp6-round8.yml
-    - audit/scenarios/pickup_round8/**
+    - audit/scenarios/recovery_round8/**
 permissions:
   contents: read
   actions: read
@@ -21,8 +21,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - key: pickup_browser
-          label: GPT Bagi Potongan WIB browser retry (4 cases)
+        - key: recovery_browser
+          label: GPT recovery and unknown browser (4 cases)
           proof: auditor
           script: cp6_auditor_scenario.py
     env:
@@ -215,7 +215,7 @@ jobs:
         \ '../auditor/cp6-proof/${{ matrix.proof }}/CLONE_${{ matrix.key }}'\n"
     - name: Verify pinned candidate and scenario receipt
       shell: bash
-      run: "set -euo pipefail\npython - <<'PYVERIFY'\nimport hashlib,json,pathlib,subprocess,os\nroot=pathlib.Path('audit-source/audit/scenarios/pickup_round8')\n\
+      run: "set -euo pipefail\npython - <<'PYVERIFY'\nimport hashlib,json,pathlib,subprocess,os\nroot=pathlib.Path('audit-source/audit/scenarios/recovery_round8')\n\
         m=json.loads((root/'MANIFEST.json').read_text())\nfor f in m['files']:\n assert hashlib.sha256((root/f['path']).read_bytes()).hexdigest()==f['sha256'],f['path']\n\
         actual=subprocess.check_output(['git','-C','auditor','rev-parse','HEAD'],text=True).strip()\nassert actual==m['tool_head']\n\
         print(json.dumps({'gpt_audit_identity':m,'audit_commit':os.environ['GITHUB_SHA']}))\nPYVERIFY"
@@ -232,8 +232,8 @@ jobs:
       working-directory: writer
       run: 'set -euo pipefail
 
-        python ../auditor/scripts/cp6_auditor_scenario.py --phase after --scenario ../audit-source/audit/scenarios/pickup_round8/browser_only.py
-        --browser ../audit-source/audit/scenarios/pickup_round8/gpt_pickup_browser_rev2.mjs
+        python ../auditor/scripts/cp6_auditor_scenario.py --phase after --scenario ../audit-source/audit/scenarios/recovery_round8/browser_only.py
+        --browser ../audit-source/audit/scenarios/recovery_round8/gpt_recovery_browser_rev2.mjs
 
         '
     - name: Remove disposable database

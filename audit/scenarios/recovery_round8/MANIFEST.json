@@ -1,0 +1,31 @@
+{
+  "phase": "RECOVERY_UNKNOWN_BROWSER",
+  "tool_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
+  "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
+  "files": [
+    {
+      "path": "browser_only.py",
+      "sha256": "bf60eb539e39e20d5493080376b4139ba046aeb78b20dfbe213457793afa24d5",
+      "bytes": 107
+    },
+    {
+      "path": "gpt_unknown_fixture.py",
+      "sha256": "0ce92ba1baa9496efd825aaa4f1fd8f12e4b49e0c2d4b5f136d8ff9f69bc3cb0",
+      "bytes": 1781
+    },
+    {
+      "path": "gpt_recovery_browser.mjs",
+      "sha256": "015097817df43ea4719c827e919c5cb7ae5814a5d19444231e8b434e7f067d79",
+      "bytes": 10659
+    }
+  ],
+  "planned_cases": [
+    "G8UI:RECOVERY:PATTERN_COMMIT_REPLY_LOST",
+    "G8UI:RECOVERY:ROLE_DUPLICATE_COMMIT_REPLY_LOST",
+    "G8UI:UNKNOWN:LAUNDRY_INITIAL_READ",
+    "G8UI:UNKNOWN:QC_INITIAL_READ"
+  ],
+  "evidence_label": "AUDITOR_SCENARIO",
+  "fault_injection": "transport only; real commit response fetched before browser reply dropped; real positive read before initial read aborted",
+  "production_go": false
+}
