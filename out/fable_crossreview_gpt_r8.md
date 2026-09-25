@@ -37,9 +37,17 @@ Cara kerja: setiap commit GPT di `audit/cp6-final-20260924-gpt-a0bcadf` dibaca; 
 | Retry pickup-only (selector `.cpick-setup`, oracle/fixture tidak berubah, sha browser b2a93bec…): run 36100064157 → 4/4 PASS lintas 4 zona; input 2026-09-24T00:30 WIB → payload dan DB 2026-09-23T17:30:00.000Z | `AUDITOR_BROWSER_AFTER` PASS 4/4, identitas tool 9dd7bc2 / produk a095a9d, Auth pulih, primary_unchanged. Bersama run 36099496005 (Potongan 4/4, BS 4/4): **matriks browser WIB 12/12 lengkap → CP6-01/A2 tertutup natively di tiga halaman** | CONFIRMED |
 | Sisa terbuka menurut GPT: CP6-03 residu multi-penerimaan (P2), R8-B1-01 (P2 alat), C6/D06/GATE-16, cakupan kontrak penuh, semantik marker laporan | Sama dengan daftar Fable (W1, W2, W7, W8, W9, O2, cakupan ALL) | CONFIRMED |
 
+## Putaran 5 (commit GPT 17c2add) — 2026-09-25T05:58:36Z
+| Klaim GPT | Verifikasi Fable | Label |
+|---|---|---|
+| Log penuh T2 run Fable 36095707100 dibaca GPT: identitas 230/31/65 tidak berubah, 12 HOLD identik, NEW 25/8/1; **AR 146 sekuensial + 28 race PASS** (angka 106 di dokumen Fable berasal dari ekor log 300 baris yang terpotong) | Fable tidak membaca ulang log AR penuh; angka 146+28 sama dengan run referensi 36037873682 yang Fable baca sendiri pada 9add57e. Koreksi diterima; `out/fable_r8_results.md` §2 diperbaiki | CONFIRMED (REUSED_GPT_LOG_READ, konsisten dengan referensi) |
+| Selector-101 rerun Fable 36096194323 dicek silang GPT: 102 lookup, 102 claimable, sumber lama terpilih, tanpa cap 100 | Sama dengan bacaan Fable (xaudit_2 rev2 PASS) | CONFIRMED |
+| CodeQL run 36090824553 memindai d113bed, bukan 9dd7bc2; satu diff file eksekusi sesudahnya (port preview browser 4177→4176 di host browser auditor); 0 hasil di 4 bahasa | Fable tidak memindai ulang; catatan scope diterima: CodeQL 0-hasil berlaku untuk d113bed, dan diff ke 9dd7bc2 hanya alat auditor (bukan produk) — konsisten dengan diff produk a095a9d..9dd7bc2 kosong yang Fable verifikasi | NOTED |
+| Bukti T2 fixture summary (QUIETED/PAYROLL_APPROVED) tidak membuktikan kasus readiness negatif | Setuju; tidak ada klaim Fable yang bergantung padanya | NOTED |
+
 ## Status GPT (dari `out/gpt_phase2_review_20260925.md` LANGKAH BERIKUTNYA)
 1. Rerun hanya kasus ADJUSTMENT_DATE setelah akses baca diperbaiki. 2. Fase native browser/timezone/HTTP sendiri termasuk A8 reachability. 3. Konsolidasi residu CP6-03 dan B1 ke handoff writer; C6 crosswalk; rekomendasi A7/A8.
-GPT **belum selesai** (rencana terakhir: konsolidasi laporan putaran 8 dan handoff writer di branch bersama). Fable mengikuti commit berikutnya dan memperbarui dokumen ini.
+GPT **belum selesai** (rencana terakhir: konsolidasi laporan, index gabungan dan handoff writer; mempertahankan CP6-03/B1/C6 dan cakupan tersisa). Fable mengikuti commit berikutnya dan memperbarui dokumen ini.
 
 ## Dampak ke register (Fable)
 - Baru **W7 (tool, P2)**: perluas grup ketat B1 ke mode race dan HTTP (kosakata status, ID ganda, cek bocor) — `scripts/cp6_auditor_modes.py run_races/run_http/finish`.
