@@ -1,5 +1,10 @@
 # CP6 audit — active round 8 checkpoint
 
+## Unknown rev3 run identity
+
+Run [36103599807](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36103599807), job **107971184469**, audit **b2ada06c1a3a26fcfda83d421318b75a9b7f2a73**. Same producta095a9d/tool9dd7bc2. Two cases currently IN_FLIGHT. Source follow-up: candidate frontend UUID regex requires version1–8/standard variant; captured refetch product model_id a2000000-0000-0000-0000-000000000001 violates that format. This identifies a fixture validity risk; await exact pure-parser error before assigning root cause. No product proof inferred by weakening UUID validation. Ledger `out/gpt_unknown_run_36103599807.json`. LANGKAH BERIKUTNYA: collect native parser/DOM/control evidence and cleanup; stop speculative reruns once the concrete fixture cause is established. CP6 HOLD.
+
+
 ## Unknown rev2 completed; parser/recovery verification prepared
 
 Run36102938451/job107969167045: **2INCOMPLETE**. Both initial reads were deliberately dropped once; UI rendered four0KPIs, showed connection error and kept writes locked. Real Auth control had20Laundry-outside /10QC-ready. After removing the fault, responseHTTP200/readiness true arrived, but UI still0 and generic connection error. Removing unused fixture SKU did not resolve this. Cleanup:2Authusers removed, counts restored, console0, browserDB0, clone0, primary unchanged. Full observed data in `out/gpt_unknown_run_36102938451.json`, logSHA256ccea00466d4cdc7cff91829208a6d66211001f2090099ee3799f85e4ba9a8163.
