@@ -2,6 +2,10 @@
 
 ## Checkpoint audit independen putaran 9 — 25 September 2026
 
+**T2 native SELESAI, belum acceptance:** [run 36125151913](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36125151913) audit head d1bc8ad, AR job `108039445366` 174/174 PASS, temporal job `108039445443` 41/41 PASS, regresi job `108039445222` status asli `DISPOSITION_REQUIRED` (BUSINESS 179 PASS+39 CONTROL_PASS+12 HOLD kalender; IMPORTS31 PASS, VALUES65 PASS; NEW_CASES 25 PASS+8 COUNTEREXAMPLE+1 INCOMPLETE; tambahan C0 25/25 PASS). `T2_IDENTITY` memastikan 12 HOLD historis tidak bergeser. `primary_unchanged=true`, clones0, tiga job SUCCESS. Peta persis 600 kasus `out/gpt_r9_t2_cases.json` dan ledger `out/gpt_r9_t2_run.md`; status keseluruhan tetap HOLD, production_go=false. Berikutnya jalankan T3 package satu workflow fase sendiri, kemudian rollback setelah T3 selesai.
+
+T2 regresi kasus lama yang bukan PASS: 12 `DATE_POLICY_REVIEW_REQUIRED`, 8 `COUNTEREXAMPLE` tanggal, 1 `INCOMPLETE` adjustment; AO trial 4 `INCOMPLETE`. Semua ID dan original status dapat ditelusuri di `out/gpt_r9_t2_cases.json`. Tiga job Actions hijau artinya eksekusi tuntas, sedangkan verdict bisnis tetap `DISPOSITION_REQUIRED`. BA C6 75 dan ALL22 belum diuji terhadap BB–BE.
+
 **CP6 HOLD · audit_complete=false · production_go=false.** Head writer yang dibekukan untuk bukti ini `d1bc8adff3ba1a2a7001ef39e4819d0c3813d00b`, produk BA `b6d81f93a1e244178193178aec765facfd1b5488`. Compare e10260b..d1bc8ad hanya mengubah lampiran C6 rev3. Semua bukti di bagian ini adalah `AUDITOR_SCENARIO`, bukan bukti rilis atau penerimaan global. Bagian round8 di bawah adalah **riwayat kandidat a095a9d**, bukan status produk BA terbaru.
 
 | Area / oracle | Bukti audit sendiri pada d1bc8ad | Status gate saat ini |
