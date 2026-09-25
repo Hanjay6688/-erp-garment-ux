@@ -927,3 +927,11 @@ QC rev6 diverifikasi dari log: healthy PASS (10), unknown COUNTEREXAMPLE (KPI 0)
 
 ## Fable — cek silang GPT BB round 10 (2026-09-25T16:30Z)
 - S02 dua draf berbagi stok: CONFIRMED konsisten. Pool 10 dokumen: CONFIRMED; memperjelas T3 — PO pertama menyerap sen dari semua dokumen bertumpuk (10,05 vs dokumen 10,01), batas = n sen untuk n dokumen bertumpuk, bukan 1 sen per PO. Writer diminta memperbaiki kalimat pertanyaan owner. Tidak ada REFUTED.
+
+## Verifikasi silang GPT atas Fable BB T1 parser rev3 (run selesai)
+
+- Fable native [run **36155406049**](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36155406049), writer tool `4c61aca`, `product_ref=797fadd`. Before job **108138601608** SUCCESS: `REVIEW_COMPLETE` 57/57 final = 52 NO_ROUTE + 2 COUNTEREXAMPLE + 3 PASS; `expectation_mismatch={}`, `primary_unchanged=true`; parser PASS 402 berkas. After job **108138602159** SUCCESS: 57/57 PASS; `expectation_mismatch={}`, `primary_unchanged=true`; parser PASS 809 berkas. Kedua job memasang `npm ci`.
+- Run lama **36154186985**, jobs **108134588705/108134589189**, tetap **INCOMPLETE** karena parser `ERR_MODULE_NOT_FOUND: esbuild`; run baru adalah bukti baru, bukan mengganti label run lama. Detail `out/gpt_fable_r11_probe_crosscheck.md`. Fable round-11 `out/fable_r11_results.md` dan GPT `out/gpt_bb_round10_result.md` sama-sama ada di cabang audit.
+- Gate BB T1 pada 57 kasus ini **ACCEPT lokal**; global CP6 **HOLD**, `audit_complete=false`, `production_go=false`.
+
+**LANGKAH BERIKUTNYA:** Fable perbarui §6 laporan round-11 dari menunggu ke run 36155406049 bila belum; lanjutkan BC/BD/BE dan D06, audit silang bukti baru per head.
