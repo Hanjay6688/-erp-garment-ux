@@ -1,5 +1,49 @@
 # CP6 audit — active round 8 checkpoint
 
+<!-- GPT_R8_CURRENT_PROGRESS_BEGIN -->
+## LANGKAH BERIKUTNYA — checkpoint aktif putaran 8
+
+Fase aktif: **konsolidasi audit silang putaran 8 selesai; tindak lanjut temuan dan cakupan belum selesai**. Tidak ada run GPT yang masih ditunggu. CP6 HOLD, audit_complete=false, production_go=false. Kandidat produk a095a9d; alat9dd7bc2; jangan menafsirkan checkpoint ini sebagai penerimaan seluruh CP6.
+
+1. Checkout/fetch `audit/cp6-final-20260924-gpt-a0bcadf`. Baca bagian terkini `AUDIT_REPORT_CP6.md`, tugas W1–W9 di `AUDIT_WRITER_HANDOFF_CP6.md`, dan `audit/CP6_COMBINED_INDEX.json` → `gpt_round8`. Bagian historis di bawah tetap disimpan, tetapi instruksi pending yang sudah ditutup tidak dijalankan lagi. Fable juga menulis cabang ini: fetch dahulu, pertahankan editnya, jangan force-push.
+2. Writer mengerjakan W8/CP6-03 dan W7/B1 serta revisi C6/W1. Auditor menyimpan hash successor/diff sebelum rerun empat multi-cent dan sentinel race/HTTP. `gpt_round8.py` memerlukan berkas sibling dalam foldernya; pertahankan seluruh manifest atau bungkus secara eksplisit. Workflow audit saat ini hanya fase pickup; ubah fase dan pin kandidat dengan sengaja, jangan mengira push dokumen menjalankan kasus bisnis.
+3. W2 hanya integrasi oracle C0 baru untuk regresi rutin: **25/25 uang/tanggal sudah PASS**. Hasil beku historis tetap. W9 penanda laporan perlu rekonsiliasi klausul; jangan menganggap25PASS mencakup semantik `changed_since_filing`.
+4. Sesudah revised C6, cocokkan split baseline/CR dengan entrypoint/storage yang nyata dan `out/gpt_c6_75_case_crosswalk.md`; mintakan pengesahan D06 atas dokumen final yang konkret. D01–D05, ALL dan prinsip D03 unknown tidak ditanyakan ulang. Bukti per75ID tetap harus dipetakan atau dijalankan sesuai scope; crosswalk bukan75tes selesai.
+5. Audit dapat melanjutkan celah independen tanpa menunggu writer: CP6-05 retry setelah respons ambigu, CP6-06 unknown/refetch, ALL22state/6keluarga, role/action/location, payroll/BS dan source→HPP. Turunkan oracle dari M/P/BR+C0; jangan mempromosikan hipotesis atau merekayasa akses yang tidak dimiliki pengguna biasa. Prioritas berikutnya recovery/unknown browser karena temuan lokalnya masih terbuka.
+6. Setelah setiap run/temuan, simpan skenario dan SHA256, runID/jobID, expected/actual, cleanup dan gate yang terdampak ke repo; commit+push. Perbarui laporan gabungan tanpa ID temuan duplikat. Tetap tidak menyentuh produk, writer/main/kompetisi, hosted, legacy atau production.
+
+### Ringkasan eksekusi untuk melanjutkan
+
+- Native GPT36097284096: job107952094985 bisnis;107952095105 ordinary self-test;107952095197 sentinel race/HTTP. CP6-03 empatCOUNTEREXAMPLE; B1modebelumketat. Ledger `out/gpt_round8_run_36097284096.json`.
+- C0 GPT36098555186/job107955933618:24PASS/1INCOMPLETE helper. Adjustment ditutup36099496005/job107958771209; total25PASS uang/tanggal. Ledger `out/gpt_c0_run_36098555186.json`, `out/gpt_browser_run_36099496005.json`.
+- Browser GPT36099496005 memberi8PASS/4INCOMPLETE locator; pickup retry36100064157/job107960458342 memberi4PASS. Total12browserWIBPASS. Ledger `out/gpt_pickup_run_36100064157.json`. HTTP valid3kasusPASS mencakup matriks18cek.
+- T2 Fable36095707100, T3 Fable36095715362, rollbackFable36095723676, CodeQLwriter36090824553: LOG asli direview GPT, asal bukti tetap REUSED. Rincian/jobID/hash `out/gpt_round8_final_crossreview.json` dan `out/gpt_round8_t3_crossreview.json`.
+- Manifest skenario: `audit/scenarios/round8/MANIFEST.json`, `audit/scenarios/c0_round8/MANIFEST.json`, `audit/scenarios/browser_round8/MANIFEST.json`, `audit/scenarios/pickup_round8/MANIFEST.json`. Jangan mengubah skenario beku saat membaca ulang hasilnya.
+
+Temuan aktif terdeduplikasi: CP6-03/W8 P2 produk; CP6-10/R8-B1-01/W7 P2 alat; R8-C6-01/W1 P2 cakupan dokumen; W9 UNVERIFIED/P3 pertanyaan; CP6-05/06 P2 lokal historis belum diverifikasi ulang. A7P3opsional; A8bukan bypass aplikasi terbukti. Lihat tabel gate aktif tepat di bawah.
+
+## Gate aktif setelah audit putaran 8
+
+Kelompok C6-01..10 adalah pengelompokan auditor GPT, bukan penomoran baru kontrak atau GATE-01..16 Fable. Status seluruh kelompok: **4 HOLD, 6 UNVERIFIED, 0 ACCEPT penuh**. Subkasus yang PASS tidak otomatis menutup seluruh kelompok. GATE-16/D06 tetap HOLD secara terpisah, tidak dijumlah ulang.
+
+| Gate | Status | Kontrak berkas/baris | Dasar terkini / sisa bukti |
+|---|---|---|---|
+| C6-01 identitas/kelengkapan bukti | HOLD | Master Pulih1624–1626,1693,1699,1762–1767,4324 | Run/head/hash sudah terikat; B1 race/HTTP masih dapat menimpa hasil atau menerima status asing. Hasil beku dan oracle baru dipisah. |
+| C6-02 atomik/fakta immutable/state exact | HOLD | Master Pulih3816–3826,5048–5052 | WIP prefix dan duplicate opening terverifikasi pada kasus baru; CP6-03 residu sen tetap terbukti. Belum seluruh lifecycle/reversal. |
+| C6-03 recovery/input/unknown/selector | HOLD | Master Pulih1678–1679,1691,3817–3820,3825–3826,3939 | WIB12browser dan dua selector terverifikasi. CP6-05/06 bukti lokal lama belum direvalidasi; lost response, reload dan unknown belum mendapat penutupan. |
+| C6-04 ALL saldo awal | UNVERIFIED | Master Pulih44–45,359–365,749–755,829–843,934–938,1024–1025,1691; Perubahan Pulih966–967 | ALL sudah disetujui;22state/6keluarga belum semua memiliki bukti source→ledger→UI. Native15 sudah pernah dijalankan; jangan ulang dari snapshot NOT_RUN. |
+| C6-05 tanggal/recost/HPP/jurnal/laporan | HOLD | Master Pulih375,377,837,1022,1059–1065,1666,1691,3816,3820,3825; C0§3 |25oracle C0 uang/tanggal PASS; CP6-03 multi-penerimaan masih gagal; changed_since_filing UNVERIFIED; seluruh turunan biaya belum ditutup. |
+| C6-06 produksi/AP/AR/payroll/uang muka | UNVERIFIED | Master Pulih359–379,629–648,749–757,3822–3824; C0§4–5 | Kasus dated-capacity tiga pihak dan WIP identity/date PASS. P1 lama yang diuji ditutup. Jalur lengkap payroll/BS/settlement dan sumber lain belum selesai; CP6-08 bukan temuan terbukti. |
+| C6-07 aksesori/pocket yang disetujui | UNVERIFIED | Master Pulih44–48,466–472,495,557–561,1023,3900–3902,3951,5192–5199 | Kontrol7PCS dan keluarga runtime ada; full lifecycle/75crosswalk belum menjadi acceptance. Scope baru mengikuti revisi C6/D06. |
+| C6-08 Auth/izin/UI tersambung | UNVERIFIED | Master Pulih1691,4486,5046–5052,5209,5213–5224 | Auth HTTP valid18cek, revocation/helper,12browserWIB PASS; bukan matriks penuh role/action/location dan seluruh route. |
+| C6-09 concurrency/stale state | UNVERIFIED | Master Pulih751–755,1025,4165,4486,5048–5052 | Race close/WIP GPT, impor Fable dan AR/AT/AU terekam. Seluruh jadwal/kompensasi belum diterima; A7 pesan P3 opsional. |
+| C6-10 install/kompatibilitas/rollback/cleanup | UNVERIFIED | Master Pulih1767,3826,4306–4314,4486,5192–5209 | Subgate teknis T3_PREP install/pin/restore/rollback127PASS telah direview; NOT_BUILT lama ditutup. Kompatibilitas perilaku seluruh legacy/lifecycle belum diterima; ini bukan bukti rilis. |
+
+Rujukan lengkap: `ERP_V3_2_Master_Pulih_20260923.md` (M), `ERP_V3_2_Perubahan_Pulih_20260923.md` (P), `ERP_ADDENDUM_BUSINESS_REPORT_CP7_2026-09-18.md` (BR; batas CP6/CP7). C0 adalah addendum owner25Sep yang disahkan, hash dan sumbernya dicatat di laporan. Tiga kontrak asli tetap dasar gate; dokumen domain/laporan writer hanya konteks atau klaim untuk diuji.
+
+
+<!-- GPT_R8_CURRENT_PROGRESS_END -->
+
 ## GPT final cross-review checkpoint — 25 September 2026
 
 Full Actions logs for Fable T2 run **36095707100** reviewed at exact9dd7bc2/a095a9d: regression job107947426273, AR job107947426182, temporal job107947426290. Identity groups230/31/65 unchanged; historical12 HOLD identical; existing34 NEW results remain25PASS/8COUNTEREXAMPLE/1INCOMPLETE. Raw statuses are preserved. **Full AR log has146 sequential PASS +28 race PASS**, resolving the106 count from Fable's previously truncated tail. AT16+4 and AU15+6 PASS. Fixture summary explicitly records QUIETED/PAYROLL_APPROVED (103 regression,6 AR); this does not prove negative readiness cases. All jobs primary_unchanged=true, clone_remaining0. Evidence remains T2_REGRESSION / reused writer-oracle execution, not independent acceptance of every case.
