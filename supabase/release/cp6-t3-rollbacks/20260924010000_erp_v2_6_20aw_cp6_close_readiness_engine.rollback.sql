@@ -191,8 +191,10 @@ do $restore_function$ declare r record; begin
   or (select count(*) from erp.cp6_v2620aw_rollback_capsule x where to_regprocedure(x.object_regidentity) is not null)<>2
  then raise exception 'AW_FUNCTION_RESTORE_MISMATCH';end if;
 end $restore_function$;
-drop table erp.laundry_rate_owner_estimates_v1;
-drop table erp.accounting_close_filings_v1;
+drop trigger trg_guard_accounting_close_filing_immutable on erp.accounting_close_filings_v1;
+drop trigger trg_guard_accounting_close_filing_truncate on erp.accounting_close_filings_v1;
+drop trigger trg_guard_laundry_rate_owner_estimate_immutable on erp.laundry_rate_owner_estimates_v1;
+drop trigger trg_guard_laundry_rate_owner_estimate_truncate on erp.laundry_rate_owner_estimates_v1;
 drop function erp.accounting_close_preflight_v1(date);
 drop function erp.guard_accounting_close_filing_immutable_v1();
 drop function erp.guard_laundry_rate_owner_estimate_immutable_v1();
@@ -204,6 +206,8 @@ drop function erp.set_laundry_rate_owner_estimate_v1(uuid,numeric,text);
 drop function public.erp_accounting_close_preflight_v1(date);
 drop function public.erp_close_accounting_through_v1(date,text);
 drop function public.erp_set_laundry_rate_owner_estimate_v1(uuid,numeric,text);
+drop table erp.laundry_rate_owner_estimates_v1;
+drop table erp.accounting_close_filings_v1;
 drop table erp.cp6_v2620aw_rollback_capsule;
 delete from erp.schema_migrations where version='v2.6.20aw';
 delete from supabase_migrations.schema_migrations where version='20260924010000' and name='erp_v2_6_20aw_cp6_close_readiness_engine';

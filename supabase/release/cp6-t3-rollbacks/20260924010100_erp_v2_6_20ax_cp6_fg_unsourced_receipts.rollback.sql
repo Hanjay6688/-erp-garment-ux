@@ -239,8 +239,10 @@ UNION ALL
              JOIN erp.payroll_settlements ps ON ((ps.id = pwi.payroll_id)))
           WHERE (((pwi.source_type)::text = 'REWORK'::text) AND (pwi.source_id = rcl.id) AND ((ps.status)::text <> 'REVERSED'::text))) a ON (true))
   WHERE (((ro.destination_type)::text = 'CONTRACTOR'::text) AND ((ro.status)::text = 'COMPLETED'::text) AND ro.cost_posted AND ((bc.status)::text = 'RESOLVED'::text) AND (GREATEST((rcl.qty_newly_payable - COALESCE(a.allocated_qty, 0)), 0) > 0));
-drop table erp.fg_unsourced_repair_wages_v1;
-drop table erp.fg_unsourced_receipts_v1;
+drop trigger trg_guard_fg_unsourced_receipts_v1_immutable on erp.fg_unsourced_receipts_v1;
+drop trigger trg_guard_fg_unsourced_receipts_v1_truncate on erp.fg_unsourced_receipts_v1;
+drop trigger trg_guard_fg_unsourced_repair_wages_v1_immutable on erp.fg_unsourced_repair_wages_v1;
+drop trigger trg_guard_fg_unsourced_repair_wages_v1_truncate on erp.fg_unsourced_repair_wages_v1;
 drop function erp.fg_unsourced_valuation_v1(uuid,timestamp with time zone);
 drop function erp.guard_bs_resolution_fg_unsourced_v1();
 drop function erp.guard_fg_unsourced_receipt_immutable_v1();
@@ -250,6 +252,8 @@ drop function erp.reverse_fg_unsourced_receipt_v1(uuid,text,uuid);
 drop function public.erp_post_fg_unsourced_receipt_v1(jsonb,uuid);
 drop function public.erp_preview_fg_unsourced_value_v1(uuid,timestamp with time zone);
 drop function public.erp_reverse_fg_unsourced_receipt_v1(uuid,text,uuid);
+drop table erp.fg_unsourced_repair_wages_v1;
+drop table erp.fg_unsourced_receipts_v1;
 drop table erp.cp6_v2620ax_rollback_capsule;
 delete from erp.schema_migrations where version='v2.6.20ax';
 delete from supabase_migrations.schema_migrations where version='20260924010100' and name='erp_v2_6_20ax_cp6_fg_unsourced_receipts';

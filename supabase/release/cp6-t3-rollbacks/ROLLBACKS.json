@@ -12,7 +12,7 @@
     "file": "docs/evidence/cp6-t3/release_pins.json",
     "blob_sha256": "f84dcbf81ecc2c6b6ab28e26741a5a4fcf5ad2ce7a49c753d80d76206f5443fb"
   },
-  "builder_sha256": "e7be36f03872521fa7f80c0cddc5129cc55a7f89045fd39f099027be18c587ea",
+  "builder_sha256": "3e55d84e254746bd2b6729540774ffaa856e8ab4ba6be0b3064be4ccc310c526",
   "variant_builder_sha256": "fc1a6a3ed4e516ecd82525e9b896adba02f691c8517b0c4d7440379af895e400",
   "files": [
     {
@@ -912,7 +912,7 @@
       "key": "AW",
       "kind": "FROM_CAPTURE",
       "file": "supabase/release/cp6-t3-rollbacks/20260924010000_erp_v2_6_20aw_cp6_close_readiness_engine.rollback.sql",
-      "sha256": "0dfdd38a15bf8e869d05329e08965a936440aaafdb8805fc04e9dafb4b2f47d2",
+      "sha256": "b5d1e3d2e73eeee8a6cd1bae1b5d093a61b553db39a7352ff4bda2fc65b8340f",
       "package_file": "supabase/release/cp6-t3/20260924010000_erp_v2_6_20aw_cp6_close_readiness_engine.sql",
       "package_sha256": "c38edc9da084f4a90ee615bde16e6fea72e1072f79d6820d9d3bef27cc2a8ecb"
     },
@@ -920,7 +920,7 @@
       "key": "AX",
       "kind": "FROM_CAPTURE",
       "file": "supabase/release/cp6-t3-rollbacks/20260924010100_erp_v2_6_20ax_cp6_fg_unsourced_receipts.rollback.sql",
-      "sha256": "f3272eadfa7d415bca0e564ef906f8d97d3a77173045c1aa7c1a8a06c0508594",
+      "sha256": "87936dc9f70de91177b9ff06c881cddc6419b8d236d87a0b9444f7d2ba004f9d",
       "package_file": "supabase/release/cp6-t3/20260924010100_erp_v2_6_20ax_cp6_fg_unsourced_receipts.sql",
       "package_sha256": "c736049386c65f75c82fa790b502cd32c999512738207b7be17d711185c3d9f2"
     },
@@ -928,7 +928,7 @@
       "key": "AY",
       "kind": "FROM_CAPTURE",
       "file": "supabase/release/cp6-t3-rollbacks/20260924010200_erp_v2_6_20ay_cp6_hpp_dated_from_goods.rollback.sql",
-      "sha256": "bf27257d1d7f44fd626c5eda3d826cfb5e34b7499651e33ae45eb3449c39fea7",
+      "sha256": "38fdc87fa745341827e0fa990b59e6dc3568397cc00777d1caa28da8fccd63a1",
       "package_file": "supabase/release/cp6-t3/20260924010200_erp_v2_6_20ay_cp6_hpp_dated_from_goods.sql",
       "package_sha256": "fd5ec47a16af264cc9b6a3aeed3d6e19023dc9f49beb51ceb8bfb4ecb14dc411"
     },
@@ -944,7 +944,7 @@
       "key": "BA",
       "kind": "FROM_CAPTURE",
       "file": "supabase/release/cp6-t3-rollbacks/20260925010000_erp_v2_6_20ba_cp6_audit_closure.rollback.sql",
-      "sha256": "16329a657b229c61dbf28ef45307650e63d475634a01f6d18b91bdb42e430435",
+      "sha256": "ded33febbe8b7dc516e699920fe5f9c58b8ee778e349370d0ce66e12d7b2aa67",
       "package_file": "supabase/release/cp6-t3/20260925010000_erp_v2_6_20ba_cp6_audit_closure.sql",
       "package_sha256": "01bc0965cb945c25b98465a54ebc7fafabcc1d760c0698df1636de8069066960"
     },
@@ -952,7 +952,7 @@
       "key": "BB",
       "kind": "FROM_CAPTURE",
       "file": "supabase/release/cp6-t3-rollbacks/20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.rollback.sql",
-      "sha256": "20afd8fd7758a8eaf3ddfc7b1ccf73d13e6f82fb27ca027dbeed314f27ca2eeb",
+      "sha256": "7bce546efa7f2bb5635fdd1b9ece781054bf514a8c1bad3f465190dbd9383e6e",
       "package_file": "supabase/release/cp6-t3/20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql",
       "package_sha256": "ed95f1e84a8a924a830de9362ff890769875d01671b4e83c77208daf23a8df34"
     }

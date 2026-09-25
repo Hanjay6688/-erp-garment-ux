@@ -100,13 +100,20 @@ def split_key(key):
     return kind,ident
 
 
-def drops(key,cap):
+def drops(key,cap,text=None):
     """The statements that remove what the file added, in order (no CASCADE), and the added keys they cover."""
     added=cap['added'];detail=cap['added_detail']
     tables=[i for k,i in map(split_key,added) if k=='RELATION' and detail[k+':'+i]=='r']
     # New tables go in reverse creation order (a later table may reference an earlier one); they are exactly the file's.
+    # The creation order is read from the release file's own create table statements (BB's declared list is grouped by
+    # part, not by creation, and a foreign key between its tables refused the first BB cycle, run 36142182279).
     created=['erp.'+t for t in FILES[key]['new_tables']]
     assert sorted(tables)==sorted(created),('T3_ROLLBACK_NEW_TABLES',key,tables,created)
+    if text is not None:
+        order=[t.lower() for t in re.findall(r'(?i)\bcreate table (erp\.[a-z0-9_]+)',text)]
+        order=[t for i,t in enumerate(order) if t in created and t not in order[:i]]
+        assert sorted(order)==sorted(created),('T3_ROLLBACK_CREATION_ORDER',key,order,created)
+        created=order
     tables=created[::-1]
     views=[i for k,i in map(split_key,added) if k=='RELATION' and detail[k+':'+i]=='v']
     functions=[i for k,i in map(split_key,added) if k=='FUNCTION']
@@ -137,8 +144,22 @@ def drops(key,cap):
             schema,table,column=split_key(k)[1].split('.');out.append('alter table %s.%s drop column %s;'%(schema,table,column));covered.add(k)
     restore_at=len(out)
     for v in views:out.append('drop view %s;'%v);covered.add('RELATION:'+v)
-    for t in tables:out.append('drop table %s;'%t);covered.add('RELATION:'+t)
+    # Functions before tables (a function may take or return a new table's row type, e.g. BB's erp.bb_wip_active_pickup_v1),
+    # so the triggers of the new tables go first, freeing their trigger functions; no new table has a default, check or
+    # index expression calling a new function (checked in the release sources), so nothing else holds a function.
+    for k in added:
+        kind,ident=split_key(k)
+        if kind=='TRIGGER':
+            schema,table,name=ident.split('.')
+            if '%s.%s'%(schema,table) in tables:out.append('drop trigger %s on %s.%s;'%(name,schema,table));covered.add(k)
     for f in functions:out.append('drop function %s;'%f);covered.add('FUNCTION:'+f)
+    # A foreign key added after both tables exist may close a cycle between new tables (BB: customer credit <-> return
+    # receipt); such keys, read from the release file, are dropped before the tables.
+    if text is not None:
+        for m in re.finditer(r'(?is)\balter table (erp\.[a-z0-9_]+) add constraint ([a-z0-9_]+)\s+foreign key\s*\([^)]*\)\s*references (erp\.[a-z0-9_]+)',text):
+            owner,name,target=m.group(1).lower(),m.group(2).lower(),m.group(3).lower()
+            if owner in tables and target in tables:out.append('alter table %s drop constraint %s;'%(owner,name))
+    for t in tables:out.append('drop table %s;'%t);covered.add('RELATION:'+t)
     # Objects that live inside a dropped relation go with it (columns, constraints, indexes, triggers, policies, the
     # view text of a dropped view); nothing else may remain uncovered.
     owned=tuple('%s.'%r for r in tables+views)
@@ -184,7 +205,7 @@ def rollback_sql(key,entry,text,cap,capture_sha):
     changed_functions=sorted(k.split(':',1)[1] for k in cap['changed'] if k.startswith('FUNCTION:'))
     assert changed_functions==sorted(f['replaced']),('T3_ROLLBACK_CAPSULE_IS_NOT_THE_CHANGE',key,changed_functions)
     assert not cap['removed'],('T3_ROLLBACK_FILE_REMOVED_OBJECTS',key,cap['removed'])
-    drop,restore_at=drops(key,cap)
+    drop,restore_at=drops(key,cap,text)
     body=drop[:restore_at]+restores(key,cap)+drop[restore_at:]
     installed=blocks[1]['text'].replace("raise exception '%s_INSTALLED_CATALOG_DRIFT'"%code,"raise exception '%s_ROLLBACK_CATALOG_DRIFT'"%code)
     restored=blocks[0]['text'].replace("raise exception '%s_PREDECESSOR_CATALOG_DRIFT'"%code,"raise exception '%s_RESTORED_CATALOG_DRIFT'"%code)

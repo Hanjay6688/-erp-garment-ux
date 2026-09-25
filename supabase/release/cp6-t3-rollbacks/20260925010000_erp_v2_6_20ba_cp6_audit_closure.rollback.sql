@@ -191,8 +191,8 @@ do $restore_function$ declare r record; begin
   or (select count(*) from erp.cp6_v2620ba_rollback_capsule x where to_regprocedure(x.object_regidentity) is not null)<>10
  then raise exception 'BA_FUNCTION_RESTORE_MISMATCH';end if;
 end $restore_function$;
-drop table erp.initial_import_wip_output_identity_v1;
 drop function erp.initial_prepayment_dated_floor_v1(uuid,date);
+drop table erp.initial_import_wip_output_identity_v1;
 drop table erp.cp6_v2620ba_rollback_capsule;
 delete from erp.schema_migrations where version='v2.6.20ba';
 delete from supabase_migrations.schema_migrations where version='20260925010000' and name='erp_v2_6_20ba_cp6_audit_closure';

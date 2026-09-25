@@ -191,10 +191,10 @@ do $restore_function$ declare r record; begin
   or (select count(*) from erp.cp6_v2620ay_rollback_capsule x where to_regprocedure(x.object_regidentity) is not null)<>2
  then raise exception 'AY_FUNCTION_RESTORE_MISMATCH';end if;
 end $restore_function$;
-drop table erp.po_hpp_gl_material_state_v1;
-drop table erp.po_hpp_gl_lot_state_v1;
 drop function erp.po_hpp_gl_leg_add_v1(jsonb,date,numeric,numeric,numeric);
 drop function erp.po_hpp_gl_pocket_by_pool_v1(uuid);
+drop table erp.po_hpp_gl_material_state_v1;
+drop table erp.po_hpp_gl_lot_state_v1;
 drop table erp.cp6_v2620ay_rollback_capsule;
 delete from erp.schema_migrations where version='v2.6.20ay';
 delete from supabase_migrations.schema_migrations where version='20260924010200' and name='erp_v2_6_20ay_cp6_hpp_dated_from_goods';
