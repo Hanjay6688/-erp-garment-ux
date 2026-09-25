@@ -1,0 +1,61 @@
+{
+  "label": "AUDITOR_SCENARIO",
+  "tool_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
+  "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
+  "phase": "after",
+  "oracle_C0_sha256": "e83d56e66812011c9a7a4057bf29987d0bcf62aabc17ad23ab422170abb00c99",
+  "files": [
+    {
+      "path": "business.py",
+      "sha256": "033b0c48cfdfdeee4a3adf570b58acd4035796c125a1277459d3244d8990245d",
+      "bytes": 12896
+    },
+    {
+      "path": "gpt_round8.py",
+      "sha256": "695faf3e6d4d393705d423940b47012ae2c9b4ccf68dc509fc7f1b7b64bee77b",
+      "bytes": 11366
+    },
+    {
+      "path": "gpt_tool_modes.py",
+      "sha256": "0cad838261da653b2fd3b594042148e4ff54d1db6fa04c256add36b195c8df85",
+      "bytes": 1169
+    },
+    {
+      "path": "money.py",
+      "sha256": "cfa1157b7ea39e6f5162d85a540ed5e22c30d8fef9ddfe840b5a9bf2f631d9ef",
+      "bytes": 9812
+    },
+    {
+      "path": "selector.py",
+      "sha256": "d510df61b4168361153358331f9634c9a3d50dac51fd068cbd84a260f06061e7",
+      "bytes": 7863
+    },
+    {
+      "path": "stock.py",
+      "sha256": "ff92e8d973ebb75c05ba8ac6b47da96565c9b50760c91b247f331a765d18df81",
+      "bytes": 11938
+    },
+    {
+      "path": "xaudit5.py",
+      "sha256": "815781e1927b19b8fad9d32f6162ba8d0810c4ff7a705e1bda849d0b550c0ae6",
+      "bytes": 13444
+    },
+    {
+      "path": "xaudit6.py",
+      "sha256": "6ed036065505fd93edb0d9e7db5b8e4ff883dfe81c65a82a4d96de9af7807247",
+      "bytes": 8812
+    }
+  ],
+  "intentional_duplicate_ids_only_in_tool_probe": [
+    "G8_TOOL:RACE_DUP",
+    "G8_TOOL:HTTP_DUP"
+  ],
+  "production_go": false,
+  "release_evidence": false,
+  "notes": [
+    "Stock/money/advance/selector fixtures derive from prior auditor source; expected refusal updated under C0, no writer assert reused.",
+    "xaudit6 prepare-refusal is INCOMPLETE for full editability: no silent stale post is narrower than M3817.",
+    "Runtime selftest uses phase before intentionally; not BA product evidence.",
+    "Mode probe invalid sentinel output must not be accepted or overwritten."
+  ]
+}

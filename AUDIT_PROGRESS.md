@@ -1,5 +1,16 @@
 # CP6 audit — active round 8 checkpoint
 
+## GPT round8 native preparation — 2026-09-25T05:07:35.329Z
+- Fable checkpoint 6fcd5784a3bfb070f901eb59de0be072e2026ef0 preserved; his current round8 runs are separate provenance. GPT adds multi-receipt cent oracles and mode-level B1 sentinels plus independent affected-case reruns.
+- Scenario `audit/scenarios/round8/gpt_round8.py` SHA256 695faf3e6d4d393705d423940b47012ae2c9b4ccf68dc509fc7f1b7b64bee77b; tool probe `gpt_tool_modes.py` SHA256 0cad838261da653b2fd3b594042148e4ff54d1db6fa04c256add36b195c8df85. All dependencies/hash receipts in MANIFEST.json. NOT_RUN before this commit; run/job IDs pending.
+- One workflow `.github/workflows/gpt-cp6-round8.yml`, push only on audit branch, three jobs (business+race+HTTP; invalid-mode sentinel; existing writer selftest). Checkouts pin tool9dd7bc2 and original bootstrap refs; no hosted target, read-only workflow token, no product files changed. Pushed scenario/workflow will trigger disposable execution.
+- **R8-B1-01 P2 tool candidate:** race/HTTP loops do not reject duplicates or unknown statuses (cp6_auditor_modes.py99–126,237–267); strict regular/browser guards do not cover them. Native sentinel oracle: duplicate must refuse before calls, invalid status must be INCOMPLETE; first result must not disappear. Tool test intentionally repeats IDs; not product cases.
+- A4 oracle: zero remaining qty requires zero inventory value; two receipts/invoices each round independently, and full consumption must conserve the sum of posted document cents (M3818/3820; existing CP6-03). The disclosed 0.01-per-receipt residual is a known limit, not contractual permission to close the finding.
+- A8 oracle qualification: prepared-edit refusal proves no stale posting on that path, but does not itself prove editable DRAFT under M3817. GPT variant retains INCOMPLETE for that aspect until reachable ordinary UI/API scope is established; Fable historical result preserved.
+- LANGKAH BERIKUTNYA: record new push run ID and job IDs immediately; read all per-case JSON, expected refusals/atomicity and cleanup; commit after completion. Then browser and new T2 oracle phase, full rollback/log review, C6 inventory. CP6 HOLD, audit_complete=false, production_go=false.
+
+
+
 ## Round 8 — contract/source checkpoint 2026-09-25T05:00:26.213Z
 - C0 byte integrity ACCEPT: SHA256 e83d56e66812011c9a7a4057bf29987d0bcf62aabc17ad23ab422170abb00c99; approved precursor d39762da0520f30268a73244e7471b7d990138e3cbe36475d639c7cfca8e926d. Sections1–8 identical, only status/§9 changed. D01–D05 used as ratified per owner-supplied handoff; external chat itself not independently retrieved. No business gate accepted.
 - Three original contract hashes reproduced. Product/tool separation a095a9d..9dd7bc2 confirmed (13 doc/tool paths only).
