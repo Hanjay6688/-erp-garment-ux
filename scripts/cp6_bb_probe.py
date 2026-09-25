@@ -1,5 +1,6 @@
 """BB T1_FAMILY probe: the open cutover states of ALL (owner decision 25 Sep 2026, every ALL state built and tested in CP6),
-before and after, starting with the financial part (ALL-P02/S01/S03/A03/Y01 and the opening settlement facade).
+before and after: the financial part (ALL-P02/S01/S03/A03/Y01 and the opening settlement facade), the purchase and labour
+parts (ALL-P03/P04/Y02) and the production part (ALL-W02/W04/W06).
 
 Label T1_FAMILY: targeted family evidence on the disposable chain AN -> AU -> AV -> AW..AZ -> BA (+ BB in phase 'after'),
 never release evidence. Oracles come from the contract and the auditor's ALL binding (out/gpt_all_round8_binding.md,
@@ -40,7 +41,7 @@ BB_SQL=AUDITOR/'supabase/dev/cp6_bb_t1_family.sql'
 LABEL='T1_FAMILY'
 D=Decimal
 NO_ROUTE_MESSAGES=('Aksi impor tidak dikenal','Jenis file impor tidak didukung','Unsupported migration entity_type',
-                   'nama kolom atau tipe data tidak valid')
+                   'nama kolom atau tipe data tidak valid','Aksi hasil WIP tidak dikenal','Hasil kerja mandor wajib terkait Potongan')
 
 
 def dev_source(signature):
@@ -906,6 +907,477 @@ def y02_refusal(cur,today,variant):
     except AssertionError as exc:return verdict(dict(refused_at_validation=expected in str(exc)),variant=variant,errors=str(exc)[:1500])
 
 
+# ---------------------------------------------------------------- W02/W04/W06: opening production states
+
+PRODUCTION_STAGE_REFUSAL='stage: WIP memakai SEWING/LAUNDRY'
+
+
+def production_rows(stage='SEWING',po_mandor=True,holder='{C}',bs=None,reworks=(),components=()):
+    """PO {C} of model {C}: an opening WIP of 8 pcs worth 40.00 (5.00 a piece) of product {C}P at `stage` (CUTTING: waiting
+    for pickup at location {C}C; otherwise held by `holder`); optionally an opening BS row `bs` (qty, holder field, holder code,
+    amount) and open reworks. Masters: mandors {C} and {C}X, laundry {C}, FG warehouse {C}G, cutting location {C}C."""
+    wip=dict(balance_type='WIP',po_number='{C}',model_code='{C}',size_code='{C}',stage=stage,qty='8',unit_cost='5',amount='40.00',
+             opening_source_key='WIP',control_key='WIP',accessory_cost_included='true',product_sku='{C}P',brand_code='{C}',color_name='Blue')
+    if stage=='CUTTING':wip['location_code']='{C}C'
+    if holder and stage!='CUTTING':wip['contractor_code' if stage=='SEWING' else 'vendor_code']=holder
+    if holder and stage=='CUTTING':wip['contractor_code']=holder
+    po=dict(po_number='{C}',model_code='{C}',target_qty_pcs='12',status='CUTTING' if stage=='CUTTING' else stage,current_stage=stage)
+    if po_mandor:po['contractor_code']='{C}'
+    rows=product_masters()
+    rows['LOCATION'].append(dict(location_code='{C}C',location_name='BB meja potong',location_type='CUTTING_WIP'))
+    rows.update(CONTRACTOR=[dict(contractor_code='{C}',contractor_name='BB mandor W',contractor_type='MANDOR'),
+                            dict(contractor_code='{C}X',contractor_name='BB mandor lain',contractor_type='MANDOR')],
+                LAUNDRY_VENDOR=[dict(vendor_code='{C}',vendor_name='BB laundry W')],OPEN_PO=[po])
+    items=[wip];controls=[dict(control_key='WIP',balance_type='WIP',qty='8',amount='40.00')]
+    if bs:
+        qty,field,code,amount=bs
+        items.append({'balance_type':'BS','po_number':'{C}','model_code':'{C}','size_code':'{C}','stage':'QC','qty':qty,'amount':amount,
+                      'opening_source_key':'BS','control_key':'BS','accessory_cost_included':'true','product_sku':'{C}P','brand_code':'{C}',
+                      'color_name':'Blue',field:code})
+        controls.append(dict(control_key='BS',balance_type='BS',qty=qty,amount=amount))
+    rows.update(OPENING_BALANCE_ITEM=items,OPENING_CONTROL=controls)
+    if reworks:rows['OPENING_REWORK']=list(reworks)
+    if components:rows['OPENING_REWORK_COMPONENT']=list(components)
+    return rows
+
+
+def production_post(cur,today,rows,code=None,cutover_days=10,expect=None):
+    """post_batch for a fixed code (masters prepared before the import can name it); `expect` returns the VALIDATE errors."""
+    cutover=today-timedelta(days=cutover_days)
+    boundary.historical.prior.set_open_period(cur,cutover-timedelta(days=1))
+    code=code or 'BW'+uuid.uuid4().hex[:12]
+    batch=api.call(cur,'CREATE',dict(batch_code=code,cutover_date=str(cutover)))['batch_id']
+    fill=lambda v:v.replace('{C}',code) if isinstance(v,str) else v
+    for entity,payloads in rows.items():
+        api.upload(cur,batch,entity,[{k:fill(v) for k,v in p.items()} for p in payloads])
+    checked=api.invoke(cur,'VALIDATE',batch)
+    api.admin(cur)
+    errors=cur.execute("select entity_type,validation_errors::text from erp.migration_staging_rows where batch_id=%s and validation_status='ERROR'",(batch,)).fetchall()
+    if expect is not None:return dict(batch=batch,code=code,errors=[list(e) for e in errors])
+    if checked.get('error_rows')!=0:raise AssertionError(('BB_FIXTURE_REFUSED',checked,errors))
+    posted=api.invoke(cur,'FINALIZE',batch)
+    assert posted.get('status')=='POSTED',('BB_FIXTURE_NOT_POSTED',posted)
+    api.admin(cur)
+    po,fg=cur.execute("""select (select id from erp.production_orders where po_number=%s),(select id from erp.locations where location_code=%s)""",
+                      (code,code+'G')).fetchone()
+    return dict(batch=batch,code=code,cutover=cutover,po=str(po) if po else None,fg=str(fg) if fg else None)
+
+
+def source_of(cur,fx,kind='WIP'):
+    return [s for s in ws(cur,fx['batch'])['production_sources'] if s['balance_type']==kind][0]
+
+
+def wip_op(cur,fx,operation,**kw):
+    s=source_of(cur,fx)
+    return api.call(cur,'WIP_OUTPUT',dict(batch_id=fx['batch'],opening_item_id=s['opening_item_id'],expected_remaining=str(s['remaining_qty_pcs']),
+                                          operation=operation,reason='BB W probe '+operation.lower(),**kw))
+
+
+def complete(cur,fx,day,qty):
+    return wip_op(cur,fx,'COMPLETE',qty_pcs=str(qty),product_sku=fx['code']+'P',brand_code=fx['code'],location_code=fx['code']+'G',date=str(day))
+
+
+def split(cur,fx,day,qty):
+    return wip_op(cur,fx,'SPLIT_BS',qty_pcs=str(qty),product_sku=fx['code']+'P',brand_code=fx['code'],date=str(day))
+
+
+def stage_minimum(cur,po,stage):
+    """The auditor's SI-02 oracle per stage: pieces in `stage` after every physical event of the PO (physical time, then creation)."""
+    api.admin(cur)
+    return cur.execute("""with e as (select id,physical_at,created_at,case when stage_to=%s then qty_pcs else 0 end-case when stage_from=%s then qty_pcs else 0 end delta
+        from erp.wip_stage_events where po_id=%s)
+      select coalesce(min(s),0) from (select sum(delta) over(order by physical_at,created_at,id) s from e) x""",(stage,stage,po)).fetchone()[0]
+
+
+def production_clean(cur):
+    """Every financial report check (WIP source conservation, PO HPP book, opening lineage ...) and every BS/rework integrity
+    check is zero; the purchase/payment truth checks too."""
+    api.admin(cur)
+    report=[list(r) for r in cur.execute('select check_name,issue_count from erp.run_v268_financial_report_checks() where issue_count<>0').fetchall()]
+    rework=[list(r[:3]) for r in cur.execute('select * from erp.run_v263c_bs_rework_integrity_checks() where issue_count<>0').fetchall()]
+    purchase=detectors_ok(cur)
+    return (not report and not rework and purchase is True),dict(report=report,rework=rework,purchase=purchase)
+
+
+def lot_cost(cur,lot):
+    api.admin(cur)
+    return cur.execute('select total_cost from erp.hpp_versions where lot_id=%s and is_current',(lot,)).fetchone()[0]
+
+
+def ledger(cur,mapping,po):
+    api.admin(cur)
+    return cur.execute("""select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id
+      where j.status in('POSTED','REVERSED') and l.account_id=erp.account_id(%s) and l.po_id=%s""",(mapping,po)).fetchone()[0]
+
+
+def bs_act(cur,action,payload,version):
+    api.ordinary(cur)
+    r=cur.execute('select public.erp_save_bs_resolution_action_v1(%s,%s::jsonb,%s,%s)',(action,json.dumps(payload,default=str),uuid.uuid4(),version)).fetchone()[0]
+    api.admin(cur);return r['result']
+
+
+def bs_version(cur,case):
+    api.admin(cur);return cur.execute('select row_version from erp.bs_cases where id=%s',(case,)).fetchone()[0]
+
+
+def empty_accessory_bom(cur,code,day):
+    api.admin(cur)
+    cur.execute("""insert into erp.accessory_bom_versions(product_id,effective_from,notes) select p.identity_root_id,%s,'BB W probe: explicit empty BOM'
+      from erp.products p where p.sku=%s""",(chain.production.at(day,0),code+'P'))
+
+
+def production_before(cur,today,stage='CUTTING'):
+    """Phase 'before' of W04: a WIP waiting for pickup (stage CUTTING) is refused by the production validator as an unknown
+    stage, so nothing can be imported (the §29.6 NO_ADAPTER state)."""
+    out=production_post(cur,today,production_rows(stage=stage,po_mandor=False,holder=None),expect=True)
+    hit=any(PRODUCTION_STAGE_REFUSAL in e[1] for e in out['errors'])
+    return dict(status='NO_ROUTE' if hit else 'INCOMPLETE',errors=out['errors'])
+
+
+def w04_cycle(cur,today):
+    """ALL-W04 (auditor: cut pieces waiting for pickup at cutover). Oracle: the 8 cut pieces are opening WIP at the cutting
+    location without a mandor; nothing is completed or split before a pickup (not even dated before it); the pickup hands
+    them to one mandor (the PO takes it), the output after it carries the per-piece opening value 5.00; no stage goes
+    negative on any day; the pickup cannot be undone while an output exists and, once undone, the pieces wait again and the
+    PO's mandor is released; every report check stays zero."""
+    if not bb_installed(cur):return production_before(cur,today)
+    fx=production_post(cur,today,production_rows(stage='CUTTING',po_mandor=False,holder=None))
+    s0=source_of(cur,fx);c=fx['cutover']
+    early=refused(cur,lambda:complete(cur,fx,c+timedelta(days=1),3),'BB_WIP_NOT_PICKED_UP')
+    early_split=refused(cur,lambda:split(cur,fx,c+timedelta(days=1),1),'BB_WIP_NOT_PICKED_UP')
+    wip_op(cur,fx,'PICKUP',contractor_code=fx['code'],date=str(c+timedelta(days=2)))
+    api.admin(cur);po_mandor=cur.execute('select c.contractor_code from erp.production_orders p join erp.contractors c on c.id=p.contractor_id where p.id=%s',(fx['po'],)).fetchone()
+    s1=source_of(cur,fx)
+    before_pickup=refused(cur,lambda:complete(cur,fx,c+timedelta(days=1),3),'BB_WIP_NOT_PICKED_UP')
+    out=complete(cur,fx,c+timedelta(days=3),5)
+    cost=lot_cost(cur,out['lot_id']);clean1,d1=production_clean(cur)
+    minima=dict(cutting=stage_minimum(cur,fx['po'],'CUTTING'),sewing=stage_minimum(cur,fx['po'],'SEWING'))
+    blocked=refused(cur,lambda:wip_op(cur,fx,'REVERSE_PICKUP'),'BB_WIP_PICKUP_HAS_DOWNSTREAM')
+    wip_op(cur,fx,'REVERSE',output_id=out['output_id'])
+    undo=wip_op(cur,fx,'REVERSE_PICKUP')
+    s2=source_of(cur,fx)
+    api.admin(cur);po_after=cur.execute('select contractor_id from erp.production_orders where id=%s',(fx['po'],)).fetchone()[0]
+    again=refused(cur,lambda:wip_op(cur,fx,'PICKUP',contractor_code=fx['code'],date=str(c+timedelta(days=2))),'BB_WIP_PICKUP_DATE')
+    minima_end=dict(cutting=stage_minimum(cur,fx['po'],'CUTTING'),sewing=stage_minimum(cur,fx['po'],'SEWING'))
+    clean2,d2=production_clean(cur)
+    return verdict(dict(
+        imported_waiting=s0['stage']=='CUTTING' and s0['current_stage']=='CUTTING' and s0['remaining_qty_pcs']==8 and s0['contractor_name'] is None
+          and s0['location_code']==fx['code']+'C',
+        nothing_before_pickup=early['ok'] and early_split['ok'],pickup_to_mandor=s1['current_stage']=='SEWING' and s1['contractor_name']=='BB mandor W'
+          and po_mandor==(fx['code'],),no_output_dated_before_pickup=before_pickup['ok'],output_value=D(cost)==D('25.00'),
+        stages_never_negative=min(minima.values())>=0 and min(minima_end.values())>=0,pickup_locked_by_output=blocked['ok'],
+        undo_waits_again=s2['current_stage']=='CUTTING' and s2['remaining_qty_pcs']==8 and undo.get('po_contractor_released') is True and po_after is None,
+        repickup_not_before_return=again['ok'],reports_zero=clean1 and clean2),
+        sources=[s0,s1,s2],minima=[minima,minima_end],lot_cost=str(cost),detectors=[d1,d2],refusals=[early,early_split,before_pickup,blocked,again])
+
+
+def w04_other_mandor(cur,today):
+    """A PO that already has mandor {C}: pickup by another mandor is refused (as a native pickup, the PO's mandor owns cost
+    and payroll); the PO's own mandor may pick up."""
+    if not bb_installed(cur):return production_before(cur,today)
+    fx=production_post(cur,today,production_rows(stage='CUTTING',po_mandor=True,holder=None))
+    other=refused(cur,lambda:wip_op(cur,fx,'PICKUP',contractor_code=fx['code']+'X',date=str(fx['cutover']+timedelta(days=1))),'BB_WIP_PO_OTHER_MANDOR')
+    own=wip_op(cur,fx,'PICKUP',contractor_code=fx['code'],date=str(fx['cutover']+timedelta(days=1)))
+    return verdict(dict(other_refused=other['ok'],own_allowed=own.get('po_contractor_assigned') is False),refusal=other['refusal'],pickup=own)
+
+
+def w04_holder_refused(cur,today):
+    """A cutting WIP row naming a mandor is refused at validation (pieces waiting for pickup are held by nobody yet)."""
+    if not bb_installed(cur):return production_before(cur,today)
+    out=production_post(cur,today,production_rows(stage='CUTTING',po_mandor=False,holder='{C}'),expect=True)
+    return verdict(dict(refused=any('BB_CUTTING_WIP_HOLDER' in e[1] for e in out['errors'])),errors=out['errors'])
+
+
+def w02_split_dispose(cur,today):
+    """ALL-W02 (auditor: BS from opening WIP). Oracle: 2 of 8 opening SEWING pieces split off as a native BS case (LEGACY,
+    cause UNKNOWN, traced to the split, holder recorded) leave 6 to complete; their 10.00 stays in WIP until the native
+    DISPOSE_BS scraps them (WIP -10.00, OTHER_EXPENSE +10.00 on the PO); reversing the disposition restores it; the split can
+    be undone only once the case has no resolution; stages never negative; every report check stays zero."""
+    if not bb_installed(cur):
+        fx=production_post(cur,today,production_rows())
+        return no_route(cur,lambda:split(cur,fx,fx['cutover']+timedelta(days=2),2))
+    fx=production_post(cur,today,production_rows());c=fx['cutover']
+    wip0=ledger(cur,'WIP',fx['po']);exp0=ledger(cur,'OTHER_EXPENSE',fx['po'])
+    made=split(cur,fx,c+timedelta(days=2),2)
+    s1=source_of(cur,fx);sp=s1['bb']['splits'][0]
+    api.admin(cur)
+    case=cur.execute('''select id,untracked_type,cause_source,legacy_reference,detected_at_stage,qty_pcs,status,
+        (select contractor_code from erp.contractors where id=responsible_contractor_id) from erp.bs_cases where id=%s''',(sp['bs_case_id'],)).fetchone()
+    clean1,d1=production_clean(cur)
+    disposed=bs_act(cur,'DISPOSE_BS',dict(bs_case_id=sp['bs_case_id'],resolution_type='SCRAP',qty_pcs=2,physical_at=chain.production.at(c+timedelta(days=3),10),
+                                         change_reason='BB W02 scrap split BS'),bs_version(cur,sp['bs_case_id']))
+    wip1=ledger(cur,'WIP',fx['po']);exp1=ledger(cur,'OTHER_EXPENSE',fx['po']);clean2,d2=production_clean(cur)
+    locked=refused(cur,lambda:wip_op(cur,fx,'REVERSE_SPLIT',split_id=sp['id']),'BB_WIP_SPLIT_HAS_DOWNSTREAM')
+    bs_act(cur,'REVERSE_DISPOSITION',dict(resolution_id=disposed['bs_resolution_id'],change_reason='BB W02 undo scrap'),bs_version(cur,sp['bs_case_id']))
+    wip2=ledger(cur,'WIP',fx['po']);exp2=ledger(cur,'OTHER_EXPENSE',fx['po'])
+    wip_op(cur,fx,'REVERSE_SPLIT',split_id=sp['id'])
+    s2=source_of(cur,fx)
+    api.admin(cur);status=cur.execute('select status from erp.bs_cases where id=%s',(sp['bs_case_id'],)).fetchone()[0]
+    minimum=min(stage_minimum(cur,fx['po'],'SEWING'),stage_minimum(cur,fx['po'],'QC'))
+    clean3,d3=production_clean(cur)
+    return verdict(dict(
+        split_case_native=case[1:7]==('LEGACY','UNKNOWN','OPENING_SPLIT:'+made['output_id'],'QC',2,'OPEN') and case[7]==fx['code'],
+        remaining_six=s1['remaining_qty_pcs']==6 and s1['bb']['split_qty_pcs']==2,value_stays_in_wip=wip0==D('40.00'),
+        scrap_moves_value=wip1==wip0-10 and exp1==exp0+10,undo_disposition_restores=wip2==wip0 and exp2==exp0,split_locked_by_resolution=locked['ok'],
+        split_undone=s2['remaining_qty_pcs']==8 and status=='CANCELLED',stages_never_negative=minimum>=0,reports_zero=clean1 and clean2 and clean3),
+        bs_case=[str(v) for v in case],ledger=[str(v) for v in (wip0,exp0,wip1,exp1,wip2,exp2)],detectors=[d1,d2,d3],split=sp)
+
+
+def w02_split_rework(cur,today):
+    """A split BS reworked GOOD through native laundry rework: the GOOD lot carries the opening per-piece value (2 x 5.00),
+    WIP gives it up to FG; reversing the rework completion restores both; every report check stays zero."""
+    if not bb_installed(cur):
+        fx=production_post(cur,today,production_rows())
+        return no_route(cur,lambda:split(cur,fx,fx['cutover']+timedelta(days=2),2))
+    fx=production_post(cur,today,production_rows());c=fx['cutover']
+    empty_accessory_bom(cur,fx['code'],c)
+    split(cur,fx,c+timedelta(days=2),2)
+    sp=source_of(cur,fx)['bb']['splits'][0]
+    api.admin(cur);vendor=str(cur.execute('select id from erp.laundry_vendors where vendor_code=%s',(fx['code'],)).fetchone()[0])
+    wip0=ledger(cur,'WIP',fx['po']);fg0=ledger(cur,'FG_INVENTORY',fx['po'])
+    order=bs_act(cur,'SAVE_REWORK',dict(rework_number='BBW-'+uuid.uuid4().hex,bs_case_id=sp['bs_case_id'],destination_type='LAUNDRY',vendor_id=vendor,
+        qty_sent=2,physical_sent_at=chain.production.at(c+timedelta(days=3),10),return_fg_location_id=fx['fg'],accessory_bom_item_ids=[],
+        change_reason='BB W02 rework split BS'),None)
+    done=bs_act(cur,'COMPLETE_REWORK',dict(rework_order_id=order['rework_order_id'],qty_good=2,qty_bs=0,completed_at=chain.production.at(c+timedelta(days=4),10),
+        return_fg_location_id=fx['fg'],change_reason='BB W02 rework good'),order['row_version'])
+    api.admin(cur);lot=cur.execute('select good_fg_lot_id from erp.rework_orders where id=%s',(order['rework_order_id'],)).fetchone()[0]
+    cost=lot_cost(cur,lot);wip1=ledger(cur,'WIP',fx['po']);fg1=ledger(cur,'FG_INVENTORY',fx['po']);clean1,d1=production_clean(cur)
+    bs_act(cur,'REVERSE_REWORK_COMPLETION',dict(rework_order_id=order['rework_order_id'],change_reason='BB W02 undo rework'),done['row_version'])
+    wip2=ledger(cur,'WIP',fx['po']);fg2=ledger(cur,'FG_INVENTORY',fx['po']);clean2,d2=production_clean(cur)
+    return verdict(dict(good_lot_value=D(cost)==D('10.00'),wip_to_fg=wip1==wip0-10 and fg1==fg0+10,reverse_restores=wip2==wip0 and fg2==fg0,
+                        reports_zero=clean1 and clean2),lot_cost=str(cost),ledger=[str(v) for v in (wip0,fg0,wip1,fg1,wip2,fg2)],detectors=[d1,d2])
+
+
+def w02_split_dated(cur,today):
+    """A3 applied to splits: 3 pieces split on cutover+2 and the split undone today; a completion of all 8 dated cutover+3
+    would use pieces that came back only today (refused BA_WIP_OUTPUT_EXCEEDS_DATED_REMAINING); the same completion dated
+    today fits (control)."""
+    if not bb_installed(cur):
+        fx=production_post(cur,today,production_rows())
+        return no_route(cur,lambda:split(cur,fx,fx['cutover']+timedelta(days=2),3))
+    fx=production_post(cur,today,production_rows());c=fx['cutover']
+    split(cur,fx,c+timedelta(days=2),3)
+    sp=source_of(cur,fx)['bb']['splits'][0]
+    wip_op(cur,fx,'REVERSE_SPLIT',split_id=sp['id'])
+    early=refused(cur,lambda:complete(cur,fx,c+timedelta(days=3),8),'BA_WIP_OUTPUT_EXCEEDS_DATED_REMAINING')
+    late=complete(cur,fx,today,8)
+    minimum=stage_minimum(cur,fx['po'],'SEWING');clean,d=production_clean(cur)
+    return verdict(dict(backdated_refused=early['ok'],today_fits=bool(late.get('lot_id')),sewing_never_negative=minimum>=0,reports_zero=clean),
+                   refusal=early['refusal'],detectors=d)
+
+
+def work_setup(cur,fx,rate='1.00'):
+    """Privileged fixture: the model's work BOM (component {C}J at `rate`) and the PO's rate snapshot (no facade writes them)."""
+    api.admin(cur);c=fx['cutover']
+    model=cur.execute('select model_id from erp.production_orders where id=%s',(fx['po'],)).fetchone()[0]
+    component=cur.execute("insert into erp.work_components(component_code,component_name,component_category,is_active) values(%s,'BB W jahit','LABOR',true) returning id",
+                          (fx['code']+'J',)).fetchone()[0]
+    bom=cur.execute("insert into erp.work_bom_versions(model_id,version_no,effective_from,is_active) values(%s,1,%s,true) returning id",
+                    (model,chain.production.at(c-timedelta(days=30),0))).fetchone()[0]
+    cur.execute('insert into erp.work_bom_items(bom_version_id,work_component_id,sequence_no,default_rate) values(%s,%s,1,%s)',(bom,component,D(rate)))
+    cur.execute('select erp.ensure_po_work_component_snapshots(%s,%s)',(fx['po'],chain.production.at(c,1)))
+    return component
+
+
+def opening_work(cur,fx,component,qty,day,link=True):
+    """One work completion of `qty` pcs of the component on `day` by the PO's mandor, posted by the native poster (the event
+    and its line are inserted directly as other clients do; with BB its source is the opening WIP)."""
+    api.admin(cur)
+    contractor=cur.execute('select contractor_id from erp.production_orders where id=%s',(fx['po'],)).fetchone()[0]
+    item=source_of(cur,fx)['opening_item_id'];api.admin(cur)
+    cols,vals=('completion_number,po_id,contractor_id,physical_at',[ 'BBW-'+uuid.uuid4().hex[:12],fx['po'],contractor,chain.production.at(day,10)])
+    if link:cols+=',bb_opening_item_id';vals.append(item)
+    event=cur.execute('insert into erp.work_completion_events(%s) values(%s) returning id'%(cols,','.join(['%s']*len(vals))),vals).fetchone()[0]
+    snap=cur.execute('select id from erp.po_work_component_snapshots where po_id=%s and work_component_id=%s',(fx['po'],component)).fetchone()[0]
+    cur.execute('insert into erp.work_completion_lines(completion_id,po_component_snapshot_id,work_component_id,qty_completed,qty_payable,rate_snapshot) values(%s,%s,%s,%s,%s,0)',
+                (event,snap,component,qty,qty))
+    cur.execute('select erp.post_work_completion(%s)',(event,))
+    return str(event)
+
+
+def wage_rows():
+    rows=production_rows()
+    rows.update(CHART_ACCOUNT=[dict(account_code='{C}B',account_name='BB W bank',account_type='ASSET',report_group='CURRENT_ASSETS',normal_balance='DEBIT')],
+                CASH_ACCOUNT=[dict(cash_account_code='{C}',cash_account_name='BB W bank',coa_account_code='{C}B',account_kind='BANK')])
+    rows['OPENING_BALANCE_ITEM'].append(dict(balance_type='CASH_BANK',cash_account_code='{C}',amount='100.00',control_key='CASH'))
+    rows['OPENING_CONTROL'].append(dict(control_key='CASH',balance_type='CASH_BANK',amount='100.00'))
+    return rows
+
+
+def w02_wages(cur,today):
+    """ALL-W02 wages after cutover (auditor: "upah sesudah cutover" on opening WIP). Before BB a native work completion needs a
+    Potongan, which an opening WIP never has (refused: no route). Oracle after BB: the mandor's work on the opening SEWING
+    pieces (component J at 1.00 for 8 pcs) posts with the opening WIP as its source (WIP +8.00, contractor payable 8.00), the
+    opening output then carries 40.00 + 8.00, and the wage is paid by the ordinary payroll (draft, approve, pay: one work line
+    of 8.00, bank -8.00); every report check stays zero."""
+    fx=production_post(cur,today,wage_rows());c=fx['cutover']
+    component=work_setup(cur,fx)
+    if not bb_installed(cur):
+        return no_route(cur,lambda:opening_work(cur,fx,component,8,c+timedelta(days=2),link=False))
+    wip0=ledger(cur,'WIP',fx['po']);pay0=ledger(cur,'CONTRACTOR_PAYABLE',fx['po'])
+    opening_work(cur,fx,component,8,c+timedelta(days=2))
+    wip1=ledger(cur,'WIP',fx['po']);pay1=ledger(cur,'CONTRACTOR_PAYABLE',fx['po'])
+    out=complete(cur,fx,c+timedelta(days=3),8)
+    cost=lot_cost(cur,out['lot_id']);clean1,d1=production_clean(cur)
+    api.admin(cur)
+    contractor,cash=cur.execute('select p.contractor_id,k.id from erp.production_orders p,erp.cash_accounts k where p.id=%s and k.cash_account_code=%s',
+                                (fx['po'],fx['code'])).fetchone()
+    pfx=dict(contractor=contractor,cash=str(cash))
+    bank0=bank(cur,pfx)
+    payroll=payroll_of(cur,pfx,today)
+    cur.execute('select erp.populate_payroll_draft(%s)',(payroll,));cur.execute('select erp.recalculate_payroll(%s)',(payroll,))
+    items=cur.execute('select count(*),coalesce(sum(amount),0) from erp.payroll_work_items where payroll_id=%s',(payroll,)).fetchone()
+    payroll_call(cur,'approve_payroll',payroll);payroll_call(cur,'post_payroll_payment',payroll)
+    bank1=bank(cur,pfx);clean2,d2=production_clean(cur)
+    return verdict(dict(wage_accrued=wip1==wip0+8 and pay1==pay0-8,output_carries_wage=D(cost)==D('48.00'),
+                        payroll_pays_once=items[0]==1 and D(items[1])==8 and bank1==bank0-8,reports_zero=clean1 and clean2),
+                   lot_cost=str(cost),ledger=[str(v) for v in (wip0,pay0,wip1,pay1)],payroll_items=[str(v) for v in items],
+                   bank=[str(bank0),str(bank1)],detectors=[d1,d2])
+
+
+def w02_wage_refusals(cur,today):
+    """Opening WIP work beyond its pieces (9 of 8 for one component) or dated before cutover is refused; another mandor's
+    work is refused by the native contractor check."""
+    fx=production_post(cur,today,production_rows());c=fx['cutover']
+    component=work_setup(cur,fx)
+    if not bb_installed(cur):
+        return no_route(cur,lambda:opening_work(cur,fx,component,8,c+timedelta(days=2),link=False))
+    over=refused(cur,lambda:opening_work(cur,fx,component,9,c+timedelta(days=2)),'BB_WORK_OPENING_EXCEEDS')
+    early=refused(cur,lambda:opening_work(cur,fx,component,2,c-timedelta(days=1)),'BB_WORK_OPENING_DATE')
+    opening_work(cur,fx,component,5,c+timedelta(days=2))
+    rest=refused(cur,lambda:opening_work(cur,fx,component,4,c+timedelta(days=3)),'BB_WORK_OPENING_EXCEEDS')
+    fits=opening_work(cur,fx,component,3,c+timedelta(days=3))
+    return verdict(dict(over_refused=over['ok'],before_cutover_refused=early['ok'],cumulative_over_refused=rest['ok'],remainder_fits=bool(fits)),
+                   refusals=[over['refusal'],early['refusal'],rest['refusal']])
+
+
+def rework_masters(cur,today,rate='1.50'):
+    """Masters prepared before the rework import (the import cannot create rates or accessory BOMs): an import of masters only,
+    then mandor {C}'s rate for component {C}J on model {C} and an explicit empty accessory BOM for {C}P."""
+    code='BW'+uuid.uuid4().hex[:12];c=today-timedelta(days=10)
+    rows=product_masters()
+    rows.update(CONTRACTOR=[dict(contractor_code='{C}',contractor_name='BB mandor rework',contractor_type='MANDOR'),
+                            dict(contractor_code='{C}X',contractor_name='BB mandor lain',contractor_type='MANDOR')],
+                LAUNDRY_VENDOR=[dict(vendor_code='{C}',vendor_name='BB laundry rework')])
+    production_post(cur,today,rows,code=code)
+    api.admin(cur)
+    component=cur.execute("insert into erp.work_components(component_code,component_name,component_category,is_active) values(%s,'BB W06 obras','LABOR',true) returning id",
+                          (code+'J',)).fetchone()[0]
+    cur.execute("""insert into erp.contractor_work_rates(contractor_id,model_id,work_component_id,rate_per_pcs,effective_from)
+      select c.id,m.id,%s,%s,%s from erp.contractors c,erp.product_models m where c.contractor_code=%s and m.model_code=%s""",
+                (component,D(rate),chain.production.at(c-timedelta(days=30),0),code,code))
+    empty_accessory_bom(cur,code,c-timedelta(days=30))
+    return code
+
+
+def rework_import_rows(open_qty='4',rate='1.50',holder_ok=True,destination='CONTRACTOR'):
+    """Opening BS of 4 pcs worth 20.00 held by mandor {C} (or laundry {C}); rework RW sent 5 before cutover, 1 back, 4 open."""
+    field='contractor_code' if destination=='CONTRACTOR' else 'vendor_code'
+    rows=production_rows(bs=('4',field,'{C}','20.00'))
+    for k in list(rows):
+        if k in('MODEL','SIZE','BRAND','PRODUCT','LOCATION','CONTRACTOR','LAUNDRY_VENDOR'):rows.pop(k)
+    rw={'rework_number':'RW','bs_source_key':'BS','destination_type':destination,'sent_date':'{D}','qty_sent_original':'5',
+        'qty_returned_before_cutover':'1','qty_open':open_qty,field:'{C}' if holder_ok else '{C}X'}
+    rows['OPENING_REWORK']=[rw]
+    if destination=='CONTRACTOR':
+        rows['OPENING_REWORK_COMPONENT']=[dict(rework_number='RW',work_component_code='{C}J',completed_before_bs_qty='0',qty_performed='4',rate_per_pcs=rate)]
+    return rows
+
+
+def rework_post(cur,today,code,rows,expect=None):
+    day=str(today-timedelta(days=15))
+    rows={k:[{f:(v.replace('{D}',day) if isinstance(v,str) else v) for f,v in p.items()} for p in ps] for k,ps in rows.items()}
+    return _rework_post(cur,today,code,rows,expect)
+
+
+def _rework_post(cur,today,code,rows,expect):
+    """The rework import names the masters of `code`; its own batch code differs (batch codes are unique)."""
+    cutover=today-timedelta(days=10)
+    boundary.historical.prior.set_open_period(cur,cutover-timedelta(days=1))
+    batch=api.call(cur,'CREATE',dict(batch_code=code+'I',cutover_date=str(cutover)))['batch_id']
+    fill=lambda v:v.replace('{C}',code) if isinstance(v,str) else v
+    for entity,payloads in rows.items():
+        api.upload(cur,batch,entity,[{k:fill(v) for k,v in p.items()} for p in payloads])
+    checked=api.invoke(cur,'VALIDATE',batch)
+    api.admin(cur)
+    errors=cur.execute("select entity_type,validation_errors::text from erp.migration_staging_rows where batch_id=%s and validation_status='ERROR'",(batch,)).fetchall()
+    if expect is not None:return dict(batch=batch,code=code,errors=[list(e) for e in errors])
+    if checked.get('error_rows')!=0:raise AssertionError(('BB_FIXTURE_REFUSED',checked,errors))
+    posted=api.invoke(cur,'FINALIZE',batch)
+    assert posted.get('status')=='POSTED',('BB_FIXTURE_NOT_POSTED',posted)
+    api.admin(cur)
+    po,fg=cur.execute('select p.id,(select id from erp.locations where location_code=%s) from erp.production_orders p where p.po_number=%s',(code+'G',code)).fetchone()
+    return dict(batch=batch,code=code,cutover=cutover,po=str(po),fg=str(fg))
+
+
+def w06_before(cur,today):
+    code='BW'+uuid.uuid4().hex[:12]
+    batch=api.call(cur,'CREATE',dict(batch_code=code,cutover_date=str(today-timedelta(days=10))))['batch_id']
+    return no_route(cur,lambda:api.upload(cur,batch,'OPENING_REWORK',[dict(rework_number='RW',bs_source_key='BS',destination_type='CONTRACTOR',
+        sent_date=str(today-timedelta(days=15)),qty_sent_original='5',qty_returned_before_cutover='1',qty_open='4')]))
+
+
+def w06_contractor(cur,today):
+    """ALL-W06 (auditor: rework sent before cutover, partly returned, components unpaid). Oracle: the 4 pieces still at mandor
+    {C} become one native rework order IN_PROGRESS of 4 on the opening BS case, its component line priced by the mandor's
+    rate 1.50 (4 newly payable), nothing journaled at import and no history invented (sent 5 / returned 1 kept on the import
+    record only); the native COMPLETE_REWORK (3 GOOD, 1 BS) accrues 6.00 of rework wage and gives a GOOD lot of 3 x 5.00
+    opening value + 6.00 x 3/4 = 19.50; reversing it restores the ledger; every report check stays zero."""
+    if not bb_installed(cur):return w06_before(cur,today)
+    code=rework_masters(cur,today)
+    before=gl(cur)
+    fx=rework_post(cur,today,code,rework_import_rows())
+    import_delta=moved(before,gl(cur))
+    record=ws(cur,fx['batch'])['opening_reworks'][0]
+    api.admin(cur)
+    order=cur.execute('''select ro.id,ro.status,ro.qty_sent,ro.destination_type,ro.row_version,b.status,l.rate_snapshot,l.qty_newly_payable,l.rate_basis
+      from erp.rework_orders ro join erp.bs_cases b on b.id=ro.bs_case_id join erp.rework_component_lines l on l.rework_order_id=ro.id where ro.id=%s''',
+                      (record['rework_order_id'],)).fetchone()
+    clean1,d1=production_clean(cur)
+    wip0=ledger(cur,'WIP',fx['po']);pay0=ledger(cur,'CONTRACTOR_PAYABLE',fx['po'])
+    done=bs_act(cur,'COMPLETE_REWORK',dict(rework_order_id=str(order[0]),qty_good=3,qty_bs=1,completed_at=chain.production.at(fx['cutover']+timedelta(days=3),10),
+        return_fg_location_id=fx['fg'],change_reason='BB W06 rework back'),order[4])
+    api.admin(cur);lot=cur.execute('select good_fg_lot_id from erp.rework_orders where id=%s',(order[0],)).fetchone()[0]
+    cost=lot_cost(cur,lot);pay1=ledger(cur,'CONTRACTOR_PAYABLE',fx['po']);clean2,d2=production_clean(cur)
+    bs_act(cur,'REVERSE_REWORK_COMPLETION',dict(rework_order_id=str(order[0]),change_reason='BB W06 undo'),done['row_version'])
+    wip2=ledger(cur,'WIP',fx['po']);pay2=ledger(cur,'CONTRACTOR_PAYABLE',fx['po']);clean3,d3=production_clean(cur)
+    wip_account=account(cur,'WIP')
+    return verdict(dict(
+        native_open_order=order[1]=='IN_PROGRESS' and order[2]==4 and order[3]=='CONTRACTOR' and order[5]=='IN_REWORK',
+        rate_and_payable=D(order[6])==D('1.50') and order[7]==4 and order[8]=='CONTRACTOR_RATE',
+        history_on_record_only=record['qty_sent_original']==5 and record['qty_returned_before_cutover']==1 and record['qty_open']==4,
+        import_ledger_only_opening_bs=import_delta.get(wip_account)=='60.00',
+        completion_wage=pay1==pay0-6,good_lot_value=D(cost)==D('19.50'),reverse_restores=wip2==wip0 and pay2==pay0,
+        reports_zero=clean1 and clean2 and clean3),
+        order=[str(v) for v in order],record=record,import_delta=import_delta,lot_cost=str(cost),
+        ledger=[str(v) for v in (wip0,pay0,pay1,wip2,pay2)],detectors=[d1,d2,d3])
+
+
+def w06_laundry(cur,today):
+    """An open laundry rework (BS held by laundry {C}): a native LAUNDRY rework of 4 without wage components; 4 GOOD back
+    give a lot of 4 x 5.00."""
+    if not bb_installed(cur):return w06_before(cur,today)
+    code=rework_masters(cur,today)
+    fx=rework_post(cur,today,code,rework_import_rows(destination='LAUNDRY'))
+    record=ws(cur,fx['batch'])['opening_reworks'][0]
+    api.admin(cur);version=cur.execute('select row_version from erp.rework_orders where id=%s',(record['rework_order_id'],)).fetchone()[0]
+    bs_act(cur,'COMPLETE_REWORK',dict(rework_order_id=record['rework_order_id'],qty_good=4,qty_bs=0,completed_at=chain.production.at(fx['cutover']+timedelta(days=3),10),
+        return_fg_location_id=fx['fg'],change_reason='BB W06 laundry back'),version)
+    api.admin(cur);lot=cur.execute('select good_fg_lot_id from erp.rework_orders where id=%s',(record['rework_order_id'],)).fetchone()[0]
+    cost=lot_cost(cur,lot);clean,d=production_clean(cur)
+    return verdict(dict(laundry_order=record['destination_type']=='LAUNDRY' and record['components']==[],good_lot_value=D(cost)==D('20.00'),reports_zero=clean),
+                   record=record,lot_cost=str(cost),detectors=d)
+
+
+def w06_refusal(cur,today,variant):
+    if not bb_installed(cur):return w06_before(cur,today)
+    code=rework_masters(cur,today)
+    kw={'OPEN_QTY':dict(open_qty='3'),'RATE':dict(rate='2.00'),'HOLDER':dict(holder_ok=False)}[variant]
+    expected={'OPEN_QTY':'BB_REWORK_OPEN_QTY_MISMATCH','RATE':'BB_REWORK_RATE_MISMATCH','HOLDER':'BB_REWORK_HOLDER_MISMATCH'}[variant]
+    out=rework_post(cur,today,code,rework_import_rows(**kw),expect=True)
+    return verdict(dict(refused_at_validation=any(expected in e[1] for e in out['errors'])),variant=variant,errors=out['errors'])
+
+
 # ---------------------------------------------------------------- registration
 
 PLAN=[('F:P02_SETTLE_AND_REVERSE','NO_ROUTE',lambda c,t:settle_cycle(c,t,'SUPPLIER_PAYABLE')),
@@ -941,7 +1413,20 @@ PLAN=[('F:P02_SETTLE_AND_REVERSE','NO_ROUTE',lambda c,t:settle_cycle(c,t,'SUPPLI
       ('P:P04_SAME_ORDER_LATER_BATCH_REFUSED','NO_ROUTE',lambda c,t:p04_refusal(c,t,'DUPLICATE')),
       ('P:Y02_ENTITLEMENTS_PAYROLL_AND_CARRY','NO_ROUTE',y02_cycle),
       ('P:Y02_ATTENDANCE_WITHOUT_ATTENDANCE_REFUSED','NO_ROUTE',lambda c,t:y02_refusal(c,t,'NO_ATTENDANCE')),
-      ('P:Y02_ENTITLEMENTS_NOT_EQUAL_DOCUMENT_REFUSED','NO_ROUTE',lambda c,t:y02_refusal(c,t,'EQUATION'))]
+      ('P:Y02_ENTITLEMENTS_NOT_EQUAL_DOCUMENT_REFUSED','NO_ROUTE',lambda c,t:y02_refusal(c,t,'EQUATION')),
+      ('W:W04_CUTTING_PICKUP_COMPLETE_REVERSE','NO_ROUTE',w04_cycle),
+      ('W:W04_PICKUP_OTHER_MANDOR_REFUSED','NO_ROUTE',w04_other_mandor),
+      ('W:W04_CUTTING_ROW_WITH_HOLDER_REFUSED','NO_ROUTE',w04_holder_refused),
+      ('W:W02_SPLIT_BS_DISPOSE_AND_UNDO','NO_ROUTE',w02_split_dispose),
+      ('W:W02_SPLIT_BS_REWORK_GOOD','NO_ROUTE',w02_split_rework),
+      ('W:W02_SPLIT_DATED_REMAINING','NO_ROUTE',w02_split_dated),
+      ('W:W02_WAGES_AFTER_CUTOVER_THROUGH_PAYROLL','NO_ROUTE',w02_wages),
+      ('W:W02_WAGES_OVER_PIECES_OR_BEFORE_CUTOVER_REFUSED','NO_ROUTE',w02_wage_refusals),
+      ('W:W06_OPEN_REWORK_CONTRACTOR','NO_ROUTE',w06_contractor),
+      ('W:W06_OPEN_REWORK_LAUNDRY','NO_ROUTE',w06_laundry),
+      ('W:W06_OPEN_QTY_MISMATCH_REFUSED','NO_ROUTE',lambda c,t:w06_refusal(c,t,'OPEN_QTY')),
+      ('W:W06_RATE_MISMATCH_REFUSED','NO_ROUTE',lambda c,t:w06_refusal(c,t,'RATE')),
+      ('W:W06_HOLDER_MISMATCH_REFUSED','NO_ROUTE',lambda c,t:w06_refusal(c,t,'HOLDER'))]
 assert len({k for k,_,_ in PLAN})==len(PLAN),'BB_DUPLICATE_CASE_ID'
 
 

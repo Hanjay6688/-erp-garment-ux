@@ -132,6 +132,47 @@
       "notes": "Catatan"
     }
   },
+  "OPENING_REWORK": {
+    "label": "Rework yang masih di mandor atau laundry saat saldo awal",
+    "required": [
+      "rework_number",
+      "bs_source_key",
+      "destination_type",
+      "sent_date",
+      "qty_sent_original",
+      "qty_returned_before_cutover",
+      "qty_open"
+    ],
+    "fields": {
+      "rework_number": "Nomor rework asal",
+      "bs_source_key": "Kode rincian BS asal (opening_source_key baris BS)",
+      "destination_type": "Tujuan rework (CONTRACTOR/LAUNDRY)",
+      "contractor_code": "Kode mandor rework",
+      "vendor_code": "Kode laundry rework",
+      "sent_date": "Tanggal kirim rework",
+      "qty_sent_original": "Jumlah dikirim",
+      "qty_returned_before_cutover": "Sudah kembali sebelum saldo awal",
+      "qty_open": "Masih di rework saat saldo awal",
+      "notes": "Catatan"
+    }
+  },
+  "OPENING_REWORK_COMPONENT": {
+    "label": "Komponen upah rework terbuka",
+    "required": [
+      "rework_number",
+      "work_component_code",
+      "completed_before_bs_qty",
+      "qty_performed",
+      "rate_per_pcs"
+    ],
+    "fields": {
+      "rework_number": "Nomor rework asal",
+      "work_component_code": "Kode komponen kerja",
+      "completed_before_bs_qty": "Pcs yang komponennya sudah selesai sebelum BS",
+      "qty_performed": "Pcs yang akan dikerjakan",
+      "rate_per_pcs": "Tarif per pcs"
+    }
+  },
   "_extend": {
     "UNINVOICED_RECEIPT": {
       "fields": {
