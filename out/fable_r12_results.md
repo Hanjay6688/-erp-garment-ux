@@ -102,3 +102,43 @@ rev1 bentuk `cases()`; rev2 F1 tanpa savepoint; rev3 kunci kewajiban; rev4 nama 
 ## 6. Status
 CP6 HOLD. Belum ada cacat produk baru di paket rilis; empat temuan writer terkonfirmasi independen (F4 = cacat BB, sudah diperbaiki di BC dan diverifikasi); tiga pre-existing lainnya: F1 (diperbaiki di BC, verifikasi menyusul), F2 (cacat detektor
 lama, butuh disposisi tertulis, belum diperbaiki) dan F3 (guard UUID halaman nota, sumber; menghalangi bukti browser ACC-D09). Menunggu head final BC + tabel kasus + run CI dari writer untuk putaran 12 penuh.
+
+---
+# Fable — putaran 12 BC (head BC per §31 writer; produk `27e1a05`, paket DB `e21d15b`, tool head `23abac1`)
+
+## 7. Identitas dan cara kerja putaran ini
+- Writer menulis §31 di b7a1a2b ("head = commit yang memuat bagian ini"). Sesudahnya ia terus mendorong perbaikan **skrip uji** (browser nota D09, probe, alat rollback):
+  `21ce322 … 23abac1`. Saya cek: `src` + `supabase` **identik sejak 27e1a05**; paket rilis `supabase/release` identik sejak e21d15b; runtime auditor (workflow, runner, modes,
+  driver) identik sejak 95353aa. Karena itu dispatcher saya (`wf/pin_head.sh`) menerima head mana pun yang lolos tiga cek itu dan menolak bila produk berubah.
+- Semua run putaran ini: INDEPENDENT_NATIVE_RERUN (dispatch sendiri, skenario sendiri atau PLAN writer di workflow pinned milik auditor). Bacaan log run writer diberi label REUSED_WRITER_EVIDENCE.
+
+## 8. Rekonsiliasi bacaan GPT (`out/gpt_bc_20260926_initial_review.md`) dengan verifikasi Fable
+| Klaim GPT | Verifikasi Fable | Status bersama |
+|---|---|---|
+| GPT-BC-01: filter cari tab Stok ikut menyaring Dokumen tanpa terlihat | Sumber pada 5e1ae83: `Documents` tidak punya kotak cari/status; head kini (27e1a05) punya kotak "Cari dokumen aksesori", status "Pencarian aktif…", tombol "Hapus pencarian" (diff 5e1ae83..27e1a05 menambah baris-baris itu). Writer mengakui di §31.3 butir 4. | **VALID pada 5e1ae83; DIPERBAIKI 27e1a05**; diuji ulang lewat browser lintas tab (menyusul) |
+| GPT-BC-02: pembanding rollback dipersempit untuk baris seed | Sumber 9fb2473: hanya kolom `set_at` (settings) dan `id,set_at` (events) dua tabel seed yang dideklarasi registry, hanya pada cek `REINSTALL_*_SAME_AS_FIRST_INSTALL`; kolom lain tetap dibandingkan; assert tabel seed = registry. | **SETUJU: penyempitan sempit, terdokumentasi, dapat diterima**; run cycle 36172264420 (9fb2473) dan 36174363509 (21ce322) 135/135 = bukti writer; rerun auditor 36177907418 |
+| ACC-C12 belum lengkap (barang sama) | Writer menambah `C12:SAME_GOODS_COUNTED_ONCE` (21ce322): saldo awal item sama ditolak, custody key sama ditolak, valuasi lot sama dua kali ditolak, pembelian baru +10; **batas**: custody key BARU untuk barang fisik yang mungkin sama diterima (sistem tidak punya identitas fisik). | **SETUJU dengan GPT: PARTIAL pada key baru**; bukan cacat kode, tetapi celah aturan → pertanyaan kebijakan owner (lihat §12) |
+| ACC-D09 halaman nota belum terbukti; F3 | Sama (§3a). Writer menambah kasus browser D09 (21ce322) tetapi tiga rerun-nya merah di skrip (navigasi sesudah reload), 36177120018 lihat §9. | **SETUJU: belum PASS** |
+| T2 27e1a05 per ID identik dengan fe226cf kecuali 1 | Writer §31.4a: `ACCESSORY_CONNECTED_ZERO` PASS→INCOMPLETE (nota harga manual 0 kini ditolak `BC_FREE_REQUIRES_POLICY`). Disposisi auditor di §10. | SETUJU |
+| CodeQL 4 job sukses, jangan tulis "nol temuan" tanpa SARIF | Setuju; rerun auditor 36177919063. | SETUJU |
+
+## 9. Run putaran 12 BC (diisi saat selesai)
+Gate: T2 36177884812 · T3 paket 36177895962 · rollback 36177907418 · CodeQL 36177919063. Regresi (fase after, dengan BC): xa1 36177930596 · xa2 36177941767 ·
+xa7 36177953287 · xa8 rev4 36177965107 · xa9 36177978040 · open_1 36177989983 · C0 36178002278 · xaudit_12_f1f2 rev5 36178015645 (F1 harus PASS dengan BC; F2 masih bunyi sampai D07).
+Probe BC (PLAN writer 44 kasus) di workflow pinned auditor `.github/workflows/fable-cp6-bc-t1.yml`: run diisi di bawah.
+
+## 10. Disposisi T2 `ACCESSORY_CONNECTED_ZERO` (PASS → INCOMPLETE pada head BC)
+Kasus AR lama mengharapkan nota mandor dengan harga eceran manual 0,00 terposting. ERP-DEC02 (M:1066) dan M:5023 butir B ("Jangan menjadikan gratis sebagai jalan untuk
+melewati price validation Nota Mandor") menetapkan: nota harga 0 **bukan** cara gratis; jalur gratis yang sah = baris Special berbasis kebijakan owner. Penolakan
+`BC_FREE_REQUIRES_POLICY` sesuai kontrak. **Disposisi: EXPECTED_CHANGE (bukan regresi).** Aturan beku: kasus T2 lama tetap tercatat INCOMPLETE dengan disposisi ini
+(tidak dilabel ulang); writer menambahkan kasus pengganti di harness T2 yang mengunci penolakan (probe BC sudah punya `DEC02:MANUAL_ZERO_PRICE_REFUSED`) dan mencatat
+kasus lama sebagai *superseded* di tabel kasus, bukan dihapus.
+
+## 11. Tinjauan penyempitan pembanding rollback (§31.3 butir 7) — SOURCE_REVIEW
+Lihat §8 baris GPT-BC-02. Tambahan: cek `<KEY>_SEED_CHANGED` / `<KEY>_SEED_NOT_PENDING` di berkas rilis tetap menjaga isi seed (7 baris, nilai kosong, versi 1); jadi yang
+dikecualikan hanya jejak waktu pasang. Diterima; dicatat sebagai pengecualian eksplisit di register.
+
+## 12. Pertanyaan kebijakan untuk owner (bukan blocker)
+- **ACC-C12 key baru:** bila opname pembuka mencatat barang "pending nilai" tanpa identitas fisik, sistem tidak dapat membedakan pengajuan ulang barang yang sama dengan key
+  baru dari barang baru. Pilihan: (a) wajibkan rujukan lembar hitung/lot sumber pada setiap item pending (sistem menolak key baru tanpa rujukan), atau (b) terima batas ini
+  sebagai kontrol manual gudang dan catat di lampiran C6. Sampai diputuskan: ACC-C12 = PARTIAL.
