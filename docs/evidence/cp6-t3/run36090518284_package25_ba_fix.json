@@ -1,0 +1,59 @@
+{
+ "label": "T3_PREP",
+ "run": 36090518284,
+ "head_sha": "a095a9d804d29643721e18635c2c3e26adcd56ea",
+ "production_go": false,
+ "release_evidence": false,
+ "jobs": {
+  "capture": {
+   "job": 107931766273,
+   "status": "ALL_STAGES_INSTALLED",
+   "pins_reproduced": {
+    "group": "T3_PINS_REPRODUCED",
+    "equal": true,
+    "differ": []
+   },
+   "pins_sha256": "d61ef045217b386a4de577617c30f605881066f1bdaa700b27c7159af7fd3b1b",
+   "pins_bytes": 74975,
+   "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true
+   },
+   "backup_restore_drill": "RESTORED_SAME_MEANING",
+   "primary_unchanged": true
+  },
+  "install": {
+   "job": 107931766448,
+   "status": "ALL_STAGES_INSTALLED",
+   "files": 25,
+   "verify": "AV_PLUS_AW_AX_AY_AZ_BA_T1",
+   "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true
+   },
+   "backup_restore_drill": "RESTORED_SAME_MEANING",
+   "platform_last": "20260925010000"
+  },
+  "browser": {
+   "job": 107931766435,
+   "status": "BROWSER_PASS",
+   "cases": 10,
+   "all_pass": true,
+   "console_errors": 0
+  }
+ },
+ "security_advisors": {
+  "before": 73,
+  "after": 129,
+  "added": 56,
+  "added_classes": [
+   "rls_enabled_no_policy INFO erp"
+  ],
+  "removed": []
+ },
+ "note": "Committed 25-file package AC..BA (BA file with the supplier-return fix) installed on the hosted-faithful baseline; the capture job reproduced every committed pin; the B2 gate held in the capture and install jobs; the AT/AU browser flow passed on the installed package."
+}

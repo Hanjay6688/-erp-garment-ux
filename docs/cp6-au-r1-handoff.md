@@ -2,7 +2,13 @@
 
 Tanggal: 23 September 2026 (WIB). Writer: Claude Code (sesi cloud). Peninjau berikutnya: ChatGPT.
 
-> **Pembaruan terbaru (24 September 2026, tindak lanjut audit GPT atas `737649b`): baca §27, lalu §26, §25, §24, dan §23.**
+> **Pembaruan terbaru (25 September 2026, perbaikan audit independen `AUDIT_WRITER_HANDOFF_CP6.md`): baca §28.**
+> - §28: keluarga BA (A1, A3, A4, A5, A6, A9, A10) dan A2 di frontend; regresi T2 akibat BA ditemukan dan diperbaiki; alat B1–B6 (grup ketat dan self-test, gate T3, rollback AC..BA varian rilis dengan siklus penuh dan matriks post-use, mode browser, ringkasan fixture, identitas run); addendum C0 dan draf lampiran C6 menunggu pengesahan owner.
+> - Produk acuan `a095a9d`; hasil CI di §28.6; cara menjalankan ulang di §28.8. A7 dan A8 (opsional) belum dikerjakan.
+> - Penerimaan independen menunggu rerun auditor. MATCH adalah oracle yang disetujui, bukan PASS kasus beku. Label T1_FAMILY/T2_REGRESSION/T3_PREP/AUDITOR_SCENARIO, bukan bukti rilis.
+> - CP6 tetap HOLD, `audit_complete=false`, 12 HOLD historis tetap HOLD, `production_go=false`.
+>
+> **Pembaruan sebelumnya (24 September 2026, tindak lanjut audit GPT atas `737649b`): baca §27, lalu §26, §25, §24, dan §23.**
 > - §27: AB-01 (pembalikan pemakaian kain kantong) terbukti native lalu diperbaiki; AB-02 fixture; AB-03 arsip T3/CodeQL; runtime **CP6 Auditor Scenario** untuk skenario auditor sendiri; T1/T2/T3/CodeQL akhir pada `208afce`.
 > - §26 menutup sisa keluarga ini: AY rev7.2–rev7.4 (revaluasi pada harinya, pengenceran batch, kain kantong per pool, bahan potong yang dibatalkan keluar dari HPP), AZ rev2/rev2.1 (kantong, BS impor awal, lot pembuka non-PO, recost aksesori, invoice dan koreksi harga bertanggal sebelum barang diterima, gerakan potong dan penghapusan bahan yang dibalik dinilai ulang pada harinya), keputusan owner opsi 1, pemeriksaan independen `b110e54` beserta disposisinya, dan T1/T2/T3/CodeQL akhir.
 > - Yang masih terbuka ada di §26.7 (kecuali pembalikan kain kantong, ditutup di §27.1). Penerimaan independen rev7.4/rev2.1 masih RERUN_REQUIRED. Tidak ada keputusan owner yang tertunda.
@@ -1853,3 +1859,212 @@ Bukti: `docs/evidence/cp6-t2/run36011365657_ab01_fix.json`, `docs/evidence/cp6-t
 ### 27.7 Pelajaran
 - Fixture yang mengubah penolakan apa pun menjadi PASS adalah oracle yang dilonggarkan. Penolakan yang memang diharapkan harus dicocokkan dengan pesan produknya (seperti `AZ:BATCH_PARTNER_PO`); selain itu, error membuat kasus INCOMPLETE.
 - Pengecualian yang ditulis "demi aman" (pemakaian kantong) perlu dibuktikan aman secara native. Temuan auditor muncul tepat di pengecualian itu.
+
+## 28. Putaran kedelapan: perbaikan audit independen (handoff auditor 25 September 2026) (writer Claude)
+
+Label: T1_FAMILY, T2_REGRESSION, T3_PREP, AUDITOR_SCENARIO; bukan bukti rilis dan bukan penerimaan independen. CP6 tetap
+HOLD, `audit_complete=false`, 12 HOLD historis tetap HOLD, `production_go=false`. Tidak ada SQL ke hosted; cabang
+kompetisi tetap `ca7f095`; `main`, Cloudflare, Supabase hosted, dan ERP-Garment lama tidak disentuh.
+
+Sumber tugas: `AUDIT_WRITER_HANDOFF_CP6.md` di cabang auditor `audit/cp6-final-20260924-gpt-a0bcadf` (commit `8d3ee4c`,
+dibaca saja). Keputusan owner D01–D06: semua opsi A, `OWNER_CONFIRMED_CHAT` 25 Sep 2026 (termasuk akun lawan AX =
+OTHER_INCOME). Urutan kerja yang diminta: A1–A3 dan A9, C0, lalu A4, A5, A10, C6, rollback AC..AV, head baru.
+
+### 28.1 Produk: keluarga BA (`v2.6.20ba`, `supabase/dev/cp6_ba_t1_family.sql`)
+Dibangun oleh `scripts/cp6_ba_build.py` dari definisi yang sedang dijalankan rantai (AR, AP, AV, migration CP5 19;
+berkas T1 AW dan AZ) dengan substitusi yang diperiksa satu per satu. BA menggantikan 8 fungsi dan menambah 1 fungsi serta
+1 tabel. Registry lapisan (`scripts/cp6_layers.py`) mencatat fungsi AW/AZ yang diganti BA, sehingga verifikasi AW dan AZ
+tidak lagi membandingkan fungsi itu setelah BA terpasang.
+
+| ID | Temuan | Perbaikan | Kode penolakan / hasil |
+| --- | --- | --- | --- |
+| A1 (CP6-09, P1) | Batch impor kedua untuk item yang sama dibukukan lagi (stok/nilai dobel) | `erp.post_opening_balance`: batch impor tidak boleh membukukan item saldo awal yang sudah dibukukan batch impor lain dengan identitas sama (bahan+gudang+roll; FG produk+gudang+grade; kas per akun; WIP/BS tanpa sumber PO menurut aturan AR). Sumber berbeda tetap boleh | `BA_IMPORT_OPENING_ALREADY_POSTED` |
+| A2 (CP6-01, P1) | Halaman potong/pickup/BS memakai zona perangkat | Frontend (`01c28e1`): helper WIB `cp6WibPhysicalTimeToIso`; nilai tidak valid menonaktifkan aksi | Matriks TZ + DOM test per halaman gagal di kode lama, lulus di kode baru |
+| A3 (CP6-02, P1) | COMPLETE WIP bertanggal sebelum pembalikan output | `erp.complete_initial_import_wip_v1`: output butuh sisa tahap pada tanggalnya dan setiap hari sesudahnya; pada hari pembalikan, output dicatat sesudah pembalikan | `BA_WIP_OUTPUT_EXCEEDS_DATED_REMAINING` |
+| A4 (CP6-03, P2) | Koreksi harga 1 unit yang habis dipakai menyisakan ±0,01 | `erp.sync_material_cost_revaluation`: recost gerakan pemakaian = nilai sekarang (selisih nilai stok yang dibulatkan sebelum/sesudah gerakan) dikurangi yang sudah diposting (pembulatan kumulatif dalam dokumen), sehingga stok 0 bernilai 0. Retur supplier tetap memakai aturan AZ (lihat 28.2) | Kasus sen UP/DOWN × DIRECT/INVOICE lulus |
+| A5 (CP6-04, P2) | Selector BS Resolution dan draf impor terpotong 100/50 | Sumber yang masih bisa diklaim dan draf yang belum diposting selalu terdaftar; kotak cari di UI bila daftar > 20 (facade publik tidak berubah; cek batas CP5 lulus) | Klaim delivery tertua setelah 100 yang lebih baru; draf tertua setelah 51 |
+| A6 (CP6-24, P3) | Close tanggal yang sama membuat filing kedua | `erp.close_accounting_through`: close ulang tanggal yang sudah ditutup ditolak; close sesudah reopen tetap boleh | `CLOSE_ALREADY_CLOSED` |
+| A9 (CP6-07, D02=A, P1) | Refund/apply melebihi kapasitas pada tanggalnya | `erp.manage_initial_prepayment_v1`: ditolak bila kapasitas pada tanggalnya atau hari mana pun sesudahnya menjadi negatif (supplier, customer, vendor). Aturan stok AUD-S04 sudah ditegakkan AO (`AM_BACKDATE_WOULD_CREATE_NEGATIVE_LOCATION_ROLL_HISTORY`); BA tidak menambah apa pun di sana | `BA_ADVANCE_DATED_CAPACITY` |
+| A10 (CP6-18, D03=A, P2) | WIP awal produk A diselesaikan sebagai produk B | Produk pada WIP awal mengikat output; tanpa produk, brand/warna sumber harus cocok; yang diperiksa dan yang tidak diketahui dicatat di `erp.initial_import_wip_output_identity_v1` (tidak diketahui ≠ cocok) | `BA_WIP_OUTPUT_PRODUCT_BOUND`, `BA_WIP_OUTPUT_SOURCE_MISMATCH` |
+| A7, A8 | Opsional (P3) | Tidak dikerjakan pada putaran ini | — |
+
+Tabel baru punya dua referensi produk; keduanya diklasifikasikan DERIVED di registry AV
+(`erp.assert_new_stock_cutoff_coverage_v1`), dan guard fail-closed AV dijalankan di akhir install BA. Guard AV tidak
+dilonggarkan.
+
+### 28.2 Regresi yang ditemukan T2 dan perbaikannya
+- T2 run 36087253697 (`5d54472`, BA terpasang): dari 360 kasus, tepat dua bergerak terhadap hasil tercatat, keduanya
+  PASS → INCOMPLETE dengan `N_SOURCE_CENT_BALANCE_MISMATCH`:
+  - `CROSS:SUPPLIER_CENT:SPLIT_RETURN`: persediaan 0,01 dan variance −0,01 tersisa pada stok 0;
+  - `CROSS:SUPPLIER_CENT:CROSS_SOURCE_INVERSE_IDENTITY`: persediaan 0,05, seharusnya 0,06.
+  Semua kasus, HOLD, dan oracle yang disetujui lainnya identik dengan referensi tercatat (run 36011365657 pada `208afce`;
+  produk `9add57e` sama).
+- Penyebab: aturan sen A4 juga berjalan untuk gerakan retur supplier. Kredit persediaan retur ditentukan oleh cent state
+  baris pembelian (v2.6.20n: 0,02 / 0,01 / 0,02 untuk tiga unit @0,015), sehingga sennya dipindah dua kali walau biaya
+  tidak berubah.
+- Perbaikan (`35612d6`): retur supplier kembali ke aturan AZ (hanya perubahan biaya yang direvaluasi). Oracle N tidak
+  diubah. Probe BA mendapat kontrol `A4:SUPPLIER_RETURN_SPLIT_CONTROL` (PASS di kedua fase: tiga retur 1 unit @0,015,
+  tanpa revaluasi, persediaan kembali 0).
+- Hasil sesudah perbaikan: dua run T2 pada produk yang sudah diperbaiki, identitas per kasus **sama dengan referensi
+  tercatat** (run 36011365657 pada `208afce`):
+  - run 36089425974 (`35612d6`, dispatch) dan run 36089919596 (`a4ad590`, alat B5/B6);
+  - kedua kasus SUPPLIER_CENT kembali PASS; 9 perpindahan NEW_CASES yang sudah tercatat (8 DATE dengan oracle disetujui
+    MATCH, `ADJUSTMENT_DATE:False` INCOMPLETE) dan 12 HOLD identik;
+  - business 179 PASS + 39 CONTROL_PASS + 12 DATE_POLICY_REVIEW_REQUIRED, imports 31, values 65; AR 146 + 28 race; AT 16,
+    AU 15, race 4 + 6; oracle AS 8/8 MATCH; oracle B 5 PASS dan 12 kalender MATCH; AO trial sesuai catatan (8 PASS + 4
+    INCOMPLETE);
+  - baris kebijakan kalender hanya berbeda pada id fixture dan tanggal (tanggal run bergeser), statusnya sama;
+  - run `a4ad590` mencetak `T2_FIXTURE_SUMMARY` (fase regression 103 completion, fase AR 6, tidak ada penolakan) dan
+    `run_identity`.
+  Bukti: `docs/evidence/cp6-t2/run36089425974_ba_fix.json`, `docs/evidence/cp6-t2/run36089919596_ba_b5_b6.json`.
+  Hasil beku tetap; MATCH adalah oracle yang disetujui, bukan PASS kasus beku.
+
+### 28.3 Alat dan protokol (bagian B)
+- **B1 (CP6-10)** `scripts/cp6_auditor_runner.py`: grup ketat untuk kasus savepoint auditor.
+  - ID kasus ganda menolak seluruh grup.
+  - Status di luar PASS/FAIL/COUNTEREXAMPLE/INCOMPLETE, atau hasil bukan dict → INCOMPLETE (nilai asli dicatat).
+  - Sesudah setiap kasus: batas ERP/platform/Auth/ACL, katalog dan hash baris skema `public`, advisory lock sesi runner,
+    dan sesi klien lain pada clone. Lock/sesi yang **baru sejak kasus dimulai** membuat kasus INCOMPLETE lalu dibersihkan.
+  - Planned vs final dicetak.
+  - Job self-test (`cp6_auditor_scenario_selftest.py`): satu kasus per kebocoran; lulus hanya bila detektor yang
+    diharapkan menyala dan tidak ada detektor lain.
+  - Dua kesalahan alat writer yang ditemukan self-test dan diperbaiki: `pg_stat_activity` di-cache per transaksi
+    (sekarang `pg_stat_clear_snapshot()` sebelum dibaca), dan 46 lock transaksi milik setup runner sempat terhitung
+    sebagai kebocoran (sekarang hanya lock baru yang dihitung). Run 36088432785 (`f22f7b9`): self-test SELFTEST_PASS,
+    sampel RUN_COMPLETE.
+- **B2 (CP6-11)** `scripts/cp6_t3_package_run.py`: job install/capture T3 hijau hanya bila seluruh gate terpenuhi
+  (terpasang, primary tidak berubah, drill backup/restore RESTORED_IDENTICAL atau RESTORED_SAME_MEANING, dan advisor
+  baru hanya INFO `rls_enabled_no_policy` di skema erp). Gate dicatat di laporan. Komentar "green job can be cited
+  without reading the log" dihapus.
+- **B3 (CP6-12)** rollback seluruh paket rilis AC..BA (lihat 28.4).
+- **B4 (GATE-04/08)** mode browser runtime auditor: `scripts/cp6_auditor_modes.py` (`run_browser`) dan
+  `scripts/cp6_auditor_browser_host.mjs`.
+  - Auditor memberi modul ES lewat input workflow `browser_b64` yang mengekspor `cases(ui, today)`.
+  - Runtime membuat salinan yang dikomit, menyalakan PostgREST sendiri untuk salinan itu, mem-build UI cabang ini (mode
+    DISPOSABLE_TEST; build ini hanya mau jalan di origin `http://127.0.0.1:4176`) di belakang proxy loopback yang hanya
+    meneruskan Auth dan RPC publik, lalu menjalankan modul di Playwright.
+  - `ui.login(role)` membuat user Auth nyata, memetakannya ke `erp.app_users` di salinan, dan masuk lewat form login.
+  - ID ganda menolak run; status di luar kosakata menjadi INCOMPLETE; user Auth, container, server UI, dan salinan dihapus;
+    jumlah baris Auth primary harus kembali. Kata sandi dan token per user tidak pernah dicetak (hanya diredaksi dari
+    hasil dan error).
+  - Sampel `scripts/cp6_auditor_browser_sample.mjs` jalan di setiap push: halaman login tanpa sesi; OWNER masuk lewat
+    form, GUDANG (layar HP) ditolak preflight close.
+  - Tiga kesalahan alat writer ditemukan CI dan diperbaiki (tidak ada guard produk yang diubah):
+    - container PostgREST menunjuk salinan HTTP yang sudah dihapus (run 36089919668);
+    - origin 4177 ditolak guard build disposable `DISPOSABLE_BUILD_REQUIRED` (run 36090518187); host pindah ke 4176;
+    - CodeQL python menghitung 1 hasil sesudah mode HTTP ditambahkan (run 36090056167; gate versi itu hanya mencetak
+      jumlahnya). Satu-satunya keluaran nilai sensitif yang baru adalah baris `::add-mask::` kata sandi/token per user;
+      baris itu dihapus dan hasilnya 0 (run 36090824553). Gate CodeQL sekarang mencetak setiap temuan (`CODEQL_FINDING`).
+  - Run 36090909397 (`4c379bf`): `RUN_COMPLETE`; kedua kasus browser PASS, 2 user dibuat dan dihapus, jumlah Auth
+    kembali, salinan dan container terhapus, 0 console error; kasus DB, race, dan HTTP sampel PASS; self-test
+    SELFTEST_PASS; primary tidak berubah. Bukti: `docs/evidence/cp6-auditor/run36090909397_samples.json`.
+- **B5 (CP6-14)** T2 mencetak `T2_FIXTURE_SUMMARY` per fase (setiap completion fixture per kasus, penolakan), di samping
+  baris per kasus `T2_FIXTURE_PAYROLL` dan `T2_SEED_QUIETED` per grup. Aturan tetap: hanya item yang dibuat kasus itu
+  sendiri yang dilengkapi; kasus yang menguji pekerjaan belum dibayar tidak diubah.
+- **B6** setiap runner (probe BA, T2, paket T3, rollback T3, skenario auditor) mencetak baris `run_identity` di awal:
+  label, head alat, commit produk acuan (perubahan terakhir pada migrations, family dev, paket rilis/rollback, frontend),
+  run id, dan attempt. Hasil beku tidak dilabel ulang.
+
+### 28.4 B3: rollback AC..BA varian rilis
+- `scripts/cp6_t3_rollback_acav.py`: rollback AC..AV yang sudah ditinjau (`supabase/rollbacks`) dipin ulang untuk
+  rantai rilis dengan **hanya** substitusi yang tercatat di paket (`docs/evidence/cp6-t3/release_pins.json`):
+  - digest statements berkas (sendiri dan pendahulu): sha sumber → sha paket. AC..AN sebelumnya menerima dua digest
+    (berkas dan bentuk applier uji); varian rilis hanya menerima digest yang dicatat applier rilis;
+  - jumlah objek dan fingerprint katalog, dan hash capsule historis, sesuai pin ulang paket;
+  - teks view AC `erp.v_payroll_nota_browser` dalam bentuk hosted (temuan view G-01).
+  Pin lain (hash fungsi, bentuk capsule, boundary yang dicatat saat install) tidak diubah. Pin katalog yang tidak
+  terpetakan menghentikan build. Berkas asli tidak dilonggarkan.
+- AW..BA dibangun dari capture native (BA: +17 objek, 8 fungsi diganti).
+- Siklus (`scripts/cp6_t3_rollback.py cycle`), run 36089474604 (`2ed27cd`, paket dengan BA sebelum perbaikan 28.2):
+  **127/127 PASS**, primary tidak berubah.
+  - Penolakan tanpa perubahan: AZ, AV, dan AC di luar urutan saat BA terpasang; admission terbuka.
+  - Siklus 1: BA..AC dibalik sampai AB; setiap keadaan sama dengan keadaan sebelum install berkas itu. Sebelum setiap
+    varian AC..AV, rollback asli rantai uji ditolak di rantai rilis (`<K>_ROLLBACK_PLATFORM[_IDENTITY]_OR_SUCCESSOR`)
+    tanpa perubahan.
+  - Install ulang 25 berkas sama dengan install pertama.
+  - Siklus 2 dibandingkan dengan keadaan saat install ulangnya sendiri, jadi setiap baris dihitung termasuk waktu
+    capture dan boundary capsule (tidak ada kolom yang diabaikan); berakhir persis di AB.
+  - Matriks post-use: di setiap keluarga (25), sesudah install, satu transaksi bisnis dikomit (saldo awal piutang
+    pelanggan 17,25 diposting lewat `erp.post_opening_balance` dengan klaim OWNER: 1 jurnal, 2 baris), lalu rollback
+    keluarga itu ditolak dengan `<K>_POST_USE_ROLLBACK_REFUSED` dan tidak ada yang berubah.
+  - Bukti: `docs/evidence/cp6-t3/rollback_cycle_run36089474604.json`.
+- Sesudah perbaikan BA (28.2), capture BA diulang dan siklus dijalankan lagi pada paket baru.
+  - Capture run 36089919551 (`a4ad590`): CAPTURED, primary tidak berubah; blob `8b375814…1b47` (20495 byte). Entri
+    AW..AZ identik; BA di-capture ulang untuk berkas paket BA baru (sha256 `135facce…7cd0`).
+  - Rollback BA hanya berubah pada pin digest statements dan fingerprint katalog terpasang; AW..AZ hanya baris header;
+    varian AC..AV tidak berubah.
+  - Siklus run 36090518234 (`a095a9d`): **127/127 PASS**, cek yang sama dan urutan yang sama seperti run 36089474604,
+    primary tidak berubah. Bukti: `docs/evidence/cp6-t3/rollback_cycle_run36090518234.json`.
+
+### 28.5 Dokumen (bagian C)
+- **C0** `docs/contracts/ERP_ADDENDUM_OWNER_DECISIONS_CP6_2026-09-25.md` (sha256 `d39762da…926d`): addendum
+  ERP-ADD-CP6-2026-09-25-01 untuk D01–D06, status `OWNER_CONFIRMED_CHAT`, menunggu pengesahan tertulis owner (bagian 9).
+  Mengutip M/P/BR dengan hash yang dicatat auditor. Berisi aturan tanggal D01 (C1), daftar cek per tanggal D04 (C4), dan
+  akun lawan AX = OTHER_INCOME (C5). Dua butir diminta konfirmasi owner: batas periode tertutup (3.4) dan tafsir D03
+  untuk data yang belum diketahui (5.3).
+- **C6** `…_LAMPIRAN_C6.md` (sha256 `72621c8a…bc0d`): USULAN WRITER daftar acceptance aksesori (ACC-01..04) dan laundry
+  (LAU-01..07) berlabel BASELINE/CR-TUNDA. Writer tidak memegang teks M:1691–1699, M:1753–1757, dan M:4448–4479;
+  auditor diminta mencocokkan setiap baris, owner mengesahkan lewat addendum.
+
+### 28.6 Hasil CI
+Semua run di cabang ini, CI sekali pakai. Produk acuan (B6) untuk head baru adalah `a095a9d`; commit sesudahnya hanya
+mengubah alat auditor, gate CodeQL, dan dokumen/bukti. Antara `a4ad590` dan `a095a9d` produk hanya berbeda di berkas
+rollback T3 (tidak dipakai T2).
+
+| Workflow | Run | Head alat | Produk acuan | Hasil |
+| --- | --- | --- | --- | --- |
+| CP6 BA T1 Family Probe | 36090518293 | `a095a9d` | `a095a9d` | before: 23 COUNTEREXAMPLE + 16 PASS sesuai rencana; after: 39/39 PASS (termasuk `A4:SUPPLIER_RETURN_SPLIT_CONTROL`); primary tidak berubah, clone terhapus |
+| CP6 T2 Combined Regression | 36089919596 | `a4ad590` | `a4ad590` | identik per kasus dengan referensi (28.2) |
+| CP6 T3 Release Package | 36090518284 | `a095a9d` | `a095a9d` | capture: semua pin tereproduksi (`d61ef045…3b1b`); install 25 berkas, verifikasi AW..BA; advisor baru hanya 56 × INFO `rls_enabled_no_policy` erp; drill RESTORED_SAME_MEANING; primary tidak berubah; gate B2 lulus; browser AT/AU 10/10 PASS |
+| CP6 T3 Rollback | 36089919551 / 36090518234 | `a4ad590` / `a095a9d` | sama | CAPTURED / siklus 127/127 PASS |
+| CP6 Candidate CodeQL | 36090824553 | `d113bed` | `a095a9d` | actions, c-cpp, python, javascript-typescript: 0 hasil |
+| CP6 Auditor Scenario | 36090909397 | `4c379bf` | `a095a9d` | RUN_COMPLETE; self-test SELFTEST_PASS |
+
+Run merah putaran ini (disimpan, tidak dilabel ulang):
+- BA probe 36089919585 (`a4ad590`): 38/39 sesuai rencana; kontrol baru INCOMPLETE karena memanggil fungsi internal
+  dengan klaim owner (izin). Diperbaiki di `a095a9d` (diposting seperti tes lifecycle T2). Rencana tidak diubah.
+- Auditor Scenario 36089919668, 36090518187, 36090821697: mode browser (lihat B4).
+- CodeQL 36090056167 (`a4ad590`): python 1 hasil; diperbaiki di `d113bed`.
+- BA probe 36089417556 (`35612d6`): gagal di langkah pemasangan runtime CI (infra), digantikan run di atas.
+- T3 Release Package 36089417657 (`35612d6`): merah yang diharapkan karena paket masih memuat BA lama (capture
+  mencetak `differ ["BA"]`); paket dibangun ulang dari pin run itu di `a4ad590`.
+
+Bukti putaran ini: `docs/evidence/cp6-ba/native_t1_run36090518293_{before,after}.json`,
+`docs/evidence/cp6-t2/run36089425974_ba_fix.json`, `docs/evidence/cp6-t2/run36089919596_ba_b5_b6.json`,
+`docs/evidence/cp6-t3/run36090518284_package25_ba_fix.json`, `docs/evidence/cp6-t3/rollback_cycle_run36090518234.json`,
+`docs/evidence/cp6-t3/codeql_run36090824553_round8.json`, `docs/evidence/cp6-auditor/run36090909397_samples.json`.
+
+### 28.7 Batas yang diketahui (jujur)
+- A4: material dengan beberapa penerimaan masih bisa menyisakan sampai 0,01 per penerimaan (pembulatan per dokumen
+  penerimaan vs rata-rata riwayat). Grup potong multi-bahan memposting satu total yang dibulatkan; pembagian sen per bahan
+  mengikuti pembulatan per bahan. Retur supplier mengikuti cent state v2.6.20n (28.2).
+- B3: transaksi bisnis matriks post-use sama di setiap keluarga (saldo awal piutang), bukan transaksi khas keluarga.
+  Deteksi post-use rollback membandingkan semua data erp, jadi transaksi apa pun yang dikomit menolak rollback.
+- A7 dan A8 (opsional) belum dikerjakan.
+- Penerimaan independen semua perbaikan di atas menunggu rerun auditor pada head baru.
+
+### 28.8 Untuk auditor: head baru dan cara menjalankan ulang
+- Head baru: commit yang memuat bagian ini (hash lengkap ada di pesan serah terima). Produk acuan:
+  `a095a9d804d29643721e18635c2c3e26adcd56ea`. Setiap run mencetak `run_identity` (head alat dan produk acuan).
+- Cabang kompetisi tetap `ca7f09556397801c50a2277bdb65b1bf019f9a05`. Tidak ada SQL ke hosted.
+- Skenario yang terdampak, dijalankan ulang lewat Actions → CP6 Auditor Scenario → Run workflow → cabang
+  `claude/new-session-deapao` → `scenario_b64` = base64 berkas skenario, `phase` = after:
+  - A1: `open_1.py`, `open_2.py`, `xaudit_5.py` (R1), ditambah kasus positif sumber berbeda;
+  - A3: `xaudit_1.py` U02, `stock_import_scenario.py` SI-02, ditambah kontrol tanggal ≥ pembalikan;
+  - A4: `xaudit_1.py` U03, `xaudit_2.py` invoice, MONEY×4 (dua arah);
+  - A5: `xaudit_2.py` selector-101, `import_selector_fable_fix.py`;
+  - A6: `xaudit_5.py` R2 (tepat satu filing);
+  - A9: `business_scenarios_reconstructed.py` DATED_CAPACITY ×3 dan ORDERED_CONTROL ×3; AUD-S04/B04;
+  - A10: SI-01 dan kontrol positif;
+  - B1: `rt_probe_1.py` / `rt_probe_2.py` (kasus bocor harus INCOMPLETE); job self-test di workflow yang sama
+    menunjukkan detektornya.
+- Fase: `after` = klon AN + AU, AV, AW, AX, AY, lalu AZ dan BA (kandidat sekarang); `pre_ba` = tanpa BA; `before` = tanpa
+  AZ dan BA.
+- B4: input `browser_b64` = base64 modul ES yang mengekspor `async function cases(ui, today)` →
+  `[[id, async () => ({status, ...})], ...]`. `ui.login(role, {label, mobile, timezoneId})`, `ui.anonPage()`,
+  `ui.anonRpc()`, `ui.sql()` (hanya salinan sekali pakai), `ui.expect`. Modul tidak perlu mengimpor paket; pakai
+  `ui.expect`. Contoh: `scripts/cp6_auditor_browser_sample.mjs`.
+- T2: Actions → CP6 T2 Combined Regression → Run workflow (hasil per ID dibandingkan dengan hasil beku; HOLD tetap).
+- T3: CP6 T3 Release Package dan CP6 T3 Rollback (auto memilih `cycle`) pada head baru.
+- Menunggu owner: pengesahan tertulis addendum C0 (bagian 9), terutama butir 3.4 (batas periode tertutup) dan 5.3
+  (tafsir D03 untuk data yang belum diketahui); pengesahan lampiran C6 sesudah dicocokkan auditor.

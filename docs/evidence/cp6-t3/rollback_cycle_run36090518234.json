@@ -1,0 +1,1323 @@
+{
+ "run_id": 36090518234,
+ "job_id": 107931765923,
+ "head": "a095a9d804d29643721e18635c2c3e26adcd56ea",
+ "label": "T3_PREP",
+ "release_evidence": false,
+ "production_go": false,
+ "run_identity": {
+  "label": "T3_PREP",
+  "tool_head": "a095a9d804d29643721e18635c2c3e26adcd56ea",
+  "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
+  "product_paths": [
+   "supabase/migrations",
+   "supabase/dev",
+   "supabase/release",
+   "supabase/rollbacks",
+   "src"
+  ],
+  "run_id": "36090518234",
+  "run_attempt": "1",
+  "workflow": "CP6 T3 Rollback (AC..BA of the release package, hosted-faithful baseline)",
+  "job": "rollback",
+  "event": "push",
+  "github_sha": "a095a9d804d29643721e18635c2c3e26adcd56ea",
+  "release_evidence": false,
+  "production_go": false,
+  "mode": "rollback_cycle"
+ },
+ "final": {
+  "mode": "cycle",
+  "status": "PASS",
+  "primary_unchanged": true,
+  "error": null
+ },
+ "counts": {
+  "PASS": 127
+ },
+ "checks": [
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "ROLLBACK_FILES_REBUILT_IDENTICALLY",
+   "status": "PASS"
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "PACKAGE_INSTALLED",
+   "status": "PASS",
+   "files": 25
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REFUSED_OUT_OF_ORDER_AZ_WHILE_BA_INSTALLED",
+   "status": "PASS",
+   "expected": "AZ_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+   "error": "AZ_ROLLBACK_PLATFORM_OR_SUCCESSOR\nCONTEXT:  PL/pgSQL function inline_code_block line 7 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REFUSED_OUT_OF_ORDER_AV_WHILE_BA_INSTALLED",
+   "status": "PASS",
+   "expected": "AV_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+   "error": "AV_ROLLBACK_PLATFORM_OR_SUCCESSOR\nCONTEXT:  PL/pgSQL function inline_code_block line 7 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REFUSED_OUT_OF_ORDER_AC_WHILE_BA_INSTALLED",
+   "status": "PASS",
+   "expected": "AC_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+   "error": "AC_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR\nCONTEXT:  PL/pgSQL function inline_code_block line 9 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REFUSED_OPEN_ADMISSION",
+   "status": "PASS",
+   "expected": "PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE",
+   "error": "PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE\nCONTEXT:  PL/pgSQL function inline_code_block line 6 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_1_ROLLBACK_BA_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_1_ROLLBACK_AZ_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_1_ROLLBACK_AY_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_1_ROLLBACK_AX_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_1_ROLLBACK_AW_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "ORIGINAL_AV_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+   "status": "PASS",
+   "expected": "AV_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+   "error": "AV_ROLLBACK_PLATFORM_OR_SUCCESSOR\nCONTEXT:  PL/pgSQL function inline_code_block line 7 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_1_ROLLBACK_AV_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "ORIGINAL_AU_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+   "status": "PASS",
+   "expected": "AU_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+   "error": "AU_ROLLBACK_PLATFORM_OR_SUCCESSOR\nCONTEXT:  PL/pgSQL function inline_code_block line 7 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_1_ROLLBACK_AU_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "ORIGINAL_AT_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+   "status": "PASS",
+   "expected": "AT_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+   "error": "AT_ROLLBACK_PLATFORM_OR_SUCCESSOR\nCONTEXT:  PL/pgSQL function inline_code_block line 7 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_1_ROLLBACK_AT_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "ORIGINAL_AS_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+   "status": "PASS",
+   "expected": "AS_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+   "error": "AS_ROLLBACK_PLATFORM_OR_SUCCESSOR\nCONTEXT:  PL/pgSQL function inline_code_block line 7 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_1_ROLLBACK_AS_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "ORIGINAL_AR_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+   "status": "PASS",
+   "expected": "AR_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+   "error": "AR_ROLLBACK_PLATFORM_OR_SUCCESSOR\nCONTEXT:  PL/pgSQL function inline_code_block line 7 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_1_ROLLBACK_AR_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "ORIGINAL_AQ_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+   "status": "PASS",
+   "expected": "AQ_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+   "error": "AQ_ROLLBACK_PLATFORM_OR_SUCCESSOR\nCONTEXT:  PL/pgSQL function inline_code_block line 7 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_1_ROLLBACK_AQ_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "ORIGINAL_AP_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+   "status": "PASS",
+   "expected": "AP_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+   "error": "AP_ROLLBACK_PLATFORM_OR_SUCCESSOR\nCONTEXT:  PL/pgSQL function inline_code_block line 8 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_1_ROLLBACK_AP_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "ORIGINAL_AO_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+   "status": "PASS",
+   "expected": "AO_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+   "error": "AO_ROLLBACK_PLATFORM_OR_SUCCESSOR\nCONTEXT:  PL/pgSQL function inline_code_block line 8 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_1_ROLLBACK_AO_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "ORIGINAL_AN_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+   "status": "PASS",
+   "expected": "AN_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+   "error": "AN_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR\nCONTEXT:  PL/pgSQL function inline_code_block line 9 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_1_ROLLBACK_AN_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "ORIGINAL_AM_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+   "status": "PASS",
+   "expected": "AM_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+   "error": "AM_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR\nCONTEXT:  PL/pgSQL function inline_code_block line 9 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_1_ROLLBACK_AM_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "ORIGINAL_AL_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+   "status": "PASS",
+   "expected": "AL_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+   "error": "AL_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR\nCONTEXT:  PL/pgSQL function inline_code_block line 9 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_1_ROLLBACK_AL_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "ORIGINAL_AK_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+   "status": "PASS",
+   "expected": "AK_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+   "error": "AK_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR\nCONTEXT:  PL/pgSQL function inline_code_block line 9 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_1_ROLLBACK_AK_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "ORIGINAL_AJ_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+   "status": "PASS",
+   "expected": "AJ_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+   "error": "AJ_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR\nCONTEXT:  PL/pgSQL function inline_code_block line 9 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_1_ROLLBACK_AJ_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "ORIGINAL_AI_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+   "status": "PASS",
+   "expected": "AI_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+   "error": "AI_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR\nCONTEXT:  PL/pgSQL function inline_code_block line 9 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_1_ROLLBACK_AI_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "ORIGINAL_AH_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+   "status": "PASS",
+   "expected": "AH_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+   "error": "AH_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR\nCONTEXT:  PL/pgSQL function inline_code_block line 9 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_1_ROLLBACK_AH_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "ORIGINAL_AG_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+   "status": "PASS",
+   "expected": "AG_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+   "error": "AG_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR\nCONTEXT:  PL/pgSQL function inline_code_block line 9 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_1_ROLLBACK_AG_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "ORIGINAL_AF_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+   "status": "PASS",
+   "expected": "AF_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+   "error": "AF_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR\nCONTEXT:  PL/pgSQL function inline_code_block line 9 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_1_ROLLBACK_AF_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "ORIGINAL_AE_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+   "status": "PASS",
+   "expected": "AE_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+   "error": "AE_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR\nCONTEXT:  PL/pgSQL function inline_code_block line 9 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_1_ROLLBACK_AE_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "ORIGINAL_AD_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+   "status": "PASS",
+   "expected": "AD_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+   "error": "AD_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR\nCONTEXT:  PL/pgSQL function inline_code_block line 13 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_1_ROLLBACK_AD_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "ORIGINAL_AC_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+   "status": "PASS",
+   "expected": "AC_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+   "error": "AC_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR\nCONTEXT:  PL/pgSQL function inline_code_block line 9 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_1_ROLLBACK_AC_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REINSTALL_AC_SAME_AS_FIRST_INSTALL",
+   "status": "PASS",
+   "differences": {},
+   "compared": "catalog, ledgers, rows (capsule capture time and boundary aside)"
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REINSTALL_AD_SAME_AS_FIRST_INSTALL",
+   "status": "PASS",
+   "differences": {},
+   "compared": "catalog, ledgers, rows (capsule capture time and boundary aside)"
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REINSTALL_AE_SAME_AS_FIRST_INSTALL",
+   "status": "PASS",
+   "differences": {},
+   "compared": "catalog, ledgers, rows (capsule capture time and boundary aside)"
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REINSTALL_AF_SAME_AS_FIRST_INSTALL",
+   "status": "PASS",
+   "differences": {},
+   "compared": "catalog, ledgers, rows (capsule capture time and boundary aside)"
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REINSTALL_AG_SAME_AS_FIRST_INSTALL",
+   "status": "PASS",
+   "differences": {},
+   "compared": "catalog, ledgers, rows (capsule capture time and boundary aside)"
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REINSTALL_AH_SAME_AS_FIRST_INSTALL",
+   "status": "PASS",
+   "differences": {},
+   "compared": "catalog, ledgers, rows (capsule capture time and boundary aside)"
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REINSTALL_AI_SAME_AS_FIRST_INSTALL",
+   "status": "PASS",
+   "differences": {},
+   "compared": "catalog, ledgers, rows (capsule capture time and boundary aside)"
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REINSTALL_AJ_SAME_AS_FIRST_INSTALL",
+   "status": "PASS",
+   "differences": {},
+   "compared": "catalog, ledgers, rows (capsule capture time and boundary aside)"
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REINSTALL_AK_SAME_AS_FIRST_INSTALL",
+   "status": "PASS",
+   "differences": {},
+   "compared": "catalog, ledgers, rows (capsule capture time and boundary aside)"
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REINSTALL_AL_SAME_AS_FIRST_INSTALL",
+   "status": "PASS",
+   "differences": {},
+   "compared": "catalog, ledgers, rows (capsule capture time and boundary aside)"
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REINSTALL_AM_SAME_AS_FIRST_INSTALL",
+   "status": "PASS",
+   "differences": {},
+   "compared": "catalog, ledgers, rows (capsule capture time and boundary aside)"
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REINSTALL_AN_SAME_AS_FIRST_INSTALL",
+   "status": "PASS",
+   "differences": {},
+   "compared": "catalog, ledgers, rows (capsule capture time and boundary aside)"
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REINSTALL_AO_SAME_AS_FIRST_INSTALL",
+   "status": "PASS",
+   "differences": {},
+   "compared": "catalog, ledgers, rows (capsule capture time and boundary aside)"
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REINSTALL_AP_SAME_AS_FIRST_INSTALL",
+   "status": "PASS",
+   "differences": {},
+   "compared": "catalog, ledgers, rows (capsule capture time and boundary aside)"
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REINSTALL_AQ_SAME_AS_FIRST_INSTALL",
+   "status": "PASS",
+   "differences": {},
+   "compared": "catalog, ledgers, rows (capsule capture time and boundary aside)"
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REINSTALL_AR_SAME_AS_FIRST_INSTALL",
+   "status": "PASS",
+   "differences": {},
+   "compared": "catalog, ledgers, rows (capsule capture time and boundary aside)"
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REINSTALL_AS_SAME_AS_FIRST_INSTALL",
+   "status": "PASS",
+   "differences": {},
+   "compared": "catalog, ledgers, rows (capsule capture time and boundary aside)"
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REINSTALL_AT_SAME_AS_FIRST_INSTALL",
+   "status": "PASS",
+   "differences": {},
+   "compared": "catalog, ledgers, rows (capsule capture time and boundary aside)"
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REINSTALL_AU_SAME_AS_FIRST_INSTALL",
+   "status": "PASS",
+   "differences": {},
+   "compared": "catalog, ledgers, rows (capsule capture time and boundary aside)"
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REINSTALL_AV_SAME_AS_FIRST_INSTALL",
+   "status": "PASS",
+   "differences": {},
+   "compared": "catalog, ledgers, rows (capsule capture time and boundary aside)"
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REINSTALL_AW_SAME_AS_FIRST_INSTALL",
+   "status": "PASS",
+   "differences": {},
+   "compared": "catalog, ledgers, rows (capsule capture time and boundary aside)"
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REINSTALL_AX_SAME_AS_FIRST_INSTALL",
+   "status": "PASS",
+   "differences": {},
+   "compared": "catalog, ledgers, rows (capsule capture time and boundary aside)"
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REINSTALL_AY_SAME_AS_FIRST_INSTALL",
+   "status": "PASS",
+   "differences": {},
+   "compared": "catalog, ledgers, rows (capsule capture time and boundary aside)"
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REINSTALL_AZ_SAME_AS_FIRST_INSTALL",
+   "status": "PASS",
+   "differences": {},
+   "compared": "catalog, ledgers, rows (capsule capture time and boundary aside)"
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "REINSTALL_BA_SAME_AS_FIRST_INSTALL",
+   "status": "PASS",
+   "differences": {},
+   "compared": "catalog, ledgers, rows (capsule capture time and boundary aside)"
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_2_ROLLBACK_BA_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_2_ROLLBACK_AZ_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_2_ROLLBACK_AY_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_2_ROLLBACK_AX_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_2_ROLLBACK_AW_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_2_ROLLBACK_AV_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_2_ROLLBACK_AU_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_2_ROLLBACK_AT_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_2_ROLLBACK_AS_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_2_ROLLBACK_AR_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_2_ROLLBACK_AQ_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_2_ROLLBACK_AP_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_2_ROLLBACK_AO_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_2_ROLLBACK_AN_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_2_ROLLBACK_AM_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_2_ROLLBACK_AL_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_2_ROLLBACK_AK_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_2_ROLLBACK_AJ_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_2_ROLLBACK_AI_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_2_ROLLBACK_AH_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_2_ROLLBACK_AG_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_2_ROLLBACK_AF_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_2_ROLLBACK_AE_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_2_ROLLBACK_AD_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_2_ROLLBACK_AC_RESTORES_PREDECESSOR",
+   "status": "PASS",
+   "error": null,
+   "differences": {}
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "CYCLE_2_ENDS_AT_AB",
+   "status": "PASS"
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "POST_USE_AC_ROLLBACK_REFUSED",
+   "status": "PASS",
+   "expected": "AC_POST_USE_ROLLBACK_REFUSED",
+   "error": "AC_POST_USE_ROLLBACK_REFUSED: account_daily_balances\nCONTEXT:  PL/pgSQL function inline_code_block line 117 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {},
+   "business": {
+    "transaction": "CUSTOMER_RECEIVABLE opening 17.25 posted by erp.post_opening_balance",
+    "opening": "61f98b20-4378-41ee-9f09-f1b32ab106ed",
+    "status": "POSTED",
+    "journal": [
+     "1",
+     "2",
+     "17.25",
+     "17.25"
+    ],
+    "owner_registered": true
+   }
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "POST_USE_AD_ROLLBACK_REFUSED",
+   "status": "PASS",
+   "expected": "AD_POST_USE_ROLLBACK_REFUSED",
+   "error": "AD_POST_USE_ROLLBACK_REFUSED: account_daily_balances\nCONTEXT:  PL/pgSQL function inline_code_block line 56 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {},
+   "business": {
+    "transaction": "CUSTOMER_RECEIVABLE opening 17.25 posted by erp.post_opening_balance",
+    "opening": "5694e7aa-0a2e-4e16-87f4-71f0e27fde2d",
+    "status": "POSTED",
+    "journal": [
+     "1",
+     "2",
+     "17.25",
+     "17.25"
+    ],
+    "owner_registered": false
+   }
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "POST_USE_AE_ROLLBACK_REFUSED",
+   "status": "PASS",
+   "expected": "AE_POST_USE_ROLLBACK_REFUSED",
+   "error": "AE_POST_USE_ROLLBACK_REFUSED: account_daily_balances\nCONTEXT:  PL/pgSQL function inline_code_block line 62 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {},
+   "business": {
+    "transaction": "CUSTOMER_RECEIVABLE opening 17.25 posted by erp.post_opening_balance",
+    "opening": "5f5eb90b-8f9f-4c3b-856b-07507c9f8425",
+    "status": "POSTED",
+    "journal": [
+     "1",
+     "2",
+     "17.25",
+     "17.25"
+    ],
+    "owner_registered": false
+   }
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "POST_USE_AF_ROLLBACK_REFUSED",
+   "status": "PASS",
+   "expected": "AF_POST_USE_ROLLBACK_REFUSED",
+   "error": "AF_POST_USE_ROLLBACK_REFUSED: account_daily_balances\nCONTEXT:  PL/pgSQL function inline_code_block line 62 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {},
+   "business": {
+    "transaction": "CUSTOMER_RECEIVABLE opening 17.25 posted by erp.post_opening_balance",
+    "opening": "02dfb586-62c4-4796-a116-2e480d0c3708",
+    "status": "POSTED",
+    "journal": [
+     "1",
+     "2",
+     "17.25",
+     "17.25"
+    ],
+    "owner_registered": false
+   }
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "POST_USE_AG_ROLLBACK_REFUSED",
+   "status": "PASS",
+   "expected": "AG_POST_USE_ROLLBACK_REFUSED",
+   "error": "AG_POST_USE_ROLLBACK_REFUSED: account_daily_balances\nCONTEXT:  PL/pgSQL function inline_code_block line 64 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {},
+   "business": {
+    "transaction": "CUSTOMER_RECEIVABLE opening 17.25 posted by erp.post_opening_balance",
+    "opening": "f19e6a30-9333-4d81-b0d9-b23c23d3c769",
+    "status": "POSTED",
+    "journal": [
+     "1",
+     "2",
+     "17.25",
+     "17.25"
+    ],
+    "owner_registered": false
+   }
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "POST_USE_AH_ROLLBACK_REFUSED",
+   "status": "PASS",
+   "expected": "AH_POST_USE_ROLLBACK_REFUSED",
+   "error": "AH_POST_USE_ROLLBACK_REFUSED: account_daily_balances\nCONTEXT:  PL/pgSQL function inline_code_block line 65 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {},
+   "business": {
+    "transaction": "CUSTOMER_RECEIVABLE opening 17.25 posted by erp.post_opening_balance",
+    "opening": "03f82807-b5b1-4cb2-844f-5852d050a3c7",
+    "status": "POSTED",
+    "journal": [
+     "1",
+     "2",
+     "17.25",
+     "17.25"
+    ],
+    "owner_registered": false
+   }
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "POST_USE_AI_ROLLBACK_REFUSED",
+   "status": "PASS",
+   "expected": "AI_POST_USE_ROLLBACK_REFUSED",
+   "error": "AI_POST_USE_ROLLBACK_REFUSED: account_daily_balances\nCONTEXT:  PL/pgSQL function inline_code_block line 63 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {},
+   "business": {
+    "transaction": "CUSTOMER_RECEIVABLE opening 17.25 posted by erp.post_opening_balance",
+    "opening": "c986eac2-cb52-4246-99c5-1ed9f02db258",
+    "status": "POSTED",
+    "journal": [
+     "1",
+     "2",
+     "17.25",
+     "17.25"
+    ],
+    "owner_registered": false
+   }
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "POST_USE_AJ_ROLLBACK_REFUSED",
+   "status": "PASS",
+   "expected": "AJ_POST_USE_ROLLBACK_REFUSED",
+   "error": "AJ_POST_USE_ROLLBACK_REFUSED: account_daily_balances\nCONTEXT:  PL/pgSQL function inline_code_block line 66 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {},
+   "business": {
+    "transaction": "CUSTOMER_RECEIVABLE opening 17.25 posted by erp.post_opening_balance",
+    "opening": "a056c8bd-4e07-4582-b931-4f4ec17cfcf1",
+    "status": "POSTED",
+    "journal": [
+     "1",
+     "2",
+     "17.25",
+     "17.25"
+    ],
+    "owner_registered": false
+   }
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "POST_USE_AK_ROLLBACK_REFUSED",
+   "status": "PASS",
+   "expected": "AK_POST_USE_ROLLBACK_REFUSED",
+   "error": "AK_POST_USE_ROLLBACK_REFUSED: account_daily_balances\nCONTEXT:  PL/pgSQL function inline_code_block line 68 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {},
+   "business": {
+    "transaction": "CUSTOMER_RECEIVABLE opening 17.25 posted by erp.post_opening_balance",
+    "opening": "9fb011f2-4011-4fdb-b4da-2c1bd3a64207",
+    "status": "POSTED",
+    "journal": [
+     "1",
+     "2",
+     "17.25",
+     "17.25"
+    ],
+    "owner_registered": false
+   }
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "POST_USE_AL_ROLLBACK_REFUSED",
+   "status": "PASS",
+   "expected": "AL_POST_USE_ROLLBACK_REFUSED",
+   "error": "AL_POST_USE_ROLLBACK_REFUSED: account_daily_balances\nCONTEXT:  PL/pgSQL function inline_code_block line 62 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {},
+   "business": {
+    "transaction": "CUSTOMER_RECEIVABLE opening 17.25 posted by erp.post_opening_balance",
+    "opening": "870a9e3e-b21e-49a8-9552-5fca514c7441",
+    "status": "POSTED",
+    "journal": [
+     "1",
+     "2",
+     "17.25",
+     "17.25"
+    ],
+    "owner_registered": false
+   }
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "POST_USE_AM_ROLLBACK_REFUSED",
+   "status": "PASS",
+   "expected": "AM_POST_USE_ROLLBACK_REFUSED",
+   "error": "AM_POST_USE_ROLLBACK_REFUSED: account_daily_balances\nCONTEXT:  PL/pgSQL function inline_code_block line 66 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {},
+   "business": {
+    "transaction": "CUSTOMER_RECEIVABLE opening 17.25 posted by erp.post_opening_balance",
+    "opening": "610d7305-df88-4e01-bab0-7ae83959c3c5",
+    "status": "POSTED",
+    "journal": [
+     "1",
+     "2",
+     "17.25",
+     "17.25"
+    ],
+    "owner_registered": false
+   }
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "POST_USE_AN_ROLLBACK_REFUSED",
+   "status": "PASS",
+   "expected": "AN_POST_USE_ROLLBACK_REFUSED",
+   "error": "AN_POST_USE_ROLLBACK_REFUSED: account_daily_balances\nCONTEXT:  PL/pgSQL function inline_code_block line 61 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {},
+   "business": {
+    "transaction": "CUSTOMER_RECEIVABLE opening 17.25 posted by erp.post_opening_balance",
+    "opening": "457c5dc0-bbd2-49c7-87ad-a2fc81882200",
+    "status": "POSTED",
+    "journal": [
+     "1",
+     "2",
+     "17.25",
+     "17.25"
+    ],
+    "owner_registered": false
+   }
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "POST_USE_AO_ROLLBACK_REFUSED",
+   "status": "PASS",
+   "expected": "AO_POST_USE_ROLLBACK_REFUSED",
+   "error": "AO_POST_USE_ROLLBACK_REFUSED\nCONTEXT:  PL/pgSQL function inline_code_block line 12 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {},
+   "business": {
+    "transaction": "CUSTOMER_RECEIVABLE opening 17.25 posted by erp.post_opening_balance",
+    "opening": "6eaa942c-0417-445f-9bf5-ab2818a1cd22",
+    "status": "POSTED",
+    "journal": [
+     "1",
+     "2",
+     "17.25",
+     "17.25"
+    ],
+    "owner_registered": false
+   }
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "POST_USE_AP_ROLLBACK_REFUSED",
+   "status": "PASS",
+   "expected": "AP_POST_USE_ROLLBACK_REFUSED",
+   "error": "AP_POST_USE_ROLLBACK_REFUSED\nCONTEXT:  PL/pgSQL function inline_code_block line 12 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {},
+   "business": {
+    "transaction": "CUSTOMER_RECEIVABLE opening 17.25 posted by erp.post_opening_balance",
+    "opening": "312f6d9e-50c2-4060-ac21-88c8dc3fd49b",
+    "status": "POSTED",
+    "journal": [
+     "1",
+     "2",
+     "17.25",
+     "17.25"
+    ],
+    "owner_registered": false
+   }
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "POST_USE_AQ_ROLLBACK_REFUSED",
+   "status": "PASS",
+   "expected": "AQ_POST_USE_ROLLBACK_REFUSED",
+   "error": "AQ_POST_USE_ROLLBACK_REFUSED\nCONTEXT:  PL/pgSQL function inline_code_block line 10 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {},
+   "business": {
+    "transaction": "CUSTOMER_RECEIVABLE opening 17.25 posted by erp.post_opening_balance",
+    "opening": "e34e7fb9-51de-48b6-a042-b2b3f564be26",
+    "status": "POSTED",
+    "journal": [
+     "1",
+     "2",
+     "17.25",
+     "17.25"
+    ],
+    "owner_registered": false
+   }
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "POST_USE_AR_ROLLBACK_REFUSED",
+   "status": "PASS",
+   "expected": "AR_POST_USE_ROLLBACK_REFUSED",
+   "error": "AR_POST_USE_ROLLBACK_REFUSED\nCONTEXT:  PL/pgSQL function inline_code_block line 10 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {},
+   "business": {
+    "transaction": "CUSTOMER_RECEIVABLE opening 17.25 posted by erp.post_opening_balance",
+    "opening": "105468f3-eb43-4917-9b63-7f53273d4c9d",
+    "status": "POSTED",
+    "journal": [
+     "1",
+     "2",
+     "17.25",
+     "17.25"
+    ],
+    "owner_registered": false
+   }
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "POST_USE_AS_ROLLBACK_REFUSED",
+   "status": "PASS",
+   "expected": "AS_POST_USE_ROLLBACK_REFUSED",
+   "error": "AS_POST_USE_ROLLBACK_REFUSED\nCONTEXT:  PL/pgSQL function inline_code_block line 10 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {},
+   "business": {
+    "transaction": "CUSTOMER_RECEIVABLE opening 17.25 posted by erp.post_opening_balance",
+    "opening": "8a70a7ff-faee-476e-afe1-1ee8dd5cb5d5",
+    "status": "POSTED",
+    "journal": [
+     "1",
+     "2",
+     "17.25",
+     "17.25"
+    ],
+    "owner_registered": false
+   }
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "POST_USE_AT_ROLLBACK_REFUSED",
+   "status": "PASS",
+   "expected": "AT_POST_USE_ROLLBACK_REFUSED",
+   "error": "AT_POST_USE_ROLLBACK_REFUSED\nCONTEXT:  PL/pgSQL function inline_code_block line 10 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {},
+   "business": {
+    "transaction": "CUSTOMER_RECEIVABLE opening 17.25 posted by erp.post_opening_balance",
+    "opening": "97f568b5-a6d7-4927-941b-a0533b93decf",
+    "status": "POSTED",
+    "journal": [
+     "1",
+     "2",
+     "17.25",
+     "17.25"
+    ],
+    "owner_registered": false
+   }
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "POST_USE_AU_ROLLBACK_REFUSED",
+   "status": "PASS",
+   "expected": "AU_POST_USE_ROLLBACK_REFUSED",
+   "error": "AU_POST_USE_ROLLBACK_REFUSED\nCONTEXT:  PL/pgSQL function inline_code_block line 10 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {},
+   "business": {
+    "transaction": "CUSTOMER_RECEIVABLE opening 17.25 posted by erp.post_opening_balance",
+    "opening": "b6303df1-44c4-4b4c-ba44-ec86108bd484",
+    "status": "POSTED",
+    "journal": [
+     "1",
+     "2",
+     "17.25",
+     "17.25"
+    ],
+    "owner_registered": false
+   }
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "POST_USE_AV_ROLLBACK_REFUSED",
+   "status": "PASS",
+   "expected": "AV_POST_USE_ROLLBACK_REFUSED",
+   "error": "AV_POST_USE_ROLLBACK_REFUSED\nCONTEXT:  PL/pgSQL function inline_code_block line 10 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {},
+   "business": {
+    "transaction": "CUSTOMER_RECEIVABLE opening 17.25 posted by erp.post_opening_balance",
+    "opening": "0b288aef-21f2-4131-a946-930f191e9fb2",
+    "status": "POSTED",
+    "journal": [
+     "1",
+     "2",
+     "17.25",
+     "17.25"
+    ],
+    "owner_registered": false
+   }
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "POST_USE_AW_ROLLBACK_REFUSED",
+   "status": "PASS",
+   "expected": "AW_POST_USE_ROLLBACK_REFUSED",
+   "error": "AW_POST_USE_ROLLBACK_REFUSED\nCONTEXT:  PL/pgSQL function inline_code_block line 9 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {},
+   "business": {
+    "transaction": "CUSTOMER_RECEIVABLE opening 17.25 posted by erp.post_opening_balance",
+    "opening": "c201cbc2-660f-4eb4-8911-575c11cfd613",
+    "status": "POSTED",
+    "journal": [
+     "1",
+     "2",
+     "17.25",
+     "17.25"
+    ],
+    "owner_registered": false
+   }
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "POST_USE_AX_ROLLBACK_REFUSED",
+   "status": "PASS",
+   "expected": "AX_POST_USE_ROLLBACK_REFUSED",
+   "error": "AX_POST_USE_ROLLBACK_REFUSED\nCONTEXT:  PL/pgSQL function inline_code_block line 9 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {},
+   "business": {
+    "transaction": "CUSTOMER_RECEIVABLE opening 17.25 posted by erp.post_opening_balance",
+    "opening": "fdc5a9ca-6a1d-48e8-8e2d-3e89f837499a",
+    "status": "POSTED",
+    "journal": [
+     "1",
+     "2",
+     "17.25",
+     "17.25"
+    ],
+    "owner_registered": false
+   }
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "POST_USE_AY_ROLLBACK_REFUSED",
+   "status": "PASS",
+   "expected": "AY_POST_USE_ROLLBACK_REFUSED",
+   "error": "AY_POST_USE_ROLLBACK_REFUSED\nCONTEXT:  PL/pgSQL function inline_code_block line 9 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {},
+   "business": {
+    "transaction": "CUSTOMER_RECEIVABLE opening 17.25 posted by erp.post_opening_balance",
+    "opening": "2d1be426-4793-412a-814c-24014a15c843",
+    "status": "POSTED",
+    "journal": [
+     "1",
+     "2",
+     "17.25",
+     "17.25"
+    ],
+    "owner_registered": false
+   }
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "POST_USE_AZ_ROLLBACK_REFUSED",
+   "status": "PASS",
+   "expected": "AZ_POST_USE_ROLLBACK_REFUSED",
+   "error": "AZ_POST_USE_ROLLBACK_REFUSED\nCONTEXT:  PL/pgSQL function inline_code_block line 9 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {},
+   "business": {
+    "transaction": "CUSTOMER_RECEIVABLE opening 17.25 posted by erp.post_opening_balance",
+    "opening": "4d102b28-2134-4798-a0c6-b428085d87c8",
+    "status": "POSTED",
+    "journal": [
+     "1",
+     "2",
+     "17.25",
+     "17.25"
+    ],
+    "owner_registered": false
+   }
+  },
+  {
+   "group": "T3_ROLLBACK_CYCLE",
+   "check": "POST_USE_BA_ROLLBACK_REFUSED",
+   "status": "PASS",
+   "expected": "BA_POST_USE_ROLLBACK_REFUSED",
+   "error": "BA_POST_USE_ROLLBACK_REFUSED\nCONTEXT:  PL/pgSQL function inline_code_block line 9 at RAISE",
+   "sqlstate": "P0001",
+   "changed": {},
+   "business": {
+    "transaction": "CUSTOMER_RECEIVABLE opening 17.25 posted by erp.post_opening_balance",
+    "opening": "e93160b9-c4ce-4349-8f4f-28f516d466c0",
+    "status": "POSTED",
+    "journal": [
+     "1",
+     "2",
+     "17.25",
+     "17.25"
+    ],
+    "owner_registered": false
+   }
+  }
+ ],
+ "note": "Cycle on the rebuilt BA package file (sha256 135facce...7cd0) with the BA rollback from capture run 36089919551 (blob 8b375814...1b47). Same 127 checks in the same order as run 36089474604 (previous BA package), all PASS; primary unchanged."
+}

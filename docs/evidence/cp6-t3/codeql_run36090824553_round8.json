@@ -1,0 +1,59 @@
+{
+ "label": "T3_PREP",
+ "production_go": false,
+ "release_evidence": false,
+ "workflow": "CP6 Candidate CodeQL (T3)",
+ "queries": "security-extended",
+ "gate": "scripts/cp6_codeql_artifact_gate.py (fails on any result or incomplete execution)",
+ "runs": [
+  {
+   "run": 36090056167,
+   "head_sha": "a4ad590ea5e606a74fe335c366427c68bb7403ff",
+   "status": "FAIL",
+   "jobs": {
+    "actions": "PASS 0",
+    "c-cpp": "PASS 0",
+    "javascript-typescript": "PASS 0",
+    "python": {
+     "gate": "FAIL",
+     "result_count": 1,
+     "job": 107930381514,
+     "artifact_zip_sha256": "e19fd39890dbebde70f9228e718df7881939ecb135110655b37ca961f15a8ef7"
+    }
+   },
+   "note": "The gate of that version printed only the count, and the artifact could not be downloaded from the writer's session. Between a4ad590 and d113bed the Python changes were: a095a9d (BA probe control posts supplier returns as the database owner; the PostgREST container serves the mode's own copy) and d113bed (the HTTP mode's ::add-mask:: lines for the per-user password and access token removed; the gate prints findings). Only the removed lines wrote a sensitive value to output, so the result was one of them (clear-text logging); it is not named in the log of run 36090056167. The gate now prints each finding (CODEQL_FINDING)."
+  },
+  {
+   "run": 36090824553,
+   "head_sha": "d113bed4b2ab0673bd6cb240f57cf1f7b040ed61",
+   "status": "PASS",
+   "jobs": {
+    "actions": {
+     "job": 107932695282,
+     "gate": "PASS",
+     "result_count": 0,
+     "artifact_zip_sha256": "c6caad78166ccad08fe0ad888114bb4426ee21d47908491890efcf458c1ba652"
+    },
+    "c-cpp": {
+     "job": 107932695376,
+     "gate": "PASS",
+     "result_count": 0,
+     "artifact_zip_sha256": "aa752023df16f1c76d5045ad0b86f43c58bc77877657e0e09615a47b062aab58"
+    },
+    "python": {
+     "job": 107932695412,
+     "gate": "PASS",
+     "result_count": 0,
+     "artifact_zip_sha256": "ac5b039d3485b046ccccc776632e4c4d98716c530e118ba8cefc473eceda03c9"
+    },
+    "javascript-typescript": {
+     "job": 107932695437,
+     "gate": "PASS",
+     "result_count": 0,
+     "artifact_zip_sha256": "71dcba194d797e96da03018b2a2dfdaa8602dcf62150629efc915ad9b2570195"
+    }
+   }
+  }
+ ],
+ "extraction": "Gate status lines and artifact digests copied from the job logs (the SARIF files are inside the artifacts; artifact downloads are not reachable from the writer's session)."
+}
