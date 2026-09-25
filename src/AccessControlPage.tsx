@@ -5,6 +5,7 @@ import { useAuth } from './auth/AuthProvider'
 import { hasPermission } from './auth/accessCatalog'
 import { getUatSupabaseClient } from './lib/supabase'
 import { normalizeClientError } from './lib/clientError'
+import { PENDING_BLOCKED_MESSAGE, PENDING_CORRUPTED_MESSAGE, PENDING_UNKNOWN_MESSAGE, readPendingRequest, replayPendingRequest, sendOnce, type Send, type SendOutcome } from './lib/requestEnvelope'
 import './access-control.css'
 import './access-control-cp45.css'
 
@@ -126,6 +127,30 @@ export default function AccessControlPage() {
   const [highRiskConfirmed, setHighRiskConfirmed] = useState(false)
   const [saving, setSaving] = useState(false)
   const [moduleQuery, setModuleQuery] = useState('')
+  const [duplicateCode, setDuplicateCode] = useState('')
+  // W10 / CP6-05: every write keeps its request UUID until the server answers (src/lib/requestEnvelope.ts).
+  const requestScope = `${identity.status === 'AUTHORIZED' ? identity.profile.authUserId : 'demo'}:ACCESS`
+  const sendAccessRpc: Send = (rpc, args) => {
+    if (!client) throw new Error('DATA SIMULASI · perubahan tidak dikirim ke backend.')
+    if (rpc === 'erp_save_role_v1') return client.rpc('erp_save_role_v1', args as never)
+    if (rpc === 'erp_save_app_user_v3') return client.rpc('erp_save_app_user_v3', args as never)
+    if (rpc === 'erp_deactivate_role_v1') return client.rpc('erp_deactivate_role_v1', args as never)
+    throw new Error(`RPC ${rpc} bukan bagian halaman Hak Akses.`)
+  }
+  const [pendingRequest, setPendingRequest] = useState(() => readPendingRequest(requestScope))
+  const settleRequest = (outcome: SendOutcome) => {
+    setPendingRequest(readPendingRequest(requestScope))
+    if (outcome.ok) return true
+    if (outcome.state === 'UNKNOWN') setError(PENDING_UNKNOWN_MESSAGE)
+    else if (outcome.state === 'BLOCKED') setError(outcome.pending ? PENDING_BLOCKED_MESSAGE : PENDING_CORRUPTED_MESSAGE)
+    else setError(normalizeClientError(outcome.error).message)
+    return false
+  }
+  const blockedByPending = () => {
+    if (!pendingRequest.envelope && !pendingRequest.corrupted) return false
+    setError(pendingRequest.corrupted ? PENDING_CORRUPTED_MESSAGE : PENDING_BLOCKED_MESSAGE)
+    return true
+  }
 
   const load = async () => {
     if (!client) { setData(demoData); return }
@@ -162,6 +187,8 @@ export default function AccessControlPage() {
   const openRole = (role: RoleRow, duplicate = false) => {
     if (dirty && !globalThis.confirm('Perubahan role belum disimpan. Lanjutkan?')) return
     setSelectedRoleId(duplicate ? `duplicate:${role.id}` : role.id)
+    // The copy's code is chosen once per editor, so saving the same copy again is the same request.
+    setDuplicateCode(duplicate ? `CUSTOM_${globalThis.crypto.randomUUID().replaceAll('-', '').slice(0, 12).toUpperCase()}` : '')
     setDraftName(duplicate ? `${role.name} · Salinan` : role.name)
     setDraftDescription(role.description ?? '')
     setDraftPermissions([...role.permissions])
@@ -190,71 +217,68 @@ export default function AccessControlPage() {
     if (!client) { setError('DATA SIMULASI · perubahan tidak dikirim ke backend.'); return }
     setSaving(true)
     setError('')
-    const code = isDuplicate
-      ? `CUSTOM_${globalThis.crypto.randomUUID().replaceAll('-', '').slice(0, 12).toUpperCase()}`
-      : editorSource.code
-    const { error: saveError } = await client.rpc('erp_save_role_v1', {
+    const code = isDuplicate ? duplicateCode : editorSource.code
+    const outcome = await sendOnce(requestScope, 'erp_save_role_v1', {
       p_payload: {
         ...(isDuplicate ? {} : { id: editorSource.id }), code, name: draftName.trim(),
         description: draftDescription.trim(), permission_keys: draftPermissions,
         confirm_high_risk: highRiskConfirmed, change_reason: changeReason.trim(),
       },
-      p_client_request_id: globalThis.crypto.randomUUID(),
       p_expected_version: isDuplicate ? null : editorSource.row_version,
-    })
-    if (saveError) setError(normalizeClientError(saveError).message)
-    else { setSelectedRoleId(null); await load() }
+    }, sendAccessRpc)
+    if (settleRequest(outcome)) { setSelectedRoleId(null); await load() }
+    setSaving(false)
+  }
+
+  const replayPending = async () => {
+    if (!client) return
+    setSaving(true)
+    if (settleRequest(await replayPendingRequest(requestScope, sendAccessRpc))) { setError(''); setSelectedRoleId(null); await load() }
     setSaving(false)
   }
 
   const changeUserRole = async (user: UserRow, roleId: string) => {
-    if (!client || !canManage) return
+    if (!client || !canManage || blockedByPending()) return
     const reason = globalThis.prompt('Alasan perubahan akses pengguna:')?.trim()
     if (!reason) return
     setError('')
-    const { error: saveError } = await client.rpc('erp_save_app_user_v3', {
+    const outcome = await sendOnce(requestScope, 'erp_save_app_user_v3', {
       p_payload: {
         id: user.id, full_name: user.full_name, auth_user_id: user.auth_user_id,
         role_id: roleId, is_active: user.is_active, change_reason: reason,
       },
-      p_client_request_id: globalThis.crypto.randomUUID(),
       p_expected_version: user.row_version,
-    })
-    if (saveError) setError(normalizeClientError(saveError).message)
-    else await load()
+    }, sendAccessRpc)
+    if (settleRequest(outcome)) await load()
   }
 
   const changeUserActive = async (user: UserRow) => {
-    if (!client || !canManage) return
+    if (!client || !canManage || blockedByPending()) return
     const nextActive = !user.is_active
     const reason = globalThis.prompt(`Alasan ${nextActive ? 'mengaktifkan' : 'menonaktifkan'} ${user.full_name}:`)?.trim()
     if (!reason) return
     setError('')
-    const { error: saveError } = await client.rpc('erp_save_app_user_v3', {
+    const outcome = await sendOnce(requestScope, 'erp_save_app_user_v3', {
       p_payload: {
         id: user.id, full_name: user.full_name, auth_user_id: user.auth_user_id,
         role_id: user.role_id, is_active: nextActive, change_reason: reason,
       },
-      p_client_request_id: globalThis.crypto.randomUUID(),
       p_expected_version: user.row_version,
-    })
-    if (saveError) setError(normalizeClientError(saveError).message)
-    else await load()
+    }, sendAccessRpc)
+    if (settleRequest(outcome)) await load()
   }
 
   const deactivateRole = async (role: RoleRow) => {
-    if (!client || !canManage || role.is_system || role.is_protected || !role.is_active) return
+    if (!client || !canManage || role.is_system || role.is_protected || !role.is_active || blockedByPending()) return
     const reason = globalThis.prompt(`Alasan menonaktifkan role ${role.name}:`)?.trim()
     if (!reason) return
     setError('')
-    const { error: deactivateError } = await client.rpc('erp_deactivate_role_v1', {
+    const outcome = await sendOnce(requestScope, 'erp_deactivate_role_v1', {
       p_role_id: role.id,
       p_reason: reason,
-      p_client_request_id: globalThis.crypto.randomUUID(),
       p_expected_version: role.row_version,
-    })
-    if (deactivateError) setError(normalizeClientError(deactivateError).message)
-    else await load()
+    }, sendAccessRpc)
+    if (settleRequest(outcome)) await load()
   }
 
   if (loading) return <section className="access-state" role="status"><RefreshCw className="spin"/><strong>Memuat data hak akses dari server…</strong></section>
@@ -270,6 +294,7 @@ export default function AccessControlPage() {
       <span><strong>{canManage ? 'Mode kelola hak akses' : 'Mode lihat saja'}</strong><small>{canManage ? 'Anda dapat menduplikat role, mengubah role pengguna, dan menonaktifkan akses. Semua perubahan tetap diaudit oleh server.' : 'Anda dapat memeriksa role dan riwayat, tetapi semua kontrol perubahan dikunci karena role Anda tidak memiliki izin Kelola Hak Akses.'}</small></span>
     </div>
     {error && <div className="access-error" role="alert"><AlertTriangle/><span>{error}</span><button onClick={() => setError('')} aria-label="Tutup"><X/></button></div>}
+    {pendingRequest.envelope && connected ? <div className="access-error" role="status"><RefreshCw/><span>Ada perubahan akses yang hasilnya belum diketahui (UUID {pendingRequest.envelope.id.slice(0, 8)}…).</span><button disabled={saving} onClick={() => void replayPending()}>Kirim ulang perubahan tertunda</button></div> : null}
 
     <div className="access-grid">
       <section className="access-panel roles-panel">

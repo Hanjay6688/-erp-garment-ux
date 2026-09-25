@@ -16,6 +16,7 @@ import { useLaundryQcWorkspace } from './useLaundryQcWorkspace'
 import type { Json } from './types/database.preconnect'
 import { parseQuantityInput } from './quantityInput'
 import './connected-laundry-qc.css'
+import { Cp6Kpi } from './components/Cp6Kpi'
 
 type RunAction = (
   action: 'POST_DELIVERY' | 'POST_RECEIPT' | 'POST_FAILED_WASH' | 'REVERSE_DELIVERY' | 'REVERSE_RECEIPT',
@@ -409,11 +410,13 @@ export default function ConnectedLaundryPage() {
     || bridge.workspace.collection_window.deliveries_truncated
   ))
   const [tab, setTab] = useState<'SEND' | 'RETURN' | 'FAILED' | 'HISTORY'>('SEND')
-  const kpis = useMemo(() => ({
-    ready: bridge.workspace ? totalReadyToSend(bridge.workspace.ready_batches) : 0,
-    outside: bridge.workspace?.deliveries.reduce((sum, row) => sum + row.physical_outstanding_qty_pcs, 0) ?? 0,
-    claims: bridge.workspace?.deliveries.reduce((sum, row) => sum + row.active_claim_qty_pcs, 0) ?? 0,
-  }), [bridge.workspace])
+  // CP6-06 (M:3825, unknown is not zero): without a loaded workspace every KPI stays unknown instead of 0.
+  const kpis = useMemo(() => bridge.workspace ? {
+    ready: totalReadyToSend(bridge.workspace.ready_batches),
+    outside: bridge.workspace.deliveries.reduce((sum, row) => sum + row.physical_outstanding_qty_pcs, 0),
+    claims: bridge.workspace.deliveries.reduce((sum, row) => sum + row.active_claim_qty_pcs, 0),
+    legacy: bridge.workspace.legacy_unlinked.delivery_count,
+  } : null, [bridge.workspace])
   const onAction: RunAction = bridge.runAction
 
   useEffect(() => {
@@ -435,7 +438,7 @@ export default function ConnectedLaundryPage() {
     {bridge.notice ? <div className="clq-alert notice"><CheckCircle2/><span>{bridge.notice}</span></div> : null}
     {collectionTruncated ? <div className="clq-warning" role="status"><AlertTriangle/><span><strong>Daftar server dibatasi agar halaman tetap stabil.</strong> Hasil yang tampil bukan seluruh histori. Persempit kata kunci pada kolom Cari sampai peringatan ini hilang sebelum menyimpulkan transaksi tidak ada.</span></div> : null}
     {bridge.busy ? <div className="clq-busy"><LoaderCircle className="spin"/> Menjaga transaksi tetap satu kali…</div> : null}
-    <section className="clq-kpis"><article><span>SIAP DIKIRIM</span><strong>{kpis.ready}</strong><small>pcs selesai jahit, belum dikirim</small></article><article><span>DI LUAR PABRIK</span><strong>{kpis.outside}</strong><small>pcs belum kembali</small></article><article><span>TERIKAT KLAIM</span><strong>{kpis.claims}</strong><small>Stuck/Missing aktif</small></article><article><span>DATA LAMA TERPISAH</span><strong>{bridge.workspace?.legacy_unlinked.delivery_count ?? 0}</strong><small>tidak ditebak atau digabung</small></article></section>
+    <section className="clq-kpis"><Cp6Kpi label="SIAP DIKIRIM" value={kpis?.ready} note="pcs selesai jahit, belum dikirim"/><Cp6Kpi label="DI LUAR PABRIK" value={kpis?.outside} note="pcs belum kembali"/><Cp6Kpi label="TERIKAT KLAIM" value={kpis?.claims} note="Stuck/Missing aktif"/><Cp6Kpi label="DATA LAMA TERPISAH" value={kpis?.legacy} note="tidak ditebak atau digabung"/></section>
     <nav className="clq-tabs"><button className={tab === 'SEND' ? 'active' : ''} onClick={() => setTab('SEND')}>Kirim ke Laundry</button><button className={tab === 'RETURN' ? 'active' : ''} onClick={() => setTab('RETURN')}>Terima kembali</button><button className={tab === 'FAILED' ? 'active' : ''} onClick={() => setTab('FAILED')}>Cuci gagal berbayar</button><button className={tab === 'HISTORY' ? 'active' : ''} onClick={() => setTab('HISTORY')}>Riwayat & koreksi</button><label><Search/><input value={bridge.query} onChange={(event) => bridge.search(event.target.value)} placeholder="Cari PO, Potongan, atau vendor…"/></label></nav>
     {bridge.loading && !bridge.workspace ? <div className="clq-loading"><LoaderCircle className="spin"/> Memuat data resmi…</div> : bridge.workspace ? <>
       {tab === 'SEND' ? <SendLaundryForm key={`send-${bridge.committedSequence}`} workspace={bridge.workspace} writerLocked={bridge.writerLocked} canCreate={canCreate} canPost={canPost} onAction={onAction}/> : null}

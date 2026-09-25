@@ -16,6 +16,7 @@ import { useLaundryQcWorkspace } from './useLaundryQcWorkspace'
 import type { Json } from './types/database.preconnect'
 import { parseQuantityInput } from './quantityInput'
 import './connected-laundry-qc.css'
+import { Cp6Kpi } from './components/Cp6Kpi'
 
 type RunAction = (
   action: 'POST_FINAL_SKU' | 'REVERSE_FINAL_SKU', payload: Json,
@@ -311,7 +312,13 @@ export default function ConnectedQcFinalPage() {
   ))
   const productLookupTruncated = bridge.workspace?.collection_window.products_truncated ?? false
   const [tab, setTab] = useState<'QUEUE' | 'HISTORY'>('QUEUE')
-  const queueQty = bridge.workspace?.qc_queue.reduce((sum, row) => sum + row.available_for_qc_qty_pcs, 0) ?? 0
+  // CP6-06 (M:3825, unknown is not zero): without a loaded workspace every KPI stays unknown instead of 0.
+  const kpis = bridge.workspace ? {
+    queueQty: bridge.workspace.qc_queue.reduce((sum, row) => sum + row.available_for_qc_qty_pcs, 0),
+    queueRows: bridge.workspace.qc_queue.length,
+    posted: bridge.workspace.qc_history.filter((row) => row.status === 'POSTED').length,
+    legacy: bridge.workspace.legacy_unlinked.receipt_count,
+  } : null
   const onAction: RunAction = bridge.runAction
 
   useEffect(() => {
@@ -332,7 +339,7 @@ export default function ConnectedQcFinalPage() {
     {collectionTruncated ? <div className="clq-warning" role="status"><AlertTriangle/><span><strong>Antrean atau histori dibatasi server.</strong> Hasil transaksi yang tampil belum lengkap. Persempit kata kunci sumber pada kolom Cari sampai peringatan ini hilang.</span></div> : null}
     {productLookupTruncated ? <div className="clq-warning" role="status"><Search/><span><strong>Katalog SKU awal hanya cuplikan.</strong> Gunakan Cari SKU pada baris ukuran; hasil dipaging dari server tanpa menghilangkan antrean atau Potongan yang sedang dipilih.</span></div> : null}
     {bridge.busy ? <div className="clq-busy"><LoaderCircle className="spin"/> Menjaga finalisasi tetap satu kali…</div> : null}
-    <section className="clq-kpis"><article><span>GOOD SIAP QC</span><strong>{queueQty}</strong><small>pcs dari sumber yang tepat</small></article><article><span>BARIS UKURAN</span><strong>{bridge.workspace?.qc_queue.length ?? 0}</strong><small>penerimaan · batch · ukuran</small></article><article><span>FINALISASI AKTIF</span><strong>{bridge.workspace?.qc_history.filter((row) => row.status === 'POSTED').length ?? 0}</strong><small>transaksi CP6 tersimpan</small></article><article><span>DATA LAMA TERPISAH</span><strong>{bridge.workspace?.legacy_unlinked.receipt_count ?? 0}</strong><small>tidak ditebak atau digabung</small></article></section>
+    <section className="clq-kpis"><Cp6Kpi label="GOOD SIAP QC" value={kpis?.queueQty} note="pcs dari sumber yang tepat"/><Cp6Kpi label="BARIS UKURAN" value={kpis?.queueRows} note="penerimaan · batch · ukuran"/><Cp6Kpi label="FINALISASI AKTIF" value={kpis?.posted} note="transaksi CP6 tersimpan"/><Cp6Kpi label="DATA LAMA TERPISAH" value={kpis?.legacy} note="tidak ditebak atau digabung"/></section>
     <nav className="clq-tabs qc"><button className={tab === 'QUEUE' ? 'active' : ''} onClick={() => setTab('QUEUE')}>Antrean finalisasi</button><button className={tab === 'HISTORY' ? 'active' : ''} onClick={() => setTab('HISTORY')}>Riwayat & koreksi</button><label><Search/><input value={bridge.query} onChange={(event) => bridge.search(event.target.value)} placeholder="Cari PO, Potongan, receipt, atau histori…"/></label></nav>
     {bridge.loading && !bridge.workspace ? <div className="clq-loading"><LoaderCircle className="spin"/> Memuat data resmi…</div> : bridge.workspace ? <>
       {tab === 'QUEUE' ? <FinalSkuForm key={`qc-${bridge.committedSequence}`} workspace={bridge.workspace} transactionQuery={bridge.query} writerLocked={bridge.writerLocked} canPost={canPost} onAction={onAction} searchProducts={bridge.searchFinalSkuProducts}/> : null}

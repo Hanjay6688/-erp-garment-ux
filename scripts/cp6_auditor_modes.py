@@ -96,6 +96,60 @@ class RaceTools:
         return self.awp.two_sessions(self.admin,first_op,second_op,commit)
 
 
+VOCABULARY=('PASS','FAIL','COUNTEREXAMPLE','INCOMPLETE')
+
+
+def copy_sessions(database,exclude_users=()):
+    """Client sessions on a committed copy, read from the primary (the copy's own admin connection is closed by then)."""
+    awp,_=_probe()
+    with psycopg.connect(awp.boundary.PRIMARY_ADMIN) as conn,conn.cursor() as cur:
+        cur.execute('select pg_stat_clear_snapshot()')
+        return cur.execute("""select pid,usename,application_name,state from pg_stat_activity where datname=%s
+            and backend_type='client backend' and not (usename=any(%s)) order by pid""",(database,list(exclude_users))).fetchall()
+
+
+def session_leaks(database,exclude_users=()):
+    """Sessions a case left open on its copy (independent audit round 9, W7: the race and HTTP modes check what the savepoint
+    group checks). A closing backend can stay listed briefly, so the list is re-read for up to 2 s; leaks are terminated."""
+    others=copy_sessions(database,exclude_users)
+    for _ in range(20):
+        if not others:break
+        time.sleep(0.1);others=copy_sessions(database,exclude_users)
+    if others:
+        awp,_=_probe()
+        with psycopg.connect(awp.boundary.PRIMARY_ADMIN) as conn,conn.cursor() as cur:
+            for pid,*_ in others:cur.execute('select pg_terminate_backend(%s)',(pid,))
+    return [list(map(str,o)) for o in others]
+
+
+def strict_rows(group,planned,run_one,database,exclude_users=()):
+    """The strict group of the savepoint mode (scripts/cp6_auditor_runner.py) for the modes that run on committed copies
+    (round 9, W7): duplicate ids refuse the whole group before any operation; a result that is not a dict or whose
+    status is outside PASS/FAIL/COUNTEREXAMPLE/INCOMPLETE is INCOMPLETE (the original value is kept); a session left
+    open on the copy makes the case INCOMPLETE; planned, final and missing are printed. Returns (rows, refusal)."""
+    import cp6_auditor_runner as runner
+    ids=[k for k,_ in planned]
+    duplicates=runner.duplicate_ids(ids)
+    if duplicates:
+        print(json.dumps(dict(group=group,refused='AUDITOR_DUPLICATE_CASE_IDS',duplicates=duplicates)),flush=True)
+        return {},dict(error='AUDITOR_DUPLICATE_CASE_IDS',duplicate_case_ids=duplicates)
+    rows={}
+    for i,(key,operation) in enumerate(planned):
+        try:
+            row=run_one(i,key,operation)
+            if not isinstance(row,dict):row=dict(status='INCOMPLETE',error='AUDITOR_CASE_RESULT_NOT_A_DICT',result=repr(row)[:500])
+        except Exception as exc:row=dict(status='INCOMPLETE',error=str(exc)[:3000],traceback=traceback.format_exc()[-3000:])
+        if row.get('status') not in VOCABULARY:
+            row['status_outside_vocabulary']=row.get('status');row['status']='INCOMPLETE'
+        row['session_leaks']=session_leaks(database,exclude_users)
+        if row['session_leaks']:row['status']='INCOMPLETE'
+        rows[key]=row
+        print(json.dumps(dict(group=group,case=key,**row),default=str),flush=True)
+    final={k:r['status'] for k,r in rows.items()}
+    print(json.dumps(dict(group=group,planned=ids,final=final,missing=[k for k in ids if k not in rows])),flush=True)
+    return rows,None
+
+
 def finish(report,rows):
     report['counts']=dict(Counter(r.get('status') for r in rows.values()))
     bad=report['counts'].get('INCOMPLETE') or report.get('database_remaining') or report.get('cleanup_failures')
@@ -110,15 +164,14 @@ def run_races(module,verify,phase):
         url=copy_db(RACE_DB);setup=setup_copy(url,verify,True)
         planned=list(module.races(RaceTools(url,setup['today']),setup['today']))
         report['planned_race_ids']=[k for k,_ in planned]
-        for i,(key,operation) in enumerate(planned):
-            try:
-                if i:url=copy_db(RACE_DB);setup=setup_copy(url,verify,True)
-                row=operation()
-                assert isinstance(row,dict) and 'status' in row,'AUDITOR_RACE_RESULT_NEEDS_status'
-            except Exception as exc:row=dict(status='INCOMPLETE',error=str(exc)[:3000],traceback=traceback.format_exc()[-3000:])
-            row['copy_runtime']=setup['runtime']
-            report['races'][key]=row
-            print(json.dumps(dict(group='AUDITOR_RACES_'+phase.upper(),race=key,**row),default=str),flush=True)
+        state=dict(setup=setup)
+        def run_one(i,key,operation):
+            if i:copy_db(RACE_DB);state['setup']=setup_copy(url,verify,True)
+            row=operation()
+            if isinstance(row,dict):row['copy_runtime']=state['setup']['runtime']
+            return row
+        report['races'],refusal=strict_rows('AUDITOR_RACES_'+phase.upper(),planned,run_one,RACE_DB)
+        if refusal:report.update(refusal)
     except Exception as exc:report.update(error=str(exc)[:3000],traceback=traceback.format_exc()[-3000:])
     finally:report['database_remaining']=drop_db(RACE_DB)
     if 'error' in report:report['status']='INCOMPLETE';return report
@@ -245,13 +298,9 @@ def run_http(module,verify,phase):
         http=Http(url)
         planned=list(module.http_cases(http,setup['today']))
         report['planned_case_ids']=[k for k,_ in planned]
-        for key,operation in planned:
-            try:
-                row=operation()
-                assert isinstance(row,dict) and 'status' in row,'AUDITOR_HTTP_RESULT_NEEDS_status'
-            except Exception as exc:row=dict(status='INCOMPLETE',error=str(exc)[:3000],traceback=traceback.format_exc()[-3000:])
-            report['cases'][key]=row
-            print(json.dumps(dict(group='AUDITOR_HTTP_'+phase.upper(),case=key,**row),default=str),flush=True)
+        # PostgREST keeps its pool on the copy as `authenticator`; every other session left open is a leak.
+        report['cases'],refusal=strict_rows('AUDITOR_HTTP_'+phase.upper(),planned,lambda i,key,operation:operation(),HTTP_DB,('authenticator',))
+        if refusal:report.update(refusal)
     except Exception as exc:report.update(error=str(exc)[:3000],traceback=traceback.format_exc()[-3000:])
     finally:
         if http is not None:
@@ -291,6 +340,8 @@ def run_browser(script,verify,phase):
                       cases=host.get('cases',{}),console_errors=len(host.get('console_errors',[])),users_created=host.get('users_created'),
                       auth_cleanup_failures=host.get('auth_cleanup_failures'),host_error=host.get('error'))
         if host.get('status')!='RUN_COMPLETE':report['error']=host.get('error') or 'AUDITOR_BROWSER_HOST_%s'%host.get('status')
+        report['session_leaks']=session_leaks(BROWSER_DB,('authenticator',))
+        if report['session_leaks'] and 'error' not in report:report['error']='AUDITOR_BROWSER_SESSION_LEFT_OPEN'
     except Exception as exc:report.update(error=str(exc)[:3000],traceback=traceback.format_exc()[-3000:])
     finally:
         if http is not None:

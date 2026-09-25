@@ -5,6 +5,7 @@ import { useAuth } from './auth/AuthProvider'
 import { hasPermission } from './auth/accessCatalog'
 import { getUatSupabaseClient } from './lib/supabase'
 import { normalizeClientError } from './lib/clientError'
+import { PENDING_BLOCKED_MESSAGE, PENDING_CORRUPTED_MESSAGE, PENDING_UNKNOWN_MESSAGE, readPendingRequest, replayPendingRequest, sendOnce, type Send, type SendOutcome } from './lib/requestEnvelope'
 import { parsePatternRows, parsePatternTotal, sortPatternRows, type PatternRow } from './patternModel'
 import './pattern-page.css'
 
@@ -40,6 +41,22 @@ export default function PatternPage() {
   const [saving, setSaving] = useState(false)
   const [offset, setOffset] = useState(0)
   const pageSize = 100
+  const requestScope = `${identity.status === 'AUTHORIZED' ? identity.profile.authUserId : 'demo'}:PATTERN`
+  const sendPatternRpc: Send = (rpc, args) => {
+    if (!client) throw new Error('DATA SIMULASI · perubahan Pola tidak dikirim ke backend.')
+    if (rpc === 'erp_save_pattern_v1') return client.rpc('erp_save_pattern_v1', args as never)
+    if (rpc === 'erp_deactivate_pattern_v1') return client.rpc('erp_deactivate_pattern_v1', args as never)
+    throw new Error(`RPC ${rpc} bukan bagian halaman Pola.`)
+  }
+  const [pendingRequest, setPendingRequest] = useState(() => readPendingRequest(requestScope))
+  const settleRequest = (outcome: SendOutcome) => {
+    setPendingRequest(readPendingRequest(requestScope))
+    if (outcome.ok) return true
+    if (outcome.state === 'UNKNOWN') setError(PENDING_UNKNOWN_MESSAGE)
+    else if (outcome.state === 'BLOCKED') setError(outcome.pending ? PENDING_BLOCKED_MESSAGE : PENDING_CORRUPTED_MESSAGE)
+    else setError(normalizeClientError(outcome.error).message)
+    return false
+  }
 
   const load = useCallback(async () => {
     if (!client) { setRows(demoPatterns); setTotal(demoPatterns.length); return }
@@ -89,37 +106,44 @@ export default function PatternPage() {
     if (!client) { setError('DATA SIMULASI · perubahan Pola tidak dikirim ke backend.'); return }
     setSaving(true)
     const current = editing === 'NEW' ? null : editing
-    const { error: saveError } = await client.rpc('erp_save_pattern_v1', {
+    // W10 / CP6-05: the request UUID is kept until the server answers; saving the same change again replays it.
+    const outcome = await sendOnce(requestScope, 'erp_save_pattern_v1', {
       p_payload: {
         ...(current ? { id: current.id } : {}), code: code.trim().toUpperCase(),
         revision: revision.trim().toUpperCase(), name: name.trim(), sort_order: parsedSort, change_reason: reason.trim(),
       },
-      p_client_request_id: globalThis.crypto.randomUUID(),
       p_expected_version: current?.row_version ?? null,
-    })
-    if (saveError) setError(normalizeClientError(saveError).message)
-    else { setEditing(null); await load() }
+    }, sendPatternRpc)
+    if (settleRequest(outcome)) { setEditing(null); await load() }
+    setSaving(false)
+  }
+
+  const replayPending = async () => {
+    if (!client) return
+    setSaving(true)
+    if (settleRequest(await replayPendingRequest(requestScope, sendPatternRpc))) { setError(''); setEditing(null); await load() }
     setSaving(false)
   }
 
   const deactivate = async (row: PatternRow) => {
-    if (!client || !canManage || !globalThis.confirm(`Nonaktifkan Pola ${row.code}? Riwayat pemakaian tetap dipertahankan.`)) return
+    if (!client || !canManage) return
+    if (pendingRequest.envelope || pendingRequest.corrupted) { setError(pendingRequest.corrupted ? PENDING_CORRUPTED_MESSAGE : PENDING_BLOCKED_MESSAGE); return }
+    if (!globalThis.confirm(`Nonaktifkan Pola ${row.code}? Riwayat pemakaian tetap dipertahankan.`)) return
     const changeReason = globalThis.prompt('Alasan menonaktifkan Pola:')?.trim()
     if (!changeReason) return
-    const { error: deactivateError } = await client.rpc('erp_deactivate_pattern_v1', {
+    const outcome = await sendOnce(requestScope, 'erp_deactivate_pattern_v1', {
       p_pattern_id: row.id,
       p_reason: changeReason,
-      p_client_request_id: globalThis.crypto.randomUUID(),
       p_expected_version: row.row_version,
-    })
-    if (deactivateError) setError(normalizeClientError(deactivateError).message)
-    else await load()
+    }, sendPatternRpc)
+    if (settleRequest(outcome)) await load()
   }
 
   return <section className="pattern-page">
     <header className="pattern-hero"><div><span>MASTER DATA · METADATA PRODUKSI</span><h1>Pola</h1><p>Pola hanya mengatur kontrol, filter, dan urutan tampilan. Pola tidak mengubah stok, HPP, payroll, jurnal, atau identitas Final SKU.</p></div><button disabled={!canManage} onClick={() => openEditor('NEW')}><Plus/> Pola baru</button></header>
     <div className={`pattern-truth ${connected ? 'connected' : 'simulation'}`}><SlidersHorizontal/><strong>{connected ? 'UAT BACKEND CONNECTED' : 'DATA SIMULASI'}</strong><span>Histori lama tanpa Pola tetap terbaca · Potongan baru wajib memakai pattern_id</span></div>
     {error && <div className="pattern-error" role="alert"><AlertTriangle/><span>{error}</span><button onClick={() => setError('')}><X/></button></div>}
+    {pendingRequest.envelope && connected ? <div className="pattern-error" role="status"><RefreshCw/><span>Ada perubahan yang hasilnya belum diketahui (UUID {pendingRequest.envelope.id.slice(0, 8)}…).</span><button disabled={saving} onClick={() => void replayPending()}>Kirim ulang perubahan tertunda</button></div> : null}
     <section className="pattern-workspace">
       <header><label><Search/><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Cari kode, revisi, atau nama Pola…"/></label><div role="tablist" aria-label="Status Pola">{(['ACTIVE', 'INACTIVE', 'ALL'] as const).map((filter) => <button className={stateFilter === filter ? 'active' : ''} onClick={() => setStateFilter(filter)} key={filter}>{filter === 'ACTIVE' ? 'Aktif' : filter === 'INACTIVE' ? 'Nonaktif' : 'Semua'}</button>)}</div><button className="pattern-refresh" onClick={() => void load()}><RefreshCw/> Refresh</button></header>
       {loading ? <div className="pattern-empty"><RefreshCw className="spin"/><strong>Memuat Pola authoritative…</strong></div> : <div className="pattern-table"><div className="pattern-table-head"><span>Urutan</span><span>Kode, revisi & nama</span><span>Status</span><span>Riwayat</span><span>Aksi</span></div>{visible.map((row) => <article key={row.id} className={!row.is_active ? 'inactive' : ''}><strong className="pattern-order">{row.sort_order}</strong><div><strong>{row.code} · {row.revision}</strong><span>{row.name}</span></div><em>{row.is_active ? <><Check/> AKTIF</> : 'NONAKTIF'}</em><div className="pattern-history"><History/><span><strong>{row.usage_count} pemakaian</strong><small>{localDate(row.updated_at)} · {row.updated_by || 'System'}</small></span></div><div className="pattern-actions"><button disabled={!canManage || !row.is_active} onClick={() => openEditor(row)}>Edit</button><button disabled={!canManage || !row.is_active} onClick={() => void deactivate(row)}>Nonaktifkan</button></div></article>)}{visible.length === 0 && <div className="pattern-empty"><Search/><strong>{total === 0 && !query ? 'Master Pola masih kosong—buat saat pola pertama benar-benar dipakai.' : 'Tidak ada Pola yang cocok.'}</strong></div>}<footer className="pattern-pagination"><span>{total} Pola · {offset + (visible.length ? 1 : 0)}–{Math.min(offset + visible.length, total)}</span><div><button disabled={!connected || offset === 0} onClick={() => setOffset(Math.max(0, offset - pageSize))}>Sebelumnya</button><button disabled={!connected || offset + pageSize >= total} onClick={() => setOffset(offset + pageSize)}>Berikutnya</button></div></footer></div>}
