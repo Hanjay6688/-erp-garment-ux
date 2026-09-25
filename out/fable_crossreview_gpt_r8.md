@@ -99,6 +99,13 @@ Tidak ada run Fable; tidak menyentuh skenario GPT. Bahan: diagnostik yang GPT si
 | Rev6: hanya dua kasus QC dengan nama merek unik via SAVE_FILE; Laundry tidak diulang | Sesuai; menunggu hasil | NOTED |
 **Dampak register:** CP6-06 → CONFIRMED_NATIVE_BROWSER (Laundry) P2 → **W13** writer: saat workspace belum termuat/gagal, KPI harus merender status "belum diketahui" (mis. "—"/"tidak tersedia"), bukan 0 (`ConnectedLaundryPage.tsx:412-416` `?? 0`, `totalReadyToSend(...) : 0`; QC serupa `ConnectedQcFinalPage.tsx:314-335`). Banner + kunci tulis dipertahankan.
 
+## Putaran 11 — QC rev6 GPT (commit 60135cb) — 2026-09-25T07:22:38Z
+| Klaim GPT | Verifikasi Fable (log job 107980988537 dibaca langsung) | Label |
+|---|---|---|
+| Run 36106777202 (audit a5a2d6e): QC healthy control **PASS** (UI 10), QC initial-read **COUNTEREXAMPLE** (KPI 0 ×4 saat read gagal; refetch 200 → UI 10, error hilang); tidak ada INCOMPLETE; seed disisihkan tanpa mengubah FG movement rows; cleanup bersih | Log: identitas 9dd7bc2/a095a9d; `AUDITOR_BROWSER_AFTER` PASS 1 / COUNTEREXAMPLE 1; KPI awal "0" ×4 tercatat; Auth pulih; primary_unchanged. Bersama rev5 Laundry: **CP6-06 CONFIRMED native di Laundry dan QC**; refetch memulihkan data (tidak ada bug recovery); rev1–4 dan QC rev5 tetap INCOMPLETE (tidak dilabel ulang) | CONFIRMED |
+| "Tidak ada run GPT yang masih berjalan"; berikutnya pembaruan laporan/handoff/index | Dicatat; Fable menunggu commit konsolidasi itu untuk cross-review terakhir | NOTED |
+W13 diperluas ke QC (`ConnectedQcFinalPage.tsx:314-335`).
+
 ## Status GPT (dari `out/gpt_phase2_review_20260925.md` LANGKAH BERIKUTNYA)
 1. Rerun hanya kasus ADJUSTMENT_DATE setelah akses baca diperbaiki. 2. Fase native browser/timezone/HTTP sendiri termasuk A8 reachability. 3. Konsolidasi residu CP6-03 dan B1 ke handoff writer; C6 crosswalk; rekomendasi A7/A8.
 GPT menyatakan konsolidasi selesai (f69b75c) tetapi **melanjutkan celah cakupan** (CP6-05/06 browser, binding ALL). Fable mengikuti lagi. Rencana GPT berikutnya: retry diagnostik 2 kasus unknown, lalu pembaruan laporan/index. Fable mengikuti commit berikutnya dan memperbarui dokumen ini.

@@ -174,12 +174,12 @@
    "oracle": "M3825: unknown bukan nol.",
    "evidence": "Laundry/QC failed initial workspace null;4localchecks2PASS/2FAIL. Banner error/lock tetap ada.",
    "next": "Browser initial-load/refetch failure dengan server state diketahui; KPI unknown, retry/sync dan tidak falsefinancialfinal.",
-   "status_r8": "CONFIRMED_NATIVE_BROWSER_LAUNDRY (GPT run 36106291785 job 107979461548, log read by Fable): initial read failed -> KPI 0 with error banner/write lock; refetch restores 20. QC pending rev6.",
+   "status_r8": "CONFIRMED_NATIVE_BROWSER_LAUNDRY_AND_QC (GPT runs 36106291785 + 36106777202, logs read by Fable): failed initial read -> KPI 0 with error banner/write lock; refetch restores 20/10",
    "evidence_r8": "36106291785/job107979461548: actual Auth RPC/parser/browser healthy20; failed initial read KPI0 + error/write lock; post-fault refetch200/parser/UI20. QC fixture refused duplicate Cutover brand; not evaluated.",
    "gpt_updated_at": "2026-09-25T06:03:00Z",
    "next_r8": "CP6-06 writer renders unknown separately from0. Auditor runs QC rev6 only with unique API brand; do not relabel prior INCOMPLETEs.",
    "fable_priority": "P2",
-   "updated_at": "2026-09-25T07:17:58Z"
+   "updated_at": "2026-09-25T07:22:38Z"
   },
   {
    "id": "CP6-07",
@@ -734,7 +734,7 @@
    "result": "PASS 2/2 — CP6-19 REFUTED on legit app path"
   }
  ],
- "fable_last_update": "2026-09-25T07:17:58Z",
+ "fable_last_update": "2026-09-25T07:22:38Z",
  "adversarial_verification_round": {
   "at": "2026-09-24T22:33:14Z",
   "findings": [
@@ -967,7 +967,9 @@
    "ea3aef7",
    "a4b65b9",
    "6642fe5",
-   "a5a2d6e"
+   "a5a2d6e",
+   "e2060d3",
+   "60135cb"
   ],
   "confirmed": [
    "C0 24/25 (run 36098555186 log read)",
@@ -981,7 +983,8 @@
    "browser WIB pickup 4/4 → 12/12 complete",
    "CP6-05 browser recovery 2 CE (scoped to Pattern/Role pages; W10)",
    "rev3 parser message = Fable prediction",
-   "CP6-06 Laundry unknown-zero confirmed (rev5)"
+   "CP6-06 Laundry unknown-zero confirmed (rev5)",
+   "CP6-06 QC unknown-zero confirmed (rev6)"
   ],
   "new_writer_items": [
    "W7 strict group for race/http",
