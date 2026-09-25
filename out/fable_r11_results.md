@@ -36,7 +36,10 @@ Label: INDEPENDENT_NATIVE_RERUN / INDEPENDENT_SOURCE_REVIEW / REUSED_WRITER_EVID
 - **T5 catatan advisor: CONFIRMED** dari log Fable (+75 INFO, semua `rls_enabled_no_policy` erp).
 - **Tabel kasus BB (docs/cp6-bb-case-table.md):** 52 kasus → 13 keadaan ALL (P02, P03, P04, S01, S02, S03, A03, Y01, Y02, W02, W04, W06, W05-finansial) → oracle F/G. S02 dibangun di BB (tak ada di family mana pun); bacaan GPT (reservasi dibawa) dipakai karena lebih fail-closed — Fable setuju.
 
-## 6. Kesimpulan BB (sementara, menunggu run ulang parser)
-- **BB family pada 4c61aca: T1 (57/57), race/HTTP/browser (14/14), T2 identik, paket T3 26 berkas, rollback 131/131 — semua CONFIRMED natively oleh Fable.** GPT: BB round 10 pra-run (10 dokumen pool sen; dua draf reservasi bersama) berjalan — dicek silang setelah selesai.
+### 4a. Run ulang probe BB dengan `npm ci` (run 36155406049, before 108138601608, after 108138602159) — keduanya **success**
+Parser halaman writer kini berjalan (tidak ada error esbuild). Hasil per kasus identik dengan §4: after 57/57 PASS (52 writer + 5 Fable), before 52 NO_ROUTE + 2 COUNTEREXAMPLE + 3 PASS, `expectation_mismatch {}`, status probe REVIEW_COMPLETE, primary_unchanged, clone 0. **BB T1 CONFIRMED penuh.**
+
+## 6. Kesimpulan BB (final)
+- **BB family pada 4c61aca: T1 (57/57, dengan parser halaman), race/HTTP/browser (14/14), T2 identik, paket T3 26 berkas, rollback 131/131 — semua CONFIRMED natively oleh Fable. BB diterima pada tingkat T1/T2/T3/rollback/runtime (bukan bukti rilis; label T1_FAMILY/T2/T3_PREP/AUDITOR_SCENARIO).** GPT: BB round 10 pra-run (10 dokumen pool sen; dua draf reservasi bersama) berjalan — dicek silang setelah selesai.
 - Keadaan ALL: 13 di BB + 6 dari era BA (P01, A01, A02, W01, W03, C01; inventaris writer, rute belum diverifikasi SQL oleh auditor) = 19/22 punya jalur; sisa C02, C03 (BC), W05 fisik (BD), C04 (BE).
 - **CP6 tetap HOLD, audit_complete=false, production_go=false** — BC, BD, BE belum ada; D06 belum ditandatangani; nilai kebijakan pending.

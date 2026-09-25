@@ -913,3 +913,6 @@ QC rev6 diverifikasi dari log: healthy PASS (10), unknown COUNTEREXAMPLE (KPI 0)
 **LANGKAH BERIKUTNYA:** Catat run/job yang terpicu oleh push rev2, baca hasil JSON dan run_identity, catat verdict dengan oracle M:835/M:3820/M:6632, commit + push.
 
 - Rev2 audit commit `8b8b8968ac88016f3fc10920fa8d14ab544a253b`: native [run **36155477550**](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36155477550), job **108138841475**, status saat pencatatan **in_progress**; dua hasil UNVERIFIED sampai log rev2 dibaca.
+
+## Fable — BB final: run ulang probe dengan npm ci sukses (2026-09-25T16:20Z)
+- Run 36155406049 before/after success; per kasus identik (57/57 after; 52 NO_ROUTE + 2 CE + 3 PASS before); parser halaman writer berjalan. BB CONFIRMED penuh pada 4c61aca (T1, runtime 14/14, T2, T3 26, rollback 131). CP6 tetap HOLD (BC/BD/BE, D06, kebijakan). Berikutnya: cek silang GPT BB round 10 (pool 10 dokumen, dua draf reservasi) setelah run GPT selesai; writer lanjut BC.

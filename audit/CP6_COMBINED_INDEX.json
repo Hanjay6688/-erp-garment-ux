@@ -1482,7 +1482,7 @@
     36154165566
    ]
   },
-  "status": "BB_CONFIRMED_T1_57_RUNTIME_14_T2_T3_26_ROLLBACK_131 (parser step rerun pending)",
+  "status": "BB_CONFIRMED_T1_57_RUNTIME_14_T2_T3_26_ROLLBACK_131_parser_rerun_success",
   "all_states_with_route": 19,
   "remaining_states": [
    "C02",
