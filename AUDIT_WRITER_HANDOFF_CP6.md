@@ -39,6 +39,14 @@ Cek auditor yang terbukti salah dan sudah diperbaiki (bukan tindakan writer): or
 | T6 | W12/W6 pada data nyata: drill T3 baseline sudah CLEAN (UUID 765 kolom) dan alias CASH_BANK NONE; **hosted/legacy belum diperiksa siapa pun** — jalankan `scripts/cp6_cutover_data_checks.py --pgurl <salinan drill>` pada salinan hosted yang diizinkan (baca saja), lampirkan hasil | batas auditor: tidak menyentuh hosted | keluaran drill |
 | T7 | Opsional (tetap): W3 cabut grant `authenticated` pada `erp.prepare_migration_opening_balance` (successor); W5 pesan STALE_VERSION | — | — |
 
+## 2a. Tambahan putaran 12 (pra-BC, 25 Sep 17:45Z) — lihat `WRITER_HANDOFF_R12_PASTE_20260925.md`
+- **F1 (pre-existing, CONFIRMED independen, run 36168041413):** nota harga manual (ACC-DEC02) ditandai CRITICAL oleh `contractor_issue_price_provenance_gap`. Diperbaiki di BC;
+  verifikasi diff badan fungsi v265 di putaran BC.
+- **F2 (pre-existing, CONFIRMED sebagai cacat detektor):** `MATERIAL_RECOST_GL_STATE_DRIFT` (v2.5.5) menyala pada buku yang memenuhi oracle (penyesuaian tanpa baris state;
+  sen dokumen terkumpul di satu PO = T3-A). Butuh **disposisi tertulis** (CR kecil atau catatan owner), bukan pengecualian diam di probe. Kasus BC yang recost tetap mengunci
+  books = subledger dan V2620T_* = 0.
+- BC belum final bagi auditor (syarat di berkas paste §2.3).
+
 ## 3. Oracle pra-kode untuk 75 C6 + 22 ALL (writer memakai keduanya; jangan menyesuaikan oracle ke kode)
 - Fable: `out/fable_c6_75_oracles_pre_code.md`, `out/fable_all22_oracles_pre_code.md` (22: 8 ORACLE_READY murni + 3 bersyarat; 11 NEEDS_OWNER_INPUT: P03, P04, S02, S03, Y02, W04, W05, W06, C02, C03, C04).
 - GPT: `out/r9_acc_oracle.md`, `out/r9_lau_oracle.md`, `out/r9_all_oracle.md` + `out/r9_all_oracle_errata.md` (S01: Dr AR / Cr OPENING_EQUITY).

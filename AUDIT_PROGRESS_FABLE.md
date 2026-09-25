@@ -37,3 +37,8 @@
   ignores manual_retail_unit_price; M:1066 ACC-DEC02 makes the manual price valid). F2 cases INCOMPLETE on my column typo (triggering_material_id).
 - Writer head moved to 95353aa (BC pages, races/HTTP/browser, BC CI workflow, auditor workflow: phase `after` now installs BC, new `pre_bc`).
   DB release package still identical to 4c61aca. Dispatcher re-pinned; rev5 dispatched as 36168041413 phase pre_bc.
+
+## 2026-09-25 17:45Z — round 12 pre-BC FROZEN: run 36168041413 (rev5, pre_bc, 95353aa) 4 PASS / 4 COUNTEREXAMPLE
+- F1 CONFIRMED pre-existing (facade route). F2 CONFIRMED pre-existing detector defect (books meet oracle on all 5 paths; adjustment facts v2.6.20t present, V2620T_*=0;
+  state row missing for adjustment movements; document cent carry n=10). Written: out/fable_r12_results.md, WRITER_HANDOFF_R12_PASTE_20260925.md, handoff §2a, index key fable_round12_pre_bc.
+- Next: cross-check GPT (after this push), then wait for BC final head + case table + CI run.

@@ -1542,5 +1542,30 @@
   "fable": "AUDIT_PROGRESS_FABLE.md",
   "gpt": "AUDIT_PROGRESS_GPT.md (GPT membuat)"
  },
- "writer_handoff_paste_latest": "WRITER_HANDOFF_R11_PASTE_20260925.md"
+ "writer_handoff_paste_latest": "WRITER_HANDOFF_R12_PASTE_20260925.md",
+ "fable_round12_pre_bc": {
+  "date": "2026-09-25T17:45Z",
+  "writer_heads_seen": [
+   "7c9d00a",
+   "4b1bd66",
+   "95353aa"
+  ],
+  "db_release_package_identical_to": "4c61aca",
+  "scenario": "audit/scenarios/round12_fable/xaudit_12_f1f2.py",
+  "scenario_rev5_sha256": "7ce9d35eab9657fc36aa3f8d7cc239d0457b1e74d523eb1018eca03aad11aafd",
+  "runs": {
+   "36165571453": "rev1 tool defect",
+   "36166046560": "rev2 valid statuses",
+   "36166784262": "rev3 detail (obligation check keyed wrong)",
+   "36167400464": "rev4 F1 via facade",
+   "36168041413": "rev5 FROZEN pre_bc 4 PASS / 4 COUNTEREXAMPLE"
+  },
+  "findings": {
+   "F1": "CONFIRMED_PREEXISTING_fixed_in_BC_verify_diff",
+   "F2": "CONFIRMED_PREEXISTING_DETECTOR_DEFECT_disposition_required"
+  },
+  "bc_status": "NOT_FINAL_no_handoff_no_ci_run",
+  "results": "out/fable_r12_results.md",
+  "paste": "WRITER_HANDOFF_R12_PASTE_20260925.md"
+ }
 }
