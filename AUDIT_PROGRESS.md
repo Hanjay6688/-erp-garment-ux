@@ -1,5 +1,10 @@
 # CP6 audit — active round 8 checkpoint
 
+## Unknown-only browser retry in flight
+
+Run [36102938451](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36102938451), job **107969167045**, audit commit **f85a5462411bff392b0d8b73272d96dccae649ee**. Two cases BELUM, exact9dd7bc2/a095a9d. Ledger `out/gpt_unknown_run_36102938451.json`. LANGKAH BERIKUTNYA: collect two per-case JSON/control diagnostics and cleanup; resolve CP6-06 only with sufficient evidence, then refresh combined report/handoff. CP6 HOLD.
+
+
 ## Unknown-data browser retry prepared — only two unresolved cases
 
 CP6-05 native result committedcf01a09. Retry only Laundry/QC unknown2; keep original cases/INCOMPLETE. New manifest `audit/scenarios/unknown_round8/MANIFEST.json`: browsercf9dfb1e153bfd61dc660f23221de03ec5c000c3750690d9c51cb6e8c4020300; fixture0bd506536d68292dd957ecc6385c0b8967e6a807c35bd9d49f40b42b94359e1b. Exact workflow browser path validated locally before push.
