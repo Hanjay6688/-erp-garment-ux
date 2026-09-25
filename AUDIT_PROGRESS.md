@@ -671,3 +671,6 @@ Konsolidasi GPT (f69b75c) diverifikasi: bagian Fable dipertahankan, W1–W9 sama
 
 ## Fable — audit silang GPT iterasi 7 (2026-09-25T06:27:23Z)
 CP6-05 dikonfirmasi (log job 107967209608 + sumber: hanya PatternPage/AccessControlPage yang membuat UUID baru per klik; halaman CONNECTED memakai envelope.id) → W10; prioritas P3 (Fable) vs P2 (GPT) dicatat. CP6-06 masih INCOMPLETE (assertion GPT). Binding ALL GPT konsisten dengan CP6-17. Loop pengikutan dinyalakan lagi.
+
+## Fable — pra-diagnosis kasus unknown GPT (2026-09-25T06:40:53Z)
+Dari sumber: UI "Layanan UAT belum dapat dihubungi" setelah HTTP 200 = exception klien pasca-respons (kemungkinan penolakan parser, `laundryQcModel.ts:649-655` atau invarian baris) yang disamarkan `normalizeClientError` fallback (`clientError.ts:71`). Calon W11 (P3 UX). CP6-06 (KPI 0 saat unknown) sudah teramati di rev2. Menunggu rev3 GPT untuk pesan parser asli.
