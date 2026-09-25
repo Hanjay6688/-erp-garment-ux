@@ -1,5 +1,8 @@
 # Handoff untuk WRITER — CP6 (disusun auditor Fable, 25 September 2026)
 
+> **Pembaruan 25 Sep 2026 12:40 (putaran 10, Fable):** blok tempel terbaru untuk writer di `WRITER_HANDOFF_R10_PASTE_20260925.md` (rincian `WRITER_HANDOFF_R10_20260925.md`). Semua W putaran 8–9 tertutup pada d1bc8ad; BB T1 34/34 pada db9e276; yang harus dicek writer sekarang: revisi lampiran C6 (rev4), label W05, sen per PO stok campuran, cakupan BB (race/HTTP/UI/T2/T3/rollback) sebelum BC.
+
+
 <!-- GPT_R8_CURRENT_WRITER_BEGIN -->
 ## Tugas aktif setelah audit silang putaran 8
 

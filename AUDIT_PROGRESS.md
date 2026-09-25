@@ -870,3 +870,7 @@ QC rev6 diverifikasi dari log: healthy PASS (10), unknown COUNTEREXAMPLE (KPI 0)
 
 ## Fable — BB rev2 selesai (2026-09-25T12:25Z)
 - Run 36132808005: writer 34/34 PASS, Fable 4/4 PASS, P03 FAIL beku hanya karena cek jenis jurnal terlalu ketat (`OPENING_UNINVOICED_RECEIPT` = jurnal kewajiban awal M:831); angka semua benar. Putaran 10 "uji sendiri yang beda dari GPT" selesai: semua temuan GPT valid; tidak ada REFUTED.
+
+## Fable — cek integrasi GPT + blok tempel writer putaran 10 (2026-09-25T12:40Z)
+- Integrasi GPT atas temuan Fable (sen per PO stok campuran, run 36123155393) diperiksa: akurat; GPT mengklasifikasi UNVERIFIED (lebih ketat dari NOTED P3 Fable) dan menguji varian berurutan 3/3 PASS — konvergen. Tidak ada koreksi.
+- Blok tempel writer: `WRITER_HANDOFF_R10_PASTE_20260925.md` (banner di `AUDIT_WRITER_HANDOFF_CP6.md`).
