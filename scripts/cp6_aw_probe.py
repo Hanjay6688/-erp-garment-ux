@@ -28,6 +28,7 @@ import cp6_ao_ap_installed as api
 import cp6_ao_ap_runtime as prior
 import cp6_successor_regression as boundary
 import cp6_aw_definitions as aw
+import cp6_layers as layers
 
 OUT=AUDITOR/'cp6-proof/aw'
 r1.OUT=OUT
@@ -44,10 +45,15 @@ def aw_verified(cur):
     """T1 verification: markers plus the exact text of every function AW owns (pg_get_functiondef form)."""
     marks=cur.execute("select array_agg(version order by version) from erp.schema_migrations where version in('v2.6.20av','v2.6.20aw')").fetchone()[0]
     assert marks==['v2.6.20av','v2.6.20aw'],('AW_T1_MARKERS',marks)
-    texts={**aw.NEW_FUNCTIONS,**aw.FUNCTIONS,**aw.PUBLIC_FUNCTIONS}
+    # A function a later T1 family replaced (cp6_layers) is verified by that family, not against AW's text.
+    later=layers.superseded(cur)
+    texts={k:t for k,t in {**aw.NEW_FUNCTIONS,**aw.FUNCTIONS,**aw.PUBLIC_FUNCTIONS}.items() if k not in later}
     drift=[k for k,t in texts.items() if cur.execute('select pg_get_functiondef(%s::regprocedure)',(k,)).fetchone()[0]!=t]
     assert not drift,('AW_T1_FUNCTION_TEXT_DRIFT',drift)
-    return dict(stage='AV_PLUS_AW_T1',label=LABEL,functions=len(texts),sql_sha256=hashlib.sha256(AW_SQL.read_bytes()).hexdigest())
+    result=dict(stage='AV_PLUS_AW_T1',label=LABEL,functions=len(texts),sql_sha256=hashlib.sha256(AW_SQL.read_bytes()).hexdigest())
+    replaced=sorted(later&set({**aw.NEW_FUNCTIONS,**aw.FUNCTIONS,**aw.PUBLIC_FUNCTIONS}))
+    if replaced:result['replaced_by_later_family']=replaced
+    return result
 
 
 def install_aw():

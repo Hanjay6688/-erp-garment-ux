@@ -63,10 +63,16 @@ def az_installed(cur):
 def az_verified(cur):
     base=ayp.ay_verified(cur)
     assert az_installed(cur),'AZ_T1_MARKER'
+    # A function a later T1 family replaced (cp6_layers) is verified by that family, not against AZ's text.
+    later=awp.layers.superseded(cur)
     for signature in FUNCTIONS:
+        if signature in later:continue
         src=cur.execute('select prosrc from pg_proc where oid=%s::regprocedure',(signature,)).fetchone()[0]
         assert src==dev_source(signature),('AZ_T1_FUNCTION_NOT_CURRENT',signature)
-    return dict(base,stage='AV_PLUS_AW_AX_AY_AZ_T1',az_sql_sha256=hashlib.sha256(AZ_SQL.read_bytes()).hexdigest())
+    result=dict(base,stage='AV_PLUS_AW_AX_AY_AZ_T1',az_sql_sha256=hashlib.sha256(AZ_SQL.read_bytes()).hexdigest())
+    replaced=sorted(later&set(FUNCTIONS))
+    if replaced:result['az_replaced_by_later_family']=replaced
+    return result
 
 
 def install_az():
