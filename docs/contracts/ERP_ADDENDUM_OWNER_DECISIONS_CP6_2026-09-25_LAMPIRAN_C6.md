@@ -1,6 +1,27 @@
 # Lampiran C6 (D06): daftar acceptance per fitur aksesori dan laundry
 
-**Status: USULAN WRITER rev2, 25 September 2026.** Belum disahkan owner. Addendum induknya adalah
+**Status: USULAN WRITER rev3, 25 September 2026.** Rev3 memuat keputusan scope owner (bagian 0). Teks lampiran tetap
+harus dicocokkan auditor sebelum pengesahan formal D06.
+
+## 0. Keputusan scope owner (25 September 2026, chat sesi writer, dikutip apa adanya)
+
+> "gw mau semuanya dibikin sekarang dan diuji di cp 6 termasuk all 22 lu harus bikin dan d06. so now what?"
+
+Tafsir writer (dicocokkan auditor):
+1. **Semua baris CR-TUNDA menjadi scope CP6.** ACC-04b, LAU-05b, dan LAU-06b, termasuk ganti SKU hasil BS lewat
+   konversi dan celup ulang, dibangun di kandidat dan diuji tuntas di CP6. Tidak ada yang ditunda ke successor. Kolom
+   "Kelompok" di bagian 2 dan 3 sekarang dibaca **CR-CP6** untuk baris itu.
+2. **ALL = 22 keadaan.** Setiap keadaan di handoff §29.6 harus punya jalur impor dan lanjutan yang sah, lalu diuji dari
+   impor sampai jurnal dan layar. Ini termasuk 7 keadaan NO_ADAPTER dan 6 keadaan PARTIAL. Tidak ada histori lama yang
+   dikarang (M:369–379, M:930–938).
+3. **Baris KEBIJAKAN.** ACC-DEC01, 03–07, ERP-DEC02, dan LAU-DEC01–06 dibangun sebagai **pengaturan di aplikasi** (per
+   vendor atau per kebijakan). Defaultnya aman: ditolak atau pending sampai owner mengisi nilainya. Ini sesuai M:1757,
+   yang membolehkan master/versi/coverage tetapi tidak membolehkan mengarang tarif nyata, dasar tagihan, akun/variance,
+   atau izin baru. Setiap pilihan pengaturan diuji. Nilai nyata diisi owner saat persiapan cutover.
+4. **Pengesahan formal D06.** Dilakukan owner atas lampiran rev3 setelah auditor mencocokkannya. Penerimaan runtime
+   tetap lewat bukti per kasus (75 C6 + 22 ALL).
+
+ Belum disahkan owner. Addendum induknya adalah
 `ERP_ADDENDUM_OWNER_DECISIONS_CP6_2026-09-25.md` bagian 8. Rev1 (sha256 `72621c8a…5bc0d`, commit 5d54472) sudah ditinjau
 auditor dan diganti oleh revisi ini. Hasil tinjauan itu tetap tercatat di cabang auditor.
 
