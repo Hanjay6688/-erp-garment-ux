@@ -108,3 +108,32 @@ Vonis: **CP6 HOLD, `audit_complete=false`, `production_go=false`** — tidak ber
 ## 8. Batas putaran 9
 
 Baca saja; tidak ada push ke `claude/new-session-deapao`; tidak ada SQL ke hosted; tidak ada pesan ke pihak lain. Skenario GPT dipakai ulang hanya sebagai file beku (hash di manifest); hasil GPT putaran 9 sengaja **belum dibaca** (instruksi owner: independen dulu).
+
+## 9. Hasil run susulan (2026-09-25T10:40Z)
+
+| Run / job | Skenario | Hasil | Klasifikasi Fable |
+|---|---|---|---|
+| 36123155393 / 108033136977 | `xaudit_8.py` rev2 d7e82997 | **W8 dua penerimaan 4/4 PASS** (DIRECT/INVOICE × UP/DOWN: bahan qty 0 nilai 0, WIP 20,02 / 20,00, WIP per PO masing-masing = nilai dokumen dibulatkan). **LAU-T14 4/4 PASS** (tarif naik 7→9 dan turun: actual_rate = tarif saat kirim, actual_cost = qty × tarif kirim, estimasi tidak berubah; kontrol; **GAP**: tanpa versi tarif pada waktu kirim → ditolak atomik, tanpa baris penerimaan). **Tiga penerimaan 2 COUNTEREXAMPLE** di bawah check tambahan auditor `wip_per_po_each_equals_rounded_document` saja: total WIP 30,03 / 30,00 dan bahan 0 **benar**, tetapi per PO 10,02 / 10,00 / 10,01 (UP) dan 9,99 / 10,01 / 10,00 (DOWN) | W8 **CLOSED untuk total, per tanggal, dan bahan habis** (oracle kontrak: M:1022, M:3818/3820, M:6632 "nilai total dan per tanggal"). Sisa per-PO: M:485 secara eksplisit menerima pembagian sen deterministik antar kelompok ("5,63 dan 5,62 … seluruh sen habis terbagi"), jadi ini **NOTED (P3)**, bukan pelanggaran: HPP satu PO bisa selisih 1 sen dari dokumen bahannya sendiri saat ≥3 penerimaan dikoreksi sekaligus. Hasil beku tetap COUNTEREXAMPLE (oracle auditor lebih ketat dari kontrak); tidak dilabel ulang. LAU-T14 **CLOSED** |
+| 36123165642 / 108033168261 | `xaudit_9.py` rev1 0b1a4bf2 | **3/3 PASS**: A koreksi di periode tertutup (tanggal ekonomi E, dibukukan setelah d) → `changed_since_filing=true`, nilai d dan baris filing tidak berubah, READY; B kontrol → false; C koreksi bertanggal d+1 → false untuk d (penanda spesifik pada gambaran yang difiling) | W9 **CLOSED** (termasuk adversarial) |
+| 36123219619 / 108033340129 | CP6 T3 Rollback (rerun setelah gagal infra) | **success** | T3 rollback **VERIFIED (T3_PREP)** pada d1bc8ad |
+| 36123210828 / 108033307472 | multi-file `unknown_rev6` (GPT rev6 beku, QC) | **2/2 PASS** (`QC_HEALTHY_CONTROL`, `QC_INITIAL_READ`) | W13 QC **CLOSED** natively di browser |
+| 36123210828 / 108033307686 | multi-file `c0_adjustment_http` (GPT beku) | native `G8C0:AS:ADJUSTMENT_DATE:False:transport_rev2` **PASS** → C0 **25/25** pada d1bc8ad; HTTP Auth nyata 3/3 PASS (`VALID_FACADE_MATRIX`, `REVOKED_OWNER_READ`, `PREPARED_HELPER_REACHABILITY`); browser WIB **8 PASS + 4 INCOMPLETE**: `pickup` di 4 zona `getByLabel('Mandor',{exact:true})` timeout 20 s (cutting dan bs PASS di 4 zona) | C0 dan HTTP CLOSED. Pickup: **belum diketahui sebabnya** — di a095a9d 12/12 PASS dengan file yang sama; diff src d1bc8ad tidak menyentuh `ConnectedPickupPage.tsx`; diagnostik rev2 dijalankan (§9a) |
+| 36123210828 / 108033307694 | multi-file `recovery` (GPT rev1 beku) | 4/4 INCOMPLETE: PATTERN/ROLE **strict-mode violation** — `.pattern-error`/`.access-error` kini cocok 2 elemen: `role=alert` (pesan) **dan** `role=status` "Ada perubahan yang hasilnya belum diketahui (UUID …). Kirim ulang perubahan tertunda" (banner W10 baru); LAUNDRY/QC INITIAL_READ: KPI tetap "—" setelah muat ulang karena fixture rev1 memakai UUID seed non-v4 yang ditolak parser halaman (akar masalah putaran 8), jadi muat ulang juga gagal — tampilan "—" adalah perilaku W13 yang benar | Bukan cacat produk. Banner W10 terlihat nyata di browser (UUID tertahan). Rev2 auditor dengan locator `[role="alert"]` dijalankan (§9a); unknown Laundry dijalankan ulang dengan rev5 (fixture v4) (§9a) |
+
+### 9a. Run rev2 (workflow multi-file, commit 10940db): `recovery_rev2`, `wib_pickup_rev2`, `unknown_rev5` — hasil menyusul di §11
+
+## 10. Register setelah §9
+
+| Item | Status d1bc8ad |
+|---|---|
+| W2 grup oracle C0 di T2 | CLOSED (25/25 di T2 + retry native 25/25) |
+| W7 grup ketat race/HTTP | CLOSED |
+| W8 sen multi-penerimaan | CLOSED (total/per tanggal/bahan habis, 2 penerimaan per PO juga tepat); NOTED P3: per-PO ±1 sen pada ≥3 penerimaan; dokumen multi-bahan belum diuji |
+| W9 changed_since_filing | CLOSED |
+| LAU-T14 | CLOSED |
+| W11 pesan asli | sumber sesuai; bukti browser: rev6 QC PASS (pesan parser tidak lagi ditutupi — kasus rev6 memuat jalur ini); Laundry menunggu rev5 (§11) |
+| W13 KPI unknown | QC CLOSED (rev6 2/2); Laundry menunggu rev5 (§11) |
+| W10 identitas permintaan Pola/Role | sumber sesuai + banner terlihat; PASS/COUNTEREXAMPLE menunggu rev2 (§11) |
+| Browser WIB pickup | 4 zona INCOMPLETE (timeout label) — menunggu diagnostik rev2 (§11) |
+| T2 / T3 package / T3 rollback / CodeQL | T2 identik (holds 12/12); T3 package success; T3 rollback success (rerun); CodeQL tidak di-dispatch ulang oleh Fable (writer 36113589299 success pada 1dcf21b, REUSED) |
+| Scope owner (lampiran rev3 §0) | UNVERIFIED — ditanyakan ke owner |
