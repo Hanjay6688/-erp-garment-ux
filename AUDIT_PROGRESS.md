@@ -1,4 +1,18 @@
-# CP6 audit — writer round 9 intake; auditor rerun pending
+# CP6 audit — putaran 9 paralel, audit head d1bc8ad
+
+## Fase aktif: putaran 9 paralel, owner menetapkan seluruh CP6 (25 September 2026)
+
+**Owner scope yang harus diverifikasi tafsirnya:** lampiran C6 rev3 pada head writer `d1bc8adff3ba1a2a7001ef39e4819d0c3813d00b` §0 mencatat keputusan owner bahwa semua CR dibangun dan diuji di CP6, ALL seluruh22 keadaan; tidak ada jalur pintas “hanya data yang ada”. D06 formal belum diratifikasi sampai lampiran dicocokkan auditor. Produk identik dengan writer e10260b (diff e102..d1bc hanya lampiran C6). **CP6 HOLD · audit_complete=false · production_go=false.** Label run tetap AUDITOR_SCENARIO/T2/T3 dan bukan izin rilis.
+
+**Batch 4 agen oracle kontrak dimulai:** `out/r9_acc_oracle.md` (39 ACC), `out/r9_lau_oracle.md` (36 LAU), `out/r9_all_oracle.md` (22 ALL), `out/r9_scope_contract.md` (cek tafsir rev3 dan M:1757). Masing-masing wajib menulis bertahap, batas ~150k token, hanya Master Pulih f21ac703…, Perubahan Pulih 92966cd6…, Addendum CP7 4566ab6f… dan keputusan owner sebagai sumber. Agen tidak membaca produk family BB–BE. Setelah seluruh4 selesai atau mati, commit+push seluruh `out/` batch sebelum batch lain. Oracle saat ini **BELUM difinalisasi/di-hash**, bukan PASS.
+
+**Workflow fase bisnis dan alat disiapkan:** `.github/workflows/gpt-cp6-round9.yml`, dipicu push audit branch, mematok writer tool head d1bc8ad. Skenario `audit/scenarios/r9_round/gpt_r9_business.py` SHA256 `0831e7a1eaec067bf781e760d8cd02217a3107c7bbbf488104ff9bc84a724825` (4W8 frozen + W9 2 + LAU-T14 2); `gpt_r9_tool_unknown.py` SHA256 `5e851b22829e486e5308b0e8dbf9072a64b42064cc106f0ed074f9646dc20c85` (W7 unknown status); `gpt_tool_modes.py` SHA256 `0cad838261da653b2fd3b594042148e4ff54d1db6fa04c256add36b195c8df85` (W7 ID ganda), `gpt_round8.py` SHA256 `695faf3e6d4d393705d423940b47012ae2c9b4ccf68dc509fc7f1b7b64bee77b` (oracle W8 lama). MANIFEST `audit/scenarios/r9_round/MANIFEST.json` SHA256 `a6b7fd261fb12c6070b05760bde4a5db755df3ed9731a84e11b9956bc0755119`; workflow SHA256 `344b867dfa7652ca59b1508aa92463a3d7059ac2c27dbcac1c814cbdfb72f55c`. Syntax Python dan YAML lolos. Mode tool negatif sengaja menolak grup dan job bisa merah; itu bukti fail closed bila log menunjukkan status dan identitas yang benar.
+
+**Run ID / job ID:** BELUM sebelum push pemicu. Status gate R8 C6-01..10 di bawah adalah baseline historis (4HOLD/6UNVERIFIED); successor putaran9 masih **UNVERIFIED** hingga log auditor. Temuan lama CP6-03/05/06 dan LAU-T14 tidak ditutup oleh klaim writer atau tes writer.
+
+**LANGKAH BERIKUTNYA:** push skenario+workflow+checkpoint ini ke cabang audit; baca ID run dan job Actions serta log tiap kasus dan cleanup; commit+push setelah run selesai. Lalu fase browser W10/W11/W13 pada head beku d1bc8ad (workflow tersendiri) sambil agen membekukan oracle. Setelah batch4 selesai/mati, push catatan out beserta hash sebelum batch berikut. Review 75+22 oracle dan lampiran rev3; tulis laporan status gate dari bukti. Tidak menyentuh writer/main/competition/hosted/legacy/production.
+
+## Riwayat intake e10260b dan checkpoint putaran8
 
 ## Writer putaran 9 diterima untuk audit — checkpoint provisional, 25 September 2026
 
