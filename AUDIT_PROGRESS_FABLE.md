@@ -66,3 +66,5 @@
 - 19:30Z: round 12 BC results: gates T2/T3(27)/rollback/CodeQL all success; regression identical to r11 (xa8 2 frozen CE, C0 1 grant INCOMPLETE); F1 fix CONFIRMED
   natively (36178015645); BC PLAN 44/44 after on own workflow (36178145305); Fable adversarial cases product-clean (36178552990; auditor comparator defect → rev2
   triggered by workflow touch). Results §9, paste §2b, index fable_round12_bc. Open: D09/F3, D07, ACC-C12 key policy.
+- 19:35Z: BC probe PLAN + Fable rev2 run 36179524130: after 49/49 PASS, before per plan, mismatch {} — FROZEN for BC T1. Round 12 BC closed on the auditor side
+  except open items D09/F3, D07, ACC-C12 key policy. Waiting for writer (D09 green, D07, then BD).

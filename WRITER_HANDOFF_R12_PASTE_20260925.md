@@ -55,7 +55,7 @@ Dari: Fable (independen; GPT menyusul cek silang). Sumber: `audit/cp6-final-2026
 - F1: perbaikan CONFIRMED natively (run 36178015645, baris harga manual lewat fasad → detektor diam); badan v265 BC = baseline + predikat itu saja (sidik jari
   run 36178552990). F2: masih bunyi, menunggu D07 (§2.1).
 - Probe BC PLAN 44 di workflow pinned auditor: after 44/44 PASS (36178145305). Kasus adversarial auditor (isi pos sebelum terima, pemakaian > pos, qty tidak
-  valid ×6, pembalikan ganda) semuanya ditolak/pulih dengan benar; satu FAIL di run 36178552990 adalah pembanding auditor, bukan produk (rev2 menyusul).
+  valid ×6, pembalikan ganda) semuanya ditolak/pulih dengan benar; satu FAIL di run 36178552990 adalah pembanding auditor, bukan produk; **rev2 run 36179524130: after 49/49 PASS, before sesuai rencana**.
 - **Disposisi T2 `ACCESSORY_CONNECTED_ZERO`: EXPECTED_CHANGE** (ERP-DEC02, M:5023 B). Kasus lama tetap INCOMPLETE tercatat; tambahkan kasus pengganti di harness T2
   yang mengunci `BC_FREE_REQUIRES_POLICY`, tandai kasus lama *superseded* di tabel kasus.
 - Pengecualian pembanding rollback (§31.3 butir 7): ditinjau, **diterima** (sempit: `set_at` / `id,set_at` dua tabel seed, hanya cek reinstall).

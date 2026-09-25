@@ -1608,7 +1608,7 @@
   "bc_probe": {
    "plan_44": "36178145305 before 33/3/8 after 44/44",
    "plan_plus_fable_rev1": "36178552990 product OK, auditor comparator FAIL + before KeyError (tool)",
-   "plan_plus_fable_rev2": "pending"
+   "plan_plus_fable_rev2": "36179524130 before 33/3/9+4 NO_ROUTE, after 49/49 PASS (FROZEN)"
   },
   "t2_disposition": {
    "ACCESSORY_CONNECTED_ZERO": "EXPECTED_CHANGE_ERP_DEC02_M5023"

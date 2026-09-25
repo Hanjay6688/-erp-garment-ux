@@ -139,9 +139,9 @@ lama, butuh disposisi tertulis, belum diperbaiki) dan F3 (guard UUID halaman not
 | xaudit_12_f1f2 rev5 (fase after = dengan BC) | 36178015645 | `BC_ABSENT` FAIL **sesuai desain penjaga** (BC memang terpasang); **F1 PASS** (baris harga manual lewat fasad tidak lagi ditandai → perbaikan F1 CONFIRMED natively); F2 3 COUNTEREXAMPLE seperti pra-BC (menunggu D07); kontrol + N3 PASS | F1 CE→PASS |
 | Probe BC, PLAN writer 44 kasus, workflow pinned auditor | 36178145305 | before 33 NO_ROUTE + 3 CE + 8 PASS; **after 44/44 PASS**; mismatch {}; primary_unchanged | = run writer 36174363546 |
 | Probe BC PLAN + 5 kasus Fable (rev1) | 36178552990 | after: FAB fill-sebelum-terima ditolak `AM_BACKDATE_WOULD_CREATE_NEGATIVE_LOCATION_ROLL_HISTORY` PASS; pemakaian melebihi pos ditolak, tepat 20 diterima, +1 ditolak PASS; 6 bentuk qty tidak valid ditolak `BC_QTY_INVALID` PASS; pembalikan ganda: produk menolak `BC_ALREADY_REVERSED` dan buku pulih, **FAIL hanya pada pembanding stok auditor** (`'0'` vs `'0.000000'`); sidik jari: v265 BC = baseline + predikat harga manual saja (sha ternormalisasi sama), v255 identik. before: 4 INCOMPLETE = KeyError zona (alat auditor). Run beku apa adanya. | — |
-| Probe BC PLAN + 5 kasus Fable (rev2) | (menyusul) | pembanding Decimal, probe NO_ROUTE tanpa zona | — |
+| Probe BC PLAN + 5 kasus Fable (rev2) | **36179524130** | **before 33 NO_ROUTE + 3 CE + 9 PASS + 4 NO_ROUTE FAB (mismatch {}); after 49/49 PASS** (44 PLAN + 4 adversarial + sidik jari); primary_unchanged | run beku putaran ini untuk BC T1 |
 
-Kesimpulan sementara BC (T1 + gate): **tidak ada cacat produk baru** pada kasus writer (44) maupun kasus auditor (4 adversarial + sidik jari). Yang masih terbuka: D09 browser
+Kesimpulan BC (T1 + gate), run beku 36179524130 + gate §9: **tidak ada cacat produk baru** pada kasus writer (44) maupun kasus auditor (4 adversarial + sidik jari). Yang masih terbuka: D09 browser
 halaman nota (F3), D07 (F2), ACC-C12 key baru (kebijakan), `ACCESSORY_CONNECTED_ZERO` (disposisi §10 sudah ditulis, writer menambah kasus pengganti).
 
 ## 10. Disposisi T2 `ACCESSORY_CONNECTED_ZERO` (PASS → INCOMPLETE pada head BC)
