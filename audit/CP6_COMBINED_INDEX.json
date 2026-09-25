@@ -682,7 +682,7 @@
    "result": "PASS 2/2 — CP6-19 REFUTED on legit app path"
   }
  ],
- "fable_last_update": "2026-09-25T05:06:51Z",
+ "fable_last_update": "2026-09-25T05:29:02Z",
  "adversarial_verification_round": {
   "at": "2026-09-24T22:33:14Z",
   "findings": [
@@ -729,6 +729,19 @@
    "provenance": "Konfirmasi langsung owner di sesi audit Fable (chat claude.ai/code session_01Lr2LJrWiWmYCCUgwrZnJeY), 25 Sep 2026 ~01:25 UTC: \"Ya, semua sesuai usulan\" untuk D01–D06 termasuk akun lawan AX = pendapatan lain-lain (OTHER_INCOME). Label: OWNER_CONFIRMED_CHAT. Tiga kontrak (M/P/BR) belum berubah; addendum bernomor masih harus ditulis writer dan disahkan owner secara tertulis.",
    "contract_files_changed": false,
    "label": "OWNER_CONFIRMED_CHAT"
+  },
+  "addendum_text_confirmation": {
+   "at": "2026-09-25T05:29:02Z",
+   "hash_sections_1_8": "d39762da0520f30268a73244e7471b7d990138e3cbe36475d639c7cfca8e926d",
+   "commit": "5d54472",
+   "label": "OWNER_CONFIRMED_TO_AUDITOR",
+   "scope": "D01–D05"
+  },
+  "d03_5_3_confirmation": {
+   "at": "2026-09-25T05:29:02Z",
+   "answer": "Boleh posting, dicatat unknown",
+   "conditions": "model PO+ukuran cocok; merek/warna terisi wajib cocok; kosong = unknown bukan cocok; dasar penetapan disimpan; WIP lama tidak ditolak karena atribut belum lengkap",
+   "candidate_behaviour_matches": true
   }
  },
  "candidate_r8": {
@@ -869,7 +882,7 @@
    "addendum_sha256_verified": "e83d56e66812011c9a7a4057bf29987d0bcf62aabc17ad23ab422170abb00c99",
    "sections_1_8_at_5d54472": "d39762da0520f30268a73244e7471b7d990138e3cbe36475d639c7cfca8e926d",
    "annex_c6_sha256_verified": "72621c8a978573506b8c829a2a8790de948f6cb10e83ecd14dfddf35d495bc0d",
-   "section9_quote_label": "UNVERIFIED_OWNER_DECISION (writer-chat quote) until owner confirms addendum text to auditor"
+   "section9_quote_label": "OWNER_CONFIRMED_TO_AUDITOR (2026-09-25T05:29:02Z) for sections 1–8 hash d39762da…; D06 pending C6 revision"
   },
   "c6_review": "out/fable_c6_annex_review.md — 9/11 cocok; ACC-04 dan LAU-05 salah label CR-TUNDA; 7 sub-keputusan M:4448-4479 tanpa baris; D06 belum bisa disahkan",
   "t2_oracles": "out/fable_t2_oracles_post_addendum.md — 24/25 PASS di bawah D01, ADJUSTMENT_DATE INCOMPLETE (fixture); CP6-07/18 oracle",

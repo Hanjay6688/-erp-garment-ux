@@ -393,3 +393,8 @@ Handoff writer disimpan: `audit/input/WRITER_HANDOFF_R8_20260925.md`. Hasil: `ou
 
 ## Fable — rev3 xaudit_5 selesai (2026-09-25T05:06:51Z)
 Run 36096552454 / job 107949919590 (sha ca2f7301…): R1 dua sesi PASS, R2 PASS, R3 CE-on-message (A7), H2/H3 PASS. Semua rerun putaran 8 selesai; `out/fable_r8_results.md` §9 final. Menunggu: owner O1–O3, writer W1–W6 (banner handoff).
+
+## Fable — konfirmasi owner (2026-09-25T05:29:02Z)
+- Owner (sesi auditor, 2026-09-25T05:29:02Z): "Ya, teks itu sah" — addendum C0 bagian 1–8 hash d39762da0520f30268a73244e7471b7d990138e3cbe36475d639c7cfca8e926d (commit 5d54472) disahkan untuk D01–D05. Label: OWNER_CONFIRMED_TO_AUDITOR.
+- Owner (sesi auditor, 2026-09-25T05:29:02Z) atas D03 §5.3: "Boleh posting, dicatat unknown." Syarat yang dinyatakan owner: model PO dan ukuran tetap cocok; merek/warna yang terisi wajib cocok; yang kosong dicatat unknown, bukan dianggap cocok; produk hasil ditetapkan saat penyelesaian dan dasar penetapannya disimpan; WIP lama tidak perlu ditolak hanya karena atribut sumbernya belum lengkap. Perilaku kandidat a095a9d sesuai (xaudit_7 A10_UNBOUND_BRAND_ONLY_COLOR_UNKNOWN_POSTS, writer UNBOUND_SOURCE_NO_ATTRIBUTES_CONTROL). Pertanyaan terbuka #1 di out/fable_t2_oracles_post_addendum.md TERTUTUP.
+- Terbuka: O2 (D06 setelah C6 direvisi), writer W1–W6. Verdict tetap CP6 HOLD, audit_complete=false, production_go=false.

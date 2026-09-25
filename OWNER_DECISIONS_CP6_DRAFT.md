@@ -156,3 +156,8 @@ Status: draft ini tetap USULAN; catatan di bawah adalah pendapat auditor untuk m
 | D06 | Setuju A. Daftar acceptance ID per fitur (baseline / CR sudah masuk / CR ditunda / dependensi CP7) dibuat writer, direview auditor. | GATE-16 turun dari HOLD ke ACCEPT hanya setelah daftar itu disahkan owner. |
 
 Urutan yang saya sarankan: D01 dan D02 dulu (mempengaruhi 25 kasus T2 + CP6-07), lalu D03 (CP6-18), D05 (akun lawan), D04, D06.
+
+## Konfirmasi owner langsung ke auditor (2026-09-25T05:29:02Z)
+- Owner (sesi auditor, 2026-09-25T05:29:02Z): "Ya, teks itu sah" — addendum C0 bagian 1–8 hash d39762da0520f30268a73244e7471b7d990138e3cbe36475d639c7cfca8e926d (commit 5d54472) disahkan untuk D01–D05. Label: OWNER_CONFIRMED_TO_AUDITOR.
+- Owner (sesi auditor, 2026-09-25T05:29:02Z) atas D03 §5.3: "Boleh posting, dicatat unknown." Syarat yang dinyatakan owner: model PO dan ukuran tetap cocok; merek/warna yang terisi wajib cocok; yang kosong dicatat unknown, bukan dianggap cocok; produk hasil ditetapkan saat penyelesaian dan dasar penetapannya disimpan; WIP lama tidak perlu ditolak hanya karena atribut sumbernya belum lengkap. Perilaku kandidat a095a9d sesuai (xaudit_7 A10_UNBOUND_BRAND_ONLY_COLOR_UNKNOWN_POSTS, writer UNBOUND_SOURCE_NO_ATTRIBUTES_CONTROL). Pertanyaan terbuka #1 di out/fable_t2_oracles_post_addendum.md TERTUTUP.
+- D06: masih menunggu revisi lampiran C6 (lihat `out/fable_c6_annex_review.md`, `out/gpt_round8_c6_review.md`).
