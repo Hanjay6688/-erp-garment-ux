@@ -291,14 +291,18 @@ CREATE OR REPLACE FUNCTION erp.bb_labour_workspace_v1(p_batch uuid)
  RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
 AS $function$
   select jsonb_build_object('payroll_entitlements',coalesce((select jsonb_agg(jsonb_build_object('id',e.id,'kind',e.kind,
-      'contractor_code',c.contractor_code,'contractor_name',c.contractor_name,'document_number',e.document_number,'line_number',e.line_number,
+      'contractor_id',e.contractor_id,'contractor_code',c.contractor_code,'contractor_name',c.contractor_name,'document_number',e.document_number,'line_number',e.line_number,
       'document_date',e.document_date,'amount',e.amount::text,'balance_id',e.balance_id,'rate',e.rate::text,'detail',e.detail,
       'carry_qty',e.carry_qty::text,'carry_remaining',(e.carry_qty-erp.bb_entitlement_carry_used_v1(e.id))::text,
       'carry_lines',coalesce((select jsonb_agg(jsonb_build_object('payroll_id',p.id,'payroll_number',p.payroll_number,'status',p.status,
           'row_version',p.row_version::text,'qty',r.opening_carry_qty::text,'amount',r.amount::text) order by p.period_end,p.id)
         from erp.payroll_reimbursements r join erp.payroll_settlements p on p.id=r.payroll_id
         where r.opening_carry_entitlement_id=e.id and p.status<>'REVERSED'),'[]'::jsonb)) order by c.contractor_code,e.document_number,e.line_number)
-    from erp.bb_payroll_entitlements_v1 e join erp.contractors c on c.id=e.contractor_id where e.batch_id=p_batch),'[]'::jsonb))
+    from erp.bb_payroll_entitlements_v1 e join erp.contractors c on c.id=e.contractor_id where e.batch_id=p_batch),'[]'::jsonb),
+    'entitlement_payrolls',coalesce((select jsonb_agg(jsonb_build_object('id',p.id,'payroll_number',p.payroll_number,'contractor_id',p.contractor_id,
+        'period_end',p.period_end,'row_version',p.row_version::text) order by p.period_end,p.id)
+      from erp.payroll_settlements p where p.status in('DRAFT','CALCULATED','REVIEW') and exists(select 1 from erp.bb_payroll_entitlements_v1 e
+        where e.batch_id=p_batch and e.contractor_id=p.contractor_id and e.carry_qty>0)),'[]'::jsonb))
 $function$;
 
 CREATE OR REPLACE FUNCTION erp.bb_labour_revision_part_v1(p_batch uuid)

@@ -3,6 +3,7 @@ import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import ConnectedInitialImportPage, { parseInitialImportWorkspace } from './ConnectedInitialImportPage'
+import { parseInitialProductionSources } from './initialProduction'
 import { recoveryIdentity } from '../tests/fixtures/productionRecovery'
 import { readProductionRecovery } from './productionRecovery'
 const auth = vi.hoisted(() => ({ current: null as unknown }))
@@ -27,10 +28,10 @@ async function change(input: HTMLInputElement | HTMLSelectElement, value: string
 function button(text: string) { const b=[...container.querySelectorAll('button')].find(b=>b.textContent?.includes(text));if(!b)throw new Error(text+' missing '+container.textContent);return b }
 async function click(text:string) { await act(async()=>button(text).click());await flush() }
 function server() {
- const state={version:1,status:'DRAFT',rows:[] as { id:string;entity:string;source_row_no:number;payload:Record<string,string>;validation_status:string;errors:string[];applied:boolean }[],cash_advances:[] as Record<string,unknown>[],advance_payrolls:[] as Record<string,unknown>[],prepayments:[] as Record<string,unknown>[],prepayment_cash_accounts:[] as Record<string,unknown>[],production_sources:[] as Record<string,unknown>[],lose:false,stale:false,effects:0}
+ const state={version:1,status:'DRAFT',rows:[] as { id:string;entity:string;source_row_no:number;payload:Record<string,string>;validation_status:string;errors:string[];applied:boolean }[],cash_advances:[] as Record<string,unknown>[],advance_payrolls:[] as Record<string,unknown>[],prepayments:[] as Record<string,unknown>[],prepayment_cash_accounts:[] as Record<string,unknown>[],production_sources:[] as Record<string,unknown>[],bb:null as Record<string,unknown>|null,lose:false,stale:false,effects:0}
  const cache=new Map<string,unknown>()
  client.rpc.mockImplementation(async(name:string,args:Record<string,unknown>)=>{
-  if(name==='erp_get_initial_import_workspace_v1')return {data:{recent:[{id,batch_code:'AWAL',status:state.status}],batch:args.p_batch_id?{id,code:'AWAL',status:state.status,cutover_at:'2026-09-20T00:00:00+07:00',revision:rev(state.version),rows:state.rows,cash_advances:state.cash_advances,advance_payrolls:state.advance_payrolls,prepayments:state.prepayments,prepayment_cash_accounts:state.prepayment_cash_accounts,production_sources:state.production_sources}:null},error:null}
+  if(name==='erp_get_initial_import_workspace_v1')return {data:{recent:[{id,batch_code:'AWAL',status:state.status}],batch:args.p_batch_id?{id,code:'AWAL',status:state.status,cutover_at:'2026-09-20T00:00:00+07:00',revision:rev(state.version),rows:state.rows,cash_advances:state.cash_advances,advance_payrolls:state.advance_payrolls,prepayments:state.prepayments,prepayment_cash_accounts:state.prepayment_cash_accounts,production_sources:state.production_sources,...(state.bb??{})}:null},error:null}
   const payload=args.p_payload as Record<string,unknown>, key=String(args.p_client_request_id)
   if(!cache.has(key)) {
    if(state.stale){state.version++;return {data:null,error:{code:'P0001',message:'STALE_VERSION'}}}
@@ -212,5 +213,54 @@ describe('every editable import batch stays selectable (CP6-04)',()=>{
   await change(select,recent[59].id)
   expect(client.rpc.mock.calls.at(-1)?.[1]).toEqual({p_batch_id:recent[59].id})
   expect(container.textContent).toContain('AWAL-59')
+ })
+
+ const bb=()=>({opening_balances:[{balance_id:rowId,balance_type:'SUPPLIER_PAYABLE',source_kind:'BALANCE',source_mode:'DOCUMENT',party_type:'SUPPLIER',party_id:id,party_code:'SUP',party_name:'Supplier Lama',
+   document_number:'INV-9',document_date:'2026-08-01',due_date:null,cutover_date:'2026-09-20',original_amount:'100.00',settled_before_cutover:'35.00',opening_amount:'65.00',settled_amount:'0.00',
+   reserved_amount:'0.00',remaining_amount:'65.00',available_amount:'65.00',status:'OPEN',settlements:[],payroll_lines:[]}],
+  opening_payable_payrolls:[],legacy_documents:[],customer_credits:[],sale_return_rights:[],fg_locations:[],purchase_commitments:[],payroll_entitlements:[],entitlement_payrolls:[],opening_reworks:[]})
+ it('BB: pays an opening payable once with its cash account and exact amount; history before cutover stays history',async()=>{
+  const s=server();s.status='POSTED';s.bb=bb();s.prepayment_cash_accounts=[{id:rowId,name:'Bank BCA'}]
+  await mount();expect(container.textContent).toContain('Pelunasan saldo awal');expect(container.textContent).toContain('Rp 35,00')
+  expect(button('Bayar').disabled).toBe(true)
+  await change(container.querySelector('select[aria-label="Rekening pelunasan"]')!,rowId)
+  for(const [label,value] of [['Nominal saldo awal','20,50'],['Tanggal pelunasan saldo awal','2026-09-22'],['Alasan pelunasan saldo awal','Transfer sebagian']])await change(container.querySelector(`input[aria-label="${label}"]`)!,value)
+  await click('Bayar')
+  const sent=writes()[0][1];expect(sent.p_action).toBe('OPENING_SETTLEMENT')
+  expect(sent.p_payload).toMatchObject({operation:'SETTLE',balance_id:rowId,amount:'20.50',effective_date:'2026-09-22',cash_account_id:rowId,reason:'Transfer sebagian',expected_revision:rev(1)})
+ })
+ it('BB: cut pieces waiting at cutover are picked up first; no completion is offered before the pickup',async()=>{
+  const s=server();s.status='POSTED';s.bb=bb()
+  s.production_sources=[{opening_item_id:rowId,batch_id:id,source_key:'WIP-C',po_number:'PO-C',balance_type:'WIP',stage:'CUTTING',size_code:'M',qty_pcs:8,completed_qty_pcs:0,remaining_qty_pcs:8,
+   contractor_name:null,vendor_name:null,original_amount:'40.00',current_amount:'40.00',outputs:[],current_stage:'CUTTING',location_code:'MEJA-1',bb:{pickup:null,split_qty_pcs:0,splits:[]}}]
+  await mount();expect(container.textContent).toContain('Menunggu pickup di lokasi MEJA-1');expect(()=>button('Sahkan hasil WIP awal')).toThrow()
+  for(const [label,value] of [['Mandor pickup','EPI'],['Tanggal pickup','2026-09-21'],['Catatan pickup','Diambil mandor']])await change(container.querySelector(`input[aria-label="${label}"]`)!,value)
+  await click('Catat pickup')
+  expect(writes()[0][1].p_payload).toMatchObject({operation:'PICKUP',contractor_code:'EPI',date:'2026-09-21',opening_item_id:rowId,expected_remaining:'8'})
+ })
+ it('BB: a split BS reduces the remaining pieces and can be undone only while untouched',async()=>{
+  const s=server();s.status='POSTED';s.bb=bb()
+  s.production_sources=[{opening_item_id:rowId,batch_id:id,source_key:'WIP-S',po_number:'PO-S',balance_type:'WIP',stage:'SEWING',size_code:'M',qty_pcs:8,completed_qty_pcs:0,remaining_qty_pcs:6,
+   contractor_name:'Epi',vendor_name:null,original_amount:'40.00',current_amount:'40.00',outputs:[],current_stage:'SEWING',location_code:null,
+   bb:{pickup:null,split_qty_pcs:2,splits:[{id:rowId,bs_case_id:id,bs_number:'OWBS-1',bs_status:'OPEN',qty_pcs:2,stage_from:'SEWING',date:'2026-09-22',reversed:false,resolved_qty_pcs:0}]}}]
+  await mount();expect(container.textContent).toContain('Dipisah BS 2 pcs')
+  await change(container.querySelector('input[aria-label="Catatan hasil WIP"]')!,'Salah pisah')
+  await click('Batalkan pisah BS 2026-09-22')
+  expect(writes()[0][1].p_payload).toMatchObject({operation:'REVERSE_SPLIT',split_id:rowId,expected_remaining:'6'})
+ })
+ it('BB: continuations are all present or all absent; a partial set is an incomplete read',()=>{
+  const batch:Record<string,unknown>={id,code:'A',status:'POSTED',cutover_at:'2026-09-20T00:00:00Z',revision:rev(1),rows:[],cash_advances:[],advance_payrolls:[],prepayments:[],prepayment_cash_accounts:[],production_sources:[]}
+  expect(parseInitialImportWorkspace({recent:[],batch}).batch?.bb).toBeNull()
+  expect(parseInitialImportWorkspace({recent:[],batch:{...batch,...bb()}}).batch?.bb?.opening_balances[0].remaining_amount).toBe('65.00')
+  const partial:Record<string,unknown>={...batch,...bb()};delete partial.opening_reworks
+  expect(()=>parseInitialImportWorkspace({recent:[],batch:partial})).toThrow('tidak terbaca lengkap')
+  expect(()=>parseInitialImportWorkspace({recent:[],batch:{...batch,...bb(),opening_balances:[{...bb().opening_balances[0],remaining_amount:65}]}})).toThrow()
+ })
+ it('BB: a WIP whose remaining plus completed plus split pieces is not its quantity is refused',()=>{
+  const source={opening_item_id:rowId,batch_id:id,source_key:'W',po_number:'P',balance_type:'WIP',stage:'SEWING',size_code:'M',qty_pcs:8,completed_qty_pcs:0,remaining_qty_pcs:8,
+   contractor_name:'Epi',vendor_name:null,outputs:[],current_stage:'SEWING',location_code:null,bb:{pickup:null,split_qty_pcs:2,splits:[{id:rowId,bs_case_id:id,bs_number:'B',bs_status:'OPEN',qty_pcs:2,stage_from:'SEWING',date:'2026-09-22',reversed:false,resolved_qty_pcs:0}]}}
+  expect(()=>parseInitialProductionSources([source])).toThrow('tidak cocok')
+  expect(parseInitialProductionSources([{...source,remaining_qty_pcs:6}])[0].bb?.split_qty_pcs).toBe(2)
+  expect(()=>parseInitialProductionSources([{...source,stage:'CUTTING',current_stage:'SEWING',remaining_qty_pcs:6}])).toThrow()
  })
 })

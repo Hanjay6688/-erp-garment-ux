@@ -1,7 +1,28 @@
-import catalog from './initialImportCatalog.json'
+import baseCatalog from './initialImportCatalog.json'
+import bbCatalog from './initialImportCatalogBB.json'
+
+type CatalogSpec = { label: string; required: readonly string[]; fields: Record<string, string> }
+const { _extend: bbExtensions, ...bbEntities } = bbCatalog
+type Entity = keyof typeof baseCatalog | keyof typeof bbEntities
+
+/** The server's catalog (BB): the AP catalog, the BB files, and the BB fields added to AP files after their own fields. */
+function mergeCatalog(): Record<Entity, CatalogSpec> {
+  const merged: Record<string, CatalogSpec> = {}
+  for (const [key, spec] of Object.entries(baseCatalog) as [string, CatalogSpec][]) merged[key] = { ...spec, fields: { ...spec.fields } }
+  for (const [key, spec] of Object.entries(bbEntities) as [string, CatalogSpec][]) {
+    if (key in merged) throw new Error(`Katalog impor ganda: ${key}`)
+    merged[key] = spec
+  }
+  for (const [key, more] of Object.entries(bbExtensions) as [string, { fields: Record<string, string> }][]) {
+    if (!(key in merged) || Object.keys(more.fields).some(field => field in merged[key].fields)) throw new Error(`Perluasan katalog impor tidak valid: ${key}`)
+    merged[key].fields = { ...merged[key].fields, ...more.fields }
+  }
+  return merged as Record<Entity, CatalogSpec>
+}
+const catalog = mergeCatalog()
 
 export { catalog as initialImportCatalog }
-export type InitialImportEntity = keyof typeof catalog
+export type InitialImportEntity = Entity
 export type InitialImportRow = { source_row_no: number; payload: Record<string, string> }
 export const MAX_IMPORT_BYTES = 5 * 1024 * 1024
 export const MAX_IMPORT_ROWS = 5000
@@ -50,15 +71,15 @@ function mapHeaders(record: CsvRecord, entity: InitialImportEntity) {
   })
   if (new Set(keys).size !== keys.length) throw new Error(`Baris ${record.line}: ada kolom yang ditulis dua kali.`)
   const missing = spec.required.filter((key) => !keys.includes(key))
-  if (missing.length) throw new Error(`Kolom wajib belum ada: ${missing.map((key) => (spec.fields as Record<string, string>)[key]).join(', ')}.`)
+  if (missing.length) throw new Error(`Kolom wajib belum ada: ${missing.map((key) => spec.fields[key]).join(', ')}.`)
   return keys
 }
 
 /** Monetary and quantity cells remain decimal text through the entire transport. */
 export function parseInitialImportCsv(source: string, entity: InitialImportEntity): InitialImportRow[] {
   if (new TextEncoder().encode(source).length > MAX_IMPORT_BYTES) throw new Error('Ukuran file maksimal 5 MB.')
-  const text = source.replace(/^\uFEFF/, '')
-  if (/[\u0000-\u0008\u000B\u000C\u000E-\u001F\uFFFD]/u.test(text)) throw new Error('File memuat karakter rusak. Simpan ulang sebagai CSV UTF-8 dari Excel.')
+  const text = source.replace(/^﻿/, '')
+  if (/[\u0000-\u0008\u000B\u000C\u000E-\u001F�]/u.test(text)) throw new Error('File memuat karakter rusak. Simpan ulang sebagai CSV UTF-8 dari Excel.')
   const candidates: { rows: CsvRecord[]; keys: string[] }[] = []
   const failures: Error[] = []
   for (const delimiter of [',', ';', '\t']) {
@@ -94,5 +115,5 @@ export async function readInitialImportFile(file: File, entity: InitialImportEnt
 }
 
 export function initialImportTemplate(entity: InitialImportEntity) {
-  return '\uFEFF' + Object.values(catalog[entity].fields).map((label) => `"${label.replaceAll('"', '""')}"`).join(',') + '\r\n'
+  return '﻿' + Object.values(catalog[entity].fields).map((label) => `"${label.replaceAll('"', '""')}"`).join(',') + '\r\n'
 }
