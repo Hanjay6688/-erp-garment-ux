@@ -233,7 +233,7 @@ jobs:
       run: 'set -euo pipefail
 
         python ../auditor/scripts/cp6_auditor_scenario.py --phase after --scenario ../audit-source/audit/scenarios/recovery_round8/browser_only.py
-        --browser ../audit-source/audit/scenarios/recovery_round8/gpt_recovery_browser_rev2.mjs
+        --browser ../audit-source/audit/scenarios/recovery_round8/gpt_recovery_browser.mjs
 
         '
     - name: Remove disposable database

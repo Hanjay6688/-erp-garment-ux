@@ -1,5 +1,12 @@
 # CP6 audit — active round 8 checkpoint
 
+## Recovery run36101907250 completed INCOMPLETE — auditor path error
+
+Job107966011162, log SHA256523590ddadb0fd232ccabbf3151123d503ded3cc5efa58d811d13147508aceb1: browser file path erroneously ended `_rev2.mjs` after workflow phase replacement. **All four browser cases NOT_RUN**, no product failure or PASS. Native factory empty intentionally. Primary_unchanged=true, clone_remaining0. Full error/identity/log-line data in `out/gpt_recovery_run_36101907250.json`.
+
+This commit corrects exactly the workflow `--browser` filename to `gpt_recovery_browser.mjs`. Scenario/fixture/oracle hashes remain unchanged. LANGKAH BERIKUTNYA: capture new run/job from this push, then obtain per-case JSON and cleanup. CP6 HOLD, audit_complete=false, production_go=false.
+
+
 ## ALL round8 source/evidence binding completed
 
 `out/gpt_all_round8_binding.{md,json}` retains all22states/6families and maps partial native evidence for P01/A01/W02/W03/C01. Nine original cited blobs are unchanged on9dd7bc2; BA runtime overrides remain a qualification. No full-row acceptance or new defect inferred from source identity or missing locators. ALL stays contract-decided, C6-04 UNVERIFIED. Recovery/unknown run36101907250/job107966011162 still in flight. LANGKAH BERIKUTNYA: collect that run, then review admitted opening continuation adapters and prior evidence before choosing the next native batch. CP6 HOLD.
