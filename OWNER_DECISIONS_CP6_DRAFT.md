@@ -121,3 +121,23 @@ Semua D01–D06: **USULAN / BELUM DISAHKAN**.
 Owner dapat memilih A atau B per ID, atau menuliskan perubahan pada klausul tertentu. Catat jawaban persis dan tanggal; susun addendum bernomor yang mengacu klausul tiga kontrak dan menyebut bagian yang diperjelas/diubah. Jangan mengklaim “kontrak sudah diperbarui” hanya dari commit draft ini.
 
 Setelah pengesahan, writer menerapkan perilaku yang dipilih; auditor mengunci oracle dan menjalankan bukti pada source yang tepat. Gate keseluruhan tidak otomatis ACCEPT, dan tidak ada production GO dari keputusan kebijakan saja.
+
+## Catatan auditor Fable (25 Sep 2026) — pembacaan atas draft ini
+
+Status: draft ini tetap USULAN; catatan di bawah adalah pendapat auditor untuk membantu owner memilih, bukan persetujuan.
+
+**Dua hal yang sudah diputuskan kontrak dan saya ubah perlakuannya di register:**
+- ALL (M:1024): CP6-17 bukan lagi pertanyaan owner. Tugas auditor: buktikan cakupan (22 state / 6 keluarga per crosswalk GPT) lewat transport CSV, caller, lifecycle, browser. Status index: `CONTRACT_DECIDED_COVERAGE_OPEN`.
+- Draft prepared boleh diedit (M:1025, M:3817): CP6-19 diuji ulang lewat jalur aplikasi yang sah (CREATE → SAVE_FILE → VALIDATE/FINALIZE → SAVE_FILE ulang → FINALIZE; skenario `audit/scenarios/xaudit_6.py`, run 36080176237). Hasil SI-04 (edit SQL langsung) tidak dipakai sebagai bukti reachability.
+
+**Pendapat auditor per pilihan (semua mendukung Rekomendasi A, dengan catatan):**
+| ID | Pendapat | Konsekuensi pada temuan/oracle |
+|---|---|---|
+| D01 | Setuju A. Perilaku kandidat 9add57e yang saya ukur (date_family_1/2: leg bahan pada E, leg WIP/FG/COGS pada hari pindah tahap; tanpa AZ terjadi WIP negatif) sudah konsisten dengan A. Yang harus ditulis eksplisit: aturan hari untuk penyesuaian bahan (ADJUSTMENT_DATE) dan batas periode (receipt tertutup, tahap terbuka). | 8 AS + 12 kalender + 2 AO terbuka mendapat oracle tertulis; auditor menulis oracle baru (bukan mengganti expected lama) lalu rerun T2 pada head baru. Fixture QUIETED/PAYROLL_APPROVED harus dinyatakan di log run. |
+| D02 | Setuju A. Dengan A, CP6-07 kembali menjadi cacat produk yang wajib diperbaiki (refund 100 pada 21 Sep ditolak karena kapasitas as-of 67,25), dan kelas AUD-S04 (stok) ikut diselesaikan dengan aturan yang sama. Dengan B, CP6-07 tetap P2 "as-of" dan owner harus mendaftar transaksi yang boleh memakai kapasitas current. | Oracle CP6-07: penolakan persis pada refund/pemakaian bertanggal yang melebihi kapasitas as-of; positive control: refund pada/setelah tanggal koreksi. |
+| D03 | Setuju A. Kandidat saat ini tidak mengikat (SI-01: produk A/brand A/Blue → diselesaikan sebagai B/Red; `cp6_az_t1_family.sql:855-862` tidak merujuk product_id item opening). Dengan A, CP6-18 menjadi cacat P2 yang wajib diperbaiki; dengan B, UI harus memberi nama field "petunjuk" dan tetap menolak beda warna/material/ukuran. | Oracle CP6-18: completion dengan produk ≠ item opening (bila diisi) ditolak persis; bila kosong, harus lolos pemeriksaan kecocokan yang didokumentasikan. |
+| D04 | Setuju A dengan syarat: per-date scoping hanya untuk cek yang lineage tanggalnya terbukti; sisanya tetap blok semua tanggal (= perilaku sekarang). Ini tidak mengubah temuan; hanya mengurangi false BLOCKED. | Tidak ada temuan yang bergantung; F1-03/CP6-14 tetap soal deklarasi fixture. |
+| D05 | Setuju A. Perilaku AX yang saya uji sudah sesuai profil ini (nol eksplisit ditolak saat pembanding ada; konservasi; periode tertutup). Yang belum diputus hanya akun lawan OTHER_INCOME — perlu ratifikasi eksplisit owner. | Bila akun lawan diganti, jurnal AX dan reversal diuji ulang (fg_acc_1). |
+| D06 | Setuju A. Daftar acceptance ID per fitur (baseline / CR sudah masuk / CR ditunda / dependensi CP7) dibuat writer, direview auditor. | GATE-16 turun dari HOLD ke ACCEPT hanya setelah daftar itu disahkan owner. |
+
+Urutan yang saya sarankan: D01 dan D02 dulu (mempengaruhi 25 kasus T2 + CP6-07), lalu D03 (CP6-18), D05 (akun lawan), D04, D06.

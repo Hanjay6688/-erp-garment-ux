@@ -317,10 +317,12 @@
       ],
       "title": "ALL sudah disetujui; kelengkapan implementasi masih terbuka",
       "priority": "coverage HOLD/UNVERIFIED",
-      "status": "APPROVAL_CONFLICT_REFUTED_COVERAGE_OPEN",
+      "status": "CONTRACT_DECIDED_COVERAGE_OPEN",
       "oracle": "M1024 supersedesM1072–1078; M138/1043 tetapkewajibanALL.",
       "evidence": "Bukan dua keputusan aktif. GPT22state/6familycrosswalk tersedia; fullnativebrowserCSV/lifecycle belum.",
-      "next": "Lanjut master/stockvalue/cashARAPadvance/opendocs/WIP/BS/costorigins; jangan minta owner memilihALL ulang."
+      "next": "Lanjut master/stockvalue/cashARAPadvance/opendocs/WIP/BS/costorigins; jangan minta owner memilihALL ulang.",
+      "fable_update": "Owner 25 Sep: ALL diputuskan M:1024. Bukan pertanyaan owner. Tugas auditor: bukti cakupan 22 state/6 keluarga (transport CSV, caller, lifecycle, browser).",
+      "updated_at": "2026-09-25T01:02:13Z"
     },
     {
       "id": "CP6-18",
@@ -347,12 +349,13 @@
       ],
       "title": "Finalisasi setelah draft prepared diedit",
       "priority": null,
-      "status": "COUNTEREXAMPLE_NATIVE_REACHABILITY_OPEN",
+      "status": "RETEST_VIA_LEGIT_APP_PATH_DISPATCHED",
       "oracle": "M1025,3817: latestdraft underlock, preparedlama stale, sumber/control sesuai.",
       "evidence": "OriginalSI04 tersedia di audit/scenarios/stock_import_scenario.py, belumnative.",
       "next": "Edit WIPsource/control setelahprepare melalui realfacade, finalize,replay,aggregateledger, atomicrefusal.",
       "fable_native_update": "SI-04 (run 36065350201): item DRAFT ter-prepare diedit 8→4 lalu FINALIZE POSTED dengan sumber 8/40 dan stage 8. Caveat: edit via SQL sebagai ordinary + grant USAGE test-only runtime.",
-      "updated_at": "2026-09-24T22:14:39Z"
+      "updated_at": "2026-09-25T01:02:13Z",
+      "fable_update": "Owner 25 Sep: M:1025/M:3817 mengizinkan edit draft; SI-04 (edit SQL) bukan bukti reachability. Uji ulang jalur aplikasi sah (SAVE_FILE ulang setelah VALIDATE / setelah FINALIZE ditolak) — xaudit_6.py run 36080176237."
     },
     {
       "id": "CP6-20",
@@ -656,6 +659,11 @@
     ],
     "native_results_not_reverified_in_this_task": true,
     "contract_changes": false,
-    "production_go": false
+    "production_go": false,
+    "fable_annotation": {
+      "at": "2026-09-25T01:02:13Z",
+      "file": "OWNER_DECISIONS_CP6_DRAFT.md#catatan-auditor-fable",
+      "position": "mendukung Rekomendasi A untuk D01–D06 dengan catatan; urutan D01,D02,D03,D05,D04,D06"
+    }
   }
 }
