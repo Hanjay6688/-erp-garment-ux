@@ -1,0 +1,51 @@
+{
+ "label": "T3_PREP",
+ "run": 36113911869,
+ "head_sha": "61d88ee5224b2fb2da2af6f4df214fbaacf9f161",
+ "production_go": false,
+ "release_evidence": false,
+ "jobs": {
+  "install": {
+   "job": 108003398622,
+   "status": "ALL_STAGES_INSTALLED",
+   "files_installed": 25,
+   "verify": "AW_AX_AY_AZ_VERIFY PASS (ba_sql_sha256 2e6e6820f144ddbd15fb7eba16a53c9237deef8356bc0a7c5fd59480aec94501)",
+   "backup_restore_drill": "RESTORED_SAME_MEANING (data identical 320 tables / 1659 rows; engine READY equal; differences only pg_cron and VARCHAR IN-list reparse, all classified)",
+   "cutover_data_checks": {
+    "uuid_quality": "CLEAN (765 erp uuid columns, 0 refused, 0 non-v4 defaults)",
+    "cash_bank_aliases": "NONE"
+   },
+   "primary_unchanged": true,
+   "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true
+   }
+  },
+  "browser": {
+   "job": 108003398260,
+   "status": "BROWSER_PASS",
+   "cases": 10,
+   "passed": 10,
+   "console_errors": 0,
+   "candidate_verified_after_flow": "T3_PACKAGE_PLUS_AW_AX_AY_AZ_T1"
+  },
+  "capture": {
+   "job": 108003398545,
+   "pins_sha256": "15aa4a854d5a9c13cb68eeb845b872be238b1ae8c2ac43f10579f13dd9d4ff17",
+   "pins_reproduced": {
+    "equal": true,
+    "differ": []
+   }
+  }
+ },
+ "security_advisors": {
+  "before": 73,
+  "after": 129,
+  "added": 56,
+  "added_kind": "all INFO rls_enabled_no_policy on erp tables (capsules and CP6 fact tables, as in round 8)",
+  "removed": 0
+ },
+ "note": "Round 9 package: BA rebuilt from the pins of capture run 36112870391 (W8 document cents from receipt input cost, W9 changed_since_filing with the filing list, LAU-T14 send-time rate); committed pins release_pins.json = that capture (sha256 15aa4a85...ff17). Earlier red runs kept: 36110211041 and 36112409047/36112870391 (package stale by design, BA differ), 36113264960 capture (compared with the old committed pins; the package was already right)."
+}
