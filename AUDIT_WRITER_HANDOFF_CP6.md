@@ -45,7 +45,9 @@ Cek auditor yang terbukti salah dan sudah diperbaiki (bukan tindakan writer): or
 - **F2 (pre-existing, CONFIRMED sebagai cacat detektor):** `MATERIAL_RECOST_GL_STATE_DRIFT` (v2.5.5) menyala pada buku yang memenuhi oracle (penyesuaian tanpa baris state;
   sen dokumen terkumpul di satu PO = T3-A). Butuh **disposisi tertulis** (CR kecil atau catatan owner), bukan pengecualian diam di probe. Kasus BC yang recost tetap mengunci
   books = subledger dan V2620T_* = 0.
-- BC belum final bagi auditor (syarat di berkas paste §2.3).
+- **F3 (pre-existing, CONFIRMED sumber):** guard UUID ketat halaman nota (`src/accessoryIssue.ts:20`) menolak ID sah non-RFC (seed CP3) → halaman kosong; menghalangi bukti
+  browser ACC-D09. P3; perbaikan sempit disarankan (UUID kanonik), keputusan writer/owner.
+- BC belum final bagi auditor (syarat di berkas paste §2.3). Writer sudah: paket T3 27 berkas (fe226cf), tabel kasus BC (d385e7e); pins T3 belum.
 
 ## 3. Oracle pra-kode untuk 75 C6 + 22 ALL (writer memakai keduanya; jangan menyesuaikan oracle ke kode)
 - Fable: `out/fable_c6_75_oracles_pre_code.md`, `out/fable_all22_oracles_pre_code.md` (22: 8 ORACLE_READY murni + 3 bersyarat; 11 NEEDS_OWNER_INPUT: P03, P04, S02, S03, Y02, W04, W05, W06, C02, C03, C04).

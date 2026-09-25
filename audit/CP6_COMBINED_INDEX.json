@@ -1548,7 +1548,9 @@
   "writer_heads_seen": [
    "7c9d00a",
    "4b1bd66",
-   "95353aa"
+   "95353aa",
+   "fe226cf",
+   "d385e7e"
   ],
   "db_release_package_identical_to": "4c61aca",
   "scenario": "audit/scenarios/round12_fable/xaudit_12_f1f2.py",
@@ -1562,7 +1564,8 @@
   },
   "findings": {
    "F1": "CONFIRMED_PREEXISTING_fixed_in_BC_verify_diff",
-   "F2": "CONFIRMED_PREEXISTING_DETECTOR_DEFECT_disposition_required"
+   "F2": "CONFIRMED_PREEXISTING_DETECTOR_DEFECT_disposition_required",
+   "F3": "CONFIRMED_PREEXISTING_SOURCE_uuid_guard_note_page_blocks_ACC_D09_browser"
   },
   "bc_status": "NOT_FINAL_no_handoff_no_ci_run",
   "results": "out/fable_r12_results.md",

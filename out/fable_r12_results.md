@@ -59,6 +59,20 @@ Perbaikan writer di BC (`supabase/dev/cp6_bc_t1_family.sql` ~3946: menambah `and
 baris tanpa keduanya tetap ditandai. **Diverifikasi di putaran BC**: seluruh badan fungsi v265 BC harus berbeda dari baseline hanya pada predikat itu (saya akan
 mengekspor `prosrc` pre/post dan membandingkannya).
 
+
+## 3a. F3 — halaman Nota Ambil Aksesori menolak seluruh bacaan bila ada mandor aktif ber-ID bukan RFC-4122 (INDEPENDENT_SOURCE_REVIEW)
+Klaim writer (tabel kasus BC d385e7e, "lama; baru ditemukan, tidak diubah"). Verifikasi sumber:
+- `src/accessoryIssue.ts:20` `accessoryUuid` = `/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i`; `list()` (baris ~33) melempar
+  "Identitas aksesori tidak valid atau ganda." untuk **setiap** baris `contractors/locations/orders/materials/history` yang gagal → `parseAccessoryWorkspace` gagal total.
+- Regex ini **tidak berubah** 4c61aca..95353aa (diff berkas hanya menambah FREE/rounding BC) → pre-existing (asal AP). ID mandor seed CP3
+  `a1000000-0000-0000-0000-000000000001` (nibble versi 0, varian 0): uji Node — strict `false`, kanonik `true`. Tipe `uuid` Postgres menerimanya.
+- **CONFIRMED, P3 (ketahanan halaman, fail-closed pada data sah).** Dampak nyata: rantai uji (mandor seed) dan data apa pun yang ID-nya bukan v1–v8/varian RFC;
+  ID buatan aplikasi (`gen_random_uuid`) lolos. Efek samping untuk audit: writer menandai ACC-D09 (browser halaman nota) **terhalang F3** di rantai uji, jadi
+  bukti browser halaman nota tidak bisa diambil selama guard ini ada.
+- Saudara: `src/laundryQcModel.ts:123/151` memakai pola ketat yang sama ("… bukan UUID valid."); belum diuji, dicatat sebagai risiko sejenis.
+- Pendapat auditor (bukan keputusan): perbaikan sempit = terima UUID kanonik seperti helper baru BC (`src/accessoryService.ts:58`, `src/initialImportBC.ts:5`);
+  tanpa itu ACC-D09 tetap tanpa bukti browser. Keputusan di writer/owner.
+
 ## 4. Cacat alat auditor (dicatat, tidak disembunyikan)
 rev1 bentuk `cases()`; rev2 F1 tanpa savepoint; rev3 kunci kewajiban; rev4 nama kolom tabel fakta. Semua run tetap di ledger dan `audit/runs_fable/r12/`.
 
@@ -68,5 +82,5 @@ rev1 bentuk `cases()`; rev2 F1 tanpa savepoint; rev3 kunci kewajiban; rev4 nama 
 - 95353aa: workflow auditor berubah 4 baris (opsi `pre_bc`, deskripsi) + driver `cp6_auditor_scenario.py` memasang BC pada `after`. Runner/modes B1 tidak berubah.
 
 ## 6. Status
-CP6 HOLD. Belum ada cacat produk baru di paket rilis; dua temuan pre-existing writer terkonfirmasi independen: F1 (diperbaiki di BC, verifikasi menyusul) dan F2 (cacat detektor
-lama, butuh disposisi tertulis, belum diperbaiki). Menunggu head final BC + tabel kasus + run CI dari writer untuk putaran 12 penuh.
+CP6 HOLD. Belum ada cacat produk baru di paket rilis; tiga temuan pre-existing writer terkonfirmasi independen: F1 (diperbaiki di BC, verifikasi menyusul), F2 (cacat detektor
+lama, butuh disposisi tertulis, belum diperbaiki) dan F3 (guard UUID halaman nota, sumber; menghalangi bukti browser ACC-D09). Menunggu head final BC + tabel kasus + run CI dari writer untuk putaran 12 penuh.

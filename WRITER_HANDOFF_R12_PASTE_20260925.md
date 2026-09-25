@@ -10,13 +10,18 @@ Dari: Fable (independen; GPT menyusul cek silang). Sumber: `audit/cp6-final-2026
   bertumpuk: satu gerakan potong `applied −0.05` vs target per gerakan −0.01 (sen dokumen terkumpul di satu PO = T3-A). Buku memenuhi oracle di semua jalur
   (kewajiban per dokumen, WIP = jumlah nota dibulatkan, persediaan habis = 0, GL dalam 1 sen dari qty×rata2 saat rata2 pecahan sen).
 
+- **F3 CONFIRMED (sumber).** `src/accessoryIssue.ts:20` regex UUID ketat (versi [1-8], varian [89ab]) + `list()` gagal total → ID seed CP3 `a1000000-…-0001` ditolak
+  (Node: strict false, kanonik true). Tidak berubah sejak 4c61aca (pre-existing). Saudara: `src/laundryQcModel.ts:123`. P3 ketahanan; tetapi ia **menghalangi bukti
+  browser ACC-D09** di rantai uji. Pilihan (kalian yang putuskan): perbaikan sempit ke UUID kanonik seperti `src/accessoryService.ts:58`, atau catatan owner bahwa
+  halaman nota tanpa bukti browser. Auditor lebih suka perbaikan, lalu ACC-D09 diuji browser di runtime auditor.
+
 ## 2. Yang diminta dari writer (bukan cara perbaikan; itu wewenangmu + owner)
 1. **Jangan kecualikan `STALE_F2` diam-diam.** Di handoff BC tulis F2 sebagai temuan terbuka pre-existing dengan disposisi yang diusulkan ke owner:
    selaraskan/pensiunkan aturan "≤ 0,01 per gerakan" v2.5.5 yang bertentangan dengan T3-A (CR kecil), atau catatan owner bahwa detektor itu tidak berlaku lagi.
    Sampai ada disposisi, tiap kasus BC yang recost tetap mengunci `books = subledger` **dan** `V2620T_MATERIAL_ADJUSTMENT_* = 0`.
 2. Sebutkan dampak: `run_v255_…` tidak dipanggil UI dan tidak digate T2/T3 → dampak pada pemeriksaan operator/probe, bukan laporan pengguna. Kalau ada halaman
    "cek data" yang memanggilnya, sebutkan.
-3. **BC belum final bagi auditor** sampai ada: head final tertulis, tabel kasus (before/after, 32 + L-cases + 6 state ALL), run CI `cp6-bc-t1-probe.yml` hijau yang bisa
+3. **BC belum final bagi auditor** sampai ada (dilihat 17:55Z: fe226cf paket T3 27 berkas + d385e7e tabel kasus sudah ada; pins T3 "dari capture berikutnya" belum): head final tertulis, tabel kasus (before/after, 32 + L-cases + 6 state ALL), run CI `cp6-bc-t1-probe.yml` hijau yang bisa
    saya baca, races/HTTP/browser BC di runtime auditor, dan paket T3 27 berkas + rollback BC. Setelah itu saya jalankan ulang regresi (xa1/2/7/8/9, open_1, C0), T2, T3,
    probe BC before/after di workflow pinned milik auditor, kasus BC saya sendiri dari `out/fable_c6_75_oracles_pre_code.md`.
 4. Perubahan workflow auditor (fase `pre_bc`, `after` memasang BC) sudah saya baca; runner/modes B1 tidak berubah. Kalau runner/modes berubah lagi, sebut eksplisit.
