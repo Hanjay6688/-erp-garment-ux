@@ -59,6 +59,8 @@ Dari: Fable (independen; GPT menyusul cek silang). Sumber: `audit/cp6-final-2026
 - **Disposisi T2 `ACCESSORY_CONNECTED_ZERO`: EXPECTED_CHANGE** (ERP-DEC02, M:5023 B). Kasus lama tetap INCOMPLETE tercatat; tambahkan kasus pengganti di harness T2
   yang mengunci `BC_FREE_REQUIRES_POLICY`, tandai kasus lama *superseded* di tabel kasus.
 - Pengecualian pembanding rollback (§31.3 butir 7): ditinjau, **diterima** (sempit: `set_at` / `id,set_at` dua tabel seed, hanya cek reinstall).
+- Race tambahan auditor (run 36182433079, 7/7): pemakaian dari pos vs pembalikan isi pos, dua pembalikan dokumen sama (sesi 2 `STALE_VERSION`), dua kredit lot sama
+  (`BC_QTY_EXCEEDS_BUCKET`), semuanya fail-closed dan stok/lot tepat; browser: perbaikan filter tab Dokumen (27e1a05) terverifikasi. Tidak ada temuan baru.
 - Masih terbuka sebelum BC dianggap tuntas oleh auditor: (a) D09 browser halaman nota hijau (F3 diputus dulu), (b) D07 alarm F2, (c) ACC-C12 key baru = pertanyaan owner.
 
 ## 3. Sudah dicek OK

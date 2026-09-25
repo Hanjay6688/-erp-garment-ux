@@ -70,3 +70,6 @@
   except open items D09/F3, D07, ACC-C12 key policy. Waiting for writer (D09 green, D07, then BD).
 - 19:55Z: handover notes written (HANDOVER_AUDITOR_ONBOARDING_20260925.md — state NOT locked, §3 tells how to find the current state; HANDOVER_WRITER_OPUS_TO_GPT_20260925.md).
   In flight: run 36181745737 (Fable BC races ×6 + cross-tab browser ×1, scenario sha 3612a314…, head caeff6f, product 27e1a05). Fable continues until quota ends; every step pushed.
+- 20:15Z: Fable BC races ×6 + cross-tab browser: rev1 36181745737 (product correct; 2 FAIL = auditor oracle), rev2 36182433079 **7/7 PASS FROZEN**. GPT correction read
+  (GPT has not run own BC scenarios yet; GBC-1–3 oracles frozen) — consistent. Items 1–2 done. Fable continues only while quota lasts; the replacement auditor follows
+  HANDOVER_AUDITOR_ONBOARDING_20260925.md §3 to find the current state.

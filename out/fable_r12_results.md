@@ -171,4 +171,4 @@ Skenario `audit/scenarios/round12_fable/fable_bc_modes.py` (rev1 sha 3612a314…
 | TWO_CREDITS_SAME_LOT, commit | PASS | sesi 2 ditolak `BC_QTY_EXCEEDS_BUCKET: USABLE tersedia 0, diminta 4`; lot credited 4 sekali |
 | … abort | PASS | sesi 2 sukses; credited 4 sekali |
 | Browser: filter stok terbawa ke tab Dokumen | PASS | dokumen tersembunyi saat filter aktif (gejala GPT-BC-01), status "Pencarian aktif" tampil, "Hapus pencarian" → dokumen muncul tanpa mengetik nomor (perbaikan 27e1a05 terverifikasi di browser) |
-Detektor (tanpa F2) bersih di semua kasus. Produk benar di ketujuh kasus; dua FAIL adalah oracle auditor dan tetap beku; rev2 (oracle diperbaiki) dijalankan sebagai run beku berikutnya.
+Detektor (tanpa F2) bersih di semua kasus. Produk benar di ketujuh kasus; dua FAIL adalah oracle auditor dan tetap beku; rev2 (oracle diperbaiki, sha 7a051748…): **run 36182433079, 7/7 PASS** — run beku untuk butir 1–2 (dua pembalikan: sesi 2 ditolak `STALE_VERSION`, dokumen asal REVERSED sekali, stok 7/0).

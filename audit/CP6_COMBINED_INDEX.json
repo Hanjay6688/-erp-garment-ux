@@ -1619,7 +1619,11 @@
    "D07 F2 detector retune",
    "ACC-C12 new custody key policy question"
   ],
-  "status": "BC_T1_AND_GATES_CLEAN_NO_NEW_PRODUCT_DEFECT_OPEN_ITEMS_LISTED"
+  "status": "BC_T1_AND_GATES_CLEAN_NO_NEW_PRODUCT_DEFECT_OPEN_ITEMS_LISTED",
+  "fable_races_browser": {
+   "rev1": "36181745737 product correct 7/7, auditor oracle FAIL x2 (frozen)",
+   "rev2": "36182433079 7/7 PASS (FROZEN)"
+  }
  },
  "handover": {
   "auditor_onboarding": "HANDOVER_AUDITOR_ONBOARDING_20260925.md",
