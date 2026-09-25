@@ -68,3 +68,11 @@ Sumber gate hanya tiga kontrak: `ERP_V3_2_Master_Pulih_20260923.md` (M), `ERP_V3
 - Head UI `27e1a05`: perbaikan kandidat GPT-BC-01 sudah didorong writer. [Browser/races/HTTP `36171707986`](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36171707986), job `108192583283`, dan [T2 `36171725748`](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36171725748), jobs `108192643312/108192643438/108192643634`, masih berjalan saat dicatat. Jangan upgrade label sebelum log selesai.
 
 **LANGKAH BERIKUTNYA (BC):** baca per-case browser `36171707986` dan T2 `36171725748`, simpan hasil job; minta writer diff baris seed policy pada dua instalasi, perbaiki alat/seed terbatas dan rerun rollback penuh; lanjut tes independen ACC-C12 barang opening sama vs baru dan ACC-D09 Nota Ambil Aksesori dengan fixture UUID valid; update log ini dan `out/gpt_bc_20260926_initial_review.md` tanpa menyentuh berkas Fable.
+
+
+## Checkpoint BC — browser/race/HTTP final head `27e1a05`, 25 Sep 18:15 UTC
+
+- [Run `36171707986`](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36171707986), job `108192583283` (self-test `108192583719`), scenario sha256 `fdc06d1808b86e8918e7b80b64386517d3bbd60f1582a45c71020b973fb203ab`, `tool_head=product_ref=27e1a05`: **11/11 race PASS**, **2/2 HTTP Auth PASS**, **3/3 browser PASS**, `RUN_COMPLETE`, browser console_errors=0, Auth cleanup 0. Browser `FILL_POST_AND_REVERSE` membuktikan stok utama 15→20, pos 5→0 dan dokumen REVERSED; set+clear owner pending lagi; impor menunjukkan pending/quarantine/unreturned/customer. GPT-BC-01 (filter pencarian tersembunyi) **FIX_VERIFIED pada alur ini**. Detail per kasus di `out/gpt_bc_20260926_initial_review.md`. Ini skenario writer yang dibaca mandiri dari log, belum oracle auditor ACC-C12 dan ACC-D09.
+- Rollback cycle `36171280254` **tetap FAIL**; jangan gabung hasilnya dengan browser hijau. T2 pada `36171725748` masih perlu per-case dan job final.
+
+**LANGKAH BERIKUTNYA:** ambil status/log T2 `36171725748`; dapatkan diff data seed policy pada reinstall BC dan minta writer rerun rollback; uji ACC-C12 same-item dan ACC-D09 Nota Ambil Aksesori sesuai oracle; commit setiap hasil ke log khusus GPT.
