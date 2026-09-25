@@ -62,6 +62,7 @@ Kolom *after* selalu `PASS`.
 | DEC02:MANUAL_ZERO_PRICE_REFUSED | ERP-DEC02 | M:5023; nota 0 bukan cara gratis | COUNTEREXAMPLE |
 | DEC06:ROUNDING_LINE | ACC-DEC06 | lampiran C6 rev4 ACC-DEC06 (M:4460); nominal resmi tetap (ACC-A08) | NO_ROUTE |
 | F1:MANUAL_PRICE_PROVENANCE_DETECTOR | ACC-01 (temuan F1) | M:1066 (harga eceran manual sah) | COUNTEREXAMPLE |
+| F4:ADVANCE_SETTLEMENT_REVERSIBLE_READ | ALL-A01 (temuan F4) | F22 §A01; kolom `reversible` selalu ya/tidak agar parser halaman impor tidak menolak batch | COUNTEREXAMPLE |
 | REV:LINKED_INVERSE_MATRIX | ACC-B*, C* (M:6.3) | M:6.3, M:8.4 (pembalikan tertaut) | NO_ROUTE |
 | ALL:C02_OLD_NOTE_PARTLY_PAID_RETURN | ALL-C02 | F22 §C02; G22 §ALL-C02 | NO_ROUTE |
 | ALL:C02_IMPORT_REFUSALS | ALL-C02 | F22 §C02; G22 §ALL-C02 | NO_ROUTE |
@@ -77,12 +78,18 @@ Kolom *after* selalu `PASS`.
 | L:C01_STOCK_NOTE_ROUTE | ALL-C01 | F22 §C01; G22 §ALL-C01 | PASS |
 | L:C01_STOCK_COMPANY_USE | ALL-C01 | G22 §ALL-C01 (pemakaian perusahaan) | NO_ROUTE |
 
-Kasus `L:` menjawab ronde 11 butir 3b. Keenam keadaan era-BA (P01, A01, A02, W01, W03, C01) masing-masing diimpor, dilanjutkan lewat jalur nativenya, lalu dibalik. Dengan itu 22/22 ALL punya bukti run:
+Kasus `L:` menjawab ronde 11 butir 3b. Keenam keadaan era-BA (P01, A01, A02, W01, W03, C01) masing-masing diimpor, dilanjutkan lewat jalur nativenya, lalu dibalik. Dengan itu 20 dari 22 ALL punya bukti run penuh:
 
-- P02, P03, P04, S01, S02, S03, A03, Y01, Y02, W02, W04, W06, dan W05 (finansial) dari BB;
+- P02, P03, P04, S01, S02, S03, A03, Y01, Y02, W02, W04, dan W06 dari BB;
 - C02 dan C03 dari BC;
-- enam keadaan era-BA di atas;
-- W05 fisik dan C04 menyusul di BD dan BE.
+- enam keadaan era-BA di atas.
+
+Dua sisanya belum penuh:
+
+- W05 = PARTIAL. Bagian finansial ada di BB; bagian fisik menyusul di BD.
+- C04 belum punya jalur; menyusul di BE.
+
+Kasus `L:C01_STOCK_COMPANY_USE` berstatus NO_ROUTE sebelum BC karena pemakaian perusahaan baru ada di facade BC.
 
 Pemeriksaan halaman ikut dalam run yang sama. Semua baca workspace (impor, Gudang · Aksesori, nota) disimpan, lalu dijalankan melalui parser halaman sendiri (`scripts/cp6_bc_workspace_parse.mjs`). Temuan F3 dihitung terpisah (lihat §Temuan).
 
@@ -114,10 +121,12 @@ Pemeriksaan halaman ikut dalam run yang sama. Semua baca workspace (impor, Gudan
 | ACC-C06, C07, C08 | family BE (ganti merek + aksesori) |
 | ACC-D03, D10 | nota (ACC-01, BASELINE), di luar CR BC |
 | ACC-D09 | halaman nota: terhalang F3 di rantai uji; parsernya diuji vitest dan parse probe |
-| ACC-D11 | paket T3 berkas ke-27 + rollback (menunggu capture pin) |
+| ACC-D11 | paket T3 berkas ke-27 dan rollback BC: lihat §Run |
 
 ## Temuan
 
 - **F1** (lama; diperbaiki N9): nota berharga eceran manual memicu detektor CRITICAL v265.
 - **F2** (lama; tidak diubah): v255 `MATERIAL_RECOST_GL_STATE_DRIFT` sudah basi sejak 20t dan BA W8. Kasus yang melakukan recost memeriksa buku = subledger sebagai gantinya.
 - **F3** (lama; baru ditemukan, tidak diubah): halaman Nota Ambil Aksesori menolak seluruh bacaan bila ada mandor aktif yang ID-nya bukan RFC-4122. Di rantai uji, ini terjadi karena mandor seed CP3 ber-ID `a1000000-0000-…`. Akibatnya halaman kosong dengan pesan galat. Server menyimpan tipe `uuid`, jadi ID itu sah. Guard lama tidak dilonggarkan dan diserahkan ke owner/auditor. Parser BC yang baru menerima semua teks UUID kanonik.
+- **F4** (baru; cacat BB, diperbaiki di BC): pelunasan saldo awal yang dibayar dari uang muka impor tidak punya akun kas dan tidak punya baris kredit. Akibatnya `erp.bb_financial_workspace_v1` mengirim `reversible = false OR NULL`, yaitu `null`. Halaman impor menolak flag yang bukan boolean, sehingga seluruh batch tidak terlihat. Temuan ini muncul dari parse halaman atas workspace kasus `L:A01_*` dan bisa direproduksi tanpa BC. BC mengganti fungsi itu dengan satu substitusi yang diperiksa (`coalesce(..., false)`); teks pendahulunya diverifikasi sama dengan BB. Kasus `F4:ADVANCE_SETTLEMENT_REVERSIBLE_READ`: COUNTEREXAMPLE sebelum BC, PASS sesudah. Parse probe menghitung penolakan F4 terpisah hanya di fase before, dan menolaknya di fase after.
+- **Catatan D04** (koreksi laporan writer): hasil race D04 yang sempat disebut cacat BC ternyata bukan cacat. Sesi kedua memakai snapshot basi, lalu ditolak benar oleh guard kasbon. Kasus sekarang memakai anggaran payroll 100 dan mengulang populate bila ditolak.
