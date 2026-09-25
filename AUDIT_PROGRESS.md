@@ -913,3 +913,12 @@ QC rev6 diverifikasi dari log: healthy PASS (10), unknown COUNTEREXAMPLE (KPI 0)
 **LANGKAH BERIKUTNYA:** Catat run/job yang terpicu oleh push rev2, baca hasil JSON dan run_identity, catat verdict dengan oracle M:835/M:3820/M:6632, commit + push.
 
 - Rev2 audit commit `8b8b8968ac88016f3fc10920fa8d14ab544a253b`: native [run **36155477550**](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36155477550), job **108138841475**, status saat pencatatan **in_progress**; dua hasil UNVERIFIED sampai log rev2 dibaca.
+
+## GPT BB round 10 — rev2 ditutup (dua skenario native)
+
+- [Run **36155477550**](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36155477550), job **108138841475**, audit commit `8b8b8968`, writer tool `4c61acad`, `product_ref=797fadd8`, skenario rev2 sha256 `4655575482e90e333f753bd65d7f788c2f04f55e8c47e05ae31d275a80393b86`. `AUDITOR_SCENARIO` 2/2 PASS, `RUN_COMPLETE`, primary tidak berubah, kedua boundary pulih, kebocoran sesi 0.
+- Gate M:835/M:3820/M:6632 `G10:BA_TEN_DOCUMENT_CENT_POOL` **ACCEPT lokal** total WIP 100,10, sepuluh dokumen unik, material qty 0 dan nilai 0.00; PO pertama 10,05 (deviasi +0,04), delapan/semua lain seperti catatan `out/gpt_bb_round10_result.md`. Kebijakan batas per PO khusus belum diwajibkan kontrak.
+- Gate M:3821/M:6631 `G10:BB_TWO_DRAFT_SHARED_RESERVE` **ACCEPT lokal**: tersedia 5→4→6→6, reservasi setelah POST 0, AR/revenue 40, HPP/FG 24 sekali. Gate ALL/CP6 global tetap **HOLD**, `audit_complete=false`, `production_go=false`.
+- Rev1 [run 36154846659](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36154846659) raw sen `COUNTEREXAMPLE` tetap **INCOMPLETE oracle auditor** karena baseline salah; rev2 adalah bukti baru, tidak mengubah label historis rev1.
+
+**LANGKAH BERIKUTNYA:** Audit silang run/job/skenario terpin di `out/gpt_bb_round10_result.md`; lanjutkan ALL 22, C6 D06, family BC/BD/BE pada head yang dibekukan. Tidak ada produk yang diubah di cabang audit.
