@@ -54,3 +54,12 @@
   tested) — agree; added to my BC-round list. No conflicts. Standing by for the writer's BC final (head + §31 + run numbers).
 - 18:35Z: owner direction on F2 recorded as D07 (retune to document level; verbatim + auditor reading in OWNER_DECISIONS_CP6_DRAFT.md); spec for writer in paste R12
   §2.1. GPT BC initial review compiled into paste R12 §2a and handoff §2a (GPT-BC-01, ACC-C12 gap, ACC-D09, browser INCOMPLETE, T3/rollback reads).
+
+## 2026-09-25 19:20Z — round 12 BC started (writer §31 = BC head; product 27e1a05, DB package e21d15b, tool head 23abac1)
+- GPT reconciliation done (results §8): GPT-BC-01 valid at 5e1ae83, fixed 27e1a05; GPT-BC-02 rollback comparator narrowing reviewed and accepted; ACC-C12 same-goods
+  case added by writer (21ce322), new-custody-key limit = owner policy question; ACC-D09 unproven (writer browser reruns red ×4).
+- Own pinned BC probe workflow `.github/workflows/fable-cp6-bc-t1.yml`: run 36178145305 (writer PLAN 44): before 33 NO_ROUTE + 3 CE + 8 PASS, after 44/44 PASS,
+  mismatch {}, primary_unchanged. Run 36178552990 (PLAN + 5 Fable cases) in flight.
+- Dispatched on 23abac1: T2 36177884812, T3 package 36177895962, rollback 36177907418, CodeQL 36177919063; regression after-phase: xa1 36177930596, xa2 36177941767,
+  xa7 36177953287, xa8 36177965107, xa9 36177978040, open_1 36177989983, C0 36178002278, xaudit_12_f1f2 36178015645.
+- T2 disposition written (results §10): ACCESSORY_CONNECTED_ZERO PASS→INCOMPLETE = EXPECTED_CHANGE per ERP-DEC02/M:5023; frozen case stays, writer adds successor.
