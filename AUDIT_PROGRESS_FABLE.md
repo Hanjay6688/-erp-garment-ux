@@ -68,3 +68,5 @@
   triggered by workflow touch). Results §9, paste §2b, index fable_round12_bc. Open: D09/F3, D07, ACC-C12 key policy.
 - 19:35Z: BC probe PLAN + Fable rev2 run 36179524130: after 49/49 PASS, before per plan, mismatch {} — FROZEN for BC T1. Round 12 BC closed on the auditor side
   except open items D09/F3, D07, ACC-C12 key policy. Waiting for writer (D09 green, D07, then BD).
+- 19:55Z: handover notes written (HANDOVER_AUDITOR_ONBOARDING_20260925.md — state NOT locked, §3 tells how to find the current state; HANDOVER_WRITER_OPUS_TO_GPT_20260925.md).
+  In flight: run 36181745737 (Fable BC races ×6 + cross-tab browser ×1, scenario sha 3612a314…, head caeff6f, product 27e1a05). Fable continues until quota ends; every step pushed.

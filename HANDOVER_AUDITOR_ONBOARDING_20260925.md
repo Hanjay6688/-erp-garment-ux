@@ -1,4 +1,4 @@
-# Serah terima audit CP6 — untuk auditor baru (menggantikan Fable sementara), 25 Sep 2026 ~19:50Z
+# Serah terima audit CP6 — untuk auditor baru (menggantikan Fable sementara). Dibuat 25 Sep 2026 ~19:50Z; TIDAK dikunci pada titik itu — lihat §3
 Ditulis Fable. Alasan: kuota Fable minggu ini hampir habis. Auditor baru bekerja **hanya** dari repo ini; tidak ada konteks lain yang sah.
 
 ## 0. Aturan yang tidak boleh dilanggar (sama untuk semua auditor)
@@ -26,13 +26,20 @@ Ditulis Fable. Alasan: kuota Fable minggu ini hampir habis. Auditor baru bekerja
 - Kontrak skenario: `cases(cur,today)` → list `(id, callable)`; status hanya PASS/FAIL/COUNTEREXAMPLE/INCOMPLETE; `races(tools,today)`, `http_cases(http,today)`; browser ES module `cases(ui,today)`.
   Hanya FAIL/INCOMPLETE membuat job merah.
 
-## 3. Keadaan saat serah terima (25 Sep 19:50Z)
-- Head writer: `caeff6f` (BC produk = `27e1a05`; BD baru dimulai: `supabase/dev/cp6_bd_t1_family.sql`, belum final).
-- BC: gate T2/T3(27)/rollback/CodeQL hijau (run auditor sendiri), regresi identik r11, probe PLAN 44/44 + 5 kasus Fable (run 36179524130), F1 fix terbukti,
-  D09 browser writer hijau di 62d05c4 (seed mandor dinonaktifkan di salinan uji; F3 di produk **belum** diubah).
-- Terbuka: D07 (alarm F2 disetel ulang ke tingkat dokumen — spesifikasi di paste R12 §2.1), F3 (guard UUID halaman nota), ACC-C12 key baru (pertanyaan kebijakan owner),
-  `ACCESSORY_CONNECTED_ZERO` (disposisi EXPECTED_CHANGE ditulis; writer menambah kasus pengganti), BD/BE belum ada, uji gabungan 75+22 belum.
-- Run terakhir Fable yang mungkin belum tercatat hasilnya: 36181745737 (6 race + 1 browser lintas tab Fable) — baca statusnya, catat apa adanya.
+## 3. Cara menemukan keadaan TERKINI (jangan pakai snapshot mana pun sebagai titik akhir; Fable terus menambah sampai kuotanya habis)
+Urutan baca, selalu dari repo, bukan dari ingatan siapa pun:
+1. `git log --oneline -15 origin/claude/new-session-deapao` → head writer sekarang; `git diff --stat 27e1a05 <head> -- src supabase` → apakah produk BC berubah, dan family apa yang baru
+   (`supabase/dev/cp6_b?_t1_family.sql`); §terakhir di `docs/cp6-au-r1-handoff.md` (`grep -n '^## ' | tail -3`) → apa yang writer nyatakan final.
+2. `tail -40 AUDIT_PROGRESS_FABLE.md` → langkah Fable terakhir, run yang mungkin belum dibaca hasilnya; `tail -40 AUDIT_PROGRESS_GPT.md` → GPT.
+3. `audit/CP6_COMBINED_INDEX.json` → kunci `fable_round12_pre_bc`, `fable_round12_bc`, `owner_decisions`, `handoff_tasks_status`, `writer_handoff_paste_latest`.
+4. `audit/runs_fable/r12/dispatch_ledger_snapshot.jsonl` (baris terakhir = dispatch terakhir Fable; `run_id` + `scenario_sha256` + `head_sha`) dan
+   `python3 audit/runs_fable/r12/list_runs.py <workflow.yml> 5 [branch]` → status run terbaru per workflow (butuh `GITHUB_TOKEN`).
+5. Berkas tempel writer terbaru = nilai `writer_handoff_paste_latest` di indeks; bagian "Masih terbuka" di sana adalah daftar kerja yang berlaku.
+Bila ada run di ledger yang belum punya baris di `AUDIT_PROGRESS_FABLE.md`, baca hasilnya lebih dulu dan catat apa adanya (jangan dilabel ulang).
+
+### Snapshot contoh (boleh basi; hanya untuk orientasi) — 25 Sep 19:50Z
+Head writer `caeff6f` (produk BC = `27e1a05`; BD dimulai, belum final). BC: gate hijau (run auditor), regresi identik r11, probe 44/44 + 5 kasus Fable (36179524130), F1 fix terbukti,
+D09 browser writer hijau (62d05c4; F3 di produk belum diubah). Terbuka: D07, F3, ACC-C12 key baru, kasus pengganti `ACCESSORY_CONNECTED_ZERO`, BD/BE, uji gabungan.
 
 ## 4. Yang diminta dari auditor baru
 1. Jangan mengulang run yang sudah beku; verifikasi dengan **hash skenario + head** bila perlu, bukan run ulang tanpa alasan.

@@ -1620,5 +1620,10 @@
    "ACC-C12 new custody key policy question"
   ],
   "status": "BC_T1_AND_GATES_CLEAN_NO_NEW_PRODUCT_DEFECT_OPEN_ITEMS_LISTED"
+ },
+ "handover": {
+  "auditor_onboarding": "HANDOVER_AUDITOR_ONBOARDING_20260925.md",
+  "writer_opus_to_gpt": "HANDOVER_WRITER_OPUS_TO_GPT_20260925.md",
+  "note": "state is never locked: follow onboarding §3 (writer log, AUDIT_PROGRESS_FABLE.md tail, this index, dispatch ledger, list_runs)"
  }
 }
