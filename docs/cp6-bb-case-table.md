@@ -101,8 +101,19 @@ Kasus ini ada di `scripts/cp6_bb_modes.py` (race dan HTTP) dan `scripts/cp6_bb_b
 
 ## Run (head writer)
 
-- **Probe BB (47 kasus, before + after, dengan cek parser halaman):** run 36138311760 pada 5959854, sukses.
-- **Race 6/6, HTTP 3/3, browser 3/3:** auditor scenario run 36138326553 pada 5959854, `RUN_COMPLETE`.
-  - Run sebelumnya, 36136237411 (18f732f), berakhir 2 kasus browser INCOMPLETE. Keduanya karena bug format uang BB (`reserved_amount '0'`), diperbaiki di 5959854. Log gagal tetap tersimpan di Actions.
-- **T2 gabungan dengan BB:** run 36135434092 pada cffdf81, sukses.
-- **Paket T3 berkas ke-26 dan rollback BB:** menunggu capture pada head setelah perbaikan BA T4 (4cd2171). Angka dan run dicatat setelah selesai.
+| Uji | Run | Head | Hasil |
+|---|---|---|---|
+| Probe BB (before + after, dengan cek parser halaman) | 36141180174 | e648711 | sukses: 52 kasus; `NO_ROUTE`/`COUNTEREXAMPLE` sesuai rencana di fase before, `PASS` di fase after |
+| Race 8, HTTP 3, browser 3 | 36141228506 (auditor scenario, `phase=after`) | e648711 | 14/14 PASS, `RUN_COMPLETE` |
+| T2 gabungan | 36141237920 | e648711 | 3/3 job sukses (AT 16 + AU 15; AR 174; 326 asli + AS 34) |
+| Paket T3: capture pin | 36141180163, job 108091124470 | e648711 | 26/26 berkas `CAPTURED_AND_INSTALLED`; blob `f84dcbf8…` |
+| Paket T3: install 26 berkas, verify, advisor, drill restore, cek data | 36141649832 | 2904e48 | `ALL_STAGES_INSTALLED`; advisor +75 INFO saja, gate `true`; drill `RESTORED_SAME_MEANING`; UUID `CLEAN`, alias `NONE` |
+| Paket T3: pin dicapture ulang dan dibandingkan dengan paket | 36141649832 | 2904e48 | sama |
+| Rollback: capture | 36141649702 | 2904e48 | `CAPTURED`; blob `85278162…` |
+| Rollback: cycle | 36142958478 | 797fadd | 131/131 PASS: penolakan salah urutan dan admission terbuka, dua cycle BB..AC, 26 penolakan pasca-pakai; `primary_unchanged` |
+
+Log gagal tetap disimpan di Actions:
+
+- **36136237411:** browser 2 INCOMPLETE, karena bug format uang BB. Diperbaiki di 5959854.
+- **36142182279:** cycle pertama gagal. Urutan drop rollback BB salah: fungsi yang bergantung pada tipe baris tabel, dan FK melingkar. Diperbaiki di 797fadd.
+- **36136630731, 36139324905, 36141180163:** job capture paket gagal dengan `T3_COMMITTED_PACKAGE_STALE`. Ini memang yang diharapkan sebelum pin baru di-commit.

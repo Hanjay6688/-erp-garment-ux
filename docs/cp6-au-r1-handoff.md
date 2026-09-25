@@ -2360,3 +2360,84 @@ Catatan:
 - data hosted/legacy lewat drill.
 
 **Status.** CP6 tetap HOLD, `audit_complete=false`, `production_go=false`.
+
+## 30. Putaran kesepuluh: tugas T1–T7 dari `AUDIT_WRITER_HANDOFF_CP6.md` dan head BB final (25 September 2026) (writer Claude)
+
+Acuannya daftar tugas writer di cabang auditor `audit/cp6-final-20260924-gpt-a0bcadf`, berkas `AUDIT_WRITER_HANDOFF_CP6.md`, tugas T1–T7. Label semua bukti di bagian ini: `T1_FAMILY`, `T2`, `T3_PREP`, atau `WRITER_SCENARIO` di runtime auditor. Tidak ada yang berstatus bukti rilis. CP6 tetap HOLD, `audit_complete=false`, `production_go=false`.
+
+### 30.1 Status T1–T7
+
+| Tugas | Status | Letak |
+|---|---|---|
+| T1 lampiran C6 rev4 | selesai sebelum putaran ini | b7833e0 |
+| T2 head BB final dan kelengkapannya | selesai dari sisi writer; menunggu auditor | `docs/cp6-bb-case-table.md` (kasus → ID ALL → oracle pra-kode, semua run) |
+| T3 sen per PO pada stok bertumpuk | penjelasan dan satu pertanyaan owner; tidak ada perubahan kode | `docs/cp6-t3-cent-per-po-and-t5-advisor-note.md` §T3 |
+| T4 dokumen pembelian multi-bahan | probe ditambah; ditemukan dua cacat BA W8, keduanya diperbaiki | 4cd2171; probe BA run 36139324963 sukses di kedua fase |
+| T5 catatan advisor | selesai | berkas yang sama §T5 (paket 26 berkas: +75 INFO `rls_enabled_no_policy` saja) |
+| T6 drill data nyata | tugas operator; writer tidak menyentuh hosted | `python3 scripts/cp6_cutover_data_checks.py --pgurl <salinan drill>` (baca saja) |
+| T7 opsional (W3, W5) | belum dikerjakan | — |
+
+### 30.2 Temuan dan perbaikan di putaran ini
+
+1. **Format uang di workspace BB.**
+   - Runtime browser auditor (run 36136237411) menemukan halaman impor menyembunyikan setiap batch yang punya saldo hutang awal.
+   - Penyebab: `reserved_amount` dikirim sebagai `'0'`, dan sisa kredit pelanggan yang di-void juga `'0'`. Parser halaman fail-closed mewajibkan dua desimal.
+   - Diperbaiki di server (5959854); parser tidak diubah.
+   - Probe BB kini menjalankan parser halaman yang asli atas setiap workspace yang dibaca kasus (`scripts/cp6_bb_workspace_parse.mjs`). Parser yang menolak membuat probe gagal.
+2. **T4: aturan sen dokumen multi-bahan (BA W8).** Probe baru gagal di keempat varian. Dua cacat di `erp.sync_material_cost_revaluation` diperbaiki di 4cd2171:
+   - **(a)** Bahan dengan id terkecil disinkronkan sebelum harga bahan lain diperbarui oleh koreksi atau invoice. Akibatnya bahan yang habis tersisa 0,01. Sekarang bahan terkecil disinkronkan ulang.
+   - **(b)** Sen dokumen milik potong mundur tanggal tercatat pada tanggal input. Penilaian pertama sebuah gerakan kini diberi tanggal hari gerakan itu, selama hari itu masih terbuka.
+3. **S02 tidak punya family.** Draf penjualan dengan reservasi berstatus NO_ADAPTER dan tidak tercantum di BB, BC, BD, maupun BE. Dibangun di BB (e648711):
+   - impor `OPEN_SALES_DRAFT` menjadi draf penjualan native yang mereservasi sekali;
+   - bacaan GPT r9 yang dipakai, karena lebih fail-closed dibanding Fable;
+   - 5 kasus probe, 2 race, dan panel baca-saja.
+4. **Urutan drop rollback.** Cycle pertama dengan BB (run 36142182279) menolak rollback BB karena urutan drop objek. Diperbaiki di 797fadd; cycle berikutnya 131/131 PASS.
+   - Urutan baru: trigger tabel baru → fungsi → FK melingkar antar tabel baru → tabel, dengan urutan pembuatan dibaca dari berkas rilis.
+5. **T3 dijelaskan per gerakan** (tanpa kode).
+   - Hasil 10,02 / 10,00 / 10,01 (dan 9,99 / 10,01 / 10,00) deterministik, sama sebelum dan sesudah perbaikan T4.
+   - Pertanyaan owner ada di dokumen T3. Bila owner tidak memilih, berlaku opsi A: tidak ada perubahan.
+
+### 30.3 Head BB final dan identitasnya
+
+- **Head:** commit yang memuat bagian ini (hash lengkap di pesan serah terima). Cabang kompetisi tetap `ca7f095`. Tidak ada SQL ke hosted.
+- **Dev:**
+  - `supabase/dev/cp6_bb_t1_family.sql` sha256 `a423268697f9290d…`
+  - `supabase/dev/cp6_ba_t1_family.sql` `3359a42fe93c35da…`
+- **Paket T3:** 26 berkas AC..BB.
+  - `supabase/release/cp6-t3/MANIFEST.json` `0414168e5d4e0c6d…`
+  - Blob pin `f84dcbf81ecc2c6b…`
+- **Rollback:** `supabase/release/cp6-t3-rollbacks/ROLLBACKS.json` `76c680658ba1598a…`; capture `85278162ab008e43…`.
+- **Skenario writer:**
+  - `scripts/cp6_bb_modes.py` `581acfb670e66c97…`
+  - `scripts/cp6_bb_browser.mjs` `e71fdea3de7c8778…`
+  - `scripts/cp6_bb_probe.py` `87ac8904ef58d0b7…`
+  - `scripts/cp6_ba_probe.py` `8e2e024f19f3d4bf…`
+- **Run pada head produk:** tabel "Run" di `docs/cp6-bb-case-table.md`.
+  - Probe BB 36141180174.
+  - Runtime 36141228506: 14/14.
+  - T2 36141237920.
+  - Paket T3 36141649832.
+  - Cycle rollback 36142958478: 131/131.
+  - Probe BA 36139324963.
+- **Pemeriksaan frontend:** vitest 500/500, check:source/access/css/cp6, recovery check, dan build lolos (lokal).
+
+### 30.4 Untuk auditor: menjalankan ulang pada head ini
+
+- **Probe BB:** `cp6-bb-t1-probe.yml` (dispatch). Fase before dan after; job gagal bila parser halaman menolak satu workspace saja.
+- **Runtime auditor:** `cp6-auditor-scenario.yml`, input `phase=after`, `scenario_path=scripts/cp6_bb_modes.py`, `browser_path=scripts/cp6_bb_browser.mjs`. Sha berkas dicetak di log. Skenario auditor sendiri bisa dijalankan lewat `scenario_b64`/`browser_b64` seperti biasa.
+- **Probe BA:** `cp6-ba-t1-probe.yml`, memuat kasus `A4:MULTI_MATERIAL_DOC_*` dan `A4:MULTI_CENT_*_HALF_AT_CUT`.
+- **T2:** dispatch `cp6-t2-regression.yml`.
+- **T3:** `cp6-t3-release-package.yml` (tiga job) dan `cp6-t3-rollback.yml` (auto = cycle).
+
+### 30.5 Yang masih terbuka
+
+- **Owner:**
+  - pengesahan D06 atas lampiran C6 rev4, setelah auditor mencocokkannya;
+  - pertanyaan T3 (tidak menghambat gate; default opsi A).
+- **Writer, berikutnya sesuai urutan family:**
+  - BC: ACC-04b, ACC-DEC/ERP-DEC02 sebagai pengaturan, ALL C02/C03;
+  - BD: LAU-05b, LAU-DEC01–06, W05 fisik termasuk blok penjualan LAU-04;
+  - BE: ganti SKU, celup ulang LAU-06b, ALL C04;
+  - lalu uji gabungan 75 kasus C6 + 22 ALL.
+- **Operator:** drill T6 pada salinan yang diizinkan.
+- **Opsional:** T7.
