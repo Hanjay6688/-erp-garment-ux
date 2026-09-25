@@ -1,5 +1,10 @@
 # CP6 audit — active round 8 checkpoint
 
+## GPT active native run — 2026-09-25T05:10:11.953Z
+Run [36097284096](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36097284096), audit commit f28a871d, pinned tool9dd7bc2/producta095a9d. Jobs: 107952094985 (GPT round8 business oracle (AUDITOR_SCENARIO)): in_progress/pending; 107952095105 (Writer runtime strict-group selftest (TOOL evidence)): in_progress/pending; 107952095197 (GPT B1 invalid-mode sentinel probes (TOOL, not product)): in_progress/pending. Full ledger: out/gpt_round8_run_36097284096.json. **No case result inferred from job colour.**
+LANGKAH BERIKUTNYA: fetch these job logs after completion; extract per-case JSON and cleanup into the ledger; evaluate invalid-mode sentinels separately from product cases, then commit. Continue T2 C0 per-case oracle and browser phase. No hosted SQL or product mutation. CP6 HOLD.
+
+
 ## GPT round8 native preparation — 2026-09-25T05:07:35.329Z
 - Fable checkpoint 6fcd5784a3bfb070f901eb59de0be072e2026ef0 preserved; his current round8 runs are separate provenance. GPT adds multi-receipt cent oracles and mode-level B1 sentinels plus independent affected-case reruns.
 - Scenario `audit/scenarios/round8/gpt_round8.py` SHA256 695faf3e6d4d393705d423940b47012ae2c9b4ccf68dc509fc7f1b7b64bee77b; tool probe `gpt_tool_modes.py` SHA256 0cad838261da653b2fd3b594042148e4ff54d1db6fa04c256add36b195c8df85. All dependencies/hash receipts in MANIFEST.json. NOT_RUN before this commit; run/job IDs pending.

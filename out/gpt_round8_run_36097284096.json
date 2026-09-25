@@ -1,0 +1,30 @@
+{
+  "run_id": 36097284096,
+  "run_attempt": 1,
+  "head_sha": "f28a871d08b5fa2e2720e9dc541afe7dff7e77b8",
+  "tool_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
+  "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
+  "status": "in_progress",
+  "jobs": [
+    {
+      "id": 107952094985,
+      "name": "GPT round8 business oracle (AUDITOR_SCENARIO)",
+      "status": "in_progress",
+      "conclusion": null
+    },
+    {
+      "id": 107952095105,
+      "name": "Writer runtime strict-group selftest (TOOL evidence)",
+      "status": "in_progress",
+      "conclusion": null
+    },
+    {
+      "id": 107952095197,
+      "name": "GPT B1 invalid-mode sentinel probes (TOOL, not product)",
+      "status": "in_progress",
+      "conclusion": null
+    }
+  ],
+  "case_results": null,
+  "checked_at": "2026-09-25T05:10:11.953Z"
+}
