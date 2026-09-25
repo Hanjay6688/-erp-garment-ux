@@ -1461,19 +1461,35 @@
   ]
  },
  "candidate_bb": {
-  "writer_heads": [
-   "72bf53f",
-   "fbafa51",
-   "db9e276"
-  ],
-  "fable_runs": {
-   "bb_t1_rev1": 36132268786,
-   "bb_t1_rev2": 36132808005,
-   "w7_tool_probe": 36132001602,
-   "xaudit_8_rev3_staggered": 36132361821
+  "writer_final_head": "4c61acad2270e11a2aca762237790a68cf36278a",
+  "handoff": "docs/cp6-au-r1-handoff.md §30",
+  "fable_results": "out/fable_r11_results.md",
+  "runs": {
+   "t2": 36154060877,
+   "t3_package": 36154073882,
+   "rollback": 36154086810,
+   "bb_modes_runtime": 36154245241,
+   "bb_probe_fable": 36154186985,
+   "bb_probe_fable_rerun": 36155406049,
+   "xaudit_8_rev4_t4": 36154303619,
+   "regression": [
+    36154100359,
+    36154113308,
+    36154126699,
+    36154440755,
+    36154153444,
+    36154139979,
+    36154165566
+   ]
   },
-  "fable_status": "T1_CONFIRMED_ON_db9e276: writer 34/34 PASS after, 34 NO_ROUTE+2 CE+3 PASS before; fable 4/4 PASS; P03 substantive true (frozen FAIL = over-strict journal-type check)",
-  "gpt_t1_on_72bf53f": "25_of_25_after_PASS_run_36127700002"
+  "status": "BB_CONFIRMED_T1_57_RUNTIME_14_T2_T3_26_ROLLBACK_131 (parser step rerun pending)",
+  "all_states_with_route": 19,
+  "remaining_states": [
+   "C02",
+   "C03",
+   "W05_physical",
+   "C04"
+  ]
  },
  "writer_handoff_canonical": {
   "file": "AUDIT_WRITER_HANDOFF_CP6.md",
@@ -1485,5 +1501,14 @@
    "out/gpt_writer_r9_intake.md"
   ],
   "history": "archive/AUDIT_WRITER_HANDOFF_CP6_r8_r9_history.md"
+ },
+ "handoff_tasks_status": {
+  "T1": "CONFIRMED_annex_rev4_ready_for_D06",
+  "T2": "CONFIRMED_on_4c61aca",
+  "T3": "EXPLAINED_owner_question_A_or_B_default_A",
+  "T4": "CONFIRMED_xaudit_8_rev4",
+  "T5": "CONFIRMED",
+  "T6": "OPERATOR_PENDING",
+  "T7": "OPTIONAL_OPEN"
  }
 }
