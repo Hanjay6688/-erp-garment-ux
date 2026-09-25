@@ -161,3 +161,8 @@ Workflow audit saja diperbaiki `086246ea8e2831b56301f0d76f338177a1471350`: `npm 
 **Temuan baru P2 bersyarat F3:** bila data cutover memuat ID aktif seperti itu, Nota Ambil dapat kosong. Kehadiran di hosted belum diuji dan bukan tugas auditor; inventaris read-only oleh writer/operator. **ACC-C12 PARTIAL/UNVERIFIED:** sumber fisik pada key berbeda butuh kebijakan/identitas yang eksplisit. 39 ID ACC belum diaudit lengkap sendiri; tabel cakupan `out/gpt_bc_own_coverage.md` commit `55f0d61ceac5ff879af7d575a9976226fa5a4481`. C6-04/C6-07/C6-10 HOLD, C6-08 UNVERIFIED; CP6 HOLD / audit_complete=false / production_go=false.
 
 **LANGKAH BERIKUTNYA:** Fable kompilasi hasil run2 secara terpisah; writer/operator cek UUID cutover read-only dan tetapkan kebijakan provenance ACC-C12; GPT menuntaskan GBC-3 browser sendiri atau catat UNVERIFIED, lalu lanjut BD. Tidak mengubah status 49/49 Fable menjadi acceptance GPT.
+
+
+## Oracle BD yang sudah ditulis ikut dipersistkan
+
+`audit/scenarios/r13_bd/GPT_BD_ORACLE.md` sha256 `24a2347e579ab748bd6ed66611781669d58e8b0d103ae544592087754349d8f7`, commit `9f473c629970487a350eed8bd34097469520f728`: GBD-01 UNKNOWN price vs error; GBD-02 invoice 40/60 dan dua sumber; GBD-03 ALL-W05 fisik/claim/credit NEEDS_OWNER_INPUT. **Belum ada .py BD/run/job**. Exposure log daftar 15 kasus T1 writer dicatat di oracle; belum membaca detail kode BD untuk expected. Fase aktif tetap penutupan BC follow-up, kemudian BD. Semua gate penuh tetap HOLD/UNVERIFIED. **LANGKAH BERIKUTNYA:** susun dan pin skenario BD dari oracle ini, jalankan hanya setelah head BD final; catat oracle owner pending sebagai HOLD, jangan membaca hasil writer sebagai expected.
