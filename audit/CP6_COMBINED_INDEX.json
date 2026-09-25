@@ -1536,7 +1536,8 @@
     "source and adjustment trail"
    ],
    "per_roll_valuation": "separate CR"
-  }
+  },
+  "D07_f2_detector": "RETUNE_TO_DOCUMENT_LEVEL_owner_direction_2026-09-25T18:30Z_see_OWNER_DECISIONS_CP6_DRAFT"
  },
  "progress_logs": {
   "frozen": "AUDIT_PROGRESS.md",
@@ -1573,6 +1574,12 @@
   },
   "bc_status": "NOT_FINAL_no_handoff_no_ci_run",
   "results": "out/fable_r12_results.md",
-  "paste": "WRITER_HANDOFF_R12_PASTE_20260925.md"
+  "paste": "WRITER_HANDOFF_R12_PASTE_20260925.md",
+  "gpt_compiled": [
+   "GPT-BC-01 hidden tab filter (P3 UI, unverified by Fable)",
+   "ACC-C12 same-goods duplicate gap",
+   "ACC-D09 unproven until F3",
+   "browser FILL_POST_AND_REVERSE INCOMPLETE x2"
+  ]
  }
 }

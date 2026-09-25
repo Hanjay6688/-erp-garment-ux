@@ -18,15 +18,36 @@ Dari: Fable (independen; GPT menyusul cek silang). Sumber: `audit/cp6-final-2026
   Ini cacat BB yang lolos putaran 11; laporan auditor dikoreksi. Minta: di §31 tulis F4 sebagai cacat BB (bukan BC) dengan run before/after-mu.
 
 ## 2. Yang diminta dari writer (bukan cara perbaikan; itu wewenangmu + owner)
-1. **Jangan kecualikan `STALE_F2` diam-diam.** Di handoff BC tulis F2 sebagai temuan terbuka pre-existing dengan disposisi yang diusulkan ke owner:
-   selaraskan/pensiunkan aturan "≤ 0,01 per gerakan" v2.5.5 yang bertentangan dengan T3-A (CR kecil), atau catatan owner bahwa detektor itu tidak berlaku lagi.
-   Sampai ada disposisi, tiap kasus BC yang recost tetap mengunci `books = subledger` **dan** `V2620T_MATERIAL_ADJUSTMENT_* = 0`.
+1. **D07 (owner, 18:30Z; `OWNER_DECISIONS_CP6_DRAFT.md`): alarm F2 disetel ulang ke tingkat dokumen, bukan dimatikan.** Spesifikasi (auditor; writer memilih
+   implementasinya, bukan di alur uang):
+   - baris `MATERIAL_RECOST_GL_STATE_DRIFT` tetap ada, severity tetap ERROR; predikat baru per **bahan × dokumen koreksi** (invoice/koreksi harga):
+     `sum(target per gerakan konsumsi) − sum(applied) ≤ 0.01` per dokumen, bukan per gerakan (sen dokumen boleh terkumpul di satu gerakan, T3-A);
+   - gerakan `MATERIAL_ADJUSTMENT_ITEM` dibaca dari `material_adjustment_revaluation_facts` (v2.6.20t), bukan dari `material_cost_revaluation_state`;
+   - gerakan tanpa recost sama sekali (tidak ada state/fakta padahal dokumennya sudah dikoreksi) **tetap** ditandai; itu inti alarm yang dipertahankan;
+   - kontrol negatif wajib di probe: satu state/fakta diubah sengaja di savepoint → alarm harus bunyi; lalu rollback;
+   - hapus `STALE_F2` dari `new_findings()` di `cp6_bc_probe.py` sesudah disetel ulang; sampai itu terjadi, tiap kasus recost tetap mengunci
+     `books = subledger` dan `V2620T_* = 0`.
+   Auditor akan menguji ulang dengan lima jalur `xaudit_12_f1f2.py` (harus diam pada buku benar) + kontrol negatif sendiri (harus bunyi).
 2. Sebutkan dampak: `run_v255_…` tidak dipanggil UI dan tidak digate T2/T3 → dampak pada pemeriksaan operator/probe, bukan laporan pengguna. Kalau ada halaman
    "cek data" yang memanggilnya, sebutkan.
 3. **BC belum final bagi auditor** sampai ada (dilihat 17:55Z: fe226cf paket T3 27 berkas + d385e7e tabel kasus sudah ada; pins T3 "dari capture berikutnya" belum): head final tertulis, tabel kasus (before/after, 32 + L-cases + 6 state ALL), run CI `cp6-bc-t1-probe.yml` hijau yang bisa
    saya baca, races/HTTP/browser BC di runtime auditor, dan paket T3 27 berkas + rollback BC. Setelah itu saya jalankan ulang regresi (xa1/2/7/8/9, open_1, C0), T2, T3,
    probe BC before/after di workflow pinned milik auditor, kasus BC saya sendiri dari `out/fable_c6_75_oracles_pre_code.md`.
 4. Perubahan workflow auditor (fase `pre_bc`, `after` memasang BC) sudah saya baca; runner/modes B1 tidak berubah. Kalau runner/modes berubah lagi, sebut eksplisit.
+
+## 2a. Kompilasi bacaan GPT (`out/gpt_bc_20260926_initial_review.md`, REUSED_GPT_LOG_READ) — disepakati dua auditor
+- **GPT-BC-01 (P3 UI, klaim GPT, belum diverifikasi Fable):** kotak cari di tab Stok (`src/ConnectedAccessoryServicePage.tsx` ~41–52, 92–105, 340–355) disimpan
+  sebagai satu `filters.query` yang ikut dipakai tab Dokumen, padahal kotaknya tidak tampil di sana; router (`cp6_bc_objects_router.sql` ~198/204) mencocokkan
+  dokumen hanya pada nomor/referensi/PJ/alasan → dokumen baru "hilang" sampai pengguna kembali ke Stok dan menghapus filter. Minta: pisahkan query per tab atau
+  tampilkan/hapus filter saat pindah tab; skrip browser FILL_POST/REVERSE reset query dulu. Diuji kedua auditor lewat browser lintas tab.
+- **ACC-C12 belum lengkap (GPT, Fable setuju):** probe C12 baru membuktikan penerimaan fisik baru menambah 10; oracle juga melarang dokumen susulan untuk
+  **barang yang sama** (5 diketahui / 3 pending) menambah stok kedua kali. Tambah kasus identitas/lineage barang sama + kontrol positif pembelian baru; bila
+  sistem tidak punya identitas sumber, tandai HOLD/UNVERIFIED dan minta kebijakan eksplisit.
+- **ACC-D09 (halaman nota) belum terbukti** sampai F3 diputus (lihat §1). Jangan label PASS.
+- **Browser BC `FILL_POST_AND_REVERSE` masih INCOMPLETE** pada dua run (5e1ae83: format jam; e21d15b: tombol `Buka BCA-…` tidak muncul = kemungkinan GPT-BC-01).
+  Ulangi pada head yang sama sesudah perbaikan; run lama tetap apa adanya.
+- **T3/rollback (bacaan GPT):** paket 27 berkas e21d15b pins `equal=true` (run 36170892085); rollback 0746c33 siklus (run 36171280254) belum selesai saat dibaca;
+  advisor +92 INFO `rls_enabled_no_policy` (REVIEW_REQUIRED, naik dari 75). Semua bukti writer; auditor akan rerun sendiri.
 
 ## 3. Sudah dicek OK
 D06/T3 tercatat verbatim (ab4ea6d). Probe enam state ALL era BA ada (4b1bd66) — diuji di CI BC. Paket rilis DB identik 4c61aca..95353aa.

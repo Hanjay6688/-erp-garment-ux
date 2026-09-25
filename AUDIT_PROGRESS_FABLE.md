@@ -52,3 +52,5 @@
   (UI guard, ACC-D09 unproven) and F4 (NULL flag, coalesce fix). New GPT claim GPT-BC-01 (P3 UI: search query carried from Stok tab to Dokumen tab, hides
   documents) — not yet verified by Fable; to check with an own browser case in the BC round. GPT notes ACC-C12 coverage partial (same-goods duplicate not
   tested) — agree; added to my BC-round list. No conflicts. Standing by for the writer's BC final (head + §31 + run numbers).
+- 18:35Z: owner direction on F2 recorded as D07 (retune to document level; verbatim + auditor reading in OWNER_DECISIONS_CP6_DRAFT.md); spec for writer in paste R12
+  §2.1. GPT BC initial review compiled into paste R12 §2a and handoff §2a (GPT-BC-01, ACC-C12 gap, ACC-D09, browser INCOMPLETE, T3/rollback reads).

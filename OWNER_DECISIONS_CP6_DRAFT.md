@@ -174,3 +174,16 @@ Teks owner (verbatim):
 
 Identitas dokumen yang disahkan: `docs/contracts/ERP_ADDENDUM_OWNER_DECISIONS_CP6_2026-09-25_LAMPIRAN_C6.md` pada `4c61acad2270e11a2aca762237790a68cf36278a`, sha256 `42e0481579497c0acfe45d7092681741d431efaaeb7c200533051690b1d25f35` (rev4, commit b7833e0). Catatan T3 writer yang dirujuk: `docs/cp6-t3-cent-per-po-and-t5-advisor-note.md` sha256 `f883c52cb5f5e2e1650f045428e45158d9c6b0925f2249c8cbab497648a0ff28`.
 Status: **D06 DISAHKAN** (scope ACC-04b, LAU-05b, LAU-06b, ALL 22; nilai kebijakan tetap PENDING_POLICY_VALUE). **T3 = opsi A** (rata-rata bergerak; oracle wajib: total, per tanggal, stok habis = nilai 0, jejak sumber/penyesuaian; tanpa batas tetap "1 sen per PO"; penilaian per roll = CR terpisah). Pengesahan ≠ penerimaan uji; CP6 HOLD, production_go=false.
+
+## D07 — disposisi alarm F2 `MATERIAL_RECOST_GL_STATE_DRIFT` (v2.5.5) — OWNER_CONFIRMED_TO_AUDITOR (arahan), 2026-09-25 ~18:30Z
+Konteks yang diberikan auditor kepada owner: alarm per gerakan v2.5.5 salah bunyi pada buku yang benar (dua mekanisme: recost penyesuaian dicatat di tabel fakta
+v2.6.20t yang tidak dibaca alarm; sen dokumen terkumpul di satu PO sesuai T3-A). Penjaga total (`MATERIAL_GL_VALUATION_MISMATCH`, toleransi 0.05) dan V2620T_* tetap ada.
+Auditor menawarkan dua kalimat: (1) dimatikan, penjaga total dan V2620T tetap; (2) disetel ulang ke tingkat dokumen oleh writer, diuji auditor; rekomendasi auditor = (2).
+
+Teks owner, apa adanya:
+> f2 tu harusnya alarm buat apa? klo gakguna ya matiin gpp
+> bc udah intip si gpt punya juga trus compile, sekalian handoff nanti klo perlu setel ulang sekalian
+
+Pembacaan auditor (dinyatakan terbuka, owner boleh mengoreksi): owner mengizinkan dimatikan bila tidak berguna, dan menerima **setel ulang** bila perlu. Menurut bukti,
+cek per gerakan untuk potong (cutting) masih berguna, jadi yang berlaku = **D07 = disetel ulang ke tingkat dokumen** (opsi 2). Spesifikasi untuk writer di
+`WRITER_HANDOFF_R12_PASTE_20260925.md` §2 butir 1. Bukan perubahan alur uang; bukan penerimaan uji; CP6 tetap HOLD, `production_go=false`.

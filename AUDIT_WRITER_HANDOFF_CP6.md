@@ -49,6 +49,8 @@ Cek auditor yang terbukti salah dan sudah diperbaiki (bukan tindakan writer): or
   browser ACC-D09. P3; perbaikan sempit disarankan (UUID kanonik), keputusan writer/owner.
 - **F4 (cacat BB, CONFIRMED + perbaikan di BC CONFIRMED, run 36171335601/36171347110):** bendera `reversible` NULL pada pelunasan dari uang muka menyembunyikan batch impor.
   Koreksi butir 1 "BB tanpa cacat produk": bersih pada kasus yang diuji; F4 lolos dan kini diperbaiki.
+- Kompilasi GPT (disepakati): GPT-BC-01 filter tab tersembunyi (P3 UI), ACC-C12 belum lengkap (barang sama), ACC-D09 belum terbukti, browser FILL_POST/REVERSE
+  INCOMPLETE ×2 — rincian di berkas paste R12 §2a.
 - BC belum final bagi auditor (syarat di berkas paste §2.3). Writer sudah: paket T3 27 berkas (fe226cf), tabel kasus BC (d385e7e); pins T3 belum.
 
 ## 3. Oracle pra-kode untuk 75 C6 + 22 ALL (writer memakai keduanya; jangan menyesuaikan oracle ke kode)
