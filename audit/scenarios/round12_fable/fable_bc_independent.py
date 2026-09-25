@@ -1,4 +1,6 @@
-"""Fable BC T1 independent rerun (round 12) on the writer's tool head (product 27e1a05). Label T1_FAMILY / AUDITOR_SCENARIO, never release evidence.
+"""rev2: before-phase NO_ROUTE probe no longer touches BC zones (KeyError SERVICE_POST = auditor tool defect, run 36178552990); stock snapshots compared as
+Decimal (rev1 FAIL of FAB:BC_DOUBLE_REVERSE_REFUSED was the auditor comparing '0' with '0.000000'; product refused the second reversal BC_ALREADY_REVERSED).
+Fable BC T1 independent rerun (round 12) on the writer's tool head (product 27e1a05). Label T1_FAMILY / AUDITOR_SCENARIO, never release evidence.
 Runs the writer's own BC PLAN unchanged (44 cases, before and after) and appends Fable cases whose oracles come from the contract and
 Fable's pre-code C6 oracles (out/fable_c6_75_oracles_pre_code.md), written without adopting the writer's expected values:
   FAB:BC_FILL_BEFORE_RECEIPT_REFUSED    M:5020 A ("backdated transfer tidak mengubah ... secara semu") + no negative stock at any date: a service-post
@@ -26,11 +28,12 @@ BASE_PRED="(m.material_type='ACCESSORY' and i.accessory_price_version_id is null
 def attempt(cur,fn):
     result,error=bc.r1.peer.attempt(cur,fn);return result,error
 def stocks(cur,fx):
-    return {k:str(bc.stock(cur,fx['material'],fx[k])) for k in ('main','SERVICE_POST') if k in fx}
+    return {k:str(D(str(bc.stock(cur,fx['material'],fx[k]))).quantize(D('0.000001'))) for k in ('main','SERVICE_POST') if k in fx}
+NO_ROUTE_PROBE=lambda cur:bc.svc(cur,'FILL_POST',dict(reason='FAB no-route probe'))
 
 def fab_fill_before_receipt(cur,today):
     fx=bc.fixture(cur,today)
-    if not bc.bc_installed(cur):return bc.no_route(cur,lambda:bc.fill(cur,fx,10,fx['received']-timedelta(days=1)))
+    if not bc.bc_installed(cur):return bc.no_route(cur,lambda:NO_ROUTE_PROBE(cur))
     before=stocks(cur,fx);b0=bc.ledger(cur)
     result,error=attempt(cur,lambda:bc.fill(cur,fx,10,fx['received']-timedelta(days=1)))
     after=stocks(cur,fx)
@@ -38,7 +41,7 @@ def fab_fill_before_receipt(cur,today):
 
 def fab_use_exceeds_post(cur,today):
     fx=bc.fixture(cur,today);d=today-timedelta(days=2)
-    if not bc.bc_installed(cur):return bc.no_route(cur,lambda:bc.fill(cur,fx,20,d))
+    if not bc.bc_installed(cur):return bc.no_route(cur,lambda:NO_ROUTE_PROBE(cur))
     bc.fill(cur,fx,20,d)
     s1=stocks(cur,fx)
     r_over,e_over=attempt(cur,lambda:bc.use(cur,fx,fx['SERVICE_POST'],[(25,d+timedelta(days=1),10,'FACTORY_USE')]))
@@ -53,7 +56,7 @@ def fab_use_exceeds_post(cur,today):
 
 def fab_invalid_qty_forms(cur,today):
     fx=bc.fixture(cur,today);d=today-timedelta(days=2)
-    if not bc.bc_installed(cur):return bc.no_route(cur,lambda:bc.fill(cur,fx,'0',d))
+    if not bc.bc_installed(cur):return bc.no_route(cur,lambda:NO_ROUTE_PROBE(cur))
     before=stocks(cur,fx);b0=bc.ledger(cur);out={}
     for form in ('0','-5','1.5','abc','1e2',''):
         result,error=attempt(cur,lambda form=form:bc.svc(cur,'FILL_POST',dict(from_location_id=fx['main'],to_location_id=fx['SERVICE_POST'],physical_at=bc.local_at(d,9),
@@ -63,7 +66,7 @@ def fab_invalid_qty_forms(cur,today):
 
 def fab_double_reverse(cur,today):
     fx=bc.fixture(cur,today);d=today-timedelta(days=2)
-    if not bc.bc_installed(cur):return bc.no_route(cur,lambda:bc.fill(cur,fx,20,d))
+    if not bc.bc_installed(cur):return bc.no_route(cur,lambda:NO_ROUTE_PROBE(cur))
     s0=stocks(cur,fx);b0=bc.ledger(cur)
     f=bc.fill(cur,fx,20,d);s1=stocks(cur,fx)
     r1_,e1=attempt(cur,lambda:bc.reverse(cur,f['document_id']));s2=stocks(cur,fx)
