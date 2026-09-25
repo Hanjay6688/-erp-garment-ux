@@ -1,4 +1,4 @@
-name: Fable CP6 Round 12 BC T1 Independent Rerun (writer PLAN, 44 cases) on tool head 23abac1 (product 27e1a05)
+name: Fable CP6 Round 12 BC T1 Independent Rerun (writer PLAN 44 + Fable 5 cases) on tool head 23abac1 (product 27e1a05)
 'on':
   push:
     branches:
@@ -73,6 +73,10 @@ jobs:
         path: base
         fetch-depth: 0
         ref: 1bdca3766f7c9800d68295ff5122798060b8a05d
+    - uses: actions/checkout@v4
+      with:
+        path: review
+        fetch-depth: 0
     - name: Assert frozen BC tool head (product 27e1a05 verified by the auditor before pinning)
       run: test "$(git -C auditor rev-parse HEAD)" = 23abac1aebcbdfe2ed047629cb6c6ca40611da0e
     - uses: actions/setup-python@v5
@@ -308,7 +312,7 @@ jobs:
         npm ci --no-audit --no-fund
     - name: ${{ matrix.label }}
       working-directory: writer
-      run: python '../auditor/scripts/${{ matrix.script }}' --phase '${{ matrix.phase }}'
+      run: python '../review/audit/scenarios/round12_fable/fable_bc_independent.py' --phase '${{ matrix.phase }}'
     - name: Remove disposable database
       if: always()
       working-directory: base
