@@ -1417,6 +1417,40 @@ begin
   perform erp.bd_invoice_resync_v1(i.id,(statement_timestamp() at time zone 'Asia/Jakarta')::date);
   return erp.bd_invoice_json_v1(i.id);
 end;$function$;
+
+-- ---------------------------------------------------------------- LAU-04 / LAU-DEC04: sale of goods with an unknown laundry price
+-- A lot's laundry price is unknown while the delivery line it came from (its QC lineage; else any active delivery line of its
+-- PO) has no rate or a BD component price still UNKNOWN. Selling such goods is refused unless the owner set LAU-DEC04 to
+-- ALLOW_PENDING (fail closed while pending; close stays blocked in every case).
+CREATE OR REPLACE FUNCTION erp.bd_delivery_line_price_unknown_v1(p_delivery_line uuid)
+ RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select dl.estimated_rate_snapshot is null or not erp.bd_line_complete_v1(dl.id)
+  from erp.laundry_delivery_lines dl join erp.laundry_deliveries d on d.id=dl.delivery_id
+  where dl.id=p_delivery_line and d.status not in('DRAFT','REVERSED')
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.bd_lot_laundry_unknown_v1(p_lot uuid)
+ RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select coalesce((select erp.bd_delivery_line_price_unknown_v1(rl.delivery_line_id) from erp.fg_lots l join erp.qc_inspection_items qi on qi.id=l.qc_item_id
+      join erp.laundry_receipt_lines rl on rl.id=qi.source_laundry_receipt_line_id where l.id=p_lot),
+    exists(select 1 from erp.fg_lots l join erp.laundry_deliveries d on d.po_id=l.po_id and d.status not in('DRAFT','REVERSED')
+      join erp.laundry_delivery_lines dl on dl.delivery_id=d.id where l.id=p_lot and erp.bd_delivery_line_price_unknown_v1(dl.id)))
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.bd_assert_sale_laundry_known_v1(p_sale uuid)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare v jsonb;
+begin
+  if not exists(select 1 from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id
+      where i.sale_id=p_sale and erp.bd_lot_laundry_unknown_v1(a.lot_id)) then return;end if;
+  v:=erp.bd_policy_v1('LAU_DEC04');
+  if v is null or v->>'sale_with_unknown_laundry' is distinct from 'ALLOW_PENDING' then
+    raise exception 'BD_SALE_LAUNDRY_PRICE_UNKNOWN: barang yang dijual masih punya harga laundry yang belum diketahui; isi harganya dulu atau owner mengizinkan lewat LAU-DEC04';
+  end if;
+end;$function$;
 -- ================================================================ BD facade: one writer and one reader for the laundry BD flows
 CREATE OR REPLACE FUNCTION erp.bd_post_priced_delivery_v1(p_payload jsonb,p_request uuid)
  RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
@@ -3998,6 +4032,268 @@ begin
     raise exception 'Vendor invoice Laundry quantity/rate/amount must equal the authoritative physical receipt or failed-wash attempt';
   end if;
   return new;
+end
+$function$;
+CREATE OR REPLACE FUNCTION erp.post_sale(p_sale_id uuid)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public', 'pg_temp'
+AS $function$
+declare
+  h erp.sales_headers%rowtype;
+  r record;
+  v_sales numeric(24,6):=0;
+  v_item_qty bigint;
+  v_reserved_qty bigint;
+  v_delta_cogs numeric(24,6);
+  v_delta_fg numeric(24,6);
+  v_delta_other numeric(24,6);
+  v_target_hpp numeric(24,6);
+  v_target_other numeric(24,6);
+  v_book_hpp numeric(24,6);
+  v_book_other numeric(24,6);
+  v_lines jsonb:='[]'::jsonb;
+begin
+  perform erp.require_internal();
+  perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
+  select * into h from erp.sales_headers where id=p_sale_id for update;
+  if h.id is null or h.status<>'DRAFT' then raise exception 'Sale must be DRAFT'; end if;
+  if h.source_location_id is null then raise exception 'Sale source FG location is required'; end if;
+  if not exists(select 1 from erp.sales_items where sale_id=p_sale_id) then raise exception 'Sale has no items'; end if;
+
+  select coalesce(sum(qty_pcs),0),coalesce(sum(line_total),0)
+  into v_item_qty,v_sales from erp.sales_items where sale_id=h.id;
+  select coalesce(sum(abs(m.qty_signed)),0) into v_reserved_qty
+  from erp.fg_stock_movements m
+  join erp.sales_items i on i.id=m.source_id
+  where i.sale_id=h.id and m.source_type='SALE_ITEM' and m.movement_type='SALE_RESERVE'
+    and not exists(select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=m.id);
+
+  if v_reserved_qty=0 then v_reserved_qty:=erp._reserve_sale_draft(h.id); end if;
+  if v_reserved_qty<>v_item_qty then
+    raise exception 'Sale Draft reservation mismatch. Items %, active reservation %',v_item_qty,v_reserved_qty;
+  end if;
+  if exists(
+    select 1 from erp.sales_items i
+    left join(select sale_item_id,sum(qty_pcs)::bigint qty_pcs
+      from erp.sale_stock_allocations group by sale_item_id) a on a.sale_item_id=i.id
+    where i.sale_id=h.id and coalesce(a.qty_pcs,0)<>i.qty_pcs
+  ) then raise exception 'Sale allocation does not match Draft line quantity'; end if;
+
+  if (with active as (
+  select m.* from erp.fg_stock_movements m
+  where exists(select 1 from erp.sales_items scope_item where scope_item.id=m.source_id and scope_item.sale_id=h.id) and m.source_type='SALE_ITEM' and m.movement_type in('SALE_RESERVE','SALE')
+    and not exists(select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=m.id)
+), allocations as (
+  select a.sale_item_id,a.lot_id,a.location_id,sum(a.qty_pcs)::bigint qty
+  from erp.sale_stock_allocations a where exists(select 1 from erp.sales_items scope_item where scope_item.id=a.sale_item_id and scope_item.sale_id=h.id) group by a.sale_item_id,a.lot_id,a.location_id
+), movements as (
+  select m.source_id sale_item_id,m.lot_id,m.location_id,sum(-m.qty_signed)::bigint qty
+  from active m group by m.source_id,m.lot_id,m.location_id
+)
+select count(*)::bigint from (
+  select m.id,sh_lineage.id sale_id from active m
+  left join erp.sales_items i on i.id=m.source_id
+  left join erp.sales_headers sh_lineage on sh_lineage.id=i.sale_id
+  left join erp.fg_lots l on l.id=m.lot_id
+  where sh_lineage.status is null or sh_lineage.status not in('DRAFT','POSTED','PARTIAL_PAID','PAID')
+    or m.movement_type is distinct from case when sh_lineage.status='DRAFT' then 'SALE_RESERVE' else 'SALE' end
+    or m.product_id is distinct from i.product_id or l.product_id is distinct from i.product_id
+    or m.location_id is distinct from sh_lineage.source_location_id
+    or m.customer_id is distinct from sh_lineage.customer_id or m.physical_at is distinct from sh_lineage.sale_date
+    or m.quality_grade is distinct from 'GRADE_A' or m.qty_signed>=0
+  union all
+  select a.id,sh_lineage.id from erp.sale_stock_allocations a
+  left join erp.sales_items i on i.id=a.sale_item_id
+  left join erp.sales_headers sh_lineage on sh_lineage.id=i.sale_id
+  left join erp.fg_lots l on l.id=a.lot_id
+  where sh_lineage.status is null or sh_lineage.status not in('DRAFT','POSTED','PARTIAL_PAID','PAID','REVERSED')
+    or l.product_id is distinct from i.product_id
+    or a.location_id is distinct from sh_lineage.source_location_id or a.qty_pcs<=0
+  union all
+  select i.id,sh_lineage.id from allocations a full join movements m using(sale_item_id,lot_id,location_id)
+  join erp.sales_items i on i.id=coalesce(a.sale_item_id,m.sale_item_id)
+  join erp.sales_headers sh_lineage on sh_lineage.id=i.sale_id
+  where sh_lineage.status in('DRAFT','POSTED','PARTIAL_PAID','PAID') and a.qty is distinct from m.qty
+  union all
+  select i.id,sh_lineage.id from erp.sales_items i join erp.sales_headers sh_lineage on sh_lineage.id=i.sale_id
+  where (sh_lineage.status in('POSTED','PARTIAL_PAID','PAID') or
+    (sh_lineage.status='DRAFT' and (exists(select 1 from erp.sale_stock_allocations a
+       join erp.sales_items sibling on sibling.id=a.sale_item_id where sibling.sale_id=sh_lineage.id)
+      or exists(select 1 from active m join erp.sales_items sibling on sibling.id=m.source_id where sibling.sale_id=sh_lineage.id))))
+    and (i.qty_pcs is distinct from (select coalesce(sum(a.qty_pcs),0) from erp.sale_stock_allocations a where a.sale_item_id=i.id)
+      or i.qty_pcs is distinct from (select coalesce(sum(-m.qty_signed),0) from active m where m.source_id=i.id))
+  union all
+  select sh_lineage.id,sh_lineage.id from erp.sales_headers sh_lineage where sh_lineage.status in('POSTED','PARTIAL_PAID','PAID')
+    and not exists(select 1 from erp.sales_items i where i.sale_id=sh_lineage.id)
+) broken where broken.sale_id=h.id)<>0 then
+    raise exception 'AG_SALE_RESERVATION_LINEAGE_MISMATCH';
+  end if;
+
+  for r in
+    select distinct fl.product_id
+    from erp.sale_stock_allocations a
+    join erp.sales_items i on i.id=a.sale_item_id
+    join erp.fg_lots fl on fl.id=a.lot_id
+    where i.sale_id=h.id and fl.po_id is null
+    order by fl.product_id
+  loop
+    perform erp.assert_non_po_product_hpp_target_book_v2620f(r.product_id);
+  end loop;
+
+  update erp.sale_stock_allocations a
+  set unit_hpp_snapshot=coalesce(erp.lock_current_hpp_per_pcs(a.lot_id),0)
+  from erp.sales_items i
+  where i.id=a.sale_item_id and i.sale_id=h.id;
+
+  update erp.fg_stock_movements m
+  set unit_hpp_snapshot=a.unit_hpp_snapshot
+  from erp.sales_items i
+  join erp.sale_stock_allocations a on a.sale_item_id=i.id
+  where i.id=m.source_id and i.sale_id=h.id
+    and a.lot_id=m.lot_id
+    and m.source_type='SALE_ITEM' and m.movement_type='SALE_RESERVE'
+    and not exists(select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=m.id);
+
+  update erp.fg_stock_movements m
+  set movement_type='SALE',notes='Sale posted · quantity reserved in Draft; HPP frozen at POST'
+  from erp.sales_items i
+  where i.id=m.source_id and i.sale_id=h.id
+    and m.source_type='SALE_ITEM' and m.movement_type='SALE_RESERVE'
+    and not exists(select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=m.id);
+
+  -- BD (LAU-04, LAU-DEC04): goods whose laundry price is still unknown are sold only if the owner allows it.
+  perform erp.bd_assert_sale_laundry_known_v1(h.id);
+  update erp.sales_headers set status='POSTED' where id=h.id;
+  if abs(v_sales)>0.005 then
+    v_lines:=v_lines||jsonb_build_array(
+      jsonb_build_object('mapping_key','AR_CUSTOMER','debit',round(v_sales,2),'credit',0,'customer_id',h.customer_id),
+      jsonb_build_object('mapping_key','SALES_REVENUE','debit',0,'credit',round(v_sales,2),'customer_id',h.customer_id));
+  end if;
+
+  -- One cumulative target per product, composed from per-lot lifecycle truth.
+  for r in
+    select distinct fl.product_id
+    from erp.sale_stock_allocations a
+    join erp.sales_items i on i.id=a.sale_item_id
+    join erp.fg_lots fl on fl.id=a.lot_id
+    where i.sale_id=h.id and fl.po_id is null
+    order by fl.product_id
+  loop
+    select round(t.fg_value-b.fg_value,2),
+      round(t.cogs_value-b.cogs_value,2),
+      round(t.other_out_value-b.other_out_value,2)
+    into v_delta_fg,v_delta_cogs,v_delta_other
+    from erp.compute_non_po_product_hpp_targets_v2620f(r.product_id) t
+    cross join lateral erp.compute_non_po_product_hpp_book_v2620f(r.product_id) b;
+    if abs(v_delta_fg+v_delta_cogs+v_delta_other)>0.005 then
+      raise exception 'Sale non-PO HPP delta does not conserve source value for product %: fg %, cogs %, other %',
+        r.product_id,v_delta_fg,v_delta_cogs,v_delta_other;
+    end if;
+    if abs(v_delta_fg)>0.005 then
+      v_lines:=v_lines||jsonb_build_array(case when v_delta_fg>0
+        then jsonb_build_object('mapping_key','FG_INVENTORY','debit',v_delta_fg,
+          'credit',0,'customer_id',h.customer_id,'product_id',r.product_id)
+        else jsonb_build_object('mapping_key','FG_INVENTORY','debit',0,
+          'credit',abs(v_delta_fg),'customer_id',h.customer_id,
+          'product_id',r.product_id) end);
+    end if;
+    if abs(v_delta_cogs)>0.005 then
+      v_lines:=v_lines||jsonb_build_array(case when v_delta_cogs>0
+        then jsonb_build_object('mapping_key','COGS','debit',v_delta_cogs,
+          'credit',0,'customer_id',h.customer_id,'product_id',r.product_id)
+        else jsonb_build_object('mapping_key','COGS','debit',0,
+          'credit',abs(v_delta_cogs),'customer_id',h.customer_id,
+          'product_id',r.product_id) end);
+    end if;
+    if abs(v_delta_other)>0.005 then
+      v_lines:=v_lines||jsonb_build_array(case when v_delta_other>0
+        then jsonb_build_object('mapping_key','OTHER_EXPENSE','debit',v_delta_other,
+          'credit',0,'customer_id',h.customer_id,'product_id',r.product_id)
+        else jsonb_build_object('mapping_key','OTHER_INCOME','debit',0,
+          'credit',abs(v_delta_other),'customer_id',h.customer_id,
+          'product_id',r.product_id) end);
+    end if;
+  end loop;
+
+  for r in
+    select distinct fl.po_id
+    from erp.sale_stock_allocations a
+    join erp.sales_items i on i.id=a.sale_item_id
+    join erp.fg_lots fl on fl.id=a.lot_id
+    where i.sale_id=h.id and fl.po_id is not null
+    order by fl.po_id
+  loop
+    perform erp.refresh_po_hpp_gl_baseline(r.po_id);
+    select
+      round(coalesce(t.cogs_value,0),2)-s.cogs_value,
+      round(coalesce(t.fg_value,0),2)-s.fg_value,
+      (round(coalesce(t.hpp_total_cost,0),2)-round(coalesce(t.fg_value,0),2)
+        -round(coalesce(t.cogs_value,0),2))-s.other_out_value,
+      round(coalesce(t.hpp_total_cost,0),2),
+      round(coalesce(t.hpp_total_cost,0),2)-round(coalesce(t.fg_value,0),2)-round(coalesce(t.cogs_value,0),2),
+      s.hpp_total_cost,s.other_out_value
+    into v_delta_cogs,v_delta_fg,v_delta_other,
+      v_target_hpp,v_target_other,v_book_hpp,v_book_other
+    from erp.po_hpp_gl_state s
+    cross join lateral erp.compute_po_hpp_gl_targets_v2620d(r.po_id) t
+    where s.po_id=r.po_id for update of s;
+    if v_delta_cogs<-0.005 or v_delta_fg>0.005
+       or abs(v_delta_cogs+v_delta_fg+v_delta_other)>0.005
+       or v_target_hpp is distinct from v_book_hpp then
+      raise exception 'Sale cumulative HPP target does not conserve PO value %. dc %, df %, do %, target/book hpp %/%',
+        r.po_id,v_delta_cogs,v_delta_fg,v_delta_other,v_target_hpp,v_book_hpp;
+    end if;
+    if abs(v_delta_cogs)>0.005 then
+      v_lines:=v_lines||jsonb_build_array(case when v_delta_cogs>0 then
+        jsonb_build_object('mapping_key','COGS','debit',v_delta_cogs,'credit',0,
+          'customer_id',h.customer_id,'po_id',r.po_id)
+        else jsonb_build_object('mapping_key','COGS','debit',0,'credit',abs(v_delta_cogs),
+          'customer_id',h.customer_id,'po_id',r.po_id) end);
+    end if;
+    if abs(v_delta_fg)>0.005 then
+      v_lines:=v_lines||jsonb_build_array(case when v_delta_fg>0 then
+        jsonb_build_object('mapping_key','FG_INVENTORY','debit',v_delta_fg,'credit',0,
+          'customer_id',h.customer_id,'po_id',r.po_id)
+        else jsonb_build_object('mapping_key','FG_INVENTORY','debit',0,'credit',abs(v_delta_fg),
+          'customer_id',h.customer_id,'po_id',r.po_id) end);
+    end if;
+    if abs(v_delta_other)>0.005 then
+      v_lines:=v_lines||jsonb_build_array(case when v_delta_other>0 then
+        jsonb_build_object('mapping_key','OTHER_EXPENSE','debit',v_delta_other,'credit',0,
+          'customer_id',h.customer_id,'po_id',r.po_id)
+        else jsonb_build_object('mapping_key','OTHER_INCOME','debit',0,'credit',abs(v_delta_other),
+          'customer_id',h.customer_id,'po_id',r.po_id) end);
+    end if;
+  end loop;
+  if jsonb_array_length(v_lines)>=2 then
+    perform erp.post_journal('SALE',h.id,(h.sale_date AT TIME ZONE 'Asia/Jakarta')::date,
+      'Sales to customer/toko · cumulative exact HPP target',v_lines);
+  end if;
+
+  for r in
+    select distinct fl.product_id
+    from erp.sale_stock_allocations a
+    join erp.sales_items i on i.id=a.sale_item_id
+    join erp.fg_lots fl on fl.id=a.lot_id
+    where i.sale_id=h.id and fl.po_id is null
+    order by fl.product_id
+  loop
+    perform erp.assert_non_po_product_hpp_target_book_v2620f(r.product_id);
+  end loop;
+
+  for r in
+    select distinct fl.po_id
+    from erp.sale_stock_allocations a
+    join erp.sales_items i on i.id=a.sale_item_id
+    join erp.fg_lots fl on fl.id=a.lot_id
+    where i.sale_id=h.id and fl.po_id is not null
+    order by fl.po_id
+  loop
+    perform erp.refresh_po_hpp_gl_baseline(r.po_id);
+    perform erp.assert_po_hpp_target_book_v2620e(r.po_id);
+  end loop;
 end
 $function$;
 insert into erp.schema_migrations(version,description) values('v2.6.20bd','T1_FAMILY development install of BD (priced laundry deliveries: package, components with partial coverage, lump sum per batch, minimum charge, scoped rates; exact per-size receipt shares; policy settings LAU-DEC01..06); not a release package');

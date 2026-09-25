@@ -418,3 +418,37 @@ begin
   perform erp.bd_invoice_resync_v1(i.id,(statement_timestamp() at time zone 'Asia/Jakarta')::date);
   return erp.bd_invoice_json_v1(i.id);
 end;$function$;
+
+-- ---------------------------------------------------------------- LAU-04 / LAU-DEC04: sale of goods with an unknown laundry price
+-- A lot's laundry price is unknown while the delivery line it came from (its QC lineage; else any active delivery line of its
+-- PO) has no rate or a BD component price still UNKNOWN. Selling such goods is refused unless the owner set LAU-DEC04 to
+-- ALLOW_PENDING (fail closed while pending; close stays blocked in every case).
+CREATE OR REPLACE FUNCTION erp.bd_delivery_line_price_unknown_v1(p_delivery_line uuid)
+ RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select dl.estimated_rate_snapshot is null or not erp.bd_line_complete_v1(dl.id)
+  from erp.laundry_delivery_lines dl join erp.laundry_deliveries d on d.id=dl.delivery_id
+  where dl.id=p_delivery_line and d.status not in('DRAFT','REVERSED')
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.bd_lot_laundry_unknown_v1(p_lot uuid)
+ RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select coalesce((select erp.bd_delivery_line_price_unknown_v1(rl.delivery_line_id) from erp.fg_lots l join erp.qc_inspection_items qi on qi.id=l.qc_item_id
+      join erp.laundry_receipt_lines rl on rl.id=qi.source_laundry_receipt_line_id where l.id=p_lot),
+    exists(select 1 from erp.fg_lots l join erp.laundry_deliveries d on d.po_id=l.po_id and d.status not in('DRAFT','REVERSED')
+      join erp.laundry_delivery_lines dl on dl.delivery_id=d.id where l.id=p_lot and erp.bd_delivery_line_price_unknown_v1(dl.id)))
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.bd_assert_sale_laundry_known_v1(p_sale uuid)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare v jsonb;
+begin
+  if not exists(select 1 from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id
+      where i.sale_id=p_sale and erp.bd_lot_laundry_unknown_v1(a.lot_id)) then return;end if;
+  v:=erp.bd_policy_v1('LAU_DEC04');
+  if v is null or v->>'sale_with_unknown_laundry' is distinct from 'ALLOW_PENDING' then
+    raise exception 'BD_SALE_LAUNDRY_PRICE_UNKNOWN: barang yang dijual masih punya harga laundry yang belum diketahui; isi harganya dulu atau owner mengizinkan lewat LAU-DEC04';
+  end if;
+end;$function$;

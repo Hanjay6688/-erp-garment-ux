@@ -653,6 +653,77 @@ def dec02_categories(cur,today):
         foreign_refused=foreign['ok'],denied=denied['ok']),refusals=[cat,foreign,denied])
 
 
+def finish_goods(cur,fx,receipt,qty,hour):
+    """POST_FINAL_SKU of the returned pieces into an FG lot of a fresh product (the chain's own production path)."""
+    product=chain.base.create_product(cur,'BD-'+uuid.uuid4().hex[:8])
+    size,line=q(cur,'select x.id::text,x.receipt_line_id::text from erp.laundry_receipt_batch_size_lines x join erp.laundry_receipt_lines l on l.id=x.receipt_line_id where l.receipt_id=%s',receipt)[0]
+    chain.laundry_action(cur,'POST_FINAL_SKU',dict(cutting_group_id=fx['group'],destination_location_id=chain.base.LOCATION,
+        physical_at=iso(chain.production.at(fx['day'],hour)),reason='BD probe finished goods',good_qty_pcs=qty,completion_mode='ALL_READY',
+        lines=[dict(final_product_id=product,qty_good_pcs=qty,qty_bs_pcs=0,source_laundry_receipt_line_id=line,source_laundry_receipt_batch_size_line_id=size)]),
+        chain.base.group_version(cur,fx['group']))
+    lot=one(cur,"select id::text from erp.fg_lots where po_id=%s and product_id=%s and lot_origin='PRODUCTION'",fx['po'],product)
+    return product,lot
+
+
+def sell(cur,fx,product,qty,hour):
+    customer=chain.base.create_customer(cur,'BD-'+uuid.uuid4().hex[:8])
+    chain.production.owner(cur)
+    sale=cur.execute('select erp.save_sale_draft_v2(%s::jsonb,%s::uuid,null)',(json.dumps(dict(sale_number='BD-SALE-'+uuid.uuid4().hex[:10],
+        customer_id=customer,source_location_id=chain.base.LOCATION,sale_date=iso(chain.production.at(fx['day'],hour)),reason='BD probe sale',
+        items=[dict(product_id=product,qty_pcs=qty,unit_price_snapshot='20000',discount_amount=0)])),str(uuid.uuid4()))).fetchone()[0]
+    version=one(cur,'select row_version from erp.sales_headers where id=%s',sale['sale_id'])
+    chain.production.owner(cur);cur.execute('select erp.post_sale_v2(%s,%s,%s)',(sale['sale_id'],uuid.uuid4(),version))
+    chain.actors.admin(cur);return sale['sale_id']
+
+
+def lot_value(cur,lot):
+    return D(str(one(cur,'select total_cost from erp.hpp_versions where lot_id=%s and is_current',lot)))
+
+
+def t22_variance_to_fg_and_cogs(cur,today):
+    """LAU-T22 (M:4360): 10 PCS at a synthetic 7,000 are finished (one FG lot, laundry 70,000), 4 are sold; an invoice of
+    75,000 (PRODUCT_COST) raises the lot's laundry cost to 75,000: unsold FG and the sold quantity's cost of sales take the
+    difference, nothing stays in WIP, and the delta adds up to 5,000."""
+    fx=fixture(cur,today,'T22')
+    if not bd_installed(cur):return no_route(cur,lambda:route_call(cur))
+    process_rate(cur,fx,'7000.00');invoice_policies(cur)
+    rec=receive(cur,plain_delivery(cur,fx,10,11),fx,10,13)
+    product,lot=finish_goods(cur,fx,rec['receipt_id'],10,14)
+    sell(cur,fx,product,4,16)
+    keys=('WIP','FG_INVENTORY','COGS')
+    before={k:gl(cur,k) for k in keys};lv0=lot_value(cur,lot)
+    _,posted=invoice(cur,fx,[dict(line=receipt_line(cur,rec['receipt_id']),qty=10,amount='75000.00')],'75000.00')
+    after={k:gl(cur,k) for k in keys};lv1=lot_value(cur,lot)
+    delta={k:after[k]-before[k] for k in keys}
+    return verdict(dict(lot_up_5000=lv1-lv0==5000,no_wip_left=delta['WIP']==0,fg_and_cogs=delta['FG_INVENTORY']+delta['COGS']==5000,
+        cogs_share=delta['COGS']==2000,fg_share=delta['FG_INVENTORY']==3000),lot_values=[str(lv0),str(lv1)],delta={k:str(v) for k,v in delta.items()})
+
+
+def dec04_sale_unknown_laundry(cur,today):
+    """LAU-04/LAU-T34/LAU-DEC04 (M:4475, M:4372): finished goods from a delivery with an UNKNOWN component price cannot be sold
+    while LAU-DEC04 is pending or REFUSE (BD_SALE_LAUNDRY_PRICE_UNKNOWN, nothing posted); with ALLOW_PENDING the sale posts
+    and close stays blocked; once the price is set the goods sell under a refusing policy too."""
+    fx=fixture(cur,today,'DEC04')
+    if not bd_installed(cur):return no_route(cur,lambda:route_call(cur))
+    g=component(cur,fx,'GARMENT','5000.00');s=component(cur,fx,'SPRAY',None,status='UNKNOWN');terms(cur,fx,'COMPONENTS')
+    sent=post_priced(cur,fx,dict(components=[dict(component_id=g,covered_qty=10),dict(component_id=s,covered_qty=10)]))
+    rec=receive(cur,sent['delivery_id'],fx,10,13);product,lot=finish_goods(cur,fx,rec['receipt_id'],10,14)
+    pending=refused(cur,lambda:sell(cur,fx,product,2,15),'BD_SALE_LAUNDRY_PRICE_UNKNOWN')
+    policy(cur,'LAU_DEC04',dict(sale_with_unknown_laundry='REFUSE'))
+    refuse=refused(cur,lambda:sell(cur,fx,product,2,15),'BD_SALE_LAUNDRY_PRICE_UNKNOWN')
+    posted_none=one(cur,"select count(*) from erp.sales_items i join erp.sales_headers h on h.id=i.sale_id where i.product_id=%s and h.status='POSTED'",product)
+    policy(cur,'LAU_DEC04',dict(sale_with_unknown_laundry='ALLOW_PENDING'))
+    sell(cur,fx,product,2,15)
+    blocked=blockers(cur,fx['day'],sent['delivery_id'])
+    policy(cur,'LAU_DEC04',dict(sale_with_unknown_laundry='REFUSE'))
+    unknown=one(cur,"select id::text from erp.bd_laundry_charge_lines_v1 where delivery_line_id=(select id from erp.laundry_delivery_lines where delivery_id=%s) and rate_status='UNKNOWN'",sent['delivery_id'])
+    bd(cur,'SET_CHARGE_PRICE',dict(charge_line_id=unknown,rate_per_pcs='1000.00',reason='vendor price arrived'))
+    sell(cur,fx,product,2,16)
+    posted=one(cur,"select count(*) from erp.sales_items i join erp.sales_headers h on h.id=i.sale_id where i.product_id=%s and h.status='POSTED'",product)
+    return verdict(dict(pending_refused=pending['ok'],refuse_refused=refuse['ok'],nothing_posted=posted_none==0,
+        allowed_but_close_blocked=blocked==['BD_LAUNDRY_COMPONENT_PRICE_UNKNOWN'],known_then_sold=posted==2),blocked=blocked,refusals=[pending,refuse])
+
+
 PLAN=[('POLICY:LAU_DEC_SETTINGS_OWNER_VERSIONED_PENDING','NO_ROUTE',policy_settings),
       ('T02:PACKAGE_ONE_CHARGE_PHYSICAL_QTY','NO_ROUTE',t02_package),
       ('T03:COMPONENT_SUM_SAME_PIECES','NO_ROUTE',lambda c,t:t03_t04_components(c,t,False)),
@@ -673,7 +744,9 @@ PLAN=[('POLICY:LAU_DEC_SETTINGS_OWNER_VERSIONED_PENDING','NO_ROUTE',policy_setti
       ('T21:DISCOUNT_TAX_ROUNDING','NO_ROUTE',t21_discount_tax_rounding),
       ('DEC06:VARIANCE_ACCOUNT','NO_ROUTE',dec06_variance_account),
       ('T23:REVERSE_PAY_CORRECT','NO_ROUTE',t23_reverse_pay_correct),
-      ('DEC02:BILLABLE_CATEGORIES_ACCESS','NO_ROUTE',dec02_categories)]
+      ('DEC02:BILLABLE_CATEGORIES_ACCESS','NO_ROUTE',dec02_categories),
+      ('T22:VARIANCE_TO_FG_AND_COGS','NO_ROUTE',t22_variance_to_fg_and_cogs),
+      ('DEC04:SALE_UNKNOWN_LAUNDRY_PRICE','NO_ROUTE',dec04_sale_unknown_laundry)]
 assert len({k for k,_,_ in PLAN})==len(PLAN),'BD_DUPLICATE_CASE_ID'
 
 
