@@ -20,6 +20,7 @@ import type { Json } from './types/database.preconnect'
 import { useProductionMutation } from './useProductionMutation'
 import type { ProductionEnvelope } from './productionRecovery'
 import { parseQuantityInput } from './quantityInput'
+import { cp6WibDateTimeInput, cp6WibPhysicalTimeToIso } from './cp6BusinessTime'
 import './connected-bs-resolution.css'
 
 type RunAction = (
@@ -33,11 +34,11 @@ function validateBsCommit(data: unknown, envelope: ProductionEnvelope) {
     || Array.isArray(response.result) || Object.keys(response.result).length === 0) throw new Error('Kontrak hasil BS tidak cocok')
 }
 
-const nowInput = () => {
-  const now = new Date()
-  return new Date(now.getTime() - now.getTimezoneOffset() * 60_000).toISOString().slice(0, 16)
-}
-const toIso = (value: string) => new Date(value).toISOString()
+// Physical times are entered and sent as the WIB wall clock (cp6BusinessTime), never in the device timezone; an invalid
+// value keeps the action disabled instead of throwing or inventing a time.
+const nowInput = () => cp6WibDateTimeInput()
+const toIso = (value: string) => cp6WibPhysicalTimeToIso(value)
+const validTime = (value: string) => cp6WibPhysicalTimeToIso(value) !== null
 const qty = (value: string) => parseQuantityInput(value) ?? Number.NaN
 const showQty = (value: number) => Number.isFinite(value) ? String(value) : '—'
 const money = (value: number) => `Rp${value.toLocaleString('id-ID', { maximumFractionDigits: 2 })}`
@@ -56,7 +57,7 @@ function CreateManualBs({ workspace, canSubmit, onClose, onAction, feedback }: {
   const [componentIds, setComponentIds] = useState<string[]>([])
   const [completedBefore, setCompletedBefore] = useState<Record<string, string>>({})
   const componentQuantitiesValid = componentIds.every((id) => qty(completedBefore[id] ?? '0') <= qty(quantity))
-  const valid = Boolean(legacyReference.trim() && qty(quantity) > 0 && qty(quantity) <= 999_999 && componentQuantitiesValid && physicalAt && reason.trim().length >= 4)
+  const valid = Boolean(legacyReference.trim() && qty(quantity) > 0 && qty(quantity) <= 999_999 && componentQuantitiesValid && validTime(physicalAt) && reason.trim().length >= 4)
   return <div className="cbsr-modal-layer" role="presentation"><section role="dialog" aria-modal="true" aria-labelledby="manual-bs-title">
     <header><div><span>SUMBER TIDAK TERLACAK</span><h2 id="manual-bs-title">Catat BS legacy / out-of-nowhere</h2><p>Jalur ini wajib menyimpan referensi fisik dan tidak mengarang PO atau Pola.</p></div><button aria-label="Tutup" onClick={onClose}><X/></button></header>
     {feedback}
@@ -65,7 +66,7 @@ function CreateManualBs({ workspace, canSubmit, onClose, onAction, feedback }: {
       <label><span>REFERENSI LEGACY · WAJIB</span><input value={legacyReference} onChange={(event) => setLegacyReference(event.target.value)} placeholder="Nota / buku / foto fisik"/></label>
       <label><span>PRODUK · OPSIONAL</span><select value={productId} onChange={(event) => setProductId(event.target.value)}><option value="">Belum dapat diidentifikasi</option>{workspace.lookups.products.map((item) => <option value={item.id} key={item.id}>{item.sku} · {item.name}</option>)}</select></label>
       <label><span>QTY PCS</span><input inputMode="numeric" aria-invalid={parseQuantityInput(quantity) === null} value={quantity} onChange={(event) => setQuantity(event.target.value)}/></label>
-      <label><span>WAKTU FISIK DITEMUKAN</span><input type="datetime-local" value={physicalAt} onChange={(event) => setPhysicalAt(event.target.value)}/></label>
+      <label><span>WAKTU FISIK DITEMUKAN · WIB</span><input type="datetime-local" value={physicalAt} onChange={(event) => setPhysicalAt(event.target.value)}/></label>
       <label className="wide"><span>ALASAN PENCATATAN · WAJIB</span><input value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Mengapa baru dicatat sekarang?"/></label>
       <label className="wide"><span>CATATAN KONDISI</span><textarea value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="Kondisi barang dan lokasi fisik"/></label>
     </div>
@@ -115,7 +116,7 @@ function CreateClaim({ workspace, canSubmit, onClose, onAction, feedback }: {
     ? receiptSource?.qty_claimable_pcs ?? 0
     : deliverySource?.qty_claimable_pcs ?? 0
   const compensationAmount = parseBsMoney(compensation)
-  const valid = Boolean(source && number.trim() && qty(quantity) > 0 && qty(quantity) <= maxQuantity && openedAt && reason.trim().length >= 4 && compensationAmount !== null)
+  const valid = Boolean(source && number.trim() && qty(quantity) > 0 && qty(quantity) <= maxQuantity && validTime(openedAt) && reason.trim().length >= 4 && compensationAmount !== null)
   return <div className="cbsr-modal-layer" role="presentation"><section role="dialog" aria-modal="true" aria-labelledby="new-claim-title">
     <header><div><span>LAUNDRY EXCEPTION</span><h2 id="new-claim-title">Buat claim Laundry</h2><p>Stuck/Missing mengikuti surat kirim; Damage wajib mengikuti baris penerimaan BS. Vendor dan PO tidak diketik ulang.</p></div><button aria-label="Tutup" onClick={onClose}><X/></button></header>
     {feedback}
@@ -131,7 +132,7 @@ function CreateClaim({ workspace, canSubmit, onClose, onAction, feedback }: {
       }}><option>STUCK</option><option>MISSING</option><option>DAMAGE</option></select></label>
       <label><span>QTY CLAIM · MAKS {maxQuantity}</span><input inputMode="numeric" aria-invalid={parseQuantityInput(quantity) === null} value={quantity} onChange={(event) => setQuantity(event.target.value)}/></label>
       <label><span>NILAI KOMPENSASI</span><input inputMode="decimal" value={compensation} onChange={(event) => setCompensation(event.target.value)} aria-invalid={compensationAmount === null}/>{compensationAmount === null ? <small className="cbsr-field-warning">Masukkan nominal 0–999.999.999 dengan maksimal 2 angka desimal.</small> : null}</label>
-      <label><span>WAKTU DIBUKA</span><input type="datetime-local" value={openedAt} onChange={(event) => setOpenedAt(event.target.value)}/></label>
+      <label><span>WAKTU DIBUKA · WIB</span><input type="datetime-local" value={openedAt} onChange={(event) => setOpenedAt(event.target.value)}/></label>
       <label className="wide"><span>ALASAN / BUKTI · WAJIB</span><textarea value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Jelaskan kekurangan, kerusakan, atau barang tertahan"/></label>
     </div>
     <footer><button onClick={onClose}>Tutup formulir</button><button className="primary" disabled={!canSubmit || !valid} onClick={async () => {
@@ -218,7 +219,7 @@ function ReworkCompletion({ order, workspace, canCreate, canPost, canReverse, ow
   return <div className="cbsr-completion-form"><header><span>HASIL KUMULATIF · {previousReturned} MASUK · {order.qty_sent - previousReturned} BELUM KEMBALI</span><strong>{order.rework_number}</strong></header><div>
     <label><span>GOOD KUMULATIF</span><input inputMode="numeric" aria-invalid={parseQuantityInput(good, 'COUNT', order.qty_sent) === null} value={good} onChange={(event) => setGood(event.target.value)}/></label>
     <label><span>BS KUMULATIF</span><input inputMode="numeric" aria-invalid={parseQuantityInput(bad, 'COUNT', order.qty_sent) === null} value={bad} onChange={(event) => setBad(event.target.value)}/></label>
-    <label><span>WAKTU SELESAI</span><input type="datetime-local" value={completedAt} onChange={(event) => setCompletedAt(event.target.value)}/></label>
+    <label><span>WAKTU SELESAI · WIB</span><input type="datetime-local" value={completedAt} onChange={(event) => setCompletedAt(event.target.value)}/></label>
     <label><span>GUDANG GOOD FG</span><select value={locationId} disabled={qty(good) === 0} onChange={(event) => setLocationId(event.target.value)}><option value="">Pilih lokasi…</option>{workspace.lookups.fg_locations.map((item) => <option value={item.id} key={item.id}>{item.code} · {item.name}</option>)}</select></label>
     <label className="wide"><span>ALASAN HASIL FISIK</span><input value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Barang yang benar-benar kembali dan hasil pemeriksaannya"/></label>
   </div><p className="cbsr-partial-note">Simpan partial hanya memperbarui custody/WIP. FG, HPP, reimbursement, dan hutang baru diposting setelah seluruh {order.qty_sent} pcs kembali.</p><footer><span className={exact && cumulative ? 'ok' : 'bad'}>{showQty(qty(good))} + {showQty(qty(bad))} = {showQty(returned)} / {order.qty_sent}{!cumulative ? ' · tidak boleh turun' : ''}</span><div>{canCancel ? <button className="danger" disabled={!canCreate || reason.trim().length < 4} onClick={() => {
@@ -227,7 +228,7 @@ function ReworkCompletion({ order, workspace, canCreate, canPost, canReverse, ow
   }}><X/> Batalkan order</button> : null}{newPartial ? <button disabled={!canCreate || qty(good) > 0 && !locationId || reason.trim().length < 4} onClick={() => void onAction('SAVE_REWORK', {
     id: order.id, action: 'SAVE', qty_good_returned: qty(good), qty_bs_returned: qty(bad),
     return_fg_location_id: qty(good) > 0 ? locationId : null, change_reason: reason.trim(),
-  }, order.row_version)}><Save/> Simpan partial</button> : null}<button disabled={!canPost || !exact || !cumulative || qty(good) > 0 && !locationId || !completedAt || reason.trim().length < 4} onClick={() => void onAction('COMPLETE_REWORK', {
+  }, order.row_version)}><Save/> Simpan partial</button> : null}<button disabled={!canPost || !exact || !cumulative || qty(good) > 0 && !locationId || !validTime(completedAt) || reason.trim().length < 4} onClick={() => void onAction('COMPLETE_REWORK', {
     rework_order_id: order.id, qty_good: qty(good), qty_bs: qty(bad), completed_at: toIso(completedAt),
     return_fg_location_id: qty(good) > 0 ? locationId : null, change_reason: reason.trim(),
   }, order.row_version)}><PackageCheck/> Post hasil & recovery</button></div></footer></div>
@@ -272,17 +273,17 @@ function BsActionPanel({ row, workspace, canCreate, canPost, canReverse, ownerAd
   ] as const
   return <section className="cbsr-actions"><header><div><span>CP5 · RESOLUTION ROUTE</span><h3>Pilih tindakan fisik yang benar</h3></div><ShieldCheck/></header>
     <div className="cbsr-route-tabs">{routeOptions.map(([id, label, Icon]) => <button type="button" key={id} className={route === id ? 'active' : ''} onClick={() => { setRoute(id); setReason(''); setPartyId('') }}><Icon/><span>{label}</span></button>)}</div>
-    {route === 'HOLD' ? <div className="cbsr-route-form"><div className="cbsr-route-note"><Clock3/><span><strong>{row.status === 'ON_HOLD' ? 'Lepas HOLD ke status hasil reducer' : 'HOLD membekukan keputusan'}</strong><small>Qty tidak menjadi FG, Scrap, atau rework. Semua transisi masuk histori append-only.</small></span></div><div className="cbsr-form-grid compact"><label><span>WAKTU FISIK</span><input type="datetime-local" value={physicalAt} onChange={(event) => setPhysicalAt(event.target.value)}/></label><label className="wide"><span>ALASAN · WAJIB</span><textarea value={reason} onChange={(event) => setReason(event.target.value)}/></label></div><button className="cbsr-submit" disabled={!canPost || row.is_closed || (row.status === 'ON_HOLD' ? false : !canStart) || !physicalAt || reason.trim().length < 4} onClick={() => void onAction(row.status === 'ON_HOLD' ? 'RELEASE_HOLD' : 'HOLD_BS', { bs_case_id: row.id, physical_at: toIso(physicalAt), change_reason: reason.trim() }, row.row_version)}><Clock3/> {row.status === 'ON_HOLD' ? 'Release HOLD' : 'Simpan HOLD'}</button></div> : null}
+    {route === 'HOLD' ? <div className="cbsr-route-form"><div className="cbsr-route-note"><Clock3/><span><strong>{row.status === 'ON_HOLD' ? 'Lepas HOLD ke status hasil reducer' : 'HOLD membekukan keputusan'}</strong><small>Qty tidak menjadi FG, Scrap, atau rework. Semua transisi masuk histori append-only.</small></span></div><div className="cbsr-form-grid compact"><label><span>WAKTU FISIK · WIB</span><input type="datetime-local" value={physicalAt} onChange={(event) => setPhysicalAt(event.target.value)}/></label><label className="wide"><span>ALASAN · WAJIB</span><textarea value={reason} onChange={(event) => setReason(event.target.value)}/></label></div><button className="cbsr-submit" disabled={!canPost || row.is_closed || (row.status === 'ON_HOLD' ? false : !canStart) || !validTime(physicalAt) || reason.trim().length < 4} onClick={() => void onAction(row.status === 'ON_HOLD' ? 'RELEASE_HOLD' : 'HOLD_BS', { bs_case_id: row.id, physical_at: toIso(physicalAt), change_reason: reason.trim() }, row.row_version)}><Clock3/> {row.status === 'ON_HOLD' ? 'Release HOLD' : 'Simpan HOLD'}</button></div> : null}
     {(route === 'REWORK' || route === 'REWASH') ? <div className="cbsr-route-form"><div className="cbsr-form-grid compact">
       <label><span>NOMOR ORDER · WAJIB</span><input value={number} onChange={(event) => setNumber(event.target.value)} placeholder={route === 'REWORK' ? `RW-${row.number}` : `RWL-${row.number}`}/></label>
       <label><span>{route === 'REWORK' ? 'MANDOR REWORK' : 'VENDOR REWASH'}</span><select value={partyId} onChange={(event) => setPartyId(event.target.value)}><option value="">Pilih…</option>{(route === 'REWORK' ? workspace.lookups.contractors : workspace.lookups.vendors).map((item) => <option value={item.id} key={item.id}>{item.code} · {item.name}</option>)}</select></label>
       <label><span>QTY DIKIRIM</span><input inputMode="numeric" aria-invalid={parseQuantityInput(quantity) === null} value={quantity} onChange={(event) => setQuantity(event.target.value)}/></label>
-      <label><span>WAKTU FISIK</span><input type="datetime-local" value={physicalAt} onChange={(event) => setPhysicalAt(event.target.value)}/></label>
+      <label><span>WAKTU FISIK · WIB</span><input type="datetime-local" value={physicalAt} onChange={(event) => setPhysicalAt(event.target.value)}/></label>
       <label><span>GUDANG FG BILA GOOD</span><select value={locationId} onChange={(event) => setLocationId(event.target.value)}><option value="">Pilih saat completion</option>{workspace.lookups.fg_locations.map((item) => <option value={item.id} key={item.id}>{item.code} · {item.name}</option>)}</select></label>
       <label className="wide"><span>CATATAN / ALASAN</span><textarea value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Kerusakan dan instruksi fisik"/></label>
     </div>{route === 'REWORK' ? <fieldset className="cbsr-checks"><legend>KOMPONEN KERJA YANG DIULANG · DASAR UPAH REWORK</legend><p>Server hanya mencentang komponen yang masih punya entitlement kerja baru. Counter, bukan status pembayaran kas, menjadi batas anti-bayar-ganda.</p>{row.components.map((item) => <label key={item.id}><input type="checkbox" checked={componentIds.includes(item.id)} onChange={(event) => setComponentIds((current) => event.target.checked ? [...current, item.id] : current.filter((id) => id !== item.id))}/><span><strong>{item.code}</strong>{item.name} · sisa hak baru {item.remaining_new_work_qty_pcs} pcs</span></label>)}</fieldset> : <p className="cbsr-zero-fee"><Waves/> Vendor Rewash tidak mendapat fee kerja komponen. Reimbursement aksesori terpilih tetap menuju Mandor PO.</p>}
     {accessoryBom?.state === 'AVAILABLE' ? <fieldset className="cbsr-checks cbsr-accessories"><legend>AKSESORI YANG BENAR-BENAR DIPASANG · DASAR REIMBURSEMENT</legend><p>Server otomatis mencentang baseline yang belum menjadi entitlement. Yang pernah menjadi entitlement atau tidak bisa dibuktikan akan off; centang manual hanya bila benar-benar ada penggantian tambahan. Pilihan final terkunci saat order dibuat.</p>{accessoryBom.items.map((item) => <label key={item.id}><input type="checkbox" checked={accessoryIds.includes(item.id)} onChange={(event) => setAccessoryIds((current) => event.target.checked ? [...current, item.id] : current.filter((id) => id !== item.id))}/><span><strong>{item.code} · {item.name}</strong>{item.qty_per_good_fg_base} {item.base_uom_code}/pcs · {money(item.reimbursement_rate)}/{item.reimbursement_uom_code} · {item.default_selected ? `${item.remaining_unentitled_good_qty_pcs} pcs baseline belum entitlement` : 'default off · manual bila penggantian nyata'}</span></label>)}</fieldset> : accessoryBom?.state === 'NONE' ? <p className="cbsr-zero-fee"><Check/> BOM produk menyatakan tanpa aksesori. Keputusan kosong tetap disimpan secara immutable.</p> : <p className={nativeBomMissing ? 'cbsr-bom-warning' : 'cbsr-zero-fee'}><AlertTriangle/> {nativeBomMissing ? 'BOM aksesori produk belum tersedia. Setup BOM—termasuk BOM kosong—sebelum membuat order.' : 'Kasus legacy ini tidak punya PO/SKU; pilihan aksesori kosong akan dicatat sebagai UNAVAILABLE dan hasil GOOD tetap tidak dapat diposting.'}</p>}
-    <button className="cbsr-submit" disabled={!canCreate || !canStart || nativeBomMissing || !number.trim() || !partyId || !validSendQty || !physicalAt || reason.trim().length < 4 || route === 'REWORK' && componentIds.length === 0} onClick={() => void onAction('SAVE_REWORK', {
+    <button className="cbsr-submit" disabled={!canCreate || !canStart || nativeBomMissing || !number.trim() || !partyId || !validSendQty || !validTime(physicalAt) || reason.trim().length < 4 || route === 'REWORK' && componentIds.length === 0} onClick={() => void onAction('SAVE_REWORK', {
       rework_number: number.trim(),
       bs_case_id: row.id, destination_type: route === 'REWORK' ? 'CONTRACTOR' : 'LAUNDRY',
       contractor_id: route === 'REWORK' ? partyId : null, vendor_id: route === 'REWASH' ? partyId : null,
@@ -296,9 +297,9 @@ function BsActionPanel({ row, workspace, canCreate, canPost, canReverse, ownerAd
       {route === 'DISPOSITION' ? <label><span>DISPOSITION</span><select value={resolutionType} onChange={(event) => setResolutionType(event.target.value)}><option>SCRAP</option><option>WRITE_OFF</option><option>OTHER</option></select></label> : <label><span>CLAIM SETTLED · SALDO TERSEDIA</span><select value={claimId} onChange={(event) => { setClaimId(event.target.value); setQuantity(''); setCompensation('0') }}><option value="">Pilih claim…</option>{settledClaims.map((item) => <option value={item.id} key={item.id}>{item.number} · {item.vendor_name} · {item.available_qty} pcs / {money(item.available_amount)}</option>)}</select>{settledClaims.length === 0 ? <small className="cbsr-field-warning">Klasifikasikan vendor penanggung jawab dan settle claim bernilai positif yang masih bersaldo.</small> : null}</label>}
       <label><span>QTY{selectedClaim ? ` · MAKS ${Math.min(row.available_qty, selectedClaim.available_qty)}` : ''}</span><input inputMode="numeric" aria-invalid={parseQuantityInput(quantity) === null} value={quantity} onChange={(event) => setQuantity(event.target.value)}/></label>
       {route === 'COMPENSATION' ? <label><span>NILAI DIPAKAI · MAKS {money(selectedClaim?.available_amount ?? 0)}</span><input inputMode="decimal" value={compensation} onChange={(event) => setCompensation(event.target.value)} aria-invalid={compensationAmount === null}/>{compensationAmount === null ? <small className="cbsr-field-warning">Nominal harus sesuai saldo tersedia, maksimal 2 angka desimal.</small> : null}</label> : null}
-      <label><span>WAKTU FISIK</span><input type="datetime-local" value={physicalAt} onChange={(event) => setPhysicalAt(event.target.value)}/></label>
+      <label><span>WAKTU FISIK · WIB</span><input type="datetime-local" value={physicalAt} onChange={(event) => setPhysicalAt(event.target.value)}/></label>
       <label className="wide"><span>ALASAN · WAJIB</span><textarea value={reason} onChange={(event) => setReason(event.target.value)}/></label>
-    </div><button className="cbsr-submit danger" disabled={!canPost || !canStart || !validSendQty || !physicalAt || reason.trim().length < 4 || route === 'COMPENSATION' && (!selectedClaim || sendQty > selectedClaim.available_qty || compensationAmount === null || compensationAmount <= 0)} onClick={() => void onAction('DISPOSE_BS', {
+    </div><button className="cbsr-submit danger" disabled={!canPost || !canStart || !validSendQty || !validTime(physicalAt) || reason.trim().length < 4 || route === 'COMPENSATION' && (!selectedClaim || sendQty > selectedClaim.available_qty || compensationAmount === null || compensationAmount <= 0)} onClick={() => void onAction('DISPOSE_BS', {
       bs_case_id: row.id, resolution_type: route === 'COMPENSATION' ? 'CASH_COMPENSATION' : resolutionType,
       qty_pcs: sendQty, compensation_amount: route === 'COMPENSATION' ? compensationAmount : 0,
       source_laundry_claim_id: route === 'COMPENSATION' ? claimId : null,

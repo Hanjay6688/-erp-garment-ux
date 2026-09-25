@@ -16,6 +16,7 @@ import { useProductionMutation } from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import type { ProductionEnvelope } from './productionRecovery'
 import { parseQuantityInput, requireQuantityInput } from './quantityInput'
+import { cp6WibDateTimeInput, cp6WibPhysicalTimeToIso } from './cp6BusinessTime'
 import { parseCuttingSelectorWorkspace, cuttingOrder, cuttingSelectionIssue, type CuttingSelectorWorkspace, type CuttingSelectorDraft } from './cuttingSelectors'
 import './connected-cutting.css'
 
@@ -26,12 +27,6 @@ type SelectedRoll = {
 }
 
 type SizeSlot = { key: string; sizeId: string; sizeCode: string }
-
-function datetimeLocal(value: Date | string) {
-  const date = value instanceof Date ? value : new Date(value)
-  const local = new Date(date.getTime() - date.getTimezoneOffset() * 60_000)
-  return local.toISOString().slice(0, 16)
-}
 
 const numeric = (raw: string) => parseQuantityInput(raw, 'MEASURE') ?? Number.NaN
 const count = (raw: string) => parseQuantityInput(raw) ?? Number.NaN
@@ -81,7 +76,7 @@ export default function ConnectedCuttingPage() {
   const [orderQuery, setOrderQuery] = useState('')
   const [draftQuery, setDraftQuery] = useState('')
   const [pattern, setPattern] = useState<CuttingPatternChoice | null>(null)
-  const [cutAt, setCutAt] = useState(() => datetimeLocal(new Date()))
+  const [cutAt, setCutAt] = useState(() => cp6WibDateTimeInput())
   const [notes, setNotes] = useState('')
   const [draftId, setDraftId] = useState<string | null>(null)
   const [draftVersion, setDraftVersion] = useState<number | null>(null)
@@ -170,7 +165,8 @@ export default function ConnectedCuttingPage() {
   const totalRemaining = selected.reduce((sum, item) => sum + item.issued - numeric(item.consumed), 0)
   const totalPieces = selected.reduce((sum, item) => sum + slots.reduce((rollSum, slot) =>
     rollSum + count(yields[item.roll.id]?.[slot.key] ?? '0'), 0), 0)
-  const cutAtValid = cutAt.length > 0 && Number.isFinite(new Date(cutAt).getTime())
+  const cutAtIso = cp6WibPhysicalTimeToIso(cutAt)
+  const cutAtValid = cutAtIso !== null
   const formValid = Boolean(orderId && locationId && pattern && cutAtValid && slots.length > 0 && selected.length > 0)
     && selected.every((item) => numeric(item.consumed) > 0 && numeric(item.consumed) <= item.issued)
     && selected.every((item) => slots.every((slot) => parseQuantityInput(yields[item.roll.id]?.[slot.key] ?? '0') !== null)
@@ -183,7 +179,7 @@ export default function ConnectedCuttingPage() {
     setDraftVersion(null)
     setPattern(null)
     setNotes('')
-    setCutAt(datetimeLocal(new Date()))
+    setCutAt(cp6WibDateTimeInput())
     setSelectedRolls({})
     setYields({})
     setNotice('Form baru siap. Belum ada data backend yang ditulis.')
@@ -253,7 +249,7 @@ export default function ConnectedCuttingPage() {
     setPattern(draft.pattern_id && draft.pattern_code && draft.pattern_revision && draft.pattern_name ? {
       id: draft.pattern_id, code: draft.pattern_code, revision: draft.pattern_revision, name: draft.pattern_name,
     } : null)
-    setCutAt(datetimeLocal(draft.cut_at))
+    setCutAt(cp6WibDateTimeInput(draft.cut_at))
     setNotes(draft.notes ?? '')
     setSlots(nextSlots.length > 0 ? nextSlots : sizesForOrder(workspace, draft.po_id).slice(0, 3).map((size) => ({ key: globalThis.crypto.randomUUID(), sizeId: size.id, sizeCode: size.code })))
     setSelectedRolls(nextRolls)
@@ -269,7 +265,7 @@ export default function ConnectedCuttingPage() {
     po_id: orderId,
     pattern_id: pattern?.id,
     source_location_id: locationId,
-    cut_at: new Date(cutAt).toISOString(),
+    cut_at: cutAtIso,
     notes: notes.trim() || null,
     change_reason: action === 'POST' ? 'Posting Potongan dari workspace connected' : 'Simpan draft Potongan dari workspace connected',
     size_slots: slots.map((slot, index) => ({ slot_no: index + 1, size_id: slot.sizeId, drawing_no: 1 })),
@@ -332,7 +328,7 @@ export default function ConnectedCuttingPage() {
       </aside>
 
       <main className="ccut-form">
-        <section className="ccut-card"><header><span>01 · IDENTITAS KANONIK</span><strong>PO, Pola, waktu, dan gudang sumber</strong></header><div className="ccut-search"><Search/><input aria-label="Cari PO" maxLength={200} value={orderQuery} onChange={event => setOrderQuery(event.target.value)} onKeyDown={event => { if (event.key === 'Enter') searchOrders() }} placeholder="Nomor PO, model, mandor…"/><button disabled={loading || saving} onClick={searchOrders}>Cari PO</button></div><div className="ccut-pagination"><span>{pageLabel(workspace?.order_page.offset, workspace?.orders.length, workspace?.order_page.total)}</span><div><button aria-label="PO sebelumnya" disabled={loading || !workspace || workspace.order_page.offset === 0} onClick={() => void load(locationId || null, rollQuery, rollOffset, { orderOffset: Math.max(0, selectorsRef.current.orderOffset - 50) })}>Sebelumnya</button><button aria-label="PO berikutnya" disabled={loading || !workspace || workspace.order_page.offset + workspace.orders.length >= workspace.order_page.total} onClick={() => void load(locationId || null, rollQuery, rollOffset, { orderOffset: selectorsRef.current.orderOffset + 50 })}>Berikutnya</button></div></div><div className="ccut-fields"><label>Production Order<select value={orderId} disabled={draftId !== null} onChange={(event) => changeOrder(event.target.value)}><option value="">Pilih PO…</option>{orderId && !selectedOrder && <option value={orderId} disabled>PO terpilih tidak tersedia</option>}{orderOptions.map((order) => <option value={order.id} key={order.id}>{order.po_number} · {order.model_code} · {order.model_name}</option>)}</select></label><label>Waktu potong<input type="datetime-local" value={cutAt} max={datetimeLocal(new Date())} onChange={(event) => setCutAt(event.target.value)}/></label><label>Gudang bahan<select value={locationId} onChange={(event) => { setLocationId(event.target.value); setRollOffset(0); setSelectedRolls({}); setYields({}); if (selected.length > 0) setNotice('Pilihan roll dikosongkan karena gudang bahan berubah.') }}><option value="">Pilih gudang…</option>{workspace?.locations.map((location) => <option value={location.id} key={location.id}>{location.code} · {location.name}</option>)}</select></label><label>Catatan<input value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="Opsional"/></label></div><CuttingPatternPicker value={pattern} onChange={setPattern}/></section>
+        <section className="ccut-card"><header><span>01 · IDENTITAS KANONIK</span><strong>PO, Pola, waktu, dan gudang sumber</strong></header><div className="ccut-search"><Search/><input aria-label="Cari PO" maxLength={200} value={orderQuery} onChange={event => setOrderQuery(event.target.value)} onKeyDown={event => { if (event.key === 'Enter') searchOrders() }} placeholder="Nomor PO, model, mandor…"/><button disabled={loading || saving} onClick={searchOrders}>Cari PO</button></div><div className="ccut-pagination"><span>{pageLabel(workspace?.order_page.offset, workspace?.orders.length, workspace?.order_page.total)}</span><div><button aria-label="PO sebelumnya" disabled={loading || !workspace || workspace.order_page.offset === 0} onClick={() => void load(locationId || null, rollQuery, rollOffset, { orderOffset: Math.max(0, selectorsRef.current.orderOffset - 50) })}>Sebelumnya</button><button aria-label="PO berikutnya" disabled={loading || !workspace || workspace.order_page.offset + workspace.orders.length >= workspace.order_page.total} onClick={() => void load(locationId || null, rollQuery, rollOffset, { orderOffset: selectorsRef.current.orderOffset + 50 })}>Berikutnya</button></div></div><div className="ccut-fields"><label>Production Order<select value={orderId} disabled={draftId !== null} onChange={(event) => changeOrder(event.target.value)}><option value="">Pilih PO…</option>{orderId && !selectedOrder && <option value={orderId} disabled>PO terpilih tidak tersedia</option>}{orderOptions.map((order) => <option value={order.id} key={order.id}>{order.po_number} · {order.model_code} · {order.model_name}</option>)}</select></label><label>Waktu potong (WIB)<input type="datetime-local" value={cutAt} max={cp6WibDateTimeInput()} onChange={(event) => setCutAt(event.target.value)}/></label><label>Gudang bahan<select value={locationId} onChange={(event) => { setLocationId(event.target.value); setRollOffset(0); setSelectedRolls({}); setYields({}); if (selected.length > 0) setNotice('Pilihan roll dikosongkan karena gudang bahan berubah.') }}><option value="">Pilih gudang…</option>{workspace?.locations.map((location) => <option value={location.id} key={location.id}>{location.code} · {location.name}</option>)}</select></label><label>Catatan<input value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="Opsional"/></label></div><CuttingPatternPicker value={pattern} onChange={setPattern}/></section>
 
         <section className="ccut-card"><header><span>02 · UKURAN AKTIF</span><strong>Kolom hasil potong sesuai model PO</strong></header><div className="ccut-size-list">{availableSizes.map((size) => <button className={slots.some((slot) => slot.sizeId === size.id) ? 'active' : ''} onClick={() => toggleSize(size.id, size.code)} key={size.id}>{size.code}</button>)}{orderId && availableSizes.length === 0 ? <span>Model PO ini belum memiliki ukuran aktif.</span> : null}</div></section>
 

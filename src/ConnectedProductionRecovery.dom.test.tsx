@@ -286,3 +286,35 @@ describe('cutting selector continuity and stale drafts', () => {
     expect(writes()).toHaveLength(0)
   })
 })
+
+// Node's process.env.TZ sets the timezone Date uses; typed here because the app tsconfig has no Node types.
+const nodeEnv = (globalThis as unknown as { process: { env: Record<string, string | undefined> } }).process.env
+
+describe('physical time is sent as the WIB wall clock on every device (CP6-01)', () => {
+  const zones = ['Asia/Jakarta', 'Asia/Makassar', 'UTC', 'Pacific/Kiritimati']
+  it.each(zones.flatMap((zone) => (['CUTTING', 'PICKUP'] as const).map((kind) => [kind, zone] as const)))('%s on a device in %s', async (kind, zone) => {
+    const previous = nodeEnv.TZ
+    nodeEnv.TZ = zone
+    try {
+      server()
+      await mount(kind)
+      const time = container.querySelector<HTMLInputElement>('input[type="datetime-local"]')!
+      await fill(time, '2026-09-20T00:30')
+      await click(kind === 'CUTTING' ? 'Post ke WIP' : 'Catat pickup')
+      const payload = writes()[0][1].p_payload as Record<string, unknown>
+      expect(payload[kind === 'CUTTING' ? 'cut_at' : 'picked_up_at']).toBe('2026-09-19T17:30:00.000Z')
+    } finally {
+      if (previous === undefined) delete nodeEnv.TZ
+      else nodeEnv.TZ = previous
+    }
+  })
+
+  it.each(['CUTTING', 'PICKUP'] as const)('%s keeps its write disabled for an empty physical time', async (kind) => {
+    server()
+    await mount(kind)
+    const time = container.querySelector<HTMLInputElement>('input[type="datetime-local"]')!
+    await fill(time, '')
+    expect(button(kind === 'CUTTING' ? 'Post ke WIP' : 'Catat pickup').disabled).toBe(true)
+    expect(writes()).toHaveLength(0)
+  })
+})

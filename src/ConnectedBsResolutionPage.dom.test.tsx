@@ -663,3 +663,53 @@ describe('CP5 connected BS Resolution DOM boundary', () => {
       .filter((key) => key?.startsWith('erp.cp5.pending-mutation.v1:'))).toEqual([])
   })
 })
+
+// Node's process.env.TZ sets the timezone Date uses; typed here because the app tsconfig has no Node types.
+const nodeEnv = (globalThis as unknown as { process: { env: Record<string, string | undefined> } }).process.env
+
+describe('BS physical time is sent as the WIB wall clock on every device (CP6-01)', () => {
+  async function holdWith(value: string) {
+    const rpc = vi.fn(async (name: string, args: Record<string, unknown>) => {
+      if (name === 'erp_list_patterns_v1') return { data: patterns, error: null }
+      if (name === 'erp_get_bs_resolution_workspace_v1') return { data: workspace((args.p_pattern_id as string | null) ?? null), error: null }
+      if (name === 'erp_save_bs_resolution_action_v1') return { data: { action: 'HOLD_BS', result: { status: 'OPEN', row_version: 5 } }, error: null }
+      throw new Error(`Unexpected RPC ${name}`)
+    })
+    mockedClient.current = { rpc }
+    authState.current = identity([
+      'production.bs_rework.view', 'production.bs_rework.create',
+      'production.bs_rework.post', 'production.bs_rework.reverse', 'master.pattern.view',
+    ])
+    await renderPage()
+    const holdTab = [...container.querySelectorAll<HTMLButtonElement>('.cbsr-route-tabs button')].find((button) => button.textContent?.trim() === 'Hold')
+    await act(async () => { holdTab!.click() })
+    const time = container.querySelector<HTMLInputElement>('.cbsr-route-form input[type="datetime-local"]')!
+    await act(async () => { setControlValue(time, value) })
+    await act(async () => { setControlValue(container.querySelector<HTMLTextAreaElement>('.cbsr-route-form textarea')!, 'Bukti fisik belum lengkap') })
+    const saveHold = [...container.querySelectorAll<HTMLButtonElement>('button')].find((button) => button.textContent?.includes('Simpan HOLD'))!
+    return { rpc, saveHold }
+  }
+
+  it.each(['Asia/Jakarta', 'Asia/Makassar', 'UTC', 'Pacific/Kiritimati'])('HOLD on a device in %s', async (zone) => {
+    const previous = nodeEnv.TZ
+    nodeEnv.TZ = zone
+    try {
+      const { rpc, saveHold } = await holdWith('2026-09-20T00:30')
+      expect(saveHold.disabled).toBe(false)
+      await act(async () => { saveHold.click() })
+      await settle()
+      expect(rpc.mock.calls.find(([name]) => name === 'erp_save_bs_resolution_action_v1')?.[1]).toMatchObject({
+        p_action: 'HOLD_BS', p_payload: { bs_case_id: 'case-1', physical_at: '2026-09-19T17:30:00.000Z' },
+      })
+    } finally {
+      if (previous === undefined) delete nodeEnv.TZ
+      else nodeEnv.TZ = previous
+    }
+  })
+
+  it('keeps HOLD disabled for an empty physical time instead of throwing', async () => {
+    const { rpc, saveHold } = await holdWith('')
+    expect(saveHold.disabled).toBe(true)
+    expect(rpc.mock.calls.filter(([name]) => name === 'erp_save_bs_resolution_action_v1')).toHaveLength(0)
+  })
+})

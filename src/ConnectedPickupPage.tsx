@@ -21,6 +21,7 @@ import { useProductionMutation } from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import type { ProductionEnvelope } from './productionRecovery'
 import { parseQuantityInput } from './quantityInput'
+import { cp6WibDateTimeInput, cp6WibPhysicalTimeToIso } from './cp6BusinessTime'
 import './connected-pickup.css'
 
 type PickupFilter = 'WAITING' | 'PICKED' | 'ALL'
@@ -32,12 +33,6 @@ function validatePickupCommit(data: unknown, envelope: ProductionEnvelope) {
   const payload = envelope.payload as Record<string, unknown>
   if (result.status !== (envelope.action === 'POST' ? 'POSTED' : envelope.action === 'DELETE' ? 'DELETED' : 'DRAFT')
     || result.cutting_group_id !== payload.cutting_group_id || payload.id && result.pickup_id !== payload.id) throw new Error('Respons pickup tidak cocok')
-}
-
-function datetimeLocal(value: Date | string) {
-  const date = value instanceof Date ? value : new Date(value)
-  const local = new Date(date.getTime() - date.getTimezoneOffset() * 60_000)
-  return local.toISOString().slice(0, 16)
 }
 
 function initialBatchCount(row: PickupQueueRow) {
@@ -59,7 +54,7 @@ export default function ConnectedPickupPage() {
   const [offset, setOffset] = useState(0)
   const [selectedId, setSelectedId] = useState('')
   const [contractorId, setContractorId] = useState('')
-  const [pickedUpAt, setPickedUpAt] = useState(() => datetimeLocal(new Date()))
+  const [pickedUpAt, setPickedUpAt] = useState(() => cp6WibDateTimeInput())
   const [mode, setMode] = useState<AllocationMode>('ROLL')
   const [batchCount, setBatchCount] = useState(1)
   const [notes, setNotes] = useState<string[]>([''])
@@ -125,7 +120,7 @@ export default function ConnectedPickupPage() {
     const nextMode = selected.pickup?.allocation_mode ?? 'ROLL'
     setSelectedId(selected.cutting_group_id)
     setContractorId(selected.pickup?.contractor_id ?? selected.assigned_contractor_id ?? queue?.contractors[0]?.id ?? '')
-    setPickedUpAt(datetimeLocal(selected.pickup?.picked_up_at ?? new Date()))
+    setPickedUpAt(cp6WibDateTimeInput(selected.pickup?.picked_up_at ?? new Date()))
     setMode(nextMode)
     setBatchCount(count)
     setNotes(Array.from({ length: count }, (_, index) => selected.pickup?.batches.find((batch) => batch.batch_no === index + 1)?.notes ?? ''))
@@ -162,7 +157,8 @@ export default function ConnectedPickupPage() {
   const posted = selected?.pickup?.status === 'POSTED' || selected?.picked_up_at !== null
   const editable = Boolean(selected?.pickup_eligible && !posted)
   const mutationAllowed = pickupId ? canEdit : canCreate
-  const pickedAtValid = pickedUpAt.length > 0 && Number.isFinite(new Date(pickedUpAt).getTime())
+  const pickedUpAtIso = cp6WibPhysicalTimeToIso(pickedUpAt)
+  const pickedAtValid = pickedUpAtIso !== null
   const contractorOptions = selected?.assigned_contractor_id
     ? queue?.contractors.filter((contractor) => contractor.id === selected.assigned_contractor_id) ?? []
     : queue?.contractors ?? []
@@ -197,7 +193,7 @@ export default function ConnectedPickupPage() {
     action,
     cutting_group_id: selected?.cutting_group_id,
     contractor_id: contractorId,
-    picked_up_at: new Date(pickedUpAt).toISOString(),
+    picked_up_at: pickedUpAtIso,
     allocation_mode: mode,
     expected_group_version: selected?.row_version,
     change_reason: action === 'POST' ? 'Posting pickup dari Bagi Potongan connected' : 'Simpan draft Bagi Potongan connected',
@@ -255,7 +251,7 @@ export default function ConnectedPickupPage() {
         {!selected ? <div className="cpick-empty large">Pilih Potongan dari antrean.</div> : <>
           <header className="cpick-selected"><div><span>{selected.po_number} · ROW VERSION {selected.row_version}</span><h2>{selected.group_number} · {selected.model_name}</h2><p>{selected.pattern_code ? `${selected.pattern_code} · ${selected.pattern_revision} · ${selected.pattern_name}` : 'Histori legacy tanpa Pola'} · {selected.source_location_code ?? 'Lokasi legacy kosong'}</p></div><em className={posted ? 'posted' : selected.pickup_eligible ? 'ready' : 'blocked'}>{posted ? 'SUDAH DIAMBIL' : selected.pickup_eligible ? 'SIAP DIBAGI' : 'BUTUH REVIEW'}</em></header>
           <section className="cpick-facts"><div><span>POTONGAN</span><strong>{selected.total_pieces} pcs</strong></div><div><span>ROLL</span><strong>{selected.rolls.length}</strong></div><div><span>BAHAN KELUAR</span><strong>{selected.total_qty_issued}</strong></div><div><span>POLA SNAPSHOT</span><strong>{selected.pattern_code ?? '—'} · {selected.pattern_revision ?? '—'}</strong></div></section>
-          <section className="cpick-setup"><label>Mandor<select value={contractorId} disabled={!editable || Boolean(selected.assigned_contractor_id)} onChange={(event) => setContractorId(event.target.value)}><option value="">Pilih Mandor…</option>{contractorOptions.map((contractor) => <option value={contractor.id} key={contractor.id}>{contractor.code} · {contractor.name}</option>)}{selectedContractorMissing ? <option value={contractorId}>{selected.assigned_contractor_name ?? selected.pickup?.contractor_name ?? 'Mandor tidak aktif'} · TIDAK AKTIF</option> : null}</select>{assignedContractorMissing ? <small role="alert">Mandor yang dikunci di Production Order sudah tidak aktif. Aktifkan kembali atau ubah penugasan PO sebelum pickup.</small> : selectedContractorMissing ? <small role="alert">Mandor pada draft sudah tidak aktif. Pilih Mandor aktif sebelum menyimpan atau posting.</small> : selected.assigned_contractor_id ? <small>Mandor dikunci mengikuti penugasan Production Order.</small> : null}</label><label>Waktu fisik diambil<input type="datetime-local" value={pickedUpAt} disabled={!editable} onChange={(event) => setPickedUpAt(event.target.value)}/></label><label>Jumlah batch<div><button type="button" disabled={!editable || batchCount <= 1} onClick={() => resizeBatches(batchCount - 1)}>−</button><strong>{batchCount}</strong><button type="button" disabled={!editable || batchCount >= 12} onClick={() => resizeBatches(batchCount + 1)}>+</button></div></label><fieldset disabled={!editable}><legend>Susun awal</legend><button type="button" className={mode === 'ROLL' ? 'active' : ''} onClick={() => changeMode('ROLL')}>Per roll</button><button type="button" className={mode === 'SIZE' ? 'active' : ''} onClick={() => changeMode('SIZE')}>Per size</button></fieldset></section>
+          <section className="cpick-setup"><label>Mandor<select value={contractorId} disabled={!editable || Boolean(selected.assigned_contractor_id)} onChange={(event) => setContractorId(event.target.value)}><option value="">Pilih Mandor…</option>{contractorOptions.map((contractor) => <option value={contractor.id} key={contractor.id}>{contractor.code} · {contractor.name}</option>)}{selectedContractorMissing ? <option value={contractorId}>{selected.assigned_contractor_name ?? selected.pickup?.contractor_name ?? 'Mandor tidak aktif'} · TIDAK AKTIF</option> : null}</select>{assignedContractorMissing ? <small role="alert">Mandor yang dikunci di Production Order sudah tidak aktif. Aktifkan kembali atau ubah penugasan PO sebelum pickup.</small> : selectedContractorMissing ? <small role="alert">Mandor pada draft sudah tidak aktif. Pilih Mandor aktif sebelum menyimpan atau posting.</small> : selected.assigned_contractor_id ? <small>Mandor dikunci mengikuti penugasan Production Order.</small> : null}</label><label>Waktu fisik diambil (WIB)<input type="datetime-local" value={pickedUpAt} disabled={!editable} onChange={(event) => setPickedUpAt(event.target.value)}/></label><label>Jumlah batch<div><button type="button" disabled={!editable || batchCount <= 1} onClick={() => resizeBatches(batchCount - 1)}>−</button><strong>{batchCount}</strong><button type="button" disabled={!editable || batchCount >= 12} onClick={() => resizeBatches(batchCount + 1)}>+</button></div></label><fieldset disabled={!editable}><legend>Susun awal</legend><button type="button" className={mode === 'ROLL' ? 'active' : ''} onClick={() => changeMode('ROLL')}>Per roll</button><button type="button" className={mode === 'SIZE' ? 'active' : ''} onClick={() => changeMode('SIZE')}>Per size</button></fieldset></section>
           <section className="cpick-table-wrap"><table><thead><tr><th>Sumber kanonik</th><th>Size</th><th>Qty</th>{Array.from({ length: batchCount }, (_, index) => <th key={index}>Batch {index + 1}</th>)}</tr></thead><tbody>{sourceRows.map(({ roll, yieldRow }) => <tr key={yieldRow.yield_id}><th><strong>{roll.roll_number}</strong><small>{roll.material_name}</small></th><td>{yieldRow.size_code}{yieldRow.label ? ` · ${yieldRow.label}` : ''}</td><td><strong>{yieldRow.qty_pcs}</strong></td>{Array.from({ length: batchCount }, (_, batchIndex) => <td key={batchIndex}><input aria-label={`${roll.roll_number} ${yieldRow.size_code} Batch ${batchIndex + 1}`} inputMode="numeric" aria-invalid={parseQuantityInput(matrix[yieldRow.yield_id]?.[batchIndex] ?? '', 'COUNT', yieldRow.qty_pcs) === null} disabled={!editable} value={matrix[yieldRow.yield_id]?.[batchIndex] ?? 0} onFocus={(event) => event.currentTarget.select()} onChange={(event) => setMatrix((current) => ({ ...current, [yieldRow.yield_id]: Array.from({ length: batchCount }, (_, index) => index === batchIndex ? event.target.value : current[yieldRow.yield_id]?.[index] ?? 0) }))}/></td>)}</tr>)}</tbody><tfoot><tr><th colSpan={3}>TOTAL BATCH</th>{allocation.batchTotals.map((qty, index) => <th key={index}>{display(qty)} pcs</th>)}</tr></tfoot></table></section>
           <section className="cpick-notes">{Array.from({ length: batchCount }, (_, index) => <label key={index}><span>Catatan Batch {index + 1}</span><input disabled={!editable} value={notes[index] ?? ''} onChange={(event) => setNotes((current) => Array.from({ length: batchCount }, (_, noteIndex) => noteIndex === index ? event.target.value : current[noteIndex] ?? ''))} placeholder="Warna / arahan jahitan…"/></label>)}</section>
           <section className={`cpick-reconcile ${allocation.exact && allocation.everyBatchUsed ? 'ready' : 'blocked'}`}><div><span>SUMBER</span><strong>{allocation.sourceTotal} pcs</strong></div><div><span>TERBAGI</span><strong>{display(allocation.allocatedTotal)} pcs</strong></div><div><span>SELISIH</span><strong>{display(allocation.sourceTotal - allocation.allocatedTotal)} pcs</strong></div><p>{!quantitiesValid ? 'Qty PCS harus bilangan bulat dalam batas sumber; periksa input yang ditandai.' : overAllocated ? 'Ada baris melebihi sumber Potongan.' : allocation.exact && allocation.everyBatchUsed ? 'Seluruh sumber persis terbagi dan setiap batch terpakai.' : 'Draft boleh belum penuh; posting menunggu rekonsiliasi persis.'}</p></section>

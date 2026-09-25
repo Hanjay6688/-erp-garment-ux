@@ -2,6 +2,7 @@ export const CP6_BUSINESS_TIME_ZONE = 'Asia/Jakarta'
 export const CP6_BUSINESS_TIME_LABEL = 'WIB (Asia/Jakarta)'
 
 const CP6_BUSINESS_UTC_OFFSET = '+07:00'
+const CP6_BUSINESS_UTC_OFFSET_MS = 7 * 60 * 60 * 1000
 const localDateTimePattern = /^(\d{4})-(\d{2})-(\d{2})T([01]\d|2[0-3]):([0-5]\d)(?::([0-5]\d))?$/
 
 function daysInMonth(year: number, month: number) {
@@ -23,6 +24,16 @@ export function cp6WibPhysicalTimeToIso(value: string) {
   const seconds = match[6] ?? '00'
   const instant = new Date(`${match[1]}-${match[2]}-${match[3]}T${match[4]}:${match[5]}:${seconds}${CP6_BUSINESS_UTC_OFFSET}`)
   return Number.isNaN(instant.getTime()) ? null : instant.toISOString()
+}
+
+/**
+ * The WIB wall clock (YYYY-MM-DDTHH:mm) of an instant, for a datetime-local input. Like the conversion above it never
+ * uses the browser/device timezone; an invalid value gives an empty input instead of an invented time.
+ */
+export function cp6WibDateTimeInput(value: Date | string = new Date()) {
+  const instant = value instanceof Date ? value : new Date(value)
+  if (Number.isNaN(instant.getTime())) return ''
+  return new Date(instant.getTime() + CP6_BUSINESS_UTC_OFFSET_MS).toISOString().slice(0, 16)
 }
 
 export function formatCp6WibDateTime(value: string) {
