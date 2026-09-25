@@ -688,7 +688,8 @@ def w9_changed_since_filing(cur,today,late):
     processed (AW P07's fixture), so the correction is booked in the open period with an economic date on or before d.
     C0 D01 3.4 (ratified): the filed values and the filing stay unchanged and the report for d marks changed_since_filing.
     AW marked it only while the recost was pending (false again after processing): COUNTEREXAMPLE without BA, PASS with it.
-    Control (late=False): nothing reaches the closed period after the filing, the report for d stays unmarked."""
+    Control (late=False): nothing reaches the closed period after the filing, the report for d stays unmarked, also with the
+    quieted seed's corrections of earlier dates that were booked after d before the filing (run 36112108521)."""
     f,_=awp.recost_fixture(cur,today,False)
     d=f['purchase_day']+timedelta(days=1)
     quiet=awp.quiet_seed(cur,f['purchase_day'],d)
@@ -701,15 +702,14 @@ def w9_changed_since_filing(cur,today,late):
     booked_after=lambda:[list(map(str,r)) for r in cur.execute("""select source_type,economic_date,transaction_date from erp.journal_entries
         where status in('POSTED','REVERSED') and economic_date<=%s and transaction_date>%s order by 1,2,3""",(d,d)).fetchall()]
     api.admin(cur);before_change=booked_after()
-    if before_change:return dict(status='INCOMPLETE',reason='the fixture already has corrections of d booked after d',rows=before_change)
     if late:
         awp.chain.prior.post_purchase(cur,f['material'],awp.chain.production.at(f['purchase_day'],22),unit_price=12);api.admin(cur)
         awp.chain.production.owner(cur);cur.execute('select erp.process_cost_recalc_queue(100)');api.admin(cur)
     done=awp.preflight(cur,d);rep=awp.report(cur,d)
-    api.admin(cur);later=booked_after()
+    api.admin(cur);later=[r for r in booked_after() if r not in before_change]
     values_after=awp.snapshot_values(cur,d);filed_after=awp.filings(cur)
     evidence=dict(closed_through=str(d),late_change=late,report_at_close=at_close,report_after=rep,engine_after=done and done['status'],
-                  later_booked_corrections=later,values_unchanged=values_before==values_after,
+                  known_at_filing=before_change,booked_after_filing=later,values_unchanged=values_before==values_after,
                   filing_unchanged=filed_before==filed_after and len(filed_after)==1,quiet=quiet,
                   oracle='C0 D01 3.4: filing and filed values unchanged; the report for the filed date marks changed_since_filing '
                          'once a correction of that date is booked after the filed period')

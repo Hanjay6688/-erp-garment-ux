@@ -52,9 +52,11 @@ checked substitutions only, like the AY and AZ builders:
      LAU-T27) keep their own times.
   W9 (independent audit round 9; C0 D01 section 3.4, ratified) erp.get_owner_financial_snapshot_v2: a report dated inside a
      filed period marks changed_since_filing while the date is not READY (AW) and also once a correction whose economic
-     date is on or before the report date was booked after the filed period (the controlled adjustment of 3.4: economic
-     date E, booked on the recognition day). AW's flag went back to false once the recost was processed, although the
-     filed picture had been corrected; the filed values and the filing itself stay unchanged either way.
+     date is on or before the report date was booked after the filed period after the filing was made (the controlled
+     adjustment of 3.4: economic date E, booked on the recognition day). erp.close_accounting_through records in the filing
+     the journals of that kind it already knew (BA probe run 36112108521: the quieted seed's payroll accrual of 2026-02-01
+     booked today is not a change since the filing). AW's flag went back to false once the recost was processed, although
+     the filed picture had been corrected; the filed values and the filing itself stay unchanged either way.
   A5 (CP6-04) selectors: erp.get_bs_resolution_workspace_v1 lists every Laundry source that can still be claimed or used
      (deliveries without capacity are left out before any ordering; no 100-row cut), erp.get_initial_import_workspace_v1
      lists every batch not posted yet with the latest 50, and the open payrolls and advance targets of a batch in full.
@@ -421,14 +423,25 @@ LAUNDRY_RATE_NEW="""    -- BA (round 9, W1 source inventory; M:4474 LAU-DEC03 / 
 SNAP_HEAD='CREATE OR REPLACE FUNCTION erp.get_owner_financial_snapshot_v2(p_from date, p_to date, p_as_of date DEFAULT'
 SNAP_OLD="""      'filing',v_filing,'changed_since_filing',v_filing is not null and v_readiness->>'status'<>'READY'"""
 SNAP_NEW="""      -- BA (audit round 9, W9; C0 D01 3.4): changed since the filing while the date is not READY, and once a correction of the
-      -- filed picture (economic date on or before the report date) was booked after the filed period.
+      -- filed picture (economic date on or before the report date, booked after the filed period) was made after the filing:
+      -- the journals the filing already knew are listed in it (a filing made before BA lists none).
       'filing',v_filing,'changed_since_filing',v_filing is not null and (v_readiness->>'status'<>'READY' or exists(
         select 1 from erp.journal_entries j where j.status in('POSTED','REVERSED') and j.economic_date<=p_as_of
-          and j.transaction_date>(v_filing->>'closed_through')::date))"""
+          and j.transaction_date>(v_filing->>'closed_through')::date
+          and not coalesce((select f.readiness->'booked_after_filed_period' from erp.accounting_close_filings_v1 f
+                            where f.id=(v_filing->>'filing_id')::uuid),'[]'::jsonb) ? j.id::text))"""
 CLOSE_HEAD='CREATE OR REPLACE FUNCTION erp.close_accounting_through(p_closed_through date, p_reason text)'
 CLOSE_OLD="""  if v_old is not null and p_closed_through<v_old then
     raise exception 'Untuk membuka kembali periode gunakan reopen_accounting_through(); periode saat ini sudah ditutup sampai %',v_old;
   end if;
+"""
+CLOSE_FILE_OLD="""  values(p_closed_through,v_old,erp.current_app_user_id(),p_reason,v_readiness,
+"""
+CLOSE_FILE_NEW="""  -- BA (round 9, W9): the filing also records the journals already booked after the filed period for dates inside it
+  -- (economic date on or before the closed date), so a report can tell a correction made after the filing from one it knew.
+  values(p_closed_through,v_old,erp.current_app_user_id(),p_reason,v_readiness||jsonb_build_object('booked_after_filed_period',
+    (select coalesce(jsonb_agg(j.id order by j.id),'[]'::jsonb) from erp.journal_entries j
+     where j.status in('POSTED','REVERSED') and j.economic_date<=p_closed_through and j.transaction_date>p_closed_through)),
 """
 CLOSE_NEW=CLOSE_OLD+"""  -- BA (audit A6, CP6-24): the date already closed files nothing new; filings are immutable, so a second close would file
   -- twice. A close after a reopen stays allowed.
@@ -482,7 +495,7 @@ def build():
     bs='CREATE OR REPLACE FUNCTION'+bs[len('create function'):]
     imports=function(AP,IMPORT_HEAD,[(IMPORT_RECENT_OLD,IMPORT_RECENT_NEW),(IMPORT_PAYROLL_OLD,IMPORT_PAYROLL_NEW),(IMPORT_TARGET_OLD,IMPORT_TARGET_NEW)])
     reval=function(AZ,REVAL_HEAD,[(REVAL_DECLARE_OLD,REVAL_DECLARE_NEW),(REVAL_OLD,REVAL_NEW)])
-    close=function(AW,CLOSE_HEAD,[(CLOSE_OLD,CLOSE_NEW)])
+    close=function(AW,CLOSE_HEAD,[(CLOSE_OLD,CLOSE_NEW),(CLOSE_FILE_OLD,CLOSE_FILE_NEW)])
     snapshot=function(AW,SNAP_HEAD,[(SNAP_OLD,SNAP_NEW)])
     laundry=function(AC,LAUNDRY_HEAD,[(LAUNDRY_RATE_OLD,LAUNDRY_RATE_NEW)])
     parts=['-- CP6 BA audit closure (writer handoff 25 Sep 2026, owner D02/D03): T1_FAMILY development install (NOT a release package).',

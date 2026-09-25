@@ -1,6 +1,6 @@
 -- CP6 BA: independent audit closure (import identity, dated WIP and advance capacity, WIP product binding, recost cents, selectors, single close filing). Release candidate of the T3 combined package; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_ba_t1_family.sql (sha256 dd95bbdfb76c049bf9cfeb476ac49ae7e6ba6890d5406dc3bddd998a4443d52c): the T1 body below is unchanged apart from the
+-- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_ba_t1_family.sql (sha256 2e6e6820f144ddbd15fb7eba16a53c9237deef8356bc0a7c5fd59480aec94501): the T1 body below is unchanged apart from the
 -- ledger description; guards follow AO..AV. Capsule and catalog pins are placeholders until the T3 capture.
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
@@ -1028,7 +1028,11 @@ begin
 
   -- Filed snapshot: never overwritten; later corrections are read from the engine as current-corrected values.
   insert into erp.accounting_close_filings_v1(closed_through,previous_closed_through,filed_by,reason,readiness,gl_balances)
-  values(p_closed_through,v_old,erp.current_app_user_id(),p_reason,v_readiness,
+  -- BA (round 9, W9): the filing also records the journals already booked after the filed period for dates inside it
+  -- (economic date on or before the closed date), so a report can tell a correction made after the filing from one it knew.
+  values(p_closed_through,v_old,erp.current_app_user_id(),p_reason,v_readiness||jsonb_build_object('booked_after_filed_period',
+    (select coalesce(jsonb_agg(j.id order by j.id),'[]'::jsonb) from erp.journal_entries j
+     where j.status in('POSTED','REVERSED') and j.economic_date<=p_closed_through and j.transaction_date>p_closed_through)),
     (select coalesce(jsonb_object_agg(ca.account_code,round(b.balance,2) order by ca.account_code),'{}'::jsonb)
      from (select a.account_id,sum(a.debit_total-a.credit_total) balance from erp.account_daily_balances a
            where a.balance_date<=p_closed_through group by a.account_id) b
@@ -1211,10 +1215,13 @@ begin
       'engine',v_readiness->>'engine','as_of',p_as_of,'window_from',v_readiness->'window_from',
       'closed_through',v_closed,'blockers',v_readiness->'blockers','info',v_readiness->'info',
       -- BA (audit round 9, W9; C0 D01 3.4): changed since the filing while the date is not READY, and once a correction of the
-      -- filed picture (economic date on or before the report date) was booked after the filed period.
+      -- filed picture (economic date on or before the report date, booked after the filed period) was made after the filing:
+      -- the journals the filing already knew are listed in it (a filing made before BA lists none).
       'filing',v_filing,'changed_since_filing',v_filing is not null and (v_readiness->>'status'<>'READY' or exists(
         select 1 from erp.journal_entries j where j.status in('POSTED','REVERSED') and j.economic_date<=p_as_of
-          and j.transaction_date>(v_filing->>'closed_through')::date))
+          and j.transaction_date>(v_filing->>'closed_through')::date
+          and not coalesce((select f.readiness->'booked_after_filed_period' from erp.accounting_close_filings_v1 f
+                            where f.id=(v_filing->>'filing_id')::uuid),'[]'::jsonb) ? j.id::text))
     ),
     'financial_position',jsonb_build_object(
       'assets',round(v_assets,2),'cash',round(v_cash,2),'customer_ar',round(v_ar,2),
