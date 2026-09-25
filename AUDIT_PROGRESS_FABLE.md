@@ -63,3 +63,6 @@
 - Dispatched on 23abac1: T2 36177884812, T3 package 36177895962, rollback 36177907418, CodeQL 36177919063; regression after-phase: xa1 36177930596, xa2 36177941767,
   xa7 36177953287, xa8 36177965107, xa9 36177978040, open_1 36177989983, C0 36178002278, xaudit_12_f1f2 36178015645.
 - T2 disposition written (results §10): ACCESSORY_CONNECTED_ZERO PASS→INCOMPLETE = EXPECTED_CHANGE per ERP-DEC02/M:5023; frozen case stays, writer adds successor.
+- 19:30Z: round 12 BC results: gates T2/T3(27)/rollback/CodeQL all success; regression identical to r11 (xa8 2 frozen CE, C0 1 grant INCOMPLETE); F1 fix CONFIRMED
+  natively (36178015645); BC PLAN 44/44 after on own workflow (36178145305); Fable adversarial cases product-clean (36178552990; auditor comparator defect → rev2
+  triggered by workflow touch). Results §9, paste §2b, index fable_round12_bc. Open: D09/F3, D07, ACC-C12 key policy.

@@ -122,10 +122,27 @@ lama, butuh disposisi tertulis, belum diperbaiki) dan F3 (guard UUID halaman not
 | T2 27e1a05 per ID identik dengan fe226cf kecuali 1 | Writer §31.4a: `ACCESSORY_CONNECTED_ZERO` PASS→INCOMPLETE (nota harga manual 0 kini ditolak `BC_FREE_REQUIRES_POLICY`). Disposisi auditor di §10. | SETUJU |
 | CodeQL 4 job sukses, jangan tulis "nol temuan" tanpa SARIF | Setuju; rerun auditor 36177919063. | SETUJU |
 
-## 9. Run putaran 12 BC (diisi saat selesai)
-Gate: T2 36177884812 · T3 paket 36177895962 · rollback 36177907418 · CodeQL 36177919063. Regresi (fase after, dengan BC): xa1 36177930596 · xa2 36177941767 ·
-xa7 36177953287 · xa8 rev4 36177965107 · xa9 36177978040 · open_1 36177989983 · C0 36178002278 · xaudit_12_f1f2 rev5 36178015645 (F1 harus PASS dengan BC; F2 masih bunyi sampai D07).
-Probe BC (PLAN writer 44 kasus) di workflow pinned auditor `.github/workflows/fable-cp6-bc-t1.yml`: run diisi di bawah.
+## 9. Run putaran 12 BC — semua INDEPENDENT_NATIVE_RERUN pada tool head 23abac1, produk 27e1a05 (19:09–19:25Z)
+| Uji | Run | Hasil | Banding putaran 11 (BB final) |
+|---|---|---|---|
+| T2 gabungan | 36177884812 | 3/3 job sukses (status per ID: lihat §10 untuk satu-satunya perubahan) | identik kecuali `ACCESSORY_CONNECTED_ZERO` (§10) |
+| T3 paket 27 berkas AC..BC | 36177895962 | 3/3 job sukses: install+verify+advisor+drill+gate, pins dicapture ulang = paket, browser AU | 26→27 berkas |
+| T3 rollback (cycle auto) | 36177907418 | sukses | 131→135 cek (angka writer; log auditor dibaca status saja) |
+| CodeQL 4 bahasa | 36177919063 | 4/4 job sukses (SARIF tidak dibaca; tidak mengklaim "nol temuan") | sama |
+| xa1 | 36177930596 | 4/4 PASS | sama |
+| xa2 | 36177941767 | 5/5 PASS | sama |
+| xa7 | 36177953287 | 12/12 PASS | sama |
+| xa8 rev4 | 36177965107 | 12 PASS + 2 COUNTEREXAMPLE beku (per-PO; T3-A: bukan cacat) | sama |
+| xa9 | 36177978040 | 3/3 PASS | sama |
+| open_1 | 36177989983 | 13/13 PASS | sama |
+| C0 (GPT oracles) | 36178002278 | 24 PASS + 1 INCOMPLETE `G8C0:AS:ADJUSTMENT_DATE:False` (permission denied `get_owner_financial_snapshot_v2`: grant di skenario, bukan produk) | sama persis dengan r11 |
+| xaudit_12_f1f2 rev5 (fase after = dengan BC) | 36178015645 | `BC_ABSENT` FAIL **sesuai desain penjaga** (BC memang terpasang); **F1 PASS** (baris harga manual lewat fasad tidak lagi ditandai → perbaikan F1 CONFIRMED natively); F2 3 COUNTEREXAMPLE seperti pra-BC (menunggu D07); kontrol + N3 PASS | F1 CE→PASS |
+| Probe BC, PLAN writer 44 kasus, workflow pinned auditor | 36178145305 | before 33 NO_ROUTE + 3 CE + 8 PASS; **after 44/44 PASS**; mismatch {}; primary_unchanged | = run writer 36174363546 |
+| Probe BC PLAN + 5 kasus Fable (rev1) | 36178552990 | after: FAB fill-sebelum-terima ditolak `AM_BACKDATE_WOULD_CREATE_NEGATIVE_LOCATION_ROLL_HISTORY` PASS; pemakaian melebihi pos ditolak, tepat 20 diterima, +1 ditolak PASS; 6 bentuk qty tidak valid ditolak `BC_QTY_INVALID` PASS; pembalikan ganda: produk menolak `BC_ALREADY_REVERSED` dan buku pulih, **FAIL hanya pada pembanding stok auditor** (`'0'` vs `'0.000000'`); sidik jari: v265 BC = baseline + predikat harga manual saja (sha ternormalisasi sama), v255 identik. before: 4 INCOMPLETE = KeyError zona (alat auditor). Run beku apa adanya. | — |
+| Probe BC PLAN + 5 kasus Fable (rev2) | (menyusul) | pembanding Decimal, probe NO_ROUTE tanpa zona | — |
+
+Kesimpulan sementara BC (T1 + gate): **tidak ada cacat produk baru** pada kasus writer (44) maupun kasus auditor (4 adversarial + sidik jari). Yang masih terbuka: D09 browser
+halaman nota (F3), D07 (F2), ACC-C12 key baru (kebijakan), `ACCESSORY_CONNECTED_ZERO` (disposisi §10 sudah ditulis, writer menambah kasus pengganti).
 
 ## 10. Disposisi T2 `ACCESSORY_CONNECTED_ZERO` (PASS → INCOMPLETE pada head BC)
 Kasus AR lama mengharapkan nota mandor dengan harga eceran manual 0,00 terposting. ERP-DEC02 (M:1066) dan M:5023 butir B ("Jangan menjadikan gratis sebagai jalan untuk

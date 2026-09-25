@@ -1,4 +1,4 @@
-name: Fable CP6 Round 12 BC T1 Independent Rerun (writer PLAN 44 + Fable 5 cases) on tool head 23abac1 (product 27e1a05)
+name: Fable CP6 Round 12 BC T1 Independent Rerun (writer PLAN 44 + Fable 5 cases, wrapper rev2) on tool head 23abac1 (product 27e1a05)
 'on':
   push:
     branches:

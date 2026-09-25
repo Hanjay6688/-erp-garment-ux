@@ -49,5 +49,17 @@ Dari: Fable (independen; GPT menyusul cek silang). Sumber: `audit/cp6-final-2026
 - **T3/rollback (bacaan GPT):** paket 27 berkas e21d15b pins `equal=true` (run 36170892085); rollback 0746c33 siklus (run 36171280254) belum selesai saat dibaca;
   advisor +92 INFO `rls_enabled_no_policy` (REVIEW_REQUIRED, naik dari 75). Semua bukti writer; auditor akan rerun sendiri.
 
+## 2b. Putaran 12 BC — hasil auditor pada head §31 (tool 23abac1, produk 27e1a05); rincian `out/fable_r12_results.md` §9
+- Gate auditor sendiri: T2 36177884812 ✓, T3 27 berkas 36177895962 ✓, rollback 36177907418 ✓, CodeQL 36177919063 ✓.
+- Regresi auditor (fase after): xa1/xa2/xa7/xa9/open_1 semua PASS; xa8 12 + 2 CE beku (T3-A); C0 24 + 1 INCOMPLETE grant (sama r11). **Tidak ada regresi.**
+- F1: perbaikan CONFIRMED natively (run 36178015645, baris harga manual lewat fasad → detektor diam); badan v265 BC = baseline + predikat itu saja (sidik jari
+  run 36178552990). F2: masih bunyi, menunggu D07 (§2.1).
+- Probe BC PLAN 44 di workflow pinned auditor: after 44/44 PASS (36178145305). Kasus adversarial auditor (isi pos sebelum terima, pemakaian > pos, qty tidak
+  valid ×6, pembalikan ganda) semuanya ditolak/pulih dengan benar; satu FAIL di run 36178552990 adalah pembanding auditor, bukan produk (rev2 menyusul).
+- **Disposisi T2 `ACCESSORY_CONNECTED_ZERO`: EXPECTED_CHANGE** (ERP-DEC02, M:5023 B). Kasus lama tetap INCOMPLETE tercatat; tambahkan kasus pengganti di harness T2
+  yang mengunci `BC_FREE_REQUIRES_POLICY`, tandai kasus lama *superseded* di tabel kasus.
+- Pengecualian pembanding rollback (§31.3 butir 7): ditinjau, **diterima** (sempit: `set_at` / `id,set_at` dua tabel seed, hanya cek reinstall).
+- Masih terbuka sebelum BC dianggap tuntas oleh auditor: (a) D09 browser halaman nota hijau (F3 diputus dulu), (b) D07 alarm F2, (c) ACC-C12 key baru = pertanyaan owner.
+
 ## 3. Sudah dicek OK
 D06/T3 tercatat verbatim (ab4ea6d). Probe enam state ALL era BA ada (4b1bd66) — diuji di CI BC. Paket rilis DB identik 4c61aca..95353aa.
