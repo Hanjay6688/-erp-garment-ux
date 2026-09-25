@@ -12,7 +12,7 @@
     "file": "docs/evidence/cp6-t3/release_pins.json",
     "blob_sha256": "aeaadc6d8e8a71da76d1129ca3dce0d7e150eb341034e3631f24d7eddd47fcbf"
   },
-  "builder_sha256": "4e8d3902014df5981fb28c7625a2f5d8ce7b40a0ddc00132081ee3dd185b56a1",
+  "builder_sha256": "ed0d5b4b491c2aeb584937b2f12fdf7ba0aa090d3f89615a54624342c508a7d7",
   "variant_builder_sha256": "fc1a6a3ed4e516ecd82525e9b896adba02f691c8517b0c4d7440379af895e400",
   "files": [
     {

@@ -501,9 +501,11 @@ def cycle(out):
         check('CYCLE_2_ENDS_AT_AB',not diff(before0[ALL[0]],state(package.CLONE,block),strict=True))
         # Post-use matrix: each file installed, one committed business transaction, then its rollback must refuse and
         # change nothing.
+        import cp6_aw_probe as awp
         for k in ALL:
             applier.install(row[k],text[k])
-            use=business(package.CLONE,k)
+            # The administrative connection of the probes (supabase_admin on the clone): the owner's claims are set there.
+            use=business(awp.boundary.ADMIN,k)
             refusal('POST_USE_%s_ROLLBACK_REFUSED'%k,lambda k=k:closed_run(rb[k]),POST_USE_REFUSAL[k],business=use)
         report['status']='PASS' if all(c['status']=='PASS' for c in report['checks']) else 'FAIL'
     except Exception as exc:
