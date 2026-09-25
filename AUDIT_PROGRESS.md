@@ -924,3 +924,6 @@ QC rev6 diverifikasi dari log: healthy PASS (10), unknown COUNTEREXAMPLE (KPI 0)
 - Rev1 [run 36154846659](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36154846659) raw sen `COUNTEREXAMPLE` tetap **INCOMPLETE oracle auditor** karena baseline salah; rev2 adalah bukti baru, tidak mengubah label historis rev1.
 
 **LANGKAH BERIKUTNYA:** Audit silang run/job/skenario terpin di `out/gpt_bb_round10_result.md`; lanjutkan ALL 22, C6 D06, family BC/BD/BE pada head yang dibekukan. Tidak ada produk yang diubah di cabang audit.
+
+## Fable — cek silang GPT BB round 10 (2026-09-25T16:30Z)
+- S02 dua draf berbagi stok: CONFIRMED konsisten. Pool 10 dokumen: CONFIRMED; memperjelas T3 — PO pertama menyerap sen dari semua dokumen bertumpuk (10,05 vs dokumen 10,01), batas = n sen untuk n dokumen bertumpuk, bukan 1 sen per PO. Writer diminta memperbaiki kalimat pertanyaan owner. Tidak ada REFUTED.
