@@ -877,3 +877,7 @@ QC rev6 diverifikasi dari log: healthy PASS (10), unknown COUNTEREXAMPLE (KPI 0)
 
 ## Fable — konsolidasi handoff writer (2026-09-25T13:00Z)
 - `AUDIT_WRITER_HANDOFF_CP6.md` ditulis ulang sebagai satu versi gabungan dua auditor (tertutup 14 item dengan run masing-masing; tugas T1–T7; oracle pra-kode dua set; batas). Rekonsiliasi label: W10 tertutup (prioritas P2/P3 tidak lagi relevan); sen per PO = P3 dampak + UNVERIFIED kontrak, bukan blocker; W05 = PARTIAL; W12/W6 = drill hosted oleh writer/operator. R9/R10/paste ditandai DIGANTIKAN; riwayat di `archive/`.
+
+## GPT — rapikan penanda dokumen historis (2026-09-25T12:32:09.917Z)
+- Daftar tugas writer aktif tunggal: `AUDIT_WRITER_HANDOFF_CP6.md` di cabang audit. `out/gpt_writer_r9_intake.md` kini diberi banner DIGANTIKAN di awal; isi dan langkah lama dipertahankan sebagai catatan historis, bukan pekerjaan baru. Skenario dan log GPT tetap ada di `audit/scenarios/` dan `out/`; tidak ada yang dihapus, tidak ada produk/hosted/main/cabang writer disentuh. CP6 HOLD; audit_complete=false; production_go=false.
+- LANGKAH BERIKUTNYA: writer mengikuti T1–T7 hanya dari handoff gabungan. Auditor lanjut dari bukti pinned masing-masing dan cek rute pooled sen per PO sesuai T3; setelah head BB final, rerun exact-head sebelum BC.

@@ -1,3 +1,5 @@
+> **DIGANTIKAN (25 Sep 2026):** daftar tugas writer yang berlaku hanya [`AUDIT_WRITER_HANDOFF_CP6.md`](../AUDIT_WRITER_HANDOFF_CP6.md). Intake ini dipertahankan sebagai catatan pembacaan awal; status dan LANGKAH BERIKUTNYA di bawah bersifat historis, bukan instruksi aktif. Skenario, oracle, dan hasil run GPT tetap berlaku menurut head dan batas bukti masing-masing.
+
 # Intake auditor GPT — handoff writer CP6 putaran 9, 25 September 2026
 
 Status **PRELIMINARY_READ / AUDITOR_RERUN_PENDING**. Writer head `e10260be85049f0078227f5ddb5767ffe481a0d9`; produk dev BA `b6d81f9`, release `1dcf21b`, rollback `61d88ee`, frontend `21acae1`. Kontrak tetap oracle; klaim writer dan log writer tidak otomatis menjadi ACCEPT. **CP6 HOLD · audit_complete=false · production_go=false**; 12 HOLD historis tidak dilabel ulang. Cabang kompetisi/main/hosted/legacy tidak disentuh auditor.
