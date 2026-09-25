@@ -17,8 +17,9 @@ never from observed behaviour:
      without attributes post, and each output records what was checked and what stayed unknown.
   A9 (CP6-07, auditor BCR1 advance cases, D02=A) a refund or use of an opening advance dated before the correction that
      funds it made the dated advance balance negative. Expected: refused BA_ADVANCE_DATED_CAPACITY; the ordered sequence
-     posts (auditor's ordered control). Same rule for stock (AUD-S04): a transfer out of a warehouse dated before the stock
-     arrived there is refused BA_MATERIAL_HISTORICAL_STOCK_NEGATIVE; after the arrival it posts.
+     posts (auditor's ordered control). Same rule for stock (AUD-S04), already enforced before BA: a transfer out of a
+     warehouse dated before the stock arrived there is refused AM_BACKDATE_WOULD_CREATE_NEGATIVE_LOCATION_ROLL_HISTORY in
+     both phases (regression control); after the arrival it posts.
   A4 (CP6-03, auditor BLIND-MONEY-CENT cases, M:3816-3825) one unit received, cut, then corrected or invoiced 10.005 <-> 10.014:
      material inventory must be 0.00 at zero stock and WIP the endpoint-rounded unit (10.01, half away from zero).
   A6 (CP6-24) a second close of the date already closed filed twice. Expected: refused CLOSE_ALREADY_CLOSED with one filing;
@@ -155,8 +156,8 @@ def import_overlap(cur,today,kind,cutover_days=1,other_location=False):
     before=gl(cur)
     result,error=r1.peer.attempt(cur,lambda:api.invoke(cur,'FINALIZE',batch))
     api.admin(cur)
-    headers=cur.execute("select count(*) from erp.opening_balance_headers where migration_batch_id=any(%s) and status='POSTED'",
-                        ([first_batch,batch],)).fetchone()[0]
+    headers=cur.execute("select count(*) from erp.opening_balance_headers where migration_batch_id=any(%s::uuid[]) and status='POSTED'",
+                        ([str(first_batch),str(batch)],)).fetchone()[0]
     evidence=dict(kind=kind,second_cutover=str(today-timedelta(days=cutover_days)),other_location=other_location,
                   posted_headers=headers,ledger_delta=moved(before,gl(cur)),finalize=result)
     if other_location:
@@ -387,8 +388,11 @@ def transfer(cur,source,destination,material,roll,qty,at):
 
 
 def s04_transfer_back(cur,today,before_arrival):
-    """AUD-S04: 10 units received in warehouse L on d-4, moved L -> A on d-2; then 5 moved back A -> L dated d-3 (before they
-    arrived in A: the current balance of A allows it, its history on d-3 does not) or d-1 (control)."""
+    """AUD-S04 (D02=A for stock), regression control in both phases: 10 units received in warehouse L on d-4, moved L -> A
+    on d-2; then 5 moved back A -> L dated d-3 (before they arrived in A: the current balance of A allows it, its history on
+    d-3 does not) or d-1. The material recalculation (AO erp._recalculate_material_cost_core) already refuses the first
+    with AM_BACKDATE_WOULD_CREATE_NEGATIVE_LOCATION_ROLL_HISTORY (native 'before' run 36085934997), so BA changes nothing
+    here; the case keeps that refusal and the history of A non-negative in both phases."""
     prod=chain.production
     boundary.historical.prior.set_open_period(cur,today-timedelta(days=5))
     fx=azp.final_receipt(cur,today-timedelta(days=4))
@@ -403,8 +407,10 @@ def s04_transfer_back(cur,today,before_arrival):
     minimum,history=stock_history(cur,fx['material'],other,roll)
     evidence=dict(transfer_back_day=str(day),warehouse_history_minimum=str(minimum),warehouse_history=history,transfer=result)
     if before_arrival:
-        return finding(cur,'BA_MATERIAL_HISTORICAL_STOCK_NEGATIVE',result,error,minimum<0,**evidence,
-                       oracle='D02=A / AUD-S04: stock arriving later does not fund an earlier outflow of the same warehouse and roll')
+        refused=error is not None and code_of(error)=='AM_BACKDATE_WOULD_CREATE_NEGATIVE_LOCATION_ROLL_HISTORY'
+        return dict(evidence,status='PASS' if refused and minimum>=0 else ('COUNTEREXAMPLE' if error is None else 'INCOMPLETE'),
+                    refusal=error,expected_refusal='AM_BACKDATE_WOULD_CREATE_NEGATIVE_LOCATION_ROLL_HISTORY',
+                    oracle='D02=A / AUD-S04: stock arriving later does not fund an earlier outflow of the same warehouse and roll')
     return control(cur,result is not None and minimum>=0,error,**evidence)
 
 
@@ -540,7 +546,7 @@ PLAN=[('A1:MATERIAL_SECOND_BATCH_SAME_ITEM','COUNTEREXAMPLE',lambda c,t:import_o
 PLAN+=[('A9:%s_%s_%s'%(op,kind,'DATED_CAPACITY' if back else 'ORDERED_CONTROL'),'COUNTEREXAMPLE' if back else 'PASS',
         lambda c,t,k=kind,o=op,b=back:a9_advance(c,t,k,o,b))
        for op in ('REFUND','APPLY') for kind in ('SUPPLIER','CUSTOMER','VENDOR') for back in (True,False)]
-PLAN+=[('A9:S04_TRANSFER_BACK_BEFORE_ARRIVAL','COUNTEREXAMPLE',lambda c,t:s04_transfer_back(c,t,True)),
+PLAN+=[('A9:S04_TRANSFER_BACK_BEFORE_ARRIVAL_REFUSED','PASS',lambda c,t:s04_transfer_back(c,t,True)),
        ('A9:S04_TRANSFER_BACK_AFTER_ARRIVAL_CONTROL','PASS',lambda c,t:s04_transfer_back(c,t,False))]
 PLAN+=[('A4:CENT_%s_%s'%(kind,direction),'COUNTEREXAMPLE',lambda c,t,k=kind,o=old,n=new:a4_cents(c,t,k,o,n))
        for kind in ('DIRECT','INVOICE') for direction,old,new in (('UP','10.005','10.014'),('DOWN','10.014','10.005'))]

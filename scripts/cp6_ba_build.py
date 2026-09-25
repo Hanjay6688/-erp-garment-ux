@@ -2,7 +2,7 @@
 """Build the BA T1 family install: product fixes from the independent CP6 audit (writer handoff 25 Sep 2026) and the owner
 decisions D02 and D03 (OWNER_CONFIRMED_CHAT, 25 Sep 2026, option A).
 
-Every function is taken from the definition the chain currently runs (AR, AP, AM migrations; AW and AZ T1 files) with
+Every function is taken from the definition the chain currently runs (AR, AP, AV migrations; AW and AZ T1 files) with
 checked substitutions only, like the AY and AZ builders:
   A1 (CP6-09, P1) erp.post_opening_balance: an import batch may not post an opening item that another import batch already
      posted with the same identity. AR compared only import with legacy (the XOR on migration_batch_id), so two import
@@ -22,11 +22,15 @@ checked substitutions only, like the AY and AZ builders:
      the brand and colour given on the source row must match; the PO model and the size are matched as before. What was
      checked and what stayed unknown is recorded with the output in erp.initial_import_wip_output_identity_v1: unknown
      data is recorded as unknown, never as matched (D03: "Data yang belum diketahui tidak dianggap cocok otomatis").
+     The new table's two product references are classified in the AV coverage registry (erp.assert_new_stock_cutoff_coverage_v1,
+     class DERIVED), whose fail-closed check runs at the end of the install.
   A9 (CP6-07, owner D02=A) erp.manage_initial_prepayment_v1: an apply, refund, lowering correction or reversal that lowers
      the advance is refused when its remaining capacity on its date or any later day would be negative (read from the
-     advance account lines of the advance's own events and payments, as the ledger shows it). Same owner rule for stock
-     (AUD-S04): erp.guard_material_negative_stock refuses an outflow that makes the historical balance of the material at
-     that location/roll negative on its instant or later (the current-balance check stays).
+     advance account lines of the advance's own events and payments, as the ledger shows it). The same owner rule for
+     material stock (AUD-S04) is already enforced: the material recalculation (AO erp._recalculate_material_cost_core)
+     refuses any movement that makes the effective history of a warehouse/roll negative
+     (AM_BACKDATE_WOULD_CREATE_NEGATIVE_LOCATION_ROLL_HISTORY; native BA probe 'before' run 36085934997); BA adds nothing
+     there.
   A4 (CP6-03) erp.sync_material_cost_revaluation: the recost of a consuming movement is its value now minus what was
      posted for it, both in whole cents; the value now by differences of the rounded stock value before and after it
      (material_cost_history), the posted value by cumulative rounding inside its posting document (a cutting group posts one
@@ -45,7 +49,7 @@ import hashlib,sys
 ROOT=Path(__file__).resolve().parents[1]
 AR=ROOT/'supabase/migrations/20260922185015_erp_v2_6_20ar_cp6_opening_overlap.sql'
 AP=ROOT/'supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql'
-AM=ROOT/'supabase/migrations/20260921214120_erp_v2_6_20am_cp6_transfer_integrity.sql'
+AV=ROOT/'supabase/migrations/20260923110000_erp_v2_6_20av_cp6_identity_new_stock_cutoff.sql'
 AW=ROOT/'supabase/dev/cp6_aw_t1_family.sql'
 AZ=ROOT/'supabase/dev/cp6_az_t1_family.sql'
 OUT=ROOT/'supabase/dev/cp6_ba_t1_family.sql'
@@ -231,26 +235,12 @@ end;$function$;
 revoke all on function erp.initial_prepayment_dated_floor_v1(uuid,date) from public,anon,authenticated,service_role;
 """
 
-# ---------------------------------------------------------------- A9 (AUD-S04) erp.guard_material_negative_stock (AM)
-STOCK_HEAD='CREATE OR REPLACE FUNCTION erp.guard_material_negative_stock()'
-STOCK_DECLARE_OLD='declare v_available numeric(24,6);\nbegin'
-STOCK_DECLARE_NEW='declare v_available numeric(24,6);v_prefix numeric(24,6);\nbegin'
-STOCK_OLD="""    raise exception 'Material stock would become negative at selected location/roll. Available %, requested out %',v_available,abs(new.qty_signed);
-  end if;
-"""
-STOCK_NEW=STOCK_OLD+"""  -- BA (audit A9, AUD-S04; owner D02=A): the historical balance of the material at this location/roll must stay
-  -- non-negative from this outflow's instant on; stock that arrives later does not fund an earlier outflow.
-  select min(x.running) into v_prefix from (
-    select m.physical_at pa,m.system_created_at sc,m.id mid,
-      sum(m.qty_signed) over(order by m.physical_at,m.system_created_at,m.id rows unbounded preceding) running
-    from (select physical_at,system_created_at,id,qty_signed from erp.material_stock_movements
-            where material_id=new.material_id and location_id=new.location_id and roll_id is not distinct from new.roll_id
-          union all select new.physical_at,new.system_created_at,new.id,new.qty_signed) m
-  ) x where (x.pa,x.sc,x.mid)>=(new.physical_at,new.system_created_at,new.id);
-  if v_prefix < -0.000001 then
-    raise exception 'BA_MATERIAL_HISTORICAL_STOCK_NEGATIVE: stok bahan di lokasi/roll ini pada % belum cukup (saldo historis menjadi %); barang tidak boleh keluar sebelum tersedia',new.physical_at,v_prefix;
-  end if;
-"""
+# ---------------------------------------------------------------- AV coverage registry (erp.assert_new_stock_cutoff_coverage_v1)
+# The AV guard refuses any product reference it has not classified; the A10 provenance table adds two. Both are derived
+# records of an opening WIP output: the stock fact is the output's fg_lots lot (class NEW_STOCK_FACT already).
+COVER_HEAD='CREATE OR REPLACE FUNCTION erp.assert_new_stock_cutoff_coverage_v1()'
+COVER_OLD='''"erp.fg_stock_movements.product_id":{"class":"MOVEMENT","reason":"Movement of an existing lot"},'''
+COVER_NEW=COVER_OLD+'''"erp.initial_import_wip_output_identity_v1.opening_product_id":{"class":"DERIVED","reason":"Provenance of an opening WIP output: the product filled in on its opening item"},"erp.initial_import_wip_output_identity_v1.output_product_id":{"class":"DERIVED","reason":"Provenance of an opening WIP output; the stock fact is its fg_lots lot"},'''
 
 # ---------------------------------------------------------------- A4 erp.sync_material_cost_revaluation (AZ)
 REVAL_HEAD='CREATE OR REPLACE FUNCTION erp.sync_material_cost_revaluation(p_material_id uuid)'
@@ -315,7 +305,7 @@ alter table erp.initial_import_wip_output_identity_v1 enable row level security;
 revoke all on erp.initial_import_wip_output_identity_v1 from public,anon,authenticated,service_role;"""
 
 REPLACED=['erp.post_opening_balance(uuid)','erp.complete_initial_import_wip_v1(jsonb)','erp.manage_initial_prepayment_v1(jsonb)',
-          'erp.guard_material_negative_stock()','erp.sync_material_cost_revaluation(uuid)','erp.close_accounting_through(date,text)']
+          'erp.sync_material_cost_revaluation(uuid)','erp.close_accounting_through(date,text)','erp.assert_new_stock_cutoff_coverage_v1()']
 NEW_FUNCTIONS=['erp.initial_prepayment_dated_floor_v1(uuid,date)']
 NEW_TABLES=['initial_import_wip_output_identity_v1']
 
@@ -337,16 +327,17 @@ def build():
     wip=function(AZ,WIP_HEAD,[(WIP_DECLARE_OLD,WIP_DECLARE_NEW),(WIP_DATE_OLD,WIP_DATE_NEW),(WIP_PRODUCT_OLD,WIP_PRODUCT_NEW),
                               (WIP_AT_OLD,WIP_AT_NEW),(WIP_OUTPUT_OLD,WIP_OUTPUT_NEW)])
     advance=function(AP,ADV_HEAD,[(ADV_OLD,ADV_NEW)])
-    stock=function(AM,STOCK_HEAD,[(STOCK_DECLARE_OLD,STOCK_DECLARE_NEW),(STOCK_OLD,STOCK_NEW)],end='$function$\n$definition$;')
+    cover=function(AV,COVER_HEAD,[(COVER_OLD,COVER_NEW)])
     reval=function(AZ,REVAL_HEAD,[(REVAL_DECLARE_OLD,REVAL_DECLARE_NEW),(REVAL_OLD,REVAL_NEW)])
     close=function(AW,CLOSE_HEAD,[(CLOSE_OLD,CLOSE_NEW)])
     parts=['-- CP6 BA audit closure (writer handoff 25 Sep 2026, owner D02/D03): T1_FAMILY development install (NOT a release package).',
-           '-- Generated by scripts/cp6_ba_build.py from the AR/AP/AM migrations and the AW/AZ T1 files; do not edit by hand.',
+           '-- Generated by scripts/cp6_ba_build.py from the AR/AP/AV migrations and the AW/AZ T1 files; do not edit by hand.',
            'begin;',"set local lock_timeout='10s';set local statement_timeout='240s';set local search_path='';",
            'do $t1_guard$','begin',
            " if (select count(*) from erp.schema_migrations where version in('v2.6.20av','v2.6.20aw','v2.6.20ax','v2.6.20ay','v2.6.20az'))<>5 then raise exception 'BA_T1_REQUIRES_AV_AW_AX_AY_AZ'; end if;",
            f" if exists(select 1 from erp.schema_migrations where version='{VERSION}') or to_regclass('erp.initial_import_wip_output_identity_v1') is not null then raise exception 'BA_T1_ALREADY_INSTALLED'; end if;",
-           'end $t1_guard$;',SCHEMA,FLOOR.rstrip('\n'),opening,wip,advance,stock,reval,close,
+           'end $t1_guard$;',SCHEMA,FLOOR.rstrip('\n'),opening,wip,advance,reval,close,cover,
+           'do $coverage$ begin perform erp.assert_new_stock_cutoff_coverage_v1(); end $coverage$;',
            f"insert into erp.schema_migrations(version,description) values('{VERSION}',"
            "'T1_FAMILY development install of BA (CP6 audit closure: import identity, dated WIP remaining, WIP product binding, dated advance and stock capacity, recost cents, single close filing); not a release package');",'commit;','']
     return '\n'.join(parts)
