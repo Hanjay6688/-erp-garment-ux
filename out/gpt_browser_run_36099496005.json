@@ -1,16 +1,1121 @@
 {
   "run_id": 36099496005,
+  "attempt": 1,
   "job_id": 107958771209,
-  "status": "in_progress",
+  "status": "completed",
+  "conclusion": "failure",
   "audit_commit": "71b62c21653ab7bf4ac73f889becd12fce8f4d89",
   "tool_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
   "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
-  "planned": {
-    "native": 1,
-    "http": 3,
-    "browser": 12
+  "counts": {
+    "native": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 3
+    },
+    "browser": {
+      "PASS": 8,
+      "INCOMPLETE": 4
+    }
   },
-  "results": null,
-  "label": "AUDITOR_SCENARIO",
+  "records": [
+    {
+      "line": 2121,
+      "value": {
+        "run_identity": {
+          "label": "AUDITOR_SCENARIO",
+          "tool_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
+          "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
+          "product_paths": [
+            "supabase/migrations",
+            "supabase/dev",
+            "supabase/release",
+            "supabase/rollbacks",
+            "src"
+          ],
+          "run_id": "36099496005",
+          "run_attempt": "1",
+          "workflow": "GPT CP6 Round 8 Independent Audit",
+          "job": "phase",
+          "event": "push",
+          "github_sha": "71b62c21653ab7bf4ac73f889becd12fce8f4d89",
+          "release_evidence": false,
+          "production_go": false,
+          "phase": "after",
+          "scenario_sha256": "16ed21eda002d40531edd22ebe943ffc595d13ab6a3e053833fde2bb89bd0f43"
+        }
+      }
+    },
+    {
+      "line": 2123,
+      "value": {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "G8C0:AS:ADJUSTMENT_DATE:False:transport_rev2",
+        "status": "PASS",
+        "old_case": "AS:ADJUSTMENT_DATE:False",
+        "oracle": "C0 D01.1 invoice E; D01.3 value part max(E,A); inverse today, no early expense",
+        "new_oracle": true,
+        "expected": {
+          "2026-09-21": {
+            "MATERIAL_INVENTORY": "0",
+            "WIP": "0",
+            "FG_INVENTORY": "0",
+            "COGS": "0",
+            "AP_SUPPLIER": "0",
+            "GRNI_MATERIAL": "0",
+            "OTHER_EXPENSE": "0"
+          },
+          "2026-09-22": {
+            "MATERIAL_INVENTORY": "200.03",
+            "WIP": "0",
+            "FG_INVENTORY": "0",
+            "COGS": "0",
+            "AP_SUPPLIER": "-200.03",
+            "GRNI_MATERIAL": "0",
+            "OTHER_EXPENSE": "0"
+          },
+          "2026-09-23": {
+            "MATERIAL_INVENTORY": "160.02",
+            "WIP": "0",
+            "FG_INVENTORY": "0",
+            "COGS": "0",
+            "AP_SUPPLIER": "-200.03",
+            "GRNI_MATERIAL": "0",
+            "OTHER_EXPENSE": "40.01"
+          },
+          "2026-09-24": {
+            "MATERIAL_INVENTORY": "160.02",
+            "WIP": "0",
+            "FG_INVENTORY": "0",
+            "COGS": "0",
+            "AP_SUPPLIER": "-200.03",
+            "GRNI_MATERIAL": "0",
+            "OTHER_EXPENSE": "40.01"
+          },
+          "2026-09-25": {
+            "MATERIAL_INVENTORY": "160.02",
+            "WIP": "0",
+            "FG_INVENTORY": "0",
+            "COGS": "0",
+            "AP_SUPPLIER": "-200.03",
+            "GRNI_MATERIAL": "0",
+            "OTHER_EXPENSE": "40.01"
+          }
+        },
+        "observed": {
+          "2026-09-21": {
+            "daily": {
+              "MATERIAL_INVENTORY": "0",
+              "WIP": "0.00",
+              "FG_INVENTORY": "0",
+              "COGS": "0",
+              "AP_SUPPLIER": "0",
+              "GRNI_MATERIAL": "0",
+              "OTHER_EXPENSE": "0"
+            },
+            "journal": {
+              "MATERIAL_INVENTORY": "0",
+              "WIP": "0.00",
+              "FG_INVENTORY": "0",
+              "COGS": "0",
+              "AP_SUPPLIER": "0",
+              "GRNI_MATERIAL": "0",
+              "OTHER_EXPENSE": "0"
+            },
+            "report": {
+              "MATERIAL_INVENTORY": "0.0",
+              "WIP": "0.0",
+              "FG_INVENTORY": "0.0",
+              "AP_SUPPLIER": "0.0",
+              "GRNI_MATERIAL": "0.0",
+              "COGS": "0.0"
+            }
+          },
+          "2026-09-22": {
+            "daily": {
+              "MATERIAL_INVENTORY": "200.03",
+              "WIP": "0.00",
+              "FG_INVENTORY": "0",
+              "COGS": "0",
+              "AP_SUPPLIER": "-200.03",
+              "GRNI_MATERIAL": "0.00",
+              "OTHER_EXPENSE": "0"
+            },
+            "journal": {
+              "MATERIAL_INVENTORY": "200.03",
+              "WIP": "0.00",
+              "FG_INVENTORY": "0",
+              "COGS": "0",
+              "AP_SUPPLIER": "-200.03",
+              "GRNI_MATERIAL": "0.00",
+              "OTHER_EXPENSE": "0"
+            },
+            "report": {
+              "MATERIAL_INVENTORY": "200.03",
+              "WIP": "0.0",
+              "FG_INVENTORY": "0.0",
+              "AP_SUPPLIER": "-200.03",
+              "GRNI_MATERIAL": "0.0",
+              "COGS": "0.0"
+            }
+          },
+          "2026-09-23": {
+            "daily": {
+              "MATERIAL_INVENTORY": "160.02",
+              "WIP": "0.00",
+              "FG_INVENTORY": "0",
+              "COGS": "0",
+              "AP_SUPPLIER": "-200.03",
+              "GRNI_MATERIAL": "0.00",
+              "OTHER_EXPENSE": "40.01"
+            },
+            "journal": {
+              "MATERIAL_INVENTORY": "160.02",
+              "WIP": "0.00",
+              "FG_INVENTORY": "0",
+              "COGS": "0",
+              "AP_SUPPLIER": "-200.03",
+              "GRNI_MATERIAL": "0.00",
+              "OTHER_EXPENSE": "40.01"
+            },
+            "report": {
+              "MATERIAL_INVENTORY": "160.02",
+              "WIP": "0.0",
+              "FG_INVENTORY": "0.0",
+              "AP_SUPPLIER": "-200.03",
+              "GRNI_MATERIAL": "0.0",
+              "COGS": "0.0"
+            }
+          },
+          "2026-09-24": {
+            "daily": {
+              "MATERIAL_INVENTORY": "160.02",
+              "WIP": "0.00",
+              "FG_INVENTORY": "0",
+              "COGS": "0",
+              "AP_SUPPLIER": "-200.03",
+              "GRNI_MATERIAL": "0.00",
+              "OTHER_EXPENSE": "40.01"
+            },
+            "journal": {
+              "MATERIAL_INVENTORY": "160.02",
+              "WIP": "0.00",
+              "FG_INVENTORY": "0",
+              "COGS": "0",
+              "AP_SUPPLIER": "-200.03",
+              "GRNI_MATERIAL": "0.00",
+              "OTHER_EXPENSE": "40.01"
+            },
+            "report": {
+              "MATERIAL_INVENTORY": "160.02",
+              "WIP": "0.0",
+              "FG_INVENTORY": "0.0",
+              "AP_SUPPLIER": "-200.03",
+              "GRNI_MATERIAL": "0.0",
+              "COGS": "0.0"
+            }
+          },
+          "2026-09-25": {
+            "daily": {
+              "MATERIAL_INVENTORY": "160.02",
+              "WIP": "0.00",
+              "FG_INVENTORY": "0",
+              "COGS": "0",
+              "AP_SUPPLIER": "-200.03",
+              "GRNI_MATERIAL": "0.00",
+              "OTHER_EXPENSE": "40.01"
+            },
+            "journal": {
+              "MATERIAL_INVENTORY": "160.02",
+              "WIP": "0.00",
+              "FG_INVENTORY": "0",
+              "COGS": "0",
+              "AP_SUPPLIER": "-200.03",
+              "GRNI_MATERIAL": "0.00",
+              "OTHER_EXPENSE": "40.01"
+            },
+            "report": {
+              "MATERIAL_INVENTORY": "160.02",
+              "WIP": "0.0",
+              "FG_INVENTORY": "0.0",
+              "AP_SUPPLIER": "-200.03",
+              "GRNI_MATERIAL": "0.0",
+              "COGS": "0.0"
+            }
+          }
+        },
+        "facts": [
+          [
+            "2026-09-23",
+            "2026-09-23",
+            "2026-09-23",
+            {
+              "1487cd75-3cf9-424b-84ca-f7545b70b023": 20.01,
+              "f9912b87-fe33-4bd8-8a65-0b1fb69316a6": -20.01
+            }
+          ]
+        ],
+        "fresh_journals": [
+          [
+            "7f2c0b6f-b9bc-4bdb-89bf-2c520fd269ea",
+            "MATERIAL_ADJUSTMENT_REVALUATION",
+            "2026-09-23",
+            "2026-09-23",
+            "POSTED"
+          ],
+          [
+            "b6dfc33b-bea9-4cef-8007-61c98c07b374",
+            "MATERIAL_SUPPLIER_INVOICE",
+            "2026-09-22",
+            "2026-09-22",
+            "POSTED"
+          ]
+        ],
+        "inverse": [
+          [
+            "2026-09-25",
+            "2026-09-25",
+            "2026-09-25"
+          ]
+        ],
+        "inverse_expected": {
+          "2026-09-21": {
+            "MATERIAL_INVENTORY": "0",
+            "WIP": "0",
+            "FG_INVENTORY": "0",
+            "COGS": "0",
+            "AP_SUPPLIER": "0",
+            "GRNI_MATERIAL": "0",
+            "OTHER_EXPENSE": "0"
+          },
+          "2026-09-22": {
+            "MATERIAL_INVENTORY": "200.03",
+            "WIP": "0",
+            "FG_INVENTORY": "0",
+            "COGS": "0",
+            "AP_SUPPLIER": "-200.03",
+            "GRNI_MATERIAL": "0",
+            "OTHER_EXPENSE": "0"
+          },
+          "2026-09-23": {
+            "MATERIAL_INVENTORY": "160.02",
+            "WIP": "0",
+            "FG_INVENTORY": "0",
+            "COGS": "0",
+            "AP_SUPPLIER": "-200.03",
+            "GRNI_MATERIAL": "0",
+            "OTHER_EXPENSE": "40.01"
+          },
+          "2026-09-24": {
+            "MATERIAL_INVENTORY": "160.02",
+            "WIP": "0",
+            "FG_INVENTORY": "0",
+            "COGS": "0",
+            "AP_SUPPLIER": "-200.03",
+            "GRNI_MATERIAL": "0",
+            "OTHER_EXPENSE": "40.01"
+          },
+          "2026-09-25": {
+            "MATERIAL_INVENTORY": "80",
+            "WIP": "0",
+            "FG_INVENTORY": "0",
+            "COGS": "0",
+            "AP_SUPPLIER": "0",
+            "GRNI_MATERIAL": "-100",
+            "OTHER_EXPENSE": "20"
+          }
+        },
+        "inverse_observed": {
+          "2026-09-21": {
+            "daily": {
+              "MATERIAL_INVENTORY": "0",
+              "WIP": "0.00",
+              "FG_INVENTORY": "0",
+              "COGS": "0",
+              "AP_SUPPLIER": "0",
+              "GRNI_MATERIAL": "0",
+              "OTHER_EXPENSE": "0"
+            },
+            "journal": {
+              "MATERIAL_INVENTORY": "0",
+              "WIP": "0.00",
+              "FG_INVENTORY": "0",
+              "COGS": "0",
+              "AP_SUPPLIER": "0",
+              "GRNI_MATERIAL": "0",
+              "OTHER_EXPENSE": "0"
+            },
+            "report": {
+              "MATERIAL_INVENTORY": "0.0",
+              "WIP": "0.0",
+              "FG_INVENTORY": "0.0",
+              "AP_SUPPLIER": "0.0",
+              "GRNI_MATERIAL": "0.0",
+              "COGS": "0.0"
+            }
+          },
+          "2026-09-22": {
+            "daily": {
+              "MATERIAL_INVENTORY": "200.03",
+              "WIP": "0.00",
+              "FG_INVENTORY": "0",
+              "COGS": "0",
+              "AP_SUPPLIER": "-200.03",
+              "GRNI_MATERIAL": "0.00",
+              "OTHER_EXPENSE": "0"
+            },
+            "journal": {
+              "MATERIAL_INVENTORY": "200.03",
+              "WIP": "0.00",
+              "FG_INVENTORY": "0",
+              "COGS": "0",
+              "AP_SUPPLIER": "-200.03",
+              "GRNI_MATERIAL": "0.00",
+              "OTHER_EXPENSE": "0"
+            },
+            "report": {
+              "MATERIAL_INVENTORY": "200.03",
+              "WIP": "0.0",
+              "FG_INVENTORY": "0.0",
+              "AP_SUPPLIER": "-200.03",
+              "GRNI_MATERIAL": "0.0",
+              "COGS": "0.0"
+            }
+          },
+          "2026-09-23": {
+            "daily": {
+              "MATERIAL_INVENTORY": "160.02",
+              "WIP": "0.00",
+              "FG_INVENTORY": "0",
+              "COGS": "0",
+              "AP_SUPPLIER": "-200.03",
+              "GRNI_MATERIAL": "0.00",
+              "OTHER_EXPENSE": "40.01"
+            },
+            "journal": {
+              "MATERIAL_INVENTORY": "160.02",
+              "WIP": "0.00",
+              "FG_INVENTORY": "0",
+              "COGS": "0",
+              "AP_SUPPLIER": "-200.03",
+              "GRNI_MATERIAL": "0.00",
+              "OTHER_EXPENSE": "40.01"
+            },
+            "report": {
+              "MATERIAL_INVENTORY": "160.02",
+              "WIP": "0.0",
+              "FG_INVENTORY": "0.0",
+              "AP_SUPPLIER": "-200.03",
+              "GRNI_MATERIAL": "0.0",
+              "COGS": "0.0"
+            }
+          },
+          "2026-09-24": {
+            "daily": {
+              "MATERIAL_INVENTORY": "160.02",
+              "WIP": "0.00",
+              "FG_INVENTORY": "0",
+              "COGS": "0",
+              "AP_SUPPLIER": "-200.03",
+              "GRNI_MATERIAL": "0.00",
+              "OTHER_EXPENSE": "40.01"
+            },
+            "journal": {
+              "MATERIAL_INVENTORY": "160.02",
+              "WIP": "0.00",
+              "FG_INVENTORY": "0",
+              "COGS": "0",
+              "AP_SUPPLIER": "-200.03",
+              "GRNI_MATERIAL": "0.00",
+              "OTHER_EXPENSE": "40.01"
+            },
+            "report": {
+              "MATERIAL_INVENTORY": "160.02",
+              "WIP": "0.0",
+              "FG_INVENTORY": "0.0",
+              "AP_SUPPLIER": "-200.03",
+              "GRNI_MATERIAL": "0.0",
+              "COGS": "0.0"
+            }
+          },
+          "2026-09-25": {
+            "daily": {
+              "MATERIAL_INVENTORY": "80.00",
+              "WIP": "0.00",
+              "FG_INVENTORY": "0",
+              "COGS": "0",
+              "AP_SUPPLIER": "0.00",
+              "GRNI_MATERIAL": "-100.00",
+              "OTHER_EXPENSE": "20.00"
+            },
+            "journal": {
+              "MATERIAL_INVENTORY": "80.00",
+              "WIP": "0.00",
+              "FG_INVENTORY": "0",
+              "COGS": "0",
+              "AP_SUPPLIER": "0.00",
+              "GRNI_MATERIAL": "-100.00",
+              "OTHER_EXPENSE": "20.00"
+            },
+            "report": {
+              "MATERIAL_INVENTORY": "80.0",
+              "WIP": "0.0",
+              "FG_INVENTORY": "0.0",
+              "AP_SUPPLIER": "0.0",
+              "GRNI_MATERIAL": "-100.0",
+              "COGS": "0.0"
+            }
+          }
+        },
+        "replay_exact": true,
+        "mismatches": {},
+        "native_fixture_correction": "restore only the runner grant removed by cp6_initial_import_receipt_trial.rpc; HTTP and browser use separate copies without this grant",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    {
+      "line": 2124,
+      "value": {
+        "group": "AUDITOR_CASES_AFTER",
+        "planned": [
+          "G8C0:AS:ADJUSTMENT_DATE:False:transport_rev2"
+        ],
+        "final": {
+          "G8C0:AS:ADJUSTMENT_DATE:False:transport_rev2": "PASS"
+        },
+        "missing": [],
+        "status": "PASS"
+      }
+    },
+    {
+      "line": 2126,
+      "value": {
+        "group": "AUDITOR_HTTP_AFTER",
+        "case": "G8HTTP:VALID_FACADE_MATRIX",
+        "status": "PASS",
+        "checks": {
+          "anon:preflight": true,
+          "OWNER:preflight": true,
+          "GUDANG:preflight": true,
+          "AUDITOR_VIEW_ONLY:preflight": true,
+          "anon:accessory": true,
+          "OWNER:accessory": true,
+          "GUDANG:accessory": true,
+          "AUDITOR_VIEW_ONLY:accessory": true,
+          "anon:pocket": true,
+          "OWNER:pocket": true,
+          "GUDANG:pocket": true,
+          "AUDITOR_VIEW_ONLY:pocket": true,
+          "anon:import": true,
+          "OWNER:import": true,
+          "GUDANG:import": true,
+          "AUDITOR_VIEW_ONLY:import": true,
+          "GUDANG:accessory_valid_action": true,
+          "AUDITOR_VIEW_ONLY:accessory_valid_action": true
+        },
+        "results": {
+          "anon:preflight": {
+            "status": 401,
+            "code": "42501",
+            "message": "permission denied for function erp_accounting_close_preflight_v1"
+          },
+          "OWNER:preflight": {
+            "status": 200,
+            "code": null,
+            "message": null
+          },
+          "GUDANG:preflight": {
+            "status": 400,
+            "code": "P0001",
+            "message": "OWNER or ADMIN access required"
+          },
+          "AUDITOR_VIEW_ONLY:preflight": {
+            "status": 400,
+            "code": "P0001",
+            "message": "OWNER or ADMIN access required"
+          },
+          "anon:accessory": {
+            "status": 401,
+            "code": "42501",
+            "message": "permission denied for function erp_get_accessory_issue_workspace_v1"
+          },
+          "OWNER:accessory": {
+            "status": 200,
+            "code": null,
+            "message": null
+          },
+          "GUDANG:accessory": {
+            "status": 403,
+            "code": "42501",
+            "message": "PERMISSION_DENIED: finance.contractor_accessory.view"
+          },
+          "AUDITOR_VIEW_ONLY:accessory": {
+            "status": 200,
+            "code": null,
+            "message": null
+          },
+          "anon:pocket": {
+            "status": 401,
+            "code": "42501",
+            "message": "permission denied for function erp_get_pocket_fabric_workspace_v1"
+          },
+          "OWNER:pocket": {
+            "status": 200,
+            "code": null,
+            "message": null
+          },
+          "GUDANG:pocket": {
+            "status": 400,
+            "code": "P0001",
+            "message": "OWNER or ADMIN access required"
+          },
+          "AUDITOR_VIEW_ONLY:pocket": {
+            "status": 400,
+            "code": "P0001",
+            "message": "OWNER or ADMIN access required"
+          },
+          "anon:import": {
+            "status": 401,
+            "code": "42501",
+            "message": "permission denied for function erp_get_initial_import_workspace_v1"
+          },
+          "OWNER:import": {
+            "status": 200,
+            "code": null,
+            "message": null
+          },
+          "GUDANG:import": {
+            "status": 400,
+            "code": "P0001",
+            "message": "OWNER or ADMIN access required"
+          },
+          "AUDITOR_VIEW_ONLY:import": {
+            "status": 400,
+            "code": "P0001",
+            "message": "OWNER or ADMIN access required"
+          },
+          "GUDANG:accessory_valid_action": {
+            "status": 403,
+            "code": "42501",
+            "message": "PERMISSION_DENIED: finance.contractor_accessory.view"
+          },
+          "AUDITOR_VIEW_ONLY:accessory_valid_action": {
+            "status": 403,
+            "code": "42501",
+            "message": "PERMISSION_DENIED: finance.contractor_accessory.create"
+          }
+        },
+        "oracle": "M281,1322: valid read arguments; valid SAVE_DRAFT action denied by permissions before required-field validation; real Auth"
+      }
+    },
+    {
+      "line": 2127,
+      "value": {
+        "group": "AUDITOR_HTTP_AFTER",
+        "case": "G8HTTP:REVOKED_OWNER_READ",
+        "status": "PASS",
+        "before": {
+          "status": 200,
+          "code": null,
+          "message": null
+        },
+        "after": {
+          "status": 403,
+          "code": "42501",
+          "message": "PERMISSION_DENIED: finance.contractor_accessory.view"
+        },
+        "oracle": "M281/1322 live app-user revocation blocks even read with previously valid Auth session"
+      }
+    },
+    {
+      "line": 2128,
+      "value": {
+        "group": "AUDITOR_HTTP_AFTER",
+        "case": "G8HTTP:PREPARED_HELPER_REACHABILITY",
+        "status": "PASS",
+        "schema_usage_authenticated": false,
+        "functions": [
+          [
+            "erp",
+            "apply_migration_master_rows",
+            "p_batch_id uuid",
+            true
+          ],
+          [
+            "erp",
+            "apply_migration_open_pos",
+            "p_batch_id uuid",
+            true
+          ],
+          [
+            "erp",
+            "prepare_migration_opening_balance",
+            "p_batch_id uuid, p_opening_number text",
+            true
+          ]
+        ],
+        "public_rpc": {
+          "status": 404,
+          "code": "PGRST202",
+          "message": "Could not find the function public.prepare_migration_opening_balance(p_batch_id, p_opening_number) in the schema cache"
+        },
+        "oracle": "Reachability observation only: private helper EXECUTE is not a callable browser facade when schema USAGE and public endpoint are absent",
+        "limits": "Does not resolve legacy/private-client prepared-draft editability; cannot promote native prepared case to ordinary browser defect"
+      }
+    },
+    {
+      "line": 2131,
+      "value": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "G8UI:WIB:cutting:Asia/Jakarta",
+        "status": "PASS",
+        "zone": "Asia/Jakarta",
+        "kind": "cutting",
+        "input_wib": "2026-09-24T00:30",
+        "expected_utc": "2026-09-23T17:30:00.000Z",
+        "browser_payload_time": "2026-09-23T17:30:00.000Z",
+        "stored_utc": "2026-09-23T17:30:00.000Z",
+        "http_status": 200,
+        "response": {
+          "status": "CUT",
+          "pattern_id": "c8c10000-0000-4000-8000-000000000001",
+          "row_version": 4,
+          "total_rolls": 1,
+          "group_number": "POT-260923-2F0BE217",
+          "pattern_code": "CP6-RACE",
+          "pattern_name": "CP6 Race Pattern",
+          "total_pieces": 10,
+          "cutting_group_id": "2f0be217-836b-4ee4-bad3-b294ea0de9c3",
+          "pattern_revision": "R1",
+          "total_qty_issued": 10,
+          "source_location_id": "bac485f8-4d3a-4eac-a8b2-d6daf34dbcb0",
+          "total_qty_consumed": 10,
+          "material_issue_posted": false,
+          "total_qty_reported_remaining": 0
+        },
+        "fixture": {
+          "kind": "cutting",
+          "group": "2f0be217-836b-4ee4-bad3-b294ea0de9c3",
+          "group_number": "POT-260923-2F0BE217",
+          "po_number": "G8UI-12794e0c86814f",
+          "contractor": "a1000000-0000-0000-0000-000000000001",
+          "schema_usage_before": false,
+          "schema_usage_after": false
+        },
+        "oracle": "M3820 and CP6-01/A2: same WIB form value must persist the same physical instant in every device timezone",
+        "browser_form_clicked": true,
+        "product_response_mocked": false
+      }
+    },
+    {
+      "line": 2132,
+      "value": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "G8UI:WIB:pickup:Asia/Jakarta",
+        "status": "INCOMPLETE",
+        "error": "locator.selectOption: Timeout 20000ms exceeded.\nCall log:\n  - waiting for getByLabel('Mandor', { exact: true })\n\n    at /home/runner/work/-erp-garment-ux/-erp-garment-ux/audit-source/audit/scenarios/browser_round8/gpt_wib_browser.mjs:63:58\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:148:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:159:3"
+      }
+    },
+    {
+      "line": 2133,
+      "value": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "G8UI:WIB:bs:Asia/Jakarta",
+        "status": "PASS",
+        "zone": "Asia/Jakarta",
+        "kind": "bs",
+        "input_wib": "2026-09-24T00:30",
+        "expected_utc": "2026-09-23T17:30:00.000Z",
+        "browser_payload_time": "2026-09-23T17:30:00.000Z",
+        "stored_utc": "2026-09-23T17:30:00.000Z",
+        "http_status": 200,
+        "response": {
+          "action": "CREATE_MANUAL_BS",
+          "result": {
+            "status": "OPEN",
+            "bs_number": "BS-MAN-20260924-a97ceced",
+            "bs_case_id": "a97ceced-356d-4102-8e00-94c51e2a2ac7",
+            "row_version": 1,
+            "untracked_type": "LEGACY"
+          }
+        },
+        "fixture": {
+          "kind": "bs",
+          "schema_usage_before": false,
+          "schema_usage_after": false
+        },
+        "oracle": "M3820 and CP6-01/A2: same WIB form value must persist the same physical instant in every device timezone",
+        "browser_form_clicked": true,
+        "product_response_mocked": false
+      }
+    },
+    {
+      "line": 2134,
+      "value": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "G8UI:WIB:cutting:UTC",
+        "status": "PASS",
+        "zone": "UTC",
+        "kind": "cutting",
+        "input_wib": "2026-09-24T00:30",
+        "expected_utc": "2026-09-23T17:30:00.000Z",
+        "browser_payload_time": "2026-09-23T17:30:00.000Z",
+        "stored_utc": "2026-09-23T17:30:00.000Z",
+        "http_status": 200,
+        "response": {
+          "status": "CUT",
+          "pattern_id": "c8c10000-0000-4000-8000-000000000001",
+          "row_version": 4,
+          "total_rolls": 1,
+          "group_number": "POT-260923-AA657613",
+          "pattern_code": "CP6-RACE",
+          "pattern_name": "CP6 Race Pattern",
+          "total_pieces": 10,
+          "cutting_group_id": "aa657613-0e66-49c5-9947-81f0c8a157d6",
+          "pattern_revision": "R1",
+          "total_qty_issued": 10,
+          "source_location_id": "f814c194-e39d-4182-bd2e-3335f4442798",
+          "total_qty_consumed": 10,
+          "material_issue_posted": false,
+          "total_qty_reported_remaining": 0
+        },
+        "fixture": {
+          "kind": "cutting",
+          "group": "aa657613-0e66-49c5-9947-81f0c8a157d6",
+          "group_number": "POT-260923-AA657613",
+          "po_number": "G8UI-1db0c80ba00845",
+          "contractor": "a1000000-0000-0000-0000-000000000001",
+          "schema_usage_before": false,
+          "schema_usage_after": false
+        },
+        "oracle": "M3820 and CP6-01/A2: same WIB form value must persist the same physical instant in every device timezone",
+        "browser_form_clicked": true,
+        "product_response_mocked": false
+      }
+    },
+    {
+      "line": 2135,
+      "value": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "G8UI:WIB:pickup:UTC",
+        "status": "INCOMPLETE",
+        "error": "locator.selectOption: Timeout 20000ms exceeded.\nCall log:\n  - waiting for getByLabel('Mandor', { exact: true })\n\n    at /home/runner/work/-erp-garment-ux/-erp-garment-ux/audit-source/audit/scenarios/browser_round8/gpt_wib_browser.mjs:63:58\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:148:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:159:3"
+      }
+    },
+    {
+      "line": 2136,
+      "value": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "G8UI:WIB:bs:UTC",
+        "status": "PASS",
+        "zone": "UTC",
+        "kind": "bs",
+        "input_wib": "2026-09-24T00:30",
+        "expected_utc": "2026-09-23T17:30:00.000Z",
+        "browser_payload_time": "2026-09-23T17:30:00.000Z",
+        "stored_utc": "2026-09-23T17:30:00.000Z",
+        "http_status": 200,
+        "response": {
+          "action": "CREATE_MANUAL_BS",
+          "result": {
+            "status": "OPEN",
+            "bs_number": "BS-MAN-20260924-7bd6770f",
+            "bs_case_id": "7bd6770f-f2a7-4798-b32f-82e51a5803c6",
+            "row_version": 1,
+            "untracked_type": "LEGACY"
+          }
+        },
+        "fixture": {
+          "kind": "bs",
+          "schema_usage_before": false,
+          "schema_usage_after": false
+        },
+        "oracle": "M3820 and CP6-01/A2: same WIB form value must persist the same physical instant in every device timezone",
+        "browser_form_clicked": true,
+        "product_response_mocked": false
+      }
+    },
+    {
+      "line": 2137,
+      "value": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "G8UI:WIB:cutting:Etc/GMT+12",
+        "status": "PASS",
+        "zone": "Etc/GMT+12",
+        "kind": "cutting",
+        "input_wib": "2026-09-24T00:30",
+        "expected_utc": "2026-09-23T17:30:00.000Z",
+        "browser_payload_time": "2026-09-23T17:30:00.000Z",
+        "stored_utc": "2026-09-23T17:30:00.000Z",
+        "http_status": 200,
+        "response": {
+          "status": "CUT",
+          "pattern_id": "c8c10000-0000-4000-8000-000000000001",
+          "row_version": 4,
+          "total_rolls": 1,
+          "group_number": "POT-260923-AA6AF5CB",
+          "pattern_code": "CP6-RACE",
+          "pattern_name": "CP6 Race Pattern",
+          "total_pieces": 10,
+          "cutting_group_id": "aa6af5cb-f78c-4efa-8b8f-c7950837124c",
+          "pattern_revision": "R1",
+          "total_qty_issued": 10,
+          "source_location_id": "77b6affc-da49-49e6-9405-1eea730da434",
+          "total_qty_consumed": 10,
+          "material_issue_posted": false,
+          "total_qty_reported_remaining": 0
+        },
+        "fixture": {
+          "kind": "cutting",
+          "group": "aa6af5cb-f78c-4efa-8b8f-c7950837124c",
+          "group_number": "POT-260923-AA6AF5CB",
+          "po_number": "G8UI-ba910ef877cd43",
+          "contractor": "a1000000-0000-0000-0000-000000000001",
+          "schema_usage_before": false,
+          "schema_usage_after": false
+        },
+        "oracle": "M3820 and CP6-01/A2: same WIB form value must persist the same physical instant in every device timezone",
+        "browser_form_clicked": true,
+        "product_response_mocked": false
+      }
+    },
+    {
+      "line": 2138,
+      "value": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "G8UI:WIB:pickup:Etc/GMT+12",
+        "status": "INCOMPLETE",
+        "error": "locator.selectOption: Timeout 20000ms exceeded.\nCall log:\n  - waiting for getByLabel('Mandor', { exact: true })\n\n    at /home/runner/work/-erp-garment-ux/-erp-garment-ux/audit-source/audit/scenarios/browser_round8/gpt_wib_browser.mjs:63:58\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:148:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:159:3"
+      }
+    },
+    {
+      "line": 2139,
+      "value": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "G8UI:WIB:bs:Etc/GMT+12",
+        "status": "PASS",
+        "zone": "Etc/GMT+12",
+        "kind": "bs",
+        "input_wib": "2026-09-24T00:30",
+        "expected_utc": "2026-09-23T17:30:00.000Z",
+        "browser_payload_time": "2026-09-23T17:30:00.000Z",
+        "stored_utc": "2026-09-23T17:30:00.000Z",
+        "http_status": 200,
+        "response": {
+          "action": "CREATE_MANUAL_BS",
+          "result": {
+            "status": "OPEN",
+            "bs_number": "BS-MAN-20260924-461efc0f",
+            "bs_case_id": "461efc0f-5678-4ca8-9afc-e115bb4eb1c0",
+            "row_version": 1,
+            "untracked_type": "LEGACY"
+          }
+        },
+        "fixture": {
+          "kind": "bs",
+          "schema_usage_before": false,
+          "schema_usage_after": false
+        },
+        "oracle": "M3820 and CP6-01/A2: same WIB form value must persist the same physical instant in every device timezone",
+        "browser_form_clicked": true,
+        "product_response_mocked": false
+      }
+    },
+    {
+      "line": 2140,
+      "value": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "G8UI:WIB:cutting:Pacific/Kiritimati",
+        "status": "PASS",
+        "zone": "Pacific/Kiritimati",
+        "kind": "cutting",
+        "input_wib": "2026-09-24T00:30",
+        "expected_utc": "2026-09-23T17:30:00.000Z",
+        "browser_payload_time": "2026-09-23T17:30:00.000Z",
+        "stored_utc": "2026-09-23T17:30:00.000Z",
+        "http_status": 200,
+        "response": {
+          "status": "CUT",
+          "pattern_id": "c8c10000-0000-4000-8000-000000000001",
+          "row_version": 4,
+          "total_rolls": 1,
+          "group_number": "POT-260923-7F0E9A27",
+          "pattern_code": "CP6-RACE",
+          "pattern_name": "CP6 Race Pattern",
+          "total_pieces": 10,
+          "cutting_group_id": "7f0e9a27-3e5a-4988-870c-3c14b5eb74ef",
+          "pattern_revision": "R1",
+          "total_qty_issued": 10,
+          "source_location_id": "f7393579-57c2-46ae-8e52-8e42439cc61e",
+          "total_qty_consumed": 10,
+          "material_issue_posted": false,
+          "total_qty_reported_remaining": 0
+        },
+        "fixture": {
+          "kind": "cutting",
+          "group": "7f0e9a27-3e5a-4988-870c-3c14b5eb74ef",
+          "group_number": "POT-260923-7F0E9A27",
+          "po_number": "G8UI-42e851064bd74f",
+          "contractor": "a1000000-0000-0000-0000-000000000001",
+          "schema_usage_before": false,
+          "schema_usage_after": false
+        },
+        "oracle": "M3820 and CP6-01/A2: same WIB form value must persist the same physical instant in every device timezone",
+        "browser_form_clicked": true,
+        "product_response_mocked": false
+      }
+    },
+    {
+      "line": 2141,
+      "value": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "G8UI:WIB:pickup:Pacific/Kiritimati",
+        "status": "INCOMPLETE",
+        "error": "locator.selectOption: Timeout 20000ms exceeded.\nCall log:\n  - waiting for getByLabel('Mandor', { exact: true })\n\n    at /home/runner/work/-erp-garment-ux/-erp-garment-ux/audit-source/audit/scenarios/browser_round8/gpt_wib_browser.mjs:63:58\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:148:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:159:3"
+      }
+    },
+    {
+      "line": 2142,
+      "value": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "G8UI:WIB:bs:Pacific/Kiritimati",
+        "status": "PASS",
+        "zone": "Pacific/Kiritimati",
+        "kind": "bs",
+        "input_wib": "2026-09-24T00:30",
+        "expected_utc": "2026-09-23T17:30:00.000Z",
+        "browser_payload_time": "2026-09-23T17:30:00.000Z",
+        "stored_utc": "2026-09-23T17:30:00.000Z",
+        "http_status": 200,
+        "response": {
+          "action": "CREATE_MANUAL_BS",
+          "result": {
+            "status": "OPEN",
+            "bs_number": "BS-MAN-20260924-4cc53646",
+            "bs_case_id": "4cc53646-afec-4c68-9a21-729676d70412",
+            "row_version": 1,
+            "untracked_type": "LEGACY"
+          }
+        },
+        "fixture": {
+          "kind": "bs",
+          "schema_usage_before": false,
+          "schema_usage_after": false
+        },
+        "oracle": "M3820 and CP6-01/A2: same WIB form value must persist the same physical instant in every device timezone",
+        "browser_form_clicked": true,
+        "product_response_mocked": false
+      }
+    },
+    {
+      "line": 2143,
+      "value": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "planned": [
+          "G8UI:WIB:cutting:Asia/Jakarta",
+          "G8UI:WIB:pickup:Asia/Jakarta",
+          "G8UI:WIB:bs:Asia/Jakarta",
+          "G8UI:WIB:cutting:UTC",
+          "G8UI:WIB:pickup:UTC",
+          "G8UI:WIB:bs:UTC",
+          "G8UI:WIB:cutting:Etc/GMT+12",
+          "G8UI:WIB:pickup:Etc/GMT+12",
+          "G8UI:WIB:bs:Etc/GMT+12",
+          "G8UI:WIB:cutting:Pacific/Kiritimati",
+          "G8UI:WIB:pickup:Pacific/Kiritimati",
+          "G8UI:WIB:bs:Pacific/Kiritimati"
+        ],
+        "final": {
+          "G8UI:WIB:cutting:Asia/Jakarta": "PASS",
+          "G8UI:WIB:pickup:Asia/Jakarta": "INCOMPLETE",
+          "G8UI:WIB:bs:Asia/Jakarta": "PASS",
+          "G8UI:WIB:cutting:UTC": "PASS",
+          "G8UI:WIB:pickup:UTC": "INCOMPLETE",
+          "G8UI:WIB:bs:UTC": "PASS",
+          "G8UI:WIB:cutting:Etc/GMT+12": "PASS",
+          "G8UI:WIB:pickup:Etc/GMT+12": "INCOMPLETE",
+          "G8UI:WIB:bs:Etc/GMT+12": "PASS",
+          "G8UI:WIB:cutting:Pacific/Kiritimati": "PASS",
+          "G8UI:WIB:pickup:Pacific/Kiritimati": "INCOMPLETE",
+          "G8UI:WIB:bs:Pacific/Kiritimati": "PASS"
+        },
+        "status": "RUN_COMPLETE",
+        "console_errors": 0,
+        "users_created": 12,
+        "auth_cleanup_failures": []
+      }
+    }
+  ],
+  "cleanup": {
+    "primary_unchanged": true,
+    "clone_remaining": 0,
+    "http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 3
+      },
+      "database_remaining": 0,
+      "cleanup": {
+        "users_created": 5,
+        "cleanup_failures": [],
+        "rest_remaining": false
+      },
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "error": null
+    },
+    "browser": {
+      "status": "INCOMPLETE",
+      "counts": {
+        "PASS": 8,
+        "INCOMPLETE": 4
+      },
+      "script_sha256": "8e489094a647e405b5275c90404d063ea836e211323f2c0c3f0938280710dca3",
+      "database_remaining": 0,
+      "cleanup": {
+        "users_created": 0,
+        "cleanup_failures": [],
+        "rest_remaining": false
+      },
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "console_errors": 0,
+      "users_created": 12,
+      "error": null
+    }
+  },
   "production_go": false
 }
