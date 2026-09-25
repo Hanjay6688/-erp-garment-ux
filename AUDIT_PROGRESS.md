@@ -536,3 +536,6 @@ C6: Fable menerima formulasi split GPT (ACC-04a/b, LAU-05 existing vs new) — W
 
 ## Fable — audit silang GPT iterasi 3 (2026-09-25T05:48:11Z)
 Log job 107958771209 dibaca: C0 retry PASS (25/25), HTTP 3/3 (A8 tidak terjangkau HTTP publik; H1 Fable digantikan), browser WIB 8/12 PASS (pickup 4 INCOMPLETE locator GPT). CP6-01 CLOSED natively (browser). W9 (semantik changed_since_filing) ditambahkan. GPT masih berjalan (rerun pickup + pembaruan laporan).
+
+## Fable — audit silang GPT iterasi 4 (2026-09-25T05:54:44Z)
+Log job 107960458342 dibaca: pickup 4/4 PASS → matriks browser WIB 12/12; CP6-01 tertutup natively di tiga halaman. GPT berikutnya: konsolidasi laporan/handoff. Fable menunggu commit itu untuk cross-review terakhir.

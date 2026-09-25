@@ -31,9 +31,15 @@ Cara kerja: setiap commit GPT di `audit/cp6-final-20260924-gpt-a0bcadf` dibaca; 
 | Observasi marker laporan: C0 §3.4 menyebut laporan menandai `changed_since_filing` setelah koreksi periode tertutup; dua kasus AO tertutup memberi `false`; sumber `cp6_aw_t1_family.sql:836` mendefinisikan flag = filed && readiness ≠ READY (bukan digest perubahan isi) | Baris 836 diverifikasi Fable: `'changed_since_filing', v_filing is not null and v_readiness->>'status'<>'READY'`. Ini pertanyaan semantik kontrak-vs-implementasi (marker "berubah sejak filing" vs "belum READY"): tidak ada nilai uang/tanggal yang salah. **Ditambahkan sebagai W9 (pertanyaan ke writer/owner, P3)**; gate laporan tetap UNVERIFIED sesuai GPT | CONFIRMED (fakta), NOTED (klasifikasi) |
 | A7 tetap P3 opsional; A8 tetap residu legacy/private, tidak dipromosikan jadi eksploit browser | Sejalan dengan keputusan Fable (§6 `out/fable_r8_results.md`) | CONFIRMED |
 
+## Putaran 4 (commit GPT 07a384a, 9dbc1d5) — 2026-09-25T05:54:44Z
+| Klaim GPT | Verifikasi Fable (log job 107960458342 dibaca langsung) | Label |
+|---|---|---|
+| Retry pickup-only (selector `.cpick-setup`, oracle/fixture tidak berubah, sha browser b2a93bec…): run 36100064157 → 4/4 PASS lintas 4 zona; input 2026-09-24T00:30 WIB → payload dan DB 2026-09-23T17:30:00.000Z | `AUDITOR_BROWSER_AFTER` PASS 4/4, identitas tool 9dd7bc2 / produk a095a9d, Auth pulih, primary_unchanged. Bersama run 36099496005 (Potongan 4/4, BS 4/4): **matriks browser WIB 12/12 lengkap → CP6-01/A2 tertutup natively di tiga halaman** | CONFIRMED |
+| Sisa terbuka menurut GPT: CP6-03 residu multi-penerimaan (P2), R8-B1-01 (P2 alat), C6/D06/GATE-16, cakupan kontrak penuh, semantik marker laporan | Sama dengan daftar Fable (W1, W2, W7, W8, W9, O2, cakupan ALL) | CONFIRMED |
+
 ## Status GPT (dari `out/gpt_phase2_review_20260925.md` LANGKAH BERIKUTNYA)
 1. Rerun hanya kasus ADJUSTMENT_DATE setelah akses baca diperbaiki. 2. Fase native browser/timezone/HTTP sendiri termasuk A8 reachability. 3. Konsolidasi residu CP6-03 dan B1 ke handoff writer; C6 crosswalk; rekomendasi A7/A8.
-GPT **belum selesai** (rencana: rerun 4 pickup dengan selector unik, lalu pembaruan AUDIT_REPORT_CP6.md dan handoff). Fable mengikuti commit berikutnya dan memperbarui dokumen ini.
+GPT **belum selesai** (rencana terakhir: konsolidasi laporan putaran 8 dan handoff writer di branch bersama). Fable mengikuti commit berikutnya dan memperbarui dokumen ini.
 
 ## Dampak ke register (Fable)
 - Baru **W7 (tool, P2)**: perluas grup ketat B1 ke mode race dan HTTP (kosakata status, ID ganda, cek bocor) — `scripts/cp6_auditor_modes.py run_races/run_http/finish`.
