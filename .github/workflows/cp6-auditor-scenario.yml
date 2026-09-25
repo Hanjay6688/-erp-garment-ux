@@ -15,6 +15,7 @@ name: CP6 Auditor Scenario
     - scripts/cp6_ba_probe.py
     - scripts/cp6_bb_probe.py
     - scripts/cp6_bc_probe.py
+    - scripts/cp6_bd_probe.py
     - .github/workflows/cp6-auditor-scenario.yml
   workflow_dispatch:
     inputs:
@@ -35,12 +36,13 @@ name: CP6 Auditor Scenario
         required: false
         default: ''
       phase:
-        description: after = AN..AY plus AZ, BA, BB and BC (current candidate); pre_bc = plus AZ, BA and BB; pre_bb = plus AZ and BA; pre_ba = plus AZ only; before = without AZ
+        description: after = AN..AY plus AZ, BA, BB, BC and BD (current candidate); pre_bd = plus AZ, BA, BB and BC; pre_bc = plus AZ, BA and BB; pre_bb = plus AZ and BA; pre_ba = plus AZ only; before = without AZ
         required: false
         default: after
         type: choice
         options:
         - after
+        - pre_bd
         - pre_bc
         - pre_bb
         - pre_ba
