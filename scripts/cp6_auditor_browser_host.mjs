@@ -134,7 +134,9 @@ const ui = {
 }
 
 async function main() {
+  report.stage = 'START'
   await start()
+  report.stage = 'CASES'
   const module = await import(pathToFileURL(resolve(script)).href)
   assert.equal(typeof module.cases, 'function', 'AUDITOR_BROWSER_NEEDS_cases')
   const planned = await module.cases(ui, today)
@@ -161,8 +163,12 @@ try {
   report.missing = missing
   report.status = report.error || missing.length ? 'INCOMPLETE' : 'RUN_COMPLETE'
 } catch (error) {
+  // Round 9, W4: a failure outside a case (the UI build, preview or REST not ready, the scenario module) is a structured
+  // INCOMPLETE that names its stage, so users_created 0 reads as "stopped at START", not as a case result.
   report.error = safe(error?.stack || String(error)).slice(0, 3000)
+  report.failed_stage = report.stage
 } finally {
+  report.stage = 'CLEANUP'
   try { await browser?.close() } catch { /* recorded by the status */ }
   preview?.kill(); proxy?.close()
   for (const user of users) {
@@ -173,7 +179,7 @@ try {
   report.users_created = users.length
   save()
   console.log(JSON.stringify({ group: 'AUDITOR_BROWSER_' + phase, planned: report.planned, final: Object.fromEntries(Object.entries(report.cases).map(([k, v]) => [k, v.status])),
-    status: report.status, error: report.error, console_errors: report.console_errors.length, users_created: users.length,
+    status: report.status, failed_stage: report.failed_stage, error: report.error, console_errors: report.console_errors.length, users_created: users.length,
     auth_cleanup_failures: report.auth_cleanup_failures }))
 }
 process.exit(report.status === 'RUN_COMPLETE' ? 0 : 1)

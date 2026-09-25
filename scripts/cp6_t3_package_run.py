@@ -149,6 +149,16 @@ def run(mode):
                                   added=[compact(f) for f in delta.get('added',[])],removed=[compact(f) for f in delta.get('removed',[])]),default=str),flush=True)
             report['status']='ALL_STAGES_INSTALLED' if len(installed)==len(stages) else 'REFUSED'
             report['backup_restore_drill']=drill.run(OUT/'T3_BACKUP_RESTORE_DRILL.json',installed)['status']
+            # Round 9, W12 (b) and W6: the read-only cutover data checks on the final clone (frontend UUID pattern on every erp
+            # uuid column; active cash accounts sharing a COA account). Observations of this baseline; on a cutover drill copy of
+            # hosted/legacy data a FOUND must be resolved before cutover.
+            try:
+                import cp6_cutover_data_checks as data_checks
+                with psycopg.connect(boundary.ADMIN) as conn,conn.cursor() as cur:
+                    report['cutover_data_checks']=data_checks.run(cur);conn.rollback()
+            except Exception as exc:
+                report['cutover_data_checks']=dict(status='INCOMPLETE',error=str(exc)[:1000])
+            print(json.dumps(dict(group='T3_CUTOVER_DATA_CHECKS',**report['cutover_data_checks']),default=str),flush=True)
     except Exception as exc:
         report.update(status='INCOMPLETE',error=str(exc)[:4000],traceback=traceback.format_exc()[-4000:])
     finally:

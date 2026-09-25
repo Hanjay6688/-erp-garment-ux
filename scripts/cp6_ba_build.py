@@ -39,13 +39,18 @@ checked substitutions only, like the AY and AZ builders:
      keep AZ's rule too (their credit follows the supplier cent state of v2.6.20n; T2 run 36087253697 showed the whole-cent
      rule moving those cents twice: CROSS:SUPPLIER_CENT:SPLIT_RETURN, CROSS_SOURCE_INVERSE_IDENTITY).
      W8 (independent audit round 9, several receipts; GPT run 36097284096): a purchase document's inventory is
-     round(sum of qty x current unit cost) per document (supplier cent state), while the moving average adds the change of
+     round(sum of qty x input unit cost of its receipt movements) per document, while the moving average adds the change of
      round(stock x average); the difference of the documents received since the previous consumption goes with the next
      consumption, so consumptions total the documents' own cents and a used-up material keeps zero value (two receipts of
      one unit at 10.00 corrected to 10.005 now give WIP 20.02 and material 0, not 20.01 and 0.01). A document with several
      materials gives its document-level cent to the lowest material id among its items.
   A6 (CP6-24) erp.close_accounting_through: closing the date that is already closed is refused (filings are immutable, a
      second close would file twice); a close after a reopen stays allowed.
+  W9 (independent audit round 9; C0 D01 section 3.4, ratified) erp.get_owner_financial_snapshot_v2: a report dated inside a
+     filed period marks changed_since_filing while the date is not READY (AW) and also once a correction whose economic
+     date is on or before the report date was booked after the filed period (the controlled adjustment of 3.4: economic
+     date E, booked on the recognition day). AW's flag went back to false once the recost was processed, although the
+     filed picture had been corrected; the filed values and the filing itself stay unchanged either way.
   A5 (CP6-04) selectors: erp.get_bs_resolution_workspace_v1 lists every Laundry source that can still be claimed or used
      (deliveries without capacity are left out before any ordering; no 100-row cut), erp.get_initial_import_workspace_v1
      lists every batch not posted yet with the latest 50, and the open payrolls and advance targets of a batch in full.
@@ -332,7 +337,7 @@ REVAL_NEW="""    elsif r.source_type='MATERIAL_SUPPLIER_RETURN_ITEM' then
         and x.movement_type=r.movement_type and x.reversal_of_id is null
         and (x.physical_at,x.system_created_at,x.id)<=(r.physical_at,r.system_created_at,r.id);
       -- BA W8 (independent audit round 9, CP6-03 with several receipts; M:835, M:3820, M:6632): a purchase document's
-      -- inventory is round(sum of qty x current unit cost) per document (supplier cent state, v2.6.20n), while the moving
+      -- inventory is round(sum of qty x unit cost) per document (supplier cent state, v2.6.20n), while the moving
       -- average added the change of round(stock x average). The difference for the documents received since the previous
       -- consumption goes with the next consumption, so the consumptions total the documents' own cents and a used-up
       -- material keeps zero value. A document with several materials gives its document-level cent to the lowest
@@ -340,15 +345,23 @@ REVAL_NEW="""    elsif r.source_type='MATERIAL_SUPPLIER_RETURN_ITEM' then
       if v_now is not null and r.qty_signed<0 then
         select coalesce(sum(d.doc_value-d.average_value),0) into v_drift
         from (
+          -- the receipt's own input cost (what the moving average took in): a cost correction sets it before it recosts,
+          -- while the corrected price counts in material_purchase_current_unit_cost only once the correction is POSTED
           select x.purchase_id,
-            round(sum(x.qty_signed*erp.material_purchase_current_unit_cost(x.purchase_item_id)),2)
+            round(sum(x.qty_signed*x.input_unit_cost),2)
             +case when (select min(pi.material_id::text) from erp.material_purchase_items pi where pi.purchase_id=x.purchase_id)=r.material_id::text
-              then (select round(sum(t.v),2)-sum(round(t.v,2)) from (select sum(pi.qty*erp.material_purchase_current_unit_cost(pi.id)) v
-                    from erp.material_purchase_items pi where pi.purchase_id=x.purchase_id group by pi.material_id) t)
+              then (select round(sum(t.v),2)-sum(round(t.v,2)) from (select sum(pm.qty_signed*pm.input_unit_cost) v
+                    from erp.material_stock_movements pm
+                    join erp.material_purchase_items ppi on ppi.id=case when pm.source_type='MATERIAL_PURCHASE_ITEM' then pm.source_id
+                      else (select mr.purchase_item_id from erp.material_rolls mr where mr.id=pm.source_id) end
+                    where ppi.purchase_id=x.purchase_id and pm.movement_type='PURCHASE' and pm.qty_signed>0
+                      and pm.source_type in('MATERIAL_PURCHASE_ITEM','MATERIAL_PURCHASE_ROLL')
+                      and not exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=pm.id)
+                    group by pm.material_id) t)
               else 0 end doc_value,
             sum(x.average_change) average_value
           from (
-            select pi.purchase_id,pi.id purchase_item_id,m.qty_signed,
+            select pi.purchase_id,m.qty_signed,m.input_unit_cost,
               round(h.stock_after*h.average_after,2)-round(h.stock_before*h.average_before,2) average_change
             from erp.material_stock_movements m
             join erp.material_purchase_items pi on pi.id=case when m.source_type='MATERIAL_PURCHASE_ITEM' then m.source_id
@@ -370,6 +383,13 @@ REVAL_NEW="""    elsif r.source_type='MATERIAL_SUPPLIER_RETURN_ITEM' then
 """
 
 # ---------------------------------------------------------------- A6 erp.close_accounting_through (AW)
+SNAP_HEAD='CREATE OR REPLACE FUNCTION erp.get_owner_financial_snapshot_v2(p_from date, p_to date, p_as_of date DEFAULT'
+SNAP_OLD="""      'filing',v_filing,'changed_since_filing',v_filing is not null and v_readiness->>'status'<>'READY'"""
+SNAP_NEW="""      -- BA (audit round 9, W9; C0 D01 3.4): changed since the filing while the date is not READY, and once a correction of the
+      -- filed picture (economic date on or before the report date) was booked after the filed period.
+      'filing',v_filing,'changed_since_filing',v_filing is not null and (v_readiness->>'status'<>'READY' or exists(
+        select 1 from erp.journal_entries j where j.status in('POSTED','REVERSED') and j.economic_date<=p_as_of
+          and j.transaction_date>(v_filing->>'closed_through')::date))"""
 CLOSE_HEAD='CREATE OR REPLACE FUNCTION erp.close_accounting_through(p_closed_through date, p_reason text)'
 CLOSE_OLD="""  if v_old is not null and p_closed_through<v_old then
     raise exception 'Untuk membuka kembali periode gunakan reopen_accounting_through(); periode saat ini sudah ditutup sampai %',v_old;
@@ -399,7 +419,8 @@ revoke all on erp.initial_import_wip_output_identity_v1 from public,anon,authent
 
 REPLACED=['erp.post_opening_balance(uuid)','erp.complete_initial_import_wip_v1(jsonb)','erp.manage_initial_prepayment_v1(jsonb)',
           'erp.sync_material_cost_revaluation(uuid)','erp.close_accounting_through(date,text)','erp.assert_new_stock_cutoff_coverage_v1()',
-          'erp.get_bs_resolution_workspace_v1(text,text,uuid,text,integer,integer)','erp.get_initial_import_workspace_v1(uuid)']
+          'erp.get_bs_resolution_workspace_v1(text,text,uuid,text,integer,integer)','erp.get_initial_import_workspace_v1(uuid)',
+          'erp.get_owner_financial_snapshot_v2(date,date,date)']
 NEW_FUNCTIONS=['erp.initial_prepayment_dated_floor_v1(uuid,date)']
 NEW_TABLES=['initial_import_wip_output_identity_v1']
 
@@ -427,16 +448,17 @@ def build():
     imports=function(AP,IMPORT_HEAD,[(IMPORT_RECENT_OLD,IMPORT_RECENT_NEW),(IMPORT_PAYROLL_OLD,IMPORT_PAYROLL_NEW),(IMPORT_TARGET_OLD,IMPORT_TARGET_NEW)])
     reval=function(AZ,REVAL_HEAD,[(REVAL_DECLARE_OLD,REVAL_DECLARE_NEW),(REVAL_OLD,REVAL_NEW)])
     close=function(AW,CLOSE_HEAD,[(CLOSE_OLD,CLOSE_NEW)])
+    snapshot=function(AW,SNAP_HEAD,[(SNAP_OLD,SNAP_NEW)])
     parts=['-- CP6 BA audit closure (writer handoff 25 Sep 2026, owner D02/D03): T1_FAMILY development install (NOT a release package).',
            '-- Generated by scripts/cp6_ba_build.py from the AR/AP/AV/CP5-19 migrations and the AW/AZ T1 files; do not edit by hand.',
            'begin;',"set local lock_timeout='10s';set local statement_timeout='240s';set local search_path='';",
            'do $t1_guard$','begin',
            " if (select count(*) from erp.schema_migrations where version in('v2.6.20av','v2.6.20aw','v2.6.20ax','v2.6.20ay','v2.6.20az'))<>5 then raise exception 'BA_T1_REQUIRES_AV_AW_AX_AY_AZ'; end if;",
            f" if exists(select 1 from erp.schema_migrations where version='{VERSION}') or to_regclass('erp.initial_import_wip_output_identity_v1') is not null then raise exception 'BA_T1_ALREADY_INSTALLED'; end if;",
-           'end $t1_guard$;',SCHEMA,FLOOR.rstrip('\n'),opening,wip,advance,reval,close,cover,bs,imports,
+           'end $t1_guard$;',SCHEMA,FLOOR.rstrip('\n'),opening,wip,advance,reval,close,snapshot,cover,bs,imports,
            'do $coverage$ begin perform erp.assert_new_stock_cutoff_coverage_v1(); end $coverage$;',
            f"insert into erp.schema_migrations(version,description) values('{VERSION}',"
-           "'T1_FAMILY development install of BA (CP6 audit closure: import identity, dated WIP remaining, WIP product binding, dated advance capacity, recost cents, selectors, single close filing); not a release package');",'commit;','']
+           "'T1_FAMILY development install of BA (CP6 audit closure: import identity, dated WIP remaining, WIP product binding, dated advance capacity, recost cents, selectors, single close filing, changed since filing); not a release package');",'commit;','']
     return '\n'.join(parts)
 
 

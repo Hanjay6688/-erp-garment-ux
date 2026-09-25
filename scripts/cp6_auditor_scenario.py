@@ -83,10 +83,17 @@ def run(phase,scenario,selftest=False,browser=None):
         if selftest:
             duplicate=runner.strict_group('AUDITOR_SELFTEST_DUPLICATE_IDS',
                 lambda cur,today:[('ST:SAME',lambda:dict(status='PASS')),('ST:SAME',lambda:dict(status='PASS'))],verify)
+            # Round 9, W4: a case that commits the group transaction ends the group as a structured INCOMPLETE (the next
+            # case is listed as missing), not as a crash on the missing savepoint.
+            ended=runner.strict_group('AUDITOR_SELFTEST_CASE_COMMITS',
+                lambda cur,today:[('ST:COMMITS',lambda:(cur.connection.commit(),dict(status='PASS'))[1]),('ST:AFTER',lambda:dict(status='PASS'))],verify)
             verdict=module.check(group.get('cases'))
             report['selftest']=dict(cases=verdict,planned_equal=group.get('planned_case_ids')==list(module.EXPECTED),
-                                    duplicate_group_refused=duplicate.get('error')=='AUDITOR_DUPLICATE_CASE_IDS' and not duplicate['cases'])
-            complete=all(v['ok'] for v in verdict.values()) and report['selftest']['planned_equal'] and report['selftest']['duplicate_group_refused']
+                                    duplicate_group_refused=duplicate.get('error')=='AUDITOR_DUPLICATE_CASE_IDS' and not duplicate['cases'],
+                                    committing_case_structured=ended.get('error')=='AUDITOR_CASE_ENDED_GROUP_TRANSACTION' and ended['status']=='INCOMPLETE'
+                                        and (ended['cases'].get('ST:COMMITS') or {}).get('status')=='INCOMPLETE' and ended.get('missing')==['ST:AFTER'])
+            complete=all(v['ok'] for v in verdict.values()) and report['selftest']['planned_equal'] and report['selftest']['duplicate_group_refused'] \
+                and report['selftest']['committing_case_structured']
             print(json.dumps(dict(auditor_selftest=report['selftest']),default=str),flush=True)
         # Two-session and HTTP modes run on committed copies of the installed clone, after the savepoint cases.
         if callable(getattr(module,'races',None)):

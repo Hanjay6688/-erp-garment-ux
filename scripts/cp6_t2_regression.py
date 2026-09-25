@@ -602,6 +602,62 @@ def calendar_policy_with_pending(raw):
 avt.independent.calendar_policy=calendar_policy_with_pending
 
 
+C0_ORACLES=Path(__file__).resolve().parent/'cp6_c0_oracles_auditor.py'
+C0_ORACLES_SHA256='7c2c19b6e722d325ba902cfd9eb1ae2f98d4e2ec27245070ab485df0af9e66a7'
+C0_ADJUSTMENT='G8C0:AS:ADJUSTMENT_DATE:False'
+
+
+def c0_oracle_group():
+    """Independent audit round 9, W2: the post-addendum C0 oracles as a routine T2 group, next to the frozen results.
+
+    The oracle file is the auditor's audit/scenarios/c0_round8/gpt_c0_oracles.py (branch audit/cp6-final-20260924-gpt-a0bcadf),
+    copied byte for byte and pinned by hash: 8 AS + 12 calendar + 4 AO + 1 adjustment, money in Decimal, dates by C0 D01.1-5
+    (ratified e83d56e6; the adjustment's value part on max(E, adjustment day), D01.3). It runs in the auditor's own strict
+    group (cp6_auditor_runner.strict_group, savepoint per case), not in the quieted T2 group, so neither the seed quieting
+    nor the payroll completion touches it, as in the auditor's runs 36098555186 and 36099496005. The only addition is the
+    auditor's transport correction of the adjustment case (gpt_http_and_adjustment.py, transport_rev2): the schema USAGE
+    that the receipt helper revokes unconditionally is given back to the native runner before each read. The frozen
+    assertions and results of the 25 old ids are not touched; this group reports under its own G8C0 ids."""
+    import hashlib,importlib.util
+    import cp6_auditor_runner as runner
+    sha=hashlib.sha256(C0_ORACLES.read_bytes()).hexdigest()
+    assert sha==C0_ORACLES_SHA256,('T2_C0_ORACLE_FILE_CHANGED',sha)
+    spec=importlib.util.spec_from_file_location('cp6_c0_oracles_auditor',C0_ORACLES)
+    c0=importlib.util.module_from_spec(spec);spec.loader.exec_module(c0)
+    original=c0.observe
+
+    def restored(cur,days):
+        c0.api.admin(cur)
+        if not cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]:
+            cur.execute('grant usage on schema erp to authenticated')
+        return original(cur,days)
+
+    def adjustment(op):
+        def run():
+            c0.observe=restored
+            try:
+                row=op()
+                row['native_fixture_correction']=('restore only the runner grant removed by cp6_initial_import_receipt_trial.rpc '
+                                                  '(auditor transport_rev2)')
+                return row
+            finally:
+                c0.observe=original
+        return run
+
+    def cases(cur,today):
+        return [(key,adjustment(op) if key==C0_ADJUSTMENT else op) for key,op in c0.cases(cur,today)]
+
+    saved=runner.r1.OUT;runner.r1.OUT=avt.OUT   # the group's JSON goes with the T2 artifact
+    try:
+        group=runner.strict_group('T2_C0_ORACLE',cases,bap.ba_verified)
+    finally:
+        runner.r1.OUT=saved
+    return dict(status=group['status'],counts=group.get('counts'),final=group.get('final'),planned=len(group.get('planned_case_ids') or []),
+                error=group.get('error'),source='audit/scenarios/c0_round8/gpt_c0_oracles.py',source_sha256=sha,
+                oracle='C0 D01.1-5 (ratified e83d56e6), numbers and prefixes of the auditor file',
+                note='New group; the frozen results of the 25 old ids stay as recorded.')
+
+
 def regression_phase(report):
     ORIGINAL_REGRESSION(report)
     # The calendar policy oracle of the 12 historical HOLD cases (part of the regression's own verdict) is in the report
@@ -642,12 +698,19 @@ def regression_phase(report):
     # The approved AS oracle: all eight evaluated (the wrapper is active only with the quieted seed).
     report['approved_oracle_20260924']=dict(results=APPROVED_RESULTS,match=sum(v=='MATCH' for v in APPROVED_RESULTS.values()),of=len(APPROVED_AS_CASES))
     print(json.dumps(dict(group='T2_APPROVED_ORACLE_SUMMARY',**report['approved_oracle_20260924'])),flush=True)
+    try:
+        report['c0_oracle']=c0_oracle_group()
+    except Exception as exc:
+        report['c0_oracle']=dict(status='INCOMPLETE',error=str(exc)[:2000])
+    print(json.dumps(dict(group='T2_C0_ORACLE_SUMMARY',**report['c0_oracle']),default=str),flush=True)
     assert SEED!='QUIETED' or sorted(APPROVED_RESULTS)==sorted(APPROVED_AS_CASES),('T2_APPROVED_ORACLE_NOT_EVALUATED',sorted(APPROVED_RESULTS))
     report['per_case_identity']=identity.compare(identity.load_expected(),observed)
     print(json.dumps(dict(group='T2_IDENTITY',**report['per_case_identity']),default=str),flush=True)
     if report['per_case_identity']['status']!='IDENTICAL_PER_CASE':report['status']='DISPOSITION_REQUIRED'
     # The AO trial's recorded outcome is 12 PASS; any other result needs a disposition too (independent review 24 Sep).
     if report['ao_trial'].get('status')!='WRITER_PASS':report['status']='DISPOSITION_REQUIRED'
+    # W2 (round 9): the C0 oracle group must pass 25/25 in full; anything else is listed for disposition.
+    if report['c0_oracle'].get('status')!='PASS' or (report['c0_oracle'].get('counts') or {}).get('PASS')!=25:report['status']='DISPOSITION_REQUIRED'
     fixture_summary(report)
 
 

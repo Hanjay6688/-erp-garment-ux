@@ -107,12 +107,24 @@ def strict_group(name,factory,verify):
         for key,operation in cases:
             before=boundary.snapshot(cur);public_before=public_state(cur);session_before=session_state(cur)
             cur.execute('savepoint auditor_case')
+            ended=None
             try:
                 row=operation()
                 if not isinstance(row,dict):row=dict(status='INCOMPLETE',error='AUDITOR_CASE_RESULT_NOT_A_DICT',result=repr(row)[:500])
             except Exception as exc:row=dict(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc())
             finally:
-                cur.execute('rollback to savepoint auditor_case');api.admin(cur);cur.execute('release savepoint auditor_case')
+                # Round 9, W4: a case that commits or rolls back the group transaction removes the savepoint; the group
+                # records that case as a structured INCOMPLETE and stops (what it committed cannot be undone here), instead
+                # of crashing on the missing savepoint.
+                try:
+                    cur.execute('rollback to savepoint auditor_case');api.admin(cur);cur.execute('release savepoint auditor_case')
+                except psycopg.Error as exc:
+                    ended=str(exc).splitlines()[0][:300];conn.rollback()
+            if ended is not None:
+                row=dict(status='INCOMPLETE',error='AUDITOR_CASE_ENDED_GROUP_TRANSACTION',detail=ended,case_status=row.get('status'))
+                report['cases'][key]=row;report['error']='AUDITOR_CASE_ENDED_GROUP_TRANSACTION';r1.save(name,report)
+                print(json.dumps(dict(group=name,case=key,**row),default=str),flush=True)
+                break
             if row.get('status') not in VOCABULARY:
                 row['status_outside_vocabulary']=row.get('status');row['status']='INCOMPLETE'
             row['full_boundary_restored']=boundary.snapshot(cur)==before
@@ -122,7 +134,9 @@ def strict_group(name,factory,verify):
             if not (row['full_boundary_restored'] and row['public_schema_unchanged'] and clean):row['status']='INCOMPLETE'
             report['cases'][key]=row;r1.save(name,report)
             print(json.dumps(dict(group=name,case=key,**row),default=str),flush=True)
-        assert function_pins(cur)==catalog,'AUDITOR_CASE_FUNCTION_OR_ACL_MUTATION'
+        if report.get('error')!='AUDITOR_CASE_ENDED_GROUP_TRANSACTION':
+            assert function_pins(cur)==catalog,'AUDITOR_CASE_FUNCTION_OR_ACL_MUTATION'
+        else:report['catalog_unchanged']=function_pins(cur)==catalog
         conn.rollback();report['runtime_after']=verify(cur)
         report['complete_boundary_restored']=boundary.snapshot(cur)==initial and public_state(cur)==public_initial
         conn.rollback()
@@ -130,7 +144,8 @@ def strict_group(name,factory,verify):
     report['final']=final
     report['counts']=dict(Counter(final.values()))
     missing=[k for k in planned if k not in final]
-    bad=report['counts'].get('INCOMPLETE') or report['counts'].get('FAIL') or missing or not report['complete_boundary_restored']
+    report['missing']=missing
+    bad=report['counts'].get('INCOMPLETE') or report['counts'].get('FAIL') or missing or not report['complete_boundary_restored'] or report.get('error')
     report['status']='INCOMPLETE' if bad else 'COUNTEREXAMPLE' if report['counts'].get('COUNTEREXAMPLE') else 'PASS'
     print(json.dumps(dict(group=name,planned=planned,final=final,missing=missing,status=report['status'])),flush=True)
     r1.save(name,report);return report

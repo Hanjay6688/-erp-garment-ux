@@ -681,6 +681,48 @@ def a6_close(cur,today,reopen):
     return out
 
 
+# ---------------------------------------------------------------- W9 changed since filing (C0 D01 3.4)
+
+def w9_changed_since_filing(cur,today,late):
+    """Close d READY (seed quieted); with late=True a purchase dated inside the closed period is posted and its recost
+    processed (AW P07's fixture), so the correction is booked in the open period with an economic date on or before d.
+    C0 D01 3.4 (ratified): the filed values and the filing stay unchanged and the report for d marks changed_since_filing.
+    AW marked it only while the recost was pending (false again after processing): COUNTEREXAMPLE without BA, PASS with it.
+    Control (late=False): nothing reaches the closed period after the filing, the report for d stays unmarked."""
+    f,_=awp.recost_fixture(cur,today,False)
+    d=f['purchase_day']+timedelta(days=1)
+    quiet=awp.quiet_seed(cur,f['purchase_day'],d)
+    ready=awp.preflight(cur,d)
+    if ready is None or ready['status']!='READY':
+        return dict(status='INCOMPLETE',reason='fixture not READY before the close',blockers=awp.blockers_brief(ready))
+    closed=awp.close(cur,d,'BA W9 close before a late change')
+    if closed[0]!='ACCEPTED':return dict(status='INCOMPLETE',reason='close refused',close=closed)
+    values_before=awp.snapshot_values(cur,d);filed_before=awp.filings(cur);at_close=awp.report(cur,d)
+    booked_after=lambda:[list(map(str,r)) for r in cur.execute("""select source_type,economic_date,transaction_date from erp.journal_entries
+        where status in('POSTED','REVERSED') and economic_date<=%s and transaction_date>%s order by 1,2,3""",(d,d)).fetchall()]
+    api.admin(cur);before_change=booked_after()
+    if before_change:return dict(status='INCOMPLETE',reason='the fixture already has corrections of d booked after d',rows=before_change)
+    if late:
+        awp.chain.prior.post_purchase(cur,f['material'],awp.chain.production.at(f['purchase_day'],22),unit_price=12);api.admin(cur)
+        awp.chain.production.owner(cur);cur.execute('select erp.process_cost_recalc_queue(100)');api.admin(cur)
+    done=awp.preflight(cur,d);rep=awp.report(cur,d)
+    api.admin(cur);later=booked_after()
+    values_after=awp.snapshot_values(cur,d);filed_after=awp.filings(cur)
+    evidence=dict(closed_through=str(d),late_change=late,report_at_close=at_close,report_after=rep,engine_after=done and done['status'],
+                  later_booked_corrections=later,values_unchanged=values_before==values_after,
+                  filing_unchanged=filed_before==filed_after and len(filed_after)==1,quiet=quiet,
+                  oracle='C0 D01 3.4: filing and filed values unchanged; the report for the filed date marks changed_since_filing '
+                         'once a correction of that date is booked after the filed period')
+    base=done is not None and done['status']=='READY' and rep['status']=='READY' and at_close['changed_since_filing'] is False \
+         and evidence['values_unchanged'] and evidence['filing_unchanged']
+    if not late:
+        return control(cur,base and not later and rep['changed_since_filing'] is False,None,**evidence)
+    if not (base and later):return dict(evidence,status='INCOMPLETE',reason='the fixture did not book a correction after the filed period')
+    marked=rep['changed_since_filing'] is True
+    status=('PASS' if marked else 'FAIL') if ba_installed(cur) else ('COUNTEREXAMPLE' if not marked else 'INCOMPLETE')
+    return dict(evidence,status=status)
+
+
 # ---------------------------------------------------------------- registration
 
 PLAN=[('A1:MATERIAL_SECOND_BATCH_SAME_ITEM','COUNTEREXAMPLE',lambda c,t:import_overlap(c,t,'MATERIAL')),
@@ -713,6 +755,8 @@ PLAN+=[('A5:BS_OLD_CLAIMABLE_DELIVERY_AFTER_100_NEWER','COUNTEREXAMPLE',a5_bs_so
        ('A5:IMPORT_OLDEST_DRAFT_AFTER_51','COUNTEREXAMPLE',a5_import_drafts)]
 PLAN+=[('A6:SECOND_CLOSE_SAME_DATE','COUNTEREXAMPLE',lambda c,t:a6_close(c,t,False)),
        ('A6:CLOSE_AGAIN_AFTER_REOPEN_CONTROL','PASS',lambda c,t:a6_close(c,t,True))]
+PLAN+=[('W9:CHANGED_SINCE_FILING_AFTER_PROCESSED_CORRECTION','COUNTEREXAMPLE',lambda c,t:w9_changed_since_filing(c,t,True)),
+       ('W9:FILED_DATE_WITHOUT_LATER_CORRECTION_CONTROL','PASS',lambda c,t:w9_changed_since_filing(c,t,False))]
 assert len({k for k,_,_ in PLAN})==len(PLAN),'BA_DUPLICATE_CASE_ID'
 
 
