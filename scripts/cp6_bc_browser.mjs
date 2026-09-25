@@ -74,7 +74,7 @@ export async function cases(ui, today) {
       await p.getByLabel('Jenis transaksi aksesori').selectOption('FILL_POST')
       await p.getByLabel('Gudang asal').selectOption(fx.main)
       await p.getByLabel('Pos servis tujuan').selectOption(fx.post)
-      await p.getByLabel('Waktu fisik (WIB)').fill(`${day(today, 1)}T09:00:00`)
+      await p.getByLabel('Waktu fisik (WIB)').fill(`${day(today, 1)}T09:00`)
       await p.getByLabel('Aksesori baris 1').selectOption(fx.material)
       await p.getByLabel('Jumlah baris 1').fill('5')
       await p.getByLabel('Alasan transaksi').fill('Isi pos servis dari browser')
