@@ -885,3 +885,13 @@ QC rev6 diverifikasi dari log: healthy PASS (10), unknown COUNTEREXAMPLE (KPI 0)
 ## Fable — putaran 11 dimulai: head BB final 4c61aca (writer §30) (2026-09-25T15:30Z)
 - Dispatch pada 4c61aca: T2 36154060877, T3 paket 36154073882, rollback 36154086810; rerun regresi xaudit_1/2/7, open_1, xaudit_8 rev3, xaudit_9, C0 GPT; writer BB modes (race 8 + HTTP 3 + browser 3) di runtime auditor 36154245241; xaudit_8 rev4 (T4 dokumen dua bahan, oracle M:835 per dokumen); workflow BB Fable rev3 (P03 menerima OPENING_UNINVOICED_RECEIPT) run 36154186985.
 - Review teks: lampiran C6 rev4 (b7833e0) memuat keenam koreksi T1 (sitasi M:1678/4139–4143/4454–4479; LAU-06b dipisah + pagar identitas; D06 eksplisit; PENDING_POLICY_VALUE; LAU-04 terbuka; W05 PARTIAL) → siap dicocokkan setelah rerun. Catatan T3 writer: jejak per gerakan konsisten dengan bacaan sumber Fable; pertanyaan owner A/B (default A). Tabel kasus BB: 52 kasus probe → ID ALL → oracle F/G; S02 ditambahkan (bacaan GPT dipakai, lebih fail-closed).
+
+## GPT BB independent round 10 — fase aktif (oracle dibekukan sebelum run)
+
+- Writer head alat `4c61acad2270e11a2aca762237790a68cf36278a`, produk dev `e6487118bbef5c62fc355835ad5b9baaf525c719`. Writer run `36141228506`, job `108091292401` melaporkan 8 race + 3 HTTP + 3 browser PASS, masih bukti writer; run independen belum di-dispatch.
+- Gate CP6 BB/S02 (Master Pulih M:3821, M:6631): dua draf saldo awal berbagi stok 10 PCS; 3+2 reservasi menghasilkan tersedia 5, edit 3→4 tersedia 4, cancel draf kedua tersedia 6, POST draf pertama tetap 6; AR/revenue 40, HPP/FG 24 sekali. Status **UNVERIFIED**.
+- Gate nilai material (Master Pulih M:835, M:3820, M:6632): 10 nota terpisah @10,005 dibulatkan @10,01 = 100,10; setelah 10 cut, stok qty/nilai = 0. Klaim batas sen per PO writer dicatat terpisah dari oracle kontrak. Status **UNVERIFIED**.
+- Skenario `audit/scenarios/r10_bb/gpt_bb_independent.py` sha256 `18dc5075eabb27302b80d7c9919164d1ed371342f6c6c78839d7614f523f8d7c`; manifest `audit/scenarios/r10_bb/MANIFEST.json`, detail oracle `out/gpt_bb_round10_pre_run.md`, workflow `.github/workflows/gpt-cp6-bb-round10.yml` dipicu satu kali pada push (satu job, dua kasus).
+- CP6 global **HOLD**, `audit_complete=false`, `production_go=false`. Gate lain sebelumnya tetap seperti ledger di atas.
+
+**LANGKAH BERIKUTNYA:** Ambil ID run/job baru GPT CP6 BB Round 10 dari Actions cabang audit; pastikan head produk dan sha256 identik, salin JSON hasil per kasus ke `out/gpt_bb_round10_result.md`, perbarui dan push progres. Jika ada INCOMPLETE, perbaiki fixture audit saja dan catat run awal.
