@@ -76,3 +76,10 @@ Sumber gate hanya tiga kontrak: `ERP_V3_2_Master_Pulih_20260923.md` (M), `ERP_V3
 - Rollback cycle `36171280254` **tetap FAIL**; jangan gabung hasilnya dengan browser hijau. T2 pada `36171725748` masih perlu per-case dan job final.
 
 **LANGKAH BERIKUTNYA:** ambil status/log T2 `36171725748`; dapatkan diff data seed policy pada reinstall BC dan minta writer rerun rollback; uji ACC-C12 same-item dan ACC-D09 Nota Ambil Aksesori sesuai oracle; commit setiap hasil ke log khusus GPT.
+
+
+## Checkpoint T2 parsial BC — 25 Sep 18:19 UTC
+
+[Run `36171725748`](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36171725748) head `27e1a05`: AR job `108192643312` success tetapi 174 kasus = **173 PASS + 1 INCOMPLETE** (`ACCESSORY_CONNECTED_ZERO` ditolak `BC_FREE_REQUIRES_POLICY`, karena gratis Special ERP-DEC02 perlu pengaturan owner). Kasus dan status AR cocok 174/174 dengan run lama `36168125448` job `108180772488`: bukan regresi baru. AT/AU job `108192643634` 41/41 PASS, identik dengan `108180772219`. Original+AS job `108192643438` masih berjalan. Penilaian lengkap T2 belum final; `INCOMPLETE` tetap INCOMPLETE sambil memutuskan nasib oracle lama sesuai D06. Detail ada di `out/gpt_bc_20260926_initial_review.md`.
+
+**LANGKAH BERIKUTNYA:** tunggu job ketiga T2, catat semua HOLD/identity; rollback cycle masih FAIL satu cek seed nondeterministik; rerun cycle setelah diff seed; uji ACC-C12/ACC-D09 mandiri.
