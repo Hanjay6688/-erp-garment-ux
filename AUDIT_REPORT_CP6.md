@@ -1,4 +1,26 @@
-# CP6 audit — round8 addendum and historical report
+# CP6 audit — checkpoint putaran9 dan arsip historis
+
+## Checkpoint audit independen putaran 9 — 25 September 2026
+
+**CP6 HOLD · audit_complete=false · production_go=false.** Head writer yang dibekukan untuk bukti ini `d1bc8adff3ba1a2a7001ef39e4819d0c3813d00b`, produk BA `b6d81f93a1e244178193178aec765facfd1b5488`. Compare e10260b..d1bc8ad hanya mengubah lampiran C6 rev3. Semua bukti di bagian ini adalah `AUDITOR_SCENARIO`, bukan bukti rilis atau penerimaan global. Bagian round8 di bawah adalah **riwayat kandidat a095a9d**, bukan status produk BA terbaru.
+
+| Area / oracle | Bukti audit sendiri pada d1bc8ad | Status gate saat ini |
+|---|---|---|
+| W8 / CP6-03, M:3818/3820 | Run 36122470639 job 108030928495: direct/invoice × naik/turun, 4/4 PASS, bahan habis 0/0,00 dan sen dokumen teralokasi persis. Baseline tanpa BA pernah PASS; kasus regresi BA awal tidak boleh dilekatkan ke baseline. | Kasus sasaran terverifikasi; acceptance CP6 keseluruhan HOLD |
+| W9 / C0 D01 §3.4 | Run sama: koreksi terlambat membuat `changed_since_filing=true` tanpa mengubah filed values/ID; kontrol tanpa koreksi false, 2/2 PASS. | Kasus sasaran terverifikasi; gate laporan belum lengkap |
+| LAU-T14 / M:4474 | Run sama: tarif saat kirim 7, tarif baru 9, terima 10PCS tetap 7,00/70,00; kontrol tarif tetap sama, 2/2 PASS. | Kasus sasaran terverifikasi; laundry36 UNVERIFIED |
+| W7 / tool fail closed | Run sama jobs 108030928804/108030928817 intentionally red: status asing menjadi INCOMPLETE, ID ganda race/HTTP ditolak; primary/Auth bersih. | Tes penolakan alat PASS; bukan klaim produk |
+| W10 / CP6-05, M:1679/3819 | [Run 36124300108](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36124300108) job 108036762501: pola dan role, real Auth/browser/HTTP, respons committed dijatuhkan, retry UUID/payload identik, replay respons sama, tepat satu baris; 2/2 PASS. | Kasus sasaran terverifikasi; gate global HOLD |
+| W13 / CP6-06, M:3825 | Run sama jobs 108036762474/108036762544: kontrol sehat Laundry20/QC10, saat read gagal UI `—, belum diketahui`, tulis terkunci, HTTP200/refetch memulihkan 20/10; 4/4 PASS. | Kasus sasaran terverifikasi; gate global HOLD |
+| W11, beda error parser/jaringan | Run sama job 108036762327: seed UUID tidak valid disengaja pada clone; abort menunjukkan pesan jaringan, HTTP200/parser menunjukkan `ID Mandor bukan UUID valid.`; PASS. | Perbaikan pesan terverifikasi untuk jalur ini |
+| C6: 39 ACC + 36 LAU; ALL22 | Oracle dari tiga kontrak di `out/r9_acc_oracle.md`, `out/r9_lau_oracle.md`, `out/r9_all_oracle.md`, masing-masing SHA pada AUDIT_PROGRESS. ID case crosswalk 75/75 cocok M, register ALL22 22/22 cocok writer §29.6. | **75+22 UNVERIFIED/HOLD** hingga family BB–BE diuji; peta bukan hasil |
+| D06 / LAU-04 | Owner jelas meminta seluruh22 dan CR di CP6. Namun `D06` tanpa namespace ambigu, lampiran rev3 belum sah; M:1757 bukan sumber kebijakan setting; M:4475 melarang final sales/close baru saat harga laundry UNKNOWN tanpa policy. | **HOLD**, cek `post_sale_v2` dan klarifikasi dokumen sebelum ACCEPT |
+
+Run browser rev1 `36123487209` tetap tercatat **INCOMPLETE** untuk W10 dan salah klasifikasi W13 karena dua cacat skenario sendiri; rincian dan kontrol di `out/gpt_r9_browser_rev1_run.md`. Rev2 memakai hash baru dan **7/7 PASS**, tidak menulis ulang label lama. Perinciannya `out/gpt_r9_browser_rev2_run.md`; tes bisnis/tool `out/gpt_r9_business_tool_run.md`. Empat catatan oracle dikunci dan di-push sebelum pemeriksaan kode BB–BE. Semua uji disposable tanpa menulis ke hosted/legacy/main/competition.
+
+**Langkah audit berikut:** writer BB→BC→BD→BE belum tersedia pada freeze ini. Saat tiap head muncul, review diff, ikat 75+22 oracle untuk ID/adapter/kebijakan, buat skenario kasus sah dan refusal/race/rollback/UI, lalu run native dengan hash baru. Pertahankan CP6 HOLD dan `production_go=false` sampai seluruh gate kontrak, laporan C6/D06, dan bukti independen lengkap.
+
+---
 
 <!-- GPT_R8_CURRENT_REPORT_BEGIN -->
 ## Putusan terkini — audit silang putaran 8, 25 September 2026
