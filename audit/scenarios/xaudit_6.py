@@ -1,12 +1,21 @@
-"""AUDITOR SCENARIO xaudit_6 — CP6-19 through the LEGITIMATE application path (owner: M:1024-1025 'Draft boleh diedit sampai
-disahkan. Finalisasi wajib memakai isi terakhir di bawah lock, memeriksa rincian melawan total, dan tidak menggandakan stok
-atau uang'; M:3817 'Prepare tetap DRAFT dan editable; perubahan staging/item harus membuat prepared preview lama stale;
-validasi/prepare terbaru menentukan yang diposting').
-Path = the UI's own actions only: CREATE -> SAVE_FILE (upload) -> VALIDATE / FINALIZE -> SAVE_FILE again (edit = re-upload of
-the entity file, as the UI editor does) -> FINALIZE. No direct SQL edits, no native prepare call.
-Cases: (1) edit after VALIDATE: WIP 8 -> 4 then FINALIZE; (2) edit after a FINALIZE that was refused on control mismatch
-(prepared header exists): fix item+control 8 -> 4 then FINALIZE. Oracle: posted opening item qty = 4, production source qty = 4,
-wip_stage_events for the opening = 4, opening value 20.00, no residue of the 8-row (no double stock)."""
+"""AUDITOR SCENARIO xaudit_6 rev3 — CP6-19 through the LEGITIMATE application path.
+rev1 (run 36080176237) and rev2 (run 36080510340) were INCOMPLETE: the edited file was refused by the product's own import
+validation (rev1: WIP cost origin 4x10=40 > new WIP amount 20 'ORIGIN_OVER_VALUE'; rev2: origin halved to 2 but the
+UNINVOICED_RECEIPT rule 'receipt qty = remaining material stock + all cost origins' (20ap:4413) then failed 12 <> 4+2+2+2).
+rev3 makes the edit balance-consistent, exactly as an operator would have to: WIP 8 pcs/40.00 -> 4 pcs/20.00, WIP cost origin
+4 -> 2 material units, material stock row 4 -> 6 units, controls WIP 4/20.00 and STOCK 6/60.00 (GRNI 12/120.00 unchanged).
+Owner text: M:1024-1025 'Draft boleh diedit sampai disahkan. Finalisasi wajib memakai isi terakhir di bawah lock, memeriksa
+rincian melawan total, dan tidak menggandakan stok atau uang'; M:3817 'Prepare tetap DRAFT dan editable; perubahan
+staging/item harus membuat prepared preview lama stale; validasi/prepare terbaru menentukan yang diposting'.
+Path = the UI's own actions only: CREATE -> SAVE_FILE -> VALIDATE -> SAVE_FILE again (edit = re-upload, as the UI editor does)
+-> VALIDATE -> FINALIZE. No direct SQL edits of any table, no test-only grants.
+Case 1: edit after VALIDATE. Oracle: posted opening WIP item qty 4 / 20.00, production source qty 4, wip_stage_events 4,
+exactly one WIP row (no residue of 8).
+Case 2: a prepared DRAFT exists first, reached ONLY through the RPC the product itself exposes to authenticated users
+(erp.prepare_migration_opening_balance, ACL authenticated=X, after apply_migration_master_rows/apply_migration_open_pos, the
+same sequence GPT's SI-04 used) — then the operator edits through SAVE_FILE and finalizes. Oracle (M:1025/M:3817): either the
+product refuses the edit explicitly (refusal recorded, PASS: no silent stale posting) or it accepts it and posts the LAST
+content (4). Accepting the edit but posting the stale prepared 8 = COUNTEREXAMPLE."""
 from datetime import timedelta
 import json,traceback,uuid
 import psycopg
@@ -21,11 +30,34 @@ def attempt(cur,fn):
     except psycopg.Error as exc:
         cur.execute('rollback to savepoint xa6');api.admin(cur);return None,dict(sqlstate=exc.sqlstate,message=(exc.diag.message_primary or str(exc))[:300])
 
-def reupload(cur,f,qty,amount,control_amount):
-    rows=[dict(r,qty=qty,amount=amount) if r.get('balance_type')=='WIP' else r for r in f['rows']]
+def reupload(cur,f,qty='4',amount='20.00',origin_qty='2',stock_qty='6',stock_amount='60.00'):
+    rows=[]
+    for r in f['rows']:
+        if r.get('balance_type')=='WIP':rows.append(dict(r,qty=qty,amount=amount))
+        elif r.get('balance_type')=='MATERIAL':rows.append(dict(r,qty=stock_qty))
+        else:rows.append(r)
     api.upload(cur,f['batch'],'OPENING_BALANCE_ITEM',rows)
-    controls=[dict(c,qty=qty,amount=control_amount) if c.get('control_key')=='WIP' else c for c in f['controls']]
+    origins=[dict(o,qty=origin_qty) if o.get('target_source_key')=='WIP' else o for o in f['origins']]
+    api.upload(cur,f['batch'],'OPENING_COST_ORIGIN',origins)
+    controls=[]
+    for c in f['controls']:
+        if c.get('control_key')=='WIP':controls.append(dict(c,qty=qty,amount=amount))
+        elif c.get('control_key')=='STOCK':controls.append(dict(c,qty=stock_qty,amount=stock_amount))
+        else:controls.append(c)
     api.upload(cur,f['batch'],'OPENING_CONTROL',controls)
+
+def errors(cur,batch):
+    api.admin(cur)
+    ws=api.read(cur,batch)
+    out=[]
+    for k,v in (ws.items() if isinstance(ws,dict) else []):
+        if isinstance(v,list):
+            for row in v:
+                if isinstance(row,dict) and (row.get('validation_errors') or row.get('errors')):out.append(dict(entity=k,errors=str(row.get('validation_errors') or row.get('errors'))[:200]))
+    if not out:
+        rows=cur.execute("select entity_type,validation_errors::text from erp.migration_staging_rows where batch_id=%s and validation_status='ERROR'",(batch,)).fetchall()
+        out=[dict(entity=r[0],errors=r[1][:200]) for r in rows]
+    return out[:8]
 
 def facts(cur,batch):
     api.admin(cur)
@@ -44,25 +76,40 @@ def check(cur,f,r):
 def edit_after_validate(cur,today):
     f=pt.fixture(api,cur,today)
     v1=api.invoke(cur,'VALIDATE',f['batch'])
-    reupload(cur,f,'4','20.00','20.00')
+    r0,e0=attempt(cur,lambda:reupload(cur,f))
+    if e0:return dict(status='INCOMPLETE',reason='re-upload refused',error=e0,validate1=str(v1)[:150])
     v2=api.invoke(cur,'VALIDATE',f['batch'])
     r,err=attempt(cur,lambda:api.invoke(cur,'FINALIZE',f['batch']))
     if err:return dict(status='INCOMPLETE',error=err,validate1=str(v1)[:150],validate2=str(v2)[:150])
+    if r.get('status')!='POSTED':return dict(status='INCOMPLETE',reason='edited file refused by validation (fixture, not product): see validation_errors',finalize=str(r)[:200],validation_errors=errors(cur,f['batch']),validate_after_edit=str(v2)[:150])
     out=check(cur,f,r);out.update(validate_before_edit=str(v1)[:150],validate_after_edit=str(v2)[:150]);return out
 
-def edit_after_refused_finalize(cur,today):
-    f=pt.fixture(api,cur,today)
-    # first FINALIZE refused by a control mismatch (WIP control 99.99): the prepared header/items exist in DRAFT state
-    controls=[dict(c,amount='99.99') if c.get('control_key')=='WIP' else c for c in f['controls']]
-    api.upload(cur,f['batch'],'OPENING_CONTROL',controls)
-    r1,e1=attempt(cur,lambda:api.invoke(cur,'FINALIZE',f['batch']))
+def prepared_rows(cur,batch):
     api.admin(cur)
-    prepared=cur.execute("select h.status,count(i.*) from erp.opening_balance_headers h left join erp.opening_balance_items i on i.opening_id=h.id where h.migration_batch_id=%s group by h.status",(f['batch'],)).fetchall()
-    # then the operator fixes the file: WIP 4 pcs / 20.00 and control 4 / 20.00, and finalizes
-    reupload(cur,f,'4','20.00','20.00')
-    r2,e2=attempt(cur,lambda:api.invoke(cur,'FINALIZE',f['batch']))
-    if e2:return dict(status='INCOMPLETE',error=e2,first_finalize=str(r1)[:200],first_error=e1,prepared_after_first=[[str(x) for x in p] for p in prepared])
-    out=check(cur,f,r2);out.update(first_finalize=str(r1)[:200],first_error=e1,prepared_after_first=[[str(x) for x in p] for p in prepared]);return out
+    return [[str(x) for x in p] for p in cur.execute("""select h.status,i.balance_type,i.qty::text,i.amount::text from erp.opening_balance_headers h
+        left join erp.opening_balance_items i on i.opening_id=h.id where h.migration_batch_id=%s order by i.balance_type""",(batch,)).fetchall()]
+
+def edit_after_exposed_prepare(cur,today):
+    f=pt.fixture(api,cur,today)
+    v1=api.invoke(cur,'VALIDATE',f['batch'])
+    def prepare():
+        api.ordinary(cur)
+        cur.execute('select erp.apply_migration_master_rows(%s)',(f['batch'],))
+        cur.execute('select erp.apply_migration_open_pos(%s)',(f['batch'],))
+        return str(cur.execute('select erp.prepare_migration_opening_balance(%s,null)',(f['batch'],)).fetchone()[0])
+    header,e1=attempt(cur,prepare)
+    if e1:return dict(status='INCOMPLETE',reason='exposed prepare RPC refused for the ordinary authenticated actor',error=e1,validate1=str(v1)[:150])
+    before=prepared_rows(cur,f['batch'])
+    r0,e0=attempt(cur,lambda:reupload(cur,f))
+    if e0:
+        return dict(status='PASS',verdict='EDIT_REFUSED_EXPLICITLY_AFTER_PREPARE',refusal=e0,prepared_before_edit=before,
+                    expected='M:1025/M:3817: no silent stale posting — the product either rebuilds from the last content or refuses the edit explicitly; here it refuses (message recorded). Note for handoff: after the exposed prepare the UI re-upload path is closed, so the only way to edit a prepared draft is a direct table edit (GPT SI-04).')
+    after_edit=prepared_rows(cur,f['batch'])
+    v2=api.invoke(cur,'VALIDATE',f['batch'])
+    r,err=attempt(cur,lambda:api.invoke(cur,'FINALIZE',f['batch']))
+    if err:return dict(status='INCOMPLETE',error=err,prepared_before_edit=before,prepared_after_edit=after_edit,validate2=str(v2)[:150])
+    if r.get('status')!='POSTED':return dict(status='INCOMPLETE',reason='edited file refused by validation: see validation_errors',finalize=str(r)[:200],validation_errors=errors(cur,f['batch']),prepared_before_edit=before,prepared_after_edit=after_edit)
+    out=check(cur,f,r);out.update(prepared_before_edit=before,prepared_after_edit=after_edit,validate1=str(v1)[:150],validate2=str(v2)[:150]);return out
 
 def cases(cur,today):
     def wrap(fn):
@@ -71,4 +118,4 @@ def cases(cur,today):
             except Exception as exc:return dict(status='INCOMPLETE',error=str(exc)[:900],traceback=traceback.format_exc()[-1500:])
         return run
     return [('XA6:CP6-19_LEGIT_EDIT_AFTER_VALIDATE_WIP_8_TO_4',wrap(edit_after_validate)),
-            ('XA6:CP6-19_LEGIT_EDIT_AFTER_REFUSED_FINALIZE_WIP_8_TO_4',wrap(edit_after_refused_finalize))]
+            ('XA6:CP6-19_EDIT_AFTER_EXPOSED_PREPARE_WIP_8_TO_4',wrap(edit_after_exposed_prepare))]

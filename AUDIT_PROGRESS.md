@@ -324,3 +324,17 @@ Fase ini selesai: membandingkan daftar owner dengan tiga kontrak, catatan Fable 
 3. Writer/auditor lanjut kewajiban yang sudah jelas: ALL coverage, prepared stale/edit lewat jalur sah, perbaikan produk, browser/race/Auth, rollback dan runner. Pilihan bisnis yang belum dibuat hanya menahan keluarga terkait.
 4. Setelah policy disahkan, audit oracle masing-masing8AS/12kalender/4AO/1ADJUSTMENT_DATE, simpan hasil historis, dan uji ulang pada sourceyang tepat. Semua hasil baru tetap perlu run/job/attempt/head, scenariohash, expected/actual dancleanup.
 5. Pertahankan lanjutanFable dan daftar temuan gabungan. Penyusunan draft ini bukan acceptanceCP6 atau productionGO.
+
+## Fable — CP6-19 jalur aplikasi sah selesai (2026-09-25T01:30:36Z)
+| Run | Job | Skenario sha256 | Hasil |
+|---|---|---|---|
+| 36080176237 | 107900197155 | xaudit_6 rev1 338ec169… | INCOMPLETE (fixture ditolak validasi produk: asal biaya > nilai WIP) |
+| 36080510340 | 107901194525 | xaudit_6 rev2 819ce35d… | INCOMPLETE (fixture ditolak: qty penerimaan ≠ sisa bahan + asal biaya, 20ap:4413) |
+| 36081137254 | 107903146957 | xaudit_6 rev3 060fab3c… | RUN_COMPLETE, PASS 2/2 → **CP6-19 REFUTED pada jalur aplikasi sah**; residu P3 opsional (A8 di handoff) |
+File diperbarui: `out/fable_native15_xaudit5_results.md` §3–4, `audit/CP6_COMBINED_INDEX.json` (CP6-19, fable_runs), `AUDIT_WRITER_HANDOFF_CP6.md` (A8, D), `OWNER_DECISIONS_CP6_DRAFT.md`, `AUDIT_REPORT_CP6.md` addendum, `audit/runs_fable/auditor_xaudit6_*.json`, `audit/scenarios/FABLE_SHA256SUMS`.
+Head alat tetap d284e9b (produk 9add57e). Verdict tetap CP6 HOLD, audit_complete=false, production_go=false.
+
+### NEXT STEPS (Fable)
+1. Owner: putuskan D01–D06 di `OWNER_DECISIONS_CP6_DRAFT.md`; setelah itu bagian C handoff difinalkan menjadi tugas konkret.
+2. Writer: A1–A3 (P1), A4–A5 (P2), A6–A8 (P3 opsional), B1–B6; rollback AC..AV; push head baru.
+3. Auditor: rerun skenario terdampak pada head baru; oracle same/distinct-source CP6-09; cakupan ALL 22 state/6 keluarga; browser→HTTP→runtime.

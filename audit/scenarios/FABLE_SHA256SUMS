@@ -15,3 +15,5 @@ e8b84000396cc6e9ee27cdd49a50ea3d3806386a7b916e7868fc9b974709e9e0  open_2.py
 5d640e42b31688718603a17724891d10c3924fef809df9fbbaa7788a5b4dfbfc  xaudit_3.py
 815781e1927b19b8fad9d32f6162ba8d0810c4ff7a705e1bda849d0b550c0ae6  xaudit_5.py
 cec2ad521835476cf702119486e637d3eff4b62d8f72197a9ca2c2d50cf1fadb  combined_native15_reconstructed.py
+060fab3c44041b30770bcfe3b5f6993e0bbb4f0872723a6cf86fbcf6299b6d26  xaudit_6.py
+# xaudit_6.py rev1 338ec169… (run 36080176237) dan rev2 819ce35d7ad3665a4d9fabd4b2899d3ae5461fc03daa2d67d84a926be816b139 (run 36080510340) tidak disimpan sebagai file; isi rev1/rev2 dapat direkonstruksi dari docstring rev3 dan JSON run.

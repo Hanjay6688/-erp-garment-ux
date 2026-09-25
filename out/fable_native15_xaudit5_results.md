@@ -33,11 +33,22 @@ Batas: HTTP memakai user Auth sungguhan (GoTrue admin API + sign-in password) �
 ## 3. Dispatch tambahan
 - `import_selector_fable_fix.py` (sha d510df61…; perbaikan join izin pada rekonstruksi GPT, logika kasus tidak diubah): run 36066079063, job 107856040296, head d284e9b → **COUNTEREXAMPLE**: 51 DRAFT dibuat via `erp_save_initial_import_action_v1/CREATE`; `recent` = 50 = top-50 global; draf tertua ada di DB (DRAFT), terbaca via `erp_get_initial_import_workspace_v1(p_batch_id)`, tetapi tidak ada di `recent`; UI hanya merender `recent` tanpa search/paging → CP6-04 varian impor CONFIRMED native (M:1691 'selector lengkap'). primary_unchanged=true; fixture di-rollback.
 
+- `xaudit_6.py` (CP6-19 lewat jalur aplikasi yang sah, permintaan owner 25 Sep; head alat d284e9b, produk 9add57e, phase after):
+  - rev1 (sha 338ec169…, run 36080176237, job 107900197155) dan rev2 (sha 819ce35d…, run 36080510340, job 107901194525): **INCOMPLETE** — file hasil edit ditolak oleh validasi impor produk sendiri, bukan bukti produk: rev1 asal biaya WIP 4×10=40 > nilai WIP baru 20 (kelas `ORIGIN_OVER_VALUE`); rev2 asal biaya dipotong ke 2 tetapi aturan `UNINVOICED_RECEIPT` (`…20ap….sql:4413`: qty penerimaan = sisa stok bahan + seluruh asal biaya) gagal 12 ≠ 4+2+2+2. Pesan validasi tercatat di `audit/runs_fable/auditor_xaudit6_36080176237.json` dan `auditor_xaudit6_rev2_36080510340.json`.
+  - rev3 (sha 060fab3c…, run 36081137254, job 107903146957): edit konsisten neraca (WIP 8/40.00 → 4/20.00; asal biaya WIP 4 → 2; stok bahan 4 → 6; kontrol WIP 4/20.00 dan STOCK 6/60.00) → **PASS 2/2**, `primary_unchanged=true`:
+    | Kasus | Jalur | Expected (M:1024-1025, M:3817) | Actual |
+    |---|---|---|---|
+    | XA6 LEGIT_EDIT_AFTER_VALIDATE | CREATE → SAVE_FILE → VALIDATE (READY) → SAVE_FILE ulang (edit) → VALIDATE → FINALIZE | isi terakhir yang diposting: item WIP 4/20.00, sumber produksi 4/20.00, wip_stage_events 4, satu baris WIP | POSTED; item 4.000000/20.00; sumber qty 4/20.00; stage events 4; 1 baris WIP → **PASS** |
+    | XA6 EDIT_AFTER_EXPOSED_PREPARE | VALIDATE → `erp.apply_migration_master_rows` + `apply_migration_open_pos` + `erp.prepare_migration_opening_balance` sebagai actor ordinary (RPC yang di-grant ke `authenticated`, urutan yang dipakai SI-04 GPT; tanpa edit tabel) → header DRAFT ter-prepare (WIP 8/40.00 tercatat) → SAVE_FILE ulang | tidak ada posting stale diam-diam: produk membangun ulang dari isi terakhir ATAU menolak edit secara eksplisit | SAVE_FILE ditolak `P0001 "Batch ini sudah menerapkan master melalui jalur lama; selesaikan di jalur asal"` → **PASS** (penolakan eksplisit) |
+  - Bacaan sumber yang menjelaskan hasil: `SAVE_FILE` menghapus `erp.opening_balance_items` DRAFT batch itu sebelum menerima file baru (`…20ap….sql:1634-1636`), sehingga preview prepared lama menjadi stale sesuai M:3817; `prepare_migration_opening_balance` mengembalikan header lama tanpa membangun ulang bila item sudah ada (`…20ap….sql:2283`), tetapi lewat aplikasi kondisi itu tidak dapat diedit (FINALIZE = prepare + post dalam satu transaksi, `:1684-1685`).
+  - Kesimpulan CP6-19: **REFUTED pada jalur aplikasi yang sah**. Hasil beku SI-04 (run 36065350201, COUNTEREXAMPLE) tetap tercatat apa adanya, tetapi kelasnya = edit langsung tabel `erp.opening_balance_items` via SQL setelah prepare RPC, bukan jalur aplikasi. Residu P3 (opsional, defense-in-depth): `prepare_migration_opening_balance` di-grant ke `authenticated` dan tidak memverifikasi item prepared terhadap staging saat dipanggil ulang; writer boleh mempersempit grant atau menambah cek konsistensi. Bukan penahan gate.
+
 ## 4. Dampak pada register gabungan
 - CP6-02, CP6-03: dikonfirmasi ulang oleh batch GPT (oracle independen kedua).
 - CP6-07: CONFIRMED native (3 jenis pihak); setelah verifikasi adversarial diturunkan ke **P2** (guard kapasitas saat ini sesuai M:629-646; as-of negatif = kelas AUD-S04/B04).
 - CP6-09: dikonfirmasi di bawah dua sesi nyata (kunci ada, guard tidak).
-- CP6-18, CP6-19: COUNTEREXAMPLE native (caveat reachability/oracle kontrak dicatat).
+- CP6-18: COUNTEREXAMPLE native (oracle kontrak/keputusan D03 dicatat).
+- CP6-19: **REFUTED pada jalur aplikasi yang sah** (xaudit_6 rev3, run 36081137254, 2/2 PASS); SI-04 tetap tercatat sebagai edit SQL langsung; residu P3 opsional (grant/cek konsistensi prepare RPC).
 - **CP6-24 (baru)**: close tanggal sama membuat filing ganda; setelah verifikasi adversarial **P3** (tanpa dampak terbukti; pembaca mengabaikan filing degeneratif; oracle S06 terpenuhi).
 - BLOCKER-01 (race) dan BLOCKER-02 (HTTP/Auth): alat writer bekerja; oracle auditor dijalankan; hasil di atas. Browser UI tetap terbuka.
 - Cleanup: semua run `primary_unchanged=true`; salinan DB/kontainer/user Auth dibersihkan (dicatat runner).

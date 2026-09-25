@@ -128,7 +128,7 @@ Status: draft ini tetap USULAN; catatan di bawah adalah pendapat auditor untuk m
 
 **Dua hal yang sudah diputuskan kontrak dan saya ubah perlakuannya di register:**
 - ALL (M:1024): CP6-17 bukan lagi pertanyaan owner. Tugas auditor: buktikan cakupan (22 state / 6 keluarga per crosswalk GPT) lewat transport CSV, caller, lifecycle, browser. Status index: `CONTRACT_DECIDED_COVERAGE_OPEN`.
-- Draft prepared boleh diedit (M:1025, M:3817): CP6-19 diuji ulang lewat jalur aplikasi yang sah (CREATE → SAVE_FILE → VALIDATE/FINALIZE → SAVE_FILE ulang → FINALIZE; skenario `audit/scenarios/xaudit_6.py`, run 36080176237). Hasil SI-04 (edit SQL langsung) tidak dipakai sebagai bukti reachability.
+- Draft prepared boleh diedit (M:1025, M:3817): CP6-19 diuji ulang lewat jalur aplikasi yang sah (CREATE → SAVE_FILE → VALIDATE/FINALIZE → SAVE_FILE ulang → FINALIZE; skenario `audit/scenarios/xaudit_6.py`; rev1 run 36080176237 dan rev2 run 36080510340 INCOMPLETE karena fixture ditolak validasi produk; **rev3 run 36081137254 PASS 2/2 → CP6-19 REFUTED pada jalur aplikasi yang sah**; residu P3 opsional pada grant/cek ulang prepare RPC). Hasil SI-04 (edit SQL langsung) tetap tercatat, bukan bukti reachability.
 
 **Pendapat auditor per pilihan (semua mendukung Rekomendasi A, dengan catatan):**
 | ID | Pendapat | Konsekuensi pada temuan/oracle |
