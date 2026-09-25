@@ -1,11 +1,670 @@
 {
   "run_id": 36103599807,
   "job_id": 107971184469,
+  "status": "INCOMPLETE",
+  "actions_conclusion": "failure",
   "audit_commit": "b2ada06c1a3a26fcfda83d421318b75a9b7f2a73",
-  "status": "IN_FLIGHT",
-  "tool_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
-  "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
+  "evidence_source": "GitHub Actions completed job LOG, attempt 1",
+  "log_sha256": "9568ec0790adde587926edc36ec8c19d84121e92c237a1903aae8187a8cfe4f0",
+  "run_identity": {
+    "label": "AUDITOR_SCENARIO",
+    "tool_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
+    "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36103599807",
+    "run_attempt": "1",
+    "workflow": "GPT CP6 Round 8 Independent Audit",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "b2ada06c1a3a26fcfda83d421318b75a9b7f2a73",
+    "release_evidence": false,
+    "production_go": false,
+    "phase": "after",
+    "scenario_sha256": "bf60eb539e39e20d5493080376b4139ba046aeb78b20dfbe213457793afa24d5"
+  },
+  "browser_scenario": "audit/scenarios/unknown_round8/gpt_unknown_browser_rev3.mjs",
+  "browser_sha256": "3821aec1d0f0df0d32bc131c0721a32bf41344dc1116568058087d33768d72df",
+  "fixture_path": "audit/scenarios/unknown_round8/gpt_unknown_fixture_rev2.py",
+  "fixture_sha256": "0bd506536d68292dd957ecc6385c0b8967e6a807c35bd9d49f40b42b94359e1b",
   "manifest": "audit/scenarios/unknown_round8/MANIFEST_rev3.json",
-  "prior_run": 36102938451,
+  "records": [
+    {
+      "line": 2123,
+      "json": {
+        "group": "AUDITOR_CASES_AFTER",
+        "planned": [],
+        "final": {},
+        "missing": [],
+        "status": "PASS"
+      }
+    },
+    {
+      "line": 2126,
+      "json": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "G8UI:UNKNOWN:LAUNDRY_INITIAL_READ:rev3",
+        "status": "INCOMPLETE",
+        "stage": "POSITIVE_REFETCH_CONTROL",
+        "scope": "LAUNDRY",
+        "fixture": {
+          "scope": "LAUNDRY",
+          "delivery": "f6f2130e-88a3-4a5d-8080-e7361e25f6e6",
+          "group": "719cca2c-96f2-4003-8c2b-d1191bf9dd51",
+          "expected_source_pcs": 10,
+          "schema_usage_before": false,
+          "schema_usage_after": false
+        },
+        "actual_server_qty": 20,
+        "dropped_reads": 1,
+        "initial_kpis": [
+          {
+            "label": "SIAP DIKIRIM",
+            "value": "0",
+            "text": "SIAP DIKIRIM0pcs selesai jahit, belum dikirim"
+          },
+          {
+            "label": "DI LUAR PABRIK",
+            "value": "0",
+            "text": "DI LUAR PABRIK0pcs belum kembali"
+          },
+          {
+            "label": "TERIKAT KLAIM",
+            "value": "0",
+            "text": "TERIKAT KLAIM0Stuck/Missing aktif"
+          },
+          {
+            "label": "DATA LAMA TERPISAH",
+            "value": "0",
+            "text": "DATA LAMA TERPISAH0tidak ditebak atau digabung"
+          }
+        ],
+        "primary": {
+          "label": "DI LUAR PABRIK",
+          "value": "0",
+          "text": "DI LUAR PABRIK0pcs belum kembali"
+        },
+        "initialError": "Layanan UAT belum dapat dihubungi. Coba lagi setelah status diperiksa.\nRefetch",
+        "initialWriterLocked": true,
+        "refetch_http_status": 200,
+        "refetch_error_ui": "Layanan UAT belum dapat dihubungi. Coba lagi setelah status diperiksa.\nRefetch",
+        "rendered_qty": "0",
+        "controlParser": {
+          "ok": false,
+          "source_sha256": "f217cd5a2be8dd42262063733b47626cee841bad75391271b402ed6add167ccb",
+          "error": "ID Mandor bukan UUID valid."
+        },
+        "refetchParser": {
+          "ok": false,
+          "source_sha256": "f217cd5a2be8dd42262063733b47626cee841bad75391271b402ed6add167ccb",
+          "error": "ID Mandor bukan UUID valid."
+        },
+        "freshReload": null,
+        "failedRequests": [
+          "net::ERR_FAILED"
+        ],
+        "refetch_workspace": {
+          "scope": "LAUNDRY",
+          "lookups": {
+            "vendors": [
+              {
+                "id": "c8c20000-0000-4000-8000-000000000002",
+                "code": "CP6-RACE-L",
+                "name": "CP6 Race Laundry"
+              }
+            ],
+            "products": [
+              {
+                "id": "e47a6e34-b5ff-4bee-aed1-d5c37523340f",
+                "sku": "CP6-E-3732396233144945",
+                "name": "CP6 E 3732396233144945",
+                "color": "CP6-E-3732396233144945",
+                "size_id": "c8c10000-0000-4000-8000-000000000002",
+                "brand_id": "c8c10000-0000-4000-8000-000000000003",
+                "model_id": "a2000000-0000-0000-0000-000000000001",
+                "size_code": "CP6-RACE-S",
+                "brand_code": "CP6-RACE-BRAND",
+                "brand_name": "CP6 Race Brand",
+                "model_code": "CP3R3-MODEL",
+                "model_name": "CP3 R3 Model",
+                "effective_to": null,
+                "effective_from": "2026-01-01T00:00:00+00:00"
+              },
+              {
+                "id": "c8c10000-0000-4000-8000-000000000004",
+                "sku": "CP6-RACE-SKU",
+                "name": "CP6 Race Final SKU",
+                "color": "NAVY",
+                "size_id": "c8c10000-0000-4000-8000-000000000002",
+                "brand_id": "c8c10000-0000-4000-8000-000000000003",
+                "model_id": "a2000000-0000-0000-0000-000000000001",
+                "size_code": "CP6-RACE-S",
+                "brand_code": "CP6-RACE-BRAND",
+                "brand_name": "CP6 Race Brand",
+                "model_code": "CP3R3-MODEL",
+                "model_name": "CP3 R3 Model",
+                "effective_to": null,
+                "effective_from": "2026-01-01T00:00:00+00:00"
+              }
+            ],
+            "fg_locations": [
+              {
+                "id": "c8c20000-0000-4000-8000-000000000001",
+                "code": "CP6-RACE-FG",
+                "name": "CP6 Race FG"
+              }
+            ],
+            "rate_versions": [
+              {
+                "id": "c8c20000-0000-4000-8000-000000000004",
+                "vendor_id": "c8c20000-0000-4000-8000-000000000002",
+                "effective_to": null,
+                "rate_per_pcs": 7,
+                "effective_from": "2026-01-01T00:00:00+00:00",
+                "wash_process_id": "c8c20000-0000-4000-8000-000000000003"
+              }
+            ],
+            "wash_processes": [
+              {
+                "id": "c8c20000-0000-4000-8000-000000000003",
+                "code": "CP6-RACE-WASH",
+                "name": "CP6 Race Wash"
+              }
+            ]
+          },
+          "qc_queue": [],
+          "readiness": {
+            "qc_writer_ready": true,
+            "lineage_issue_count": 0,
+            "no_fixture_fallback": true,
+            "laundry_writer_ready": true,
+            "lineage_integrity_ok": true,
+            "failed_wash_with_charge_supported": true
+          },
+          "deliveries": [
+            {
+              "po_id": "26f69106-4abf-4b07-bf36-c6b85a9682ec",
+              "sizes": [
+                {
+                  "size_id": "c8c10000-0000-4000-8000-000000000002",
+                  "size_code": "CP6-RACE-S",
+                  "sort_order": 9801,
+                  "qty_sent_pcs": 10,
+                  "bs_returned_qty_pcs": 0,
+                  "outstanding_qty_pcs": 10,
+                  "good_returned_qty_pcs": 0,
+                  "delivery_batch_size_line_id": "0005ee60-ad17-4746-97d5-705159bde80f"
+                }
+              ],
+              "status": "SENT",
+              "batch_no": 1,
+              "model_id": "a2000000-0000-0000-0000-000000000001",
+              "receipts": [],
+              "po_number": "AA-INV-PO-26f69106-4abf-4b07-bf36-c6b85a9682ec",
+              "vendor_id": "c8c20000-0000-4000-8000-000000000002",
+              "model_code": "CP3R3-MODEL",
+              "model_name": "CP3 R3 Model",
+              "reversible": true,
+              "delivery_id": "f6f2130e-88a3-4a5d-8080-e7361e25f6e6",
+              "physical_at": "2026-09-23T04:00:00+00:00",
+              "row_version": 2,
+              "vendor_code": "CP6-RACE-L",
+              "vendor_name": "CP6 Race Laundry",
+              "group_number": "POT-260923-719CCA2C",
+              "process_code": "CP6-RACE-WASH",
+              "process_name": "CP6 Race Wash",
+              "qty_sent_pcs": 10,
+              "estimated_cost": 70,
+              "contractor_name": "CP3 R3 Normal A",
+              "delivery_number": "LDR-260923-F6F2130E88A34A5D8080E7361E25F6E6",
+              "wash_process_id": "c8c20000-0000-4000-8000-000000000003",
+              "cutting_group_id": "719cca2c-96f2-4003-8c2b-d1191bf9dd51",
+              "delivery_line_id": "714e4e3d-4489-4635-93bb-063b3fd6bf16",
+              "returned_qty_pcs": 0,
+              "reversal_blocker": null,
+              "special_instruction": null,
+              "target_dyeing_color": "AUR1-NAVY",
+              "active_claim_qty_pcs": 0,
+              "distribution_batch_id": "1bb51703-e8b5-4a36-a36f-0adace111c9c",
+              "estimated_rate_snapshot": 7,
+              "cutting_group_row_version": 7,
+              "physical_outstanding_qty_pcs": 10,
+              "returned_unprocessed_qty_pcs": 0
+            },
+            {
+              "po_id": "c8d40000-0000-4000-8000-000000000001",
+              "sizes": [
+                {
+                  "size_id": "c8c10000-0000-4000-8000-000000000002",
+                  "size_code": "CP6-RACE-S",
+                  "sort_order": 9801,
+                  "qty_sent_pcs": 10,
+                  "bs_returned_qty_pcs": 0,
+                  "outstanding_qty_pcs": 10,
+                  "good_returned_qty_pcs": 0,
+                  "delivery_batch_size_line_id": "c8d50000-0000-4000-8000-000000000003"
+                }
+              ],
+              "status": "SENT",
+              "batch_no": 1,
+              "model_id": "a2000000-0000-0000-0000-000000000001",
+              "receipts": [],
+              "po_number": "CP6-FIRST-ACCRUAL-PO",
+              "vendor_id": "c8c20000-0000-4000-8000-000000000002",
+              "model_code": "CP3R3-MODEL",
+              "model_name": "CP3 R3 Model",
+              "reversible": true,
+              "delivery_id": "c8d50000-0000-4000-8000-000000000001",
+              "physical_at": "2026-09-01T11:00:00+00:00",
+              "row_version": 2,
+              "vendor_code": "CP6-RACE-L",
+              "vendor_name": "CP6 Race Laundry",
+              "group_number": "CP6-FIRST-ACCRUAL-GROUP",
+              "process_code": "CP6-RACE-WASH",
+              "process_name": "CP6 Race Wash",
+              "qty_sent_pcs": 10,
+              "estimated_cost": 70,
+              "contractor_name": "CP3 R3 Normal A",
+              "delivery_number": "CP6-FIRST-ACCRUAL-DELIVERY",
+              "wash_process_id": "c8c20000-0000-4000-8000-000000000003",
+              "cutting_group_id": "c8d40000-0000-4000-8000-000000000003",
+              "delivery_line_id": "c8d50000-0000-4000-8000-000000000002",
+              "returned_qty_pcs": 0,
+              "reversal_blocker": null,
+              "special_instruction": "First-row accrual proof",
+              "target_dyeing_color": "NAVY",
+              "active_claim_qty_pcs": 0,
+              "distribution_batch_id": "c8d40000-0000-4000-8000-000000000008",
+              "estimated_rate_snapshot": 7,
+              "cutting_group_row_version": 2,
+              "physical_outstanding_qty_pcs": 10,
+              "returned_unprocessed_qty_pcs": 0
+            }
+          ],
+          "qc_history": [],
+          "generated_at": "2026-09-25T06:39:36.930716+00:00",
+          "ready_batches": [
+            {
+              "po_id": "c8e40000-0000-4000-8000-000000000001",
+              "sizes": [
+                {
+                  "size_id": "c8c10000-0000-4000-8000-000000000002",
+                  "size_code": "CP6-RACE-S",
+                  "sort_order": 9801,
+                  "sent_qty_pcs": 0,
+                  "allocated_qty_pcs": 10,
+                  "available_qty_pcs": 10
+                }
+              ],
+              "batch_no": 1,
+              "pickup_id": "c8e40000-0000-4000-8000-000000000007",
+              "po_number": "CP6-F02-PO",
+              "po_status": "SEWING",
+              "model_code": "CP3R3-MODEL",
+              "model_name": "CP3 R3 Model",
+              "pattern_id": "c8c10000-0000-4000-8000-000000000001",
+              "group_number": "CP6-F02-GROUP",
+              "pattern_code": "CP6-RACE",
+              "pattern_name": "CP6 Race Pattern",
+              "picked_up_at": "2026-08-30T09:00:00+00:00",
+              "contractor_id": "a1000000-0000-0000-0000-000000000001",
+              "contractor_code": "CP3R3-NORMAL-A",
+              "contractor_name": "CP3 R3 Normal A",
+              "cutting_group_id": "c8e40000-0000-4000-8000-000000000003",
+              "pattern_revision": "R1",
+              "distribution_batch_id": "c8e40000-0000-4000-8000-000000000008",
+              "cutting_group_row_version": 2,
+              "group_unsent_ready_qty_pcs": 10
+            },
+            {
+              "po_id": "c8c40000-0000-4000-8000-000000000001",
+              "sizes": [
+                {
+                  "size_id": "c8c10000-0000-4000-8000-000000000002",
+                  "size_code": "CP6-RACE-S",
+                  "sort_order": 9801,
+                  "sent_qty_pcs": 0,
+                  "allocated_qty_pcs": 10,
+                  "available_qty_pcs": 10
+                }
+              ],
+              "batch_no": 1,
+              "pickup_id": "c8c40000-0000-4000-8000-000000000007",
+              "po_number": "CP6-RACE-PO",
+              "po_status": "SEWING",
+              "model_code": "CP3R3-MODEL",
+              "model_name": "CP3 R3 Model",
+              "pattern_id": "c8c10000-0000-4000-8000-000000000001",
+              "group_number": "CP6-RACE-GROUP",
+              "pattern_code": "CP6-RACE",
+              "pattern_name": "CP6 Race Pattern",
+              "picked_up_at": "2026-09-01T09:00:00+00:00",
+              "contractor_id": "a1000000-0000-0000-0000-000000000001",
+              "contractor_code": "CP3R3-NORMAL-A",
+              "contractor_name": "CP3 R3 Normal A",
+              "cutting_group_id": "c8c40000-0000-4000-8000-000000000003",
+              "pattern_revision": "R1",
+              "distribution_batch_id": "c8c40000-0000-4000-8000-000000000008",
+              "cutting_group_row_version": 2,
+              "group_unsent_ready_qty_pcs": 10
+            }
+          ],
+          "legacy_unlinked": {
+            "receipt_count": 0,
+            "delivery_count": 0
+          },
+          "contract_version": "CP6_V2620",
+          "collection_window": {
+            "any_truncated": false,
+            "product_limit": 500,
+            "transaction_limit": 200,
+            "products_truncated": false,
+            "qc_queue_truncated": false,
+            "deliveries_truncated": false,
+            "qc_history_truncated": false,
+            "product_query_decoupled": true,
+            "product_search_contract": "CP6_PRODUCT_SEARCH_V2620B",
+            "query_required_for_more": true,
+            "ready_batches_truncated": false,
+            "transaction_query_scope": "SOURCE_QUEUE_AND_HISTORY",
+            "products_relevant_to_live_qc": false
+          }
+        },
+        "renderError": "expect(locator).toHaveText(expected) failed\n\nLocator:  locator('.clq-kpis article').nth(1).locator('strong')\nExpected: \"20\"\nReceived: \"0\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.have.text\" with timeout 5000ms\n  - waiting for locator('.clq-kpis article').nth(1).locator('strong')\n    14 × locator resolved to <strong>0</strong>\n       - unexpected value \"0\"\n",
+        "oracle": "M3825 unknown is not zero; M3819/3826 valid reload must recover. A genuine fresh-browser positive control is required before attributing failed refetch to product state."
+      }
+    },
+    {
+      "line": 2127,
+      "json": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "G8UI:UNKNOWN:QC_INITIAL_READ:rev3",
+        "status": "INCOMPLETE",
+        "stage": "POSITIVE_REFETCH_CONTROL",
+        "scope": "QC",
+        "fixture": {
+          "scope": "QC",
+          "delivery": "32e248fe-12dd-4c01-8c2f-1af64fb4b2a4",
+          "group": "f03d45e5-6945-47ce-a6b9-9eba71ed1812",
+          "expected_source_pcs": 10,
+          "schema_usage_before": false,
+          "schema_usage_after": false
+        },
+        "actual_server_qty": 10,
+        "dropped_reads": 1,
+        "initial_kpis": [
+          {
+            "label": "GOOD SIAP QC",
+            "value": "0",
+            "text": "GOOD SIAP QC0pcs dari sumber yang tepat"
+          },
+          {
+            "label": "BARIS UKURAN",
+            "value": "0",
+            "text": "BARIS UKURAN0penerimaan · batch · ukuran"
+          },
+          {
+            "label": "FINALISASI AKTIF",
+            "value": "0",
+            "text": "FINALISASI AKTIF0transaksi CP6 tersimpan"
+          },
+          {
+            "label": "DATA LAMA TERPISAH",
+            "value": "0",
+            "text": "DATA LAMA TERPISAH0tidak ditebak atau digabung"
+          }
+        ],
+        "primary": {
+          "label": "GOOD SIAP QC",
+          "value": "0",
+          "text": "GOOD SIAP QC0pcs dari sumber yang tepat"
+        },
+        "initialError": "Layanan UAT belum dapat dihubungi. Coba lagi setelah status diperiksa.\nRefetch",
+        "initialWriterLocked": true,
+        "refetch_http_status": 200,
+        "refetch_error_ui": "Layanan UAT belum dapat dihubungi. Coba lagi setelah status diperiksa.\nRefetch",
+        "rendered_qty": "0",
+        "controlParser": {
+          "ok": false,
+          "source_sha256": "f217cd5a2be8dd42262063733b47626cee841bad75391271b402ed6add167ccb",
+          "error": "ID model QC bukan UUID valid."
+        },
+        "refetchParser": {
+          "ok": false,
+          "source_sha256": "f217cd5a2be8dd42262063733b47626cee841bad75391271b402ed6add167ccb",
+          "error": "ID model QC bukan UUID valid."
+        },
+        "freshReload": null,
+        "failedRequests": [
+          "net::ERR_FAILED"
+        ],
+        "refetch_workspace": {
+          "scope": "QC",
+          "lookups": {
+            "vendors": [
+              {
+                "id": "c8c20000-0000-4000-8000-000000000002",
+                "code": "CP6-RACE-L",
+                "name": "CP6 Race Laundry"
+              }
+            ],
+            "products": [
+              {
+                "id": "e47a6e34-b5ff-4bee-aed1-d5c37523340f",
+                "sku": "CP6-E-3732396233144945",
+                "name": "CP6 E 3732396233144945",
+                "color": "CP6-E-3732396233144945",
+                "size_id": "c8c10000-0000-4000-8000-000000000002",
+                "brand_id": "c8c10000-0000-4000-8000-000000000003",
+                "model_id": "a2000000-0000-0000-0000-000000000001",
+                "size_code": "CP6-RACE-S",
+                "brand_code": "CP6-RACE-BRAND",
+                "brand_name": "CP6 Race Brand",
+                "model_code": "CP3R3-MODEL",
+                "model_name": "CP3 R3 Model",
+                "effective_to": null,
+                "effective_from": "2026-01-01T00:00:00+00:00"
+              },
+              {
+                "id": "3351fbf3-36a8-4bd3-994b-9e229c34550f",
+                "sku": "CP6-E-38d909ca3d304efd",
+                "name": "CP6 E 38d909ca3d304efd",
+                "color": "CP6-E-38d909ca3d304efd",
+                "size_id": "c8c10000-0000-4000-8000-000000000002",
+                "brand_id": "c8c10000-0000-4000-8000-000000000003",
+                "model_id": "a2000000-0000-0000-0000-000000000001",
+                "size_code": "CP6-RACE-S",
+                "brand_code": "CP6-RACE-BRAND",
+                "brand_name": "CP6 Race Brand",
+                "model_code": "CP3R3-MODEL",
+                "model_name": "CP3 R3 Model",
+                "effective_to": null,
+                "effective_from": "2026-01-01T00:00:00+00:00"
+              },
+              {
+                "id": "c8c10000-0000-4000-8000-000000000004",
+                "sku": "CP6-RACE-SKU",
+                "name": "CP6 Race Final SKU",
+                "color": "NAVY",
+                "size_id": "c8c10000-0000-4000-8000-000000000002",
+                "brand_id": "c8c10000-0000-4000-8000-000000000003",
+                "model_id": "a2000000-0000-0000-0000-000000000001",
+                "size_code": "CP6-RACE-S",
+                "brand_code": "CP6-RACE-BRAND",
+                "brand_name": "CP6 Race Brand",
+                "model_code": "CP3R3-MODEL",
+                "model_name": "CP3 R3 Model",
+                "effective_to": null,
+                "effective_from": "2026-01-01T00:00:00+00:00"
+              }
+            ],
+            "fg_locations": [
+              {
+                "id": "c8c20000-0000-4000-8000-000000000001",
+                "code": "CP6-RACE-FG",
+                "name": "CP6 Race FG"
+              }
+            ],
+            "rate_versions": [
+              {
+                "id": "c8c20000-0000-4000-8000-000000000004",
+                "vendor_id": "c8c20000-0000-4000-8000-000000000002",
+                "effective_to": null,
+                "rate_per_pcs": 7,
+                "effective_from": "2026-01-01T00:00:00+00:00",
+                "wash_process_id": "c8c20000-0000-4000-8000-000000000003"
+              }
+            ],
+            "wash_processes": [
+              {
+                "id": "c8c20000-0000-4000-8000-000000000003",
+                "code": "CP6-RACE-WASH",
+                "name": "CP6 Race Wash"
+              }
+            ]
+          },
+          "qc_queue": [
+            {
+              "po_id": "ff43e4d0-9c77-4daa-ae6d-84ae189ea3b7",
+              "size_id": "c8c10000-0000-4000-8000-000000000002",
+              "batch_no": 1,
+              "model_id": "a2000000-0000-0000-0000-000000000001",
+              "po_number": "AA-INV-PO-ff43e4d0-9c77-4daa-ae6d-84ae189ea3b7",
+              "size_code": "CP6-RACE-S",
+              "size_sort": 9801,
+              "model_code": "CP3R3-MODEL",
+              "model_name": "CP3 R3 Model",
+              "receipt_id": "fed1e76f-d1a5-401d-b32c-68dc58736775",
+              "delivery_id": "32e248fe-12dd-4c01-8c2f-1af64fb4b2a4",
+              "vendor_name": "CP6 Race Laundry",
+              "group_number": "POT-260923-F03D45E5",
+              "receipt_number": "LRC-260923-FED1E76FD1A5401DB32C68DC58736775",
+              "delivery_number": "LDR-260923-32E248FE12DD4C018C2F1AF64FB4B2A4",
+              "receipt_line_id": "07880261-64f8-4526-9582-a28af0c3e67e",
+              "cutting_group_id": "f03d45e5-6945-47ce-a6b9-9eba71ed1812",
+              "delivery_line_id": "003dee32-45e6-4465-acc7-b852f91141d3",
+              "completion_status": "OPEN",
+              "qty_good_received": 10,
+              "receipt_physical_at": "2026-09-23T06:00:00+00:00",
+              "qc_accounted_qty_pcs": 0,
+              "remaining_qc_qty_pcs": 10,
+              "distribution_batch_id": "fb19cd52-e7be-4be0-873e-6b0ba4b4e554",
+              "available_for_qc_qty_pcs": 10,
+              "cutting_group_row_version": 8,
+              "source_batch_size_line_id": "d996d05c-4016-47ad-8fb6-3d7747173ac0"
+            }
+          ],
+          "readiness": {
+            "qc_writer_ready": true,
+            "lineage_issue_count": 0,
+            "no_fixture_fallback": true,
+            "laundry_writer_ready": true,
+            "lineage_integrity_ok": true,
+            "failed_wash_with_charge_supported": true
+          },
+          "deliveries": [],
+          "qc_history": [],
+          "generated_at": "2026-09-25T06:39:43.863106+00:00",
+          "ready_batches": [],
+          "legacy_unlinked": {
+            "receipt_count": 0,
+            "delivery_count": 0
+          },
+          "contract_version": "CP6_V2620",
+          "collection_window": {
+            "any_truncated": false,
+            "product_limit": 500,
+            "transaction_limit": 200,
+            "products_truncated": false,
+            "qc_queue_truncated": false,
+            "deliveries_truncated": false,
+            "qc_history_truncated": false,
+            "product_query_decoupled": true,
+            "product_search_contract": "CP6_PRODUCT_SEARCH_V2620B",
+            "query_required_for_more": true,
+            "ready_batches_truncated": false,
+            "transaction_query_scope": "SOURCE_QUEUE_AND_HISTORY",
+            "products_relevant_to_live_qc": true
+          }
+        },
+        "renderError": "expect(locator).toHaveText(expected) failed\n\nLocator:  locator('.clq-kpis article').first().locator('strong')\nExpected: \"10\"\nReceived: \"0\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.have.text\" with timeout 5000ms\n  - waiting for locator('.clq-kpis article').first().locator('strong')\n    14 × locator resolved to <strong>0</strong>\n       - unexpected value \"0\"\n",
+        "oracle": "M3825 unknown is not zero; M3819/3826 valid reload must recover. A genuine fresh-browser positive control is required before attributing failed refetch to product state."
+      }
+    },
+    {
+      "line": 2128,
+      "json": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "planned": [
+          "G8UI:UNKNOWN:LAUNDRY_INITIAL_READ:rev3",
+          "G8UI:UNKNOWN:QC_INITIAL_READ:rev3"
+        ],
+        "final": {
+          "G8UI:UNKNOWN:LAUNDRY_INITIAL_READ:rev3": "INCOMPLETE",
+          "G8UI:UNKNOWN:QC_INITIAL_READ:rev3": "INCOMPLETE"
+        },
+        "status": "RUN_COMPLETE",
+        "console_errors": 0,
+        "users_created": 2,
+        "auth_cleanup_failures": []
+      }
+    }
+  ],
+  "cleanup": {
+    "status": "INCOMPLETE",
+    "counts": {
+      "INCOMPLETE": 2
+    },
+    "script_sha256": "3821aec1d0f0df0d32bc131c0721a32bf41344dc1116568058087d33768d72df",
+    "database_remaining": 0,
+    "cleanup": {
+      "users_created": 0,
+      "cleanup_failures": [],
+      "rest_remaining": false
+    },
+    "auth_counts": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "console_errors": 0,
+    "users_created": 2,
+    "error": null,
+    "primary_unchanged": true,
+    "clone_remaining": 0
+  },
+  "diagnosis": {
+    "parser": "src/laundryQcModel.ts",
+    "parser_sha256": "f217cd5a2be8dd42262063733b47626cee841bad75391271b402ed6add167ccb",
+    "laundry_error": "ID Mandor bukan UUID valid.",
+    "qc_error": "ID model QC bukan UUID valid.",
+    "inherited_contractor_id": "a1000000-0000-0000-0000-000000000001",
+    "inherited_model_id": "a2000000-0000-0000-0000-000000000001",
+    "meaning": "Real HTTP200 payload fails the exact candidate parser before a valid healthy-render/refetch control can complete. No standalone refetch-state product defect is established.",
+    "observation_scope": "After initial aborted read all KPI cards show 0, explicit error is visible and writes are locked. This limited observation is retained; the full frozen cases remain INCOMPLETE.",
+    "no_product_parser_or_http_response_modified": true
+  },
+  "next_steps": [
+    "Supply a disposable browser fixture that is accepted unchanged by candidate parser and renders nonzero through actual Auth/HTTP; do not weaken UUID/lineage validation or fabricate HTTP success.",
+    "Repeat only Laundry/QC unknown-vs-zero and recovery cases after the positive control is proven; retain all previous INCOMPLETE runs.",
+    "Review generic client-error normalization separately from data recovery; Fable candidate W11 must retain fixture-invalid scope."
+  ],
+  "cp6_verdict": "HOLD",
+  "audit_complete": false,
   "production_go": false
 }
