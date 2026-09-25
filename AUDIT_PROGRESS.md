@@ -1,5 +1,9 @@
 # CP6 audit — active round 8 checkpoint
 
+## GPT C6 crosswalk completed (scope only)
+All11annexrows reconciled and75originalcaseIDs retained:39ACC+36LAU. Files out/gpt_c6_scope_amendment.md and out/gpt_c6_75_case_crosswalk.{md,json}; each original Master line and oracle retained. Full-case execution remains UNVERIFIED; no75PASS claim. ACC04 andLAU05 must split existingbaseline controls from newextensions; M1697 allows owner deferral only of NEW features, M1757 requires testing or revision of admittedCR. D06 still notratified. Candidate-wide absence of proposedCRs stillUNVERIFIED; positiveUI/RPCsourceinventory recorded. Existinglaundryvendor-masterapproval not reopened.
+Browser run36099496005/job107958771209 stillinflight. LANGKAH BERIKUTNYA: collectcaseJSON/cleanup, handleonlyconcretefixtureissues, thenupdatecombinedreport/writerhandoff. CP6HOLD.
+
 ## GPT phase3 run in flight
 Run [36099496005](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36099496005), job107958771209; audit71b62c2. Native1+HTTP3+browser12; all BELUM. Full ledger out/gpt_browser_run_36099496005.json. Same candidate9dd7bc2/a095a9d. LANGKAH BERIKUTNYA: retrieve completed LOG and record results/cleanup, resolve fixture-only issues separately, then combined report/handoff. C6 75-case crosswalk being reconciled; no blanket deferral of old findings. CP6HOLD.
 
