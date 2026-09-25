@@ -558,7 +558,7 @@ def a4_multi_cents(cur,today,kind,old,new):
     qty=D(str(cur.execute('select coalesce(sum(qty_signed),0) from erp.material_stock_movements where material_id=%s',(first['material'],)).fetchone()[0]))
     mismatch={day:{k:dict(expected=str(expected[day][k]),actual=str(observed[day][k])) for k in KEYS if expected[day][k]!=observed[day][k]} for day in observed}
     mismatch={day:row for day,row in mismatch.items() if row}
-    status='PASS' if not mismatch and qty==0 else ('FAIL' if ba_installed(cur) else 'COUNTEREXAMPLE')
+    status='PASS' if not mismatch and qty==0 else 'FAIL'
     return dict(status=status,kind=kind,old=old,new=new,raw_qty=str(qty),mismatches=mismatch,observed=plain(observed),expected=plain(expected),
                 oracle='sum of the separately rounded documents; used-up material has zero value (no per-receipt tolerance)')
 
@@ -791,7 +791,9 @@ PLAN+=[('A9:S04_TRANSFER_BACK_BEFORE_ARRIVAL_REFUSED','PASS',lambda c,t:s04_tran
 PLAN+=[('A4:CENT_%s_%s'%(kind,direction),'COUNTEREXAMPLE',lambda c,t,k=kind,o=old,n=new:a4_cents(c,t,k,o,n))
        for kind in ('DIRECT','INVOICE') for direction,old,new in (('UP','10.005','10.014'),('DOWN','10.014','10.005'))]
 PLAN+=[('A4:SUPPLIER_RETURN_SPLIT_CONTROL','PASS',a4_supplier_return_control)]
-PLAN+=[('A4:MULTI_CENT_%s_%s'%(kind,label),'COUNTEREXAMPLE',lambda c,t,k=kind,o=o,n=n:a4_multi_cents(c,t,k,o,n))
+# Round 9, W8: the auditor's counterexample (GPT run 36097284096, product a095a9d) came from BA's first A4 rule; without BA
+# (AZ's revaluation) the several-receipt case already passes (BA probe run 36112408914, phase before). A regression control.
+PLAN+=[('A4:MULTI_CENT_%s_%s'%(kind,label),'PASS',lambda c,t,k=kind,o=o,n=n:a4_multi_cents(c,t,k,o,n))
        for kind in ('DIRECT','INVOICE') for label,o,n in (('UP','10.00','10.005'),('DOWN','10.01','10.004'))]
 PLAN+=[('A5:BS_OLD_CLAIMABLE_DELIVERY_AFTER_100_NEWER','COUNTEREXAMPLE',a5_bs_sources),
        ('A5:IMPORT_OLDEST_DRAFT_AFTER_51','COUNTEREXAMPLE',a5_import_drafts)]
