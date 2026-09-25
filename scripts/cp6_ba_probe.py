@@ -44,6 +44,7 @@ import cp6_ax_probe as axp
 import cp6_ay_probe as ayp
 import cp6_az_probe as azp
 import cp6_ba_build as ba
+import cp6_run_identity as run_identity
 import cp6_opening_overlap_probe as ovp
 r1,api,boundary,prior,chain=awp.r1,awp.api,awp.boundary,awp.prior,awp.chain
 
@@ -654,6 +655,7 @@ def run(phase):
     planned={k:(e if isinstance(e,tuple) else (e,)) if phase=='before' else ('PASS',) for k,e,_ in PLAN}
     report=dict(status='INCOMPLETE',label=LABEL,phase=phase,source=r1.source(),production_go=False,independent_acceptance=False,release_evidence=False,
                 planned={k:list(v) for k,v in planned.items()})
+    report['run_identity']=run_identity.announce(LABEL,phase=phase)
     r1.save('RESULT_'+phase.upper(),report)
     primary=None
     try:

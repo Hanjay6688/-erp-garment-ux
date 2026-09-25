@@ -94,6 +94,8 @@ def run(mode):
     assert os.environ.get('CP6_AR_CONFIRM')=='cp6_rollback' and os.environ.get('CP6_DATABASE_CONTAINER')=='supabase_db_cp5-local'
     OUT.mkdir(parents=True,exist_ok=True)
     report=dict(label='T3_PREP',mode=mode,status='INCOMPLETE',stages=[],production_go=False,release_evidence=False)
+    import cp6_run_identity as run_identity
+    report['run_identity']=run_identity.announce('T3_PREP',mode=mode)
     def save():(OUT/('T3_PACKAGE_%s.json'%mode.upper())).write_text(json.dumps(report,indent=2,default=str)+'\n')
     primary=None
     try:

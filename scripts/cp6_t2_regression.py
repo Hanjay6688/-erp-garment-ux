@@ -274,6 +274,15 @@ def complete_payroll(cur):
         FIXTURES.append(record);print(json.dumps(dict(group='T2_FIXTURE_PAYROLL',**record),default=str),flush=True)
 
 
+def fixture_summary(report):
+    """Independent audit B5: every fixture completion of this run in one line (each is also printed as it happens,
+    T2_FIXTURE_PAYROLL), so the auditor can check that no case testing an uncovered or unpaid readiness state was
+    completed. The seed quieting is printed per group (T2_SEED_QUIETED)."""
+    report['fixture_completions']=dict(mode=FIXTURE,seed=SEED,count=len(FIXTURES),cases=[r['case'] for r in FIXTURES],
+        payrolls=sum(len(r['payrolls']) for r in FIXTURES),refused=[dict(case=r['case'],refused=r['refused']) for r in FIXTURES if r['refused']])
+    print(json.dumps(dict(group='T2_FIXTURE_SUMMARY',**report['fixture_completions']),default=str),flush=True)
+
+
 EXECUTE=awp.psycopg.Cursor.execute
 
 
@@ -381,6 +390,7 @@ def ar_phase(report):
     report['case_count']=len(seq['cases'])+len(report['races'])
     ok=report['case_count']==174 and seq['status']=='WRITER_PASS' and all(r['status']=='PASS' for r in report['races'].values())
     report['status']='WRITER_PASS' if ok else 'DISPOSITION_REQUIRED'
+    fixture_summary(report)
 
 
 ORIGINAL_REGRESSION=avt.regression
@@ -638,12 +648,15 @@ def regression_phase(report):
     if report['per_case_identity']['status']!='IDENTICAL_PER_CASE':report['status']='DISPOSITION_REQUIRED'
     # The AO trial's recorded outcome is 12 PASS; any other result needs a disposition too (independent review 24 Sep).
     if report['ao_trial'].get('status')!='WRITER_PASS':report['status']='DISPOSITION_REQUIRED'
+    fixture_summary(report)
 
 
 def run(phase):
     # Reuse the AV trial driver (writer checkout, clone lifecycle, primary check) with the combined candidate.
     if phase=='ar':avt.qualify=ar_phase
     if phase=='regression':avt.regression=regression_phase
+    import cp6_run_identity as run_identity
+    run_identity.announce(LABEL,phase=phase,seed=SEED)
     print(json.dumps(dict(t2_label=LABEL,phase=phase,seed=SEED)),flush=True)
     avt.run({'ar':'qualify','regression':'regression','temporal':'temporal'}[phase])
 

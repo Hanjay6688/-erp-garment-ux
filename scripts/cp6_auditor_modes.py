@@ -21,6 +21,12 @@ HTTP    the scenario may define http_cases(http, today) -> [(case_id, zero_argum
         return dict(status, body) from the real PostgREST; http.connect() reads the copy as admin. No JWT is signed
         here: tokens come only from the Auth login. Cases run in order on the same copy. Every created Auth user, the
         container and the copy are removed; Auth row counts of the primary database must return to their start.
+BROWSER (independent audit B4, GATE-04/08) the auditor supplies an ES module (workflow input browser_b64) exporting
+        cases(ui, today) -> [[case_id, async () => ({status, ...})], ...]. The runtime makes one committed copy (same
+        setup as HTTP, without the schema grant), serves it through its own PostgREST container, builds this branch's UI
+        against a loopback proxy (Auth and public RPC only) and runs the module in Playwright
+        (scripts/cp6_auditor_browser_host.mjs): ui.login(role) signs a new real Auth user in through the login form. Users,
+        container, UI server and copy are removed; Auth row counts of the primary database must return to their start.
 Keys and tokens are masked in the job log (::add-mask::).
 """
 from pathlib import Path
@@ -34,6 +40,7 @@ AUDITOR=Path(__file__).resolve().parents[1]
 BASE=AUDITOR.parent/'base'/'cp5-local'
 RACE_DB='cp6_auditor_race'
 HTTP_DB='cp6_auditor_http'
+BROWSER_DB='cp6_auditor_browser'
 REST='cp6_auditor_rest'
 REST_URL='http://127.0.0.1:54329'
 AUTH_URL='http://127.0.0.1:54321/auth/v1/'
@@ -252,5 +259,43 @@ def run_http(module,verify,phase):
         with psycopg.connect(awp.boundary.PRIMARY_ADMIN) as conn,conn.cursor() as cur:auth_after=list(cur.execute(AUTH_COUNTS).fetchone())
         report['auth_counts']=dict(before=auth_before,after=auth_after,restored=auth_before==auth_after)
         if not report['auth_counts']['restored']:report['cleanup_failures']=True
+    if 'error' in report:report['status']='INCOMPLETE';return report
+    return finish(report,report['cases'])
+
+
+def run_browser(script,verify,phase):
+    """The auditor's Playwright module against the candidate UI, real Auth and PostgREST on a committed copy."""
+    import hashlib,os
+    awp,_=_probe()
+    text=Path(script).read_bytes()
+    report=dict(status='INCOMPLETE',label=LABEL,database=BROWSER_DB,real_auth=True,jwt_signed_by_runtime=False,test_only_usage_grant=False,
+                frontend='candidate branch checkout (auditor)',script_sha256=hashlib.sha256(text).hexdigest(),cases={},
+                production_go=False,independent_acceptance=False,release_evidence=False)
+    print(json.dumps(dict(auditor_browser_script_sha256=report['script_sha256'],bytes=len(text))),flush=True)
+    http=None
+    with psycopg.connect(awp.boundary.PRIMARY_ADMIN) as conn,conn.cursor() as cur:auth_before=list(cur.execute(AUTH_COUNTS).fetchone())
+    try:
+        url=copy_db(BROWSER_DB);setup=setup_copy(url,verify,False);report['copy_runtime']=setup['runtime']
+        http=Http(url)
+        out=Path(tempfile.mkdtemp(prefix='cp6-auditor-browser-'))/'BROWSER.json'
+        env=dict(os.environ,AUDITOR_BROWSER_SCRIPT=str(Path(script).resolve()),AUDITOR_BROWSER_DB_URL=url,AUDITOR_BROWSER_OUT=str(out),
+                 AUDITOR_BROWSER_PHASE=phase,AUDITOR_BROWSER_TODAY=str(setup['today']),SUPABASE_ANON_KEY=http._anon,
+                 SUPABASE_SERVICE_ROLE_KEY=http._service)
+        result=subprocess.run(['node','scripts/cp6_auditor_browser_host.mjs'],cwd=AUDITOR,env=env,check=False)
+        host=json.loads(out.read_text()) if out.exists() else {}
+        report.update(host_exit=result.returncode,host_status=host.get('status'),planned_case_ids=host.get('planned',[]),
+                      cases=host.get('cases',{}),console_errors=len(host.get('console_errors',[])),users_created=host.get('users_created'),
+                      auth_cleanup_failures=host.get('auth_cleanup_failures'),host_error=host.get('error'))
+        if host.get('status')!='RUN_COMPLETE':report['error']=host.get('error') or 'AUDITOR_BROWSER_HOST_%s'%host.get('status')
+    except Exception as exc:report.update(error=str(exc)[:3000],traceback=traceback.format_exc()[-3000:])
+    finally:
+        if http is not None:
+            cleanup=http.close();report['cleanup']=cleanup;report['cleanup_failures']=cleanup['cleanup_failures'] or cleanup['rest_remaining']
+        else:
+            subprocess.run(['docker','rm','-f',REST],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,check=False)
+        report['database_remaining']=drop_db(BROWSER_DB)
+        with psycopg.connect(awp.boundary.PRIMARY_ADMIN) as conn,conn.cursor() as cur:auth_after=list(cur.execute(AUTH_COUNTS).fetchone())
+        report['auth_counts']=dict(before=auth_before,after=auth_after,restored=auth_before==auth_after)
+        if not report['auth_counts']['restored'] or report.get('auth_cleanup_failures'):report['cleanup_failures']=True
     if 'error' in report:report['status']='INCOMPLETE';return report
     return finish(report,report['cases'])

@@ -21,6 +21,9 @@ group of scripts/cp6_auditor_runner.py (duplicate ids refused; status vocabulary
 sessions checked after every case); its full result is printed as one JSON line. The scenario file's sha256 is printed first, so the
 auditor can tie the log to the file.
 
+A browser module (ES module, workflow input browser_b64) may be given as well: --browser PATH runs its cases(ui, today)
+in Playwright against this branch's UI with real Auth (scripts/cp6_auditor_modes.py run_browser, independent audit B4).
+
 Usage (workflow .github/workflows/cp6-auditor-scenario.yml):
     python scripts/cp6_auditor_scenario.py --phase after --scenario /path/to/scenario.py
 """
@@ -38,6 +41,7 @@ import cp6_az_probe as azp
 import cp6_ba_probe as bap
 import cp6_auditor_modes as modes
 import cp6_auditor_runner as runner
+import cp6_run_identity as run_identity
 r1,boundary,prior=awp.r1,awp.boundary,awp.prior
 
 OUT=AUDITOR/'cp6-proof/auditor'
@@ -51,7 +55,7 @@ def load(path):
     return module
 
 
-def run(phase,scenario,selftest=False):
+def run(phase,scenario,selftest=False,browser=None):
     assert os.environ.get('CP6_AR_CONFIRM')=='cp6_rollback' and os.environ.get('CP6_DATABASE_CONTAINER')=='supabase_db_cp5-local'
     text=Path(scenario).read_bytes()
     print(json.dumps(dict(auditor_scenario_sha256=hashlib.sha256(text).hexdigest(),bytes=len(text),phase=phase)),flush=True)
@@ -59,6 +63,7 @@ def run(phase,scenario,selftest=False):
     r1.OUT=OUT
     report=dict(status='INCOMPLETE',label=LABEL,phase=phase,scenario_sha256=hashlib.sha256(text).hexdigest(),
                 production_go=False,independent_acceptance=False,release_evidence=False)
+    report['run_identity']=run_identity.announce(LABEL+('_SELFTEST' if selftest else ''),phase=phase,scenario_sha256=report['scenario_sha256'])
     primary=None
     try:
         with psycopg.connect(boundary.PRIMARY_ADMIN) as conn,conn.cursor() as cur:prior.verified(cur,'AN');primary=boundary.snapshot(cur)
@@ -91,6 +96,12 @@ def run(phase,scenario,selftest=False):
             http=modes.run_http(module,verify,phase)
             report['auditor_http']={k:http.get(k) for k in ('status','counts','database_remaining','cleanup','auth_counts','error')}
             complete=complete and http['status']=='RUN_COMPLETE'
+        # Browser mode (independent audit B4): the auditor's Playwright module on the candidate UI.
+        if browser:
+            b=modes.run_browser(browser,verify,phase)
+            report['auditor_browser']={k:b.get(k) for k in ('status','counts','script_sha256','database_remaining','cleanup','auth_counts',
+                                                            'console_errors','users_created','error')}
+            complete=complete and b['status']=='RUN_COMPLETE'
         report['status']=('SELFTEST_PASS' if complete else 'SELFTEST_FAIL') if selftest else ('RUN_COMPLETE' if complete else 'INCOMPLETE')
     except Exception as exc:report.update(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc())
     finally:
@@ -109,4 +120,5 @@ if __name__=='__main__':
     parser.add_argument('--phase',choices=('before','pre_ba','after'),required=True)
     parser.add_argument('--scenario',required=True)
     parser.add_argument('--selftest',action='store_true',help='the runner self-test (B1): expect the scenario EXPECTED statuses')
-    args=parser.parse_args();run(args.phase,args.scenario,args.selftest)
+    parser.add_argument('--browser',help='ES module with cases(ui, today) for the browser mode (B4)')
+    args=parser.parse_args();run(args.phase,args.scenario,args.selftest,args.browser)

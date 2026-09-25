@@ -523,6 +523,8 @@ def run(mode,out_name):
     boundary=awp.boundary
     assert os.environ.get('CP6_AR_CONFIRM')=='cp6_rollback' and os.environ.get('CP6_DATABASE_CONTAINER')=='supabase_db_cp5-local'
     outdir=auditor/'cp6-proof/t3';outdir.mkdir(parents=True,exist_ok=True)
+    import cp6_run_identity as run_identity
+    run_identity.announce('T3_PREP',mode='rollback_'+mode)
     primary=None;result=dict(status='INCOMPLETE')
     try:
         with psycopg.connect(boundary.PRIMARY_ADMIN) as conn,conn.cursor() as cur:primary=boundary.snapshot(cur)

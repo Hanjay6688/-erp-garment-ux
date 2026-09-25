@@ -9,12 +9,19 @@ name: CP6 Auditor Scenario
     - scripts/cp6_auditor_modes.py
     - scripts/cp6_auditor_runner.py
     - scripts/cp6_auditor_scenario_selftest.py
+    - scripts/cp6_auditor_browser_host.mjs
+    - scripts/cp6_auditor_browser_sample.mjs
+    - scripts/cp6_run_identity.py
     - scripts/cp6_ba_probe.py
     - .github/workflows/cp6-auditor-scenario.yml
   workflow_dispatch:
     inputs:
       scenario_b64:
         description: Base64 of the auditor's Python scenario (defines cases, races and/or http_cases); empty runs the sample
+        required: false
+        default: ''
+      browser_b64:
+        description: Base64 of the auditor's ES module for the browser mode (exports cases(ui, today)); empty runs the browser sample
         required: false
         default: ''
       phase:
@@ -330,6 +337,26 @@ jobs:
         target.write_bytes(base64.b64decode(data,validate=True) if data else pathlib.Path('auditor/scripts/cp6_auditor_scenario_sample.py').read_bytes())
         print(target,target.stat().st_size)
         PY
+    - name: Write the auditor browser module
+      if: matrix.key == 'auditor'
+      env:
+        BROWSER_B64: ${{ inputs.browser_b64 }}
+      run: |
+        set -euo pipefail
+        python - <<'PY'
+        import base64,os,pathlib
+        target=pathlib.Path(os.environ['RUNNER_TEMP'])/'auditor_browser.mjs'
+        data=os.environ.get('BROWSER_B64','').strip()
+        target.write_bytes(base64.b64decode(data,validate=True) if data else pathlib.Path('auditor/scripts/cp6_auditor_browser_sample.mjs').read_bytes())
+        print(target,target.stat().st_size)
+        PY
+    - name: Install browser dependencies for the candidate UI
+      if: matrix.key == 'auditor'
+      working-directory: auditor
+      run: |
+        set -euo pipefail
+        npm ci
+        npx playwright install --with-deps chromium
     - name: ${{ matrix.label }}
       working-directory: writer
       env:
@@ -339,7 +366,8 @@ jobs:
         if [ '${{ matrix.key }}' = selftest ]; then
           python '../auditor/scripts/${{ matrix.script }}' --phase before --scenario ../auditor/scripts/cp6_auditor_scenario_selftest.py --selftest
         else
-          python '../auditor/scripts/${{ matrix.script }}' --phase "$SCENARIO_PHASE" --scenario "$RUNNER_TEMP/auditor_scenario.py"
+          python '../auditor/scripts/${{ matrix.script }}' --phase "$SCENARIO_PHASE" --scenario "$RUNNER_TEMP/auditor_scenario.py" \
+            --browser "$RUNNER_TEMP/auditor_browser.mjs"
         fi
     - name: Remove disposable database
       if: always()
