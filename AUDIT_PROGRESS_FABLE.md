@@ -48,3 +48,7 @@
 - 18:20Z: F4 reproduced independently: run 36171335601 (pre_bc, 0746c33) advance-paid opening settlement `reversible` NULL → COUNTEREXAMPLE; run 36171347110 (after)
   `false` → PASS; cash control `true` both phases. Round-11 "BB no product defects" corrected (F4 escaped r11). Writer runs read (status only): BC probe 36168802591
   green both phases, T2 36168125448 green 3/3, auditor modes run 36168808537 red at browser step (writer: script error, fix 792251f). Waiting for BC final.
+- 18:25Z: cross-check GPT `out/gpt_bc_20260926_initial_review.md` (REUSED_GPT_LOG_READ of writer CI on 5e1ae83/e21d15b/0746c33): convergent with Fable on F3
+  (UI guard, ACC-D09 unproven) and F4 (NULL flag, coalesce fix). New GPT claim GPT-BC-01 (P3 UI: search query carried from Stok tab to Dokumen tab, hides
+  documents) — not yet verified by Fable; to check with an own browser case in the BC round. GPT notes ACC-C12 coverage partial (same-goods duplicate not
+  tested) — agree; added to my BC-round list. No conflicts. Standing by for the writer's BC final (head + §31 + run numbers).
