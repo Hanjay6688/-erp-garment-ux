@@ -71,12 +71,15 @@ export type BbEntitlement = { id: string; kind: 'SEWING_WORK' | 'ATTENDANCE' | '
 export type BbRework = { id: string; rework_order_id: string; rework_number: string; legacy_rework_number: string; legacy_sent_date: string;
   bs_number: string; destination_type: 'CONTRACTOR' | 'LAUNDRY'; holder_name: string; qty_sent_original: number;
   qty_returned_before_cutover: number; qty_open: number; status: string; qty_good_returned: number; qty_bs_returned: number }
+export type BbSalesDraft = { sale_id: string; draft_number: string; draft_date: string; customer_code: string; customer_name: string;
+  status: 'DRAFT' | 'POSTED' | 'CANCELLED'; sale_date: string; reserved_qty_pcs: number;
+  lines: { line_number: string; product_sku: string; qty_pcs: number; unit_price: string }[] }
 export type InitialImportBB = { opening_balances: BbOpeningBalance[]; opening_payable_payrolls: BbPayroll[]; legacy_documents: number;
   customer_credits: BbCustomerCredit[]; sale_return_rights: BbReturnRight[]; fg_locations: BbLocation[]; purchase_commitments: BbCommitment[];
-  payroll_entitlements: BbEntitlement[]; entitlement_payrolls: BbPayroll[]; opening_reworks: BbRework[] }
+  payroll_entitlements: BbEntitlement[]; entitlement_payrolls: BbPayroll[]; opening_reworks: BbRework[]; open_sales_drafts: BbSalesDraft[] }
 
 const KEYS = ['opening_balances', 'opening_payable_payrolls', 'legacy_documents', 'customer_credits', 'sale_return_rights', 'fg_locations',
-  'purchase_commitments', 'payroll_entitlements', 'entitlement_payrolls', 'opening_reworks'] as const
+  'purchase_commitments', 'payroll_entitlements', 'entitlement_payrolls', 'opening_reworks', 'open_sales_drafts'] as const
 
 function payroll(value: unknown): BbPayroll {
   const p = object(value, 'Payroll')
@@ -164,7 +167,17 @@ export function parseInitialImportBB(batch: Record<string, unknown>): InitialImp
       qty_returned_before_cutover:count(r.qty_returned_before_cutover, 'Kembali sebelum saldo awal'), qty_open:count(r.qty_open, 'Sisa rework'),
       status:text(r.status, 'Status rework'), qty_good_returned:count(r.qty_good_returned, 'Kembali baik'), qty_bs_returned:count(r.qty_bs_returned, 'Kembali BS') }
   })
+  const open_sales_drafts = list(batch.open_sales_drafts, 'Draf penjualan terbuka').map((value): BbSalesDraft => {
+    const d = object(value, 'Draf penjualan terbuka')
+    return { sale_id:id(d.sale_id, 'Draf penjualan'), draft_number:text(d.draft_number, 'Nomor draf'), draft_date:day(d.draft_date, 'Tanggal draf lama'),
+      customer_code:text(d.customer_code, 'Kode pelanggan'), customer_name:text(d.customer_name, 'Nama pelanggan'),
+      status:oneOf(d.status, ['DRAFT', 'POSTED', 'CANCELLED'] as const, 'Status draf penjualan'), sale_date:day(d.sale_date, 'Tanggal invoice draf'),
+      reserved_qty_pcs:count(d.reserved_qty_pcs, 'Pcs direservasi'),
+      lines:list(d.lines, 'Baris draf').map(item => { const l = object(item, 'Baris draf')
+        return { line_number:text(l.line_number, 'Baris draf'), product_sku:text(l.product_sku, 'Kode produk'), qty_pcs:count(l.qty_pcs, 'Pcs draf'),
+          unit_price:money(l.unit_price, 'Harga draf') } }) }
+  })
   return { opening_balances, opening_payable_payrolls:list(batch.opening_payable_payrolls, 'Payroll mandor').map(payroll),
     legacy_documents:list(batch.legacy_documents, 'Dokumen lama').length, customer_credits, sale_return_rights, fg_locations, purchase_commitments,
-    payroll_entitlements, entitlement_payrolls:list(batch.entitlement_payrolls, 'Payroll hak upah').map(payroll), opening_reworks }
+    payroll_entitlements, entitlement_payrolls:list(batch.entitlement_payrolls, 'Payroll hak upah').map(payroll), opening_reworks, open_sales_drafts }
 }

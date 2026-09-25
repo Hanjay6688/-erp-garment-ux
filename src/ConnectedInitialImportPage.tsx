@@ -11,7 +11,7 @@ import type { Json } from './types/database.preconnect'
 import './initial-import.css'
 import { parseInitialProductionSources, type InitialProductionSource } from './initialProduction'
 import { parseInitialImportBB, type InitialImportBB } from './initialImportBB'
-import { CustomerCreditsPanel, OpeningBalancesPanel, OpeningReworksPanel, PayrollEntitlementsPanel, PurchaseCommitmentsPanel, ReturnRightsPanel } from './InitialImportContinuations'
+import { CustomerCreditsPanel, OpenSalesDraftsPanel, OpeningBalancesPanel, OpeningReworksPanel, PayrollEntitlementsPanel, PurchaseCommitmentsPanel, ReturnRightsPanel } from './InitialImportContinuations'
 
 type Row = InitialImportRow & { id: string; entity: InitialImportEntity; validation_status: string; errors: string[]; applied: boolean }
 type AdvanceAllocation = { payroll_id: string; payroll_number: string; status: string; row_version: string; amount: string }
@@ -306,6 +306,7 @@ function ImportWorkspace() {
         <PurchaseCommitmentsPanel key={`po-${batch.id}`} bb={batch.bb} locked={locked} manage={(action, payload) => { void act(action, payload) }}/>
         {batch.bb.payroll_entitlements.length > 0 && <PayrollEntitlementsPanel key={`y02-${batch.id}`} bb={batch.bb} locked={locked} manage={(action, payload) => { void act(action, payload) }}/>}
         <OpeningReworksPanel bb={batch.bb}/>
+        <OpenSalesDraftsPanel bb={batch.bb}/>
         {batch.bb.legacy_documents > 0 && <p className="initial-import-help">{batch.bb.legacy_documents} dokumen lama yang sudah lunas tercatat sebagai riwayat; tidak ada saldo atau kas baru darinya.</p>}
       </>}
       <div className="panel initial-import-toolbar"><label>Jenis data<select disabled={locked || Boolean(editor)} value={entity} onChange={(event) => { setEntity(event.target.value as InitialImportEntity); setPage(0); readFileSequence.current++ }}>{Object.entries(initialImportCatalog).map(([key, item]) => <option key={key} value={key}>{item.label}</option>)}</select></label><button type="button" onClick={download}><Download size={16}/> Unduh template</button>{!posted && <label className="initial-import-upload"><FileUp size={16}/> Pilih file CSV<input aria-label="Pilih file CSV" type="file" accept=".csv,.tsv,text/csv" disabled={locked || Boolean(editor)} onChange={(event) => { const file = event.target.files?.[0]; event.target.value = ''; void upload(file) }}/></label>}</div>

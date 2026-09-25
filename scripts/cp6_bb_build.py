@@ -67,6 +67,11 @@ runs (AP, AR, AC migrations and the BA T1 file) with checked substitutions only,
   F7 erp.run_v268_financial_report_checks (AP): the WIP source conservation check subtracts split BS disposals like opening BS
      disposals, and V2620AI_WORK_SOURCE_LINEAGE_MISMATCH accepts an opening WIP of the same PO as a work completion's source in
      place of a Potongan; nothing else changes.
+  S02 (ALL-S02) sales drafts open at cutover with their reservation: new file OPEN_SALES_DRAFT makes, at FINALIZE after the
+     opening stock, one native DRAFT sale per draft through erp.save_sale_draft_v2 (old number, customer, lines; dated at cutover,
+     the old draft date kept as provenance in erp.bb_open_sales_drafts_v1), which reserves once; a reservation over the free
+     stock refuses the whole import. A trigger keeps number and customer and refuses a sale date before cutover or a delete;
+     edit, cancel and post are the native commands. Nothing is booked before the native POST.
 Label T1_FAMILY: development install on the disposable chain AN -> AU -> AV -> AW..BA, not a release package.
 
 Usage: python3 scripts/cp6_bb_build.py            # writes supabase/dev/cp6_bb_t1_family.sql
@@ -84,12 +89,12 @@ CATALOG=ROOT/'src/initialImportCatalog.json'
 CATALOG_BB=ROOT/'src/initialImportCatalogBB.json'
 AS=ROOT/'supabase/migrations/20260922210815_erp_v2_6_20as_cp6_event_dates_product_identity.sql'
 OBJECTS=[ROOT/'scripts/cp6_bb_objects_financial.sql',ROOT/'scripts/cp6_bb_objects_purchase.sql',ROOT/'scripts/cp6_bb_objects_labour.sql',
-         ROOT/'scripts/cp6_bb_objects_production.sql']
+         ROOT/'scripts/cp6_bb_objects_production.sql',ROOT/'scripts/cp6_bb_objects_sales.sql']
 FIXTURE=ROOT/'supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz'
 OUT=ROOT/'supabase/dev/cp6_bb_t1_family.sql'
 VERSION='v2.6.20bb'
 NEW_ENTITIES=['LEGACY_DOCUMENT','OPENING_CUSTOMER_CREDIT','OPENING_SALE_RETURN','OPEN_PURCHASE_ORDER','OPENING_PAYROLL_ENTITLEMENT',
-              'OPENING_REWORK','OPENING_REWORK_COMPONENT']
+              'OPENING_REWORK','OPENING_REWORK_COMPONENT','OPEN_SALES_DRAFT']
 NEW_ACTIONS=['OPENING_SETTLEMENT','CUSTOMER_CREDIT','OPENING_RETURN','PURCHASE_COMMITMENT','PAYROLL_ENTITLEMENT']
 
 # ---------------------------------------------------------------- F1 erp.post_opening_subledger_settlement (AP)
@@ -178,7 +183,7 @@ REV_NEW="""     where h.migration_batch_id=p_batch_id),'[]'::jsonb),
  )::text"""
 WS_HEAD='CREATE OR REPLACE FUNCTION erp.get_initial_import_workspace_v1(p_batch_id uuid DEFAULT NULL)'
 WS_OLD='   ) into v_batch;\n end if;'
-WS_NEW='   ) into v_batch;\n   -- BB: opening balances with their settlements and payroll lines, customer credits, return rights, legacy documents.\n   v_batch:=v_batch||erp.bb_financial_workspace_v1(b.id)||erp.bb_purchase_workspace_v1(b.id)||erp.bb_labour_workspace_v1(b.id)||erp.bb_production_workspace_v1(b.id);\n end if;'
+WS_NEW='   ) into v_batch;\n   -- BB: opening balances with their settlements and payroll lines, customer credits, return rights, legacy documents.\n   v_batch:=v_batch||erp.bb_financial_workspace_v1(b.id)||erp.bb_purchase_workspace_v1(b.id)||erp.bb_labour_workspace_v1(b.id)||erp.bb_production_workspace_v1(b.id)||erp.bb_sales_workspace_v1(b.id);\n end if;'
 STAGE_HEAD='CREATE OR REPLACE FUNCTION erp.stage_migration_row(p_batch_id uuid, p_entity_type text, p_source_row_no integer, p_legacy_key text, p_source_payload jsonb, p_normalized_payload jsonb)'
 STAGE_OLD="'LAUNDRY_VENDOR','LOCATION','CHART_ACCOUNT','CASH_ACCOUNT') then\n    raise exception 'Unsupported migration entity_type %',v_type;"
 STAGE_NEW="'LAUNDRY_VENDOR','LOCATION','CHART_ACCOUNT','CASH_ACCOUNT',"+','.join("'%s'"%e for e in NEW_ENTITIES)+") then\n    raise exception 'Unsupported migration entity_type %',v_type;"
@@ -218,10 +223,10 @@ ROUTER_PRECISION_OLD="if (v_field in('amount','original_amount','settled_before_
 ROUTER_PRECISION_NEW="if (v_field in('amount','original_amount','settled_before_cutover','credit_unit_price') and v_number<>round(v_number,2))"
 ROUTER_VALIDATE_OLD='     perform erp.validate_initial_prepayments_v1(b.id);\n'
 ROUTER_VALIDATE_NEW=ROUTER_VALIDATE_OLD+('     perform erp.bb_validate_financial_imports_v1(b.id);\n     perform erp.bb_validate_purchase_imports_v1(b.id);\n'
-  '     perform erp.bb_validate_labour_imports_v1(b.id);\n     perform erp.bb_validate_production_imports_v1(b.id);\n')
+  '     perform erp.bb_validate_labour_imports_v1(b.id);\n     perform erp.bb_validate_production_imports_v1(b.id);\n     perform erp.bb_validate_sales_imports_v1(b.id);\n')
 ROUTER_APPLY_OLD='       perform erp.apply_initial_prepayments_v1(b.id);\n'
 ROUTER_APPLY_NEW=ROUTER_APPLY_OLD+('       perform erp.bb_apply_financial_imports_v1(b.id);\n       perform erp.bb_apply_purchase_imports_v1(b.id);\n'
-  '       perform erp.bb_apply_labour_imports_v1(b.id);\n       perform erp.bb_apply_production_imports_v1(b.id);\n')
+  '       perform erp.bb_apply_labour_imports_v1(b.id);\n       perform erp.bb_apply_production_imports_v1(b.id);\n       perform erp.bb_apply_sales_imports_v1(b.id);\n')
 
 # ---------------------------------------------------------------- W02/W04 opening WIP (BA's erp.complete_initial_import_wip_v1 and AP/AS)
 WIP_HEAD='CREATE OR REPLACE FUNCTION erp.complete_initial_import_wip_v1(p_payload jsonb)'
@@ -403,7 +408,7 @@ ROUTER_P03_PRECISION=("or (v_field in('qty','opening_qty','unit_cost','target_do
 # ---------------------------------------------------------------- F6 the AV new-stock coverage registry (BA's version)
 COVER_HEAD='CREATE OR REPLACE FUNCTION erp.assert_new_stock_cutoff_coverage_v1()'
 COVER_OLD='''"erp.fg_stock_movements.product_id":{"class":"MOVEMENT","reason":"Movement of an existing lot"},'''
-COVER_NEW=COVER_OLD+'''"erp.bb_opening_sale_return_rights_v1.product_id":{"class":"SOURCE_DOCUMENT","reason":"Return right of an old invoice; the stock fact is the RETURN lot in fg_lots, validated as NEW_STOCK at receipt"},"erp.bb_opening_sale_return_receipts_v1.product_id":{"class":"DERIVED","reason":"Provenance of a return receipt; the stock fact is its fg_lots lot"},"erp.bb_wip_bs_splits_v1.product_id":{"class":"DERIVED","reason":"Provenance of an opening WIP BS split; the stock fact is its bs_cases row (NEW_STOCK_FACT at its physical_at)"},'''
+COVER_NEW=COVER_OLD+'''"erp.bb_opening_sale_return_rights_v1.product_id":{"class":"SOURCE_DOCUMENT","reason":"Return right of an old invoice; the stock fact is the RETURN lot in fg_lots, validated as NEW_STOCK at receipt"},"erp.bb_opening_sale_return_receipts_v1.product_id":{"class":"DERIVED","reason":"Provenance of a return receipt; the stock fact is its fg_lots lot"},"erp.bb_wip_bs_splits_v1.product_id":{"class":"DERIVED","reason":"Provenance of an opening WIP BS split; the stock fact is its bs_cases row (NEW_STOCK_FACT at its physical_at)"},"erp.bb_open_sales_draft_lines_v1.product_id":{"class":"DERIVED","reason":"Provenance of a sales draft open at cutover; the sale is its native sales_items line (reservation of existing stock)"},'''
 
 # ---------------------------------------------------------------- F5 the V2620M payment/journal detector (AP)
 CHECKS_HEAD='CREATE OR REPLACE FUNCTION erp.run_v267_financial_truth_checks()'
@@ -433,7 +438,7 @@ REPLACED=['erp.post_opening_subledger_settlement(uuid)','erp.post_opening_financ
 NEW_TABLES=['bb_payroll_entitlements_v1','bb_purchase_commitments_v1','bb_purchase_commitment_lines_v1','bb_purchase_commitment_drafts_v1',
             'bb_purchase_commitment_cancellations_v1','bb_receipt_invoiced_parts_v1','bb_legacy_documents_v1','bb_customer_credits_v1','bb_customer_credit_events_v1','bb_opening_sale_return_rights_v1',
             'bb_opening_sale_return_receipts_v1','bb_opening_credits_v1','bb_wip_pickups_v1','bb_wip_bs_splits_v1','bb_wip_split_value_events_v1',
-            'bb_opening_reworks_v1']
+            'bb_opening_reworks_v1','bb_open_sales_drafts_v1','bb_open_sales_draft_lines_v1']
 
 
 def objects():

@@ -218,7 +218,7 @@ describe('every editable import batch stays selectable (CP6-04)',()=>{
  const bb=()=>({opening_balances:[{balance_id:rowId,balance_type:'SUPPLIER_PAYABLE',source_kind:'BALANCE',source_mode:'DOCUMENT',party_type:'SUPPLIER',party_id:id,party_code:'SUP',party_name:'Supplier Lama',
    document_number:'INV-9',document_date:'2026-08-01',due_date:null,cutover_date:'2026-09-20',original_amount:'100.00',settled_before_cutover:'35.00',opening_amount:'65.00',settled_amount:'0.00',
    reserved_amount:'0.00',remaining_amount:'65.00',available_amount:'65.00',status:'OPEN',settlements:[],payroll_lines:[]}],
-  opening_payable_payrolls:[],legacy_documents:[],customer_credits:[],sale_return_rights:[],fg_locations:[],purchase_commitments:[],payroll_entitlements:[],entitlement_payrolls:[],opening_reworks:[]})
+  opening_payable_payrolls:[],legacy_documents:[],customer_credits:[],sale_return_rights:[],fg_locations:[],purchase_commitments:[],payroll_entitlements:[],entitlement_payrolls:[],opening_reworks:[],open_sales_drafts:[]})
  it('BB: pays an opening payable once with its cash account and exact amount; history before cutover stays history',async()=>{
   const s=server();s.status='POSTED';s.bb=bb();s.prepayment_cash_accounts=[{id:rowId,name:'Bank BCA'}]
   await mount();expect(container.textContent).toContain('Pelunasan saldo awal');expect(container.textContent).toContain('Rp 35,00')
@@ -247,6 +247,15 @@ describe('every editable import batch stays selectable (CP6-04)',()=>{
   await change(container.querySelector('input[aria-label="Catatan hasil WIP"]')!,'Salah pisah')
   await click('Batalkan pisah BS 2026-09-22')
   expect(writes()[0][1].p_payload).toMatchObject({operation:'REVERSE_SPLIT',split_id:rowId,expected_remaining:'6'})
+ })
+ it('BB: a sales draft open at cutover is listed read only with its reservation; an unknown status is refused',async()=>{
+  const draft={sale_id:rowId,draft_number:'SD-9',draft_date:'2026-09-17',customer_code:'CUS',customer_name:'Toko Lama',status:'DRAFT',sale_date:'2026-09-20',
+   reserved_qty_pcs:3,lines:[{line_number:'1',product_sku:'SKU-1',qty_pcs:3,unit_price:'10.00'}]}
+  const s=server();s.status='POSTED';s.bb={...bb(),open_sales_drafts:[draft]}
+  await mount();expect(container.textContent).toContain('Draf penjualan yang masih terbuka saat saldo awal')
+  expect(container.textContent).toContain('SD-9');expect(container.textContent).toContain('3 pcs');expect(container.textContent).toContain('Draf (reservasi aktif)')
+  const batch:Record<string,unknown>={id,code:'A',status:'POSTED',cutover_at:'2026-09-20T00:00:00Z',revision:rev(1),rows:[],cash_advances:[],advance_payrolls:[],prepayments:[],prepayment_cash_accounts:[],production_sources:[]}
+  expect(()=>parseInitialImportWorkspace({recent:[],batch:{...batch,...bb(),open_sales_drafts:[{...draft,status:'OPEN'}]}})).toThrow()
  })
  it('BB: continuations are all present or all absent; a partial set is an incomplete read',()=>{
   const batch:Record<string,unknown>={id,code:'A',status:'POSTED',cutover_at:'2026-09-20T00:00:00Z',revision:rev(1),rows:[],cash_advances:[],advance_payrolls:[],prepayments:[],prepayment_cash_accounts:[],production_sources:[]}

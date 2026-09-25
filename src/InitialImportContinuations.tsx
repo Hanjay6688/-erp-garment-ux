@@ -148,6 +148,16 @@ export function PayrollEntitlementsPanel({ bb, locked, manage }: { bb: InitialIm
   </section>
 }
 
+export function OpenSalesDraftsPanel({ bb }: { bb: InitialImportBB }) {
+  if (!bb.open_sales_drafts.length) return null
+  const status = { DRAFT: 'Draf (reservasi aktif)', POSTED: 'Sudah diposting', CANCELLED: 'Dibatalkan' } as const
+  return <section className="panel initial-import-advances" aria-label="Draf penjualan terbuka saldo awal">
+    <h2>Draf penjualan yang masih terbuka saat saldo awal</h2>
+    <p>Setiap draf menjadi draf penjualan native dengan nomor aslinya dan mereservasi stok sekali. Ubah tanggal invoice ke tanggal nyata, edit, batalkan, atau posting melalui halaman Penjualan; tanggal sebelum saldo awal dan pergantian pelanggan ditolak.</p>
+    <div className="initial-import-table"><table><thead><tr><th>Draf</th><th>Pelanggan</th><th>Tanggal draf lama</th><th>Tanggal invoice</th><th>Baris</th><th>Direservasi</th><th>Status</th></tr></thead><tbody>{bb.open_sales_drafts.map(d => <tr key={d.sale_id}><td>{d.draft_number}</td><td>{d.customer_code} · {d.customer_name}</td><td>{d.draft_date}</td><td>{d.sale_date}</td><td>{d.lines.map(l => `${l.product_sku} ${l.qty_pcs} pcs @ ${l.unit_price}`).join('; ')}</td><td>{d.reserved_qty_pcs} pcs</td><td>{status[d.status]}</td></tr>)}</tbody></table></div>
+  </section>
+}
+
 export function OpeningReworksPanel({ bb }: { bb: InitialImportBB }) {
   if (!bb.opening_reworks.length) return null
   return <section className="panel initial-import-advances" aria-label="Rework terbuka saldo awal">

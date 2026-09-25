@@ -787,6 +787,136 @@ def p04_refusal(cur,today,variant):
     except AssertionError as exc:return verdict(dict(refused_at_validation='P04_DUPLICATE_PO' in str(exc)),errors=str(exc)[:1200])
 
 
+# ---------------------------------------------------------------- S02: sales drafts open at cutover
+
+def s02_rows(cutover,drafts=(('SD-{C}','3'),),stock='10',draft_date=None):
+    """Opening finished goods of `stock` pcs of product {C}P in warehouse {C}G at 6.00 and one OPEN_SALES_DRAFT line per
+    (draft number, pcs) at 10.00/pcs for customer {C}, drafted before cutover."""
+    rows=product_masters()
+    rows['CUSTOMER']=[dict(customer_code='{C}',customer_name='BB pelanggan draf')]
+    rows['OPENING_BALANCE_ITEM']=[dict(balance_type='FINISHED_GOODS',product_sku='{C}P',brand_code='{C}',model_code='{C}',color_name='Blue',
+                                       size_code='{C}',location_code='{C}G',qty=stock,unit_cost='6.00',control_key='FG')]
+    rows['OPENING_CONTROL']=[dict(control_key='FG',balance_type='FINISHED_GOODS',qty=stock,amount=str(D(stock)*6)+'.00')]
+    day=str(draft_date or cutover-timedelta(days=3))
+    rows['OPEN_SALES_DRAFT']=[dict(draft_number=n,line_number='1',draft_date=day,customer_code='{C}',location_code='{C}G',
+                                   product_sku='{C}P',qty_pcs=q,unit_price='10.00') for n,q in drafts]
+    return rows
+
+
+def s02_free(cur,code):
+    """Pieces of {C}P in {C}G not held by anything: the official stock ledger after reservations (M:3821)."""
+    api.admin(cur)
+    return cur.execute("""select coalesce(sum(m.qty_signed),0)::integer from erp.fg_stock_movements m join erp.products p on p.id=m.product_id
+      join erp.locations l on l.id=m.location_id where p.sku=%s and l.location_code=%s""",(code+'P',code+'G')).fetchone()[0]
+
+
+def s02_sale(cur,code,number=None):
+    api.admin(cur)
+    return cur.execute("""select h.id,h.status,h.row_version,h.sale_date,h.customer_id,h.source_location_id from erp.sales_headers h
+      where h.sale_number=%s""",(number or 'SD-'+code,)).fetchone()
+
+
+def s02_reserves(cur,sale):
+    api.admin(cur)
+    return cur.execute("""select count(*),coalesce(-sum(m.qty_signed),0)::integer from erp.fg_stock_movements m join erp.sales_items i on i.id=m.source_id
+      where i.sale_id=%s and m.movement_type='SALE_RESERVE' and not exists(select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=m.id)""",
+      (sale,)).fetchone()
+
+
+def s02_save(cur,sale,code,qty,sale_date,customer=None):
+    """The native draft edit (erp.save_sale_draft_v2) by the owner with the draft's current version."""
+    h=s02_sale(cur,code);api.admin(cur)
+    product=cur.execute('select id from erp.products where sku=%s',(code+'P',)).fetchone()[0]
+    payload=dict(sale_id=str(sale),sale_number='SD-'+code,customer_id=str(customer or h[4]),source_location_id=str(h[5]),sale_date=sale_date,
+                 reason='BB S02 edit of the carried draft',items=[dict(product_id=str(product),qty_pcs=qty,unit_price_snapshot=10,discount_amount=0)])
+    chain.production.owner(cur)
+    return cur.execute('select erp.save_sale_draft_v2(%s::jsonb,%s,%s)',(json.dumps(payload),uuid.uuid4(),h[2])).fetchone()[0]
+
+
+def s02_cycle(cur,today):
+    """ALL-S02 (auditor r9: "physical finished goods 10 PCS with an existing official reservation of 3 PCS against one identified
+    sales draft. After cutover edit reservation from 3 to 2 ... availability = 10-3 = 7 ... edit 3->2 releases exactly 1 ...
+    posting removes actual fulfilled qty exactly once"; Fable S02: reserve once (M:3821), no false physical date).
+    Oracle: the import makes one native DRAFT numbered SD-{C} for customer {C}, dated at cutover (not the old draft date),
+    reserving 3 once (free 7), no journal from the draft; the native edit to 2 dated today leaves free 8 with one active
+    reservation of 2; the native POST keeps free 8 (no second stock-out) and books receivable/revenue 20.00 and cost 12.00
+    once; a date before cutover or another customer is refused on the carried draft; deleting it is refused."""
+    cutover=today-timedelta(days=10);rows=s02_rows(cutover)
+    if not bb_installed(cur):
+        code='BB'+uuid.uuid4().hex[:12]
+        batch=api.call(cur,'CREATE',dict(batch_code=code,cutover_date=str(cutover)))['batch_id']
+        line={k:(v.replace('{C}',code) if isinstance(v,str) else v) for k,v in rows['OPEN_SALES_DRAFT'][0].items()}
+        return no_route(cur,lambda:api.upload(cur,batch,'OPEN_SALES_DRAFT',[line]))
+    batch,code,cutover=post_batch(cur,today,rows)
+    api.admin(cur)
+    sale,status,version,sale_date,customer,location=s02_sale(cur,code)
+    cutover_at=cur.execute('select cutover_at from erp.migration_batches where id=%s',(batch,)).fetchone()[0]
+    draft_journals=cur.execute("""select count(*) from erp.journal_entries j where j.source_id=%s or j.source_id in(select id from erp.sales_items where sale_id=%s)""",
+                               (sale,sale)).fetchone()[0]
+    registry=cur.execute('select draft_number,draft_date from erp.bb_open_sales_drafts_v1 where sale_id=%s',(sale,)).fetchone()
+    imported=dict(status=status,free=s02_free(cur,code),reserves=s02_reserves(cur,sale),sale_date_is_cutover=sale_date==cutover_at,
+                  registry=[str(x) for x in registry] if registry else None,journals=draft_journals)
+    ws=[d for d in api.read(cur,batch)['batch'].get('open_sales_drafts',[]) if d['sale_id']==str(sale)]
+    early=refused(cur,lambda:s02_save(cur,sale,code,2,str(cutover-timedelta(days=1))+'T10:00:00+07:00'),'BB_S02_DATE_BEFORE_CUTOVER')
+    api.admin(cur);other=cur.execute("insert into erp.customers(customer_code,customer_name,is_active) values(%s,'BB lain',true) returning id",(code+'X',)).fetchone()[0]
+    identity=refused(cur,lambda:s02_save(cur,sale,code,2,str(now(cur).isoformat()),customer=other),'BB_S02_IDENTITY')
+    delete=refused(cur,lambda:(api.admin(cur),cur.execute('delete from erp.sales_headers where id=%s',(sale,))),'BB_S02_DRAFT_KEPT')
+    edited=s02_save(cur,sale,code,2,now(cur).isoformat())
+    after_edit=dict(free=s02_free(cur,code),reserves=s02_reserves(cur,sale))
+    before=gl(cur)
+    h=s02_sale(cur,code);chain.production.owner(cur)
+    cur.execute('select erp.post_sale_v2(%s,%s,%s)',(sale,uuid.uuid4(),h[2]))
+    api.admin(cur);posted=moved(before,gl(cur))
+    after_post=dict(status=s02_sale(cur,code)[1],free=s02_free(cur,code),reserves=s02_reserves(cur,sale))
+    detectors=detectors_ok(cur)
+    ar,revenue,cogs,fg=[account(cur,k) for k in ('AR_CUSTOMER','SALES_REVENUE','COGS','FG_INVENTORY')]
+    return verdict(dict(one_native_draft=imported['status']=='DRAFT',reserved_once=imported['reserves']==(1,3) and imported['free']==7,
+                        dated_at_cutover=imported['sale_date_is_cutover'],provenance_kept=registry is not None and str(registry[1])==str(cutover-timedelta(days=3)),
+                        nothing_journaled=imported['journals']==0,workspace_lists_it=len(ws)==1 and ws[0]['reserved_qty_pcs']==3,
+                        date_before_cutover_refused=early['ok'],identity_refused=identity['ok'],delete_refused=delete['ok'],
+                        edit_releases_one=after_edit['free']==8 and after_edit['reserves']==(1,2),
+                        post_once=after_post['status']=='POSTED' and after_post['free']==8,
+                        post_books_once=posted.get(ar)=='20.00' and posted.get(revenue)=='-20.00' and posted.get(cogs)=='12.00' and posted.get(fg)=='-12.00',
+                        detectors_zero=detectors is True),
+                   imported=imported,after_edit=after_edit,after_post=after_post,posted=posted,edited=edited,detectors=detectors,
+                   refusals=[early['refusal'],identity['refusal'],delete['refusal']])
+
+
+def s02_cancel(cur,today):
+    """The native cancel of a carried draft releases its reservation only: free back to 10, status CANCELLED, no journal."""
+    cutover=today-timedelta(days=10)
+    if not bb_installed(cur):return s02_cycle(cur,today)
+    batch,code,cutover=post_batch(cur,today,s02_rows(cutover))
+    sale,_,version,*_=s02_sale(cur,code)
+    before=gl(cur);chain.production.owner(cur)
+    cur.execute('select erp.cancel_sale_draft_v2(%s,%s,%s,%s)',(sale,'BB S02 customer withdrew',uuid.uuid4(),version))
+    api.admin(cur)
+    return verdict(dict(released=s02_free(cur,code)==10 and s02_reserves(cur,sale)==(0,0),cancelled=s02_sale(cur,code)[1]=='CANCELLED',
+                        no_journal=moved(before,gl(cur))=={}))
+
+
+def s02_refusal(cur,today,variant):
+    """Refused at import: two drafts reserving 6 + 5 of 10 (aggregate over the stock; the whole import rolls back), a draft
+    dated after cutover, and a draft number already used by a sale."""
+    cutover=today-timedelta(days=10)
+    if not bb_installed(cur):return s02_cycle(cur,today)
+    if variant=='OVER_STOCK':
+        api.admin(cur);headers=cur.execute('select count(*) from erp.sales_headers').fetchone()[0]
+        result,error=r1.peer.attempt(cur,lambda:post_batch(cur,today,s02_rows(cutover,drafts=(('SD-{C}','6'),('SE-{C}','5'))),prefix='BBS'))
+        if error is None:return dict(status='FAIL',note='posted',result=str(result)[:300])
+        api.admin(cur)
+        return verdict(dict(refused=code_of(error)=='BB_S02_RESERVATION_REFUSED',
+                            no_sale_left=cur.execute('select count(*) from erp.sales_headers').fetchone()[0]==headers),refusal=error)
+    if variant=='DRAFT_AFTER_CUTOVER':
+        try:post_batch(cur,today,s02_rows(cutover,draft_date=cutover+timedelta(days=1)));return dict(status='FAIL',note='posted')
+        except AssertionError as exc:return verdict(dict(refused_at_validation='draf harus dibuat sebelum saldo awal' in str(exc)),errors=str(exc)[:900])
+    batch,code,cutover=post_batch(cur,today,s02_rows(cutover))
+    again={'OPEN_SALES_DRAFT':[dict(draft_number='SD-'+code,line_number='1',draft_date=str(cutover-timedelta(days=4)),customer_code=code,
+                                    location_code=code+'G',product_sku=code+'P',qty_pcs='1',unit_price='10.00')]}
+    try:post_batch(cur,today,again,cutover_days=5);return dict(status='FAIL',note='posted twice')
+    except AssertionError as exc:return verdict(dict(refused_at_validation='BB_S02_DUPLICATE_DRAFT' in str(exc)),errors=str(exc)[:900])
+
+
 # ---------------------------------------------------------------- Y02: earned but unapproved work before cutover
 
 def y02_rows(cutover,attendance='true',doc_amount='134.00'):
@@ -1411,6 +1541,11 @@ PLAN=[('F:P02_SETTLE_AND_REVERSE','NO_ROUTE',lambda c,t:settle_cycle(c,t,'SUPPLI
       ('P:P04_OPEN_ORDER_RECEIVE_REOPEN_CANCEL','NO_ROUTE',p04_cycle),
       ('P:P04_REMAINING_EQUATION_REFUSED','NO_ROUTE',lambda c,t:p04_refusal(c,t,'EQUATION')),
       ('P:P04_SAME_ORDER_LATER_BATCH_REFUSED','NO_ROUTE',lambda c,t:p04_refusal(c,t,'DUPLICATE')),
+      ('P:S02_DRAFT_RESERVES_ONCE_EDIT_POST','NO_ROUTE',s02_cycle),
+      ('P:S02_CANCEL_RELEASES_RESERVATION','NO_ROUTE',s02_cancel),
+      ('P:S02_RESERVATIONS_OVER_STOCK_REFUSED','NO_ROUTE',lambda c,t:s02_refusal(c,t,'OVER_STOCK')),
+      ('P:S02_DRAFT_AFTER_CUTOVER_REFUSED','NO_ROUTE',lambda c,t:s02_refusal(c,t,'DRAFT_AFTER_CUTOVER')),
+      ('P:S02_DRAFT_NUMBER_REUSED_REFUSED','NO_ROUTE',lambda c,t:s02_refusal(c,t,'DUPLICATE')),
       ('P:Y02_ENTITLEMENTS_PAYROLL_AND_CARRY','NO_ROUTE',y02_cycle),
       ('P:Y02_ATTENDANCE_WITHOUT_ATTENDANCE_REFUSED','NO_ROUTE',lambda c,t:y02_refusal(c,t,'NO_ATTENDANCE')),
       ('P:Y02_ENTITLEMENTS_NOT_EQUAL_DOCUMENT_REFUSED','NO_ROUTE',lambda c,t:y02_refusal(c,t,'EQUATION')),
@@ -1449,6 +1584,9 @@ def final_reads(cur):
     for batch in sorted(WS['batches']):
         try:cur.execute('savepoint bb_ws_final')
         except psycopg.Error:return   # the case ended on the aborted transaction of a refusal it expected
+        api.admin(cur)
+        if not cur.execute('select exists(select 1 from erp.migration_batches where id=%s)',(batch,)).fetchone()[0]:
+            cur.execute('release savepoint bb_ws_final');continue   # made inside a refusal the case rolled back
         try:api.read(cur,batch);cur.execute('release savepoint bb_ws_final')
         except psycopg.Error as exc:
             cur.execute('rollback to savepoint bb_ws_final');api.admin(cur)

@@ -173,6 +173,33 @@
       "rate_per_pcs": "Tarif per pcs"
     }
   },
+  "OPEN_SALES_DRAFT": {
+    "label": "Draf penjualan yang masih terbuka saat saldo awal (dengan reservasi)",
+    "required": [
+      "draft_number",
+      "line_number",
+      "draft_date",
+      "customer_code",
+      "location_code",
+      "product_sku",
+      "qty_pcs",
+      "unit_price"
+    ],
+    "fields": {
+      "draft_number": "Nomor draf penjualan",
+      "line_number": "Nomor baris draf",
+      "draft_date": "Tanggal draf lama",
+      "customer_code": "Kode pelanggan",
+      "location_code": "Kode gudang barang jadi",
+      "product_sku": "Kode produk",
+      "qty_pcs": "Jumlah pcs yang direservasi",
+      "unit_price": "Harga per pcs",
+      "discount_amount": "Potongan baris",
+      "due_date": "Jatuh tempo",
+      "payment_terms": "Syarat pembayaran",
+      "notes": "Catatan"
+    }
+  },
   "_extend": {
     "UNINVOICED_RECEIPT": {
       "fields": {

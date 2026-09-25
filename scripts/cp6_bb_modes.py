@@ -10,6 +10,10 @@ Oracles (written before the runs, from the contract and the BB oracles already i
           payroll vs payroll (60.00 open, 40.00 to two payrolls)    -> BB_OPENING_PAYABLE_EXCEEDS_AVAILABLE
           payroll vs settle (60.00 open, 40.00 promised, 40.00 cash) -> 'Settlement exceeds opening outstanding'
           public facade vs public facade (same balance, same revision) -> the second is refused STALE_VERSION
+        One sales draft carried from cutover (ALL-S02, auditor r9 "simultaneous cancel/post"; 10 pcs, 3 reserved), native POST
+        in the first session, native CANCEL in the second: the second waits (sales lock); first commits -> the cancel is
+        refused 'Only a DRAFT sale can be cancelled', the sale is POSTED once (free 7, receivable 30.00 once); first aborts
+        -> the cancel succeeds (free 10, nothing booked).
   HTTP  real Auth users through the real PostgREST: OWNER may settle an opening balance, cancel an open purchase order
         remainder and allocate a carried wage; GUDANG and anon are refused and nothing changes.
 """
@@ -115,13 +119,53 @@ def facade_vs_facade(tools,today):
     return _verdict('FACADE_VS_FACADE',True,held,contention,outcome,state,'STALE_VERSION','40.00','0')
 
 
+def _s02_fixture(tools,today):
+    with tools.connect() as conn,conn.cursor() as cur:
+        batch,code,_=bbp.post_batch(cur,today,bbp.s02_rows(today-timedelta(days=10)),prefix='BBR');conn.commit()
+        sale=bbp.s02_sale(cur,code)[0]
+        bbp.s02_save(cur,sale,code,3,bbp.now(cur).isoformat());api.admin(cur);conn.commit()
+        version=bbp.s02_sale(cur,code)[2];conn.commit()
+    return code,str(sale),version
+
+
+def _s02_post(sale,version):
+    def op(cur):
+        bbp.chain.production.owner(cur);cur.execute('select erp.post_sale_v2(%s,%s,%s)',(sale,uuid.uuid4(),version));api.admin(cur);return 'POSTED'
+    return op
+
+
+def _s02_cancel(sale,version):
+    def op(cur):
+        bbp.chain.production.owner(cur);cur.execute('select erp.cancel_sale_draft_v2(%s,%s,%s,%s)',(sale,'BB race cancel',uuid.uuid4(),version))
+        api.admin(cur);return 'CANCELLED'
+    return op
+
+
+def s02_post_vs_cancel(tools,today,commit):
+    code,sale,version=_s02_fixture(tools,today)
+    with tools.connect() as conn,conn.cursor() as cur:
+        ar=bbp.account(cur,'AR_CUSTOMER');before=bbp.gl(cur);conn.rollback()
+    held,contention,outcome=tools.two_sessions(_s02_post(sale,version),_s02_cancel(sale,version),commit)
+    with tools.connect() as conn,conn.cursor() as cur:
+        status=bbp.s02_sale(cur,code)[1];free=bbp.s02_free(cur,code);booked=bbp.moved(before,bbp.gl(cur)).get(ar);truth=bbp.truth(cur);conn.rollback()
+    code_refused='Only a DRAFT sale can be cancelled'
+    expected=dict(status='POSTED',free=7,receivable='30.00',second='REFUSED '+code_refused) if commit else dict(status='CANCELLED',free=10,receivable=None,second='SUCCEEDS')
+    second=(not outcome.get('ok') and code_refused in (outcome.get('message') or '')) if commit else outcome.get('ok') is True
+    ok=(contention.get('kind')=='BLOCKED' and contention.get('holder_blocks_worker') is True and second and status==expected['status']
+        and free==expected['free'] and booked==expected['receivable'] and all(v==0 for v in truth.values()))
+    return dict(status='PASS' if ok else 'FAIL',race='S02_POST_VS_CANCEL',first_committed=commit,held=held,contention=contention,second=outcome,
+                state=dict(sale_status=status,free=free,receivable=booked,truth=truth),expected=expected)
+
+
 def races(tools,today):
     return [('BB_RACE:SETTLE_VS_SETTLE_FIRST_COMMITS',lambda:settle_vs_settle(tools,today,True)),
             ('BB_RACE:SETTLE_VS_SETTLE_FIRST_ABORTS',lambda:settle_vs_settle(tools,today,False)),
             ('BB_RACE:PAYROLL_VS_PAYROLL_FIRST_COMMITS',lambda:payroll_vs_payroll(tools,today,True)),
             ('BB_RACE:PAYROLL_VS_PAYROLL_FIRST_ABORTS',lambda:payroll_vs_payroll(tools,today,False)),
             ('BB_RACE:PAYROLL_VS_SETTLE_FIRST_COMMITS',lambda:payroll_vs_settle(tools,today,True)),
-            ('BB_RACE:PUBLIC_FACADE_SAME_REVISION',lambda:facade_vs_facade(tools,today))]
+            ('BB_RACE:PUBLIC_FACADE_SAME_REVISION',lambda:facade_vs_facade(tools,today)),
+            ('BB_RACE:S02_POST_VS_CANCEL_FIRST_COMMITS',lambda:s02_post_vs_cancel(tools,today,True)),
+            ('BB_RACE:S02_POST_VS_CANCEL_FIRST_ABORTS',lambda:s02_post_vs_cancel(tools,today,False))]
 
 
 # ---------------------------------------------------------------- real HTTP (Auth + PostgREST)
