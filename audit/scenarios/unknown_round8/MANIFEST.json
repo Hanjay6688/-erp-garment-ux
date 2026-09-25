@@ -1,0 +1,25 @@
+{
+  "phase": "UNKNOWN_BROWSER_RETRY",
+  "tool_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
+  "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
+  "files": [
+    {
+      "path": "gpt_unknown_fixture_rev2.py",
+      "sha256": "0bd506536d68292dd957ecc6385c0b8967e6a807c35bd9d49f40b42b94359e1b",
+      "bytes": 3414
+    },
+    {
+      "path": "gpt_unknown_browser_rev2.mjs",
+      "sha256": "cf9dfb1e153bfd61dc660f23221de03ec5c000c3750690d9c51cb6e8c4020300",
+      "bytes": 11364
+    },
+    {
+      "path": "browser_only.py",
+      "sha256": "bf60eb539e39e20d5493080376b4139ba046aeb78b20dfbe213457793afa24d5",
+      "bytes": 107
+    }
+  ],
+  "prior_run": 36102303107,
+  "changes": "Remove unused fixture FG product creation; retain real10pcs production/receipt; preserve diagnostics before refetch assertion; retry unknown2only; no oracle/product change",
+  "production_go": false
+}

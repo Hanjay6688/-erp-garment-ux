@@ -1,5 +1,14 @@
 # CP6 audit — active round 8 checkpoint
 
+## Unknown-data browser retry prepared — only two unresolved cases
+
+CP6-05 native result committedcf01a09. Retry only Laundry/QC unknown2; keep original cases/INCOMPLETE. New manifest `audit/scenarios/unknown_round8/MANIFEST.json`: browsercf9dfb1e153bfd61dc660f23221de03ec5c000c3750690d9c51cb6e8c4020300; fixture0bd506536d68292dd957ecc6385c0b8967e6a807c35bd9d49f40b42b94359e1b. Exact workflow browser path validated locally before push.
+
+Revision adds captured initial KPI/error and post-refetch response/UI error even when positive control fails. It also removes the fixture helper's unnecessary extra FG SKU: the GOOD-only laundry/receipt chain needs no product creation, while frontend parser forbids overlapping SKU identities (laundryQcModel.ts:628–650). This is a setup refinement, not a claimed diagnosis of rev1's missing error details, and not a product/guard/oracle change. Same real10pcs work→sewing→laundry/receipt commands, restored schema grants, actual Auth read, same unknown-vs-zero oracle. Scenario doc `out/gpt_unknown_oracle_rev2.md`.
+
+LANGKAH BERIKUTNYA: capture push run/job IDs, record both results and cleanup. If control still fails, use retained UI/RPC diagnostic to locate cause; do not convert INCOMPLETE into product proof. CP6 HOLD.
+
+
 ## Native CP6-05 confirmed; CP6-06 probe still incomplete
 
 Run **36102303107/job107967209608**, audit6156adb, exact9dd7bc2/a095a9d. Browser recovery Pattern and role duplicate: **2COUNTEREXAMPLE**. Each first save truly committed with HTTP200, then only its reply was dropped. Retrying unchanged form generated a different UUID; role duplicate also generated a different CUSTOM code. Both retries returned409 uniqueness errors; database retained exactly one row. **No duplicate row, privilege escalation or financial corruption claimed.** CP6-05 remains P2, now native browser confirmed under M1679/M3819 (retain exact envelope/replay). Writer action W10: preserve pending UUID/payload/expected-version through ambiguity and reconcile the original result.
