@@ -3,7 +3,7 @@
 Tanggal: 23 September 2026 (WIB). Writer: Claude Code (sesi cloud). Peninjau berikutnya: ChatGPT.
 
 > **Pembaruan terbaru (25 September 2026, perbaikan audit independen `AUDIT_WRITER_HANDOFF_CP6.md`): baca §28.**
-> - §28: keluarga BA (A1, A3, A4, A5, A6, A9, A10) dan A2 di frontend; regresi T2 akibat BA ditemukan dan diperbaiki; alat B1–B6 (grup ketat dan self-test, gate T3, rollback AC..BA varian rilis dengan siklus penuh dan matriks post-use, mode browser, ringkasan fixture, identitas run); addendum C0 dan draf lampiran C6 menunggu pengesahan owner.
+> - §28: keluarga BA (A1, A3, A4, A5, A6, A9, A10) dan A2 di frontend; regresi T2 akibat BA ditemukan dan diperbaiki; alat B1–B6 (grup ketat dan self-test, gate T3, rollback AC..BA varian rilis dengan siklus penuh dan matriks post-use, mode browser, ringkasan fixture, identitas run); addendum C0: D01–D05 disahkan tertulis owner (25 Sep, bagian 9 addendum); D06 menunggu tinjauan auditor atas draf lampiran C6.
 > - Produk acuan `a095a9d`; hasil CI di §28.6; cara menjalankan ulang di §28.8. A7 dan A8 (opsional) belum dikerjakan.
 > - Penerimaan independen menunggu rerun auditor. MATCH adalah oracle yang disetujui, bukan PASS kasus beku. Label T1_FAMILY/T2_REGRESSION/T3_PREP/AUDITOR_SCENARIO, bukan bukti rilis.
 > - CP6 tetap HOLD, `audit_complete=false`, 12 HOLD historis tetap HOLD, `production_go=false`.
@@ -1997,11 +1997,15 @@ dilonggarkan.
     primary tidak berubah. Bukti: `docs/evidence/cp6-t3/rollback_cycle_run36090518234.json`.
 
 ### 28.5 Dokumen (bagian C)
-- **C0** `docs/contracts/ERP_ADDENDUM_OWNER_DECISIONS_CP6_2026-09-25.md` (sha256 `d39762da…926d`): addendum
-  ERP-ADD-CP6-2026-09-25-01 untuk D01–D06, status `OWNER_CONFIRMED_CHAT`, menunggu pengesahan tertulis owner (bagian 9).
-  Mengutip M/P/BR dengan hash yang dicatat auditor. Berisi aturan tanggal D01 (C1), daftar cek per tanggal D04 (C4), dan
-  akun lawan AX = OTHER_INCOME (C5). Dua butir diminta konfirmasi owner: batas periode tertutup (3.4) dan tafsir D03
-  untuk data yang belum diketahui (5.3).
+- **C0** `docs/contracts/ERP_ADDENDUM_OWNER_DECISIONS_CP6_2026-09-25.md`: addendum ERP-ADD-CP6-2026-09-25-01 untuk
+  D01–D06. Mengutip M/P/BR dengan hash yang dicatat auditor. Berisi aturan tanggal D01 (C1), daftar cek per tanggal D04
+  (C4), dan akun lawan AX = OTHER_INCOME (C5).
+  - Pengesahan: D01–D05 disahkan tertulis owner di chat 25 September 2026, termasuk batas periode tertutup (3.4) dan
+    tafsir D03 untuk data yang belum diketahui (5.3). Jawaban owner "sah bos" atas usulan kalimat writer dikutip apa
+    adanya di bagian 9.
+  - Teks yang disahkan: bagian 1–8 versi sha256 `d39762da…926d` (commit `5d54472`). Berkas sesudah bagian 9 diisi:
+    sha256 `e83d56e6…0c99`; yang berubah hanya baris status dan bagian 9.
+  - D06 tetap `OWNER_CONFIRMED_CHAT` sampai lampiran C6 ditinjau auditor dan disahkan owner.
 - **C6** `…_LAMPIRAN_C6.md` (sha256 `72621c8a…bc0d`): USULAN WRITER daftar acceptance aksesori (ACC-01..04) dan laundry
   (LAU-01..07) berlabel BASELINE/CR-TUNDA. Writer tidak memegang teks M:1691–1699, M:1753–1757, dan M:4448–4479;
   auditor diminta mencocokkan setiap baris, owner mengesahkan lewat addendum.
@@ -2066,5 +2070,6 @@ Bukti putaran ini: `docs/evidence/cp6-ba/native_t1_run36090518293_{before,after}
   `ui.expect`. Contoh: `scripts/cp6_auditor_browser_sample.mjs`.
 - T2: Actions → CP6 T2 Combined Regression → Run workflow (hasil per ID dibandingkan dengan hasil beku; HOLD tetap).
 - T3: CP6 T3 Release Package dan CP6 T3 Rollback (auto memilih `cycle`) pada head baru.
-- Menunggu owner: pengesahan tertulis addendum C0 (bagian 9), terutama butir 3.4 (batas periode tertutup) dan 5.3
-  (tafsir D03 untuk data yang belum diketahui); pengesahan lampiran C6 sesudah dicocokkan auditor.
+- Addendum C0: D01–D05 sudah disahkan tertulis owner (bagian 9, termasuk 3.4 dan 5.3; berkas sha256 `e83d56e6…0c99`,
+  teks bagian 1–8 = versi `d39762da…926d`). Auditor diminta mencatat hash dan mencocokkan kutipannya. Yang tersisa:
+  tinjauan auditor atas lampiran C6, lalu pengesahan D06 oleh owner.

@@ -1,6 +1,7 @@
 # Addendum keputusan owner CP6 — ERP-ADD-CP6-2026-09-25-01
 
-**Status: OWNER_CONFIRMED_CHAT (25 September 2026). Menunggu pengesahan tertulis owner.**
+**Status: D01–D05 disahkan tertulis oleh owner (25 September 2026, kutipan di bagian 9). D06 tetap OWNER_CONFIRMED_CHAT
+sampai lampiran C6 ditinjau auditor dan disahkan owner.**
 Addendum ini tidak mengubah teks ketiga kontrak. Isinya memperjelas cara menerapkan klausul yang dirujuk untuk keputusan
 D01–D06. Sampai owner mengesahkannya secara tertulis (bagian 9), label setiap keputusan tetap OWNER_CONFIRMED_CHAT.
 CP6 tetap HOLD, `production_go=false`, dan 12 butir HOLD historis tetap HOLD.
@@ -201,14 +202,24 @@ Owner diminta menandai salah satu pilihan per keputusan. Hash addendum yang disa
 
 | ID | Sah seperti tertulis | Sah dengan catatan (tulis klausulnya) |
 |---|---|---|
-| D01 (termasuk aturan batas periode tertutup 3.4) | ☐ | ☐ |
-| D02 | ☐ | ☐ |
-| D03 (termasuk pencatatan "tidak diketahui" 5.3) | ☐ | ☐ |
-| D04 | ☐ | ☐ |
-| D05 (akun lawan OTHER_INCOME) | ☐ | ☐ |
-| D06 (termasuk lampiran C6 setelah ditinjau auditor) | ☐ | ☐ |
+| D01 (termasuk aturan batas periode tertutup 3.4) | ☑ | ☐ |
+| D02 | ☑ | ☐ |
+| D03 (termasuk pencatatan "tidak diketahui" 5.3) | ☑ | ☐ |
+| D04 | ☑ | ☐ |
+| D05 (akun lawan OTHER_INCOME) | ☑ | ☐ |
+| D06 (termasuk lampiran C6 setelah ditinjau auditor) | ☐ menunggu tinjauan auditor atas lampiran C6 | ☐ |
 
-Nama/tanda tangan owner: ____________________ Tanggal: ____________
+Nama/tanda tangan owner: pengesahan tertulis owner di chat sesi writer Claude (kutipan apa adanya di bawah).
+Tanggal: 25 September 2026.
+
+Catatan pengesahan (dicatat writer Claude, dicocokkan auditor):
+- Usulan writer di chat: "D01–D05 sah seperti tertulis, termasuk 3.4 dan 5.3. D06 menunggu tinjauan auditor atas
+  lampiran C6."
+- Jawaban owner, apa adanya: "sah bos".
+- Teks yang disahkan: bagian 1–8 berkas ini sama persis dengan versi sha256
+  `d39762da0520f30268a73244e7471b7d990138e3cbe36475d639c7cfca8e926d` (commit `5d54472`). Sesudah pengesahan, yang
+  berubah hanya baris status di awal dan isian bagian 9 ini.
+- D06 dan lampiran C6 disahkan terpisah setelah auditor mencocokkan setiap baris lampiran dengan teks master.
 
 Sebelum baris di atas diisi, addendum ini tetap berlabel OWNER_CONFIRMED_CHAT. Pengesahan kebijakan tidak membuat gate
 mana pun ACCEPT dan tidak memberi production GO.
