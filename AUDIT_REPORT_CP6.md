@@ -230,3 +230,8 @@ Rincian expected/actual per kasus: `out/fable_native15_xaudit5_results.md`; regi
 - rev3 (2/2 PASS, `primary_unchanged=true`): edit konsisten neraca setelah VALIDATE → FINALIZE memposting isi terakhir (item WIP 4/20.00, sumber 4, stage events 4, satu baris WIP). Setelah prepare lewat RPC yang di-grant ke `authenticated`, SAVE_FILE ditolak eksplisit ("Batch ini sudah menerapkan master melalui jalur lama").
 - Kesimpulan: **CP6-19 REFUTED pada jalur aplikasi yang sah**. SI-04 (COUNTEREXAMPLE beku, run 36065350201) tetap tercatat sebagai edit SQL langsung pada `erp.opening_balance_items`; residu P3 opsional: grant `authenticated` pada `erp.prepare_migration_opening_balance` dan tidak adanya cek ulang item-vs-staging (`…20ap….sql:2283`). Bukan penahan gate.
 - Verdict tetap: CP6 HOLD, audit_complete=false, production_go=false (P1 CP6-09, CP6-01, CP6-02; rollback AC..AV NOT_BUILT; D01–D06 belum diputuskan).
+
+## Addendum Fable — keputusan owner D01–D06 disahkan (25 Sep 2026)
+- Owner mengonfirmasi langsung di sesi audit: pilihan A untuk D01–D06, termasuk akun lawan AX = pendapatan lain-lain. Label OWNER_CONFIRMED_CHAT; tiga kontrak belum berubah, addendum bernomor masih harus ditulis writer dan disahkan tertulis (handoff C0).
+- Dampak register: CP6-07 → P1 wajib (kapasitas per tanggal, handoff A9/C2); CP6-18 → P2 wajib (produk WIP awal mengikat, A10/C3); 25 kasus T2 beku mendapat oracle baru setelah addendum ada (C1); GATE-16 menunggu daftar acceptance ID (C6).
+- Verdict tetap: CP6 HOLD, audit_complete=false, production_go=false.

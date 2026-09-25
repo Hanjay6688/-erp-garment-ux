@@ -1,6 +1,10 @@
 # Daftar keputusan owner CP6 — usulan 25 September 2026
 
-**DRAFT — belum disetujui owner dan belum mengubah tiga kontrak.**
+> **STATUS 25 Sep 2026 (2026-09-25T01:35:00Z): D01–D06 DISAHKAN OWNER sesuai Rekomendasi A (usulan di dokumen ini), termasuk akun lawan AX = pendapatan lain-lain.**
+> Konfirmasi langsung owner di sesi audit Fable (chat claude.ai/code session_01Lr2LJrWiWmYCCUgwrZnJeY), 25 Sep 2026 ~01:25 UTC: "Ya, semua sesuai usulan" untuk D01–D06 termasuk akun lawan AX = pendapatan lain-lain (OTHER_INCOME). Label: OWNER_CONFIRMED_CHAT. Tiga kontrak (M/P/BR) belum berubah; addendum bernomor masih harus ditulis writer dan disahkan owner secara tertulis.
+> Bagian di bawah dipertahankan apa adanya sebagai draft asal; status per keputusan ada di bagian "Pengesahan dan status".
+
+**DRAFT asal — pada saat ditulis belum disetujui owner dan belum mengubah tiga kontrak.**
 Dokumen ini menyiapkan pilihan yang konkret. Membaca atau menyimpan draft tidak berarti meratifikasinya. Putusan audit tetap HOLD; production_go=false.
 
 Produk acuan: 9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc. Sumber audit gabungan yang dibaca:44cc69d8f9c5f26aa5d50103a2fb827de0b0f01f. Sumber proposal writer:d284e9b4f4e9e6bede36b4fa0dd7966ce785fa8c. Hasil native baru Fable diperlakukan sebagai laporan Fable dalam tugas ini; tidak ada run baru GPT atau verifikasi ulang log native pada tugas keputusan owner ini.
@@ -116,7 +120,18 @@ Writer/auditor tetap mengerjakan perbaikan produk, ordinary-route reachability, 
 
 ## Pengesahan dan status
 
-Semua D01–D06: **USULAN / BELUM DISAHKAN**.
+Semua D01–D06: **DISAHKAN OWNER (OWNER_CONFIRMED_CHAT, 25 Sep 2026) — pilihan A/usulan untuk semuanya.**
+
+| ID | Keputusan owner | Sumber | Status kontrak |
+|---|---|---|---|
+| D01 | A — tanggal koreksi mengikuti posisi nyata barang; invoice tetap bertanggal invoice; periode tertutup lewat penyesuaian terkendali | konfirmasi chat 25 Sep | addendum belum ditulis |
+| D02 | A — transaksi mundur hanya memakai kapasitas sah pada tanggalnya (refund 100 di tgl 21 dengan saldo 67,25 ditolak) | konfirmasi chat 25 Sep | addendum belum ditulis |
+| D03 | A — produk WIP awal yang diisi mengikat hasil; kosong → ditentukan saat completion dengan kecocokan fisik/sumber tervalidasi | konfirmasi chat 25 Sep | addendum belum ditulis |
+| D04 | A — masalah menahan tanggal/scope yang terbukti terdampak; sistemik/tidak jelas → blok semua | konfirmasi chat 25 Sep | addendum belum ditulis |
+| D05 | A — barang jadi tanpa sumber = lot terpisah, pembanding HPP sah, nol eksplisit; **akun lawan pendapatan lain-lain (OTHER_INCOME) disetujui** | konfirmasi chat 25 Sep | addendum belum ditulis |
+| D06 | A — kewajiban CP6 diselesaikan; CR tambahan dipisah sebagai kelanjutan sebelum consumer CP7; bug/baseline tidak ikut ditunda | konfirmasi chat 25 Sep | addendum belum ditulis |
+
+Catatan asal draft (sebelum pengesahan):
 
 Owner dapat memilih A atau B per ID, atau menuliskan perubahan pada klausul tertentu. Catat jawaban persis dan tanggal; susun addendum bernomor yang mengacu klausul tiga kontrak dan menyebut bagian yang diperjelas/diubah. Jangan mengklaim “kontrak sudah diperbarui” hanya dari commit draft ini.
 

@@ -338,3 +338,11 @@ Head alat tetap d284e9b (produk 9add57e). Verdict tetap CP6 HOLD, audit_complete
 1. Owner: putuskan D01–D06 di `OWNER_DECISIONS_CP6_DRAFT.md`; setelah itu bagian C handoff difinalkan menjadi tugas konkret.
 2. Writer: A1–A3 (P1), A4–A5 (P2), A6–A8 (P3 opsional), B1–B6; rollback AC..AV; push head baru.
 3. Auditor: rerun skenario terdampak pada head baru; oracle same/distinct-source CP6-09; cakupan ALL 22 state/6 keluarga; browser→HTTP→runtime.
+
+## Fable — owner mengesahkan D01–D06 (2026-09-25T01:35:00Z)
+Owner: "Ya, semua sesuai usulan" (A untuk D01–D06, akun lawan AX = OTHER_INCOME). Dicatat sebagai OWNER_CONFIRMED_CHAT di `OWNER_DECISIONS_CP6_DRAFT.md` (bagian Pengesahan), index `owner_decision_preparation.owner_confirmation`, handoff bagian C (kini tugas konkret C0–C6) dan A9/A10. Kontrak M/P/BR tidak diubah oleh auditor; addendum = tugas writer (C0).
+
+### NEXT STEPS (Fable)
+1. Writer: C0 addendum keputusan owner → pengesahan tertulis; A1–A3 + A9 (P1); A4, A5, A10, C6 (P2); A6–A8, C4 (P3); B1–B6; rollback AC..AV; push head baru.
+2. Auditor: setelah C0 ada, tulis oracle 25 kasus T2 + CP6-07/18; rerun skenario terdampak pada head baru; same/distinct-source CP6-09; cakupan ALL; browser→HTTP→runtime.
+3. Verdict tetap CP6 HOLD, audit_complete=false, production_go=false.
