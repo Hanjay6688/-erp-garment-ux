@@ -92,7 +92,7 @@ function ServiceWorkspace() {
           <label>Cari aksesori atau lokasi<input aria-label="Cari stok aksesori" maxLength={120} value={query} onChange={e => setQuery(e.target.value)}/></label>
           <label>Lokasi<select aria-label="Lokasi stok aksesori" value={filters.current.location_id} onChange={e => refresh({ location_id: e.target.value, page: 1 })}>
             <option value="">Semua lokasi</option>{data.locations.map(l => <option key={l.id} value={l.id}>{l.name} · {l.label}</option>)}</select></label>
-          <button disabled={locked}>Cari</button></form>
+          <button disabled={locked}>Cari stok</button></form>
         <table><thead><tr><th>Aksesori</th><th>Lokasi</th><th>Keadaan</th><th>Jumlah</th><th>Nilai</th><th>Terakhir</th><th/></tr></thead><tbody>{data.stock.map(s =>
           <tr key={s.material_id + s.location_id}><td>{s.sku} · {s.name}<br/><small>{s.category}</small></td><td>{s.location}</td><td>{s.bucket}</td>
             <td>{displayQty(s.qty)} {s.unit}</td><td>{displayRupiah(s.value)}</td><td>{s.updated_local}</td>

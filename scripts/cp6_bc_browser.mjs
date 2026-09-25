@@ -68,7 +68,7 @@ export async function cases(ui, today) {
       const j0 = journals()
       const p = await openAccessories(ui, owner)
       await p.getByLabel('Cari stok aksesori').fill(fx.code)
-      await p.getByRole('button', { name: 'Cari', exact: true }).click()
+      await p.getByRole('button', { name: 'Cari stok', exact: true }).click()
       await ui.expect(p.getByRole('cell', { name: new RegExp(fx.code) }).first()).toBeVisible()
       await p.getByRole('button', { name: 'Catat transaksi', exact: true }).click()
       await p.getByLabel('Jenis transaksi aksesori').selectOption('FILL_POST')
@@ -108,6 +108,9 @@ export async function cases(ui, today) {
       await p.getByRole('button', { name: 'Tetapkan ACC-DEC05', exact: true }).click()
       await ui.expect.poll(read, { timeout: 20000 }).toBe(`SET|${Number(version0) + 1}`)
       await ui.expect(p.getByRole('row', { name: /ACC-DEC05.*Ditetapkan/ })).toBeVisible()
+      // The page reloads after a saved change; the settings form starts again from the first policy.
+      await p.getByLabel('Kebijakan yang diubah').selectOption('ACC-DEC05')
+      await p.getByLabel('Alasan kebijakan aksesori').fill('Owner menunda keputusan di browser')
       await p.getByRole('button', { name: 'Kembalikan ACC-DEC05 ke menunggu', exact: true }).click()
       await ui.expect.poll(read, { timeout: 20000 }).toBe(`PENDING_POLICY_VALUE|${Number(version0) + 2}`)
       await owner.context.close()

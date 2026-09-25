@@ -3980,6 +3980,70 @@ AS $function$
   where (m.material_type='ACCESSORY' and i.accessory_price_version_id is null and i.manual_retail_unit_price is null)
      or (m.material_type<>'ACCESSORY' and i.material_price_version_id is null);
 $function$;
+CREATE OR REPLACE FUNCTION erp.bb_financial_workspace_v1(p_batch uuid)
+ RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select jsonb_build_object(
+    'opening_balances',coalesce((select jsonb_agg(jsonb_build_object(
+        'balance_id',b.id,'balance_type',f.balance_type,'source_kind',f.source_kind,'source_mode',f.source_mode,
+        'party_type',b.party_type,'party_id',f.party_id,'party_code',coalesce(cu.customer_code,su.supplier_code,ve.vendor_code,co.contractor_code),
+        'party_name',coalesce(cu.customer_name,su.supplier_name,ve.vendor_name,co.contractor_name),
+        'document_number',f.document_number,'document_date',f.document_date,'due_date',f.due_date,'cutover_date',f.cutover_date,
+        'original_amount',f.original_amount::text,'settled_before_cutover',f.settled_before_cutover::text,
+        'opening_amount',b.original_amount::text,'settled_amount',b.settled_amount::text,
+        'reserved_amount',erp.bb_opening_balance_reserved_v1(b.id)::numeric(20,2)::text,
+        'remaining_amount',(b.original_amount-b.settled_amount)::text,
+        'available_amount',(b.original_amount-b.settled_amount-erp.bb_opening_balance_reserved_v1(b.id))::text,'status',b.status,
+        'settlements',coalesce((select jsonb_agg(jsonb_build_object('id',s.id,'number',s.settlement_number,
+            'date',erp._cp3_business_date(s.physical_at),'amount',s.amount::text,'status',s.status,
+            'method',case when c.settlement_id is not null then 'CREDIT' when s.cash_account_id is null then 'ADVANCE' else 'CASH' end,
+            'credit_kind',c.credit_kind,'credit_note_number',c.credit_note_number,
+            'reversible',coalesce(s.status='POSTED' and c.credit_kind is distinct from 'CUSTOMER_CREDIT_APPLY' and s.cash_account_id is not null or
+              (s.status='POSTED' and c.credit_kind in('CUSTOMER_ALLOWANCE','SUPPLIER_ALLOWANCE','VENDOR_ALLOWANCE')),false))
+            order by s.physical_at,s.id)
+          from erp.opening_subledger_settlements s left join erp.bb_opening_credits_v1 c on c.settlement_id=s.id
+          where s.balance_id=b.id),'[]'::jsonb),
+        'payroll_lines',coalesce((select jsonb_agg(jsonb_build_object('payroll_id',p.id,'payroll_number',p.payroll_number,'status',p.status,
+            'row_version',p.row_version::text,'amount',r.amount::text) order by p.period_end,p.id)
+          from erp.payroll_reimbursements r join erp.payroll_settlements p on p.id=r.payroll_id
+          where r.opening_payable_balance_id=b.id and p.status<>'REVERSED'),'[]'::jsonb))
+        order by f.balance_type,f.document_number,b.id)
+      from erp.initial_import_financial_sources f join erp.opening_subledger_balances b on b.opening_item_id=f.opening_item_id
+      left join erp.customers cu on cu.id=b.customer_id left join erp.suppliers su on su.id=b.supplier_id
+      left join erp.laundry_vendors ve on ve.id=b.vendor_id left join erp.contractors co on co.id=b.contractor_id
+      where f.batch_id=p_batch and f.source_kind<>'CONTRACTOR_CASH_ADVANCE'),'[]'::jsonb),
+    'opening_payable_payrolls',coalesce((select jsonb_agg(jsonb_build_object('id',p.id,'payroll_number',p.payroll_number,
+        'contractor_id',p.contractor_id,'period_end',p.period_end,'row_version',p.row_version::text,'net_payable',p.net_payable::text)
+        order by p.period_end,p.id)
+      from erp.payroll_settlements p where p.status in('DRAFT','CALCULATED','REVIEW') and exists(select 1 from erp.initial_import_financial_sources f
+        where f.batch_id=p_batch and f.balance_type='CONTRACTOR_PAYABLE' and f.party_id=p.contractor_id)),'[]'::jsonb),
+    'legacy_documents',coalesce((select jsonb_agg(jsonb_build_object('id',d.id,'balance_type',d.balance_type,'party_id',d.party_id,
+        'document_number',d.document_number,'document_date',d.document_date,'original_amount',d.original_amount::text) order by d.document_number,d.id)
+      from erp.bb_legacy_documents_v1 d where d.batch_id=p_batch),'[]'::jsonb),
+    'customer_credits',coalesce((select jsonb_agg(erp.bb_customer_credit_state_v1(c.id)||jsonb_build_object(
+        'customer_code',cu.customer_code,'customer_name',cu.customer_name,
+        'open_receivables',coalesce((select jsonb_agg(jsonb_build_object('balance_id',b.id,'document_number',f.document_number,
+            'remaining_amount',(b.original_amount-b.settled_amount)::text) order by f.document_number,b.id)
+          from erp.initial_import_financial_sources f join erp.opening_subledger_balances b on b.opening_item_id=f.opening_item_id
+          where f.balance_type='CUSTOMER_RECEIVABLE' and f.party_id=c.customer_id and b.original_amount>b.settled_amount),'[]'::jsonb),
+        'events',coalesce((select jsonb_agg(jsonb_build_object('id',e.id,'kind',e.event_type,'amount',e.amount::text,'date',e.effective_date,
+            'reason',e.reason,'reversed',e.reversed_at is not null or (e.event_type='APPLY_OPENING_AR'
+              and (select status from erp.opening_subledger_settlements where id=e.settlement_id)<>'POSTED')) order by e.created_at,e.id)
+          from erp.bb_customer_credit_events_v1 e where e.credit_id=c.id),'[]'::jsonb)) order by c.document_number,c.id)
+      from erp.bb_customer_credits_v1 c join erp.customers cu on cu.id=c.customer_id where c.batch_id=p_batch),'[]'::jsonb),
+    'sale_return_rights',coalesce((select jsonb_agg(jsonb_build_object('id',r.id,'return_number',r.return_number,
+        'customer_code',cu.customer_code,'invoice_document_number',r.invoice_document_number,
+        'invoice_state',case when r.invoice_source_id is not null then 'OPEN' else 'SETTLED_BEFORE_CUTOVER' end,
+        'product_sku',p.sku,'qty_pcs',r.qty_pcs,'credit_unit_price',r.credit_unit_price::text,'unit_cost',r.unit_cost::text,
+        'received_pcs',coalesce((select sum(x.qty_pcs) from erp.bb_opening_sale_return_receipts_v1 x where x.right_id=r.id and x.status='POSTED'),0),
+        'receipts',coalesce((select jsonb_agg(jsonb_build_object('id',x.id,'qty_pcs',x.qty_pcs,'date',erp._cp3_business_date(x.physical_at),
+            'status',x.status,'credit_id',x.credit_id) order by x.physical_at,x.id)
+          from erp.bb_opening_sale_return_receipts_v1 x where x.right_id=r.id),'[]'::jsonb)) order by r.return_number,r.id)
+      from erp.bb_opening_sale_return_rights_v1 r join erp.customers cu on cu.id=r.customer_id join erp.products p on p.id=r.product_id
+      where r.batch_id=p_batch),'[]'::jsonb),
+    'fg_locations',coalesce((select jsonb_agg(jsonb_build_object('id',l.id,'code',l.location_code,'name',l.location_name) order by l.location_code)
+      from erp.locations l where l.is_active and l.location_type='FG_WAREHOUSE'),'[]'::jsonb))
+$function$;
 do $coverage$ begin perform erp.assert_new_stock_cutoff_coverage_v1(); end $coverage$;
 insert into erp.schema_migrations(version,description) values('v2.6.20bc','T1_FAMILY development install of BC (accessory service post, internal use by purpose, return receipt and inspection, custody with pending value, note return credit, whole-rupiah rounding, Special free lines, policy settings ACC-DEC01/03..07 and ERP-DEC02, ALL-C02/C03 import); not a release package');
 commit;

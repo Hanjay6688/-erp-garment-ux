@@ -1,6 +1,6 @@
 -- CP6 BC: accessory service, return and inspection workflow with owner policy settings (ACC-04b, ACC-DEC01/03..07, ERP-DEC02, ALL-C02/C03). Release candidate of the T3 combined package; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_bc_t1_family.sql (sha256 b01a4114d5bef422681bec64aa46e36dd9689b15bb8fe1cb26c27928ff465f8f): the T1 body below is unchanged apart from the
+-- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_bc_t1_family.sql (sha256 f2ffdac9ee883f869cc49077c8911afca190d0e5bb993d8bf313ef69ca5e81c2): the T1 body below is unchanged apart from the
 -- ledger description; guards follow AO..AV. Capsule and catalog pins are placeholders until the T3 capture.
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
@@ -148,7 +148,7 @@ insert into erp.cp6_v2620bc_rollback_capsule(object_identity,object_regidentity,
 select format('%I.%I(%s)',n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)),i.identity,pg_get_functiondef(p.oid),
  encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex'),
  array(select a::text from unnest(p.proacl)a order by a::text),pg_get_userbyid(p.proowner)
-from unnest(array['erp.post_material_adjustment(uuid)','erp._cp6_material_adjustment_revaluation_state(uuid)','erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)','erp.sync_material_cost_revaluation(uuid)','erp.populate_payroll_draft(uuid)','erp.validate_material_kasbon_deduction()','erp.refresh_contractor_issue_payroll_status(uuid)','erp.run_integrity_checks()','erp.approve_payroll(uuid)','erp.save_accessory_issue_action_v1(text,jsonb,uuid)','erp.get_accessory_issue_workspace_v1(jsonb)','erp.bb_opening_credit_lines_v1(uuid)','erp.bb_opening_credit_account_v1(uuid)','erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)','erp._validate_migration_batch_base(uuid)','erp.finalize_migration_batch(uuid)','erp.save_initial_import_action_v1(text,jsonb,uuid)','erp.get_initial_import_workspace_v1(uuid)','erp.initial_import_revision_v1(uuid)','erp.assert_new_stock_cutoff_coverage_v1()','erp.run_v265_gudang_write_integrity_checks()']) i(identity)
+from unnest(array['erp.post_material_adjustment(uuid)','erp._cp6_material_adjustment_revaluation_state(uuid)','erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)','erp.sync_material_cost_revaluation(uuid)','erp.populate_payroll_draft(uuid)','erp.validate_material_kasbon_deduction()','erp.refresh_contractor_issue_payroll_status(uuid)','erp.run_integrity_checks()','erp.approve_payroll(uuid)','erp.save_accessory_issue_action_v1(text,jsonb,uuid)','erp.get_accessory_issue_workspace_v1(jsonb)','erp.bb_opening_credit_lines_v1(uuid)','erp.bb_opening_credit_account_v1(uuid)','erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)','erp._validate_migration_batch_base(uuid)','erp.finalize_migration_batch(uuid)','erp.save_initial_import_action_v1(text,jsonb,uuid)','erp.get_initial_import_workspace_v1(uuid)','erp.initial_import_revision_v1(uuid)','erp.assert_new_stock_cutoff_coverage_v1()','erp.run_v265_gudang_write_integrity_checks()','erp.bb_financial_workspace_v1(uuid)']) i(identity)
 join pg_proc p on p.oid=i.identity::regprocedure join pg_namespace n on n.oid=p.pronamespace;
 create temp table cp6_release_functions on commit drop as
 select p.oid::regprocedure::text as identity,encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex') as definition_sha256,
@@ -4144,6 +4144,70 @@ AS $function$
   where (m.material_type='ACCESSORY' and i.accessory_price_version_id is null and i.manual_retail_unit_price is null)
      or (m.material_type<>'ACCESSORY' and i.material_price_version_id is null);
 $function$;
+CREATE OR REPLACE FUNCTION erp.bb_financial_workspace_v1(p_batch uuid)
+ RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select jsonb_build_object(
+    'opening_balances',coalesce((select jsonb_agg(jsonb_build_object(
+        'balance_id',b.id,'balance_type',f.balance_type,'source_kind',f.source_kind,'source_mode',f.source_mode,
+        'party_type',b.party_type,'party_id',f.party_id,'party_code',coalesce(cu.customer_code,su.supplier_code,ve.vendor_code,co.contractor_code),
+        'party_name',coalesce(cu.customer_name,su.supplier_name,ve.vendor_name,co.contractor_name),
+        'document_number',f.document_number,'document_date',f.document_date,'due_date',f.due_date,'cutover_date',f.cutover_date,
+        'original_amount',f.original_amount::text,'settled_before_cutover',f.settled_before_cutover::text,
+        'opening_amount',b.original_amount::text,'settled_amount',b.settled_amount::text,
+        'reserved_amount',erp.bb_opening_balance_reserved_v1(b.id)::numeric(20,2)::text,
+        'remaining_amount',(b.original_amount-b.settled_amount)::text,
+        'available_amount',(b.original_amount-b.settled_amount-erp.bb_opening_balance_reserved_v1(b.id))::text,'status',b.status,
+        'settlements',coalesce((select jsonb_agg(jsonb_build_object('id',s.id,'number',s.settlement_number,
+            'date',erp._cp3_business_date(s.physical_at),'amount',s.amount::text,'status',s.status,
+            'method',case when c.settlement_id is not null then 'CREDIT' when s.cash_account_id is null then 'ADVANCE' else 'CASH' end,
+            'credit_kind',c.credit_kind,'credit_note_number',c.credit_note_number,
+            'reversible',coalesce(s.status='POSTED' and c.credit_kind is distinct from 'CUSTOMER_CREDIT_APPLY' and s.cash_account_id is not null or
+              (s.status='POSTED' and c.credit_kind in('CUSTOMER_ALLOWANCE','SUPPLIER_ALLOWANCE','VENDOR_ALLOWANCE')),false))
+            order by s.physical_at,s.id)
+          from erp.opening_subledger_settlements s left join erp.bb_opening_credits_v1 c on c.settlement_id=s.id
+          where s.balance_id=b.id),'[]'::jsonb),
+        'payroll_lines',coalesce((select jsonb_agg(jsonb_build_object('payroll_id',p.id,'payroll_number',p.payroll_number,'status',p.status,
+            'row_version',p.row_version::text,'amount',r.amount::text) order by p.period_end,p.id)
+          from erp.payroll_reimbursements r join erp.payroll_settlements p on p.id=r.payroll_id
+          where r.opening_payable_balance_id=b.id and p.status<>'REVERSED'),'[]'::jsonb))
+        order by f.balance_type,f.document_number,b.id)
+      from erp.initial_import_financial_sources f join erp.opening_subledger_balances b on b.opening_item_id=f.opening_item_id
+      left join erp.customers cu on cu.id=b.customer_id left join erp.suppliers su on su.id=b.supplier_id
+      left join erp.laundry_vendors ve on ve.id=b.vendor_id left join erp.contractors co on co.id=b.contractor_id
+      where f.batch_id=p_batch and f.source_kind<>'CONTRACTOR_CASH_ADVANCE'),'[]'::jsonb),
+    'opening_payable_payrolls',coalesce((select jsonb_agg(jsonb_build_object('id',p.id,'payroll_number',p.payroll_number,
+        'contractor_id',p.contractor_id,'period_end',p.period_end,'row_version',p.row_version::text,'net_payable',p.net_payable::text)
+        order by p.period_end,p.id)
+      from erp.payroll_settlements p where p.status in('DRAFT','CALCULATED','REVIEW') and exists(select 1 from erp.initial_import_financial_sources f
+        where f.batch_id=p_batch and f.balance_type='CONTRACTOR_PAYABLE' and f.party_id=p.contractor_id)),'[]'::jsonb),
+    'legacy_documents',coalesce((select jsonb_agg(jsonb_build_object('id',d.id,'balance_type',d.balance_type,'party_id',d.party_id,
+        'document_number',d.document_number,'document_date',d.document_date,'original_amount',d.original_amount::text) order by d.document_number,d.id)
+      from erp.bb_legacy_documents_v1 d where d.batch_id=p_batch),'[]'::jsonb),
+    'customer_credits',coalesce((select jsonb_agg(erp.bb_customer_credit_state_v1(c.id)||jsonb_build_object(
+        'customer_code',cu.customer_code,'customer_name',cu.customer_name,
+        'open_receivables',coalesce((select jsonb_agg(jsonb_build_object('balance_id',b.id,'document_number',f.document_number,
+            'remaining_amount',(b.original_amount-b.settled_amount)::text) order by f.document_number,b.id)
+          from erp.initial_import_financial_sources f join erp.opening_subledger_balances b on b.opening_item_id=f.opening_item_id
+          where f.balance_type='CUSTOMER_RECEIVABLE' and f.party_id=c.customer_id and b.original_amount>b.settled_amount),'[]'::jsonb),
+        'events',coalesce((select jsonb_agg(jsonb_build_object('id',e.id,'kind',e.event_type,'amount',e.amount::text,'date',e.effective_date,
+            'reason',e.reason,'reversed',e.reversed_at is not null or (e.event_type='APPLY_OPENING_AR'
+              and (select status from erp.opening_subledger_settlements where id=e.settlement_id)<>'POSTED')) order by e.created_at,e.id)
+          from erp.bb_customer_credit_events_v1 e where e.credit_id=c.id),'[]'::jsonb)) order by c.document_number,c.id)
+      from erp.bb_customer_credits_v1 c join erp.customers cu on cu.id=c.customer_id where c.batch_id=p_batch),'[]'::jsonb),
+    'sale_return_rights',coalesce((select jsonb_agg(jsonb_build_object('id',r.id,'return_number',r.return_number,
+        'customer_code',cu.customer_code,'invoice_document_number',r.invoice_document_number,
+        'invoice_state',case when r.invoice_source_id is not null then 'OPEN' else 'SETTLED_BEFORE_CUTOVER' end,
+        'product_sku',p.sku,'qty_pcs',r.qty_pcs,'credit_unit_price',r.credit_unit_price::text,'unit_cost',r.unit_cost::text,
+        'received_pcs',coalesce((select sum(x.qty_pcs) from erp.bb_opening_sale_return_receipts_v1 x where x.right_id=r.id and x.status='POSTED'),0),
+        'receipts',coalesce((select jsonb_agg(jsonb_build_object('id',x.id,'qty_pcs',x.qty_pcs,'date',erp._cp3_business_date(x.physical_at),
+            'status',x.status,'credit_id',x.credit_id) order by x.physical_at,x.id)
+          from erp.bb_opening_sale_return_receipts_v1 x where x.right_id=r.id),'[]'::jsonb)) order by r.return_number,r.id)
+      from erp.bb_opening_sale_return_rights_v1 r join erp.customers cu on cu.id=r.customer_id join erp.products p on p.id=r.product_id
+      where r.batch_id=p_batch),'[]'::jsonb),
+    'fg_locations',coalesce((select jsonb_agg(jsonb_build_object('id',l.id,'code',l.location_code,'name',l.location_name) order by l.location_code)
+      from erp.locations l where l.is_active and l.location_type='FG_WAREHOUSE'),'[]'::jsonb))
+$function$;
 do $coverage$ begin perform erp.assert_new_stock_cutoff_coverage_v1(); end $coverage$;
 insert into erp.schema_migrations(version,description) values('v2.6.20bc','Accessory service, return and inspection workflow with owner policy settings pending by default, note return credit, rounding line, Special free lines, opening accessory states');
 do $catalog_guard$
@@ -4251,7 +4315,7 @@ begin
    or exists(select 1 from pg_attribute p cross join lateral aclexplode(p.attacl)a where p.attrelid='erp.cp6_v2620bc_rollback_capsule'::regclass and a.grantee<>'postgres'::regrole)
    or exists(select 1 from pg_policy where polrelid='erp.cp6_v2620bc_rollback_capsule'::regclass)
    or exists(select 1 from pg_trigger where tgrelid='erp.cp6_v2620bc_rollback_capsule'::regclass and not tgisinternal)
-   or (select count(*) from erp.cp6_v2620bc_rollback_capsule)<>21 then raise exception 'BC_CAPSULE_SECURITY_OR_COUNT';end if;
+   or (select count(*) from erp.cp6_v2620bc_rollback_capsule)<>22 then raise exception 'BC_CAPSULE_SECURITY_OR_COUNT';end if;
  select jsonb_build_object(
    'relation',(select jsonb_build_array(relkind,relpersistence,relreplident,relispartition,reloptions) from pg_class where oid='erp.cp6_v2620an_rollback_capsule'::regclass),
    'columns',(select jsonb_agg(jsonb_build_array(a.attname,format_type(a.atttypid,a.atttypmod),a.attnotnull,a.attidentity,a.attgenerated,pg_get_expr(d.adbin,d.adrelid)) order by a.attnum) from pg_attribute a left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum where a.attrelid='erp.cp6_v2620an_rollback_capsule'::regclass and a.attnum>0 and not a.attisdropped),
@@ -4264,9 +4328,9 @@ begin
    'indexes',(select jsonb_agg(jsonb_build_array(indisunique,indisprimary,indisexclusion,indisvalid,indisready,indkey::text,indclass::text,indoption::text,pg_get_expr(indexprs,indrelid),pg_get_expr(indpred,indrelid)) order by indkey::text) from pg_index where indrelid='erp.cp6_v2620bc_rollback_capsule'::regclass)) into actual;
  if actual is distinct from expected then raise exception 'BC_CAPSULE_SHAPE_DRIFT';end if;
  select boundary_snapshot into boundary from erp.cp6_v2620bc_rollback_capsule limit 1;
- if 21>0 and (boundary is null or exists(select 1 from erp.cp6_v2620bc_rollback_capsule where boundary_snapshot is distinct from boundary)
+ if 22>0 and (boundary is null or exists(select 1 from erp.cp6_v2620bc_rollback_capsule where boundary_snapshot is distinct from boundary)
   or not(boundary ?& array['before','after','platform_before','markers_before'])) then raise exception 'BC_CAPSULE_BOUNDARY';end if;
- if exists(select 1 from erp.cp6_v2620bc_rollback_capsule where object_regidentity<>all(array['erp.post_material_adjustment(uuid)','erp._cp6_material_adjustment_revaluation_state(uuid)','erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)','erp.sync_material_cost_revaluation(uuid)','erp.populate_payroll_draft(uuid)','erp.validate_material_kasbon_deduction()','erp.refresh_contractor_issue_payroll_status(uuid)','erp.run_integrity_checks()','erp.approve_payroll(uuid)','erp.save_accessory_issue_action_v1(text,jsonb,uuid)','erp.get_accessory_issue_workspace_v1(jsonb)','erp.bb_opening_credit_lines_v1(uuid)','erp.bb_opening_credit_account_v1(uuid)','erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)','erp._validate_migration_batch_base(uuid)','erp.finalize_migration_batch(uuid)','erp.save_initial_import_action_v1(text,jsonb,uuid)','erp.get_initial_import_workspace_v1(uuid)','erp.initial_import_revision_v1(uuid)','erp.assert_new_stock_cutoff_coverage_v1()','erp.run_v265_gudang_write_integrity_checks()']::text[])
+ if exists(select 1 from erp.cp6_v2620bc_rollback_capsule where object_regidentity<>all(array['erp.post_material_adjustment(uuid)','erp._cp6_material_adjustment_revaluation_state(uuid)','erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)','erp.sync_material_cost_revaluation(uuid)','erp.populate_payroll_draft(uuid)','erp.validate_material_kasbon_deduction()','erp.refresh_contractor_issue_payroll_status(uuid)','erp.run_integrity_checks()','erp.approve_payroll(uuid)','erp.save_accessory_issue_action_v1(text,jsonb,uuid)','erp.get_accessory_issue_workspace_v1(jsonb)','erp.bb_opening_credit_lines_v1(uuid)','erp.bb_opening_credit_account_v1(uuid)','erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)','erp._validate_migration_batch_base(uuid)','erp.finalize_migration_batch(uuid)','erp.save_initial_import_action_v1(text,jsonb,uuid)','erp.get_initial_import_workspace_v1(uuid)','erp.initial_import_revision_v1(uuid)','erp.assert_new_stock_cutoff_coverage_v1()','erp.run_v265_gudang_write_integrity_checks()','erp.bb_financial_workspace_v1(uuid)']::text[])
    or definition_sha256 is distinct from encode(extensions.digest(convert_to(object_definition,'UTF8'),'sha256'),'hex')
    or installed_definition_sha256 is null or installed_definition_sha256=definition_sha256
    or installed_definition_sha256 is distinct from encode(extensions.digest(convert_to(pg_get_functiondef(to_regprocedure(object_regidentity)),'UTF8'),'sha256'),'hex'))

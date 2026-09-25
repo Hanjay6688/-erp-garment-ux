@@ -1153,6 +1153,22 @@ def c12_opname_baseline(cur,today):
         later_receipt_adds_exactly=stock(cur,fx['material'],fx['main'])==15),imported={k:str(v) for k,v in imported.items()},counts=[list(c0),list(c1)])
 
 
+def f4_advance_settlement_read(cur,today):
+    """Pre-existing finding F4 (found by the ALL-A01 continuation; BB's read, reproduced on the BB chain without BC): an opening
+    payable paid from an imported advance gets a settlement without cash account and credit row, and the import workspace sent
+    its 'reversible' flag as null (false OR NULL); the import page refuses a flag that is not a boolean and hid the whole batch.
+    After BC every settlement flag is a boolean, and one paid from an advance is not reversible there (it is reversed through
+    the advance)."""
+    f=prepayment_trial.fixture(api,cur,today,'SUPPLIER')
+    target=prepayment_trial.state(api,cur,f)['targets'][0]['id']
+    prepayment_trial.manage(api,cur,f,'APPLY',today,target_id=target,amount='12.75')
+    flags=[s['reversible'] for b in bbp.ws(cur,f['batch'])['opening_balances'] for s in b['settlements'] if s['method']=='ADVANCE']
+    if not bc_installed(cur):
+        return dict(status='COUNTEREXAMPLE' if None in flags else 'INCOMPLETE',flags=flags,
+                    harm='the import page refuses the batch (reversible is null), so the whole batch is hidden')
+    return verdict(dict(one_advance_settlement=len(flags)==1,boolean_false=flags==[False]),flags=flags)
+
+
 # ================================================================ L: the six BA-era ALL states, import -> continuation -> inverse
 # Auditor round 11: P01, A01, A02, W01, W03 and C01 were routed in the writer's inventory (handoff §29.6) without a run. Each case
 # below imports the state, continues it through the existing native route and reverses it, against the r9 ALL oracle (and Fable's
@@ -1528,7 +1544,8 @@ PLAN=[('B01:FILL_POST_KEEPS_TOTAL','NO_ROUTE',b01_fill),
       ('ALL:C02_IMPORT_REFUSALS','NO_ROUTE',all_c02_refusals),
       ('ALL:C03_CUSTODY_STATES','NO_ROUTE',all_c03),
       ('ALL:C03_IMPORT_REFUSALS','NO_ROUTE',all_c03_refusals),
-      ('C12:OPNAME_BASELINE_INCOMPLETE_SOURCE','NO_ROUTE',c12_opname_baseline)]+L_CASES
+      ('C12:OPNAME_BASELINE_INCOMPLETE_SOURCE','NO_ROUTE',c12_opname_baseline),
+      ('F4:ADVANCE_SETTLEMENT_REVERSIBLE_READ','COUNTEREXAMPLE',f4_advance_settlement_read)]+L_CASES
 assert len({k for k,_,_ in PLAN})==len(PLAN),'BC_DUPLICATE_CASE_ID'
 
 
@@ -1567,14 +1584,15 @@ def cases(cur,today):
 
 
 def workspace_parse(phase):
-    run=subprocess.run(['node',str(AUDITOR/'scripts/cp6_bc_workspace_parse.mjs'),str(WS['dir'])],capture_output=True,text=True,cwd=AUDITOR)
+    run=subprocess.run(['node',str(AUDITOR/'scripts/cp6_bc_workspace_parse.mjs'),str(WS['dir']),phase],capture_output=True,text=True,cwd=AUDITOR)
     lines=run.stdout.strip().splitlines()
     try:parsed=json.loads(lines[-1])
     except (IndexError,ValueError):parsed=dict(files=None,refused=None,error=(run.stderr or run.stdout)[-1500:])
     kept=OUT/('WORKSPACE_REFUSED_'+phase.upper());kept.mkdir(parents=True,exist_ok=True)
     for item in parsed.get('refused') or []:(kept/item['file']).write_text((WS['dir']/item['file']).read_text())
     ok=run.returncode==0 and parsed.get('refused')==[] and (parsed.get('files') or 0)>0
-    return dict(status='PASS' if ok else 'FAIL',files=parsed.get('files'),kinds=parsed.get('kinds'),f3_seed_ids=parsed.get('f3_seed_ids'),refused=parsed.get('refused'),
+    return dict(status='PASS' if ok else 'FAIL',files=parsed.get('files'),kinds=parsed.get('kinds'),f3_seed_ids=parsed.get('f3_seed_ids'),
+                f4_null_reversible=parsed.get('f4_null_reversible'),refused=parsed.get('refused'),
                 error=parsed.get('error'),exit=run.returncode)
 
 
