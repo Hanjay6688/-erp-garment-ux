@@ -1472,7 +1472,7 @@
    "w7_tool_probe": 36132001602,
    "xaudit_8_rev3_staggered": 36132361821
   },
-  "fable_status": "T1_CONFIRMED_ON_db9e276_writer_34_of_34; fable extra 4/4 (+P03 rev2 pending)",
+  "fable_status": "T1_CONFIRMED_ON_db9e276: writer 34/34 PASS after, 34 NO_ROUTE+2 CE+3 PASS before; fable 4/4 PASS; P03 substantive true (frozen FAIL = over-strict journal-type check)",
   "gpt_t1_on_72bf53f": "25_of_25_after_PASS_run_36127700002"
  }
 }

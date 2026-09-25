@@ -867,3 +867,6 @@ QC rev6 diverifikasi dari log: healthy PASS (10), unknown COUNTEREXAMPLE (KPI 0)
 
 ## Fable — putaran 10 uji sendiri "yang beda dari GPT" (2026-09-25T12:10Z)
 - W7 9 bentuk keluaran tidak sah: semua INCOMPLETE (run 36132001602) → CLOSED penuh. T3 rinci + rollback 127/127 dikonfirmasi dari log sendiri. BB T1 pada db9e276: writer 34/34 PASS after, before 34 NO_ROUTE+2 CE+3 PASS; Fable 4/4 PASS + P03 rev2 (run 36132808005) menunggu. Staggered 3 penerimaan PASS per PO (run 36132361821); selisih 1 sen hanya stok bertumpuk → OPEN P3.
+
+## Fable — BB rev2 selesai (2026-09-25T12:25Z)
+- Run 36132808005: writer 34/34 PASS, Fable 4/4 PASS, P03 FAIL beku hanya karena cek jenis jurnal terlalu ketat (`OPENING_UNINVOICED_RECEIPT` = jurnal kewajiban awal M:831); angka semua benar. Putaran 10 "uji sendiri yang beda dari GPT" selesai: semua temuan GPT valid; tidak ada REFUTED.
