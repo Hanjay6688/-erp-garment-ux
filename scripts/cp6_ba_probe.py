@@ -495,6 +495,35 @@ def a4_cents(cur,today,kind,old,new):
     return dict(status=status,kind=kind,old=old,new=new,raw_qty=str(qty),mismatches=mismatch,observed=plain(observed),expected=plain(expected))
 
 
+def a4_supplier_return_control(cur,today):
+    """Control for the whole-cent recost (T2 run 36087253697, CROSS:SUPPLIER_CENT:SPLIT_RETURN): three units received at
+    0.015 (value 0.05), returned one by one. The supplier cent state (v2.6.20n) credits 0.02, 0.01, 0.02; the recost must not
+    move those cents again. Expected in both phases: no material cost revaluation for the material, inventory back to 0."""
+    prod=chain.production
+    receipt_day,return_day=today-timedelta(days=3),today-timedelta(days=2)
+    boundary.historical.prior.set_open_period(cur,receipt_day-timedelta(days=1))
+    before=daily(cur,[today])
+    fx=azp.final_receipt(cur,receipt_day,qty=3,price='0.015')
+    for n in range(3):
+        api.admin(cur)
+        rid=uuid.uuid4()
+        cur.execute("""insert into erp.material_supplier_returns(id,return_number,supplier_id,location_id,physical_at,status,reason)
+          select %s,%s,h.supplier_id,h.location_id,%s,'DRAFT','BA split supplier return control' from erp.material_purchase_headers h where h.id=%s""",
+                    (rid,'BA-RET-'+rid.hex[:16],prod.at(return_day,12+n),fx['purchase']))
+        cur.execute("""insert into erp.material_supplier_return_items(return_id,material_id,roll_id,qty,purchase_item_id,supplier_credit_unit_price)
+          select %s,i.material_id,r.id,1,i.id,erp.material_purchase_current_unit_cost(i.id)
+          from erp.material_purchase_items i join erp.material_rolls r on r.purchase_item_id=i.id where i.id=%s""",(rid,fx['item']))
+        prod.owner(cur);cur.execute('select erp.post_material_supplier_return(%s)',(rid,))
+    prod.owner(cur);cur.execute('select erp.process_cost_recalc_queue(100)');api.admin(cur)
+    after=daily(cur,[today])
+    moved_now={k:str(after[str(today)][k]-before[str(today)][k]) for k in KEYS}
+    revaluations=cur.execute('select count(*) from erp.material_cost_revaluation_events where material_id=%s',(fx['material'],)).fetchone()[0]
+    qty=D(str(cur.execute('select coalesce(sum(qty_signed),0) from erp.material_stock_movements where material_id=%s',(fx['material'],)).fetchone()[0]))
+    ok=revaluations==0 and D(moved_now['MATERIAL_INVENTORY'])==0 and qty==0
+    error=None
+    return control(cur,ok,error,revaluation_events=revaluations,raw_qty=str(qty),moved=moved_now)
+
+
 # ---------------------------------------------------------------- A5 selectors
 
 def a5_bs_sources(cur,today):
@@ -607,6 +636,7 @@ PLAN+=[('A9:S04_TRANSFER_BACK_BEFORE_ARRIVAL_REFUSED','PASS',lambda c,t:s04_tran
        ('A9:S04_TRANSFER_BACK_AFTER_ARRIVAL_CONTROL','PASS',lambda c,t:s04_transfer_back(c,t,False))]
 PLAN+=[('A4:CENT_%s_%s'%(kind,direction),'COUNTEREXAMPLE',lambda c,t,k=kind,o=old,n=new:a4_cents(c,t,k,o,n))
        for kind in ('DIRECT','INVOICE') for direction,old,new in (('UP','10.005','10.014'),('DOWN','10.014','10.005'))]
+PLAN+=[('A4:SUPPLIER_RETURN_SPLIT_CONTROL','PASS',a4_supplier_return_control)]
 PLAN+=[('A5:BS_OLD_CLAIMABLE_DELIVERY_AFTER_100_NEWER','COUNTEREXAMPLE',a5_bs_sources),
        ('A5:IMPORT_OLDEST_DRAFT_AFTER_51','COUNTEREXAMPLE',a5_import_drafts)]
 PLAN+=[('A6:SECOND_CLOSE_SAME_DATE','COUNTEREXAMPLE',lambda c,t:a6_close(c,t,False)),

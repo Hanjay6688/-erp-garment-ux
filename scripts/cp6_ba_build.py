@@ -35,7 +35,9 @@ checked substitutions only, like the AY and AZ builders:
      posted for it, both in whole cents; the value now by differences of the rounded stock value before and after it
      (material_cost_history), the posted value by cumulative rounding inside its posting document (a cutting group posts one
      rounded total for its rolls). The movements that empty the stock take exactly the rest, so zero stock keeps zero value
-     (a one-unit correction no longer leaves 0.01 in inventory). Reversed movements keep AZ rev2.1's rule.
+     (a one-unit correction no longer leaves 0.01 in inventory). Reversed movements keep AZ rev2.1's rule; supplier returns
+     keep AZ's rule too (their credit follows the supplier cent state of v2.6.20n; T2 run 36087253697 showed the whole-cent
+     rule moving those cents twice: CROSS:SUPPLIER_CENT:SPLIT_RETURN, CROSS_SOURCE_INVERSE_IDENTITY).
   A6 (CP6-24) erp.close_accounting_through: closing the date that is already closed is refused (filings are immutable, a
      second close would file twice); a close after a reopen stays allowed.
   A5 (CP6-04) selectors: erp.get_bs_resolution_workspace_v1 lists every Laundry source that can still be claimed or used
@@ -298,7 +300,13 @@ REVAL_OLD="""    else
       v_target:=round((r.qty_signed*(r.unit_cost_snapshot-coalesce(r.original_unit_cost_snapshot,r.unit_cost_snapshot)))::numeric,2);
     end if;
 """
-REVAL_NEW="""    else
+REVAL_NEW="""    elsif r.source_type='MATERIAL_SUPPLIER_RETURN_ITEM' then
+      -- BA fix (T2 run 36087253697, CROSS:SUPPLIER_CENT:SPLIT_RETURN and CROSS_SOURCE_INVERSE_IDENTITY): a supplier return's
+      -- inventory credit is set by the supplier cent state of its purchase lines (v2.6.20n, cumulative over the documents of
+      -- the line), not by the return's own rounding; the whole-cent rule below would move those cents a second time. A
+      -- supplier return keeps AZ's rule: only a change of its cost is revalued.
+      v_target:=round((r.qty_signed*(r.unit_cost_snapshot-coalesce(r.original_unit_cost_snapshot,r.unit_cost_snapshot)))::numeric,2);
+    else
       -- BA (audit A4, CP6-03): the recost is the movement's value now minus what was posted for it, both in whole cents. Value
       -- now: difference of the rounded stock value before and after it (material_cost_history), so the movements that
       -- empty the stock take exactly the rest and zero stock keeps zero value. Posted: cumulative rounding inside its

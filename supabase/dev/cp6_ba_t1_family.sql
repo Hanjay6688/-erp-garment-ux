@@ -660,6 +660,12 @@ begin
             from erp.material_stock_movements rv where rv.reversal_of_id=r.id) then
         v_target:=coalesce((select s.applied_inventory_delta from erp.material_cost_revaluation_state s where s.movement_id=r.id),0);
       end if;
+    elsif r.source_type='MATERIAL_SUPPLIER_RETURN_ITEM' then
+      -- BA fix (T2 run 36087253697, CROSS:SUPPLIER_CENT:SPLIT_RETURN and CROSS_SOURCE_INVERSE_IDENTITY): a supplier return's
+      -- inventory credit is set by the supplier cent state of its purchase lines (v2.6.20n, cumulative over the documents of
+      -- the line), not by the return's own rounding; the whole-cent rule below would move those cents a second time. A
+      -- supplier return keeps AZ's rule: only a change of its cost is revalued.
+      v_target:=round((r.qty_signed*(r.unit_cost_snapshot-coalesce(r.original_unit_cost_snapshot,r.unit_cost_snapshot)))::numeric,2);
     else
       -- BA (audit A4, CP6-03): the recost is the movement's value now minus what was posted for it, both in whole cents. Value
       -- now: difference of the rounded stock value before and after it (material_cost_history), so the movements that
