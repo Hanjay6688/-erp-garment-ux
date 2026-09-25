@@ -83,7 +83,7 @@ DELIVERY_RATE_NEW='''    if coalesce((erp.bd_context_v1()).action,'')='POST_PRIC
       -- NULL while a component price is unknown (the charge lines are attached below).
       v_rate:=((erp.bd_context_v1()).pricing->>'avg_rate')::numeric;v_rate_count:=1;
     elsif erp.bd_vendor_needs_pricing_v1(v_vendor_id,v_process_id) then
-      raise exception 'BD_PRICING_REQUIRED: vendor ini memakai harga paket/komponen/borongan/minimum/tarif khusus; kirim lewat halaman harga laundry (POST_PRICED_DELIVERY)';
+      raise exception 'BD_PRICING_REQUIRED: vendor ini memakai harga paket/komponen/borongan/minimum/tarif khusus; kirim lewat tab Harga & tagihan di halaman Laundry (Kirim dengan harga)';
     else
 '''+'\n'.join('  '+l if l else l for l in DELIVERY_RATE_OLD.rstrip('\n').split('\n'))+'''
     end if;

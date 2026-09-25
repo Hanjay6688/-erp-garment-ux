@@ -110,6 +110,17 @@ describe('parseLaundryQcWorkspace', () => {
     }
   })
 
+  it('keeps an unknown BD delivery price unknown (null, never zero) and still refuses a coerced rate', () => {
+    const { workspace } = physicalReceiptWorkspace()
+    const delivery = (workspace.deliveries as Record<string, unknown>[])[0]
+    Object.assign(delivery, { estimated_rate_snapshot: null, estimated_cost: null })
+    const parsed = parseLaundryQcWorkspace(workspace).deliveries[0]
+    expect(parsed.estimated_rate_snapshot).toBeNull()
+    expect(parsed.estimated_cost).toBeNull()
+    Object.assign(delivery, { estimated_rate_snapshot: '1200' })
+    expect(() => parseLaundryQcWorkspace(workspace)).toThrow('Rate estimasi tidak valid')
+  })
+
   it('keeps physical receipts distinct from failed wash attempts with either custody outcome', () => {
     for (const [field, value] of Object.entries({
       failed_wash_attempt_id: uuid(90), custody_outcome: 'RETRY_AT_VENDOR', attempted_qty_pcs: 1,

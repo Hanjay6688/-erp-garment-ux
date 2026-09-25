@@ -189,11 +189,11 @@ export function OpeningAccessoriesPanel({ bc }: { bc: InitialImportBC }) {
 }
 
 /** BD (ALL-W05): laundry claims and uninvoiced laundry returns at cutover. Claims continue on the opening WIP row; an uninvoiced
- *  return is billed (and an unknown estimate set) on the laundry price page. An unknown estimate keeps close blocked. */
+ *  return is billed (and an unknown estimate set) on the Laundry page, tab Harga & tagihan. An unknown estimate keeps close blocked. */
 export function OpeningLaundryPanel({ bd }: { bd: InitialImportBD }) {
   return <section className="panel initial-import-advances" aria-label="Laundry saldo awal">
     <h2>Laundry saldo awal</h2>
-    <p>Klaim laundry lama dan hasil laundry yang sudah kembali sebelum saldo awal tetapi belum ditagih vendor. Klaim dilanjutkan pada rincian WIP laundry di atas; tagihan dan estimasi yang belum diketahui dicatat di halaman Harga laundry.</p>
+    <p>Klaim laundry lama dan hasil laundry yang sudah kembali sebelum saldo awal tetapi belum ditagih vendor. Klaim dilanjutkan pada rincian WIP laundry di atas; tagihan dan estimasi yang belum diketahui dicatat di tab Harga & tagihan pada halaman Laundry.</p>
     {bd.laundry_claims.length > 0 && <div className="initial-import-table"><table><thead><tr><th>Klaim</th><th>PO · rincian WIP</th><th>Laundry</th><th>Jenis</th><th>Diklaim</th><th>Sudah kembali</th><th>Tanggal</th><th>Kirim lama</th><th>Kompensasi</th></tr></thead>
       <tbody>{bd.laundry_claims.map(c => <tr key={c.claim_id}><td>{c.claim_number}{c.cancelled ? ' (dibatalkan)' : ''}</td><td>{c.po_number} · {c.source_key}</td><td>{c.vendor_code}</td>
         <td>{CLAIM_TYPE_LABEL[c.claim_type]}</td><td>{c.qty_claimed} pcs</td><td>{c.recovered} pcs</td><td>{c.claim_date}</td><td>{c.dispatch_number ?? '—'}</td>

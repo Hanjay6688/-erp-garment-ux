@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { Suspense, lazy, useEffect, useMemo, useRef, useState } from 'react'
 import {
   AlertTriangle, CheckCircle2, History, LoaderCircle, PackageCheck, RefreshCw,
   RotateCcw, Search, Send, ShieldCheck, Undo2, Waves,
@@ -17,6 +17,8 @@ import type { Json } from './types/database.preconnect'
 import { parseQuantityInput } from './quantityInput'
 import './connected-laundry-qc.css'
 import { Cp6Kpi } from './components/Cp6Kpi'
+
+const LaundryBdPanel = lazy(() => import('./LaundryBdPanel'))
 
 type RunAction = (
   action: 'POST_DELIVERY' | 'POST_RECEIPT' | 'POST_FAILED_WASH' | 'REVERSE_DELIVERY' | 'REVERSE_RECEIPT',
@@ -385,7 +387,7 @@ function LaundryHistory({ workspace, writerLocked, canReverse, onAction }: {
     <Cp6ActionBlocked allowed={canReverse} action="koreksi riwayat Laundry" requirement="izin Reverse Laundry"/>
     {workspace.deliveries.length === 0 ? <div className="clq-empty"><History/><strong>Belum ada pengiriman CP6</strong><small>Data lama yang belum punya hubungan lengkap tetap dipisahkan dan tidak ditebak.</small></div> : workspace.deliveries.map((delivery) => <article key={delivery.delivery_id}>
       <header><div><small>{formatCp6WibDateTime(delivery.physical_at)} · versi {delivery.row_version}</small><strong>{delivery.delivery_number} · {delivery.vendor_name}</strong><span>{delivery.po_number} · {delivery.group_number} · Batch {delivery.batch_no} · {delivery.qty_sent_pcs} pcs</span></div><em>{delivery.returned_unprocessed_qty_pcs > 0 ? 'Kembali tanpa proses' : status(delivery.status)}</em></header>
-      <div className="clq-history-facts"><span><small>GOOD / BS KEMBALI</small><b>{delivery.returned_qty_pcs}</b></span><span><small>KEMBALI TANPA PROSES</small><b>{delivery.returned_unprocessed_qty_pcs}</b></span><span><small>MASIH DI VENDOR</small><b>{delivery.physical_outstanding_qty_pcs}</b></span><span><small>KLAIM AKTIF</small><b>{delivery.active_claim_qty_pcs}</b></span><span><small>TARIF SAAT DIKIRIM</small><b>{money(delivery.estimated_rate_snapshot)}</b></span></div>
+      <div className="clq-history-facts"><span><small>GOOD / BS KEMBALI</small><b>{delivery.returned_qty_pcs}</b></span><span><small>KEMBALI TANPA PROSES</small><b>{delivery.returned_unprocessed_qty_pcs}</b></span><span><small>MASIH DI VENDOR</small><b>{delivery.physical_outstanding_qty_pcs}</b></span><span><small>KLAIM AKTIF</small><b>{delivery.active_claim_qty_pcs}</b></span><span><small>TARIF SAAT DIKIRIM</small><b>{delivery.estimated_rate_snapshot === null ? 'Belum diketahui' : money(delivery.estimated_rate_snapshot)}</b></span></div>
       {delivery.receipts.map((receipt) => {
         const failedAttempt = receipt.event_kind === 'FAILED_WASH_ATTEMPT'
         const custody = receipt.custody_outcome === 'RETURN_UNPROCESSED'
@@ -409,7 +411,7 @@ export default function ConnectedLaundryPage() {
     bridge.workspace.collection_window.ready_batches_truncated
     || bridge.workspace.collection_window.deliveries_truncated
   ))
-  const [tab, setTab] = useState<'SEND' | 'RETURN' | 'FAILED' | 'HISTORY'>('SEND')
+  const [tab, setTab] = useState<'SEND' | 'RETURN' | 'FAILED' | 'HISTORY' | 'PRICING'>('SEND')
   // CP6-06 (M:3825, unknown is not zero): without a loaded workspace every KPI stays unknown instead of 0.
   const kpis = useMemo(() => bridge.workspace ? {
     ready: totalReadyToSend(bridge.workspace.ready_batches),
@@ -439,12 +441,13 @@ export default function ConnectedLaundryPage() {
     {collectionTruncated ? <div className="clq-warning" role="status"><AlertTriangle/><span><strong>Daftar server dibatasi agar halaman tetap stabil.</strong> Hasil yang tampil bukan seluruh histori. Persempit kata kunci pada kolom Cari sampai peringatan ini hilang sebelum menyimpulkan transaksi tidak ada.</span></div> : null}
     {bridge.busy ? <div className="clq-busy"><LoaderCircle className="spin"/> Menjaga transaksi tetap satu kali…</div> : null}
     <section className="clq-kpis"><Cp6Kpi label="SIAP DIKIRIM" value={kpis?.ready} note="pcs selesai jahit, belum dikirim"/><Cp6Kpi label="DI LUAR PABRIK" value={kpis?.outside} note="pcs belum kembali"/><Cp6Kpi label="TERIKAT KLAIM" value={kpis?.claims} note="Stuck/Missing aktif"/><Cp6Kpi label="DATA LAMA TERPISAH" value={kpis?.legacy} note="tidak ditebak atau digabung"/></section>
-    <nav className="clq-tabs"><button className={tab === 'SEND' ? 'active' : ''} onClick={() => setTab('SEND')}>Kirim ke Laundry</button><button className={tab === 'RETURN' ? 'active' : ''} onClick={() => setTab('RETURN')}>Terima kembali</button><button className={tab === 'FAILED' ? 'active' : ''} onClick={() => setTab('FAILED')}>Cuci gagal berbayar</button><button className={tab === 'HISTORY' ? 'active' : ''} onClick={() => setTab('HISTORY')}>Riwayat & koreksi</button><label><Search/><input value={bridge.query} onChange={(event) => bridge.search(event.target.value)} placeholder="Cari PO, Potongan, atau vendor…"/></label></nav>
+    <nav className="clq-tabs"><button className={tab === 'SEND' ? 'active' : ''} onClick={() => setTab('SEND')}>Kirim ke Laundry</button><button className={tab === 'RETURN' ? 'active' : ''} onClick={() => setTab('RETURN')}>Terima kembali</button><button className={tab === 'FAILED' ? 'active' : ''} onClick={() => setTab('FAILED')}>Cuci gagal berbayar</button><button className={tab === 'HISTORY' ? 'active' : ''} onClick={() => setTab('HISTORY')}>Riwayat & koreksi</button><button className={tab === 'PRICING' ? 'active' : ''} onClick={() => setTab('PRICING')}>Harga & tagihan</button><label><Search/><input value={bridge.query} onChange={(event) => bridge.search(event.target.value)} placeholder="Cari PO, Potongan, atau vendor…"/></label></nav>
     {bridge.loading && !bridge.workspace ? <div className="clq-loading"><LoaderCircle className="spin"/> Memuat data resmi…</div> : bridge.workspace ? <>
       {tab === 'SEND' ? <SendLaundryForm key={`send-${bridge.committedSequence}`} workspace={bridge.workspace} writerLocked={bridge.writerLocked} canCreate={canCreate} canPost={canPost} onAction={onAction}/> : null}
       {tab === 'RETURN' ? <ReturnLaundryForm key={`return-${bridge.committedSequence}`} workspace={bridge.workspace} writerLocked={bridge.writerLocked} canPost={canPost} onAction={onAction} searchProducts={bridge.searchLaundryBsProducts}/> : null}
       {tab === 'FAILED' ? <FailedWashForm key={`failed-${bridge.committedSequence}`} workspace={bridge.workspace} writerLocked={bridge.writerLocked} canPost={canPost} onAction={onAction}/> : null}
       {tab === 'HISTORY' ? <LaundryHistory workspace={bridge.workspace} writerLocked={bridge.writerLocked} canReverse={canReverse} onAction={onAction}/> : null}
+      {tab === 'PRICING' ? <Suspense fallback={<div className="clq-loading"><LoaderCircle className="spin"/> Memuat harga laundry…</div>}><LaundryBdPanel laundry={bridge.workspace} onPosted={() => void bridge.load()}/></Suspense> : null}
     </> : <div className="clq-loading"><AlertTriangle/> Data belum tersedia; semua tombol transaksi tetap terkunci.</div>}
     <section className="clq-rare-case"><AlertTriangle/><div><strong>Jangan campur dua kejadian cuci gagal.</strong><p>Tanpa tagihan: batalkan surat kirim setelah seluruh fisik kembali. Dengan tagihan: gunakan “Cuci gagal berbayar”; setiap attempt punya biaya sendiri, sementara posisi fisik tetap dicatat terpisah dan tidak pernah dibuat menjadi Good/BS palsu.</p></div></section>
   </div>

@@ -1,6 +1,6 @@
 // BD (ALL-W05): what a posted import holds for laundry work at cutover that is not ordinary WIP. A server with BD sends both
 // collections; a server without BD sends neither. One without the other is an incomplete read and is refused. Claims continue
-// on the opening WIP row (Saldo fisik produksi awal); an uninvoiced return is billed on the laundry price page (invoice line
+// on the opening WIP row (Saldo fisik produksi awal); an uninvoiced return is billed on the Laundry page, tab Harga & tagihan (invoice line
 // with the opening record) and its unknown estimate is set there too.
 
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i

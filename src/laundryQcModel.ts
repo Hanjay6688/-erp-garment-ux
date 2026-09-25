@@ -70,7 +70,8 @@ export type Cp6Delivery = {
   contractor_name: string | null; vendor_id: string; vendor_code: string
   vendor_name: string; wash_process_id: string | null; process_code: string | null
   process_name: string | null; delivery_line_id: string; qty_sent_pcs: number
-  estimated_rate_snapshot: number; estimated_cost: number
+  /** BD (LAU-05b, LAU-T12): null while a component price of a priced delivery is still unknown (never shown as zero). */
+  estimated_rate_snapshot: number | null; estimated_cost: number | null
   distribution_batch_id: string; batch_no: number; returned_qty_pcs: number
   physical_outstanding_qty_pcs: number; returned_unprocessed_qty_pcs: number
   active_claim_qty_pcs: number
@@ -445,8 +446,8 @@ function parseDelivery(value: unknown): Cp6Delivery {
     wash_process_id: raw.wash_process_id === null ? null : id(raw.wash_process_id, 'ID proses cuci'),
     process_code: nullableText(raw.process_code, 'Kode proses cuci'), process_name: nullableText(raw.process_name, 'Nama proses cuci'),
     delivery_line_id: id(raw.delivery_line_id, 'ID baris pengiriman'), qty_sent_pcs: sent,
-    estimated_rate_snapshot: number(raw.estimated_rate_snapshot, 'Rate estimasi'),
-    estimated_cost: number(raw.estimated_cost, 'Biaya estimasi'),
+    estimated_rate_snapshot: raw.estimated_rate_snapshot === null ? null : number(raw.estimated_rate_snapshot, 'Rate estimasi'),
+    estimated_cost: raw.estimated_cost === null ? null : number(raw.estimated_cost, 'Biaya estimasi'),
     distribution_batch_id: id(raw.distribution_batch_id, 'ID batch pengiriman'), batch_no: integer(raw.batch_no, 'Nomor batch pengiriman', 1),
     returned_qty_pcs: returned, physical_outstanding_qty_pcs: outstanding,
     returned_unprocessed_qty_pcs: returnedUnprocessed,

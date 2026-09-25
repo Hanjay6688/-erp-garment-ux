@@ -1,18 +1,20 @@
 import type { Json } from './types/database.preconnect'
 
-export const productionDomains = ['BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT', 'POCKET_FABRIC', 'ACCESSORY_ISSUE', 'ACCESSORY_SERVICE'] as const
+export const productionDomains = ['BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT', 'POCKET_FABRIC', 'ACCESSORY_ISSUE', 'ACCESSORY_SERVICE', 'LAUNDRY_BD'] as const
 export type ProductionDomain = typeof productionDomains[number]
 export type ProductionEnvelope = {
   action: string; payload: Json; expectedVersion: number | null
   fingerprint: string; id: string; createdAt: string
 }
 export const domainLabels: Record<ProductionDomain, string> = {
-  ACCESSORY_ISSUE: 'Nota Ambil Aksesori', ACCESSORY_SERVICE: 'Pemakaian & Pengembalian Aksesori',
+  ACCESSORY_ISSUE: 'Nota Ambil Aksesori', ACCESSORY_SERVICE: 'Pemakaian & Pengembalian Aksesori', LAUNDRY_BD: 'Harga & Tagihan Laundry',
   POCKET_FABRIC: 'Kain kantong', BS: 'Barang BS & Rework', LAUNDRY_QC: 'Laundry / QC', CUTTING: 'Buat Potongan',
   PICKUP: 'Bagi Potongan', WIP: 'Status WIP', INITIAL_IMPORT: 'Impor data awal',
 }
 const actions: Record<ProductionDomain, readonly string[]> = {
   ACCESSORY_ISSUE: ['SAVE_DRAFT','POST','DELETE','REVERSE'],
+  LAUNDRY_BD: ['SET_POLICY', 'SAVE_VENDOR_TERMS', 'SAVE_COMPONENT', 'SAVE_COMPONENT_RATE', 'SAVE_PACKAGE', 'SAVE_PACKAGE_RATE', 'SAVE_PROCESS_RATE',
+    'SAVE_SCOPED_RATE', 'POST_PRICED_DELIVERY', 'SET_CHARGE_PRICE', 'SAVE_INVOICE_DRAFT', 'CANCEL_INVOICE_DRAFT', 'POST_INVOICE', 'REVERSE_INVOICE', 'SET_OPENING_ESTIMATE'],
   ACCESSORY_SERVICE: ['SET_POLICY', 'REGISTER_ZONE', 'FILL_POST', 'RETURN_TO_WAREHOUSE', 'INTERNAL_USE', 'RECEIVE_RETURN', 'INSPECT', 'VALUE_CUSTODY',
     'CREDIT_NOTE_RETURN', 'ALLOCATE_CARRY', 'DISPOSE_STOCK', 'CLOSE_CUSTODY', 'CUSTOMER_GARMENT_IN', 'CUSTOMER_GARMENT_OUT', 'COUNT_POST',
     'RESOLVE_VARIANCE', 'ROUND_NOTE', 'REVERSE'],
