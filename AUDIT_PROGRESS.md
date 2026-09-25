@@ -1,5 +1,10 @@
 # CP6 audit — active round 8 checkpoint
 
+## ALL round8 source/evidence binding completed
+
+`out/gpt_all_round8_binding.{md,json}` retains all22states/6families and maps partial native evidence for P01/A01/W02/W03/C01. Nine original cited blobs are unchanged on9dd7bc2; BA runtime overrides remain a qualification. No full-row acceptance or new defect inferred from source identity or missing locators. ALL stays contract-decided, C6-04 UNVERIFIED. Recovery/unknown run36101907250/job107966011162 still in flight. LANGKAH BERIKUTNYA: collect that run, then review admitted opening continuation adapters and prior evidence before choosing the next native batch. CP6 HOLD.
+
+
 ## Recovery/unknown browser run in flight
 
 Run [36101907250](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36101907250), job **107966011162**, audit commit **18d61463a6d8ffbe3cc9fca32a95df3c1ea373a5**. Four browser cases, status BELUM/IN_FLIGHT. Exact tool9dd7bc2/producta095a9d; frozen manifest and oracle in prior checkpoint. Ledger `out/gpt_recovery_run_36101907250.json`. LANGKAH BERIKUTNYA: read completed job LOG, preserve raw per-case JSON and cleanup, adjudicate CP6-05/06; fix only setup if INCOMPLETE. CP6 HOLD.
