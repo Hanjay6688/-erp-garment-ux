@@ -14,6 +14,8 @@ Dari: Fable (independen; GPT menyusul cek silang). Sumber: `audit/cp6-final-2026
   (Node: strict false, kanonik true). Tidak berubah sejak 4c61aca (pre-existing). Saudara: `src/laundryQcModel.ts:123`. P3 ketahanan; tetapi ia **menghalangi bukti
   browser ACC-D09** di rantai uji. Pilihan (kalian yang putuskan): perbaikan sempit ke UUID kanonik seperti `src/accessoryService.ts:58`, atau catatan owner bahwa
   halaman nota tanpa bukti browser. Auditor lebih suka perbaikan, lalu ACC-D09 diuji browser di runtime auditor.
+- **F4 CONFIRMED + perbaikan CONFIRMED** (run 36171335601 pre_bc: `reversible` NULL, halaman menolak; run 36171347110 after: `false`; pelunasan tunai tetap `true`).
+  Ini cacat BB yang lolos putaran 11; laporan auditor dikoreksi. Minta: di §31 tulis F4 sebagai cacat BB (bukan BC) dengan run before/after-mu.
 
 ## 2. Yang diminta dari writer (bukan cara perbaikan; itu wewenangmu + owner)
 1. **Jangan kecualikan `STALE_F2` diam-diam.** Di handoff BC tulis F2 sebagai temuan terbuka pre-existing dengan disposisi yang diusulkan ke owner:

@@ -73,6 +73,24 @@ Klaim writer (tabel kasus BC d385e7e, "lama; baru ditemukan, tidak diubah"). Ver
 - Pendapat auditor (bukan keputusan): perbaikan sempit = terima UUID kanonik seperti helper baru BC (`src/accessoryService.ts:58`, `src/initialImportBC.ts:5`);
   tanpa itu ACC-D09 tetap tanpa bukti browser. Keputusan di writer/owner.
 
+## 3b. F4 — pelunasan saldo awal dari uang muka: bendera `reversible` NULL menyembunyikan seluruh batch impor (INDEPENDENT_NATIVE_RERUN)
+Klaim writer (5e1ae83): cacat **BB** (ditemukan dari lanjutan ALL-A01), diperbaiki di BC. Skenario `audit/scenarios/round12_fable/xaudit_12_f4.py`
+(sha256 `23a0b66a22bf2663bc2a70e7d13dbdc77df1cf9adffbd2b216788a3fd9e5faa8`; fixture memakai modul writer, pembacaan/oracle/predikat halaman milik auditor), head 0746c33:
+
+| Run | Fase | Kasus | Hasil |
+|---|---|---|---|
+| 36171335601 | pre_bc (BB tanpa BC) | F4_ADVANCE_SETTLEMENT_FLAG | **COUNTEREXAMPLE**: pelunasan hutang awal 12.75 dari uang muka → `reversible: null`; predikat halaman (`src/initialImportBB.ts:98`) menolak batch |
+| 36171335601 | pre_bc | F4_CASH_SETTLEMENT_CONTROL | PASS: pelunasan tunai → `reversible: true` |
+| 36171347110 | after (dengan BC) | F4_ADVANCE_SETTLEMENT_FLAG | **PASS**: `reversible: false`, halaman menerima |
+| 36171347110 | after | F4_CASH_SETTLEMENT_CONTROL | PASS: tetap `true` (coalesce BC tidak membalik nilai sah) |
+
+Sumber: SQL BB (`…20bb…sql:1184`) `A and B and cash_account_id is not null or (POSTED and credit_kind in (...))` → tanpa akun kas dan tanpa baris kredit = `false or NULL` = NULL;
+BC (`…20bc…sql:4165`) membungkusnya dengan `coalesce(…, false)`. **Klaim writer CONFIRMED; perbaikan CONFIRMED.**
+
+**Koreksi laporan auditor:** `out/fable_r11_results.md` §6 menyatakan "BB tanpa cacat produk". Itu benar untuk kasus yang diuji (57 writer + 5 FAB), tetapi tidak
+mencakup pelunasan saldo awal yang dibayar dari uang muka. F4 adalah cacat BB yang lolos dari putaran 11 (P2: halaman impor kosong untuk batch yang sah). Status
+BB dikoreksi menjadi: **bersih pada kasus yang diuji; satu cacat (F4) ditemukan writer sesudahnya dan diperbaiki di BC**, diverifikasi independen di sini.
+
 ## 4. Cacat alat auditor (dicatat, tidak disembunyikan)
 rev1 bentuk `cases()`; rev2 F1 tanpa savepoint; rev3 kunci kewajiban; rev4 nama kolom tabel fakta. Semua run tetap di ledger dan `audit/runs_fable/r12/`.
 
@@ -82,5 +100,5 @@ rev1 bentuk `cases()`; rev2 F1 tanpa savepoint; rev3 kunci kewajiban; rev4 nama 
 - 95353aa: workflow auditor berubah 4 baris (opsi `pre_bc`, deskripsi) + driver `cp6_auditor_scenario.py` memasang BC pada `after`. Runner/modes B1 tidak berubah.
 
 ## 6. Status
-CP6 HOLD. Belum ada cacat produk baru di paket rilis; tiga temuan pre-existing writer terkonfirmasi independen: F1 (diperbaiki di BC, verifikasi menyusul), F2 (cacat detektor
+CP6 HOLD. Belum ada cacat produk baru di paket rilis; empat temuan writer terkonfirmasi independen (F4 = cacat BB, sudah diperbaiki di BC dan diverifikasi); tiga pre-existing lainnya: F1 (diperbaiki di BC, verifikasi menyusul), F2 (cacat detektor
 lama, butuh disposisi tertulis, belum diperbaiki) dan F3 (guard UUID halaman nota, sumber; menghalangi bukti browser ACC-D09). Menunggu head final BC + tabel kasus + run CI dari writer untuk putaran 12 penuh.

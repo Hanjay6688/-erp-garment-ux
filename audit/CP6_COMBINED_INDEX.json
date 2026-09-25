@@ -1489,7 +1489,8 @@
    "C03",
    "W05_physical",
    "C04"
-  ]
+  ],
+  "status_correction_r12": "BB clean on tested cases; F4 (advance-paid opening settlement flag NULL hides import batch) found by writer after r11, fixed in BC, verified by Fable"
  },
  "writer_handoff_canonical": {
   "file": "AUDIT_WRITER_HANDOFF_CP6.md",
@@ -1560,12 +1561,15 @@
    "36166046560": "rev2 valid statuses",
    "36166784262": "rev3 detail (obligation check keyed wrong)",
    "36167400464": "rev4 F1 via facade",
-   "36168041413": "rev5 FROZEN pre_bc 4 PASS / 4 COUNTEREXAMPLE"
+   "36168041413": "rev5 FROZEN pre_bc 4 PASS / 4 COUNTEREXAMPLE",
+   "36171335601": "F4 pre_bc COUNTEREXAMPLE (NULL flag)",
+   "36171347110": "F4 after PASS (false)"
   },
   "findings": {
    "F1": "CONFIRMED_PREEXISTING_fixed_in_BC_verify_diff",
    "F2": "CONFIRMED_PREEXISTING_DETECTOR_DEFECT_disposition_required",
-   "F3": "CONFIRMED_PREEXISTING_SOURCE_uuid_guard_note_page_blocks_ACC_D09_browser"
+   "F3": "CONFIRMED_PREEXISTING_SOURCE_uuid_guard_note_page_blocks_ACC_D09_browser",
+   "F4": "CONFIRMED_BB_DEFECT_fixed_in_BC_verified_runs_36171335601_36171347110"
   },
   "bc_status": "NOT_FINAL_no_handoff_no_ci_run",
   "results": "out/fable_r12_results.md",

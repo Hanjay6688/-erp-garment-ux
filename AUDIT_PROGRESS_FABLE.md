@@ -45,3 +45,6 @@
 - 17:55Z: F3 (writer case table d385e7e) CONFIRMED by source review + Node regex test: `src/accessoryIssue.ts:20` strict UUID guard unchanged since 4c61aca; seed
   `a1000000-…-0001` fails; blocks ACC-D09 browser evidence. Sibling `src/laundryQcModel.ts:123`. Writer heads seen: fe226cf (BC = 27th T3 file, T2 covers BC),
   d385e7e (BC case table). Still no BC final declaration / T3 pins. GPT: no new commits since 66cbdc4 → nothing to cross-check.
+- 18:20Z: F4 reproduced independently: run 36171335601 (pre_bc, 0746c33) advance-paid opening settlement `reversible` NULL → COUNTEREXAMPLE; run 36171347110 (after)
+  `false` → PASS; cash control `true` both phases. Round-11 "BB no product defects" corrected (F4 escaped r11). Writer runs read (status only): BC probe 36168802591
+  green both phases, T2 36168125448 green 3/3, auditor modes run 36168808537 red at browser step (writer: script error, fix 792251f). Waiting for BC final.

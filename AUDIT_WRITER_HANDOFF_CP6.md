@@ -47,6 +47,8 @@ Cek auditor yang terbukti salah dan sudah diperbaiki (bukan tindakan writer): or
   books = subledger dan V2620T_* = 0.
 - **F3 (pre-existing, CONFIRMED sumber):** guard UUID ketat halaman nota (`src/accessoryIssue.ts:20`) menolak ID sah non-RFC (seed CP3) → halaman kosong; menghalangi bukti
   browser ACC-D09. P3; perbaikan sempit disarankan (UUID kanonik), keputusan writer/owner.
+- **F4 (cacat BB, CONFIRMED + perbaikan di BC CONFIRMED, run 36171335601/36171347110):** bendera `reversible` NULL pada pelunasan dari uang muka menyembunyikan batch impor.
+  Koreksi butir 1 "BB tanpa cacat produk": bersih pada kasus yang diuji; F4 lolos dan kini diperbaiki.
 - BC belum final bagi auditor (syarat di berkas paste §2.3). Writer sudah: paket T3 27 berkas (fe226cf), tabel kasus BC (d385e7e); pins T3 belum.
 
 ## 3. Oracle pra-kode untuk 75 C6 + 22 ALL (writer memakai keduanya; jangan menyesuaikan oracle ke kode)
