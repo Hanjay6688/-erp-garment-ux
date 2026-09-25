@@ -191,8 +191,9 @@ Aturan:
    bergantung padanya. Bug baseline tidak boleh ditunda dengan menyebutnya CR.
 3. **Daftar acceptance ID per fitur (C6).** Isinya: baseline CP6, CR yang sudah masuk kandidat, CR yang ditunda, dan
    dependensi CP7. Daftar ini disusun writer, ditinjau auditor, lalu disahkan owner sebagai lampiran addendum ini.
-   **Status: draf usulan writer** di `ERP_ADDENDUM_OWNER_DECISIONS_CP6_2026-09-25_LAMPIRAN_C6.md`, menunggu
-   tinjauan auditor terhadap M:1691–1699, M:1753–1757, dan M:4448–4479.
+   **Status: usulan writer rev4** di `ERP_ADDENDUM_OWNER_DECISIONS_CP6_2026-09-25_LAMPIRAN_C6.md` (memuat keputusan
+   scope owner 25 September dan perbaikan T1 dari handoff auditor gabungan), menunggu pencocokan auditor lalu tanda tangan
+   owner.
 4. **Butir yang sudah masuk kandidat** tidak boleh diam-diam diberi N/A. Owner memilih salah satu: diuji tuntas, atau
    kandidat direvisi secara eksplisit.
 

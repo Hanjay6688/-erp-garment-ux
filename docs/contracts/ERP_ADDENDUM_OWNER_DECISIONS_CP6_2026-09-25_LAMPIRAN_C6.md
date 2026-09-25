@@ -1,25 +1,49 @@
-# Lampiran C6 (D06): daftar acceptance per fitur aksesori dan laundry
+# Lampiran C6: daftar acceptance per fitur aksesori dan laundry (pengesahannya = "D06")
 
-**Status: USULAN WRITER rev3, 25 September 2026.** Rev3 memuat keputusan scope owner (bagian 0). Teks lampiran tetap
-harus dicocokkan auditor sebelum pengesahan formal D06.
+**Status: USULAN WRITER rev4, 25 September 2026. OWNER_ACK_REQUIRED, belum ditandatangani.** Rev4 memperbaiki rev3 menurut
+handoff auditor gabungan `AUDIT_WRITER_HANDOFF_CP6.md` tugas T1 (cabang `audit/cp6-final-20260924-gpt-a0bcadf`, commit
+08294c2) dan audit teks GPT `out/r9_scope_contract.md`. Daftar perubahan ada di bagian 8.
 
 ## 0. Keputusan scope owner (25 September 2026, chat sesi writer, dikutip apa adanya)
 
 > "gw mau semuanya dibikin sekarang dan diuji di cp 6 termasuk all 22 lu harus bikin dan d06. so now what?"
 
-Tafsir writer (dicocokkan auditor):
-1. **Semua baris CR-TUNDA menjadi scope CP6.** ACC-04b, LAU-05b, dan LAU-06b, termasuk ganti SKU hasil BS lewat
-   konversi dan celup ulang, dibangun di kandidat dan diuji tuntas di CP6. Tidak ada yang ditunda ke successor. Kolom
-   "Kelompok" di bagian 2 dan 3 sekarang dibaca **CR-CP6** untuk baris itu.
-2. **ALL = 22 keadaan.** Setiap keadaan di handoff §29.6 harus punya jalur impor dan lanjutan yang sah, lalu diuji dari
-   impor sampai jurnal dan layar. Ini termasuk 7 keadaan NO_ADAPTER dan 6 keadaan PARTIAL. Tidak ada histori lama yang
-   dikarang (M:369–379, M:930–938).
-3. **Baris KEBIJAKAN.** ACC-DEC01, 03–07, ERP-DEC02, dan LAU-DEC01–06 dibangun sebagai **pengaturan di aplikasi** (per
-   vendor atau per kebijakan). Defaultnya aman: ditolak atau pending sampai owner mengisi nilainya. Ini sesuai M:1757,
-   yang membolehkan master/versi/coverage tetapi tidak membolehkan mengarang tarif nyata, dasar tagihan, akun/variance,
-   atau izin baru. Setiap pilihan pengaturan diuji. Nilai nyata diisi owner saat persiapan cutover.
-4. **Pengesahan formal D06.** Dilakukan owner atas lampiran rev3 setelah auditor mencocokkannya. Penerimaan runtime
-   tetap lewat bukti per kasus (75 C6 + 22 ALL).
+Owner mengonfirmasi keempat butir di bawah langsung ke auditor Fable ("Ya, keempat poin benar"). Dokumen ini tetap belum
+ditandatangani. Tafsir writer:
+1. **CR yang dimandatkan untuk kandidat CP6.** Instruksi owner terbaru lebih baru dari default successor M:1697, jadi ia
+   memindahkan CR ke CP6. Status selesai tetap bergantung pada acceptance dan audit, bukan pada pengesahan dokumen ini.
+   Kolom "Kelompok" di bagian 2 dan 3 dibaca **CR-CP6** untuk baris berikut:
+   - **ACC-04b**, termasuk konversi ganti merek beserta aksesori baru yang terpakai dan aksesori lama yang benar-benar
+     dilepas atau kembali (didukung M:3913, M:3925; nilai barang bekas tetap pending, M:3933–3935, M:4456).
+   - **LAU-05b**, perluasan laundry yang sudah disetujui (M:3728–3737).
+   - **LAU-06b**, celup ulang BS menjadi SKU baru. Ini **scope tambahan yang masuk CP6 hanya karena mandat "semuanya"**,
+     bukan desain di M. M tidak menyebutnya (M:1669, M:3728–3737), dan M:5236 (D03) adalah nilai aksesori bekas, bukan
+     transformasi SKU. Pagarnya:
+     - tarif atau referensi SKU laundry tidak mengubah identitas produk (M:3094, M:3735);
+     - identitas berubah hanya lewat command konversi yang sah, dengan lineage, QC, dan HPP yang dibuktikan.
+2. **ALL = 22 keadaan.** Owner menyebut "all 22" secara eksplisit, dan ALL tetap kewajiban CP6 (P:80, P:1024). Registernya
+   adalah inventaris writer di handoff §29.6. Pembagian 9 MAPPED / 6 PARTIAL / 7 NO_ADAPTER adalah **inventaris writer
+   yang belum diverifikasi auditor dari SQL** (`22-state mapping: UNVERIFIED`). Setiap keadaan harus punya jalur impor
+   dan lanjutan yang sah, diuji dari impor sampai jurnal dan layar. Histori lama tidak boleh dikarang (M:369, M:379,
+   P:967).
+   - Label W05 di BB adalah **PARTIAL: hanya finansial**, yaitu pelunasan dan nota potongan hutang laundry saldo awal.
+     Kiriman di luar, cuci gagal, klaim, dan penerimaan belum tertagih masuk BD.
+3. **Baris KEBIJAKAN.** ACC-DEC01, 03–07, ERP-DEC02, dan LAU-DEC01–06 diusulkan dibangun sebagai **pengaturan di aplikasi**.
+   Ini cara implementasi pilihan writer, bukan kewajiban kontrak bahwa setiap keputusan harus menjadi pengaturan.
+   Pengaturan per vendor didukung langsung hanya untuk laundry (M:4479). Batas yang dipakai konsisten dengan M:1678,
+   M:4139–4143, dan M:4454–4479. M:1757 hanya mengatur kewajiban acceptance bila CR masuk CP6.
+   - Setiap nilai default kebijakan (ACC-DEC03, 04, 05, 06 dan LAU-DEC01, 03, 05, 06) berstatus
+     **`PENDING_POLICY_VALUE`** sampai owner melihat angkanya.
+   - Default aman adalah **ditolak atau pending**. Default tidak boleh berupa nol, OTHER_INCOME, akun karangan, atau tarif
+     karangan. Angka fixture uji tidak pernah menjadi nilai produksi.
+   - Setiap pilihan diuji. Nilai nyata diisi owner saat persiapan cutover.
+4. **"D06" = pengesahan lampiran ini oleh owner, setelah auditor mencocokkan rev4.** D06 adalah keputusan bagian 8
+   addendum induk (batas CR aksesori/laundry), dan lampiran ini isinya. Ini tafsir writer atas kutipan, bukan makna literal
+   yang pasti. D06 di sini **bukan** ACC-DEC06 (pembulatan, M:4460, M:5239) dan **bukan** kasus Auth
+   ACC-D06 (M:5301). Pengesahan dokumen bukan penerimaan runtime. Penerimaan tetap lewat bukti per kasus (75 C6 + 22 ALL).
+5. **CP7 tetap menunggu.** CP7 dimulai setelah CP6 sah dan owner memberi perintah CP7 (M:1694). Bila ada bagian CR yang
+   dikeluarkan dari kandidat final, bagian itu didaftarkan sebagai successor sebelum consumer CP7 yang memerlukannya
+   (M:1697). Dokumen ini tidak mengizinkan CP7 dan tidak menyelesaikan kewajiban CP7 (BR:510–523).
 
  Belum disahkan owner. Addendum induknya adalah
 `ERP_ADDENDUM_OWNER_DECISIONS_CP6_2026-09-25.md` bagian 8. Rev1 (sha256 `72621c8a…5bc0d`, commit 5d54472) sudah ditinjau
@@ -56,7 +80,9 @@ ikut dicatat.
 Arti kolom "Kelompok":
 - **BASELINE** adalah kewajiban CP6 pada perilaku yang sudah ada.
 - **CR-MASUK** adalah fitur baru yang sudah ada di kandidat. Revisi ini tidak menemukan satu pun, lihat bagian 5.
-- **CR-TUNDA** adalah fitur baru yang belum ada di kandidat.
+- **CR-TUNDA** adalah fitur baru yang belum ada di kandidat (istilah rev1–rev2).
+- **CR-CP6** adalah CR-TUNDA yang dimandatkan owner untuk CP6 (bagian 0 butir 1). Di rev4 setiap CR-TUNDA dibaca
+  CR-CP6, termasuk di kolom scope crosswalk bagian 6.
 - **KEBIJAKAN** adalah keputusan bisnis yang belum diputus di M §14. Yang ditahan hanya bagian yang bergantung padanya.
 
 ## 2. Aksesori
@@ -67,7 +93,7 @@ Arti kolom "Kelompok":
 | ACC-02 | Hak reimburse aksesori per lot FG (GOOD × BOM, akrual) | BASELINE | M:3900–3962, M:6503 | A5: internal lewat FG/QC/rework | ACC-D01–D12 (kontrol yang terkait) |
 | ACC-03 | Recost HPP aksesori setelah koreksi harga bahan | BASELINE | M:5966, M:833 | A5: `refresh_accessory_hpp_after_material_recost` (AZ) | ACC-C08 (bagian lama) |
 | ACC-04a | Perilaku lama di sekitar pemakaian dan retur (lihat catatan di bawah tabel) | BASELINE | M:1668, M:1697 | A2 (backend), A1 (balik nota) | ACC-A08, B01–B07 (invarian), C03, C04, C09, D01–D12 |
-| ACC-04b | Fitur baru pemakaian dan retur (lihat catatan di bawah tabel) | CR-TUNDA (ABSENT; A2 hanya backend) | M:1668, M:1695 | A2 (UI/facade), A3, A4, A6: tidak ada | ACC-B01–B07 (pos/UI), C01–C12 |
+| ACC-04b | Fitur baru pemakaian dan retur (lihat catatan di bawah tabel) | CR-CP6 (ABSENT; A2 hanya backend) | M:1668, M:1695 | A2 (UI/facade), A3, A4, A6: tidak ada | ACC-B01–B07 (pos/UI), C01–C12 |
 
 **Isi ACC-04a.** Semuanya perilaku yang sudah ada dan wajib aman:
 - Pembalikan nota utuh, yang ditolak setelah nota masuk payroll (20ac:6151; UI :146).
@@ -81,7 +107,8 @@ Arti kolom "Kelompok":
 - Retur aksesori dari mandor, sebagian, termasuk sesudah nota lunas atau sebagian lunas.
 - Inspeksi penerimaan.
 - Barang bekas atau pemulihan dengan nilai pending.
-- Konversi atau pakai ulang, misalnya ganti merek atau bongkaran.
+- Konversi atau pakai ulang, misalnya ganti merek atau bongkaran (M:3913, M:3925). Celup ulang BS ke SKU baru bukan
+  bagian ini; itu LAU-06b.
 - Servis garmen milik pelanggan.
 
 ### 2.1 Keputusan aksesori (M §14.1)
@@ -110,9 +137,9 @@ Baris "Role, Special, volume/operasi, kanal" (M:1757) diperlakukan begini:
 | LAU-03 | Identitas produk BS laundry pada penerimaan fisik | BASELINE | M:359 | L1: `erp_search_laundry_bs_products_v1`, POST_RECEIPT | LAU-T25 |
 | LAU-04 | Harga laundry tidak diketahui: estimasi owner dan blokir tutup buku | BASELINE (hanya perilaku blokir) | M:4475, M:4145 | L6: `erp_set_laundry_rate_owner_estimate_v1`, `erp_accounting_close_preflight_v1`, `erp_close_accounting_through_v1` (paket T3 AW; belum ada UI) | LAU-T09, T11, T12, T34 |
 | LAU-05a | Master dan snapshot tarif yang sudah ada (lihat catatan di bawah tabel) | BASELINE | M:4479, M:4474 | L3, L5 (backend terkunci) | LAU-T01, T07, T08, T13, T14, T15, T31, T35 |
-| LAU-05b | Perluasan laundry yang sudah disetujui, belum diterapkan (lihat catatan di bawah tabel) | CR-TUNDA (ABSENT; L5 backend terkunci) | M:3729–3737, M:1668, M:1695 | L3 (penulis master), L4, L5 (draf/alokasi), L8 | LAU-T02–T06, T16–T21, T24, T26 |
+| LAU-05b | Perluasan laundry yang sudah disetujui, belum diterapkan (lihat catatan di bawah tabel) | CR-CP6 (ABSENT; L5 backend terkunci) | M:3729–3737, M:1668, M:1695 | L3 (penulis master), L4, L5 (draf/alokasi), L8 | LAU-T02–T06, T16–T21, T24, T26 |
 | LAU-06a | Cuci ulang BS yang sudah ada: kirim ke vendor lewat SAVE_REWORK tujuan LAUNDRY, produk sama, tanpa tagihan vendor | BASELINE | M:4210 | L7: `erp_save_bs_resolution_action_v1` SAVE_REWORK/COMPLETE_REWORK | LAU-T28 (bagian lama) |
-| LAU-06b | Celup ulang BS ke warna atau SKU baru | CR-TUNDA (ABSENT; tidak ada di M) | Tidak ada klausul M | L7: tidak ada | Tidak ada (tidak ada di 36 kasus) |
+| LAU-06b | Celup ulang BS ke warna atau SKU baru | CR-CP6 tambahan dari mandat "semuanya" (ABSENT; tidak ada di M) | Tidak ada klausul M; pagar identitas di bagian 0 butir 1 | L7: tidak ada | Tidak ada (tidak ada di 36 kasus); acceptance ditulis writer dan dicocokkan auditor |
 
 **Isi LAU-05a.** Semuanya perilaku yang sudah ada:
 - Tarif per vendor × proses cuci. Tepat satu versi berlaku, ada guard overlap, dan tarif harus ≥0.
@@ -134,15 +161,17 @@ Baris "Role, Special, volume/operasi, kanal" (M:1757) diperlakukan begini:
   BASELINE. Izin final sales/close baru dengan harga unknown tidak diberikan (M:4475).
 - Kiriman lewat jalur connected sudah menolak tarif yang tidak ada (20ac:8940). Jadi harga unknown hanya muncul pada
   baris lama yang diberi estimasi owner.
-- `post_sale_v2` tidak memeriksa harga laundry. Auditor diminta menilai apakah itu "izin final sales" dalam arti
-  M:4475, atau cukup karena status laporan menjadi incomplete.
+- **Terbuka (M:1678, M:4475):** `post_sale_v2` tidak memeriksa harga laundry unknown. Laporan incomplete saja tidak
+  menjawab izin posting sale. Sale final yang bergantung pada nilai laundry unknown **diblok** sampai ada aturan tertulis
+  tentang cara efek finansial pending dicatat. Blok ini dibangun di BD. Fisik pending tetap boleh.
 
 **Catatan LAU-06a/06b.**
 - Cuci ulang yang ada memang tidak punya jalur biaya vendor; jurnal biaya rework hanya untuk CONTRACTOR (20av:739). Nol
   itu hasil desain, bukan harga yang hilang.
 - LAU-T28 meminta fee 0 yang eksplisit dan berversi. Bila owner ingin fee cuci ulang, itu masuk LAU-05b atau LAU-06b.
 - Celup ulang ke SKU baru tidak ditemukan di M, P, maupun BR. Keputusan owner lama "CR prioritas rendah, successor
-  tersendiri" tetap berlaku. "Gratis" harus nol eksplisit yang disahkan, bukan disimpulkan dari harga kosong.
+  tersendiri" digantikan mandat 25 September (bagian 0 butir 1). Fitur ini tetap scope tambahan dengan pagar identitas.
+  "Gratis" harus nol eksplisit yang disahkan, bukan disimpulkan dari harga kosong.
 
 ### 3.1 Keputusan laundry (M §14.2), pengganti LAU-07
 
@@ -162,7 +191,7 @@ Persetujuan master vendor tidak dibuka ulang.
 | LAU-DEC01 | Satuan harga vendor nyata: per PCS, per batch, minimum charge, tarif aktif (M:4472) | Hanya per PCS (`rate_per_pcs`). Tidak ada batch atau minimum | KEBIJAKAN + CR-TUNDA | Satuan batch/minimum di LAU-05b (LAU-T20, T36 per-batch). Per PCS tetap BASELINE |
 | LAU-DEC02 | Dasar qty yang ditagih: GOOD, BS, missing, cuci gagal, komponen, attempt (M:4473) | Tetap, tidak bisa dikonfigurasi: estimasi = qty kirim × tarif (20ac:9099); aktual = (GOOD+BS) × tarif (20ac:9233); cuci gagal punya attempt sendiri. Delivered, returned, dan attempt disimpan terpisah | KEBIJAKAN | Konfigurasi dasar tagih per vendor (LAU-05b). Aturan tetap saat ini didokumentasikan sebagai BASELINE, bukan kebijakan final |
 | LAU-DEC03 | Tanggal kesepakatan/pricing, extra, diskon, pembulatan, pajak (M:4474) | Snapshot tarif saat kirim. **Perbaikan BA 1a57266:** penerimaan tidak lagi reprice menurut tanggal kembali (LAU-T14). Extra, diskon, pajak, dan pembulatan belum ada | BASELINE (snapshot) + KEBIJAKAN (sisanya) | Extra, diskon, pajak, dan pembulatan di LAU-05b |
-| LAU-DEC04 | Tindakan finansial saat harga unknown, termasuk penjualan dan closing (M:4475) | Close diblok (LAU-04). Fisik pending boleh. Sales tidak memeriksa (lihat catatan LAU-04) | BASELINE (blokir) + KEBIJAKAN (izin baru) | Izin final sales/close baru |
+| LAU-DEC04 | Tindakan finansial saat harga unknown, termasuk penjualan dan closing (M:4475) | Close diblok (LAU-04). Fisik pending boleh. Sales belum memeriksa: terbuka, blok dibangun di BD (catatan LAU-04) | BASELINE (blokir) + KEBIJAKAN (izin baru) | Izin final sales/close baru |
 | LAU-DEC05 | Scope override SKU: produk, ukuran, proses, fallback (M:4476) | Tidak ada `product_id` di tabel tarif. SKU tidak wajib untuk kirim/terima (LAU-T25) | KEBIJAKAN + CR-TUNDA | Tarif khusus SKU (LAU-T24, T26) |
 | LAU-DEC06 | Mapping jasa, accrual, variance, dan koreksi setelah payment (M:4477) | Mapping LAUNDRY_COST, ACCRUED_MANUFACTURING, AP_VENDOR. Tidak ada akun variance. Invoice vendor terkunci | KEBIJAKAN + CR-TUNDA | Invoice susulan dan variance (LAU-T16–T18, T21–T23). Tanggal buku mengikuti ERP-DEC01/D01 |
 
@@ -337,17 +366,27 @@ Auditor diminta mencocokkan hitungan ini dengan JSON.
 ## 7. Yang diminta
 
 1. **Auditor:**
-   - Cocokkan rev2 dengan M dan dengan tiga dokumen masukan.
-   - Nilai catatan LAU-04 (`post_sale_v2`) dan temuan LAU-T14 (perbaikan di BA 1a57266).
+   - Cocokkan rev4 dengan M, P, BR, `out/r9_scope_contract.md`, dan bagian 5a Fable.
+   - Tautkan bukti per kasus di bagian 6 setelah BC, BD, dan BE dibangun.
    - Pindahkan baris yang ternyata CR-MASUK.
-   - Tautkan bukti per kasus di bagian 6.
-2. **Owner, O2.** Setelah auditor mencocokkan, sahkan D06 atas scope konkret ini. Pilihan per CR-TUNDA:
+2. **Owner, pengesahan "D06" atas rev4.** Yang disahkan:
+   - ☐ bagian 0 butir 1–5, termasuk LAU-06b sebagai scope tambahan dengan pagar identitas;
+   - ☐ semua nilai kebijakan tetap `PENDING_POLICY_VALUE` (default ditolak/pending) sampai owner melihat angkanya;
+   - ☐ penerimaan runtime tetap lewat bukti per kasus, bukan lewat pengesahan ini.
 
-| Baris CR-TUNDA | Pilihan owner |
+Nilai kebijakan (ACC-DEC01, 03–07, ERP-DEC02, LAU-DEC01–06) **tidak perlu diputus sekarang.** Keputusannya hanya menahan
+fitur terkait. Owner mengisi nilainya saat persiapan cutover, kecuali ingin memutus sekarang.
+
+## 8. Perubahan rev4 terhadap rev3
+
+| Butir T1 | Perubahan |
 |---|---|
-| ACC-04b (pemakaian/pos servis, retur mandor, inspeksi, pemulihan, konversi, servis pelanggan) | ☐ successor sebelum consumer CP7 yang memerlukannya (default M:1697) ☐ masuk kandidat final CP6 (M:1695 merekomendasikan gelombang ini sebelum audit final gabungan) |
-| LAU-05b (paket/komponen, penulis master, invoice susulan, SKU, diskon/pajak/pembulatan) | ☐ successor sebelum consumer CP7 ☐ masuk kandidat final CP6 |
-| LAU-06b (celup ulang ke SKU baru) | ☐ successor tersendiri, prioritas rendah (keputusan owner sebelumnya) ☐ lain: … |
-
-Baris KEBIJAKAN (ACC-DEC01, 03–07, ERP-DEC02, LAU-DEC01–06) **tidak perlu diputus sekarang.** Keputusannya hanya menahan
-fitur CR terkait. Owner cukup menjawab saat fitur itu dikerjakan, kecuali ingin memutus sekarang.
+| (a) | Sitasi pengaturan kebijakan: "sesuai M:1757" diganti "konsisten dengan M:1678, M:4139–4143, M:4454–4479". M:1757 hanya kewajiban acceptance CR yang masuk CP6. |
+| (b) | Bagian 0 butir 1 dipisah: konversi ganti merek + aksesori (M:3913, M:3925) di ACC-04b; celup ulang BS → SKU baru = LAU-06b, scope tambahan dari mandat "semuanya", dengan pagar identitas produk. |
+| (c) | "D06" ditulis eksplisit sebagai pengesahan lampiran ini, bukan ACC-DEC06 atau kasus Auth ACC-D06. |
+| (d) | Nilai default ACC-DEC03/04/05/06 dan LAU-DEC01/03/05/06 = `PENDING_POLICY_VALUE`; default aman = ditolak/pending, tidak nol/OTHER_INCOME/tarif karangan. |
+| (e) | LAU-04: `post_sale_v2` tanpa cek harga laundry unknown dicatat **terbuka**; sale final yang bergantung nilai unknown diblok (dibangun di BD). |
+| (f) | Label W05 di BB = PARTIAL (hanya finansial). |
+| GPT §2 | Sitasi M:369–379/M:930–938 untuk 22 keadaan dicabut; hitungan 9/6/7 = inventaris writer, `UNVERIFIED`. |
+| GPT §7 | Butir 5 baru: CP7 tetap menunggu CP6 sah dan perintah owner; bagian CR yang dikeluarkan menjadi successor sebelum consumer CP7. |
+| GPT §4 | M:5236 (D03) tidak dipakai untuk transformasi SKU. |
