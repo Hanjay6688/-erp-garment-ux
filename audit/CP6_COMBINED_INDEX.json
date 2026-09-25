@@ -1372,5 +1372,42 @@
   },
   "current_handoff": "WRITER_HANDOFF_R9_20260925.md",
   "recovery_unknown_closure": "out/gpt_recovery_unknown_final.md"
+ },
+ "candidate_r9": {
+  "tool_head": "d1bc8adff3ba1a2a7001ef39e4819d0c3813d00b",
+  "product_ref_runtime": "61d88ee5224b2fb2da2af6f4df214fbaacf9f161",
+  "writer_handoff": "docs/cp6-au-r1-handoff.md §29",
+  "status": "IN_PROGRESS_INDEPENDENT_FIRST"
+ },
+ "fable_round9": {
+  "results": "out/fable_r9_results.md",
+  "scenarios": {
+   "xaudit_8_rev2": "d7e829973281ddd7aef4c03abe902c7205ab5a9ecb85df57218fafd15eb0e099",
+   "xaudit_9": "0b1a4bf2e9bed9d7c63faf9702d04fa14d34b72eb81f21d6fc0757228ad59031"
+  },
+  "runs": {
+   "xaudit_1_rev2": 36121849651,
+   "xaudit_2_rev2": 36121860362,
+   "xaudit_7": 36121871053,
+   "open_1": 36121881199,
+   "gpt_c0_oracles": 36121837956,
+   "native15": 36121891481,
+   "gpt_tool_modes": 36121901467,
+   "xaudit_8_rev1": 36122483797,
+   "xaudit_8_rev2": 36123155393,
+   "xaudit_9": 36123165642,
+   "t2": 36121911881,
+   "t3_package": 36121924229,
+   "t3_rollback_infra_fail": 36121935168,
+   "t3_rollback_rerun": 36123219619,
+   "multifile_workflow": 36123210828
+  },
+  "run_json_dir": "audit/runs_fable/r9/",
+  "pre_code_oracles": {
+   "c6_75": "out/fable_c6_75_oracles_pre_code.md",
+   "all22": "out/fable_all22_oracles_pre_code.md",
+   "label": "AGENT_DRAFT_FABLE_SPOTCHECK"
+  },
+  "scope_decision_annex_c6_rev3_s0": "UNVERIFIED_OWNER_DECISION"
  }
 }

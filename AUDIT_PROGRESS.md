@@ -797,3 +797,9 @@ QC rev6 diverifikasi dari log: healthy PASS (10), unknown COUNTEREXAMPLE (KPI 0)
 
 ## Fable — loop pengikutan GPT dihentikan atas permintaan owner; handoff writer putaran 9 (2026-09-25T07:33:35Z)
 `WRITER_HANDOFF_R9_20260925.md`: ringkasan tertutup (11 item), tugas writer W1–W13 berurut prioritas dengan file:baris dan bukti penutup, O2 untuk owner, cara verifikasi ulang, batas. GPT terakhir 60135cb (tidak ada run berjalan; konsolidasi GPT belum dipush — substansinya sudah tergabung di dokumen Fable). Verdict tetap CP6 HOLD, audit_complete=false, production_go=false.
+
+## Fable — putaran 9 independen pada d1bc8ad (2026-09-25T10:25:00Z, sementara)
+- Handoff writer putaran 9 diterima (head `d1bc8ad`). FROZEN dispatch diganti ke d1bc8ad. Dispatch: 7 rerun skenario + T2 + T3 package + T3 rollback; lalu xaudit_8 (rev1 cacat kolom → rev2), xaudit_9 (W9), T3 rollback rerun (gagal infra port 54324 sebelum tes), workflow multi-file `fable-cp6-round9.yml` (3 job browser/HTTP) lewat push cabang audit.
+- Hasil sejauh ini di `out/fable_r9_results.md`: rerun 4/4, 5/5, 12/12, 13/13 PASS; C0 24+1 (transport, sama); native15 identik per kasus; W7 CONFIRMED (grup ditolak); T2 identik + `T2_C0_ORACLE` 25/25 (W2 CLOSED); T3 package success. Review sumber W7–W13, LAU-T14 di §3. Oracle pra-kode 75 C6 + 22 ALL (draf agen) di `out/`.
+- Menunggu: xaudit_8 rev2 36123155393, xaudit_9 36123165642, T3 rollback 36123219619, workflow multi-file 36123210828. Keputusan scope owner (lampiran C6 rev3 §0) belum dikonfirmasi owner → ditanyakan.
+- GPT putaran 9 belum dibaca (instruksi owner: independen dulu, baru cek/verifikasi/kompilasi).
