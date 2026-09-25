@@ -1,4 +1,17 @@
-# CP6 audit — GPT recovery checkpoint
+# CP6 audit — active round 8 checkpoint
+## Checkpoint aktif — GPT audit silang putaran 8
+Updated 2026-09-25T04:54:39.682Z.
+
+- Kandidat alat dikunci: `9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7`; produk yang diklaim writer: `a095a9d804d29643721e18635c2c3e26adcd56ea` (pemisahan produk/alat BELUM diverifikasi).
+- Dasar checkpoint audit bersama: `8d3ee4c050c969e11d5f78c287d63389d48fe69c`. Fable juga mengaudit; perubahan berikutnya fast-forward, tanpa menimpa catatannya.
+- Fase aktif: pemulihan identitas dan pemeriksaan kontrak C0/C6, lalu diff dan bukti Actions. Ini fase 2 pasca-lock; handoff writer adalah klaim, bukan oracle atau penerimaan independen.
+- **CP6 HOLD; audit_complete=false; production_go=false.** Gate historis berikut tetap berlaku sampai ada bukti baru per gate. 12 HOLD historis tidak dilabel ulang.
+- Fokus pemeriksaan: (1) hash/isi C0 vs teks yang disahkan; (2) C6 vs M1691–1699, M1753–1757, M4448–4479; (3) oracle D01–D05 dan 25 kasus T2; (4) A4 multi-penerimaan dan A7/A8; (5) diff alat, log native, serta skenario independen.
+- Status putaran ini: C0 BELUM; C6/GATE-16 HOLD; diff produk BELUM; A1–A6/A9/A10 UNVERIFIED; B1–B6 UNVERIFIED. Tidak ada run baru atau kasus PASS milik GPT putaran ini. Run/job ID baru masih kosong.
+- Rencana dan catatan bertahap: `out/gpt_round8_review_20260925.md`. Skenario baru akan disimpan di `audit/scenarios/` dengan SHA256 sebelum dispatch.
+- LANGKAH BERIKUTNYA: ambil C0 pada 9dd7bc2 dan 5d54472, cocokkan SHA256 dan kutipan pengesahan; pulihkan tiga kontrak asli, baca C6 dan rujukan Master; periksa diff a095a9d..9dd7bc2 dan handoff A7/A8. Setelah itu pilih workflow per fase, catat run_id/job_id/hasil kasus dari LOG Actions, commit setiap hasil/temuan. Batas akses runtime harus ditulis apa adanya; persiapan bukan eksekusi.
+
+## Historical recovery checkpoints (superseded only by explicit later evidence)
 Date: 2026-09-24 UTC.
 Status: **INCOMPLETE; full CP6 acceptance audit is NOT COMPLETE. Recommendation HOLD. production_go=false. Cross-review and consolidated handoff completed.**
 Active phase: handoff updated after rollback6140edb, 22 writer cycle checks PASS verified from Actions logs. AW..AZ artifacts available; full release rollback gate HOLD. Native15 remains NOT_RUN; independent tool/scenario review and broader CP6 audit remain open. Historical entries below are snapshots.
