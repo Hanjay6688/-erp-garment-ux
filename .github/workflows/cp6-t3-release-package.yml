@@ -21,12 +21,15 @@ name: CP6 T3 Release Package (hosted-faithful baseline)
     - scripts/cp6_az_probe.py
     - scripts/cp6_ba_probe.py
     - scripts/cp6_ba_build.py
+    - scripts/cp6_bb_build.py
+    - scripts/cp6_bb_probe.py
     - scripts/cp6_layers.py
     - supabase/dev/cp6_aw_t1_family.sql
     - supabase/dev/cp6_ax_t1_family.sql
     - supabase/dev/cp6_ay_t1_family.sql
     - supabase/dev/cp6_az_t1_family.sql
     - supabase/dev/cp6_ba_t1_family.sql
+    - supabase/dev/cp6_bb_t1_family.sql
     - .github/workflows/cp6-t3-release-package.yml
   workflow_dispatch: null
 permissions:
@@ -53,15 +56,15 @@ jobs:
         # in the T3 capture job) on a fresh hosted-faithful clone at AB. capture: derive the
         # pins again and compare them with the committed ones (determinism).
         - key: install
-          label: Hosted-faithful baseline to AB, committed 25-file package AC..BA, AW..BA verify, advisors, restore drill, gate (T3_PREP)
+          label: Hosted-faithful baseline to AB, committed 26-file package AC..BB, AW..BB verify, advisors, restore drill, gate (T3_PREP)
           proof: t3
         - key: capture
           label: Hosted-faithful baseline to AB, pins captured again and compared with the committed package (T3_PREP)
           proof: t3
         # browser: the unchanged AU browser flow (10 cases, real Auth, PostgREST) on the
-        # committed 25-file package, with this branch's UI.
+        # committed 26-file package, with this branch's UI.
         - key: browser
-          label: Hosted-faithful baseline to AB, committed 25-file package, AU browser flow with the candidate UI (T3_PREP)
+          label: Hosted-faithful baseline to AB, committed 26-file package, AU browser flow with the candidate UI (T3_PREP)
           proof: t3
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres

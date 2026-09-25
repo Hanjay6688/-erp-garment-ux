@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""T3: AW, AX, AY, AZ and BA as release candidates of the combined package, with the AO..AV guard set.
+"""T3: AW, AX, AY, AZ, BA and BB as release candidates of the combined package, with the AO..AV guard set.
 
 AW (close readiness engine) and AX (finished goods without a production source) passed T1 as development files
 (supabase/dev/cp6_aw_t1_family.sql, cp6_ax_t1_family.sql). This builder wraps each T1 body unchanged (only the ledger
@@ -29,6 +29,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'scripts'))
 import cp6_t3_release_package as package
 import cp6_ba_build as ba
+import cp6_bb_build as bb
 
 SRC=ROOT/'supabase/release/cp6-t3-src'
 MIGRATIONS=ROOT/'supabase/migrations'
@@ -61,6 +62,14 @@ FILES=[
          body=ROOT/'supabase/dev/cp6_ba_t1_family.sql',title='independent audit closure (import identity, dated WIP and advance capacity, WIP product binding, recost cents, selectors, single close filing)',
          description='Independent audit closure: import identity, dated WIP and advance capacity, WIP product binding, recost cents, selectors, single close filing',
          replaced=list(ba.REPLACED),new_tables=list(ba.NEW_TABLES)),
+    # BB adds nullable columns without default to two existing tables; the install check compares every existing column
+    # of every row (the added columns stripped) and requires the added columns to be empty, so no stored value changes.
+    dict(key='BB',stamp='20260925020000',name='erp_v2_6_20bb_cp6_open_cutover_states',version=bb.VERSION,
+         body=ROOT/'supabase/dev/cp6_bb_t1_family.sql',title='open cutover states of ALL (opening settlement, credits and returns, open purchase orders, wages before and after cutover, cutting pickup, BS split, open reworks)',
+         description='Open cutover states of ALL: opening settlement facade, credits and returns, open purchase orders, wages before and after cutover, cutting pickup, BS split and open reworks',
+         replaced=list(bb.REPLACED),new_tables=list(bb.NEW_TABLES),
+         added_columns={'payroll_reimbursements':['opening_payable_balance_id','opening_carry_entitlement_id','opening_carry_qty'],
+                        'work_completion_events':['bb_opening_item_id']}),
 ]
 PLACEHOLDER='0'*64
 # The package capsules AO..AV (AO..AW for AX) are checked like AV checks AO..AU; the capsules of this builder are left out
@@ -186,22 +195,39 @@ def before_data(capsule):
             "  'markers_before',(select %s from erp.schema_migrations t)) snapshot;\nend $before_data$;\n")%(capsule.split('.')[1],DATA,LEDGER_HASH,LEDGER_HASH)
 
 
+def added_columns_check(f):
+    """Only for a file that adds nullable columns to existing tables (BB): the comparison hash strips them, and they must
+    be empty. Every other file keeps the text above unchanged."""
+    added=f.get('added_columns')
+    if not added:return '',"v_after"
+    cols=json.dumps(added,sort_keys=True,separators=(',',':'))
+    return (" v_cmp:=v_after;\n"
+            " for v_table,v_cols in select key,array(select jsonb_array_elements_text(value)) from jsonb_each('%(cols)s'::jsonb) loop\n"
+            "  execute format($strip$select jsonb_build_object('count',count(*),'sha256',encode(extensions.digest(convert_to(coalesce(string_agg(h,',' order by h),''),'UTF8'),'sha256'),'hex')),\n"
+            "   count(*) filter(where n) from(select encode(extensions.digest(convert_to((to_jsonb(t)-%%L::text[])::text,'UTF8'),'sha256'),'hex') h,\n"
+            "   jsonb_strip_nulls(to_jsonb(t))?|%%L::text[] n from erp.%%I t)s$strip$,v_cols,v_cols,v_table) into v_hash,v_nonnull;\n"
+            "  if v_nonnull<>0 then raise exception '%(k)s_ADDED_COLUMNS_NOT_EMPTY: %%',v_table;end if;\n"
+            "  v_cmp:=v_cmp||jsonb_build_object(v_table,v_hash);\n end loop;\n")%dict(cols=cols,k=f['key']),"v_cmp"
+
+
 def after_data(f,capsule):
     new="array[%s]::text[]"%','.join("'%s'"%t for t in f['new_tables'])
+    strip,compare=added_columns_check(f)
     return ("update %(c)s set installed_definition_sha256=encode(extensions.digest(convert_to(pg_get_functiondef(to_regprocedure(object_regidentity)),'UTF8'),'sha256'),'hex');\n"
-            "do $after_data$ declare v_table text;v_hash jsonb;v_after jsonb;v_before jsonb; begin\n v_after:='{}'::jsonb;\n"
+            "do $after_data$ declare v_table text;v_hash jsonb;v_after jsonb;v_before jsonb;%(extra)s begin\n v_after:='{}'::jsonb;\n"
             " for v_table in select c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace\n"
             "  where n.nspname='erp' and c.relkind in('r','p') and c.relname<>all(array['schema_migrations','%(t)s']::text[]) order by 1 loop\n"
             "  %(data)s\n  v_after:=v_after||jsonb_build_object(v_table,v_hash);\n end loop;\n"
-            " select snapshot->'before' into v_before from pg_temp.cp6_release_boundary;\n"
-            " if (v_after-%(new)s) is distinct from v_before or exists(select 1 from unnest(%(new)s) t where (v_after->t->>'count') is distinct from '0')\n"
+            " select snapshot->'before' into v_before from pg_temp.cp6_release_boundary;\n%(strip)s"
+            " if (%(compare)s-%(new)s) is distinct from v_before or exists(select 1 from unnest(%(new)s) t where (v_after->t->>'count') is distinct from '0')\n"
             "  then raise exception '%(k)s_INSTALL_CHANGED_DATA';end if;\n"
             " if exists(with live as (%(fn)s) select 1 from pg_temp.cp6_release_functions f left join live x on x.identity=f.identity\n"
             "  where f.identity<>all(coalesce((select array_agg(object_regidentity) from %(c)s),'{}'))\n"
             "  and (x.identity is null or (x.definition_sha256,x.acl,x.owner) is distinct from (f.definition_sha256,f.acl,f.owner)))\n"
             "  then raise exception '%(k)s_CAPSULE_INCOMPLETE';end if;\n"
             " update %(c)s set boundary_snapshot=(select snapshot from pg_temp.cp6_release_boundary)||jsonb_build_object('after',v_after);\n"
-            "end $after_data$;\n")%dict(c=capsule,t=capsule.split('.')[1],data=DATA,new=new,k=f['key'],fn=FUNCTIONS)
+            "end $after_data$;\n")%dict(c=capsule,t=capsule.split('.')[1],data=DATA,new=new,k=f['key'],fn=FUNCTIONS,strip=strip,compare=compare,
+                                         extra='v_cmp jsonb;v_cols text[];v_nonnull bigint;' if strip else '')
 
 
 def capsule_guard(f,capsule):

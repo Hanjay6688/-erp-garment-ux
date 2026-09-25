@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""T3 rollback of the whole release package, AC..BA: pre-use only, exact restore, reverse order.
+"""T3 rollback of the whole release package, AC..BB: pre-use only, exact restore, reverse order.
 
 AW..BA exist only as files of the combined release package (supabase/release/cp6-t3); each keeps a private rollback
 capsule of the functions it replaces and a before/after hash of every erp table and of both ledgers, but the package
@@ -43,7 +43,7 @@ import cp6_t3_rollback_acav as acav
 RELEASE=ROOT/'supabase/release/cp6-t3'
 OUTDIR=ROOT/'supabase/release/cp6-t3-rollbacks'
 CAPTURE=ROOT/'docs/evidence/cp6-t3/rollback_capture.json'
-KEYS=['AW','AX','AY','AZ','BA']
+KEYS=['AW','AX','AY','AZ','BA','BB']
 # AC..AV: release variants of the reviewed test-chain rollbacks (scripts/cp6_t3_rollback_acav.py); AW..BA: built here from
 # the capture. ALL is the whole package in install order.
 ALL=acav.KEYS+KEYS
@@ -57,7 +57,10 @@ sha=package.sha
 q=package.quote
 # The one reviewed non-function change of the package: AX teaches the payroll view and check constraint the FG_REPAIR
 # source. Their state before AX is restored from the capture; any other changed object stops the build.
-RESTORABLE={'AX':{'VIEW:erp.v_payroll_eligible_work_lines','CONSTRAINT:erp.payroll_work_items.payroll_work_items_source_type_check'}}
+RESTORABLE={'AX':{'VIEW:erp.v_payroll_eligible_work_lines','CONSTRAINT:erp.payroll_work_items.payroll_work_items_source_type_check'},
+            # BB widens two check constraints (payroll line sources OPENING_PAYABLE/OPENING_CARRY; opening WIP stage CUTTING).
+            'BB':{'CONSTRAINT:erp.payroll_reimbursements.payroll_reimbursements_source_type_check',
+                  'CONSTRAINT:erp.initial_import_production_sources.initial_import_production_sources_stage_check'}}
 LEDGER_HASH=awx.LEDGER_HASH
 DATA=awx.DATA
 PROBE_ROW=("insert into erp.audit_logs(entity_type,entity_id,action,new_data,change_reason) "
@@ -115,6 +118,23 @@ def drops(key,cap):
             schema,table,name=ident.split('.')
             if '%s.%s'%(schema,table) in tables:covered.add(k);continue
             out.append('drop trigger %s on %s.%s;'%(name,schema,table));covered.add(k)
+    # BB: the nullable columns it adds to existing tables (declared in the release builder) go with their constraints and
+    # indexes, before the new tables they may reference; pre-use rollback means they are still empty.
+    native=FILES[key].get('added_columns') or {}
+    if native:
+        declared={'COLUMN:erp.%s.%s'%(table,c) for table,cols in native.items() for c in cols}
+        columns=sorted(k for k in added if k.startswith('COLUMN:') and split_key(k)[1].rsplit('.',1)[0] in {'erp.'+x for x in native})
+        assert set(columns)==declared,('T3_ROLLBACK_ADDED_COLUMNS',key,sorted(set(columns)^declared))
+        for k in added:
+            kind,ident=split_key(k)
+            if kind=='CONSTRAINT' and ident.rsplit('.',1)[0] in {'erp.'+x for x in native}:
+                schema,table,name=ident.split('.');out.append('alter table %s.%s drop constraint %s;'%(schema,table,name));covered.add(k)
+        for k in added:
+            kind,ident=split_key(k)
+            if kind=='INDEX' and detail.get(k) in {'erp.'+x for x in native}:
+                out.append('drop index %s;'%ident);covered.add(k)
+        for k in columns:
+            schema,table,column=split_key(k)[1].split('.');out.append('alter table %s.%s drop column %s;'%(schema,table,column));covered.add(k)
     restore_at=len(out)
     for v in views:out.append('drop view %s;'%v);covered.add('RELATION:'+v)
     for t in tables:out.append('drop table %s;'%t);covered.add('RELATION:'+t)
