@@ -606,6 +606,8 @@ declare
   v_prev_at timestamptz;
   v_prev_created timestamptz;
   v_prev_id uuid;
+  v_first boolean;
+  v_lowest uuid;
 begin
   perform erp.require_internal();
   -- AZ (owner, 24 Sep 2026): a correction is dated from the physical movement it corrects when the recost date E is
@@ -736,11 +738,15 @@ begin
     loop
     select s.applied_inventory_delta into v_old
     from erp.material_cost_revaluation_state s where s.movement_id=q.mid for update;
+    v_first:=not found;
     v_old:=coalesce(v_old,0);
     v_diff:=round(q.tgt-v_old,2);
 
     if abs(v_diff)>0.005 then
       v_date:=case when v_closed then v_e
+        when v_first and erp.invoice_recost_economic_date_v1() is null and not exists(select 1 from erp.accounting_period_control c
+            where c.singleton_id=1 and c.closed_through is not null and erp._cp3_business_date(q.pat)<=c.closed_through)
+          then least(erp._cp3_business_date(q.pat),erp._cp3_business_date(statement_timestamp()))
         else least(greatest(v_e,erp._cp3_business_date(q.pat)),erp._cp3_business_date(statement_timestamp())) end;
       if v_diff>0 then
         v_lines:=jsonb_build_array(
@@ -820,6 +826,12 @@ begin
     where m.material_id=p_material_id order by i.adjustment_id
   loop
     perform erp._cp6_sync_material_adjustment_revaluation(r.adjustment_id,p_material_id);
+  end loop;
+  for v_lowest in
+    select distinct (select min(o.material_id::text) from erp.material_purchase_items o where o.purchase_id=pi.purchase_id)::uuid
+    from erp.material_purchase_items pi where pi.material_id=p_material_id
+  loop
+    if v_lowest::text<p_material_id::text then perform erp.sync_material_cost_revaluation(v_lowest); end if;
   end loop;
 end;
 $function$;

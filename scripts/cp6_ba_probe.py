@@ -564,9 +564,95 @@ def a4_multi_cents(cur,today,kind,old,new):
     qty=D(str(cur.execute('select coalesce(sum(qty_signed),0) from erp.material_stock_movements where material_id=%s',(first['material'],)).fetchone()[0]))
     mismatch={day:{k:dict(expected=str(expected[day][k]),actual=str(observed[day][k])) for k in KEYS if expected[day][k]!=observed[day][k]} for day in observed}
     mismatch={day:row for day,row in mismatch.items() if row}
-    status='PASS' if not mismatch and qty==0 else 'FAIL'
+    status='PASS' if not mismatch and qty==0 else ('FAIL' if ba_installed(cur) else 'COUNTEREXAMPLE')
     return dict(status=status,kind=kind,old=old,new=new,raw_qty=str(qty),mismatches=mismatch,observed=plain(observed),expected=plain(expected),
                 oracle='sum of the separately rounded documents; used-up material has zero value (no per-receipt tolerance)')
+
+
+def two_material_receipt(cur,day,prices,kind):
+    """One purchase document on `day` 10:00 with two new materials of one unit each at `prices` (one roll per line), FINAL with
+    a supplier invoice number (DIRECT) or ESTIMATED (INVOICE). Returns the document and one fixture per line, lowest
+    material id first."""
+    prod=chain.production;base=prod.prior
+    api.admin(cur);prod.zone(cur,'Asia/Jakarta')
+    materials=[base.clone_material(cur,'bamm%d'%n) for n in range(2)]
+    location=uuid.uuid4()
+    cur.execute("insert into erp.locations(id,location_code,location_name,location_type,is_active) values(%s,%s,'BA multi-material raw warehouse','RAW_MATERIAL_WAREHOUSE',true)",
+                (location,'BA-MM-'+location.hex[:20]))
+    payload=dict(purchase_number='BA-MM-'+uuid.uuid4().hex,supplier_id=base.BASE_SUPPLIER,location_id=location,physical_at=prod.at(day,10),
+        change_reason='BA multi-material document',lines=[dict(material_id=m,qty=1,unit_price=price,
+        price_state='FINAL' if kind=='DIRECT' else 'ESTIMATED',price_source='SUPPLIER_INVOICE' if kind=='DIRECT' else 'MANUAL_ESTIMATE',
+        rolls=[dict(roll_number='BA-MM-ROLL-'+uuid.uuid4().hex,qty=1)]) for m,price in zip(materials,prices)])
+    if kind=='DIRECT':payload['supplier_invoice_number']='BA-MM-INV-'+uuid.uuid4().hex[:12]
+    draft=prod.rpc(cur,'erp.save_material_purchase_draft_v2',payload)
+    purchase=uuid.UUID(draft['purchase_id'])
+    cur.execute('select erp.post_material_purchase_v2(%s,%s,%s,%s)',(purchase,uuid.uuid4(),int(draft['row_version']),'BA multi-material post'))
+    api.admin(cur)
+    rows=cur.execute("""select i.material_id,i.id,r.id from erp.material_purchase_items i join erp.material_rolls r on r.purchase_item_id=i.id
+      where i.purchase_id=%s order by i.material_id::text""",(purchase,)).fetchall()
+    return purchase,[dict(material=m,purchase=purchase,item=i,roll=r,location=location) for m,i,r in rows]
+
+
+def consumed_value(cur,material):
+    """What the consumptions of one material took out of its inventory: the posted cut value of each consumption (one roll
+    per cutting group, rounded per group) plus its recost events."""
+    api.admin(cur)
+    posted=cur.execute("""select coalesce(sum(round(abs(m.qty_signed)*coalesce(m.original_unit_cost_snapshot,m.unit_cost_snapshot),2)),0)
+      from erp.material_stock_movements m where m.material_id=%s and m.qty_signed<0 and m.reversal_of_id is null""",(material,)).fetchone()[0]
+    recost=cur.execute("""select coalesce(sum(e.delta_amount),0) from erp.material_cost_revaluation_events e
+      join erp.material_stock_movements m on m.id=e.movement_id where e.material_id=%s and m.qty_signed<0""",(material,)).fetchone()[0]
+    return D(str(posted))-D(str(recost))
+
+
+def a4_multi_material(cur,today,kind,old,new):
+    """Auditor handoff CP6 T4 (BA W8 rule "a document with several materials gives its document-level cent to the lowest
+    material id", never tested): one purchase document with two materials of one unit each at `old` on d-4, each roll cut
+    on d-3 (own cutting group), the whole document corrected (DIRECT) or invoiced (INVOICE) at `new` per line on d-2.
+    Oracle (M:835/M:3820/M:6632, supplier cent state v2.6.20n: a document's inventory is round(sum qty x price)): per day
+    MATERIAL/WIP and AP/GRNI move by the rounded document total (not the sum of rounded lines); from the cut both materials
+    hold zero value; the consumption of the lowest material id carries the document cent (rounded document minus the sum of
+    the rounded lines), the other takes exactly its rounded line."""
+    prod=chain.production
+    receipt_day,cutting_day,invoice_day=[today-timedelta(days=n) for n in (4,3,2)]
+    days=[receipt_day,cutting_day,invoice_day,today]
+    boundary.historical.prior.set_open_period(cur,receipt_day-timedelta(days=1))
+    before=daily(cur,days)
+    purchase,lines=two_material_receipt(cur,receipt_day,(old,old),kind)
+    azp.cut(cur,lines[0],cutting_day,1,8);azp.cut(cur,lines[1],cutting_day,1,9)
+    api.admin(cur)
+    if kind=='DIRECT':
+        corr=cur.execute("""insert into erp.material_purchase_cost_corrections(correction_number,purchase_id,invoice_date,reason)
+          values(%s,%s,%s,'BA multi-material correction') returning id""",('BA-MMC-'+uuid.uuid4().hex[:12],purchase,invoice_day)).fetchone()[0]
+        for fx in lines:
+            cur.execute('insert into erp.material_purchase_cost_correction_items(correction_id,purchase_item_id,new_unit_price) values(%s,%s,%s)',(corr,fx['item'],new))
+        prod.owner(cur);cur.execute('select erp.post_material_purchase_cost_correction(%s)',(corr,))
+    else:
+        version=int(cur.execute('select row_version from erp.material_purchase_headers where id=%s',(purchase,)).fetchone()[0])
+        prod.rpc(cur,'erp.finalize_material_purchase_invoice_v2',dict(purchase_id=purchase,supplier_invoice_number='BA-MMI-'+uuid.uuid4().hex[:12],
+            invoice_date=invoice_day,received_at=prod.at(today-timedelta(days=1),15),reason='BA multi-material late invoice',
+            lines=[dict(purchase_item_id=fx['item'],qty_invoiced=1,final_unit_price=new) for fx in lines]),uuid.uuid4(),version)
+    prod.owner(cur);cur.execute('select erp.process_cost_recalc_queue(100)');api.admin(cur)
+    after=daily(cur,days)
+    observed={day:{k:after[day][k]-before[day][k] for k in KEYS} for day in after}
+    document=lambda price:cents(D(str(price))*2)
+    expected={}
+    for day in days:
+        amount=document(new) if day>=invoice_day else document(old)
+        row=dict.fromkeys(KEYS,D('0.00'))
+        row['MATERIAL_INVENTORY' if day<cutting_day else 'WIP']=amount
+        row['AP_SUPPLIER' if kind=='DIRECT' or day>=invoice_day else 'GRNI_MATERIAL']=-amount
+        expected[str(day)]=row
+    mismatch={day:{k:dict(expected=str(expected[day][k]),actual=str(observed[day][k])) for k in KEYS if expected[day][k]!=observed[day][k]} for day in observed}
+    mismatch={day:row for day,row in mismatch.items() if row}
+    cent=document(new)-2*cents(new)
+    per_material=[dict(material=str(fx['material']),lowest=n==0,consumed=str(consumed_value(cur,fx['material'])),
+                       expected=str(cents(new)+(cent if n==0 else 0)),
+                       raw_qty=str(cur.execute('select coalesce(sum(qty_signed),0) from erp.material_stock_movements where material_id=%s',(fx['material'],)).fetchone()[0]))
+                  for n,fx in enumerate(lines)]
+    good=not mismatch and all(m['consumed']==m['expected'] and D(m['raw_qty'])==0 for m in per_material)
+    status='PASS' if good else ('FAIL' if ba_installed(cur) else 'COUNTEREXAMPLE')
+    return dict(status=status,kind=kind,old=old,new=new,document_cent=str(cent),per_material=per_material,mismatches=mismatch,
+                observed=plain(observed),expected=plain(expected))
 
 
 def a4_supplier_return_control(cur,today):
@@ -801,6 +887,14 @@ PLAN+=[('A4:SUPPLIER_RETURN_SPLIT_CONTROL','PASS',a4_supplier_return_control)]
 # (AZ's revaluation) the several-receipt case already passes (BA probe run 36112408914, phase before). A regression control.
 PLAN+=[('A4:MULTI_CENT_%s_%s'%(kind,label),'PASS',lambda c,t,k=kind,o=o,n=n:a4_multi_cents(c,t,k,o,n))
        for kind in ('DIRECT','INVOICE') for label,o,n in (('UP','10.00','10.005'),('DOWN','10.01','10.004'))]
+# Auditor handoff CP6 T4 (a): half-cent receipts, so the document cents already differ from the moving average at the cut
+# (dated on the cut's own day); the earlier variants had whole-cent receipts.
+PLAN+=[('A4:MULTI_CENT_%s_HALF_AT_CUT'%kind,('PASS','COUNTEREXAMPLE'),lambda c,t,k=kind:a4_multi_cents(c,t,k,'10.005','10.014'))
+       for kind in ('DIRECT','INVOICE')]
+# Auditor handoff CP6 T4: one document with two materials (document cent to the lowest material id). New case: no phase
+# 'before' expectation was stated by an oracle, so 'before' admits either outcome; the gate is phase 'after' = PASS.
+PLAN+=[('A4:MULTI_MATERIAL_DOC_%s_%s'%(kind,label),('PASS','COUNTEREXAMPLE'),lambda c,t,k=kind,o=o,n=n:a4_multi_material(c,t,k,o,n))
+       for kind in ('DIRECT','INVOICE') for label,o,n in (('UP','10.005','10.014'),('DOWN','10.014','10.005'))]
 PLAN+=[('A5:BS_OLD_CLAIMABLE_DELIVERY_AFTER_100_NEWER','COUNTEREXAMPLE',a5_bs_sources),
        ('A5:IMPORT_OLDEST_DRAFT_AFTER_51','COUNTEREXAMPLE',a5_import_drafts)]
 PLAN+=[('A6:SECOND_CLOSE_SAME_DATE','COUNTEREXAMPLE',lambda c,t:a6_close(c,t,False)),

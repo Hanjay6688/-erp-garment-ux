@@ -317,7 +317,42 @@ REVAL_DECLARE_NEW="""  v_would numeric(24,6);
   v_prev_at timestamptz;
   v_prev_created timestamptz;
   v_prev_id uuid;
+  v_first boolean;
+  v_lowest uuid;
 begin"""
+# Auditor handoff CP6 T4 (a purchase document with several materials, never tested before): the W8 document cent of such a
+# document sits on its lowest material id and is part of that material's consumption value.
+# (a) The first valuation of a movement (no recost state yet) outside an invoice recost is the movement's own value (the
+#     document cents of the receipts it consumes), so it is dated on the movement's own business day while that day is open;
+#     before, a cut entered after its physical day had its document cent on the entry day. Later changes keep AZ's date.
+# (b) A change of another material's input cost changes that cent, but only the changed material was synchronized; the
+#     lowest material of each document of the synchronized material is synchronized again (strictly lower ids: terminates).
+REVAL_STATE_OLD="""    select s.applied_inventory_delta into v_old
+    from erp.material_cost_revaluation_state s where s.movement_id=q.mid for update;
+    v_old:=coalesce(v_old,0);"""
+REVAL_STATE_NEW="""    select s.applied_inventory_delta into v_old
+    from erp.material_cost_revaluation_state s where s.movement_id=q.mid for update;
+    v_first:=not found;
+    v_old:=coalesce(v_old,0);"""
+REVAL_DATE_OLD="""      v_date:=case when v_closed then v_e
+        else least(greatest(v_e,erp._cp3_business_date(q.pat)),erp._cp3_business_date(statement_timestamp())) end;"""
+REVAL_DATE_NEW="""      v_date:=case when v_closed then v_e
+        when v_first and erp.invoice_recost_economic_date_v1() is null and not exists(select 1 from erp.accounting_period_control c
+            where c.singleton_id=1 and c.closed_through is not null and erp._cp3_business_date(q.pat)<=c.closed_through)
+          then least(erp._cp3_business_date(q.pat),erp._cp3_business_date(statement_timestamp()))
+        else least(greatest(v_e,erp._cp3_business_date(q.pat)),erp._cp3_business_date(statement_timestamp())) end;"""
+REVAL_END_OLD="""    perform erp._cp6_sync_material_adjustment_revaluation(r.adjustment_id,p_material_id);
+  end loop;
+end;"""
+REVAL_END_NEW="""    perform erp._cp6_sync_material_adjustment_revaluation(r.adjustment_id,p_material_id);
+  end loop;
+  for v_lowest in
+    select distinct (select min(o.material_id::text) from erp.material_purchase_items o where o.purchase_id=pi.purchase_id)::uuid
+    from erp.material_purchase_items pi where pi.material_id=p_material_id
+  loop
+    if v_lowest::text<p_material_id::text then perform erp.sync_material_cost_revaluation(v_lowest); end if;
+  end loop;
+end;"""
 REVAL_OLD="""    else
       v_target:=round((r.qty_signed*(r.unit_cost_snapshot-coalesce(r.original_unit_cost_snapshot,r.unit_cost_snapshot)))::numeric,2);
     end if;
@@ -494,7 +529,7 @@ def build():
     bs=function(CP5,BS_HEAD,[(BS_DELIVERY_OLD,BS_DELIVERY_NEW),(BS_RECEIPT_OLD,BS_RECEIPT_NEW),(BS_SETTLED_OLD,BS_SETTLED_NEW)])
     bs='CREATE OR REPLACE FUNCTION'+bs[len('create function'):]
     imports=function(AP,IMPORT_HEAD,[(IMPORT_RECENT_OLD,IMPORT_RECENT_NEW),(IMPORT_PAYROLL_OLD,IMPORT_PAYROLL_NEW),(IMPORT_TARGET_OLD,IMPORT_TARGET_NEW)])
-    reval=function(AZ,REVAL_HEAD,[(REVAL_DECLARE_OLD,REVAL_DECLARE_NEW),(REVAL_OLD,REVAL_NEW)])
+    reval=function(AZ,REVAL_HEAD,[(REVAL_DECLARE_OLD,REVAL_DECLARE_NEW),(REVAL_OLD,REVAL_NEW),(REVAL_STATE_OLD,REVAL_STATE_NEW),(REVAL_DATE_OLD,REVAL_DATE_NEW),(REVAL_END_OLD,REVAL_END_NEW)])
     close=function(AW,CLOSE_HEAD,[(CLOSE_OLD,CLOSE_NEW),(CLOSE_FILE_OLD,CLOSE_FILE_NEW)])
     snapshot=function(AW,SNAP_HEAD,[(SNAP_OLD,SNAP_NEW)])
     laundry=function(AC,LAUNDRY_HEAD,[(LAUNDRY_RATE_OLD,LAUNDRY_RATE_NEW)])
