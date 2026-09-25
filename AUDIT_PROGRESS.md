@@ -835,3 +835,7 @@ QC rev6 diverifikasi dari log: healthy PASS (10), unknown COUNTEREXAMPLE (KPI 0)
 - Hasil sejauh ini di `out/fable_r9_results.md`: rerun 4/4, 5/5, 12/12, 13/13 PASS; C0 24+1 (transport, sama); native15 identik per kasus; W7 CONFIRMED (grup ditolak); T2 identik + `T2_C0_ORACLE` 25/25 (W2 CLOSED); T3 package success. Review sumber W7–W13, LAU-T14 di §3. Oracle pra-kode 75 C6 + 22 ALL (draf agen) di `out/`.
 - Menunggu: xaudit_8 rev2 36123155393, xaudit_9 36123165642, T3 rollback 36123219619, workflow multi-file 36123210828. Keputusan scope owner (lampiran C6 rev3 §0) belum dikonfirmasi owner → ditanyakan.
 - GPT putaran 9 belum dibaca (instruksi owner: independen dulu, baru cek/verifikasi/kompilasi).
+
+## Fable — putaran 9: hasil susulan + konfirmasi scope owner (2026-09-25T11:37:30Z)
+- xaudit_8 rev2: W8 2 penerimaan 4/4 PASS, LAU-T14 4/4 PASS (termasuk GAP), 3 penerimaan COUNTEREXAMPLE hanya pada check per-PO auditor (NOTED P3, M:485). xaudit_9: W9 3/3 PASS. T3 rollback rerun success. Multi-file: rev6 QC 2/2 PASS; C0 retry PASS (25/25); HTTP 3/3; WIB 8 PASS + pickup 4 INCOMPLETE (timeout label); recovery rev1 4 INCOMPLETE (locator strict-mode karena banner W10; fixture rev1 UUID). Rev2 auditor (recovery, pickup diagnostik, unknown rev5) run 36130179246 berjalan.
+- Owner menjawab pertanyaan scope: "Ya, keempat poin benar" → OWNER_CONFIRMED_TO_AUDITOR (out/fable_r9_results.md §5a).

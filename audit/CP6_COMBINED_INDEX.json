@@ -1408,6 +1408,19 @@
    "all22": "out/fable_all22_oracles_pre_code.md",
    "label": "AGENT_DRAFT_FABLE_SPOTCHECK"
   },
-  "scope_decision_annex_c6_rev3_s0": "UNVERIFIED_OWNER_DECISION"
+  "scope_decision_annex_c6_rev3_s0": "UNVERIFIED_OWNER_DECISION",
+  "status": "INDEPENDENT_PHASE_RESULTS_RECORDED_S9_S10"
+ },
+ "scope_decision_annex_c6_rev3_s0": {
+  "status": "OWNER_CONFIRMED_TO_AUDITOR",
+  "confirmed_at": "2026-09-25T11:37:30Z",
+  "answer": "Ya, keempat poin benar",
+  "points": [
+   "all CR (ACC-04b, LAU-05b, LAU-06b incl. BS SKU change) built and tested in CP6",
+   "ALL = 22 states",
+   "M §14 policies as app settings with safe defaults (values still PENDING_POLICY_VALUE until owner sees them written)",
+   "D06 ratified after revision"
+  ],
+  "where": "out/fable_r9_results.md §5a"
  }
 }

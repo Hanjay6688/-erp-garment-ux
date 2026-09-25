@@ -79,6 +79,16 @@ Status auditor: **belum dicocokkan** — kutipan hanya ada di dokumen writer. Di
 - M:1697 membolehkan owner menunda CR ke successor; M:1757 mewajibkan fitur baru yang sudah ada di kandidat diuji tuntas. Memasukkan semua CR ke CP6 berarti gate CP6 menunggu 75 kasus C6 + 22 keadaan ALL (estimasi auditor: bukan hitungan hari).
 - "Kebijakan sebagai pengaturan aplikasi dengan default aman" bukan keputusan kebijakan: nilai defaultnya tetap harus disahkan owner satu per satu (ACC-DEC03/04/05/06, LAU-DEC01/03/05/06) — oracle pra-kode (§6) menandai ini `PENDING_POLICY_VALUE`.
 
+### 5a. Konfirmasi owner langsung ke auditor (2026-09-25T11:37:30Z) — OWNER_CONFIRMED_TO_AUDITOR
+
+Pertanyaan auditor (di sesi ini): apakah tafsir writer 4 poin atas kutipan "gw mau semuanya dibikin sekarang dan diuji di cp 6 termasuk all 22 lu harus bikin dan d06" benar sebagai keputusan owner? Pilihan yang ditawarkan: (a) ya keempat poin; (b) benar tapi nilai default kebijakan disahkan satu per satu; (c) hanya 22 keadaan, CR boleh ditunda; (d) bukan itu.
+**Jawaban owner: "Ya, keempat poin benar".**
+Konsekuensi audit:
+- Scope CP6 = kandidat + semua CR (ACC-04b, LAU-05b, LAU-06b termasuk ganti SKU hasil BS) + 22 keadaan ALL, diuji tuntas (M:1757). Gate CP6 sekarang mencakup 75 kasus C6 dan 22 keadaan; oracle pra-kode di §6 menjadi target resmi.
+- Kebijakan M §14 sebagai pengaturan aplikasi dengan default aman: writer boleh memilih default aman (tolak/pending, bukan nol palsu/OTHER_INCOME/tarif karangan); auditor tetap akan mencatat tiap nilai default yang dipilih writer sebagai `PENDING_POLICY_VALUE` di laporan sampai owner melihatnya tertulis (keputusan owner hari ini menyetujui *mekanismenya*, bukan angka per kebijakan).
+- D06 (lampiran C6) disahkan owner **setelah revisi** — lampiran rev3 §0 belum berstatus disahkan sampai owner menandatangani revisinya; sampai saat itu label dokumen tetap "Belum disahkan owner".
+- Perkiraan auditor: dengan scope ini CP6 bukan hitungan hari; tiap family BB–BE membutuhkan siklus rerun auditor sendiri.
+
 ## 6. Oracle pra-kode (permintaan writer #3) — draf agen, spot-check Fable
 
 | Dokumen | Isi | Ringkasan status |
@@ -136,4 +146,4 @@ Baca saja; tidak ada push ke `claude/new-session-deapao`; tidak ada SQL ke hoste
 | W10 identitas permintaan Pola/Role | sumber sesuai + banner terlihat; PASS/COUNTEREXAMPLE menunggu rev2 (§11) |
 | Browser WIB pickup | 4 zona INCOMPLETE (timeout label) — menunggu diagnostik rev2 (§11) |
 | T2 / T3 package / T3 rollback / CodeQL | T2 identik (holds 12/12); T3 package success; T3 rollback success (rerun); CodeQL tidak di-dispatch ulang oleh Fable (writer 36113589299 success pada 1dcf21b, REUSED) |
-| Scope owner (lampiran rev3 §0) | UNVERIFIED — ditanyakan ke owner |
+| Scope owner (lampiran rev3 §0) | **OWNER_CONFIRMED_TO_AUDITOR** (§5a): keempat poin tafsir writer benar |
