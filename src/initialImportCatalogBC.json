@@ -1,0 +1,33 @@
+{
+  "OPENING_ACCESSORY_NOTE_LINE": {
+    "label": "Baris nota aksesori mandor lama (di balik piutang mandor saldo awal)",
+    "required": ["document_number", "contractor_code", "line_number", "material_sku", "qty", "line_amount"],
+    "fields": {
+      "document_number": "Nomor nota lama (sama dengan dokumen piutang mandor)",
+      "contractor_code": "Kode mandor",
+      "line_number": "Nomor baris nota",
+      "material_sku": "Kode aksesori",
+      "qty": "Jumlah (PCS utuh untuk aksesori hitung)",
+      "line_amount": "Nominal baris nota asal",
+      "notes": "Catatan"
+    }
+  },
+  "OPENING_ACCESSORY_CUSTODY": {
+    "label": "Aksesori yang bukan stok siap pakai: titipan belum dinilai, belum kembali, titipan pelanggan",
+    "required": ["custody_kind", "custody_key", "qty"],
+    "fields": {
+      "custody_kind": "Jenis (PENDING_VALUE, UNRETURNED, CUSTOMER_GARMENT)",
+      "custody_key": "Kode opname (satu barang fisik satu kode)",
+      "material_sku": "Kode aksesori",
+      "location_code": "Kode area pemeriksaan (PENDING_VALUE)",
+      "condition": "Kondisi (WAITING, USABLE, DAMAGED)",
+      "qty": "Jumlah PCS",
+      "holder": "Pemegang (UNRETURNED)",
+      "owner_kind": "Pemilik (COMPANY atau CUSTOMER)",
+      "customer_code": "Kode pelanggan (CUSTOMER_GARMENT)",
+      "product_sku": "Kode produk (opsional)",
+      "description": "Keterangan barang",
+      "notes": "Catatan"
+    }
+  }
+}
