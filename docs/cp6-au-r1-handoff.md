@@ -2520,12 +2520,12 @@ Jadi 20 dari 22 punya bukti run penuh, W05 PARTIAL, dan C04 belum.
   - `supabase/release/cp6-t3/MANIFEST.json` `cf7de9f4407ccb9c…`
   - berkas BC `a9daa1f00bbf6edf…`
   - blob pin `b469a5abde7147dc…` (capture job 108183850580, run 36168802454)
-- **Rollback:** `ROLLBACKS.json` `9ec36fcf62836623…`; alat `scripts/cp6_t3_rollback.py` `2b4bca622f390163…`; berkas BC `5297f78d95597072…`; capture `f9eeb8d3e87ed217…` (job 108189867439, run 36170892127).
+- **Rollback:** `ROLLBACKS.json` `9ec36fcf62836623…`; alat `scripts/cp6_t3_rollback.py` `c76272f76d524969…` (dengan diff baris seed per kolom, GPT-BC-02); berkas BC `5297f78d95597072…`; capture `f9eeb8d3e87ed217…` (job 108189867439, run 36170892127).
 - **Advisor 27 berkas** (run 36170892085): sebelum 73, sesudah 165, bertambah 92, dihapus 0. Semuanya `INFO rls_enabled_no_policy` pada schema `erp`: 75 seperti paket 26 berkas, ditambah 16 tabel `bc_*` dan `cp6_v2620bc_rollback_capsule`. Gate `security_advisors` bernilai `true`.
 - **Skenario writer:**
-  - `scripts/cp6_bc_probe.py` `0ee7ba788c8cb3ee…` (43 kasus)
+  - `scripts/cp6_bc_probe.py` `cbf8c80926f32ae1…` (44 kasus, termasuk `C12:SAME_GOODS_COUNTED_ONCE`)
   - `scripts/cp6_bc_modes.py` `fdc06d1808b86e89…` (11 race, 2 HTTP)
-  - `scripts/cp6_bc_browser.mjs` `53e6e70259c7f549…` (3 flow)
+  - `scripts/cp6_bc_browser.mjs` `f39544a35d501fb8…` (4 flow, termasuk `NOTE_PAGE_D09_DESKTOP_PHONE`)
   - `scripts/cp6_bc_workspace_parse.mjs` `2966f1f317f3ec6f…`
 - **Pemeriksaan frontend (lokal):** `npm test` 512/512, `test:security`, dan build lolos.
 
@@ -2535,6 +2535,10 @@ Jadi 20 dari 22 punya bukti run penuh, W05 PARTIAL, dan C04 belum.
 |---|---|---|---|
 | Probe BC (before + after, dengan cek parser halaman) | 36168802591 | 5e1ae83 | sukses: 43 kasus; `NO_ROUTE`/`COUNTEREXAMPLE` sesuai rencana di fase before, `PASS` di fase after. SQL produk dan probe tidak berubah sesudah head ini |
 | Race 11, HTTP 2, browser 3 | 36171707986 (auditor scenario, `phase=after`) | 27e1a05 | 16/16 PASS, `RUN_COMPLETE`, 0 galat konsol |
+| Probe BC 44 kasus (tindak lanjut GPT butir 3, ACC-C12) | 36174363546 | 21ce322 | sukses: before sesuai rencana, after PASS |
+| Race 11, HTTP 2, browser 4 (tindak lanjut GPT butir 2, ACC-D09) | 36178858173 | 62d05c4 | 17/17 PASS, 0 galat konsol; rincian D09 di tabel kasus BC |
+| Rollback cycle dengan diff baris seed (GPT-BC-02) | 36174363509 | 21ce322 | 135/135 PASS; kunci seed sama, beda hanya `set_at` (dan `id` event) |
+| Paket T3 dan CodeQL pada head tindak lanjut | 36174363719, 36174371647 | 21ce322 | sukses keduanya |
 | T2 gabungan | 36171725748 | 27e1a05 | 3/3 job sukses. Per ID dibanding head BB final (run 36141237920): 326 asli + AS 34 = 422 status sama; AT 16 + AU 15 = 41 sama; AR 174: satu berubah, `ACCESSORY_CONNECTED_ZERO` PASS → INCOMPLETE, disengaja (ERP-DEC02, lihat §Disposisi T2) |
 | Paket T3: capture pin | 36168802454, job 108183850580 | 5e1ae83 | 27/27 berkas `CAPTURED_AND_INSTALLED`; blob `b469a5ab…` |
 | Paket T3: install 27 berkas, verify, advisor, drill restore, cek data | 36170892085 | e21d15b | `ALL_STAGES_INSTALLED`; advisor +92 INFO saja, gate `true`; drill `RESTORED_SAME_MEANING`; UUID `CLEAN` |
@@ -2554,7 +2558,7 @@ Log gagal (disimpan di Actions) dan disposisi T2: lihat `docs/cp6-bc-case-table.
 ### 31.8 Yang masih terbuka
 
 - **Owner:** nilai kebijakan aksesori (tujuh baris) tetap `PENDING_POLICY_VALUE` sampai owner menetapkannya di aplikasi; F3 (guard ID mandor di halaman nota).
-- **Auditor:** disposisi `ACCESSORY_CONNECTED_ZERO` (§31.4a) dan tinjauan pengecualian pembanding rollback untuk baris seed (§31.3 butir 7).
+- **Auditor:** disposisi `ACCESSORY_CONNECTED_ZERO` (§31.4a) dan tinjauan pengecualian pembanding rollback untuk baris seed (§31.3 butir 7). Tindak lanjut tinjauan awal BC sudah dijalankan: butir 2 (ACC-D09 di browser, run 36178858173), butir 3 (ACC-C12 barang sama, run 36174363546, dengan batas kunci custody baru yang dicatat di tabel kasus BC), GPT-BC-02 (diff baris seed, run 36174363509). Sesudah 21ce322 hanya skrip uji browser yang berubah; SQL produk dan `src` BC tetap sama sejak 27e1a05.
 - **Writer, berikutnya:** BD (LAU-05b, LAU-DEC01–06 sebagai pengaturan, W05 fisik), lalu BE (ganti SKU, celup ulang LAU-06b, ALL C04), lalu uji gabungan 75 kasus C6 + 22 ALL.
 - **Operator:** drill T6 pada salinan yang diizinkan.
 - **Opsional:** T7.

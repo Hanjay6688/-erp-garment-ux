@@ -30,7 +30,7 @@ ACC-C06..C08 (ganti merek) milik family BE dan tidak diklaim di sini.
 
 Kolom *after* selalu `PASS`.
 
-## T1 probe (`scripts/cp6_bc_probe.py`, 43 kasus, `.github/workflows/cp6-bc-t1-probe.yml`)
+## T1 probe (`scripts/cp6_bc_probe.py`, 44 kasus, `.github/workflows/cp6-bc-t1-probe.yml`)
 
 | Kasus | ID | Oracle pra-kode | before |
 |---|---|---|---|
@@ -50,6 +50,7 @@ Kolom *after* selalu `PASS`.
 | C10:CUSTOMER_GARMENT_CUSTODY | ACC-C10, ACC-DEC04 | F §ACC-C10; G §C (M:5288) | NO_ROUTE |
 | C11:TWO_REAL_TIMELINES | ACC-C11, ACC-DEC01 | F §ACC-C11; G §C (M:5289) | NO_ROUTE |
 | C12:OPNAME_BASELINE_INCOMPLETE_SOURCE | ACC-C12 | F §ACC-C12; G §C (M:5290) | NO_ROUTE |
+| C12:SAME_GOODS_COUNTED_ONCE | ACC-C12 | tinjauan GPT BC butir 3; F §ACC-C12 (barang yang sama dihitung sekali) | NO_ROUTE |
 | A08:REPEATED_PARTIAL_RETURNS_CENTS | ACC-A08 | F §ACC-A08; G §A (M:5261) | NO_ROUTE |
 | D05:REPLAY_SAME_KEY | ACC-D05 | F §ACC-D05; G §D (M:5300) | NO_ROUTE |
 | D06:ACCESS_DENIED_BY_SERVER | ACC-D06 | F §ACC-D06; G §D (M:5301) | NO_ROUTE |
@@ -111,6 +112,7 @@ Pemeriksaan halaman ikut dalam run yang sama. Semua baca workspace (impor, Gudan
 | Kasus | ID | Oracle pra-kode |
 |---|---|---|
 | BC_BROWSER:FILL_POST_AND_REVERSE | ACC-B01, ACC-D09 | F §ACC-B01; F §ACC-D09 (UI) |
+| BC_BROWSER:NOTE_PAGE_D09_DESKTOP_PHONE | ACC-D09 | F §ACC-D09; tinjauan GPT BC butir 2 (reload, klik ganda, hasil kosong, galat baca, memuat, HP) |
 | BC_BROWSER:POLICY_SET_AND_CLEAR_BY_OWNER | kebijakan | lampiran C6 rev4 §3 |
 | BC_BROWSER:IMPORT_PAGE_OPENING_ACCESSORIES | ALL-C03 | F22 §C03 (kategori tidak dijumlah menjadi satu stok siap) |
 
@@ -120,7 +122,6 @@ Pemeriksaan halaman ikut dalam run yang sama. Semua baca workspace (impor, Gudan
 |---|---|
 | ACC-C06, C07, C08 | family BE (ganti merek + aksesori) |
 | ACC-D03, D10 | nota (ACC-01, BASELINE), di luar CR BC |
-| ACC-D09 | halaman nota: terhalang F3 di rantai uji; parsernya diuji vitest dan parse probe |
 | ACC-D11 | paket T3 berkas ke-27 dan rollback BC: lihat §Run |
 
 ## Temuan
@@ -129,6 +130,8 @@ Pemeriksaan halaman ikut dalam run yang sama. Semua baca workspace (impor, Gudan
 - **F2** (lama; tidak diubah): v255 `MATERIAL_RECOST_GL_STATE_DRIFT` sudah basi sejak 20t dan BA W8. Kasus yang melakukan recost memeriksa buku = subledger sebagai gantinya.
 - **F3** (lama; baru ditemukan, tidak diubah): halaman Nota Ambil Aksesori menolak seluruh bacaan bila ada mandor aktif yang ID-nya bukan RFC-4122. Di rantai uji, ini terjadi karena mandor seed CP3 ber-ID `a1000000-0000-…`. Akibatnya halaman kosong dengan pesan galat. Server menyimpan tipe `uuid`, jadi ID itu sah. Guard lama tidak dilonggarkan dan diserahkan ke owner/auditor. Parser BC yang baru menerima semua teks UUID kanonik.
 - **F4** (baru; cacat BB, diperbaiki di BC): pelunasan saldo awal yang dibayar dari uang muka impor tidak punya akun kas dan tidak punya baris kredit. Akibatnya `erp.bb_financial_workspace_v1` mengirim `reversible = false OR NULL`, yaitu `null`. Halaman impor menolak flag yang bukan boolean, sehingga seluruh batch tidak terlihat. Temuan ini muncul dari parse halaman atas workspace kasus `L:A01_*` dan bisa direproduksi tanpa BC. BC mengganti fungsi itu dengan satu substitusi yang diperiksa (`coalesce(..., false)`); teks pendahulunya diverifikasi sama dengan BB. Kasus `F4:ADVANCE_SETTLEMENT_REVERSIBLE_READ`: COUNTEREXAMPLE sebelum BC, PASS sesudah. Parse probe menghitung penolakan F4 terpisah hanya di fase before, dan menolaknya di fase after.
+- **Batas C12** (dicatat, tidak ditutupi): baris tertunda impor dengan kunci custody baru diterima sebagai barang terpisah (tetap tertunda, di luar stok). Server tidak dapat membedakan barang fisik yang sama bila sumbernya memberi kunci baru; yang dijaga: opening kedua bahan yang sama ditolak (`BA_IMPORT_OPENING_ALREADY_POSTED`), kunci custody yang sama ditolak (`BC_C03_DUPLICATE`), dan nilai lot yang sama hanya sekali (`BC_QTY_EXCEEDS_BUCKET`).
+- **Fixture D09:** di salinan disposable, enam mandor seed CP3 dengan ID bukan RFC-4122 dinonaktifkan hanya selama kasus `NOTE_PAGE_D09_DESKTOP_PHONE`, lalu diaktifkan lagi. Guard UUID halaman tidak diubah; F3 tetap tercatat.
 - **Catatan D04** (koreksi laporan writer): hasil race D04 yang sempat disebut cacat BC ternyata bukan cacat. Sesi kedua memakai snapshot basi, lalu ditolak benar oleh guard kasbon. Kasus sekarang memakai anggaran payroll 100 dan mengulang populate bila ditolak.
 
 ## Run (head writer)
@@ -137,6 +140,11 @@ Pemeriksaan halaman ikut dalam run yang sama. Semua baca workspace (impor, Gudan
 |---|---|---|---|
 | Probe BC (before + after, dengan cek parser halaman) | 36168802591 | 5e1ae83 | sukses: 43 kasus; `NO_ROUTE`/`COUNTEREXAMPLE` sesuai rencana di fase before, `PASS` di fase after. SQL produk dan probe tidak berubah sesudah head ini |
 | Race 11, HTTP 2, browser 3 | 36171707986 (auditor scenario, `phase=after`) | 27e1a05 | 16/16 PASS, `RUN_COMPLETE`, 0 galat konsol |
+| Probe BC dengan C12:SAME_GOODS_COUNTED_ONCE (before + after) | 36174363546 | 21ce322 | sukses: 44 kasus sesuai rencana |
+| Race 11, HTTP 2, browser 4 (termasuk D09) | 36178858173 (auditor scenario, `phase=after`) | 62d05c4 | 17/17 PASS, `RUN_COMPLETE`, 0 galat konsol. D09: reload tidak menyimpan apa pun (0 nota, stok 20, form kosong); klik ganda menghasilkan satu nota 7 PCS (stok 13); hasil kosong tampil; galat baca tampil sebagai alert beserta pemberitahuan data belum dimuat ulang, tombol sahkan terkunci; bacaan yang ditahan menonaktifkan 'Muat ulang'; halaman pulih; HP menghasilkan nota 7 PCS kedua (stok 6) |
+| Rollback: cycle dengan diff baris seed (GPT-BC-02) | 36174363509 | 21ce322 | 135/135 PASS; reinstall BC dibanding per (policy_key, version): kunci sama, beda hanya di kolom waktu pasang (`set_at`, dan `id` pada event) |
+| Paket T3 (install, verify, advisor, drill) | 36174363719 | 21ce322 | sukses |
+| CodeQL kandidat | 36174371647 | 21ce322 | sukses |
 | T2 gabungan | 36171725748 | 27e1a05 | 3/3 job sukses. Per ID dibanding head BB final (run 36141237920): 326 asli + AS 34 = 422 status sama; AT 16 + AU 15 = 41 sama; AR 174: satu berubah, `ACCESSORY_CONNECTED_ZERO` PASS → INCOMPLETE, disengaja (ERP-DEC02, lihat §Disposisi T2) |
 | Paket T3: capture pin | 36168802454, job 108183850580 | 5e1ae83 | 27/27 berkas `CAPTURED_AND_INSTALLED`; blob `b469a5ab…` |
 | Paket T3: install 27 berkas, verify, advisor, drill restore, cek data | 36170892085 | e21d15b | `ALL_STAGES_INSTALLED`; advisor +92 INFO saja, gate `true`; drill `RESTORED_SAME_MEANING`; UUID `CLEAN` |
@@ -149,6 +157,7 @@ Log gagal tetap disimpan di Actions:
 - **36168808537:** browser `FILL_POST_AND_REVERSE` INCOMPLETE. Chromium menormalkan jam `09:00:00` dan Playwright menolak pengisian. Kesalahan skrip uji, diperbaiki di 792251f.
 - **36170901705:** browser `FILL_POST_AND_REVERSE` INCOMPLETE. Tab Dokumen menyaring dengan pencarian stok tanpa menampilkannya. Cacat UI BC, diperbaiki di 27e1a05.
 - **36171280254:** cycle rollback pertama gagal satu cek, `REINSTALL_BC_SAME_AS_FIRST_INSTALL`: baris seed kebijakan membawa waktu pasang dan id event baru. Pembanding disesuaikan secara sempit di 9fb2473; cek lain, termasuk 27 penolakan pasca-pakai, PASS.
+- **36174368419, 36175345878, 36176077431, 36177120018, 36177813548:** kasus browser `NOTE_PAGE_D09_DESKTOP_PHONE` INCOMPLETE/FAIL berturut-turut karena skrip uji: halaman tidak disimpan di URL sehingga perlu dibuka lagi sesudah reload; pencarian terkunci sesudah galat baca sehingga perlu 'Muat ulang' dulu; route yang ditahan dilepas bersamaan dengan unroute (`Route is already handled`); dua alert sah (galat dan data belum dimuat ulang) sementara locator mengharapkan satu; `isVisible()` tidak menunggu hasil kosong. Tidak ada perubahan produk; kasus lain di run itu PASS.
 - **36168802454:** job capture paket gagal dengan `T3_COMMITTED_PACKAGE_STALE` (differ `['BC']`). Ini memang yang diharapkan sebelum pin baru di-commit.
 
 ## Disposisi T2
