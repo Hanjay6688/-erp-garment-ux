@@ -1,5 +1,9 @@
 # CP6 audit — active round 8 checkpoint
 
+## GPT phase2 C0 oracle freeze
+25 fresh oracle cases frozen at SHA256 7c2c19b6e722d325ba902cfd9eb1ae2f98d4e2ec27245070ab485df0af9e66a7 in audit/scenarios/c0_round8/gpt_c0_oracles.py. Full formulas, old-ID mapping, contract references and Fable cross-review: out/gpt_c0_oracle_freeze.md. Status per new case BELUM until next audit-only workflow finishes. Prior native run36097284096 results committed10a9ce8; CP6-03 residual and B1 race/HTTP remain HOLD. C0 accepted as owner-supplied ratified authority; D06 excluded.
+LANGKAH BERIKUTNYA: obtain workflow run triggered by this commit; persist run/jobIDs, read its 25 case JSON and cleanup; then browser/HTTP valid-call phase and T3/rollback/CodeQL cross-review. Preserve historical HOLD.
+
 ## GPT round8 — independent native results (25 September 2026)
 **CP6 HOLD · audit_complete=false · production_go=false.** Candidate tool `9dd7bc2`, product `a095a9d`. Historical 12 HOLD unchanged. This section supersedes the earlier IN_FLIGHT entry for run 36097284096 only; it does not relabel old candidates.
 
