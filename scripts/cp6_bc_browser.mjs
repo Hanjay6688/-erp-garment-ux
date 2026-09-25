@@ -6,8 +6,10 @@
 // Oracles: filling a service post with 5 of 20 leaves 15 in the warehouse and 5 at the post with no journal, and its reversal
 // from the document detail restores 20/0; an owner sets ACC-DEC05 from the settings (status SET, version +1) and clears it
 // back to PENDING_POLICY_VALUE (version +2); a posted import with ALL-C03 custody shows the four custody kinds on the import page.
-// The note page (Nota Ambil Aksesori) is not driven here: on this chain its read is refused by the pre-existing finding F3
-// (seeded contractors with non RFC-4122 ids); its parser is covered by the probe's workspace parse and vitest.
+// The note page (Nota Ambil Aksesori, ACC-D09): on this chain its read is refused by the pre-existing finding F3 (six CP3 seed
+// mandors with non RFC-4122 ids). The case therefore deactivates exactly those seed mandors in the disposable copy for its own
+// duration (the page's UUID guard is not changed) and drives desktop and phone: 7 PCS, reload in the middle, double-click on
+// POST (one note), an empty search, a read error and a slow read (GPT BC review item 2).
 import { randomUUID } from 'node:crypto'
 
 const day = (today, back) => { const d = new Date(`${today}T00:00:00Z`); d.setUTCDate(d.getUTCDate() - back); return d.toISOString().slice(0, 10) }
@@ -59,6 +61,33 @@ async function openAccessories(ui, owner) {
 
 const stock = (ui, fx, location) => ui.sql(`select coalesce(sum(qty_signed),0)::numeric(24,0) from erp.material_stock_movements where material_id='${fx.material}' and location_id='${location}'`)
 
+async function openNotes(ui, user) {
+  const p = user.page
+  const menu = p.getByRole('button', { name: 'Buka menu', exact: true }); if (await menu.isVisible()) await menu.click()
+  const link = p.getByRole('button', { name: '• Nota Ambil Aksesori', exact: true })
+  if (!await link.isVisible()) await p.locator('.sidebar .nav-main').filter({ hasText: 'Keuangan' }).click()
+  await link.click()
+  await ui.expect(p.getByRole('heading', { name: 'Nota Ambil Aksesori', exact: true })).toBeVisible()
+  await ui.expect(p.getByRole('button', { name: 'Muat ulang', exact: true })).toBeEnabled()
+  return p
+}
+
+/** Fills a new note of `qty` PCS at 3.00 for the fixture's accessory; returns the note number. */
+async function fillNote(ui, p, fx, mandor, today, qty, hour) {
+  const number = fx.code + 'N' + hour
+  await p.getByRole('button', { name: 'Nota baru', exact: true }).click()
+  await p.getByLabel('Nomor nota aksesori').fill(number)
+  await p.getByLabel('Mandor aksesori').selectOption(mandor)
+  await p.getByLabel('Gudang aksesori').selectOption(fx.main)
+  await p.getByLabel('Waktu ambil aksesori').fill(`${day(today, 1)}T${String(hour).padStart(2, '0')}:00`)
+  await p.getByLabel('Cari barang aksesori').fill(fx.code)
+  await p.getByRole('button', { name: 'Perbarui harga dan stok', exact: true }).click()
+  await p.getByLabel('Tambah aksesori').selectOption(fx.material)
+  await p.getByLabel('Jumlah PCS 1').fill(String(qty))
+  await p.getByLabel('Harga per PCS 1').fill('3.00')
+  return number
+}
+
 export async function cases(ui, today) {
   return [
     ['BC_BROWSER:FILL_POST_AND_REVERSE', async () => {
@@ -98,6 +127,72 @@ export async function cases(ui, today) {
       await owner.context.close()
       const ok = filled.main === '15' && filled.post === '5' && filled.journals === 0 && reversed.main === '20' && reversed.post === '0' && reversed.status === 'REVERSED'
       return { status: ok ? 'PASS' : 'FAIL', filled, reversed, document: number }
+    }],
+    ['BC_BROWSER:NOTE_PAGE_D09_DESKTOP_PHONE', async () => {
+      const seeds = ui.sql("select coalesce(string_agg(id::text, ',' order by id), '') from erp.contractors where contractor_type='MANDOR' and is_active and id::text !~* '^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'")
+      const ids = seeds ? seeds.split(',') : []
+      const list = ids.map(i => `'${i}'`).join(',')
+      if (ids.length) ui.sql(`update erp.contractors set is_active=false where id in (${list})`)
+      try {
+        const owner = await ui.login('OWNER', { label: 'bc-note-desktop' })
+        const fx = await accessoryFixture(ui, owner, today, '20')
+        const mandor = ui.sql(`insert into erp.contractors(contractor_code,contractor_name,contractor_type,attendance_required,is_active) values('${fx.code}M','BC mandor browser ${fx.code}','MANDOR',false,true) returning id`)
+        const notes = number => ui.sql(`select count(*)||'|'||coalesce(string_agg(status,',' order by status),'') from erp.contractor_material_issues where issue_number='${number}'`)
+        const main = () => stock(ui, fx, fx.main)
+        const p = await openNotes(ui, owner)
+        const loadError = await p.getByRole('alert').count()
+        // Desktop: fill, reload in the middle (nothing is kept locally or posted), fill again, POST by double-click.
+        const first = await fillNote(ui, p, fx, mandor, today, 7, 9)
+        await p.reload()
+        await ui.expect(p.getByRole('heading', { name: 'Nota Ambil Aksesori', exact: true })).toBeVisible()
+        await ui.expect(p.getByRole('button', { name: 'Muat ulang', exact: true })).toBeEnabled()
+        const afterReload = { notes: notes(first), stock: main(), form_number: await p.getByLabel('Nomor nota aksesori').inputValue() }
+        const number = await fillNote(ui, p, fx, mandor, today, 7, 10)
+        await p.getByRole('button', { name: 'Periksa pengesahan', exact: true }).click()
+        const confirmText = await p.getByRole('region', { name: 'Konfirmasi nota' }).innerText()
+        await p.getByRole('button', { name: 'Sahkan nota', exact: true }).dblclick()
+        await ui.expect.poll(() => notes(number), { timeout: 20000 }).toBe('1|POSTED')
+        await ui.expect(p.getByRole('cell', { name: /^7 pcs$/i }).first()).toBeVisible()
+        const desktop = { notes: notes(number), stock: main(), confirm_mentions_7_pcs: /\b7 PCS\b/.test(confirmText) }
+        // Empty result, then a read error and a slow read on the same page.
+        await p.getByLabel('Cari nota aksesori').fill('TIDAK-ADA-' + fx.code)
+        await p.getByRole('button', { name: 'Cari nota', exact: true }).click()
+        const empty = await p.getByText('Belum ada nota aksesori hitung yang cocok.').isVisible()
+        const workspace = u => u.pathname.endsWith('/rpc/erp_get_accessory_issue_workspace_v1')
+        await p.route(workspace, r => r.fulfill({ status: 500, contentType: 'application/json', body: JSON.stringify({ code: 'XX000', message: 'uji galat baca nota', details: null, hint: null }) }))
+        await p.getByRole('button', { name: 'Muat ulang', exact: true }).click()
+        await ui.expect(p.getByRole('alert')).toBeVisible()
+        const errorState = { alert: await p.getByRole('alert').innerText(), post_enabled: await p.getByRole('button', { name: 'Periksa pengesahan', exact: true }).isEnabled().catch(() => false) }
+        await p.unroute(workspace)
+        let release
+        const held = new Promise(resolve => { release = resolve })
+        await p.route(workspace, async r => { await held; await r.continue() })
+        await p.getByLabel('Cari nota aksesori').fill(number)
+        await p.getByRole('button', { name: 'Cari nota', exact: true }).click()
+        let loading = false
+        try { await ui.expect(p.getByRole('button', { name: 'Muat ulang', exact: true })).toBeDisabled({ timeout: 5000 }); loading = true } catch { loading = false }
+        release(); await p.unroute(workspace)
+        await ui.expect(p.getByRole('button', { name: `Buka ${number}`, exact: true })).toBeVisible()
+        const recovered = await p.getByRole('alert').count() === 0
+        await owner.context.close()
+        // Phone: another 7 PCS note with a single click.
+        const phone = await ui.login('OWNER', { label: 'bc-note-phone', mobile: true })
+        const q = await openNotes(ui, phone)
+        const mobileNumber = await fillNote(ui, q, fx, mandor, today, 7, 11)
+        await q.getByRole('button', { name: 'Periksa pengesahan', exact: true }).click()
+        await q.getByRole('button', { name: 'Sahkan nota', exact: true }).click()
+        await ui.expect.poll(() => notes(mobileNumber), { timeout: 20000 }).toBe('1|POSTED')
+        await ui.expect(q.getByRole('cell', { name: /^7 pcs$/i }).first()).toBeVisible()
+        const mobile = { notes: notes(mobileNumber), stock: main() }
+        await phone.context.close()
+        const ok = loadError === 0 && afterReload.notes === '0|' && afterReload.stock === '20' && afterReload.form_number === ''
+          && desktop.notes === '1|POSTED' && desktop.stock === '13' && desktop.confirm_mentions_7_pcs && empty
+          && errorState.alert.trim().length > 0 && loading && recovered && mobile.notes === '1|POSTED' && mobile.stock === '6'
+        return { status: ok ? 'PASS' : 'FAIL', seed_mandors_deactivated: ids.length, load_error_alerts: loadError, after_reload: afterReload, desktop, empty,
+          error_state: errorState, loading_disabled_reload: loading, recovered_after_error: recovered, mobile }
+      } finally {
+        if (ids.length) ui.sql(`update erp.contractors set is_active=true where id in (${list})`)
+      }
     }],
     ['BC_BROWSER:POLICY_SET_AND_CLEAR_BY_OWNER', async () => {
       const owner = await ui.login('OWNER', { label: 'bc-policy' })

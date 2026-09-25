@@ -422,12 +422,29 @@ def state(url,block):
                 q=SEEDED.replace('%s',"array[%s]::text[]"%','.join("'%s'"%c for c in SEED_INSTALL_TIME[t]))
             else:q=STABLE if t.endswith('_rollback_capsule') else FULL
             stable[t]=list(cur.execute(sql.SQL(q.replace('%I','{}')).format(sql.Identifier(t))).fetchone())
+        # Seeded rows in full, so a reinstall comparison can name the columns that differ (GPT-BC-02).
+        seeded={t:cur.execute(sql.SQL("select coalesce(jsonb_agg(to_jsonb(t) order by t::text),'[]'::jsonb) from erp.{} t").format(sql.Identifier(t))).fetchone()[0]
+                for t in SEED_INSTALL_TIME if t in tables}
         platform=[list(r) for r in cur.execute("select version,name,encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') "
                                                "from supabase_migrations.schema_migrations order by version").fetchall()]
         markers=[list(r) for r in cur.execute('select version,description from erp.schema_migrations order by version').fetchall()]
         conn.rollback()
-    return dict(catalog=catalog,full=full,stable=stable,platform=platform,markers=markers)
+    return dict(catalog=catalog,full=full,stable=stable,platform=platform,markers=markers,seeded=seeded)
 
+
+def seeded_row_diff(a,b):
+    """Seeded rows of two installs matched by (policy_key, version): row counts, whether the keys are the same, the columns
+    whose values differ, and whether those are only the install-time columns set aside in the reinstall comparison."""
+    out={}
+    for t,cols in SEED_INSTALL_TIME.items():
+        x,y=a.get('seeded',{}).get(t),b.get('seeded',{}).get(t)
+        if x is None and y is None:continue
+        key=lambda r:(r.get('policy_key'),str(r.get('version')))
+        xm={key(r):r for r in x or []};ym={key(r):r for r in y or []}
+        differing=sorted({c for k in set(xm)&set(ym) for c in set(xm[k])|set(ym[k]) if xm[k].get(c)!=ym[k].get(c)})
+        out[t]=dict(rows=[len(x or []),len(y or [])],same_keys=set(xm)==set(ym) and len(xm)==len(x or []) and len(ym)==len(y or []),
+                    columns_differing=differing,only_install_time=set(differing)<=set(cols))
+    return out
 
 def diff(a,b,strict=True):
     out={}
@@ -549,8 +566,9 @@ def cycle(out):
         # times and boundary snapshots included.
         before1,after1=install_all('reinstall')
         for k in ALL:
-            d=diff(after0[k],after1[k],strict=False)
-            check('REINSTALL_%s_SAME_AS_FIRST_INSTALL'%k,not d,differences=d,compared='catalog, ledgers, rows (capsule capture time and boundary, seeded rows install time and event id aside)')
+            d=diff(after0[k],after1[k],strict=False);sd=seeded_row_diff(after0[k],after1[k])
+            check('REINSTALL_%s_SAME_AS_FIRST_INSTALL'%k,not d and all(v['same_keys'] and v['only_install_time'] for v in sd.values()),differences=d,seeded_rows=sd,
+                  compared='catalog, ledgers, rows (capsule capture time and boundary, seeded rows install time and event id aside)')
         down(2,before1)
         check('CYCLE_2_ENDS_AT_AB',not diff(before0[ALL[0]],state(package.CLONE,block),strict=True))
         # Post-use matrix: each file installed, one committed business transaction, then its rollback must refuse and

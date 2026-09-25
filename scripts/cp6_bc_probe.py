@@ -1153,6 +1153,72 @@ def c12_opname_baseline(cur,today):
         later_receipt_adds_exactly=stock(cur,fx['material'],fx['main'])==15),imported={k:str(v) for k,v in imported.items()},counts=[list(c0),list(c1)])
 
 
+
+def import_attempt(cur,today,rows,code):
+    """One more opening import attempt inside a savepoint that is always rolled back: ACCEPTED, or the refusal (a finalize
+    refusal or a validation error row) and whether it carries `code`."""
+    cur.execute('savepoint bc_import_attempt')
+    try:
+        posted=bbp.post_batch(cur,today,rows)
+        outcome=dict(result='ACCEPTED',batch_code=posted[1],ok=False)
+    except (psycopg.Error,AssertionError) as exc:
+        message=str(exc)
+        outcome=dict(result='REFUSED',message=message[:400],ok=code in message)
+    cur.execute('rollback to savepoint bc_import_attempt');api.admin(cur)
+    return outcome
+
+
+def c12_same_goods_once(cur,today):
+    """ACC-C12 same goods (GPT BC review item 3; Fable: "stok ditetapkan sekali (tidak dobel dengan entri 'susulan' untuk item
+    sama) ... Dilarang: item sama dihitung dua kali (opname + penerimaan normal berikutnya)"). After the opname import (5 known at
+    2.00, 3 pending value): a second opening of the same material is refused (BA_IMPORT_OPENING_ALREADY_POSTED) and stock stays 5;
+    the same pending item again (same custody key) is refused (BC_C03_DUPLICATE); the 3 pending are inspected and valued once
+    (stock 8) and a second valuation of the same lot is refused (BC_QTY_EXCEEDS_BUCKET), stock stays 8; positive control: a
+    genuinely new purchase of 10 adds 10. Limit, recorded and not claimed: a pending row under a NEW custody key is accepted as
+    separate goods (it stays pending and outside stock until inspected and valued); the system has no other identity to tell
+    it apart. Goods received before cutover whose documents arrive later go through the uninvoiced-receipt route (L:P01)."""
+    fx=fixture(cur,today,purchase=False)
+    rows=bbp.masters()
+    rows['OPENING_BALANCE_ITEM']=[dict(balance_type='MATERIAL',material_sku=fx['code'],location_code=fx['code']+'W',qty='5',unit_cost='2.00',control_key='STOCK',opening_source_key='OPNAME')]
+    rows['OPENING_CONTROL']=[dict(control_key='STOCK',balance_type='MATERIAL',qty='5',amount='10.00')]
+    rows['OPENING_ACCESSORY_CUSTODY']=[dict(custody_kind='PENDING_VALUE',custody_key='{C}-OPN',material_sku=fx['code'],location_code=fx['code']+'IN',
+                                            condition='WAITING',qty='3',notes='opname: dokumen dan harga asal hilang')]
+    if not bc_installed(cur):return no_route(cur,lambda:bbp.post_batch(cur,today,rows))
+    batch,code,cutover=bbp.post_batch(cur,today,rows)
+    main=lambda:stock(cur,fx['material'],fx['main'])
+    after_import=main()
+    again=bbp.masters()
+    again['OPENING_BALANCE_ITEM']=[dict(balance_type='MATERIAL',material_sku=fx['code'],location_code=fx['code']+'W',qty='5',unit_cost='2.00',control_key='STOCK',opening_source_key='OPNAME')]
+    again['OPENING_CONTROL']=[dict(control_key='STOCK',balance_type='MATERIAL',qty='5',amount='10.00')]
+    second_opening=import_attempt(cur,today,again,'BA_IMPORT_OPENING_ALREADY_POSTED')
+    same_key=bbp.masters()
+    same_key['OPENING_ACCESSORY_CUSTODY']=[dict(custody_kind='PENDING_VALUE',custody_key=code+'-OPN',material_sku=fx['code'],location_code=fx['code']+'IN',
+                                                condition='WAITING',qty='3',notes='susulan untuk barang yang sama')]
+    same_pending=import_attempt(cur,today,same_key,'BC_C03_DUPLICATE')
+    new_key=bbp.masters()
+    new_key['OPENING_ACCESSORY_CUSTODY']=[dict(custody_kind='PENDING_VALUE',custody_key=code+'-LAIN',material_sku=fx['code'],location_code=fx['code']+'IN',
+                                               condition='WAITING',qty='3',notes='susulan dengan kunci baru')]
+    limit=import_attempt(cur,today,new_key,'-')
+    after_refusals=main()
+    lot=[l for l in ws(cur,dict(query=fx['code']))['lots'] if l['source_kind']=='OPENING_PENDING_VALUE'][0]['id']
+    inspect(cur,lot,local_at(today,11),'Budi',usable=3)
+    policy(cur,'ACC_DEC03',dict(credit_account_id=account(cur,'4100'),unit_value_cap='NONE'))
+    b0=ledger(cur)
+    value=lambda hour:svc(cur,'VALUE_CUSTODY',dict(lot_id=lot,condition='USABLE',qty='3',unit_value='1.50',location_id=fx['main'],
+                                                   physical_at=local_at(today,hour),reason='nilai barang opname'))
+    value(12);valued=delta(b0,ledger(cur));after_value=main()
+    twice=refused(cur,lambda:value(13),'BC_QTY_EXCEEDS_BUCKET')
+    after_twice=main()
+    saved=internal(cur,'save_material_purchase_draft_v2',Jsonb(dict(purchase_number=fx['code']+'R',supplier_id=fx['supplier'],location_id=fx['main'],
+        physical_at=local_at(today,14),change_reason='BC C12 pembelian baru',lines=[dict(material_id=fx['material'],qty=10,unit_price='2.00',
+        price_state='ESTIMATED',price_source='MANUAL_ESTIMATE')])),str(uuid.uuid4()),None)
+    internal(cur,'post_material_purchase_v2',saved['purchase_id'],str(uuid.uuid4()),saved['row_version'],'BC C12 pembelian baru')
+    return verdict(dict(opening_once=after_import==5,second_opening_refused=second_opening['ok'] and after_refusals==5,
+        same_pending_refused=same_pending['ok'],valued_once=after_value==8 and valued.get('MATERIAL_INVENTORY')==D('4.50') and sum(valued.values())==0,
+        second_valuation_refused=twice['ok'] and after_twice==8,new_purchase_adds=main()==18),
+        second_opening=second_opening,same_pending=same_pending,valued={k:str(v) for k,v in valued.items()},
+        limit=dict(new_custody_key=limit['result'],note='a pending row under a new custody key is accepted as separate goods; it stays pending and outside stock'))
+
 def f4_advance_settlement_read(cur,today):
     """Pre-existing finding F4 (found by the ALL-A01 continuation; BB's read, reproduced on the BB chain without BC): an opening
     payable paid from an imported advance gets a settlement without cash account and credit row, and the import workspace sent
@@ -1545,6 +1611,7 @@ PLAN=[('B01:FILL_POST_KEEPS_TOTAL','NO_ROUTE',b01_fill),
       ('ALL:C03_CUSTODY_STATES','NO_ROUTE',all_c03),
       ('ALL:C03_IMPORT_REFUSALS','NO_ROUTE',all_c03_refusals),
       ('C12:OPNAME_BASELINE_INCOMPLETE_SOURCE','NO_ROUTE',c12_opname_baseline),
+      ('C12:SAME_GOODS_COUNTED_ONCE','NO_ROUTE',c12_same_goods_once),
       ('F4:ADVANCE_SETTLEMENT_REVERSIBLE_READ','COUNTEREXAMPLE',f4_advance_settlement_read)]+L_CASES
 assert len({k for k,_,_ in PLAN})==len(PLAN),'BC_DUPLICATE_CASE_ID'
 
