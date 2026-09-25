@@ -4,8 +4,9 @@ independent acceptance of AY rev7.4 and AZ rev2.1 needs a runtime the auditor co
 not release evidence, production_go=false.
 
 Chain: the untouched AN clone of the CP6 probe workflows, then AU, AV, AW, AX, AY from the committed T1 family files;
-phase after adds AZ, BA and BB (the current candidate; BA: the independent audit's product fixes, scripts/cp6_ba_build.py;
-BB: the open cutover states of ALL, scripts/cp6_bb_build.py), phase pre_bb adds AZ and BA (the candidate before BB),
+phase after adds AZ, BA, BB and BC (the current candidate; BA: the independent audit's product fixes, scripts/cp6_ba_build.py;
+BB: the open cutover states of ALL, scripts/cp6_bb_build.py; BC: the accessory service/return workflow, scripts/cp6_bc_build.py),
+phase pre_bc adds AZ, BA and BB (the candidate before BC), phase pre_bb adds AZ and BA (the candidate before BB),
 phase pre_ba adds AZ only (the candidate before BA), phase before adds neither. The committed candidate is verified before
 any case runs (function text equal to the committed files, T1 markers).
 
@@ -41,6 +42,7 @@ import cp6_ay_probe as ayp
 import cp6_az_probe as azp
 import cp6_ba_probe as bap
 import cp6_bb_probe as bbp
+import cp6_bc_probe as bcp
 import cp6_auditor_modes as modes
 import cp6_auditor_runner as runner
 import cp6_run_identity as run_identity
@@ -74,10 +76,11 @@ def run(phase,scenario,selftest=False,browser=None):
         report['au_install']=awp.au_runtime.change('install',boundary.PG,control_url)['status']
         report['av_install']=awp.av_runtime.change('install',boundary.PG,control_url)['status']
         report['aw_install']=awp.install_aw();report['ax_install']=axp.install_ax();report['ay_install']=ayp.install_ay();verify=ayp.ay_verified
-        if phase in('pre_ba','pre_bb','after'):report['az_install']=azp.install_az();verify=azp.az_verified
-        if phase in('pre_bb','after'):report['ba_install']=bap.install_ba();verify=bap.ba_verified
-        if phase=='after':report['bb_install']=bbp.install_bb();verify=bbp.bb_verified
-        print(json.dumps(dict(auditor_setup={k:report.get(k) for k in ('au_install','av_install','ay_install','az_install','ba_install','bb_install')}),default=str),flush=True)
+        if phase in('pre_ba','pre_bb','pre_bc','after'):report['az_install']=azp.install_az();verify=azp.az_verified
+        if phase in('pre_bb','pre_bc','after'):report['ba_install']=bap.install_ba();verify=bap.ba_verified
+        if phase in('pre_bc','after'):report['bb_install']=bbp.install_bb();verify=bbp.bb_verified
+        if phase=='after':report['bc_install']=bcp.install_bc();verify=bcp.bc_verified
+        print(json.dumps(dict(auditor_setup={k:report.get(k) for k in ('au_install','av_install','ay_install','az_install','ba_install','bb_install','bc_install')}),default=str),flush=True)
         # B1 (CP6-10): the strict group (duplicate ids refused, status vocabulary, public schema, advisory locks and
         # leaked sessions checked after every case, planned vs final printed).
         group=runner.strict_group('AUDITOR_CASES_'+phase.upper(),getattr(module,'cases',None) or (lambda cur,today:[]),verify)
@@ -127,7 +130,7 @@ def run(phase,scenario,selftest=False,browser=None):
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser()
-    parser.add_argument('--phase',choices=('before','pre_ba','pre_bb','after'),required=True)
+    parser.add_argument('--phase',choices=('before','pre_ba','pre_bb','pre_bc','after'),required=True)
     parser.add_argument('--scenario',required=True)
     parser.add_argument('--selftest',action='store_true',help='the runner self-test (B1): expect the scenario EXPECTED statuses')
     parser.add_argument('--browser',help='ES module with cases(ui, today) for the browser mode (B4)')

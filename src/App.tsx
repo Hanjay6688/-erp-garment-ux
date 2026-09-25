@@ -39,6 +39,7 @@ const WarehousePages = lazy(() => import('./WarehousePages'))
 const WipBatchControlLayer = lazy(() => import('./WipBatchControlLayer'))
 const ContractorIssuePage = lazy(() => import('./ContractorIssuePage'))
 const ConnectedAccessoryIssuePage = lazy(() => import('./ConnectedAccessoryIssuePage'))
+const ConnectedAccessoryServicePage = lazy(() => import('./ConnectedAccessoryServicePage'))
 const MaterialMasterPages = lazy(() => import('./MaterialMasterPages'))
 const MasterDataPages = lazy(() => import('./MasterDataPages'))
 const OperationsAdminPages = lazy(() => import('./OperationsAdminPages'))
@@ -603,7 +604,8 @@ function App() {
         {page === 'movements-vivo' && <Movements bookName="Vivo" bookBrands={vivoBookBrands} setBookBrands={setVivoBookBrands} movements={movements} setMovements={setMovements} />}
         {page === 'movements-widie' && <Movements bookName="Widie" bookBrands={widieBookBrands} setBookBrands={setWidieBookBrands} movements={movements} setMovements={setMovements} />}
         {page === 'procurement' && <ProcurementPage />}
-        {(page === 'warehouse-dashboard' || page === 'materials-rolls' || page === 'accessories' || page === 'fg-summary' || page === 'stock-adjustment' || page === 'brand-conversion') && <Suspense fallback={<WorkspaceFallback label="Gudang"/>}><WarehousePages view={page} onNavigate={(next)=>setPage(next)} /></Suspense>}
+        {page === 'accessories' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Aksesori"/>}><ConnectedAccessoryServicePage/></Suspense>}
+        {(page === 'warehouse-dashboard' || page === 'materials-rolls' || (page === 'accessories' && runtime.mode === 'DEMO_SIMULATION') || page === 'fg-summary' || page === 'stock-adjustment' || page === 'brand-conversion') && <Suspense fallback={<WorkspaceFallback label="Gudang"/>}><WarehousePages view={page} onNavigate={(next)=>setPage(next)} /></Suspense>}
         {page === 'cutting-roll' && runtime.cuttingMode === 'CONNECTED' && <Suspense fallback={<WorkspaceFallback label="Buat Potongan connected"/>}><ConnectedCuttingPage/></Suspense>}
         {page === 'cutting-roll' && runtime.cuttingMode === 'SIMULATION' && <CuttingRollPage />}
         {page === 'mandor-wip' && runtime.distributionMode === 'CONNECTED' && <Suspense fallback={<WorkspaceFallback label="Bagi Potongan connected"/>}><ConnectedPickupPage/></Suspense>}

@@ -43,8 +43,8 @@ def dev_source(signature):
     text=BC_SQL.read_text()
     heads=[m.start() for m in re.finditer(r'(?i)create or replace function '+re.escape(name)+r'\(',text)]
     assert heads,('BC_T1_FUNCTION_NOT_IN_DEV_FILE',signature)
-    start=re.compile(r'(?i)\bas \$(function|\$)').search(text,heads[-1])
-    delim='$function$' if start.group(1)=='function' else '$$'
+    start=re.compile(r'(?i)\bas \$(function\$|\$)').search(text,heads[-1])
+    delim='$function$' if start.group(1)=='function$' else '$$'
     return text[start.end():text.index(delim,start.end())]
 
 
@@ -1499,7 +1499,7 @@ assert len({k for k,_,_ in PLAN})==len(PLAN),'BC_DUPLICATE_CASE_ID'
 # Every import batch workspace and every accessory workspace a case reads is saved and run through the pages' own parsers after
 # the group (scripts/cp6_bc_workspace_parse.mjs): a page hides what it cannot parse, so a refusal there is a probe failure.
 WS=dict(dir=None,case=None,n=0)
-_READ,_WS=api.read,ws
+_READ,_WS,_NOTE_READ=api.read,ws,note_read
 
 
 def _save(kind,result):
@@ -1519,6 +1519,10 @@ def recording_ws(cur,filters=None,auth=None):
     return _save('service',_WS(cur,filters,auth))
 
 
+def recording_note_read(cur,filters,auth=None):
+    return _save('note',_NOTE_READ(cur,filters,auth))
+
+
 def cases(cur,today):
     day=case_day(today)
     def run_one(key,fn):
@@ -1534,12 +1538,12 @@ def workspace_parse(phase):
     kept=OUT/('WORKSPACE_REFUSED_'+phase.upper());kept.mkdir(parents=True,exist_ok=True)
     for item in parsed.get('refused') or []:(kept/item['file']).write_text((WS['dir']/item['file']).read_text())
     ok=run.returncode==0 and parsed.get('refused')==[] and (parsed.get('files') or 0)>0
-    return dict(status='PASS' if ok else 'FAIL',files=parsed.get('files'),kinds=parsed.get('kinds'),refused=parsed.get('refused'),
+    return dict(status='PASS' if ok else 'FAIL',files=parsed.get('files'),kinds=parsed.get('kinds'),f3_seed_ids=parsed.get('f3_seed_ids'),refused=parsed.get('refused'),
                 error=parsed.get('error'),exit=run.returncode)
 
 
 def run(phase):
-    global ws
+    global ws,note_read
     assert os.environ.get('CP6_AR_CONFIRM')=='cp6_rollback' and os.environ.get('CP6_DATABASE_CONTAINER')=='supabase_db_cp5-local'
     r1.OUT=OUT
     planned={k:(e if isinstance(e,tuple) else (e,)) if phase=='before' else ('PASS',) for k,e,_ in PLAN}
@@ -1559,9 +1563,9 @@ def run(phase):
         if phase=='after':report['bc_install']=install_bc();verify=bc_verified
         r1.save('RESULT_'+phase.upper(),report)
         print(json.dumps(dict(bc_probe_setup={k:report.get(k) for k in ('au_install','av_install','ba_install','bb_install','bc_install')}),default=str),flush=True)
-        WS['dir']=Path(tempfile.mkdtemp(prefix='cp6-bc-ws-'));api.read=recording_read;ws=recording_ws
+        WS['dir']=Path(tempfile.mkdtemp(prefix='cp6-bc-ws-'));api.read=recording_read;ws=recording_ws;note_read=recording_note_read
         try:group=r1.group('BC_CASES_'+phase.upper(),cases,verify)
-        finally:api.read=_READ;ws=_WS
+        finally:api.read=_READ;ws=_WS;note_read=_NOTE_READ
         report['bc_cases']={k:group[k] for k in ('status','counts')}
         report['workspace_parse']=workspace_parse(phase)
         print(json.dumps(dict(bc_workspace_parse=report['workspace_parse']),default=str),flush=True)

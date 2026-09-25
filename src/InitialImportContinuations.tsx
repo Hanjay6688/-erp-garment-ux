@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { Json } from './types/database.preconnect'
 import type { InitialImportBB } from './initialImportBB'
+import type { InitialImportBC } from './initialImportBC'
 
 // BB (ALL open cutover states): continuations of a posted import. Every action goes through the import RPC with the
 // batch's revision; the server re-checks dates, capacity and state. Nothing here computes a balance.
@@ -164,5 +165,23 @@ export function OpeningReworksPanel({ bb }: { bb: InitialImportBB }) {
     <h2>Rework yang masih di luar saat saldo awal</h2>
     <p>Setiap rework menjadi order rework native untuk sisa pcs-nya. Selesaikan, catat hasil baik/BS, atau batalkan melalui halaman BS/Rework; upah komponen dihitung saat rework selesai.</p>
     <div className="initial-import-table"><table><thead><tr><th>Rework</th><th>BS</th><th>Tujuan</th><th>Dikirim (asal)</th><th>Kembali sebelum saldo awal</th><th>Sisa di rework</th><th>Status</th></tr></thead><tbody>{bb.opening_reworks.map(r => <tr key={r.id}><td>{r.legacy_rework_number} → {r.rework_number}</td><td>{r.bs_number}</td><td>{r.destination_type === 'CONTRACTOR' ? 'Mandor' : 'Laundry'} {r.holder_name}</td><td>{r.qty_sent_original} pcs · {r.legacy_sent_date}</td><td>{r.qty_returned_before_cutover} pcs</td><td>{r.qty_open} pcs</td><td>{r.status}{r.qty_good_returned + r.qty_bs_returned > 0 ? ` · baik ${r.qty_good_returned}, BS ${r.qty_bs_returned}` : ''}</td></tr>)}</tbody></table></div>
+  </section>
+}
+
+const pcs = (value: string) => value.replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '').replace('.', ',')
+const CUSTODY_LABEL: Record<string, string> = { QUARANTINE_VALUED:'Area pemeriksaan (bernilai di buku)', PENDING_VALUE:'Titipan belum dinilai',
+  UNRETURNED:'Belum kembali', CUSTOMER_GARMENT:'Titipan pelanggan' }
+
+/** BC (ALL-C02/C03): read only here; returns, inspection, credit and valuation are recorded on Gudang · Aksesori. */
+export function OpeningAccessoriesPanel({ bc }: { bc: InitialImportBC }) {
+  return <section className="panel initial-import-advances" aria-label="Aksesori saldo awal">
+    <h2>Aksesori saldo awal</h2>
+    <p>Baris nota mandor lama dan aksesori yang bukan stok siap pakai. Penerimaan kembali, pemeriksaan, kredit retur, dan penilaian dicatat di Gudang · Aksesori; jumlah dan nominal asal di sini tidak berubah.</p>
+    {bc.accessory_note_lines.length > 0 && <div className="initial-import-table"><table><thead><tr><th>Nota lama</th><th>Baris</th><th>Aksesori</th><th>Jumlah</th><th>Nominal asal</th><th>Sudah kembali</th><th>Sisa piutang dokumen</th></tr></thead>
+      <tbody>{bc.accessory_note_lines.map(n => <tr key={n.line_id}><td>{n.document_number}</td><td>{n.line_number}</td><td>{n.material_sku}</td><td>{pcs(n.qty)}</td>
+        <td>{money(n.line_amount)}</td><td>{pcs(n.returned)}</td><td>{money(n.remaining_receivable)}</td></tr>)}</tbody></table></div>}
+    {bc.accessory_custody.length > 0 && <div className="initial-import-table"><table><thead><tr><th>Kode opname</th><th>Jenis</th><th>Aksesori / pelanggan</th><th>Jumlah</th><th>Menunggu periksa</th><th>Layak</th><th>Rusak</th><th>Status nilai</th></tr></thead>
+      <tbody>{bc.accessory_custody.map(c => <tr key={c.kind + c.key}><td>{c.key}</td><td>{CUSTODY_LABEL[c.kind]}</td><td>{c.material_sku || c.customer_code}{c.holder ? ` · ${c.holder}` : ''}</td>
+        <td>{pcs(c.qty)}</td><td>{c.waiting === null ? '—' : pcs(c.waiting)}</td><td>{c.usable === null ? '—' : pcs(c.usable)}</td><td>{c.damaged === null ? '—' : pcs(c.damaged)}</td><td>{c.value_status}</td></tr>)}</tbody></table></div>}
   </section>
 }

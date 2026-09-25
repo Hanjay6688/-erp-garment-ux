@@ -11,7 +11,8 @@ import type { Json } from './types/database.preconnect'
 import './initial-import.css'
 import { parseInitialProductionSources, type InitialProductionSource } from './initialProduction'
 import { parseInitialImportBB, type InitialImportBB } from './initialImportBB'
-import { CustomerCreditsPanel, OpenSalesDraftsPanel, OpeningBalancesPanel, OpeningReworksPanel, PayrollEntitlementsPanel, PurchaseCommitmentsPanel, ReturnRightsPanel } from './InitialImportContinuations'
+import { parseInitialImportBC, type InitialImportBC } from './initialImportBC'
+import { CustomerCreditsPanel, OpeningAccessoriesPanel, OpenSalesDraftsPanel, OpeningBalancesPanel, OpeningReworksPanel, PayrollEntitlementsPanel, PurchaseCommitmentsPanel, ReturnRightsPanel } from './InitialImportContinuations'
 
 type Row = InitialImportRow & { id: string; entity: InitialImportEntity; validation_status: string; errors: string[]; applied: boolean }
 type AdvanceAllocation = { payroll_id: string; payroll_number: string; status: string; row_version: string; amount: string }
@@ -25,7 +26,7 @@ type Prepayment = { id: string; party_type: 'SUPPLIER' | 'CUSTOMER' | 'VENDOR'; 
   payments: { id: string; number: string; status: string; amount: string }[];
   events: { id: string; kind: string; delta: string; date: string; reason: string; reversed: boolean }[] }
 type CashAccount = { id: string; name: string }
-type Batch = { id: string; code: string; status: string; cutover_at: string; revision: string; rows: Row[]; cash_advances: CashAdvance[]; advance_payrolls: AdvancePayroll[]; prepayments: Prepayment[]; prepayment_cash_accounts: CashAccount[]; production_sources: InitialProductionSource[]; bb: InitialImportBB | null }
+type Batch = { id: string; code: string; status: string; cutover_at: string; revision: string; rows: Row[]; cash_advances: CashAdvance[]; advance_payrolls: AdvancePayroll[]; prepayments: Prepayment[]; prepayment_cash_accounts: CashAccount[]; production_sources: InitialProductionSource[]; bb: InitialImportBB | null; bc: InitialImportBC | null }
 type Workspace = { batch: Batch | null; recent: { id: string; batch_code: string; status: string }[] }
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 function object(value: unknown): Record<string, unknown> {
@@ -113,7 +114,7 @@ export function parseInitialImportWorkspace(value: unknown): Workspace {
     if (typeof c.id !== 'string' || !uuid.test(c.id) || typeof c.name !== 'string') throw new Error('Rekening pengembalian uang muka tidak valid.')
     return { id:c.id, name:c.name }
   })
-  return { recent, batch: { id:b.id, code:b.code, status:b.status, cutover_at:b.cutover_at, revision:b.revision, rows, cash_advances, advance_payrolls, prepayments, prepayment_cash_accounts, production_sources:parseInitialProductionSources(b.production_sources, true), bb:parseInitialImportBB(b) } }
+  return { recent, batch: { id:b.id, code:b.code, status:b.status, cutover_at:b.cutover_at, revision:b.revision, rows, cash_advances, advance_payrolls, prepayments, prepayment_cash_accounts, production_sources:parseInitialProductionSources(b.production_sources, true), bb:parseInitialImportBB(b), bc:parseInitialImportBC(b) } }
 }
 
 function ProductionBalances({ batch, locked, manage }: { batch: Batch; locked: boolean; manage: (payload: Record<string, Json>) => void }) {
@@ -307,6 +308,7 @@ function ImportWorkspace() {
         {batch.bb.payroll_entitlements.length > 0 && <PayrollEntitlementsPanel key={`y02-${batch.id}`} bb={batch.bb} locked={locked} manage={(action, payload) => { void act(action, payload) }}/>}
         <OpeningReworksPanel bb={batch.bb}/>
         <OpenSalesDraftsPanel bb={batch.bb}/>
+        {batch.bc && (batch.bc.accessory_note_lines.length > 0 || batch.bc.accessory_custody.length > 0) && <OpeningAccessoriesPanel bc={batch.bc}/>}
         {batch.bb.legacy_documents > 0 && <p className="initial-import-help">{batch.bb.legacy_documents} dokumen lama yang sudah lunas tercatat sebagai riwayat; tidak ada saldo atau kas baru darinya.</p>}
       </>}
       <div className="panel initial-import-toolbar"><label>Jenis data<select disabled={locked || Boolean(editor)} value={entity} onChange={(event) => { setEntity(event.target.value as InitialImportEntity); setPage(0); readFileSequence.current++ }}>{Object.entries(initialImportCatalog).map(([key, item]) => <option key={key} value={key}>{item.label}</option>)}</select></label><button type="button" onClick={download}><Download size={16}/> Unduh template</button>{!posted && <label className="initial-import-upload"><FileUp size={16}/> Pilih file CSV<input aria-label="Pilih file CSV" type="file" accept=".csv,.tsv,text/csv" disabled={locked || Boolean(editor)} onChange={(event) => { const file = event.target.files?.[0]; event.target.value = ''; void upload(file) }}/></label>}</div>

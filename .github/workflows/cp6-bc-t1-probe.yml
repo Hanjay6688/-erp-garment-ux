@@ -1,61 +1,34 @@
-name: CP6 Auditor Scenario
+name: CP6 BC T1 Family Probe
 'on':
   push:
     branches:
     - claude/new-session-deapao
     paths:
-    - scripts/cp6_auditor_scenario.py
-    - scripts/cp6_auditor_scenario_sample.py
-    - scripts/cp6_auditor_modes.py
-    - scripts/cp6_auditor_runner.py
-    - scripts/cp6_auditor_scenario_selftest.py
-    - scripts/cp6_auditor_browser_host.mjs
-    - scripts/cp6_auditor_browser_sample.mjs
-    - scripts/cp6_run_identity.py
-    - scripts/cp6_ba_probe.py
-    - scripts/cp6_bb_probe.py
     - scripts/cp6_bc_probe.py
-    - .github/workflows/cp6-auditor-scenario.yml
-  workflow_dispatch:
-    inputs:
-      scenario_b64:
-        description: Base64 of the auditor's Python scenario (defines cases, races and/or http_cases); empty runs the sample
-        required: false
-        default: ''
-      browser_b64:
-        description: Base64 of the auditor's ES module for the browser mode (exports cases(ui, today)); empty runs the browser sample
-        required: false
-        default: ''
-      scenario_path:
-        description: Instead of scenario_b64, a scenario file committed on the dispatched ref (scripts/cp6_*.py, e.g. the writer's scripts/cp6_bb_modes.py)
-        required: false
-        default: ''
-      browser_path:
-        description: Instead of browser_b64, a browser module committed on the dispatched ref (scripts/cp6_*.mjs)
-        required: false
-        default: ''
-      phase:
-        description: after = AN..AY plus AZ, BA, BB and BC (current candidate); pre_bc = plus AZ, BA and BB; pre_bb = plus AZ and BA; pre_ba = plus AZ only; before = without AZ
-        required: false
-        default: after
-        type: choice
-        options:
-        - after
-        - pre_bc
-        - pre_bb
-        - pre_ba
-        - before
+    - scripts/cp6_bc_workspace_parse.mjs
+    - scripts/cp6_bc_build.py
+    - scripts/cp6_bc_objects_policy.sql
+    - scripts/cp6_bc_objects_service.sql
+    - scripts/cp6_bc_objects_note.sql
+    - scripts/cp6_bc_objects_import.sql
+    - scripts/cp6_bc_objects_router.sql
+    - src/initialImportCatalogBC.json
+    - src/accessoryService.ts
+    - src/accessoryIssue.ts
+    - src/initialImportBC.ts
+    - src/ConnectedInitialImportPage.tsx
+    - supabase/dev/cp6_bc_t1_family.sql
+    - .github/workflows/cp6-bc-t1-probe.yml
+  workflow_dispatch: null
 permissions:
   contents: read
   actions: read
 concurrency:
-  group: cp6-auditor-scenario-${{ github.run_id }}
+  group: cp6-bc-t1-probe-${{ github.ref }}
   cancel-in-progress: false
 jobs:
-  # AUDITOR_SCENARIO (GPT audit of 737649b, request 3): the auditor's own scenario on the
-  # final candidate in a disposable clone; not release evidence. The scenario text comes
-  # from the dispatch input (only users with write access can dispatch) and runs only
-  # against the disposable local database of this job; no secrets are used.
+  # T1_FAMILY evidence only (owner decision A+B): targeted family tests on the
+  # disposable chain; not release evidence. One job per phase, same pinned chain.
   phase:
     name: ${{ matrix.label }}
     runs-on: ubuntu-24.04
@@ -64,14 +37,16 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - key: auditor
-          label: Auditor scenario on the final CP6 candidate (AUDITOR_SCENARIO)
-          script: cp6_auditor_scenario.py
-          proof: auditor
-        - key: selftest
-          label: Auditor runtime self-test (B1 strict group; tool check, not product evidence)
-          script: cp6_auditor_scenario.py
-          proof: auditor-selftest
+        - key: probe-before
+          label: BC probe on AU plus AV plus AW..AZ plus BA plus BB (before, T1_FAMILY)
+          script: cp6_bc_probe.py
+          phase: before
+          proof: bc
+        - key: probe-after
+          label: BC probe on AU plus AV plus AW..AZ plus BA plus BB plus BC T1 (after, T1_FAMILY)
+          script: cp6_bc_probe.py
+          phase: after
+          proof: bc
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
       CP6_AC_INDEPENDENT_CONFIRM: postgres
@@ -337,62 +312,14 @@ jobs:
           'postgresql://postgres:postgres@127.0.0.1:54322/template1' \
           'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
           cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/${{ matrix.proof }}/CLONE_${{ matrix.key }}'
-    - name: Write the auditor scenario
-      env:
-        SCENARIO_B64: ${{ inputs.scenario_b64 }}
-        SCENARIO_PATH: ${{ inputs.scenario_path }}
-      run: |
-        set -euo pipefail
-        python - <<'PY'
-        import base64,hashlib,os,pathlib,re
-        target=pathlib.Path(os.environ['RUNNER_TEMP'])/'auditor_scenario.py'
-        data=os.environ.get('SCENARIO_B64','').strip();path=os.environ.get('SCENARIO_PATH','').strip()
-        assert not (data and path),'SCENARIO_B64_OR_PATH_NOT_BOTH'
-        if path:
-            assert re.fullmatch(r'scripts/cp6_[a-z0-9_]+\.py',path),'SCENARIO_PATH_NOT_ALLOWED'
-            target.write_bytes(pathlib.Path('auditor',path).read_bytes())
-        else:
-            target.write_bytes(base64.b64decode(data,validate=True) if data else pathlib.Path('auditor/scripts/cp6_auditor_scenario_sample.py').read_bytes())
-        print(target,target.stat().st_size,path or ('b64' if data else 'sample'),hashlib.sha256(target.read_bytes()).hexdigest())
-        PY
-    - name: Write the auditor browser module
-      if: matrix.key == 'auditor'
-      env:
-        BROWSER_B64: ${{ inputs.browser_b64 }}
-        BROWSER_PATH: ${{ inputs.browser_path }}
-      run: |
-        set -euo pipefail
-        python - <<'PY'
-        import base64,hashlib,os,pathlib,re
-        target=pathlib.Path(os.environ['RUNNER_TEMP'])/'auditor_browser.mjs'
-        data=os.environ.get('BROWSER_B64','').strip();path=os.environ.get('BROWSER_PATH','').strip()
-        assert not (data and path),'BROWSER_B64_OR_PATH_NOT_BOTH'
-        if path:
-            assert re.fullmatch(r'scripts/cp6_[a-z0-9_]+\.mjs',path),'BROWSER_PATH_NOT_ALLOWED'
-            target.write_bytes(pathlib.Path('auditor',path).read_bytes())
-        else:
-            target.write_bytes(base64.b64decode(data,validate=True) if data else pathlib.Path('auditor/scripts/cp6_auditor_browser_sample.mjs').read_bytes())
-        print(target,target.stat().st_size,path or ('b64' if data else 'sample'),hashlib.sha256(target.read_bytes()).hexdigest())
-        PY
-    - name: Install browser dependencies for the candidate UI
-      if: matrix.key == 'auditor'
+    - name: Install the page parser dependencies (workspace parse check)
       working-directory: auditor
       run: |
         set -euo pipefail
-        npm ci
-        npx playwright install --with-deps chromium
+        npm ci --no-audit --no-fund
     - name: ${{ matrix.label }}
       working-directory: writer
-      env:
-        SCENARIO_PHASE: ${{ inputs.phase || 'after' }}
-      run: |
-        set -euo pipefail
-        if [ '${{ matrix.key }}' = selftest ]; then
-          python '../auditor/scripts/${{ matrix.script }}' --phase before --scenario ../auditor/scripts/cp6_auditor_scenario_selftest.py --selftest
-        else
-          python '../auditor/scripts/${{ matrix.script }}' --phase "$SCENARIO_PHASE" --scenario "$RUNNER_TEMP/auditor_scenario.py" \
-            --browser "$RUNNER_TEMP/auditor_browser.mjs"
-        fi
+      run: python '../auditor/scripts/${{ matrix.script }}' --phase '${{ matrix.phase }}'
     - name: Remove disposable database
       if: always()
       working-directory: base
@@ -400,6 +327,6 @@ jobs:
     - uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: cp6-auditor-scenario-${{ github.run_id }}-${{ matrix.key }}
+        name: cp6-bc-t1-probe-${{ matrix.key }}
         path: auditor/cp6-proof/${{ matrix.proof }}
         retention-days: 30

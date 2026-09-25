@@ -396,6 +396,14 @@ AS $function$
   from s
 $function$;
 
+-- The lot state for the pages: every quantity as exact text (the pages never parse a JSON number as an amount).
+CREATE OR REPLACE FUNCTION erp.bc_lot_state_text_v1(p_lot uuid)
+ RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select jsonb_object_agg(k,(st->>k)::numeric(24,6)::text)
+  from erp.bc_lot_state_v1(p_lot) st,unnest(array['received','inspected_usable','inspected_damaged','usable','damaged','waiting','credited','open']) k
+$function$;
+
 -- Lock a lot (and its source) for a command; the state is read after the lock.
 CREATE OR REPLACE FUNCTION erp.bc_lock_lot_v1(p_lot uuid)
  RETURNS erp.bc_return_lots_v1 LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''

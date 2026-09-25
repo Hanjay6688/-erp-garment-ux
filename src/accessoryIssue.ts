@@ -1,12 +1,18 @@
 import type { Json } from './types/database.preconnect'
 
 export type AccessoryChoice = { id: string; sku: string; name: string; unit: string; category: string; stock: string;
-  price_version_id: string | null; master_price: string | null; price_unit: string | null; factor: string | null }
-export type AccessoryLine = { material_id: string; qty: string; mode: 'MASTER' | 'MANUAL'; manual_price: string }
+  price_version_id: string | null; master_price: string | null; price_unit: string | null; factor: string | null
+  /** BC (ERP-DEC02): the owner's Special free list covers this accessory for this mandor at the note time. */
+  free?: { category_id: string; policy_version: string } | null }
+export type AccessoryLine = { material_id: string; qty: string; mode: 'MASTER' | 'MANUAL' | 'FREE'; manual_price: string }
 export type AccessoryDocument = { id: string; number: string; contractor_id: string; location_id: string; po_id: string | null;
   physical_local: string; status: 'DRAFT' | 'POSTED' | 'REVERSED'; row_version: string; notes: string; total: string; payroll_locked: boolean;
+  /** BC (ACC-DEC06): the note's posted whole-rupiah rounding line, if any. */
+  rounding?: { document_id: string; amount: string; row_version: string } | null
   items: { id: string; material_id: string; sku: string; name: string; unit: string; qty: string; manual_price: string | null;
-    price: string; factor: string; price_unit: string; price_version_id: string | null; amount: string; payroll_status: string }[] }
+    price: string; factor: string; price_unit: string; price_version_id: string | null; amount: string; payroll_status: string
+    /** BC: a Special free line; what payroll still collects after note return credits and rounding. */
+    free?: boolean; collectible?: string }[] }
 export type AccessoryWorkspace = { filters: Json; contractor_id: string | null; location_id: string | null; physical_local: string;
   contractors: { id: string; name: string }[]; locations: { id: string; name: string }[]; orders: { id: string; name: string }[];
   materials: AccessoryChoice[]; material_count: number; history_count: number; document: AccessoryDocument | null;
@@ -38,6 +44,10 @@ export function parseAccessoryWorkspace(value: unknown): AccessoryWorkspace {
       || !nullableId(m.price_version_id)) throw new Error('Stok aksesori tidak valid.')
     if (m.price_version_id === null ? [m.master_price,m.price_unit,m.factor].some(x => x !== null)
       : !decimal(m.master_price,6) || !text(m.price_unit) || !decimal(m.factor,6) || micro(m.factor) <= 0n) throw new Error('Harga master tidak lengkap.')
+    if (m.free !== undefined && m.free !== null) {
+      const f = object(m.free)
+      if (!accessoryUuid(f.category_id) || !version(f.policy_version)) throw new Error('Status gratis Special tidak valid.')
+    }
   }
   for (const h of history) if (![h.number,h.contractor].every(text) || !['DRAFT','POSTED','REVERSED'].includes(String(h.status))
     || !version(h.row_version) || !decimal(h.total,2) || !text(h.date) || !/^\d{4}-\d{2}-\d{2}$/.test(h.date)) throw new Error('Riwayat nota tidak valid.')
@@ -53,10 +63,15 @@ export function parseAccessoryWorkspace(value: unknown): AccessoryWorkspace {
       if (!accessoryUuid(i.material_id) || ids.has(i.material_id) || ![i.sku,i.name,i.unit,i.price_unit,i.payroll_status].every(text)
         || !decimal(i.qty,6) || micro(i.qty) <= 0n || micro(i.qty) % 1000000n !== 0n || !decimal(i.price,6)
         || !decimal(i.factor,6) || micro(i.factor) <= 0n || !decimal(i.amount,6) || !nullableId(i.price_version_id)
-        || !(i.manual_price === null || decimal(i.manual_price,2))) throw new Error('Baris nota tidak valid.')
+        || !(i.manual_price === null || decimal(i.manual_price,2))
+        || !(i.free === undefined || typeof i.free === 'boolean') || !(i.collectible === undefined || (text(i.collectible) && /^-?\d{1,18}\.\d{2}$/.test(i.collectible)))) throw new Error('Baris nota tidak valid.')
       ids.add(i.material_id); amount += micro(i.amount)
     }
     if ((amount + 5000n) / 10000n !== micro(String(d.total)) / 10000n) throw new Error('Total nota tidak sesuai rincian.')
+    if (d.rounding !== undefined && d.rounding !== null) {
+      const r = object(d.rounding)
+      if (!accessoryUuid(r.document_id) || !version(r.row_version) || !text(r.amount) || !/^-?\d{1,18}\.\d{2}$/.test(r.amount)) throw new Error('Pembulatan nota tidak valid.')
+    }
   }
   return w as AccessoryWorkspace
 }
@@ -68,6 +83,10 @@ export function previewAccessoryLine(line: AccessoryLine, material: AccessoryCho
   if (!material) return reject('Aksesori tidak aktif atau belum dimuat.')
   if (!/^[1-9]\d{0,11}$/.test(line.qty)) return reject('Isi jumlah PCS utuh positif.')
   const qty = BigInt(line.qty), base = { material_id:line.material_id, qty:line.qty, mode:line.mode }
+  if (line.mode === 'FREE') {
+    if (!material.free) return reject('Aksesori ini tidak gratis untuk mandor ini pada waktu nota (kebijakan ERP-DEC02).')
+    return { error:'', amount:0n, payload:{ ...base, free_policy_version:material.free.policy_version } }
+  }
   if (line.mode === 'MANUAL') {
     if (!/^\d{1,12}([.,]\d{1,2})?$/.test(line.manual_price)) return reject('Isi harga per pcs, maksimal dua desimal.')
     return { error:'', amount:qty * micro(line.manual_price), payload:{ ...base, manual_price:line.manual_price.replace(',','.') } }

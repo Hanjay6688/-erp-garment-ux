@@ -180,14 +180,14 @@ AS $function$
     'accessory_note_lines',coalesce((select jsonb_agg(jsonb_build_object('line_id',n.id,'document_number',n.document_number,'line_number',n.line_number,
         'material_sku',m.material_sku,'qty',n.qty::text,'line_amount',n.line_amount::text,
         'returned',coalesce((select sum(l.qty_received) from erp.bc_return_lots_v1 l join erp.bc_documents_v1 d on d.id=l.document_id
-          where l.opening_note_line_id=n.id and d.status='POSTED'),0)::text,
+          where l.opening_note_line_id=n.id and d.status='POSTED'),0)::numeric(24,6)::text,
         'remaining_receivable',(b.original_amount-b.settled_amount)::text) order by n.document_number,n.line_number)
       from erp.bc_opening_note_lines_v1 n join erp.materials m on m.id=n.material_id join erp.opening_subledger_balances b on b.id=n.balance_id
       where n.batch_id=p_batch),'[]'::jsonb),
     'accessory_custody',coalesce((select jsonb_agg(x order by x->>'kind',x->>'key') from (
         select jsonb_build_object('kind',case l.source_kind when 'OPENING_QUARANTINE' then 'QUARANTINE_VALUED' else 'PENDING_VALUE' end,
           'key',l.reference,'material_sku',m.material_sku,'qty',l.qty_received::text,
-          'value_status',case l.value_mode when 'LEDGER' then 'Bernilai di buku' else 'Belum dinilai' end,'state',erp.bc_lot_state_v1(l.id)) x
+          'value_status',case l.value_mode when 'LEDGER' then 'Bernilai di buku' else 'Belum dinilai' end,'state',erp.bc_lot_state_text_v1(l.id)) x
         from erp.bc_return_lots_v1 l join erp.materials m on m.id=l.material_id where l.batch_id=p_batch
         union all select jsonb_build_object('kind','UNRETURNED','key',o.reference,'material_sku',m.material_sku,'description',o.description,
           'qty',o.qty_expected::text,'owner_kind',o.owner_kind,'holder',o.holder,'value_status','Belum kembali')

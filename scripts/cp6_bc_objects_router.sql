@@ -233,12 +233,13 @@ begin
         'value_status',case value_mode when 'LEDGER' then 'Bernilai di buku' when 'PENDING' then 'Belum dinilai' else 'Milik mandor — menunggu kredit' end,
         'material_id',material_id,'sku',material_sku,'name',material_name,'location_id',location_id,
         'received_local',to_char(received_at at time zone 'Asia/Jakarta','YYYY-MM-DD HH24:MI'),'note_item_id',note_item_id,
-        'opening_note_line_id',opening_note_line_id,'reference',reference,'state',st) order by (st->>'open')::numeric=0,received_at desc,id)
+        'opening_note_line_id',opening_note_line_id,'reference',reference,
+        'state',erp.bc_lot_state_text_v1(id)) order by (st->>'open')::numeric=0,received_at desc,id)
       from (select * from lots order by (st->>'open')::numeric=0,received_at desc,id limit 100) x),'[]'::jsonb),
     'outstanding',coalesce((select jsonb_agg(jsonb_build_object('id',o.id,'source_kind',o.source_kind,'owner_kind',o.owner_kind,'material_id',o.material_id,
         'description',o.description,'holder',o.holder,'reference',o.reference,'expected',o.qty_expected::text,
         'received',coalesce((select sum(l.qty_received) from erp.bc_return_lots_v1 l join erp.bc_documents_v1 d on d.id=l.document_id
-          where l.outstanding_id=o.id and d.status='POSTED'),0)::text,'label','Belum kembali') order by o.created_at desc,o.id)
+          where l.outstanding_id=o.id and d.status='POSTED'),0)::numeric(24,6)::text,'label','Belum kembali') order by o.created_at desc,o.id)
       from erp.bc_outstanding_returns_v1 o where o.status='OPEN'),'[]'::jsonb),
     'customer_custody',coalesce((select jsonb_agg(jsonb_build_object('id',c.id,'customer',k.customer_name,'description',c.description,'qty',c.qty::text,
         'received_local',to_char(c.received_at at time zone 'Asia/Jakarta','YYYY-MM-DD HH24:MI'),'returned',c.out_document_id is not null
@@ -253,8 +254,8 @@ begin
     'notes',case when v_note_query<>'' then coalesce((select jsonb_agg(jsonb_build_object('item_id',i.id,'issue_id',h.id,'number',h.issue_number,
         'contractor',c.contractor_name,'material_id',i.material_id,'sku',m.material_sku,'name',m.material_name,'qty',i.qty::text,
         'returned',coalesce((select sum(l.qty_received) from erp.bc_return_lots_v1 l join erp.bc_documents_v1 d on d.id=l.document_id
-          where l.note_item_id=i.id and d.status='POSTED'),0)::text,
-        'collectible',round(erp.bc_note_item_collectible_v1(i.id),2)::text,'allocated',erp.bc_note_item_allocated_v1(i.id)::text,
+          where l.note_item_id=i.id and d.status='POSTED'),0)::numeric(24,6)::text,
+        'collectible',round(erp.bc_note_item_collectible_v1(i.id),2)::text,'allocated',erp.bc_note_item_allocated_v1(i.id)::numeric(24,2)::text,
         'payroll_status',i.payroll_status) order by h.issue_number,i.id)
       from erp.contractor_material_issue_items i join erp.contractor_material_issues h on h.id=i.issue_id join erp.contractors c on c.id=h.contractor_id
       join erp.materials m on m.id=i.material_id
@@ -265,7 +266,7 @@ begin
     'opening_notes',case when v_note_query<>'' then coalesce((select jsonb_agg(jsonb_build_object('line_id',n.id,'number',n.document_number,
         'contractor',c.contractor_name,'material_id',n.material_id,'sku',m.material_sku,'name',m.material_name,'qty',n.qty::text,
         'line_amount',n.line_amount::text,'returned',coalesce((select sum(l.qty_received) from erp.bc_return_lots_v1 l join erp.bc_documents_v1 d on d.id=l.document_id
-          where l.opening_note_line_id=n.id and d.status='POSTED'),0)::text,'remaining_receivable',(b.original_amount-b.settled_amount)::text) order by n.document_number,n.line_number)
+          where l.opening_note_line_id=n.id and d.status='POSTED'),0)::numeric(24,6)::text,'remaining_receivable',(b.original_amount-b.settled_amount)::text) order by n.document_number,n.line_number)
       from erp.bc_opening_note_lines_v1 n join erp.opening_subledger_balances b on b.id=n.balance_id join erp.contractors c on c.id=b.contractor_id
       join erp.materials m on m.id=n.material_id where n.id in(select n2.id from erp.bc_opening_note_lines_v1 n2 join erp.opening_subledger_balances b2 on b2.id=n2.balance_id
         join erp.contractors c2 on c2.id=b2.contractor_id where strpos(lower(concat_ws(' ',n2.document_number,c2.contractor_name)),v_note_query)>0
@@ -278,10 +279,32 @@ begin
         'events',coalesce((select jsonb_agg(jsonb_build_object('id',e.id,'lot_id',e.lot_id,'kind',e.event_kind,'condition',e.condition,'qty',e.qty::text,
           'qty_usable',e.qty_usable::text,'qty_damaged',e.qty_damaged::text,'inspector',e.inspector,
           'amount',case when v_value or v_admin then e.amount::text end,'unpaid',case when v_value or v_admin then e.amount_unpaid::text end,
-          'carry',case when v_value or v_admin then e.amount_carry::text end,'refund',case when v_value or v_admin then e.amount_refund::text end) order by e.created_at,e.id)
-          from erp.bc_lot_events_v1 e where e.document_id=d.id),'[]'::jsonb))
+          'carry',case when v_value or v_admin then e.amount_carry::text end,'refund',case when v_value or v_admin then e.amount_refund::text end,
+          'carry_remaining',case when (v_value or v_admin) and e.event_kind='CREDIT' and e.amount_carry>0 then erp.bc_carry_remaining_v1(e.id)::text end)
+          order by e.created_at,e.id)
+          from erp.bc_lot_events_v1 e where e.document_id=d.id),'[]'::jsonb),
+        -- ACC-DEC05 carry: the draft payrolls of the same mandor that a carried credit may enter (owner/admin with payroll view).
+        'carry_payrolls',case when v_admin and erp.has_permission('finance.payroll.view') then coalesce((select jsonb_agg(jsonb_build_object('id',p.id,
+            'number',p.payroll_number,'status',p.status,'period_end',p.period_end::text) order by p.period_end desc,p.id)
+          from erp.payroll_settlements p where p.status in('DRAFT','CALCULATED','REVIEW') and p.contractor_id in(
+            select coalesce(l.contractor_id,(select c.contractor_id from erp.contractor_material_issues c join erp.contractor_material_issue_items i on i.issue_id=c.id
+              where i.id=l.note_item_id)) from erp.bc_lot_events_v1 e join erp.bc_return_lots_v1 l on l.id=e.lot_id
+            where e.document_id=d.id and e.event_kind='CREDIT' and e.amount_carry>0)),'[]'::jsonb) else '[]'::jsonb end)
       from erp.bc_documents_v1 d where d.id=v_doc) end,
-    'card',v_card
+    'card',v_card,
+    -- Pick lists for the forms: accessories matching the search, cash accounts; for owner/admin the accounts, categories and
+    -- users the policy settings name.
+    'materials',coalesce((select jsonb_agg(jsonb_build_object('id',id,'sku',material_sku,'name',material_name,'unit',unit_code) order by material_name,id)
+      from (select m.* from erp.materials m where m.material_type='ACCESSORY' and m.is_active
+        and (v_query='' or strpos(lower(concat_ws(' ',m.material_sku,m.material_name)),v_query)>0) order by m.material_name,m.id limit 50) x),'[]'::jsonb),
+    'cash_accounts',case when v_admin then coalesce((select jsonb_agg(jsonb_build_object('id',id,'name',cash_account_name) order by cash_account_name,id)
+      from erp.cash_accounts where is_active),'[]'::jsonb) end,
+    'accounts',case when v_admin then coalesce((select jsonb_agg(jsonb_build_object('id',id,'code',account_code,'name',account_name,'type',account_type)
+      order by account_code,id) from erp.chart_accounts where is_postable and is_active),'[]'::jsonb) end,
+    'categories',case when v_admin then coalesce((select jsonb_agg(jsonb_build_object('id',id,'name',category_name) order by category_name,id)
+      from erp.accessory_categories where is_active),'[]'::jsonb) end,
+    'users',case when v_admin then coalesce((select jsonb_agg(jsonb_build_object('id',id,'name',full_name) order by full_name,id)
+      from erp.app_users where is_active),'[]'::jsonb) end
   ) into v_result;
   return v_result;
 end;$function$;
