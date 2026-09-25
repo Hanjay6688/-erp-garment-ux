@@ -492,3 +492,6 @@ Run 36096552454 / job 107949919590 (sha ca2f7301…): R1 dua sesi PASS, R2 PASS,
 
 ## Fable — audit silang GPT putaran 8, iterasi 1 (2026-09-25T05:39:58Z)
 `out/fable_crossreview_gpt_r8.md`: C0 24/25 CONFIRMED dari log; R8-B1-01 (race/HTTP tanpa grup ketat) CONFIRMED dari log + sumber → W7; MULTI_CENT ×4 → CP6-03 residu multi-penerimaan CONFIRMED (P2) → W8; XA6 exposed-prepare = perbedaan interpretasi, dicatat. GPT masih berjalan; Fable mengikuti commit berikutnya.
+
+## Fable — audit silang GPT iterasi 2 (2026-09-25T05:46:41Z)
+C6: Fable menerima formulasi split GPT (ACC-04a/b, LAU-05 existing vs new) — W1 diperbarui; crosswalk 75 ID CONFIRMED sebagai checklist. Browser/HTTP run 36099496005 masih berjalan; menunggu hasil untuk verifikasi log.
