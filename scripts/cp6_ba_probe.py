@@ -71,12 +71,18 @@ def ba_installed(cur):
 def ba_verified(cur):
     base=azp.az_verified(cur)
     assert ba_installed(cur),'BA_T1_MARKER'
+    # A function a later T1 family replaced (cp6_layers) is verified by that family, not against BA's text.
+    later=awp.layers.superseded(cur,after=ba.VERSION)
     for signature in FUNCTIONS:
+        if signature in later:continue
         src=cur.execute('select prosrc from pg_proc where oid=%s::regprocedure',(signature,)).fetchone()[0]
         assert src==dev_source(signature),('BA_T1_FUNCTION_NOT_CURRENT',signature)
     for table in ba.NEW_TABLES:
         assert cur.execute('select to_regclass(%s) is not null',('erp.'+table,)).fetchone()[0],('BA_T1_TABLE_MISSING',table)
-    return dict(base,stage='AV_PLUS_AW_AX_AY_AZ_BA_T1',ba_sql_sha256=hashlib.sha256(BA_SQL.read_bytes()).hexdigest(),ba_functions=list(FUNCTIONS))
+    result=dict(base,stage='AV_PLUS_AW_AX_AY_AZ_BA_T1',ba_sql_sha256=hashlib.sha256(BA_SQL.read_bytes()).hexdigest(),ba_functions=list(FUNCTIONS))
+    replaced=sorted(later&set(FUNCTIONS))
+    if replaced:result['ba_replaced_by_later_family']=replaced
+    return result
 
 
 def install_ba():

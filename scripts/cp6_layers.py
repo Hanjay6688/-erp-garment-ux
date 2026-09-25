@@ -10,11 +10,15 @@ import sys
 
 sys.path.append(str(Path(__file__).resolve().parent))
 import cp6_ba_build as ba
+import cp6_bb_build as bb
 
-LATER={ba.VERSION:tuple(ba.REPLACED)}
+LATER={ba.VERSION:tuple(ba.REPLACED),bb.VERSION:tuple(bb.REPLACED)}
 
 
-def superseded(cur):
-    """Signatures (regprocedure text) replaced by a later family installed on this database."""
-    marks=[r[0] for r in cur.execute('select version from erp.schema_migrations where version=any(%s)',(list(LATER),)).fetchall()]
+def superseded(cur,after=None):
+    """Signatures (regprocedure text) replaced by a later family installed on this database. `after`: only the families
+    registered after that marker (a registered family verifying its own text must not skip what it replaced itself)."""
+    order=list(LATER)
+    scope=order if after is None else order[order.index(after)+1:]
+    marks=[r[0] for r in cur.execute('select version from erp.schema_migrations where version=any(%s)',(scope,)).fetchall()]
     return {s for m in marks for s in LATER[m]}

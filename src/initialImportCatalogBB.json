@@ -1,0 +1,72 @@
+{
+  "LEGACY_DOCUMENT": {
+    "label": "Dokumen lama yang sudah lunas penuh",
+    "required": [
+      "balance_type",
+      "party_code",
+      "document_number",
+      "document_date",
+      "original_amount",
+      "settled_before_cutover"
+    ],
+    "fields": {
+      "balance_type": "Jenis saldo dokumen",
+      "party_code": "Kode pihak",
+      "document_number": "Nomor dokumen asal",
+      "document_date": "Tanggal dokumen asal",
+      "original_amount": "Nominal dokumen awal",
+      "settled_before_cutover": "Sudah dibayar sebelum saldo awal",
+      "notes": "Catatan"
+    }
+  },
+  "OPENING_CUSTOMER_CREDIT": {
+    "label": "Kredit retur pelanggan yang belum dikembalikan",
+    "required": [
+      "customer_code",
+      "coa_account_code",
+      "document_number",
+      "document_date",
+      "original_amount",
+      "settled_before_cutover",
+      "amount"
+    ],
+    "fields": {
+      "customer_code": "Kode pelanggan",
+      "coa_account_code": "Kode akun kredit pelanggan",
+      "document_number": "Nomor nota retur/kredit",
+      "document_date": "Tanggal nota retur/kredit",
+      "original_amount": "Nominal kredit asal",
+      "settled_before_cutover": "Sudah dikembalikan sebelum saldo awal",
+      "amount": "Sisa kredit",
+      "notes": "Catatan"
+    }
+  },
+  "OPENING_SALE_RETURN": {
+    "label": "Hak retur penjualan lama yang barangnya belum kembali",
+    "required": [
+      "customer_code",
+      "return_number",
+      "invoice_document_number",
+      "product_sku",
+      "qty",
+      "credit_unit_price",
+      "unit_cost",
+      "credit_coa_account_code"
+    ],
+    "fields": {
+      "customer_code": "Kode pelanggan",
+      "return_number": "Nomor persetujuan retur",
+      "invoice_document_number": "Nomor invoice asal",
+      "product_sku": "Kode produk",
+      "brand_code": "Kode merek",
+      "model_code": "Kode model",
+      "color_name": "Warna",
+      "size_code": "Kode ukuran",
+      "qty": "Jumlah pcs boleh diretur",
+      "credit_unit_price": "Kredit per pcs",
+      "unit_cost": "Nilai persediaan per pcs",
+      "credit_coa_account_code": "Kode akun kredit pelanggan",
+      "notes": "Catatan"
+    }
+  }
+}
