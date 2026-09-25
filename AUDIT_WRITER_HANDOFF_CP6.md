@@ -1,5 +1,7 @@
 # Handoff untuk WRITER — CP6, versi gabungan dua auditor (Fable + GPT), 25 September 2026 13:00 WIB
 
+> **Blok tempel putaran 11 (16:10 WIB):** `WRITER_HANDOFF_R11_PASTE_20260925.md` — D06 disahkan owner, T3 = opsi A (perbaiki kalimat), BB tanpa cacat produk pada 4c61aca, catatan sebelum BC.
+
 **Ini satu-satunya daftar tugas writer yang berlaku.** Dokumen ini merapikan semua handoff yang tumpang tindih (`WRITER_HANDOFF_R9_20260925.md`, `WRITER_HANDOFF_R10_20260925.md`, `WRITER_HANDOFF_R10_PASTE_20260925.md`, `out/gpt_writer_r9_intake.md`, tabel aktif putaran 8 GPT) menjadi satu versi yang disepakati kedua auditor. Riwayat lama utuh di `archive/AUDIT_WRITER_HANDOFF_CP6_r8_r9_history.md` dan di git. Hasil beku tidak dilabel ulang.
 
 Head diaudit: BA `d1bc8ad` (alat = produk), BB `db9e276` (P04/Y02). Cabang kompetisi `ca7f095`. **CP6 HOLD · audit_complete=false · production_go=false.** Oracle: M/P/BR + addendum C0 bagian 1–8 (disahkan owner). Lampiran C6 **rev4 pada 4c61acad DISAHKAN owner sebagai D06** (langsung ke auditor, 25 Sep 2026 sore; teks di `OWNER_DECISIONS_CP6_DRAFT.md`), termasuk scope ACC-04b, LAU-05b, LAU-06b, ALL 22; `PENDING_POLICY_VALUE` tetap pending; pengesahan ≠ penerimaan uji. **T3 = opsi A** (rata-rata bergerak; tanpa batas tetap "1 sen per PO"; oracle wajib total/per tanggal/stok habis/jejak).

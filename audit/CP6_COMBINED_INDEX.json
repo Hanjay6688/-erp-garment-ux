@@ -1536,5 +1536,11 @@
    ],
    "per_roll_valuation": "separate CR"
   }
- }
+ },
+ "progress_logs": {
+  "frozen": "AUDIT_PROGRESS.md",
+  "fable": "AUDIT_PROGRESS_FABLE.md",
+  "gpt": "AUDIT_PROGRESS_GPT.md (GPT membuat)"
+ },
+ "writer_handoff_paste_latest": "WRITER_HANDOFF_R11_PASTE_20260925.md"
 }

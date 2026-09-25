@@ -1,3 +1,5 @@
+> **DIBEKUKAN (25 Sep 2026, 16:10 WIB):** sejak sekarang tiap auditor menulis log sendiri — `AUDIT_PROGRESS_FABLE.md` (Fable) dan `AUDIT_PROGRESS_GPT.md` (GPT) — agar tidak ada konflik push. Berkas ini tetap sebagai riwayat; jangan ditambah lagi.
+
 # CP6 audit — putaran 9 paralel, audit head d1bc8ad
 
 **T2 native SELESAI, belum acceptance:** [run 36125151913](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36125151913) audit head d1bc8ad, AR job `108039445366` 174/174 PASS, temporal job `108039445443` 41/41 PASS, regresi job `108039445222` status asli `DISPOSITION_REQUIRED` (BUSINESS 179 PASS+39 CONTROL_PASS+12 HOLD kalender; IMPORTS31 PASS, VALUES65 PASS; NEW_CASES 25 PASS+8 COUNTEREXAMPLE+1 INCOMPLETE; tambahan C0 25/25 PASS). `T2_IDENTITY` memastikan 12 HOLD historis tidak bergeser. `primary_unchanged=true`, clones0, tiga job SUCCESS. Peta persis 600 kasus `out/gpt_r9_t2_cases.json` dan ledger `out/gpt_r9_t2_run.md`; status keseluruhan tetap HOLD, production_go=false. Berikutnya jalankan T3 package satu workflow fase sendiri, kemudian rollback setelah T3 selesai.
