@@ -460,7 +460,7 @@ begin
     perform erp.bc_parse_at_v1(v_x->>'physical_at','waktu baris '||(v_x->>'line_number'));
     if v_x->>'purpose'<>'FACTORY_USE' then
       perform erp.bc_require_policy_v1('ACC_DEC04','akun biaya '||case v_x->>'purpose' when 'CUSTOMER_SERVICE' then 'servis pelanggan' else 'perbaikan FG sendiri' end);
-      if v_dec04->>(v_x->>'purpose')||'_account_id' is null then
+      if v_dec04->>((v_x->>'purpose')||'_account_id') is null then
         raise exception 'BC_POLICY_PENDING: akun tujuan % belum ditetapkan owner (ACC-DEC04)',v_x->>'purpose';end if;
     end if;
     v_custody:=erp.bc_uuid_v1(v_x,'customer_custody_id',false);

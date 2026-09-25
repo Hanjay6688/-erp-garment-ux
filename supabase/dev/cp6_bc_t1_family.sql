@@ -756,7 +756,7 @@ begin
     perform erp.bc_parse_at_v1(v_x->>'physical_at','waktu baris '||(v_x->>'line_number'));
     if v_x->>'purpose'<>'FACTORY_USE' then
       perform erp.bc_require_policy_v1('ACC_DEC04','akun biaya '||case v_x->>'purpose' when 'CUSTOMER_SERVICE' then 'servis pelanggan' else 'perbaikan FG sendiri' end);
-      if v_dec04->>(v_x->>'purpose')||'_account_id' is null then
+      if v_dec04->>((v_x->>'purpose')||'_account_id') is null then
         raise exception 'BC_POLICY_PENDING: akun tujuan % belum ditetapkan owner (ACC-DEC04)',v_x->>'purpose';end if;
     end if;
     v_custody:=erp.bc_uuid_v1(v_x,'customer_custody_id',false);
@@ -1487,6 +1487,21 @@ begin
 end;$function$;
 create trigger trg_bc_note_reversal before update of status on erp.contractor_material_issues
   for each row execute function erp.bc_guard_note_reversal_v1();
+
+-- An opening note-return credit is a settlement of the imported receipt made by one BC credit; it is undone only by reversing
+-- that BC document (which also returns the custody), never directly through the opening-settlement continuation.
+CREATE OR REPLACE FUNCTION erp.bc_guard_note_credit_settlement_v1()
+ RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+begin
+  if new.status='REVERSED' and old.status<>'REVERSED' and not erp.bc_in_context_v1()
+     and exists(select 1 from erp.bb_opening_credits_v1 c where c.settlement_id=new.id and c.credit_kind='ACCESSORY_NOTE_RETURN') then
+    raise exception 'BC_CREDIT_SOURCE_REVERSAL: kredit retur nota dibatalkan lewat dokumen Pemakaian & Pengembalian Aksesori-nya';
+  end if;
+  return new;
+end;$function$;
+create trigger trg_bc_note_credit_settlement before update of status on erp.opening_subledger_settlements
+  for each row execute function erp.bc_guard_note_credit_settlement_v1();
 -- ================================================================ BC import: ALL-C02 and ALL-C03
 -- ALL-C02 (auditor r9: "old source stock issue is not replayed. Opening note receivable is only its evidenced unpaid residual
 -- ... Once the 3 returned PCS are received and an explicit policy gives source credit, credit right is at most 3p ... If no
@@ -1674,8 +1689,9 @@ AS $function$
       from erp.bc_opening_note_lines_v1 n join erp.materials m on m.id=n.material_id join erp.opening_subledger_balances b on b.id=n.balance_id
       where n.batch_id=p_batch),'[]'::jsonb),
     'accessory_custody',coalesce((select jsonb_agg(x order by x->>'kind',x->>'key') from (
-        select jsonb_build_object('kind','PENDING_VALUE','key',l.reference,'material_sku',m.material_sku,'qty',l.qty_received::text,
-          'value_status','Belum dinilai','state',erp.bc_lot_state_v1(l.id)) x
+        select jsonb_build_object('kind',case l.source_kind when 'OPENING_QUARANTINE' then 'QUARANTINE_VALUED' else 'PENDING_VALUE' end,
+          'key',l.reference,'material_sku',m.material_sku,'qty',l.qty_received::text,
+          'value_status',case l.value_mode when 'LEDGER' then 'Bernilai di buku' else 'Belum dinilai' end,'state',erp.bc_lot_state_v1(l.id)) x
         from erp.bc_return_lots_v1 l join erp.materials m on m.id=l.material_id where l.batch_id=p_batch
         union all select jsonb_build_object('kind','UNRETURNED','key',o.reference,'material_sku',m.material_sku,'description',o.description,
           'qty',o.qty_expected::text,'owner_kind',o.owner_kind,'holder',o.holder,'value_status','Belum kembali')

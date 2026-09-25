@@ -371,3 +371,18 @@ begin
 end;$function$;
 create trigger trg_bc_note_reversal before update of status on erp.contractor_material_issues
   for each row execute function erp.bc_guard_note_reversal_v1();
+
+-- An opening note-return credit is a settlement of the imported receipt made by one BC credit; it is undone only by reversing
+-- that BC document (which also returns the custody), never directly through the opening-settlement continuation.
+CREATE OR REPLACE FUNCTION erp.bc_guard_note_credit_settlement_v1()
+ RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+begin
+  if new.status='REVERSED' and old.status<>'REVERSED' and not erp.bc_in_context_v1()
+     and exists(select 1 from erp.bb_opening_credits_v1 c where c.settlement_id=new.id and c.credit_kind='ACCESSORY_NOTE_RETURN') then
+    raise exception 'BC_CREDIT_SOURCE_REVERSAL: kredit retur nota dibatalkan lewat dokumen Pemakaian & Pengembalian Aksesori-nya';
+  end if;
+  return new;
+end;$function$;
+create trigger trg_bc_note_credit_settlement before update of status on erp.opening_subledger_settlements
+  for each row execute function erp.bc_guard_note_credit_settlement_v1();
