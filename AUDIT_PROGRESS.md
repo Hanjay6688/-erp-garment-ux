@@ -1,5 +1,14 @@
 # CP6 audit — active round 8 checkpoint
 
+## Unknown rev2 completed; parser/recovery verification prepared
+
+Run36102938451/job107969167045: **2INCOMPLETE**. Both initial reads were deliberately dropped once; UI rendered four0KPIs, showed connection error and kept writes locked. Real Auth control had20Laundry-outside /10QC-ready. After removing the fault, responseHTTP200/readiness true arrived, but UI still0 and generic connection error. Removing unused fixture SKU did not resolve this. Cleanup:2Authusers removed, counts restored, console0, browserDB0, clone0, primary unchanged. Full observed data in `out/gpt_unknown_run_36102938451.json`, logSHA256ccea00466d4cdc7cff91829208a6d66211001f2090099ee3799f85e4ba9a8163.
+
+Next revision holds fixture/data/unknown oracle fixed and runs the exact candidate's pure `parseLaundryQcWorkspace` against the real response (transpilation only, sourcehash printed, no source patch). If parser accepts but refetch fails, a fresh real browser page must render the same data before classifying a product recovery failure. Otherwise preserve INCOMPLETE and capture full response/parser diagnostic. Earlier results are not relabelled. Browser SHA2563821aec1d0f0df0d32bc131c0721a32bf41344dc1116568058087d33768d72df, `audit/scenarios/unknown_round8/MANIFEST_rev3.json`; two cases only. Source notes `out/gpt_unknown_oracle_rev3.md`.
+
+LANGKAH BERIKUTNYA: capture new run/job, read two cases and cleanup, identify parser/setup vs UI state cause. Then update existing CP6-06 and final handoff at supported scope. CP6 HOLD.
+
+
 ## Unknown-only browser retry in flight
 
 Run [36102938451](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36102938451), job **107969167045**, audit commit **f85a5462411bff392b0d8b73272d96dccae649ee**. Two cases BELUM, exact9dd7bc2/a095a9d. Ledger `out/gpt_unknown_run_36102938451.json`. LANGKAH BERIKUTNYA: collect two per-case JSON/control diagnostics and cleanup; resolve CP6-06 only with sufficient evidence, then refresh combined report/handoff. CP6 HOLD.
@@ -49,7 +58,7 @@ Run [36101907250](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/361
 
 The selected round8 report/handoff is consolidated in f69b75c. Continue unblocked full-CP6 gaps CP6-05/06 on the same9dd7bc2/a095a9d. Four cases now frozen in `out/gpt_recovery_unknown_oracle_freeze.md`: real commit then lost reply for Pattern/role duplicate; failed initial Laundry/QC reads with nonzero truth and successful refetch controls. All four BELUM. Fault injection affects transport only; empty role permission set/no assigned user; disposable only.
 
-Source review records were written incrementally by file in the oracle note. Syntactic validation and three scenario hashes passed; no native result claimed yet. Manifest `audit/scenarios/recovery_round8/MANIFEST.json`: browser SHA256015097817df43ea4719c827e919c5cb7ae5814a5d19444231e8b434e7f067d79; fixture0ce92ba1baa9496efd825aaa4f1fd8f12e4b49e0c2d4b5f136d8ff9f69bc3cb0; browser-only factorybf60eb539e39e20d5493080376b4139ba046aeb78b20dfbe213457793afa24d5.
+Source review is recorded per file in the oracle note. Syntactic validation and three scenario hashes passed; no native result claimed yet. Manifest `audit/scenarios/recovery_round8/MANIFEST.json`: browser SHA256015097817df43ea4719c827e919c5cb7ae5814a5d19444231e8b434e7f067d79; fixture0ce92ba1baa9496efd825aaa4f1fd8f12e4b49e0c2d4b5f136d8ff9f69bc3cb0; browser-only factorybf60eb539e39e20d5493080376b4139ba046aeb78b20dfbe213457793afa24d5.
 
 LANGKAH BERIKUTNYA: obtain run/job for this push immediately, persist IDs, then inspect four per-case results and cleanup. Resolve test/setup errors without changing oracle; update existing CP6-05/06 rather than invent duplicate IDs. CP6 HOLD, audit_complete=false, production_go=false.
 

@@ -1,11 +1,872 @@
 {
   "run_id": 36102938451,
   "job_id": 107969167045,
+  "attempt": 1,
   "audit_commit": "f85a5462411bff392b0d8b73272d96dccae649ee",
-  "status": "IN_FLIGHT",
   "tool_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
   "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
-  "manifest": "audit/scenarios/unknown_round8/MANIFEST.json",
-  "prior_run": 36102303107,
+  "status": "INCOMPLETE",
+  "conclusion": "failure",
+  "log_sha256": "ccea00466d4cdc7cff91829208a6d66211001f2090099ee3799f85e4ba9a8163",
+  "records": [
+    {
+      "line": 2121,
+      "value": {
+        "run_identity": {
+          "label": "AUDITOR_SCENARIO",
+          "tool_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
+          "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
+          "product_paths": [
+            "supabase/migrations",
+            "supabase/dev",
+            "supabase/release",
+            "supabase/rollbacks",
+            "src"
+          ],
+          "run_id": "36102938451",
+          "run_attempt": "1",
+          "workflow": "GPT CP6 Round 8 Independent Audit",
+          "job": "phase",
+          "event": "push",
+          "github_sha": "f85a5462411bff392b0d8b73272d96dccae649ee",
+          "release_evidence": false,
+          "production_go": false,
+          "phase": "after",
+          "scenario_sha256": "bf60eb539e39e20d5493080376b4139ba046aeb78b20dfbe213457793afa24d5"
+        }
+      }
+    },
+    {
+      "line": 2123,
+      "value": {
+        "group": "AUDITOR_CASES_AFTER",
+        "planned": [],
+        "final": {},
+        "missing": [],
+        "status": "PASS"
+      }
+    },
+    {
+      "line": 2126,
+      "value": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "G8UI:UNKNOWN:LAUNDRY_INITIAL_READ:rev2",
+        "status": "INCOMPLETE",
+        "stage": "POSITIVE_REFETCH_CONTROL",
+        "scope": "LAUNDRY",
+        "fixture": {
+          "scope": "LAUNDRY",
+          "delivery": "438261a9-8695-4dfb-b68f-4deaebaedff3",
+          "group": "c7d298a9-d0ab-4df4-ac42-87a5770bd2c4",
+          "expected_source_pcs": 10,
+          "schema_usage_before": false,
+          "schema_usage_after": false
+        },
+        "actual_server_qty": 20,
+        "dropped_reads": 1,
+        "initial_kpis": [
+          {
+            "label": "SIAP DIKIRIM",
+            "value": "0",
+            "text": "SIAP DIKIRIM0pcs selesai jahit, belum dikirim"
+          },
+          {
+            "label": "DI LUAR PABRIK",
+            "value": "0",
+            "text": "DI LUAR PABRIK0pcs belum kembali"
+          },
+          {
+            "label": "TERIKAT KLAIM",
+            "value": "0",
+            "text": "TERIKAT KLAIM0Stuck/Missing aktif"
+          },
+          {
+            "label": "DATA LAMA TERPISAH",
+            "value": "0",
+            "text": "DATA LAMA TERPISAH0tidak ditebak atau digabung"
+          }
+        ],
+        "primary": {
+          "label": "DI LUAR PABRIK",
+          "value": "0",
+          "text": "DI LUAR PABRIK0pcs belum kembali"
+        },
+        "initialError": "Layanan UAT belum dapat dihubungi. Coba lagi setelah status diperiksa.\nRefetch",
+        "initialWriterLocked": true,
+        "refetch_http_status": 200,
+        "refetch_error_ui": "Layanan UAT belum dapat dihubungi. Coba lagi setelah status diperiksa.\nRefetch",
+        "rendered_qty": "0",
+        "refetch_workspace_keys": [
+          "scope",
+          "lookups",
+          "qc_queue",
+          "readiness",
+          "deliveries",
+          "qc_history",
+          "generated_at",
+          "ready_batches",
+          "legacy_unlinked",
+          "contract_version",
+          "collection_window"
+        ],
+        "refetch_products": [
+          {
+            "id": "d125102c-8397-4cfc-b763-3328acc9d501",
+            "sku": "CP6-E-f9e5e3a354ba463e",
+            "name": "CP6 E f9e5e3a354ba463e",
+            "color": "CP6-E-f9e5e3a354ba463e",
+            "size_id": "c8c10000-0000-4000-8000-000000000002",
+            "brand_id": "c8c10000-0000-4000-8000-000000000003",
+            "model_id": "a2000000-0000-0000-0000-000000000001",
+            "size_code": "CP6-RACE-S",
+            "brand_code": "CP6-RACE-BRAND",
+            "brand_name": "CP6 Race Brand",
+            "model_code": "CP3R3-MODEL",
+            "model_name": "CP3 R3 Model",
+            "effective_to": null,
+            "effective_from": "2026-01-01T00:00:00+00:00"
+          },
+          {
+            "id": "c8c10000-0000-4000-8000-000000000004",
+            "sku": "CP6-RACE-SKU",
+            "name": "CP6 Race Final SKU",
+            "color": "NAVY",
+            "size_id": "c8c10000-0000-4000-8000-000000000002",
+            "brand_id": "c8c10000-0000-4000-8000-000000000003",
+            "model_id": "a2000000-0000-0000-0000-000000000001",
+            "size_code": "CP6-RACE-S",
+            "brand_code": "CP6-RACE-BRAND",
+            "brand_name": "CP6 Race Brand",
+            "model_code": "CP3R3-MODEL",
+            "model_name": "CP3 R3 Model",
+            "effective_to": null,
+            "effective_from": "2026-01-01T00:00:00+00:00"
+          }
+        ],
+        "refetch_readiness": {
+          "qc_writer_ready": true,
+          "lineage_issue_count": 0,
+          "no_fixture_fallback": true,
+          "laundry_writer_ready": true,
+          "lineage_integrity_ok": true,
+          "failed_wash_with_charge_supported": true
+        },
+        "renderError": "expect(locator).toHaveText(expected) failed\n\nLocator:  locator('.clq-kpis article').nth(1).locator('strong')\nExpected: \"20\"\nReceived: \"0\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.have.text\" with timeout 5000ms\n  - waiting for locator('.clq-kpis article').nth(1).locator('strong')\n    14 × locator resolved to <strong>0</strong>\n       - unexpected value \"0\"\n",
+        "no_product_finding_promoted_from_failed_control": true
+      }
+    },
+    {
+      "line": 2127,
+      "value": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "G8UI:UNKNOWN:QC_INITIAL_READ:rev2",
+        "status": "INCOMPLETE",
+        "stage": "POSITIVE_REFETCH_CONTROL",
+        "scope": "QC",
+        "fixture": {
+          "scope": "QC",
+          "delivery": "83f552d3-0927-46cc-ace4-a751c63531e1",
+          "group": "ab230ee9-b129-473a-8165-b37332251645",
+          "expected_source_pcs": 10,
+          "schema_usage_before": false,
+          "schema_usage_after": false
+        },
+        "actual_server_qty": 10,
+        "dropped_reads": 1,
+        "initial_kpis": [
+          {
+            "label": "GOOD SIAP QC",
+            "value": "0",
+            "text": "GOOD SIAP QC0pcs dari sumber yang tepat"
+          },
+          {
+            "label": "BARIS UKURAN",
+            "value": "0",
+            "text": "BARIS UKURAN0penerimaan · batch · ukuran"
+          },
+          {
+            "label": "FINALISASI AKTIF",
+            "value": "0",
+            "text": "FINALISASI AKTIF0transaksi CP6 tersimpan"
+          },
+          {
+            "label": "DATA LAMA TERPISAH",
+            "value": "0",
+            "text": "DATA LAMA TERPISAH0tidak ditebak atau digabung"
+          }
+        ],
+        "primary": {
+          "label": "GOOD SIAP QC",
+          "value": "0",
+          "text": "GOOD SIAP QC0pcs dari sumber yang tepat"
+        },
+        "initialError": "Layanan UAT belum dapat dihubungi. Coba lagi setelah status diperiksa.\nRefetch",
+        "initialWriterLocked": true,
+        "refetch_http_status": 200,
+        "refetch_error_ui": "Layanan UAT belum dapat dihubungi. Coba lagi setelah status diperiksa.\nRefetch",
+        "rendered_qty": "0",
+        "refetch_workspace_keys": [
+          "scope",
+          "lookups",
+          "qc_queue",
+          "readiness",
+          "deliveries",
+          "qc_history",
+          "generated_at",
+          "ready_batches",
+          "legacy_unlinked",
+          "contract_version",
+          "collection_window"
+        ],
+        "refetch_products": [
+          {
+            "id": "a994e183-fd0c-4845-bace-083992a1378b",
+            "sku": "CP6-E-828cacf7818e4ae4",
+            "name": "CP6 E 828cacf7818e4ae4",
+            "color": "CP6-E-828cacf7818e4ae4",
+            "size_id": "c8c10000-0000-4000-8000-000000000002",
+            "brand_id": "c8c10000-0000-4000-8000-000000000003",
+            "model_id": "a2000000-0000-0000-0000-000000000001",
+            "size_code": "CP6-RACE-S",
+            "brand_code": "CP6-RACE-BRAND",
+            "brand_name": "CP6 Race Brand",
+            "model_code": "CP3R3-MODEL",
+            "model_name": "CP3 R3 Model",
+            "effective_to": null,
+            "effective_from": "2026-01-01T00:00:00+00:00"
+          },
+          {
+            "id": "d125102c-8397-4cfc-b763-3328acc9d501",
+            "sku": "CP6-E-f9e5e3a354ba463e",
+            "name": "CP6 E f9e5e3a354ba463e",
+            "color": "CP6-E-f9e5e3a354ba463e",
+            "size_id": "c8c10000-0000-4000-8000-000000000002",
+            "brand_id": "c8c10000-0000-4000-8000-000000000003",
+            "model_id": "a2000000-0000-0000-0000-000000000001",
+            "size_code": "CP6-RACE-S",
+            "brand_code": "CP6-RACE-BRAND",
+            "brand_name": "CP6 Race Brand",
+            "model_code": "CP3R3-MODEL",
+            "model_name": "CP3 R3 Model",
+            "effective_to": null,
+            "effective_from": "2026-01-01T00:00:00+00:00"
+          },
+          {
+            "id": "c8c10000-0000-4000-8000-000000000004",
+            "sku": "CP6-RACE-SKU",
+            "name": "CP6 Race Final SKU",
+            "color": "NAVY",
+            "size_id": "c8c10000-0000-4000-8000-000000000002",
+            "brand_id": "c8c10000-0000-4000-8000-000000000003",
+            "model_id": "a2000000-0000-0000-0000-000000000001",
+            "size_code": "CP6-RACE-S",
+            "brand_code": "CP6-RACE-BRAND",
+            "brand_name": "CP6 Race Brand",
+            "model_code": "CP3R3-MODEL",
+            "model_name": "CP3 R3 Model",
+            "effective_to": null,
+            "effective_from": "2026-01-01T00:00:00+00:00"
+          }
+        ],
+        "refetch_readiness": {
+          "qc_writer_ready": true,
+          "lineage_issue_count": 0,
+          "no_fixture_fallback": true,
+          "laundry_writer_ready": true,
+          "lineage_integrity_ok": true,
+          "failed_wash_with_charge_supported": true
+        },
+        "renderError": "expect(locator).toHaveText(expected) failed\n\nLocator:  locator('.clq-kpis article').first().locator('strong')\nExpected: \"10\"\nReceived: \"0\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.have.text\" with timeout 5000ms\n  - waiting for locator('.clq-kpis article').first().locator('strong')\n    14 × locator resolved to <strong>0</strong>\n       - unexpected value \"0\"\n",
+        "no_product_finding_promoted_from_failed_control": true
+      }
+    },
+    {
+      "line": 2128,
+      "value": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "planned": [
+          "G8UI:UNKNOWN:LAUNDRY_INITIAL_READ:rev2",
+          "G8UI:UNKNOWN:QC_INITIAL_READ:rev2"
+        ],
+        "final": {
+          "G8UI:UNKNOWN:LAUNDRY_INITIAL_READ:rev2": "INCOMPLETE",
+          "G8UI:UNKNOWN:QC_INITIAL_READ:rev2": "INCOMPLETE"
+        },
+        "status": "RUN_COMPLETE",
+        "console_errors": 0,
+        "users_created": 2,
+        "auth_cleanup_failures": []
+      }
+    },
+    {
+      "line": 2130,
+      "value": {
+        "auditor_phase": "after",
+        "status": "INCOMPLETE",
+        "label": "AUDITOR_SCENARIO",
+        "phase": "after",
+        "scenario_sha256": "bf60eb539e39e20d5493080376b4139ba046aeb78b20dfbe213457793afa24d5",
+        "production_go": false,
+        "independent_acceptance": false,
+        "release_evidence": false,
+        "run_identity": {
+          "label": "AUDITOR_SCENARIO",
+          "tool_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
+          "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
+          "product_paths": [
+            "supabase/migrations",
+            "supabase/dev",
+            "supabase/release",
+            "supabase/rollbacks",
+            "src"
+          ],
+          "run_id": "36102938451",
+          "run_attempt": "1",
+          "workflow": "GPT CP6 Round 8 Independent Audit",
+          "job": "phase",
+          "event": "push",
+          "github_sha": "f85a5462411bff392b0d8b73272d96dccae649ee",
+          "release_evidence": false,
+          "production_go": false,
+          "phase": "after",
+          "scenario_sha256": "bf60eb539e39e20d5493080376b4139ba046aeb78b20dfbe213457793afa24d5"
+        },
+        "au_install": "PASS",
+        "av_install": "PASS",
+        "aw_install": {
+          "stage": "AV_PLUS_AW_T1",
+          "label": "T1_FAMILY",
+          "functions": 13,
+          "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32"
+        },
+        "ax_install": {
+          "stage": "AV_PLUS_AW_PLUS_AX_T1",
+          "label": "T1_FAMILY",
+          "functions": 13,
+          "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+          "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+          "av_coverage": {
+            "registry": {
+              "erp.fg_lots.product_id": {
+                "class": "NEW_STOCK_FACT",
+                "reason": "produced_at of every lot except GOOD returned by rework"
+              },
+              "erp.bs_cases.product_id": {
+                "class": "NEW_STOCK_FACT",
+                "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+              },
+              "erp.sales_items.product_id": {
+                "class": "SALES",
+                "reason": "Sale of existing stock"
+              },
+              "erp.journal_lines.product_id": {
+                "class": "ACCOUNTING",
+                "reason": "Journal dimension"
+              },
+              "erp.fg_stock_movements.product_id": {
+                "class": "MOVEMENT",
+                "reason": "Movement of an existing lot"
+              },
+              "erp.sales_return_items.product_id": {
+                "class": "SALES",
+                "reason": "Return of sold stock"
+              },
+              "erp.fg_adjustment_items.product_id": {
+                "class": "MOVEMENT",
+                "reason": "Adjusts an existing lot"
+              },
+              "erp.fg_inventory_balances.product_id": {
+                "class": "DERIVED",
+                "reason": "Balance cache keyed by product/location/grade"
+              },
+              "erp.opening_balance_items.product_id": {
+                "class": "SOURCE_DOCUMENT",
+                "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+              },
+              "erp.stock_policy_versions.product_id": {
+                "class": "MASTER",
+                "reason": "Effective-dated stock policy"
+              },
+              "erp.accessory_bom_versions.product_id": {
+                "class": "MASTER",
+                "reason": "Effective-dated accessory BOM; no stock instant"
+              },
+              "erp.product_conversions.to_product_id": {
+                "class": "SOURCE_DOCUMENT",
+                "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+              },
+              "erp.product_price_versions.product_id": {
+                "class": "MASTER",
+                "reason": "Effective-dated price"
+              },
+              "erp.product_conversions.from_product_id": {
+                "class": "SOURCE_DOCUMENT",
+                "reason": "Conversion source, validated as EXISTING_STOCK"
+              },
+              "erp.qc_inspection_items.final_product_id": {
+                "class": "SOURCE_DOCUMENT",
+                "reason": "QC input; the facts are fg_lots and bs_cases"
+              },
+              "erp.fg_accessory_cost_snapshots.product_id": {
+                "class": "DERIVED",
+                "reason": "Cost snapshot of an FG lot"
+              },
+              "erp.po_accessory_bom_commitments.product_id": {
+                "class": "MASTER",
+                "reason": "PO accessory BOM commitment"
+              },
+              "erp.stock_explainability_snapshots.product_id": {
+                "class": "REPORT",
+                "reason": "Stock explanation snapshot"
+              },
+              "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+                "class": "ACCOUNTING",
+                "reason": "HPP to GL synchronisation event"
+              },
+              "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+                "class": "SOURCE_DOCUMENT",
+                "reason": "Laundry receipt input; the BS fact is bs_cases"
+              },
+              "erp.product_identity_mutation_context_v1.product_id": {
+                "class": "AUTHORIZATION",
+                "reason": "Private one-use identity edit context"
+              },
+              "erp.laundry_receipt_bs_product_allocations.product_id": {
+                "class": "SOURCE_DOCUMENT",
+                "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+              },
+              "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+                "class": "DERIVED",
+                "reason": "Accounting entitlement of an FG lot"
+              }
+            },
+            "references": 23,
+            "new_stock_fact_tables": [
+              "bs_cases",
+              "fg_lots"
+            ]
+          }
+        },
+        "ay_install": {
+          "stage": "AV_PLUS_AW_AX_AY_T1",
+          "label": "T1_FAMILY",
+          "functions": 13,
+          "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+          "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+          "av_coverage": {
+            "registry": {
+              "erp.fg_lots.product_id": {
+                "class": "NEW_STOCK_FACT",
+                "reason": "produced_at of every lot except GOOD returned by rework"
+              },
+              "erp.bs_cases.product_id": {
+                "class": "NEW_STOCK_FACT",
+                "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+              },
+              "erp.sales_items.product_id": {
+                "class": "SALES",
+                "reason": "Sale of existing stock"
+              },
+              "erp.journal_lines.product_id": {
+                "class": "ACCOUNTING",
+                "reason": "Journal dimension"
+              },
+              "erp.fg_stock_movements.product_id": {
+                "class": "MOVEMENT",
+                "reason": "Movement of an existing lot"
+              },
+              "erp.sales_return_items.product_id": {
+                "class": "SALES",
+                "reason": "Return of sold stock"
+              },
+              "erp.fg_adjustment_items.product_id": {
+                "class": "MOVEMENT",
+                "reason": "Adjusts an existing lot"
+              },
+              "erp.fg_inventory_balances.product_id": {
+                "class": "DERIVED",
+                "reason": "Balance cache keyed by product/location/grade"
+              },
+              "erp.opening_balance_items.product_id": {
+                "class": "SOURCE_DOCUMENT",
+                "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+              },
+              "erp.stock_policy_versions.product_id": {
+                "class": "MASTER",
+                "reason": "Effective-dated stock policy"
+              },
+              "erp.accessory_bom_versions.product_id": {
+                "class": "MASTER",
+                "reason": "Effective-dated accessory BOM; no stock instant"
+              },
+              "erp.product_conversions.to_product_id": {
+                "class": "SOURCE_DOCUMENT",
+                "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+              },
+              "erp.product_price_versions.product_id": {
+                "class": "MASTER",
+                "reason": "Effective-dated price"
+              },
+              "erp.product_conversions.from_product_id": {
+                "class": "SOURCE_DOCUMENT",
+                "reason": "Conversion source, validated as EXISTING_STOCK"
+              },
+              "erp.qc_inspection_items.final_product_id": {
+                "class": "SOURCE_DOCUMENT",
+                "reason": "QC input; the facts are fg_lots and bs_cases"
+              },
+              "erp.fg_accessory_cost_snapshots.product_id": {
+                "class": "DERIVED",
+                "reason": "Cost snapshot of an FG lot"
+              },
+              "erp.po_accessory_bom_commitments.product_id": {
+                "class": "MASTER",
+                "reason": "PO accessory BOM commitment"
+              },
+              "erp.stock_explainability_snapshots.product_id": {
+                "class": "REPORT",
+                "reason": "Stock explanation snapshot"
+              },
+              "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+                "class": "ACCOUNTING",
+                "reason": "HPP to GL synchronisation event"
+              },
+              "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+                "class": "SOURCE_DOCUMENT",
+                "reason": "Laundry receipt input; the BS fact is bs_cases"
+              },
+              "erp.product_identity_mutation_context_v1.product_id": {
+                "class": "AUTHORIZATION",
+                "reason": "Private one-use identity edit context"
+              },
+              "erp.laundry_receipt_bs_product_allocations.product_id": {
+                "class": "SOURCE_DOCUMENT",
+                "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+              },
+              "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+                "class": "DERIVED",
+                "reason": "Accounting entitlement of an FG lot"
+              }
+            },
+            "references": 23,
+            "new_stock_fact_tables": [
+              "bs_cases",
+              "fg_lots"
+            ]
+          },
+          "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+          "catalog": {
+            "revaluation_movement_indexes": [],
+            "accessory_total_hpp_cost": [
+              "s",
+              "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+            ]
+          }
+        },
+        "az_install": {
+          "stage": "AV_PLUS_AW_AX_AY_AZ_T1",
+          "label": "T1_FAMILY",
+          "functions": 13,
+          "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+          "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+          "av_coverage": {
+            "registry": {
+              "erp.fg_lots.product_id": {
+                "class": "NEW_STOCK_FACT",
+                "reason": "produced_at of every lot except GOOD returned by rework"
+              },
+              "erp.bs_cases.product_id": {
+                "class": "NEW_STOCK_FACT",
+                "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+              },
+              "erp.sales_items.product_id": {
+                "class": "SALES",
+                "reason": "Sale of existing stock"
+              },
+              "erp.journal_lines.product_id": {
+                "class": "ACCOUNTING",
+                "reason": "Journal dimension"
+              },
+              "erp.fg_stock_movements.product_id": {
+                "class": "MOVEMENT",
+                "reason": "Movement of an existing lot"
+              },
+              "erp.sales_return_items.product_id": {
+                "class": "SALES",
+                "reason": "Return of sold stock"
+              },
+              "erp.fg_adjustment_items.product_id": {
+                "class": "MOVEMENT",
+                "reason": "Adjusts an existing lot"
+              },
+              "erp.fg_inventory_balances.product_id": {
+                "class": "DERIVED",
+                "reason": "Balance cache keyed by product/location/grade"
+              },
+              "erp.opening_balance_items.product_id": {
+                "class": "SOURCE_DOCUMENT",
+                "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+              },
+              "erp.stock_policy_versions.product_id": {
+                "class": "MASTER",
+                "reason": "Effective-dated stock policy"
+              },
+              "erp.accessory_bom_versions.product_id": {
+                "class": "MASTER",
+                "reason": "Effective-dated accessory BOM; no stock instant"
+              },
+              "erp.product_conversions.to_product_id": {
+                "class": "SOURCE_DOCUMENT",
+                "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+              },
+              "erp.product_price_versions.product_id": {
+                "class": "MASTER",
+                "reason": "Effective-dated price"
+              },
+              "erp.product_conversions.from_product_id": {
+                "class": "SOURCE_DOCUMENT",
+                "reason": "Conversion source, validated as EXISTING_STOCK"
+              },
+              "erp.qc_inspection_items.final_product_id": {
+                "class": "SOURCE_DOCUMENT",
+                "reason": "QC input; the facts are fg_lots and bs_cases"
+              },
+              "erp.fg_accessory_cost_snapshots.product_id": {
+                "class": "DERIVED",
+                "reason": "Cost snapshot of an FG lot"
+              },
+              "erp.po_accessory_bom_commitments.product_id": {
+                "class": "MASTER",
+                "reason": "PO accessory BOM commitment"
+              },
+              "erp.stock_explainability_snapshots.product_id": {
+                "class": "REPORT",
+                "reason": "Stock explanation snapshot"
+              },
+              "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+                "class": "ACCOUNTING",
+                "reason": "HPP to GL synchronisation event"
+              },
+              "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+                "class": "SOURCE_DOCUMENT",
+                "reason": "Laundry receipt input; the BS fact is bs_cases"
+              },
+              "erp.product_identity_mutation_context_v1.product_id": {
+                "class": "AUTHORIZATION",
+                "reason": "Private one-use identity edit context"
+              },
+              "erp.laundry_receipt_bs_product_allocations.product_id": {
+                "class": "SOURCE_DOCUMENT",
+                "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+              },
+              "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+                "class": "DERIVED",
+                "reason": "Accounting entitlement of an FG lot"
+              }
+            },
+            "references": 23,
+            "new_stock_fact_tables": [
+              "bs_cases",
+              "fg_lots"
+            ]
+          },
+          "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+          "catalog": {
+            "revaluation_movement_indexes": [],
+            "accessory_total_hpp_cost": [
+              "s",
+              "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+            ]
+          },
+          "az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9"
+        },
+        "ba_install": {
+          "stage": "AV_PLUS_AW_AX_AY_AZ_BA_T1",
+          "label": "T1_FAMILY",
+          "functions": 12,
+          "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+          "replaced_by_later_family": [
+            "erp.close_accounting_through(date,text)"
+          ],
+          "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+          "av_coverage": {
+            "registry": {
+              "erp.fg_lots.product_id": {
+                "class": "NEW_STOCK_FACT",
+                "reason": "produced_at of every lot except GOOD returned by rework"
+              },
+              "erp.bs_cases.product_id": {
+                "class": "NEW_STOCK_FACT",
+                "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+              },
+              "erp.sales_items.product_id": {
+                "class": "SALES",
+                "reason": "Sale of existing stock"
+              },
+              "erp.journal_lines.product_id": {
+                "class": "ACCOUNTING",
+                "reason": "Journal dimension"
+              },
+              "erp.fg_stock_movements.product_id": {
+                "class": "MOVEMENT",
+                "reason": "Movement of an existing lot"
+              },
+              "erp.sales_return_items.product_id": {
+                "class": "SALES",
+                "reason": "Return of sold stock"
+              },
+              "erp.fg_adjustment_items.product_id": {
+                "class": "MOVEMENT",
+                "reason": "Adjusts an existing lot"
+              },
+              "erp.fg_inventory_balances.product_id": {
+                "class": "DERIVED",
+                "reason": "Balance cache keyed by product/location/grade"
+              },
+              "erp.opening_balance_items.product_id": {
+                "class": "SOURCE_DOCUMENT",
+                "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+              },
+              "erp.stock_policy_versions.product_id": {
+                "class": "MASTER",
+                "reason": "Effective-dated stock policy"
+              },
+              "erp.accessory_bom_versions.product_id": {
+                "class": "MASTER",
+                "reason": "Effective-dated accessory BOM; no stock instant"
+              },
+              "erp.product_conversions.to_product_id": {
+                "class": "SOURCE_DOCUMENT",
+                "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+              },
+              "erp.product_price_versions.product_id": {
+                "class": "MASTER",
+                "reason": "Effective-dated price"
+              },
+              "erp.product_conversions.from_product_id": {
+                "class": "SOURCE_DOCUMENT",
+                "reason": "Conversion source, validated as EXISTING_STOCK"
+              },
+              "erp.qc_inspection_items.final_product_id": {
+                "class": "SOURCE_DOCUMENT",
+                "reason": "QC input; the facts are fg_lots and bs_cases"
+              },
+              "erp.fg_accessory_cost_snapshots.product_id": {
+                "class": "DERIVED",
+                "reason": "Cost snapshot of an FG lot"
+              },
+              "erp.po_accessory_bom_commitments.product_id": {
+                "class": "MASTER",
+                "reason": "PO accessory BOM commitment"
+              },
+              "erp.stock_explainability_snapshots.product_id": {
+                "class": "REPORT",
+                "reason": "Stock explanation snapshot"
+              },
+              "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+                "class": "ACCOUNTING",
+                "reason": "HPP to GL synchronisation event"
+              },
+              "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+                "class": "SOURCE_DOCUMENT",
+                "reason": "Laundry receipt input; the BS fact is bs_cases"
+              },
+              "erp.product_identity_mutation_context_v1.product_id": {
+                "class": "AUTHORIZATION",
+                "reason": "Private one-use identity edit context"
+              },
+              "erp.laundry_receipt_bs_product_allocations.product_id": {
+                "class": "SOURCE_DOCUMENT",
+                "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+              },
+              "erp.initial_import_wip_output_identity_v1.output_product_id": {
+                "class": "DERIVED",
+                "reason": "Provenance of an opening WIP output; the stock fact is its fg_lots lot"
+              },
+              "erp.initial_import_wip_output_identity_v1.opening_product_id": {
+                "class": "DERIVED",
+                "reason": "Provenance of an opening WIP output: the product filled in on its opening item"
+              },
+              "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+                "class": "DERIVED",
+                "reason": "Accounting entitlement of an FG lot"
+              }
+            },
+            "references": 25,
+            "new_stock_fact_tables": [
+              "bs_cases",
+              "fg_lots"
+            ]
+          },
+          "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+          "catalog": {
+            "revaluation_movement_indexes": [],
+            "accessory_total_hpp_cost": [
+              "s",
+              "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+            ]
+          },
+          "az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9",
+          "az_replaced_by_later_family": [
+            "erp.complete_initial_import_wip_v1(jsonb)",
+            "erp.sync_material_cost_revaluation(uuid)"
+          ],
+          "ba_sql_sha256": "06d6dccb5243832e07deead99d19a5b359f2cd65b1dc8917b2fa006e780c1f37",
+          "ba_functions": [
+            "erp.post_opening_balance(uuid)",
+            "erp.complete_initial_import_wip_v1(jsonb)",
+            "erp.manage_initial_prepayment_v1(jsonb)",
+            "erp.sync_material_cost_revaluation(uuid)",
+            "erp.close_accounting_through(date,text)",
+            "erp.assert_new_stock_cutoff_coverage_v1()",
+            "erp.get_bs_resolution_workspace_v1(text,text,uuid,text,integer,integer)",
+            "erp.get_initial_import_workspace_v1(uuid)",
+            "erp.initial_prepayment_dated_floor_v1(uuid,date)"
+          ]
+        },
+        "auditor_cases": {
+          "status": "PASS",
+          "counts": {},
+          "planned_case_ids": [],
+          "final": {},
+          "error": null
+        },
+        "auditor_browser": {
+          "status": "INCOMPLETE",
+          "counts": {
+            "INCOMPLETE": 2
+          },
+          "script_sha256": "cf9dfb1e153bfd61dc660f23221de03ec5c000c3750690d9c51cb6e8c4020300",
+          "database_remaining": 0,
+          "cleanup": {
+            "users_created": 0,
+            "cleanup_failures": [],
+            "rest_remaining": false
+          },
+          "auth_counts": {
+            "before": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "after": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "restored": true
+          },
+          "console_errors": 0,
+          "users_created": 2,
+          "error": null
+        },
+        "primary_unchanged": true,
+        "clone_remaining": 0
+      }
+    }
+  ],
+  "interpretation": "2INCOMPLETE positive refetch controls. Initial cards0 with error banner/write lock; real RPC20/10 and refetchHTTP200. UI still0/generic connection error. No full native CP6-06 acceptance/failure conclusion yet; pure parser and fresh UI control needed. Removing unused SKU did not resolve control.",
   "production_go": false
 }

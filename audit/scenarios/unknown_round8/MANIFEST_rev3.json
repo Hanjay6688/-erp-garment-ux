@@ -1,0 +1,25 @@
+{
+  "phase": "UNKNOWN_BROWSER_RETRY",
+  "tool_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
+  "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
+  "files": [
+    {
+      "path": "gpt_unknown_fixture_rev2.py",
+      "sha256": "0bd506536d68292dd957ecc6385c0b8967e6a807c35bd9d49f40b42b94359e1b",
+      "bytes": 3414
+    },
+    {
+      "path": "gpt_unknown_browser_rev3.mjs",
+      "sha256": "3821aec1d0f0df0d32bc131c0721a32bf41344dc1116568058087d33768d72df",
+      "bytes": 13412
+    },
+    {
+      "path": "browser_only.py",
+      "sha256": "bf60eb539e39e20d5493080376b4139ba046aeb78b20dfbe213457793afa24d5",
+      "bytes": 107
+    }
+  ],
+  "prior_run": 36102938451,
+  "changes": "Fixture unchanged. Inspect exact candidate pure parser on real response; retain full response; verify fresh UI reload if parser accepts. Original unknown and valid-refetch oracle unchanged; failed control remains INCOMPLETE unless fresh real UI proves data renderable.",
+  "production_go": false
+}
