@@ -8,8 +8,9 @@ group instead (the writer's own probes keep theirs):
   * a case status must be PASS, FAIL, COUNTEREXAMPLE or INCOMPLETE (anything else, or a result that is not a dict, is
     INCOMPLETE with the original value recorded);
   * after each case (savepoint rolled back): the ERP/platform/Auth/schema-ACL boundary as before, plus the data and
-    catalog of the public schema, no advisory lock held by the runner's session and no other client session on the
-    clone; a leak makes the case INCOMPLETE (the lock is released and the leaked session ended so later cases start clean);
+    catalog of the public schema, no advisory lock of the runner's session and no other client session on the clone
+    that was not there before the case; a leak makes the case INCOMPLETE (the lock is released and the leaked session
+    ended so later cases start clean);
   * the planned case ids and the final status of each are printed at the end, and every planned id must have one.
 The rest is the shared group unchanged (seed, schema usage grant, open period 2026-08-31, function/ACL pins).
 """
@@ -50,6 +51,10 @@ def public_state(cur):
     return state
 
 
+ADVISORY="""select coalesce(jsonb_agg(jsonb_build_array(classid::text,objid::text,objsubid,mode) order by classid,objid,objsubid,mode),'[]'::jsonb)
+  from pg_locks where locktype='advisory' and pid=pg_backend_pid() and granted"""
+
+
 def other_sessions(cur):
     # pg_stat_activity is read once per transaction and cached; the runner's cases share one transaction, so the cache is
     # cleared before every read.
@@ -58,18 +63,26 @@ def other_sessions(cur):
         where datname=current_database() and pid<>pg_backend_pid() and backend_type='client backend' order by pid""").fetchall()
 
 
-def leaks(cur):
-    """Advisory locks of this session and other client sessions on this database; both are cleared after being recorded.
-    A connection a case closed can stay listed for a moment while its backend exits, so the list is re-read for up to 2 s
-    before a session counts as left open."""
-    locks=cur.execute("select count(*) from pg_locks where locktype='advisory' and pid=pg_backend_pid()").fetchone()[0]
-    others=other_sessions(cur)
+def session_state(cur):
+    """Advisory locks the runner's session holds and the other client sessions, read before a case. The runner's own
+    transaction keeps the transaction-level locks its setup took; a case's own transaction-level locks go with the
+    savepoint rollback, so a lock that is new after the case is a session-level lock the case left behind."""
+    return dict(advisory=cur.execute(ADVISORY).fetchone()[0],sessions=[r[0] for r in other_sessions(cur)])
+
+
+def leaks(cur,before):
+    """Advisory locks and other client sessions that are new since before the case; both are cleared after being
+    recorded. A connection a case closed can stay listed for a moment while its backend exits, so the list is re-read
+    for up to 2 s before a session counts as left open."""
+    locks=[l for l in cur.execute(ADVISORY).fetchone()[0] if l not in before['advisory']]
+    def new_sessions():return [o for o in other_sessions(cur) if o[0] not in before['sessions']]
+    others=new_sessions()
     for _ in range(20):
         if not others:break
-        time.sleep(0.1);others=other_sessions(cur)
+        time.sleep(0.1);others=new_sessions()
     if locks:cur.execute('select pg_advisory_unlock_all()')
     for pid,*_ in others:cur.execute('select pg_terminate_backend(%s)',(pid,))
-    return dict(advisory_locks=locks,other_sessions=[list(map(str,o)) for o in others])
+    return dict(advisory_locks=len(locks),advisory_lock_keys=locks,other_sessions=[list(map(str,o)) for o in others])
 
 
 def strict_group(name,factory,verify):
@@ -90,8 +103,9 @@ def strict_group(name,factory,verify):
             report.update(error='AUDITOR_DUPLICATE_CASE_IDS',duplicate_case_ids=duplicates)
             print(json.dumps(dict(group=name,refused='AUDITOR_DUPLICATE_CASE_IDS',duplicates=duplicates)),flush=True)
             conn.rollback();r1.save(name,report);return report
+        report['session_at_start']=session_state(cur)
         for key,operation in cases:
-            before=boundary.snapshot(cur);public_before=public_state(cur)
+            before=boundary.snapshot(cur);public_before=public_state(cur);session_before=session_state(cur)
             cur.execute('savepoint auditor_case')
             try:
                 row=operation()
@@ -103,7 +117,7 @@ def strict_group(name,factory,verify):
                 row['status_outside_vocabulary']=row.get('status');row['status']='INCOMPLETE'
             row['full_boundary_restored']=boundary.snapshot(cur)==before
             row['public_schema_unchanged']=public_state(cur)==public_before
-            row['session_leaks']=leaks(cur)
+            row['session_leaks']=leaks(cur,session_before)
             clean=not row['session_leaks']['advisory_locks'] and not row['session_leaks']['other_sessions']
             if not (row['full_boundary_restored'] and row['public_schema_unchanged'] and clean):row['status']='INCOMPLETE'
             report['cases'][key]=row;r1.save(name,report)
