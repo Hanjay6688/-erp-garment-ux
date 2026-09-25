@@ -17,7 +17,8 @@
 //   ui.expect                         Playwright's expect
 // Each case returns an object whose status is PASS, FAIL, COUNTEREXAMPLE or INCOMPLETE; a thrown error, another status or
 // a non-object is INCOMPLETE; duplicate case ids refuse the run. One JSON line per case is printed
-// ({"group":"AUDITOR_BROWSER_<PHASE>","case":...}); keys, passwords and tokens are masked. Every created Auth user is
+// ({"group":"AUDITOR_BROWSER_<PHASE>","case":...}); the stack keys are masked by the runtime, and the per-user email,
+// password and token are never printed and are redacted from every case result and error. Every created Auth user is
 // deleted, the browser, the UI server and the proxy are stopped.
 import assert from 'node:assert/strict'
 import { execFileSync, spawn } from 'node:child_process'
@@ -39,7 +40,7 @@ const secrets = [anon, service], users = []
 const report = { status: 'INCOMPLETE', label: 'AUDITOR_SCENARIO', mode: 'BROWSER', phase, planned: [], cases: {}, console_errors: [],
   auth_cleanup_failures: [], real_auth: true, product_responses_mocked: false, production_go: false, release_evidence: false }
 const save = () => { mkdirSync(dirname(out), { recursive: true }); writeFileSync(out, JSON.stringify(report, null, 2) + '\n') }
-const mask = value => { if (value) { secrets.push(value); console.log('::add-mask::' + value) } }
+const redact = value => { if (value) secrets.push(value) }
 function safe(value) {
   let text = typeof value === 'string' ? value : JSON.stringify(value)
   for (const s of secrets) if (s) text = text.replaceAll(s, '[REDACTED]')
@@ -66,7 +67,7 @@ async function rpc(token, name, args = {}) {
 async function createUser(role, label) {
   const email = `cp6-auditor-browser-${String(label).toLowerCase()}-${randomUUID()}@example.invalid`
   const password = `Ab!${randomBytes(24).toString('hex')}`
-  mask(email); mask(password)
+  redact(email); redact(password)
   const created = await auth('admin/users', { email, password, email_confirm: true }, true)
   assert.ok([200, 201].includes(created.status) && created.body.id, `AUDITOR_BROWSER_AUTH_CREATE_${created.status}`)
   const user = { id: created.body.id, email, password, role, label }; users.push(user)
@@ -76,7 +77,7 @@ async function createUser(role, label) {
   assert.ok(bound, `AUDITOR_BROWSER_UNKNOWN_OR_INACTIVE_ROLE_${role}`)
   const session = await auth('token?grant_type=password', { email, password })
   assert.equal(session.status, 200, 'AUDITOR_BROWSER_LOGIN')
-  user.token = session.body.access_token; mask(user.token)
+  user.token = session.body.access_token; redact(user.token)
   return user
 }
 

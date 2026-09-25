@@ -27,7 +27,8 @@ BROWSER (independent audit B4, GATE-04/08) the auditor supplies an ES module (wo
         against a loopback proxy (Auth and public RPC only) and runs the module in Playwright
         (scripts/cp6_auditor_browser_host.mjs): ui.login(role) signs a new real Auth user in through the login form. Users,
         container, UI server and copy are removed; Auth row counts of the primary database must return to their start.
-Keys and tokens are masked in the job log (::add-mask::).
+The stack's anon and service keys are masked in the job log (::add-mask::). The per-user password and access token are
+never printed, not even as ::add-mask:: lines.
 """
 from pathlib import Path
 from collections import Counter
@@ -201,7 +202,6 @@ class Http:
 
     def login(self,role_code,label='auditor'):
         email='cp6-auditor-%s-%s@example.invalid'%(label.lower(),uuid.uuid4());password='Au!'+secrets.token_hex(24)
-        _mask(password)
         created=self._auth('admin/users',dict(email=email,password=password,email_confirm=True),admin=True)
         assert created['status'] in (200,201) and created['body'].get('id'),('AUDITOR_HTTP_AUTH_CREATE',created['status'])
         auth_id=created['body']['id'];self.users.append(auth_id)
@@ -213,7 +213,7 @@ class Http:
             conn.commit()
         session=self._auth('token?grant_type=password',dict(email=email,password=password))
         assert session['status']==200 and session['body'].get('access_token'),('AUDITOR_HTTP_LOGIN',session['status'])
-        token=session['body']['access_token'];_mask(token)
+        token=session['body']['access_token']
         return HttpUser(self,token,auth_id,role_code)
 
     def anon_rpc(self,name,args=None):return self._rpc(None,name,args or {})

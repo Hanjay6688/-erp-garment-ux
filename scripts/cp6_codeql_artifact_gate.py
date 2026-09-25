@@ -24,6 +24,11 @@ for path in files:
         if not invocations or any(i.get('executionSuccessful') is not True for i in invocations):
             raise SystemExit('CODEQL_EXECUTION_INCOMPLETE')
         findings=run.get('results',[])
+        # Each finding is named in the log (rule, file, line, message) so a red gate says what it found.
+        for finding in findings:
+            location=(finding.get('locations') or [{}])[0].get('physicalLocation',{})
+            print('CODEQL_FINDING '+json.dumps({'rule':finding.get('ruleId'),'file':location.get('artifactLocation',{}).get('uri'),
+                'line':location.get('region',{}).get('startLine'),'message':(finding.get('message') or {}).get('text','')[:300]}),flush=True)
         observations.append({'file':str(path.relative_to(root)),
             'sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data),
             'tool':run['tool']['driver']['name'],'version':run['tool']['driver'].get('semanticVersion',run['tool']['driver'].get('version')),
