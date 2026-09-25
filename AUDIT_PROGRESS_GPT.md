@@ -1,0 +1,50 @@
+# Progres audit CP6 — GPT (log khusus auditor)
+
+**Cabang bersama:** `audit/cp6-final-20260924-gpt-a0bcadf`. Hanya GPT yang menulis berkas ini dan `out/gpt_*.md`; Fable menulis `AUDIT_PROGRESS_FABLE.md` dan `out/fable_*.md`. **Satu handoff writer** tetap `AUDIT_WRITER_HANDOFF_CP6.md`. `AUDIT_PROGRESS.md` adalah arsip gabungan historis, dibaca saja sejak pemisahan ini. Jika push branch maju di tengah pekerjaan, ambil HEAD terbaru lalu commit fast-forward; jangan force-push atau menimpa berkas auditor lain. Tidak ada kode produk, main, kompetisi, hosted, legacy, atau production yang disentuh auditor.
+
+**Fase aktif:** audit silang kandidat BB final; developer-product terakhir `e6487118bbef5c62fc355835ad5b9baaf525c719`, writer tool head `4c61acad2270e11a2aca762237790a68cf36278a`, `product_ref=797fadd8b0b4aa033d3c807f0f806270fa1cf87b` karena paket/rollback sesudah edit dev. Bukti BB berikut adalah cakupan lokal. **CP6 HOLD · audit_complete=false · production_go=false**. D06 lampiran C6 rev4 belum dibuktikan tercatat ditandatangani owner di repo; jangan anggap pesan usulan sebagai ratifikasi.
+
+## Gate kontrak GPT (cakupan penuh, bukan status subkasus)
+
+Sumber gate hanya tiga kontrak: `ERP_V3_2_Master_Pulih_20260923.md` (M), `ERP_V3_2_Perubahan_Pulih_20260923.md` (P), `ERP_ADDENDUM_BUSINESS_REPORT_CP7_2026-09-18.md` (BR); owner addendum C0 dipakai hanya untuk keputusan owner yang sudah diratifikasi. Kelompok C6-01..10 adalah register GPT, tidak sama dengan GATE-01..16 Fable. Rujukan baris berasal dari register beku `AUDIT_PROGRESS.md:82–99`; status di sini terkini dan konservatif. **Tidak satu pun gate penuh ACCEPT.**
+
+| Gate | Dasar kontrak | Status penuh | Yang sudah dibuktikan / batas |
+|---|---|---|---|
+| C6-01 identitas dan kecukupan bukti | M:1624–1626,1693,1699,1762–1767,4324 | HOLD | Hash/head/run terpin; masih perlu hasil final dan acceptance owner. |
+| C6-02 atomik dan fakta posted | M:3816–3826,5048–5052 | HOLD | Kasus transaksi terpilih lulus; belum semua 22/75 lifecycle dan inverse. |
+| C6-03 recovery, input unknown, selector | M:1678–1679,1691,3817–3820,3825–3826,3939 | UNVERIFIED | W10/W11/W13 browser terpilih lulus pada BA; matriks seluruh rute belum ditutup. |
+| C6-04 ALL saldo awal | M:44–45,359–365,749–755,829–843,934–938,1024–1025,1691; P:966–967 | HOLD | S02 dua draf dan BB T1 lokal lulus; scope ALL22 tetap wajib, BC/BD/BE belum dibuktikan. |
+| C6-05 tanggal, HPP, jurnal, laporan | M:375,377,835,837,1022,1059–1065,1666,1691,3816,3820,3825,6632 | HOLD | Pool 10 nota total/stok tepat, C0 25/25; 12 HOLD kalender historis dan jalur biaya lain tetap ditangani terpisah. |
+| C6-06 produksi, AR/AP, payroll dan uang muka | M:359–379,629–648,749–757,3822–3824 | UNVERIFIED | BB partial/family dan kontrol penolakan lokal lulus; seluruh sumber dan efek belum diterima. |
+| C6-07 aksesori/pocket/laundry CR | M:44–48,466–472,495,557–561,1023,3900–3902,3951,5192–5199 | HOLD | Crosswalk 39 ACC + 36 LAU pra-kode tersedia; runtime lengkap BC/BD/BE dan D06 belum selesai. |
+| C6-08 Auth, izin dan UI | M:1691,4486,5046–5052,5209,5213–5224 | UNVERIFIED | HTTP/Auth dan browser terpilih berhasil; matriks role/action/location penuh belum dinilai. |
+| C6-09 concurrency/stale | M:751–755,1025,4165,4486,5048–5052 | UNVERIFIED | Race terpilih ada, seluruh interleaving dan inverse belum selesai. |
+| C6-10 instalasi, restore, rollback dan cleanup | M:1767,3826,4306–4314,4486,5192–5209; BR batas CP6/CP7 | HOLD | T3 paket BB 26/26 dan rollback 131/131 teruji disposable; bukan paket kandidat final seluruh 22/75. |
+
+## Skenario dan hasil GPT yang terbaru
+
+- `audit/scenarios/r10_bb/gpt_bb_independent.py`, **sha256 `4655575482e90e333f753bd65d7f788c2f04f55e8c47e05ae31d275a80393b86`**, manifest `audit/scenarios/r10_bb/MANIFEST.json`, workflow `.github/workflows/gpt-cp6-bb-round10.yml`. Oracle sebelum run M:835/M:3820/M:6632 untuk 10 dokumen, M:3821/M:6631 untuk dua draf.
+- [Run rev2 **36155477550**](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36155477550), job **108138841475**, `AUDITOR_SCENARIO`, tool head `4c61aca`, dua kasus PASS/RUN_COMPLETE, `primary_unchanged=true`, full boundary restored dan kebocoran sesi 0:
+  - `G10:BA_TEN_DOCUMENT_CENT_POOL`: 10 nota masing-masing 10,005 → nilai dokumen 10,01, total WIP **100,10**, stok qty **0**, nilai **0,00**. PO pertama 10,05; semua per PO di `out/gpt_bb_round10_result.md`. **ACCEPT lokal** untuk total dan exhaustion; deviasi +0,04 tidak otomatis gagal kontrak per PO.
+  - `G10:BB_TWO_DRAFT_SHARED_RESERVE`: stok 10, dua reservasi 3+2, tersedia **5→4→6→6** sesudah edit/cancel/POST; AR +40, revenue −40, COGS +24, FG −24 sekali; dua reserve habis. **ACCEPT lokal** untuk siklus ini, bukan semua ALL.
+- [Run rev1 **36154846659**](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36154846659), job **108136764090**, skenario sha256 `18dc5075eabb27302b80d7c9919164d1ed371342f6c6c78839d7614f523f8d7c`: S02 PASS; sen mentah COUNTEREXAMPLE akibat snapshot baseline auditor **salah** (setelah penerimaan); adjudikasi **INCOMPLETE oracle**, tidak dilabel ulang. Detail `out/gpt_bb_round10_result.md`.
+- [Run T2 BA **36125151913**](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36125151913), jobs AR **108039445366** 174/174, tanggal **108039445443** 41/41, regresi **108039445222** DISPOSITION_REQUIRED: 12 HOLD historis tetap, C0 25/25. [T3 BA **36126474798**](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36126474798) jobs **108043639348/108043639585/108043639625** 25/25 install/capture, browser10/10; [rollback BA **36126986327**](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36126986327) job **108045271455** 127/127. Semua hanya pada BA lama dan bukan acceptance BB. Kasus/ID terinci di `out/gpt_r9_t2_cases.json`, `out/gpt_r9_t3_run.md`, `out/gpt_r9_rollback_cases.json`.
+- [BB T1 awal **36127700002**](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36127700002) before **108047512931** 20 NO_ROUTE+2 CE+3 PASS, after **108047512581** 25/25 PASS pada BB dev awal; detail `out/gpt_r9_bb_t1_run.md`. Kode BB final sudah berbeda, maka lihat run final Fable berikut.
+
+## Cross-check hasil Fable yang dibaca GPT
+
+[Run final Fable **36155406049**](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36155406049), tool head 4c61aca, before job **108138601608** 52 NO_ROUTE+2 CE+3 PASS, after **108138602159** **57/57 PASS**, mismatch kosong, `primary_unchanged=true`. Parser lulus 402/809 file sesudah `npm ci`. Run lama 36154186985 tetap INCOMPLETE akibat `esbuild` hilang; bukan produk gagal. Detail `out/gpt_fable_r11_probe_crosscheck.md`. Ini verifikasi **log Fable**, bukan skenario GPT baru. Laporan Fable `out/fable_r11_results.md`; handoff writer **tetap satu**.
+
+## Temuan dan risiko terbuka
+
+- **P2 alat/oracle historis (GPT):** skenario sen rev1 salah snapshot; rev2 baru membuktikan total dan stok. Oracle ALL-S01 pernah salah arah Dr/Cr, errata `out/r9_all_oracle_errata.md`; BB S01 sudah dicek Dr AR 70/Cr equity70 dalam konteks opening. Kedua kesalahan auditor dipertahankan pada riwayat.
+- **P3 alat historis (Fable):** parser BB memerlukan `npm ci`, run ulang selesai; run lama tidak diubah.
+- **P3 pengungkapan keputusan T3:** banyak nota bertumpuk dapat memindahkan beberapa sen ke PO pertama (+0,04 pada 10 nota); bunyi "paling banyak 1 sen per PO" keliru. Kontrak hanya mengikat pembulatan per dokumen, total/per tanggal, stok nol dan jejak. Owner menerima A hanya setelah keputusannya dicatat tertulis pada sumber yang tepat; jangan mencampurnya dengan D06.
+- **HOLD scope:** ALL22 dan 75 C6 belum tuntas; D06 atas lampiran C6 rev4 belum dapat dianggap terbit hanya karena auditor berkata siap. BC/BD/BE, nilai kebijakan pending dan final release tetap perlu pembuktian.
+
+## LANGKAH BERIKUTNYA
+
+1. Setiap sesi GPT: checkout cabang bersama, baca berkas ini dan `AUDIT_WRITER_HANDOFF_CP6.md`, baca hasil Fable dari `AUDIT_PROGRESS_FABLE.md` jika sudah tersedia. Jangan ulang dari nol atau mengambil alih tulis log Fable.
+2. Untuk head BC/BD/BE, beku oracle kontrak dan scenario/hash di `audit/scenarios/` lebih dahulu; jalankan satu workflow per fase, simpan run/job/per-kasus di `out/gpt_*.md`, commit+push **hanya berkas GPT**. Periksa head terbaru sebelum push; kalau branch maju, rebase commit secara fast-forward tanpa force.
+3. Cocokkan tanda tangan D06 owner dan keputusan T3 A pada commit sumber sebelum menaikkan status; bila belum tertulis, tetap pending. Nilai kebijakan lainnya `PENDING_POLICY_VALUE` sampai owner memilihnya.
+4. Saat semua family dan gate terbukti, koordinasikan satu pembaruan serial pada `AUDIT_WRITER_HANDOFF_CP6.md` bersama Fable. Sampai itu terjadi: CP6 HOLD, `production_go=false`.
