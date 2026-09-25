@@ -8,6 +8,8 @@
 
 **T3 native BA SELESAI:** [run 36126474798](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36126474798), jobs install `108043639348` artifact `10860235932`, capture `108043639585` artifact `10859833935`, browser `108043639625` artifact `10860240960`: semua SUCCESS; install/capture 25/25 PASS, pins reproduced equal, drill `RESTORED_SAME_MEANING` (19 pg_cron errors documented), browser10/10 PASS, `primary_unchanged=true`, Auth after0. Advisor +56 INFO rls_enabled_no_policy, no severity tinggi di tambahan; gate T3_PREP true. Detail tiap berkas/kasus dan batas restore di `out/gpt_r9_t3_run.md`. Writer BB baru `72bf53f8d808e18fd3e2866491f28667c1b6193d`; bukti T3 ini hanya BA d1bc8ad. CP6 HOLD; fase selanjutnya rollback.
 
+**Fase rollback BA DISPATCH (run ID dicatat setelah terpicu):** workflow `.github/workflows/gpt-cp6-round9-rollback.yml` dari draft pin SHA256 `dbc97a487251650b437f284c1d441d040892dd875fa5e9d9aa576aea5afabc2f`, writer d1bc8ad, satu job cycle rollback AC..BA. Catat per-test, post-use, katalog, primary dan status run; CP6 tetap HOLD.
+
 ## Fase aktif: putaran 9 paralel, owner menetapkan seluruh CP6 (25 September 2026)
 
 **Owner scope yang harus diverifikasi tafsirnya:** lampiran C6 rev3 pada head writer `d1bc8adff3ba1a2a7001ef39e4819d0c3813d00b` §0 mencatat keputusan owner bahwa semua CR dibangun dan diuji di CP6, ALL seluruh22 keadaan; tidak ada jalur pintas “hanya data yang ada”. D06 formal belum diratifikasi sampai lampiran dicocokkan auditor. Produk identik dengan writer e10260b (diff e102..d1bc hanya lampiran C6). **CP6 HOLD · audit_complete=false · production_go=false.** Label run tetap AUDITOR_SCENARIO/T2/T3 dan bukan izin rilis.
