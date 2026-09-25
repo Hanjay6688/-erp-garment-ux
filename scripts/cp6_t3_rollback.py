@@ -1,28 +1,33 @@
 #!/usr/bin/env python3
-"""T3 rollback of the release package's AW, AX, AY, AZ and BA: pre-use only, exact restore, reverse order.
+"""T3 rollback of the whole release package, AC..BA: pre-use only, exact restore, reverse order.
 
 AW..BA exist only as files of the combined release package (supabase/release/cp6-t3); each keeps a private rollback
 capsule of the functions it replaces and a before/after hash of every erp table and of both ledgers, but the package
-shipped no rollback file for them (MANIFEST rollbacks NOT_TESTED). This script adds them, the way AO..AV's rollbacks work:
-closed and drained admission, own ledger row with the exact statements sha256 and no successor, the installed catalog
-pinned, every historical and package capsule checked, data and both ledgers unchanged since the install (otherwise the
-rollback is refused: pre-use only), the capsule's functions restored, the new objects dropped without CASCADE, both
-ledger rows removed, and the predecessor's catalog, data and ledgers proved again before commit.
+shipped no rollback file for them. This script adds them, the way AO..AV's rollbacks work: closed and drained admission,
+own ledger row with the exact statements sha256 and no successor, the installed catalog pinned, every historical and
+package capsule checked, data and both ledgers unchanged since the install (otherwise the rollback is refused: pre-use
+only), the capsule's functions restored, the new objects dropped without CASCADE, both ledger rows removed, and the
+predecessor's catalog, data and ledgers proved again before commit. AC..AV use the reviewed rollbacks of
+supabase/rollbacks re-pinned for the release chain by scripts/cp6_t3_rollback_acav.py (independent audit B3).
 
 Modes (database modes run only on the local disposable clone cp6_rollback, asserted by the release applier):
   capture OUT.json   install the committed package on the aligned clone at AB; around AW..BA, run each file once in a
                      rolled-back transaction to learn its catalog delta (added, changed and removed objects of the
                      guard's own object query), describe every changed non-function object in the state before, then
                      install it. Prints the capture in the log (T3_ROLLBACK_CAPTURE_CHUNK lines and its sha256).
-  build CAPTURE.json [BLOB_SHA256]  write supabase/release/cp6-t3-rollbacks/*.rollback.sql and ROLLBACKS.json from the
-                     committed release files and the capture (no database); every delta object must be dropped or
-                     restored by a reviewed kind, anything else stops the build.
-  cycle OUT.json     install the package, then: refusals that change nothing (out of order, open admission), two cycles
-                     of BA, AZ, AY, AX, AW rollback (each state equal to the one before that file's install) and reinstall,
-                     the original AV rollback on the release chain (expected refusal: it pins the test chain), and a
-                     refusal after a committed data change.
-Label: T3_PREP (not release evidence). The AC..AV rollbacks of the release package (re-pinned for the hosted-faithful
-chain) are not built here: NOT_BUILT.
+  build CAPTURE.json [BLOB_SHA256]  write supabase/release/cp6-t3-rollbacks/*.rollback.sql and ROLLBACKS.json: AW..BA
+                     from the committed release files and the capture, AC..AV from the reviewed test-chain rollbacks and
+                     the release pins (no database); every delta object must be dropped or restored by a reviewed kind,
+                     every catalog pin must map, anything else stops the build.
+  cycle OUT.json     install the package (states recorded before and after every file), then: refusals that change
+                     nothing (out of order AZ/AV/AC while BA is installed, open admission); cycle 1: BA..AC rolled back in
+                     reverse order, each state equal to the one before that file's install, and before each AC..AV
+                     variant the original test-chain file refused on the release chain; reinstall (same catalog, ledgers
+                     and rows as the first install); cycle 2: BA..AC again, each state equal, every row included, to the
+                     one recorded before that file's reinstall, ending at AB; post-use matrix: each file installed, one
+                     committed business transaction (customer receivable opening posted), its rollback refused and
+                     nothing changed.
+Label: T3_PREP (not release evidence).
 """
 from pathlib import Path
 import json,os,re,subprocess,sys,traceback
@@ -33,11 +38,20 @@ sys.path.insert(0,str(Path.cwd()/'scripts'))
 sys.path.append(str(ROOT/'scripts'))
 import cp6_t3_release_package as package
 import cp6_t3_awx_release as awx
+import cp6_t3_rollback_acav as acav
 
 RELEASE=ROOT/'supabase/release/cp6-t3'
 OUTDIR=ROOT/'supabase/release/cp6-t3-rollbacks'
 CAPTURE=ROOT/'docs/evidence/cp6-t3/rollback_capture.json'
 KEYS=['AW','AX','AY','AZ','BA']
+# AC..AV: release variants of the reviewed test-chain rollbacks (scripts/cp6_t3_rollback_acav.py); AW..BA: built here from
+# the capture. ALL is the whole package in install order.
+ALL=acav.KEYS+KEYS
+# The refusal each rollback gives when its file is not the last one installed (or its ledger row is not the one the
+# release applier recorded), and when committed data changed after its install (pre-use only).
+PLATFORM_REFUSAL={**{k:k+'_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR' for k in acav.KEYS[:12]},
+                  **{k:k+'_ROLLBACK_PLATFORM_OR_SUCCESSOR' for k in acav.KEYS[12:]+KEYS}}
+POST_USE_REFUSAL={k:k+'_POST_USE_ROLLBACK_REFUSED' for k in ALL}
 FILES={f['key']:f for f in awx.FILES}
 sha=package.sha
 q=package.quote
@@ -52,8 +66,16 @@ PROBE_ROW=("insert into erp.audit_logs(entity_type,entity_id,action,new_data,cha
 
 def manifest():
     files={f['key']:f for f in json.loads((RELEASE/'MANIFEST.json').read_text())['files']}
-    for key in KEYS:assert key in files,('T3_ROLLBACK_PACKAGE_WITHOUT',key)
+    assert list(files)==ALL,('T3_ROLLBACK_PACKAGE_KEYS',list(files))
     return files
+
+
+def rollback_body(text):
+    """The statements between the file's own begin; and commit; (leading comment lines allowed, nothing after commit)."""
+    lines=text.splitlines(keepends=True);i=0
+    while lines[i].startswith('--'):i+=1
+    assert lines[i]=='begin;\n' and lines[-1]=='commit;\n',('T3_ROLLBACK_FRAMING',lines[i][:40],lines[-1][:40])
+    return ''.join(lines[i+1:-1])
 
 
 def release_text(entry):
@@ -210,13 +232,20 @@ def build(capture_path=CAPTURE,expected_blob=None,write=True):
     for key in KEYS:
         entry=files[key];text=release_text(entry)
         out[key]=(rollback_path(entry),rollback_sql(key,entry,text,cap['files'][key],sha(blob)))
+    variants=acav.build(files,write=False)
+    pins_blob=json.dumps(json.loads(acav.PINS.read_text()),separators=(',',':'))
+    rows=[dict(key=k,kind='RELEASE_VARIANT',file=str(p.relative_to(ROOT)),sha256=sha(t),source=r['source'],
+               source_sha256=r['source_sha256'],substitutions=r['subs'],unchanged_pins=r['unchanged_pins'],
+               package_file=files[k]['file'],package_sha256=files[k]['package_sha256']) for k,(p,t,r) in variants.items()]
+    rows+=[dict(key=k,kind='FROM_CAPTURE',file=str(p.relative_to(ROOT)),sha256=sha(t),package_file=files[k]['file'],
+                package_sha256=files[k]['package_sha256']) for k,(p,t) in out.items()]
     index=dict(format='CP6_T3_ROLLBACKS_V1',label='T3_PREP',production_go=False,release_evidence=False,
-               order=','.join(reversed(KEYS))+' (reverse install order; each only while it is the last file and before any use)',
+               order=','.join(reversed(ALL))+' (reverse install order; each only while it is the last file and before any use)',
                capture=dict(file=os.path.relpath(Path(capture_path).resolve(),ROOT),blob_sha256=sha(blob)),
-               builder_sha256=sha(Path(__file__).read_bytes()),
-               not_built='AC..AV rollbacks re-pinned for the release package (the files in supabase/rollbacks pin the test chain)',
-               files=[dict(key=k,file=str(p.relative_to(ROOT)),sha256=sha(t),package_file=files[k]['file'],
-                           package_sha256=files[k]['package_sha256']) for k,(p,t) in out.items()])
+               release_pins=dict(file=os.path.relpath(acav.PINS,ROOT),blob_sha256=sha(pins_blob)),
+               builder_sha256=sha(Path(__file__).read_bytes()),variant_builder_sha256=sha(Path(acav.__file__).read_bytes()),
+               files=rows)
+    out={**{k:(p,t) for k,(p,t,_) in variants.items()},**out}
     if write:
         OUTDIR.mkdir(parents=True,exist_ok=True)
         for p,t in out.values():p.write_text(t)
@@ -358,10 +387,51 @@ def diff(a,b,strict=True):
     return out
 
 
+POST_USE_OWNER_AUTH='c9c00000-0000-4000-8000-000000000101'
+
+
+def business(url,key):
+    """One committed business transaction on the clone (independent audit B3: post-use needs real use, not only an audit
+    row): a customer receivable opening of 17.25 for a new customer, posted through the product's own
+    erp.post_opening_balance with an OWNER's claims. The first call also registers that OWNER (erp.app_users, the way the
+    fixture seeds do) and opens the period after 2026-08-31; both are committed with the first posting."""
+    import uuid
+    import psycopg
+    import cp6_aw_probe as awp
+    api=awp.api
+    with psycopg.connect(url) as conn,conn.cursor() as cur:
+        api.admin(cur)
+        cur.execute("select set_config('app.change_reason','CP6 T3 post-use matrix',true)")
+        registered=not cur.execute('select count(*) from erp.app_users where auth_user_id=%s',(POST_USE_OWNER_AUTH,)).fetchone()[0]
+        if registered:
+            cur.execute("insert into erp.app_users(id,auth_user_id,full_name,role,role_id,is_active) "
+                        "select gen_random_uuid(),%s,'T3 post-use owner','OWNER',id,true from erp.app_roles where role_code='OWNER'",
+                        (POST_USE_OWNER_AUTH,))
+            awp.boundary.historical.prior.set_open_period(cur,__import__('datetime').date(2026,8,31))
+        api.admin(cur);api.actors.actors.claims(cur,dict(sub=POST_USE_OWNER_AUTH,role='authenticated'))
+        tag='T3USE-%s-%s'%(key,uuid.uuid4().hex[:10])
+        customer=cur.execute('insert into erp.customers(id,customer_code,customer_name,is_active) values(gen_random_uuid(),%s,%s,true) returning id',
+                             (tag,'T3 post-use customer '+key)).fetchone()[0]
+        day=cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date-1").fetchone()[0]
+        header=cur.execute("insert into erp.opening_balance_headers(opening_number,opening_date,status,created_by,notes) "
+                           "values(%s,%s,'DRAFT',erp.current_app_user_id(),'T3 post-use') returning id",(tag,day)).fetchone()[0]
+        cur.execute("insert into erp.opening_balance_items(opening_id,balance_type,customer_id,amount,notes) values(%s,'CUSTOMER_RECEIVABLE',%s,17.25,'T3 post-use')",
+                    (header,customer))
+        cur.execute('select erp.post_opening_balance(%s)',(header,))
+        status=cur.execute('select status from erp.opening_balance_headers where id=%s',(header,)).fetchone()[0]
+        journal=cur.execute('select count(distinct e.id),count(l.*),coalesce(sum(l.debit),0),coalesce(sum(l.credit),0) from erp.journal_entries e '
+                            'left join erp.journal_lines l on l.journal_entry_id=e.id where e.source_id=%s',(header,)).fetchone()
+    assert status=='POSTED',('T3_POST_USE_NOT_POSTED',key,status)
+    return dict(transaction='CUSTOMER_RECEIVABLE opening 17.25 posted by erp.post_opening_balance',opening=str(header),
+                status=status,journal=[str(x) for x in journal],owner_registered=registered)
+
+
 def cycle(out):
+    """Refusals, two full rollback cycles BA..AC to AB with exact comparison, and the post-use matrix."""
     import psycopg
     applier=package.Applier(package.CLONE,os.environ['CP6_ADMISSION_CONTROL_PGURL'])
     files=json.loads((RELEASE/'MANIFEST.json').read_text())['files']
+    keys=[f['key'] for f in files];assert keys==ALL,('T3_ROLLBACK_PACKAGE_KEYS',keys)
     rollbacks=json.loads((OUTDIR/'ROLLBACKS.json').read_text())
     report=dict(label='T3_PREP_ROLLBACK_CYCLE',status='INCOMPLETE',checks=[],production_go=False,release_evidence=False)
     def save():Path(out).write_text(json.dumps(report,indent=2,default=str)+'\n')
@@ -370,65 +440,71 @@ def cycle(out):
         print(json.dumps(dict(group='T3_ROLLBACK_CYCLE',**row),default=str)[:6000],flush=True)
         return ok
     try:
-        # The committed rollback files are exactly what the builder writes from the committed capture.
+        # The committed rollback files are exactly what the builders write from the committed capture and pins.
         built,index=build(write=False)
         committed={r['key']:r for r in rollbacks['files']}
         same=all((ROOT/committed[k]['file']).read_text()==t and sha(t)==committed[k]['sha256'] for k,(p,t) in built.items())
-        check('ROLLBACK_FILES_REBUILT_IDENTICALLY',same and index['files']==rollbacks['files'])
+        check('ROLLBACK_FILES_REBUILT_IDENTICALLY',same and index['files']==rollbacks['files'] and set(built)==set(ALL))
         text={f['key']:release_text(f) for f in files}
-        rb={k:(ROOT/committed[k]['file']).read_text() for k in KEYS}
+        rb={k:(ROOT/committed[k]['file']).read_text() for k in ALL}
+        original={k:acav.source_file(k).read_text() for k in acav.KEYS}
         block=package.catalog_blocks(text[KEYS[-1]])[1]
-        before={};after={}
-        for f in files:
-            if f['key'] in KEYS:before[f['key']]=state(package.CLONE,block)
-            applier.install(dict(stamp=f['stamp'],name=f['name'],closed=f['closed_admission']),text[f['key']])
-            if f['key'] in KEYS:after[f['key']]=state(package.CLONE,block)
+        row={f['key']:dict(stamp=f['stamp'],name=f['name'],closed=f['closed_admission']) for f in files}
+        def install_all(tag):
+            before={};after={}
+            for k in ALL:
+                before[k]=state(package.CLONE,block);applier.install(row[k],text[k]);after[k]=state(package.CLONE,block)
+            return before,after
+        before0,after0=install_all('initial')
         check('PACKAGE_INSTALLED',True,files=len(files))
         def closed_run(sql_text):
             def work(conn):
-                with conn.transaction(),conn.cursor() as cur:cur.execute(package.sql_body(sql_text),prepare=False)
+                with conn.transaction(),conn.cursor() as cur:cur.execute(rollback_body(sql_text),prepare=False)
             applier.closed(work)
-        def refusal(name,run,expected):
+        def refusal(name,run,expected,**extra):
             s0=state(package.CLONE,block);error=None
             try:run()
             except psycopg.Error as exc:error=exc
             s1=state(package.CLONE,block)
             ok=error is not None and error.sqlstate=='P0001' and expected in str(error) and not diff(s0,s1)
             return check(name,ok,expected=expected,error=None if error is None else str(error)[:500],
-                         sqlstate=getattr(error,'sqlstate',None),changed=diff(s0,s1))
+                         sqlstate=getattr(error,'sqlstate',None),changed=diff(s0,s1),**extra)
         def open_run(sql_text):
             with psycopg.connect(package.CLONE,autocommit=True) as conn:
-                try:conn.execute(sql_text,prepare=False)
+                try:conn.execute(rollback_body(sql_text),prepare=False)
                 finally:
                     try:conn.execute('rollback')
                     except psycopg.Error:pass
-        last,previous=KEYS[-1],KEYS[-2]
-        refusal('REFUSED_OUT_OF_ORDER_%s_WHILE_%s_INSTALLED'%(previous,last),lambda:closed_run(rb[previous]),previous+'_ROLLBACK_PLATFORM_OR_SUCCESSOR')
+        last=ALL[-1]
+        for k in ('AZ','AV','AC'):
+            refusal('REFUSED_OUT_OF_ORDER_%s_WHILE_%s_INSTALLED'%(k,last),lambda k=k:closed_run(rb[k]),PLATFORM_REFUSAL[k])
         refusal('REFUSED_OPEN_ADMISSION',lambda:open_run(rb[last]),'PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE')
-        for n in (1,2):
-            for key in reversed(KEYS):
+        def down(n,reference):
+            for k in reversed(ALL):
+                if n==1 and k in original:
+                    # The reviewed test-chain file is not loosened: on the release chain it refuses, changing nothing.
+                    refusal('ORIGINAL_%s_ROLLBACK_REFUSED_ON_RELEASE_CHAIN'%k,lambda k=k:closed_run(original[k]),PLATFORM_REFUSAL[k])
                 error=None
-                try:closed_run(rb[key])
+                try:closed_run(rb[k])
                 except psycopg.Error as exc:error=exc
-                now=state(package.CLONE,block)
-                # Cycle 1 restores every row exactly; in cycle 2 the earlier capsules were written again by the reinstall,
-                # so their capture time differs and they are compared without it (full rows at AV, where none remains).
-                strict=n==1 or key=='AW'
-                d=diff(before[key],now,strict=strict)
-                check('CYCLE_%d_ROLLBACK_%s_RESTORES_PREDECESSOR'%(n,key),error is None and not d,
-                      error=None if error is None else str(error)[:800],differences=d,strict=strict)
-            if n==2:
-                original=sorted((ROOT/'supabase/rollbacks').glob('*_erp_v2_6_20av_*.rollback.sql'))
-                if original:
-                    refusal('ORIGINAL_AV_ROLLBACK_REFUSED_ON_RELEASE_CHAIN',lambda:closed_run(original[0].read_text()),'AV_ROLLBACK')
-            for f in [x for x in files if x['key'] in KEYS]:
-                error=None
-                try:applier.install(dict(stamp=f['stamp'],name=f['name'],closed=True),text[f['key']])
-                except psycopg.Error as exc:error=exc
-                d=diff(after[f['key']],state(package.CLONE,block),strict=False)
-                check('CYCLE_%d_REINSTALL_%s'%(n,f['key']),error is None and not d,error=None if error is None else str(error)[:800],differences=d)
-        with psycopg.connect(package.CLONE) as conn:conn.execute(PROBE_ROW)
-        refusal('REFUSED_AFTER_COMMITTED_DATA_CHANGE',lambda:closed_run(rb[last]),last+'_POST_USE_ROLLBACK_REFUSED')
+                d=diff(reference[k],state(package.CLONE,block),strict=True)
+                check('CYCLE_%d_ROLLBACK_%s_RESTORES_PREDECESSOR'%(n,k),error is None and not d,
+                      error=None if error is None else str(error)[:800],differences=d)
+        down(1,before0)
+        # Cycle 2 is compared with the states recorded during its own reinstall, so every row counts, capsule capture
+        # times and boundary snapshots included.
+        before1,after1=install_all('reinstall')
+        for k in ALL:
+            d=diff(after0[k],after1[k],strict=False)
+            check('REINSTALL_%s_SAME_AS_FIRST_INSTALL'%k,not d,differences=d,compared='catalog, ledgers, rows (capsule capture time and boundary aside)')
+        down(2,before1)
+        check('CYCLE_2_ENDS_AT_AB',not diff(before0[ALL[0]],state(package.CLONE,block),strict=True))
+        # Post-use matrix: each file installed, one committed business transaction, then its rollback must refuse and
+        # change nothing.
+        for k in ALL:
+            applier.install(row[k],text[k])
+            use=business(package.CLONE,k)
+            refusal('POST_USE_%s_ROLLBACK_REFUSED'%k,lambda k=k:closed_run(rb[k]),POST_USE_REFUSAL[k],business=use)
         report['status']='PASS' if all(c['status']=='PASS' for c in report['checks']) else 'FAIL'
     except Exception as exc:
         report.update(status='INCOMPLETE',error=str(exc)[:3000],traceback=traceback.format_exc()[-3000:])

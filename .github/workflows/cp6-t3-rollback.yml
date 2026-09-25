@@ -1,10 +1,14 @@
-name: CP6 T3 Rollback (AW..BA of the release package, hosted-faithful baseline)
+name: CP6 T3 Rollback (AC..BA of the release package, hosted-faithful baseline)
 'on':
   push:
     branches:
     - claude/new-session-deapao
     paths:
     - scripts/cp6_t3_rollback.py
+    - scripts/cp6_t3_rollback_acav.py
+    - supabase/rollbacks/**
+    - docs/evidence/cp6-t3/release_pins.json
+    - supabase/release/cp6-t3/**
     - supabase/release/cp6-t3-rollbacks/**
     - docs/evidence/cp6-t3/rollback_capture.json
     - .github/workflows/cp6-t3-rollback.yml
@@ -21,10 +25,10 @@ concurrency:
   group: cp6-t3-rollback-${{ github.ref }}
   cancel-in-progress: false
 jobs:
-  # T3_PREP: rollback files for AW, AX, AY, AZ and BA of the committed release package (scripts/cp6_t3_rollback.py).
+  # T3_PREP: rollback files for AC..BA of the committed release package (scripts/cp6_t3_rollback.py).
   # Without a mode, a push runs capture until the rollback files exist and cycle afterwards.
   rollback:
-    name: Hosted-faithful baseline to AB, committed 25-file package, AW..BA rollback ${{ inputs.mode || 'auto' }} (T3_PREP)
+    name: Hosted-faithful baseline to AB, committed 25-file package, AC..BA rollback ${{ inputs.mode || 'auto' }} (T3_PREP)
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     env:
