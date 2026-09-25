@@ -2,15 +2,146 @@
   "run_id": 36105734698,
   "job_id": 107977705679,
   "audit_commit": "aa26d9fd92ed0e3d64b34fd10087641ea4e91c2c",
-  "tool_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
-  "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
-  "status": "IN_FLIGHT",
+  "status": "INCOMPLETE",
+  "actions_conclusion": "failure",
+  "log_sha256": "95f06033aa5085923aadc4bb2ce351d80a3bd68a39366e9e5383322349d89d8d",
+  "run_identity": {
+    "label": "AUDITOR_SCENARIO",
+    "tool_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
+    "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36105734698",
+    "run_attempt": "1",
+    "workflow": "GPT CP6 Round 8 Independent Audit",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "aa26d9fd92ed0e3d64b34fd10087641ea4e91c2c",
+    "release_evidence": false,
+    "production_go": false,
+    "phase": "after",
+    "scenario_sha256": "bf60eb539e39e20d5493080376b4139ba046aeb78b20dfbe213457793afa24d5"
+  },
   "manifest": "audit/scenarios/unknown_round8/MANIFEST_rev4.json",
-  "planned": [
-    "G8UI:UNKNOWN:LAUNDRY_HEALTHY_CONTROL:rev4",
-    "G8UI:UNKNOWN:LAUNDRY_INITIAL_READ:rev4",
-    "G8UI:UNKNOWN:QC_HEALTHY_CONTROL:rev4",
-    "G8UI:UNKNOWN:QC_INITIAL_READ:rev4"
+  "records": [
+    {
+      "line": 2123,
+      "json": {
+        "group": "AUDITOR_CASES_AFTER",
+        "planned": [],
+        "final": {},
+        "missing": [],
+        "status": "PASS"
+      }
+    },
+    {
+      "line": 2139,
+      "json": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "G8UI:UNKNOWN:LAUNDRY_HEALTHY_CONTROL:rev4",
+        "status": "INCOMPLETE",
+        "scope": "LAUNDRY",
+        "stage": "FIXTURE",
+        "error": "Error: Command failed: python /home/runner/work/-erp-garment-ux/-erp-garment-ux/audit-source/audit/scenarios/unknown_round8/gpt_unknown_fixture_rev4.py LAUNDRY 2026-09-25\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/audit-source/audit/scenarios/unknown_round8/gpt_unknown_fixture_rev4.py\", line 118, in <module>\n    print(json.dumps(fixture(sys.argv[1],date.fromisoformat(sys.argv[2])),default=str))\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/audit-source/audit/scenarios/unknown_round8/gpt_unknown_fixture_rev4.py\", line 48, in fixture\n    policy = cur.execute('select erp.set_contractor_hpp_policy_v1(%s::jsonb,%s,null)', (\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_aw_probe.py\", line 323, in execute\n    return self._cur.execute(query,params,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: permission denied for function set_contractor_hpp_policy_v1\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/audit-source/audit/scenarios/unknown_round8/gpt_unknown_browser_rev4.mjs:44:12)\n    at healthy (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/audit-source/audit/scenarios/unknown_round8/gpt_unknown_browser_rev4.mjs:56:12)\n    at file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/audit-source/audit/scenarios/unknown_round8/gpt_unknown_browser_rev4.mjs:131:52\n    at main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:148:19)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:159:3"
+      }
+    },
+    {
+      "line": 2140,
+      "json": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "G8UI:UNKNOWN:LAUNDRY_INITIAL_READ:rev4",
+        "status": "INCOMPLETE",
+        "scope": "LAUNDRY",
+        "stage": "HEALTHY_CONTROL_REQUIRED",
+        "healthy_control_pass": false
+      }
+    },
+    {
+      "line": 2154,
+      "json": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "G8UI:UNKNOWN:QC_HEALTHY_CONTROL:rev4",
+        "status": "INCOMPLETE",
+        "scope": "QC",
+        "stage": "FIXTURE",
+        "error": "Error: Command failed: python /home/runner/work/-erp-garment-ux/-erp-garment-ux/audit-source/audit/scenarios/unknown_round8/gpt_unknown_fixture_rev4.py QC 2026-09-25\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/audit-source/audit/scenarios/unknown_round8/gpt_unknown_fixture_rev4.py\", line 118, in <module>\n    print(json.dumps(fixture(sys.argv[1],date.fromisoformat(sys.argv[2])),default=str))\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/audit-source/audit/scenarios/unknown_round8/gpt_unknown_fixture_rev4.py\", line 48, in fixture\n    policy = cur.execute('select erp.set_contractor_hpp_policy_v1(%s::jsonb,%s,null)', (\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_aw_probe.py\", line 323, in execute\n    return self._cur.execute(query,params,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: permission denied for function set_contractor_hpp_policy_v1\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/audit-source/audit/scenarios/unknown_round8/gpt_unknown_browser_rev4.mjs:44:12)\n    at healthy (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/audit-source/audit/scenarios/unknown_round8/gpt_unknown_browser_rev4.mjs:56:12)\n    at file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/audit-source/audit/scenarios/unknown_round8/gpt_unknown_browser_rev4.mjs:133:47\n    at main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:148:19)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:159:3"
+      }
+    },
+    {
+      "line": 2155,
+      "json": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "G8UI:UNKNOWN:QC_INITIAL_READ:rev4",
+        "status": "INCOMPLETE",
+        "scope": "QC",
+        "stage": "HEALTHY_CONTROL_REQUIRED",
+        "healthy_control_pass": false
+      }
+    },
+    {
+      "line": 2156,
+      "json": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "planned": [
+          "G8UI:UNKNOWN:LAUNDRY_HEALTHY_CONTROL:rev4",
+          "G8UI:UNKNOWN:LAUNDRY_INITIAL_READ:rev4",
+          "G8UI:UNKNOWN:QC_HEALTHY_CONTROL:rev4",
+          "G8UI:UNKNOWN:QC_INITIAL_READ:rev4"
+        ],
+        "final": {
+          "G8UI:UNKNOWN:LAUNDRY_HEALTHY_CONTROL:rev4": "INCOMPLETE",
+          "G8UI:UNKNOWN:LAUNDRY_INITIAL_READ:rev4": "INCOMPLETE",
+          "G8UI:UNKNOWN:QC_HEALTHY_CONTROL:rev4": "INCOMPLETE",
+          "G8UI:UNKNOWN:QC_INITIAL_READ:rev4": "INCOMPLETE"
+        },
+        "status": "RUN_COMPLETE",
+        "console_errors": 0,
+        "users_created": 0,
+        "auth_cleanup_failures": []
+      }
+    }
   ],
+  "cleanup": {
+    "browser": {
+      "status": "INCOMPLETE",
+      "counts": {
+        "INCOMPLETE": 4
+      },
+      "script_sha256": "7fff63729f67d68643a52301caf16619fd4094d6a5f23c24e5fdb43640ab139e",
+      "database_remaining": 0,
+      "cleanup": {
+        "users_created": 0,
+        "cleanup_failures": [],
+        "rest_remaining": false
+      },
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "console_errors": 0,
+      "users_created": 0,
+      "error": null
+    },
+    "primary_unchanged": true,
+    "clone_remaining": 0
+  },
+  "diagnosis": "New API identities were created and UUID assertions passed inside the uncommitted fixture, but the private contractor-policy function denied EXECUTE. Both fixtures rolled back; no browser users created, unknown cases skipped for missing healthy control. This is an auditor fixture API selection error, not a product counterexample.",
+  "next": "Use documented public.erp_set_contractor_hpp_policy_v1 under the existing ordinary actor. Do not grant private EXECUTE or change product. Keep master attendance flag and expected policy token from current rows.",
   "production_go": false
 }

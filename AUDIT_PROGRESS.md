@@ -1,5 +1,15 @@
 # CP6 audit — active round 8 checkpoint
 
+## Rev4 selesai INCOMPLETE; rev5 memperbaiki pemilihan API fixture
+
+Run **36105734698/job107977705679** (audit aa26d9f), LOG SHA256**95f06033aa5085923aadc4bb2ce351d80a3bd68a39366e9e5383322349d89d8d**: **4INCOMPLETE**. Public import berhasil sampai assertion UUIDv4, tetapi fixture memanggil fungsi private `erp.set_contractor_hpp_policy_v1` yang tidak di-grant EXECUTE kepada actor. Kedua setup rollback; browser users0, paired unknown tidak dijalankan. Auth counts pulih, console0, browserDB0, clone0, primary unchanged. Ini kesalahan pemilihan API fixture auditor, bukan bug produk.
+
+Rev5 memakai **`public.erp_set_contractor_hpp_policy_v1`**, facade yang ada di migrasi `20260902043000_erp_v2_6_16_cp4_hpp_route_auth_boundary.sql:427–441,538`. Payload attendance mengikuti nilai master dan token policy yang dibaca; tidak menambah grant, mengubah master, atau melonggarkan guard. Empat oracle/expected20/10 tetap. Manifest `audit/scenarios/unknown_round8/MANIFEST_rev5.json`, fixture SHA256401e32610062b8c737307d58603b89823669d38c33a3296354cc837e6a36f729, browserfb071a8cb557bdea113a3e3e2f4137d0e561a08c91956f35c4e1617ace4a5a42.
+
+LANGKAH BERIKUTNYA: catat run/job rev5, ambil empat hasil dan cleanup. Semua rev1–4 dipertahankan. Hanya kontrol sehat + refetch sukses dalam run baru yang memungkinkan klasifikasi kasus penuh. CP6 HOLD.
+
+
+
 ## Unknown rev4 sedang berjalan
 
 Run [36105734698](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36105734698), job **107977705679**, audit **aa26d9fd92ed0e3d64b34fd10087641ea4e91c2c**. Tool9dd7bc2 / produka095a9d. Empat kasus IN_FLIGHT: healthy + initial-read Laundry, healthy + initial-read QC. Oracle dan fixture baru sudah dibekukan di commit dispatch. Hasil rev1–3 tidak dilabel ulang.

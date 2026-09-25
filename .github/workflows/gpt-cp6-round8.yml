@@ -216,7 +216,7 @@ jobs:
     - name: Verify pinned candidate and scenario receipt
       shell: bash
       run: "set -euo pipefail\npython - <<'PYVERIFY'\nimport hashlib,json,pathlib,subprocess,os\nroot=pathlib.Path('audit-source/audit/scenarios/unknown_round8')\n\
-        m=json.loads((root/'MANIFEST_rev4.json').read_text())\nfor f in m['files']:\n assert hashlib.sha256((root/f['path']).read_bytes()).hexdigest()==f['sha256'],f['path']\n\
+        m=json.loads((root/'MANIFEST_rev5.json').read_text())\nfor f in m['files']:\n assert hashlib.sha256((root/f['path']).read_bytes()).hexdigest()==f['sha256'],f['path']\n\
         actual=subprocess.check_output(['git','-C','auditor','rev-parse','HEAD'],text=True).strip()\nassert actual==m['tool_head']\n\
         print(json.dumps({'gpt_audit_identity':m,'audit_commit':os.environ['GITHUB_SHA']}))\nPYVERIFY"
     - name: Install candidate browser dependencies
@@ -233,7 +233,7 @@ jobs:
       run: 'set -euo pipefail
 
         python ../auditor/scripts/cp6_auditor_scenario.py --phase after --scenario ../audit-source/audit/scenarios/unknown_round8/browser_only.py
-        --browser ../audit-source/audit/scenarios/unknown_round8/gpt_unknown_browser_rev4.mjs
+        --browser ../audit-source/audit/scenarios/unknown_round8/gpt_unknown_browser_rev5.mjs
 
         '
     - name: Remove disposable database
