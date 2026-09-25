@@ -167,14 +167,18 @@ export async function cases(ui, today) {
         await p.unroute(workspace)
         let release
         const held = new Promise(resolve => { release = resolve })
+        // After a failed read the page keeps writes and search locked; the user retries with 'Muat ulang', held here so the
+        // loading state is visible, then searches again.
         await p.route(workspace, async r => { await held; await r.continue() })
-        await p.getByLabel('Cari nota aksesori').fill(number)
-        await p.getByRole('button', { name: 'Cari nota', exact: true }).click()
+        await p.getByRole('button', { name: 'Muat ulang', exact: true }).click()
         let loading = false
         try { await ui.expect(p.getByRole('button', { name: 'Muat ulang', exact: true })).toBeDisabled({ timeout: 5000 }); loading = true } catch { loading = false }
         release(); await p.unroute(workspace)
-        await ui.expect(p.getByRole('button', { name: `Buka ${number}`, exact: true })).toBeVisible()
+        await ui.expect(p.getByRole('button', { name: 'Muat ulang', exact: true })).toBeEnabled()
         const recovered = await p.getByRole('alert').count() === 0
+        await p.getByLabel('Cari nota aksesori').fill(number)
+        await p.getByRole('button', { name: 'Cari nota', exact: true }).click()
+        await ui.expect(p.getByRole('button', { name: `Buka ${number}`, exact: true })).toBeVisible()
         await owner.context.close()
         // Phone: another 7 PCS note with a single click.
         const phone = await ui.login('OWNER', { label: 'bc-note-phone', mobile: true })
