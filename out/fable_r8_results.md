@@ -45,7 +45,7 @@ Batas A4 yang diakui writer (≤0,01 per penerimaan pada bahan multi-penerimaan)
 | xaudit_1_rev2.py (dad4331b…, ROUND_HALF_UP) | 36096186788 / 107948841888 | **4/4 PASS** (U02, U03 UP, U03 DOWN, SI03). Job merah hanya karena mode `SAMPLE_BROWSER` runtime (bukan skenario auditor) mengembalikan INCOMPLETE dengan `users_created 0` — flake alat B4, dicatat untuk writer; kasus DB bersih, `primary_unchanged=true` |
 | xaudit_2_rev2.py (06e6149c…, ROUND_HALF_UP) | 36096194323 / 107948864042 | **5/5 PASS** (invoice UP/DOWN, selector-101, AV identity ×2); browser sample RUN_COMPLETE |
 | xaudit_5.py rev2 (4fec5b0d…) | 36096178430 / 107948820241 | R1: **secara substantif lulus** — holder POSTED, tepat satu opening POSTED untuk (M1,B), worker ditolak `BA_IMPORT_OPENING_ALREADY_POSTED` di bawah kontensi BLOCKED (holder memblokir worker) — tetapi status tercetak COUNTEREXAMPLE karena cek auditor membaca level pembungkus `two_sessions` (`outcome.ok`) bukan hasil op (`outcome.result.ok`); kesalahan cek, bukan produk. R2 PASS; R3 COUNTEREXAMPLE-on-message (sama); H1 dua cek dummy (sama); H2/H3 PASS; cleanup bersih |
-| xaudit_5.py rev3 (ca2f7301…, cek R1 diperbaiki) | 36096552454 | _(diisi di bagian akhir setelah selesai)_ |
+| xaudit_5.py rev3 (ca2f7301…, cek R1 diperbaiki) | 36096552454 / 107949919590 | **R1 PASS** (exactly_one_posted, holder_posted, worker_refused, pesan = `BA_IMPORT_OPENING_ALREADY_POSTED`, kontensi BLOCKED, posted_items 1 / qty 7); R2 PASS; R3 COUNTEREXAMPLE-on-message (POCKET_PERIOD_BUSY, aman, A7); H1 dua cek dummy (sama), H2/H3 PASS; `RUN_COMPLETE`, `primary_unchanged=true`, cleanup Auth bersih |
 Kesimpulan A4: dengan oracle pembulatan yang benar, seluruh 6 kasus sen auditor (U03 ×2, invoice ×2 di rev2; MONEY ×4 GPT) PASS pada a095a9d.
 
 ### 1c. Kontrol positif dan upaya bypass auditor (xaudit_7 rev2, sha e21d9d0c…, run 36095963570, job 107948186316) — **12/12 PASS**
@@ -135,5 +135,7 @@ REUSED_WRITER_EVIDENCE); cakupan ALL 22 state/6 keluarga belum diuji; A4 multi-p
 konfirmasi owner langsung atas teks addendum (hash d39762da…) belum diterima auditor; H1 masih memakai argumen dummy pada dua facade.
 
 
-## 9. Pembaruan akhir (rev3 xaudit_5, run 36096552454)
-_(diisi setelah run selesai)_
+## 9. Pembaruan akhir (2026-09-25T05:06:51Z)
+- xaudit_5 rev3 (run 36096552454): R1 dua sesi **PASS** → CP6-09 tertutup juga di bawah dua sesi nyata pada a095a9d. Register §7 baris CP6-09: CLOSED (lengkap).
+- Review C6 independen GPT (`out/gpt_round8_c6_review.md`, commit 1443f16) sejalan dengan §3: ACC-04 SPLIT (fitur baru boleh CR, perilaku lama baseline), LAU-05 SPLIT (desain sudah disetujui M4448/4479), LAU-07 terlalu luas; GPT menambah syarat crosswalk ke seluruh ID asli (39 ACC, 24 LAU-R, 36 LAU-T) dan inventaris CR-MASUK yang belum diverifikasi → temuan GPT R8-C6-01 (P2 dokumentasi). Kedua auditor: **D06/GATE-16 tetap HOLD sampai lampiran diperbaiki.**
+- Verdict: CP6 HOLD, audit_complete=false, production_go=false.

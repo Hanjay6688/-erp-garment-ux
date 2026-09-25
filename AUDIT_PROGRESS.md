@@ -390,3 +390,6 @@ Handoff writer disimpan: `audit/input/WRITER_HANDOFF_R8_20260925.md`. Hasil: `ou
 2. Writer W1–W6, owner O1–O3 (lihat banner `AUDIT_WRITER_HANDOFF_CP6.md`).
 3. Auditor: rerun C6 setelah W1; T2 dengan grup oracle baru; skenario browser B4; cakupan ALL; A4 multi-penerimaan.
 4. Verdict tetap CP6 HOLD, audit_complete=false, production_go=false.
+
+## Fable — rev3 xaudit_5 selesai (2026-09-25T05:06:51Z)
+Run 36096552454 / job 107949919590 (sha ca2f7301…): R1 dua sesi PASS, R2 PASS, R3 CE-on-message (A7), H2/H3 PASS. Semua rerun putaran 8 selesai; `out/fable_r8_results.md` §9 final. Menunggu: owner O1–O3, writer W1–W6 (banner handoff).

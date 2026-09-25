@@ -682,7 +682,7 @@
    "result": "PASS 2/2 — CP6-19 REFUTED on legit app path"
   }
  ],
- "fable_last_update": "2026-09-25T05:00:11Z",
+ "fable_last_update": "2026-09-25T05:06:51Z",
  "adversarial_verification_round": {
   "at": "2026-09-24T22:33:14Z",
   "findings": [
@@ -803,7 +803,8 @@
     "name": "xaudit_5 rev3",
     "run_id": 36096552454,
     "sha": "ca2f7301",
-    "result": "PENDING"
+    "result": "R1 PASS (two real sessions, exactly one POSTED, worker refused BA guard, BLOCKED), R2 PASS, R3 CE-on-message, H2/H3 PASS",
+    "job_id": 107949919590
    },
    {
     "name": "import_selector_fable_fix",
@@ -874,6 +875,7 @@
   "t2_oracles": "out/fable_t2_oracles_post_addendum.md — 24/25 PASS di bawah D01, ADJUSTMENT_DATE INCOMPLETE (fixture); CP6-07/18 oracle",
   "ba_source_review": "out/fable_ba_source_review.md — A3/A6/A9/A10/A2 CLOSED; A4 CLOSED single-receipt; A1 PARTIAL (legacy-vs-legacy di luar klaim; CASH_BANK per cash_account_id)",
   "a7_a8_decision": "A7 tidak perlu (P3, aman); A8 direkomendasikan sebelum rilis (hardening kecil), tidak menahan gate",
-  "verdict": "CP6 HOLD, audit_complete=false, production_go=false"
+  "verdict": "CP6 HOLD, audit_complete=false, production_go=false",
+  "gpt_c6_review_concurs": "out/gpt_round8_c6_review.md (1443f16): ACC-04/LAU-05 split; crosswalk to all original IDs required; R8-C6-01 P2 doc gap"
  }
 }
