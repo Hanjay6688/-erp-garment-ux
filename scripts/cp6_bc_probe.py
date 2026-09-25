@@ -207,6 +207,19 @@ def new_findings(before,after):
     return {k:v for k,v in after.items() if v>before.get(k,0) and k!=STALE_F2}
 
 
+# The cases post events at fixed hours of their `today` (08:00 receipt, 09:00 inspection ...). Run on the real WIB business date,
+# those hours are in the future before noon and the server refuses them (BC_DATE_FUTURE), so the result would depend on the clock
+# of the CI runner. Every case therefore runs with `today` = the WIB business date minus one day (case_day); a refusal of a future
+# date uses the real date (REAL_TODAY) plus one.
+REAL_TODAY=None
+
+
+def case_day(today):
+    global REAL_TODAY
+    REAL_TODAY=today
+    return today-timedelta(days=1)
+
+
 def local_at(day,hour=10,minute=0):
     return datetime.combine(day,dtime(hour,minute)).strftime('%Y-%m-%dT%H:%M:%S')+'+07:00'
 
@@ -216,7 +229,7 @@ def tag():
 
 
 # ---------------------------------------------------------------- fixture
-def fixture(cur,today,stock_qty=1000,cost='2.00',zones=True,days=6):
+def fixture(cur,today,stock_qty=1000,cost='2.00',zones=True,days=6,purchase=True):
     """An accessory counted in PCS with `stock_qty` received `days` days ago at `cost` (estimated, invoice pending) in a main
     warehouse, a second main warehouse, an FG warehouse, an inactive warehouse, the three BC zones (after BC), a mandor and
     a cash account."""
@@ -233,6 +246,9 @@ def fixture(cur,today,stock_qty=1000,cost='2.00',zones=True,days=6):
     coa=one(cur,"insert into erp.chart_accounts(account_code,account_name,account_type,report_group,normal_balance,is_postable,is_active) values(%s,'BC bank','ASSET','CURRENT_ASSETS','DEBIT',true,true) returning id",code+'B')
     cash=one(cur,"insert into erp.cash_accounts(cash_account_code,cash_account_name,coa_account_id,account_kind,is_active) values(%s,'BC bank',%s,'BANK',true) returning id",code,coa)
     received=today-timedelta(days=days)
+    fx=dict(code=code,category=str(cat),material=str(mat),main=str(main),other=str(other),fg=str(fg),inactive=str(inactive),mandor=str(mandor),
+            cash=str(cash),received=received,pcs=pcs,supplier=str(supplier))
+    if not purchase:return fx
     saved=internal(cur,'save_material_purchase_draft_v2',Jsonb(dict(purchase_number=code+'P',supplier_id=str(supplier),location_id=str(main),
         physical_at=local_at(received,9),change_reason='BC fixture receipt',lines=[dict(material_id=str(mat),qty=stock_qty,unit_price=cost,
         price_state='ESTIMATED',price_source='MANUAL_ESTIMATE')])),str(uuid.uuid4()),None)
@@ -653,7 +669,7 @@ def c11_timelines(cur,today):
     a=receive(cur,fx,'TEARDOWN',[(6,None)],early,15,reference='SVC-C11A')['lot_ids'][0]
     b=receive(cur,fx,'TEARDOWN',[(4,None)],today,8,reference='SVC-C11B')['lot_ids'][0]
     before_receipt=refused(cur,lambda:inspect(cur,b,local_at(today,7),'Ani',usable=4),'BC_DATE_BEFORE_SOURCE')
-    future=refused(cur,lambda:receive(cur,fx,'TEARDOWN',[(1,None)],today+timedelta(days=1),reference='x'),'BC_DATE_FUTURE')
+    future=refused(cur,lambda:receive(cur,fx,'TEARDOWN',[(1,None)],(REAL_TODAY or today)+timedelta(days=1),0,reference='x'),'BC_DATE_FUTURE')
     main0=stock(cur,fx['material'],fx['main'])
     inspect(cur,a,local_at(today,9),'Ani',usable=6);inspect(cur,b,local_at(today,9),'Budi',usable=4)
     times=q(cur,"""select l.received_at,e.event_at from erp.bc_return_lots_v1 l join erp.bc_lot_events_v1 e on e.lot_id=l.id
@@ -1102,6 +1118,349 @@ def all_c03_refusals(cur,today):
                    errors=errs,upload=upload['refusal'])
 
 
+# ================================================================ L: the six BA-era ALL states, import -> continuation -> inverse
+# Auditor round 11: P01, A01, A02, W01, W03 and C01 were routed in the writer's inventory (handoff §29.6) without a run. Each case
+# below imports the state, continues it through the existing native route and reverses it, against the r9 ALL oracle (and Fable's
+# where it is stricter). Their routes exist before BC, so they are PASS in both phases; only C01's company-use leg is BC's.
+import cp6_initial_import_prepayment_trial as prepayment_trial
+receipt_trial,production_trial=bbp.receipt_trial,api.production_origins
+
+
+def accounts(cur,keys):
+    return {k:gl(cur,k) for k in keys}
+
+
+def journal_count(cur,since):
+    return one(cur,'select count(*) from erp.journal_entries where created_at>=%s',since)
+
+
+def clock(cur):
+    return one(cur,'select clock_timestamp()')
+
+
+def supplier_payment(cur,purchase,amount,cash,day):
+    api.admin(cur)
+    return str(one(cur,'insert into erp.supplier_payments(purchase_id,payment_number,payment_date,amount,cash_account_id) values(%s,%s,%s,%s,%s) returning id',
+                   purchase,'BCL-'+uuid.uuid4().hex[:12],local_at(day,12),amount,cash))
+
+
+def bank_account(cur,code):
+    """A bank master for a continuation (no balance is imported with it)."""
+    api.admin(cur)
+    coa=one(cur,"insert into erp.chart_accounts(account_code,account_name,account_type,report_group,normal_balance,is_postable,is_active) values(%s,'BC L bank','ASSET','CURRENT_ASSETS','DEBIT',true,true) returning id",code+'LB')
+    return str(one(cur,"insert into erp.cash_accounts(cash_account_code,cash_account_name,coa_account_id,account_kind,is_active) values(%s,'BC L bank',%s,'BANK',true) returning id",code+'L',coa))
+
+
+def l_p01(cur,today):
+    """ALL-P01 (r9: "10 material units at source cost 2.00; 3 remain in physical stock, 7 were consumed before cutover ... assigned by
+    OPENING_COST_ORIGIN to independently identified WIP/BS/FG source rows. A later supplier invoice uses authoritative unit cost 2.50 ...
+    opening stock = 3 x 2 = 6.00 ... Opening GRNI = 10 x 2 = 20.00 ... AP = 25.00, total invoice uplift = 5.00 ... invoice, then payment,
+    eligible physical return, and reverse in dependency order ... return of consumed quantity, paying GRNI without invoice ... must not
+    add stock, debt, cash, or journal"; Fable P01: no MATERIAL_PURCHASE movement, HPP ESTIMATED until matched). Origins: WIP 4, BS 2, FG 1."""
+    a=api;keys=('MATERIAL_INVENTORY','WIP','FG_INVENTORY','GRNI_MATERIAL','AP_SUPPLIER','OPENING_EQUITY','OTHER_EXPENSE','COGS')
+    boundary.historical.prior.set_open_period(cur,today-timedelta(days=9))
+    api.admin(cur);b0=accounts(cur,keys)
+    f=receipt_trial.fixture(a,cur,today,qty='10',cost='2.00');b=f['batch'];code=f['code']
+    for entity,rows in {'MODEL':[dict(model_code=code,model_name='P01 model')],'SIZE':[dict(size_code=code)],'BRAND':[dict(brand_code=code,brand_name='P01 brand')],
+        'PRODUCT':[dict(sku=code,product_name='P01 product',model_code=code,brand_code=code,color_name='Blue',size_code=code)],
+        'CONTRACTOR':[dict(contractor_code=code,contractor_name='P01 mandor',contractor_type='MANDOR')],
+        'LOCATION':[dict(location_code=code,location_name='P01 gudang bahan',location_type='RAW_MATERIAL_WAREHOUSE'),
+                    dict(location_code=code+'F',location_name='P01 gudang FG',location_type='FG_WAREHOUSE')],
+        'OPEN_PO':[dict(po_number=code,model_code=code,contractor_code=code,target_qty_pcs='10',status='SEWING',current_stage='SEWING')]}.items():
+        a.upload(cur,b,entity,rows)
+    base=dict(po_number=code,size_code=code,contractor_code=code,accessory_cost_included='true')
+    rows=[dict(f['stock'],qty='3'),dict(base,balance_type='WIP',stage='SEWING',qty='8',unit_cost='5',amount='40.00',opening_source_key='WIP',control_key='WIP'),
+          dict(base,balance_type='BS',stage='QC',product_sku=code,qty='2',unit_cost='10',amount='20.00',opening_source_key='BS',control_key='BS'),
+          dict(balance_type='FINISHED_GOODS',product_sku=code,location_code=code+'F',qty='4',unit_cost='5',opening_source_key='FG',control_key='FG')]
+    a.upload(cur,b,'OPENING_BALANCE_ITEM',rows)
+    a.upload(cur,b,'OPENING_COST_ORIGIN',[dict(supplier_code=code,receipt_number=f['receipt']['receipt_number'],receipt_line_number='001',target_source_key=k,qty=q)
+                                           for k,q in (('WIP','4'),('BS','2'),('FG','1'))])
+    a.upload(cur,b,'OPENING_CONTROL',[dict(control_key=k,balance_type=t,qty=q,amount=v) for k,t,q,v in (('WIP','WIP','8','40.00'),('BS','BS','2','20.00'),
+        ('FG','FINISHED_GOODS','4','20.00'),('GRNI','GRNI_MATERIAL','10','20.00'),('STOCK','MATERIAL','3','6.00'))])
+    row,sources=production_trial.finalize(a,cur,f)
+    api.admin(cur)
+    row=dict(row,**dict(zip(('material_id','location_id'),q(cur,'''select i.material_id,h.location_id from erp.material_purchase_items i
+        join erp.material_purchase_headers h on h.id=i.purchase_id where i.id=%s''',row['purchase_item_id'])[0])))
+    imported=delta(b0,accounts(cur,keys))
+    material=row['material_id'];qty=lambda:one(cur,'select cached_stock_qty from erp.materials where id=%s',material)
+    purchase_movements=one(cur,"select count(*) from erp.material_stock_movements where material_id=%s and movement_type<>'OPENING'",material)
+    snapshot=q(cur,'select to_jsonb(i) from erp.opening_balance_items i join erp.opening_balance_headers h on h.id=i.opening_id where h.migration_batch_id=%s order by i.id',b)
+    cash=bank_account(cur,code)
+    unbilled_pay=supplier_payment(cur,row['purchase_id'],'1.00',cash,today)
+    b1=accounts(cur,keys)
+    grni_payment=denied(cur,lambda:receipt_trial.rpc(a,cur,'post_supplier_payment',unbilled_pay),'')
+    api.admin(cur);grni_unchanged=accounts(cur,keys)==b1
+    b1=accounts(cur,keys)
+    inv=receipt_trial.post_invoice(a,cur,receipt_trial.invoice(a,cur,today,row,'10','2.50',date=today-timedelta(days=2)))
+    api.admin(cur);invoiced=delta(b1,accounts(cur,keys))
+    def ret(n):
+        payload=dict(return_number='BCL-RET-'+uuid.uuid4().hex[:10],supplier_id=row['supplier_id'],location_id=row['location_id'],physical_at=local_at(today-timedelta(days=1),10),
+                     change_reason='BC L P01 return',items=[dict(material_id=material,purchase_item_id=row['purchase_item_id'],qty=str(n))])
+        d=receipt_trial.rpc(a,cur,'save_material_supplier_return_draft_v2',json.dumps(payload,default=str),uuid.uuid4(),None)
+        return d,receipt_trial.rpc(a,cur,'post_material_supplier_return_v2',d['material_supplier_return_id'],uuid.uuid4(),d['row_version'],'BC L P01 return')
+    consumed=denied(cur,lambda:ret(4),'consumed before cutover')
+    b2=accounts(cur,keys);rd,rp=ret(1);api.admin(cur);returned=delta(b2,accounts(cur,keys));stock_after_return=qty()
+    ap_after_return=one(cur,'select erp.material_purchase_final_ap_total(%s)',row['purchase_id'])
+    b3=accounts(cur,keys);pay=supplier_payment(cur,row['purchase_id'],'22.50',cash,today)
+    receipt_trial.rpc(a,cur,'post_supplier_payment',pay);api.admin(cur);paid=delta(b3,accounts(cur,keys))
+    receipt_trial.truth(cur);production_trial.truth(cur)
+    receipt_trial.rpc(a,cur,'reverse_supplier_payment',pay,'BC L P01 reverse payment')
+    receipt_trial.rpc(a,cur,'reverse_material_supplier_return_v2',rd['material_supplier_return_id'],'BC L P01 reverse return',uuid.uuid4(),rp['row_version'])
+    receipt_trial.rpc(a,cur,'reverse_material_supplier_invoice_v2',inv['supplier_invoice_id'],'BC L P01 reverse invoice',uuid.uuid4(),inv['row_version'])
+    api.admin(cur);receipt_trial.truth(cur);production_trial.truth(cur)
+    restored=accounts(cur,keys)==b1 and qty()==3
+    return verdict(dict(
+        import_exact=imported=={'MATERIAL_INVENTORY':D('6.00'),'WIP':D('60.00'),'FG_INVENTORY':D('20.00'),'GRNI_MATERIAL':D('-20.00'),'OPENING_EQUITY':D('-66.00')},
+        consumed_not_stock=qty()==3 and purchase_movements==0,sources_named=sources['WIP']['qty_pcs']==8 and sources['BS']['qty_pcs']==2,
+        grni_not_payable=grni_payment['ok'] and grni_unchanged,
+        invoice_uplift_5=invoiced=={'MATERIAL_INVENTORY':D('1.50'),'WIP':D('3.00'),'FG_INVENTORY':D('0.50'),'GRNI_MATERIAL':D('20.00'),'AP_SUPPLIER':D('-25.00')},
+        consumed_not_returnable=consumed['ok'],eligible_return=stock_after_return==2 and D(ap_after_return)==D('22.50')
+          and returned=={'MATERIAL_INVENTORY':D('-2.50'),'AP_SUPPLIER':D('2.50')},
+        payment_22_50=paid.get('AP_SUPPLIER')==D('22.50') and set(paid)=={'AP_SUPPLIER'},
+        inverse_dependency_order=restored,
+        opening_immutable=q(cur,'select to_jsonb(i) from erp.opening_balance_items i join erp.opening_balance_headers h on h.id=i.opening_id where h.migration_batch_id=%s order by i.id',b)==snapshot),
+        imported={k:str(v) for k,v in imported.items()},invoiced={k:str(v) for k,v in invoiced.items()},returned={k:str(v) for k,v in returned.items()},
+        paid={k:str(v) for k,v in paid.items()},refusals=dict(grni_payment=grni_payment['refusal'],consumed=consumed['refusal']))
+
+
+def l_a01(cur,today,kind):
+    """ALL-A01 (r9: "one dedicated advance per actual party ... for each party type separately ... apply ... to an eligible same-party
+    invoice, refund ..., then reverse ... supplier/vendor refund increases bank 10.00; customer refund decreases bank 10.00 ... reject
+    ... application over either advance or invoice"; Fable A01, contract table M:634-643: 100.00 - 32.75 = 67.25; use 12.75 -> 54.50;
+    refund 10.00 -> 44.50, bill 54.50, bank 110/90; use 44.50 -> 0.00, bill 10.00; reverse all -> 67.25, 67.25, bank 100.00)."""
+    a=api;boundary.historical.prior.set_open_period(cur,today-timedelta(days=2))
+    api.admin(cur);g0=bbp.gl(cur)
+    f=prepayment_trial.fixture(a,cur,today,kind);api.admin(cur)
+    state=lambda:prepayment_trial.state(a,cur,f)
+    s=state();target=s['targets'][0]['id'];bank=lambda:prepayment_trial.bank(cur,f)
+    imported=(s['original_amount'],s['settled_before_cutover'],s['remaining_amount'],s['targets'][0]['remaining_amount'],str(bank()))
+    g1=bbp.gl(cur)
+    prepayment_trial.manage(a,cur,f,'APPLY',today,target_id=target,amount='12.75')
+    s=state();first=s['payments'][0]['id'];step1=(s['remaining_amount'],s['targets'][0]['remaining_amount'],str(bank()))
+    prepayment_trial.manage(a,cur,f,'REFUND',today,amount='10',cash_account_id=f['cash']);s=state();event=s['events'][0]['id']
+    step2=(s['remaining_amount'],s['targets'][0]['remaining_amount'],str(bank()))
+    over=denied(cur,lambda:prepayment_trial.manage(a,cur,f,'APPLY',today,target_id=target,amount='44.51'),'')
+    prepayment_trial.manage(a,cur,f,'APPLY',today,target_id=target,amount='44.50');s=state()
+    payments=[p['id'] for p in s['payments']];second=[p for p in payments if p!=first]
+    step3=(s['remaining_amount'],s['targets'][0]['remaining_amount'] if s['targets'] else None,str(bank()))
+    clean=prepayment_trial.truth(cur)
+    for p in second:prepayment_trial.manage(a,cur,f,'REVERSE_PAYMENT',today,payment_id=p)
+    prepayment_trial.manage(a,cur,f,'REVERSE_EVENT',today,event_id=event)
+    prepayment_trial.manage(a,cur,f,'REVERSE_PAYMENT',today,payment_id=first)
+    s=state();prepayment_trial.truth(cur)
+    refund_bank='90.00' if kind=='CUSTOMER' else '110.00'
+    return verdict(dict(import_opening_only=imported==('100.00','32.75','67.25','67.25','100.00'),
+        apply_12_75=step1==('54.50','54.50','100.00'),refund_10=step2==('44.50','54.50',refund_bank),over_advance_refused=over['ok'],
+        apply_rest=step3==('0.00','10.00',refund_bank),two_applications=len(second)==1,
+        inverse=(s['remaining_amount'],s['targets'][0]['remaining_amount'],str(bank()))==('67.25','67.25','100.00') and bbp.gl(cur)==g1),
+        kind=kind,steps=[imported,step1,step2,step3],refusal=over['refusal'],truth=clean)
+
+
+def l_a02(cur,today):
+    """ALL-A02 (r9: "cash advance original 100.00 less actual old repayment 30.00 = opening receivable 70.00. Reserve 30.00 against an
+    actual eligible draft payroll of the same mandor; free unreserved balance is 40.00. Attempt direct cash repayment 41.00 while the 30.00
+    is reserved, then approve/pay payroll, reverse it, and release draft reservation ... Draft allocation ... creates no journal ...
+    on actual payroll payment, the reserved deduction Dr CONTRACTOR_PAYABLE / Cr CONTRACTOR_RECEIVABLE is 30.00; cash is only net
+    payroll ... Inverse chain restores exact original balances"). The payroll earns 50.00, so it pays 20.00 in cash."""
+    fx=bbp.financial_fixture(cur,today,documents=[('CONTRACTOR_RECEIVABLE','KASBON-OLD','100.00','30.00','CONTRACTOR_CASH_ADVANCE')],bank='200.00')
+    api.admin(cur);contractor=str(one(cur,'select id from erp.contractors where contractor_code=%s',fx['code']))
+    advance=lambda:bbp.ws(cur,fx['batch'])['cash_advances'][0]
+    receivable=lambda:one(cur,"""select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id
+        where j.status in('POSTED','REVERSED') and l.contractor_id=%s and l.account_id=erp.account_id('CONTRACTOR_RECEIVABLE')""",contractor)
+    imported=(receivable(),bbp.balance_row(cur,fx,'KASBON-OLD'))
+    p=str(one(cur,"""insert into erp.payroll_settlements(payroll_number,contractor_id,period_start,period_end,manual_adjustment,payment_date,payment_cash_account_id)
+        values(%s,%s,%s,%s,50,%s,%s) returning id""",'BCL-'+uuid.uuid4().hex,contractor,today-timedelta(days=1),today-timedelta(days=1),today,fx['cash']))
+    version=lambda payroll=None:str(one(cur,'select row_version from erp.payroll_settlements where id=%s',payroll or p))
+    g0=bbp.gl(cur);bank0=bbp.bank(cur,fx)
+    allocate=lambda amount,payroll=None:api.call(cur,'ALLOCATE_CASH_ADVANCE',dict(batch_id=fx['batch'],expected_revision=bbp.revision(cur,fx['batch']),
+        balance_id=fx['balances']['KASBON-OLD'],payroll_id=payroll or p,amount=amount,expected_payroll_version=version(payroll)))
+    allocate('30.00');reserved=advance();no_journal=bbp.gl(cur)==g0
+    p2=str(one(cur,"""insert into erp.payroll_settlements(payroll_number,contractor_id,period_start,period_end,manual_adjustment,payment_date,payment_cash_account_id)
+        values(%s,%s,%s,%s,50,%s,%s) returning id""",'BCL-'+uuid.uuid4().hex,contractor,today-timedelta(days=2),today-timedelta(days=2),today,fx['cash']))
+    allocate('10.00',p2);second=advance()['available_amount'];allocate('0',p2);released_draft=advance()['available_amount']
+    draft_release_no_journal=bbp.gl(cur)==g0
+    settle=lambda amount:bbp.act(cur,'OPENING_SETTLEMENT',fx['batch'],operation='SETTLE',balance_id=fx['balances']['KASBON-OLD'],amount=amount,
+        effective_date=str(today),cash_account_id=fx['cash'],reason='BC L A02 cash repayment')
+    over=refused(cur,lambda:settle('41.00'),'BB_OSS_EXCEEDS_AVAILABLE')
+    fits=settle('40.00');after_cash=bbp.balance_row(cur,fx,'KASBON-OLD')[2]
+    bbp.act(cur,'OPENING_SETTLEMENT',fx['batch'],operation='REVERSE',settlement_id=fits['settlement_id'],reason='BC L A02 undo repayment')
+    g1=bbp.gl(cur)
+    for name in ('approve_payroll','post_payroll_payment'):bbp.payroll_call(cur,name,p)
+    paid=bbp.moved(g1,bbp.gl(cur));deduction=q(cur,"""select a.mapping_key,sum(l.debit),sum(l.credit) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id
+        join erp.accounting_account_mappings a on a.account_id=l.account_id where j.source_id=%s and j.source_type='PAYROLL_CASH_ADVANCE_DEDUCTION' group by 1 order by 1""",p)
+    paid_bank=bbp.bank(cur,fx)-bank0;paid_receivable=receivable()
+    clean_paid,_=bbp.truth_clean(cur)
+    bbp.payroll_call(cur,'reverse_paid_payroll',p,'BC L A02 reverse payroll')
+    reversed_receivable=receivable();reversed_bank=bbp.bank(cur,fx)-bank0
+    status=one(cur,'select status from erp.payroll_settlements where id=%s',p)
+    api.admin(cur);final=advance();clean,detectors=bbp.truth_clean(cur)
+    return verdict(dict(import_70=imported[0]==D('70.00') and imported[1][2]==D('70.00'),
+        reserve_no_journal=no_journal and reserved['reserved_amount']=='30.00' and reserved['available_amount']=='40.00',
+        cash_over_free_refused=over['ok'],cash_up_to_free=after_cash==D('30.00'),
+        payroll_deducts_30=[(r[0],r[1],r[2]) for r in deduction]==[('CONTRACTOR_PAYABLE',D('30.00'),D('0.00')),('CONTRACTOR_RECEIVABLE',D('0.00'),D('30.00'))],
+        cash_is_net=paid_bank==D('-20.00') and paid_receivable==D('40.00'),detectors_when_paid=clean_paid,
+        reversal_restores=reversed_receivable==D('70.00') and reversed_bank==0,
+        draft_release_no_journal=(second,released_draft)==('30.00','40.00') and draft_release_no_journal,
+        reversal_releases=status=='REVERSED' and final['allocations']==[] and final['reserved_amount']=='0.00' and final['available_amount']=='70.00',
+        ledger_restored=bbp.moved(g0,bbp.gl(cur))=={},detectors=clean),
+        reserved=reserved,final=final,status_after_reversal=status,paid={k:str(v) for k,v in paid.items()},refusal=over['refusal'],detectors=detectors)
+
+
+def po_rows(target='10',wip=None,bs=None,status='SEWING'):
+    """An open PO {C} (target `target`) with optional opening WIP (qty, amount) held by mandor {C} and BS (qty, amount) on it."""
+    rows=bbp.product_masters()
+    rows.update(BRAND=[dict(brand_code='{C}',brand_name='BC L brand {C}')],MODEL=[dict(model_code='{C}',model_name='BC L model {C}')])
+    rows.update(CONTRACTOR=[dict(contractor_code='{C}',contractor_name='BC L mandor',contractor_type='MANDOR')],LAUNDRY_VENDOR=[dict(vendor_code='{C}',vendor_name='BC L laundry')],
+                OPEN_PO=[dict(po_number='{C}',model_code='{C}',contractor_code='{C}',target_qty_pcs=target,status=status,current_stage=status)])
+    items=[];controls=[]
+    common=dict(po_number='{C}',model_code='{C}',size_code='{C}',accessory_cost_included='true',product_sku='{C}P',brand_code='{C}',color_name='Blue',contractor_code='{C}')
+    if wip:
+        items.append(dict(common,balance_type='WIP',stage='SEWING',qty=wip[0],amount=wip[1],unit_cost=str(D(wip[1])/D(wip[0])),opening_source_key='WIP',control_key='WIP'))
+        controls.append(dict(control_key='WIP',balance_type='WIP',qty=wip[0],amount=wip[1]))
+    if bs:
+        items.append(dict(common,balance_type='BS',stage='QC',qty=bs[0],amount=bs[1],opening_source_key='BS',control_key='BS'))
+        controls.append(dict(control_key='BS',balance_type='BS',qty=bs[0],amount=bs[1]))
+    if items:rows.update(OPENING_BALANCE_ITEM=items,OPENING_CONTROL=controls)
+    return rows
+
+
+def po_state(cur,po):
+    api.admin(cur)
+    return dict(status=one(cur,'select status from erp.production_orders where id=%s',po),
+                stage_events=one(cur,'select count(*) from erp.wip_stage_events where po_id=%s',po),bs=one(cur,'select count(*) from erp.bs_cases where po_id=%s',po),
+                lots=one(cur,'select count(*) from erp.fg_lots where po_id=%s',po),journal=one(cur,'select count(*) from erp.journal_lines where po_id=%s',po))
+
+
+def l_w01(cur,today):
+    """ALL-W01 (r9: "one open PO target 10 garments, header/source identity only. Separately, if known, import 7 WIP PCS and 3 valued BS PCS as
+    explicit detail rows ... Header-only import creates no stock, work-stage balance, wage, cut/sew record or journal ... exactly 7 WIP and
+    3 BS ... never 10 WIP by inference. Finish/cancel PO must be refused while any imported WIP/BS remains ... reject over-capacity total";
+    Fable W01: cancelling a PO that still has opening WIP/BS is refused, not forced). Continuation: the 7 are completed to FG and the 3
+    scrapped, the PO finishes; inverse: reopen, undo scrap and output, and the PO again refuses to close."""
+    api.admin(cur);g0=bbp.gl(cur)
+    header=bbp.production_post(cur,today,po_rows())
+    header_state=po_state(cur,header['po']);header_gl=bbp.moved(g0,bbp.gl(cur))
+    target=one(cur,'select target_qty_pcs from erp.production_orders where id=%s',header['po'])
+    over=bbp.production_post(cur,today,po_rows(wip=('8','80.00'),bs=('3','30.00')),expect=True)
+    fx=bbp.production_post(cur,today,po_rows(wip=('7','70.00'),bs=('3','30.00')))
+    c=fx['cutover'];wip0=bbp.ledger(cur,'WIP',fx['po'])
+    sources={s['balance_type']:s for s in bbp.ws(cur,fx['batch'])['production_sources']}
+    cancel=lambda:q(cur,"update erp.production_orders set status='CANCELLED' where id=%s returning id",fx['po'])
+    finish=lambda:internal(cur,'finish_production_order',fx['po'])
+    cancel_refused=denied(cur,cancel,'saldo awal');finish_refused=denied(cur,finish,'')
+    bbp.empty_accessory_bom(cur,fx['code'],c)
+    out=bbp.complete(cur,fx,c+timedelta(days=2),7)
+    case=sources['BS']['bs_case_id']
+    scrap=bbp.bs_act(cur,'DISPOSE_BS',dict(bs_case_id=case,resolution_type='SCRAP',qty_pcs=3,physical_at=chain.production.at(c+timedelta(days=3),10),
+                                        change_reason='BC L W01 scrap opening BS'),bbp.bs_version(cur,case))
+    finished,finish_error=r1.peer.attempt(cur,finish);api.admin(cur)
+    status_finished=one(cur,'select status from erp.production_orders where id=%s',fx['po'])
+    if status_finished=='FINISHED':internal(cur,'reopen_production_order',fx['po'],'BC L W01 reopen to undo')
+    bbp.bs_act(cur,'REVERSE_DISPOSITION',dict(resolution_id=scrap['bs_resolution_id'],change_reason='BC L W01 undo scrap'),bbp.bs_version(cur,case))
+    bbp.wip_op(cur,fx,'REVERSE',output_id=out['output_id'])
+    again=denied(cur,cancel,'saldo awal')
+    after={s['balance_type']:s for s in bbp.ws(cur,fx['batch'])['production_sources']}
+    clean,detectors=bbp.production_clean(cur)
+    return verdict(dict(header_only_no_effect=header_state==dict(status='SEWING',stage_events=0,bs=0,lots=0,journal=0) and header_gl=={} and target==10,
+        over_capacity_refused=bool(over['errors']),exact_detail=sources['WIP']['qty_pcs']==7 and sources['BS']['qty_pcs']==3 and wip0==D('100.00'),
+        close_refused_while_open=cancel_refused['ok'] and finish_refused['ok'],finishes_when_resolved=status_finished=='FINISHED',
+        inverse_reopens=after['WIP']['remaining_qty_pcs']==7 and bbp.ledger(cur,'WIP',fx['po'])==wip0 and again['ok'],reports_zero=clean),
+        header=header_state,over=over['errors'][:3],finish_error=finish_error,refusals=dict(cancel=cancel_refused['refusal'],finish=finish_refused['refusal']),
+        detectors=detectors)
+
+
+def l_w03(cur,today):
+    """ALL-W03 (r9: "5 known BS garments valued 50.00, with exact product/size/PO/holder. After cutover scrap/write off 2 and rework remaining 3
+    into good output, then reverse only through canonical disposition path ... Scrap 2 PCS moves 20.00 to other expense; BS remains 3/30.
+    Rework 3 good transfers 30.00 into FG/HPP; final BS=0, FG +3/30, expense +20 ... reject ... disposition >5"; Fable W03: the BS source is a
+    native LEGACY case; the scrapped value is kept out of the PO's absorbed cost)."""
+    api.admin(cur)
+    fx=bbp.production_post(cur,today,po_rows(target='10',bs=('5','50.00')));c=fx['cutover']
+    bbp.empty_accessory_bom(cur,fx['code'],c)
+    src=bbp.source_of(cur,fx,'BS');case=src['bs_case_id']
+    kind=one(cur,"select untracked_type||':'||qty_pcs from erp.bs_cases where id=%s",case)
+    wip0=bbp.ledger(cur,'WIP',fx['po']);exp0=bbp.ledger(cur,'OTHER_EXPENSE',fx['po']);fg0=bbp.ledger(cur,'FG_INVENTORY',fx['po'])
+    over=denied(cur,lambda:bbp.bs_act(cur,'DISPOSE_BS',dict(bs_case_id=case,resolution_type='SCRAP',qty_pcs=6,physical_at=chain.production.at(c+timedelta(days=2),10),
+        change_reason='x'),bbp.bs_version(cur,case)),'')
+    scrap=bbp.bs_act(cur,'DISPOSE_BS',dict(bs_case_id=case,resolution_type='SCRAP',qty_pcs=2,physical_at=chain.production.at(c+timedelta(days=2),10),
+        change_reason='BC L W03 scrap 2'),bbp.bs_version(cur,case))
+    wip1=bbp.ledger(cur,'WIP',fx['po']);exp1=bbp.ledger(cur,'OTHER_EXPENSE',fx['po'])
+    vendor=str(one(cur,'select id from erp.laundry_vendors where vendor_code=%s',fx['code']))
+    order=bbp.bs_act(cur,'SAVE_REWORK',dict(rework_number='BCL-'+uuid.uuid4().hex[:10],bs_case_id=case,destination_type='LAUNDRY',vendor_id=vendor,qty_sent=3,
+        physical_sent_at=chain.production.at(c+timedelta(days=3),10),return_fg_location_id=fx['fg'],accessory_bom_item_ids=[],change_reason='BC L W03 rework 3'),None)
+    done=bbp.bs_act(cur,'COMPLETE_REWORK',dict(rework_order_id=order['rework_order_id'],qty_good=3,qty_bs=0,completed_at=chain.production.at(c+timedelta(days=4),10),
+        return_fg_location_id=fx['fg'],change_reason='BC L W03 rework good'),order['row_version'])
+    api.admin(cur);lot=one(cur,'select good_fg_lot_id from erp.rework_orders where id=%s',order['rework_order_id'])
+    wip2=bbp.ledger(cur,'WIP',fx['po']);fg2=bbp.ledger(cur,'FG_INVENTORY',fx['po']);cost=bbp.lot_cost(cur,lot)
+    status=one(cur,'select status from erp.bs_cases where id=%s',case);clean1,d1=bbp.production_clean(cur)
+    bbp.bs_act(cur,'REVERSE_REWORK_COMPLETION',dict(rework_order_id=order['rework_order_id'],change_reason='BC L W03 undo rework'),done['row_version'])
+    bbp.bs_act(cur,'REVERSE_DISPOSITION',dict(resolution_id=scrap['bs_resolution_id'],change_reason='BC L W03 undo scrap'),bbp.bs_version(cur,case))
+    wip3=bbp.ledger(cur,'WIP',fx['po']);exp3=bbp.ledger(cur,'OTHER_EXPENSE',fx['po']);fg3=bbp.ledger(cur,'FG_INVENTORY',fx['po'])
+    clean2,d2=bbp.production_clean(cur)
+    return verdict(dict(legacy_case_5=kind=='LEGACY:5' and wip0==D('50.00'),over_disposition_refused=over['ok'],
+        scrap_2=wip1==wip0-20 and exp1==exp0+20,rework_3_good=wip2==wip1-30 and fg2==fg0+30 and D(cost)==D('30.00') and status=='RESOLVED',
+        inverse=wip3==wip0 and exp3==exp0 and fg3==fg0,reports_zero=clean1 and clean2),
+        ledger=[str(v) for v in (wip0,exp0,wip1,exp1,wip2,fg2,wip3,exp3,fg3)],case_status=status,refusal=over['refusal'],detectors=[d1,d2])
+
+
+def c01_rows(fx):
+    rows=bbp.masters()
+    rows['OPENING_BALANCE_ITEM']=[dict(balance_type='MATERIAL',material_sku=fx['code'],location_code=fx['code']+'W',qty='10',unit_cost='2.00',control_key='STOCK',opening_source_key='KANCING')]
+    rows['OPENING_CONTROL']=[dict(control_key='STOCK',balance_type='MATERIAL',qty='10',amount='20.00')]
+    return rows
+
+
+def l_c01_note(cur,today):
+    """ALL-C01 (r9: "10 company-owned count units at actual inventory cost 2.00 each, in known warehouse ... opening inventory quantity=10,
+    inventory value=20.00, no receivable/cash/expense on import ... A mandor issue is a distinct canonical route: stock falls once by 3, the
+    receivable is 3 x manual price p, while inventory cost reduction remains 6.00; reimbursement entitlement stays separately governed ...
+    reject ... fractional/negative PCS ... issue > stock"; Fable C01: 7 pieces reduce stock exactly 7, the bill is 7 x the typed price).
+    The note route exists before BC; p = 3.50."""
+    fx=fixture(cur,today,zones=False,purchase=False)
+    keys=('MATERIAL_INVENTORY','CONTRACTOR_RECEIVABLE','OTHER_EXPENSE','CASH','BANK','MATERIAL_RECOVERY','ACCESSORY_RECOVERY_COGS')
+    b0=accounts(cur,keys);entitlements=lambda:one(cur,'select count(*) from erp.contractor_accessory_reimbursement_entitlements')
+    e0=entitlements()
+    batch,code,cutover=bbp.post_batch(cur,today,c01_rows(fx))
+    imported=delta(b0,accounts(cur,keys));opening=stock(cur,fx['material'],fx['main'])
+    day=today-timedelta(days=2)
+    fraction=denied(cur,lambda:note(cur,fx,'1.5','3.50',day),'')
+    b1=accounts(cur,keys)
+    issue,_=note(cur,fx,3,'3.50',day);issued=delta(b1,accounts(cur,keys));after=stock(cur,fx['material'],fx['main'])
+    too_many=denied(cur,lambda:note(cur,fx,8,'3.50',day),'')
+    h=one(cur,'select row_version from erp.contractor_material_issues where id=%s',issue)
+    note_call(cur,'REVERSE',dict(id=issue,expected_version=str(h),reason='BC L C01 reverse note'))
+    return verdict(dict(import_exact=imported=={'MATERIAL_INVENTORY':D('20.00')} and opening==10,
+        note_once=after==7 and issued.get('CONTRACTOR_RECEIVABLE')==D('10.50') and issued.get('MATERIAL_INVENTORY')==D('-6.00') and sum(issued.values())==0,
+        no_entitlement=entitlements()==e0,fraction_refused=fraction['ok'],over_stock_refused=too_many['ok'],
+        inverse=accounts(cur,keys)==b1 and stock(cur,fx['material'],fx['main'])==10),
+        imported={k:str(v) for k,v in imported.items()},issued={k:str(v) for k,v in issued.items()},refusals=dict(fraction=fraction['refusal'],over=too_many['refusal']))
+
+
+def l_c01_company_use(cur,today):
+    """ALL-C01's company-use leg (r9: "Direct company-service use of 3 reduces stock to 7 and inventory value to 14.00, and recognizes company
+    purpose expense 6.00 under configured mapping; no contractor receivable"): the imported stock is used through BC's internal use
+    (FACTORY_USE), then reversed. Before BC there is no route for company use (the public RPC is unknown)."""
+    fx=fixture(cur,today,zones=True,purchase=False)
+    batch,code,cutover=bbp.post_batch(cur,today,c01_rows(fx))
+    if not bc_installed(cur):return no_route(cur,lambda:use(cur,fx,fx['main'],[(3,today,9,'FACTORY_USE')]))
+    b1=ledger(cur)
+    u=use(cur,fx,fx['main'],[(3,today-timedelta(days=1),9,'FACTORY_USE')]);used=delta(b1,ledger(cur));after=stock(cur,fx['material'],fx['main'])
+    reverse(cur,u['document_id'])
+    return verdict(dict(stock_7=after==7,expense_6=used=={'MATERIAL_INVENTORY':D('-6.00'),'OTHER_EXPENSE':D('6.00')},
+        inverse=ledger(cur)==b1 and stock(cur,fx['material'],fx['main'])==10),used={k:str(v) for k,v in used.items()})
+
+
+L_CASES=[('L:P01_RECEIPT_UNBILLED_PART_CONSUMED','PASS',l_p01),
+         ('L:A01_SUPPLIER_ADVANCE','PASS',lambda c,t:l_a01(c,t,'SUPPLIER')),
+         ('L:A01_CUSTOMER_ADVANCE','PASS',lambda c,t:l_a01(c,t,'CUSTOMER')),
+         ('L:A01_VENDOR_ADVANCE','PASS',lambda c,t:l_a01(c,t,'VENDOR')),
+         ('L:A02_CASH_ADVANCE_PAYROLL','PASS',l_a02),
+         ('L:W01_OPEN_PO_HEADER','PASS',l_w01),
+         ('L:W03_OPENING_BS','PASS',l_w03),
+         ('L:C01_STOCK_NOTE_ROUTE','PASS',l_c01_note),
+         ('L:C01_STOCK_COMPANY_USE','NO_ROUTE',l_c01_company_use)]
+
+
 PLAN=[('B01:FILL_POST_KEEPS_TOTAL','NO_ROUTE',b01_fill),
       ('B02:USE_95_RETURN_25','NO_ROUTE',b02_use_return),
       ('B03:DIRECT_USE_PURPOSE_ACCOUNT','NO_ROUTE',b03_direct_use),
@@ -1133,5 +1492,95 @@ PLAN=[('B01:FILL_POST_KEEPS_TOTAL','NO_ROUTE',b01_fill),
       ('ALL:C02_OLD_NOTE_PARTLY_PAID_RETURN','NO_ROUTE',all_c02),
       ('ALL:C02_IMPORT_REFUSALS','NO_ROUTE',all_c02_refusals),
       ('ALL:C03_CUSTODY_STATES','NO_ROUTE',all_c03),
-      ('ALL:C03_IMPORT_REFUSALS','NO_ROUTE',all_c03_refusals)]
+      ('ALL:C03_IMPORT_REFUSALS','NO_ROUTE',all_c03_refusals)]+L_CASES
 assert len({k for k,_,_ in PLAN})==len(PLAN),'BC_DUPLICATE_CASE_ID'
+
+
+# Every import batch workspace and every accessory workspace a case reads is saved and run through the pages' own parsers after
+# the group (scripts/cp6_bc_workspace_parse.mjs): a page hides what it cannot parse, so a refusal there is a probe failure.
+WS=dict(dir=None,case=None,n=0)
+_READ,_WS=api.read,ws
+
+
+def _save(kind,result):
+    if WS['dir'] is not None and isinstance(result,dict):
+        WS['n']+=1
+        name='%s_%s_%03d.json'%(kind,re.sub(r'[^A-Za-z0-9]+','_',WS['case'] or 'SETUP'),WS['n'])
+        (WS['dir']/name).write_text(json.dumps(result,default=str))
+    return result
+
+
+def recording_read(cur,batch=None):
+    result=_READ(cur,batch)
+    return _save('import',result) if batch is not None and isinstance(result,dict) and result.get('batch') else result
+
+
+def recording_ws(cur,filters=None,auth=None):
+    return _save('service',_WS(cur,filters,auth))
+
+
+def cases(cur,today):
+    day=case_day(today)
+    def run_one(key,fn):
+        WS.update(case=key,n=0);return fn(cur,day)
+    return [(key,lambda k=key,f=fn:run_one(k,f)) for key,_,fn in PLAN]
+
+
+def workspace_parse(phase):
+    run=subprocess.run(['node',str(AUDITOR/'scripts/cp6_bc_workspace_parse.mjs'),str(WS['dir'])],capture_output=True,text=True,cwd=AUDITOR)
+    lines=run.stdout.strip().splitlines()
+    try:parsed=json.loads(lines[-1])
+    except (IndexError,ValueError):parsed=dict(files=None,refused=None,error=(run.stderr or run.stdout)[-1500:])
+    kept=OUT/('WORKSPACE_REFUSED_'+phase.upper());kept.mkdir(parents=True,exist_ok=True)
+    for item in parsed.get('refused') or []:(kept/item['file']).write_text((WS['dir']/item['file']).read_text())
+    ok=run.returncode==0 and parsed.get('refused')==[] and (parsed.get('files') or 0)>0
+    return dict(status='PASS' if ok else 'FAIL',files=parsed.get('files'),kinds=parsed.get('kinds'),refused=parsed.get('refused'),
+                error=parsed.get('error'),exit=run.returncode)
+
+
+def run(phase):
+    global ws
+    assert os.environ.get('CP6_AR_CONFIRM')=='cp6_rollback' and os.environ.get('CP6_DATABASE_CONTAINER')=='supabase_db_cp5-local'
+    r1.OUT=OUT
+    planned={k:(e if isinstance(e,tuple) else (e,)) if phase=='before' else ('PASS',) for k,e,_ in PLAN}
+    report=dict(status='INCOMPLETE',label=LABEL,phase=phase,source=r1.source(),production_go=False,independent_acceptance=False,release_evidence=False,
+                planned={k:list(v) for k,v in planned.items()},stale_f2=STALE_F2)
+    report['run_identity']=run_identity.announce(LABEL,phase=phase)
+    r1.save('RESULT_'+phase.upper(),report)
+    primary=None
+    try:
+        with psycopg.connect(boundary.PRIMARY_ADMIN) as conn,conn.cursor() as cur:prior.verified(cur,'AN');primary=boundary.snapshot(cur)
+        r1.writer.install_at()
+        control_url=os.environ['CP6_ADMISSION_CONTROL_PGURL']
+        report['au_install']=awp.au_runtime.change('install',boundary.PG,control_url)['status']
+        report['av_install']=awp.av_runtime.change('install',boundary.PG,control_url)['status']
+        report['aw_install']=awp.install_aw();report['ax_install']=axp.install_ax();report['ay_install']=ayp.install_ay()
+        report['az_install']=azp.install_az();report['ba_install']=bap.install_ba();report['bb_install']=bbp.install_bb();verify=bbp.bb_verified
+        if phase=='after':report['bc_install']=install_bc();verify=bc_verified
+        r1.save('RESULT_'+phase.upper(),report)
+        print(json.dumps(dict(bc_probe_setup={k:report.get(k) for k in ('au_install','av_install','ba_install','bb_install','bc_install')}),default=str),flush=True)
+        WS['dir']=Path(tempfile.mkdtemp(prefix='cp6-bc-ws-'));api.read=recording_read;ws=recording_ws
+        try:group=r1.group('BC_CASES_'+phase.upper(),cases,verify)
+        finally:api.read=_READ;ws=_WS
+        report['bc_cases']={k:group[k] for k in ('status','counts')}
+        report['workspace_parse']=workspace_parse(phase)
+        print(json.dumps(dict(bc_workspace_parse=report['workspace_parse']),default=str),flush=True)
+        final={k:v['status'] for k,v in group['cases'].items()}
+        report['final']=final
+        report['expectation_mismatch']={k:dict(planned=list(e),final=final.get(k)) for k,e in planned.items() if final.get(k) not in e}
+        report['status']='REVIEW_COMPLETE' if group['status']!='INCOMPLETE' and not report['expectation_mismatch'] and report['workspace_parse']['status']=='PASS' else 'INCOMPLETE'
+    except Exception as exc:report.update(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc())
+    finally:
+        subprocess.run(['docker','exec','supabase_db_cp5-local','dropdb','-U','supabase_admin','--if-exists','--force','--maintenance-db=template1','cp6_rollback'],check=True)
+        with psycopg.connect(boundary.PRIMARY_ADMIN) as conn,conn.cursor() as cur:
+            prior.verified(cur,'AN');report['primary_unchanged']=primary is not None and boundary.snapshot(cur)==primary
+            report['clone_remaining']=cur.execute("select count(*) from pg_database where datname='cp6_rollback'").fetchone()[0]
+        if not report['primary_unchanged'] or report['clone_remaining']:report['status']='INCOMPLETE'
+        r1.save('RESULT_'+phase.upper(),report)
+    print(json.dumps(dict(bc_probe_phase=phase,**{k:v for k,v in report.items() if k!='source'}),default=str),flush=True)
+    assert report['status']=='REVIEW_COMPLETE',report.get('error') or ('BC_PROBE_EXPECTATION_MISMATCH',report.get('expectation_mismatch'))
+
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser();parser.add_argument('--phase',choices=('before','after'),required=True)
+    run(parser.parse_args().phase)
