@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""T3 rollback of the whole release package, AC..BB: pre-use only, exact restore, reverse order.
+"""T3 rollback of the whole release package, AC..BC: pre-use only, exact restore, reverse order.
 
 AW..BA exist only as files of the combined release package (supabase/release/cp6-t3); each keeps a private rollback
 capsule of the functions it replaces and a before/after hash of every erp table and of both ledgers, but the package
@@ -43,7 +43,7 @@ import cp6_t3_rollback_acav as acav
 RELEASE=ROOT/'supabase/release/cp6-t3'
 OUTDIR=ROOT/'supabase/release/cp6-t3-rollbacks'
 CAPTURE=ROOT/'docs/evidence/cp6-t3/rollback_capture.json'
-KEYS=['AW','AX','AY','AZ','BA','BB']
+KEYS=['AW','AX','AY','AZ','BA','BB','BC']
 # AC..AV: release variants of the reviewed test-chain rollbacks (scripts/cp6_t3_rollback_acav.py); AW..BA: built here from
 # the capture. ALL is the whole package in install order.
 ALL=acav.KEYS+KEYS
@@ -60,7 +60,10 @@ q=package.quote
 RESTORABLE={'AX':{'VIEW:erp.v_payroll_eligible_work_lines','CONSTRAINT:erp.payroll_work_items.payroll_work_items_source_type_check'},
             # BB widens two check constraints (payroll line sources OPENING_PAYABLE/OPENING_CARRY; opening WIP stage CUTTING).
             'BB':{'CONSTRAINT:erp.payroll_reimbursements.payroll_reimbursements_source_type_check',
-                  'CONSTRAINT:erp.initial_import_production_sources.initial_import_production_sources_stage_check'}}
+                  'CONSTRAINT:erp.initial_import_production_sources.initial_import_production_sources_stage_check'},
+            # BC widens the payroll line sources again (BC_RETURN_CARRY) and BB's opening credit kinds (ACCESSORY_NOTE_RETURN).
+            'BC':{'CONSTRAINT:erp.payroll_reimbursements.payroll_reimbursements_source_type_check',
+                  'CONSTRAINT:erp.bb_opening_credits_v1.bb_opening_credits_v1_credit_kind_check'}}
 LEDGER_HASH=awx.LEDGER_HASH
 DATA=awx.DATA
 PROBE_ROW=("insert into erp.audit_logs(entity_type,entity_id,action,new_data,change_reason) "

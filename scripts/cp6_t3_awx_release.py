@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""T3: AW, AX, AY, AZ, BA and BB as release candidates of the combined package, with the AO..AV guard set.
+"""T3: AW, AX, AY, AZ, BA, BB and BC as release candidates of the combined package, with the AO..AV guard set.
 
 AW (close readiness engine) and AX (finished goods without a production source) passed T1 as development files
 (supabase/dev/cp6_aw_t1_family.sql, cp6_ax_t1_family.sql). This builder wraps each T1 body unchanged (only the ledger
@@ -30,6 +30,7 @@ sys.path.insert(0,str(ROOT/'scripts'))
 import cp6_t3_release_package as package
 import cp6_ba_build as ba
 import cp6_bb_build as bb
+import cp6_bc_build as bc
 
 SRC=ROOT/'supabase/release/cp6-t3-src'
 MIGRATIONS=ROOT/'supabase/migrations'
@@ -70,6 +71,19 @@ FILES=[
          replaced=list(bb.REPLACED),new_tables=list(bb.NEW_TABLES),
          added_columns={'payroll_reimbursements':['opening_payable_balance_id','opening_carry_entitlement_id','opening_carry_qty'],
                         'work_completion_events':['bb_opening_item_id']}),
+    # BC adds one nullable column (the carried note return credit of a payroll line) and seeds its seven policy settings as
+    # PENDING_POLICY_VALUE (fail-closed defaults, no value): those two new tables hold exactly the seed after install, checked
+    # row by row; every other new table stays empty.
+    dict(key='BC',stamp='20260925030000',name='erp_v2_6_20bc_cp6_accessory_service_returns',version=bc.VERSION,
+         body=ROOT/'supabase/dev/cp6_bc_t1_family.sql',title='accessory service, return and inspection workflow with owner policy settings (ACC-04b, ACC-DEC01/03..07, ERP-DEC02, ALL-C02/C03)',
+         description='Accessory service, return and inspection workflow with owner policy settings pending by default, note return credit, rounding line, Special free lines, opening accessory states',
+         replaced=list(bc.REPLACED),new_tables=list(bc.NEW_TABLES),
+         added_columns={'payroll_reimbursements':['bc_credit_event_id']},
+         seeded={'bc_policy_settings_v1':7,'bc_policy_setting_events_v1':7},
+         seed_check=("exists(select 1 from erp.bc_policy_settings_v1 where status<>'PENDING_POLICY_VALUE' or value is not null or version<>1 or set_by is not null)"
+                     " or exists(select 1 from erp.bc_policy_setting_events_v1 where status<>'PENDING_POLICY_VALUE' or value is not null or version<>1)"
+                     " or (select array_agg(policy_key order by policy_key) from erp.bc_policy_settings_v1) is distinct from"
+                     " array['ACC_DEC01','ACC_DEC03','ACC_DEC04','ACC_DEC05','ACC_DEC06','ACC_DEC07','ERP_DEC02']::text[]")),
 ]
 PLACEHOLDER='0'*64
 # The package capsules AO..AV (AO..AW for AX) are checked like AV checks AO..AU; the capsules of this builder are left out
@@ -212,6 +226,13 @@ def added_columns_check(f):
 
 def after_data(f,capsule):
     new="array[%s]::text[]"%','.join("'%s'"%t for t in f['new_tables'])
+    seeded=f.get('seeded') or {}
+    # New tables stay empty; only a file that declares a seed (BC: its pending policy settings) has those tables at exactly the
+    # declared row count, with the rows checked by its seed_check. Without a seed the text below is unchanged.
+    empty="array[%s]::text[]"%','.join("'%s'"%t for t in f['new_tables'] if t not in seeded) if seeded else new
+    seed=''.join(" if (v_after->'%s'->>'count') is distinct from '%d' then raise exception '%s_SEED_CHANGED: %s';end if;\n"%(t,n,f['key'],t)
+                 for t,n in sorted(seeded.items()))
+    if seeded:seed+=" if %s then raise exception '%s_SEED_NOT_PENDING';end if;\n"%(f['seed_check'],f['key'])
     strip,compare=added_columns_check(f)
     return ("update %(c)s set installed_definition_sha256=encode(extensions.digest(convert_to(pg_get_functiondef(to_regprocedure(object_regidentity)),'UTF8'),'sha256'),'hex');\n"
             "do $after_data$ declare v_table text;v_hash jsonb;v_after jsonb;v_before jsonb;%(extra)s begin\n v_after:='{}'::jsonb;\n"
@@ -219,14 +240,14 @@ def after_data(f,capsule):
             "  where n.nspname='erp' and c.relkind in('r','p') and c.relname<>all(array['schema_migrations','%(t)s']::text[]) order by 1 loop\n"
             "  %(data)s\n  v_after:=v_after||jsonb_build_object(v_table,v_hash);\n end loop;\n"
             " select snapshot->'before' into v_before from pg_temp.cp6_release_boundary;\n%(strip)s"
-            " if (%(compare)s-%(new)s) is distinct from v_before or exists(select 1 from unnest(%(new)s) t where (v_after->t->>'count') is distinct from '0')\n"
-            "  then raise exception '%(k)s_INSTALL_CHANGED_DATA';end if;\n"
+            " if (%(compare)s-%(new)s) is distinct from v_before or exists(select 1 from unnest(%(empty)s) t where (v_after->t->>'count') is distinct from '0')\n"
+            "  then raise exception '%(k)s_INSTALL_CHANGED_DATA';end if;\n%(seed)s"
             " if exists(with live as (%(fn)s) select 1 from pg_temp.cp6_release_functions f left join live x on x.identity=f.identity\n"
             "  where f.identity<>all(coalesce((select array_agg(object_regidentity) from %(c)s),'{}'))\n"
             "  and (x.identity is null or (x.definition_sha256,x.acl,x.owner) is distinct from (f.definition_sha256,f.acl,f.owner)))\n"
             "  then raise exception '%(k)s_CAPSULE_INCOMPLETE';end if;\n"
             " update %(c)s set boundary_snapshot=(select snapshot from pg_temp.cp6_release_boundary)||jsonb_build_object('after',v_after);\n"
-            "end $after_data$;\n")%dict(c=capsule,t=capsule.split('.')[1],data=DATA,new=new,k=f['key'],fn=FUNCTIONS,strip=strip,compare=compare,
+            "end $after_data$;\n")%dict(c=capsule,t=capsule.split('.')[1],data=DATA,new=new,empty=empty,seed=seed,k=f['key'],fn=FUNCTIONS,strip=strip,compare=compare,
                                          extra='v_cmp jsonb;v_cols text[];v_nonnull bigint;' if strip else '')
 
 

@@ -84,11 +84,14 @@ def verify_awx():
     import cp6_az_probe as azp
     import cp6_ba_probe as bap
     import cp6_bb_probe as bbp
+    import cp6_bc_probe as bcp
     with psycopg.connect(boundary.ADMIN) as conn,conn.cursor() as cur:
-        # The committed package decides the stage: with BB (or BA) in it, that family and every earlier one are verified.
-        verify=bbp.bb_verified if bbp.bb_installed(cur) else bap.ba_verified if bap.ba_installed(cur) else azp.az_verified
+        # The committed package decides the stage: with BC (or BB, BA) in it, that family and every earlier one are verified.
+        verify=(bcp.bc_verified if bcp.bc_installed(cur) else bbp.bb_verified if bbp.bb_installed(cur)
+                else bap.ba_verified if bap.ba_installed(cur) else azp.az_verified)
         result=verify(cur);conn.rollback()
-    return {k:result.get(k) for k in ('stage','functions','sql_sha256','ax_sql_sha256','ay_sql_sha256','az_sql_sha256','ba_sql_sha256','bb_sql_sha256')}
+    return {k:result.get(k) for k in ('stage','functions','sql_sha256','ax_sql_sha256','ay_sql_sha256','az_sql_sha256','ba_sql_sha256','bb_sql_sha256',
+                                       'bc_sql_sha256')}
 
 
 def run(mode):
