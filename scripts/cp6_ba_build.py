@@ -38,6 +38,12 @@ checked substitutions only, like the AY and AZ builders:
      (a one-unit correction no longer leaves 0.01 in inventory). Reversed movements keep AZ rev2.1's rule; supplier returns
      keep AZ's rule too (their credit follows the supplier cent state of v2.6.20n; T2 run 36087253697 showed the whole-cent
      rule moving those cents twice: CROSS:SUPPLIER_CENT:SPLIT_RETURN, CROSS_SOURCE_INVERSE_IDENTITY).
+     W8 (independent audit round 9, several receipts; GPT run 36097284096): a purchase document's inventory is
+     round(sum of qty x current unit cost) per document (supplier cent state), while the moving average adds the change of
+     round(stock x average); the difference of the documents received since the previous consumption goes with the next
+     consumption, so consumptions total the documents' own cents and a used-up material keeps zero value (two receipts of
+     one unit at 10.00 corrected to 10.005 now give WIP 20.02 and material 0, not 20.01 and 0.01). A document with several
+     materials gives its document-level cent to the lowest material id among its items.
   A6 (CP6-24) erp.close_accounting_through: closing the date that is already closed is refused (filings are immutable, a
      second close would file twice); a close after a reopen stays allowed.
   A5 (CP6-04) selectors: erp.get_bs_resolution_workspace_v1 lists every Laundry source that can still be claimed or used
@@ -295,6 +301,10 @@ REVAL_DECLARE_NEW="""  v_would numeric(24,6);
   q record;
   v_now numeric(24,2);
   v_posted numeric(24,2);
+  v_drift numeric(24,2);
+  v_prev_at timestamptz;
+  v_prev_created timestamptz;
+  v_prev_id uuid;
 begin"""
 REVAL_OLD="""    else
       v_target:=round((r.qty_signed*(r.unit_cost_snapshot-coalesce(r.original_unit_cost_snapshot,r.unit_cost_snapshot)))::numeric,2);
@@ -321,6 +331,39 @@ REVAL_NEW="""    elsif r.source_type='MATERIAL_SUPPLIER_RETURN_ITEM' then
       where x.material_id=r.material_id and x.source_type=r.source_type and x.source_id=r.source_id
         and x.movement_type=r.movement_type and x.reversal_of_id is null
         and (x.physical_at,x.system_created_at,x.id)<=(r.physical_at,r.system_created_at,r.id);
+      -- BA W8 (independent audit round 9, CP6-03 with several receipts; M:835, M:3820, M:6632): a purchase document's
+      -- inventory is round(sum of qty x current unit cost) per document (supplier cent state, v2.6.20n), while the moving
+      -- average added the change of round(stock x average). The difference for the documents received since the previous
+      -- consumption goes with the next consumption, so the consumptions total the documents' own cents and a used-up
+      -- material keeps zero value. A document with several materials gives its document-level cent to the lowest
+      -- material id among its items. Returns to the supplier keep their own rule above; opening stock keeps its line basis.
+      if v_now is not null and r.qty_signed<0 then
+        select coalesce(sum(d.doc_value-d.average_value),0) into v_drift
+        from (
+          select x.purchase_id,
+            round(sum(x.qty_signed*erp.material_purchase_current_unit_cost(x.purchase_item_id)),2)
+            +case when (select min(pi.material_id::text) from erp.material_purchase_items pi where pi.purchase_id=x.purchase_id)=r.material_id::text
+              then (select round(sum(t.v),2)-sum(round(t.v,2)) from (select sum(pi.qty*erp.material_purchase_current_unit_cost(pi.id)) v
+                    from erp.material_purchase_items pi where pi.purchase_id=x.purchase_id group by pi.material_id) t)
+              else 0 end doc_value,
+            sum(x.average_change) average_value
+          from (
+            select pi.purchase_id,pi.id purchase_item_id,m.qty_signed,
+              round(h.stock_after*h.average_after,2)-round(h.stock_before*h.average_before,2) average_change
+            from erp.material_stock_movements m
+            join erp.material_purchase_items pi on pi.id=case when m.source_type='MATERIAL_PURCHASE_ITEM' then m.source_id
+              else (select mr.purchase_item_id from erp.material_rolls mr where mr.id=m.source_id) end
+            join erp.material_cost_history h on h.movement_id=m.id
+            where m.material_id=r.material_id and m.movement_type='PURCHASE' and m.qty_signed>0
+              and m.source_type in('MATERIAL_PURCHASE_ITEM','MATERIAL_PURCHASE_ROLL')
+              and not exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=m.id)
+              and (m.physical_at,m.system_created_at,m.id)<(r.physical_at,r.system_created_at,r.id)
+              and (v_prev_id is null or (m.physical_at,m.system_created_at,m.id)>(v_prev_at,v_prev_created,v_prev_id))
+          ) x group by x.purchase_id
+        ) d;
+        v_now:=v_now-v_drift;
+        v_prev_at:=r.physical_at;v_prev_created:=r.system_created_at;v_prev_id:=r.id;
+      end if;
       v_target:=case when v_now is null then round((r.qty_signed*(r.unit_cost_snapshot-coalesce(r.original_unit_cost_snapshot,r.unit_cost_snapshot)))::numeric,2)
         else v_now-sign(r.qty_signed)*v_posted end;
     end if;

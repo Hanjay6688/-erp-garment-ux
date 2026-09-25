@@ -1,6 +1,6 @@
 -- CP6 BA: independent audit closure (import identity, dated WIP and advance capacity, WIP product binding, recost cents, selectors, single close filing). Release candidate of the T3 combined package; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_ba_t1_family.sql (sha256 06d6dccb5243832e07deead99d19a5b359f2cd65b1dc8917b2fa006e780c1f37): the T1 body below is unchanged apart from the
+-- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_ba_t1_family.sql (sha256 5da453fba369b9c3ac24548e592b138e9db80132b07a4acc88c2621a0d7008e7): the T1 body below is unchanged apart from the
 -- ledger description; guards follow AO..AV. Capsule and catalog pins are placeholders until the T3 capture.
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
@@ -766,6 +766,10 @@ declare
   q record;
   v_now numeric(24,2);
   v_posted numeric(24,2);
+  v_drift numeric(24,2);
+  v_prev_at timestamptz;
+  v_prev_created timestamptz;
+  v_prev_id uuid;
 begin
   perform erp.require_internal();
   -- AZ (owner, 24 Sep 2026): a correction is dated from the physical movement it corrects when the recost date E is
@@ -845,6 +849,39 @@ begin
       where x.material_id=r.material_id and x.source_type=r.source_type and x.source_id=r.source_id
         and x.movement_type=r.movement_type and x.reversal_of_id is null
         and (x.physical_at,x.system_created_at,x.id)<=(r.physical_at,r.system_created_at,r.id);
+      -- BA W8 (independent audit round 9, CP6-03 with several receipts; M:835, M:3820, M:6632): a purchase document's
+      -- inventory is round(sum of qty x current unit cost) per document (supplier cent state, v2.6.20n), while the moving
+      -- average added the change of round(stock x average). The difference for the documents received since the previous
+      -- consumption goes with the next consumption, so the consumptions total the documents' own cents and a used-up
+      -- material keeps zero value. A document with several materials gives its document-level cent to the lowest
+      -- material id among its items. Returns to the supplier keep their own rule above; opening stock keeps its line basis.
+      if v_now is not null and r.qty_signed<0 then
+        select coalesce(sum(d.doc_value-d.average_value),0) into v_drift
+        from (
+          select x.purchase_id,
+            round(sum(x.qty_signed*erp.material_purchase_current_unit_cost(x.purchase_item_id)),2)
+            +case when (select min(pi.material_id::text) from erp.material_purchase_items pi where pi.purchase_id=x.purchase_id)=r.material_id::text
+              then (select round(sum(t.v),2)-sum(round(t.v,2)) from (select sum(pi.qty*erp.material_purchase_current_unit_cost(pi.id)) v
+                    from erp.material_purchase_items pi where pi.purchase_id=x.purchase_id group by pi.material_id) t)
+              else 0 end doc_value,
+            sum(x.average_change) average_value
+          from (
+            select pi.purchase_id,pi.id purchase_item_id,m.qty_signed,
+              round(h.stock_after*h.average_after,2)-round(h.stock_before*h.average_before,2) average_change
+            from erp.material_stock_movements m
+            join erp.material_purchase_items pi on pi.id=case when m.source_type='MATERIAL_PURCHASE_ITEM' then m.source_id
+              else (select mr.purchase_item_id from erp.material_rolls mr where mr.id=m.source_id) end
+            join erp.material_cost_history h on h.movement_id=m.id
+            where m.material_id=r.material_id and m.movement_type='PURCHASE' and m.qty_signed>0
+              and m.source_type in('MATERIAL_PURCHASE_ITEM','MATERIAL_PURCHASE_ROLL')
+              and not exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=m.id)
+              and (m.physical_at,m.system_created_at,m.id)<(r.physical_at,r.system_created_at,r.id)
+              and (v_prev_id is null or (m.physical_at,m.system_created_at,m.id)>(v_prev_at,v_prev_created,v_prev_id))
+          ) x group by x.purchase_id
+        ) d;
+        v_now:=v_now-v_drift;
+        v_prev_at:=r.physical_at;v_prev_created:=r.system_created_at;v_prev_id:=r.id;
+      end if;
       v_target:=case when v_now is null then round((r.qty_signed*(r.unit_cost_snapshot-coalesce(r.original_unit_cost_snapshot,r.unit_cost_snapshot)))::numeric,2)
         else v_now-sign(r.qty_signed)*v_posted end;
     end if;

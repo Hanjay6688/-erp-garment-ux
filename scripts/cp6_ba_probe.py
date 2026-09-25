@@ -496,6 +496,73 @@ def a4_cents(cur,today,kind,old,new):
     return dict(status=status,kind=kind,old=old,new=new,raw_qty=str(qty),mismatches=mismatch,observed=plain(observed),expected=plain(expected))
 
 
+def second_receipt(cur,first,day,price,kind):
+    """A second receipt of one unit of the same material into the same warehouse on `day` 11:00: FINAL with a supplier invoice
+    number (DIRECT) or ESTIMATED (INVOICE), as the first."""
+    prod=chain.production
+    payload=dict(purchase_number='BA-MULTI-'+uuid.uuid4().hex,supplier_id=prod.prior.BASE_SUPPLIER,location_id=first['location'],
+        physical_at=prod.at(day,11),change_reason='BA multi-receipt cent second receipt',lines=[dict(material_id=first['material'],qty=1,
+        unit_price=price,price_state='FINAL' if kind=='DIRECT' else 'ESTIMATED',price_source='SUPPLIER_INVOICE' if kind=='DIRECT' else 'MANUAL_ESTIMATE',
+        rolls=[dict(roll_number='BA-MULTI-ROLL-'+uuid.uuid4().hex,qty=1)])])
+    if kind=='DIRECT':payload['supplier_invoice_number']='BA-MULTI-INV-'+uuid.uuid4().hex[:12]
+    draft=prod.rpc(cur,'erp.save_material_purchase_draft_v2',payload)
+    purchase=uuid.UUID(draft['purchase_id'])
+    cur.execute('select erp.post_material_purchase_v2(%s,%s,%s,%s)',(purchase,uuid.uuid4(),int(draft['row_version']),'BA multi-receipt second post'))
+    api.admin(cur)
+    item,roll=cur.execute('select i.id,r.id from erp.material_purchase_items i join erp.material_rolls r on r.purchase_item_id=i.id where i.purchase_id=%s',(purchase,)).fetchone()
+    return dict(material=first['material'],location=first['location'],purchase=purchase,item=item,roll=roll)
+
+
+def reprice(cur,fx,kind,day,today,new):
+    """Correction (DIRECT) or late final invoice (INVOICE) of the fixture's one unit to `new`, document date `day`."""
+    prod=chain.production
+    api.admin(cur)
+    if kind=='DIRECT':
+        corr=cur.execute("""insert into erp.material_purchase_cost_corrections(correction_number,purchase_id,invoice_date,reason)
+          values(%s,%s,%s,'BA multi-receipt cent correction') returning id""",('BA-MC-'+uuid.uuid4().hex[:12],fx['purchase'],day)).fetchone()[0]
+        cur.execute('insert into erp.material_purchase_cost_correction_items(correction_id,purchase_item_id,new_unit_price) values(%s,%s,%s)',(corr,fx['item'],new))
+        prod.owner(cur);cur.execute('select erp.post_material_purchase_cost_correction(%s)',(corr,))
+    else:
+        version=int(cur.execute('select row_version from erp.material_purchase_headers where id=%s',(fx['purchase'],)).fetchone()[0])
+        prod.rpc(cur,'erp.finalize_material_purchase_invoice_v2',dict(purchase_id=fx['purchase'],supplier_invoice_number='BA-MINV-'+uuid.uuid4().hex[:12],
+            invoice_date=day,received_at=prod.at(today-timedelta(days=1),15),reason='BA multi-receipt late invoice',
+            lines=[dict(purchase_item_id=fx['item'],qty_invoiced=1,final_unit_price=new)]),uuid.uuid4(),version)
+    api.admin(cur)
+
+
+def a4_multi_cents(cur,today,kind,old,new):
+    """The auditor's G8:MULTI_CENT case (independent audit round 9, W8; GPT run 36097284096): two receipts of one unit each
+    at `old` on d-4 (two documents, same material and warehouse), each roll cut on d-3, each document corrected (DIRECT) or
+    invoiced (INVOICE) at `new` on d-2. Oracle (M:835/M:3820/M:6632): the documents round separately, so from the cut WIP
+    holds the sum of the two rounded documents and the used-up material holds 0."""
+    receipt_day,cutting_day,invoice_day=[today-timedelta(days=n) for n in (4,3,2)]
+    days=[receipt_day,cutting_day,invoice_day,today]
+    boundary.historical.prior.set_open_period(cur,receipt_day-timedelta(days=1))
+    before=daily(cur,days)
+    first=azp.final_receipt(cur,receipt_day,qty=1,price=old) if kind=='DIRECT' else estimated_one(cur,receipt_day,old)
+    api.admin(cur)
+    first['roll']=cur.execute('select id from erp.material_rolls where purchase_item_id=%s',(first['item'],)).fetchone()[0]
+    second=second_receipt(cur,first,receipt_day,old,kind)
+    azp.cut(cur,first,cutting_day,1,8);azp.cut(cur,second,cutting_day,1,9)
+    for fx in (first,second):reprice(cur,fx,kind,invoice_day,today,new)
+    chain.production.owner(cur);cur.execute('select erp.process_cost_recalc_queue(100)');api.admin(cur)
+    after=daily(cur,days)
+    observed={day:{k:after[day][k]-before[day][k] for k in KEYS} for day in after}
+    expected={}
+    for day in days:
+        amount=(cents(new) if day>=invoice_day else cents(old))*2
+        row=dict.fromkeys(KEYS,D('0.00'))
+        row['MATERIAL_INVENTORY' if day<cutting_day else 'WIP']=amount
+        row['AP_SUPPLIER' if kind=='DIRECT' or day>=invoice_day else 'GRNI_MATERIAL']=-amount
+        expected[str(day)]=row
+    qty=D(str(cur.execute('select coalesce(sum(qty_signed),0) from erp.material_stock_movements where material_id=%s',(first['material'],)).fetchone()[0]))
+    mismatch={day:{k:dict(expected=str(expected[day][k]),actual=str(observed[day][k])) for k in KEYS if expected[day][k]!=observed[day][k]} for day in observed}
+    mismatch={day:row for day,row in mismatch.items() if row}
+    status='PASS' if not mismatch and qty==0 else ('FAIL' if ba_installed(cur) else 'COUNTEREXAMPLE')
+    return dict(status=status,kind=kind,old=old,new=new,raw_qty=str(qty),mismatches=mismatch,observed=plain(observed),expected=plain(expected),
+                oracle='sum of the separately rounded documents; used-up material has zero value (no per-receipt tolerance)')
+
+
 def a4_supplier_return_control(cur,today):
     """Control for the whole-cent recost (T2 run 36087253697, CROSS:SUPPLIER_CENT:SPLIT_RETURN): three units received at
     0.015 (value 0.05), returned one by one. The supplier cent state (v2.6.20n) credits 0.02, 0.01, 0.02; the recost must not
@@ -640,6 +707,8 @@ PLAN+=[('A9:S04_TRANSFER_BACK_BEFORE_ARRIVAL_REFUSED','PASS',lambda c,t:s04_tran
 PLAN+=[('A4:CENT_%s_%s'%(kind,direction),'COUNTEREXAMPLE',lambda c,t,k=kind,o=old,n=new:a4_cents(c,t,k,o,n))
        for kind in ('DIRECT','INVOICE') for direction,old,new in (('UP','10.005','10.014'),('DOWN','10.014','10.005'))]
 PLAN+=[('A4:SUPPLIER_RETURN_SPLIT_CONTROL','PASS',a4_supplier_return_control)]
+PLAN+=[('A4:MULTI_CENT_%s_%s'%(kind,label),'COUNTEREXAMPLE',lambda c,t,k=kind,o=o,n=n:a4_multi_cents(c,t,k,o,n))
+       for kind in ('DIRECT','INVOICE') for label,o,n in (('UP','10.00','10.005'),('DOWN','10.01','10.004'))]
 PLAN+=[('A5:BS_OLD_CLAIMABLE_DELIVERY_AFTER_100_NEWER','COUNTEREXAMPLE',a5_bs_sources),
        ('A5:IMPORT_OLDEST_DRAFT_AFTER_51','COUNTEREXAMPLE',a5_import_drafts)]
 PLAN+=[('A6:SECOND_CLOSE_SAME_DATE','COUNTEREXAMPLE',lambda c,t:a6_close(c,t,False)),
