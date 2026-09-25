@@ -1,0 +1,29 @@
+{
+  "phase": "BROWSER_HTTP_ADJUSTMENT",
+  "tool_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
+  "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
+  "files": [
+    {
+      "path": "gpt_browser_fixture.py",
+      "sha256": "87ff3f918a5bfc802623d3471619ad65e8e09f9b25e22dcdb4bb9d3df324bb1a",
+      "bytes": 2980
+    },
+    {
+      "path": "gpt_http_and_adjustment.py",
+      "sha256": "16ed21eda002d40531edd22ebe943ffc595d13ab6a3e053833fde2bb89bd0f43",
+      "bytes": 5511
+    },
+    {
+      "path": "gpt_wib_browser.mjs",
+      "sha256": "8e489094a647e405b5275c90404d063ea836e211323f2c0c3f0938280710dca3",
+      "bytes": 5889
+    },
+    {
+      "path": "../c0_round8/gpt_c0_oracles.py",
+      "sha256": "7c2c19b6e722d325ba902cfd9eb1ae2f98d4e2ec27245070ab485df0af9e66a7",
+      "bytes": 15991
+    }
+  ],
+  "label": "AUDITOR_SCENARIO",
+  "production_go": false
+}

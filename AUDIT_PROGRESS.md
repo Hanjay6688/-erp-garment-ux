@@ -1,5 +1,9 @@
 # CP6 audit — active round 8 checkpoint
 
+## GPT phase3 browser/HTTP prepared
+Native phase2 result24PASS/1INCOMPLETE and T3 cross-review saved3027609. Browser/HTTP plan frozen in out/gpt_browser_oracle_freeze.md; hashes in audit/scenarios/browser_round8/MANIFEST.json. Twelve realbrowser WIB cases,3validHTTP cases,1C0 adjustment transport retry; statusBELUM. Workflow pins same9dd7bc2/a095a9d. No product edits.
+LANGKAH BERIKUTNYA: retrieve run/job triggered by this commit; persist IDs, then per-case results/cleanup; reconcile remainingC6/closeflag/A7A8 and update combined handoff/report. CP6HOLD,production_go=false.
+
 ## GPT phase2 result — 25 September 2026
 Run36098555186/job107955933618 (audit7afd3d6, tool9dd7bc2/producta095a9d): **24 PASS +1 INCOMPLETE**. Eight AS, twelve calendar and four AO fresh money/date oracles PASS. All checked raw journals, daily balance cache and owner financial report by date against independent Decimal amounts; closedE book balances and filed contents preserved. Original twelveHOLD stay historicalHOLD; acceptance applies to NEW C0 cases only. Full per-case proof in out/gpt_c0_run_36098555186.json. Cleanup primaryunchanged=true,clone0.
 
