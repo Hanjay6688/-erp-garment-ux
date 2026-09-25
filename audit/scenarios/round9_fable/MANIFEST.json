@@ -1,0 +1,28 @@
+{
+ "phase": "FABLE_ROUND9_BROWSER_REV2",
+ "tool_head": "d1bc8adff3ba1a2a7001ef39e4819d0c3813d00b",
+ "label": "AUDITOR_SCENARIO",
+ "production_go": false,
+ "files": [
+  {
+   "path": "browser_only.py",
+   "sha256": "bf60eb539e39e20d5493080376b4139ba046aeb78b20dfbe213457793afa24d5",
+   "bytes": 107
+  },
+  {
+   "path": "fable_recovery_browser_rev2.mjs",
+   "sha256": "0088a83ffca5c03407bcde6aa433d5857ab10e2f01a539f2d435df6c567fb7a7",
+   "bytes": 11200
+  },
+  {
+   "path": "fable_wib_pickup_rev2.mjs",
+   "sha256": "76a2a19775da6e97afa7612bb5674193bccaf061b40dd671f24d007490353b2e",
+   "bytes": 6511
+  },
+  {
+   "path": "../browser_round8/gpt_browser_fixture.py",
+   "sha256": "87ff3f918a5bfc802623d3471619ad65e8e09f9b25e22dcdb4bb9d3df324bb1a",
+   "bytes": 2980
+  }
+ ]
+}

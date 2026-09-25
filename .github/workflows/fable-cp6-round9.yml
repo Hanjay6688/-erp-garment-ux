@@ -20,27 +20,27 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - key: unknown_rev6
-          label: W13/W11 rerun on d1bc8ad - GPT unknown_round8 rev6 (Laundry/QC KPI unknown, parser message) (browser mode)
+        - key: recovery_rev2
+          label: W10 rerun on d1bc8ad - Fable rev2 of GPT recovery (Pattern/Role request identity replay, alert locator) (browser mode)
+          proof: auditor
+          dir: round9_fable
+          manifest: MANIFEST.json
+          scenario: browser_only.py
+          browser: fable_recovery_browser_rev2.mjs
+        - key: wib_pickup_rev2
+          label: WIB pickup diagnostic rerun on d1bc8ad - Fable rev2 of GPT WIB browser (pickup only, 4 zones) (browser mode)
+          proof: auditor
+          dir: round9_fable
+          manifest: MANIFEST.json
+          scenario: browser_only.py
+          browser: fable_wib_pickup_rev2.mjs
+        - key: unknown_rev5
+          label: W13 Laundry rerun on d1bc8ad - GPT unknown_round8 rev5 (Laundry+QC healthy control and unknown initial read) (browser mode)
           proof: auditor
           dir: unknown_round8
-          manifest: MANIFEST_rev6.json
+          manifest: MANIFEST_rev5.json
           scenario: browser_only.py
-          browser: gpt_unknown_browser_rev6.mjs
-        - key: recovery
-          label: W10 rerun on d1bc8ad - GPT recovery_round8 (Pattern/Role request identity replay) (browser mode)
-          proof: auditor
-          dir: recovery_round8
-          manifest: MANIFEST.json
-          scenario: browser_only.py
-          browser: gpt_recovery_browser.mjs
-        - key: c0_adjustment_http
-          label: C0 ADJUSTMENT_DATE transport retry + real-Auth HTTP + WIB browser rerun on d1bc8ad - GPT browser_round8
-          proof: auditor
-          dir: browser_round8
-          manifest: MANIFEST.json
-          scenario: gpt_http_and_adjustment.py
-          browser: gpt_wib_browser.mjs
+          browser: gpt_unknown_browser_rev5.mjs
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
       CP6_AC_INDEPENDENT_CONFIRM: postgres
