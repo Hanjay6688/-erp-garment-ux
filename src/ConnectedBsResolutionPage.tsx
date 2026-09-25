@@ -96,6 +96,8 @@ function CreateManualBs({ workspace, canSubmit, onClose, onAction, feedback }: {
   </section></div>
 }
 
+const CLAIM_SOURCE_SEARCH_FROM = 20
+
 function CreateClaim({ workspace, canSubmit, onClose, onAction, feedback }: {
   workspace: BsResolutionWorkspace; canSubmit: boolean; onClose: () => void; onAction: RunAction; feedback: ReactNode
 }) {
@@ -107,10 +109,19 @@ function CreateClaim({ workspace, canSubmit, onClose, onAction, feedback }: {
   const [compensation, setCompensation] = useState('0')
   const [openedAt, setOpenedAt] = useState(nowInput)
   const [reason, setReason] = useState('')
+  const [sourceQuery, setSourceQuery] = useState('')
   const deliverySources = workspace.lookups.laundry_sources.filter((item) => item.qty_claimable_pcs > 0)
   const receiptSources = workspace.lookups.laundry_receipt_sources
   const deliverySource = deliverySources.find((item) => item.id === sourceId)
   const receiptSource = receiptSources.find((item) => item.id === sourceId)
+  // CP6-04: every claimable source is listed (the server no longer cuts the list); a long list gets a search box.
+  const typeSources: { id: string; text: string }[] = claimType === 'DAMAGE'
+    ? receiptSources.map((item) => ({ id: item.id, text: `${item.number} ${item.delivery_number} ${item.vendor_name} ${item.po_number}` }))
+    : deliverySources.map((item) => ({ id: item.id, text: `${item.number} ${item.vendor_name} ${item.po_number}` }))
+  const searchable = typeSources.length > CLAIM_SOURCE_SEARCH_FROM
+  const needle = sourceQuery.trim().toLowerCase()
+  const shownIds = new Set(typeSources.filter((item) => !searchable || !needle || item.id === sourceId
+    || item.text.toLowerCase().includes(needle)).map((item) => item.id))
   const source = claimType === 'DAMAGE' ? receiptSource : deliverySource
   const maxQuantity = claimType === 'DAMAGE'
     ? receiptSource?.qty_claimable_pcs ?? 0
@@ -121,11 +132,12 @@ function CreateClaim({ workspace, canSubmit, onClose, onAction, feedback }: {
     <header><div><span>LAUNDRY EXCEPTION</span><h2 id="new-claim-title">Buat claim Laundry</h2><p>Stuck/Missing mengikuti surat kirim; Damage wajib mengikuti baris penerimaan BS. Vendor dan PO tidak diketik ulang.</p></div><button aria-label="Tutup" onClick={onClose}><X/></button></header>
     {feedback}
     <div className="cbsr-form-grid">
-      <label className="wide"><span>{claimType === 'DAMAGE' ? 'BARIS PENERIMAAN BS' : 'SURAT KIRIM'}</span><select value={sourceId} onChange={(event) => { setSourceId(event.target.value); setQuantity('') }}><option value="">Pilih sumber…</option>{claimType === 'DAMAGE' ? receiptSources.map((item) => <option value={item.id} key={item.id}>{item.number} · {item.delivery_number} · {item.vendor_name} · {item.qty_claimable_pcs}/{item.qty_bs_laundry} pcs bisa diclaim</option>) : deliverySources.map((item) => <option value={item.id} key={item.id}>{item.number} · {item.vendor_name} · {item.po_number} · {item.qty_claimable_pcs} pcs outstanding</option>)}</select>{(claimType === 'DAMAGE' ? receiptSources : deliverySources).length === 0 ? <small className="cbsr-field-warning">Belum ada sumber fisik yang masih memiliki kapasitas claim jenis ini.</small> : null}</label>
+      {searchable ? <label className="wide"><span>CARI SUMBER · {shownIds.size} DARI {typeSources.length}</span><input type="search" aria-label="Cari sumber claim" value={sourceQuery} onChange={(event) => setSourceQuery(event.target.value)} placeholder="Nomor surat kirim/penerimaan, vendor, atau PO"/></label> : null}
+      <label className="wide"><span>{claimType === 'DAMAGE' ? 'BARIS PENERIMAAN BS' : 'SURAT KIRIM'}</span><select value={sourceId} onChange={(event) => { setSourceId(event.target.value); setQuantity('') }}><option value="">Pilih sumber…</option>{claimType === 'DAMAGE' ? receiptSources.filter((item) => shownIds.has(item.id)).map((item) => <option value={item.id} key={item.id}>{item.number} · {item.delivery_number} · {item.vendor_name} · {item.qty_claimable_pcs}/{item.qty_bs_laundry} pcs bisa diclaim</option>) : deliverySources.filter((item) => shownIds.has(item.id)).map((item) => <option value={item.id} key={item.id}>{item.number} · {item.vendor_name} · {item.po_number} · {item.qty_claimable_pcs} pcs outstanding</option>)}</select>{(claimType === 'DAMAGE' ? receiptSources : deliverySources).length === 0 ? <small className="cbsr-field-warning">Belum ada sumber fisik yang masih memiliki kapasitas claim jenis ini.</small> : null}</label>
       <label><span>NOMOR CLAIM</span><input value={number} onChange={(event) => setNumber(event.target.value)} placeholder="CLM-LDR-…"/></label>
       <label><span>JENIS</span><select value={claimType} onChange={(event) => {
         const next = event.target.value as ClaimType
-        setClaimType(next); setQuantity('')
+        setClaimType(next); setQuantity(''); setSourceQuery('')
         setSourceId(next === 'DAMAGE'
           ? workspace.lookups.laundry_receipt_sources[0]?.id ?? ''
           : workspace.lookups.laundry_sources.find((item) => item.qty_claimable_pcs > 0)?.id ?? '')

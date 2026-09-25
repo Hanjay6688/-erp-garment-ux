@@ -713,3 +713,63 @@ describe('BS physical time is sent as the WIB wall clock on every device (CP6-01
     expect(rpc.mock.calls.filter(([name]) => name === 'erp_save_bs_resolution_action_v1')).toHaveLength(0)
   })
 })
+
+describe('every claimable Laundry source stays selectable (CP6-04)', () => {
+  it('lists 101 claimable deliveries, finds the oldest by search and claims against it', async () => {
+    const response = workspace()
+    response.lookups.laundry_sources = Array.from({ length: 101 }, (_, n) => ({
+      id: `delivery-${n}`, number: `LDR-${String(n).padStart(3, '0')}`, vendor_id: 'vendor-1', vendor_name: 'Laundry A',
+      po_number: `PO-${n}`, physical_at: new Date(Date.UTC(2026, 8, 20) - n * 86_400_000).toISOString(), qty_sent_pcs: 5, qty_claimable_pcs: 5,
+    }))
+    const rpc = vi.fn(async (name: string, args?: Record<string, unknown>) => {
+      if (name === 'erp_list_patterns_v1') return { data: patterns, error: null }
+      if (name === 'erp_get_bs_resolution_workspace_v1') return { data: response, error: null }
+      if (name === 'erp_save_bs_resolution_action_v1') return { data: { action: args?.p_action, result: { status: 'OPEN', row_version: 1 } }, error: null }
+      throw new Error(`Unexpected RPC ${name}`)
+    })
+    mockedClient.current = { rpc }
+    authState.current = identity([
+      'production.bs_rework.view', 'production.bs_rework.create',
+      'production.bs_rework.post', 'production.bs_rework.reverse', 'master.pattern.view',
+    ])
+    await renderPage()
+    const claimButton = [...container.querySelectorAll<HTMLButtonElement>('button')]
+      .find((button) => button.textContent?.includes('Claim Laundry'))!
+    await act(async () => { claimButton.click() })
+    const modal = container.querySelector<HTMLElement>('.cbsr-modal-layer')!
+    const sourceSelect = [...modal.querySelectorAll<HTMLSelectElement>('select')]
+      .find((select) => [...select.options].some((option) => option.value === 'delivery-0'))!
+    expect(sourceSelect.options).toHaveLength(102)
+    expect([...sourceSelect.options].some((option) => option.value === 'delivery-100')).toBe(true)
+    const search = modal.querySelector<HTMLInputElement>('input[aria-label="Cari sumber claim"]')!
+    await act(async () => { setControlValue(search, 'ldr-100') })
+    expect([...sourceSelect.options].map((option) => option.value)).toEqual(['', 'delivery-0', 'delivery-100'])
+    await act(async () => { setControlValue(sourceSelect, 'delivery-100') })
+    await act(async () => {
+      setControlValue(modal.querySelector<HTMLInputElement>('input[placeholder="CLM-LDR-…"]')!, 'CLM-OLDEST')
+      setControlValue(modal.querySelector<HTMLInputElement>('input[inputmode="numeric"]')!, '5')
+      setControlValue(modal.querySelector<HTMLTextAreaElement>('textarea')!, 'Lima barang lama belum kembali')
+    })
+    const save = [...modal.querySelectorAll<HTMLButtonElement>('button')].find((button) => button.textContent?.includes('Simpan claim'))!
+    expect(save.disabled).toBe(false)
+    await act(async () => { save.click() })
+    await settle()
+    const sent = rpc.mock.calls.find(([name]) => name === 'erp_save_bs_resolution_action_v1')![1] as { p_payload: Record<string, unknown> }
+    expect(sent.p_payload).toMatchObject({ delivery_id: 'delivery-100', qty_claimed: 5, claim_type: 'STUCK', claim_number: 'CLM-OLDEST' })
+  })
+
+  it('shows no search box for a short list', async () => {
+    const rpc = vi.fn(async (name: string) => {
+      if (name === 'erp_list_patterns_v1') return { data: patterns, error: null }
+      if (name === 'erp_get_bs_resolution_workspace_v1') return { data: workspace(), error: null }
+      throw new Error(`Unexpected RPC ${name}`)
+    })
+    mockedClient.current = { rpc }
+    authState.current = identity(['production.bs_rework.view', 'production.bs_rework.create', 'master.pattern.view'])
+    await renderPage()
+    const claimButton = [...container.querySelectorAll<HTMLButtonElement>('button')]
+      .find((button) => button.textContent?.includes('Claim Laundry'))!
+    await act(async () => { claimButton.click() })
+    expect(container.querySelector('input[aria-label="Cari sumber claim"]')).toBeNull()
+  })
+})

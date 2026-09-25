@@ -2,7 +2,7 @@
 """Build the BA T1 family install: product fixes from the independent CP6 audit (writer handoff 25 Sep 2026) and the owner
 decisions D02 and D03 (OWNER_CONFIRMED_CHAT, 25 Sep 2026, option A).
 
-Every function is taken from the definition the chain currently runs (AR, AP, AV migrations; AW and AZ T1 files) with
+Every function is taken from the definition the chain currently runs (AR, AP, AV and CP5 19 migrations; AW and AZ T1 files) with
 checked substitutions only, like the AY and AZ builders:
   A1 (CP6-09, P1) erp.post_opening_balance: an import batch may not post an opening item that another import batch already
      posted with the same identity. AR compared only import with legacy (the XOR on migration_batch_id), so two import
@@ -38,6 +38,12 @@ checked substitutions only, like the AY and AZ builders:
      (a one-unit correction no longer leaves 0.01 in inventory). Reversed movements keep AZ rev2.1's rule.
   A6 (CP6-24) erp.close_accounting_through: closing the date that is already closed is refused (filings are immutable, a
      second close would file twice); a close after a reopen stays allowed.
+  A5 (CP6-04) selectors: erp.get_bs_resolution_workspace_v1 lists every Laundry source that can still be claimed or used
+     (deliveries without capacity are left out before any ordering; no 100-row cut), erp.get_initial_import_workspace_v1
+     lists every batch not posted yet with the latest 50, and the open payrolls and advance targets of a batch in full.
+     The pages keep their public facades and get a search box for long lists. Reviewed without change: the pocket rolls,
+     materials and history and the accessory materials and history are searched on the server with a total count; the
+     pocket periods list (newest 50) is an allocation history, not an open-item selector.
 Label T1_FAMILY: development install on the disposable chain AN -> AU -> AV -> AW -> AX -> AY -> AZ, not a release package.
 
 Usage: python3 scripts/cp6_ba_build.py            # writes supabase/dev/cp6_ba_t1_family.sql
@@ -50,6 +56,7 @@ ROOT=Path(__file__).resolve().parents[1]
 AR=ROOT/'supabase/migrations/20260922185015_erp_v2_6_20ar_cp6_opening_overlap.sql'
 AP=ROOT/'supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql'
 AV=ROOT/'supabase/migrations/20260923110000_erp_v2_6_20av_cp6_identity_new_stock_cutoff.sql'
+CP5=ROOT/'supabase/migrations/20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.sql'
 AW=ROOT/'supabase/dev/cp6_aw_t1_family.sql'
 AZ=ROOT/'supabase/dev/cp6_az_t1_family.sql'
 OUT=ROOT/'supabase/dev/cp6_ba_t1_family.sql'
@@ -235,6 +242,41 @@ end;$function$;
 revoke all on function erp.initial_prepayment_dated_floor_v1(uuid,date) from public,anon,authenticated,service_role;
 """
 
+# ---------------------------------------------------------------- A5 selectors (CP6-04)
+# BS Resolution lookups (CP5 erp.get_bs_resolution_workspace_v1): the sources that can still be claimed or used are open
+# items, so all of them are listed (no 100-row cut; a delivery without capacity is left out before any ordering). The
+# page keeps its two public facades; a long list gets a search box in the page.
+BS_HEAD='create function erp.get_bs_resolution_workspace_v1('
+BS_DELIVERY_OLD="""          where d.status in('SENT','PARTIAL_RETURN','RETURNED','CLOSED')
+          group by d.id,d.delivery_number,d.vendor_id,v.vendor_name,po.po_number,d.physical_at
+          order by d.physical_at desc,d.id limit 100
+        ) s),'[]'::jsonb),"""
+BS_DELIVERY_NEW="""          where d.status in('SENT','PARTIAL_RETURN','RETURNED','CLOSED')
+          group by d.id,d.delivery_number,d.vendor_id,v.vendor_name,po.po_number,d.physical_at
+        ) s where s.qty_claimable_pcs>0),'[]'::jsonb),"""
+BS_RECEIPT_OLD="""          order by r.physical_at desc,r.id desc,rl.id desc limit 100
+        ) s where s.qty_claimable_pcs>0),'[]'::jsonb),"""
+BS_RECEIPT_NEW="""        ) s where s.qty_claimable_pcs>0),'[]'::jsonb),"""
+BS_SETTLED_OLD="""          order by c.resolved_at desc,c.id desc limit 100
+        ) s where s.available_qty>0 and s.available_amount>0),'[]'::jsonb)"""
+BS_SETTLED_NEW="""        ) s where s.available_qty>0 and s.available_amount>0),'[]'::jsonb)"""
+# Initial import workspace (AP erp.get_initial_import_workspace_v1): every batch not posted yet stays listed with the
+# latest 50 of any status; the open payrolls and the open advance targets of a batch are listed in full.
+IMPORT_HEAD='CREATE OR REPLACE FUNCTION erp.get_initial_import_workspace_v1(p_batch_id uuid DEFAULT NULL)'
+IMPORT_RECENT_OLD=""" return jsonb_build_object('batch',v_batch,'recent',coalesce((select jsonb_agg(x order by x.created_at desc,x.id)
+   from (select id,batch_code,status,cutover_at,created_at from erp.migration_batches
+     order by created_at desc,id limit 50) x),'[]'::jsonb));"""
+IMPORT_RECENT_NEW=""" -- BA (audit A5, CP6-04): every batch not posted yet stays listed (an older editable draft is never cut off), with
+ -- the latest 50 of any status.
+ return jsonb_build_object('batch',v_batch,'recent',coalesce((select jsonb_agg(x order by x.created_at desc,x.id)
+   from (select id,batch_code,status,cutover_at,created_at from erp.migration_batches where status<>'POSTED'
+     union select * from (select id,batch_code,status,cutover_at,created_at from erp.migration_batches
+       order by created_at desc,id limit 50) latest) x),'[]'::jsonb));"""
+IMPORT_PAYROLL_OLD="""       order by p.period_end,p.id limit 100) x),'[]'::jsonb),"""
+IMPORT_PAYROLL_NEW="""       ) x),'[]'::jsonb),"""
+IMPORT_TARGET_OLD="""         select * from erp.initial_prepayment_targets_v1(a.id) where remaining_amount::numeric>0 order by target_date,id limit 100) t),'[]'::jsonb),"""
+IMPORT_TARGET_NEW="""         select * from erp.initial_prepayment_targets_v1(a.id) where remaining_amount::numeric>0) t),'[]'::jsonb),"""
+
 # ---------------------------------------------------------------- AV coverage registry (erp.assert_new_stock_cutoff_coverage_v1)
 # The AV guard refuses any product reference it has not classified; the A10 provenance table adds two. Both are derived
 # records of an opening WIP output: the stock fact is the output's fg_lots lot (class NEW_STOCK_FACT already).
@@ -305,7 +347,8 @@ alter table erp.initial_import_wip_output_identity_v1 enable row level security;
 revoke all on erp.initial_import_wip_output_identity_v1 from public,anon,authenticated,service_role;"""
 
 REPLACED=['erp.post_opening_balance(uuid)','erp.complete_initial_import_wip_v1(jsonb)','erp.manage_initial_prepayment_v1(jsonb)',
-          'erp.sync_material_cost_revaluation(uuid)','erp.close_accounting_through(date,text)','erp.assert_new_stock_cutoff_coverage_v1()']
+          'erp.sync_material_cost_revaluation(uuid)','erp.close_accounting_through(date,text)','erp.assert_new_stock_cutoff_coverage_v1()',
+          'erp.get_bs_resolution_workspace_v1(text,text,uuid,text,integer,integer)','erp.get_initial_import_workspace_v1(uuid)']
 NEW_FUNCTIONS=['erp.initial_prepayment_dated_floor_v1(uuid,date)']
 NEW_TABLES=['initial_import_wip_output_identity_v1']
 
@@ -328,15 +371,18 @@ def build():
                               (WIP_AT_OLD,WIP_AT_NEW),(WIP_OUTPUT_OLD,WIP_OUTPUT_NEW)])
     advance=function(AP,ADV_HEAD,[(ADV_OLD,ADV_NEW)])
     cover=function(AV,COVER_HEAD,[(COVER_OLD,COVER_NEW)])
+    bs=function(CP5,BS_HEAD,[(BS_DELIVERY_OLD,BS_DELIVERY_NEW),(BS_RECEIPT_OLD,BS_RECEIPT_NEW),(BS_SETTLED_OLD,BS_SETTLED_NEW)])
+    bs='CREATE OR REPLACE FUNCTION'+bs[len('create function'):]
+    imports=function(AP,IMPORT_HEAD,[(IMPORT_RECENT_OLD,IMPORT_RECENT_NEW),(IMPORT_PAYROLL_OLD,IMPORT_PAYROLL_NEW),(IMPORT_TARGET_OLD,IMPORT_TARGET_NEW)])
     reval=function(AZ,REVAL_HEAD,[(REVAL_DECLARE_OLD,REVAL_DECLARE_NEW),(REVAL_OLD,REVAL_NEW)])
     close=function(AW,CLOSE_HEAD,[(CLOSE_OLD,CLOSE_NEW)])
     parts=['-- CP6 BA audit closure (writer handoff 25 Sep 2026, owner D02/D03): T1_FAMILY development install (NOT a release package).',
-           '-- Generated by scripts/cp6_ba_build.py from the AR/AP/AV migrations and the AW/AZ T1 files; do not edit by hand.',
+           '-- Generated by scripts/cp6_ba_build.py from the AR/AP/AV/CP5-19 migrations and the AW/AZ T1 files; do not edit by hand.',
            'begin;',"set local lock_timeout='10s';set local statement_timeout='240s';set local search_path='';",
            'do $t1_guard$','begin',
            " if (select count(*) from erp.schema_migrations where version in('v2.6.20av','v2.6.20aw','v2.6.20ax','v2.6.20ay','v2.6.20az'))<>5 then raise exception 'BA_T1_REQUIRES_AV_AW_AX_AY_AZ'; end if;",
            f" if exists(select 1 from erp.schema_migrations where version='{VERSION}') or to_regclass('erp.initial_import_wip_output_identity_v1') is not null then raise exception 'BA_T1_ALREADY_INSTALLED'; end if;",
-           'end $t1_guard$;',SCHEMA,FLOOR.rstrip('\n'),opening,wip,advance,reval,close,cover,
+           'end $t1_guard$;',SCHEMA,FLOOR.rstrip('\n'),opening,wip,advance,reval,close,cover,bs,imports,
            'do $coverage$ begin perform erp.assert_new_stock_cutoff_coverage_v1(); end $coverage$;',
            f"insert into erp.schema_migrations(version,description) values('{VERSION}',"
            "'T1_FAMILY development install of BA (CP6 audit closure: import identity, dated WIP remaining, WIP product binding, dated advance and stock capacity, recost cents, single close filing); not a release package');",'commit;','']

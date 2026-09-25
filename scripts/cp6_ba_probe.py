@@ -22,6 +22,8 @@ never from observed behaviour:
      both phases (regression control); after the arrival it posts.
   A4 (CP6-03, auditor BLIND-MONEY-CENT cases, M:3816-3825) one unit received, cut, then corrected or invoiced 10.005 <-> 10.014:
      material inventory must be 0.00 at zero stock and WIP the endpoint-rounded unit (10.01, half away from zero).
+  A5 (CP6-04, auditor XA2/XI selector cases) an old claimable Laundry delivery after 100 newer ones, and the oldest of 51
+     import drafts, were missing from what the pages can select. Expected: both listed.
   A6 (CP6-24) a second close of the date already closed filed twice. Expected: refused CLOSE_ALREADY_CLOSED with one filing;
      a close after a reopen still files.
 Phase 'before' must show every finding (COUNTEREXAMPLE) and pass every control; phase 'after' must pass every case. A
@@ -86,7 +88,9 @@ def install_ba():
 # ---------------------------------------------------------------- shared outcome rules
 
 def code_of(error):
-    return ((error or {}).get('message') or '').split(':')[0]
+    """The product code a refusal message starts with ('BA_X: ...', 'AM_X for material ...')."""
+    m=re.match(r'[A-Z][A-Z0-9_]+',(error or {}).get('message') or '')
+    return m.group(0) if m else ''
 
 
 def finding(cur,code,result,error,harm,**evidence):
@@ -491,6 +495,59 @@ def a4_cents(cur,today,kind,old,new):
     return dict(status=status,kind=kind,old=old,new=new,raw_qty=str(qty),mismatches=mismatch,observed=plain(observed),expected=plain(expected))
 
 
+# ---------------------------------------------------------------- A5 selectors
+
+def a5_bs_sources(cur,today):
+    """The auditor's XA2 selector case (F1-15/CP6-04): one old claimable Laundry delivery and 100 newer claimable ones.
+    Privileged fixture, as the auditor's: clones of a posted seed delivery and its lines, inserted with triggers off
+    (session_replication_role=replica) on the disposable clone; the selector is read through the public facade as the page
+    reads it. Expected: the old delivery is among the claimable sources the workspace gives the page."""
+    api.admin(cur)
+    src=cur.execute("""select d.id from erp.laundry_deliveries d where d.status in('SENT','PARTIAL_RETURN','RETURNED','CLOSED')
+      and exists(select 1 from erp.laundry_delivery_lines l where l.delivery_id=d.id and l.qty_sent_pcs>0) order by d.physical_at,d.id limit 1""").fetchone()
+    if src is None:return dict(status='INCOMPLETE',reason='no posted seed Laundry delivery to clone')
+    made=[]
+    cur.execute("set local session_replication_role=replica")
+    try:
+        for n in range(101):
+            new=uuid.uuid4();at=chain.production.at(today-timedelta(days=200 if n==0 else 1),8)+timedelta(minutes=n)
+            cur.execute("""insert into erp.laundry_deliveries select (jsonb_populate_record(null::erp.laundry_deliveries,to_jsonb(d)||jsonb_build_object(
+                'id',%s::uuid,'delivery_number',%s::text,'physical_at',%s::timestamptz,'status','SENT'))).* from erp.laundry_deliveries d where d.id=%s""",
+                (new,'BA5-LDR-%03d-%s'%(n,new.hex[:8]),at,src[0]))
+            cur.execute("""insert into erp.laundry_delivery_lines select (jsonb_populate_record(null::erp.laundry_delivery_lines,to_jsonb(l)||jsonb_build_object(
+                'id',gen_random_uuid(),'delivery_id',%s::uuid))).* from erp.laundry_delivery_lines l where l.delivery_id=%s""",(new,src[0]))
+            made.append(str(new))
+    finally:
+        cur.execute("set local session_replication_role=origin")
+    api.ordinary(cur)
+    ws=cur.execute("select public.erp_get_bs_resolution_workspace_v1('ACTIVE','ALL',null,null,50,0)").fetchone()[0]
+    api.admin(cur)
+    sources={s['id']:s for s in ws['lookups']['laundry_sources']}
+    old=sources.get(made[0])
+    evidence=dict(clones=len(made),listed=len(sources),old_listed=old is not None,old=old,
+                  newer_listed=sum(1 for m in made[1:] if m in sources),
+                  zero_capacity_listed=sum(1 for s in sources.values() if s['qty_claimable_pcs']<=0))
+    ok=old is not None and old['qty_claimable_pcs']>0 and evidence['newer_listed']==100
+    return dict(evidence,status='PASS' if ok else ('FAIL' if ba_installed(cur) else 'COUNTEREXAMPLE'),
+                oracle='CP6-04: an old source that can still be claimed stays selectable after 100 newer ones')
+
+
+def a5_import_drafts(cur,today):
+    """The auditor's XI selector case (CP6-04): 51 drafts created through the public CREATE action. Expected: the oldest
+    editable draft is listed by the workspace the page reads."""
+    ids=[]
+    for n in range(51):
+        ids.append(str(api.call(cur,'CREATE',dict(batch_code='BA5-%02d-%s'%(n,uuid.uuid4().hex[:8]),cutover_date=str(today-timedelta(days=1))))['batch_id']))
+    api.admin(cur)
+    ordered=[r[0] for r in cur.execute('select id::text from erp.migration_batches where id=any(%s::uuid[]) order by created_at desc,id',(ids,)).fetchall()]
+    listed=[str(r['id']) for r in api.read(cur,None)['recent']]
+    oldest=ordered[-1]
+    ok=oldest in listed and all(i in listed for i in ids)
+    return dict(status='PASS' if ok else ('FAIL' if ba_installed(cur) else 'COUNTEREXAMPLE'),created=len(ids),listed=len(listed),
+                oldest_listed=oldest in listed,authored_listed=sum(1 for i in ids if i in listed),
+                oracle='CP6-04: an older editable draft stays discoverable after 51 drafts')
+
+
 # ---------------------------------------------------------------- A6 single close filing
 
 def filings(cur,day):
@@ -550,6 +607,8 @@ PLAN+=[('A9:S04_TRANSFER_BACK_BEFORE_ARRIVAL_REFUSED','PASS',lambda c,t:s04_tran
        ('A9:S04_TRANSFER_BACK_AFTER_ARRIVAL_CONTROL','PASS',lambda c,t:s04_transfer_back(c,t,False))]
 PLAN+=[('A4:CENT_%s_%s'%(kind,direction),'COUNTEREXAMPLE',lambda c,t,k=kind,o=old,n=new:a4_cents(c,t,k,o,n))
        for kind in ('DIRECT','INVOICE') for direction,old,new in (('UP','10.005','10.014'),('DOWN','10.014','10.005'))]
+PLAN+=[('A5:BS_OLD_CLAIMABLE_DELIVERY_AFTER_100_NEWER','COUNTEREXAMPLE',a5_bs_sources),
+       ('A5:IMPORT_OLDEST_DRAFT_AFTER_51','COUNTEREXAMPLE',a5_import_drafts)]
 PLAN+=[('A6:SECOND_CLOSE_SAME_DATE','COUNTEREXAMPLE',lambda c,t:a6_close(c,t,False)),
        ('A6:CLOSE_AGAIN_AFTER_REOPEN_CONTROL','PASS',lambda c,t:a6_close(c,t,True))]
 assert len({k for k,_,_ in PLAN})==len(PLAN),'BA_DUPLICATE_CASE_ID'

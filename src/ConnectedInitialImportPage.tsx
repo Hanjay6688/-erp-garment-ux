@@ -183,6 +183,9 @@ function PrepaymentBalances({ batch, locked, manage }: { batch: Batch; locked: b
   </section>
 }
 
+// CP6-04: every editable batch is listed (the server no longer cuts open drafts); a long list gets a search box.
+const BATCH_SEARCH_FROM = 20
+
 export default function ConnectedInitialImportPage() {
   const { runtime, identity } = useAuth()
   if (!isConnectedRuntime(runtime) || identity.status !== 'AUTHORIZED') return <section className="panel initial-import"><h1>Impor data awal</h1><p>Masuk ke ERP yang tersambung untuk mengunggah dan memeriksa data awal.</p></section>
@@ -201,6 +204,7 @@ function ImportWorkspace() {
   const [editor, setEditor] = useState<InitialImportRow[] | null>(null)
   const [filename, setFilename] = useState('Perbaikan di aplikasi')
   const [code, setCode] = useState('')
+  const [batchQuery, setBatchQuery] = useState('')
   const [date, setDate] = useState('')
   const [page, setPage] = useState(0)
   const [error, setError] = useState('')
@@ -274,7 +278,8 @@ function ImportWorkspace() {
     <ProductionRecoveryNotice recovery={mutation} onReconcile={() => reconcile(handlers)} className="initial-import-message"/>
     {error && <p role="alert" className="initial-import-message">{error}</p>}
     <div className="panel initial-import-toolbar">
-      <label>Batch impor<select aria-label="Batch impor" disabled={locked || Boolean(editor)} value={batch?.id ?? ''} onChange={(event) => { batchId.current = event.target.value || null; setPage(0); void load() }}><option value="">Buat batch baru</option>{workspace?.recent.map((item) => <option key={item.id} value={item.id}>{item.batch_code} · {item.status}</option>)}</select></label>
+      {(workspace?.recent.length ?? 0) > BATCH_SEARCH_FROM && <label>Cari batch<input type="search" aria-label="Cari batch impor" value={batchQuery} disabled={locked || Boolean(editor)} onChange={(event) => setBatchQuery(event.target.value)} placeholder="Kode atau status batch"/></label>}
+      <label>Batch impor<select aria-label="Batch impor" disabled={locked || Boolean(editor)} value={batch?.id ?? ''} onChange={(event) => { batchId.current = event.target.value || null; setPage(0); void load() }}><option value="">Buat batch baru</option>{workspace?.recent.filter((item) => item.id === batch?.id || (workspace.recent.length ?? 0) <= BATCH_SEARCH_FROM || !batchQuery.trim() || `${item.batch_code} ${item.status}`.toLowerCase().includes(batchQuery.trim().toLowerCase())).map((item) => <option key={item.id} value={item.id}>{item.batch_code} · {item.status}</option>)}</select></label>
       {!batch && <><label>Kode batch<input value={code} disabled={locked} maxLength={60} onChange={(event) => setCode(event.target.value)} placeholder="SALDO-AWAL-2026"/></label><label>Tanggal saldo awal<input type="date" value={date} disabled={locked} onChange={(event) => setDate(event.target.value)}/></label><button type="button" disabled={locked || !date || !code.trim()} onClick={() => void act('CREATE', { batch_code: code.trim(), cutover_date: date })}>Buat draft</button></>}
       {batch && <div><strong>{batch.code}</strong><p>{new Intl.DateTimeFormat('id-ID', { dateStyle: 'long', timeZone: 'Asia/Jakarta' }).format(new Date(batch.cutover_at))} · {posted ? 'Sudah disahkan' : 'Draft'} · {batch.rows.length} baris</p></div>}
     </div>

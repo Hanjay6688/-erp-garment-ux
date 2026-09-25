@@ -196,3 +196,21 @@ describe('opening WIP continuation',()=>{
   expect(()=>parseInitialImportWorkspace({recent:[],batch})).toThrow('tidak terbaca lengkap')
  })
 })
+describe('every editable import batch stays selectable (CP6-04)',()=>{
+ it('lists 60 batches and finds the oldest draft by search',async()=>{
+  const recent=Array.from({length:60},(_,n)=>({id:`00000000-0000-4000-8000-${String(n).padStart(12,'0')}`,batch_code:`AWAL-${String(n).padStart(2,'0')}`,status:'DRAFT'}))
+  client.rpc.mockImplementation(async(name:string,args:Record<string,unknown>)=>{
+   if(name!=='erp_get_initial_import_workspace_v1')throw new Error('Unexpected RPC '+name)
+   const b=recent.find(r=>r.id===args.p_batch_id)
+   return {data:{recent,batch:b?{id:b.id,code:b.batch_code,status:'DRAFT',cutover_at:'2026-09-20T00:00:00+07:00',revision:rev(1),rows:[],cash_advances:[],advance_payrolls:[],prepayments:[],prepayment_cash_accounts:[],production_sources:[]}:null},error:null}
+  })
+  await act(async()=>root.render(<ConnectedInitialImportPage/>));await flush()
+  const select=container.querySelector<HTMLSelectElement>('select[aria-label="Batch impor"]')!
+  expect(select.options).toHaveLength(61)
+  await change(container.querySelector<HTMLInputElement>('input[aria-label="Cari batch impor"]')!,'awal-59')
+  expect([...select.options].map(o=>o.textContent)).toEqual(['Buat batch baru','AWAL-59 · DRAFT'])
+  await change(select,recent[59].id)
+  expect(client.rpc.mock.calls.at(-1)?.[1]).toEqual({p_batch_id:recent[59].id})
+  expect(container.textContent).toContain('AWAL-59')
+ })
+})
