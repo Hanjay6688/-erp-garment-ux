@@ -1,0 +1,9 @@
+# BA package rollback cycle, audit run 36126986327
+
+- Run https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36126986327; sole job `108045271455` SUCCESS; artifact `10860512040`; trigger `4835dfbed13ce5dd613bd7203b3019d414be3905`. Exact writer head `d1bc8adff3ba1a2a7001ef39e4819d0c3813d00b`, product_ref `61d88ee5224b2fb2da2af6f4df214fbaacf9f161`. Workflow SHA256 `dbc97a487251650b437f284c1d441d040892dd875fa5e9d9aa576aea5afabc2f`, disposable release clone, no hosted writes.
+- Native `t3_rollback`: mode `cycle`, status `PASS`, `primary_unchanged=true`, error=null, `production_go=false`, release_evidence=false.
+- **127/127 PASS**, all exact IDs and native statuses in `out/gpt_r9_rollback_cases.json`. Composition: rollback files rebuilt identically1, package installed1, four fail-closed order/admission refusals, 51 cycle predecessor restoration checks (25 first pass+25 second pass+1 boundary), 20 original rollback file refusals on release chain, 25 reinstallation equal-to-first checks, 25 post-use refusals.
+- 25 post-use tests each post the same **CUSTOMER_RECEIVABLE 17.25** after installation, then assert rollback refuses and business data/catalog unchanged. This proves that workload only, not every transaction/state in ALL22, C6 or concurrent cutover. The original AC..AV scripts refusing the new release chain are expected, since the release uses its own rollback files.
+- Scope: BA **only**. New writer BB and future BC–BE need fresh T1/T2/T3/rollback tests at their own exact head. CP6 HOLD, audit_complete=false, production_go=false.
+
+**Next:** use pinned independent BB scenario `audit/scenarios/r9_bb_independent.py` and workflow draft to run on original writer BB 72bf53f, after recording this rollback completion. Its strip of duplicate display field is tool-only; one added case checks 70 debit AR / 170 credit equity on a fixture also importing bank100.

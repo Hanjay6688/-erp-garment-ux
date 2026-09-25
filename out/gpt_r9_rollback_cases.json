@@ -1,0 +1,615 @@
+{
+  "schema": "CP6_T3_ROLLBACK_CYCLE_CASES_V1",
+  "run_id": 36126986327,
+  "job_id": 108045271455,
+  "trigger": "4835dfbed13ce5dd613bd7203b3019d414be3905",
+  "tool_head": "d1bc8adff3ba1a2a7001ef39e4819d0c3813d00b",
+  "cases": [
+    {
+      "check": "ROLLBACK_FILES_REBUILT_IDENTICALLY",
+      "status": "PASS"
+    },
+    {
+      "check": "PACKAGE_INSTALLED",
+      "status": "PASS"
+    },
+    {
+      "check": "REFUSED_OUT_OF_ORDER_AZ_WHILE_BA_INSTALLED",
+      "status": "PASS",
+      "expected": "AZ_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+      "changed": {}
+    },
+    {
+      "check": "REFUSED_OUT_OF_ORDER_AV_WHILE_BA_INSTALLED",
+      "status": "PASS",
+      "expected": "AV_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+      "changed": {}
+    },
+    {
+      "check": "REFUSED_OUT_OF_ORDER_AC_WHILE_BA_INSTALLED",
+      "status": "PASS",
+      "expected": "AC_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+      "changed": {}
+    },
+    {
+      "check": "REFUSED_OPEN_ADMISSION",
+      "status": "PASS",
+      "expected": "PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE",
+      "changed": {}
+    },
+    {
+      "check": "CYCLE_1_ROLLBACK_BA_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_1_ROLLBACK_AZ_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_1_ROLLBACK_AY_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_1_ROLLBACK_AX_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_1_ROLLBACK_AW_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "ORIGINAL_AV_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+      "status": "PASS",
+      "expected": "AV_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+      "changed": {}
+    },
+    {
+      "check": "CYCLE_1_ROLLBACK_AV_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "ORIGINAL_AU_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+      "status": "PASS",
+      "expected": "AU_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+      "changed": {}
+    },
+    {
+      "check": "CYCLE_1_ROLLBACK_AU_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "ORIGINAL_AT_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+      "status": "PASS",
+      "expected": "AT_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+      "changed": {}
+    },
+    {
+      "check": "CYCLE_1_ROLLBACK_AT_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "ORIGINAL_AS_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+      "status": "PASS",
+      "expected": "AS_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+      "changed": {}
+    },
+    {
+      "check": "CYCLE_1_ROLLBACK_AS_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "ORIGINAL_AR_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+      "status": "PASS",
+      "expected": "AR_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+      "changed": {}
+    },
+    {
+      "check": "CYCLE_1_ROLLBACK_AR_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "ORIGINAL_AQ_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+      "status": "PASS",
+      "expected": "AQ_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+      "changed": {}
+    },
+    {
+      "check": "CYCLE_1_ROLLBACK_AQ_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "ORIGINAL_AP_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+      "status": "PASS",
+      "expected": "AP_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+      "changed": {}
+    },
+    {
+      "check": "CYCLE_1_ROLLBACK_AP_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "ORIGINAL_AO_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+      "status": "PASS",
+      "expected": "AO_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+      "changed": {}
+    },
+    {
+      "check": "CYCLE_1_ROLLBACK_AO_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "ORIGINAL_AN_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+      "status": "PASS",
+      "expected": "AN_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+      "changed": {}
+    },
+    {
+      "check": "CYCLE_1_ROLLBACK_AN_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "ORIGINAL_AM_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+      "status": "PASS",
+      "expected": "AM_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+      "changed": {}
+    },
+    {
+      "check": "CYCLE_1_ROLLBACK_AM_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "ORIGINAL_AL_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+      "status": "PASS",
+      "expected": "AL_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+      "changed": {}
+    },
+    {
+      "check": "CYCLE_1_ROLLBACK_AL_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "ORIGINAL_AK_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+      "status": "PASS",
+      "expected": "AK_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+      "changed": {}
+    },
+    {
+      "check": "CYCLE_1_ROLLBACK_AK_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "ORIGINAL_AJ_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+      "status": "PASS",
+      "expected": "AJ_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+      "changed": {}
+    },
+    {
+      "check": "CYCLE_1_ROLLBACK_AJ_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "ORIGINAL_AI_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+      "status": "PASS",
+      "expected": "AI_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+      "changed": {}
+    },
+    {
+      "check": "CYCLE_1_ROLLBACK_AI_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "ORIGINAL_AH_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+      "status": "PASS",
+      "expected": "AH_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+      "changed": {}
+    },
+    {
+      "check": "CYCLE_1_ROLLBACK_AH_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "ORIGINAL_AG_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+      "status": "PASS",
+      "expected": "AG_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+      "changed": {}
+    },
+    {
+      "check": "CYCLE_1_ROLLBACK_AG_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "ORIGINAL_AF_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+      "status": "PASS",
+      "expected": "AF_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+      "changed": {}
+    },
+    {
+      "check": "CYCLE_1_ROLLBACK_AF_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "ORIGINAL_AE_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+      "status": "PASS",
+      "expected": "AE_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+      "changed": {}
+    },
+    {
+      "check": "CYCLE_1_ROLLBACK_AE_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "ORIGINAL_AD_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+      "status": "PASS",
+      "expected": "AD_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+      "changed": {}
+    },
+    {
+      "check": "CYCLE_1_ROLLBACK_AD_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "ORIGINAL_AC_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+      "status": "PASS",
+      "expected": "AC_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+      "changed": {}
+    },
+    {
+      "check": "CYCLE_1_ROLLBACK_AC_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "REINSTALL_AC_SAME_AS_FIRST_INSTALL",
+      "status": "PASS"
+    },
+    {
+      "check": "REINSTALL_AD_SAME_AS_FIRST_INSTALL",
+      "status": "PASS"
+    },
+    {
+      "check": "REINSTALL_AE_SAME_AS_FIRST_INSTALL",
+      "status": "PASS"
+    },
+    {
+      "check": "REINSTALL_AF_SAME_AS_FIRST_INSTALL",
+      "status": "PASS"
+    },
+    {
+      "check": "REINSTALL_AG_SAME_AS_FIRST_INSTALL",
+      "status": "PASS"
+    },
+    {
+      "check": "REINSTALL_AH_SAME_AS_FIRST_INSTALL",
+      "status": "PASS"
+    },
+    {
+      "check": "REINSTALL_AI_SAME_AS_FIRST_INSTALL",
+      "status": "PASS"
+    },
+    {
+      "check": "REINSTALL_AJ_SAME_AS_FIRST_INSTALL",
+      "status": "PASS"
+    },
+    {
+      "check": "REINSTALL_AK_SAME_AS_FIRST_INSTALL",
+      "status": "PASS"
+    },
+    {
+      "check": "REINSTALL_AL_SAME_AS_FIRST_INSTALL",
+      "status": "PASS"
+    },
+    {
+      "check": "REINSTALL_AM_SAME_AS_FIRST_INSTALL",
+      "status": "PASS"
+    },
+    {
+      "check": "REINSTALL_AN_SAME_AS_FIRST_INSTALL",
+      "status": "PASS"
+    },
+    {
+      "check": "REINSTALL_AO_SAME_AS_FIRST_INSTALL",
+      "status": "PASS"
+    },
+    {
+      "check": "REINSTALL_AP_SAME_AS_FIRST_INSTALL",
+      "status": "PASS"
+    },
+    {
+      "check": "REINSTALL_AQ_SAME_AS_FIRST_INSTALL",
+      "status": "PASS"
+    },
+    {
+      "check": "REINSTALL_AR_SAME_AS_FIRST_INSTALL",
+      "status": "PASS"
+    },
+    {
+      "check": "REINSTALL_AS_SAME_AS_FIRST_INSTALL",
+      "status": "PASS"
+    },
+    {
+      "check": "REINSTALL_AT_SAME_AS_FIRST_INSTALL",
+      "status": "PASS"
+    },
+    {
+      "check": "REINSTALL_AU_SAME_AS_FIRST_INSTALL",
+      "status": "PASS"
+    },
+    {
+      "check": "REINSTALL_AV_SAME_AS_FIRST_INSTALL",
+      "status": "PASS"
+    },
+    {
+      "check": "REINSTALL_AW_SAME_AS_FIRST_INSTALL",
+      "status": "PASS"
+    },
+    {
+      "check": "REINSTALL_AX_SAME_AS_FIRST_INSTALL",
+      "status": "PASS"
+    },
+    {
+      "check": "REINSTALL_AY_SAME_AS_FIRST_INSTALL",
+      "status": "PASS"
+    },
+    {
+      "check": "REINSTALL_AZ_SAME_AS_FIRST_INSTALL",
+      "status": "PASS"
+    },
+    {
+      "check": "REINSTALL_BA_SAME_AS_FIRST_INSTALL",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_2_ROLLBACK_BA_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_2_ROLLBACK_AZ_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_2_ROLLBACK_AY_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_2_ROLLBACK_AX_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_2_ROLLBACK_AW_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_2_ROLLBACK_AV_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_2_ROLLBACK_AU_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_2_ROLLBACK_AT_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_2_ROLLBACK_AS_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_2_ROLLBACK_AR_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_2_ROLLBACK_AQ_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_2_ROLLBACK_AP_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_2_ROLLBACK_AO_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_2_ROLLBACK_AN_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_2_ROLLBACK_AM_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_2_ROLLBACK_AL_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_2_ROLLBACK_AK_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_2_ROLLBACK_AJ_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_2_ROLLBACK_AI_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_2_ROLLBACK_AH_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_2_ROLLBACK_AG_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_2_ROLLBACK_AF_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_2_ROLLBACK_AE_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_2_ROLLBACK_AD_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_2_ROLLBACK_AC_RESTORES_PREDECESSOR",
+      "status": "PASS"
+    },
+    {
+      "check": "CYCLE_2_ENDS_AT_AB",
+      "status": "PASS"
+    },
+    {
+      "check": "POST_USE_AC_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "expected": "AC_POST_USE_ROLLBACK_REFUSED",
+      "changed": {}
+    },
+    {
+      "check": "POST_USE_AD_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "expected": "AD_POST_USE_ROLLBACK_REFUSED",
+      "changed": {}
+    },
+    {
+      "check": "POST_USE_AE_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "expected": "AE_POST_USE_ROLLBACK_REFUSED",
+      "changed": {}
+    },
+    {
+      "check": "POST_USE_AF_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "expected": "AF_POST_USE_ROLLBACK_REFUSED",
+      "changed": {}
+    },
+    {
+      "check": "POST_USE_AG_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "expected": "AG_POST_USE_ROLLBACK_REFUSED",
+      "changed": {}
+    },
+    {
+      "check": "POST_USE_AH_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "expected": "AH_POST_USE_ROLLBACK_REFUSED",
+      "changed": {}
+    },
+    {
+      "check": "POST_USE_AI_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "expected": "AI_POST_USE_ROLLBACK_REFUSED",
+      "changed": {}
+    },
+    {
+      "check": "POST_USE_AJ_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "expected": "AJ_POST_USE_ROLLBACK_REFUSED",
+      "changed": {}
+    },
+    {
+      "check": "POST_USE_AK_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "expected": "AK_POST_USE_ROLLBACK_REFUSED",
+      "changed": {}
+    },
+    {
+      "check": "POST_USE_AL_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "expected": "AL_POST_USE_ROLLBACK_REFUSED",
+      "changed": {}
+    },
+    {
+      "check": "POST_USE_AM_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "expected": "AM_POST_USE_ROLLBACK_REFUSED",
+      "changed": {}
+    },
+    {
+      "check": "POST_USE_AN_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "expected": "AN_POST_USE_ROLLBACK_REFUSED",
+      "changed": {}
+    },
+    {
+      "check": "POST_USE_AO_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "expected": "AO_POST_USE_ROLLBACK_REFUSED",
+      "changed": {}
+    },
+    {
+      "check": "POST_USE_AP_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "expected": "AP_POST_USE_ROLLBACK_REFUSED",
+      "changed": {}
+    },
+    {
+      "check": "POST_USE_AQ_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "expected": "AQ_POST_USE_ROLLBACK_REFUSED",
+      "changed": {}
+    },
+    {
+      "check": "POST_USE_AR_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "expected": "AR_POST_USE_ROLLBACK_REFUSED",
+      "changed": {}
+    },
+    {
+      "check": "POST_USE_AS_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "expected": "AS_POST_USE_ROLLBACK_REFUSED",
+      "changed": {}
+    },
+    {
+      "check": "POST_USE_AT_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "expected": "AT_POST_USE_ROLLBACK_REFUSED",
+      "changed": {}
+    },
+    {
+      "check": "POST_USE_AU_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "expected": "AU_POST_USE_ROLLBACK_REFUSED",
+      "changed": {}
+    },
+    {
+      "check": "POST_USE_AV_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "expected": "AV_POST_USE_ROLLBACK_REFUSED",
+      "changed": {}
+    },
+    {
+      "check": "POST_USE_AW_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "expected": "AW_POST_USE_ROLLBACK_REFUSED",
+      "changed": {}
+    },
+    {
+      "check": "POST_USE_AX_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "expected": "AX_POST_USE_ROLLBACK_REFUSED",
+      "changed": {}
+    },
+    {
+      "check": "POST_USE_AY_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "expected": "AY_POST_USE_ROLLBACK_REFUSED",
+      "changed": {}
+    },
+    {
+      "check": "POST_USE_AZ_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "expected": "AZ_POST_USE_ROLLBACK_REFUSED",
+      "changed": {}
+    },
+    {
+      "check": "POST_USE_BA_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "expected": "BA_POST_USE_ROLLBACK_REFUSED",
+      "changed": {}
+    }
+  ]
+}
