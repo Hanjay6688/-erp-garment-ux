@@ -173,8 +173,11 @@ export async function cases(ui, today) {
         await p.getByRole('button', { name: 'Muat ulang', exact: true }).click()
         let loading = false
         try { await ui.expect(p.getByRole('button', { name: 'Muat ulang', exact: true })).toBeDisabled({ timeout: 5000 }); loading = true } catch { loading = false }
-        release(); await p.unroute(workspace)
+        // The held request is released and allowed to finish before the route is removed (unrouting a request still in its
+        // handler lets Playwright settle it first, and the handler's continue then fails: run 36176077431).
+        release()
         await ui.expect(p.getByRole('button', { name: 'Muat ulang', exact: true })).toBeEnabled()
+        await p.unroute(workspace)
         const recovered = await p.getByRole('alert').count() === 0
         await p.getByLabel('Cari nota aksesori').fill(number)
         await p.getByRole('button', { name: 'Cari nota', exact: true }).click()
