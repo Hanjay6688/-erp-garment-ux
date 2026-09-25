@@ -12,8 +12,9 @@ sys.path.append(str(Path(__file__).resolve().parent))
 import cp6_ba_build as ba
 import cp6_bb_build as bb
 import cp6_bc_build as bc
+import cp6_bd_build as bd
 
-LATER={ba.VERSION:tuple(ba.REPLACED),bb.VERSION:tuple(bb.REPLACED),bc.VERSION:tuple(bc.REPLACED)}
+LATER={ba.VERSION:tuple(ba.REPLACED),bb.VERSION:tuple(bb.REPLACED),bc.VERSION:tuple(bc.REPLACED),bd.VERSION:tuple(bd.REPLACED)}
 
 
 def superseded(cur,after=None):
