@@ -1,6 +1,6 @@
 -- CP6 BA: independent audit closure (import identity, dated WIP and advance capacity, WIP product binding, recost cents, selectors, single close filing). Release candidate of the T3 combined package; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_ba_t1_family.sql (sha256 2e6e6820f144ddbd15fb7eba16a53c9237deef8356bc0a7c5fd59480aec94501): the T1 body below is unchanged apart from the
+-- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_ba_t1_family.sql (sha256 3359a42fe93c35da481d164e5e6d70e79da41559621a65736418bfc8f32d93a7): the T1 body below is unchanged apart from the
 -- ledger description; guards follow AO..AV. Capsule and catalog pins are placeholders until the T3 capture.
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
@@ -770,6 +770,8 @@ declare
   v_prev_at timestamptz;
   v_prev_created timestamptz;
   v_prev_id uuid;
+  v_first boolean;
+  v_lowest uuid;
 begin
   perform erp.require_internal();
   -- AZ (owner, 24 Sep 2026): a correction is dated from the physical movement it corrects when the recost date E is
@@ -900,11 +902,15 @@ begin
     loop
     select s.applied_inventory_delta into v_old
     from erp.material_cost_revaluation_state s where s.movement_id=q.mid for update;
+    v_first:=not found;
     v_old:=coalesce(v_old,0);
     v_diff:=round(q.tgt-v_old,2);
 
     if abs(v_diff)>0.005 then
       v_date:=case when v_closed then v_e
+        when v_first and erp.invoice_recost_economic_date_v1() is null and not exists(select 1 from erp.accounting_period_control c
+            where c.singleton_id=1 and c.closed_through is not null and erp._cp3_business_date(q.pat)<=c.closed_through)
+          then least(erp._cp3_business_date(q.pat),erp._cp3_business_date(statement_timestamp()))
         else least(greatest(v_e,erp._cp3_business_date(q.pat)),erp._cp3_business_date(statement_timestamp())) end;
       if v_diff>0 then
         v_lines:=jsonb_build_array(
@@ -984,6 +990,12 @@ begin
     where m.material_id=p_material_id order by i.adjustment_id
   loop
     perform erp._cp6_sync_material_adjustment_revaluation(r.adjustment_id,p_material_id);
+  end loop;
+  for v_lowest in
+    select distinct (select min(o.material_id::text) from erp.material_purchase_items o where o.purchase_id=pi.purchase_id)::uuid
+    from erp.material_purchase_items pi where pi.material_id=p_material_id
+  loop
+    if v_lowest::text<p_material_id::text then perform erp.sync_material_cost_revaluation(v_lowest); end if;
   end loop;
 end;
 $function$;
@@ -3048,7 +3060,7 @@ with relations as (
 select coalesce(jsonb_object_agg(k,encode(extensions.digest(convert_to(v::text,'UTF8'),'sha256'),'hex')),'{}'::jsonb) from objects
 ) catalog;
  select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(length(key)::text||':'||key||':'||value,E'\n' order by key collate "C"),''),'UTF8'),'sha256'),'hex') into object_count,fingerprint from jsonb_each_text(actual);
- if object_count<>7314 or fingerprint is distinct from '0e3febbb85ac5c9a7863035b889daa671f3b820ad2f88b8cffe428de2cb8bc7a' then
+ if object_count<>7314 or fingerprint is distinct from '68e3b1dac2c8e577ffae9fc0ef0b8ac18e66c7357a7b9e82aa503c8041d0560d' then
   raise exception 'BA_INSTALLED_CATALOG_DRIFT';
  end if;
 end $catalog_guard$;

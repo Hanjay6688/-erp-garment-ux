@@ -1,0 +1,6498 @@
+-- CP6 BB: open cutover states of ALL (opening settlement, credits and returns, open purchase orders, wages before and after cutover, cutting pickup, BS split, open reworks). Release candidate of the T3 combined package; closed, drained maintenance required.
+begin;
+-- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_bb_t1_family.sql (sha256 a423268697f9290d7278bd98a364f9207562769c277d036ccf1c31902bbdf142): the T1 body below is unchanged apart from the
+-- ledger description; guards follow AO..AV. Capsule and catalog pins are placeholders until the T3 capture.
+set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
+set local role postgres;
+do $closed_admission$
+begin
+ if session_user not in('postgres','supabase_admin')
+  or (select datallowconn from pg_database where datname=current_database())
+  or exists(select 1 from pg_stat_activity where datname=current_database() and pid<>pg_backend_pid()) then
+  raise exception 'PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE';
+ end if;
+end $closed_admission$;
+lock table erp.schema_migrations,supabase_migrations.schema_migrations in share row exclusive mode;
+do $lock_business$
+declare n text;
+begin
+ for n in select c.relname from pg_class c join pg_namespace s on s.oid=c.relnamespace where s.nspname='erp' and c.relkind in('r','p') order by 1 loop
+  execute format('lock table erp.%I in share row exclusive mode',n);
+ end loop;
+end $lock_business$;
+do $admission$ begin
+ if exists(select 1 from erp.schema_migrations where version='v2.6.20bb') or to_regclass('erp.cp6_v2620bb_rollback_capsule') is not null
+  or to_regclass('erp.bb_payroll_entitlements_v1') is not null or to_regclass('erp.bb_purchase_commitments_v1') is not null or to_regclass('erp.bb_purchase_commitment_lines_v1') is not null or to_regclass('erp.bb_purchase_commitment_drafts_v1') is not null or to_regclass('erp.bb_purchase_commitment_cancellations_v1') is not null or to_regclass('erp.bb_receipt_invoiced_parts_v1') is not null or to_regclass('erp.bb_legacy_documents_v1') is not null or to_regclass('erp.bb_customer_credits_v1') is not null or to_regclass('erp.bb_customer_credit_events_v1') is not null or to_regclass('erp.bb_opening_sale_return_rights_v1') is not null or to_regclass('erp.bb_opening_sale_return_receipts_v1') is not null or to_regclass('erp.bb_opening_credits_v1') is not null or to_regclass('erp.bb_wip_pickups_v1') is not null or to_regclass('erp.bb_wip_bs_splits_v1') is not null or to_regclass('erp.bb_wip_split_value_events_v1') is not null or to_regclass('erp.bb_opening_reworks_v1') is not null or to_regclass('erp.bb_open_sales_drafts_v1') is not null or to_regclass('erp.bb_open_sales_draft_lines_v1') is not null
+ then raise exception 'BB_EXACT_PREDECESSOR_WITHOUT_SUCCESSOR_REQUIRED';end if;
+end $admission$;
+do $predecessor$
+begin
+ if exists(select 1 from supabase_migrations.schema_migrations where version>'20260925010000') then raise exception 'BB_EXACT_PREDECESSOR_REQUIRED';end if;
+end $predecessor$;
+do $prior_platform$
+declare r record;
+begin
+ for r in select * from jsonb_to_recordset('[{"marker":"v2.6.20ac","stamp":"20260915031500","name":"erp_v2_6_20ac_cp6_temporal_surface_closure","sha":"871fb32b1d4a1e7f9aedfef684b0f2c766092732c38552620eb394061f6240d1"},{"marker":"v2.6.20ad","stamp":"20260915113627","name":"erp_v2_6_20ad_cp6_opening_material_business_day","sha":"58f8f1050e6c325339d7400a43b8c8f3d2375d2067f0c418d3eedfe85430a563"},{"marker":"v2.6.20ae","stamp":"20260915201500","name":"erp_v2_6_20ae_cp6_opening_roll_integrity","sha":"0c6bbf77a68142ddfdae99761a5cc2cd6e2e538be50b391f3303922c748c39d6"},{"marker":"v2.6.20af","stamp":"20260916014332","name":"erp_v2_6_20af_cp6_posted_child_integrity","sha":"3764349ab314c7990f6202d3f0de38b516aff53df2a3b1c4f272bc49667f6db4"},{"marker":"v2.6.20ag","stamp":"20260916050822","name":"erp_v2_6_20ag_cp6_sale_reservation_lineage","sha":"085b84cb6917617c5e6a2d375fd5177542ebe3f021a20de48e239159e34d66c0"},{"marker":"v2.6.20ah","stamp":"20260916070451","name":"erp_v2_6_20ah_cp6_return_allocation_eligibility","sha":"ade908ca9f55b2333c5eac5793b41aaabe0d57879dbb233e428fc882bab5738b"},{"marker":"v2.6.20ai","stamp":"20260916090022","name":"erp_v2_6_20ai_cp6_work_source_lineage","sha":"1ea5a602c5a5fcc9697355d9cca526709a06ee20e4eb4cdb765b2b7345c18d25"},{"marker":"v2.6.20aj","stamp":"20260916202400","name":"erp_v2_6_20aj_cp6_rework_output_lineage","sha":"b36a6359c57ad59d93ea5cb8dc5f7e90a0dd9cd59d48c331b037aa365d400986"},{"marker":"v2.6.20ak","stamp":"20260917033516","name":"erp_v2_6_20ak_cp6_import_reference_preview","sha":"9d06a91bd849c80e1ef99a6ac8996863527a30ef3b4079188be58bd8f3d4311d"},{"marker":"v2.6.20al","stamp":"20260917054049","name":"erp_v2_6_20al_cp6_opening_value_validation","sha":"2d16461cababd4a27827cfb8de01dd993a3a343460cdf049d427b44dd4cb6ea2"},{"marker":"v2.6.20am","stamp":"20260921214120","name":"erp_v2_6_20am_cp6_transfer_integrity","sha":"8fff82f72f9c76dd032778fa43aa37fd3fde98c4304de033d9c484db54f04a60"},{"marker":"v2.6.20an","stamp":"20260921223438","name":"erp_v2_6_20an_cp6_cutting_selectors","sha":"4df51d65fdb9a644fe2eeba92af23446e0c0389a1ebf9f336a0a396c144d7b71"},{"marker":"v2.6.20ao","stamp":"20260922135612","name":"erp_v2_6_20ao_cp6_invoice_retail","sha":"696a75c5969b756ce1973191a757a8c7deade06cb57e96dc5a16d648a4c48520"},{"marker":"v2.6.20ap","stamp":"20260922135615","name":"erp_v2_6_20ap_cp6_connected_import_materials","sha":"70503bb0247c811e066830ba752960a50b7afdfdb4c0c7697dee9a265ef1778a"},{"marker":"v2.6.20aq","stamp":"20260922161019","name":"erp_v2_6_20aq_cp6_accessory_lock_order","sha":"34cee78ee58f612187f7683280565ce2651e788e61efb62ced5e8c4dce7f9ada"},{"marker":"v2.6.20ar","stamp":"20260922185015","name":"erp_v2_6_20ar_cp6_opening_overlap","sha":"c5c973d47a4665723351205ccbcbe2c658c57bff7230f5552c5c2b7ca757371e"},{"marker":"v2.6.20as","stamp":"20260922210815","name":"erp_v2_6_20as_cp6_event_dates_product_identity","sha":"d13e46b3451386309a0a8dc1c89a4817ad8751568b9377f94c790832f8fa53a3"},{"marker":"v2.6.20at","stamp":"20260923005153","name":"erp_v2_6_20at_cp6_wip_temporal_identity","sha":"5e1ea5bfba73ada9aba5a8561efa9056b02154025d39bd10d47d3e4f2494110d"},{"marker":"v2.6.20au","stamp":"20260923045944","name":"erp_v2_6_20au_cp6_controlled_product_lifecycle","sha":"7d6265f081125499cb1813fe3f24c3b203363252727b5dcdfc7f74e311b85481"},{"marker":"v2.6.20av","stamp":"20260923110000","name":"erp_v2_6_20av_cp6_identity_new_stock_cutoff","sha":"c63a1fe3bf76dfc396921e07f57eb043e3bb864425b3289a9546bf66e08169a5"},{"marker":"v2.6.20aw","stamp":"20260924010000","name":"erp_v2_6_20aw_cp6_close_readiness_engine","sha":"c38edc9da084f4a90ee615bde16e6fea72e1072f79d6820d9d3bef27cc2a8ecb"},{"marker":"v2.6.20ax","stamp":"20260924010100","name":"erp_v2_6_20ax_cp6_fg_unsourced_receipts","sha":"c736049386c65f75c82fa790b502cd32c999512738207b7be17d711185c3d9f2"},{"marker":"v2.6.20ay","stamp":"20260924010200","name":"erp_v2_6_20ay_cp6_hpp_dated_from_goods","sha":"fd5ec47a16af264cc9b6a3aeed3d6e19023dc9f49beb51ceb8bfb4ecb14dc411"},{"marker":"v2.6.20az","stamp":"20260924010300","name":"erp_v2_6_20az_cp6_material_recost_dated_from_movement","sha":"e515d12a995a1806537ac08b7b0da15eb817480ead3103b035fc651b62977b8d"},{"marker":"v2.6.20ba","stamp":"20260925010000","name":"erp_v2_6_20ba_cp6_audit_closure","sha":"01bc0965cb945c25b98465a54ebc7fafabcc1d760c0698df1636de8069066960"}]'::jsonb) as x(marker text,stamp text,name text,sha text) loop
+  if not exists(select 1 from erp.schema_migrations where version=r.marker)
+   or (select count(*) from supabase_migrations.schema_migrations where name=r.name)<>1
+   or not exists(select 1 from supabase_migrations.schema_migrations where version=r.stamp and name=r.name
+    and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')=r.sha) then
+   raise exception 'BB_PRIOR_PLATFORM_DRIFT: %',r.name;
+  end if;
+ end loop;
+end $prior_platform$;
+do $catalog_guard$
+declare actual jsonb;fingerprint text;object_count bigint;
+begin
+ select * into actual from (
+with relations as (
+ select c.*,n.nspname from pg_class c join pg_namespace n on n.oid=c.relnamespace
+ where n.nspname in('erp','public') and c.relkind in('r','p','v','m','S','c','f')
+ and c.relname not in('cp6_v2620ao_rollback_capsule','cp6_v2620ap_rollback_capsule','cp6_v2620aq_rollback_capsule','cp6_v2620ar_rollback_capsule','cp6_v2620as_rollback_capsule','cp6_v2620at_rollback_capsule','cp6_v2620au_rollback_capsule','cp6_v2620av_rollback_capsule','cp6_v2620aw_rollback_capsule','cp6_v2620ax_rollback_capsule','cp6_v2620ay_rollback_capsule','cp6_v2620az_rollback_capsule','cp6_v2620ba_rollback_capsule','cp6_v2620bb_rollback_capsule')
+), objects as (
+ select 'FUNCTION:'||format('%I.%I(%s)',n.nspname,p.proname,replace(oidvectortypes(p.proargtypes),', ',',')) k,
+ jsonb_build_array(pg_get_functiondef(p.oid),pg_get_userbyid(p.proowner),
+  case when p.proacl is null then null else array(select a::text from unnest(p.proacl)a order by a::text) end) v
+ from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname in('erp','public') and p.prokind in('f','p')
+ union all
+ select 'RELATION:'||format('%I.%I',nspname,relname),jsonb_build_array(relkind,pg_get_userbyid(relowner),
+  case when relacl is null then null else array(select a::text from unnest(relacl)a order by a::text) end,
+  relrowsecurity,relforcerowsecurity,relreplident,relpersistence,relispartition,reloptions)
+ from relations
+ union all
+ select 'COLUMN:'||format('%I.%I.%I',r.nspname,r.relname,a.attname),
+ jsonb_build_array((select count(*) from pg_attribute visible where visible.attrelid=a.attrelid and visible.attnum>0 and not visible.attisdropped and visible.attnum<=a.attnum),format_type(a.atttypid,a.atttypmod),a.attnotnull,a.attidentity,a.attgenerated,
+  pg_get_expr(d.adbin,d.adrelid),a.attcollation::regcollation::text,
+  case when a.attacl is null then null else array(select x::text from unnest(a.attacl)x order by x::text) end)
+ from relations r join pg_attribute a on a.attrelid=r.oid and a.attnum>0 and not a.attisdropped
+ left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum
+ union all
+ select 'CONSTRAINT:'||format('%I.%I.%I',r.nspname,r.relname,c.conname),
+ jsonb_build_array(c.contype,pg_get_constraintdef(c.oid),c.condeferrable,c.condeferred,c.convalidated,c.conislocal,c.connoinherit)
+ from relations r join pg_constraint c on c.conrelid=r.oid
+ union all
+ select 'INDEX:'||format('%I.%I',r.nspname,c.relname),
+ jsonb_build_array(pg_get_indexdef(i.indexrelid),i.indisunique,i.indisprimary,i.indisexclusion,i.indisvalid,i.indisready,i.indisclustered,i.indisreplident,c.reloptions)
+ from relations r join pg_index i on i.indrelid=r.oid join pg_class c on c.oid=i.indexrelid
+ union all
+ select 'TRIGGER:'||format('%I.%I.%I',r.nspname,r.relname,t.tgname),jsonb_build_array(pg_get_triggerdef(t.oid),t.tgenabled)
+ from relations r join pg_trigger t on t.tgrelid=r.oid and not t.tgisinternal
+ union all
+ select 'POLICY:'||format('%I.%I.%I',r.nspname,r.relname,p.polname),jsonb_build_array(p.polcmd,p.polpermissive,
+  array(select case when x=0 then 'PUBLIC' else pg_get_userbyid(x) end from unnest(p.polroles)x order by 1),
+  pg_get_expr(p.polqual,p.polrelid),pg_get_expr(p.polwithcheck,p.polrelid))
+ from relations r join pg_policy p on p.polrelid=r.oid
+ union all
+ select 'VIEW:'||format('%I.%I',nspname,relname),to_jsonb(pg_get_viewdef(oid,false)) from relations where relkind in('v','m')
+ union all
+ select 'SEQUENCE:'||format('%I.%I',r.nspname,r.relname),jsonb_build_array(format_type(s.seqtypid,null),s.seqstart,s.seqincrement,s.seqmax,s.seqmin,s.seqcache,s.seqcycle)
+ from relations r join pg_sequence s on s.seqrelid=r.oid
+ union all
+ select 'SCHEMA:'||nspname,jsonb_build_array(pg_get_userbyid(nspowner),
+  case when nspacl is null then null else array(select a::text from unnest(nspacl)a order by a::text) end)
+ from pg_namespace where nspname in('erp','public')
+ union all
+ select 'DEFAULT_ACL:'||pg_get_userbyid(d.defaclrole)||':'||coalesce(n.nspname,'GLOBAL')||':'||d.defaclobjtype::text,
+ to_jsonb(array(select a::text from unnest(d.defaclacl)a order by a::text))
+ from pg_default_acl d left join pg_namespace n on n.oid=d.defaclnamespace
+ where n.nspname in('erp','public') or d.defaclnamespace=0
+ union all
+ select 'ENUM:'||format('%I.%I',n.nspname,t.typname),jsonb_build_array(pg_get_userbyid(t.typowner),
+  (select jsonb_agg(e.enumlabel order by e.enumsortorder) from pg_enum e where e.enumtypid=t.oid))
+ from pg_type t join pg_namespace n on n.oid=t.typnamespace where n.nspname in('erp','public') and t.typtype='e'
+)
+select coalesce(jsonb_object_agg(k,encode(extensions.digest(convert_to(v::text,'UTF8'),'sha256'),'hex')),'{}'::jsonb) from objects
+) catalog;
+ select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(length(key)::text||':'||key||':'||value,E'\n' order by key collate "C"),''),'UTF8'),'sha256'),'hex') into object_count,fingerprint from jsonb_each_text(actual);
+ if object_count<>7314 or fingerprint is distinct from '68e3b1dac2c8e577ffae9fc0ef0b8ac18e66c7357a7b9e82aa503c8041d0560d' then
+  raise exception 'BB_PREDECESSOR_CATALOG_DRIFT';
+ end if;
+end $catalog_guard$;
+do $historical_capsules$
+declare r record;actual text;
+begin
+ for r in select * from jsonb_each_text('{"bs_resolution_v2619_rollback_capsule":"28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39","bs_resolution_v2619a_rollback_capsule":"de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560","bs_resolution_v2619b_rollback_capsule":"d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d","bs_resolution_v2619c_rollback_capsule":"0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1","cp3_r4_rollback_capsule":"7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d","cp45_v2617_rollback_capsule":"b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80","cp45_v2617a_rollback_capsule":"b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022","cp4_v2616_rollback_capsule":"dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f","cp6_v2620_rollback_capsule":"b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f","cp6_v2620a_rollback_capsule":"67befaaf327d2591e1ca1d654132ee483eba39b6cbb4f891c4719d817155d448","cp6_v2620aa_rollback_capsule":"eb0d6fb4fcac2ac06929d577101e604428e9a04821813c342e5b831147dc8948","cp6_v2620ab_rollback_capsule":"3be9a9166e3a607962be819fbe23d38fe455290a7a970dc2aad068079bf30785","cp6_v2620ac_relation_rollback_capsule":"63c595c956e25135e1e032613831f5a08a734ba1f5c4746c46483c84517ad5ea","cp6_v2620ac_rollback_capsule":"51a8b08c9d96e66f03c2c8ba94ed3ed8fb15b26d1a2e4c65c58c614442dfa969","cp6_v2620ad_rollback_capsule":"5c3588109395b32ed743e0f4f5d789a3c59e3fffbab7469138f1f423c877ea9d","cp6_v2620ae_rollback_capsule":"6a75e02bf7b90c542fd9f2ac9534a2de066b047f5ffea65bffb1f83fa63c17f0","cp6_v2620af_rollback_capsule":"bfa89fc0e94d34b29405acedf551935f024942835f31cdc98f0f0983a9550288","cp6_v2620ag_rollback_capsule":"7ddfe6181f0c1c7439faf8a8150c542e958b3bafd8d18b5b2d1eb454fd7a85b7","cp6_v2620ah_rollback_capsule":"361be9321e5f4dadc7c7ec0e99ed746a98e7a4150178fc8355d23707c1507a93","cp6_v2620ai_rollback_capsule":"f2428dd712aa763b1379a4ae5b1a1e1e6ee175b355d8769b854a28f1355181c8","cp6_v2620aj_rollback_capsule":"8e24026dc90a2a92292c2cc6c8faa5fc3de991a19f326db494e0af2a518436f1","cp6_v2620ak_rollback_capsule":"dc7bfce7b9ee6a42e33cdf03cabd99d64435a4615245b2037fd6e4ee399aef10","cp6_v2620al_rollback_capsule":"c9e9aca042674efa5c6fa283e4b9ee47f3353ee9ee95b34e14ef1fd6b09bfde9","cp6_v2620am_rollback_capsule":"e781e631d06c6894c20b1fe6f9c65779f461d19c405c8ae74f28ed7d83ae6a26","cp6_v2620an_rollback_capsule":"ebfa8a281a32fe54babbdc209264ab422fde27f344d48561b90d2af022fe75b3","cp6_v2620ao_rollback_capsule":"b48103dcffcfb4c0c5172d2f11a8af809149c3c82584d0c24e6c740311e18cab","cp6_v2620ap_rollback_capsule":"10123ac8749107ffe9e25e74c9e3bc3080c0e15fc3d844bfcedf06043281e3f7","cp6_v2620aq_rollback_capsule":"35dd70bc3f6eacd8640eea6e22b11d4daaaac96bd7092cc8addefe47d0e3d4b8","cp6_v2620ar_rollback_capsule":"4a445445dc1641310fd3baa2b653bc2ff65b95e2a1f1ae53df2e0bb367fba6a8","cp6_v2620as_rollback_capsule":"8ffec1b6c558d3525b2c22754c2467e92463a201c4decdea0523e68b1a950aa9","cp6_v2620at_rollback_capsule":"8a7aca28f5e2e023d4828bae009962c34c6373740ccb26e30d69b6b661486fa2","cp6_v2620au_rollback_capsule":"f8a90e3df4dcaaf19bf33f1e3348e802e9c6357df673bd9bd524b0b2c1fb5fea","cp6_v2620av_rollback_capsule":"555750c028d4e47105289ffbb7d03bbbc08fa1b7adecf45b06a29bf3abb27b8f","cp6_v2620aw_rollback_capsule":"fe0df122c718e3b373f9527a1fe0bdd4bdb473e2e59d6a710057524fe8142475","cp6_v2620ax_rollback_capsule":"bde6ca64f2ef2df40caf5fe51234a549bff8f5f67ff5276d7344f274e0192465","cp6_v2620ay_rollback_capsule":"4f4e686c95ddf0f9481c2c12c6308ec72d46a1d75f5e7a3a761808ee6ae1361c","cp6_v2620az_rollback_capsule":"1ca0d25f289d7322d649e239ec395e73903795f2c84fe652faf4dcf1d2a90853","cp6_v2620b_rollback_capsule":"f9bf784bff0c54e647f491e257a9649fd0c3e6f10c39ddfc0944c961b9dd7601","cp6_v2620ba_rollback_capsule":"c290dd07139c6e9f31945dacc5fdf680371f83315018efe8fb7f7edee31943db","cp6_v2620c_rollback_capsule":"f88b1f5890ee8e7041758971bf9c9a3ce2bd0a7be6989fb95332c2dd7fa139aa","cp6_v2620d_rollback_capsule":"fa300c5554da4bb6812c61d726fd64f66329c97b085fa7d6ad5d0d8e5ae31235","cp6_v2620e_rollback_capsule":"143cd291cf4c12e78ab61e74e02ed03b08a48832a5064671868ff2bd2e3e1da7","cp6_v2620f_rollback_capsule":"076133b098e821fc2713af559618adf8aa3e204908f810af440fda355fc7a57f","cp6_v2620g_rollback_capsule":"ed9f4cacb47bd026ad6bdea373d1aa87044ed12aa60323cea453e3187dc488c4","cp6_v2620h_rollback_capsule":"4c25a060a2df3c22cd6fa9ff0b297163e223118a0d930b97bf1282b4756d909d","cp6_v2620i_rollback_capsule":"051203d95c44968abd8594f5bd48e289c4ac9a6c9fa49a89eee1086ad6b2c166","cp6_v2620j_rollback_capsule":"1393a8085d0f58717b13048c9cc3f7e9969ac86c351d6dfefdd2d4f43a735bd2","cp6_v2620k_rollback_capsule":"55aa71061f616ea11b361f0fabee2fd892f6438cc3f567cb9c135552ade42409","cp6_v2620l_rollback_capsule":"b4278768fce4ef307795953c14f607278c43bf474d76d3362e477280be08eb39","cp6_v2620m_rollback_capsule":"4b5f89d7bc4557f92b47716fe15640ab244c424fc1279433eb806d9d91d234e9","cp6_v2620n_rollback_capsule":"46e5ea4524613bb7a386551ada9e06888ea35eb987f9f5b864457fdd18bc3bc1","cp6_v2620o_rollback_capsule":"044e6b1a050df7e2a1d36082b0451877bda01116c08f611dfceb7a666bdf03c8","cp6_v2620p_rollback_capsule":"b656abaf23276984567c6c8d87b311427463c008b5ecd762fbdd0c2df13795df","cp6_v2620q_rollback_capsule":"ab6c992fbaa87f19a4eba696a57a3972f98504a354d9b5fc3be660939f8ea20f","cp6_v2620r_rollback_capsule":"8eb5e0a38284c5f8e3fee56618893ba72feaae9d26605c9ca3874dae25045297","cp6_v2620s_rollback_capsule":"fb57810a75f8829a038ed61b3a1cabde33dccf1e384661bc6723c51e28b3e132","cp6_v2620t_rollback_capsule":"348db4650d788750da243500b49e23c1130fdb70bc4a6d1fdf136bf68aa21f30","cp6_v2620u_rollback_capsule":"720eb1984548a3c381387fbe4d34e3c6f00334c8a4549eab7e398b827dcb7dd4","cp6_v2620v_rollback_capsule":"573ef5842eefadf1c32469514f4c8498667c99aec20ef20651406e4f419f5f60","cp6_v2620w_rollback_capsule":"f4e2ca1d577dd9f2724cc90693e8ee8bff36365c696575b69c6463f3e8ca0324","cp6_v2620x_rollback_capsule":"064db1068b56daa69e409ae582cd8a99490cea75d269154baa4217f90d3ca0d1","cp6_v2620y_rollback_capsule":"e3b23429a7f002c85ca8de1f8c632df13a4a2fc4e4654c12e2431c212772841d","cp6_v2620z_rollback_capsule":"ad0436a1480af43070e9861cb7e28d4cf55c435edbffb5fe368ca7babb7863ef","cutting_bridge_v2618_rollback_capsule":"535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d","cutting_bridge_v2618a_rollback_capsule":"db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60"}'::jsonb) loop
+  execute format($caps$select encode(extensions.digest(convert_to(coalesce(string_agg(h,',' order by h),''),'UTF8'),'sha256'),'hex') from(select encode(extensions.digest(convert_to((to_jsonb(t)-array['captured_at','boundary_snapshot'])::text,'UTF8'),'sha256'),'hex') h from erp.%I t)s$caps$,r.key) into actual;
+  if actual is distinct from r.value then raise exception 'BB_HISTORICAL_CAPSULE_DRIFT: %',r.key;end if;
+ end loop;
+end $historical_capsules$;
+do $prior_capsules$
+declare r record;expected jsonb;actual jsonb;bad bigint;
+begin
+ select jsonb_build_object(
+   'relation',(select jsonb_build_array(relkind,relpersistence,relreplident,relispartition,reloptions) from pg_class where oid='erp.cp6_v2620an_rollback_capsule'::regclass),
+   'columns',(select jsonb_agg(jsonb_build_array(a.attname,format_type(a.atttypid,a.atttypmod),a.attnotnull,a.attidentity,a.attgenerated,pg_get_expr(d.adbin,d.adrelid)) order by a.attnum) from pg_attribute a left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum where a.attrelid='erp.cp6_v2620an_rollback_capsule'::regclass and a.attnum>0 and not a.attisdropped),
+   'constraints',(select jsonb_agg(jsonb_build_array(contype,pg_get_constraintdef(oid),condeferrable,condeferred,convalidated) order by contype,pg_get_constraintdef(oid)) from pg_constraint where conrelid='erp.cp6_v2620an_rollback_capsule'::regclass),
+   'indexes',(select jsonb_agg(jsonb_build_array(indisunique,indisprimary,indisexclusion,indisvalid,indisready,indkey::text,indclass::text,indoption::text,pg_get_expr(indexprs,indrelid),pg_get_expr(indpred,indrelid)) order by indkey::text) from pg_index where indrelid='erp.cp6_v2620an_rollback_capsule'::regclass)) into expected;
+ for r in select unnest(array['erp.cp6_v2620ao_rollback_capsule','erp.cp6_v2620ap_rollback_capsule','erp.cp6_v2620aq_rollback_capsule','erp.cp6_v2620ar_rollback_capsule','erp.cp6_v2620as_rollback_capsule','erp.cp6_v2620at_rollback_capsule','erp.cp6_v2620au_rollback_capsule','erp.cp6_v2620av_rollback_capsule','erp.cp6_v2620aw_rollback_capsule','erp.cp6_v2620ax_rollback_capsule','erp.cp6_v2620ay_rollback_capsule','erp.cp6_v2620az_rollback_capsule','erp.cp6_v2620ba_rollback_capsule']::regclass[]) as rel loop
+  if not exists(select 1 from pg_class where oid=r.rel and relrowsecurity and not relforcerowsecurity and pg_get_userbyid(relowner)='postgres')
+   or exists(select 1 from pg_class p cross join lateral aclexplode(coalesce(p.relacl,acldefault('r',p.relowner)))a where p.oid=r.rel and a.grantee<>p.relowner)
+   or exists(select 1 from pg_attribute p cross join lateral aclexplode(p.attacl)a where p.attrelid=r.rel and a.grantee<>'postgres'::regrole)
+   or exists(select 1 from pg_policy where polrelid=r.rel)
+   or exists(select 1 from pg_trigger where tgrelid=r.rel and not tgisinternal) then raise exception 'BB_PRIOR_CAPSULE_SECURITY: %',r.rel;end if;
+  select jsonb_build_object(
+   'relation',(select jsonb_build_array(relkind,relpersistence,relreplident,relispartition,reloptions) from pg_class where oid=r.rel),
+   'columns',(select jsonb_agg(jsonb_build_array(a.attname,format_type(a.atttypid,a.atttypmod),a.attnotnull,a.attidentity,a.attgenerated,pg_get_expr(d.adbin,d.adrelid)) order by a.attnum) from pg_attribute a left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum where a.attrelid=r.rel and a.attnum>0 and not a.attisdropped),
+   'constraints',(select jsonb_agg(jsonb_build_array(contype,pg_get_constraintdef(oid),condeferrable,condeferred,convalidated) order by contype,pg_get_constraintdef(oid)) from pg_constraint where conrelid=r.rel),
+   'indexes',(select jsonb_agg(jsonb_build_array(indisunique,indisprimary,indisexclusion,indisvalid,indisready,indkey::text,indclass::text,indoption::text,pg_get_expr(indexprs,indrelid),pg_get_expr(indpred,indrelid)) order by indkey::text) from pg_index where indrelid=r.rel)) into actual;
+  if actual is distinct from expected then raise exception 'BB_PRIOR_CAPSULE_SHAPE_DRIFT: %',r.rel;end if;
+  execute format($b$select count(*) filter(where boundary_snapshot is null or not(boundary_snapshot ?& array['before','after','platform_before','markers_before']))
+   +(case when count(distinct boundary_snapshot)=1 then 0 else 1 end) from %s$b$,r.rel) into bad;
+  if bad<>0 then raise exception 'BB_PRIOR_CAPSULE_BOUNDARY: %',r.rel;end if;
+ end loop;
+end $prior_capsules$;
+create table erp.cp6_v2620bb_rollback_capsule(like erp.cp6_v2620an_rollback_capsule including all);
+alter table erp.cp6_v2620bb_rollback_capsule enable row level security;
+revoke all on erp.cp6_v2620bb_rollback_capsule from public,anon,authenticated,service_role;
+insert into erp.cp6_v2620bb_rollback_capsule(object_identity,object_regidentity,object_definition,definition_sha256,acl_snapshot,owner_snapshot)
+select format('%I.%I(%s)',n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)),i.identity,pg_get_functiondef(p.oid),
+ encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex'),
+ array(select a::text from unnest(p.proacl)a order by a::text),pg_get_userbyid(p.proowner)
+from unnest(array['erp.post_opening_subledger_settlement(uuid)','erp.post_opening_financial_correction(uuid,numeric,text,date)','erp.reverse_opening_financial_correction(uuid,text)','erp.approve_payroll(uuid)','erp.post_payroll_payment(uuid)','erp.reverse_paid_payroll(uuid,text)','erp.initial_import_revision_v1(uuid)','erp.get_initial_import_workspace_v1(uuid)','erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)','erp._validate_migration_batch_base(uuid)','erp.finalize_migration_batch(uuid)','erp.save_initial_import_action_v1(text,jsonb,uuid)','erp.run_v267_financial_truth_checks()','erp.assert_new_stock_cutoff_coverage_v1()','erp.material_purchase_posted_invoice_qty(uuid)','erp.material_purchase_current_unit_cost(uuid)','erp.refresh_material_purchase_item_match_state(uuid)','erp.sync_material_purchase_grni_on_status()','erp.check_initial_import_receipt_v1(uuid,uuid)','erp.apply_initial_import_receipts_v1(uuid)','erp.complete_initial_import_wip_v1(jsonb)','erp.validate_initial_import_production_v1(uuid)','erp.initial_import_lot_cost_v1(uuid)','erp.initial_import_production_rows_v1(uuid)','erp.sync_initial_import_bs_disposition_v1()','erp.guard_initial_import_po_completion_v1()','erp.recost_initial_import_origins_v1(uuid)','erp.run_v268_financial_report_checks()','erp.guard_work_completion_posting_consistency()','erp.post_work_completion(uuid)']) i(identity)
+join pg_proc p on p.oid=i.identity::regprocedure join pg_namespace n on n.oid=p.pronamespace;
+create temp table cp6_release_functions on commit drop as
+select p.oid::regprocedure::text as identity,encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex') as definition_sha256,
+  array(select a::text from unnest(p.proacl)a order by a::text) as acl,pg_get_userbyid(p.proowner) as owner
+ from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname in('erp','public') and p.prokind in('f','p');
+do $before_data$ declare v_table text;v_hash jsonb;v_before jsonb; begin
+ v_before:='{}'::jsonb;
+ for v_table in select c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace
+  where n.nspname='erp' and c.relkind in('r','p') and c.relname<>all(array['schema_migrations','cp6_v2620bb_rollback_capsule']::text[]) order by 1 loop
+  execute format($data$select jsonb_build_object('count',count(*),'sha256',encode(extensions.digest(convert_to(coalesce(string_agg(h,',' order by h),''),'UTF8'),'sha256'),'hex')) from(select encode(extensions.digest(convert_to((to_jsonb(t))::text,'UTF8'),'sha256'),'hex') h from erp.%I t)s$data$,v_table) into v_hash;
+  v_before:=v_before||jsonb_build_object(v_table,v_hash);
+ end loop;
+ create temp table cp6_release_boundary on commit drop as select jsonb_build_object('before',v_before,
+  'platform_before',(select encode(extensions.digest(convert_to(coalesce(jsonb_agg(to_jsonb(t) order by version),'[]'::jsonb)::text,'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations t),
+  'markers_before',(select encode(extensions.digest(convert_to(coalesce(jsonb_agg(to_jsonb(t) order by version),'[]'::jsonb)::text,'UTF8'),'sha256'),'hex') from erp.schema_migrations t)) snapshot;
+end $before_data$;
+set local lock_timeout='10s';set local statement_timeout='240s';set local search_path='';
+do $t1_guard$
+begin
+ if not exists(select 1 from erp.schema_migrations where version='v2.6.20ba') then raise exception 'BB_T1_REQUIRES_BA'; end if;
+ if exists(select 1 from erp.schema_migrations where version='v2.6.20bb') or to_regclass('erp.bb_legacy_documents_v1') is not null then raise exception 'BB_T1_ALREADY_INSTALLED'; end if;
+end $t1_guard$;
+-- CP6 BB financial part (ALL-P02/S01/S03/A03/Y01 and the opening settlement facade). New objects only; the functions this
+-- part changes are rebuilt by scripts/cp6_bb_build.py from their current definitions with checked substitutions.
+-- Nothing here reconstructs a pre-cutover sale, purchase, payment or wage (M:369-379, M:930-938): old documents stay
+-- provenance, every new fact is dated on or after cutover and posts through the canonical journal.
+
+-- ---------------------------------------------------------------- tables
+create table erp.bb_legacy_documents_v1(
+  id uuid primary key default gen_random_uuid(),
+  batch_id uuid not null references erp.migration_batches(id),
+  source_row_id uuid not null unique references erp.migration_staging_rows(id),
+  balance_type text not null check(balance_type in('CUSTOMER_RECEIVABLE','SUPPLIER_PAYABLE','VENDOR_PAYABLE','CONTRACTOR_RECEIVABLE','CONTRACTOR_PAYABLE')),
+  party_id uuid not null,
+  document_number text not null check(length(btrim(document_number)) between 1 and 120),
+  document_date date not null,
+  cutover_date date not null,
+  original_amount numeric(20,2) not null check(original_amount>0),
+  settled_before_cutover numeric(20,2) not null,
+  notes text,
+  created_at timestamptz not null default statement_timestamp(),
+  check(settled_before_cutover=original_amount),
+  check(document_date<=cutover_date)
+);
+create unique index bb_legacy_documents_v1_identity on erp.bb_legacy_documents_v1(balance_type,party_id,lower(btrim(document_number)));
+comment on table erp.bb_legacy_documents_v1 is 'BB (ALL-A03): a document fully settled before cutover, kept only as provenance so a later return can name it and its number cannot be imported again as an open balance. No opening item, balance, journal or cash event.';
+
+create table erp.bb_customer_credits_v1(
+  id uuid primary key default gen_random_uuid(),
+  origin text not null check(origin in('IMPORTED','RETURN')),
+  batch_id uuid not null references erp.migration_batches(id),
+  source_row_id uuid unique references erp.migration_staging_rows(id),
+  return_receipt_id uuid unique,
+  customer_id uuid not null references erp.customers(id),
+  coa_account_id uuid not null references erp.chart_accounts(id),
+  document_number text not null check(length(btrim(document_number)) between 1 and 160),
+  document_date date not null,
+  original_amount numeric(20,2) not null check(original_amount>0),
+  settled_before_cutover numeric(20,2) not null default 0 check(settled_before_cutover>=0),
+  amount numeric(20,2) not null check(amount>0),
+  effective_date date not null,
+  journal_entry_id uuid references erp.journal_entries(id),
+  voided_at timestamptz,
+  created_by uuid,
+  created_at timestamptz not null default statement_timestamp(),
+  check(original_amount-settled_before_cutover=amount),
+  check(voided_at is null or origin='RETURN'),
+  check((origin='IMPORTED')=(source_row_id is not null)),
+  check((origin='RETURN')=(return_receipt_id is not null))
+);
+create unique index bb_customer_credits_v1_document on erp.bb_customer_credits_v1(customer_id,lower(btrim(document_number)));
+comment on table erp.bb_customer_credits_v1 is 'BB (ALL-S03): money owed to a customer for a return. IMPORTED: a return already received before cutover whose refund was still open (Dr OPENING_EQUITY / Cr the credit account). RETURN: the credit of a return of an old sale received after cutover (Dr SALES_REVENUE / Cr the credit account). Used only by refund or by applying it to an open opening receivable of the same customer.';
+
+create table erp.bb_customer_credit_events_v1(
+  id uuid primary key,
+  credit_id uuid not null references erp.bb_customer_credits_v1(id),
+  event_type text not null check(event_type in('REFUND','APPLY_OPENING_AR')),
+  amount numeric(20,2) not null check(amount>0),
+  effective_date date not null,
+  cash_account_id uuid references erp.cash_accounts(id),
+  settlement_id uuid unique references erp.opening_subledger_settlements(id),
+  journal_entry_id uuid references erp.journal_entries(id),
+  reason text not null check(length(btrim(reason))>0),
+  reversed_at timestamptz,
+  reversal_reason text,
+  created_by uuid,
+  created_at timestamptz not null default statement_timestamp(),
+  check((event_type='REFUND')=(cash_account_id is not null and journal_entry_id is not null)),
+  check((event_type='APPLY_OPENING_AR')=(settlement_id is not null)),
+  check((reversed_at is null)=(reversal_reason is null))
+);
+create index bb_customer_credit_events_v1_credit on erp.bb_customer_credit_events_v1(credit_id);
+
+create table erp.bb_opening_sale_return_rights_v1(
+  id uuid primary key default gen_random_uuid(),
+  batch_id uuid not null references erp.migration_batches(id),
+  source_row_id uuid not null unique references erp.migration_staging_rows(id),
+  customer_id uuid not null references erp.customers(id),
+  return_number text not null check(length(btrim(return_number)) between 1 and 120),
+  invoice_document_number text not null,
+  invoice_source_id uuid references erp.initial_import_financial_sources(id),
+  legacy_document_id uuid references erp.bb_legacy_documents_v1(id),
+  product_id uuid not null references erp.products(id),
+  qty_pcs integer not null check(qty_pcs>0),
+  credit_unit_price numeric(18,2) not null check(credit_unit_price>=0),
+  unit_cost numeric(18,2) not null check(unit_cost>=0),
+  credit_coa_account_id uuid not null references erp.chart_accounts(id),
+  cutover_date date not null,
+  created_at timestamptz not null default statement_timestamp(),
+  check(num_nonnulls(invoice_source_id,legacy_document_id)=1)
+);
+create unique index bb_opening_sale_return_rights_v1_number on erp.bb_opening_sale_return_rights_v1(customer_id,lower(btrim(return_number)));
+comment on table erp.bb_opening_sale_return_rights_v1 is 'BB (ALL-S03): the right, agreed before cutover, of a customer to return pieces of an old invoice (open receivable or fully settled legacy document) at a stated credit price and cost. Nothing posts at import; each physical receipt after cutover posts once.';
+
+create table erp.bb_opening_sale_return_receipts_v1(
+  id uuid primary key,
+  right_id uuid not null references erp.bb_opening_sale_return_rights_v1(id),
+  qty_pcs integer not null check(qty_pcs>0),
+  location_id uuid not null references erp.locations(id),
+  product_id uuid not null references erp.products(id),
+  physical_at timestamptz not null,
+  lot_id uuid not null unique references erp.fg_lots(id),
+  movement_id uuid not null,
+  value_journal_id uuid references erp.journal_entries(id),
+  credit_id uuid unique references erp.bb_customer_credits_v1(id),
+  reason text not null check(length(btrim(reason))>0),
+  status text not null default 'POSTED' check(status in('POSTED','REVERSED')),
+  reversed_at timestamptz,
+  reversal_reason text,
+  created_by uuid,
+  created_at timestamptz not null default statement_timestamp(),
+  check((status='REVERSED')=(reversed_at is not null))
+);
+alter table erp.bb_customer_credits_v1 add constraint bb_customer_credits_v1_return_receipt_fkey
+  foreign key(return_receipt_id) references erp.bb_opening_sale_return_receipts_v1(id) deferrable initially deferred;
+
+create table erp.bb_opening_credits_v1(
+  settlement_id uuid primary key references erp.opening_subledger_settlements(id),
+  credit_kind text not null check(credit_kind in('CUSTOMER_ALLOWANCE','SUPPLIER_ALLOWANCE','VENDOR_ALLOWANCE','CUSTOMER_CREDIT_APPLY')),
+  credit_note_number text not null check(length(btrim(credit_note_number)) between 1 and 120),
+  customer_credit_id uuid references erp.bb_customer_credits_v1(id),
+  reason text not null check(length(btrim(reason))>0),
+  created_at timestamptz not null default statement_timestamp(),
+  check((credit_kind='CUSTOMER_CREDIT_APPLY')=(customer_credit_id is not null))
+);
+create unique index bb_opening_credits_v1_note on erp.bb_opening_credits_v1(credit_kind,lower(btrim(credit_note_number)))
+  where credit_kind<>'CUSTOMER_CREDIT_APPLY';
+comment on table erp.bb_opening_credits_v1 is 'BB (ALL-P02/S01): a non-cash settlement of an imported opening document (a credit note or allowance issued after cutover, or a customer credit applied to it). It rides on an opening_subledger_settlements row without a cash account, so settled amounts and the subledger checks stay canonical.';
+
+do $rls$
+declare t text;
+begin
+  foreach t in array array['bb_legacy_documents_v1','bb_customer_credits_v1','bb_customer_credit_events_v1',
+    'bb_opening_sale_return_rights_v1','bb_opening_sale_return_receipts_v1','bb_opening_credits_v1'] loop
+    execute format('alter table erp.%I enable row level security',t);
+    execute format('revoke all on erp.%I from public,anon,authenticated,service_role',t);
+  end loop;
+end $rls$;
+
+-- Y01: an imported CONTRACTOR_PAYABLE paid inside payroll, like a cash advance deducted inside payroll (AP).
+alter table erp.payroll_reimbursements add column opening_payable_balance_id uuid references erp.opening_subledger_balances(id);
+alter table erp.payroll_reimbursements drop constraint payroll_reimbursements_source_type_check;
+alter table erp.payroll_reimbursements add constraint payroll_reimbursements_source_type_check
+  check(source_type::text=any(array['MANUAL','ACCESSORY_BOM','OPENING_PAYABLE']));
+alter table erp.payroll_reimbursements add constraint payroll_reimbursements_opening_payable_check
+  check((source_type::text='OPENING_PAYABLE')=(opening_payable_balance_id is not null));
+create unique index payroll_reimbursements_opening_payable_unique on erp.payroll_reimbursements(payroll_id,opening_payable_balance_id)
+  where opening_payable_balance_id is not null;
+
+-- ---------------------------------------------------------------- shared helpers
+CREATE OR REPLACE FUNCTION erp.bb_business_today_v1()
+ RETURNS date LANGUAGE sql STABLE SET search_path TO ''
+AS $function$ select (statement_timestamp() at time zone 'Asia/Jakarta')::date $function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_physical_at_v1(p_date date)
+ RETURNS timestamptz LANGUAGE sql STABLE SET search_path TO ''
+AS $function$
+  -- A business date entered by the user as the instant it happened: noon Jakarta, or now for today (never in the future).
+  -- A future date stays in the future so the date guards refuse it.
+  select case when p_date=erp.bb_business_today_v1() then statement_timestamp()
+    else (p_date::timestamp+interval '12 hours') at time zone 'Asia/Jakarta' end
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_parse_amount_v1(p_value text,p_field text,p_allow_zero boolean DEFAULT false)
+ RETURNS numeric LANGUAGE plpgsql IMMUTABLE SET search_path TO ''
+AS $function$
+declare v numeric;
+begin
+  if p_value is null or btrim(p_value) !~ '^[0-9]+([.,][0-9]{1,2})?$' then
+    raise exception 'BB_AMOUNT_INVALID: % harus nominal tepat dua desimal',p_field;
+  end if;
+  v:=replace(btrim(p_value),',','.')::numeric;
+  if v>=1000000000000000000::numeric or (v=0 and not p_allow_zero) then
+    raise exception 'BB_AMOUNT_INVALID: % harus lebih dari nol dan dalam batas penyimpanan',p_field;
+  end if;
+  return v;
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_parse_date_v1(p_value text,p_field text)
+ RETURNS date LANGUAGE plpgsql IMMUTABLE SET search_path TO '' SET DateStyle TO 'ISO, YMD'
+AS $function$
+begin
+  if p_value is null or p_value !~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' or p_value::date::text<>p_value then
+    raise exception 'BB_DATE_INVALID: % memakai YYYY-MM-DD',p_field;
+  end if;
+  return p_value::date;
+end;$function$;
+
+-- The context of one opening subledger balance: its cutover (opening date), document date and import source if any.
+CREATE OR REPLACE FUNCTION erp.bb_opening_balance_context_v1(p_balance uuid)
+ RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select jsonb_build_object('balance_id',b.id,'opening_item_id',b.opening_item_id,'party_type',b.party_type,'direction',b.direction,
+    'party_id',coalesce(b.customer_id,b.supplier_id,b.vendor_id,b.contractor_id),'balance_type',i.balance_type,
+    'opening_date',h.opening_date,'cutover_date',coalesce(s.cutover_date,h.opening_date),'document_date',s.document_date,
+    'document_number',s.document_number,'batch_id',s.batch_id,'source_kind',s.source_kind,'source_mode',s.source_mode,
+    'min_date',greatest(coalesce(s.cutover_date,h.opening_date),coalesce(s.document_date,coalesce(s.cutover_date,h.opening_date))))
+  from erp.opening_subledger_balances b
+  join erp.opening_balance_items i on i.id=b.opening_item_id
+  join erp.opening_balance_headers h on h.id=i.opening_id
+  left join erp.initial_import_financial_sources s on s.opening_item_id=b.opening_item_id
+  where b.id=p_balance
+$function$;
+
+-- Money of one opening balance already promised to a payroll that is not paid yet (Y01 lines and AP cash advance lines).
+CREATE OR REPLACE FUNCTION erp.bb_opening_balance_reserved_v1(p_balance uuid,p_except_payroll uuid DEFAULT NULL)
+ RETURNS numeric LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select coalesce((select sum(r.amount) from erp.payroll_reimbursements r join erp.payroll_settlements p on p.id=r.payroll_id
+      where r.opening_payable_balance_id=p_balance and p.status not in('PAID','REVERSED')
+        and p.id is distinct from p_except_payroll),0)
+    +coalesce((select sum(d.amount) from erp.payroll_deductions d join erp.payroll_settlements p on p.id=d.payroll_id
+      where d.opening_cash_advance_balance_id=p_balance and p.status not in('PAID','REVERSED')
+        and p.id is distinct from p_except_payroll),0)
+$function$;
+
+-- BB (D02 applied to opening balances, like BA A9 for advances): the lowest outstanding amount of one opening balance on
+-- p_from and every later day. Opening amount at cutover; corrections on their effective date and their reversals on the
+-- reversal date; settlements (cash, advance, credit) and payroll lines on their economic date, reversals on theirs.
+CREATE OR REPLACE FUNCTION erp.bb_opening_balance_dated_floor_v1(p_balance uuid,p_from date)
+ RETURNS numeric LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+with b as (
+  select b.id,b.original_amount-coalesce((select sum(c.delta_amount) from erp.opening_financial_corrections c
+      where c.opening_item_id=b.opening_item_id and c.status='POSTED'),0) as initial_amount,b.opening_item_id
+  from erp.opening_subledger_balances b where b.id=p_balance),
+payroll_lines as (
+  select x.payroll_id,x.amount from (
+    select r.payroll_id,r.amount from erp.payroll_reimbursements r where r.opening_payable_balance_id=p_balance
+    union all select d.payroll_id,d.amount from erp.payroll_deductions d where d.opening_cash_advance_balance_id=p_balance) x),
+ev as (
+  select c.effective_date as day,c.delta_amount as delta
+  from erp.opening_financial_corrections c join b on b.opening_item_id=c.opening_item_id
+  union all
+  select coalesce((select min(r.economic_date) from erp.journal_entries j join erp.journal_entries r on r.reversal_of_id=j.id
+      where j.source_type='OPENING_FINANCIAL_CORRECTION' and j.source_id=c.id),(c.reversed_at at time zone 'Asia/Jakarta')::date),
+    -c.delta_amount
+  from erp.opening_financial_corrections c join b on b.opening_item_id=c.opening_item_id where c.status='REVERSED'
+  union all
+  select coalesce((select j.economic_date from erp.journal_entries j where j.source_type='OPENING_SUBLEDGER_SETTLEMENT'
+      and j.source_id=s.id and j.reversal_of_id is null order by j.posting_at,j.id limit 1),erp._cp3_business_date(s.physical_at)),-s.amount
+  from erp.opening_subledger_settlements s where s.balance_id=p_balance and s.status in('POSTED','REVERSED')
+  union all
+  select coalesce((select min(r.economic_date) from erp.journal_entries j join erp.journal_entries r on r.reversal_of_id=j.id
+      where j.source_type='OPENING_SUBLEDGER_SETTLEMENT' and j.source_id=s.id),(s.updated_at at time zone 'Asia/Jakarta')::date),s.amount
+  from erp.opening_subledger_settlements s where s.balance_id=p_balance and s.status='REVERSED'
+  union all
+  select p.payment_date,-l.amount from payroll_lines l join erp.payroll_settlements p on p.id=l.payroll_id
+  where p.status='PAID' or (p.status='REVERSED' and p.settled_at is null and exists(select 1 from erp.journal_entries j
+    where j.source_id=p.id and j.source_type in('PAYROLL_PAYMENT','PAYROLL_CASH_ADVANCE_DEDUCTION','PAYROLL_MATERIAL_DEDUCTION','PAYROLL_OTHER_DEDUCTION') and j.status='REVERSED'))
+  union all
+  select coalesce((select min(r.economic_date) from erp.journal_entries j join erp.journal_entries r on r.reversal_of_id=j.id
+      where j.source_id=p.id and j.source_type in('PAYROLL_PAYMENT','PAYROLL_CASH_ADVANCE_DEDUCTION','PAYROLL_MATERIAL_DEDUCTION','PAYROLL_OTHER_DEDUCTION')),(p.updated_at at time zone 'Asia/Jakarta')::date),
+    l.amount
+  from payroll_lines l join erp.payroll_settlements p on p.id=l.payroll_id
+  where p.status='REVERSED' and exists(select 1 from erp.journal_entries j
+    where j.source_id=p.id and j.source_type in('PAYROLL_PAYMENT','PAYROLL_CASH_ADVANCE_DEDUCTION','PAYROLL_MATERIAL_DEDUCTION','PAYROLL_OTHER_DEDUCTION') and j.status='REVERSED'))
+select min(b.initial_amount+coalesce((select sum(e.delta) from ev e where e.day<=d.day),0))
+from b cross join (select p_from as day union select e.day from ev e where e.day>p_from) d
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_assert_opening_balance_floor_v1(p_balance uuid,p_from date)
+ RETURNS void LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare v numeric;
+begin
+  v:=erp.bb_opening_balance_dated_floor_v1(p_balance,p_from);
+  if v<0 then
+    raise exception 'BB_OSS_DATED_CAPACITY: sisa saldo awal pada % atau sesudahnya menjadi % ; pelunasan tidak boleh memakai saldo yang baru ada di tanggal lebih akhir',p_from,v;
+  end if;
+end;$function$;
+
+-- The journal lines of a non-cash opening settlement (credit note, allowance, customer credit applied).
+CREATE OR REPLACE FUNCTION erp.bb_opening_credit_lines_v1(p_settlement_id uuid)
+ RETURNS jsonb LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare c erp.bb_opening_credits_v1%rowtype;s erp.opening_subledger_settlements%rowtype;b erp.opening_subledger_balances%rowtype;
+  v_credit erp.bb_customer_credits_v1%rowtype;
+begin
+  select * into c from erp.bb_opening_credits_v1 where settlement_id=p_settlement_id;
+  select * into s from erp.opening_subledger_settlements where id=p_settlement_id;
+  select * into b from erp.opening_subledger_balances where id=s.balance_id;
+  if c.credit_kind in('CUSTOMER_ALLOWANCE','CUSTOMER_CREDIT_APPLY') then
+    if b.party_type<>'CUSTOMER' or b.direction<>'RECEIVABLE' then raise exception 'BB_CREDIT_KIND_MISMATCH: kredit pelanggan hanya untuk piutang pelanggan';end if;
+    if c.credit_kind='CUSTOMER_CREDIT_APPLY' then
+      select * into v_credit from erp.bb_customer_credits_v1 where id=c.customer_credit_id;
+      if v_credit.customer_id is distinct from b.customer_id then raise exception 'BB_CREDIT_PARTY_MISMATCH: kredit dan piutang harus milik pelanggan yang sama';end if;
+      return jsonb_build_array(
+        jsonb_build_object('account_id',v_credit.coa_account_id,'debit',s.amount,'credit',0,'customer_id',b.customer_id),
+        jsonb_build_object('mapping_key','AR_CUSTOMER','debit',0,'credit',s.amount,'customer_id',b.customer_id));
+    end if;
+    return jsonb_build_array(
+      jsonb_build_object('mapping_key','SALES_REVENUE','debit',s.amount,'credit',0,'customer_id',b.customer_id),
+      jsonb_build_object('mapping_key','AR_CUSTOMER','debit',0,'credit',s.amount,'customer_id',b.customer_id));
+  elsif c.credit_kind='SUPPLIER_ALLOWANCE' then
+    if b.party_type<>'SUPPLIER' or b.direction<>'PAYABLE' then raise exception 'BB_CREDIT_KIND_MISMATCH: potongan supplier hanya untuk hutang supplier';end if;
+    return jsonb_build_array(
+      jsonb_build_object('mapping_key','AP_SUPPLIER','debit',s.amount,'credit',0),
+      jsonb_build_object('mapping_key','MATERIAL_PURCHASE_VARIANCE','debit',0,'credit',s.amount));
+  elsif c.credit_kind='VENDOR_ALLOWANCE' then
+    if b.party_type<>'VENDOR' or b.direction<>'PAYABLE' then raise exception 'BB_CREDIT_KIND_MISMATCH: potongan laundry hanya untuk hutang vendor laundry';end if;
+    return jsonb_build_array(
+      jsonb_build_object('mapping_key','AP_VENDOR','debit',s.amount,'credit',0,'vendor_id',b.vendor_id),
+      jsonb_build_object('mapping_key','OTHER_INCOME','debit',0,'credit',s.amount,'vendor_id',b.vendor_id));
+  end if;
+  raise exception 'BB_CREDIT_KIND_MISMATCH';
+end;$function$;
+
+-- The account a non-cash opening settlement credits or debits against the party account (the counterpart of the cash
+-- account of a cash settlement), used by the V2620M payment/journal detector.
+CREATE OR REPLACE FUNCTION erp.bb_opening_credit_account_v1(p_settlement_id uuid)
+ RETURNS uuid LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select case c.credit_kind when 'CUSTOMER_ALLOWANCE' then erp.account_id('SALES_REVENUE')
+    when 'SUPPLIER_ALLOWANCE' then erp.account_id('MATERIAL_PURCHASE_VARIANCE') when 'VENDOR_ALLOWANCE' then erp.account_id('OTHER_INCOME')
+    else (select k.coa_account_id from erp.bb_customer_credits_v1 k where k.id=c.customer_credit_id) end
+  from erp.bb_opening_credits_v1 c where c.settlement_id=p_settlement_id
+$function$;
+
+-- ---------------------------------------------------------------- customer credits (S03)
+CREATE OR REPLACE FUNCTION erp.bb_customer_credit_state_v1(p_credit_id uuid)
+ RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select jsonb_build_object('credit_id',c.id,'origin',c.origin,'customer_id',c.customer_id,'document_number',c.document_number,
+    'document_date',c.document_date,'effective_date',c.effective_date,'original_amount',c.original_amount::text,
+    'settled_before_cutover',c.settled_before_cutover::text,'amount',c.amount::text,
+    'used_amount',u.used::text,'voided',c.voided_at is not null,
+    'remaining_amount',(case when c.voided_at is null then c.amount-u.used else 0 end)::numeric(20,2)::text)
+  from erp.bb_customer_credits_v1 c
+  cross join lateral (select coalesce(sum(e.amount),0)::numeric(20,2) used from erp.bb_customer_credit_events_v1 e
+    left join erp.opening_subledger_settlements s on s.id=e.settlement_id
+    where e.credit_id=c.id and ((e.event_type='REFUND' and e.reversed_at is null) or (e.event_type='APPLY_OPENING_AR' and s.status='POSTED'))) u
+  where c.id=p_credit_id
+$function$;
+
+-- The lowest remaining credit on p_from and every later day, from the lines on the credit account of the credit's own
+-- journals (its creation, refunds, applications and their reversals), by economic date.
+CREATE OR REPLACE FUNCTION erp.bb_customer_credit_dated_floor_v1(p_credit_id uuid,p_from date)
+ RETURNS numeric LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+with c as (select * from erp.bb_customer_credits_v1 where id=p_credit_id),
+js as (
+  select c.journal_entry_id id from c
+  union select e.journal_entry_id from erp.bb_customer_credit_events_v1 e where e.credit_id=p_credit_id and e.journal_entry_id is not null
+  union select j.id from erp.journal_entries j join erp.bb_customer_credit_events_v1 e on e.settlement_id=j.source_id
+    where e.credit_id=p_credit_id and j.source_type='OPENING_SUBLEDGER_SETTLEMENT'
+  union select r.id from erp.journal_entries r join erp.journal_entries j on j.id=r.reversal_of_id
+    join erp.bb_customer_credit_events_v1 e on e.journal_entry_id=j.id or (j.source_type='OPENING_SUBLEDGER_SETTLEMENT' and j.source_id=e.settlement_id)
+    where e.credit_id=p_credit_id),
+moves as (
+  select je.economic_date as day,jl.credit-jl.debit as amount
+  from js join erp.journal_entries je on je.id=js.id and je.status in('POSTED','REVERSED')
+  join erp.journal_lines jl on jl.journal_entry_id=je.id
+  cross join c where jl.account_id=c.coa_account_id and jl.customer_id is not distinct from c.customer_id)
+select min(coalesce((select sum(m.amount) from moves m where m.day<=d.day),0))
+from (select p_from as day union select m.day from moves m where m.day>p_from) d
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_check_credit_account_v1(p_account uuid,p_account_payload jsonb DEFAULT NULL)
+ RETURNS void LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare a jsonb;
+begin
+  select to_jsonb(x) into a from erp.chart_accounts x where x.id=p_account;
+  a:=coalesce(a,p_account_payload);
+  if a is null or a->>'account_type' is distinct from 'LIABILITY' or a->>'normal_balance' is distinct from 'CREDIT'
+    or not coalesce(nullif(a->>'is_active','')::boolean,true) or not coalesce(nullif(a->>'is_postable','')::boolean,true)
+    or (p_account is not null and (exists(select 1 from erp.cash_accounts where coa_account_id=p_account)
+      or exists(select 1 from erp.accounting_account_mappings where account_id=p_account)
+      or exists(select 1 from erp.initial_import_prepayments where coa_account_id=p_account))) then
+    raise exception 'BB_CREDIT_ACCOUNT_INVALID: gunakan akun kewajiban khusus kredit pelanggan yang aktif, bukan kas, akun mapping, atau akun uang muka';
+  end if;
+  if p_account is not null and not exists(select 1 from erp.bb_customer_credits_v1 where coa_account_id=p_account)
+    and exists(select 1 from erp.journal_lines where account_id=p_account) then
+    raise exception 'BB_CREDIT_ACCOUNT_INVALID: akun ini sudah memiliki saldo tanpa sumber kredit pelanggan; rekonsiliasi dahulu';
+  end if;
+end;$function$;
+
+-- ---------------------------------------------------------------- import rows: validation and apply
+CREATE OR REPLACE FUNCTION erp.bb_party_of_v1(p_batch uuid,p_balance_type text,p_code text)
+ RETURNS jsonb LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+-- The party of a balance type by code: an active master, or a valid master row of the same batch (applied at FINALIZE).
+declare v_table text;v_code text;v_entity text;v_id uuid;
+begin
+  v_table:=case p_balance_type when 'CUSTOMER_RECEIVABLE' then 'customers' when 'SUPPLIER_PAYABLE' then 'suppliers'
+    when 'VENDOR_PAYABLE' then 'laundry_vendors' when 'CONTRACTOR_RECEIVABLE' then 'contractors' when 'CONTRACTOR_PAYABLE' then 'contractors' end;
+  if v_table is null then raise exception 'balance_type: gunakan CUSTOMER_RECEIVABLE, SUPPLIER_PAYABLE, VENDOR_PAYABLE, CONTRACTOR_RECEIVABLE, atau CONTRACTOR_PAYABLE';end if;
+  v_code:=case v_table when 'customers' then 'customer_code' when 'suppliers' then 'supplier_code' when 'laundry_vendors' then 'vendor_code' else 'contractor_code' end;
+  v_entity:=case v_table when 'customers' then 'CUSTOMER' when 'suppliers' then 'SUPPLIER' when 'laundry_vendors' then 'LAUNDRY_VENDOR' else 'CONTRACTOR' end;
+  execute format('select id from erp.%I where %I=$1 and is_active',v_table,v_code) into v_id using p_code;
+  if v_id is null and not exists(select 1 from erp.migration_staging_rows where batch_id=p_batch and entity_type=v_entity
+      and validation_status='VALID' and normalized_payload->>v_code=p_code
+      and coalesce(nullif(normalized_payload->>'is_active','')::boolean,true)) then
+    raise exception 'party_code: pihak aktif % tidak ditemukan',p_code;
+  end if;
+  return jsonb_build_object('party_id',v_id,'party_code',p_code,'code_field',v_code,'table',v_table);
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_check_import_row_v1(p_batch uuid,p_row uuid)
+ RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO '' SET DateStyle TO 'ISO, YMD'
+AS $function$
+declare r erp.migration_staging_rows%rowtype;j jsonb;k text;v_cutover date;v_party jsonb;v_date date;v_doc text;
+  v_original numeric;v_settled numeric;v_amount numeric;v_account uuid;a jsonb;v_qty numeric;v_price numeric;v_cost numeric;
+  v_invoice jsonb;v_product jsonb;
+begin
+  perform erp.require_owner_admin();
+  select * into r from erp.migration_staging_rows where id=p_row and batch_id=p_batch;
+  if r.id is null then raise exception 'Baris impor tidak ditemukan';end if;
+  j:=r.normalized_payload;
+  select (cutover_at at time zone 'Asia/Jakarta')::date into v_cutover from erp.migration_batches where id=p_batch;
+  if r.entity_type='LEGACY_DOCUMENT' then
+    foreach k in array array['balance_type','party_code','document_number','document_date','original_amount','settled_before_cutover'] loop
+      if nullif(btrim(j->>k),'') is null then raise exception '%: wajib diisi untuk dokumen lama yang sudah lunas',k;end if;
+    end loop;
+    v_party:=erp.bb_party_of_v1(p_batch,j->>'balance_type',j->>'party_code');
+    v_doc:=btrim(j->>'document_number');
+    if length(v_doc)>120 then raise exception 'document_number: maksimal 120 karakter';end if;
+    v_date:=erp.bb_parse_date_v1(j->>'document_date','document_date');
+    if v_date>v_cutover then raise exception 'document_date: dokumen lama tidak boleh sesudah tanggal saldo awal';end if;
+    v_original:=erp.bb_parse_amount_v1(j->>'original_amount','original_amount');
+    v_settled:=erp.bb_parse_amount_v1(j->>'settled_before_cutover','settled_before_cutover',true);
+    if v_settled<>v_original then
+      raise exception 'BB_LEGACY_DOCUMENT_NOT_SETTLED: dokumen lama hanya dicatat bila sudah lunas penuh; sisa terbuka diimpor sebagai saldo awal dokumen';
+    end if;
+    if exists(select 1 from erp.migration_staging_rows s where s.batch_id=p_batch and s.id<>r.id
+        and ((s.entity_type='LEGACY_DOCUMENT' and s.normalized_payload->>'balance_type'=j->>'balance_type'
+              and s.normalized_payload->>'party_code'=j->>'party_code')
+          or (s.entity_type='OPENING_BALANCE_ITEM' and s.normalized_payload->>'balance_type'=j->>'balance_type'
+              and s.normalized_payload->>(v_party->>'code_field')=j->>'party_code'))
+        and lower(btrim(s.normalized_payload->>'document_number'))=lower(v_doc))
+      or (v_party->>'party_id' is not null and (exists(select 1 from erp.bb_legacy_documents_v1 d where d.balance_type=j->>'balance_type'
+          and d.party_id=(v_party->>'party_id')::uuid and lower(btrim(d.document_number))=lower(v_doc) and d.source_row_id<>r.id)
+        or exists(select 1 from erp.initial_import_financial_sources f where f.balance_type=j->>'balance_type'
+          and f.party_id=(v_party->>'party_id')::uuid and lower(btrim(f.document_number))=lower(v_doc)))) then
+      raise exception 'BB_LEGACY_DOCUMENT_DUPLICATE: nomor dokumen ini sudah tercatat untuk pihak yang sama';
+    end if;
+    return jsonb_build_object('party_id',v_party->>'party_id','cutover_date',v_cutover,'document_date',v_date);
+  elsif r.entity_type='OPENING_CUSTOMER_CREDIT' then
+    foreach k in array array['customer_code','coa_account_code','document_number','document_date','original_amount','settled_before_cutover','amount'] loop
+      if nullif(btrim(j->>k),'') is null then raise exception '%: wajib diisi untuk kredit pelanggan',k;end if;
+    end loop;
+    v_party:=erp.bb_party_of_v1(p_batch,'CUSTOMER_RECEIVABLE',j->>'customer_code');
+    v_doc:=btrim(j->>'document_number');
+    if length(v_doc)>120 then raise exception 'document_number: maksimal 120 karakter';end if;
+    v_date:=erp.bb_parse_date_v1(j->>'document_date','document_date');
+    if v_date>v_cutover then raise exception 'document_date: retur yang kreditnya dibawa harus sudah terjadi sebelum saldo awal';end if;
+    v_original:=erp.bb_parse_amount_v1(j->>'original_amount','original_amount');
+    v_settled:=erp.bb_parse_amount_v1(j->>'settled_before_cutover','settled_before_cutover',true);
+    v_amount:=erp.bb_parse_amount_v1(j->>'amount','amount');
+    if v_original-v_settled<>v_amount then raise exception 'amount: sisa kredit harus sama dengan kredit asal dikurangi yang sudah dibayar sebelum saldo awal';end if;
+    select id into v_account from erp.chart_accounts where account_code=j->>'coa_account_code';
+    if v_account is null then
+      select normalized_payload into a from erp.migration_staging_rows where batch_id=p_batch and entity_type='CHART_ACCOUNT'
+        and validation_status='VALID' and normalized_payload->>'account_code'=j->>'coa_account_code';
+      if a is null then raise exception 'coa_account_code: akun tidak ditemukan';end if;
+    end if;
+    perform erp.bb_check_credit_account_v1(v_account,a);
+    if exists(select 1 from erp.migration_staging_rows s where s.batch_id=p_batch and s.id<>r.id
+        and s.entity_type='OPENING_CUSTOMER_CREDIT' and s.normalized_payload->>'customer_code'=j->>'customer_code'
+        and lower(btrim(s.normalized_payload->>'document_number'))=lower(v_doc))
+      or (v_party->>'party_id' is not null and exists(select 1 from erp.bb_customer_credits_v1 c
+        where c.customer_id=(v_party->>'party_id')::uuid and lower(btrim(c.document_number))=lower(v_doc)
+          and c.source_row_id is distinct from r.id)) then
+      raise exception 'BB_CUSTOMER_CREDIT_DUPLICATE: kredit dengan nomor ini sudah tercatat untuk pelanggan yang sama';
+    end if;
+    return jsonb_build_object('customer_id',v_party->>'party_id','coa_account_id',v_account,'cutover_date',v_cutover,'document_date',v_date);
+  elsif r.entity_type='OPENING_SALE_RETURN' then
+    foreach k in array array['customer_code','return_number','invoice_document_number','product_sku','qty','credit_unit_price','unit_cost','credit_coa_account_code'] loop
+      if nullif(btrim(j->>k),'') is null then raise exception '%: wajib diisi untuk hak retur penjualan lama',k;end if;
+    end loop;
+    v_party:=erp.bb_party_of_v1(p_batch,'CUSTOMER_RECEIVABLE',j->>'customer_code');
+    if length(btrim(j->>'return_number'))>120 then raise exception 'return_number: maksimal 120 karakter';end if;
+    if j->>'qty' !~ '^[1-9][0-9]{0,8}$' then raise exception 'qty: jumlah pcs bilangan bulat positif';end if;
+    v_price:=erp.bb_parse_amount_v1(j->>'credit_unit_price','credit_unit_price',true);
+    v_cost:=erp.bb_parse_amount_v1(j->>'unit_cost','unit_cost',true);
+    -- The invoice: an open receivable document or a fully settled legacy document of the same customer.
+    if not exists(select 1 from erp.migration_staging_rows s where s.batch_id=p_batch and s.validation_status<>'ERROR'
+        and ((s.entity_type='OPENING_BALANCE_ITEM' and s.normalized_payload->>'balance_type'='CUSTOMER_RECEIVABLE'
+              and s.normalized_payload->>'customer_code'=j->>'customer_code')
+          or (s.entity_type='LEGACY_DOCUMENT' and s.normalized_payload->>'balance_type'='CUSTOMER_RECEIVABLE'
+              and s.normalized_payload->>'party_code'=j->>'customer_code'))
+        and lower(btrim(s.normalized_payload->>'document_number'))=lower(btrim(j->>'invoice_document_number')))
+      and not (v_party->>'party_id' is not null and (exists(select 1 from erp.initial_import_financial_sources f
+          where f.balance_type='CUSTOMER_RECEIVABLE' and f.party_id=(v_party->>'party_id')::uuid and f.source_mode='DOCUMENT'
+            and lower(btrim(f.document_number))=lower(btrim(j->>'invoice_document_number')))
+        or exists(select 1 from erp.bb_legacy_documents_v1 d where d.balance_type='CUSTOMER_RECEIVABLE'
+          and d.party_id=(v_party->>'party_id')::uuid and lower(btrim(d.document_number))=lower(btrim(j->>'invoice_document_number'))))) then
+      raise exception 'BB_RETURN_INVOICE_REQUIRED: invoice asal harus diimpor sebagai piutang dokumen atau dokumen lama lunas milik pelanggan yang sama';
+    end if;
+    if not exists(select 1 from erp.products p where lower(btrim(p.sku))=lower(btrim(j->>'product_sku')))
+      and not exists(select 1 from erp.migration_staging_rows s where s.batch_id=p_batch and s.entity_type='PRODUCT'
+        and s.validation_status='VALID' and lower(btrim(s.normalized_payload->>'sku'))=lower(btrim(j->>'product_sku'))) then
+      raise exception 'product_sku: produk tidak ditemukan';
+    end if;
+    select id into v_account from erp.chart_accounts where account_code=j->>'credit_coa_account_code';
+    if v_account is null then
+      select normalized_payload into a from erp.migration_staging_rows where batch_id=p_batch and entity_type='CHART_ACCOUNT'
+        and validation_status='VALID' and normalized_payload->>'account_code'=j->>'credit_coa_account_code';
+      if a is null then raise exception 'credit_coa_account_code: akun tidak ditemukan';end if;
+    end if;
+    perform erp.bb_check_credit_account_v1(v_account,a);
+    if exists(select 1 from erp.migration_staging_rows s where s.batch_id=p_batch and s.id<>r.id
+        and s.entity_type='OPENING_SALE_RETURN' and s.normalized_payload->>'customer_code'=j->>'customer_code'
+        and lower(btrim(s.normalized_payload->>'return_number'))=lower(btrim(j->>'return_number')))
+      or (v_party->>'party_id' is not null and exists(select 1 from erp.bb_opening_sale_return_rights_v1 x
+        where x.customer_id=(v_party->>'party_id')::uuid and lower(btrim(x.return_number))=lower(btrim(j->>'return_number'))
+          and x.source_row_id<>r.id)) then
+      raise exception 'BB_RETURN_RIGHT_DUPLICATE: hak retur dengan nomor ini sudah tercatat';
+    end if;
+    return jsonb_build_object('customer_id',v_party->>'party_id','coa_account_id',v_account,'cutover_date',v_cutover);
+  end if;
+  raise exception 'BB: jenis baris % tidak ditangani bagian keuangan',r.entity_type;
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_validate_financial_imports_v1(p_batch uuid)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare r record;
+begin
+  perform erp.require_owner_admin();
+  -- Legacy documents first: return rights name them.
+  for r in select id from erp.migration_staging_rows where batch_id=p_batch
+      and entity_type in('LEGACY_DOCUMENT','OPENING_CUSTOMER_CREDIT','OPENING_SALE_RETURN')
+      order by case entity_type when 'LEGACY_DOCUMENT' then 1 when 'OPENING_CUSTOMER_CREDIT' then 2 else 3 end,source_row_no loop
+    begin
+      perform erp.bb_check_import_row_v1(p_batch,r.id);
+      update erp.migration_staging_rows set validation_status='VALID',validation_errors='[]' where id=r.id;
+    exception when others then
+      update erp.migration_staging_rows set validation_status='ERROR',validation_errors=jsonb_build_array(sqlerrm) where id=r.id;
+    end;
+  end loop;
+  -- An open receivable document may not also be a fully settled legacy document (checked from the document side too).
+  update erp.migration_staging_rows s set validation_status='ERROR',
+    validation_errors=s.validation_errors||jsonb_build_array('BB_LEGACY_DOCUMENT_DUPLICATE: dokumen ini juga dicatat sebagai dokumen lama lunas')
+  where s.batch_id=p_batch and s.entity_type='OPENING_BALANCE_ITEM' and nullif(btrim(s.normalized_payload->>'document_number'),'') is not null
+    and exists(select 1 from erp.migration_staging_rows d where d.batch_id=p_batch and d.entity_type='LEGACY_DOCUMENT'
+      and d.normalized_payload->>'balance_type'=s.normalized_payload->>'balance_type'
+      and d.normalized_payload->>'party_code'=s.normalized_payload->>(case s.normalized_payload->>'balance_type'
+        when 'CUSTOMER_RECEIVABLE' then 'customer_code' when 'SUPPLIER_PAYABLE' then 'supplier_code'
+        when 'VENDOR_PAYABLE' then 'vendor_code' else 'contractor_code' end)
+      and lower(btrim(d.normalized_payload->>'document_number'))=lower(btrim(s.normalized_payload->>'document_number')));
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_apply_financial_imports_v1(p_batch uuid)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare r record;j jsonb;c jsonb;v_id uuid;v_journal uuid;v_party uuid;v_invoice uuid;v_legacy uuid;v_product uuid;
+  v_cutover_at timestamptz;v_account uuid;
+begin
+  perform erp.require_owner_admin();
+  select cutover_at into v_cutover_at from erp.migration_batches where id=p_batch;
+  for r in select * from erp.migration_staging_rows where batch_id=p_batch
+      and entity_type in('LEGACY_DOCUMENT','OPENING_CUSTOMER_CREDIT','OPENING_SALE_RETURN') and posted_entity_id is null
+      order by case entity_type when 'LEGACY_DOCUMENT' then 1 when 'OPENING_CUSTOMER_CREDIT' then 2 else 3 end,source_row_no loop
+    if r.validation_status<>'VALID' then raise exception 'Baris % belum lolos pemeriksaan',r.entity_type;end if;
+    j:=r.normalized_payload;
+    perform pg_advisory_xact_lock(hashtextextended('BB_IMPORT_DOC:'||r.entity_type||':'||coalesce(j->>'party_code',j->>'customer_code','')
+      ||':'||lower(btrim(coalesce(j->>'document_number',j->>'return_number',''))),0));
+    c:=erp.bb_check_import_row_v1(p_batch,r.id);
+    if r.entity_type='LEGACY_DOCUMENT' then
+      v_party:=(erp.bb_party_of_v1(p_batch,j->>'balance_type',j->>'party_code')->>'party_id')::uuid;
+      if v_party is null then raise exception 'Master pihak dokumen lama belum tersedia';end if;
+      insert into erp.bb_legacy_documents_v1(batch_id,source_row_id,balance_type,party_id,document_number,document_date,cutover_date,
+        original_amount,settled_before_cutover,notes)
+      values(p_batch,r.id,j->>'balance_type',v_party,btrim(j->>'document_number'),(c->>'document_date')::date,(c->>'cutover_date')::date,
+        replace(j->>'original_amount',',','.')::numeric,replace(j->>'settled_before_cutover',',','.')::numeric,nullif(btrim(j->>'notes'),''))
+      returning id into v_id;
+    elsif r.entity_type='OPENING_CUSTOMER_CREDIT' then
+      v_party:=(c->>'customer_id')::uuid;
+      v_account:=coalesce((c->>'coa_account_id')::uuid,(select id from erp.chart_accounts where account_code=j->>'coa_account_code'));
+      if v_party is null or v_account is null then raise exception 'Master kredit pelanggan belum tersedia';end if;
+      perform erp.bb_check_credit_account_v1(v_account);
+      v_id:=gen_random_uuid();
+      v_journal:=erp.post_journal('BB_CUSTOMER_CREDIT',v_id,(c->>'cutover_date')::date,'Kredit retur pelanggan sebelum ERP',jsonb_build_array(
+        jsonb_build_object('mapping_key','OPENING_EQUITY','debit',replace(j->>'amount',',','.')::numeric,'credit',0,'customer_id',v_party),
+        jsonb_build_object('account_id',v_account,'debit',0,'credit',replace(j->>'amount',',','.')::numeric,'customer_id',v_party)));
+      insert into erp.bb_customer_credits_v1(id,origin,batch_id,source_row_id,customer_id,coa_account_id,document_number,document_date,
+        original_amount,settled_before_cutover,amount,effective_date,journal_entry_id,created_by)
+      values(v_id,'IMPORTED',p_batch,r.id,v_party,v_account,btrim(j->>'document_number'),(c->>'document_date')::date,
+        replace(j->>'original_amount',',','.')::numeric,replace(j->>'settled_before_cutover',',','.')::numeric,
+        replace(j->>'amount',',','.')::numeric,(c->>'cutover_date')::date,v_journal,erp.current_app_user_id());
+    else
+      v_party:=(c->>'customer_id')::uuid;
+      v_account:=coalesce((c->>'coa_account_id')::uuid,(select id from erp.chart_accounts where account_code=j->>'credit_coa_account_code'));
+      if v_party is null or v_account is null then raise exception 'Master hak retur belum tersedia';end if;
+      perform erp.bb_check_credit_account_v1(v_account);
+      select f.id into v_invoice from erp.initial_import_financial_sources f where f.balance_type='CUSTOMER_RECEIVABLE'
+        and f.party_id=v_party and f.source_mode='DOCUMENT' and lower(btrim(f.document_number))=lower(btrim(j->>'invoice_document_number'));
+      if v_invoice is null then
+        select d.id into v_legacy from erp.bb_legacy_documents_v1 d where d.balance_type='CUSTOMER_RECEIVABLE' and d.party_id=v_party
+          and lower(btrim(d.document_number))=lower(btrim(j->>'invoice_document_number'));
+      end if;
+      if v_invoice is null and v_legacy is null then raise exception 'BB_RETURN_INVOICE_REQUIRED: invoice asal tidak ditemukan';end if;
+      v_product:=erp.resolve_opening_product_identity(j->>'product_sku',v_cutover_at,j->>'color_name',j->>'size_code',
+        j->>'model_code',j->>'brand_code');
+      if v_product is null then raise exception 'product_sku: produk hak retur tidak ditemukan pada tanggal saldo awal';end if;
+      insert into erp.bb_opening_sale_return_rights_v1(batch_id,source_row_id,customer_id,return_number,invoice_document_number,
+        invoice_source_id,legacy_document_id,product_id,qty_pcs,credit_unit_price,unit_cost,credit_coa_account_id,cutover_date)
+      values(p_batch,r.id,v_party,btrim(j->>'return_number'),btrim(j->>'invoice_document_number'),v_invoice,v_legacy,v_product,
+        (j->>'qty')::integer,replace(j->>'credit_unit_price',',','.')::numeric,replace(j->>'unit_cost',',','.')::numeric,v_account,
+        (c->>'cutover_date')::date)
+      returning id into v_id;
+      v_invoice:=null;v_legacy:=null;
+    end if;
+    update erp.migration_staging_rows set posted_entity_id=v_id,posted_entity_type=r.entity_type,posted_at=statement_timestamp(),
+      updated_at=statement_timestamp() where id=r.id;
+  end loop;
+end;$function$;
+
+-- One identity for an old document: an open imported document and a fully settled legacy document never share it.
+CREATE OR REPLACE FUNCTION erp.bb_guard_legacy_document_identity_v1()
+ RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+begin
+  if TG_TABLE_NAME='bb_legacy_documents_v1' then
+    if TG_OP<>'INSERT' then raise exception 'BB_LEGACY_DOCUMENT_IMMUTABLE: dokumen lama hanya provenance dan tidak diubah';end if;
+    perform pg_advisory_xact_lock(hashtextextended('BB_DOC_IDENTITY:'||new.balance_type||':'||new.party_id||':'||lower(btrim(new.document_number)),0));
+    if exists(select 1 from erp.initial_import_financial_sources f where f.balance_type=new.balance_type and f.party_id=new.party_id
+        and lower(btrim(f.document_number))=lower(btrim(new.document_number))) then
+      raise exception 'BB_LEGACY_DOCUMENT_DUPLICATE: dokumen ini sudah diimpor sebagai saldo terbuka';
+    end if;
+  elsif new.document_number is not null then
+    perform pg_advisory_xact_lock(hashtextextended('BB_DOC_IDENTITY:'||new.balance_type||':'||new.party_id||':'||lower(btrim(new.document_number)),0));
+    if exists(select 1 from erp.bb_legacy_documents_v1 d where d.balance_type=new.balance_type and d.party_id=new.party_id
+        and lower(btrim(d.document_number))=lower(btrim(new.document_number))) then
+      raise exception 'BB_LEGACY_DOCUMENT_DUPLICATE: dokumen ini sudah dicatat sebagai dokumen lama lunas';
+    end if;
+  end if;
+  return new;
+end;$function$;
+create trigger trg_bb_legacy_document_identity before insert or update or delete on erp.bb_legacy_documents_v1
+  for each row execute function erp.bb_guard_legacy_document_identity_v1();
+create trigger trg_bb_financial_source_legacy_identity before insert on erp.initial_import_financial_sources
+  for each row execute function erp.bb_guard_legacy_document_identity_v1();
+
+-- ---------------------------------------------------------------- Y01: opening payable lines in payroll
+CREATE OR REPLACE FUNCTION erp.bb_guard_opening_payable_reimbursement_v1()
+ RETURNS trigger LANGUAGE plpgsql SECURITY INVOKER SET search_path TO ''
+AS $function$
+declare p erp.payroll_settlements%rowtype;b erp.opening_subledger_balances%rowtype;ctx jsonb;v_id uuid;v_reserved numeric;
+begin
+  if TG_OP='DELETE' then
+    if old.opening_payable_balance_id is null then return old;end if;
+    v_id:=old.payroll_id;
+  else
+    if new.opening_payable_balance_id is null and new.source_type::text<>'OPENING_PAYABLE'
+      and (TG_OP='INSERT' or old.opening_payable_balance_id is null) then return new;end if;
+    v_id:=new.payroll_id;
+  end if;
+  -- Only the controlled writer reaches these lines (same rule as the cash advance deduction of AP).
+  if current_user<>'postgres' then raise exception 'BB_OPENING_PAYABLE_WRITER: hutang saldo awal masuk payroll hanya lewat command resmi';end if;
+  perform erp.require_internal();
+  if TG_OP='UPDATE' and (new.payroll_id<>old.payroll_id or new.opening_payable_balance_id is distinct from old.opening_payable_balance_id
+      or new.source_type is distinct from old.source_type) then
+    raise exception 'BB_OPENING_PAYABLE_WRITER: sumber hutang payroll tidak dapat dipindah; lepaskan lalu pilih ulang';
+  end if;
+  select * into p from erp.payroll_settlements where id=v_id for update;
+  if p.id is null or p.status not in('DRAFT','CALCULATED','REVIEW') then
+    raise exception 'BB_OPENING_PAYABLE_DRAFT_ONLY: hutang saldo awal hanya dapat diatur pada payroll draft';
+  end if;
+  if TG_OP='DELETE' then
+    perform 1 from erp.opening_subledger_balances where id=old.opening_payable_balance_id for update;
+    return old;
+  end if;
+  if new.source_type::text<>'OPENING_PAYABLE' or new.opening_payable_balance_id is null or new.amount is null
+    or new.amount::text in('NaN','Infinity','-Infinity') or new.amount<=0 or new.amount<>round(new.amount,2) then
+    raise exception 'BB_OPENING_PAYABLE_AMOUNT: hutang saldo awal memerlukan sumber dan nominal positif tepat dua desimal';
+  end if;
+  select * into b from erp.opening_subledger_balances where id=new.opening_payable_balance_id for update;
+  ctx:=erp.bb_opening_balance_context_v1(b.id);
+  if b.id is null or ctx->>'batch_id' is null or b.party_type<>'CONTRACTOR' or b.direction<>'PAYABLE'
+    or b.contractor_id is distinct from p.contractor_id then
+    raise exception 'BB_OPENING_PAYABLE_WRONG_CONTRACTOR: hutang harus saldo awal impor milik mandor payroll ini';
+  end if;
+  v_reserved:=erp.bb_opening_balance_reserved_v1(b.id)-coalesce((select r.amount from erp.payroll_reimbursements r where r.id=new.id
+    and TG_OP='UPDATE'),0);
+  if new.amount>b.original_amount-b.settled_amount-v_reserved then
+    raise exception 'BB_OPENING_PAYABLE_EXCEEDS_AVAILABLE: melebihi sisa hutang saldo awal yang belum dilunasi atau dipakai payroll lain';
+  end if;
+  return new;
+end;$function$;
+create trigger trg_bb_opening_payable_reimbursement before insert or update or delete on erp.payroll_reimbursements
+  for each row execute function erp.bb_guard_opening_payable_reimbursement_v1();
+
+-- A balance never promises more than it has: settled plus payroll lines not yet paid stay within the opening amount.
+CREATE OR REPLACE FUNCTION erp.bb_guard_opening_balance_reserved_v1()
+ RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare v_reserved numeric;
+begin
+  select coalesce(sum(r.amount),0) into v_reserved from erp.payroll_reimbursements r join erp.payroll_settlements p on p.id=r.payroll_id
+    where r.opening_payable_balance_id=new.id and p.status not in('PAID','REVERSED');
+  if v_reserved>0 and new.original_amount<new.settled_amount+v_reserved then
+    raise exception 'BB_OSS_EXCEEDS_AVAILABLE: saldo awal tidak cukup setelah pelunasan dan hutang yang sudah masuk payroll; lepaskan dari payroll dahulu';
+  end if;
+  return new;
+end;$function$;
+create trigger trg_bb_opening_balance_reserved before update on erp.opening_subledger_balances
+  for each row execute function erp.bb_guard_opening_balance_reserved_v1();
+
+CREATE OR REPLACE FUNCTION erp.bb_check_opening_payable_payroll_v1(p_payroll_id uuid)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare p erp.payroll_settlements%rowtype;r record;
+begin
+  perform erp.require_internal();
+  select * into p from erp.payroll_settlements where id=p_payroll_id for update;
+  if p.id is null then raise exception 'Payroll tidak ditemukan';end if;
+  for r in select b.*,x.amount line_amount,(erp.bb_opening_balance_context_v1(b.id)->>'cutover_date')::date cutover_date
+      from erp.opening_subledger_balances b
+      join (select opening_payable_balance_id id,sum(amount) amount from erp.payroll_reimbursements
+        where payroll_id=p.id and source_type='OPENING_PAYABLE' group by 1) x on x.id=b.id
+      order by b.id for update of b loop
+    if r.party_type<>'CONTRACTOR' or r.direction<>'PAYABLE' or r.contractor_id is distinct from p.contractor_id then
+      raise exception 'BB_OPENING_PAYABLE_WRONG_CONTRACTOR: hutang saldo awal bukan milik mandor payroll ini';
+    end if;
+    if p.payment_date<r.cutover_date then
+      raise exception 'BB_OPENING_PAYABLE_DATE: tanggal pembayaran payroll sebelum saldo awal %',r.cutover_date;
+    end if;
+    if r.line_amount>r.original_amount-r.settled_amount-erp.bb_opening_balance_reserved_v1(r.id,p.id) then
+      raise exception 'BB_OPENING_PAYABLE_EXCEEDS_AVAILABLE: saldo hutang berubah atau sudah dipakai pelunasan/payroll lain';
+    end if;
+  end loop;
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_set_opening_payable_payroll_v1(p_balance_id uuid,p_payroll_id uuid,p_amount numeric,p_expected_version bigint)
+ RETURNS uuid LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare p erp.payroll_settlements%rowtype;v_id uuid;ctx jsonb;
+begin
+  perform erp.require_owner_admin();
+  if p_amount is null or p_amount::text in('NaN','Infinity','-Infinity') or p_amount<0 or p_amount<>round(p_amount,2) then
+    raise exception 'BB_OPENING_PAYABLE_AMOUNT: nominal tepat dua desimal; nol untuk melepaskan';
+  end if;
+  select * into p from erp.payroll_settlements where id=p_payroll_id for update;
+  if p.id is null or p.status not in('DRAFT','CALCULATED','REVIEW') then raise exception 'BB_OPENING_PAYABLE_DRAFT_ONLY: payroll harus draft';end if;
+  if p_expected_version is null or p.row_version<>p_expected_version then raise exception 'STALE_VERSION: payroll berubah';end if;
+  ctx:=erp.bb_opening_balance_context_v1(p_balance_id);
+  if ctx is null or ctx->>'batch_id' is null then raise exception 'BB_OSS_NOT_IN_BATCH: saldo hutang impor tidak ditemukan';end if;
+  select id into v_id from erp.payroll_reimbursements where payroll_id=p.id and opening_payable_balance_id=p_balance_id;
+  if p_amount=0 then
+    if v_id is null then raise exception 'Alokasi yang akan dilepas tidak ditemukan';end if;
+    delete from erp.payroll_reimbursements where id=v_id;
+  elsif v_id is null then
+    insert into erp.payroll_reimbursements(payroll_id,amount,description,source_type,opening_payable_balance_id)
+    values(p.id,p_amount,'Hutang upah/reimburse saldo awal '||coalesce(ctx->>'document_number','ringkasan'),'OPENING_PAYABLE',p_balance_id)
+    returning id into v_id;
+  else
+    update erp.payroll_reimbursements set amount=p_amount where id=v_id;
+  end if;
+  perform erp.recalculate_payroll(p.id);
+  return v_id;
+end;$function$;
+
+-- ---------------------------------------------------------------- facade: settle, credit and pay opening balances
+CREATE OR REPLACE FUNCTION erp.bb_manage_opening_settlement_v1(p_payload jsonb,p_request uuid)
+ RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare v_op text:=upper(coalesce(nullif(btrim(p_payload->>'operation'),''),''));v_batch uuid:=(p_payload->>'batch_id')::uuid;
+  b erp.opening_subledger_balances%rowtype;s erp.opening_subledger_settlements%rowtype;ctx jsonb;v_amount numeric;v_date date;
+  v_reason text:=nullif(btrim(p_payload->>'reason'),'');v_kind text;v_note text;v_cash uuid;v_id uuid;v_available numeric;
+  v_customer_credit erp.bb_customer_credits_v1%rowtype;v_payroll uuid;
+begin
+  if v_op not in('SETTLE','REVERSE','CREDIT','ALLOCATE_PAYROLL') then raise exception 'BB_OSS_OPERATION: operasi tidak dikenal';end if;
+  if v_op in('SETTLE','CREDIT','ALLOCATE_PAYROLL') then
+    select * into b from erp.opening_subledger_balances where id=(p_payload->>'balance_id')::uuid for update;
+    ctx:=erp.bb_opening_balance_context_v1(b.id);
+    if b.id is null or ctx->>'batch_id' is distinct from v_batch::text then raise exception 'BB_OSS_NOT_IN_BATCH: saldo bukan milik impor ini';end if;
+  end if;
+  if v_op='ALLOCATE_PAYROLL' then
+    if b.party_type<>'CONTRACTOR' or b.direction<>'PAYABLE' then
+      raise exception 'BB_OPENING_PAYABLE_WRONG_CONTRACTOR: hanya hutang upah/reimburse mandor yang dibayar lewat payroll';
+    end if;
+    v_payroll:=(p_payload->>'payroll_id')::uuid;
+    perform 1 from erp.payroll_settlements where id=v_payroll for update;
+    v_amount:=erp.bb_parse_amount_v1(p_payload->>'amount','amount',true);
+    v_id:=erp.bb_set_opening_payable_payroll_v1(b.id,v_payroll,v_amount,(p_payload->>'expected_payroll_version')::bigint);
+    return jsonb_build_object('operation',v_op,'balance_id',b.id,'payroll_id',v_payroll,'reimbursement_id',v_id,'amount',v_amount::text);
+  end if;
+  if v_reason is null then raise exception 'BB_OSS_REASON_REQUIRED: alasan wajib diisi';end if;
+  if v_op='REVERSE' then
+    select * into s from erp.opening_subledger_settlements where id=(p_payload->>'settlement_id')::uuid for update;
+    select * into b from erp.opening_subledger_balances where id=s.balance_id for update;
+    ctx:=erp.bb_opening_balance_context_v1(b.id);
+    if s.id is null or ctx->>'batch_id' is distinct from v_batch::text then raise exception 'BB_OSS_NOT_IN_BATCH: pelunasan bukan milik impor ini';end if;
+    if s.status<>'POSTED' then raise exception 'BB_OSS_NOT_POSTED: hanya pelunasan yang sudah dibukukan yang dapat dibalik';end if;
+    if erp.initial_prepayment_account_v1(s.id) is not null then
+      raise exception 'BB_OSS_USE_SOURCE_REVERSAL: pelunasan dari uang muka dibalik lewat uang muka asalnya';
+    end if;
+    if exists(select 1 from erp.bb_customer_credit_events_v1 e where e.settlement_id=s.id) then
+      raise exception 'BB_OSS_USE_SOURCE_REVERSAL: pemakaian kredit pelanggan dibalik lewat kredit pelanggan asalnya';
+    end if;
+    perform erp.reverse_opening_subledger_settlement(s.id,v_reason);
+    return jsonb_build_object('operation',v_op,'settlement_id',s.id,'status','REVERSED');
+  end if;
+  v_amount:=erp.bb_parse_amount_v1(p_payload->>'amount','amount');
+  v_date:=erp.bb_parse_date_v1(p_payload->>'effective_date','effective_date');
+  v_available:=b.original_amount-b.settled_amount-erp.bb_opening_balance_reserved_v1(b.id);
+  if erp.opening_cash_advance_state_v1(b.id) is not null then
+    v_available:=(erp.opening_cash_advance_state_v1(b.id)->>'available_amount')::numeric;
+  end if;
+  if v_amount>v_available then
+    raise exception 'BB_OSS_EXCEEDS_AVAILABLE: sisa yang bebas % , diminta % (termasuk yang sudah masuk payroll)',v_available,v_amount;
+  end if;
+  if v_op='SETTLE' then
+    select id into v_cash from erp.cash_accounts where id=(p_payload->>'cash_account_id')::uuid and is_active;
+    if v_cash is null then raise exception 'BB_OSS_CASH_ACCOUNT_REQUIRED: pilih rekening kas/bank aktif';end if;
+  else
+    v_kind:=upper(nullif(btrim(p_payload->>'credit_kind'),''));
+    v_note:=nullif(btrim(p_payload->>'credit_note_number'),'');
+    if v_kind is null or v_kind not in('CUSTOMER_ALLOWANCE','SUPPLIER_ALLOWANCE','VENDOR_ALLOWANCE') then
+      raise exception 'BB_CREDIT_KIND_MISMATCH: gunakan CUSTOMER_ALLOWANCE, SUPPLIER_ALLOWANCE, atau VENDOR_ALLOWANCE';
+    end if;
+    if v_note is null or length(v_note)>120 then raise exception 'BB_CREDIT_NOTE_REQUIRED: nomor nota kredit wajib (maksimal 120 karakter)';end if;
+    if exists(select 1 from erp.bb_opening_credits_v1 c join erp.opening_subledger_settlements x on x.id=c.settlement_id
+        where c.credit_kind=v_kind and lower(btrim(c.credit_note_number))=lower(v_note) and x.status<>'REVERSED') then
+      raise exception 'BB_CREDIT_NOTE_DUPLICATE: nomor nota kredit sudah dipakai';
+    end if;
+  end if;
+  insert into erp.opening_subledger_settlements(id,balance_id,settlement_number,physical_at,amount,cash_account_id,status,notes,created_by)
+  values(p_request,b.id,'OSS-'||upper(substr(replace(p_request::text,'-',''),1,16)),erp.bb_physical_at_v1(v_date),v_amount,v_cash,'DRAFT',
+    v_reason,erp.current_app_user_id());
+  if v_op='CREDIT' then
+    insert into erp.bb_opening_credits_v1(settlement_id,credit_kind,credit_note_number,reason) values(p_request,v_kind,v_note,v_reason);
+  end if;
+  perform erp.post_opening_subledger_settlement(p_request);
+  return jsonb_build_object('operation',v_op,'settlement_id',p_request,'balance_id',b.id,'amount',v_amount::text,'effective_date',v_date,
+    'remaining',(select (original_amount-settled_amount)::text from erp.opening_subledger_balances where id=b.id));
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_manage_customer_credit_v1(p_payload jsonb,p_request uuid)
+ RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare v_op text:=upper(coalesce(nullif(btrim(p_payload->>'operation'),''),''));v_batch uuid:=(p_payload->>'batch_id')::uuid;
+  c erp.bb_customer_credits_v1%rowtype;e erp.bb_customer_credit_events_v1%rowtype;b erp.opening_subledger_balances%rowtype;
+  v_amount numeric;v_date date;v_reason text:=nullif(btrim(p_payload->>'reason'),'');v_cash uuid;v_cash_coa uuid;v_journal uuid;
+  v_remaining numeric;v_floor numeric;v_available numeric;v_right_batch uuid;
+begin
+  if v_op not in('REFUND','APPLY_OPENING_AR','REVERSE_EVENT') then raise exception 'BB_CREDIT_OPERATION: operasi tidak dikenal';end if;
+  if v_reason is null then raise exception 'BB_OSS_REASON_REQUIRED: alasan wajib diisi';end if;
+  if v_op='REVERSE_EVENT' then
+    select * into e from erp.bb_customer_credit_events_v1 where id=(p_payload->>'event_id')::uuid for update;
+    select * into c from erp.bb_customer_credits_v1 where id=e.credit_id for update;
+  else
+    select * into c from erp.bb_customer_credits_v1 where id=(p_payload->>'credit_id')::uuid for update;
+  end if;
+  if c.id is null or c.batch_id is distinct from v_batch then raise exception 'BB_CREDIT_NOT_IN_BATCH: kredit bukan milik impor ini';end if;
+  if v_op='REVERSE_EVENT' then
+    if e.reversed_at is not null then raise exception 'BB_CREDIT_EVENT_REVERSED: kejadian ini sudah dibalik';end if;
+    if e.event_type='REFUND' then
+      perform erp._cp3_r4_reverse_journal_internal(e.journal_entry_id,v_reason);
+    else
+      if (select status from erp.opening_subledger_settlements where id=e.settlement_id)<>'POSTED' then
+        raise exception 'BB_CREDIT_EVENT_REVERSED: pemakaian ini sudah dibalik';
+      end if;
+      perform erp.reverse_opening_subledger_settlement(e.settlement_id,v_reason);
+    end if;
+    update erp.bb_customer_credit_events_v1 set reversed_at=clock_timestamp(),reversal_reason=v_reason where id=e.id;
+    return jsonb_build_object('operation',v_op,'event_id',e.id,'credit',erp.bb_customer_credit_state_v1(c.id));
+  end if;
+  v_amount:=erp.bb_parse_amount_v1(p_payload->>'amount','amount');
+  v_date:=erp.bb_parse_date_v1(p_payload->>'effective_date','effective_date');
+  if v_date<c.effective_date or v_date>erp.bb_business_today_v1() then
+    raise exception 'BB_OSS_DATE_OUT_OF_RANGE: tanggal harus antara % dan hari ini',c.effective_date;
+  end if;
+  v_remaining:=(erp.bb_customer_credit_state_v1(c.id)->>'remaining_amount')::numeric;
+  if v_amount>v_remaining then
+    raise exception 'BB_RETURN_CREDIT_EXCEEDS_REMAINING: sisa kredit %, diminta %',v_remaining,v_amount;
+  end if;
+  if v_op='REFUND' then
+    select id,coa_account_id into v_cash,v_cash_coa from erp.cash_accounts where id=(p_payload->>'cash_account_id')::uuid and is_active;
+    if v_cash is null then raise exception 'BB_OSS_CASH_ACCOUNT_REQUIRED: pilih rekening kas/bank aktif';end if;
+    v_journal:=erp.post_journal('BB_CUSTOMER_CREDIT_REFUND',p_request,v_date,'Pengembalian kredit retur pelanggan '||c.document_number,jsonb_build_array(
+      jsonb_build_object('account_id',c.coa_account_id,'debit',v_amount,'credit',0,'customer_id',c.customer_id),
+      jsonb_build_object('account_id',v_cash_coa,'debit',0,'credit',v_amount,'customer_id',c.customer_id)));
+    insert into erp.bb_customer_credit_events_v1(id,credit_id,event_type,amount,effective_date,cash_account_id,journal_entry_id,reason,created_by)
+    values(p_request,c.id,'REFUND',v_amount,v_date,v_cash,v_journal,v_reason,erp.current_app_user_id());
+  else
+    select * into b from erp.opening_subledger_balances where id=(p_payload->>'balance_id')::uuid for update;
+    if b.id is null or b.party_type<>'CUSTOMER' or b.direction<>'RECEIVABLE' or b.customer_id is distinct from c.customer_id
+      or erp.bb_opening_balance_context_v1(b.id)->>'batch_id' is null then
+      raise exception 'BB_CREDIT_PARTY_MISMATCH: kredit hanya dipakai untuk piutang saldo awal impor milik pelanggan yang sama';
+    end if;
+    v_available:=b.original_amount-b.settled_amount;
+    if v_amount>v_available then raise exception 'BB_OSS_EXCEEDS_AVAILABLE: sisa piutang %, diminta %',v_available,v_amount;end if;
+    insert into erp.opening_subledger_settlements(id,balance_id,settlement_number,physical_at,amount,cash_account_id,status,notes,created_by)
+    values(p_request,b.id,'OSS-'||upper(substr(replace(p_request::text,'-',''),1,16)),erp.bb_physical_at_v1(v_date),v_amount,null,'DRAFT',
+      v_reason,erp.current_app_user_id());
+    insert into erp.bb_opening_credits_v1(settlement_id,credit_kind,credit_note_number,customer_credit_id,reason)
+    values(p_request,'CUSTOMER_CREDIT_APPLY',c.document_number,c.id,v_reason);
+    insert into erp.bb_customer_credit_events_v1(id,credit_id,event_type,amount,effective_date,settlement_id,reason,created_by)
+    values(p_request,c.id,'APPLY_OPENING_AR',v_amount,v_date,p_request,v_reason,erp.current_app_user_id());
+    perform erp.post_opening_subledger_settlement(p_request);
+  end if;
+  v_floor:=erp.bb_customer_credit_dated_floor_v1(c.id,v_date);
+  if v_floor<0 then
+    raise exception 'BB_RETURN_CREDIT_DATED_CAPACITY: kredit pada % atau sesudahnya menjadi %; pemakaian tidak boleh mendahului kredit yang tersedia',v_date,v_floor;
+  end if;
+  return jsonb_build_object('operation',v_op,'event_id',p_request,'credit',erp.bb_customer_credit_state_v1(c.id));
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_manage_opening_sale_return_v1(p_payload jsonb,p_request uuid)
+ RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare v_op text:=upper(coalesce(nullif(btrim(p_payload->>'operation'),''),''));v_batch uuid:=(p_payload->>'batch_id')::uuid;
+  r erp.bb_opening_sale_return_rights_v1%rowtype;x erp.bb_opening_sale_return_receipts_v1%rowtype;
+  v_reason text:=nullif(btrim(p_payload->>'reason'),'');v_qty integer;v_date date;v_at timestamptz;v_location uuid;v_root uuid;
+  v_product uuid;v_received integer;v_lot uuid;v_movement uuid;v_value numeric(20,2);v_credit numeric(20,2);v_journal uuid;
+  v_credit_id uuid;v_credit_journal uuid;v_used numeric;
+begin
+  if v_op not in('RECEIVE','REVERSE_RECEIPT') then raise exception 'BB_RETURN_OPERATION: operasi tidak dikenal';end if;
+  if v_reason is null then raise exception 'BB_OSS_REASON_REQUIRED: alasan wajib diisi';end if;
+  if v_op='REVERSE_RECEIPT' then
+    select * into x from erp.bb_opening_sale_return_receipts_v1 where id=(p_payload->>'receipt_id')::uuid for update;
+    select * into r from erp.bb_opening_sale_return_rights_v1 where id=x.right_id;
+    if x.id is null or r.batch_id is distinct from v_batch then raise exception 'BB_RETURN_NOT_IN_BATCH: penerimaan retur bukan milik impor ini';end if;
+    if x.status<>'POSTED' then raise exception 'BB_RETURN_ALREADY_REVERSED: penerimaan retur sudah dibatalkan';end if;
+    if x.credit_id is not null then
+      select coalesce(sum(e.amount),0) into v_used from erp.bb_customer_credit_events_v1 e
+        left join erp.opening_subledger_settlements s on s.id=e.settlement_id
+        where e.credit_id=x.credit_id and ((e.event_type='REFUND' and e.reversed_at is null) or (e.event_type='APPLY_OPENING_AR' and s.status='POSTED'));
+      if v_used>0 then raise exception 'BB_RETURN_CREDIT_USED: kredit retur sudah dipakai atau dikembalikan; batalkan pemakaiannya dahulu';end if;
+    end if;
+    if erp.fg_lot_has_active_downstream(x.lot_id,'ADJUSTMENT','BB_OPENING_SALE_RETURN',x.id) then
+      raise exception 'BB_RETURN_STOCK_CONSUMED: barang retur sudah dipakai transaksi lain; batalkan transaksi itu lebih dulu';
+    end if;
+    perform erp.reverse_fg_movement(x.movement_id,v_reason);
+    update erp.fg_lots set lot_origin='VOIDED_PRODUCTION',is_open=false where id=x.lot_id;
+    if x.value_journal_id is not null then perform erp.reverse_journal(x.value_journal_id,v_reason);end if;
+    if x.credit_id is not null then
+      select journal_entry_id into v_credit_journal from erp.bb_customer_credits_v1 where id=x.credit_id;
+      perform erp.reverse_journal(v_credit_journal,v_reason);
+      update erp.bb_customer_credits_v1 set voided_at=clock_timestamp() where id=x.credit_id;
+    end if;
+    update erp.bb_opening_sale_return_receipts_v1 set status='REVERSED',reversed_at=clock_timestamp(),reversal_reason=v_reason where id=x.id;
+    perform erp.assert_non_po_product_hpp_target_book_v2620f(x.product_id);
+    return jsonb_build_object('operation',v_op,'receipt_id',x.id,'status','REVERSED');
+  end if;
+  select * into r from erp.bb_opening_sale_return_rights_v1 where id=(p_payload->>'right_id')::uuid for update;
+  if r.id is null or r.batch_id is distinct from v_batch then raise exception 'BB_RETURN_NOT_IN_BATCH: hak retur bukan milik impor ini';end if;
+  if coalesce(p_payload->>'qty','') !~ '^[1-9][0-9]{0,8}$' then raise exception 'BB_RETURN_QTY_INVALID: jumlah pcs bilangan bulat positif';end if;
+  v_qty:=(p_payload->>'qty')::integer;
+  select coalesce(sum(qty_pcs),0) into v_received from erp.bb_opening_sale_return_receipts_v1 where right_id=r.id and status='POSTED';
+  if v_qty>r.qty_pcs-v_received then
+    raise exception 'BB_RETURN_EXCEEDS_RIGHT: hak retur tersisa % pcs, diterima %',r.qty_pcs-v_received,v_qty;
+  end if;
+  v_date:=erp.bb_parse_date_v1(p_payload->>'effective_date','effective_date');
+  if v_date<r.cutover_date or v_date>erp.bb_business_today_v1() then
+    raise exception 'BB_OSS_DATE_OUT_OF_RANGE: penerimaan retur antara % dan hari ini',r.cutover_date;
+  end if;
+  v_at:=erp.bb_physical_at_v1(v_date);
+  select id into v_location from erp.locations where id=(p_payload->>'location_id')::uuid and is_active and location_type='FG_WAREHOUSE';
+  if v_location is null then raise exception 'BB_RETURN_LOCATION_REQUIRED: pilih gudang barang jadi aktif';end if;
+  -- The pieces take the version of the right's product identity in force at the receipt instant (NEW_STOCK, decision 1C).
+  select coalesce(p.identity_root_id,p.id) into v_root from erp.products p where p.id=r.product_id;
+  select p.id into v_product from erp.products p where coalesce(p.identity_root_id,p.id)=v_root and p.effective_from<=v_at
+    and (p.effective_to is null or v_at<p.effective_to) order by p.effective_from desc,p.id limit 1;
+  v_product:=coalesce(v_product,r.product_id);
+  perform erp.assert_product_identity_time(v_product,v_at,'NEW_STOCK');
+  perform erp.assert_non_po_product_hpp_target_book_v2620f(v_product);
+  v_value:=round(r.unit_cost*v_qty,2);v_credit:=round(r.credit_unit_price*v_qty,2);
+  insert into erp.fg_lots(lot_number,po_id,qc_item_id,product_id,initial_qty_pcs,cached_qty_pcs,produced_at,is_open,lot_origin)
+  values('BBR-'||to_char(v_at at time zone 'Asia/Jakarta','YYYYMMDD')||'-'||substr(p_request::text,1,8),null,null,v_product,v_qty,0,v_at,true,'RETURN')
+  returning id into v_lot;
+  insert into erp.hpp_versions(lot_id,version_no,cost_state,qty_basis_pcs,total_cost,is_current,calculation_reason,created_by)
+  values(v_lot,1,'ADJUSTED',v_qty,v_value,true,'Retur penjualan lama '||r.return_number||' pada biaya hak retur',erp.current_app_user_id());
+  v_movement:=erp.post_fg_movement(v_product,v_lot,v_location,'GRADE_A','ADJUSTMENT',v_qty,r.unit_cost,null,
+    'BB_OPENING_SALE_RETURN',p_request,v_at,'Retur penjualan lama '||r.return_number,false);
+  if v_value>0 then
+    v_journal:=erp.post_journal('BB_OPENING_SALE_RETURN',p_request,v_date,'Barang retur penjualan lama '||r.return_number,jsonb_build_array(
+      jsonb_build_object('mapping_key','FG_INVENTORY','debit',v_value,'credit',0,'product_id',v_product),
+      jsonb_build_object('mapping_key','COGS','debit',0,'credit',v_value)));
+  end if;
+  insert into erp.bb_opening_sale_return_receipts_v1(id,right_id,qty_pcs,location_id,product_id,physical_at,lot_id,movement_id,value_journal_id,
+    reason,created_by)
+  values(p_request,r.id,v_qty,v_location,v_product,v_at,v_lot,v_movement,v_journal,v_reason,erp.current_app_user_id());
+  if v_credit>0 then
+    v_credit_id:=gen_random_uuid();
+    v_credit_journal:=erp.post_journal('BB_CUSTOMER_CREDIT',v_credit_id,v_date,'Kredit retur penjualan lama '||r.return_number,jsonb_build_array(
+      jsonb_build_object('mapping_key','SALES_REVENUE','debit',v_credit,'credit',0,'customer_id',r.customer_id),
+      jsonb_build_object('account_id',r.credit_coa_account_id,'debit',0,'credit',v_credit,'customer_id',r.customer_id)));
+    insert into erp.bb_customer_credits_v1(id,origin,batch_id,return_receipt_id,customer_id,coa_account_id,document_number,document_date,
+      original_amount,settled_before_cutover,amount,effective_date,journal_entry_id,created_by)
+    values(v_credit_id,'RETURN',r.batch_id,p_request,r.customer_id,r.credit_coa_account_id,r.return_number||'/'||substr(p_request::text,1,8),
+      v_date,v_credit,0,v_credit,v_date,v_credit_journal,erp.current_app_user_id());
+    update erp.bb_opening_sale_return_receipts_v1 set credit_id=v_credit_id where id=p_request;
+  end if;
+  perform erp.assert_non_po_product_hpp_target_book_v2620f(v_product);
+  return jsonb_build_object('operation',v_op,'receipt_id',p_request,'lot_id',v_lot,'product_id',v_product,'qty',v_qty,
+    'value',v_value::text,'credit_id',v_credit_id,'credit',v_credit::text);
+end;$function$;
+
+-- ---------------------------------------------------------------- workspace and revision parts
+CREATE OR REPLACE FUNCTION erp.bb_financial_workspace_v1(p_batch uuid)
+ RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select jsonb_build_object(
+    'opening_balances',coalesce((select jsonb_agg(jsonb_build_object(
+        'balance_id',b.id,'balance_type',f.balance_type,'source_kind',f.source_kind,'source_mode',f.source_mode,
+        'party_type',b.party_type,'party_id',f.party_id,'party_code',coalesce(cu.customer_code,su.supplier_code,ve.vendor_code,co.contractor_code),
+        'party_name',coalesce(cu.customer_name,su.supplier_name,ve.vendor_name,co.contractor_name),
+        'document_number',f.document_number,'document_date',f.document_date,'due_date',f.due_date,'cutover_date',f.cutover_date,
+        'original_amount',f.original_amount::text,'settled_before_cutover',f.settled_before_cutover::text,
+        'opening_amount',b.original_amount::text,'settled_amount',b.settled_amount::text,
+        'reserved_amount',erp.bb_opening_balance_reserved_v1(b.id)::numeric(20,2)::text,
+        'remaining_amount',(b.original_amount-b.settled_amount)::text,
+        'available_amount',(b.original_amount-b.settled_amount-erp.bb_opening_balance_reserved_v1(b.id))::text,'status',b.status,
+        'settlements',coalesce((select jsonb_agg(jsonb_build_object('id',s.id,'number',s.settlement_number,
+            'date',erp._cp3_business_date(s.physical_at),'amount',s.amount::text,'status',s.status,
+            'method',case when c.settlement_id is not null then 'CREDIT' when s.cash_account_id is null then 'ADVANCE' else 'CASH' end,
+            'credit_kind',c.credit_kind,'credit_note_number',c.credit_note_number,
+            'reversible',s.status='POSTED' and c.credit_kind is distinct from 'CUSTOMER_CREDIT_APPLY' and s.cash_account_id is not null or
+              (s.status='POSTED' and c.credit_kind in('CUSTOMER_ALLOWANCE','SUPPLIER_ALLOWANCE','VENDOR_ALLOWANCE')))
+            order by s.physical_at,s.id)
+          from erp.opening_subledger_settlements s left join erp.bb_opening_credits_v1 c on c.settlement_id=s.id
+          where s.balance_id=b.id),'[]'::jsonb),
+        'payroll_lines',coalesce((select jsonb_agg(jsonb_build_object('payroll_id',p.id,'payroll_number',p.payroll_number,'status',p.status,
+            'row_version',p.row_version::text,'amount',r.amount::text) order by p.period_end,p.id)
+          from erp.payroll_reimbursements r join erp.payroll_settlements p on p.id=r.payroll_id
+          where r.opening_payable_balance_id=b.id and p.status<>'REVERSED'),'[]'::jsonb))
+        order by f.balance_type,f.document_number,b.id)
+      from erp.initial_import_financial_sources f join erp.opening_subledger_balances b on b.opening_item_id=f.opening_item_id
+      left join erp.customers cu on cu.id=b.customer_id left join erp.suppliers su on su.id=b.supplier_id
+      left join erp.laundry_vendors ve on ve.id=b.vendor_id left join erp.contractors co on co.id=b.contractor_id
+      where f.batch_id=p_batch and f.source_kind<>'CONTRACTOR_CASH_ADVANCE'),'[]'::jsonb),
+    'opening_payable_payrolls',coalesce((select jsonb_agg(jsonb_build_object('id',p.id,'payroll_number',p.payroll_number,
+        'contractor_id',p.contractor_id,'period_end',p.period_end,'row_version',p.row_version::text,'net_payable',p.net_payable::text)
+        order by p.period_end,p.id)
+      from erp.payroll_settlements p where p.status in('DRAFT','CALCULATED','REVIEW') and exists(select 1 from erp.initial_import_financial_sources f
+        where f.batch_id=p_batch and f.balance_type='CONTRACTOR_PAYABLE' and f.party_id=p.contractor_id)),'[]'::jsonb),
+    'legacy_documents',coalesce((select jsonb_agg(jsonb_build_object('id',d.id,'balance_type',d.balance_type,'party_id',d.party_id,
+        'document_number',d.document_number,'document_date',d.document_date,'original_amount',d.original_amount::text) order by d.document_number,d.id)
+      from erp.bb_legacy_documents_v1 d where d.batch_id=p_batch),'[]'::jsonb),
+    'customer_credits',coalesce((select jsonb_agg(erp.bb_customer_credit_state_v1(c.id)||jsonb_build_object(
+        'customer_code',cu.customer_code,'customer_name',cu.customer_name,
+        'open_receivables',coalesce((select jsonb_agg(jsonb_build_object('balance_id',b.id,'document_number',f.document_number,
+            'remaining_amount',(b.original_amount-b.settled_amount)::text) order by f.document_number,b.id)
+          from erp.initial_import_financial_sources f join erp.opening_subledger_balances b on b.opening_item_id=f.opening_item_id
+          where f.balance_type='CUSTOMER_RECEIVABLE' and f.party_id=c.customer_id and b.original_amount>b.settled_amount),'[]'::jsonb),
+        'events',coalesce((select jsonb_agg(jsonb_build_object('id',e.id,'kind',e.event_type,'amount',e.amount::text,'date',e.effective_date,
+            'reason',e.reason,'reversed',e.reversed_at is not null or (e.event_type='APPLY_OPENING_AR'
+              and (select status from erp.opening_subledger_settlements where id=e.settlement_id)<>'POSTED')) order by e.created_at,e.id)
+          from erp.bb_customer_credit_events_v1 e where e.credit_id=c.id),'[]'::jsonb)) order by c.document_number,c.id)
+      from erp.bb_customer_credits_v1 c join erp.customers cu on cu.id=c.customer_id where c.batch_id=p_batch),'[]'::jsonb),
+    'sale_return_rights',coalesce((select jsonb_agg(jsonb_build_object('id',r.id,'return_number',r.return_number,
+        'customer_code',cu.customer_code,'invoice_document_number',r.invoice_document_number,
+        'invoice_state',case when r.invoice_source_id is not null then 'OPEN' else 'SETTLED_BEFORE_CUTOVER' end,
+        'product_sku',p.sku,'qty_pcs',r.qty_pcs,'credit_unit_price',r.credit_unit_price::text,'unit_cost',r.unit_cost::text,
+        'received_pcs',coalesce((select sum(x.qty_pcs) from erp.bb_opening_sale_return_receipts_v1 x where x.right_id=r.id and x.status='POSTED'),0),
+        'receipts',coalesce((select jsonb_agg(jsonb_build_object('id',x.id,'qty_pcs',x.qty_pcs,'date',erp._cp3_business_date(x.physical_at),
+            'status',x.status,'credit_id',x.credit_id) order by x.physical_at,x.id)
+          from erp.bb_opening_sale_return_receipts_v1 x where x.right_id=r.id),'[]'::jsonb)) order by r.return_number,r.id)
+      from erp.bb_opening_sale_return_rights_v1 r join erp.customers cu on cu.id=r.customer_id join erp.products p on p.id=r.product_id
+      where r.batch_id=p_batch),'[]'::jsonb),
+    'fg_locations',coalesce((select jsonb_agg(jsonb_build_object('id',l.id,'code',l.location_code,'name',l.location_name) order by l.location_code)
+      from erp.locations l where l.is_active and l.location_type='FG_WAREHOUSE'),'[]'::jsonb))
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_financial_revision_part_v1(p_batch uuid)
+ RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select jsonb_build_object(
+    'balances',coalesce((select jsonb_agg(to_jsonb(b) order by b.id) from erp.opening_subledger_balances b
+      join erp.initial_import_financial_sources f on f.opening_item_id=b.opening_item_id where f.batch_id=p_batch),'[]'::jsonb),
+    'settlements',coalesce((select jsonb_agg(to_jsonb(s) order by s.id) from erp.opening_subledger_settlements s
+      join erp.opening_subledger_balances b on b.id=s.balance_id join erp.initial_import_financial_sources f on f.opening_item_id=b.opening_item_id
+      where f.batch_id=p_batch),'[]'::jsonb),
+    'payroll_lines',coalesce((select jsonb_agg(to_jsonb(r) order by r.id) from erp.payroll_reimbursements r
+      join erp.opening_subledger_balances b on b.id=r.opening_payable_balance_id
+      join erp.initial_import_financial_sources f on f.opening_item_id=b.opening_item_id where f.batch_id=p_batch),'[]'::jsonb),
+    'credits',coalesce((select jsonb_agg(to_jsonb(c) order by c.id) from erp.bb_customer_credits_v1 c where c.batch_id=p_batch),'[]'::jsonb),
+    'credit_events',coalesce((select jsonb_agg(to_jsonb(e) order by e.id) from erp.bb_customer_credit_events_v1 e
+      join erp.bb_customer_credits_v1 c on c.id=e.credit_id where c.batch_id=p_batch),'[]'::jsonb),
+    'return_receipts',coalesce((select jsonb_agg(to_jsonb(x) order by x.id) from erp.bb_opening_sale_return_receipts_v1 x
+      join erp.bb_opening_sale_return_rights_v1 r on r.id=x.right_id where r.batch_id=p_batch),'[]'::jsonb))
+$function$;
+
+do $grants$
+declare f text;
+begin
+  for f in select p.oid::regprocedure::text from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+      where n.nspname='erp' and p.proname like 'bb\_%' loop
+    execute format('revoke all on function %s from public,anon,authenticated,service_role',f);
+  end loop;
+end $grants$;
+-- CP6 BB purchase part (ALL-P03). New objects only; changed functions are rebuilt by scripts/cp6_bb_build.py.
+-- P03: one supplier receipt part invoiced before cutover and part still unbilled. The receipt stays one purchase item of
+-- its full quantity; the invoiced part counts as already matched quantity at its invoiced price (so the item cost is the
+-- blend of both parts and GRNI covers only the unbilled part), while the invoiced money stays the imported SUPPLIER_PAYABLE
+-- document of that invoice, settled by the opening settlement route (P02). No supplier invoice, payment or cash row of the
+-- old invoice is created (M:938).
+
+create table erp.bb_receipt_invoiced_parts_v1(
+  purchase_item_id uuid primary key references erp.material_purchase_items(id),
+  source_row_id uuid not null unique references erp.migration_staging_rows(id),
+  financial_source_id uuid not null unique references erp.initial_import_financial_sources(id),
+  invoiced_qty numeric(18,6) not null check(invoiced_qty>0),
+  invoiced_amount numeric(20,2) not null check(invoiced_amount>0),
+  created_at timestamptz not null default statement_timestamp()
+);
+comment on table erp.bb_receipt_invoiced_parts_v1 is 'BB (ALL-P03): the part of an imported receipt line already invoiced before cutover: its quantity counts as matched and its invoiced amount enters the item cost; the money is the linked imported SUPPLIER_PAYABLE document.';
+alter table erp.bb_receipt_invoiced_parts_v1 enable row level security;
+revoke all on erp.bb_receipt_invoiced_parts_v1 from public,anon,authenticated,service_role;
+
+CREATE OR REPLACE FUNCTION erp.bb_guard_receipt_invoiced_part_v1()
+ RETURNS trigger LANGUAGE plpgsql SET search_path TO ''
+AS $function$
+begin
+  raise exception 'BB_RECEIPT_INVOICED_PART_IMMUTABLE: bagian penerimaan yang sudah ditagih sebelum saldo awal tidak diubah atau dihapus';
+end;$function$;
+create trigger trg_bb_receipt_invoiced_part_immutable before update or delete on erp.bb_receipt_invoiced_parts_v1
+  for each row execute function erp.bb_guard_receipt_invoiced_part_v1();
+
+CREATE OR REPLACE FUNCTION erp.bb_receipt_invoiced_qty_v1(p_purchase_item_id uuid)
+ RETURNS numeric LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$ select coalesce((select invoiced_qty from erp.bb_receipt_invoiced_parts_v1 where purchase_item_id=p_purchase_item_id),0)::numeric $function$;
+
+-- The unit cost an imported receipt line brings into opening stock: its estimate, or with an invoiced part the blend of
+-- the unbilled quantity at the estimate and the invoiced amount, over the full quantity (six decimals, the stock column).
+CREATE OR REPLACE FUNCTION erp.bb_receipt_opening_unit_cost_v1(p_purchase_item_id uuid)
+ RETURNS numeric LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select case when p.purchase_item_id is null then i.unit_price
+    else round(((i.qty-p.invoiced_qty)*i.unit_price+p.invoiced_amount)/i.qty,6) end::numeric
+  from erp.material_purchase_items i left join erp.bb_receipt_invoiced_parts_v1 p on p.purchase_item_id=i.id
+  where i.id=p_purchase_item_id
+$function$;
+
+-- The invoiced part an UNINVOICED_RECEIPT row declares (invoice_document_number + invoiced_qty), read from the batch:
+-- the linked SUPPLIER_PAYABLE document row of the same supplier and its original (gross) amount. Null without a part.
+CREATE OR REPLACE FUNCTION erp.bb_receipt_row_invoiced_part_v1(p_batch uuid,p_row uuid)
+ RETURNS jsonb LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare j jsonb;v_qty numeric;v_doc erp.migration_staging_rows%rowtype;v_amount numeric;v_count integer;
+begin
+  select normalized_payload into j from erp.migration_staging_rows where id=p_row and batch_id=p_batch and entity_type='UNINVOICED_RECEIPT';
+  if nullif(btrim(j->>'invoice_document_number'),'') is null and nullif(btrim(j->>'invoiced_qty'),'') is null then return null;end if;
+  if nullif(btrim(j->>'invoice_document_number'),'') is null or nullif(btrim(j->>'invoiced_qty'),'') is null then
+    raise exception 'P03_INVOICED_PART_INCOMPLETE: isi nomor invoice asal dan jumlah yang sudah ditagih bersama-sama';
+  end if;
+  begin v_qty:=(j->>'invoiced_qty')::numeric;exception when others then v_qty:=null;end;
+  if v_qty is null or v_qty::text in('NaN','Infinity','-Infinity') or v_qty<=0 or v_qty<>round(v_qty,6) then
+    raise exception 'P03_INVOICED_QTY_INVALID: jumlah yang sudah ditagih harus positif, maksimal enam desimal';
+  end if;
+  if lower(btrim(j->>'invoice_document_number'))=lower(btrim(j->>'receipt_number')) then
+    raise exception 'P03_INVOICE_DOC_DUPLICATE: nomor invoice harus berbeda dari nomor penerimaan';
+  end if;
+  select count(*) into v_count from erp.migration_staging_rows d where d.batch_id=p_batch and d.entity_type='OPENING_BALANCE_ITEM'
+    and upper(d.normalized_payload->>'balance_type')='SUPPLIER_PAYABLE' and d.normalized_payload->>'supplier_code'=j->>'supplier_code'
+    and lower(btrim(d.normalized_payload->>'document_number'))=lower(btrim(j->>'invoice_document_number'));
+  if v_count<>1 then
+    raise exception 'P03_INVOICE_DOC_REQUIRED: invoice asal harus tepat satu dokumen hutang supplier yang sama dalam batch ini';
+  end if;
+  select * into v_doc from erp.migration_staging_rows d where d.batch_id=p_batch and d.entity_type='OPENING_BALANCE_ITEM'
+    and upper(d.normalized_payload->>'balance_type')='SUPPLIER_PAYABLE' and d.normalized_payload->>'supplier_code'=j->>'supplier_code'
+    and lower(btrim(d.normalized_payload->>'document_number'))=lower(btrim(j->>'invoice_document_number'));
+  begin v_amount:=replace(v_doc.normalized_payload->>'original_amount',',','.')::numeric;exception when others then v_amount:=null;end;
+  if v_amount is null or v_amount<=0 then
+    raise exception 'P03_INVOICE_DOC_REQUIRED: dokumen invoice asal memerlukan nominal dokumen awal';
+  end if;
+  if exists(select 1 from erp.migration_staging_rows x where x.batch_id=p_batch and x.entity_type='UNINVOICED_RECEIPT' and x.id<>p_row
+      and x.normalized_payload->>'supplier_code'=j->>'supplier_code'
+      and lower(btrim(x.normalized_payload->>'invoice_document_number'))=lower(btrim(j->>'invoice_document_number'))) then
+    raise exception 'P03_INVOICE_DOC_DUPLICATE: satu invoice asal hanya untuk satu baris penerimaan';
+  end if;
+  return jsonb_build_object('invoiced_qty',v_qty,'invoiced_amount',v_amount,'document_row_id',v_doc.id,
+    'document_number',btrim(v_doc.normalized_payload->>'document_number'));
+end;$function$;
+
+do $grants$
+declare f text;
+begin
+  for f in select p.oid::regprocedure::text from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+      where n.nspname='erp' and p.proname in('bb_guard_receipt_invoiced_part_v1','bb_receipt_invoiced_qty_v1',
+        'bb_receipt_opening_unit_cost_v1','bb_receipt_row_invoiced_part_v1') loop
+    execute format('revoke all on function %s from public,anon,authenticated,service_role',f);
+  end loop;
+end $grants$;
+
+-- ---------------------------------------------------------------- P04: purchase orders not (fully) received at cutover
+-- An open purchase commitment is imported as its remaining quantity: a registry of the old order (ordered, received and
+-- cancelled before cutover, remaining) and one native DRAFT receipt per order for the remaining quantity. Nothing is
+-- received, costed or journaled at import. The ordinary purchase page edits the draft to what really arrives and posts it;
+-- the draft may not be posted before cutover, for a material the order does not have, or over the order's remaining
+-- quantity (cancellations and earlier posted receipts of the order counted, reversed receipts not). The remainder is
+-- cancelled or reopened as a new draft through the import action PURCHASE_COMMITMENT.
+create table erp.bb_purchase_commitments_v1(
+  id uuid primary key default gen_random_uuid(),
+  batch_id uuid not null references erp.migration_batches(id),
+  supplier_id uuid not null references erp.suppliers(id),
+  po_number text not null check(length(btrim(po_number)) between 1 and 60),
+  po_date date not null,
+  location_id uuid not null references erp.locations(id),
+  expected_date date,
+  cutover_date date not null,
+  created_at timestamptz not null default statement_timestamp(),
+  check(po_date<=cutover_date)
+);
+create unique index bb_purchase_commitments_v1_number on erp.bb_purchase_commitments_v1(supplier_id,lower(btrim(po_number)));
+create table erp.bb_purchase_commitment_lines_v1(
+  id uuid primary key default gen_random_uuid(),
+  commitment_id uuid not null references erp.bb_purchase_commitments_v1(id),
+  source_row_id uuid not null unique references erp.migration_staging_rows(id),
+  line_number text not null,
+  material_id uuid not null references erp.materials(id),
+  ordered_qty numeric(18,6) not null check(ordered_qty>0),
+  received_before_cutover_qty numeric(18,6) not null check(received_before_cutover_qty>=0),
+  cancelled_before_cutover_qty numeric(18,6) not null check(cancelled_before_cutover_qty>=0),
+  remaining_at_cutover numeric(18,6) not null check(remaining_at_cutover>0),
+  unit_price numeric(18,6) not null check(unit_price>=0),
+  check(ordered_qty-received_before_cutover_qty-cancelled_before_cutover_qty=remaining_at_cutover),
+  unique(commitment_id,material_id)
+);
+create unique index bb_purchase_commitment_lines_v1_number on erp.bb_purchase_commitment_lines_v1(commitment_id,lower(btrim(line_number)));
+create table erp.bb_purchase_commitment_drafts_v1(
+  purchase_id uuid primary key references erp.material_purchase_headers(id),
+  commitment_id uuid not null references erp.bb_purchase_commitments_v1(id),
+  sequence_no integer not null check(sequence_no>=1),
+  created_at timestamptz not null default statement_timestamp(),
+  unique(commitment_id,sequence_no)
+);
+create table erp.bb_purchase_commitment_cancellations_v1(
+  id uuid primary key,
+  line_id uuid not null references erp.bb_purchase_commitment_lines_v1(id),
+  qty numeric(18,6) not null check(qty>0),
+  effective_date date not null,
+  reason text not null check(length(btrim(reason))>0),
+  created_by uuid,
+  created_at timestamptz not null default statement_timestamp()
+);
+comment on table erp.bb_purchase_commitments_v1 is 'BB (ALL-P04): a purchase order still open at cutover (remaining quantity only); its receipts are native DRAFT purchases in erp.bb_purchase_commitment_drafts_v1.';
+do $rls$
+declare t text;
+begin
+  foreach t in array array['bb_purchase_commitments_v1','bb_purchase_commitment_lines_v1','bb_purchase_commitment_drafts_v1',
+    'bb_purchase_commitment_cancellations_v1'] loop
+    execute format('alter table erp.%I enable row level security',t);
+    execute format('revoke all on erp.%I from public,anon,authenticated,service_role',t);
+  end loop;
+end $rls$;
+
+-- What an order line still expects: remaining at cutover less cancellations and less the posted receipts of the order.
+CREATE OR REPLACE FUNCTION erp.bb_commitment_line_remaining_v1(p_line uuid,p_except_purchase uuid DEFAULT NULL)
+ RETURNS numeric LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select l.remaining_at_cutover
+    -coalesce((select sum(c.qty) from erp.bb_purchase_commitment_cancellations_v1 c where c.line_id=l.id),0)
+    -coalesce((select sum(i.qty) from erp.bb_purchase_commitment_drafts_v1 d join erp.material_purchase_headers h on h.id=d.purchase_id
+        join erp.material_purchase_items i on i.purchase_id=h.id
+        where d.commitment_id=l.commitment_id and h.status='POSTED' and i.material_id=l.material_id
+          and h.id is distinct from p_except_purchase),0)
+  from erp.bb_purchase_commitment_lines_v1 l where l.id=p_line
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_guard_commitment_draft_v1()
+ RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare c erp.bb_purchase_commitments_v1%rowtype;r record;v_line erp.bb_purchase_commitment_lines_v1%rowtype;v_remaining numeric;
+begin
+  select k.* into c from erp.bb_purchase_commitment_drafts_v1 d join erp.bb_purchase_commitments_v1 k on k.id=d.commitment_id
+    where d.purchase_id=coalesce(new.id,old.id);
+  if c.id is null then return coalesce(new,old);end if;
+  if TG_OP='DELETE' then
+    raise exception 'P04_DELETE_USE_CANCEL: draf penerimaan dari PO lama tidak dihapus; batalkan sisa PO lewat impor';
+  end if;
+  if new.supplier_id is distinct from old.supplier_id then
+    raise exception 'P04_SUPPLIER_CHANGED: supplier draf penerimaan PO lama tidak dapat diganti';
+  end if;
+  if old.status='DRAFT' and new.status='POSTED' then
+    perform pg_advisory_xact_lock(hashtextextended('BB_P04_COMMITMENT:'||c.id::text,0));
+    if erp._cp3_business_date(new.physical_at)<c.cutover_date then
+      raise exception 'P04_BEFORE_CUTOVER: penerimaan PO lama harus bertanggal sejak saldo awal %',c.cutover_date;
+    end if;
+    for r in select i.material_id,sum(i.qty) qty from erp.material_purchase_items i where i.purchase_id=new.id group by i.material_id loop
+      select * into v_line from erp.bb_purchase_commitment_lines_v1 where commitment_id=c.id and material_id=r.material_id;
+      if v_line.id is null then
+        raise exception 'P04_MATERIAL_NOT_ORDERED: bahan ini tidak ada pada PO %',c.po_number;
+      end if;
+      v_remaining:=erp.bb_commitment_line_remaining_v1(v_line.id,new.id);
+      if r.qty>v_remaining then
+        raise exception 'P04_EXCEEDS_REMAINING: sisa PO % untuk bahan ini %, diterima %',c.po_number,v_remaining,r.qty;
+      end if;
+    end loop;
+  end if;
+  return new;
+end;$function$;
+create trigger trg_bb_commitment_draft before update or delete on erp.material_purchase_headers
+  for each row execute function erp.bb_guard_commitment_draft_v1();
+
+CREATE OR REPLACE FUNCTION erp.bb_check_purchase_import_row_v1(p_batch uuid,p_row uuid)
+ RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO '' SET DateStyle TO 'ISO, YMD'
+AS $function$
+declare r erp.migration_staging_rows%rowtype;j jsonb;k text;v_cutover date;v_supplier uuid;v_material uuid;v_location uuid;
+  v_ordered numeric;v_received numeric;v_cancelled numeric;v_remaining numeric;v_price numeric;v_date date;v_expected date;
+begin
+  perform erp.require_owner_admin();
+  select * into r from erp.migration_staging_rows where id=p_row and batch_id=p_batch and entity_type='OPEN_PURCHASE_ORDER';
+  if r.id is null then raise exception 'Baris PO pembelian tidak ditemukan';end if;
+  j:=r.normalized_payload;
+  foreach k in array array['po_number','po_line_number','po_date','supplier_code','location_code','material_sku','ordered_qty',
+      'received_before_cutover_qty','cancelled_before_cutover_qty','remaining_qty','unit_price'] loop
+    if nullif(btrim(j->>k),'') is null then raise exception '%: wajib diisi untuk PO pembelian terbuka',k;end if;
+  end loop;
+  if length(btrim(j->>'po_number'))>60 or length(btrim(j->>'po_line_number'))>60 then raise exception 'po_number: maksimal 60 karakter';end if;
+  select (cutover_at at time zone 'Asia/Jakarta')::date into v_cutover from erp.migration_batches where id=p_batch;
+  v_date:=erp.bb_parse_date_v1(j->>'po_date','po_date');
+  if v_date>v_cutover then raise exception 'po_date: PO harus dibuat sebelum saldo awal';end if;
+  if nullif(btrim(j->>'expected_date'),'') is not null then v_expected:=erp.bb_parse_date_v1(j->>'expected_date','expected_date');end if;
+  foreach k in array array['ordered_qty','received_before_cutover_qty','cancelled_before_cutover_qty','remaining_qty','unit_price'] loop
+    if j->>k !~ '^[0-9]+([.][0-9]{1,6})?$' then raise exception '%: angka nonnegatif maksimal enam desimal',k;end if;
+  end loop;
+  v_ordered:=(j->>'ordered_qty')::numeric;v_received:=(j->>'received_before_cutover_qty')::numeric;
+  v_cancelled:=(j->>'cancelled_before_cutover_qty')::numeric;v_remaining:=(j->>'remaining_qty')::numeric;v_price:=(j->>'unit_price')::numeric;
+  if v_ordered<=0 or v_remaining<=0 or v_ordered-v_received-v_cancelled<>v_remaining then
+    raise exception 'P04_REMAINING_EQUATION: sisa PO harus positif dan sama dengan dipesan dikurangi diterima dan dibatalkan sebelum saldo awal';
+  end if;
+  select id into v_supplier from erp.suppliers where supplier_code=j->>'supplier_code' and is_active;
+  if v_supplier is null and not exists(select 1 from erp.migration_staging_rows where batch_id=p_batch and entity_type='SUPPLIER'
+      and validation_status='VALID' and normalized_payload->>'supplier_code'=j->>'supplier_code') then
+    raise exception 'supplier_code: supplier aktif tidak ditemukan';
+  end if;
+  if not exists(select 1 from erp.materials where material_sku=j->>'material_sku' and is_active)
+    and not exists(select 1 from erp.migration_staging_rows where batch_id=p_batch and entity_type='MATERIAL' and validation_status='VALID'
+      and normalized_payload->>'material_sku'=j->>'material_sku') then
+    raise exception 'material_sku: bahan aktif tidak ditemukan';
+  end if;
+  if not exists(select 1 from erp.locations where location_code=j->>'location_code' and is_active and location_type='RAW_MATERIAL_WAREHOUSE')
+    and not exists(select 1 from erp.migration_staging_rows where batch_id=p_batch and entity_type='LOCATION' and validation_status='VALID'
+      and normalized_payload->>'location_code'=j->>'location_code' and normalized_payload->>'location_type'='RAW_MATERIAL_WAREHOUSE') then
+    raise exception 'location_code: gudang bahan aktif tidak ditemukan';
+  end if;
+  if exists(select 1 from erp.migration_staging_rows x where x.batch_id=p_batch and x.entity_type='OPEN_PURCHASE_ORDER' and x.id<>r.id
+      and x.normalized_payload->>'supplier_code'=j->>'supplier_code' and lower(btrim(x.normalized_payload->>'po_number'))=lower(btrim(j->>'po_number'))
+      and (lower(btrim(x.normalized_payload->>'po_line_number'))=lower(btrim(j->>'po_line_number'))
+        or x.normalized_payload->>'material_sku'=j->>'material_sku'
+        or x.normalized_payload->>'po_date'<>j->>'po_date' or x.normalized_payload->>'location_code'<>j->>'location_code'
+        or coalesce(x.normalized_payload->>'expected_date','')<>coalesce(j->>'expected_date',''))) then
+    raise exception 'P04_DUPLICATE_PO: baris PO ganda atau rincian kepala PO tidak konsisten';
+  end if;
+  if v_supplier is not null and exists(select 1 from erp.bb_purchase_commitments_v1 c where c.supplier_id=v_supplier
+      and lower(btrim(c.po_number))=lower(btrim(j->>'po_number'))) then
+    raise exception 'P04_DUPLICATE_PO: PO ini sudah diimpor';
+  end if;
+  if exists(select 1 from erp.material_purchase_headers where lower(btrim(purchase_number))=lower(btrim(j->>'po_number')))
+    or exists(select 1 from erp.migration_staging_rows x where x.batch_id=p_batch and x.entity_type='UNINVOICED_RECEIPT'
+      and x.normalized_payload->>'supplier_code'=j->>'supplier_code' and lower(btrim(x.normalized_payload->>'receipt_number'))=lower(btrim(j->>'po_number')))
+    or (v_supplier is not null and exists(select 1 from erp.initial_import_receipt_headers h where h.supplier_id=v_supplier
+      and lower(btrim(h.receipt_number))=lower(btrim(j->>'po_number')))) then
+    raise exception 'P04_PO_NUMBER_IS_RECEIPT: nomor PO sudah dipakai sebagai nomor penerimaan';
+  end if;
+  return jsonb_build_object('supplier_id',v_supplier,'cutover_date',v_cutover,'po_date',v_date,'expected_date',v_expected);
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_validate_purchase_imports_v1(p_batch uuid)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare r record;
+begin
+  perform erp.require_owner_admin();
+  for r in select id from erp.migration_staging_rows where batch_id=p_batch and entity_type='OPEN_PURCHASE_ORDER' order by source_row_no loop
+    begin
+      perform erp.bb_check_purchase_import_row_v1(p_batch,r.id);
+      update erp.migration_staging_rows set validation_status='VALID',validation_errors='[]' where id=r.id;
+    exception when others then
+      update erp.migration_staging_rows set validation_status='ERROR',validation_errors=jsonb_build_array(sqlerrm) where id=r.id;
+    end;
+  end loop;
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_open_commitment_draft_v1(p_commitment uuid,p_physical_at timestamptz,p_note text)
+ RETURNS uuid LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare c erp.bb_purchase_commitments_v1%rowtype;v_purchase uuid:=gen_random_uuid();v_seq integer;l record;v_any boolean:=false;
+begin
+  select * into c from erp.bb_purchase_commitments_v1 where id=p_commitment for update;
+  select coalesce(max(sequence_no),0)+1 into v_seq from erp.bb_purchase_commitment_drafts_v1 where commitment_id=c.id;
+  insert into erp.material_purchase_headers(id,purchase_number,supplier_id,physical_at,status,location_id,notes,created_by)
+  values(v_purchase,case when v_seq=1 then c.po_number else c.po_number||'/R'||(v_seq-1) end,c.supplier_id,p_physical_at,'DRAFT',
+    c.location_id,p_note,erp.current_app_user_id());
+  insert into erp.bb_purchase_commitment_drafts_v1(purchase_id,commitment_id,sequence_no) values(v_purchase,c.id,v_seq);
+  for l in select * from erp.bb_purchase_commitment_lines_v1 where commitment_id=c.id order by line_number,id loop
+    if erp.bb_commitment_line_remaining_v1(l.id)>0 then
+      insert into erp.material_purchase_items(purchase_id,material_id,qty,unit_price,price_state,price_source,notes)
+      values(v_purchase,l.material_id,erp.bb_commitment_line_remaining_v1(l.id),l.unit_price,'ESTIMATED','MANUAL_ESTIMATE','Sisa PO '||c.po_number||' baris '||l.line_number);
+      v_any:=true;
+    end if;
+  end loop;
+  if not v_any then raise exception 'P04_NOTHING_REMAINING: PO % tidak memiliki sisa',c.po_number;end if;
+  return v_purchase;
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_apply_purchase_imports_v1(p_batch uuid)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare r record;j jsonb;c jsonb;v_commitment uuid;v_supplier uuid;v_material uuid;v_location uuid;v_line uuid;b erp.migration_batches%rowtype;
+begin
+  perform erp.require_owner_admin();
+  select * into b from erp.migration_batches where id=p_batch;
+  for r in select * from erp.migration_staging_rows where batch_id=p_batch and entity_type='OPEN_PURCHASE_ORDER' and posted_entity_id is null
+      order by normalized_payload->>'supplier_code',lower(btrim(normalized_payload->>'po_number')),source_row_no loop
+    if r.validation_status<>'VALID' then raise exception 'PO pembelian belum lolos pemeriksaan';end if;
+    j:=r.normalized_payload;
+    perform pg_advisory_xact_lock(hashtextextended('BB_P04_PO:'||(j->>'supplier_code')||':'||lower(btrim(j->>'po_number')),0));
+    c:=erp.bb_check_purchase_import_row_v1(p_batch,r.id);
+    select id into strict v_supplier from erp.suppliers where supplier_code=j->>'supplier_code' and is_active;
+    select id into strict v_material from erp.materials where material_sku=j->>'material_sku' and is_active;
+    select id into strict v_location from erp.locations where location_code=j->>'location_code' and is_active and location_type='RAW_MATERIAL_WAREHOUSE';
+    select id into v_commitment from erp.bb_purchase_commitments_v1 where batch_id=p_batch and supplier_id=v_supplier
+      and lower(btrim(po_number))=lower(btrim(j->>'po_number'));
+    if v_commitment is null then
+      insert into erp.bb_purchase_commitments_v1(batch_id,supplier_id,po_number,po_date,location_id,expected_date,cutover_date)
+      values(p_batch,v_supplier,btrim(j->>'po_number'),(c->>'po_date')::date,v_location,(c->>'expected_date')::date,(c->>'cutover_date')::date)
+      returning id into v_commitment;
+    end if;
+    insert into erp.bb_purchase_commitment_lines_v1(commitment_id,source_row_id,line_number,material_id,ordered_qty,received_before_cutover_qty,
+      cancelled_before_cutover_qty,remaining_at_cutover,unit_price)
+    values(v_commitment,r.id,btrim(j->>'po_line_number'),v_material,(j->>'ordered_qty')::numeric,(j->>'received_before_cutover_qty')::numeric,
+      (j->>'cancelled_before_cutover_qty')::numeric,(j->>'remaining_qty')::numeric,(j->>'unit_price')::numeric)
+    returning id into v_line;
+    update erp.migration_staging_rows set posted_entity_id=v_line,posted_entity_type='OPEN_PURCHASE_ORDER',posted_at=statement_timestamp(),
+      updated_at=statement_timestamp() where id=r.id;
+  end loop;
+  -- One native DRAFT receipt per imported order, for its remaining quantity, dated at cutover (the user dates the real receipt).
+  for r in select id,po_number from erp.bb_purchase_commitments_v1 where batch_id=p_batch order by id loop
+    perform erp.bb_open_commitment_draft_v1(r.id,b.cutover_at,'Sisa PO '||r.po_number||' saat saldo awal; ubah ke penerimaan nyata sebelum posting');
+  end loop;
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_manage_purchase_commitment_v1(p_payload jsonb,p_request uuid)
+ RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare v_op text:=upper(coalesce(nullif(btrim(p_payload->>'operation'),''),''));v_batch uuid:=(p_payload->>'batch_id')::uuid;
+  c erp.bb_purchase_commitments_v1%rowtype;l erp.bb_purchase_commitment_lines_v1%rowtype;v_reason text:=nullif(btrim(p_payload->>'reason'),'');
+  v_qty numeric;v_date date;v_remaining numeric;v_purchase uuid;
+begin
+  if v_op not in('CANCEL','REOPEN_REMAINDER') then raise exception 'P04_OPERATION: operasi tidak dikenal';end if;
+  if v_reason is null then raise exception 'BB_OSS_REASON_REQUIRED: alasan wajib diisi';end if;
+  select * into c from erp.bb_purchase_commitments_v1 where id=(p_payload->>'commitment_id')::uuid for update;
+  if c.id is null or c.batch_id is distinct from v_batch then raise exception 'P04_NOT_IN_BATCH: PO bukan milik impor ini';end if;
+  perform pg_advisory_xact_lock(hashtextextended('BB_P04_COMMITMENT:'||c.id::text,0));
+  if v_op='CANCEL' then
+    select * into l from erp.bb_purchase_commitment_lines_v1 where id=(p_payload->>'line_id')::uuid and commitment_id=c.id;
+    if l.id is null then raise exception 'P04_NOT_IN_BATCH: baris PO tidak ditemukan';end if;
+    if coalesce(p_payload->>'qty','') !~ '^[0-9]+([.][0-9]{1,6})?$' or (p_payload->>'qty')::numeric<=0 then
+      raise exception 'P04_CANCEL_QTY_INVALID: jumlah batal positif maksimal enam desimal';
+    end if;
+    v_qty:=(p_payload->>'qty')::numeric;
+    v_date:=erp.bb_parse_date_v1(p_payload->>'effective_date','effective_date');
+    if v_date<c.cutover_date or v_date>erp.bb_business_today_v1() then
+      raise exception 'BB_OSS_DATE_OUT_OF_RANGE: tanggal batal antara % dan hari ini',c.cutover_date;
+    end if;
+    v_remaining:=erp.bb_commitment_line_remaining_v1(l.id);
+    if v_qty>v_remaining then raise exception 'P04_CANCEL_EXCEEDS: sisa PO %, dibatalkan %',v_remaining,v_qty;end if;
+    insert into erp.bb_purchase_commitment_cancellations_v1(id,line_id,qty,effective_date,reason,created_by)
+    values(p_request,l.id,v_qty,v_date,v_reason,erp.current_app_user_id());
+    return jsonb_build_object('operation',v_op,'line_id',l.id,'remaining',erp.bb_commitment_line_remaining_v1(l.id)::text);
+  end if;
+  if exists(select 1 from erp.bb_purchase_commitment_drafts_v1 d join erp.material_purchase_headers h on h.id=d.purchase_id
+      where d.commitment_id=c.id and h.status='DRAFT') then
+    raise exception 'P04_DRAFT_OPEN: masih ada draf penerimaan PO ini; posting atau gunakan draf itu';
+  end if;
+  v_purchase:=erp.bb_open_commitment_draft_v1(c.id,statement_timestamp(),'Sisa PO '||c.po_number||': '||v_reason);
+  return jsonb_build_object('operation',v_op,'purchase_id',v_purchase);
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_purchase_workspace_v1(p_batch uuid)
+ RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select jsonb_build_object(
+    'purchase_commitments',coalesce((select jsonb_agg(jsonb_build_object('id',c.id,'po_number',c.po_number,'po_date',c.po_date,
+        'supplier_code',s.supplier_code,'supplier_name',s.supplier_name,'expected_date',c.expected_date,
+        'lines',(select jsonb_agg(jsonb_build_object('id',l.id,'line_number',l.line_number,'material_sku',m.material_sku,
+            'ordered_qty',l.ordered_qty::text,'received_before_cutover_qty',l.received_before_cutover_qty::text,
+            'cancelled_before_cutover_qty',l.cancelled_before_cutover_qty::text,'remaining_at_cutover',l.remaining_at_cutover::text,
+            'cancelled_after_cutover',coalesce((select sum(x.qty) from erp.bb_purchase_commitment_cancellations_v1 x where x.line_id=l.id),0)::text,
+            'remaining_qty',erp.bb_commitment_line_remaining_v1(l.id)::text,'unit_price',l.unit_price::text) order by l.line_number,l.id)
+          from erp.bb_purchase_commitment_lines_v1 l join erp.materials m on m.id=l.material_id where l.commitment_id=c.id),
+        'drafts',(select jsonb_agg(jsonb_build_object('purchase_id',h.id,'purchase_number',h.purchase_number,'status',h.status,
+            'row_version',h.row_version::text,'physical_at',h.physical_at) order by d.sequence_no)
+          from erp.bb_purchase_commitment_drafts_v1 d join erp.material_purchase_headers h on h.id=d.purchase_id where d.commitment_id=c.id))
+        order by c.po_number,c.id)
+      from erp.bb_purchase_commitments_v1 c join erp.suppliers s on s.id=c.supplier_id where c.batch_id=p_batch),'[]'::jsonb))
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_purchase_revision_part_v1(p_batch uuid)
+ RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select jsonb_build_object(
+    'commitments',coalesce((select jsonb_agg(to_jsonb(c) order by c.id) from erp.bb_purchase_commitments_v1 c where c.batch_id=p_batch),'[]'::jsonb),
+    'cancellations',coalesce((select jsonb_agg(to_jsonb(x) order by x.id) from erp.bb_purchase_commitment_cancellations_v1 x
+      join erp.bb_purchase_commitment_lines_v1 l on l.id=x.line_id join erp.bb_purchase_commitments_v1 c on c.id=l.commitment_id
+      where c.batch_id=p_batch),'[]'::jsonb),
+    'drafts',coalesce((select jsonb_agg(jsonb_build_object('purchase_id',h.id,'status',h.status,'row_version',h.row_version) order by h.id)
+      from erp.bb_purchase_commitment_drafts_v1 d join erp.material_purchase_headers h on h.id=d.purchase_id
+      join erp.bb_purchase_commitments_v1 c on c.id=d.commitment_id where c.batch_id=p_batch),'[]'::jsonb))
+$function$;
+
+do $grants$
+declare f text;
+begin
+  for f in select p.oid::regprocedure::text from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+      where n.nspname='erp' and p.proname like 'bb\_%' loop
+    execute format('revoke all on function %s from public,anon,authenticated,service_role',f);
+  end loop;
+end $grants$;
+-- CP6 BB labour part (ALL-Y02). New objects only.
+-- Y02: sewing work, attendance or GOOD/BOM reimbursement earned before cutover but not approved or paid yet. Each
+-- entitlement is imported with its detail (component, earned/paid/carried quantity and rate; attendance period, days and
+-- rate; category, GOOD quantity and BOM rate) and names the imported CONTRACTOR_PAYABLE document that carries its money,
+-- which payroll pays like ALL-Y01 (no second accrual). A component carried at cutover is not a liability yet: once the
+-- owner confirms it done after cutover, its quantity enters a payroll as an OPENING_CARRY line, recognized by the ordinary
+-- approval (Dr LABOR_COST / Cr CONTRACTOR_PAYABLE) and settled by the ordinary payment. No work completion, sewing
+-- terminal, attendance or accessory entitlement row is written for the old period (M:369).
+
+create table erp.bb_payroll_entitlements_v1(
+  id uuid primary key default gen_random_uuid(),
+  batch_id uuid not null references erp.migration_batches(id),
+  source_row_id uuid not null unique references erp.migration_staging_rows(id),
+  contractor_id uuid not null references erp.contractors(id),
+  kind text not null check(kind in('SEWING_WORK','ATTENDANCE','ACCESSORY_REIMBURSEMENT')),
+  document_number text not null check(length(btrim(document_number)) between 1 and 120),
+  line_number text not null check(length(btrim(line_number)) between 1 and 60),
+  document_date date not null,
+  cutover_date date not null,
+  balance_id uuid references erp.opening_subledger_balances(id),
+  amount numeric(20,2) not null check(amount>=0),
+  carry_qty numeric(18,6) not null default 0 check(carry_qty>=0),
+  rate numeric(18,2) not null check(rate>=0),
+  detail jsonb not null,
+  created_at timestamptz not null default statement_timestamp(),
+  check(document_date<=cutover_date),
+  check((amount>0)=(balance_id is not null)),
+  check(kind='SEWING_WORK' or carry_qty=0)
+);
+create unique index bb_payroll_entitlements_v1_identity on erp.bb_payroll_entitlements_v1(contractor_id,kind,lower(btrim(document_number)),lower(btrim(line_number)));
+comment on table erp.bb_payroll_entitlements_v1 is 'BB (ALL-Y02): old earned but unapproved sewing work, attendance or GOOD/BOM reimbursement with its detail; the money is the linked imported CONTRACTOR_PAYABLE document; carried component quantity is paid later through OPENING_CARRY payroll lines.';
+alter table erp.bb_payroll_entitlements_v1 enable row level security;
+revoke all on erp.bb_payroll_entitlements_v1 from public,anon,authenticated,service_role;
+
+alter table erp.payroll_reimbursements add column opening_carry_entitlement_id uuid references erp.bb_payroll_entitlements_v1(id);
+alter table erp.payroll_reimbursements add column opening_carry_qty numeric(18,6);
+alter table erp.payroll_reimbursements drop constraint payroll_reimbursements_source_type_check;
+alter table erp.payroll_reimbursements add constraint payroll_reimbursements_source_type_check
+  check(source_type::text=any(array['MANUAL','ACCESSORY_BOM','OPENING_PAYABLE','OPENING_CARRY']));
+alter table erp.payroll_reimbursements add constraint payroll_reimbursements_opening_carry_check
+  check((source_type::text='OPENING_CARRY')=(opening_carry_entitlement_id is not null and opening_carry_qty is not null and opening_carry_qty>0));
+create unique index payroll_reimbursements_opening_carry_unique on erp.payroll_reimbursements(payroll_id,opening_carry_entitlement_id)
+  where opening_carry_entitlement_id is not null;
+
+-- Carried quantity already promised to or paid by a payroll that is not reversed.
+CREATE OR REPLACE FUNCTION erp.bb_entitlement_carry_used_v1(p_entitlement uuid,p_except uuid DEFAULT NULL)
+ RETURNS numeric LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select coalesce(sum(r.opening_carry_qty),0) from erp.payroll_reimbursements r join erp.payroll_settlements p on p.id=r.payroll_id
+  where r.opening_carry_entitlement_id=p_entitlement and p.status<>'REVERSED' and r.id is distinct from p_except
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_guard_opening_carry_reimbursement_v1()
+ RETURNS trigger LANGUAGE plpgsql SECURITY INVOKER SET search_path TO ''
+AS $function$
+declare p erp.payroll_settlements%rowtype;e erp.bb_payroll_entitlements_v1%rowtype;v_id uuid;
+begin
+  if TG_OP='DELETE' then
+    if old.opening_carry_entitlement_id is null then return old;end if;
+    v_id:=old.payroll_id;
+  else
+    if new.opening_carry_entitlement_id is null and new.source_type::text<>'OPENING_CARRY'
+      and (TG_OP='INSERT' or old.opening_carry_entitlement_id is null) then return new;end if;
+    v_id:=new.payroll_id;
+  end if;
+  if current_user<>'postgres' then raise exception 'Y02_CARRY_WRITER: komponen carry masuk payroll hanya lewat command resmi';end if;
+  perform erp.require_internal();
+  if TG_OP='UPDATE' and (new.payroll_id<>old.payroll_id or new.opening_carry_entitlement_id is distinct from old.opening_carry_entitlement_id
+      or new.source_type is distinct from old.source_type) then
+    raise exception 'Y02_CARRY_WRITER: sumber carry payroll tidak dapat dipindah; lepaskan lalu pilih ulang';
+  end if;
+  select * into p from erp.payroll_settlements where id=v_id for update;
+  if p.id is null or p.status not in('DRAFT','CALCULATED','REVIEW') then
+    raise exception 'Y02_ENTITLEMENT_IN_PAYROLL: komponen carry hanya diatur pada payroll draft';
+  end if;
+  if TG_OP='DELETE' then return old;end if;
+  select * into e from erp.bb_payroll_entitlements_v1 where id=new.opening_carry_entitlement_id for update;
+  if e.id is null or e.kind<>'SEWING_WORK' or e.contractor_id is distinct from p.contractor_id then
+    raise exception 'Y02_CARRY_WRONG_CONTRACTOR: komponen carry harus milik mandor payroll ini';
+  end if;
+  if p.period_end<e.cutover_date then raise exception 'Y02_CARRY_BEFORE_CUTOVER: komponen carry diselesaikan sesudah saldo awal';end if;
+  if new.opening_carry_qty is null or new.opening_carry_qty<=0 or new.opening_carry_qty<>round(new.opening_carry_qty,6)
+    or new.amount<>round(new.opening_carry_qty*e.rate,2) then
+    raise exception 'Y02_CARRY_AMOUNT: nominal carry harus jumlah dikali tarif asal';
+  end if;
+  if new.opening_carry_qty>e.carry_qty-erp.bb_entitlement_carry_used_v1(e.id,new.id) then
+    raise exception 'Y02_CARRY_EXCEEDS: komponen carry tersisa %, diminta %',e.carry_qty-erp.bb_entitlement_carry_used_v1(e.id,new.id),new.opening_carry_qty;
+  end if;
+  return new;
+end;$function$;
+create trigger trg_bb_opening_carry_reimbursement before insert or update or delete on erp.payroll_reimbursements
+  for each row execute function erp.bb_guard_opening_carry_reimbursement_v1();
+
+CREATE OR REPLACE FUNCTION erp.bb_check_labour_import_row_v1(p_batch uuid,p_row uuid)
+ RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO '' SET DateStyle TO 'ISO, YMD'
+AS $function$
+declare r erp.migration_staging_rows%rowtype;j jsonb;k text;v_cutover date;v_contractor uuid;v_attendance boolean;v_kind text;v_date date;
+  v_earned numeric;v_paid numeric;v_carry numeric;v_rate numeric;v_amount numeric;v_days numeric;v_paid_amount numeric;v_good numeric;
+  v_doc_amount numeric;v_doc_total numeric;v_detail jsonb;v_start date;v_end date;
+begin
+  perform erp.require_owner_admin();
+  select * into r from erp.migration_staging_rows where id=p_row and batch_id=p_batch and entity_type='OPENING_PAYROLL_ENTITLEMENT';
+  if r.id is null then raise exception 'Baris hak upah tidak ditemukan';end if;
+  j:=r.normalized_payload;v_kind:=upper(btrim(coalesce(j->>'kind','')));
+  foreach k in array array['kind','contractor_code','document_number','line_number','document_date','rate'] loop
+    if nullif(btrim(j->>k),'') is null then raise exception '%: wajib diisi untuk hak upah sebelum saldo awal',k;end if;
+  end loop;
+  if v_kind not in('SEWING_WORK','ATTENDANCE','ACCESSORY_REIMBURSEMENT') then
+    raise exception 'kind: gunakan SEWING_WORK, ATTENDANCE, atau ACCESSORY_REIMBURSEMENT';
+  end if;
+  select (cutover_at at time zone 'Asia/Jakarta')::date into v_cutover from erp.migration_batches where id=p_batch;
+  v_date:=erp.bb_parse_date_v1(j->>'document_date','document_date');
+  if v_date>v_cutover then raise exception 'document_date: hak upah harus timbul sebelum saldo awal';end if;
+  select id,attendance_required into v_contractor,v_attendance from erp.contractors where contractor_code=j->>'contractor_code' and is_active;
+  if v_contractor is null then
+    select coalesce(nullif(normalized_payload->>'attendance_required','')::boolean,false) into v_attendance from erp.migration_staging_rows
+      where batch_id=p_batch and entity_type='CONTRACTOR' and validation_status='VALID' and normalized_payload->>'contractor_code'=j->>'contractor_code';
+    if not found then raise exception 'contractor_code: mandor aktif tidak ditemukan';end if;
+  end if;
+  v_rate:=erp.bb_parse_amount_v1(j->>'rate','rate',true);
+  if v_kind='SEWING_WORK' then
+    foreach k in array array['work_component_code','earned_qty','paid_before_qty','carry_qty'] loop
+      if nullif(btrim(j->>k),'') is null then raise exception '%: wajib diisi untuk upah jahit',k;end if;
+      if k<>'work_component_code' and j->>k !~ '^[0-9]+([.][0-9]{1,6})?$' then raise exception '%: angka nonnegatif maksimal enam desimal',k;end if;
+    end loop;
+    if not exists(select 1 from erp.work_components where component_code=j->>'work_component_code') then
+      raise exception 'work_component_code: komponen kerja tidak ditemukan';
+    end if;
+    v_earned:=(j->>'earned_qty')::numeric;v_paid:=(j->>'paid_before_qty')::numeric;v_carry:=(j->>'carry_qty')::numeric;
+    if v_earned<=0 or v_earned-v_paid-v_carry<0 then
+      raise exception 'Y02_EQUATION: jumlah dikerjakan dikurangi dibayar dan carry tidak boleh negatif';
+    end if;
+    v_amount:=round((v_earned-v_paid-v_carry)*v_rate,2);
+    v_detail:=jsonb_build_object('po_number',nullif(btrim(j->>'po_number'),''),'work_component_code',j->>'work_component_code',
+      'earned_qty',v_earned,'paid_before_qty',v_paid,'carry_qty',v_carry);
+  else
+    if j->>'paid_before_amount' is null then raise exception 'paid_before_amount: wajib diisi (0 bila belum dibayar)';end if;
+    v_paid_amount:=erp.bb_parse_amount_v1(j->>'paid_before_amount','paid_before_amount',true);
+    if v_kind='ATTENDANCE' then
+      if not coalesce(v_attendance,false) then
+        raise exception 'Y02_ATTENDANCE_NOT_REQUIRED: mandor ini tidak memakai absensi; hak absensi tidak diimpor';
+      end if;
+      foreach k in array array['worker_name','period_start','period_end','days'] loop
+        if nullif(btrim(j->>k),'') is null then raise exception '%: wajib diisi untuk hak absensi',k;end if;
+      end loop;
+      v_start:=erp.bb_parse_date_v1(j->>'period_start','period_start');v_end:=erp.bb_parse_date_v1(j->>'period_end','period_end');
+      if v_start>v_end or v_end>=v_cutover then raise exception 'period_end: periode absensi harus selesai sebelum saldo awal';end if;
+      if j->>'days' !~ '^[0-9]+([.][0-9]{1,4})?$' or (j->>'days')::numeric<=0 then raise exception 'days: jumlah hari positif maksimal empat desimal';end if;
+      v_days:=(j->>'days')::numeric;v_amount:=round(v_days*v_rate,2)-v_paid_amount;
+      v_detail:=jsonb_build_object('worker_name',btrim(j->>'worker_name'),'period_start',v_start,'period_end',v_end,'days',v_days,'paid_before_amount',v_paid_amount);
+    else
+      foreach k in array array['category_code','good_qty'] loop
+        if nullif(btrim(j->>k),'') is null then raise exception '%: wajib diisi untuk reimburse aksesori',k;end if;
+      end loop;
+      if j->>'good_qty' !~ '^[1-9][0-9]{0,8}$' then raise exception 'good_qty: jumlah GOOD bilangan bulat positif';end if;
+      v_good:=(j->>'good_qty')::numeric;v_amount:=round(v_good*v_rate,2)-v_paid_amount;
+      v_detail:=jsonb_build_object('category_code',j->>'category_code','good_qty',v_good,'paid_before_amount',v_paid_amount);
+    end if;
+    if v_amount<0 then raise exception 'Y02_EQUATION: yang sudah dibayar melebihi hak';end if;
+  end if;
+  -- The money: the CONTRACTOR_PAYABLE document of the same contractor and number in this batch, equal to its entitlements.
+  if v_amount>0 then
+    select sum(replace(d.normalized_payload->>'amount',',','.')::numeric) into v_doc_amount from erp.migration_staging_rows d
+      where d.batch_id=p_batch and d.entity_type='OPENING_BALANCE_ITEM' and upper(d.normalized_payload->>'balance_type')='CONTRACTOR_PAYABLE'
+        and d.normalized_payload->>'contractor_code'=j->>'contractor_code'
+        and lower(btrim(d.normalized_payload->>'document_number'))=lower(btrim(j->>'document_number'));
+    if v_doc_amount is null then
+      raise exception 'Y02_DOCUMENT_REQUIRED: hak upah memerlukan dokumen hutang mandor dengan nomor yang sama di batch ini';
+    end if;
+    select sum(x.amount) into v_doc_total from (select erp.bb_labour_row_amount_v1(p_batch,s.id) amount from erp.migration_staging_rows s
+      where s.batch_id=p_batch and s.entity_type='OPENING_PAYROLL_ENTITLEMENT' and s.normalized_payload->>'contractor_code'=j->>'contractor_code'
+        and lower(btrim(s.normalized_payload->>'document_number'))=lower(btrim(j->>'document_number'))) x;
+    if v_doc_total is distinct from v_doc_amount then
+      raise exception 'Y02_EQUATION: jumlah hak upah dokumen % harus sama dengan dokumen hutang %',v_doc_total,v_doc_amount;
+    end if;
+  end if;
+  if exists(select 1 from erp.migration_staging_rows s where s.batch_id=p_batch and s.id<>r.id and s.entity_type='OPENING_PAYROLL_ENTITLEMENT'
+      and s.normalized_payload->>'contractor_code'=j->>'contractor_code' and upper(s.normalized_payload->>'kind')=v_kind
+      and lower(btrim(s.normalized_payload->>'document_number'))=lower(btrim(j->>'document_number'))
+      and lower(btrim(s.normalized_payload->>'line_number'))=lower(btrim(j->>'line_number')))
+    or (v_contractor is not null and exists(select 1 from erp.bb_payroll_entitlements_v1 e where e.contractor_id=v_contractor and e.kind=v_kind
+      and lower(btrim(e.document_number))=lower(btrim(j->>'document_number')) and lower(btrim(e.line_number))=lower(btrim(j->>'line_number'))
+      and e.source_row_id<>r.id)) then
+    raise exception 'Y02_DOC_DUPLICATE: hak upah ini sudah tercatat';
+  end if;
+  -- The old period is not also in the native registers of this contractor (it would be paid twice).
+  if v_contractor is not null and (exists(select 1 from erp.work_completion_events w where w.contractor_id=v_contractor
+        and erp._cp3_business_date(w.physical_at)<v_cutover and w.status<>'REVERSED')
+      or exists(select 1 from erp.attendance_records a where a.contractor_id=v_contractor and a.attendance_date<v_cutover)) then
+    raise exception 'Y02_PRE_CUTOVER_NATIVE: mandor ini sudah punya catatan kerja/absensi sebelum saldo awal di ERP; hak lama tidak diimpor dua kali';
+  end if;
+  return jsonb_build_object('contractor_id',v_contractor,'cutover_date',v_cutover,'document_date',v_date,'kind',v_kind,'amount',v_amount,
+    'carry_qty',coalesce(v_carry,0),'rate',v_rate,'detail',v_detail);
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_labour_row_amount_v1(p_batch uuid,p_row uuid)
+ RETURNS numeric LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare j jsonb;v_rate numeric;
+begin
+  select normalized_payload into j from erp.migration_staging_rows where id=p_row and batch_id=p_batch;
+  begin
+    v_rate:=replace(j->>'rate',',','.')::numeric;
+    return case upper(btrim(j->>'kind'))
+      when 'SEWING_WORK' then round(((j->>'earned_qty')::numeric-(j->>'paid_before_qty')::numeric-(j->>'carry_qty')::numeric)*v_rate,2)
+      when 'ATTENDANCE' then round((j->>'days')::numeric*v_rate,2)-replace(j->>'paid_before_amount',',','.')::numeric
+      else round((j->>'good_qty')::numeric*v_rate,2)-replace(j->>'paid_before_amount',',','.')::numeric end;
+  exception when others then return null;
+  end;
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_validate_labour_imports_v1(p_batch uuid)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare r record;
+begin
+  perform erp.require_owner_admin();
+  for r in select id from erp.migration_staging_rows where batch_id=p_batch and entity_type='OPENING_PAYROLL_ENTITLEMENT' order by source_row_no loop
+    begin
+      perform erp.bb_check_labour_import_row_v1(p_batch,r.id);
+      update erp.migration_staging_rows set validation_status='VALID',validation_errors='[]' where id=r.id;
+    exception when others then
+      update erp.migration_staging_rows set validation_status='ERROR',validation_errors=jsonb_build_array(sqlerrm) where id=r.id;
+    end;
+  end loop;
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_apply_labour_imports_v1(p_batch uuid)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare r record;j jsonb;c jsonb;v_contractor uuid;v_balance uuid;v_id uuid;
+begin
+  perform erp.require_owner_admin();
+  for r in select * from erp.migration_staging_rows where batch_id=p_batch and entity_type='OPENING_PAYROLL_ENTITLEMENT' and posted_entity_id is null
+      order by source_row_no loop
+    if r.validation_status<>'VALID' then raise exception 'Hak upah belum lolos pemeriksaan';end if;
+    j:=r.normalized_payload;
+    perform pg_advisory_xact_lock(hashtextextended('BB_Y02:'||(j->>'contractor_code')||':'||lower(btrim(j->>'document_number')),0));
+    c:=erp.bb_check_labour_import_row_v1(p_batch,r.id);
+    select id into strict v_contractor from erp.contractors where contractor_code=j->>'contractor_code' and is_active;
+    v_balance:=null;
+    if (c->>'amount')::numeric>0 then
+      select b.id into v_balance from erp.initial_import_financial_sources f join erp.opening_subledger_balances b on b.opening_item_id=f.opening_item_id
+        where f.batch_id=p_batch and f.balance_type='CONTRACTOR_PAYABLE' and f.party_id=v_contractor
+          and lower(btrim(f.document_number))=lower(btrim(j->>'document_number'));
+      if v_balance is null then raise exception 'Y02_DOCUMENT_REQUIRED: dokumen hutang mandor belum dibukukan';end if;
+    end if;
+    insert into erp.bb_payroll_entitlements_v1(batch_id,source_row_id,contractor_id,kind,document_number,line_number,document_date,cutover_date,
+      balance_id,amount,carry_qty,rate,detail)
+    values(p_batch,r.id,v_contractor,c->>'kind',btrim(j->>'document_number'),btrim(j->>'line_number'),(c->>'document_date')::date,
+      (c->>'cutover_date')::date,v_balance,(c->>'amount')::numeric,(c->>'carry_qty')::numeric,(c->>'rate')::numeric,c->'detail')
+    returning id into v_id;
+    update erp.migration_staging_rows set posted_entity_id=v_id,posted_entity_type='OPENING_PAYROLL_ENTITLEMENT',posted_at=statement_timestamp(),
+      updated_at=statement_timestamp() where id=r.id;
+  end loop;
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_manage_payroll_entitlement_v1(p_payload jsonb,p_request uuid)
+ RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare v_op text:=upper(coalesce(nullif(btrim(p_payload->>'operation'),''),''));v_batch uuid:=(p_payload->>'batch_id')::uuid;
+  e erp.bb_payroll_entitlements_v1%rowtype;p erp.payroll_settlements%rowtype;v_qty numeric;v_id uuid;
+begin
+  if v_op<>'ALLOCATE_CARRY' then raise exception 'Y02_OPERATION: operasi tidak dikenal';end if;
+  select * into p from erp.payroll_settlements where id=(p_payload->>'payroll_id')::uuid for update;
+  select * into e from erp.bb_payroll_entitlements_v1 where id=(p_payload->>'entitlement_id')::uuid for update;
+  if e.id is null or e.batch_id is distinct from v_batch then raise exception 'Y02_NOT_IN_BATCH: hak upah bukan milik impor ini';end if;
+  if p.id is null or p.status not in('DRAFT','CALCULATED','REVIEW') then raise exception 'Y02_ENTITLEMENT_IN_PAYROLL: payroll harus draft';end if;
+  if p_payload->>'expected_payroll_version' is null or p.row_version<>(p_payload->>'expected_payroll_version')::bigint then
+    raise exception 'STALE_VERSION: payroll berubah';
+  end if;
+  if coalesce(p_payload->>'qty','') !~ '^[0-9]+([.][0-9]{1,6})?$' then raise exception 'Y02_CARRY_AMOUNT: jumlah carry maksimal enam desimal; nol untuk melepas';end if;
+  v_qty:=(p_payload->>'qty')::numeric;
+  select id into v_id from erp.payroll_reimbursements where payroll_id=p.id and opening_carry_entitlement_id=e.id;
+  if v_qty=0 then
+    if v_id is null then raise exception 'Alokasi yang akan dilepas tidak ditemukan';end if;
+    delete from erp.payroll_reimbursements where id=v_id;
+  elsif v_id is null then
+    insert into erp.payroll_reimbursements(payroll_id,amount,description,source_type,opening_carry_entitlement_id,opening_carry_qty)
+    values(p.id,round(v_qty*e.rate,2),'Komponen carry saldo awal '||e.document_number||'/'||e.line_number,'OPENING_CARRY',e.id,v_qty)
+    returning id into v_id;
+  else
+    update erp.payroll_reimbursements set amount=round(v_qty*e.rate,2),opening_carry_qty=v_qty where id=v_id;
+  end if;
+  perform erp.recalculate_payroll(p.id);
+  return jsonb_build_object('operation',v_op,'entitlement_id',e.id,'payroll_id',p.id,'reimbursement_id',v_id,
+    'carry_remaining',(e.carry_qty-erp.bb_entitlement_carry_used_v1(e.id))::text);
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_labour_workspace_v1(p_batch uuid)
+ RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select jsonb_build_object('payroll_entitlements',coalesce((select jsonb_agg(jsonb_build_object('id',e.id,'kind',e.kind,
+      'contractor_id',e.contractor_id,'contractor_code',c.contractor_code,'contractor_name',c.contractor_name,'document_number',e.document_number,'line_number',e.line_number,
+      'document_date',e.document_date,'amount',e.amount::text,'balance_id',e.balance_id,'rate',e.rate::text,'detail',e.detail,
+      'carry_qty',e.carry_qty::text,'carry_remaining',(e.carry_qty-erp.bb_entitlement_carry_used_v1(e.id))::text,
+      'carry_lines',coalesce((select jsonb_agg(jsonb_build_object('payroll_id',p.id,'payroll_number',p.payroll_number,'status',p.status,
+          'row_version',p.row_version::text,'qty',r.opening_carry_qty::text,'amount',r.amount::text) order by p.period_end,p.id)
+        from erp.payroll_reimbursements r join erp.payroll_settlements p on p.id=r.payroll_id
+        where r.opening_carry_entitlement_id=e.id and p.status<>'REVERSED'),'[]'::jsonb)) order by c.contractor_code,e.document_number,e.line_number)
+    from erp.bb_payroll_entitlements_v1 e join erp.contractors c on c.id=e.contractor_id where e.batch_id=p_batch),'[]'::jsonb),
+    'entitlement_payrolls',coalesce((select jsonb_agg(jsonb_build_object('id',p.id,'payroll_number',p.payroll_number,'contractor_id',p.contractor_id,
+        'period_end',p.period_end,'row_version',p.row_version::text) order by p.period_end,p.id)
+      from erp.payroll_settlements p where p.status in('DRAFT','CALCULATED','REVIEW') and exists(select 1 from erp.bb_payroll_entitlements_v1 e
+        where e.batch_id=p_batch and e.contractor_id=p.contractor_id and e.carry_qty>0)),'[]'::jsonb))
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_labour_revision_part_v1(p_batch uuid)
+ RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select jsonb_build_object('entitlements',coalesce((select jsonb_agg(to_jsonb(e) order by e.id) from erp.bb_payroll_entitlements_v1 e where e.batch_id=p_batch),'[]'::jsonb),
+    'carry_lines',coalesce((select jsonb_agg(to_jsonb(r) order by r.id) from erp.payroll_reimbursements r join erp.bb_payroll_entitlements_v1 e
+      on e.id=r.opening_carry_entitlement_id where e.batch_id=p_batch),'[]'::jsonb))
+$function$;
+
+do $grants$
+declare f text;
+begin
+  for f in select p.oid::regprocedure::text from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+      where n.nspname='erp' and p.proname like 'bb\_%' loop
+    execute format('revoke all on function %s from public,anon,authenticated,service_role',f);
+  end loop;
+end $grants$;
+-- CP6 BB production part (ALL-W02, ALL-W04, ALL-W06). New objects only; the existing opening WIP functions are changed by
+-- checked substitutions in scripts/cp6_bb_build.py.
+-- W04: cut pieces waiting for pickup at cutover are an opening WIP of stage CUTTING held at a cutting location (no mandor
+--      yet). PICKUP hands all of them to one active mandor (stage SEWING from the pickup date; the PO takes that mandor when
+--      it has none, like a native cutting pickup); nothing is completed, split or reworked before it. REVERSE_PICKUP only
+--      while no output, split or posted work of that mandor on the PO exists.
+-- W02: pieces of an opening WIP found BS after cutover are split off as a native BS case (LEGACY/UNKNOWN like opening BS,
+--      legacy_reference OPENING_SPLIT:<split>, detected at QC, holder recorded) through the same checks as a completion
+--      (dated remaining, product binding). Their value stays in WIP at the source's per-piece value until the native BS
+--      flow disposes them (WIP -> OTHER_EXPENSE, like opening BS) or reworks them GOOD (the lot carries that value).
+--      REVERSE_SPLIT only while the case has no resolution (a claim resolves through one), rework or hold. Wages after cutover are native work
+--      completions on the opening PO (proved by the probe; no BB object).
+-- W06: a rework sent before cutover and still out is imported (OPENING_REWORK + OPENING_REWORK_COMPONENT) as a native rework
+--      order of its open quantity on the BS case of its opening BS row, created by erp.save_rework_order_v2 at FINALIZE; the
+--      component baseline (pieces whose component was already done before BS) and the rate are stated and checked against
+--      the native rate. Completion, GOOD lot, wages and reversal are native (COMPLETE_REWORK). History before cutover (sent,
+--      returned) is kept on the import record only (M:369).
+
+alter table erp.initial_import_production_sources drop constraint initial_import_production_sources_stage_check;
+alter table erp.initial_import_production_sources add constraint initial_import_production_sources_stage_check
+  check(stage=any(array['CUTTING','SEWING','LAUNDRY','QC']));
+
+create table erp.bb_wip_pickups_v1(
+  id uuid primary key default gen_random_uuid(),
+  opening_item_id uuid not null references erp.initial_import_production_sources(opening_item_id),
+  contractor_id uuid not null references erp.contractors(id),
+  physical_at timestamptz not null,
+  reason text not null check(btrim(reason)<>''),
+  po_contractor_assigned boolean not null,
+  created_by uuid,
+  created_at timestamptz not null default statement_timestamp(),
+  reversed_at timestamptz,
+  reversed_by uuid,
+  reverse_reason text,
+  check((reversed_at is null)=(reverse_reason is null))
+);
+create unique index bb_wip_pickups_v1_active on erp.bb_wip_pickups_v1(opening_item_id) where reversed_at is null;
+comment on table erp.bb_wip_pickups_v1 is 'BB (ALL-W04): pickup of opening CUTTING WIP by one mandor; reversal keeps the row.';
+alter table erp.bb_wip_pickups_v1 enable row level security;
+revoke all on erp.bb_wip_pickups_v1 from public,anon,authenticated,service_role;
+
+create table erp.bb_wip_bs_splits_v1(
+  id uuid primary key,
+  opening_item_id uuid not null references erp.initial_import_production_sources(opening_item_id),
+  bs_case_id uuid not null unique references erp.bs_cases(id),
+  product_id uuid not null references erp.products(id),
+  qty_pcs integer not null check(qty_pcs>0),
+  stage_from text not null check(stage_from in('SEWING','LAUNDRY')),
+  holder_contractor_id uuid references erp.contractors(id),
+  holder_vendor_id uuid references erp.laundry_vendors(id),
+  basis text not null,
+  physical_at timestamptz not null,
+  reason text not null check(btrim(reason)<>''),
+  created_by uuid,
+  created_at timestamptz not null default statement_timestamp(),
+  reversed_at timestamptz,
+  reversed_by uuid,
+  reverse_reason text,
+  check((reversed_at is null)=(reverse_reason is null))
+);
+create index bb_wip_bs_splits_v1_item on erp.bb_wip_bs_splits_v1(opening_item_id);
+comment on table erp.bb_wip_bs_splits_v1 is 'BB (ALL-W02): pieces of an opening WIP split off as a native BS case; value stays at the source per-piece value.';
+alter table erp.bb_wip_bs_splits_v1 enable row level security;
+revoke all on erp.bb_wip_bs_splits_v1 from public,anon,authenticated,service_role;
+
+create table erp.bb_wip_split_value_events_v1(
+  id uuid primary key,
+  split_id uuid not null references erp.bb_wip_bs_splits_v1(id),
+  disposed_qty integer not null check(disposed_qty>=0),
+  previous_amount numeric(20,2) not null,
+  target_amount numeric(20,2) not null,
+  economic_date date not null,
+  journal_entry_id uuid not null references erp.journal_entries(id),
+  created_by uuid,
+  created_at timestamptz not null default statement_timestamp()
+);
+create index bb_wip_split_value_events_v1_split on erp.bb_wip_split_value_events_v1(split_id);
+comment on table erp.bb_wip_split_value_events_v1 is 'BB (ALL-W02): WIP value of disposed split BS pieces moved to OTHER_EXPENSE (journal source INITIAL_IMPORT_BS_VALUE, like opening BS).';
+alter table erp.bb_wip_split_value_events_v1 enable row level security;
+revoke all on erp.bb_wip_split_value_events_v1 from public,anon,authenticated,service_role;
+
+create table erp.bb_opening_reworks_v1(
+  id uuid primary key default gen_random_uuid(),
+  batch_id uuid not null references erp.migration_batches(id),
+  source_row_id uuid not null unique references erp.migration_staging_rows(id),
+  rework_order_id uuid not null unique references erp.rework_orders(id),
+  bs_case_id uuid not null references erp.bs_cases(id),
+  opening_item_id uuid not null references erp.initial_import_production_sources(opening_item_id),
+  legacy_rework_number text not null,
+  legacy_sent_date date not null,
+  qty_sent_original integer not null check(qty_sent_original>0),
+  qty_returned_before_cutover integer not null check(qty_returned_before_cutover>=0),
+  qty_open integer not null check(qty_open>0),
+  components jsonb not null,
+  created_at timestamptz not null default statement_timestamp(),
+  check(qty_open=qty_sent_original-qty_returned_before_cutover)
+);
+comment on table erp.bb_opening_reworks_v1 is 'BB (ALL-W06): import record of a rework open at cutover and the native rework order made for its open quantity.';
+alter table erp.bb_opening_reworks_v1 enable row level security;
+revoke all on erp.bb_opening_reworks_v1 from public,anon,authenticated,service_role;
+
+CREATE OR REPLACE FUNCTION erp.bb_guard_wip_history_v1()
+ RETURNS trigger LANGUAGE plpgsql SECURITY INVOKER SET search_path TO ''
+AS $function$
+begin
+  -- Pickups and splits are history: only their reversal is written, once.
+  if TG_OP='DELETE' then raise exception 'BB_WIP_HISTORY_IMMUTABLE: riwayat pickup/pisah BS tidak boleh dihapus';end if;
+  if old.reversed_at is not null or new.reversed_at is null
+     or (to_jsonb(new)-'reversed_at'-'reversed_by'-'reverse_reason') is distinct from (to_jsonb(old)-'reversed_at'-'reversed_by'-'reverse_reason') then
+    raise exception 'BB_WIP_HISTORY_IMMUTABLE: riwayat pickup/pisah BS hanya boleh dibalik sekali';
+  end if;
+  return new;
+end;$function$;
+create trigger bb_wip_pickups_v1_immutable before update or delete on erp.bb_wip_pickups_v1 for each row execute function erp.bb_guard_wip_history_v1();
+create trigger bb_wip_bs_splits_v1_immutable before update or delete on erp.bb_wip_bs_splits_v1 for each row execute function erp.bb_guard_wip_history_v1();
+
+CREATE OR REPLACE FUNCTION erp.bb_guard_append_only_v1()
+ RETURNS trigger LANGUAGE plpgsql SECURITY INVOKER SET search_path TO ''
+AS $function$
+begin
+  raise exception 'BB_APPEND_ONLY: % tidak boleh diubah atau dihapus',TG_TABLE_NAME;
+end;$function$;
+create trigger bb_wip_split_value_events_v1_immutable before update or delete on erp.bb_wip_split_value_events_v1 for each row execute function erp.bb_guard_append_only_v1();
+create trigger bb_opening_reworks_v1_immutable before update or delete on erp.bb_opening_reworks_v1 for each row execute function erp.bb_guard_append_only_v1();
+
+-- ---------------------------------------------------------------- stage, holder and split quantities of an opening WIP
+
+CREATE OR REPLACE FUNCTION erp.bb_wip_active_pickup_v1(p_item uuid)
+ RETURNS erp.bb_wip_pickups_v1 LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$ select p.* from erp.bb_wip_pickups_v1 p where p.opening_item_id=p_item and p.reversed_at is null $function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_wip_stage_v1(p_item uuid)
+ RETURNS text LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select case when s.stage='CUTTING' and exists(select 1 from erp.bb_wip_pickups_v1 p where p.opening_item_id=s.opening_item_id
+    and p.reversed_at is null) then 'SEWING' else s.stage end
+  from erp.initial_import_production_sources s where s.opening_item_id=p_item
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_wip_holder_v1(p_item uuid)
+ RETURNS uuid LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select coalesce((select p.contractor_id from erp.bb_wip_pickups_v1 p where p.opening_item_id=i.id and p.reversed_at is null),i.contractor_id)
+  from erp.opening_balance_items i where i.id=p_item
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_wip_split_active_qty_v1(p_item uuid)
+ RETURNS integer LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$ select coalesce(sum(qty_pcs),0)::integer from erp.bb_wip_bs_splits_v1 where opening_item_id=p_item and reversed_at is null $function$;
+
+-- Pieces split off on or before a day, less the splits reversed on or before it (the A3 dated remaining counts both).
+CREATE OR REPLACE FUNCTION erp.bb_wip_split_net_asof_v1(p_item uuid,p_day date)
+ RETURNS integer LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select (coalesce(sum(qty_pcs) filter(where erp._cp3_business_date(physical_at)<=p_day),0)
+    -coalesce(sum(qty_pcs) filter(where reversed_at is not null and erp._cp3_business_date(reversed_at)<=p_day),0))::integer
+  from erp.bb_wip_bs_splits_v1 where opening_item_id=p_item
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_wip_split_days_v1(p_item uuid)
+ RETURNS SETOF date LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select erp._cp3_business_date(physical_at) from erp.bb_wip_bs_splits_v1 where opening_item_id=p_item
+  union select erp._cp3_business_date(reversed_at) from erp.bb_wip_bs_splits_v1 where opening_item_id=p_item and reversed_at is not null
+$function$;
+
+-- The earliest instant an output or split of a day may take: after the active pickup and after that day's split reversals
+-- (BA A3 already places it after that day's output reversals).
+CREATE OR REPLACE FUNCTION erp.bb_wip_min_output_at_v1(p_item uuid,p_day date)
+ RETURNS timestamptz LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select greatest((select p.physical_at+interval '1 microsecond' from erp.bb_wip_pickups_v1 p where p.opening_item_id=p_item and p.reversed_at is null),
+    (select max(x.reversed_at)+interval '1 microsecond' from erp.bb_wip_bs_splits_v1 x where x.opening_item_id=p_item
+      and x.reversed_at is not null and erp._cp3_business_date(x.reversed_at)=p_day))
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_assert_wip_ready_v1(p_item uuid,p_day date)
+ RETURNS void LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare v_stage text;p erp.bb_wip_pickups_v1%rowtype;
+begin
+  select stage into v_stage from erp.initial_import_production_sources where opening_item_id=p_item;
+  if v_stage='CUTTING' then
+    select * into p from erp.bb_wip_pickups_v1 where opening_item_id=p_item and reversed_at is null;
+    if p.id is null or erp._cp3_business_date(p.physical_at)>p_day then
+      raise exception 'BB_WIP_NOT_PICKED_UP: potongan ini masih menunggu pickup pada tanggal itu; catat pickup ke mandor dahulu';
+    end if;
+  end if;
+end;$function$;
+
+-- A PO's mandor is bound once pickup, issue, work, payroll, snapshot, reimbursement, rework or an opening output uses it
+-- (the native guard's conditions, which a SECURITY DEFINER writer bypasses, plus the opening WIP's own facts).
+CREATE OR REPLACE FUNCTION erp.bb_po_contractor_used_v1(p_po uuid)
+ RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select exists(select 1 from erp.cutting_groups cg where cg.po_id=p_po and (cg.picked_up_at is not null or cg.material_issue_posted or cg.status<>'CUT'))
+    or exists(select 1 from erp.contractor_material_issues i where i.po_id=p_po and i.status<>'DRAFT')
+    or exists(select 1 from erp.work_completion_events w where w.po_id=p_po and w.status<>'DRAFT')
+    or exists(select 1 from erp.payroll_work_items pwi where pwi.po_id=p_po and exists(select 1 from erp.payroll_settlements ps where ps.id=pwi.payroll_id and ps.status<>'REVERSED'))
+    or exists(select 1 from erp.po_work_component_snapshots s where s.po_id=p_po)
+    or exists(select 1 from erp.contractor_accessory_reimbursement_entitlements e where e.po_id=p_po and e.payroll_status<>'CANCELLED')
+    or exists(select 1 from erp.rework_orders r join erp.bs_cases b on b.id=r.bs_case_id where b.po_id=p_po and r.status<>'CANCELLED')
+    or exists(select 1 from erp.fg_lots f where f.po_id=p_po and f.lot_origin='PRODUCTION')
+    or exists(select 1 from erp.bb_wip_pickups_v1 p join erp.initial_import_production_sources s on s.opening_item_id=p.opening_item_id
+      where s.po_id=p_po and p.reversed_at is null)
+$function$;
+
+-- ---------------------------------------------------------------- PICKUP, REVERSE_PICKUP, REVERSE_SPLIT
+
+CREATE OR REPLACE FUNCTION erp.bb_manage_opening_wip_v1(p_payload jsonb,p_item uuid)
+ RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO '' SET "DateStyle" TO 'ISO, YMD'
+AS $function$
+declare v_op text:=upper(coalesce(nullif(btrim(p_payload->>'operation'),''),''));v_reason text:=nullif(btrim(p_payload->>'reason'),'');
+  s erp.initial_import_production_sources%rowtype;i erp.opening_balance_items%rowtype;p erp.bb_wip_pickups_v1%rowtype;
+  x erp.bb_wip_bs_splits_v1%rowtype;v_contractor uuid;v_po_contractor uuid;v_date date;v_at timestamptz;v_cutover date;
+  v_last date;v_assigned boolean:=false;v_case erp.bs_cases%rowtype;
+begin
+  select * into strict s from erp.initial_import_production_sources where opening_item_id=p_item for update;
+  select * into strict i from erp.opening_balance_items where id=p_item;
+  select opening_date into strict v_cutover from erp.opening_balance_headers where id=i.opening_id;
+  if v_op='PICKUP' then
+    if s.stage<>'CUTTING' then raise exception 'BB_WIP_PICKUP_NOT_CUTTING: hanya potongan yang menunggu pickup yang dapat di-pickup';end if;
+    if exists(select 1 from erp.bb_wip_pickups_v1 where opening_item_id=s.opening_item_id and reversed_at is null) then
+      raise exception 'BB_WIP_ALREADY_PICKED_UP: potongan ini sudah di-pickup';end if;
+    select c.id into v_contractor from erp.contractors c where c.contractor_code=p_payload->>'contractor_code' and c.is_active and c.contractor_type='MANDOR';
+    if v_contractor is null then raise exception 'BB_WIP_PICKUP_MANDOR: pilih mandor aktif';end if;
+    if coalesce(p_payload->>'date','') !~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' or (p_payload->>'date')::date::text<>p_payload->>'date' then
+      raise exception 'date: gunakan YYYY-MM-DD';end if;
+    v_date:=(p_payload->>'date')::date;
+    select max(erp._cp3_business_date(reversed_at)) into v_last from erp.bb_wip_pickups_v1 where opening_item_id=s.opening_item_id;
+    if v_date<greatest(v_cutover,coalesce(v_last,v_cutover)) or v_date>erp._cp3_business_date(statement_timestamp()) then
+      raise exception 'BB_WIP_PICKUP_DATE: tanggal pickup harus sejak cutover (dan sejak pickup terakhir dibatalkan) dan tidak di masa depan';
+    end if;
+    -- Pieces are handed over at the start of the pickup day, never before a return of that day.
+    v_at:=greatest(v_date::timestamp at time zone 'Asia/Jakarta',
+      (select max(reversed_at)+interval '1 microsecond' from erp.bb_wip_pickups_v1 where opening_item_id=s.opening_item_id));
+    select contractor_id into v_po_contractor from erp.production_orders where id=s.po_id for update;
+    if v_po_contractor is not null and v_po_contractor<>v_contractor then
+      raise exception 'BB_WIP_PO_OTHER_MANDOR: PO ini sudah milik mandor lain; pickup harus oleh mandor PO';end if;
+    if v_po_contractor is null then
+      update erp.production_orders set contractor_id=v_contractor,updated_at=clock_timestamp() where id=s.po_id;
+      v_assigned:=true;
+    end if;
+    insert into erp.bb_wip_pickups_v1(opening_item_id,contractor_id,physical_at,reason,po_contractor_assigned,created_by)
+    values(s.opening_item_id,v_contractor,v_at,v_reason,v_assigned,erp.current_app_user_id()) returning * into p;
+    insert into erp.wip_stage_events(po_id,stage_from,stage_to,qty_pcs,contractor_id,source_type,source_id,physical_at,created_by,notes)
+    values(s.po_id,'CUTTING','SEWING',s.qty_pcs,v_contractor,'BB_OPENING_WIP_PICKUP',p.id,v_at,erp.current_app_user_id(),v_reason);
+    return jsonb_build_object('operation',v_op,'pickup_id',p.id,'po_contractor_assigned',v_assigned);
+  elsif v_op='REVERSE_PICKUP' then
+    select * into p from erp.bb_wip_pickups_v1 where opening_item_id=s.opening_item_id and reversed_at is null for update;
+    if p.id is null then raise exception 'BB_WIP_PICKUP_NOT_FOUND: tidak ada pickup aktif';end if;
+    if exists(select 1 from erp.initial_import_wip_outputs o where o.opening_item_id=s.opening_item_id
+        and not exists(select 1 from erp.initial_import_wip_output_reversals rv where rv.output_id=o.id))
+       or exists(select 1 from erp.bb_wip_bs_splits_v1 where opening_item_id=s.opening_item_id and reversed_at is null)
+       or exists(select 1 from erp.work_completion_events w where w.po_id=s.po_id and w.contractor_id=p.contractor_id
+         and w.status<>'DRAFT' and w.physical_at>=p.physical_at) then
+      raise exception 'BB_WIP_PICKUP_HAS_DOWNSTREAM: batalkan hasil, pisah BS, dan upah mandor sesudah pickup dahulu';
+    end if;
+    v_at:=statement_timestamp();
+    update erp.bb_wip_pickups_v1 set reversed_at=v_at,reversed_by=erp.current_app_user_id(),reverse_reason=v_reason where id=p.id;
+    insert into erp.wip_stage_events(po_id,stage_from,stage_to,qty_pcs,contractor_id,source_type,source_id,physical_at,created_by,notes)
+    values(s.po_id,'SEWING','CUTTING',s.qty_pcs,p.contractor_id,'BB_OPENING_WIP_PICKUP_REVERSE',p.id,v_at,erp.current_app_user_id(),v_reason);
+    if p.po_contractor_assigned and not erp.bb_po_contractor_used_v1(s.po_id) then
+      update erp.production_orders set contractor_id=null,updated_at=clock_timestamp() where id=s.po_id and contractor_id=p.contractor_id;
+    end if;
+    return jsonb_build_object('operation',v_op,'pickup_id',p.id,
+      'po_contractor_released',p.po_contractor_assigned and (select contractor_id is null from erp.production_orders where id=s.po_id));
+  elsif v_op='REVERSE_SPLIT' then
+    select * into x from erp.bb_wip_bs_splits_v1 where id=nullif(p_payload->>'split_id','')::uuid and opening_item_id=s.opening_item_id
+      and reversed_at is null for update;
+    if x.id is null then raise exception 'BB_WIP_SPLIT_NOT_FOUND: pisah BS tidak ditemukan atau sudah dibatalkan';end if;
+    select * into v_case from erp.bs_cases where id=x.bs_case_id for update;
+    if v_case.status<>'OPEN' or exists(select 1 from erp.bs_resolutions where bs_case_id=v_case.id)
+       or exists(select 1 from erp.rework_orders where bs_case_id=v_case.id)
+       or exists(select 1 from erp.bs_case_hold_events where bs_case_id=v_case.id) then
+      raise exception 'BB_WIP_SPLIT_HAS_DOWNSTREAM: kasus BS ini sudah diproses; batalkan penyelesaian (termasuk klaim), rework, atau hold-nya dahulu';
+    end if;
+    v_at:=statement_timestamp();
+    update erp.bs_cases set status='CANCELLED',notes=concat_ws(E'\n',notes,'Pisah BS saldo awal dibatalkan: '||v_reason),updated_at=clock_timestamp()
+      where id=v_case.id;
+    update erp.bb_wip_bs_splits_v1 set reversed_at=v_at,reversed_by=erp.current_app_user_id(),reverse_reason=v_reason where id=x.id;
+    insert into erp.wip_stage_events(po_id,stage_from,stage_to,qty_pcs,contractor_id,source_type,source_id,physical_at,created_by,notes)
+    values(s.po_id,'QC',x.stage_from,x.qty_pcs,x.holder_contractor_id,'BB_OPENING_WIP_SPLIT_BS_REVERSE',x.id,v_at,erp.current_app_user_id(),v_reason);
+    return jsonb_build_object('operation',v_op,'split_id',x.id,'bs_case_id',x.bs_case_id);
+  end if;
+  raise exception 'Aksi hasil WIP tidak dikenal';
+end;$function$;
+
+-- The BS case of a split, written by erp.complete_initial_import_wip_v1 (SPLIT_BS) after the completion checks.
+CREATE OR REPLACE FUNCTION erp.bb_split_opening_wip_bs_v1(p_item uuid,p_product uuid,p_qty integer,p_at timestamptz,p_basis text,p_reason text)
+ RETURNS uuid LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare s erp.initial_import_production_sources%rowtype;i erp.opening_balance_items%rowtype;v_stage text;v_contractor uuid;v_vendor uuid;
+  v_split uuid:=gen_random_uuid();v_case uuid;
+begin
+  select * into strict s from erp.initial_import_production_sources where opening_item_id=p_item;
+  select * into strict i from erp.opening_balance_items where id=p_item;
+  v_stage:=erp.bb_wip_stage_v1(p_item);
+  if v_stage not in('SEWING','LAUNDRY') then raise exception 'BB_WIP_NOT_PICKED_UP: potongan ini masih menunggu pickup';end if;
+  if v_stage='SEWING' then v_contractor:=erp.bb_wip_holder_v1(p_item);else v_vendor:=i.vendor_id;end if;
+  insert into erp.bs_cases(bs_number,po_id,product_id,detected_at_stage,cause_source,untracked_type,responsible_contractor_id,responsible_vendor_id,
+    qty_pcs,status,physical_at,notes,legacy_reference)
+  values('OWBS-'||v_split::text,s.po_id,p_product,'QC','UNKNOWN','LEGACY',v_contractor,v_vendor,p_qty,'OPEN',p_at,p_reason,'OPENING_SPLIT:'||v_split::text)
+  returning id into v_case;
+  insert into erp.bb_wip_bs_splits_v1(id,opening_item_id,bs_case_id,product_id,qty_pcs,stage_from,holder_contractor_id,holder_vendor_id,basis,physical_at,reason,created_by)
+  values(v_split,p_item,v_case,p_product,p_qty,v_stage,v_contractor,v_vendor,p_basis,p_at,p_reason,erp.current_app_user_id());
+  insert into erp.wip_stage_events(po_id,stage_from,stage_to,qty_pcs,contractor_id,source_type,source_id,physical_at,created_by,notes)
+  values(s.po_id,v_stage,'QC',p_qty,v_contractor,'BB_OPENING_WIP_SPLIT_BS',v_split,p_at,erp.current_app_user_id(),p_reason);
+  return v_split;
+end;$function$;
+
+-- ---------------------------------------------------------------- split BS value (the opening BS rule of AP/AZ, per split)
+
+CREATE OR REPLACE FUNCTION erp.bb_sync_split_bs_value_v1(p_split uuid,p_date date)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare x erp.bb_wip_bs_splits_v1%rowtype;s erp.initial_import_production_sources%rowtype;v_qty integer;v_target numeric;v_prior numeric;
+  v_delta numeric;v_event uuid;v_journal uuid;d record;v_left numeric;v_part numeric;v_run numeric;v_done integer:=0;
+begin
+  perform erp.require_internal();
+  if not pg_try_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0)) then raise exception 'WIP_VALUE_BUSY: penilaian stok sedang berubah, coba ulang';end if;
+  select * into x from erp.bb_wip_bs_splits_v1 where id=p_split for update;
+  if x.id is null then return;end if;
+  select * into strict s from erp.initial_import_production_sources where opening_item_id=x.opening_item_id;
+  select coalesce(sum(qty_pcs),0) into v_qty from erp.bs_resolutions where bs_case_id=x.bs_case_id
+    and source_rework_order_id is null and resolution_type not in('REWORK_SEWING','REWORK_LAUNDRY');
+  if v_qty>x.qty_pcs then raise exception 'Pengeluaran BS melebihi jumlah pisah BS';end if;
+  v_target:=round(erp.initial_import_source_value_v1(x.opening_item_id)*v_qty/s.qty_pcs,2);
+  select coalesce(sum(target_amount-previous_amount),0) into v_prior from erp.bb_wip_split_value_events_v1 where split_id=x.id;
+  v_delta:=v_target-v_prior;if v_delta=0 then return;end if;
+  -- AZ: a late supplier invoice with an open date reaches each disposed piece on its disposal day (pro rata by pieces).
+  if erp.invoice_recost_economic_date_v1() is not null and v_qty>0 and not exists(select 1 from erp.accounting_period_control c
+      where c.singleton_id=1 and c.closed_through is not null and p_date<=c.closed_through) then
+    v_left:=v_delta;v_run:=v_prior;
+    for d in select least(greatest(p_date,erp._cp3_business_date(r.physical_at)),erp._cp3_business_date(statement_timestamp())) bday,sum(r.qty_pcs) q
+      from erp.bs_resolutions r where r.bs_case_id=x.bs_case_id and r.source_rework_order_id is null
+        and r.resolution_type not in('REWORK_SEWING','REWORK_LAUNDRY') group by 1 order by 1 loop
+      v_done:=v_done+d.q;
+      v_part:=case when v_done>=v_qty then v_left else round(v_delta*d.q/v_qty,2) end;
+      v_left:=v_left-v_part;
+      if v_part<>0 then
+        v_event:=gen_random_uuid();
+        v_journal:=erp.post_journal('INITIAL_IMPORT_BS_VALUE',v_event,d.bday,'Nilai pisah BS WIP saldo awal yang dikeluarkan atau dikembalikan · tanggal pengeluaran BS',jsonb_build_array(
+          jsonb_build_object('mapping_key','OTHER_EXPENSE','debit',greatest(v_part,0),'credit',greatest(-v_part,0),'po_id',s.po_id),
+          jsonb_build_object('mapping_key','WIP','debit',greatest(-v_part,0),'credit',greatest(v_part,0),'po_id',s.po_id)));
+        insert into erp.bb_wip_split_value_events_v1(id,split_id,disposed_qty,previous_amount,target_amount,economic_date,journal_entry_id,created_by)
+        values(v_event,x.id,least(v_done,v_qty),v_run,v_run+v_part,d.bday,v_journal,erp.current_app_user_id());
+        v_run:=v_run+v_part;
+      end if;
+    end loop;
+    if v_left<>0 then raise exception 'BB_SPLIT_BS_VALUE_REMAINDER %',v_left;end if;
+    return;
+  end if;
+  v_event:=gen_random_uuid();
+  v_journal:=erp.post_journal('INITIAL_IMPORT_BS_VALUE',v_event,p_date,'Nilai pisah BS WIP saldo awal yang dikeluarkan atau dikembalikan',jsonb_build_array(
+    jsonb_build_object('mapping_key','OTHER_EXPENSE','debit',greatest(v_delta,0),'credit',greatest(-v_delta,0),'po_id',s.po_id),
+    jsonb_build_object('mapping_key','WIP','debit',greatest(-v_delta,0),'credit',greatest(v_delta,0),'po_id',s.po_id)));
+  insert into erp.bb_wip_split_value_events_v1(id,split_id,disposed_qty,previous_amount,target_amount,economic_date,journal_entry_id,created_by)
+  values(v_event,x.id,v_qty,v_prior,v_target,p_date,v_journal,erp.current_app_user_id());
+end;$function$;
+
+-- Called by erp.sync_initial_import_bs_disposition_v1 (AP trigger on bs_resolutions) for every case.
+CREATE OR REPLACE FUNCTION erp.bb_sync_split_bs_disposition_v1(p_case uuid,p_date date,p_delete boolean)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare v_split uuid;v_po_status text;
+begin
+  select id into v_split from erp.bb_wip_bs_splits_v1 where bs_case_id=p_case;
+  if v_split is null then return;end if;
+  if p_delete then
+    if not pg_try_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0)) then raise exception 'WIP_VALUE_BUSY: penilaian stok sedang berubah, coba ulang';end if;
+    select p.status into v_po_status from erp.production_orders p join erp.bs_cases b on b.po_id=p.id where b.id=p_case for update of p;
+    if v_po_status in('FINISHED','CANCELLED') then raise exception 'Buka kembali PO sebelum mengembalikan saldo BS';end if;
+  end if;
+  perform erp.bb_sync_split_bs_value_v1(v_split,p_date);
+end;$function$;
+
+-- Called by erp.recost_initial_import_origins_v1 after a late invoice changed an opening WIP's value.
+CREATE OR REPLACE FUNCTION erp.bb_sync_item_split_values_v1(p_item uuid,p_date date)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare v_split uuid;
+begin
+  for v_split in select id from erp.bb_wip_bs_splits_v1 where opening_item_id=p_item order by created_at,id loop
+    perform erp.bb_sync_split_bs_value_v1(v_split,p_date);
+  end loop;
+end;$function$;
+
+-- A PO may not finish while a split BS still has unresolved pieces (AP guard extended).
+CREATE OR REPLACE FUNCTION erp.bb_po_open_split_bs_v1(p_po uuid)
+ RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select exists(select 1 from erp.bb_wip_bs_splits_v1 x join erp.initial_import_production_sources s on s.opening_item_id=x.opening_item_id
+    where s.po_id=p_po and x.reversed_at is null
+      and x.qty_pcs>coalesce((select sum(r.qty_pcs) from erp.bs_resolutions r where r.bs_case_id=x.bs_case_id),0))
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_wip_row_part_v1(p_item uuid)
+ RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select jsonb_build_object(
+    'pickup',(select jsonb_build_object('id',p.id,'contractor_code',c.contractor_code,'contractor_name',c.contractor_name,
+        'date',erp._cp3_business_date(p.physical_at),'po_contractor_assigned',p.po_contractor_assigned)
+      from erp.bb_wip_pickups_v1 p join erp.contractors c on c.id=p.contractor_id where p.opening_item_id=p_item and p.reversed_at is null),
+    'split_qty_pcs',erp.bb_wip_split_active_qty_v1(p_item),
+    'splits',coalesce((select jsonb_agg(jsonb_build_object('id',x.id,'bs_case_id',x.bs_case_id,'bs_number',b.bs_number,'bs_status',b.status,
+        'qty_pcs',x.qty_pcs,'stage_from',x.stage_from,'date',erp._cp3_business_date(x.physical_at),'reversed',x.reversed_at is not null,
+        'resolved_qty_pcs',coalesce((select sum(r.qty_pcs) from erp.bs_resolutions r where r.bs_case_id=x.bs_case_id),0)) order by x.created_at,x.id)
+      from erp.bb_wip_bs_splits_v1 x join erp.bs_cases b on b.id=x.bs_case_id where x.opening_item_id=p_item),'[]'::jsonb))
+$function$;
+
+-- ---------------------------------------------------------------- W02 wages after cutover on an opening WIP
+-- A native work completion needs a Potongan (AI guard); an opening WIP has none. Its source may instead be the opening WIP
+-- (bb_opening_item_id, never both): the pieces must be in SEWING with that mandor on the work date (after the pickup of cut
+-- pieces), and each component is paid at most once per opening piece after cutover. Allocation to lots stays the native
+-- PO-shared rule (cp6_lot_work_cost_v2620c) for completions without a Potongan.
+alter table erp.work_completion_events add column bb_opening_item_id uuid references erp.initial_import_production_sources(opening_item_id);
+alter table erp.work_completion_events add constraint work_completion_events_bb_source_check check(bb_opening_item_id is null or cutting_group_id is null);
+create index work_completion_events_bb_opening_item on erp.work_completion_events(bb_opening_item_id) where bb_opening_item_id is not null;
+
+CREATE OR REPLACE FUNCTION erp.bb_opening_work_source_v1(p_item uuid,p_po uuid)
+ RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select p_item is not null and exists(select 1 from erp.initial_import_production_sources s where s.opening_item_id=p_item and s.po_id=p_po and s.bs_case_id is null)
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_check_opening_work_v1(p_completion uuid)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare e erp.work_completion_events%rowtype;s erp.initial_import_production_sources%rowtype;v_start timestamptz;r record;v_completed bigint;v_payable bigint;
+begin
+  select * into strict e from erp.work_completion_events where id=p_completion;
+  select * into s from erp.initial_import_production_sources where opening_item_id=e.bb_opening_item_id for update;
+  if s.opening_item_id is null or s.po_id<>e.po_id or s.bs_case_id is not null then
+    raise exception 'BB_WORK_OPENING_SOURCE: sumber kerja harus WIP saldo awal dari PO yang sama';
+  end if;
+  if erp.bb_wip_stage_v1(s.opening_item_id)<>'SEWING' or erp.bb_wip_holder_v1(s.opening_item_id) is distinct from e.contractor_id then
+    raise exception 'BB_WORK_OPENING_NOT_SEWING: upah jahit hanya untuk WIP saldo awal yang sedang dijahit mandor ini';
+  end if;
+  select greatest((h.opening_date::timestamp at time zone 'Asia/Jakarta'),coalesce((select p.physical_at from erp.bb_wip_pickups_v1 p
+      where p.opening_item_id=s.opening_item_id and p.reversed_at is null),'-infinity'::timestamptz))
+    into v_start from erp.opening_balance_items i join erp.opening_balance_headers h on h.id=i.opening_id where i.id=s.opening_item_id;
+  if e.physical_at<v_start or e.physical_at>clock_timestamp()+interval '5 minutes' then
+    raise exception 'BB_WORK_OPENING_DATE: tanggal hasil kerja harus sejak cutover (dan sejak pickup) dan tidak di masa depan';
+  end if;
+  for r in select l.work_component_id,sum(l.qty_completed) q,sum(l.qty_payable) p,min(wc.component_name) n from erp.work_completion_lines l
+      join erp.work_components wc on wc.id=l.work_component_id where l.completion_id=e.id group by l.work_component_id loop
+    select coalesce(sum(l.qty_completed),0),coalesce(sum(l.qty_payable),0) into v_completed,v_payable from erp.work_completion_lines l
+      join erp.work_completion_events x on x.id=l.completion_id
+      where x.bb_opening_item_id=s.opening_item_id and x.status='POSTED' and x.id<>e.id and l.work_component_id=r.work_component_id;
+    if v_completed+r.q>s.qty_pcs or v_payable+r.p>s.qty_pcs then
+      raise exception 'BB_WORK_OPENING_EXCEEDS: komponen % melebihi % pcs WIP saldo awal (sudah %, input %)',r.n,s.qty_pcs,v_completed,r.q;
+    end if;
+  end loop;
+end;$function$;
+
+-- ---------------------------------------------------------------- W04 import check: CUTTING WIP row
+
+CREATE OR REPLACE FUNCTION erp.bb_check_cutting_wip_row_v1(p_batch uuid,j jsonb)
+ RETURNS void LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+begin
+  if upper(j->>'balance_type')<>'WIP' then raise exception 'stage: CUTTING hanya untuk WIP';end if;
+  if nullif(btrim(j->>'contractor_code'),'') is not null or nullif(btrim(j->>'vendor_code'),'') is not null then
+    raise exception 'BB_CUTTING_WIP_HOLDER: potongan yang menunggu pickup belum dipegang mandor atau laundry; kosongkan contractor_code dan vendor_code';
+  end if;
+  if nullif(btrim(j->>'location_code'),'') is null
+     or not (exists(select 1 from erp.locations l where l.location_code=j->>'location_code' and l.is_active and l.location_type='CUTTING_WIP')
+       or exists(select 1 from erp.migration_staging_rows x where x.batch_id=p_batch and x.entity_type='LOCATION' and x.validation_status='VALID'
+         and x.normalized_payload->>'location_code'=j->>'location_code' and upper(x.normalized_payload->>'location_type')='CUTTING_WIP'
+         and coalesce(lower(x.normalized_payload->>'is_active'),'true') in('true','1','yes','ya'))) then
+    raise exception 'BB_CUTTING_WIP_LOCATION: isi location_code lokasi potong aktif (jenis CUTTING_WIP) tempat potongan menunggu';
+  end if;
+end;$function$;
+
+-- ---------------------------------------------------------------- W06 import: OPENING_REWORK and its components
+
+CREATE OR REPLACE FUNCTION erp.bb_parse_count_v1(p_value text,p_field text,p_min integer)
+ RETURNS integer LANGUAGE plpgsql IMMUTABLE SET search_path TO ''
+AS $function$
+begin
+  if p_value is null or p_value !~ '^[0-9]{1,9}$' or p_value::integer<p_min then
+    raise exception 'BB_COUNT_INVALID: % harus bilangan bulat % atau lebih',p_field,p_min;
+  end if;
+  return p_value::integer;
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_check_rework_import_row_v1(p_batch uuid,p_row uuid)
+ RETURNS jsonb LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO '' SET "DateStyle" TO 'ISO, YMD'
+AS $function$
+declare r erp.migration_staging_rows%rowtype;j jsonb;k text;v_cutover date;v_bs erp.migration_staging_rows%rowtype;b jsonb;v_po jsonb;
+  w erp.migration_staging_rows%rowtype;wj jsonb;v_sent integer;v_returned integer;v_open integer;v_date date;v_total integer;
+  v_product uuid;v_root uuid;v_model uuid;v_contractor uuid;v_component uuid;v_rate numeric;v_found numeric;v_before integer;v_qty integer;
+begin
+  perform erp.require_owner_admin();
+  select * into r from erp.migration_staging_rows where id=p_row and batch_id=p_batch;
+  if r.id is null then raise exception 'Baris impor tidak ditemukan';end if;
+  select (cutover_at at time zone 'Asia/Jakarta')::date into v_cutover from erp.migration_batches where id=p_batch;
+  if r.entity_type='OPENING_REWORK' then w:=r;
+  else
+    j:=r.normalized_payload;
+    foreach k in array array['rework_number','work_component_code','completed_before_bs_qty','qty_performed','rate_per_pcs'] loop
+      if nullif(btrim(j->>k),'') is null then raise exception '%: wajib diisi untuk komponen rework terbuka',k;end if;
+    end loop;
+    select * into w from erp.migration_staging_rows x where x.batch_id=p_batch and x.entity_type='OPENING_REWORK'
+      and lower(btrim(x.normalized_payload->>'rework_number'))=lower(btrim(j->>'rework_number'));
+    if w.id is null then raise exception 'BB_REWORK_UNKNOWN: nomor rework tidak ada di file rework terbuka impor ini';end if;
+  end if;
+  wj:=w.normalized_payload;
+  foreach k in array array['rework_number','bs_source_key','destination_type','sent_date','qty_sent_original','qty_returned_before_cutover','qty_open'] loop
+    if nullif(btrim(wj->>k),'') is null then raise exception '%: wajib diisi untuk rework terbuka',k;end if;
+  end loop;
+  if length(btrim(wj->>'rework_number'))>50 then raise exception 'rework_number: maksimal 50 karakter';end if;
+  if (select count(*) from erp.migration_staging_rows x where x.batch_id=p_batch and x.entity_type='OPENING_REWORK'
+      and lower(btrim(x.normalized_payload->>'rework_number'))=lower(btrim(wj->>'rework_number')))>1
+     or exists(select 1 from erp.rework_orders ro where lower(ro.rework_number)=lower('ORW-'||btrim(wj->>'rework_number'))) then
+    raise exception 'BB_REWORK_NUMBER_DUPLICATE: nomor rework sudah dipakai';
+  end if;
+  select * into v_bs from erp.migration_staging_rows x where x.batch_id=p_batch and x.entity_type='OPENING_BALANCE_ITEM'
+    and upper(x.normalized_payload->>'balance_type')='BS' and nullif(x.normalized_payload->>'po_number','') is not null
+    and x.normalized_payload->>'opening_source_key'=wj->>'bs_source_key' and x.validation_status='VALID';
+  if v_bs.id is null then
+    raise exception 'BB_REWORK_BS_SOURCE_REQUIRED: bs_source_key harus menunjuk baris BS ber-PO yang valid di impor ini';
+  end if;
+  b:=v_bs.normalized_payload;
+  v_sent:=erp.bb_parse_count_v1(wj->>'qty_sent_original','qty_sent_original',1);
+  v_returned:=erp.bb_parse_count_v1(wj->>'qty_returned_before_cutover','qty_returned_before_cutover',0);
+  v_open:=erp.bb_parse_count_v1(wj->>'qty_open','qty_open',1);
+  if v_open<>v_sent-v_returned then
+    raise exception 'BB_REWORK_OPEN_QTY_MISMATCH: sisa di rework (%) harus sama dengan dikirim (%) dikurangi kembali sebelum cutover (%)',v_open,v_sent,v_returned;
+  end if;
+  select coalesce(sum((x.normalized_payload->>'qty_open')::integer),0) into v_total from erp.migration_staging_rows x
+    where x.batch_id=p_batch and x.entity_type='OPENING_REWORK' and x.normalized_payload->>'bs_source_key'=wj->>'bs_source_key'
+      and x.normalized_payload->>'qty_open' ~ '^[0-9]{1,9}$';
+  if v_total>(b->>'qty')::numeric then raise exception 'BB_REWORK_EXCEEDS_BS: rework terbuka melebihi jumlah BS asalnya';end if;
+  v_date:=erp.bb_parse_date_v1(wj->>'sent_date','sent_date');
+  if v_date>v_cutover then raise exception 'BB_REWORK_SENT_DATE: rework terbuka dikirim sebelum atau pada tanggal saldo awal';end if;
+  if upper(wj->>'destination_type')='CONTRACTOR' then
+    if nullif(btrim(wj->>'vendor_code'),'') is not null or nullif(btrim(wj->>'contractor_code'),'') is null
+       or wj->>'contractor_code' is distinct from b->>'contractor_code' then
+      raise exception 'BB_REWORK_HOLDER_MISMATCH: rework ke mandor harus ke mandor pemegang baris BS asalnya';
+    end if;
+    select c.id into v_contractor from erp.contractors c where c.contractor_code=wj->>'contractor_code' and c.is_active and c.contractor_type='MANDOR';
+    if v_contractor is null then raise exception 'BB_REWORK_MANDOR: mandor rework harus mandor aktif yang sudah ada';end if;
+    if not exists(select 1 from erp.migration_staging_rows x where x.batch_id=p_batch and x.entity_type='OPENING_REWORK_COMPONENT'
+        and lower(btrim(x.normalized_payload->>'rework_number'))=lower(btrim(wj->>'rework_number'))) then
+      raise exception 'BB_REWORK_COMPONENT_REQUIRED: rework ke mandor memerlukan komponen kerja';
+    end if;
+  elsif upper(wj->>'destination_type')='LAUNDRY' then
+    if nullif(btrim(wj->>'contractor_code'),'') is not null or nullif(btrim(wj->>'vendor_code'),'') is null
+       or wj->>'vendor_code' is distinct from b->>'vendor_code' then
+      raise exception 'BB_REWORK_HOLDER_MISMATCH: rework ke laundry harus ke laundry pemegang baris BS asalnya';
+    end if;
+    if exists(select 1 from erp.migration_staging_rows x where x.batch_id=p_batch and x.entity_type='OPENING_REWORK_COMPONENT'
+        and lower(btrim(x.normalized_payload->>'rework_number'))=lower(btrim(wj->>'rework_number'))) then
+      raise exception 'BB_REWORK_LAUNDRY_COMPONENT: rework laundry tidak memakai komponen upah mandor';
+    end if;
+  else raise exception 'destination_type: isi CONTRACTOR atau LAUNDRY';
+  end if;
+  -- The native rework of a BS with PO and product needs the product's accessory BOM (an explicit empty one is enough).
+  select p.id,p.identity_root_id,p.model_id into v_product,v_root,v_model from erp.products p
+    where lower(btrim(p.sku))=lower(btrim(b->>'product_sku')) and p.effective_from<((v_cutover+1)::timestamp at time zone 'Asia/Jakarta')
+    order by p.effective_from desc,p.id limit 1;
+  if v_product is null or not exists(select 1 from erp.accessory_bom_versions a where a.product_id=v_root and a.is_active
+      and a.effective_from<=((v_cutover+1)::timestamp at time zone 'Asia/Jakarta')
+      and (a.effective_to is null or a.effective_to>(v_cutover::timestamp at time zone 'Asia/Jakarta'))) then
+    raise exception 'BB_REWORK_ACCESSORY_BOM_REQUIRED: produk BS asal belum punya BOM aksesori yang berlaku (BOM kosong pun harus dicatat)';
+  end if;
+  if r.entity_type='OPENING_REWORK' then
+    return jsonb_build_object('kind','REWORK','open_qty',v_open,'sent_qty',v_sent,'returned_qty',v_returned,'sent_date',v_date);
+  end if;
+  -- Component row.
+  if upper(wj->>'destination_type')<>'CONTRACTOR' then raise exception 'BB_REWORK_LAUNDRY_COMPONENT: rework laundry tidak memakai komponen upah mandor';end if;
+  select id into v_component from erp.work_components where component_code=j->>'work_component_code' and is_active;
+  if v_component is null then raise exception 'BB_REWORK_COMPONENT_UNKNOWN: komponen kerja aktif tidak ditemukan';end if;
+  if (select count(*) from erp.migration_staging_rows x where x.batch_id=p_batch and x.entity_type='OPENING_REWORK_COMPONENT'
+      and lower(btrim(x.normalized_payload->>'rework_number'))=lower(btrim(j->>'rework_number'))
+      and x.normalized_payload->>'work_component_code'=j->>'work_component_code')>1 then
+    raise exception 'BB_REWORK_COMPONENT_DUPLICATE: komponen yang sama tercatat dua kali pada rework ini';
+  end if;
+  v_qty:=erp.bb_parse_count_v1(j->>'qty_performed','qty_performed',1);
+  if v_qty>v_open then raise exception 'BB_REWORK_COMPONENT_QTY: qty dikerjakan tidak boleh melebihi sisa di rework';end if;
+  v_before:=erp.bb_parse_count_v1(j->>'completed_before_bs_qty','completed_before_bs_qty',0);
+  if v_before>(b->>'qty')::numeric then raise exception 'BB_REWORK_BASELINE: pcs yang sudah selesai sebelum BS tidak boleh melebihi jumlah BS';end if;
+  if exists(select 1 from erp.migration_staging_rows x join erp.migration_staging_rows y on y.batch_id=x.batch_id and y.entity_type='OPENING_REWORK'
+      and lower(btrim(y.normalized_payload->>'rework_number'))=lower(btrim(x.normalized_payload->>'rework_number'))
+      where x.batch_id=p_batch and x.entity_type='OPENING_REWORK_COMPONENT' and x.id<>r.id
+        and y.normalized_payload->>'bs_source_key'=wj->>'bs_source_key' and x.normalized_payload->>'work_component_code'=j->>'work_component_code'
+        and x.normalized_payload->>'completed_before_bs_qty' is distinct from j->>'completed_before_bs_qty') then
+    raise exception 'BB_REWORK_BASELINE_CONFLICT: pcs selesai sebelum BS untuk komponen yang sama harus sama pada setiap rework BS itu';
+  end if;
+  v_rate:=erp.bb_parse_amount_v1(j->>'rate_per_pcs','rate_per_pcs',true);
+  select po.normalized_payload into v_po from erp.migration_staging_rows po where po.batch_id=p_batch and po.entity_type='OPEN_PO'
+    and po.normalized_payload->>'po_number'=b->>'po_number' and po.validation_status='VALID';
+  select m.id into v_model from erp.product_models m where m.model_code=v_po->>'model_code';
+  select cwr.rate_per_pcs into v_found from erp.contractor_work_rates cwr where cwr.contractor_id=v_contractor and cwr.model_id=v_model
+    and cwr.work_component_id=v_component and cwr.effective_from<=(v_cutover::timestamp at time zone 'Asia/Jakarta')
+    and (cwr.effective_to is null or cwr.effective_to>(v_cutover::timestamp at time zone 'Asia/Jakarta'))
+    order by cwr.effective_from desc,cwr.id desc limit 1;
+  if v_found is null then raise exception 'BB_REWORK_RATE_MISSING: tarif mandor untuk model dan komponen ini belum berlaku pada cutover';end if;
+  if v_found<>v_rate then raise exception 'BB_REWORK_RATE_MISMATCH: tarif baris (%) berbeda dengan tarif mandor yang berlaku (%)',v_rate,v_found;end if;
+  return jsonb_build_object('kind','COMPONENT','work_component_id',v_component,'qty_performed',v_qty,'completed_before_bs_qty',v_before,'rate',v_rate);
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_validate_production_imports_v1(p_batch uuid)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare r record;
+begin
+  perform erp.require_owner_admin();
+  for r in select id from erp.migration_staging_rows where batch_id=p_batch and entity_type in('OPENING_REWORK','OPENING_REWORK_COMPONENT')
+      order by entity_type desc,source_row_no loop
+    begin
+      perform erp.bb_check_rework_import_row_v1(p_batch,r.id);
+      update erp.migration_staging_rows set validation_status='VALID',validation_errors='[]' where id=r.id;
+    exception when others then
+      update erp.migration_staging_rows set validation_status='ERROR',validation_errors=jsonb_build_array(sqlerrm) where id=r.id;
+    end;
+  end loop;
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_apply_production_imports_v1(p_batch uuid)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare r record;c record;j jsonb;v jsonb;v_item uuid;v_case erp.bs_cases%rowtype;v_components jsonb;v_lines jsonb;v_payload jsonb;
+  v_result jsonb;v_order uuid;v_bc uuid;v_before integer;v_line jsonb;v_row_rate numeric;v_recorded jsonb:='[]';
+begin
+  perform erp.require_owner_admin();
+  for r in select * from erp.migration_staging_rows where batch_id=p_batch and entity_type='OPENING_REWORK' and posted_entity_id is null
+      order by source_row_no loop
+    if r.validation_status<>'VALID' then raise exception 'Rework terbuka belum lolos pemeriksaan';end if;
+    j:=r.normalized_payload;v:=erp.bb_check_rework_import_row_v1(p_batch,r.id);
+    select k.opening_item_id into v_item from erp.initial_import_opening_stock_sources k join erp.initial_import_production_sources s
+      on s.opening_item_id=k.opening_item_id where k.batch_id=p_batch and k.source_key=j->>'bs_source_key' and s.bs_case_id is not null;
+    if v_item is null then raise exception 'BB_REWORK_BS_SOURCE_REQUIRED: kasus BS asal belum dibukukan';end if;
+    select b.* into strict v_case from erp.bs_cases b join erp.initial_import_production_sources s on s.bs_case_id=b.id where s.opening_item_id=v_item;
+    v_components:='[]';v_recorded:='[]';
+    for c in select x.* from erp.migration_staging_rows x where x.batch_id=p_batch and x.entity_type='OPENING_REWORK_COMPONENT'
+        and lower(btrim(x.normalized_payload->>'rework_number'))=lower(btrim(j->>'rework_number')) order by x.source_row_no loop
+      if c.validation_status<>'VALID' then raise exception 'Komponen rework terbuka belum lolos pemeriksaan';end if;
+      v:=erp.bb_check_rework_import_row_v1(p_batch,c.id);
+      insert into erp.bs_case_components(bs_case_id,work_component_id,completed_before_bs_qty,notes)
+      values(v_case.id,(v->>'work_component_id')::uuid,(v->>'completed_before_bs_qty')::integer,'Saldo awal: pcs yang komponennya sudah selesai sebelum BS')
+      on conflict(bs_case_id,work_component_id) do nothing;
+      select id,completed_before_bs_qty into v_bc,v_before from erp.bs_case_components where bs_case_id=v_case.id and work_component_id=(v->>'work_component_id')::uuid;
+      if v_before<>(v->>'completed_before_bs_qty')::integer then
+        raise exception 'BB_REWORK_BASELINE_CONFLICT: pcs selesai sebelum BS berbeda dengan kasus BS yang sudah ada';
+      end if;
+      v_components:=v_components||jsonb_build_array(jsonb_build_object('bs_case_component_id',v_bc,'qty_performed',(v->>'qty_performed')::integer));
+      v_recorded:=v_recorded||jsonb_build_array(jsonb_build_object('source_row_id',c.id,'bs_case_component_id',v_bc,'work_component_code',
+        c.normalized_payload->>'work_component_code','completed_before_bs_qty',(v->>'completed_before_bs_qty')::integer,
+        'qty_performed',(v->>'qty_performed')::integer,'rate_per_pcs',v->>'rate'));
+    end loop;
+    v:=erp.bb_check_rework_import_row_v1(p_batch,r.id);
+    v_payload:=jsonb_build_object('rework_number','ORW-'||btrim(j->>'rework_number'),'bs_case_id',v_case.id,'destination_type',upper(j->>'destination_type'),
+      'contractor_id',(select id from erp.contractors where contractor_code=nullif(j->>'contractor_code','')),
+      'vendor_id',(select id from erp.laundry_vendors where vendor_code=nullif(j->>'vendor_code','')),
+      'qty_sent',(v->>'open_qty')::integer,'physical_sent_at',v_case.physical_at,'status','IN_PROGRESS','accessory_bom_item_ids','[]'::jsonb,
+      'components',v_components,'notes',concat_ws(' · ','Rework terbuka saldo awal '||btrim(j->>'rework_number'),'dikirim '||(v->>'sent_date'),
+        'asal '||(v->>'sent_qty')||' pcs, kembali sebelum cutover '||(v->>'returned_qty')||' pcs',nullif(btrim(j->>'notes'),'')),
+      'change_reason','Impor saldo awal: rework terbuka '||btrim(j->>'rework_number'));
+    v_result:=erp.save_rework_order_v2(v_payload,r.id,null);
+    v_order:=(v_result->>'rework_order_id')::uuid;
+    for v_line in select value from jsonb_array_elements(v_result->'components') loop
+      select (x->>'rate_per_pcs')::numeric into v_row_rate from jsonb_array_elements(v_recorded) x
+        where (x->>'bs_case_component_id')::uuid=(v_line->>'bs_case_component_id')::uuid;
+      if (v_line->>'rate_snapshot')::numeric is distinct from v_row_rate then
+        raise exception 'BB_REWORK_RATE_MISMATCH: tarif native rework (%) berbeda dengan tarif baris (%)',v_line->>'rate_snapshot',v_row_rate;
+      end if;
+      update erp.migration_staging_rows set posted_entity_id=(v_line->>'rework_component_line_id')::uuid,posted_entity_type='OPENING_REWORK_COMPONENT',
+        posted_at=statement_timestamp(),updated_at=statement_timestamp()
+      where id=(select (x->>'source_row_id')::uuid from jsonb_array_elements(v_recorded) x
+        where (x->>'bs_case_component_id')::uuid=(v_line->>'bs_case_component_id')::uuid);
+    end loop;
+    insert into erp.bb_opening_reworks_v1(batch_id,source_row_id,rework_order_id,bs_case_id,opening_item_id,legacy_rework_number,legacy_sent_date,
+      qty_sent_original,qty_returned_before_cutover,qty_open,components)
+    values(p_batch,r.id,v_order,v_case.id,v_item,btrim(j->>'rework_number'),(v->>'sent_date')::date,(v->>'sent_qty')::integer,
+      (v->>'returned_qty')::integer,(v->>'open_qty')::integer,v_recorded);
+    update erp.migration_staging_rows set posted_entity_id=v_order,posted_entity_type='OPENING_REWORK',posted_at=statement_timestamp(),
+      updated_at=statement_timestamp() where id=r.id;
+  end loop;
+  if exists(select 1 from erp.migration_staging_rows where batch_id=p_batch and entity_type='OPENING_REWORK_COMPONENT' and posted_entity_id is null) then
+    raise exception 'BB_REWORK_COMPONENT_NOT_POSTED: komponen rework tanpa rework yang dibukukan';
+  end if;
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_production_workspace_v1(p_batch uuid)
+ RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select jsonb_build_object('opening_reworks',coalesce((select jsonb_agg(jsonb_build_object('id',o.id,'rework_order_id',ro.id,
+      'rework_number',ro.rework_number,'legacy_rework_number',o.legacy_rework_number,'legacy_sent_date',o.legacy_sent_date,
+      'bs_case_id',o.bs_case_id,'bs_number',b.bs_number,'destination_type',ro.destination_type,
+      'holder_name',coalesce(c.contractor_name,v.vendor_name),'qty_sent_original',o.qty_sent_original,
+      'qty_returned_before_cutover',o.qty_returned_before_cutover,'qty_open',o.qty_open,'status',ro.status,
+      'qty_good_returned',ro.qty_good_returned,'qty_bs_returned',ro.qty_bs_returned,'row_version',ro.row_version::text,
+      'components',o.components) order by o.legacy_rework_number)
+    from erp.bb_opening_reworks_v1 o join erp.rework_orders ro on ro.id=o.rework_order_id join erp.bs_cases b on b.id=o.bs_case_id
+    left join erp.contractors c on c.id=ro.contractor_id left join erp.laundry_vendors v on v.id=ro.vendor_id
+    where o.batch_id=p_batch),'[]'::jsonb))
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_production_revision_part_v1(p_batch uuid)
+ RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select jsonb_build_object(
+    'pickups',coalesce((select jsonb_agg(to_jsonb(p) order by p.id) from erp.bb_wip_pickups_v1 p join erp.initial_import_production_sources s
+      on s.opening_item_id=p.opening_item_id where s.batch_id=p_batch),'[]'::jsonb),
+    'splits',coalesce((select jsonb_agg(to_jsonb(x)||jsonb_build_object('bs_row_version',b.row_version) order by x.id) from erp.bb_wip_bs_splits_v1 x
+      join erp.initial_import_production_sources s on s.opening_item_id=x.opening_item_id join erp.bs_cases b on b.id=x.bs_case_id
+      where s.batch_id=p_batch),'[]'::jsonb),
+    'reworks',coalesce((select jsonb_agg(jsonb_build_object('id',o.id,'row_version',ro.row_version,'status',ro.status) order by o.id)
+      from erp.bb_opening_reworks_v1 o join erp.rework_orders ro on ro.id=o.rework_order_id where o.batch_id=p_batch),'[]'::jsonb))
+$function$;
+
+do $grants$
+declare f text;
+begin
+  for f in select p.oid::regprocedure::text from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+      where n.nspname='erp' and p.proname like 'bb\_%' loop
+    execute format('revoke all on function %s from public,anon,authenticated,service_role',f);
+  end loop;
+end $grants$;
+-- BB (ALL-S02): a sales draft open at cutover with its official stock reservation. Oracles: auditor r9 ALL-S02
+-- (out/r9_all_oracle.md: "preserve original draft/reservation identity and explain its cutover provenance ... availability =
+-- 10-3 = 7; edit 3->2 releases exactly 1 ... cancel releases reservation only; posting removes actual fulfilled qty exactly
+-- once ... reject reservation > physical eligible FG, duplicate reserve ... competing reservations whose aggregate exceeds 10")
+-- and Fable's (out/fable_all22_oracles_pre_code.md S02: M:3821 "reserve resmi sekali; POST tidak stock-out kedua"; refused:
+-- inventing the old draft as a new document with a false physical date, reserving the same pieces twice). The more fail-closed
+-- reading is kept: the reservation is carried (the promised pieces are never offered again), through the native draft only.
+--
+-- New file OPEN_SALES_DRAFT (one row per draft line). At FINALIZE, after the opening stock, each draft becomes ONE native
+-- DRAFT sale through erp.save_sale_draft_v2 (the native reservation, SALE_RESERVE, once), numbered with the old draft number,
+-- dated at cutover (the reservation held at cutover; no date before it is invented) and carrying its provenance (old draft
+-- date) in erp.bb_open_sales_drafts_v1. No revenue, receivable, cost or shipment exists until the native POST. A trigger keeps
+-- the draft's identity (number, customer) and refuses any sale date before cutover; editing, cancelling and posting are the
+-- native sales commands.
+
+create table erp.bb_open_sales_drafts_v1(
+  sale_id uuid primary key references erp.sales_headers(id),
+  batch_id uuid not null references erp.migration_batches(id),
+  draft_number text not null check(length(btrim(draft_number)) between 1 and 60),
+  draft_date date not null,
+  customer_id uuid not null references erp.customers(id),
+  cutover_at timestamptz not null,
+  created_at timestamptz not null default statement_timestamp(),
+  check(draft_date<=(cutover_at at time zone 'Asia/Jakarta')::date)
+);
+create unique index bb_open_sales_drafts_v1_number on erp.bb_open_sales_drafts_v1(lower(btrim(draft_number)));
+create table erp.bb_open_sales_draft_lines_v1(
+  source_row_id uuid primary key references erp.migration_staging_rows(id),
+  sale_id uuid not null references erp.bb_open_sales_drafts_v1(sale_id),
+  line_number text not null check(length(btrim(line_number)) between 1 and 60),
+  product_id uuid not null references erp.products(id),
+  qty_pcs integer not null check(qty_pcs>0),
+  unit_price numeric(18,2) not null check(unit_price>=0),
+  discount_amount numeric(18,2) not null check(discount_amount>=0),
+  check(discount_amount<=qty_pcs*unit_price)
+);
+create unique index bb_open_sales_draft_lines_v1_number on erp.bb_open_sales_draft_lines_v1(sale_id,lower(btrim(line_number)));
+comment on table erp.bb_open_sales_drafts_v1 is 'BB (ALL-S02): a sales draft open at cutover, continued as the native DRAFT sale sale_id (reservation made once by erp.save_sale_draft_v2 at import); draft_date is the old draft''s date, provenance only.';
+do $rls$
+declare t text;
+begin
+  foreach t in array array['bb_open_sales_drafts_v1','bb_open_sales_draft_lines_v1'] loop
+    execute format('alter table erp.%I enable row level security',t);
+    execute format('revoke all on erp.%I from public,anon,authenticated,service_role',t);
+  end loop;
+end $rls$;
+
+-- The carried draft keeps its identity and is never dated before cutover (its reservation and its sale would then precede
+-- the opening stock they take).
+CREATE OR REPLACE FUNCTION erp.bb_guard_open_sales_draft_v1()
+ RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare d erp.bb_open_sales_drafts_v1%rowtype;
+begin
+  select * into d from erp.bb_open_sales_drafts_v1 where sale_id=old.id;
+  if d.sale_id is null then return case when tg_op='DELETE' then old else new end;end if;
+  if tg_op='DELETE' then raise exception 'BB_S02_DRAFT_KEPT: draf penjualan dari saldo awal tidak dapat dihapus; batalkan lewat halaman penjualan';end if;
+  if new.sale_number is distinct from old.sale_number or new.customer_id is distinct from old.customer_id then
+    raise exception 'BB_S02_IDENTITY: nomor dan pelanggan draf penjualan dari saldo awal tidak dapat diubah';
+  end if;
+  if new.sale_date<d.cutover_at then
+    raise exception 'BB_S02_DATE_BEFORE_CUTOVER: tanggal invoice draf dari saldo awal tidak boleh sebelum saldo awal';
+  end if;
+  return new;
+end;$function$;
+create trigger trg_bb_open_sales_draft before update or delete on erp.sales_headers
+  for each row execute function erp.bb_guard_open_sales_draft_v1();
+
+CREATE OR REPLACE FUNCTION erp.bb_check_sales_import_row_v1(p_batch uuid,p_row uuid)
+ RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO '' SET DateStyle TO 'ISO, YMD'
+AS $function$
+declare r erp.migration_staging_rows%rowtype;j jsonb;k text;v_cutover date;v_date date;v_due date;v_qty integer;v_price numeric;v_discount numeric;
+begin
+  perform erp.require_owner_admin();
+  select * into r from erp.migration_staging_rows where id=p_row and batch_id=p_batch and entity_type='OPEN_SALES_DRAFT';
+  if r.id is null then raise exception 'Baris draf penjualan tidak ditemukan';end if;
+  j:=r.normalized_payload;
+  foreach k in array array['draft_number','line_number','draft_date','customer_code','location_code','product_sku','qty_pcs','unit_price'] loop
+    if nullif(btrim(j->>k),'') is null then raise exception '%: wajib diisi untuk draf penjualan terbuka',k;end if;
+  end loop;
+  if length(btrim(j->>'draft_number'))>60 or length(btrim(j->>'line_number'))>60 then raise exception 'draft_number: maksimal 60 karakter';end if;
+  select (cutover_at at time zone 'Asia/Jakarta')::date into v_cutover from erp.migration_batches where id=p_batch;
+  v_date:=erp.bb_parse_date_v1(j->>'draft_date','draft_date');
+  if v_date>v_cutover then raise exception 'draft_date: draf harus dibuat sebelum saldo awal';end if;
+  if nullif(btrim(j->>'due_date'),'') is not null then v_due:=erp.bb_parse_date_v1(j->>'due_date','due_date');end if;
+  if j->>'qty_pcs' !~ '^[1-9][0-9]{0,8}$' then raise exception 'qty_pcs: jumlah pcs bilangan bulat positif';end if;
+  v_qty:=(j->>'qty_pcs')::integer;
+  v_price:=erp.bb_parse_amount_v1(j->>'unit_price','unit_price',true);
+  v_discount:=case when nullif(btrim(j->>'discount_amount'),'') is null then 0 else erp.bb_parse_amount_v1(j->>'discount_amount','discount_amount',true) end;
+  if v_discount>v_qty*v_price then raise exception 'discount_amount: potongan melebihi nilai baris';end if;
+  if not exists(select 1 from erp.customers where customer_code=j->>'customer_code' and is_active)
+    and not exists(select 1 from erp.migration_staging_rows where batch_id=p_batch and entity_type='CUSTOMER' and validation_status='VALID'
+      and normalized_payload->>'customer_code'=j->>'customer_code') then
+    raise exception 'customer_code: pelanggan aktif tidak ditemukan';
+  end if;
+  if not exists(select 1 from erp.locations where location_code=j->>'location_code' and is_active and location_type='FG_WAREHOUSE')
+    and not exists(select 1 from erp.migration_staging_rows where batch_id=p_batch and entity_type='LOCATION' and validation_status='VALID'
+      and normalized_payload->>'location_code'=j->>'location_code' and normalized_payload->>'location_type'='FG_WAREHOUSE') then
+    raise exception 'location_code: gudang barang jadi aktif tidak ditemukan';
+  end if;
+  if not exists(select 1 from erp.products p where lower(btrim(p.sku))=lower(btrim(j->>'product_sku')))
+    and not exists(select 1 from erp.migration_staging_rows s where s.batch_id=p_batch and s.entity_type='PRODUCT'
+      and s.validation_status='VALID' and lower(btrim(s.normalized_payload->>'sku'))=lower(btrim(j->>'product_sku'))) then
+    raise exception 'product_sku: produk tidak ditemukan';
+  end if;
+  -- One draft: the same customer, warehouse, dates and terms on every line, and each line number once.
+  if exists(select 1 from erp.migration_staging_rows x where x.batch_id=p_batch and x.entity_type='OPEN_SALES_DRAFT' and x.id<>r.id
+      and lower(btrim(x.normalized_payload->>'draft_number'))=lower(btrim(j->>'draft_number'))
+      and (lower(btrim(x.normalized_payload->>'line_number'))=lower(btrim(j->>'line_number'))
+        or x.normalized_payload->>'customer_code'<>j->>'customer_code' or x.normalized_payload->>'location_code'<>j->>'location_code'
+        or x.normalized_payload->>'draft_date'<>j->>'draft_date' or coalesce(x.normalized_payload->>'due_date','')<>coalesce(j->>'due_date','')
+        or coalesce(x.normalized_payload->>'payment_terms','')<>coalesce(j->>'payment_terms',''))) then
+    raise exception 'BB_S02_DUPLICATE_DRAFT: baris draf ganda atau kepala draf tidak konsisten';
+  end if;
+  if exists(select 1 from erp.sales_headers where lower(btrim(sale_number))=lower(btrim(j->>'draft_number')))
+    or exists(select 1 from erp.bb_open_sales_drafts_v1 where lower(btrim(draft_number))=lower(btrim(j->>'draft_number'))) then
+    raise exception 'BB_S02_DUPLICATE_DRAFT: nomor draf sudah dipakai penjualan lain';
+  end if;
+  return jsonb_build_object('cutover_date',v_cutover,'draft_date',v_date,'due_date',v_due,'qty_pcs',v_qty,'unit_price',v_price,'discount_amount',v_discount);
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_validate_sales_imports_v1(p_batch uuid)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare r record;
+begin
+  perform erp.require_owner_admin();
+  for r in select id from erp.migration_staging_rows where batch_id=p_batch and entity_type='OPEN_SALES_DRAFT' order by source_row_no loop
+    begin
+      perform erp.bb_check_sales_import_row_v1(p_batch,r.id);
+      update erp.migration_staging_rows set validation_status='VALID',validation_errors='[]' where id=r.id;
+    exception when others then
+      update erp.migration_staging_rows set validation_status='ERROR',validation_errors=jsonb_build_array(sqlerrm) where id=r.id;
+    end;
+  end loop;
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.bb_apply_sales_imports_v1(p_batch uuid)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare d record;r record;j jsonb;c jsonb;b erp.migration_batches%rowtype;v_customer uuid;v_location uuid;v_items jsonb;v_sale jsonb;
+  v_sale_id uuid;v_product uuid;v_lines jsonb;l jsonb;
+begin
+  perform erp.require_owner_admin();
+  select * into b from erp.migration_batches where id=p_batch;
+  for d in select lower(btrim(normalized_payload->>'draft_number')) k,min(btrim(normalized_payload->>'draft_number')) draft_number
+      from erp.migration_staging_rows where batch_id=p_batch and entity_type='OPEN_SALES_DRAFT' and posted_entity_id is null
+      group by 1 order by 1 loop
+    perform pg_advisory_xact_lock(hashtextextended('BB_S02_DRAFT:'||d.k,0));
+    v_items:='[]'::jsonb;v_lines:='[]'::jsonb;j:=null;
+    for r in select * from erp.migration_staging_rows where batch_id=p_batch and entity_type='OPEN_SALES_DRAFT' and posted_entity_id is null
+        and lower(btrim(normalized_payload->>'draft_number'))=d.k order by lower(btrim(normalized_payload->>'line_number')),source_row_no loop
+      if r.validation_status<>'VALID' then raise exception 'Draf penjualan belum lolos pemeriksaan';end if;
+      j:=r.normalized_payload;c:=erp.bb_check_sales_import_row_v1(p_batch,r.id);
+      select id into strict v_product from erp.products where lower(btrim(sku))=lower(btrim(j->>'product_sku'));
+      v_items:=v_items||jsonb_build_array(jsonb_build_object('product_id',v_product,'qty_pcs',(c->>'qty_pcs')::integer,
+        'unit_price_snapshot',(c->>'unit_price')::numeric,'discount_amount',(c->>'discount_amount')::numeric,
+        'notes','Baris '||btrim(j->>'line_number')||' draf lama '||d.draft_number));
+      v_lines:=v_lines||jsonb_build_array(c||jsonb_build_object('row_id',r.id,'line_number',btrim(j->>'line_number'),'product_id',v_product));
+    end loop;
+    select id into strict v_customer from erp.customers where customer_code=j->>'customer_code' and is_active;
+    select id into strict v_location from erp.locations where location_code=j->>'location_code' and is_active and location_type='FG_WAREHOUSE';
+    -- The native draft and its one reservation. A reservation beyond the free finished goods of the warehouse (the lines of
+    -- this draft and every draft before it) is refused by the native check and rolls the whole import back.
+    begin
+      v_sale:=erp.save_sale_draft_v2(jsonb_build_object('sale_number',d.draft_number,'customer_id',v_customer,'source_location_id',v_location,
+        'sale_date',b.cutover_at,'due_date',c->>'due_date','payment_terms',nullif(btrim(j->>'payment_terms'),''),
+        'notes','Draf penjualan terbuka saat saldo awal (draf lama '||d.draft_number||' tanggal '||(c->>'draft_date')
+          ||'); ubah tanggal invoice ke tanggal nyata sebelum posting',
+        'reason','Impor saldo awal: draf penjualan terbuka dengan reservasi resmi','items',v_items),
+        md5('BB_S02:'||p_batch::text||':'||d.k)::uuid,null);
+    exception when others then
+      raise exception 'BB_S02_RESERVATION_REFUSED: draf %: %',d.draft_number,sqlerrm;
+    end;
+    v_sale_id:=(v_sale->>'sale_id')::uuid;
+    insert into erp.bb_open_sales_drafts_v1(sale_id,batch_id,draft_number,draft_date,customer_id,cutover_at)
+    values(v_sale_id,p_batch,d.draft_number,(c->>'draft_date')::date,v_customer,b.cutover_at);
+    -- The lines as checked before the draft existed (a second check would see the draft's own number as taken).
+    for l in select * from jsonb_array_elements(v_lines) loop
+      insert into erp.bb_open_sales_draft_lines_v1(source_row_id,sale_id,line_number,product_id,qty_pcs,unit_price,discount_amount)
+      values((l->>'row_id')::uuid,v_sale_id,l->>'line_number',(l->>'product_id')::uuid,(l->>'qty_pcs')::integer,(l->>'unit_price')::numeric,
+        (l->>'discount_amount')::numeric);
+      update erp.migration_staging_rows set posted_entity_id=v_sale_id,posted_entity_type='OPEN_SALES_DRAFT',posted_at=statement_timestamp(),
+        updated_at=statement_timestamp() where id=(l->>'row_id')::uuid;
+    end loop;
+  end loop;
+end;$function$;
+
+-- Workspace (read only; the drafts continue on the sales page): status, sale date and the pieces the draft holds now.
+CREATE OR REPLACE FUNCTION erp.bb_sales_workspace_v1(p_batch uuid)
+ RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select jsonb_build_object('open_sales_drafts',coalesce((select jsonb_agg(jsonb_build_object('sale_id',d.sale_id,'draft_number',d.draft_number,
+      'draft_date',d.draft_date,'customer_code',cu.customer_code,'customer_name',cu.customer_name,'status',h.status,
+      'sale_date',erp._cp3_business_date(h.sale_date),
+      'reserved_qty_pcs',coalesce((select -sum(m.qty_signed) from erp.fg_stock_movements m join erp.sales_items i on i.id=m.source_id
+          where i.sale_id=h.id and m.movement_type='SALE_RESERVE' and m.source_type='SALE_ITEM'
+            and not exists(select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=m.id)),0)::integer,
+      'lines',coalesce((select jsonb_agg(jsonb_build_object('line_number',l.line_number,'product_sku',p.sku,'qty_pcs',l.qty_pcs,
+          'unit_price',l.unit_price::text) order by l.line_number) from erp.bb_open_sales_draft_lines_v1 l join erp.products p on p.id=l.product_id
+          where l.sale_id=d.sale_id),'[]'::jsonb))
+      order by d.draft_number)
+    from erp.bb_open_sales_drafts_v1 d join erp.sales_headers h on h.id=d.sale_id join erp.customers cu on cu.id=d.customer_id
+    where d.batch_id=p_batch),'[]'::jsonb))
+$function$;
+
+do $grants$
+declare f text;
+begin
+  foreach f in array array['erp.bb_guard_open_sales_draft_v1()','erp.bb_check_sales_import_row_v1(uuid,uuid)',
+    'erp.bb_validate_sales_imports_v1(uuid)','erp.bb_apply_sales_imports_v1(uuid)','erp.bb_sales_workspace_v1(uuid)'] loop
+    execute format('revoke all on function %s from public,anon,authenticated,service_role',f);
+  end loop;
+end $grants$;
+CREATE OR REPLACE FUNCTION erp.post_opening_subledger_settlement(p_settlement_id uuid)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public'
+AS $function$
+DECLARE s erp.opening_subledger_settlements%ROWTYPE;b erp.opening_subledger_balances%ROWTYPE;v_cash uuid;v_remaining numeric(20,2);v_lines jsonb;v_ctx jsonb;v_day date;v_credit boolean;
+BEGIN PERFORM erp.require_owner_admin();SELECT * INTO s FROM erp.opening_subledger_settlements WHERE id=p_settlement_id FOR UPDATE;IF s.id IS NULL OR s.status<>'DRAFT' THEN RAISE EXCEPTION 'Opening subledger settlement must be DRAFT';END IF;SELECT * INTO b FROM erp.opening_subledger_balances WHERE id=s.balance_id FOR UPDATE;IF b.id IS NULL OR b.status='SETTLED' THEN RAISE EXCEPTION 'Opening subledger balance is not open';END IF;v_remaining:=b.original_amount-b.settled_amount-erp.bb_opening_balance_reserved_v1(b.id);
+-- BB (ALL-P02/S01): a settlement from any caller is dated on or after the balance's cutover and document date and not after
+-- today; money already promised to an unpaid payroll is not available; a non-cash credit posts its own lines below.
+v_ctx:=erp.bb_opening_balance_context_v1(b.id);v_day:=erp._cp3_business_date(s.physical_at);
+IF v_day<(v_ctx->>'min_date')::date OR v_day>erp.bb_business_today_v1() THEN
+  RAISE EXCEPTION 'BB_OSS_DATE_OUT_OF_RANGE: tanggal pelunasan % harus antara % dan hari ini',v_day,v_ctx->>'min_date';END IF;
+v_credit:=exists(select 1 from erp.bb_opening_credits_v1 where settlement_id=s.id);
+
+IF erp.opening_cash_advance_state_v1(b.id) IS NOT NULL THEN
+ IF erp._cp3_business_date(s.physical_at)<(erp.opening_cash_advance_state_v1(b.id)->>'cutover_date')::date THEN
+   RAISE EXCEPTION 'Pengembalian kasbon harus sejak tanggal saldo awal';END IF;
+ v_remaining:=(erp.opening_cash_advance_state_v1(b.id)->>'available_amount')::numeric;
+END IF;IF s.amount>v_remaining THEN RAISE EXCEPTION 'Settlement exceeds opening outstanding. Remaining %, requested %',v_remaining,s.amount;END IF;IF v_credit THEN v_lines:=erp.bb_opening_credit_lines_v1(s.id);ELSE
+v_cash:=erp.initial_prepayment_funding_v1(s.id,b.party_type,coalesce(b.supplier_id,b.customer_id,b.vendor_id),s.amount,erp._cp3_business_date(s.physical_at),
+      (select h.opening_date from erp.opening_balance_items oi join erp.opening_balance_headers h on h.id=oi.opening_id where oi.id=b.opening_item_id));
+IF v_cash IS NULL THEN SELECT coa_account_id INTO v_cash FROM erp.cash_accounts WHERE id=s.cash_account_id AND is_active=true;END IF;IF v_cash IS NULL THEN RAISE EXCEPTION 'Active cash/bank account is required';END IF;
+IF b.direction='RECEIVABLE' AND b.party_type='CUSTOMER' THEN v_lines:=jsonb_build_array(jsonb_build_object('account_id',v_cash,'debit',s.amount,'credit',0,'customer_id',b.customer_id),jsonb_build_object('mapping_key','AR_CUSTOMER','debit',0,'credit',s.amount,'customer_id',b.customer_id));ELSIF b.direction='RECEIVABLE' AND b.party_type='CONTRACTOR' THEN v_lines:=jsonb_build_array(jsonb_build_object('account_id',v_cash,'debit',s.amount,'credit',0,'contractor_id',b.contractor_id),jsonb_build_object('mapping_key','CONTRACTOR_RECEIVABLE','debit',0,'credit',s.amount,'contractor_id',b.contractor_id));ELSIF b.direction='PAYABLE' AND b.party_type='SUPPLIER' THEN v_lines:=jsonb_build_array(jsonb_build_object('mapping_key','AP_SUPPLIER','debit',s.amount,'credit',0),jsonb_build_object('account_id',v_cash,'debit',0,'credit',s.amount));ELSIF b.direction='PAYABLE' AND b.party_type='VENDOR' THEN v_lines:=jsonb_build_array(jsonb_build_object('mapping_key','AP_VENDOR','debit',s.amount,'credit',0,'vendor_id',b.vendor_id),jsonb_build_object('account_id',v_cash,'debit',0,'credit',s.amount,'vendor_id',b.vendor_id));ELSIF b.direction='PAYABLE' AND b.party_type='CONTRACTOR' THEN v_lines:=jsonb_build_array(jsonb_build_object('mapping_key','CONTRACTOR_PAYABLE','debit',s.amount,'credit',0,'contractor_id',b.contractor_id),jsonb_build_object('account_id',v_cash,'debit',0,'credit',s.amount,'contractor_id',b.contractor_id));ELSE RAISE EXCEPTION 'Unsupported opening subledger direction/party combination';END IF;END IF;
+PERFORM erp.post_journal('OPENING_SUBLEDGER_SETTLEMENT',s.id,erp._cp3_business_date(s.physical_at),'Opening subledger settlement '||s.settlement_number,v_lines);UPDATE erp.opening_subledger_settlements SET status='POSTED',updated_at=statement_timestamp() WHERE id=s.id;UPDATE erp.opening_subledger_balances SET settled_amount=settled_amount+s.amount,status=CASE WHEN settled_amount+s.amount=original_amount THEN 'SETTLED' ELSE 'PARTIAL' END,updated_at=statement_timestamp() WHERE id=b.id;
+-- BB: the dated outstanding amount stays non-negative on the settlement date and every later day.
+PERFORM erp.bb_assert_opening_balance_floor_v1(b.id,v_day);END;$function$;
+CREATE OR REPLACE FUNCTION erp.post_opening_financial_correction(p_opening_item_id uuid, p_corrected_amount numeric, p_reason text, p_effective_date date DEFAULT ((statement_timestamp() AT TIME ZONE 'Asia/Jakarta'::text))::date)
+ RETURNS uuid
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public'
+AS $function$
+declare
+  i erp.opening_balance_items%rowtype;
+  h_status text;
+  b erp.opening_subledger_balances%rowtype;
+  v_old numeric(20,2);
+  v_new numeric(20,2);
+  v_delta numeric(20,2);
+  v_id uuid;
+  v_no text;
+  v_lines jsonb:='[]'::jsonb;
+  v_cash uuid;
+  v_abs numeric(20,2);
+  v_seq bigint;
+begin
+  perform erp.require_owner_admin();
+  if nullif(trim(p_reason),'') is null then raise exception 'Alasan koreksi saldo awal wajib diisi'; end if;
+  if p_corrected_amount is null or p_corrected_amount<0 then raise exception 'Saldo awal hasil koreksi tidak boleh negatif'; end if;
+  if p_effective_date is null then raise exception 'Tanggal koreksi saldo awal wajib diisi'; end if;
+
+  select * into i from erp.opening_balance_items where id=p_opening_item_id for update;
+  if i.id is null then raise exception 'Item saldo awal tidak ditemukan'; end if;
+  select status into h_status from erp.opening_balance_headers where id=i.opening_id for update;
+  if h_status<>'POSTED' then raise exception 'Saldo awal harus sudah POSTED sebelum dikoreksi'; end if;
+  if i.balance_type not in ('WIP','CONTRACTOR_RECEIVABLE','CONTRACTOR_PAYABLE','VENDOR_PAYABLE','SUPPLIER_PAYABLE','CUSTOMER_RECEIVABLE','CASH_BANK') then
+    raise exception 'Jenis saldo awal % tidak dikoreksi lewat jalur finansial ini. Stok MATERIAL/FG gunakan stock adjustment agar lineage tetap aman.',i.balance_type;
+  end if;
+
+  select coalesce(max(c.correction_seq),0)+1
+    into v_seq
+  from erp.opening_financial_corrections c
+  where c.opening_item_id=i.id;
+
+  if i.balance_type in ('CONTRACTOR_RECEIVABLE','CONTRACTOR_PAYABLE','VENDOR_PAYABLE','SUPPLIER_PAYABLE','CUSTOMER_RECEIVABLE') then
+    select * into b from erp.opening_subledger_balances where opening_item_id=i.id for update;
+    if b.id is null then raise exception 'Opening subledger untuk item ini tidak ditemukan'; end if;
+    v_old:=b.original_amount;
+    if round(p_corrected_amount,2) < b.settled_amount then
+      raise exception 'Saldo awal tidak boleh dikoreksi menjadi % karena sudah disettle %. Reverse settlement terkait terlebih dahulu.',p_corrected_amount,b.settled_amount;
+    end if;
+  else
+    select coalesce((select c.corrected_amount from erp.opening_financial_corrections c where c.opening_item_id=i.id and c.status='POSTED' order by c.correction_seq desc limit 1),
+                    case when i.balance_type='WIP' then coalesce(i.amount,coalesce(i.qty,0)*coalesce(i.unit_cost_snapshot,0)) else coalesce(i.amount,0) end)::numeric(20,2)
+    into v_old;
+  end if;
+
+  v_new:=round(p_corrected_amount::numeric,2);
+  v_delta:=v_new-v_old;
+  if abs(v_delta)<=0.005 then raise exception 'Nilai koreksi sama dengan saldo awal efektif saat ini (%)',v_old; end if;
+  v_no:='OFC-'||to_char((clock_timestamp() AT TIME ZONE 'Asia/Jakarta'),'YYYYMMDDHH24MISSMS')||'-'||substr(gen_random_uuid()::text,1,6);
+  insert into erp.opening_financial_corrections(correction_number,opening_item_id,previous_amount_snapshot,corrected_amount,delta_amount,effective_date,reason,created_by,created_at,correction_seq)
+  values(v_no,i.id,v_old,v_new,v_delta,p_effective_date,p_reason,erp.current_app_user_id(),clock_timestamp(),v_seq) returning id into v_id;
+
+  v_abs:=round(abs(v_delta),2);
+  if i.balance_type='CASH_BANK' then
+    select coa_account_id into v_cash from erp.cash_accounts where id=i.cash_account_id;
+    if v_cash is null then raise exception 'Cash/bank account saldo awal tidak ditemukan'; end if;
+    if v_delta>0 then v_lines:=jsonb_build_array(
+      jsonb_build_object('account_id',v_cash,'debit',v_abs,'credit',0),
+      jsonb_build_object('mapping_key','OPENING_EQUITY','debit',0,'credit',v_abs));
+    else v_lines:=jsonb_build_array(
+      jsonb_build_object('mapping_key','OPENING_EQUITY','debit',v_abs,'credit',0),
+      jsonb_build_object('account_id',v_cash,'debit',0,'credit',v_abs)); end if;
+  elsif i.balance_type in ('WIP','CUSTOMER_RECEIVABLE','CONTRACTOR_RECEIVABLE') then
+    if v_delta>0 then v_lines:=jsonb_build_array(
+      case when i.balance_type='WIP' then jsonb_build_object('mapping_key','WIP','debit',v_abs,'credit',0)
+           when i.balance_type='CUSTOMER_RECEIVABLE' then jsonb_build_object('mapping_key','AR_CUSTOMER','debit',v_abs,'credit',0,'customer_id',i.customer_id)
+           else jsonb_build_object('mapping_key','CONTRACTOR_RECEIVABLE','debit',v_abs,'credit',0,'contractor_id',i.contractor_id) end,
+      jsonb_build_object('mapping_key','OPENING_EQUITY','debit',0,'credit',v_abs));
+    else v_lines:=jsonb_build_array(
+      jsonb_build_object('mapping_key','OPENING_EQUITY','debit',v_abs,'credit',0),
+      case when i.balance_type='WIP' then jsonb_build_object('mapping_key','WIP','debit',0,'credit',v_abs)
+           when i.balance_type='CUSTOMER_RECEIVABLE' then jsonb_build_object('mapping_key','AR_CUSTOMER','debit',0,'credit',v_abs,'customer_id',i.customer_id)
+           else jsonb_build_object('mapping_key','CONTRACTOR_RECEIVABLE','debit',0,'credit',v_abs,'contractor_id',i.contractor_id) end); end if;
+  else
+    if v_delta>0 then v_lines:=jsonb_build_array(
+      jsonb_build_object('mapping_key','OPENING_EQUITY','debit',v_abs,'credit',0),
+      case when i.balance_type='SUPPLIER_PAYABLE' then jsonb_build_object('mapping_key','AP_SUPPLIER','debit',0,'credit',v_abs)
+           when i.balance_type='VENDOR_PAYABLE' then jsonb_build_object('mapping_key','AP_VENDOR','debit',0,'credit',v_abs,'vendor_id',i.vendor_id)
+           else jsonb_build_object('mapping_key','CONTRACTOR_PAYABLE','debit',0,'credit',v_abs,'contractor_id',i.contractor_id) end);
+    else v_lines:=jsonb_build_array(
+      case when i.balance_type='SUPPLIER_PAYABLE' then jsonb_build_object('mapping_key','AP_SUPPLIER','debit',v_abs,'credit',0)
+           when i.balance_type='VENDOR_PAYABLE' then jsonb_build_object('mapping_key','AP_VENDOR','debit',v_abs,'credit',0,'vendor_id',i.vendor_id)
+           else jsonb_build_object('mapping_key','CONTRACTOR_PAYABLE','debit',v_abs,'credit',0,'contractor_id',i.contractor_id) end,
+      jsonb_build_object('mapping_key','OPENING_EQUITY','debit',0,'credit',v_abs)); end if;
+  end if;
+
+  perform erp.post_journal('OPENING_FINANCIAL_CORRECTION',v_id,p_effective_date,'Correction saldo awal: '||p_reason,v_lines);
+  if b.id is not null then
+    update erp.opening_subledger_balances
+    set original_amount=v_new,
+        status=case when settled_amount=v_new then 'SETTLED' when settled_amount>0 then 'PARTIAL' else 'OPEN' end,
+        updated_at=statement_timestamp()
+    where id=b.id;
+    -- BB: a correction may not leave the dated outstanding amount negative on its effective date or any later day.
+    perform erp.bb_assert_opening_balance_floor_v1(b.id,p_effective_date);
+  end if;
+  insert into erp.audit_logs(entity_type,entity_id,action,new_data,changed_by,change_reason)
+  values('opening_balance_items',i.id,'UPDATE',jsonb_build_object('correction_id',v_id,'previous_amount',v_old,'corrected_amount',v_new,'delta',v_delta,'correction_type','OPENING_FINANCIAL_CORRECTION'),erp.current_app_user_id(),p_reason);
+  return v_id;
+end;
+$function$;
+CREATE OR REPLACE FUNCTION erp.reverse_opening_financial_correction(p_correction_id uuid, p_reason text)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public'
+AS $function$
+declare c erp.opening_financial_corrections%rowtype;i erp.opening_balance_items%rowtype;b erp.opening_subledger_balances%rowtype;v_journal uuid;
+begin
+  perform erp.require_owner_admin();
+  if nullif(trim(p_reason),'') is null then raise exception 'Alasan reversal koreksi saldo awal wajib diisi'; end if;
+  select * into c from erp.opening_financial_corrections where id=p_correction_id for update;
+  if c.id is null then raise exception 'Koreksi saldo awal tidak ditemukan'; end if;
+  if c.status='REVERSED' then return; end if;
+  if exists(select 1 from erp.opening_financial_corrections x where x.opening_item_id=c.opening_item_id and x.status='POSTED' and x.id<>c.id and x.correction_seq>c.correction_seq) then
+    raise exception 'Ada koreksi saldo awal yang lebih baru. Reverse koreksi terbaru terlebih dahulu.';
+  end if;
+  select * into i from erp.opening_balance_items where id=c.opening_item_id for update;
+  if i.balance_type in ('CONTRACTOR_RECEIVABLE','CONTRACTOR_PAYABLE','VENDOR_PAYABLE','SUPPLIER_PAYABLE','CUSTOMER_RECEIVABLE') then
+    select * into b from erp.opening_subledger_balances where opening_item_id=i.id for update;
+    if b.settled_amount>c.previous_amount_snapshot then
+      raise exception 'Reversal koreksi akan menurunkan saldo awal ke %, tetapi sudah disettle %. Reverse settlement terkait terlebih dahulu.',c.previous_amount_snapshot,b.settled_amount;
+    end if;
+  end if;
+  select id into v_journal from erp.journal_entries where source_type='OPENING_FINANCIAL_CORRECTION' and source_id=c.id and status='POSTED' order by posting_at desc,id desc limit 1;
+  if v_journal is null then raise exception 'Jurnal koreksi saldo awal tidak ditemukan'; end if;
+  perform erp.reverse_journal(v_journal,p_reason);
+  if b.id is not null then
+    update erp.opening_subledger_balances set original_amount=c.previous_amount_snapshot,
+      status=case when settled_amount=c.previous_amount_snapshot then 'SETTLED' when settled_amount>0 then 'PARTIAL' else 'OPEN' end,
+      updated_at=statement_timestamp() where id=b.id;
+  end if;
+  update erp.opening_financial_corrections set status='REVERSED',reversed_at=clock_timestamp(),reversal_reason=p_reason where id=c.id;
+  -- BB: reversing an increase may not leave the dated outstanding amount negative from the corrected date onward.
+  if b.id is not null then perform erp.bb_assert_opening_balance_floor_v1(b.id,c.effective_date); end if;
+  insert into erp.audit_logs(entity_type,entity_id,action,new_data,changed_by,change_reason)
+  values('opening_balance_items',i.id,'REVERSE',jsonb_build_object('correction_id',c.id,'restored_amount',c.previous_amount_snapshot,'correction_type','OPENING_FINANCIAL_CORRECTION'),erp.current_app_user_id(),p_reason);
+end;
+$function$;
+CREATE OR REPLACE FUNCTION erp.approve_payroll(p_payroll_id uuid)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public', 'pg_temp'
+AS $function$
+declare
+  p erp.payroll_settlements%rowtype;
+  v_manual_reimburse numeric(20,2) := 0;
+  v_extra_accrual numeric(20,2) := 0;
+  v_negative_manual numeric(20,2) := 0;
+  v_attendance numeric(20,2) := 0;
+begin
+  perform erp.require_owner_admin();
+  perform erp.recalculate_payroll(p_payroll_id);
+  select * into p from erp.payroll_settlements where id=p_payroll_id for update;
+  if p.id is null or p.status not in ('CALCULATED','REVIEW') then
+    raise exception 'Payroll must be CALCULATED/REVIEW before approval, current status %',p.status;
+  end if;
+
+  perform erp.check_opening_cash_advance_payroll_v1(p.id);
+  perform erp.bb_check_opening_payable_payroll_v1(p.id);
+  perform erp._cp3_lock_business_period(p.period_start,p.period_end);
+  if exists(
+    select 1 from erp.attendance_hpp_pools hp
+    where hp.status='ACTIVE'
+      and hp.period_start=p.period_start
+      and hp.period_end=p.period_end
+  ) then
+    raise exception 'Attendance HPP pool for payroll period % through % is already ACTIVE. Cancel the ACTIVE pool first before approving this payroll.',p.period_start,p.period_end;
+  end if;
+  if exists (
+    select 1 from erp.journal_entries je
+    where je.source_id=p.id
+      and je.source_type in ('PAYROLL_ATTENDANCE_ACCRUAL','PAYROLL_EXTRA_ACCRUAL','PAYROLL_MANUAL_REDUCTION')
+      and je.status='POSTED'
+  ) then
+    raise exception 'Payroll approval accrual already exists; inspect duplicate/ambiguous approval state';
+  end if;
+
+  select coalesce(sum(amount),0) into v_manual_reimburse
+  from erp.payroll_reimbursements
+  -- BB (ALL-Y01): an imported contractor payable was recognized at cutover; paying it through payroll accrues nothing again.
+  where payroll_id=p.id and source_type not in('ACCESSORY_BOM','OPENING_PAYABLE');
+  v_attendance:=round(coalesce(p.attendance_total,0),2);
+  v_extra_accrual:=round(v_manual_reimburse+greatest(p.manual_adjustment,0),2);
+  v_negative_manual:=round(greatest(-p.manual_adjustment,0),2);
+
+  update erp.payroll_settlements set status='APPROVED',updated_at=statement_timestamp() where id=p.id;
+
+  if v_attendance>0 then
+    perform erp.post_journal(
+      'PAYROLL_ATTENDANCE_ACCRUAL',p.id,p.period_end,
+      'Attendance payroll approved into unassigned WIP',
+      jsonb_build_array(
+        jsonb_build_object('mapping_key','WIP','debit',v_attendance,'credit',0,'contractor_id',p.contractor_id,
+                           'description','Approved attendance cost awaiting SELESAI_DIJAHIT allocation'),
+        jsonb_build_object('mapping_key','CONTRACTOR_PAYABLE','debit',0,'credit',v_attendance,'contractor_id',p.contractor_id,
+                           'description','Approved attendance payable')
+      )
+    );
+  end if;
+  if v_extra_accrual>0 then
+    perform erp.post_journal(
+      'PAYROLL_EXTRA_ACCRUAL',p.id,p.period_end,
+      'Approved manual reimbursement/manual payroll accrual',
+      jsonb_build_array(
+        jsonb_build_object('mapping_key','LABOR_COST','debit',v_extra_accrual,'credit',0,'contractor_id',p.contractor_id),
+        jsonb_build_object('mapping_key','CONTRACTOR_PAYABLE','debit',0,'credit',v_extra_accrual,'contractor_id',p.contractor_id)
+      )
+    );
+  end if;
+  if v_negative_manual>0 then
+    perform erp.post_journal(
+      'PAYROLL_MANUAL_REDUCTION',p.id,p.period_end,
+      'Approved negative manual payroll adjustment',
+      jsonb_build_array(
+        jsonb_build_object('mapping_key','CONTRACTOR_PAYABLE','debit',v_negative_manual,'credit',0,'contractor_id',p.contractor_id),
+        jsonb_build_object('mapping_key','LABOR_COST','debit',0,'credit',v_negative_manual,'contractor_id',p.contractor_id)
+      )
+    );
+  end if;
+
+  insert into erp.audit_logs(entity_type,entity_id,action,new_data,changed_by,change_reason)
+  values(
+    'payroll_settlements',p.id,'POST',
+    jsonb_build_object('lifecycle_action','APPROVE','attendance_accrual',v_attendance,
+                       'extra_accrual',v_extra_accrual,'manual_reduction',v_negative_manual),
+    erp.current_app_user_id(),'Payroll approved; cost recognition completed before payment'
+  );
+end;
+$function$;
+CREATE OR REPLACE FUNCTION erp.post_payroll_payment(p_payroll_id uuid)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public', 'pg_temp'
+AS $function$
+declare
+  p erp.payroll_settlements%rowtype;
+  v_cash uuid;
+  v_material_deduction numeric(20,2):=0;
+  v_other_deduction numeric(20,2):=0;v_cash_advance numeric(20,2):=0;
+  v_expected_attendance numeric(20,2):=0;
+  v_actual_attendance numeric(20,2):=0;
+  v_attendance_journal_count bigint:=0;
+  r record;
+begin
+  perform erp.require_internal();
+  select * into p from erp.payroll_settlements where id=p_payroll_id for update;
+  if p.id is null or p.status<>'APPROVED' then raise exception 'Payroll must be APPROVED'; end if;
+  perform erp.check_opening_cash_advance_payroll_v1(p.id);
+  perform erp.bb_check_opening_payable_payroll_v1(p.id);
+  perform erp._cp3_lock_business_period(p.period_start,p.period_end);
+  if p.net_payable<0 then raise exception 'Payroll net payable cannot be negative; carry deductions forward instead'; end if;
+  if p.payment_date is null then raise exception 'Payroll payment date is required'; end if;
+  if p.payment_date>((statement_timestamp() AT TIME ZONE 'Asia/Jakarta'::text))::date then raise exception 'Tanggal pembayaran payroll berada di masa depan'; end if;
+  if p.net_payable>0 then
+    select coa_account_id into v_cash from erp.cash_accounts where id=p.payment_cash_account_id and is_active=true;
+    if v_cash is null then raise exception 'Active payroll cash/bank account is required when cash payment is positive'; end if;
+  end if;
+
+  v_expected_attendance:=round(coalesce(p.attendance_total,0),2);
+  select count(distinct je.id),coalesce(sum(jl.debit),0)
+    into v_attendance_journal_count,v_actual_attendance
+  from erp.journal_entries je
+  join erp.journal_lines jl on jl.journal_entry_id=je.id
+  where je.source_type='PAYROLL_ATTENDANCE_ACCRUAL' and je.source_id=p.id and je.status='POSTED'
+    and jl.account_id=erp.account_id('WIP') and jl.debit>0;
+  if (v_expected_attendance=0 and v_attendance_journal_count<>0)
+     or (v_expected_attendance>0 and (v_attendance_journal_count<>1 or round(v_actual_attendance,2) is distinct from v_expected_attendance)) then
+    raise exception 'PAYROLL_APPROVAL_ACCRUAL_MISSING_OR_MISMATCH: expected attendance %, journal count %, WIP debit %',
+      v_expected_attendance,v_attendance_journal_count,round(v_actual_attendance,2);
+  end if;
+
+  select coalesce(sum(amount),0) into v_material_deduction
+  from erp.payroll_deductions where payroll_id=p.id and deduction_type='MATERIAL_KASBON';
+  select coalesce(sum(amount),0) into v_other_deduction
+  from erp.payroll_deductions where payroll_id=p.id and deduction_type not in('MATERIAL_KASBON','CASH_ADVANCE');
+  if v_material_deduction>0 then
+    perform erp.post_journal('PAYROLL_MATERIAL_DEDUCTION',p.id,p.payment_date,
+      'Physical material/accessory purchase deduction',jsonb_build_array(
+        jsonb_build_object('mapping_key','CONTRACTOR_PAYABLE','debit',v_material_deduction,'credit',0,'contractor_id',p.contractor_id),
+        jsonb_build_object('mapping_key','CONTRACTOR_RECEIVABLE','debit',0,'credit',v_material_deduction,'contractor_id',p.contractor_id)));
+  end if;
+  select coalesce(sum(amount),0) into v_cash_advance from erp.payroll_deductions
+    where payroll_id=p.id and deduction_type='CASH_ADVANCE';
+  if v_cash_advance>0 then
+    perform erp.post_journal('PAYROLL_CASH_ADVANCE_DEDUCTION',p.id,p.payment_date,'Pelunasan kasbon tunai melalui payroll',jsonb_build_array(
+      jsonb_build_object('mapping_key','CONTRACTOR_PAYABLE','debit',v_cash_advance,'credit',0,'contractor_id',p.contractor_id),
+      jsonb_build_object('mapping_key','CONTRACTOR_RECEIVABLE','debit',0,'credit',v_cash_advance,'contractor_id',p.contractor_id)));
+  end if;
+  if v_other_deduction>0 then
+    perform erp.post_journal('PAYROLL_OTHER_DEDUCTION',p.id,p.payment_date,
+      'BS/penalty/other payroll deduction',jsonb_build_array(
+        jsonb_build_object('mapping_key','CONTRACTOR_PAYABLE','debit',v_other_deduction,'credit',0,'contractor_id',p.contractor_id),
+        jsonb_build_object('mapping_key','OTHER_INCOME','debit',0,'credit',v_other_deduction,'contractor_id',p.contractor_id)));
+  end if;
+  if p.net_payable>0 then
+    perform erp.post_journal('PAYROLL_PAYMENT',p.id,p.payment_date,'Mandor payroll payment',jsonb_build_array(
+      jsonb_build_object('mapping_key','CONTRACTOR_PAYABLE','debit',p.net_payable,'credit',0,'contractor_id',p.contractor_id),
+      jsonb_build_object('account_id',v_cash,'debit',0,'credit',p.net_payable,'contractor_id',p.contractor_id)));
+  end if;
+
+  update erp.payroll_settlements set status='PAID',settled_at=statement_timestamp(),updated_at=statement_timestamp() where id=p.id;
+  update erp.opening_subledger_balances b set settled_amount=b.settled_amount+x.amount,
+    status=case when b.settled_amount+x.amount=b.original_amount then 'SETTLED' else 'PARTIAL' end,updated_at=statement_timestamp()
+  from(select opening_cash_advance_balance_id id,sum(amount) amount from erp.payroll_deductions
+    where payroll_id=p.id and deduction_type='CASH_ADVANCE' group by opening_cash_advance_balance_id) x where b.id=x.id;
+  -- BB (ALL-Y01): imported contractor payables paid by this payroll, then the dated floor of every opening balance it touched.
+  update erp.opening_subledger_balances b set settled_amount=b.settled_amount+x.amount,
+    status=case when b.settled_amount+x.amount=b.original_amount then 'SETTLED' else 'PARTIAL' end,updated_at=statement_timestamp()
+  from(select opening_payable_balance_id id,sum(amount) amount from erp.payroll_reimbursements
+    where payroll_id=p.id and source_type='OPENING_PAYABLE' group by opening_payable_balance_id) x where b.id=x.id;
+  for r in select z.id from(select opening_payable_balance_id id from erp.payroll_reimbursements where payroll_id=p.id and opening_payable_balance_id is not null
+      union select opening_cash_advance_balance_id from erp.payroll_deductions where payroll_id=p.id and opening_cash_advance_balance_id is not null) z order by z.id
+  loop perform erp.bb_assert_opening_balance_floor_v1(r.id,p.payment_date); end loop;
+
+  for r in select distinct pd.contractor_issue_item_id id from erp.payroll_deductions pd
+           where pd.payroll_id=p.id and pd.contractor_issue_item_id is not null
+  loop perform erp.refresh_contractor_issue_payroll_status(r.id); end loop;
+  update erp.contractor_accessory_reimbursement_entitlements e set payroll_status='SETTLED'
+  where e.id in(select pr.source_id from erp.payroll_reimbursements pr
+                where pr.payroll_id=p.id and pr.source_type='ACCESSORY_BOM' and pr.source_id is not null);
+  for r in
+    select distinct bc.id as bs_case_id from erp.bs_cases bc
+    where exists(select 1 from erp.payroll_work_items pwi where pwi.payroll_id=p.id and pwi.po_id=bc.po_id)
+       or exists(select 1 from erp.payroll_work_items pwi join erp.rework_component_lines rcl on rcl.id=pwi.source_id
+                 join erp.bs_case_components bcc on bcc.id=rcl.bs_case_component_id
+                 where pwi.payroll_id=p.id and bcc.bs_case_id=bc.id)
+  loop perform erp.rebuild_bs_component_counters(r.bs_case_id); end loop;
+
+  insert into erp.audit_logs(entity_type,entity_id,action,new_data,changed_by,change_reason)
+  values('payroll_settlements',p.id,'POST',
+    jsonb_build_object('lifecycle_action','PAY','payment_settlement_only',true,'attendance_accrual_created_at_payment',false),
+    erp.current_app_user_id(),'Payroll payment settled approved payable without recognizing attendance cost again');
+end;
+$function$;
+CREATE OR REPLACE FUNCTION erp.reverse_paid_payroll(p_payroll_id uuid, p_reason text)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public', 'pg_temp'
+AS $function$
+declare
+  p erp.payroll_settlements%rowtype;
+  r record;
+begin
+  perform erp.require_owner_admin();
+  if nullif(trim(p_reason),'') is null then raise exception 'Payroll reversal reason is required'; end if;
+  select * into p from erp.payroll_settlements where id=p_payroll_id for update;
+  if p.id is null then raise exception 'Payroll not found'; end if;
+  if p.status='REVERSED' then return; end if;
+  if p.status<>'PAID' then raise exception 'Only PAID payroll uses reverse_paid_payroll; unpaid payroll uses cancel_unpaid_payroll'; end if;
+  perform 1 from erp.opening_subledger_balances b where exists(select 1 from erp.payroll_deductions d
+    where d.payroll_id=p.id and d.opening_cash_advance_balance_id=b.id) or exists(select 1 from erp.payroll_reimbursements pr
+    where pr.payroll_id=p.id and pr.opening_payable_balance_id=b.id) order by b.id for update;
+  perform erp._cp3_lock_business_period(p.period_start,p.period_end);
+  if exists(
+    select 1 from erp.attendance_hpp_pool_sources s
+    join erp.attendance_hpp_pools hp on hp.id=s.pool_id
+    where s.payroll_id=p.id and hp.status='ACTIVE'
+  ) then
+    raise exception 'PAYROLL_CONSUMED_BY_ACTIVE_HPP_POOL: cancel the active attendance HPP pool first';
+  end if;
+
+  for r in
+    select je.id from erp.journal_entries je
+    where je.source_id=p.id
+      and je.source_type in ('PAYROLL_ATTENDANCE_ACCRUAL','PAYROLL_EXTRA_ACCRUAL','PAYROLL_MANUAL_REDUCTION',
+                             'PAYROLL_MATERIAL_DEDUCTION','PAYROLL_OTHER_DEDUCTION','PAYROLL_PAYMENT','PAYROLL_CASH_ADVANCE_DEDUCTION')
+      and je.status='POSTED'
+    order by je.posting_at desc,je.id desc
+  loop perform erp._cp3_r4_reverse_journal_internal(r.id,p_reason); end loop;
+
+  update erp.payroll_settlements set status='REVERSED',settled_at=null,updated_at=statement_timestamp() where id=p.id;
+  update erp.opening_subledger_balances b set settled_amount=b.settled_amount-x.amount,
+    status=case when b.settled_amount-x.amount=b.original_amount then 'SETTLED' when b.settled_amount-x.amount>0 then 'PARTIAL' else 'OPEN' end,
+    updated_at=statement_timestamp()
+  from(select opening_cash_advance_balance_id id,sum(amount) amount from erp.payroll_deductions
+    where payroll_id=p.id and deduction_type='CASH_ADVANCE' group by opening_cash_advance_balance_id) x where b.id=x.id;
+  -- BB (ALL-Y01): the imported contractor payables this payroll paid are open again.
+  update erp.opening_subledger_balances b set settled_amount=b.settled_amount-x.amount,
+    status=case when b.settled_amount-x.amount=b.original_amount then 'SETTLED' when b.settled_amount-x.amount>0 then 'PARTIAL' else 'OPEN' end,
+    updated_at=statement_timestamp()
+  from(select opening_payable_balance_id id,sum(amount) amount from erp.payroll_reimbursements
+    where payroll_id=p.id and source_type='OPENING_PAYABLE' group by opening_payable_balance_id) x where b.id=x.id;
+
+  for r in select distinct pd.contractor_issue_item_id id from erp.payroll_deductions pd
+           where pd.payroll_id=p.id and pd.contractor_issue_item_id is not null
+  loop perform erp.refresh_contractor_issue_payroll_status(r.id); end loop;
+  for r in select distinct pr.source_id id from erp.payroll_reimbursements pr
+           where pr.payroll_id=p.id and pr.source_type='ACCESSORY_BOM' and pr.source_id is not null
+  loop
+    update erp.contractor_accessory_reimbursement_entitlements e
+    set payroll_status=case
+      when exists(select 1 from erp.payroll_reimbursements pr2 join erp.payroll_settlements ps2 on ps2.id=pr2.payroll_id
+                  where pr2.source_type='ACCESSORY_BOM' and pr2.source_id=e.id and ps2.status='PAID') then 'SETTLED'
+      when exists(select 1 from erp.payroll_reimbursements pr2 join erp.payroll_settlements ps2 on ps2.id=pr2.payroll_id
+                  where pr2.source_type='ACCESSORY_BOM' and pr2.source_id=e.id and ps2.status<>'REVERSED') then 'ALLOCATED'
+      else 'UNALLOCATED' end
+    where e.id=r.id;
+  end loop;
+  for r in
+    select distinct bc.id as bs_case_id from erp.bs_cases bc
+    where exists(select 1 from erp.payroll_work_items pwi where pwi.payroll_id=p.id and pwi.po_id=bc.po_id)
+       or exists(select 1 from erp.payroll_work_items pwi join erp.rework_component_lines rcl on rcl.id=pwi.source_id
+                 join erp.bs_case_components bcc on bcc.id=rcl.bs_case_component_id
+                 where pwi.payroll_id=p.id and bcc.bs_case_id=bc.id)
+  loop perform erp.rebuild_bs_component_counters(r.bs_case_id); end loop;
+  insert into erp.audit_logs(entity_type,entity_id,action,new_data,changed_by,change_reason)
+  values('payroll_settlements',p.id,'REVERSE_PAID',jsonb_build_object('previous_status','PAID'),erp.current_app_user_id(),p_reason);
+end;
+$function$;
+CREATE OR REPLACE FUNCTION erp.initial_import_revision_v1(p_batch_id uuid)
+RETURNS text LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO '' SET TimeZone TO 'UTC' AS $function$
+ select encode(extensions.digest(convert_to(jsonb_build_object(
+   'batch',(select to_jsonb(b) from erp.migration_batches b where id=p_batch_id),
+   'rows',coalesce((select jsonb_agg(to_jsonb(s) order by s.entity_type,s.source_row_no)
+     from erp.migration_staging_rows s where s.batch_id=p_batch_id),'[]'::jsonb),
+   'opening',coalesce((select jsonb_agg(to_jsonb(h) order by h.id)
+     from erp.opening_balance_headers h where h.migration_batch_id=p_batch_id),'[]'::jsonb),
+   'advance_balances',coalesce((select jsonb_agg(to_jsonb(bs) order by bs.id)
+     from erp.opening_subledger_balances bs join erp.initial_import_financial_sources s on s.opening_item_id=bs.opening_item_id
+     where s.batch_id=p_batch_id and s.source_kind='CONTRACTOR_CASH_ADVANCE'),'[]'::jsonb),
+   'advance_deductions',coalesce((select jsonb_agg(to_jsonb(d) order by d.id)
+     from erp.payroll_deductions d join erp.opening_subledger_balances bs on bs.id=d.opening_cash_advance_balance_id
+     join erp.initial_import_financial_sources s on s.opening_item_id=bs.opening_item_id where s.batch_id=p_batch_id),'[]'::jsonb),
+   'advance_payrolls',coalesce((select jsonb_agg(to_jsonb(p) order by p.id) from erp.payroll_settlements p
+     where exists(select 1 from erp.initial_import_financial_sources s where s.batch_id=p_batch_id
+       and s.source_kind='CONTRACTOR_CASH_ADVANCE' and s.party_id=p.contractor_id)),'[]'::jsonb),
+   'prepayments',coalesce((select jsonb_agg(to_jsonb(a)||jsonb_build_object(
+     'events',(select jsonb_agg(to_jsonb(e) order by e.id) from erp.initial_import_prepayment_events e where e.advance_id=a.id),
+     'payments',(select jsonb_agg(to_jsonb(p) order by p.payment_id) from erp.initial_prepayment_payments_v1(a.id) p),
+     'targets',(select jsonb_agg(to_jsonb(t) order by t.id) from erp.initial_prepayment_targets_v1(a.id) t)
+   ) order by a.id) from erp.initial_import_prepayments a where a.batch_id=p_batch_id),'[]'::jsonb),
+   'items',coalesce((select jsonb_agg(to_jsonb(i) order by i.id)
+     from erp.opening_balance_items i join erp.opening_balance_headers h on h.id=i.opening_id
+     where h.migration_batch_id=p_batch_id),'[]'::jsonb),
+   'bb',erp.bb_financial_revision_part_v1(p_batch_id),
+   'bb_purchase',erp.bb_purchase_revision_part_v1(p_batch_id),
+   'bb_labour',erp.bb_labour_revision_part_v1(p_batch_id),
+   'bb_production',erp.bb_production_revision_part_v1(p_batch_id)
+ )::text,'UTF8'),'sha256'),'hex');
+$function$;
+CREATE OR REPLACE FUNCTION erp.get_initial_import_workspace_v1(p_batch_id uuid DEFAULT NULL)
+RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO '' AS $function$
+declare b erp.migration_batches%rowtype; v_batch jsonb;
+begin
+ perform erp.require_owner_admin();
+ perform erp.require_permission('settings.erp.view');
+ if p_batch_id is not null then
+   select * into b from erp.migration_batches where id=p_batch_id for share;
+   if b.id is null then raise exception 'Batch impor tidak ditemukan'; end if;
+   select jsonb_build_object('id',b.id,'code',b.batch_code,'status',b.status,
+     'cutover_at',b.cutover_at,'notes',b.notes,'revision',erp.initial_import_revision_v1(b.id),
+     'rows',coalesce((select jsonb_agg(jsonb_build_object(
+       'id',s.id,'entity',s.entity_type,'source_row_no',s.source_row_no,
+       'payload',s.normalized_payload,'validation_status',s.validation_status,
+       'errors',s.validation_errors,'applied',s.posted_entity_id is not null
+     ) order by s.entity_type,s.source_row_no) from erp.migration_staging_rows s where s.batch_id=b.id),'[]'::jsonb),
+     'uninvoiced_receipts',coalesce((select jsonb_agg(jsonb_build_object(
+       'receipt_number',rh.receipt_number,'receipt_line_number',rl.receipt_line_number,'receipt_date',rh.receipt_date,
+       'cutover_date',rh.cutover_date,'purchase_id',rh.purchase_id,'purchase_item_id',rl.purchase_item_id,
+       'supplier_id',rh.supplier_id,'opening_item_id',rl.opening_item_id,
+       'qty',pi.qty,'on_hand_at_cutover',coalesce((select qty from erp.opening_balance_items where id=rl.opening_item_id),0),
+       'consumed_before_cutover',coalesce((select sum(material_qty) from erp.initial_import_cost_origins where purchase_item_id=pi.id),0),'unmatched_qty',erp.material_purchase_invoice_capacity(pi.id)-erp.material_purchase_posted_invoice_qty(pi.id),
+       'invoice_match_state',pi.invoice_match_state) order by rh.receipt_number,rl.receipt_line_number)
+       from erp.initial_import_receipt_headers rh join erp.initial_import_receipt_lines rl on rl.purchase_id=rh.purchase_id
+       join erp.material_purchase_items pi on pi.id=rl.purchase_item_id where rh.batch_id=b.id),'[]'::jsonb),
+     'cash_advances',coalesce((select jsonb_agg(erp.opening_cash_advance_state_v1(bs.id)||jsonb_build_object(
+       'contractor_code',c.contractor_code,'contractor_name',c.contractor_name,
+       'allocations',coalesce((select jsonb_agg(jsonb_build_object('payroll_id',p.id,'payroll_number',p.payroll_number,
+         'status',p.status,'row_version',p.row_version::text,'amount',d.amount::text) order by p.period_end,p.id)
+         from erp.payroll_deductions d join erp.payroll_settlements p on p.id=d.payroll_id
+         where d.opening_cash_advance_balance_id=bs.id and p.status<>'REVERSED'),'[]'::jsonb)) order by s.document_number,bs.id)
+       from erp.initial_import_financial_sources s join erp.opening_subledger_balances bs on bs.opening_item_id=s.opening_item_id
+       join erp.contractors c on c.id=bs.contractor_id where s.batch_id=b.id and s.source_kind='CONTRACTOR_CASH_ADVANCE'),'[]'::jsonb),
+     'advance_payrolls',coalesce((select jsonb_agg(to_jsonb(x) order by x.period_end,x.id) from(
+       select p.id,p.payroll_number,p.contractor_id,p.period_end,p.row_version::text,p.net_payable::text
+       from erp.payroll_settlements p where p.status in('DRAFT','CALCULATED','REVIEW') and exists(
+         select 1 from erp.initial_import_financial_sources s where s.batch_id=b.id
+           and s.source_kind='CONTRACTOR_CASH_ADVANCE' and s.party_id=p.contractor_id)
+       ) x),'[]'::jsonb),
+     'prepayments',coalesce((select jsonb_agg(erp.initial_prepayment_state_v1(a.id)||jsonb_build_object(
+       'party_name',case a.party_type when 'SUPPLIER' then (select supplier_name from erp.suppliers where id=a.party_id)
+         when 'CUSTOMER' then (select customer_name from erp.customers where id=a.party_id) else (select vendor_name from erp.laundry_vendors where id=a.party_id) end,
+       'targets',coalesce((select jsonb_agg(to_jsonb(t) order by t.target_date,t.id) from (
+         select * from erp.initial_prepayment_targets_v1(a.id) where remaining_amount::numeric>0) t),'[]'::jsonb),
+       'payments',coalesce((select jsonb_agg(jsonb_build_object('id',p.payment_id,'number',p.number,'status',p.status,'amount',p.amount::numeric(20,2)::text) order by p.payment_date,p.payment_id)
+         from erp.initial_prepayment_payments_v1(a.id) p),'[]'::jsonb),
+       'events',coalesce((select jsonb_agg(jsonb_build_object('id',e.id,'kind',e.event_type,'delta',e.delta::text,'date',e.effective_date,'reason',e.reason,
+         'reversed',exists(select 1 from erp.initial_import_prepayment_events x where x.reverses_event_id=e.id)) order by e.created_at,e.id)
+         from erp.initial_import_prepayment_events e where e.advance_id=a.id),'[]'::jsonb)) order by a.document_number,a.id)
+       from erp.initial_import_prepayments a where a.batch_id=b.id),'[]'::jsonb),
+     'prepayment_cash_accounts',coalesce((select jsonb_agg(jsonb_build_object('id',id,'name',cash_account_name) order by cash_account_code)
+       from erp.cash_accounts where is_active),'[]'::jsonb),
+     'production_sources',erp.initial_import_production_rows_v1(b.id),
+     'opening_id',(select h.id from erp.opening_balance_headers h where h.migration_batch_id=b.id order by h.created_at limit 1)
+   ) into v_batch;
+   -- BB: opening balances with their settlements and payroll lines, customer credits, return rights, legacy documents.
+   v_batch:=v_batch||erp.bb_financial_workspace_v1(b.id)||erp.bb_purchase_workspace_v1(b.id)||erp.bb_labour_workspace_v1(b.id)||erp.bb_production_workspace_v1(b.id)||erp.bb_sales_workspace_v1(b.id);
+ end if;
+ -- BA (audit A5, CP6-04): every batch not posted yet stays listed (an older editable draft is never cut off), with
+ -- the latest 50 of any status.
+ return jsonb_build_object('batch',v_batch,'recent',coalesce((select jsonb_agg(x order by x.created_at desc,x.id)
+   from (select id,batch_code,status,cutover_at,created_at from erp.migration_batches where status<>'POSTED'
+     union select * from (select id,batch_code,status,cutover_at,created_at from erp.migration_batches
+       order by created_at desc,id limit 50) latest) x),'[]'::jsonb));
+end;$function$;
+CREATE OR REPLACE FUNCTION erp.stage_migration_row(p_batch_id uuid, p_entity_type text, p_source_row_no integer, p_legacy_key text, p_source_payload jsonb, p_normalized_payload jsonb)
+ RETURNS uuid
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public'
+AS $function$
+declare v_status text; v_id uuid; v_type text:=upper(trim(p_entity_type));
+begin
+  perform erp.require_owner_admin();
+  select status into v_status from erp.migration_batches where id=p_batch_id for update;
+  if v_status is null then raise exception 'Migration batch not found'; end if;
+  if v_status not in ('DRAFT','VALIDATING','READY','POSTING') then raise exception 'Migration batch % cannot be staged while status is %',p_batch_id,v_status; end if;
+  -- Lock order is batch -> opening in both the editor and posting consumer.
+  perform 1 from erp.opening_balance_headers where migration_batch_id=p_batch_id order by id for update;
+  if exists(select 1 from erp.opening_balance_headers where migration_batch_id=p_batch_id and status<>'DRAFT') then
+    raise exception 'AK_MIGRATION_STAGE_AFTER_POSTING_REFUSED';
+  end if;
+  if exists(select 1 from erp.migration_staging_rows where batch_id=p_batch_id and entity_type=v_type
+    and source_row_no=p_source_row_no and posted_entity_id is not null and entity_type<>'OPENING_BALANCE_ITEM') then
+    raise exception 'AK_APPLIED_MASTER_ROW_EDIT_REQUIRES_MASTER_CORRECTION';
+  end if;
+  if p_source_row_no is null or p_source_row_no<=0 then raise exception 'source_row_no must be positive'; end if;
+  if v_type not in ('BRAND','SIZE','MODEL','PRODUCT','CUSTOMER','SUPPLIER','CONTRACTOR','ACCESSORY_CATEGORY','MATERIAL','MATERIAL_ROLL','OPENING_BALANCE_ITEM','OPEN_PO','OPENING_CONTROL','OPENING_ADVANCE','OPENING_COST_ORIGIN','UNINVOICED_RECEIPT','LAUNDRY_VENDOR','LOCATION','CHART_ACCOUNT','CASH_ACCOUNT','LEGACY_DOCUMENT','OPENING_CUSTOMER_CREDIT','OPENING_SALE_RETURN','OPEN_PURCHASE_ORDER','OPENING_PAYROLL_ENTITLEMENT','OPENING_REWORK','OPENING_REWORK_COMPONENT','OPEN_SALES_DRAFT') then
+    raise exception 'Unsupported migration entity_type %',v_type;
+  end if;
+  insert into erp.migration_staging_rows(batch_id,entity_type,source_row_no,legacy_key,source_payload,normalized_payload,validation_status,validation_errors,updated_at)
+  values (p_batch_id,v_type,p_source_row_no,nullif(trim(p_legacy_key),''),coalesce(p_source_payload,'{}'::jsonb),coalesce(p_normalized_payload,'{}'::jsonb),'PENDING','[]'::jsonb,statement_timestamp())
+  on conflict (batch_id,entity_type,source_row_no) do update set
+    legacy_key=excluded.legacy_key,source_payload=excluded.source_payload,normalized_payload=excluded.normalized_payload,
+    validation_status='PENDING',validation_errors='[]'::jsonb,posted_entity_type=null,posted_entity_id=null,posted_at=null,updated_at=statement_timestamp()
+  returning id into v_id;
+  -- Prepared opening is still a draft: edits remain allowed. Invalidate only
+  -- its unposted lines, keep the header identity, and require fresh prepare.
+  delete from erp.opening_balance_items i using erp.opening_balance_headers h
+    where i.opening_id=h.id and h.migration_batch_id=p_batch_id and h.status='DRAFT';
+  update erp.migration_staging_rows set posted_entity_type=null,posted_entity_id=null,posted_at=null
+    where batch_id=p_batch_id and entity_type='OPENING_BALANCE_ITEM';
+  update erp.migration_batches set status='DRAFT',validated_at=null,error_message=null where id=p_batch_id;
+  return v_id;
+end;$function$;
+CREATE OR REPLACE FUNCTION erp._validate_migration_batch_base(p_batch_id uuid)
+ RETURNS TABLE(total_rows bigint, valid_rows bigint, error_rows bigint)
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public'
+AS $function$
+declare r record;e jsonb;v_required text[];k text;v_total bigint;v_valid bigint;v_error bigint;v_bt text;v_material_type text;v_number numeric;v_status text;v_cutover timestamptz;ref record;v_code text;v_exists boolean;v_typed jsonb;
+begin
+  perform erp.require_owner_admin();
+  select status into v_status from erp.migration_batches where id=p_batch_id for update;
+  if v_status is null then raise exception 'Migration batch not found'; end if;
+  if v_status not in('DRAFT','VALIDATING','READY','POSTING')
+     or exists(select 1 from erp.opening_balance_headers where migration_batch_id=p_batch_id and status<>'DRAFT') then
+    raise exception 'AK_MIGRATION_PREVIEW_AFTER_POSTING_REFUSED';
+  end if;
+  select cutover_at into v_cutover from erp.migration_batches where id=p_batch_id;
+  update erp.migration_batches set status='VALIDATING',error_message=null where id=p_batch_id;
+  update erp.migration_staging_rows set validation_status='PENDING',validation_errors='[]'::jsonb,updated_at=statement_timestamp() where batch_id=p_batch_id;
+  update erp.migration_staging_rows s set validation_status='ERROR',validation_errors=jsonb_build_array('Duplicate legacy_key inside entity type'),updated_at=statement_timestamp()
+  where s.batch_id=p_batch_id and s.legacy_key is not null and exists(select 1 from erp.migration_staging_rows d where d.batch_id=s.batch_id and d.entity_type=s.entity_type and d.legacy_key=s.legacy_key and d.id<>s.id);
+
+  with keys as (
+    select id,entity_type,case entity_type
+      when 'PRODUCT' then jsonb_build_array(normalized_payload->>'brand_code',lower(btrim(normalized_payload->>'sku')),normalized_payload->>'size_code')
+      else jsonb_build_array(normalized_payload->>case entity_type
+        when 'LAUNDRY_VENDOR' then 'vendor_code' when 'LOCATION' then 'location_code' when 'CHART_ACCOUNT' then 'account_code' when 'CASH_ACCOUNT' then 'cash_account_code' when 'BRAND' then 'brand_code' when 'SIZE' then 'size_code' when 'MODEL' then 'model_code'
+        when 'CUSTOMER' then 'customer_code' when 'SUPPLIER' then 'supplier_code' when 'CONTRACTOR' then 'contractor_code'
+        when 'ACCESSORY_CATEGORY' then 'category_code' when 'MATERIAL' then 'material_sku' when 'OPEN_PO' then 'po_number' end) end business_key
+    from erp.migration_staging_rows where batch_id=p_batch_id and entity_type not in('MATERIAL_ROLL','OPENING_BALANCE_ITEM','OPENING_CONTROL','OPENING_COST_ORIGIN','UNINVOICED_RECEIPT','OPENING_ADVANCE','LEGACY_DOCUMENT','OPENING_CUSTOMER_CREDIT','OPENING_SALE_RETURN','OPEN_PURCHASE_ORDER','OPENING_PAYROLL_ENTITLEMENT','OPENING_REWORK','OPENING_REWORK_COMPONENT','OPEN_SALES_DRAFT')
+  ) update erp.migration_staging_rows s set validation_status='ERROR',
+      validation_errors=s.validation_errors||jsonb_build_array('Duplicate master/PO identity inside migration batch')
+    where s.id in(select k.id from keys k where exists(select 1 from keys d
+      where d.id<>k.id and d.entity_type=k.entity_type and d.business_key=k.business_key));
+
+  for r in select * from erp.migration_staging_rows where batch_id=p_batch_id order by case entity_type
+      when 'LAUNDRY_VENDOR' then 1 when 'LOCATION' then 2 when 'CHART_ACCOUNT' then 3 when 'CASH_ACCOUNT' then 4 when 'BRAND' then 10 when 'SIZE' then 20 when 'MODEL' then 30
+      when 'CUSTOMER' then 40 when 'SUPPLIER' then 50 when 'CONTRACTOR' then 60
+      when 'ACCESSORY_CATEGORY' then 70 when 'MATERIAL' then 80 when 'MATERIAL_ROLL' then 85
+      when 'PRODUCT' then 90 when 'OPEN_PO' then 100 else 110 end,source_row_no loop
+    e:='[]'::jsonb;
+    begin
+      -- A malformed input is a row error. It must not roll back diagnostics
+      -- for the entire batch or be accepted as NaN/infinite business quantity.
+      foreach k in array array['qty','opening_qty','unit_cost','amount',
+        'hpp_percent_of_price','target_qty_pcs','target_dozens'] loop
+        if nullif(btrim(r.normalized_payload->>k),'') is not null then
+          v_number:=(r.normalized_payload->>k)::numeric;
+          if v_number::text in('NaN','Infinity','-Infinity') then
+            e:=e||jsonb_build_array('Field must be a finite number: '||k);
+          end if;
+        end if;
+      end loop;
+    if jsonb_typeof(r.normalized_payload)<>'object' then e:=e||jsonb_build_array('normalized_payload must be a JSON object'); end if;
+    v_required:=case r.entity_type
+      when 'LAUNDRY_VENDOR' then array['vendor_code','vendor_name']
+      when 'LOCATION' then array['location_code','location_name','location_type']
+      when 'CHART_ACCOUNT' then array['account_code','account_name','account_type','report_group','normal_balance']
+      when 'CASH_ACCOUNT' then array['cash_account_code','cash_account_name','coa_account_code','account_kind']
+      when 'BRAND' then array['brand_code','brand_name']
+      when 'SIZE' then array['size_code']
+      when 'MODEL' then array['model_code','model_name']
+      when 'PRODUCT' then array['sku','product_name','model_code','brand_code','color_name','size_code']
+      when 'CUSTOMER' then array['customer_code','customer_name']
+      when 'SUPPLIER' then array['supplier_code','supplier_name']
+      when 'CONTRACTOR' then array['contractor_code','contractor_name']
+      when 'ACCESSORY_CATEGORY' then array['category_code','category_name','base_uom_code']
+      when 'MATERIAL' then array['material_sku','material_name','material_type','unit_code']
+      when 'MATERIAL_ROLL' then array['material_sku','roll_number','opening_qty','unit_cost','location_code']
+      when 'OPENING_BALANCE_ITEM' then array['balance_type']
+      when 'OPEN_PO' then array['po_number','model_code','status','current_stage']
+      else array[]::text[] end;
+    foreach k in array v_required loop
+      if nullif(trim(coalesce(r.normalized_payload->>k,'')),'') is null then e:=e||jsonb_build_array('Missing required field: '||k); end if;
+    end loop;
+
+    -- Validate only fields consumed by the matching writer. Composite casts
+    -- enforce the actual column types/widths without inserting any master.
+    -- Empty optional values retain the writers' existing default semantics.
+    for ref in select * from(values
+      ('LAUNDRY_VENDOR','laundry_vendors',array['vendor_code','vendor_name','phone','is_active','notes']),
+      ('LOCATION','locations',array['location_code','location_name','location_type','is_active']),
+      ('CHART_ACCOUNT','chart_accounts',array['account_code','account_name','account_type','report_group','normal_balance','is_postable','is_active']),
+      ('CASH_ACCOUNT','cash_accounts',array['cash_account_code','cash_account_name','account_kind','is_active']),
+      ('BRAND','brands',array['brand_code','brand_name','is_active']),
+      ('SIZE','sizes',array['size_code','sort_order','is_active']),
+      ('MODEL','product_models',array['model_code','model_name','description','is_active']),
+      ('PRODUCT','products',array['sku','product_name','color_name','is_active','is_portal_visible']),
+      ('CUSTOMER','customers',array['customer_code','customer_name','phone','address','is_active']),
+      ('SUPPLIER','suppliers',array['supplier_code','supplier_name','supplier_type','phone','address','is_active']),
+      ('CONTRACTOR','contractors',array['contractor_code','contractor_name','contractor_type','attendance_required','is_active','notes']),
+      ('ACCESSORY_CATEGORY','accessory_categories',array['category_code','category_name','base_uom_code','is_active','notes']),
+      ('MATERIAL','materials',array['material_sku','material_name','material_type','unit_code','is_active']),
+      ('MATERIAL_ROLL','material_rolls',array['roll_number','notes']),
+      ('OPEN_PO','production_orders',array['po_number','target_qty_pcs','target_dozens','status','current_stage','physical_start_at','notes']),
+      ('OPENING_BALANCE_ITEM','opening_balance_items',array['balance_type','qty','amount','stage','quality_grade','notes','hpp_input_method','hpp_percent_of_price'])
+    ) fields(entity,relation_name,field_names) where fields.entity=r.entity_type loop
+      select coalesce(jsonb_object_agg(field,r.normalized_payload->field),'{}'::jsonb)
+        into v_typed from unnest(ref.field_names) field
+        where nullif(r.normalized_payload->>field,'') is not null;
+      begin
+        execute format('select jsonb_populate_record(null::erp.%I,$1)',ref.relation_name) using v_typed;
+      exception when data_exception then
+        -- Retain the fast whole-row cast for valid imports. On a bad value,
+        -- identify its field so the persisted row error tells the user what
+        -- to repair; keep the original SQLSTATE and refusal semantics.
+        for k in select jsonb_object_keys(v_typed) loop
+          begin
+            execute format('select jsonb_populate_record(null::erp.%I,$1)',ref.relation_name)
+              using jsonb_build_object(k,v_typed->k);
+          exception when data_exception then
+            raise exception using errcode=sqlstate,message=format('%s: %s',k,sqlerrm);
+          end;
+        end loop;
+        raise;
+      end;
+    end loop;
+    perform erp.validate_initial_import_master_row_v1(p_batch_id,r.entity_type,r.normalized_payload);
+    if r.entity_type='SUPPLIER' and coalesce(nullif(upper(r.normalized_payload->>'supplier_type'),''),'MATERIAL')
+      not in('MATERIAL','ACCESSORY','OTHER') then raise exception 'supplier_type must be MATERIAL, ACCESSORY or OTHER'; end if;
+    if r.entity_type='OPEN_PO' then
+      if nullif(r.normalized_payload->>'target_qty_pcs','') is not null
+         and (r.normalized_payload->>'target_qty_pcs')::integer<=0 then raise exception 'target_qty_pcs must be positive'; end if;
+      if nullif(r.normalized_payload->>'target_dozens','') is not null
+         and (r.normalized_payload->>'target_dozens')::numeric<=0 then raise exception 'target_dozens must be positive'; end if;
+    end if;
+    if r.entity_type='MATERIAL_ROLL' then
+      perform (r.normalized_payload->>'opening_qty')::numeric(18,6);
+      perform (r.normalized_payload->>'unit_cost')::numeric(18,6);
+    end if;
+    if r.entity_type='OPENING_BALANCE_ITEM' then
+      if nullif(r.normalized_payload->>'unit_cost','') is not null then
+        perform (r.normalized_payload->>'unit_cost')::numeric(18,6);
+      end if;
+      if upper(r.normalized_payload->>'balance_type')='BS' then
+        v_number:=nullif(r.normalized_payload->>'qty','')::numeric;
+        if v_number is null or v_number<=0 or v_number<>trunc(v_number) or v_number>2147483647 then
+          raise exception 'AL_BS_REQUIRES_POSITIVE_WHOLE_PCS';
+        end if;
+      end if;
+      if upper(r.normalized_payload->>'balance_type')='WIP' then
+        if nullif(r.normalized_payload->>'amount','') is null and
+           (nullif(r.normalized_payload->>'qty','') is null or nullif(r.normalized_payload->>'unit_cost','') is null) then
+          raise exception 'AL_WIP_REQUIRES_AMOUNT_OR_QTY_AND_COST';
+        end if;
+        foreach k in array array['qty','amount','unit_cost'] loop
+          if nullif(r.normalized_payload->>k,'') is not null and (r.normalized_payload->>k)::numeric<0 then
+            raise exception 'AL_WIP_VALUE_MUST_BE_NONNEGATIVE: %',k;
+          end if;
+        end loop;
+      end if;
+    end if;
+    if r.entity_type='ACCESSORY_CATEGORY' and not exists(select 1 from erp.uom_definitions where unit_code=upper(r.normalized_payload->>'base_uom_code')) then e:=e||jsonb_build_array('Unknown base_uom_code'); end if;
+    if r.entity_type='MATERIAL' then
+      if upper(coalesce(r.normalized_payload->>'material_type','')) not in('FABRIC','ACCESSORY','OTHER') then e:=e||jsonb_build_array('material_type must be FABRIC, ACCESSORY or OTHER'); end if;
+      if upper(coalesce(r.normalized_payload->>'material_type',''))='ACCESSORY' and nullif(trim(coalesce(r.normalized_payload->>'accessory_category_code','')),'') is null then e:=e||jsonb_build_array('ACCESSORY material requires accessory_category_code'); end if;
+    end if;
+    if r.entity_type='MATERIAL_ROLL' then
+      if coalesce(nullif(r.normalized_payload->>'opening_qty','')::numeric,0)<=0 then e:=e||jsonb_build_array('MATERIAL_ROLL opening_qty must be positive'); end if;
+      if coalesce(nullif(r.normalized_payload->>'unit_cost','')::numeric,-1)<0 then e:=e||jsonb_build_array('MATERIAL_ROLL unit_cost must be zero or positive'); end if;
+      select material_type into v_material_type from erp.materials where material_sku=r.normalized_payload->>'material_sku';
+      if v_material_type is null then
+        select upper(s.normalized_payload->>'material_type') into v_material_type from erp.migration_staging_rows s
+        where s.batch_id=p_batch_id and s.entity_type='MATERIAL' and s.normalized_payload->>'material_sku'=r.normalized_payload->>'material_sku' limit 1;
+      end if;
+      if coalesce(v_material_type,'')<>'FABRIC' then e:=e||jsonb_build_array('MATERIAL_ROLL requires a FABRIC material'); end if;
+      if not exists(select 1 from erp.locations where location_code=r.normalized_payload->>'location_code' and location_type='RAW_MATERIAL_WAREHOUSE' and is_active=true)
+        and not exists(select 1 from erp.migration_staging_rows s where s.batch_id=p_batch_id and s.entity_type='LOCATION'
+          and s.validation_status='VALID' and s.normalized_payload->>'location_code'=r.normalized_payload->>'location_code'
+          and upper(s.normalized_payload->>'location_type')='RAW_MATERIAL_WAREHOUSE'
+          and coalesce(nullif(s.normalized_payload->>'is_active','')::boolean,true)) then e:=e||jsonb_build_array('MATERIAL_ROLL location_code must be an active raw-material warehouse'); end if;
+      if nullif(trim(coalesce(r.normalized_payload->>'supplier_code','')),'') is not null
+         and not exists(select 1 from erp.suppliers where supplier_code=r.normalized_payload->>'supplier_code')
+         and not exists(select 1 from erp.migration_staging_rows s where s.batch_id=p_batch_id and s.entity_type='SUPPLIER' and s.normalized_payload->>'supplier_code'=r.normalized_payload->>'supplier_code') then
+        e:=e||jsonb_build_array('Unknown MATERIAL_ROLL supplier_code');
+      end if;
+      if exists(select 1 from erp.migration_staging_rows d where d.batch_id=p_batch_id and d.entity_type='MATERIAL_ROLL' and d.id<>r.id
+                and d.normalized_payload->>'material_sku'=r.normalized_payload->>'material_sku' and d.normalized_payload->>'roll_number'=r.normalized_payload->>'roll_number') then
+        e:=e||jsonb_build_array('Duplicate roll_number for material inside migration batch');
+      end if;
+      if exists(select 1 from erp.material_rolls mr join erp.materials m on m.id=mr.material_id where m.material_sku=r.normalized_payload->>'material_sku' and mr.roll_number=r.normalized_payload->>'roll_number' and mr.id is distinct from r.posted_entity_id) then
+        e:=e||jsonb_build_array('MATERIAL_ROLL conflicts with an existing roll number');
+      end if;
+    end if;
+
+    if r.entity_type='OPENING_BALANCE_ITEM' then
+      v_bt:=upper(coalesce(r.normalized_payload->>'balance_type',''));
+      if v_bt not in('MATERIAL','FINISHED_GOODS','WIP','BS','CONTRACTOR_RECEIVABLE','CONTRACTOR_PAYABLE','CUSTOMER_RECEIVABLE','VENDOR_PAYABLE','SUPPLIER_PAYABLE','CASH_BANK') then e:=e||jsonb_build_array('Unsupported opening balance_type for migration framework'); end if;
+      if v_bt='MATERIAL' and(nullif(r.normalized_payload->>'material_sku','') is null or nullif(r.normalized_payload->>'location_code','') is null or coalesce(nullif(r.normalized_payload->>'qty','')::numeric,0)<=0) then e:=e||jsonb_build_array('MATERIAL opening needs material_sku, location_code and positive qty'); end if;
+      if v_bt='MATERIAL' and exists(select 1 from erp.materials m where m.material_sku=r.normalized_payload->>'material_sku' and m.material_type='FABRIC') then e:=e||jsonb_build_array('FABRIC opening stock must use MATERIAL_ROLL rows, not anonymous MATERIAL opening'); end if;
+      if v_bt='FINISHED_GOODS' and(nullif(r.normalized_payload->>'product_sku','') is null or coalesce(nullif(r.normalized_payload->>'qty','')::numeric,0)<=0) then e:=e||jsonb_build_array('FINISHED_GOODS opening needs product_sku and positive qty'); end if;
+      if v_bt in('CONTRACTOR_RECEIVABLE','CONTRACTOR_PAYABLE') and(nullif(r.normalized_payload->>'contractor_code','') is null or coalesce(nullif(r.normalized_payload->>'amount','')::numeric,0)<=0) then e:=e||jsonb_build_array('Contractor opening balance needs contractor_code and positive amount'); end if;
+      if v_bt='CUSTOMER_RECEIVABLE' and(nullif(r.normalized_payload->>'customer_code','') is null or coalesce(nullif(r.normalized_payload->>'amount','')::numeric,0)<=0) then e:=e||jsonb_build_array('Customer receivable opening needs customer_code and positive amount'); end if;
+      if v_bt='SUPPLIER_PAYABLE' and(nullif(r.normalized_payload->>'supplier_code','') is null or coalesce(nullif(r.normalized_payload->>'amount','')::numeric,0)<=0) then e:=e||jsonb_build_array('Supplier payable opening needs supplier_code and positive amount'); end if;
+      if v_bt='VENDOR_PAYABLE' and(nullif(r.normalized_payload->>'vendor_code','') is null or coalesce(nullif(r.normalized_payload->>'amount','')::numeric,0)<=0) then e:=e||jsonb_build_array('Vendor payable opening needs vendor_code and positive amount'); end if;
+      if v_bt='CASH_BANK' and(nullif(r.normalized_payload->>'cash_account_code','') is null or coalesce(nullif(r.normalized_payload->>'amount','')::numeric,0)<=0) then e:=e||jsonb_build_array('CASH_BANK opening needs cash_account_code and positive amount'); end if;
+    end if;
+    if r.entity_type='OPEN_PO' then
+      if upper(coalesce(r.normalized_payload->>'status','')) not in('DRAFT','CUTTING','SEWING','LAUNDRY','QC','FINISHED','ON_HOLD','CANCELLED') then e:=e||jsonb_build_array('Invalid PO status'); end if;
+      if upper(coalesce(r.normalized_payload->>'current_stage','')) not in('CUTTING','SEWING','LAUNDRY','QC','FINISHED','ON_HOLD') then e:=e||jsonb_build_array('Invalid PO current_stage'); end if;
+    end if;
+    -- Topological order matches apply_migration_master_rows. A staged parent
+    -- must itself be VALID; presence alone never proves a usable reference.
+    for ref in select * from(values
+      ('material_sku','materials','material_sku','MATERIAL',array['MATERIAL_ROLL','OPENING_BALANCE_ITEM']),
+      ('model_code','product_models','model_code','MODEL',array['PRODUCT','OPEN_PO','OPENING_BALANCE_ITEM']),
+      ('brand_code','brands','brand_code','BRAND',array['PRODUCT']),
+      ('size_code','sizes','size_code','SIZE',array['PRODUCT']),
+      ('accessory_category_code','accessory_categories','category_code','ACCESSORY_CATEGORY',array['MATERIAL']),
+      ('unit_code','uom_definitions','unit_code',null,array['MATERIAL']),
+      ('contractor_code','contractors','contractor_code','CONTRACTOR',array['OPEN_PO','OPENING_BALANCE_ITEM']),
+      ('customer_code','customers','customer_code','CUSTOMER',array['OPENING_BALANCE_ITEM']),
+      ('supplier_code','suppliers','supplier_code','SUPPLIER',array['MATERIAL_ROLL','OPENING_BALANCE_ITEM']),
+      ('location_code','locations','location_code','LOCATION',array['MATERIAL_ROLL','OPENING_BALANCE_ITEM']),
+      ('vendor_code','laundry_vendors','vendor_code','LAUNDRY_VENDOR',array['OPENING_BALANCE_ITEM']),
+      ('cash_account_code','cash_accounts','cash_account_code','CASH_ACCOUNT',array['OPENING_BALANCE_ITEM'])
+    ) refs(field,relation_name,code_field,staged_type,consumers)
+    where r.entity_type=any(refs.consumers) loop
+      v_code:=r.normalized_payload->>ref.field;
+      if nullif(btrim(v_code),'') is null then continue; end if;
+      if ref.field='unit_code' then v_code:=upper(v_code); end if;
+      -- Identifiers are selected only from the constant allowlist above.
+      execute format('select exists(select 1 from erp.%I where %I=$1)',ref.relation_name,ref.code_field)
+        into v_exists using v_code;
+      if not v_exists and not exists(select 1 from erp.migration_staging_rows s
+        where s.batch_id=p_batch_id and s.entity_type=ref.staged_type
+          and s.validation_status='VALID' and s.normalized_payload->>ref.code_field=v_code) then
+        e:=e||jsonb_build_array('Unknown or invalid staged reference: '||ref.field||' = '||v_code);
+      end if;
+    end loop;
+    if r.entity_type='OPENING_BALANCE_ITEM' and v_bt='MATERIAL'
+       and exists(select 1 from erp.migration_staging_rows s where s.batch_id=p_batch_id
+         and s.entity_type='MATERIAL' and s.validation_status='VALID'
+         and s.normalized_payload->>'material_sku'=r.normalized_payload->>'material_sku'
+         and upper(s.normalized_payload->>'material_type')='FABRIC') then
+      e:=e||jsonb_build_array('FABRIC opening stock must use MATERIAL_ROLL rows');
+    end if;
+    if r.entity_type='PRODUCT' then
+      -- Import may maintain display data, never rewrite identity/history.
+      if exists(select 1 from erp.products p join erp.brands b on b.id=p.brand_id
+        join erp.sizes sz on sz.id=p.size_id join erp.product_models m on m.id=p.model_id
+        where b.brand_code=r.normalized_payload->>'brand_code'
+          and sz.size_code=r.normalized_payload->>'size_code'
+          and lower(btrim(p.sku))=lower(btrim(r.normalized_payload->>'sku'))
+      ) and not exists(select 1 from erp.products p join erp.brands b on b.id=p.brand_id
+        join erp.sizes sz on sz.id=p.size_id join erp.product_models m on m.id=p.model_id
+        where b.brand_code=r.normalized_payload->>'brand_code'
+          and sz.size_code=r.normalized_payload->>'size_code'
+          and lower(btrim(p.sku))=lower(btrim(r.normalized_payload->>'sku'))
+          and p.effective_from<=v_cutover and (p.effective_to is null or p.effective_to>v_cutover)
+          and m.model_code=r.normalized_payload->>'model_code'
+          and lower(btrim(p.color_name))=lower(btrim(r.normalized_payload->>'color_name'))) then
+        e:=e||jsonb_build_array('PRODUCT identity/history conflicts at migration cutover');
+      end if;
+    end if;
+    exception when others then
+      e:=e||jsonb_build_array('Invalid row value: '||sqlerrm);
+    end;
+    if r.validation_status='ERROR' and jsonb_array_length(r.validation_errors)>0 then e:=r.validation_errors||e; end if;
+    update erp.migration_staging_rows set validation_status=case when jsonb_array_length(e)=0 then 'VALID' else 'ERROR' end,validation_errors=e,updated_at=statement_timestamp() where id=r.id;
+  end loop;
+  select count(*),count(*) filter(where validation_status='VALID'),count(*) filter(where validation_status='ERROR') into v_total,v_valid,v_error from erp.migration_staging_rows where batch_id=p_batch_id;
+  update erp.migration_batches set status=case when v_error=0 then 'READY' else 'DRAFT' end,validated_at=statement_timestamp(),error_message=case when v_error=0 then null else v_error||' staging row(s) failed validation' end where id=p_batch_id;
+  return query select v_total,v_valid,v_error;
+end;$function$;
+CREATE OR REPLACE FUNCTION erp.finalize_migration_batch(p_batch_id uuid)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public'
+AS $function$
+declare v_opening uuid;v_status text;
+begin
+  perform erp.require_owner_admin();select status into v_status from erp.migration_batches where id=p_batch_id for update;if v_status is null then raise exception 'Migration batch not found';end if;if v_status='POSTED' then return;end if;if v_status not in('READY','POSTING') then raise exception 'Migration batch must be READY/POSTING';end if;
+  if exists(select 1 from erp.migration_staging_rows where batch_id=p_batch_id and validation_status<>'VALID') then raise exception 'Migration batch has validation errors';end if;
+  if exists(select 1 from erp.migration_staging_rows where batch_id=p_batch_id and entity_type in('BRAND','SIZE','MODEL','PRODUCT','CUSTOMER','SUPPLIER','CONTRACTOR','ACCESSORY_CATEGORY','MATERIAL','MATERIAL_ROLL','OPEN_PO','LAUNDRY_VENDOR','LOCATION','CHART_ACCOUNT','CASH_ACCOUNT','OPENING_COST_ORIGIN','UNINVOICED_RECEIPT','OPENING_ADVANCE','LEGACY_DOCUMENT','OPENING_CUSTOMER_CREDIT','OPENING_SALE_RETURN','OPEN_PURCHASE_ORDER','OPENING_PAYROLL_ENTITLEMENT','OPENING_REWORK','OPENING_REWORK_COMPONENT','OPEN_SALES_DRAFT') and posted_entity_id is null) then raise exception 'Migration batch still has unapplied master/roll/open-PO rows';end if;
+  select id into v_opening from erp.opening_balance_headers where migration_batch_id=p_batch_id order by created_at limit 1;
+  if exists(select 1 from erp.migration_staging_rows where batch_id=p_batch_id and entity_type in('OPENING_BALANCE_ITEM','MATERIAL_ROLL')) then
+    if v_opening is null then raise exception 'Opening stock/balance rows exist but opening document was not prepared';end if;
+    if (select status from erp.opening_balance_headers where id=v_opening)<>'POSTED' then raise exception 'Migration opening balance must be POSTED before finalizing batch';end if;
+  end if;
+  update erp.migration_batches set status='POSTED',posted_at=statement_timestamp(),error_message=null where id=p_batch_id;
+  insert into erp.audit_logs(entity_type,entity_id,action,new_data,changed_by,change_reason) values('migration_batches',p_batch_id,'POST',jsonb_build_object('status','POSTED'),erp.current_app_user_id(),'Finalize migration batch');
+end;$function$;
+CREATE OR REPLACE FUNCTION erp.run_v267_financial_truth_checks()
+ RETURNS TABLE(check_name text, severity text, issue_count bigint, details text)
+ LANGUAGE sql
+ STABLE SECURITY DEFINER
+ SET search_path TO 'erp', 'public', 'pg_catalog', 'information_schema', 'pg_temp'
+AS $function$
+  select 'V267_GRNI_MAPPING_INVALID','CRITICAL',count(*)::bigint,
+         'GRNI_MATERIAL must map to an active CREDIT liability account'
+  from erp.accounting_account_mappings m
+  join erp.chart_accounts a on a.id=m.account_id
+  where m.mapping_key='GRNI_MATERIAL'
+    and not(a.account_type='LIABILITY' and a.normal_balance='CREDIT' and a.is_active and a.is_postable)
+
+  union all
+  select 'V267_MISSING_GRNI_MAPPING','CRITICAL',case when exists(
+    select 1 from erp.accounting_account_mappings where mapping_key='GRNI_MATERIAL'
+  ) then 0 else 1 end::bigint,'GRNI mapping is required'
+
+  union all
+  select 'V267_ESTIMATED_RECEIPT_MISSING_GRNI_RECLASS','CRITICAL',count(*)::bigint,
+         'Posted estimated receipts require an AP-to-GRNI reclassification journal'
+  from erp.material_purchase_headers h
+  where h.status='POSTED' and erp.material_purchase_grni_total(h.id)>0.005
+    and not exists(
+      select 1 from erp.journal_entries j
+      where (j.source_type='MATERIAL_PURCHASE_GRNI_RECLASS' or (
+        j.source_type='OPENING_UNINVOICED_RECEIPT' and exists(select 1 from erp.initial_import_receipt_headers r where r.purchase_id=h.id))) and j.source_id=h.id
+        and j.status in('POSTED','REVERSED')
+    )
+
+  union all
+  select 'V267_POSTED_INVOICE_MISSING_JOURNAL','CRITICAL',count(*)::bigint,
+         'Every non-zero posted supplier invoice requires an AP/GRNI journal'
+  from erp.material_supplier_invoices h
+  where h.status='POSTED'
+    and exists(select 1 from erp.material_supplier_invoice_lines l where l.invoice_id=h.id and(l.net_amount<>0 or l.grni_clear_amount_snapshot<>0))
+    and not exists(
+      select 1 from erp.journal_entries j
+      where j.source_type='MATERIAL_SUPPLIER_INVOICE' and j.source_id=h.id and j.status='POSTED'
+    )
+
+  union all
+  select 'V267_INVOICE_MATCH_OVER_RECEIPT','CRITICAL',count(*)::bigint,
+         'Posted supplier-invoice quantity exceeds receipt quantity net of GRNI-backed returns'
+  from erp.material_purchase_items i
+  where erp.material_purchase_posted_invoice_qty(i.id)>erp.material_purchase_invoice_capacity(i.id)
+
+  union all
+  select 'V267_PAYMENT_EXCEEDS_FINAL_AP','CRITICAL',count(*)::bigint,
+         'Supplier payment must never consume GRNI or exceed final AP'
+  from erp.material_purchase_headers h
+  where coalesce((select sum(p.amount) from erp.supplier_payments p where p.purchase_id=h.id and p.status='POSTED'),0)
+        >round(erp.material_purchase_final_ap_total(h.id),2)
+
+  union all
+  select 'V267_LEGACY_CORRECTION_ON_GRNI','CRITICAL',count(*)::bigint,
+         'Legacy price corrections may only touch DIRECT_FINAL receipt items'
+  from erp.material_purchase_cost_correction_items ci
+  join erp.material_purchase_cost_corrections c on c.id=ci.correction_id
+  join erp.material_purchase_items i on i.id=ci.purchase_item_id
+  where c.status='POSTED' and i.invoice_match_state<>'DIRECT_FINAL'
+
+  union all
+  select 'V267_POSTED_RETURN_MISSING_LIABILITY_SNAPSHOT','CRITICAL',count(*)::bigint,
+         'Posted supplier returns require AP/GRNI quantity and amount snapshots'
+  from erp.material_supplier_return_items ri
+  join erp.material_supplier_returns rh on rh.id=ri.return_id
+  where rh.status='POSTED' and(
+    ri.ap_relief_qty_snapshot is null or ri.grni_relief_qty_snapshot is null
+    or ri.ap_relief_amount_snapshot is null or ri.grni_relief_amount_snapshot is null
+  )
+
+  union all
+  select 'V267_GRNI_GL_SUBLEDGER_MISMATCH','CRITICAL',case when abs(
+    coalesce((select sum(a.credit_total-a.debit_total)
+      from erp.account_daily_balances a
+      where a.account_id=erp.account_id('GRNI_MATERIAL')),0)
+    -coalesce((select sum(round(erp.material_purchase_grni_total(h.id),2))
+      from erp.material_purchase_headers h where h.status='POSTED'),0)
+  )<>0 then 1 else 0 end::bigint,
+  'GRNI general ledger must equal estimated unmatched receipt liability'
+
+  union all
+  select 'V267_AP_GL_SUBLEDGER_MISMATCH','CRITICAL',case when abs(
+    coalesce((select sum(a.credit_total-a.debit_total)
+      from erp.account_daily_balances a
+      where a.account_id=erp.account_id('AP_SUPPLIER')),0)
+    -coalesce((select sum(greatest(
+      round(erp.material_purchase_final_ap_total(h.id),2)
+      -coalesce((select sum(p.amount) from erp.supplier_payments p where p.purchase_id=h.id and p.status='POSTED'),0),0
+    )) from erp.material_purchase_headers h where h.status='POSTED'),0)
+    -coalesce((select sum(b.original_amount-b.settled_amount)
+      from erp.opening_subledger_balances b
+      join erp.opening_balance_items i on i.id=b.opening_item_id
+      join erp.opening_balance_headers oh on oh.id=i.opening_id and oh.status='POSTED'
+      where b.party_type='SUPPLIER' and b.direction='PAYABLE'),0)
+  )<>0 then 1 else 0 end::bigint,
+  'Supplier AP general ledger must equal final-invoice subledger net of payment/returns'
+
+  union all
+  select 'V267_BROWSER_ROLE_DIRECT_INVOICE_WRITE','CRITICAL',count(*)::bigint,
+         'Supplier invoice aggregate must be writable only through v2 RPCs'
+  from information_schema.role_table_grants g
+  where g.table_schema='erp' and g.table_name in('material_supplier_invoices','material_supplier_invoice_lines')
+    and g.grantee in('PUBLIC','anon','authenticated')
+    and g.privilege_type in('INSERT','UPDATE','DELETE')
+  union all
+  select 'V2620M_SUPPLIER_PAYMENT_EXACT_STATUS','CRITICAL',count(*)::bigint,
+    'Supplier payment status and capacity must equal the rounded final liability of each purchase'
+  from erp.material_purchase_headers h
+  cross join lateral(select round(erp.material_purchase_final_ap_total(h.id),2) payable,
+    coalesce((select sum(p.amount) from erp.supplier_payments p
+      where p.purchase_id=h.id and p.status='POSTED'),0) paid) x
+  where h.status='POSTED' and(
+    x.paid<0 or x.paid>x.payable
+    or x.paid::text in('NaN','Infinity','-Infinity')
+    or x.payable::text in('NaN','Infinity','-Infinity')
+    or(h.payment_status='PAID' and x.paid<>x.payable)
+    or(h.payment_status='PARTIAL' and not(x.paid>0 and x.paid<x.payable))
+    or(h.payment_status='UNPAID' and x.paid<>0))
+
+  union all
+  select 'V2620M_OPENING_SUBLEDGER_STATE','CRITICAL',count(*)::bigint,
+    'Every posted financial opening requires one source-matched balance, exact settlements, and exact status'
+  from erp.opening_balance_items i
+  join erp.opening_balance_headers h on h.id=i.opening_id and h.status='POSTED'
+  left join erp.opening_subledger_balances b on b.opening_item_id=i.id
+  cross join lateral(select coalesce((select c.corrected_amount
+      from erp.opening_financial_corrections c where c.opening_item_id=i.id and c.status='POSTED'
+      order by c.correction_seq desc limit 1),i.amount) original,
+    coalesce((select sum(s.amount) from erp.opening_subledger_settlements s
+      where s.balance_id=b.id and s.status='POSTED'),0)
+    +coalesce((select sum(d.amount) from erp.payroll_deductions d join erp.payroll_settlements p on p.id=d.payroll_id
+      where d.opening_cash_advance_balance_id=b.id and p.status='PAID'),0)
+    +coalesce((select sum(r.amount) from erp.payroll_reimbursements r join erp.payroll_settlements p on p.id=r.payroll_id
+      where r.opening_payable_balance_id=b.id and p.status='PAID'),0) paid) x
+  where i.balance_type in('CUSTOMER_RECEIVABLE','SUPPLIER_PAYABLE','VENDOR_PAYABLE',
+    'CONTRACTOR_RECEIVABLE','CONTRACTOR_PAYABLE') and(
+    b.id is null or (select count(*) from erp.opening_subledger_balances bx where bx.opening_item_id=i.id)<>1
+    or b.original_amount is distinct from x.original
+    or b.settled_amount is distinct from x.paid
+    or b.original_amount::text in('NaN','Infinity','-Infinity')
+    or b.settled_amount::text in('NaN','Infinity','-Infinity')
+    or b.original_amount<0 or b.settled_amount<0 or b.settled_amount>b.original_amount
+    or b.status is distinct from case when x.paid=x.original then 'SETTLED'
+      when x.paid>0 then 'PARTIAL' else 'OPEN' end
+    or b.party_type is distinct from split_part(i.balance_type,'_',1)
+    or b.direction is distinct from split_part(i.balance_type,'_',2)
+    or b.customer_id is distinct from i.customer_id
+    or b.supplier_id is distinct from i.supplier_id
+    or b.vendor_id is distinct from i.vendor_id
+    or b.contractor_id is distinct from i.contractor_id)
+
+  union all
+  select 'V2620M_PAYMENT_SOURCE_JOURNAL_MISMATCH','CRITICAL',count(*)::bigint,
+    'Each supplier or opening settlement must match its own original and inverse money, accounts, party, and lifecycle'
+  from(
+    select p.id,p.status,p.amount,p.cash_account_id,'SUPPLIER_PAYMENT'::text source_type,
+      erp.account_id('AP_SUPPLIER') balance_account,false incoming,
+      null::uuid customer_id,null::uuid vendor_id,null::uuid contractor_id
+    from erp.supplier_payments p
+    union all
+    select s.id,s.status,s.amount,s.cash_account_id,'OPENING_SUBLEDGER_SETTLEMENT',
+      erp.account_id(case when b.party_type='CUSTOMER' then 'AR_CUSTOMER'
+        when b.party_type='SUPPLIER' then 'AP_SUPPLIER'
+        when b.party_type='VENDOR' then 'AP_VENDOR'
+        when b.direction='RECEIVABLE' then 'CONTRACTOR_RECEIVABLE' else 'CONTRACTOR_PAYABLE' end),
+      b.direction='RECEIVABLE',b.customer_id,b.vendor_id,b.contractor_id
+    from erp.opening_subledger_settlements s
+    join erp.opening_subledger_balances b on b.id=s.balance_id
+  ) x
+  left join erp.cash_accounts ca on ca.id=x.cash_account_id
+  where x.amount<=0 or x.amount::text in('NaN','Infinity','-Infinity') or (ca.id is null and erp.initial_prepayment_account_v1(x.id) is null and erp.bb_opening_credit_account_v1(x.id) is null)
+    or (select count(*) from erp.journal_entries j
+      where j.source_type=x.source_type and j.source_id=x.id and j.status in('POSTED','REVERSED'))
+      <>case when x.status='DRAFT' then 0 else 1 end
+    or exists(
+      select 1 from erp.journal_entries j
+      where j.source_type=x.source_type and j.source_id=x.id and j.status in('POSTED','REVERSED') and(
+        j.status is distinct from x.status
+        or (select count(*) from erp.journal_lines l where l.journal_entry_id=j.id)<>2
+        or exists(select 1 from erp.journal_lines l where l.journal_entry_id=j.id and(
+          l.customer_id is distinct from x.customer_id or l.vendor_id is distinct from x.vendor_id
+          or l.contractor_id is distinct from x.contractor_id
+          or not((l.account_id=coalesce(erp.initial_prepayment_account_v1(x.id),erp.bb_opening_credit_account_v1(x.id),ca.coa_account_id) and
+                l.debit=case when x.incoming then x.amount else 0 end and
+                l.credit=case when x.incoming then 0 else x.amount end)
+            or (l.account_id=x.balance_account and
+                l.debit=case when x.incoming then 0 else x.amount end and
+                l.credit=case when x.incoming then x.amount else 0 end))))
+        or (select count(*) from erp.journal_entries inv where inv.reversal_of_id=j.id)
+          <>case when x.status='REVERSED' then 1 else 0 end
+        or exists(select 1 from erp.journal_entries inv where inv.reversal_of_id=j.id and(
+          inv.source_type<>'JOURNAL_REVERSAL' or inv.status<>'POSTED'
+          or (select count(*) from erp.journal_lines l where l.journal_entry_id=inv.id)<>2
+          or exists(select 1 from erp.journal_lines l where l.journal_entry_id=inv.id and(
+            l.customer_id is distinct from x.customer_id or l.vendor_id is distinct from x.vendor_id
+            or l.contractor_id is distinct from x.contractor_id
+            or not((l.account_id=coalesce(erp.initial_prepayment_account_v1(x.id),erp.bb_opening_credit_account_v1(x.id),ca.coa_account_id) and
+                  l.credit=case when x.incoming then x.amount else 0 end and
+                  l.debit=case when x.incoming then 0 else x.amount end)
+              or (l.account_id=x.balance_account and
+                  l.credit=case when x.incoming then 0 else x.amount end and
+                  l.debit=case when x.incoming then x.amount else 0 end))))))
+      ))
+
+  union all
+  select 'V2620M_ORPHAN_PAYMENT_JOURNAL','CRITICAL',count(*)::bigint,
+    'A supplier payment or opening settlement journal must retain its business source'
+  from erp.journal_entries j
+  where j.status in('POSTED','REVERSED') and(
+    (j.source_type='SUPPLIER_PAYMENT' and not exists(select 1 from erp.supplier_payments p where p.id=j.source_id))
+    or(j.source_type='OPENING_SUBLEDGER_SETTLEMENT' and not exists(
+      select 1 from erp.opening_subledger_settlements s where s.id=j.source_id)))
+
+  union all
+  select 'V2620P_SUPPLIER_RETURN_MATCH_STATE','CRITICAL',count(*)::bigint,
+    'Supplier invoice match and price states must equal posted invoice quantity against current return-adjusted capacity'
+  from erp.material_purchase_items i
+  cross join lateral(select erp.material_purchase_invoice_capacity(i.id) capacity,
+    erp.material_purchase_posted_invoice_qty(i.id) matched) x
+  where i.invoice_match_state<>'DIRECT_FINAL' and(
+    i.invoice_match_state is distinct from case when x.matched<=0 then 'UNMATCHED'
+      when x.matched<x.capacity then 'PARTIAL' else 'MATCHED' end
+    or i.price_state is distinct from case when x.matched<=0 then 'ESTIMATED'
+      when x.matched<x.capacity then 'PARTIAL' else 'FINAL' end)
+
+  union all
+  select 'V2620O_SUPPLIER_RETURN_ALLOCATION','CRITICAL',count(*)::bigint,
+    'Posted supplier-return AP/GRNI snapshots must partition each line and AP relief must not exceed invoiced quantity'
+  from erp.material_purchase_items i
+  where exists(
+    select 1
+    from erp.material_supplier_return_items ri
+    join erp.material_supplier_returns rh on rh.id=ri.return_id
+    where ri.purchase_item_id=i.id and rh.status='POSTED' and(
+      ri.ap_relief_qty_snapshot is null or ri.grni_relief_qty_snapshot is null
+      or ri.ap_relief_amount_snapshot is null or ri.grni_relief_amount_snapshot is null
+      or ri.ap_relief_qty_snapshot<0 or ri.grni_relief_qty_snapshot<0
+      or ri.ap_relief_qty_snapshot::text in('NaN','Infinity','-Infinity')
+      or ri.grni_relief_qty_snapshot::text in('NaN','Infinity','-Infinity')
+      or ri.ap_relief_amount_snapshot::text in('NaN','Infinity','-Infinity')
+      or ri.grni_relief_amount_snapshot::text in('NaN','Infinity','-Infinity')
+      or abs(ri.ap_relief_qty_snapshot+ri.grni_relief_qty_snapshot-ri.qty)>0.000001
+      or abs(ri.ap_relief_amount_snapshot
+        -ri.ap_relief_qty_snapshot*ri.supplier_credit_unit_price)>0.000001
+      or abs(ri.grni_relief_amount_snapshot
+        -ri.grni_relief_qty_snapshot*i.unit_price)>0.000001
+    )
+  ) or coalesce((
+    select sum(ri.ap_relief_qty_snapshot)
+    from erp.material_supplier_return_items ri
+    join erp.material_supplier_returns rh on rh.id=ri.return_id
+    where ri.purchase_item_id=i.id and rh.status='POSTED'
+  ),0)>case when i.invoice_match_state='DIRECT_FINAL' then i.qty
+    else erp.material_purchase_posted_invoice_qty(i.id) end+0.000001
+  or i.id in(
+    with legacy_capacity as(
+      select pi.id purchase_item_id,
+        case when pi.invoice_match_state='DIRECT_FINAL' then pi.qty else
+          coalesce((
+            select sum(il.qty_invoiced)
+            from erp.material_supplier_invoice_lines il
+            join erp.material_supplier_invoices ih on ih.id=il.invoice_id
+            where il.purchase_item_id=pi.id and ih.status='POSTED'
+              and not exists(
+                select 1 from erp.supplier_cent_posting_facts f
+                where f.source_type='MATERIAL_SUPPLIER_INVOICE'
+                  and f.source_id=ih.id and f.phase='POST'
+              )
+          ),0)
+        end-coalesce((
+          select sum(ri.ap_relief_qty_snapshot)
+          from erp.material_supplier_return_items ri
+          join erp.material_supplier_returns rh on rh.id=ri.return_id
+          where ri.purchase_item_id=pi.id and rh.status='POSTED'
+            and not exists(
+              select 1 from erp.supplier_cent_posting_facts f
+              where f.source_type='MATERIAL_SUPPLIER_RETURN'
+                and f.source_id=rh.id and f.phase='POST'
+            )
+        ),0) opening_capacity
+      from erp.material_purchase_items pi
+    ), allocation_events as(
+      select il.purchase_item_id,f.recorded_at,f.source_id,
+        0 event_order,sum(il.qty_invoiced)::numeric delta,'INVOICE'::text event_kind
+      from erp.supplier_cent_posting_facts f
+      join erp.material_supplier_invoices ih
+        on ih.id=f.source_id and ih.status='POSTED'
+      join erp.material_supplier_invoice_lines il on il.invoice_id=ih.id
+      join erp.material_purchase_items pi on pi.id=il.purchase_item_id
+      where f.source_type='MATERIAL_SUPPLIER_INVOICE' and f.phase='POST'
+        and pi.invoice_match_state<>'DIRECT_FINAL'
+      group by il.purchase_item_id,f.recorded_at,f.source_id
+      union all
+      select ri.purchase_item_id,f.recorded_at,f.source_id,
+        1 event_order,-sum(ri.ap_relief_qty_snapshot)::numeric,'RETURN'::text
+      from erp.supplier_cent_posting_facts f
+      join erp.material_supplier_returns rh
+        on rh.id=f.source_id and rh.status='POSTED'
+      join erp.material_supplier_return_items ri on ri.return_id=rh.id
+      where f.source_type='MATERIAL_SUPPLIER_RETURN' and f.phase='POST'
+      group by ri.purchase_item_id,f.recorded_at,f.source_id
+    ), running_capacity as(
+      select e.purchase_item_id,e.event_kind,l.opening_capacity+
+        sum(e.delta) over(
+          partition by e.purchase_item_id
+          order by e.recorded_at,e.event_order,e.source_id
+          rows between unbounded preceding and current row
+        ) capacity_after
+      from allocation_events e
+      join legacy_capacity l using(purchase_item_id)
+    )
+    select purchase_item_id from running_capacity
+    where event_kind='RETURN' and capacity_after < -0.000001
+  )
+
+  union all
+  select 'V2620R_SUPPLIER_INVOICE_SOURCE_STATE','CRITICAL',count(*)::bigint,
+    'Every posted supplier invoice must reference only posted material receipts'
+  from erp.material_supplier_invoices ih
+  where ih.status='POSTED' and exists(
+    select 1 from erp.material_supplier_invoice_lines il
+    join erp.material_purchase_items pi on pi.id=il.purchase_item_id
+    join erp.material_purchase_headers ph on ph.id=pi.purchase_id
+    where il.invoice_id=ih.id and ph.status<>'POSTED'
+  )
+
+  union all
+  select 'V2620Y_OPENING_SETTLEMENT_BUSINESS_DATE','CRITICAL',count(*)::bigint,
+    'Opening settlement cash and subledger dates must follow the Jakarta physical event'
+  from erp.journal_entries j
+    join erp.opening_subledger_settlements h on h.id=j.source_id
+    where j.source_type='OPENING_SUBLEDGER_SETTLEMENT'
+      and j.status in('POSTED','REVERSED') and h.status in('POSTED','REVERSED')
+      and j.economic_date is distinct from erp._cp3_business_date(h.physical_at)
+
+  union all
+  select 'V2620Y_VENDOR_PAYMENT_BUSINESS_DATE','CRITICAL',count(*)::bigint,
+    'Vendor payment cash and AP dates must follow the Jakarta payment event'
+  from erp.journal_entries j
+    join erp.vendor_payments h on h.id=j.source_id
+    where j.source_type='VENDOR_PAYMENT'
+      and j.status in('POSTED','REVERSED') and h.status in('POSTED','REVERSED')
+      and j.economic_date is distinct from erp._cp3_business_date(h.payment_date)
+
+  union all
+  select 'V2620Y_SALES_PAYMENT_BUSINESS_DATE','CRITICAL',count(*)::bigint,
+    'Original customer payment cash, AR and immutable fact dates must follow the Jakarta payment event'
+  from erp.journal_entries j
+    join erp.sales_payments h on h.id=j.source_id
+    join erp.sales_payment_posting_facts f on f.payment_id=h.id
+    where j.source_type='SALES_PAYMENT'
+      and j.status in('POSTED','REVERSED') and h.status in('POSTED','REVERSED')
+      and f.replaces_payment_id is null
+      and (j.economic_date is distinct from erp._cp3_business_date(f.payment_date)
+        or f.journal_economic_date is distinct from erp._cp3_business_date(f.payment_date))
+
+  union all
+  select 'V2620W_SCRAP_BUSINESS_DATE','CRITICAL',count(*)::bigint,
+    'Paid scrap economic dates must match the canonical Jakarta physical business date'
+  from erp.journal_entries j
+  join erp.scrap_sales h on h.id=j.source_id
+  where j.source_type='SCRAP_SALE' and j.status in('POSTED','REVERSED')
+    and h.status in('POSTED','REVERSED')
+    and j.economic_date is distinct from erp._cp3_business_date(h.physical_at)
+
+  union all
+  select 'V2620V_MISC_FINANCE_BUSINESS_DATE','CRITICAL',count(*)::bigint,
+    'Misc finance economic dates must match the canonical Jakarta physical business date'
+  from erp.journal_entries j
+  join erp.misc_finance_transactions h on h.id=j.source_id
+  where j.source_type='MISC_FINANCE' and j.status in('POSTED','REVERSED')
+    and h.status in('POSTED','REVERSED')
+    and j.economic_date is distinct from erp._cp3_business_date(h.physical_at)
+
+  union all
+  select 'V2620U_MATERIAL_ADJUSTMENT_BUSINESS_DATE','CRITICAL',count(*)::bigint,
+    'Material adjustment journals must use the canonical Jakarta date of physical_at'
+  from erp.journal_entries j
+  join erp.material_adjustments h on h.id=j.source_id
+  where j.source_type='MATERIAL_ADJUSTMENT' and j.status in('POSTED','REVERSED')
+    and h.status in('POSTED','REVERSED')
+    and j.economic_date is distinct from erp._cp3_business_date(h.physical_at)
+
+  union all
+  select 'V2620U_JOURNAL_REVERSAL_BUSINESS_DATE','CRITICAL',count(*)::bigint,
+    'Generic journal reversals must use the canonical Jakarta date of posting_at'
+  from erp.journal_entries j
+  where j.source_type='JOURNAL_REVERSAL' and j.status='POSTED'
+    and j.economic_date is distinct from erp._cp3_business_date(j.posting_at)
+
+  union all
+  select 'V2620U_MATERIAL_RECEIPT_BUSINESS_DATE','CRITICAL',count(*)::bigint,
+    'Material receipt and GRNI journals must use the canonical Jakarta date of physical_at'
+  from erp.journal_entries j
+  join erp.material_purchase_headers h on h.id=j.source_id
+  where j.source_type in('MATERIAL_PURCHASE','MATERIAL_PURCHASE_GRNI_RECLASS')
+    and j.status in('POSTED','REVERSED') and h.status in('POSTED','REVERSED')
+    and j.economic_date is distinct from erp._cp3_business_date(h.physical_at)
+
+  union all
+  select 'V2620T_JOURNAL_FUTURE_BUSINESS_DATE','CRITICAL',count(*)::bigint,
+    'Journal economic dates may not exceed the canonical Jakarta day of the recorded posting instant'
+  from erp.journal_entries j
+  where j.status in('POSTED','REVERSED')
+    and j.economic_date>erp._cp3_business_date(j.posting_at)
+
+  union all
+  select 'V2620T_MATERIAL_ADJUSTMENT_REVALUATION','CRITICAL',count(*)::bigint,
+    'Material adjustment revaluation must conserve document cents at original and corrected valuation endpoints'
+  from erp.material_adjustments h
+  cross join lateral(select erp._cp6_material_adjustment_revaluation_state(h.id) s) x
+  where h.status in('POSTED','REVERSED')
+    and (x.s->'target' is distinct from x.s->'book' or (x.s->>'incomplete_cost')::bigint>0)
+
+  union all
+  select 'V2620T_MATERIAL_ADJUSTMENT_FACT_LEDGER','CRITICAL',count(*)::bigint,
+    'Append-only material adjustment revaluation facts must match their protected original journal'
+  from erp.material_adjustment_revaluation_facts f
+  left join erp.journal_entries j on j.id=f.journal_entry_id
+  where j.id is null or j.status<>'POSTED' or j.source_type<>'MATERIAL_ADJUSTMENT_REVALUATION'
+    or j.source_id is distinct from f.id or j.economic_date is distinct from f.effective_date
+    or erp._cp6_supplier_cent_ledger(array[f.journal_entry_id]) is distinct from f.ledger_delta
+
+  union all
+  select 'V2620S_SUPPLIER_PAYMENT_BUSINESS_DATE','CRITICAL',count(*)::bigint,
+    'Supplier payment original journals must retain the canonical Jakarta business date in every lifecycle state'
+  from erp.supplier_payments p
+  join erp.journal_entries j on j.source_type='SUPPLIER_PAYMENT' and j.source_id=p.id
+    and j.status in('POSTED','REVERSED')
+  where p.status in('POSTED','REVERSED')
+    and j.economic_date is distinct from erp._cp3_business_date(p.payment_date)
+
+  union all
+  select 'V2620N_SUPPLIER_CENT_FACT_LEDGER','CRITICAL',count(*)::bigint,
+    'Supplier cent posting and linked inverse must retain their exact source and ledger vector'
+  from erp.supplier_cent_posting_facts f
+  where f.ledger_delta is distinct from erp._cp6_supplier_cent_ledger(array[f.journal_entry_id,f.adjustment_journal_entry_id])
+    or(f.phase='POST' and f.adjustment_journal_entry_id is not null)
+    or not exists(select 1 from(
+      select 'MATERIAL_PURCHASE_COST_CORRECTION'::text source_type,id,status from erp.material_purchase_cost_corrections
+      union all select 'MATERIAL_SUPPLIER_INVOICE',id,status from erp.material_supplier_invoices
+      union all select 'MATERIAL_SUPPLIER_RETURN',id,status from erp.material_supplier_returns
+    ) s where s.source_type=f.source_type and s.id=f.source_id
+      and s.status=case when exists(select 1 from erp.supplier_cent_posting_facts r
+        where r.source_type=f.source_type and r.source_id=f.source_id and r.phase='REVERSE') then 'REVERSED' else 'POSTED' end)
+    or(f.journal_entry_id is not null and not exists(select 1 from erp.journal_entries j
+      where j.id=f.journal_entry_id and(
+        (f.phase='POST' and j.source_type=f.source_type and j.source_id=f.source_id)
+        or(f.phase='REVERSE' and j.source_type='JOURNAL_REVERSAL' and exists(select 1
+          from erp.journal_entries original where original.id=j.reversal_of_id
+            and original.source_type=f.source_type and original.source_id=f.source_id)))))
+    or(f.adjustment_journal_entry_id is not null and not exists(select 1 from erp.journal_entries j
+      where j.id=f.adjustment_journal_entry_id and j.source_type='CENT_INVERSE:'||f.source_type
+        and j.source_id=f.source_id))
+
+  union all
+  select 'AP_OPENING_RECEIPT_SOURCE_DRIFT','CRITICAL',count(*)::bigint,
+    'Imported receipts require an exact posted opening layer and no additional purchase movement'
+  from erp.initial_import_receipt_headers rh join erp.material_purchase_headers h on h.id=rh.purchase_id
+  where h.status<>'POSTED' or h.supplier_id<>rh.supplier_id or erp._cp3_business_date(h.physical_at)<>rh.cutover_date
+    or not exists(select 1 from erp.initial_import_receipt_lines l where l.purchase_id=h.id)
+    or exists(select 1 from erp.material_purchase_items pi left join erp.initial_import_receipt_lines l on l.purchase_item_id=pi.id
+      left join erp.opening_balance_items oi on oi.id=l.opening_item_id left join erp.opening_balance_headers oh on oh.id=oi.opening_id
+      where pi.purchase_id=h.id and (l.purchase_id is distinct from h.id or (l.opening_item_id is not null and oh.status is distinct from 'POSTED')
+        or (l.opening_item_id is not null and oi.balance_type is distinct from 'MATERIAL')
+        or pi.qty is distinct from coalesce(oi.qty,0)+coalesce((select sum(material_qty) from erp.initial_import_cost_origins where purchase_item_id=pi.id),0)
+        or (l.opening_item_id is not null and (pi.material_id is distinct from oi.material_id or erp.bb_receipt_opening_unit_cost_v1(pi.id) is distinct from oi.unit_cost_snapshot
+        or oi.location_id is distinct from h.location_id))
+        or (l.opening_item_id is not null and (select count(*) from erp.material_stock_movements m where m.source_type='OPENING_BALANCE_ITEM'
+          and m.source_id=oi.id and m.movement_type='OPENING' and m.qty_signed=oi.qty)<>1)
+        or exists(select 1 from erp.material_stock_movements m where m.source_type='MATERIAL_PURCHASE_ITEM' and m.source_id=pi.id)))
+  union all
+  select 'AP_OPENING_RECEIPT_JOURNAL_DRIFT','CRITICAL',count(*)::bigint,
+    'Imported GRNI opening has exact value, opening equity offset, and cutover date'
+  from erp.initial_import_receipt_headers rh
+  cross join lateral(select round(sum((qty-erp.bb_receipt_invoiced_qty_v1(id))*unit_price),2) value from erp.material_purchase_items where purchase_id=rh.purchase_id) v
+  where (v.value>0 and not exists(select 1 from erp.journal_entries j where j.source_type='OPENING_UNINVOICED_RECEIPT'
+    and j.source_id=rh.purchase_id and j.status='POSTED' and j.economic_date=rh.cutover_date
+    and erp._cp6_supplier_cent_ledger(array[j.id])=jsonb_build_object(erp.account_id('OPENING_EQUITY')::text,v.value,erp.account_id('GRNI_MATERIAL')::text,-v.value)))
+    or exists(select 1 from erp.journal_entries j where j.source_id=rh.purchase_id and j.source_type in('MATERIAL_PURCHASE','MATERIAL_PURCHASE_GRNI_RECLASS'))
+
+  union all
+  select 'AP_CASH_ADVANCE_CAPACITY','CRITICAL',count(*)::bigint,
+    'Cash advance settlements plus unpaid payroll reservations must not exceed the current opening source'
+  from erp.opening_subledger_balances b cross join lateral(select erp.opening_cash_advance_state_v1(b.id) s) x
+  where x.s is not null and (x.s->>'available_amount')::numeric<0
+  union all
+  select 'AP_CASH_ADVANCE_SOURCE','CRITICAL',count(*)::bigint,
+    'Cash payroll deductions must reference a posted cash advance belonging to the same contractor'
+  from erp.payroll_deductions d join erp.payroll_settlements p on p.id=d.payroll_id
+  left join erp.opening_subledger_balances b on b.id=d.opening_cash_advance_balance_id
+  left join erp.initial_import_financial_sources s on s.opening_item_id=b.opening_item_id
+  where d.deduction_type='CASH_ADVANCE' and (s.source_kind is distinct from 'CONTRACTOR_CASH_ADVANCE'
+    or s.party_id is distinct from p.contractor_id or b.contractor_id is distinct from p.contractor_id
+    or (p.status='PAID' and p.payment_date<s.cutover_date))
+  union all
+  select 'AP_CASH_ADVANCE_PAYROLL_JOURNAL','CRITICAL',count(*)::bigint,
+    'Cash advance payroll settles receivable/payable once, with exact date and contractor dimensions'
+  from erp.payroll_settlements p
+  cross join lateral(select coalesce(sum(amount),0) amount from erp.payroll_deductions
+    where payroll_id=p.id and deduction_type='CASH_ADVANCE') d
+  where (d.amount>0 and p.status='PAID' and not exists(select 1 from erp.journal_entries j
+    where j.source_type='PAYROLL_CASH_ADVANCE_DEDUCTION' and j.source_id=p.id and j.status='POSTED'
+      and j.economic_date=p.payment_date
+      and erp._cp6_supplier_cent_ledger(array[j.id])=jsonb_build_object(
+        erp.account_id('CONTRACTOR_PAYABLE')::text,d.amount,erp.account_id('CONTRACTOR_RECEIVABLE')::text,-d.amount)
+      and not exists(select 1 from erp.journal_lines l where l.journal_entry_id=j.id and l.contractor_id is distinct from p.contractor_id)))
+    or((p.status<>'PAID' or d.amount=0) and exists(select 1 from erp.journal_entries j where j.source_type='PAYROLL_CASH_ADVANCE_DEDUCTION'
+      and j.source_id=p.id and j.status='POSTED'))
+
+ union all select * from erp.initial_prepayment_checks_v1()
+UNION ALL SELECT * FROM erp.pocket_period_checks_v1()
+ UNION ALL SELECT * FROM erp.pocket_fabric_checks_v1();
+
+$function$;
+CREATE OR REPLACE FUNCTION erp.assert_new_stock_cutoff_coverage_v1()
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ STABLE
+ SET search_path TO ''
+AS $function$
+declare
+  v_registry jsonb:='{"erp.accessory_bom_versions.product_id":{"class":"MASTER","reason":"Effective-dated accessory BOM; no stock instant"},"erp.bs_cases.product_id":{"class":"NEW_STOCK_FACT","reason":"physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"},"erp.contractor_accessory_reimbursement_entitlements.product_id":{"class":"DERIVED","reason":"Accounting entitlement of an FG lot"},"erp.fg_accessory_cost_snapshots.product_id":{"class":"DERIVED","reason":"Cost snapshot of an FG lot"},"erp.fg_adjustment_items.product_id":{"class":"MOVEMENT","reason":"Adjusts an existing lot"},"erp.fg_inventory_balances.product_id":{"class":"DERIVED","reason":"Balance cache keyed by product/location/grade"},"erp.fg_lots.product_id":{"class":"NEW_STOCK_FACT","reason":"produced_at of every lot except GOOD returned by rework"},"erp.fg_stock_movements.product_id":{"class":"MOVEMENT","reason":"Movement of an existing lot"},"erp.bb_opening_sale_return_rights_v1.product_id":{"class":"SOURCE_DOCUMENT","reason":"Return right of an old invoice; the stock fact is the RETURN lot in fg_lots, validated as NEW_STOCK at receipt"},"erp.bb_opening_sale_return_receipts_v1.product_id":{"class":"DERIVED","reason":"Provenance of a return receipt; the stock fact is its fg_lots lot"},"erp.bb_wip_bs_splits_v1.product_id":{"class":"DERIVED","reason":"Provenance of an opening WIP BS split; the stock fact is its bs_cases row (NEW_STOCK_FACT at its physical_at)"},"erp.bb_open_sales_draft_lines_v1.product_id":{"class":"DERIVED","reason":"Provenance of a sales draft open at cutover; the sale is its native sales_items line (reservation of existing stock)"},"erp.initial_import_wip_output_identity_v1.opening_product_id":{"class":"DERIVED","reason":"Provenance of an opening WIP output: the product filled in on its opening item"},"erp.initial_import_wip_output_identity_v1.output_product_id":{"class":"DERIVED","reason":"Provenance of an opening WIP output; the stock fact is its fg_lots lot"},"erp.journal_lines.product_id":{"class":"ACCOUNTING","reason":"Journal dimension"},"erp.laundry_receipt_batch_size_lines.bs_product_id":{"class":"SOURCE_DOCUMENT","reason":"Laundry receipt input; the BS fact is bs_cases"},"erp.laundry_receipt_bs_product_allocations.product_id":{"class":"SOURCE_DOCUMENT","reason":"Validated as NEW_STOCK; the BS fact is bs_cases"},"erp.non_po_hpp_gl_sync_events_v2620f.product_id":{"class":"ACCOUNTING","reason":"HPP to GL synchronisation event"},"erp.opening_balance_items.product_id":{"class":"SOURCE_DOCUMENT","reason":"Opening document; facts are OPENING lots and LEGACY BS"},"erp.po_accessory_bom_commitments.product_id":{"class":"MASTER","reason":"PO accessory BOM commitment"},"erp.product_conversions.from_product_id":{"class":"SOURCE_DOCUMENT","reason":"Conversion source, validated as EXISTING_STOCK"},"erp.product_conversions.to_product_id":{"class":"SOURCE_DOCUMENT","reason":"Conversion target; the fact is the CONVERSION lot in fg_lots"},"erp.product_identity_mutation_context_v1.product_id":{"class":"AUTHORIZATION","reason":"Private one-use identity edit context"},"erp.product_price_versions.product_id":{"class":"MASTER","reason":"Effective-dated price"},"erp.qc_inspection_items.final_product_id":{"class":"SOURCE_DOCUMENT","reason":"QC input; the facts are fg_lots and bs_cases"},"erp.sales_items.product_id":{"class":"SALES","reason":"Sale of existing stock"},"erp.sales_return_items.product_id":{"class":"SALES","reason":"Return of sold stock"},"erp.stock_explainability_snapshots.product_id":{"class":"REPORT","reason":"Stock explanation snapshot"},"erp.stock_policy_versions.product_id":{"class":"MASTER","reason":"Effective-dated stock policy"}}';
+  v_helper_tables text[]:=array['bs_case_manual_origins_v1','bs_cases','fg_lots','rework_orders'];
+  v_actual text[];
+  v_unclassified text[];
+  v_stale text[];
+  v_facts text[];
+  v_helper text[];
+begin
+  -- Structural catalog read: any FK to erp.products in any schema, plus any
+  -- product-named uuid column in erp/public that no FK protects.
+  select array_agg(distinct ref order by ref) into v_actual from (
+    select format('%s.%s.%s',n.nspname,c.relname,a.attname) ref
+    from pg_constraint fk join pg_class c on c.oid=fk.conrelid
+    join pg_namespace n on n.oid=c.relnamespace
+    join pg_attribute a on a.attrelid=c.oid and a.attnum=any(fk.conkey)
+    where fk.contype='f' and fk.confrelid='erp.products'::regclass and fk.conrelid<>'erp.products'::regclass
+    union
+    select format('%s.%s.%s',n.nspname,c.relname,a.attname)
+    from pg_attribute a join pg_class c on c.oid=a.attrelid join pg_namespace n on n.oid=c.relnamespace
+    where n.nspname in('erp','public') and c.relkind in('r','p') and c.oid<>'erp.products'::regclass
+      and a.attnum>0 and not a.attisdropped and a.atttypid='uuid'::regtype
+      and (a.attname='product_id' or a.attname like '%\_product\_id')
+  ) r;
+  select array_agg(k order by k) into v_unclassified from unnest(v_actual) k where not v_registry ? k;
+  if v_unclassified is not null then
+    raise exception 'NEW_STOCK_CUTOFF_REFERENCE_UNCLASSIFIED: %',array_to_string(v_unclassified,', ');
+  end if;
+  select array_agg(k order by k) into v_stale from jsonb_object_keys(v_registry) k where k<>all(v_actual);
+  if v_stale is not null then
+    raise exception 'NEW_STOCK_CUTOFF_REGISTRY_STALE: %',array_to_string(v_stale,', ');
+  end if;
+  select array_agg(distinct split_part(key,'.',2) order by split_part(key,'.',2)) into v_facts
+  from jsonb_each(v_registry) where value->>'class'='NEW_STOCK_FACT';
+  select array_agg(distinct m[1] order by m[1]) into v_helper
+  from pg_proc p cross join lateral regexp_matches(lower(p.prosrc),'erp\.([a-z0-9_]+)','g') m
+  where p.oid='erp.latest_new_stock_physical_at_v1(uuid)'::regprocedure;
+  if v_helper is null or not (v_helper @> v_helper_tables and v_helper <@ v_helper_tables and v_helper @> v_facts) then
+    raise exception 'NEW_STOCK_CUTOFF_HELPER_SCOPE_DRIFT: %',v_helper;
+  end if;
+  if lower((select p.prosrc from pg_proc p where p.oid='erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)'::regprocedure))
+     !~ 'erp\.latest_new_stock_physical_at_v1\s*\(' then
+    raise exception 'NEW_STOCK_CUTOFF_CONSUMER_DRIFT';
+  end if;
+  return jsonb_build_object('references',coalesce(array_length(v_actual,1),0),'new_stock_fact_tables',v_facts,'registry',v_registry);
+end;
+$function$;
+CREATE OR REPLACE FUNCTION erp.material_purchase_posted_invoice_qty(p_purchase_item_id uuid)
+ RETURNS numeric
+ LANGUAGE sql
+ STABLE SECURITY DEFINER
+ SET search_path TO 'erp', 'public', 'pg_temp'
+AS $function$
+select (coalesce(sum(l.qty_invoiced),0)+erp.bb_receipt_invoiced_qty_v1($1))::numeric
+from erp.material_supplier_invoice_lines l
+join erp.material_supplier_invoices h on h.id=l.invoice_id
+where l.purchase_item_id=$1 and h.status='POSTED'
+$function$;
+CREATE OR REPLACE FUNCTION erp.material_purchase_current_unit_cost(p_purchase_item_id uuid)
+ RETURNS numeric
+ LANGUAGE plpgsql
+ STABLE SECURITY DEFINER
+ SET search_path TO 'erp', 'public', 'pg_temp'
+AS $function$
+declare
+  i erp.material_purchase_items%rowtype;
+  v_basis_qty numeric;
+  v_invoice_delta numeric;
+  v_cost numeric;
+begin
+  select * into i from erp.material_purchase_items where id=p_purchase_item_id;
+  if i.id is null then return null; end if;
+
+  if exists(
+    select 1 from erp.material_supplier_invoice_lines l
+    join erp.material_supplier_invoices h on h.id=l.invoice_id
+    where l.purchase_item_id=i.id and h.status='POSTED'
+  ) or exists(select 1 from erp.bb_receipt_invoiced_parts_v1 p where p.purchase_item_id=i.id) then
+    v_basis_qty:=erp.material_purchase_invoice_capacity(i.id);
+    if v_basis_qty<=0 then return i.unit_price; end if;
+    select coalesce(sum(l.net_amount-(l.qty_invoiced*i.unit_price)),0)
+    into v_invoice_delta
+    from erp.material_supplier_invoice_lines l
+    join erp.material_supplier_invoices h on h.id=l.invoice_id
+    where l.purchase_item_id=i.id and h.status='POSTED';
+    -- BB (ALL-P03): a part invoiced before cutover enters the cost like a posted invoice line at its invoiced amount.
+    v_invoice_delta:=v_invoice_delta+coalesce((select p.invoiced_amount-p.invoiced_qty*i.unit_price from erp.bb_receipt_invoiced_parts_v1 p
+      where p.purchase_item_id=i.id),0);
+    return greatest(((v_basis_qty*i.unit_price)+v_invoice_delta)/v_basis_qty,0);
+  end if;
+
+  select ci.new_unit_price into v_cost
+  from erp.material_purchase_cost_correction_items ci
+  join erp.material_purchase_cost_corrections c on c.id=ci.correction_id
+  where ci.purchase_item_id=i.id and c.status='POSTED'
+  order by c.post_seq desc,c.posted_at desc,c.id desc limit 1;
+  return coalesce(v_cost,i.unit_price);
+end;
+$function$;
+CREATE OR REPLACE FUNCTION erp.refresh_material_purchase_item_match_state(p_purchase_item_id uuid)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public', 'pg_temp'
+AS $function$
+declare
+  i erp.material_purchase_items%rowtype;
+  v_capacity numeric;
+  v_matched numeric;
+  v_actual_avg numeric;
+  v_last_at timestamptz;
+  v_last_by uuid;
+begin
+  perform erp.require_internal();
+  select * into i from erp.material_purchase_items where id=p_purchase_item_id for update;
+  if i.id is null then raise exception 'Material purchase item not found'; end if;
+  if i.invoice_match_state='DIRECT_FINAL' then return; end if;
+
+  v_capacity:=erp.material_purchase_invoice_capacity(i.id);
+  select coalesce(sum(l.qty_invoiced),0),
+         case when coalesce(sum(l.qty_invoiced),0)>0 then sum(l.net_amount)/sum(l.qty_invoiced) end,
+         max(h.posted_at),
+         (array_agg(h.created_by order by h.posted_at desc,h.id desc))[1]
+  into v_matched,v_actual_avg,v_last_at,v_last_by
+  from erp.material_supplier_invoice_lines l
+  join erp.material_supplier_invoices h on h.id=l.invoice_id
+  where l.purchase_item_id=i.id and h.status='POSTED';
+  -- BB (ALL-P03): the part invoiced before cutover is matched quantity at its invoiced price.
+  if exists(select 1 from erp.bb_receipt_invoiced_parts_v1 p where p.purchase_item_id=i.id) then
+    select v_matched+p.invoiced_qty,(coalesce(v_actual_avg*v_matched,0)+p.invoiced_amount)/(v_matched+p.invoiced_qty)
+    into v_matched,v_actual_avg from erp.bb_receipt_invoiced_parts_v1 p where p.purchase_item_id=i.id;
+  end if;
+
+  if v_matched<=0 then
+    update erp.material_purchase_items
+    set invoice_match_state='UNMATCHED',price_state='ESTIMATED',
+        price_source=receipt_price_source_snapshot,
+        supplier_final_unit_price_snapshot=null,
+        price_finalized_at=null,price_finalized_by=null
+    where id=i.id;
+  elsif v_matched<v_capacity then
+    update erp.material_purchase_items
+    set invoice_match_state='PARTIAL',price_state='PARTIAL',price_source='SUPPLIER_INVOICE',
+        supplier_final_unit_price_snapshot=v_actual_avg,
+        price_finalized_at=v_last_at,price_finalized_by=v_last_by
+    where id=i.id;
+  else
+    update erp.material_purchase_items
+    set invoice_match_state='MATCHED',price_state='FINAL',price_source='SUPPLIER_INVOICE',
+        supplier_final_unit_price_snapshot=v_actual_avg,
+        price_finalized_at=v_last_at,price_finalized_by=v_last_by
+    where id=i.id;
+  end if;
+end;
+$function$;
+CREATE OR REPLACE FUNCTION erp.sync_material_purchase_grni_on_status()
+ RETURNS trigger
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public', 'pg_temp'
+AS $function$
+declare v_estimated numeric(24,6);v_journal uuid;v_reason text;
+begin
+  if old.status='DRAFT' and new.status='POSTED' then
+    if exists(select 1 from erp.initial_import_receipt_headers where purchase_id=new.id) then
+      -- BB (ALL-P03): the opening GRNI covers only the unbilled part; the invoiced part is its imported payable document.
+      select round(sum((qty-erp.bb_receipt_invoiced_qty_v1(id))*unit_price),2) into v_estimated from erp.material_purchase_items where purchase_id=new.id;
+      if v_estimated>0 then
+        perform erp.post_journal('OPENING_UNINVOICED_RECEIPT',new.id,erp._cp3_business_date(new.physical_at),
+          'Opening receipt liability; physical stock already in opening balance',jsonb_build_array(
+            jsonb_build_object('mapping_key','OPENING_EQUITY','debit',v_estimated,'credit',0),
+            jsonb_build_object('mapping_key','GRNI_MATERIAL','debit',0,'credit',v_estimated)));
+      end if;
+      return new;
+    end if;
+
+    select coalesce(sum(i.line_total),0) into v_estimated
+    from erp.material_purchase_items i
+    where i.purchase_id=new.id and i.invoice_match_state<>'DIRECT_FINAL';
+    if v_estimated>0.005 then
+      perform erp.post_journal(
+        'MATERIAL_PURCHASE_GRNI_RECLASS',new.id,erp._cp3_business_date(new.physical_at),
+        'Receipt without final supplier invoice: AP reclassified to GRNI',
+        jsonb_build_array(
+          jsonb_build_object('mapping_key','AP_SUPPLIER','debit',round(v_estimated,2),'credit',0),
+          jsonb_build_object('mapping_key','GRNI_MATERIAL','debit',0,'credit',round(v_estimated,2))
+        )
+      );
+    end if;
+  elsif old.status='POSTED' and new.status='REVERSED' then
+    select id into v_journal from erp.journal_entries
+    where source_type='MATERIAL_PURCHASE_GRNI_RECLASS' and source_id=new.id and status='POSTED'
+    order by posting_at desc,id desc limit 1;
+    if v_journal is not null then
+      v_reason:=coalesce(nullif(current_setting('app.change_reason',true),''),'Material purchase reversal');
+      perform erp.reverse_journal(v_journal,v_reason);
+    end if;
+  end if;
+  return new;
+end;
+$function$;
+CREATE OR REPLACE FUNCTION erp.check_initial_import_receipt_v1(p_batch_id uuid,p_row_id uuid)
+RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO '' SET DateStyle TO 'ISO, YMD' AS $function$
+declare r erp.migration_staging_rows%rowtype;s erp.migration_staging_rows%rowtype;
+ j jsonb;v_cutover date;v_party uuid;v_key text;v_number text;v_line text;v_date date;v_qty numeric;v_cost numeric;k text;
+ v_part jsonb;v_invoiced numeric:=0;v_blend numeric;
+begin
+ perform erp.require_owner_admin();
+ select * into r from erp.migration_staging_rows where id=p_row_id and batch_id=p_batch_id and entity_type='UNINVOICED_RECEIPT';
+ if r.id is null then raise exception 'Baris penerimaan tidak ditemukan'; end if;
+ j:=r.normalized_payload;
+ foreach k in array array['receipt_number','receipt_line_number','receipt_date','supplier_code','material_sku','location_code','qty','unit_cost','control_key'] loop
+   if nullif(btrim(j->>k),'') is null then raise exception '%: wajib diisi',k;end if;
+ end loop;
+ v_number:=btrim(j->>'receipt_number');v_line:=btrim(j->>'receipt_line_number');v_key:=nullif(btrim(j->>'opening_source_key'),'');
+ if length(v_number)>120 or length(v_line)>60 or length(v_key)>120 then raise exception 'receipt_number: identitas sumber terlalu panjang';end if;
+ if j->>'receipt_date' !~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' or (j->>'receipt_date')::date::text<>j->>'receipt_date' then
+   raise exception 'receipt_date: gunakan YYYY-MM-DD';end if;
+ v_date:=(j->>'receipt_date')::date;
+ select (cutover_at at time zone 'Asia/Jakarta')::date into v_cutover from erp.migration_batches where id=p_batch_id;
+ if v_date>v_cutover then raise exception 'receipt_date: penerimaan melewati cutover';end if;
+ v_qty:=(j->>'qty')::numeric;v_cost:=(j->>'unit_cost')::numeric;
+ if v_qty::text in('NaN','Infinity','-Infinity') or v_cost::text in('NaN','Infinity','-Infinity')
+   or v_qty<=0 or v_cost<0 or v_qty<>round(v_qty,6) or v_cost<>round(v_cost,6) then
+   raise exception 'qty: jumlah positif dan biaya nonnegatif harus tepat, maksimal enam desimal';end if;
+ perform v_qty::numeric(18,6);perform v_cost::numeric(18,6);
+ -- BB (ALL-P03): a part of this line invoiced before cutover (its imported SUPPLIER_PAYABLE document): the line keeps
+ -- its full quantity (unbilled + invoiced = stock + consumed origins) and its stock carries the blended cost.
+ v_part:=erp.bb_receipt_row_invoiced_part_v1(p_batch_id,p_row_id);
+ v_invoiced:=coalesce((v_part->>'invoiced_qty')::numeric,0);
+ v_blend:=case when v_part is null then v_cost else round((v_qty*v_cost+(v_part->>'invoiced_amount')::numeric)/(v_qty+v_invoiced),6) end;
+
+ if v_key is not null then
+  if (select count(*) from erp.migration_staging_rows where batch_id=p_batch_id
+   and entity_type in('MATERIAL_ROLL','OPENING_BALANCE_ITEM') and normalized_payload->>'opening_source_key'=v_key)<>1 then
+   raise exception 'opening_source_key: harus menunjuk tepat satu rincian stok dalam batch ini';end if;
+  select * into s from erp.migration_staging_rows where batch_id=p_batch_id
+   and entity_type in('MATERIAL_ROLL','OPENING_BALANCE_ITEM') and normalized_payload->>'opening_source_key'=v_key;
+  if s.validation_status<>'VALID' or (s.entity_type='OPENING_BALANCE_ITEM' and upper(s.normalized_payload->>'balance_type')<>'MATERIAL') then
+   raise exception 'opening_source_key: sumber harus rincian stok bahan yang valid';end if;
+  if s.normalized_payload->>'material_sku' is distinct from j->>'material_sku'
+   or s.normalized_payload->>'location_code' is distinct from j->>'location_code'
+   or (s.normalized_payload->>'unit_cost')::numeric is distinct from v_blend then
+   raise exception 'opening_source_key: bahan, gudang, dan biaya harus sama dengan stok awal (biaya per satuan %)',v_blend;end if;
+  if nullif(s.normalized_payload->>'supplier_code','') is not null and s.normalized_payload->>'supplier_code'<>j->>'supplier_code' then
+   raise exception 'supplier_code: supplier berbeda dengan stok asal';end if;
+ end if;
+ if v_qty+v_invoiced is distinct from coalesce((s.normalized_payload->>case when s.entity_type='MATERIAL_ROLL' then 'opening_qty' else 'qty' end)::numeric,0)
+   +coalesce((select sum((x.normalized_payload->>'qty')::numeric) from erp.migration_staging_rows x where x.batch_id=p_batch_id
+     and x.entity_type='OPENING_COST_ORIGIN' and x.validation_status='VALID'
+     and x.normalized_payload->>'supplier_code'=j->>'supplier_code'
+     and lower(btrim(x.normalized_payload->>'receipt_number'))=lower(v_number)
+     and lower(btrim(x.normalized_payload->>'receipt_line_number'))=lower(v_line)),0) then
+  raise exception 'opening_source_key: jumlah belum ditagih harus tepat sama dengan sisa bahan + seluruh asal biaya yang sudah terpakai';end if;
+ if not exists(select 1 from erp.materials where material_sku=j->>'material_sku' and is_active)
+   and not exists(select 1 from erp.migration_staging_rows where batch_id=p_batch_id and entity_type='MATERIAL' and validation_status='VALID' and normalized_payload->>'material_sku'=j->>'material_sku') then
+  raise exception 'material_sku: bahan aktif tidak ditemukan';end if;
+ if not exists(select 1 from erp.locations where location_code=j->>'location_code' and is_active and location_type='RAW_MATERIAL_WAREHOUSE')
+   and not exists(select 1 from erp.migration_staging_rows where batch_id=p_batch_id and entity_type='LOCATION' and validation_status='VALID' and normalized_payload->>'location_code'=j->>'location_code' and normalized_payload->>'location_type'='RAW_MATERIAL_WAREHOUSE') then
+  raise exception 'location_code: gudang bahan aktif tidak ditemukan';end if;
+ select id into v_party from erp.suppliers where supplier_code=j->>'supplier_code' and is_active;
+ if v_party is null and not exists(select 1 from erp.migration_staging_rows where batch_id=p_batch_id and entity_type='SUPPLIER'
+   and validation_status='VALID' and normalized_payload->>'supplier_code'=j->>'supplier_code'
+   and coalesce(nullif(normalized_payload->>'is_active','')::boolean,true)) then raise exception 'supplier_code: supplier aktif tidak ditemukan';end if;
+ if exists(select 1 from erp.migration_staging_rows x where x.batch_id=p_batch_id and x.entity_type='UNINVOICED_RECEIPT' and x.id<>r.id
+   and (x.normalized_payload->>'opening_source_key'=v_key or (
+     x.normalized_payload->>'supplier_code'=j->>'supplier_code' and lower(btrim(x.normalized_payload->>'receipt_number'))=lower(v_number)
+     and (lower(btrim(x.normalized_payload->>'receipt_line_number'))=lower(v_line)
+       or x.normalized_payload->>'receipt_date'<>j->>'receipt_date' or x.normalized_payload->>'location_code'<>j->>'location_code'
+       or x.normalized_payload->>'control_key'<>j->>'control_key')))) then
+   raise exception 'receipt_number: sumber ganda atau rincian dokumen tidak konsisten';end if;
+ if exists(select 1 from erp.migration_staging_rows x where x.batch_id=p_batch_id and x.entity_type='OPENING_BALANCE_ITEM'
+   and upper(x.normalized_payload->>'balance_type')='SUPPLIER_PAYABLE' and x.normalized_payload->>'supplier_code'=j->>'supplier_code'
+   and (nullif(btrim(x.normalized_payload->>'document_number'),'') is null or lower(btrim(x.normalized_payload->>'document_number'))=lower(v_number))) then
+   raise exception 'receipt_number: jangan campur kewajiban belum ditagih dengan ringkasan utang atau dokumen asal yang sama';end if;
+ if v_party is not null then
+   if exists(select 1 from erp.initial_import_receipt_headers where supplier_id=v_party and lower(btrim(receipt_number))=lower(v_number))
+      or exists(select 1 from erp.material_purchase_headers where supplier_id=v_party and lower(btrim(purchase_number))=lower(v_number)) then
+     raise exception 'receipt_number: penerimaan sudah tercatat, termasuk pada jalur pembelian';end if;
+   if exists(select 1 from erp.initial_import_financial_sources where balance_type='SUPPLIER_PAYABLE' and party_id=v_party
+     and (source_mode='SUMMARY' or lower(btrim(document_number))=lower(v_number)))
+     or exists(select 1 from erp.opening_balance_items i join erp.opening_balance_headers h on h.id=i.opening_id
+       where i.balance_type='SUPPLIER_PAYABLE' and i.supplier_id=v_party and h.status='POSTED'
+       and not exists(select 1 from erp.initial_import_financial_sources f where f.opening_item_id=i.id)) then
+     raise exception 'receipt_number: kewajiban supplier sudah memiliki opening yang tumpang tindih atau belum terurai';end if;
+ end if;
+end;$function$;
+CREATE OR REPLACE FUNCTION erp.apply_initial_import_receipts_v1(p_batch_id uuid)
+RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO '' AS $function$
+declare b erp.migration_batches%rowtype;r record;j jsonb;v_supplier uuid;v_purchase uuid;v_item uuid;v_part jsonb;v_blend numeric;
+ v_opening erp.opening_balance_items%rowtype;v_cutover date;v_material uuid;v_location uuid;v_origin record;v_target uuid;
+begin
+ perform erp.require_owner_admin();
+ select * into b from erp.migration_batches where id=p_batch_id for update;
+ if b.status not in('READY','POSTING') or exists(select 1 from erp.migration_staging_rows where batch_id=b.id and validation_status<>'VALID') then
+   raise exception 'Penerimaan awal memerlukan batch valid terbaru';end if;
+ v_cutover:=(b.cutover_at at time zone 'Asia/Jakarta')::date;
+ -- Same lock as financial opening preparation, plus normalized receipt identity.
+ for r in select distinct s.id supplier_id from erp.migration_staging_rows x join erp.suppliers s on s.supplier_code=x.normalized_payload->>'supplier_code'
+   where x.batch_id=b.id and x.entity_type='UNINVOICED_RECEIPT' order by s.id loop
+   perform pg_advisory_xact_lock(hashtextextended('INITIAL_OPENING_FINANCIAL:SUPPLIER_PAYABLE:'||r.supplier_id::text,0));
+ end loop;
+ for r in select x.*,s.id supplier_id from erp.migration_staging_rows x join erp.suppliers s on s.supplier_code=x.normalized_payload->>'supplier_code'
+   where x.batch_id=b.id and x.entity_type='UNINVOICED_RECEIPT' order by s.id,lower(btrim(x.normalized_payload->>'receipt_number')),x.source_row_no loop
+   perform pg_advisory_xact_lock(hashtextextended('INITIAL_RECEIPT:'||r.supplier_id::text||':'||lower(btrim(r.normalized_payload->>'receipt_number')),0));
+   perform erp.check_initial_import_receipt_v1(b.id,r.id);
+ end loop;
+ for r in select * from erp.migration_staging_rows where batch_id=b.id and entity_type='UNINVOICED_RECEIPT' order by source_row_no loop
+   j:=r.normalized_payload;
+   v_part:=erp.bb_receipt_row_invoiced_part_v1(b.id,r.id);
+   v_blend:=case when v_part is null then (j->>'unit_cost')::numeric else round(((j->>'qty')::numeric*(j->>'unit_cost')::numeric
+     +(v_part->>'invoiced_amount')::numeric)/((j->>'qty')::numeric+(v_part->>'invoiced_qty')::numeric),6) end;
+   select id into strict v_supplier from erp.suppliers where supplier_code=j->>'supplier_code' and is_active;
+   select i.* into v_opening from erp.initial_import_opening_stock_sources s
+     join erp.opening_balance_items i on i.id=s.opening_item_id join erp.opening_balance_headers h on h.id=i.opening_id
+     where s.batch_id=b.id and s.source_key=j->>'opening_source_key' and h.status='POSTED' for update of i;
+   if v_opening.id is not null and (v_opening.unit_cost_snapshot<>v_blend
+     or not exists(select 1 from erp.material_stock_movements m where m.source_type='OPENING_BALANCE_ITEM' and m.source_id=v_opening.id
+       and m.movement_type='OPENING' and m.qty_signed=v_opening.qty and m.material_id=v_opening.material_id
+       and m.location_id=v_opening.location_id and m.roll_id is not distinct from v_opening.roll_id)) then
+     raise exception 'Asal fisik penerimaan tidak cocok dengan stok awal yang dibukukan';end if;
+   select id into strict v_material from erp.materials where material_sku=j->>'material_sku' and is_active;
+   select id into strict v_location from erp.locations where location_code=j->>'location_code' and is_active and location_type='RAW_MATERIAL_WAREHOUSE';
+   select purchase_id into v_purchase from erp.initial_import_receipt_headers where batch_id=b.id and supplier_id=v_supplier
+     and lower(btrim(receipt_number))=lower(btrim(j->>'receipt_number'));
+   if v_purchase is null then
+     v_purchase:=gen_random_uuid();
+     insert into erp.material_purchase_headers(id,purchase_number,supplier_id,physical_at,location_id,notes,created_by)
+       values(v_purchase,'OPEN-'||v_purchase::text,v_supplier,b.cutover_at,v_location,
+         'Saldo awal penerimaan '||(j->>'receipt_number')||' tanggal '||(j->>'receipt_date'),erp.current_app_user_id());
+     insert into erp.initial_import_receipt_headers(purchase_id,batch_id,supplier_id,receipt_number,receipt_date,cutover_date)
+       values(v_purchase,b.id,v_supplier,j->>'receipt_number',(j->>'receipt_date')::date,v_cutover);
+   end if;
+   insert into erp.material_purchase_items(purchase_id,material_id,qty,unit_price,price_state,price_source,notes)
+     values(v_purchase,v_material,(j->>'qty')::numeric+coalesce((v_part->>'invoiced_qty')::numeric,0),(j->>'unit_cost')::numeric,'ESTIMATED','MANUAL_ESTIMATE',j->>'notes') returning id into v_item;
+   insert into erp.initial_import_receipt_lines(purchase_item_id,purchase_id,source_row_id,opening_item_id,receipt_line_number)
+     values(v_item,v_purchase,r.id,v_opening.id,j->>'receipt_line_number');
+   if v_part is not null then
+     insert into erp.bb_receipt_invoiced_parts_v1(purchase_item_id,source_row_id,financial_source_id,invoiced_qty,invoiced_amount)
+     select v_item,r.id,f.id,(v_part->>'invoiced_qty')::numeric,(v_part->>'invoiced_amount')::numeric
+     from erp.initial_import_financial_sources f where f.batch_id=b.id and f.source_row_id=(v_part->>'document_row_id')::uuid
+       and f.balance_type='SUPPLIER_PAYABLE' and f.party_id=v_supplier;
+     if not found then raise exception 'P03_INVOICE_DOC_REQUIRED: dokumen invoice asal belum dibukukan';end if;
+     perform erp.refresh_material_purchase_item_match_state(v_item);
+   end if;
+
+   for v_origin in select * from erp.migration_staging_rows x where x.batch_id=b.id and x.entity_type='OPENING_COST_ORIGIN'
+     and x.normalized_payload->>'supplier_code'=j->>'supplier_code'
+     and lower(btrim(x.normalized_payload->>'receipt_number'))=lower(btrim(j->>'receipt_number'))
+     and lower(btrim(x.normalized_payload->>'receipt_line_number'))=lower(btrim(j->>'receipt_line_number')) loop
+    select opening_item_id into strict v_target from erp.initial_import_opening_stock_sources where batch_id=b.id and source_key=v_origin.normalized_payload->>'target_source_key';
+    insert into erp.initial_import_cost_origins(source_row_id,purchase_item_id,opening_item_id,material_qty,unit_cost_snapshot)
+     values(v_origin.id,v_item,v_target,(v_origin.normalized_payload->>'qty')::numeric,v_blend);
+    update erp.migration_staging_rows set posted_entity_type='OPENING_COST_ORIGIN',posted_entity_id=v_origin.id,posted_at=statement_timestamp(),updated_at=statement_timestamp() where id=v_origin.id;
+   end loop;
+   update erp.migration_staging_rows set posted_entity_type='OPENING_UNINVOICED_RECEIPT_ITEM',posted_entity_id=v_item,
+     posted_at=statement_timestamp(),updated_at=statement_timestamp() where id=r.id;
+ end loop;
+ for r in select purchase_id from erp.initial_import_receipt_headers where batch_id=b.id order by purchase_id loop
+   update erp.material_purchase_headers set status='POSTED' where id=r.purchase_id;
+ end loop;
+end;$function$;
+CREATE OR REPLACE FUNCTION erp.complete_initial_import_wip_v1(p_payload jsonb)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO ''
+ SET "DateStyle" TO 'ISO, YMD'
+AS $function$
+declare s erp.initial_import_production_sources%rowtype;i erp.opening_balance_items%rowtype;
+ v_product_count integer;v_batch uuid;v_product uuid;v_location uuid;v_qty integer;v_remaining integer;v_lot uuid;v_output uuid;v_date date;v_at timestamptz;
+ v_reason text;v_hpp numeric;v_prior record;v_movement uuid;v_po_status text;v_op text:=coalesce(p_payload->>'operation','COMPLETE');
+ v_floor integer;v_bound uuid;v_src jsonb;v_basis text;
+begin
+ perform erp.require_owner_admin();perform erp.require_permission('settings.erp.view');
+ perform erp.pocket_period_lock_v1();
+ perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
+ v_batch:=(p_payload->>'batch_id')::uuid;v_reason:=nullif(btrim(p_payload->>'reason'),'');
+ if v_reason is null then raise exception 'reason: catatan penyelesaian wajib diisi';end if;
+ select * into s from erp.initial_import_production_sources where opening_item_id=(p_payload->>'opening_item_id')::uuid and batch_id=v_batch for update;
+ if s.opening_item_id is null or s.bs_case_id is not null then raise exception 'Saldo fisik WIP tidak ditemukan';end if;
+ select status into v_po_status from erp.production_orders where id=s.po_id for update;
+ if v_po_status in('FINISHED','CANCELLED') then raise exception 'Buka kembali PO sebelum mengubah hasil WIP saldo awal';end if;
+ select * into strict i from erp.opening_balance_items where id=s.opening_item_id;
+ if i.balance_type<>'WIP' or not exists(select 1 from erp.opening_balance_headers where id=i.opening_id and status='POSTED')
+   or not exists(select 1 from erp.migration_batches where id=v_batch and status='POSTED') then raise exception 'Saldo awal harus sudah disahkan';end if;
+ select s.qty_pcs-coalesce(sum(o.qty_pcs),0)-erp.bb_wip_split_active_qty_v1(i.id) into v_remaining from erp.initial_import_wip_outputs o where o.opening_item_id=i.id
+   and not exists(select 1 from erp.initial_import_wip_output_reversals rv where rv.output_id=o.id);
+ if coalesce(p_payload->>'expected_remaining','') !~ '^[0-9]+$' or (p_payload->>'expected_remaining')::numeric<>v_remaining then
+  raise exception 'STALE_VERSION: sisa WIP berubah, muat ulang';end if;
+ perform set_config('app.change_reason',v_reason,true);
+ -- BB (ALL-W04/W02): pickup of cut pieces waiting at cutover, its reversal, and the reversal of a BS split.
+ if v_op in('PICKUP','REVERSE_PICKUP','REVERSE_SPLIT') then return erp.bb_manage_opening_wip_v1(p_payload,s.opening_item_id);end if;
+ if v_op='REVERSE' then
+  select o.* into v_prior from erp.initial_import_wip_outputs o where o.id=(p_payload->>'output_id')::uuid and o.opening_item_id=i.id
+    and not exists(select 1 from erp.initial_import_wip_output_reversals rv where rv.output_id=o.id) for update;
+  if v_prior.id is null then raise exception 'Hasil WIP tidak ditemukan atau sudah dibatalkan';end if;
+  if erp.fg_lot_has_active_downstream(v_prior.lot_id,'QC_GOOD','INITIAL_IMPORT_WIP',v_prior.id) then raise exception 'Hasil WIP masih dipakai transaksi lanjutan; batalkan transaksi tersebut dahulu';end if;
+  if exists(select 1 from erp.contractor_accessory_reimbursement_entitlements where lot_id=v_prior.lot_id and payroll_status<>'UNALLOCATED') then raise exception 'Reimbursement sudah masuk payroll';end if;
+  for v_movement in select id from erp.journal_entries where source_type='ACCESSORY_REIMBURSE_ACCRUAL' and source_id=v_prior.lot_id and status='POSTED' loop
+   perform erp.reverse_journal(v_movement,v_reason);
+  end loop;
+    -- AZ rev2: the lot's accessory HPP recost journals go with its accrual.
+    for v_movement in select je.id from erp.journal_entries je join erp.fg_accessory_cost_revisions rv on rv.id=je.source_id
+      join erp.fg_accessory_cost_snapshots sn on sn.id=rv.snapshot_id
+      where je.source_type='ACCESSORY_HPP_RECOST' and je.status='POSTED' and sn.lot_id=v_prior.lot_id order by je.posting_at,je.id
+    loop perform erp.reverse_journal(v_movement,v_reason); end loop;
+  update erp.contractor_accessory_reimbursement_entitlements set payroll_status='CANCELLED' where lot_id=v_prior.lot_id and payroll_status='UNALLOCATED';
+  for v_movement in select id from erp.fg_stock_movements where lot_id=v_prior.lot_id and source_type='INITIAL_IMPORT_WIP' and source_id=v_prior.id and movement_type='QC_GOOD'
+   and not exists(select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=erp.fg_stock_movements.id) loop
+   perform erp.reverse_fg_movement(v_movement,v_reason);
+  end loop;
+  v_at:=statement_timestamp();v_date:=erp._cp3_business_date(v_at);
+  insert into erp.initial_import_wip_output_reversals(output_id,reason,physical_at,created_by) values(v_prior.id,v_reason,v_at,erp.current_app_user_id());
+  update erp.fg_lots set lot_origin='VOIDED_PRODUCTION',is_open=false where id=v_prior.lot_id;
+  insert into erp.wip_stage_events(po_id,stage_from,stage_to,qty_pcs,contractor_id,source_type,source_id,physical_at,created_by,notes)
+   values(s.po_id,'FINISHED',erp.bb_wip_stage_v1(i.id),v_prior.qty_pcs,erp.bb_wip_holder_v1(i.id),'INITIAL_IMPORT_WIP_REVERSE',v_prior.id,v_at,erp.current_app_user_id(),v_reason);
+  v_output:=v_prior.id;v_lot:=v_prior.lot_id;
+ elsif v_op in('COMPLETE','SPLIT_BS') then
+  if coalesce(p_payload->>'qty_pcs','') !~ '^[1-9][0-9]{0,9}$' or (p_payload->>'qty_pcs')::numeric>v_remaining then raise exception 'qty_pcs: jumlah harus bulat positif dan tidak melebihi sisa WIP';end if;
+  v_qty:=(p_payload->>'qty_pcs')::integer;
+  if coalesce(p_payload->>'date','') !~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' then raise exception 'date: gunakan YYYY-MM-DD';end if;
+  v_date:=(p_payload->>'date')::date;
+  if v_date::text<>p_payload->>'date' or v_date<(select opening_date from erp.opening_balance_headers where id=i.opening_id)
+    or v_date>erp._cp3_business_date(statement_timestamp()) then raise exception 'date: tanggal hasil harus sejak cutover dan tidak di masa depan';end if;
+  -- BB (ALL-W04): cut pieces waiting at cutover are completed or split only on or after their pickup day.
+  perform erp.bb_assert_wip_ready_v1(i.id,v_date);
+  -- BA (audit A3, CP6-02): the pieces must be in the source stage on the output date and on every later day; a completion
+  -- dated before an earlier output's reversal cannot use the pieces that reversal returned later.
+  select min(x.left_qty) into v_floor from (
+    select s.qty_pcs
+      -coalesce((select sum(o.qty_pcs) from erp.initial_import_wip_outputs o
+          where o.opening_item_id=i.id and erp._cp3_business_date(o.physical_at)<=d.day),0)
+      +coalesce((select sum(o.qty_pcs) from erp.initial_import_wip_output_reversals rv
+          join erp.initial_import_wip_outputs o on o.id=rv.output_id
+          where o.opening_item_id=i.id and erp._cp3_business_date(rv.physical_at)<=d.day),0)
+      -erp.bb_wip_split_net_asof_v1(i.id,d.day) left_qty
+    from (select v_date as day
+          union select erp._cp3_business_date(o.physical_at) from erp.initial_import_wip_outputs o where o.opening_item_id=i.id
+          union select erp._cp3_business_date(rv.physical_at) from erp.initial_import_wip_output_reversals rv
+            join erp.initial_import_wip_outputs o on o.id=rv.output_id where o.opening_item_id=i.id
+          union select x.day from erp.bb_wip_split_days_v1(i.id) x(day)) d
+    where d.day>=v_date) x;
+  if v_qty>v_floor then
+    raise exception 'BA_WIP_OUTPUT_EXCEEDS_DATED_REMAINING: pada % atau sesudahnya hanya % pcs tersisa di tahap sumber; hasil bertanggal lebih awal tidak boleh memakai potongan yang baru kembali kemudian',v_date,v_floor;
+  end if;
+  select count(*),(array_agg(x.id order by x.id))[1] into v_product_count,v_product
+  from (
+    select p.id from erp.products p join erp.production_orders po on po.id=s.po_id
+    join erp.brands b on b.id=p.brand_id
+    where lower(btrim(p.sku))=lower(btrim(p_payload->>'product_sku'))
+      and p.is_active and p.model_id=po.model_id and p.size_id=s.size_id
+      and p.effective_from<(v_date+1)::timestamp at time zone 'Asia/Jakarta'
+      and (p.effective_to is null or p.effective_to>v_date::timestamp at time zone 'Asia/Jakarta')
+      and (nullif(btrim(p_payload->>'brand_code'),'') is null
+        or lower(btrim(b.brand_code))=lower(btrim(p_payload->>'brand_code')))
+      and (nullif(p_payload->>'product_id','') is null or p.id=(p_payload->>'product_id')::uuid)
+    order by p.id for share of p
+  ) x;
+  if v_product_count=0 then raise exception 'product_sku: pilih produk aktif dengan merek, model PO, ukuran saldo, dan tanggal hasil yang sesuai';end if;
+  if v_product_count<>1 then raise exception 'AS_WIP_PRODUCT_AMBIGUOUS: SKU ada pada beberapa identitas produk; pilih merek atau identitas produk yang tepat';end if;
+  -- BA (audit A10, CP6-18; owner D03=A): a product filled in on the opening WIP binds its output (the same product identity,
+  -- i.e. its version on the output date); another product, brand, colour or size is refused. Without a product the brand
+  -- and colour the source row gives must match (the PO model and the size are matched above). The output records what
+  -- was checked and what stayed unknown; unknown data is never recorded as matched.
+  select coalesce(p.identity_root_id,p.id) into v_bound from erp.products p where p.id=i.product_id;
+  if v_bound is not null then
+    if not exists(select 1 from erp.products p where p.id=v_product and coalesce(p.identity_root_id,p.id)=v_bound) then
+      raise exception 'BA_WIP_OUTPUT_PRODUCT_BOUND: saldo WIP awal ini terikat pada produk yang diisi di sumbernya; hasil tidak boleh menjadi produk, merek, warna, atau ukuran lain';
+    end if;
+    v_basis:='OPENING_PRODUCT';
+  else
+    select x.normalized_payload into v_src from erp.migration_staging_rows x where x.id=s.source_row_id;
+    if exists(select 1 from erp.products p join erp.brands b on b.id=p.brand_id where p.id=v_product and (
+        (nullif(btrim(v_src->>'brand_code'),'') is not null and lower(btrim(b.brand_code))<>lower(btrim(v_src->>'brand_code')))
+        or (nullif(btrim(v_src->>'color_name'),'') is not null and lower(btrim(coalesce(p.color_name,'')))<>lower(btrim(v_src->>'color_name'))))) then
+      raise exception 'BA_WIP_OUTPUT_SOURCE_MISMATCH: merek atau warna hasil tidak cocok dengan rincian WIP awal';
+    end if;
+    v_basis:=case when nullif(btrim(v_src->>'brand_code'),'') is null and nullif(btrim(v_src->>'color_name'),'') is null
+      then 'ASSIGNED_AT_COMPLETION' else 'SOURCE_ATTRIBUTES' end;
+  end if;
+  if v_op='COMPLETE' then
+  select id into v_location from erp.locations where location_code=p_payload->>'location_code' and is_active and location_type='FG_WAREHOUSE';
+  if v_location is null then raise exception 'location_code: pilih gudang barang jadi aktif';end if;
+  end if;
+  v_at:=erp.product_opening_physical_at(v_product,v_date);v_output:=gen_random_uuid();
+  -- BA (audit A3): on the day of a reversal the output is recorded after it, so the physical stage timeline never shows the
+  -- pieces leaving before they came back (the dated check above counts that day's reversals).
+  v_at:=greatest(v_at,(select max(rv.physical_at)+interval '1 microsecond' from erp.initial_import_wip_output_reversals rv
+    join erp.initial_import_wip_outputs o on o.id=rv.output_id
+    where o.opening_item_id=i.id and erp._cp3_business_date(rv.physical_at)=v_date));
+  -- BB (ALL-W04/W02): and after the pickup and that day's split reversals.
+  v_at:=greatest(v_at,erp.bb_wip_min_output_at_v1(i.id,v_date));
+  if v_op='SPLIT_BS' then
+  -- BB (ALL-W02): the pieces become a native BS case; their value stays in WIP until the BS flow disposes or reworks them.
+  v_output:=erp.bb_split_opening_wip_bs_v1(i.id,v_product,v_qty,v_at,v_basis,v_reason);
+  else
+  insert into erp.fg_lots(lot_number,po_id,product_id,initial_qty_pcs,cached_qty_pcs,produced_at,is_open,lot_origin)
+   values('OWIP-'||v_output::text,s.po_id,v_product,v_qty,0,v_at,true,'PRODUCTION') returning id into v_lot;
+  insert into erp.initial_import_wip_outputs(id,opening_item_id,lot_id,qty_pcs,physical_at,reason,created_by)
+   values(v_output,i.id,v_lot,v_qty,v_at,v_reason,erp.current_app_user_id());
+  insert into erp.initial_import_wip_output_identity_v1(output_id,basis,opening_product_id,output_product_id,checked,unknown,source_attributes)
+   values(v_output,v_basis,i.product_id,v_product,
+     case when v_basis='OPENING_PRODUCT' then array['PRODUCT_IDENTITY','PO_MODEL','SIZE']
+       else array_remove(array['PO_MODEL','SIZE',case when nullif(btrim(v_src->>'brand_code'),'') is not null then 'BRAND' end,
+         case when nullif(btrim(v_src->>'color_name'),'') is not null then 'COLOR' end],null) end,
+     case when v_basis='OPENING_PRODUCT' then array[]::text[]
+       else array_remove(array[case when nullif(btrim(v_src->>'brand_code'),'') is null then 'BRAND' end,
+         case when nullif(btrim(v_src->>'color_name'),'') is null then 'COLOR' end,'PATTERN','MATERIAL'],null) end,
+     jsonb_build_object('product_sku',p_payload->>'product_sku','brand_code',v_src->>'brand_code','color_name',v_src->>'color_name'));
+  perform erp.post_fg_movement(v_product,v_lot,v_location,'GRADE_A','QC_GOOD',v_qty,0,null,'INITIAL_IMPORT_WIP',v_output,v_at,v_reason,false);
+  perform erp.ensure_fg_accessory_cost_snapshot(v_lot);
+  perform erp.post_accessory_reimbursement_accrual(v_lot);
+  insert into erp.wip_stage_events(po_id,stage_from,stage_to,qty_pcs,contractor_id,source_type,source_id,physical_at,created_by,notes)
+   values(s.po_id,erp.bb_wip_stage_v1(i.id),'FINISHED',v_qty,erp.bb_wip_holder_v1(i.id),'INITIAL_IMPORT_WIP',v_output,v_at,erp.current_app_user_id(),v_reason);
+  end if;
+ else raise exception 'Aksi hasil WIP tidak dikenal';end if;
+ perform erp.rebuild_po_hpp(s.po_id,'Penyelesaian atau inverse WIP saldo awal');
+ perform erp.propagate_conversion_hpp_for_po(s.po_id);
+ perform erp.sync_po_hpp_to_gl(s.po_id,v_date);
+ return jsonb_build_object('output_id',v_output,'lot_id',v_lot,'operation',v_op);
+end;$function$;
+CREATE OR REPLACE FUNCTION erp.validate_initial_import_production_v1(p_batch uuid)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO ''
+AS $function$
+declare r record;j jsonb;k text;t text;q numeric;v numeric;v_po jsonb;v_model text;v_size text;v_product_count integer;v_cutover timestamptz;
+begin
+ perform erp.require_owner_admin();
+ for r in select * from erp.migration_staging_rows where batch_id=p_batch and entity_type='OPENING_BALANCE_ITEM'
+   and (nullif(normalized_payload->>'po_number','') is not null or
+     (upper(normalized_payload->>'balance_type') in('WIP','BS') and nullif(normalized_payload->>'opening_source_key','') is not null)) loop
+  begin
+   j:=r.normalized_payload;t:=upper(j->>'balance_type');
+   if t not in('WIP','BS') then raise exception 'po_number: hanya untuk saldo fisik WIP/BS';end if;
+   foreach k in array array['po_number','size_code','stage','qty','opening_source_key','accessory_cost_included'] loop
+    if nullif(j->>k,'') is null then raise exception '%: wajib untuk saldo fisik WIP/BS',k;end if;
+   end loop;
+   if j->>'accessory_cost_included' not in('true','false') then raise exception 'accessory_cost_included: isi true atau false';end if;
+   if j->>'stage' not in('CUTTING','SEWING','LAUNDRY','QC') or (t='WIP' and j->>'stage'='QC') or (t='BS' and j->>'stage'='CUTTING') then
+    raise exception 'stage: WIP memakai CUTTING/SEWING/LAUNDRY; BS boleh QC';end if;
+   -- BB (ALL-W04): cut pieces waiting for pickup are held at a cutting location, by no mandor or laundry yet.
+   if j->>'stage'='CUTTING' then perform erp.bb_check_cutting_wip_row_v1(p_batch,j);end if;
+   if j->>'stage'='SEWING' and nullif(j->>'contractor_code','') is null then raise exception 'contractor_code: mandor pemegang wajib diisi';end if;
+   if j->>'stage'='LAUNDRY' and nullif(j->>'vendor_code','') is null then raise exception 'vendor_code: laundry pemegang wajib diisi';end if;
+   if t='BS' and coalesce(nullif(j->>'contractor_code',''),nullif(j->>'vendor_code',''),nullif(j->>'location_code','')) is null then
+    raise exception 'location_code: BS perlu gudang atau pihak pemegang yang diketahui';end if;
+   if t='BS' and nullif(j->>'product_sku','') is null then raise exception 'product_sku: BS bernilai memerlukan identitas produk';end if;
+   q:=(j->>'qty')::numeric;v:=coalesce(nullif(j->>'amount','')::numeric,q*nullif(j->>'unit_cost','')::numeric);
+   if q<=0 or q<>trunc(q) or q>2147483647 or v is null or v<0 or v<>round(v,2) then
+    raise exception 'qty: saldo fisik perlu pcs bulat positif dan nilai tepat dua desimal (nol boleh)';end if;
+   if nullif(j->>'unit_cost','') is not null and (j->>'unit_cost')::numeric<0 then raise exception 'unit_cost: biaya tidak boleh negatif';end if;
+   if nullif(j->>'amount','') is not null and nullif(j->>'unit_cost','') is not null
+     and (j->>'amount')::numeric<>round(q*(j->>'unit_cost')::numeric,2) then raise exception 'amount: nilai harus sama dengan jumlah x biaya';end if;
+   select s.normalized_payload into v_po from erp.migration_staging_rows s where s.batch_id=p_batch
+     and s.entity_type='OPEN_PO' and s.normalized_payload->>'po_number'=j->>'po_number' and s.validation_status='VALID';
+   if v_po is null then raise exception 'po_number: saldo fisik wajib menunjuk OPEN_PO valid dalam batch yang sama';end if;
+   if v_po->>'status' in('FINISHED','CANCELLED') then raise exception 'po_number: saldo fisik belum selesai tidak boleh masuk PO selesai/batal';end if;
+   if coalesce(nullif(v_po->>'target_qty_pcs','')::numeric,0)<coalesce((select sum((s.normalized_payload->>'qty')::numeric)
+     from erp.migration_staging_rows s where s.batch_id=p_batch and s.entity_type='OPENING_BALANCE_ITEM'
+     and s.normalized_payload->>'po_number'=j->>'po_number' and upper(s.normalized_payload->>'balance_type') in('WIP','BS')),0) then
+    raise exception 'target_qty_pcs: jumlah PO wajib mencakup seluruh WIP dan BS fisik';end if;
+   if nullif(j->>'model_code','') is not null and j->>'model_code'<>v_po->>'model_code' then raise exception 'model_code: model berbeda dengan PO';end if;
+   if exists(select 1 from erp.production_orders p where p.po_number=j->>'po_number' and p.migration_batch_id is distinct from p_batch) then
+    raise exception 'po_number: PO sudah memiliki riwayat di luar batch ini';end if;
+   if not exists(select 1 from erp.sizes where size_code=j->>'size_code' and is_active)
+      and not exists(select 1 from erp.migration_staging_rows s where s.batch_id=p_batch and s.entity_type='SIZE'
+        and s.validation_status='VALID' and s.normalized_payload->>'size_code'=j->>'size_code') then raise exception 'size_code: ukuran aktif tidak ditemukan';end if;
+   if nullif(btrim(j->>'product_sku'),'') is not null then
+    select cutover_at into strict v_cutover from erp.migration_batches where id=p_batch;
+    select count(*),min(m.model_code),min(z.size_code) into v_product_count,v_model,v_size
+    from erp.products p join erp.product_models m on m.id=p.model_id
+    join erp.sizes z on z.id=p.size_id join erp.brands b on b.id=p.brand_id
+    where lower(btrim(p.sku))=lower(btrim(j->>'product_sku')) and p.effective_from<=v_cutover
+      and (nullif(btrim(j->>'brand_code'),'') is null or lower(btrim(b.brand_code))=lower(btrim(j->>'brand_code')))
+      and (nullif(btrim(j->>'model_code'),'') is null or lower(btrim(m.model_code))=lower(btrim(j->>'model_code')))
+      and (nullif(btrim(j->>'size_code'),'') is null or lower(btrim(z.size_code))=lower(btrim(j->>'size_code')))
+      and (nullif(btrim(j->>'color_name'),'') is null or lower(btrim(p.color_name))=lower(btrim(j->>'color_name')));
+    if v_product_count=0 then
+     select count(*),min(x.normalized_payload->>'model_code'),min(x.normalized_payload->>'size_code')
+     into v_product_count,v_model,v_size from erp.migration_staging_rows x
+     where x.batch_id=p_batch and x.entity_type='PRODUCT' and x.validation_status='VALID'
+       and lower(btrim(x.normalized_payload->>'sku'))=lower(btrim(j->>'product_sku'))
+       and (nullif(btrim(j->>'brand_code'),'') is null or lower(btrim(x.normalized_payload->>'brand_code'))=lower(btrim(j->>'brand_code')))
+       and (nullif(btrim(j->>'model_code'),'') is null or lower(btrim(x.normalized_payload->>'model_code'))=lower(btrim(j->>'model_code')))
+       and (nullif(btrim(j->>'size_code'),'') is null or lower(btrim(x.normalized_payload->>'size_code'))=lower(btrim(j->>'size_code')))
+       and (nullif(btrim(j->>'color_name'),'') is null or lower(btrim(x.normalized_payload->>'color_name'))=lower(btrim(j->>'color_name')));
+    end if;
+    if v_product_count<>1 then raise exception 'product_sku: identitas produk harus tepat satu; periksa merek, model, warna, dan ukuran';end if;
+    if v_model<>v_po->>'model_code' then raise exception 'product_sku: produk berbeda model dengan PO';end if;
+    if v_size<>j->>'size_code' then raise exception 'size_code: ukuran fisik berbeda dengan produk';end if;
+   end if;
+   if exists(select 1 from erp.migration_staging_rows s where s.batch_id=p_batch and s.entity_type='OPENING_BALANCE_ITEM'
+     and upper(s.normalized_payload->>'balance_type')='WIP' and nullif(s.normalized_payload->>'po_number','') is null) then
+    raise exception 'po_number: jangan campur ringkasan WIP tanpa PO dengan rincian fisik WIP/BS';end if;
+  exception when others then update erp.migration_staging_rows set validation_status='ERROR',validation_errors=validation_errors||jsonb_build_array(sqlerrm) where id=r.id;
+  end;
+ end loop;
+end;$function$;
+create or replace function erp.initial_import_lot_cost_v1(p_lot uuid) returns numeric
+language sql stable security definer set search_path='' as $function$
+ select coalesce(sum(erp.initial_import_source_value_v1(s.opening_item_id)*l.initial_qty_pcs/s.qty_pcs),0)
+ from erp.fg_lots l join erp.initial_import_production_sources s on
+   exists(select 1 from erp.initial_import_wip_outputs o where o.lot_id=l.id and o.opening_item_id=s.opening_item_id)
+   or exists(select 1 from erp.rework_orders ro where ro.good_fg_lot_id=l.id and ro.bs_case_id=s.bs_case_id and ro.status='COMPLETED')
+   -- BB (ALL-W02): a GOOD rework lot of a BS split carries the opening WIP's per-piece value like one of an opening BS.
+   or exists(select 1 from erp.rework_orders ro join erp.bb_wip_bs_splits_v1 x on x.bs_case_id=ro.bs_case_id
+     where ro.good_fg_lot_id=l.id and x.opening_item_id=s.opening_item_id and ro.status='COMPLETED')
+ where l.id=p_lot and l.lot_origin='PRODUCTION';
+$function$;
+create or replace function erp.initial_import_production_rows_v1(p_batch uuid default null) returns jsonb
+language sql stable security definer set search_path='' as $function$
+ select coalesce(jsonb_agg(jsonb_build_object('opening_item_id',s.opening_item_id,'source_key',k.source_key,
+  'batch_id',s.batch_id,'po_id',s.po_id,'po_number',p.po_number,'balance_type',i.balance_type,'stage',s.stage,
+  'size_code',z.size_code,'qty_pcs',s.qty_pcs,'completed_qty_pcs',coalesce(o.qty,0),'remaining_qty_pcs',
+    s.qty_pcs-case when s.bs_case_id is null then coalesce(o.qty,0)+erp.bb_wip_split_active_qty_v1(s.opening_item_id) else coalesce(br.qty,0) end,
+  'contractor_name',c.contractor_name,'vendor_name',v.vendor_name,'bs_case_id',s.bs_case_id,
+  'original_amount',s.original_amount::text,'current_amount',erp.initial_import_source_value_v1(s.opening_item_id)::text,
+  'outputs',coalesce((select jsonb_agg(jsonb_build_object('id',o.id,'qty_pcs',o.qty_pcs,'date',erp._cp3_business_date(o.physical_at),'reversed',exists(select 1 from erp.initial_import_wip_output_reversals rv where rv.output_id=o.id)) order by o.created_at,o.id) from erp.initial_import_wip_outputs o where o.opening_item_id=i.id),'[]'::jsonb),
+  'cutover_date',h.opening_date,'current_stage',erp.bb_wip_stage_v1(s.opening_item_id),
+  'location_code',(select l.location_code from erp.locations l where l.id=i.location_id),'bb',erp.bb_wip_row_part_v1(s.opening_item_id),'product_id',i.product_id,'accessory_cost_included',s.accessory_cost_included
+ ) order by p.po_number,s.stage,z.size_code,k.source_key),'[]'::jsonb)
+ from erp.initial_import_production_sources s join erp.opening_balance_items i on i.id=s.opening_item_id
+ join erp.initial_import_opening_stock_sources k on k.opening_item_id=i.id
+ join erp.opening_balance_headers h on h.id=i.opening_id and h.status='POSTED'
+ join erp.production_orders p on p.id=s.po_id join erp.sizes z on z.id=s.size_id
+ left join erp.contractors c on c.id=erp.bb_wip_holder_v1(i.id) left join erp.laundry_vendors v on v.id=i.vendor_id
+ left join lateral(select sum(qty_pcs) qty from erp.initial_import_wip_outputs where opening_item_id=i.id and not exists(select 1 from erp.initial_import_wip_output_reversals rv where rv.output_id=erp.initial_import_wip_outputs.id)) o on true
+ left join lateral(select sum(qty_pcs) qty from erp.bs_resolutions where bs_case_id=s.bs_case_id) br on true
+ where p_batch is null or s.batch_id=p_batch;
+$function$;
+create or replace function erp.sync_initial_import_bs_disposition_v1() returns trigger
+language plpgsql security definer set search_path='' as $function$
+declare v_item uuid;v_date date;v_case uuid;v_po_status text;
+begin
+ if tg_op='DELETE' then v_case:=old.bs_case_id;v_date:=erp._cp3_business_date(statement_timestamp());
+ else v_case:=new.bs_case_id;v_date:=erp._cp3_business_date(new.physical_at);end if;
+ select opening_item_id into v_item from erp.initial_import_production_sources where bs_case_id=v_case;
+ if v_item is not null and tg_op='DELETE' then
+  if not pg_try_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0)) then raise exception 'WIP_VALUE_BUSY: penilaian stok sedang berubah, coba ulang';end if;
+  select p.status into v_po_status from erp.production_orders p join erp.initial_import_production_sources s on s.po_id=p.id
+   where s.opening_item_id=v_item for update of p;
+  if v_po_status in('FINISHED','CANCELLED') then raise exception 'Buka kembali PO sebelum mengembalikan saldo BS';end if;
+ end if;
+ if v_item is not null then perform erp.sync_initial_import_bs_value_v1(v_item,v_date);end if;
+ -- BB (ALL-W02): a BS split of an opening WIP moves its disposed value out of WIP the same way.
+ perform erp.bb_sync_split_bs_disposition_v1(v_case,v_date,tg_op='DELETE');
+ if tg_op='DELETE' then return old;end if;return new;
+end;$function$;
+create or replace function erp.guard_initial_import_po_completion_v1() returns trigger
+language plpgsql security definer set search_path='' as $function$
+begin
+ if new.status in('FINISHED','CANCELLED') and old.status is distinct from new.status and exists(
+  select 1 from erp.initial_import_production_sources s where s.po_id=new.id and s.qty_pcs>
+   case when s.bs_case_id is not null then coalesce((select sum(qty_pcs) from erp.bs_resolutions where bs_case_id=s.bs_case_id),0)
+   else coalesce((select sum(o.qty_pcs) from erp.initial_import_wip_outputs o where o.opening_item_id=s.opening_item_id
+      and not exists(select 1 from erp.initial_import_wip_output_reversals rv where rv.output_id=o.id)),0)
+      +erp.bb_wip_split_active_qty_v1(s.opening_item_id) end
+ ) or erp.bb_po_open_split_bs_v1(new.id) then raise exception 'PO masih memiliki WIP/BS saldo awal yang belum selesai';end if;
+ return new;
+end;$function$;
+create or replace function erp.recost_initial_import_origins_v1(p_purchase_item uuid) returns void
+language plpgsql security definer set search_path='' as $function$
+declare r record;v_target numeric;v_previous numeric;v_delta numeric;v_date date;v_event uuid;v_journal uuid;
+ v_lot uuid;v_hpp erp.hpp_versions%rowtype;v_new uuid;v_po uuid;v_qty integer;
+begin
+ perform erp.require_internal();
+ perform erp.pocket_period_lock_v1();
+ perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
+ v_date:=coalesce(erp.invoice_recost_economic_date_v1(),erp._cp3_business_date(statement_timestamp()));
+ for r in select i.* from erp.opening_balance_items i where i.id in(
+   select opening_item_id from erp.initial_import_cost_origins where purchase_item_id=p_purchase_item) order by i.id for update loop
+  select coalesce(sum(round(o.material_qty*erp.material_purchase_current_unit_cost(o.purchase_item_id),2)
+    -round(o.material_qty*o.unit_cost_snapshot,2)),0) into v_target from erp.initial_import_cost_origins o where o.opening_item_id=r.id;
+  select coalesce(sum(new_delta-previous_delta),0) into v_previous from erp.initial_import_origin_cost_events where opening_item_id=r.id;
+  v_delta:=v_target-v_previous;
+  if v_delta=0 then
+   if r.balance_type='FINISHED_GOODS' then perform erp.refresh_initial_import_fg_cost_v1(r.id,0,v_date);
+   else
+    select po_id into strict v_po from erp.initial_import_production_sources where opening_item_id=r.id;
+    perform erp.rebuild_po_hpp(v_po,'Kepastian harga asal bahan sebelum cutover');
+    perform erp.propagate_conversion_hpp_for_po(v_po);perform erp.sync_po_hpp_to_gl(v_po,v_date);
+   end if;
+   continue;
+  end if;
+  if round(coalesce(r.amount,r.qty*r.unit_cost_snapshot),2)+v_target<0 then raise exception 'Nilai sumber setelah koreksi tidak boleh negatif';end if;
+  v_event:=gen_random_uuid();v_po:=null;
+  select po_id into v_po from erp.initial_import_production_sources where opening_item_id=r.id;
+  insert into erp.initial_import_origin_cost_events(id,opening_item_id,previous_delta,new_delta,economic_date,created_by)
+   values(v_event,r.id,v_previous,v_target,v_date,erp.current_app_user_id());
+  if r.balance_type='FINISHED_GOODS' then
+   perform erp.refresh_initial_import_fg_cost_v1(r.id,v_delta,v_date);
+   -- The native opening-lot synchronizer owns FG/COGS and offsets opening equity.
+   -- Replace only that source offset with the invoice's material-inventory leg.
+   v_journal:=erp.post_journal('INITIAL_IMPORT_ORIGIN_RECOST',v_event,v_date,'Asal biaya bahan pada FG awal',jsonb_build_array(
+    jsonb_build_object('mapping_key','OPENING_EQUITY','debit',greatest(v_delta,0),'credit',greatest(-v_delta,0)),
+    jsonb_build_object('mapping_key','MATERIAL_INVENTORY','debit',greatest(-v_delta,0),'credit',greatest(v_delta,0))));
+  else
+   if v_po is null then raise exception 'Asal WIP/BS harus terhubung ke PO';end if;
+   v_journal:=erp.post_journal('INITIAL_IMPORT_ORIGIN_RECOST',v_event,v_date,'Asal biaya bahan pada WIP/BS awal',jsonb_build_array(
+    jsonb_build_object('mapping_key','WIP','debit',greatest(v_delta,0),'credit',greatest(-v_delta,0),'po_id',v_po),
+    jsonb_build_object('mapping_key','MATERIAL_INVENTORY','debit',greatest(-v_delta,0),'credit',greatest(v_delta,0))));
+   perform erp.sync_initial_import_bs_value_v1(r.id,v_date);
+   perform erp.bb_sync_item_split_values_v1(r.id,v_date);
+   perform erp.rebuild_po_hpp(v_po,'Koreksi asal bahan sebelum cutover');
+   perform erp.propagate_conversion_hpp_for_po(v_po);
+   perform erp.sync_po_hpp_to_gl(v_po,v_date);
+  end if;
+  update erp.initial_import_origin_cost_events set journal_entry_id=v_journal where id=v_event;
+ end loop;
+end;$function$;
+CREATE OR REPLACE FUNCTION erp.run_v268_financial_report_checks()
+ RETURNS TABLE(check_name text, severity text, issue_count bigint, details text)
+ LANGUAGE plpgsql
+ STABLE SECURITY DEFINER
+ SET search_path TO 'erp', 'public', 'pg_catalog', 'information_schema', 'pg_temp'
+ SET "TimeZone" TO 'UTC'
+AS $function$
+begin
+  perform erp.require_owner_admin();
+  return query
+  select r.check_name,r.severity,r.issue_count,r.details
+  from erp._v268_financial_report_checks_pre_scope() r
+  where r.check_name not in(
+    'V268_BROWSER_DIRECT_FINANCIAL_WRITE',
+    'V268_BROWSER_DIRECT_LEDGER_OR_INVOICE_WRITE',
+    'V268_ACTIVE_SALE_MISSING_JOURNAL',
+    'V268_POSTED_SALES_RETURN_MISSING_JOURNAL'
+  )
+
+  union all
+  select 'V268_BROWSER_DIRECT_LEDGER_OR_INVOICE_WRITE','CRITICAL',count(*)::bigint,
+    'Browser roles must not directly mutate ledger or supplier-invoice aggregates'
+  from information_schema.role_table_grants g
+  where g.table_schema='erp'
+    and g.table_name in('journal_entries','journal_lines','account_daily_balances',
+      'material_supplier_invoices','material_supplier_invoice_lines')
+    and g.grantee in('PUBLIC','anon','authenticated')
+    and g.privilege_type in('INSERT','UPDATE','DELETE')
+
+  union all
+  select 'V2620C_PO_HPP_TARGET_STATE_MISMATCH','CRITICAL',count(*)::bigint,
+    'Saved PO HPP/FG/COGS/other state must equal independently recomputed current minor-unit targets'
+  from erp.po_hpp_gl_state s
+  cross join lateral erp.compute_po_hpp_gl_targets_v2620d(s.po_id) t
+  where s.base_output_qty is distinct from coalesce(t.base_output_qty,0)
+     or s.hpp_total_cost is distinct from round(coalesce(t.hpp_total_cost,0),2)
+     or s.fg_value is distinct from round(coalesce(t.fg_value,0),2)
+     or s.cogs_value is distinct from round(coalesce(t.cogs_value,0),2)
+     or s.other_out_value is distinct from(
+       round(coalesce(t.hpp_total_cost,0),2)-round(coalesce(t.fg_value,0),2)-round(coalesce(t.cogs_value,0),2))
+
+  union all
+  select 'V2620C_HPP_COMPONENT_SUM_MISMATCH','CRITICAL',count(*)::bigint,
+    'Every current production HPP version must equal the exact sum of its traceable production components'
+  from erp.hpp_versions h
+  join erp.fg_lots fl on fl.id=h.lot_id and fl.lot_origin='PRODUCTION'
+  where h.is_current and abs(h.total_cost-coalesce((
+    select sum(c.total_cost) from erp.hpp_version_components c where c.hpp_version_id=h.id
+  ),0))>0.000001
+
+  union all
+  select 'V2620C_PO_HPP_BOOK_MISMATCH','CRITICAL',count(*)::bigint,
+    'Per-PO FG, COGS, and HPP-disposition books must equal the saved minor-unit state after every post, recost, cancellation, return, and reversal'
+  from erp.po_hpp_gl_state s
+  cross join lateral erp.compute_po_hpp_gl_book_v2620e(s.po_id) b
+  where abs(b.fg_value-s.fg_value)>0.005
+     or abs(b.cogs_value-s.cogs_value)>0.005
+     or abs(b.other_out_value-s.other_out_value)>0.005
+
+  union all
+  select 'V2620C_WIP_SOURCE_CONSERVATION_MISMATCH','CRITICAL',count(*)::bigint,
+    'Per-PO WIP book must equal independently sourced manufacturing cost not yet transferred into current HPP, net of an active final residual close'
+  from erp.po_hpp_gl_state s
+  cross join lateral(
+    select (
+      coalesce((
+        select sum(-m.qty_signed*m.unit_cost_snapshot)
+        from erp.material_stock_movements m
+        where (m.source_type='CUTTING_GROUP' and m.source_id in(
+          select g.id from erp.cutting_groups g where g.po_id=s.po_id
+        )) or (m.source_type='CUTTING_GROUP_RETURN' and m.source_id in(
+          select g.id from erp.cutting_groups g where g.po_id=s.po_id
+        ))
+      ),0)
+      +coalesce((
+        select sum(i.qty*i.unit_cost_snapshot)
+        from erp.contractor_material_issue_items i
+        join erp.contractor_material_issues h on h.id=i.issue_id and h.status='POSTED'
+        join erp.materials m on m.id=i.material_id and m.material_type<>'ACCESSORY'
+        where h.po_id=s.po_id
+      ),0)
+      +coalesce((
+        select sum(l.amount_payable)
+        from erp.work_completion_lines l
+        join erp.work_completion_events h on h.id=l.completion_id and h.status='POSTED'
+        where h.po_id=s.po_id
+      ),0)
+      +coalesce((
+        select sum(a.allocated_amount)
+        from erp.attendance_hpp_pool_allocations a
+        join erp.attendance_hpp_pools h on h.id=a.pool_id and h.status='ACTIVE'
+        where a.po_id=s.po_id
+      ),0)
+      +coalesce((
+        with delivery_cost as(
+          select dl.id,dl.qty_sent_pcs,dl.estimated_rate_snapshot,
+            coalesce(sum(case when rh.status='POSTED'
+              and rl.actual_cost_status in('ESTIMATED','FINAL')
+              then rl.qty_good_received+rl.qty_bs_laundry else 0 end),0) qty_costed,
+            coalesce(sum(case when rh.status='POSTED'
+              and rl.actual_cost_status in('ESTIMATED','FINAL')
+              then coalesce(rl.actual_cost,0) else 0 end),0) actual_cost
+          from erp.laundry_delivery_lines dl
+          join erp.laundry_deliveries d on d.id=dl.delivery_id and d.status<>'REVERSED'
+          left join erp.laundry_receipt_lines rl on rl.delivery_line_id=dl.id
+          left join erp.laundry_receipts rh on rh.id=rl.receipt_id
+          where d.po_id=s.po_id
+          group by dl.id,dl.qty_sent_pcs,dl.estimated_rate_snapshot
+        )
+        select sum(actual_cost+greatest(qty_sent_pcs-qty_costed,0)
+          *coalesce(estimated_rate_snapshot,0)) from delivery_cost
+      ),0)
+      +coalesce((
+        select sum(rl.actual_cost)
+        from erp.laundry_failed_wash_attempts a
+        join erp.laundry_receipt_lines rl on rl.id=a.receipt_line_id
+          and rl.actual_cost_status in('ESTIMATED','FINAL')
+        join erp.laundry_receipts rh on rh.id=a.receipt_id and rh.status='POSTED'
+        join erp.laundry_deliveries d on d.id=a.delivery_id and d.status='REVERSED'
+        where d.po_id=s.po_id
+      ),0)
+      +coalesce((
+        select sum(l.amount_payable)
+        from erp.rework_component_lines l
+        join erp.rework_orders r on r.id=l.rework_order_id
+          and r.status<>'CANCELLED' and r.cost_posted=true
+        join erp.bs_cases b on b.id=r.bs_case_id
+        where b.po_id=s.po_id
+      ),0)
+      +coalesce((
+        select sum(a.adjustment_amount) from erp.cost_adjustments a
+        where a.po_id=s.po_id and a.component_type='OTHER'
+      ),0)
+      +coalesce((
+        select sum(a.total_hpp_cost)
+        from erp.fg_accessory_cost_snapshots a
+        join erp.fg_lots fl on fl.id=a.lot_id
+          and fl.lot_origin='PRODUCTION'
+        where fl.po_id=s.po_id
+      ),0)
+      +coalesce((select sum(erp.initial_import_source_value_v1(ps.opening_item_id)) from erp.initial_import_production_sources ps where ps.po_id=s.po_id),0)
+      -coalesce((select sum(e.target_amount-e.previous_amount) from erp.initial_import_bs_value_events e join erp.initial_import_production_sources ps on ps.opening_item_id=e.opening_item_id where ps.po_id=s.po_id),0)
+      -coalesce((select sum(e.target_amount-e.previous_amount) from erp.bb_wip_split_value_events_v1 e join erp.bb_wip_bs_splits_v1 x on x.id=e.split_id join erp.initial_import_production_sources ps on ps.opening_item_id=x.opening_item_id where ps.po_id=s.po_id),0)
+      +coalesce((select sum(erp.pocket_period_amount_v1(d.pool_id,d.preceding_qty,d.sewing_qty)) from erp.pocket_period_destinations d where d.po_id=s.po_id),0)
+    )::numeric source_cost
+  ) truth
+  cross join lateral(
+    select coalesce(sum(jl.debit-jl.credit),0)::numeric wip_book
+    from erp.journal_lines jl
+    join erp.journal_entries je on je.id=jl.journal_entry_id
+      and je.status in('POSTED','REVERSED')
+    where jl.po_id=s.po_id and jl.account_id=erp.account_id('WIP')
+  ) w
+  cross join lateral(
+    select coalesce(sum(e.residual_amount),0)::numeric active_wip_close
+    from erp.po_wip_close_events e
+    join erp.journal_entries je on je.id=e.journal_entry_id
+      and je.source_type='PO_WIP_RESIDUAL_CLOSE' and je.status='POSTED'
+    where e.po_id=s.po_id
+  ) c
+  where abs(w.wip_book-(round(truth.source_cost,2)-s.hpp_total_cost-c.active_wip_close))>0.005
+
+  union all
+  select 'V2620C_SALE_REVENUE_REPORT_INPUT_MISMATCH','CRITICAL',count(*)::bigint,
+    'Each sale lifecycle must contribute its exact line total to SALES_REVENUE while active and zero after cancellation/reversal'
+  from(
+    select h.id,h.status,
+      case when h.status in('POSTED','PARTIAL_PAID','PAID')
+        then coalesce((select sum(i.line_total) from erp.sales_items i where i.sale_id=h.id),0)
+        else 0 end::numeric expected_revenue,
+      coalesce(sum(jl.credit-jl.debit),0)::numeric booked_revenue
+    from erp.sales_headers h
+    left join erp.journal_entries origin on origin.source_type='SALE' and origin.source_id=h.id
+      and origin.status in('POSTED','REVERSED')
+    left join erp.journal_entries je on je.id=origin.id
+      or (je.source_type='JOURNAL_REVERSAL' and je.reversal_of_id=origin.id
+          and je.status in('POSTED','REVERSED'))
+    left join erp.journal_lines jl on jl.journal_entry_id=je.id
+      and jl.account_id=erp.account_id('SALES_REVENUE')
+    group by h.id,h.status
+  ) x
+  where abs(x.booked_revenue-x.expected_revenue)>0.005
+
+  union all
+  select 'V2620C_SALES_RETURN_REPORT_INPUT_MISMATCH','CRITICAL',count(*)::bigint,
+    'Each sales-return lifecycle must reduce SALES_REVENUE by its exact refund while active and contribute zero after reversal'
+  from(
+    select h.id,h.status,
+      case when h.status='POSTED'
+        then -coalesce((select sum(i.refund_amount) from erp.sales_return_items i where i.return_id=h.id),0)
+        else 0 end::numeric expected_revenue,
+      coalesce(sum(jl.credit-jl.debit),0)::numeric booked_revenue
+    from erp.sales_returns h
+    left join erp.journal_entries origin on origin.source_type='SALES_RETURN' and origin.source_id=h.id
+      and origin.status in('POSTED','REVERSED')
+    left join erp.journal_entries je on je.id=origin.id
+      or (je.source_type='JOURNAL_REVERSAL' and je.reversal_of_id=origin.id
+          and je.status in('POSTED','REVERSED'))
+    left join erp.journal_lines jl on jl.journal_entry_id=je.id
+      and jl.account_id=erp.account_id('SALES_REVENUE')
+    group by h.id,h.status
+  ) x
+  where abs(x.booked_revenue-x.expected_revenue)>0.005
+
+  union all
+  select 'V2620C_DRAFT_SALE_VALUE_LEAK','CRITICAL',count(*)::bigint,
+    'An active Draft reservation may reduce sellable quantity but may not classify current HPP as COGS/other expense'
+  from(
+    select distinct fl.po_id
+    from erp.sale_stock_allocations a
+    join erp.sales_items i on i.id=a.sale_item_id
+    join erp.sales_headers h on h.id=i.sale_id and h.status='DRAFT'
+    join erp.fg_lots fl on fl.id=a.lot_id and fl.po_id is not null
+  ) d
+  cross join lateral erp.compute_po_hpp_gl_targets_v2620d(d.po_id) t
+  where abs(coalesce(t.other_out_value,0))>0.005
+
+  union all
+  select 'V2620C_VENDOR_PAYMENT_EXACT_STATUS_MISMATCH','CRITICAL',count(*)::bigint,
+    'Vendor invoice PAID/PARTIAL status must match the exact two-decimal payment subledger'
+  from erp.vendor_invoices h
+  cross join lateral(
+    select coalesce(sum(p.amount),0)::numeric(20,2) paid
+    from erp.vendor_payments p where p.vendor_invoice_id=h.id and p.status='POSTED'
+  ) x
+  where (h.status='PAID' and x.paid<>h.total_amount)
+     or (h.status='PARTIAL_PAID' and not(x.paid>0 and x.paid<h.total_amount))
+     or (h.status='POSTED' and x.paid<>0)
+
+  union all
+  select 'V2620C_HPP_STATE_HAS_SUBCENT','CRITICAL',count(*)::bigint,
+    'Cumulative PO HPP GL state must contain exactly the minor-unit amounts that were journaled'
+  from erp.po_hpp_gl_state s
+  where s.hpp_total_cost<>round(s.hpp_total_cost,2)
+     or s.fg_value<>round(s.fg_value,2)
+     or s.cogs_value<>round(s.cogs_value,2)
+     or s.other_out_value<>round(s.other_out_value,2)
+
+  union all
+  select 'V2620D_REDISPATCH_PARTICIPANT_LINEAGE_MISMATCH','CRITICAL',count(*)::bigint,
+    'Every carried participant interval must be contiguous, bounded, acyclic, same-source, and descend from a prior immutable full return'
+  from(
+    select a.id issue_id
+    from erp.laundry_redispatch_participant_allocations a
+    join erp.laundry_delivery_batch_size_lines sx
+      on sx.id=a.source_delivery_batch_size_line_id
+    join erp.laundry_delivery_lines sdl on sdl.id=sx.delivery_line_id
+    join erp.laundry_deliveries sd on sd.id=sdl.delivery_id
+    join erp.laundry_delivery_batch_size_lines dx
+      on dx.id=a.successor_delivery_batch_size_line_id
+    join erp.laundry_delivery_lines ddl on ddl.id=dx.delivery_line_id
+    join erp.laundry_deliveries dd on dd.id=ddl.delivery_id
+    where sx.distribution_batch_id<>dx.distribution_batch_id
+       or sx.size_id<>dx.size_id or sdl.cutting_group_id<>ddl.cutting_group_id
+       or sd.status<>'REVERSED'
+       or (sd.physical_at,sd.created_at,sd.id)>=(dd.physical_at,dd.created_at,dd.id)
+       or a.source_offset_pcs+a.qty_pcs>sx.qty_sent_pcs
+       or a.successor_offset_pcs+a.qty_pcs>dx.qty_sent_pcs
+       or not exists(
+         select 1 from erp.laundry_failed_wash_attempts f
+         join erp.laundry_failed_wash_batch_size_lines fx
+           on fx.attempt_id=f.id and fx.delivery_batch_size_line_id=sx.id
+          and fx.qty_attempted_pcs=sx.qty_sent_pcs
+         join erp.laundry_receipts fr on fr.id=f.receipt_id
+           and fr.status in('POSTED','REVERSED')
+         join erp.wip_stage_events rv on rv.id=f.return_wip_event_id
+           and rv.source_type='CP6_LAUNDRY_DELIVERY_WIP_REVERSAL'
+           and rv.stage_from='LAUNDRY' and rv.stage_to='SEWING'
+           and rv.qty_pcs=f.qty_attempted_pcs
+         join erp.wip_stage_events src on src.id=rv.source_id
+           and src.source_type='LAUNDRY_DELIVERY_LINE'
+           and src.source_id=sx.delivery_line_id
+         join erp.laundry_delivery_lines fdl on fdl.id=src.source_id
+           and fdl.delivery_id=f.delivery_id
+           and rv.po_id=sd.po_id
+           and rv.cutting_group_id=fdl.cutting_group_id
+         where f.delivery_id=sd.id and f.custody_outcome='RETURN_UNPROCESSED'
+           and fr.physical_at<=dd.physical_at and rv.physical_at<=dd.physical_at
+       )
+    union all
+    select min(a.id::text)::uuid
+    from erp.laundry_redispatch_participant_allocations a
+    group by a.source_delivery_batch_size_line_id
+    having min(a.source_offset_pcs)<>0
+       or max(a.source_offset_pcs+a.qty_pcs)<>sum(a.qty_pcs)
+    union all
+    select min(a.id::text)::uuid
+    from erp.laundry_redispatch_participant_allocations a
+    group by a.successor_delivery_batch_size_line_id
+    having min(a.successor_offset_pcs)<>0
+       or max(a.successor_offset_pcs+a.qty_pcs)<>sum(a.qty_pcs)
+  ) bad_lineage
+
+  union all
+  select 'V268_ACTIVE_SALE_MISSING_JOURNAL','CRITICAL',count(*)::bigint,
+    'Every active Sale with a monetary or rounded non-PO HPP effect requires its SALE journal'
+  from erp.sales_headers h
+  where h.status in('POSTED','PARTIAL_PAID','PAID')
+    and round(coalesce((select sum(i.line_total) from erp.sales_items i
+          where i.sale_id=h.id),0),2)>0.005
+    and not exists(select 1 from erp.journal_entries j
+      where j.source_type='SALE' and j.source_id=h.id and j.status='POSTED')
+
+  union all
+  select 'V268_POSTED_SALES_RETURN_MISSING_JOURNAL','CRITICAL',count(*)::bigint,
+    'Every posted return with a monetary or rounded non-PO HPP effect requires its SALES_RETURN journal'
+  from erp.sales_returns h
+  where h.status='POSTED'
+    and round(coalesce((select sum(i.refund_amount)
+          from erp.sales_return_items i where i.return_id=h.id),0),2)>0.005
+    and not exists(select 1 from erp.journal_entries j
+      where j.source_type='SALES_RETURN' and j.source_id=h.id and j.status='POSTED')
+
+  union all
+  select 'V2620F_NON_PO_PRODUCT_HPP_BOOK_MISMATCH','CRITICAL',count(*)::bigint,
+    'Each non-PO product book must equal cumulative per-lot minor-unit HPP targets across every active Sale, return, correction, and reversal'
+  from(
+    select distinct fl.product_id
+    from erp.fg_lots fl
+    where fl.po_id is null
+      and fl.lot_origin not in('CONVERSION','VOIDED_PRODUCTION')
+  ) p
+  cross join lateral erp.compute_non_po_product_hpp_targets_v2620f(p.product_id) t
+  cross join lateral erp.compute_non_po_product_hpp_book_v2620f(p.product_id) b
+  where abs(t.hpp_total_cost-b.hpp_total_cost)>0.005
+     or abs(t.fg_value-b.fg_value)>0.005
+     or abs(t.cogs_value-b.cogs_value)>0.005
+     or abs(t.other_out_value-b.other_out_value)>0.005
+
+  union all
+  select 'V2620E_SALES_RETURN_VALUE_EXCEEDS_SALE','CRITICAL',count(*)::bigint,
+    'Posted cumulative product refund may never exceed the exact original product sale value'
+  from(
+    select sr.sale_id,i.product_id,sum(i.refund_amount)::numeric refund,
+      coalesce((select sum(si.line_total) from erp.sales_items si
+        where si.sale_id=sr.sale_id and si.product_id=i.product_id),0)::numeric sold
+    from erp.sales_returns sr join erp.sales_return_items i on i.return_id=sr.id
+    where sr.status='POSTED'
+    group by sr.sale_id,i.product_id
+  ) refund where refund.refund>refund.sold
+
+  union all
+  select 'V2620E_OPENING_HPP_LINEAGE_MISMATCH','CRITICAL',count(*)::bigint,
+    'Opening FG HPP must follow its opening source or latest active correction and must not pretend to have production components'
+  from erp.fg_lots fl
+  left join lateral(
+    select count(*)::integer movement_count,min(m.id::text)::uuid movement_id,
+      min(m.source_id::text)::uuid source_id,min(m.qty_signed)::integer qty_signed,
+      min(m.unit_hpp_snapshot)::numeric unit_hpp
+    from erp.fg_stock_movements m
+    where m.lot_id=fl.id and m.movement_type='OPENING'
+  ) om on true
+  left join erp.opening_balance_items oi on oi.id=om.source_id
+  left join erp.opening_balance_headers oh on oh.id=oi.opening_id
+  left join lateral(
+    select count(*)::integer current_count,min(h.id::text)::uuid current_id,
+      min(h.qty_basis_pcs)::integer qty_basis,min(h.total_cost)::numeric total_cost
+    from erp.hpp_versions h where h.lot_id=fl.id and h.is_current
+  ) ch on true
+  left join lateral(
+    select h.total_cost,h.qty_basis_pcs
+    from erp.hpp_versions h where h.lot_id=fl.id
+    order by h.version_no,h.id limit 1
+  ) first_hpp on true
+  left join lateral(
+    select c.corrected_hpp
+    from erp.opening_hpp_corrections c
+    join erp.hpp_versions h on h.id=c.hpp_version_id
+    where c.lot_id=fl.id and c.status='POSTED'
+    order by h.version_no desc,h.id desc limit 1
+  ) correction on true
+  where fl.lot_origin='OPENING' and(
+    om.movement_count<>1 or ch.current_count<>1
+    or oi.id is null or oi.balance_type<>'FINISHED_GOODS'
+    or oh.status<>'POSTED' or oi.product_id is distinct from fl.product_id
+    or om.qty_signed is distinct from fl.initial_qty_pcs
+    or ch.qty_basis is distinct from fl.initial_qty_pcs
+    or abs(first_hpp.total_cost-fl.initial_qty_pcs*om.unit_hpp)>0.000001
+    or abs(om.unit_hpp-erp.resolve_opening_fg_unit_hpp(oi.id,oh.opening_date))>0.000001
+    or abs(ch.total_cost-fl.initial_qty_pcs
+      *coalesce(correction.corrected_hpp,om.unit_hpp))>0.000001
+    or fl.cached_qty_pcs is distinct from coalesce((
+      select sum(m.qty_signed)::integer from erp.fg_stock_movements m
+      where m.lot_id=fl.id
+    ),0)
+    or exists(select 1 from erp.hpp_version_components c
+      join erp.hpp_versions h on h.id=c.hpp_version_id where h.lot_id=fl.id)
+  )
+
+  union all
+  select 'V2620E_OPENING_FG_GL_MISMATCH','CRITICAL',count(*)::bigint,
+    'Each posted opening document FG journal must equal its immutable opening FG movement value'
+  from erp.opening_balance_headers h
+  cross join lateral(
+    select coalesce(sum(round(m.qty_signed*m.unit_hpp_snapshot,2)),0)::numeric expected_fg
+    from erp.opening_balance_items i
+    join erp.fg_stock_movements m
+      on m.source_type='OPENING_BALANCE_ITEM' and m.source_id=i.id
+     and m.movement_type='OPENING'
+    where i.opening_id=h.id and i.balance_type='FINISHED_GOODS'
+  ) expected
+  cross join lateral(
+    select coalesce(sum(l.debit-l.credit),0)::numeric actual_fg
+    from erp.journal_entries j join erp.journal_lines l on l.journal_entry_id=j.id
+    where j.source_type='OPENING_BALANCE' and j.source_id=h.id
+      and j.status='POSTED' and l.account_id=erp.account_id('FG_INVENTORY')
+  ) actual
+  where h.status='POSTED' and abs(expected.expected_fg-actual.actual_fg)>0.005
+
+  union all
+  select 'V2620I_SALES_PAYMENT_JOURNAL_LINEAGE_MISMATCH','CRITICAL',count(*)::bigint,
+    'Each customer payment must own exactly one exact cash/AR journal and, when reversed, exactly one exact inverse'
+  from(
+    select p.id
+    from erp.sales_payments p
+    join erp.sales_headers h on h.id=p.sale_id
+    where
+      (p.status='DRAFT' and exists(
+        select 1 from erp.journal_entries o
+        where o.source_type='SALES_PAYMENT' and o.source_id=p.id
+      ))
+      or
+      (p.status in('POSTED','REVERSED') and(
+        (select count(*) from erp.journal_entries o
+         where o.source_type='SALES_PAYMENT' and o.source_id=p.id)<>1
+        or not exists(
+          select 1
+          from erp.journal_entries o
+          where o.source_type='SALES_PAYMENT' and o.source_id=p.id
+            and o.status=case when p.status='POSTED' then 'POSTED' else 'REVERSED' end
+            and o.economic_date=case when p.replaces_payment_id is null
+          then erp._cp3_business_date(p.payment_date) else (select pr.reversal_economic_date
+            from erp.sales_payment_reversal_facts pr
+            where pr.payment_id=p.replaces_payment_id) end
+            and (select count(*) from erp.journal_lines l where l.journal_entry_id=o.id)=2
+            and (select coalesce(sum(l.debit),0) from erp.journal_lines l where l.journal_entry_id=o.id)=p.amount
+            and (select coalesce(sum(l.credit),0) from erp.journal_lines l where l.journal_entry_id=o.id)=p.amount
+            and (select count(*) from erp.journal_lines l
+                 left join erp.cash_accounts ca on ca.id=p.cash_account_id
+                 where l.account_id=coalesce(erp.initial_prepayment_account_v1(p.id),ca.coa_account_id) and l.journal_entry_id=o.id and l.debit=p.amount and l.credit=0
+                   and l.customer_id=h.customer_id and l.vendor_id is null
+                   and l.contractor_id is null and l.po_id is null and l.product_id is null)=1
+            and (select count(*) from erp.journal_lines l
+                 where l.journal_entry_id=o.id and l.account_id=erp.account_id('AR_CUSTOMER')
+                   and l.debit=0 and l.credit=p.amount and l.customer_id=h.customer_id
+                   and l.vendor_id is null and l.contractor_id is null
+                   and l.po_id is null and l.product_id is null)=1
+            and (
+              (p.status='POSTED' and not exists(
+                select 1 from erp.journal_entries r
+                where r.source_type='JOURNAL_REVERSAL'
+                  and (r.source_id=o.id or r.reversal_of_id=o.id)
+              ))
+              or
+              (p.status='REVERSED'
+                and (select count(*) from erp.journal_entries r
+                     where r.source_type='JOURNAL_REVERSAL'
+                       and (r.source_id=o.id or r.reversal_of_id=o.id))=1
+                and exists(
+                  select 1 from erp.journal_entries r
+                  where r.source_type='JOURNAL_REVERSAL' and r.source_id=o.id
+                    and r.reversal_of_id=o.id and r.status='POSTED'
+                    and (select count(*) from erp.journal_lines x where x.journal_entry_id=r.id)=2
+                    and not exists(
+                      select 1 from erp.journal_lines ol
+                      where ol.journal_entry_id=o.id and not exists(
+                        select 1 from erp.journal_lines rl
+                        where rl.journal_entry_id=r.id
+                          and rl.account_id=ol.account_id
+                          and rl.debit=ol.credit and rl.credit=ol.debit
+                          and rl.customer_id is not distinct from ol.customer_id
+                          and rl.vendor_id is not distinct from ol.vendor_id
+                          and rl.contractor_id is not distinct from ol.contractor_id
+                          and rl.po_id is not distinct from ol.po_id
+                          and rl.product_id is not distinct from ol.product_id
+                      )
+                    )
+                    and not exists(
+                      select 1 from erp.journal_lines rl
+                      where rl.journal_entry_id=r.id and not exists(
+                        select 1 from erp.journal_lines ol
+                        where ol.journal_entry_id=o.id
+                          and ol.account_id=rl.account_id
+                          and ol.debit=rl.credit and ol.credit=rl.debit
+                          and ol.customer_id is not distinct from rl.customer_id
+                          and ol.vendor_id is not distinct from rl.vendor_id
+                          and ol.contractor_id is not distinct from rl.contractor_id
+                          and ol.po_id is not distinct from rl.po_id
+                          and ol.product_id is not distinct from rl.product_id
+                      )
+                    )
+                )
+              )
+            )
+        )
+      ))
+    union all
+    select o.id
+    from erp.journal_entries o
+    where o.source_type='SALES_PAYMENT'
+      and not exists(select 1 from erp.sales_payments p where p.id=o.source_id)
+  ) payment_lineage_faults
+
+  union all
+  select 'V2620K_PAYMENT_ALLOCATION_DATE_MISMATCH','CRITICAL',count(*)::bigint,
+    'Allocation replacement must conserve cash and customer AR on each economic and GL date'
+  from erp.sales_payment_posting_facts f
+  left join erp.sales_payment_reversal_facts pr on pr.payment_id=f.replaces_payment_id
+  where f.replaces_payment_id is not null and(
+    pr.payment_id is null
+    or f.journal_economic_date is distinct from pr.reversal_economic_date
+    or f.journal_transaction_date is distinct from pr.reversal_transaction_date
+    or f.journal_posting_at<pr.reversal_posting_at)
+
+  union all
+  select 'V2620J_SALES_PAYMENT_IMMUTABLE_FACT_MISMATCH','CRITICAL',count(*)::bigint,
+    'Posted payment invoice/cash identity and reversal dates must match append-only facts; correction requires one linked replacement'
+  from(
+    select p.id
+    from erp.sales_payments p
+    left join erp.sales_headers h on h.id=p.sale_id
+    left join erp.sales_payment_posting_facts f on f.payment_id=p.id
+    left join erp.journal_entries o on o.id=f.original_journal_entry_id
+    left join erp.sales_payment_reversal_facts rf on rf.payment_id=p.id
+    left join erp.journal_entries r on r.id=rf.reversal_journal_entry_id
+    left join erp.sales_payment_posting_facts pf on pf.payment_id=f.replaces_payment_id
+    left join erp.sales_payment_reversal_facts prf on prf.payment_id=f.replaces_payment_id
+    where
+      (p.status='DRAFT' and(f.payment_id is not null or rf.payment_id is not null))
+      or
+      (p.status in('POSTED','REVERSED') and(
+        f.payment_id is null or h.id is null
+        or f.sale_id is distinct from p.sale_id
+        or f.customer_id is distinct from h.customer_id
+        or f.payment_number is distinct from p.payment_number
+        or f.payment_date is distinct from p.payment_date
+        or f.amount is distinct from p.amount
+        or f.cash_account_id is distinct from p.cash_account_id
+        or f.replaces_payment_id is distinct from p.replaces_payment_id
+        or f.payment_snapshot is distinct from to_jsonb(p)-'status'
+        or f.lineage_sha256 is distinct from encode(extensions.digest(convert_to(jsonb_build_array(
+          f.payment_id,f.sale_id,f.customer_id,f.payment_number,f.payment_date,f.amount,
+          f.cash_account_id,f.original_journal_entry_id,f.journal_economic_date,
+          f.journal_transaction_date,f.journal_posting_at,f.replaces_payment_id,
+          f.predecessor_reversal_journal_id,f.payment_snapshot
+        )::text,'UTF8'),'sha256'),'hex')
+        or o.id is null or o.source_type<>'SALES_PAYMENT' or o.source_id is distinct from p.id
+        or o.status is distinct from case when p.status='POSTED' then 'POSTED' else 'REVERSED' end
+        or o.economic_date is distinct from f.journal_economic_date
+        or o.transaction_date is distinct from f.journal_transaction_date
+        or o.posting_at is distinct from f.journal_posting_at
+        or ((f.replaces_payment_id is null)<>(f.predecessor_reversal_journal_id is null))
+        or (f.replaces_payment_id is not null and(
+          pf.payment_id is null or prf.payment_id is null
+          or f.predecessor_reversal_journal_id is distinct from prf.reversal_journal_entry_id
+          or pf.sale_id=f.sale_id or pf.customer_id is distinct from f.customer_id
+          or pf.amount is distinct from f.amount
+          or pf.cash_account_id is distinct from f.cash_account_id
+          or pf.payment_date is distinct from f.payment_date
+        ))
+        or (p.status='POSTED' and(
+          rf.payment_id is not null or exists(
+            select 1 from erp.journal_entries x where x.source_type='JOURNAL_REVERSAL'
+              and(x.source_id=o.id or x.reversal_of_id=o.id)
+          )
+        ))
+        or (p.status='REVERSED' and(
+          rf.payment_id is null or r.id is null
+          or rf.original_journal_entry_id is distinct from o.id
+          or r.source_type<>'JOURNAL_REVERSAL' or r.source_id is distinct from o.id
+          or r.reversal_of_id is distinct from o.id or r.status<>'POSTED'
+          or r.economic_date is distinct from rf.reversal_economic_date
+          or r.transaction_date is distinct from rf.reversal_transaction_date
+          or r.posting_at is distinct from rf.reversal_posting_at
+          or rf.reversal_economic_date<f.journal_economic_date
+          or rf.reversal_posting_at<f.journal_posting_at
+          or rf.lineage_sha256 is distinct from encode(extensions.digest(convert_to(jsonb_build_array(
+            rf.payment_id,rf.original_journal_entry_id,rf.reversal_journal_entry_id,
+            rf.reversal_economic_date,rf.reversal_transaction_date,rf.reversal_posting_at
+          )::text,'UTF8'),'sha256'),'hex')
+        ))
+      ))
+    union all
+    select f.payment_id from erp.sales_payment_posting_facts f
+    left join erp.sales_payments p on p.id=f.payment_id where p.id is null
+    union all
+    select r.payment_id from erp.sales_payment_reversal_facts r
+    left join erp.sales_payments p on p.id=r.payment_id
+    left join erp.sales_payment_posting_facts f on f.payment_id=r.payment_id
+    where p.id is null or f.payment_id is null or p.status<>'REVERSED'
+  ) payment_fact_faults
+
+  union all
+  select 'V2620H_FAILED_WASH_RETURN_TIME_MISMATCH','CRITICAL',count(*)::bigint,
+    'RETURN_UNPROCESSED inverse WIP time must equal its authoritative physical receipt time'
+  from erp.laundry_failed_wash_attempts a
+  left join erp.laundry_receipts rh on rh.id=a.receipt_id
+  left join erp.wip_stage_events rv on rv.id=a.return_wip_event_id
+  where a.custody_outcome='RETURN_UNPROCESSED' and(
+    rh.id is null or rv.id is null
+    or rv.source_type<>'CP6_LAUNDRY_DELIVERY_WIP_REVERSAL'
+    or rv.physical_at is distinct from rh.physical_at
+  )
+
+  union all
+  select 'V2620H_CUSTOMER_AR_STATUS_MISMATCH','CRITICAL',count(*)::bigint,
+    'Sale PAID/PARTIAL/POSTED status must equal the exact two-decimal payment subledger and overpayment is unsupported'
+  from erp.sales_headers h
+  cross join lateral(
+    select round(erp.sale_net_total(h.id),2)::numeric(20,2) total,
+      round(coalesce(sum(round(p.amount,2)),0),2)::numeric(20,2) paid
+    from erp.sales_payments p where p.sale_id=h.id and p.status='POSTED'
+  ) x
+  where h.status in('POSTED','PARTIAL_PAID','PAID') and(
+    x.paid>x.total
+    or (h.status='PAID' and x.paid<>x.total)
+    or (h.status='PARTIAL_PAID' and not(x.paid>0 and x.paid<x.total))
+    or (h.status='POSTED' and x.paid<>0)
+  )
+
+  union all
+  select 'V2620H_CUSTOMER_AR_BY_CUSTOMER_MISMATCH','CRITICAL',count(*)::bigint,
+    'Each customer signed AR general-ledger balance must equal active net sales less posted payments'
+  from(
+    select coalesce(g.customer_id,s.customer_id) customer_id,
+      coalesce(g.amount,0)::numeric gl_amount,coalesce(s.amount,0)::numeric subledger_amount
+    from(
+      select jl.customer_id,sum(jl.debit-jl.credit)::numeric amount
+      from erp.journal_lines jl join erp.journal_entries je on je.id=jl.journal_entry_id
+      where je.status in('POSTED','REVERSED') and jl.account_id=erp.account_id('AR_CUSTOMER')
+        and jl.customer_id is not null
+      group by jl.customer_id
+    ) g
+    full join(
+      select x.customer_id,sum(x.amount)::numeric amount from(
+        select h.customer_id,round(erp.sale_net_total(h.id),2)-coalesce((
+          select sum(round(p.amount,2)) from erp.sales_payments p
+          where p.sale_id=h.id and p.status='POSTED'),0) amount
+        from erp.sales_headers h where h.status in('POSTED','PARTIAL_PAID','PAID')
+        union all
+        select ob.customer_id,ob.original_amount-ob.settled_amount
+        from erp.opening_subledger_balances ob
+        join erp.opening_balance_items oi on oi.id=ob.opening_item_id
+        join erp.opening_balance_headers oh on oh.id=oi.opening_id and oh.status='POSTED'
+        where ob.party_type='CUSTOMER' and ob.direction='RECEIVABLE'
+      ) x group by x.customer_id
+    ) s on s.customer_id=g.customer_id
+  ) ar where round(ar.gl_amount,2) is distinct from round(ar.subledger_amount,2)
+
+  union all
+  select 'V2620G_LAUNDRY_WIP_CUSTODY_MISMATCH','CRITICAL',count(*)::bigint,
+    'Laundry source and inverse events must match authoritative delivery quantity, dimensions, direction, chronology and net physical custody'
+  from(
+    select dl.id
+    from erp.laundry_delivery_lines dl
+    join erp.laundry_deliveries d on d.id=dl.delivery_id
+    join erp.production_orders po on po.id=d.po_id
+    left join lateral(
+      select count(*) total_sources,
+        count(*) filter(where s.po_id=d.po_id
+          and s.cutting_group_id is not distinct from dl.cutting_group_id
+          and s.contractor_id is not distinct from po.contractor_id
+          and s.stage_from='SEWING' and s.stage_to='LAUNDRY'
+          and s.qty_pcs=dl.qty_sent_pcs and s.physical_at=d.physical_at) valid_sources,
+        coalesce(sum(s.qty_pcs),0) source_qty
+      from erp.wip_stage_events s
+      where s.source_type='LAUNDRY_DELIVERY_LINE' and s.source_id=dl.id
+    ) source on true
+    left join lateral(
+      select count(*) total_inverses,
+        count(*) filter(where r.po_id=s.po_id
+          and r.cutting_group_id is not distinct from s.cutting_group_id
+          and r.contractor_id is not distinct from s.contractor_id
+          and r.stage_from='LAUNDRY' and r.stage_to='SEWING'
+          and r.qty_pcs=dl.qty_sent_pcs and r.qty_pcs=s.qty_pcs
+          and r.physical_at>=s.physical_at) valid_inverses,
+        coalesce(sum(r.qty_pcs),0) inverse_qty
+      from erp.wip_stage_events s
+      join erp.wip_stage_events r on r.source_id=s.id
+        and r.source_type='CP6_LAUNDRY_DELIVERY_WIP_REVERSAL'
+      where s.source_type='LAUNDRY_DELIVERY_LINE' and s.source_id=dl.id
+    ) inverse on true
+    where d.status<>'DRAFT' and(
+      source.total_sources<>1 or source.valid_sources<>1
+      or inverse.total_inverses<>case when d.status='REVERSED' then 1 else 0 end
+      or inverse.valid_inverses<>inverse.total_inverses
+      or source.source_qty-inverse.inverse_qty<>
+        case when d.status='REVERSED' then 0 else dl.qty_sent_pcs end
+    )
+    union all
+    select s.id from erp.wip_stage_events s
+    left join erp.laundry_delivery_lines dl on dl.id=s.source_id
+    left join erp.laundry_deliveries d on d.id=dl.delivery_id
+    where s.source_type='LAUNDRY_DELIVERY_LINE'
+      and(dl.id is null or d.id is null or d.status='DRAFT')
+    union all
+    select r.id from erp.wip_stage_events r
+    left join erp.wip_stage_events s on s.id=r.source_id
+      and s.source_type='LAUNDRY_DELIVERY_LINE'
+    where r.source_type='CP6_LAUNDRY_DELIVERY_WIP_REVERSAL' and s.id is null
+  ) bad_custody
+
+  union all
+  select 'V2620E_REDISPATCH_EVENT_MISMATCH','CRITICAL',count(*)::bigint,
+    'Effective redispatch allocation/release events must be bounded, non-overlapping, chronological, and backed by exact custody facts'
+  from(
+    select a.id
+    from erp.laundry_redispatch_participant_events a
+    join erp.laundry_delivery_batch_size_lines sx
+      on sx.id=a.source_delivery_batch_size_line_id
+    join erp.laundry_delivery_lines sl on sl.id=sx.delivery_line_id
+    join erp.laundry_deliveries sd on sd.id=sl.delivery_id
+    join erp.laundry_delivery_batch_size_lines dx
+      on dx.id=a.successor_delivery_batch_size_line_id
+    join erp.laundry_delivery_lines dl on dl.id=dx.delivery_line_id
+    join erp.laundry_deliveries dd on dd.id=dl.delivery_id
+    where a.event_type='ALLOCATE' and(
+      sx.distribution_batch_id<>dx.distribution_batch_id or sx.size_id<>dx.size_id
+      or sl.cutting_group_id<>dl.cutting_group_id or sd.status<>'REVERSED'
+      or (sd.physical_at,sd.created_at,sd.id)>=(dd.physical_at,dd.created_at,dd.id)
+      or a.source_offset_pcs+a.qty_pcs>sx.qty_sent_pcs
+      or a.successor_offset_pcs+a.qty_pcs>dx.qty_sent_pcs
+      or not exists(
+        select 1 from erp.laundry_failed_wash_attempts f
+        join erp.laundry_failed_wash_batch_size_lines fx
+          on fx.attempt_id=f.id and fx.delivery_batch_size_line_id=sx.id
+         and fx.qty_attempted_pcs=sx.qty_sent_pcs
+        join erp.laundry_receipts fr on fr.id=f.receipt_id
+           and fr.status in('POSTED','REVERSED')
+         join erp.wip_stage_events rv on rv.id=f.return_wip_event_id
+           and rv.source_type='CP6_LAUNDRY_DELIVERY_WIP_REVERSAL'
+           and rv.stage_from='LAUNDRY' and rv.stage_to='SEWING'
+           and rv.qty_pcs=f.qty_attempted_pcs
+         join erp.wip_stage_events src on src.id=rv.source_id
+           and src.source_type='LAUNDRY_DELIVERY_LINE'
+           and src.source_id=sx.delivery_line_id
+         join erp.laundry_delivery_lines fdl on fdl.id=src.source_id
+           and fdl.delivery_id=f.delivery_id
+           and rv.po_id=sd.po_id
+           and rv.cutting_group_id=fdl.cutting_group_id
+        where f.delivery_id=sd.id and f.custody_outcome='RETURN_UNPROCESSED'
+          and fr.physical_at<=dd.physical_at and rv.physical_at<=dd.physical_at)
+      or (not exists(select 1 from erp.laundry_redispatch_participant_events x
+            where x.event_type='RELEASE' and x.releases_allocation_event_id=a.id)
+          and dd.status='REVERSED'
+          and not exists(select 1 from erp.laundry_receipts r where r.delivery_id=dd.id))
+    )
+    union all
+    select a.id
+    from erp.laundry_redispatch_participant_events a
+    where a.event_type='ALLOCATE'
+      and not exists(select 1 from erp.laundry_redispatch_participant_events x
+        where x.event_type='RELEASE' and x.releases_allocation_event_id=a.id)
+      and exists(
+        select 1 from erp.laundry_redispatch_participant_events b
+        where b.event_type='ALLOCATE' and b.id>a.id
+          and not exists(select 1 from erp.laundry_redispatch_participant_events x
+            where x.event_type='RELEASE' and x.releases_allocation_event_id=b.id)
+          and ((b.source_delivery_batch_size_line_id=a.source_delivery_batch_size_line_id
+              and int4range(b.source_offset_pcs,b.source_offset_pcs+b.qty_pcs,'[)')
+                && int4range(a.source_offset_pcs,a.source_offset_pcs+a.qty_pcs,'[)'))
+            or (b.successor_delivery_batch_size_line_id=a.successor_delivery_batch_size_line_id
+              and int4range(b.successor_offset_pcs,b.successor_offset_pcs+b.qty_pcs,'[)')
+                && int4range(a.successor_offset_pcs,a.successor_offset_pcs+a.qty_pcs,'[)')))
+      )
+    union all
+    select x.id
+    from erp.laundry_redispatch_participant_events x
+    join erp.laundry_redispatch_participant_events a
+      on a.id=x.releases_allocation_event_id and a.event_type='ALLOCATE'
+    join erp.laundry_delivery_batch_size_lines sx
+      on sx.id=a.successor_delivery_batch_size_line_id
+    join erp.laundry_delivery_lines dl on dl.id=sx.delivery_line_id
+    join erp.laundry_deliveries d on d.id=dl.delivery_id
+    where x.event_type='RELEASE' and(
+      x.released_delivery_id<>d.id or d.status<>'REVERSED'
+      or exists(select 1 from erp.laundry_receipts r where r.delivery_id=d.id)
+    )
+  ) bad_events
+
+  union all
+  select 'V2620F_CONVERSION_VALUE_LINEAGE_MISMATCH','CRITICAL',count(*)::bigint,
+    'Every posted conversion must be PO-sourced, value-preserving, rooted, and represented by exact OUT/IN facts with current descendant HPP'
+  from erp.product_conversion_allocations a
+  join erp.product_conversions c on c.id=a.conversion_id and c.status='POSTED'
+  join erp.fg_lots s on s.id=a.source_lot_id
+  left join erp.fg_lots d on d.id=a.destination_lot_id
+  left join erp.v_current_hpp sh on sh.lot_id=s.id
+  left join erp.v_current_hpp dh on dh.lot_id=d.id
+  where s.po_id is null or d.id is null or d.po_id is distinct from s.po_id
+     or d.lot_origin<>'CONVERSION' or d.source_lot_id is distinct from s.id
+     or d.initial_qty_pcs is distinct from a.qty_pcs or a.qty_pcs<=0
+     or sh.hpp_per_pcs is null or dh.hpp_per_pcs is null
+     or abs(dh.hpp_per_pcs-(sh.hpp_per_pcs
+       +a.conversion_cost_allocated/nullif(a.qty_pcs,0)))>0.000001
+     or (select count(*) from erp.fg_stock_movements m
+         where m.source_type='PRODUCT_CONVERSION' and m.source_id=c.id
+           and m.lot_id=s.id and m.movement_type='REBRAND_OUT'
+           and m.qty_signed=-a.qty_pcs)<>1
+     or (select count(*) from erp.fg_stock_movements m
+         where m.source_type='PRODUCT_CONVERSION' and m.source_id=c.id
+           and m.lot_id=d.id and m.movement_type='REBRAND_IN'
+           and m.qty_signed=a.qty_pcs)<>1
+
+  union all
+  select 'V2620D_SALE_LIFECYCLE_HPP_DIMENSION_MISMATCH','CRITICAL',count(*)::bigint,
+    'Every Sale lifecycle journal must conserve FG/COGS/disposition independently inside each PO or non-PO dimension'
+  from erp.journal_entries e
+  left join erp.journal_entries o on o.id=e.reversal_of_id
+  cross join lateral(
+    select coalesce(sum(l.debit-l.credit) filter(where l.account_id in(
+      erp.account_id('COGS'),erp.account_id('FG_INVENTORY'),
+      erp.account_id('OTHER_EXPENSE'),erp.account_id('OTHER_INCOME')
+    )),0) hpp_net
+    from erp.journal_lines l where l.journal_entry_id=e.id
+  ) b
+  where e.status in('POSTED','REVERSED') and(
+    e.source_type in('SALE','SALES_RETURN')
+    or(e.source_type='JOURNAL_REVERSAL' and o.source_type in('SALE','SALES_RETURN'))
+  ) and(
+    abs(b.hpp_net)>0.005
+    or exists(
+      select 1 from erp.journal_lines l
+      where l.journal_entry_id=e.id
+        and l.account_id in(
+          erp.account_id('COGS'),erp.account_id('FG_INVENTORY'),
+          erp.account_id('OTHER_EXPENSE'),erp.account_id('OTHER_INCOME')
+        )
+      group by l.po_id
+      having abs(sum(l.debit-l.credit))>0.005
+    )
+  );
+  return query
+  select 'V2620AD_OPENING_MATERIAL_TIMELINE_MISMATCH'::text,'CRITICAL'::text,
+    (select count(*)::bigint
+    from erp.opening_balance_items i
+    join erp.opening_balance_headers h on h.id=i.opening_id
+    where h.status='POSTED' and i.balance_type='MATERIAL' and (
+      (select count(*) from erp.material_stock_movements m
+       where m.source_type='OPENING_BALANCE_ITEM' and m.source_id=i.id)<>1
+      or not exists(select 1 from erp.material_stock_movements m
+        where m.source_type='OPENING_BALANCE_ITEM' and m.source_id=i.id
+          and m.movement_type='OPENING' and m.material_id=i.material_id
+          and m.location_id=i.location_id and m.roll_id is not distinct from i.roll_id
+          and m.physical_at=(h.opening_date::timestamp at time zone 'Asia/Jakarta'))
+    )),
+    'Every posted material opening line must own one movement at the start of its Jakarta document date'::text;
+
+  return query
+  select 'V2620AE_OPENING_MATERIAL_ROLL_INTEGRITY'::text,'CRITICAL'::text,
+    (select count(*)::bigint
+    from erp.opening_balance_items i
+    join erp.opening_balance_headers h on h.id=i.opening_id and h.status='POSTED'
+    left join erp.materials material on material.id=i.material_id
+    left join erp.material_rolls roll on roll.id=i.roll_id
+    where (i.roll_id is not null and i.balance_type<>'MATERIAL')
+      or (i.balance_type='MATERIAL' and (
+      (material.material_type='FABRIC' and i.roll_id is null)
+      or (i.roll_id is not null and (
+        material.material_type is distinct from 'FABRIC'
+        or
+        roll.material_id is distinct from i.material_id
+        or roll.purchase_item_id is not null
+        or i.qty>roll.original_qty
+        or (select count(*) from erp.opening_balance_items other_i
+            join erp.opening_balance_headers other_h on other_h.id=other_i.opening_id
+            where other_h.status='POSTED' and other_i.balance_type='MATERIAL'
+              and other_i.roll_id=i.roll_id)<>1
+        or (select count(*) from erp.material_stock_movements opening_m
+            where opening_m.roll_id=i.roll_id and opening_m.movement_type='OPENING'
+              and opening_m.reversal_of_id is null)<>1
+        or exists(select 1 from erp.material_stock_movements purchase_m
+            where purchase_m.roll_id=i.roll_id and purchase_m.movement_type='PURCHASE'
+              and purchase_m.reversal_of_id is null)
+      ))
+    ))),
+    'Each posted opening roll must belong to one fabric line, enter once, and stay within original quantity'::text;
+
+  return query
+  select 'V2620AF_OPENING_SOURCE_LINEAGE_MISMATCH'::text,'CRITICAL'::text,
+    (select count(*)::bigint from (
+    select m.id
+    from erp.material_stock_movements m
+    left join erp.opening_balance_items i on i.id=m.source_id
+    left join erp.opening_balance_headers h on h.id=i.opening_id
+    where m.source_type='OPENING_BALANCE_ITEM' and m.movement_type='OPENING'
+      and m.reversal_of_id is null and (
+        h.status is distinct from 'POSTED' or i.balance_type is distinct from 'MATERIAL'
+        or m.material_id is distinct from i.material_id
+        or m.roll_id is distinct from i.roll_id or m.location_id is distinct from i.location_id
+        or m.qty_signed is distinct from i.qty
+        or m.input_unit_cost is distinct from coalesce((
+          select erp.material_purchase_current_unit_cost(origin.purchase_item_id)::numeric(18,6)
+          from erp.initial_import_receipt_lines origin where origin.opening_item_id=i.id),i.unit_cost_snapshot)
+        or (exists(select 1 from erp.initial_import_receipt_lines origin where origin.opening_item_id=i.id)
+          and coalesce(m.original_unit_cost_snapshot,m.unit_cost_snapshot) is distinct from i.unit_cost_snapshot))
+    union all
+    select m.id
+    from erp.fg_stock_movements m
+    left join erp.opening_balance_items i on i.id=m.source_id
+    left join erp.opening_balance_headers h on h.id=i.opening_id
+    where m.source_type='OPENING_BALANCE_ITEM' and m.movement_type='OPENING'
+      and m.reversal_of_id is null and (
+        h.status is distinct from 'POSTED' or i.balance_type is distinct from 'FINISHED_GOODS'
+        or m.product_id is distinct from i.product_id or m.qty_signed is distinct from i.qty
+        or (i.location_id is not null and m.location_id is distinct from i.location_id))
+    union all
+    select s.id
+    from erp.opening_subledger_balances s
+    left join erp.opening_balance_items i on i.id=s.opening_item_id
+    left join erp.opening_balance_headers h on h.id=i.opening_id
+    where h.status is distinct from 'POSTED'
+      or i.balance_type is distinct from (s.party_type||'_'||s.direction)
+      -- original_amount is the CURRENT corrected balance (numeric(20,2)),
+      -- despite its legacy column name. The immutable opening line remains
+      -- unchanged; posted linked correction deltas determine its effective sum.
+      or s.original_amount is distinct from (round(i.amount,2)+coalesce((
+        select sum(c.delta_amount) from erp.opening_financial_corrections c
+        where c.opening_item_id=i.id and c.status='POSTED'),0))
+    union all
+    select h.id from erp.opening_balance_headers h
+    where h.status='POSTED'
+      and not exists(select 1 from erp.opening_balance_items i where i.opening_id=h.id)
+    union all
+    select e.id from erp.journal_entries e
+    left join erp.opening_balance_headers h on h.id=e.source_id
+    where e.source_type='OPENING_BALANCE' and e.reversal_of_id is null
+      and h.status is distinct from 'POSTED'
+    union all
+    select h.id from erp.opening_balance_headers h
+    cross join lateral (
+      select coalesce(sum(greatest(coalesce(round(case
+        when i.balance_type in('MATERIAL','FINISHED_GOODS') then i.qty*i.unit_cost_snapshot
+        when i.balance_type='BS' and exists(select 1 from erp.initial_import_production_sources ps where ps.opening_item_id=i.id) then coalesce(i.amount,i.qty*i.unit_cost_snapshot)
+        when i.balance_type='WIP' then coalesce(i.amount,coalesce(i.qty,0)*coalesce(i.unit_cost_snapshot,0))
+        when i.balance_type in('CONTRACTOR_RECEIVABLE','CUSTOMER_RECEIVABLE','CASH_BANK') then i.amount
+        else 0 end,2),0),0)),0) debits,
+        coalesce(sum(greatest(coalesce(round(case
+        when i.balance_type in('CONTRACTOR_PAYABLE','VENDOR_PAYABLE','SUPPLIER_PAYABLE') then i.amount
+        else 0 end,2),0),0)),0) credits
+      from erp.opening_balance_items i where i.opening_id=h.id
+    ) expected
+    cross join lateral (
+      select coalesce(sum(l.debit),0) debits,coalesce(sum(l.credit),0) credits
+      from erp.journal_entries e join erp.journal_lines l on l.journal_entry_id=e.id
+      where e.source_type='OPENING_BALANCE' and e.source_id=h.id and e.reversal_of_id is null
+    ) actual
+    where h.status='POSTED' and (
+      actual.debits<>greatest(expected.debits,expected.credits)
+      or actual.credits<>greatest(expected.debits,expected.credits))
+  ) broken_opening_lineage),
+    'Opening stock and subledger facts require their original posted source with conserved quantity and input value'::text;
+
+  return query select 'V2620AG_SALE_RESERVATION_LINEAGE_MISMATCH'::text,'CRITICAL'::text,(with active as (
+  select m.* from erp.fg_stock_movements m
+  where m.source_type='SALE_ITEM' and m.movement_type in('SALE_RESERVE','SALE')
+    and not exists(select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=m.id)
+), allocations as (
+  select a.sale_item_id,a.lot_id,a.location_id,sum(a.qty_pcs)::bigint qty
+  from erp.sale_stock_allocations a group by a.sale_item_id,a.lot_id,a.location_id
+), movements as (
+  select m.source_id sale_item_id,m.lot_id,m.location_id,sum(-m.qty_signed)::bigint qty
+  from active m group by m.source_id,m.lot_id,m.location_id
+)
+select count(*)::bigint from (
+  select m.id,sh_lineage.id sale_id from active m
+  left join erp.sales_items i on i.id=m.source_id
+  left join erp.sales_headers sh_lineage on sh_lineage.id=i.sale_id
+  left join erp.fg_lots l on l.id=m.lot_id
+  where sh_lineage.status is null or sh_lineage.status not in('DRAFT','POSTED','PARTIAL_PAID','PAID')
+    or m.movement_type is distinct from case when sh_lineage.status='DRAFT' then 'SALE_RESERVE' else 'SALE' end
+    or m.product_id is distinct from i.product_id or l.product_id is distinct from i.product_id
+    or m.location_id is distinct from sh_lineage.source_location_id
+    or m.customer_id is distinct from sh_lineage.customer_id or m.physical_at is distinct from sh_lineage.sale_date
+    or m.quality_grade is distinct from 'GRADE_A' or m.qty_signed>=0
+  union all
+  select a.id,sh_lineage.id from erp.sale_stock_allocations a
+  left join erp.sales_items i on i.id=a.sale_item_id
+  left join erp.sales_headers sh_lineage on sh_lineage.id=i.sale_id
+  left join erp.fg_lots l on l.id=a.lot_id
+  where sh_lineage.status is null or sh_lineage.status not in('DRAFT','POSTED','PARTIAL_PAID','PAID','REVERSED')
+    or l.product_id is distinct from i.product_id
+    or a.location_id is distinct from sh_lineage.source_location_id or a.qty_pcs<=0
+  union all
+  select i.id,sh_lineage.id from allocations a full join movements m using(sale_item_id,lot_id,location_id)
+  join erp.sales_items i on i.id=coalesce(a.sale_item_id,m.sale_item_id)
+  join erp.sales_headers sh_lineage on sh_lineage.id=i.sale_id
+  where sh_lineage.status in('DRAFT','POSTED','PARTIAL_PAID','PAID') and a.qty is distinct from m.qty
+  union all
+  select i.id,sh_lineage.id from erp.sales_items i join erp.sales_headers sh_lineage on sh_lineage.id=i.sale_id
+  where (sh_lineage.status in('POSTED','PARTIAL_PAID','PAID') or
+    (sh_lineage.status='DRAFT' and (exists(select 1 from erp.sale_stock_allocations a
+       join erp.sales_items sibling on sibling.id=a.sale_item_id where sibling.sale_id=sh_lineage.id)
+      or exists(select 1 from active m join erp.sales_items sibling on sibling.id=m.source_id where sibling.sale_id=sh_lineage.id))))
+    and (i.qty_pcs is distinct from (select coalesce(sum(a.qty_pcs),0) from erp.sale_stock_allocations a where a.sale_item_id=i.id)
+      or i.qty_pcs is distinct from (select coalesce(sum(-m.qty_signed),0) from active m where m.source_id=i.id))
+  union all
+  select sh_lineage.id,sh_lineage.id from erp.sales_headers sh_lineage where sh_lineage.status in('POSTED','PARTIAL_PAID','PAID')
+    and not exists(select 1 from erp.sales_items i where i.sale_id=sh_lineage.id)
+) broken where /*SCOPE*/true),'Sale source and reserved or posted stock must agree on item, lot, quantity, location, customer and physical time'::text;
+  return query select 'V2620AH_RETURN_ALLOCATION_LINEAGE_MISMATCH'::text,'CRITICAL'::text,(with active_return as (
+  select ah_line.*,ah_return.sale_id,ah_return.customer_id,ah_return.physical_at
+  from erp.sales_return_items ah_line join erp.sales_returns ah_return on ah_return.id=ah_line.return_id
+  where ah_return.status='POSTED'
+), live_movement as (
+  select ah_movement.* from erp.fg_stock_movements ah_movement
+  where ah_movement.source_type='SALES_RETURN_ITEM' and ah_movement.movement_type='SALE_RETURN'
+    and not exists(select 1 from erp.fg_stock_movements ah_reversal where ah_reversal.reversal_of_id=ah_movement.id)
+)
+select count(*)::bigint from (
+  select ah_line.id from active_return ah_line
+  left join erp.sale_stock_allocations ah_allocation on ah_allocation.id=ah_line.sale_stock_allocation_id
+  left join erp.sales_items ah_sale_line on ah_sale_line.id=ah_allocation.sale_item_id
+  left join erp.sales_headers ah_sale on ah_sale.id=ah_sale_line.sale_id
+  where ah_allocation.id is null or ah_sale.status is null or ah_sale.status not in('POSTED','PARTIAL_PAID','PAID')
+    or ah_line.sale_id is distinct from ah_sale.id or ah_line.customer_id is distinct from ah_sale.customer_id
+    or ah_line.product_id is distinct from ah_sale_line.product_id or ah_line.lot_id is distinct from ah_allocation.lot_id
+    or ah_line.physical_at<ah_sale.sale_date
+  union all
+  select ah_allocation.id from erp.sale_stock_allocations ah_allocation join active_return ah_line on ah_line.sale_stock_allocation_id=ah_allocation.id
+  group by ah_allocation.id,ah_allocation.qty_pcs having sum(ah_line.qty_pcs)>ah_allocation.qty_pcs
+  union all
+  select ah_movement.id from live_movement ah_movement left join active_return ah_line on ah_line.id=ah_movement.source_id
+  where ah_line.id is null or ah_movement.product_id is distinct from ah_line.product_id or ah_movement.lot_id is distinct from ah_line.lot_id
+    or ah_movement.location_id is distinct from ah_line.location_id or ah_movement.quality_grade is distinct from ah_line.quality_grade
+    or ah_movement.customer_id is distinct from ah_line.customer_id or ah_movement.physical_at is distinct from ah_line.physical_at
+    or ah_movement.qty_signed is distinct from ah_line.qty_pcs
+  union all
+  select ah_line.id from active_return ah_line left join live_movement ah_movement on ah_movement.source_id=ah_line.id
+  group by ah_line.id,ah_line.qty_pcs having count(ah_movement.id)<>1 or sum(ah_movement.qty_signed) is distinct from ah_line.qty_pcs::bigint
+  union all
+  select ah_return.id from erp.sales_returns ah_return where ah_return.status='POSTED'
+    and not exists(select 1 from erp.sales_return_items ah_line where ah_line.return_id=ah_return.id)
+) broken),'Active return quantities and receipt facts must match their selected original sale allocation and chosen destination'::text;
+  return query select 'V2620AI_WORK_SOURCE_LINEAGE_MISMATCH'::text,'CRITICAL'::text,(select count(*)::bigint from (
+ select ai_line.id
+ from erp.work_completion_lines ai_line
+ join erp.work_completion_events ai_event on ai_event.id=ai_line.completion_id and ai_event.status='POSTED'
+ left join erp.po_work_component_snapshots ai_snapshot on ai_snapshot.id=ai_line.po_component_snapshot_id
+ left join erp.production_orders ai_po on ai_po.id=ai_event.po_id
+ left join erp.cutting_groups ai_group on ai_group.id=ai_event.cutting_group_id
+ where ai_snapshot.id is null or ai_po.id is null or (ai_group.id is null and not erp.bb_opening_work_source_v1(ai_event.bb_opening_item_id,ai_event.po_id))
+   or ai_snapshot.po_id is distinct from ai_event.po_id
+   or ai_snapshot.work_component_id is distinct from ai_line.work_component_id
+   or ai_snapshot.rate_per_pcs_snapshot is distinct from ai_line.rate_snapshot
+   or (ai_group.id is not null and ai_group.po_id is distinct from ai_event.po_id)
+   or ai_po.contractor_id is distinct from ai_event.contractor_id
+ union all
+ select ai_event.id from erp.work_completion_events ai_event
+ where ai_event.status='POSTED' and not exists(select 1 from erp.work_completion_lines ai_line where ai_line.completion_id=ai_event.id)
+) ai_broken),'Posted work must retain the selected PO, contractor, component and committed rate snapshot'::text;
+end
+$function$;
+CREATE OR REPLACE FUNCTION erp.guard_work_completion_posting_consistency()
+ RETURNS trigger
+ LANGUAGE plpgsql
+ SET search_path TO 'erp', 'public', 'pg_temp'
+AS $function$
+declare
+  v_pickup timestamptz;
+  v_effective bigint;
+  r record;
+  v_prior_completed bigint;
+  v_prior_payable bigint;
+begin
+  if new.status='POSTED' and old.status is distinct from 'POSTED' then
+    -- The DRAFT header may have changed after its lines were normalized.
+    -- Recheck the current source before any work, payable or HPP is recognized.
+    if not exists(select 1 from erp.production_orders ai_po
+      where ai_po.id=new.po_id and ai_po.contractor_id=new.contractor_id) then
+      raise exception 'AI_WORK_SOURCE_CONTRACTOR_MISMATCH';
+    end if;
+    perform 1 from erp.po_work_component_snapshots ai_snapshot
+      join erp.work_completion_lines ai_line on ai_line.po_component_snapshot_id=ai_snapshot.id
+      where ai_line.completion_id=new.id order by ai_snapshot.id for share of ai_snapshot;
+    if exists(
+      select 1 from erp.work_completion_lines ai_line
+      left join erp.po_work_component_snapshots ai_snapshot on ai_snapshot.id=ai_line.po_component_snapshot_id
+      where ai_line.completion_id=new.id and (
+        ai_snapshot.id is null or ai_snapshot.po_id is distinct from new.po_id
+        or ai_snapshot.work_component_id is distinct from ai_line.work_component_id
+        or ai_snapshot.rate_per_pcs_snapshot is distinct from ai_line.rate_snapshot)
+    ) then
+      raise exception 'AI_WORK_SOURCE_SNAPSHOT_MISMATCH: rebuild the draft lines for the selected PO before posting';
+    end if;
+
+    -- BB (ALL-W02): wages after cutover on an opening WIP (no Potongan) have that opening WIP as their source.
+    if new.cutting_group_id is null and new.bb_opening_item_id is not null then
+      perform erp.bb_check_opening_work_v1(new.id);
+      return new;
+    end if;
+    if new.cutting_group_id is null then
+      raise exception 'Hasil kerja mandor wajib terkait Potongan. Pilih Potongan sebelum posting agar qty/upah/HPP tidak masuk ke grup yang salah.';
+    end if;
+
+    -- Serialize all work postings for the same Potongan so two tabs cannot both
+    -- consume the same remaining component entitlement concurrently.
+    perform 1 from erp.cutting_groups cg where cg.id=new.cutting_group_id for update;
+    if not found then raise exception 'Potongan sumber hasil kerja tidak ditemukan'; end if;
+
+    select cg.picked_up_at,coalesce(v.total_pcs,0)
+      into v_pickup,v_effective
+    from erp.cutting_groups cg
+    left join erp.v_cutting_group_totals v on v.cutting_group_id=cg.id
+    where cg.id=new.cutting_group_id and cg.po_id=new.po_id;
+
+    if v_pickup is null then
+      raise exception 'Potongan belum diambil mandor. Hasil kerja/upah tidak boleh dipost sebelum assignment/pickup fisik.';
+    end if;
+    if new.physical_at < v_pickup then
+      raise exception 'Tanggal hasil kerja (%) lebih awal dari tanggal Potongan diambil mandor (%). Periksa tanggal sebelum posting.',new.physical_at,v_pickup;
+    end if;
+    if new.physical_at > clock_timestamp()+interval '5 minutes' then
+      raise exception 'Tanggal/jam hasil kerja berada di masa depan. Periksa tanggal/jam sebelum posting.';
+    end if;
+    if v_effective<=0 then
+      raise exception 'Potongan tidak memiliki qty efektif yang dapat menjadi dasar upah.';
+    end if;
+
+    for r in
+      select l.id,l.work_component_id,l.qty_completed,l.qty_payable,wc.component_name
+      from erp.work_completion_lines l
+      join erp.work_components wc on wc.id=l.work_component_id
+      where l.completion_id=new.id
+      order by l.work_component_id,l.id
+    loop
+      select coalesce(sum(l2.qty_completed),0),coalesce(sum(l2.qty_payable),0)
+        into v_prior_completed,v_prior_payable
+      from erp.work_completion_lines l2
+      join erp.work_completion_events e2 on e2.id=l2.completion_id
+      where e2.cutting_group_id=new.cutting_group_id
+        and l2.work_component_id=r.work_component_id
+        and e2.status='POSTED'
+        and e2.id<>new.id;
+
+      if v_prior_completed+r.qty_completed>v_effective then
+        raise exception 'Qty selesai komponen % melebihi Potongan efektif. Potongan %, sudah dipost %, input %, maksimum %.',
+          r.component_name,new.cutting_group_id,v_prior_completed,r.qty_completed,v_effective;
+      end if;
+      if v_prior_payable+r.qty_payable>v_effective then
+        raise exception 'Qty bayar komponen % melebihi Potongan efektif. Sudah menjadi hak bayar %, input %, maksimum %. Koreksi hasil kerja, jangan membayar dua kali.',
+          r.component_name,v_prior_payable,r.qty_payable,v_effective;
+      end if;
+    end loop;
+  end if;
+  return new;
+end;
+$function$;
+CREATE OR REPLACE FUNCTION erp.post_work_completion(p_completion_id uuid)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public'
+AS $function$
+declare h erp.work_completion_events%rowtype;v_total numeric(24,6);v_group_count integer;v_only_group uuid;
+begin
+  perform erp.require_internal();select * into h from erp.work_completion_events where id=p_completion_id for update;if h.id is null or h.status<>'DRAFT' then raise exception 'Work completion must be DRAFT';end if;if not exists(select 1 from erp.production_orders po where po.id=h.po_id and po.contractor_id=h.contractor_id) then raise exception 'Work completion contractor does not match PO contractor';end if;
+  if h.cutting_group_id is not null then if not exists(select 1 from erp.cutting_groups cg where cg.id=h.cutting_group_id and cg.po_id=h.po_id) then raise exception 'Work completion cutting group does not belong to PO';end if;
+  elsif h.bb_opening_item_id is null then select count(*),(array_agg(id order by id))[1] into v_group_count,v_only_group from erp.cutting_groups where po_id=h.po_id;if v_group_count=1 then update erp.work_completion_events set cutting_group_id=v_only_group where id=h.id;h.cutting_group_id:=v_only_group;elsif v_group_count>1 then raise exception 'PO has multiple cutting groups; select the grouping for this work completion so HPP stays on the correct lot';end if;end if;
+  if not exists(select 1 from erp.po_work_component_snapshots where po_id=h.po_id) then raise exception 'Work BOM/rate snapshot is not committed for this PO; call ensure_po_work_component_snapshots using the work physical date before entering/posting lines';end if;
+  if not exists(select 1 from erp.work_completion_lines where completion_id=h.id) then raise exception 'Work completion has no lines';end if;
+  select coalesce(sum(amount_payable),0) into v_total from erp.work_completion_lines where completion_id=p_completion_id;update erp.work_completion_events set status='POSTED' where id=p_completion_id;
+  if v_total>0 then perform erp.post_journal('WORK_COMPLETION',p_completion_id,(h.physical_at AT TIME ZONE 'Asia/Jakarta')::date,'Mandor work completion accrual',jsonb_build_array(jsonb_build_object('mapping_key','WIP','debit',round(v_total,2),'credit',0,'contractor_id',h.contractor_id,'po_id',h.po_id),jsonb_build_object('mapping_key','CONTRACTOR_PAYABLE','debit',0,'credit',round(v_total,2),'contractor_id',h.contractor_id,'po_id',h.po_id)));end if;
+end;$function$;
+CREATE OR REPLACE FUNCTION erp.save_initial_import_action_v1(p_action text, p_payload jsonb, p_client_request_id uuid)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO ''
+AS $function$
+declare
+ v_action text:=upper(btrim(p_action)); v_batch uuid; v_type text;
+ b erp.migration_batches%rowtype; v_cached jsonb; v_result jsonb; v_row jsonb; v_normal jsonb;
+ v_field text; v_text text; v_number numeric; v_line integer; v_seen integer[]:='{}';
+ v_total bigint; v_valid bigint; v_errors bigint; v_opening uuid; v_date date;
+ v_catalog constant jsonb:='{"LAUNDRY_VENDOR": {"label": "Vendor laundry", "required": ["vendor_code", "vendor_name"], "fields": {"vendor_code": "Kode laundry", "vendor_name": "Nama laundry", "phone": "Telepon", "is_active": "Aktif", "notes": "Catatan"}}, "LOCATION": {"label": "Lokasi dan gudang", "required": ["location_code", "location_name", "location_type"], "fields": {"location_code": "Kode lokasi", "location_name": "Nama lokasi", "location_type": "Jenis lokasi", "is_active": "Aktif"}}, "CHART_ACCOUNT": {"label": "Akun buku besar", "required": ["account_code", "account_name", "account_type", "report_group", "normal_balance"], "fields": {"account_code": "Kode akun", "account_name": "Nama akun", "account_type": "Jenis akun", "report_group": "Kelompok laporan", "normal_balance": "Saldo normal", "parent_account_code": "Kode akun induk", "is_postable": "Boleh dipakai jurnal", "is_active": "Aktif"}}, "CASH_ACCOUNT": {"label": "Rekening kas dan bank", "required": ["cash_account_code", "cash_account_name", "coa_account_code", "account_kind"], "fields": {"cash_account_code": "Kode kas bank", "cash_account_name": "Nama kas bank", "coa_account_code": "Kode akun buku besar", "account_kind": "Jenis rekening", "is_active": "Aktif"}}, "BRAND": {"label": "Merek", "required": ["brand_code", "brand_name"], "fields": {"brand_code": "Kode merek", "brand_name": "Nama merek", "is_active": "Aktif"}}, "SIZE": {"label": "Ukuran", "required": ["size_code"], "fields": {"size_code": "Kode ukuran", "sort_order": "Urutan", "is_active": "Aktif"}}, "MODEL": {"label": "Model produk", "required": ["model_code", "model_name"], "fields": {"model_code": "Kode model", "model_name": "Nama model", "description": "Keterangan", "is_active": "Aktif"}}, "PRODUCT": {"label": "Produk per ukuran", "required": ["sku", "product_name", "model_code", "brand_code", "color_name", "size_code"], "fields": {"sku": "Kode produk", "product_name": "Nama produk", "model_code": "Kode model", "brand_code": "Kode merek", "color_name": "Warna", "size_code": "Kode ukuran", "is_active": "Aktif"}}, "CUSTOMER": {"label": "Pelanggan", "required": ["customer_code", "customer_name"], "fields": {"customer_code": "Kode pelanggan", "customer_name": "Nama pelanggan", "phone": "Telepon", "address": "Alamat", "is_active": "Aktif"}}, "SUPPLIER": {"label": "Supplier", "required": ["supplier_code", "supplier_name"], "fields": {"supplier_code": "Kode supplier", "supplier_name": "Nama supplier", "supplier_type": "Jenis supplier", "phone": "Telepon", "address": "Alamat", "is_active": "Aktif"}}, "CONTRACTOR": {"label": "Mandor", "required": ["contractor_code", "contractor_name"], "fields": {"contractor_code": "Kode mandor", "contractor_name": "Nama mandor", "contractor_type": "Jenis mandor", "attendance_required": "Wajib absensi", "is_active": "Aktif", "notes": "Catatan"}}, "ACCESSORY_CATEGORY": {"label": "Kategori aksesori", "required": ["category_code", "category_name", "base_uom_code"], "fields": {"category_code": "Kode kategori", "category_name": "Nama kategori", "base_uom_code": "Satuan dasar", "is_active": "Aktif", "notes": "Catatan"}}, "MATERIAL": {"label": "Bahan dan aksesori", "required": ["material_sku", "material_name", "material_type", "unit_code"], "fields": {"material_sku": "Kode bahan", "material_name": "Nama bahan", "material_type": "Jenis bahan", "unit_code": "Satuan dasar", "accessory_category_code": "Kode kategori aksesori", "is_active": "Aktif"}}, "MATERIAL_ROLL": {"label": "Stok awal kain per roll", "required": ["material_sku", "roll_number", "opening_qty", "unit_cost", "location_code", "control_key"], "fields": {"material_sku": "Kode bahan", "roll_number": "Nomor roll", "opening_qty": "Jumlah awal", "unit_cost": "Biaya per satuan", "location_code": "Kode gudang", "supplier_code": "Kode supplier", "notes": "Catatan", "control_key": "Kode total pembanding", "opening_source_key": "Kode rincian stok asal"}}, "OPENING_BALANCE_ITEM": {"label": "Stok dan saldo awal", "required": ["balance_type", "control_key"], "fields": {"balance_type": "Jenis saldo", "material_sku": "Kode bahan", "product_sku": "Kode produk", "brand_code": "Kode merek", "model_code": "Kode model", "color_name": "Warna", "size_code": "Kode ukuran", "location_code": "Kode gudang", "contractor_code": "Kode mandor", "customer_code": "Kode pelanggan", "supplier_code": "Kode supplier", "vendor_code": "Kode laundry", "cash_account_code": "Kode kas bank", "stage": "Tahap produksi", "qty": "Jumlah", "unit_cost": "Biaya per satuan", "amount": "Nominal", "quality_grade": "Kualitas", "hpp_input_method": "Cara isi HPP", "hpp_percent_of_price": "Persentase HPP", "notes": "Catatan", "control_key": "Kode total pembanding", "document_number": "Nomor dokumen asal", "document_date": "Tanggal dokumen asal", "due_date": "Tanggal jatuh tempo", "original_amount": "Nominal dokumen awal", "settled_before_cutover": "Sudah dibayar sebelum saldo awal", "opening_source_key": "Kode rincian stok asal", "source_kind": "Jenis sumber saldo", "po_number": "Nomor PO saldo fisik", "accessory_cost_included": "Biaya aksesoris sudah termasuk (true/false)"}}, "OPEN_PO": {"label": "Pesanan produksi berjalan", "required": ["po_number", "model_code", "status", "current_stage"], "fields": {"po_number": "Nomor pesanan", "model_code": "Kode model", "contractor_code": "Kode mandor", "target_qty_pcs": "Target buah", "target_dozens": "Target lusin", "status": "Status", "current_stage": "Tahap produksi", "physical_start_at": "Waktu mulai fisik", "notes": "Catatan"}}, "OPENING_CONTROL": {"label": "Total pembanding saldo awal", "required": ["control_key", "balance_type", "amount"], "fields": {"control_key": "Kode total pembanding", "balance_type": "Jenis saldo", "qty": "Total jumlah", "amount": "Total nominal", "notes": "Catatan"}}, "UNINVOICED_RECEIPT": {"label": "Penerimaan belum ditagih — sisa bahan dan asal biaya", "required": ["receipt_number", "receipt_line_number", "receipt_date", "supplier_code", "material_sku", "location_code", "qty", "unit_cost", "control_key"], "fields": {"receipt_number": "Nomor penerimaan asal", "receipt_line_number": "Nomor baris penerimaan", "receipt_date": "Tanggal penerimaan asal", "supplier_code": "Kode supplier", "material_sku": "Kode bahan", "location_code": "Kode gudang", "qty": "Jumlah belum ditagih", "unit_cost": "Biaya estimasi per satuan", "opening_source_key": "Kode rincian stok asal", "control_key": "Kode total pembanding", "notes": "Catatan", "invoice_document_number": "Nomor invoice asal untuk bagian yang sudah ditagih", "invoiced_qty": "Jumlah yang sudah ditagih sebelum saldo awal"}}, "OPENING_ADVANCE": {"label": "Uang muka tersisa", "required": ["party_type", "party_code", "coa_account_code", "document_number", "document_date", "original_amount", "settled_before_cutover", "amount", "control_key"], "fields": {"party_type": "Jenis pihak", "party_code": "Kode pihak", "coa_account_code": "Kode akun uang muka", "document_number": "Nomor bukti uang muka", "document_date": "Tanggal uang muka", "original_amount": "Nominal asal", "settled_before_cutover": "Terpakai atau kembali sebelum saldo awal", "amount": "Sisa uang muka", "control_key": "Kode total pembanding"}}, "OPENING_COST_ORIGIN": {"label": "Asal biaya yang sudah terpakai sebelum cutover", "fields": {"supplier_code": "Kode supplier", "receipt_number": "Nomor penerimaan asal", "receipt_line_number": "Nomor baris penerimaan", "target_source_key": "Kode rincian WIP/BS/FG tujuan", "qty": "Jumlah bahan yang sudah terpakai", "notes": "Catatan"}, "required": ["supplier_code", "receipt_number", "receipt_line_number", "target_source_key", "qty"]}, "LEGACY_DOCUMENT": {"label": "Dokumen lama yang sudah lunas penuh", "required": ["balance_type", "party_code", "document_number", "document_date", "original_amount", "settled_before_cutover"], "fields": {"balance_type": "Jenis saldo dokumen", "party_code": "Kode pihak", "document_number": "Nomor dokumen asal", "document_date": "Tanggal dokumen asal", "original_amount": "Nominal dokumen awal", "settled_before_cutover": "Sudah dibayar sebelum saldo awal", "notes": "Catatan"}}, "OPENING_CUSTOMER_CREDIT": {"label": "Kredit retur pelanggan yang belum dikembalikan", "required": ["customer_code", "coa_account_code", "document_number", "document_date", "original_amount", "settled_before_cutover", "amount"], "fields": {"customer_code": "Kode pelanggan", "coa_account_code": "Kode akun kredit pelanggan", "document_number": "Nomor nota retur/kredit", "document_date": "Tanggal nota retur/kredit", "original_amount": "Nominal kredit asal", "settled_before_cutover": "Sudah dikembalikan sebelum saldo awal", "amount": "Sisa kredit", "notes": "Catatan"}}, "OPENING_SALE_RETURN": {"label": "Hak retur penjualan lama yang barangnya belum kembali", "required": ["customer_code", "return_number", "invoice_document_number", "product_sku", "qty", "credit_unit_price", "unit_cost", "credit_coa_account_code"], "fields": {"customer_code": "Kode pelanggan", "return_number": "Nomor persetujuan retur", "invoice_document_number": "Nomor invoice asal", "product_sku": "Kode produk", "brand_code": "Kode merek", "model_code": "Kode model", "color_name": "Warna", "size_code": "Kode ukuran", "qty": "Jumlah pcs boleh diretur", "credit_unit_price": "Kredit per pcs", "unit_cost": "Nilai persediaan per pcs", "credit_coa_account_code": "Kode akun kredit pelanggan", "notes": "Catatan"}}, "OPEN_PURCHASE_ORDER": {"label": "PO pembelian yang belum diterima penuh saat saldo awal", "required": ["po_number", "po_line_number", "po_date", "supplier_code", "location_code", "material_sku", "ordered_qty", "received_before_cutover_qty", "cancelled_before_cutover_qty", "remaining_qty", "unit_price"], "fields": {"po_number": "Nomor PO pembelian", "po_line_number": "Nomor baris PO", "po_date": "Tanggal PO", "supplier_code": "Kode supplier", "location_code": "Kode gudang tujuan", "material_sku": "Kode bahan", "ordered_qty": "Jumlah dipesan", "received_before_cutover_qty": "Sudah diterima sebelum saldo awal", "cancelled_before_cutover_qty": "Sudah dibatalkan sebelum saldo awal", "remaining_qty": "Sisa yang masih ditunggu", "unit_price": "Harga estimasi per satuan", "expected_date": "Perkiraan tanggal datang", "notes": "Catatan"}}, "OPENING_PAYROLL_ENTITLEMENT": {"label": "Hak upah, absensi, atau reimburse sebelum saldo awal yang belum disetujui", "required": ["kind", "contractor_code", "document_number", "line_number", "document_date", "rate"], "fields": {"kind": "Jenis hak (SEWING_WORK/ATTENDANCE/ACCESSORY_REIMBURSEMENT)", "contractor_code": "Kode mandor", "document_number": "Nomor dokumen hutang mandor", "line_number": "Nomor baris", "document_date": "Tanggal hak timbul", "rate": "Tarif", "po_number": "Nomor PO (upah jahit)", "work_component_code": "Kode komponen kerja", "earned_qty": "Jumlah dikerjakan", "paid_before_qty": "Jumlah sudah dibayar sebelum saldo awal", "carry_qty": "Jumlah komponen dibawa (carry)", "worker_name": "Nama pekerja (absensi)", "period_start": "Awal periode absensi", "period_end": "Akhir periode absensi", "days": "Jumlah hari dibayar", "category_code": "Kode kategori aksesori", "good_qty": "Jumlah GOOD", "paid_before_amount": "Nominal sudah dibayar sebelum saldo awal", "notes": "Catatan"}}, "OPENING_REWORK": {"label": "Rework yang masih di mandor atau laundry saat saldo awal", "required": ["rework_number", "bs_source_key", "destination_type", "sent_date", "qty_sent_original", "qty_returned_before_cutover", "qty_open"], "fields": {"rework_number": "Nomor rework asal", "bs_source_key": "Kode rincian BS asal (opening_source_key baris BS)", "destination_type": "Tujuan rework (CONTRACTOR/LAUNDRY)", "contractor_code": "Kode mandor rework", "vendor_code": "Kode laundry rework", "sent_date": "Tanggal kirim rework", "qty_sent_original": "Jumlah dikirim", "qty_returned_before_cutover": "Sudah kembali sebelum saldo awal", "qty_open": "Masih di rework saat saldo awal", "notes": "Catatan"}}, "OPENING_REWORK_COMPONENT": {"label": "Komponen upah rework terbuka", "required": ["rework_number", "work_component_code", "completed_before_bs_qty", "qty_performed", "rate_per_pcs"], "fields": {"rework_number": "Nomor rework asal", "work_component_code": "Kode komponen kerja", "completed_before_bs_qty": "Pcs yang komponennya sudah selesai sebelum BS", "qty_performed": "Pcs yang akan dikerjakan", "rate_per_pcs": "Tarif per pcs"}}, "OPEN_SALES_DRAFT": {"label": "Draf penjualan yang masih terbuka saat saldo awal (dengan reservasi)", "required": ["draft_number", "line_number", "draft_date", "customer_code", "location_code", "product_sku", "qty_pcs", "unit_price"], "fields": {"draft_number": "Nomor draf penjualan", "line_number": "Nomor baris draf", "draft_date": "Tanggal draf lama", "customer_code": "Kode pelanggan", "location_code": "Kode gudang barang jadi", "product_sku": "Kode produk", "qty_pcs": "Jumlah pcs yang direservasi", "unit_price": "Harga per pcs", "discount_amount": "Potongan baris", "due_date": "Jatuh tempo", "payment_terms": "Syarat pembayaran", "notes": "Catatan"}}}'::jsonb;
+begin
+ perform erp.require_owner_admin();
+ perform erp.require_permission('settings.erp.view');
+ if v_action is null or v_action not in('CREATE','SAVE_FILE','VALIDATE','FINALIZE','ALLOCATE_CASH_ADVANCE','PREPAYMENT','WIP_OUTPUT','OPENING_SETTLEMENT','CUSTOMER_CREDIT','OPENING_RETURN','PURCHASE_COMMITMENT','PAYROLL_ENTITLEMENT') then raise exception 'Aksi impor tidak dikenal'; end if;
+ if p_payload is null or jsonb_typeof(p_payload)<>'object' or octet_length(p_payload::text)>5242880 then
+   raise exception 'Isi impor harus berupa objek dan maksimal 5 MB'; end if;
+ -- AR: same lock order as native prepare/post, before any batch lock.
+ if v_action='WIP_OUTPUT' then perform erp.pocket_period_lock_v1();end if;
+ if v_action in('FINALIZE','WIP_OUTPUT','OPENING_RETURN') then
+   perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
+ end if;
+ v_cached:=erp._idempotency_begin('save_initial_import_action_v1',p_client_request_id,
+   erp._request_hash(jsonb_build_object('action',v_action,'payload',p_payload)));
+ if v_cached is not null then return v_cached; end if;
+ perform set_config('app.change_reason','Impor awal: '||v_action,true);
+ if v_action='CREATE' then
+   if p_payload->>'cutover_date' is null or p_payload->>'cutover_date' !~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' then
+     raise exception 'Tanggal saldo awal wajib memakai YYYY-MM-DD'; end if;
+   v_date:=(p_payload->>'cutover_date')::date;
+   if v_date::text<>p_payload->>'cutover_date' or v_date>(statement_timestamp() at time zone 'Asia/Jakarta')::date then
+     raise exception 'Tanggal saldo awal tidak valid atau berada di masa depan'; end if;
+   v_batch:=erp.create_migration_batch(p_payload->>'batch_code',v_date::timestamp at time zone 'Asia/Jakarta',
+     'CSV UTF-8',p_payload->>'notes');
+ elsif v_action='WIP_OUTPUT' then
+   v_batch:=(p_payload->>'batch_id')::uuid;
+   v_result:=erp.complete_initial_import_wip_v1(p_payload);
+   v_result:=v_result||jsonb_build_object('request_id',p_client_request_id,'action',v_action,'batch_id',v_batch,'status','POSTED');
+   return erp._idempotency_complete('save_initial_import_action_v1',p_client_request_id,v_result);
+ elsif v_action in('OPENING_SETTLEMENT','CUSTOMER_CREDIT','OPENING_RETURN','PURCHASE_COMMITMENT','PAYROLL_ENTITLEMENT') then
+   -- BB: continuations of a posted import (ALL-P02/S01/S03/Y01), one transaction and one request identity each.
+   v_batch:=(p_payload->>'batch_id')::uuid;
+   select * into b from erp.migration_batches where id=v_batch for update;
+   if b.id is null or b.status<>'POSTED' then raise exception 'BB_IMPORT_NOT_POSTED: lanjutan hanya untuk impor yang sudah disahkan';end if;
+   if p_payload->>'expected_revision' is distinct from erp.initial_import_revision_v1(b.id) then
+     raise exception 'STALE_VERSION: saldo impor berubah; muat ulang sebelum melanjutkan';end if;
+   v_result:=case v_action when 'OPENING_SETTLEMENT' then erp.bb_manage_opening_settlement_v1(p_payload,p_client_request_id)
+     when 'CUSTOMER_CREDIT' then erp.bb_manage_customer_credit_v1(p_payload,p_client_request_id)
+     when 'PURCHASE_COMMITMENT' then erp.bb_manage_purchase_commitment_v1(p_payload,p_client_request_id)
+     when 'PAYROLL_ENTITLEMENT' then erp.bb_manage_payroll_entitlement_v1(p_payload,p_client_request_id)
+     else erp.bb_manage_opening_sale_return_v1(p_payload,p_client_request_id) end;
+   v_result:=v_result||jsonb_build_object('request_id',p_client_request_id,'action',v_action,'batch_id',v_batch,'status','POSTED',
+     'revision',erp.initial_import_revision_v1(v_batch));
+   return erp._idempotency_complete('save_initial_import_action_v1',p_client_request_id,v_result);
+ elsif v_action='PREPAYMENT' then
+   v_batch:=(p_payload->>'batch_id')::uuid;
+   select * into b from erp.migration_batches where id=v_batch for update;
+   if b.id is null or b.status<>'POSTED' then raise exception 'Uang muka harus berasal dari impor yang sudah disahkan';end if;
+   perform erp.manage_initial_prepayment_v1(p_payload);
+ elsif v_action='ALLOCATE_CASH_ADVANCE' then
+   v_batch:=nullif(p_payload->>'batch_id','')::uuid;
+   select * into b from erp.migration_batches where id=v_batch for update;
+   if b.id is null or b.status<>'POSTED' then raise exception 'Kasbon harus berasal dari impor yang sudah disahkan';end if;
+   perform 1 from erp.payroll_settlements where id=(p_payload->>'payroll_id')::uuid for update;
+   perform 1 from erp.opening_subledger_balances where id=(p_payload->>'balance_id')::uuid for update;
+   if p_payload->>'expected_revision' is distinct from erp.initial_import_revision_v1(b.id) then
+     raise exception 'STALE_VERSION: saldo atau payroll berubah; muat ulang sebelum mengalokasikan';end if;
+   if not exists(select 1 from erp.initial_import_financial_sources s join erp.opening_subledger_balances bs on bs.opening_item_id=s.opening_item_id
+     where s.batch_id=b.id and s.source_kind='CONTRACTOR_CASH_ADVANCE' and bs.id=(p_payload->>'balance_id')::uuid) then
+     raise exception 'Saldo kasbon bukan milik batch ini';end if;
+   if coalesce(p_payload->>'amount','') !~ '^[0-9]+([.,][0-9]{1,2})?$' then
+     raise exception 'amount: gunakan nominal positif tepat dua desimal atau nol untuk melepas alokasi';end if;
+   perform erp.set_opening_cash_advance_payroll_v1((p_payload->>'balance_id')::uuid,
+     (p_payload->>'payroll_id')::uuid,replace(p_payload->>'amount',',','.')::numeric,
+     (p_payload->>'expected_payroll_version')::bigint);
+ else
+   v_batch:=nullif(p_payload->>'batch_id','')::uuid;
+   select * into b from erp.migration_batches where id=v_batch for update;
+   if b.id is null then raise exception 'Batch impor tidak ditemukan'; end if;
+   if b.status not in('DRAFT','READY','VALIDATING','POSTING') or exists(
+     select 1 from erp.opening_balance_headers where migration_batch_id=b.id and status<>'DRAFT') then
+     raise exception 'Impor yang sudah disahkan tidak dapat diedit atau disahkan ulang dengan permintaan baru'; end if;
+   if nullif(p_payload->>'expected_revision','') is null
+     or p_payload->>'expected_revision'<>erp.initial_import_revision_v1(b.id) then
+     raise exception 'STALE_VERSION: isi impor berubah. Muat ulang sebelum melanjutkan'; end if;
+   if v_action='SAVE_FILE' then
+     v_type:=p_payload->>'entity';
+     if v_type is null or not v_catalog ? v_type then raise exception 'Jenis file impor tidak didukung'; end if;
+     if jsonb_typeof(p_payload->'rows') is distinct from 'array'
+       or jsonb_array_length(p_payload->'rows')>5000 then raise exception 'Maksimal 5000 baris per file'; end if;
+     if (select count(*) from erp.migration_staging_rows where batch_id=b.id and entity_type<>v_type)
+       +jsonb_array_length(p_payload->'rows')>5000 then raise exception 'Maksimal 5000 baris per batch; pecah menjadi batch terpisah'; end if;
+     if exists(select 1 from erp.migration_staging_rows where batch_id=b.id
+       and posted_entity_id is not null and entity_type<>'OPENING_BALANCE_ITEM') then
+       raise exception 'Batch ini sudah menerapkan master melalui jalur lama; selesaikan di jalur asal'; end if;
+     perform 1 from erp.opening_balance_headers where migration_batch_id=b.id order by id for update;
+     delete from erp.opening_balance_items i using erp.opening_balance_headers h
+       where i.opening_id=h.id and h.migration_batch_id=b.id and h.status='DRAFT';
+     update erp.migration_staging_rows set posted_entity_type=null,posted_entity_id=null,posted_at=null
+       where batch_id=b.id and entity_type='OPENING_BALANCE_ITEM';
+     delete from erp.migration_staging_rows where batch_id=b.id and entity_type=v_type;
+     for v_row in select value from jsonb_array_elements(p_payload->'rows') loop
+       if jsonb_typeof(v_row)<>'object' or jsonb_typeof(v_row->'payload') is distinct from 'object'
+         or coalesce(v_row->>'source_row_no','') !~ '^[1-9][0-9]{0,6}$' then raise exception 'Identitas baris impor tidak valid'; end if;
+       v_line:=(v_row->>'source_row_no')::integer;
+       if v_line=any(v_seen) then raise exception 'Baris sumber % ditulis dua kali',v_line; end if;
+       v_seen:=array_append(v_seen,v_line);v_normal:='{}'::jsonb;
+       for v_field,v_text in select key,value #>> '{}' from jsonb_each(v_row->'payload') loop
+         if not (v_catalog->v_type->'fields') ? v_field or jsonb_typeof(v_row->'payload'->v_field)<>'string' then
+           raise exception 'Baris %, kolom %: nama kolom atau tipe data tidak valid',v_line,v_field; end if;
+         v_text:=btrim(v_text);
+         if length(v_text)>20000 then raise exception 'Baris %, kolom % terlalu panjang',v_line,v_field; end if;
+         if v_field in('qty','opening_qty','unit_cost','amount','original_amount','settled_before_cutover','hpp_percent_of_price','target_dozens','target_qty_pcs','sort_order','credit_unit_price','invoiced_qty') and v_text<>'' then
+           if v_text !~ '^-?[0-9]+([.,][0-9]+)?$' then
+             raise exception 'Baris %, kolom %: isi angka tanpa pemisah ribuan',v_line,v_field; end if;
+           v_text:=replace(v_text,',','.');v_number:=v_text::numeric;
+           if (v_field in('amount','original_amount','settled_before_cutover','credit_unit_price') and v_number<>round(v_number,2))
+             or (v_field in('qty','opening_qty','unit_cost','target_dozens','invoiced_qty') and v_number<>round(v_number,6))
+             or (v_field='hpp_percent_of_price' and v_number<>round(v_number,4))
+             or (v_field in('target_qty_pcs','sort_order') and v_number<>trunc(v_number)) then
+             raise exception 'Baris %, kolom %: ketelitian angka melebihi kolom tujuan; angka tidak dibulatkan otomatis',v_line,v_field; end if;
+         end if;
+         v_normal:=v_normal||jsonb_build_object(v_field,v_text);
+       end loop;
+       perform erp.stage_migration_row(b.id,v_type,v_line,null,
+         (v_row->'payload')||jsonb_build_object('_filename',left(coalesce(p_payload->>'filename',''),255)),v_normal);
+     end loop;
+     update erp.migration_batches set status='DRAFT',validated_at=null,error_message=null where id=b.id;
+   else
+     if not exists(select 1 from erp.migration_staging_rows where batch_id=b.id) then raise exception 'Unggah data sebelum memeriksa atau mengesahkan'; end if;
+     select * into v_total,v_valid,v_errors from erp.validate_migration_batch(b.id);
+     perform erp.validate_initial_import_financial_sources_v1(b.id);
+     perform erp.validate_initial_import_production_v1(b.id);
+     perform erp.validate_initial_import_cost_origins_v1(b.id);
+     perform erp.validate_initial_import_receipts_v1(b.id);
+     perform erp.validate_initial_prepayments_v1(b.id);
+     perform erp.bb_validate_financial_imports_v1(b.id);
+     perform erp.bb_validate_purchase_imports_v1(b.id);
+     perform erp.bb_validate_labour_imports_v1(b.id);
+     perform erp.bb_validate_production_imports_v1(b.id);
+     perform erp.bb_validate_sales_imports_v1(b.id);
+     perform erp.validate_initial_import_totals_v1(b.id);
+     select count(*),count(*) filter(where validation_status='VALID'),count(*) filter(where validation_status='ERROR')
+       into v_total,v_valid,v_errors from erp.migration_staging_rows where batch_id=b.id;
+     if v_action='FINALIZE' and v_errors=0 then
+       -- Domain writers execute inside this same transaction. A refusal in any
+       -- consumer rolls back masters, opening stock, journals, and application.
+       perform erp.apply_migration_master_rows(b.id);
+       perform erp.apply_migration_open_pos(b.id);
+       if exists(select 1 from erp.migration_staging_rows where batch_id=b.id
+         and entity_type in('OPENING_BALANCE_ITEM','MATERIAL_ROLL')) then
+         v_opening:=erp.prepare_migration_opening_balance(b.id,null);
+         perform erp.post_opening_balance(v_opening);
+       end if;
+       perform erp.apply_initial_import_receipts_v1(b.id);
+       perform erp.apply_initial_prepayments_v1(b.id);
+       perform erp.bb_apply_financial_imports_v1(b.id);
+       perform erp.bb_apply_purchase_imports_v1(b.id);
+       perform erp.bb_apply_labour_imports_v1(b.id);
+       perform erp.bb_apply_production_imports_v1(b.id);
+       perform erp.bb_apply_sales_imports_v1(b.id);
+       perform erp.finalize_migration_batch(b.id);
+     end if;
+   end if;
+ end if;
+ v_result:=jsonb_build_object('request_id',p_client_request_id,'action',v_action,'batch_id',v_batch,
+   'status',(select status from erp.migration_batches where id=v_batch),'total_rows',v_total,
+   'valid_rows',v_valid,'error_rows',v_errors,'revision',erp.initial_import_revision_v1(v_batch));
+ return erp._idempotency_complete('save_initial_import_action_v1',p_client_request_id,v_result);
+end;$function$;
+do $coverage$ begin perform erp.assert_new_stock_cutoff_coverage_v1(); end $coverage$;
+insert into erp.schema_migrations(version,description) values('v2.6.20bb','Open cutover states of ALL: opening settlement facade, credits and returns, open purchase orders, wages before and after cutover, cutting pickup, BS split and open reworks');
+do $catalog_guard$
+declare actual jsonb;fingerprint text;object_count bigint;
+begin
+ select * into actual from (
+with relations as (
+ select c.*,n.nspname from pg_class c join pg_namespace n on n.oid=c.relnamespace
+ where n.nspname in('erp','public') and c.relkind in('r','p','v','m','S','c','f')
+ and c.relname not in('cp6_v2620ao_rollback_capsule','cp6_v2620ap_rollback_capsule','cp6_v2620aq_rollback_capsule','cp6_v2620ar_rollback_capsule','cp6_v2620as_rollback_capsule','cp6_v2620at_rollback_capsule','cp6_v2620au_rollback_capsule','cp6_v2620av_rollback_capsule','cp6_v2620aw_rollback_capsule','cp6_v2620ax_rollback_capsule','cp6_v2620ay_rollback_capsule','cp6_v2620az_rollback_capsule','cp6_v2620ba_rollback_capsule','cp6_v2620bb_rollback_capsule')
+), objects as (
+ select 'FUNCTION:'||format('%I.%I(%s)',n.nspname,p.proname,replace(oidvectortypes(p.proargtypes),', ',',')) k,
+ jsonb_build_array(pg_get_functiondef(p.oid),pg_get_userbyid(p.proowner),
+  case when p.proacl is null then null else array(select a::text from unnest(p.proacl)a order by a::text) end) v
+ from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname in('erp','public') and p.prokind in('f','p')
+ union all
+ select 'RELATION:'||format('%I.%I',nspname,relname),jsonb_build_array(relkind,pg_get_userbyid(relowner),
+  case when relacl is null then null else array(select a::text from unnest(relacl)a order by a::text) end,
+  relrowsecurity,relforcerowsecurity,relreplident,relpersistence,relispartition,reloptions)
+ from relations
+ union all
+ select 'COLUMN:'||format('%I.%I.%I',r.nspname,r.relname,a.attname),
+ jsonb_build_array((select count(*) from pg_attribute visible where visible.attrelid=a.attrelid and visible.attnum>0 and not visible.attisdropped and visible.attnum<=a.attnum),format_type(a.atttypid,a.atttypmod),a.attnotnull,a.attidentity,a.attgenerated,
+  pg_get_expr(d.adbin,d.adrelid),a.attcollation::regcollation::text,
+  case when a.attacl is null then null else array(select x::text from unnest(a.attacl)x order by x::text) end)
+ from relations r join pg_attribute a on a.attrelid=r.oid and a.attnum>0 and not a.attisdropped
+ left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum
+ union all
+ select 'CONSTRAINT:'||format('%I.%I.%I',r.nspname,r.relname,c.conname),
+ jsonb_build_array(c.contype,pg_get_constraintdef(c.oid),c.condeferrable,c.condeferred,c.convalidated,c.conislocal,c.connoinherit)
+ from relations r join pg_constraint c on c.conrelid=r.oid
+ union all
+ select 'INDEX:'||format('%I.%I',r.nspname,c.relname),
+ jsonb_build_array(pg_get_indexdef(i.indexrelid),i.indisunique,i.indisprimary,i.indisexclusion,i.indisvalid,i.indisready,i.indisclustered,i.indisreplident,c.reloptions)
+ from relations r join pg_index i on i.indrelid=r.oid join pg_class c on c.oid=i.indexrelid
+ union all
+ select 'TRIGGER:'||format('%I.%I.%I',r.nspname,r.relname,t.tgname),jsonb_build_array(pg_get_triggerdef(t.oid),t.tgenabled)
+ from relations r join pg_trigger t on t.tgrelid=r.oid and not t.tgisinternal
+ union all
+ select 'POLICY:'||format('%I.%I.%I',r.nspname,r.relname,p.polname),jsonb_build_array(p.polcmd,p.polpermissive,
+  array(select case when x=0 then 'PUBLIC' else pg_get_userbyid(x) end from unnest(p.polroles)x order by 1),
+  pg_get_expr(p.polqual,p.polrelid),pg_get_expr(p.polwithcheck,p.polrelid))
+ from relations r join pg_policy p on p.polrelid=r.oid
+ union all
+ select 'VIEW:'||format('%I.%I',nspname,relname),to_jsonb(pg_get_viewdef(oid,false)) from relations where relkind in('v','m')
+ union all
+ select 'SEQUENCE:'||format('%I.%I',r.nspname,r.relname),jsonb_build_array(format_type(s.seqtypid,null),s.seqstart,s.seqincrement,s.seqmax,s.seqmin,s.seqcache,s.seqcycle)
+ from relations r join pg_sequence s on s.seqrelid=r.oid
+ union all
+ select 'SCHEMA:'||nspname,jsonb_build_array(pg_get_userbyid(nspowner),
+  case when nspacl is null then null else array(select a::text from unnest(nspacl)a order by a::text) end)
+ from pg_namespace where nspname in('erp','public')
+ union all
+ select 'DEFAULT_ACL:'||pg_get_userbyid(d.defaclrole)||':'||coalesce(n.nspname,'GLOBAL')||':'||d.defaclobjtype::text,
+ to_jsonb(array(select a::text from unnest(d.defaclacl)a order by a::text))
+ from pg_default_acl d left join pg_namespace n on n.oid=d.defaclnamespace
+ where n.nspname in('erp','public') or d.defaclnamespace=0
+ union all
+ select 'ENUM:'||format('%I.%I',n.nspname,t.typname),jsonb_build_array(pg_get_userbyid(t.typowner),
+  (select jsonb_agg(e.enumlabel order by e.enumsortorder) from pg_enum e where e.enumtypid=t.oid))
+ from pg_type t join pg_namespace n on n.oid=t.typnamespace where n.nspname in('erp','public') and t.typtype='e'
+)
+select coalesce(jsonb_object_agg(k,encode(extensions.digest(convert_to(v::text,'UTF8'),'sha256'),'hex')),'{}'::jsonb) from objects
+) catalog;
+ select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(length(key)::text||':'||key||':'||value,E'\n' order by key collate "C"),''),'UTF8'),'sha256'),'hex') into object_count,fingerprint from jsonb_each_text(actual);
+ if object_count<>7848 or fingerprint is distinct from '760f029cbbcaeb2fe81f03795e1544376b94c7b29e5088c9a28bb99bd4fa0dd4' then
+  raise exception 'BB_INSTALLED_CATALOG_DRIFT';
+ end if;
+end $catalog_guard$;
+update erp.cp6_v2620bb_rollback_capsule set installed_definition_sha256=encode(extensions.digest(convert_to(pg_get_functiondef(to_regprocedure(object_regidentity)),'UTF8'),'sha256'),'hex');
+do $after_data$ declare v_table text;v_hash jsonb;v_after jsonb;v_before jsonb;v_cmp jsonb;v_cols text[];v_nonnull bigint; begin
+ v_after:='{}'::jsonb;
+ for v_table in select c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace
+  where n.nspname='erp' and c.relkind in('r','p') and c.relname<>all(array['schema_migrations','cp6_v2620bb_rollback_capsule']::text[]) order by 1 loop
+  execute format($data$select jsonb_build_object('count',count(*),'sha256',encode(extensions.digest(convert_to(coalesce(string_agg(h,',' order by h),''),'UTF8'),'sha256'),'hex')) from(select encode(extensions.digest(convert_to((to_jsonb(t))::text,'UTF8'),'sha256'),'hex') h from erp.%I t)s$data$,v_table) into v_hash;
+  v_after:=v_after||jsonb_build_object(v_table,v_hash);
+ end loop;
+ select snapshot->'before' into v_before from pg_temp.cp6_release_boundary;
+ v_cmp:=v_after;
+ for v_table,v_cols in select key,array(select jsonb_array_elements_text(value)) from jsonb_each('{"payroll_reimbursements":["opening_payable_balance_id","opening_carry_entitlement_id","opening_carry_qty"],"work_completion_events":["bb_opening_item_id"]}'::jsonb) loop
+  execute format($strip$select jsonb_build_object('count',count(*),'sha256',encode(extensions.digest(convert_to(coalesce(string_agg(h,',' order by h),''),'UTF8'),'sha256'),'hex')),
+   count(*) filter(where n) from(select encode(extensions.digest(convert_to((to_jsonb(t)-%L::text[])::text,'UTF8'),'sha256'),'hex') h,
+   jsonb_strip_nulls(to_jsonb(t))?|%L::text[] n from erp.%I t)s$strip$,v_cols,v_cols,v_table) into v_hash,v_nonnull;
+  if v_nonnull<>0 then raise exception 'BB_ADDED_COLUMNS_NOT_EMPTY: %',v_table;end if;
+  v_cmp:=v_cmp||jsonb_build_object(v_table,v_hash);
+ end loop;
+ if (v_cmp-array['bb_payroll_entitlements_v1','bb_purchase_commitments_v1','bb_purchase_commitment_lines_v1','bb_purchase_commitment_drafts_v1','bb_purchase_commitment_cancellations_v1','bb_receipt_invoiced_parts_v1','bb_legacy_documents_v1','bb_customer_credits_v1','bb_customer_credit_events_v1','bb_opening_sale_return_rights_v1','bb_opening_sale_return_receipts_v1','bb_opening_credits_v1','bb_wip_pickups_v1','bb_wip_bs_splits_v1','bb_wip_split_value_events_v1','bb_opening_reworks_v1','bb_open_sales_drafts_v1','bb_open_sales_draft_lines_v1']::text[]) is distinct from v_before or exists(select 1 from unnest(array['bb_payroll_entitlements_v1','bb_purchase_commitments_v1','bb_purchase_commitment_lines_v1','bb_purchase_commitment_drafts_v1','bb_purchase_commitment_cancellations_v1','bb_receipt_invoiced_parts_v1','bb_legacy_documents_v1','bb_customer_credits_v1','bb_customer_credit_events_v1','bb_opening_sale_return_rights_v1','bb_opening_sale_return_receipts_v1','bb_opening_credits_v1','bb_wip_pickups_v1','bb_wip_bs_splits_v1','bb_wip_split_value_events_v1','bb_opening_reworks_v1','bb_open_sales_drafts_v1','bb_open_sales_draft_lines_v1']::text[]) t where (v_after->t->>'count') is distinct from '0')
+  then raise exception 'BB_INSTALL_CHANGED_DATA';end if;
+ if exists(with live as (select p.oid::regprocedure::text as identity,encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex') as definition_sha256,
+  array(select a::text from unnest(p.proacl)a order by a::text) as acl,pg_get_userbyid(p.proowner) as owner
+ from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname in('erp','public') and p.prokind in('f','p')) select 1 from pg_temp.cp6_release_functions f left join live x on x.identity=f.identity
+  where f.identity<>all(coalesce((select array_agg(object_regidentity) from erp.cp6_v2620bb_rollback_capsule),'{}'))
+  and (x.identity is null or (x.definition_sha256,x.acl,x.owner) is distinct from (f.definition_sha256,f.acl,f.owner)))
+  then raise exception 'BB_CAPSULE_INCOMPLETE';end if;
+ update erp.cp6_v2620bb_rollback_capsule set boundary_snapshot=(select snapshot from pg_temp.cp6_release_boundary)||jsonb_build_object('after',v_after);
+end $after_data$;
+do $capsule_guard$
+declare expected jsonb;actual jsonb;boundary jsonb;
+begin
+ if not exists(select 1 from pg_class where oid='erp.cp6_v2620bb_rollback_capsule'::regclass and relrowsecurity and not relforcerowsecurity and pg_get_userbyid(relowner)='postgres')
+   or exists(select 1 from pg_class p cross join lateral aclexplode(coalesce(p.relacl,acldefault('r',p.relowner)))a where p.oid='erp.cp6_v2620bb_rollback_capsule'::regclass and a.grantee<>p.relowner)
+   or exists(select 1 from pg_attribute p cross join lateral aclexplode(p.attacl)a where p.attrelid='erp.cp6_v2620bb_rollback_capsule'::regclass and a.grantee<>'postgres'::regrole)
+   or exists(select 1 from pg_policy where polrelid='erp.cp6_v2620bb_rollback_capsule'::regclass)
+   or exists(select 1 from pg_trigger where tgrelid='erp.cp6_v2620bb_rollback_capsule'::regclass and not tgisinternal)
+   or (select count(*) from erp.cp6_v2620bb_rollback_capsule)<>30 then raise exception 'BB_CAPSULE_SECURITY_OR_COUNT';end if;
+ select jsonb_build_object(
+   'relation',(select jsonb_build_array(relkind,relpersistence,relreplident,relispartition,reloptions) from pg_class where oid='erp.cp6_v2620an_rollback_capsule'::regclass),
+   'columns',(select jsonb_agg(jsonb_build_array(a.attname,format_type(a.atttypid,a.atttypmod),a.attnotnull,a.attidentity,a.attgenerated,pg_get_expr(d.adbin,d.adrelid)) order by a.attnum) from pg_attribute a left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum where a.attrelid='erp.cp6_v2620an_rollback_capsule'::regclass and a.attnum>0 and not a.attisdropped),
+   'constraints',(select jsonb_agg(jsonb_build_array(contype,pg_get_constraintdef(oid),condeferrable,condeferred,convalidated) order by contype,pg_get_constraintdef(oid)) from pg_constraint where conrelid='erp.cp6_v2620an_rollback_capsule'::regclass),
+   'indexes',(select jsonb_agg(jsonb_build_array(indisunique,indisprimary,indisexclusion,indisvalid,indisready,indkey::text,indclass::text,indoption::text,pg_get_expr(indexprs,indrelid),pg_get_expr(indpred,indrelid)) order by indkey::text) from pg_index where indrelid='erp.cp6_v2620an_rollback_capsule'::regclass)) into expected;
+ select jsonb_build_object(
+   'relation',(select jsonb_build_array(relkind,relpersistence,relreplident,relispartition,reloptions) from pg_class where oid='erp.cp6_v2620bb_rollback_capsule'::regclass),
+   'columns',(select jsonb_agg(jsonb_build_array(a.attname,format_type(a.atttypid,a.atttypmod),a.attnotnull,a.attidentity,a.attgenerated,pg_get_expr(d.adbin,d.adrelid)) order by a.attnum) from pg_attribute a left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum where a.attrelid='erp.cp6_v2620bb_rollback_capsule'::regclass and a.attnum>0 and not a.attisdropped),
+   'constraints',(select jsonb_agg(jsonb_build_array(contype,pg_get_constraintdef(oid),condeferrable,condeferred,convalidated) order by contype,pg_get_constraintdef(oid)) from pg_constraint where conrelid='erp.cp6_v2620bb_rollback_capsule'::regclass),
+   'indexes',(select jsonb_agg(jsonb_build_array(indisunique,indisprimary,indisexclusion,indisvalid,indisready,indkey::text,indclass::text,indoption::text,pg_get_expr(indexprs,indrelid),pg_get_expr(indpred,indrelid)) order by indkey::text) from pg_index where indrelid='erp.cp6_v2620bb_rollback_capsule'::regclass)) into actual;
+ if actual is distinct from expected then raise exception 'BB_CAPSULE_SHAPE_DRIFT';end if;
+ select boundary_snapshot into boundary from erp.cp6_v2620bb_rollback_capsule limit 1;
+ if 30>0 and (boundary is null or exists(select 1 from erp.cp6_v2620bb_rollback_capsule where boundary_snapshot is distinct from boundary)
+  or not(boundary ?& array['before','after','platform_before','markers_before'])) then raise exception 'BB_CAPSULE_BOUNDARY';end if;
+ if exists(select 1 from erp.cp6_v2620bb_rollback_capsule where object_regidentity<>all(array['erp.post_opening_subledger_settlement(uuid)','erp.post_opening_financial_correction(uuid,numeric,text,date)','erp.reverse_opening_financial_correction(uuid,text)','erp.approve_payroll(uuid)','erp.post_payroll_payment(uuid)','erp.reverse_paid_payroll(uuid,text)','erp.initial_import_revision_v1(uuid)','erp.get_initial_import_workspace_v1(uuid)','erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)','erp._validate_migration_batch_base(uuid)','erp.finalize_migration_batch(uuid)','erp.save_initial_import_action_v1(text,jsonb,uuid)','erp.run_v267_financial_truth_checks()','erp.assert_new_stock_cutoff_coverage_v1()','erp.material_purchase_posted_invoice_qty(uuid)','erp.material_purchase_current_unit_cost(uuid)','erp.refresh_material_purchase_item_match_state(uuid)','erp.sync_material_purchase_grni_on_status()','erp.check_initial_import_receipt_v1(uuid,uuid)','erp.apply_initial_import_receipts_v1(uuid)','erp.complete_initial_import_wip_v1(jsonb)','erp.validate_initial_import_production_v1(uuid)','erp.initial_import_lot_cost_v1(uuid)','erp.initial_import_production_rows_v1(uuid)','erp.sync_initial_import_bs_disposition_v1()','erp.guard_initial_import_po_completion_v1()','erp.recost_initial_import_origins_v1(uuid)','erp.run_v268_financial_report_checks()','erp.guard_work_completion_posting_consistency()','erp.post_work_completion(uuid)']::text[])
+   or definition_sha256 is distinct from encode(extensions.digest(convert_to(object_definition,'UTF8'),'sha256'),'hex')
+   or installed_definition_sha256 is null or installed_definition_sha256=definition_sha256
+   or installed_definition_sha256 is distinct from encode(extensions.digest(convert_to(pg_get_functiondef(to_regprocedure(object_regidentity)),'UTF8'),'sha256'),'hex'))
+  then raise exception 'BB_CAPSULE_SOURCE_DRIFT';end if;
+end $capsule_guard$;
+commit;
