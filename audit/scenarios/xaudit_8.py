@@ -1,4 +1,5 @@
-"""rev3: staggered variant added (receipt i on day d+i, cut the same day, so the material stock is zero between receipts; each PO must then carry exactly its own document value: total AND per PO). rev2: column names fixed (system_created_at; target_wash_process_id on the delivery header); oracles unchanged.
+"""rev4 (T4): one purchase DOCUMENT with two materials (1 unit each), both fully cut, then repriced to 10.005 / 10.004 in one document: M:835 rounds the obligation per document, so the document is 20.01 / 20.01 (2 x 10.005 = 20.01; 2 x 10.004 = 20.008 -> 20.01), both material inventories end at qty 0 value 0, and WIP total = the document value (not 2 x per-line rounding 20.02 / 20.00).
+rev3: staggered variant added (receipt i on day d+i, cut the same day, so the material stock is zero between receipts; each PO must then carry exactly its own document value: total AND per PO). rev2: column names fixed (system_created_at; target_wash_process_id on the delivery header); oracles unchanged.
 AUDITOR SCENARIO xaudit_8 (round 9, Fable, independent): W8 several-receipt cents and LAU-T14 rate at send time.
 Tool head d1bc8ad (writer round 9). Oracles from the contract only:
  W8  M:1022/M:1059-1065/M:3818/M:3820 + rounding half away from zero (M:485): each purchase document is rounded on its own;
@@ -99,6 +100,52 @@ def multi_receipt(cur,today,kind,n,p0,p1,staggered=False):
                 wip_per_po_end={k:v for k,v in after[last]['WIP_PO'].items()},movements=[[str(x) for x in m] for m in moves],documents=docs,
                 expected='M:1022/M:1059-1065/M:3818/M:3820 + M:485 rounding: %d documents of 1 unit each rounded on their own; consumed material leaves qty 0 and value 0; WIP = %s; each PO carries its own rounded document value'%(n,expected_wip))
 
+def multi_material_doc(cur,today,kind,p0,p1):
+    """One document, two materials A and B (1 unit each) at p0; each cut to its own PO; the document repriced to p1 in ONE
+    correction/invoice document. Expected: material A and B inventory qty 0 value 0; WIP total = round(2 x p1, 2) (document
+    rounding, M:835); daily inventory never negative."""
+    d=today-timedelta(days=5);days=[d+timedelta(days=i) for i in range(6)]
+    awp.boundary.historical.prior.set_open_period(cur,d-timedelta(days=1))
+    before=azp.ledger_days(cur,days,[])
+    prior=prod.prior;api.admin(cur);prod.zone(cur,'Asia/Jakarta')
+    ma=prior.clone_material(cur,'xa8a');mb=prior.clone_material(cur,'xa8b');location=uuid.uuid4()
+    cur.execute("insert into erp.locations(id,location_code,location_name,location_type,is_active) values(%s,%s,'XA8 multi-material warehouse','RAW_MATERIAL_WAREHOUSE',true)",(location,'XA8M-LOC-'+location.hex[:18]))
+    lines=[dict(material_id=m,qty=1,unit_price=p0,rolls=[dict(roll_number='XA8M-ROLL-'+str(uuid.uuid4()),qty=1)]) for m in (ma,mb)]
+    payload=dict(purchase_number='XA8M-PUR-'+str(uuid.uuid4()),supplier_id=prior.BASE_SUPPLIER,location_id=location,physical_at=prod.at(d,10),change_reason='XA8 one document two materials',lines=lines)
+    if kind=='DIRECT':
+        for l in lines:l.update(price_state='FINAL',price_source='SUPPLIER_INVOICE')
+        payload['supplier_invoice_number']='XA8M-INV-'+uuid.uuid4().hex[:12]
+    else:
+        for l in lines:l.update(price_state='ESTIMATED',price_source='MANUAL_ESTIMATE')
+    draft=prod.rpc(cur,'erp.save_material_purchase_draft_v2',payload);purchase=uuid.UUID(draft['purchase_id'])
+    cur.execute('select erp.post_material_purchase_v2(%s,%s,%s,%s)',(purchase,uuid.uuid4(),int(draft['row_version']),'XA8 multi-material post'));api.admin(cur)
+    items=cur.execute('select i.material_id,i.id,r.id from erp.material_purchase_items i join erp.material_rolls r on r.purchase_item_id=i.id where i.purchase_id=%s order by i.material_id',(purchase,)).fetchall()
+    fxs=[dict(material=m,purchase=purchase,item=it,location=location,roll=r) for m,it,r in items]
+    pos=[azp.cut(cur,fx,d+timedelta(days=1),1,8+i) for i,fx in enumerate(fxs)]
+    mid=azp.ledger_days(cur,days,pos)
+    def reprice_doc():
+        api.admin(cur)
+        if kind=='DIRECT':
+            cid=uuid.uuid4()
+            cur.execute("insert into erp.material_purchase_cost_corrections(id,correction_number,purchase_id,supplier_invoice_number,invoice_date,reason,status) values(%s,%s,%s,%s,%s,'XA8 multi-material correction','DRAFT')",(cid,'XA8M-CC-'+cid.hex[:12],purchase,'XA8M-CCINV-'+cid.hex[:12],d+timedelta(days=2)))
+            for fx in fxs:cur.execute('insert into erp.material_purchase_cost_correction_items(correction_id,purchase_item_id,new_unit_price) values(%s,%s,%s)',(cid,fx['item'],p1))
+            prod.owner(cur);cur.execute('select erp.post_material_purchase_cost_correction(%s)',(cid,));api.admin(cur);return str(cid)
+        version=int(cur.execute('select row_version from erp.material_purchase_headers where id=%s',(purchase,)).fetchone()[0])
+        pl=dict(purchase_id=purchase,supplier_invoice_number='XA8M-LINV-'+uuid.uuid4().hex[:12],invoice_date=str(d+timedelta(days=2)),received_at=prod.at(d+timedelta(days=2),15),reason='XA8 multi-material late invoice',lines=[dict(purchase_item_id=fx['item'],qty_invoiced=1,final_unit_price=p1) for fx in fxs])
+        prod.zone(cur,'Asia/Jakarta');r=prod.rpc(cur,'erp.finalize_material_purchase_invoice_v2',pl,uuid.uuid4(),version);api.admin(cur);return r
+    r,err=attempt(cur,reprice_doc)
+    prod.owner(cur);cur.execute('select erp.process_cost_recalc_queue(100)');api.admin(cur)
+    after=azp.ledger_days(cur,days,pos);last=str(days[-1])
+    delta={k:str(D(after[last][k])-D(before[last][k])) for k in KEYS}
+    daily={k:{kk:str(D(after[k][kk])-D(before[k][kk])) for kk in ('MATERIAL_INVENTORY','WIP')} for k in after}
+    raw={str(fx['material']):cur.execute('select coalesce(sum(qty_signed),0)::text from erp.material_stock_movements where material_id=%s',(fx['material'],)).fetchone()[0] for fx in fxs}
+    expected_wip=str(cents(D(p1)*2))
+    checks=dict(document_posted=err is None,both_materials_qty_zero=all(D(v)==0 for v in raw.values()),inventory_value_zero_at_end=D(delta['MATERIAL_INVENTORY'])==0,
+                wip_equals_document_rounded=delta['WIP']==expected_wip,no_negative_daily_inventory=all(D(v['MATERIAL_INVENTORY'])>=0 for v in daily.values()))
+    status='INCOMPLETE' if err else ('PASS' if all(checks.values()) else 'COUNTEREXAMPLE')
+    return dict(status=status,checks=checks,kind=kind,p0=p0,p1=p1,delta_end=delta,expected_wip=expected_wip,per_line_rounding_would_be=str(cents(D(p1))*2),raw_qty=raw,wip_per_po_end=after[last]['WIP_PO'],daily_delta=daily,refusal=err,
+                expected='M:835 (pembulatan kewajiban per dokumen) + M:1022/M:3820: one document of two materials repriced together; both materials end qty 0 value 0; WIP total = document value rounded once')
+
 # ---------------------------------------------------------------- LAU-T14 (rate at send time)
 def lau_ledger(cur,day):
     api.admin(cur)
@@ -155,6 +202,8 @@ def cases(cur,today):
     out.append(('XA8:W8_THREE_RECEIPTS_DIRECT_DOWN',wrap(multi_receipt,'DIRECT',3,'10.01','10.004')))
     out.append(('XA8:W8_THREE_STAGGERED_INVOICE_UP',wrap(multi_receipt,'INVOICE',3,'10.00','10.005',True)))
     out.append(('XA8:W8_THREE_STAGGERED_DIRECT_DOWN',wrap(multi_receipt,'DIRECT',3,'10.01','10.004',True)))
+    out.append(('XA8:T4_MULTI_MATERIAL_DOC_INVOICE_UP',wrap(multi_material_doc,'INVOICE','10.00','10.005')))
+    out.append(('XA8:T4_MULTI_MATERIAL_DOC_DIRECT_DOWN',wrap(multi_material_doc,'DIRECT','10.01','10.004')))
     for mode in ('UP','DOWN','CONTROL','GAP'):
         out.append(('XA8:LAU_T14_RATE_%s_BETWEEN_SEND_AND_RECEIPT'%mode,wrap(lau_t14,mode)))
     return out
