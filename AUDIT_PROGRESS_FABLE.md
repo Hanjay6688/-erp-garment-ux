@@ -20,3 +20,20 @@
 - Dispatched run 36165571453 (phase after, head 4b1bd66). INDEPENDENT_NATIVE_RERUN; waiting.
 - Reviewed ab4ea6d docs: D06 recorded verbatim (sha 42e04815…, OWNER_CONFIRMED_TO_AUDITOR), T3 question rewritten per owner, old "1 sen per PO"
   sentence marked wrong in history — CONFIRMED consistent with OWNER_DECISIONS_CP6_DRAFT.md.
+
+## 2026-09-25 17:36Z — round 12 pre-BC F1/F2: runs so far (all INDEPENDENT_NATIVE_RERUN, phase after/pre_bc = product before BC)
+- 36165571453 rev1 (4b1bd66): red — auditor tool defect (cases() returned a dict; runner wants [(id, callable)]). Not product evidence.
+- 36166046560 rev2 (4b1bd66, after = pre-BC, BC_ABSENT PASS): F2 CONTROL PASS; ADJUST+INVOICE(10.005) COUNTEREXAMPLE (GL 70.03 vs qty×avg 70.04,
+  detector +1); ADJUST+INVOICE(2.10) COUNTEREXAMPLE (books exact 14.70, detector +1); STACKED N3 PASS (silent); STACKED N10 COUNTEREXAMPLE
+  (books exact: WIP 100.10, inventory 0, detector +1); F1 INCOMPLETE (my error path had no savepoint).
+- 36166784262 rev3 (4b1bd66): detail run — per-account deltas, detector inner rows, revaluation events. Obligation (account 2010) = documents
+  rounded in EVERY case (100.05 / 100.05 / 21.00 / 30.03 / 100.10). My `obligation_equals_documents_rounded` check keyed by mapping name instead
+  of account code → always false → rev3 statuses contaminated (auditor tool defect); rev2 statuses stand. Detector rows: N10 one cut movement
+  applied −0.05 vs per-movement target −0.01 (document cent carry, T3-A); adjustment movements have NO material_cost_revaluation_state row
+  (applied None) while the journal carried the recost (5900 +30.02 / +6.30) → detector compares against a table the v2.6.20t document-level
+  engine does not write. F1 facade refused my timestamp (WIB format) → fallback direct DRAFT line: detector counts it (predicate confirmed).
+- 36167400464 rev4 (4b1bd66): F1 through the real facade (POST, mode MANUAL, WIB physical_at): posted line manual_retail_unit_price 3.00,
+  accessory_price_version_id null → contractor_issue_price_provenance_gap +1 CRITICAL → **F1 CONFIRMED pre-existing** (baseline predicate
+  ignores manual_retail_unit_price; M:1066 ACC-DEC02 makes the manual price valid). F2 cases INCOMPLETE on my column typo (triggering_material_id).
+- Writer head moved to 95353aa (BC pages, races/HTTP/browser, BC CI workflow, auditor workflow: phase `after` now installs BC, new `pre_bc`).
+  DB release package still identical to 4c61aca. Dispatcher re-pinned; rev5 dispatched as 36168041413 phase pre_bc.
