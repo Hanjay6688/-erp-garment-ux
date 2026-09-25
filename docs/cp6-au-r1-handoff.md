@@ -2441,3 +2441,120 @@ Acuannya daftar tugas writer di cabang auditor `audit/cp6-final-20260924-gpt-a0b
   - lalu uji gabungan 75 kasus C6 + 22 ALL.
 - **Operator:** drill T6 pada salinan yang diizinkan.
 - **Opsional:** T7.
+
+## 31. Putaran kesebelas: masukan auditor R11 dan head BC (25 September 2026) (writer Claude)
+
+Acuannya pesan auditor ronde 11 (Fable, sejalan dengan GPT) butir 1–5. Daftar tugas tetap `AUDIT_WRITER_HANDOFF_CP6.md` di cabang auditor; log progres dipisah per auditor (butir 5). Label bukti di bagian ini: `T1_FAMILY`, `T2`, `T3_PREP`, atau `WRITER_SCENARIO` di runtime auditor. Tidak ada yang berstatus bukti rilis. CP6 tetap HOLD, `audit_complete=false`, `production_go=false`. Nilai kebijakan aksesori tetap `PENDING_POLICY_VALUE`; writer tidak mengisi angka.
+
+### 31.1 Status butir R11
+
+| Butir | Status | Letak |
+|---|---|---|
+| 1a D06 | selesai | ab4ea6d (addendum §9, status lampiran C6 rev4) |
+| 1b T3 opsi A | selesai | ab4ea6d: kalimat T3 diperbaiki; probe BA `A4:STACKED_RECEIPTS_*_N{3,10}_*` |
+| 3a W05 PARTIAL | konsisten | §29.6, `docs/cp6-bb-case-table.md` (W05 di BB = finansial saja), `docs/cp6-bc-case-table.md` |
+| 3b probe enam keadaan era-BA | selesai | kasus `L:` di `scripts/cp6_bc_probe.py`: P01, A01 ×3, A02, W01, W03, C01 ×2 |
+| 3c angka advisor | selesai | +75 untuk 26 berkas (catatan T5); untuk 27 berkas lihat §31.5 |
+| 3d T6 | tugas operator | writer tidak menyentuh hosted |
+| 3e T7 | opsional, belum dikerjakan | — |
+| 4 head BC final + tabel kasus | bagian ini | `docs/cp6-bc-case-table.md` (kasus → ID C6/ALL → oracle pra-kode, §Run) |
+| 5 log per auditor | dicatat | — |
+
+### 31.2 Produk: keluarga BC (`v2.6.20bc`, `supabase/dev/cp6_bc_t1_family.sql`)
+
+Cakupan: ACC-04b (alur pos servis, pemakaian, pengembalian, pemeriksaan, titipan, kredit retur nota), pengaturan kebijakan ACC-DEC01, ACC-DEC03..07 dan ERP-DEC02 (lampiran C6 rev4 §3), serta ALL-C02 dan ALL-C03.
+
+- **Pengaturan kebijakan.** Tujuh baris `erp.bc_policy_settings_v1`, bawaan `PENDING_POLICY_VALUE`. Hanya owner yang dapat menetapkan atau menghapus nilai; setiap perubahan menaikkan versi dan dicatat di `bc_policy_setting_events_v1`. Versi basi ditolak `STALE_VERSION`. Selama nilai belum ditetapkan, setiap langkah keuangan yang bergantung padanya ditolak `BC_POLICY_PENDING`. Langkah fisik yang tidak bergantung (terima, periksa, titipan) tetap bisa dijalankan.
+- **Facade tunggal** `erp_save_accessory_service_action_v1` dengan 15 aksi: FILL_POST, RETURN_TO_WAREHOUSE, INTERNAL_USE, RECEIVE_RETURN, INSPECT, VALUE_CUSTODY, CREDIT_NOTE_RETURN, ALLOCATE_CARRY, DISPOSE_STOCK, CLOSE_CUSTODY, CUSTOMER_GARMENT_IN/OUT, COUNT_POST, RESOLVE_VARIANCE, ROUND_NOTE, ditambah SET_POLICY (operasi SET atau CLEAR, kembali ke pending) dan REGISTER_ZONE. Setiap dokumen memakai waktu fisik WIB dan dapat dibalik dengan transaksi kebalikan tertaut.
+- **Barang kembali** disimpan per lot dengan keadaan terpisah: menunggu periksa, layak, rusak, titipan belum dinilai, sudah dikredit. Kapasitas sumber dan pemeriksaan dijaga di server (`BC_RETURN_EXCEEDS_SOURCE`, `BC_INSPECT_EXCEEDS_WAITING`).
+- **Kredit retur nota mandor** mengikuti ACC-DEC05. Bagian yang sudah dipotong/dibayar tidak dikredit ulang (`BC_DEC05_PAID_PORTION`); sisa dapat dibawa ke payroll (ALLOCATE_CARRY).
+- **Nota aksesori:** baris gratis khusus ERP-DEC02 (nota harga 0 bukan cara gratis) dan baris pembulatan ACC-DEC06; nominal resmi tidak berubah.
+- **ALL-C02 dan ALL-C03** masuk impor saldo awal: nota lama sebagian dibayar beserta returnya, serta titipan, karantina, dan barang yang ditunggu. Kategori tidak dijumlah menjadi satu stok siap.
+- **UI:** halaman Gudang · Aksesori (stok, catat transaksi, barang kembali, dokumen, kebijakan & area), mode FREE dan pembulatan pada halaman nota, serta panel aksesori pembuka di halaman impor.
+
+### 31.3 Temuan dan perbaikan
+
+1. **F4 (cacat BB, diperbaiki di BC; 5e1ae83).** Pelunasan saldo awal yang dibayar dari uang muka impor membuat `reversible` di `erp.bb_financial_workspace_v1` bernilai `null`, sehingga halaman impor menyembunyikan seluruh batch. Ditemukan oleh parse halaman pada kasus `L:A01_*`. BC mengganti fungsi itu dengan satu substitusi yang diperiksa (`coalesce(..., false)`). Kasus `F4:ADVANCE_SETTLEMENT_REVERSIBLE_READ`: COUNTEREXAMPLE sebelum BC, PASS sesudah.
+2. **F3 (lama, tidak diubah).** Halaman Nota Ambil Aksesori menolak seluruh bacaan bila ada mandor aktif ber-ID non-RFC-4122 (seed CP3 `a1000000-…`). Guard lama tidak dilonggarkan; diserahkan ke owner/auditor. Parser BC menerima semua UUID kanonik.
+3. **F1 dan F2** seperti di tabel kasus BC (F1 sudah diperbaiki N9; F2 detektor basi, tidak diubah).
+4. **UI Dokumen BC (27e1a05).** Teks pencarian stok dan lokasi ikut menyaring daftar dokumen, tetapi tab Dokumen tidak menampilkannya, sehingga daftar tampak kosong tanpa alasan. Ditemukan oleh flow browser (run 36170901705). Tab Dokumen kini punya kotak cari sendiri, baris status pencarian aktif, dan tombol hapus pencarian.
+5. **Perbaikan skrip uji browser (bukan produk):**
+   - tombol stok bernama "Cari stok", karena bilah atas punya "Cari" sendiri;
+   - form kebijakan dipilih ulang sesudah halaman dimuat ulang;
+   - jam fisik diisi `T09:00`, karena Chromium menormalkan `T09:00:00` dan Playwright menolaknya (792251f).
+6. **Koreksi laporan writer tentang D04.** Hasil race D04 yang sempat disebut cacat BC ternyata snapshot basi yang ditolak benar oleh guard kasbon. Kasus kini memakai anggaran payroll 100 dan mengulang populate bila ditolak.
+7. **Pembanding rollback untuk baris seed (9fb2473).** Cycle pertama dengan BC (run 36171280254) gagal di satu cek, `REINSTALL_BC_SAME_AS_FIRST_INSTALL`. Dua tabel kebijakan yang diisi saat pasang membawa waktu pasang (`set_at`) dan id event acak, sehingga pasang ulang selalu menulis nilai baru.
+   - Seperti waktu capture kapsul, hanya kolom itu pada tabel seed yang terdaftar yang dikecualikan dari perbandingan pasang ulang. Kolom lain harus tetap sama.
+   - Daftar tabel wajib sama dengan registry rilis.
+   - Pengecualian ini mempersempit cek lama, jadi dicatat terbuka untuk ditinjau auditor. Cek lain di run itu PASS.
+8. **Tanggal probe.** Kasus memakai jam tetap pada harinya (08:00 terima, 09:00 periksa, dan seterusnya). Pada tanggal WIB nyata, jam itu bisa jatuh di masa depan dan ditolak `BC_DATE_FUTURE`, sehingga hasil bergantung pada jam runner. Kasus kini berjalan pada hari bisnis WIB − 1. Penolakan tanggal masa depan tetap diuji dengan tanggal nyata + 1.
+
+### 31.4 Status ALL 22 pada head BC
+
+| Keadaan | Bukti run | Family |
+|---|---|---|
+| P01, A01, A02, W01, W03, C01 | kasus `L:` probe BC (impor → jalur native → balik) | era-BA, diuji di BC |
+| P02, P03, P04, S01, S02, S03, A03, Y01, Y02, W02, W04, W06 | probe BB | BB |
+| C02, C03 | probe BC `ALL:C02_*`, `ALL:C03_*`, browser `IMPORT_PAGE_OPENING_ACCESSORIES` | BC |
+| W05 | PARTIAL: finansial di BB; fisik menyusul | BD |
+| C04 | belum ada jalur | BE |
+
+Jadi 20 dari 22 punya bukti run penuh, W05 PARTIAL, dan C04 belum.
+
+### 31.4a T2 pada head BC
+
+- **Run:** 36171725748 pada 27e1a05; 3/3 job sukses.
+- **Pembanding:** head BB final (run 36141237920), per ID:
+  - 326 asli + AS 34: 422 status sama;
+  - AT 16 + AU 15: 41 status sama;
+  - AR 174: satu berubah.
+- **Yang berubah:** `ACCESSORY_CONNECTED_ZERO` PASS → INCOMPLETE. Nota dengan harga eceran manual 0,00 kini ditolak `BC_FREE_REQUIRES_POLICY`. Ini disengaja: ERP-DEC02 dan M:5023 menyatakan nota harga 0 bukan cara gratis; jalur gratis yang sah adalah baris Special. Kasus probe `DEC02:MANUAL_ZERO_PRICE_REFUSED` mengunci perilaku ini.
+- **Yang tidak diubah:** oracle, harness, dan hasil lama. Kasus ini diserahkan ke auditor untuk disposisi.
+- **Verdict job regresi:** tetap `DISPOSITION_REQUIRED` seperti head BB final, karena kasus AS historis. Itu tidak terkait BC.
+
+### 31.5 Head BC dan identitasnya
+
+- **Head:** commit yang memuat bagian ini (hash lengkap di pesan serah terima). Cabang kompetisi tetap `ca7f095`. Tidak ada SQL ke hosted.
+- **Dev:** `supabase/dev/cp6_bc_t1_family.sql` sha256 `f2ffdac9ee883f86…`.
+- **Paket T3:** 27 berkas AC..BC; berkas AC..BB tidak berubah.
+  - `supabase/release/cp6-t3/MANIFEST.json` `cf7de9f4407ccb9c…`
+  - berkas BC `a9daa1f00bbf6edf…`
+  - blob pin `b469a5abde7147dc…` (capture job 108183850580, run 36168802454)
+- **Rollback:** `ROLLBACKS.json` `9ec36fcf62836623…`; alat `scripts/cp6_t3_rollback.py` `2b4bca622f390163…`; berkas BC `5297f78d95597072…`; capture `f9eeb8d3e87ed217…` (job 108189867439, run 36170892127).
+- **Advisor 27 berkas** (run 36170892085): sebelum 73, sesudah 165, bertambah 92, dihapus 0. Semuanya `INFO rls_enabled_no_policy` pada schema `erp`: 75 seperti paket 26 berkas, ditambah 16 tabel `bc_*` dan `cp6_v2620bc_rollback_capsule`. Gate `security_advisors` bernilai `true`.
+- **Skenario writer:**
+  - `scripts/cp6_bc_probe.py` `0ee7ba788c8cb3ee…` (43 kasus)
+  - `scripts/cp6_bc_modes.py` `fdc06d1808b86e89…` (11 race, 2 HTTP)
+  - `scripts/cp6_bc_browser.mjs` `53e6e70259c7f549…` (3 flow)
+  - `scripts/cp6_bc_workspace_parse.mjs` `2966f1f317f3ec6f…`
+- **Pemeriksaan frontend (lokal):** `npm test` 512/512, `test:security`, dan build lolos.
+
+### 31.6 Run
+
+| Uji | Run | Head | Hasil |
+|---|---|---|---|
+| Probe BC (before + after, dengan cek parser halaman) | 36168802591 | 5e1ae83 | sukses: 43 kasus; `NO_ROUTE`/`COUNTEREXAMPLE` sesuai rencana di fase before, `PASS` di fase after. SQL produk dan probe tidak berubah sesudah head ini |
+| Race 11, HTTP 2, browser 3 | 36171707986 (auditor scenario, `phase=after`) | 27e1a05 | 16/16 PASS, `RUN_COMPLETE`, 0 galat konsol |
+| T2 gabungan | 36171725748 | 27e1a05 | 3/3 job sukses. Per ID dibanding head BB final (run 36141237920): 326 asli + AS 34 = 422 status sama; AT 16 + AU 15 = 41 sama; AR 174: satu berubah, `ACCESSORY_CONNECTED_ZERO` PASS → INCOMPLETE, disengaja (ERP-DEC02, lihat §Disposisi T2) |
+| Paket T3: capture pin | 36168802454, job 108183850580 | 5e1ae83 | 27/27 berkas `CAPTURED_AND_INSTALLED`; blob `b469a5ab…` |
+| Paket T3: install 27 berkas, verify, advisor, drill restore, cek data | 36170892085 | e21d15b | `ALL_STAGES_INSTALLED`; advisor +92 INFO saja, gate `true`; drill `RESTORED_SAME_MEANING`; UUID `CLEAN` |
+| Paket T3: pin dicapture ulang dan dibandingkan dengan paket | 36170892085 | e21d15b | sama |
+| Rollback: capture | 36170892127, job 108189867439 | e21d15b | `CAPTURED`; blob `f9eeb8d3…` |
+| Rollback: cycle | 36172264420 | 9fb2473 | 135/135 PASS: penolakan salah urutan dan admission terbuka, dua cycle BC..AC, reinstall sama dengan pasang pertama, 27 penolakan pasca-pakai; `primary_unchanged` |
+
+Log gagal (disimpan di Actions) dan disposisi T2: lihat `docs/cp6-bc-case-table.md` §Run dan §Disposisi T2.
+
+### 31.7 Untuk auditor: menjalankan ulang pada head ini
+
+- **Probe BC:** `cp6-bc-t1-probe.yml` (dispatch). Fase before dan after; job gagal bila parser halaman menolak satu workspace saja (F3 dan, hanya di fase before, F4 dihitung terpisah).
+- **Runtime auditor:** `cp6-auditor-scenario.yml`, input `phase=after`, `scenario_path=scripts/cp6_bc_modes.py`, `browser_path=scripts/cp6_bc_browser.mjs`. Fase `pre_bc` tersedia untuk menjalankan skenario auditor tanpa BC.
+- **T2:** dispatch `cp6-t2-regression.yml`.
+- **T3:** `cp6-t3-release-package.yml` (tiga job) dan `cp6-t3-rollback.yml` (auto = cycle).
+
+### 31.8 Yang masih terbuka
+
+- **Owner:** nilai kebijakan aksesori (tujuh baris) tetap `PENDING_POLICY_VALUE` sampai owner menetapkannya di aplikasi; F3 (guard ID mandor di halaman nota).
+- **Auditor:** disposisi `ACCESSORY_CONNECTED_ZERO` (§31.4a) dan tinjauan pengecualian pembanding rollback untuk baris seed (§31.3 butir 7).
+- **Writer, berikutnya:** BD (LAU-05b, LAU-DEC01–06 sebagai pengaturan, W05 fisik), lalu BE (ganti SKU, celup ulang LAU-06b, ALL C04), lalu uji gabungan 75 kasus C6 + 22 ALL.
+- **Operator:** drill T6 pada salinan yang diizinkan.
+- **Opsional:** T7.

@@ -130,3 +130,34 @@ Pemeriksaan halaman ikut dalam run yang sama. Semua baca workspace (impor, Gudan
 - **F3** (lama; baru ditemukan, tidak diubah): halaman Nota Ambil Aksesori menolak seluruh bacaan bila ada mandor aktif yang ID-nya bukan RFC-4122. Di rantai uji, ini terjadi karena mandor seed CP3 ber-ID `a1000000-0000-…`. Akibatnya halaman kosong dengan pesan galat. Server menyimpan tipe `uuid`, jadi ID itu sah. Guard lama tidak dilonggarkan dan diserahkan ke owner/auditor. Parser BC yang baru menerima semua teks UUID kanonik.
 - **F4** (baru; cacat BB, diperbaiki di BC): pelunasan saldo awal yang dibayar dari uang muka impor tidak punya akun kas dan tidak punya baris kredit. Akibatnya `erp.bb_financial_workspace_v1` mengirim `reversible = false OR NULL`, yaitu `null`. Halaman impor menolak flag yang bukan boolean, sehingga seluruh batch tidak terlihat. Temuan ini muncul dari parse halaman atas workspace kasus `L:A01_*` dan bisa direproduksi tanpa BC. BC mengganti fungsi itu dengan satu substitusi yang diperiksa (`coalesce(..., false)`); teks pendahulunya diverifikasi sama dengan BB. Kasus `F4:ADVANCE_SETTLEMENT_REVERSIBLE_READ`: COUNTEREXAMPLE sebelum BC, PASS sesudah. Parse probe menghitung penolakan F4 terpisah hanya di fase before, dan menolaknya di fase after.
 - **Catatan D04** (koreksi laporan writer): hasil race D04 yang sempat disebut cacat BC ternyata bukan cacat. Sesi kedua memakai snapshot basi, lalu ditolak benar oleh guard kasbon. Kasus sekarang memakai anggaran payroll 100 dan mengulang populate bila ditolak.
+
+## Run (head writer)
+
+| Uji | Run | Head | Hasil |
+|---|---|---|---|
+| Probe BC (before + after, dengan cek parser halaman) | 36168802591 | 5e1ae83 | sukses: 43 kasus; `NO_ROUTE`/`COUNTEREXAMPLE` sesuai rencana di fase before, `PASS` di fase after. SQL produk dan probe tidak berubah sesudah head ini |
+| Race 11, HTTP 2, browser 3 | 36171707986 (auditor scenario, `phase=after`) | 27e1a05 | 16/16 PASS, `RUN_COMPLETE`, 0 galat konsol |
+| T2 gabungan | 36171725748 | 27e1a05 | 3/3 job sukses. Per ID dibanding head BB final (run 36141237920): 326 asli + AS 34 = 422 status sama; AT 16 + AU 15 = 41 sama; AR 174: satu berubah, `ACCESSORY_CONNECTED_ZERO` PASS → INCOMPLETE, disengaja (ERP-DEC02, lihat §Disposisi T2) |
+| Paket T3: capture pin | 36168802454, job 108183850580 | 5e1ae83 | 27/27 berkas `CAPTURED_AND_INSTALLED`; blob `b469a5ab…` |
+| Paket T3: install 27 berkas, verify, advisor, drill restore, cek data | 36170892085 | e21d15b | `ALL_STAGES_INSTALLED`; advisor +92 INFO saja, gate `true`; drill `RESTORED_SAME_MEANING`; UUID `CLEAN` |
+| Paket T3: pin dicapture ulang dan dibandingkan dengan paket | 36170892085 | e21d15b | sama |
+| Rollback: capture | 36170892127, job 108189867439 | e21d15b | `CAPTURED`; blob `f9eeb8d3…` |
+| Rollback: cycle | 36172264420 | 9fb2473 | 135/135 PASS: penolakan salah urutan dan admission terbuka, dua cycle BC..AC, reinstall sama dengan pasang pertama, 27 penolakan pasca-pakai; `primary_unchanged` |
+
+Log gagal tetap disimpan di Actions:
+
+- **36168808537:** browser `FILL_POST_AND_REVERSE` INCOMPLETE. Chromium menormalkan jam `09:00:00` dan Playwright menolak pengisian. Kesalahan skrip uji, diperbaiki di 792251f.
+- **36170901705:** browser `FILL_POST_AND_REVERSE` INCOMPLETE. Tab Dokumen menyaring dengan pencarian stok tanpa menampilkannya. Cacat UI BC, diperbaiki di 27e1a05.
+- **36171280254:** cycle rollback pertama gagal satu cek, `REINSTALL_BC_SAME_AS_FIRST_INSTALL`: baris seed kebijakan membawa waktu pasang dan id event baru. Pembanding disesuaikan secara sempit di 9fb2473; cek lain, termasuk 27 penolakan pasca-pakai, PASS.
+- **36168802454:** job capture paket gagal dengan `T3_COMMITTED_PACKAGE_STALE` (differ `['BC']`). Ini memang yang diharapkan sebelum pin baru di-commit.
+
+## Disposisi T2
+
+Satu kasus lama berubah karena BC: `AR_SEQUENTIAL / ACCESSORY_CONNECTED_ZERO`, PASS → INCOMPLETE (run 36171725748).
+
+- **Isi kasus:** nota aksesori dengan harga eceran manual 0,00 (`scripts/cp6_accessory_issue_trial.py`).
+- **Sesudah BC:** ditolak `BC_FREE_REQUIRES_POLICY: harga eceran 0 hanya lewat gratis Special yang ditetapkan owner (ERP-DEC02)`.
+- **Dasar:** keputusan owner ERP-DEC02 di lampiran C6 rev4 dan M:5023: nota harga 0 bukan cara gratis. Jalur gratis yang sah adalah baris Special. Perilaku yang sama dikunci kasus probe `DEC02:MANUAL_ZERO_PRICE_REFUSED` (COUNTEREXAMPLE sebelum BC, PASS sesudah).
+- **Yang tidak diubah:** oracle, harness, dan hasil lama kasus itu. Perubahan ini dicatat untuk disposisi auditor, tidak diserap ke hitungan.
+
+Verdict job regresi tetap `DISPOSITION_REQUIRED`, sama seperti head BB final, karena kasus AS historis (8 COUNTEREXAMPLE, 1 INCOMPLETE). Itu tidak terkait BC.

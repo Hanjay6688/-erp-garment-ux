@@ -93,7 +93,16 @@ Kalimat itu keliru (selisih beberapa nota dapat terkumpul pada satu PO) dan suda
 
 ## T5. Catatan rilis: advisor keamanan INFO `rls_enabled_no_policy` (disengaja)
 
-**Angka berlaku (paket 26 berkas AC..BB):** advisor sebelum 73, sesudah 148, bertambah **75**, dihapus 0, semuanya `INFO
+**Angka berlaku (paket 27 berkas AC..BC):** advisor sebelum 73, sesudah 165, bertambah **92**, dihapus 0, semuanya `INFO
+rls_enabled_no_policy` pada schema `erp` (run T3 install 36170892085, head e21d15b). Rinciannya:
+
+- 75 tambahan seperti paket 26 berkas;
+- 16 tabel `bc_*`;
+- `cp6_v2620bc_rollback_capsule`.
+
+Polanya sama: RLS aktif dan semua hak dicabut. Gate `security_advisors` bernilai `true`.
+
+**Paket 26 berkas AC..BB** (sebelum BC): sebelum 73, sesudah 148, bertambah **75**, dihapus 0, semuanya `INFO
 rls_enabled_no_policy` pada schema `erp` (run T3 install 36141649832, rincian di akhir bagian ini). Riwayatnya:
 
 Run T3 install sebelumnya (c793d51, job 108076155383) memasang paket 25 berkas (AC..BA) di baseline yang setara hosted. Hasil advisor: sebelum 73, sesudah 129, bertambah **56**, dihapus 0. Semua tambahan berjenis `INFO rls_enabled_no_policy` pada schema `erp`:
