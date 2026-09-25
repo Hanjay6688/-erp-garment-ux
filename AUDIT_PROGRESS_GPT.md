@@ -133,3 +133,10 @@ Status per gate penuh tidak berubah: C6-01 HOLD; C6-02 HOLD; C6-03 UNVERIFIED; C
 - Kedua berkas lulus `python -m py_compile` / `node --check`. GBC-3 filter lintas tab masih BELUM ditulis. Run/job belum ada; tidak ada PASS baru. Gate C6-07 HOLD, C6-08 UNVERIFIED; seluruh CP6 HOLD.
 
 **LANGKAH BERIKUTNYA:** dispatch satu workflow native pada head alat BC pinned `62d05c43b981dc031bca260e8b4809aadcd9a01c`; simpan run/job/per-kasus dan `primary_unchanged`. Jika tool atau fixture error, catat INCOMPLETE. Setelah GBC-1/2, tulis/dispatch GBC-3 atau dokumentasikan batasnya; jangan menaikkan BC ke ACCEPT hanya berdasarkan hasil orang lain.
+
+
+## Run GPT BC mandiri dimulai
+
+Workflow `.github/workflows/gpt-cp6-bc-followup.yml` commit `ed741dfdf0ec8933ccb7c2cbbce5943fe70fc09e` memicu run [36182512996](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36182512996), job **108228022712**, pada cabang audit. Ref alat BC dipin ke `62d05c43b981dc031bca260e8b4809aadcd9a01c`; input oracle/Python/browser dicek tiga sha256 sebelum runtime. Saat pencatatan job sedang menyalakan DB disposable; **belum ada hasil per kasus**. GBC-1/2 BELUM; GBC-3 BELUM. Tahan seluruh acceptance BC/CP6.
+
+**LANGKAH BERIKUTNYA:** baca job `108228022712` setelah selesai; bila gagal sebelum kasus, catat tahap dan perbaiki alat tanpa mengganti oracle historis; bila kasus selesai, rekam input/actual/status, cleanup, `primary_unchanged`, dan putuskan prioritas/limit. Commit+push hasil ke progres GPT dan `out/gpt_bc_*`, baru lanjut GBC-3 dan BD.
