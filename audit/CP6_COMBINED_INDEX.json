@@ -633,5 +633,29 @@
     "agents": 4,
     "model": "sonnet",
     "notes_dir": "out/verify_*.md"
+  },
+  "owner_decision_preparation": {
+    "date": "2026-09-25",
+    "status": "DRAFT_NOT_APPROVED",
+    "document": "OWNER_DECISIONS_CP6_DRAFT.md",
+    "notes": "out/owner_decisions_contract_review_20260925.md",
+    "decisions": [
+      "D01",
+      "D02",
+      "D03",
+      "D04",
+      "D05",
+      "D06"
+    ],
+    "already_decided": [
+      "ALL scope M1024",
+      "Prepared draft remains editable; old preview stale M1025,3817"
+    ],
+    "technical_not_owner_choice": [
+      "CP6-19 ordinary-route reachability without test-only privileges"
+    ],
+    "native_results_not_reverified_in_this_task": true,
+    "contract_changes": false,
+    "production_go": false
   }
 }

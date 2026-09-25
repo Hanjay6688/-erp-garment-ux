@@ -7,7 +7,17 @@ Cabang audit: `audit/cp6-final-20260924-gpt-a0bcadf`.
 
 Owner: **Hansen**. Writer yang disebut owner: **Claude Opus Max**. Auditor: **GPT dan Claude Fable Ultracode**. Nama “Claude” dalam laporan sumber merujuk audit Fable, kecuali dinyatakan writer.
 
-## Pembaruan terbaru — rollback 6140edb
+## Daftar keputusan owner — pembaruan25 September 2026
+
+[OWNER_DECISIONS_CP6_DRAFT.md](OWNER_DECISIONS_CP6_DRAFT.md) berisi enam usulan dengan alternatif dan contoh. **Belum disahkan owner; tidak mengubah kontrak atau verdict.** Prioritas: D01 tanggal koreksi per tahap; D02 kapasitas saldo bertanggal; D03 identitas produk WIP; D04 scope blocker P-03; D05 profil AX; D06 penempatan CR aksesori/laundry.
+
+Dua hal sudah ditentukan kontrak dan tidak perlu keputusan ulang: **ALL disetujui (M1024)** dan **prepared draft tetap editable dengan preview lama menjadi stale (M1025,3817)**. CP6-19 memerlukan pembuktian jalur edit yang diizinkan tanpa grant tambahan. Jangan mengalihkan pertanyaan teknis itu kepada owner. Persetujuan kebijakan juga tidak otomatis mengubah25hasilT2 menjadiPASS.
+
+Status eksekusi terkini mengikuti lanjutan Fable pada branch gabungan: native15 telah dijalankan pada run36065350201/job107853710984; xaudit5 pada36065517737/job107854232896, menurut [ledger Fable](out/fable_native15_xaudit5_results.md). Tugas owner ini tidak memverifikasi ulang log native atau mengklaim run baru GPT. Catatan NOT_RUN dalam snapshot persiapan24Sep sudah historis; jangan mengulang dispatch hanya karena membacanya.
+
+Baca [catatan review kontrak](out/owner_decisions_contract_review_20260925.md). Produk, tiga kontrak, hasil kasus, dan klasifikasi temuan Fable tetap dipertahankan. Putusan CP6 HOLD; production_go=false.
+
+## Riwayat pembaruan rollback 6140edb — 24 September
 
 Diperiksa 2026-09-24T21:55:57.301Z. Produk acuan tetap9add57e; commit alat dan rollback yang dijalankan `6140edb1acd182efc84a4c85879860785335e688`.
 
@@ -118,7 +128,7 @@ Rincian gabungan: [blocker_and_recovery_assessment.md](out/blocker_and_recovery_
 - **Cakupan GPT dalam laporan Fable:** snapshot lama. Checkpoint19117b17 telah mencatat9job terpilih dan4bahasa CodeQL; tidak perlu rerun hanya untuk memperbaiki narasi.
 - **AV:** addendumXA2 memuat2kontrol identitas. Jangan menyebut tidak diuji sama sekali; tetap belum full lifecycle/rollback.
 
-## Lima belas kasus original GPT yang belum dijalankan
+## Sumber lima belas kasus GPT — snapshot sebelum dispatch Fable
 
 | Kelompok | Jumlah | Keadaan sumber |
 |---|---:|---|

@@ -304,3 +304,23 @@ Register: CP6-07 → P1 native; CP6-18/19 → COUNTEREXAMPLE native (oracle/reac
 | CP6-07 | PARTIALLY_REFUTED (fakta benar, prioritas/oracle direvisi) | P1→**P2** | guard = kapasitas saat ini (sesuai M:629-646); as-of negatif = pola AUD-S04 "P2 sementara"; tidak ada laporan as-of di UI |
 | CP6-24 | PARTIALLY_REFUTED (fakta benar, dampak tidak terbukti) | P2→**P3** | filing degeneratif diabaikan pembaca; oracle awal salah sasaran; S06 terpenuhi |
 Catatan lengkap: `out/verify_CP6-09.md`, `verify_CP6-01.md`, `verify_CP6-07.md`, `verify_CP6-24.md`. Index diperbarui (`adversarial_verification`).
+
+
+## Owner decision preparation — 25 September 2026
+
+Checked: 2026-09-25T00:55:50.579Z. Parent audit checkpoint:44cc69d8f9c5f26aa5d50103a2fb827de0b0f01f; pembaruan Fable tetap dipertahankan.
+
+Fase ini selesai: membandingkan daftar owner dengan tiga kontrak, catatan Fable terbaru dan proposal writer, lalu menyiapkan OWNER_DECISIONS_CP6_DRAFT.md. Semua D01–D06 masih USULAN/BELUM_DISAHKAN. Tidak ada perubahan produk, kontrak, gate status, prioritas temuan atau skenario; tidak ada run Actions baru GPT.
+
+- ALL sudah approved pada M1024; status lama M1072–1078 berada di arsipV5 sesudah marker1053. Prepared tetapDRAFT/editable pada M1025,3817. CP6-19 adalah pekerjaan ordinary-route/reachability serta latest-data finalization, bukan pertanyaan izin owner untuk mengedit draft.
+- Enam pilihan konkret: tanggal koreksi per tahap, kapasitas saldo per tanggal, optional WIP product binding, P-03 date scope, AX valuation/source profile, dan penempatan CR. Contoh serta rujukan klausul ada di draft. Persetujuan tidak melabel ulang25disposisiT2; perlu oracle dan bukti pengganti.
+- Catatan out/owner_decisions_contract_review_20260925.md menyimpan provenance, hash kontrak, pembacaan dan batas bukti. Catatan sumber writer dipakai sebagai usulan kebijakan, bukan oracle kontrak.
+- Native15 sudah dijalankan Fable menurut catatan branch gabungan (run36065350201/job107853710984/head d284e9b, sha skenario cec2ad52…); xaudit5 run36065517737/job107854232896. Tidak diperiksa ulang dari log pada tugas ini; jangan mengubahnya kembali menjadiNOT_RUN atau menganggap GPT menjalankannya.
+
+### LANGKAH BERIKUTNYA — keputusan owner
+
+1. Owner menilai D01–D06 dalam OWNER_DECISIONS_CP6_DRAFT.md; mulai D01/D02. Catat pilihan/koreksi eksplisit. Sampai itu terjadi, semua klausul baru tetapdraft.
+2. Susun addendum yang ditinjau dan disahkan owner dengan rujukan klausul sumber dan tanggal; jangan mengubah tiga kontrak asli atau memberi labelapproved tanpa keputusan.
+3. Writer/auditor lanjut kewajiban yang sudah jelas: ALL coverage, prepared stale/edit lewat jalur sah, perbaikan produk, browser/race/Auth, rollback dan runner. Pilihan bisnis yang belum dibuat hanya menahan keluarga terkait.
+4. Setelah policy disahkan, audit oracle masing-masing8AS/12kalender/4AO/1ADJUSTMENT_DATE, simpan hasil historis, dan uji ulang pada sourceyang tepat. Semua hasil baru tetap perlu run/job/attempt/head, scenariohash, expected/actual dancleanup.
+5. Pertahankan lanjutanFable dan daftar temuan gabungan. Penyusunan draft ini bukan acceptanceCP6 atau productionGO.
