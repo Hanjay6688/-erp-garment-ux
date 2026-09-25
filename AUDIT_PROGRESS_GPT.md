@@ -97,3 +97,8 @@ Sumber gate hanya tiga kontrak: `ERP_V3_2_Master_Pulih_20260923.md` (M), `ERP_V3
 **Status gate penuh:** C6-04 ALL22 HOLD (W05 PARTIAL/C04 no route), C6-07 C6/aksesori-laundry HOLD (ACC-D09 dan BD/BE), C6-10 release/rollback **HOLD secara keseluruhan** walau subgate BC package dan BC rollback sekarang success (final BD/BE belum dibuat). C6-08 UI UNVERIFIED untuk D09. `audit_complete=false`, `production_go=false`.
 
 **LANGKAH BERIKUTNYA:** lihat apakah writer rerun D09 dengan navigasi ulang pasca-refresh; baca JSON kasusnya sampai browser desktop/HP/double-click/recovery. Susun/dispatch skenario independen C12 key custody baru→inspect→value, beda barang nyata vs barang sama; pertahankan oracle pra-kode. Fable dapat kompilasi detail di `out/gpt_bc_20260926_initial_review.md`. Setelah BC, lanjut BD/BE dan T2 disposition tanpa mengulang dari nol.
+
+
+### Run D09 baru dipantau (25 Sep 18:4x UTC)
+
+Writer commit `bc538e239f1e9ed5cfea93daaeaa281ae4ac88ea` hanya mengubah skenario browser: sesudah `p.reload()`, ia kembali membuka menu Nota Ambil Aksesori lalu memeriksa bahwa draf belum posting. [Run `36175345878`](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36175345878), job kasus `108204487548`, self-test `108204486861`, **in_progress saat dicatat**. Produk tetap `27e1a05`. **LANGKAH BERIKUTNYA:** baca status dan per-case JSON run itu; jangan label D09 PASS sebelum desktop, double-click, reload, HP dan recovery semua diuji; bila merah, bedakan skrip dari produk, commit temuan.
