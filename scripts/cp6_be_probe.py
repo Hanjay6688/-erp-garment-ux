@@ -129,9 +129,39 @@ def nonpo_roundtrip(cur,today):
       destination_target=target_values==target_book and target_values[0]==bdp.D('60.06'),
       truth=bdp.truth_quiet(truth,new_truth),inverse=qty(cur,lot)==10 and qty(cur,dest)==0),source=source_values,target=target_values)
 
+def rework_new_sku(cur,today):
+    import cp6_av_probe as avp
+    f=avp.rework_ready(cur,today-timedelta(days=1))
+    if not installed(cur):return bdp.no_route(cur,lambda:be(cur,'SAVE_REWORK',dict(reason='BE rework new SKU')))
+    original=q(cur,'select vendor_id,physical_sent_at,return_fg_location_id from erp.rework_orders where id=%s',f['order'])[0]
+    chain.bs_action(cur,'SAVE_REWORK',dict(id=f['order'],action='CANCEL',change_reason='Fixture replace unbound draft'),chain.version(cur,'rework_orders',f['order']))
+    api.admin(cur);target=bdp.sized_product(cur,chain.base.SIZE,'BE-REWORK-'+uuid.uuid4().hex[:8])
+    bom=one(cur,'select id::text from erp.accessory_bom_versions where product_id=%s and is_active',f['product'])
+    order=dict(rework_number='BE-R-'+uuid.uuid4().hex[:20],bs_case_id=str(f['bs']),destination_type='LAUNDRY',contractor_id=None,
+      vendor_id=str(original[0]),qty_sent=4,physical_sent_at=original[1].isoformat(),status='IN_PROGRESS',return_fg_location_id=str(original[2]),
+      accessory_bom_version_id=bom,accessory_bom_item_ids=[],components=[])
+    made=be(cur,'SAVE_REWORK',dict(order=order,target_product_id=target,reason='BE same construction new SKU'))
+    rework=made['rework_id'];v=chain.version(cur,'rework_orders',rework);key=str(uuid.uuid4())
+    payload=dict(rework_order_id=rework,qty_good=2,qty_bs=2,completed_at=bdp.iso(chain.production.at(f['day'],16)),
+      return_fg_location_id=str(original[2]),change_reason='BE two QC-good and two BS')
+    # One actual completion, then an identical native request replay.
+    first=chain.bs_action(cur,'COMPLETE_REWORK',payload,v,key=key)
+    again=chain.bs_action(cur,'COMPLETE_REWORK',payload,v,key=key)
+    source=one(cur,'select good_fg_lot_id::text from erp.rework_orders where id=%s',rework)
+    destinations=q(cur,"select a.destination_lot_id::text from erp.be_conversion_sources_v1 s join erp.product_conversion_allocations a on a.conversion_id=s.conversion_id where s.rework_id=%s",rework)
+    dest=destinations[0][0] if len(destinations)==1 else None
+    result=verdict(dict(one_conversion=len(destinations)==1,good_once=qty(cur,source)==0 and dest is not None and qty(cur,dest)==2,
+      target=dest is not None and one(cur,'select product_id::text from erp.fg_lots where id=%s',dest)==target,
+      replay=first.get('result')==again.get('result')),rework=rework,destinations=destinations)
+    chain.bs_action(cur,'REVERSE_REWORK_COMPLETION',dict(rework_order_id=rework,change_reason='BE inverse atomic target'),chain.version(cur,'rework_orders',rework))
+    result['checks']['inverse']=qty(cur,source)==0 and qty(cur,dest)==0
+    result['status']='PASS' if all(result['checks'].values()) else 'FAIL'
+    return result
+
 PLAN=[('BE01:SELECTED_LOT_REPLAY_REVERSE','NO_ROUTE',conversion_roundtrip),('BE01:CAPACITY_STALE_NO_UNSOURCED_COST','NO_ROUTE',refusals),
       ('BE01:ACTUAL_ACCESSORY_COST_ONCE_AND_INVERSE','NO_ROUTE',actual_usage),
-      ('BE01:OPENING_SOURCE_VALUE_AND_INVERSE','NO_ROUTE',nonpo_roundtrip)]
+      ('BE01:OPENING_SOURCE_VALUE_AND_INVERSE','NO_ROUTE',nonpo_roundtrip),
+      ('BE02:REWORK_NEW_SKU_ATOMIC_REPLAY_INVERSE','NO_ROUTE',rework_new_sku)]
 def cases(cur,today):return [(key,lambda f=fn:f(cur,today)) for key,_,fn in PLAN]
 
 def run(phase):

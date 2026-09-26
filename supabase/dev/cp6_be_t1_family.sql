@@ -134,7 +134,7 @@ AS $function$
 declare a text:=upper(btrim(coalesce(p_action,'')));v jsonb;v_cached jsonb;v_id uuid;
 begin
  perform erp.require_permission('warehouse.brand_conversion.view');
- if a not in('POST','REVERSE','POST_USAGE') then raise exception 'BE_ACTION_UNKNOWN: tindakan tidak dikenal';end if;
+ if a not in('POST','REVERSE','POST_USAGE','SAVE_REWORK') then raise exception 'BE_ACTION_UNKNOWN: tindakan tidak dikenal';end if;
  perform erp.require_permission(case when a='REVERSE' then 'warehouse.brand_conversion.reverse' else 'warehouse.brand_conversion.post' end);
  if a='REVERSE' then perform erp.require_owner_admin();end if;
  perform erp.require_internal();
@@ -147,22 +147,17 @@ begin
  insert into erp.be_execution_context_v1 values(pg_backend_pid(),txid_current(),p_client_request_id);
  if a='POST' then v:=erp.be_post_conversion_v1(p_payload,p_client_request_id);
  elsif a='POST_USAGE' then v:=erp.be_post_usage_v1(p_payload,p_client_request_id);
+ elsif a='SAVE_REWORK' then v:=erp.be_save_rework_v1(p_payload,p_client_request_id);
  else
    perform erp._cp3_assert_closed_json_object(p_payload,array['conversion_id','reason'],array['conversion_id','reason'],'pembatalan konversi');
    v_id:=erp.bd_uuid_v1(p_payload,'conversion_id',true);
-   perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
-   if not exists(select 1 from erp.be_conversion_sources_v1 where conversion_id=v_id) then raise exception 'BE_DOCUMENT_NOT_FOUND';end if;
-   if exists(select 1 from erp.be_conversion_cost_sources_v1 s join erp.bc_documents_v1 d on d.id=s.document_id
-       where s.conversion_id=v_id and d.status='POSTED') then raise exception 'BE_REVERSE_DEPENDANTS: batalkan dahulu sumber biaya/pemulihan';end if;
-   if exists(select 1 from erp.be_conversion_returns_v1 s join erp.bc_return_lots_v1 l on l.outstanding_id=s.outstanding_id
-       where s.conversion_id=v_id) then raise exception 'BE_REVERSE_DEPENDANTS: batalkan dahulu penerimaan bongkaran';end if;
-   perform erp.reverse_product_conversion(v_id,p_payload->>'reason');
-   update erp.bc_outstanding_returns_v1 set status='CANCELLED' where id in(select outstanding_id from erp.be_conversion_returns_v1 where conversion_id=v_id);
+   perform erp.be_reverse_conversion_v1(v_id,p_payload->>'reason');
    v:=jsonb_build_object('conversion_id',v_id,'status','REVERSED');
  end if;
  delete from erp.be_execution_context_v1 where backend_pid=pg_backend_pid() and transaction_id=txid_current();
  insert into erp.audit_logs(entity_type,entity_id,action,new_data,changed_by,change_reason)
- values('product_conversions',(v->>'conversion_id')::uuid,case when a='POST' then 'POST' else 'REVERSE' end,v,erp.current_app_user_id(),p_payload->>'reason');
+ values(case when a='SAVE_REWORK' then 'rework_orders' else 'product_conversions' end,
+   coalesce(v->>'conversion_id',v->>'rework_id')::uuid,case when a='REVERSE' then 'REVERSE' else 'POST' end,v,erp.current_app_user_id(),p_payload->>'reason');
  return erp._idempotency_complete('save_product_conversion_action_v1',p_client_request_id,v||jsonb_build_object('request_id',p_client_request_id));
 end;$function$;
 
@@ -337,7 +332,8 @@ begin
  v_at:=erp.bd_at_v1(p_payload->>'physical_at','physical_at');
  if v_at<c.physical_at then raise exception 'BE_BEFORE_CONVERSION';end if;
  v_items:=erp.bc_lines_v1(p_payload);
- select jsonb_agg((x-'line_number')||jsonb_build_object('purpose','OWN_FG_REPAIR','physical_at',v_at) order by (x->>'line_number')::int)
+ select jsonb_agg((x-'line_number')||jsonb_build_object('purpose','OWN_FG_REPAIR',
+   'physical_at',to_char(v_at at time zone 'Asia/Jakarta','YYYY-MM-DD"T"HH24:MI:SS')||'+07:00') order by (x->>'line_number')::int)
  into v_items from jsonb_array_elements(v_items) x;
  v_result:=erp.save_accessory_service_action_v1('INTERNAL_USE',jsonb_build_object('location_id',p_payload->>'location_id',
    'items',v_items,'reason',p_payload->>'reason','reference','Konversi '||c.conversion_number),v_doc);
@@ -407,6 +403,108 @@ begin
    perform erp.sync_non_po_product_hpp_to_gl_v2620f(v_product,p_date,p_source_type,p_source_id,p_reason);
  end loop;
  update erp.be_execution_context_v1 set syncing_nonpo=false where backend_pid=pg_backend_pid() and transaction_id=txid_current();
+ if v_own then delete from erp.be_execution_context_v1 where backend_pid=pg_backend_pid() and transaction_id=txid_current();end if;
+end;$function$;
+-- Rework keeps the native BS lifecycle. Only the GOOD lot produced by COMPLETE
+-- is converted; partial saves never make stock or payable. Both facts commit atomically.
+create table erp.be_rework_targets_v1(
+ rework_id uuid primary key references erp.rework_orders(id),
+ target_product_id uuid not null references erp.products(id),
+ mode text not null check(mode in('REWORK_SKU','REDYE_SKU')),
+ reason text not null,created_by uuid,created_at timestamptz not null default statement_timestamp()
+);
+create trigger be_rework_targets_fact before insert or update or delete on erp.be_rework_targets_v1
+ for each row execute function erp.be_guard_fact_v1();
+
+CREATE OR REPLACE FUNCTION erp.be_guard_rework_source_v1()
+ RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+begin
+ if exists(select 1 from erp.be_rework_targets_v1 where rework_id=old.id) then
+   if TG_OP='DELETE' then raise exception 'BE_REWORK_SOURCE_IMMUTABLE';end if;
+   if (new.bs_case_id,new.destination_type,new.contractor_id,new.vendor_id,new.qty_sent,new.physical_sent_at)
+      is distinct from (old.bs_case_id,old.destination_type,old.contractor_id,old.vendor_id,old.qty_sent,old.physical_sent_at) then
+     raise exception 'BE_REWORK_SOURCE_IMMUTABLE: sumber/tujuan kiriman sudah terikat; batalkan lalu buat dokumen baru';end if;
+ end if;
+ if TG_OP='DELETE' then return old;end if;return new;
+end;$function$;
+create trigger be_rework_source_immutable before update or delete on erp.rework_orders
+ for each row execute function erp.be_guard_rework_source_v1();
+
+CREATE OR REPLACE FUNCTION erp.be_save_rework_v1(p_payload jsonb,p_request uuid)
+ RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare b erp.bs_cases%rowtype;s erp.products%rowtype;t erp.products%rowtype;v_order uuid;v_result jsonb;v_payload jsonb;
+begin
+ perform erp.require_permission('production.bs_rework.create');
+ perform erp._cp3_assert_closed_json_object(p_payload,array['order','target_product_id','reason'],array['order','target_product_id','reason'],'rework SKU baru');
+ if jsonb_typeof(p_payload->'order') is distinct from 'object' or nullif(p_payload->'order'->>'id','') is not null then
+   raise exception 'BE_NEW_REWORK_REQUIRED: target SKU ditentukan pada order baru';end if;
+ v_payload:=(p_payload->'order')||jsonb_build_object('change_reason',p_payload->>'reason');
+ select * into b from erp.bs_cases where id=erp.bd_uuid_v1(v_payload,'bs_case_id',true) for update;
+ select * into s from erp.products where id=b.product_id;
+ select * into t from erp.products where id=erp.bd_uuid_v1(p_payload,'target_product_id',true);
+ if b.id is null or s.id is null then raise exception 'BE_REWORK_SOURCE_IDENTITY_UNKNOWN';end if;
+ if t.id is null or not t.is_active or t.id=s.id or t.model_id<>s.model_id or t.size_id<>s.size_id then
+   raise exception 'BE_DIMENSION_MISMATCH: SKU baru harus berbeda, dengan model konstruksi dan ukuran sumber';end if;
+ v_result:=erp.save_bs_resolution_action_v1('SAVE_REWORK',v_payload,p_request,null);
+ v_order:=(v_result->'result'->>'rework_order_id')::uuid;
+ if v_order is null then raise exception 'BE_NATIVE_REWORK_RESPONSE_INVALID';end if;
+ insert into erp.be_rework_targets_v1(rework_id,target_product_id,mode,reason,created_by)
+ values(v_order,t.id,'REWORK_SKU',erp.bc_text_v1(p_payload,'reason',true,1000),erp.current_app_user_id());
+ return jsonb_build_object('rework_id',v_order,'target_product_id',t.id,'status','IN_PROGRESS','native',v_result);
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.be_complete_rework_target_v1(p_rework uuid)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare b erp.be_rework_targets_v1%rowtype;r erp.rework_orders%rowtype;v_own boolean;v_result jsonb;
+begin
+ select * into b from erp.be_rework_targets_v1 where rework_id=p_rework;
+ if b.rework_id is null then return;end if;
+ select * into r from erp.rework_orders where id=p_rework for update;
+ if not r.cost_posted or r.status<>'COMPLETED' then raise exception 'BE_REWORK_NOT_COMPLETE';end if;
+ if r.qty_good_returned=0 then return;end if;
+ if r.good_fg_lot_id is null then raise exception 'BE_REWORK_GOOD_LOT_MISSING';end if;
+ if exists(select 1 from erp.be_conversion_sources_v1 s join erp.product_conversions c on c.id=s.conversion_id
+      where s.rework_id=r.id and s.source_lot_id=r.good_fg_lot_id and c.status='POSTED') then return;end if;
+ v_own:=not erp.be_in_context_v1();
+ if v_own then insert into erp.be_execution_context_v1(backend_pid,transaction_id,request_id) values(pg_backend_pid(),txid_current(),gen_random_uuid());end if;
+ v_result:=erp.be_post_conversion_v1(jsonb_build_object('source_lot_id',r.good_fg_lot_id,'target_product_id',b.target_product_id,
+   'location_id',r.return_fg_location_id,'qty_pcs',r.qty_good_returned,'physical_at',r.completed_at,'reason',b.reason,
+   'expected_version',erp.be_source_revision_v1(r.good_fg_lot_id,r.return_fg_location_id)),gen_random_uuid(),
+   case when b.mode='REDYE_SKU' then 'REDYE' else 'REWORK' end,r.id);
+ if v_own then delete from erp.be_execution_context_v1 where backend_pid=pg_backend_pid() and transaction_id=txid_current();end if;
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.be_reverse_conversion_v1(p_conversion uuid,p_reason text)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+begin
+ perform erp.require_permission('warehouse.brand_conversion.reverse');perform erp.require_owner_admin();
+ perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
+ if not exists(select 1 from erp.be_conversion_sources_v1 where conversion_id=p_conversion) then raise exception 'BE_DOCUMENT_NOT_FOUND';end if;
+ if exists(select 1 from erp.be_conversion_cost_sources_v1 s join erp.bc_documents_v1 d on d.id=s.document_id
+     where s.conversion_id=p_conversion and d.status='POSTED') then raise exception 'BE_REVERSE_DEPENDANTS: batalkan dahulu sumber biaya/pemulihan';end if;
+ if exists(select 1 from erp.be_conversion_returns_v1 s join erp.bc_return_lots_v1 l on l.outstanding_id=s.outstanding_id
+     join erp.bc_documents_v1 d on d.id=l.document_id where s.conversion_id=p_conversion and d.status='POSTED') then
+   raise exception 'BE_REVERSE_DEPENDANTS: batalkan dahulu penerimaan bongkaran';end if;
+ perform erp.reverse_product_conversion(p_conversion,p_reason);
+ update erp.bc_outstanding_returns_v1 set status='CANCELLED' where id in(select outstanding_id from erp.be_conversion_returns_v1 where conversion_id=p_conversion);
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.be_reverse_rework_target_v1(p_rework uuid,p_reason text)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare v uuid;v_own boolean;
+begin
+ if not exists(select 1 from erp.be_rework_targets_v1 where rework_id=p_rework) then return;end if;
+ v_own:=not erp.be_in_context_v1();
+ if v_own then insert into erp.be_execution_context_v1(backend_pid,transaction_id,request_id) values(pg_backend_pid(),txid_current(),gen_random_uuid());end if;
+ for v in select s.conversion_id from erp.be_conversion_sources_v1 s join erp.product_conversions c on c.id=s.conversion_id
+    where s.rework_id=p_rework and c.status='POSTED' order by c.physical_at desc,c.id desc loop
+   perform erp.be_reverse_conversion_v1(v,p_reason);
+ end loop;
  if v_own then delete from erp.be_execution_context_v1 where backend_pid=pg_backend_pid() and transaction_id=txid_current();end if;
 end;$function$;
 CREATE OR REPLACE FUNCTION erp.post_product_conversion(p_conversion_id uuid)
@@ -2438,8 +2536,8 @@ begin
      or nullif(btrim(p_reason),'') is null then
     raise exception 'Non-PO HPP synchronization requires source and reason';
   end if;
-  if not erp.be_nonpo_in_sync_v1() and exists(select 1 from erp.be_conversion_sources_v1 b
-      join erp.fg_lots l on l.id=b.source_lot_id where l.po_id is null) then
+  if not erp.be_nonpo_in_sync_v1() and exists(select 1 from erp.be_conversion_sources_v1 be_source
+      join erp.fg_lots be_lot on be_lot.id=be_source.source_lot_id where be_lot.po_id is null) then
     perform erp.be_nonpo_sync_all_v1(p_effective_date,p_trigger_source_type,p_trigger_source_id,p_reason);return;
   end if;
   if exists(
@@ -2578,11 +2676,263 @@ begin
   insert into erp.audit_logs(entity_type,entity_id,action,changed_by,change_reason) values('product_conversions',h.id,'REVERSE',erp.current_app_user_id(),p_reason);
 end;
 $function$;
+CREATE OR REPLACE FUNCTION erp.post_rework_completion(p_rework_order_id uuid)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public'
+AS $function$
+declare
+  r erp.rework_orders%rowtype;
+  b erp.bs_cases%rowtype;
+  v_total numeric(20,2):=0;
+  v_location uuid;
+  v_location_count integer:=0;
+  v_lot uuid;
+  v_lot_number text;
+  v_hpp numeric(18,6):=0;
+  v_remaining integer:=0;
+  v_completed_at timestamptz;
+begin
+  perform erp.require_internal();
+  select * into r from erp.rework_orders where id=p_rework_order_id for update;
+  if r.id is null then raise exception 'Rework order not found'; end if;
+  if r.status<>'COMPLETED' then raise exception 'Rework must be COMPLETED before posting'; end if;
+  if r.qty_good_returned+r.qty_bs_returned<>r.qty_sent then
+    raise exception 'Rework completion must reconcile exactly: GOOD + BS must equal qty sent';
+  end if;
+  if r.cost_posted then return; end if;
+  if not exists(
+    select 1 from erp.rework_accessory_decisions d where d.rework_order_id=r.id
+  ) then raise exception 'Rework accessory decision lineage is missing'; end if;
+  select * into b from erp.bs_cases where id=r.bs_case_id for update;
+  if b.id is null then raise exception 'BS case not found'; end if;
+  v_completed_at:=coalesce(r.completed_at,clock_timestamp());
+
+  if r.qty_good_returned>0 then
+    if b.po_id is null or b.product_id is null then
+      raise exception 'GOOD rework return requires native production PO and product lineage';
+    end if;
+    perform erp.assert_product_identity_time(b.product_id,v_completed_at,'EXISTING_STOCK');
+    if r.return_fg_location_id is not null then
+      select id into v_location from erp.locations
+      where id=r.return_fg_location_id and is_active and location_type='FG_WAREHOUSE';
+      if v_location is null then
+        raise exception 'Selected rework return location must be an active FG warehouse';
+      end if;
+    else
+      select count(*),(array_agg(id order by id))[1]
+      into v_location_count,v_location
+      from erp.locations where is_active and location_type='FG_WAREHOUSE';
+      if v_location_count<>1 then
+        raise exception 'Select return FG warehouse for rework GOOD output; active FG warehouse count is %',v_location_count;
+      end if;
+    end if;
+    v_lot_number:='RW-'||r.rework_number||'-'||substr(r.id::text,1,8);
+    insert into erp.fg_lots(
+      lot_number,po_id,qc_item_id,cutting_group_id,product_id,
+      initial_qty_pcs,cached_qty_pcs,produced_at,is_open,lot_origin
+    ) values(
+      -- qc_item_id identifies the single original QC output. Recovery is
+      -- identified by rework_orders.good_fg_lot_id -> bs_cases -> source QC.
+      v_lot_number,b.po_id,null,b.cutting_group_id,b.product_id,
+      r.qty_good_returned,0,v_completed_at,true,'PRODUCTION'
+    ) returning id into v_lot;
+    perform erp.post_fg_movement(
+      b.product_id,v_lot,v_location,'GRADE_A','REWORK_IN',r.qty_good_returned,
+      0,null,'REWORK_ORDER',r.id,v_completed_at,'GOOD returned from rework',false
+    );
+    -- Link the lot before snapshotting so the immutable selection, including
+    -- an explicit empty selection, is the only source the snapshotter can use.
+    update erp.rework_orders
+    set good_fg_lot_id=v_lot,return_fg_location_id=v_location,completed_at=v_completed_at
+    where id=r.id;
+    perform erp.ensure_fg_accessory_cost_snapshot(v_lot);
+    perform erp.post_accessory_reimbursement_accrual(v_lot);
+    insert into erp.bs_resolutions(
+      bs_case_id,resolution_type,qty_pcs,compensation_amount,
+      responsible_contractor_id,responsible_vendor_id,
+      source_rework_order_id,physical_at,notes
+    ) values(
+      b.id,case when r.destination_type='CONTRACTOR'
+        then 'REWORK_SEWING' else 'REWORK_LAUNDRY' end,
+      r.qty_good_returned,0,r.contractor_id,r.vendor_id,r.id,v_completed_at,
+      'Recovered to GOOD FG from rework'
+    );
+  else
+    update erp.rework_orders set completed_at=v_completed_at where id=r.id;
+  end if;
+
+  select greatest(b.qty_pcs-coalesce(sum(br.qty_pcs),0),0)::integer
+  into v_remaining from erp.bs_resolutions br where br.bs_case_id=b.id;
+  update erp.bs_cases
+  set status=case when v_remaining=0 then 'RESOLVED' else 'PARTIAL' end,
+      updated_at=clock_timestamp()
+  where id=b.id;
+  if r.destination_type='CONTRACTOR' then
+    select coalesce(sum(amount_payable),0) into v_total
+    from erp.rework_component_lines where rework_order_id=r.id;
+    if v_total>0 then
+      perform erp.post_journal(
+        'REWORK_COMPLETION',r.id,(v_completed_at AT TIME ZONE 'Asia/Jakarta')::date,'Rework labor completion',
+        jsonb_build_array(
+          jsonb_build_object(
+            'mapping_key','WIP','debit',round(v_total,2),'credit',0,
+            'contractor_id',r.contractor_id,'po_id',b.po_id
+          ),
+          jsonb_build_object(
+            'mapping_key','CONTRACTOR_PAYABLE','debit',0,'credit',round(v_total,2),
+            'contractor_id',r.contractor_id,'po_id',b.po_id
+          )
+        )
+      );
+    end if;
+  end if;
+  update erp.rework_orders set cost_posted=true where id=r.id;
+  if b.po_id is not null and exists(select 1 from erp.fg_lots where po_id=b.po_id) then
+    perform erp.rebuild_po_hpp(b.po_id,'Rework completion posted with physical GOOD return');
+    perform erp.propagate_conversion_hpp_for_po(b.po_id);
+    perform erp.sync_po_hpp_to_gl(b.po_id,(v_completed_at AT TIME ZONE 'Asia/Jakarta')::date);
+    if v_lot is not null then
+      select coalesce(hpp_per_pcs,0) into v_hpp
+      from erp.v_current_hpp where lot_id=v_lot;
+      update erp.fg_stock_movements set unit_hpp_snapshot=v_hpp
+      where lot_id=v_lot and movement_type='REWORK_IN'
+        and source_type='REWORK_ORDER' and source_id=r.id;
+    end if;
+  end if;
+  perform erp.be_complete_rework_target_v1(r.id);
+end
+$function$;
+CREATE OR REPLACE FUNCTION erp.reverse_rework_completion(p_rework_order_id uuid, p_reason text)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public'
+AS $function$
+declare
+  r erp.rework_orders%rowtype;
+  b erp.bs_cases%rowtype;
+  x record;
+  v_journal uuid;
+  v_total numeric(24,6):=0;
+  v_remaining integer:=0;
+begin
+  perform erp.require_owner_admin();
+  if nullif(trim(p_reason),'') is null then raise exception 'Alasan reversal hasil rework wajib diisi'; end if;
+  select * into r from erp.rework_orders where id=p_rework_order_id for update;
+  if r.id is null then raise exception 'Rework order tidak ditemukan'; end if;
+  if r.status='CANCELLED' and r.cost_posted then return; end if;
+  if r.status<>'COMPLETED' or not r.cost_posted then raise exception 'Hanya rework COMPLETED yang sudah diposting biayanya yang dapat direverse'; end if;
+  select * into b from erp.bs_cases where id=r.bs_case_id for update;
+
+  if exists(
+    select 1 from erp.payroll_work_items pwi
+    join erp.payroll_settlements ps on ps.id=pwi.payroll_id
+    join erp.rework_component_lines rcl on rcl.id=pwi.source_id
+    where pwi.source_type='REWORK' and rcl.rework_order_id=r.id and ps.status<>'REVERSED'
+  ) then raise exception 'Upah rework ini sudah masuk payroll. Cancel/reverse payroll aktif terlebih dahulu.'; end if;
+
+  perform erp.be_reverse_rework_target_v1(r.id,p_reason);
+  if r.good_fg_lot_id is not null then
+    if erp.fg_lot_has_active_downstream(r.good_fg_lot_id,'REWORK_IN','REWORK_ORDER',r.id) then
+      raise exception 'FG hasil rework masih dipakai transaksi downstream aktif. Reverse transaksi downstream terlebih dahulu.';
+    end if;
+    if exists(select 1 from erp.contractor_accessory_reimbursement_entitlements e where e.lot_id=r.good_fg_lot_id and e.payroll_status<>'UNALLOCATED') then
+      raise exception 'Reimbursement aksesori hasil rework sudah masuk payroll. Cancel/reverse payroll terlebih dahulu.';
+    end if;
+  end if;
+
+  select coalesce(sum(amount_payable),0) into v_total from erp.rework_component_lines where rework_order_id=r.id;
+  select id into v_journal from erp.journal_entries where source_type='REWORK_COMPLETION' and source_id=r.id and status='POSTED' order by posting_at desc,id desc limit 1;
+  if r.destination_type='CONTRACTOR' and v_total>0.005 and v_journal is null then raise exception 'Jurnal biaya/upah rework tidak ditemukan; reversal dibatalkan agar hutang mandor/HPP tidak rusak'; end if;
+
+  if r.good_fg_lot_id is not null then
+    select id into v_journal from erp.journal_entries where source_type='ACCESSORY_REIMBURSE_ACCRUAL' and source_id=r.good_fg_lot_id and status='POSTED' order by posting_at desc,id desc limit 1;
+    if v_journal is not null then perform erp.reverse_journal(v_journal,p_reason); end if;
+    update erp.contractor_accessory_reimbursement_entitlements set payroll_status='CANCELLED' where lot_id=r.good_fg_lot_id and payroll_status='UNALLOCATED';
+    for x in select fm.id from erp.fg_stock_movements fm where fm.lot_id=r.good_fg_lot_id and fm.movement_type='REWORK_IN' and fm.source_type='REWORK_ORDER' and fm.source_id=r.id and not exists(select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=fm.id)
+    loop perform erp.reverse_fg_movement(x.id,p_reason); end loop;
+    update erp.fg_lots set lot_origin='VOIDED_PRODUCTION',is_open=false where id=r.good_fg_lot_id and lot_origin='PRODUCTION';
+  end if;
+
+  select id into v_journal from erp.journal_entries where source_type='REWORK_COMPLETION' and source_id=r.id and status='POSTED' order by posting_at desc,id desc limit 1;
+  if v_journal is not null then perform erp.reverse_journal(v_journal,p_reason); end if;
+  delete from erp.bs_resolutions where source_rework_order_id=r.id;
+  update erp.rework_orders set status='CANCELLED',updated_at=statement_timestamp(),notes=concat_ws(E'\n',notes,'CANCELLED after posted completion reversal: '||p_reason) where id=r.id;
+
+  select greatest(b.qty_pcs-coalesce(sum(br.qty_pcs),0),0)::integer into v_remaining from erp.bs_resolutions br where br.bs_case_id=b.id;
+  if v_remaining<=0 then update erp.bs_cases set status='RESOLVED',updated_at=statement_timestamp() where id=b.id;
+  elsif exists(select 1 from erp.rework_orders ro where ro.bs_case_id=b.id and ro.id<>r.id and ro.status in ('OPEN','IN_PROGRESS','PARTIAL')) then update erp.bs_cases set status='IN_REWORK',updated_at=statement_timestamp() where id=b.id;
+  elsif v_remaining<b.qty_pcs then update erp.bs_cases set status='PARTIAL',updated_at=statement_timestamp() where id=b.id;
+  else update erp.bs_cases set status='OPEN',updated_at=statement_timestamp() where id=b.id; end if;
+
+  if b.po_id is not null then
+    perform erp.rebuild_po_hpp(b.po_id,'Rework completion reversed: '||p_reason);
+    perform erp.propagate_conversion_hpp_for_po(b.po_id);
+    perform erp.sync_po_hpp_to_gl(b.po_id,((statement_timestamp() AT TIME ZONE 'Asia/Jakarta'::text))::date);
+  end if;
+  insert into erp.audit_logs(entity_type,entity_id,action,changed_by,change_reason) values('rework_orders',r.id,'REVERSE',erp.current_app_user_id(),p_reason);
+end;
+$function$;
+CREATE OR REPLACE FUNCTION erp.assert_new_stock_cutoff_coverage_v1()
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ STABLE
+ SET search_path TO ''
+AS $function$
+declare
+  v_registry jsonb:='{"erp.accessory_bom_versions.product_id":{"class":"MASTER","reason":"Effective-dated accessory BOM; no stock instant"},"erp.bs_cases.product_id":{"class":"NEW_STOCK_FACT","reason":"physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"},"erp.contractor_accessory_reimbursement_entitlements.product_id":{"class":"DERIVED","reason":"Accounting entitlement of an FG lot"},"erp.fg_accessory_cost_snapshots.product_id":{"class":"DERIVED","reason":"Cost snapshot of an FG lot"},"erp.fg_adjustment_items.product_id":{"class":"MOVEMENT","reason":"Adjusts an existing lot"},"erp.fg_inventory_balances.product_id":{"class":"DERIVED","reason":"Balance cache keyed by product/location/grade"},"erp.fg_lots.product_id":{"class":"NEW_STOCK_FACT","reason":"produced_at of every lot except GOOD returned by rework"},"erp.fg_stock_movements.product_id":{"class":"MOVEMENT","reason":"Movement of an existing lot"},"erp.bb_opening_sale_return_rights_v1.product_id":{"class":"SOURCE_DOCUMENT","reason":"Return right of an old invoice; the stock fact is the RETURN lot in fg_lots, validated as NEW_STOCK at receipt"},"erp.bb_opening_sale_return_receipts_v1.product_id":{"class":"DERIVED","reason":"Provenance of a return receipt; the stock fact is its fg_lots lot"},"erp.bb_wip_bs_splits_v1.product_id":{"class":"DERIVED","reason":"Provenance of an opening WIP BS split; the stock fact is its bs_cases row (NEW_STOCK_FACT at its physical_at)"},"erp.bb_open_sales_draft_lines_v1.product_id":{"class":"DERIVED","reason":"Provenance of a sales draft open at cutover; the sale is its native sales_items line (reservation of existing stock)"},"erp.be_rework_targets_v1.target_product_id":{"class":"SOURCE_DOCUMENT","reason":"Requested rework/redye target; checked as NEW_STOCK when the native GOOD lot is converted atomically"},"erp.bc_customer_custody_v1.product_id":{"class":"SOURCE_DOCUMENT","reason":"A customer-owned garment in service (ACC-C10); never company stock, no stock fact"},"erp.initial_import_wip_output_identity_v1.opening_product_id":{"class":"DERIVED","reason":"Provenance of an opening WIP output: the product filled in on its opening item"},"erp.initial_import_wip_output_identity_v1.output_product_id":{"class":"DERIVED","reason":"Provenance of an opening WIP output; the stock fact is its fg_lots lot"},"erp.journal_lines.product_id":{"class":"ACCOUNTING","reason":"Journal dimension"},"erp.laundry_receipt_batch_size_lines.bs_product_id":{"class":"SOURCE_DOCUMENT","reason":"Laundry receipt input; the BS fact is bs_cases"},"erp.laundry_receipt_bs_product_allocations.product_id":{"class":"SOURCE_DOCUMENT","reason":"Validated as NEW_STOCK; the BS fact is bs_cases"},"erp.non_po_hpp_gl_sync_events_v2620f.product_id":{"class":"ACCOUNTING","reason":"HPP to GL synchronisation event"},"erp.opening_balance_items.product_id":{"class":"SOURCE_DOCUMENT","reason":"Opening document; facts are OPENING lots and LEGACY BS"},"erp.po_accessory_bom_commitments.product_id":{"class":"MASTER","reason":"PO accessory BOM commitment"},"erp.product_conversions.from_product_id":{"class":"SOURCE_DOCUMENT","reason":"Conversion source, validated as EXISTING_STOCK"},"erp.product_conversions.to_product_id":{"class":"SOURCE_DOCUMENT","reason":"Conversion target; the fact is the CONVERSION lot in fg_lots"},"erp.product_identity_mutation_context_v1.product_id":{"class":"AUTHORIZATION","reason":"Private one-use identity edit context"},"erp.product_price_versions.product_id":{"class":"MASTER","reason":"Effective-dated price"},"erp.qc_inspection_items.final_product_id":{"class":"SOURCE_DOCUMENT","reason":"QC input; the facts are fg_lots and bs_cases"},"erp.sales_items.product_id":{"class":"SALES","reason":"Sale of existing stock"},"erp.sales_return_items.product_id":{"class":"SALES","reason":"Return of sold stock"},"erp.stock_explainability_snapshots.product_id":{"class":"REPORT","reason":"Stock explanation snapshot"},"erp.stock_policy_versions.product_id":{"class":"MASTER","reason":"Effective-dated stock policy"}}';
+  v_helper_tables text[]:=array['bs_case_manual_origins_v1','bs_cases','fg_lots','rework_orders'];
+  v_actual text[];
+  v_unclassified text[];
+  v_stale text[];
+  v_facts text[];
+  v_helper text[];
+begin
+  -- Structural catalog read: any FK to erp.products in any schema, plus any
+  -- product-named uuid column in erp/public that no FK protects.
+  select array_agg(distinct ref order by ref) into v_actual from (
+    select format('%s.%s.%s',n.nspname,c.relname,a.attname) ref
+    from pg_constraint fk join pg_class c on c.oid=fk.conrelid
+    join pg_namespace n on n.oid=c.relnamespace
+    join pg_attribute a on a.attrelid=c.oid and a.attnum=any(fk.conkey)
+    where fk.contype='f' and fk.confrelid='erp.products'::regclass and fk.conrelid<>'erp.products'::regclass
+    union
+    select format('%s.%s.%s',n.nspname,c.relname,a.attname)
+    from pg_attribute a join pg_class c on c.oid=a.attrelid join pg_namespace n on n.oid=c.relnamespace
+    where n.nspname in('erp','public') and c.relkind in('r','p') and c.oid<>'erp.products'::regclass
+      and a.attnum>0 and not a.attisdropped and a.atttypid='uuid'::regtype
+      and (a.attname='product_id' or a.attname like '%\_product\_id')
+  ) r;
+  select array_agg(k order by k) into v_unclassified from unnest(v_actual) k where not v_registry ? k;
+  if v_unclassified is not null then
+    raise exception 'NEW_STOCK_CUTOFF_REFERENCE_UNCLASSIFIED: %',array_to_string(v_unclassified,', ');
+  end if;
+  select array_agg(k order by k) into v_stale from jsonb_object_keys(v_registry) k where k<>all(v_actual);
+  if v_stale is not null then
+    raise exception 'NEW_STOCK_CUTOFF_REGISTRY_STALE: %',array_to_string(v_stale,', ');
+  end if;
+  select array_agg(distinct split_part(key,'.',2) order by split_part(key,'.',2)) into v_facts
+  from jsonb_each(v_registry) where value->>'class'='NEW_STOCK_FACT';
+  select array_agg(distinct m[1] order by m[1]) into v_helper
+  from pg_proc p cross join lateral regexp_matches(lower(p.prosrc),'erp\.([a-z0-9_]+)','g') m
+  where p.oid='erp.latest_new_stock_physical_at_v1(uuid)'::regprocedure;
+  if v_helper is null or not (v_helper @> v_helper_tables and v_helper <@ v_helper_tables and v_helper @> v_facts) then
+    raise exception 'NEW_STOCK_CUTOFF_HELPER_SCOPE_DRIFT: %',v_helper;
+  end if;
+  if lower((select p.prosrc from pg_proc p where p.oid='erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)'::regprocedure))
+     !~ 'erp\.latest_new_stock_physical_at_v1\s*\(' then
+    raise exception 'NEW_STOCK_CUTOFF_CONSUMER_DRIFT';
+  end if;
+  return jsonb_build_object('references',coalesce(array_length(v_actual,1),0),'new_stock_fact_tables',v_facts,'registry',v_registry);
+end;
+$function$;
 do $grants$
 declare t text;f text;
 begin
  foreach t in array array['be_execution_context_v1','be_conversion_sources_v1','be_conversion_returns_v1',
-   'be_conversion_cost_sources_v1','be_conversion_cost_events_v1','be_nonpo_transfer_events_v1'] loop
+   'be_conversion_cost_sources_v1','be_conversion_cost_events_v1','be_nonpo_transfer_events_v1','be_rework_targets_v1'] loop
    execute format('alter table erp.%I enable row level security',t);
    execute format('revoke all on erp.%I from public,anon,authenticated,service_role',t);
  end loop;

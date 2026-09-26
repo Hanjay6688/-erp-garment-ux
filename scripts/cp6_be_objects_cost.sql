@@ -133,7 +133,8 @@ begin
  v_at:=erp.bd_at_v1(p_payload->>'physical_at','physical_at');
  if v_at<c.physical_at then raise exception 'BE_BEFORE_CONVERSION';end if;
  v_items:=erp.bc_lines_v1(p_payload);
- select jsonb_agg((x-'line_number')||jsonb_build_object('purpose','OWN_FG_REPAIR','physical_at',v_at) order by (x->>'line_number')::int)
+ select jsonb_agg((x-'line_number')||jsonb_build_object('purpose','OWN_FG_REPAIR',
+   'physical_at',to_char(v_at at time zone 'Asia/Jakarta','YYYY-MM-DD"T"HH24:MI:SS')||'+07:00') order by (x->>'line_number')::int)
  into v_items from jsonb_array_elements(v_items) x;
  v_result:=erp.save_accessory_service_action_v1('INTERNAL_USE',jsonb_build_object('location_id',p_payload->>'location_id',
    'items',v_items,'reason',p_payload->>'reason','reference','Konversi '||c.conversion_number),v_doc);
