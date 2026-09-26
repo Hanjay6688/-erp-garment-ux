@@ -2832,3 +2832,123 @@ Sama dengan §32.8, dengan perubahan berikut:
 - **Operator:** inventaris ID cutover.
 - **UI-01:** halaman BC/BD dan halaman berikutnya mengikuti tampilan dan interaksi demo Cloudflare; dikerjakan belakangan sesuai urutan owner.
 - **Writer, berikutnya:** BE, lalu uji gabungan.
+
+## 34. BD selesai: D12, LAU-T36, keputusan owner no. 4, 6, 11, 12, 13 (26 September 2026) (writer Claude)
+
+Arahan owner: "stop BE selesaikan BD total, BE akan dijalankan GPT". BE tidak disentuh di putaran ini. CP6 tetap HOLD, `audit_complete=false`, `production_go=false`. Label bukti sama dengan §33 (`T1_FAMILY`, `WRITER_SCENARIO`, `T2`, `T3_PREP`); hasil LOCAL_PG16_DEV bukan bukti. Keputusan owner adalah dasar konfigurasi dan oracle, bukan bukti bahwa implementasinya lulus audit.
+
+### 34.1 D12: kredit klaim memotong tagihan vendor yang sama
+
+- Produk di 7d33d84 (rincian di pesan commit): penerapan kredit adalah pelunasan dokumen pada tanggal pemakaian (jurnal AP_VENDOR Dr/Cr untuk vendor yang sama), baik untuk invoice harian (`vendor_payments` metode `CLAIM_CREDIT`) maupun hutang saldo awal (kredit `VENDOR_CLAIM_APPLY`). Layar Laundry → Harga & tagihan → Pembayaran vendor menampilkan baris pencocokan "saldo utang = sisa tagihan − kredit belum dipakai".
+- **Cacat yang ditemukan tes browser** (run 36219655269, kedua kasus D12 INCOMPLETE): daftar aksi klien `LAUNDRY_BD` di `src/productionRecovery.ts` belum memuat `APPLY_CLAIM_CREDIT`, `PAY_VENDOR_DOCUMENT`, `REVERSE_VENDOR_SETTLEMENT`, sehingga tombol tidak pernah mengirim ke server. Diperbaiki di f33d8b8, disertai tes unit yang mencocokkan setiap aksi router BD/BC dengan daftar klien (tes ini gagal pada daftar lama).
+
+### 34.2 LAU-T36 (HP, cakupan campuran)
+
+- Cacat produk yang ditemukan: panel Harga & tagihan tidak memuat stylesheet-nya sendiri, sehingga di HP halaman bergeser ke samping dan tombol "Isi harga" tertutup (run 36217731258, 36218288935). Diperbaiki di 3199c4f; sesudahnya lebar halaman 390 px di semua bagian dan klik mengenai tombolnya sendiri.
+- **Status: FAIL pada satu cek, `mixed_coverage`** (run 36218676593 dan 36219655269). Nilai produk sudah benar: rincian harga `T36 GAR:2:KNOWN,T36 SPR:1:UNKNOWN`, lalu `13000.00|true`, akrual 13.000 = 13.000. Yang salah adalah oracle yang saya tulis: ia membandingkan dengan kode komponen `GAR`/`SPR`, padahal label rincian adalah nama komponen (`T36 GAR`). Pengubahan expected oracle ini diblokir pemeriksa izin sesi (aturan tidak mengubah expected agar hijau), dan writer tidak mengakalinya. **Keputusan owner/auditor diperlukan:** boleh atau tidaknya expected diganti menjadi persis `T36 GAR:2:KNOWN,T36 SPR:1:UNKNOWN`.
+
+### 34.3 GBD-03 dan tabel D11
+
+- GBD-03: owner memilih **opsi 1** (dicatat apa adanya di `docs/cp6-d11-kebijakan-dan-gbd03.md` §3, bersama jawaban atas pertanyaan "bisa pindah akun?"). Tidak ada perubahan produk.
+- Tabel D11 direvisi sesudah tinjauan owner; keputusan owner no. 4, 6, 11, 12, 13 dicatat di §4 dokumen itu, berikut nilai pengaturan, perubahan produk, dan oracle masing-masing. Sisanya tetap diisi owner di aplikasi.
+
+### 34.4 Keputusan owner no. 4, 6, 11, 12, 13 dan perubahan produk (f33d8b8)
+
+| No. | Kebijakan | Nilai (dipasang owner di aplikasi) | Perubahan produk | Oracle |
+|---|---|---|---|---|
+| 4 | ACC-DEC05 | `CREDIT_THEN_CARRY`, `USABLE` | Hak mandor dibawa penuh sekali (`BC_CARRY_ONCE`) hanya ke payroll draf berikutnya (`BC_CARRY_NOT_NEXT_PAYROLL`); payroll dibatalkan → terutang lagi, dibayar sekali; kunci bersama dengan pembatalan kredit; jejak payroll di dokumen kredit | probe BC `C09:CARRY_ONCE_NEXT_PAYROLL` |
+| 6 | ACC-DEC07 | `approval: NONE` (tanpa persetujuan untuk sementara) | Bentuk nilai baru `approval: NONE` (batas 0,00 berarti kebalikannya); kosong tetap fail-closed; pilihan di layar | probe BC `DEC07:APPROVAL_THRESHOLD_ZONE_USERS`, browser `BC_BROWSER:DEC07_NO_APPROVAL_FOR_NOW_BY_OWNER` |
+| 11 | LAU-DEC04 | `ALLOW_PENDING` | Penjualan saat harga laundry belum diketahui dicatat (`erp.bd_pending_price_sales_v1`) dan tampil "HPP belum final"; harga diisi → lot, stok, dan HPP penjualan dihitung ulang dalam transaksi yang sama, lalu penahan tutup buku hilang | probe BD `DEC04:SALE_UNKNOWN_LAUNDRY_PRICE` |
+| 12 | LAU-DEC05 | dibiarkan kosong: keputusan tidak mengaktifkan | tidak ada | `T24:SCOPED_SIZE_RATE` dan kasus tarif biasa |
+| 13 | LAU-DEC06 | `PRODUCT_COST` + `CORRECTION_DOCUMENT` | Dokumen koreksi tertaut ke invoice asal (`corrects_invoice_id`); naik = tagihan baru; turun = utang turun + kredit vendor yang melunasi sisa invoice asal lalu tagihan lain vendor yang sama; tidak di bawah nol; tertutup utang vendor; invoice asal tidak berubah | probe BD `DEC06:CORRECTION_DOCUMENT_UP_AND_DOWN`, `DEC06:CORRECTION_DOWN_SETTLES_ORIGIN_THEN_OLDER`, browser `BD_BROWSER:DEC06_CORRECTION_UP_DOWN_ON_SCREEN` |
+
+**Temuan tambahan:** cek kritis `V2620C_WIP_SOURCE_CONSERVATION_MISMATCH` naik 0 → 1 untuk setiap selisih invoice laundry PRODUCT_COST, termasuk jalur lama `T16`/`T22`. Sebabnya, cek itu hanya menjumlahkan estimasi penerimaan sebagai biaya laundry PO. Perbaikannya: substitusi terperiksa atas `erp.run_v268_financial_report_checks` (teks BB) yang menambahkan selisih invoice BD yang sudah diposting; fungsi ini masuk REPLACED BD. `T16`, `T22`, dan kasus no. 13 sekarang memeriksa bahwa tidak ada cek kebenaran yang naik; kasus no. 13 juga membawa kontrol negatif (selisih yang dirusak 1 rupiah membunyikan cek).
+
+**Batas yang diketahui:** koreksi turun yang melebihi utang vendor saat itu ditolak, karena piutang ke vendor belum punya alur; LAU-DEC04 belum diuji di browser (probe dan tes unit dengan data server nyata saja); UI penjualan dan HPP di luar halaman laundry masih simulasi, jadi status "HPP belum final" hanya tampil di Laundry → Harga & tagihan.
+
+### 34.5 Run
+
+| Uji | Run | Head | Hasil |
+|---|---|---|---|
+| Browser BD pertama sesudah perbaikan CSS | 36218676593 | 3199c4f | LAU-T36: klik "Isi harga" mengenai tombolnya (`hits_self`), lebar 390 px di semua bagian; FAIL hanya pada cek `mixed_coverage` (oracle, §34.2); D08, kebijakan, W05 PASS |
+| Browser BD dengan D12 | 36219655269, job 108342372279 | 7d33d84 | D12 harian dan saldo awal INCOMPLETE: tombol tidak mengirim (daftar aksi klien, §34.1); T36 FAIL seperti di atas; lainnya PASS |
+| Probe BD 35 kasus (before + after, cek parser) | 36221783779 (job before 108348283797, after 108348283898) | f33d8b8 | before: 33 `NO_ROUTE` + D07 dan D09 `COUNTEREXAMPLE`; after: **35/35 PASS**, termasuk `DEC06:CORRECTION_DOCUMENT_UP_AND_DOWN`, `DEC06:CORRECTION_DOWN_SETTLES_ORIGIN_THEN_OLDER`, `DEC04:SALE_UNKNOWN_LAUNDRY_PRICE`, `T16`, `T22`, `D12` × 2; parser 215 berkas PASS |
+| Probe BC 45 kasus (before + after, cek parser) | 36221783677 (job before 108348283432, after 108348283604) | f33d8b8 | before: 34 `NO_ROUTE` + 3 `COUNTEREXAMPLE` + 8 PASS sesuai rencana; after: **45/45 PASS**, termasuk `C09:CARRY_ONCE_NEXT_PAYROLL` dan `DEC07`; parser 369 berkas PASS |
+| Race, HTTP, browser BD (`phase=after`) | 36221787603, job 108348296287 | f33d8b8 | race 9/9, HTTP 3/3, browser 7/8. PASS: `D12_PAYMENT_SCREEN_DAILY_CLAIM` (baris INV: kas Rp 8.000.000,00, kredit klaim Rp 2.000.000,00, sisa Rp 0,00, "Lunas", "Cocok", AP 0), `D12_PAYMENT_SCREEN_OPENING_CLAIM` (saldo awal SETTLED, "Lunas"), `DEC06_CORRECTION_UP_DOWN_ON_SCREEN` (KN "(koreksi naik atas INV)" kas Rp 500,00 + kredit koreksi Rp 1.500,00, "Lunas"; KT "(koreksi turun atas INV)"; "Cocok"; INV tetap `PAID\|CASH:7000.00`), D08, kebijakan, W05 × 2. FAIL: `LAU_T36_PHONE_MIXED_COVERAGE` hanya `mixed_coverage` (§34.2) |
+| Race, HTTP, browser BC (`phase=after`) | 36221788877, job 108348298671 | f33d8b8 | race 11/11, HTTP 2/2, browser 5/5 PASS, termasuk `DEC07_NO_APPROVAL_FOR_NOW_BY_OWNER` |
+| Paket T3: capture pin | 36221783786, job 108348283782 | f33d8b8 | merah karena paket basi (`differ ["BC","BD"]`), sesuai alur; blob `6e63a15a…` (107083 byte) |
+| Paket T3: install 28 berkas, verify, advisor, drill, cek data | 36222100215, job 108349157867 | 70e8e1b | `ALL_STAGES_INSTALLED`; advisor 73 → 190 (+117, semua `INFO rls_enabled_no_policy`, termasuk `bd_claim_credit_applications_v1` dan `bd_pending_price_sales_v1`; 0 dihapus), gate `true`; drill `RESTORED_SAME_MEANING`; UUID `CLEAN` (1018 kolom); alias kas `NONE` |
+| Paket T3: pin dicapture ulang | 36222100215, job 108349157809 | 70e8e1b | pin sama (`differ` kosong) |
+| Paket T3: flow browser AU | 36222100215, job 108349157892 | 70e8e1b | 10/10 PASS, 0 galat konsol |
+| Rollback: capture | 36222100222, job 108349157829 | 70e8e1b | `CAPTURED`; blob `309f374c…` (132368 byte) |
+| Rollback: cycle | 36222384316, job 108349950711 | 231f47b | **139/139 PASS**; `primary_unchanged` |
+| CodeQL kandidat | 36222387126 | 231f47b | sukses |
+| T2 gabungan | 36222388263 (job AR 108349963184, regresi 108349963272, temporal 108349963307) | 231f47b | 3/3 job sukses. AR: `AR_SEQUENTIAL` 145 PASS + 1 INCOMPLETE (`ACCESSORY_CONNECTED_ZERO`, sudah digantikan kasus superseding), `AR_CONCURRENCY` 28 PASS, `AR_SUPERSEDING / ACCESSORY_CONNECTED_ZERO_REFUSED_BC_FREE_POLICY` PASS. Regresi: BUSINESS 179 PASS + 39 `CONTROL_PASS` + 12 `DATE_POLICY_REVIEW_REQUIRED`, IMPORTS 31, VALUES 65, oracle C0 25/25, oracle tanggal yang disetujui 8/8 `MATCH`; identitas per kasus tanpa kasus tambah/hapus, perpindahan sama dengan run 36216690784 (8 kasus AS tanggal PASS → `COUNTEREXAMPLE` dengan oracle yang disetujui owner, `ADJUSTMENT_DATE:False` PASS → INCOMPLETE); verdict `DISPOSITION_REQUIRED` karena kasus historis itu. Temporal: AT 16 + 4 race, AU 15 + 6 race, semuanya PASS, verdict `WRITER_PASS`, `primary_unchanged` |
+
+
+### 34.6 Identitas
+
+- **Head:** commit yang memuat bagian ini. Cabang kompetisi tetap `ca7f095`. Tidak ada SQL ke hosted atau legacy.
+- **Urutan commit putaran ini:**
+  - `c537686`, `ea8f884`: paket dan rollback D09 (§33);
+  - `4215007`: handoff §33;
+  - `4054526`, `116834b`: kasus LAU-T36 dan diagnostiknya; GBD-03 opsi 1 dicatat;
+  - `3199c4f`: panel Harga & tagihan memuat stylesheet-nya;
+  - `83a0caa`: revisi tabel D11;
+  - `7d33d84`: D12;
+  - `f33d8b8`: keputusan owner no. 4, 6, 11, 13; daftar aksi klien D12; cek WIP;
+  - `70e8e1b`: paket T3;
+  - `231f47b`: berkas rollback.
+
+  Sesudahnya hanya dokumen.
+- **Produk** (`src` + `supabase/release` + `supabase/migrations`) terakhir berubah di **231f47b**. Hash tree git:
+  - `src` `432d71e35743ef4a20fd7c5c3bcd53d81a820f62`
+  - `supabase/release` `e7ceb1dc811ca8822173d938fca050bdd2250e42`
+  - `supabase/migrations` `8f6053bbd0bda80da18065418ad43371cdfd9461` (tidak berubah)
+- **Berkas produk yang berubah:**
+  - `src/productionRecovery.ts` `9310fc6569b1554d`
+  - `src/LaundryBdPanel.tsx` `e2b83acdec2a63a5`
+  - `src/laundryBd.ts` `25350ba1e67b4273`
+  - `src/accessoryService.ts` `34b06d576a0e1726`
+  - `src/ConnectedAccessoryServicePage.tsx` `6095ce9f96f2569e`
+- **Paket T3:** 28 berkas AC..BD; hanya BC dan BD yang berubah.
+  - `supabase/release/cp6-t3/MANIFEST.json` `b5cd31aa628b1e93`
+  - BC: paket `23f31eafc8b8f235`, sumber `6257d5d8acc9b466`
+  - BD: paket `30bf93681f4ded29`, sumber `6ca8fbb51e7257ab`
+  - blob pin `6e63a15a3c510896…` (capture job 108348283782)
+- **Rollback:**
+  - `ROLLBACKS.json` `0cb67b6a41fd7259`
+  - BC `32b9d1b2ad1b7b33`
+  - BD `a514f96666790cf5`: memulihkan constraint `bb_opening_credits_v1_credit_kind_check` ke definisi BC
+  - capture `309f374cc818159b…` (job 108349157829)
+- **Dev:** `supabase/dev/cp6_bd_t1_family.sql` `475cb12bd246a15e`, `supabase/dev/cp6_bc_t1_family.sql` `f72f72d38ed8d44c`.
+- **Alat uji:**
+  - `scripts/cp6_bd_probe.py` `3bb8ba88484aba59` (35 kasus)
+  - `scripts/cp6_bd_browser.mjs` `5649fab69210d576` (8 kasus)
+  - `scripts/cp6_bd_modes.py` `296f6d6d66cb2cb2` (tidak berubah)
+  - `scripts/cp6_bc_probe.py` `8d88a17e6814c241` (45 kasus)
+  - `scripts/cp6_bc_browser.mjs` `c12cedf5a2b1827f` (5 kasus)
+  - `scripts/cp6_bc_modes.py` `047e807053dcdfd5` (tidak berubah)
+  - `scripts/cp6_bd_build.py` `e08330f8e9e5eba1`
+  - `scripts/cp6_bc_build.py` `e4cfaaea03c22ba2`
+  - `scripts/cp6_t3_rollback.py` `6c51ee1ff716e406`: satu tambahan di RESTORABLE BD
+  - `scripts/cp6_t3_release_package.py` `31abfd3060adeb92` dan `scripts/cp6_t2_regression.py` `34b2cd06ed349082` (keduanya tidak berubah)
+- **Frontend (lokal, bukan bukti CI):** `npm test` 548/548 dan build lolos.
+
+### 34.7 Untuk auditor: menjalankan ulang pada head ini
+
+Sama dengan §33.7, dengan perubahan berikut:
+- Probe BD kini 35 kasus: before 33 `NO_ROUTE` + D07 dan D09 `COUNTEREXAMPLE`; after 35 PASS.
+- Probe BC kini 45 kasus.
+- Runtime auditor BD memuat 8 kasus browser: `DEC06_CORRECTION_UP_DOWN_ON_SCREEN` dijalankan terakhir dan mengambil 1 PCS. Runtime auditor BC memuat 5 kasus browser.
+- Rollback auto pada head ini menjalankan cycle.
+
+### 34.8 Yang masih terbuka
+
+- **Owner:**
+  - izin mengganti expected oracle LAU-T36 menjadi persis `T36 GAR:2:KNOWN,T36 SPR:1:UNKNOWN` (§34.2);
+  - nilai pengaturan yang tersisa (no. 1, 2, 3, 5, 7, 8, 9, 10), diisi owner di aplikasi.
+- **Auditor:** verifikasi D07, D08, D09, D10, D12, keputusan no. 4/6/11/13, dan substitusi cek `V2620C_WIP_SOURCE_CONSERVATION_MISMATCH`, termasuk kontrol negatifnya.
+- **Batas yang diketahui:** lihat §34.4. Piutang ke vendor belum punya alur; LAU-DEC04 belum diuji di browser; status "HPP belum final" hanya tampil di halaman laundry.
+- **BE:** dijalankan GPT sesuai arahan owner. Writer ini tidak menyentuh BE.
+- **Tetap dari §33.8:** inventaris ID cutover (operator) dan UI-01 (tampilan halaman BC/BD mengikuti demo Cloudflare, dikerjakan belakangan sesuai urutan owner).
