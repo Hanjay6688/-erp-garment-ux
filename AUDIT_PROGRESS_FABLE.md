@@ -73,3 +73,5 @@
 - 20:15Z: Fable BC races ×6 + cross-tab browser: rev1 36181745737 (product correct; 2 FAIL = auditor oracle), rev2 36182433079 **7/7 PASS FROZEN**. GPT correction read
   (GPT has not run own BC scenarios yet; GBC-1–3 oracles frozen) — consistent. Items 1–2 done. Fable continues only while quota lasts; the replacement auditor follows
   HANDOVER_AUDITOR_ONBOARDING_20260925.md §3 to find the current state.
+- 2026-09-25 20:10Z (26 Sep 03:10 WIB): GPT BC follow-up run2 36182902112 reconciled (results §14, paste §2c): GBC-1 agree PARTIAL/UNVERIFIED (owner identity policy);
+  GBC-2 agree F3, joint severity P3 product / P2 conditional on cutover data (read-only inventory by writer/operator); GBC-3 covered by Fable 36182433079. No conflicts.

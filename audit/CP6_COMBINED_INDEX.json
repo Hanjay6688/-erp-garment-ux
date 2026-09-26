@@ -1623,6 +1623,15 @@
   "fable_races_browser": {
    "rev1": "36181745737 product correct 7/7, auditor oracle FAIL x2 (frozen)",
    "rev2": "36182433079 7/7 PASS (FROZEN)"
+  },
+  "gpt_followup_reconciled": {
+   "GBC-1": "AGREE ACC-C12 PARTIAL/UNVERIFIED, owner policy question",
+   "GBC-2": "AGREE F3; joint severity P3 product / P2 conditional on cutover data (read-only inventory by writer/operator)",
+   "GBC-3": "covered by Fable run 36182433079",
+   "runs": [
+    "36182512996 tooling fail",
+    "36182902112"
+   ]
   }
  },
  "handover": {

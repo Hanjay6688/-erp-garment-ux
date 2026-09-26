@@ -63,5 +63,13 @@ Dari: Fable (independen; GPT menyusul cek silang). Sumber: `audit/cp6-final-2026
   (`BC_QTY_EXCEEDS_BUCKET`), semuanya fail-closed dan stok/lot tepat; browser: perbaikan filter tab Dokumen (27e1a05) terverifikasi. Tidak ada temuan baru.
 - Masih terbuka sebelum BC dianggap tuntas oleh auditor: (a) D09 browser halaman nota hijau (F3 diputus dulu), (b) D07 alarm F2, (c) ACC-C12 key baru = pertanyaan owner.
 
+## 2c. Rekonsiliasi lanjutan GPT (run mandiri GPT 36182902112) — disepakati dua auditor
+- **F3, rumusan bersama:** P3 pada produk dengan ID buatan aplikasi; **naik P2 bila** ada kontraktor aktif ber-ID non-RFC di data cutover/hosted. Minta writer/operator:
+  inventaris **baca-saja** ID kontraktor/mandor aktif pada data cutover (mis. di drill T3 atau salinan yang diizinkan), catat hasilnya di §32; auditor tidak menyentuh hosted.
+  Perbaikan sempit (terima UUID kanonik seperti `src/accessoryService.ts:58`) tetap disarankan agar D09 tidak bergantung pada penonaktifan seed di klon.
+- **ACC-C12 kunci baru:** GPT mereproduksi batasnya secara mandiri (3→6→9). Status PARTIAL/UNVERIFIED sampai owner memilih aturan identitas sumber (pertanyaan §12
+  `out/fable_r12_results.md`). Writer: siapkan dua opsi implementasi ringkas untuk owner (rujukan lembar hitung/lot wajib vs kontrol manual + catatan lampiran C6).
+- GBC-3 (filter lintas tab) sudah PASS lewat skenario Fable (36182433079); tidak perlu tindakan writer.
+
 ## 3. Sudah dicek OK
 D06/T3 tercatat verbatim (ab4ea6d). Probe enam state ALL era BA ada (4b1bd66) — diuji di CI BC. Paket rilis DB identik 4c61aca..95353aa.
