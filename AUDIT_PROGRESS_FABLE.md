@@ -77,3 +77,5 @@
   GBC-2 agree F3, joint severity P3 product / P2 conditional on cutover data (read-only inventory by writer/operator); GBC-3 covered by Fable 36182433079. No conflicts.
 - 26 Sep 03:20 WIB: WRITER_HANDOFF_R12_FINAL_PASTE_20260926.md written (single reconciled Fable+GPT paste for Opus: BC clean on tested coverage, 5 ordered tasks, conventions);
   previous paste marked DIGANTIKAN; index writer_handoff_paste_latest updated.
+- 26 Sep: D08 recorded (owner direction: F3 fix option b allowed; format validation ≠ access security; writer must show from diff that no role/permission line changes).
+  Paste final §2.3 rewritten. Writer status read: BD near-final (28-file T3, T2 covers BD, D07 done in af00dd1, T3 red on af00dd1 pending re-capture), UI gallery ffb5076.

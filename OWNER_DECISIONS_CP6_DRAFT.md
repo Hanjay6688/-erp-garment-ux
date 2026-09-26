@@ -187,3 +187,20 @@ Teks owner, apa adanya:
 Pembacaan auditor (dinyatakan terbuka, owner boleh mengoreksi): owner mengizinkan dimatikan bila tidak berguna, dan menerima **setel ulang** bila perlu. Menurut bukti,
 cek per gerakan untuk potong (cutting) masih berguna, jadi yang berlaku = **D07 = disetel ulang ke tingkat dokumen** (opsi 2). Spesifikasi untuk writer di
 `WRITER_HANDOFF_R12_PASTE_20260925.md` §2 butir 1. Bukan perubahan alur uang; bukan penerimaan uji; CP6 tetap HOLD, `production_go=false`.
+
+## D08 — F3, validator format ID di halaman nota/Laundry — arahan owner, 2026-09-26 (OWNER_CONFIRMED_TO_AUDITOR)
+Konteks: writer sempat memasang perbaikan sempit F3 (opsi b: menerima UUID kanonik 8-4-4-4-12 sesuai tipe `uuid` PostgreSQL di `src/accessoryIssue.ts:20` dan
+`src/laundryQcModel.ts:123`), lalu membatalkannya karena menganggap melanggar larangan owner melonggarkan guard keamanan. F3 menunggu keputusan owner.
+
+Teks owner, apa adanya:
+> Menurut gue, perlu dibedakan:
+> * Validasi format ID: memastikan bentuk UUID benar.
+> * Keamanan akses: memastikan pengguna berhak membaca atau mengubah data.
+> Menerima UUID kanonik yang diterima server belum tentu melemahkan keamanan. Jadi klaim "melanggar guard keamanan" perlu ditunjukkan dari perubahan kodenya; jangan
+> otomatis disimpulkan begitu. Perbaikan sempit bisa dilakukan sambil mempertahankan pemeriksaan role dan izin akses.
+
+Pembacaan auditor (terbuka, owner boleh mengoreksi): **opsi (b) diizinkan** dengan syarat: (1) perubahan hanya pada validator bentuk UUID (regex) di dua berkas itu, ke bentuk
+kanonik 8-4-4-4-12 heksadesimal; (2) tidak ada baris pemeriksaan role/izin/grant yang berubah — dibuktikan writer dengan diff dan dinyatakan di §32; (3) auditor
+memverifikasi diff (SOURCE_REVIEW) dan menguji ulang di browser dengan mandor ber-ID non-RFC aktif (halaman harus terbaca) dan kontrol v4, tanpa menonaktifkan seed.
+Penilaian auditor yang mendasari: ID yang ditolak berasal dari server (kolom `uuid`), bukan input pengguna; otorisasi baca/tulis ada di server; validator kanonik
+yang sama sudah dipakai writer di `src/accessoryService.ts:58` dan `src/initialImportBC.ts:5`. Bukan penerimaan uji; CP6 tetap HOLD, `production_go=false`.

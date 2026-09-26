@@ -1538,7 +1538,8 @@
    ],
    "per_roll_valuation": "separate CR"
   },
-  "D07_f2_detector": "RETUNE_TO_DOCUMENT_LEVEL_owner_direction_2026-09-25T18:30Z_see_OWNER_DECISIONS_CP6_DRAFT"
+  "D07_f2_detector": "RETUNE_TO_DOCUMENT_LEVEL_owner_direction_2026-09-25T18:30Z_see_OWNER_DECISIONS_CP6_DRAFT",
+  "D08_f3_uuid_validator": "OPTION_B_ALLOWED_with_conditions_owner_direction_2026-09-26_see_OWNER_DECISIONS_CP6_DRAFT"
  },
  "progress_logs": {
   "frozen": "AUDIT_PROGRESS.md",

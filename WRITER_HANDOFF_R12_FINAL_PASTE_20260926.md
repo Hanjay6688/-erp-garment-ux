@@ -25,10 +25,12 @@ Disposisi yang kamu minta: **`ACCESSORY_CONNECTED_ZERO` = EXPECTED_CHANGE** (ERP
    punya kontrol negatif (rusak satu state/fakta di savepoint → alarm bunyi → rollback); hapus `STALE_F2` dari `new_findings()`. Auditor menguji ulang dengan
    `xaudit_12_f1f2.py` (harus diam pada buku benar) + kontrol negatif sendiri.
 2. **Kasus pengganti T2** untuk `ACCESSORY_CONNECTED_ZERO`: kunci penolakan `BC_FREE_REQUIRES_POLICY`; kasus lama tetap tercatat INCOMPLETE dan ditandai *superseded* di tabel kasus.
-3. **F3 (guard UUID halaman nota, `src/accessoryIssue.ts:20`).** Rumusan bersama auditor: P3 pada produk dengan ID buatan aplikasi; **naik P2 bila** data cutover memuat
-   kontraktor/mandor aktif ber-ID non-RFC. Minta: (a) inventaris **baca-saja** ID kontraktor aktif pada data cutover (di drill T3 atau salinan yang diizinkan; auditor tidak
-   menyentuh hosted), catat hasilnya di §32; (b) perbaikan sempit ke UUID kanonik (seperti `src/accessoryService.ts:58`) supaya bukti browser D09 tidak bergantung pada
-   penonaktifan seed di klon. Keputusan akhir di owner/writer; auditor menyarankan (b).
+3. **F3 — D08 (owner, 26 Sep, `OWNER_DECISIONS_CP6_DRAFT.md`): perbaikan sempit opsi (b) DIIZINKAN dengan syarat.** Owner membedakan validasi format ID dari keamanan
+   akses; klaim "melanggar guard keamanan" harus ditunjukkan dari kode, bukan disimpulkan. Yang diminta: (1) pasang kembali dua suntingan yang kamu batalkan:
+   `src/accessoryIssue.ts:20` dan `src/laundryQcModel.ts:123` menerima UUID kanonik 8-4-4-4-12 (pola yang sudah kamu pakai di `src/accessoryService.ts:58`); (2) diff
+   hanya menyentuh regex itu, **tidak ada** baris role/izin/grant yang berubah, dan tulis pernyataan itu + diff di §32; (3) hapus penonaktifan seed di flow browser D09/Laundry
+   supaya halaman diuji dengan mandor non-RFC aktif; (4) kalau kamu masih menilai ada aspek keamanan yang melemah, tunjukkan barisnya, jangan batalkan diam-diam.
+   Auditor memverifikasi diff dan menguji ulang browser (non-RFC aktif + kontrol v4).
 4. **ACC-C12 kunci baru** (batasmu `limit.new_custody_key=ACCEPTED`, direproduksi GPT: 3→6→9): siapkan **dua opsi ringkas untuk owner** — (a) rujukan lembar hitung/lot wajib
    pada tiap item pending (kunci baru tanpa rujukan ditolak), (b) kontrol manual gudang + catatan di lampiran C6. Sampai owner memilih: ACC-C12 PARTIAL.
 5. **§32** untuk BD: head final tertulis, tabel kasus BD → ID C6/ALL (LAU-05b, LAU-DEC01–06, W05 fisik) → oracle pra-kode auditor (`out/fable_c6_75_oracles_pre_code.md`
