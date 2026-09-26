@@ -19,7 +19,7 @@ const SECTIONS: [Section, string][] = [['policies', 'Kebijakan owner'], ['master
 type Send = (action: string, payload: Record<string, Json>) => void
 const today = () => new Date(Date.now() + 7 * 3600_000).toISOString().slice(0, 10)
 
-export default function LaundryBdPanel({ laundry, onPosted }: { laundry: LaundryQcWorkspace; onPosted: () => void }) {
+export default function LaundryBdPanel({ laundry, onPosted }: { laundry: LaundryQcWorkspace | null; onPosted: () => void }) {
   const { runtime, identity } = useAuth()
   if (!isConnectedRuntime(runtime) || identity.status !== 'AUTHORIZED') throw new Error('ERP belum tersambung.')
   const client = useMemo(() => getUatSupabaseClient(runtime), [runtime])
@@ -66,7 +66,8 @@ export default function LaundryBdPanel({ laundry, onPosted }: { laundry: Laundry
     {!data ? <p role="status">{loading ? 'Memuat harga laundry…' : 'Harga laundry belum terbaca.'}</p> : <>
       {section === 'policies' && <Policies data={data} locked={locked} send={send}/>}
       {section === 'master' && (vendor ? <Master data={data} vendor={vendor.id} locked={locked} send={send}/> : <p>Pilih vendor untuk melihat dan mengubah harganya.</p>)}
-      {section === 'send' && (vendor ? <PricedSend data={data} laundry={laundry} vendor={vendor.id} locked={locked} send={send}/> : <p>Pilih vendor laundry yang memakai harga BD.</p>)}
+      {section === 'send' && (!laundry ? <p role="status">Data Laundry (batch siap kirim) belum terbaca; kirim dengan harga terkunci sampai halaman Laundry terbaca.</p>
+        : vendor ? <PricedSend data={data} laundry={laundry} vendor={vendor.id} locked={locked} send={send}/> : <p>Pilih vendor laundry yang memakai harga BD.</p>)}
       {section === 'unknown' && <UnknownPrices data={data} locked={locked} send={send}/>}
       {section === 'invoices' && (data.invoices === null ? <p>Hak melihat nominal diperlukan untuk invoice vendor.</p>
         : <Invoices data={data} vendor={vendor?.id ?? ''} locked={locked} send={send}/>)}

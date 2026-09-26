@@ -57,6 +57,13 @@ async function openPage(ui, user, group, item, heading) {
   return p
 }
 
+// Recorded, not a pass condition: the Laundry/QC read of the page (run 36190024230 found the pricing tab gated on it; the tab
+// now reads its own workspace, and a failed Laundry/QC read only locks the priced-send section).
+async function laundryRead(p) {
+  const alert = p.locator('.clq-alert.error')
+  return await alert.count() ? (await alert.first().innerText()).slice(0, 300) : 'OK'
+}
+
 async function openPricing(ui, user) {
   const p = await openPage(ui, user, 'Produksi', 'Laundry', 'Laundry')
   await p.getByRole('button', { name: 'Harga & tagihan', exact: true }).click()
@@ -83,8 +90,9 @@ export async function cases(ui, today) {
       await p.getByLabel('Alasan', { exact: true }).fill('Kembali menunggu keputusan owner')
       await p.getByRole('button', { name: 'Kembalikan LAU-DEC04 ke menunggu', exact: true }).click()
       await ui.expect.poll(policy, { timeout: 20000 }).toBe(`PENDING_POLICY_VALUE|${version + 2}`)
+      const laundryQcRead = await laundryRead(p)
       await owner.context.close()
-      return { status: 'PASS', before, after: policy() }
+      return { status: 'PASS', before, after: policy(), laundry_qc_read: laundryQcRead }
     }],
     ['BD_BROWSER:W05_CLAIM_RECOVER_AND_REVERSE', async () => {
       const owner = await ui.login('OWNER', { label: 'bd-claim' })
@@ -127,6 +135,7 @@ export async function cases(ui, today) {
       const qcInput = await q.getByLabel(`Estimasi ${doc}`).count()
       await q.getByRole('button', { name: 'Invoice vendor', exact: true }).click()
       const invoiceHidden = await q.getByText('Hak melihat nominal diperlukan untuk invoice vendor.').isVisible()
+      const laundryQcRead = await laundryRead(q)
       await qc.context.close()
       const p = await openPricing(ui, owner)
       await p.getByRole('button', { name: 'Laundry saldo awal', exact: true }).click()
@@ -138,7 +147,7 @@ export async function cases(ui, today) {
       const blockedAfter = blocked()
       await owner.context.close()
       const ok = blockedBefore === '1' && qcInput === 0 && invoiceHidden && blockedAfter === '0'
-      return { status: ok ? 'PASS' : 'FAIL', blocked_before: blockedBefore, qc_estimate_inputs: qcInput, invoice_hidden: invoiceHidden, estimated: estimated(), blocked_after: blockedAfter }
+      return { status: ok ? 'PASS' : 'FAIL', blocked_before: blockedBefore, qc_estimate_inputs: qcInput, invoice_hidden: invoiceHidden, estimated: estimated(), blocked_after: blockedAfter, laundry_qc_read: laundryQcRead }
     }],
   ]
 }

@@ -21,6 +21,7 @@ owner settings, ALL-W05 r9 "concurrent return/claim consuming same PCS", "double
         billable sources null, prices null, an unknown price still UNKNOWN) and cannot draft an invoice; OWNER drafts it; a
         W05 claim on opening WIP is owner/admin only (PRODUKSI_QC refused, OWNER opens it).
 """
+from contextlib import contextmanager
 from datetime import timedelta
 import json,uuid
 import psycopg
@@ -159,6 +160,22 @@ def _save(user,action,payload):
     return user.rpc('erp_save_laundry_bd_action_v1',dict(p_action=action,p_payload=payload,p_client_request_id=str(uuid.uuid4())))
 
 
+@contextmanager
+def _fixture_usage(cur):
+    """The HTTP copy gives authenticated no USAGE on schema erp (production-faithful). bdp.fixture builds its purchase through the
+    owner's private-schema RPC path (chain.work.draft -> as_owner), so the grant exists only inside the fixture transaction and
+    is revoked before that transaction commits: no committed state and no HTTP call ever sees it (checked before and after).
+    First run without it: run 36190024230, BD_HTTP:MONEY_HIDDEN_INVOICE_OWNER_ADMIN INCOMPLETE 'permission denied for schema erp'."""
+    usage=lambda:cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]
+    assert usage() is False,'BD_HTTP_COPY_ALREADY_HAS_SCHEMA_GRANT'
+    cur.execute('grant usage on schema erp to authenticated')
+    try:yield
+    except BaseException:
+        cur.connection.rollback();raise  # the grant goes with the rolled-back fixture transaction
+    api.admin(cur);cur.execute('revoke usage on schema erp from authenticated')
+    assert usage() is False,'BD_HTTP_FIXTURE_GRANT_NOT_REVOKED'
+
+
 def http_cases(http,today):
 
     def policy_owner_only():
@@ -177,11 +194,14 @@ def http_cases(http,today):
 
     def money_hidden_invoice_owner_admin():
         with http.connect() as conn,conn.cursor() as cur:
-            fx=bdp.fixture(cur,today-timedelta(days=1),'HTTP-MONEY')
-            g=bdp.component(cur,fx,'GARMENT','5000.00');s=bdp.component(cur,fx,'SPRAY',None,status='UNKNOWN');bdp.terms(cur,fx,'COMPONENTS')
-            bdp.post_priced(cur,fx,dict(components=[dict(component_id=g,covered_qty=10),dict(component_id=s,covered_qty=10)]))
-            fx2=bdp.fixture(cur,today-timedelta(days=1),'HTTP-INV');bdp.process_rate(cur,fx2,'7000.00');bdp.invoice_policies(cur)
-            line=bdp.receipt_line(cur,bdp.receive(cur,bdp.plain_delivery(cur,fx2,10,11),fx2,10,13)['receipt_id']);conn.commit()
+            with _fixture_usage(cur):
+                fx=bdp.fixture(cur,today-timedelta(days=1),'HTTP-MONEY')
+                g=bdp.component(cur,fx,'GARMENT','5000.00');s=bdp.component(cur,fx,'SPRAY',None,status='UNKNOWN');bdp.terms(cur,fx,'COMPONENTS')
+                bdp.post_priced(cur,fx,dict(components=[dict(component_id=g,covered_qty=10),dict(component_id=s,covered_qty=10)]))
+                fx2=bdp.fixture(cur,today-timedelta(days=1),'HTTP-INV');bdp.process_rate(cur,fx2,'7000.00');bdp.invoice_policies(cur)
+                line=bdp.receipt_line(cur,bdp.receive(cur,bdp.plain_delivery(cur,fx2,10,11),fx2,10,13)['receipt_id'])
+            conn.commit()
+            committed_usage=cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0];conn.rollback()
         qc=http.login('PRODUKSI_QC','bd-qc');owner=http.login('OWNER','bd-owner-invoice')
         read=qc.rpc('erp_get_laundry_bd_workspace_v1',dict(p_filters=dict(vendor_id=fx['vendor'])))
         body=read['body'] if isinstance(read['body'],dict) else {}
@@ -195,8 +215,9 @@ def http_cases(http,today):
                    lines=[dict(line_kind='BILL',receipt_line_id=line,category='GOOD',qty=10,amount='70000.00')])
         denied=_save(qc,'SAVE_INVOICE_DRAFT',draft)
         done=_save(owner,'SAVE_INVOICE_DRAFT',draft)
-        ok=hidden and denied['status']>=400 and 'OWNER or ADMIN' in json.dumps(denied['body']) and done['status']==200 and (done['body'] or {}).get('status')=='DRAFT'
-        return dict(status='PASS' if ok else 'FAIL',qc_read=dict(status=read['status'],money_visible=body.get('money_visible'),invoices=body.get('invoices'),
+        ok=(committed_usage is False and hidden and denied['status']>=400 and 'OWNER or ADMIN' in json.dumps(denied['body'])
+            and done['status']==200 and (done['body'] or {}).get('status')=='DRAFT')
+        return dict(status='PASS' if ok else 'FAIL',fixture_schema_grant='TRANSACTION_ONLY_REVOKED_BEFORE_COMMIT',committed_usage=committed_usage,qc_read=dict(status=read['status'],money_visible=body.get('money_visible'),invoices=body.get('invoices'),
                     priced=str(priced)[:400],components=str(comps)[:300]),qc_draft=dict(status=denied['status'],body=str(denied['body'])[:300]),
                     owner_draft=dict(status=done['status'],body=str(done['body'])[:300]))
 
