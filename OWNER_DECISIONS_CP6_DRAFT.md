@@ -204,3 +204,27 @@ kanonik 8-4-4-4-12 heksadesimal; (2) tidak ada baris pemeriksaan role/izin/grant
 memverifikasi diff (SOURCE_REVIEW) dan menguji ulang di browser dengan mandor ber-ID non-RFC aktif (halaman harus terbaca) dan kontrol v4, tanpa menonaktifkan seed.
 Penilaian auditor yang mendasari: ID yang ditolak berasal dari server (kolom `uuid`), bukan input pengguna; otorisasi baca/tulis ada di server; validator kanonik
 yang sama sudah dipakai writer di `src/accessoryService.ts:58` dan `src/initialImportBC.ts:5`. Bukan penerimaan uji; CP6 tetap HOLD, `production_go=false`.
+
+## D09–D11 + UI-01 — arahan owner 2026-09-26 (OWNER_CONFIRMED_TO_AUDITOR), teks apa adanya
+> 1. ACC-C12: pilih opsi (a). Wajibkan rujukan sumber pada setiap item pending: lembar hitung + baris/item atau lot sumber. Identitas sumber harus tetap sama meskipun
+>    diajukan dengan kunci baru. Jangan mengunci seluruh lembar karena satu lembar bisa berisi banyak barang. Uji bahwa pengajuan barang sama dengan kunci baru ditolak,
+>    replay tidak menambah jumlah, dan barang berbeda tetap boleh. Status ditutup setelah auditor memverifikasi.
+> 2. Untuk layanan/tarif yang sama, biaya dan selisih invoice dibagi berdasarkan jumlah potong yang terkait. Kalau vendor, proses, atau paketnya berbeda, pisahkan sesuai
+>    sumber tagihannya; jangan diratakan ke seluruh barang. Tidak perlu meminta saya memilih pembagian menurut tarif ukuran. Sesuaikan contoh dan pengujian multi-ukuran
+>    dengan aturan ini. Catat klarifikasi dalam dokumen keputusan dan oracle untuk run baru; hasil lama tetap disimpan apa adanya.
+> 3. 13 kebijakan aksesori/laundry: buat satu tabel dalam bahasa operasional: nama kebijakan, kegunaan, pilihan yang tersedia, rekomendasi beserta alasannya, dan transaksi
+>    yang tertahan selama belum diisi. Nilai tetap pending sampai saya memilih. Audit boleh lanjut dengan konfigurasi pengujian yang dicatat.
+> 4. UI: Tampilan tidak jelas, belum mengikuti demo di cloudflare. Belum ada tanggapan bukan berarti sudah disetujui. Tetap ikuti arahan tampilan dan interaksi demo
+>    Cloudflare. ini nanti saja saat lu konekin.
+> D08 tetap berlaku beserta syarat pengujiannya, tetapi jangan catat izin sesi sudah terbuka sebelum benar-benar tersedia. Drill T6 tetap dikerjakan operator pada salinan
+> yang diizinkan. […] Pekerjaan lain yang tidak bergantung pada keputusan tersebut tetap lanjut. CP6 tetap HOLD sampai gate terkait diverifikasi.
+
+Pembacaan auditor:
+- **D09 (ACC-C12 = opsi a):** item pending wajib membawa rujukan sumber (lembar hitung + baris/item, atau lot sumber); identitas sumber melekat pada barang, bukan pada
+  kunci permintaan; kunci baru dengan identitas sumber yang sama = duplikat → ditolak; kunci lembar tidak dikunci seluruhnya. Oracle uji: (i) barang sama + kunci baru ditolak,
+  (ii) replay kunci sama tidak menambah qty/jurnal, (iii) barang berbeda (identitas sumber lain) diterima. Ditutup setelah verifikasi auditor.
+- **D10 (selisih invoice laundry):** dalam satu layanan/tarif, biaya dan selisih dibagi menurut jumlah potong terkait; sumber tagihan berbeda (vendor/proses/paket) dipisah
+  menurut tagihannya; tidak diratakan ke seluruh barang; tidak ada pembagian menurut tarif ukuran. Contoh/uji multi-ukuran disesuaikan; hasil lama tetap.
+- **D11 (13 nilai kebijakan):** writer menyusun tabel operasional; nilai tetap PENDING sampai owner memilih; audit lanjut dengan konfigurasi uji yang dicatat per run.
+- **UI-01:** halaman BC/BD (dan berikutnya) harus mengikuti tampilan dan interaksi demo Cloudflare; diam bukan persetujuan; dikerjakan belakangan sesuai urutan owner.
+- **D08:** tetap; status "izin sesi terbuka" hanya dicatat setelah benar-benar terjadi (belum). **T6:** operator, salinan yang diizinkan.

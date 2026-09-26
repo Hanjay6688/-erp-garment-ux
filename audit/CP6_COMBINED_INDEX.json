@@ -1539,14 +1539,18 @@
    "per_roll_valuation": "separate CR"
   },
   "D07_f2_detector": "RETUNE_TO_DOCUMENT_LEVEL_owner_direction_2026-09-25T18:30Z_see_OWNER_DECISIONS_CP6_DRAFT",
-  "D08_f3_uuid_validator": "OPTION_B_ALLOWED_with_conditions_owner_direction_2026-09-26_see_OWNER_DECISIONS_CP6_DRAFT"
+  "D08_f3_uuid_validator": "OPTION_B_ALLOWED_with_conditions_owner_direction_2026-09-26_see_OWNER_DECISIONS_CP6_DRAFT",
+  "D09_acc_c12": "OPTION_A_source_reference_required_2026-09-26",
+  "D10_laundry_invoice_variance": "SPLIT_BY_PIECE_COUNT_within_same_service_separate_by_billing_source_2026-09-26",
+  "D11_policy_values_table": "WRITER_TABLE_REQUESTED_values_pending_2026-09-26",
+  "UI-01": "FOLLOW_CLOUDFLARE_DEMO_look_and_interaction_later"
  },
  "progress_logs": {
   "frozen": "AUDIT_PROGRESS.md",
   "fable": "AUDIT_PROGRESS_FABLE.md",
   "gpt": "AUDIT_PROGRESS_GPT.md (GPT membuat)"
  },
- "writer_handoff_paste_latest": "WRITER_HANDOFF_R12_FINAL_PASTE_20260926.md",
+ "writer_handoff_paste_latest": "WRITER_HANDOFF_R12B_PASTE_20260926.md",
  "fable_round12_pre_bc": {
   "date": "2026-09-25T17:45Z",
   "writer_heads_seen": [
@@ -1641,6 +1645,23 @@
   "note": "state is never locked: follow onboarding §3 (writer log, AUDIT_PROGRESS_FABLE.md tail, this index, dispatch ledger, list_runs)"
  },
  "writer_handoff_paste_history": [
-  "WRITER_HANDOFF_R12_PASTE_20260925.md"
+  "WRITER_HANDOFF_R12_PASTE_20260925.md",
+  "WRITER_HANDOFF_R12_FINAL_PASTE_20260926.md"
+ ],
+ "open_for_owner": [
+  "D11 policy values (after writer table)",
+  "GBD-03 old laundry claim representation (after writer options)",
+  "F3/D08 session permission (in progress)"
+ ],
+ "auditor_verification_queue": [
+  "D07 retest + negative control",
+  "D09 ACC-C12 tests",
+  "D10 T24 adjusted",
+  "F3/D08 diff + browser",
+  "L8 guard substitution",
+  "rollback comparator BC+BD",
+  "GBD-01/02 own fixtures",
+  "STALE_F2 conditional in BC probe",
+  "BD round on 2aee623"
  ]
 }
