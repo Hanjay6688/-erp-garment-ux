@@ -66,15 +66,28 @@ def http_cases(http,today):
         args=dict(p_action='POST',p_payload=f['payload'],p_client_request_id=str(uuid.uuid4()))
         anon=http.anon_rpc('erp_save_product_conversion_action_v1',args)
         denied=qc.rpc('erp_save_product_conversion_action_v1',args)
-        view=warehouse.rpc('erp_get_product_conversion_workspace_v1',dict(p_filters=dict(source_lot_id=f['lot'])))
+        warehouse_view=warehouse.rpc('erp_get_product_conversion_workspace_v1',dict(p_filters=dict(source_lot_id=f['lot'])))
+        # A real Owner creates an explicitly read-only role in this disposable copy.
+        # The default GUDANG role has no conversion.view; never assume it does.
+        code='BE_READER_'+uuid.uuid4().hex[:12].upper()
+        role=owner.rpc('erp_save_role_v1',dict(p_payload=dict(code=code,name='BE read-only conversion fixture',
+          permission_keys=['warehouse.brand_conversion.view'],confirm_high_risk=False,change_reason='BE isolated HTTP permission matrix'),
+          p_client_request_id=str(uuid.uuid4()),p_expected_version=None))
+        assert role['status']==200,('BE_READER_SETUP',role)
+        reader=http.login(code,'be-reader')
+        view=reader.rpc('erp_get_product_conversion_workspace_v1',dict(p_filters=dict(source_lot_id=f['lot'])))
+        preview=reader.rpc('erp_get_product_conversion_workspace_v1',dict(p_filters=dict(preview=f['payload'])))
+        reader_write=reader.rpc('erp_save_product_conversion_action_v1',args)
         done=owner.rpc('erp_save_product_conversion_action_v1',args);again=owner.rpc('erp_save_product_conversion_action_v1',args)
         changed=owner.rpc('erp_save_product_conversion_action_v1',{**args,'p_payload':{**f['payload'],'qty_pcs':5}})
         with http.connect() as conn,conn.cursor() as cur:
             count=be.one(cur,'select count(*) from erp.be_conversion_sources_v1 where source_lot_id=%s',f['lot']);conn.rollback()
         return b.verdict(dict(anon=anon['status'] in (401,403),qc_refused=denied['status']>=400,
-          warehouse_hidden=view['status']==200 and bool(view['body'].get('lots')) and all(x['unit_hpp'] is None for x in view['body']['lots']),
+          warehouse_refused=warehouse_view['status']==403,reader_refused=reader_write['status']==403,
+          reader_hidden=view['status']==200 and bool(view['body'].get('lots')) and all(x['unit_hpp'] is None for x in view['body']['lots']),
+          preview_hidden=preview['status']==200 and preview['body']['preview']['cost']=={},
           owner=done['status']==200 and done['body'].get('status')=='POSTED',replay=again==done and count==1,changed_key_refused=changed['status']>=400),
-          http=dict(anon=anon['status'],qc=denied['status'],warehouse=view['status'],owner=done['status'],changed_key=changed['status']),body=done['body'])
+          http=dict(anon=anon['status'],qc=denied['status'],warehouse=warehouse_view['status'],reader=view['status'],reader_write=reader_write['status'],owner=done['status'],changed_key=changed['status']),body=done['body'])
     def redye_price():
         with http.connect() as conn,conn.cursor() as cur:
             with bd_modes._fixture_usage(cur):f=be.redye_fixture(cur,today,False)

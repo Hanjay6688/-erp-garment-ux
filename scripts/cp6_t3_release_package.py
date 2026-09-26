@@ -360,6 +360,7 @@ def install(out):
     manifest=json.loads((RELEASE/'MANIFEST.json').read_text())
     report=dict(label='T3_PREP_RELEASE_PACKAGE_INSTALL',status='INCOMPLETE',files=[],production_go=False,release_evidence=False)
     try:
+        assert [f['key'] for f in manifest['files']]==[k.upper() for k in KEYS],('T3_COMMITTED_FAMILY_INCOMPLETE',[f['key'] for f in manifest['files']],KEYS)
         for f in manifest['files']:
             text=(ROOT/f['file']).read_text()
             assert sha(text)==f['package_sha256'],('T3_PACKAGE_FILE_DRIFT',f['key'])

@@ -1,6 +1,6 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 3,
+  "revision": 4,
   "phase": "after",
   "scenario_path": "scripts/cp6_be_modes.py",
   "browser_path": "scripts/cp6_be_browser.mjs",

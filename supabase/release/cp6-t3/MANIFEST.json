@@ -2268,14 +2268,266 @@
           "count": 1
         }
       ]
+    },
+    {
+      "key": "BE",
+      "file": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "stamp": "20260926050000",
+      "name": "erp_v2_6_20be_cp6_conversion_redye_pocket",
+      "closed_admission": true,
+      "source": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "source_sha256": "00b17d579df39f4e57d1333c0fdd052d80f65906b2ad2a4d1c1d64c872cfd416",
+      "package_sha256": "42ba9f17e8993023ffce10b221cbe8bd2e614b2410749031ed2d6112a247f58d",
+      "substitutions": [
+        {
+          "kind": "LEDGER",
+          "what": "AC",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AD",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AE",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AF",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AG",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AH",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AI",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AJ",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AK",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AL",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AM",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AN",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AO",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AP",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AQ",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AR",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AS",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AT",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AU",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AV",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AW",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AX",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AY",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AZ",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "BA",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "BB",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "BC",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "BD",
+          "count": 1
+        },
+        {
+          "kind": "CAPSULE",
+          "what": "cp6_v2620_rollback_capsule",
+          "count": 1
+        },
+        {
+          "kind": "CAPSULE",
+          "what": "cp6_v2620ac_relation_rollback_capsule",
+          "count": 1
+        },
+        {
+          "kind": "CAPSULE",
+          "what": "cp6_v2620ao_rollback_capsule",
+          "count": 1
+        },
+        {
+          "kind": "CAPSULE",
+          "what": "cp6_v2620ap_rollback_capsule",
+          "count": 1
+        },
+        {
+          "kind": "CAPSULE",
+          "what": "cp6_v2620aq_rollback_capsule",
+          "count": 1
+        },
+        {
+          "kind": "CAPSULE",
+          "what": "cp6_v2620ar_rollback_capsule",
+          "count": 1
+        },
+        {
+          "kind": "CAPSULE",
+          "what": "cp6_v2620as_rollback_capsule",
+          "count": 1
+        },
+        {
+          "kind": "CAPSULE",
+          "what": "cp6_v2620at_rollback_capsule",
+          "count": 1
+        },
+        {
+          "kind": "CAPSULE",
+          "what": "cp6_v2620au_rollback_capsule",
+          "count": 1
+        },
+        {
+          "kind": "CAPSULE",
+          "what": "cp6_v2620av_rollback_capsule",
+          "count": 1
+        },
+        {
+          "kind": "CAPSULE",
+          "what": "cp6_v2620aw_rollback_capsule",
+          "count": 1
+        },
+        {
+          "kind": "CAPSULE",
+          "what": "cp6_v2620ax_rollback_capsule",
+          "count": 1
+        },
+        {
+          "kind": "CAPSULE",
+          "what": "cp6_v2620ay_rollback_capsule",
+          "count": 1
+        },
+        {
+          "kind": "CAPSULE",
+          "what": "cp6_v2620az_rollback_capsule",
+          "count": 1
+        },
+        {
+          "kind": "CAPSULE",
+          "what": "cp6_v2620ba_rollback_capsule",
+          "count": 1
+        },
+        {
+          "kind": "CAPSULE",
+          "what": "cp6_v2620bb_rollback_capsule",
+          "count": 1
+        },
+        {
+          "kind": "CAPSULE",
+          "what": "cp6_v2620bc_rollback_capsule",
+          "count": 1
+        },
+        {
+          "kind": "CAPSULE",
+          "what": "cp6_v2620bd_rollback_capsule",
+          "count": 1
+        },
+        {
+          "kind": "CATALOG",
+          "what": "BE_PREDECESSOR_CATALOG_DRIFT",
+          "count": 1
+        },
+        {
+          "kind": "CATALOG",
+          "what": "BE_INSTALLED_CATALOG_DRIFT",
+          "count": 1
+        }
+      ]
     }
   ],
   "production_go": false,
   "release_evidence": false,
   "rollbacks": "NOT_TESTED",
   "pins": {
-    "file": "docs/evidence/cp6-t3/release_pins.json",
-    "blob_sha256": "6e63a15a3c510896d9bd03ce2bc4539bc5f1f27d934a61162af4473a2adaf769",
-    "blob_bytes": 107083
+    "file": "docs/evidence/cp6-t3/be_pins_36271725924.json",
+    "blob_sha256": "c944d677f2e519f61369623cfceff145550f82a25c906baaebdc5464da5865fb",
+    "blob_bytes": 118733
   }
 }
