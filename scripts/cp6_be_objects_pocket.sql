@@ -104,6 +104,11 @@ begin
   return jsonb_build_object('qty',v_qty,'amount',v_amount,'physical_date',d,'kind',v_kind);
  elsif r.entity_type='OPENING_POCKET_SEWING' then
   if v_qty<>trunc(v_qty) or v_qty>2147483647 then raise exception 'BE_POCKET_SEWING_PCS';end if;
+  if nullif(btrim(j->>'control_key'),'') is null or coalesce(j->>'control_qty','') !~ '^[1-9][0-9]*$' then raise exception 'BE_POCKET_DENOMINATOR_CONTROL_REQUIRED';end if;
+  if exists(select 1 from erp.migration_staging_rows x where x.batch_id=p_batch and x.entity_type=r.entity_type and x.normalized_payload->>'control_key'=j->>'control_key'
+     and x.normalized_payload->>'control_qty' is distinct from j->>'control_qty')
+   or (select sum((x.normalized_payload->>'qty')::numeric) from erp.migration_staging_rows x where x.batch_id=p_batch and x.entity_type=r.entity_type and x.normalized_payload->>'control_key'=j->>'control_key')
+     is distinct from (j->>'control_qty')::numeric then raise exception 'BE_POCKET_DENOMINATOR_INCOMPLETE';end if;
   v_kind:=upper(j->>'target_kind');
   if v_kind is null or v_kind not in('WIP','BS','FINISHED_GOODS','COGS') then raise exception 'BE_POCKET_TARGET';end if;
   if not exists(select 1 from erp.contractors where contractor_code=j->>'contractor_code')
@@ -182,7 +187,7 @@ AS $function$
   from erp.be_pocket_usage_v1 u join erp.materials m on m.id=u.material_id where u.batch_id=p_batch),'[]'),
  'pocket_sewing',coalesce((select jsonb_agg(jsonb_build_object('id',s.id,'document_number',s.document_number,'line_number',s.line_number,'date',s.physical_date,
   'contractor_name',c.contractor_name,'qty',s.qty,'target_kind',s.target_kind,'opening_item_id',s.opening_item_id,'po_id',s.po_id,'sold_reference',s.sold_reference,
-  'allocated_amount',coalesce((select sum(e.new_amount-e.previous_amount) from erp.be_pocket_target_events_v1 e where e.sewing_id=s.id),0)::numeric(20,2)::text) order by s.physical_date,s.document_number,s.line_number)
+  'allocated_amount',coalesce((select sum(erp.pocket_period_amount_v1(d.pool_id,d.preceding_qty,d.sewing_qty)) from erp.pocket_period_destinations d where d.historical_sewing_id=s.id),0)::numeric(20,2)::text) order by s.physical_date,s.document_number,s.line_number)
   from erp.be_pocket_sewing_v1 s join erp.contractors c on c.id=s.contractor_id where s.batch_id=p_batch),'[]'))
 $function$;
 
@@ -229,7 +234,7 @@ begin
  for v_pool in select pool_id from erp.pocket_period_sources where historical_usage_id=u.id and erp.pocket_period_active_v1(pool_id) order by pool_id loop
   perform erp.sync_pocket_period_v1(v_pool,v_date,'RECOST',v_reason);
  end loop;
- r:=jsonb_build_object('action','CORRECT_OPENING_USAGE','request_id',p_request,'usage_id',u.id,'amount',v_amount::numeric(20,2)::text);
+ r:=jsonb_build_object('action','CORRECT_OPENING_USAGE','request_id',p_request,'id',u.id,'status','CORRECTED','usage_id',u.id,'amount',v_amount::numeric(20,2)::text);
  return erp._idempotency_complete('be_correct_pocket_usage_v1',p_request,r);
 end;$function$;
 
@@ -301,3 +306,23 @@ begin
   end loop;
  end loop;
 end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.be_pocket_workspace_v1(p_query text)
+ RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+ with sources as(select u.id,u.document_number,u.line_number,u.physical_date date,m.material_sku,m.material_name,u.material_qty::text qty,
+  u.original_amount::text original_amount,erp.be_pocket_usage_amount_v1(u.id)::numeric(20,2)::text amount,u.allocation_status,u.prior_allocation_reference,
+  exists(select 1 from erp.be_pocket_receipt_origins_v1 o where o.usage_id=u.id) receipt_backed,
+  (select s.pool_id from erp.pocket_period_sources s where s.historical_usage_id=u.id and erp.pocket_period_active_v1(s.pool_id)) active_period
+  from erp.be_pocket_usage_v1 u join erp.materials m on m.id=u.material_id
+  where coalesce(btrim(p_query),'')='' or strpos(lower(concat_ws(' ',u.document_number,u.line_number,m.material_sku,m.material_name)),lower(btrim(p_query)))>0),
+ targets as(select s.id,s.document_number,s.line_number,s.physical_date date,c.contractor_name,s.qty,s.target_kind,s.sold_reference,
+  coalesce(k.source_key,p.sku) target_reference,
+  coalesce((select sum(erp.pocket_period_amount_v1(d.pool_id,d.preceding_qty,d.sewing_qty)) from erp.pocket_period_destinations d where d.historical_sewing_id=s.id),0)::numeric(20,2)::text allocated_amount
+  from erp.be_pocket_sewing_v1 s join erp.contractors c on c.id=s.contractor_id
+  left join erp.initial_import_opening_stock_sources k on k.opening_item_id=s.opening_item_id left join erp.products p on p.id=s.product_id
+  where coalesce(btrim(p_query),'')='' or strpos(lower(concat_ws(' ',s.document_number,s.line_number,c.contractor_name,k.source_key,p.sku)),lower(btrim(p_query)))>0)
+ select jsonb_build_object('opening_usage',coalesce((select jsonb_agg(to_jsonb(x) order by x.date desc,x.id) from(select * from sources order by date desc,id limit 100) x),'[]'),
+  'opening_usage_count',(select count(*) from sources),'opening_sewing',coalesce((select jsonb_agg(to_jsonb(x) order by x.date desc,x.id) from(select * from targets order by date desc,id limit 100) x),'[]'),
+  'opening_sewing_count',(select count(*) from targets))
+$function$;

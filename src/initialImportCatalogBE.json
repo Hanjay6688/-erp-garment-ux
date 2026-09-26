@@ -39,7 +39,9 @@
       "physical_date",
       "contractor_code",
       "qty",
-      "target_kind"
+      "target_kind",
+      "control_key",
+      "control_qty"
     ],
     "fields": {
       "document_number": "Nomor lembar hasil jahit",
@@ -51,7 +53,9 @@
       "target_source_key": "Kode rincian stok awal tujuan",
       "product_sku": "SKU yang sudah terjual (COGS)",
       "sold_reference": "Bukti penjualan historis (COGS)",
-      "notes": "Catatan"
+      "notes": "Catatan",
+      "control_key": "Identitas total hasil jahit pembanding",
+      "control_qty": "Total PCS pada lembar pembanding"
     }
   }
 }

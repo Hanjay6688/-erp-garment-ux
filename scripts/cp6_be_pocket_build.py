@@ -15,7 +15,7 @@ REPLACED=['erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)','erp._va
  'erp.pocket_period_target_v1(uuid,boolean)','erp.pocket_period_book_v1(uuid)','erp.sync_pocket_period_v1(uuid,date,text,text)',
  'erp.save_pocket_period_action_v1(text,jsonb,uuid)','erp.initial_import_source_value_v1(uuid)',
  'erp.check_initial_import_receipt_v1(uuid,uuid)','erp.recost_initial_import_origins_v1(uuid)','erp.run_v267_financial_truth_checks()','erp._cp6_supplier_cent_state(uuid[])',
- 'erp.pocket_period_checks_v1()','erp.save_pocket_fabric_action_v1(text,jsonb,uuid)']
+ 'erp.get_pocket_fabric_workspace_v1(text)','erp.pocket_period_checks_v1()','erp.save_pocket_fabric_action_v1(text,jsonb,uuid)']
 
 def catalog():return {**bd.catalog(),**json.loads((ROOT/'src/initialImportCatalogBE.json').read_text())}
 def patch(path,name,changes):return substitute(last_definition(path,name),changes,'BE pocket '+name)
@@ -61,7 +61,8 @@ def build():
     recost=patch(BB,'recost_initial_import_origins_v1',[("end;$function$;"," perform erp.be_pocket_recost_receipt_v1(p_purchase_item);\nend;$function$;")])
     receipt_checks=patch(BB,'run_v267_financial_truth_checks',[("where purchase_item_id=pi.id),0)","where purchase_item_id=pi.id),0)+coalesce((select sum(material_qty) from erp.be_pocket_receipt_origins_v1 where purchase_item_id=pi.id),0)")])
     cents=patch(AP,'_cp6_supplier_cent_state',[("o.purchase_item_id=i.id),0)","o.purchase_item_id=i.id),0)+coalesce((select sum(round(o.material_qty*erp.material_purchase_current_unit_cost(i.id),2)) from erp.be_pocket_receipt_origins_v1 o where o.purchase_item_id=i.id),0)")])
-    return '\n'.join([receipt,recost,receipt_checks,cents,stage,base,final,router,ws,rev,total,manifest,target,book,sync,post,value,checks,facade])
+    pocket_ws=patch(AP,'get_pocket_fabric_workspace_v1',[(" return v_result;"," return v_result||erp.be_pocket_workspace_v1(v_query);")])
+    return '\n'.join([pocket_ws,receipt,recost,receipt_checks,cents,stage,base,final,router,ws,rev,total,manifest,target,book,sync,post,value,checks,facade])
 
 def filter_native(text):
     return substitute(text,[("from erp.pocket_period_destinations d where d.po_id=", "from erp.pocket_period_destinations d where d.event_id is not null and d.po_id=")],'BE historical pocket value via opening source, not twice')

@@ -11,7 +11,7 @@ def rows(cutover):
     r['OPENING_CONTROL'].append(dict(control_key='FG',balance_type='FINISHED_GOODS',qty='3',amount='30.00'))
     day=str(cutover-timedelta(days=1))
     r['OPENING_POCKET_USAGE']=[dict(document_number='KELUAR-{C}',line_number='1',physical_date=day,material_sku='{C}K',qty='5',amount='11.25',allocation_status='UNALLOCATED',control_key='POCKET',control_qty='5',control_amount='11.25')]
-    r['OPENING_POCKET_SEWING']=[dict(document_number='JAHIT-{C}',line_number=str(i),physical_date=day,contractor_code='{C}',qty=str(n),target_kind=k,**fields)
+    r['OPENING_POCKET_SEWING']=[dict(document_number='JAHIT-{C}',line_number=str(i),physical_date=day,contractor_code='{C}',qty=str(n),target_kind=k,control_key='SEWN',control_qty='10',**fields)
        for i,n,k,fields in [(1,5,'WIP',dict(target_source_key='WIP')),(2,3,'FINISHED_GOODS',dict(target_source_key='FG')),(3,2,'COGS',dict(product_sku='{C}P',sold_reference='JUAL-LAMA-{C}'))]]
     return r
 
@@ -24,12 +24,12 @@ def preview(cur,start,end):
 def amounts(cur):return {k:b.gl(cur,k) for k in ['WIP','FG_INVENTORY','COGS','OTHER_EXPENSE','OPENING_EQUITY']}
 def difference(a,z):return {k:z[k]-v for k,v in a.items()}
 
-def roundtrip(cur,today,installed):
+def roundtrip(cur,today,installed,snapshot=None):
     cut=today-timedelta(days=10);r=rows(cut)
     if not installed:
         batch=api.call(cur,'CREATE',dict(batch_code='BE-PRE-'+uuid.uuid4().hex[:12],cutover_date=str(cut)))['batch_id']
         return b.no_route(cur,lambda:api.upload(cur,batch,'OPENING_POCKET_USAGE',r['OPENING_POCKET_USAGE']))
-    api.admin(cur);r['MATERIAL'][0]['unit_code']=one(cur,"select unit_code from erp.materials where material_type='FABRIC' order by id limit 1")
+    api.admin(cur);r['MATERIAL'][0]['unit_code']=one(cur,"select unit_code from erp.uom_definitions where dimension='LENGTH' and is_active and unit_code=upper(unit_code) order by unit_code limit 1")
     f=b.bbp.production_post(cur,today,r);start=cut-timedelta(days=1)
     origin=q(cur,'select id::text from erp.be_pocket_usage_v1 where batch_id=%s',f['batch'])[0][0]
     fake_before=(one(cur,'select count(*) from erp.material_stock_movements'),one(cur,'select count(*) from erp.sewing_terminal_events'))
@@ -37,6 +37,8 @@ def roundtrip(cur,today,installed):
     payload=dict(period_start=str(start),period_end=str(cut),expected_revision=p['revision'],reason='BE C04 actual historical period')
     post=call(cur,'POST_PERIOD',payload,key);again=call(cur,'POST_PERIOD',payload,key)
     first=difference(g0,amounts(cur));pool=post['id'];truth1=b.all_truth(cur)
+    if snapshot:
+        b.bcp.session(cur);snapshot('pocket',one(cur,"select public.erp_get_pocket_fabric_workspace_v1('')"));api.admin(cur)
     corr=call(cur,'CORRECT_OPENING_USAGE',dict(usage_id=origin,amount='15.00',expected_amount='11.25',economic_date=str(cut+timedelta(days=1)),reason='BE source sheet correction'),str(uuid.uuid4()))
     second=difference(g0,amounts(cur));truth2=b.all_truth(cur)
     revision=one(cur,'select erp.pocket_period_state_v1(%s)',pool)['revision']
@@ -53,7 +55,7 @@ def receipt_correction(cur,today,installed):
     if not installed:
         batch=api.call(cur,'CREATE',dict(batch_code='BE-RECPRE-'+uuid.uuid4().hex[:12],cutover_date=str(cut)))['batch_id']
         return b.no_route(cur,lambda:api.upload(cur,batch,'OPENING_POCKET_USAGE',r['OPENING_POCKET_USAGE']))
-    api.admin(cur);r['MATERIAL'][0]['unit_code']=one(cur,"select unit_code from erp.materials where material_type='FABRIC' order by id limit 1")
+    api.admin(cur);r['MATERIAL'][0]['unit_code']=one(cur,"select unit_code from erp.uom_definitions where dimension='LENGTH' and is_active and unit_code=upper(unit_code) order by unit_code limit 1")
     r['SUPPLIER']=[dict(supplier_code='{C}',supplier_name='BE pocket supplier',supplier_type='MATERIAL')]
     r['LOCATION'].append(dict(location_code='{C}R',location_name='BE raw warehouse',location_type='RAW_MATERIAL_WAREHOUSE'))
     r['OPENING_BALANCE_ITEM'].append(dict(balance_type='MATERIAL',material_sku='{C}K',location_code='{C}R',qty='15',unit_cost='2.25',opening_source_key='STOCK',control_key='STOCK'))

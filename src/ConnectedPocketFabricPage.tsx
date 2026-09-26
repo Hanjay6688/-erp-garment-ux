@@ -7,6 +7,8 @@ import { useProductionMutation, type ProductionMutationHandlers } from './usePro
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import type { Json } from './types/database.preconnect'
 import './initial-import.css'
+import BePocketHistory from './BePocketHistory'
+import { parsePocketOpening, type PocketOpening } from './pocketOpening'
 
 type Roll = { id: string; material_id: string; roll_number: string; material_name: string; unit_code: string;
   location_id: string; location_name: string; qty: string; revision: string }
@@ -17,7 +19,7 @@ type Period = { id: string; period_start: string; period_end: string; status: 'A
   quantity: string; original_amount: string; current_amount: string; per_piece: string; revision: string }
 type Preview = { period_start: string; period_end: string; amount: string; quantity: string; per_piece: string;
   source_count: number; blocked: boolean; can_post: boolean; revision: string }
-type Workspace = { rolls: Roll[]; roll_count: number; materials: { id: string; sku: string; name: string }[]; history: Entry[]; periods: Period[] }
+type Workspace = { opening_history: PocketOpening | null; rolls: Roll[]; roll_count: number; materials: { id: string; sku: string; name: string }[]; history: Entry[]; periods: Period[] }
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 class PocketDataError extends Error {}
 function object(value: unknown): Record<string, unknown> {
@@ -72,7 +74,7 @@ export function parsePocketWorkspace(value: unknown): Workspace {
       || !money(p.current_amount) || !rate(p.per_piece) || !revision(p.revision)
       || !['ACTIVE','CANCELLED'].includes(String(p.status))) throw new Error('Riwayat pembagian tidak valid.')
   }
-  return w as Workspace
+  return { ...w, opening_history: parsePocketOpening(w) } as Workspace
 }
 
 export default function ConnectedPocketFabricPage() {
@@ -130,7 +132,8 @@ function PocketWorkspace() {
     validate: (data, envelope) => {
       const r = object(data), p = object(envelope.payload)
       if (r.request_id !== envelope.id || r.action !== envelope.action || !id(r.id)
-        || r.status !== ({ REGISTER:'REGISTERED', POST:'POSTED', REVERSE:'REVERSED', POST_PERIOD:'ACTIVE', CANCEL_PERIOD:'CANCELLED' } as Record<string,string>)[envelope.action]
+        || r.status !== ({ REGISTER:'REGISTERED', POST:'POSTED', REVERSE:'REVERSED', POST_PERIOD:'ACTIVE', CANCEL_PERIOD:'CANCELLED', CORRECT_OPENING_USAGE:'CORRECTED' } as Record<string,string>)[envelope.action]
+        || (envelope.action === 'CORRECT_OPENING_USAGE' && (r.id !== p.usage_id || !money(r.amount)))
         || (['REVERSE','CANCEL_PERIOD'].includes(envelope.action) && r.id !== p.id) || (envelope.action === 'REGISTER' && r.id !== p.material_id)) throw new Error('Respons transaksi tidak cocok.')
     },
     retire: () => { setSelected(null); setAmount(''); setMaterial(''); setReversing(null); setReverseReason(''); setPreview(null); setCancelling(null); setCancelReason('') },
@@ -184,6 +187,7 @@ function PocketWorkspace() {
         <button type="button" className="primary" disabled={locked || !preview.can_post || !periodReason.trim()} onClick={() => void act('POST_PERIOD',{ period_start:preview.period_start,period_end:preview.period_end,expected_revision:preview.revision,reason:periodReason.trim() })}>Sahkan pembagian ke HPP</button>
       </div>}
     </section>}
+    {workspace?.opening_history && <BePocketHistory data={workspace.opening_history} locked={locked} canCorrect={canAllocate} onCorrect={p => void act('CORRECT_OPENING_USAGE', p)}/>}
     <section className="panel initial-import-table"><h2>Riwayat pembagian periode</h2><p>50 alokasi terbaru. Pembatalan mengembalikan biaya periode dan menghitung ulang HPP; stok tetap.</p>
       <table><thead><tr><th>Periode</th><th>Hasil jahit</th><th>Nilai terkini</th><th>Status</th><th>Tindakan</th></tr></thead><tbody>{workspace?.periods.map(p => <tr key={p.id}>
         <td>{p.period_start} — {p.period_end}</td><td>{p.quantity} pcs</td><td>Rp {p.current_amount.replace('.',',')}</td><td>{p.status==='ACTIVE'?'Aktif':'Dibatalkan'}</td>

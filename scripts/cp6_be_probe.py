@@ -223,7 +223,7 @@ PLAN=[('BE01:SELECTED_LOT_REPLAY_REVERSE','NO_ROUTE',conversion_roundtrip),('BE0
       ('BE01:OPENING_SOURCE_VALUE_AND_INVERSE','NO_ROUTE',nonpo_roundtrip),
       ('BE02:REWORK_NEW_SKU_ATOMIC_REPLAY_INVERSE','NO_ROUTE',rework_new_sku),
       ('BE03:REAL_SERVICE_INVOICE_SOLD_VARIANCE','NO_ROUTE',redye_invoice),('BE03:UNKNOWN_PRICE_CLOSE_REPLAY','NO_ROUTE',redye_unknown),
-      ('BE04:HISTORICAL_POCKET_ALLOCATION_CORRECTION_INVERSE','NO_ROUTE',lambda cur,today:pocket_probe.roundtrip(cur,today,installed(cur))),
+      ('BE04:HISTORICAL_POCKET_ALLOCATION_CORRECTION_INVERSE','NO_ROUTE',lambda cur,today:pocket_probe.roundtrip(cur,today,installed(cur),snapshot)),
       ('BE04:HISTORICAL_POCKET_RECEIPT_INVOICE_INVERSE','NO_ROUTE',lambda cur,today:pocket_probe.receipt_correction(cur,today,installed(cur)))]
 def cases(cur,today):return [(key,lambda f=fn:f(cur,today)) for key,_,fn in PLAN]
 
