@@ -1,6 +1,6 @@
 -- CP6 BD rollback: exact pre-use restore of the T3 release package to its predecessor; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_rollback.py from supabase/release/cp6-t3/20260925040000_erp_v2_6_20bd_cp6_laundry_prices_invoices.sql (sha256 68f0292f0a10f119c356901ad9b59b3f04592c1f0e41041e1b7e8fd2a0caa47c) and docs/evidence/cp6-t3/rollback_capture.json (sha256 411c10a272a72565e50b24bedf93e7d2bf781d77d45c01f7fb1b96e37fb45124).
+-- Built by scripts/cp6_t3_rollback.py from supabase/release/cp6-t3/20260925040000_erp_v2_6_20bd_cp6_laundry_prices_invoices.sql (sha256 30bf93681f4ded29dbf8b02fbd714effb2fe9907d2a7bfb7eafe7d36365ae35d) and docs/evidence/cp6-t3/rollback_capture.json (sha256 309f374cc818159b6b1882e154f861255c77d5a914b37a5bdbc5054e3dfb753c).
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
 do $closed_admission$
@@ -23,14 +23,14 @@ do $platform$ begin
  if not exists(select 1 from erp.schema_migrations where version='v2.6.20bd')
   or (select count(*) from supabase_migrations.schema_migrations where name='erp_v2_6_20bd_cp6_laundry_prices_invoices')<>1
   or not exists(select 1 from supabase_migrations.schema_migrations where version='20260925040000' and name='erp_v2_6_20bd_cp6_laundry_prices_invoices'
-   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')='68f0292f0a10f119c356901ad9b59b3f04592c1f0e41041e1b7e8fd2a0caa47c')
+   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')='30bf93681f4ded29dbf8b02fbd714effb2fe9907d2a7bfb7eafe7d36365ae35d')
   or exists(select 1 from supabase_migrations.schema_migrations where version>'20260925040000')
  then raise exception 'BD_ROLLBACK_PLATFORM_OR_SUCCESSOR';end if;
 end $platform$;
 do $prior_platform$
 declare r record;
 begin
- for r in select * from jsonb_to_recordset('[{"marker":"v2.6.20ac","stamp":"20260915031500","name":"erp_v2_6_20ac_cp6_temporal_surface_closure","sha":"871fb32b1d4a1e7f9aedfef684b0f2c766092732c38552620eb394061f6240d1"},{"marker":"v2.6.20ad","stamp":"20260915113627","name":"erp_v2_6_20ad_cp6_opening_material_business_day","sha":"58f8f1050e6c325339d7400a43b8c8f3d2375d2067f0c418d3eedfe85430a563"},{"marker":"v2.6.20ae","stamp":"20260915201500","name":"erp_v2_6_20ae_cp6_opening_roll_integrity","sha":"0c6bbf77a68142ddfdae99761a5cc2cd6e2e538be50b391f3303922c748c39d6"},{"marker":"v2.6.20af","stamp":"20260916014332","name":"erp_v2_6_20af_cp6_posted_child_integrity","sha":"3764349ab314c7990f6202d3f0de38b516aff53df2a3b1c4f272bc49667f6db4"},{"marker":"v2.6.20ag","stamp":"20260916050822","name":"erp_v2_6_20ag_cp6_sale_reservation_lineage","sha":"085b84cb6917617c5e6a2d375fd5177542ebe3f021a20de48e239159e34d66c0"},{"marker":"v2.6.20ah","stamp":"20260916070451","name":"erp_v2_6_20ah_cp6_return_allocation_eligibility","sha":"ade908ca9f55b2333c5eac5793b41aaabe0d57879dbb233e428fc882bab5738b"},{"marker":"v2.6.20ai","stamp":"20260916090022","name":"erp_v2_6_20ai_cp6_work_source_lineage","sha":"1ea5a602c5a5fcc9697355d9cca526709a06ee20e4eb4cdb765b2b7345c18d25"},{"marker":"v2.6.20aj","stamp":"20260916202400","name":"erp_v2_6_20aj_cp6_rework_output_lineage","sha":"b36a6359c57ad59d93ea5cb8dc5f7e90a0dd9cd59d48c331b037aa365d400986"},{"marker":"v2.6.20ak","stamp":"20260917033516","name":"erp_v2_6_20ak_cp6_import_reference_preview","sha":"9d06a91bd849c80e1ef99a6ac8996863527a30ef3b4079188be58bd8f3d4311d"},{"marker":"v2.6.20al","stamp":"20260917054049","name":"erp_v2_6_20al_cp6_opening_value_validation","sha":"2d16461cababd4a27827cfb8de01dd993a3a343460cdf049d427b44dd4cb6ea2"},{"marker":"v2.6.20am","stamp":"20260921214120","name":"erp_v2_6_20am_cp6_transfer_integrity","sha":"8fff82f72f9c76dd032778fa43aa37fd3fde98c4304de033d9c484db54f04a60"},{"marker":"v2.6.20an","stamp":"20260921223438","name":"erp_v2_6_20an_cp6_cutting_selectors","sha":"4df51d65fdb9a644fe2eeba92af23446e0c0389a1ebf9f336a0a396c144d7b71"},{"marker":"v2.6.20ao","stamp":"20260922135612","name":"erp_v2_6_20ao_cp6_invoice_retail","sha":"696a75c5969b756ce1973191a757a8c7deade06cb57e96dc5a16d648a4c48520"},{"marker":"v2.6.20ap","stamp":"20260922135615","name":"erp_v2_6_20ap_cp6_connected_import_materials","sha":"70503bb0247c811e066830ba752960a50b7afdfdb4c0c7697dee9a265ef1778a"},{"marker":"v2.6.20aq","stamp":"20260922161019","name":"erp_v2_6_20aq_cp6_accessory_lock_order","sha":"34cee78ee58f612187f7683280565ce2651e788e61efb62ced5e8c4dce7f9ada"},{"marker":"v2.6.20ar","stamp":"20260922185015","name":"erp_v2_6_20ar_cp6_opening_overlap","sha":"c5c973d47a4665723351205ccbcbe2c658c57bff7230f5552c5c2b7ca757371e"},{"marker":"v2.6.20as","stamp":"20260922210815","name":"erp_v2_6_20as_cp6_event_dates_product_identity","sha":"d13e46b3451386309a0a8dc1c89a4817ad8751568b9377f94c790832f8fa53a3"},{"marker":"v2.6.20at","stamp":"20260923005153","name":"erp_v2_6_20at_cp6_wip_temporal_identity","sha":"5e1ea5bfba73ada9aba5a8561efa9056b02154025d39bd10d47d3e4f2494110d"},{"marker":"v2.6.20au","stamp":"20260923045944","name":"erp_v2_6_20au_cp6_controlled_product_lifecycle","sha":"7d6265f081125499cb1813fe3f24c3b203363252727b5dcdfc7f74e311b85481"},{"marker":"v2.6.20av","stamp":"20260923110000","name":"erp_v2_6_20av_cp6_identity_new_stock_cutoff","sha":"c63a1fe3bf76dfc396921e07f57eb043e3bb864425b3289a9546bf66e08169a5"},{"marker":"v2.6.20aw","stamp":"20260924010000","name":"erp_v2_6_20aw_cp6_close_readiness_engine","sha":"c38edc9da084f4a90ee615bde16e6fea72e1072f79d6820d9d3bef27cc2a8ecb"},{"marker":"v2.6.20ax","stamp":"20260924010100","name":"erp_v2_6_20ax_cp6_fg_unsourced_receipts","sha":"c736049386c65f75c82fa790b502cd32c999512738207b7be17d711185c3d9f2"},{"marker":"v2.6.20ay","stamp":"20260924010200","name":"erp_v2_6_20ay_cp6_hpp_dated_from_goods","sha":"fd5ec47a16af264cc9b6a3aeed3d6e19023dc9f49beb51ceb8bfb4ecb14dc411"},{"marker":"v2.6.20az","stamp":"20260924010300","name":"erp_v2_6_20az_cp6_material_recost_dated_from_movement","sha":"e515d12a995a1806537ac08b7b0da15eb817480ead3103b035fc651b62977b8d"},{"marker":"v2.6.20ba","stamp":"20260925010000","name":"erp_v2_6_20ba_cp6_audit_closure","sha":"01bc0965cb945c25b98465a54ebc7fafabcc1d760c0698df1636de8069066960"},{"marker":"v2.6.20bb","stamp":"20260925020000","name":"erp_v2_6_20bb_cp6_open_cutover_states","sha":"ed95f1e84a8a924a830de9362ff890769875d01671b4e83c77208daf23a8df34"},{"marker":"v2.6.20bc","stamp":"20260925030000","name":"erp_v2_6_20bc_cp6_accessory_service_returns","sha":"a9daa1f00bbf6edf8125bcb3ad3d218270b91335ea8ae04ba994670e8420538c"}]'::jsonb) as x(marker text,stamp text,name text,sha text) loop
+ for r in select * from jsonb_to_recordset('[{"marker":"v2.6.20ac","stamp":"20260915031500","name":"erp_v2_6_20ac_cp6_temporal_surface_closure","sha":"871fb32b1d4a1e7f9aedfef684b0f2c766092732c38552620eb394061f6240d1"},{"marker":"v2.6.20ad","stamp":"20260915113627","name":"erp_v2_6_20ad_cp6_opening_material_business_day","sha":"58f8f1050e6c325339d7400a43b8c8f3d2375d2067f0c418d3eedfe85430a563"},{"marker":"v2.6.20ae","stamp":"20260915201500","name":"erp_v2_6_20ae_cp6_opening_roll_integrity","sha":"0c6bbf77a68142ddfdae99761a5cc2cd6e2e538be50b391f3303922c748c39d6"},{"marker":"v2.6.20af","stamp":"20260916014332","name":"erp_v2_6_20af_cp6_posted_child_integrity","sha":"3764349ab314c7990f6202d3f0de38b516aff53df2a3b1c4f272bc49667f6db4"},{"marker":"v2.6.20ag","stamp":"20260916050822","name":"erp_v2_6_20ag_cp6_sale_reservation_lineage","sha":"085b84cb6917617c5e6a2d375fd5177542ebe3f021a20de48e239159e34d66c0"},{"marker":"v2.6.20ah","stamp":"20260916070451","name":"erp_v2_6_20ah_cp6_return_allocation_eligibility","sha":"ade908ca9f55b2333c5eac5793b41aaabe0d57879dbb233e428fc882bab5738b"},{"marker":"v2.6.20ai","stamp":"20260916090022","name":"erp_v2_6_20ai_cp6_work_source_lineage","sha":"1ea5a602c5a5fcc9697355d9cca526709a06ee20e4eb4cdb765b2b7345c18d25"},{"marker":"v2.6.20aj","stamp":"20260916202400","name":"erp_v2_6_20aj_cp6_rework_output_lineage","sha":"b36a6359c57ad59d93ea5cb8dc5f7e90a0dd9cd59d48c331b037aa365d400986"},{"marker":"v2.6.20ak","stamp":"20260917033516","name":"erp_v2_6_20ak_cp6_import_reference_preview","sha":"9d06a91bd849c80e1ef99a6ac8996863527a30ef3b4079188be58bd8f3d4311d"},{"marker":"v2.6.20al","stamp":"20260917054049","name":"erp_v2_6_20al_cp6_opening_value_validation","sha":"2d16461cababd4a27827cfb8de01dd993a3a343460cdf049d427b44dd4cb6ea2"},{"marker":"v2.6.20am","stamp":"20260921214120","name":"erp_v2_6_20am_cp6_transfer_integrity","sha":"8fff82f72f9c76dd032778fa43aa37fd3fde98c4304de033d9c484db54f04a60"},{"marker":"v2.6.20an","stamp":"20260921223438","name":"erp_v2_6_20an_cp6_cutting_selectors","sha":"4df51d65fdb9a644fe2eeba92af23446e0c0389a1ebf9f336a0a396c144d7b71"},{"marker":"v2.6.20ao","stamp":"20260922135612","name":"erp_v2_6_20ao_cp6_invoice_retail","sha":"696a75c5969b756ce1973191a757a8c7deade06cb57e96dc5a16d648a4c48520"},{"marker":"v2.6.20ap","stamp":"20260922135615","name":"erp_v2_6_20ap_cp6_connected_import_materials","sha":"70503bb0247c811e066830ba752960a50b7afdfdb4c0c7697dee9a265ef1778a"},{"marker":"v2.6.20aq","stamp":"20260922161019","name":"erp_v2_6_20aq_cp6_accessory_lock_order","sha":"34cee78ee58f612187f7683280565ce2651e788e61efb62ced5e8c4dce7f9ada"},{"marker":"v2.6.20ar","stamp":"20260922185015","name":"erp_v2_6_20ar_cp6_opening_overlap","sha":"c5c973d47a4665723351205ccbcbe2c658c57bff7230f5552c5c2b7ca757371e"},{"marker":"v2.6.20as","stamp":"20260922210815","name":"erp_v2_6_20as_cp6_event_dates_product_identity","sha":"d13e46b3451386309a0a8dc1c89a4817ad8751568b9377f94c790832f8fa53a3"},{"marker":"v2.6.20at","stamp":"20260923005153","name":"erp_v2_6_20at_cp6_wip_temporal_identity","sha":"5e1ea5bfba73ada9aba5a8561efa9056b02154025d39bd10d47d3e4f2494110d"},{"marker":"v2.6.20au","stamp":"20260923045944","name":"erp_v2_6_20au_cp6_controlled_product_lifecycle","sha":"7d6265f081125499cb1813fe3f24c3b203363252727b5dcdfc7f74e311b85481"},{"marker":"v2.6.20av","stamp":"20260923110000","name":"erp_v2_6_20av_cp6_identity_new_stock_cutoff","sha":"c63a1fe3bf76dfc396921e07f57eb043e3bb864425b3289a9546bf66e08169a5"},{"marker":"v2.6.20aw","stamp":"20260924010000","name":"erp_v2_6_20aw_cp6_close_readiness_engine","sha":"c38edc9da084f4a90ee615bde16e6fea72e1072f79d6820d9d3bef27cc2a8ecb"},{"marker":"v2.6.20ax","stamp":"20260924010100","name":"erp_v2_6_20ax_cp6_fg_unsourced_receipts","sha":"c736049386c65f75c82fa790b502cd32c999512738207b7be17d711185c3d9f2"},{"marker":"v2.6.20ay","stamp":"20260924010200","name":"erp_v2_6_20ay_cp6_hpp_dated_from_goods","sha":"fd5ec47a16af264cc9b6a3aeed3d6e19023dc9f49beb51ceb8bfb4ecb14dc411"},{"marker":"v2.6.20az","stamp":"20260924010300","name":"erp_v2_6_20az_cp6_material_recost_dated_from_movement","sha":"e515d12a995a1806537ac08b7b0da15eb817480ead3103b035fc651b62977b8d"},{"marker":"v2.6.20ba","stamp":"20260925010000","name":"erp_v2_6_20ba_cp6_audit_closure","sha":"01bc0965cb945c25b98465a54ebc7fafabcc1d760c0698df1636de8069066960"},{"marker":"v2.6.20bb","stamp":"20260925020000","name":"erp_v2_6_20bb_cp6_open_cutover_states","sha":"ed95f1e84a8a924a830de9362ff890769875d01671b4e83c77208daf23a8df34"},{"marker":"v2.6.20bc","stamp":"20260925030000","name":"erp_v2_6_20bc_cp6_accessory_service_returns","sha":"23f31eafc8b8f235465dac7871f5c3cbd13e4e646552abdf591f82a2a3445bbb"}]'::jsonb) as x(marker text,stamp text,name text,sha text) loop
   if not exists(select 1 from erp.schema_migrations where version=r.marker)
    or (select count(*) from supabase_migrations.schema_migrations where name=r.name)<>1
    or not exists(select 1 from supabase_migrations.schema_migrations where version=r.stamp and name=r.name
@@ -102,7 +102,7 @@ with relations as (
 select coalesce(jsonb_object_agg(k,encode(extensions.digest(convert_to(v::text,'UTF8'),'sha256'),'hex')),'{}'::jsonb) from objects
 ) catalog;
  select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(length(key)::text||':'||key||':'||value,E'\n' order by key collate "C"),''),'UTF8'),'sha256'),'hex') into object_count,fingerprint from jsonb_each_text(actual);
- if object_count<>8739 or fingerprint is distinct from '06cb103bf8e11a1b00180b3dc554fa3abdf857900b754831f8179b3609a0b252' then
+ if object_count<>8812 or fingerprint is distinct from '92f2a961cf72c5affa4b461b9dd87900366c45e4f185281cb310abc0151af550' then
   raise exception 'BD_ROLLBACK_CATALOG_DRIFT';
  end if;
 end $catalog_guard$;
@@ -147,7 +147,7 @@ begin
    or exists(select 1 from pg_attribute p cross join lateral aclexplode(p.attacl)a where p.attrelid='erp.cp6_v2620bd_rollback_capsule'::regclass and a.grantee<>'postgres'::regrole)
    or exists(select 1 from pg_policy where polrelid='erp.cp6_v2620bd_rollback_capsule'::regclass)
    or exists(select 1 from pg_trigger where tgrelid='erp.cp6_v2620bd_rollback_capsule'::regclass and not tgisinternal)
-   or (select count(*) from erp.cp6_v2620bd_rollback_capsule)<>23 then raise exception 'BD_CAPSULE_SECURITY_OR_COUNT';end if;
+   or (select count(*) from erp.cp6_v2620bd_rollback_capsule)<>26 then raise exception 'BD_CAPSULE_SECURITY_OR_COUNT';end if;
  select jsonb_build_object(
    'relation',(select jsonb_build_array(relkind,relpersistence,relreplident,relispartition,reloptions) from pg_class where oid='erp.cp6_v2620an_rollback_capsule'::regclass),
    'columns',(select jsonb_agg(jsonb_build_array(a.attname,format_type(a.atttypid,a.atttypmod),a.attnotnull,a.attidentity,a.attgenerated,pg_get_expr(d.adbin,d.adrelid)) order by a.attnum) from pg_attribute a left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum where a.attrelid='erp.cp6_v2620an_rollback_capsule'::regclass and a.attnum>0 and not a.attisdropped),
@@ -160,9 +160,9 @@ begin
    'indexes',(select jsonb_agg(jsonb_build_array(indisunique,indisprimary,indisexclusion,indisvalid,indisready,indkey::text,indclass::text,indoption::text,pg_get_expr(indexprs,indrelid),pg_get_expr(indpred,indrelid)) order by indkey::text) from pg_index where indrelid='erp.cp6_v2620bd_rollback_capsule'::regclass)) into actual;
  if actual is distinct from expected then raise exception 'BD_CAPSULE_SHAPE_DRIFT';end if;
  select boundary_snapshot into boundary from erp.cp6_v2620bd_rollback_capsule limit 1;
- if 23>0 and (boundary is null or exists(select 1 from erp.cp6_v2620bd_rollback_capsule where boundary_snapshot is distinct from boundary)
+ if 26>0 and (boundary is null or exists(select 1 from erp.cp6_v2620bd_rollback_capsule where boundary_snapshot is distinct from boundary)
   or not(boundary ?& array['before','after','platform_before','markers_before'])) then raise exception 'BD_CAPSULE_BOUNDARY';end if;
- if exists(select 1 from erp.cp6_v2620bd_rollback_capsule where object_regidentity<>all(array['erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','erp.post_laundry_delivery(uuid)','erp.desired_laundry_accrual(uuid)','erp.rebuild_po_hpp(uuid,text)','erp.period_blockers_v1(date,date)','erp.set_laundry_rate_owner_estimate_v1(uuid,numeric,text)','erp.validate_laundry_receipt_line()','erp.cp6_lot_failed_wash_cost_v2620e(uuid)','erp.guard_cp6_vendor_invoice_receipt_on_post_v2620()','erp.post_sale(uuid)','erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)','erp._validate_migration_batch_base(uuid)','erp.finalize_migration_batch(uuid)','erp.save_initial_import_action_v1(text,jsonb,uuid)','erp.get_initial_import_workspace_v1(uuid)','erp.initial_import_revision_v1(uuid)','erp.complete_initial_import_wip_v1(jsonb)','erp.initial_import_production_rows_v1(uuid)','erp.guard_initial_import_po_completion_v1()','erp.get_wip_control_v1(text,uuid,text,text)','erp.run_v255_material_cost_integrity_checks()','erp.bc_check_import_row_v1(uuid,uuid)','erp.bc_apply_imports_v1(uuid)']::text[])
+ if exists(select 1 from erp.cp6_v2620bd_rollback_capsule where object_regidentity<>all(array['erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','erp.post_laundry_delivery(uuid)','erp.desired_laundry_accrual(uuid)','erp.rebuild_po_hpp(uuid,text)','erp.period_blockers_v1(date,date)','erp.set_laundry_rate_owner_estimate_v1(uuid,numeric,text)','erp.validate_laundry_receipt_line()','erp.cp6_lot_failed_wash_cost_v2620e(uuid)','erp.guard_cp6_vendor_invoice_receipt_on_post_v2620()','erp.post_sale(uuid)','erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)','erp._validate_migration_batch_base(uuid)','erp.finalize_migration_batch(uuid)','erp.save_initial_import_action_v1(text,jsonb,uuid)','erp.get_initial_import_workspace_v1(uuid)','erp.initial_import_revision_v1(uuid)','erp.complete_initial_import_wip_v1(jsonb)','erp.initial_import_production_rows_v1(uuid)','erp.guard_initial_import_po_completion_v1()','erp.get_wip_control_v1(text,uuid,text,text)','erp.run_v255_material_cost_integrity_checks()','erp.bc_check_import_row_v1(uuid,uuid)','erp.bc_apply_imports_v1(uuid)','erp.bb_opening_credit_lines_v1(uuid)','erp.bb_opening_credit_account_v1(uuid)','erp.run_v268_financial_report_checks()']::text[])
    or definition_sha256 is distinct from encode(extensions.digest(convert_to(object_definition,'UTF8'),'sha256'),'hex')
    or installed_definition_sha256 is null or installed_definition_sha256=definition_sha256
    or installed_definition_sha256 is distinct from encode(extensions.digest(convert_to(pg_get_functiondef(to_regprocedure(object_regidentity)),'UTF8'),'sha256'),'hex'))
@@ -188,20 +188,30 @@ do $restore_function$ declare r record; begin
   where encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex') is distinct from x.definition_sha256
    or array(select a::text from unnest(p.proacl)a order by a::text) is distinct from x.acl_snapshot
    or pg_get_userbyid(p.proowner) is distinct from x.owner_snapshot)
-  or (select count(*) from erp.cp6_v2620bd_rollback_capsule x where to_regprocedure(x.object_regidentity) is not null)<>23
+  or (select count(*) from erp.cp6_v2620bd_rollback_capsule x where to_regprocedure(x.object_regidentity) is not null)<>26
  then raise exception 'BD_FUNCTION_RESTORE_MISMATCH';end if;
 end $restore_function$;
+drop trigger trg_bd_claim_credit_in_use_daily on erp.laundry_claims;
 drop trigger bd_guard_invoiced_receipt_v1 on erp.laundry_receipts;
+alter table erp.bb_opening_credits_v1 drop constraint bb_opening_credits_v1_credit_kind_check;
+alter table erp.bb_opening_credits_v1 add constraint bb_opening_credits_v1_credit_kind_check CHECK ((credit_kind = ANY (ARRAY['CUSTOMER_ALLOWANCE'::text, 'SUPPLIER_ALLOWANCE'::text, 'VENDOR_ALLOWANCE'::text, 'CUSTOMER_CREDIT_APPLY'::text, 'ACCESSORY_NOTE_RETURN'::text])));
+drop trigger trg_bd_claim_credit_in_use_opening on erp.bd_opening_laundry_claim_events_v1;
 drop function erp.bd_allocate_receipt_v1(uuid);
 drop function erp.bd_amount_v1(jsonb,text,boolean);
+drop function erp.bd_apply_claim_credit_v1(jsonb,uuid);
 drop function erp.bd_apply_imports_v1(uuid);
+drop function erp.bd_apply_vendor_credit_v1(text,uuid,text,uuid,numeric,date,text,uuid);
 drop function erp.bd_assert_sale_laundry_known_v1(uuid);
 drop function erp.bd_assert_version_start_v1(uuid,uuid,timestamp with time zone);
 drop function erp.bd_at_v1(text,text);
 drop function erp.bd_attach_delivery_pricing_v1(uuid);
 drop function erp.bd_cancel_invoice_draft_v1(jsonb,uuid);
+drop function erp.bd_check_correction_sources_v1(uuid);
 drop function erp.bd_check_import_row_v1(uuid,uuid);
 drop function erp.bd_check_policy_value_v1(text,jsonb);
+drop function erp.bd_claim_credit_applied_v1(text,uuid);
+drop function erp.bd_claim_credit_opening_lines_v1(uuid);
+drop function erp.bd_claim_credit_source_v1(text,uuid);
 drop function erp.bd_close_open_version_v1(text,text,uuid,timestamp with time zone,timestamp with time zone);
 drop function erp.bd_component_charge_v1(uuid,jsonb,timestamp with time zone,uuid[],integer[],integer,text,uuid[]);
 drop function erp.bd_component_rate_at_v1(uuid,timestamp with time zone);
@@ -209,6 +219,7 @@ drop function erp.bd_compute_pricing_v1(jsonb,jsonb);
 drop function erp.bd_context_v1();
 drop function erp.bd_custody_source_identity_v1(jsonb,boolean);
 drop function erp.bd_delivery_line_price_unknown_v1(uuid);
+drop function erp.bd_guard_claim_credit_in_use_v1();
 drop function erp.bd_guard_invoiced_receipt_v1();
 drop function erp.bd_import_revision_part_v1(uuid);
 drop function erp.bd_import_workspace_v1(uuid);
@@ -231,6 +242,8 @@ drop function erp.bd_opening_invoiced_v1(uuid);
 drop function erp.bd_opening_released_v1(uuid);
 drop function erp.bd_opening_wip_floor_v1(uuid,date);
 drop function erp.bd_package_rate_at_v1(uuid,timestamp with time zone);
+drop function erp.bd_pay_vendor_document_v1(jsonb,uuid);
+drop function erp.bd_pending_cost_json_v1(uuid,boolean);
 drop function erp.bd_policy_account_v1(jsonb,text,text[]);
 drop function erp.bd_policy_v1(text);
 drop function erp.bd_policy_version_v1(text);
@@ -246,6 +259,7 @@ drop function erp.bd_released_estimate_v1(uuid);
 drop function erp.bd_require_policy_v1(text,text);
 drop function erp.bd_resync_delivery_v1(uuid);
 drop function erp.bd_reverse_invoice_v1(jsonb,uuid);
+drop function erp.bd_reverse_vendor_settlement_v1(jsonb,uuid);
 drop function erp.bd_save_invoice_draft_v1(jsonb,uuid);
 drop function erp.bd_save_master_v1(text,jsonb,uuid);
 drop function erp.bd_scoped_rate_at_v1(uuid,uuid,uuid,uuid,text,timestamp with time zone);
@@ -256,13 +270,17 @@ drop function erp.bd_split_amount_v1(numeric,integer[]);
 drop function erp.bd_uncosted_estimate_v1(uuid,integer,numeric,numeric);
 drop function erp.bd_uuid_v1(jsonb,text,boolean);
 drop function erp.bd_validate_imports_v1(uuid);
+drop function erp.bd_vendor_invoice_paid_v1(uuid,text);
 drop function erp.bd_vendor_needs_pricing_v1(uuid,uuid);
+drop function erp.bd_vendor_payables_v1(uuid);
 drop function erp.bd_wip_row_part_v1(uuid);
 drop function erp.get_laundry_bd_workspace_v1(jsonb);
 drop function erp.save_laundry_bd_action_v1(text,jsonb,uuid);
 drop function public.erp_get_laundry_bd_workspace_v1(jsonb);
 drop function public.erp_save_laundry_bd_action_v1(text,jsonb,uuid);
+drop table erp.bd_claim_credit_applications_v1;
 drop table erp.bd_custody_sources_v1;
+drop table erp.bd_pending_price_sales_v1;
 drop table erp.bd_laundry_invoice_lines_v1;
 drop table erp.bd_laundry_invoices_v1;
 drop table erp.bd_opening_laundry_uninvoiced_v1;
@@ -350,7 +368,7 @@ with relations as (
 select coalesce(jsonb_object_agg(k,encode(extensions.digest(convert_to(v::text,'UTF8'),'sha256'),'hex')),'{}'::jsonb) from objects
 ) catalog;
  select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(length(key)::text||':'||key||':'||value,E'\n' order by key collate "C"),''),'UTF8'),'sha256'),'hex') into object_count,fingerprint from jsonb_each_text(actual);
- if object_count<>8243 or fingerprint is distinct from '7d5af588107baae6b9bc6cfbb0837e5762f7036ef3626e8446f4634a6e221040' then
+ if object_count<>8244 or fingerprint is distinct from '235c3c296bfbceaf42465ec00990127faafd46a4bf9b499e5891d0f134fc390d' then
   raise exception 'BD_RESTORED_CATALOG_DRIFT';
  end if;
 end $catalog_guard$;

@@ -1,6 +1,6 @@
 -- CP6 BC rollback: exact pre-use restore of the T3 release package to its predecessor; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_rollback.py from supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql (sha256 a9daa1f00bbf6edf8125bcb3ad3d218270b91335ea8ae04ba994670e8420538c) and docs/evidence/cp6-t3/rollback_capture.json (sha256 411c10a272a72565e50b24bedf93e7d2bf781d77d45c01f7fb1b96e37fb45124).
+-- Built by scripts/cp6_t3_rollback.py from supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql (sha256 23f31eafc8b8f235465dac7871f5c3cbd13e4e646552abdf591f82a2a3445bbb) and docs/evidence/cp6-t3/rollback_capture.json (sha256 309f374cc818159b6b1882e154f861255c77d5a914b37a5bdbc5054e3dfb753c).
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
 do $closed_admission$
@@ -23,7 +23,7 @@ do $platform$ begin
  if not exists(select 1 from erp.schema_migrations where version='v2.6.20bc')
   or (select count(*) from supabase_migrations.schema_migrations where name='erp_v2_6_20bc_cp6_accessory_service_returns')<>1
   or not exists(select 1 from supabase_migrations.schema_migrations where version='20260925030000' and name='erp_v2_6_20bc_cp6_accessory_service_returns'
-   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')='a9daa1f00bbf6edf8125bcb3ad3d218270b91335ea8ae04ba994670e8420538c')
+   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')='23f31eafc8b8f235465dac7871f5c3cbd13e4e646552abdf591f82a2a3445bbb')
   or exists(select 1 from supabase_migrations.schema_migrations where version>'20260925030000')
  then raise exception 'BC_ROLLBACK_PLATFORM_OR_SUCCESSOR';end if;
 end $platform$;
@@ -102,7 +102,7 @@ with relations as (
 select coalesce(jsonb_object_agg(k,encode(extensions.digest(convert_to(v::text,'UTF8'),'sha256'),'hex')),'{}'::jsonb) from objects
 ) catalog;
  select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(length(key)::text||':'||key||':'||value,E'\n' order by key collate "C"),''),'UTF8'),'sha256'),'hex') into object_count,fingerprint from jsonb_each_text(actual);
- if object_count<>8243 or fingerprint is distinct from '7d5af588107baae6b9bc6cfbb0837e5762f7036ef3626e8446f4634a6e221040' then
+ if object_count<>8244 or fingerprint is distinct from '235c3c296bfbceaf42465ec00990127faafd46a4bf9b499e5891d0f134fc390d' then
   raise exception 'BC_ROLLBACK_CATALOG_DRIFT';
  end if;
 end $catalog_guard$;
@@ -210,6 +210,7 @@ drop function erp.bc_adjustment_value_v1(uuid);
 drop function erp.bc_allocate_carry_v1(jsonb,uuid);
 drop function erp.bc_apply_imports_v1(uuid);
 drop function erp.bc_bucket_label_v1(text);
+drop function erp.bc_carry_next_payroll_v1(uuid);
 drop function erp.bc_carry_remaining_v1(uuid);
 drop function erp.bc_check_import_row_v1(uuid,uuid);
 drop function erp.bc_check_policy_value_v1(text,jsonb);

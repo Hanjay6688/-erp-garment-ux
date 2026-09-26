@@ -55,15 +55,20 @@ POST_USE_REFUSAL={k:k+'_POST_USE_ROLLBACK_REFUSED' for k in ALL}
 FILES={f['key']:f for f in awx.FILES}
 sha=package.sha
 q=package.quote
-# The one reviewed non-function change of the package: AX teaches the payroll view and check constraint the FG_REPAIR
-# source. Their state before AX is restored from the capture; any other changed object stops the build.
+# The reviewed non-function changes of the package (AX: the payroll view and check constraint learn the FG_REPAIR source; BB,
+# BC, BD: the check constraints below). Their state before the file is restored from the capture; any other changed object
+# stops the build.
 RESTORABLE={'AX':{'VIEW:erp.v_payroll_eligible_work_lines','CONSTRAINT:erp.payroll_work_items.payroll_work_items_source_type_check'},
             # BB widens two check constraints (payroll line sources OPENING_PAYABLE/OPENING_CARRY; opening WIP stage CUTTING).
             'BB':{'CONSTRAINT:erp.payroll_reimbursements.payroll_reimbursements_source_type_check',
                   'CONSTRAINT:erp.initial_import_production_sources.initial_import_production_sources_stage_check'},
             # BC widens the payroll line sources again (BC_RETURN_CARRY) and BB's opening credit kinds (ACCESSORY_NOTE_RETURN).
             'BC':{'CONSTRAINT:erp.payroll_reimbursements.payroll_reimbursements_source_type_check',
-                  'CONSTRAINT:erp.bb_opening_credits_v1.bb_opening_credits_v1_credit_kind_check'}}
+                  'CONSTRAINT:erp.bb_opening_credits_v1.bb_opening_credits_v1_credit_kind_check'},
+            # BD widens the opening credit kinds again: a laundry claim credit (D12, VENDOR_CLAIM_APPLY) and a downward invoice
+            # correction credit (owner decision no. 13, VENDOR_CORRECTION_APPLY) applied to an opening vendor payable. The rollback
+            # is pre-use only (data unchanged since the install), so no row carries those kinds when BC's definition is restored.
+            'BD':{'CONSTRAINT:erp.bb_opening_credits_v1.bb_opening_credits_v1_credit_kind_check'}}
 LEDGER_HASH=awx.LEDGER_HASH
 DATA=awx.DATA
 PROBE_ROW=("insert into erp.audit_logs(entity_type,entity_id,action,new_data,change_reason) "
