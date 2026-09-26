@@ -1,6 +1,6 @@
 -- CP6 BE: physical SKU conversion, rework/redye service and historical pocket allocation (LAU-06b and ALL-C04). Release candidate of the T3 combined package; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_be_t1_family.sql (sha256 68e5276a7f4fe18a17722fccc8187cab13bda0f002e9f540abb84839c1422940): the T1 body below is unchanged apart from the
+-- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_be_t1_family.sql (sha256 7139c80a0498e877767e96530273f2d211dccc6615114dd2ee6d8e6bd8eefd01): the T1 body below is unchanged apart from the
 -- ledger description; guards follow AO..AV. Capsule and catalog pins are placeholders until the T3 capture.
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
@@ -148,7 +148,7 @@ insert into erp.cp6_v2620be_rollback_capsule(object_identity,object_regidentity,
 select format('%I.%I(%s)',n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)),i.identity,pg_get_functiondef(p.oid),
  encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex'),
  array(select a::text from unnest(p.proacl)a order by a::text),pg_get_userbyid(p.proowner)
-from unnest(array['erp.post_product_conversion(uuid)','erp.propagate_conversion_hpp_for_po(uuid)','erp.compute_po_hpp_gl_targets_v2620d(uuid)','erp.bc_value_custody_v1(jsonb,uuid)','erp.bc_reverse_v1(jsonb,uuid)','erp.sync_material_cost_revaluation(uuid)','erp.run_v268_financial_report_checks()','erp.reverse_product_conversion(uuid,text)','erp.compute_non_po_product_hpp_targets_v2620f(uuid)','erp.compute_non_po_product_hpp_book_v2620f(uuid)','erp.assert_non_po_product_hpp_target_book_v2620f(uuid)','erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)','erp.post_rework_completion(uuid)','erp.reverse_rework_completion(uuid,text)','erp.assert_new_stock_cutoff_coverage_v1()','erp.get_laundry_bd_workspace_v1(jsonb)','erp.save_laundry_bd_action_v1(text,jsonb,uuid)','erp.bd_save_invoice_draft_v1(jsonb,uuid)','erp.bd_check_correction_sources_v1(uuid)','erp.bd_invoice_lines_json_v1(uuid)','erp.bd_post_invoice_v1(jsonb,uuid)','erp.bd_invoice_resync_v1(uuid,date)','erp.bd_reverse_invoice_v1(jsonb,uuid)','erp.desired_laundry_accrual(uuid)','erp.rebuild_po_hpp(uuid,text)','erp.bd_lot_laundry_unknown_v1(uuid)','erp.cp6_lot_rework_cost_v2620c(uuid)','erp.period_blockers_v1(date,date)','erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)','erp._validate_migration_batch_base(uuid)','erp.finalize_migration_batch(uuid)','erp.save_initial_import_action_v1(text,jsonb,uuid)','erp.get_initial_import_workspace_v1(uuid)','erp.initial_import_revision_v1(uuid)','erp.pocket_period_total_v1(uuid)','erp.pocket_period_manifest_v1(date,date)','erp.pocket_period_target_v1(uuid,boolean)','erp.pocket_period_book_v1(uuid)','erp.sync_pocket_period_v1(uuid,date,text,text)','erp.save_pocket_period_action_v1(text,jsonb,uuid)','erp.initial_import_source_value_v1(uuid)','erp.check_initial_import_receipt_v1(uuid,uuid)','erp.recost_initial_import_origins_v1(uuid)','erp.run_v267_financial_truth_checks()','erp._cp6_supplier_cent_state(uuid[])','erp.get_pocket_fabric_workspace_v1(text)','erp.pocket_period_checks_v1()','erp.save_pocket_fabric_action_v1(text,jsonb,uuid)','erp.preview_pocket_period_v1(date,date)']) i(identity)
+from unnest(array['erp.post_product_conversion(uuid)','erp.propagate_conversion_hpp_for_po(uuid)','erp.compute_po_hpp_gl_targets_v2620d(uuid)','erp.bc_value_custody_v1(jsonb,uuid)','erp.bc_reverse_v1(jsonb,uuid)','erp.sync_material_cost_revaluation(uuid)','erp.run_v268_financial_report_checks()','erp.reverse_product_conversion(uuid,text)','erp.compute_non_po_product_hpp_targets_v2620f(uuid)','erp.compute_non_po_product_hpp_book_v2620f(uuid)','erp.assert_non_po_product_hpp_target_book_v2620f(uuid)','erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)','erp.post_rework_completion(uuid)','erp.reverse_rework_completion(uuid,text)','erp.assert_new_stock_cutoff_coverage_v1()','erp.get_laundry_bd_workspace_v1(jsonb)','erp.save_laundry_bd_action_v1(text,jsonb,uuid)','erp.bd_save_invoice_draft_v1(jsonb,uuid)','erp.bd_check_correction_sources_v1(uuid)','erp.bd_invoice_lines_json_v1(uuid)','erp.bd_post_invoice_v1(jsonb,uuid)','erp.bd_invoice_resync_v1(uuid,date)','erp.bd_reverse_invoice_v1(jsonb,uuid)','erp.desired_laundry_accrual(uuid)','erp.rebuild_po_hpp(uuid,text)','erp.bd_lot_laundry_unknown_v1(uuid)','erp.cp6_lot_rework_cost_v2620c(uuid)','erp.period_blockers_v1(date,date)','erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)','erp._validate_migration_batch_base(uuid)','erp.finalize_migration_batch(uuid)','erp.save_initial_import_action_v1(text,jsonb,uuid)','erp.get_initial_import_workspace_v1(uuid)','erp.initial_import_revision_v1(uuid)','erp.pocket_period_total_v1(uuid)','erp.pocket_period_manifest_v1(date,date)','erp.pocket_period_target_v1(uuid,boolean)','erp.pocket_period_book_v1(uuid)','erp.sync_pocket_period_v1(uuid,date,text,text)','erp.save_pocket_period_action_v1(text,jsonb,uuid)','erp.initial_import_source_value_v1(uuid)','erp.check_initial_import_receipt_v1(uuid,uuid)','erp.recost_initial_import_origins_v1(uuid)','erp.run_v267_financial_truth_checks()','erp._cp6_supplier_cent_state(uuid[])','erp.get_pocket_fabric_workspace_v1(text)','erp.pocket_period_checks_v1()','erp.save_pocket_fabric_action_v1(text,jsonb,uuid)','erp.preview_pocket_period_v1(date,date)','erp.refresh_initial_import_fg_cost_v1(uuid,numeric,date)']) i(identity)
 join pg_proc p on p.oid=i.identity::regprocedure join pg_namespace n on n.oid=p.pronamespace;
 create temp table cp6_release_functions on commit drop as
 select p.oid::regprocedure::text as identity,encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex') as definition_sha256,
@@ -1080,6 +1080,17 @@ AS $function$
   from erp.be_pocket_sewing_v1 s join erp.contractors c on c.id=s.contractor_id where s.batch_id=p_batch),'[]'))
 $function$;
 
+CREATE OR REPLACE FUNCTION erp.be_pocket_item_pending_v1(p_item uuid)
+ RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+ select exists(select 1 from erp.be_pocket_sewing_v1 h
+  join erp.pocket_period_destinations d on d.historical_sewing_id=h.id
+  join erp.pocket_period_sources s on s.pool_id=d.pool_id
+  join erp.be_pocket_receipt_origins_v1 r on r.usage_id=s.historical_usage_id
+  where h.opening_item_id=p_item and erp.pocket_period_active_v1(d.pool_id)
+   and erp.material_purchase_invoice_capacity(r.purchase_item_id)>erp.material_purchase_posted_invoice_qty(r.purchase_item_id))
+$function$;
+
 CREATE OR REPLACE FUNCTION erp.be_pocket_sync_targets_v1(p_pool uuid,p_date date,p_cancel boolean)
  RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
 AS $function$
@@ -1090,7 +1101,10 @@ begin
    where d.pool_id=p_pool and s.opening_item_id is not null order by s.opening_item_id,s.id loop
   select coalesce(sum(new_amount-previous_amount),0) into v_before from erp.be_pocket_target_events_v1 where pool_id=p_pool and sewing_id=r.historical_sewing_id;
   v_target:=case when p_cancel then 0 else erp.pocket_period_amount_v1(p_pool,r.preceding_qty,r.sewing_qty) end;v_delta:=v_target-v_before;
-  if v_delta=0 then continue;end if;
+  if v_delta=0 then
+   if r.target_kind='FINISHED_GOODS' then perform erp.refresh_initial_import_fg_cost_v1(r.opening_item_id,0,p_date);end if;
+   continue;
+  end if;
   insert into erp.be_pocket_target_events_v1(pool_id,sewing_id,opening_item_id,previous_amount,new_amount,economic_date,created_by)
    values(p_pool,r.historical_sewing_id,r.opening_item_id,v_before,v_target,p_date,erp.current_app_user_id());
   if r.target_kind='FINISHED_GOODS' then perform erp.refresh_initial_import_fg_cost_v1(r.opening_item_id,v_delta,p_date);
@@ -1197,12 +1211,14 @@ begin
  v_date:=coalesce(erp.invoice_recost_economic_date_v1(),erp._cp3_business_date(statement_timestamp()));
  for r in select * from erp.be_pocket_receipt_origins_v1 where purchase_item_id=p_item order by usage_id loop
   v_old:=erp.be_pocket_usage_amount_v1(r.usage_id);v_new:=round(r.material_qty*erp.material_purchase_current_unit_cost(p_item),2);v_delta:=v_new-v_old;
-  if v_delta=0 then continue;end if;v_event:=gen_random_uuid();
+  if v_delta<>0 then
+  v_event:=gen_random_uuid();
   v_journal:=erp.post_journal('BE_POCKET_RECEIPT_RECOST',v_event,v_date,'Koreksi nota sumber kain kantong sebelum cutover',jsonb_build_array(
    jsonb_build_object('mapping_key','OTHER_EXPENSE','debit',greatest(v_delta,0),'credit',greatest(-v_delta,0)),
    jsonb_build_object('mapping_key','MATERIAL_INVENTORY','debit',greatest(-v_delta,0),'credit',greatest(v_delta,0))));
   insert into erp.be_pocket_source_events_v1(id,usage_id,previous_amount,new_amount,economic_date,reason,journal_id,created_by)
    values(v_event,r.usage_id,v_old,v_new,v_date,'Koreksi nota sumber kain kantong sebelum cutover',v_journal,erp.current_app_user_id());
+  end if;
   for v_pool in select pool_id from erp.pocket_period_sources where historical_usage_id=r.usage_id and erp.pocket_period_active_v1(pool_id) order by pool_id loop
    perform erp.sync_pocket_period_v1(v_pool,v_date,'RECOST','Koreksi nota sumber kain kantong sebelum cutover');
   end loop;
@@ -4258,6 +4274,7 @@ begin
   v_pending:=v_pending or exists(select 1 from erp.be_redye_services_v1 bs join erp.rework_orders br on br.id=bs.id
     where bs.po_id=p_po_id and br.status<>'CANCELLED' and erp.be_redye_accrual_v1(p_po_id)<>0)
     or exists(select 1 from erp.be_redye_services_v1 bs join erp.rework_orders br on br.id=bs.id where bs.po_id=p_po_id and br.status<>'CANCELLED' and erp.be_redye_rate_v1(bs.id) is null);
+  v_pending:=v_pending or exists(select 1 from erp.initial_import_production_sources ps where ps.po_id=p_po_id and erp.be_pocket_item_pending_v1(ps.opening_item_id));
   select coalesce(sum(adjustment_amount),0),coalesce(sum(case when lot_id is null then adjustment_amount else 0 end),0)
   into v_other,v_shared_other
   from erp.cost_adjustments
@@ -5031,6 +5048,22 @@ begin
   v_result:=jsonb_build_object('action',v_action,'request_id',p_client_request_id,'status','SAVED')||v_result;
   insert into erp.bd_requests_v1(request_id,action,actor,payload,response) values(p_client_request_id,v_action,erp.current_app_user_id(),p_payload,v_result);
   return v_result;
+end;$function$;
+create or replace function erp.refresh_initial_import_fg_cost_v1(p_item uuid,p_delta numeric,p_date date) returns void
+language plpgsql security definer set search_path='' as $function$
+declare v_lot uuid;v_hpp erp.hpp_versions%rowtype;v_state text;
+begin
+ perform erp.require_internal();
+ perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
+ select lot_id into strict v_lot from erp.fg_stock_movements where source_type='OPENING_BALANCE_ITEM' and source_id=p_item and movement_type='OPENING';
+ select * into strict v_hpp from erp.hpp_versions where lot_id=v_lot and is_current for update;
+ v_state:=case when exists(select 1 from erp.initial_import_cost_origins o where o.opening_item_id=p_item
+    and erp.material_purchase_invoice_capacity(o.purchase_item_id)>erp.material_purchase_posted_invoice_qty(o.purchase_item_id)) or erp.be_pocket_item_pending_v1(p_item) then 'ESTIMATED' else 'ADJUSTED' end;
+ if p_delta=0 and v_state=v_hpp.cost_state then return;end if;
+ update erp.hpp_versions set is_current=false where id=v_hpp.id;
+ insert into erp.hpp_versions(lot_id,version_no,cost_state,qty_basis_pcs,total_cost,is_current,supersedes_id,calculation_reason,created_by)
+ values(v_lot,v_hpp.version_no+1,v_state,v_hpp.qty_basis_pcs,v_hpp.total_cost+p_delta,true,v_hpp.id,'Harga dan kepastian asal bahan sebelum cutover',erp.current_app_user_id());
+ perform erp.sync_opening_lot_hpp_to_gl(v_lot,p_date);
 end;$function$;
 create or replace function erp.get_pocket_fabric_workspace_v1(p_query text default '')
 returns jsonb language plpgsql security definer set search_path='' set TimeZone='UTC' as $function$
@@ -6728,7 +6761,7 @@ begin
    or exists(select 1 from pg_attribute p cross join lateral aclexplode(p.attacl)a where p.attrelid='erp.cp6_v2620be_rollback_capsule'::regclass and a.grantee<>'postgres'::regrole)
    or exists(select 1 from pg_policy where polrelid='erp.cp6_v2620be_rollback_capsule'::regclass)
    or exists(select 1 from pg_trigger where tgrelid='erp.cp6_v2620be_rollback_capsule'::regclass and not tgisinternal)
-   or (select count(*) from erp.cp6_v2620be_rollback_capsule)<>49 then raise exception 'BE_CAPSULE_SECURITY_OR_COUNT';end if;
+   or (select count(*) from erp.cp6_v2620be_rollback_capsule)<>50 then raise exception 'BE_CAPSULE_SECURITY_OR_COUNT';end if;
  select jsonb_build_object(
    'relation',(select jsonb_build_array(relkind,relpersistence,relreplident,relispartition,reloptions) from pg_class where oid='erp.cp6_v2620an_rollback_capsule'::regclass),
    'columns',(select jsonb_agg(jsonb_build_array(a.attname,format_type(a.atttypid,a.atttypmod),a.attnotnull,a.attidentity,a.attgenerated,pg_get_expr(d.adbin,d.adrelid)) order by a.attnum) from pg_attribute a left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum where a.attrelid='erp.cp6_v2620an_rollback_capsule'::regclass and a.attnum>0 and not a.attisdropped),
@@ -6741,9 +6774,9 @@ begin
    'indexes',(select jsonb_agg(jsonb_build_array(indisunique,indisprimary,indisexclusion,indisvalid,indisready,indkey::text,indclass::text,indoption::text,pg_get_expr(indexprs,indrelid),pg_get_expr(indpred,indrelid)) order by indkey::text) from pg_index where indrelid='erp.cp6_v2620be_rollback_capsule'::regclass)) into actual;
  if actual is distinct from expected then raise exception 'BE_CAPSULE_SHAPE_DRIFT';end if;
  select boundary_snapshot into boundary from erp.cp6_v2620be_rollback_capsule limit 1;
- if 49>0 and (boundary is null or exists(select 1 from erp.cp6_v2620be_rollback_capsule where boundary_snapshot is distinct from boundary)
+ if 50>0 and (boundary is null or exists(select 1 from erp.cp6_v2620be_rollback_capsule where boundary_snapshot is distinct from boundary)
   or not(boundary ?& array['before','after','platform_before','markers_before'])) then raise exception 'BE_CAPSULE_BOUNDARY';end if;
- if exists(select 1 from erp.cp6_v2620be_rollback_capsule where object_regidentity<>all(array['erp.post_product_conversion(uuid)','erp.propagate_conversion_hpp_for_po(uuid)','erp.compute_po_hpp_gl_targets_v2620d(uuid)','erp.bc_value_custody_v1(jsonb,uuid)','erp.bc_reverse_v1(jsonb,uuid)','erp.sync_material_cost_revaluation(uuid)','erp.run_v268_financial_report_checks()','erp.reverse_product_conversion(uuid,text)','erp.compute_non_po_product_hpp_targets_v2620f(uuid)','erp.compute_non_po_product_hpp_book_v2620f(uuid)','erp.assert_non_po_product_hpp_target_book_v2620f(uuid)','erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)','erp.post_rework_completion(uuid)','erp.reverse_rework_completion(uuid,text)','erp.assert_new_stock_cutoff_coverage_v1()','erp.get_laundry_bd_workspace_v1(jsonb)','erp.save_laundry_bd_action_v1(text,jsonb,uuid)','erp.bd_save_invoice_draft_v1(jsonb,uuid)','erp.bd_check_correction_sources_v1(uuid)','erp.bd_invoice_lines_json_v1(uuid)','erp.bd_post_invoice_v1(jsonb,uuid)','erp.bd_invoice_resync_v1(uuid,date)','erp.bd_reverse_invoice_v1(jsonb,uuid)','erp.desired_laundry_accrual(uuid)','erp.rebuild_po_hpp(uuid,text)','erp.bd_lot_laundry_unknown_v1(uuid)','erp.cp6_lot_rework_cost_v2620c(uuid)','erp.period_blockers_v1(date,date)','erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)','erp._validate_migration_batch_base(uuid)','erp.finalize_migration_batch(uuid)','erp.save_initial_import_action_v1(text,jsonb,uuid)','erp.get_initial_import_workspace_v1(uuid)','erp.initial_import_revision_v1(uuid)','erp.pocket_period_total_v1(uuid)','erp.pocket_period_manifest_v1(date,date)','erp.pocket_period_target_v1(uuid,boolean)','erp.pocket_period_book_v1(uuid)','erp.sync_pocket_period_v1(uuid,date,text,text)','erp.save_pocket_period_action_v1(text,jsonb,uuid)','erp.initial_import_source_value_v1(uuid)','erp.check_initial_import_receipt_v1(uuid,uuid)','erp.recost_initial_import_origins_v1(uuid)','erp.run_v267_financial_truth_checks()','erp._cp6_supplier_cent_state(uuid[])','erp.get_pocket_fabric_workspace_v1(text)','erp.pocket_period_checks_v1()','erp.save_pocket_fabric_action_v1(text,jsonb,uuid)','erp.preview_pocket_period_v1(date,date)']::text[])
+ if exists(select 1 from erp.cp6_v2620be_rollback_capsule where object_regidentity<>all(array['erp.post_product_conversion(uuid)','erp.propagate_conversion_hpp_for_po(uuid)','erp.compute_po_hpp_gl_targets_v2620d(uuid)','erp.bc_value_custody_v1(jsonb,uuid)','erp.bc_reverse_v1(jsonb,uuid)','erp.sync_material_cost_revaluation(uuid)','erp.run_v268_financial_report_checks()','erp.reverse_product_conversion(uuid,text)','erp.compute_non_po_product_hpp_targets_v2620f(uuid)','erp.compute_non_po_product_hpp_book_v2620f(uuid)','erp.assert_non_po_product_hpp_target_book_v2620f(uuid)','erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)','erp.post_rework_completion(uuid)','erp.reverse_rework_completion(uuid,text)','erp.assert_new_stock_cutoff_coverage_v1()','erp.get_laundry_bd_workspace_v1(jsonb)','erp.save_laundry_bd_action_v1(text,jsonb,uuid)','erp.bd_save_invoice_draft_v1(jsonb,uuid)','erp.bd_check_correction_sources_v1(uuid)','erp.bd_invoice_lines_json_v1(uuid)','erp.bd_post_invoice_v1(jsonb,uuid)','erp.bd_invoice_resync_v1(uuid,date)','erp.bd_reverse_invoice_v1(jsonb,uuid)','erp.desired_laundry_accrual(uuid)','erp.rebuild_po_hpp(uuid,text)','erp.bd_lot_laundry_unknown_v1(uuid)','erp.cp6_lot_rework_cost_v2620c(uuid)','erp.period_blockers_v1(date,date)','erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)','erp._validate_migration_batch_base(uuid)','erp.finalize_migration_batch(uuid)','erp.save_initial_import_action_v1(text,jsonb,uuid)','erp.get_initial_import_workspace_v1(uuid)','erp.initial_import_revision_v1(uuid)','erp.pocket_period_total_v1(uuid)','erp.pocket_period_manifest_v1(date,date)','erp.pocket_period_target_v1(uuid,boolean)','erp.pocket_period_book_v1(uuid)','erp.sync_pocket_period_v1(uuid,date,text,text)','erp.save_pocket_period_action_v1(text,jsonb,uuid)','erp.initial_import_source_value_v1(uuid)','erp.check_initial_import_receipt_v1(uuid,uuid)','erp.recost_initial_import_origins_v1(uuid)','erp.run_v267_financial_truth_checks()','erp._cp6_supplier_cent_state(uuid[])','erp.get_pocket_fabric_workspace_v1(text)','erp.pocket_period_checks_v1()','erp.save_pocket_fabric_action_v1(text,jsonb,uuid)','erp.preview_pocket_period_v1(date,date)','erp.refresh_initial_import_fg_cost_v1(uuid,numeric,date)']::text[])
    or definition_sha256 is distinct from encode(extensions.digest(convert_to(object_definition,'UTF8'),'sha256'),'hex')
    or installed_definition_sha256 is null or installed_definition_sha256=definition_sha256
    or installed_definition_sha256 is distinct from encode(extensions.digest(convert_to(pg_get_functiondef(to_regprocedure(object_regidentity)),'UTF8'),'sha256'),'hex'))

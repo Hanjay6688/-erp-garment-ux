@@ -117,7 +117,7 @@ def run(mode):
         # against hosted right after the alignment, scripts/cp6_t3_aligned_chain.py).
         assert report['hosted_capsules']['equal'],'T3_CLONE_CAPSULES_NOT_HOSTED'
         advisors_AB=advisors(boundary.PG)
-        committed=AUDITOR/'docs/evidence/cp6-t3/release_pins.json'
+        committed=AUDITOR/'supabase/release/cp6-t3/MANIFEST.json'
         # AC..AV and the AW/AX/AY/AZ/BA release candidates are all files of the one package; AW..BA T1 verification follows.
         stages=[('PACKAGE',lambda:(package.capture if mode=='capture' else package.install)(OUT/('T3_PACKAGE_FILES_%s.json'%mode.upper()))['status']),
                 ('AW_AX_AY_AZ_VERIFY',lambda:verify_awx())]

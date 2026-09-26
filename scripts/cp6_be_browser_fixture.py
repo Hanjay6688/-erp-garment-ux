@@ -1,12 +1,23 @@
 """BE browser setup/read on its committed disposable copy only. No product DML bypass."""
 from datetime import date,timedelta
 from urllib.parse import urlparse
-import json,os,sys
+import json,os,sys,uuid
 import psycopg
 import cp6_be_probe as be
 b=be.bdp
 
 def create(cur,today,kind):
+    if kind in ('rework','redye'):
+        import cp6_av_probe as avp
+        f=avp.rework_ready(cur,today-timedelta(days=1))
+        be.chain.bs_action(cur,'SAVE_REWORK',dict(id=f['order'],action='CANCEL',change_reason='BE browser setup unbound fixture'),be.chain.version(cur,'rework_orders',f['order']))
+        b.api.admin(cur)
+        target=b.sized_product(cur,be.chain.base.SIZE,'BE-UI-'+uuid.uuid4().hex[:10])
+        process=be.one(cur,"insert into erp.wash_processes(process_code,process_name) values(%s,'BE browser redye') returning id::text",'BEUI-'+uuid.uuid4().hex[:10]) if kind=='redye' else None
+        return dict(kind=kind,bs=str(f['bs']),day=str(f['day']),number='BE-UI-'+uuid.uuid4().hex[:16],target=target,process=process,
+          target_sku=be.one(cur,'select sku from erp.products where id=%s',target),bs_number=be.one(cur,'select bs_number from erp.bs_cases where id=%s',f['bs']),
+          vendor=be.chain.base.VENDOR,location=be.chain.base.LOCATION,
+          contractor=be.chain.production.CONTRACTOR)
     if kind=='conversion':
         f=be.fixture(cur,today)
         return dict(lot=f['lot'],target=f['target'],location=f['location'],day=str(f['day']),
@@ -21,6 +32,15 @@ def create(cur,today,kind):
 
 def read(cur,f):
     b.api.admin(cur)
+    if f.get('kind') in ('rework','redye'):
+        orders=be.q(cur,'select id::text,status,qty_good_returned,qty_bs_returned,good_fg_lot_id::text from erp.rework_orders where rework_number=%s',f['number'])
+        if not orders:return dict(orders=[],conversions=[],qty=0,cost=None)
+        row=orders[0];conversions=be.q(cur,"select c.id::text,c.status,a.destination_lot_id::text from erp.be_conversion_sources_v1 s join erp.product_conversions c on c.id=s.conversion_id join erp.product_conversion_allocations a on a.conversion_id=c.id where s.rework_id=%s",row[0])
+        dest=conversions[-1][2] if conversions else None
+        return dict(orders=orders,conversions=conversions,qty=be.qty(cur,dest) if dest else 0,
+          product=be.one(cur,'select product_id::text from erp.fg_lots where id=%s',dest) if dest else None,
+          cost=str(be.one(cur,'select erp.be_redye_cost_v1(%s)',row[0])) if f['kind']=='redye' else None,
+          rate=str(be.one(cur,'select erp.be_redye_rate_v1(%s)',row[0])) if f['kind']=='redye' else None)
     if 'lot' in f:
         docs=be.q(cur,"select c.id::text,c.status,erp._cp3_business_date(c.physical_at)::text,(c.physical_at at time zone 'Asia/Jakarta')::time::text, a.destination_lot_id::text from erp.product_conversions c join erp.be_conversion_sources_v1 s on s.conversion_id=c.id join erp.product_conversion_allocations a on a.conversion_id=c.id where s.source_lot_id=%s order by c.created_at",f['lot'])
         return dict(source_qty=be.qty(cur,f['lot']),documents=docs,target_qty=be.qty(cur,docs[-1][4]) if docs else 0,

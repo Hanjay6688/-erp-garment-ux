@@ -78,6 +78,7 @@ import cp6_ba_probe as bap
 import cp6_bb_probe as bbp
 import cp6_bc_probe as bcp
 import cp6_bd_probe as bdp
+import cp6_be_probe as bep
 import cp6_regression_identity as identity
 
 LABEL=os.environ.get('CP6_T2_LABEL','T2_PRELIMINARY')
@@ -361,12 +362,12 @@ def change(kind,pg,control_url):
     independent audit's product fixes, 25 Sep 2026)."""
     assert kind=='install'
     av=av_runtime.change('install',pg,control_url)
-    aw=awp.install_aw();ax=axp.install_ax();ay=ayp.install_ay();az=azp.install_az();ba=bap.install_ba();bb=bbp.install_bb();bc=bcp.install_bc();bd=bdp.install_bd()
-    return dict(status='PASS' if av['status']=='PASS' else 'FAIL',av=av['status'],aw=aw,ax=ax,ay=ay,az=az,ba=ba,bb=bb,bc=bc,bd=bd)
+    aw=awp.install_aw();ax=axp.install_ax();ay=ayp.install_ay();az=azp.install_az();ba=bap.install_ba();bb=bbp.install_bb();bc=bcp.install_bc();bd=bdp.install_bd();be=bep.install_be()
+    return dict(status='PASS' if av['status']=='PASS' else 'FAIL',av=av['status'],aw=aw,ax=ax,ay=ay,az=az,ba=ba,bb=bb,bc=bc,bd=bd,be=be)
 
 
 # The trial modules read `runtime`; point them at the combined candidate without touching their code.
-avt.runtime=types.SimpleNamespace(change=change,verified=bdp.bd_verified,pins=av_runtime.pins,
+avt.runtime=types.SimpleNamespace(change=change,verified=bep.verified,pins=av_runtime.pins,
                                   qualify=None,refuse_post_use=None)
 
 
@@ -399,7 +400,7 @@ def ar_phase(report):
     report['superseding']=dict(status=sup['status'],counts=sup.get('counts'),cases={k:r['status'] for k,r in sup['cases'].items()})
     print(json.dumps(dict(group='AR_SUPERSEDING',**report['superseding']),default=str),flush=True)
     with avt.psycopg.connect(avt.ADMIN) as conn,conn.cursor() as cur:
-        bdp.bd_verified(cur)
+        bep.verified(cur)
         today=cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date").fetchone()[0]
     races=[]
     for kind in avt.inherited.KINDS:
@@ -679,7 +680,7 @@ def c0_oracle_group():
 
     saved=runner.r1.OUT;runner.r1.OUT=avt.OUT   # the group's JSON goes with the T2 artifact
     try:
-        group=runner.strict_group('T2_C0_ORACLE',cases,bdp.bd_verified)
+        group=runner.strict_group('T2_C0_ORACLE',cases,bep.verified)
     finally:
         runner.r1.OUT=saved
     return dict(status=group['status'],counts=group.get('counts'),final=group.get('final'),planned=len(group.get('planned_case_ids') or []),

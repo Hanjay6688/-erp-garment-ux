@@ -78,14 +78,23 @@ def receipt_correction(cur,today,installed):
     pool=call(cur,'POST_PERIOD',dict(period_start=str(start),period_end=str(cut),expected_revision=p['revision'],reason='BE receipt-backed historical pool'))['id']
     row=q(cur,'select s.id::text,l.purchase_item_id::text,p.material_id::text from erp.initial_import_receipt_headers h join erp.initial_import_receipt_lines l on l.purchase_id=h.purchase_id join erp.suppliers s on s.id=h.supplier_id join erp.material_purchase_items p on p.id=l.purchase_item_id where h.batch_id=%s',f['batch'])[0]
     old=amounts(cur);material=one(cur,'select cached_stock_qty from erp.materials where id=%s',row[2]);stock_moves=one(cur,'select count(*) from erp.material_stock_movements where material_id=%s',row[2]);truth=b.all_truth(cur)
-    trial=b.bbp.receipt_trial;doc=trial.post_invoice(api,cur,trial.invoice(api,cur,today,dict(supplier_id=row[0],purchase_item_id=row[1]),'20','3.00',date=cut+timedelta(days=1)))
+    def certainty():
+        return one(cur,"select h.cost_state from erp.be_pocket_sewing_v1 s join erp.fg_stock_movements m on m.source_id=s.opening_item_id and m.source_type='OPENING_BALANCE_ITEM' and m.movement_type='OPENING' join erp.v_current_hpp h on h.lot_id=m.lot_id where s.batch_id=%s and s.target_kind='FINISHED_GOODS'",f['batch'])
+    initial_certainty=certainty();trial=b.bbp.receipt_trial
+    # An invoice at exactly the estimate must still resolve certainty; zero money
+    # difference must not skip the refresh. Its inverse restores ESTIMATED.
+    same=trial.post_invoice(api,cur,trial.invoice(api,cur,today,dict(supplier_id=row[0],purchase_item_id=row[1]),'20','2.25',date=cut+timedelta(days=1)))
+    api.admin(cur);same_certainty=certainty();same_delta=difference(old,amounts(cur))
+    trial.rpc(api,cur,'reverse_material_supplier_invoice_v2',same['supplier_invoice_id'],'BE same-price certainty inverse',uuid.uuid4(),same['row_version']);api.admin(cur)
+    inverse_certainty=certainty()
+    doc=trial.post_invoice(api,cur,trial.invoice(api,cur,today,dict(supplier_id=row[0],purchase_item_id=row[1]),'20','3.00',date=cut+timedelta(days=1)))
     api.admin(cur);delta=difference(old,amounts(cur));newtruth=b.all_truth(cur)
     pool_value=one(cur,'select erp.pocket_period_total_v1(%s)',pool)
     trial.rpc(api,cur,'reverse_material_supplier_invoice_v2',doc['supplier_invoice_id'],'BE C04 invoice inverse',uuid.uuid4(),doc['row_version']);api.admin(cur)
     restored=difference(old,amounts(cur))
-    return b.verdict(dict(receipt_quantity=material==15,stock_not_drawn_twice=one(cur,'select cached_stock_qty from erp.materials where id=%s',row[2])==15 and stock_moves==one(cur,'select count(*) from erp.material_stock_movements where material_id=%s',row[2]),
+    return b.verdict(dict(certainty=initial_certainty==inverse_certainty==certainty()=='ESTIMATED' and same_certainty=='ADJUSTED' and all(x==0 for x in same_delta.values()),receipt_quantity=material==15,stock_not_drawn_twice=one(cur,'select cached_stock_qty from erp.materials where id=%s',row[2])==15 and stock_moves==one(cur,'select count(*) from erp.material_stock_movements where material_id=%s',row[2]),
      recost=pool_value==15 and delta['WIP']==b.D('1.88') and delta['FG_INVENTORY']==b.D('1.12') and delta['COGS']==b.D('0.75') and delta['OTHER_EXPENSE']==0,
-     inverse=all(x==0 for x in restored.values()),truth=b.truth_quiet(truth,newtruth)),delta=delta,restored=restored,pool_value=pool_value)
+     inverse=all(x==0 for x in restored.values()),truth=b.truth_quiet(truth,newtruth)),delta=delta,restored=restored,pool_value=pool_value,certainty=[initial_certainty,same_certainty,inverse_certainty,certainty()])
 
 def historical_continuation(cur,today,installed):
     if not installed:return roundtrip(cur,today,False)

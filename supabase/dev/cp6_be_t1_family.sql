@@ -916,6 +916,17 @@ AS $function$
   from erp.be_pocket_sewing_v1 s join erp.contractors c on c.id=s.contractor_id where s.batch_id=p_batch),'[]'))
 $function$;
 
+CREATE OR REPLACE FUNCTION erp.be_pocket_item_pending_v1(p_item uuid)
+ RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+ select exists(select 1 from erp.be_pocket_sewing_v1 h
+  join erp.pocket_period_destinations d on d.historical_sewing_id=h.id
+  join erp.pocket_period_sources s on s.pool_id=d.pool_id
+  join erp.be_pocket_receipt_origins_v1 r on r.usage_id=s.historical_usage_id
+  where h.opening_item_id=p_item and erp.pocket_period_active_v1(d.pool_id)
+   and erp.material_purchase_invoice_capacity(r.purchase_item_id)>erp.material_purchase_posted_invoice_qty(r.purchase_item_id))
+$function$;
+
 CREATE OR REPLACE FUNCTION erp.be_pocket_sync_targets_v1(p_pool uuid,p_date date,p_cancel boolean)
  RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
 AS $function$
@@ -926,7 +937,10 @@ begin
    where d.pool_id=p_pool and s.opening_item_id is not null order by s.opening_item_id,s.id loop
   select coalesce(sum(new_amount-previous_amount),0) into v_before from erp.be_pocket_target_events_v1 where pool_id=p_pool and sewing_id=r.historical_sewing_id;
   v_target:=case when p_cancel then 0 else erp.pocket_period_amount_v1(p_pool,r.preceding_qty,r.sewing_qty) end;v_delta:=v_target-v_before;
-  if v_delta=0 then continue;end if;
+  if v_delta=0 then
+   if r.target_kind='FINISHED_GOODS' then perform erp.refresh_initial_import_fg_cost_v1(r.opening_item_id,0,p_date);end if;
+   continue;
+  end if;
   insert into erp.be_pocket_target_events_v1(pool_id,sewing_id,opening_item_id,previous_amount,new_amount,economic_date,created_by)
    values(p_pool,r.historical_sewing_id,r.opening_item_id,v_before,v_target,p_date,erp.current_app_user_id());
   if r.target_kind='FINISHED_GOODS' then perform erp.refresh_initial_import_fg_cost_v1(r.opening_item_id,v_delta,p_date);
@@ -1033,12 +1047,14 @@ begin
  v_date:=coalesce(erp.invoice_recost_economic_date_v1(),erp._cp3_business_date(statement_timestamp()));
  for r in select * from erp.be_pocket_receipt_origins_v1 where purchase_item_id=p_item order by usage_id loop
   v_old:=erp.be_pocket_usage_amount_v1(r.usage_id);v_new:=round(r.material_qty*erp.material_purchase_current_unit_cost(p_item),2);v_delta:=v_new-v_old;
-  if v_delta=0 then continue;end if;v_event:=gen_random_uuid();
+  if v_delta<>0 then
+  v_event:=gen_random_uuid();
   v_journal:=erp.post_journal('BE_POCKET_RECEIPT_RECOST',v_event,v_date,'Koreksi nota sumber kain kantong sebelum cutover',jsonb_build_array(
    jsonb_build_object('mapping_key','OTHER_EXPENSE','debit',greatest(v_delta,0),'credit',greatest(-v_delta,0)),
    jsonb_build_object('mapping_key','MATERIAL_INVENTORY','debit',greatest(-v_delta,0),'credit',greatest(v_delta,0))));
   insert into erp.be_pocket_source_events_v1(id,usage_id,previous_amount,new_amount,economic_date,reason,journal_id,created_by)
    values(v_event,r.usage_id,v_old,v_new,v_date,'Koreksi nota sumber kain kantong sebelum cutover',v_journal,erp.current_app_user_id());
+  end if;
   for v_pool in select pool_id from erp.pocket_period_sources where historical_usage_id=r.usage_id and erp.pocket_period_active_v1(pool_id) order by pool_id loop
    perform erp.sync_pocket_period_v1(v_pool,v_date,'RECOST','Koreksi nota sumber kain kantong sebelum cutover');
   end loop;
@@ -4094,6 +4110,7 @@ begin
   v_pending:=v_pending or exists(select 1 from erp.be_redye_services_v1 bs join erp.rework_orders br on br.id=bs.id
     where bs.po_id=p_po_id and br.status<>'CANCELLED' and erp.be_redye_accrual_v1(p_po_id)<>0)
     or exists(select 1 from erp.be_redye_services_v1 bs join erp.rework_orders br on br.id=bs.id where bs.po_id=p_po_id and br.status<>'CANCELLED' and erp.be_redye_rate_v1(bs.id) is null);
+  v_pending:=v_pending or exists(select 1 from erp.initial_import_production_sources ps where ps.po_id=p_po_id and erp.be_pocket_item_pending_v1(ps.opening_item_id));
   select coalesce(sum(adjustment_amount),0),coalesce(sum(case when lot_id is null then adjustment_amount else 0 end),0)
   into v_other,v_shared_other
   from erp.cost_adjustments
@@ -4867,6 +4884,22 @@ begin
   v_result:=jsonb_build_object('action',v_action,'request_id',p_client_request_id,'status','SAVED')||v_result;
   insert into erp.bd_requests_v1(request_id,action,actor,payload,response) values(p_client_request_id,v_action,erp.current_app_user_id(),p_payload,v_result);
   return v_result;
+end;$function$;
+create or replace function erp.refresh_initial_import_fg_cost_v1(p_item uuid,p_delta numeric,p_date date) returns void
+language plpgsql security definer set search_path='' as $function$
+declare v_lot uuid;v_hpp erp.hpp_versions%rowtype;v_state text;
+begin
+ perform erp.require_internal();
+ perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
+ select lot_id into strict v_lot from erp.fg_stock_movements where source_type='OPENING_BALANCE_ITEM' and source_id=p_item and movement_type='OPENING';
+ select * into strict v_hpp from erp.hpp_versions where lot_id=v_lot and is_current for update;
+ v_state:=case when exists(select 1 from erp.initial_import_cost_origins o where o.opening_item_id=p_item
+    and erp.material_purchase_invoice_capacity(o.purchase_item_id)>erp.material_purchase_posted_invoice_qty(o.purchase_item_id)) or erp.be_pocket_item_pending_v1(p_item) then 'ESTIMATED' else 'ADJUSTED' end;
+ if p_delta=0 and v_state=v_hpp.cost_state then return;end if;
+ update erp.hpp_versions set is_current=false where id=v_hpp.id;
+ insert into erp.hpp_versions(lot_id,version_no,cost_state,qty_basis_pcs,total_cost,is_current,supersedes_id,calculation_reason,created_by)
+ values(v_lot,v_hpp.version_no+1,v_state,v_hpp.qty_basis_pcs,v_hpp.total_cost+p_delta,true,v_hpp.id,'Harga dan kepastian asal bahan sebelum cutover',erp.current_app_user_id());
+ perform erp.sync_opening_lot_hpp_to_gl(v_lot,p_date);
 end;$function$;
 create or replace function erp.get_pocket_fabric_workspace_v1(p_query text default '')
 returns jsonb language plpgsql security definer set search_path='' set TimeZone='UTC' as $function$
