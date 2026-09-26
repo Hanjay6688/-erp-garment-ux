@@ -2704,3 +2704,131 @@ Run lama BD di runtime auditor (sebelum D07) tetap tercatat di pesan commit masi
 - **Auditor:** tinjauan substitusi guard L8; pengecualian pembanding rollback untuk baris seed (kini BC dan BD); oracle GBD-01/02 dengan fixture auditor sendiri; uji ulang D07 dan penilaian toleransi per bahan; pemisahan `STALE_F2` bersyarat di probe BC (§32.3a butir 1).
 - **UI (arahan owner 26 Sep):** halaman BC/BD dan halaman berikutnya mengikuti layar demo owner di Cloudflare, termasuk interaksinya (drag and drop dan lainnya), bukan hanya tampilannya. Fungsi server tidak berubah. Dikerjakan sesudah pekerjaan CP6 sesuai urutan owner.
 - **Writer, berikutnya:** BE (ganti SKU/konversi produk, rework ke SKU baru, celup ulang LAU-06b, ALL-C04), lalu uji gabungan 75 kasus C6 + 22 ALL.
+
+## 33. Putaran R12-B: D08, D09, D10, D11 (26 September 2026) (writer Claude)
+
+Acuannya handoff auditor R12-B (`WRITER_HANDOFF_R12B_PASTE_20260926.md`, cabang audit `ff1b421`) dan keputusan owner 26 Sep di `OWNER_DECISIONS_CP6_DRAFT.md`. CP6 tetap HOLD, `audit_complete=false`, `production_go=false`. Label bukti: `T1_FAMILY`, `WRITER_SCENARIO`, `T2`, `T3_PREP`; tidak ada yang berstatus bukti rilis.
+
+### 33.1 D08: validator UUID kanonik di halaman nota dan Laundry/QC (F3)
+
+- **Izin sesi.** Pemeriksa izin sesi memblokir langkah ini dua kali (§32.3a butir 3). Owner lalu membuka izinnya. Langkah pertama sesudah izin ada: `git status` dan `git diff`. Diff saat itu memuat dua baris komentar tambahan di tiap berkas, di luar regex. Kedua berkas dikembalikan ke HEAD, lalu hanya baris regex yang diterapkan ulang dengan bersih.
+- **Diff produk (21dd3d7), hanya dua baris ini:**
+
+```diff
+-export const accessoryUuid = (v: unknown): v is string => typeof v === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(v)
++export const accessoryUuid = (v: unknown): v is string => typeof v === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v)
+-const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
++const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+```
+
+  Polanya sama persis dengan `src/accessoryService.ts:59` dan `src/initialImportBC.ts:6`. **Tidak ada baris role, izin, RLS, atau grant yang berubah.** Server tetap memeriksa login, role, dan izin setiap bacaan/tulisan seperti sebelumnya. Writer tidak menemukan aspek keamanan yang melemah: yang diubah hanya pemeriksaan bentuk ID yang dikirim server. UUID yang bentuknya rusak tetap ditolak: panjang salah, huruf non-hex, kurung kurawal, spasi, tanpa tanda hubung.
+- **Tes unit** (`src/accessoryIssue.test.ts`, `src/accessoryService.test.ts`, `src/laundryQcModel.test.ts`): ID seed CP3 (`a1000000-…`, `a2000000-…`) dan ID v4 diterima; workspace nota dan workspace Laundry/QC dengan mandor/model non-RFC di samping ID v4 terbaca; ID rusak ditolak. Kontrol negatif: ketiga tes yang sama gagal pada regex lama (3 gagal / 48 lulus) dan lulus pada regex baru. `npm test` 540/540 (lokal), `test:security` dan build lolos.
+- **Browser, tanpa menonaktifkan seed:**
+  - `BC_BROWSER:NOTE_PAGE_D09_DESKTOP_PHONE`: keenam mandor seed non-RFC tetap aktif sepanjang kasus dan dicek aktif di akhir. Nota desktop memakai mandor v4 baru (kontrol), nota HP memakai mandor seed `a1000000-0000-0000-0000-000000000001`.
+  - `BD_BROWSER:D08_LAUNDRY_QC_CANONICAL_IDS`: dengan seed aktif, bacaan Laundry dan QC owner harus memuat ID non-RFC dan ID v4, dan kedua halaman harus tampil tanpa galat dan tanpa teks "bukan UUID valid". Supaya bacaan QC memuat ID seed, batch siap kirim milik mandor seed dikirim dari halaman Laundry ke vendor/proses v4 baru lalu diterima kembali. Versi pertama kasus ini (run 36214643622) FAIL karena bacaan QC di salinan uji belum memuat ID seed; halaman Laundry saat itu sudah lulus (2 ID non-RFC, 22 ID v4).
+- **Alat:** pengecualian F3 di cek parser halaman probe BC dan BD dihapus (dulu ID seed ditulis ulang atau disisihkan sebelum parse). Sekarang setiap penolakan membuat fase gagal; `non_rfc_files` menghitung berkas ber-ID seed yang terbaca apa adanya. Cek data cutover mengikuti pola frontend yang baru dan mencatat jumlah nilai non-RFC sebagai informasi. Galeri UI tidak lagi menonaktifkan seed.
+
+### 33.2 D09: ACC-C12 opsi (a), rujukan sumber wajib
+
+- Setiap baris berkas `OPENING_ACCESSORY_CUSTODY` wajib membawa rujukan sumber: lembar hitung + baris (`count_sheet`, `sheet_line`) atau lot sumber (`source_lot`), salah satu saja. Tanpa rujukan, dengan dua bentuk sekaligus, atau lembar tanpa baris: ditolak `BC_C12_SOURCE_REQUIRED`.
+- Identitas sumber (jenis + teks dirapikan, huruf kecil, spasi dipadatkan) dicatat bersama barangnya di `erp.bd_custody_sources_v1` (tabel baru; RLS aktif, tanpa grant). Sumber yang sama ditolak kedua kalinya dengan kunci custody apa pun, baik di batch yang sama maupun sesudah batch lain diposting (`BC_C12_SAME_SOURCE`); posting bersamaan gagal di kunci tabel. Baris lain dari lembar yang sama adalah barang lain; lembarnya sendiri tidak dikunci.
+- Dibawa keluarga BD sebagai substitusi yang dicek atas teks BC `erp.bc_check_import_row_v1` dan `erp.bc_apply_imports_v1` (masuk REPLACED BD, ditangkap dan dipulihkan rollback). Paket dan fungsi BC sendiri tidak berubah. Kolom baru ada di bagian `_extend` katalog BD, sehingga ikut katalog server dan templat halaman impor.
+- Kasus `D09:ACC_C12_SOURCE_IDENTITY`. Fase before (rantai BC): barang sama dengan kunci baru diterima (3 → 6), COUNTEREXAMPLE. Fase after:
+  - lembar S baris 1 dan 2 serta lot L diposting (9 pending, tanpa jurnal);
+  - barang sama dengan kunci baru ditolak, baik per baris lembar (huruf besar/kecil dan spasi diabaikan) maupun per lot, termasuk dua kali dalam satu batch;
+  - replay kunci yang sama dan replay permintaan FINALIZE yang sama tidak menambah qty maupun jurnal;
+  - baris 3 dari lembar yang sama dan lot lain diterima (17).
+
+  ACC-C12 ditutup sesudah auditor memverifikasi.
+
+### 33.3 D10: pembagian selisih invoice laundry
+
+- Perilaku produk sudah sesuai D10, jadi tidak ada perubahan produk: selisih invoice mengikuti baris penerimaan yang ditagih (sumber tagihannya), lalu dibagi per potong.
+- Kasus baru `D10:VARIANCE_BY_BILLING_SOURCE`: satu grup 6 + 4 potong, ukuran 1 ke vendor A proses P, ukuran 2 ke vendor B proses Q. Invoice vendor A sebesar 32.000 untuk 6 potong (estimasi 30.000): lot vendor A +2.000, lot vendor B tetap, WIP tidak bersisa.
+- Oracle `T24:MULTI_SIZE_LOT_HPP` kini merujuk D10: selisih 2.000 dari satu sumber tagihan dibagi per potong (1.200 dan 800), tidak menurut tarif ukuran. Tarif ukuran vendor (LAU-DEC05) tetap menentukan estimasi tiap ukuran. Hasil lama (run 36209582054) tetap tercatat apa adanya.
+
+### 33.4 D11 dan GBD-03
+
+`docs/cp6-d11-kebijakan-dan-gbd03.md` memuat:
+- tabel 13 kebijakan: nama, kegunaan, pilihan yang diterima server, rekomendasi writer beserta alasannya, dan transaksi yang tertahan selama nilainya kosong. Nilai tetap `PENDING_POLICY_VALUE`, dan writer tidak mengusulkan angka;
+- dua opsi berangka untuk representasi klaim laundry lama (GBD-03). Opsi 1 adalah perilaku kode sekarang: potongan yang diklaim tetap di WIP sebagai tahanan. Opsi 2: potongan hilang dipindah ke piutang klaim saat cutover. Contoh angkanya diambil dari oracle GBD-03.
+
+### 33.5 Run
+
+| Uji | Run | Head | Hasil |
+|---|---|---|---|
+| Browser BC D08 pertama (nota tanpa menonaktifkan seed) | 36214642497, job 108328077986 | 21dd3d7 | race 11/11, HTTP 2/2, browser 4/4 PASS; `NOTE_PAGE_D09_DESKTOP_PHONE` dengan 6 mandor seed aktif, nota HP memakai seed `a1000000-…-0001`, nota desktop memakai mandor v4; skenario `047e8070…`, modul browser `6260488c…` |
+| Browser BD D08 pertama | 36214643622 | 21dd3d7 | `D08_LAUNDRY_QC_CANONICAL_IDS` FAIL: bacaan QC di salinan uji belum memuat ID seed; Laundry lulus (2 non-RFC, 22 v4). Dicatat apa adanya; kasusnya diperbaiki di 72d3544 |
+| Probe BD 31 kasus (before + after, cek parser halaman) | 36215293758 (job before 108329947257, after 108329947195) | 72d3544 | before: 29 `NO_ROUTE` + D07 dan D09 `COUNTEREXAMPLE`, sesuai rencana, parser 67 berkas PASS; after: **31/31 PASS** (termasuk `D09:ACC_C12_SOURCE_IDENTITY`, `D10:VARIANCE_BY_BILLING_SOURCE`, `T24:MULTI_SIZE_LOT_HPP`), parser 186 berkas PASS dengan `non_rfc_files` 5, `expectation_mismatch` kosong, `primary_unchanged` |
+| Race, HTTP, browser BD (`phase=after`) | 36215298300, job 108329965812 | 72d3544 | race 9/9, HTTP 3/3, browser 4/4 PASS, `RUN_COMPLETE`; `D08_LAUNDRY_QC_CANONICAL_IDS` PASS: Laundry 2 ID non-RFC + 22 v4, QC 1 non-RFC + 18 v4 sesudah batch seed `c8e40000-…-0008` dikirim dan diterima lewat halaman; kedua halaman tanpa galat dan tanpa teks "bukan UUID valid"; skenario `296f6d6d…`, modul browser `95776454…` |
+| Race, HTTP, browser BC (`phase=after`) | 36215299373, job 108329967370 | 72d3544 | race 11/11, HTTP 2/2, browser 4/4 PASS; `NOTE_PAGE_D09_DESKTOP_PHONE` `v4_control`, `seed_non_rfc`, `seeds_still_active` semuanya true; impor aksesori dengan rujukan sumber D09 PASS; skenario `047e8070…`, modul browser `5438ea72…` |
+| Paket T3: capture pin (D09) | 36215293924, job 108329948062 | 72d3544 | job merah karena paket yang di-commit basi (differ `['BD']`), sesuai alur rebuild; blob `7ef5f631…` (107083 byte) |
+| Paket T3: install 28 berkas, verify, advisor, drill restore, cek data | 36215855288, job 108331562765 | c537686 | `ALL_STAGES_INSTALLED`; advisor 73 → 188 (+115, semua `INFO rls_enabled_no_policy`, termasuk `bd_custody_sources_v1`; 0 dihapus), gate `true`; drill `RESTORED_SAME_MEANING`; UUID `CLEAN` (1005 kolom, pola kanonik D08, `non_rfc_total` 0); alias kas `NONE` |
+| Paket T3: pin dicapture ulang dan dibandingkan | 36215855288, job 108331562577 | c537686 | `CAPTURED_AND_INSTALLED`; pin sama (`differ` kosong) |
+| Paket T3: flow browser AU dengan UI kandidat | 36215855288, job 108331562702 | c537686 | 10/10 PASS, 0 galat konsol, `primary_unchanged` |
+| Rollback: capture | 36215855321, job 108331562679 | c537686 | `CAPTURED`; blob `411c10a2…` (125461 byte); kapsul BD 23 objek |
+| Rollback: cycle | 36216664160, job 108333855272 | ea8f884 | 139/139 PASS; `primary_unchanged` |
+| CodeQL kandidat | 36216689751 | ea8f884 | sukses |
+| T2 gabungan | 36216690784 (job AR 108333938565, regresi 108333938507, temporal 108333938435) | ea8f884 | 3/3 job sukses. AR: `AR_SEQUENTIAL` 145 PASS + 1 INCOMPLETE, `AR_CONCURRENCY` 28 PASS (146 + 28 = 174, sesuai nama job), `AR_SUPERSEDING / ACCESSORY_CONNECTED_ZERO_REFUSED_BC_FREE_POLICY` PASS. Kasus INCOMPLETE di run ini adalah `ACCESSORY_CONNECTED_ZERO`, yang sudah digantikan kasus superseding. Regresi: BUSINESS 179 PASS + 39 `CONTROL_PASS` + 12 `DATE_POLICY_REVIEW_REQUIRED`, IMPORTS 31, VALUES 65, oracle C0 25/25, oracle tanggal yang disetujui 8/8 `MATCH`. Identitas per kasus tidak menambah atau menghapus kasus; yang berpindah hanya 8 kasus AS tanggal (PASS → `COUNTEREXAMPLE`, oracle-nya disetujui owner) dan `ADJUSTMENT_DATE:False` (PASS → INCOMPLETE); verdict `DISPOSITION_REQUIRED` karena kasus historis itu. Temporal: AT 16 + 4 race, AU 15 + 6 race, semuanya PASS |
+
+Koreksi atas §32.5: baris T2 di sana menulis `AR_SEQUENTIAL` 102 PASS + 1 INCOMPLETE. Skrip T2 tidak berubah sejak 94c4327, dan job AR run 36216690784 mencatat 145 PASS + 1 INCOMPLETE (146 kasus berurutan; 174 bersama 28 race). Angka 102 di §32.5 adalah salah catat writer; log run 36208946534 tidak dibaca ulang, jadi nama kasus INCOMPLETE di run itu tetap diminta dikonfirmasi auditor.
+
+Run lama di runtime auditor dan run capture yang merah karena paket basi tetap tercatat di pesan commit masing-masing; yang berlaku untuk head ini adalah baris di atas.
+
+### 33.6 Identitas
+
+- **Head:** commit yang memuat bagian ini. Cabang kompetisi tetap `ca7f095`. Tidak ada SQL ke hosted atau legacy.
+- **Urutan commit putaran ini:**
+  - `21dd3d7` (D08, dua baris regex);
+  - `72d3544` (D09 produk dan alat, D10, D11, kasus browser D08 QC);
+  - `c537686` (paket T3 untuk D09);
+  - `ea8f884` (berkas rollback untuk D09).
+
+  Sesudahnya hanya dokumen.
+- **Produk** (`src` + `supabase/release` + `supabase/migrations`) terakhir berubah di **ea8f884**. Hash tree git:
+  - `src` `b8fbd6c9c13dce9406f9a215f6e04a5b52030632` (berubah di 21dd3d7 dan 72d3544; sebelumnya `4c16bb27…`)
+  - `supabase/release` `d098d1c86a69ee279f0ab9f233e74d1c10422030`
+  - `supabase/migrations` `8f6053bbd0bda80da18065418ad43371cdfd9461` (tidak berubah)
+- **Berkas produk D08:** `src/accessoryIssue.ts` `e15b40b38145ab2f…`, `src/laundryQcModel.ts` `aed6fb92ebe2cd92…`.
+- **Paket T3:** 28 berkas AC..BD; berkas AC..BC tidak berubah.
+  - `supabase/release/cp6-t3/MANIFEST.json` `757596fc00c67269…`
+  - berkas BD: sumber `1ed73b954696d51b…`, paket `68f0292f0a10f119…`
+  - blob pin `7ef5f631452c9f5c…` (capture job 108329948062, run 36215293924)
+- **Rollback:**
+  - `ROLLBACKS.json` `10eef8d4c634c490…`
+  - berkas BD `095044e2ecfc1d4c…` (kapsul 23 objek)
+  - capture `411c10a272a72565…` (job 108331562679, run 36215855321)
+- **Dev (bukan produk sampai masuk paket):**
+  - `supabase/dev/cp6_bd_t1_family.sql` `9036809fd67f3f16…`
+  - D09 `scripts/cp6_bd_objects_d09.sql` `75228766bc969399…`
+  - D07 `scripts/cp6_bd_objects_d07.sql` `f929f6c1f0dfed06…` (tidak berubah)
+- **Alat uji (terpisah dari produk):**
+  - `scripts/cp6_bd_probe.py` `6e640543fba1d95f…` (31 kasus)
+  - `scripts/cp6_bd_modes.py` `296f6d6d66cb2cb2…` (tidak berubah)
+  - `scripts/cp6_bd_browser.mjs` `957764542a35a238…` (di 21dd3d7: `d1159c30c6a1def4…`)
+  - `scripts/cp6_bd_workspace_parse.mjs` `c80fe0f4103dcdc1…`
+  - `scripts/cp6_bd_build.py` `df123a1f276fe56d…`
+  - `scripts/cp6_bc_probe.py` `564a71c09288631a…`
+  - `scripts/cp6_bc_modes.py` `047e807053dcdfd5…` (tidak berubah)
+  - `scripts/cp6_bc_browser.mjs` `5438ea72c8966752…` (di 21dd3d7: `6260488c786daed5…`)
+  - `scripts/cp6_bc_workspace_parse.mjs` `e147df00654367ef…`
+  - `scripts/cp6_cutover_data_checks.py` `f596adb2f7667233…`
+  - `scripts/cp6_ui_gallery.mjs` `1f975c09762925f0…`
+  - `scripts/cp6_t2_regression.py` `34b2cd06ed349082…`, `scripts/cp6_t3_rollback.py` `3feb51a2a9a0a204…`, `scripts/cp6_t3_release_package.py` `31abfd3060adeb92…` (ketiganya tidak berubah)
+- **Pemeriksaan frontend (lokal, bukan bukti CI):** `npm test` 540/540, `test:security`, dan build lolos.
+
+### 33.7 Untuk auditor: menjalankan ulang pada head ini
+
+Sama dengan §32.8, dengan perubahan berikut:
+- Probe BD kini 31 kasus. Hasil yang diharapkan: fase before 29 `NO_ROUTE` + D07 dan D09 `COUNTEREXAMPLE`; fase after 31 PASS.
+- Runtime auditor BC (`scenario_path=scripts/cp6_bc_modes.py`, `browser_path=scripts/cp6_bc_browser.mjs`) memuat nota D08 tanpa menonaktifkan seed. Runtime auditor BD memuat `D08_LAUNDRY_QC_CANONICAL_IDS`.
+- Rollback auto pada head ini menjalankan cycle, karena capture sudah di-commit di ea8f884.
+
+### 33.8 Yang masih terbuka
+
+- **Owner:** nilai 13 kebijakan (tabel D11); pilihan opsi GBD-03.
+- **Auditor:** verifikasi D07 beserta rumus toleransinya, L8, pembanding rollback BC+BD, GBD-01/02, `STALE_F2` bersyarat, D08 (diff dan browser), D09, D10.
+- **Kecil:** nama kasus INCOMPLETE T2 run 36208946534 (job 108311309338). Pembacaan log itu diblokir pemeriksa izin sesi pada putaran sebelumnya, dan writer tidak mengulanginya; auditor diminta mengonfirmasi dari log. Pada run T2 baru 36216690784 (job AR 108333938565, skrip T2 yang sama), kasus INCOMPLETE adalah `ACCESSORY_CONNECTED_ZERO`.
+- **Operator:** inventaris ID cutover.
+- **UI-01:** halaman BC/BD dan halaman berikutnya mengikuti tampilan dan interaksi demo Cloudflare; dikerjakan belakangan sesuai urutan owner.
+- **Writer, berikutnya:** BE, lalu uji gabungan.
