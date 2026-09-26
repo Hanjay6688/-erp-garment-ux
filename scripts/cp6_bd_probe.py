@@ -746,6 +746,13 @@ def w05_rows(today,claims=((None,'MISSING','1'),),payable=None,stage='LAUNDRY',u
     return rows
 
 
+def amount_keys(value,path=''):
+    """Every key naming an amount in a JSON value (a production reader's view must carry none)."""
+    if isinstance(value,dict):return [p for k,v in value.items() for p in ([path+'.'+k] if 'amount' in k else [])+amount_keys(v,path+'.'+k)]
+    if isinstance(value,list):return [p for i,v in enumerate(value) for p in amount_keys(v,'%s[%d]'%(path,i))]
+    return []
+
+
 def claim_of(cur,fx,index=0):
     return bbp.source_of(cur,fx)['bd']['claims'][index]
 
@@ -804,7 +811,9 @@ def w05_claim_continuations(cur,today):
     a claim opened after cutover is cancelled; it held its piece until the day it was cancelled, so completing 7 dated the day
     before is refused (BA A3 dated remaining). The 7 are completed, so the recovery can no longer be reversed; recovering more
     than the claim still holds is refused. A SETTLED compensation above the vendor's payable (50.00) is refused; 3.00 posts
-    once AP_VENDOR 3.00 / OTHER_EXPENSE -3.00, a second resolution is refused, and reversing it reverses its journal."""
+    once AP_VENDOR 3.00 / OTHER_EXPENSE -3.00, a second resolution is refused, and reversing it reverses its journal. The claim
+    part that production readers get (the opening WIP row and the WIP status page) carries quantities and states only: no
+    amount, also after a SETTLED compensation (the compensation stays on the owner/admin import workspace)."""
     rows=w05_rows(today,claims=((None,'MISSING','2'),),payable=('50.00','0.00'))
     if not bd_installed(cur):return no_route(cur,lambda:bbp.production_post(cur,today,rows))
     fx=bbp.production_post(cur,today,rows)
@@ -831,6 +840,10 @@ def w05_claim_continuations(cur,today):
     b0=bcp.ledger(cur,W05_KEYS)
     claim_op(cur,fx,'RESOLVE_CLAIM',c,resolution='SETTLED',compensation_amount='3.00',date=str(today))
     settled=bcp.delta(b0,bcp.ledger(cur,W05_KEYS))
+    status_rows=one(cur,"select erp.get_wip_control_v1('ALL',null,'PATTERN',%s)",fx['code'])['opening_rows']
+    production_part=bbp.source_of(cur,fx)['bd']
+    leaked=amount_keys(production_part)+amount_keys([x.get('bd') for x in status_rows])
+    compensation_listed=[x.get('compensation_amount') for x in api.read(cur,fx['batch'])['batch']['laundry_claims'] if x['origin']=='IMPORT']
     c=claim_of(cur,fx) if claim_of(cur,fx)['origin']=='IMPORT' else claim_of(cur,fx,1)
     twice=refused(cur,lambda:claim_op(cur,fx,'RESOLVE_CLAIM',c,resolution='WRITTEN_OFF',date=str(today)),'BD_W05_CLAIM_RESOLVED')
     resolve_event=[e for e in c['events'] if e['kind']=='RESOLVE' and not e['reversed']][0]['event_id']
@@ -841,8 +854,10 @@ def w05_claim_continuations(cur,today):
         imported_not_cancelled=imported_cancel['ok'],later_cancelled=cancelled['remaining_qty_pcs']==7,held_until_cancelled=dated['ok'],
         recovery_in_use=in_use['ok'],
         recover_capacity=over_recover['ok'],compensation_capped=above['ok'],
-        compensation_once=settled=={'AP_VENDOR':D('3.00'),'OTHER_EXPENSE':D('-3.00')},resolved_once=twice['ok'],inverse=back==b0),
-        settled={k:str(v) for k,v in settled.items()},refusals=[too_many,duplicate,imported_cancel,dated,in_use,over_recover,above,twice])
+        compensation_once=settled=={'AP_VENDOR':D('3.00'),'OTHER_EXPENSE':D('-3.00')},resolved_once=twice['ok'],inverse=back==b0,
+        production_reads_without_amounts=leaked==[] and bool(status_rows) and all(x.get('bd') is not None for x in status_rows),
+        compensation_on_import_workspace=[str(v) for v in compensation_listed]==['3.00']),
+        settled={k:str(v) for k,v in settled.items()},leaked=leaked,compensation_listed=[str(v) for v in compensation_listed],refusals=[too_many,duplicate,imported_cancel,dated,in_use,over_recover,above,twice])
 
 
 def w05_import_refusals(cur,today):
