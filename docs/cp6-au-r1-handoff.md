@@ -2952,3 +2952,23 @@ Sama dengan §33.7, dengan perubahan berikut:
 - **Batas yang diketahui:** lihat §34.4. Piutang ke vendor belum punya alur; LAU-DEC04 belum diuji di browser; status "HPP belum final" hanya tampil di halaman laundry.
 - **BE:** dijalankan GPT sesuai arahan owner. Writer ini tidak menyentuh BE.
 - **Tetap dari §33.8:** inventaris ID cutover (operator) dan UI-01 (tampilan halaman BC/BD mengikuti demo Cloudflare, dikerjakan belakangan sesuai urutan owner).
+
+### 34.9 LAU-T36: koreksi pembanding atas izin owner (26 September 2026)
+
+Owner mengizinkan koreksi dengan tiga syarat; ketiganya dipenuhi di commit `4a3c099` (hanya `scripts/cp6_bd_browser.mjs` dan baris T36 di `docs/cp6-bd-case-table.md`).
+
+- **Alasan.** Layar dan baris tagihan memuat **nama** komponen (`T36 GAR`), bukan kodenya. Kontrak LAU-05b meminta komponen, jumlah, dan status harga terbaca; kontrak tidak mewajibkan kode komponen tampil. Jadi yang dikoreksi adalah pembanding tes, bukan aplikasi. Produk tidak berubah: `src`, `supabase/release`, dan `supabase/migrations` sama dengan 231f47b.
+- **Syarat 1.** Nilai yang diharapkan pada cek `mixed_coverage` sekarang persis `T36 GAR:2:KNOWN,T36 SPR:1:UNKNOWN`, sesuai urutan baris. Alternatif urutan bebas yang dulu ada ikut dihapus, jadi cek ini lebih ketat. Alasannya ditulis juga di komentar tes.
+- **Syarat 2.** Run 36218676593 dan 36219655269 tetap tercatat **FAIL** apa adanya (§34.2, §34.5). Hasil baru dicatat sebagai run baru dengan hash skenario baru.
+- **Syarat 3.** Cek baru `labels_from_server_components` memastikan tes tidak hanya mencocokkan teks:
+  - lewat SQL, setiap baris tagihan kiriman ditautkan dengan `ref_id` ke komponen tersimpan milik vendor kasus;
+  - hasilnya harus `GAR=T36 GAR:SAME,SPR=T36 SPR:SAME`, artinya urutan GAR lalu SPR dan label sama dengan nama tersimpan komponen itu;
+  - nama komponen `SPR` di server harus `T36 SPR`, dan harga yang diisi di HP harus harga baris `SPR`.
+
+  Baris yang tidak tertaut akan tercatat `?=…:DIFF`; ini sudah dicoba dengan data tiruan di PG16 lokal, dan hasil lokal itu bukan bukti.
+
+| Uji | Run | Head | Hasil |
+|---|---|---|---|
+| Race, HTTP, browser BD (`phase=after`) | 36226363180, job 108361073793 | 4a3c099 | Race 9/9, HTTP 3/3, **browser 8/8 PASS**. Hash skenario browser `3ac3e2b2483767e86e533f6c3069f14ae9555e1899caf02c0d00454a91fbdb52` (sebelumnya `5649fab6…`); `scripts/cp6_bd_modes.py` tidak berubah (`296f6d6d…`). `LAU_T36_PHONE_MIXED_COVERAGE`: ketujuh cek bernilai `true`; tagihan sesudah kirim `T36 GAR:2:KNOWN,T36 SPR:1:UNKNOWN` (10000.00, belum lengkap); `component_link` `GAR=T36 GAR:SAME,SPR=T36 SPR:SAME`; label harga yang diisi `T36 SPR`; sesudah isi `13000.00\|true`; akrual 13000.00 = 13000.00. Kasus D12, DEC06, D08, kebijakan, dan W05 PASS |
+
+Butir owner "izin mengganti expected oracle LAU-T36" di §34.8 sudah selesai. Auditor diminta meninjau diff tes ini (`git diff 30fd82f 4a3c099 -- scripts/cp6_bd_browser.mjs`).
