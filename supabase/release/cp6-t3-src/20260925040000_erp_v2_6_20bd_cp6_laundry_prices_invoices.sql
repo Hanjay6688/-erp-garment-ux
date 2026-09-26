@@ -1,6 +1,6 @@
 -- CP6 BD: priced laundry deliveries, vendor invoices and owner laundry policy settings (LAU-05b, LAU-DEC01..06, ALL-W05). Release candidate of the T3 combined package; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_bd_t1_family.sql (sha256 9036809fd67f3f16e326ea12ffec3b1a6d8ed9d314b6bc4503cb2936ff7b47c7): the T1 body below is unchanged apart from the
+-- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_bd_t1_family.sql (sha256 c6dc2521e1cfc89d055f32d51f1ce7f9ac5bb21e5388ebcf4b7f29f4f84f1da1): the T1 body below is unchanged apart from the
 -- ledger description; guards follow AO..AV. Capsule and catalog pins are placeholders until the T3 capture.
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
@@ -22,7 +22,7 @@ begin
 end $lock_business$;
 do $admission$ begin
  if exists(select 1 from erp.schema_migrations where version='v2.6.20bd') or to_regclass('erp.cp6_v2620bd_rollback_capsule') is not null
-  or to_regclass('erp.bd_policy_settings_v1') is not null or to_regclass('erp.bd_policy_setting_events_v1') is not null or to_regclass('erp.bd_execution_context_v1') is not null or to_regclass('erp.bd_laundry_vendor_terms_v1') is not null or to_regclass('erp.bd_laundry_components_v1') is not null or to_regclass('erp.bd_laundry_component_rates_v1') is not null or to_regclass('erp.bd_laundry_packages_v1') is not null or to_regclass('erp.bd_laundry_package_components_v1') is not null or to_regclass('erp.bd_laundry_package_rates_v1') is not null or to_regclass('erp.bd_laundry_scoped_rates_v1') is not null or to_regclass('erp.bd_requests_v1') is not null or to_regclass('erp.bd_laundry_priced_lines_v1') is not null or to_regclass('erp.bd_laundry_charge_lines_v1') is not null or to_regclass('erp.bd_laundry_charge_shares_v1') is not null or to_regclass('erp.bd_laundry_size_estimates_v1') is not null or to_regclass('erp.bd_laundry_receipt_allocations_v1') is not null or to_regclass('erp.bd_laundry_invoices_v1') is not null or to_regclass('erp.bd_laundry_invoice_lines_v1') is not null or to_regclass('erp.bd_opening_laundry_claims_v1') is not null or to_regclass('erp.bd_opening_laundry_claim_events_v1') is not null or to_regclass('erp.bd_opening_laundry_uninvoiced_v1') is not null or to_regclass('erp.bd_custody_sources_v1') is not null
+  or to_regclass('erp.bd_policy_settings_v1') is not null or to_regclass('erp.bd_policy_setting_events_v1') is not null or to_regclass('erp.bd_execution_context_v1') is not null or to_regclass('erp.bd_laundry_vendor_terms_v1') is not null or to_regclass('erp.bd_laundry_components_v1') is not null or to_regclass('erp.bd_laundry_component_rates_v1') is not null or to_regclass('erp.bd_laundry_packages_v1') is not null or to_regclass('erp.bd_laundry_package_components_v1') is not null or to_regclass('erp.bd_laundry_package_rates_v1') is not null or to_regclass('erp.bd_laundry_scoped_rates_v1') is not null or to_regclass('erp.bd_requests_v1') is not null or to_regclass('erp.bd_laundry_priced_lines_v1') is not null or to_regclass('erp.bd_laundry_charge_lines_v1') is not null or to_regclass('erp.bd_laundry_charge_shares_v1') is not null or to_regclass('erp.bd_laundry_size_estimates_v1') is not null or to_regclass('erp.bd_laundry_receipt_allocations_v1') is not null or to_regclass('erp.bd_laundry_invoices_v1') is not null or to_regclass('erp.bd_laundry_invoice_lines_v1') is not null or to_regclass('erp.bd_opening_laundry_claims_v1') is not null or to_regclass('erp.bd_opening_laundry_claim_events_v1') is not null or to_regclass('erp.bd_opening_laundry_uninvoiced_v1') is not null or to_regclass('erp.bd_custody_sources_v1') is not null or to_regclass('erp.bd_claim_credit_applications_v1') is not null
  then raise exception 'BD_EXACT_PREDECESSOR_WITHOUT_SUCCESSOR_REQUIRED';end if;
 end $admission$;
 do $predecessor$
@@ -148,7 +148,7 @@ insert into erp.cp6_v2620bd_rollback_capsule(object_identity,object_regidentity,
 select format('%I.%I(%s)',n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)),i.identity,pg_get_functiondef(p.oid),
  encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex'),
  array(select a::text from unnest(p.proacl)a order by a::text),pg_get_userbyid(p.proowner)
-from unnest(array['erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','erp.post_laundry_delivery(uuid)','erp.desired_laundry_accrual(uuid)','erp.rebuild_po_hpp(uuid,text)','erp.period_blockers_v1(date,date)','erp.set_laundry_rate_owner_estimate_v1(uuid,numeric,text)','erp.validate_laundry_receipt_line()','erp.cp6_lot_failed_wash_cost_v2620e(uuid)','erp.guard_cp6_vendor_invoice_receipt_on_post_v2620()','erp.post_sale(uuid)','erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)','erp._validate_migration_batch_base(uuid)','erp.finalize_migration_batch(uuid)','erp.save_initial_import_action_v1(text,jsonb,uuid)','erp.get_initial_import_workspace_v1(uuid)','erp.initial_import_revision_v1(uuid)','erp.complete_initial_import_wip_v1(jsonb)','erp.initial_import_production_rows_v1(uuid)','erp.guard_initial_import_po_completion_v1()','erp.get_wip_control_v1(text,uuid,text,text)','erp.run_v255_material_cost_integrity_checks()','erp.bc_check_import_row_v1(uuid,uuid)','erp.bc_apply_imports_v1(uuid)']) i(identity)
+from unnest(array['erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','erp.post_laundry_delivery(uuid)','erp.desired_laundry_accrual(uuid)','erp.rebuild_po_hpp(uuid,text)','erp.period_blockers_v1(date,date)','erp.set_laundry_rate_owner_estimate_v1(uuid,numeric,text)','erp.validate_laundry_receipt_line()','erp.cp6_lot_failed_wash_cost_v2620e(uuid)','erp.guard_cp6_vendor_invoice_receipt_on_post_v2620()','erp.post_sale(uuid)','erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)','erp._validate_migration_batch_base(uuid)','erp.finalize_migration_batch(uuid)','erp.save_initial_import_action_v1(text,jsonb,uuid)','erp.get_initial_import_workspace_v1(uuid)','erp.initial_import_revision_v1(uuid)','erp.complete_initial_import_wip_v1(jsonb)','erp.initial_import_production_rows_v1(uuid)','erp.guard_initial_import_po_completion_v1()','erp.get_wip_control_v1(text,uuid,text,text)','erp.run_v255_material_cost_integrity_checks()','erp.bc_check_import_row_v1(uuid,uuid)','erp.bc_apply_imports_v1(uuid)','erp.bb_opening_credit_lines_v1(uuid)','erp.bb_opening_credit_account_v1(uuid)']) i(identity)
 join pg_proc p on p.oid=i.identity::regprocedure join pg_namespace n on n.oid=p.pronamespace;
 create temp table cp6_release_functions on commit drop as
 select p.oid::regprocedure::text as identity,encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex') as definition_sha256,
@@ -2245,6 +2245,316 @@ begin
   end if;
   return null;
 end;$function$;
+-- ================================================================ D12 (owner 26 Sep 2026): a laundry claim credit settles unpaid
+-- documents of the same vendor, older ones included. Example: invoice January 10,000,000; reject February; claim approved April
+-- 2,000,000; cash April 8,000,000: the January invoice is paid by 8,000,000 cash plus 2,000,000 claim credit, with no phantom
+-- remaining and no credit used twice, and nothing dated January changes.
+-- Accounting: the claim approval keeps its own journal on its own date (daily claim: baseline LAUNDRY_CLAIM_SETTLEMENT; opening
+-- claim: BD_OPENING_LAUNDRY_CLAIM; both AP_VENDOR Dr / OTHER_EXPENSE Cr), so the vendor's payable falls on the approval date.
+-- Applying the credit to a document is the document's settlement on the application date:
+--   * a daily vendor invoice: a vendor payment with method CLAIM_CREDIT (no cash account) whose journal is AP_VENDOR Dr / AP_VENDOR
+--     Cr for the vendor (the payable already fell at approval), so the invoice's paid amount, remaining and PAID status follow the
+--     same rules as a cash payment (V2620C status check, business date check V2620Y, reverse_vendor_payment);
+--   * an opening vendor payable: an opening subledger settlement with a VENDOR_CLAIM_APPLY credit (AP_VENDOR Dr / AP_VENDOR Cr), so
+--     the settled amount and status follow the BB rules (V2620M, dated floor).
+-- The credit left to use is the compensation less the applications whose payment/settlement is still POSTED. A claim whose
+-- credit is in use cannot be reversed; reversing the application (its payment or settlement) frees the credit again.
+-- Per vendor: AP_VENDOR on the ledger = remaining of the open documents - credit not yet applied (bd_vendor_payables_v1).
+
+alter table erp.bb_opening_credits_v1 drop constraint bb_opening_credits_v1_credit_kind_check;
+alter table erp.bb_opening_credits_v1 add constraint bb_opening_credits_v1_credit_kind_check
+  check(credit_kind in('CUSTOMER_ALLOWANCE','SUPPLIER_ALLOWANCE','VENDOR_ALLOWANCE','CUSTOMER_CREDIT_APPLY','ACCESSORY_NOTE_RETURN','VENDOR_CLAIM_APPLY'));
+
+create table erp.bd_claim_credit_applications_v1(
+  id uuid primary key,
+  vendor_id uuid not null references erp.laundry_vendors(id),
+  source_kind text not null check(source_kind in('DAILY_CLAIM','OPENING_CLAIM')),
+  laundry_claim_id uuid references erp.laundry_claims(id),
+  opening_claim_event_id uuid references erp.bd_opening_laundry_claim_events_v1(id),
+  target_kind text not null check(target_kind in('VENDOR_INVOICE','OPENING_PAYABLE')),
+  vendor_payment_id uuid unique references erp.vendor_payments(id),
+  opening_settlement_id uuid unique references erp.opening_subledger_settlements(id),
+  amount numeric(18,2) not null check(amount>0),
+  applied_date date not null,
+  reason text not null check(length(btrim(reason))>0),
+  created_by uuid,
+  created_at timestamptz not null default statement_timestamp(),
+  check((source_kind='DAILY_CLAIM')=(laundry_claim_id is not null) and (source_kind='OPENING_CLAIM')=(opening_claim_event_id is not null)),
+  check((target_kind='VENDOR_INVOICE')=(vendor_payment_id is not null) and (target_kind='OPENING_PAYABLE')=(opening_settlement_id is not null))
+);
+create index bd_claim_credit_applications_v1_daily on erp.bd_claim_credit_applications_v1(laundry_claim_id);
+create index bd_claim_credit_applications_v1_opening on erp.bd_claim_credit_applications_v1(opening_claim_event_id);
+create index bd_claim_credit_applications_v1_vendor on erp.bd_claim_credit_applications_v1(vendor_id);
+comment on table erp.bd_claim_credit_applications_v1 is 'D12: a laundry claim credit applied to one unpaid document of the same vendor; active while its vendor payment or opening settlement is POSTED.';
+
+-- Credit of one claim already applied (applications whose payment or settlement is still POSTED).
+CREATE OR REPLACE FUNCTION erp.bd_claim_credit_applied_v1(p_kind text,p_id uuid)
+ RETURNS numeric LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select coalesce(sum(a.amount),0)::numeric(18,2) from erp.bd_claim_credit_applications_v1 a
+  left join erp.vendor_payments p on p.id=a.vendor_payment_id
+  left join erp.opening_subledger_settlements s on s.id=a.opening_settlement_id
+  where a.source_kind=p_kind and (case when p_kind='DAILY_CLAIM' then a.laundry_claim_id else a.opening_claim_event_id end)=p_id
+    and coalesce(p.status,s.status)='POSTED'
+$function$;
+
+-- One claim credit: vendor, compensation, approval date, claim number and whether it can be used (approved, not reversed).
+CREATE OR REPLACE FUNCTION erp.bd_claim_credit_source_v1(p_kind text,p_id uuid)
+ RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select case p_kind
+    when 'DAILY_CLAIM' then (select jsonb_build_object('kind',p_kind,'id',c.id,'vendor_id',c.vendor_id,'number',c.claim_number,
+        'amount',c.compensation_amount::numeric(18,2)::text,'approved_date',c.resolution_date,
+        'active',c.status='SETTLED' and c.compensation_amount>0 and exists(select 1 from erp.journal_entries j
+          where j.source_type='LAUNDRY_CLAIM_SETTLEMENT' and j.source_id=c.id and j.status='POSTED'))
+      from erp.laundry_claims c where c.id=p_id)
+    when 'OPENING_CLAIM' then (select jsonb_build_object('kind',p_kind,'id',e.id,'vendor_id',oc.vendor_id,'number',oc.claim_number,
+        'amount',e.compensation_amount::numeric(18,2)::text,'approved_date',e.event_date,
+        'active',e.event_kind='RESOLVE' and e.reversed_at is null and e.compensation_amount>0 and e.journal_id is not null)
+      from erp.bd_opening_laundry_claim_events_v1 e join erp.bd_opening_laundry_claims_v1 oc on oc.id=e.claim_id where e.id=p_id)
+  end
+$function$;
+
+-- The journal lines of an opening settlement that applies a claim credit: the vendor's payable already fell when the claim was
+-- approved, so the settlement moves nothing on the ledger (AP_VENDOR Dr and Cr for the same vendor) and only settles the document.
+CREATE OR REPLACE FUNCTION erp.bd_claim_credit_opening_lines_v1(p_settlement_id uuid)
+ RETURNS jsonb LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare s erp.opening_subledger_settlements%rowtype;b erp.opening_subledger_balances%rowtype;
+begin
+  select * into s from erp.opening_subledger_settlements where id=p_settlement_id;
+  select * into b from erp.opening_subledger_balances where id=s.balance_id;
+  if b.party_type<>'VENDOR' or b.direction<>'PAYABLE' then
+    raise exception 'BB_CREDIT_KIND_MISMATCH: kredit klaim laundry hanya untuk hutang vendor laundry';end if;
+  if not exists(select 1 from erp.bd_claim_credit_applications_v1 a where a.opening_settlement_id=s.id and a.vendor_id=b.vendor_id) then
+    raise exception 'BD_CLAIM_CREDIT_SOURCE_MISSING: pemakaian kredit klaim tanpa klaim sumber';end if;
+  return jsonb_build_array(
+    jsonb_build_object('mapping_key','AP_VENDOR','debit',s.amount,'credit',0,'vendor_id',b.vendor_id),
+    jsonb_build_object('mapping_key','AP_VENDOR','debit',0,'credit',s.amount,'vendor_id',b.vendor_id));
+end;$function$;
+
+-- Paid, credited and remaining of one daily vendor invoice.
+CREATE OR REPLACE FUNCTION erp.bd_vendor_invoice_paid_v1(p_invoice uuid,p_method text)
+ RETURNS numeric LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select coalesce(sum(p.amount),0)::numeric(18,2) from erp.vendor_payments p
+  where p.vendor_invoice_id=p_invoice and p.status='POSTED'
+    and (p_method is null or (p_method='CLAIM_CREDIT')=(p.payment_method is not distinct from 'CLAIM_CREDIT'))
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.bd_apply_claim_credit_v1(p_payload jsonb,p_request uuid)
+ RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare v_kind text;v_source uuid;v_target_kind text;v_target uuid;v_amount numeric;v_date date;v_reason text;src jsonb;v_applied numeric;
+  v_available numeric;v_remaining numeric;h erp.vendor_invoices%rowtype;b erp.opening_subledger_balances%rowtype;ctx jsonb;v_vendor uuid;
+  v_at timestamptz;v_journal uuid;v_paid numeric;v_doc_date date;
+begin
+  perform erp.require_owner_admin();perform erp.require_permission('finance.hpp.manage');
+  perform erp._cp3_assert_closed_json_object(p_payload,array['source_kind','source_id','target_kind','target_id','amount','date','reason'],
+    array['source_kind','source_id','target_kind','target_id','amount','date','reason'],'claim credit payload');
+  v_kind:=p_payload->>'source_kind';v_target_kind:=p_payload->>'target_kind';
+  if v_kind not in('DAILY_CLAIM','OPENING_CLAIM') then raise exception 'BD_FIELD_INVALID: source_kind DAILY_CLAIM atau OPENING_CLAIM';end if;
+  if v_target_kind not in('VENDOR_INVOICE','OPENING_PAYABLE') then raise exception 'BD_FIELD_INVALID: target_kind VENDOR_INVOICE atau OPENING_PAYABLE';end if;
+  v_source:=erp.bd_uuid_v1(p_payload,'source_id',true);v_target:=erp.bd_uuid_v1(p_payload,'target_id',true);
+  v_amount:=erp.bb_parse_amount_v1(p_payload->>'amount','amount');
+  v_date:=erp.bb_parse_date_v1(p_payload->>'date','date');
+  v_reason:=nullif(btrim(p_payload->>'reason'),'');
+  if v_reason is null or length(v_reason)<4 then raise exception 'BD_REASON_REQUIRED: alasan minimal 4 karakter';end if;
+  -- The claim row is the credit's lock: two uses of one credit wait for each other and the second sees the first.
+  if v_kind='DAILY_CLAIM' then perform 1 from erp.laundry_claims where id=v_source for update;
+  else perform 1 from erp.bd_opening_laundry_claim_events_v1 where id=v_source for update;end if;
+  src:=erp.bd_claim_credit_source_v1(v_kind,v_source);
+  if src is null then raise exception 'BD_CLAIM_CREDIT_NOT_FOUND: klaim tidak ditemukan';end if;
+  if not (src->>'active')::boolean then raise exception 'BD_CLAIM_CREDIT_NOT_ACTIVE: klaim % belum disetujui dengan kompensasi atau sudah dibatalkan',src->>'number';end if;
+  v_vendor:=(src->>'vendor_id')::uuid;
+  if v_date<(src->>'approved_date')::date then
+    raise exception 'BD_CLAIM_CREDIT_BEFORE_APPROVAL: kredit klaim % baru ada sejak %; tidak dapat dipakai pada %',src->>'number',src->>'approved_date',v_date;end if;
+  if v_date>erp.bb_business_today_v1() then raise exception 'BD_DATE_FUTURE: tanggal pemakaian kredit di masa depan';end if;
+  v_applied:=erp.bd_claim_credit_applied_v1(v_kind,v_source);
+  v_available:=(src->>'amount')::numeric-v_applied;
+  if v_amount>v_available then
+    raise exception 'BD_CLAIM_CREDIT_EXCEEDS_AVAILABLE: kredit klaim % tersisa %, sudah terpakai %, diminta %',src->>'number',v_available,v_applied,v_amount;end if;
+  v_at:=erp.bb_physical_at_v1(v_date);
+  if v_target_kind='VENDOR_INVOICE' then
+    select * into h from erp.vendor_invoices where id=v_target for update;
+    if h.id is null then raise exception 'BD_DOCUMENT_NOT_FOUND: invoice vendor tidak ditemukan';end if;
+    if h.vendor_id<>v_vendor then raise exception 'BD_CLAIM_CREDIT_OTHER_VENDOR: kredit klaim hanya untuk tagihan vendor yang sama';end if;
+    if h.status not in('POSTED','PARTIAL_PAID') then raise exception 'BD_DOCUMENT_NOT_OPEN: invoice % sudah lunas atau tidak aktif',h.invoice_number;end if;
+    v_doc_date:=h.invoice_date;
+    v_remaining:=h.total_amount-erp.bd_vendor_invoice_paid_v1(h.id,null);
+    if v_amount>v_remaining then raise exception 'BD_CLAIM_CREDIT_EXCEEDS_REMAINING: sisa invoice % adalah %, diminta %',h.invoice_number,v_remaining,v_amount;end if;
+    if v_date<v_doc_date then raise exception 'BD_DATE_BEFORE_DOCUMENT: pelunasan tidak boleh sebelum tanggal invoice %',v_doc_date;end if;
+    insert into erp.vendor_payments(id,vendor_invoice_id,payment_number,payment_date,amount,cash_account_id,payment_method,reference_number,status,notes,created_by)
+    values(p_request,h.id,'KK-'||upper(substr(replace(p_request::text,'-',''),1,16)),v_at,v_amount,null,'CLAIM_CREDIT',left(src->>'number',100),'DRAFT',
+      v_reason,erp.current_app_user_id());
+    insert into erp.bd_claim_credit_applications_v1(id,vendor_id,source_kind,laundry_claim_id,opening_claim_event_id,target_kind,vendor_payment_id,amount,applied_date,reason,created_by)
+    values(p_request,v_vendor,v_kind,case when v_kind='DAILY_CLAIM' then v_source end,case when v_kind='OPENING_CLAIM' then v_source end,
+      v_target_kind,p_request,v_amount,v_date,v_reason,erp.current_app_user_id());
+    v_journal:=erp.post_journal('VENDOR_PAYMENT',p_request,erp._cp3_business_date(v_at),'Kredit klaim laundry '||(src->>'number')||' untuk '||h.invoice_number,
+      jsonb_build_array(jsonb_build_object('mapping_key','AP_VENDOR','debit',v_amount,'credit',0,'vendor_id',v_vendor),
+        jsonb_build_object('mapping_key','AP_VENDOR','debit',0,'credit',v_amount,'vendor_id',v_vendor)));
+    update erp.vendor_payments set status='POSTED' where id=p_request;
+    v_paid:=erp.bd_vendor_invoice_paid_v1(h.id,null);
+    update erp.vendor_invoices set status=case when v_paid=total_amount then 'PAID' else 'PARTIAL_PAID' end,updated_at=statement_timestamp() where id=h.id;
+    return jsonb_build_object('application_id',p_request,'target_kind',v_target_kind,'target_id',h.id,'document_number',h.invoice_number,
+      'amount',v_amount::text,'remaining',(h.total_amount-v_paid)::numeric(18,2)::text,'credit_left',(v_available-v_amount)::numeric(18,2)::text);
+  end if;
+  select * into b from erp.opening_subledger_balances where id=v_target for update;
+  if b.id is null or b.party_type<>'VENDOR' or b.direction<>'PAYABLE' then raise exception 'BD_DOCUMENT_NOT_FOUND: hutang vendor saldo awal tidak ditemukan';end if;
+  if b.vendor_id<>v_vendor then raise exception 'BD_CLAIM_CREDIT_OTHER_VENDOR: kredit klaim hanya untuk tagihan vendor yang sama';end if;
+  ctx:=erp.bb_opening_balance_context_v1(b.id);
+  v_remaining:=b.original_amount-b.settled_amount-erp.bb_opening_balance_reserved_v1(b.id);
+  if v_amount>v_remaining then raise exception 'BD_CLAIM_CREDIT_EXCEEDS_REMAINING: sisa hutang saldo awal % adalah %, diminta %',ctx->>'document_number',v_remaining,v_amount;end if;
+  insert into erp.opening_subledger_settlements(id,balance_id,settlement_number,physical_at,amount,cash_account_id,status,notes,created_by)
+  values(p_request,b.id,'OSS-KK-'||upper(substr(replace(p_request::text,'-',''),1,12)),v_at,v_amount,null,'DRAFT',v_reason,erp.current_app_user_id());
+  insert into erp.bb_opening_credits_v1(settlement_id,credit_kind,credit_note_number,reason)
+  values(p_request,'VENDOR_CLAIM_APPLY',left((src->>'number')||' #'||upper(substr(replace(p_request::text,'-',''),1,8)),120),v_reason);
+  insert into erp.bd_claim_credit_applications_v1(id,vendor_id,source_kind,laundry_claim_id,opening_claim_event_id,target_kind,opening_settlement_id,amount,applied_date,reason,created_by)
+  values(p_request,v_vendor,v_kind,case when v_kind='DAILY_CLAIM' then v_source end,case when v_kind='OPENING_CLAIM' then v_source end,
+    v_target_kind,p_request,v_amount,v_date,v_reason,erp.current_app_user_id());
+  perform erp.post_opening_subledger_settlement(p_request);
+  select * into b from erp.opening_subledger_balances where id=b.id;
+  return jsonb_build_object('application_id',p_request,'target_kind',v_target_kind,'target_id',b.id,'document_number',ctx->>'document_number',
+    'amount',v_amount::text,'remaining',(b.original_amount-b.settled_amount)::numeric(18,2)::text,'credit_left',(v_available-v_amount)::numeric(18,2)::text);
+end;$function$;
+
+-- Cash payment of one vendor document from the payment screen: a daily invoice through the baseline vendor payment poster, an
+-- opening payable through the BB opening settlement (same checks as the import page).
+CREATE OR REPLACE FUNCTION erp.bd_pay_vendor_document_v1(p_payload jsonb,p_request uuid)
+ RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare v_kind text;v_target uuid;v_amount numeric;v_date date;v_reason text;v_cash uuid;h erp.vendor_invoices%rowtype;ctx jsonb;v_paid numeric;v_result jsonb;
+begin
+  perform erp.require_owner_admin();perform erp.require_permission('finance.hpp.manage');
+  perform erp._cp3_assert_closed_json_object(p_payload,array['target_kind','target_id','amount','date','cash_account_id','reason'],
+    array['target_kind','target_id','amount','date','cash_account_id','reason'],'vendor payment payload');
+  v_kind:=p_payload->>'target_kind';v_target:=erp.bd_uuid_v1(p_payload,'target_id',true);
+  v_amount:=erp.bb_parse_amount_v1(p_payload->>'amount','amount');v_date:=erp.bb_parse_date_v1(p_payload->>'date','date');
+  v_reason:=nullif(btrim(p_payload->>'reason'),'');
+  if v_reason is null or length(v_reason)<4 then raise exception 'BD_REASON_REQUIRED: alasan minimal 4 karakter';end if;
+  select id into v_cash from erp.cash_accounts where id=erp.bd_uuid_v1(p_payload,'cash_account_id',true) and is_active;
+  if v_cash is null then raise exception 'BD_CASH_ACCOUNT_REQUIRED: pilih rekening kas/bank aktif';end if;
+  if v_date>erp.bb_business_today_v1() then raise exception 'BD_DATE_FUTURE: tanggal pembayaran di masa depan';end if;
+  if v_kind='VENDOR_INVOICE' then
+    select * into h from erp.vendor_invoices where id=v_target for update;
+    if h.id is null then raise exception 'BD_DOCUMENT_NOT_FOUND: invoice vendor tidak ditemukan';end if;
+    if not exists(select 1 from erp.laundry_vendors where id=h.vendor_id) then raise exception 'BD_DOCUMENT_NOT_FOUND: bukan invoice vendor laundry';end if;
+    if v_date<h.invoice_date then raise exception 'BD_DATE_BEFORE_DOCUMENT: pembayaran tidak boleh sebelum tanggal invoice %',h.invoice_date;end if;
+    insert into erp.vendor_payments(id,vendor_invoice_id,payment_number,payment_date,amount,cash_account_id,payment_method,status,notes,created_by)
+    values(p_request,h.id,'VP-'||upper(substr(replace(p_request::text,'-',''),1,16)),erp.bb_physical_at_v1(v_date),v_amount,v_cash,'CASH','DRAFT',v_reason,
+      erp.current_app_user_id());
+    perform erp.post_vendor_payment(p_request);
+    v_paid:=erp.bd_vendor_invoice_paid_v1(h.id,null);
+    return jsonb_build_object('payment_id',p_request,'target_kind',v_kind,'target_id',h.id,'document_number',h.invoice_number,'amount',v_amount::text,
+      'remaining',(h.total_amount-v_paid)::numeric(18,2)::text);
+  elsif v_kind='OPENING_PAYABLE' then
+    if not exists(select 1 from erp.opening_subledger_balances where id=v_target and party_type='VENDOR' and direction='PAYABLE') then
+      raise exception 'BD_DOCUMENT_NOT_FOUND: hutang vendor saldo awal tidak ditemukan';end if;
+    ctx:=erp.bb_opening_balance_context_v1(v_target);
+    v_result:=erp.bb_manage_opening_settlement_v1(jsonb_build_object('operation','SETTLE','batch_id',ctx->>'batch_id','balance_id',v_target,
+      'amount',v_amount::text,'effective_date',v_date::text,'cash_account_id',v_cash,'reason',v_reason),p_request);
+    return jsonb_build_object('payment_id',p_request,'target_kind',v_kind,'target_id',v_target,'document_number',ctx->>'document_number',
+      'amount',v_amount::text,'remaining',v_result->>'remaining');
+  end if;
+  raise exception 'BD_FIELD_INVALID: target_kind VENDOR_INVOICE atau OPENING_PAYABLE';
+end;$function$;
+
+-- Reverses a cash payment or a claim credit application of a laundry vendor document (the credit is free again).
+CREATE OR REPLACE FUNCTION erp.bd_reverse_vendor_settlement_v1(p_payload jsonb,p_request uuid)
+ RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare v_kind text;v_id uuid;v_reason text;
+begin
+  perform erp.require_owner_admin();perform erp.require_permission('finance.hpp.manage');
+  perform erp._cp3_assert_closed_json_object(p_payload,array['target_kind','settlement_id','reason'],array['target_kind','settlement_id','reason'],
+    'vendor settlement reversal payload');
+  v_kind:=p_payload->>'target_kind';v_id:=erp.bd_uuid_v1(p_payload,'settlement_id',true);v_reason:=nullif(btrim(p_payload->>'reason'),'');
+  if v_reason is null or length(v_reason)<4 then raise exception 'BD_REASON_REQUIRED: alasan minimal 4 karakter';end if;
+  if v_kind='VENDOR_INVOICE' then
+    if not exists(select 1 from erp.vendor_payments p join erp.vendor_invoices h on h.id=p.vendor_invoice_id
+        join erp.laundry_vendors v on v.id=h.vendor_id where p.id=v_id) then raise exception 'BD_DOCUMENT_NOT_FOUND: pembayaran vendor laundry tidak ditemukan';end if;
+    perform erp.reverse_vendor_payment(v_id,v_reason);
+  elsif v_kind='OPENING_PAYABLE' then
+    if not exists(select 1 from erp.opening_subledger_settlements s join erp.opening_subledger_balances b on b.id=s.balance_id
+        where s.id=v_id and b.party_type='VENDOR' and b.direction='PAYABLE') then
+      raise exception 'BD_DOCUMENT_NOT_FOUND: pelunasan hutang vendor saldo awal tidak ditemukan';end if;
+    perform erp.reverse_opening_subledger_settlement(v_id,v_reason);
+  else raise exception 'BD_FIELD_INVALID: target_kind VENDOR_INVOICE atau OPENING_PAYABLE';end if;
+  return jsonb_build_object('settlement_id',v_id,'target_kind',v_kind,'status','REVERSED');
+end;$function$;
+
+-- The payment screen of one laundry vendor: documents with cash, claim credit and remaining; claim credits with what is left;
+-- and the ledger check (AP_VENDOR on the ledger = remaining of the open documents - credit not yet applied).
+CREATE OR REPLACE FUNCTION erp.bd_vendor_payables_v1(p_vendor uuid)
+ RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  with docs as (
+    select 'VENDOR_INVOICE'::text kind,h.id,h.invoice_number::text number,h.invoice_date date,h.total_amount::numeric(18,2) total,
+      erp.bd_vendor_invoice_paid_v1(h.id,'CASH') cash,erp.bd_vendor_invoice_paid_v1(h.id,'CLAIM_CREDIT') credit,h.status::text status
+    from erp.vendor_invoices h where h.vendor_id=p_vendor and h.status in('POSTED','PARTIAL_PAID','PAID')
+    union all
+    select 'OPENING_PAYABLE',b.id,coalesce(ctx->>'document_number','Saldo awal'),coalesce((ctx->>'document_date')::date,(ctx->>'cutover_date')::date),
+      b.original_amount::numeric(18,2),
+      coalesce((select sum(s.amount) from erp.opening_subledger_settlements s left join erp.bb_opening_credits_v1 c on c.settlement_id=s.id
+        where s.balance_id=b.id and s.status='POSTED' and c.credit_kind is distinct from 'VENDOR_CLAIM_APPLY'),0)::numeric(18,2),
+      coalesce((select sum(s.amount) from erp.opening_subledger_settlements s join erp.bb_opening_credits_v1 c on c.settlement_id=s.id
+        where s.balance_id=b.id and s.status='POSTED' and c.credit_kind='VENDOR_CLAIM_APPLY'),0)::numeric(18,2),b.status::text
+    from erp.opening_subledger_balances b cross join lateral(select erp.bb_opening_balance_context_v1(b.id) ctx) x
+    where b.vendor_id=p_vendor and b.party_type='VENDOR' and b.direction='PAYABLE'),
+  credits as (
+    select x.src,(x.src->>'amount')::numeric(18,2) amount,erp.bd_claim_credit_applied_v1(x.src->>'kind',(x.src->>'id')::uuid) applied
+    from (select erp.bd_claim_credit_source_v1('DAILY_CLAIM',c.id) src from erp.laundry_claims c
+            where c.vendor_id=p_vendor and c.status='SETTLED' and c.compensation_amount>0
+          union all
+          select erp.bd_claim_credit_source_v1('OPENING_CLAIM',e.id) from erp.bd_opening_laundry_claim_events_v1 e
+            join erp.bd_opening_laundry_claims_v1 oc on oc.id=e.claim_id
+            where oc.vendor_id=p_vendor and e.event_kind='RESOLVE' and e.reversed_at is null and e.compensation_amount>0) x
+    where (x.src->>'active')::boolean),
+  ledger as (
+    select coalesce(sum(l.credit-l.debit),0)::numeric(18,2) ap from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id
+    where j.status in('POSTED','REVERSED') and l.account_id=erp.account_id('AP_VENDOR') and l.vendor_id=p_vendor)
+  select jsonb_build_object('vendor_id',p_vendor,
+    'documents',coalesce((select jsonb_agg(jsonb_build_object('kind',d.kind,'id',d.id,'number',d.number,'date',d.date,'total',d.total::text,
+        'paid_cash',d.cash::text,'claim_credit',d.credit::text,'remaining',(d.total-d.cash-d.credit)::numeric(18,2)::text,'status',d.status,
+        'settlements',case d.kind when 'VENDOR_INVOICE' then coalesce((select jsonb_agg(jsonb_build_object('id',p.id,'number',p.payment_number,
+            'date',erp._cp3_business_date(p.payment_date),'amount',p.amount::numeric(18,2)::text,'method',case when p.payment_method='CLAIM_CREDIT' then 'CLAIM_CREDIT' else 'CASH' end,
+            'reference',p.reference_number,'status',p.status) order by p.payment_date,p.id)
+          from erp.vendor_payments p where p.vendor_invoice_id=d.id and p.status in('POSTED','REVERSED')),'[]'::jsonb)
+          else coalesce((select jsonb_agg(jsonb_build_object('id',s.id,'number',s.settlement_number,'date',erp._cp3_business_date(s.physical_at),
+            'amount',s.amount::numeric(18,2)::text,'method',case when c.credit_kind='VENDOR_CLAIM_APPLY' then 'CLAIM_CREDIT' when c.settlement_id is not null then 'CREDIT' else 'CASH' end,
+            'reference',c.credit_note_number,'status',s.status) order by s.physical_at,s.id)
+          from erp.opening_subledger_settlements s left join erp.bb_opening_credits_v1 c on c.settlement_id=s.id
+          where s.balance_id=d.id and s.status in('POSTED','REVERSED')),'[]'::jsonb) end)
+      order by d.date,d.number,d.id) from docs d),'[]'::jsonb),
+    'credits',coalesce((select jsonb_agg(c.src||jsonb_build_object('applied',c.applied::text,'available',(c.amount-c.applied)::numeric(18,2)::text)
+      order by c.src->>'approved_date',c.src->>'number') from credits c),'[]'::jsonb),
+    'cash_accounts',coalesce((select jsonb_agg(jsonb_build_object('id',a.id,'code',a.cash_account_code,'name',a.cash_account_name) order by a.cash_account_name,a.id)
+      from erp.cash_accounts a where a.is_active),'[]'::jsonb),
+    'ledger',(select jsonb_build_object('ap_balance',l.ap::text,
+        'documents_remaining',coalesce((select sum(d.total-d.cash-d.credit) from docs d),0)::numeric(18,2)::text,
+        'credit_available',coalesce((select sum(c.amount-c.applied) from credits c),0)::numeric(18,2)::text,
+        'matches',l.ap=coalesce((select sum(d.total-d.cash-d.credit) from docs d),0)-coalesce((select sum(c.amount-c.applied) from credits c),0))
+      from ledger l))
+$function$;
+
+-- A claim whose credit is in use cannot lose its approval (daily claim reversal or opening claim event reversal).
+CREATE OR REPLACE FUNCTION erp.bd_guard_claim_credit_in_use_v1()
+ RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+begin
+  if tg_table_name='laundry_claims' then
+    if old.status='SETTLED' and (new.status is distinct from 'SETTLED' or new.compensation_amount is distinct from old.compensation_amount)
+      and erp.bd_claim_credit_applied_v1('DAILY_CLAIM',old.id)>0 then
+      raise exception 'BD_CLAIM_CREDIT_IN_USE: kredit klaim % sudah dipakai untuk melunasi tagihan; batalkan pemakaiannya dulu',old.claim_number;end if;
+  elsif old.reversed_at is null and new.reversed_at is not null and erp.bd_claim_credit_applied_v1('OPENING_CLAIM',old.id)>0 then
+    raise exception 'BD_CLAIM_CREDIT_IN_USE: kredit klaim ini sudah dipakai untuk melunasi tagihan; batalkan pemakaiannya dulu';
+  end if;
+  return new;
+end;$function$;
+create trigger trg_bd_claim_credit_in_use_daily before update on erp.laundry_claims
+  for each row execute function erp.bd_guard_claim_credit_in_use_v1();
+create trigger trg_bd_claim_credit_in_use_opening before update on erp.bd_opening_laundry_claim_events_v1
+  for each row execute function erp.bd_guard_claim_credit_in_use_v1();
 -- ================================================================ BD facade: one writer and one reader for the laundry BD flows
 CREATE OR REPLACE FUNCTION erp.bd_post_priced_delivery_v1(p_payload jsonb,p_request uuid)
  RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
@@ -2299,7 +2609,8 @@ begin
   if p_client_request_id is null then raise exception 'BD_REQUEST_REQUIRED: id permintaan wajib';end if;
   if jsonb_typeof(p_payload) is distinct from 'object' then raise exception 'BD_PAYLOAD_INVALID: payload wajib objek';end if;
   if v_action not in('SET_POLICY','SAVE_VENDOR_TERMS','SAVE_COMPONENT','SAVE_COMPONENT_RATE','SAVE_PACKAGE','SAVE_PACKAGE_RATE','SAVE_PROCESS_RATE',
-    'SAVE_SCOPED_RATE','POST_PRICED_DELIVERY','SET_CHARGE_PRICE','SAVE_INVOICE_DRAFT','CANCEL_INVOICE_DRAFT','POST_INVOICE','REVERSE_INVOICE','SET_OPENING_ESTIMATE') then
+    'SAVE_SCOPED_RATE','POST_PRICED_DELIVERY','SET_CHARGE_PRICE','SAVE_INVOICE_DRAFT','CANCEL_INVOICE_DRAFT','POST_INVOICE','REVERSE_INVOICE','SET_OPENING_ESTIMATE',
+    'APPLY_CLAIM_CREDIT','PAY_VENDOR_DOCUMENT','REVERSE_VENDOR_SETTLEMENT') then
     raise exception 'BD_ACTION_UNKNOWN: aksi laundry % tidak dikenal',v_action;end if;
   perform pg_advisory_xact_lock(hashtextextended('BDREQ:'||p_client_request_id::text,0));
   select * into v_prior from erp.bd_requests_v1 where request_id=p_client_request_id;
@@ -2317,6 +2628,9 @@ begin
     when 'POST_INVOICE' then erp.bd_post_invoice_v1(p_payload,p_client_request_id)
     when 'REVERSE_INVOICE' then erp.bd_reverse_invoice_v1(p_payload,p_client_request_id)
     when 'SET_OPENING_ESTIMATE' then erp.bd_set_opening_estimate_v1(p_payload,p_client_request_id)
+    when 'APPLY_CLAIM_CREDIT' then erp.bd_apply_claim_credit_v1(p_payload,p_client_request_id)
+    when 'PAY_VENDOR_DOCUMENT' then erp.bd_pay_vendor_document_v1(p_payload,p_client_request_id)
+    when 'REVERSE_VENDOR_SETTLEMENT' then erp.bd_reverse_vendor_settlement_v1(p_payload,p_client_request_id)
     else erp.bd_save_master_v1(v_action,p_payload,p_client_request_id) end;
   v_result:=jsonb_build_object('action',v_action,'request_id',p_client_request_id,'status','SAVED')||v_result;
   insert into erp.bd_requests_v1(request_id,action,actor,payload,response) values(p_client_request_id,v_action,erp.current_app_user_id(),p_payload,v_result);
@@ -2404,7 +2718,10 @@ begin
         where d.vendor_id=v_vendor and rl.actual_cost_status='ESTIMATED' and rl.actual_cost is not null and not erp.bd_receipt_invoiced_v1(rl.id)
         order by r.physical_at desc,rl.id limit 200) x),'[]'::jsonb) end,
     'accounts',case when v_money then coalesce((select jsonb_agg(jsonb_build_object('id',a.id,'code',a.account_code,'name',a.account_name,'type',a.account_type)
-        order by a.account_code) from erp.chart_accounts a where a.is_active and a.is_postable and a.account_type in('ASSET','EXPENSE')),'[]'::jsonb) end);
+        order by a.account_code) from erp.chart_accounts a where a.is_active and a.is_postable and a.account_type in('ASSET','EXPENSE')),'[]'::jsonb) end,
+    -- D12: the payment screen of one vendor (money readers only): documents with cash, claim credit and remaining, claim credits,
+    -- and the ledger check.
+    'payables',case when v_money and v_vendor is not null then erp.bd_vendor_payables_v1(v_vendor) end);
 end;$function$;
 
 CREATE OR REPLACE FUNCTION public.erp_save_laundry_bd_action_v1(p_action text,p_payload jsonb,p_client_request_id uuid)
@@ -2423,7 +2740,7 @@ begin
     'bd_laundry_components_v1','bd_laundry_component_rates_v1','bd_laundry_packages_v1','bd_laundry_package_components_v1','bd_laundry_package_rates_v1',
     'bd_laundry_scoped_rates_v1','bd_requests_v1','bd_laundry_priced_lines_v1','bd_laundry_charge_lines_v1','bd_laundry_charge_shares_v1',
     'bd_laundry_size_estimates_v1','bd_laundry_receipt_allocations_v1','bd_laundry_invoices_v1','bd_laundry_invoice_lines_v1',
-    'bd_opening_laundry_claims_v1','bd_opening_laundry_claim_events_v1','bd_opening_laundry_uninvoiced_v1','bd_custody_sources_v1'] loop
+    'bd_opening_laundry_claims_v1','bd_opening_laundry_claim_events_v1','bd_opening_laundry_uninvoiced_v1','bd_custody_sources_v1','bd_claim_credit_applications_v1'] loop
     execute format('alter table erp.%I enable row level security',t);
     execute format('revoke all on erp.%I from public,anon,authenticated,service_role',t);
   end loop;
@@ -6226,6 +6543,52 @@ begin
   where h.migration_batch_id=p_batch and i.balance_type='MATERIAL' and i.qty>0
     and not exists(select 1 from erp.bc_return_lots_v1 l where l.source_kind='OPENING_QUARANTINE' and l.source_row_id=i.id);
 end;$function$;
+CREATE OR REPLACE FUNCTION erp.bb_opening_credit_lines_v1(p_settlement_id uuid)
+ RETURNS jsonb LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare c erp.bb_opening_credits_v1%rowtype;s erp.opening_subledger_settlements%rowtype;b erp.opening_subledger_balances%rowtype;
+  v_credit erp.bb_customer_credits_v1%rowtype;
+begin
+  select * into c from erp.bb_opening_credits_v1 where settlement_id=p_settlement_id;
+  select * into s from erp.opening_subledger_settlements where id=p_settlement_id;
+  select * into b from erp.opening_subledger_balances where id=s.balance_id;
+  -- D12 (owner 26 Sep 2026): a laundry claim credit applied to an opening vendor payable moves nothing on the ledger.
+  if c.credit_kind='VENDOR_CLAIM_APPLY' then return erp.bd_claim_credit_opening_lines_v1(p_settlement_id);end if;
+  -- BC (ALL-C02): a note return credited on the imported mandor receivable.
+  if c.credit_kind='ACCESSORY_NOTE_RETURN' then return erp.bc_opening_note_credit_lines_v1(p_settlement_id);end if;
+  if c.credit_kind in('CUSTOMER_ALLOWANCE','CUSTOMER_CREDIT_APPLY') then
+    if b.party_type<>'CUSTOMER' or b.direction<>'RECEIVABLE' then raise exception 'BB_CREDIT_KIND_MISMATCH: kredit pelanggan hanya untuk piutang pelanggan';end if;
+    if c.credit_kind='CUSTOMER_CREDIT_APPLY' then
+      select * into v_credit from erp.bb_customer_credits_v1 where id=c.customer_credit_id;
+      if v_credit.customer_id is distinct from b.customer_id then raise exception 'BB_CREDIT_PARTY_MISMATCH: kredit dan piutang harus milik pelanggan yang sama';end if;
+      return jsonb_build_array(
+        jsonb_build_object('account_id',v_credit.coa_account_id,'debit',s.amount,'credit',0,'customer_id',b.customer_id),
+        jsonb_build_object('mapping_key','AR_CUSTOMER','debit',0,'credit',s.amount,'customer_id',b.customer_id));
+    end if;
+    return jsonb_build_array(
+      jsonb_build_object('mapping_key','SALES_REVENUE','debit',s.amount,'credit',0,'customer_id',b.customer_id),
+      jsonb_build_object('mapping_key','AR_CUSTOMER','debit',0,'credit',s.amount,'customer_id',b.customer_id));
+  elsif c.credit_kind='SUPPLIER_ALLOWANCE' then
+    if b.party_type<>'SUPPLIER' or b.direction<>'PAYABLE' then raise exception 'BB_CREDIT_KIND_MISMATCH: potongan supplier hanya untuk hutang supplier';end if;
+    return jsonb_build_array(
+      jsonb_build_object('mapping_key','AP_SUPPLIER','debit',s.amount,'credit',0),
+      jsonb_build_object('mapping_key','MATERIAL_PURCHASE_VARIANCE','debit',0,'credit',s.amount));
+  elsif c.credit_kind='VENDOR_ALLOWANCE' then
+    if b.party_type<>'VENDOR' or b.direction<>'PAYABLE' then raise exception 'BB_CREDIT_KIND_MISMATCH: potongan laundry hanya untuk hutang vendor laundry';end if;
+    return jsonb_build_array(
+      jsonb_build_object('mapping_key','AP_VENDOR','debit',s.amount,'credit',0,'vendor_id',b.vendor_id),
+      jsonb_build_object('mapping_key','OTHER_INCOME','debit',0,'credit',s.amount,'vendor_id',b.vendor_id));
+  end if;
+  raise exception 'BB_CREDIT_KIND_MISMATCH';
+end;$function$;
+CREATE OR REPLACE FUNCTION erp.bb_opening_credit_account_v1(p_settlement_id uuid)
+ RETURNS uuid LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select case c.credit_kind when 'VENDOR_CLAIM_APPLY' then erp.account_id('AP_VENDOR') when 'ACCESSORY_NOTE_RETURN' then erp.account_id('MATERIAL_RECOVERY') when 'CUSTOMER_ALLOWANCE' then erp.account_id('SALES_REVENUE')
+    when 'SUPPLIER_ALLOWANCE' then erp.account_id('MATERIAL_PURCHASE_VARIANCE') when 'VENDOR_ALLOWANCE' then erp.account_id('OTHER_INCOME')
+    else (select k.coa_account_id from erp.bb_customer_credits_v1 k where k.id=c.customer_credit_id) end
+  from erp.bb_opening_credits_v1 c where c.settlement_id=p_settlement_id
+$function$;
 insert into erp.schema_migrations(version,description) values('v2.6.20bd','Priced laundry deliveries (package, components, lump sum, minimum, scoped rates), vendor invoices, laundry policy settings pending by default, opening laundry claims and uninvoiced returns');
 do $catalog_guard$
 declare actual jsonb;fingerprint text;object_count bigint;
@@ -6303,7 +6666,7 @@ do $after_data$ declare v_table text;v_hash jsonb;v_after jsonb;v_before jsonb; 
   v_after:=v_after||jsonb_build_object(v_table,v_hash);
  end loop;
  select snapshot->'before' into v_before from pg_temp.cp6_release_boundary;
- if (v_after-array['bd_policy_settings_v1','bd_policy_setting_events_v1','bd_execution_context_v1','bd_laundry_vendor_terms_v1','bd_laundry_components_v1','bd_laundry_component_rates_v1','bd_laundry_packages_v1','bd_laundry_package_components_v1','bd_laundry_package_rates_v1','bd_laundry_scoped_rates_v1','bd_requests_v1','bd_laundry_priced_lines_v1','bd_laundry_charge_lines_v1','bd_laundry_charge_shares_v1','bd_laundry_size_estimates_v1','bd_laundry_receipt_allocations_v1','bd_laundry_invoices_v1','bd_laundry_invoice_lines_v1','bd_opening_laundry_claims_v1','bd_opening_laundry_claim_events_v1','bd_opening_laundry_uninvoiced_v1','bd_custody_sources_v1']::text[]) is distinct from v_before or exists(select 1 from unnest(array['bd_execution_context_v1','bd_laundry_vendor_terms_v1','bd_laundry_components_v1','bd_laundry_component_rates_v1','bd_laundry_packages_v1','bd_laundry_package_components_v1','bd_laundry_package_rates_v1','bd_laundry_scoped_rates_v1','bd_requests_v1','bd_laundry_priced_lines_v1','bd_laundry_charge_lines_v1','bd_laundry_charge_shares_v1','bd_laundry_size_estimates_v1','bd_laundry_receipt_allocations_v1','bd_laundry_invoices_v1','bd_laundry_invoice_lines_v1','bd_opening_laundry_claims_v1','bd_opening_laundry_claim_events_v1','bd_opening_laundry_uninvoiced_v1','bd_custody_sources_v1']::text[]) t where (v_after->t->>'count') is distinct from '0')
+ if (v_after-array['bd_policy_settings_v1','bd_policy_setting_events_v1','bd_execution_context_v1','bd_laundry_vendor_terms_v1','bd_laundry_components_v1','bd_laundry_component_rates_v1','bd_laundry_packages_v1','bd_laundry_package_components_v1','bd_laundry_package_rates_v1','bd_laundry_scoped_rates_v1','bd_requests_v1','bd_laundry_priced_lines_v1','bd_laundry_charge_lines_v1','bd_laundry_charge_shares_v1','bd_laundry_size_estimates_v1','bd_laundry_receipt_allocations_v1','bd_laundry_invoices_v1','bd_laundry_invoice_lines_v1','bd_opening_laundry_claims_v1','bd_opening_laundry_claim_events_v1','bd_opening_laundry_uninvoiced_v1','bd_custody_sources_v1','bd_claim_credit_applications_v1']::text[]) is distinct from v_before or exists(select 1 from unnest(array['bd_execution_context_v1','bd_laundry_vendor_terms_v1','bd_laundry_components_v1','bd_laundry_component_rates_v1','bd_laundry_packages_v1','bd_laundry_package_components_v1','bd_laundry_package_rates_v1','bd_laundry_scoped_rates_v1','bd_requests_v1','bd_laundry_priced_lines_v1','bd_laundry_charge_lines_v1','bd_laundry_charge_shares_v1','bd_laundry_size_estimates_v1','bd_laundry_receipt_allocations_v1','bd_laundry_invoices_v1','bd_laundry_invoice_lines_v1','bd_opening_laundry_claims_v1','bd_opening_laundry_claim_events_v1','bd_opening_laundry_uninvoiced_v1','bd_custody_sources_v1','bd_claim_credit_applications_v1']::text[]) t where (v_after->t->>'count') is distinct from '0')
   then raise exception 'BD_INSTALL_CHANGED_DATA';end if;
  if (v_after->'bd_policy_setting_events_v1'->>'count') is distinct from '6' then raise exception 'BD_SEED_CHANGED: bd_policy_setting_events_v1';end if;
  if (v_after->'bd_policy_settings_v1'->>'count') is distinct from '6' then raise exception 'BD_SEED_CHANGED: bd_policy_settings_v1';end if;
@@ -6324,7 +6687,7 @@ begin
    or exists(select 1 from pg_attribute p cross join lateral aclexplode(p.attacl)a where p.attrelid='erp.cp6_v2620bd_rollback_capsule'::regclass and a.grantee<>'postgres'::regrole)
    or exists(select 1 from pg_policy where polrelid='erp.cp6_v2620bd_rollback_capsule'::regclass)
    or exists(select 1 from pg_trigger where tgrelid='erp.cp6_v2620bd_rollback_capsule'::regclass and not tgisinternal)
-   or (select count(*) from erp.cp6_v2620bd_rollback_capsule)<>23 then raise exception 'BD_CAPSULE_SECURITY_OR_COUNT';end if;
+   or (select count(*) from erp.cp6_v2620bd_rollback_capsule)<>25 then raise exception 'BD_CAPSULE_SECURITY_OR_COUNT';end if;
  select jsonb_build_object(
    'relation',(select jsonb_build_array(relkind,relpersistence,relreplident,relispartition,reloptions) from pg_class where oid='erp.cp6_v2620an_rollback_capsule'::regclass),
    'columns',(select jsonb_agg(jsonb_build_array(a.attname,format_type(a.atttypid,a.atttypmod),a.attnotnull,a.attidentity,a.attgenerated,pg_get_expr(d.adbin,d.adrelid)) order by a.attnum) from pg_attribute a left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum where a.attrelid='erp.cp6_v2620an_rollback_capsule'::regclass and a.attnum>0 and not a.attisdropped),
@@ -6337,9 +6700,9 @@ begin
    'indexes',(select jsonb_agg(jsonb_build_array(indisunique,indisprimary,indisexclusion,indisvalid,indisready,indkey::text,indclass::text,indoption::text,pg_get_expr(indexprs,indrelid),pg_get_expr(indpred,indrelid)) order by indkey::text) from pg_index where indrelid='erp.cp6_v2620bd_rollback_capsule'::regclass)) into actual;
  if actual is distinct from expected then raise exception 'BD_CAPSULE_SHAPE_DRIFT';end if;
  select boundary_snapshot into boundary from erp.cp6_v2620bd_rollback_capsule limit 1;
- if 23>0 and (boundary is null or exists(select 1 from erp.cp6_v2620bd_rollback_capsule where boundary_snapshot is distinct from boundary)
+ if 25>0 and (boundary is null or exists(select 1 from erp.cp6_v2620bd_rollback_capsule where boundary_snapshot is distinct from boundary)
   or not(boundary ?& array['before','after','platform_before','markers_before'])) then raise exception 'BD_CAPSULE_BOUNDARY';end if;
- if exists(select 1 from erp.cp6_v2620bd_rollback_capsule where object_regidentity<>all(array['erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','erp.post_laundry_delivery(uuid)','erp.desired_laundry_accrual(uuid)','erp.rebuild_po_hpp(uuid,text)','erp.period_blockers_v1(date,date)','erp.set_laundry_rate_owner_estimate_v1(uuid,numeric,text)','erp.validate_laundry_receipt_line()','erp.cp6_lot_failed_wash_cost_v2620e(uuid)','erp.guard_cp6_vendor_invoice_receipt_on_post_v2620()','erp.post_sale(uuid)','erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)','erp._validate_migration_batch_base(uuid)','erp.finalize_migration_batch(uuid)','erp.save_initial_import_action_v1(text,jsonb,uuid)','erp.get_initial_import_workspace_v1(uuid)','erp.initial_import_revision_v1(uuid)','erp.complete_initial_import_wip_v1(jsonb)','erp.initial_import_production_rows_v1(uuid)','erp.guard_initial_import_po_completion_v1()','erp.get_wip_control_v1(text,uuid,text,text)','erp.run_v255_material_cost_integrity_checks()','erp.bc_check_import_row_v1(uuid,uuid)','erp.bc_apply_imports_v1(uuid)']::text[])
+ if exists(select 1 from erp.cp6_v2620bd_rollback_capsule where object_regidentity<>all(array['erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','erp.post_laundry_delivery(uuid)','erp.desired_laundry_accrual(uuid)','erp.rebuild_po_hpp(uuid,text)','erp.period_blockers_v1(date,date)','erp.set_laundry_rate_owner_estimate_v1(uuid,numeric,text)','erp.validate_laundry_receipt_line()','erp.cp6_lot_failed_wash_cost_v2620e(uuid)','erp.guard_cp6_vendor_invoice_receipt_on_post_v2620()','erp.post_sale(uuid)','erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)','erp._validate_migration_batch_base(uuid)','erp.finalize_migration_batch(uuid)','erp.save_initial_import_action_v1(text,jsonb,uuid)','erp.get_initial_import_workspace_v1(uuid)','erp.initial_import_revision_v1(uuid)','erp.complete_initial_import_wip_v1(jsonb)','erp.initial_import_production_rows_v1(uuid)','erp.guard_initial_import_po_completion_v1()','erp.get_wip_control_v1(text,uuid,text,text)','erp.run_v255_material_cost_integrity_checks()','erp.bc_check_import_row_v1(uuid,uuid)','erp.bc_apply_imports_v1(uuid)','erp.bb_opening_credit_lines_v1(uuid)','erp.bb_opening_credit_account_v1(uuid)']::text[])
    or definition_sha256 is distinct from encode(extensions.digest(convert_to(object_definition,'UTF8'),'sha256'),'hex')
    or installed_definition_sha256 is null or installed_definition_sha256=definition_sha256
    or installed_definition_sha256 is distinct from encode(extensions.digest(convert_to(pg_get_functiondef(to_regprocedure(object_regidentity)),'UTF8'),'sha256'),'hex'))

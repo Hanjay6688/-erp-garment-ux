@@ -43,10 +43,19 @@ export type BdBillable = { receipt_line_id: string; receipt_number: string; deli
 export type BdOpening = { id: string; vendor_id: string; vendor_code: string; document_number: string; receipt_date: string; category: Category; qty: number
   billed: number; estimate_status: 'KNOWN' | 'UNKNOWN'; estimated_amount: string | null; released: string | null; invoiced: boolean
   po_number: string | null; dispatch_number: string | null; row_version: string }
+export type BdPayableSettlement = { id: string; number: string; date: string; amount: string; method: 'CASH' | 'CLAIM_CREDIT' | 'CREDIT'; reference: string | null
+  status: 'POSTED' | 'REVERSED' }
+export type BdPayableDocument = { kind: 'VENDOR_INVOICE' | 'OPENING_PAYABLE'; id: string; number: string; date: string; total: string; paid_cash: string
+  claim_credit: string; remaining: string; status: string; settlements: BdPayableSettlement[] }
+export type BdClaimCredit = { kind: 'DAILY_CLAIM' | 'OPENING_CLAIM'; id: string; number: string; approved_date: string; amount: string; applied: string; available: string }
+/** D12: the payment screen of one vendor; the ledger check is AP on the ledger = remaining of the documents - credit not yet used. */
+export type BdPayables = { documents: BdPayableDocument[]; credits: BdClaimCredit[]; cash_accounts: { id: string; code: string; name: string }[]
+  ledger: { ap_balance: string; documents_remaining: string; credit_available: string; matches: boolean } }
 export type LaundryBdWorkspace = { money_visible: boolean; can_manage_master: boolean; can_set_price: boolean; is_owner: boolean
   policies: BdPolicy[]; vendors: BdVendor[]; processes: { id: string; code: string; name: string }[]; components: BdComponent[]; packages: BdPackage[]
   process_rates: BdProcessRate[]; scoped_rates: BdScopedRate[]; priced_deliveries: BdPricedDelivery[]; opening_uninvoiced: BdOpening[]
-  invoices: BdInvoice[] | null; billable_receipts: BdBillable[] | null; accounts: { id: string; code: string; name: string; type: 'ASSET' | 'EXPENSE' }[] | null }
+  invoices: BdInvoice[] | null; billable_receipts: BdBillable[] | null; accounts: { id: string; code: string; name: string; type: 'ASSET' | 'EXPENSE' }[] | null
+  payables: BdPayables | null }
 
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 function object(value: unknown, label: string): Record<string, unknown> {
@@ -174,8 +183,28 @@ export function parseLaundryBdWorkspace(value: unknown): LaundryBdWorkspace {
     price_known: bool(b.price_known, 'Harga lengkap'), capacity: perCategory(b.capacity, 'Kapasitas tagih'), billed: perCategory(b.billed, 'Sudah ditagih') })) ?? null
   const accounts = accountsRaw?.map(a => ({ id: id(a.id, 'Akun'), code: text(a.code, 'Kode akun'), name: text(a.name, 'Nama akun'),
     type: oneOf(a.type, ['ASSET', 'EXPENSE'] as const, 'Jenis akun') })) ?? null
+  const payables = r.payables === null || r.payables === undefined ? null : parsePayables(r.payables)
+  if (payables && !money_visible) throw new Error('Pembayaran vendor tampil tanpa hak melihat nominal.')
   return { money_visible, can_manage_master: bool(r.can_manage_master, 'Hak master'), can_set_price: bool(r.can_set_price, 'Hak harga'), is_owner: bool(r.is_owner, 'Owner'),
-    policies, vendors, processes, components, packages, process_rates, scoped_rates, priced_deliveries, opening_uninvoiced, invoices, billable_receipts, accounts }
+    policies, vendors, processes, components, packages, process_rates, scoped_rates, priced_deliveries, opening_uninvoiced, invoices, billable_receipts, accounts, payables }
+}
+
+function parsePayables(value: unknown): BdPayables {
+  const p = object(value, 'Pembayaran vendor'), l = object(p.ledger, 'Cocokkan buku besar')
+  return {
+    documents: list(p.documents, 'Tagihan vendor').map((d): BdPayableDocument => ({ kind: oneOf(d.kind, ['VENDOR_INVOICE', 'OPENING_PAYABLE'] as const, 'Jenis tagihan'),
+      id: id(d.id, 'Tagihan'), number: text(d.number, 'Nomor tagihan'), date: day(d.date, 'Tanggal tagihan'), total: money(d.total, 'Total tagihan'),
+      paid_cash: money(d.paid_cash, 'Dibayar kas'), claim_credit: money(d.claim_credit, 'Kredit klaim'), remaining: money(d.remaining, 'Sisa tagihan'),
+      status: text(d.status, 'Status tagihan'),
+      settlements: list(d.settlements, 'Riwayat pelunasan').map((x): BdPayableSettlement => ({ id: id(x.id, 'Pelunasan'), number: text(x.number, 'Nomor pelunasan'),
+        date: day(x.date, 'Tanggal pelunasan'), amount: money(x.amount, 'Nominal pelunasan'), method: oneOf(x.method, ['CASH', 'CLAIM_CREDIT', 'CREDIT'] as const, 'Cara pelunasan'),
+        reference: nullableText(x.reference, 'Rujukan pelunasan'), status: oneOf(x.status, ['POSTED', 'REVERSED'] as const, 'Status pelunasan') })) })),
+    credits: list(p.credits, 'Kredit klaim').map((c): BdClaimCredit => ({ kind: oneOf(c.kind, ['DAILY_CLAIM', 'OPENING_CLAIM'] as const, 'Jenis klaim'), id: id(c.id, 'Klaim'),
+      number: text(c.number, 'Nomor klaim'), approved_date: day(c.approved_date, 'Tanggal disetujui'), amount: money(c.amount, 'Kredit klaim'),
+      applied: money(c.applied, 'Kredit terpakai'), available: money(c.available, 'Kredit tersedia') })),
+    cash_accounts: list(p.cash_accounts, 'Rekening kas').map(a => ({ id: id(a.id, 'Rekening kas'), code: text(a.code, 'Kode rekening'), name: text(a.name, 'Nama rekening') })),
+    ledger: { ap_balance: money(l.ap_balance, 'Saldo utang'), documents_remaining: money(l.documents_remaining, 'Sisa tagihan'),
+      credit_available: money(l.credit_available, 'Kredit belum dipakai'), matches: bool(l.matches, 'Cocok buku besar') } }
 }
 
 /** The facade echoes the request; a priced delivery answers with the laundry writer's own POST_DELIVERY response. */

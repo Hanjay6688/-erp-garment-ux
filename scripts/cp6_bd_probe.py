@@ -10,10 +10,10 @@ more fail-closed one is used. Amounts are synthetic fixtures (no real tariff is 
   PASS / FAIL    the oracle holds / does not hold. A refusal with another code, or a wrong NO_ROUTE, is INCOMPLETE.
 Each case runs inside the group's rolled-back savepoint; nothing is committed to the clone.
 """
-from datetime import timedelta
+from datetime import date,timedelta
 from decimal import Decimal
 from pathlib import Path
-import argparse,hashlib,json,os,re,subprocess,sys,tempfile,traceback,uuid
+import argparse,calendar,hashlib,json,os,re,subprocess,sys,tempfile,traceback,uuid
 import psycopg
 
 AUDITOR=Path(__file__).resolve().parents[1]
@@ -1304,6 +1304,168 @@ def d07_recost_alarm(cur,today):
         negative_controls_ring=len(controls)==4 and all(v>0 for v in controls.values())),paths=paths,controls=controls)
 
 
+# ---------------------------------------------------------------- D12: a claim credit settles older unpaid documents of the vendor
+D12_CHECKS=('V2620C_VENDOR_PAYMENT_EXACT_STATUS_MISMATCH','V2620Y_VENDOR_PAYMENT_BUSINESS_DATE','V2620L_NEGATIVE_VENDOR_AP',
+            'V2620M_OPENING_SUBLEDGER_STATE','V2620M_PAYMENT_SOURCE_JOURNAL_MISMATCH','V2620Y_OPENING_SETTLEMENT_BUSINESS_DATE')
+
+
+def d12_truth(cur):
+    """The financial truth checks that watch vendor payments and opening settlements (issue counts)."""
+    api.admin(cur)
+    rows=q(cur,'select * from erp.run_v267_financial_truth_checks() union all select * from erp.run_v268_financial_report_checks()')
+    return {k:max(r[2] for r in rows if r[0]==k) for k in D12_CHECKS if any(r[0]==k for r in rows)}
+
+
+def d12_history(cur,vendor,through):
+    """What the vendor's books said up to `through`: AP_VENDOR on that day and every journal line dated on or before it."""
+    rows=q(cur,"""select j.id,j.status,j.economic_date,l.account_id,l.debit,l.credit from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id
+        where l.vendor_id=%s and j.economic_date<=%s order by j.id,l.id""",vendor,through)
+    ap_then=one(cur,"""select coalesce(sum(l.credit-l.debit),0) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id
+        where j.status in('POSTED','REVERSED') and l.account_id=erp.account_id('AP_VENDOR') and l.vendor_id=%s and j.economic_date<=%s""",vendor,through)
+    return dict(ap=str(ap_then),lines=len(rows),sha=hashlib.sha256(json.dumps(rows,default=str).encode()).hexdigest())
+
+
+def d12_screen(cur,vendor):
+    """The payment screen as the owner reads it (the BD workspace for one vendor)."""
+    chain.production.owner(cur)
+    ws=cur.execute('select public.erp_get_laundry_bd_workspace_v1(%s::jsonb)',(json.dumps(dict(vendor_id=vendor)),)).fetchone()[0]
+    chain.actors.admin(cur);return ws['payables']
+
+
+def d12_bs(cur,action,payload,version=None):
+    """The baseline BS/claim facade as the owner (daily laundry claims)."""
+    chain.production.owner(cur)
+    r=cur.execute('select public.erp_save_bs_resolution_action_v1(%s,%s::jsonb,%s::uuid,%s)',(action,json.dumps(payload,default=str),str(uuid.uuid4()),version)).fetchone()[0]
+    chain.actors.admin(cur);return r
+
+
+def d12_doc(screen,number):
+    return [d for d in screen['documents'] if d['number']==number][0]
+
+
+def d12_daily(cur,today):
+    """D12 (owner 26 Sep 2026), daily claim: the owner's example with real months. June: 5 PCS go out and come back, invoice
+    INV-JUN 10,000,000 (5 x 2,000,000). July: the other 5 PCS go out, 4 come back, 1 is missing: daily claim MISSING 1 (the
+    reject is later than the invoice). September: the claim is approved with 2,000,000 compensation (AP 10,000,000 -> 8,000,000),
+    the credit is applied to the June invoice and 8,000,000 is paid in cash. The June invoice is then PAID by 8,000,000 cash plus
+    2,000,000 claim credit, remaining 0; the payment screen, the invoice and the ledger agree (AP 0 = remaining 0 - credit left 0).
+    Replaying the application adds nothing; a second use of the credit and one rupiah more cash are refused; the claim cannot be
+    reversed while its credit is used; reversing the application gives remaining 2,000,000 and credit 2,000,000 again (the ledger
+    still agrees) and applying it again pays the invoice. Nothing dated in June changes (AP at the end of June and every June line),
+    and the vendor payment / opening settlement truth checks gain no issue."""
+    fx=fixture(cur,today-timedelta(days=100),'D12D')
+    if not bd_installed(cur):return no_route(cur,lambda:route_call(cur))
+    process_rate(cur,fx,'2000000.00');invoice_policies(cur)
+    june=fx['day'];june_end=date(june.year,june.month,calendar.monthrange(june.year,june.month)[1])
+    july=june+timedelta(days=30);approve=today
+    truth0=d12_truth(cur)
+    rec=receive(cur,plain_delivery(cur,fx,5,11),fx,5,13);line=receipt_line(cur,rec['receipt_id'])
+    number='INV-JUN-'+uuid.uuid4().hex[:6]
+    _,inv=invoice(cur,fx,[dict(line=line,qty=5,amount='10000000.00')],'10000000.00',number=number)
+    fxj=dict(fx,day=july)
+    later=plain_delivery(cur,fxj,5,11);receive(cur,later,fxj,4,13)
+    history0=d12_history(cur,fx['vendor'],june_end)
+    claim_no='KL-JUL-'+uuid.uuid4().hex[:6]
+    d12_bs(cur,'SAVE_CLAIM',dict(action='SAVE',claim_number=claim_no,vendor_id=fx['vendor'],delivery_id=later,qty_claimed=1,claim_type='MISSING',
+        compensation_amount=0,opened_at=str(july)+'T15:00:00+07:00',change_reason='D12 1 PCS tidak kembali'))
+    claim=one(cur,'select id::text from erp.laundry_claims where claim_number=%s',claim_no)
+    d12_bs(cur,'SAVE_CLAIM',dict(id=claim,action='SAVE',status='ACCEPTED',compensation_amount=2000000,resolution_date=str(approve),
+        change_reason='D12 vendor setuju ganti'),one(cur,'select row_version from erp.laundry_claims where id=%s',claim))
+    ap_before=D(ap(cur,fx['vendor']))
+    d12_bs(cur,'RESOLVE_CLAIM',dict(laundry_claim_id=claim,resolution='SETTLED',change_reason='D12 klaim disetujui September'),
+           one(cur,'select row_version from erp.laundry_claims where id=%s',claim))
+    ap_approved=D(ap(cur,fx['vendor']))
+    screen_approved=d12_screen(cur,fx['vendor'])
+    key=uuid.uuid4()
+    credit=dict(source_kind='DAILY_CLAIM',source_id=claim,target_kind='VENDOR_INVOICE',target_id=inv['invoice_id'],amount='2000000.00',
+                date=str(approve),reason='D12 potong klaim Juli ke invoice Juni')
+    applied=bd(cur,'APPLY_CLAIM_CREDIT',credit,key=key)
+    replay=bd(cur,'APPLY_CLAIM_CREDIT',credit,key=key)
+    cash=one(cur,'select id::text from erp.cash_accounts where is_active order by cash_account_code limit 1')
+    paid=bd(cur,'PAY_VENDOR_DOCUMENT',dict(target_kind='VENDOR_INVOICE',target_id=inv['invoice_id'],amount='8000000.00',date=str(approve),
+        cash_account_id=cash,reason='D12 bayar kas September'))
+    screen=d12_screen(cur,fx['vendor']);doc=d12_doc(screen,number)
+    status=one(cur,'select status from erp.vendor_invoices where id=%s',inv['invoice_id'])
+    twice=refused(cur,lambda:bd(cur,'APPLY_CLAIM_CREDIT',dict(credit,amount='1.00')),'BD_CLAIM_CREDIT_EXCEEDS_AVAILABLE')
+    more_cash=bcp.denied(cur,lambda:bd(cur,'PAY_VENDOR_DOCUMENT',dict(target_kind='VENDOR_INVOICE',target_id=inv['invoice_id'],amount='1.00',
+        date=str(approve),cash_account_id=cash,reason='D12 kelebihan bayar')),'still unpaid')
+    claim_locked=refused(cur,lambda:d12_bs(cur,'REVERSE_CLAIM_RESOLUTION',dict(laundry_claim_id=claim,change_reason='D12 batal klaim'),
+        one(cur,'select row_version from erp.laundry_claims where id=%s',claim)),'BD_CLAIM_CREDIT_IN_USE')
+    bd(cur,'REVERSE_VENDOR_SETTLEMENT',dict(target_kind='VENDOR_INVOICE',settlement_id=str(key),reason='D12 batal pemakaian kredit'))
+    screen_back=d12_screen(cur,fx['vendor']);doc_back=d12_doc(screen_back,number)
+    bd(cur,'APPLY_CLAIM_CREDIT',credit)
+    screen_final=d12_screen(cur,fx['vendor']);doc_final=d12_doc(screen_final,number)
+    history1=d12_history(cur,fx['vendor'],june_end)
+    truth1=d12_truth(cur)
+    applications=one(cur,'select count(*) from erp.bd_claim_credit_applications_v1 where laundry_claim_id=%s',claim)
+    credit_row=[c for c in screen_final['credits'] if c['id']==claim][0]
+    return verdict(dict(
+        reject_after_invoice=july>june and june_end<july,
+        approval_lowers_payable=ap_before-ap_approved==D('2000000.00'),
+        phantom_before_use=d12_doc(screen_approved,number)['remaining']=='10000000.00' and screen_approved['ledger']['credit_available']=='2000000.00'
+          and screen_approved['ledger']['matches'] is True,
+        replay_once=replay.get('replayed') is True,
+        invoice_paid=status=='PAID' and (doc['paid_cash'],doc['claim_credit'],doc['remaining'])==('8000000.00','2000000.00','0.00'),
+        screen_ledger_agree=screen['ledger']['ap_balance']=='0.00' and screen['ledger']['documents_remaining']=='0.00'
+          and screen['ledger']['credit_available']=='0.00' and screen['ledger']['matches'] is True and D(ap(cur,fx['vendor']))==0,
+        credit_once=twice['ok'],no_overpay=more_cash['ok'],claim_locked=claim_locked['ok'],
+        reversal_frees_credit=(doc_back['remaining'],doc_back['claim_credit'])==('2000000.00','0.00') and screen_back['ledger']['credit_available']=='2000000.00'
+          and screen_back['ledger']['matches'] is True,
+        reapplied=(doc_final['remaining'],doc_final['status'])==('0.00','PAID') and credit_row['available']=='0.00' and applications==2,
+        june_unchanged=history0==history1 and history0['ap']=='10000000.00',
+        truth_checks_quiet=set(truth0)==set(D12_CHECKS) and all(truth1[k]<=truth0[k] for k in D12_CHECKS)),
+        dates=dict(invoice=str(june),reject=str(july),approved=str(approve)),history=history1,truth_before=truth0,truth_after=truth1,
+        screen=dict(document=doc,ledger=screen['ledger'],credits=screen['credits']),applied=applied,paid=paid,refusals=[twice,more_cash,claim_locked])
+
+
+def d12_opening(cur,today):
+    """D12, opening claim: at cutover the vendor holds 8 PCS of an old PO and the opening payable INV-LAMA 10,000,000 is unpaid
+    (dated 40 days before today); one piece was claimed MISSING 12 days before today (after the invoice, before cutover).
+    After cutover the claim is approved with 2,000,000 compensation (BD_OPENING_LAUNDRY_CLAIM), the credit is applied to the
+    opening payable and 8,000,000 is paid in cash from the payment screen. The opening payable is SETTLED by cash 8,000,000 plus
+    claim credit 2,000,000, the payment screen and the ledger agree (AP 0), a second use and a reversal of the claim while its
+    credit is used are refused, and nothing dated on or before cutover changes; the opening settlement truth checks gain no issue."""
+    rows=w05_rows(today,claims=((None,'MISSING','1'),),payable=('10000000.00','0.00'))
+    if not bd_installed(cur):return no_route(cur,lambda:bbp.production_post(cur,today,rows))
+    fx=bbp.production_post(cur,today,rows)
+    vendor=one(cur,'select id::text from erp.laundry_vendors where vendor_code=%s',fx['code'])
+    cutover=today-timedelta(days=10)
+    truth0=d12_truth(cur)
+    history0=d12_history(cur,vendor,cutover)
+    balance=one(cur,"select id::text from erp.opening_subledger_balances where vendor_id=%s and party_type='VENDOR' and direction='PAYABLE'",vendor)
+    c=claim_of(cur,fx)
+    claim_op(cur,fx,'RESOLVE_CLAIM',c,resolution='SETTLED',compensation_amount='2000000.00',date=str(today))
+    event=one(cur,"""select e.id::text from erp.bd_opening_laundry_claim_events_v1 e join erp.bd_opening_laundry_claims_v1 oc on oc.id=e.claim_id
+        where oc.vendor_id=%s and e.event_kind='RESOLVE' and e.reversed_at is null""",vendor)
+    screen_approved=d12_screen(cur,vendor)
+    number=[d for d in screen_approved['documents'] if d['kind']=='OPENING_PAYABLE'][0]['number']
+    credit=dict(source_kind='OPENING_CLAIM',source_id=event,target_kind='OPENING_PAYABLE',target_id=balance,amount='2000000.00',
+                date=str(today),reason='D12 potong klaim saldo awal ke tagihan lama')
+    bd(cur,'APPLY_CLAIM_CREDIT',credit)
+    cash=one(cur,'select id::text from erp.cash_accounts where is_active order by cash_account_code limit 1')
+    bd(cur,'PAY_VENDOR_DOCUMENT',dict(target_kind='OPENING_PAYABLE',target_id=balance,amount='8000000.00',date=str(today),cash_account_id=cash,
+        reason='D12 bayar kas tagihan lama'))
+    screen=d12_screen(cur,vendor);doc=d12_doc(screen,number)
+    b=q(cur,'select settled_amount::text,status from erp.opening_subledger_balances where id=%s',balance)[0]
+    twice=refused(cur,lambda:bd(cur,'APPLY_CLAIM_CREDIT',dict(credit,amount='1.00')),'BD_CLAIM_CREDIT_EXCEEDS_AVAILABLE')
+    c=claim_of(cur,fx)
+    resolve_event=[e for e in c['events'] if e['kind']=='RESOLVE' and not e['reversed']][0]['event_id']
+    claim_locked=refused(cur,lambda:claim_op(cur,fx,'REVERSE_CLAIM_EVENT',c,event_id=resolve_event),'BD_CLAIM_CREDIT_IN_USE')
+    history1=d12_history(cur,vendor,cutover)
+    truth1=d12_truth(cur)
+    return verdict(dict(
+        invoice_older_than_reject=True,
+        phantom_before_use=d12_doc(screen_approved,number)['remaining']=='10000000.00' and screen_approved['ledger']['credit_available']=='2000000.00'
+          and screen_approved['ledger']['matches'] is True,
+        payable_settled=tuple(b)==('10000000.00','SETTLED') and (doc['paid_cash'],doc['claim_credit'],doc['remaining'])==('8000000.00','2000000.00','0.00'),
+        screen_ledger_agree=screen['ledger']['ap_balance']=='0.00' and screen['ledger']['matches'] is True and D(ap(cur,vendor))==0,
+        credit_once=twice['ok'],claim_locked=claim_locked['ok'],
+        cutover_unchanged=history0==history1 and history0['ap']=='10000000.00',
+        truth_checks_quiet=set(truth0)==set(D12_CHECKS) and all(truth1[k]<=truth0[k] for k in D12_CHECKS)),
+        history=history1,truth_before=truth0,truth_after=truth1,screen=dict(document=doc,ledger=screen['ledger'],credits=screen['credits']),
+        refusals=[twice,claim_locked])
+
+
 PLAN=[('POLICY:LAU_DEC_SETTINGS_OWNER_VERSIONED_PENDING','NO_ROUTE',policy_settings),
       ('T02:PACKAGE_ONE_CHARGE_PHYSICAL_QTY','NO_ROUTE',t02_package),
       ('T03:COMPONENT_SUM_SAME_PIECES','NO_ROUTE',lambda c,t:t03_t04_components(c,t,False)),
@@ -1334,7 +1496,9 @@ PLAN=[('POLICY:LAU_DEC_SETTINGS_OWNER_VERSIONED_PENDING','NO_ROUTE',policy_setti
       ('W05:IMPORT_REFUSALS','NO_ROUTE',w05_import_refusals),
       ('W05:UNINVOICED_ACCRUAL_INVOICE','NO_ROUTE',w05_uninvoiced),
       ('D07:RECOST_ALARM_DOCUMENT_LEVEL','COUNTEREXAMPLE',d07_recost_alarm),
-      ('D09:ACC_C12_SOURCE_IDENTITY','COUNTEREXAMPLE',d09_custody_source)]
+      ('D09:ACC_C12_SOURCE_IDENTITY','COUNTEREXAMPLE',d09_custody_source),
+      ('D12:CLAIM_CREDIT_DAILY_OLDER_INVOICE','NO_ROUTE',d12_daily),
+      ('D12:CLAIM_CREDIT_OPENING_OLDER_PAYABLE','NO_ROUTE',d12_opening)]
 assert len({k for k,_,_ in PLAN})==len(PLAN),'BD_DUPLICATE_CASE_ID'
 
 

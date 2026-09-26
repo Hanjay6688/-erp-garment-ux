@@ -280,6 +280,70 @@ const REAL = {
  ]
 }
 
+// D12: the payment screen the local BD probe read for the owner example (INV-JUN 10,000,000: cash 8,000,000 + claim credit 2,000,000).
+const PAYABLES = {
+ "vendor_id": "7af76762-dde2-4d8d-88f2-eaa7472943bb",
+ "documents": [
+  {
+   "id": "add92244-d6f4-4b4a-92af-6a01eecd4608",
+   "date": "2026-06-15",
+   "kind": "VENDOR_INVOICE",
+   "total": "10000000.00",
+   "number": "INV-JUN-41876b",
+   "status": "PAID",
+   "paid_cash": "8000000.00",
+   "remaining": "0.00",
+   "settlements": [
+    {
+     "id": "3c6ece91-ca24-48f6-a954-1c2f2624aa11",
+     "date": "2026-09-25",
+     "amount": "8000000.00",
+     "method": "CASH",
+     "number": "VP-3C6ECE91CA2448F6",
+     "status": "POSTED",
+     "reference": null
+    },
+    {
+     "id": "53af0216-3f47-4d36-a1e9-bca6cc6acd26",
+     "date": "2026-09-25",
+     "amount": "2000000.00",
+     "method": "CLAIM_CREDIT",
+     "number": "KK-53AF02163F474D36",
+     "status": "POSTED",
+     "reference": "KL-JUL-815b2c"
+    }
+   ],
+   "claim_credit": "2000000.00"
+  }
+ ],
+ "credits": [
+  {
+   "id": "2f9ac007-af46-4bd8-a86b-9be7e0e22966",
+   "kind": "DAILY_CLAIM",
+   "active": true,
+   "amount": "2000000.00",
+   "number": "KL-JUL-815b2c",
+   "applied": "2000000.00",
+   "available": "0.00",
+   "vendor_id": "7af76762-dde2-4d8d-88f2-eaa7472943bb",
+   "approved_date": "2026-09-25"
+  }
+ ],
+ "cash_accounts": [
+  {
+   "id": "5b0e4a1c-2f7d-4c55-9a0e-3c1d2b4a5f60",
+   "code": "KAS-01",
+   "name": "Kas besar"
+  }
+ ],
+ "ledger": {
+  "matches": true,
+  "ap_balance": "0.00",
+  "credit_available": "0.00",
+  "documents_remaining": "0.00"
+ }
+} as Record<string, any>
+
 const clone = () => JSON.parse(JSON.stringify(REAL)) as Record<string, any>
 describe('laundry BD workspace boundary', () => {
   it('reads the real workspace: an unknown price stays unknown, never zero', () => {
@@ -311,6 +375,27 @@ describe('laundry BD workspace boundary', () => {
     expect(() => parseLaundryBdWorkspace(priced)).toThrow()
     const complete = clone(); complete.priced_deliveries[0].total_complete = true
     expect(() => parseLaundryBdWorkspace(complete)).toThrow()
+  })
+  it('reads the D12 payment screen of one vendor: cash and claim credit settle the older invoice, the ledger check agrees', () => {
+    const ws = clone(); ws.payables = JSON.parse(JSON.stringify(PAYABLES))
+    const p = parseLaundryBdWorkspace(ws).payables!
+    expect(p.documents[0]).toMatchObject({ total: '10000000.00', paid_cash: '8000000.00', claim_credit: '2000000.00', remaining: '0.00', status: 'PAID' })
+    expect(p.documents[0].settlements.map(x => x.method).sort()).toEqual(['CASH', 'CLAIM_CREDIT'])
+    expect(p.credits[0]).toMatchObject({ amount: '2000000.00', applied: '2000000.00', available: '0.00' })
+    expect(p.ledger).toEqual({ ap_balance: '0.00', documents_remaining: '0.00', credit_available: '0.00', matches: true })
+  })
+  it('refuses a payment screen for a reader without the money permission, an unknown settlement method and a missing ledger check', () => {
+    const hidden = clone(); hidden.payables = JSON.parse(JSON.stringify(PAYABLES)); hidden.money_visible = false
+    hidden.invoices = null; hidden.billable_receipts = null; hidden.accounts = null
+    for (const v of hidden.vendors) v.minimum_charge = null
+    for (const c of hidden.components) if (c.current) c.current.rate = null
+    for (const r of hidden.process_rates) r.rate = null
+    for (const d of hidden.priced_deliveries) { d.total_known = null; for (const c of d.charges) { c.unit_rate = null; c.amount = null } }
+    expect(() => parseLaundryBdWorkspace(hidden)).toThrow(/tanpa hak/)
+    const odd = clone(); odd.payables = JSON.parse(JSON.stringify(PAYABLES)); odd.payables.documents[0].settlements[0].method = 'CHEQUE'
+    expect(() => parseLaundryBdWorkspace(odd)).toThrow()
+    const partial = clone(); partial.payables = JSON.parse(JSON.stringify(PAYABLES)); delete partial.payables.ledger
+    expect(() => parseLaundryBdWorkspace(partial)).toThrow()
   })
   it('matches a priced delivery answer by its request id and the laundry writer action', () => {
     expect(() => validateBdResult({ action: 'POST_DELIVERY', request_id: 'r', client_request_id: 'r' }, 'POST_PRICED_DELIVERY', 'r')).not.toThrow()

@@ -9,14 +9,14 @@ import { normalizeClientError } from './lib/clientError'
 import { useProductionMutation, type ProductionMutationHandlers } from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import { CATEGORY_LABEL, CHARGE_KIND_LABEL, LAU_POLICY_KEYS, LAU_POLICY_LABEL, moneyInput, normalizeMoney, parseLaundryBdWorkspace, policyValue, rupiah,
-  signedMoneyInput, validateBdResult, wholePcs, wibTimestamp, type BdInvoice, type Category, type LaundryBdWorkspace, type LauPolicyKey } from './laundryBd'
+  signedMoneyInput, validateBdResult, wholePcs, wibTimestamp, type BdInvoice, type BdPayables, type Category, type LaundryBdWorkspace, type LauPolicyKey } from './laundryBd'
 import type { LaundryQcWorkspace } from './laundryQcModel'
 import type { Json } from './types/database.preconnect'
 import './initial-import.css'
 
-type Section = 'policies' | 'master' | 'send' | 'unknown' | 'invoices' | 'opening'
+type Section = 'policies' | 'master' | 'send' | 'unknown' | 'invoices' | 'payables' | 'opening'
 const SECTIONS: [Section, string][] = [['policies', 'Kebijakan owner'], ['master', 'Harga vendor'], ['send', 'Kirim dengan harga'], ['unknown', 'Harga belum diketahui'],
-  ['invoices', 'Invoice vendor'], ['opening', 'Laundry saldo awal']]
+  ['invoices', 'Invoice vendor'], ['payables', 'Pembayaran vendor'], ['opening', 'Laundry saldo awal']]
 type Send = (action: string, payload: Record<string, Json>) => void
 const today = () => new Date(Date.now() + 7 * 3600_000).toISOString().slice(0, 10)
 
@@ -72,6 +72,9 @@ export default function LaundryBdPanel({ laundry, onPosted }: { laundry: Laundry
       {section === 'unknown' && <UnknownPrices data={data} locked={locked} send={send}/>}
       {section === 'invoices' && (data.invoices === null ? <p>Hak melihat nominal diperlukan untuk invoice vendor.</p>
         : <Invoices data={data} vendor={vendor?.id ?? ''} locked={locked} send={send}/>)}
+      {section === 'payables' && (!data.money_visible ? <p>Hak melihat nominal diperlukan untuk pembayaran vendor.</p>
+        : !vendor || !data.payables ? <p>Pilih vendor untuk melihat tagihan, kredit klaim, dan pembayarannya.</p>
+        : <Payables payables={data.payables} locked={locked} send={send}/>)}
       {section === 'opening' && <Opening data={data} locked={locked} send={send}/>}
     </>}
   </section>
@@ -215,6 +218,59 @@ function PricedSend({ data, laundry, vendor, locked, send }: { data: LaundryBdWo
       expected_version: String(batch.cutting_group_row_version), pricing,
       delivery: { distribution_batch_id: batch.distribution_batch_id, vendor_id: vendor, wash_process_id: process, target_dyeing_color: color.trim(),
         physical_at: physical, reason: reason.trim(), notes: null, lines } })}>Catat kiriman berharga</button>
+  </section>
+}
+
+const METHOD_LABEL = { CASH: 'Kas', CLAIM_CREDIT: 'Kredit klaim', CREDIT: 'Kredit/potongan' } as const
+const cents = (v: string) => Math.round(Number(v) * 100)
+
+/** D12: pay a vendor document in cash or with a claim credit of the same vendor (older documents included). */
+function Payables({ payables, locked, send }: { payables: BdPayables; locked: boolean; send: Send }) {
+  const open = payables.documents.filter(d => cents(d.remaining) > 0), usable = payables.credits.filter(c => cents(c.available) > 0)
+  const [docId, setDocId] = useState(''), [date, setDate] = useState(today()), [reason, setReason] = useState('')
+  const [creditId, setCreditId] = useState(''), [creditAmount, setCreditAmount] = useState(''), [cash, setCash] = useState(''), [cashAmount, setCashAmount] = useState('')
+  const [undoReason, setUndoReason] = useState('')
+  const doc = open.find(d => d.id === docId), credit = usable.find(c => c.id === creditId)
+  const base = !locked && Boolean(doc) && /^\d{4}-\d{2}-\d{2}$/.test(date) && reason.trim().length >= 4
+  const l = payables.ledger
+  return <section className="initial-import-table" aria-label="Pembayaran vendor laundry">
+    <p>Kredit klaim yang sudah disetujui boleh memotong tagihan vendor yang sama yang belum lunas, termasuk tagihan yang lebih tua dari kejadian reject. Utang vendor turun pada tanggal klaim disetujui; tagihan yang dipotong mencatat pelunasannya pada tanggal pemakaian kredit, jadi histori bulan tagihan tidak berubah.</p>
+    <dl aria-label="Cocokkan saldo utang vendor">
+      <div><dt>Saldo utang (buku besar)</dt><dd>{rupiah(l.ap_balance)}</dd></div>
+      <div><dt>Sisa tagihan</dt><dd>{rupiah(l.documents_remaining)}</dd></div>
+      <div><dt>Kredit klaim belum dipakai</dt><dd>{rupiah(l.credit_available)}</dd></div>
+      <div><dt>Pencocokan</dt><dd role="status">{l.matches ? 'Cocok: saldo utang = sisa tagihan − kredit belum dipakai' : 'Tidak cocok: periksa pelunasan dan klaim vendor ini'}</dd></div>
+    </dl>
+    <table aria-label="Tagihan vendor"><thead><tr><th>Tagihan</th><th>Tanggal</th><th>Total</th><th>Dibayar kas</th><th>Kredit klaim</th><th>Sisa</th><th>Status</th></tr></thead>
+      <tbody>{payables.documents.map(d => <tr key={d.id}><td>{d.number}{d.kind === 'OPENING_PAYABLE' ? ' (saldo awal)' : ''}</td><td>{d.date}</td><td>{rupiah(d.total)}</td>
+        <td>{rupiah(d.paid_cash)}</td><td>{rupiah(d.claim_credit)}</td><td>{rupiah(d.remaining)}</td><td>{cents(d.remaining) === 0 ? 'Lunas' : d.status}</td></tr>)}</tbody></table>
+    <table aria-label="Kredit klaim vendor"><thead><tr><th>Klaim</th><th>Disetujui</th><th>Kredit</th><th>Terpakai</th><th>Tersedia</th></tr></thead>
+      <tbody>{payables.credits.map(c => <tr key={c.id}><td>{c.number}{c.kind === 'OPENING_CLAIM' ? ' (saldo awal)' : ''}</td><td>{c.approved_date}</td><td>{rupiah(c.amount)}</td>
+        <td>{rupiah(c.applied)}</td><td>{rupiah(c.available)}</td></tr>)}</tbody></table>
+    <div className="initial-import-toolbar">
+      <label>Tagihan dilunasi<select aria-label="Tagihan dilunasi" value={docId} disabled={locked} onChange={e => setDocId(e.target.value)}>
+        <option value="">Pilih tagihan…</option>{open.map(d => <option key={d.id} value={d.id}>{d.number} · sisa {rupiah(d.remaining)}</option>)}</select></label>
+      <label>Tanggal pelunasan<input aria-label="Tanggal pelunasan" type="date" value={date} disabled={locked} onChange={e => setDate(e.target.value)}/></label>
+      <Reason value={reason} set={setReason} locked={locked} label="Alasan pelunasan"/></div>
+    <div className="initial-import-toolbar">
+      <label>Kredit klaim<select aria-label="Kredit klaim dipakai" value={creditId} disabled={locked} onChange={e => setCreditId(e.target.value)}>
+        <option value="">Pilih klaim…</option>{usable.map(c => <option key={c.id} value={c.id}>{c.number} · tersedia {rupiah(c.available)}</option>)}</select></label>
+      <label>Nominal kredit<input aria-label="Nominal kredit klaim" value={creditAmount} disabled={locked} onChange={e => setCreditAmount(e.target.value)}/></label>
+      <button type="button" disabled={!base || !credit || !moneyInput(creditAmount)} onClick={() => doc && credit && send('APPLY_CLAIM_CREDIT', {
+        source_kind: credit.kind, source_id: credit.id, target_kind: doc.kind, target_id: doc.id, amount: normalizeMoney(creditAmount), date, reason: reason.trim() })}>Pakai kredit klaim</button></div>
+    <div className="initial-import-toolbar">
+      <label>Rekening kas<select aria-label="Rekening kas pembayaran" value={cash} disabled={locked} onChange={e => setCash(e.target.value)}>
+        <option value="">Pilih rekening…</option>{payables.cash_accounts.map(a => <option key={a.id} value={a.id}>{a.code} · {a.name}</option>)}</select></label>
+      <label>Nominal kas<input aria-label="Nominal bayar kas" value={cashAmount} disabled={locked} onChange={e => setCashAmount(e.target.value)}/></label>
+      <button type="button" disabled={!base || !cash || !moneyInput(cashAmount)} onClick={() => doc && send('PAY_VENDOR_DOCUMENT', {
+        target_kind: doc.kind, target_id: doc.id, amount: normalizeMoney(cashAmount), date, cash_account_id: cash, reason: reason.trim() })}>Bayar kas</button></div>
+    <h4>Riwayat pelunasan</h4>
+    <Reason value={undoReason} set={setUndoReason} locked={locked} label="Alasan pembatalan"/>
+    <table aria-label="Riwayat pelunasan vendor"><thead><tr><th>Tagihan</th><th>Tanggal</th><th>Cara</th><th>Nominal</th><th>Rujukan</th><th>Status</th><th></th></tr></thead>
+      <tbody>{payables.documents.flatMap(d => d.settlements.map(x => <tr key={x.id}><td>{d.number}</td><td>{x.date}</td><td>{METHOD_LABEL[x.method]}</td><td>{rupiah(x.amount)}</td>
+        <td>{x.reference ?? '—'}</td><td>{x.status === 'POSTED' ? 'Diposting' : 'Dibatalkan'}</td>
+        <td>{x.status === 'POSTED' && x.method !== 'CREDIT' && <button type="button" disabled={locked || undoReason.trim().length < 4} onClick={() => send('REVERSE_VENDOR_SETTLEMENT', {
+          target_kind: d.kind, settlement_id: x.id, reason: undoReason.trim() })}>Batalkan {x.number}</button>}</td></tr>))}</tbody></table>
   </section>
 }
 
