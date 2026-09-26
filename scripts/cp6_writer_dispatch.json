@@ -1,5 +1,6 @@
 {
   "label": "WRITER_SCENARIO",
+  "revision": 2,
   "phase": "after",
   "scenario_path": "scripts/cp6_bd_completion_probe.py",
   "browser_path": "scripts/cp6_bd_completion_browser.mjs",

@@ -39,3 +39,15 @@ Baca berkas rujukan dan sumber BD/konversi/rework/kain kantong; ambil log run/jo
 - Ditambah `cp6_bd_completion_browser.mjs` + fixture native khusus database `cp6_auditor_browser`: 10 PCS, 2 sudah terjual dengan harga SPR unknown; UI harus menampilkan HPP belum final dan setelah owner mengisi 1000/PCS, lot +10000, FG +8000, COGS +2000, snapshot sale tidak berubah, blocker hilang. Pembuatan sale adalah setup native, bukan bukti klik halaman penjualan (masih demo).
 - `cp6_writer_dispatch.json` memilih satu batch writer pada push; workflow auditor yang sama tetap menerima dispatch auditor seperti sebelumnya. Selftest grup tidak diubah; skenario race/HTTP BD dipakai ulang tanpa perubahan.
 - Python compile/JS syntax/YAML parse lokal lulus. **BELUM** ada hasil runtime baru. Langkah berikut: commit/push batch; catat run/job, baca per-kasus, perbaiki jika gagal. Selagi CI berjalan, lanjut desain/implementasi BE.
+
+## Run BD-1 berjalan
+- Commit alat `01149217d4c2cefbbe4265b44826cdd46dc52a20`; run `36263717916`.
+- Job skenario `108464257310` berjalan; job selftest `108464257515` success saat checkpoint. Browser baru belum memiliki verdict.
+- SHA256 browser `73927e764208d850bc1368bf6410f5b9c2df17228c4dd1450a8556de58e2b588`; fixture `53a714cb359c9ddee60a4fda82536ebe65a9c15d763815f9b1d1d98f09021b0c`; Python wrapper `214890ffad1edd7c605441f3e9ff6d9333af4fc8dd17e8fc0a3229b268cedaa5`.
+- Pembacaan log paket/rollback: install 28 keluarga PASS; rollback cycle PASS per kasus. Gate/primary/drill akhir masih akan disalin dari ringkasan log, bukan dari status job semata.
+- Native konversi existing menolak biaya tanpa sumber dan stok non-PO. BE wajib memberi alur sumber biaya lengkap sebelum memperluasnya. Partial rework existing belum menghasilkan FG; native COMPLETE GOOD+BS=sent menghasilkan lot GOOD asal, yang dapat dijadikan sumber konversi atomik. Pekerjaan analisis ini bukan hasil BE.
+
+## Hasil BD-1 dan koreksi fixture
+- Run `36263717916`, job skenario `108464257310`: **INCOMPLETE**, selftest `108464257515` PASS. Browser gagal saat fixture `create`, sebelum membuat user Auth atau membuka UI: helper native mencoba `erp.current_app_role()` dengan role authenticated tanpa USAGE schema erp. Ini kegagalan setup uji, bukan hasil produk.
+- Rev2 memberi USAGE hanya selama transaksi setup pada database salinan `cp6_auditor_browser`, lalu mengembalikan hak persis seperti semula dan mengassert restorasinya sebelum commit. Browser tidak mendapat grant tambahan. Operasi baca di-rollback. Expected angka/UI tidak berubah; run lama tetap INCOMPLETE.
+- Desain BE disimpan pada `docs/cp6-be-implementation-plan.md`. Berikutnya: run BD rev2, lanjut implementasi konversi BE dan sumber biaya; family belum lengkap sampai empat alur dan seluruh gate writer selesai.

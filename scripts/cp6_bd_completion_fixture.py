@@ -47,8 +47,19 @@ def main():
     if parsed.hostname not in ('127.0.0.1', 'localhost') or parsed.path != '/cp6_auditor_browser':
         raise RuntimeError('FIXTURE_DISPOSABLE_BROWSER_COPY_ONLY')
     with psycopg.connect(target) as conn, conn.cursor() as cur:
+        # Native fixture helpers call internal functions as authenticated. This
+        # grant exists only in this setup transaction, never in the browser test.
+        had_usage = cur.execute("select has_schema_privilege('authenticated','erp','usage')").fetchone()[0]
+        if not had_usage:
+            cur.execute('grant usage on schema erp to authenticated')
         if sys.argv[1] == 'create':
             result = create(cur, date.fromisoformat(sys.argv[2]))
+            bdp.chain.actors.admin(cur)
+            if not had_usage:
+                cur.execute('revoke usage on schema erp from authenticated')
+            restored = cur.execute("select has_schema_privilege('authenticated','erp','usage')").fetchone()[0]
+            assert restored == had_usage, 'FIXTURE_SCHEMA_PRIVILEGE_NOT_RESTORED'
+            result['fixture_schema_usage_restored'] = True
             conn.commit()
         elif sys.argv[1] == 'read':
             result = read(cur, json.loads(sys.argv[2]))
