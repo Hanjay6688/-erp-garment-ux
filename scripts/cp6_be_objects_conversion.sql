@@ -201,7 +201,8 @@ begin
     case when v_values then erp.be_conversion_extra_v1(c.id)::text end extra_cost,
     case when v_values then (select total_cost::text from erp.hpp_versions where lot_id=a.destination_lot_id and is_current) end target_value,
     (select count(*) from erp.be_conversion_returns_v1 br join erp.bc_outstanding_returns_v1 o on o.id=br.outstanding_id
-      where br.conversion_id=c.id and o.status<>'CANCELLED') pending_returns
+      where br.conversion_id=c.id and o.status<>'CANCELLED') pending_returns,
+    erp.be_conversion_value_state_v1(c.id) value_state,erp.be_return_progress_v1(c.id) returns
    from erp.be_conversion_sources_v1 s join erp.product_conversions c on c.id=s.conversion_id
     join erp.products p on p.id=c.from_product_id join erp.products t on t.id=c.to_product_id
     join erp.product_conversion_allocations a on a.conversion_id=c.id),

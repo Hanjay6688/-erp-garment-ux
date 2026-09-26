@@ -206,7 +206,8 @@ begin
     case when v_values then erp.be_conversion_extra_v1(c.id)::text end extra_cost,
     case when v_values then (select total_cost::text from erp.hpp_versions where lot_id=a.destination_lot_id and is_current) end target_value,
     (select count(*) from erp.be_conversion_returns_v1 br join erp.bc_outstanding_returns_v1 o on o.id=br.outstanding_id
-      where br.conversion_id=c.id and o.status<>'CANCELLED') pending_returns
+      where br.conversion_id=c.id and o.status<>'CANCELLED') pending_returns,
+    erp.be_conversion_value_state_v1(c.id) value_state,erp.be_return_progress_v1(c.id) returns
    from erp.be_conversion_sources_v1 s join erp.product_conversions c on c.id=s.conversion_id
     join erp.products p on p.id=c.from_product_id join erp.products t on t.id=c.to_product_id
     join erp.product_conversion_allocations a on a.conversion_id=c.id),
@@ -367,6 +368,26 @@ begin
  return jsonb_build_object('conversion_id',c.id,'cost_document_id',v_doc,'status','POSTED','source',v_result,
    'expected_version',erp.be_conversion_revision_v1(c.id));
 end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.be_return_progress_v1(p_conversion uuid)
+ RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+ select coalesce(jsonb_agg(jsonb_build_object('id',o.id,'material_id',o.material_id,'material',m.material_name,'holder',o.holder,
+  'expected',o.qty_expected::text,'received',coalesce(x.received,0)::numeric(18,6)::text,
+  'awaiting_value',coalesce(x.pending,0)::numeric(18,6)::text,
+  'unreturned',greatest(o.qty_expected-coalesce(x.received,0),0)::numeric(18,6)::text) order by br.line_no),'[]')
+ from erp.be_conversion_returns_v1 br join erp.bc_outstanding_returns_v1 o on o.id=br.outstanding_id and o.status<>'CANCELLED'
+ join erp.materials m on m.id=o.material_id
+ left join lateral(select sum(l.qty_received) received,sum(case when l.value_mode='PENDING' then (erp.bc_lot_state_v1(l.id)->>'open')::numeric else 0 end) pending
+  from erp.bc_return_lots_v1 l join erp.bc_documents_v1 d on d.id=l.document_id where l.outstanding_id=o.id and d.status='POSTED') x on true
+ where br.conversion_id=p_conversion
+$function$;
+CREATE OR REPLACE FUNCTION erp.be_conversion_value_state_v1(p_conversion uuid)
+ RETURNS text LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+ select case when exists(select 1 from jsonb_array_elements(erp.be_return_progress_v1(p_conversion)) x
+  where (x->>'unreturned')::numeric>0 or (x->>'awaiting_value')::numeric>0) then 'PROVISIONAL_RECOVERY' else 'SOURCED_TO_DATE' end
+$function$;
 -- Opening/non-PO conversion has an explicit value source. Current value moves
 -- between SKU dimensions; only disposal/sales become expense. Historical sale
 -- snapshots and allocation.original_hpp_per_pcs remain immutable.
@@ -871,7 +892,7 @@ begin
    end if;
    insert into erp.be_pocket_sewing_v1(id,source_row_id,batch_id,document_number,line_number,physical_date,contractor_id,qty,target_kind,opening_item_id,po_id,product_id,sold_reference)
    values(v_id,r.id,p_batch,btrim(j->>'document_number'),btrim(j->>'line_number'),(c->>'physical_date')::date,
-    (select id from erp.contractors where contractor_code=j->>'contractor_code'),(c->>'qty')::bigint,c->>'kind',v_item,v_po,
+    (select id from erp.contractors where contractor_code=j->>'contractor_code'),(c->>'qty')::numeric::bigint,c->>'kind',v_item,v_po,
     (select id from erp.products where sku=j->>'product_sku'),nullif(btrim(j->>'sold_reference'),''));
   end if;
   update erp.migration_staging_rows set posted_entity_id=v_id,posted_entity_type=r.entity_type,posted_at=statement_timestamp(),updated_at=statement_timestamp() where id=r.id;

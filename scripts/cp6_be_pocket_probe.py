@@ -58,7 +58,7 @@ def receipt_correction(cur,today,installed):
     api.admin(cur);r['MATERIAL'][0]['unit_code']=one(cur,"select unit_code from erp.uom_definitions where dimension='LENGTH' and is_active and unit_code=upper(unit_code) order by unit_code limit 1")
     r['SUPPLIER']=[dict(supplier_code='{C}',supplier_name='BE pocket supplier',supplier_type='MATERIAL')]
     r['LOCATION'].append(dict(location_code='{C}R',location_name='BE raw warehouse',location_type='RAW_MATERIAL_WAREHOUSE'))
-    r['OPENING_BALANCE_ITEM'].append(dict(balance_type='MATERIAL',material_sku='{C}K',location_code='{C}R',qty='15',unit_cost='2.25',opening_source_key='STOCK',control_key='STOCK'))
+    r['MATERIAL_ROLL']=[dict(roll_number='ROLL-{C}',material_sku='{C}K',location_code='{C}R',opening_qty='15',unit_cost='2.25',supplier_code='{C}',opening_source_key='STOCK',control_key='STOCK')]
     r['OPENING_CONTROL'] += [dict(control_key='STOCK',balance_type='MATERIAL',qty='15',amount='33.75'),dict(control_key='GRNI',balance_type='GRNI_MATERIAL',qty='20',amount='45.00')]
     r['UNINVOICED_RECEIPT']=[dict(receipt_number='RCV-{C}',receipt_line_number='1',receipt_date=str(cut-timedelta(days=3)),supplier_code='{C}',material_sku='{C}K',location_code='{C}R',qty='20',unit_cost='2.25',opening_source_key='STOCK',control_key='GRNI')]
     r['OPENING_POCKET_USAGE'][0].update(supplier_code='{C}',receipt_number='RCV-{C}',receipt_line_number='1')

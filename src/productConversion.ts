@@ -2,9 +2,10 @@ import type { Json } from './types/database.preconnect'
 import { cp6WibPhysicalTimeToIso } from './cp6BusinessTime'
 export const conversionActions = ['POST', 'REVERSE', 'POST_USAGE', 'SAVE_REWORK', 'SAVE_REDYE', 'SET_REDYE_PRICE'] as const
 export type ConversionAction = typeof conversionActions[number]
+const exactQuantity = (v: unknown): string => { if (typeof v !== 'string' || !/^\d{1,12}\.\d{6}$/.test(v)) throw new Error('Jumlah bongkaran tidak valid.'); return v }
 export type ConversionLot = { id: string; lot_number: string; product_id: string; sku: string; product_name: string; location_id: string; location_name: string; qty: number; source_revision: string; unit_hpp: string | null }
 export type ConversionTarget = { id: string; sku: string; product_name: string }
-export type ConversionDocument = { id: string; conversion_number: string; status: string; source_sku: string; target_sku: string; qty_pcs: number; physical_at: string; notes: string; origin_kind: string; revision: string; target_value: string | null; extra_cost: string | null; pending_returns: number }
+export type ConversionDocument = { id: string; conversion_number: string; status: string; source_sku: string; target_sku: string; qty_pcs: number; physical_at: string; notes: string; origin_kind: string; revision: string; target_value: string | null; extra_cost: string | null; pending_returns: number; value_state: 'PROVISIONAL_RECOVERY' | 'SOURCED_TO_DATE'; returns: { id: string; material: string; holder: string; expected: string; received: string; unreturned: string; awaiting_value: string }[] }
 export type ConversionWorkspace = { lots: ConversionLot[]; targets: ConversionTarget[]; documents: ConversionDocument[]; total: number; page: number; page_size: number; targets_total: number; target_page: number; documents_total: number; document_page: number }
 export function conversionObject(value: unknown): Record<string, unknown> {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('Data konversi tidak lengkap.')
@@ -27,7 +28,8 @@ export function parseConversionWorkspace(value: unknown): ConversionWorkspace {
   if (new Set(lots.map(l => l.id + l.location_id)).size !== lots.length) throw new Error('Lot dan lokasi ganda.')
   return { lots, targets: rows(o.targets, x => ({ id: id(x.id), sku: text(x.sku), product_name: text(x.product_name) })),
     documents: rows(o.documents, x => { const status = text(x.status); if (!['POSTED', 'REVERSED'].includes(status)) throw new Error('Status konversi tidak valid.')
-      return { id: id(x.id), conversion_number: text(x.conversion_number), status, source_sku: text(x.source_sku), target_sku: text(x.target_sku), qty_pcs: count(x.qty_pcs), physical_at: text(x.physical_at), notes: text(x.notes), origin_kind: text(x.origin_kind), revision: text(x.revision), target_value: amount(x.target_value), extra_cost: amount(x.extra_cost), pending_returns: count(x.pending_returns) } }),
+      return { id: id(x.id), conversion_number: text(x.conversion_number), status, source_sku: text(x.source_sku), target_sku: text(x.target_sku), qty_pcs: count(x.qty_pcs), physical_at: text(x.physical_at), notes: text(x.notes), origin_kind: text(x.origin_kind), revision: text(x.revision), target_value: amount(x.target_value), extra_cost: amount(x.extra_cost), pending_returns: count(x.pending_returns), value_state: x.value_state === 'PROVISIONAL_RECOVERY' || x.value_state === 'SOURCED_TO_DATE' ? x.value_state : (() => { throw new Error('Status nilai konversi tidak lengkap.') })(),
+        returns: rows(x.returns, r => { return { id:id(r.id),material:text(r.material),holder:text(r.holder),expected:exactQuantity(r.expected),received:exactQuantity(r.received),unreturned:exactQuantity(r.unreturned),awaiting_value:exactQuantity(r.awaiting_value) } }) } }),
     total: count(o.total), page: count(o.page), page_size: count(o.page_size), targets_total: count(o.targets_total), target_page: count(o.target_page), documents_total: count(o.documents_total), document_page: count(o.document_page) }
 }
 export function conversionPayload(lot: ConversionLot | undefined, target: string, quantity: string, at: string, reason: string): Record<string, Json> {

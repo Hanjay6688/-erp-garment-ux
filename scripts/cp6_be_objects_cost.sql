@@ -143,3 +143,23 @@ begin
  return jsonb_build_object('conversion_id',c.id,'cost_document_id',v_doc,'status','POSTED','source',v_result,
    'expected_version',erp.be_conversion_revision_v1(c.id));
 end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.be_return_progress_v1(p_conversion uuid)
+ RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+ select coalesce(jsonb_agg(jsonb_build_object('id',o.id,'material_id',o.material_id,'material',m.material_name,'holder',o.holder,
+  'expected',o.qty_expected::text,'received',coalesce(x.received,0)::numeric(18,6)::text,
+  'awaiting_value',coalesce(x.pending,0)::numeric(18,6)::text,
+  'unreturned',greatest(o.qty_expected-coalesce(x.received,0),0)::numeric(18,6)::text) order by br.line_no),'[]')
+ from erp.be_conversion_returns_v1 br join erp.bc_outstanding_returns_v1 o on o.id=br.outstanding_id and o.status<>'CANCELLED'
+ join erp.materials m on m.id=o.material_id
+ left join lateral(select sum(l.qty_received) received,sum(case when l.value_mode='PENDING' then (erp.bc_lot_state_v1(l.id)->>'open')::numeric else 0 end) pending
+  from erp.bc_return_lots_v1 l join erp.bc_documents_v1 d on d.id=l.document_id where l.outstanding_id=o.id and d.status='POSTED') x on true
+ where br.conversion_id=p_conversion
+$function$;
+CREATE OR REPLACE FUNCTION erp.be_conversion_value_state_v1(p_conversion uuid)
+ RETURNS text LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+ select case when exists(select 1 from jsonb_array_elements(erp.be_return_progress_v1(p_conversion)) x
+  where (x->>'unreturned')::numeric>0 or (x->>'awaiting_value')::numeric>0) then 'PROVISIONAL_RECOVERY' else 'SOURCED_TO_DATE' end
+$function$;

@@ -170,7 +170,7 @@ begin
    end if;
    insert into erp.be_pocket_sewing_v1(id,source_row_id,batch_id,document_number,line_number,physical_date,contractor_id,qty,target_kind,opening_item_id,po_id,product_id,sold_reference)
    values(v_id,r.id,p_batch,btrim(j->>'document_number'),btrim(j->>'line_number'),(c->>'physical_date')::date,
-    (select id from erp.contractors where contractor_code=j->>'contractor_code'),(c->>'qty')::bigint,c->>'kind',v_item,v_po,
+    (select id from erp.contractors where contractor_code=j->>'contractor_code'),(c->>'qty')::numeric::bigint,c->>'kind',v_item,v_po,
     (select id from erp.products where sku=j->>'product_sku'),nullif(btrim(j->>'sold_reference'),''));
   end if;
   update erp.migration_staging_rows set posted_entity_id=v_id,posted_entity_type=r.entity_type,posted_at=statement_timestamp(),updated_at=statement_timestamp() where id=r.id;

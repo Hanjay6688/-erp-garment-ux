@@ -7,7 +7,7 @@ import { useProductionMutation, type ProductionMutationHandlers } from './usePro
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import { conversionObject, conversionPayload, parseConversionWorkspace, validateConversionResult, type ConversionWorkspace } from './productConversion'
 import { displayRupiah, parseAccessoryServiceWorkspace, wibTimestamp, type AccessoryServiceWorkspace } from './accessoryService'
-import { cp6WibDateTimeInput, formatCp6WibDateTime } from './cp6BusinessTime'
+import { formatCp6WibDateTime } from './cp6BusinessTime'
 import type { Json } from './types/database.preconnect'
 import './initial-import.css'
 
@@ -28,8 +28,9 @@ function ConversionWorkspaceView() {
   const previewVersion = useRef(0)
   const filters = useRef<Record<string, Json>>({ page: 1, target_page: 1, document_page: 1 }), sequence = useRef(0)
   const [query, setQuery] = useState(''), [targetQuery, setTargetQuery] = useState(''), [accessoryQuery, setAccessoryQuery] = useState('')
-  const [source, setSource] = useState(''), [target, setTarget] = useState(''), [quantity, setQuantity] = useState(''), [at, setAt] = useState(() => cp6WibDateTimeInput(new Date()))
+  const [source, setSource] = useState(''), [target, setTarget] = useState(''), [quantity, setQuantity] = useState(''), [at, setAt] = useState('')
   const [reason, setReason] = useState(''), [preview, setPreview] = useState<{ payload: Record<string, Json>; source: string; target: string; value: string | null } | null>(null)
+  const [returns, setReturns] = useState<{ material_id: string; qty: string; holder: string; name: string }[]>([])
   const [returnMaterial, setReturnMaterial] = useState(''), [returnQty, setReturnQty] = useState(''), [holder, setHolder] = useState('')
   const [costDocument, setCostDocument] = useState(''), [costMaterial, setCostMaterial] = useState(''), [costQty, setCostQty] = useState(''), [costLocation, setCostLocation] = useState('')
   const [reverseId, setReverseId] = useState(''), [reverseReason, setReverseReason] = useState('')
@@ -55,7 +56,7 @@ function ConversionWorkspaceView() {
   const handlers: ProductionMutationHandlers = {
     send: e => client.rpc('erp_save_product_conversion_action_v1', { p_action: e.action, p_payload: e.payload, p_client_request_id: e.id }),
     validate: (v, e) => validateConversionResult(v, e.action, e.id, e.payload),
-    retire: () => { setData(null); setPreview(null); setReverseId(''); setCostDocument('') }, reload: load,
+    retire: () => { setData(null); setPreview(null); setReverseId(''); setCostDocument(''); setReturns([]) }, reload: load,
   }
   const locked = mutation.writerLocked || mutation.busy || loading
   const canPost = identity.permissions.includes('warehouse.brand_conversion.post')
@@ -66,10 +67,8 @@ function ConversionWorkspaceView() {
     setError(''); setPreview(null)
     try {
       const payload = conversionPayload(lot, target, quantity, at, reason)
-      if (returnMaterial || returnQty || holder) {
-        if (!returnMaterial || !/^[1-9]\d{0,8}$/.test(returnQty) || !holder.trim()) throw new Error('Lengkapi aksesori bongkaran, jumlah dan pemegang.')
-        payload.expected_returns = [{ material_id: returnMaterial, qty: returnQty, holder: holder.trim() }]
-      }
+      if (returnMaterial || returnQty || holder) throw new Error('Tambahkan baris bongkaran atau kosongkan ketiga isian sebelum pratinjau.')
+      if (returns.length) payload.expected_returns = returns.map(({ material_id, qty, holder }) => ({ material_id, qty, holder }))
       const stamp = ++sequence.current, draftVersion = previewVersion.current, ticket = beginRead(); setLoading(true)
       const r = await client.rpc('erp_get_product_conversion_workspace_v1', { p_filters: { preview: payload } })
       if (stamp !== sequence.current || !isReadCurrent(ticket)) return
@@ -101,11 +100,14 @@ function ConversionWorkspaceView() {
         {accessories && <details><summary>Bongkaran yang diharapkan kembali</summary><p>Masih di pemegang sampai penerimaan dan pemeriksaan dicatat di Aksesori. Perkiraan ini belum menambah stok.</p>
           <label>Cari aksesori<input value={accessoryQuery} onChange={e => setAccessoryQuery(e.target.value)}/></label>
           <label>Aksesori bongkaran<select value={returnMaterial} onChange={e => { setReturnMaterial(e.target.value); invalidate() }}><option value="">Tidak ada</option>{accessories.materials.map(m => <option key={m.id} value={m.id}>{m.sku} · {m.name}</option>)}</select></label>
-          <label>Jumlah bongkaran<input inputMode="numeric" value={returnQty} onChange={e => { setReturnQty(e.target.value); invalidate() }}/></label><label>Pemegang<input value={holder} onChange={e => { setHolder(e.target.value); invalidate() }}/></label></details>}
+          <label>Jumlah bongkaran<input inputMode="numeric" value={returnQty} onChange={e => { setReturnQty(e.target.value); invalidate() }}/></label><label>Pemegang<input value={holder} onChange={e => { setHolder(e.target.value); invalidate() }}/></label><button type="button" disabled={locked || !returnMaterial || !/^[1-9]\d{0,8}$/.test(returnQty) || !holder.trim() || returns.length>=100} onClick={()=>{
+            const name=accessories.materials.find(m=>m.id===returnMaterial)?.name ?? returnMaterial; setReturns([...returns,{material_id:returnMaterial,qty:returnQty,holder:holder.trim(),name}]);setReturnMaterial('');setReturnQty('');setHolder('');invalidate()
+          }}>Tambahkan komponen bongkaran</button>
+          <ul>{returns.map((r,i)=><li key={i}>{r.name} · {r.qty} PCS · {r.holder} <button type="button" disabled={locked} onClick={()=>{setReturns(returns.filter((_,n)=>n!==i));invalidate()}}>Hapus baris {i+1}</button></li>)}</ul></details>}
         <button disabled={locked || !canPost || !lot} onClick={() => void prepare()}>Lihat pratinjau</button>
         {preview && <div role="status"><p>{preview.source} → {preview.target} · {String(preview.payload.qty_pcs)} PCS · nilai sumber {displayRupiah(preview.value)}</p><button disabled={locked || !canPost} onClick={() => void run('POST', preview.payload, null, handlers)}>Catat konversi fisik</button></div>}
       </section>
-      <section className="panel initial-import-table"><h2>Riwayat konversi</h2><table><thead><tr><th>Dokumen</th><th>Sumber → tujuan</th><th>Jumlah</th><th>Nilai tujuan kini</th><th>Status</th><th/></tr></thead><tbody>{data.documents.map(d => <tr key={d.id}><td>{d.conversion_number}<br/>{formatCp6WibDateTime(d.physical_at)}</td><td>{d.source_sku} → {d.target_sku}<br/>{d.notes}</td><td>{d.qty_pcs} PCS</td><td>{displayRupiah(d.target_value)}<br/>Tambahan/pulih {displayRupiah(d.extra_cost)}</td><td>{d.status}{d.pending_returns > 0 ? ' · bongkaran tercatat' : ''}</td><td>{d.status === 'POSTED' && <><button disabled={locked || !canReverse} onClick={() => { setReverseId(d.id); setReverseReason('') }}>Batalkan {d.source_sku}</button>{accessories && <button disabled={locked || !canPost} onClick={() => setCostDocument(d.id)}>Catat pemakaian aksesori</button>}</>}</td></tr>)}</tbody></table>
+      <section className="panel initial-import-table"><h2>Riwayat konversi</h2><table><thead><tr><th>Dokumen</th><th>Sumber → tujuan</th><th>Jumlah</th><th>Nilai tujuan kini</th><th>Status</th><th/></tr></thead><tbody>{data.documents.map(d => <tr key={d.id}><td>{d.conversion_number}<br/>{formatCp6WibDateTime(d.physical_at)}</td><td>{d.source_sku} → {d.target_sku}<br/>{d.notes}</td><td>{d.qty_pcs} PCS</td><td>{displayRupiah(d.target_value)}<br/>Tambahan/pulih {displayRupiah(d.extra_cost)}</td><td>{d.status} · {d.value_state==='PROVISIONAL_RECOVERY'?'Nilai sementara: bongkaran belum selesai':'Biaya bersumber sampai saat ini'}{d.returns.map(r=><small key={r.id} style={{display:'block'}}>{r.material} · belum kembali {r.unreturned} · menunggu nilai {r.awaiting_value} · {r.holder}</small>)}</td><td>{d.status === 'POSTED' && <><button disabled={locked || !canReverse} onClick={() => { setReverseId(d.id); setReverseReason('') }}>Batalkan {d.source_sku}</button>{accessories && <button disabled={locked || !canPost} onClick={() => setCostDocument(d.id)}>Catat pemakaian aksesori</button>}</>}</td></tr>)}</tbody></table>
         <p>{data.documents_total} dokumen · halaman {data.document_page} <button disabled={locked || data.document_page <= 1} onClick={() => refresh({ document_page: data.document_page - 1 })}>Dokumen sebelumnya</button><button disabled={locked || data.document_page * data.page_size >= data.documents_total} onClick={() => refresh({ document_page: data.document_page + 1 })}>Dokumen berikutnya</button></p>
         {reverseId && <form onSubmit={e => { e.preventDefault(); void run('REVERSE', { conversion_id: reverseId, reason: reverseReason.trim() }, null, handlers) }}><p>Pastikan perubahan fisik juga dibalik. Transaksi turunan aktif harus dibatalkan dahulu.</p><label>Alasan pembatalan<input value={reverseReason} onChange={e => setReverseReason(e.target.value)}/></label><button disabled={locked || !canReverse || !reverseReason.trim()}>Konfirmasi pembatalan</button></form>}
         {costDocument && accessories && <form onSubmit={e => { e.preventDefault(); const doc = data.documents.find(d => d.id === costDocument), time = wibTimestamp(at)
