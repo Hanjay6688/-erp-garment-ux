@@ -402,7 +402,9 @@ STABLE="select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(
 # writes new ones, like a capsule's capture time. Only these columns of the declared seeded tables are left out of the
 # reinstall comparison; every other column (key, status, value, version, set_by, reason, request_id) must be equal, and
 # the seed itself is checked by the release file (<KEY>_SEED_CHANGED / <KEY>_SEED_NOT_PENDING).
-SEED_INSTALL_TIME={'bc_policy_settings_v1':('set_at',),'bc_policy_setting_events_v1':('id','set_at')}
+SEED_INSTALL_TIME={'bc_policy_settings_v1':('set_at',),'bc_policy_setting_events_v1':('id','set_at'),
+                  # BD seeds its six laundry policy rows the same way (install time and a random event id).
+                  'bd_policy_settings_v1':('set_at',),'bd_policy_setting_events_v1':('id','set_at')}
 assert set(SEED_INSTALL_TIME)=={t for f in awx.FILES for t in (f.get('seeded') or {})},'T3_ROLLBACK_SEEDED_TABLES_NOT_DECLARED'
 SEEDED="select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(h,',' order by h),''),'UTF8'),'sha256'),'hex') from(select encode(extensions.digest(convert_to((to_jsonb(t)-%s)::text,'UTF8'),'sha256'),'hex') h from erp.%I t)s"
 
