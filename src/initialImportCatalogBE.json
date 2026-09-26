@@ -1,12 +1,57 @@
 {
- "OPENING_POCKET_USAGE": {
-  "label": "Kain kantong keluar sebelum cutover",
-  "required": ["document_number","line_number","physical_date","material_sku","qty","amount","allocation_status","control_key","control_qty","control_amount"],
-  "fields": {"document_number":"Nomor lembar pengeluaran asal","line_number":"Baris asal","physical_date":"Tanggal keluar sebelum cutover","material_sku":"Kode bahan","qty":"Jumlah kain sudah keluar","amount":"Nilai historis","allocation_status":"ALLOCATED / UNALLOCATED","prior_allocation_reference":"Referensi pembagian lama (ALLOCATED)","control_key":"Identitas total pembanding","control_qty":"Total jumlah pada lembar pembanding","control_amount":"Total nilai pada lembar pembanding","notes":"Catatan"}
- },
- "OPENING_POCKET_SEWING": {
-  "label": "Hasil jahit sebelum cutover untuk pembagian kain kantong",
-  "required": ["document_number","line_number","physical_date","contractor_code","qty","target_kind"],
-  "fields": {"document_number":"Nomor lembar hasil jahit","line_number":"Baris asal","physical_date":"Tanggal selesai dijahit sebelum cutover","contractor_code":"Kode mandor (termasuk khusus)","qty":"PCS selesai dijahit","target_kind":"WIP / BS / FINISHED_GOODS / COGS","target_source_key":"Kode rincian stok awal tujuan","product_sku":"SKU yang sudah terjual (COGS)","sold_reference":"Bukti penjualan historis (COGS)","notes":"Catatan"}
- }
+  "OPENING_POCKET_USAGE": {
+    "label": "Kain kantong keluar sebelum cutover",
+    "required": [
+      "document_number",
+      "line_number",
+      "physical_date",
+      "material_sku",
+      "qty",
+      "amount",
+      "allocation_status",
+      "control_key",
+      "control_qty",
+      "control_amount"
+    ],
+    "fields": {
+      "document_number": "Nomor lembar pengeluaran asal",
+      "line_number": "Baris asal",
+      "physical_date": "Tanggal keluar sebelum cutover",
+      "material_sku": "Kode bahan",
+      "qty": "Jumlah kain sudah keluar",
+      "amount": "Nilai historis",
+      "allocation_status": "ALLOCATED / UNALLOCATED",
+      "prior_allocation_reference": "Referensi pembagian lama (ALLOCATED)",
+      "control_key": "Identitas total pembanding",
+      "control_qty": "Total jumlah pada lembar pembanding",
+      "control_amount": "Total nilai pada lembar pembanding",
+      "notes": "Catatan",
+      "supplier_code": "Supplier penerimaan belum ditagih (opsional)",
+      "receipt_number": "Nomor penerimaan asal (opsional)",
+      "receipt_line_number": "Baris penerimaan asal (opsional)"
+    }
+  },
+  "OPENING_POCKET_SEWING": {
+    "label": "Hasil jahit sebelum cutover untuk pembagian kain kantong",
+    "required": [
+      "document_number",
+      "line_number",
+      "physical_date",
+      "contractor_code",
+      "qty",
+      "target_kind"
+    ],
+    "fields": {
+      "document_number": "Nomor lembar hasil jahit",
+      "line_number": "Baris asal",
+      "physical_date": "Tanggal selesai dijahit sebelum cutover",
+      "contractor_code": "Kode mandor (termasuk khusus)",
+      "qty": "PCS selesai dijahit",
+      "target_kind": "WIP / BS / FINISHED_GOODS / COGS",
+      "target_source_key": "Kode rincian stok awal tujuan",
+      "product_sku": "SKU yang sudah terjual (COGS)",
+      "sold_reference": "Bukti penjualan historis (COGS)",
+      "notes": "Catatan"
+    }
+  }
 }

@@ -5,14 +5,16 @@ from cp6_bc_build import last_definition,substitute
 import cp6_bd_build as bd
 ROOT=Path(__file__).resolve().parents[1]
 BD=ROOT/'supabase/dev/cp6_bd_t1_family.sql'
+BB=ROOT/'supabase/dev/cp6_bb_t1_family.sql'
 AP=ROOT/'supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql'
 ENTITIES=['OPENING_POCKET_USAGE','OPENING_POCKET_SEWING']
-TABLES=['be_pocket_usage_v1','be_pocket_sewing_v1','be_pocket_source_events_v1','be_pocket_target_events_v1']
+TABLES=['be_pocket_usage_v1','be_pocket_sewing_v1','be_pocket_source_events_v1','be_pocket_target_events_v1','be_pocket_receipt_origins_v1']
 REPLACED=['erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)','erp._validate_migration_batch_base(uuid)',
  'erp.finalize_migration_batch(uuid)','erp.save_initial_import_action_v1(text,jsonb,uuid)','erp.get_initial_import_workspace_v1(uuid)',
  'erp.initial_import_revision_v1(uuid)','erp.pocket_period_total_v1(uuid)','erp.pocket_period_manifest_v1(date,date)',
  'erp.pocket_period_target_v1(uuid,boolean)','erp.pocket_period_book_v1(uuid)','erp.sync_pocket_period_v1(uuid,date,text,text)',
  'erp.save_pocket_period_action_v1(text,jsonb,uuid)','erp.initial_import_source_value_v1(uuid)',
+ 'erp.check_initial_import_receipt_v1(uuid,uuid)','erp.recost_initial_import_origins_v1(uuid)','erp.run_v267_financial_truth_checks()','erp._cp6_supplier_cent_state(uuid[])',
  'erp.pocket_period_checks_v1()','erp.save_pocket_fabric_action_v1(text,jsonb,uuid)']
 
 def catalog():return {**bd.catalog(),**json.loads((ROOT/'src/initialImportCatalogBE.json').read_text())}
@@ -24,7 +26,7 @@ def build():
     base=patch(BD,'_validate_migration_batch_base',[(tail+")\n",newtail+")\n")])
     final=patch(BD,'finalize_migration_batch',[(tail+") and posted_entity_id is null)",newtail+") and posted_entity_id is null)")])
     router=patch(BD,'save_initial_import_action_v1',[
-     ('     perform erp.bd_validate_imports_v1(b.id);','     perform erp.bd_validate_imports_v1(b.id);\n     perform erp.be_validate_pocket_imports_v1(b.id);'),
+     ('     perform erp.validate_initial_import_receipts_v1(b.id);','     perform erp.be_validate_pocket_imports_v1(b.id);\n     perform erp.validate_initial_import_receipts_v1(b.id);'),
      ('       perform erp.bd_apply_imports_v1(b.id);','       perform erp.bd_apply_imports_v1(b.id);\n       perform erp.be_apply_pocket_imports_v1(b.id);')])
     old=re.search(r"v_catalog constant jsonb:=('.*?')::jsonb;",router,re.S)
     assert old and router.count(old.group(0))==1
@@ -55,7 +57,11 @@ def build():
     value=patch(AP,'initial_import_source_value_v1',[(" from erp.opening_balance_items i where i.id=p_item;", " +erp.be_pocket_opening_extra_v1(i.id)\n from erp.opening_balance_items i where i.id=p_item;")])
     checks=patch(AP,'pocket_period_checks_v1',[(" union all select 'AP_PERIOD_POCKET_OVERLAP'", "  or exists(select 1 from erp.pocket_period_destinations d join erp.be_pocket_sewing_v1 s on s.id=d.historical_sewing_id where d.pool_id=p.id and to_jsonb(s)<>d.source_snapshot)\n union all select 'AP_PERIOD_POCKET_OVERLAP'")])
     facade=patch(AP,'save_pocket_fabric_action_v1',[(" if v_action in('POST_PERIOD','CANCEL_PERIOD') then", " if v_action='CORRECT_OPENING_USAGE' then return erp.be_correct_pocket_usage_v1(p_payload,p_client_request_id);end if;\n if v_action in('POST_PERIOD','CANCEL_PERIOD') then")])
-    return '\n'.join([stage,base,final,router,ws,rev,total,manifest,target,book,sync,post,value,checks,facade])
+    receipt=patch(BB,'check_initial_import_receipt_v1',[("lower(v_line)),0) then","lower(v_line)),0)+erp.be_pocket_receipt_staged_qty_v1(p_batch_id,j) then")])
+    recost=patch(BB,'recost_initial_import_origins_v1',[("end;$function$;"," perform erp.be_pocket_recost_receipt_v1(p_purchase_item);\nend;$function$;")])
+    receipt_checks=patch(BB,'run_v267_financial_truth_checks',[("where purchase_item_id=pi.id),0)","where purchase_item_id=pi.id),0)+coalesce((select sum(material_qty) from erp.be_pocket_receipt_origins_v1 where purchase_item_id=pi.id),0)")])
+    cents=patch(AP,'_cp6_supplier_cent_state',[("o.purchase_item_id=i.id),0)","o.purchase_item_id=i.id),0)+coalesce((select sum(round(o.material_qty*erp.material_purchase_current_unit_cost(i.id),2)) from erp.be_pocket_receipt_origins_v1 o where o.purchase_item_id=i.id),0)")])
+    return '\n'.join([receipt,recost,receipt_checks,cents,stage,base,final,router,ws,rev,total,manifest,target,book,sync,post,value,checks,facade])
 
 def filter_native(text):
     return substitute(text,[("from erp.pocket_period_destinations d where d.po_id=", "from erp.pocket_period_destinations d where d.event_id is not null and d.po_id=")],'BE historical pocket value via opening source, not twice')

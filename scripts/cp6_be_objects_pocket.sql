@@ -100,6 +100,7 @@ begin
       is distinct from erp.bb_parse_amount_v1(j->>'control_amount','control_amount',false)
    or (select sum((normalized_payload->>'qty')::numeric) from erp.migration_staging_rows where batch_id=p_batch and entity_type=r.entity_type and normalized_payload->>'control_key'=j->>'control_key')
       is distinct from (j->>'control_qty')::numeric then raise exception 'BE_POCKET_CONTROL_MISMATCH';end if;
+  perform erp.be_pocket_check_receipt_origin_v1(p_batch,j);
   return jsonb_build_object('qty',v_qty,'amount',v_amount,'physical_date',d,'kind',v_kind);
  elsif r.entity_type='OPENING_POCKET_SEWING' then
   if v_qty<>trunc(v_qty) or v_qty>2147483647 then raise exception 'BE_POCKET_SEWING_PCS';end if;
@@ -155,6 +156,7 @@ begin
    insert into erp.be_pocket_usage_v1(id,source_row_id,batch_id,document_number,line_number,physical_date,material_id,material_qty,original_amount,allocation_status,prior_allocation_reference,journal_id)
    values(v_id,r.id,p_batch,btrim(j->>'document_number'),btrim(j->>'line_number'),(c->>'physical_date')::date,
     (select id from erp.materials where material_sku=j->>'material_sku'),(c->>'qty')::numeric,(c->>'amount')::numeric,c->>'kind',nullif(btrim(j->>'prior_allocation_reference'),''),v_journal);
+   perform erp.be_pocket_link_receipt_origin_v1(v_id,p_batch,j);
   else
    v_item:=null;v_po:=null;
    if c->>'target_row' is not null then
@@ -212,6 +214,7 @@ begin
  v_cached:=erp._idempotency_begin('be_correct_pocket_usage_v1',p_request,erp._request_hash(p_payload));if v_cached is not null then return v_cached;end if;
  perform erp.pocket_period_lock_v1();select * into u from erp.be_pocket_usage_v1 where id=(p_payload->>'usage_id')::uuid for update;
  if u.id is null or u.allocation_status<>'UNALLOCATED' then raise exception 'BE_POCKET_CORRECTION_SOURCE: pilih sumber pool yang belum dialokasikan sebelum cutover';end if;
+ if exists(select 1 from erp.be_pocket_receipt_origins_v1 where usage_id=u.id) then raise exception 'BE_POCKET_USE_SUPPLIER_INVOICE: koreksi nilai harus melalui nota supplier sumber';end if;
  v_old:=erp.be_pocket_usage_amount_v1(u.id);v_amount:=erp.bb_parse_amount_v1(p_payload->>'amount','amount',true);
  if v_old is distinct from (p_payload->>'expected_amount')::numeric then raise exception 'STALE_VERSION: nilai sumber kain kantong berubah';end if;
  v_date:=(p_payload->>'economic_date')::date;v_reason:=nullif(btrim(p_payload->>'reason'),'');
@@ -228,4 +231,73 @@ begin
  end loop;
  r:=jsonb_build_object('action','CORRECT_OPENING_USAGE','request_id',p_request,'usage_id',u.id,'amount',v_amount::numeric(20,2)::text);
  return erp._idempotency_complete('be_correct_pocket_usage_v1',p_request,r);
+end;$function$;
+
+-- Historical consumed receipt quantities are explicit origins, never stock movements.
+create table erp.be_pocket_receipt_origins_v1(
+ usage_id uuid primary key references erp.be_pocket_usage_v1(id),purchase_item_id uuid not null references erp.material_purchase_items(id),
+ material_qty numeric(18,6) not null check(material_qty>0),unit_cost_snapshot numeric(18,6) not null check(unit_cost_snapshot>=0)
+);
+create trigger be_pocket_receipt_immutable before update or delete on erp.be_pocket_receipt_origins_v1 for each row execute function erp.be_pocket_immutable_v1();
+CREATE OR REPLACE FUNCTION erp.be_pocket_receipt_staged_qty_v1(p_batch uuid,p_receipt jsonb)
+ RETURNS numeric LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+ select coalesce(sum((x.normalized_payload->>'qty')::numeric),0) from erp.migration_staging_rows x
+ where x.batch_id=p_batch and x.entity_type='OPENING_POCKET_USAGE' and x.validation_status='VALID'
+  and x.normalized_payload->>'supplier_code'=p_receipt->>'supplier_code'
+  and lower(btrim(x.normalized_payload->>'receipt_number'))=lower(btrim(p_receipt->>'receipt_number'))
+  and lower(btrim(x.normalized_payload->>'receipt_line_number'))=lower(btrim(p_receipt->>'receipt_line_number'))
+$function$;
+CREATE OR REPLACE FUNCTION erp.be_pocket_check_receipt_origin_v1(p_batch uuid,p_usage jsonb)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare n integer;r erp.migration_staging_rows%rowtype;v_part jsonb;v_cost numeric;
+begin
+ n:=num_nonnulls(nullif(btrim(p_usage->>'supplier_code'),''),nullif(btrim(p_usage->>'receipt_number'),''),nullif(btrim(p_usage->>'receipt_line_number'),''));
+ if n=0 then return;end if;
+ if n<>3 or upper(p_usage->>'allocation_status')<>'UNALLOCATED' then raise exception 'BE_POCKET_RECEIPT_IDENTITY: sumber penerimaan wajib lengkap, hanya pool yang belum dialokasikan';end if;
+ if (select count(*) from erp.migration_staging_rows where batch_id=p_batch and entity_type='UNINVOICED_RECEIPT'
+  and normalized_payload->>'supplier_code'=p_usage->>'supplier_code'
+  and lower(btrim(normalized_payload->>'receipt_number'))=lower(btrim(p_usage->>'receipt_number'))
+  and lower(btrim(normalized_payload->>'receipt_line_number'))=lower(btrim(p_usage->>'receipt_line_number')))<>1 then raise exception 'BE_POCKET_RECEIPT_REQUIRED';end if;
+ select * into r from erp.migration_staging_rows where batch_id=p_batch and entity_type='UNINVOICED_RECEIPT'
+  and normalized_payload->>'supplier_code'=p_usage->>'supplier_code'
+  and lower(btrim(normalized_payload->>'receipt_number'))=lower(btrim(p_usage->>'receipt_number'))
+  and lower(btrim(normalized_payload->>'receipt_line_number'))=lower(btrim(p_usage->>'receipt_line_number'));
+ if r.normalized_payload->>'material_sku' is distinct from p_usage->>'material_sku' then raise exception 'BE_POCKET_RECEIPT_MATERIAL';end if;
+ v_part:=erp.bb_receipt_row_invoiced_part_v1(p_batch,r.id);v_cost:=(r.normalized_payload->>'unit_cost')::numeric;
+ if v_part is not null then v_cost:=round(((r.normalized_payload->>'qty')::numeric*v_cost+(v_part->>'invoiced_amount')::numeric)/((r.normalized_payload->>'qty')::numeric+(v_part->>'invoiced_qty')::numeric),6);end if;
+ if round((p_usage->>'qty')::numeric*v_cost,2) is distinct from (p_usage->>'amount')::numeric then raise exception 'BE_POCKET_RECEIPT_VALUE: nilai sumber harus sama dengan qty bahan dikali biaya penerimaan';end if;
+end;$function$;
+CREATE OR REPLACE FUNCTION erp.be_pocket_link_receipt_origin_v1(p_usage uuid,p_batch uuid,p_payload jsonb)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare v_item uuid;
+begin
+ if nullif(btrim(p_payload->>'receipt_number'),'') is null then return;end if;
+ select l.purchase_item_id into strict v_item from erp.initial_import_receipt_lines l join erp.initial_import_receipt_headers h on h.purchase_id=l.purchase_id
+  join erp.suppliers s on s.id=h.supplier_id where h.batch_id=p_batch and s.supplier_code=p_payload->>'supplier_code'
+  and lower(btrim(h.receipt_number))=lower(btrim(p_payload->>'receipt_number')) and lower(btrim(l.receipt_line_number))=lower(btrim(p_payload->>'receipt_line_number'));
+ insert into erp.be_pocket_receipt_origins_v1(usage_id,purchase_item_id,material_qty,unit_cost_snapshot)
+ values(p_usage,v_item,(p_payload->>'qty')::numeric,erp.bb_receipt_opening_unit_cost_v1(v_item));
+end;$function$;
+CREATE OR REPLACE FUNCTION erp.be_pocket_recost_receipt_v1(p_item uuid)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare r record;v_old numeric;v_new numeric;v_delta numeric;v_event uuid;v_journal uuid;v_date date;v_pool uuid;
+begin
+ perform erp.require_internal();perform erp.pocket_period_lock_v1();
+ v_date:=coalesce(erp.invoice_recost_economic_date_v1(),erp._cp3_business_date(statement_timestamp()));
+ for r in select * from erp.be_pocket_receipt_origins_v1 where purchase_item_id=p_item order by usage_id loop
+  v_old:=erp.be_pocket_usage_amount_v1(r.usage_id);v_new:=round(r.material_qty*erp.material_purchase_current_unit_cost(p_item),2);v_delta:=v_new-v_old;
+  if v_delta=0 then continue;end if;v_event:=gen_random_uuid();
+  v_journal:=erp.post_journal('BE_POCKET_RECEIPT_RECOST',v_event,v_date,'Koreksi nota sumber kain kantong sebelum cutover',jsonb_build_array(
+   jsonb_build_object('mapping_key','OTHER_EXPENSE','debit',greatest(v_delta,0),'credit',greatest(-v_delta,0)),
+   jsonb_build_object('mapping_key','MATERIAL_INVENTORY','debit',greatest(-v_delta,0),'credit',greatest(v_delta,0))));
+  insert into erp.be_pocket_source_events_v1(id,usage_id,previous_amount,new_amount,economic_date,reason,journal_id,created_by)
+   values(v_event,r.usage_id,v_old,v_new,v_date,'Koreksi nota sumber kain kantong sebelum cutover',v_journal,erp.current_app_user_id());
+  for v_pool in select pool_id from erp.pocket_period_sources where historical_usage_id=r.usage_id and erp.pocket_period_active_v1(pool_id) order by pool_id loop
+   perform erp.sync_pocket_period_v1(v_pool,v_date,'RECOST','Koreksi nota sumber kain kantong sebelum cutover');
+  end loop;
+ end loop;
 end;$function$;
