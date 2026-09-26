@@ -84,8 +84,27 @@ function idsIn(value, out = { non_rfc: new Set(), v4: new Set() }) {
   return out
 }
 
-// Phone width check: the page itself must not scroll sideways (tables scroll inside their own box).
-const widthOk = async p => { const w = await p.evaluate(() => ({ viewport: document.documentElement.clientWidth, page: document.documentElement.scrollWidth })); return { ...w, ok: w.page <= w.viewport } }
+// Phone width check: the page itself must not scroll sideways (tables scroll inside their own box). On failure the elements
+// that reach past the screen outside any scroll box are listed.
+const widthOk = async p => p.evaluate(() => {
+  const viewport = document.documentElement.clientWidth, page = document.documentElement.scrollWidth, wide = []
+  if (page > viewport) for (const el of document.querySelectorAll('body *')) {
+    const r = el.getBoundingClientRect()
+    if (r.width === 0 || r.right <= viewport + 1) continue
+    let a = el.parentElement, boxed = false
+    while (a && a !== document.body) { if (['auto', 'scroll', 'hidden', 'clip'].includes(getComputedStyle(a).overflowX)) { boxed = true; break } a = a.parentElement }
+    if (!boxed) wide.push({ tag: el.tagName, cls: String(el.className).slice(0, 50), label: el.getAttribute('aria-label'), right: Math.round(r.right), width: Math.round(r.width) })
+  }
+  return { viewport, page, ok: page <= viewport, wide: wide.slice(-8) }
+})
+// What a click at the centre of the element would hit (recorded before the click, not a pass condition by itself).
+const hitAt = async loc => loc.evaluate(el => {
+  const r = el.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2, top = document.elementFromPoint(x, y)
+  const vv = window.visualViewport
+  return { rect: [r.left, r.top, r.width, r.height].map(Math.round), hits_self: top === el || el.contains(top),
+    top: top ? `${top.tagName}.${String(top.className).slice(0, 40)} ${(top.textContent || '').trim().slice(0, 40)}` : null,
+    inner: [innerWidth, innerHeight], visual: vv ? [vv.width, vv.height, vv.offsetLeft, vv.offsetTop, vv.scale].map(v => Math.round(v * 100) / 100) : null, scroll: [scrollX, scrollY] }
+})
 
 export async function cases(ui, today) {
   return [
@@ -162,7 +181,14 @@ export async function cases(ui, today) {
       widths.unknown = await widthOk(p)
       await unknownBox.getByLabel('Alasan', { exact: true }).fill('T36 harga SPR dari vendor')
       await unknownBox.getByLabel(`Harga per PCS ${label}`, { exact: true }).fill('3000')
-      await unknownBox.getByRole('button', { name: `Isi harga ${label}`, exact: true }).click()
+      const fillButton = unknownBox.getByRole('button', { name: `Isi harga ${label}`, exact: true })
+      await fillButton.scrollIntoViewIfNeeded()
+      const hit = await hitAt(fillButton)
+      try { await fillButton.click({ timeout: 20000 }) } catch (e) {
+        const diag = { hit, hit_again: await hitAt(fillButton), widths: { ...widths, at_error: await widthOk(p) }, after_send: afterSend }
+        await phone.context.close()
+        return { status: 'INCOMPLETE', error: String(e.message).slice(0, 400), diag }
+      }
       await until(`select coalesce((select string_agg(total_known::text||'|'||total_complete::text,',') from erp.bd_laundry_priced_lines_v1 where delivery_id='${sent}'),'')`, '13000.00|true')
       await reload()
       const po = ui.sql(`select po_id from erp.laundry_deliveries where id='${sent}'`)
@@ -181,7 +207,7 @@ export async function cases(ui, today) {
         no_sideways_scroll: Object.values(widths).every(w => w.ok),
       }
       return { status: Object.values(checks).every(Boolean) ? 'PASS' : 'FAIL', checks, batch: ready.b.distribution_batch_id, size: ready.size.size_code,
-        delivery: sent, after_send: afterSend, after_fill: afterFill, widths }
+        delivery: sent, after_send: afterSend, after_fill: afterFill, widths, hit }
     }],
     ['BD_BROWSER:D08_LAUNDRY_QC_CANONICAL_IDS', async () => {
       // D08: the seeded CP3 mandor/model rows stay active. The Laundry read carries a ready batch of the seeded mandor; the case
