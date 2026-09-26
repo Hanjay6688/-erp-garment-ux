@@ -1,3 +1,5 @@
+> **DIGANTIKAN** oleh `WRITER_HANDOFF_R12_FINAL_PASTE_20260926.md` (versi tempel ringkas final putaran 12). Isi di bawah tetap sebagai riwayat/rincian.
+
 # Handoff auditor → writer, putaran 12 (pra-BC), 25 Sep 2026 ~17:45Z — TEMPEL KE WRITER
 Dari: Fable (independen; GPT menyusul cek silang). Sumber: `audit/cp6-final-20260924-gpt-a0bcadf` → `out/fable_r12_results.md`, `audit/runs_fable/r12/`.
 

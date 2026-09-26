@@ -39,7 +39,7 @@ Cek auditor yang terbukti salah dan sudah diperbaiki (bukan tindakan writer): or
 | T6 | W12/W6 pada data nyata: drill T3 baseline sudah CLEAN (UUID 765 kolom) dan alias CASH_BANK NONE; **hosted/legacy belum diperiksa siapa pun** — jalankan `scripts/cp6_cutover_data_checks.py --pgurl <salinan drill>` pada salinan hosted yang diizinkan (baca saja), lampirkan hasil | batas auditor: tidak menyentuh hosted | keluaran drill |
 | T7 | Opsional (tetap): W3 cabut grant `authenticated` pada `erp.prepare_migration_opening_balance` (successor); W5 pesan STALE_VERSION | — | — |
 
-## 2a. Tambahan putaran 12 (pra-BC, 25 Sep 17:45Z) — lihat `WRITER_HANDOFF_R12_PASTE_20260925.md`
+## 2a. Tambahan putaran 12 (pra-BC + BC) — tempel final: `WRITER_HANDOFF_R12_FINAL_PASTE_20260926.md` (rincian: `WRITER_HANDOFF_R12_PASTE_20260925.md`)
 - **F1 (pre-existing, CONFIRMED independen, run 36168041413):** nota harga manual (ACC-DEC02) ditandai CRITICAL oleh `contractor_issue_price_provenance_gap`. Diperbaiki di BC;
   verifikasi diff badan fungsi v265 di putaran BC.
 - **F2 (pre-existing, CONFIRMED sebagai cacat detektor):** `MATERIAL_RECOST_GL_STATE_DRIFT` (v2.5.5) menyala pada buku yang memenuhi oracle (penyesuaian tanpa baris state;

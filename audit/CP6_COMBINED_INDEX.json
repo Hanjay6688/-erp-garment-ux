@@ -1545,7 +1545,7 @@
   "fable": "AUDIT_PROGRESS_FABLE.md",
   "gpt": "AUDIT_PROGRESS_GPT.md (GPT membuat)"
  },
- "writer_handoff_paste_latest": "WRITER_HANDOFF_R12_PASTE_20260925.md",
+ "writer_handoff_paste_latest": "WRITER_HANDOFF_R12_FINAL_PASTE_20260926.md",
  "fable_round12_pre_bc": {
   "date": "2026-09-25T17:45Z",
   "writer_heads_seen": [
@@ -1638,5 +1638,8 @@
   "auditor_onboarding": "HANDOVER_AUDITOR_ONBOARDING_20260925.md",
   "writer_opus_to_gpt": "HANDOVER_WRITER_OPUS_TO_GPT_20260925.md",
   "note": "state is never locked: follow onboarding §3 (writer log, AUDIT_PROGRESS_FABLE.md tail, this index, dispatch ledger, list_runs)"
- }
+ },
+ "writer_handoff_paste_history": [
+  "WRITER_HANDOFF_R12_PASTE_20260925.md"
+ ]
 }

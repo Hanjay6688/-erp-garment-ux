@@ -75,3 +75,5 @@
   HANDOVER_AUDITOR_ONBOARDING_20260925.md §3 to find the current state.
 - 2026-09-25 20:10Z (26 Sep 03:10 WIB): GPT BC follow-up run2 36182902112 reconciled (results §14, paste §2c): GBC-1 agree PARTIAL/UNVERIFIED (owner identity policy);
   GBC-2 agree F3, joint severity P3 product / P2 conditional on cutover data (read-only inventory by writer/operator); GBC-3 covered by Fable 36182433079. No conflicts.
+- 26 Sep 03:20 WIB: WRITER_HANDOFF_R12_FINAL_PASTE_20260926.md written (single reconciled Fable+GPT paste for Opus: BC clean on tested coverage, 5 ordered tasks, conventions);
+  previous paste marked DIGANTIKAN; index writer_handoff_paste_latest updated.
