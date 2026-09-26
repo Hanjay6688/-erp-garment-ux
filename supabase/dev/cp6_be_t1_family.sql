@@ -2158,7 +2158,7 @@ begin
     or ch.qty_basis is distinct from fl.initial_qty_pcs
     or abs(first_hpp.total_cost-fl.initial_qty_pcs*om.unit_hpp)>0.000001
     or abs(om.unit_hpp-erp.resolve_opening_fg_unit_hpp(oi.id,oh.opening_date))>0.000001
-    or abs(ch.total_cost-fl.initial_qty_pcs
+    or abs(ch.total_cost-erp.be_pocket_opening_extra_v1(oi.id)-fl.initial_qty_pcs
       *coalesce(correction.corrected_hpp,om.unit_hpp))>0.000001
     or fl.cached_qty_pcs is distinct from coalesce((
       select sum(m.qty_signed)::integer from erp.fg_stock_movements m

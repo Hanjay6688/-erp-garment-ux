@@ -78,6 +78,8 @@ def build():
     checks=substitute(last_definition(BD,'run_v268_financial_report_checks'),[
       ("    )::numeric source_cost\n", "      +erp.be_po_extra_v1(s.po_id)+erp.be_redye_po_cost_v1(s.po_id)\n    )::numeric source_cost\n"),
       ('+a.conversion_cost_allocated/nullif(a.qty_pcs,0)', '+erp.be_allocation_extra_v1(a.id)/nullif(a.qty_pcs,0)'),
+      ('or abs(ch.total_cost-fl.initial_qty_pcs\n      *coalesce(correction.corrected_hpp,om.unit_hpp))>0.000001',
+       'or abs(ch.total_cost-erp.be_pocket_opening_extra_v1(oi.id)-fl.initial_qty_pcs\n      *coalesce(correction.corrected_hpp,om.unit_hpp))>0.000001'),
       ('where s.po_id is null or d.id is null or d.po_id is distinct from s.po_id',
        'where (s.po_id is null and not erp.be_nonpo_admitted_v1(c.id)) or d.id is null or d.po_id is distinct from s.po_id'),
       ('Every posted conversion must be PO-sourced, value-preserving, rooted, and represented by exact OUT/IN facts with current descendant HPP',

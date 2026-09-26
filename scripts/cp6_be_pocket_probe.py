@@ -45,6 +45,14 @@ def roundtrip(cur,today,installed,snapshot=None):
         b.bcp.session(cur);snapshot('pocket',one(cur,"select public.erp_get_pocket_fabric_workspace_v1('')"));api.admin(cur)
     corr=call(cur,'CORRECT_OPENING_USAGE',dict(usage_id=origin,amount='15.00',expected_amount='11.25',economic_date=str(cut+timedelta(days=1)),reason='BE source sheet correction'),str(uuid.uuid4()))
     second=difference(g0,amounts(cur));truth2=b.all_truth(cur)
+    # Deliberate corruption only inside a rolled-back disposable savepoint:
+    # the adapted lineage detector must still catch one unsourced cost unit.
+    api.admin(cur);cur.execute('savepoint be_pocket_detector_negative')
+    try:
+        cur.execute("update erp.hpp_versions set total_cost=total_cost+1 where is_current and lot_id in(select lot_id from erp.fg_stock_movements where source_type='OPENING_BALANCE_ITEM' and source_id in(select opening_item_id from erp.initial_import_opening_stock_sources where batch_id=%s) and movement_type='OPENING')",(f['batch'],))
+        detected=b.all_truth(cur)['V2620E_OPENING_HPP_LINEAGE_MISMATCH']>truth2['V2620E_OPENING_HPP_LINEAGE_MISMATCH']
+    finally:
+        cur.execute('rollback to savepoint be_pocket_detector_negative');cur.execute('release savepoint be_pocket_detector_negative')
     revision=one(cur,'select erp.pocket_period_state_v1(%s)',pool)['revision']
     call(cur,'CANCEL_PERIOD',dict(id=pool,expected_revision=revision,reason='BE inverse allocation only'))
     inverse=difference(g0,amounts(cur));unchanged=fake_before==(one(cur,'select count(*) from erp.material_stock_movements'),one(cur,'select count(*) from erp.sewing_terminal_events'))
@@ -52,7 +60,7 @@ def roundtrip(cur,today,installed,snapshot=None):
       first=first['WIP']==b.D('5.62') and first['FG_INVENTORY']==b.D('3.38') and first['COGS']==b.D('2.25') and first['OTHER_EXPENSE']==b.D('-11.25'),
       correction=second['WIP']==b.D('7.50') and second['FG_INVENTORY']==b.D('4.50') and second['COGS']==b.D('3.00') and second['OTHER_EXPENSE']==b.D('-11.25'),
       inverse=inverse['WIP']==inverse['FG_INVENTORY']==inverse['COGS']==0 and inverse['OTHER_EXPENSE']==b.D('3.75'),
-      truth=b.truth_quiet(truth,truth1) and b.truth_quiet(truth,truth2)),first=first,corrected=second,inverse=inverse,preview=p,correction=corr,detectors=[truth,truth1,truth2])
+      truth=b.truth_quiet(truth,truth1) and b.truth_quiet(truth,truth2),detector_negative=detected),first=first,corrected=second,inverse=inverse,preview=p,correction=corr,detectors=[truth,truth1,truth2])
 
 def receipt_correction(cur,today,installed):
     cut=today-timedelta(days=10);r=rows(cut)

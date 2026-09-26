@@ -37,13 +37,14 @@ name: CP6 Auditor Scenario
         required: false
         default: ''
       phase:
-        description: after = AN..AY plus AZ, BA, BB, BC and BD (current candidate); pre_bd = plus AZ, BA, BB and BC; pre_bc = plus AZ, BA and BB; pre_bb = plus AZ and BA; pre_ba = plus AZ only; before = without AZ
+        description: after = AN..AY plus AZ, BA, BB, BC, BD and BE (current candidate); pre_be = through BD; pre_bd = plus AZ, BA, BB and BC; pre_bc = plus AZ, BA and BB; pre_bb = plus AZ and BA; pre_ba = plus AZ only; before = without AZ
         required: false
         default: after
         type: choice
         options:
         - after
         - pre_bd
+        - pre_be
         - pre_bc
         - pre_bb
         - pre_ba

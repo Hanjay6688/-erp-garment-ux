@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 2,
+  "revision": 3,
   "phase": "after",
-  "scenario_path": "scripts/cp6_bd_completion_probe.py",
-  "browser_path": "scripts/cp6_bd_completion_browser.mjs",
-  "purpose": "BD completion: real browser pending-HPP display and price-fill recost; existing race/HTTP regression"
+  "scenario_path": "scripts/cp6_be_modes.py",
+  "browser_path": "scripts/cp6_be_browser.mjs",
+  "purpose": "BE writer: two-session source/price/invoice races, real Auth HTTP, conversion and historical pocket browser paths"
 }
