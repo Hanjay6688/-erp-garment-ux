@@ -956,6 +956,122 @@ def w05_uninvoiced(cur,today):
         refusals=[over,no_account,wrong,denied])
 
 
+# ---------------------------------------------------------------- D07: the v2.5.5 recost alarm at document level
+D07_ALARM='MATERIAL_RECOST_GL_STATE_DRIFT'
+
+
+def d07_alarm(cur):
+    api.admin(cur)
+    return int(one(cur,"select issue_count from erp.run_v255_material_cost_integrity_checks() where check_name=%s",D07_ALARM) or 0)
+
+
+def d07_books(cur):
+    """Material GL, qty x moving average (rounded), WIP GL and the supplier obligation (AP + GRNI)."""
+    api.admin(cur)
+    gl=lambda key:D(str(one(cur,'select coalesce(sum(debit-credit),0) from erp.journal_lines where account_id=erp.account_id(%s)',key)))
+    return dict(material=gl('MATERIAL_INVENTORY'),sub=D(str(one(cur,'select round(coalesce(sum(cached_stock_qty*moving_average_cost),0),2) from erp.materials'))),
+                wip=gl('WIP'),obligation=gl('AP_SUPPLIER')+gl('GRNI_MATERIAL'))
+
+
+def d07_receipt(cur,day,price,qty,first=None):
+    """An ordinary estimated purchase receipt (the purchase RPCs) of `qty` units at `price`; `first` reuses its material and
+    location (stacked documents of one material)."""
+    prod=chain.production;api.admin(cur);prod.zone(cur,'Asia/Jakarta')
+    if first:material,location=first['material'],first['location']
+    else:
+        material=prod.prior.clone_material(cur,'bd-d07');location=uuid.uuid4()
+        cur.execute("insert into erp.locations(id,location_code,location_name,location_type,is_active) values(%s,%s,'BD D07 raw warehouse','RAW_MATERIAL_WAREHOUSE',true)",
+                    (location,'BD-D07-'+location.hex[:20]))
+    draft=prod.rpc(cur,'erp.save_material_purchase_draft_v2',dict(purchase_number='BD-D07-'+uuid.uuid4().hex,supplier_id=prod.prior.BASE_SUPPLIER,
+        location_id=location,physical_at=prod.at(day,10),change_reason='BD D07 estimated receipt',
+        lines=[dict(material_id=material,qty=qty,unit_price=price,price_state='ESTIMATED',price_source='MANUAL_ESTIMATE',
+                    rolls=[dict(roll_number='BD-D07-'+uuid.uuid4().hex,qty=qty)])]))
+    purchase=uuid.UUID(draft['purchase_id'])
+    cur.execute('select erp.post_material_purchase_v2(%s,%s,%s,%s)',(purchase,uuid.uuid4(),int(draft['row_version']),'BD D07 receipt'));api.admin(cur)
+    item,roll=cur.execute('select i.id,r.id from erp.material_purchase_items i join erp.material_rolls r on r.purchase_item_id=i.id where i.purchase_id=%s',(purchase,)).fetchone()
+    return dict(material=material,purchase=purchase,item=item,location=location,roll=roll,qty=qty)
+
+
+def d07_invoice(cur,fx,day,price):
+    """The supplier's late invoice for the whole receipt at `price`, then the cost queue."""
+    prod=chain.production;api.admin(cur)
+    version=int(one(cur,'select row_version from erp.material_purchase_headers where id=%s',fx['purchase']))
+    prod.zone(cur,'Asia/Jakarta')
+    prod.rpc(cur,'erp.finalize_material_purchase_invoice_v2',dict(purchase_id=fx['purchase'],supplier_invoice_number='BD-D07-INV-'+uuid.uuid4().hex[:10],
+        invoice_date=str(day),received_at=prod.at(day,15),reason='BD D07 late invoice at '+price,
+        lines=[dict(purchase_item_id=fx['item'],qty_invoiced=fx['qty'],final_unit_price=price)]),uuid.uuid4(),version)
+    api.admin(cur);prod.owner(cur);cur.execute('select erp.process_cost_recalc_queue(100)');api.admin(cur)
+
+
+def d07_path(cur,today,kind,n=1,qty=10,adj=3,p0='10.00',p1='10.005'):
+    """One native path; returns the alarm delta and the books oracle (exact books: obligation = the documents rounded per
+    document, M:835; material GL = qty x average within a cent, M:485; stacked: WIP = the documents' cents, material 0, T3 A)."""
+    azp=bbp.azp
+    d=today-timedelta(days=5);boundary.historical.prior.set_open_period(cur,d-timedelta(days=1))
+    alarm0=d07_alarm(cur);b0=d07_books(cur)
+    if kind=='STACKED':
+        fxs=[]
+        for _ in range(n):fxs.append(d07_receipt(cur,d,p0,1,fxs[0] if fxs else None))
+        for i,fx in enumerate(fxs):azp.cut(cur,fx,d+timedelta(days=1),1,8+i)
+        for fx in fxs:d07_invoice(cur,fx,d+timedelta(days=2),p1)
+    else:
+        fx=d07_receipt(cur,d,p0,qty)
+        if kind=='ADJUST':azp.adjust(cur,fx,d+timedelta(days=1),adj)
+        d07_invoice(cur,fx,d+timedelta(days=2),p1)
+    b1=d07_books(cur)
+    cent=lambda v:D(str(v)).quantize(D('0.01'),rounding='ROUND_HALF_UP')
+    docs=n if kind=='STACKED' else 1;units=1 if kind=='STACKED' else qty
+    books=dict(obligation=b1['obligation']-b0['obligation']==-cent(D(p1)*units)*docs,
+               material_within_a_cent=abs((b1['material']-b0['material'])-(b1['sub']-b0['sub']))<=D('0.01'))
+    if kind=='STACKED':books.update(wip=b1['wip']-b0['wip']==cent(D(p1))*n,material_used_up=b1['material']-b0['material']==0)
+    return dict(alarm=d07_alarm(cur)-alarm0,books=books,books_exact=all(books.values()))
+
+
+def d07_recost_alarm(cur,today):
+    """D07 (R12 handoff task 1; the auditors' technical proposal, the owner's direction recorded open in OWNER_DECISIONS_CP6_DRAFT.md
+    §D07): MATERIAL_RECOST_GL_STATE_DRIFT (v2.5.5, ERROR) at document level. Five native paths whose books are exact: a late
+    invoice only; a count correction of -3 of 10 then a late invoice at 10.005 and at 2.10 (the adjustment's recost is in the
+    v2.6.20t facts, not in the per-movement state); 3 and 10 stacked one-unit receipts cut one by one, then invoiced at 10.005
+    (the documents' cents go with one cut, owner T3 option A). With D07 the alarm stays silent on all five; before D07 it rings
+    on three with exact books (COUNTEREXAMPLE). Negative controls, each in a savepoint rolled back: a consumption state off by
+    1.00, a consumption state removed (target 2.00: a corrected movement with no recost at all), an adjustment fact off by 1.00,
+    the adjustment's facts removed (the facts are append-only, so the change is made with session_replication_role=replica
+    inside the savepoint): the alarm rings on each."""
+    installed='D07' in (one(cur,"select prosrc from pg_proc where oid='erp.run_v255_material_cost_integrity_checks()'::regprocedure") or '')
+    paths={}
+    for key,kw in (('CONTROL',dict(kind='CONTROL')),('ADJUST_10.005',dict(kind='ADJUST')),('ADJUST_2.10',dict(kind='ADJUST',p1='2.10')),
+                   ('STACKED_3',dict(kind='STACKED',n=3)),('STACKED_10',dict(kind='STACKED',n=10))):
+        cur.execute('savepoint d07_path')
+        try:paths[key]=d07_path(cur,today,**kw)
+        finally:cur.execute('rollback to savepoint d07_path');api.admin(cur)
+    books_exact=all(p['books_exact'] for p in paths.values())
+    rings=sorted(k for k,p in paths.items() if p['alarm'])
+    if not installed:
+        return dict(status='COUNTEREXAMPLE' if books_exact and rings else 'INCOMPLETE',paths=paths,rings_on_exact_books=rings)
+    controls={}
+    cur.execute('savepoint d07_neg')
+    try:
+        d07_path(cur,today,'STACKED',n=3,p1='12.00')
+        mat=one(cur,"select m.material_id from erp.material_stock_movements m join erp.material_cost_revaluation_state s on s.movement_id=m.id where m.source_type='CUTTING_GROUP' order by s.updated_at desc limit 1")
+        sid=one(cur,"select s.movement_id from erp.material_cost_revaluation_state s join erp.material_stock_movements m on m.id=s.movement_id where m.material_id=%s and m.source_type='CUTTING_GROUP' and abs(s.applied_inventory_delta)>0.01 limit 1",mat)
+        base=d07_alarm(cur)
+        for name,sql in (('state_off_by_1.00','update erp.material_cost_revaluation_state set applied_inventory_delta=applied_inventory_delta+1 where movement_id=%s'),
+                         ('state_removed','delete from erp.material_cost_revaluation_state where movement_id=%s')):
+            cur.execute('savepoint d07_c');cur.execute(sql,(sid,));controls[name]=d07_alarm(cur)-base;cur.execute('rollback to savepoint d07_c');api.admin(cur)
+        cur.execute('rollback to savepoint d07_neg');cur.execute('savepoint d07_neg')
+        d07_path(cur,today,'ADJUST',p1='2.10')
+        adj=one(cur,'select adjustment_id from erp.material_adjustment_revaluation_facts order by created_at desc limit 1')
+        inv=str(one(cur,"select erp.account_id('MATERIAL_INVENTORY')"))
+        base=d07_alarm(cur)
+        for name,sql,args in (('fact_off_by_1.00',"update erp.material_adjustment_revaluation_facts set ledger_delta=jsonb_set(ledger_delta,array[%s],to_jsonb((ledger_delta->>%s)::numeric+1)) where adjustment_id=%s",(inv,inv,adj)),
+                              ('facts_removed','delete from erp.material_adjustment_revaluation_facts where adjustment_id=%s',(adj,))):
+            cur.execute('savepoint d07_c');cur.execute('set local session_replication_role=replica');cur.execute(sql,args)
+            controls[name]=d07_alarm(cur)-base;cur.execute('rollback to savepoint d07_c');api.admin(cur)
+    finally:cur.execute('rollback to savepoint d07_neg');api.admin(cur)
+    return verdict(dict(books_exact_on_all_paths=books_exact,silent_on_exact_books=rings==[],
+        negative_controls_ring=len(controls)==4 and all(v>0 for v in controls.values())),paths=paths,controls=controls)
+
+
 PLAN=[('POLICY:LAU_DEC_SETTINGS_OWNER_VERSIONED_PENDING','NO_ROUTE',policy_settings),
       ('T02:PACKAGE_ONE_CHARGE_PHYSICAL_QTY','NO_ROUTE',t02_package),
       ('T03:COMPONENT_SUM_SAME_PIECES','NO_ROUTE',lambda c,t:t03_t04_components(c,t,False)),
@@ -982,7 +1098,8 @@ PLAN=[('POLICY:LAU_DEC_SETTINGS_OWNER_VERSIONED_PENDING','NO_ROUTE',policy_setti
       ('W05:OPENING_CUSTODY_CLAIM_SEPARATE','NO_ROUTE',w05_custody_claim),
       ('W05:CLAIM_CONTINUATIONS','NO_ROUTE',w05_claim_continuations),
       ('W05:IMPORT_REFUSALS','NO_ROUTE',w05_import_refusals),
-      ('W05:UNINVOICED_ACCRUAL_INVOICE','NO_ROUTE',w05_uninvoiced)]
+      ('W05:UNINVOICED_ACCRUAL_INVOICE','NO_ROUTE',w05_uninvoiced),
+      ('D07:RECOST_ALARM_DOCUMENT_LEVEL','COUNTEREXAMPLE',d07_recost_alarm)]
 assert len({k for k,_,_ in PLAN})==len(PLAN),'BD_DUPLICATE_CASE_ID'
 
 

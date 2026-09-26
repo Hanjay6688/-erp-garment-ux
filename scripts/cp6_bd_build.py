@@ -41,6 +41,12 @@ ALL-W05 physical (scripts/cp6_bd_objects_import.sql, src/initialImportCatalogBD.
       RESOLVE_CLAIM, CANCEL_CLAIM, REVERSE_CLAIM_EVENT) under the same locks and remaining check as a completion.
   L12 erp.get_wip_control_v1 (AP): an opening row whose pieces a laundry claim still holds unresolved is listed as active.
   L4 also reports BD_OPENING_LAUNDRY_PRICE_UNKNOWN: an opening uninvoiced record without an estimate, not yet fully billed.
+D07 (not laundry; carried by BD as the next unreleased family, R12 handoff task 1): scripts/cp6_bd_objects_d07.sql replaces
+  erp.run_v255_material_cost_integrity_checks() whole (its v2.5.5 text is not in a repository file: it comes with the restored
+  AC runtime). MATERIAL_RECOST_GL_STATE_DRIFT keeps its name and severity and is reset from per movement to document level
+  (per material, one cent per purchase document; adjustments from the v2.6.20t facts; a corrected movement with no recost at
+  all is still flagged); MATERIAL_GL_VALUATION_MISMATCH is unchanged. It is a replaced function (captured and restored by the
+  rollback), not a new one, so it stays out of objects().
 Label T1_FAMILY: development install on the disposable chain AN -> AU -> AV -> AW..BA -> BB -> BC, not a release package.
 
 Usage: python3 scripts/cp6_bd_build.py            # writes supabase/dev/cp6_bd_t1_family.sql
@@ -60,6 +66,7 @@ AW=ROOT/'supabase/dev/cp6_aw_t1_family.sql'
 AY=ROOT/'supabase/dev/cp6_ay_t1_family.sql'
 BA=ROOT/'supabase/dev/cp6_ba_t1_family.sql'
 OBJECTS=[ROOT/f'scripts/cp6_bd_objects_{p}.sql' for p in ('policy','master','pricing','import','invoice','router')]
+D07=ROOT/'scripts/cp6_bd_objects_d07.sql'
 BB=ROOT/'supabase/dev/cp6_bb_t1_family.sql'
 BC=ROOT/'supabase/dev/cp6_bc_t1_family.sql'
 CATALOG_BD=ROOT/'src/initialImportCatalogBD.json'
@@ -324,7 +331,8 @@ REPLACED=['erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','erp.post_laun
           'erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)','erp._validate_migration_batch_base(uuid)',
           'erp.finalize_migration_batch(uuid)','erp.save_initial_import_action_v1(text,jsonb,uuid)',
           'erp.get_initial_import_workspace_v1(uuid)','erp.initial_import_revision_v1(uuid)','erp.complete_initial_import_wip_v1(jsonb)',
-          'erp.initial_import_production_rows_v1(uuid)','erp.guard_initial_import_po_completion_v1()','erp.get_wip_control_v1(text,uuid,text,text)']
+          'erp.initial_import_production_rows_v1(uuid)','erp.guard_initial_import_po_completion_v1()','erp.get_wip_control_v1(text,uuid,text,text)',
+          'erp.run_v255_material_cost_integrity_checks()']
 NEW_TABLES=['bd_policy_settings_v1','bd_policy_setting_events_v1','bd_execution_context_v1','bd_laundry_vendor_terms_v1','bd_laundry_components_v1',
             'bd_laundry_component_rates_v1','bd_laundry_packages_v1','bd_laundry_package_components_v1','bd_laundry_package_rates_v1',
             'bd_laundry_scoped_rates_v1','bd_requests_v1','bd_laundry_priced_lines_v1','bd_laundry_charge_lines_v1','bd_laundry_charge_shares_v1',
@@ -366,7 +374,7 @@ def build():
            " if not exists(select 1 from erp.schema_migrations where version='v2.6.20bc') then raise exception 'BD_T1_REQUIRES_BC'; end if;",
            f" if exists(select 1 from erp.schema_migrations where version='{VERSION}') or to_regclass('erp.bd_laundry_priced_lines_v1') is not null then raise exception 'BD_T1_ALREADY_INSTALLED'; end if;",
            'end $t1_guard$;',objects(),facade,post_delivery,accrual,rebuild,blockers,estimate,receipt_line,attempt,invoice_guard(),sale,
-           stage,base,final,router(),ws,rev,complete,rows,po_guard,wip_control,
+           stage,base,final,router(),ws,rev,complete,rows,po_guard,wip_control,D07.read_text().rstrip('\n'),
            f"insert into erp.schema_migrations(version,description) values('{VERSION}',"
            "'T1_FAMILY development install of BD (priced laundry deliveries: package, components with partial coverage, lump sum per batch, minimum charge, scoped rates; exact per-size receipt shares; laundry vendor invoices; policy settings LAU-DEC01..06; ALL-W05 laundry claims and uninvoiced returns at cutover); not a release package');",
            'commit;','']
