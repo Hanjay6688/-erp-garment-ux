@@ -370,6 +370,24 @@ avt.runtime=types.SimpleNamespace(change=change,verified=bdp.bd_verified,pins=av
                                   qualify=None,refuse_post_use=None)
 
 
+def superseding_cases(cur,today):
+    """R12 handoff task 2: the replacement of AR_SEQUENTIAL ACCESSORY_CONNECTED_ZERO (a mandor note line priced 0.00 by hand
+    posts), whose disposition is EXPECTED_CHANGE (ERP-DEC02, M:5023 B; auditors R12 §1). With BC the same line, built with the
+    same fixture of the frozen harness, is refused BC_FREE_REQUIRES_POLICY (free goods only through the owner's Special line)
+    and nothing changes (boundary and ledger). The old case keeps its recorded result (INCOMPLETE) and is marked superseded in
+    docs/cp6-bc-case-table.md; the frozen harness file is not edited."""
+    import cp6_ao_ap_installed as installed,cp6_accessory_issue_trial as accessories
+    a=types.SimpleNamespace(**vars(installed))
+    def zero_refused():
+        f=accessories.fixture(a,cur,today,12);payload=f['payload'];payload['items'][0]['manual_price']='0.00'
+        boundary=a.actors.boundary(cur);ledger=a.production.ledger(cur)
+        result=a.inherited.refused(cur,lambda:accessories.call(a,cur,'POST',payload))
+        ok=('BC_FREE_REQUIRES_POLICY' in (result.get('message') or '') and a.actors.boundary(cur)==boundary and a.production.ledger(cur)==ledger)
+        return dict(status='PASS' if ok else 'FAIL',refusal=result,supersedes='AR_SEQUENTIAL:ACCESSORY_CONNECTED_ZERO',
+                    disposition='EXPECTED_CHANGE (ERP-DEC02, M:5023 B)',boundary_unchanged=a.actors.boundary(cur)==boundary)
+    return [('ACCESSORY_CONNECTED_ZERO_REFUSED_BC_FREE_POLICY',zero_refused)]
+
+
 def ar_phase(report):
     """AR 174: the sequential group and the 28 races, on the combined candidate (no package cycles: that is T3)."""
     report['au_install']=avt.install_au()
@@ -377,6 +395,9 @@ def ar_phase(report):
     report['candidate_install']=change('install',avt.PG,avt.control())
     seq=avt.group('AR_SEQUENTIAL',avt.ar_sequential)
     report['sequential']={k:seq[k] for k in ('status','counts')}
+    sup=avt.group('AR_SUPERSEDING',superseding_cases)
+    report['superseding']=dict(status=sup['status'],counts=sup.get('counts'),cases={k:r['status'] for k,r in sup['cases'].items()})
+    print(json.dumps(dict(group='AR_SUPERSEDING',**report['superseding']),default=str),flush=True)
     with avt.psycopg.connect(avt.ADMIN) as conn,conn.cursor() as cur:
         bdp.bd_verified(cur)
         today=cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date").fetchone()[0]

@@ -194,7 +194,10 @@ def subledger_value(cur):
 
 
 def findings(cur):
-    """ERROR/CRITICAL detector rows (name -> count) of the detectors BC touches or feeds."""
+    """ERROR/CRITICAL detector rows (name -> count) of the detectors BC touches or feeds. Records whether the installed v2.5.5
+    recost alarm is the pre-D07 per-movement one (F2) or the document-level one (D07, carried by BD)."""
+    global F2_PRE_D07
+    F2_PRE_D07='D07' not in (cur.execute("select prosrc from pg_proc where oid='erp.run_v255_material_cost_integrity_checks()'::regprocedure").fetchone()[0] or '')
     rows={}
     for f in DETECTORS:
         for r in q(cur,f'select * from erp.{f}()'):
@@ -205,13 +208,16 @@ def findings(cur):
 # Pre-existing finding F2 (reproduced without BC on the BB chain: a native material adjustment followed by a late invoice, and
 # BA's stacked-documents case INVOICE n=10, with books equal to the subledger): v2.6.5's per-movement recost check predates
 # the document-level adjustment revaluation (v2.6.20t) and BA W8's document cent carry, so it reports drift on exact books.
-# It is not changed here (no old guard is loosened); its count is kept apart as evidence, and every BC case that recosts
-# asserts the authoritative books = subledger check instead (MATERIAL_GL_VALUATION_MISMATCH / books_equal_subledger).
+# D07 (R12 handoff task 1, carried by BD) resets that row to document level. The row is set apart ONLY while the installed
+# detector is the pre-D07 one (a chain without BD, e.g. this probe's own BC chain); where D07 is installed it counts like any
+# other detector row. Every BC case that recosts also asserts books = subledger (MATERIAL_GL_VALUATION_MISMATCH /
+# books_equal_subledger).
 STALE_F2='run_v255_material_cost_integrity_checks:MATERIAL_RECOST_GL_STATE_DRIFT'
+F2_PRE_D07=True
 
 
 def new_findings(before,after):
-    return {k:v for k,v in after.items() if v>before.get(k,0) and k!=STALE_F2}
+    return {k:v for k,v in after.items() if v>before.get(k,0) and not (F2_PRE_D07 and k==STALE_F2)}
 
 
 # The cases post events at fixed hours of their `today` (08:00 receipt, 09:00 inspection ...). Run on the real WIB business date,

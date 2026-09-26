@@ -40,7 +40,7 @@ def _stock(tools,fx,location='main'):
 def _clean(tools):
     with tools.connect() as conn,conn.cursor() as cur:
         rows=bcp.findings(cur);conn.rollback()
-    return {k:v for k,v in rows.items() if k!=bcp.STALE_F2}
+    return {k:v for k,v in rows.items() if not (bcp.F2_PRE_D07 and k==bcp.STALE_F2)}
 
 
 def _verdict(race,commit,held,contention,outcome,code,state,ok_state):

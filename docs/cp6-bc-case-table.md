@@ -170,3 +170,5 @@ Satu kasus lama berubah karena BC: `AR_SEQUENTIAL / ACCESSORY_CONNECTED_ZERO`, P
 - **Yang tidak diubah:** oracle, harness, dan hasil lama kasus itu. Perubahan ini dicatat untuk disposisi auditor, tidak diserap ke hitungan.
 
 Verdict job regresi tetap `DISPOSITION_REQUIRED`, sama seperti head BB final, karena kasus AS historis (8 COUNTEREXAMPLE, 1 INCOMPLETE). Itu tidak terkait BC.
+
+**Status kasus lama: *superseded*** (disposisi auditor R12 §1: `EXPECTED_CHANGE`, ERP-DEC02, M:5023 B). `AR_SEQUENTIAL / ACCESSORY_CONNECTED_ZERO` tetap tercatat INCOMPLETE apa adanya; berkas harness lama tidak diubah. Penggantinya grup T2 baru `AR_SUPERSEDING / ACCESSORY_CONNECTED_ZERO_REFUSED_BC_FREE_POLICY` (`scripts/cp6_t2_regression.py`): fixture yang sama dari harness lama, baris nota harga manual 0,00 diposting, harus ditolak `BC_FREE_REQUIRES_POLICY` dengan batas dan buku tidak berubah. Run lokal (LOCAL_PG16_DEV, bukan bukti): PASS; run CI dicatat di handoff §32.
