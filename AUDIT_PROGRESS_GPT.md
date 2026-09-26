@@ -171,3 +171,12 @@ Workflow audit saja diperbaiki `086246ea8e2831b56301f0d76f338177a1471350`: `npm 
 ## Penajaman handoff gabungan R12 (26 Sep 08:07 WIB)
 
 `WRITER_HANDOFF_R12_FINAL_PASTE_20260926.md` dirapikan di commit `b274a5446f9a040993528726fd446e46594e33fd` dan pemolesan Markdown `207ec781f53dd2de43168989165a2b36e088416c`, sesuai permintaan owner. Tiga koreksi: (1) PASS BC hanya pada kasus teruji, GBC-1 INCOMPLETE/GBC-2 COUNTEREXAMPLE fixture dan HOLD historis tetap; (2) owner D07 memberi arahan fleksibel, predikat ≤0,01 per dokumen masih usulan teknis auditor yang harus diverifikasi; (3) oracle/skenario BD boleh dibekukan sekarang, penerimaan native/final menunggu §32/head terpin. Hasil historis, gate, hash skenario, dan nilai kebijakan tidak berubah. **LANGKAH BERIKUTNYA:** Fable boleh review penajaman ini; writer menggunakan handoff R12 terbaru, sambil auditor meneruskan skenario BD dari oracle beku. CP6 HOLD, `audit_complete=false`, `production_go=false`.
+
+
+## 26 Sep 2026 — cek status D11/LAU-T36/D12 dari log writer
+
+Catatan: `out/gpt_bd_d11_d12_status_20260926.md`. Head writer `7d33d84d0f93c54c43e7acd9d2df4d89d6d6f2e2`. SOURCE_REVIEW + WRITER_ACTIONS_LOG_READ, tidak ada run auditor baru atau perubahan produk. LAU-T36: run 36218288935/job 108338554401 INCOMPLETE; sesudah CSS diperbaiki, run 36218676593/job 108339662157 workflow success tetapi kasus FAIL karena comparator mengharapkan GAR/SPR, aktual T36 GAR/T36 SPR. Semua cek layout/fill/accrual yang dilaporkan sudah true; FAIL beku tidak diubah. Temuan alat P3 GPT-BD-T36-COMP.
+
+D12 T1 writer 36219651334/108342359124: 33/33 PASS; dua kasus pelunasan tagihan lebih tua oleh kas 8 juta + kredit 2 juta PASS (harian dan saldo awal), tanpa sisa semu pada kasus itu. Ini bukan acceptance independen. Run sample 36219651374/108342359330 tidak membuktikan browser D12. Browser 36219655269/108342372279 masih berjalan saat checkpoint. T3 36219651391 gagal: install 108342359350 fungsi BD tidak current; capture/compare 108342359474 menunjukkan paket BD committed stale. D11 repo masih 4/11/13 pending keputusan; draf chat bukan bukti konfigurasi terpasang.
+
+**LANGKAH BERIKUTNYA:** ambil per-kasus 36219655269; writer perbaiki comparator T36 lalu rerun; bangun paket/rollback D12 dan gate terdampak; auditor lanjut pengujian independen setelah final head. CP6 HOLD, audit_complete=false, production_go=false. Rincian/identitas/run/job ada di catatan di atas.
