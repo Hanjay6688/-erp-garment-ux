@@ -33,7 +33,8 @@ create table erp.be_pocket_target_events_v1(
 alter table erp.pocket_period_sources drop constraint pocket_period_sources_pkey;
 alter table erp.pocket_period_sources alter column adjustment_id drop not null;
 alter table erp.pocket_period_sources add column historical_usage_id uuid references erp.be_pocket_usage_v1(id);
-alter table erp.pocket_period_sources add column id uuid not null default gen_random_uuid() primary key;
+alter table erp.pocket_period_sources add column id uuid generated always as(coalesce(adjustment_id,historical_usage_id)) stored;
+alter table erp.pocket_period_sources add primary key(pool_id,id);
 alter table erp.pocket_period_sources add constraint be_pocket_source_exactly_one check(num_nonnulls(adjustment_id,historical_usage_id)=1);
 create unique index be_pocket_source_native on erp.pocket_period_sources(pool_id,adjustment_id);
 create unique index be_pocket_source_history on erp.pocket_period_sources(pool_id,historical_usage_id);
@@ -41,7 +42,8 @@ alter table erp.pocket_period_destinations drop constraint pocket_period_destina
 alter table erp.pocket_period_destinations alter column event_id drop not null;
 alter table erp.pocket_period_destinations alter column po_id drop not null;
 alter table erp.pocket_period_destinations add column historical_sewing_id uuid references erp.be_pocket_sewing_v1(id);
-alter table erp.pocket_period_destinations add column id uuid not null default gen_random_uuid() primary key;
+alter table erp.pocket_period_destinations add column id uuid generated always as(coalesce(event_id,historical_sewing_id)) stored;
+alter table erp.pocket_period_destinations add primary key(pool_id,id);
 alter table erp.pocket_period_destinations add constraint be_pocket_destination_exactly_one check(num_nonnulls(event_id,historical_sewing_id)=1 and (event_id is null or po_id is not null));
 create unique index be_pocket_destination_native on erp.pocket_period_destinations(pool_id,event_id);
 create unique index be_pocket_destination_history on erp.pocket_period_destinations(pool_id,historical_sewing_id);

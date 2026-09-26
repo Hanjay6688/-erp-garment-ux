@@ -62,15 +62,15 @@ jobs:
         # in the T3 capture job) on a fresh hosted-faithful clone at AB. capture: derive the
         # pins again and compare them with the committed ones (determinism).
         - key: install
-          label: Hosted-faithful baseline to AB, committed 28-file package AC..BD, AW..BD verify, advisors, restore drill, gate (T3_PREP)
+          label: Hosted-faithful baseline to AB, committed 29-file package AC..BE, AW..BE verify, advisors, restore drill, gate (T3_PREP)
           proof: t3
         - key: capture
           label: Hosted-faithful baseline to AB, pins captured again and compared with the committed package (T3_PREP)
           proof: t3
         # browser: the unchanged AU browser flow (10 cases, real Auth, PostgREST) on the
-        # committed 28-file package, with this branch's UI.
+        # committed 29-file package, with this branch's UI.
         - key: browser
-          label: Hosted-faithful baseline to AB, committed 28-file package, AU browser flow with the candidate UI (T3_PREP)
+          label: Hosted-faithful baseline to AB, committed 29-file package, AU browser flow with the candidate UI (T3_PREP)
           proof: t3
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres

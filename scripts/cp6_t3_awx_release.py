@@ -32,6 +32,7 @@ import cp6_ba_build as ba
 import cp6_bb_build as bb
 import cp6_bc_build as bc
 import cp6_bd_build as bd
+import cp6_be_build as be
 
 SRC=ROOT/'supabase/release/cp6-t3-src'
 MIGRATIONS=ROOT/'supabase/migrations'
@@ -97,6 +98,15 @@ FILES=[
                      " or exists(select 1 from erp.bd_policy_setting_events_v1 where status<>'PENDING_POLICY_VALUE' or value is not null or version<>1)"
                      " or (select array_agg(policy_key order by policy_key) from erp.bd_policy_settings_v1) is distinct from"
                      " array['LAU_DEC01','LAU_DEC02','LAU_DEC03','LAU_DEC04','LAU_DEC05','LAU_DEC06']::text[]")),
+    dict(key='BE',stamp='20260926050000',name='erp_v2_6_20be_cp6_conversion_redye_pocket',version=be.VERSION,
+         body=ROOT/'supabase/dev/cp6_be_t1_family.sql',title='physical SKU conversion, rework/redye service and historical pocket allocation (LAU-06b and ALL-C04)',
+         description='Physical SKU conversion with sourced cost and recovery; rework/redye target identity; real redye invoices; historical pocket sources and denominator',
+         replaced=list(dict.fromkeys(be.REPLACED)),new_tables=list(be.NEW_TABLES),
+         added_columns={'bd_laundry_invoice_lines_v1':['rework_service_id'],
+                        'pocket_period_sources':['historical_usage_id','id'],
+                        'pocket_period_destinations':['historical_sewing_id','id']},
+         derived_columns={'pocket_period_sources':{'id':'coalesce(adjustment_id,historical_usage_id)'},
+                          'pocket_period_destinations':{'id':'coalesce(event_id,historical_sewing_id)'}}),
 ]
 PLACEHOLDER='0'*64
 # The package capsules AO..AV (AO..AW for AX) are checked like AV checks AO..AU; the capsules of this builder are left out
@@ -228,6 +238,21 @@ def added_columns_check(f):
     added=f.get('added_columns')
     if not added:return '',"v_after"
     cols=json.dumps(added,sort_keys=True,separators=(',',':'))
+    # BE's generated identifier only names the existing source; it never rewrites
+    # an old column. Prove the declared derivation and keep the byte-for-byte hash
+    # of every original column. Other added columns must still be null at install.
+    if f.get('derived_columns'):
+        out=' v_cmp:=v_after;\n'
+        for table,columns in sorted(added.items()):
+            derived=f['derived_columns'].get(table,{})
+            nonnull=[c+' is not null' for c in columns if c not in derived]
+            invalid=nonnull+[c+' is distinct from '+expression for c,expression in sorted(derived.items())]
+            array='array['+','.join("'"+c+"'" for c in columns)+']::text[]'
+            out+=(" select jsonb_build_object('count',count(*),'sha256',encode(extensions.digest(convert_to(coalesce(string_agg(h,',' order by h),''),'UTF8'),'sha256'),'hex')), count(*) filter(where bad) into v_hash,v_nonnull\n"
+                  " from(select encode(extensions.digest(convert_to((to_jsonb(t)-%s)::text,'UTF8'),'sha256'),'hex') h,(%s) bad from erp.%s t)s;\n"
+                  " if v_nonnull<>0 then raise exception '%s_ADDED_COLUMN_DERIVATION: %s';end if;\n"
+                  " v_cmp:=v_cmp||jsonb_build_object('%s',v_hash);\n")%(array,' or '.join(invalid) or 'false',table,f['key'],table,table)
+        return out,'v_cmp'
     return (" v_cmp:=v_after;\n"
             " for v_table,v_cols in select key,array(select jsonb_array_elements_text(value)) from jsonb_each('%(cols)s'::jsonb) loop\n"
             "  execute format($strip$select jsonb_build_object('count',count(*),'sha256',encode(extensions.digest(convert_to(coalesce(string_agg(h,',' order by h),''),'UTF8'),'sha256'),'hex')),\n"

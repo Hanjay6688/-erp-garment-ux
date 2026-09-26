@@ -43,7 +43,7 @@ import cp6_t3_rollback_acav as acav
 RELEASE=ROOT/'supabase/release/cp6-t3'
 OUTDIR=ROOT/'supabase/release/cp6-t3-rollbacks'
 CAPTURE=ROOT/'docs/evidence/cp6-t3/rollback_capture.json'
-KEYS=['AW','AX','AY','AZ','BA','BB','BC','BD']
+KEYS=['AW','AX','AY','AZ','BA','BB','BC','BD','BE']
 # AC..AV: release variants of the reviewed test-chain rollbacks (scripts/cp6_t3_rollback_acav.py); AW..BA: built here from
 # the capture. ALL is the whole package in install order.
 ALL=acav.KEYS+KEYS
@@ -68,7 +68,13 @@ RESTORABLE={'AX':{'VIEW:erp.v_payroll_eligible_work_lines','CONSTRAINT:erp.payro
             # BD widens the opening credit kinds again: a laundry claim credit (D12, VENDOR_CLAIM_APPLY) and a downward invoice
             # correction credit (owner decision no. 13, VENDOR_CORRECTION_APPLY) applied to an opening vendor payable. The rollback
             # is pre-use only (data unchanged since the install), so no row carries those kinds when BC's definition is restored.
-            'BD':{'CONSTRAINT:erp.bb_opening_credits_v1.bb_opening_credits_v1_credit_kind_check'}}
+            'BD':{'CONSTRAINT:erp.bb_opening_credits_v1.bb_opening_credits_v1_credit_kind_check'},
+            'BE':{'CONSTRAINT:erp.bd_laundry_invoice_lines_v1.bd_laundry_invoice_lines_v1_check1',
+                  'CONSTRAINT:erp.pocket_period_sources.pocket_period_sources_pkey',
+                  'CONSTRAINT:erp.pocket_period_destinations.pocket_period_destinations_pkey',
+                  'INDEX:erp.pocket_period_sources_pkey','INDEX:erp.pocket_period_destinations_pkey',
+                  'COLUMN:erp.pocket_period_sources.adjustment_id','COLUMN:erp.pocket_period_destinations.event_id',
+                  'COLUMN:erp.pocket_period_destinations.po_id'}}
 LEDGER_HASH=awx.LEDGER_HASH
 DATA=awx.DATA
 PROBE_ROW=("insert into erp.audit_logs(entity_type,entity_id,action,new_data,change_reason) "
@@ -148,6 +154,10 @@ def drops(key,cap,text=None):
             kind,ident=split_key(k)
             if kind=='INDEX' and detail.get(k) in {'erp.'+x for x in native}:
                 out.append('drop index %s;'%ident);covered.add(k)
+        # A generated BE id depends on its alternative source column; remove
+        # the dependent generated column first, without CASCADE.
+        derived=FILES[key].get('derived_columns') or {}
+        columns.sort(key=lambda k:(0 if split_key(k)[1].split('.')[2] in derived.get(split_key(k)[1].split('.')[1],{}) else 1,k))
         for k in columns:
             schema,table,column=split_key(k)[1].split('.');out.append('alter table %s.%s drop column %s;'%(schema,table,column));covered.add(k)
     restore_at=len(out)
@@ -199,8 +209,19 @@ def restores(key,cap):
             out.append('create or replace view %s%s as\n%s;'%(ident,' with (%s)'%','.join(options) if options else '',viewdef))
         elif kind=='CONSTRAINT':
             schema,table,name=ident.split('.')
-            out.append('alter table %s.%s drop constraint %s;'%(schema,table,name))
+            out.append('alter table %s.%s drop constraint if exists %s;'%(schema,table,name))
             out.append('alter table %s.%s add constraint %s %s;'%(schema,table,name,before['definition']))
+        elif kind=='COLUMN':
+            schema,table,name=ident.split('.')
+            assert key=='BE' and before and after and before['notnull'] and not after['notnull'],('BE_ROLLBACK_EXPECT_NULLABILITY_ONLY',k)
+            assert {a:b for a,b in before.items() if a!='notnull'}=={a:b for a,b in after.items() if a!='notnull'},('BE_ROLLBACK_OTHER_COLUMN_CHANGE',k)
+            out.append('alter table %s.%s alter column %s set not null;'%(schema,table,name))
+        elif kind=='INDEX':
+            # Restoring the captured PRIMARY KEY above recreates its backing
+            # index. Neither an arbitrary index change nor a name mismatch is accepted.
+            assert key=='BE' and before['primary'] and after['primary'] and before['table']==after['table'],('BE_ROLLBACK_PK_INDEX_ONLY',k)
+            constraint='CONSTRAINT:'+before['table']+'.'+ident.split('.')[1]
+            assert constraint in changed and cap['before'][constraint]['contype']=='p',('BE_ROLLBACK_PK_CONSTRAINT_REQUIRED',k)
         else:raise AssertionError(('T3_ROLLBACK_RESTORE_KIND',key,k))
     return out
 
@@ -325,9 +346,13 @@ def describe(cur,key):
         row=cur.execute("select relkind::text,reloptions from pg_class where oid=to_regclass(%s)",(ident,)).fetchone()
         return None if row is None else dict(relkind=row[0],reloptions=row[1])
     if kind=='INDEX':
-        row=cur.execute("select format('%%I.%%I',n.nspname,t.relname) from pg_index i join pg_class c on c.oid=i.indexrelid "
+        row=cur.execute("select format('%%I.%%I',n.nspname,t.relname),i.indisprimary,pg_get_indexdef(i.indexrelid) from pg_index i join pg_class c on c.oid=i.indexrelid "
                         "join pg_class t on t.oid=i.indrelid join pg_namespace n on n.oid=t.relnamespace where c.oid=to_regclass(%s)",(ident,)).fetchone()
-        return None if row is None else dict(table=row[0])
+        return None if row is None else dict(table=row[0],primary=row[1],definition=row[2])
+    if kind=='COLUMN':
+        schema,table,name=ident.split('.')
+        row=cur.execute("select format_type(a.atttypid,a.atttypmod),a.attnotnull,a.attidentity::text,a.attgenerated::text,pg_get_expr(d.adbin,d.adrelid),a.attacl::text from pg_attribute a left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum where a.attrelid=%s::regclass and a.attname=%s and not a.attisdropped",(schema+'.'+table,name)).fetchone()
+        return None if row is None else dict(zip(['type','notnull','identity','generated','default','acl'],row))
     return None
 
 

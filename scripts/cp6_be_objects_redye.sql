@@ -18,8 +18,8 @@ begin
  select conname into strict n from pg_constraint where conrelid='erp.bd_laundry_invoice_lines_v1'::regclass
    and contype='c' and pg_get_constraintdef(oid) like '%num_nonnulls(receipt_line_id, opening_uninvoiced_id)%';
  execute format('alter table erp.bd_laundry_invoice_lines_v1 drop constraint %I',n);
+ execute format('alter table erp.bd_laundry_invoice_lines_v1 add constraint %I check(num_nonnulls(receipt_line_id,opening_uninvoiced_id,rework_service_id)=1)',n);
 end;$source_check$;
-alter table erp.bd_laundry_invoice_lines_v1 add constraint be_invoice_one_source check(num_nonnulls(receipt_line_id,opening_uninvoiced_id,rework_service_id)=1);
 create index be_invoice_redye_source on erp.bd_laundry_invoice_lines_v1(rework_service_id);
 
 CREATE OR REPLACE FUNCTION erp.be_redye_rate_v1(p_service uuid)
