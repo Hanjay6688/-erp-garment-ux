@@ -216,12 +216,18 @@ export async function cases(ui, today) {
       const charges = () => ui.sql(`select coalesce(string_agg(c.label||':'||c.covered_qty||':'||c.rate_status,',' order by c.line_no),'') from erp.bd_laundry_charge_lines_v1 c
         join erp.bd_laundry_priced_lines_v1 l on l.delivery_line_id=c.delivery_line_id where l.delivery_id='${sent}'`)
       const afterSend = { state: state(), charges: charges() }
+      // Where the shown names come from, read on the server (not from screen text): each charge line joined through ref_id to
+      // this vendor's stored component, as code=label:SAME when the label is that component's stored name. Expected: GAR then SPR.
+      const componentLink = ui.sql(`select coalesce(string_agg(coalesce(k.component_code,'?')||'='||c.label||':'||case when c.label=k.component_name then 'SAME' else 'DIFF' end,','
+        order by c.line_no),'') from erp.bd_laundry_charge_lines_v1 c join erp.bd_laundry_priced_lines_v1 l on l.delivery_line_id=c.delivery_line_id
+        left join erp.bd_laundry_components_v1 k on k.id=c.ref_id and k.vendor_id='${vendor}' and c.kind='COMPONENT' where l.delivery_id='${sent}'`)
       // Unknown price: listed "Belum diketahui" on the phone, then filled from the page.
       await p.getByRole('button', { name: 'Harga belum diketahui', exact: true }).click()
       const unknownBox = p.getByRole('region', { name: 'Harga laundry belum diketahui' })
       const unknownShown = await unknownBox.getByText('Belum diketahui', { exact: true }).count()
       const label = ui.sql(`select c.label from erp.bd_laundry_charge_lines_v1 c join erp.bd_laundry_priced_lines_v1 l on l.delivery_line_id=c.delivery_line_id
         where l.delivery_id='${sent}' and c.rate_status='UNKNOWN' limit 1`)
+      const sprName = ui.sql(`select coalesce((select component_name from erp.bd_laundry_components_v1 where vendor_id='${vendor}' and component_code='SPR'),'')`)
       widths.unknown = await widthOk(p)
       await unknownBox.getByLabel('Alasan', { exact: true }).fill('T36 harga SPR dari vendor')
       await unknownBox.getByLabel(`Harga per PCS ${label}`, { exact: true }).fill('3000')
@@ -244,14 +250,21 @@ export async function cases(ui, today) {
       const [desired, booked] = accrual.split('|').map(Number)
       const checks = {
         send_known_part_only: afterSend.state === '10000.00|false',
-        mixed_coverage: afterSend.charges === 'GAR:2:KNOWN,SPR:1:UNKNOWN' || afterSend.charges.split(',').sort().join(',') === ['GAR:2:KNOWN', 'SPR:1:UNKNOWN'].join(','),
+        // Oracle corrected with the owner's permission (26 Sep 2026); the application is unchanged. The rows carry the component
+        // NAME the screen shows ('T36 GAR'), and the LAU-05b contract asks for component, quantity and price status to be
+        // readable, not for the component code. Runs 36218676593 and 36219655269 compared against codes ('GAR:2:KNOWN,...')
+        // and stay recorded as FAIL. The match is exact, in line order.
+        mixed_coverage: afterSend.charges === 'T36 GAR:2:KNOWN,T36 SPR:1:UNKNOWN',
+        // Added with that correction so the case is not a text match only: both names are the stored names of this vendor's
+        // components with codes GAR and SPR (joined by id on the server), and the price filled on the phone is SPR's.
+        labels_from_server_components: componentLink === 'GAR=T36 GAR:SAME,SPR=T36 SPR:SAME' && sprName === 'T36 SPR' && label === sprName,
         unknown_listed_on_phone: unknownShown > 0,
         filled_complete: afterFill.state === '13000.00|true' && !afterFill.charges.includes('UNKNOWN'),
         accrual_matches: desired === booked,
         no_sideways_scroll: Object.values(widths).every(w => w.ok),
       }
       return { status: Object.values(checks).every(Boolean) ? 'PASS' : 'FAIL', checks, batch: ready.b.distribution_batch_id, size: ready.size.size_code,
-        delivery: sent, after_send: afterSend, after_fill: afterFill, widths, hit }
+        delivery: sent, after_send: afterSend, after_fill: afterFill, component_link: componentLink, spr_name: sprName, unknown_label: label, widths, hit }
     }],
     ['BD_BROWSER:D12_PAYMENT_SCREEN_DAILY_CLAIM', async () => {
       // D12 (owner 26 Sep 2026), daily claim: 2 PCS of a ready batch go to a fresh vendor (10,000,000 a piece), 1 comes back and is
