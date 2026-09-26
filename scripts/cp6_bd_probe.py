@@ -438,6 +438,123 @@ def t24_scoped(cur,today):
         posted=st['known']=='80000.00' and st['mode']=='SCOPED' and st['charges']==1),state=st,mixed=mixed)
 
 
+def two_size_fixture(cur,today,label,q1=6,q2=4):
+    """The chain's production fixture (cp6_aa partial_production) with two sizes: one roll of 10 cut into q1 of the base size
+    and q2 of a fresh RFC size of the same model, one pickup batch, a zero-rate sewing completion of all pieces and its
+    terminal. Only masters are seeded (the second size, its model link and product); every movement is an ordinary posting."""
+    prod,base=chain.production,chain.base
+    f=prod.estimated_receipt(cur,today)
+    chain.actors.admin(cur)
+    day=f['purchase_day']+timedelta(days=1)
+    size2=str(uuid.uuid4())
+    cur.execute('insert into erp.sizes(id,size_code,sort_order,is_active) values(%s,%s,99,true)',(size2,'BD2-'+size2[:8]))
+    cur.execute('insert into erp.product_model_sizes(model_id,size_id,sort_order) values(%s,%s,99)',(prod.MODEL,size2))
+    po=str(uuid.uuid4())
+    cur.execute("""insert into erp.production_orders(id,po_number,model_id,target_qty_pcs,status,current_stage,physical_start_at,notes)
+      values(%s,%s,%s,%s,'CUTTING','CUTTING',%s,'BD two-size lot')""",(po,'BD2-PO-'+po,prod.MODEL,q1+q2,prod.at(day,7)))
+    cut_payload=dict(action='SAVE_DRAFT',po_id=po,pattern_id=prod.PATTERN,source_location_id=f['location'],cut_at=prod.at(day,8),
+                     change_reason='BD two-size cutting',
+                     size_slots=[dict(slot_no=1,size_id=base.SIZE,drawing_no=1),dict(slot_no=2,size_id=size2,drawing_no=1)],
+                     rolls=[dict(roll_id=f['roll'],qty_issued=10,qty_consumed=10,qty_reported_remaining=0,
+                                 yields=[dict(slot_no=1,qty_pcs=q1),dict(slot_no=2,qty_pcs=q2)])])
+    cut=prod.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',cut_payload)
+    group=cut['cutting_group_id']
+    cut=prod.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',dict(cut_payload,id=group,action='POST'),expected_version=int(cut['row_version']))
+    chain.actors.admin(cur)
+    yields=q(cur,"""select y.id::text,s.size_id::text,y.qty_pcs from erp.cutting_roll_yields y join erp.cutting_group_rolls r on r.id=y.cutting_group_roll_id
+      join erp.cutting_group_size_slots s on s.id=y.size_slot_id where r.cutting_group_id=%s order by s.slot_no""",group)
+    assert [(s,n) for _,s,n in yields]==[(base.SIZE,q1),(size2,q2)],('BD_TWO_SIZE_YIELDS',yields)
+    pickup_payload=dict(action='SAVE_DRAFT',cutting_group_id=group,contractor_id=prod.CONTRACTOR,picked_up_at=prod.at(day,9),allocation_mode='ROLL',
+                        expected_group_version=int(cut['row_version']),change_reason='BD two-size pickup',
+                        batches=[dict(batch_no=1,allocations=[dict(cutting_roll_yield_id=y,qty_pcs=n) for y,_,n in yields])])
+    pickup=prod.rpc(cur,'public.erp_save_cutting_pickup_v1',pickup_payload)
+    pickup=prod.rpc(cur,'public.erp_save_cutting_pickup_v1',dict(pickup_payload,id=pickup['pickup_id'],action='POST'),expected_version=int(pickup['row_version']))
+    chain.actors.admin(cur)
+    batch=one(cur,'select id::text from erp.cutting_distribution_batches where pickup_id=%s',pickup['pickup_id'])
+    snapshot,completion=str(uuid.uuid4()),str(uuid.uuid4())
+    cur.execute('insert into erp.po_work_component_snapshots(id,po_id,work_component_id,sequence_no,rate_per_pcs_snapshot,committed_at) values(%s,%s,%s,1,0,%s)',
+                (snapshot,po,prod.COMPONENT,prod.at(day,9,30)))
+    chain.peer.ordinary(cur)
+    cur.execute("""insert into erp.work_completion_events(id,completion_number,po_id,contractor_id,cutting_group_id,physical_at,status,notes,created_by)
+      values(%s,%s,%s,%s,%s,%s,'DRAFT','BD two-size sewing draft',%s)""",(completion,'BD2-WC-'+completion,po,prod.CONTRACTOR,group,prod.at(day,10),base.OPERATOR_APP))
+    cur.execute('insert into erp.work_completion_lines(completion_id,po_component_snapshot_id,work_component_id,qty_completed,qty_payable,rate_snapshot) values(%s,%s,%s,%s,%s,0)',
+                (completion,snapshot,prod.COMPONENT,q1+q2,q1+q2))
+    cur.execute('select erp.post_work_completion(%s)',(completion,))
+    prod.owner(cur)
+    cur.execute('select public.erp_record_sewing_terminal_v1(%s::jsonb,%s)',
+        (json.dumps(dict(work_completion_id=completion,qty_pcs=q1+q2,reason='BD '+label+' two-size terminal')),uuid.uuid4()))
+    chain.actors.admin(cur)
+    vendor=str(uuid.uuid4());process=str(uuid.uuid4());tag=uuid.uuid4().hex[:12]
+    cur.execute("insert into erp.laundry_vendors(id,vendor_code,vendor_name,is_active) values(%s,%s,%s,true)",(vendor,'BD-'+tag,'BD vendor '+label))
+    cur.execute("insert into erp.wash_processes(id,process_code,process_name,is_active) values(%s,%s,%s,true)",(process,'BDP-'+tag,'BD wash '+label))
+    return dict(day=day,batch=batch,model=prod.MODEL,vendor=vendor,process=process,group=group,po=po,size2=size2,q1=q1,q2=q2,
+                start=prod.at(day,0),send=prod.at(day,11))
+
+
+def sized_product(cur,size,label):
+    """A fresh product of the base model in the given size: the chain's create_product with the size chosen at insert (a
+    product's size is immutable once the row exists, erp.validate_product_identity_period)."""
+    product=str(uuid.uuid4())
+    cur.execute("""insert into erp.products(id,sku,model_id,brand_id,color_name,size_id,product_name,identity_root_id,effective_from,is_active,is_portal_visible)
+      select %s,%s,model_id,brand_id,%s,%s,%s,%s,effective_from,true,true from erp.products where id=%s""",
+      (product,'CP6-E-'+label,'CP6-E-'+label,size,'CP6 E '+label,product,chain.base.BASE_PRODUCT))
+    cur.execute("insert into erp.accessory_bom_versions(product_id,version_label,effective_from,is_active,notes) values(%s,'CP6-E-EMPTY','2026-01-01',true,'Explicit empty BOM')",
+                (product,))
+    return product
+
+
+def t24_multi_size_lot_hpp(cur,today):
+    """LAU-T24/T26 with two sizes in one BD delivery (the multi-size lot limit of BD): 6 pieces of the base size at a scoped
+    8,000 and 4 of a second size at the base rate 5,000 (LAU-DEC05 MODEL_SIZE, fallback BASE_RATE) are sent, returned and
+    finished into one FG lot per size. Each lot takes its own size's laundry (8,000 and 5,000 a piece, never the 6,800 mean);
+    the other costs per piece are equal. A vendor invoice of 70,000 (PRODUCT_COST) spreads its 2,000 over the receipt line's
+    pieces: 1,200 and 800."""
+    fx=two_size_fixture(cur,today,'T24M')
+    if not bd_installed(cur):return no_route(cur,lambda:route_call(cur))
+    base=chain.base
+    process_rate(cur,fx,'5000.00');invoice_policies(cur)
+    policy(cur,'LAU_DEC05',dict(scopes=['MODEL_SIZE'],fallback='BASE_RATE'))
+    bd(cur,'SAVE_SCOPED_RATE',dict(vendor_id=fx['vendor'],wash_process_id=fx['process'],scope='MODEL_SIZE',model_id=fx['model'],size_id=base.SIZE,
+                                   rate_per_pcs='8000.00',effective_from=iso(fx['start']),reason='BD probe synthetic size rate'))
+    payload=dict(distribution_batch_id=fx['batch'],vendor_id=fx['vendor'],wash_process_id=fx['process'],target_dyeing_color='BD-COLOR',
+                 physical_at=iso(chain.production.at(fx['day'],11)),reason='BD probe two-size delivery',
+                 lines=[dict(size_id=base.SIZE,qty_sent_pcs=fx['q1']),dict(size_id=fx['size2'],qty_sent_pcs=fx['q2'])])
+    sent=bd(cur,'POST_PRICED_DELIVERY',dict(delivery=payload,expected_version=str(base.group_version(cur,fx['group'])),pricing=dict()))
+    delivery=sent['delivery_id']
+    sizes=dict(q(cur,"""select x.size_id::text,x.id::text from erp.laundry_delivery_batch_size_lines x join erp.laundry_delivery_lines l on l.id=x.delivery_line_id
+      where l.delivery_id=%s""",delivery))
+    estimates={s:str(one(cur,'select known_amount from erp.bd_laundry_size_estimates_v1 where delivery_batch_size_line_id=%s',i)) for s,i in sizes.items()}
+    rec=chain.laundry_action(cur,'POST_RECEIPT',dict(delivery_id=delivery,wash_process_id=fx['process'],physical_at=iso(chain.production.at(fx['day'],13)),
+        reason='BD probe two-size return',lines=[dict(delivery_batch_size_line_id=sizes[s],qty_good_received=n,qty_bs_laundry=0,bs_product_id=None)
+                                                 for s,n in ((base.SIZE,fx['q1']),(fx['size2'],fx['q2']))]),base.delivery_version(cur,delivery))
+    line=receipt_line(cur,rec['receipt_id'])
+    rsl=dict(q(cur,"""select d.size_id::text,x.id::text from erp.laundry_receipt_batch_size_lines x
+      join erp.laundry_delivery_batch_size_lines d on d.id=x.delivery_batch_size_line_id where x.receipt_line_id=%s""",line))
+    allocations={s:str(one(cur,'select amount from erp.bd_laundry_receipt_allocations_v1 where receipt_batch_size_line_id=%s',i)) for s,i in rsl.items()}
+    p1=sized_product(cur,base.SIZE,'BDM1-'+uuid.uuid4().hex[:8]);p2=sized_product(cur,fx['size2'],'BDM2-'+uuid.uuid4().hex[:8])
+    chain.laundry_action(cur,'POST_FINAL_SKU',dict(cutting_group_id=fx['group'],destination_location_id=base.LOCATION,
+        physical_at=iso(chain.production.at(fx['day'],14)),reason='BD probe two-size finished goods',good_qty_pcs=fx['q1']+fx['q2'],completion_mode='ALL_READY',
+        lines=[dict(final_product_id=p,qty_good_pcs=n,qty_bs_pcs=0,source_laundry_receipt_line_id=line,source_laundry_receipt_batch_size_line_id=rsl[s])
+               for p,s,n in ((p1,base.SIZE,fx['q1']),(p2,fx['size2'],fx['q2']))]),base.group_version(cur,fx['group']))
+    lots=[one(cur,"select id::text from erp.fg_lots where po_id=%s and product_id=%s and lot_origin='PRODUCTION'",fx['po'],p) for p in (p1,p2)]
+    def per_piece(lot):return D(str(one(cur,'select hpp_per_pcs from erp.hpp_versions where lot_id=%s and is_current',lot)))
+    v0=[lot_value(cur,l) for l in lots];u0=[per_piece(l) for l in lots]
+    other=[(v0[0]-8000*fx['q1'])/fx['q1'],(v0[1]-5000*fx['q2'])/fx['q2']]
+    wip0=wip(cur,fx['po'])
+    _,posted=invoice(cur,fx,[dict(line=line,qty=fx['q1']+fx['q2'],amount='70000.00')],'70000.00')
+    v1=[lot_value(cur,l) for l in lots]
+    return verdict(dict(estimates=estimates=={base.SIZE:'48000.00',fx['size2']:'20000.00'},
+        allocations=allocations=={base.SIZE:'48000.00',fx['size2']:'20000.00'},
+        receipt_line_cost=str(one(cur,'select actual_cost from erp.laundry_receipt_lines where id=%s',line))=='68000.00',
+        two_lots=len(set(lots))==2,
+        per_size_laundry=u0[0]-u0[1]==3000,
+        other_costs_equal_per_piece=other[0]==other[1],
+        variance_by_pieces=[v1[0]-v0[0],v1[1]-v0[1]]==[1200,800],
+        nothing_left_in_wip=wip(cur,fx['po'])==wip0),
+        estimates=estimates,allocations=allocations,lot_values=[str(x) for x in v0],after_invoice=[str(x) for x in v1],
+        per_piece=[str(x) for x in u0],other_per_piece=[str(x) for x in other])
+
+
 def receipt_process_changed(cur,today):
     """LAU-T15 (M:4353) for a BD-priced delivery: its price was agreed for the process it was sent with; a receipt with another
     actual process is refused (BD_PROCESS_CHANGED) and nothing moves (the recorded limit: such a change needs a new priced
@@ -1086,6 +1203,7 @@ PLAN=[('POLICY:LAU_DEC_SETTINGS_OWNER_VERSIONED_PENDING','NO_ROUTE',policy_setti
       ('T20:LUMP_SUM_SPLIT_RECEIPTS','NO_ROUTE',t20_lump_sum),
       ('DEC01:MINIMUM_CHARGE_TOPUP','NO_ROUTE',minimum_charge),
       ('T24:SCOPED_SIZE_RATE','NO_ROUTE',t24_scoped),
+      ('T24:MULTI_SIZE_LOT_HPP','NO_ROUTE',t24_multi_size_lot_hpp),
       ('T32:REPLAY_ACCESS_GRANTS','NO_ROUTE',replay_and_access),
       ('T16:INVOICE_ABOVE_ESTIMATE_PRODUCT_COST','NO_ROUTE',t16_invoice_above_estimate),
       ('T17:PARTIAL_NM_CAPACITY','NO_ROUTE',t17_partial_nm_capacity),

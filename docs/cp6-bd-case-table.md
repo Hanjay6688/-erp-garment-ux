@@ -29,7 +29,7 @@ Nilai kebijakan laundry tetap `PENDING_POLICY_VALUE` di produk (enam baris `erp.
 
 Kolom *after* selalu `PASS`.
 
-## T1 probe (`scripts/cp6_bd_probe.py`, 28 kasus, `.github/workflows/cp6-bd-t1-probe.yml`)
+## T1 probe (`scripts/cp6_bd_probe.py`, 29 kasus, `.github/workflows/cp6-bd-t1-probe.yml`)
 
 Sejak e49273f, setiap workspace BD, workspace impor, dan workspace Laundry/QC owner yang dibaca kasus disimpan lalu dijalankan lewat parser halaman sendiri (`scripts/cp6_bd_workspace_parse.mjs`: `src/laundryBd.ts`, `src/ConnectedInitialImportPage.tsx`, `src/laundryQcModel.ts`). Satu penolakan membuat fase INCOMPLETE. Pengecualian bernama hanya F3 (lihat §Temuan), dihitung terpisah sebagai `f3_seed_ids`.
 
@@ -49,6 +49,7 @@ Sejak e49273f, setiap workspace BD, workspace impor, dan workspace Laundry/QC ow
 | T20:LUMP_SUM_SPLIT_RECEIPTS | LAU-T20, LAU-DEC01 | F §LAU-T20; G (M:4358) | NO_ROUTE |
 | DEC01:MINIMUM_CHARGE_TOPUP | LAU-DEC01 | lampiran C6 rev4 LAU-DEC01 (M:4472) | NO_ROUTE |
 | T24:SCOPED_SIZE_RATE | LAU-T24, T26, LAU-DEC05 | F §LAU-T24/T26; G (M:4362, 4364) | NO_ROUTE |
+| T24:MULTI_SIZE_LOT_HPP | LAU-T24, T26, LAU-DEC05, LAU-T16 (HPP lot per ukuran) | F §LAU-T24/T26/T16; G (M:4362, 4364, 4354): satu kiriman BD dua ukuran (6 × 8.000 bertarif ukuran, 4 × 5.000 tarif dasar); tiap lot memakai laundry ukurannya sendiri (bukan rata-rata 6.800); selisih invoice 70.000 − 68.000 dibagi per potong baris penerimaan (1.200 dan 800) | NO_ROUTE |
 | T32:REPLAY_ACCESS_GRANTS | LAU-T32, T33 (jalur BD) | F §LAU-T32/T33; G (M:4370–4371) | NO_ROUTE |
 | T16:INVOICE_ABOVE_ESTIMATE_PRODUCT_COST | LAU-T16, T10 | F §LAU-T16/T10; G (M:4354, 4348) | NO_ROUTE |
 | T17:PARTIAL_NM_CAPACITY | LAU-T17, T18, T19 | F §LAU-T17..T19; G (M:4355–4357); GBD-02 (bentuk, bukan angka; lihat §GBD) | NO_ROUTE |
@@ -119,7 +120,7 @@ Oracle `GPT_BD_ORACLE.md` ditulis auditor GPT dengan fixture dan assert auditor 
 ## Batas yang diketahui (jujur)
 
 - **Tagihan potongan hilang.** Potongan yang hilang ditangani lewat alur klaim (kompensasi AP_VENDOR / OTHER_EXPENSE, dibatasi utang vendor), bukan sebagai baris invoice.
-- **HPP lot multi-ukuran.** Pembagian estimasi per ukuran dan pengambilan biaya lot dari ukuran penerimaan BD dibuktikan pada fixture satu ukuran. Lot yang memadukan beberapa ukuran dari satu penerimaan BD belum punya kasus sendiri.
+- **HPP lot multi-ukuran.** Kini punya kasus sendiri (`T24:MULTI_SIZE_LOT_HPP`): satu grup potong dua ukuran, satu kiriman dan satu penerimaan BD, dua lot barang jadi. Batas yang tersisa: selisih invoice (`bd_product_variance_v1`) dibagi rata per potong baris penerimaan, tidak menurut tarif ukuran. Untuk selisih 2.000 pada 6 + 4 potong, lot mendapat 1.200 dan 800 (bukan 48/68 dan 20/68 dari 2.000). Aturan pembagian itu belum diputuskan owner; dicatat, tidak diubah.
 - **Guard invoice L8.** `erp.guard_cp6_vendor_invoice_receipt_on_post_v2620` diganti dengan satu substitusi yang diperiksa: utang yang diposting facade invoice BD dicek terhadap dokumen BD-nya (vendor dan total sama, ada baris), bukan terhadap `vendor_invoice_items` baseline. Invoice lain dicek seperti sebelumnya. Karena ini mengubah guard lama, dicatat terbuka untuk ditinjau auditor.
 - **Kiriman berharga** dikirim dari tab "Harga & tagihan" (bagian "Kirim dengan harga"), bukan dari tab "Kirim ke Laundry". Tab lama menolak vendor/proses yang butuh harga BD dengan `BD_PRICING_REQUIRED` dan menunjuk ke tab itu.
 
