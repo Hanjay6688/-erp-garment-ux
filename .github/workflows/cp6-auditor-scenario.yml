@@ -16,6 +16,7 @@ name: CP6 Auditor Scenario
     - scripts/cp6_bb_probe.py
     - scripts/cp6_bc_probe.py
     - scripts/cp6_bd_probe.py
+    - scripts/cp6_writer_dispatch.json
     - .github/workflows/cp6-auditor-scenario.yml
   workflow_dispatch:
     inputs:
@@ -343,12 +344,18 @@ jobs:
       env:
         SCENARIO_B64: ${{ inputs.scenario_b64 }}
         SCENARIO_PATH: ${{ inputs.scenario_path }}
+        SCENARIO_EVENT: ${{ github.event_name }}
       run: |
         set -euo pipefail
         python - <<'PY'
-        import base64,hashlib,os,pathlib,re
+        import base64,hashlib,json,os,pathlib,re
         target=pathlib.Path(os.environ['RUNNER_TEMP'])/'auditor_scenario.py'
         data=os.environ.get('SCENARIO_B64','').strip();path=os.environ.get('SCENARIO_PATH','').strip()
+        config=pathlib.Path('auditor/scripts/cp6_writer_dispatch.json')
+        if os.environ.get('SCENARIO_EVENT')=='push' and config.exists():
+            cfg=json.loads(config.read_text())
+            assert cfg['label']=='WRITER_SCENARIO' and cfg['phase']=='after','WRITER_PUSH_CONFIG_INVALID'
+            path=cfg['scenario_path']
         assert not (data and path),'SCENARIO_B64_OR_PATH_NOT_BOTH'
         if path:
             assert re.fullmatch(r'scripts/cp6_[a-z0-9_]+\.py',path),'SCENARIO_PATH_NOT_ALLOWED'
@@ -362,12 +369,18 @@ jobs:
       env:
         BROWSER_B64: ${{ inputs.browser_b64 }}
         BROWSER_PATH: ${{ inputs.browser_path }}
+        SCENARIO_EVENT: ${{ github.event_name }}
       run: |
         set -euo pipefail
         python - <<'PY'
-        import base64,hashlib,os,pathlib,re
+        import base64,hashlib,json,os,pathlib,re
         target=pathlib.Path(os.environ['RUNNER_TEMP'])/'auditor_browser.mjs'
         data=os.environ.get('BROWSER_B64','').strip();path=os.environ.get('BROWSER_PATH','').strip()
+        config=pathlib.Path('auditor/scripts/cp6_writer_dispatch.json')
+        if os.environ.get('SCENARIO_EVENT')=='push' and config.exists():
+            cfg=json.loads(config.read_text())
+            assert cfg['label']=='WRITER_SCENARIO' and cfg['phase']=='after','WRITER_PUSH_CONFIG_INVALID'
+            path=cfg['browser_path']
         assert not (data and path),'BROWSER_B64_OR_PATH_NOT_BOTH'
         if path:
             assert re.fullmatch(r'scripts/cp6_[a-z0-9_]+\.mjs',path),'BROWSER_PATH_NOT_ALLOWED'

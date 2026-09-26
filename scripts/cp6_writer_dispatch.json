@@ -1,0 +1,7 @@
+{
+  "label": "WRITER_SCENARIO",
+  "phase": "after",
+  "scenario_path": "scripts/cp6_bd_completion_probe.py",
+  "browser_path": "scripts/cp6_bd_completion_browser.mjs",
+  "purpose": "BD completion: real browser pending-HPP display and price-fill recost; existing race/HTTP regression"
+}

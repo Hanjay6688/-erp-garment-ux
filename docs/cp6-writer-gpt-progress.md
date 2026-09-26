@@ -31,3 +31,11 @@ CP6 HOLD · audit_complete=false · production_go=false.
 
 ## LANGKAH BERIKUTNYA
 Baca berkas rujukan dan sumber BD/konversi/rework/kain kantong; ambil log run/job di atas; tambah kasus browser ALLOW_PENDING; tulis pemetaan implementasi BE beserta tabel kasus dan mulai family. Setelah tiap fase/run/temuan, append checkpoint di sini dan commit/push. Jangan menandai seluruh BD atau BE lulus hanya dari ringkasan handoff.
+
+## Checkpoint BD-1 — alat uji tambahan siap, belum ada hasil baru
+- Takeover tersimpan di `24d4550581077d3a4ae068c77aea7a24d46e02eb`. Git baca tersedia; push dilakukan melalui connector GitHub karena terminal tidak memiliki credential tulis.
+- Log 36226363180/job 108361073793 dibaca: browser 8/8 PASS, T36 tujuh cek true, komponen GAR/SPR tertaut, respons harga 10000 incomplete → 13000 complete, D12/DEC06 PASS. Label tetap bukti writer.
+- Job T3 36222100215: install 108349157867, capture 108349157809, browser 108349157892 semuanya success. Job rollback 36222384316/108349950711 success. Identitas produk di log T36 = `231f47b1b6c4306cd9f49e0fd66069d9e5a1fa78`.
+- Ditambah `cp6_bd_completion_browser.mjs` + fixture native khusus database `cp6_auditor_browser`: 10 PCS, 2 sudah terjual dengan harga SPR unknown; UI harus menampilkan HPP belum final dan setelah owner mengisi 1000/PCS, lot +10000, FG +8000, COGS +2000, snapshot sale tidak berubah, blocker hilang. Pembuatan sale adalah setup native, bukan bukti klik halaman penjualan (masih demo).
+- `cp6_writer_dispatch.json` memilih satu batch writer pada push; workflow auditor yang sama tetap menerima dispatch auditor seperti sebelumnya. Selftest grup tidak diubah; skenario race/HTTP BD dipakai ulang tanpa perubahan.
+- Python compile/JS syntax/YAML parse lokal lulus. **BELUM** ada hasil runtime baru. Langkah berikut: commit/push batch; catat run/job, baca per-kasus, perbaiki jika gagal. Selagi CI berjalan, lanjut desain/implementasi BE.
