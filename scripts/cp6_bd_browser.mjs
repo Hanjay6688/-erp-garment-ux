@@ -84,8 +84,105 @@ function idsIn(value, out = { non_rfc: new Set(), v4: new Set() }) {
   return out
 }
 
+// Phone width check: the page itself must not scroll sideways (tables scroll inside their own box).
+const widthOk = async p => { const w = await p.evaluate(() => ({ viewport: document.documentElement.clientWidth, page: document.documentElement.scrollWidth })); return { ...w, ok: w.page <= w.viewport } }
+
 export async function cases(ui, today) {
   return [
+    ['BD_BROWSER:LAU_T36_PHONE_MIXED_COVERAGE', async () => {
+      // LAU-T36 (UI laundry desktop/HP, mixed coverage): on a 390 px phone the owner sets a component-priced vendor from the
+      // "Harga vendor" section (terms COMPONENTS per PCS, component GAR known 5,000.00, component SPR unknown), sends 2 PCS of a
+      // ready batch from "Kirim dengan harga" with GAR covering 2 and SPR covering 1, sees SPR listed "Belum diketahui" (known
+      // subtotal 10,000.00, not complete), and fills SPR at 3,000.00 from "Harga belum diketahui" (13,000.00, complete). The page
+      // must never scroll sideways. Only 2 PCS are taken, so the batch keeps stock for the D08 case. Desktop use of the same tab
+      // is covered by the other BD browser cases.
+      const tag = 'T36' + randomUUID().replaceAll('-', '').slice(0, 10)
+      const vendor = ui.sql(`insert into erp.laundry_vendors(vendor_code,vendor_name,is_active) values('${tag}','T36 laundry ${tag}',true) returning id`)
+      const process = ui.sql(`insert into erp.wash_processes(process_code,process_name,is_active) values('${tag}','T36 cuci ${tag}',true) returning id`)
+      const wib = back => ui.sql(`select to_char(clock_timestamp() at time zone 'Asia/Jakarta' - interval '${back} minutes','YYYY-MM-DD"T"HH24:MI')`)
+      const phone = await ui.login('OWNER', { label: 'bd-t36-phone', mobile: true })
+      const ready = ((await phone.rpc('erp_get_laundry_qc_workspace_v1', { p_scope: 'LAUNDRY', p_query: null })).body?.ready_batches ?? [])
+        .map(b => ({ b, size: b.sizes.find(z => z.available_qty_pcs >= 2) })).filter(x => x.size).sort((x, y) => Number(!RFC.test(x.b.contractor_id)) - Number(!RFC.test(y.b.contractor_id)))[0]
+      const widths = {}
+      if (!ready) { await phone.context.close(); return { status: 'FAIL', reason: 'no ready batch with 2 PCS available' } }
+      const p = await openPricing(ui, phone)
+      widths.open = await widthOk(p)
+      const reload = async () => ui.expect(p.getByRole('button', { name: 'Muat ulang harga', exact: true })).toBeEnabled({ timeout: 20000 })
+      const until = async (sql, value) => ui.expect.poll(() => ui.sql(sql), { timeout: 20000 }).toBe(value)
+      // Master: the section remounts after every save, so the reason and start time are filled again each time.
+      await p.getByRole('button', { name: 'Harga vendor', exact: true }).click()
+      await p.getByLabel('Vendor harga laundry', { exact: true }).selectOption(vendor); await reload()
+      const m = p.getByRole('region', { name: 'Harga vendor' })
+      const master = async () => { await m.getByLabel('Alasan', { exact: true }).fill('T36 harga vendor dari HP'); await m.getByLabel('Berlaku sejak (WIB)', { exact: true }).fill(wib(60)) }
+      await master()
+      await m.getByLabel('Cara harga vendor', { exact: true }).selectOption('COMPONENTS'); await m.getByLabel('Satuan harga vendor', { exact: true }).selectOption('PCS')
+      await m.getByRole('button', { name: 'Simpan ketentuan', exact: true }).click()
+      await until(`select coalesce((select pricing_mode||'/'||pricing_unit from erp.bd_laundry_vendor_terms_v1 where vendor_id='${vendor}'),'')`, 'COMPONENTS/PCS'); await reload()
+      for (const [code, n] of [['GAR', '1'], ['SPR', '2']]) {
+        await master()
+        await m.getByLabel('Kode komponen', { exact: true }).fill(code); await m.getByLabel('Nama komponen', { exact: true }).fill(`T36 ${code}`)
+        await m.getByRole('button', { name: 'Tambah komponen', exact: true }).click()
+        await until(`select count(*) from erp.bd_laundry_components_v1 where vendor_id='${vendor}'`, n); await reload()
+      }
+      for (const [code, status, n] of [['GAR', 'KNOWN', '1'], ['SPR', 'UNKNOWN', '2']]) {
+        await master()
+        await m.getByLabel('Komponen harga', { exact: true }).selectOption({ label: code })
+        await m.getByLabel('Status harga komponen', { exact: true }).selectOption(status)
+        if (status === 'KNOWN') await m.getByLabel('Harga per PCS', { exact: true }).fill('5000')
+        await m.getByRole('button', { name: 'Simpan versi harga komponen', exact: true }).click()
+        await until(`select count(*) from erp.bd_laundry_component_rates_v1 r join erp.bd_laundry_components_v1 c on c.id=r.component_id where c.vendor_id='${vendor}'`, n); await reload()
+      }
+      widths.master = await widthOk(p)
+      // Priced send: 2 PCS, GAR covers 2, SPR covers 1.
+      await p.getByRole('button', { name: 'Kirim dengan harga', exact: true }).click()
+      const k = p.getByRole('region', { name: 'Kirim laundry dengan harga BD' })
+      await k.getByLabel('Batch kirim berharga', { exact: true }).selectOption(ready.b.distribution_batch_id)
+      await k.getByLabel('Proses kirim berharga', { exact: true }).selectOption(process)
+      await k.getByLabel('Warna kirim berharga', { exact: true }).fill('NAVY')
+      await k.getByLabel('Waktu kirim berharga', { exact: true }).fill(wib(3))
+      await k.getByLabel('Bukti serah terima', { exact: true }).fill('T36 kirim berharga dari HP')
+      await k.getByLabel(`Qty kirim berharga ${ready.size.size_code}`, { exact: true }).fill('2')
+      await k.getByLabel('Cakupan GAR', { exact: true }).fill('2'); await k.getByLabel('Cakupan SPR', { exact: true }).fill('1')
+      await k.getByLabel('Vendor, batch, ukuran, jumlah, warna, waktu, dan harga sudah dicocokkan dengan serah-terima.', { exact: true }).check()
+      widths.send = await widthOk(p)
+      await k.getByRole('button', { name: 'Catat kiriman berharga', exact: true }).click()
+      const delivery = () => ui.sql(`select coalesce((select id::text from erp.laundry_deliveries where vendor_id='${vendor}' and status<>'REVERSED' limit 1),'')`)
+      await ui.expect.poll(delivery, { timeout: 20000 }).not.toBe('')
+      const sent = delivery(); await reload()
+      const state = () => ui.sql(`select coalesce((select string_agg(total_known::text||'|'||total_complete::text,',') from erp.bd_laundry_priced_lines_v1 where delivery_id='${sent}'),'')`)
+      const charges = () => ui.sql(`select coalesce(string_agg(c.label||':'||c.covered_qty||':'||c.rate_status,',' order by c.line_no),'') from erp.bd_laundry_charge_lines_v1 c
+        join erp.bd_laundry_priced_lines_v1 l on l.delivery_line_id=c.delivery_line_id where l.delivery_id='${sent}'`)
+      const afterSend = { state: state(), charges: charges() }
+      // Unknown price: listed "Belum diketahui" on the phone, then filled from the page.
+      await p.getByRole('button', { name: 'Harga belum diketahui', exact: true }).click()
+      const unknownBox = p.getByRole('region', { name: 'Harga laundry belum diketahui' })
+      const unknownShown = await unknownBox.getByText('Belum diketahui', { exact: true }).count()
+      const label = ui.sql(`select c.label from erp.bd_laundry_charge_lines_v1 c join erp.bd_laundry_priced_lines_v1 l on l.delivery_line_id=c.delivery_line_id
+        where l.delivery_id='${sent}' and c.rate_status='UNKNOWN' limit 1`)
+      widths.unknown = await widthOk(p)
+      await unknownBox.getByLabel('Alasan', { exact: true }).fill('T36 harga SPR dari vendor')
+      await unknownBox.getByLabel(`Harga per PCS ${label}`, { exact: true }).fill('3000')
+      await unknownBox.getByRole('button', { name: `Isi harga ${label}`, exact: true }).click()
+      await until(`select coalesce((select string_agg(total_known::text||'|'||total_complete::text,',') from erp.bd_laundry_priced_lines_v1 where delivery_id='${sent}'),'')`, '13000.00|true')
+      await reload()
+      const po = ui.sql(`select po_id from erp.laundry_deliveries where id='${sent}'`)
+      const accrual = ui.sql(`select erp.desired_laundry_accrual('${po}')::text||'|'||coalesce((select sum(l.credit-l.debit) from erp.journal_lines l
+        where l.po_id='${po}' and l.account_id=erp.account_id('ACCRUED_MANUFACTURING')),0)::text`)
+      const afterFill = { state: state(), charges: charges(), accrual }
+      widths.filled = await widthOk(p)
+      await phone.context.close()
+      const [desired, booked] = accrual.split('|').map(Number)
+      const checks = {
+        send_known_part_only: afterSend.state === '10000.00|false',
+        mixed_coverage: afterSend.charges === 'GAR:2:KNOWN,SPR:1:UNKNOWN' || afterSend.charges.split(',').sort().join(',') === ['GAR:2:KNOWN', 'SPR:1:UNKNOWN'].join(','),
+        unknown_listed_on_phone: unknownShown > 0,
+        filled_complete: afterFill.state === '13000.00|true' && !afterFill.charges.includes('UNKNOWN'),
+        accrual_matches: desired === booked,
+        no_sideways_scroll: Object.values(widths).every(w => w.ok),
+      }
+      return { status: Object.values(checks).every(Boolean) ? 'PASS' : 'FAIL', checks, batch: ready.b.distribution_batch_id, size: ready.size.size_code,
+        delivery: sent, after_send: afterSend, after_fill: afterFill, widths }
+    }],
     ['BD_BROWSER:D08_LAUNDRY_QC_CANONICAL_IDS', async () => {
       // D08: the seeded CP3 mandor/model rows stay active. The Laundry read carries a ready batch of the seeded mandor; the case
       // sends it from the Laundry page to a fresh v4 vendor and process (per-PCS rate, no BD terms) and receives it back as Good,

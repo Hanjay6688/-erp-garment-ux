@@ -86,6 +86,8 @@ Sejak e49273f, setiap workspace BD, workspace impor, dan workspace Laundry/QC ow
 
 | Kasus | ID | Oracle pra-kode |
 |---|---|---|
+| BD_BROWSER:LAU_T36_PHONE_MIXED_COVERAGE | LAU-T36, LAU-T05, LAU-T12 | Lampiran C6 LAU-T36 (UI laundry desktop/HP): di layar HP 390 px owner menyetel vendor harga komponen dari bagian "Harga vendor" (GAR diketahui 5.000,00; SPR belum diketahui), mengirim 2 PCS dari "Kirim dengan harga" dengan cakupan GAR 2 dan SPR 1 (subtotal diketahui 10.000,00, belum lengkap), melihat SPR "Belum diketahui", lalu mengisi SPR 3.000,00 dari "Harga belum diketahui" (13.000,00, lengkap; akrual yang diinginkan = yang dibukukan). Halaman tidak boleh bergeser ke samping di setiap bagian. Pemakaian desktop tab yang sama dicakup kasus browser BD lainnya |
+| BD_BROWSER:D08_LAUNDRY_QC_CANONICAL_IDS | D08 (F3) | Keputusan owner D08: dengan mandor/model seed non-RFC tetap aktif, bacaan Laundry dan QC owner memuat ID non-RFC dan v4; kedua halaman tampil tanpa galat dan tanpa "bukan UUID valid"; batch mandor seed dikirim dan diterima lewat halaman Laundry |
 | BD_BROWSER:OWNER_POLICY_SET_AND_CLEAR | kebijakan, LAU-DEC04 | lampiran C6 rev4 §3: tetapkan (SET, versi +1) lalu kembalikan ke `PENDING_POLICY_VALUE` (versi +2) dari tab "Harga & tagihan" |
 | BD_BROWSER:W05_CLAIM_RECOVER_AND_REVERSE | ALL-W05 | F22 §W05: klaim 1 dari 8 potong tampil; pemulihan 1 dari halaman mengembalikannya ke sisa WIP (7 → 8); pembalikannya menahan lagi (8 → 7) |
 | BD_BROWSER:W05_OPENING_ESTIMATE_QC_HIDDEN | ALL-W05, LAU-T33, LAU-T34 | G22 §ALL-W05: penerimaan lama bernilai unknown tampil "Belum diketahui" untuk PRODUKSI_QC tanpa input estimasi dan tanpa bagian invoice; estimasi owner 8.000,00 dari halaman membukukan akrual pembuka sekali dan mengangkat penahan tutup buku `BD_OPENING_LAUNDRY_PRICE_UNKNOWN` |
@@ -98,7 +100,7 @@ Oracle `GPT_BD_ORACLE.md` ditulis auditor GPT dengan fixture dan assert auditor 
 |---|---|---|
 | GBD-01 unknown sengaja ≠ galat resolver | T12:UNKNOWN_COMPONENT_KNOWN_SUBTOTAL, T13:NO_VERSION_IS_ERROR, T32:REPLAY_ACCESS_GRANTS | Bentuk sama (A diterima sekali dengan kewajiban unknown dan penahan tutup buku; B ditolak atomik). Angka fixture berbeda |
 | GBD-02 invoice parsial 40/60 dan n:m | T17:PARTIAL_NM_CAPACITY, BD_RACE:INV_TWO_POSTS_* | Writer memakai 6+4 PCS; GBD memakai 100+20 dan 40/60. Tidak diklaim sebagai hasil GBD |
-| GBD-03 W05 fisik, klaim, credit | W05:* dan browser W05 | Struktur sama (hanya potongan yang masih di vendor menjadi WIP; klaim menahan potongannya; credit capped oleh utang vendor; inverse mengembalikan). GBD menandai representasi klaim lama `NEEDS_OWNER_INPUT`; writer tidak mengklaim ACCEPT penuh ALL-W05 sebelum keputusan tertulis owner |
+| GBD-03 W05 fisik, klaim, credit | W05:* dan browser W05 | Struktur sama (hanya potongan yang masih di vendor menjadi WIP; klaim menahan potongannya; credit capped oleh utang vendor; inverse mengembalikan). GBD menandai representasi klaim lama `NEEDS_OWNER_INPUT`. Owner memilih opsi 1 di chat 26 Sep 2026 ("opsi satu tapi bisa pindah akun gak? misal mengurangi hutang di bulan X, karena kan biasa claim belakangan"); lihat `docs/cp6-d11-kebijakan-dan-gbd03.md` §3. Status ACCEPT penuh ALL-W05 menunggu verifikasi auditor |
 
 ## Tidak diklaim di BD
 
@@ -106,7 +108,6 @@ Oracle `GPT_BD_ORACLE.md` ditulis auditor GPT dengan fixture dan assert auditor 
 |---|---|
 | LAU-06b (celup ulang berbayar), bagian CR LAU-T28 | family BE |
 | LAU-T01, T09–T11, T13–T15, T25, T27, T29–T31, T35 untuk kiriman per PCS lama | BASELINE (LAU-01..05a), bukti di rantai sebelumnya; lihat lampiran C6 rev4 crosswalk |
-| LAU-T36 (UI desktop/HP, mixed coverage) | belum ada flow HP untuk tab BD; ditunda ke uji gabungan |
 | ALL-C04 | family BE |
 
 ## Temuan dan perbaikan di BD

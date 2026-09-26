@@ -40,3 +40,13 @@ Contoh dari oracle auditor GBD-03: sebelum cutover vendor memegang 10 PCS; 2 sud
 - Kelebihan: nilai klaim terlihat sebagai aset terpisah dan kerugian diakui saat klaim selesai. Kekurangan: butuh akun piutang klaim dan akun kerugian klaim (pilihan owner), dan kode perlu diubah.
 
 Sampai owner memilih, ALL-W05 tidak diklaim ACCEPT penuh; yang dibuktikan hanya invariant strukturalnya (tabel kasus BD §GBD).
+
+## 3. Keputusan owner GBD-03 (26 Sep 2026, chat)
+
+Kata owner: "opsi satu tapi bisa pindah akun gak? misal mengurangi hutang di bulan X, karena kan biasa claim belakangan??"
+
+Dicatat: **opsi 1**. Jawaban writer atas pertanyaannya, dari kode yang berlaku (`scripts/cp6_bd_objects_import.sql`, aksi `RESOLVE_CLAIM`):
+- **Bisa, utang berkurang di bulan klaim diselesaikan.** Penyelesaian klaim membawa tanggalnya sendiri (tidak boleh sebelum saldo awal, sebelum tanggal klaim, atau di masa depan). Jurnal kompensasi (AP_VENDOR debit, OTHER_EXPENSE kredit) diposting pada tanggal itu. Jadi klaim yang disepakati vendor di bulan X mengurangi utang vendor di bulan X, bukan di bulan cutover. Tanggalnya harus masih di periode yang belum ditutup.
+- Selama klaim belum selesai, tidak ada jurnal. Potongan tetap tertahan di WIP, dan potongan yang kembali dicatat `RECOVER_CLAIM`.
+- Kompensasi dibatasi utang ke vendor itu pada saat dicatat. Bila utangnya sudah lunas, kompensasi ditolak (`BD_W05_COMPENSATION_EXCEEDS_PAYABLE`); penagihan tunai ke vendor belum punya alur.
+- **Akun lawan kompensasi sekarang tetap OTHER_EXPENSE** (aturan klaim laundry baseline). Bila owner ingin akun lain (misalnya pendapatan klaim), itu perubahan kecil tetapi mengubah aturan baseline, jadi perlu disebut akunnya dan diputuskan tertulis.
