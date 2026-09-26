@@ -2562,3 +2562,145 @@ Log gagal (disimpan di Actions) dan disposisi T2: lihat `docs/cp6-bc-case-table.
 - **Writer, berikutnya:** BD (LAU-05b, LAU-DEC01–06 sebagai pengaturan, W05 fisik), lalu BE (ganti SKU, celup ulang LAU-06b, ALL C04), lalu uji gabungan 75 kasus C6 + 22 ALL.
 - **Operator:** drill T6 pada salinan yang diizinkan.
 - **Opsional:** T7.
+
+
+## 32. Putaran kedua belas: head BD (LAU-05b, LAU-DEC01–06 sebagai pengaturan, ALL-W05 fisik) (26 September 2026) (writer Claude)
+
+Acuannya mandat owner: semua CR dan ke-22 keadaan ALL dibangun dan diuji di CP6, urutan BB → BC → BD → BE → uji gabungan. Label bukti di bagian ini: `T1_FAMILY`, `T2`, `T3_PREP`, atau `WRITER_SCENARIO` di runtime auditor. Tidak ada yang berstatus bukti rilis. CP6 tetap HOLD, `audit_complete=false`, `production_go=false`. Keenam kebijakan laundry tetap `PENDING_POLICY_VALUE`; writer tidak mengisi angka. Tabel kasus lengkap: `docs/cp6-bd-case-table.md`.
+
+### 32.1 Status
+
+| Bagian | Status | Letak |
+|---|---|---|
+| BD-1 kebijakan LAU-DEC01–06 + master vendor | selesai | `scripts/cp6_bd_objects_policy.sql`, `…_master.sql` |
+| BD-2 harga kiriman (paket, komponen + coverage sebagian, borongan, minimum, tarif model/ukuran/warna) + alokasi terima + akrual/HPP | selesai; HPP lot multi-ukuran kini punya kasus (`T24:MULTI_SIZE_LOT_HPP`), satu batas pembagian selisih invoice (§32.7) | `…_pricing.sql` |
+| BD-3 invoice laundry susulan (draf, n:m, parsial, kapasitas, variance DEC06, diskon/pajak/pembulatan DEC03, terlambat, balik) | selesai | `…_invoice.sql` |
+| BD-4 blok jual harga unknown (DEC04), ALL-W05 fisik, UI, probe/race/HTTP/browser, CI, T2, T3 berkas ke-28, rollback | selesai (run di §32.5) | `…_import.sql`, `…_router.sql`, `src/LaundryBdPanel.tsx`, `src/initialImportBD.ts` |
+| Tabel kasus BD → ID C6/ALL → oracle pra-kode | selesai | `docs/cp6-bd-case-table.md` |
+
+### 32.2 Produk: keluarga BD (`v2.6.20bd`, `supabase/dev/cp6_bd_t1_family.sql`)
+
+- **Pengaturan kebijakan.** Enam baris `erp.bd_policy_settings_v1` (LAU_DEC01..06), bawaan `PENDING_POLICY_VALUE`, versi 1. Hanya owner yang menetapkan atau mengembalikan ke pending (ADMIN ditolak `BD_OWNER_ONLY`); setiap perubahan menaikkan versi dan dicatat di `bd_policy_setting_events_v1`; versi basi ditolak `STALE_VERSION`. Selama nilai belum ditetapkan, langkah yang bergantung padanya ditolak `BD_POLICY_PENDING`; jalur per PCS lama tetap berjalan.
+- **Master vendor:** syarat harga vendor, komponen dan versi harganya (KNOWN/UNKNOWN), paket beserta komponennya, tarif proses, dan tarif khusus model/ukuran/warna (LAU-DEC05). Versi yang tumpang tindih, nominal negatif/pecahan/nol yang tidak sah, dan versi yang mundur sebelum kiriman terposting ditolak.
+- **Kiriman berharga** (`POST_PRICED_DELIVERY`) memakai facade laundry yang sama (L1) dan menyimpan snapshot versi harga per baris biaya. Harga komponen yang sengaja UNKNOWN membuat kiriman tetap terposting dengan subtotal yang diketahui, HPP tetap estimasi, dan tutup buku tertahan (`BD_LAUNDRY_COMPONENT_PRICE_UNKNOWN`). Komponen tanpa versi harga adalah galat, bukan unknown: kiriman ditolak dan tidak ada yang tertulis. Tab "Kirim ke Laundry" menolak vendor/proses yang butuh harga BD (`BD_PRICING_REQUIRED`) dan menunjuk ke tab baru.
+- **Penerimaan** membagi estimasi tepat per ukuran; penerimaan terakhir suatu ukuran mengambil sisanya. Proses yang berbeda dari proses yang diberi harga ditolak `BD_PROCESS_CHANGED`.
+- **Invoice vendor laundry**: draf menagih baris penerimaan terposting dan record saldo awal belum ditagih, dengan kapasitas per kategori (`BD_INVOICE_CAPACITY`) dan kategori yang boleh ditagih (LAU-DEC02). Posting melepas akrual sebesar estimasi yang ditagih; selisih masuk HPP produk (PO, grup, lot, FG/COGS) atau akun variance owner (LAU-DEC06). Diskon, pajak, dan pembulatan menunggu LAU-DEC03. Invoice dapat dibalik (akrual dan utang kembali).
+- **Penjualan** barang jadi yang harga laundry-nya masih unknown ditolak kecuali owner menetapkan LAU-DEC04 `ALLOW_PENDING` (L9).
+- **ALL-W05 fisik.** Berkas impor `OPENING_LAUNDRY_CLAIM` dan `OPENING_LAUNDRY_UNINVOICED`. Klaim menahan potongannya dari sisa WIP (hari ini dan pada setiap cek bertanggal BA A3); lanjutan lewat `WIP_OUTPUT` (OPEN/RECOVER/RESOLVE/CANCEL_CLAIM, REVERSE_CLAIM_EVENT) dengan kunci dan cek sisa yang sama dengan penyelesaian. Kompensasi SETTLED dibukukan AP_VENDOR / OTHER_EXPENSE sekali, dibatasi utang vendor. Impor tidak membukukan jurnal klaim, laundry, atau pembayaran. Penerimaan lama dengan estimasi terbukti menjadi akrual saldo awal; tanpa estimasi nilainya tetap unknown dan menahan tutup buku (`BD_OPENING_LAUNDRY_PRICE_UNKNOWN`) sampai owner mengisi estimasi atau invoice menagihnya.
+- **Visibilitas nominal.** Pembaca tanpa izin uang (mis. PRODUKSI_QC) menerima workspace BD tanpa nominal: invoice, sumber tagih, dan akun `null`; harga `null`; status UNKNOWN tetap tampil. Bagian klaim pada baris WIP dan halaman status WIP hanya berisi qty dan status.
+- **UI:** tab "Harga & tagihan" di halaman Laundry (kebijakan, master, kirim berharga, harga unknown, invoice vendor, laundry saldo awal), panel laundry di halaman impor, aksi klaim pada baris WIP saldo awal, dan fakta "DIKLAIM KE LAUNDRY" di status WIP.
+
+### 32.3 Temuan dan perbaikan di putaran ini
+
+1. **Kebocoran nominal (sebelum commit).** `compensation_amount` ikut di bagian baris WIP produksi, dan nominal kiriman berharga terkirim ke semua pembaca laundry. Keduanya diperbaiki; dikunci probe `W05:CLAIM_CONTINUATIONS` (`production_reads_without_amounts`, ditambahkan b0ac639) dan kasus HTTP/browser.
+2. **Parser Laundry/QC dan harga unknown (3460889).** Estimasi `null` dari kiriman BD membuat halaman Laundry menolak seluruh workspace; kini tampil "Belum diketahui".
+3. **`released` tanpa dua desimal (e49273f, cacat BD).** Workspace BD owner dan workspace impor mengirim `released: "0"` untuk record saldo awal yang belum dilepas, sehingga parser nominal halaman menolak seluruh bacaan dan bagian "Laundry saldo awal" tidak tampil. Ditemukan oleh flow browser (run 36206435863), direproduksi lokal, diperbaiki di server (`::numeric(18,2)::text`); parser tidak diubah.
+4. **Probe BD belum menjalankan parser halaman.** Karena itu cacat butir 3 lolos dari probe. Sejak e49273f probe BD menyimpan setiap workspace BD, workspace impor, dan workspace Laundry/QC owner, lalu menjalankannya lewat parser halaman sendiri (`scripts/cp6_bd_workspace_parse.mjs`); penolakan membuat fase INCOMPLETE. Negatif kontrol: file yang sama dengan `released: "0"` ditolak.
+5. **F3 di halaman Laundry (lama, bukan dari BD).** Parser Laundry/QC menolak ID non-RFC-4122; di rantai uji itu terjadi karena mandor dan model seed CP3 (`a1000000-…`, `a2000000-…`). Di runtime auditor halaman Laundry menampilkan "Data belum tersedia" (dicatat `laundry_qc_read`: "ID Mandor bukan UUID valid."). Guard UUID tidak dilonggarkan. Tab "Harga & tagihan" kini membaca workspace-nya sendiri dan tidak lagi menunggu workspace Laundry/QC (fec17f1); hanya bagian "Kirim dengan harga" yang terkunci sampai workspace itu terbaca. Di cek parser probe, F3 dihitung terpisah (`f3_seed_ids`) hanya bila file lolos setelah ID non-RFC ditulis ulang ke bentuk RFC.
+6. **Fixture HTTP.** Salinan HTTP sengaja tanpa USAGE schema `erp` untuk `authenticated`. Fixture BD memerlukannya; grant itu kini hanya ada di dalam transaksi fixture dan dicabut sebelum commit, dengan cek tidak ada grant yang ter-commit (run 36206435863: `committed_usage=false`).
+7. **Rollback: tabel seed BD belum dideklarasikan (98e4f0c).** Run 36206431798 berhenti di `T3_ROLLBACK_SEEDED_TABLES_NOT_DECLARED`. Dua tabel kebijakan BD kini dideklarasikan dengan kolom waktu pasang yang sama seperti BC. Ini pengecualian sempit yang sama dengan §31.3 butir 7 dan tetap terbuka untuk ditinjau auditor.
+8. **Skrip uji (bukan produk):** oracle race W05 semula mengira kunci menunggu (facade menolak seketika `POCKET_PERIOD_BUSY`); nama merek fixture dipakai ulang lintas salinan; tanggal lanjutan klaim W05 pada hari bisnis nyata. Semua dicatat di pesan commit masing-masing.
+
+### 32.3a Tugas R12 (handoff auditor 207ec78)
+
+1. **D07: alarm `MATERIAL_RECOST_GL_STATE_DRIFT` disetel ulang ke tingkat dokumen (af00dd1).** Rumusnya usulan teknis auditor, bukan rumus yang diratifikasi owner kata demi kata (arah owner tercatat terbuka di `OWNER_DECISIONS_CP6_DRAFT.md` §D07). `erp.run_v255_material_cost_integrity_checks()` diganti utuh dengan signature, nama baris, dan severity ERROR yang sama; baris kedua `MATERIAL_GL_VALUATION_MISMATCH` tidak berubah kata demi kata. Isinya di `scripts/cp6_bd_objects_d07.sql`, dibawa keluarga BD (masuk daftar REPLACED, jadi ditangkap dan dipulihkan rollback). Yang dihitung:
+   - konsumsi per bahan: `|round(Σ target gerakan, 2) − Σ applied|` di atas satu sen per dokumen pembelian bahan itu (gerakan yang dibalik bertarget 0 dan dijumlah dengan state pembaliknya);
+   - koreksi per dokumen koreksi × bahan: `|round(Σ target item hidup, 2) − Σ delta MATERIAL_INVENTORY fakta v2.6.20t|` di atas satu sen;
+   - tidak ter-recost sama sekali (tanpa toleransi): gerakan konsumsi hidup bertarget di atas satu sen tanpa baris state, dan dokumen koreksi × bahan bertarget di atas satu sen tanpa fakta.
+
+   Beda dari rumusan handoff yang perlu ditinjau auditor: toleransi konsumsi dihitung **per bahan** dengan batas satu sen × jumlah dokumen pembelian bahan itu, bukan per dokumen. Alasannya: gerakan konsumsi tidak menyimpan dokumen asal sennya (T3-A: sen beberapa dokumen boleh terkumpul di satu gerakan). Batas yang diketahui: selisih sen yang disisipkan di dalam toleransi per bahan (mis. +0,02 dengan tiga dokumen) tidak tertangkap; guard total 0,05 dan `V2620T_*` tetap ada.
+
+   Probe `D07:RECOST_ALARM_DOCUMENT_LEVEL` (fixture writer lewat RPC pembelian, potong, koreksi, dan invoice biasa): lima jalur dengan buku tepat (invoice terlambat saja; −3 dari 10 lalu invoice 10,005 dan 2,10; 3 dan 10 penerimaan bertumpuk dipotong lalu diinvoice 10,005). Fase before (rantai BC) COUNTEREXAMPLE: alarm berbunyi pada buku yang tepat. Fase after (BD) PASS: diam pada kelima jalur, dan empat kontrol negatif berbunyi di savepoint (state +1,00 → 1, state dihapus → 2, fakta +1,00 → 1, fakta dihapus → 2). Fakta koreksi bersifat append-only; kontrol negatif mengubahnya dengan `session_replication_role=replica` di dalam savepoint lalu rollback. Skrip auditor `xaudit_12_f1f2.py` (lima jalur F2) juga dijalankan lokal terhadap detektor ini: kelimanya diam dengan buku tepat (LOCAL_PG16_DEV, bukan bukti; auditor diminta menjalankan ulang).
+
+   `STALE_F2` di probe BC: kini dipisahkan **hanya** bila detektor yang terpasang masih versi sebelum D07 (probe BC sendiri berjalan di rantai BC tanpa BD). Di rantai yang memuat D07, baris itu dihitung seperti baris detektor lain (94c4327). Ini bukan penghapusan penuh seperti bunyi handoff; pilihan ini dicatat terbuka supaya probe BC pada rantainya sendiri tetap jujur terhadap temuan lama F2.
+2. **Kasus pengganti T2 (94c4327).** Grup baru `AR_SUPERSEDING / ACCESSORY_CONNECTED_ZERO_REFUSED_BC_FREE_POLICY` di `scripts/cp6_t2_regression.py`: fixture sama dengan harness lama, baris nota harga manual 0,00 diposting, harus ditolak `BC_FREE_REQUIRES_POLICY` dengan batas dan buku tidak berubah. Kasus lama `AR_SEQUENTIAL / ACCESSORY_CONNECTED_ZERO` tetap tercatat INCOMPLETE apa adanya dan ditandai *superseded* di `docs/cp6-bc-case-table.md`; berkas harness lama tidak diubah.
+3. **F3 (guard UUID halaman nota dan Laundry).**
+   - (a) Inventaris baca-saja: satu-satunya hasil yang tersedia bagi writer adalah cek `uuid_quality` di drill T3 (`scripts/cp6_cutover_data_checks.py`, transaksi read-only, pola frontend terhadap setiap kolom uuid schema `erp`): **CLEAN**, 1002 kolom, 0 nilai ditolak, tanpa default non-v4. Baseline drill itu setara skema hosted, **bukan data cutover nyata**, jadi belum menjawab apakah data cutover memuat kontraktor/mandor aktif ber-ID non-RFC. Writer tidak menyentuh hosted maupun legacy. Inventaris nyata perlu operator yang berwenang menjalankan `python3 scripts/cp6_cutover_data_checks.py --pgurl …` pada salinan cutover yang diizinkan; skrip itu hanya membaca dan mencakup semua kolom uuid, jadi lebih luas dari kontraktor aktif.
+   - (b) **D08 (owner, 26 Sep 2026)** mengizinkan perbaikan sempit: validator UUID di halaman nota (`src/accessoryIssue.ts:20`) dan Laundry (`src/laundryQcModel.ts:123`) menerima UUID kanonik 8-4-4-4-12, pola yang sama dengan `src/accessoryService.ts:58`. Penilaian writer: perubahan itu hanya validasi format ID yang dikirim server. Pemeriksaan role dan izin akses ada di server dan tidak tersentuh, jadi writer tidak menemukan aspek keamanan yang melemah. **Status: belum masuk commit.** Pemeriksaan otomatis sesi writer (auto mode) memblokir langkah itu dua kali, 25 dan 26 Sep, dan juga memblokir langkah lanjutannya. Penolakan itu berasal dari pengaman sesi, bukan dari penilaian writer atas kode. Writer tidak mencari jalan lain. Syarat D08 butir 3 (flow browser D09 dan Laundry dengan mandor ber-ID non-RFC yang aktif, plus kontrol v4) juga belum dikerjakan karena bergantung pada perubahan itu. Jalan keluarnya ada di owner: menambah izin untuk aksi ini di pengaturan sesi Claude Code, atau menerapkan dua baris regex itu sendiri. Sesudah itu writer menjalankan flow browser dan unit test sesuai syarat D08.
+4. **ACC-C12 kunci baru: dua opsi untuk owner** (rinciannya di `docs/cp6-bc-case-table.md`, bagian batas C12). (a) Rujukan lembar hitung/lot wajib pada tiap baris tertunda; kunci baru tanpa rujukan, atau rujukan yang dipakai ulang dengan kunci lain, ditolak server. (b) Kontrol manual gudang ditambah catatan di lampiran C6; kode tidak berubah. Sampai owner memilih, ACC-C12 tetap **PARTIAL**.
+5. **§32 ini.** Tabel kasus BD → ID C6/ALL → oracle pra-kode ada di `docs/cp6-bd-case-table.md`. Run per gate di §32.5; hash produk dan hash alat dipisah di §32.6.
+
+### 32.4 Status ALL 22 pada head BD
+
+| Keadaan | Bukti run | Family |
+|---|---|---|
+| P01, A01, A02, W01, W03, C01 | kasus `L:` probe BC | era-BA, diuji di BC |
+| P02, P03, P04, S01, S02, S03, A03, Y01, Y02, W02, W04, W06 | probe BB | BB |
+| C02, C03 | probe BC | BC |
+| W05 | finansial di BB; fisik di probe BD `W05:*` (4 kasus), race `W05_COMPLETE_VS_CLAIM`, HTTP `W05_CLAIM_OWNER_ADMIN_ONLY`, browser `W05_*` | BB + BD |
+| C04 | belum ada jalur | BE |
+
+Jadi 21 dari 22 punya bukti run penuh dan C04 menyusul di BE. Catatan W05: oracle GPT BD GBD-03 menandai representasi klaim lama `NEEDS_OWNER_INPUT`. Writer tidak mengklaim ACCEPT penuh ALL-W05 sebelum ada keputusan tertulis owner; yang dibuktikan adalah invariant strukturalnya (tabel kasus BD §GBD).
+
+### 32.5 Run
+
+| Uji | Run | Head | Hasil |
+|---|---|---|---|
+| Probe BD (before + after, cek parser halaman) | 36208946482 (job before 108311309188, after 108311309080) | 94c4327 | before: 27 `NO_ROUTE` + D07 `COUNTEREXAMPLE`, sesuai rencana, parser 40 berkas PASS; after: **28/28 PASS**, parser 103 berkas PASS (5 dihitung `f3_seed_ids`), `primary_unchanged` |
+| Probe BD 29 kasus (tambah `T24:MULTI_SIZE_LOT_HPP`) | 36209582054 | e646d50 | sukses (before + after); probe ini alat, produk sama dengan d9ec4fc |
+| Probe BD sebelumnya (riwayat perbaikan) | 36206700384 · 36207073503 · 36208544404 | b0ac639 · e49273f · af00dd1 | sukses; af00dd1 adalah run pertama dengan kasus D07 |
+| Probe BC (rantai BC sendiri, F2 dipisah hanya sebelum D07) | 36208946601 | 94c4327 | sukses |
+| Race, HTTP, browser BD (skenario writer, `phase=after`) | 36209167073 (job 108311958246) | d9ec4fc | race 9/9, HTTP 3/3, browser 3/3 PASS; `RUN_COMPLETE`, 0 galat konsol, `primary_unchanged`; skenario `296f6d6d…` |
+| Fase `pre_bd` (skenario contoh) | 36209182541 | d9ec4fc | sukses: skenario contoh dan self-test runtime hijau pada rantai tanpa BD |
+| T2 gabungan (dengan grup `AR_SUPERSEDING`) | 36208946534 (job AR 108311309338) | 94c4327 | 3/3 job sukses. `AR_SUPERSEDING / ACCESSORY_CONNECTED_ZERO_REFUSED_BC_FREE_POLICY` **PASS**; `AR_SEQUENTIAL` 102 PASS + 1 INCOMPLETE, `AR_CONCURRENCY` 28 PASS. Nama kasus INCOMPLETE belum dibaca ulang di run ini. Pada run 36171725748 kasus itu adalah `ACCESSORY_CONNECTED_ZERO` (superseded); auditor diminta mengonfirmasi dari log. Verdict job regresi tetap `DISPOSITION_REQUIRED` karena kasus AS historis |
+| Paket T3: capture pin (D07) | 36208544312, job 108310151776 | af00dd1 | 28/28 `CAPTURED_AND_INSTALLED`; job merah karena paket yang di-commit basi (`T3_COMMITTED_PACKAGE_STALE`, differ `['BD']`), sesuai alur rebuild; blob `134ad318…` |
+| Paket T3: install 28 berkas, verify, advisor, drill restore, cek data | 36208946557, job 108311309387 | 94c4327 | `ALL_STAGES_INSTALLED`; advisor 73 → 187 (+114, semua `INFO rls_enabled_no_policy`, 0 dihapus), gate `true`; drill `RESTORED_SAME_MEANING`; UUID `CLEAN` (1002 kolom); alias kas `NONE` |
+| Paket T3: pin dicapture ulang dan dibandingkan | 36208946557, job 108311309561 | 94c4327 | sama |
+| Paket T3: flow browser AU dengan UI kandidat | 36208946557, job 108311309529 | 94c4327 | sukses |
+| Rollback: capture | 36208946516, job 108311309196 | 94c4327 | `CAPTURED`; blob `8944fc3f…`; kapsul BD 21 objek |
+| Rollback: cycle | 36209160192, job 108311934378 | d9ec4fc | 139/139 PASS; `primary_unchanged` |
+| CodeQL kandidat | 36209168752 | d9ec4fc | sukses |
+
+Run lama BD di runtime auditor (sebelum D07) tetap tercatat di pesan commit masing-masing; yang berlaku untuk head ini adalah baris di atas.
+
+### 32.6 Head BD dan identitasnya
+
+- **Head:** commit yang memuat bagian ini (hash lengkap di pesan serah terima). Cabang kompetisi tetap `ca7f095`. Tidak ada SQL ke hosted atau legacy.
+- **Produk** (`src` + `supabase/release` + `supabase/migrations`) terakhir berubah di **d9ec4fc** (berkas rollback). Commit sesudahnya hanya dokumen. Hash tree git pada d9ec4fc:
+  - `src` `4c16bb27111a50fc98acd1b188ff393e602912d1` (tidak berubah sejak fec17f1)
+  - `supabase/release` `0c49f853e2ff3c908c4f1a6665f17db1e8b39b82`
+  - `supabase/migrations` `8f6053bbd0bda80da18065418ad43371cdfd9461`
+- **Paket T3:** 28 berkas AC..BD; berkas AC..BC tidak berubah.
+  - `supabase/release/cp6-t3/MANIFEST.json` `2dfb768fc315a975…`
+  - berkas BD `0935ffb9bdabad75…`
+  - blob pin `134ad31858fd4903…` (capture job 108310151776, run 36208544312)
+- **Rollback:** `ROLLBACKS.json` `4cc6d91dda50dd85…`; berkas BD `c82d493967c4f651…`; capture `8944fc3fc05b62c2…` (job 108311309196, run 36208946516).
+- **Dev (bukan produk sampai masuk paket):** `supabase/dev/cp6_bd_t1_family.sql` `3102ed001ed0da7e…`; D07 `scripts/cp6_bd_objects_d07.sql` `f929f6c1f0dfed06…`.
+- **Alat uji (terpisah dari produk):**
+  - `scripts/cp6_bd_probe.py` `e7c96aae5f5bae8f…` (29 kasus, termasuk `D07:RECOST_ALARM_DOCUMENT_LEVEL` dan `T24:MULTI_SIZE_LOT_HPP`)
+  - `scripts/cp6_bd_modes.py` `296f6d6d66cb2cb2…`
+  - `scripts/cp6_bd_browser.mjs` `927a39ca6b98eeeb…`
+  - `scripts/cp6_bd_workspace_parse.mjs` `a77d224d6fc4d5b9…`
+  - `scripts/cp6_bd_build.py` `0340071dec6d648e…`
+  - `scripts/cp6_t2_regression.py` `34b2cd06ed349082…` (grup `AR_SUPERSEDING`)
+  - `scripts/cp6_bc_probe.py` `23fdce2a95f4b439…`, `scripts/cp6_bc_modes.py` `047e807053dcdfd5…` (F2 dipisah hanya sebelum D07)
+  - `scripts/cp6_t3_rollback.py` `3feb51a2a9a0a204…`, `scripts/cp6_t3_release_package.py` `31abfd3060adeb92…`
+  - `scripts/cp6_cutover_data_checks.py` `75956f6bbcd6c1ca…`
+- **Pemeriksaan frontend (lokal, bukan bukti CI):** `npm test` 537/537, `test:security`, dan build lolos.
+- **Galeri UI** (`scripts/cp6_ui_gallery.mjs`, `scripts/cp6_ui_gallery_fixture.py`, ffb5076): alat untuk tinjauan tampilan oleh owner, bukan bukti. Isinya tangkapan layar dari runtime disposable.
+
+### 32.7 Batas yang diketahui (jujur)
+
+- **Tagihan potongan hilang** lewat alur klaim (kompensasi, dibatasi utang vendor), bukan baris invoice.
+- **Selisih invoice pada lot multi-ukuran** dibagi rata per potong baris penerimaan, tidak menurut tarif ukuran (kasus `T24:MULTI_SIZE_LOT_HPP`: 2.000 pada 6 + 4 potong menjadi 1.200 dan 800). Biaya laundry estimasi sendiri sudah mengikuti ukurannya (8.010 dan 5.010 per potong). Aturan pembagian selisih belum diputuskan owner; dicatat, tidak diubah.
+- **Guard invoice L8** (`erp.guard_cp6_vendor_invoice_receipt_on_post_v2620`) diganti dengan satu substitusi yang diperiksa: utang dari facade invoice BD dicek terhadap dokumen BD-nya. Karena mengubah guard lama, diserahkan ke auditor untuk ditinjau.
+- **Kirim berharga** dari tab "Harga & tagihan", bukan dari tab "Kirim ke Laundry".
+- **LAU-T36** (UI HP untuk tab BD) belum punya flow HP; ditunda ke uji gabungan.
+- **D07, toleransi sen per bahan:** selisih yang disisipkan di dalam batas satu sen × jumlah dokumen pembelian bahan itu tidak tertangkap oleh baris ini (lihat §32.3a butir 1). Guard total 0,05 (`MATERIAL_GL_VALUATION_MISMATCH`) dan `V2620T_*` tetap berlaku.
+- **F3 / D08** belum masuk commit (§32.3a butir 3); sampai itu, halaman nota dan Laundry tetap menolak ID non-RFC.
+
+### 32.8 Untuk auditor: menjalankan ulang pada head ini
+
+- **Probe BD:** `cp6-bd-t1-probe.yml` (dispatch). Fase before (rantai AN..BC: 28 kasus `NO_ROUTE` dan D07 `COUNTEREXAMPLE`) dan after (29 PASS + cek parser halaman).
+- **D07:** jalankan ulang `xaudit_12_f1f2.py` di rantai fase `after` (harus diam pada buku yang tepat) beserta kontrol negatif auditor sendiri.
+- **Runtime auditor:** `cp6-auditor-scenario.yml`, input `phase=after`, `scenario_path=scripts/cp6_bd_modes.py`, `browser_path=scripts/cp6_bd_browser.mjs`. Fase `pre_bd` tersedia untuk menjalankan skenario auditor tanpa BD.
+- **T2:** dispatch `cp6-t2-regression.yml`.
+- **T3:** `cp6-t3-release-package.yml` (tiga job) dan `cp6-t3-rollback.yml` (auto = cycle pada head ini; capture hanya bila paket berubah).
+
+### 32.9 Yang masih terbuka
+
+- **Owner:** nilai enam kebijakan laundry (tetap `PENDING_POLICY_VALUE` sampai ditetapkan di aplikasi); representasi klaim laundry lama untuk ALL-W05 (GBD-03 `NEEDS_OWNER_INPUT`); F3/D08: izin sesi untuk menerapkan dua baris regex, atau owner menerapkannya sendiri (§32.3a butir 3); pilihan opsi ACC-C12 (a) atau (b); arah D07 (rumus sekarang usulan teknis auditor).
+- **Operator:** inventaris baca-saja ID kontraktor/mandor pada salinan data cutover yang diizinkan (`scripts/cp6_cutover_data_checks.py`), untuk menentukan F3 tetap P3 atau naik P2.
+- **Auditor:** tinjauan substitusi guard L8; pengecualian pembanding rollback untuk baris seed (kini BC dan BD); oracle GBD-01/02 dengan fixture auditor sendiri; uji ulang D07 dan penilaian toleransi per bahan; pemisahan `STALE_F2` bersyarat di probe BC (§32.3a butir 1).
+- **UI (arahan owner 26 Sep):** halaman BC/BD dan halaman berikutnya mengikuti layar demo owner di Cloudflare, termasuk interaksinya (drag and drop dan lainnya), bukan hanya tampilannya. Fungsi server tidak berubah. Dikerjakan sesudah pekerjaan CP6 sesuai urutan owner.
+- **Writer, berikutnya:** BE (ganti SKU/konversi produk, rework ke SKU baru, celup ulang LAU-06b, ALL-C04), lalu uji gabungan 75 kasus C6 + 22 ALL.
