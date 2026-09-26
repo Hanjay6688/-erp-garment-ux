@@ -1,6 +1,7 @@
 """Counted predecessor changes for the real BE redye service source of BD invoices."""
 from pathlib import Path
 from cp6_bc_build import last_definition,substitute
+from cp6_be_pocket_build import filter_native
 ROOT=Path(__file__).resolve().parents[1];BD=ROOT/'supabase/dev/cp6_bd_t1_family.sql'
 REPLACED=['erp.get_laundry_bd_workspace_v1(jsonb)','erp.save_laundry_bd_action_v1(text,jsonb,uuid)','erp.bd_save_invoice_draft_v1(jsonb,uuid)','erp.bd_check_correction_sources_v1(uuid)',
  'erp.bd_invoice_lines_json_v1(uuid)','erp.bd_post_invoice_v1(jsonb,uuid)','erp.bd_invoice_resync_v1(uuid,date)',
@@ -36,6 +37,7 @@ def build(old_definition):
     accrual=patched('desired_laundry_accrual',[("select a.amount+f.amount", "select a.amount+f.amount+erp.be_redye_accrual_v1(p_po_id)")])
     rebuild=patched('rebuild_po_hpp',[
       ("  select coalesce(sum(adjustment_amount),0),", "  v_rework:=v_rework+erp.be_redye_po_cost_v1(p_po_id);\n  v_pending:=v_pending or exists(select 1 from erp.be_redye_services_v1 bs join erp.rework_orders br on br.id=bs.id\n    where bs.po_id=p_po_id and br.status<>'CANCELLED' and erp.be_redye_accrual_v1(p_po_id)<>0)\n    or exists(select 1 from erp.be_redye_services_v1 bs join erp.rework_orders br on br.id=bs.id where bs.po_id=p_po_id and br.status<>'CANCELLED' and erp.be_redye_rate_v1(bs.id) is null);\n  select coalesce(sum(adjustment_amount),0),")])
+    rebuild=filter_native(rebuild)
     C=ROOT/'supabase/migrations/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.sql'
     cost=old_definition(C,'cp6_lot_rework_cost_v2620c')
     cost=substitute(cost,[("sum(rcl.amount_payable::numeric*fl.initial_qty_pcs/nullif(ro.qty_sent,0)),0)::numeric", "sum(rcl.amount_payable::numeric*fl.initial_qty_pcs/nullif(ro.qty_sent,0)),0)::numeric\n    +coalesce((select erp.be_redye_cost_v1(rs.id)*rr.qty_good_returned/nullif(rr.qty_sent,0) from erp.be_redye_services_v1 rs join erp.rework_orders rr on rr.id=rs.id where rr.good_fg_lot_id=p_lot_id and rr.status<>'CANCELLED' and rr.cost_posted),0)")],'BE exact redye good lot')

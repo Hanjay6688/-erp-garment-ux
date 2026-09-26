@@ -7,6 +7,7 @@ The selected-lot adapter never falls back to a different FIFO lot.
 from pathlib import Path
 import hashlib,re,sys
 import cp6_be_redye_build as redye
+import cp6_be_pocket_build as pocket
 from cp6_bc_build import last_definition,substitute
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -23,10 +24,10 @@ REPLACED=['erp.post_product_conversion(uuid)','erp.propagate_conversion_hpp_for_
           'erp.reverse_product_conversion(uuid,text)','erp.compute_non_po_product_hpp_targets_v2620f(uuid)',
           'erp.compute_non_po_product_hpp_book_v2620f(uuid)','erp.assert_non_po_product_hpp_target_book_v2620f(uuid)',
           'erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)',
-          'erp.post_rework_completion(uuid)','erp.reverse_rework_completion(uuid,text)','erp.assert_new_stock_cutoff_coverage_v1()']+redye.REPLACED
+          'erp.post_rework_completion(uuid)','erp.reverse_rework_completion(uuid,text)','erp.assert_new_stock_cutoff_coverage_v1()']+redye.REPLACED+pocket.REPLACED
 NEW_TABLES=['be_execution_context_v1','be_conversion_sources_v1','be_conversion_returns_v1',
-            'be_conversion_cost_sources_v1','be_conversion_cost_events_v1','be_nonpo_transfer_events_v1','be_rework_targets_v1','be_redye_services_v1','be_redye_price_events_v1']
-OBJECTS=[ROOT/f'scripts/cp6_be_objects_{part}.sql' for part in ('conversion','cost','nonpo','rework','redye')]
+            'be_conversion_cost_sources_v1','be_conversion_cost_events_v1','be_nonpo_transfer_events_v1','be_rework_targets_v1','be_redye_services_v1','be_redye_price_events_v1']+pocket.TABLES
+OBJECTS=[ROOT/f'scripts/cp6_be_objects_{part}.sql' for part in ('conversion','cost','nonpo','rework','redye','pocket')]
 
 def objects():return '\n'.join(p.read_text().rstrip() for p in OBJECTS)
 
@@ -81,6 +82,7 @@ def build():
        'where (s.po_id is null and not erp.be_nonpo_admitted_v1(c.id)) or d.id is null or d.po_id is distinct from s.po_id'),
       ('Every posted conversion must be PO-sourced, value-preserving, rooted, and represented by exact OUT/IN facts with current descendant HPP',
        'Every posted conversion has an admitted source, exact OUT/IN facts, rooted lineage and current HPP equal to source plus linked cost less recovery')],'BE source and lineage detectors')
+    checks=pocket.filter_native(checks)
     nonpo_propagate=substitute(propagate,[('erp.propagate_conversion_hpp_for_po(p_po_id uuid)','erp.be_propagate_nonpo_v1()'),
       ("or s.po_id is null or d.po_id is distinct from s.po_id","or not erp.be_nonpo_admitted_v1(c.id) or d.po_id is distinct from s.po_id"),
       ("raise exception 'CONVERSION_LINEAGE_ORPHAN_OR_CYCLE: PO % conversion graph is not rooted and acyclic',p_po_id;",
@@ -125,12 +127,12 @@ def build():
        "  perform erp.be_reverse_rework_target_v1(r.id,p_reason);\n  if r.good_fg_lot_id is not null then\n    if erp.fg_lot_has_active_downstream")],'BE reverse child conversion before rework')
     coverage=substitute(last_definition(BC,'assert_new_stock_cutoff_coverage_v1'),[
       ('"erp.bc_customer_custody_v1.product_id":',
-       '"erp.be_rework_targets_v1.target_product_id":{"class":"SOURCE_DOCUMENT","reason":"Requested rework/redye target; checked as NEW_STOCK when the native GOOD lot is converted atomically"},"erp.bc_customer_custody_v1.product_id":')],'BE target identity coverage')
+       '"erp.be_pocket_sewing_v1.product_id":{"class":"SOURCE_DOCUMENT","reason":"Evidence of a sold SKU before cutover; no new stock identity is created"},"erp.be_rework_targets_v1.target_product_id":{"class":"SOURCE_DOCUMENT","reason":"Requested rework/redye target; checked as NEW_STOCK when the native GOOD lot is converted atomically"},"erp.bc_customer_custody_v1.product_id":')],'BE target identity coverage')
     grants=r"""do $grants$
 declare t text;f text;
 begin
  foreach t in array array['be_execution_context_v1','be_conversion_sources_v1','be_conversion_returns_v1',
-   'be_conversion_cost_sources_v1','be_conversion_cost_events_v1','be_nonpo_transfer_events_v1','be_rework_targets_v1','be_redye_services_v1','be_redye_price_events_v1'] loop
+   'be_conversion_cost_sources_v1','be_conversion_cost_events_v1','be_nonpo_transfer_events_v1','be_rework_targets_v1','be_redye_services_v1','be_redye_price_events_v1','be_pocket_usage_v1','be_pocket_sewing_v1','be_pocket_source_events_v1','be_pocket_target_events_v1'] loop
    execute format('alter table erp.%I enable row level security',t);
    execute format('revoke all on erp.%I from public,anon,authenticated,service_role',t);
  end loop;
@@ -151,7 +153,7 @@ grant execute on function public.erp_get_product_conversion_workspace_v1(jsonb) 
       "do $guard$ begin if not exists(select 1 from erp.schema_migrations where version='v2.6.20bd') then raise exception 'BE_REQUIRES_BD';end if;",
       "if exists(select 1 from erp.schema_migrations where version='v2.6.20be') then raise exception 'BE_ALREADY_INSTALLED';end if;end $guard$;",
       objects(),conversion(),propagate,target,recover,reverse,recost,checks,nonpo_propagate,nonpo_target,nonpo_book,*guards,inverse,
-      complete,reverse_rework,coverage,redye.build(old_definition),grants,
+      complete,reverse_rework,coverage,redye.build(old_definition),pocket.build(),grants,
       "insert into erp.schema_migrations(version,description) values('v2.6.20be','BE development family: SKU conversion, rework/redye and pocket cutover');",
       'commit;',''])
 

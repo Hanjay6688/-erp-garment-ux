@@ -8,6 +8,7 @@ import psycopg
 import cp6_bd_probe as bdp
 import cp6_be_build as build
 import cp6_layers
+import cp6_be_pocket_probe as pocket_probe
 
 api,chain,one,q,verdict,refused=bdp.api,bdp.chain,bdp.one,bdp.q,bdp.verdict,bdp.refused
 boundary,r1,prior=bdp.boundary,bdp.r1,bdp.prior
@@ -221,7 +222,8 @@ PLAN=[('BE01:SELECTED_LOT_REPLAY_REVERSE','NO_ROUTE',conversion_roundtrip),('BE0
       ('BE01:ACTUAL_ACCESSORY_COST_ONCE_AND_INVERSE','NO_ROUTE',actual_usage),
       ('BE01:OPENING_SOURCE_VALUE_AND_INVERSE','NO_ROUTE',nonpo_roundtrip),
       ('BE02:REWORK_NEW_SKU_ATOMIC_REPLAY_INVERSE','NO_ROUTE',rework_new_sku),
-      ('BE03:REAL_SERVICE_INVOICE_SOLD_VARIANCE','NO_ROUTE',redye_invoice),('BE03:UNKNOWN_PRICE_CLOSE_REPLAY','NO_ROUTE',redye_unknown)]
+      ('BE03:REAL_SERVICE_INVOICE_SOLD_VARIANCE','NO_ROUTE',redye_invoice),('BE03:UNKNOWN_PRICE_CLOSE_REPLAY','NO_ROUTE',redye_unknown),
+      ('BE04:HISTORICAL_POCKET_ALLOCATION_CORRECTION_INVERSE','NO_ROUTE',lambda cur,today:pocket_probe.roundtrip(cur,today,installed(cur)))]
 def cases(cur,today):return [(key,lambda f=fn:f(cur,today)) for key,_,fn in PLAN]
 
 def run(phase):

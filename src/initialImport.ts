@@ -2,17 +2,18 @@ import baseCatalog from './initialImportCatalog.json'
 import bbCatalog from './initialImportCatalogBB.json'
 import bcCatalog from './initialImportCatalogBC.json'
 import bdCatalog from './initialImportCatalogBD.json'
+import beCatalog from './initialImportCatalogBE.json'
 
 type CatalogSpec = { label: string; required: readonly string[]; fields: Record<string, string> }
 const { _extend: bbExtensions, ...bbEntities } = bbCatalog
 const { _extend: bdExtensions, ...bdEntities } = bdCatalog
-type Entity = keyof typeof baseCatalog | keyof typeof bbEntities | keyof typeof bcCatalog | keyof typeof bdEntities
+type Entity = keyof typeof baseCatalog | keyof typeof bbEntities | keyof typeof bcCatalog | keyof typeof bdEntities | keyof typeof beCatalog
 
 /** The server's catalog (BB, BC, BD): the AP catalog, the BB, BC and BD files, then the BB and BD fields added to earlier files after their own fields. */
 function mergeCatalog(): Record<Entity, CatalogSpec> {
   const merged: Record<string, CatalogSpec> = {}
   for (const [key, spec] of Object.entries(baseCatalog) as [string, CatalogSpec][]) merged[key] = { ...spec, fields: { ...spec.fields } }
-  for (const [key, spec] of [...Object.entries(bbEntities), ...Object.entries(bcCatalog), ...Object.entries(bdEntities)] as [string, CatalogSpec][]) {
+  for (const [key, spec] of [...Object.entries(bbEntities), ...Object.entries(bcCatalog), ...Object.entries(bdEntities), ...Object.entries(beCatalog)] as [string, CatalogSpec][]) {
     if (key in merged) throw new Error(`Katalog impor ganda: ${key}`)
     merged[key] = spec
   }
