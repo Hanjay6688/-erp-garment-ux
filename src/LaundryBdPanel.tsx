@@ -309,11 +309,13 @@ function PendingCost({ data }: { data: LaundryBdWorkspace }) {
 
 type DraftLine = { key: string; kind: 'BILL' | 'CORRECTION'; source: string; category: Category; qty: string; amount: string }
 function Invoices({ data, vendor, locked, send }: { data: LaundryBdWorkspace; vendor: string; locked: boolean; send: Send }) {
+  const [redyeRates, setRedyeRates] = useState<Record<string, string>>({})
+  const redye = data.redye_services ?? []
   const [editing, setEditing] = useState<BdInvoice | null>(null)
   const [head, setHead] = useState<Record<string, string>>({ number: '', date: today(), due: '', total: '', discount: '', tax: '', rounding: '', corrects: '' })
   const [lines, setLines] = useState<DraftLine[]>([]), [reason, setReason] = useState('')
   const invoices = data.invoices ?? [], billable = data.billable_receipts ?? [], opening = data.opening_uninvoiced.filter(u => u.vendor_id === vendor && !u.invoiced)
-  const sourceLabel = (s: string) => s.startsWith('r:') ? (() => { const b = billable.find(x => x.receipt_line_id === s.slice(2)); return b ? `${b.receipt_number} · ${b.po_number}` : s })()
+  const sourceLabel = (s: string) => s.startsWith('d:') ? (redye.find(x => x.id === s.slice(2))?.number ?? 'Jasa celup') : s.startsWith('r:') ? (() => { const b = billable.find(x => x.receipt_line_id === s.slice(2)); return b ? `${b.receipt_number} · ${b.po_number}` : s })()
     : (() => { const u = data.opening_uninvoiced.find(x => x.id === s.slice(2)); return u ? `Saldo awal ${u.document_number} · ${CATEGORY_LABEL[u.category]}` : s })()
   const setLine = (i: number, patch: Partial<DraftLine>) => setLines(ls => ls.map((l, j) => j === i ? { ...l, ...patch } : l))
   // Owner decision no. 13: a correction is its own document linked to the posted invoice it corrects; its total is signed.
@@ -321,7 +323,7 @@ function Invoices({ data, vendor, locked, send }: { data: LaundryBdWorkspace; ve
   const correcting = Boolean(head.corrects)
   // A correction corrects only what its origin billed: its sources are the origin's billing lines (already fully billed ones included).
   const origin = invoices.find(i => i.invoice_id === head.corrects) ?? null
-  const originSources = (origin?.lines ?? []).filter(l => l.line_kind === 'BILL').map(l => ({ value: l.receipt_line_id ? 'r:' + l.receipt_line_id : 'o:' + l.opening_uninvoiced_id,
+  const originSources = (origin?.lines ?? []).filter(l => l.line_kind === 'BILL').map(l => ({ value: l.receipt_line_id ? 'r:' + l.receipt_line_id : l.rework_service_id ? 'd:' + l.rework_service_id : 'o:' + l.opening_uninvoiced_id,
     category: l.category, label: `Baris ${l.line_no} ${origin?.invoice_number} · ${CATEGORY_LABEL[l.category]} · ${l.qty} PCS` }))
   const signed = (v: string) => (v.trim().startsWith('-') ? '-' : '') + normalizeMoney(v.trim().replace('-', ''))
   const edit = (i: BdInvoice | null) => {
@@ -329,7 +331,7 @@ function Invoices({ data, vendor, locked, send }: { data: LaundryBdWorkspace; ve
     setHead(i ? { number: i.invoice_number, date: i.invoice_date, due: i.due_date ?? '', total: i.header_total, discount: i.discount_amount === '0.00' ? '' : i.discount_amount,
       tax: i.tax_amount === '0.00' ? '' : i.tax_amount, rounding: i.rounding_amount === '0.00' ? '' : i.rounding_amount, corrects: i.corrects_invoice_id ?? '' }
       : { number: '', date: today(), due: '', total: '', discount: '', tax: '', rounding: '', corrects: '' })
-    setLines(i ? i.lines.map(l => ({ key: l.id, kind: l.line_kind, source: l.receipt_line_id ? 'r:' + l.receipt_line_id : 'o:' + l.opening_uninvoiced_id, category: l.category,
+    setLines(i ? i.lines.map(l => ({ key: l.id, kind: l.line_kind, source: l.receipt_line_id ? 'r:' + l.receipt_line_id : l.rework_service_id ? 'd:' + l.rework_service_id : 'o:' + l.opening_uninvoiced_id, category: l.category,
       qty: String(l.qty), amount: l.amount })) : [])
   }
   const lineOk = (l: DraftLine) => l.source && (l.kind === 'BILL' ? wholePcs(l.qty) && moneyInput(l.amount) : signedMoneyInput(l.amount) && !/^-?0+([.,]0+)?$/.test(l.amount.trim()))
@@ -344,8 +346,10 @@ function Invoices({ data, vendor, locked, send }: { data: LaundryBdWorkspace; ve
     ...(head.rounding ? { rounding_amount: (head.rounding.trim().startsWith('-') ? '-' : '') + normalizeMoney(head.rounding.trim().replace('-', '')) } : {}),
     lines: lines.map(l => ({ line_kind: l.kind, category: l.category, qty: l.kind === 'BILL' ? Number(l.qty) : 0,
       amount: signed(l.amount),
-      ...(l.source.startsWith('r:') ? { receipt_line_id: l.source.slice(2) } : { opening_uninvoiced_id: l.source.slice(2) }) })) })
+      ...(l.source.startsWith('r:') ? { receipt_line_id: l.source.slice(2) } : l.source.startsWith('d:') ? { rework_service_id: l.source.slice(2) } : { opening_uninvoiced_id: l.source.slice(2) }) })) })
   return <section className="initial-import-table" aria-label="Invoice vendor laundry">
+    {redye.length > 0 && <section aria-label="Jasa celup ulang"><h3>Jasa celup ulang</h3><p>Tarif diikat pada waktu kirim. Invoice mengganti estimasi; selisih mengikuti biaya produk.</p><table><thead><tr><th>Order / proses</th><th>Hasil</th><th>Tarif per PCS</th><th>Biaya kini</th></tr></thead><tbody>{redye.map(x => <tr key={x.id}><td>{x.number} · {x.process}<br/>{x.status}</td><td>{x.good} GOOD · {x.bs} BS</td><td>{x.price_known ? rupiah(x.rate) : 'Belum diketahui'}{!x.price_known && data.can_set_price && x.status !== 'CANCELLED' && <><input aria-label={`Tarif celup ${x.number}`} value={redyeRates[x.id] ?? ''} onChange={e => setRedyeRates(v => ({ ...v, [x.id]: e.target.value }))}/><button type="button" disabled={locked || !moneyInput(redyeRates[x.id] ?? '') || !reason.trim()} onClick={() => send('SET_REDYE_PRICE', { service_id: x.id, rate: normalizeMoney(redyeRates[x.id]), reason: reason.trim() })}>Isi tarif celup {x.number}</button></>}</td><td>{x.price_known ? rupiah(x.cost) : 'HPP belum final'}</td></tr>)}</tbody></table><p>Pengisian tarif memakai alasan pada formulir di bawah.</p></section>}
+
     <table><thead><tr><th>Invoice</th><th>Vendor</th><th>Tanggal</th><th>Total</th><th>Dibayar</th><th>Status</th><th/></tr></thead><tbody>{invoices.map(i => <tr key={i.invoice_id}>
       <td>{i.invoice_number}{i.document_kind !== 'INVOICE' ? ` · koreksi ${i.document_kind === 'CORRECTION_UP' ? 'naik' : 'turun'} atas ${i.corrects_invoice_number}` : ''}</td><td>{i.vendor_code}</td><td>{i.invoice_date}</td><td>{rupiah(i.header_total)}</td><td>{rupiah(i.paid)}</td><td>{i.status}{i.variance_mode ? ` · selisih ${i.variance_mode === 'PRODUCT_COST' ? 'ke biaya produk' : 'ke akun selisih'}` : ''}</td>
       <td>{i.status === 'DRAFT' && <><button type="button" disabled={locked} onClick={() => edit(i)}>Ubah draf {i.invoice_number}</button>
@@ -369,9 +373,10 @@ function Invoices({ data, vendor, locked, send }: { data: LaundryBdWorkspace; ve
             const source = e.target.value, from = originSources.find(o => o.value === source)
             setLine(i, from ? { source, category: from.category } : { source }) }}><option value="">Pilih…</option>
           {correcting && originSources.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+          {!correcting && redye.filter(x => x.status === 'COMPLETED').map(x => <option key={x.id} value={'d:' + x.id}>Celup {x.number} · {x.po_number} · baik {x.billed_good}/{x.good} · BS {x.billed_bs}/{x.bs}{x.price_known ? '' : ' · harga belum diketahui'}</option>)}
           {!correcting && billable.map(b => <option key={b.receipt_line_id} value={'r:' + b.receipt_line_id}>{b.receipt_number} · {b.po_number} · baik {b.billed.GOOD}/{b.capacity.GOOD} · BS {b.billed.BS}/{b.capacity.BS} · gagal {b.billed.FAILED_ATTEMPT}/{b.capacity.FAILED_ATTEMPT}{b.price_known ? '' : ' · harga belum lengkap'}</option>)}
           {!correcting && opening.map(u => <option key={u.id} value={'o:' + u.id}>Saldo awal {u.document_number} · {CATEGORY_LABEL[u.category]} {u.billed}/{u.qty}{u.estimate_status === 'UNKNOWN' ? ' · estimasi belum diketahui' : ''}</option>)}
-          {l.source && !(correcting ? originSources.some(o => o.value === l.source) : billable.some(b => 'r:' + b.receipt_line_id === l.source) || opening.some(u => 'o:' + u.id === l.source))
+          {l.source && !(correcting ? originSources.some(o => o.value === l.source) : redye.some(x => 'd:' + x.id === l.source) || billable.some(b => 'r:' + b.receipt_line_id === l.source) || opening.some(u => 'o:' + u.id === l.source))
             && <option value={l.source}>{sourceLabel(l.source)}</option>}</select></label>
         <label>Kategori<select aria-label={`Kategori baris ${i + 1}`} value={l.category} disabled={locked} onChange={e => setLine(i, { category: e.target.value as Category })}>
           {(Object.keys(CATEGORY_LABEL) as Category[]).map(c => <option key={c} value={c}>{CATEGORY_LABEL[c]}</option>)}</select></label>

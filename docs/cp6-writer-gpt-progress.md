@@ -102,3 +102,11 @@ Baca berkas rujukan dan sumber BD/konversi/rework/kain kantong; ambil log run/jo
 - UI Ganti Merek mulai tersambung: pilihan lot/lokasi, pencarian dan paging SKU tujuan, preview server, perintah dengan recovery global, histori dan pembatalan, pemakaian aksesori aktual, rencana bongkaran tanpa stok. Parser menerima UUID kanonik, uang berupa teks, response identity harus cocok. Hanya tambahan src BE; demo hanya pada runtime demo.
 - Validasi lokal: TypeScript PASS; 34 tes parser/input/recovery PASS. Ini belum bukti browser native. SQL baru (workspace/history/paging) masih perlu run CI.
 - Berikutnya: UI binding rework/celup serta sumber invoice dan harga celup, ALL-C04 impor historis/lifecycle, bukti negatif/race/HTTP/browser, T2/T3 29/rollback/CodeQL. Tidak ada pengurangan scope.
+
+## Hasil BE-6 / UI rework dan celup
+- Commit `5bdca71da7bfac748c7337c39dfe2fce90a9c021`, run `36267540607`; before `108474974454`, after `108474974653` success; log after **7/7 PASS**. Run ini memeriksa SQL workspace/paging yang baru, belum browser UI.
+- Form BS kini memilih target kompatibel lewat search/paging API BE; hasil baru memakai command BE, completion/partial/inverse tetap command native. Mode laundry + SKU baru memakai jasa celup berbayar; rewash biasa tetap tersendiri. Recovery domain BS menyimpan dua action baru tanpa menghapus envelope lama.
+- Tab Harga & Tagihan Laundry kini membaca jasa rework nyata, harga unknown, pengisian harga pertama, dan sumber invoice/correction `rework_service_id`. Parser menerima tepat satu dari tiga sumber. Command harga memeriksa izin sebelum replay; semua biaya tetap sumber vendor.
+- Probe BE sekarang menyimpan respons facade/workspace asli dan menjalankan parser halaman di CI (termasuk invoice jasa). Ini gate tambahan, tanpa mengubah expected tujuh kasus.
+- Lokal: TypeScript PASS, 51 unit parser/input/recovery/model PASS, SQL/PLpgSQL 70 fungsi parse. Percobaan lint ESLint tidak tersedia pada repo (tidak ada config), bukan PASS; dependency repo tidak diubah.
+- Berikutnya: baca run baru + gate parser; **ALL-C04 masih belum diimplementasikan**. Selesaikan adapter impor pengeluaran/denominator historis, lalu bukti biaya pulih/recost negatif, browser/race/HTTP BE, T2, paket 29, rollback dan CodeQL. Family belum siap rilis.

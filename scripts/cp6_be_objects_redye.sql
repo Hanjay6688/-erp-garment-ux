@@ -152,3 +152,16 @@ begin
  return new;
 end;$function$;
 create trigger be_redye_status after update of status on erp.rework_orders for each row execute function erp.be_redye_status_change_v1();
+
+CREATE OR REPLACE FUNCTION erp.be_redye_workspace_v1(p_vendor uuid,p_money boolean)
+ RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+ select coalesce(jsonb_agg(jsonb_build_object('id',s.id,'number',r.rework_number,'vendor_id',s.vendor_id,'po_number',p.po_number,
+   'status',r.status,'qty',s.qty,'good',r.qty_good_returned,'bs',r.qty_bs_returned,
+   'billed_good',erp.be_redye_billed_v1(s.id,'GOOD'),'billed_bs',erp.be_redye_billed_v1(s.id,'BS'),
+   'process',w.process_name,'price_known',erp.be_redye_rate_v1(s.id) is not null,
+   'rate',case when p_money then erp.be_redye_rate_v1(s.id)::text end,
+   'cost',case when p_money then erp.be_redye_cost_v1(s.id)::text end) order by s.sent_at desc,s.id),'[]'::jsonb)
+ from erp.be_redye_services_v1 s join erp.rework_orders r on r.id=s.id join erp.production_orders p on p.id=s.po_id join erp.wash_processes w on w.id=s.wash_process_id
+ where p_vendor is not null and s.vendor_id=p_vendor
+$function$;

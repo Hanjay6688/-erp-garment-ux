@@ -2,7 +2,7 @@
 from pathlib import Path
 from cp6_bc_build import last_definition,substitute
 ROOT=Path(__file__).resolve().parents[1];BD=ROOT/'supabase/dev/cp6_bd_t1_family.sql'
-REPLACED=['erp.bd_save_invoice_draft_v1(jsonb,uuid)','erp.bd_check_correction_sources_v1(uuid)',
+REPLACED=['erp.get_laundry_bd_workspace_v1(jsonb)','erp.save_laundry_bd_action_v1(text,jsonb,uuid)','erp.bd_save_invoice_draft_v1(jsonb,uuid)','erp.bd_check_correction_sources_v1(uuid)',
  'erp.bd_invoice_lines_json_v1(uuid)','erp.bd_post_invoice_v1(jsonb,uuid)','erp.bd_invoice_resync_v1(uuid,date)',
  'erp.bd_reverse_invoice_v1(jsonb,uuid)','erp.desired_laundry_accrual(uuid)','erp.rebuild_po_hpp(uuid,text)',
  'erp.bd_lot_laundry_unknown_v1(uuid)','erp.cp6_lot_rework_cost_v2620c(uuid)','erp.period_blockers_v1(date,date)']
@@ -48,4 +48,9 @@ def build(old_definition):
 
   -- LAUNDRY: a delivery rate""")])
     unknown=patched('bd_lot_laundry_unknown_v1',[("  select coalesce(","  select exists(select 1 from erp.fg_lots be_lot join erp.be_redye_services_v1 be_s on be_s.po_id=be_lot.po_id join erp.rework_orders be_r on be_r.id=be_s.id where be_lot.id=p_lot and be_r.status<>'CANCELLED' and erp.be_redye_rate_v1(be_s.id) is null) or coalesce(")])
-    return '\n'.join([draft,correction,lines,post,resync,reverse,accrual,rebuild,cost,blocker,unknown])
+    workspace=patched('get_laundry_bd_workspace_v1',[("    'filters',coalesce(p_filters", "    'redye_services',erp.be_redye_workspace_v1(v_vendor,v_money),\n    'filters',coalesce(p_filters")])
+    router=patched('save_laundry_bd_action_v1',[
+      ("if v_action not in('SET_POLICY'", "if v_action not in('SET_REDYE_PRICE','SET_POLICY'"),
+      ("  perform pg_advisory_xact_lock(hashtextextended('BDREQ:'", "  if v_action='SET_REDYE_PRICE' then perform erp.require_owner_admin();perform erp.require_permission('finance.hpp.manage');perform erp.require_permission('warehouse.brand_conversion.post');end if;\n  perform pg_advisory_xact_lock(hashtextextended('BDREQ:'"),
+      ("    when 'SET_POLICY' then", "    when 'SET_REDYE_PRICE' then erp.save_product_conversion_action_v1('SET_REDYE_PRICE',p_payload,p_client_request_id)\n    when 'SET_POLICY' then")])
+    return '\n'.join([draft,correction,lines,post,resync,reverse,accrual,rebuild,cost,blocker,unknown,workspace,router])

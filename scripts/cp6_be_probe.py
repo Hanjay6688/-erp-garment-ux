@@ -12,6 +12,12 @@ import cp6_layers
 api,chain,one,q,verdict,refused=bdp.api,bdp.chain,bdp.one,bdp.q,bdp.verdict,bdp.refused
 boundary,r1,prior=bdp.boundary,bdp.r1,bdp.prior
 OUT=Path(__file__).resolve().parents[1]/'cp6-proof/be'
+WS=None
+WS_N=0
+def snapshot(kind,value):
+    global WS_N
+    if WS is not None:
+        WS_N+=1;(WS/(kind+'_'+str(WS_N)+'.json')).write_text(json.dumps(value,default=str))
 bdp.bcp.NO_ROUTE_MESSAGES+=('erp_save_product_conversion_action_v1(',)
 
 def installed(cur):return bool(one(cur,"select count(*) from erp.schema_migrations where version='v2.6.20be'"))
@@ -36,10 +42,15 @@ def install_be():
     return result
 
 def be(cur,action,payload,key=None,auth=None):
+    request=str(key or uuid.uuid4())
     if auth:bdp.bcp.session(cur,auth)
     else:bdp.bcp.session(cur)
     result=cur.execute('select public.erp_save_product_conversion_action_v1(%s,%s::jsonb,%s)',
-       (action,json.dumps(payload,default=str),str(key or uuid.uuid4()))).fetchone()[0]
+       (action,json.dumps(payload,default=str),request)).fetchone()[0]
+    snapshot('response',dict(result=result,action=action,request=request,payload=payload))
+    if auth is None:
+        workspace=cur.execute("select public.erp_get_product_conversion_workspace_v1('{}'::jsonb)").fetchone()[0]
+        snapshot('be',workspace)
     api.admin(cur);return result
 
 def fixture(cur,today):
@@ -184,6 +195,7 @@ def redye_invoice(cur,today):
     payload=dict(vendor_id=f['vendor'],invoice_number='BEI-'+uuid.uuid4().hex[:10],invoice_date=str(f['day']),header_total='240.00',
       lines=[dict(line_kind='BILL',rework_service_id=f['redye'],category='GOOD',qty=4,amount='240.00')])
     draft=bdp.bd(cur,'SAVE_INVOICE_DRAFT',payload);posted=bdp.post_draft(cur,draft)
+    snapshot('bd',bdp.bd_ws(cur,dict(vendor_id=f['vendor'])))
     cost=one(cur,'select erp.be_redye_cost_v1(%s)',f['redye']);accrual=one(cur,'select erp.be_redye_accrual_v1(%s)',f['po'])
     again=bdp.bd(cur,'SAVE_INVOICE_DRAFT',dict(payload,invoice_number='BE-OVER-'+uuid.uuid4().hex[:10]))
     over=refused(cur,lambda:bdp.post_draft(cur,again),'BD_INVOICE_CAPACITY')
@@ -213,6 +225,8 @@ PLAN=[('BE01:SELECTED_LOT_REPLAY_REVERSE','NO_ROUTE',conversion_roundtrip),('BE0
 def cases(cur,today):return [(key,lambda f=fn:f(cur,today)) for key,_,fn in PLAN]
 
 def run(phase):
+    global WS
+    WS=OUT/('workspace_'+phase);WS.mkdir(parents=True,exist_ok=True)
     assert os.environ.get('CP6_AR_CONFIRM')=='cp6_rollback' and os.environ.get('CP6_DATABASE_CONTAINER')=='supabase_db_cp5-local'
     r1.OUT=OUT;primary=None
     report=dict(status='INCOMPLETE',label='T1_FAMILY',phase=phase,production_go=False,independent_acceptance=False,release_evidence=False)
@@ -231,6 +245,11 @@ def run(phase):
         report['final']={k:v['status'] for k,v in group['cases'].items()}
         expected={k:e if phase=='before' else 'PASS' for k,e,_ in PLAN}
         report['mismatch']={k:dict(expected=e,actual=report['final'].get(k)) for k,e in expected.items() if report['final'].get(k)!=e}
+        if phase=='after':
+            parsed=subprocess.run(['node',str(build.ROOT/'scripts/cp6_be_workspace_parse.mjs'),str(WS)],capture_output=True,text=True,cwd=build.ROOT)
+            try:report['workspace_parse']=json.loads(parsed.stdout.strip().splitlines()[-1])
+            except (ValueError,IndexError):report['workspace_parse']=dict(error=(parsed.stderr or parsed.stdout)[-2000:])
+            if parsed.returncode:report['mismatch']['WORKSPACE_PARSE']=dict(expected='PASS',actual=report['workspace_parse'])
         report['status']='REVIEW_COMPLETE' if group['status']!='INCOMPLETE' and not report['mismatch'] else 'INCOMPLETE'
     except Exception as exc:report.update(error=str(exc),traceback=traceback.format_exc())
     finally:

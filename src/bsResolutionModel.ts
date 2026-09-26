@@ -1,6 +1,7 @@
 export type BsWorkspaceFilter = 'ACTIVE' | 'CLOSED' | 'ALL'
 export type BsWorkspaceKind = 'BS' | 'LAUNDRY_CLAIM' | 'ALL'
 export type BsResolutionAction =
+  | 'SAVE_REWORK_SKU' | 'SAVE_REDYE_SKU'
   | 'CREATE_MANUAL_BS' | 'CLASSIFY_BS' | 'SAVE_REWORK' | 'COMPLETE_REWORK'
   | 'DISPOSE_BS' | 'HOLD_BS' | 'RELEASE_HOLD' | 'REVERSE_DISPOSITION'
   | 'REVERSE_REWORK_COMPLETION' | 'SAVE_CLAIM' | 'RESOLVE_CLAIM'

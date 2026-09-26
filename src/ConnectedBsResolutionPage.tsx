@@ -13,6 +13,8 @@ import {
   type BsResolutionAction, type BsResolutionRow, type BsResolutionWorkspace,
   type BsWorkspaceFilter, type BsWorkspaceKind, type ReworkOrder,
 } from './bsResolutionModel'
+import BeReworkTargetFields, { emptyBeTarget } from './BeReworkTargetFields'
+import { validateConversionResult } from './productConversion'
 import ConnectedPatternFilter from './ConnectedPatternFilter'
 import { normalizeClientError } from './lib/clientError'
 import { getUatSupabaseClient } from './lib/supabase'
@@ -28,6 +30,9 @@ type RunAction = (
 ) => Promise<boolean>
 type ClaimType = 'STUCK' | 'MISSING' | 'DAMAGE'
 function validateBsCommit(data: unknown, envelope: ProductionEnvelope) {
+  if (envelope.action === 'SAVE_REWORK_SKU' || envelope.action === 'SAVE_REDYE_SKU') {
+    validateConversionResult(data, envelope.action === 'SAVE_REDYE_SKU' ? 'SAVE_REDYE' : 'SAVE_REWORK', envelope.id, envelope.payload); return
+  }
   if (!data || typeof data !== 'object' || Array.isArray(data)) throw new Error('Respons BS tidak valid')
   const response = data as Record<string, unknown>
   if (response.action !== envelope.action || !response.result || typeof response.result !== 'object'
@@ -250,6 +255,7 @@ function BsActionPanel({ row, workspace, canCreate, canPost, canReverse, ownerAd
   row: BsResolutionRow; workspace: BsResolutionWorkspace; canCreate: boolean; canPost: boolean
   canReverse: boolean; ownerAdmin: boolean; onAction: RunAction
 }) {
+  const [beTarget, setBeTarget] = useState(emptyBeTarget)
   const [route, setRoute] = useState<'REWORK' | 'REWASH' | 'HOLD' | 'DISPOSITION' | 'COMPENSATION'>('REWORK')
   const [quantity, setQuantity] = useState(String(row.available_qty))
   const [partyId, setPartyId] = useState('')
@@ -284,7 +290,7 @@ function BsActionPanel({ row, workspace, canCreate, canPost, canReverse, ownerAd
     ['DISPOSITION', 'Scrap / write-off', ArchiveX], ['COMPENSATION', 'Kompensasi', CircleDollarSign],
   ] as const
   return <section className="cbsr-actions"><header><div><span>CP5 · RESOLUTION ROUTE</span><h3>Pilih tindakan fisik yang benar</h3></div><ShieldCheck/></header>
-    <div className="cbsr-route-tabs">{routeOptions.map(([id, label, Icon]) => <button type="button" key={id} className={route === id ? 'active' : ''} onClick={() => { setRoute(id); setReason(''); setPartyId('') }}><Icon/><span>{label}</span></button>)}</div>
+    <div className="cbsr-route-tabs">{routeOptions.map(([id, label, Icon]) => <button type="button" key={id} className={route === id ? 'active' : ''} onClick={() => { setRoute(id); setReason(''); setPartyId(''); setBeTarget(emptyBeTarget) }}><Icon/><span>{label}</span></button>)}</div>
     {route === 'HOLD' ? <div className="cbsr-route-form"><div className="cbsr-route-note"><Clock3/><span><strong>{row.status === 'ON_HOLD' ? 'Lepas HOLD ke status hasil reducer' : 'HOLD membekukan keputusan'}</strong><small>Qty tidak menjadi FG, Scrap, atau rework. Semua transisi masuk histori append-only.</small></span></div><div className="cbsr-form-grid compact"><label><span>WAKTU FISIK · WIB</span><input type="datetime-local" value={physicalAt} onChange={(event) => setPhysicalAt(event.target.value)}/></label><label className="wide"><span>ALASAN · WAJIB</span><textarea value={reason} onChange={(event) => setReason(event.target.value)}/></label></div><button className="cbsr-submit" disabled={!canPost || row.is_closed || (row.status === 'ON_HOLD' ? false : !canStart) || !validTime(physicalAt) || reason.trim().length < 4} onClick={() => void onAction(row.status === 'ON_HOLD' ? 'RELEASE_HOLD' : 'HOLD_BS', { bs_case_id: row.id, physical_at: toIso(physicalAt), change_reason: reason.trim() }, row.row_version)}><Clock3/> {row.status === 'ON_HOLD' ? 'Release HOLD' : 'Simpan HOLD'}</button></div> : null}
     {(route === 'REWORK' || route === 'REWASH') ? <div className="cbsr-route-form"><div className="cbsr-form-grid compact">
       <label><span>NOMOR ORDER · WAJIB</span><input value={number} onChange={(event) => setNumber(event.target.value)} placeholder={route === 'REWORK' ? `RW-${row.number}` : `RWL-${row.number}`}/></label>
@@ -295,7 +301,8 @@ function BsActionPanel({ row, workspace, canCreate, canPost, canReverse, ownerAd
       <label className="wide"><span>CATATAN / ALASAN</span><textarea value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Kerusakan dan instruksi fisik"/></label>
     </div>{route === 'REWORK' ? <fieldset className="cbsr-checks"><legend>KOMPONEN KERJA YANG DIULANG · DASAR UPAH REWORK</legend><p>Server hanya mencentang komponen yang masih punya entitlement kerja baru. Counter, bukan status pembayaran kas, menjadi batas anti-bayar-ganda.</p>{row.components.map((item) => <label key={item.id}><input type="checkbox" checked={componentIds.includes(item.id)} onChange={(event) => setComponentIds((current) => event.target.checked ? [...current, item.id] : current.filter((id) => id !== item.id))}/><span><strong>{item.code}</strong>{item.name} · sisa hak baru {item.remaining_new_work_qty_pcs} pcs</span></label>)}</fieldset> : <p className="cbsr-zero-fee"><Waves/> Vendor Rewash tidak mendapat fee kerja komponen. Reimbursement aksesori terpilih tetap menuju Mandor PO.</p>}
     {accessoryBom?.state === 'AVAILABLE' ? <fieldset className="cbsr-checks cbsr-accessories"><legend>AKSESORI YANG BENAR-BENAR DIPASANG · DASAR REIMBURSEMENT</legend><p>Server otomatis mencentang baseline yang belum menjadi entitlement. Yang pernah menjadi entitlement atau tidak bisa dibuktikan akan off; centang manual hanya bila benar-benar ada penggantian tambahan. Pilihan final terkunci saat order dibuat.</p>{accessoryBom.items.map((item) => <label key={item.id}><input type="checkbox" checked={accessoryIds.includes(item.id)} onChange={(event) => setAccessoryIds((current) => event.target.checked ? [...current, item.id] : current.filter((id) => id !== item.id))}/><span><strong>{item.code} · {item.name}</strong>{item.qty_per_good_fg_base} {item.base_uom_code}/pcs · {money(item.reimbursement_rate)}/{item.reimbursement_uom_code} · {item.default_selected ? `${item.remaining_unentitled_good_qty_pcs} pcs baseline belum entitlement` : 'default off · manual bila penggantian nyata'}</span></label>)}</fieldset> : accessoryBom?.state === 'NONE' ? <p className="cbsr-zero-fee"><Check/> BOM produk menyatakan tanpa aksesori. Keputusan kosong tetap disimpan secara immutable.</p> : <p className={nativeBomMissing ? 'cbsr-bom-warning' : 'cbsr-zero-fee'}><AlertTriangle/> {nativeBomMissing ? 'BOM aksesori produk belum tersedia. Setup BOM—termasuk BOM kosong—sebelum membuat order.' : 'Kasus legacy ini tidak punya PO/SKU; pilihan aksesori kosong akan dicatat sebagai UNAVAILABLE dan hasil GOOD tetap tidak dapat diposting.'}</p>}
-    <button className="cbsr-submit" disabled={!canCreate || !canStart || nativeBomMissing || !number.trim() || !partyId || !validSendQty || !validTime(physicalAt) || reason.trim().length < 4 || route === 'REWORK' && componentIds.length === 0} onClick={() => void onAction('SAVE_REWORK', {
+    <BeReworkTargetFields source={row.product_id} laundry={route === 'REWASH'} locked={!canCreate} value={beTarget} onChange={setBeTarget}/>
+    <button className="cbsr-submit" disabled={(beTarget.enabled && !beTarget.ready) || !canCreate || !canStart || nativeBomMissing || !number.trim() || !partyId || !validSendQty || !validTime(physicalAt) || reason.trim().length < 4 || route === 'REWORK' && componentIds.length === 0} onClick={() => { const order: Record<string, Json> = {
       rework_number: number.trim(),
       bs_case_id: row.id, destination_type: route === 'REWORK' ? 'CONTRACTOR' : 'LAUNDRY',
       contractor_id: route === 'REWORK' ? partyId : null, vendor_id: route === 'REWASH' ? partyId : null,
@@ -304,7 +311,9 @@ function BsActionPanel({ row, workspace, canCreate, canPost, canReverse, ownerAd
       accessory_bom_version_id: accessoryBom?.bom_version_id ?? null,
       accessory_bom_item_ids: accessoryIds,
       components: route === 'REWORK' ? componentIds.map((bs_case_component_id) => ({ bs_case_component_id, qty_performed: sendQty, notes: reason.trim() })) : [],
-    }, null)}><Wrench/> Buat order {route === 'REWORK' ? 'rework' : 'rewash'}</button></div> : null}
+    }; void onAction(beTarget.enabled ? (route === 'REWASH' ? 'SAVE_REDYE_SKU' : 'SAVE_REWORK_SKU') : 'SAVE_REWORK',
+      beTarget.enabled ? { order, target_product_id: beTarget.target, reason: reason.trim(), ...(route === 'REWASH' ? { wash_process_id: beTarget.process, price_status: beTarget.priceStatus } : {}) } : order, null)
+    }}><Wrench/> Buat order {beTarget.enabled && route === 'REWASH' ? 'celup ulang' : route === 'REWORK' ? 'rework' : 'rewash'}</button></div> : null}
     {(route === 'DISPOSITION' || route === 'COMPENSATION') ? <div className="cbsr-route-form"><div className="cbsr-form-grid compact">
       {route === 'DISPOSITION' ? <label><span>DISPOSITION</span><select value={resolutionType} onChange={(event) => setResolutionType(event.target.value)}><option>SCRAP</option><option>WRITE_OFF</option><option>OTHER</option></select></label> : <label><span>CLAIM SETTLED · SALDO TERSEDIA</span><select value={claimId} onChange={(event) => { setClaimId(event.target.value); setQuantity(''); setCompensation('0') }}><option value="">Pilih claim…</option>{settledClaims.map((item) => <option value={item.id} key={item.id}>{item.number} · {item.vendor_name} · {item.available_qty} pcs / {money(item.available_amount)}</option>)}</select>{settledClaims.length === 0 ? <small className="cbsr-field-warning">Klasifikasikan vendor penanggung jawab dan settle claim bernilai positif yang masih bersaldo.</small> : null}</label>}
       <label><span>QTY{selectedClaim ? ` · MAKS ${Math.min(row.available_qty, selectedClaim.available_qty)}` : ''}</span><input inputMode="numeric" aria-invalid={parseQuantityInput(quantity) === null} value={quantity} onChange={(event) => setQuantity(event.target.value)}/></label>
@@ -416,7 +425,9 @@ export default function ConnectedBsResolutionPage() {
     void load()
     return () => { loadRequestRef.current += 1 }
   }, [mutation.scope]) // eslint-disable-line react-hooks/exhaustive-deps
-  const sendExact = useCallback((envelope: ProductionEnvelope) => client.rpc('erp_save_bs_resolution_action_v1', {
+  const sendExact = useCallback((envelope: ProductionEnvelope) => envelope.action === 'SAVE_REWORK_SKU' || envelope.action === 'SAVE_REDYE_SKU'
+    ? client.rpc('erp_save_product_conversion_action_v1', { p_action: envelope.action === 'SAVE_REDYE_SKU' ? 'SAVE_REDYE' : 'SAVE_REWORK', p_payload: envelope.payload, p_client_request_id: envelope.id })
+    : client.rpc('erp_save_bs_resolution_action_v1', {
     p_action: envelope.action, p_payload: envelope.payload, p_client_request_id: envelope.id,
     p_expected_version: envelope.expectedVersion,
   }), [client])

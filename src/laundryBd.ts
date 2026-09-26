@@ -11,7 +11,7 @@ export const LAU_POLICY_LABEL: Record<LauPolicyKey, string> = {
   'LAU-DEC05': 'Tarif khusus model / ukuran / warna', 'LAU-DEC06': 'Selisih invoice dan koreksi sesudah bayar' }
 export const BD_ACTIONS = ['SET_POLICY', 'SAVE_VENDOR_TERMS', 'SAVE_COMPONENT', 'SAVE_COMPONENT_RATE', 'SAVE_PACKAGE', 'SAVE_PACKAGE_RATE',
   'SAVE_PROCESS_RATE', 'SAVE_SCOPED_RATE', 'POST_PRICED_DELIVERY', 'SET_CHARGE_PRICE', 'SAVE_INVOICE_DRAFT', 'CANCEL_INVOICE_DRAFT', 'POST_INVOICE',
-  'REVERSE_INVOICE', 'SET_OPENING_ESTIMATE', 'APPLY_CLAIM_CREDIT', 'PAY_VENDOR_DOCUMENT', 'REVERSE_VENDOR_SETTLEMENT'] as const
+  'REVERSE_INVOICE', 'SET_REDYE_PRICE', 'SET_OPENING_ESTIMATE', 'APPLY_CLAIM_CREDIT', 'PAY_VENDOR_DOCUMENT', 'REVERSE_VENDOR_SETTLEMENT'] as const
 export type BdAction = typeof BD_ACTIONS[number]
 export const CATEGORY_LABEL = { GOOD: 'Hasil baik', BS: 'BS laundry', FAILED_ATTEMPT: 'Cuci gagal' } as const
 export type Category = keyof typeof CATEGORY_LABEL
@@ -32,7 +32,7 @@ export type BdCharge = { id: string; line_no: number; kind: ChargeKind; label: s
   unit_rate: string | null; amount: string | null }
 export type BdPricedDelivery = { delivery_line_id: string; delivery_id: string; delivery_number: string; status: string; physical_local: string;
   mode: string; unit: string; qty_sent: number; total_known: string | null; total_complete: boolean; charges: BdCharge[] }
-export type BdInvoiceLine = { id: string; line_no: number; line_kind: 'BILL' | 'CORRECTION'; receipt_line_id: string | null; opening_uninvoiced_id: string | null;
+export type BdInvoiceLine = { id: string; line_no: number; line_kind: 'BILL' | 'CORRECTION'; receipt_line_id: string | null; opening_uninvoiced_id: string | null; rework_service_id: string | null;
   category: Category; qty: number; amount: string; net_amount: string | null; released_estimate: string | null; variance: string | null
   product_variance: string | null; completes_source: boolean }
 export type BdInvoice = { invoice_id: string; vendor_id: string; vendor_code: string; invoice_number: string; invoice_date: string; due_date: string | null
@@ -59,11 +59,12 @@ export type BdPendingSale = { id: string; sale_id: string; sale_number: string; 
 /** D12: the payment screen of one vendor; the ledger check is AP on the ledger = remaining of the documents - credit not yet used. */
 export type BdPayables = { documents: BdPayableDocument[]; credits: BdClaimCredit[]; cash_accounts: { id: string; code: string; name: string }[]
   ledger: { ap_balance: string; documents_remaining: string; credit_available: string; matches: boolean } }
+export type BdRedye = { id: string; number: string; vendor_id: string; po_number: string; status: string; qty: number; good: number; bs: number; billed_good: number; billed_bs: number; process: string; price_known: boolean; rate: string | null; cost: string | null }
 export type LaundryBdWorkspace = { money_visible: boolean; can_manage_master: boolean; can_set_price: boolean; is_owner: boolean
   policies: BdPolicy[]; vendors: BdVendor[]; processes: { id: string; code: string; name: string }[]; components: BdComponent[]; packages: BdPackage[]
   process_rates: BdProcessRate[]; scoped_rates: BdScopedRate[]; priced_deliveries: BdPricedDelivery[]; opening_uninvoiced: BdOpening[]
   invoices: BdInvoice[] | null; billable_receipts: BdBillable[] | null; accounts: { id: string; code: string; name: string; type: 'ASSET' | 'EXPENSE' }[] | null
-  payables: BdPayables | null; pending_cost: { goods: BdPendingGood[]; sales: BdPendingSale[] } }
+  redye_services?: BdRedye[]; payables: BdPayables | null; pending_cost: { goods: BdPendingGood[]; sales: BdPendingSale[] } }
 
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 function object(value: unknown, label: string): Record<string, unknown> {
@@ -178,9 +179,10 @@ export function parseLaundryBdWorkspace(value: unknown): LaundryBdWorkspace {
     rounding_amount: money(i.rounding_amount, 'Pembulatan'), row_version: version(i.row_version, 'Invoice'), variance_mode: nullableText(i.variance_mode, 'Perlakuan selisih'),
     paid: money(i.paid, 'Sudah dibayar'), ...correctionOf(i), lines: list(i.lines, 'Baris invoice').map((l): BdInvoiceLine => {
       const receipt_line_id = nullableId(l.receipt_line_id, 'Baris penerimaan'), opening_uninvoiced_id = nullableId(l.opening_uninvoiced_id, 'Penerimaan saldo awal')
-      if ((receipt_line_id === null) === (opening_uninvoiced_id === null)) throw new Error('Sumber baris invoice tidak valid.')
+      const rework_service_id = l.rework_service_id === undefined ? null : nullableId(l.rework_service_id, 'Jasa celup ulang')
+      if ([receipt_line_id, opening_uninvoiced_id, rework_service_id].filter(x => x !== null).length !== 1) throw new Error('Sumber baris invoice tidak valid.')
       return { id: id(l.id, 'Baris invoice'), line_no: count(l.line_no, 'Nomor baris'), line_kind: oneOf(l.line_kind, ['BILL', 'CORRECTION'] as const, 'Jenis baris'),
-        receipt_line_id, opening_uninvoiced_id, category: oneOf(l.category, categories, 'Kategori'), qty: count(l.qty, 'Qty baris'), amount: money(l.amount, 'Nominal baris'),
+        receipt_line_id, opening_uninvoiced_id, rework_service_id, category: oneOf(l.category, categories, 'Kategori'), qty: count(l.qty, 'Qty baris'), amount: money(l.amount, 'Nominal baris'),
         net_amount: nullableMoney(l.net_amount, 'Nominal bersih'), released_estimate: nullableMoney(l.released_estimate, 'Estimasi dilepas'),
         variance: nullableMoney(l.variance, 'Selisih'), product_variance: nullableMoney(l.product_variance, 'Selisih ke biaya produk'),
         completes_source: bool(l.completes_source, 'Melunasi sumber') }
@@ -209,7 +211,10 @@ export function parseLaundryBdWorkspace(value: unknown): LaundryBdWorkspace {
       unit_hpp_at_sale: gated(x.unit_hpp_at_sale, money_visible, 'HPP saat dijual') })) }
   return { money_visible, can_manage_master: bool(r.can_manage_master, 'Hak master'), can_set_price: bool(r.can_set_price, 'Hak harga'), is_owner: bool(r.is_owner, 'Owner'),
     policies, vendors, processes, components, packages, process_rates, scoped_rates, priced_deliveries, opening_uninvoiced, invoices, billable_receipts, accounts, payables,
-    pending_cost }
+    pending_cost, redye_services: r.redye_services === undefined ? [] : list(r.redye_services, 'Jasa celup ulang').map((x): BdRedye => ({
+      id: id(x.id, 'Jasa'), number: text(x.number, 'Order'), vendor_id: id(x.vendor_id, 'Vendor'), po_number: text(x.po_number, 'PO'), status: text(x.status, 'Status'),
+      qty: count(x.qty, 'Dikirim'), good: count(x.good, 'Good'), bs: count(x.bs, 'BS'), billed_good: count(x.billed_good, 'Ditagih Good'), billed_bs: count(x.billed_bs, 'Ditagih BS'),
+      process: text(x.process, 'Proses'), price_known: bool(x.price_known, 'Harga diketahui'), rate: gated(x.rate, money_visible, 'Tarif celup'), cost: gated(x.cost, money_visible, 'Biaya celup') })) }
 }
 
 /** A correction document names the invoice it corrects; an invoice names none. */
