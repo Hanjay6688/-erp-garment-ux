@@ -2,6 +2,7 @@
 -- Native product_conversions, allocations, movements and HPP versions remain the facts.
 create table erp.be_execution_context_v1(
   backend_pid integer not null, transaction_id bigint not null, request_id uuid not null,
+  syncing_nonpo boolean not null default false,
   primary key(backend_pid,transaction_id)
 );
 create table erp.be_conversion_sources_v1(
@@ -45,7 +46,7 @@ CREATE OR REPLACE FUNCTION erp.be_source_revision_v1(p_lot uuid,p_location uuid)
 AS $function$
  select md5(jsonb_build_object('lot',p_lot,'location',p_location,
    'hpp',(select hv.id from erp.hpp_versions hv where hv.lot_id=p_lot and hv.is_current),
-   'movements',coalesce((select jsonb_agg(jsonb_build_array(m.id,m.qty_signed,m.physical_at) order by m.id)
+   'movements',coalesce((select jsonb_agg(jsonb_build_array(m.id,m.qty_signed,extract(epoch from m.physical_at)) order by m.id)
       from erp.fg_stock_movements m where m.lot_id=p_lot and m.location_id=p_location),'[]'::jsonb))::text)
 $function$;
 

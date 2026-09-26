@@ -17,26 +17,39 @@ OUT=ROOT/'supabase/dev/cp6_be_t1_family.sql'
 VERSION='v2.6.20be'
 REPLACED=['erp.post_product_conversion(uuid)','erp.propagate_conversion_hpp_for_po(uuid)',
           'erp.compute_po_hpp_gl_targets_v2620d(uuid)','erp.bc_value_custody_v1(jsonb,uuid)',
-          'erp.bc_reverse_v1(jsonb,uuid)','erp.sync_material_cost_revaluation(uuid)','erp.run_v268_financial_report_checks()']
+          'erp.bc_reverse_v1(jsonb,uuid)','erp.sync_material_cost_revaluation(uuid)','erp.run_v268_financial_report_checks()',
+          'erp.reverse_product_conversion(uuid,text)','erp.compute_non_po_product_hpp_targets_v2620f(uuid)',
+          'erp.compute_non_po_product_hpp_book_v2620f(uuid)','erp.assert_non_po_product_hpp_target_book_v2620f(uuid)',
+          'erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)']
 NEW_TABLES=['be_execution_context_v1','be_conversion_sources_v1','be_conversion_returns_v1',
-            'be_conversion_cost_sources_v1','be_conversion_cost_events_v1']
-OBJECTS=[ROOT/f'scripts/cp6_be_objects_{part}.sql' for part in ('conversion','cost')]
+            'be_conversion_cost_sources_v1','be_conversion_cost_events_v1','be_nonpo_transfer_events_v1']
+OBJECTS=[ROOT/f'scripts/cp6_be_objects_{part}.sql' for part in ('conversion','cost','nonpo')]
 
 def objects():return '\n'.join(p.read_text().rstrip() for p in OBJECTS)
 
 def new_functions():
-    return [m.group(1) for m in re.finditer(r'(?i)create or replace function ((?:erp|public)\.[a-z0-9_]+)\(',objects())]
+    return [m.group(1) for m in re.finditer(r'(?i)create or replace function ((?:erp|public)\.[a-z0-9_]+)\(',objects())]+['erp.be_propagate_nonpo_v1']
+
+def old_definition(path,name):
+    return last_definition(path,name,text=re.sub(r'(?i)create function erp\.', 'CREATE OR REPLACE FUNCTION erp.',path.read_text()))
+
+def replace_count(text,old,new,count,label):
+    assert text.count(old)==count,(label,old[:100],text.count(old))
+    return text.replace(old,new)
 
 def conversion():
     return substitute(last_definition(AC,'post_product_conversion'),[
       ("where fl.product_id=h.from_product_id and fl.po_id is null\n",
-       "where fl.product_id=h.from_product_id and fl.po_id is null\n"
+       "where fl.product_id=h.from_product_id and fl.po_id is null and not erp.be_nonpo_admitted_v1(h.id)\n"
        "      and (not exists(select 1 from erp.be_conversion_sources_v1 where conversion_id=h.id)\n"
        "        or fl.id=(select source_lot_id from erp.be_conversion_sources_v1 where conversion_id=h.id))\n"),
       ("where fl.product_id=h.from_product_id and fl.po_id is not null\n",
-       "where fl.product_id=h.from_product_id and fl.po_id is not null\n"
+       "where fl.product_id=h.from_product_id and (fl.po_id is not null or erp.be_nonpo_admitted_v1(h.id))\n"
        "      and (not exists(select 1 from erp.be_conversion_sources_v1 where conversion_id=h.id)\n"
-       "        or fl.id=(select source_lot_id from erp.be_conversion_sources_v1 where conversion_id=h.id))\n")
+       "        or fl.id=(select source_lot_id from erp.be_conversion_sources_v1 where conversion_id=h.id))\n"),
+      ('where a.conversion_id=h.id order by fl.po_id','where a.conversion_id=h.id and fl.po_id is not null order by fl.po_id'),
+      ('end\n$function$;',
+       "  if erp.be_nonpo_admitted_v1(h.id) then perform erp.be_nonpo_sync_all_v1(erp._cp3_business_date(h.physical_at),'PRODUCT_CONVERSION',h.id,'Konversi non-PO');end if;\nend\n$function$;")
     ],'BE exact source conversion')
 
 def build():
@@ -60,12 +73,53 @@ def build():
       ('end;\n$function$;','  perform erp.be_sync_material_cost_v1(p_material_id);\nend;\n$function$;')],'BE material recost hook')
     checks=substitute(last_definition(BD,'run_v268_financial_report_checks'),[
       ("    )::numeric source_cost\n", "      +erp.be_po_extra_v1(s.po_id)\n    )::numeric source_cost\n"),
-      ('+a.conversion_cost_allocated/nullif(a.qty_pcs,0)', '+erp.be_allocation_extra_v1(a.id)/nullif(a.qty_pcs,0)')],'BE source and lineage detectors')
+      ('+a.conversion_cost_allocated/nullif(a.qty_pcs,0)', '+erp.be_allocation_extra_v1(a.id)/nullif(a.qty_pcs,0)'),
+      ('where s.po_id is null or d.id is null or d.po_id is distinct from s.po_id',
+       'where (s.po_id is null and not erp.be_nonpo_admitted_v1(c.id)) or d.id is null or d.po_id is distinct from s.po_id'),
+      ('Every posted conversion must be PO-sourced, value-preserving, rooted, and represented by exact OUT/IN facts with current descendant HPP',
+       'Every posted conversion has an admitted source, exact OUT/IN facts, rooted lineage and current HPP equal to source plus linked cost less recovery')],'BE source and lineage detectors')
+    nonpo_propagate=substitute(propagate,[('erp.propagate_conversion_hpp_for_po(p_po_id uuid)','erp.be_propagate_nonpo_v1()'),
+      ("or s.po_id is null or d.po_id is distinct from s.po_id","or not erp.be_nonpo_admitted_v1(c.id) or d.po_id is distinct from s.po_id"),
+      ("raise exception 'CONVERSION_LINEAGE_ORPHAN_OR_CYCLE: PO % conversion graph is not rooted and acyclic',p_po_id;",
+       "raise exception 'BE_NON_PO_LINEAGE_ORPHAN_OR_CYCLE';")],'BE non-PO propagation')
+    nonpo_propagate=replace_count(nonpo_propagate,'po_id=p_po_id','po_id is null',4,'BE non-PO roots')
+    nonpo_propagate=replace_count(nonpo_propagate,"lot_origin='PRODUCTION'","lot_origin not in('CONVERSION','VOIDED_PRODUCTION')",2,'BE opening/return roots')
+    nonpo_propagate=replace_count(nonpo_propagate,"lot_origin in('PRODUCTION','CONVERSION')","lot_origin<>'VOIDED_PRODUCTION'",1,'BE lock all non-PO')
+    nonpo_target=substitute(old_definition(F,'compute_non_po_product_hpp_targets_v2620f'),[
+      ('coalesce(hv.total_cost,0)::numeric raw_total,',
+       "(case when fl.lot_origin<>'CONVERSION' or exists(select 1 from erp.product_conversion_allocations a join erp.product_conversions c on c.id=a.conversion_id\n"
+       "       where a.destination_lot_id=fl.id and c.status='POSTED') then coalesce(hv.total_cost,0) else 0 end\n"
+       "     -coalesce((select sum(a.qty_pcs*(hv.total_cost/nullif(hv.qty_basis_pcs,0))) from erp.product_conversion_allocations a\n"
+       "       join erp.product_conversions c on c.id=a.conversion_id where a.source_lot_id=fl.id and c.status='POSTED'),0))::numeric raw_total,"),
+      ("and fl.lot_origin not in('CONVERSION','VOIDED_PRODUCTION')","and fl.lot_origin<>'VOIDED_PRODUCTION'")],'BE non-PO source target')
+    nonpo_book=substitute(old_definition(F,'compute_non_po_product_hpp_book_v2620f'),[
+      ("    and e.source_type<>'PRODUCT_CONVERSION'\n    and not(e.source_type='JOURNAL_REVERSAL'\n      and o.source_type='PRODUCT_CONVERSION')",'')],'BE include real SKU value transfers')
+    guards=[]
+    for name in ('assert_non_po_product_hpp_target_book_v2620f','sync_non_po_product_hpp_to_gl_v2620f'):
+      body=substitute(old_definition(F,name),[
+        ('where(s.po_id is null or d.po_id is null)',
+         'where(s.po_id is null or d.po_id is null) and not erp.be_nonpo_admitted_v1(c.id)')],'BE non-PO admission '+name)
+      if name.startswith('sync_'):
+        body=substitute(body,[("  if exists(\n",
+          "  if not erp.be_nonpo_in_sync_v1() and exists(select 1 from erp.be_conversion_sources_v1 b\n"
+          "      join erp.fg_lots l on l.id=b.source_lot_id where l.po_id is null) then\n"
+          "    perform erp.be_nonpo_sync_all_v1(p_effective_date,p_trigger_source_type,p_trigger_source_id,p_reason);return;\n"
+          "  end if;\n  if exists(\n")],'BE atomic non-PO graph sync')
+      guards.append(body)
+    inverse=substitute(last_definition(AC,'reverse_product_conversion'),[
+      ("  if v_journal is not null then perform erp.reverse_journal(v_journal,p_reason); end if;",
+       "  for r in select e.journal_id from erp.be_nonpo_transfer_events_v1 e join erp.journal_entries j on j.id=e.journal_id\n"
+       "    where e.conversion_id=h.id and j.status='POSTED' order by e.created_at desc,e.id desc loop\n"
+       "    perform erp.reverse_journal(r.journal_id,p_reason);\n  end loop;\n"
+       "  if v_journal is not null then perform erp.reverse_journal(v_journal,p_reason); end if;"),
+      ("  insert into erp.audit_logs(entity_type,entity_id,action,changed_by,change_reason)",
+       "  if erp.be_nonpo_admitted_v1(h.id) then perform erp.be_nonpo_sync_all_v1(erp._cp3_business_date(current_timestamp),'PRODUCT_CONVERSION_REVERSE',h.id,p_reason);end if;\n"
+       "  insert into erp.audit_logs(entity_type,entity_id,action,changed_by,change_reason)")],'BE non-PO inverse')
     grants=r"""do $grants$
 declare t text;f text;
 begin
  foreach t in array array['be_execution_context_v1','be_conversion_sources_v1','be_conversion_returns_v1',
-   'be_conversion_cost_sources_v1','be_conversion_cost_events_v1'] loop
+   'be_conversion_cost_sources_v1','be_conversion_cost_events_v1','be_nonpo_transfer_events_v1'] loop
    execute format('alter table erp.%I enable row level security',t);
    execute format('revoke all on erp.%I from public,anon,authenticated,service_role',t);
  end loop;
@@ -85,7 +139,7 @@ grant execute on function public.erp_get_product_conversion_workspace_v1(jsonb) 
       "begin;set local search_path='';set local lock_timeout='10s';set local statement_timeout='240s';",
       "do $guard$ begin if not exists(select 1 from erp.schema_migrations where version='v2.6.20bd') then raise exception 'BE_REQUIRES_BD';end if;",
       "if exists(select 1 from erp.schema_migrations where version='v2.6.20be') then raise exception 'BE_ALREADY_INSTALLED';end if;end $guard$;",
-      objects(),conversion(),propagate,target,recover,reverse,recost,checks,grants,
+      objects(),conversion(),propagate,target,recover,reverse,recost,checks,nonpo_propagate,nonpo_target,nonpo_book,*guards,inverse,grants,
       "insert into erp.schema_migrations(version,description) values('v2.6.20be','BE development family: SKU conversion, rework/redye and pocket cutover');",
       'commit;',''])
 

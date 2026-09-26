@@ -70,3 +70,10 @@ Baca berkas rujukan dan sumber BD/konversi/rework/kain kantong; ambil log run/jo
 - Tahap berikut menambahkan sumber biaya BC aktual dan recovery tertaut: jurnal reklasifikasi sumber, fakta perubahan nilai append-only, HPP turunan, hook invoice/recost material dan reversal BC. Detektor sumber biaya dan lineage ikut menghitung sumber BE, tanpa mengecualikan kasus dari detector.
 - Ditambah kasus pemakaian enam aksesori @2,00: stok turun 6 sekali, HPP tujuan +12,00, beban tidak rangkap; sumber harus dibalik sebelum konversi, lalu nilai/qty kembali. Expected dikunci sebelum run; belum punya hasil.
 - Validasi lokal hanya parser SQL/PLpgSQL (26 fungsi) dan Python compile; PostgreSQL lokal tidak tersedia pada lingkungan ini. Bukti native tetap CI. BE masih NOT_READY; non-PO, rework/redye, ALL-C04, UI dan gate akhir belum selesai.
+
+## Hasil BE-2 dan perbaikan berikutnya
+- Commit `bdccc2b200e382da56158ebb8eac0373cf4435ab`; run `36265435090`: before job `108469087334` success; after job `108469087464` INCOMPLETE. Ketiga kasus sudah masuk runtime BE: roundtrip INCOMPLETE, refusal FAIL, biaya INCOMPLETE. Penyebab yang sama: expected revision berbeda antara sesi WIB dan wrapper UTC.
+- Cacat writer BE ditemukan: hash source_revision menserialisasi timestamptz menurut zona sesi. Diperbaiki menjadi epoch; guard STALE_VERSION tetap. Hasil lama tidak diubah.
+- Tahap selanjutnya menambahkan konversi non-PO/opening: admission eksplisit pada sumber BE, HPP turunan berakar, transfer nilai antar-SKU dan pembukuannya, recost/inverse tertaut. Jalur non-PO tanpa sumber BE tetap ditolak. Probe tambahan 10 PCS @10,01, konversi 6: sumber 40,04, tujuan 60,06, inverse kembali 100,10.
+- Run fase baru akan menguji empat kasus; parser SQL/PLpgSQL lokal lulus (35 fungsi). Masih belum merupakan family lengkap.
+- Job terpicu pada `7b0ca8c`: BD T1 before/after `108467891098`/`108467890999`; BA `108467891108`/`108467891360`; BB `108467891021`/`108467891228`; T3 browser/capture/install `108467890938`/`108467891109`/`108467891182`; runtime BD/selftest `108467891016`/`108467891170`. Semua Actions success; log rinci hanya yang disebut telah dibaca di atas.

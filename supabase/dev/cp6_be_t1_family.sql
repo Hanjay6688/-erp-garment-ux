@@ -7,6 +7,7 @@ if exists(select 1 from erp.schema_migrations where version='v2.6.20be') then ra
 -- Native product_conversions, allocations, movements and HPP versions remain the facts.
 create table erp.be_execution_context_v1(
   backend_pid integer not null, transaction_id bigint not null, request_id uuid not null,
+  syncing_nonpo boolean not null default false,
   primary key(backend_pid,transaction_id)
 );
 create table erp.be_conversion_sources_v1(
@@ -50,7 +51,7 @@ CREATE OR REPLACE FUNCTION erp.be_source_revision_v1(p_lot uuid,p_location uuid)
 AS $function$
  select md5(jsonb_build_object('lot',p_lot,'location',p_location,
    'hpp',(select hv.id from erp.hpp_versions hv where hv.lot_id=p_lot and hv.is_current),
-   'movements',coalesce((select jsonb_agg(jsonb_build_array(m.id,m.qty_signed,m.physical_at) order by m.id)
+   'movements',coalesce((select jsonb_agg(jsonb_build_array(m.id,m.qty_signed,extract(epoch from m.physical_at)) order by m.id)
       from erp.fg_stock_movements m where m.lot_id=p_lot and m.location_id=p_location),'[]'::jsonb))::text)
 $function$;
 
@@ -266,7 +267,6 @@ begin
  select * into c from erp.product_conversions where id=s.conversion_id for update;
  select * into l from erp.fg_lots where id=(select source_lot_id from erp.be_conversion_sources_v1 where conversion_id=c.id);
  if c.status<>'POSTED' then raise exception 'BE_COST_SOURCE_NOT_POSTED';end if;
- if l.po_id is null then raise exception 'BE_NON_PO_COST_NOT_READY';end if;
  v_own:=not erp.be_in_context_v1();
  if v_own then insert into erp.be_execution_context_v1 values(pg_backend_pid(),txid_current(),gen_random_uuid());end if;
  for r in select p.adjustment_id,p.account_id,d.status from erp.bc_adjustment_purposes_v1 p
@@ -278,15 +278,20 @@ begin
    if v_delta<>0 then
      v_event:=gen_random_uuid();
      v_journal:=erp.post_journal('BE_CONVERSION_SOURCED_COST',v_event,p_date,'Biaya/pemulihan konversi dari dokumen '||p_document::text,
-       jsonb_build_array(jsonb_build_object('mapping_key','WIP','po_id',l.po_id,'debit',greatest(v_delta,0),'credit',greatest(-v_delta,0)),
+       jsonb_build_array(jsonb_build_object('mapping_key',case when l.po_id is null then 'FG_INVENTORY' else 'WIP' end,
+         'po_id',l.po_id,'product_id',case when l.po_id is null then c.to_product_id end,'debit',greatest(v_delta,0),'credit',greatest(-v_delta,0)),
          jsonb_build_object('account_id',r.account_id,'debit',greatest(-v_delta,0),'credit',greatest(v_delta,0))));
      insert into erp.be_conversion_cost_events_v1(id,document_id,adjustment_id,previous_amount,target_amount,journal_id,economic_date,created_by)
      values(v_event,p_document,r.adjustment_id,v_before,v_target,v_journal,p_date,erp.current_app_user_id());
    end if;
  end loop;
- perform erp.propagate_conversion_hpp_for_po(l.po_id);
- perform erp.sync_po_hpp_to_gl(l.po_id,p_date);
- perform erp.assert_po_hpp_target_book_v2620e(l.po_id);
+ if l.po_id is null then
+   perform erp.be_nonpo_sync_all_v1(p_date,'BE_COST_SOURCE',p_document,'Biaya/pemulihan konversi non-PO');
+ else
+   perform erp.propagate_conversion_hpp_for_po(l.po_id);
+   perform erp.sync_po_hpp_to_gl(l.po_id,p_date);
+   perform erp.assert_po_hpp_target_book_v2620e(l.po_id);
+ end if;
  if v_own then delete from erp.be_execution_context_v1 where backend_pid=pg_backend_pid() and transaction_id=txid_current();end if;
 end;$function$;
 
@@ -341,6 +346,69 @@ begin
  return jsonb_build_object('conversion_id',c.id,'cost_document_id',v_doc,'status','POSTED','source',v_result,
    'expected_version',erp.be_conversion_revision_v1(c.id));
 end;$function$;
+-- Opening/non-PO conversion has an explicit value source. Current value moves
+-- between SKU dimensions; only disposal/sales become expense. Historical sale
+-- snapshots and allocation.original_hpp_per_pcs remain immutable.
+create table erp.be_nonpo_transfer_events_v1(
+ id uuid primary key default gen_random_uuid(),conversion_id uuid not null references erp.product_conversions(id),
+ previous_value numeric(20,2) not null,target_value numeric(20,2) not null,
+ journal_id uuid not null references erp.journal_entries(id),economic_date date not null,
+ created_at timestamptz not null default statement_timestamp()
+);
+create trigger be_nonpo_transfer_events_fact before insert or update or delete on erp.be_nonpo_transfer_events_v1
+ for each row execute function erp.be_guard_fact_v1();
+
+CREATE OR REPLACE FUNCTION erp.be_nonpo_admitted_v1(p_conversion uuid)
+ RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+ select exists(select 1 from erp.be_conversion_sources_v1 b join erp.product_conversions c on c.id=b.conversion_id
+  join erp.fg_lots l on l.id=b.source_lot_id join erp.v_current_hpp h on h.lot_id=l.id
+  where b.conversion_id=p_conversion and l.po_id is null and l.product_id=c.from_product_id
+   and l.lot_origin<>'VOIDED_PRODUCTION' and h.hpp_per_pcs>=0)
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.be_nonpo_in_sync_v1()
+ RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+ select coalesce((select syncing_nonpo from erp.be_execution_context_v1
+   where backend_pid=pg_backend_pid() and transaction_id=txid_current()),false)
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.be_nonpo_sync_all_v1(p_date date,p_source_type text,p_source_id uuid,p_reason text)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare r record;v_own boolean;v_old numeric;v_new numeric;v_delta numeric;v_journal uuid;v_event uuid;v_product uuid;
+begin
+ perform erp.require_internal();
+ perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
+ if erp.be_nonpo_in_sync_v1() then raise exception 'BE_NON_PO_RECURSION';end if;
+ v_own:=not erp.be_in_context_v1();
+ if v_own then insert into erp.be_execution_context_v1(backend_pid,transaction_id,request_id) values(pg_backend_pid(),txid_current(),gen_random_uuid());end if;
+ update erp.be_execution_context_v1 set syncing_nonpo=true where backend_pid=pg_backend_pid() and transaction_id=txid_current();
+ perform erp.be_propagate_nonpo_v1();
+ for r in select c.id,c.from_product_id,c.to_product_id,a.id allocation_id,a.qty_pcs,a.original_hpp_per_pcs,
+    h.hpp_per_pcs from erp.product_conversions c join erp.product_conversion_allocations a on a.conversion_id=c.id
+    join erp.fg_lots l on l.id=a.source_lot_id join erp.v_current_hpp h on h.lot_id=l.id
+    where l.po_id is null and c.status='POSTED' order by c.physical_at,c.id loop
+   if not erp.be_nonpo_admitted_v1(r.id) then raise exception 'NON_PO_CONVERSION_REQUIRES_SOURCED_HPP_WORKFLOW';end if;
+   select round(r.qty_pcs*r.original_hpp_per_pcs,2)+coalesce(sum(target_value-previous_value),0) into v_old
+     from erp.be_nonpo_transfer_events_v1 where conversion_id=r.id;
+   v_new:=round(r.qty_pcs*r.hpp_per_pcs,2);v_delta:=v_new-v_old;
+   if v_delta<>0 then
+     v_event:=gen_random_uuid();
+     v_journal:=erp.post_journal('BE_NONPO_CONVERSION_RECOST',v_event,p_date,'Nilai sumber terkini konversi '||r.id::text,
+       jsonb_build_array(jsonb_build_object('mapping_key','FG_INVENTORY','product_id',r.to_product_id,'debit',greatest(v_delta,0),'credit',greatest(-v_delta,0)),
+         jsonb_build_object('mapping_key','FG_INVENTORY','product_id',r.from_product_id,'debit',greatest(-v_delta,0),'credit',greatest(v_delta,0))));
+     insert into erp.be_nonpo_transfer_events_v1(id,conversion_id,previous_value,target_value,journal_id,economic_date)
+       values(v_event,r.id,v_old,v_new,v_journal,p_date);
+   end if;
+ end loop;
+ for v_product in select distinct product_id from erp.fg_lots where po_id is null order by product_id loop
+   perform erp.sync_non_po_product_hpp_to_gl_v2620f(v_product,p_date,p_source_type,p_source_id,p_reason);
+ end loop;
+ update erp.be_execution_context_v1 set syncing_nonpo=false where backend_pid=pg_backend_pid() and transaction_id=txid_current();
+ if v_own then delete from erp.be_execution_context_v1 where backend_pid=pg_backend_pid() and transaction_id=txid_current();end if;
+end;$function$;
 CREATE OR REPLACE FUNCTION erp.post_product_conversion(p_conversion_id uuid)
  RETURNS void
  LANGUAGE plpgsql
@@ -382,7 +450,7 @@ begin
     select 1
     from erp.fg_lots fl
     join erp.fg_stock_movements fm on fm.lot_id=fl.id
-    where fl.product_id=h.from_product_id and fl.po_id is null
+    where fl.product_id=h.from_product_id and fl.po_id is null and not erp.be_nonpo_admitted_v1(h.id)
       and (not exists(select 1 from erp.be_conversion_sources_v1 where conversion_id=h.id)
         or fl.id=(select source_lot_id from erp.be_conversion_sources_v1 where conversion_id=h.id))
       and fm.location_id=h.location_id and fm.quality_grade='GRADE_A'
@@ -416,7 +484,7 @@ begin
       sum(fm.qty_signed)::integer location_qty
     from erp.fg_lots fl
     join erp.fg_stock_movements fm on fm.lot_id=fl.id
-    where fl.product_id=h.from_product_id and fl.po_id is not null
+    where fl.product_id=h.from_product_id and (fl.po_id is not null or erp.be_nonpo_admitted_v1(h.id))
       and (not exists(select 1 from erp.be_conversion_sources_v1 where conversion_id=h.id)
         or fl.id=(select source_lot_id from erp.be_conversion_sources_v1 where conversion_id=h.id))
       and fm.location_id=h.location_id and fm.quality_grade='GRADE_A'
@@ -491,12 +559,13 @@ begin
     select distinct fl.po_id
     from erp.product_conversion_allocations a
     join erp.fg_lots fl on fl.id=a.source_lot_id
-    where a.conversion_id=h.id order by fl.po_id
+    where a.conversion_id=h.id and fl.po_id is not null order by fl.po_id
   loop
     perform erp.propagate_conversion_hpp_for_po(v_po);
     perform erp.refresh_po_hpp_gl_baseline(v_po);
     perform erp.assert_po_hpp_target_book_v2620e(v_po);
   end loop;
+  if erp.be_nonpo_admitted_v1(h.id) then perform erp.be_nonpo_sync_all_v1(erp._cp3_business_date(h.physical_at),'PRODUCT_CONVERSION',h.id,'Konversi non-PO');end if;
 end
 $function$;
 create or replace function erp.propagate_conversion_hpp_for_po(p_po_id uuid)
@@ -1840,14 +1909,14 @@ begin
 
   union all
   select 'V2620F_CONVERSION_VALUE_LINEAGE_MISMATCH','CRITICAL',count(*)::bigint,
-    'Every posted conversion must be PO-sourced, value-preserving, rooted, and represented by exact OUT/IN facts with current descendant HPP'
+    'Every posted conversion has an admitted source, exact OUT/IN facts, rooted lineage and current HPP equal to source plus linked cost less recovery'
   from erp.product_conversion_allocations a
   join erp.product_conversions c on c.id=a.conversion_id and c.status='POSTED'
   join erp.fg_lots s on s.id=a.source_lot_id
   left join erp.fg_lots d on d.id=a.destination_lot_id
   left join erp.v_current_hpp sh on sh.lot_id=s.id
   left join erp.v_current_hpp dh on dh.lot_id=d.id
-  where s.po_id is null or d.id is null or d.po_id is distinct from s.po_id
+  where (s.po_id is null and not erp.be_nonpo_admitted_v1(c.id)) or d.id is null or d.po_id is distinct from s.po_id
      or d.lot_origin<>'CONVERSION' or d.source_lot_id is distinct from s.id
      or d.initial_qty_pcs is distinct from a.qty_pcs or a.qty_pcs<=0
      or sh.hpp_per_pcs is null or dh.hpp_per_pcs is null
@@ -2111,11 +2180,409 @@ select count(*)::bigint from (
 ) ai_broken),'Posted work must retain the selected PO, contractor, component and committed rate snapshot'::text;
 end
 $function$;
+create or replace function erp.be_propagate_nonpo_v1()
+returns void
+language plpgsql
+security definer
+set search_path to 'erp','public'
+as $function$
+declare
+  r record;
+  v_source_hpp numeric(18,6);
+  v_desired numeric(18,6);
+  v_current numeric(18,6);
+  v_old_id uuid;
+  v_new_id uuid;
+  v_ver integer;
+begin
+  perform erp.require_internal();
+  perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
+  perform 1 from erp.fg_lots
+  where po_id is null and lot_origin<>'VOIDED_PRODUCTION'
+  order by id for update;
+
+  for r in
+    with recursive rooted(lot_id,depth,path) as(
+      select fl.id,0,array[fl.id]
+      from erp.fg_lots fl
+      where fl.po_id is null and fl.lot_origin not in('CONVERSION','VOIDED_PRODUCTION')
+      union all
+      select a.destination_lot_id,x.depth+1,x.path||a.destination_lot_id
+      from rooted x
+      join erp.product_conversion_allocations a on a.source_lot_id=x.lot_id
+      join erp.product_conversions c on c.id=a.conversion_id and c.status='POSTED'
+      where a.destination_lot_id is not null
+        and not a.destination_lot_id=any(x.path)
+        and x.depth<128
+    )
+    select a.*,x.depth source_depth
+    from rooted x
+    join erp.product_conversion_allocations a on a.source_lot_id=x.lot_id
+    join erp.product_conversions c on c.id=a.conversion_id and c.status='POSTED'
+    where a.destination_lot_id is not null
+    order by x.depth,a.id
+  loop
+    select hpp_per_pcs into v_source_hpp
+    from erp.v_current_hpp where lot_id=r.source_lot_id;
+    if v_source_hpp is null or r.qty_pcs<=0 then continue; end if;
+    v_desired:=v_source_hpp+(erp.be_allocation_extra_v1(r.id)/r.qty_pcs);
+    if v_desired<0 then raise exception 'BE_RECOVERY_EXCEEDS_VALUE: nilai pemulihan melebihi nilai sumber dan biaya sah';end if;
+    select hpp_version_id,hpp_per_pcs into v_old_id,v_current
+    from erp.v_current_hpp where lot_id=r.destination_lot_id;
+    if v_old_id is null or abs(coalesce(v_current,0)-v_desired)>0.000001 then
+      select coalesce(max(version_no),0)+1 into v_ver
+      from erp.hpp_versions where lot_id=r.destination_lot_id;
+      update erp.hpp_versions set is_current=false
+      where lot_id=r.destination_lot_id and is_current;
+      insert into erp.hpp_versions(
+        lot_id,version_no,cost_state,qty_basis_pcs,total_cost,is_current,
+        supersedes_id,calculation_reason,created_by
+      ) values(
+        r.destination_lot_id,v_ver,'ADJUSTED',r.qty_pcs,r.qty_pcs*v_desired,
+        true,v_old_id,'Root-to-leaf propagated source HPP through SKU conversion',
+        erp.current_app_user_id()
+      ) returning id into v_new_id;
+      insert into erp.hpp_version_components(
+        hpp_version_id,component_type,description,qty_basis,unit_cost,total_cost,
+        source_type,source_id
+      ) values
+        (v_new_id,'OTHER','Latest source lot HPP carry-forward',r.qty_pcs,
+          v_source_hpp,r.qty_pcs*v_source_hpp,'FG_LOT',r.source_lot_id),
+        (v_new_id,'CONVERSION','Conversion/relabel cost',r.qty_pcs,
+          erp.be_allocation_extra_v1(r.id)/r.qty_pcs,erp.be_allocation_extra_v1(r.id),
+          'PRODUCT_CONVERSION_ALLOCATION',r.id);
+    end if;
+  end loop;
+
+  if exists(
+    with recursive reachable(lot_id,path,depth) as(
+      select fl.id,array[fl.id],0
+      from erp.fg_lots fl
+      where fl.po_id is null and fl.lot_origin not in('CONVERSION','VOIDED_PRODUCTION')
+      union all
+      select a.destination_lot_id,x.path||a.destination_lot_id,x.depth+1
+      from reachable x
+      join erp.product_conversion_allocations a on a.source_lot_id=x.lot_id
+      join erp.product_conversions c on c.id=a.conversion_id and c.status='POSTED'
+      where a.destination_lot_id is not null
+        and not a.destination_lot_id=any(x.path) and x.depth<128
+    )
+    select 1
+    from erp.product_conversion_allocations a
+    join erp.product_conversions c on c.id=a.conversion_id and c.status='POSTED'
+    join erp.fg_lots s on s.id=a.source_lot_id and s.po_id is null
+    join erp.fg_lots d on d.id=a.destination_lot_id
+    where not exists(select 1 from reachable x where x.lot_id=a.destination_lot_id)
+       or not erp.be_nonpo_admitted_v1(c.id) or d.po_id is distinct from s.po_id
+       or d.lot_origin<>'CONVERSION' or d.source_lot_id is distinct from s.id
+       or a.qty_pcs<=0
+  ) then
+    raise exception 'BE_NON_PO_LINEAGE_ORPHAN_OR_CYCLE';
+  end if;
+end
+$function$;
+CREATE OR REPLACE FUNCTION erp.compute_non_po_product_hpp_targets_v2620f(p_product_id uuid)
+returns table(
+  hpp_total_cost numeric,fg_value numeric,cogs_value numeric,
+  other_out_value numeric
+)
+language sql
+stable
+security definer
+set search_path=''
+as $function$
+with lots as(
+  select fl.id,
+    (case when fl.lot_origin<>'CONVERSION' or exists(select 1 from erp.product_conversion_allocations a join erp.product_conversions c on c.id=a.conversion_id
+       where a.destination_lot_id=fl.id and c.status='POSTED') then coalesce(hv.total_cost,0) else 0 end
+     -coalesce((select sum(a.qty_pcs*(hv.total_cost/nullif(hv.qty_basis_pcs,0))) from erp.product_conversion_allocations a
+       join erp.product_conversions c on c.id=a.conversion_id where a.source_lot_id=fl.id and c.status='POSTED'),0))::numeric raw_total,
+    case when coalesce(hv.qty_basis_pcs,0)>0
+      then hv.total_cost/hv.qty_basis_pcs else 0 end::numeric hpp_per_pcs
+  from erp.fg_lots fl
+  left join erp.hpp_versions hv on hv.lot_id=fl.id and hv.is_current
+  where fl.product_id=p_product_id and fl.po_id is null
+    and fl.lot_origin<>'VOIDED_PRODUCTION'
+), balances as(
+  select l.id,l.raw_total,l.hpp_per_pcs,
+    (coalesce(sum(m.qty_signed),0)+coalesce(sum(abs(m.qty_signed)) filter(
+      where m.movement_type='SALE_RESERVE' and not exists(
+        select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=m.id
+      )),0))::numeric owned_qty
+  from lots l
+  left join erp.fg_stock_movements m on m.lot_id=l.id
+  group by l.id,l.raw_total,l.hpp_per_pcs
+), sold as(
+  select a.lot_id,coalesce(sum(a.qty_pcs),0)::numeric qty
+  from erp.sale_stock_allocations a
+  join erp.sales_items i on i.id=a.sale_item_id
+  join erp.sales_headers h on h.id=i.sale_id
+  join lots l on l.id=a.lot_id
+  where h.status in('POSTED','PARTIAL_PAID','PAID')
+  group by a.lot_id
+), returned as(
+  select i.lot_id,coalesce(sum(i.qty_pcs),0)::numeric qty
+  from erp.sales_return_items i
+  join erp.sales_returns h on h.id=i.return_id
+  join lots l on l.id=i.lot_id
+  where h.status='POSTED'
+  group by i.lot_id
+), per_lot as(
+  select b.id,round(b.raw_total,2)::numeric hpp,
+    round(b.raw_total-greatest(b.owned_qty,0)*b.hpp_per_pcs,2)::numeric total_out,
+    round(greatest(coalesce(s.qty,0)-coalesce(r.qty,0),0)
+      *b.hpp_per_pcs,2)::numeric cogs
+  from balances b
+  left join sold s on s.lot_id=b.id
+  left join returned r on r.lot_id=b.id
+)
+select coalesce(sum(hpp),0)::numeric,
+  coalesce(sum(hpp-total_out),0)::numeric,
+  coalesce(sum(cogs),0)::numeric,
+  coalesce(sum(total_out-cogs),0)::numeric
+from per_lot
+$function$;
+CREATE OR REPLACE FUNCTION erp.compute_non_po_product_hpp_book_v2620f(p_product_id uuid)
+returns table(
+  hpp_total_cost numeric,fg_value numeric,cogs_value numeric,
+  other_out_value numeric
+)
+language sql
+stable
+security definer
+set search_path=''
+as $function$
+with book as(
+  select
+    coalesce(sum(l.debit-l.credit) filter(
+      where l.account_id=erp.account_id('FG_INVENTORY')),0)::numeric fg,
+    coalesce(sum(l.debit-l.credit) filter(
+      where l.account_id=erp.account_id('COGS')),0)::numeric cogs,
+    coalesce(sum(l.debit-l.credit) filter(
+      where l.account_id in(
+        erp.account_id('OTHER_EXPENSE'),erp.account_id('OTHER_INCOME')
+      )),0)::numeric other_out
+  from erp.journal_lines l
+  join erp.journal_entries e on e.id=l.journal_entry_id
+    and e.status in('POSTED','REVERSED')
+  left join erp.journal_entries o on o.id=e.reversal_of_id
+  where l.po_id is null and l.product_id=p_product_id
+
+)
+select (fg+cogs+other_out)::numeric,fg,cogs,other_out from book
+$function$;
+CREATE OR REPLACE FUNCTION erp.assert_non_po_product_hpp_target_book_v2620f(
+  p_product_id uuid
+)
+returns void
+language plpgsql
+stable
+security definer
+set search_path to 'erp','public'
+as $function$
+declare
+  t record;
+  b record;
+begin
+  perform erp.require_internal();
+  if exists(
+    select 1
+    from erp.product_conversion_allocations a
+    join erp.product_conversions c on c.id=a.conversion_id and c.status='POSTED'
+    join erp.fg_lots s on s.id=a.source_lot_id
+    join erp.fg_lots d on d.id=a.destination_lot_id
+    where(s.po_id is null or d.po_id is null) and not erp.be_nonpo_admitted_v1(c.id)
+      and(s.product_id=p_product_id or d.product_id=p_product_id)
+  ) then
+    raise exception 'NON_PO_CONVERSION_REQUIRES_SOURCED_HPP_WORKFLOW';
+  end if;
+  select * into t
+  from erp.compute_non_po_product_hpp_targets_v2620f(p_product_id);
+  select * into b
+  from erp.compute_non_po_product_hpp_book_v2620f(p_product_id);
+  if abs(t.hpp_total_cost-b.hpp_total_cost)>0.005
+     or abs(t.fg_value-b.fg_value)>0.005
+     or abs(t.cogs_value-b.cogs_value)>0.005
+     or abs(t.other_out_value-b.other_out_value)>0.005 then
+    raise exception 'NON_PO_HPP_TARGET_BOOK_MISMATCH: product %, target hpp/fg/cogs/other %/%/%/%, book %/%/%/%',
+      p_product_id,t.hpp_total_cost,t.fg_value,t.cogs_value,t.other_out_value,
+      b.hpp_total_cost,b.fg_value,b.cogs_value,b.other_out_value;
+  end if;
+end
+$function$;
+CREATE OR REPLACE FUNCTION erp.sync_non_po_product_hpp_to_gl_v2620f(
+  p_product_id uuid,
+  p_effective_date date,
+  p_trigger_source_type text,
+  p_trigger_source_id uuid,
+  p_reason text
+)
+returns void
+language plpgsql
+security definer
+set search_path to 'erp','public'
+as $function$
+declare
+  t record;
+  b record;
+  v_df numeric(20,2);
+  v_dc numeric(20,2);
+  v_do numeric(20,2);
+  v_event uuid:=gen_random_uuid();
+  v_journal uuid;
+  v_lines jsonb:='[]'::jsonb;
+begin
+  perform erp.require_internal();
+  perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
+  if nullif(btrim(p_trigger_source_type),'') is null
+     or nullif(btrim(p_reason),'') is null then
+    raise exception 'Non-PO HPP synchronization requires source and reason';
+  end if;
+  if not erp.be_nonpo_in_sync_v1() and exists(select 1 from erp.be_conversion_sources_v1 b
+      join erp.fg_lots l on l.id=b.source_lot_id where l.po_id is null) then
+    perform erp.be_nonpo_sync_all_v1(p_effective_date,p_trigger_source_type,p_trigger_source_id,p_reason);return;
+  end if;
+  if exists(
+    select 1
+    from erp.product_conversion_allocations a
+    join erp.product_conversions c on c.id=a.conversion_id and c.status='POSTED'
+    join erp.fg_lots s on s.id=a.source_lot_id
+    join erp.fg_lots d on d.id=a.destination_lot_id
+    where(s.po_id is null or d.po_id is null) and not erp.be_nonpo_admitted_v1(c.id)
+      and(s.product_id=p_product_id or d.product_id=p_product_id)
+  ) then
+    raise exception 'NON_PO_CONVERSION_REQUIRES_SOURCED_HPP_WORKFLOW';
+  end if;
+
+  select * into t
+  from erp.compute_non_po_product_hpp_targets_v2620f(p_product_id);
+  select * into b
+  from erp.compute_non_po_product_hpp_book_v2620f(p_product_id);
+  if abs(t.hpp_total_cost-b.hpp_total_cost)>0.005 then
+    raise exception 'NON_PO_HPP_SOURCE_VALUE_MISMATCH: product %, target total %, book total %',
+      p_product_id,t.hpp_total_cost,b.hpp_total_cost;
+  end if;
+
+  v_df:=round(t.fg_value-b.fg_value,2);
+  v_dc:=round(t.cogs_value-b.cogs_value,2);
+  v_do:=round(t.other_out_value-b.other_out_value,2);
+  if abs(v_df+v_dc+v_do)>0.005 then
+    raise exception 'NON_PO_HPP_DELTA_NOT_CONSERVED: product %, fg %, cogs %, other %',
+      p_product_id,v_df,v_dc,v_do;
+  end if;
+  if abs(v_df)<=0.005 and abs(v_dc)<=0.005 and abs(v_do)<=0.005 then
+    return;
+  end if;
+
+  if abs(v_df)>0.005 then
+    v_lines:=v_lines||jsonb_build_array(case when v_df>0
+      then jsonb_build_object('mapping_key','FG_INVENTORY','debit',v_df,
+        'credit',0,'product_id',p_product_id)
+      else jsonb_build_object('mapping_key','FG_INVENTORY','debit',0,
+        'credit',abs(v_df),'product_id',p_product_id) end);
+  end if;
+  if abs(v_dc)>0.005 then
+    v_lines:=v_lines||jsonb_build_array(case when v_dc>0
+      then jsonb_build_object('mapping_key','COGS','debit',v_dc,
+        'credit',0,'product_id',p_product_id)
+      else jsonb_build_object('mapping_key','COGS','debit',0,
+        'credit',abs(v_dc),'product_id',p_product_id) end);
+  end if;
+  if abs(v_do)>0.005 then
+    v_lines:=v_lines||jsonb_build_array(case when v_do>0
+      then jsonb_build_object('mapping_key','OTHER_EXPENSE','debit',v_do,
+        'credit',0,'product_id',p_product_id)
+      else jsonb_build_object('mapping_key','OTHER_INCOME','debit',0,
+        'credit',abs(v_do),'product_id',p_product_id) end);
+  end if;
+
+  v_journal:=erp.post_journal(
+    'NON_PO_HPP_GL_SYNC_V2620F',v_event,p_effective_date,
+    'Cumulative non-PO HPP redistribution · '||p_reason,v_lines
+  );
+  insert into erp.non_po_hpp_gl_sync_events_v2620f(
+    id,product_id,trigger_source_type,trigger_source_id,effective_date,
+    old_fg_value,new_fg_value,fg_delta,
+    old_cogs_value,new_cogs_value,cogs_delta,
+    old_other_out_value,new_other_out_value,other_delta,
+    journal_entry_id,reason,created_by
+  ) values(
+    v_event,p_product_id,p_trigger_source_type,p_trigger_source_id,
+    p_effective_date,b.fg_value,t.fg_value,v_df,
+    b.cogs_value,t.cogs_value,v_dc,
+    b.other_out_value,t.other_out_value,v_do,
+    v_journal,p_reason,erp.current_app_user_id()
+  );
+  perform erp.assert_non_po_product_hpp_target_book_v2620f(p_product_id);
+end
+$function$;
+CREATE OR REPLACE FUNCTION erp.reverse_product_conversion(p_conversion_id uuid, p_reason text)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public'
+AS $function$
+declare
+  h erp.product_conversions%rowtype;
+  r record;
+  v_journal uuid;
+  v_expected numeric(24,6);
+  v_po uuid;
+begin
+  perform erp.require_owner_admin();
+  if nullif(trim(p_reason),'') is null then raise exception 'Alasan reversal conversion/rebrand wajib diisi'; end if;
+  select * into h from erp.product_conversions where id=p_conversion_id for update;
+  if h.id is null then raise exception 'Conversion/rebrand tidak ditemukan'; end if;
+  if h.status='REVERSED' then return; end if;
+  if h.status<>'POSTED' then raise exception 'Hanya conversion/rebrand POSTED yang dapat direverse'; end if;
+
+  if exists(
+    select 1
+    from erp.product_conversion_allocations a
+    where a.conversion_id=h.id
+      and erp.fg_lot_has_active_downstream(a.destination_lot_id,'REBRAND_IN','PRODUCT_CONVERSION',h.id)
+  ) then raise exception 'Hasil conversion/rebrand masih dipakai transaksi downstream aktif. Reverse transaksi downstream terlebih dahulu.'; end if;
+
+  select coalesce(sum(a.qty_pcs*a.original_hpp_per_pcs),0) into v_expected from erp.product_conversion_allocations a where a.conversion_id=h.id;
+  select id into v_journal from erp.journal_entries where source_type='PRODUCT_CONVERSION' and source_id=h.id and status='POSTED' order by posting_at desc,id desc limit 1;
+  if v_expected>0.005 and v_journal is null then raise exception 'Jurnal conversion/rebrand tidak ditemukan; reversal dibatalkan agar nilai persediaan tidak rusak'; end if;
+
+  for r in
+    select fm.id from erp.fg_stock_movements fm
+    join erp.product_conversion_allocations a on a.destination_lot_id=fm.lot_id
+    where a.conversion_id=h.id and fm.movement_type='REBRAND_IN' and fm.source_type='PRODUCT_CONVERSION' and fm.source_id=h.id
+      and not exists(select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=fm.id)
+    order by fm.physical_at desc,fm.id desc
+  loop perform erp.reverse_fg_movement(r.id,p_reason); end loop;
+
+  for r in
+    select fm.id from erp.fg_stock_movements fm
+    join erp.product_conversion_allocations a on a.source_lot_id=fm.lot_id
+    where a.conversion_id=h.id and fm.movement_type='REBRAND_OUT' and fm.source_type='PRODUCT_CONVERSION' and fm.source_id=h.id
+      and not exists(select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=fm.id)
+    order by fm.physical_at desc,fm.id desc
+  loop perform erp.reverse_fg_movement(r.id,p_reason); end loop;
+
+  for r in select e.journal_id from erp.be_nonpo_transfer_events_v1 e join erp.journal_entries j on j.id=e.journal_id
+    where e.conversion_id=h.id and j.status='POSTED' order by e.created_at desc,e.id desc loop
+    perform erp.reverse_journal(r.journal_id,p_reason);
+  end loop;
+  if v_journal is not null then perform erp.reverse_journal(v_journal,p_reason); end if;
+  update erp.product_conversions set status='REVERSED' where id=h.id;
+
+  for v_po in
+    select distinct fl.po_id from erp.product_conversion_allocations a join erp.fg_lots fl on fl.id=a.source_lot_id where a.conversion_id=h.id and fl.po_id is not null
+  loop perform erp.sync_po_hpp_to_gl(v_po,((statement_timestamp() AT TIME ZONE 'Asia/Jakarta'::text))::date); end loop;
+
+  if erp.be_nonpo_admitted_v1(h.id) then perform erp.be_nonpo_sync_all_v1(erp._cp3_business_date(current_timestamp),'PRODUCT_CONVERSION_REVERSE',h.id,p_reason);end if;
+  insert into erp.audit_logs(entity_type,entity_id,action,changed_by,change_reason) values('product_conversions',h.id,'REVERSE',erp.current_app_user_id(),p_reason);
+end;
+$function$;
 do $grants$
 declare t text;f text;
 begin
  foreach t in array array['be_execution_context_v1','be_conversion_sources_v1','be_conversion_returns_v1',
-   'be_conversion_cost_sources_v1','be_conversion_cost_events_v1'] loop
+   'be_conversion_cost_sources_v1','be_conversion_cost_events_v1','be_nonpo_transfer_events_v1'] loop
    execute format('alter table erp.%I enable row level security',t);
    execute format('revoke all on erp.%I from public,anon,authenticated,service_role',t);
  end loop;

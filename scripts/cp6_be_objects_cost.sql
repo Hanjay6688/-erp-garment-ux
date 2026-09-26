@@ -63,7 +63,6 @@ begin
  select * into c from erp.product_conversions where id=s.conversion_id for update;
  select * into l from erp.fg_lots where id=(select source_lot_id from erp.be_conversion_sources_v1 where conversion_id=c.id);
  if c.status<>'POSTED' then raise exception 'BE_COST_SOURCE_NOT_POSTED';end if;
- if l.po_id is null then raise exception 'BE_NON_PO_COST_NOT_READY';end if;
  v_own:=not erp.be_in_context_v1();
  if v_own then insert into erp.be_execution_context_v1 values(pg_backend_pid(),txid_current(),gen_random_uuid());end if;
  for r in select p.adjustment_id,p.account_id,d.status from erp.bc_adjustment_purposes_v1 p
@@ -75,15 +74,20 @@ begin
    if v_delta<>0 then
      v_event:=gen_random_uuid();
      v_journal:=erp.post_journal('BE_CONVERSION_SOURCED_COST',v_event,p_date,'Biaya/pemulihan konversi dari dokumen '||p_document::text,
-       jsonb_build_array(jsonb_build_object('mapping_key','WIP','po_id',l.po_id,'debit',greatest(v_delta,0),'credit',greatest(-v_delta,0)),
+       jsonb_build_array(jsonb_build_object('mapping_key',case when l.po_id is null then 'FG_INVENTORY' else 'WIP' end,
+         'po_id',l.po_id,'product_id',case when l.po_id is null then c.to_product_id end,'debit',greatest(v_delta,0),'credit',greatest(-v_delta,0)),
          jsonb_build_object('account_id',r.account_id,'debit',greatest(-v_delta,0),'credit',greatest(v_delta,0))));
      insert into erp.be_conversion_cost_events_v1(id,document_id,adjustment_id,previous_amount,target_amount,journal_id,economic_date,created_by)
      values(v_event,p_document,r.adjustment_id,v_before,v_target,v_journal,p_date,erp.current_app_user_id());
    end if;
  end loop;
- perform erp.propagate_conversion_hpp_for_po(l.po_id);
- perform erp.sync_po_hpp_to_gl(l.po_id,p_date);
- perform erp.assert_po_hpp_target_book_v2620e(l.po_id);
+ if l.po_id is null then
+   perform erp.be_nonpo_sync_all_v1(p_date,'BE_COST_SOURCE',p_document,'Biaya/pemulihan konversi non-PO');
+ else
+   perform erp.propagate_conversion_hpp_for_po(l.po_id);
+   perform erp.sync_po_hpp_to_gl(l.po_id,p_date);
+   perform erp.assert_po_hpp_target_book_v2620e(l.po_id);
+ end if;
  if v_own then delete from erp.be_execution_context_v1 where backend_pid=pg_backend_pid() and transaction_id=txid_current();end if;
 end;$function$;
 

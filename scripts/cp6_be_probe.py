@@ -103,8 +103,35 @@ def actual_usage(cur,today):
        linked_inverse=blocked['ok'] and restored_hpp==old_hpp and qty(cur,f['lot'])==10),
        cost=str(hpp-old_hpp),refusals=[blocked])
 
+def nonpo_roundtrip(cur,today):
+    day=today-timedelta(days=3);api.admin(cur)
+    boundary.historical.prior.set_open_period(cur,day-timedelta(days=1))
+    product=bdp.sized_product(cur,chain.base.SIZE,'BE-OPEN-'+uuid.uuid4().hex[:8])
+    target=bdp.sized_product(cur,chain.base.SIZE,'BE-NEW-'+uuid.uuid4().hex[:8]);opening=str(uuid.uuid4())
+    cur.execute("insert into erp.opening_balance_headers(id,opening_number,opening_date,status,created_by) values(%s,%s,%s,'DRAFT',%s)",
+      (opening,'BE-OPEN-'+opening,day,chain.base.OPERATOR_APP))
+    cur.execute("insert into erp.opening_balance_items(opening_id,balance_type,product_id,location_id,qty,unit_cost_snapshot,quality_grade,hpp_input_method) values(%s,'FINISHED_GOODS',%s,%s,10,10.01,'GRADE_A','MANUAL')",
+      (opening,product,chain.base.LOCATION))
+    bdp.internal(cur,'post_opening_balance',opening)
+    lot=one(cur,"select id::text from erp.fg_lots where product_id=%s and lot_origin='OPENING'",product)
+    payload=dict(source_lot_id=lot,target_product_id=target,location_id=chain.base.LOCATION,qty_pcs=6,
+      physical_at=bdp.iso(chain.production.at(day+timedelta(days=1),9)),reason='BE opening source relabel',expected_version='before')
+    if not installed(cur):return bdp.no_route(cur,lambda:be(cur,'POST',payload))
+    payload['expected_version']=one(cur,'select erp.be_source_revision_v1(%s,%s)',lot,chain.base.LOCATION)
+    truth=bdp.all_truth(cur);result=be(cur,'POST',payload);dest=result['destination_lot_id']
+    target_values=q(cur,'select * from erp.compute_non_po_product_hpp_targets_v2620f(%s)',target)[0]
+    target_book=q(cur,'select * from erp.compute_non_po_product_hpp_book_v2620f(%s)',target)[0]
+    source_values=q(cur,'select * from erp.compute_non_po_product_hpp_targets_v2620f(%s)',product)[0]
+    source_book=q(cur,'select * from erp.compute_non_po_product_hpp_book_v2620f(%s)',product)[0]
+    new_truth=bdp.all_truth(cur);quantities=(qty(cur,lot),qty(cur,dest))
+    be(cur,'REVERSE',dict(conversion_id=result['conversion_id'],reason='BE opening conversion inverse'))
+    return verdict(dict(physical=quantities==(4,6),source_target=source_values==source_book and source_values[0]==bdp.D('40.04'),
+      destination_target=target_values==target_book and target_values[0]==bdp.D('60.06'),
+      truth=bdp.truth_quiet(truth,new_truth),inverse=qty(cur,lot)==10 and qty(cur,dest)==0),source=source_values,target=target_values)
+
 PLAN=[('BE01:SELECTED_LOT_REPLAY_REVERSE','NO_ROUTE',conversion_roundtrip),('BE01:CAPACITY_STALE_NO_UNSOURCED_COST','NO_ROUTE',refusals),
-      ('BE01:ACTUAL_ACCESSORY_COST_ONCE_AND_INVERSE','NO_ROUTE',actual_usage)]
+      ('BE01:ACTUAL_ACCESSORY_COST_ONCE_AND_INVERSE','NO_ROUTE',actual_usage),
+      ('BE01:OPENING_SOURCE_VALUE_AND_INVERSE','NO_ROUTE',nonpo_roundtrip)]
 def cases(cur,today):return [(key,lambda f=fn:f(cur,today)) for key,_,fn in PLAN]
 
 def run(phase):
