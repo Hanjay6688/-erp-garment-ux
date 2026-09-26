@@ -129,7 +129,7 @@ AS $function$
 declare a text:=upper(btrim(coalesce(p_action,'')));v jsonb;v_cached jsonb;v_id uuid;
 begin
  perform erp.require_permission('warehouse.brand_conversion.view');
- if a not in('POST','REVERSE','POST_USAGE','SAVE_REWORK') then raise exception 'BE_ACTION_UNKNOWN: tindakan tidak dikenal';end if;
+ if a not in('POST','REVERSE','POST_USAGE','SAVE_REWORK','SAVE_REDYE','SET_REDYE_PRICE') then raise exception 'BE_ACTION_UNKNOWN: tindakan tidak dikenal';end if;
  perform erp.require_permission(case when a='REVERSE' then 'warehouse.brand_conversion.reverse' else 'warehouse.brand_conversion.post' end);
  if a='REVERSE' then perform erp.require_owner_admin();end if;
  perform erp.require_internal();
@@ -142,6 +142,8 @@ begin
  insert into erp.be_execution_context_v1 values(pg_backend_pid(),txid_current(),p_client_request_id);
  if a='POST' then v:=erp.be_post_conversion_v1(p_payload,p_client_request_id);
  elsif a='POST_USAGE' then v:=erp.be_post_usage_v1(p_payload,p_client_request_id);
+ elsif a='SAVE_REDYE' then v:=erp.be_save_redye_v1(p_payload,p_client_request_id);
+ elsif a='SET_REDYE_PRICE' then v:=erp.be_set_redye_price_v1(p_payload,p_client_request_id);
  elsif a='SAVE_REWORK' then v:=erp.be_save_rework_v1(p_payload,p_client_request_id);
  else
    perform erp._cp3_assert_closed_json_object(p_payload,array['conversion_id','reason'],array['conversion_id','reason'],'pembatalan konversi');
@@ -152,7 +154,7 @@ begin
  delete from erp.be_execution_context_v1 where backend_pid=pg_backend_pid() and transaction_id=txid_current();
  insert into erp.audit_logs(entity_type,entity_id,action,new_data,changed_by,change_reason)
  values(case when a='SAVE_REWORK' then 'rework_orders' else 'product_conversions' end,
-   coalesce(v->>'conversion_id',v->>'rework_id')::uuid,case when a='REVERSE' then 'REVERSE' else 'POST' end,v,erp.current_app_user_id(),p_payload->>'reason');
+   coalesce(v->>'conversion_id',v->>'rework_id',v->>'service_id')::uuid,case when a='REVERSE' then 'REVERSE' else 'POST' end,v,erp.current_app_user_id(),p_payload->>'reason');
  return erp._idempotency_complete('save_product_conversion_action_v1',p_client_request_id,v||jsonb_build_object('request_id',p_client_request_id));
 end;$function$;
 

@@ -6,6 +6,7 @@ The selected-lot adapter never falls back to a different FIFO lot.
 """
 from pathlib import Path
 import hashlib,re,sys
+import cp6_be_redye_build as redye
 from cp6_bc_build import last_definition,substitute
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -22,10 +23,10 @@ REPLACED=['erp.post_product_conversion(uuid)','erp.propagate_conversion_hpp_for_
           'erp.reverse_product_conversion(uuid,text)','erp.compute_non_po_product_hpp_targets_v2620f(uuid)',
           'erp.compute_non_po_product_hpp_book_v2620f(uuid)','erp.assert_non_po_product_hpp_target_book_v2620f(uuid)',
           'erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)',
-          'erp.post_rework_completion(uuid)','erp.reverse_rework_completion(uuid,text)','erp.assert_new_stock_cutoff_coverage_v1()']
+          'erp.post_rework_completion(uuid)','erp.reverse_rework_completion(uuid,text)','erp.assert_new_stock_cutoff_coverage_v1()']+redye.REPLACED
 NEW_TABLES=['be_execution_context_v1','be_conversion_sources_v1','be_conversion_returns_v1',
-            'be_conversion_cost_sources_v1','be_conversion_cost_events_v1','be_nonpo_transfer_events_v1','be_rework_targets_v1']
-OBJECTS=[ROOT/f'scripts/cp6_be_objects_{part}.sql' for part in ('conversion','cost','nonpo','rework')]
+            'be_conversion_cost_sources_v1','be_conversion_cost_events_v1','be_nonpo_transfer_events_v1','be_rework_targets_v1','be_redye_services_v1','be_redye_price_events_v1']
+OBJECTS=[ROOT/f'scripts/cp6_be_objects_{part}.sql' for part in ('conversion','cost','nonpo','rework','redye')]
 
 def objects():return '\n'.join(p.read_text().rstrip() for p in OBJECTS)
 
@@ -74,7 +75,7 @@ def build():
     recost=substitute(last_definition(BC,'sync_material_cost_revaluation'),[
       ('end;\n$function$;','  perform erp.be_sync_material_cost_v1(p_material_id);\nend;\n$function$;')],'BE material recost hook')
     checks=substitute(last_definition(BD,'run_v268_financial_report_checks'),[
-      ("    )::numeric source_cost\n", "      +erp.be_po_extra_v1(s.po_id)\n    )::numeric source_cost\n"),
+      ("    )::numeric source_cost\n", "      +erp.be_po_extra_v1(s.po_id)+erp.be_redye_po_cost_v1(s.po_id)\n    )::numeric source_cost\n"),
       ('+a.conversion_cost_allocated/nullif(a.qty_pcs,0)', '+erp.be_allocation_extra_v1(a.id)/nullif(a.qty_pcs,0)'),
       ('where s.po_id is null or d.id is null or d.po_id is distinct from s.po_id',
        'where (s.po_id is null and not erp.be_nonpo_admitted_v1(c.id)) or d.id is null or d.po_id is distinct from s.po_id'),
@@ -129,7 +130,7 @@ def build():
 declare t text;f text;
 begin
  foreach t in array array['be_execution_context_v1','be_conversion_sources_v1','be_conversion_returns_v1',
-   'be_conversion_cost_sources_v1','be_conversion_cost_events_v1','be_nonpo_transfer_events_v1','be_rework_targets_v1'] loop
+   'be_conversion_cost_sources_v1','be_conversion_cost_events_v1','be_nonpo_transfer_events_v1','be_rework_targets_v1','be_redye_services_v1','be_redye_price_events_v1'] loop
    execute format('alter table erp.%I enable row level security',t);
    execute format('revoke all on erp.%I from public,anon,authenticated,service_role',t);
  end loop;
@@ -150,7 +151,7 @@ grant execute on function public.erp_get_product_conversion_workspace_v1(jsonb) 
       "do $guard$ begin if not exists(select 1 from erp.schema_migrations where version='v2.6.20bd') then raise exception 'BE_REQUIRES_BD';end if;",
       "if exists(select 1 from erp.schema_migrations where version='v2.6.20be') then raise exception 'BE_ALREADY_INSTALLED';end if;end $guard$;",
       objects(),conversion(),propagate,target,recover,reverse,recost,checks,nonpo_propagate,nonpo_target,nonpo_book,*guards,inverse,
-      complete,reverse_rework,coverage,grants,
+      complete,reverse_rework,coverage,redye.build(old_definition),grants,
       "insert into erp.schema_migrations(version,description) values('v2.6.20be','BE development family: SKU conversion, rework/redye and pocket cutover');",
       'commit;',''])
 

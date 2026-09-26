@@ -24,7 +24,7 @@ end;$function$;
 create trigger be_rework_source_immutable before update or delete on erp.rework_orders
  for each row execute function erp.be_guard_rework_source_v1();
 
-CREATE OR REPLACE FUNCTION erp.be_save_rework_v1(p_payload jsonb,p_request uuid)
+CREATE OR REPLACE FUNCTION erp.be_save_rework_v1(p_payload jsonb,p_request uuid,p_redye boolean default false)
  RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
 AS $function$
 declare b erp.bs_cases%rowtype;s erp.products%rowtype;t erp.products%rowtype;v_order uuid;v_result jsonb;v_payload jsonb;
@@ -44,7 +44,7 @@ begin
  v_order:=(v_result->'result'->>'rework_order_id')::uuid;
  if v_order is null then raise exception 'BE_NATIVE_REWORK_RESPONSE_INVALID';end if;
  insert into erp.be_rework_targets_v1(rework_id,target_product_id,mode,reason,created_by)
- values(v_order,t.id,'REWORK_SKU',erp.bc_text_v1(p_payload,'reason',true,1000),erp.current_app_user_id());
+ values(v_order,t.id,case when p_redye then 'REDYE_SKU' else 'REWORK_SKU' end,erp.bc_text_v1(p_payload,'reason',true,1000),erp.current_app_user_id());
  return jsonb_build_object('rework_id',v_order,'target_product_id',t.id,'status','IN_PROGRESS','native',v_result);
 end;$function$;
 

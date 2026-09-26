@@ -89,3 +89,10 @@ Baca berkas rujukan dan sumber BD/konversi/rework/kain kantong; ambil log run/jo
 - Commit `398044fcc9538f11208955493acb06ec78606737`, run `36266198940`, before job `108471224169`, after job `108471223837`; kedua job success. Log after dibaca per kasus: selected-lot/replay/inverse, capacity/stale/unsourced-cost, actual-accessory-cost, opening/non-PO, dan rework-new-SKU masing-masing PASS; full_boundary_restored=true untuk kelimanya.
 - Nilai yang terbukti: penggunaan aksesori +12,00 tepat sekali, non-PO 40,04 sumber +60,06 tujuan dan inverse; rework 4 BS → 2 GOOD target +2 BS dengan replay/inverse atomik.
 - Ini lima kasus fondasi, **bukan BE lengkap**. Celup ulang berbayar/invoice, ALL-C04, UI, negatif/recost lanjutan dan seluruh gate akhir masih harus diselesaikan. LANGKAH BERIKUTNYA: adapter jasa rework sebagai sumber invoice nyata, lalu pembuka kain kantong, kemudian UI dan paket.
+
+## Tahap BE-5 — sumber jasa celup dan invoice (belum diuji native)
+- Ditambahkan sumber jasa nyata per order rework, vendor/proses/tarif waktu kirim, pilihan UNKNOWN eksplisit dan penetapan harga pertama append-only. Rework gratis existing tidak memperoleh biaya celup.
+- Invoice BD mendapat sumber ketiga `rework_service_id`, tetap memakai jurnal/pembayaran/koreksi native BD. Kapasitas GOOD/BS dari hasil rework, estimasi dilepas proporsional dengan residual terakhir; selisih PRODUCT_COST masuk sumber rework dan HPP lot tepat, lalu turunan/COGS. Cancel/inverse ditolak bila invoice sumber masih aktif. Harga unknown masuk close blocker dan kebijakan penjualan ALLOW_PENDING/REFUSE.
+- Dua expected baru: 4 PCS @50 = 200, satu dijual, invoice240 → biaya240, akrual0, FG+30/COGS+10, snapshot sale tetap; UNKNOWN → 50 menambah200 tepat sekali dan menghapus blocker. Tarif tidak dibedakan menurut ukuran. Belum ada verdict runtime.
+- Parser lokal 67 fungsi PL/pgSQL lulus. Struktur invoice berubah sehingga rollback BE wajib merekam kolom/constraint/index tambahan, tidak sekadar drop tabel BE. Belum masuk paket 29.
+- Berikutnya: run tujuh kasus, baca/fix; lanjut adapter ALL-C04, UI, race/HTTP/browser, T2/T3/rollback/CodeQL. BE masih NOT_READY.

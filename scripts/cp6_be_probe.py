@@ -158,10 +158,58 @@ def rework_new_sku(cur,today):
     result['status']='PASS' if all(result['checks'].values()) else 'FAIL'
     return result
 
+def redye_fixture(cur,today,known=True):
+    import cp6_av_probe as avp
+    f=avp.rework_ready(cur,today-timedelta(days=1));api.admin(cur)
+    chain.bs_action(cur,'SAVE_REWORK',dict(id=f['order'],action='CANCEL',change_reason='BE paid attempt replaces unbound fixture'),chain.version(cur,'rework_orders',f['order']))
+    api.admin(cur);process=one(cur,"insert into erp.wash_processes(process_code,process_name) values(%s,'BE real redye') returning id::text",'BE-'+uuid.uuid4().hex[:12])
+    target=bdp.sized_product(cur,chain.base.SIZE,'BE-DYE-'+uuid.uuid4().hex[:8])
+    if known:bdp.process_rate(cur,dict(vendor=chain.base.VENDOR,process=process,start=chain.production.at(f['day'],13)),'50.00')
+    api.admin(cur);bom=one(cur,'select id::text from erp.accessory_bom_versions where product_id=%s and is_active',f['product'])
+    order=dict(rework_number='BE-DYE-'+uuid.uuid4().hex[:15],bs_case_id=str(f['bs']),destination_type='LAUNDRY',contractor_id=None,
+      vendor_id=chain.base.VENDOR,qty_sent=4,physical_sent_at=bdp.iso(chain.production.at(f['day'],14)),status='IN_PROGRESS',return_fg_location_id=chain.base.LOCATION,
+      accessory_bom_version_id=bom,accessory_bom_item_ids=[],components=[])
+    made=be(cur,'SAVE_REDYE',dict(order=order,target_product_id=target,wash_process_id=process,price_status='KNOWN' if known else 'UNKNOWN',reason='BE real redye new colour'))
+    rid=made['rework_id'];po=one(cur,'select po_id::text from erp.bs_cases where id=%s',f['bs'])
+    chain.bs_action(cur,'COMPLETE_REWORK',dict(rework_order_id=rid,qty_good=4,qty_bs=0,completed_at=bdp.iso(chain.production.at(f['day'],16)),return_fg_location_id=chain.base.LOCATION,change_reason='BE actual four returned'),chain.version(cur,'rework_orders',rid))
+    dest=one(cur,'select a.destination_lot_id::text from erp.be_conversion_sources_v1 x join erp.product_conversion_allocations a on a.conversion_id=x.conversion_id where x.rework_id=%s',rid)
+    return dict(f,redye=rid,target=target,dest=dest,po=po,vendor=chain.base.VENDOR)
+
+def redye_invoice(cur,today):
+    if not installed(cur):return bdp.no_route(cur,lambda:be(cur,'SAVE_REDYE',dict(reason='BE source not installed')))
+    f=redye_fixture(cur,today);before=bdp.lot_value(cur,f['dest']);truth=bdp.all_truth(cur)
+    bdp.invoice_policies(cur,after='CORRECTION_DOCUMENT');api.admin(cur)
+    sale=bdp.sell(cur,f,f['target'],1,17);sale_snapshot=one(cur,'select sum(total_hpp) from erp.sale_stock_allocations where sale_item_id in(select id from erp.sales_items where sale_id=%s)',sale)
+    fg0=bdp.gl(cur,'FG_INVENTORY');cogs0=bdp.gl(cur,'COGS');ap0=bdp.D(bdp.ap(cur,f['vendor']))
+    payload=dict(vendor_id=f['vendor'],invoice_number='BEI-'+uuid.uuid4().hex[:10],invoice_date=str(f['day']),header_total='240.00',
+      lines=[dict(line_kind='BILL',rework_service_id=f['redye'],category='GOOD',qty=4,amount='240.00')])
+    draft=bdp.bd(cur,'SAVE_INVOICE_DRAFT',payload);posted=bdp.post_draft(cur,draft)
+    cost=one(cur,'select erp.be_redye_cost_v1(%s)',f['redye']);accrual=one(cur,'select erp.be_redye_accrual_v1(%s)',f['po'])
+    again=bdp.bd(cur,'SAVE_INVOICE_DRAFT',dict(payload,invoice_number='BE-OVER-'+uuid.uuid4().hex[:10]))
+    over=refused(cur,lambda:bdp.post_draft(cur,again),'BD_INVOICE_CAPACITY')
+    return verdict(dict(source_cost=cost==240,estimate_replaced=accrual==0,lot_delta=bdp.lot_value(cur,f['dest'])-before==40,
+      fg_delta=bdp.gl(cur,'FG_INVENTORY')-fg0==30,cogs_delta=bdp.gl(cur,'COGS')-cogs0==10,
+      ap_once=bdp.D(bdp.ap(cur,f['vendor']))-ap0==240,over=over['ok'],truth=bdp.truth_quiet(truth,bdp.all_truth(cur)),
+      snapshot=one(cur,'select sum(total_hpp) from erp.sale_stock_allocations where sale_item_id in(select id from erp.sales_items where sale_id=%s)',sale)==sale_snapshot),
+      cost=str(cost),accrual=str(accrual),fg_delta=str(bdp.gl(cur,'FG_INVENTORY')-fg0),cogs_delta=str(bdp.gl(cur,'COGS')-cogs0),refusals=[over])
+
+def redye_unknown(cur,today):
+    if not installed(cur):return bdp.no_route(cur,lambda:be(cur,'SAVE_REDYE',dict(reason='BE source not installed')))
+    f=redye_fixture(cur,today,False);before=bdp.lot_value(cur,f['dest'])
+    blocked=one(cur,"select count(*) from erp.period_blockers_v1(%s,%s) where code='BE_REDYE_PRICE_UNKNOWN'",f['day'],f['day'])
+    unknown=one(cur,'select erp.bd_lot_laundry_unknown_v1(%s)',f['dest'])
+    key=str(uuid.uuid4());p=dict(service_id=f['redye'],rate='50.00',reason='BE vendor price first known')
+    first=be(cur,'SET_REDYE_PRICE',p,key);again=be(cur,'SET_REDYE_PRICE',p,key)
+    overwrite=refused(cur,lambda:be(cur,'SET_REDYE_PRICE',dict(p,rate='60.00')),'BE_PRICE_ALREADY_KNOWN')
+    cleared=one(cur,"select count(*) from erp.period_blockers_v1(%s,%s) where code='BE_REDYE_PRICE_UNKNOWN'",f['day'],f['day'])
+    return verdict(dict(unknown=unknown and blocked==1,cleared=cleared==0,price_added=bdp.lot_value(cur,f['dest'])-before==200,
+      replay=first==again,overwrite=overwrite['ok']),refusals=[overwrite])
+
 PLAN=[('BE01:SELECTED_LOT_REPLAY_REVERSE','NO_ROUTE',conversion_roundtrip),('BE01:CAPACITY_STALE_NO_UNSOURCED_COST','NO_ROUTE',refusals),
       ('BE01:ACTUAL_ACCESSORY_COST_ONCE_AND_INVERSE','NO_ROUTE',actual_usage),
       ('BE01:OPENING_SOURCE_VALUE_AND_INVERSE','NO_ROUTE',nonpo_roundtrip),
-      ('BE02:REWORK_NEW_SKU_ATOMIC_REPLAY_INVERSE','NO_ROUTE',rework_new_sku)]
+      ('BE02:REWORK_NEW_SKU_ATOMIC_REPLAY_INVERSE','NO_ROUTE',rework_new_sku),
+      ('BE03:REAL_SERVICE_INVOICE_SOLD_VARIANCE','NO_ROUTE',redye_invoice),('BE03:UNKNOWN_PRICE_CLOSE_REPLAY','NO_ROUTE',redye_unknown)]
 def cases(cur,today):return [(key,lambda f=fn:f(cur,today)) for key,_,fn in PLAN]
 
 def run(phase):

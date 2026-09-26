@@ -58,7 +58,7 @@ def bd_verified(cur):
     import cp6_layers
     superseded=cp6_layers.superseded(cur,bd_build.VERSION)
     for name in bd_functions():
-        if name in superseded:continue
+        if name in superseded or name.split('(')[0] in {x.split('(')[0] for x in superseded}:continue
         schema,proname=name.split('(')[0].split('.')
         rows=cur.execute("select p.oid::regprocedure::text,p.prosrc from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname=%s and p.proname=%s",
                          (schema,proname)).fetchall()
