@@ -166,3 +166,8 @@ Workflow audit saja diperbaiki `086246ea8e2831b56301f0d76f338177a1471350`: `npm 
 ## Oracle BD yang sudah ditulis ikut dipersistkan
 
 `audit/scenarios/r13_bd/GPT_BD_ORACLE.md` sha256 `24a2347e579ab748bd6ed66611781669d58e8b0d103ae544592087754349d8f7`, commit `9f473c629970487a350eed8bd34097469520f728`: GBD-01 UNKNOWN price vs error; GBD-02 invoice 40/60 dan dua sumber; GBD-03 ALL-W05 fisik/claim/credit NEEDS_OWNER_INPUT. **Belum ada .py BD/run/job**. Exposure log daftar 15 kasus T1 writer dicatat di oracle; belum membaca detail kode BD untuk expected. Fase aktif tetap penutupan BC follow-up, kemudian BD. Semua gate penuh tetap HOLD/UNVERIFIED. **LANGKAH BERIKUTNYA:** susun dan pin skenario BD dari oracle ini, jalankan hanya setelah head BD final; catat oracle owner pending sebagai HOLD, jangan membaca hasil writer sebagai expected.
+
+
+## Penajaman handoff gabungan R12 (26 Sep 08:07 WIB)
+
+`WRITER_HANDOFF_R12_FINAL_PASTE_20260926.md` dirapikan di commit `b274a5446f9a040993528726fd446e46594e33fd` dan pemolesan Markdown `207ec781f53dd2de43168989165a2b36e088416c`, sesuai permintaan owner. Tiga koreksi: (1) PASS BC hanya pada kasus teruji, GBC-1 INCOMPLETE/GBC-2 COUNTEREXAMPLE fixture dan HOLD historis tetap; (2) owner D07 memberi arahan fleksibel, predikat ≤0,01 per dokumen masih usulan teknis auditor yang harus diverifikasi; (3) oracle/skenario BD boleh dibekukan sekarang, penerimaan native/final menunggu §32/head terpin. Hasil historis, gate, hash skenario, dan nilai kebijakan tidak berubah. **LANGKAH BERIKUTNYA:** Fable boleh review penajaman ini; writer menggunakan handoff R12 terbaru, sambil auditor meneruskan skenario BD dari oracle beku. CP6 HOLD, `audit_complete=false`, `production_go=false`.
