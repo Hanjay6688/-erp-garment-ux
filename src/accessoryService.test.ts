@@ -365,7 +365,7 @@ const importBC = {
   }
  ]
 }
-// The seeded CP3 contractors (ids a1000000-0000-0000-...) are left out: the note page refuses non RFC-4122 ids (finding F3, pre-existing).
+// The seeded CP3 contractors (ids a1000000-0000-0000-...) are not in this copy; the D08 case below adds one (canonical, non RFC-4122).
 const note = {
  "orders": [],
  "filters": {
@@ -480,5 +480,18 @@ describe('note page: Special free line (ERP-DEC02)', () => {
     const line = { material_id: m.id, qty: '3', mode: 'FREE' as const, manual_price: '' }
     expect(previewAccessoryLine(line, m)).toMatchObject({ amount: 0n, payload: { mode: 'FREE', free_policy_version: m.free!.policy_version } })
     expect(previewAccessoryLine(line, { ...m, free: null }).payload).toBeNull()
+  })
+})
+
+describe('D08: note page with the seeded CP3 contractor (canonical, non RFC-4122 id)', () => {
+  it('reads a note workspace whose contractor has a non-RFC id next to a v4 one, and still refuses a malformed id', () => {
+    const w = clone(note) as Record<string, unknown> & { contractors: { id: string; name: string }[] }
+    w.contractors = [{ id: 'a1000000-0000-0000-0000-000000000001', name: 'Mandor seed CP3' }, ...w.contractors]
+    w.contractor_id = 'a1000000-0000-0000-0000-000000000001'
+    const parsed = parseAccessoryWorkspace(w)
+    expect(parsed.contractor_id).toBe('a1000000-0000-0000-0000-000000000001')
+    expect(parsed.contractors.map(c => c.id)).toEqual(['a1000000-0000-0000-0000-000000000001', '68b1885e-c163-424e-acf8-4f883105da07'])
+    expect(() => parseAccessoryWorkspace({ ...w, contractor_id: 'a1000000-0000-0000-0000-00000000001' })).toThrow()
+    expect(() => parseAccessoryWorkspace({ ...w, contractors: [{ id: 'a1000000-0000-0000-0000-00000000000z', name: 'x' }] })).toThrow()
   })
 })

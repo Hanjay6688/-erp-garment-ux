@@ -121,7 +121,7 @@ export type LaundryQcWorkspace = {
   legacy_unlinked: { delivery_count: number; receipt_count: number }
 }
 
-const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 const record = (value: unknown, label: string) => {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`${label} tidak valid.`)
   return value as Record<string, unknown>

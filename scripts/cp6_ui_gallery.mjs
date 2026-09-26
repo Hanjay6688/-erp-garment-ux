@@ -5,9 +5,8 @@
 // Data: the BC and BD browser flows run first (their own results are reported as SETUP:*), then
 // scripts/cp6_ui_gallery_fixture.py commits BD laundry data on the same copy (component prices one known / one unknown, a
 // priced delivery, a posted and a draft vendor invoice; it sets LAU-DEC02/06 on this copy only so the invoice can post).
-// While the Nota Ambil Aksesori page is captured, the seeded CP3 mandors with non RFC-4122 ids are deactivated on this copy
-// (finding F3: the page refuses a read that contains them) and reactivated afterwards. The Laundry page's own tabs are
-// captured as they are: on this copy they show "Data belum tersedia" because of the same F3 (seeded CP3 ids).
+// The seeded CP3 mandors (canonical, non RFC-4122 ids) stay active: since owner decision D08 the note and Laundry pages accept
+// them, so nothing is deactivated for the capture.
 // Every gallery case returns PASS with one JPEG (base64) of the page or section; the images leave the job only in the log.
 import { execFileSync } from 'node:child_process'
 import { resolve } from 'node:path'
@@ -52,14 +51,6 @@ async function shot(p, note, section) {
 
 const latestBatch = (ui, entity) => ui.sql(`select b.id from erp.migration_batches b where exists(select 1 from erp.migration_staging_rows r
   where r.batch_id=b.id and r.entity_type='${entity}') order by b.created_at desc limit 1`)
-
-async function withSeedMandorsInactive(ui, fn) {
-  const seeds = ui.sql("select coalesce(string_agg(id::text, ',' order by id), '') from erp.contractors where contractor_type='MANDOR' and is_active and id::text !~* '^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'")
-  const list = (seeds ? seeds.split(',') : []).map(i => `'${i}'`).join(',')
-  if (list) ui.sql(`update erp.contractors set is_active=false where id in (${list})`)
-  try { return { ...(await fn()), seed_mandors_inactive_during_capture: list ? list.split(',').length : 0 } }
-  finally { if (list) ui.sql(`update erp.contractors set is_active=true where id in (${list})`) }
-}
 
 export async function cases(ui, today) {
   const bc = await import(pathToFileURL(resolve('scripts/cp6_bc_browser.mjs')).href)
@@ -120,28 +111,28 @@ export async function cases(ui, today) {
     accessories('A03', 'Barang kembali', 'Gudang · Aksesori, tab Barang kembali'),
     accessories('A04', 'Dokumen', 'Gudang · Aksesori, tab Dokumen (sesudah Cari dokumen)', p => p.getByRole('button', { name: 'Cari dokumen', exact: true }).click()),
     accessories('A05', 'Kebijakan & area', 'Gudang · Aksesori, tab Kebijakan & area'),
-    ['GALLERY:N01', () => withSeedMandorsInactive(ui, async () => {
+    ['GALLERY:N01', async () => {
       const p = (await session(ui, 'owner', 'OWNER')).page
       await openPage(ui, p, 'Keuangan', 'Nota Ambil Aksesori', 'Nota Ambil Aksesori')
       await ui.expect(p.getByRole('button', { name: 'Muat ulang', exact: true })).toBeEnabled()
       return shot(p, 'Nota Ambil Aksesori, daftar nota')
-    })],
-    ['GALLERY:N02', () => withSeedMandorsInactive(ui, async () => {
+    }],
+    ['GALLERY:N02', async () => {
       const p = (await session(ui, 'owner', 'OWNER')).page
       await openPage(ui, p, 'Keuangan', 'Nota Ambil Aksesori', 'Nota Ambil Aksesori')
       await ui.expect(p.getByRole('button', { name: 'Muat ulang', exact: true })).toBeEnabled()
       await p.getByRole('button', { name: 'Nota baru', exact: true }).click()
       return shot(p, 'Nota Ambil Aksesori, form nota baru')
-    })],
+    }],
     importSection('I01', 'OPENING_ACCESSORY_CUSTODY', 'Aksesori saldo awal', 'Impor data awal, panel Aksesori saldo awal (ALL-C03)'),
     ['GALLERY:L01', async () => {
       const p = (await session(ui, 'owner', 'OWNER')).page
       await openPage(ui, p, 'Produksi', 'Laundry', 'Laundry')
-      return shot(p, 'Laundry, tab Kirim ke Laundry (di salinan uji tampil "Data belum tersedia" karena F3: ID seed CP3)')
+      return shot(p, 'Laundry, tab Kirim ke Laundry')
     }],
     pricing('L02', 'Kebijakan owner', 'Laundry · Harga & tagihan, Kebijakan owner (LAU-DEC02/06 ditetapkan di salinan uji ini untuk invoice)'),
     pricing('L03', 'Harga vendor', 'Laundry · Harga & tagihan, Harga vendor (vendor komponen: GARMENT 5.000, SPRAY belum diketahui)', { vendor: 'vendor_components' }),
-    pricing('L04', 'Kirim dengan harga', 'Laundry · Harga & tagihan, Kirim dengan harga (terkunci karena bacaan Laundry/QC gagal oleh F3)', { vendor: 'vendor_components' }),
+    pricing('L04', 'Kirim dengan harga', 'Laundry · Harga & tagihan, Kirim dengan harga', { vendor: 'vendor_components' }),
     pricing('L05', 'Harga belum diketahui', 'Laundry · Harga & tagihan, Harga belum diketahui'),
     pricing('L06', 'Invoice vendor', 'Laundry · Harga & tagihan, Invoice vendor (satu invoice diposting, satu draf)', { vendor: 'vendor_invoice' }),
     pricing('L07', 'Laundry saldo awal', 'Laundry · Harga & tagihan, Laundry saldo awal (ALL-W05)'),
@@ -157,13 +148,13 @@ export async function cases(ui, today) {
     pricing('Q02', 'Invoice vendor', 'Laundry · Harga & tagihan, Invoice vendor dilihat PRODUKSI_QC (tersembunyi)', { role: 'PRODUKSI_QC', vendor: 'vendor_invoice' }),
     accessories('P01', 'Stok aksesori', 'HP · Gudang · Aksesori, Stok aksesori', p => p.getByRole('button', { name: 'Cari stok', exact: true }).click()),
     accessories('P02', 'Catat transaksi', 'HP · Gudang · Aksesori, Catat transaksi'),
-    ['GALLERY:P03', () => withSeedMandorsInactive(ui, async () => {
+    ['GALLERY:P03', async () => {
       const p = (await session(ui, 'owner-phone', 'OWNER', { mobile: true })).page
       await openPage(ui, p, 'Keuangan', 'Nota Ambil Aksesori', 'Nota Ambil Aksesori')
       await ui.expect(p.getByRole('button', { name: 'Muat ulang', exact: true })).toBeEnabled()
       await p.getByRole('button', { name: 'Nota baru', exact: true }).click()
       return shot(p, 'HP · Nota Ambil Aksesori, form nota baru')
-    })],
+    }],
     pricing('P04', 'Kebijakan owner', 'HP · Laundry · Harga & tagihan, Kebijakan owner'),
     pricing('P05', 'Invoice vendor', 'HP · Laundry · Harga & tagihan, Invoice vendor', { vendor: 'vendor_invoice' }),
     pricing('P06', 'Laundry saldo awal', 'HP · Laundry · Harga & tagihan, Laundry saldo awal'),

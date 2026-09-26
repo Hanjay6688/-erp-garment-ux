@@ -153,6 +153,20 @@ describe('parseLaundryQcWorkspace', () => {
     expect(parseLaundryQcWorkspace(base('QC')).qc_queue[0].available_for_qc_qty_pcs).toBe(5)
   })
 
+  it('D08: reads seeded CP3 contractor and model ids (canonical, non RFC-4122) next to v4 ids, and still refuses a malformed id', () => {
+    const fixture = base('LAUNDRY')
+    Object.assign(fixture.ready_batches[0], { contractor_id: 'a1000000-0000-0000-0000-000000000001' })
+    Object.assign(fixture.lookups.products[0], { model_id: 'a2000000-0000-0000-0000-000000000001' })
+    const workspace = parseLaundryQcWorkspace(fixture)
+    expect(workspace.ready_batches[0].contractor_id).toBe('a1000000-0000-0000-0000-000000000001')
+    expect(workspace.ready_batches[0].distribution_batch_id).toBe(uuid(10))
+    for (const bad of ['a1000000-0000-0000-0000-00000000001', 'a1000000-0000-0000-0000-00000000000g', '{a1000000-0000-0000-0000-000000000001}']) {
+      const broken = base('LAUNDRY')
+      Object.assign(broken.ready_batches[0], { contractor_id: bad })
+      expect(() => parseLaundryQcWorkspace(broken)).toThrow('bukan UUID valid')
+    }
+  })
+
   it('counts one Potongan ready balance once across multiple distribution batches', () => {
     const fixture = base('LAUNDRY')
     fixture.ready_batches.push({

@@ -72,8 +72,49 @@ async function openPricing(ui, user) {
   return p
 }
 
+// D08 (owner, 26 Sep 2026): the Laundry and QC pages accept any canonical UUID. The page reads are scanned for ids: at least one
+// canonical non RFC-4122 id (the CP3 seed mandors/models, left active) and at least one v4 id (the control) must be in the read.
+const RFC = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+const V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+const CANONICAL = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+function idsIn(value, out = { non_rfc: new Set(), v4: new Set() }) {
+  if (typeof value === 'string') { if (CANONICAL.test(value)) { if (!RFC.test(value)) out.non_rfc.add(value); else if (V4.test(value)) out.v4.add(value) } }
+  else if (Array.isArray(value)) for (const v of value) idsIn(v, out)
+  else if (value && typeof value === 'object') for (const v of Object.values(value)) idsIn(v, out)
+  return out
+}
+
 export async function cases(ui, today) {
   return [
+    ['BD_BROWSER:D08_LAUNDRY_QC_CANONICAL_IDS', async () => {
+      const rfc = "'^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'"
+      const seeds = () => ui.sql(`select (select count(*) from erp.contractors where is_active and id::text !~* ${rfc})||'|'||(select count(*) from erp.product_models where id::text !~* ${rfc})`)
+      const before = seeds()
+      const owner = await ui.login('OWNER', { label: 'bd-d08' })
+      const read = async scope => {
+        const r = await owner.rpc('erp_get_laundry_qc_workspace_v1', { p_scope: scope, p_query: null })
+        if (r.status !== 200) return { status: r.status, non_rfc: 0, v4: 0 }
+        const ids = idsIn(r.body)
+        return { status: r.status, non_rfc: ids.non_rfc.size, v4: ids.v4.size, non_rfc_sample: [...ids.non_rfc].sort().slice(0, 3) }
+      }
+      const laundryIds = await read('LAUNDRY'), qcIds = await read('QC')
+      const page = async (item, heading) => {
+        const p = await openPage(ui, owner, 'Produksi', item, heading)
+        let loaded = false
+        try { await ui.expect(p.locator('.clq-loading')).toHaveCount(0, { timeout: 20000 }); loaded = true } catch { loaded = false }
+        const uuidError = await p.getByText(/bukan UUID valid/).count()
+        return { loaded, error: await laundryRead(p), uuid_error_text: uuidError }
+      }
+      const laundry = await page('Laundry', 'Laundry')
+      const qc = await page('QC & Final SKU', 'QC & Final SKU')
+      await owner.context.close()
+      const after = seeds()
+      const [mandors] = before.split('|').map(Number)
+      const ok = mandors > 0 && after === before && laundryIds.status === 200 && qcIds.status === 200
+        && laundryIds.non_rfc > 0 && laundryIds.v4 > 0 && qcIds.non_rfc > 0 && qcIds.v4 > 0
+        && laundry.loaded && laundry.error === 'OK' && laundry.uuid_error_text === 0 && qc.loaded && qc.error === 'OK' && qc.uuid_error_text === 0
+      return { status: ok ? 'PASS' : 'FAIL', seeds_active_before_after: [before, after], laundry_read_ids: laundryIds, qc_read_ids: qcIds, laundry, qc }
+    }],
     ['BD_BROWSER:OWNER_POLICY_SET_AND_CLEAR', async () => {
       const policy = () => ui.sql("select status||'|'||version from erp.bd_policy_settings_v1 where policy_key='LAU_DEC04'")
       const before = policy()

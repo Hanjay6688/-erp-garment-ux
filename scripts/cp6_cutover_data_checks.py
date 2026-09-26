@@ -2,12 +2,15 @@
 
 1. UUID quality (W12 b).
 
-The frontend parsers accept only RFC 9562 UUIDs of versions 1-8 with the RFC variant (src/laundryQcModel.ts uuidPattern);
-PostgreSQL's uuid type accepts any 128-bit value. A row whose id does not match makes the whole Laundry/QC workspace fail to
-load ("ID ... bukan UUID valid"), as the test seed's a1000000-.../a2000000-... ids did in the auditor's runs (rev2/rev3).
+Since owner decision D08 (26 Sep 2026) the frontend parsers accept any canonical 8-4-4-4-12 UUID text, the form PostgreSQL's
+uuid type produces (src/laundryQcModel.ts uuidPattern, src/accessoryIssue.ts accessoryUuid). Before D08 they accepted only
+RFC 9562 versions 1-8 with the RFC variant, and the test seed's a1000000-.../a2000000-... ids made the Laundry/QC and note
+pages fail to load (finding F3).
 
 This check reads every uuid column of the erp schema and counts the values that the frontend pattern refuses, plus every
 uuid column whose default is not a v4 generator (gen_random_uuid, uuid_generate_v4; a default is where new ids come from).
+It also counts, for information only, the values that are not RFC-4122 (non_rfc_values: the pages accepted none of them
+before D08 and accept all of them since); these do not change the status.
 It only reads: the transaction is put in read-only mode first, so it can run on a cutover drill copy of hosted or legacy
 data as well as on the T3 baseline.
 
@@ -24,8 +27,10 @@ import argparse,json
 import psycopg
 from psycopg import sql
 
-# The frontend's own pattern (src/laundryQcModel.ts:123), in PostgreSQL regex syntax.
-PATTERN='^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'
+# The frontend's own pattern (src/laundryQcModel.ts uuidPattern, D08), in PostgreSQL regex syntax.
+PATTERN='^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+# RFC-4122 versions 1-8 with the RFC variant (the frontend's pattern before D08); information only.
+RFC_PATTERN='^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'
 V4_DEFAULTS={'gen_random_uuid()','public.gen_random_uuid()','extensions.gen_random_uuid()','pg_catalog.gen_random_uuid()',
              'uuid_generate_v4()','extensions.uuid_generate_v4()'}
 COLUMNS="""select c.table_name,c.column_name,c.column_default from information_schema.columns c
@@ -35,15 +40,17 @@ COLUMNS="""select c.table_name,c.column_name,c.column_default from information_s
 
 def uuid_quality(cur):
     columns=cur.execute(COLUMNS).fetchall()
-    refused={};defaults={}
+    refused={};defaults={};non_rfc={}
     for table,column,default in columns:
-        n=cur.execute(sql.SQL('select count(*) from erp.{} where {} is not null and {}::text !~ %s').format(
-            sql.Identifier(table),sql.Identifier(column),sql.Identifier(column)),(PATTERN,)).fetchone()[0]
+        n,r=cur.execute(sql.SQL('select count(*) filter (where {c}::text !~ %s),count(*) filter (where {c}::text !~ %s) from erp.{t} where {c} is not null').format(
+            t=sql.Identifier(table),c=sql.Identifier(column)),(PATTERN,RFC_PATTERN)).fetchone()
         if n:refused['%s.%s'%(table,column)]=n
+        if r:non_rfc['%s.%s'%(table,column)]=r
         if default is not None and default.strip() not in V4_DEFAULTS:defaults['%s.%s'%(table,column)]=default
     return dict(status='CLEAN' if not refused and not defaults else 'FOUND',pattern=PATTERN,columns_checked=len(columns),
                 refused_values=refused,refused_total=sum(refused.values()),non_v4_defaults=defaults,
-                reads_only=True,note='Frontend UUID pattern (versions 1-8, RFC variant) against every erp uuid column')
+                non_rfc_values=non_rfc,non_rfc_total=sum(non_rfc.values()),
+                reads_only=True,note='Frontend UUID pattern (canonical 8-4-4-4-12, D08) against every erp uuid column; non_rfc_values is information only')
 
 
 ALIASES="""select c.coa_account_id,count(*),array_agg(c.cash_account_code order by c.cash_account_code)

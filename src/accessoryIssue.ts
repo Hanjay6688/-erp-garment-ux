@@ -17,7 +17,7 @@ export type AccessoryWorkspace = { filters: Json; contractor_id: string | null; 
   contractors: { id: string; name: string }[]; locations: { id: string; name: string }[]; orders: { id: string; name: string }[];
   materials: AccessoryChoice[]; material_count: number; history_count: number; document: AccessoryDocument | null;
   history: { id: string; number: string; contractor: string; status: string; row_version: string; date: string; total: string }[] }
-export const accessoryUuid = (v: unknown): v is string => typeof v === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(v)
+export const accessoryUuid = (v: unknown): v is string => typeof v === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v)
 const text = (v: unknown): v is string => typeof v === 'string'
 const nullableId = (v: unknown) => v === null || accessoryUuid(v)
 const decimal = (v: unknown, scale: number): v is string => text(v) && new RegExp(`^\\d{1,18}\\.\\d{${scale}}$`).test(v)

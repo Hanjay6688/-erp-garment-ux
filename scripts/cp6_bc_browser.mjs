@@ -6,10 +6,10 @@
 // Oracles: filling a service post with 5 of 20 leaves 15 in the warehouse and 5 at the post with no journal, and its reversal
 // from the document detail restores 20/0; an owner sets ACC-DEC05 from the settings (status SET, version +1) and clears it
 // back to PENDING_POLICY_VALUE (version +2); a posted import with ALL-C03 custody shows the four custody kinds on the import page.
-// The note page (Nota Ambil Aksesori, ACC-D09): on this chain its read is refused by the pre-existing finding F3 (six CP3 seed
-// mandors with non RFC-4122 ids). The case therefore deactivates exactly those seed mandors in the disposable copy for its own
-// duration (the page's UUID guard is not changed) and drives desktop and phone: 7 PCS, reload in the middle, double-click on
-// POST (one note), an empty search, a read error and a slow read (GPT BC review item 2).
+// The note page (Nota Ambil Aksesori, ACC-D09) with the CP3 seed mandors (canonical, non RFC-4122 ids) left active (owner D08:
+// the page accepts any canonical UUID; no seed is deactivated): desktop with a fresh v4 mandor as the control (7 PCS, reload in
+// the middle, double-click on POST: one note, an empty search, a read error and a slow read; GPT BC review item 2), phone with a
+// seed mandor (7 PCS, one note carrying the seed's id). The seeds are checked still active at the end.
 import { randomUUID } from 'node:crypto'
 
 const day = (today, back) => { const d = new Date(`${today}T00:00:00Z`); d.setUTCDate(d.getUTCDate() - back); return d.toISOString().slice(0, 10) }
@@ -129,11 +129,13 @@ export async function cases(ui, today) {
       return { status: ok ? 'PASS' : 'FAIL', filled, reversed, document: number }
     }],
     ['BC_BROWSER:NOTE_PAGE_D09_DESKTOP_PHONE', async () => {
+      // D08: the seeded CP3 mandors (canonical, non RFC-4122 ids) stay active for the whole case.
       const seeds = ui.sql("select coalesce(string_agg(id::text, ',' order by id), '') from erp.contractors where contractor_type='MANDOR' and is_active and id::text !~* '^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'")
       const ids = seeds ? seeds.split(',') : []
+      if (!ids.length) return { status: 'FAIL', reason: 'D08_NO_ACTIVE_NON_RFC_SEED_MANDOR' }
       const list = ids.map(i => `'${i}'`).join(',')
-      if (ids.length) ui.sql(`update erp.contractors set is_active=false where id in (${list})`)
-      try {
+      const seedMandor = ids[0]
+      {
         const owner = await ui.login('OWNER', { label: 'bc-note-desktop' })
         const fx = await accessoryFixture(ui, owner, today, '20')
         const mandor = ui.sql(`insert into erp.contractors(contractor_code,contractor_name,contractor_type,attendance_required,is_active) values('${fx.code}M','BC mandor browser ${fx.code}','MANDOR',false,true) returning id`)
@@ -191,20 +193,23 @@ export async function cases(ui, today) {
         // Phone: another 7 PCS note with a single click.
         const phone = await ui.login('OWNER', { label: 'bc-note-phone', mobile: true })
         const q = await openNotes(ui, phone)
-        const mobileNumber = await fillNote(ui, q, fx, mandor, today, 7, 11)
+        const mobileNumber = await fillNote(ui, q, fx, seedMandor, today, 7, 11)
         await q.getByRole('button', { name: 'Periksa pengesahan', exact: true }).click()
         await q.getByRole('button', { name: 'Sahkan nota', exact: true }).click()
         await ui.expect.poll(() => notes(mobileNumber), { timeout: 20000 }).toBe('1|POSTED')
         await ui.expect(q.getByRole('cell', { name: /^7 pcs$/i }).first()).toBeVisible()
-        const mobile = { notes: notes(mobileNumber), stock: main() }
+        const issuer = n => ui.sql(`select coalesce(string_agg(contractor_id::text, ','), '') from erp.contractor_material_issues where issue_number='${n}'`)
+        const mobile = { notes: notes(mobileNumber), stock: main(), contractor: issuer(mobileNumber) }
         await phone.context.close()
+        const ids_check = { v4_control: issuer(number) === mandor && /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(mandor),
+          seed_non_rfc: mobile.contractor === seedMandor, seeds_still_active: ui.sql(`select count(*) from erp.contractors where is_active and id in (${list})`) === String(ids.length) }
         const ok = loadError === 0 && afterReload.notes === '0|' && afterReload.stock === '20' && afterReload.form_number === ''
           && desktop.notes === '1|POSTED' && desktop.stock === '13' && desktop.confirm_mentions_7_pcs && empty
           && errorState.alert.trim().length > 0 && loading && recovered && mobile.notes === '1|POSTED' && mobile.stock === '6'
-        return { status: ok ? 'PASS' : 'FAIL', seed_mandors_deactivated: ids.length, load_error_alerts: loadError, after_reload: afterReload, desktop, empty,
-          error_state: errorState, loading_disabled_reload: loading, recovered_after_error: recovered, mobile }
-      } finally {
-        if (ids.length) ui.sql(`update erp.contractors set is_active=true where id in (${list})`)
+          && ids_check.v4_control && ids_check.seed_non_rfc && ids_check.seeds_still_active
+        return { status: ok ? 'PASS' : 'FAIL', seed_mandors_active: ids.length, seed_mandor: seedMandor, v4_mandor: mandor, ids: ids_check,
+          load_error_alerts: loadError, after_reload: afterReload, desktop, empty, error_state: errorState, loading_disabled_reload: loading,
+          recovered_after_error: recovered, mobile }
       }
     }],
     ['BC_BROWSER:POLICY_SET_AND_CLEAR_BY_OWNER', async () => {

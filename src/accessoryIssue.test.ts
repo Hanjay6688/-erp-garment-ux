@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { displayMoney, micro, previewAccessoryLine, type AccessoryChoice } from './accessoryIssue'
+import { accessoryUuid, displayMoney, micro, previewAccessoryLine, type AccessoryChoice } from './accessoryIssue'
 const material: AccessoryChoice = { id:'11111111-1111-4111-8111-111111111111',sku:'BTN',name:'Kancing',unit:'PCS',category:'Kancing',stock:'300.000000',price_version_id:'22222222-2222-4222-8222-222222222222',master_price:'36.000000',price_unit:'LUSIN',factor:'12.000000' }
 describe('exact accessory quantity and independent retail price',()=>{
   it('keeps seven pcs separate from dozen/gross master pricing',()=>{
@@ -24,5 +24,15 @@ describe('exact accessory quantity and independent retail price',()=>{
     const p=previewAccessoryLine({material_id:material.id,qty:'999999',mode:'MANUAL',manual_price:'999999999999.99'},material)
     expect(p.amount).toBe(999998999999990000010000n)
     expect(displayMoney(micro('9007199254740993.25'))).toBe('Rp 9.007.199.254.740.993,25')
+  })
+})
+describe('D08: canonical UUID ids on the note page',()=>{
+  it('accepts every canonical 8-4-4-4-12 id the uuid type produces, RFC or not, and refuses malformed ones',()=>{
+    for(const id of ['a1000000-0000-0000-0000-000000000001','a2000000-0000-0000-0000-000000000001','11111111-1111-4111-8111-111111111111','00000000-0000-0000-0000-000000000000'])
+      expect(accessoryUuid(id)).toBe(true)
+    for(const id of ['','a1000000-0000-0000-0000-00000000001','a1000000-0000-0000-0000-0000000000011','g1000000-0000-0000-0000-000000000001',
+      'a10000000000000000000000000000001','{a1000000-0000-0000-0000-000000000001}',' a1000000-0000-0000-0000-000000000001',
+      'a1000000-0000-0000-0000-000000000001 ','a1000000_0000_0000_0000_000000000001',null,undefined,1])
+      expect(accessoryUuid(id)).toBe(false)
   })
 })

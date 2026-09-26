@@ -1671,7 +1671,7 @@ def workspace_parse(phase):
     kept=OUT/('WORKSPACE_REFUSED_'+phase.upper());kept.mkdir(parents=True,exist_ok=True)
     for item in parsed.get('refused') or []:(kept/item['file']).write_text((WS['dir']/item['file']).read_text())
     ok=run.returncode==0 and parsed.get('refused')==[] and (parsed.get('files') or 0)>0
-    return dict(status='PASS' if ok else 'FAIL',files=parsed.get('files'),kinds=parsed.get('kinds'),f3_seed_ids=parsed.get('f3_seed_ids'),
+    return dict(status='PASS' if ok else 'FAIL',files=parsed.get('files'),kinds=parsed.get('kinds'),non_rfc_files=parsed.get('non_rfc_files'),
                 f4_null_reversible=parsed.get('f4_null_reversible'),refused=parsed.get('refused'),
                 error=parsed.get('error'),exit=run.returncode)
 
