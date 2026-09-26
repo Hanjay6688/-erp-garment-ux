@@ -13,7 +13,7 @@ Each case runs inside the group's rolled-back savepoint; nothing is committed to
 from datetime import timedelta
 from decimal import Decimal
 from pathlib import Path
-import argparse,hashlib,json,os,re,subprocess,sys,traceback,uuid
+import argparse,hashlib,json,os,re,subprocess,sys,tempfile,traceback,uuid
 import psycopg
 
 AUDITOR=Path(__file__).resolve().parents[1]
@@ -986,12 +986,62 @@ PLAN=[('POLICY:LAU_DEC_SETTINGS_OWNER_VERSIONED_PENDING','NO_ROUTE',policy_setti
 assert len({k for k,_,_ in PLAN})==len(PLAN),'BD_DUPLICATE_CASE_ID'
 
 
+# Every BD workspace and import batch workspace a case reads, and the owner's Laundry/QC workspace read next to each owner BD
+# read, is saved and run through the pages' own parsers after the group (scripts/cp6_bd_workspace_parse.mjs): a page hides
+# what it cannot parse, so a refusal there is a probe failure. Missing until auditor scenario run 36206435863 found the
+# owner's BD workspace refused by its page (released "0" for an unreleased opening record).
+WS=dict(dir=None,case=None,n=0)
+_READ,_BD_WS=api.read,bd_ws
+
+
+def _save(kind,result):
+    if WS['dir'] is not None and isinstance(result,dict):
+        WS['n']+=1
+        name='%s_%s_%03d.json'%(kind,re.sub(r'[^A-Za-z0-9]+','_',WS['case'] or 'SETUP'),WS['n'])
+        (WS['dir']/name).write_text(json.dumps(result,default=str))
+    return result
+
+
+def recording_read(cur,batch=None):
+    result=_READ(cur,batch)
+    return _save('import',result) if batch is not None and isinstance(result,dict) and result.get('batch') else result
+
+
+def recording_bd_ws(cur,filters=None,auth=None):
+    result=_save('bd',_BD_WS(cur,filters,auth))
+    if auth is None:
+        # The Laundry page itself, as the same owner, at the same point of the case (read only, in its own savepoint).
+        cur.execute('savepoint bd_ws_laundry')
+        try:
+            chain.production.owner(cur)
+            laundry=cur.execute("select public.erp_get_laundry_qc_workspace_v1('LAUNDRY',null)").fetchone()[0]
+            chain.actors.admin(cur);cur.execute('release savepoint bd_ws_laundry');_save('laundry',laundry)
+        except psycopg.Error as exc:
+            cur.execute('rollback to savepoint bd_ws_laundry');chain.actors.admin(cur);_save('laundryerror',dict(error=str(exc)[:500]))
+    return result
+
+
 def cases(cur,today):
     day=case_day(today)
-    return [(key,lambda f=fn:f(cur,day)) for key,_,fn in PLAN]
+    def run_one(key,fn):
+        WS.update(case=key,n=0);return fn(cur,day)
+    return [(key,lambda k=key,f=fn:run_one(k,f)) for key,_,fn in PLAN]
+
+
+def workspace_parse(phase):
+    run=subprocess.run(['node',str(AUDITOR/'scripts/cp6_bd_workspace_parse.mjs'),str(WS['dir']),phase],capture_output=True,text=True,cwd=AUDITOR)
+    lines=run.stdout.strip().splitlines()
+    try:parsed=json.loads(lines[-1])
+    except (IndexError,ValueError):parsed=dict(files=None,refused=None,error=(run.stderr or run.stdout)[-1500:])
+    kept=OUT/('WORKSPACE_REFUSED_'+phase.upper());kept.mkdir(parents=True,exist_ok=True)
+    for item in parsed.get('refused') or []:(kept/item['file']).write_text((WS['dir']/item['file']).read_text())
+    ok=run.returncode==0 and parsed.get('refused')==[] and (phase=='before' or (parsed.get('files') or 0)>0)
+    return dict(status='PASS' if ok else 'FAIL',files=parsed.get('files'),kinds=parsed.get('kinds'),f3_seed_ids=parsed.get('f3_seed_ids'),
+                refused=parsed.get('refused'),error=parsed.get('error'),exit=run.returncode)
 
 
 def run(phase):
+    global bd_ws
     assert os.environ.get('CP6_AR_CONFIRM')=='cp6_rollback' and os.environ.get('CP6_DATABASE_CONTAINER')=='supabase_db_cp5-local'
     r1.OUT=OUT
     planned={k:(e if isinstance(e,tuple) else (e,)) if phase=='before' else ('PASS',) for k,e,_ in PLAN}
@@ -1013,12 +1063,17 @@ def run(phase):
         if phase=='after':report['bd_install']=install_bd();verify=bd_verified
         r1.save('RESULT_'+phase.upper(),report)
         print(json.dumps(dict(bd_probe_setup={k:report.get(k) for k in ('au_install','av_install','bc_install','bd_install')}),default=str),flush=True)
-        group=r1.group('BD_CASES_'+phase.upper(),cases,verify)
+        WS['dir']=Path(tempfile.mkdtemp(prefix='cp6-bd-ws-'));api.read=recording_read;bd_ws=recording_bd_ws
+        try:group=r1.group('BD_CASES_'+phase.upper(),cases,verify)
+        finally:api.read=_READ;bd_ws=_BD_WS
         report['bd_cases']={k:group[k] for k in ('status','counts')}
+        report['workspace_parse']=workspace_parse(phase)
+        print(json.dumps(dict(bd_workspace_parse=report['workspace_parse']),default=str),flush=True)
         final={k:v['status'] for k,v in group['cases'].items()}
         report['final']=final
         report['expectation_mismatch']={k:dict(planned=list(e),final=final.get(k)) for k,e in planned.items() if final.get(k) not in e}
-        report['status']='REVIEW_COMPLETE' if group['status']!='INCOMPLETE' and not report['expectation_mismatch'] else 'INCOMPLETE'
+        report['status']=('REVIEW_COMPLETE' if group['status']!='INCOMPLETE' and not report['expectation_mismatch']
+                          and report['workspace_parse']['status']=='PASS' else 'INCOMPLETE')
     except Exception as exc:report.update(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc())
     finally:
         subprocess.run(['docker','exec','supabase_db_cp5-local','dropdb','-U','supabase_admin','--if-exists','--force','--maintenance-db=template1','cp6_rollback'],check=True)

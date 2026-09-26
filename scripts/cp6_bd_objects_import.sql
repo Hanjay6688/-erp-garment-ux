@@ -475,7 +475,7 @@ begin
     'laundry_uninvoiced',coalesce((select jsonb_agg(jsonb_build_object('id',u.id,'vendor_code',v.vendor_code,'document_number',u.document_number,
         'receipt_date',u.receipt_date,'category',u.category,'qty',u.qty,'billed',erp.bd_opening_billed_v1(u.id),
         'estimate_status',case when u.estimated_amount is null then 'UNKNOWN' else 'KNOWN' end,'estimated_amount',u.estimated_amount::text,
-        'released',erp.bd_opening_released_v1(u.id)::text,'invoiced',erp.bd_opening_invoiced_v1(u.id),
+        'released',erp.bd_opening_released_v1(u.id)::numeric(18,2)::text,'invoiced',erp.bd_opening_invoiced_v1(u.id),
         'po_number',(select po_number from erp.production_orders where id=u.po_id),'dispatch_number',u.dispatch_number,'row_version',u.row_version::text)
         order by u.receipt_date,u.document_number,u.category)
       from erp.bd_opening_laundry_uninvoiced_v1 u join erp.laundry_vendors v on v.id=u.vendor_id where u.batch_id=p_batch),'[]'::jsonb));

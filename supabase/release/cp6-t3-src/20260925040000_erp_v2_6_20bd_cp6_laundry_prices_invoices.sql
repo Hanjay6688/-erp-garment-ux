@@ -1,6 +1,6 @@
 -- CP6 BD: priced laundry deliveries, vendor invoices and owner laundry policy settings (LAU-05b, LAU-DEC01..06, ALL-W05). Release candidate of the T3 combined package; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_bd_t1_family.sql (sha256 f3daa39fe909a7ee91ac7f3dc90a76ba665627b5f7bc99edf4153a2b0206464f): the T1 body below is unchanged apart from the
+-- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_bd_t1_family.sql (sha256 0470fb33f5a7440aef73f2c334c3f91f622085d44838fe46fc94778159169b27): the T1 body below is unchanged apart from the
 -- ledger description; guards follow AO..AV. Capsule and catalog pins are placeholders until the T3 capture.
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
@@ -1638,7 +1638,7 @@ begin
     'laundry_uninvoiced',coalesce((select jsonb_agg(jsonb_build_object('id',u.id,'vendor_code',v.vendor_code,'document_number',u.document_number,
         'receipt_date',u.receipt_date,'category',u.category,'qty',u.qty,'billed',erp.bd_opening_billed_v1(u.id),
         'estimate_status',case when u.estimated_amount is null then 'UNKNOWN' else 'KNOWN' end,'estimated_amount',u.estimated_amount::text,
-        'released',erp.bd_opening_released_v1(u.id)::text,'invoiced',erp.bd_opening_invoiced_v1(u.id),
+        'released',erp.bd_opening_released_v1(u.id)::numeric(18,2)::text,'invoiced',erp.bd_opening_invoiced_v1(u.id),
         'po_number',(select po_number from erp.production_orders where id=u.po_id),'dispatch_number',u.dispatch_number,'row_version',u.row_version::text)
         order by u.receipt_date,u.document_number,u.category)
       from erp.bd_opening_laundry_uninvoiced_v1 u join erp.laundry_vendors v on v.id=u.vendor_id where u.batch_id=p_batch),'[]'::jsonb));
@@ -2334,7 +2334,7 @@ begin
     'opening_uninvoiced',coalesce((select jsonb_agg(jsonb_build_object('id',u.id,'vendor_id',u.vendor_id,'vendor_code',v.vendor_code,
         'document_number',u.document_number,'receipt_date',u.receipt_date,'category',u.category,'qty',u.qty,'billed',erp.bd_opening_billed_v1(u.id),
         'estimate_status',case when u.estimated_amount is null then 'UNKNOWN' else 'KNOWN' end,
-        'estimated_amount',case when v_money then u.estimated_amount::text end,'released',case when v_money then erp.bd_opening_released_v1(u.id)::text end,
+        'estimated_amount',case when v_money then u.estimated_amount::text end,'released',case when v_money then erp.bd_opening_released_v1(u.id)::numeric(18,2)::text end,
         'invoiced',erp.bd_opening_invoiced_v1(u.id),'po_number',(select po_number from erp.production_orders where id=u.po_id),
         'dispatch_number',u.dispatch_number,'row_version',u.row_version::text) order by u.receipt_date,u.document_number,u.category)
       from erp.bd_opening_laundry_uninvoiced_v1 u join erp.laundry_vendors v on v.id=u.vendor_id where v_vendor is null or u.vendor_id=v_vendor),'[]'::jsonb),

@@ -17,6 +17,12 @@ name: CP6 BD T1 Family Probe
     - supabase/dev/cp6_bd_t1_family.sql
     - scripts/cp6_layers.py
     - scripts/cp6_ay_probe.py
+    - scripts/cp6_bd_workspace_parse.mjs
+    - src/laundryBd.ts
+    - src/laundryQcModel.ts
+    - src/initialImportBD.ts
+    - src/initialProduction.ts
+    - src/ConnectedInitialImportPage.tsx
     - .github/workflows/cp6-bd-t1-probe.yml
   workflow_dispatch: null
 permissions:
