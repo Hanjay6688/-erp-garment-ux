@@ -12,6 +12,7 @@ import { CATEGORY_LABEL, CHARGE_KIND_LABEL, LAU_POLICY_KEYS, LAU_POLICY_LABEL, m
   signedMoneyInput, validateBdResult, wholePcs, wibTimestamp, type BdInvoice, type Category, type LaundryBdWorkspace, type LauPolicyKey } from './laundryBd'
 import type { LaundryQcWorkspace } from './laundryQcModel'
 import type { Json } from './types/database.preconnect'
+import './initial-import.css'
 
 type Section = 'policies' | 'master' | 'send' | 'unknown' | 'invoices' | 'opening'
 const SECTIONS: [Section, string][] = [['policies', 'Kebijakan owner'], ['master', 'Harga vendor'], ['send', 'Kirim dengan harga'], ['unknown', 'Harga belum diketahui'],
