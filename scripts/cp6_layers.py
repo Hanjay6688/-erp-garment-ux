@@ -13,8 +13,9 @@ import cp6_ba_build as ba
 import cp6_bb_build as bb
 import cp6_bc_build as bc
 import cp6_bd_build as bd
+import cp6_be_build as be
 
-LATER={ba.VERSION:tuple(ba.REPLACED),bb.VERSION:tuple(bb.REPLACED),bc.VERSION:tuple(bc.REPLACED),bd.VERSION:tuple(bd.REPLACED)}
+LATER={ba.VERSION:tuple(ba.REPLACED),bb.VERSION:tuple(bb.REPLACED),bc.VERSION:tuple(bc.REPLACED),bd.VERSION:tuple(bd.REPLACED),be.VERSION:tuple(be.REPLACED)}
 
 
 def superseded(cur,after=None):

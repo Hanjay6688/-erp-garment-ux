@@ -55,7 +55,10 @@ def bd_functions():
 def bd_verified(cur):
     base=bcp.bc_verified(cur)
     assert bd_installed(cur),'BD_T1_MARKER'
+    import cp6_layers
+    superseded=cp6_layers.superseded(cur,bd_build.VERSION)
     for name in bd_functions():
+        if name in superseded:continue
         schema,proname=name.split('(')[0].split('.')
         rows=cur.execute("select p.oid::regprocedure::text,p.prosrc from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname=%s and p.proname=%s",
                          (schema,proname)).fetchall()

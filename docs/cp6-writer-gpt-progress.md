@@ -51,3 +51,15 @@ Baca berkas rujukan dan sumber BD/konversi/rework/kain kantong; ambil log run/jo
 - Run `36263717916`, job skenario `108464257310`: **INCOMPLETE**, selftest `108464257515` PASS. Browser gagal saat fixture `create`, sebelum membuat user Auth atau membuka UI: helper native mencoba `erp.current_app_role()` dengan role authenticated tanpa USAGE schema erp. Ini kegagalan setup uji, bukan hasil produk.
 - Rev2 memberi USAGE hanya selama transaksi setup pada database salinan `cp6_auditor_browser`, lalu mengembalikan hak persis seperti semula dan mengassert restorasinya sebelum commit. Browser tidak mendapat grant tambahan. Operasi baca di-rollback. Expected angka/UI tidak berubah; run lama tetap INCOMPLETE.
 - Desain BE disimpan pada `docs/cp6-be-implementation-plan.md`. Berikutnya: run BD rev2, lanjut implementasi konversi BE dan sumber biaya; family belum lengkap sampai empat alur dan seluruh gate writer selesai.
+
+## Hasil BD-2 — gap browser ALLOW_PENDING terjawab
+- Run baru `36264421663`, commit `3be185acdbe75d70e3d74ebc884bd74912baad24`, job skenario `108466247346`: **RUN_COMPLETE**. Selftest `108466247334`: PASS.
+- Race 9/9 PASS; HTTP Auth 3/3 PASS; browser `BD_COMPLETION:ALLOW_PENDING_VISIBLE_AND_BROWSER_RECOST` PASS, sembilan cek true. Sebelum pengisian: nilai lot 50100, FG 40080, COGS 10020; sesudah pengisian: 60100/48080/12020. Snapshot penjualan tetap 5010 per PCS, NOT_FINAL menjadi RECOSTED, blocker harga hilang. 0 console error, satu user Auth dibersihkan; primary_unchanged=true, clone_remaining=0.
+- Batas bukti tetap: penjualan adalah fixture melalui command native; browser membuktikan tampilan pending dan pengisian harga. Ini tidak mengklaim halaman penjualan demo telah tersambung.
+- Log paket BD `36222100215`/`108349157867`: 28 keluarga terpasang, drill RESTORED_SAME_MEANING. Log rollback `36222384316`/`108349950711`: cycle PASS, primary_unchanged=true. Produk BD tidak diubah dalam dua run tambahan ini.
+
+## Tahap BE-1 — fondasi dipush untuk probe sebelum/sesudah
+- `cp6_be_objects_conversion.sql`: facade izin + idempotensi, preview kapasitas bertanggal, satu lot sumber eksplisit, target model/ukuran tetap, hasil native conversion, inverse dan daftar bongkaran pending. Guard biaya tanpa sumber dan non-PO masih berlaku pada tahap ini; belum lengkap.
+- Builder memakai substitusi tepat-sekali pada fungsi AC, bukan salinan bebas. Registry layer memverifikasi teks BE yang menggantikan fungsi predecessor. Workflow T1 baru memakai pin bootstrap/harness identik dengan BD; tidak mengubah cabang kompetisi.
+- BELUM: sumber biaya/recovery, non-PO, BE rework/redye, ALL-C04, UI, race/HTTP/browser BE, T2, paket 29/rollback/CodeQL. Tidak ada hasil BE yang diklaim lulus.
+- LANGKAH BERIKUTNYA: baca run T1 BE-1 (dua kasus fondasi), perbaiki hasil bila perlu, kemudian sambungkan biaya aktual BC dan recost transitive, dilanjutkan rework/redye dan ALL-C04. Independen tetap sesi auditor lain.
