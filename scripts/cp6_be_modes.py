@@ -6,6 +6,7 @@ First-known redye price is set once; invoice capacity belongs to the actual serv
 Historical period allocation is serialized by the existing try-lock, then rechecked.
 """
 import json,uuid
+from datetime import timedelta
 import cp6_be_probe as be
 import cp6_bd_modes as bd_modes
 b=be.bdp
@@ -48,6 +49,26 @@ def redye_invoice_race(tools,today,commit):
       second=(not outcome.get('ok') and 'BD_INVOICE_CAPACITY' in str(outcome.get('message'))) if commit else outcome.get('ok') is True,
       once=cost==240),contention=contention,second=outcome,cost=cost)
 
+def pocket_race(tools,today,commit):
+    p=be.pocket_probe;cut=today-timedelta(days=10)
+    with tools.connect() as setup,setup.cursor() as cur:
+        f=b.bbp.production_post(cur,today,p.active_unit(cur,p.rows(cut)))
+        v=p.preview(cur,cut-timedelta(days=1),cut);setup.commit()
+    payload=dict(period_start=v['period_start'],period_end=v['period_end'],expected_revision=v['revision'],reason='BE historical pool concurrency')
+    with tools.connect() as first,tools.connect() as second,first.cursor() as a,second.cursor() as z:
+        a_id=be.one(a,'select pg_backend_pid()');z_id=be.one(z,'select pg_backend_pid()')
+        held=p.call(a,'POST_PERIOD',payload)
+        z.execute("set local statement_timeout='3s'")
+        busy=b.refused(z,lambda:p.call(z,'POST_PERIOD',payload),'POCKET_PERIOD_BUSY');second.rollback()
+        if commit:first.commit()
+        else:first.rollback()
+        if commit:
+            retry=b.refused(z,lambda:p.call(z,'POST_PERIOD',payload),'tumpang tindih');second.rollback();retried=retry['ok']
+        else:
+            result=p.call(z,'POST_PERIOD',payload);second.commit();retried=result['status']=='ACTIVE'
+    count=read(tools,lambda cur:be.one(cur,'select count(*) from erp.pocket_period_sources where historical_usage_id in(select id from erp.be_pocket_usage_v1 where batch_id=%s)',f['batch']))
+    return b.verdict(dict(two_connections=a_id!=z_id,held_busy=busy['ok'],retry=retried,once=count==1),first_committed=commit,busy=busy,source_allocations=count)
+
 def races(tools,today):
     return [('BE_RACE:CONVERSION_FIRST_COMMITS',lambda:conversion_race(tools,today,True)),
       ('BE_RACE:CONVERSION_FIRST_ABORTS',lambda:conversion_race(tools,today,False)),
@@ -55,7 +76,9 @@ def races(tools,today):
       ('BE_RACE:REDYE_PRICE_FIRST_COMMITS',lambda:redye_price_race(tools,today,True)),
       ('BE_RACE:REDYE_PRICE_FIRST_ABORTS',lambda:redye_price_race(tools,today,False)),
       ('BE_RACE:REDYE_INVOICE_FIRST_COMMITS',lambda:redye_invoice_race(tools,today,True)),
-      ('BE_RACE:REDYE_INVOICE_FIRST_ABORTS',lambda:redye_invoice_race(tools,today,False))]
+      ('BE_RACE:REDYE_INVOICE_FIRST_ABORTS',lambda:redye_invoice_race(tools,today,False)),
+      ('BE_RACE:POCKET_PERIOD_FIRST_COMMITS',lambda:pocket_race(tools,today,True)),
+      ('BE_RACE:POCKET_PERIOD_FIRST_ABORTS',lambda:pocket_race(tools,today,False))]
 
 def http_cases(http,today):
     def conversion():
@@ -69,7 +92,7 @@ def http_cases(http,today):
         warehouse_view=warehouse.rpc('erp_get_product_conversion_workspace_v1',dict(p_filters=dict(source_lot_id=f['lot'])))
         # A real Owner creates an explicitly read-only role in this disposable copy.
         # The default GUDANG role has no conversion.view; never assume it does.
-        code='BE_READER_'+uuid.uuid4().hex[:12].upper()
+        code='BE_R_'+uuid.uuid4().hex[:10].upper()
         role=owner.rpc('erp_save_role_v1',dict(p_payload=dict(code=code,name='BE read-only conversion fixture',
           permission_keys=['warehouse.brand_conversion.view'],confirm_high_risk=False,change_reason='BE isolated HTTP permission matrix'),
           p_client_request_id=str(uuid.uuid4()),p_expected_version=None))

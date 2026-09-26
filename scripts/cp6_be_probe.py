@@ -228,7 +228,9 @@ PLAN=[('BE01:SELECTED_LOT_REPLAY_REVERSE','NO_ROUTE',conversion_roundtrip),('BE0
       ('BE04:HISTORICAL_POCKET_RECEIPT_INVOICE_INVERSE','NO_ROUTE',lambda cur,today:pocket_probe.receipt_correction(cur,today,installed(cur))),
       ('BE01:LATE_INVOICE_RECOVERY_SOLD_AND_CONVERTED','NO_ROUTE',lambda cur,today:cost_probe.chain_cost(cur,today,installed(cur),fixture,be)),
       ('BE04:HISTORICAL_PERIOD_WIP_SPLIT_COMPLETION_RECOST','NO_ROUTE',lambda cur,today:pocket_probe.historical_continuation(cur,today,installed(cur))),
-      ('BE04:PROVENANCE_NUMERATOR_DENOMINATOR_REFUSALS','NO_ROUTE',lambda cur,today:pocket_probe.validation_controls(cur,today,installed(cur)))]
+      ('BE04:PROVENANCE_NUMERATOR_DENOMINATOR_REFUSALS','NO_ROUTE',lambda cur,today:pocket_probe.validation_controls(cur,today,installed(cur))),
+      ('BE04:ALLOCATED_REFERENCE_ONLY_DUPLICATE_BATCH','NO_ROUTE',lambda cur,today:pocket_probe.allocated_and_duplicate(cur,today,installed(cur))),
+      ('BE04:SALE_RETURN_CONVERSION_RECOST','NO_ROUTE',lambda cur,today:pocket_probe.stock_continuation(cur,today,installed(cur)))]
 def cases(cur,today):return [(key,lambda f=fn:f(cur,today)) for key,_,fn in PLAN]
 
 def run(phase):

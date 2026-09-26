@@ -140,3 +140,52 @@ def validation_controls(cur,today,installed):
     attempt('fractional_pieces',lambda r:r['OPENING_POCKET_SEWING'][0].update(qty='4.5'),'BE_POCKET_SEWING_PCS')
     attempt('missing_target',lambda r:r['OPENING_POCKET_SEWING'][0].update(target_source_key='ABSENT'),'BE_POCKET_TARGET_SOURCE_REQUIRED')
     return b.verdict({k:v['ok'] for k,v in results.items()},refusals=results)
+
+def allocated_and_duplicate(cur,today,installed):
+    if not installed:return roundtrip(cur,today,False)
+    cut=today-timedelta(days=10);r=active_unit(cur,rows(cut));identity='BE-PRIOR-'+uuid.uuid4().hex
+    r['OPENING_POCKET_USAGE'][0].update(document_number=identity,allocation_status='ALLOCATED',prior_allocation_reference='APPROVED-HISTORICAL-SHEET')
+    expense=b.gl(cur,'OTHER_EXPENSE');f=b.bbp.production_post(cur,today,r)
+    history=q(cur,'select original_amount,journal_id from erp.be_pocket_usage_v1 where batch_id=%s',f['batch'])
+    p=preview(cur,cut-timedelta(days=1),cut)
+    before=(one(cur,'select count(*) from erp.material_stock_movements'),b.gl(cur,'OTHER_EXPENSE'))
+    second=b.bbp.production_post(cur,today,r,expect=True)
+    unchanged=before==(one(cur,'select count(*) from erp.material_stock_movements'),b.gl(cur,'OTHER_EXPENSE'))
+    refused='BE_POCKET_DUPLICATE_SOURCE' in str(second['errors'])
+    return b.verdict(dict(no_second_expense=b.gl(cur,'OTHER_EXPENSE')==expense,reference_only=len(history)==1 and history[0][1] is None,
+      excluded=p['amount']=='0.00' and not p['can_post'],duplicate_refused=refused,unchanged=unchanged),preview=p,errors=second['errors'])
+
+def return_sale(cur,sale,day):
+    api.admin(cur);ident=str(uuid.uuid4())
+    allocation,product,lot,location=q(cur,'select a.id,p.product_id,a.lot_id,a.location_id from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id join erp.fg_lots p on p.id=a.lot_id where i.sale_id=%s order by a.id limit 1',sale)[0]
+    customer=one(cur,'select customer_id from erp.sales_headers where id=%s',sale)
+    cur.execute("insert into erp.sales_returns(id,return_number,sale_id,customer_id,physical_at,status,notes,created_by) values(%s,%s,%s,%s,%s,'DRAFT','BE real customer return',%s)",(ident,'BE-RETURN-'+ident,sale,customer,b.chain.production.at(day,18),b.chain.base.OPERATOR_APP))
+    cur.execute("insert into erp.sales_return_items(return_id,sale_stock_allocation_id,product_id,lot_id,location_id,quality_grade,qty_pcs,unit_hpp_snapshot,refund_amount,notes) values(%s,%s,%s,%s,%s,'GRADE_A',1,0,1,'BE return lineage')",(ident,allocation,product,lot,location))
+    b.internal(cur,'post_sales_return',ident)
+    return ident
+
+def stock_continuation(cur,today,installed):
+    if not installed:return roundtrip(cur,today,False)
+    import cp6_be_probe as be
+    cut=today-timedelta(days=10);r=active_unit(cur,rows(cut))
+    r['PRODUCT'].append(dict(r['PRODUCT'][0],sku='{C}T',color_name='BE target colour',product_name='BE cutover target'))
+    f=b.bbp.production_post(cur,today,r)
+    p=preview(cur,cut-timedelta(days=1),cut)
+    call(cur,'POST_PERIOD',dict(period_start=p['period_start'],period_end=p['period_end'],expected_revision=p['revision'],reason='BE C04 before stock lifecycle'))
+    lot,product,location=q(cur,"select m.lot_id::text,l.product_id::text,m.location_id::text from erp.be_pocket_sewing_v1 s join erp.fg_stock_movements m on m.source_type='OPENING_BALANCE_ITEM' and m.source_id=s.opening_item_id and m.movement_type='OPENING' join erp.fg_lots l on l.id=m.lot_id where s.batch_id=%s and s.target_kind='FINISHED_GOODS'",f['batch'])[0]
+    target=one(cur,'select id::text from erp.products where sku=%s',f['code']+'T')
+    customer=b.chain.base.create_customer(cur,'BE-C04-'+uuid.uuid4().hex[:8]);b.chain.production.owner(cur)
+    made=one(cur,'select erp.save_sale_draft_v2(%s::jsonb,%s::uuid,null)',b.json.dumps(dict(sale_number='BE-C04-'+uuid.uuid4().hex[:10],customer_id=customer,
+      source_location_id=location,sale_date=b.iso(b.chain.production.at(cut+timedelta(days=1),17)),reason='BE opening sale before correction',
+      items=[dict(product_id=product,qty_pcs=1,unit_price_snapshot='20000',discount_amount=0)])),str(uuid.uuid4()))
+    sale=made['sale_id'];version=one(cur,'select row_version from erp.sales_headers where id=%s',sale)
+    b.chain.production.owner(cur);cur.execute('select erp.post_sale_v2(%s,%s,%s)',(sale,uuid.uuid4(),version));api.admin(cur)
+    converted=be.be(cur,'POST',dict(source_lot_id=lot,target_product_id=target,location_id=location,qty_pcs=1,physical_at=b.iso(b.chain.production.at(cut+timedelta(days=2),15)),reason='BE opening FG converted',expected_version=one(cur,'select erp.be_source_revision_v1(%s,%s)',lot,location)))
+    return_sale(cur,sale,cut+timedelta(days=3))
+    snapshots=q(cur,'select id,total_hpp from erp.sale_stock_allocations where sale_item_id in(select id from erp.sales_items where sale_id=%s)',sale)
+    old=amounts(cur);truth=b.all_truth(cur);usage=one(cur,'select id::text from erp.be_pocket_usage_v1 where batch_id=%s',f['batch'])
+    call(cur,'CORRECT_OPENING_USAGE',dict(usage_id=usage,amount='15.00',expected_amount='11.25',economic_date=str(cut+timedelta(days=4)),reason='BE C04 recost sold returned converted'))
+    delta=difference(old,amounts(cur));dest=converted['destination_lot_id'];after=b.all_truth(cur)
+    return b.verdict(dict(qty=be.qty(cur,lot)==2 and be.qty(cur,dest)==1,child=b.lot_value(cur,dest)==b.D('11.50'),source=b.lot_value(cur,lot)==b.D('34.50'),
+      ledger=abs(delta['FG_INVENTORY']-b.D('1.12'))<=b.D('.01') and abs(delta['COGS']-b.D('.75'))<=b.D('.01'),
+      history=snapshots==q(cur,'select id,total_hpp from erp.sale_stock_allocations where sale_item_id in(select id from erp.sales_items where sale_id=%s)',sale),truth=b.truth_quiet(truth,after)),delta=delta,child=b.lot_value(cur,dest),source=b.lot_value(cur,lot),detectors=[truth,after])

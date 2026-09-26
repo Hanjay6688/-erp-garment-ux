@@ -10,6 +10,8 @@ async function navigate(p,name,group='Gudang'){
 }
 async function conversion(ui,today,mobile,timezoneId){
   const f=fixture('create',{kind:'conversion',today}),owner=await ui.login('OWNER',{label:'be-conversion-'+timezoneId.replaceAll('/','-'),mobile,timezoneId}),p=owner.page
+  const previewReplies=[]
+  p.on('response',async r=>{if(r.url().includes('/rpc/erp_get_product_conversion_workspace_v1')){try{const req=r.request().postDataJSON();if(req.p_filters?.preview)previewReplies.push({status:r.status(),body:await r.json(),payload:req.p_filters.preview})}catch{}}})
   try{
     await navigate(p,'Ganti Merek')
     const ready=()=>ui.expect(p.getByRole('button',{name:'Muat ulang',exact:true})).toBeEnabled({timeout:20000})
@@ -32,7 +34,7 @@ async function conversion(ui,today,mobile,timezoneId){
       value:money(after.target_value)*10n===money(f.value)*6n,wib_date:after.documents[0][2]===f.day&&after.documents[0][3]==='15:00:00',
       inverse:inverse.target_qty===0&&inverse.documents[0][1]==='REVERSED'}
     return{status:Object.values(checks).every(Boolean)?'PASS':'FAIL',checks,mobile,timezoneId,after,inverse}
-  }finally{await owner.context.close()}
+  }catch(e){throw new Error(String(e)+'; alerts='+JSON.stringify(await p.getByRole('alert').allTextContents())+'; previews='+JSON.stringify(previewReplies))}finally{await owner.context.close()}
 }
 async function pocket(ui,today){
   const f=fixture('create',{kind:'pocket',today}),owner=await ui.login('OWNER',{label:'be-pocket-mobile',mobile:true}),p=owner.page

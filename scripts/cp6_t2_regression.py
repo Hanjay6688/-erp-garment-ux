@@ -79,6 +79,7 @@ import cp6_bb_probe as bbp
 import cp6_bc_probe as bcp
 import cp6_bd_probe as bdp
 import cp6_be_probe as bep
+# BE final verification includes historical pocket receipt certainty (ordered DDL).
 import cp6_regression_identity as identity
 
 LABEL=os.environ.get('CP6_T2_LABEL','T2_PRELIMINARY')

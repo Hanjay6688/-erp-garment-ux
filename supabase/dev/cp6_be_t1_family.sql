@@ -916,17 +916,6 @@ AS $function$
   from erp.be_pocket_sewing_v1 s join erp.contractors c on c.id=s.contractor_id where s.batch_id=p_batch),'[]'))
 $function$;
 
-CREATE OR REPLACE FUNCTION erp.be_pocket_item_pending_v1(p_item uuid)
- RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
-AS $function$
- select exists(select 1 from erp.be_pocket_sewing_v1 h
-  join erp.pocket_period_destinations d on d.historical_sewing_id=h.id
-  join erp.pocket_period_sources s on s.pool_id=d.pool_id
-  join erp.be_pocket_receipt_origins_v1 r on r.usage_id=s.historical_usage_id
-  where h.opening_item_id=p_item and erp.pocket_period_active_v1(d.pool_id)
-   and erp.material_purchase_invoice_capacity(r.purchase_item_id)>erp.material_purchase_posted_invoice_qty(r.purchase_item_id))
-$function$;
-
 CREATE OR REPLACE FUNCTION erp.be_pocket_sync_targets_v1(p_pool uuid,p_date date,p_cancel boolean)
  RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
 AS $function$
@@ -1038,6 +1027,17 @@ begin
  insert into erp.be_pocket_receipt_origins_v1(usage_id,purchase_item_id,material_qty,unit_cost_snapshot)
  values(p_usage,v_item,(p_payload->>'qty')::numeric,erp.bb_receipt_opening_unit_cost_v1(v_item));
 end;$function$;
+CREATE OR REPLACE FUNCTION erp.be_pocket_item_pending_v1(p_item uuid)
+ RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+ select exists(select 1 from erp.be_pocket_sewing_v1 h
+  join erp.pocket_period_destinations d on d.historical_sewing_id=h.id
+  join erp.pocket_period_sources s on s.pool_id=d.pool_id
+  join erp.be_pocket_receipt_origins_v1 r on r.usage_id=s.historical_usage_id
+  where h.opening_item_id=p_item and erp.pocket_period_active_v1(d.pool_id)
+   and erp.material_purchase_invoice_capacity(r.purchase_item_id)>erp.material_purchase_posted_invoice_qty(r.purchase_item_id))
+$function$;
+
 CREATE OR REPLACE FUNCTION erp.be_pocket_recost_receipt_v1(p_item uuid)
  RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
 AS $function$

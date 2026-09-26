@@ -1,6 +1,6 @@
 -- CP6 BE: physical SKU conversion, rework/redye service and historical pocket allocation (LAU-06b and ALL-C04). Release candidate of the T3 combined package; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_be_t1_family.sql (sha256 7139c80a0498e877767e96530273f2d211dccc6615114dd2ee6d8e6bd8eefd01): the T1 body below is unchanged apart from the
+-- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_be_t1_family.sql (sha256 0066a29bd30ec5090611ae6289e087cbab5b593214eec68c490121af296a1d77): the T1 body below is unchanged apart from the
 -- ledger description; guards follow AO..AV. Capsule and catalog pins are placeholders until the T3 capture.
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
@@ -1080,17 +1080,6 @@ AS $function$
   from erp.be_pocket_sewing_v1 s join erp.contractors c on c.id=s.contractor_id where s.batch_id=p_batch),'[]'))
 $function$;
 
-CREATE OR REPLACE FUNCTION erp.be_pocket_item_pending_v1(p_item uuid)
- RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
-AS $function$
- select exists(select 1 from erp.be_pocket_sewing_v1 h
-  join erp.pocket_period_destinations d on d.historical_sewing_id=h.id
-  join erp.pocket_period_sources s on s.pool_id=d.pool_id
-  join erp.be_pocket_receipt_origins_v1 r on r.usage_id=s.historical_usage_id
-  where h.opening_item_id=p_item and erp.pocket_period_active_v1(d.pool_id)
-   and erp.material_purchase_invoice_capacity(r.purchase_item_id)>erp.material_purchase_posted_invoice_qty(r.purchase_item_id))
-$function$;
-
 CREATE OR REPLACE FUNCTION erp.be_pocket_sync_targets_v1(p_pool uuid,p_date date,p_cancel boolean)
  RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
 AS $function$
@@ -1202,6 +1191,17 @@ begin
  insert into erp.be_pocket_receipt_origins_v1(usage_id,purchase_item_id,material_qty,unit_cost_snapshot)
  values(p_usage,v_item,(p_payload->>'qty')::numeric,erp.bb_receipt_opening_unit_cost_v1(v_item));
 end;$function$;
+CREATE OR REPLACE FUNCTION erp.be_pocket_item_pending_v1(p_item uuid)
+ RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+ select exists(select 1 from erp.be_pocket_sewing_v1 h
+  join erp.pocket_period_destinations d on d.historical_sewing_id=h.id
+  join erp.pocket_period_sources s on s.pool_id=d.pool_id
+  join erp.be_pocket_receipt_origins_v1 r on r.usage_id=s.historical_usage_id
+  where h.opening_item_id=p_item and erp.pocket_period_active_v1(d.pool_id)
+   and erp.material_purchase_invoice_capacity(r.purchase_item_id)>erp.material_purchase_posted_invoice_qty(r.purchase_item_id))
+$function$;
+
 CREATE OR REPLACE FUNCTION erp.be_pocket_recost_receipt_v1(p_item uuid)
  RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
 AS $function$
