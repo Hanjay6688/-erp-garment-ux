@@ -25,10 +25,11 @@ Nilai kebijakan laundry tetap `PENDING_POLICY_VALUE` di produk (enam baris `erp.
 *before* adalah hasil yang direncanakan pada rantai AN..BC tanpa BD:
 
 - `NO_ROUTE`: facade BD (`erp_save_laundry_bd_action_v1` / `erp_get_laundry_bd_workspace_v1`) atau berkas impor BD belum dikenal, dan tidak ada yang berubah.
+- `COUNTEREXAMPLE` (hanya D07): pada rantai tanpa BD, alarm v2.5.5 per gerakan berbunyi pada buku yang tepat. Itu temuan lama F2 yang diperbaiki D07.
 
 Kolom *after* selalu `PASS`.
 
-## T1 probe (`scripts/cp6_bd_probe.py`, 27 kasus, `.github/workflows/cp6-bd-t1-probe.yml`)
+## T1 probe (`scripts/cp6_bd_probe.py`, 28 kasus, `.github/workflows/cp6-bd-t1-probe.yml`)
 
 Sejak e49273f, setiap workspace BD, workspace impor, dan workspace Laundry/QC owner yang dibaca kasus disimpan lalu dijalankan lewat parser halaman sendiri (`scripts/cp6_bd_workspace_parse.mjs`: `src/laundryBd.ts`, `src/ConnectedInitialImportPage.tsx`, `src/laundryQcModel.ts`). Satu penolakan membuat fase INCOMPLETE. Pengecualian bernama hanya F3 (lihat §Temuan), dihitung terpisah sebagai `f3_seed_ids`.
 
@@ -61,6 +62,7 @@ Sejak e49273f, setiap workspace BD, workspace impor, dan workspace Laundry/QC ow
 | W05:CLAIM_CONTINUATIONS | ALL-W05 | F22 §W05; G22 §ALL-W05 (lanjutan di jalur kanonik) | NO_ROUTE |
 | W05:IMPORT_REFUSALS | ALL-W05 | G22 §ALL-W05 (negatif r9) | NO_ROUTE |
 | W05:UNINVOICED_ACCRUAL_INVOICE | ALL-W05 | G22 §ALL-W05 (tanpa tagihan kedua; nilai unknown tetap pending dan menahan tutup buku) | NO_ROUTE |
+| D07:RECOST_ALARM_DOCUMENT_LEVEL | D07 (bukan ID C6/ALL; handoff auditor R12 tugas 1) | usulan teknis auditor di handoff R12 §2 butir 1 (bukan rumus yang diratifikasi owner); lima jalur F2 `xaudit_12_f1f2.py` | COUNTEREXAMPLE (alarm berbunyi pada buku tepat di rantai BC) |
 
 "Jalur BD" artinya kasus itu menguji ID tersebut untuk kiriman yang diberi harga BD. Perilaku ID yang sama untuk kiriman per PCS lama tetap BASELINE dan sudah punya bukti sendiri (lampiran C6 rev4 crosswalk).
 
