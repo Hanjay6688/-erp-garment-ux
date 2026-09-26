@@ -11,9 +11,9 @@ CP6 HOLD · audit_complete=false · production_go=false.
 - Main, kompetisi, hosted/legacy/production tidak menjadi target pekerjaan ini. Kebijakan riil owner tidak diisi dari nilai fixture.
 
 ## Fase aktif dan rencana
-1. **AKTIF: intake takeover dan finalisasi BD.** Baca handoff/sumber, verifikasi log T36 pada 36226363180/job 108361073793, identitas paket/rollback, serta kekurangan §34.8.
+1. **SELESAI: intake takeover dan finalisasi BD writer.** Baca handoff/sumber, verifikasi log T36 pada 36226363180/job 108361073793, identitas paket/rollback, serta kekurangan §34.8.
 2. Lengkapi bukti browser LAU-DEC04 `ALLOW_PENDING` (handoff hanya membuktikan probe/unit). Bila ada cacat, perbaiki dengan expected dari keputusan owner; jangan mengubah hasil beku.
-3. BE-01 konversi/ganti merek FG + aksesori aktual/pulih; BE-02 rework ke SKU baru; BE-03 celup ulang BS dengan jasa/biaya yang sah; BE-04 ALL-C04 kain kantong lintas cutover. Tetapkan transisi dan oracle sebelum implementasi.
+3. **AKTIF: implementasi family BE.** BE-01 konversi/ganti merek FG + aksesori aktual/pulih; BE-02 rework ke SKU baru; BE-03 celup ulang BS dengan jasa/biaya yang sah; BE-04 ALL-C04 kain kantong lintas cutover. Tetapkan transisi dan oracle sebelum implementasi.
 4. Lengkapi probe before/after, race/HTTP/browser, T2, paket T3 dan rollback BE serta CodeQL. Hasil lokal dilabel lokal; bukan bukti runtime CI.
 5. Handoff writer dengan commit produk/alat, hash, run/job/per-kasus dan batas untuk auditor independen.
 
@@ -96,3 +96,9 @@ Baca berkas rujukan dan sumber BD/konversi/rework/kain kantong; ambil log run/jo
 - Dua expected baru: 4 PCS @50 = 200, satu dijual, invoice240 → biaya240, akrual0, FG+30/COGS+10, snapshot sale tetap; UNKNOWN → 50 menambah200 tepat sekali dan menghapus blocker. Tarif tidak dibedakan menurut ukuran. Belum ada verdict runtime.
 - Parser lokal 67 fungsi PL/pgSQL lulus. Struktur invoice berubah sehingga rollback BE wajib merekam kolom/constraint/index tambahan, tidak sekadar drop tabel BE. Belum masuk paket 29.
 - Berikutnya: run tujuh kasus, baca/fix; lanjut adapter ALL-C04, UI, race/HTTP/browser, T2/T3/rollback/CodeQL. BE masih NOT_READY.
+
+## Hasil BE-5 dan UI konversi tahap pertama
+- Commit `b86c66deef33ae04fbae8164c2c52a626a375e81`, run `36267009395`; before job `108473508276`, after `108473508503`, kedua job success. Log after: **7/7 PASS**. Lima kasus sebelumnya tetap PASS; invoice jasa nyata 200→240 sesudah 1/4 terjual: FG+30, COGS+10, akrual0, AP+240, snapshot sale tetap dan kapasitas invoice ditolak. Unknown→harga50: nilai+200, blocker hilang, replay sekali, overwrite ditolak.
+- UI Ganti Merek mulai tersambung: pilihan lot/lokasi, pencarian dan paging SKU tujuan, preview server, perintah dengan recovery global, histori dan pembatalan, pemakaian aksesori aktual, rencana bongkaran tanpa stok. Parser menerima UUID kanonik, uang berupa teks, response identity harus cocok. Hanya tambahan src BE; demo hanya pada runtime demo.
+- Validasi lokal: TypeScript PASS; 34 tes parser/input/recovery PASS. Ini belum bukti browser native. SQL baru (workspace/history/paging) masih perlu run CI.
+- Berikutnya: UI binding rework/celup serta sumber invoice dan harga celup, ALL-C04 impor historis/lifecycle, bukti negatif/race/HTTP/browser, T2/T3 29/rollback/CodeQL. Tidak ada pengurangan scope.

@@ -1,17 +1,18 @@
 import type { Json } from './types/database.preconnect'
 
-export const productionDomains = ['BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT', 'POCKET_FABRIC', 'ACCESSORY_ISSUE', 'ACCESSORY_SERVICE', 'LAUNDRY_BD'] as const
+export const productionDomains = ['BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT', 'POCKET_FABRIC', 'ACCESSORY_ISSUE', 'ACCESSORY_SERVICE', 'LAUNDRY_BD', 'PRODUCT_CONVERSION'] as const
 export type ProductionDomain = typeof productionDomains[number]
 export type ProductionEnvelope = {
   action: string; payload: Json; expectedVersion: number | null
   fingerprint: string; id: string; createdAt: string
 }
 export const domainLabels: Record<ProductionDomain, string> = {
-  ACCESSORY_ISSUE: 'Nota Ambil Aksesori', ACCESSORY_SERVICE: 'Pemakaian & Pengembalian Aksesori', LAUNDRY_BD: 'Harga & Tagihan Laundry',
+  PRODUCT_CONVERSION: 'Ganti Merek / SKU', ACCESSORY_ISSUE: 'Nota Ambil Aksesori', ACCESSORY_SERVICE: 'Pemakaian & Pengembalian Aksesori', LAUNDRY_BD: 'Harga & Tagihan Laundry',
   POCKET_FABRIC: 'Kain kantong', BS: 'Barang BS & Rework', LAUNDRY_QC: 'Laundry / QC', CUTTING: 'Buat Potongan',
   PICKUP: 'Bagi Potongan', WIP: 'Status WIP', INITIAL_IMPORT: 'Impor data awal',
 }
 const actions: Record<ProductionDomain, readonly string[]> = {
+  PRODUCT_CONVERSION: ['POST', 'REVERSE', 'POST_USAGE', 'SAVE_REWORK', 'SAVE_REDYE', 'SET_REDYE_PRICE'],
   ACCESSORY_ISSUE: ['SAVE_DRAFT','POST','DELETE','REVERSE'],
   LAUNDRY_BD: ['SET_POLICY', 'SAVE_VENDOR_TERMS', 'SAVE_COMPONENT', 'SAVE_COMPONENT_RATE', 'SAVE_PACKAGE', 'SAVE_PACKAGE_RATE', 'SAVE_PROCESS_RATE',
     'SAVE_SCOPED_RATE', 'POST_PRICED_DELIVERY', 'SET_CHARGE_PRICE', 'SAVE_INVOICE_DRAFT', 'CANCEL_INVOICE_DRAFT', 'POST_INVOICE', 'REVERSE_INVOICE', 'SET_OPENING_ESTIMATE',

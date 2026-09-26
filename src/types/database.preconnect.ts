@@ -24,6 +24,8 @@ export type PreconnectDatabase = {
       }
     }
     Functions: {
+      erp_get_product_conversion_workspace_v1: { Args: { p_filters?: Json }; Returns: Json }
+      erp_save_product_conversion_action_v1: { Args: { p_action: string; p_payload: Json; p_client_request_id: string }; Returns: Json }
       erp_get_accessory_issue_workspace_v1: { Args: { p_filters?: Json }; Returns: Json }
       erp_save_accessory_issue_action_v1: { Args: { p_action: string; p_payload: Json; p_client_request_id: string }; Returns: Json }
       erp_get_accessory_service_workspace_v1: { Args: { p_filters?: Json }; Returns: Json }

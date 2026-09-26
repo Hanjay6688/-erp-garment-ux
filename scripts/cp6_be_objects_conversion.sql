@@ -155,21 +155,28 @@ begin
  insert into erp.audit_logs(entity_type,entity_id,action,new_data,changed_by,change_reason)
  values(case when a='SAVE_REWORK' then 'rework_orders' else 'product_conversions' end,
    coalesce(v->>'conversion_id',v->>'rework_id',v->>'service_id')::uuid,case when a='REVERSE' then 'REVERSE' else 'POST' end,v,erp.current_app_user_id(),p_payload->>'reason');
- return erp._idempotency_complete('save_product_conversion_action_v1',p_client_request_id,v||jsonb_build_object('request_id',p_client_request_id));
+ return erp._idempotency_complete('save_product_conversion_action_v1',p_client_request_id,v||jsonb_build_object('request_id',p_client_request_id,'action',a));
 end;$function$;
 
 CREATE OR REPLACE FUNCTION erp.get_product_conversion_workspace_v1(p_filters jsonb default '{}'::jsonb)
  RETURNS jsonb LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO ''
 AS $function$
-declare v_page integer;v_size integer:=25;v_query text;v_lot uuid;v_result jsonb;v_values boolean;
+declare v_page integer;v_size integer:=25;v_query text;v_lot uuid;v_result jsonb;v_values boolean;v_product uuid;v_target_query text;v_target_page int;v_doc_page int;
 begin
  perform erp.require_permission('warehouse.brand_conversion.view');
- perform erp._cp3_assert_closed_json_object(p_filters,array[]::text[],array['query','page','source_lot_id','preview'],'konversi filters');
+ perform erp._cp3_assert_closed_json_object(p_filters,array[]::text[],array['query','page','source_lot_id','source_product_id','target_query','target_page','document_page','preview'],'konversi filters');
  if p_filters ? 'preview' then return jsonb_build_object('preview',erp.be_conversion_preview_v1(p_filters->'preview'));end if;
  if p_filters ? 'page' and (jsonb_typeof(p_filters->'page')<>'number' or (p_filters->>'page')!~'^[1-9][0-9]{0,5}$') then
    raise exception 'BE_PAGE_INVALID';end if;
+ foreach v_query in array array['target_page','document_page'] loop
+  if p_filters ? v_query and (jsonb_typeof(p_filters->v_query)<>'number' or p_filters->>v_query!~'^[1-9][0-9]{0,5}$') then raise exception 'BE_PAGE_INVALID';end if;
+ end loop;
+ v_target_page:=coalesce((p_filters->>'target_page')::int,1);v_doc_page:=coalesce((p_filters->>'document_page')::int,1);
+ v_target_query:=lower(coalesce(erp.bc_text_v1(p_filters,'target_query',false,120),''));
  v_page:=coalesce((p_filters->>'page')::int,1);v_query:=lower(coalesce(erp.bc_text_v1(p_filters,'query',false,120),''));
- v_lot:=erp.bd_uuid_v1(p_filters,'source_lot_id',false);v_values:=erp.has_permission('finance.hpp.view');
+ v_product:=erp.bd_uuid_v1(p_filters,'source_product_id',false);
+ v_lot:=erp.bd_uuid_v1(p_filters,'source_lot_id',false);
+ if v_lot is not null then select product_id into v_product from erp.fg_lots where id=v_lot;end if;v_values:=erp.has_permission('finance.hpp.view');
  with lots as(select l.id,l.lot_number,l.product_id,l.po_id,l.produced_at,p.sku,p.product_name,p.model_id,p.size_id,
        m.location_id,loc.location_name,sum(m.qty_signed)::integer qty
      from erp.fg_lots l join erp.products p on p.id=l.product_id join erp.fg_stock_movements m on m.lot_id=l.id
@@ -182,10 +189,26 @@ begin
    'lots',coalesce(jsonb_agg(to_jsonb(pg)||jsonb_build_object('source_revision',erp.be_source_revision_v1(id,location_id),
      'unit_hpp',case when v_values then (select hpp_per_pcs::text from erp.v_current_hpp where lot_id=pg.id) end) order by produced_at,id,location_id),'[]'::jsonb))
  into v_result from pg;
- return v_result||jsonb_build_object('targets',coalesce((select jsonb_agg(to_jsonb(x) order by x.sku,x.id) from
-   (select p.id,p.sku,p.product_name,p.model_id,p.size_id from erp.products p join erp.fg_lots l on l.id=v_lot
-    join erp.products s on s.id=l.product_id where p.is_active and p.model_id=s.model_id and p.size_id=s.size_id and p.id<>s.id
-    order by p.sku,p.id limit 500) x),'[]'::jsonb));
+ with targets as(select p.id,p.sku,p.product_name,p.model_id,p.size_id from erp.products p
+    join erp.products source_product on source_product.id=v_product
+    where p.is_active and p.model_id=source_product.model_id and p.size_id=source_product.size_id and p.id<>source_product.id
+      and (v_target_query='' or lower(p.sku||' '||p.product_name) like '%'||v_target_query||'%')),
+   target_page as(select * from targets order by sku,id limit v_size offset (v_target_page-1)*v_size)
+ select v_result||jsonb_build_object('targets',coalesce((select jsonb_agg(to_jsonb(x) order by x.sku,x.id) from target_page x),'[]'::jsonb),
+   'targets_total',(select count(*) from targets),'target_page',v_target_page) into v_result;
+ with docs as(select c.id,c.conversion_number,c.status,c.qty_pcs,c.physical_at,c.notes,s.origin_kind,s.source_lot_id,s.rework_id,
+    p.sku source_sku,t.sku target_sku,a.destination_lot_id,erp.be_conversion_revision_v1(c.id) revision,
+    case when v_values then erp.be_conversion_extra_v1(c.id)::text end extra_cost,
+    case when v_values then (select total_cost::text from erp.hpp_versions where lot_id=a.destination_lot_id and is_current) end target_value,
+    (select count(*) from erp.be_conversion_returns_v1 br join erp.bc_outstanding_returns_v1 o on o.id=br.outstanding_id
+      where br.conversion_id=c.id and o.status<>'CANCELLED') pending_returns
+   from erp.be_conversion_sources_v1 s join erp.product_conversions c on c.id=s.conversion_id
+    join erp.products p on p.id=c.from_product_id join erp.products t on t.id=c.to_product_id
+    join erp.product_conversion_allocations a on a.conversion_id=c.id),
+   doc_page as(select * from docs order by physical_at desc,id desc limit v_size offset (v_doc_page-1)*v_size)
+ select v_result||jsonb_build_object('documents_total',(select count(*) from docs),'document_page',v_doc_page,
+   'documents',coalesce((select jsonb_agg(to_jsonb(x) order by x.physical_at desc,x.id desc) from doc_page x),'[]'::jsonb)) into v_result;
+ return v_result;
 end;$function$;
 
 CREATE OR REPLACE FUNCTION public.erp_save_product_conversion_action_v1(p_action text,p_payload jsonb,p_client_request_id uuid)
