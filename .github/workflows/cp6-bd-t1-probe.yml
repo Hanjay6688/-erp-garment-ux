@@ -15,6 +15,8 @@ name: CP6 BD T1 Family Probe
     - scripts/cp6_bc_probe.py
     - scripts/cp6_bd_objects_router.sql
     - scripts/cp6_bd_objects_d07.sql
+    - scripts/cp6_bd_objects_d09.sql
+    - src/initialImport.ts
     - supabase/dev/cp6_bd_t1_family.sql
     - scripts/cp6_layers.py
     - scripts/cp6_ay_probe.py

@@ -243,9 +243,9 @@ export async function cases(ui, today) {
         OPENING_BALANCE_ITEM: [{ balance_type: 'MATERIAL', material_sku: fx.code, location_code: fx.code + 'IN', qty: '2', unit_cost: '2.00', control_key: 'STOCK', opening_source_key: 'KARANTINA' }],
         OPENING_CONTROL: [{ control_key: 'STOCK', balance_type: 'MATERIAL', qty: '2', amount: '4.00' }],
         OPENING_ACCESSORY_CUSTODY: [
-          { custody_kind: 'PENDING_VALUE', custody_key: c + '-K1', material_sku: fx.code, location_code: fx.code + 'IN', condition: 'WAITING', qty: '4', notes: 'bongkaran lama' },
-          { custody_kind: 'UNRETURNED', custody_key: c + '-K2', material_sku: fx.code, qty: '1', holder: 'Pak Budi', owner_kind: 'COMPANY' },
-          { custody_kind: 'CUSTOMER_GARMENT', custody_key: c + '-K3', customer_code: c, description: 'Celana pelanggan browser', qty: '1' }] }
+          { custody_kind: 'PENDING_VALUE', custody_key: c + '-K1', material_sku: fx.code, location_code: fx.code + 'IN', condition: 'WAITING', qty: '4', notes: 'bongkaran lama', count_sheet: c + '-LH', sheet_line: '1' },
+          { custody_kind: 'UNRETURNED', custody_key: c + '-K2', material_sku: fx.code, qty: '1', holder: 'Pak Budi', owner_kind: 'COMPANY', count_sheet: c + '-LH', sheet_line: '2' },
+          { custody_kind: 'CUSTOMER_GARMENT', custody_key: c + '-K3', customer_code: c, description: 'Celana pelanggan browser', qty: '1', source_lot: c + '-TITIP' }] }
       for (const [entity, list] of Object.entries(rows)) await act('SAVE_FILE', { batch_id: batch, expected_revision: (await ws(batch)).revision, entity, filename: entity + '.csv',
         rows: list.map((payload, i) => ({ source_row_no: i + 2, payload })) })
       const checked = await act('VALIDATE', { batch_id: batch, expected_revision: (await ws(batch)).revision })

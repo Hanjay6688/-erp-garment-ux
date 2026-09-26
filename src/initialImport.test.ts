@@ -38,3 +38,12 @@ describe('file impor dari Excel', () => {
     expect(() => parseInitialImportCsv('size_code\n' + 'M\n'.repeat(MAX_IMPORT_ROWS + 1), 'SIZE')).toThrow('Maksimal')
   })
 })
+
+describe('D09: opening accessory custody names its source', () => {
+  it('adds the count sheet, sheet line and source lot columns after the file\'s own fields', () => {
+    const fields = Object.keys(initialImportCatalog.OPENING_ACCESSORY_CUSTODY.fields)
+    expect(fields.slice(-3)).toEqual(['count_sheet', 'sheet_line', 'source_lot'])
+    expect(initialImportTemplate('OPENING_ACCESSORY_CUSTODY')).toContain('"Lot sumber (pengganti lembar hitung + baris)"')
+    expect(initialImportCatalog.OPENING_ACCESSORY_CUSTODY.required).not.toContain('count_sheet')
+  })
+})

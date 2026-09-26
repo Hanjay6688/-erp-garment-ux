@@ -47,6 +47,11 @@ D07 (not laundry; carried by BD as the next unreleased family, R12 handoff task 
   (per material, one cent per purchase document; adjustments from the v2.6.20t facts; a corrected movement with no recost at
   all is still flagged); MATERIAL_GL_VALUATION_MISMATCH is unchanged. It is a replaced function (captured and restored by the
   rollback), not a new one, so it stays out of objects().
+D09 (owner 26 Sep 2026, ACC-C12 option a; not laundry, carried by BD): scripts/cp6_bd_objects_d09.sql (table
+  erp.bd_custody_sources_v1, erp.bd_custody_source_identity_v1) and checked substitutions of the BC texts of
+  erp.bc_check_import_row_v1 (every OPENING_ACCESSORY_CUSTODY row names its source, count sheet + line or source lot; the same
+  source is refused under any custody key, BC_C12_SAME_SOURCE) and erp.bc_apply_imports_v1 (the source is recorded with the
+  goods). The file's fields come from the _extend part of src/initialImportCatalogBD.json.
 Label T1_FAMILY: development install on the disposable chain AN -> AU -> AV -> AW..BA -> BB -> BC, not a release package.
 
 Usage: python3 scripts/cp6_bd_build.py            # writes supabase/dev/cp6_bd_t1_family.sql
@@ -65,7 +70,7 @@ AC=ROOT/'supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_c
 AW=ROOT/'supabase/dev/cp6_aw_t1_family.sql'
 AY=ROOT/'supabase/dev/cp6_ay_t1_family.sql'
 BA=ROOT/'supabase/dev/cp6_ba_t1_family.sql'
-OBJECTS=[ROOT/f'scripts/cp6_bd_objects_{p}.sql' for p in ('policy','master','pricing','import','invoice','router')]
+OBJECTS=[ROOT/f'scripts/cp6_bd_objects_{p}.sql' for p in ('policy','master','pricing','import','invoice','d09','router')]
 D07=ROOT/'scripts/cp6_bd_objects_d07.sql'
 BB=ROOT/'supabase/dev/cp6_bb_t1_family.sql'
 BC=ROOT/'supabase/dev/cp6_bc_t1_family.sql'
@@ -313,7 +318,12 @@ PO_GUARD_SUBS=[("      +erp.bb_wip_split_active_qty_v1(s.opening_item_id) end\n"
 
 def catalog():
     base=bc.catalog();extra=json.loads(CATALOG_BD.read_text())
+    extend=extra.pop('_extend',{})
     assert not set(base)&set(extra),'BD_CATALOG_OVERLAP'
+    # D09: the count sheet / source lot fields of the opening accessory custody file (after its own fields).
+    for entity,more in extend.items():
+        assert entity in base and not set(more['fields'])&set(base[entity]['fields']),('BD_CATALOG_EXTEND',entity)
+        base[entity]['fields'].update(more['fields'])
     for e in NEW_ENTITIES:assert e in extra,('BD_CATALOG_ENTITY_MISSING',e)
     return {**base,**extra}
 
@@ -325,6 +335,34 @@ def router():
     return body.replace(old.group(0),'v_catalog constant jsonb:='+"'"+json.dumps(catalog(),ensure_ascii=False).replace("'","''")+"'"+'::jsonb;')
 
 
+# ---------------------------------------------------------------- D09 ACC-C12 option a (BC texts of the custody import)
+D09_CHECK_SUBS=[
+    ("  v_zone text;v_total numeric;\nbegin","  v_zone text;v_total numeric;v_source text;\nbegin"),
+    ("    raise exception 'BC_C03_DUPLICATE: custody_key sudah dipakai; satu barang fisik hanya satu baris';end if;\n",
+     "    raise exception 'BC_C03_DUPLICATE: custody_key sudah dipakai; satu barang fisik hanya satu baris';end if;\n"
+     "  -- D09 (owner 26 Sep 2026, ACC-C12 option a): the pending item names its source (count sheet + line, or source lot); the same\n"
+     "  -- source is one item whatever custody key a later request uses. Other lines of the same sheet are other goods.\n"
+     "  v_source:=erp.bd_custody_source_identity_v1(j);\n"
+     "  if exists(select 1 from erp.bd_custody_sources_v1 s where s.source_identity=v_source)\n"
+     "    or exists(select 1 from erp.migration_staging_rows x where x.batch_id=p_batch and x.entity_type='OPENING_ACCESSORY_CUSTODY' and x.id<>r.id\n"
+     "      and erp.bd_custody_source_identity_v1(x.normalized_payload,false)=v_source) then\n"
+     "    raise exception 'BC_C12_SAME_SOURCE: rujukan sumber % sudah dipakai; barang yang sama tetap satu item walau kunci permintaan baru',v_source;end if;\n"),
+    ("  return jsonb_build_object('kind',v_kind,'qty',(j->>'qty')::numeric);",
+     "  return jsonb_build_object('kind',v_kind,'qty',(j->>'qty')::numeric,'source',v_source);")]
+D09_APPLY_SUBS=[
+    ("    update erp.migration_staging_rows set posted_entity_id=v_id,posted_entity_type=r.entity_type,posted_at=statement_timestamp(),\n",
+     "    -- D09: the source identity stays with the goods (one row per source; a concurrent import of the same source fails here).\n"
+     "    if r.entity_type='OPENING_ACCESSORY_CUSTODY' then\n"
+     "      begin\n"
+     "        insert into erp.bd_custody_sources_v1(source_identity,custody_kind,record_id,batch_id,source_row_id,count_sheet,sheet_line,source_lot)\n"
+     "        values(c->>'source',c->>'kind',v_id,p_batch,r.id,nullif(btrim(j->>'count_sheet'),''),nullif(btrim(j->>'sheet_line'),''),nullif(btrim(j->>'source_lot'),''));\n"
+     "      exception when unique_violation then\n"
+     "        raise exception 'BC_C12_SAME_SOURCE: rujukan sumber % sudah dipakai; barang yang sama tetap satu item walau kunci permintaan baru',c->>'source';\n"
+     "      end;\n"
+     "    end if;\n"
+     "    update erp.migration_staging_rows set posted_entity_id=v_id,posted_entity_type=r.entity_type,posted_at=statement_timestamp(),\n")]
+
+
 REPLACED=['erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','erp.post_laundry_delivery(uuid)','erp.desired_laundry_accrual(uuid)',
           'erp.rebuild_po_hpp(uuid,text)','erp.period_blockers_v1(date,date)','erp.set_laundry_rate_owner_estimate_v1(uuid,numeric,text)',
           'erp.validate_laundry_receipt_line()','erp.cp6_lot_failed_wash_cost_v2620e(uuid)','erp.guard_cp6_vendor_invoice_receipt_on_post_v2620()','erp.post_sale(uuid)',
@@ -332,12 +370,12 @@ REPLACED=['erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','erp.post_laun
           'erp.finalize_migration_batch(uuid)','erp.save_initial_import_action_v1(text,jsonb,uuid)',
           'erp.get_initial_import_workspace_v1(uuid)','erp.initial_import_revision_v1(uuid)','erp.complete_initial_import_wip_v1(jsonb)',
           'erp.initial_import_production_rows_v1(uuid)','erp.guard_initial_import_po_completion_v1()','erp.get_wip_control_v1(text,uuid,text,text)',
-          'erp.run_v255_material_cost_integrity_checks()']
+          'erp.run_v255_material_cost_integrity_checks()','erp.bc_check_import_row_v1(uuid,uuid)','erp.bc_apply_imports_v1(uuid)']
 NEW_TABLES=['bd_policy_settings_v1','bd_policy_setting_events_v1','bd_execution_context_v1','bd_laundry_vendor_terms_v1','bd_laundry_components_v1',
             'bd_laundry_component_rates_v1','bd_laundry_packages_v1','bd_laundry_package_components_v1','bd_laundry_package_rates_v1',
             'bd_laundry_scoped_rates_v1','bd_requests_v1','bd_laundry_priced_lines_v1','bd_laundry_charge_lines_v1','bd_laundry_charge_shares_v1',
             'bd_laundry_size_estimates_v1','bd_laundry_receipt_allocations_v1','bd_laundry_invoices_v1','bd_laundry_invoice_lines_v1',
-            'bd_opening_laundry_claims_v1','bd_opening_laundry_claim_events_v1','bd_opening_laundry_uninvoiced_v1']
+            'bd_opening_laundry_claims_v1','bd_opening_laundry_claim_events_v1','bd_opening_laundry_uninvoiced_v1','bd_custody_sources_v1']
 
 
 def objects():
@@ -367,6 +405,8 @@ def build():
     rows=substitute(last_definition(BB,'initial_import_production_rows_v1'),ROWS_SUBS,'production rows')
     po_guard=substitute(last_definition(BB,'guard_initial_import_po_completion_v1'),PO_GUARD_SUBS,'po guard')
     wip_control=substitute(last_definition(AP_MIG,'get_wip_control_v1'),WIP_CONTROL_SUBS,'wip control')
+    d09_check=substitute(last_definition(BC,'bc_check_import_row_v1'),D09_CHECK_SUBS,'d09 check')
+    d09_apply=substitute(last_definition(BC,'bc_apply_imports_v1'),D09_APPLY_SUBS,'d09 apply')
     parts=['-- CP6 BD priced laundry deliveries (LAU-05b) and laundry policy settings LAU-DEC01..06 (owner decision 25 Sep 2026): T1_FAMILY development install (NOT a release package).',
            '-- Generated by scripts/cp6_bd_build.py from scripts/cp6_bd_objects_*.sql, the 20/AC/AG/AJ migrations and the AW/AY/BA/BB/BC T1 files; do not edit by hand.',
            'begin;',"set local lock_timeout='10s';set local statement_timeout='240s';set local search_path='';",
@@ -374,7 +414,7 @@ def build():
            " if not exists(select 1 from erp.schema_migrations where version='v2.6.20bc') then raise exception 'BD_T1_REQUIRES_BC'; end if;",
            f" if exists(select 1 from erp.schema_migrations where version='{VERSION}') or to_regclass('erp.bd_laundry_priced_lines_v1') is not null then raise exception 'BD_T1_ALREADY_INSTALLED'; end if;",
            'end $t1_guard$;',objects(),facade,post_delivery,accrual,rebuild,blockers,estimate,receipt_line,attempt,invoice_guard(),sale,
-           stage,base,final,router(),ws,rev,complete,rows,po_guard,wip_control,D07.read_text().rstrip('\n'),
+           stage,base,final,router(),ws,rev,complete,rows,po_guard,wip_control,D07.read_text().rstrip('\n'),d09_check,d09_apply,
            f"insert into erp.schema_migrations(version,description) values('{VERSION}',"
            "'T1_FAMILY development install of BD (priced laundry deliveries: package, components with partial coverage, lump sum per batch, minimum charge, scoped rates; exact per-size receipt shares; laundry vendor invoices; policy settings LAU-DEC01..06; ALL-W05 laundry claims and uninvoiced returns at cutover); not a release package');",
            'commit;','']

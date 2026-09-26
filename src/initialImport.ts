@@ -5,17 +5,18 @@ import bdCatalog from './initialImportCatalogBD.json'
 
 type CatalogSpec = { label: string; required: readonly string[]; fields: Record<string, string> }
 const { _extend: bbExtensions, ...bbEntities } = bbCatalog
-type Entity = keyof typeof baseCatalog | keyof typeof bbEntities | keyof typeof bcCatalog | keyof typeof bdCatalog
+const { _extend: bdExtensions, ...bdEntities } = bdCatalog
+type Entity = keyof typeof baseCatalog | keyof typeof bbEntities | keyof typeof bcCatalog | keyof typeof bdEntities
 
-/** The server's catalog (BB, BC, BD): the AP catalog, the BB, BC and BD files, and the BB fields added to AP files after their own fields. */
+/** The server's catalog (BB, BC, BD): the AP catalog, the BB, BC and BD files, then the BB and BD fields added to earlier files after their own fields. */
 function mergeCatalog(): Record<Entity, CatalogSpec> {
   const merged: Record<string, CatalogSpec> = {}
   for (const [key, spec] of Object.entries(baseCatalog) as [string, CatalogSpec][]) merged[key] = { ...spec, fields: { ...spec.fields } }
-  for (const [key, spec] of [...Object.entries(bbEntities), ...Object.entries(bcCatalog), ...Object.entries(bdCatalog)] as [string, CatalogSpec][]) {
+  for (const [key, spec] of [...Object.entries(bbEntities), ...Object.entries(bcCatalog), ...Object.entries(bdEntities)] as [string, CatalogSpec][]) {
     if (key in merged) throw new Error(`Katalog impor ganda: ${key}`)
     merged[key] = spec
   }
-  for (const [key, more] of Object.entries(bbExtensions) as [string, { fields: Record<string, string> }][]) {
+  for (const [key, more] of [...Object.entries(bbExtensions), ...Object.entries(bdExtensions)] as [string, { fields: Record<string, string> }][]) {
     if (!(key in merged) || Object.keys(more.fields).some(field => field in merged[key].fields)) throw new Error(`Perluasan katalog impor tidak valid: ${key}`)
     merged[key].fields = { ...merged[key].fields, ...more.fields }
   }

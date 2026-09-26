@@ -87,33 +87,82 @@ function idsIn(value, out = { non_rfc: new Set(), v4: new Set() }) {
 export async function cases(ui, today) {
   return [
     ['BD_BROWSER:D08_LAUNDRY_QC_CANONICAL_IDS', async () => {
+      // D08: the seeded CP3 mandor/model rows stay active. The Laundry read carries a ready batch of the seeded mandor; the case
+      // sends it from the Laundry page to a fresh v4 vendor and process (per-PCS rate, no BD terms) and receives it back as Good,
+      // so the QC read then carries the seeded ids too. Both pages must load with no error and no "bukan UUID valid".
       const rfc = "'^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'"
       const seeds = () => ui.sql(`select (select count(*) from erp.contractors where is_active and id::text !~* ${rfc})||'|'||(select count(*) from erp.product_models where id::text !~* ${rfc})`)
       const before = seeds()
       const owner = await ui.login('OWNER', { label: 'bd-d08' })
+      const rawRead = async scope => owner.rpc('erp_get_laundry_qc_workspace_v1', { p_scope: scope, p_query: null })
       const read = async scope => {
-        const r = await owner.rpc('erp_get_laundry_qc_workspace_v1', { p_scope: scope, p_query: null })
+        const r = await rawRead(scope)
         if (r.status !== 200) return { status: r.status, non_rfc: 0, v4: 0 }
         const ids = idsIn(r.body)
         return { status: r.status, non_rfc: ids.non_rfc.size, v4: ids.v4.size, non_rfc_sample: [...ids.non_rfc].sort().slice(0, 3) }
       }
-      const laundryIds = await read('LAUNDRY'), qcIds = await read('QC')
       const page = async (item, heading) => {
         const p = await openPage(ui, owner, 'Produksi', item, heading)
         let loaded = false
         try { await ui.expect(p.locator('.clq-loading')).toHaveCount(0, { timeout: 20000 }); loaded = true } catch { loaded = false }
         const uuidError = await p.getByText(/bukan UUID valid/).count()
-        return { loaded, error: await laundryRead(p), uuid_error_text: uuidError }
+        return { p, view: { loaded, error: await laundryRead(p), uuid_error_text: uuidError } }
       }
-      const laundry = await page('Laundry', 'Laundry')
-      const qc = await page('QC & Final SKU', 'QC & Final SKU')
+      const laundryIds = await read('LAUNDRY'), qcBefore = await read('QC')
+      const { p, view: laundry } = await page('Laundry', 'Laundry')
+      // A ready batch of a seeded mandor, sent and received through the page.
+      const ready = ((await rawRead('LAUNDRY')).body?.ready_batches ?? []).find(b => !RFC.test(b.contractor_id) && b.sizes.some(z => z.available_qty_pcs > 0))
+      let flow = { ready_batch: ready?.distribution_batch_id ?? null }
+      if (ready) {
+        const tag = 'D08' + randomUUID().replaceAll('-', '').slice(0, 10)
+        const vendor = ui.sql(`insert into erp.laundry_vendors(vendor_code,vendor_name,is_active) values('${tag}','D08 laundry ${tag}',true) returning id`)
+        const process = ui.sql(`insert into erp.wash_processes(process_code,process_name,is_active) values('${tag}','D08 cuci ${tag}',true) returning id`)
+        ui.sql(`insert into erp.laundry_vendor_rate_versions(vendor_id,wash_process_id,rate_per_pcs,effective_from,notes) values('${vendor}','${process}',1000,'2020-01-01','D08 browser rate')`)
+        const wib = back => ui.sql(`select to_char(clock_timestamp() at time zone 'Asia/Jakarta' - interval '${back} minutes','YYYY-MM-DD"T"HH24:MI')`)
+        await p.getByRole('button', { name: 'Muat ulang data', exact: true }).click()
+        await ui.expect(p.getByRole('button', { name: 'Muat ulang data', exact: true })).toBeEnabled({ timeout: 20000 })
+        await p.getByRole('button', { name: 'Kirim ke Laundry', exact: true }).click()
+        await p.getByLabel('BATCH DISTRIBUSI AUTHORITATIVE', { exact: true }).selectOption(ready.distribution_batch_id)
+        await p.getByRole('button', { name: 'Isi dari sisa siap', exact: true }).click()
+        await p.getByRole('combobox', { name: /^VENDOR LAUNDRY/ }).selectOption(vendor)
+        await p.getByLabel('PROSES CUCI TARGET', { exact: true }).selectOption(process)
+        await p.getByLabel('WARNA TARGET', { exact: true }).fill('NAVY')
+        await p.getByLabel('WAKTU FISIK KELUAR', { exact: true }).fill(wib(3))
+        await p.getByLabel('ALASAN / BUKTI SERAH TERIMA', { exact: true }).fill('D08 kirim batch mandor seed')
+        await p.locator('.clq-confirm input').check()
+        await p.getByRole('button', { name: 'Post pengiriman atomic', exact: true }).click()
+        // The vendor is this case's own, so its one delivery is the batch just sent.
+        const delivery = () => ui.sql(`select coalesce((select id::text from erp.laundry_deliveries where vendor_id='${vendor}' and status<>'REVERSED' limit 1),'')`)
+        await ui.expect.poll(delivery, { timeout: 20000 }).not.toBe('')
+        const sent = delivery()
+        await ui.expect(p.getByRole('button', { name: 'Muat ulang data', exact: true })).toBeEnabled({ timeout: 20000 })
+        await p.getByRole('button', { name: 'Terima kembali', exact: true }).click()
+        await p.getByLabel('SURAT KIRIM AKTIF', { exact: true }).selectOption(sent)
+        await p.getByLabel('PROSES AKTUAL', { exact: true }).selectOption(process)
+        await p.getByLabel('WAKTU FISIK KEMBALI', { exact: true }).fill(wib(1))
+        await p.getByLabel('ALASAN / BUKTI PENERIMAAN', { exact: true }).fill('D08 terima batch mandor seed')
+        const lines = ui.sql(`select coalesce(string_agg(s.size_code||'='||x.qty_sent_pcs, ',' order by s.size_code), '') from erp.laundry_delivery_batch_size_lines x
+          join erp.laundry_delivery_lines l on l.id=x.delivery_line_id join erp.sizes s on s.id=x.size_id where l.delivery_id='${sent}'`)
+        for (const pair of lines.split(',').filter(Boolean)) {
+          const [code, qty] = pair.split('=')
+          await p.getByLabel(`Good kembali size ${code}`, { exact: true }).fill(qty)
+        }
+        await p.locator('.clq-confirm input').check()
+        await p.getByRole('button', { name: 'Post penerimaan atomic', exact: true }).click()
+        const received = () => ui.sql(`select count(*) from erp.laundry_receipts where delivery_id='${sent}' and status='POSTED'`)
+        await ui.expect.poll(received, { timeout: 20000 }).toBe('1')
+        flow = { ...flow, delivery: sent, sizes: lines, receipts: received(), contractor: ready.contractor_id }
+      }
+      const qcIds = await read('QC')
+      const { view: qc } = await page('QC & Final SKU', 'QC & Final SKU')
       await owner.context.close()
       const after = seeds()
       const [mandors] = before.split('|').map(Number)
-      const ok = mandors > 0 && after === before && laundryIds.status === 200 && qcIds.status === 200
+      const ok = mandors > 0 && after === before && laundryIds.status === 200 && qcIds.status === 200 && Boolean(flow.delivery) && flow.receipts === '1'
         && laundryIds.non_rfc > 0 && laundryIds.v4 > 0 && qcIds.non_rfc > 0 && qcIds.v4 > 0
         && laundry.loaded && laundry.error === 'OK' && laundry.uuid_error_text === 0 && qc.loaded && qc.error === 'OK' && qc.uuid_error_text === 0
-      return { status: ok ? 'PASS' : 'FAIL', seeds_active_before_after: [before, after], laundry_read_ids: laundryIds, qc_read_ids: qcIds, laundry, qc }
+      return { status: ok ? 'PASS' : 'FAIL', seeds_active_before_after: [before, after], laundry_read_ids: laundryIds, qc_read_ids_before_flow: qcBefore,
+        qc_read_ids: qcIds, flow, laundry, qc }
     }],
     ['BD_BROWSER:OWNER_POLICY_SET_AND_CLEAR', async () => {
       const policy = () => ui.sql("select status||'|'||version from erp.bd_policy_settings_v1 where policy_key='LAU_DEC04'")

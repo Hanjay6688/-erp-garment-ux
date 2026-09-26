@@ -506,9 +506,10 @@ def sized_product(cur,size,label):
 def t24_multi_size_lot_hpp(cur,today):
     """LAU-T24/T26 with two sizes in one BD delivery (the multi-size lot limit of BD): 6 pieces of the base size at a scoped
     8,000 and 4 of a second size at the base rate 5,000 (LAU-DEC05 MODEL_SIZE, fallback BASE_RATE) are sent, returned and
-    finished into one FG lot per size. Each lot takes its own size's laundry (8,000 and 5,000 a piece, never the 6,800 mean);
-    the other costs per piece are equal. A vendor invoice of 70,000 (PRODUCT_COST) spreads its 2,000 over the receipt line's
-    pieces: 1,200 and 800."""
+    finished into one FG lot per size. Each lot takes its own size's laundry (8,000 and 5,000 a piece: the vendor's own tariff per
+    size, never the 6,800 mean); the other costs per piece are equal. A vendor invoice of 70,000 (PRODUCT_COST) bills the one
+    receipt line: owner decision D10 (26 Sep 2026) splits its 2,000 over that billing source's pieces, never by the sizes'
+    rates: 1,200 and 800. (Run 36209582054 recorded the same numbers before D10 was written; this oracle cites D10.)"""
     fx=two_size_fixture(cur,today,'T24M')
     if not bd_installed(cur):return no_route(cur,lambda:route_call(cur))
     base=chain.base
@@ -553,6 +554,120 @@ def t24_multi_size_lot_hpp(cur,today):
         nothing_left_in_wip=wip(cur,fx['po'])==wip0),
         estimates=estimates,allocations=allocations,lot_values=[str(x) for x in v0],after_invoice=[str(x) for x in v1],
         per_piece=[str(x) for x in u0],other_per_piece=[str(x) for x in other])
+
+
+def d10_variance_by_billing_source(cur,today):
+    """D10 (owner 26 Sep 2026): within one service and rate the cost and the invoice variance go by the pieces concerned; a
+    different vendor, process or package is kept apart by its billing source and never spread over all goods. One cutting
+    group of 6 + 4 pieces: size 1 goes to vendor A (process P, 5,000) and size 2 to vendor B (process Q, 5,000), each returned
+    and finished into its own FG lot (30,000 and 20,000 of laundry). Vendor A invoices 32,000 for its 6 pieces
+    (PRODUCT_COST): lot 1 takes the whole 2,000, lot 2 (vendor B) takes nothing, nothing stays in WIP."""
+    fx=two_size_fixture(cur,today,'D10')
+    if not bd_installed(cur):return no_route(cur,lambda:route_call(cur))
+    base=chain.base
+    tag=uuid.uuid4().hex[:12];v2=str(uuid.uuid4());p2=str(uuid.uuid4())
+    cur.execute("insert into erp.laundry_vendors(id,vendor_code,vendor_name,is_active) values(%s,%s,'BD vendor D10 B',true)",(v2,'BD-'+tag))
+    cur.execute("insert into erp.wash_processes(id,process_code,process_name,is_active) values(%s,%s,'BD wash D10 Q',true)",(p2,'BDP-'+tag))
+    fb=dict(fx,vendor=v2,process=p2)
+    process_rate(cur,fx,'5000.00');process_rate(cur,fb,'5000.00');invoice_policies(cur)
+    def send(f,size,qty,hour):
+        payload=dict(distribution_batch_id=f['batch'],vendor_id=f['vendor'],wash_process_id=f['process'],target_dyeing_color='BD-COLOR',
+                     physical_at=iso(chain.production.at(f['day'],hour)),reason='BD probe D10 delivery',lines=[dict(size_id=size,qty_sent_pcs=qty)])
+        d=bd(cur,'POST_PRICED_DELIVERY',dict(delivery=payload,expected_version=str(base.group_version(cur,f['group'])),pricing=dict()))['delivery_id']
+        return chain.laundry_action(cur,'POST_RECEIPT',dict(delivery_id=d,wash_process_id=f['process'],physical_at=iso(chain.production.at(f['day'],hour+2)),
+            reason='BD probe D10 return',lines=[dict(delivery_batch_size_line_id=base.delivery_size_line(cur,d),qty_good_received=qty,qty_bs_laundry=0,bs_product_id=None)]),
+            base.delivery_version(cur,d))
+    ra=send(fx,base.SIZE,fx['q1'],11);rb=send(fb,fx['size2'],fx['q2'],12)
+    la,lb=receipt_line(cur,ra['receipt_id']),receipt_line(cur,rb['receipt_id'])
+    size_line=lambda line:one(cur,'select id::text from erp.laundry_receipt_batch_size_lines where receipt_line_id=%s',line)
+    p1=sized_product(cur,base.SIZE,'BDA1-'+uuid.uuid4().hex[:8]);p2p=sized_product(cur,fx['size2'],'BDB2-'+uuid.uuid4().hex[:8])
+    chain.laundry_action(cur,'POST_FINAL_SKU',dict(cutting_group_id=fx['group'],destination_location_id=base.LOCATION,
+        physical_at=iso(chain.production.at(fx['day'],15)),reason='BD probe D10 finished goods',good_qty_pcs=fx['q1']+fx['q2'],completion_mode='ALL_READY',
+        lines=[dict(final_product_id=p1,qty_good_pcs=fx['q1'],qty_bs_pcs=0,source_laundry_receipt_line_id=la,source_laundry_receipt_batch_size_line_id=size_line(la)),
+               dict(final_product_id=p2p,qty_good_pcs=fx['q2'],qty_bs_pcs=0,source_laundry_receipt_line_id=lb,source_laundry_receipt_batch_size_line_id=size_line(lb))]),
+        base.group_version(cur,fx['group']))
+    lots=[one(cur,"select id::text from erp.fg_lots where po_id=%s and product_id=%s and lot_origin='PRODUCTION'",fx['po'],p) for p in (p1,p2p)]
+    v0=[lot_value(cur,l) for l in lots];wip0=wip(cur,fx['po'])
+    _,posted=invoice(cur,fx,[dict(line=la,qty=fx['q1'],amount='32000.00')],'32000.00')
+    v1=[lot_value(cur,l) for l in lots]
+    return verdict(dict(two_billing_sources=str(one(cur,'select actual_cost from erp.laundry_receipt_lines where id=%s',la))=='30000.00'
+            and str(one(cur,'select actual_cost from erp.laundry_receipt_lines where id=%s',lb))=='20000.00',
+        variance_stays_with_its_source=[v1[0]-v0[0],v1[1]-v0[1]]==[2000,0],nothing_left_in_wip=wip(cur,fx['po'])==wip0),
+        lot_values=[str(x) for x in v0],after_invoice=[str(x) for x in v1])
+
+
+def d09_custody_source(cur,today):
+    """D09 (owner 26 Sep 2026, ACC-C12 option a; GPT reproduced the old limit 3 -> 6 -> 9): every pending item of the opening
+    custody file names its source, a count sheet with its line or a source lot, and the source identity stays with the goods
+    whatever custody key a later request uses. Before BD (BC chain): the same goods under a new custody key is accepted and
+    the pending quantity grows (COUNTEREXAMPLE, the old limit). With BD: a row without a source, or with both forms, is refused
+    (BC_C12_SOURCE_REQUIRED); sheet S lines 1 and 2 and lot L are posted (3 + 2 + 4 pending, no journal); the same goods under
+    a new custody key are refused by sheet line (case and spaces ignored) and by lot (BC_C12_SAME_SOURCE), also twice in one
+    batch; replaying the same key (same row) and the same FINALIZE request add no quantity and no journal; different goods
+    (line 3 of the same sheet: the sheet is not locked, and another lot) are accepted and add exactly their quantity."""
+    fx=bcp.fixture(cur,today,purchase=False)
+    sheet,lot=fx['code']+'-LH',fx['code']+'-LOT'
+    def row(key,qty='3',**source):
+        return dict(custody_kind='PENDING_VALUE',custody_key=key,material_sku=fx['code'],location_code=fx['code']+'IN',condition='WAITING',
+                    qty=qty,notes='D09 opname',**source)
+    def rows(*items):
+        r=bbp.masters();r['OPENING_ACCESSORY_CUSTODY']=list(items);return r
+    pending=lambda:D(str(one(cur,"select coalesce(sum(qty_received),0) from erp.bc_return_lots_v1 where material_id=%s and source_kind='OPENING_PENDING_VALUE'",fx['material'])))
+    journals=lambda:one(cur,'select count(*) from erp.journal_entries')
+    if not bd_installed(cur):
+        bbp.post_batch(cur,today,rows(row(fx['code']+'-A')))
+        first=pending()
+        again=import_attempt(rows(row(fx['code']+'-B')),today,cur,'-')
+        bbp.post_batch(cur,today,rows(row(fx['code']+'-C')))
+        return dict(status='COUNTEREXAMPLE' if again['result']=='ACCEPTED' and pending()==6 and first==3 else 'INCOMPLETE',
+                    pending_after_first=str(first),same_goods_new_key=again['result'],pending_after_second=str(pending()),
+                    note='the same goods under a new custody key are counted again (3 -> 6)')
+    j0=journals()
+    missing=import_attempt(rows(row(fx['code']+'-N0')),today,cur,'BC_C12_SOURCE_REQUIRED')
+    both=import_attempt(rows(row(fx['code']+'-N1',count_sheet=sheet,sheet_line='9',source_lot=lot+'-X')),today,cur,'BC_C12_SOURCE_REQUIRED')
+    half=import_attempt(rows(row(fx['code']+'-N2',count_sheet=sheet)),today,cur,'BC_C12_SOURCE_REQUIRED')
+    batch,code,_=bbp.post_batch(cur,today,rows(row(fx['code']+'-A',count_sheet=sheet,sheet_line='1'),row(fx['code']+'-B',qty='2',count_sheet=sheet,sheet_line='2'),
+                                              row(fx['code']+'-C',qty='4',source_lot=lot)))
+    posted=pending()
+    sources=q(cur,"select source_identity,custody_kind from erp.bd_custody_sources_v1 where batch_id=%s order by source_identity",batch)
+    same_line=import_attempt(rows(row(fx['code']+'-A2',count_sheet='  '+sheet.lower()+' ',sheet_line=' 1')),today,cur,'BC_C12_SAME_SOURCE')
+    same_lot=import_attempt(rows(row(fx['code']+'-C2',qty='4',source_lot=lot.upper())),today,cur,'BC_C12_SAME_SOURCE')
+    twice=import_attempt(rows(row(fx['code']+'-T1',count_sheet=sheet,sheet_line='7'),row(fx['code']+'-T2',count_sheet=sheet,sheet_line='7')),today,cur,'BC_C12_SAME_SOURCE')
+    replay_row=import_attempt(rows(row(fx['code']+'-A',count_sheet=sheet,sheet_line='1')),today,cur,'BC_C03_DUPLICATE')
+    # The same FINALIZE request again (same client request id and payload): a replay, nothing added.
+    rbatch,rkey,rpayload=d09_staged(cur,today,rows(row(fx['code']+'-R',qty='2',count_sheet=sheet,sheet_line='5')))
+    first_post=api.call(cur,'FINALIZE',rpayload,key=rkey);mid=pending();j1=journals()
+    replayed=api.call(cur,'FINALIZE',rpayload,key=rkey)
+    replay_request=dict(first=first_post.get('status'),replayed=replayed.get('status'),pending_before=mid,pending_after=pending(),
+                        journals_unchanged=journals()==j1)
+    after_refusals=pending()
+    bbp.post_batch(cur,today,rows(row(fx['code']+'-D',qty='1',count_sheet=sheet,sheet_line='3'),row(fx['code']+'-E',qty='5',source_lot=lot+'-2')))
+    return verdict(dict(no_source_refused=missing['ok'],both_forms_refused=both['ok'],half_sheet_refused=half['ok'],
+        posted_once=posted==9 and [s for s,_ in sources]==['LOT:'+lot.lower(),'SHEET:'+sheet.lower()+'#1','SHEET:'+sheet.lower()+'#2'],
+        same_goods_new_key_refused=same_line['ok'] and same_lot['ok'],same_source_twice_in_batch_refused=twice['ok'],
+        replay_same_key_no_change=replay_row['ok'] and replay_request['first']=='POSTED' and replay_request['pending_before']==11
+            and replay_request['pending_after']==11 and replay_request['journals_unchanged'] and after_refusals==11 and journals()==j0,
+        different_goods_accepted=pending()==17 and journals()==j0),
+        pending=dict(posted=str(posted),after_refusals=str(after_refusals),final=str(pending())),sources=[list(s) for s in sources],
+        refusals=dict(missing=missing,both=both,half=half,same_line=same_line,same_lot=same_lot,twice=twice,replay_row=replay_row),
+        replay_request=replay_request)
+
+
+def import_attempt(rows,today,cur,code):
+    return bcp.import_attempt(cur,today,rows,code)
+
+
+def d09_staged(cur,today,rows,cutover_days=10):
+    """bbp.post_batch up to a validated batch; returns (batch, finalize key, finalize payload) so the probe controls the key."""
+    cutover=today-timedelta(days=cutover_days)
+    boundary.historical.prior.set_open_period(cur,cutover-timedelta(days=1))
+    code='BD'+uuid.uuid4().hex[:12]
+    batch=api.call(cur,'CREATE',dict(batch_code=code,cutover_date=str(cutover)))['batch_id']
+    fill=lambda v:v.replace('{C}',code) if isinstance(v,str) else v
+    for entity,payloads in rows.items():api.upload(cur,batch,entity,[{k:fill(v) for k,v in p.items()} for p in payloads])
+    checked=api.invoke(cur,'VALIDATE',batch)
+    assert checked.get('error_rows')==0,('BD_D09_FIXTURE_REFUSED',checked)
+    return batch,str(uuid.uuid4()),dict(batch_id=batch,expected_revision=api.read(cur,batch)['batch']['revision'])
 
 
 def receipt_process_changed(cur,today):
@@ -1204,6 +1319,7 @@ PLAN=[('POLICY:LAU_DEC_SETTINGS_OWNER_VERSIONED_PENDING','NO_ROUTE',policy_setti
       ('DEC01:MINIMUM_CHARGE_TOPUP','NO_ROUTE',minimum_charge),
       ('T24:SCOPED_SIZE_RATE','NO_ROUTE',t24_scoped),
       ('T24:MULTI_SIZE_LOT_HPP','NO_ROUTE',t24_multi_size_lot_hpp),
+      ('D10:VARIANCE_BY_BILLING_SOURCE','NO_ROUTE',d10_variance_by_billing_source),
       ('T32:REPLAY_ACCESS_GRANTS','NO_ROUTE',replay_and_access),
       ('T16:INVOICE_ABOVE_ESTIMATE_PRODUCT_COST','NO_ROUTE',t16_invoice_above_estimate),
       ('T17:PARTIAL_NM_CAPACITY','NO_ROUTE',t17_partial_nm_capacity),
@@ -1217,7 +1333,8 @@ PLAN=[('POLICY:LAU_DEC_SETTINGS_OWNER_VERSIONED_PENDING','NO_ROUTE',policy_setti
       ('W05:CLAIM_CONTINUATIONS','NO_ROUTE',w05_claim_continuations),
       ('W05:IMPORT_REFUSALS','NO_ROUTE',w05_import_refusals),
       ('W05:UNINVOICED_ACCRUAL_INVOICE','NO_ROUTE',w05_uninvoiced),
-      ('D07:RECOST_ALARM_DOCUMENT_LEVEL','COUNTEREXAMPLE',d07_recost_alarm)]
+      ('D07:RECOST_ALARM_DOCUMENT_LEVEL','COUNTEREXAMPLE',d07_recost_alarm),
+      ('D09:ACC_C12_SOURCE_IDENTITY','COUNTEREXAMPLE',d09_custody_source)]
 assert len({k for k,_,_ in PLAN})==len(PLAN),'BD_DUPLICATE_CASE_ID'
 
 

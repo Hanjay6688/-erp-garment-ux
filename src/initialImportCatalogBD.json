@@ -40,5 +40,14 @@
       "dispatch_number": "Nomor kirim laundry lama",
       "notes": "Catatan"
     }
+  },
+  "_extend": {
+    "OPENING_ACCESSORY_CUSTODY": {
+      "fields": {
+        "count_sheet": "Nomor lembar hitung sumber (D09: isi bersama baris lembar, atau pakai lot sumber)",
+        "sheet_line": "Baris/item di lembar hitung",
+        "source_lot": "Lot sumber (pengganti lembar hitung + baris)"
+      }
+    }
   }
 }
