@@ -2034,8 +2034,8 @@
       "name": "erp_v2_6_20bd_cp6_laundry_prices_invoices",
       "closed_admission": true,
       "source": "supabase/release/cp6-t3-src/20260925040000_erp_v2_6_20bd_cp6_laundry_prices_invoices.sql",
-      "source_sha256": "6e70e0c81ca39a302bc9fe0291d38f42d7dc0fa5ced44d0cfcdf5110dda67c6a",
-      "package_sha256": "5051bcc5dfef475fa3fc83af82a85715e49e8de965271e6c3282d638adeefe03",
+      "source_sha256": "34d0920e852c720611cab5384dbd8a7fe9d38a5cf5ee3a0c97728b51ae4a98ae",
+      "package_sha256": "84ef761ed9ea175fe8ae5f26a0ac1ad4fcaebc082b698c5409bdc8d64eb69ee0",
       "substitutions": [
         {
           "kind": "LEDGER",
@@ -2275,7 +2275,7 @@
   "rollbacks": "NOT_TESTED",
   "pins": {
     "file": "docs/evidence/cp6-t3/release_pins.json",
-    "blob_sha256": "e2a27a6bb27868f954161b8311a6ae131c2e6486f1c6dd7fb4c25761c6f368d2",
+    "blob_sha256": "3accb869158e04f37d2d007aa1e620752100492024783e2301683ac33b2c2d2d",
     "blob_bytes": 107083
   }
 }
