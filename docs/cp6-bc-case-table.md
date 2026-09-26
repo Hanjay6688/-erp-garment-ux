@@ -47,6 +47,7 @@ Kolom *after* selalu `PASS`.
 | C04:THREE_SOURCES_SEPARATE | ACC-C04 | F §ACC-C04; G §C (M:5282) | NO_ROUTE |
 | C05:NO_VALUE_STAYS_PENDING | ACC-C05, ACC-DEC03 | F §ACC-C05; G §C (M:5283) | NO_ROUTE |
 | C09:PAID_NOTE_RETURN_POLICY | ACC-C09, ACC-DEC05 | F §ACC-C09; G §C (M:5287) | NO_ROUTE |
+| C09:CARRY_ONCE_NEXT_PAYROLL | ACC-C09, ACC-DEC05 (keputusan owner no. 4, 26 Sep 2026: `CREDIT_THEN_CARRY`, `USABLE`) | Barang rusak tidak dikredit (`BC_CONDITION_NOT_CREDITED`); nota lunas: 3 layak = hak mandor 9,00; nota sebagian lunas: 5 layak = kurangi tagihan 10,00 dulu, hak mandor 5,00; ke payroll selain berikutnya ditolak `BC_CARRY_NOT_NEXT_PAYROLL`, dicicil (4,00 dari 9,00) ditolak `BC_CARRY_ONCE`, kedua kali ditolak `BC_CARRY_EXCEEDS`; kredit terkunci sesudah masuk payroll; payroll berikutnya dibatalkan sebelum dibayar → hak mandor terutang lagi (9,00 dan 5,00), payroll batal tidak dapat dipilih, lalu dibayar sekali di payroll berikutnya yang baru (utang mandor −14,00, kas −14,00, sisa 0); jejak kredit → payroll batal dan payroll lunas terlihat di dokumen | NO_ROUTE |
 | C10:CUSTOMER_GARMENT_CUSTODY | ACC-C10, ACC-DEC04 | F §ACC-C10; G §C (M:5288) | NO_ROUTE |
 | C11:TWO_REAL_TIMELINES | ACC-C11, ACC-DEC01 | F §ACC-C11; G §C (M:5289) | NO_ROUTE |
 | C12:OPNAME_BASELINE_INCOMPLETE_SOURCE | ACC-C12 | F §ACC-C12; G §C (M:5290) | NO_ROUTE |
@@ -58,7 +59,7 @@ Kolom *after* selalu `PASS`.
 | D08:WIB_DATES_SEPARATE | ACC-D08 | F §ACC-D08; G §D (M:5303) | NO_ROUTE |
 | D12:SERVER_PAGINATION | ACC-D12 | F §ACC-D12; G §D (M:5307) | NO_ROUTE |
 | POLICY:SETTINGS_OWNER_VERSIONED_PENDING | ACC-DEC01, 03–07, ERP-DEC02 | lampiran C6 rev4 §3 (pengaturan, default `PENDING_POLICY_VALUE`) | NO_ROUTE |
-| DEC07:APPROVAL_THRESHOLD_ZONE_USERS | ACC-DEC07 | lampiran C6 rev4 ACC-DEC07 (M:4461) | NO_ROUTE |
+| DEC07:APPROVAL_THRESHOLD_ZONE_USERS | ACC-DEC07 (keputusan owner no. 6: tanpa persetujuan untuk sementara) | lampiran C6 rev4 ACC-DEC07 (M:4461); no. 6: dua bentuk sekaligus / `approval` selain NONE ditolak `BC_POLICY_VALUE`; batas 0,00 = setiap biaya bernilai perlu persetujuan; `approval: NONE` = staf dengan hak pencatatan mencatat biaya 12,00 tanpa owner | NO_ROUTE |
 | DEC02:SPECIAL_FREE_LINE | ERP-DEC02 | lampiran C6 rev4 ERP-DEC02 | NO_ROUTE |
 | DEC02:MANUAL_ZERO_PRICE_REFUSED | ERP-DEC02 | M:5023; nota 0 bukan cara gratis | COUNTEREXAMPLE |
 | DEC06:ROUNDING_LINE | ACC-DEC06 | lampiran C6 rev4 ACC-DEC06 (M:4460); nominal resmi tetap (ACC-A08) | NO_ROUTE |
@@ -114,6 +115,7 @@ Pemeriksaan halaman ikut dalam run yang sama. Semua baca workspace (impor, Gudan
 | BC_BROWSER:FILL_POST_AND_REVERSE | ACC-B01, ACC-D09 | F §ACC-B01; F §ACC-D09 (UI) |
 | BC_BROWSER:NOTE_PAGE_D09_DESKTOP_PHONE | ACC-D09 | F §ACC-D09; tinjauan GPT BC butir 2 (reload, klik ganda, hasil kosong, galat baca, memuat, HP) |
 | BC_BROWSER:POLICY_SET_AND_CLEAR_BY_OWNER | kebijakan | lampiran C6 rev4 §3 |
+| BC_BROWSER:DEC07_NO_APPROVAL_FOR_NOW_BY_OWNER | ACC-DEC07 (keputusan owner no. 6) | Owner memilih "Tanpa persetujuan owner (sementara)" di layar (tersimpan `approval: NONE`, bukan batas nominal; input batas tidak tampil sebelum dipilih), lalu mengembalikan ke menunggu |
 | BC_BROWSER:IMPORT_PAGE_OPENING_ACCESSORIES | ALL-C03 | F22 §C03 (kategori tidak dijumlah menjadi satu stok siap) |
 
 ## Tidak diklaim di BC

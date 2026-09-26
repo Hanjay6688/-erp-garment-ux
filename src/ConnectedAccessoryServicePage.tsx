@@ -340,7 +340,7 @@ function Returns({ data }: { data: AccessoryServiceWorkspace }) {
 function Documents({ data, locked, filters, query, setQuery, refresh, send, pages }: { data: AccessoryServiceWorkspace; locked: boolean; filters: Filters;
   query: string; setQuery: (value: string) => void
   refresh: (patch: Partial<Filters>) => void; send: (action: string, payload: Record<string, Json>) => void; pages: (total: number) => number }) {
-  const [reason, setReason] = useState(''), [review, setReview] = useState(false), [payroll, setPayroll] = useState(''), [amount, setAmount] = useState('')
+  const [reason, setReason] = useState(''), [review, setReview] = useState(false), [payroll, setPayroll] = useState('')
   const d = data.document
   const carry = d?.events.find(e => e.kind === 'CREDIT' && e.carry_remaining !== null && Number(e.carry_remaining) > 0)
   // The search text and location are shared with the stock tab and also narrow this list, so they are shown and can be cleared here.
@@ -372,11 +372,15 @@ function Documents({ data, locked, filters, query, setQuery, refresh, send, page
           <td>{e.qty_damaged === null ? '—' : displayQty(e.qty_damaged)}</td><td>{e.inspector ?? '—'}</td><td>{e.amount === null ? '—' : displayRupiah(e.amount)}</td>
           <td>{e.unpaid === null ? '—' : displayRupiah(e.unpaid)}</td><td>{e.carry === null ? '—' : displayRupiah(e.carry)}</td><td>{e.refund === null ? '—' : displayRupiah(e.refund)}</td></tr>)}</tbody></table>}
       <p>{d.links.length} transaksi tertaut: {d.links.map(k => k.kind).join(', ') || '—'}</p>
-      {carry && d.status === 'POSTED' && <div className="initial-import-toolbar" aria-label="Bawa kredit ke payroll"><span>Sisa kredit yang dibawa: {displayRupiah(carry.carry_remaining)}</span>
-        <label>Payroll draft<select aria-label="Payroll kredit retur" disabled={locked} value={payroll} onChange={e => setPayroll(e.target.value)}>
-          <option value="">Pilih payroll</option>{d.carry_payrolls.map(p => <option key={p.id} value={p.id}>{p.number} · {p.status} · {p.period_end}</option>)}</select></label>
-        <label>Nominal<input aria-label="Nominal kredit dibawa" inputMode="decimal" disabled={locked} value={amount} onChange={e => setAmount(e.target.value)}/></label>
-        <button type="button" disabled={locked || !payroll || !moneyText(amount) || !reason.trim()} onClick={() => send('ALLOCATE_CARRY', { event_id: carry.id, payroll_id: payroll, amount: normalizeMoney(amount), reason: reason.trim() })}>Bawa ke payroll</button></div>}
+      {d.events.some(e => e.carry_payroll_lines && e.carry_payroll_lines.length > 0) && <table aria-label="Hak mandor di payroll"><thead><tr><th>Payroll</th><th>Periode sampai</th><th>Status</th><th>Hak mandor</th></tr></thead>
+        <tbody>{d.events.flatMap(e => (e.carry_payroll_lines ?? []).map(t => <tr key={`${e.id}-${t.payroll_id}`}><td>{t.payroll_number}</td><td>{t.period_end}</td>
+          <td>{t.status}</td><td>{displayRupiah(t.amount)}</td></tr>))}</tbody></table>}
+      {carry && d.status === 'POSTED' && <div className="initial-import-toolbar" aria-label="Bawa kredit ke payroll"><span>Hak mandor yang belum dibayar: {displayRupiah(carry.carry_remaining)} · dibayar sekali penuh lewat payroll berikutnya</span>
+        <label>Payroll berikutnya<select aria-label="Payroll kredit retur" disabled={locked} value={payroll} onChange={e => setPayroll(e.target.value)}>
+          <option value="">Pilih payroll</option>{d.carry_payrolls.filter(p => p.is_next).map(p => <option key={p.id} value={p.id}>{p.number} · {p.status} · {p.period_end}</option>)}</select></label>
+        {d.carry_payrolls.every(p => !p.is_next) && <span role="status">Belum ada payroll draft mandor ini sejak tanggal kredit; hak mandor menunggu payroll berikutnya.</span>}
+        <button type="button" disabled={locked || !payroll || !carry.carry_remaining || !reason.trim()} onClick={() => carry.carry_remaining && send('ALLOCATE_CARRY', {
+          event_id: carry.id, payroll_id: payroll, amount: carry.carry_remaining, reason: reason.trim() })}>Bawa ke payroll</button></div>}
       {d.status === 'POSTED' && <><label>Alasan<input aria-label="Alasan dokumen aksesori" maxLength={1000} disabled={locked} value={reason} onChange={e => { setReason(e.target.value); setReview(false) }}/></label>
         <button type="button" disabled={locked || !reason.trim()} onClick={() => setReview(true)}>Periksa pembatalan</button>
         {review && <section className="initial-import-message" aria-label="Konfirmasi pembatalan aksesori"><p>Batalkan {d.number} dengan transaksi kebalikan tertaut? Dokumen yang sudah dipakai dokumen lain harus dibatalkan lebih dahulu.</p>
@@ -416,7 +420,9 @@ function Settings({ data, locked, send }: { data: AccessoryServiceWorkspace; loc
           <option value="CREDIT_THEN_CARRY">Kurangi tagihan, sisanya dibawa ke payroll</option><option value="CREDIT_THEN_REFUND">Kurangi tagihan, sisanya dikembalikan tunai</option></select></label>
           <label>Kondisi yang dikredit (USABLE, DAMAGED)<input aria-label="Kondisi dikredit" disabled={locked} value={fields.credit_conditions ?? ''} onChange={e => set({ credit_conditions: e.target.value.toUpperCase() })}/></label></>}
         {key === 'ACC-DEC06' && <>{accountSelect('gain_account_id', 'Akun pembulatan naik', ['REVENUE', 'EXPENSE'])}{accountSelect('loss_account_id', 'Akun pembulatan turun', ['REVENUE', 'EXPENSE'])}</>}
-        {key === 'ACC-DEC07' && <><label>Persetujuan owner di atas nilai (Rp)<input aria-label="Batas persetujuan owner" inputMode="decimal" disabled={locked} value={fields.owner_approval_above ?? ''} onChange={e => set({ owner_approval_above: e.target.value })}/></label>
+        {key === 'ACC-DEC07' && <><label>Persetujuan owner<select aria-label="Persetujuan owner biaya aksesori" disabled={locked} value={fields.approval_mode ?? ''} onChange={e => set({ approval_mode: e.target.value })}>
+            <option value="">Pilih</option><option value="NONE">Tanpa persetujuan owner (sementara)</option><option value="ABOVE">Perlu persetujuan di atas batas nilai</option></select></label>
+          {fields.approval_mode === 'ABOVE' && <label>Persetujuan owner di atas nilai (Rp)<input aria-label="Batas persetujuan owner" inputMode="decimal" disabled={locked} value={fields.owner_approval_above ?? ''} onChange={e => set({ owner_approval_above: e.target.value })}/></label>}
           <label>Petugas area {'{lokasi: [pengguna]}'}<input aria-label="Petugas area" disabled={locked} value={fields.zone_users ?? ''} onChange={e => set({ zone_users: e.target.value })}/></label>
           <p>Pengguna: {(data.users ?? []).map(u => `${u.name} (${u.id})`).join(', ') || '—'}</p></>}
         {key === 'ERP-DEC02' && <label>Kategori gratis mandor Special<select aria-label="Kategori gratis" multiple disabled={locked}

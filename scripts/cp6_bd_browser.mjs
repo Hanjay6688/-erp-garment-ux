@@ -118,6 +118,13 @@ async function payOnScreen(ui, owner, vendor, doc, credit, day, sql) {
     ap: (await box.locator('dl div').filter({ hasText: 'Saldo utang (buku besar)' }).locator('dd').innerText()).trim(),
     row: (await box.getByRole('table', { name: 'Tagihan vendor' }).locator('tbody tr').filter({ hasText: doc.number }).innerText()).replace(/\s+/g, ' ').trim() })
   const before = await read()
+  // A step whose database effect does not appear names what the page showed (alert or recovery notice) in the error.
+  const waitFor = async (probe, value, step) => {
+    try { await ui.expect.poll(probe, { timeout: 20000 }).toBe(value) } catch (e) {
+      const shown = await p.locator('[role="alert"], .initial-import-message').allInnerTexts().catch(() => [])
+      throw new Error(`${step}: ${String(e.message).split('\n').slice(0, 3).join(' ')} · layar: ${shown.join(' | ').slice(0, 400)}`)
+    }
+  }
   const common = async () => {
     await box.getByLabel('Tagihan dilunasi', { exact: true }).selectOption(doc.id)
     await box.getByLabel('Tanggal pelunasan', { exact: true }).fill(day)
@@ -127,14 +134,14 @@ async function payOnScreen(ui, owner, vendor, doc, credit, day, sql) {
   await box.getByLabel('Kredit klaim dipakai', { exact: true }).selectOption(credit)
   await box.getByLabel('Nominal kredit klaim', { exact: true }).fill('2000000')
   await box.getByRole('button', { name: 'Pakai kredit klaim', exact: true }).click()
-  await ui.expect.poll(() => sql.credited(), { timeout: 20000 }).toBe('2000000.00'); await reload()
+  await waitFor(() => sql.credited(), '2000000.00', 'kredit klaim'); await reload()
   const middle = await read()
   await common()
   const cash = await box.getByLabel('Rekening kas pembayaran', { exact: true }).locator('option').nth(1).getAttribute('value')
   await box.getByLabel('Rekening kas pembayaran', { exact: true }).selectOption(cash)
   await box.getByLabel('Nominal bayar kas', { exact: true }).fill('8000000')
   await box.getByRole('button', { name: 'Bayar kas', exact: true }).click()
-  await ui.expect.poll(() => sql.remaining(), { timeout: 20000 }).toBe('0.00'); await reload()
+  await waitFor(() => sql.remaining(), '0.00', 'bayar kas'); await reload()
   const after = await read()
   const width = await widthOk(p)
   return { before, middle, after, width }
@@ -293,9 +300,10 @@ export async function cases(ui, today) {
       await bs('RESOLVE_CLAIM', { laundry_claim_id: claim, resolution: 'SETTLED', change_reason: 'D12 klaim disetujui' }, version())
       const sql = { credited: () => ui.sql(`select coalesce(sum(amount),0)::numeric(18,2) from erp.vendor_payments where vendor_invoice_id='${invoice}' and status='POSTED' and payment_method='CLAIM_CREDIT'`),
         remaining: () => ui.sql(`select (total_amount-coalesce((select sum(amount) from erp.vendor_payments where vendor_invoice_id=h.id and status='POSTED'),0))::numeric(18,2) from erp.vendor_invoices h where id='${invoice}'`) }
-      const screen = await payOnScreen(ui, owner, vendor, { id: invoice, number }, claim, dayNow, sql)
-      await policy('LAU_DEC02', null); await policy('LAU_DEC06', null)
-      await owner.context.close()
+      // The invoice policies go back to pending even when a step fails, so later cases see the settings they expect.
+      let screen
+      try { screen = await payOnScreen(ui, owner, vendor, { id: invoice, number }, claim, dayNow, sql) }
+      finally { await policy('LAU_DEC02', null); await policy('LAU_DEC06', null); await owner.context.close() }
       const state = ui.sql(`select status||'|'||(select coalesce(sum(l.credit-l.debit),0)::numeric(18,2) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id
         where j.status in('POSTED','REVERSED') and l.account_id=erp.account_id('AP_VENDOR') and l.vendor_id='${vendor}') from erp.vendor_invoices where id='${invoice}'`)
       const ok = screenOk(screen, { number }) && state === 'PAID|0.00' && screen.width.ok
@@ -326,8 +334,8 @@ export async function cases(ui, today) {
       const sql = { credited: () => ui.sql(`select coalesce(sum(s.amount),0)::numeric(18,2) from erp.opening_subledger_settlements s join erp.bb_opening_credits_v1 c on c.settlement_id=s.id
           where s.balance_id='${balance}' and s.status='POSTED' and c.credit_kind='VENDOR_CLAIM_APPLY'`),
         remaining: () => ui.sql(`select (original_amount-settled_amount)::numeric(18,2) from erp.opening_subledger_balances where id='${balance}'`) }
-      const screen = await payOnScreen(ui, owner, vendor, { id: balance, number }, event, dayNow, sql)
-      await owner.context.close()
+      let screen
+      try { screen = await payOnScreen(ui, owner, vendor, { id: balance, number }, event, dayNow, sql) } finally { await owner.context.close() }
       const state = ui.sql(`select status||'|'||(select coalesce(sum(l.credit-l.debit),0)::numeric(18,2) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id
         where j.status in('POSTED','REVERSED') and l.account_id=erp.account_id('AP_VENDOR') and l.vendor_id='${vendor}') from erp.opening_subledger_balances where id='${balance}'`)
       const ok = screenOk(screen, { number }) && state === 'SETTLED|0.00' && screen.width.ok
@@ -485,6 +493,109 @@ export async function cases(ui, today) {
       await owner.context.close()
       const ok = blockedBefore === '1' && qcInput === 0 && invoiceHidden && blockedAfter === '0'
       return { status: ok ? 'PASS' : 'FAIL', blocked_before: blockedBefore, qc_estimate_inputs: qcInput, invoice_hidden: invoiceHidden, estimated: estimated(), blocked_after: blockedAfter, laundry_qc_read: laundryQcRead }
+    }],
+    ['BD_BROWSER:DEC06_CORRECTION_UP_DOWN_ON_SCREEN', async () => {
+      // Owner decision no. 13 (LAU-DEC06 PRODUCT_COST + CORRECTION_DOCUMENT) from the screen: 1 PCS of a ready batch goes to a fresh
+      // vendor at 7,000 and comes back; invoice INV 7,000 is posted and paid in full (fixture through the public RPCs). On the
+      // invoice screen the owner then posts an upward correction +2,000 and a downward correction -1,500, both linked to INV (its
+      // sources are INV's billed lines). On the payment screen the downward correction's credit settles 1,500 of the upward one and
+      // 500 is paid in cash: the upward row shows correction credit 1,500, cash 500, remaining 0 and "Lunas", the credit row names
+      // INV, the ledger line stays "Cocok", AP 0; INV keeps its status and its one cash payment. Runs last (it takes 1 PCS).
+      const tag = 'D13' + randomUUID().replaceAll('-', '').slice(0, 10)
+      const vendor = ui.sql(`insert into erp.laundry_vendors(vendor_code,vendor_name,is_active) values('${tag}','D13 laundry ${tag}',true) returning id`)
+      const process = ui.sql(`insert into erp.wash_processes(process_code,process_name,is_active) values('${tag}','D13 cuci ${tag}',true) returning id`)
+      ui.sql(`insert into erp.laundry_vendor_rate_versions(vendor_id,wash_process_id,rate_per_pcs,effective_from,notes) values('${vendor}','${process}',7000,'2020-01-01','D13 browser rate')`)
+      const owner = await ui.login('OWNER', { label: 'bd-d13-correction' })
+      const call = async (fn, args) => { const r = await owner.rpc(fn, args); if (r.status !== 200) throw new Error(`${fn} ${r.status} ${JSON.stringify(r.body).slice(0, 400)}`); return r.body }
+      const bd = (action, payload) => call('erp_save_laundry_bd_action_v1', { p_action: action, p_payload: payload, p_client_request_id: randomUUID() })
+      const lq = (action, payload, version) => call('erp_save_laundry_qc_action_v1', { p_action: action, p_payload: payload, p_client_request_id: randomUUID(), p_expected_version: version })
+      const policy = async (key, value) => {
+        const version = ui.sql(`select version from erp.bd_policy_settings_v1 where policy_key='${key}'`)
+        return bd('SET_POLICY', { policy_key: key, operation: value ? 'SET' : 'CLEAR', expected_version: version, reason: 'D13 browser case', ...(value ? { value } : {}) })
+      }
+      const wib = back => ui.sql(`select to_char(clock_timestamp() at time zone 'Asia/Jakarta' - interval '${back} minutes','YYYY-MM-DD"T"HH24:MI:SS')`) + '+07:00'
+      const dayNow = ui.sql(`select (clock_timestamp() at time zone 'Asia/Jakarta')::date`)
+      const ready = ((await owner.rpc('erp_get_laundry_qc_workspace_v1', { p_scope: 'LAUNDRY', p_query: null })).body?.ready_batches ?? [])
+        .map(b => ({ b, size: b.sizes.find(z => z.available_qty_pcs >= 1) })).filter(x => x.size)[0]
+      if (!ready) { await owner.context.close(); return { status: 'FAIL', reason: 'no ready batch with 1 PCS available' } }
+      await policy('LAU_DEC02', { billable: ['GOOD', 'BS', 'FAILED_ATTEMPT'] }); await policy('LAU_DEC06', { variance_mode: 'PRODUCT_COST', after_payment: 'CORRECTION_DOCUMENT' })
+      let result
+      try {
+        const sent = await lq('POST_DELIVERY', { distribution_batch_id: ready.b.distribution_batch_id, vendor_id: vendor, wash_process_id: process, target_dyeing_color: 'NAVY',
+          physical_at: wib(30), reason: 'D13 kirim 1 PCS', lines: [{ size_id: ready.size.size_id, qty_sent_pcs: 1 }] }, String(ready.b.cutting_group_row_version))
+        const sizeLine = ui.sql(`select x.id from erp.laundry_delivery_batch_size_lines x join erp.laundry_delivery_lines l on l.id=x.delivery_line_id where l.delivery_id='${sent.delivery_id}'`)
+        const rec = await lq('POST_RECEIPT', { delivery_id: sent.delivery_id, wash_process_id: process, physical_at: wib(20), reason: 'D13 kembali 1 PCS',
+          lines: [{ delivery_batch_size_line_id: sizeLine, qty_good_received: 1, qty_bs_laundry: 0, bs_product_id: null }] },
+          Number(ui.sql(`select row_version from erp.laundry_deliveries where id='${sent.delivery_id}'`)))
+        const receiptLine = ui.sql(`select id from erp.laundry_receipt_lines where receipt_id='${rec.receipt_id}'`)
+        const number = 'INV-' + tag
+        const draft = await bd('SAVE_INVOICE_DRAFT', { vendor_id: vendor, invoice_number: number, invoice_date: dayNow, header_total: '7000.00',
+          lines: [{ line_kind: 'BILL', receipt_line_id: receiptLine, category: 'GOOD', qty: 1, amount: '7000.00' }] })
+        const origin = (await bd('POST_INVOICE', { invoice_id: draft.invoice_id, expected_version: draft.row_version })).invoice_id
+        const cashAccount = ui.sql(`select id from erp.cash_accounts where is_active order by cash_account_code limit 1`)
+        await bd('PAY_VENDOR_DOCUMENT', { target_kind: 'VENDOR_INVOICE', target_id: origin, amount: '7000.00', date: dayNow, cash_account_id: cashAccount, reason: 'D13 bayar lunas' })
+        const originRow = () => ui.sql(`select h.status||'|'||(select string_agg(p.payment_method||':'||p.amount::text||':'||p.status,',' order by p.id) from erp.vendor_payments p where p.vendor_invoice_id=h.id) from erp.vendor_invoices h where h.id='${origin}'`)
+        const origin0 = originRow()
+        const p = await openPricing(ui, owner)
+        const reload = async () => ui.expect(p.getByRole('button', { name: 'Muat ulang harga', exact: true })).toBeEnabled({ timeout: 20000 })
+        await p.getByLabel('Vendor harga laundry', { exact: true }).selectOption(vendor); await reload()
+        const correct = async (docNumber, amount) => {
+          await p.getByRole('button', { name: 'Invoice vendor', exact: true }).click()
+          const box = p.getByRole('region', { name: 'Invoice vendor laundry' })
+          await box.getByLabel('Koreksi atas invoice', { exact: true }).selectOption(origin)
+          await box.getByLabel('Nomor invoice vendor', { exact: true }).fill(docNumber)
+          await box.getByLabel('Tanggal invoice', { exact: true }).fill(dayNow)
+          await box.getByLabel('Total invoice', { exact: true }).fill(amount)
+          await box.getByRole('button', { name: 'Tambah baris', exact: true }).click()
+          await box.getByLabel('Sumber baris 1', { exact: true }).selectOption('r:' + receiptLine)
+          await box.getByLabel('Nominal baris 1', { exact: true }).fill(amount)
+          await box.getByRole('button', { name: 'Simpan draf invoice', exact: true }).click()
+          const state = () => ui.sql(`select coalesce((select status from erp.bd_laundry_invoices_v1 where vendor_id='${vendor}' and invoice_number='${docNumber}' and status<>'CANCELLED'),'-')`)
+          await ui.expect.poll(state, { timeout: 20000 }).toBe('DRAFT'); await reload()
+          await p.getByRole('button', { name: 'Invoice vendor', exact: true }).click()
+          await p.getByRole('region', { name: 'Invoice vendor laundry' }).getByRole('button', { name: `Posting ${docNumber}`, exact: true }).click()
+          await ui.expect.poll(state, { timeout: 20000 }).toBe('POSTED'); await reload()
+          return ui.sql(`select id from erp.bd_laundry_invoices_v1 where vendor_id='${vendor}' and invoice_number='${docNumber}' and status='POSTED'`)
+        }
+        const up = await correct('KN-' + tag, '2000'), down = await correct('KT-' + tag, '-1500')
+        const links = ui.sql(`select string_agg(invoice_number||':'||header_total::text||':'||(corrects_invoice_id='${origin}')::text,',' order by header_total desc) from erp.bd_laundry_invoices_v1 where id in('${up}','${down}')`)
+        await p.getByRole('button', { name: 'Pembayaran vendor', exact: true }).click()
+        const box = p.getByRole('region', { name: 'Pembayaran vendor laundry' })
+        const common = async () => {
+          await box.getByLabel('Tagihan dilunasi', { exact: true }).selectOption(up)
+          await box.getByLabel('Tanggal pelunasan', { exact: true }).fill(dayNow)
+          await box.getByLabel('Alasan pelunasan', { exact: true }).fill('D13 pelunasan koreksi naik')
+        }
+        await common()
+        await box.getByLabel('Kredit klaim dipakai', { exact: true }).selectOption(down)
+        await box.getByLabel('Nominal kredit klaim', { exact: true }).fill('1500')
+        await box.getByRole('button', { name: 'Pakai kredit klaim', exact: true }).click()
+        const credited = () => ui.sql(`select coalesce(sum(amount),0)::numeric(18,2) from erp.vendor_payments where vendor_invoice_id='${up}' and status='POSTED' and payment_method='CORRECTION_CREDIT'`)
+        await ui.expect.poll(credited, { timeout: 20000 }).toBe('1500.00'); await reload()
+        await common()
+        const cash = await box.getByLabel('Rekening kas pembayaran', { exact: true }).locator('option').nth(1).getAttribute('value')
+        await box.getByLabel('Rekening kas pembayaran', { exact: true }).selectOption(cash)
+        await box.getByLabel('Nominal bayar kas', { exact: true }).fill('500')
+        await box.getByRole('button', { name: 'Bayar kas', exact: true }).click()
+        const remaining = () => ui.sql(`select (total_amount-coalesce((select sum(amount) from erp.vendor_payments where vendor_invoice_id=h.id and status='POSTED'),0))::numeric(18,2) from erp.vendor_invoices h where id='${up}'`)
+        await ui.expect.poll(remaining, { timeout: 20000 }).toBe('0.00'); await reload()
+        const ledger = (await box.getByRole('status').innerText()).trim()
+        const row = (await box.getByRole('table', { name: 'Tagihan vendor' }).locator('tbody tr').filter({ hasText: 'KN-' + tag }).innerText()).replace(/\s+/g, ' ').trim()
+        const creditRow = (await box.getByRole('table', { name: 'Kredit klaim vendor' }).locator('tbody tr').filter({ hasText: 'KT-' + tag }).innerText()).replace(/\s+/g, ' ').trim()
+        const ap = ui.sql(`select coalesce(sum(l.credit-l.debit),0)::numeric(18,2) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id
+          where j.status in('POSTED','REVERSED') and l.account_id=erp.account_id('AP_VENDOR') and l.vendor_id='${vendor}'`)
+        const origin1 = originRow(), width = await widthOk(p)
+        const checks = {
+          linked_documents: links === `KN-${tag}:2000.00:true,KT-${tag}:-1500.00:true`,
+          screen_row: row.includes(`koreksi naik atas ${number}`) && row.includes('Rp 1.500,00') && row.includes('Rp 500,00') && row.includes('Lunas'),
+          credit_row: creditRow.includes(`koreksi turun atas ${number}`) && creditRow.includes('Rp 1.500,00'),
+          ledger_matches: ledger.startsWith('Cocok') && ap === '0.00',
+          origin_untouched: origin0 === origin1 && origin0 === 'PAID|CASH:7000.00:POSTED',
+          no_sideways_scroll: width.ok,
+        }
+        result = { status: Object.values(checks).every(Boolean) ? 'PASS' : 'FAIL', checks, links, row, credit_row: creditRow, ledger, ap, origin: origin1 }
+      } finally { await policy('LAU_DEC02', null); await policy('LAU_DEC06', null); await owner.context.close() }
+      return result
     }],
   ]
 }

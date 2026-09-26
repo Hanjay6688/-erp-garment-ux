@@ -4,6 +4,8 @@ import {
   clearProductionEnvelope, isDefiniteInitialRejection, parseProductionEnvelope,
   persistProductionEnvelope, productionKey, readProductionRecovery, type ProductionEnvelope,
 } from './productionRecovery'
+import bdRouterSql from '../scripts/cp6_bd_objects_router.sql?raw'
+import bcRouterSql from '../scripts/cp6_bc_objects_router.sql?raw'
 
 const scope = 'disposable:actor-1'
 const key = productionKey(scope, 'BS')
@@ -62,4 +64,20 @@ describe('only known statement errors retire an initial request', () => {
   it.each(['23514', 'P0001', '42501', '40001', '40P01', '22P02'])('recognizes initial database rejection %s', (code) => {
     expect(isDefiniteInitialRejection({ code })).toBe(true)
   })
+})
+
+// Every action a writer router accepts must be accepted by the client envelope, or the page never sends it (D12 browser run
+// 36219655269: "Pakai kredit klaim" did nothing because APPLY_CLAIM_CREDIT was missing here).
+describe('client action lists follow the server routers', () => {
+  const routerActions = (text: string, prefix: string) => [...text.matchAll(new RegExp(`when '([A-Z_]+)' then erp\\.${prefix}_`, 'g'))].map(m => m[1])
+  it.each([['LAUNDRY_BD', bdRouterSql, 'bd'], ['ACCESSORY_SERVICE', bcRouterSql, 'bc']] as const)('%s accepts every router action',
+    (domain, sql, prefix) => {
+      const list = routerActions(sql, prefix)
+      expect(list.length).toBeGreaterThan(5)
+      for (const action of list) {
+        const raw = JSON.stringify({ action, payload: { x: 1 }, expectedVersion: null, id: '00000000-0000-4000-8000-000000000001',
+          createdAt: '2026-09-26T00:00:00Z', fingerprint: JSON.stringify({ action, payload: { x: 1 }, expectedVersion: null }) })
+        expect(() => parseProductionEnvelope(raw, domain), action).not.toThrow()
+      }
+    })
 })

@@ -253,16 +253,32 @@ begin
 end;$function$;
 
 -- ---------------------------------------------------------------- ALLOCATE_CARRY (ACC-DEC05 CREDIT_THEN_CARRY)
+-- Owner decision no. 4 (26 Sep 2026: CREDIT_THEN_CARRY, USABLE): what a credited return leaves after the unpaid part of the note
+-- is the mandor's due, paid once through the next payroll. So the whole remaining carry goes into one payroll (no instalments,
+-- BC_CARRY_ONCE), and that payroll is the mandor's next open one: the draft (DRAFT/CALCULATED/REVIEW) with the earliest period
+-- end on or after the credit date (BC_CARRY_NOT_NEXT_PAYROLL). If that payroll is later reversed or cancelled, the carry is due
+-- again and goes to the then next payroll; it is never paid twice.
+CREATE OR REPLACE FUNCTION erp.bc_carry_next_payroll_v1(p_event uuid)
+ RETURNS uuid LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select p.id from erp.bc_lot_events_v1 e join erp.bc_return_lots_v1 l on l.id=e.lot_id
+  join erp.payroll_settlements p on p.contractor_id=coalesce(l.contractor_id,(select c.contractor_id from erp.contractor_material_issues c
+      join erp.contractor_material_issue_items i on i.issue_id=c.id where i.id=l.note_item_id))
+    and p.status in('DRAFT','CALCULATED','REVIEW') and p.period_end>=(e.event_at at time zone 'Asia/Jakarta')::date
+  where e.id=p_event order by p.period_end,p.period_start,p.created_at,p.id limit 1
+$function$;
+
 CREATE OR REPLACE FUNCTION erp.bc_allocate_carry_v1(p_payload jsonb,p_request uuid)
  RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
 AS $function$
-declare e erp.bc_lot_events_v1%rowtype;p erp.payroll_settlements%rowtype;v_amount numeric;v_contractor uuid;v_line uuid;
+declare e erp.bc_lot_events_v1%rowtype;p erp.payroll_settlements%rowtype;v_amount numeric;v_contractor uuid;v_line uuid;v_remaining numeric;v_next uuid;
 begin
   perform erp.require_owner_admin();perform erp.require_permission('finance.payroll.view');
   perform erp._cp3_assert_closed_json_object(p_payload,array['event_id','payroll_id','amount','reason'],
     array['event_id','payroll_id','amount','reason','responsible','reference'],'carry payload');
   select * into e from erp.bc_lot_events_v1 where id=erp.bc_uuid_v1(p_payload,'event_id',true);
   if e.id is null or e.event_kind<>'CREDIT' or e.amount_carry<=0 then raise exception 'BC_CARRY_INVALID: kredit tanpa bagian yang dibawa ke payroll';end if;
+  -- Shared with the credit's reversal: a carry is never allocated while its credit is being reversed, and the other way round.
   perform pg_advisory_xact_lock(hashtextextended('BCCARRY|'||e.id::text,0));
   select * into p from erp.payroll_settlements where id=erp.bc_uuid_v1(p_payload,'payroll_id',true) for update;
   select coalesce(l.contractor_id,(select c.contractor_id from erp.contractor_material_issues c join erp.contractor_material_issue_items i on i.issue_id=c.id where i.id=l.note_item_id))
@@ -271,8 +287,13 @@ begin
     raise exception 'BC_CARRY_INVALID: pilih payroll draft mandor yang sama';end if;
   if jsonb_typeof(p_payload->'amount') is distinct from 'string' then raise exception 'BB_AMOUNT_INVALID: amount harus nominal tepat dua desimal';end if;
   v_amount:=erp.bb_parse_amount_v1(p_payload->>'amount','amount');
-  if v_amount>coalesce(erp.bc_carry_remaining_v1(e.id),0) then
-    raise exception 'BC_CARRY_EXCEEDS: sisa kredit yang dibawa % , diminta %',coalesce(erp.bc_carry_remaining_v1(e.id),0),v_amount;end if;
+  v_remaining:=coalesce(erp.bc_carry_remaining_v1(e.id),0);
+  if v_remaining<=0 then raise exception 'BC_CARRY_EXCEEDS: hak mandor dari kredit ini sudah masuk payroll (sisa 0)';end if;
+  if v_amount<>v_remaining then
+    raise exception 'BC_CARRY_ONCE: hak mandor dibayar sekali penuh lewat payroll berikutnya: % , diminta %',v_remaining,v_amount;end if;
+  v_next:=erp.bc_carry_next_payroll_v1(e.id);
+  if v_next is distinct from p.id then
+    raise exception 'BC_CARRY_NOT_NEXT_PAYROLL: hak mandor masuk payroll berikutnya (payroll draft dengan periode berakhir paling awal sejak tanggal kredit)';end if;
   perform erp.bc_new_document_v1(p_request,'ALLOCATE_CARRY',statement_timestamp(),p_payload);
   insert into erp.payroll_reimbursements(payroll_id,amount,description,source_type,bc_credit_event_id)
   values(p.id,v_amount,'Kredit retur nota aksesori dibawa ke payroll','BC_RETURN_CARRY',e.id) returning id into v_line;

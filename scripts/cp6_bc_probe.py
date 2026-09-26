@@ -657,6 +657,60 @@ def c09_paid_note(cur,today):
         credits=[c1,c2,c3],carry_paid={k:str(v) for k,v in carry_paid.items()})
 
 
+
+def c09_carry_once_next_payroll(cur,today):
+    """Owner decision no. 4 (26 Sep 2026: ACC-DEC05 CREDIT_THEN_CARRY, condition USABLE; "Barang layak boleh dikembalikan meskipun
+    nota sudah lunas. Kredit terlebih dahulu mengurangi bagian nota yang belum dibayar; sisanya menjadi hak mandor yang dibayarkan
+    sekali melalui payroll berikutnya. Retur dan pembayaran kreditnya harus terlacak, tanpa pengkreditan ganda."). A fully paid
+    note (10 x 3.00) and a partly paid one (20.00 of 30.00 deducted) get returns: a DAMAGED piece is not credited; 3 usable pieces
+    of the paid note are all carry (9.00); 5 of the partly paid one reduce the unpaid part first (10.00) and carry 5.00. The carry
+    goes whole (not 4.00 of 9.00) into the mandor's next open payroll only (not a later one); a second allocation is refused.
+    That payroll is cancelled before payment: both carries are due again, go to the then next payroll and are paid there once
+    (payable and cash -14.00); the credit document shows which payrolls took it (cancelled and paid); the credit cannot be
+    reversed after its carry entered a payroll."""
+    fx=fixture(cur,today,days=8)
+    if not bc_installed(cur):return no_route(cur,lambda:svc(cur,'ALLOCATE_CARRY',dict(reason='x')))
+    d=today-timedelta(days=5)
+    _,paid_item=note(cur,fx,10,'3.00',d);p1=payroll(cur,fx,today,'100.00',5);pay_through(cur,p1)
+    _,part_item=note(cur,fx,10,'3.00',d+timedelta(days=1));p2=payroll(cur,fx,today,'20.00',4);pay_through(cur,p2)
+    lot1=receive(cur,fx,'NOTE_RETURN',day=today-timedelta(days=2),note_item_id=paid_item,qty='4')['lot_ids'][0]
+    lot2=receive(cur,fx,'NOTE_RETURN',day=today-timedelta(days=2),note_item_id=part_item,qty='5')['lot_ids'][0]
+    inspect(cur,lot1,local_at(today-timedelta(days=2),12),'Ani',usable=3,damaged=1)
+    inspect(cur,lot2,local_at(today-timedelta(days=2),12),'Ani',usable=5)
+    policy(cur,'ACC_DEC05',dict(mode='CREDIT_THEN_CARRY',credit_conditions=['USABLE']))
+    damaged=refused(cur,lambda:credit(cur,lot1,'DAMAGED',1,local_at(today-timedelta(days=1),9),fx['main']),'BC_CONDITION_NOT_CREDITED')
+    c1=credit(cur,lot1,'USABLE',3,local_at(today-timedelta(days=1),10),fx['main'])
+    c2=credit(cur,lot2,'USABLE',5,local_at(today-timedelta(days=1),11),fx['main'])
+    nxt=payroll(cur,fx,today,'0.00',1);later=payroll(cur,fx,today,'0.00',0)
+    carry=lambda c,p,amount,key=None:svc(cur,'ALLOCATE_CARRY',dict(event_id=c['event_id'],payroll_id=p,amount=amount,reason='BC hak mandor ke payroll'),key=key)
+    not_next=refused(cur,lambda:carry(c1,later,'9.00'),'BC_CARRY_NOT_NEXT_PAYROLL')
+    instalment=refused(cur,lambda:carry(c1,nxt,'4.00'),'BC_CARRY_ONCE')
+    listed=doc(cur,c1['document_id'])['carry_payrolls']
+    carry(c1,nxt,'9.00');carry(c2,nxt,'5.00')
+    twice=refused(cur,lambda:carry(c1,nxt,'9.00'),'BC_CARRY_EXCEEDS')
+    locked=refused(cur,lambda:reverse(cur,c1['document_id']),'BC_REVERSE_DEPENDANTS')
+    api.admin(cur);cur.execute('grant usage on schema erp to authenticated');session(cur)
+    cur.execute('select erp.cancel_unpaid_payroll(%s,%s)',(nxt,'BC probe payroll dibatalkan'));api.admin(cur);cur.execute('revoke usage on schema erp from authenticated')
+    due_again=[one(cur,'select erp.bc_carry_remaining_v1(%s)',c['event_id']) for c in (c1,c2)]
+    cancelled_refused=refused(cur,lambda:carry(c1,nxt,'9.00'),'BC_CARRY_INVALID')
+    carry(c1,later,'9.00');carry(c2,later,'5.00')
+    cash_coa=str(one(cur,'select coa_account_id from erp.cash_accounts where id=%s',fx['cash']));bank0=gl_account(cur,cash_coa)
+    b=ledger(cur)
+    for name in ('approve_payroll','post_payroll_payment'):
+        api.admin(cur);cur.execute('grant usage on schema erp to authenticated');session(cur);cur.execute('select erp.'+name+'(%s)',(later,));api.admin(cur)
+        cur.execute('revoke usage on schema erp from authenticated')
+    paid=delta(b,ledger(cur));cash=gl_account(cur,cash_coa)-bank0
+    status=one(cur,'select status from erp.payroll_settlements where id=%s',later)
+    trail=doc(cur,c1['document_id'])['events'][0]['carry_payroll_lines']
+    return verdict(dict(damaged_not_credited=damaged['ok'],
+        paid_note_all_carry=(c1['unpaid'],c1['carry'])==('0.00','9.00'),unpaid_part_first=(c2['amount'],c2['unpaid'],c2['carry'])==('15.00','10.00','5.00'),
+        next_payroll_only=not_next['ok'] and [p['id'] for p in listed if p['is_next']]==[nxt],paid_once_whole=instalment['ok'] and twice['ok'],
+        credit_locked=locked['ok'],cancel_makes_due_again=due_again==[D('9.00'),D('5.00')] and cancelled_refused['ok'],
+        paid_through_payroll_once=status=='PAID' and paid.get('CONTRACTOR_PAYABLE')==D('14.00') and cash==D('-14.00')
+          and [one(cur,'select erp.bc_carry_remaining_v1(%s)',c['event_id']) for c in (c1,c2)]==[0,0],
+        traceable=[(t['payroll_id'],t['amount']) for t in trail]==[(nxt,'9.00'),(later,'9.00')] and [t['status'] for t in trail][1]=='PAID'),
+        credits=[c1,c2],trail=trail,paid={k:str(v) for k,v in paid.items()},refusals=[damaged,not_next,instalment,twice,locked,cancelled_refused])
+
 def c10_customer_garment(cur,today):
     """ACC-C10 (M:5288): a customer's garment in service is custody only: never company FG, receivable/refund or production
     entitlement; accessories used on it are a customer-service cost (ACC-DEC04)."""
@@ -857,7 +911,8 @@ def policy_settings(cur,today):
 
 def dec07_approval(cur,today):
     """ACC-DEC07 (M:4460, M:12 D07): a valued company cost needs owner/admin approval while the threshold is pending, then only
-    above the owner's threshold; when the owner lists a zone's users only they move its stock. A staff role here has only the
+    above the owner's threshold, or never under the owner's approval NONE (decision no. 6); when the owner lists a zone's users
+    only they move its stock. A staff role here has only the
     existing permissions granted for this case (warehouse.accessory.view, warehouse.stock.adjust)."""
     fx=fixture(cur,today)
     if not bc_installed(cur):return no_route(cur,lambda:svc(cur,'INTERNAL_USE',dict(reason='x')))
@@ -871,8 +926,19 @@ def dec07_approval(cur,today):
     zone=refused(cur,lambda:svc(cur,'FILL_POST',dict(from_location_id=fx['main'],to_location_id=fx['SERVICE_POST'],physical_at=local_at(today,12),
         items=[dict(material_id=fx['material'],qty='1')],reason='x'),auth=staff),'BC_ZONE_USER_DENIED')
     owner_ok=fill(cur,fx,1,today,12)
+    # Owner decision no. 6 (26 Sep 2026): "0 itu gausah ada approval dulu sementara": the explicit value approval NONE lets a staff
+    # member with the recording permissions post a valued cost without owner/admin; a threshold of 0.00 would do the opposite.
+    both=refused(cur,lambda:policy(cur,'ACC_DEC07',dict(approval='NONE',owner_approval_above='0.00')),'BC_POLICY_VALUE')
+    other=refused(cur,lambda:policy(cur,'ACC_DEC07',dict(approval='LATER')),'BC_POLICY_VALUE')
+    policy(cur,'ACC_DEC07',dict(owner_approval_above='0.00'))
+    zero=refused(cur,lambda:use(cur,fx,fx['main'],[(1,today,13,'FACTORY_USE')],auth=staff),'BC_APPROVAL_REQUIRED')
+    policy(cur,'ACC_DEC07',dict(approval='NONE'))
+    stored=next(p for p in ws(cur)['policies'] if p['key']=='ACC-DEC07')['value']
+    none=use(cur,fx,fx['main'],[(6,today,14,'FACTORY_USE')],auth=staff)
     return verdict(dict(pending_needs_approval=pending['ok'],below_threshold=below['cost']=='6.00',above_threshold=above['ok'],
-        zone_users=zone['ok'],owner_listed=bool(owner_ok['document_id'])),refusals=[pending,above,zone])
+        zone_users=zone['ok'],owner_listed=bool(owner_ok['document_id']),one_form_only=both['ok'] and other['ok'],
+        zero_threshold_means_every_cost=zero['ok'],none_means_no_approval=stored.get('approval')=='NONE' and none['cost']=='12.00'),
+        refusals=[pending,above,zone,both,other,zero],stored=stored)
 
 
 # ================================================================ ERP-DEC02, ACC-DEC06, F1
@@ -1604,6 +1670,7 @@ PLAN=[('B01:FILL_POST_KEEPS_TOTAL','NO_ROUTE',b01_fill),
       ('C04:THREE_SOURCES_SEPARATE','NO_ROUTE',c04_three_sources),
       ('C05:NO_VALUE_STAYS_PENDING','NO_ROUTE',c05_pending_value),
       ('C09:PAID_NOTE_RETURN_POLICY','NO_ROUTE',c09_paid_note),
+      ('C09:CARRY_ONCE_NEXT_PAYROLL','NO_ROUTE',c09_carry_once_next_payroll),
       ('C10:CUSTOMER_GARMENT_CUSTODY','NO_ROUTE',c10_customer_garment),
       ('C11:TWO_REAL_TIMELINES','NO_ROUTE',c11_timelines),
       ('A08:REPEATED_PARTIAL_RETURNS_CENTS','NO_ROUTE',a08_repeated_returns),

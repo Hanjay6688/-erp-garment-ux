@@ -1,6 +1,6 @@
 -- CP6 BC: accessory service, return and inspection workflow with owner policy settings (ACC-04b, ACC-DEC01/03..07, ERP-DEC02, ALL-C02/C03). Release candidate of the T3 combined package; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_bc_t1_family.sql (sha256 f2ffdac9ee883f869cc49077c8911afca190d0e5bb993d8bf313ef69ca5e81c2): the T1 body below is unchanged apart from the
+-- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_bc_t1_family.sql (sha256 f72f72d38ed8d44cd24002e94733f55473760244686296a3970961d7aa4a9ec7): the T1 body below is unchanged apart from the
 -- ledger description; guards follow AO..AV. Capsule and catalog pins are placeholders until the T3 capture.
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
@@ -333,9 +333,17 @@ begin
     return jsonb_build_object('mode','NOTE_NEAREST_RUPIAH','gain_account_id',erp.bc_policy_account_v1(p_value,'gain_account_id',array['REVENUE','EXPENSE']),
       'loss_account_id',erp.bc_policy_account_v1(p_value,'loss_account_id',array['EXPENSE']));
   elsif p_key='ACC_DEC07' then
-    perform erp._cp3_assert_closed_json_object(p_value,array['owner_approval_above'],array['owner_approval_above','zone_users'],'ACC-DEC07');
-    if jsonb_typeof(p_value->'owner_approval_above') is distinct from 'string' then raise exception 'BC_POLICY_VALUE: ACC-DEC07 owner_approval_above wajib nominal teks';end if;
-    perform erp.bb_parse_amount_v1(p_value->>'owner_approval_above','owner_approval_above',true);
+    -- Owner decision no. 6 (26 Sep 2026): "gausah ada approval dulu sementara karena belum relevan" is approval NONE, an explicit
+    -- value that can be changed in the app later; a threshold (owner_approval_above) is the other form. Pending stays fail closed.
+    perform erp._cp3_assert_closed_json_object(p_value,array[]::text[],array['approval','owner_approval_above','zone_users'],'ACC-DEC07');
+    if (p_value ? 'approval')=(p_value ? 'owner_approval_above') then
+      raise exception 'BC_POLICY_VALUE: ACC-DEC07 diisi salah satu: approval NONE (tanpa persetujuan) atau owner_approval_above (batas nominal)';end if;
+    if p_value ? 'approval' and p_value->'approval' is distinct from '"NONE"'::jsonb then
+      raise exception 'BC_POLICY_VALUE: ACC-DEC07 approval hanya NONE';end if;
+    if p_value ? 'owner_approval_above' then
+      if jsonb_typeof(p_value->'owner_approval_above') is distinct from 'string' then raise exception 'BC_POLICY_VALUE: ACC-DEC07 owner_approval_above wajib nominal teks';end if;
+      perform erp.bb_parse_amount_v1(p_value->>'owner_approval_above','owner_approval_above',true);
+    end if;
     if p_value ? 'zone_users' then
       if jsonb_typeof(p_value->'zone_users') is distinct from 'object' then raise exception 'BC_POLICY_VALUE: zone_users wajib objek lokasi -> daftar pengguna';end if;
       for k,v_users in select key,value from jsonb_each(p_value->'zone_users') loop
@@ -350,6 +358,7 @@ begin
         v_zone:=v_zone||jsonb_build_object(k,(select jsonb_agg(distinct y order by y) from jsonb_array_elements_text(v_users) y));
       end loop;
     end if;
+    if p_value ? 'approval' then return jsonb_build_object('approval','NONE','zone_users',v_zone);end if;
     return jsonb_build_object('owner_approval_above',erp.bb_parse_amount_v1(p_value->>'owner_approval_above','owner_approval_above',true)::numeric(20,2)::text,
       'zone_users',v_zone);
   elsif p_key='ERP_DEC02' then
@@ -713,13 +722,15 @@ AS $function$
   select coalesce(sum(qty_signed),0) from erp.material_stock_movements where material_id=p_material and location_id=p_location and roll_id is null
 $function$;
 
--- ACC-DEC07: a valued company cost (internal use, disposal, count loss) needs owner/admin approval until the owner sets a
--- threshold, then only above it.
+-- ACC-DEC07: a valued company cost (internal use, disposal, count loss) needs owner/admin approval until the owner sets the
+-- policy; then only above the owner's threshold, or never when the owner chose approval NONE (decision no. 6, 26 Sep 2026).
+-- The permission to record the cost itself is unchanged.
 CREATE OR REPLACE FUNCTION erp.bc_require_value_approval_v1(p_amount numeric)
  RETURNS void LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO ''
 AS $function$
 declare v jsonb:=erp.bc_policy_v1('ACC_DEC07');
 begin
+  if v->>'approval'='NONE' then return;end if;
   if v is null or p_amount>(v->>'owner_approval_above')::numeric then
     begin
       perform erp.require_owner_admin();
@@ -1541,16 +1552,32 @@ begin
 end;$function$;
 
 -- ---------------------------------------------------------------- ALLOCATE_CARRY (ACC-DEC05 CREDIT_THEN_CARRY)
+-- Owner decision no. 4 (26 Sep 2026: CREDIT_THEN_CARRY, USABLE): what a credited return leaves after the unpaid part of the note
+-- is the mandor's due, paid once through the next payroll. So the whole remaining carry goes into one payroll (no instalments,
+-- BC_CARRY_ONCE), and that payroll is the mandor's next open one: the draft (DRAFT/CALCULATED/REVIEW) with the earliest period
+-- end on or after the credit date (BC_CARRY_NOT_NEXT_PAYROLL). If that payroll is later reversed or cancelled, the carry is due
+-- again and goes to the then next payroll; it is never paid twice.
+CREATE OR REPLACE FUNCTION erp.bc_carry_next_payroll_v1(p_event uuid)
+ RETURNS uuid LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select p.id from erp.bc_lot_events_v1 e join erp.bc_return_lots_v1 l on l.id=e.lot_id
+  join erp.payroll_settlements p on p.contractor_id=coalesce(l.contractor_id,(select c.contractor_id from erp.contractor_material_issues c
+      join erp.contractor_material_issue_items i on i.issue_id=c.id where i.id=l.note_item_id))
+    and p.status in('DRAFT','CALCULATED','REVIEW') and p.period_end>=(e.event_at at time zone 'Asia/Jakarta')::date
+  where e.id=p_event order by p.period_end,p.period_start,p.created_at,p.id limit 1
+$function$;
+
 CREATE OR REPLACE FUNCTION erp.bc_allocate_carry_v1(p_payload jsonb,p_request uuid)
  RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
 AS $function$
-declare e erp.bc_lot_events_v1%rowtype;p erp.payroll_settlements%rowtype;v_amount numeric;v_contractor uuid;v_line uuid;
+declare e erp.bc_lot_events_v1%rowtype;p erp.payroll_settlements%rowtype;v_amount numeric;v_contractor uuid;v_line uuid;v_remaining numeric;v_next uuid;
 begin
   perform erp.require_owner_admin();perform erp.require_permission('finance.payroll.view');
   perform erp._cp3_assert_closed_json_object(p_payload,array['event_id','payroll_id','amount','reason'],
     array['event_id','payroll_id','amount','reason','responsible','reference'],'carry payload');
   select * into e from erp.bc_lot_events_v1 where id=erp.bc_uuid_v1(p_payload,'event_id',true);
   if e.id is null or e.event_kind<>'CREDIT' or e.amount_carry<=0 then raise exception 'BC_CARRY_INVALID: kredit tanpa bagian yang dibawa ke payroll';end if;
+  -- Shared with the credit's reversal: a carry is never allocated while its credit is being reversed, and the other way round.
   perform pg_advisory_xact_lock(hashtextextended('BCCARRY|'||e.id::text,0));
   select * into p from erp.payroll_settlements where id=erp.bc_uuid_v1(p_payload,'payroll_id',true) for update;
   select coalesce(l.contractor_id,(select c.contractor_id from erp.contractor_material_issues c join erp.contractor_material_issue_items i on i.issue_id=c.id where i.id=l.note_item_id))
@@ -1559,8 +1586,13 @@ begin
     raise exception 'BC_CARRY_INVALID: pilih payroll draft mandor yang sama';end if;
   if jsonb_typeof(p_payload->'amount') is distinct from 'string' then raise exception 'BB_AMOUNT_INVALID: amount harus nominal tepat dua desimal';end if;
   v_amount:=erp.bb_parse_amount_v1(p_payload->>'amount','amount');
-  if v_amount>coalesce(erp.bc_carry_remaining_v1(e.id),0) then
-    raise exception 'BC_CARRY_EXCEEDS: sisa kredit yang dibawa % , diminta %',coalesce(erp.bc_carry_remaining_v1(e.id),0),v_amount;end if;
+  v_remaining:=coalesce(erp.bc_carry_remaining_v1(e.id),0);
+  if v_remaining<=0 then raise exception 'BC_CARRY_EXCEEDS: hak mandor dari kredit ini sudah masuk payroll (sisa 0)';end if;
+  if v_amount<>v_remaining then
+    raise exception 'BC_CARRY_ONCE: hak mandor dibayar sekali penuh lewat payroll berikutnya: % , diminta %',v_remaining,v_amount;end if;
+  v_next:=erp.bc_carry_next_payroll_v1(e.id);
+  if v_next is distinct from p.id then
+    raise exception 'BC_CARRY_NOT_NEXT_PAYROLL: hak mandor masuk payroll berikutnya (payroll draft dengan periode berakhir paling awal sejak tanggal kredit)';end if;
   perform erp.bc_new_document_v1(p_request,'ALLOCATE_CARRY',statement_timestamp(),p_payload);
   insert into erp.payroll_reimbursements(payroll_id,amount,description,source_type,bc_credit_event_id)
   values(p.id,v_amount,'Kredit retur nota aksesori dibawa ke payroll','BC_RETURN_CARRY',e.id) returning id into v_line;
@@ -1923,6 +1955,8 @@ begin
     raise exception 'BC_REVERSE_DEPENDANTS: batalkan dahulu penyelesaian selisih hitung';end if;
   if d.action='CREDIT_NOTE_RETURN' then
     select * into v_event from erp.bc_lot_events_v1 where document_id=d.id;
+    -- The carry lock of ALLOCATE_CARRY: a reversal and an allocation of the same credit never run at once.
+    perform pg_advisory_xact_lock(hashtextextended('BCCARRY|'||v_event.id::text,0));
     if v_event.amount_carry>0 and erp.bc_carry_remaining_v1(v_event.id)<>v_event.amount_carry then
       raise exception 'BC_REVERSE_DEPENDANTS: lepaskan dahulu kredit yang sudah masuk payroll';end if;
   end if;
@@ -2163,12 +2197,19 @@ begin
           'qty_usable',e.qty_usable::text,'qty_damaged',e.qty_damaged::text,'inspector',e.inspector,
           'amount',case when v_value or v_admin then e.amount::text end,'unpaid',case when v_value or v_admin then e.amount_unpaid::text end,
           'carry',case when v_value or v_admin then e.amount_carry::text end,'refund',case when v_value or v_admin then e.amount_refund::text end,
-          'carry_remaining',case when (v_value or v_admin) and e.event_kind='CREDIT' and e.amount_carry>0 then erp.bc_carry_remaining_v1(e.id)::text end)
+          'carry_remaining',case when (v_value or v_admin) and e.event_kind='CREDIT' and e.amount_carry>0 then erp.bc_carry_remaining_v1(e.id)::text end,
+          -- Owner decision no. 4: where the carried due went (payroll, its status, amount), so return -> credit -> payroll -> payment is traceable.
+          'carry_payroll_lines',case when (v_value or v_admin) and e.event_kind='CREDIT' and e.amount_carry>0 then coalesce((select jsonb_agg(jsonb_build_object(
+              'payroll_id',ps.id,'payroll_number',ps.payroll_number,'status',ps.status,'amount',r.amount::numeric(18,2)::text,'period_end',ps.period_end::text)
+              order by ps.period_end,ps.id) from erp.payroll_reimbursements r join erp.payroll_settlements ps on ps.id=r.payroll_id
+            where r.bc_credit_event_id=e.id and r.source_type='BC_RETURN_CARRY'),'[]'::jsonb) end)
           order by e.created_at,e.id)
           from erp.bc_lot_events_v1 e where e.document_id=d.id),'[]'::jsonb),
         -- ACC-DEC05 carry: the draft payrolls of the same mandor that a carried credit may enter (owner/admin with payroll view).
         'carry_payrolls',case when v_admin and erp.has_permission('finance.payroll.view') then coalesce((select jsonb_agg(jsonb_build_object('id',p.id,
-            'number',p.payroll_number,'status',p.status,'period_end',p.period_end::text) order by p.period_end desc,p.id)
+            'number',p.payroll_number,'status',p.status,'period_end',p.period_end::text,
+            'is_next',exists(select 1 from erp.bc_lot_events_v1 e2 where e2.document_id=d.id and e2.event_kind='CREDIT' and erp.bc_carry_next_payroll_v1(e2.id)=p.id))
+            order by p.period_end,p.id)
           from erp.payroll_settlements p where p.status in('DRAFT','CALCULATED','REVIEW') and p.contractor_id in(
             select coalesce(l.contractor_id,(select c.contractor_id from erp.contractor_material_issues c join erp.contractor_material_issue_items i on i.issue_id=c.id
               where i.id=l.note_item_id)) from erp.bc_lot_events_v1 e join erp.bc_return_lots_v1 l on l.id=e.lot_id

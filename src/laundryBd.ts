@@ -11,7 +11,7 @@ export const LAU_POLICY_LABEL: Record<LauPolicyKey, string> = {
   'LAU-DEC05': 'Tarif khusus model / ukuran / warna', 'LAU-DEC06': 'Selisih invoice dan koreksi sesudah bayar' }
 export const BD_ACTIONS = ['SET_POLICY', 'SAVE_VENDOR_TERMS', 'SAVE_COMPONENT', 'SAVE_COMPONENT_RATE', 'SAVE_PACKAGE', 'SAVE_PACKAGE_RATE',
   'SAVE_PROCESS_RATE', 'SAVE_SCOPED_RATE', 'POST_PRICED_DELIVERY', 'SET_CHARGE_PRICE', 'SAVE_INVOICE_DRAFT', 'CANCEL_INVOICE_DRAFT', 'POST_INVOICE',
-  'REVERSE_INVOICE', 'SET_OPENING_ESTIMATE'] as const
+  'REVERSE_INVOICE', 'SET_OPENING_ESTIMATE', 'APPLY_CLAIM_CREDIT', 'PAY_VENDOR_DOCUMENT', 'REVERSE_VENDOR_SETTLEMENT'] as const
 export type BdAction = typeof BD_ACTIONS[number]
 export const CATEGORY_LABEL = { GOOD: 'Hasil baik', BS: 'BS laundry', FAILED_ATTEMPT: 'Cuci gagal' } as const
 export type Category = keyof typeof CATEGORY_LABEL
@@ -37,17 +37,25 @@ export type BdInvoiceLine = { id: string; line_no: number; line_kind: 'BILL' | '
   product_variance: string | null; completes_source: boolean }
 export type BdInvoice = { invoice_id: string; vendor_id: string; vendor_code: string; invoice_number: string; invoice_date: string; due_date: string | null
   status: 'DRAFT' | 'POSTED' | 'REVERSED' | 'CANCELLED'; header_total: string; discount_amount: string; tax_amount: string; rounding_amount: string
-  row_version: string; variance_mode: string | null; paid: string; lines: BdInvoiceLine[] }
+  row_version: string; variance_mode: string | null; paid: string; lines: BdInvoiceLine[]
+  /** Owner decision no. 13: a correction document is linked to the invoice it corrects (up: a new payable; down: a vendor credit). */
+  document_kind: 'INVOICE' | 'CORRECTION_UP' | 'CORRECTION_DOWN'; corrects_invoice_id: string | null; corrects_invoice_number: string | null }
 export type BdBillable = { receipt_line_id: string; receipt_number: string; delivery_number: string; po_number: string; received_local: string
   failed_attempt: boolean; estimate: string; released: string; price_known: boolean; capacity: Record<Category, number>; billed: Record<Category, number> }
 export type BdOpening = { id: string; vendor_id: string; vendor_code: string; document_number: string; receipt_date: string; category: Category; qty: number
   billed: number; estimate_status: 'KNOWN' | 'UNKNOWN'; estimated_amount: string | null; released: string | null; invoiced: boolean
   po_number: string | null; dispatch_number: string | null; row_version: string }
-export type BdPayableSettlement = { id: string; number: string; date: string; amount: string; method: 'CASH' | 'CLAIM_CREDIT' | 'CREDIT'; reference: string | null
+export type BdPayableSettlement = { id: string; number: string; date: string; amount: string; method: 'CASH' | 'CLAIM_CREDIT' | 'CORRECTION_CREDIT' | 'CREDIT'; reference: string | null
   status: 'POSTED' | 'REVERSED' }
 export type BdPayableDocument = { kind: 'VENDOR_INVOICE' | 'OPENING_PAYABLE'; id: string; number: string; date: string; total: string; paid_cash: string
-  claim_credit: string; remaining: string; status: string; settlements: BdPayableSettlement[] }
-export type BdClaimCredit = { kind: 'DAILY_CLAIM' | 'OPENING_CLAIM'; id: string; number: string; approved_date: string; amount: string; applied: string; available: string }
+  claim_credit: string; correction_credit: string; corrects: string | null; remaining: string; status: string; settlements: BdPayableSettlement[] }
+export type BdClaimCredit = { kind: 'DAILY_CLAIM' | 'OPENING_CLAIM' | 'INVOICE_CORRECTION'; id: string; number: string; approved_date: string; amount: string
+  applied: string; available: string; corrects: string | null }
+/** Owner decision no. 11 (LAU-DEC04 ALLOW_PENDING): goods and sales whose HPP is not final while a laundry price is unknown. */
+export type BdPendingGood = { lot_id: string; lot_number: string; po_number: string; sku: string; product_name: string; qty_now: number; qty_sold: number
+  hpp_per_pcs_so_far: string | null }
+export type BdPendingSale = { id: string; sale_id: string; sale_number: string; sale_date: string; sku: string; product_name: string; lot_number: string; qty: number
+  policy_version: string; recorded_at: string; hpp_state: 'NOT_FINAL' | 'RECOSTED'; unit_hpp_at_sale: string | null }
 /** D12: the payment screen of one vendor; the ledger check is AP on the ledger = remaining of the documents - credit not yet used. */
 export type BdPayables = { documents: BdPayableDocument[]; credits: BdClaimCredit[]; cash_accounts: { id: string; code: string; name: string }[]
   ledger: { ap_balance: string; documents_remaining: string; credit_available: string; matches: boolean } }
@@ -55,7 +63,7 @@ export type LaundryBdWorkspace = { money_visible: boolean; can_manage_master: bo
   policies: BdPolicy[]; vendors: BdVendor[]; processes: { id: string; code: string; name: string }[]; components: BdComponent[]; packages: BdPackage[]
   process_rates: BdProcessRate[]; scoped_rates: BdScopedRate[]; priced_deliveries: BdPricedDelivery[]; opening_uninvoiced: BdOpening[]
   invoices: BdInvoice[] | null; billable_receipts: BdBillable[] | null; accounts: { id: string; code: string; name: string; type: 'ASSET' | 'EXPENSE' }[] | null
-  payables: BdPayables | null }
+  payables: BdPayables | null; pending_cost: { goods: BdPendingGood[]; sales: BdPendingSale[] } }
 
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 function object(value: unknown, label: string): Record<string, unknown> {
@@ -168,7 +176,7 @@ export function parseLaundryBdWorkspace(value: unknown): LaundryBdWorkspace {
     due_date: i.due_date === null ? null : day(i.due_date, 'Jatuh tempo'), status: oneOf(i.status, ['DRAFT', 'POSTED', 'REVERSED', 'CANCELLED'] as const, 'Status invoice'),
     header_total: money(i.header_total, 'Total invoice'), discount_amount: money(i.discount_amount, 'Diskon'), tax_amount: money(i.tax_amount, 'Pajak'),
     rounding_amount: money(i.rounding_amount, 'Pembulatan'), row_version: version(i.row_version, 'Invoice'), variance_mode: nullableText(i.variance_mode, 'Perlakuan selisih'),
-    paid: money(i.paid, 'Sudah dibayar'), lines: list(i.lines, 'Baris invoice').map((l): BdInvoiceLine => {
+    paid: money(i.paid, 'Sudah dibayar'), ...correctionOf(i), lines: list(i.lines, 'Baris invoice').map((l): BdInvoiceLine => {
       const receipt_line_id = nullableId(l.receipt_line_id, 'Baris penerimaan'), opening_uninvoiced_id = nullableId(l.opening_uninvoiced_id, 'Penerimaan saldo awal')
       if ((receipt_line_id === null) === (opening_uninvoiced_id === null)) throw new Error('Sumber baris invoice tidak valid.')
       return { id: id(l.id, 'Baris invoice'), line_no: count(l.line_no, 'Nomor baris'), line_kind: oneOf(l.line_kind, ['BILL', 'CORRECTION'] as const, 'Jenis baris'),
@@ -185,8 +193,35 @@ export function parseLaundryBdWorkspace(value: unknown): LaundryBdWorkspace {
     type: oneOf(a.type, ['ASSET', 'EXPENSE'] as const, 'Jenis akun') })) ?? null
   const payables = r.payables === null || r.payables === undefined ? null : parsePayables(r.payables)
   if (payables && !money_visible) throw new Error('Pembayaran vendor tampil tanpa hak melihat nominal.')
+  const pc = object(r.pending_cost, 'HPP belum final')
+  const pending_cost = {
+    goods: list(pc.goods, 'Barang HPP belum final').map((g): BdPendingGood => {
+      if (g.hpp_state !== 'NOT_FINAL') throw new Error('Status HPP barang tidak dikenal.')
+      return { lot_id: id(g.lot_id, 'Lot'), lot_number: text(g.lot_number, 'Nomor lot'), po_number: text(g.po_number, 'Nomor PO'), sku: text(g.sku, 'SKU'),
+        product_name: text(g.product_name, 'Nama barang'), qty_now: count(g.qty_now, 'Stok lot'), qty_sold: count(g.qty_sold, 'Qty terjual'),
+        hpp_per_pcs_so_far: gated(g.hpp_per_pcs_so_far, money_visible, 'HPP sementara') }
+    }),
+    sales: list(pc.sales, 'Penjualan HPP belum final').map((x): BdPendingSale => ({ id: id(x.id, 'Catatan penjualan'), sale_id: id(x.sale_id, 'Penjualan'),
+      sale_number: text(x.sale_number, 'Nomor penjualan'), sale_date: day(x.sale_date, 'Tanggal penjualan'), sku: text(x.sku, 'SKU'),
+      product_name: text(x.product_name, 'Nama barang'), lot_number: text(x.lot_number, 'Nomor lot'), qty: count(x.qty, 'Qty terjual'),
+      policy_version: version(x.policy_version, 'Versi LAU-DEC04'), recorded_at: local(x.recorded_at, 'Waktu catat'),
+      hpp_state: oneOf(x.hpp_state, ['NOT_FINAL', 'RECOSTED'] as const, 'Status HPP penjualan'),
+      unit_hpp_at_sale: gated(x.unit_hpp_at_sale, money_visible, 'HPP saat dijual') })) }
   return { money_visible, can_manage_master: bool(r.can_manage_master, 'Hak master'), can_set_price: bool(r.can_set_price, 'Hak harga'), is_owner: bool(r.is_owner, 'Owner'),
-    policies, vendors, processes, components, packages, process_rates, scoped_rates, priced_deliveries, opening_uninvoiced, invoices, billable_receipts, accounts, payables }
+    policies, vendors, processes, components, packages, process_rates, scoped_rates, priced_deliveries, opening_uninvoiced, invoices, billable_receipts, accounts, payables,
+    pending_cost }
+}
+
+/** A correction document names the invoice it corrects; an invoice names none. */
+function correctionOf(i: Record<string, unknown>): Pick<BdInvoice, 'document_kind' | 'corrects_invoice_id' | 'corrects_invoice_number'> {
+  const document_kind = oneOf(i.document_kind, ['INVOICE', 'CORRECTION_UP', 'CORRECTION_DOWN'] as const, 'Jenis dokumen invoice')
+  const corrects_invoice_id = nullableId(i.corrects_invoice_id, 'Invoice asal'), corrects_invoice_number = nullableText(i.corrects_invoice_number, 'Nomor invoice asal')
+  if ((document_kind === 'INVOICE') !== (corrects_invoice_id === null) || (corrects_invoice_id === null) !== (corrects_invoice_number === null)) {
+    throw new Error('Dokumen koreksi tanpa invoice asal, atau invoice dengan invoice asal.')
+  }
+  const total = money(i.header_total, 'Total invoice')
+  if ((document_kind === 'CORRECTION_DOWN') !== total.startsWith('-')) throw new Error('Tanda total dokumen koreksi tidak cocok dengan jenisnya.')
+  return { document_kind, corrects_invoice_id, corrects_invoice_number }
 }
 
 function parsePayables(value: unknown): BdPayables {
@@ -194,14 +229,18 @@ function parsePayables(value: unknown): BdPayables {
   return {
     documents: list(p.documents, 'Tagihan vendor').map((d): BdPayableDocument => ({ kind: oneOf(d.kind, ['VENDOR_INVOICE', 'OPENING_PAYABLE'] as const, 'Jenis tagihan'),
       id: id(d.id, 'Tagihan'), number: text(d.number, 'Nomor tagihan'), date: day(d.date, 'Tanggal tagihan'), total: money(d.total, 'Total tagihan'),
-      paid_cash: money(d.paid_cash, 'Dibayar kas'), claim_credit: money(d.claim_credit, 'Kredit klaim'), remaining: money(d.remaining, 'Sisa tagihan'),
+      paid_cash: money(d.paid_cash, 'Dibayar kas'), claim_credit: money(d.claim_credit, 'Kredit klaim'), correction_credit: money(d.correction_credit, 'Kredit koreksi'),
+      corrects: nullableText(d.corrects, 'Invoice asal'), remaining: money(d.remaining, 'Sisa tagihan'),
       status: text(d.status, 'Status tagihan'),
       settlements: list(d.settlements, 'Riwayat pelunasan').map((x): BdPayableSettlement => ({ id: id(x.id, 'Pelunasan'), number: text(x.number, 'Nomor pelunasan'),
-        date: day(x.date, 'Tanggal pelunasan'), amount: money(x.amount, 'Nominal pelunasan'), method: oneOf(x.method, ['CASH', 'CLAIM_CREDIT', 'CREDIT'] as const, 'Cara pelunasan'),
+        date: day(x.date, 'Tanggal pelunasan'), amount: money(x.amount, 'Nominal pelunasan'), method: oneOf(x.method, ['CASH', 'CLAIM_CREDIT', 'CORRECTION_CREDIT', 'CREDIT'] as const, 'Cara pelunasan'),
         reference: nullableText(x.reference, 'Rujukan pelunasan'), status: oneOf(x.status, ['POSTED', 'REVERSED'] as const, 'Status pelunasan') })) })),
-    credits: list(p.credits, 'Kredit klaim').map((c): BdClaimCredit => ({ kind: oneOf(c.kind, ['DAILY_CLAIM', 'OPENING_CLAIM'] as const, 'Jenis klaim'), id: id(c.id, 'Klaim'),
-      number: text(c.number, 'Nomor klaim'), approved_date: day(c.approved_date, 'Tanggal disetujui'), amount: money(c.amount, 'Kredit klaim'),
-      applied: money(c.applied, 'Kredit terpakai'), available: money(c.available, 'Kredit tersedia') })),
+    credits: list(p.credits, 'Kredit vendor').map((c): BdClaimCredit => {
+      const kind = oneOf(c.kind, ['DAILY_CLAIM', 'OPENING_CLAIM', 'INVOICE_CORRECTION'] as const, 'Jenis kredit')
+      return { kind, id: id(c.id, 'Kredit'), number: text(c.number, 'Nomor kredit'), approved_date: day(c.approved_date, 'Tanggal kredit'),
+        amount: money(c.amount, 'Kredit'), applied: money(c.applied, 'Kredit terpakai'), available: money(c.available, 'Kredit tersedia'),
+        corrects: kind === 'INVOICE_CORRECTION' ? text(c.corrects, 'Invoice asal koreksi') : null }
+    }),
     cash_accounts: list(p.cash_accounts, 'Rekening kas').map(a => ({ id: id(a.id, 'Rekening kas'), code: text(a.code, 'Kode rekening'), name: text(a.name, 'Nama rekening') })),
     ledger: { ap_balance: money(l.ap_balance, 'Saldo utang'), documents_remaining: money(l.documents_remaining, 'Sisa tagihan'),
       credit_available: money(l.credit_available, 'Kredit belum dipakai'), matches: bool(l.matches, 'Cocok buku besar') } }

@@ -233,6 +233,29 @@ export async function cases(ui, today) {
       await owner.context.close()
       return { status: status0 === 'PENDING_POLICY_VALUE' ? 'PASS' : 'FAIL', start: status0, end: read() }
     }],
+    ['BC_BROWSER:DEC07_NO_APPROVAL_FOR_NOW_BY_OWNER', async () => {
+      // Owner decision no. 6 (26 Sep 2026): "0 itu gausah ada approval dulu sementara": the owner picks "Tanpa persetujuan owner
+      // (sementara)" for ACC-DEC07 on the settings screen (stored as approval NONE, not as a threshold), then returns it to pending
+      // (the fail-closed default: every valued cost needs owner/admin again). The value can be changed in the app at any time.
+      const owner = await ui.login('OWNER', { label: 'bc-dec07' })
+      const read = () => ui.sql("select status||'|'||version||'|'||coalesce(value->>'approval','-')||'|'||coalesce(value->>'owner_approval_above','-') from erp.bc_policy_settings_v1 where policy_key='ACC_DEC07'")
+      const [status0, version0] = read().split('|')
+      const p = await openAccessories(ui, owner)
+      await p.getByRole('button', { name: 'Kebijakan & area', exact: true }).click()
+      await p.getByLabel('Kebijakan yang diubah').selectOption('ACC-DEC07')
+      const thresholdBefore = await p.getByLabel('Batas persetujuan owner').count()
+      await p.getByLabel('Persetujuan owner biaya aksesori').selectOption('NONE')
+      await p.getByLabel('Alasan kebijakan aksesori').fill('Owner: belum perlu persetujuan untuk sementara')
+      await p.getByRole('button', { name: 'Tetapkan ACC-DEC07', exact: true }).click()
+      await ui.expect.poll(read, { timeout: 20000 }).toBe(`SET|${Number(version0) + 1}|NONE|-`)
+      await ui.expect(p.getByRole('row', { name: /ACC-DEC07.*Ditetapkan/ })).toBeVisible()
+      await p.getByLabel('Kebijakan yang diubah').selectOption('ACC-DEC07')
+      await p.getByLabel('Alasan kebijakan aksesori').fill('Kembali menunggu keputusan owner di browser')
+      await p.getByRole('button', { name: 'Kembalikan ACC-DEC07 ke menunggu', exact: true }).click()
+      await ui.expect.poll(read, { timeout: 20000 }).toBe(`PENDING_POLICY_VALUE|${Number(version0) + 2}|-|-`)
+      await owner.context.close()
+      return { status: status0 === 'PENDING_POLICY_VALUE' && thresholdBefore === 0 ? 'PASS' : 'FAIL', start: status0, threshold_input_before_choice: thresholdBefore, end: read() }
+    }],
     ['BC_BROWSER:IMPORT_PAGE_OPENING_ACCESSORIES', async () => {
       const owner = await ui.login('OWNER', { label: 'bc-import' })
       const fx = await accessoryFixture(ui, owner, today, '4')

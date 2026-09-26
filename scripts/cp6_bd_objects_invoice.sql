@@ -8,8 +8,17 @@
 -- variance account (LAU-DEC06, LAU-T16/T22). Discount, tax and a rounding line need the owner's LAU-DEC03 (LAU-T21); the header
 -- total must equal the recomputed payable to the cent. A correction line (quantity 0, signed amount) changes the cost of an
 -- already billed receipt line; after a payment it needs LAU-DEC06 after_payment CORRECTION_DOCUMENT. An unpaid invoice can be
--- reversed; a paid one cannot (reverse the payment first, or correct with a correction line). The payable is an ordinary
+-- reversed; a paid one cannot (reverse the payment first, or correct with a correction document). The payable is an ordinary
 -- erp.vendor_invoices row (total >= 0), so vendor payments, AP checks and aging see it; the journal is VENDOR_INVOICE on it.
+-- Correction documents (owner decision no. 13, 26 Sep 2026: LAU-DEC06 PRODUCT_COST + CORRECTION_DOCUMENT): correction lines
+-- always sit in their own document linked to the invoice they correct (corrects_invoice_id; the origin's history, lines and
+-- payments are never touched). The difference follows product cost per piece of the same billing source (D10).
+--   * upward (total > 0): a new payable (vendor_invoices row) for the difference, paid like any invoice;
+--   * downward (total < 0): the vendor's payable falls by the difference on the correction date (AP_VENDOR Dr, product cost or
+--     variance account Cr, journal BD_LAUNDRY_CORRECTION_CREDIT); what the origin still owes is settled by it at once, the rest
+--     is a vendor credit applied to other unpaid documents of the same vendor (scripts/cp6_bd_objects_claimcredit.sql). The
+--     vendor's payable must cover it (no silent vendor receivable: BD_CORRECTION_EXCEEDS_PAYABLE).
+-- A source's billed cost never goes below zero (BD_CORRECTION_BELOW_ZERO).
 -- The receipt lines stay ESTIMATED: the released estimate and the product variance are read by accrual and HPP.
 -- ALL-W05: a line may instead bill an opening record of laundry work returned before cutover and not yet billed
 -- (opening_uninvoiced_id, scripts/cp6_bd_objects_import.sql): its capacity is the record's quantity in its one category, it
@@ -23,7 +32,9 @@ create table erp.bd_laundry_invoices_v1(
   invoice_date date not null,
   due_date date,
   status text not null check(status in('DRAFT','POSTED','REVERSED','CANCELLED')),
-  header_total numeric(18,2) not null check(header_total>=0),
+  header_total numeric(18,2) not null,
+  -- The invoice a correction document corrects (null for an invoice).
+  corrects_invoice_id uuid references erp.bd_laundry_invoices_v1(id),
   discount_amount numeric(18,2) not null default 0 check(discount_amount>=0),
   tax_amount numeric(18,2) not null default 0 check(tax_amount>=0),
   rounding_amount numeric(18,2) not null default 0 check(abs(rounding_amount)<1000),
@@ -41,8 +52,11 @@ create table erp.bd_laundry_invoices_v1(
   posted_at timestamptz,
   reversed_by uuid,
   reversed_at timestamptz,
-  reverse_reason text
+  reverse_reason text,
+  check(header_total>=0 or corrects_invoice_id is not null),
+  check(corrects_invoice_id is null or (discount_amount=0 and tax_amount=0 and rounding_amount=0))
 );
+create index bd_laundry_invoices_v1_corrects on erp.bd_laundry_invoices_v1(corrects_invoice_id);
 create unique index bd_laundry_invoices_v1_number on erp.bd_laundry_invoices_v1(vendor_id,lower(btrim(invoice_number))) where status in('DRAFT','POSTED');
 
 create table erp.bd_laundry_invoice_lines_v1(
@@ -181,22 +195,27 @@ AS $function$
     'tax_amount',i.tax_amount::text,'rounding_amount',i.rounding_amount::text,'row_version',i.row_version::text,
     'variance_mode',i.variance_mode,'policy_versions',i.policy_versions,'journal_id',i.journal_id,'reversal_journal_id',i.reversal_journal_id,
     'paid',coalesce((select sum(p.amount) from erp.vendor_payments p where p.vendor_invoice_id=i.id and p.status='POSTED'),0)::numeric(18,2)::text,
+    'document_kind',case when i.corrects_invoice_id is null then 'INVOICE' when i.header_total>0 then 'CORRECTION_UP' else 'CORRECTION_DOWN' end,
+    'corrects_invoice_id',i.corrects_invoice_id,'corrects_invoice_number',o.invoice_number,
     'lines',erp.bd_invoice_lines_json_v1(i.id))
-  from erp.bd_laundry_invoices_v1 i where i.id=p_invoice
+  from erp.bd_laundry_invoices_v1 i left join erp.bd_laundry_invoices_v1 o on o.id=i.corrects_invoice_id where i.id=p_invoice
 $function$;
 
 -- Create or replace a draft (lines are replaced as a whole); only shape, vendor and source are checked here. Policies and
--- capacity are checked when the invoice is posted (a draft may wait for the owner's settings).
+-- capacity are checked when the invoice is posted (a draft may wait for the owner's settings). Correction lines form their own
+-- document linked to the invoice they correct (corrects_invoice_id; when omitted, the one posted invoice that billed every
+-- corrected source); its total is signed (below zero: the vendor lowers the bill).
 CREATE OR REPLACE FUNCTION erp.bd_save_invoice_draft_v1(p_payload jsonb,p_request uuid)
  RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
 AS $function$
 declare v_id uuid;i erp.bd_laundry_invoices_v1%rowtype;v_vendor uuid;v_x jsonb;v_no integer:=0;v_rl record;v_kind text;v_qty integer;v_amount numeric;
-  v_rounding numeric;v_open erp.bd_opening_laundry_uninvoiced_v1%rowtype;
+  v_rounding numeric;v_open erp.bd_opening_laundry_uninvoiced_v1%rowtype;v_total numeric;v_corrects uuid;v_has_bill boolean;v_has_corr boolean;
+  v_origins uuid[];o erp.bd_laundry_invoices_v1%rowtype;v_discount numeric;v_tax numeric;
 begin
   perform erp.require_owner_admin();perform erp.require_permission('finance.hpp.manage');
   perform erp._cp3_assert_closed_json_object(p_payload,array['vendor_id','invoice_number','invoice_date','header_total','lines'],
     array['invoice_id','expected_version','vendor_id','invoice_number','invoice_date','due_date','header_total','discount_amount','tax_amount',
-      'rounding_amount','notes','lines'],'laundry invoice draft');
+      'rounding_amount','notes','lines','corrects_invoice_id'],'laundry invoice draft');
   v_id:=erp.bd_uuid_v1(p_payload,'invoice_id',false);v_vendor:=erp.bd_uuid_v1(p_payload,'vendor_id',true);
   if not exists(select 1 from erp.laundry_vendors where id=v_vendor) then raise exception 'BD_VENDOR_INACTIVE: vendor laundry tidak dikenal';end if;
   if jsonb_typeof(p_payload->'invoice_date') is distinct from 'string' or p_payload->>'invoice_date'!~'^\d{4}-\d{2}-\d{2}$' then
@@ -211,22 +230,47 @@ begin
       raise exception 'BD_AMOUNT_INVALID: rounding_amount wajib nominal teks bertanda dengan tepat dua desimal, kurang dari 1000';end if;
     v_rounding:=(p_payload->>'rounding_amount')::numeric;
   end if;
+  v_discount:=case when p_payload ? 'discount_amount' and jsonb_typeof(p_payload->'discount_amount')<>'null' then erp.bd_amount_v1(p_payload->'discount_amount','discount_amount',false) else 0 end;
+  v_tax:=case when p_payload ? 'tax_amount' and jsonb_typeof(p_payload->'tax_amount')<>'null' then erp.bd_amount_v1(p_payload->'tax_amount','tax_amount',false) else 0 end;
+  -- Invoice or correction document (owner decision no. 13): correction lines never share a document with billing lines.
+  select bool_or(x->>'line_kind'='BILL'),bool_or(x->>'line_kind'='CORRECTION') into v_has_bill,v_has_corr from jsonb_array_elements(p_payload->'lines') x;
+  v_corrects:=erp.bd_uuid_v1(p_payload,'corrects_invoice_id',false);
+  if coalesce(v_has_bill,false) and (coalesce(v_has_corr,false) or v_corrects is not null) then
+    raise exception 'BD_CORRECTION_SEPARATE_DOCUMENT: koreksi dibuat sebagai dokumen koreksi tersendiri yang tertaut ke invoice asal; pisahkan dari baris tagih';end if;
+  if coalesce(v_has_corr,false) then
+    if v_corrects is null then
+      select array_agg(distinct y.id) into v_origins from jsonb_array_elements(p_payload->'lines') x
+        join erp.bd_laundry_invoice_lines_v1 b on b.line_kind='BILL' and (b.receipt_line_id=erp.bd_uuid_v1(x,'receipt_line_id',false)
+          or b.opening_uninvoiced_id=erp.bd_uuid_v1(x,'opening_uninvoiced_id',false))
+        join erp.bd_laundry_invoices_v1 y on y.id=b.invoice_id and y.status='POSTED' and y.corrects_invoice_id is null;
+      if coalesce(cardinality(v_origins),0)<>1 then
+        raise exception 'BD_CORRECTION_ORIGIN_REQUIRED: pilih invoice asal yang dikoreksi (sumber ini ditagih % invoice)',coalesce(cardinality(v_origins),0);end if;
+      v_corrects:=v_origins[1];
+    end if;
+    select * into o from erp.bd_laundry_invoices_v1 where id=v_corrects;
+    if o.id is null or o.status<>'POSTED' or o.corrects_invoice_id is not null then
+      raise exception 'BD_CORRECTION_ORIGIN_INVALID: invoice asal harus invoice vendor laundry POSTED (bukan dokumen koreksi)';end if;
+    if o.vendor_id<>v_vendor then raise exception 'BD_INVOICE_VENDOR: invoice asal milik vendor lain';end if;
+    if v_discount<>0 or v_tax<>0 or v_rounding<>0 then
+      raise exception 'BD_CORRECTION_NO_DISCOUNT_TAX: dokumen koreksi tidak memuat diskon, pajak, atau pembulatan; nominal koreksi sudah bersih';end if;
+    if jsonb_typeof(p_payload->'header_total') is distinct from 'string' or p_payload->>'header_total'!~'^-?(0|[1-9][0-9]{0,15})\.[0-9]{2}$' then
+      raise exception 'BD_AMOUNT_INVALID: header_total wajib nominal teks bertanda dengan tepat dua desimal';end if;
+    v_total:=(p_payload->>'header_total')::numeric;
+    if v_total=0 then raise exception 'BD_AMOUNT_INVALID: total dokumen koreksi tidak boleh nol';end if;
+  else
+    v_total:=erp.bd_amount_v1(p_payload->'header_total','header_total',true);
+  end if;
   if v_id is null then
-    insert into erp.bd_laundry_invoices_v1(vendor_id,invoice_number,invoice_date,due_date,status,header_total,discount_amount,tax_amount,rounding_amount,notes,created_by)
-    values(v_vendor,btrim(p_payload->>'invoice_number'),(p_payload->>'invoice_date')::date,(p_payload->>'due_date')::date,'DRAFT',
-      erp.bd_amount_v1(p_payload->'header_total','header_total',true),
-      case when p_payload ? 'discount_amount' and jsonb_typeof(p_payload->'discount_amount')<>'null' then erp.bd_amount_v1(p_payload->'discount_amount','discount_amount',false) else 0 end,
-      case when p_payload ? 'tax_amount' and jsonb_typeof(p_payload->'tax_amount')<>'null' then erp.bd_amount_v1(p_payload->'tax_amount','tax_amount',false) else 0 end,
-      v_rounding,nullif(btrim(coalesce(p_payload->>'notes','')),''),erp.current_app_user_id()) returning * into i;
+    insert into erp.bd_laundry_invoices_v1(vendor_id,invoice_number,invoice_date,due_date,status,header_total,corrects_invoice_id,discount_amount,tax_amount,rounding_amount,notes,created_by)
+    values(v_vendor,btrim(p_payload->>'invoice_number'),(p_payload->>'invoice_date')::date,(p_payload->>'due_date')::date,'DRAFT',v_total,v_corrects,
+      v_discount,v_tax,v_rounding,nullif(btrim(coalesce(p_payload->>'notes','')),''),erp.current_app_user_id()) returning * into i;
   else
     select * into i from erp.bd_laundry_invoices_v1 where id=v_id for update;
     if i.id is null or i.status<>'DRAFT' then raise exception 'BD_INVOICE_NOT_DRAFT: hanya draf invoice yang dapat diubah';end if;
     if jsonb_typeof(p_payload->'expected_version') is distinct from 'string' or p_payload->>'expected_version' is distinct from i.row_version::text then
       raise exception 'STALE_VERSION: draf invoice berubah; muat ulang';end if;
     update erp.bd_laundry_invoices_v1 set vendor_id=v_vendor,invoice_number=btrim(p_payload->>'invoice_number'),invoice_date=(p_payload->>'invoice_date')::date,
-      due_date=(p_payload->>'due_date')::date,header_total=erp.bd_amount_v1(p_payload->'header_total','header_total',true),
-      discount_amount=case when p_payload ? 'discount_amount' and jsonb_typeof(p_payload->'discount_amount')<>'null' then erp.bd_amount_v1(p_payload->'discount_amount','discount_amount',false) else 0 end,
-      tax_amount=case when p_payload ? 'tax_amount' and jsonb_typeof(p_payload->'tax_amount')<>'null' then erp.bd_amount_v1(p_payload->'tax_amount','tax_amount',false) else 0 end,
+      due_date=(p_payload->>'due_date')::date,header_total=v_total,corrects_invoice_id=v_corrects,discount_amount=v_discount,tax_amount=v_tax,
       rounding_amount=v_rounding,notes=nullif(btrim(coalesce(p_payload->>'notes','')),''),row_version=row_version+1
     where id=i.id returning * into i;
     delete from erp.bd_laundry_invoice_lines_v1 where invoice_id=i.id;
@@ -247,6 +291,8 @@ begin
     v_amount:=(v_x->>'amount')::numeric;
     if v_kind='BILL' and (v_qty<=0 or v_amount<0) then raise exception 'BD_INVOICE_LINE: baris tagih wajib qty > 0 dan nominal >= 0';end if;
     if v_kind='CORRECTION' and (v_qty<>0 or v_amount=0) then raise exception 'BD_INVOICE_LINE: baris koreksi wajib qty 0 dan nominal tidak nol';end if;
+    if v_kind='CORRECTION' and sign(v_amount)<>sign(v_total) then
+      raise exception 'BD_CORRECTION_MIXED_SIGN: satu dokumen koreksi hanya menaikkan atau hanya menurunkan tagihan';end if;
     if v_x ? 'opening_uninvoiced_id' then
       select * into v_open from erp.bd_opening_laundry_uninvoiced_v1 where id=erp.bd_uuid_v1(v_x,'opening_uninvoiced_id',true);
       if v_open.id is null then raise exception 'BD_INVOICE_SOURCE: penerimaan laundry saldo awal tidak ditemukan';end if;
@@ -264,7 +310,21 @@ begin
     insert into erp.bd_laundry_invoice_lines_v1(invoice_id,line_no,line_kind,receipt_line_id,category,qty,amount,note,po_id)
     values(i.id,v_no,v_kind,v_rl.id,v_x->>'category',v_qty,v_amount,nullif(btrim(coalesce(v_x->>'note','')),''),v_rl.po_id);
   end loop;
+  if v_corrects is not null then perform erp.bd_check_correction_sources_v1(i.id);end if;
   return erp.bd_invoice_json_v1(i.id);
+end;$function$;
+
+-- Every source a correction document corrects was billed by the invoice it is linked to.
+CREATE OR REPLACE FUNCTION erp.bd_check_correction_sources_v1(p_invoice uuid)
+ RETURNS void LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare i erp.bd_laundry_invoices_v1%rowtype;
+begin
+  select * into i from erp.bd_laundry_invoices_v1 where id=p_invoice;
+  if exists(select 1 from erp.bd_laundry_invoice_lines_v1 l where l.invoice_id=i.id and (l.line_kind<>'CORRECTION' or not exists(
+      select 1 from erp.bd_laundry_invoice_lines_v1 b where b.invoice_id=i.corrects_invoice_id and b.line_kind='BILL'
+        and (b.receipt_line_id=l.receipt_line_id or b.opening_uninvoiced_id=l.opening_uninvoiced_id)))) then
+    raise exception 'BD_CORRECTION_SOURCE_NOT_IN_ORIGIN: dokumen koreksi hanya mengoreksi sumber yang ditagih invoice asalnya';end if;
 end;$function$;
 
 CREATE OR REPLACE FUNCTION erp.bd_cancel_invoice_draft_v1(p_payload jsonb,p_request uuid)
@@ -289,6 +349,7 @@ declare i erp.bd_laundry_invoices_v1%rowtype;l record;v_dec02 jsonb;v_dec03 json
   v_gross numeric:=0;v_positive numeric:=0;v_payable numeric;v_weights integer[]:='{}';v_ids uuid[]:='{}';v_split numeric[];k integer;v_last uuid;
   v_pool numeric;v_pieces integer;v_prior numeric;v_released numeric;v_complete boolean;v_cap integer;v_billed integer;v_paid boolean;
   v_lines jsonb:='[]'::jsonb;v_po record;v_journal uuid;v_group uuid;v_line_ids uuid[];v_net numeric;v_open_rel numeric;v_open_var numeric;
+  o erp.bd_laundry_invoices_v1%rowtype;v_source_net numeric;v_ap numeric;v_origin_left numeric;
 begin
   perform erp.require_owner_admin();perform erp.require_permission('finance.hpp.manage');
   perform erp._cp3_assert_closed_json_object(p_payload,array['invoice_id','expected_version'],array['invoice_id','expected_version'],'post invoice');
@@ -313,6 +374,21 @@ begin
     if i.tax_amount>0 and v_dec03->>'tax_account_id' is null then raise exception 'BD_TAX_ACCOUNT_REQUIRED: LAU-DEC03 belum menetapkan akun pajak masukan';end if;
   end if;
   if not exists(select 1 from erp.bd_laundry_invoice_lines_v1 where invoice_id=i.id) then raise exception 'BD_INVOICE_LINES: invoice tanpa baris';end if;
+  -- A correction document (owner decision no. 13) corrects one posted invoice of the same vendor, on or after its date, only in
+  -- the sources that invoice billed; the origin row is locked so it cannot be reversed meanwhile.
+  if i.corrects_invoice_id is null then
+    if exists(select 1 from erp.bd_laundry_invoice_lines_v1 where invoice_id=i.id and line_kind='CORRECTION') then
+      raise exception 'BD_CORRECTION_SEPARATE_DOCUMENT: koreksi dibuat sebagai dokumen koreksi tersendiri yang tertaut ke invoice asal';end if;
+  else
+    select * into o from erp.bd_laundry_invoices_v1 where id=i.corrects_invoice_id for update;
+    if o.status<>'POSTED' or o.corrects_invoice_id is not null or o.vendor_id<>i.vendor_id then
+      raise exception 'BD_CORRECTION_ORIGIN_INVALID: invoice asal harus invoice vendor laundry POSTED milik vendor yang sama';end if;
+    if i.invoice_date<o.invoice_date then
+      raise exception 'BD_CORRECTION_BEFORE_ORIGIN: tanggal dokumen koreksi % sebelum tanggal invoice asal %',i.invoice_date,o.invoice_date;end if;
+    perform erp.bd_check_correction_sources_v1(i.id);
+    if exists(select 1 from erp.bd_laundry_invoice_lines_v1 where invoice_id=i.id and sign(amount)<>sign(i.header_total)) then
+      raise exception 'BD_CORRECTION_MIXED_SIGN: satu dokumen koreksi hanya menaikkan atau hanya menurunkan tagihan';end if;
+  end if;
   -- Lock the sources in a fixed order (with the baseline's per-cutting-group flow lock) before reading capacity and estimates.
   for v_group in select distinct dl.cutting_group_id from erp.bd_laundry_invoice_lines_v1 x join erp.laundry_receipt_lines rl on rl.id=x.receipt_line_id
       join erp.laundry_delivery_lines dl on dl.id=rl.delivery_line_id where x.invoice_id=i.id order by 1 loop
@@ -341,7 +417,8 @@ begin
   v_payable:=v_gross-i.discount_amount+i.rounding_amount+i.tax_amount;
   if v_payable<>i.header_total then
     raise exception 'BD_INVOICE_TOTAL_MISMATCH: total invoice % tidak sama dengan baris - diskon + pembulatan + pajak = %',i.header_total,v_payable;end if;
-  if i.header_total<=0 then raise exception 'BD_INVOICE_TOTAL_MISMATCH: total invoice harus lebih dari 0';end if;
+  if (i.corrects_invoice_id is null and i.header_total<=0) or i.header_total=0 then
+    raise exception 'BD_INVOICE_TOTAL_MISMATCH: total invoice harus lebih dari 0 (dokumen koreksi: tidak nol)';end if;
   -- Each line in order: category billable, capacity, released estimate, variance.
   for l in select x.*,rl.actual_cost,rl.actual_cost_status,rl.delivery_line_id,u.accrued_amount opening_pool,u.qty opening_qty
       from erp.bd_laundry_invoice_lines_v1 x left join erp.laundry_receipt_lines rl on rl.id=x.receipt_line_id
@@ -371,6 +448,11 @@ begin
             where x.opening_uninvoiced_id=l.opening_uninvoiced_id and y.status='POSTED') into v_paid;
         if v_paid and v_dec06->>'after_payment'<>'CORRECTION_DOCUMENT' then
           raise exception 'BD_PAID_CORRECTION_REFUSED: invoice sumber sudah dibayar dan LAU-DEC06 tidak mengizinkan dokumen koreksi';end if;
+        select coalesce(sum(x.net_amount),0) into v_source_net from erp.bd_laundry_invoice_lines_v1 x join erp.bd_laundry_invoices_v1 y on y.id=x.invoice_id
+          where y.status='POSTED' and x.opening_uninvoiced_id=l.opening_uninvoiced_id;
+        v_source_net:=v_source_net+(select coalesce(sum(x.amount),0) from erp.bd_laundry_invoice_lines_v1 x where x.invoice_id=i.id
+          and x.opening_uninvoiced_id=l.opening_uninvoiced_id and x.line_no<=l.line_no);
+        if v_source_net<0 then raise exception 'BD_CORRECTION_BELOW_ZERO: koreksi membuat biaya tertagih sumber ini negatif (%)',v_source_net;end if;
         v_released:=0;v_complete:=false;
       end if;
       if v_released<0 then raise exception 'BD_INTERNAL: estimasi yang dilepas negatif';end if;
@@ -413,6 +495,11 @@ begin
           where x.receipt_line_id=l.receipt_line_id and y.status='POSTED') into v_paid;
       if v_paid and v_dec06->>'after_payment'<>'CORRECTION_DOCUMENT' then
         raise exception 'BD_PAID_CORRECTION_REFUSED: invoice sumber sudah dibayar dan LAU-DEC06 tidak mengizinkan dokumen koreksi';end if;
+      select coalesce(sum(x.net_amount),0) into v_source_net from erp.bd_laundry_invoice_lines_v1 x join erp.bd_laundry_invoices_v1 y on y.id=x.invoice_id
+        where y.status='POSTED' and x.receipt_line_id=l.receipt_line_id;
+      v_source_net:=v_source_net+(select coalesce(sum(x.amount),0) from erp.bd_laundry_invoice_lines_v1 x where x.invoice_id=i.id
+        and x.receipt_line_id=l.receipt_line_id and x.line_no<=l.line_no);
+      if v_source_net<0 then raise exception 'BD_CORRECTION_BELOW_ZERO: koreksi membuat biaya tertagih sumber ini negatif (%)',v_source_net;end if;
       v_released:=0;v_complete:=false;
     end if;
     if v_released<0 then raise exception 'BD_INTERNAL: estimasi yang dilepas negatif';end if;
@@ -443,16 +530,39 @@ begin
   if v_open_var<>0 then v_lines:=v_lines||jsonb_build_object('account_id',v_dec06->>'variance_account_id','debit',greatest(v_open_var,0),
     'credit',greatest(-v_open_var,0),'vendor_id',i.vendor_id,'description','Selisih invoice laundry saldo awal');end if;
   if i.tax_amount>0 then v_lines:=v_lines||jsonb_build_object('account_id',v_dec03->>'tax_account_id','debit',i.tax_amount,'credit',0,'vendor_id',i.vendor_id,'description','Pajak masukan invoice laundry');end if;
-  v_lines:=v_lines||jsonb_build_object('mapping_key','AP_VENDOR','debit',0,'credit',i.header_total,'vendor_id',i.vendor_id);
-  -- The payable as an ordinary laundry vendor invoice (payments and AP checks read it).
-  -- Created as DRAFT and posted by a status change, so the vendor invoice post-date guard and the receipt guard run on it.
-  insert into erp.vendor_invoices(id,invoice_number,vendor_id,invoice_date,due_date,status,total_amount,notes,created_by)
-  values(i.id,i.invoice_number,i.vendor_id,i.invoice_date,i.due_date,'DRAFT',i.header_total,'BD invoice laundry (LAU-05b)',erp.current_app_user_id());
-  update erp.vendor_invoices set status='POSTED' where id=i.id;
-  v_journal:=erp.post_journal('VENDOR_INVOICE',i.id,i.invoice_date,'Invoice vendor laundry '||i.invoice_number,v_lines);
+  if i.header_total>0 then
+    v_lines:=v_lines||jsonb_build_object('mapping_key','AP_VENDOR','debit',0,'credit',i.header_total,'vendor_id',i.vendor_id);
+    -- The payable as an ordinary laundry vendor invoice (payments and AP checks read it); an upward correction document too.
+    -- Created as DRAFT and posted by a status change, so the vendor invoice post-date guard and the receipt guard run on it.
+    insert into erp.vendor_invoices(id,invoice_number,vendor_id,invoice_date,due_date,status,total_amount,notes,created_by)
+    values(i.id,i.invoice_number,i.vendor_id,i.invoice_date,i.due_date,'DRAFT',i.header_total,
+      case when i.corrects_invoice_id is null then 'BD invoice laundry (LAU-05b)' else 'BD koreksi naik atas invoice laundry '||o.invoice_number end,
+      erp.current_app_user_id());
+    update erp.vendor_invoices set status='POSTED' where id=i.id;
+    v_journal:=erp.post_journal('VENDOR_INVOICE',i.id,i.invoice_date,
+      case when i.corrects_invoice_id is null then 'Invoice vendor laundry ' else 'Koreksi naik invoice laundry '||o.invoice_number||': ' end||i.invoice_number,v_lines);
+  else
+    -- Downward correction: the vendor's payable falls on the correction date. It must be covered by what the vendor is still
+    -- owed (a vendor receivable is not silently created).
+    select coalesce(sum(jl.credit-jl.debit),0) into v_ap from erp.journal_lines jl join erp.journal_entries je on je.id=jl.journal_entry_id
+      where je.status in('POSTED','REVERSED') and jl.account_id=erp.account_id('AP_VENDOR') and jl.vendor_id=i.vendor_id;
+    if -i.header_total>v_ap then
+      raise exception 'BD_CORRECTION_EXCEEDS_PAYABLE: koreksi turun % melebihi utang ke vendor ini saat ini %; kelebihan bayar ke vendor perlu alur piutang vendor tersendiri',
+        -i.header_total,v_ap;end if;
+    v_lines:=v_lines||jsonb_build_object('mapping_key','AP_VENDOR','debit',-i.header_total,'credit',0,'vendor_id',i.vendor_id);
+    v_journal:=erp.post_journal('BD_LAUNDRY_CORRECTION_CREDIT',i.id,i.invoice_date,'Koreksi turun invoice laundry '||o.invoice_number||': '||i.invoice_number,v_lines);
+  end if;
   update erp.bd_laundry_invoices_v1 set status='POSTED',policy_versions=v_versions,variance_mode=v_dec06->>'variance_mode',
     variance_account_id=(v_dec06->>'variance_account_id')::uuid,tax_account_id=(v_dec03->>'tax_account_id')::uuid,journal_id=v_journal,
     posted_by=erp.current_app_user_id(),posted_at=statement_timestamp(),row_version=row_version+1 where id=i.id;
+  -- A downward correction first settles what its origin still owes (same date); the rest stays a vendor credit.
+  if i.header_total<0 then
+    select v.total_amount-erp.bd_vendor_invoice_paid_v1(v.id,null) into v_origin_left from erp.vendor_invoices v where v.id=o.id;
+    if coalesce(v_origin_left,0)>0 then
+      perform erp.bd_apply_vendor_credit_v1('INVOICE_CORRECTION',i.id,'VENDOR_INVOICE',o.id,least(-i.header_total,v_origin_left),i.invoice_date,
+        'Koreksi turun '||i.invoice_number||' atas invoice asal',gen_random_uuid());
+    end if;
+  end if;
   perform erp.bd_invoice_resync_v1(i.id,i.invoice_date);
   return erp.bd_invoice_json_v1(i.id);
 end;$function$;
@@ -488,7 +598,10 @@ begin
   if p_payload->>'expected_version' is distinct from i.row_version::text then raise exception 'STALE_VERSION: invoice berubah; muat ulang';end if;
   perform 1 from erp.vendor_invoices where id=i.id for update;
   if exists(select 1 from erp.vendor_payments p where p.vendor_invoice_id=i.id and p.status='POSTED') then
-    raise exception 'BD_INVOICE_PAID: invoice sudah dibayar; batalkan pembayaran dulu, atau koreksi dengan baris koreksi bila LAU-DEC06 mengizinkan';end if;
+    raise exception 'BD_INVOICE_PAID: invoice sudah dibayar; batalkan pembayaran dulu, atau koreksi dengan dokumen koreksi bila LAU-DEC06 mengizinkan';end if;
+  -- A downward correction whose credit settles a document stays until that settlement is reversed.
+  if i.header_total<0 and erp.bd_claim_credit_applied_v1('INVOICE_CORRECTION',i.id)>0 then
+    raise exception 'BD_CLAIM_CREDIT_IN_USE: kredit koreksi % sudah dipakai untuk melunasi tagihan; batalkan pemakaiannya dulu',i.invoice_number;end if;
   for v_group in select distinct dl.cutting_group_id from erp.bd_laundry_invoice_lines_v1 x join erp.laundry_receipt_lines rl on rl.id=x.receipt_line_id
       join erp.laundry_delivery_lines dl on dl.id=rl.delivery_line_id where x.invoice_id=i.id order by 1 loop
     perform pg_advisory_xact_lock(hashtextextended('CP6FLOW:'||v_group::text,0));
@@ -514,6 +627,23 @@ end;$function$;
 -- A lot's laundry price is unknown while the delivery line it came from (its QC lineage; else any active delivery line of its
 -- PO) has no rate or a BD component price still UNKNOWN. Selling such goods is refused unless the owner set LAU-DEC04 to
 -- ALLOW_PENDING (fail closed while pending; close stays blocked in every case).
+-- Owner decision no. 11 (26 Sep 2026, ALLOW_PENDING): the sale goes through, but the unknown price is never taken as zero or as
+-- a final HPP: every sale of such goods is recorded (bd_pending_price_sales_v1) and the laundry page lists the goods and those
+-- sales as "HPP belum final" until the price is set; setting it recosts the lot, its stock and the cost of the goods already
+-- sold in the same transaction (bd_resync_delivery_v1), and only then does the close blocker clear. A known rate is not
+-- "unknown": goods sent at a known rate carry that rate as their estimate until the vendor invoice arrives (LAU-T16/T22).
+create table erp.bd_pending_price_sales_v1(
+  id uuid primary key default gen_random_uuid(),
+  sale_id uuid not null references erp.sales_headers(id),
+  sale_item_id uuid not null references erp.sales_items(id),
+  lot_id uuid not null references erp.fg_lots(id),
+  qty_pcs integer not null check(qty_pcs>0),
+  policy_version bigint not null,
+  recorded_at timestamptz not null default statement_timestamp(),
+  unique(sale_item_id,lot_id)
+);
+create index bd_pending_price_sales_v1_lot on erp.bd_pending_price_sales_v1(lot_id);
+comment on table erp.bd_pending_price_sales_v1 is 'LAU-DEC04 ALLOW_PENDING (owner decision no. 11): a sale of goods whose laundry price was still unknown when it posted; its HPP is not final until the price is set.';
 CREATE OR REPLACE FUNCTION erp.bd_delivery_line_price_unknown_v1(p_delivery_line uuid)
  RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
 AS $function$
@@ -542,4 +672,45 @@ begin
   if v is null or v->>'sale_with_unknown_laundry' is distinct from 'ALLOW_PENDING' then
     raise exception 'BD_SALE_LAUNDRY_PRICE_UNKNOWN: barang yang dijual masih punya harga laundry yang belum diketahui; isi harganya dulu atau owner mengizinkan lewat LAU-DEC04';
   end if;
+  -- Allowed: the sale's HPP is not final; record which lots it took with the policy version that allowed it.
+  insert into erp.bd_pending_price_sales_v1(sale_id,sale_item_id,lot_id,qty_pcs,policy_version)
+  select i.sale_id,a.sale_item_id,a.lot_id,sum(a.qty_pcs)::integer,erp.bd_policy_version_v1('LAU_DEC04')
+  from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id
+  where i.sale_id=p_sale and erp.bd_lot_laundry_unknown_v1(a.lot_id)
+  group by i.sale_id,a.sale_item_id,a.lot_id
+  on conflict (sale_item_id,lot_id) do nothing;
 end;$function$;
+
+-- The goods and sales whose HPP is not final because a laundry price is still unknown (and the sales recorded under
+-- ALLOW_PENDING, marked final once the price is set and the cost recomputed). Amounts only for money readers.
+CREATE OR REPLACE FUNCTION erp.bd_pending_cost_json_v1(p_vendor uuid,p_money boolean)
+ RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  with unknown_po as(
+    select distinct d.po_id from erp.laundry_deliveries d join erp.laundry_delivery_lines dl on dl.delivery_id=d.id
+    where d.status not in('DRAFT','REVERSED') and (p_vendor is null or d.vendor_id=p_vendor) and erp.bd_delivery_line_price_unknown_v1(dl.id)),
+  goods as(
+    select l.id,l.lot_number,l.cached_qty_pcs,po.po_number,p.sku,p.product_name,
+      (select h.hpp_per_pcs from erp.hpp_versions h where h.lot_id=l.id and h.is_current) hpp,
+      (select coalesce(sum(a.qty_pcs),0) from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id
+         join erp.sales_headers sh on sh.id=i.sale_id and sh.status='POSTED' where a.lot_id=l.id)::integer sold
+    from erp.fg_lots l join unknown_po u on u.po_id=l.po_id join erp.production_orders po on po.id=l.po_id join erp.products p on p.id=l.product_id
+    where erp.bd_lot_laundry_unknown_v1(l.id)
+    order by po.po_number,l.lot_number limit 100),
+  sales as(
+    select x.id,x.sale_id,sh.sale_number,to_char(sh.sale_date at time zone 'Asia/Jakarta','YYYY-MM-DD') sale_date,x.qty_pcs,x.recorded_at,x.policy_version,p.sku,p.product_name,l.lot_number,
+      not erp.bd_lot_laundry_unknown_v1(x.lot_id) final,
+      (select a.unit_hpp_snapshot from erp.sale_stock_allocations a where a.sale_item_id=x.sale_item_id and a.lot_id=x.lot_id limit 1) unit_hpp
+    from erp.bd_pending_price_sales_v1 x join erp.sales_headers sh on sh.id=x.sale_id join erp.fg_lots l on l.id=x.lot_id
+      join erp.products p on p.id=l.product_id
+    where p_vendor is null or exists(select 1 from erp.laundry_deliveries d where d.po_id=l.po_id and d.vendor_id=p_vendor)
+    order by x.recorded_at desc,x.id limit 100)
+  select jsonb_build_object(
+    'goods',coalesce((select jsonb_agg(jsonb_build_object('lot_id',g.id,'lot_number',g.lot_number,'po_number',g.po_number,'sku',g.sku,
+        'product_name',g.product_name,'qty_now',g.cached_qty_pcs,'qty_sold',g.sold,'hpp_state','NOT_FINAL',
+        'hpp_per_pcs_so_far',case when p_money then g.hpp::numeric(18,2)::text end)) from goods g),'[]'::jsonb),
+    'sales',coalesce((select jsonb_agg(jsonb_build_object('id',x.id,'sale_id',x.sale_id,'sale_number',x.sale_number,'sale_date',x.sale_date,
+        'sku',x.sku,'product_name',x.product_name,'lot_number',x.lot_number,'qty',x.qty_pcs,'policy_version',x.policy_version::text,
+        'recorded_at',to_char(x.recorded_at at time zone 'Asia/Jakarta','YYYY-MM-DD"T"HH24:MI:SS'),'hpp_state',case when x.final then 'RECOSTED' else 'NOT_FINAL' end,
+        'unit_hpp_at_sale',case when p_money then x.unit_hpp::numeric(18,2)::text end)) from sales x),'[]'::jsonb))
+$function$;

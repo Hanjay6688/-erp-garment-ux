@@ -160,9 +160,17 @@ begin
     return jsonb_build_object('mode','NOTE_NEAREST_RUPIAH','gain_account_id',erp.bc_policy_account_v1(p_value,'gain_account_id',array['REVENUE','EXPENSE']),
       'loss_account_id',erp.bc_policy_account_v1(p_value,'loss_account_id',array['EXPENSE']));
   elsif p_key='ACC_DEC07' then
-    perform erp._cp3_assert_closed_json_object(p_value,array['owner_approval_above'],array['owner_approval_above','zone_users'],'ACC-DEC07');
-    if jsonb_typeof(p_value->'owner_approval_above') is distinct from 'string' then raise exception 'BC_POLICY_VALUE: ACC-DEC07 owner_approval_above wajib nominal teks';end if;
-    perform erp.bb_parse_amount_v1(p_value->>'owner_approval_above','owner_approval_above',true);
+    -- Owner decision no. 6 (26 Sep 2026): "gausah ada approval dulu sementara karena belum relevan" is approval NONE, an explicit
+    -- value that can be changed in the app later; a threshold (owner_approval_above) is the other form. Pending stays fail closed.
+    perform erp._cp3_assert_closed_json_object(p_value,array[]::text[],array['approval','owner_approval_above','zone_users'],'ACC-DEC07');
+    if (p_value ? 'approval')=(p_value ? 'owner_approval_above') then
+      raise exception 'BC_POLICY_VALUE: ACC-DEC07 diisi salah satu: approval NONE (tanpa persetujuan) atau owner_approval_above (batas nominal)';end if;
+    if p_value ? 'approval' and p_value->'approval' is distinct from '"NONE"'::jsonb then
+      raise exception 'BC_POLICY_VALUE: ACC-DEC07 approval hanya NONE';end if;
+    if p_value ? 'owner_approval_above' then
+      if jsonb_typeof(p_value->'owner_approval_above') is distinct from 'string' then raise exception 'BC_POLICY_VALUE: ACC-DEC07 owner_approval_above wajib nominal teks';end if;
+      perform erp.bb_parse_amount_v1(p_value->>'owner_approval_above','owner_approval_above',true);
+    end if;
     if p_value ? 'zone_users' then
       if jsonb_typeof(p_value->'zone_users') is distinct from 'object' then raise exception 'BC_POLICY_VALUE: zone_users wajib objek lokasi -> daftar pengguna';end if;
       for k,v_users in select key,value from jsonb_each(p_value->'zone_users') loop
@@ -177,6 +185,7 @@ begin
         v_zone:=v_zone||jsonb_build_object(k,(select jsonb_agg(distinct y order by y) from jsonb_array_elements_text(v_users) y));
       end loop;
     end if;
+    if p_value ? 'approval' then return jsonb_build_object('approval','NONE','zone_users',v_zone);end if;
     return jsonb_build_object('owner_approval_above',erp.bb_parse_amount_v1(p_value->>'owner_approval_above','owner_approval_above',true)::numeric(20,2)::text,
       'zone_users',v_zone);
   elsif p_key='ERP_DEC02' then

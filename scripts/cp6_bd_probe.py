@@ -757,7 +757,8 @@ def invoice_policies(cur,billable=('GOOD','BS','FAILED_ATTEMPT'),mode='PRODUCT_C
 def t16_invoice_above_estimate(cur,today):
     """LAU-T16/T10 (M:4354, M:4348): 10 PCS at a synthetic 7,000 accrue 70,000 until the invoice; a draft may wait but posting
     waits for LAU-DEC02 and LAU-DEC06 (BD_POLICY_PENDING); an invoice of 75,000 replaces the accrual (accrual 0), AP +75,000,
-    and the +5,000 difference stays in product cost (WIP) under PRODUCT_COST; the payable is an ordinary vendor invoice."""
+    and the +5,000 difference stays in product cost (WIP) under PRODUCT_COST; the payable is an ordinary vendor invoice. No
+    financial truth check gains an issue (the WIP source conservation check counts the difference as the PO's product cost)."""
     fx=fixture(cur,today,'T16')
     if not bd_installed(cur):return no_route(cur,lambda:route_call(cur))
     process_rate(cur,fx,'7000.00');d=plain_delivery(cur,fx,10,11);rec=receive(cur,d,fx,10,13);line=receipt_line(cur,rec['receipt_id'])
@@ -765,7 +766,9 @@ def t16_invoice_above_estimate(cur,today):
     draft,_=invoice(cur,fx,[dict(line=line,qty=10,amount='75000.00')],'75000.00',post=False)
     pending=refused(cur,lambda:post_draft(cur,draft),'BD_POLICY_PENDING')
     invoice_policies(cur)
+    truth0=all_truth(cur)
     posted=post_draft(cur,draft)
+    truth1=all_truth(cur)
     after=dict(accrual=accrual(cur,fx['po']),ap=ap(cur,fx['vendor']),wip=wip(cur,fx['po']))
     vi=q(cur,'select status,total_amount from erp.vendor_invoices where id=%s',posted['invoice_id'])[0]
     l0=posted['lines'][0]
@@ -773,7 +776,8 @@ def t16_invoice_above_estimate(cur,today):
         accrual_replaced=after['accrual']=={'desired':'0.00','booked':'0.00'} or (D(after['accrual']['desired'])==0 and D(after['accrual']['booked'])==0),
         ap=D(after['ap'])-D(before['ap'])==75000,variance_in_wip=after['wip']-before['wip']==5000,
         line=(l0['released_estimate'],l0['variance'],l0['product_variance'],l0['completes_source'])==('70000.00','5000.00','5000.00',True),
-        payable=(vi[0],str(vi[1]))==('POSTED','75000.00')),before=before,after=after,line=l0)
+        payable=(vi[0],str(vi[1]))==('POSTED','75000.00'),truth_checks_quiet=truth_quiet(truth0,truth1)),before=before,after=after,line=l0,
+        truth_changed={k:(truth0.get(k,0),truth1.get(k,0)) for k in set(truth0)|set(truth1) if truth0.get(k,0)!=truth1.get(k,0)})
 
 
 def t17_partial_nm_capacity(cur,today):
@@ -917,7 +921,7 @@ def lot_value(cur,lot):
 def t22_variance_to_fg_and_cogs(cur,today):
     """LAU-T22 (M:4360): 10 PCS at a synthetic 7,000 are finished (one FG lot, laundry 70,000), 4 are sold; an invoice of
     75,000 (PRODUCT_COST) raises the lot's laundry cost to 75,000: unsold FG and the sold quantity's cost of sales take the
-    difference, nothing stays in WIP, and the delta adds up to 5,000."""
+    difference, nothing stays in WIP, and the delta adds up to 5,000. No financial truth check gains an issue."""
     fx=fixture(cur,today,'T22')
     if not bd_installed(cur):return no_route(cur,lambda:route_call(cur))
     process_rate(cur,fx,'7000.00');invoice_policies(cur)
@@ -925,18 +929,33 @@ def t22_variance_to_fg_and_cogs(cur,today):
     product,lot=finish_goods(cur,fx,rec['receipt_id'],10,14)
     sell(cur,fx,product,4,16)
     keys=('WIP','FG_INVENTORY','COGS')
-    before={k:gl(cur,k) for k in keys};lv0=lot_value(cur,lot)
+    before={k:gl(cur,k) for k in keys};lv0=lot_value(cur,lot);truth0=all_truth(cur)
     _,posted=invoice(cur,fx,[dict(line=receipt_line(cur,rec['receipt_id']),qty=10,amount='75000.00')],'75000.00')
-    after={k:gl(cur,k) for k in keys};lv1=lot_value(cur,lot)
+    after={k:gl(cur,k) for k in keys};lv1=lot_value(cur,lot);truth1=all_truth(cur)
     delta={k:after[k]-before[k] for k in keys}
     return verdict(dict(lot_up_5000=lv1-lv0==5000,no_wip_left=delta['WIP']==0,fg_and_cogs=delta['FG_INVENTORY']+delta['COGS']==5000,
-        cogs_share=delta['COGS']==2000,fg_share=delta['FG_INVENTORY']==3000),lot_values=[str(lv0),str(lv1)],delta={k:str(v) for k,v in delta.items()})
+        cogs_share=delta['COGS']==2000,fg_share=delta['FG_INVENTORY']==3000,truth_checks_quiet=truth_quiet(truth0,truth1)),
+        lot_values=[str(lv0),str(lv1)],delta={k:str(v) for k,v in delta.items()},
+        truth_changed={k:(truth0.get(k,0),truth1.get(k,0)) for k in set(truth0)|set(truth1) if truth0.get(k,0)!=truth1.get(k,0)})
+
+
+def pending_cost(cur,vendor):
+    """The laundry page's "HPP belum final" list for one vendor, as the owner reads it."""
+    chain.production.owner(cur)
+    ws=cur.execute('select public.erp_get_laundry_bd_workspace_v1(%s::jsonb)',(json.dumps(dict(vendor_id=vendor)),)).fetchone()[0]
+    chain.actors.admin(cur);return ws['pending_cost']
 
 
 def dec04_sale_unknown_laundry(cur,today):
-    """LAU-04/LAU-T34/LAU-DEC04 (M:4475, M:4372): finished goods from a delivery with an UNKNOWN component price cannot be sold
-    while LAU-DEC04 is pending or REFUSE (BD_SALE_LAUNDRY_PRICE_UNKNOWN, nothing posted); with ALLOW_PENDING the sale posts
-    and close stays blocked; once the price is set the goods sell under a refusing policy too."""
+    """LAU-04/LAU-T34/LAU-DEC04 (M:4475, M:4372) and owner decision no. 11 (26 Sep 2026: ALLOW_PENDING; "Harga yang belum
+    diketahui tidak boleh dianggap nol atau membuat HPP terlihat final. Status belum final harus jelas, dan tutup buku yang
+    terdampak tetap tertahan sampai harga serta perhitungan biayanya selesai."): finished goods from a delivery with an UNKNOWN
+    component price cannot be sold while LAU-DEC04 is pending or REFUSE (BD_SALE_LAUNDRY_PRICE_UNKNOWN, nothing posted). With
+    ALLOW_PENDING the sale posts; the lot carries only the known part (GARMENT 50,000 for 10 PCS plus the fixture's other
+    costs; the unknown part is not priced at zero as if final), the laundry page lists the lot and the sale as "not final" (the sale recorded with the policy
+    version), and close stays blocked. Once the price is set (SPRAY 1,000 a piece) in the same transaction the lot takes
+    +10,000, the stock value takes +8,000 and the cost of the 2 PCS already sold +2,000, the blocker clears, the lot leaves the
+    list and the sale shows as recosted (its HPP at sale kept as history); the goods then sell under a refusing policy too."""
     fx=fixture(cur,today,'DEC04')
     if not bd_installed(cur):return no_route(cur,lambda:route_call(cur))
     g=component(cur,fx,'GARMENT','5000.00');s=component(cur,fx,'SPRAY',None,status='UNKNOWN');terms(cur,fx,'COMPONENTS')
@@ -947,15 +966,34 @@ def dec04_sale_unknown_laundry(cur,today):
     refuse=refused(cur,lambda:sell(cur,fx,product,2,15),'BD_SALE_LAUNDRY_PRICE_UNKNOWN')
     posted_none=one(cur,"select count(*) from erp.sales_items i join erp.sales_headers h on h.id=i.sale_id where i.product_id=%s and h.status='POSTED'",product)
     policy(cur,'LAU_DEC04',dict(sale_with_unknown_laundry='ALLOW_PENDING'))
-    sell(cur,fx,product,2,15)
+    lv0=lot_value(cur,lot)
+    sale=sell(cur,fx,product,2,15)
     blocked=blockers(cur,fx['day'],sent['delivery_id'])
+    view1=pending_cost(cur,fx['vendor'])
+    recorded=q(cur,'select qty_pcs::text,policy_version from erp.bd_pending_price_sales_v1 where sale_id=%s',sale)
+    keys=('FG_INVENTORY','COGS');g1={k:gl(cur,k) for k in keys}
     policy(cur,'LAU_DEC04',dict(sale_with_unknown_laundry='REFUSE'))
     unknown=one(cur,"select id::text from erp.bd_laundry_charge_lines_v1 where delivery_line_id=(select id from erp.laundry_delivery_lines where delivery_id=%s) and rate_status='UNKNOWN'",sent['delivery_id'])
     bd(cur,'SET_CHARGE_PRICE',dict(charge_line_id=unknown,rate_per_pcs='1000.00',reason='vendor price arrived'))
+    lv1=lot_value(cur,lot);g2={k:gl(cur,k) for k in keys}
+    cleared=blockers(cur,fx['day'],sent['delivery_id'])
+    view2=pending_cost(cur,fx['vendor'])
     sell(cur,fx,product,2,16)
     posted=one(cur,"select count(*) from erp.sales_items i join erp.sales_headers h on h.id=i.sale_id where i.product_id=%s and h.status='POSTED'",product)
+    lot1=[x for x in view1['goods'] if x['lot_id']==lot];sale1=[x for x in view1['sales'] if x['sale_id']==sale]
+    sale2=[x for x in view2['sales'] if x['sale_id']==sale]
+    delta={k:g2[k]-g1[k] for k in keys}
     return verdict(dict(pending_refused=pending['ok'],refuse_refused=refuse['ok'],nothing_posted=posted_none==0,
-        allowed_but_close_blocked=blocked==['BD_LAUNDRY_COMPONENT_PRICE_UNKNOWN'],known_then_sold=posted==2),blocked=blocked,refusals=[pending,refuse])
+        allowed_but_close_blocked=blocked==['BD_LAUNDRY_COMPONENT_PRICE_UNKNOWN'],
+        known_part_only_not_final=len(lot1)==1 and lot1[0]['hpp_state']=='NOT_FINAL' and lot1[0]['qty_sold']==2
+          and D(lot1[0]['hpp_per_pcs_so_far'])*10==lv0,
+        sale_marked_not_final=len(sale1)==1 and sale1[0]['hpp_state']=='NOT_FINAL' and len(recorded)==1 and recorded[0][0]=='2' and recorded[0][1]>=1,
+        price_set_recosts=lv1-lv0==10000 and delta['COGS']==2000 and delta['FG_INVENTORY']==8000,
+        close_clears_after_costing=cleared==[] and not [x for x in view2['goods'] if x['lot_id']==lot],
+        sale_recosted_history_kept=len(sale2)==1 and sale2[0]['hpp_state']=='RECOSTED' and sale2[0]['unit_hpp_at_sale']==sale1[0]['unit_hpp_at_sale']
+          and D(sale1[0]['unit_hpp_at_sale'])*10==lv0,
+        known_then_sold=posted==2),
+        blocked=blocked,lot_values=[str(lv0),str(lv1)],delta={k:str(v) for k,v in delta.items()},views=dict(before=view1,after=view2),refusals=[pending,refuse])
 
 # ---------------------------------------------------------------- ALL-W05 physical: laundry away at cutover (import)
 W05_KEYS=('WIP','OPENING_EQUITY','AP_VENDOR','OTHER_EXPENSE','ACCRUED_MANUFACTURING','FG_INVENTORY')
@@ -1466,6 +1504,167 @@ def d12_opening(cur,today):
         refusals=[twice,claim_locked])
 
 
+
+# ---------------------------------------------------------------- owner decision no. 13: linked correction documents, up and down
+def all_truth(cur):
+    """Issue count of every financial truth check (v267 + v268)."""
+    api.admin(cur)
+    rows=q(cur,'select * from erp.run_v267_financial_truth_checks() union all select * from erp.run_v268_financial_report_checks()')
+    out={}
+    for r in rows:out[r[0]]=max(out.get(r[0],0),r[2])
+    return out
+
+
+def truth_quiet(before,after):
+    return all(after.get(k,0)<=before.get(k,0) for k in set(before)|set(after))
+
+
+def correction(cur,fx,line,amount,origin,day,number=None,post=True):
+    return invoice(cur,dict(fx,day=day),[dict(line=line,kind='CORRECTION',amount=amount)],amount,number=number or 'KOR-'+uuid.uuid4().hex[:8],
+                   corrects_invoice_id=origin,post=post)
+
+
+def dec06_correction_up_down(cur,today):
+    """Owner decision no. 13 (26 Sep 2026: LAU-DEC06 PRODUCT_COST + CORRECTION_DOCUMENT; "Koreksi memakai dokumen tertaut ke invoice
+    asal, tanpa mengubah histori atau membalik pembayaran yang benar-benar terjadi. Uji koreksi naik maupun turun."). 10 PCS at
+    7,000 are finished in one FG lot and 4 are sold; invoice A 70,000 (dated 60 days back) is paid in full the same day. Today:
+    an upward correction +2,000 linked to A is a new payable of 2,000 (A stays PAID with its payment untouched), the lot takes
+    +2,000 split as FG +1,200 and cost of sales +800 (4 of 10 sold, D10 per piece), nothing stays in WIP. A downward correction
+    of 3,000 is refused while the vendor is owed only 2,000 (no silent vendor receivable); one of 1,500 lowers the payable to 500
+    and the lot by 1,500 (FG -900, cost of sales -600), and its credit settles the upward correction document (1,500) before the
+    last 500 is paid in cash. A second use of the credit, a reversal of the used correction, a correction below the billed cost
+    and a correction line mixed into a billing invoice are refused. Nothing dated on A's day changes; no truth check gains an
+    issue."""
+    fx=fixture(cur,today-timedelta(days=60),'D13')
+    if not bd_installed(cur):return no_route(cur,lambda:route_call(cur))
+    process_rate(cur,fx,'7000.00');invoice_policies(cur,after='CORRECTION_DOCUMENT')
+    rec=receive(cur,plain_delivery(cur,fx,10,11),fx,10,13);line=receipt_line(cur,rec['receipt_id'])
+    product,lot=finish_goods(cur,fx,rec['receipt_id'],10,14)
+    sell(cur,fx,product,4,16)
+    number='INV-A-'+uuid.uuid4().hex[:6]
+    _,a=invoice(cur,fx,[dict(line=line,qty=10,amount='70000.00')],'70000.00',number=number)
+    payment=pay(cur,a['invoice_id'],'70000.00',fx['day'])
+    origin_row=lambda:q(cur,"""select h.status,h.total_amount::text,(select string_agg(p.id::text||':'||p.amount::text||':'||p.status,',' order by p.id)
+        from erp.vendor_payments p where p.vendor_invoice_id=h.id) from erp.vendor_invoices h where h.id=%s""",a['invoice_id'])[0]
+    origin0=origin_row();history0=d12_history(cur,fx['vendor'],fx['day'])
+    keys=('WIP','FG_INVENTORY','COGS');g0={k:gl(cur,k) for k in keys};lv0=lot_value(cur,lot);ap0=D(ap(cur,fx['vendor']))
+    truth0=all_truth(cur)
+    mixed=refused(cur,lambda:invoice(cur,fx,[dict(line=line,qty=1,amount='1.00'),dict(line=line,kind='CORRECTION',amount='5.00')],'6.00',post=False),
+                  'BD_CORRECTION_SEPARATE_DOCUMENT')
+    # Up.
+    _,up=correction(cur,fx,line,'2000.00',a['invoice_id'],today,number='KOR-NAIK-'+uuid.uuid4().hex[:6])
+    g1={k:gl(cur,k) for k in keys};lv1=lot_value(cur,lot);ap1=D(ap(cur,fx['vendor']))
+    up_row=q(cur,'select status,total_amount::text from erp.vendor_invoices where id=%s',up['invoice_id'])[0]
+    # Down, beyond what the vendor is owed, then within it.
+    over=refused(cur,lambda:correction(cur,fx,line,'-3000.00',a['invoice_id'],today),'BD_CORRECTION_EXCEEDS_PAYABLE')
+    below=refused(cur,lambda:correction(cur,fx,line,'-80000.00',a['invoice_id'],today),'BD_CORRECTION_BELOW_ZERO')
+    _,down=correction(cur,fx,line,'-1500.00',a['invoice_id'],today,number='KOR-TURUN-'+uuid.uuid4().hex[:6])
+    g2={k:gl(cur,k) for k in keys};lv2=lot_value(cur,lot);ap2=D(ap(cur,fx['vendor']))
+    screen_down=d12_screen(cur,fx['vendor'])
+    credit_down=[c for c in screen_down['credits'] if c['id']==down['invoice_id']]
+    # The credit settles the upward correction document; the rest is paid in cash.
+    key=uuid.uuid4()
+    use=dict(source_kind='INVOICE_CORRECTION',source_id=down['invoice_id'],target_kind='VENDOR_INVOICE',target_id=up['invoice_id'],amount='1500.00',
+             date=str(today),reason='Kredit koreksi turun untuk koreksi naik')
+    bd(cur,'APPLY_CLAIM_CREDIT',use,key=key)
+    cash=one(cur,'select id::text from erp.cash_accounts where is_active order by cash_account_code limit 1')
+    bd(cur,'PAY_VENDOR_DOCUMENT',dict(target_kind='VENDOR_INVOICE',target_id=up['invoice_id'],amount='500.00',date=str(today),cash_account_id=cash,
+        reason='Bayar sisa koreksi naik'))
+    twice=refused(cur,lambda:bd(cur,'APPLY_CLAIM_CREDIT',dict(use,amount='1.00')),'BD_CLAIM_CREDIT_EXCEEDS_AVAILABLE')
+    dv=one(cur,'select row_version from erp.bd_laundry_invoices_v1 where id=%s',down['invoice_id'])
+    locked=refused(cur,lambda:bd(cur,'REVERSE_INVOICE',dict(invoice_id=down['invoice_id'],expected_version=str(dv),reason='batal koreksi')),'BD_CLAIM_CREDIT_IN_USE')
+    screen=d12_screen(cur,fx['vendor'])
+    up_doc=[d for d in screen['documents'] if d['id']==up['invoice_id']][0]
+    history1=d12_history(cur,fx['vendor'],fx['day']);origin1=origin_row()
+    truth1=all_truth(cur)
+    # Negative control: the WIP source conservation check must still see a correction's product cost. One rupiah more on the
+    # stored difference of the downward correction (written past the triggers, rolled back) has to raise it.
+    cur.execute('savepoint d13_neg')
+    try:
+        cur.execute('set local session_replication_role=replica')
+        cur.execute('update erp.bd_laundry_invoice_lines_v1 set product_variance=product_variance+1 where invoice_id=%s',(down['invoice_id'],))
+        tampered=all_truth(cur).get('V2620C_WIP_SOURCE_CONSERVATION_MISMATCH',0)
+    finally:cur.execute('rollback to savepoint d13_neg');api.admin(cur)
+    d1={k:g1[k]-g0[k] for k in keys};d2={k:g2[k]-g1[k] for k in keys}
+    return verdict(dict(
+        linked=(up['corrects_invoice_id'],down['corrects_invoice_id'])==(a['invoice_id'],a['invoice_id'])
+          and (up['document_kind'],down['document_kind'])==('CORRECTION_UP','CORRECTION_DOWN') and up['corrects_invoice_number']==number,
+        separate_document=mixed['ok'],
+        up_new_payable=up_row==('POSTED','2000.00') and ap1-ap0==2000,
+        up_product_cost=lv1-lv0==2000 and d1['WIP']==0 and d1['FG_INVENTORY']==1200 and d1['COGS']==800,
+        down_needs_payable=over['ok'],down_not_below_zero=below['ok'],
+        down_lowers_payable=ap2-ap1==-1500 and down['status']=='POSTED' and down['header_total']=='-1500.00',
+        down_product_cost=lv2-lv1==-1500 and d2['WIP']==0 and d2['FG_INVENTORY']==-900 and d2['COGS']==-600,
+        down_credit_listed=len(credit_down)==1 and credit_down[0]['available']=='1500.00' and credit_down[0]['corrects']==number
+          and screen_down['ledger']['matches'] is True,
+        credit_settles_up=(up_doc['correction_credit'],up_doc['paid_cash'],up_doc['remaining'],up_doc['status'])==('1500.00','500.00','0.00','PAID')
+          and up_doc['corrects']==number,
+        ledger_agrees=screen['ledger']['matches'] is True and screen['ledger']['ap_balance']=='0.00' and D(ap(cur,fx['vendor']))==0,
+        credit_once=twice['ok'],used_correction_locked=locked['ok'],
+        origin_untouched=origin0==origin1 and origin0[0]=='PAID' and payment in (origin0[2] or ''),
+        history_unchanged=history0==history1,
+        truth_checks_quiet=truth_quiet(truth0,truth1),
+        conservation_check_still_rings=tampered>truth1.get('V2620C_WIP_SOURCE_CONSERVATION_MISMATCH',0)),
+        deltas=dict(up={k:str(v) for k,v in d1.items()},down={k:str(v) for k,v in d2.items()},lot=[str(lv0),str(lv1),str(lv2)]),
+        truth_changed={k:(truth0.get(k,0),truth1.get(k,0)) for k in set(truth0)|set(truth1) if truth0.get(k,0)!=truth1.get(k,0)},
+        screen=dict(ledger=screen['ledger'],up=up_doc),refusals=[mixed,over,below,twice,locked])
+
+
+def dec06_correction_down_settles(cur,today):
+    """Owner decision no. 13, downward correction with the D12 credit path: the laundry vendor has an unpaid opening payable
+    INV-LAMA 10,000,000 (imported, dated 40 days back) and a daily invoice B 70,000 (3 days back) paid 69,000 in cash. Today a
+    downward correction of 3,000 linked to B settles B's last 1,000 at once (B PAID: cash 69,000 + correction credit 1,000) and
+    leaves a credit of 2,000, which the owner applies to the older opening payable (remaining 9,998,000). The payment screen and
+    the ledger agree at every step. The correction cannot be reversed while its credit is used; reversing the two applications
+    frees it, and reversing the correction then restores the payable and the product cost exactly. Nothing dated on or before
+    cutover changes; no truth check gains an issue."""
+    rows=w05_rows(today,claims=(),payable=('10000000.00','0.00'))
+    if not bd_installed(cur):return no_route(cur,lambda:route_call(cur))
+    imp=bbp.production_post(cur,today,rows)
+    vendor=one(cur,'select id::text from erp.laundry_vendors where vendor_code=%s',imp['code'])
+    cutover=today-timedelta(days=10)
+    balance=one(cur,"select id::text from erp.opening_subledger_balances where vendor_id=%s and party_type='VENDOR' and direction='PAYABLE'",vendor)
+    fx=fixture(cur,today-timedelta(days=3),'D13B');fx['vendor']=vendor
+    process_rate(cur,fx,'7000.00');invoice_policies(cur,after='CORRECTION_DOCUMENT')
+    rec=receive(cur,plain_delivery(cur,fx,10,11),fx,10,13);line=receipt_line(cur,rec['receipt_id'])
+    number='INV-B-'+uuid.uuid4().hex[:6]
+    _,b=invoice(cur,fx,[dict(line=line,qty=10,amount='70000.00')],'70000.00',number=number)
+    pay(cur,b['invoice_id'],'69000.00',fx['day'])
+    history0=d12_history(cur,vendor,cutover);truth0=all_truth(cur)
+    w0=wip(cur,fx['po']);ap0=D(ap(cur,vendor))
+    _,down=correction(cur,fx,line,'-3000.00',b['invoice_id'],today,number='KOR-B-'+uuid.uuid4().hex[:6])
+    s1=d12_screen(cur,vendor);b1=d12_doc(s1,number)
+    auto=one(cur,"select id::text from erp.vendor_payments where vendor_invoice_id=%s and payment_method='CORRECTION_CREDIT' and status='POSTED'",b['invoice_id'])
+    credit1=[c for c in s1['credits'] if c['id']==down['invoice_id']][0]
+    opening_number=[d for d in s1['documents'] if d['kind']=='OPENING_PAYABLE'][0]['number']
+    key=uuid.uuid4()
+    bd(cur,'APPLY_CLAIM_CREDIT',dict(source_kind='INVOICE_CORRECTION',source_id=down['invoice_id'],target_kind='OPENING_PAYABLE',target_id=balance,
+        amount='2000.00',date=str(today),reason='Sisa kredit koreksi untuk tagihan lama'),key=key)
+    s2=d12_screen(cur,vendor);o2=d12_doc(s2,opening_number)
+    kind=one(cur,'select credit_kind from erp.bb_opening_credits_v1 where settlement_id=%s',str(key))
+    dv=lambda:str(one(cur,'select row_version from erp.bd_laundry_invoices_v1 where id=%s',down['invoice_id']))
+    locked=refused(cur,lambda:bd(cur,'REVERSE_INVOICE',dict(invoice_id=down['invoice_id'],expected_version=dv(),reason='batal koreksi')),'BD_CLAIM_CREDIT_IN_USE')
+    bd(cur,'REVERSE_VENDOR_SETTLEMENT',dict(target_kind='OPENING_PAYABLE',settlement_id=str(key),reason='batal pakai kredit koreksi'))
+    bd(cur,'REVERSE_VENDOR_SETTLEMENT',dict(target_kind='VENDOR_INVOICE',settlement_id=auto,reason='batal pakai kredit koreksi'))
+    s3=d12_screen(cur,vendor)
+    rev=bd(cur,'REVERSE_INVOICE',dict(invoice_id=down['invoice_id'],expected_version=dv(),reason='koreksi dibatalkan vendor'))
+    s4=d12_screen(cur,vendor);b4=d12_doc(s4,number)
+    history1=d12_history(cur,vendor,cutover);truth1=all_truth(cur)
+    return verdict(dict(
+        settles_origin_first=(b1['paid_cash'],b1['correction_credit'],b1['remaining'],b1['status'])==('69000.00','1000.00','0.00','PAID') and auto is not None,
+        rest_is_credit=(credit1['amount'],credit1['applied'],credit1['available'])==('3000.00','1000.00','2000.00') and s1['ledger']['matches'] is True,
+        older_opening_payable=(o2['correction_credit'],o2['remaining'])==('2000.00','9998000.00') and kind=='VENDOR_CORRECTION_APPLY'
+          and s2['ledger']['matches'] is True and s2['ledger']['credit_available']=='0.00',
+        payable_math=ap0==D('10001000.00') and D(s2['ledger']['ap_balance'])==D('9998000.00'),
+        used_correction_locked=locked['ok'],
+        applications_reversed=s3['ledger']['credit_available']=='3000.00' and s3['ledger']['matches'] is True,
+        reversal_restores=rev['status']=='REVERSED' and D(ap(cur,vendor))==ap0 and wip(cur,fx['po'])==w0
+          and (b4['remaining'],b4['status'])==('1000.00','PARTIAL_PAID') and s4['ledger']['matches'] is True and s4['credits']==[],
+        cutover_unchanged=history0==history1,
+        truth_checks_quiet=truth_quiet(truth0,truth1)),
+        truth_changed={k:(truth0.get(k,0),truth1.get(k,0)) for k in set(truth0)|set(truth1) if truth0.get(k,0)!=truth1.get(k,0)},
+        screens=dict(after_down=s1['ledger'],after_apply=s2['ledger'],final=s4['ledger']),refusals=[locked])
+
 PLAN=[('POLICY:LAU_DEC_SETTINGS_OWNER_VERSIONED_PENDING','NO_ROUTE',policy_settings),
       ('T02:PACKAGE_ONE_CHARGE_PHYSICAL_QTY','NO_ROUTE',t02_package),
       ('T03:COMPONENT_SUM_SAME_PIECES','NO_ROUTE',lambda c,t:t03_t04_components(c,t,False)),
@@ -1498,7 +1697,9 @@ PLAN=[('POLICY:LAU_DEC_SETTINGS_OWNER_VERSIONED_PENDING','NO_ROUTE',policy_setti
       ('D07:RECOST_ALARM_DOCUMENT_LEVEL','COUNTEREXAMPLE',d07_recost_alarm),
       ('D09:ACC_C12_SOURCE_IDENTITY','COUNTEREXAMPLE',d09_custody_source),
       ('D12:CLAIM_CREDIT_DAILY_OLDER_INVOICE','NO_ROUTE',d12_daily),
-      ('D12:CLAIM_CREDIT_OPENING_OLDER_PAYABLE','NO_ROUTE',d12_opening)]
+      ('D12:CLAIM_CREDIT_OPENING_OLDER_PAYABLE','NO_ROUTE',d12_opening),
+      ('DEC06:CORRECTION_DOCUMENT_UP_AND_DOWN','NO_ROUTE',dec06_correction_up_down),
+      ('DEC06:CORRECTION_DOWN_SETTLES_ORIGIN_THEN_OLDER','NO_ROUTE',dec06_correction_down_settles)]
 assert len({k for k,_,_ in PLAN})==len(PLAN),'BD_DUPLICATE_CASE_ID'
 
 

@@ -365,11 +365,23 @@ D09_APPLY_SUBS=[
 
 # ---------------------------------------------------------------- D12 claim credit applied to an opening vendor payable (BC texts)
 D12_LINES_SUBS=[("  -- BC (ALL-C02): a note return credited on the imported mandor receivable.\n",
-                 "  -- D12 (owner 26 Sep 2026): a laundry claim credit applied to an opening vendor payable moves nothing on the ledger.\n"
-                 "  if c.credit_kind='VENDOR_CLAIM_APPLY' then return erp.bd_claim_credit_opening_lines_v1(p_settlement_id);end if;\n"
+                 "  -- D12 (owner 26 Sep 2026): a laundry claim credit, or the credit of a downward invoice correction (owner decision no. 13),\n"
+                 "  -- applied to an opening vendor payable moves nothing on the ledger.\n"
+                 "  if c.credit_kind in('VENDOR_CLAIM_APPLY','VENDOR_CORRECTION_APPLY') then return erp.bd_claim_credit_opening_lines_v1(p_settlement_id);end if;\n"
                  "  -- BC (ALL-C02): a note return credited on the imported mandor receivable.\n")]
 D12_ACCOUNT_SUBS=[("  select case c.credit_kind when 'ACCESSORY_NOTE_RETURN' then erp.account_id('MATERIAL_RECOVERY')",
-                   "  select case c.credit_kind when 'VENDOR_CLAIM_APPLY' then erp.account_id('AP_VENDOR') when 'ACCESSORY_NOTE_RETURN' then erp.account_id('MATERIAL_RECOVERY')")]
+                   "  select case c.credit_kind when 'VENDOR_CLAIM_APPLY' then erp.account_id('AP_VENDOR') when 'VENDOR_CORRECTION_APPLY' then erp.account_id('AP_VENDOR')"
+                   " when 'ACCESSORY_NOTE_RETURN' then erp.account_id('MATERIAL_RECOVERY')")]
+
+# ---------------------------------------------------------------- V2620C WIP source conservation with BD invoice differences (BB text)
+# Found by the no. 13 probe (and present since T16/T22): the check sums a laundry receipt line's estimate (actual_cost) as the
+# PO's sourced laundry cost, while the BD vendor invoice (and a correction document) books the difference to the estimate into
+# WIP as product cost (LAU-DEC06 PRODUCT_COST) and rebuild_po_hpp moves it into HPP; the check then reported every such PO.
+REPORT_SUBS=[("      +coalesce((\n        select sum(rl.actual_cost)\n        from erp.laundry_failed_wash_attempts a\n",
+  "      -- BD (LAU-DEC06 PRODUCT_COST): the invoiced difference to the released estimate is product cost of the PO.\n"
+  "      +coalesce((select sum(l.product_variance) from erp.bd_laundry_invoice_lines_v1 l join erp.bd_laundry_invoices_v1 i on i.id=l.invoice_id\n"
+  "        where i.status='POSTED' and l.receipt_line_id is not null and l.po_id=s.po_id),0)\n"
+  "      +coalesce((\n        select sum(rl.actual_cost)\n        from erp.laundry_failed_wash_attempts a\n")]
 
 REPLACED=['erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','erp.post_laundry_delivery(uuid)','erp.desired_laundry_accrual(uuid)',
           'erp.rebuild_po_hpp(uuid,text)','erp.period_blockers_v1(date,date)','erp.set_laundry_rate_owner_estimate_v1(uuid,numeric,text)',
@@ -379,12 +391,12 @@ REPLACED=['erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','erp.post_laun
           'erp.get_initial_import_workspace_v1(uuid)','erp.initial_import_revision_v1(uuid)','erp.complete_initial_import_wip_v1(jsonb)',
           'erp.initial_import_production_rows_v1(uuid)','erp.guard_initial_import_po_completion_v1()','erp.get_wip_control_v1(text,uuid,text,text)',
           'erp.run_v255_material_cost_integrity_checks()','erp.bc_check_import_row_v1(uuid,uuid)','erp.bc_apply_imports_v1(uuid)',
-          'erp.bb_opening_credit_lines_v1(uuid)','erp.bb_opening_credit_account_v1(uuid)']
+          'erp.bb_opening_credit_lines_v1(uuid)','erp.bb_opening_credit_account_v1(uuid)','erp.run_v268_financial_report_checks()']
 NEW_TABLES=['bd_policy_settings_v1','bd_policy_setting_events_v1','bd_execution_context_v1','bd_laundry_vendor_terms_v1','bd_laundry_components_v1',
             'bd_laundry_component_rates_v1','bd_laundry_packages_v1','bd_laundry_package_components_v1','bd_laundry_package_rates_v1',
             'bd_laundry_scoped_rates_v1','bd_requests_v1','bd_laundry_priced_lines_v1','bd_laundry_charge_lines_v1','bd_laundry_charge_shares_v1',
             'bd_laundry_size_estimates_v1','bd_laundry_receipt_allocations_v1','bd_laundry_invoices_v1','bd_laundry_invoice_lines_v1',
-            'bd_opening_laundry_claims_v1','bd_opening_laundry_claim_events_v1','bd_opening_laundry_uninvoiced_v1','bd_custody_sources_v1','bd_claim_credit_applications_v1']
+            'bd_pending_price_sales_v1','bd_opening_laundry_claims_v1','bd_opening_laundry_claim_events_v1','bd_opening_laundry_uninvoiced_v1','bd_custody_sources_v1','bd_claim_credit_applications_v1']
 
 
 def objects():
@@ -418,6 +430,7 @@ def build():
     d09_apply=substitute(last_definition(BC,'bc_apply_imports_v1'),D09_APPLY_SUBS,'d09 apply')
     d12_lines=substitute(last_definition(BC,'bb_opening_credit_lines_v1'),D12_LINES_SUBS,'d12 credit lines')
     d12_account=substitute(last_definition(BC,'bb_opening_credit_account_v1'),D12_ACCOUNT_SUBS,'d12 credit account')
+    report=substitute(last_definition(BB,'run_v268_financial_report_checks'),REPORT_SUBS,'report checks')
     parts=['-- CP6 BD priced laundry deliveries (LAU-05b) and laundry policy settings LAU-DEC01..06 (owner decision 25 Sep 2026): T1_FAMILY development install (NOT a release package).',
            '-- Generated by scripts/cp6_bd_build.py from scripts/cp6_bd_objects_*.sql, the 20/AC/AG/AJ migrations and the AW/AY/BA/BB/BC T1 files; do not edit by hand.',
            'begin;',"set local lock_timeout='10s';set local statement_timeout='240s';set local search_path='';",
@@ -425,7 +438,7 @@ def build():
            " if not exists(select 1 from erp.schema_migrations where version='v2.6.20bc') then raise exception 'BD_T1_REQUIRES_BC'; end if;",
            f" if exists(select 1 from erp.schema_migrations where version='{VERSION}') or to_regclass('erp.bd_laundry_priced_lines_v1') is not null then raise exception 'BD_T1_ALREADY_INSTALLED'; end if;",
            'end $t1_guard$;',objects(),facade,post_delivery,accrual,rebuild,blockers,estimate,receipt_line,attempt,invoice_guard(),sale,
-           stage,base,final,router(),ws,rev,complete,rows,po_guard,wip_control,D07.read_text().rstrip('\n'),d09_check,d09_apply,d12_lines,d12_account,
+           stage,base,final,router(),ws,rev,complete,rows,po_guard,wip_control,D07.read_text().rstrip('\n'),d09_check,d09_apply,d12_lines,d12_account,report,
            f"insert into erp.schema_migrations(version,description) values('{VERSION}',"
            "'T1_FAMILY development install of BD (priced laundry deliveries: package, components with partial coverage, lump sum per batch, minimum charge, scoped rates; exact per-size receipt shares; laundry vendor invoices; policy settings LAU-DEC01..06; ALL-W05 laundry claims and uninvoiced returns at cutover); not a release package');",
            'commit;','']

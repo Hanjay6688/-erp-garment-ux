@@ -111,7 +111,10 @@ const REAL = {
    "tax_amount": "0.00",
    "variance_mode": "PRODUCT_COST",
    "vendor_code": "BD-0f82879e0eff",
-   "vendor_id": "af869b2f-43f5-46f3-a612-6f22533179b1"
+   "vendor_id": "af869b2f-43f5-46f3-a612-6f22533179b1",
+   "document_kind": "INVOICE",
+   "corrects_invoice_id": null,
+   "corrects_invoice_number": null
   }
  ],
  "is_owner": true,
@@ -277,7 +280,38 @@ const REAL = {
    "pricing_unit": "PCS",
    "terms_version": "0"
   }
- ]
+ ],
+ "pending_cost": {
+  "goods": [
+   {
+    "sku": "CP6-E-BD-92b78d08",
+    "lot_id": "97c3bebd-6b00-484c-9bed-79b39251565e",
+    "qty_now": 8,
+    "qty_sold": 2,
+    "hpp_state": "NOT_FINAL",
+    "po_number": "AA-INV-PO-d7a64e1d-ed88-445c-8851-2d0934c2bebd",
+    "lot_number": "FGP-260923-92217A086FCE4E2EB08B251F9FD04B03-CP6EBD92b78d08-eb0c5a8d",
+    "product_name": "CP6 E BD-92b78d08",
+    "hpp_per_pcs_so_far": "5010.00"
+   }
+  ],
+  "sales": [
+   {
+    "id": "7a249b7f-3e63-45ce-9d12-3ef74628d6df",
+    "qty": 2,
+    "sku": "CP6-E-BD-92b78d08",
+    "sale_id": "59c1d83b-f9d2-45e4-9ad6-bd7b05b96ff9",
+    "hpp_state": "NOT_FINAL",
+    "sale_date": "2026-09-23",
+    "lot_number": "FGP-260923-92217A086FCE4E2EB08B251F9FD04B03-CP6EBD92b78d08-eb0c5a8d",
+    "recorded_at": "2026-09-26T12:33:15",
+    "sale_number": "BD-SALE-4c8e21f161",
+    "product_name": "CP6 E BD-92b78d08",
+    "policy_version": "2",
+    "unit_hpp_at_sale": "5010.00"
+   }
+  ]
+ }
 }
 
 // D12: the payment screen the local BD probe read for the owner example (INV-JUN 10,000,000: cash 8,000,000 + claim credit 2,000,000).
@@ -313,7 +347,9 @@ const PAYABLES = {
      "reference": "KL-JUL-815b2c"
     }
    ],
-   "claim_credit": "2000000.00"
+   "claim_credit": "2000000.00",
+   "correction_credit": "0.00",
+   "corrects": null
   }
  ],
  "credits": [
@@ -344,6 +380,232 @@ const PAYABLES = {
  }
 } as Record<string, any>
 
+// Owner decision no. 13: the invoices and payment screen the local BD chain read after invoice INV-A-1 70,000 (paid in cash), an
+// upward correction KOR-NAIK-1 +2,000 and a downward correction KOR-TURUN-1 -1,500 (both linked to INV-A-1), 1,000 of whose
+// credit settles KOR-NAIK-1.
+const CORRECTION = {
+ "invoices": [
+  {
+   "paid": "0.00",
+   "lines": [
+    {
+     "id": "dd5eec33-b487-4734-9f6e-4f6d9d3aafcf",
+     "qty": 0,
+     "note": null,
+     "po_id": "4c93c007-7ee9-47f8-9188-31aecd37db3b",
+     "amount": "-1500.00",
+     "line_no": 1,
+     "category": "GOOD",
+     "variance": "-1500.00",
+     "line_kind": "CORRECTION",
+     "net_amount": "-1500.00",
+     "discount_share": "0.00",
+     "rounding_share": "0.00",
+     "receipt_line_id": "20a49ee7-92fe-44a9-8640-054121048005",
+     "completes_source": false,
+     "product_variance": "-1500.00",
+     "released_estimate": "0.00",
+     "opening_uninvoiced_id": null
+    }
+   ],
+   "status": "POSTED",
+   "due_date": null,
+   "vendor_id": "7d477831-a0e7-406d-97b3-70f7c882f99c",
+   "invoice_id": "a080f3c8-7666-4b8f-a000-8de7a6fcf6be",
+   "journal_id": "f3f8a6e8-1ab7-44fb-be64-bfd13f260feb",
+   "tax_amount": "0.00",
+   "row_version": "2",
+   "vendor_code": "BD-f6301cad3be3",
+   "header_total": "-1500.00",
+   "invoice_date": "2026-09-25",
+   "document_kind": "CORRECTION_DOWN",
+   "variance_mode": "PRODUCT_COST",
+   "invoice_number": "KOR-TURUN-1",
+   "discount_amount": "0.00",
+   "policy_versions": {
+    "LAU_DEC02": 2,
+    "LAU_DEC06": 2
+   },
+   "rounding_amount": "0.00",
+   "corrects_invoice_id": "efe86724-d2ef-4bcf-8647-ee37321bb841",
+   "reversal_journal_id": null,
+   "corrects_invoice_number": "INV-A-1"
+  },
+  {
+   "paid": "1000.00",
+   "lines": [
+    {
+     "id": "dc761bf7-a8ea-4e7a-88ed-f577698132d0",
+     "qty": 0,
+     "note": null,
+     "po_id": "4c93c007-7ee9-47f8-9188-31aecd37db3b",
+     "amount": "2000.00",
+     "line_no": 1,
+     "category": "GOOD",
+     "variance": "2000.00",
+     "line_kind": "CORRECTION",
+     "net_amount": "2000.00",
+     "discount_share": "0.00",
+     "rounding_share": "0.00",
+     "receipt_line_id": "20a49ee7-92fe-44a9-8640-054121048005",
+     "completes_source": false,
+     "product_variance": "2000.00",
+     "released_estimate": "0.00",
+     "opening_uninvoiced_id": null
+    }
+   ],
+   "status": "POSTED",
+   "due_date": null,
+   "vendor_id": "7d477831-a0e7-406d-97b3-70f7c882f99c",
+   "invoice_id": "805f2fd5-b1e9-4dc5-97a0-2633169edc3e",
+   "journal_id": "5174fab2-4fe5-4459-b8dd-4c7e19a6ea4e",
+   "tax_amount": "0.00",
+   "row_version": "2",
+   "vendor_code": "BD-f6301cad3be3",
+   "header_total": "2000.00",
+   "invoice_date": "2026-09-25",
+   "document_kind": "CORRECTION_UP",
+   "variance_mode": "PRODUCT_COST",
+   "invoice_number": "KOR-NAIK-1",
+   "discount_amount": "0.00",
+   "policy_versions": {
+    "LAU_DEC02": 2,
+    "LAU_DEC06": 2
+   },
+   "rounding_amount": "0.00",
+   "corrects_invoice_id": "efe86724-d2ef-4bcf-8647-ee37321bb841",
+   "reversal_journal_id": null,
+   "corrects_invoice_number": "INV-A-1"
+  },
+  {
+   "paid": "70000.00",
+   "lines": [
+    {
+     "id": "541f2bfe-4c61-4239-a9f6-f2acd3bf9083",
+     "qty": 10,
+     "note": null,
+     "po_id": "4c93c007-7ee9-47f8-9188-31aecd37db3b",
+     "amount": "70000.00",
+     "line_no": 1,
+     "category": "GOOD",
+     "variance": "0.00",
+     "line_kind": "BILL",
+     "net_amount": "70000.00",
+     "discount_share": "0.00",
+     "rounding_share": "0.00",
+     "receipt_line_id": "20a49ee7-92fe-44a9-8640-054121048005",
+     "completes_source": true,
+     "product_variance": "0.00",
+     "released_estimate": "70000.00",
+     "opening_uninvoiced_id": null
+    }
+   ],
+   "status": "POSTED",
+   "due_date": null,
+   "vendor_id": "7d477831-a0e7-406d-97b3-70f7c882f99c",
+   "invoice_id": "efe86724-d2ef-4bcf-8647-ee37321bb841",
+   "journal_id": "4d6d2a97-402b-4dfe-9146-4c28edf8af7e",
+   "tax_amount": "0.00",
+   "row_version": "2",
+   "vendor_code": "BD-f6301cad3be3",
+   "header_total": "70000.00",
+   "invoice_date": "2026-07-25",
+   "document_kind": "INVOICE",
+   "variance_mode": "PRODUCT_COST",
+   "invoice_number": "INV-A-1",
+   "discount_amount": "0.00",
+   "policy_versions": {
+    "LAU_DEC02": 2,
+    "LAU_DEC06": 2
+   },
+   "rounding_amount": "0.00",
+   "corrects_invoice_id": null,
+   "reversal_journal_id": null,
+   "corrects_invoice_number": null
+  }
+ ],
+ "payables": {
+  "ledger": {
+   "matches": true,
+   "ap_balance": "500.00",
+   "credit_available": "500.00",
+   "documents_remaining": "1000.00"
+  },
+  "credits": [
+   {
+    "id": "a080f3c8-7666-4b8f-a000-8de7a6fcf6be",
+    "kind": "INVOICE_CORRECTION",
+    "active": true,
+    "amount": "1500.00",
+    "number": "KOR-TURUN-1",
+    "applied": "1000.00",
+    "corrects": "INV-A-1",
+    "available": "500.00",
+    "vendor_id": "7d477831-a0e7-406d-97b3-70f7c882f99c",
+    "approved_date": "2026-09-25"
+   }
+  ],
+  "documents": [
+   {
+    "id": "efe86724-d2ef-4bcf-8647-ee37321bb841",
+    "date": "2026-07-25",
+    "kind": "VENDOR_INVOICE",
+    "total": "70000.00",
+    "number": "INV-A-1",
+    "status": "PAID",
+    "corrects": null,
+    "paid_cash": "70000.00",
+    "remaining": "0.00",
+    "settlements": [
+     {
+      "id": "768d3c29-2a11-447f-84c5-11ad81021f2b",
+      "date": "2026-07-25",
+      "amount": "70000.00",
+      "method": "CASH",
+      "number": "BDPAY-13fe9f36ec",
+      "status": "POSTED",
+      "reference": null
+     }
+    ],
+    "claim_credit": "0.00",
+    "correction_credit": "0.00"
+   },
+   {
+    "id": "805f2fd5-b1e9-4dc5-97a0-2633169edc3e",
+    "date": "2026-09-25",
+    "kind": "VENDOR_INVOICE",
+    "total": "2000.00",
+    "number": "KOR-NAIK-1",
+    "status": "PARTIAL_PAID",
+    "corrects": "INV-A-1",
+    "paid_cash": "0.00",
+    "remaining": "1000.00",
+    "settlements": [
+     {
+      "id": "8c681075-5b8e-4088-a830-47a952d96c98",
+      "date": "2026-09-25",
+      "amount": "1000.00",
+      "method": "CORRECTION_CREDIT",
+      "number": "KR-8C6810755B8E4088",
+      "status": "POSTED",
+      "reference": "KOR-TURUN-1"
+     }
+    ],
+    "claim_credit": "0.00",
+    "correction_credit": "1000.00"
+   }
+  ],
+  "vendor_id": "7d477831-a0e7-406d-97b3-70f7c882f99c",
+  "cash_accounts": [
+   {
+    "id": "b800939d-896c-4d74-881c-be9fd6a38370",
+    "code": "CASH-MAIN",
+    "name": "Kas Utama"
+   }
+  ]
+ }
+} as Record<string, any>
+
 const clone = () => JSON.parse(JSON.stringify(REAL)) as Record<string, any>
 describe('laundry BD workspace boundary', () => {
   it('reads the real workspace: an unknown price stays unknown, never zero', () => {
@@ -355,7 +617,7 @@ describe('laundry BD workspace boundary', () => {
     expect(ws.billable_receipts?.[0].capacity.GOOD).toBe(10)
   })
   it('refuses a missing collection (an incomplete read is never "nothing")', () => {
-    for (const key of ['policies', 'vendors', 'priced_deliveries', 'opening_uninvoiced']) {
+    for (const key of ['policies', 'vendors', 'priced_deliveries', 'opening_uninvoiced', 'pending_cost']) {
       const ws = clone(); delete ws[key]
       expect(() => parseLaundryBdWorkspace(ws)).toThrow()
     }
@@ -368,6 +630,9 @@ describe('laundry BD workspace boundary', () => {
     for (const c of ws.components) if (c.current) c.current.rate = null
     for (const r of ws.process_rates) r.rate = null
     for (const d of ws.priced_deliveries) { d.total_known = null; for (const c of d.charges) { c.unit_rate = null; c.amount = null } }
+    expect(() => parseLaundryBdWorkspace(ws)).toThrow(/HPP sementara tampil tanpa hak/)
+    for (const g of ws.pending_cost.goods) g.hpp_per_pcs_so_far = null
+    for (const x of ws.pending_cost.sales) x.unit_hpp_at_sale = null
     expect(parseLaundryBdWorkspace(ws).money_visible).toBe(false)
   })
   it('refuses an unknown price that carries an amount and a complete flag that contradicts its lines', () => {
@@ -391,10 +656,46 @@ describe('laundry BD workspace boundary', () => {
     for (const c of hidden.components) if (c.current) c.current.rate = null
     for (const r of hidden.process_rates) r.rate = null
     for (const d of hidden.priced_deliveries) { d.total_known = null; for (const c of d.charges) { c.unit_rate = null; c.amount = null } }
-    expect(() => parseLaundryBdWorkspace(hidden)).toThrow(/tanpa hak/)
+    for (const g of hidden.pending_cost.goods) g.hpp_per_pcs_so_far = null
+    for (const x of hidden.pending_cost.sales) x.unit_hpp_at_sale = null
+    expect(() => parseLaundryBdWorkspace(hidden)).toThrow(/Pembayaran vendor tampil tanpa hak/)
     const odd = clone(); odd.payables = JSON.parse(JSON.stringify(PAYABLES)); odd.payables.documents[0].settlements[0].method = 'CHEQUE'
     expect(() => parseLaundryBdWorkspace(odd)).toThrow()
     const partial = clone(); partial.payables = JSON.parse(JSON.stringify(PAYABLES)); delete partial.payables.ledger
+    expect(() => parseLaundryBdWorkspace(partial)).toThrow()
+  })
+  it('reads linked correction documents (decision no. 13): up is a payable, down is a vendor credit that settles documents', () => {
+    const ws = clone(); ws.invoices = JSON.parse(JSON.stringify(CORRECTION.invoices)); ws.payables = JSON.parse(JSON.stringify(CORRECTION.payables))
+    const r = parseLaundryBdWorkspace(ws)
+    const byNumber = Object.fromEntries(r.invoices!.map(i => [i.invoice_number, i]))
+    expect(byNumber['INV-A-1']).toMatchObject({ document_kind: 'INVOICE', corrects_invoice_id: null })
+    expect(byNumber['KOR-NAIK-1']).toMatchObject({ document_kind: 'CORRECTION_UP', corrects_invoice_number: 'INV-A-1', header_total: '2000.00' })
+    expect(byNumber['KOR-TURUN-1']).toMatchObject({ document_kind: 'CORRECTION_DOWN', corrects_invoice_number: 'INV-A-1', header_total: '-1500.00' })
+    const p = r.payables!, up = p.documents.find(d => d.number === 'KOR-NAIK-1')!
+    expect(up).toMatchObject({ corrects: 'INV-A-1', correction_credit: '1000.00', remaining: '1000.00' })
+    expect(up.settlements.map(x => x.method)).toEqual(['CORRECTION_CREDIT'])
+    expect(p.credits).toEqual([expect.objectContaining({ kind: 'INVOICE_CORRECTION', number: 'KOR-TURUN-1', corrects: 'INV-A-1', amount: '1500.00', applied: '1000.00', available: '500.00' })])
+    expect(p.ledger.matches).toBe(true)
+  })
+  it('refuses a correction document without its origin, an invoice with one, and a sign that contradicts the kind', () => {
+    const base = () => { const ws = clone(); ws.invoices = JSON.parse(JSON.stringify(CORRECTION.invoices)); return ws }
+    const down = (ws: Record<string, any>) => ws.invoices.find((i: any) => i.invoice_number === 'KOR-TURUN-1')
+    const orphan = base(); down(orphan).corrects_invoice_id = null; down(orphan).corrects_invoice_number = null
+    expect(() => parseLaundryBdWorkspace(orphan)).toThrow(/invoice asal/)
+    const linked = base(); linked.invoices.find((i: any) => i.invoice_number === 'INV-A-1').corrects_invoice_id = down(linked).corrects_invoice_id
+    expect(() => parseLaundryBdWorkspace(linked)).toThrow()
+    const sign = base(); down(sign).header_total = '1500.00'
+    expect(() => parseLaundryBdWorkspace(sign)).toThrow(/Tanda total/)
+    const credit = clone(); credit.payables = JSON.parse(JSON.stringify(CORRECTION.payables)); delete credit.payables.credits[0].corrects
+    expect(() => parseLaundryBdWorkspace(credit)).toThrow()
+  })
+  it('reads goods and sales whose HPP is not final while a laundry price is unknown (decision no. 11), never as final', () => {
+    const r = parseLaundryBdWorkspace(clone())
+    expect(r.pending_cost.goods[0]).toMatchObject({ qty_now: 8, qty_sold: 2 })
+    expect(r.pending_cost.sales[0]).toMatchObject({ qty: 2, hpp_state: 'NOT_FINAL' })
+    const odd = clone(); odd.pending_cost.goods[0].hpp_state = 'FINAL'
+    expect(() => parseLaundryBdWorkspace(odd)).toThrow(/Status HPP/)
+    const partial = clone(); delete partial.pending_cost.sales
     expect(() => parseLaundryBdWorkspace(partial)).toThrow()
   })
   it('matches a priced delivery answer by its request id and the laundry writer action', () => {

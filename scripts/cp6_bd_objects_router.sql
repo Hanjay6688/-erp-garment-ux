@@ -164,7 +164,9 @@ begin
         order by a.account_code) from erp.chart_accounts a where a.is_active and a.is_postable and a.account_type in('ASSET','EXPENSE')),'[]'::jsonb) end,
     -- D12: the payment screen of one vendor (money readers only): documents with cash, claim credit and remaining, claim credits,
     -- and the ledger check.
-    'payables',case when v_money and v_vendor is not null then erp.bd_vendor_payables_v1(v_vendor) end);
+    'payables',case when v_money and v_vendor is not null then erp.bd_vendor_payables_v1(v_vendor) end,
+    -- LAU-DEC04 ALLOW_PENDING (owner decision no. 11): goods and sales whose HPP is not final while a laundry price is unknown.
+    'pending_cost',erp.bd_pending_cost_json_v1(v_vendor,v_money));
 end;$function$;
 
 CREATE OR REPLACE FUNCTION public.erp_save_laundry_bd_action_v1(p_action text,p_payload jsonb,p_client_request_id uuid)
@@ -182,7 +184,7 @@ begin
   foreach t in array array['bd_policy_settings_v1','bd_policy_setting_events_v1','bd_execution_context_v1','bd_laundry_vendor_terms_v1',
     'bd_laundry_components_v1','bd_laundry_component_rates_v1','bd_laundry_packages_v1','bd_laundry_package_components_v1','bd_laundry_package_rates_v1',
     'bd_laundry_scoped_rates_v1','bd_requests_v1','bd_laundry_priced_lines_v1','bd_laundry_charge_lines_v1','bd_laundry_charge_shares_v1',
-    'bd_laundry_size_estimates_v1','bd_laundry_receipt_allocations_v1','bd_laundry_invoices_v1','bd_laundry_invoice_lines_v1',
+    'bd_laundry_size_estimates_v1','bd_laundry_receipt_allocations_v1','bd_laundry_invoices_v1','bd_laundry_invoice_lines_v1','bd_pending_price_sales_v1',
     'bd_opening_laundry_claims_v1','bd_opening_laundry_claim_events_v1','bd_opening_laundry_uninvoiced_v1','bd_custody_sources_v1','bd_claim_credit_applications_v1'] loop
     execute format('alter table erp.%I enable row level security',t);
     execute format('revoke all on erp.%I from public,anon,authenticated,service_role',t);

@@ -253,13 +253,15 @@ AS $function$
   select coalesce(sum(qty_signed),0) from erp.material_stock_movements where material_id=p_material and location_id=p_location and roll_id is null
 $function$;
 
--- ACC-DEC07: a valued company cost (internal use, disposal, count loss) needs owner/admin approval until the owner sets a
--- threshold, then only above it.
+-- ACC-DEC07: a valued company cost (internal use, disposal, count loss) needs owner/admin approval until the owner sets the
+-- policy; then only above the owner's threshold, or never when the owner chose approval NONE (decision no. 6, 26 Sep 2026).
+-- The permission to record the cost itself is unchanged.
 CREATE OR REPLACE FUNCTION erp.bc_require_value_approval_v1(p_amount numeric)
  RETURNS void LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO ''
 AS $function$
 declare v jsonb:=erp.bc_policy_v1('ACC_DEC07');
 begin
+  if v->>'approval'='NONE' then return;end if;
   if v is null or p_amount>(v->>'owner_approval_above')::numeric then
     begin
       perform erp.require_owner_admin();

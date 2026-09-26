@@ -41,10 +41,12 @@ export type NoteLine = { item_id: string; issue_id: string; number: string; cont
 export type OpeningNoteLine = { line_id: string; number: string; contractor: string; material_id: string; sku: string; name: string; qty: string;
   line_amount: string; returned: string; remaining_receivable: string }
 export type LotEvent = { id: string; lot_id: string; kind: string; condition: string | null; qty: string; qty_usable: string | null; qty_damaged: string | null;
-  inspector: string | null; amount: string | null; unpaid: string | null; carry: string | null; refund: string | null; carry_remaining: string | null }
+  inspector: string | null; amount: string | null; unpaid: string | null; carry: string | null; refund: string | null; carry_remaining: string | null
+  /** Owner decision no. 4: the payrolls a carried due went into (a cancelled one stays listed with its status). */
+  carry_payroll_lines: { payroll_id: string; payroll_number: string; status: string; amount: string; period_end: string }[] | null }
 export type DocumentDetail = { id: string; number: string; action: string; status: 'POSTED' | 'REVERSED'; row_version: string; payload: Record<string, unknown>;
   policy_versions: Record<string, unknown>; reversal_reason: string | null; links: { kind: string; id: string }[]; events: LotEvent[];
-  carry_payrolls: { id: string; number: string; status: string; period_end: string }[] }
+  carry_payrolls: { id: string; number: string; status: string; period_end: string; is_next: boolean }[] }
 export type StockCard = { total: number; rows: { movement_id: string; movement_type: string; source_type: string; physical_local: string; recorded_local: string;
   before: string; qty: string; after: string }[] }
 export type AccessoryServiceWorkspace = { can_see_value: boolean; is_admin: boolean; page: number; page_size: number; policies: ServicePolicy[];
@@ -159,9 +161,13 @@ export function parseAccessoryServiceWorkspace(value: unknown): AccessoryService
         condition: e.condition === null ? null : text(e.condition, 'Kondisi'), qty: qty(e.qty, 'Jumlah'),
         qty_usable: e.qty_usable === null ? null : qty(e.qty_usable, 'Layak'), qty_damaged: e.qty_damaged === null ? null : qty(e.qty_damaged, 'Rusak'),
         inspector: e.inspector === null ? null : text(e.inspector, 'Pemeriksa'), amount: amount(e.amount, 'Nominal'), unpaid: amount(e.unpaid, 'Belum dibayar'),
-        carry: amount(e.carry, 'Dibawa'), refund: amount(e.refund, 'Dikembalikan'), carry_remaining: amount(e.carry_remaining, 'Sisa dibawa') })),
+        carry: amount(e.carry, 'Dibawa'), refund: amount(e.refund, 'Dikembalikan'), carry_remaining: amount(e.carry_remaining, 'Sisa dibawa'),
+        carry_payroll_lines: e.carry_payroll_lines === null || e.carry_payroll_lines === undefined ? null : list(e.carry_payroll_lines, 'Payroll hak mandor').map(t => ({
+          payroll_id: id(t.payroll_id, 'Payroll'), payroll_number: text(t.payroll_number, 'Nomor payroll'), status: text(t.status, 'Status payroll'),
+          amount: text(t.amount, 'Nominal hak mandor'), period_end: text(t.period_end, 'Periode payroll') })) })),
       carry_payrolls: list(d.carry_payrolls, 'Payroll draft').map(p => ({ id: id(p.id, 'Payroll'), number: text(p.number, 'Nomor payroll'),
-        status: text(p.status, 'Status payroll'), period_end: text(p.period_end, 'Periode payroll') })) }
+        status: text(p.status, 'Status payroll'), period_end: text(p.period_end, 'Periode payroll'),
+        is_next: typeof p.is_next === 'boolean' ? p.is_next : (() => { throw new Error('Penanda payroll berikutnya tidak terbaca.') })() })) }
   }
   let card: StockCard | null = null
   if (w.card !== null) {
@@ -228,8 +234,10 @@ export function policyValue(key: AccessoryPolicyKey, f: Record<string, string>):
       if (!accountOk(f.gain_account_id ?? '') || !accountOk(f.loss_account_id ?? '')) return 'Pilih akun selisih pembulatan naik dan turun.'
       return { mode: 'NOTE_NEAREST_RUPIAH', gain_account_id: f.gain_account_id.trim(), loss_account_id: f.loss_account_id.trim() }
     case 'ACC-DEC07': {
-      if (!moneyText(f.owner_approval_above ?? '')) return 'Isi batas nilai persetujuan owner.'
-      const out: Record<string, Json> = { owner_approval_above: normalizeMoney(f.owner_approval_above) }
+      // Owner decision no. 6: "tanpa persetujuan" for now is its own explicit value (a threshold of 0 would mean the opposite).
+      if (f.approval_mode !== 'NONE' && f.approval_mode !== 'ABOVE') return 'Pilih persetujuan owner: tanpa persetujuan, atau di atas batas nilai.'
+      if (f.approval_mode === 'ABOVE' && !moneyText(f.owner_approval_above ?? '')) return 'Isi batas nilai persetujuan owner.'
+      const out: Record<string, Json> = f.approval_mode === 'NONE' ? { approval: 'NONE' } : { owner_approval_above: normalizeMoney(f.owner_approval_above) }
       if ((f.zone_users ?? '').trim()) {
         try { const users = JSON.parse(f.zone_users); if (!users || typeof users !== 'object' || Array.isArray(users)) throw new Error(); out.zone_users = users as Json }
         catch { return 'Petugas area harus berupa daftar {lokasi: [pengguna]}.' }

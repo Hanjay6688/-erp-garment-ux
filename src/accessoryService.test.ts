@@ -136,7 +136,8 @@ const service = {
     "inspector": "Ani",
     "qty_usable": "2.000000",
     "qty_damaged": "0.000000",
-    "carry_remaining": null
+    "carry_remaining": null,
+    "carry_payroll_lines": null
    }
   ],
   "number": "BCA-231DE4C17A3D4C9C",
@@ -454,7 +455,21 @@ describe('accessory service workspace (BC)', () => {
     expect(typeof policyValue('ACC-DEC05', { mode: 'CREDIT_UNPAID_ONLY', credit_conditions: '' })).toBe('string')
     expect(policyValue('ACC-DEC05', { mode: 'CREDIT_UNPAID_ONLY', credit_conditions: 'USABLE' })).toEqual({ mode: 'CREDIT_UNPAID_ONLY', credit_conditions: ['USABLE'] })
     expect(typeof policyValue('ACC-DEC04', {})).toBe('string')
-    expect(policyValue('ACC-DEC07', { owner_approval_above: '5' })).toEqual({ owner_approval_above: '5.00' })
+    expect(policyValue('ACC-DEC07', { approval_mode: 'ABOVE', owner_approval_above: '5' })).toEqual({ owner_approval_above: '5.00' })
+    // Owner decision no. 6: "no approval for now" is an explicit value, not a threshold of 0 (which would require approval for every cost).
+    expect(policyValue('ACC-DEC07', { approval_mode: 'NONE' })).toEqual({ approval: 'NONE' })
+    expect(policyValue('ACC-DEC07', { owner_approval_above: '0' })).toBeTypeOf('string')
+  })
+  it('reads where a carried due went and which payroll is next (decision no. 4), and refuses a payroll without the next flag', () => {
+    const w = clone(service) as any
+    const payroll = { id: '11111111-1111-4111-8111-111111111111', number: 'BCP-1', status: 'DRAFT', period_end: '2026-09-25' }
+    w.document.carry_payrolls = [{ ...payroll, is_next: true }]
+    w.document.events[0].carry_payroll_lines = [{ payroll_id: payroll.id, payroll_number: 'BCP-0', status: 'REVERSED', amount: '9.00', period_end: '2026-09-24' }]
+    const d = parseAccessoryServiceWorkspace(w).document!
+    expect(d.carry_payrolls[0].is_next).toBe(true)
+    expect(d.events[0].carry_payroll_lines).toEqual([expect.objectContaining({ status: 'REVERSED', amount: '9.00' })])
+    const missing = clone(service) as any; missing.document.carry_payrolls = [payroll]
+    expect(() => parseAccessoryServiceWorkspace(missing)).toThrow(/payroll berikutnya/)
   })
   it('writes WIB times with the +07:00 offset only', () => {
     expect(wibTimestamp('2026-09-24T08:00')).toBe('2026-09-24T08:00:00+07:00')

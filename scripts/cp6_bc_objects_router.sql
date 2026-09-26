@@ -40,6 +40,8 @@ begin
     raise exception 'BC_REVERSE_DEPENDANTS: batalkan dahulu penyelesaian selisih hitung';end if;
   if d.action='CREDIT_NOTE_RETURN' then
     select * into v_event from erp.bc_lot_events_v1 where document_id=d.id;
+    -- The carry lock of ALLOCATE_CARRY: a reversal and an allocation of the same credit never run at once.
+    perform pg_advisory_xact_lock(hashtextextended('BCCARRY|'||v_event.id::text,0));
     if v_event.amount_carry>0 and erp.bc_carry_remaining_v1(v_event.id)<>v_event.amount_carry then
       raise exception 'BC_REVERSE_DEPENDANTS: lepaskan dahulu kredit yang sudah masuk payroll';end if;
   end if;
@@ -280,12 +282,19 @@ begin
           'qty_usable',e.qty_usable::text,'qty_damaged',e.qty_damaged::text,'inspector',e.inspector,
           'amount',case when v_value or v_admin then e.amount::text end,'unpaid',case when v_value or v_admin then e.amount_unpaid::text end,
           'carry',case when v_value or v_admin then e.amount_carry::text end,'refund',case when v_value or v_admin then e.amount_refund::text end,
-          'carry_remaining',case when (v_value or v_admin) and e.event_kind='CREDIT' and e.amount_carry>0 then erp.bc_carry_remaining_v1(e.id)::text end)
+          'carry_remaining',case when (v_value or v_admin) and e.event_kind='CREDIT' and e.amount_carry>0 then erp.bc_carry_remaining_v1(e.id)::text end,
+          -- Owner decision no. 4: where the carried due went (payroll, its status, amount), so return -> credit -> payroll -> payment is traceable.
+          'carry_payroll_lines',case when (v_value or v_admin) and e.event_kind='CREDIT' and e.amount_carry>0 then coalesce((select jsonb_agg(jsonb_build_object(
+              'payroll_id',ps.id,'payroll_number',ps.payroll_number,'status',ps.status,'amount',r.amount::numeric(18,2)::text,'period_end',ps.period_end::text)
+              order by ps.period_end,ps.id) from erp.payroll_reimbursements r join erp.payroll_settlements ps on ps.id=r.payroll_id
+            where r.bc_credit_event_id=e.id and r.source_type='BC_RETURN_CARRY'),'[]'::jsonb) end)
           order by e.created_at,e.id)
           from erp.bc_lot_events_v1 e where e.document_id=d.id),'[]'::jsonb),
         -- ACC-DEC05 carry: the draft payrolls of the same mandor that a carried credit may enter (owner/admin with payroll view).
         'carry_payrolls',case when v_admin and erp.has_permission('finance.payroll.view') then coalesce((select jsonb_agg(jsonb_build_object('id',p.id,
-            'number',p.payroll_number,'status',p.status,'period_end',p.period_end::text) order by p.period_end desc,p.id)
+            'number',p.payroll_number,'status',p.status,'period_end',p.period_end::text,
+            'is_next',exists(select 1 from erp.bc_lot_events_v1 e2 where e2.document_id=d.id and e2.event_kind='CREDIT' and erp.bc_carry_next_payroll_v1(e2.id)=p.id))
+            order by p.period_end,p.id)
           from erp.payroll_settlements p where p.status in('DRAFT','CALCULATED','REVIEW') and p.contractor_id in(
             select coalesce(l.contractor_id,(select c.contractor_id from erp.contractor_material_issues c join erp.contractor_material_issue_items i on i.issue_id=c.id
               where i.id=l.note_item_id)) from erp.bc_lot_events_v1 e join erp.bc_return_lots_v1 l on l.id=e.lot_id
