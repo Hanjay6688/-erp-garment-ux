@@ -128,7 +128,7 @@ AS $function$
 declare a text:=upper(btrim(coalesce(p_action,'')));v jsonb;v_cached jsonb;v_id uuid;
 begin
  perform erp.require_permission('warehouse.brand_conversion.view');
- if a not in('POST','REVERSE') then raise exception 'BE_ACTION_UNKNOWN: tindakan tidak dikenal';end if;
+ if a not in('POST','REVERSE','POST_USAGE') then raise exception 'BE_ACTION_UNKNOWN: tindakan tidak dikenal';end if;
  perform erp.require_permission(case when a='REVERSE' then 'warehouse.brand_conversion.reverse' else 'warehouse.brand_conversion.post' end);
  if a='REVERSE' then perform erp.require_owner_admin();end if;
  perform erp.require_internal();
@@ -140,11 +140,14 @@ begin
  perform set_config('app.change_reason',erp.bc_text_v1(p_payload,'reason',true,1000),true);
  insert into erp.be_execution_context_v1 values(pg_backend_pid(),txid_current(),p_client_request_id);
  if a='POST' then v:=erp.be_post_conversion_v1(p_payload,p_client_request_id);
+ elsif a='POST_USAGE' then v:=erp.be_post_usage_v1(p_payload,p_client_request_id);
  else
    perform erp._cp3_assert_closed_json_object(p_payload,array['conversion_id','reason'],array['conversion_id','reason'],'pembatalan konversi');
    v_id:=erp.bd_uuid_v1(p_payload,'conversion_id',true);
    perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
    if not exists(select 1 from erp.be_conversion_sources_v1 where conversion_id=v_id) then raise exception 'BE_DOCUMENT_NOT_FOUND';end if;
+   if exists(select 1 from erp.be_conversion_cost_sources_v1 s join erp.bc_documents_v1 d on d.id=s.document_id
+       where s.conversion_id=v_id and d.status='POSTED') then raise exception 'BE_REVERSE_DEPENDANTS: batalkan dahulu sumber biaya/pemulihan';end if;
    if exists(select 1 from erp.be_conversion_returns_v1 s join erp.bc_return_lots_v1 l on l.outstanding_id=s.outstanding_id
        where s.conversion_id=v_id) then raise exception 'BE_REVERSE_DEPENDANTS: batalkan dahulu penerimaan bongkaran';end if;
    perform erp.reverse_product_conversion(v_id,p_payload->>'reason');

@@ -37,7 +37,7 @@ def install_be():
 
 def be(cur,action,payload,key=None,auth=None):
     if auth:bdp.bcp.session(cur,auth)
-    else:chain.production.owner(cur)
+    else:bdp.bcp.session(cur)
     result=cur.execute('select public.erp_save_product_conversion_action_v1(%s,%s::jsonb,%s)',
        (action,json.dumps(payload,default=str),str(key or uuid.uuid4()))).fetchone()[0]
     api.admin(cur);return result
@@ -76,10 +76,35 @@ def refusals(cur,today):
     stale=refused(cur,lambda:be(cur,'POST',dict(f['payload'],expected_version='stale')),'STALE_VERSION')
     over=refused(cur,lambda:be(cur,'POST',dict(f['payload'],qty_pcs=11)),'BE_SOURCE_CAPACITY')
     same=refused(cur,lambda:be(cur,'POST',dict(f['payload'],target_product_id=f['product'])),'BE_SAME_SKU')
-    extra=refused(cur,lambda:be(cur,'POST',dict(f['payload'],conversion_cost_total='99.00')),'unexpected')
+    extra=bdp.bcp.denied(cur,lambda:be(cur,'POST',dict(f['payload'],conversion_cost_total='99.00')),'contains unexpected key conversion_cost_total')
     return verdict(dict(stale=stale['ok'],over=over['ok'],same=same['ok'],unsourced=extra['ok'],unchanged=qty(cur,f['lot'])==10),refusals=[stale,over,same,extra])
 
-PLAN=[('BE01:SELECTED_LOT_REPLAY_REVERSE','NO_ROUTE',conversion_roundtrip),('BE01:CAPACITY_STALE_NO_UNSOURCED_COST','NO_ROUTE',refusals)]
+def actual_usage(cur,today):
+    f=fixture(cur,today)
+    if not installed(cur):return bdp.no_route(cur,lambda:be(cur,'POST',f['payload']))
+    bc=bdp.bcp;acc=bc.fixture(cur,f['day'],stock_qty=100,cost='2.00')
+    bc.policy(cur,'ACC_DEC04',dict(OWN_FG_REPAIR_account_id=bc.account(cur,'5100')))
+    bc.policy(cur,'ACC_DEC07',dict(approval='NONE'))
+    api.admin(cur);cur.execute('grant usage on schema erp to authenticated')
+    source=be(cur,'POST',f['payload']);dest=source['destination_lot_id']
+    old_hpp=bdp.lot_value(cur,dest);old_expense=bdp.gl(cur,'OTHER_EXPENSE');truth=bdp.all_truth(cur)
+    payload=dict(conversion_id=source['conversion_id'],expected_version=one(cur,'select erp.be_conversion_revision_v1(%s)',source['conversion_id']),
+      location_id=acc['main'],physical_at=f['payload']['physical_at'],items=[dict(material_id=acc['material'],qty='6')],reason='BE actual six replacement buttons')
+    posted=be(cur,'POST_USAGE',payload)
+    hpp=bdp.lot_value(cur,dest);expense=bdp.gl(cur,'OTHER_EXPENSE');new_truth=bdp.all_truth(cur)
+    used_qty=bc.stock(cur,acc['material'],acc['main'])
+    blocked=refused(cur,lambda:be(cur,'REVERSE',dict(conversion_id=source['conversion_id'],reason='must refuse before source inverse')),'BE_REVERSE_DEPENDANTS')
+    doc=posted['cost_document_id']
+    bc.svc(cur,'REVERSE',dict(document_id=doc,expected_version='1',reason='BE source inverse'))
+    restored_hpp=bdp.lot_value(cur,dest)
+    be(cur,'REVERSE',dict(conversion_id=source['conversion_id'],reason='BE inverse after sources'))
+    return verdict(dict(cost_once=hpp-old_hpp==bdp.D('12.00'),not_double_expense=expense==old_expense,
+       material_once=used_qty==94 and bc.stock(cur,acc['material'],acc['main'])==100,truth=bdp.truth_quiet(truth,new_truth),
+       linked_inverse=blocked['ok'] and restored_hpp==old_hpp and qty(cur,f['lot'])==10),
+       cost=str(hpp-old_hpp),refusals=[blocked])
+
+PLAN=[('BE01:SELECTED_LOT_REPLAY_REVERSE','NO_ROUTE',conversion_roundtrip),('BE01:CAPACITY_STALE_NO_UNSOURCED_COST','NO_ROUTE',refusals),
+      ('BE01:ACTUAL_ACCESSORY_COST_ONCE_AND_INVERSE','NO_ROUTE',actual_usage)]
 def cases(cur,today):return [(key,lambda f=fn:f(cur,today)) for key,_,fn in PLAN]
 
 def run(phase):

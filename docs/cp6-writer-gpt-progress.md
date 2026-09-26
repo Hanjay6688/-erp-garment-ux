@@ -63,3 +63,10 @@ Baca berkas rujukan dan sumber BD/konversi/rework/kain kantong; ambil log run/jo
 - Builder memakai substitusi tepat-sekali pada fungsi AC, bukan salinan bebas. Registry layer memverifikasi teks BE yang menggantikan fungsi predecessor. Workflow T1 baru memakai pin bootstrap/harness identik dengan BD; tidak mengubah cabang kompetisi.
 - BELUM: sumber biaya/recovery, non-PO, BE rework/redye, ALL-C04, UI, race/HTTP/browser BE, T2, paket 29/rollback/CodeQL. Tidak ada hasil BE yang diklaim lulus.
 - LANGKAH BERIKUTNYA: baca run T1 BE-1 (dua kasus fondasi), perbaiki hasil bila perlu, kemudian sambungkan biaya aktual BC dan recost transitive, dilanjutkan rework/redye dan ALL-C04. Independen tetap sesi auditor lain.
+
+## Hasil BE-1 / tahap BE-2 (belum lengkap)
+- Commit `7b0ca8c58ce4a1dee18384d79d470e96a9252728`; BE T1 run `36265003501`. Before job `108467891536` success (jalur BE belum tersedia); after job `108467891652` **INCOMPLETE sebelum instalasi BE**, guard predecessor AQ `PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE` menghentikan setup. Guard tidak diubah; ini tidak memberi verdict pada kasus produk BE.
+- Workflow terpicu lain selesai success: BD T1 `36265003351`, BA T1 `36265003386`, BB T1 `36265003314`, paket BD T3 `36265003344`, runtime BD tambahan `36265003327`. Status ini dari Actions; rincian per-kasus baru tidak menggantikan bukti BD-2 yang sudah dibaca.
+- Tahap berikut menambahkan sumber biaya BC aktual dan recovery tertaut: jurnal reklasifikasi sumber, fakta perubahan nilai append-only, HPP turunan, hook invoice/recost material dan reversal BC. Detektor sumber biaya dan lineage ikut menghitung sumber BE, tanpa mengecualikan kasus dari detector.
+- Ditambah kasus pemakaian enam aksesori @2,00: stok turun 6 sekali, HPP tujuan +12,00, beban tidak rangkap; sumber harus dibalik sebelum konversi, lalu nilai/qty kembali. Expected dikunci sebelum run; belum punya hasil.
+- Validasi lokal hanya parser SQL/PLpgSQL (26 fungsi) dan Python compile; PostgreSQL lokal tidak tersedia pada lingkungan ini. Bukti native tetap CI. BE masih NOT_READY; non-PO, rework/redye, ALL-C04, UI dan gate akhir belum selesai.

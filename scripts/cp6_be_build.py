@@ -10,11 +10,17 @@ from cp6_bc_build import last_definition,substitute
 
 ROOT=Path(__file__).resolve().parents[1]
 AC=ROOT/'supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql'
+F=ROOT/'supabase/migrations/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.sql'
+BC=ROOT/'supabase/dev/cp6_bc_t1_family.sql'
+BD=ROOT/'supabase/dev/cp6_bd_t1_family.sql'
 OUT=ROOT/'supabase/dev/cp6_be_t1_family.sql'
 VERSION='v2.6.20be'
-REPLACED=['erp.post_product_conversion(uuid)']
-NEW_TABLES=['be_execution_context_v1','be_conversion_sources_v1','be_conversion_returns_v1']
-OBJECTS=[ROOT/'scripts/cp6_be_objects_conversion.sql']
+REPLACED=['erp.post_product_conversion(uuid)','erp.propagate_conversion_hpp_for_po(uuid)',
+          'erp.compute_po_hpp_gl_targets_v2620d(uuid)','erp.bc_value_custody_v1(jsonb,uuid)',
+          'erp.bc_reverse_v1(jsonb,uuid)','erp.sync_material_cost_revaluation(uuid)','erp.run_v268_financial_report_checks()']
+NEW_TABLES=['be_execution_context_v1','be_conversion_sources_v1','be_conversion_returns_v1',
+            'be_conversion_cost_sources_v1','be_conversion_cost_events_v1']
+OBJECTS=[ROOT/f'scripts/cp6_be_objects_{part}.sql' for part in ('conversion','cost')]
 
 def objects():return '\n'.join(p.read_text().rstrip() for p in OBJECTS)
 
@@ -34,10 +40,32 @@ def conversion():
     ],'BE exact source conversion')
 
 def build():
+    propagate=last_definition(F,'propagate_conversion_hpp_for_po')
+    assert propagate.count('r.conversion_cost_allocated')==3
+    propagate=propagate.replace('r.conversion_cost_allocated','erp.be_allocation_extra_v1(r.id)')
+    propagate=substitute(propagate,[("    select hpp_version_id,hpp_per_pcs into v_old_id,v_current",
+      "    if v_desired<0 then raise exception 'BE_RECOVERY_EXCEEDS_VALUE: nilai pemulihan melebihi nilai sumber dan biaya sah';end if;\n"
+      "    select hpp_version_id,hpp_per_pcs into v_old_id,v_current")],'BE nonnegative cost')
+    target=substitute(last_definition(F,'compute_po_hpp_gl_targets_v2620d'),[
+      ('coalesce(sum(hv.total_cost),0)::numeric raw_total','(coalesce(sum(hv.total_cost),0)+erp.be_po_extra_v1(p_po_id))::numeric raw_total')],'BE PO source total')
+    recover=substitute(last_definition(BC,'bc_value_custody_v1'),[
+      ("  return jsonb_build_object('event_id',v_event,'adjustment_id',v_adj,",
+       "  perform erp.be_link_recovery_v1(p_request,l.id,erp._cp3_business_date(v_at));\n"
+       "  return jsonb_build_object('event_id',v_event,'adjustment_id',v_adj,")],'BE recovery linkage')
+    reverse=substitute(last_definition(BC,'bc_reverse_v1'),[
+      ("  return jsonb_build_object('reversed_document_id',d.id,",
+       "  perform erp.be_reconcile_cost_document_v1(d.id,erp._cp3_business_date(current_timestamp));\n"
+       "  return jsonb_build_object('reversed_document_id',d.id,")],'BE reversal linkage')
+    recost=substitute(last_definition(BC,'sync_material_cost_revaluation'),[
+      ('end;\n$function$;','  perform erp.be_sync_material_cost_v1(p_material_id);\nend;\n$function$;')],'BE material recost hook')
+    checks=substitute(last_definition(BD,'run_v268_financial_report_checks'),[
+      ("    )::numeric source_cost\n", "      +erp.be_po_extra_v1(s.po_id)\n    )::numeric source_cost\n"),
+      ('+a.conversion_cost_allocated/nullif(a.qty_pcs,0)', '+erp.be_allocation_extra_v1(a.id)/nullif(a.qty_pcs,0)')],'BE source and lineage detectors')
     grants=r"""do $grants$
 declare t text;f text;
 begin
- foreach t in array array['be_execution_context_v1','be_conversion_sources_v1','be_conversion_returns_v1'] loop
+ foreach t in array array['be_execution_context_v1','be_conversion_sources_v1','be_conversion_returns_v1',
+   'be_conversion_cost_sources_v1','be_conversion_cost_events_v1'] loop
    execute format('alter table erp.%I enable row level security',t);
    execute format('revoke all on erp.%I from public,anon,authenticated,service_role',t);
  end loop;
@@ -57,7 +85,7 @@ grant execute on function public.erp_get_product_conversion_workspace_v1(jsonb) 
       "begin;set local search_path='';set local lock_timeout='10s';set local statement_timeout='240s';",
       "do $guard$ begin if not exists(select 1 from erp.schema_migrations where version='v2.6.20bd') then raise exception 'BE_REQUIRES_BD';end if;",
       "if exists(select 1 from erp.schema_migrations where version='v2.6.20be') then raise exception 'BE_ALREADY_INSTALLED';end if;end $guard$;",
-      objects(),conversion(),grants,
+      objects(),conversion(),propagate,target,recover,reverse,recost,checks,grants,
       "insert into erp.schema_migrations(version,description) values('v2.6.20be','BE development family: SKU conversion, rework/redye and pocket cutover');",
       'commit;',''])
 

@@ -133,7 +133,7 @@ AS $function$
 declare a text:=upper(btrim(coalesce(p_action,'')));v jsonb;v_cached jsonb;v_id uuid;
 begin
  perform erp.require_permission('warehouse.brand_conversion.view');
- if a not in('POST','REVERSE') then raise exception 'BE_ACTION_UNKNOWN: tindakan tidak dikenal';end if;
+ if a not in('POST','REVERSE','POST_USAGE') then raise exception 'BE_ACTION_UNKNOWN: tindakan tidak dikenal';end if;
  perform erp.require_permission(case when a='REVERSE' then 'warehouse.brand_conversion.reverse' else 'warehouse.brand_conversion.post' end);
  if a='REVERSE' then perform erp.require_owner_admin();end if;
  perform erp.require_internal();
@@ -145,11 +145,14 @@ begin
  perform set_config('app.change_reason',erp.bc_text_v1(p_payload,'reason',true,1000),true);
  insert into erp.be_execution_context_v1 values(pg_backend_pid(),txid_current(),p_client_request_id);
  if a='POST' then v:=erp.be_post_conversion_v1(p_payload,p_client_request_id);
+ elsif a='POST_USAGE' then v:=erp.be_post_usage_v1(p_payload,p_client_request_id);
  else
    perform erp._cp3_assert_closed_json_object(p_payload,array['conversion_id','reason'],array['conversion_id','reason'],'pembatalan konversi');
    v_id:=erp.bd_uuid_v1(p_payload,'conversion_id',true);
    perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
    if not exists(select 1 from erp.be_conversion_sources_v1 where conversion_id=v_id) then raise exception 'BE_DOCUMENT_NOT_FOUND';end if;
+   if exists(select 1 from erp.be_conversion_cost_sources_v1 s join erp.bc_documents_v1 d on d.id=s.document_id
+       where s.conversion_id=v_id and d.status='POSTED') then raise exception 'BE_REVERSE_DEPENDANTS: batalkan dahulu sumber biaya/pemulihan';end if;
    if exists(select 1 from erp.be_conversion_returns_v1 s join erp.bc_return_lots_v1 l on l.outstanding_id=s.outstanding_id
        where s.conversion_id=v_id) then raise exception 'BE_REVERSE_DEPENDANTS: batalkan dahulu penerimaan bongkaran';end if;
    perform erp.reverse_product_conversion(v_id,p_payload->>'reason');
@@ -198,6 +201,146 @@ AS $function$ select erp.save_product_conversion_action_v1(p_action,p_payload,p_
 CREATE OR REPLACE FUNCTION public.erp_get_product_conversion_workspace_v1(p_filters jsonb default '{}'::jsonb)
  RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
 AS $function$ select erp.get_product_conversion_workspace_v1(p_filters) $function$;
+-- Actual accessory use and approved recovery are native BC documents. BE moves
+-- that exact sourced value into/out of conversion HPP; it never accepts manual HPP.
+create table erp.be_conversion_cost_sources_v1(
+  document_id uuid primary key references erp.bc_documents_v1(id),
+  conversion_id uuid not null references erp.product_conversions(id),
+  kind text not null check(kind in('USAGE','RECOVERY')),
+  created_at timestamptz not null default statement_timestamp()
+);
+create table erp.be_conversion_cost_events_v1(
+  id uuid primary key default gen_random_uuid(),
+  document_id uuid not null references erp.be_conversion_cost_sources_v1(document_id),
+  adjustment_id uuid not null references erp.material_adjustments(id),
+  previous_amount numeric(20,2) not null,target_amount numeric(20,2) not null,
+  journal_id uuid not null references erp.journal_entries(id),
+  economic_date date not null,created_at timestamptz not null default statement_timestamp(),created_by uuid
+);
+create trigger be_conversion_cost_sources_fact before insert or update or delete on erp.be_conversion_cost_sources_v1
+ for each row execute function erp.be_guard_fact_v1();
+create trigger be_conversion_cost_events_fact before insert or update or delete on erp.be_conversion_cost_events_v1
+ for each row execute function erp.be_guard_fact_v1();
+
+CREATE OR REPLACE FUNCTION erp.be_conversion_extra_v1(p_conversion uuid)
+ RETURNS numeric LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+ select coalesce(sum(e.target_amount-e.previous_amount),0) from erp.be_conversion_cost_sources_v1 s
+ join erp.be_conversion_cost_events_v1 e on e.document_id=s.document_id where s.conversion_id=p_conversion
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.be_allocation_extra_v1(p_allocation uuid)
+ RETURNS numeric LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+ select a.conversion_cost_allocated+erp.be_conversion_extra_v1(a.conversion_id)
+ from erp.product_conversion_allocations a where a.id=p_allocation
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.be_po_extra_v1(p_po uuid)
+ RETURNS numeric LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+ select coalesce(sum(erp.be_conversion_extra_v1(c.id)),0) from erp.product_conversions c
+ join erp.be_conversion_sources_v1 s on s.conversion_id=c.id join erp.fg_lots l on l.id=s.source_lot_id
+ where c.status='POSTED' and l.po_id=p_po
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.be_conversion_revision_v1(p_conversion uuid)
+ RETURNS text LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+ select md5(jsonb_build_object('id',c.id,'status',c.status,
+   'cost_events',coalesce((select jsonb_agg(e.id order by e.id) from erp.be_conversion_cost_events_v1 e
+     join erp.be_conversion_cost_sources_v1 s on s.document_id=e.document_id where s.conversion_id=c.id),'[]'::jsonb))::text)
+ from erp.product_conversions c where c.id=p_conversion
+$function$;
+
+CREATE OR REPLACE FUNCTION erp.be_reconcile_cost_document_v1(p_document uuid,p_date date)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare s erp.be_conversion_cost_sources_v1%rowtype;c erp.product_conversions%rowtype;l erp.fg_lots%rowtype;
+ r record;v_target numeric;v_before numeric;v_delta numeric;v_journal uuid;v_own boolean;v_event uuid;
+begin
+ perform erp.require_internal();
+ select * into s from erp.be_conversion_cost_sources_v1 where document_id=p_document;
+ if s.document_id is null then return;end if;
+ perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
+ select * into c from erp.product_conversions where id=s.conversion_id for update;
+ select * into l from erp.fg_lots where id=(select source_lot_id from erp.be_conversion_sources_v1 where conversion_id=c.id);
+ if c.status<>'POSTED' then raise exception 'BE_COST_SOURCE_NOT_POSTED';end if;
+ if l.po_id is null then raise exception 'BE_NON_PO_COST_NOT_READY';end if;
+ v_own:=not erp.be_in_context_v1();
+ if v_own then insert into erp.be_execution_context_v1 values(pg_backend_pid(),txid_current(),gen_random_uuid());end if;
+ for r in select p.adjustment_id,p.account_id,d.status from erp.bc_adjustment_purposes_v1 p
+    join erp.bc_documents_v1 d on d.id=p.document_id where p.document_id=p_document order by p.adjustment_id loop
+   v_target:=case when r.status='POSTED' then -(erp._cp6_material_adjustment_revaluation_state(r.adjustment_id)->>'current_value')::numeric else 0 end;
+   if (s.kind='USAGE' and v_target<0) or (s.kind='RECOVERY' and v_target>0) then raise exception 'BE_COST_DIRECTION';end if;
+   select coalesce(sum(target_amount-previous_amount),0) into v_before from erp.be_conversion_cost_events_v1 where adjustment_id=r.adjustment_id;
+   v_delta:=v_target-v_before;
+   if v_delta<>0 then
+     v_event:=gen_random_uuid();
+     v_journal:=erp.post_journal('BE_CONVERSION_SOURCED_COST',v_event,p_date,'Biaya/pemulihan konversi dari dokumen '||p_document::text,
+       jsonb_build_array(jsonb_build_object('mapping_key','WIP','po_id',l.po_id,'debit',greatest(v_delta,0),'credit',greatest(-v_delta,0)),
+         jsonb_build_object('account_id',r.account_id,'debit',greatest(-v_delta,0),'credit',greatest(v_delta,0))));
+     insert into erp.be_conversion_cost_events_v1(id,document_id,adjustment_id,previous_amount,target_amount,journal_id,economic_date,created_by)
+     values(v_event,p_document,r.adjustment_id,v_before,v_target,v_journal,p_date,erp.current_app_user_id());
+   end if;
+ end loop;
+ perform erp.propagate_conversion_hpp_for_po(l.po_id);
+ perform erp.sync_po_hpp_to_gl(l.po_id,p_date);
+ perform erp.assert_po_hpp_target_book_v2620e(l.po_id);
+ if v_own then delete from erp.be_execution_context_v1 where backend_pid=pg_backend_pid() and transaction_id=txid_current();end if;
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.be_sync_material_cost_v1(p_material uuid)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare d uuid;
+begin
+ for d in select distinct s.document_id from erp.be_conversion_cost_sources_v1 s join erp.bc_adjustment_purposes_v1 p on p.document_id=s.document_id
+   join erp.material_adjustment_items i on i.adjustment_id=p.adjustment_id where i.material_id=p_material order by s.document_id loop
+   perform erp.be_reconcile_cost_document_v1(d,coalesce(erp.invoice_recost_economic_date_v1(),erp._cp3_business_date(current_timestamp)));
+ end loop;
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.be_link_recovery_v1(p_document uuid,p_return_lot uuid,p_date date)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare v_conversion uuid;v_own boolean;
+begin
+ select s.conversion_id into v_conversion from erp.be_conversion_returns_v1 s join erp.bc_return_lots_v1 l on l.outstanding_id=s.outstanding_id
+ where l.id=p_return_lot;
+ if v_conversion is null then return;end if;
+ v_own:=not erp.be_in_context_v1();
+ if v_own then insert into erp.be_execution_context_v1 values(pg_backend_pid(),txid_current(),gen_random_uuid());end if;
+ insert into erp.be_conversion_cost_sources_v1(document_id,conversion_id,kind) values(p_document,v_conversion,'RECOVERY');
+ perform erp.be_reconcile_cost_document_v1(p_document,p_date);
+ if v_own then delete from erp.be_execution_context_v1 where backend_pid=pg_backend_pid() and transaction_id=txid_current();end if;
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.be_post_usage_v1(p_payload jsonb,p_request uuid)
+ RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare c erp.product_conversions%rowtype;v_result jsonb;v_at timestamptz;v_items jsonb;v_doc uuid:=gen_random_uuid();
+begin
+ perform erp.require_permission('warehouse.stock.adjust');
+ perform erp._cp3_assert_closed_json_object(p_payload,array['conversion_id','expected_version','location_id','items','physical_at','reason'],
+   array['conversion_id','expected_version','location_id','items','physical_at','reason'],'aksesori konversi');
+ perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
+ select * into c from erp.product_conversions where id=erp.bd_uuid_v1(p_payload,'conversion_id',true) for update;
+ if c.id is null or c.status<>'POSTED' or not exists(select 1 from erp.be_conversion_sources_v1 where conversion_id=c.id) then
+   raise exception 'BE_DOCUMENT_NOT_POSTED';end if;
+ if p_payload->>'expected_version' is distinct from erp.be_conversion_revision_v1(c.id) then raise exception 'STALE_VERSION';end if;
+ v_at:=erp.bd_at_v1(p_payload->>'physical_at','physical_at');
+ if v_at<c.physical_at then raise exception 'BE_BEFORE_CONVERSION';end if;
+ v_items:=erp.bc_lines_v1(p_payload);
+ select jsonb_agg((x-'line_number')||jsonb_build_object('purpose','OWN_FG_REPAIR','physical_at',v_at) order by (x->>'line_number')::int)
+ into v_items from jsonb_array_elements(v_items) x;
+ v_result:=erp.save_accessory_service_action_v1('INTERNAL_USE',jsonb_build_object('location_id',p_payload->>'location_id',
+   'items',v_items,'reason',p_payload->>'reason','reference','Konversi '||c.conversion_number),v_doc);
+ insert into erp.be_conversion_cost_sources_v1(document_id,conversion_id,kind) values(v_doc,c.id,'USAGE');
+ perform erp.be_reconcile_cost_document_v1(v_doc,erp._cp3_business_date(v_at));
+ return jsonb_build_object('conversion_id',c.id,'cost_document_id',v_doc,'status','POSTED','source',v_result,
+   'expected_version',erp.be_conversion_revision_v1(c.id));
+end;$function$;
 CREATE OR REPLACE FUNCTION erp.post_product_conversion(p_conversion_id uuid)
  RETURNS void
  LANGUAGE plpgsql
@@ -356,10 +499,1623 @@ begin
   end loop;
 end
 $function$;
+create or replace function erp.propagate_conversion_hpp_for_po(p_po_id uuid)
+returns void
+language plpgsql
+security definer
+set search_path to 'erp','public'
+as $function$
+declare
+  r record;
+  v_source_hpp numeric(18,6);
+  v_desired numeric(18,6);
+  v_current numeric(18,6);
+  v_old_id uuid;
+  v_new_id uuid;
+  v_ver integer;
+begin
+  perform erp.require_internal();
+  perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
+  perform 1 from erp.fg_lots
+  where po_id=p_po_id and lot_origin in('PRODUCTION','CONVERSION')
+  order by id for update;
+
+  for r in
+    with recursive rooted(lot_id,depth,path) as(
+      select fl.id,0,array[fl.id]
+      from erp.fg_lots fl
+      where fl.po_id=p_po_id and fl.lot_origin='PRODUCTION'
+      union all
+      select a.destination_lot_id,x.depth+1,x.path||a.destination_lot_id
+      from rooted x
+      join erp.product_conversion_allocations a on a.source_lot_id=x.lot_id
+      join erp.product_conversions c on c.id=a.conversion_id and c.status='POSTED'
+      where a.destination_lot_id is not null
+        and not a.destination_lot_id=any(x.path)
+        and x.depth<128
+    )
+    select a.*,x.depth source_depth
+    from rooted x
+    join erp.product_conversion_allocations a on a.source_lot_id=x.lot_id
+    join erp.product_conversions c on c.id=a.conversion_id and c.status='POSTED'
+    where a.destination_lot_id is not null
+    order by x.depth,a.id
+  loop
+    select hpp_per_pcs into v_source_hpp
+    from erp.v_current_hpp where lot_id=r.source_lot_id;
+    if v_source_hpp is null or r.qty_pcs<=0 then continue; end if;
+    v_desired:=v_source_hpp+(erp.be_allocation_extra_v1(r.id)/r.qty_pcs);
+    if v_desired<0 then raise exception 'BE_RECOVERY_EXCEEDS_VALUE: nilai pemulihan melebihi nilai sumber dan biaya sah';end if;
+    select hpp_version_id,hpp_per_pcs into v_old_id,v_current
+    from erp.v_current_hpp where lot_id=r.destination_lot_id;
+    if v_old_id is null or abs(coalesce(v_current,0)-v_desired)>0.000001 then
+      select coalesce(max(version_no),0)+1 into v_ver
+      from erp.hpp_versions where lot_id=r.destination_lot_id;
+      update erp.hpp_versions set is_current=false
+      where lot_id=r.destination_lot_id and is_current;
+      insert into erp.hpp_versions(
+        lot_id,version_no,cost_state,qty_basis_pcs,total_cost,is_current,
+        supersedes_id,calculation_reason,created_by
+      ) values(
+        r.destination_lot_id,v_ver,'ADJUSTED',r.qty_pcs,r.qty_pcs*v_desired,
+        true,v_old_id,'Root-to-leaf propagated source HPP through SKU conversion',
+        erp.current_app_user_id()
+      ) returning id into v_new_id;
+      insert into erp.hpp_version_components(
+        hpp_version_id,component_type,description,qty_basis,unit_cost,total_cost,
+        source_type,source_id
+      ) values
+        (v_new_id,'OTHER','Latest source lot HPP carry-forward',r.qty_pcs,
+          v_source_hpp,r.qty_pcs*v_source_hpp,'FG_LOT',r.source_lot_id),
+        (v_new_id,'CONVERSION','Conversion/relabel cost',r.qty_pcs,
+          erp.be_allocation_extra_v1(r.id)/r.qty_pcs,erp.be_allocation_extra_v1(r.id),
+          'PRODUCT_CONVERSION_ALLOCATION',r.id);
+    end if;
+  end loop;
+
+  if exists(
+    with recursive reachable(lot_id,path,depth) as(
+      select fl.id,array[fl.id],0
+      from erp.fg_lots fl
+      where fl.po_id=p_po_id and fl.lot_origin='PRODUCTION'
+      union all
+      select a.destination_lot_id,x.path||a.destination_lot_id,x.depth+1
+      from reachable x
+      join erp.product_conversion_allocations a on a.source_lot_id=x.lot_id
+      join erp.product_conversions c on c.id=a.conversion_id and c.status='POSTED'
+      where a.destination_lot_id is not null
+        and not a.destination_lot_id=any(x.path) and x.depth<128
+    )
+    select 1
+    from erp.product_conversion_allocations a
+    join erp.product_conversions c on c.id=a.conversion_id and c.status='POSTED'
+    join erp.fg_lots s on s.id=a.source_lot_id and s.po_id=p_po_id
+    join erp.fg_lots d on d.id=a.destination_lot_id
+    where not exists(select 1 from reachable x where x.lot_id=a.destination_lot_id)
+       or s.po_id is null or d.po_id is distinct from s.po_id
+       or d.lot_origin<>'CONVERSION' or d.source_lot_id is distinct from s.id
+       or a.qty_pcs<=0
+  ) then
+    raise exception 'CONVERSION_LINEAGE_ORPHAN_OR_CYCLE: PO % conversion graph is not rooted and acyclic',p_po_id;
+  end if;
+end
+$function$;
+create or replace function erp.compute_po_hpp_gl_targets_v2620d(p_po_id uuid)
+returns table(
+  base_output_qty integer,hpp_total_cost numeric,fg_value numeric,
+  cogs_value numeric,other_out_value numeric
+)
+language sql
+stable
+security definer
+set search_path=''
+as $function$
+with base as(
+  select coalesce(sum(fl.initial_qty_pcs),0)::integer qty,
+    (coalesce(sum(hv.total_cost),0)+erp.be_po_extra_v1(p_po_id))::numeric raw_total
+  from erp.fg_lots fl
+  left join erp.hpp_versions hv on hv.lot_id=fl.id and hv.is_current
+  where fl.po_id=p_po_id and fl.lot_origin='PRODUCTION'
+), lot_hpp as(
+  select fl.id lot_id,
+    case when coalesce(hv.qty_basis_pcs,0)>0
+      then hv.total_cost/hv.qty_basis_pcs else 0 end::numeric hpp_per_pcs
+  from erp.fg_lots fl
+  left join erp.hpp_versions hv on hv.lot_id=fl.id and hv.is_current
+  where fl.po_id=p_po_id
+    and fl.lot_origin in('PRODUCTION','CONVERSION')
+), lot_balance as(
+  select lh.lot_id,lh.hpp_per_pcs,
+    (coalesce(sum(fm.qty_signed),0)+coalesce(sum(abs(fm.qty_signed)) filter(
+      where fm.movement_type='SALE_RESERVE'
+        and not exists(select 1 from erp.fg_stock_movements rv
+          where rv.reversal_of_id=fm.id)
+    ),0))::numeric owned_qty
+  from lot_hpp lh
+  left join erp.fg_stock_movements fm on fm.lot_id=lh.lot_id
+  group by lh.lot_id,lh.hpp_per_pcs
+), sold as(
+  select a.lot_id,coalesce(sum(a.qty_pcs),0)::numeric qty
+  from erp.sale_stock_allocations a
+  join erp.sales_items i on i.id=a.sale_item_id
+  join erp.sales_headers h on h.id=i.sale_id
+  join erp.fg_lots fl on fl.id=a.lot_id
+  where fl.po_id=p_po_id and h.status in('POSTED','PARTIAL_PAID','PAID')
+  group by a.lot_id
+), returned as(
+  select i.lot_id,coalesce(sum(i.qty_pcs),0)::numeric qty
+  from erp.sales_return_items i
+  join erp.sales_returns h on h.id=i.return_id
+  join erp.fg_lots fl on fl.id=i.lot_id
+  where fl.po_id=p_po_id and h.status='POSTED'
+  group by i.lot_id
+), raw_values as(
+  select b.qty,b.raw_total,
+    coalesce(sum(greatest(lb.owned_qty,0)*lb.hpp_per_pcs),0)::numeric raw_owned,
+    coalesce(sum(greatest(coalesce(s.qty,0)-coalesce(r.qty,0),0)
+      *lb.hpp_per_pcs),0)::numeric raw_cogs
+  from base b left join lot_balance lb on true
+  left join sold s on s.lot_id=lb.lot_id
+  left join returned r on r.lot_id=lb.lot_id
+  group by b.qty,b.raw_total
+), cents as(
+  select qty,round(raw_total,2)::numeric hpp,
+    round(raw_total-raw_owned,2)::numeric total_out,
+    round(raw_cogs,2)::numeric cogs
+  from raw_values
+)
+select qty,hpp,(hpp-total_out)::numeric,cogs,(total_out-cogs)::numeric
+from cents
+$function$;
+CREATE OR REPLACE FUNCTION erp.bc_value_custody_v1(p_payload jsonb,p_request uuid)
+ RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare l erp.bc_return_lots_v1%rowtype;s jsonb;v_policy jsonb;v_cond text:=upper(coalesce(p_payload->>'condition',''));v_qty numeric;v_unit numeric;
+  v_to uuid;v_at timestamptz;v_adj uuid;v_event uuid;v_avg numeric;
+begin
+  perform erp.require_owner_admin();perform erp.require_permission('finance.hpp.manage');
+  perform erp._cp3_assert_closed_json_object(p_payload,array['lot_id','condition','qty','unit_value','location_id','physical_at','reason'],
+    array['lot_id','condition','qty','unit_value','location_id','physical_at','reason','responsible','reference'],'valuation payload');
+  v_policy:=erp.bc_require_policy_v1('ACC_DEC03','nilai pemulihan barang bekas');
+  l:=erp.bc_lock_lot_v1(erp.bc_uuid_v1(p_payload,'lot_id',true));
+  if l.value_mode<>'PENDING' then raise exception 'BC_NOT_PENDING_VALUE: hanya barang perusahaan bernilai pending yang dapat dinilai';end if;
+  if v_cond not in('USABLE','DAMAGED') then raise exception 'BC_CONDITION_INVALID: nilai hanya untuk barang yang sudah diperiksa (USABLE atau DAMAGED)';end if;
+  v_qty:=erp.bc_parse_qty_v1(l.material_id,p_payload->'qty','qty');
+  s:=erp.bc_lot_state_v1(l.id);
+  if v_qty>(s->>lower(v_cond))::numeric then
+    raise exception 'BC_QTY_EXCEEDS_BUCKET: % yang tersedia % , diminta %',v_cond,((s->>lower(v_cond))::numeric)::numeric(18,6),v_qty;end if;
+  if jsonb_typeof(p_payload->'unit_value') is distinct from 'string' then raise exception 'BB_AMOUNT_INVALID: unit_value harus nominal tepat dua desimal';end if;
+  v_unit:=erp.bb_parse_amount_v1(p_payload->>'unit_value','unit_value');
+  if v_policy->>'unit_value_cap'='MOVING_AVERAGE' then
+    select moving_average_cost into v_avg from erp.materials where id=l.material_id for update;
+    if v_avg is null or v_avg<=0 or v_unit>v_avg then
+      raise exception 'BC_VALUE_ABOVE_CAP: nilai pemulihan % melebihi rata-rata biaya barang baru %',v_unit,coalesce(v_avg,0)::numeric(18,6);end if;
+  end if;
+  v_to:=erp.bc_location_v1(erp.bc_uuid_v1(p_payload,'location_id',true),case when v_cond='USABLE' then array['MAIN'] else array['DAMAGED'] end,
+    case when v_cond='USABLE' then 'gudang untuk barang layak' else 'area rusak' end);
+  v_at:=erp.bc_parse_at_v1(p_payload->>'physical_at','physical_at');
+  if v_at<l.received_at then raise exception 'BC_DATE_BEFORE_SOURCE: penilaian tidak boleh sebelum barang diterima';end if;
+  perform erp.bc_new_document_v1(p_request,'VALUE_CUSTODY',v_at,p_payload,jsonb_build_object('ACC_DEC03',erp.bc_policy_version_v1('ACC_DEC03')));
+  insert into erp.bc_lot_events_v1(document_id,lot_id,event_kind,condition,qty,event_at,target_location_id,unit_value,amount)
+  values(p_request,l.id,'VALUE',v_cond,v_qty,v_at,v_to,v_unit,round(v_qty*v_unit,2)) returning id into v_event;
+  v_adj:=erp.bc_post_adjustment_v1(p_request,v_to,v_at,'OTHER',jsonb_build_array(jsonb_build_object('material_id',l.material_id,
+    'qty_signed',v_qty::text,'input_unit_cost',v_unit::text)),btrim(p_payload->>'reason'),'RECOVERY_VALUATION',(v_policy->>'credit_account_id')::uuid,'ACC_DEC03');
+  perform erp.be_link_recovery_v1(p_request,l.id,erp._cp3_business_date(v_at));
+  return jsonb_build_object('event_id',v_event,'adjustment_id',v_adj,'value',round(v_qty*v_unit,2)::text,'lot',erp.bc_lot_state_v1(l.id));
+end;$function$;
+CREATE OR REPLACE FUNCTION erp.bc_reverse_v1(p_payload jsonb,p_request uuid)
+ RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare d erp.bc_documents_v1%rowtype;v_reason text;r record;v_lot uuid;v_event erp.bc_lot_events_v1%rowtype;v_item uuid;v_lots uuid[]:='{}';
+  s jsonb;v_version bigint;v_payroll uuid;
+begin
+  perform erp._cp3_assert_closed_json_object(p_payload,array['document_id','expected_version','reason'],array['document_id','expected_version','reason'],
+    'reversal payload');
+  v_reason:=erp.bc_text_v1(p_payload,'reason',true,1000);
+  select * into d from erp.bc_documents_v1 where id=erp.bc_uuid_v1(p_payload,'document_id',true) for update;
+  if d.id is null then raise exception 'BC_DOCUMENT_NOT_FOUND: dokumen tidak ditemukan';end if;
+  if jsonb_typeof(p_payload->'expected_version') is distinct from 'string' or p_payload->>'expected_version' is distinct from d.row_version::text then
+    raise exception 'STALE_VERSION: dokumen berubah; muat ulang';end if;
+  if d.status<>'POSTED' then raise exception 'BC_ALREADY_REVERSED: dokumen sudah dibatalkan';end if;
+  if d.action in('VALUE_CUSTODY') then perform erp.require_permission('finance.hpp.manage');end if;
+  if d.action in('CREDIT_NOTE_RETURN','ROUND_NOTE') then perform erp.require_permission('finance.contractor_accessory.reverse');end if;
+  if d.action='ALLOCATE_CARRY' then perform erp.require_permission('finance.payroll.approve');end if;
+  -- Lots this document created or touched, locked in id order.
+  for v_lot in select x from (select id x from erp.bc_return_lots_v1 where document_id=d.id union select lot_id from erp.bc_lot_events_v1 where document_id=d.id
+      union select parent_lot_id from erp.bc_return_lots_v1 where document_id=d.id and parent_lot_id is not null) z order by x loop
+    perform pg_advisory_xact_lock(hashtextextended('BCLOT|'||v_lot::text,0));
+    v_lots:=v_lots||v_lot;
+  end loop;
+  -- Dependants first: a receipt whose lots have live events or credited children, an in-custody garment used by an internal
+  -- use, a count whose variance was resolved, a credit whose carry is in a payroll or whose custody child has events.
+  if exists(select 1 from erp.bc_return_lots_v1 l join erp.bc_lot_events_v1 e on e.lot_id=l.id join erp.bc_documents_v1 x on x.id=e.document_id
+      where l.document_id=d.id and x.status='POSTED' and x.id<>d.id) then
+    raise exception 'BC_REVERSE_DEPENDANTS: batalkan dahulu pemeriksaan, kredit atau penilaian atas penerimaan ini';end if;
+  if d.action='CUSTOMER_GARMENT_IN' and (exists(select 1 from erp.bc_customer_custody_v1 c join erp.bc_documents_v1 x on x.id=c.out_document_id
+        where c.in_document_id=d.id and x.status='POSTED')
+      or exists(select 1 from erp.bc_internal_use_lines_v1 u join erp.bc_documents_v1 x on x.id=u.document_id where u.customer_custody_id=d.id and x.status='POSTED')) then
+    raise exception 'BC_REVERSE_DEPENDANTS: titipan ini sudah dikembalikan atau dipakai pada pemakaian servis';end if;
+  if d.action='COUNT_POST' and exists(select 1 from erp.bc_count_variances_v1 v join erp.bc_documents_v1 x on x.id=v.resolution_document_id
+      where v.document_id=d.id and x.status='POSTED') then
+    raise exception 'BC_REVERSE_DEPENDANTS: batalkan dahulu penyelesaian selisih hitung';end if;
+  if d.action='CREDIT_NOTE_RETURN' then
+    select * into v_event from erp.bc_lot_events_v1 where document_id=d.id;
+    -- The carry lock of ALLOCATE_CARRY: a reversal and an allocation of the same credit never run at once.
+    perform pg_advisory_xact_lock(hashtextextended('BCCARRY|'||v_event.id::text,0));
+    if v_event.amount_carry>0 and erp.bc_carry_remaining_v1(v_event.id)<>v_event.amount_carry then
+      raise exception 'BC_REVERSE_DEPENDANTS: lepaskan dahulu kredit yang sudah masuk payroll';end if;
+  end if;
+
+  update erp.bc_documents_v1 set status='REVERSED',reversed_at=clock_timestamp(),reversed_by=erp.current_app_user_id(),reversal_reason=v_reason,
+    row_version=row_version+1 where id=d.id returning row_version into v_version;
+  -- Native inverses in reverse creation order.
+  for r in select l.link_kind,l.link_id from erp.bc_document_links_v1 l where l.document_id=d.id
+      order by case l.link_kind when 'PAYROLL_LINE' then 1 when 'JOURNAL' then 2 when 'SETTLEMENT' then 3 when 'MOVEMENT' then 4 else 5 end,
+        l.link_id desc loop
+    if r.link_kind='TRANSFER' then
+      perform erp.reverse_material_transfer_v2(r.link_id,v_reason,gen_random_uuid(),(select row_version from erp.material_transfers where id=r.link_id));
+    elsif r.link_kind='ADJUSTMENT' then
+      perform erp.reverse_material_adjustment_v2(r.link_id,v_reason,gen_random_uuid(),(select row_version from erp.material_adjustments where id=r.link_id));
+    elsif r.link_kind='MOVEMENT' then
+      perform erp.reverse_material_movement(r.link_id,v_reason);
+      perform erp.recalculate_material_cost((select material_id from erp.material_stock_movements where id=r.link_id));
+    elsif r.link_kind='JOURNAL' then
+      perform erp._cp3_r4_reverse_journal_internal(r.link_id,v_reason);
+    elsif r.link_kind='SETTLEMENT' then
+      perform erp.reverse_opening_subledger_settlement(r.link_id,v_reason);
+    elsif r.link_kind='PAYROLL_LINE' then
+      select payroll_id into v_payroll from erp.payroll_reimbursements where id=r.link_id;
+      delete from erp.payroll_reimbursements where id=r.link_id;
+      perform erp.recalculate_payroll(v_payroll);
+    end if;
+  end loop;
+  if d.action='CUSTOMER_GARMENT_OUT' then update erp.bc_customer_custody_v1 set out_document_id=null where out_document_id=d.id;end if;
+  if d.action in('CREDIT_NOTE_RETURN','ROUND_NOTE') then
+    for v_item in select coalesce(l.note_item_id,null) from erp.bc_lot_events_v1 e join erp.bc_return_lots_v1 l on l.id=e.lot_id where e.document_id=d.id and l.note_item_id is not null
+      union select item_id from erp.bc_note_roundings_v1 where id=d.id loop
+      if erp.bc_note_item_allocated_v1(v_item)>erp.bc_note_item_collectible_v1(v_item)+0.01 then
+        raise exception 'BC_REVERSE_BELOW_PAID: potongan payroll melebihi tagihan sesudah pembatalan';end if;
+      perform erp.refresh_contractor_issue_payroll_status(v_item);
+    end loop;
+  end if;
+  -- Every lot keeps non-negative buckets.
+  foreach v_lot in array v_lots loop
+    s:=erp.bc_lot_state_v1(v_lot);
+    if (s->>'waiting')::numeric<0 or (s->>'usable')::numeric<0 or (s->>'damaged')::numeric<0 then
+      raise exception 'BC_REVERSE_DEPENDANTS: jumlah ini sudah dipakai dokumen sesudahnya; batalkan dokumen itu dahulu';end if;
+  end loop;
+  perform erp.be_reconcile_cost_document_v1(d.id,erp._cp3_business_date(current_timestamp));
+  return jsonb_build_object('reversed_document_id',d.id,'row_version',v_version::text);
+end;$function$;
+CREATE OR REPLACE FUNCTION erp.sync_material_cost_revaluation(p_material_id uuid)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public'
+AS $function$
+declare
+  r record;
+  v_target numeric(24,2);
+  v_old numeric(24,2);
+  v_diff numeric(24,2);
+  v_counterpart text;
+  v_po uuid;
+  v_contractor uuid;
+  v_material_type text;
+  v_lines jsonb;
+  v_event uuid;
+  v_journal uuid;
+  v_e date;
+  v_closed boolean;
+  v_date date;
+  v_would numeric(24,6);
+  q record;
+  v_now numeric(24,2);
+  v_posted numeric(24,2);
+  v_drift numeric(24,2);
+  v_prev_at timestamptz;
+  v_prev_created timestamptz;
+  v_prev_id uuid;
+  v_first boolean;
+  v_lowest uuid;
+begin
+  perform erp.require_internal();
+  -- AZ (owner, 24 Sep 2026): a correction is dated from the physical movement it corrects when the recost date E is
+  -- open, D = greatest(E, business date of the movement); a closed E keeps every posting on E (post_journal posts it
+  -- on the recognition day with economic date E), as before.
+  v_e:=coalesce(erp.invoice_recost_economic_date_v1(),erp._cp3_business_date(statement_timestamp()));
+  v_closed:=exists(select 1 from erp.accounting_period_control c
+            where c.singleton_id=1 and c.closed_through is not null and v_e<=c.closed_through);
+
+  for r in
+    select msm.*
+    from erp.material_stock_movements msm
+    where msm.material_id=p_material_id
+      and msm.movement_type<>'REVERSAL'
+      and msm.source_type in ('CUTTING_GROUP','CUTTING_GROUP_RETURN','CONTRACTOR_MATERIAL_ISSUE_ITEM','MATERIAL_SUPPLIER_RETURN_ITEM','BC_NOTE_RETURN_CREDIT')
+    order by msm.physical_at,msm.system_created_at,msm.id
+    for update
+  loop
+    v_counterpart:=null; v_po:=null; v_contractor:=null; v_material_type:=null;
+
+    if r.source_type in ('CUTTING_GROUP','CUTTING_GROUP_RETURN') then
+      v_counterpart:='WIP';
+      select cg.po_id into v_po from erp.cutting_groups cg where cg.id=r.source_id;
+    elsif r.source_type='CONTRACTOR_MATERIAL_ISSUE_ITEM' then
+      select cmi.po_id,cmi.contractor_id,m.material_type
+      into v_po,v_contractor,v_material_type
+      from erp.contractor_material_issue_items ii
+      join erp.contractor_material_issues cmi on cmi.id=ii.issue_id
+      join erp.materials m on m.id=ii.material_id
+      where ii.id=r.source_id;
+      v_counterpart:=case when v_material_type='ACCESSORY' then 'ACCESSORY_RECOVERY_COGS' else 'WIP' end;
+    elsif r.source_type='MATERIAL_SUPPLIER_RETURN_ITEM' then
+      v_counterpart:='MATERIAL_PURCHASE_VARIANCE';
+    elsif r.source_type='BC_NOTE_RETURN_CREDIT' then
+      -- BC: a credited note return is revalued with its note line's issue, against the accessory recovery cost.
+      select cmi.po_id,cmi.contractor_id into v_po,v_contractor from erp.bc_lot_events_v1 e join erp.bc_return_lots_v1 l on l.id=e.lot_id
+        join erp.contractor_material_issue_items ii on ii.id=l.note_item_id join erp.contractor_material_issues cmi on cmi.id=ii.issue_id
+        where e.id=r.source_id;
+      v_counterpart:='ACCESSORY_RECOVERY_COGS';
+    end if;
+
+    if v_counterpart is null then continue; end if;
+
+    if exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=r.id) then
+      -- AZ rev2.1: revalued like the replay would value it, on its own day; its reversal takes it back (legs below).
+      v_would:=case when r.qty_signed<0 then (select h.average_after from erp.material_cost_history h join erp.material_stock_movements hm on hm.id=h.movement_id
+          where h.material_id=p_material_id and (hm.physical_at,hm.system_created_at,hm.id)<(r.physical_at,r.system_created_at,r.id)
+          order by hm.physical_at desc,hm.system_created_at desc,hm.id desc limit 1)
+        when r.source_type='BC_NOTE_RETURN_CREDIT' then (select x.unit_cost_snapshot from erp.material_stock_movements x
+            where x.id=erp.bc_note_return_issue_movement_v1(r.source_id))
+        when r.source_type='CUTTING_GROUP_RETURN' then (select case when exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=x.id)
+            then (select h.average_after from erp.material_cost_history h join erp.material_stock_movements hm on hm.id=h.movement_id
+          where h.material_id=p_material_id and (hm.physical_at,hm.system_created_at,hm.id)<(x.physical_at,x.system_created_at,x.id)
+          order by hm.physical_at desc,hm.system_created_at desc,hm.id desc limit 1) else x.unit_cost_snapshot end
+          from erp.material_stock_movements x where x.material_id=r.material_id and x.source_type='CUTTING_GROUP'
+            and x.source_id=r.source_id and x.movement_type='CUTTING_ISSUE' and x.roll_id is not distinct from r.roll_id
+          order by x.physical_at desc,x.system_created_at desc,x.id desc limit 1) end;
+      v_target:=case when v_would is null then 0
+        else round((r.qty_signed*(v_would-coalesce(r.original_unit_cost_snapshot,r.unit_cost_snapshot)))::numeric,2) end;
+      -- Both legs on one day (a closed E, a recost without a late invoice): the movement keeps what it has (its interim until
+      -- the reversal) and the reversal nets the pair to zero that day, as the previous single posting did.
+      if v_closed or least(greatest(v_e,erp._cp3_business_date(r.physical_at)),erp._cp3_business_date(statement_timestamp()))
+         >=(select min(least(greatest(v_e,erp._cp3_business_date(rv.physical_at)),erp._cp3_business_date(statement_timestamp())))
+            from erp.material_stock_movements rv where rv.reversal_of_id=r.id) then
+        v_target:=coalesce((select s.applied_inventory_delta from erp.material_cost_revaluation_state s where s.movement_id=r.id),0);
+      end if;
+    elsif r.source_type='MATERIAL_SUPPLIER_RETURN_ITEM' then
+      -- BA fix (T2 run 36087253697, CROSS:SUPPLIER_CENT:SPLIT_RETURN and CROSS_SOURCE_INVERSE_IDENTITY): a supplier return's
+      -- inventory credit is set by the supplier cent state of its purchase lines (v2.6.20n, cumulative over the documents of
+      -- the line), not by the return's own rounding; the whole-cent rule below would move those cents a second time. A
+      -- supplier return keeps AZ's rule: only a change of its cost is revalued.
+      v_target:=round((r.qty_signed*(r.unit_cost_snapshot-coalesce(r.original_unit_cost_snapshot,r.unit_cost_snapshot)))::numeric,2);
+    else
+      -- BA (audit A4, CP6-03): the recost is the movement's value now minus what was posted for it, both in whole cents. Value
+      -- now: difference of the rounded stock value before and after it (material_cost_history), so the movements that
+      -- empty the stock take exactly the rest and zero stock keeps zero value. Posted: cumulative rounding inside its
+      -- posting document (same source and movement type; a cutting group posts one rounded total for its rolls).
+      select round(h.stock_after*h.average_after,2)-round(h.stock_before*h.average_before,2) into v_now
+      from erp.material_cost_history h where h.movement_id=r.id;
+      select round(sum(abs(x.qty_signed)*coalesce(x.original_unit_cost_snapshot,x.unit_cost_snapshot)),2)
+        -coalesce(round(sum(abs(x.qty_signed)*coalesce(x.original_unit_cost_snapshot,x.unit_cost_snapshot))
+            filter(where (x.physical_at,x.system_created_at,x.id)<(r.physical_at,r.system_created_at,r.id)),2),0)
+        into v_posted
+      from erp.material_stock_movements x
+      where x.material_id=r.material_id and x.source_type=r.source_type and x.source_id=r.source_id
+        and x.movement_type=r.movement_type and x.reversal_of_id is null
+        and (x.physical_at,x.system_created_at,x.id)<=(r.physical_at,r.system_created_at,r.id);
+      -- BA W8 (independent audit round 9, CP6-03 with several receipts; M:835, M:3820, M:6632): a purchase document's
+      -- inventory is round(sum of qty x unit cost) per document (supplier cent state, v2.6.20n), while the moving
+      -- average added the change of round(stock x average). The difference for the documents received since the previous
+      -- consumption goes with the next consumption, so the consumptions total the documents' own cents and a used-up
+      -- material keeps zero value. A document with several materials gives its document-level cent to the lowest
+      -- material id among its items. Returns to the supplier keep their own rule above; opening stock keeps its line basis.
+      if v_now is not null and r.qty_signed<0 then
+        select coalesce(sum(d.doc_value-d.average_value),0) into v_drift
+        from (
+          -- the receipt's own input cost (what the moving average took in): a cost correction sets it before it recosts,
+          -- while the corrected price counts in material_purchase_current_unit_cost only once the correction is POSTED
+          select x.purchase_id,
+            round(sum(x.qty_signed*x.input_unit_cost),2)
+            +case when (select min(pi.material_id::text) from erp.material_purchase_items pi where pi.purchase_id=x.purchase_id)=r.material_id::text
+              then (select round(sum(t.v),2)-sum(round(t.v,2)) from (select sum(pm.qty_signed*pm.input_unit_cost) v
+                    from erp.material_stock_movements pm
+                    join erp.material_purchase_items ppi on ppi.id=case when pm.source_type='MATERIAL_PURCHASE_ITEM' then pm.source_id
+                      else (select mr.purchase_item_id from erp.material_rolls mr where mr.id=pm.source_id) end
+                    where ppi.purchase_id=x.purchase_id and pm.movement_type='PURCHASE' and pm.qty_signed>0
+                      and pm.source_type in('MATERIAL_PURCHASE_ITEM','MATERIAL_PURCHASE_ROLL')
+                      and not exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=pm.id)
+                    group by pm.material_id) t)
+              else 0 end doc_value,
+            sum(x.average_change) average_value
+          from (
+            select pi.purchase_id,m.qty_signed,m.input_unit_cost,
+              round(h.stock_after*h.average_after,2)-round(h.stock_before*h.average_before,2) average_change
+            from erp.material_stock_movements m
+            join erp.material_purchase_items pi on pi.id=case when m.source_type='MATERIAL_PURCHASE_ITEM' then m.source_id
+              else (select mr.purchase_item_id from erp.material_rolls mr where mr.id=m.source_id) end
+            join erp.material_cost_history h on h.movement_id=m.id
+            where m.material_id=r.material_id and m.movement_type='PURCHASE' and m.qty_signed>0
+              and m.source_type in('MATERIAL_PURCHASE_ITEM','MATERIAL_PURCHASE_ROLL')
+              and not exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=m.id)
+              and (m.physical_at,m.system_created_at,m.id)<(r.physical_at,r.system_created_at,r.id)
+              and (v_prev_id is null or (m.physical_at,m.system_created_at,m.id)>(v_prev_at,v_prev_created,v_prev_id))
+          ) x group by x.purchase_id
+        ) d;
+        v_now:=v_now-v_drift;
+        v_prev_at:=r.physical_at;v_prev_created:=r.system_created_at;v_prev_id:=r.id;
+      end if;
+      v_target:=case when v_now is null then round((r.qty_signed*(r.unit_cost_snapshot-coalesce(r.original_unit_cost_snapshot,r.unit_cost_snapshot)))::numeric,2)
+        else v_now-sign(r.qty_signed)*v_posted end;
+    end if;
+
+    -- AZ rev2.1: the movement, then each of its reversals with the opposite target on the reversal's own day.
+    for q in select r.id mid,r.physical_at pat,v_target tgt
+             union all select rv.id,rv.physical_at,-v_target from erp.material_stock_movements rv where rv.reversal_of_id=r.id
+    loop
+    select s.applied_inventory_delta into v_old
+    from erp.material_cost_revaluation_state s where s.movement_id=q.mid for update;
+    v_first:=not found;
+    v_old:=coalesce(v_old,0);
+    v_diff:=round(q.tgt-v_old,2);
+
+    if abs(v_diff)>0.005 then
+      v_date:=case when v_closed then v_e
+        when v_first and erp.invoice_recost_economic_date_v1() is null and not exists(select 1 from erp.accounting_period_control c
+            where c.singleton_id=1 and c.closed_through is not null and erp._cp3_business_date(q.pat)<=c.closed_through)
+          then least(erp._cp3_business_date(q.pat),erp._cp3_business_date(statement_timestamp()))
+        else least(greatest(v_e,erp._cp3_business_date(q.pat)),erp._cp3_business_date(statement_timestamp())) end;
+      if v_diff>0 then
+        v_lines:=jsonb_build_array(
+          jsonb_build_object('mapping_key','MATERIAL_INVENTORY','debit',v_diff,'credit',0,'po_id',v_po,'contractor_id',v_contractor),
+          jsonb_build_object('mapping_key',v_counterpart,'debit',0,'credit',v_diff,'po_id',v_po,'contractor_id',v_contractor)
+        );
+      else
+        v_lines:=jsonb_build_array(
+          jsonb_build_object('mapping_key',v_counterpart,'debit',abs(v_diff),'credit',0,'po_id',v_po,'contractor_id',v_contractor),
+          jsonb_build_object('mapping_key','MATERIAL_INVENTORY','debit',0,'credit',abs(v_diff),'po_id',v_po,'contractor_id',v_contractor)
+        );
+      end if;
+
+      insert into erp.material_cost_revaluation_events(material_id,movement_id,effective_date,old_inventory_delta,new_inventory_delta,delta_amount,counterpart_mapping_key,po_id,contractor_id)
+      values(p_material_id,q.mid,v_date,v_old,q.tgt,v_diff,v_counterpart,v_po,v_contractor)
+      returning id into v_event;
+
+      v_journal:=erp.post_journal('MATERIAL_COST_REVALUATION',v_event,v_date,
+        'Automatic material moving-average recost: '||r.source_type,v_lines);
+      update erp.material_cost_revaluation_events set journal_entry_id=v_journal,
+      effective_date=(select transaction_date from erp.journal_entries where id=v_journal) where id=v_event;
+    end if;
+
+    insert into erp.material_cost_revaluation_state(movement_id,applied_inventory_delta,updated_at)
+    values(q.mid,q.tgt,statement_timestamp())
+    on conflict(movement_id) do update set applied_inventory_delta=excluded.applied_inventory_delta,updated_at=statement_timestamp();
+    end loop;
+  end loop;
+  -- AZ rev2.1: a reversed write-off (outbound item of a material adjustment, a pocket-fabric usage included: its reversal
+  -- is only possible while no pocket period covers it, so it is then a plain write-off against OTHER_EXPENSE; GPT audit of
+  -- 737649b, AB-01) left at its posting cost while the stock it came from is revalued, and the adjustment document's own cumulative
+  -- revaluation (erp._cp6_sync_material_adjustment_revaluation) targets it to zero once reversed. Between the adjustment
+  -- day and the reversal day the write-off carries the replayed cost: +I against the write-off account on its day, -I on the
+  -- reversal's day (event and state on the reversal movement, outside the document's own book). Both legs on one day: kept.
+  for r in select msm.*,rv.id rv_id,rv.physical_at rv_at,i.adjustment_id adj_id
+      from erp.material_stock_movements msm join erp.material_adjustment_items i on i.id=msm.source_id
+      join erp.material_stock_movements rv on rv.reversal_of_id=msm.id
+    where msm.material_id=p_material_id and msm.source_type='MATERIAL_ADJUSTMENT_ITEM' and msm.reversal_of_id is null
+      and msm.qty_signed<0
+    order by msm.physical_at,msm.system_created_at,msm.id
+  loop
+    select s.applied_inventory_delta into v_old from erp.material_cost_revaluation_state s where s.movement_id=r.rv_id for update;
+    v_old:=coalesce(v_old,0);
+    v_would:=(select h.average_after from erp.material_cost_history h join erp.material_stock_movements hm on hm.id=h.movement_id
+          where h.material_id=p_material_id and (hm.physical_at,hm.system_created_at,hm.id)<(r.physical_at,r.system_created_at,r.id)
+          order by hm.physical_at desc,hm.system_created_at desc,hm.id desc limit 1);
+    v_target:=case when v_would is null then 0
+      else round((r.qty_signed*(v_would-coalesce(r.original_unit_cost_snapshot,r.unit_cost_snapshot)))::numeric,2) end;
+    if (case when v_closed then v_e else least(greatest(v_e,erp._cp3_business_date(r.physical_at)),erp._cp3_business_date(statement_timestamp())) end)>=(case when v_closed then v_e else least(greatest(v_e,erp._cp3_business_date(r.rv_at)),erp._cp3_business_date(statement_timestamp())) end) then v_target:=v_old; end if;
+    v_diff:=round(v_target-v_old,2);
+    if abs(v_diff)>0.005 then
+      for q in select case when v_closed then v_e else least(greatest(v_e,erp._cp3_business_date(r.physical_at)),erp._cp3_business_date(statement_timestamp())) end d,v_diff amt union all select case when v_closed then v_e else least(greatest(v_e,erp._cp3_business_date(r.rv_at)),erp._cp3_business_date(statement_timestamp())) end,-v_diff
+      loop
+        v_lines:=case when q.amt>0 then jsonb_build_array(
+            jsonb_build_object('mapping_key','MATERIAL_INVENTORY','debit',q.amt,'credit',0),
+            jsonb_build_object('account_id',erp.bc_adjustment_account_v1(r.adj_id,'OTHER_EXPENSE'),'debit',0,'credit',q.amt))
+          else jsonb_build_array(
+            jsonb_build_object('account_id',erp.bc_adjustment_account_v1(r.adj_id,'OTHER_EXPENSE'),'debit',abs(q.amt),'credit',0),
+            jsonb_build_object('mapping_key','MATERIAL_INVENTORY','debit',0,'credit',abs(q.amt))) end;
+        insert into erp.material_cost_revaluation_events(material_id,movement_id,effective_date,old_inventory_delta,new_inventory_delta,delta_amount,counterpart_mapping_key,po_id,contractor_id)
+        values(p_material_id,r.rv_id,q.d,v_old,v_target,q.amt,'OTHER_EXPENSE',null,null)
+        returning id into v_event;
+        v_journal:=erp.post_journal('MATERIAL_COST_REVALUATION',v_event,q.d,
+          'Automatic material moving-average recost: reversed write-off until its reversal',v_lines);
+        update erp.material_cost_revaluation_events set journal_entry_id=v_journal,
+        effective_date=(select transaction_date from erp.journal_entries where id=v_journal) where id=v_event;
+      end loop;
+    end if;
+    insert into erp.material_cost_revaluation_state(movement_id,applied_inventory_delta,updated_at)
+    values(r.rv_id,v_target,statement_timestamp())
+    on conflict(movement_id) do update set applied_inventory_delta=excluded.applied_inventory_delta,updated_at=statement_timestamp();
+  end loop;
+  for r in select distinct i.adjustment_id
+    from erp.material_adjustment_items i
+    join erp.material_stock_movements m on m.source_type='MATERIAL_ADJUSTMENT_ITEM'
+      and m.source_id=i.id and m.reversal_of_id is null
+    where m.material_id=p_material_id order by i.adjustment_id
+  loop
+    perform erp._cp6_sync_material_adjustment_revaluation(r.adjustment_id,p_material_id);
+  end loop;
+  for v_lowest in
+    select distinct (select min(o.material_id::text) from erp.material_purchase_items o where o.purchase_id=pi.purchase_id)::uuid
+    from erp.material_purchase_items pi where pi.material_id=p_material_id
+  loop
+    if v_lowest::text<p_material_id::text then perform erp.sync_material_cost_revaluation(v_lowest); end if;
+  end loop;
+  perform erp.be_sync_material_cost_v1(p_material_id);
+end;
+$function$;
+CREATE OR REPLACE FUNCTION erp.run_v268_financial_report_checks()
+ RETURNS TABLE(check_name text, severity text, issue_count bigint, details text)
+ LANGUAGE plpgsql
+ STABLE SECURITY DEFINER
+ SET search_path TO 'erp', 'public', 'pg_catalog', 'information_schema', 'pg_temp'
+ SET "TimeZone" TO 'UTC'
+AS $function$
+begin
+  perform erp.require_owner_admin();
+  return query
+  select r.check_name,r.severity,r.issue_count,r.details
+  from erp._v268_financial_report_checks_pre_scope() r
+  where r.check_name not in(
+    'V268_BROWSER_DIRECT_FINANCIAL_WRITE',
+    'V268_BROWSER_DIRECT_LEDGER_OR_INVOICE_WRITE',
+    'V268_ACTIVE_SALE_MISSING_JOURNAL',
+    'V268_POSTED_SALES_RETURN_MISSING_JOURNAL'
+  )
+
+  union all
+  select 'V268_BROWSER_DIRECT_LEDGER_OR_INVOICE_WRITE','CRITICAL',count(*)::bigint,
+    'Browser roles must not directly mutate ledger or supplier-invoice aggregates'
+  from information_schema.role_table_grants g
+  where g.table_schema='erp'
+    and g.table_name in('journal_entries','journal_lines','account_daily_balances',
+      'material_supplier_invoices','material_supplier_invoice_lines')
+    and g.grantee in('PUBLIC','anon','authenticated')
+    and g.privilege_type in('INSERT','UPDATE','DELETE')
+
+  union all
+  select 'V2620C_PO_HPP_TARGET_STATE_MISMATCH','CRITICAL',count(*)::bigint,
+    'Saved PO HPP/FG/COGS/other state must equal independently recomputed current minor-unit targets'
+  from erp.po_hpp_gl_state s
+  cross join lateral erp.compute_po_hpp_gl_targets_v2620d(s.po_id) t
+  where s.base_output_qty is distinct from coalesce(t.base_output_qty,0)
+     or s.hpp_total_cost is distinct from round(coalesce(t.hpp_total_cost,0),2)
+     or s.fg_value is distinct from round(coalesce(t.fg_value,0),2)
+     or s.cogs_value is distinct from round(coalesce(t.cogs_value,0),2)
+     or s.other_out_value is distinct from(
+       round(coalesce(t.hpp_total_cost,0),2)-round(coalesce(t.fg_value,0),2)-round(coalesce(t.cogs_value,0),2))
+
+  union all
+  select 'V2620C_HPP_COMPONENT_SUM_MISMATCH','CRITICAL',count(*)::bigint,
+    'Every current production HPP version must equal the exact sum of its traceable production components'
+  from erp.hpp_versions h
+  join erp.fg_lots fl on fl.id=h.lot_id and fl.lot_origin='PRODUCTION'
+  where h.is_current and abs(h.total_cost-coalesce((
+    select sum(c.total_cost) from erp.hpp_version_components c where c.hpp_version_id=h.id
+  ),0))>0.000001
+
+  union all
+  select 'V2620C_PO_HPP_BOOK_MISMATCH','CRITICAL',count(*)::bigint,
+    'Per-PO FG, COGS, and HPP-disposition books must equal the saved minor-unit state after every post, recost, cancellation, return, and reversal'
+  from erp.po_hpp_gl_state s
+  cross join lateral erp.compute_po_hpp_gl_book_v2620e(s.po_id) b
+  where abs(b.fg_value-s.fg_value)>0.005
+     or abs(b.cogs_value-s.cogs_value)>0.005
+     or abs(b.other_out_value-s.other_out_value)>0.005
+
+  union all
+  select 'V2620C_WIP_SOURCE_CONSERVATION_MISMATCH','CRITICAL',count(*)::bigint,
+    'Per-PO WIP book must equal independently sourced manufacturing cost not yet transferred into current HPP, net of an active final residual close'
+  from erp.po_hpp_gl_state s
+  cross join lateral(
+    select (
+      coalesce((
+        select sum(-m.qty_signed*m.unit_cost_snapshot)
+        from erp.material_stock_movements m
+        where (m.source_type='CUTTING_GROUP' and m.source_id in(
+          select g.id from erp.cutting_groups g where g.po_id=s.po_id
+        )) or (m.source_type='CUTTING_GROUP_RETURN' and m.source_id in(
+          select g.id from erp.cutting_groups g where g.po_id=s.po_id
+        ))
+      ),0)
+      +coalesce((
+        select sum(i.qty*i.unit_cost_snapshot)
+        from erp.contractor_material_issue_items i
+        join erp.contractor_material_issues h on h.id=i.issue_id and h.status='POSTED'
+        join erp.materials m on m.id=i.material_id and m.material_type<>'ACCESSORY'
+        where h.po_id=s.po_id
+      ),0)
+      +coalesce((
+        select sum(l.amount_payable)
+        from erp.work_completion_lines l
+        join erp.work_completion_events h on h.id=l.completion_id and h.status='POSTED'
+        where h.po_id=s.po_id
+      ),0)
+      +coalesce((
+        select sum(a.allocated_amount)
+        from erp.attendance_hpp_pool_allocations a
+        join erp.attendance_hpp_pools h on h.id=a.pool_id and h.status='ACTIVE'
+        where a.po_id=s.po_id
+      ),0)
+      +coalesce((
+        with delivery_cost as(
+          select dl.id,dl.qty_sent_pcs,dl.estimated_rate_snapshot,
+            coalesce(sum(case when rh.status='POSTED'
+              and rl.actual_cost_status in('ESTIMATED','FINAL')
+              then rl.qty_good_received+rl.qty_bs_laundry else 0 end),0) qty_costed,
+            coalesce(sum(case when rh.status='POSTED'
+              and rl.actual_cost_status in('ESTIMATED','FINAL')
+              then coalesce(rl.actual_cost,0) else 0 end),0) actual_cost
+          from erp.laundry_delivery_lines dl
+          join erp.laundry_deliveries d on d.id=dl.delivery_id and d.status<>'REVERSED'
+          left join erp.laundry_receipt_lines rl on rl.delivery_line_id=dl.id
+          left join erp.laundry_receipts rh on rh.id=rl.receipt_id
+          where d.po_id=s.po_id
+          group by dl.id,dl.qty_sent_pcs,dl.estimated_rate_snapshot
+        )
+        select sum(actual_cost+greatest(qty_sent_pcs-qty_costed,0)
+          *coalesce(estimated_rate_snapshot,0)) from delivery_cost
+      ),0)
+      -- BD (LAU-DEC06 PRODUCT_COST): the invoiced difference to the released estimate is product cost of the PO.
+      +coalesce((select sum(l.product_variance) from erp.bd_laundry_invoice_lines_v1 l join erp.bd_laundry_invoices_v1 i on i.id=l.invoice_id
+        where i.status='POSTED' and l.receipt_line_id is not null and l.po_id=s.po_id),0)
+      +coalesce((
+        select sum(rl.actual_cost)
+        from erp.laundry_failed_wash_attempts a
+        join erp.laundry_receipt_lines rl on rl.id=a.receipt_line_id
+          and rl.actual_cost_status in('ESTIMATED','FINAL')
+        join erp.laundry_receipts rh on rh.id=a.receipt_id and rh.status='POSTED'
+        join erp.laundry_deliveries d on d.id=a.delivery_id and d.status='REVERSED'
+        where d.po_id=s.po_id
+      ),0)
+      +coalesce((
+        select sum(l.amount_payable)
+        from erp.rework_component_lines l
+        join erp.rework_orders r on r.id=l.rework_order_id
+          and r.status<>'CANCELLED' and r.cost_posted=true
+        join erp.bs_cases b on b.id=r.bs_case_id
+        where b.po_id=s.po_id
+      ),0)
+      +coalesce((
+        select sum(a.adjustment_amount) from erp.cost_adjustments a
+        where a.po_id=s.po_id and a.component_type='OTHER'
+      ),0)
+      +coalesce((
+        select sum(a.total_hpp_cost)
+        from erp.fg_accessory_cost_snapshots a
+        join erp.fg_lots fl on fl.id=a.lot_id
+          and fl.lot_origin='PRODUCTION'
+        where fl.po_id=s.po_id
+      ),0)
+      +coalesce((select sum(erp.initial_import_source_value_v1(ps.opening_item_id)) from erp.initial_import_production_sources ps where ps.po_id=s.po_id),0)
+      -coalesce((select sum(e.target_amount-e.previous_amount) from erp.initial_import_bs_value_events e join erp.initial_import_production_sources ps on ps.opening_item_id=e.opening_item_id where ps.po_id=s.po_id),0)
+      -coalesce((select sum(e.target_amount-e.previous_amount) from erp.bb_wip_split_value_events_v1 e join erp.bb_wip_bs_splits_v1 x on x.id=e.split_id join erp.initial_import_production_sources ps on ps.opening_item_id=x.opening_item_id where ps.po_id=s.po_id),0)
+      +coalesce((select sum(erp.pocket_period_amount_v1(d.pool_id,d.preceding_qty,d.sewing_qty)) from erp.pocket_period_destinations d where d.po_id=s.po_id),0)
+      +erp.be_po_extra_v1(s.po_id)
+    )::numeric source_cost
+  ) truth
+  cross join lateral(
+    select coalesce(sum(jl.debit-jl.credit),0)::numeric wip_book
+    from erp.journal_lines jl
+    join erp.journal_entries je on je.id=jl.journal_entry_id
+      and je.status in('POSTED','REVERSED')
+    where jl.po_id=s.po_id and jl.account_id=erp.account_id('WIP')
+  ) w
+  cross join lateral(
+    select coalesce(sum(e.residual_amount),0)::numeric active_wip_close
+    from erp.po_wip_close_events e
+    join erp.journal_entries je on je.id=e.journal_entry_id
+      and je.source_type='PO_WIP_RESIDUAL_CLOSE' and je.status='POSTED'
+    where e.po_id=s.po_id
+  ) c
+  where abs(w.wip_book-(round(truth.source_cost,2)-s.hpp_total_cost-c.active_wip_close))>0.005
+
+  union all
+  select 'V2620C_SALE_REVENUE_REPORT_INPUT_MISMATCH','CRITICAL',count(*)::bigint,
+    'Each sale lifecycle must contribute its exact line total to SALES_REVENUE while active and zero after cancellation/reversal'
+  from(
+    select h.id,h.status,
+      case when h.status in('POSTED','PARTIAL_PAID','PAID')
+        then coalesce((select sum(i.line_total) from erp.sales_items i where i.sale_id=h.id),0)
+        else 0 end::numeric expected_revenue,
+      coalesce(sum(jl.credit-jl.debit),0)::numeric booked_revenue
+    from erp.sales_headers h
+    left join erp.journal_entries origin on origin.source_type='SALE' and origin.source_id=h.id
+      and origin.status in('POSTED','REVERSED')
+    left join erp.journal_entries je on je.id=origin.id
+      or (je.source_type='JOURNAL_REVERSAL' and je.reversal_of_id=origin.id
+          and je.status in('POSTED','REVERSED'))
+    left join erp.journal_lines jl on jl.journal_entry_id=je.id
+      and jl.account_id=erp.account_id('SALES_REVENUE')
+    group by h.id,h.status
+  ) x
+  where abs(x.booked_revenue-x.expected_revenue)>0.005
+
+  union all
+  select 'V2620C_SALES_RETURN_REPORT_INPUT_MISMATCH','CRITICAL',count(*)::bigint,
+    'Each sales-return lifecycle must reduce SALES_REVENUE by its exact refund while active and contribute zero after reversal'
+  from(
+    select h.id,h.status,
+      case when h.status='POSTED'
+        then -coalesce((select sum(i.refund_amount) from erp.sales_return_items i where i.return_id=h.id),0)
+        else 0 end::numeric expected_revenue,
+      coalesce(sum(jl.credit-jl.debit),0)::numeric booked_revenue
+    from erp.sales_returns h
+    left join erp.journal_entries origin on origin.source_type='SALES_RETURN' and origin.source_id=h.id
+      and origin.status in('POSTED','REVERSED')
+    left join erp.journal_entries je on je.id=origin.id
+      or (je.source_type='JOURNAL_REVERSAL' and je.reversal_of_id=origin.id
+          and je.status in('POSTED','REVERSED'))
+    left join erp.journal_lines jl on jl.journal_entry_id=je.id
+      and jl.account_id=erp.account_id('SALES_REVENUE')
+    group by h.id,h.status
+  ) x
+  where abs(x.booked_revenue-x.expected_revenue)>0.005
+
+  union all
+  select 'V2620C_DRAFT_SALE_VALUE_LEAK','CRITICAL',count(*)::bigint,
+    'An active Draft reservation may reduce sellable quantity but may not classify current HPP as COGS/other expense'
+  from(
+    select distinct fl.po_id
+    from erp.sale_stock_allocations a
+    join erp.sales_items i on i.id=a.sale_item_id
+    join erp.sales_headers h on h.id=i.sale_id and h.status='DRAFT'
+    join erp.fg_lots fl on fl.id=a.lot_id and fl.po_id is not null
+  ) d
+  cross join lateral erp.compute_po_hpp_gl_targets_v2620d(d.po_id) t
+  where abs(coalesce(t.other_out_value,0))>0.005
+
+  union all
+  select 'V2620C_VENDOR_PAYMENT_EXACT_STATUS_MISMATCH','CRITICAL',count(*)::bigint,
+    'Vendor invoice PAID/PARTIAL status must match the exact two-decimal payment subledger'
+  from erp.vendor_invoices h
+  cross join lateral(
+    select coalesce(sum(p.amount),0)::numeric(20,2) paid
+    from erp.vendor_payments p where p.vendor_invoice_id=h.id and p.status='POSTED'
+  ) x
+  where (h.status='PAID' and x.paid<>h.total_amount)
+     or (h.status='PARTIAL_PAID' and not(x.paid>0 and x.paid<h.total_amount))
+     or (h.status='POSTED' and x.paid<>0)
+
+  union all
+  select 'V2620C_HPP_STATE_HAS_SUBCENT','CRITICAL',count(*)::bigint,
+    'Cumulative PO HPP GL state must contain exactly the minor-unit amounts that were journaled'
+  from erp.po_hpp_gl_state s
+  where s.hpp_total_cost<>round(s.hpp_total_cost,2)
+     or s.fg_value<>round(s.fg_value,2)
+     or s.cogs_value<>round(s.cogs_value,2)
+     or s.other_out_value<>round(s.other_out_value,2)
+
+  union all
+  select 'V2620D_REDISPATCH_PARTICIPANT_LINEAGE_MISMATCH','CRITICAL',count(*)::bigint,
+    'Every carried participant interval must be contiguous, bounded, acyclic, same-source, and descend from a prior immutable full return'
+  from(
+    select a.id issue_id
+    from erp.laundry_redispatch_participant_allocations a
+    join erp.laundry_delivery_batch_size_lines sx
+      on sx.id=a.source_delivery_batch_size_line_id
+    join erp.laundry_delivery_lines sdl on sdl.id=sx.delivery_line_id
+    join erp.laundry_deliveries sd on sd.id=sdl.delivery_id
+    join erp.laundry_delivery_batch_size_lines dx
+      on dx.id=a.successor_delivery_batch_size_line_id
+    join erp.laundry_delivery_lines ddl on ddl.id=dx.delivery_line_id
+    join erp.laundry_deliveries dd on dd.id=ddl.delivery_id
+    where sx.distribution_batch_id<>dx.distribution_batch_id
+       or sx.size_id<>dx.size_id or sdl.cutting_group_id<>ddl.cutting_group_id
+       or sd.status<>'REVERSED'
+       or (sd.physical_at,sd.created_at,sd.id)>=(dd.physical_at,dd.created_at,dd.id)
+       or a.source_offset_pcs+a.qty_pcs>sx.qty_sent_pcs
+       or a.successor_offset_pcs+a.qty_pcs>dx.qty_sent_pcs
+       or not exists(
+         select 1 from erp.laundry_failed_wash_attempts f
+         join erp.laundry_failed_wash_batch_size_lines fx
+           on fx.attempt_id=f.id and fx.delivery_batch_size_line_id=sx.id
+          and fx.qty_attempted_pcs=sx.qty_sent_pcs
+         join erp.laundry_receipts fr on fr.id=f.receipt_id
+           and fr.status in('POSTED','REVERSED')
+         join erp.wip_stage_events rv on rv.id=f.return_wip_event_id
+           and rv.source_type='CP6_LAUNDRY_DELIVERY_WIP_REVERSAL'
+           and rv.stage_from='LAUNDRY' and rv.stage_to='SEWING'
+           and rv.qty_pcs=f.qty_attempted_pcs
+         join erp.wip_stage_events src on src.id=rv.source_id
+           and src.source_type='LAUNDRY_DELIVERY_LINE'
+           and src.source_id=sx.delivery_line_id
+         join erp.laundry_delivery_lines fdl on fdl.id=src.source_id
+           and fdl.delivery_id=f.delivery_id
+           and rv.po_id=sd.po_id
+           and rv.cutting_group_id=fdl.cutting_group_id
+         where f.delivery_id=sd.id and f.custody_outcome='RETURN_UNPROCESSED'
+           and fr.physical_at<=dd.physical_at and rv.physical_at<=dd.physical_at
+       )
+    union all
+    select min(a.id::text)::uuid
+    from erp.laundry_redispatch_participant_allocations a
+    group by a.source_delivery_batch_size_line_id
+    having min(a.source_offset_pcs)<>0
+       or max(a.source_offset_pcs+a.qty_pcs)<>sum(a.qty_pcs)
+    union all
+    select min(a.id::text)::uuid
+    from erp.laundry_redispatch_participant_allocations a
+    group by a.successor_delivery_batch_size_line_id
+    having min(a.successor_offset_pcs)<>0
+       or max(a.successor_offset_pcs+a.qty_pcs)<>sum(a.qty_pcs)
+  ) bad_lineage
+
+  union all
+  select 'V268_ACTIVE_SALE_MISSING_JOURNAL','CRITICAL',count(*)::bigint,
+    'Every active Sale with a monetary or rounded non-PO HPP effect requires its SALE journal'
+  from erp.sales_headers h
+  where h.status in('POSTED','PARTIAL_PAID','PAID')
+    and round(coalesce((select sum(i.line_total) from erp.sales_items i
+          where i.sale_id=h.id),0),2)>0.005
+    and not exists(select 1 from erp.journal_entries j
+      where j.source_type='SALE' and j.source_id=h.id and j.status='POSTED')
+
+  union all
+  select 'V268_POSTED_SALES_RETURN_MISSING_JOURNAL','CRITICAL',count(*)::bigint,
+    'Every posted return with a monetary or rounded non-PO HPP effect requires its SALES_RETURN journal'
+  from erp.sales_returns h
+  where h.status='POSTED'
+    and round(coalesce((select sum(i.refund_amount)
+          from erp.sales_return_items i where i.return_id=h.id),0),2)>0.005
+    and not exists(select 1 from erp.journal_entries j
+      where j.source_type='SALES_RETURN' and j.source_id=h.id and j.status='POSTED')
+
+  union all
+  select 'V2620F_NON_PO_PRODUCT_HPP_BOOK_MISMATCH','CRITICAL',count(*)::bigint,
+    'Each non-PO product book must equal cumulative per-lot minor-unit HPP targets across every active Sale, return, correction, and reversal'
+  from(
+    select distinct fl.product_id
+    from erp.fg_lots fl
+    where fl.po_id is null
+      and fl.lot_origin not in('CONVERSION','VOIDED_PRODUCTION')
+  ) p
+  cross join lateral erp.compute_non_po_product_hpp_targets_v2620f(p.product_id) t
+  cross join lateral erp.compute_non_po_product_hpp_book_v2620f(p.product_id) b
+  where abs(t.hpp_total_cost-b.hpp_total_cost)>0.005
+     or abs(t.fg_value-b.fg_value)>0.005
+     or abs(t.cogs_value-b.cogs_value)>0.005
+     or abs(t.other_out_value-b.other_out_value)>0.005
+
+  union all
+  select 'V2620E_SALES_RETURN_VALUE_EXCEEDS_SALE','CRITICAL',count(*)::bigint,
+    'Posted cumulative product refund may never exceed the exact original product sale value'
+  from(
+    select sr.sale_id,i.product_id,sum(i.refund_amount)::numeric refund,
+      coalesce((select sum(si.line_total) from erp.sales_items si
+        where si.sale_id=sr.sale_id and si.product_id=i.product_id),0)::numeric sold
+    from erp.sales_returns sr join erp.sales_return_items i on i.return_id=sr.id
+    where sr.status='POSTED'
+    group by sr.sale_id,i.product_id
+  ) refund where refund.refund>refund.sold
+
+  union all
+  select 'V2620E_OPENING_HPP_LINEAGE_MISMATCH','CRITICAL',count(*)::bigint,
+    'Opening FG HPP must follow its opening source or latest active correction and must not pretend to have production components'
+  from erp.fg_lots fl
+  left join lateral(
+    select count(*)::integer movement_count,min(m.id::text)::uuid movement_id,
+      min(m.source_id::text)::uuid source_id,min(m.qty_signed)::integer qty_signed,
+      min(m.unit_hpp_snapshot)::numeric unit_hpp
+    from erp.fg_stock_movements m
+    where m.lot_id=fl.id and m.movement_type='OPENING'
+  ) om on true
+  left join erp.opening_balance_items oi on oi.id=om.source_id
+  left join erp.opening_balance_headers oh on oh.id=oi.opening_id
+  left join lateral(
+    select count(*)::integer current_count,min(h.id::text)::uuid current_id,
+      min(h.qty_basis_pcs)::integer qty_basis,min(h.total_cost)::numeric total_cost
+    from erp.hpp_versions h where h.lot_id=fl.id and h.is_current
+  ) ch on true
+  left join lateral(
+    select h.total_cost,h.qty_basis_pcs
+    from erp.hpp_versions h where h.lot_id=fl.id
+    order by h.version_no,h.id limit 1
+  ) first_hpp on true
+  left join lateral(
+    select c.corrected_hpp
+    from erp.opening_hpp_corrections c
+    join erp.hpp_versions h on h.id=c.hpp_version_id
+    where c.lot_id=fl.id and c.status='POSTED'
+    order by h.version_no desc,h.id desc limit 1
+  ) correction on true
+  where fl.lot_origin='OPENING' and(
+    om.movement_count<>1 or ch.current_count<>1
+    or oi.id is null or oi.balance_type<>'FINISHED_GOODS'
+    or oh.status<>'POSTED' or oi.product_id is distinct from fl.product_id
+    or om.qty_signed is distinct from fl.initial_qty_pcs
+    or ch.qty_basis is distinct from fl.initial_qty_pcs
+    or abs(first_hpp.total_cost-fl.initial_qty_pcs*om.unit_hpp)>0.000001
+    or abs(om.unit_hpp-erp.resolve_opening_fg_unit_hpp(oi.id,oh.opening_date))>0.000001
+    or abs(ch.total_cost-fl.initial_qty_pcs
+      *coalesce(correction.corrected_hpp,om.unit_hpp))>0.000001
+    or fl.cached_qty_pcs is distinct from coalesce((
+      select sum(m.qty_signed)::integer from erp.fg_stock_movements m
+      where m.lot_id=fl.id
+    ),0)
+    or exists(select 1 from erp.hpp_version_components c
+      join erp.hpp_versions h on h.id=c.hpp_version_id where h.lot_id=fl.id)
+  )
+
+  union all
+  select 'V2620E_OPENING_FG_GL_MISMATCH','CRITICAL',count(*)::bigint,
+    'Each posted opening document FG journal must equal its immutable opening FG movement value'
+  from erp.opening_balance_headers h
+  cross join lateral(
+    select coalesce(sum(round(m.qty_signed*m.unit_hpp_snapshot,2)),0)::numeric expected_fg
+    from erp.opening_balance_items i
+    join erp.fg_stock_movements m
+      on m.source_type='OPENING_BALANCE_ITEM' and m.source_id=i.id
+     and m.movement_type='OPENING'
+    where i.opening_id=h.id and i.balance_type='FINISHED_GOODS'
+  ) expected
+  cross join lateral(
+    select coalesce(sum(l.debit-l.credit),0)::numeric actual_fg
+    from erp.journal_entries j join erp.journal_lines l on l.journal_entry_id=j.id
+    where j.source_type='OPENING_BALANCE' and j.source_id=h.id
+      and j.status='POSTED' and l.account_id=erp.account_id('FG_INVENTORY')
+  ) actual
+  where h.status='POSTED' and abs(expected.expected_fg-actual.actual_fg)>0.005
+
+  union all
+  select 'V2620I_SALES_PAYMENT_JOURNAL_LINEAGE_MISMATCH','CRITICAL',count(*)::bigint,
+    'Each customer payment must own exactly one exact cash/AR journal and, when reversed, exactly one exact inverse'
+  from(
+    select p.id
+    from erp.sales_payments p
+    join erp.sales_headers h on h.id=p.sale_id
+    where
+      (p.status='DRAFT' and exists(
+        select 1 from erp.journal_entries o
+        where o.source_type='SALES_PAYMENT' and o.source_id=p.id
+      ))
+      or
+      (p.status in('POSTED','REVERSED') and(
+        (select count(*) from erp.journal_entries o
+         where o.source_type='SALES_PAYMENT' and o.source_id=p.id)<>1
+        or not exists(
+          select 1
+          from erp.journal_entries o
+          where o.source_type='SALES_PAYMENT' and o.source_id=p.id
+            and o.status=case when p.status='POSTED' then 'POSTED' else 'REVERSED' end
+            and o.economic_date=case when p.replaces_payment_id is null
+          then erp._cp3_business_date(p.payment_date) else (select pr.reversal_economic_date
+            from erp.sales_payment_reversal_facts pr
+            where pr.payment_id=p.replaces_payment_id) end
+            and (select count(*) from erp.journal_lines l where l.journal_entry_id=o.id)=2
+            and (select coalesce(sum(l.debit),0) from erp.journal_lines l where l.journal_entry_id=o.id)=p.amount
+            and (select coalesce(sum(l.credit),0) from erp.journal_lines l where l.journal_entry_id=o.id)=p.amount
+            and (select count(*) from erp.journal_lines l
+                 left join erp.cash_accounts ca on ca.id=p.cash_account_id
+                 where l.account_id=coalesce(erp.initial_prepayment_account_v1(p.id),ca.coa_account_id) and l.journal_entry_id=o.id and l.debit=p.amount and l.credit=0
+                   and l.customer_id=h.customer_id and l.vendor_id is null
+                   and l.contractor_id is null and l.po_id is null and l.product_id is null)=1
+            and (select count(*) from erp.journal_lines l
+                 where l.journal_entry_id=o.id and l.account_id=erp.account_id('AR_CUSTOMER')
+                   and l.debit=0 and l.credit=p.amount and l.customer_id=h.customer_id
+                   and l.vendor_id is null and l.contractor_id is null
+                   and l.po_id is null and l.product_id is null)=1
+            and (
+              (p.status='POSTED' and not exists(
+                select 1 from erp.journal_entries r
+                where r.source_type='JOURNAL_REVERSAL'
+                  and (r.source_id=o.id or r.reversal_of_id=o.id)
+              ))
+              or
+              (p.status='REVERSED'
+                and (select count(*) from erp.journal_entries r
+                     where r.source_type='JOURNAL_REVERSAL'
+                       and (r.source_id=o.id or r.reversal_of_id=o.id))=1
+                and exists(
+                  select 1 from erp.journal_entries r
+                  where r.source_type='JOURNAL_REVERSAL' and r.source_id=o.id
+                    and r.reversal_of_id=o.id and r.status='POSTED'
+                    and (select count(*) from erp.journal_lines x where x.journal_entry_id=r.id)=2
+                    and not exists(
+                      select 1 from erp.journal_lines ol
+                      where ol.journal_entry_id=o.id and not exists(
+                        select 1 from erp.journal_lines rl
+                        where rl.journal_entry_id=r.id
+                          and rl.account_id=ol.account_id
+                          and rl.debit=ol.credit and rl.credit=ol.debit
+                          and rl.customer_id is not distinct from ol.customer_id
+                          and rl.vendor_id is not distinct from ol.vendor_id
+                          and rl.contractor_id is not distinct from ol.contractor_id
+                          and rl.po_id is not distinct from ol.po_id
+                          and rl.product_id is not distinct from ol.product_id
+                      )
+                    )
+                    and not exists(
+                      select 1 from erp.journal_lines rl
+                      where rl.journal_entry_id=r.id and not exists(
+                        select 1 from erp.journal_lines ol
+                        where ol.journal_entry_id=o.id
+                          and ol.account_id=rl.account_id
+                          and ol.debit=rl.credit and ol.credit=rl.debit
+                          and ol.customer_id is not distinct from rl.customer_id
+                          and ol.vendor_id is not distinct from rl.vendor_id
+                          and ol.contractor_id is not distinct from rl.contractor_id
+                          and ol.po_id is not distinct from rl.po_id
+                          and ol.product_id is not distinct from rl.product_id
+                      )
+                    )
+                )
+              )
+            )
+        )
+      ))
+    union all
+    select o.id
+    from erp.journal_entries o
+    where o.source_type='SALES_PAYMENT'
+      and not exists(select 1 from erp.sales_payments p where p.id=o.source_id)
+  ) payment_lineage_faults
+
+  union all
+  select 'V2620K_PAYMENT_ALLOCATION_DATE_MISMATCH','CRITICAL',count(*)::bigint,
+    'Allocation replacement must conserve cash and customer AR on each economic and GL date'
+  from erp.sales_payment_posting_facts f
+  left join erp.sales_payment_reversal_facts pr on pr.payment_id=f.replaces_payment_id
+  where f.replaces_payment_id is not null and(
+    pr.payment_id is null
+    or f.journal_economic_date is distinct from pr.reversal_economic_date
+    or f.journal_transaction_date is distinct from pr.reversal_transaction_date
+    or f.journal_posting_at<pr.reversal_posting_at)
+
+  union all
+  select 'V2620J_SALES_PAYMENT_IMMUTABLE_FACT_MISMATCH','CRITICAL',count(*)::bigint,
+    'Posted payment invoice/cash identity and reversal dates must match append-only facts; correction requires one linked replacement'
+  from(
+    select p.id
+    from erp.sales_payments p
+    left join erp.sales_headers h on h.id=p.sale_id
+    left join erp.sales_payment_posting_facts f on f.payment_id=p.id
+    left join erp.journal_entries o on o.id=f.original_journal_entry_id
+    left join erp.sales_payment_reversal_facts rf on rf.payment_id=p.id
+    left join erp.journal_entries r on r.id=rf.reversal_journal_entry_id
+    left join erp.sales_payment_posting_facts pf on pf.payment_id=f.replaces_payment_id
+    left join erp.sales_payment_reversal_facts prf on prf.payment_id=f.replaces_payment_id
+    where
+      (p.status='DRAFT' and(f.payment_id is not null or rf.payment_id is not null))
+      or
+      (p.status in('POSTED','REVERSED') and(
+        f.payment_id is null or h.id is null
+        or f.sale_id is distinct from p.sale_id
+        or f.customer_id is distinct from h.customer_id
+        or f.payment_number is distinct from p.payment_number
+        or f.payment_date is distinct from p.payment_date
+        or f.amount is distinct from p.amount
+        or f.cash_account_id is distinct from p.cash_account_id
+        or f.replaces_payment_id is distinct from p.replaces_payment_id
+        or f.payment_snapshot is distinct from to_jsonb(p)-'status'
+        or f.lineage_sha256 is distinct from encode(extensions.digest(convert_to(jsonb_build_array(
+          f.payment_id,f.sale_id,f.customer_id,f.payment_number,f.payment_date,f.amount,
+          f.cash_account_id,f.original_journal_entry_id,f.journal_economic_date,
+          f.journal_transaction_date,f.journal_posting_at,f.replaces_payment_id,
+          f.predecessor_reversal_journal_id,f.payment_snapshot
+        )::text,'UTF8'),'sha256'),'hex')
+        or o.id is null or o.source_type<>'SALES_PAYMENT' or o.source_id is distinct from p.id
+        or o.status is distinct from case when p.status='POSTED' then 'POSTED' else 'REVERSED' end
+        or o.economic_date is distinct from f.journal_economic_date
+        or o.transaction_date is distinct from f.journal_transaction_date
+        or o.posting_at is distinct from f.journal_posting_at
+        or ((f.replaces_payment_id is null)<>(f.predecessor_reversal_journal_id is null))
+        or (f.replaces_payment_id is not null and(
+          pf.payment_id is null or prf.payment_id is null
+          or f.predecessor_reversal_journal_id is distinct from prf.reversal_journal_entry_id
+          or pf.sale_id=f.sale_id or pf.customer_id is distinct from f.customer_id
+          or pf.amount is distinct from f.amount
+          or pf.cash_account_id is distinct from f.cash_account_id
+          or pf.payment_date is distinct from f.payment_date
+        ))
+        or (p.status='POSTED' and(
+          rf.payment_id is not null or exists(
+            select 1 from erp.journal_entries x where x.source_type='JOURNAL_REVERSAL'
+              and(x.source_id=o.id or x.reversal_of_id=o.id)
+          )
+        ))
+        or (p.status='REVERSED' and(
+          rf.payment_id is null or r.id is null
+          or rf.original_journal_entry_id is distinct from o.id
+          or r.source_type<>'JOURNAL_REVERSAL' or r.source_id is distinct from o.id
+          or r.reversal_of_id is distinct from o.id or r.status<>'POSTED'
+          or r.economic_date is distinct from rf.reversal_economic_date
+          or r.transaction_date is distinct from rf.reversal_transaction_date
+          or r.posting_at is distinct from rf.reversal_posting_at
+          or rf.reversal_economic_date<f.journal_economic_date
+          or rf.reversal_posting_at<f.journal_posting_at
+          or rf.lineage_sha256 is distinct from encode(extensions.digest(convert_to(jsonb_build_array(
+            rf.payment_id,rf.original_journal_entry_id,rf.reversal_journal_entry_id,
+            rf.reversal_economic_date,rf.reversal_transaction_date,rf.reversal_posting_at
+          )::text,'UTF8'),'sha256'),'hex')
+        ))
+      ))
+    union all
+    select f.payment_id from erp.sales_payment_posting_facts f
+    left join erp.sales_payments p on p.id=f.payment_id where p.id is null
+    union all
+    select r.payment_id from erp.sales_payment_reversal_facts r
+    left join erp.sales_payments p on p.id=r.payment_id
+    left join erp.sales_payment_posting_facts f on f.payment_id=r.payment_id
+    where p.id is null or f.payment_id is null or p.status<>'REVERSED'
+  ) payment_fact_faults
+
+  union all
+  select 'V2620H_FAILED_WASH_RETURN_TIME_MISMATCH','CRITICAL',count(*)::bigint,
+    'RETURN_UNPROCESSED inverse WIP time must equal its authoritative physical receipt time'
+  from erp.laundry_failed_wash_attempts a
+  left join erp.laundry_receipts rh on rh.id=a.receipt_id
+  left join erp.wip_stage_events rv on rv.id=a.return_wip_event_id
+  where a.custody_outcome='RETURN_UNPROCESSED' and(
+    rh.id is null or rv.id is null
+    or rv.source_type<>'CP6_LAUNDRY_DELIVERY_WIP_REVERSAL'
+    or rv.physical_at is distinct from rh.physical_at
+  )
+
+  union all
+  select 'V2620H_CUSTOMER_AR_STATUS_MISMATCH','CRITICAL',count(*)::bigint,
+    'Sale PAID/PARTIAL/POSTED status must equal the exact two-decimal payment subledger and overpayment is unsupported'
+  from erp.sales_headers h
+  cross join lateral(
+    select round(erp.sale_net_total(h.id),2)::numeric(20,2) total,
+      round(coalesce(sum(round(p.amount,2)),0),2)::numeric(20,2) paid
+    from erp.sales_payments p where p.sale_id=h.id and p.status='POSTED'
+  ) x
+  where h.status in('POSTED','PARTIAL_PAID','PAID') and(
+    x.paid>x.total
+    or (h.status='PAID' and x.paid<>x.total)
+    or (h.status='PARTIAL_PAID' and not(x.paid>0 and x.paid<x.total))
+    or (h.status='POSTED' and x.paid<>0)
+  )
+
+  union all
+  select 'V2620H_CUSTOMER_AR_BY_CUSTOMER_MISMATCH','CRITICAL',count(*)::bigint,
+    'Each customer signed AR general-ledger balance must equal active net sales less posted payments'
+  from(
+    select coalesce(g.customer_id,s.customer_id) customer_id,
+      coalesce(g.amount,0)::numeric gl_amount,coalesce(s.amount,0)::numeric subledger_amount
+    from(
+      select jl.customer_id,sum(jl.debit-jl.credit)::numeric amount
+      from erp.journal_lines jl join erp.journal_entries je on je.id=jl.journal_entry_id
+      where je.status in('POSTED','REVERSED') and jl.account_id=erp.account_id('AR_CUSTOMER')
+        and jl.customer_id is not null
+      group by jl.customer_id
+    ) g
+    full join(
+      select x.customer_id,sum(x.amount)::numeric amount from(
+        select h.customer_id,round(erp.sale_net_total(h.id),2)-coalesce((
+          select sum(round(p.amount,2)) from erp.sales_payments p
+          where p.sale_id=h.id and p.status='POSTED'),0) amount
+        from erp.sales_headers h where h.status in('POSTED','PARTIAL_PAID','PAID')
+        union all
+        select ob.customer_id,ob.original_amount-ob.settled_amount
+        from erp.opening_subledger_balances ob
+        join erp.opening_balance_items oi on oi.id=ob.opening_item_id
+        join erp.opening_balance_headers oh on oh.id=oi.opening_id and oh.status='POSTED'
+        where ob.party_type='CUSTOMER' and ob.direction='RECEIVABLE'
+      ) x group by x.customer_id
+    ) s on s.customer_id=g.customer_id
+  ) ar where round(ar.gl_amount,2) is distinct from round(ar.subledger_amount,2)
+
+  union all
+  select 'V2620G_LAUNDRY_WIP_CUSTODY_MISMATCH','CRITICAL',count(*)::bigint,
+    'Laundry source and inverse events must match authoritative delivery quantity, dimensions, direction, chronology and net physical custody'
+  from(
+    select dl.id
+    from erp.laundry_delivery_lines dl
+    join erp.laundry_deliveries d on d.id=dl.delivery_id
+    join erp.production_orders po on po.id=d.po_id
+    left join lateral(
+      select count(*) total_sources,
+        count(*) filter(where s.po_id=d.po_id
+          and s.cutting_group_id is not distinct from dl.cutting_group_id
+          and s.contractor_id is not distinct from po.contractor_id
+          and s.stage_from='SEWING' and s.stage_to='LAUNDRY'
+          and s.qty_pcs=dl.qty_sent_pcs and s.physical_at=d.physical_at) valid_sources,
+        coalesce(sum(s.qty_pcs),0) source_qty
+      from erp.wip_stage_events s
+      where s.source_type='LAUNDRY_DELIVERY_LINE' and s.source_id=dl.id
+    ) source on true
+    left join lateral(
+      select count(*) total_inverses,
+        count(*) filter(where r.po_id=s.po_id
+          and r.cutting_group_id is not distinct from s.cutting_group_id
+          and r.contractor_id is not distinct from s.contractor_id
+          and r.stage_from='LAUNDRY' and r.stage_to='SEWING'
+          and r.qty_pcs=dl.qty_sent_pcs and r.qty_pcs=s.qty_pcs
+          and r.physical_at>=s.physical_at) valid_inverses,
+        coalesce(sum(r.qty_pcs),0) inverse_qty
+      from erp.wip_stage_events s
+      join erp.wip_stage_events r on r.source_id=s.id
+        and r.source_type='CP6_LAUNDRY_DELIVERY_WIP_REVERSAL'
+      where s.source_type='LAUNDRY_DELIVERY_LINE' and s.source_id=dl.id
+    ) inverse on true
+    where d.status<>'DRAFT' and(
+      source.total_sources<>1 or source.valid_sources<>1
+      or inverse.total_inverses<>case when d.status='REVERSED' then 1 else 0 end
+      or inverse.valid_inverses<>inverse.total_inverses
+      or source.source_qty-inverse.inverse_qty<>
+        case when d.status='REVERSED' then 0 else dl.qty_sent_pcs end
+    )
+    union all
+    select s.id from erp.wip_stage_events s
+    left join erp.laundry_delivery_lines dl on dl.id=s.source_id
+    left join erp.laundry_deliveries d on d.id=dl.delivery_id
+    where s.source_type='LAUNDRY_DELIVERY_LINE'
+      and(dl.id is null or d.id is null or d.status='DRAFT')
+    union all
+    select r.id from erp.wip_stage_events r
+    left join erp.wip_stage_events s on s.id=r.source_id
+      and s.source_type='LAUNDRY_DELIVERY_LINE'
+    where r.source_type='CP6_LAUNDRY_DELIVERY_WIP_REVERSAL' and s.id is null
+  ) bad_custody
+
+  union all
+  select 'V2620E_REDISPATCH_EVENT_MISMATCH','CRITICAL',count(*)::bigint,
+    'Effective redispatch allocation/release events must be bounded, non-overlapping, chronological, and backed by exact custody facts'
+  from(
+    select a.id
+    from erp.laundry_redispatch_participant_events a
+    join erp.laundry_delivery_batch_size_lines sx
+      on sx.id=a.source_delivery_batch_size_line_id
+    join erp.laundry_delivery_lines sl on sl.id=sx.delivery_line_id
+    join erp.laundry_deliveries sd on sd.id=sl.delivery_id
+    join erp.laundry_delivery_batch_size_lines dx
+      on dx.id=a.successor_delivery_batch_size_line_id
+    join erp.laundry_delivery_lines dl on dl.id=dx.delivery_line_id
+    join erp.laundry_deliveries dd on dd.id=dl.delivery_id
+    where a.event_type='ALLOCATE' and(
+      sx.distribution_batch_id<>dx.distribution_batch_id or sx.size_id<>dx.size_id
+      or sl.cutting_group_id<>dl.cutting_group_id or sd.status<>'REVERSED'
+      or (sd.physical_at,sd.created_at,sd.id)>=(dd.physical_at,dd.created_at,dd.id)
+      or a.source_offset_pcs+a.qty_pcs>sx.qty_sent_pcs
+      or a.successor_offset_pcs+a.qty_pcs>dx.qty_sent_pcs
+      or not exists(
+        select 1 from erp.laundry_failed_wash_attempts f
+        join erp.laundry_failed_wash_batch_size_lines fx
+          on fx.attempt_id=f.id and fx.delivery_batch_size_line_id=sx.id
+         and fx.qty_attempted_pcs=sx.qty_sent_pcs
+        join erp.laundry_receipts fr on fr.id=f.receipt_id
+           and fr.status in('POSTED','REVERSED')
+         join erp.wip_stage_events rv on rv.id=f.return_wip_event_id
+           and rv.source_type='CP6_LAUNDRY_DELIVERY_WIP_REVERSAL'
+           and rv.stage_from='LAUNDRY' and rv.stage_to='SEWING'
+           and rv.qty_pcs=f.qty_attempted_pcs
+         join erp.wip_stage_events src on src.id=rv.source_id
+           and src.source_type='LAUNDRY_DELIVERY_LINE'
+           and src.source_id=sx.delivery_line_id
+         join erp.laundry_delivery_lines fdl on fdl.id=src.source_id
+           and fdl.delivery_id=f.delivery_id
+           and rv.po_id=sd.po_id
+           and rv.cutting_group_id=fdl.cutting_group_id
+        where f.delivery_id=sd.id and f.custody_outcome='RETURN_UNPROCESSED'
+          and fr.physical_at<=dd.physical_at and rv.physical_at<=dd.physical_at)
+      or (not exists(select 1 from erp.laundry_redispatch_participant_events x
+            where x.event_type='RELEASE' and x.releases_allocation_event_id=a.id)
+          and dd.status='REVERSED'
+          and not exists(select 1 from erp.laundry_receipts r where r.delivery_id=dd.id))
+    )
+    union all
+    select a.id
+    from erp.laundry_redispatch_participant_events a
+    where a.event_type='ALLOCATE'
+      and not exists(select 1 from erp.laundry_redispatch_participant_events x
+        where x.event_type='RELEASE' and x.releases_allocation_event_id=a.id)
+      and exists(
+        select 1 from erp.laundry_redispatch_participant_events b
+        where b.event_type='ALLOCATE' and b.id>a.id
+          and not exists(select 1 from erp.laundry_redispatch_participant_events x
+            where x.event_type='RELEASE' and x.releases_allocation_event_id=b.id)
+          and ((b.source_delivery_batch_size_line_id=a.source_delivery_batch_size_line_id
+              and int4range(b.source_offset_pcs,b.source_offset_pcs+b.qty_pcs,'[)')
+                && int4range(a.source_offset_pcs,a.source_offset_pcs+a.qty_pcs,'[)'))
+            or (b.successor_delivery_batch_size_line_id=a.successor_delivery_batch_size_line_id
+              and int4range(b.successor_offset_pcs,b.successor_offset_pcs+b.qty_pcs,'[)')
+                && int4range(a.successor_offset_pcs,a.successor_offset_pcs+a.qty_pcs,'[)')))
+      )
+    union all
+    select x.id
+    from erp.laundry_redispatch_participant_events x
+    join erp.laundry_redispatch_participant_events a
+      on a.id=x.releases_allocation_event_id and a.event_type='ALLOCATE'
+    join erp.laundry_delivery_batch_size_lines sx
+      on sx.id=a.successor_delivery_batch_size_line_id
+    join erp.laundry_delivery_lines dl on dl.id=sx.delivery_line_id
+    join erp.laundry_deliveries d on d.id=dl.delivery_id
+    where x.event_type='RELEASE' and(
+      x.released_delivery_id<>d.id or d.status<>'REVERSED'
+      or exists(select 1 from erp.laundry_receipts r where r.delivery_id=d.id)
+    )
+  ) bad_events
+
+  union all
+  select 'V2620F_CONVERSION_VALUE_LINEAGE_MISMATCH','CRITICAL',count(*)::bigint,
+    'Every posted conversion must be PO-sourced, value-preserving, rooted, and represented by exact OUT/IN facts with current descendant HPP'
+  from erp.product_conversion_allocations a
+  join erp.product_conversions c on c.id=a.conversion_id and c.status='POSTED'
+  join erp.fg_lots s on s.id=a.source_lot_id
+  left join erp.fg_lots d on d.id=a.destination_lot_id
+  left join erp.v_current_hpp sh on sh.lot_id=s.id
+  left join erp.v_current_hpp dh on dh.lot_id=d.id
+  where s.po_id is null or d.id is null or d.po_id is distinct from s.po_id
+     or d.lot_origin<>'CONVERSION' or d.source_lot_id is distinct from s.id
+     or d.initial_qty_pcs is distinct from a.qty_pcs or a.qty_pcs<=0
+     or sh.hpp_per_pcs is null or dh.hpp_per_pcs is null
+     or abs(dh.hpp_per_pcs-(sh.hpp_per_pcs
+       +erp.be_allocation_extra_v1(a.id)/nullif(a.qty_pcs,0)))>0.000001
+     or (select count(*) from erp.fg_stock_movements m
+         where m.source_type='PRODUCT_CONVERSION' and m.source_id=c.id
+           and m.lot_id=s.id and m.movement_type='REBRAND_OUT'
+           and m.qty_signed=-a.qty_pcs)<>1
+     or (select count(*) from erp.fg_stock_movements m
+         where m.source_type='PRODUCT_CONVERSION' and m.source_id=c.id
+           and m.lot_id=d.id and m.movement_type='REBRAND_IN'
+           and m.qty_signed=a.qty_pcs)<>1
+
+  union all
+  select 'V2620D_SALE_LIFECYCLE_HPP_DIMENSION_MISMATCH','CRITICAL',count(*)::bigint,
+    'Every Sale lifecycle journal must conserve FG/COGS/disposition independently inside each PO or non-PO dimension'
+  from erp.journal_entries e
+  left join erp.journal_entries o on o.id=e.reversal_of_id
+  cross join lateral(
+    select coalesce(sum(l.debit-l.credit) filter(where l.account_id in(
+      erp.account_id('COGS'),erp.account_id('FG_INVENTORY'),
+      erp.account_id('OTHER_EXPENSE'),erp.account_id('OTHER_INCOME')
+    )),0) hpp_net
+    from erp.journal_lines l where l.journal_entry_id=e.id
+  ) b
+  where e.status in('POSTED','REVERSED') and(
+    e.source_type in('SALE','SALES_RETURN')
+    or(e.source_type='JOURNAL_REVERSAL' and o.source_type in('SALE','SALES_RETURN'))
+  ) and(
+    abs(b.hpp_net)>0.005
+    or exists(
+      select 1 from erp.journal_lines l
+      where l.journal_entry_id=e.id
+        and l.account_id in(
+          erp.account_id('COGS'),erp.account_id('FG_INVENTORY'),
+          erp.account_id('OTHER_EXPENSE'),erp.account_id('OTHER_INCOME')
+        )
+      group by l.po_id
+      having abs(sum(l.debit-l.credit))>0.005
+    )
+  );
+  return query
+  select 'V2620AD_OPENING_MATERIAL_TIMELINE_MISMATCH'::text,'CRITICAL'::text,
+    (select count(*)::bigint
+    from erp.opening_balance_items i
+    join erp.opening_balance_headers h on h.id=i.opening_id
+    where h.status='POSTED' and i.balance_type='MATERIAL' and (
+      (select count(*) from erp.material_stock_movements m
+       where m.source_type='OPENING_BALANCE_ITEM' and m.source_id=i.id)<>1
+      or not exists(select 1 from erp.material_stock_movements m
+        where m.source_type='OPENING_BALANCE_ITEM' and m.source_id=i.id
+          and m.movement_type='OPENING' and m.material_id=i.material_id
+          and m.location_id=i.location_id and m.roll_id is not distinct from i.roll_id
+          and m.physical_at=(h.opening_date::timestamp at time zone 'Asia/Jakarta'))
+    )),
+    'Every posted material opening line must own one movement at the start of its Jakarta document date'::text;
+
+  return query
+  select 'V2620AE_OPENING_MATERIAL_ROLL_INTEGRITY'::text,'CRITICAL'::text,
+    (select count(*)::bigint
+    from erp.opening_balance_items i
+    join erp.opening_balance_headers h on h.id=i.opening_id and h.status='POSTED'
+    left join erp.materials material on material.id=i.material_id
+    left join erp.material_rolls roll on roll.id=i.roll_id
+    where (i.roll_id is not null and i.balance_type<>'MATERIAL')
+      or (i.balance_type='MATERIAL' and (
+      (material.material_type='FABRIC' and i.roll_id is null)
+      or (i.roll_id is not null and (
+        material.material_type is distinct from 'FABRIC'
+        or
+        roll.material_id is distinct from i.material_id
+        or roll.purchase_item_id is not null
+        or i.qty>roll.original_qty
+        or (select count(*) from erp.opening_balance_items other_i
+            join erp.opening_balance_headers other_h on other_h.id=other_i.opening_id
+            where other_h.status='POSTED' and other_i.balance_type='MATERIAL'
+              and other_i.roll_id=i.roll_id)<>1
+        or (select count(*) from erp.material_stock_movements opening_m
+            where opening_m.roll_id=i.roll_id and opening_m.movement_type='OPENING'
+              and opening_m.reversal_of_id is null)<>1
+        or exists(select 1 from erp.material_stock_movements purchase_m
+            where purchase_m.roll_id=i.roll_id and purchase_m.movement_type='PURCHASE'
+              and purchase_m.reversal_of_id is null)
+      ))
+    ))),
+    'Each posted opening roll must belong to one fabric line, enter once, and stay within original quantity'::text;
+
+  return query
+  select 'V2620AF_OPENING_SOURCE_LINEAGE_MISMATCH'::text,'CRITICAL'::text,
+    (select count(*)::bigint from (
+    select m.id
+    from erp.material_stock_movements m
+    left join erp.opening_balance_items i on i.id=m.source_id
+    left join erp.opening_balance_headers h on h.id=i.opening_id
+    where m.source_type='OPENING_BALANCE_ITEM' and m.movement_type='OPENING'
+      and m.reversal_of_id is null and (
+        h.status is distinct from 'POSTED' or i.balance_type is distinct from 'MATERIAL'
+        or m.material_id is distinct from i.material_id
+        or m.roll_id is distinct from i.roll_id or m.location_id is distinct from i.location_id
+        or m.qty_signed is distinct from i.qty
+        or m.input_unit_cost is distinct from coalesce((
+          select erp.material_purchase_current_unit_cost(origin.purchase_item_id)::numeric(18,6)
+          from erp.initial_import_receipt_lines origin where origin.opening_item_id=i.id),i.unit_cost_snapshot)
+        or (exists(select 1 from erp.initial_import_receipt_lines origin where origin.opening_item_id=i.id)
+          and coalesce(m.original_unit_cost_snapshot,m.unit_cost_snapshot) is distinct from i.unit_cost_snapshot))
+    union all
+    select m.id
+    from erp.fg_stock_movements m
+    left join erp.opening_balance_items i on i.id=m.source_id
+    left join erp.opening_balance_headers h on h.id=i.opening_id
+    where m.source_type='OPENING_BALANCE_ITEM' and m.movement_type='OPENING'
+      and m.reversal_of_id is null and (
+        h.status is distinct from 'POSTED' or i.balance_type is distinct from 'FINISHED_GOODS'
+        or m.product_id is distinct from i.product_id or m.qty_signed is distinct from i.qty
+        or (i.location_id is not null and m.location_id is distinct from i.location_id))
+    union all
+    select s.id
+    from erp.opening_subledger_balances s
+    left join erp.opening_balance_items i on i.id=s.opening_item_id
+    left join erp.opening_balance_headers h on h.id=i.opening_id
+    where h.status is distinct from 'POSTED'
+      or i.balance_type is distinct from (s.party_type||'_'||s.direction)
+      -- original_amount is the CURRENT corrected balance (numeric(20,2)),
+      -- despite its legacy column name. The immutable opening line remains
+      -- unchanged; posted linked correction deltas determine its effective sum.
+      or s.original_amount is distinct from (round(i.amount,2)+coalesce((
+        select sum(c.delta_amount) from erp.opening_financial_corrections c
+        where c.opening_item_id=i.id and c.status='POSTED'),0))
+    union all
+    select h.id from erp.opening_balance_headers h
+    where h.status='POSTED'
+      and not exists(select 1 from erp.opening_balance_items i where i.opening_id=h.id)
+    union all
+    select e.id from erp.journal_entries e
+    left join erp.opening_balance_headers h on h.id=e.source_id
+    where e.source_type='OPENING_BALANCE' and e.reversal_of_id is null
+      and h.status is distinct from 'POSTED'
+    union all
+    select h.id from erp.opening_balance_headers h
+    cross join lateral (
+      select coalesce(sum(greatest(coalesce(round(case
+        when i.balance_type in('MATERIAL','FINISHED_GOODS') then i.qty*i.unit_cost_snapshot
+        when i.balance_type='BS' and exists(select 1 from erp.initial_import_production_sources ps where ps.opening_item_id=i.id) then coalesce(i.amount,i.qty*i.unit_cost_snapshot)
+        when i.balance_type='WIP' then coalesce(i.amount,coalesce(i.qty,0)*coalesce(i.unit_cost_snapshot,0))
+        when i.balance_type in('CONTRACTOR_RECEIVABLE','CUSTOMER_RECEIVABLE','CASH_BANK') then i.amount
+        else 0 end,2),0),0)),0) debits,
+        coalesce(sum(greatest(coalesce(round(case
+        when i.balance_type in('CONTRACTOR_PAYABLE','VENDOR_PAYABLE','SUPPLIER_PAYABLE') then i.amount
+        else 0 end,2),0),0)),0) credits
+      from erp.opening_balance_items i where i.opening_id=h.id
+    ) expected
+    cross join lateral (
+      select coalesce(sum(l.debit),0) debits,coalesce(sum(l.credit),0) credits
+      from erp.journal_entries e join erp.journal_lines l on l.journal_entry_id=e.id
+      where e.source_type='OPENING_BALANCE' and e.source_id=h.id and e.reversal_of_id is null
+    ) actual
+    where h.status='POSTED' and (
+      actual.debits<>greatest(expected.debits,expected.credits)
+      or actual.credits<>greatest(expected.debits,expected.credits))
+  ) broken_opening_lineage),
+    'Opening stock and subledger facts require their original posted source with conserved quantity and input value'::text;
+
+  return query select 'V2620AG_SALE_RESERVATION_LINEAGE_MISMATCH'::text,'CRITICAL'::text,(with active as (
+  select m.* from erp.fg_stock_movements m
+  where m.source_type='SALE_ITEM' and m.movement_type in('SALE_RESERVE','SALE')
+    and not exists(select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=m.id)
+), allocations as (
+  select a.sale_item_id,a.lot_id,a.location_id,sum(a.qty_pcs)::bigint qty
+  from erp.sale_stock_allocations a group by a.sale_item_id,a.lot_id,a.location_id
+), movements as (
+  select m.source_id sale_item_id,m.lot_id,m.location_id,sum(-m.qty_signed)::bigint qty
+  from active m group by m.source_id,m.lot_id,m.location_id
+)
+select count(*)::bigint from (
+  select m.id,sh_lineage.id sale_id from active m
+  left join erp.sales_items i on i.id=m.source_id
+  left join erp.sales_headers sh_lineage on sh_lineage.id=i.sale_id
+  left join erp.fg_lots l on l.id=m.lot_id
+  where sh_lineage.status is null or sh_lineage.status not in('DRAFT','POSTED','PARTIAL_PAID','PAID')
+    or m.movement_type is distinct from case when sh_lineage.status='DRAFT' then 'SALE_RESERVE' else 'SALE' end
+    or m.product_id is distinct from i.product_id or l.product_id is distinct from i.product_id
+    or m.location_id is distinct from sh_lineage.source_location_id
+    or m.customer_id is distinct from sh_lineage.customer_id or m.physical_at is distinct from sh_lineage.sale_date
+    or m.quality_grade is distinct from 'GRADE_A' or m.qty_signed>=0
+  union all
+  select a.id,sh_lineage.id from erp.sale_stock_allocations a
+  left join erp.sales_items i on i.id=a.sale_item_id
+  left join erp.sales_headers sh_lineage on sh_lineage.id=i.sale_id
+  left join erp.fg_lots l on l.id=a.lot_id
+  where sh_lineage.status is null or sh_lineage.status not in('DRAFT','POSTED','PARTIAL_PAID','PAID','REVERSED')
+    or l.product_id is distinct from i.product_id
+    or a.location_id is distinct from sh_lineage.source_location_id or a.qty_pcs<=0
+  union all
+  select i.id,sh_lineage.id from allocations a full join movements m using(sale_item_id,lot_id,location_id)
+  join erp.sales_items i on i.id=coalesce(a.sale_item_id,m.sale_item_id)
+  join erp.sales_headers sh_lineage on sh_lineage.id=i.sale_id
+  where sh_lineage.status in('DRAFT','POSTED','PARTIAL_PAID','PAID') and a.qty is distinct from m.qty
+  union all
+  select i.id,sh_lineage.id from erp.sales_items i join erp.sales_headers sh_lineage on sh_lineage.id=i.sale_id
+  where (sh_lineage.status in('POSTED','PARTIAL_PAID','PAID') or
+    (sh_lineage.status='DRAFT' and (exists(select 1 from erp.sale_stock_allocations a
+       join erp.sales_items sibling on sibling.id=a.sale_item_id where sibling.sale_id=sh_lineage.id)
+      or exists(select 1 from active m join erp.sales_items sibling on sibling.id=m.source_id where sibling.sale_id=sh_lineage.id))))
+    and (i.qty_pcs is distinct from (select coalesce(sum(a.qty_pcs),0) from erp.sale_stock_allocations a where a.sale_item_id=i.id)
+      or i.qty_pcs is distinct from (select coalesce(sum(-m.qty_signed),0) from active m where m.source_id=i.id))
+  union all
+  select sh_lineage.id,sh_lineage.id from erp.sales_headers sh_lineage where sh_lineage.status in('POSTED','PARTIAL_PAID','PAID')
+    and not exists(select 1 from erp.sales_items i where i.sale_id=sh_lineage.id)
+) broken where /*SCOPE*/true),'Sale source and reserved or posted stock must agree on item, lot, quantity, location, customer and physical time'::text;
+  return query select 'V2620AH_RETURN_ALLOCATION_LINEAGE_MISMATCH'::text,'CRITICAL'::text,(with active_return as (
+  select ah_line.*,ah_return.sale_id,ah_return.customer_id,ah_return.physical_at
+  from erp.sales_return_items ah_line join erp.sales_returns ah_return on ah_return.id=ah_line.return_id
+  where ah_return.status='POSTED'
+), live_movement as (
+  select ah_movement.* from erp.fg_stock_movements ah_movement
+  where ah_movement.source_type='SALES_RETURN_ITEM' and ah_movement.movement_type='SALE_RETURN'
+    and not exists(select 1 from erp.fg_stock_movements ah_reversal where ah_reversal.reversal_of_id=ah_movement.id)
+)
+select count(*)::bigint from (
+  select ah_line.id from active_return ah_line
+  left join erp.sale_stock_allocations ah_allocation on ah_allocation.id=ah_line.sale_stock_allocation_id
+  left join erp.sales_items ah_sale_line on ah_sale_line.id=ah_allocation.sale_item_id
+  left join erp.sales_headers ah_sale on ah_sale.id=ah_sale_line.sale_id
+  where ah_allocation.id is null or ah_sale.status is null or ah_sale.status not in('POSTED','PARTIAL_PAID','PAID')
+    or ah_line.sale_id is distinct from ah_sale.id or ah_line.customer_id is distinct from ah_sale.customer_id
+    or ah_line.product_id is distinct from ah_sale_line.product_id or ah_line.lot_id is distinct from ah_allocation.lot_id
+    or ah_line.physical_at<ah_sale.sale_date
+  union all
+  select ah_allocation.id from erp.sale_stock_allocations ah_allocation join active_return ah_line on ah_line.sale_stock_allocation_id=ah_allocation.id
+  group by ah_allocation.id,ah_allocation.qty_pcs having sum(ah_line.qty_pcs)>ah_allocation.qty_pcs
+  union all
+  select ah_movement.id from live_movement ah_movement left join active_return ah_line on ah_line.id=ah_movement.source_id
+  where ah_line.id is null or ah_movement.product_id is distinct from ah_line.product_id or ah_movement.lot_id is distinct from ah_line.lot_id
+    or ah_movement.location_id is distinct from ah_line.location_id or ah_movement.quality_grade is distinct from ah_line.quality_grade
+    or ah_movement.customer_id is distinct from ah_line.customer_id or ah_movement.physical_at is distinct from ah_line.physical_at
+    or ah_movement.qty_signed is distinct from ah_line.qty_pcs
+  union all
+  select ah_line.id from active_return ah_line left join live_movement ah_movement on ah_movement.source_id=ah_line.id
+  group by ah_line.id,ah_line.qty_pcs having count(ah_movement.id)<>1 or sum(ah_movement.qty_signed) is distinct from ah_line.qty_pcs::bigint
+  union all
+  select ah_return.id from erp.sales_returns ah_return where ah_return.status='POSTED'
+    and not exists(select 1 from erp.sales_return_items ah_line where ah_line.return_id=ah_return.id)
+) broken),'Active return quantities and receipt facts must match their selected original sale allocation and chosen destination'::text;
+  return query select 'V2620AI_WORK_SOURCE_LINEAGE_MISMATCH'::text,'CRITICAL'::text,(select count(*)::bigint from (
+ select ai_line.id
+ from erp.work_completion_lines ai_line
+ join erp.work_completion_events ai_event on ai_event.id=ai_line.completion_id and ai_event.status='POSTED'
+ left join erp.po_work_component_snapshots ai_snapshot on ai_snapshot.id=ai_line.po_component_snapshot_id
+ left join erp.production_orders ai_po on ai_po.id=ai_event.po_id
+ left join erp.cutting_groups ai_group on ai_group.id=ai_event.cutting_group_id
+ where ai_snapshot.id is null or ai_po.id is null or (ai_group.id is null and not erp.bb_opening_work_source_v1(ai_event.bb_opening_item_id,ai_event.po_id))
+   or ai_snapshot.po_id is distinct from ai_event.po_id
+   or ai_snapshot.work_component_id is distinct from ai_line.work_component_id
+   or ai_snapshot.rate_per_pcs_snapshot is distinct from ai_line.rate_snapshot
+   or (ai_group.id is not null and ai_group.po_id is distinct from ai_event.po_id)
+   or ai_po.contractor_id is distinct from ai_event.contractor_id
+ union all
+ select ai_event.id from erp.work_completion_events ai_event
+ where ai_event.status='POSTED' and not exists(select 1 from erp.work_completion_lines ai_line where ai_line.completion_id=ai_event.id)
+) ai_broken),'Posted work must retain the selected PO, contractor, component and committed rate snapshot'::text;
+end
+$function$;
 do $grants$
 declare t text;f text;
 begin
- foreach t in array array['be_execution_context_v1','be_conversion_sources_v1','be_conversion_returns_v1'] loop
+ foreach t in array array['be_execution_context_v1','be_conversion_sources_v1','be_conversion_returns_v1',
+   'be_conversion_cost_sources_v1','be_conversion_cost_events_v1'] loop
    execute format('alter table erp.%I enable row level security',t);
    execute format('revoke all on erp.%I from public,anon,authenticated,service_role',t);
  end loop;
