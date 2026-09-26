@@ -160,8 +160,8 @@ AS $function$
    'status',r.status,'qty',s.qty,'good',r.qty_good_returned,'bs',r.qty_bs_returned,
    'billed_good',erp.be_redye_billed_v1(s.id,'GOOD'),'billed_bs',erp.be_redye_billed_v1(s.id,'BS'),
    'process',w.process_name,'price_known',erp.be_redye_rate_v1(s.id) is not null,
-   'rate',case when p_money then erp.be_redye_rate_v1(s.id)::text end,
-   'cost',case when p_money then erp.be_redye_cost_v1(s.id)::text end) order by s.sent_at desc,s.id),'[]'::jsonb)
+   'rate',case when p_money then erp.be_redye_rate_v1(s.id)::numeric(20,2)::text end,
+   'cost',case when p_money then erp.be_redye_cost_v1(s.id)::numeric(20,2)::text end) order by s.sent_at desc,s.id),'[]'::jsonb)
  from erp.be_redye_services_v1 s join erp.rework_orders r on r.id=s.id join erp.production_orders p on p.id=s.po_id join erp.wash_processes w on w.id=s.wash_process_id
  where p_vendor is not null and s.vendor_id=p_vendor
 $function$;

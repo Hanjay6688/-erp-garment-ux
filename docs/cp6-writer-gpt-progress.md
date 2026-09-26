@@ -110,3 +110,9 @@ Baca berkas rujukan dan sumber BD/konversi/rework/kain kantong; ambil log run/jo
 - Probe BE sekarang menyimpan respons facade/workspace asli dan menjalankan parser halaman di CI (termasuk invoice jasa). Ini gate tambahan, tanpa mengubah expected tujuh kasus.
 - Lokal: TypeScript PASS, 51 unit parser/input/recovery/model PASS, SQL/PLpgSQL 70 fungsi parse. Percobaan lint ESLint tidak tersedia pada repo (tidak ada config), bukan PASS; dependency repo tidak diubah.
 - Berikutnya: baca run baru + gate parser; **ALL-C04 masih belum diimplementasikan**. Selesaikan adapter impor pengeluaran/denominator historis, lalu bukti biaya pulih/recost negatif, browser/race/HTTP BE, T2, paket 29, rollback dan CodeQL. Family belum siap rilis.
+
+## Hasil BE-7 — parser menangkap cacat format respons
+- Commit `fab908189878c25791c9043ca4ca86411c181984`, run `36267949653`: before `108476139256` success; after `108476139364` **INCOMPLETE**. Tujuh kasus transaksi PASS, tetapi parser halaman atas 27 snapshot menolak `bd_21.json`: `Tarif celup: nominal tidak valid.`
+- Penyebab produk BE: workspace jasa celup menserialisasi numeric(18,6) tanpa format kontrak uang halaman (dua desimal). Server kini mengirim tarif/biaya sebagai numeric(20,2)::text seperti workspace BD lainnya. Parser dan expected tidak dilonggarkan. Run lama tetap INCOMPLETE; verifikasi harus melalui run baru.
+- Run BD `36267949656`: before `108476139501`, after `108476139409` keduanya success (status Actions; tidak menggantikan pembacaan per-kasus BD-2).
+- Rancangan C04 disimpan `docs/cp6-be-pocket-design.md`. LANGKAH BERIKUTNYA: baca run BE berikut termasuk semua snapshot parser; implementasikan adapter C04 lengkap tanpa event produksi/adjustment historis palsu, lalu gate BE seluruhnya. BE tetap NOT_READY, CP6 HOLD.
