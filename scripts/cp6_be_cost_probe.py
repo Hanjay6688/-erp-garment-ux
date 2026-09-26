@@ -31,7 +31,7 @@ def chain_cost(cur,today,installed,fixture,post):
     bc.policy(cur,'ACC_DEC03',dict(credit_account_id=bc.account(cur,'4100'),unit_value_cap='MOVING_AVERAGE'))
     v=bc.svc(cur,'VALUE_CUSTODY',price_payload);g2=gl();after_recovery=b.all_truth(cur)
     still_pending=one(cur,'select erp.be_return_progress_v1(%s)',conv)
-    cap=bc.refused(cur,lambda:bc.receive(cur,acc,'TEARDOWN',[(2,outstanding)],f['day']+timedelta(days=1)),'BC_RETURN_EXCEEDS_SOURCE')
+    cap=bc.refused(cur,lambda:bc.receive(cur,acc,'TEARDOWN',[(2,outstanding)],f['day']+timedelta(days=1),reference='BE over-return must fail capacity'),'BC_RETURN_EXCEEDS_SOURCE')
     bc.reverse(cur,v['document_id']);g3=gl()
     trial.rpc(api,cur,'reverse_material_supplier_invoice_v2',invoice['supplier_invoice_id'],'BE inverse invoice',uuid.uuid4(),invoice['row_version']);api.admin(cur)
     return b.verdict(dict(invoice_to_sold_and_child=invoice_ok,recovery_to_sold_and_child=g2['FG_INVENTORY']-g1['FG_INVENTORY']==-2 and g2['COGS']-g1['COGS']==-1,

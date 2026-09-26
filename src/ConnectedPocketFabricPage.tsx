@@ -18,7 +18,7 @@ type Entry = { id: string; number: string; status: 'POSTED' | 'REVERSED'; row_ve
 type Period = { id: string; period_start: string; period_end: string; status: 'ACTIVE' | 'CANCELLED'; reason: string;
   quantity: string; original_amount: string; current_amount: string; per_piece: string; revision: string }
 type Preview = { period_start: string; period_end: string; amount: string; quantity: string; per_piece: string;
-  source_count: number; blocked: boolean; can_post: boolean; revision: string }
+  economic_date?: string; source_count: number; blocked: boolean; can_post: boolean; revision: string }
 type Workspace = { opening_history: PocketOpening | null; rolls: Roll[]; roll_count: number; materials: { id: string; sku: string; name: string }[]; history: Entry[]; periods: Period[] }
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 class PocketDataError extends Error {}
@@ -41,6 +41,7 @@ export function parsePocketPreview(value: unknown): Preview {
   const p = object(value)
   if (!day(p.period_start) || !day(p.period_end) || p.period_start > p.period_end || !money(p.amount)
     || !whole(p.quantity) || !rate(p.per_piece) || !revision(p.revision) || !Number.isSafeInteger(p.source_count)
+    || (p.economic_date !== undefined && (!day(p.economic_date) || p.economic_date < p.period_end))
     || Number(p.source_count) < 0 || typeof p.blocked !== 'boolean' || typeof p.can_post !== 'boolean'
     || p.can_post !== (!p.blocked && BigInt(p.quantity) > 0n && micro(p.amount) > 0n && Number(p.source_count) > 0)) throw new PocketDataError('Pembagian periode tidak valid.')
   return p as Preview
@@ -182,6 +183,7 @@ function PocketWorkspace() {
         <button type="button" disabled={locked || !periodStart || !periodEnd || periodStart>periodEnd} onClick={() => void previewPeriod()}>Lihat pembagian</button>
       </div>
       {preview && <div><p>{preview.source_count} pengeluaran: <strong>Rp {preview.amount.replace('.',',')}</strong> ÷ <strong>{preview.quantity} pcs selesai dijahit</strong> = sekitar <strong>Rp {fixed(preview.per_piece)} per pcs</strong>. Selisih pembulatan tetap dibagi sampai total tepat.</p>
+        {preview.economic_date && <p>Tanggal ekonomi pembagian: {preview.economic_date}. Riwayat sebelum cutover mulai memengaruhi buku sejak cutover.</p>}
         {preview.blocked ? <p role="alert">Sudah ada alokasi aktif yang bertumpang tindih. Batalkan alokasi terkait untuk menghitung ulang.</p> : !preview.can_post && <p>Belum ada nilai kain atau hasil jahit yang bisa dibagi.</p>}
         <p>Saat disahkan, biaya periode dialihkan ke produksi. Stok tidak dikurangi lagi. Koreksi harga nota memperbarui HPP dan jurnal terkait.</p>
         <button type="button" className="primary" disabled={locked || !preview.can_post || !periodReason.trim()} onClick={() => void act('POST_PERIOD',{ period_start:preview.period_start,period_end:preview.period_end,expected_revision:preview.revision,reason:periodReason.trim() })}>Sahkan pembagian ke HPP</button>

@@ -205,9 +205,22 @@ begin
   insert into erp.be_pocket_target_events_v1(pool_id,sewing_id,opening_item_id,previous_amount,new_amount,economic_date,created_by)
    values(p_pool,r.historical_sewing_id,r.opening_item_id,v_before,v_target,p_date,erp.current_app_user_id());
   if r.target_kind='FINISHED_GOODS' then perform erp.refresh_initial_import_fg_cost_v1(r.opening_item_id,v_delta,p_date);
-  elsif r.target_kind='BS' then perform erp.sync_initial_import_bs_value_v1(r.opening_item_id,p_date);end if;
+  else
+   perform erp.sync_initial_import_bs_value_v1(r.opening_item_id,p_date);
+   perform erp.bb_sync_item_split_values_v1(r.opening_item_id,p_date);
+  end if;
  end loop;
 end;$function$;
+
+-- Historical documents select a period; their opening value first exists at cutover.
+-- This never changes the closed-period lock for a period containing native transactions.
+CREATE OR REPLACE FUNCTION erp.be_pocket_period_post_date_v1(p_manifest jsonb,p_end date)
+ RETURNS date LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+ select greatest(p_end,(select max(erp._cp3_business_date(b.cutover_at)) from erp.migration_batches b where b.id in(
+  select u.batch_id from erp.be_pocket_usage_v1 u join jsonb_array_elements(p_manifest->'sources') x on u.id=(x->>'historical_usage_id')::uuid
+  union select s.batch_id from erp.be_pocket_sewing_v1 s join jsonb_array_elements(p_manifest->'destinations') x on s.id=(x->>'historical_sewing_id')::uuid)))
+$function$;
 
 CREATE OR REPLACE FUNCTION erp.be_correct_pocket_usage_v1(p_payload jsonb,p_request uuid)
  RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO '' SET DateStyle TO 'ISO, YMD'

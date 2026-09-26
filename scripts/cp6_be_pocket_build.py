@@ -15,7 +15,7 @@ REPLACED=['erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)','erp._va
  'erp.pocket_period_target_v1(uuid,boolean)','erp.pocket_period_book_v1(uuid)','erp.sync_pocket_period_v1(uuid,date,text,text)',
  'erp.save_pocket_period_action_v1(text,jsonb,uuid)','erp.initial_import_source_value_v1(uuid)',
  'erp.check_initial_import_receipt_v1(uuid,uuid)','erp.recost_initial_import_origins_v1(uuid)','erp.run_v267_financial_truth_checks()','erp._cp6_supplier_cent_state(uuid[])',
- 'erp.get_pocket_fabric_workspace_v1(text)','erp.pocket_period_checks_v1()','erp.save_pocket_fabric_action_v1(text,jsonb,uuid)']
+ 'erp.get_pocket_fabric_workspace_v1(text)','erp.pocket_period_checks_v1()','erp.save_pocket_fabric_action_v1(text,jsonb,uuid)','erp.preview_pocket_period_v1(date,date)']
 
 def catalog():return {**bd.catalog(),**json.loads((ROOT/'src/initialImportCatalogBE.json').read_text())}
 def patch(path,name,changes):return substitute(last_definition(path,name),changes,'BE pocket '+name)
@@ -50,6 +50,14 @@ def build():
      (' for v_po in select distinct po_id from erp.pocket_period_destinations where pool_id=p_pool order by po_id loop',
       " perform erp.be_pocket_sync_targets_v1(p_pool,p_date,p_kind='CANCEL');\n for v_po in select distinct po_id from erp.pocket_period_destinations where pool_id=p_pool and po_id is not null order by po_id loop")])
     post=patch(AP,'save_pocket_period_action_v1',[
+     ('ident uuid;start_day date;end_day date;reason text;', 'ident uuid;start_day date;end_day date;reason text;post_day date;'),
+     ("  perform erp._cp3_lock_business_period(start_day,end_day);\n  m:=erp.pocket_period_manifest_v1(start_day,end_day);ident:=gen_random_uuid();",
+      "  m:=erp.pocket_period_manifest_v1(start_day,end_day);post_day:=erp.be_pocket_period_post_date_v1(m,end_day);\n"
+      "  if exists(select 1 from jsonb_array_elements(m->'sources') x where x->>'adjustment_id' is not null)\n"
+      "   or exists(select 1 from jsonb_array_elements(m->'destinations') x where x->>'event_id' is not null) then\n"
+      "   perform erp._cp3_lock_business_period(start_day,end_day);end if;\n"
+      "  perform erp._cp3_lock_business_period(post_day,post_day);ident:=gen_random_uuid();"),
+     ("erp.sync_pocket_period_v1(ident,end_day,'POST',reason)","erp.sync_pocket_period_v1(ident,post_day,'POST',reason)"),
      ('insert into erp.pocket_period_sources(pool_id,adjustment_id,original_amount)','insert into erp.pocket_period_sources(pool_id,adjustment_id,historical_usage_id,original_amount)'),
      ("select ident,(x->>'adjustment_id')::uuid,(x->>'amount')::numeric", "select ident,(x->>'adjustment_id')::uuid,(x->>'historical_usage_id')::uuid,(x->>'amount')::numeric"),
      ('insert into erp.pocket_period_destinations(pool_id,event_id,po_id,','insert into erp.pocket_period_destinations(pool_id,event_id,historical_sewing_id,po_id,'),
@@ -62,7 +70,8 @@ def build():
     receipt_checks=patch(BB,'run_v267_financial_truth_checks',[("where purchase_item_id=pi.id),0)","where purchase_item_id=pi.id),0)+coalesce((select sum(material_qty) from erp.be_pocket_receipt_origins_v1 where purchase_item_id=pi.id),0)")])
     cents=patch(AP,'_cp6_supplier_cent_state',[("o.purchase_item_id=i.id),0)","o.purchase_item_id=i.id),0)+coalesce((select sum(round(o.material_qty*erp.material_purchase_current_unit_cost(i.id),2)) from erp.be_pocket_receipt_origins_v1 o where o.purchase_item_id=i.id),0)")])
     pocket_ws=patch(AP,'get_pocket_fabric_workspace_v1',[(" return v_result;"," return v_result||erp.be_pocket_workspace_v1(v_query);")])
-    return '\n'.join([pocket_ws,receipt,recost,receipt_checks,cents,stage,base,final,router,ws,rev,total,manifest,target,book,sync,post,value,checks,facade])
+    preview=patch(AP,'preview_pocket_period_v1',[("'period_end',p_end,'amount'","'period_end',p_end,'economic_date',erp.be_pocket_period_post_date_v1(m,p_end),'amount'")])
+    return '\n'.join([pocket_ws,receipt,recost,receipt_checks,cents,stage,base,final,router,ws,rev,total,manifest,target,book,sync,post,value,checks,facade,preview])
 
 def filter_native(text):
     return substitute(text,[("from erp.pocket_period_destinations d where d.po_id=", "from erp.pocket_period_destinations d where d.event_id is not null and d.po_id=")],'BE historical pocket value via opening source, not twice')

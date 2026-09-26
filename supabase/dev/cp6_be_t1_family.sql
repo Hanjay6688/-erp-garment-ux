@@ -927,9 +927,22 @@ begin
   insert into erp.be_pocket_target_events_v1(pool_id,sewing_id,opening_item_id,previous_amount,new_amount,economic_date,created_by)
    values(p_pool,r.historical_sewing_id,r.opening_item_id,v_before,v_target,p_date,erp.current_app_user_id());
   if r.target_kind='FINISHED_GOODS' then perform erp.refresh_initial_import_fg_cost_v1(r.opening_item_id,v_delta,p_date);
-  elsif r.target_kind='BS' then perform erp.sync_initial_import_bs_value_v1(r.opening_item_id,p_date);end if;
+  else
+   perform erp.sync_initial_import_bs_value_v1(r.opening_item_id,p_date);
+   perform erp.bb_sync_item_split_values_v1(r.opening_item_id,p_date);
+  end if;
  end loop;
 end;$function$;
+
+-- Historical documents select a period; their opening value first exists at cutover.
+-- This never changes the closed-period lock for a period containing native transactions.
+CREATE OR REPLACE FUNCTION erp.be_pocket_period_post_date_v1(p_manifest jsonb,p_end date)
+ RETURNS date LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+ select greatest(p_end,(select max(erp._cp3_business_date(b.cutover_at)) from erp.migration_batches b where b.id in(
+  select u.batch_id from erp.be_pocket_usage_v1 u join jsonb_array_elements(p_manifest->'sources') x on u.id=(x->>'historical_usage_id')::uuid
+  union select s.batch_id from erp.be_pocket_sewing_v1 s join jsonb_array_elements(p_manifest->'destinations') x on s.id=(x->>'historical_sewing_id')::uuid)))
+$function$;
 
 CREATE OR REPLACE FUNCTION erp.be_correct_pocket_usage_v1(p_payload jsonb,p_request uuid)
  RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO '' SET DateStyle TO 'ISO, YMD'
@@ -6260,7 +6273,7 @@ begin
 end;$function$;
 create or replace function erp.save_pocket_period_action_v1(p_action text,p_payload jsonb,p_request uuid) returns jsonb
 language plpgsql security definer set search_path='' set TimeZone='UTC' set DateStyle='ISO, YMD' as $function$
-declare cached jsonb;m jsonb;v jsonb;r jsonb;ident uuid;start_day date;end_day date;reason text;
+declare cached jsonb;m jsonb;v jsonb;r jsonb;ident uuid;start_day date;end_day date;reason text;post_day date;
 begin
  perform erp.require_owner_admin();perform erp.require_permission('warehouse.stock.adjust');perform erp.require_permission('finance.hpp.manage');
  if p_action not in('POST_PERIOD','CANCEL_PERIOD') or jsonb_typeof(p_payload) is distinct from 'object'
@@ -6276,8 +6289,11 @@ begin
   v:=erp.preview_pocket_period_v1(start_day,end_day);
   if not (v->>'can_post')::boolean then raise exception 'Periode memerlukan biaya dan hasil jahit positif serta tidak boleh tumpang tindih';end if;
   if v->>'revision' is distinct from p_payload->>'expected_revision' then raise exception 'STALE_VERSION: sumber biaya atau hasil jahit berubah; lihat pembagian terbaru';end if;
-  perform erp._cp3_lock_business_period(start_day,end_day);
-  m:=erp.pocket_period_manifest_v1(start_day,end_day);ident:=gen_random_uuid();
+  m:=erp.pocket_period_manifest_v1(start_day,end_day);post_day:=erp.be_pocket_period_post_date_v1(m,end_day);
+  if exists(select 1 from jsonb_array_elements(m->'sources') x where x->>'adjustment_id' is not null)
+   or exists(select 1 from jsonb_array_elements(m->'destinations') x where x->>'event_id' is not null) then
+   perform erp._cp3_lock_business_period(start_day,end_day);end if;
+  perform erp._cp3_lock_business_period(post_day,post_day);ident:=gen_random_uuid();
   insert into erp.pocket_periods(id,period_start,period_end,manifest,denominator,original_amount,reason,created_by)
   values(ident,start_day,end_day,m,(m->>'quantity')::bigint,(m->>'amount')::numeric,reason,erp.current_app_user_id());
   insert into erp.pocket_period_sources(pool_id,adjustment_id,historical_usage_id,original_amount)
@@ -6285,7 +6301,7 @@ begin
   insert into erp.pocket_period_destinations(pool_id,event_id,historical_sewing_id,po_id,contractor_id,cutting_group_id,sewing_qty,preceding_qty,source_snapshot)
   select ident,(x->>'event_id')::uuid,(x->>'historical_sewing_id')::uuid,(x->>'po_id')::uuid,(x->>'contractor_id')::uuid,(x->>'cutting_group_id')::uuid,
    (x->>'sewing_qty')::bigint,(x->>'preceding_qty')::bigint,x->'source_snapshot' from jsonb_array_elements(m->'destinations') x;
-  perform erp.sync_pocket_period_v1(ident,end_day,'POST',reason);
+  perform erp.sync_pocket_period_v1(ident,post_day,'POST',reason);
  else
   ident:=(p_payload->>'id')::uuid;v:=erp.pocket_period_state_v1(ident);
   if v is null or v->>'status'<>'ACTIVE' then raise exception 'Pilih alokasi periode yang aktif';end if;
@@ -6405,6 +6421,19 @@ begin
  v_result:=jsonb_build_object('request_id',p_client_request_id,'action',v_action,'id',v_id,
   'status',case when v_action='REGISTER' then 'REGISTERED' else (select status from erp.material_adjustments where id=v_id) end);
  return erp._idempotency_complete('save_pocket_fabric_action_v1',p_client_request_id,v_result);
+end;$function$;
+create or replace function erp.preview_pocket_period_v1(p_start date,p_end date) returns jsonb
+language plpgsql stable security definer set search_path='' set TimeZone='UTC' as $function$
+declare m jsonb;q numeric;v numeric;
+begin
+ perform erp.require_owner_admin();perform erp.require_permission('warehouse.stock.adjust');perform erp.require_permission('finance.hpp.manage');
+ if p_start is null or p_end is null or p_end<p_start or p_end-p_start>366
+  or p_end>erp._cp3_business_date(statement_timestamp()) then raise exception 'Pilih periode yang valid, maksimal 367 hari sampai hari ini';end if;
+ m:=erp.pocket_period_manifest_v1(p_start,p_end);q:=(m->>'quantity')::numeric;v:=(m->>'amount')::numeric;
+ return jsonb_build_object('period_start',p_start,'period_end',p_end,'economic_date',erp.be_pocket_period_post_date_v1(m,p_end),'amount',m->>'amount','quantity',m->>'quantity',
+  'source_count',jsonb_array_length(m->'sources'),'per_piece',(case when q>0 then v/q else 0 end)::numeric(24,6)::text,
+  'blocked',jsonb_array_length(m->'blocked_by')>0,'can_post',q>0 and v>0 and jsonb_array_length(m->'blocked_by')=0,
+  'revision',encode(extensions.digest(convert_to(m::text,'UTF8'),'sha256'),'hex'));
 end;$function$;
 do $grants$
 declare t text;f text;

@@ -4,6 +4,10 @@ import uuid
 import cp6_bd_probe as b
 api,one,q=b.api,b.one,b.q
 
+def active_unit(cur,r):
+    api.admin(cur);r['MATERIAL'][0]['unit_code']=one(cur,"select unit_code from erp.uom_definitions where dimension='LENGTH' and is_active and unit_code=upper(unit_code) order by unit_code limit 1")
+    return r
+
 def rows(cutover):
     r=b.bcp.po_rows(target='5',wip=('5','50.00'))
     r['MATERIAL']=[dict(material_sku='{C}K',material_name='BE kain kantong historis',material_type='FABRIC',unit_code='YARD')]
@@ -48,7 +52,7 @@ def roundtrip(cur,today,installed,snapshot=None):
       first=first['WIP']==b.D('5.62') and first['FG_INVENTORY']==b.D('3.38') and first['COGS']==b.D('2.25') and first['OTHER_EXPENSE']==b.D('-11.25'),
       correction=second['WIP']==b.D('7.50') and second['FG_INVENTORY']==b.D('4.50') and second['COGS']==b.D('3.00') and second['OTHER_EXPENSE']==b.D('-11.25'),
       inverse=inverse['WIP']==inverse['FG_INVENTORY']==inverse['COGS']==0 and inverse['OTHER_EXPENSE']==b.D('3.75'),
-      truth=b.truth_quiet(truth,truth1) and b.truth_quiet(truth,truth2)),first=first,corrected=second,inverse=inverse,preview=p,correction=corr)
+      truth=b.truth_quiet(truth,truth1) and b.truth_quiet(truth,truth2)),first=first,corrected=second,inverse=inverse,preview=p,correction=corr,detectors=[truth,truth1,truth2])
 
 def receipt_correction(cur,today,installed):
     cut=today-timedelta(days=10);r=rows(cut)
@@ -74,3 +78,48 @@ def receipt_correction(cur,today,installed):
     return b.verdict(dict(receipt_quantity=material==15,stock_not_drawn_twice=one(cur,'select cached_stock_qty from erp.materials where id=%s',row[2])==15 and stock_moves==one(cur,'select count(*) from erp.material_stock_movements where material_id=%s',row[2]),
      recost=pool_value==15 and delta['WIP']==b.D('1.88') and delta['FG_INVENTORY']==b.D('1.12') and delta['COGS']==b.D('0.75') and delta['OTHER_EXPENSE']==0,
      inverse=all(x==0 for x in restored.values()),truth=b.truth_quiet(truth,newtruth)),delta=delta,restored=restored,pool_value=pool_value)
+
+def historical_continuation(cur,today,installed):
+    if not installed:return roundtrip(cur,today,False)
+    cut=today-timedelta(days=10);f=b.bbp.production_post(cur,today,active_unit(cur,rows(cut)))
+    # A wholly historical period can be allocated only from its opening date;
+    # native transaction periods retain their original closed-period checks.
+    b.boundary.historical.prior.set_open_period(cur,cut)
+    p=preview(cur,cut-timedelta(days=1),cut-timedelta(days=1))
+    made=call(cur,'POST_PERIOD',dict(period_start=p['period_start'],period_end=p['period_end'],expected_revision=p['revision'],reason='BE historical-only period at cutover'))
+    post_date=one(cur,"select economic_date from erp.pocket_period_events where pool_id=%s and kind='POST'",made['id'])
+    b.bbp.split(cur,f,cut+timedelta(days=2),2);b.bbp.complete(cur,f,cut+timedelta(days=3),3)
+    source=b.bbp.source_of(cur,f);sp=source['bb']['splits'][0];api.admin(cur)
+    lot=one(cur,"select id::text from erp.fg_lots where po_id=%s and lot_origin='PRODUCTION'",f['po'])
+    before=b.lot_value(cur,lot)
+    b.bbp.bs_act(cur,'DISPOSE_BS',dict(bs_case_id=sp['bs_case_id'],resolution_type='SCRAP',qty_pcs=2,physical_at=b.chain.production.at(cut+timedelta(days=3),15),change_reason='BE historical pocket BS cost'),b.bbp.bs_version(cur,sp['bs_case_id']))
+    old_bs=b.bbp.ledger(cur,'OTHER_EXPENSE',f['po'])
+    usage=one(cur,'select id::text from erp.be_pocket_usage_v1 where batch_id=%s',f['batch']);truth=b.all_truth(cur)
+    call(cur,'CORRECT_OPENING_USAGE',dict(usage_id=usage,amount='15.00',expected_amount='11.25',economic_date=str(cut+timedelta(days=4)),reason='BE historical source after BS split and completion'))
+    current=b.lot_value(cur,lot);new_bs=b.bbp.ledger(cur,'OTHER_EXPENSE',f['po'])
+    source_value=one(cur,'select erp.initial_import_source_value_v1(%s)',source['opening_item_id'])
+    return b.verdict(dict(cutover_date=post_date==cut and p['economic_date']==str(cut),source_value=source_value==b.D('57.50'),
+      fg_current=current==b.D('34.50'),bs_current=new_bs==b.D('23.00'),fg_was_sourced=abs(before-b.D('33.372'))<=b.D('0.01'),
+      bs_was_sourced=abs(old_bs-b.D('22.248'))<=b.D('0.01'),truth=b.truth_quiet(truth,b.all_truth(cur))),
+      before=dict(fg=before,bs=old_bs),after=dict(fg=current,bs=new_bs,source=source_value),post_date=post_date)
+
+def validation_controls(cur,today,installed):
+    if not installed:return roundtrip(cur,today,False)
+    from copy import deepcopy
+    cut=today-timedelta(days=10);base=active_unit(cur,rows(cut));results={}
+    def attempt(label,edit,code):
+        r=deepcopy(base);edit(r)
+        api.admin(cur);cur.execute('savepoint be_pocket_negative')
+        try:
+            out=b.bbp.production_post(cur,today,r,expect=True)
+            results[label]=dict(ok=code in str(out['errors']),errors=out['errors'])
+        finally:
+            api.admin(cur);cur.execute('rollback to savepoint be_pocket_negative');cur.execute('release savepoint be_pocket_negative')
+    attempt('missing_document',lambda r:r['OPENING_POCKET_USAGE'][0].update(document_number=''),'BE_POCKET_PROVENANCE')
+    attempt('already_allocated_without_reference',lambda r:r['OPENING_POCKET_USAGE'][0].update(allocation_status='ALLOCATED'),'BE_POCKET_PRIOR_ALLOCATION')
+    attempt('future_history',lambda r:r['OPENING_POCKET_USAGE'][0].update(physical_date=str(cut)),'BE_POCKET_DATE')
+    attempt('incomplete_numerator',lambda r:r['OPENING_POCKET_USAGE'][0].update(control_amount='12.00'),'BE_POCKET_CONTROL')
+    attempt('incomplete_denominator',lambda r:r['OPENING_POCKET_SEWING'].pop(),'BE_POCKET_DENOMINATOR_INCOMPLETE')
+    attempt('fractional_pieces',lambda r:r['OPENING_POCKET_SEWING'][0].update(qty='4.5'),'BE_POCKET_SEWING_PCS')
+    attempt('missing_target',lambda r:r['OPENING_POCKET_SEWING'][0].update(target_source_key='ABSENT'),'BE_POCKET_TARGET_SOURCE_REQUIRED')
+    return b.verdict({k:v['ok'] for k,v in results.items()},refusals=results)
