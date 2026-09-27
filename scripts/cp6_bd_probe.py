@@ -441,32 +441,39 @@ def t24_scoped(cur,today):
         posted=st['known']=='80000.00' and st['mode']=='SCOPED' and st['charges']==1),state=st,mixed=mixed)
 
 
-def two_size_fixture(cur,today,label,q1=6,q2=4):
+def two_size_fixture(cur,today,label,q1=6,q2=4,*,size_quantities=None):
     """The chain's production fixture (cp6_aa partial_production) with two sizes: one roll of 10 cut into q1 of the base size
     and q2 of a fresh RFC size of the same model, one pickup batch, a zero-rate sewing completion of all pieces and its
-    terminal. Only masters are seeded (the second size, its model link and product); every movement is an ordinary posting."""
+    terminal. Explicit size_quantities also supports real ranges and a singleton without inventing siblings.
+    Only masters are seeded; every movement is an ordinary posting."""
     prod,base=chain.production,chain.base
     f=prod.estimated_receipt(cur,today)
     chain.actors.admin(cur)
     day=f['purchase_day']+timedelta(days=1)
-    size2=str(uuid.uuid4())
-    cur.execute('insert into erp.sizes(id,size_code,sort_order,is_active) values(%s,%s,99,true)',(size2,'BD2-'+size2[:8]))
-    cur.execute('insert into erp.product_model_sizes(model_id,size_id,sort_order) values(%s,%s,99)',(prod.MODEL,size2))
+    if size_quantities is None:
+        size2=str(uuid.uuid4())
+        cur.execute('insert into erp.sizes(id,size_code,sort_order,is_active) values(%s,%s,99,true)',(size2,'BD2-'+size2[:8]))
+        cur.execute('insert into erp.product_model_sizes(model_id,size_id,sort_order) values(%s,%s,99)',(prod.MODEL,size2))
+        size_quantities=[(base.SIZE,q1),(size2,q2)]
+    else:
+        assert size_quantities and all(n>0 for _,n in size_quantities),'POSITIVE_PHYSICAL_SIZES_REQUIRED'
+        size2=size_quantities[-1][0]
+    total=sum(n for _,n in size_quantities)
     po=str(uuid.uuid4())
     cur.execute("""insert into erp.production_orders(id,po_number,model_id,target_qty_pcs,status,current_stage,physical_start_at,notes)
-      values(%s,%s,%s,%s,'CUTTING','CUTTING',%s,'BD two-size lot')""",(po,'BD2-PO-'+po,prod.MODEL,q1+q2,prod.at(day,7)))
+      values(%s,%s,%s,%s,'CUTTING','CUTTING',%s,'BD physical-size lot')""",(po,'BD2-PO-'+po,prod.MODEL,total,prod.at(day,7)))
     cut_payload=dict(action='SAVE_DRAFT',po_id=po,pattern_id=prod.PATTERN,source_location_id=f['location'],cut_at=prod.at(day,8),
                      change_reason='BD two-size cutting',
-                     size_slots=[dict(slot_no=1,size_id=base.SIZE,drawing_no=1),dict(slot_no=2,size_id=size2,drawing_no=1)],
+                     size_slots=[dict(slot_no=i,size_id=s,drawing_no=1) for i,(s,_) in enumerate(size_quantities,1)],
                      rolls=[dict(roll_id=f['roll'],qty_issued=10,qty_consumed=10,qty_reported_remaining=0,
-                                 yields=[dict(slot_no=1,qty_pcs=q1),dict(slot_no=2,qty_pcs=q2)])])
+                                 yields=[dict(slot_no=i,qty_pcs=n) for i,(_,n) in enumerate(size_quantities,1)])])
     cut=prod.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',cut_payload)
     group=cut['cutting_group_id']
     cut=prod.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',dict(cut_payload,id=group,action='POST'),expected_version=int(cut['row_version']))
     chain.actors.admin(cur)
     yields=q(cur,"""select y.id::text,s.size_id::text,y.qty_pcs from erp.cutting_roll_yields y join erp.cutting_group_rolls r on r.id=y.cutting_group_roll_id
       join erp.cutting_group_size_slots s on s.id=y.size_slot_id where r.cutting_group_id=%s order by s.slot_no""",group)
-    assert [(s,n) for _,s,n in yields]==[(base.SIZE,q1),(size2,q2)],('BD_TWO_SIZE_YIELDS',yields)
+    assert [(s,n) for _,s,n in yields]==size_quantities,('BD_PHYSICAL_SIZE_YIELDS',yields)
     pickup_payload=dict(action='SAVE_DRAFT',cutting_group_id=group,contractor_id=prod.CONTRACTOR,picked_up_at=prod.at(day,9),allocation_mode='ROLL',
                         expected_group_version=int(cut['row_version']),change_reason='BD two-size pickup',
                         batches=[dict(batch_no=1,allocations=[dict(cutting_roll_yield_id=y,qty_pcs=n) for y,_,n in yields])])
@@ -481,16 +488,16 @@ def two_size_fixture(cur,today,label,q1=6,q2=4):
     cur.execute("""insert into erp.work_completion_events(id,completion_number,po_id,contractor_id,cutting_group_id,physical_at,status,notes,created_by)
       values(%s,%s,%s,%s,%s,%s,'DRAFT','BD two-size sewing draft',%s)""",(completion,'BD2-WC-'+completion,po,prod.CONTRACTOR,group,prod.at(day,10),base.OPERATOR_APP))
     cur.execute('insert into erp.work_completion_lines(completion_id,po_component_snapshot_id,work_component_id,qty_completed,qty_payable,rate_snapshot) values(%s,%s,%s,%s,%s,0)',
-                (completion,snapshot,prod.COMPONENT,q1+q2,q1+q2))
+                (completion,snapshot,prod.COMPONENT,total,total))
     cur.execute('select erp.post_work_completion(%s)',(completion,))
     prod.owner(cur)
     cur.execute('select public.erp_record_sewing_terminal_v1(%s::jsonb,%s)',
-        (json.dumps(dict(work_completion_id=completion,qty_pcs=q1+q2,reason='BD '+label+' two-size terminal')),uuid.uuid4()))
+        (json.dumps(dict(work_completion_id=completion,qty_pcs=total,reason='BD '+label+' physical-size terminal')),uuid.uuid4()))
     chain.actors.admin(cur)
     vendor=str(uuid.uuid4());process=str(uuid.uuid4());tag=uuid.uuid4().hex[:12]
     cur.execute("insert into erp.laundry_vendors(id,vendor_code,vendor_name,is_active) values(%s,%s,%s,true)",(vendor,'BD-'+tag,'BD vendor '+label))
     cur.execute("insert into erp.wash_processes(id,process_code,process_name,is_active) values(%s,%s,%s,true)",(process,'BDP-'+tag,'BD wash '+label))
-    return dict(day=day,batch=batch,model=prod.MODEL,vendor=vendor,process=process,group=group,po=po,size2=size2,q1=q1,q2=q2,
+    return dict(day=day,batch=batch,model=prod.MODEL,vendor=vendor,process=process,group=group,po=po,size2=size2,q1=q1,q2=q2,sizes=size_quantities,
                 start=prod.at(day,0),send=prod.at(day,11))
 
 

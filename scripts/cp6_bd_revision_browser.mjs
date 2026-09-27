@@ -45,6 +45,9 @@ async function priced(ui, today, kind, mobile, freeStatus = null) {
     if (kind === 'package') {
       await p.getByLabel('Paket kirim berharga', { exact: true }).selectOption(f.package)
       await ui.expect(p.getByLabel('Cakupan REV_WASH ' + f.sizes[0].code, { exact: true })).toHaveCount(0)
+      await ui.expect(p.getByLabel('Jasa REV_WASH', { exact: true })).toHaveCount(0)
+      await p.getByLabel('Jasa REV_FINISH', { exact: true }).check()
+      await p.getByLabel('Penerima jasa REV_FINISH', { exact: true }).selectOption('PARTIAL')
       await p.getByLabel('Cakupan REV_FINISH ' + f.sizes[1].code, { exact: true }).fill('7')
       await p.getByLabel(/Vendor, batch, ukuran, jumlah, warna, waktu, dan harga sudah/).check()
       await ui.expect(p.getByRole('button', { name: 'Catat kiriman berharga', exact: true })).toBeDisabled()
@@ -53,7 +56,8 @@ async function priced(ui, today, kind, mobile, freeStatus = null) {
       await ui.expect(p.getByRole('button', { name: 'Catat kiriman berharga', exact: true })).toBeDisabled()
       await p.getByLabel('Alasan tambahan REV_FINISH', { exact: true }).fill('Only five second-size pieces need finishing')
     } else {
-      for (const s of f.sizes) await p.getByLabel('Cakupan REV_WASH ' + s.code, { exact: true }).fill(String(s.qty))
+      await p.getByLabel('Jasa REV_WASH', { exact: true }).check()
+      for (const s of f.sizes) await ui.expect(p.getByLabel('Cakupan REV_WASH ' + s.code, { exact: true })).toHaveCount(0)
     }
     await p.getByLabel(/Vendor, batch, ukuran, jumlah, warna, waktu, dan harga sudah/).check()
     await p.getByRole('button', { name: 'Catat kiriman berharga', exact: true }).click()
@@ -96,6 +100,87 @@ async function pages(ui, today) {
     return { status: Object.values(checks).every(Boolean) ? 'PASS' : 'FAIL', checks, mobile: true, invoice_count: 55, source_count: options.length }
   } finally { await owner.context.close() }
 }
+async function rangeSend(ui, today, mode, mobile) {
+  const f = fixture('create', { kind: mode === '27' ? 'range27' : 'range', today })
+  const owner = await ui.login('OWNER', { label: 'bd-range-' + mode, mobile }), replies = []
+  owner.page.on('response', async r => { if (r.url().includes('/rpc/erp_save_laundry_bd_action_v1')) {
+    try { replies.push({ request: r.request().postDataJSON(), status: r.status(), body: await r.json() }) } catch {}
+  } })
+  try {
+    const { p, ready } = await openPricing(ui, owner, f.vendor)
+    await p.getByRole('button', { name: 'Kirim dengan harga', exact: true }).click()
+    await p.getByLabel('Batch kirim berharga', { exact: true }).selectOption(f.batch)
+    await p.getByLabel('Proses kirim berharga', { exact: true }).selectOption(f.process)
+    await p.getByLabel('Warna kirim berharga', { exact: true }).fill('RANGE-NAVY')
+    await p.getByLabel('Waktu kirim berharga', { exact: true }).fill(f.day + 'T11:00')
+    await p.getByLabel('Bukti serah terima', { exact: true }).fill('Owner SKU range batch service')
+    const confirm = p.getByLabel(/Vendor, batch, ukuran, jumlah, warna, waktu, dan harga sudah/)
+    const submit = p.getByRole('button', { name: 'Catat kiriman berharga', exact: true })
+    const checks = {}
+    for (const s of f.sizes) await p.getByLabel('Qty kirim berharga ' + s.code, { exact: true }).fill(String(s.qty))
+    await p.getByLabel('Jasa REV_WASH', { exact: true }).check()
+    await ui.expect(p.getByLabel('Penerima jasa REV_WASH', { exact: true })).toHaveValue('ALL')
+    for (const s of f.sizes) await ui.expect(p.getByLabel('Cakupan REV_WASH ' + s.code, { exact: true })).toHaveCount(0)
+    checks.full_service_without_reentering_sizes = true
+    // A batch change must discard selected services and qty, including stale partial values.
+    if (mode === 'all') {
+      await p.getByLabel('Jasa REV_FINISH', { exact: true }).check()
+      await p.getByLabel('Penerima jasa REV_FINISH', { exact: true }).selectOption('PARTIAL')
+      await p.getByLabel('Cakupan REV_FINISH 32', { exact: true }).fill('5')
+      await p.getByLabel('Batch kirim berharga', { exact: true }).selectOption('')
+      await p.getByLabel('Batch kirim berharga', { exact: true }).selectOption(f.batch)
+      await ui.expect(p.getByLabel('Jasa REV_WASH', { exact: true })).not.toBeChecked()
+      await ui.expect(p.getByLabel('Jasa REV_FINISH', { exact: true })).not.toBeChecked()
+      for (const s of f.sizes) { await ui.expect(p.getByLabel('Qty kirim berharga ' + s.code, { exact: true })).toHaveValue(''); await p.getByLabel('Qty kirim berharga ' + s.code, { exact: true }).fill(String(s.qty)) }
+      await p.getByLabel('Jasa REV_WASH', { exact: true }).check()
+      checks.batch_reset = true
+    }
+    let expected = f.sizes.map(s => ({ size_id: s.id, qty: s.qty }))
+    if (mode === '32') {
+      await confirm.check()
+      await p.getByLabel('Qty kirim berharga 31', { exact: true }).fill('0')
+      await ui.expect(confirm).not.toBeChecked()
+      await p.getByLabel('Qty kirim berharga 33', { exact: true }).fill('')
+      await p.getByLabel('Qty kirim berharga 32', { exact: true }).fill('6')
+      expected = [{ size_id: f.sizes.find(s => s.code === '32').id, qty: 6 }]
+      await ui.expect(p.getByText('REV_WASH: 6 PCS · seluruh kiriman', { exact: true })).toBeVisible()
+      checks.qty_change_updates_full_coverage = true
+    }
+    if (mode === 'partial') {
+      await p.getByLabel('Jasa REV_FINISH', { exact: true }).check()
+      await p.getByLabel('Penerima jasa REV_FINISH', { exact: true }).selectOption('PARTIAL')
+      await confirm.check(); await ui.expect(submit).toBeDisabled()
+      await p.getByLabel('Cakupan REV_FINISH 32', { exact: true }).fill('5')
+      await p.getByLabel('Qty kirim berharga 32', { exact: true }).fill('4')
+      await confirm.check(); await ui.expect(submit).toBeDisabled()
+      await p.getByLabel('Qty kirim berharga 32', { exact: true }).fill('7')
+      await ui.expect(p.getByLabel('Cakupan REV_FINISH 32', { exact: true })).toHaveValue('5')
+      // Deselect/reselect cannot resurrect an old partial quantity.
+      await p.getByLabel('Jasa REV_FINISH', { exact: true }).uncheck()
+      await p.getByLabel('Jasa REV_FINISH', { exact: true }).check()
+      await p.getByLabel('Penerima jasa REV_FINISH', { exact: true }).selectOption('PARTIAL')
+      await ui.expect(p.getByLabel('Cakupan REV_FINISH 32', { exact: true })).toHaveValue('')
+      await p.getByLabel('Cakupan REV_FINISH 32', { exact: true }).fill('5')
+      checks.partial_empty_and_over_qty_refused = true
+    }
+    await confirm.check(); await ui.expect(submit).toBeEnabled(); await submit.click()
+    await ui.expect.poll(() => fixture('read', f).deliveries.length, { timeout: 20000 }).toBe(1); await ready()
+    const delivery = fixture('read', f).deliveries[0], request = replies.find(r => r.request.p_action === 'POST_PRICED_DELIVERY')
+    const wash = request?.request.p_payload.pricing.components.find(c => c.component_id === f.wash)
+    const expectedQty = expected.reduce((n, s) => n + s.qty, 0), expectedAmount = ((expectedQty * 432109 + (mode === 'partial' ? 5 * 67891 : 0)) / 100).toFixed(2)
+    const sort = rows => [...rows].sort((a, b) => a.size_id.localeCompare(b.size_id))
+    Object.assign(checks, { actual_quantities_only: JSON.stringify(sort(wash?.coverage ?? [])) === JSON.stringify(sort(expected)),
+      quantity: delivery.qty_sent === expectedQty, same_component_price: delivery.total_known === expectedAmount,
+      charge_count: delivery.charges.length === (mode === 'partial' ? 2 : 1),
+      complete: delivery.total_complete, response: request?.status === 200 })
+    if (mode === 'partial') {
+      const finish = delivery.charges.find(c => c.ref_id === f.finish) ?? delivery.charges.find(c => c.label.includes('REV_FINISH'))
+      checks.partial_only_32 = finish?.covered_qty === 5 && finish.coverage.length === 1 && finish.coverage[0].size_id === f.sizes.find(s => s.code === '32').id
+    }
+    if (mobile) checks.mobile_width = await p.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)
+    return { status: Object.values(checks).every(Boolean) ? 'PASS' : 'FAIL', checks, mode, mobile, expectedAmount, delivery, request }
+  } finally { await owner.context.close() }
+}
 export async function cases(ui, today) {
   return [...await originalBd(ui, today), ...await completion(ui, today),
     ...(await originalBe(ui, today)).filter(([id]) => id === 'BE_BROWSER:REDYE_SKU_UNKNOWN_THEN_PRICE_MOBILE'),
@@ -103,5 +188,9 @@ export async function cases(ui, today) {
     ['BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_MOBILE', () => priced(ui, today, 'package', true)],
     ['BD_REV_BROWSER:FREE_MASTER_THEN_PHYSICAL_DESKTOP', () => priced(ui, today, 'free', false, 'FREE')],
     ['BD_REV_BROWSER:WAIVED_MASTER_THEN_PHYSICAL_MOBILE', () => priced(ui, today, 'free', true, 'WAIVED')],
-    ['BD_REV_BROWSER:PAGING_PRESERVES_EDIT_MOBILE', () => pages(ui, today)]]
+    ['BD_REV_BROWSER:PAGING_PRESERVES_EDIT_MOBILE', () => pages(ui, today)],
+    ['RANGE_BROWSER:WHOLE_31_33_RESET_DESKTOP', () => rangeSend(ui, today, 'all', false)],
+    ['RANGE_BROWSER:POPULAR_32_ONLY_MOBILE', () => rangeSend(ui, today, '32', true)],
+    ['RANGE_BROWSER:SIZE_27_SINGLE_MOBILE', () => rangeSend(ui, today, '27', true)],
+    ['RANGE_BROWSER:PARTIAL_FINISH_32_MOBILE', () => rangeSend(ui, today, 'partial', true)]]
 }

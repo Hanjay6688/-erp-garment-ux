@@ -4,11 +4,12 @@ from datetime import timedelta
 import cp6_bd_probe as b
 import cp6_bd_modes as bd
 import cp6_be_modes as be
+import cp6_bd_range_cases as ranges
 
 
 def cases(cur,today):
     # New oracle cases on the combined BD+BE source, in addition to the BD-only T1.
-    return [(k,lambda f=f:f(cur,b.case_day(today))) for k,_,f in b.PLAN if k.startswith('REV:')]
+    return [(k,lambda f=f:f(cur,b.case_day(today))) for k,_,f in b.PLAN if k.startswith('REV:')]+ranges.cases(b,cur,b.case_day(today))
 
 
 def races(tools,today):return bd.races(tools,today)+be.races(tools,today)

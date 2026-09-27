@@ -5,6 +5,7 @@ import json,os,sys
 import psycopg
 import cp6_bd_probe as b
 from cp6_bd_revision_cases import paging_fixture
+from cp6_bd_range_cases import range_fixture
 from cp6_bd_modes import _fixture_usage
 
 
@@ -12,7 +13,10 @@ def create(cur,today,kind):
     if kind=='pages':
         fx,sources,invoices=paging_fixture(b,cur,today-timedelta(days=1))
         return dict(kind=kind,vendor=fx['vendor'],sources=sources,invoices=invoices,day=str(fx['day']))
-    fx=b.two_size_fixture(cur,today-timedelta(days=1),'REV-BROWSER-'+kind,7,6)
+    if kind.startswith('range'):
+        quantities=[('27',3)] if kind=='range27' else [('31',4),('32',7),('33',2)]
+        fx=range_fixture(b,cur,today-timedelta(days=1),'REV-BROWSER-'+kind,quantities)
+    else:fx=b.two_size_fixture(cur,today-timedelta(days=1),'REV-BROWSER-'+kind,7,6)
     wash=b.component(cur,fx,'REV_WASH','4321.09');finish=b.component(cur,fx,'REV_FINISH','678.91')
     package=None
     if kind=='package':
@@ -22,7 +26,7 @@ def create(cur,today,kind):
         b.policy(cur,'LAU_DEC03',dict(discount='ALLOWED',extra='ALLOWED',rounding='LAST_LINE'))
     else:b.terms(cur,fx,'COMPONENTS')
     return dict(kind=kind,vendor=fx['vendor'],batch=fx['batch'],process=fx['process'],group=fx['group'],day=str(fx['day']),
-        wash=wash,finish=finish,package=package,sizes=[dict(id=s,qty=n,code=b.one(cur,'select size_code from erp.sizes where id=%s',s)) for s,n in [(b.chain.base.SIZE,7),(fx['size2'],6)]])
+        wash=wash,finish=finish,package=package,sizes=[dict(id=s,qty=n,code=b.one(cur,'select size_code from erp.sizes where id=%s',s)) for s,n in fx['sizes']])
 
 
 def read(cur,f):

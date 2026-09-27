@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 15,
+  "revision": 16,
   "phase": "after",
   "scenario_path": "scripts/cp6_bd_revision_modes.py",
   "browser_path": "scripts/cp6_bd_revision_browser.mjs",
-  "purpose": "BD revision: qualify all per-case browser verdicts, including visible UNKNOWN status with stored reason; preserve prior run's 14 PASS / 1 FAIL despite its completed job"
+  "purpose": "SKU range follow-up: full-shipment service selection, partial recipients, physical 31/32/33 and singleton 27, weighted SKU HPP derivation with exact-size sale/return/invoice; inherited BD+BE guards remain mandatory. This does not qualify a commercial-SKU tariff master."
 }
