@@ -1,0 +1,2795 @@
+{
+  "format": "CP6_BD_AUDIT_REVISION_WRITER_EVIDENCE_V1",
+  "label": "WRITER_VERIFICATION",
+  "production_go": false,
+  "audit_complete": false,
+  "independent_acceptance": false,
+  "status": "READY_FOR_INDEPENDENT_RETEST_CP6_HOLD",
+  "audit_intake": {
+    "candidate": "08065a3b4da71c51ffbbab77f0a6b1ac7e6638ec",
+    "auditor_commit": "507931ddf31aed44f449176646e3a44dc0481ec2",
+    "run_id": 36341741346,
+    "owner_acceptance": "Owner/auditor retests before closing any finding; FREE/WAIVED was a missing legal test path, not conclusively a bug."
+  },
+  "candidate": {
+    "baseline": "2c2fd5e8e0df5f8ada44402c93f70dbaf0fbbb5b",
+    "source_commit": "0133b160af704f1620a19e95956594223ca698ee",
+    "package_and_browser_fixture_commit": "4851cca8e9d73ecd30fb717db62f2124349b5908",
+    "rollback_commit": "78ce98bcf4cd7bb5bea349572c26c8c78c14c136",
+    "source_sha256": {
+      "src/LaundryBdPanel.tsx": "56c00c6176d212d2e3f53082ac2512ed26db02920ae5e18434f9f68d372cfb13",
+      "src/laundryBd.ts": "763799743e568c13e14d1cc6dde7aa888b01c8bf91cb6bc3c3d25d619bf8c74c",
+      "scripts/cp6_bd_revision_cases.py": "c4bfc723c950a328f1fbc734d0a5e76b649f844e540c4e37d3675e1471d0eec5",
+      "scripts/cp6_bd_revision_modes.py": "be85f6ebf4a5941d831b4eda5dd79c7cffe4236f8e6fa9b123e8e2a035320c25",
+      "scripts/cp6_bd_revision_browser.mjs": "a515dfbef03b6e57302cf7dbfcad55c7e649e8ce095b877cb6fb0d890467f186",
+      "supabase/dev/cp6_bd_t1_family.sql": "f480f8dd7dc2620e19994e328b971ef159ba81dca1b8272ae42b59e0d370f947",
+      "supabase/dev/cp6_be_t1_family.sql": "c4f91fd690e3308122d14b5fdb8d2c30f59bb7809136e63824109c51c462746e",
+      "supabase/release/cp6-t3/MANIFEST.json": "4dfdf7ff6ddadd986ba6a5afd99cef235c74fbc73c4b7ccce9f63497522a4552",
+      "scripts/cp6_bd_browser.mjs": "a09422bc8c3082d720d0b4e2e0d0521a15520f5ed6347d831ad06bbca5e5f855",
+      "scripts/cp6_bd_revision_fixture.py": "68668179f03c8727d26fbdec7c5412ef25bcda3c6ed4b9fca3d91167a00c87d4",
+      "scripts/cp6_writer_dispatch.json": "d85a56c595f4a3fd7862795d2ba55a5ba4efbc871d047363721fa613531d7831",
+      "docs/evidence/cp6-t3/rollback_capture.json": "84619f1558db3a43adec67154af498d9435a65541bc6e394b69e3690bf6c4472",
+      "supabase/release/cp6-t3-rollbacks/ROLLBACKS.json": "ee0f063661398b2a394088a6e90fde9303766a260d64d6c7dab9b3dee9a4db0f"
+    },
+    "main_frozen": "557005e6674058f1e5e966b350cba05501e06182",
+    "competition_frozen": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+    "browser_verification_commit": "d493144fb98728731d686bf285445f8eb6e91b3d",
+    "product_unchanged_since_source_commit": true
+  },
+  "local": {
+    "official_build": {
+      "command": "npm run build",
+      "status": "PASS",
+      "includes": [
+        "access catalog",
+        "source/backend ownership",
+        "TypeScript",
+        "Vite",
+        "client secret artifact scan"
+      ]
+    },
+    "unit": {
+      "command": "npm test",
+      "status": "PASS",
+      "files": 50,
+      "tests": 563
+    },
+    "security": {
+      "command": "npm run test:security",
+      "status": "PASS"
+    },
+    "note": "Writer local results; no independent acceptance. No local DB available; native DB/real Auth/browser qualification is in the pinned disposable CI below."
+  },
+  "bd_t1": {
+    "run_id": 36345520728,
+    "after_job_id": 108693779492,
+    "before_job_id": 108693779626,
+    "status": "PASS",
+    "cases": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 41
+      }
+    },
+    "final": {
+      "POLICY:LAU_DEC_SETTINGS_OWNER_VERSIONED_PENDING": "PASS",
+      "T02:PACKAGE_ONE_CHARGE_PHYSICAL_QTY": "PASS",
+      "T03:COMPONENT_SUM_SAME_PIECES": "PASS",
+      "T04:FOUR_COMPONENTS": "PASS",
+      "T05:PARTIAL_COMPONENT_COVERAGE": "PASS",
+      "T06:PACKAGE_EXTRA_ONCE": "PASS",
+      "T07:VERSION_AFTER_POSTED_DELIVERY": "PASS",
+      "T08:BAD_NOMINAL_REFUSED": "PASS",
+      "T12:UNKNOWN_COMPONENT_KNOWN_SUBTOTAL": "PASS",
+      "T13:NO_VERSION_IS_ERROR": "PASS",
+      "T15:BD_RECEIPT_PROCESS_CHANGED": "PASS",
+      "T20:LUMP_SUM_SPLIT_RECEIPTS": "PASS",
+      "DEC01:MINIMUM_CHARGE_TOPUP": "PASS",
+      "T24:SCOPED_SIZE_RATE": "PASS",
+      "T24:MULTI_SIZE_LOT_HPP": "PASS",
+      "D10:VARIANCE_BY_BILLING_SOURCE": "PASS",
+      "T32:REPLAY_ACCESS_GRANTS": "PASS",
+      "T16:INVOICE_ABOVE_ESTIMATE_PRODUCT_COST": "PASS",
+      "T17:PARTIAL_NM_CAPACITY": "PASS",
+      "T21:DISCOUNT_TAX_ROUNDING": "PASS",
+      "DEC06:VARIANCE_ACCOUNT": "PASS",
+      "T23:REVERSE_PAY_CORRECT": "PASS",
+      "DEC02:BILLABLE_CATEGORIES_ACCESS": "PASS",
+      "T22:VARIANCE_TO_FG_AND_COGS": "PASS",
+      "DEC04:SALE_UNKNOWN_LAUNDRY_PRICE": "PASS",
+      "W05:OPENING_CUSTODY_CLAIM_SEPARATE": "PASS",
+      "W05:CLAIM_CONTINUATIONS": "PASS",
+      "W05:IMPORT_REFUSALS": "PASS",
+      "W05:UNINVOICED_ACCRUAL_INVOICE": "PASS",
+      "D07:RECOST_ALARM_DOCUMENT_LEVEL": "PASS",
+      "D09:ACC_C12_SOURCE_IDENTITY": "PASS",
+      "D12:CLAIM_CREDIT_DAILY_OLDER_INVOICE": "PASS",
+      "D12:CLAIM_CREDIT_OPENING_OLDER_PAYABLE": "PASS",
+      "DEC06:CORRECTION_DOCUMENT_UP_AND_DOWN": "PASS",
+      "DEC06:CORRECTION_DOWN_SETTLES_ORIGIN_THEN_OLDER": "PASS",
+      "REV:X01_EXPLICIT_SIZE_COVERAGE_AND_RESPONSE": "PASS",
+      "REV:X01_UNKNOWN_COMPLETION_PRESERVES_COVERAGE": "PASS",
+      "REV:OWN02_FREE_WAIVED_LEGAL_PATH": "PASS",
+      "REV:X02_MONEY_OVER_INT32": "PASS",
+      "REV:X03_AUTH_BEFORE_REPLAY": "PASS",
+      "REV:X05_PAGES_55_INVOICES_201_SOURCES": "PASS"
+    },
+    "reader": {
+      "status": "PASS",
+      "files": 232,
+      "kinds": {
+        "bd": 14,
+        "import": 205,
+        "laundry": 13
+      },
+      "non_rfc_files": 13,
+      "refused": [],
+      "error": null,
+      "exit": 0
+    },
+    "expectation_mismatch": {},
+    "primary_unchanged": true,
+    "clone_remaining": 0
+  },
+  "limitations": [
+    "All findings remain open pending independent retest; CP6 HOLD.",
+    "Physical phone and Safari not tested; mobile evidence uses browser emulation.",
+    "Coverage identifies aggregate qty per source size, not serial pieces.",
+    "Search applies to loaded pages; invoice and receipt paging extends old 50/200 reachability, not every reader.",
+    "FREE/WAIVED applies to component price versions and unresolved charge completion, not every process/package tariff.",
+    "Upper numeric bound is a helper test; end-to-end invoices use the stated audited boundaries.",
+    "Rollback is pre-use only; used-data rollback must refuse.",
+    "Advisor raw REVIEW_REQUIRED and explained pg_cron restore exceptions are retained; no claim of zero advisories or production cron restore.",
+    "No hosted/UAT/legacy mutation, production deployment, or merge to main.",
+    "Remote head checks detect foreign pushes, not an unpushed editor."
+  ],
+  "package": {
+    "run_id": 36346155942,
+    "commit": "4851cca8e9d73ecd30fb717db62f2124349b5908",
+    "files": 29,
+    "unchanged_from_revision_baseline": [
+      "AC",
+      "AD",
+      "AE",
+      "AF",
+      "AG",
+      "AH",
+      "AI",
+      "AJ",
+      "AK",
+      "AL",
+      "AM",
+      "AN",
+      "AO",
+      "AP",
+      "AQ",
+      "AR",
+      "AS",
+      "AT",
+      "AU",
+      "AV",
+      "AW",
+      "AX",
+      "AY",
+      "AZ",
+      "BA",
+      "BB",
+      "BC"
+    ],
+    "changed": [
+      "BD",
+      "BE"
+    ],
+    "capture_run": 36345520698,
+    "pins_blob_sha256": "bc8d5bd910398c0219918b9b09b86c2265fe943944167bed1d2b58fe348090b9",
+    "jobs": [
+      {
+        "id": 108695591160,
+        "status": "ALL_STAGES_INSTALLED",
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true
+        },
+        "run_identity": {
+          "label": "T3_PREP",
+          "tool_head": "4851cca8e9d73ecd30fb717db62f2124349b5908",
+          "product_ref": "4851cca8e9d73ecd30fb717db62f2124349b5908",
+          "product_paths": [
+            "supabase/migrations",
+            "supabase/dev",
+            "supabase/release",
+            "supabase/rollbacks",
+            "src"
+          ],
+          "run_id": "36346155942",
+          "run_attempt": "1",
+          "workflow": "CP6 T3 Release Package (hosted-faithful baseline)",
+          "job": "phase",
+          "event": "push",
+          "github_sha": "4851cca8e9d73ecd30fb717db62f2124349b5908",
+          "release_evidence": false,
+          "production_go": false,
+          "mode": "install"
+        },
+        "primary_unchanged": true
+      },
+      {
+        "id": 108695591193,
+        "status": "ALL_STAGES_INSTALLED",
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true
+        },
+        "run_identity": {
+          "label": "T3_PREP",
+          "tool_head": "4851cca8e9d73ecd30fb717db62f2124349b5908",
+          "product_ref": "4851cca8e9d73ecd30fb717db62f2124349b5908",
+          "product_paths": [
+            "supabase/migrations",
+            "supabase/dev",
+            "supabase/release",
+            "supabase/rollbacks",
+            "src"
+          ],
+          "run_id": "36346155942",
+          "run_attempt": "1",
+          "workflow": "CP6 T3 Release Package (hosted-faithful baseline)",
+          "job": "phase",
+          "event": "push",
+          "github_sha": "4851cca8e9d73ecd30fb717db62f2124349b5908",
+          "release_evidence": false,
+          "production_go": false,
+          "mode": "capture"
+        },
+        "pins_reproduced": {
+          "equal": true,
+          "differ": []
+        },
+        "primary_unchanged": true
+      },
+      {
+        "id": 108695591053,
+        "status": "BROWSER_PASS",
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true
+        },
+        "run_identity": {
+          "label": "T3_PREP",
+          "tool_head": "4851cca8e9d73ecd30fb717db62f2124349b5908",
+          "product_ref": "4851cca8e9d73ecd30fb717db62f2124349b5908",
+          "product_paths": [
+            "supabase/migrations",
+            "supabase/dev",
+            "supabase/release",
+            "supabase/rollbacks",
+            "src"
+          ],
+          "run_id": "36346155942",
+          "run_attempt": "1",
+          "workflow": "CP6 T3 Release Package (hosted-faithful baseline)",
+          "job": "phase",
+          "event": "push",
+          "github_sha": "4851cca8e9d73ecd30fb717db62f2124349b5908",
+          "release_evidence": false,
+          "production_go": false,
+          "mode": "browser"
+        },
+        "primary_unchanged": true
+      }
+    ],
+    "advisor": {
+      "raw_status": "REVIEW_REQUIRED",
+      "before": 73,
+      "after": 205,
+      "added": 132,
+      "removed": 0,
+      "added_class": [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp"
+      ],
+      "gate": "Accepted existing class only; raw review disposition remains."
+    },
+    "restore": {
+      "status": "RESTORED_SAME_MEANING",
+      "checks": {
+        "restore_errors_only_pg_cron": true,
+        "catalog_explained": true,
+        "data_identical": true,
+        "engine_answer_present": true,
+        "engine_equal": true
+      },
+      "restore_exit": 1,
+      "error_count": 19,
+      "ignored_reported": 19,
+      "unexplained": [],
+      "note": "19 explained pg_cron errors on non-postgres clone; production cron restore not claimed."
+    },
+    "browser": {
+      "label": "T3_PREP_BROWSER",
+      "status": "PASS",
+      "frontend": "candidate branch checkout (auditor)",
+      "production_go": false,
+      "release_evidence": false,
+      "seed": {
+        "exit": 0,
+        "stderr": ""
+      },
+      "flow_exit_code": 0,
+      "cases": {
+        "REAL_LOGIN_PAGE": "PASS",
+        "ANONYMOUS_REFUSED": "PASS",
+        "REAL_PASSWORD_BROWSER_LOGIN": "PASS",
+        "AMBIGUOUS_REFUSED_0": "PASS",
+        "LOST_REPLY_RELOAD_EXACT_REPLAY": "PASS",
+        "EXACT_BRAND_STOCK_HPP_0": "PASS",
+        "LINKED_INVERSE_0": "PASS",
+        "AMBIGUOUS_REFUSED_1": "PASS",
+        "EXACT_BRAND_STOCK_HPP_1": "PASS",
+        "LINKED_INVERSE_1": "PASS"
+      },
+      "flow_status": "PASS",
+      "console_errors": 0,
+      "candidate_verified_after_flow": "T3_PACKAGE_PLUS_AW_AX_AY_AZ_T1",
+      "rest_remaining": false
+    }
+  },
+  "history": [
+    {
+      "commit": "e2b33f972692ee7c01762f90392f70dbaf0fbbb5b",
+      "run_id": 36344158914,
+      "status": "FAIL",
+      "detail": "35 existing BD and 4 revision cases passed. Two writer HPP assertions incorrectly redivided six-decimal cost by 7/6; repaired to exact per-lot cost and exact total, without tolerance. Product not changed for this oracle repair."
+    },
+    {
+      "commit": "a43082f905017ee71e84451f257bb50162f8ac0c",
+      "run_id": 36344627262,
+      "status": "PASS",
+      "detail": "BD 41/41 and 232 parser snapshots passed before final quotient/remainder precision refinement."
+    },
+    {
+      "run_id": 36344158927,
+      "status": "PASS",
+      "detail": "BE family before/after; BD-dependent product requalification, not independent audit."
+    },
+    {
+      "run_id": 36344158887,
+      "status": "PASS",
+      "detail": "BE 9 races, 2 HTTP, 6 browser cases including mobile redye."
+    },
+    {
+      "run_ids": [
+        36344158905,
+        36344627206,
+        36345520698
+      ],
+      "status": "FAIL_STALE_PACKAGE",
+      "detail": "Source/package qualification correctly refused outdated BD/BE installed bodies. Final package rebuilt from captured final-source pins; these failures remain historical."
+    },
+    {
+      "run_id": 36344627210,
+      "status": "INCOMPLETE",
+      "detail": "Native6/races18/HTTP6 PASS. Browser stopped before cases: copied entrypoint could not resolve relative repository imports. Loader fixed without product change."
+    },
+    {
+      "run_id": 36345520659,
+      "status": "INCOMPLETE",
+      "detail": "Native6/races18/HTTP6 PASS. Browser9 PASS/6 INCOMPLETE: old coverage locator, private native fixture reader required an uncommitted and revoked helper grant."
+    },
+    {
+      "run_id": 36346155951,
+      "status": "FAIL_BROWSER_CASE",
+      "job_conclusion": "success",
+      "browser": {
+        "PASS": 14,
+        "FAIL": 1
+      },
+      "detail": "Auditor runtime RUN_COMPLETE means experiment completion, not all-case PASS. T36 exact-cell UNKNOWN text did not allow displayed stored reason; status-cell visibility scoped to the same component row is required on rerun. Five new browser cases passed."
+    }
+  ],
+  "rollback": {
+    "run_id": 36346508510,
+    "job_id": 108696596257,
+    "commit": "78ce98bcf4cd7bb5bea349572c26c8c78c14c136",
+    "capture_run_id": 36346155950,
+    "capture_job_id": 108695591096,
+    "capture_blob_sha256": "84619f1558db3a43adec67154af498d9435a65541bc6e394b69e3690bf6c4472",
+    "checks": [
+      {
+        "check": "ROLLBACK_FILES_REBUILT_IDENTICALLY",
+        "status": "PASS"
+      },
+      {
+        "check": "PACKAGE_INSTALLED",
+        "status": "PASS"
+      },
+      {
+        "check": "REFUSED_OUT_OF_ORDER_AZ_WHILE_BE_INSTALLED",
+        "status": "PASS",
+        "expected": "AZ_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+        "changed": {}
+      },
+      {
+        "check": "REFUSED_OUT_OF_ORDER_AV_WHILE_BE_INSTALLED",
+        "status": "PASS",
+        "expected": "AV_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+        "changed": {}
+      },
+      {
+        "check": "REFUSED_OUT_OF_ORDER_AC_WHILE_BE_INSTALLED",
+        "status": "PASS",
+        "expected": "AC_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+        "changed": {}
+      },
+      {
+        "check": "REFUSED_OPEN_ADMISSION",
+        "status": "PASS",
+        "expected": "PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE",
+        "changed": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_BE_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_BD_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_BC_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_BB_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_BA_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AZ_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AY_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AX_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AW_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "ORIGINAL_AV_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected": "AV_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+        "changed": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AV_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "ORIGINAL_AU_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected": "AU_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+        "changed": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AU_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "ORIGINAL_AT_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected": "AT_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+        "changed": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AT_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "ORIGINAL_AS_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected": "AS_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+        "changed": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AS_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "ORIGINAL_AR_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected": "AR_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+        "changed": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AR_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "ORIGINAL_AQ_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected": "AQ_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+        "changed": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AQ_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "ORIGINAL_AP_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected": "AP_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+        "changed": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AP_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "ORIGINAL_AO_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected": "AO_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+        "changed": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AO_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "ORIGINAL_AN_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected": "AN_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+        "changed": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AN_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "ORIGINAL_AM_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected": "AM_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+        "changed": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AM_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "ORIGINAL_AL_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected": "AL_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+        "changed": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AL_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "ORIGINAL_AK_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected": "AK_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+        "changed": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AK_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "ORIGINAL_AJ_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected": "AJ_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+        "changed": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AJ_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "ORIGINAL_AI_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected": "AI_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+        "changed": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AI_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "ORIGINAL_AH_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected": "AH_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+        "changed": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AH_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "ORIGINAL_AG_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected": "AG_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+        "changed": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AG_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "ORIGINAL_AF_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected": "AF_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+        "changed": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AF_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "ORIGINAL_AE_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected": "AE_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+        "changed": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AE_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "ORIGINAL_AD_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected": "AD_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+        "changed": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AD_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "ORIGINAL_AC_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected": "AC_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR",
+        "changed": {}
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AC_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_AC_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_AD_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_AE_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_AF_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_AG_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_AH_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_AI_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_AJ_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_AK_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_AL_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_AM_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_AN_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_AO_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_AP_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_AQ_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_AR_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_AS_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_AT_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_AU_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_AV_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_AW_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_AX_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_AY_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_AZ_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_BA_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_BB_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_BC_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_BD_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "REINSTALL_BE_SAME_AS_FIRST_INSTALL",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_BE_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_BD_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_BC_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_BB_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_BA_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AZ_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AY_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AX_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AW_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AV_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AU_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AT_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AS_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AR_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AQ_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AP_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AO_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AN_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AM_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AL_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AK_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AJ_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AI_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AH_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AG_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AF_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AE_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AD_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AC_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "differences": {}
+      },
+      {
+        "check": "CYCLE_2_ENDS_AT_AB",
+        "status": "PASS"
+      },
+      {
+        "check": "POST_USE_AC_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "AC_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_AD_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "AD_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_AE_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "AE_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_AF_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "AF_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_AG_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "AG_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_AH_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "AH_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_AI_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "AI_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_AJ_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "AJ_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_AK_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "AK_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_AL_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "AL_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_AM_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "AM_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_AN_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "AN_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_AO_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "AO_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_AP_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "AP_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_AQ_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "AQ_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_AR_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "AR_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_AS_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "AS_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_AT_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "AT_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_AU_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "AU_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_AV_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "AV_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_AW_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "AW_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_AX_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "AX_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_AY_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "AY_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_AZ_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "AZ_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_BA_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "BA_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_BB_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "BB_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_BC_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "BC_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_BD_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "BD_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      },
+      {
+        "check": "POST_USE_BE_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected": "BE_POST_USE_ROLLBACK_REFUSED",
+        "changed": {}
+      }
+    ],
+    "status": "PASS",
+    "result": {
+      "t3_rollback": {
+        "mode": "cycle",
+        "status": "PASS",
+        "primary_unchanged": true,
+        "error": null
+      }
+    }
+  },
+  "t2": {
+    "run_id": 36346155941,
+    "temporal": {
+      "job_id": 108695591170,
+      "status": "WRITER_PASS",
+      "temporal_cases": {
+        "status": "WRITER_PASS",
+        "counts": {
+          "PASS": 16
+        }
+      },
+      "temporal_races": {
+        "TEMPORAL_MASTER_ABORT": "PASS",
+        "TEMPORAL_MASTER_COMMIT": "PASS",
+        "TEMPORAL_OUTPUT_ABORT": "PASS",
+        "TEMPORAL_OUTPUT_COMMIT": "PASS"
+      },
+      "master_cases": {
+        "status": "WRITER_PASS",
+        "counts": {
+          "PASS": 15
+        }
+      },
+      "master_races": {
+        "MASTER_MASTER_ABORT": "PASS",
+        "MASTER_MASTER_COMMIT": "PASS",
+        "MASTER_OUTPUT_ABORT": "PASS",
+        "MASTER_OUTPUT_COMMIT": "PASS",
+        "MASTER_VALIDATION_ABORT": "PASS",
+        "MASTER_VALIDATION_COMMIT": "PASS"
+      },
+      "primary_unchanged": true,
+      "clone_remaining": 0
+    },
+    "ar": {
+      "job_id": 108695591155,
+      "status": "DISPOSITION_REQUIRED",
+      "sequential": {
+        "status": "INCOMPLETE",
+        "counts": {
+          "PASS": 145,
+          "INCOMPLETE": 1
+        }
+      },
+      "superseding": {
+        "status": "WRITER_PASS",
+        "counts": {
+          "PASS": 1
+        },
+        "cases": {
+          "ACCESSORY_CONNECTED_ZERO_REFUSED_BC_FREE_POLICY": "PASS"
+        }
+      },
+      "case_count": 174,
+      "races": [
+        {
+          "case": "CONCURRENT_CUSTOMER_RECEIVABLE_IMPORTED_FIRST",
+          "status": "PASS"
+        },
+        {
+          "case": "CONCURRENT_CUSTOMER_RECEIVABLE_LEGACY_FIRST",
+          "status": "PASS"
+        },
+        {
+          "case": "CONCURRENT_SUPPLIER_PAYABLE_IMPORTED_FIRST",
+          "status": "PASS"
+        },
+        {
+          "case": "CONCURRENT_SUPPLIER_PAYABLE_LEGACY_FIRST",
+          "status": "PASS"
+        },
+        {
+          "case": "CONCURRENT_VENDOR_PAYABLE_IMPORTED_FIRST",
+          "status": "PASS"
+        },
+        {
+          "case": "CONCURRENT_VENDOR_PAYABLE_LEGACY_FIRST",
+          "status": "PASS"
+        },
+        {
+          "case": "CONCURRENT_CONTRACTOR_RECEIVABLE_IMPORTED_FIRST",
+          "status": "PASS"
+        },
+        {
+          "case": "CONCURRENT_CONTRACTOR_RECEIVABLE_LEGACY_FIRST",
+          "status": "PASS"
+        },
+        {
+          "case": "CONCURRENT_CONTRACTOR_PAYABLE_IMPORTED_FIRST",
+          "status": "PASS"
+        },
+        {
+          "case": "CONCURRENT_CONTRACTOR_PAYABLE_LEGACY_FIRST",
+          "status": "PASS"
+        },
+        {
+          "case": "CONCURRENT_CASH_BANK_IMPORTED_FIRST",
+          "status": "PASS"
+        },
+        {
+          "case": "CONCURRENT_CASH_BANK_LEGACY_FIRST",
+          "status": "PASS"
+        },
+        {
+          "case": "CONCURRENT_MATERIAL_IMPORTED_FIRST",
+          "status": "PASS"
+        },
+        {
+          "case": "CONCURRENT_MATERIAL_LEGACY_FIRST",
+          "status": "PASS"
+        },
+        {
+          "case": "CONCURRENT_FINISHED_GOODS_IMPORTED_FIRST",
+          "status": "PASS"
+        },
+        {
+          "case": "CONCURRENT_FINISHED_GOODS_LEGACY_FIRST",
+          "status": "PASS"
+        },
+        {
+          "case": "CONCURRENT_WIP_IMPORTED_FIRST",
+          "status": "PASS"
+        },
+        {
+          "case": "CONCURRENT_WIP_LEGACY_FIRST",
+          "status": "PASS"
+        },
+        {
+          "case": "CONCURRENT_BS_IMPORTED_FIRST",
+          "status": "PASS"
+        },
+        {
+          "case": "CONCURRENT_BS_LEGACY_FIRST",
+          "status": "PASS"
+        },
+        {
+          "case": "WINNER_ABORT_IMPORTED",
+          "status": "PASS"
+        },
+        {
+          "case": "SAME_HEADER_IMPORTED",
+          "status": "PASS"
+        },
+        {
+          "case": "WINNER_ABORT_LEGACY",
+          "status": "PASS"
+        },
+        {
+          "case": "SAME_HEADER_LEGACY",
+          "status": "PASS"
+        },
+        {
+          "case": "REQUEST_CONCURRENT_REPLAY",
+          "status": "PASS"
+        },
+        {
+          "case": "REQUEST_CONCURRENT_PAYLOAD",
+          "status": "PASS"
+        },
+        {
+          "case": "REQUEST_CONCURRENT_ACTION",
+          "status": "PASS"
+        },
+        {
+          "case": "STALE_SNAPSHOT_ISOLATION",
+          "status": "PASS"
+        }
+      ],
+      "primary_unchanged": true,
+      "clone_remaining": 0,
+      "comparison_with_pre_revision_BE": {
+        "baseline_run": 36334558842,
+        "baseline_job": 108663058476,
+        "final_run": 36346155941,
+        "final_job": 108695591155,
+        "baseline_count": 175,
+        "final_count": 175,
+        "delta": []
+      }
+    },
+    "regression": {
+      "job_id": 108695591005,
+      "status": "DISPOSITION_REQUIRED",
+      "groups": {
+        "business": {
+          "status": "WRITER_PASS",
+          "counts": {
+            "PASS": 179,
+            "CONTROL_PASS": 39,
+            "DATE_POLICY_REVIEW_REQUIRED": 12
+          },
+          "matches_au_outcome": true
+        },
+        "imports": {
+          "status": "WRITER_PASS",
+          "counts": {
+            "PASS": 31
+          },
+          "matches_au_outcome": true
+        },
+        "values": {
+          "status": "WRITER_PASS",
+          "counts": {
+            "PASS": 65
+          },
+          "matches_au_outcome": true
+        }
+      },
+      "moved_cases": {},
+      "new_cases": {
+        "status": "INCOMPLETE",
+        "counts": {
+          "PASS": 25,
+          "COUNTEREXAMPLE": 8,
+          "INCOMPLETE": 1
+        }
+      },
+      "ao_trial": {
+        "status": "INCOMPLETE",
+        "counts": {
+          "PASS": 8,
+          "INCOMPLETE": 4
+        },
+        "source_sha256": "279f0091e8cdfd93b651b5423fc59ad830b899392ebc069db21738366b83ce3f",
+        "foundation": "PRESENT",
+        "moved": {
+          "INVOICE:UTC:False": "INCOMPLETE",
+          "INVOICE:UTC:True": "INCOMPLETE",
+          "INVOICE:Pacific/Kiritimati:False": "INCOMPLETE",
+          "INVOICE:Pacific/Kiritimati:True": "INCOMPLETE"
+        }
+      },
+      "approved_oracle_20260924": {
+        "results": {
+          "DATE:False:Asia/Jakarta:True:20": "MATCH",
+          "DATE:False:Asia/Jakarta:True:20.003": "MATCH",
+          "DATE:False:UTC:True:20": "MATCH",
+          "DATE:False:UTC:True:20.003": "MATCH",
+          "DATE:False:Etc/GMT+12:True:20": "MATCH",
+          "DATE:False:Etc/GMT+12:True:20.003": "MATCH",
+          "DATE:False:Pacific/Kiritimati:True:20": "MATCH",
+          "DATE:False:Pacific/Kiritimati:True:20.003": "MATCH"
+        },
+        "match": 8,
+        "of": 8
+      },
+      "approved_oracle_20260924b": {
+        "status": "WRITER_PASS",
+        "counts": {
+          "PASS": 5
+        },
+        "cases": {
+          "AS:ADJUSTMENT_DATE:False": {
+            "approved_oracle": "MATCH",
+            "decision": "Owner 24 Sep: ADJUSTMENT_DATE tidak disahkan otomatis; telusuri pembaca effective_date, bila aman ubah oracle tanggalnya dengan bukti. Writer trace: readers are run_v267_financial_truth_checks V2620T_MATERIAL_ADJUSTMENT_FACT_LEDGER (fact effective_date = its own journal economic_date; AZ sets both to the same date) and the pocket_period_recost trigger (pocket recost journal date); no reader requires the invoice date. Proof in the case: those checks and the pocket checks do not increase after the invoice and after its reversal."
+          },
+          "AO:INVOICE:UTC:False": {
+            "approved_oracle": "MATCH",
+            "decision": "Owner 24 Sep: AO periode terbuka - tanggal koreksi WIP/FG mengikuti hari barangnya berpindah tahap; jurnal invoice tetap pada tanggal invoice."
+          },
+          "AO:INVOICE:UTC:True": {
+            "approved_oracle": "MATCH",
+            "decision": "Owner 24 Sep: AO periode tertutup - tanggal posting mengikuti hari pengakuan, tanggal ekonomi invoice tetap tersimpan (sejak AS)."
+          },
+          "AO:INVOICE:Pacific/Kiritimati:False": {
+            "approved_oracle": "MATCH",
+            "decision": "Owner 24 Sep: AO periode terbuka - tanggal koreksi WIP/FG mengikuti hari barangnya berpindah tahap; jurnal invoice tetap pada tanggal invoice."
+          },
+          "AO:INVOICE:Pacific/Kiritimati:True": {
+            "approved_oracle": "MATCH",
+            "decision": "Owner 24 Sep: AO periode tertutup - tanggal posting mengikuti hari pengakuan, tanggal ekonomi invoice tetap tersimpan (sejak AS)."
+          }
+        },
+        "error": null,
+        "sources": {
+          "invoice_date": "6866fc38df433df26deea728b738d873e328463b31dcd76e8c62ad145848a2db",
+          "adjustment_date": "a97ea019627259998b975aff866e10eb6775e9f9bc70999602a79ff7013e39fc"
+        },
+        "calendar_policy": {
+          "CALENDAR:1_MONTHS:UTC:False": "MATCH",
+          "CALENDAR:1_MONTHS:Pacific/Kiritimati:False": "MATCH",
+          "CALENDAR:2_MONTHS:UTC:False": "MATCH",
+          "CALENDAR:2_MONTHS:Pacific/Kiritimati:False": "MATCH",
+          "CALENDAR:3_MONTHS:UTC:False": "MATCH",
+          "CALENDAR:3_MONTHS:Pacific/Kiritimati:False": "MATCH",
+          "CALENDAR:JAN31:UTC:False": "MATCH",
+          "CALENDAR:JAN31:Pacific/Kiritimati:False": "MATCH",
+          "CALENDAR:FEB28:UTC:False": "MATCH",
+          "CALENDAR:FEB28:Pacific/Kiritimati:False": "MATCH",
+          "CALENDAR:MAY31:UTC:False": "MATCH",
+          "CALENDAR:MAY31:Pacific/Kiritimati:False": "MATCH"
+        },
+        "calendar_decision": "Owner 24 Sep: 12 kalender HOLD - tanggal perpindahan nilai ke WIP mengikuti hari potong; status tetap HOLD.",
+        "note": "Frozen results stand (INCOMPLETE/COUNTEREXAMPLE/HOLD); MATCH is the approved oracle, not a frozen PASS."
+      },
+      "c0_oracle": {
+        "status": "PASS",
+        "counts": {
+          "PASS": 25
+        },
+        "final": {
+          "G8C0:AS:DATE:False:Asia/Jakarta:True:20": "PASS",
+          "G8C0:AS:DATE:False:Asia/Jakarta:True:20.003": "PASS",
+          "G8C0:AS:DATE:False:UTC:True:20": "PASS",
+          "G8C0:AS:DATE:False:UTC:True:20.003": "PASS",
+          "G8C0:AS:DATE:False:Etc/GMT+12:True:20": "PASS",
+          "G8C0:AS:DATE:False:Etc/GMT+12:True:20.003": "PASS",
+          "G8C0:AS:DATE:False:Pacific/Kiritimati:True:20": "PASS",
+          "G8C0:AS:DATE:False:Pacific/Kiritimati:True:20.003": "PASS",
+          "G8C0:CALENDAR:1_MONTHS:UTC:False": "PASS",
+          "G8C0:CALENDAR:1_MONTHS:Pacific/Kiritimati:False": "PASS",
+          "G8C0:CALENDAR:2_MONTHS:UTC:False": "PASS",
+          "G8C0:CALENDAR:2_MONTHS:Pacific/Kiritimati:False": "PASS",
+          "G8C0:CALENDAR:3_MONTHS:UTC:False": "PASS",
+          "G8C0:CALENDAR:3_MONTHS:Pacific/Kiritimati:False": "PASS",
+          "G8C0:CALENDAR:JAN31:UTC:False": "PASS",
+          "G8C0:CALENDAR:JAN31:Pacific/Kiritimati:False": "PASS",
+          "G8C0:CALENDAR:FEB28:UTC:False": "PASS",
+          "G8C0:CALENDAR:FEB28:Pacific/Kiritimati:False": "PASS",
+          "G8C0:CALENDAR:MAY31:UTC:False": "PASS",
+          "G8C0:CALENDAR:MAY31:Pacific/Kiritimati:False": "PASS",
+          "G8C0:AO:INVOICE:UTC:False": "PASS",
+          "G8C0:AO:INVOICE:UTC:True": "PASS",
+          "G8C0:AO:INVOICE:Pacific/Kiritimati:False": "PASS",
+          "G8C0:AO:INVOICE:Pacific/Kiritimati:True": "PASS",
+          "G8C0:AS:ADJUSTMENT_DATE:False": "PASS"
+        },
+        "planned": 25,
+        "error": null,
+        "source": "audit/scenarios/c0_round8/gpt_c0_oracles.py",
+        "source_sha256": "7c2c19b6e722d325ba902cfd9eb1ae2f98d4e2ec27245070ab485df0af9e66a7",
+        "oracle": "C0 D01.1-5 (ratified e83d56e6), numbers and prefixes of the auditor file",
+        "note": "New group; the frozen results of the 25 old ids stay as recorded."
+      },
+      "per_case_identity": {
+        "groups": {
+          "BUSINESS": {
+            "expected": 230,
+            "observed": 230,
+            "added": [],
+            "removed": [],
+            "moved": [],
+            "order_unchanged": true
+          },
+          "IMPORTS": {
+            "expected": 31,
+            "observed": 31,
+            "added": [],
+            "removed": [],
+            "moved": [],
+            "order_unchanged": true
+          },
+          "VALUES": {
+            "expected": 65,
+            "observed": 65,
+            "added": [],
+            "removed": [],
+            "moved": [],
+            "order_unchanged": true
+          },
+          "NEW_CASES": {
+            "expected": 34,
+            "observed": 34,
+            "added": [],
+            "removed": [],
+            "moved": [
+              {
+                "case": "DATE:False:Asia/Jakarta:True:20",
+                "expected": "PASS",
+                "observed": "COUNTEREXAMPLE"
+              },
+              {
+                "case": "DATE:False:Asia/Jakarta:True:20.003",
+                "expected": "PASS",
+                "observed": "COUNTEREXAMPLE"
+              },
+              {
+                "case": "DATE:False:UTC:True:20",
+                "expected": "PASS",
+                "observed": "COUNTEREXAMPLE"
+              },
+              {
+                "case": "DATE:False:UTC:True:20.003",
+                "expected": "PASS",
+                "observed": "COUNTEREXAMPLE"
+              },
+              {
+                "case": "DATE:False:Etc/GMT+12:True:20",
+                "expected": "PASS",
+                "observed": "COUNTEREXAMPLE"
+              },
+              {
+                "case": "DATE:False:Etc/GMT+12:True:20.003",
+                "expected": "PASS",
+                "observed": "COUNTEREXAMPLE"
+              },
+              {
+                "case": "DATE:False:Pacific/Kiritimati:True:20",
+                "expected": "PASS",
+                "observed": "COUNTEREXAMPLE"
+              },
+              {
+                "case": "DATE:False:Pacific/Kiritimati:True:20.003",
+                "expected": "PASS",
+                "observed": "COUNTEREXAMPLE"
+              },
+              {
+                "case": "ADJUSTMENT_DATE:False",
+                "expected": "PASS",
+                "observed": "INCOMPLETE"
+              }
+            ],
+            "order_unchanged": true
+          }
+        },
+        "holds": {
+          "expected": 12,
+          "observed": 12,
+          "identical": true,
+          "expected_count_is_recorded": true,
+          "left_hold": [],
+          "entered_hold": []
+        },
+        "status": "DISPOSITION_REQUIRED"
+      },
+      "primary_unchanged": true,
+      "clone_remaining": 0,
+      "comparison_with_previous_source": {
+        "reference_run": 36345066178,
+        "reference_job": 108692475821,
+        "final_run": 36346155941,
+        "final_job": 108695591005,
+        "reference_count": 422,
+        "final_count": 422,
+        "delta": []
+      },
+      "per_case": {
+        "BUSINESS::CROSS:DAY:FABRIC:DIRECT:Asia/Jakarta": "PASS",
+        "BUSINESS::CROSS:DAY:FABRIC:DIRECT:UTC": "PASS",
+        "BUSINESS::CROSS:DAY:FABRIC:DIRECT:Asia/Tokyo": "PASS",
+        "BUSINESS::CROSS:DAY:FABRIC:DIRECT:Pacific/Kiritimati": "PASS",
+        "BUSINESS::CROSS:DAY:FABRIC:DIRECT:Etc/GMT+12": "PASS",
+        "BUSINESS::CROSS:DAY:FABRIC:IMPORT:Asia/Jakarta": "PASS",
+        "BUSINESS::CROSS:DAY:FABRIC:IMPORT:UTC": "PASS",
+        "BUSINESS::CROSS:DAY:FABRIC:IMPORT:Asia/Tokyo": "PASS",
+        "BUSINESS::CROSS:DAY:FABRIC:IMPORT:Pacific/Kiritimati": "PASS",
+        "BUSINESS::CROSS:DAY:FABRIC:IMPORT:Etc/GMT+12": "PASS",
+        "BUSINESS::CROSS:DAY:FABRIC_ROLL:DIRECT:Asia/Jakarta": "PASS",
+        "BUSINESS::CROSS:DAY:FABRIC_ROLL:DIRECT:UTC": "PASS",
+        "BUSINESS::CROSS:DAY:FABRIC_ROLL:DIRECT:Asia/Tokyo": "PASS",
+        "BUSINESS::CROSS:DAY:FABRIC_ROLL:DIRECT:Pacific/Kiritimati": "PASS",
+        "BUSINESS::CROSS:DAY:FABRIC_ROLL:DIRECT:Etc/GMT+12": "PASS",
+        "BUSINESS::CROSS:DAY:FABRIC_ROLL:IMPORT:Asia/Jakarta": "PASS",
+        "BUSINESS::CROSS:DAY:FABRIC_ROLL:IMPORT:UTC": "PASS",
+        "BUSINESS::CROSS:DAY:FABRIC_ROLL:IMPORT:Asia/Tokyo": "PASS",
+        "BUSINESS::CROSS:DAY:FABRIC_ROLL:IMPORT:Pacific/Kiritimati": "PASS",
+        "BUSINESS::CROSS:DAY:FABRIC_ROLL:IMPORT:Etc/GMT+12": "PASS",
+        "BUSINESS::CROSS:DAY:ACCESSORY:DIRECT:Asia/Jakarta": "PASS",
+        "BUSINESS::CROSS:DAY:ACCESSORY:DIRECT:UTC": "PASS",
+        "BUSINESS::CROSS:DAY:ACCESSORY:DIRECT:Asia/Tokyo": "PASS",
+        "BUSINESS::CROSS:DAY:ACCESSORY:DIRECT:Pacific/Kiritimati": "PASS",
+        "BUSINESS::CROSS:DAY:ACCESSORY:DIRECT:Etc/GMT+12": "PASS",
+        "BUSINESS::CROSS:DAY:ACCESSORY:IMPORT:Asia/Jakarta": "PASS",
+        "BUSINESS::CROSS:DAY:ACCESSORY:IMPORT:UTC": "PASS",
+        "BUSINESS::CROSS:DAY:ACCESSORY:IMPORT:Asia/Tokyo": "PASS",
+        "BUSINESS::CROSS:DAY:ACCESSORY:IMPORT:Pacific/Kiritimati": "PASS",
+        "BUSINESS::CROSS:DAY:ACCESSORY:IMPORT:Etc/GMT+12": "PASS",
+        "BUSINESS::CROSS:DAY:FINISHED_GOODS:DIRECT:Asia/Jakarta": "PASS",
+        "BUSINESS::CROSS:DAY:FINISHED_GOODS:DIRECT:UTC": "PASS",
+        "BUSINESS::CROSS:DAY:FINISHED_GOODS:DIRECT:Asia/Tokyo": "PASS",
+        "BUSINESS::CROSS:DAY:FINISHED_GOODS:DIRECT:Pacific/Kiritimati": "PASS",
+        "BUSINESS::CROSS:DAY:FINISHED_GOODS:DIRECT:Etc/GMT+12": "PASS",
+        "BUSINESS::CROSS:DAY:FINISHED_GOODS_PRICE:DIRECT:Asia/Jakarta": "PASS",
+        "BUSINESS::CROSS:DAY:FINISHED_GOODS_PRICE:DIRECT:UTC": "PASS",
+        "BUSINESS::CROSS:DAY:FINISHED_GOODS_PRICE:DIRECT:Asia/Tokyo": "PASS",
+        "BUSINESS::CROSS:DAY:FINISHED_GOODS_PRICE:DIRECT:Pacific/Kiritimati": "PASS",
+        "BUSINESS::CROSS:DAY:FINISHED_GOODS_PRICE:DIRECT:Etc/GMT+12": "PASS",
+        "BUSINESS::CROSS:DAY:BS:DIRECT:Asia/Jakarta": "PASS",
+        "BUSINESS::CROSS:DAY:BS:DIRECT:UTC": "PASS",
+        "BUSINESS::CROSS:DAY:BS:DIRECT:Asia/Tokyo": "PASS",
+        "BUSINESS::CROSS:DAY:BS:DIRECT:Pacific/Kiritimati": "PASS",
+        "BUSINESS::CROSS:DAY:BS:DIRECT:Etc/GMT+12": "PASS",
+        "BUSINESS::CROSS:DAY:BS_PRODUCT:DIRECT:Asia/Jakarta": "PASS",
+        "BUSINESS::CROSS:DAY:BS_PRODUCT:DIRECT:UTC": "PASS",
+        "BUSINESS::CROSS:DAY:BS_PRODUCT:DIRECT:Asia/Tokyo": "PASS",
+        "BUSINESS::CROSS:DAY:BS_PRODUCT:DIRECT:Pacific/Kiritimati": "PASS",
+        "BUSINESS::CROSS:DAY:BS_PRODUCT:DIRECT:Etc/GMT+12": "PASS",
+        "BUSINESS::CROSS:DAY:ATTENDANCE:DIRECT:Asia/Jakarta": "PASS",
+        "BUSINESS::CROSS:DAY:ATTENDANCE:DIRECT:UTC": "PASS",
+        "BUSINESS::CROSS:DAY:ATTENDANCE:DIRECT:Asia/Tokyo": "PASS",
+        "BUSINESS::CROSS:DAY:ATTENDANCE:DIRECT:Pacific/Kiritimati": "PASS",
+        "BUSINESS::CROSS:DAY:ATTENDANCE:DIRECT:Etc/GMT+12": "PASS",
+        "BUSINESS::CROSS:OPENING_SUBLEDGER:OPENING_READY": "PASS",
+        "BUSINESS::CROSS:OPENING_SUBLEDGER:OPENING_LAST_CENT": "PASS",
+        "BUSINESS::CROSS:OPENING_SUBLEDGER:OPENING_OVERPAY": "PASS",
+        "BUSINESS::CROSS:OPENING_SUBLEDGER:OPENING_CORRECTION": "PASS",
+        "BUSINESS::CROSS:OPENING_SUBLEDGER:OPENING_REVERSE_CORRECTION": "PASS",
+        "BUSINESS::CROSS:OPENING_SUBLEDGER:OPENING_REVERSE_SETTLEMENT": "PASS",
+        "BUSINESS::CROSS:OPENING_SUBLEDGER:SUPPLIER_LAST_CENT": "PASS",
+        "BUSINESS::CROSS:OPENING_SUBLEDGER:SUPPLIER_OVERPAY": "PASS",
+        "BUSINESS::CROSS:OPENING_SUBLEDGER:SUPPLIER_REVERSE_PAYMENT": "PASS",
+        "BUSINESS::CROSS:OPENING_SUBLEDGER:SUPPLIER_CORRECTION": "PASS",
+        "BUSINESS::CROSS:OPENING_SUBLEDGER:SUPPLIER_REVERSE_CORRECTION": "PASS",
+        "BUSINESS::CROSS:OPENING_SUBLEDGER:SUPPLIER_RETURN": "PASS",
+        "BUSINESS::CROSS:OPENING_SUBLEDGER:OPENING_PARTIES": "PASS",
+        "BUSINESS::CROSS:OPENING_SUBLEDGER:SUPPLIER_VALID_LIFECYCLE": "PASS",
+        "BUSINESS::CROSS:OPENING_SUBLEDGER:SUPPLIER_INVOICE_LIFECYCLE": "PASS",
+        "BUSINESS::CROSS:OPENING_SUBLEDGER:FRACTIONAL_PURCHASES": "PASS",
+        "BUSINESS::CROSS:OPENING_SUBLEDGER:SUPPLIER_AMOUNT_WASH": "PASS",
+        "BUSINESS::CROSS:OPENING_SUBLEDGER:OPENING_PARTY_WASH": "PASS",
+        "BUSINESS::CROSS:OPENING_SUBLEDGER:OPENING_STATUS_FAULT": "PASS",
+        "BUSINESS::CROSS:OPENING_SUBLEDGER:PAYMENT_INVERSE_FAULT": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_CENT:CORRECTION_ROUND_DELTA": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_CENT:CORRECTION_HALF_CENT": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_CENT:MULTI_PURCHASE_INVOICE": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_CENT:PARTIAL_INVOICE": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_CENT:SPLIT_RETURN": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_CENT:CORRECTION_ZERO_INVERSE": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_CENT:CORRECTION_CHAIN": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_CENT:NONFIFO_INVOICE_INVERSE": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_CENT:INVOICE_PAY_REVERSE": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_CENT:INVOICE_RETURN_INVERSE": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_CENT:NONFIFO_RETURN_INVERSE": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_CENT:SUBCENT_RETURN_INVERSE": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_CENT:ZERO_CENT_POSTING_FACT": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_CENT:FACT_LEDGER_FAULT": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_CENT:CROSS_SOURCE_INVERSE_IDENTITY": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_RETURN:NO_INVOICE_TWO_ROLL_FULL": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_RETURN:DIRECT_FINAL_TWO_ROLL_FULL": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_RETURN:FULL_INVOICE_TWO_ROLL_FULL": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_RETURN:PARTIAL_ONE_ROLL_FULL": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_RETURN:PARTIAL_TWO_RETURN_DOCUMENTS": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_RETURN:PARTIAL_TWO_LINES_BELOW_CAP": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_RETURN:HIGH_CREDIT_ATOMIC_REFUSAL": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_RETURN:PARTIAL_TWO_ROLL_FULL": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_RETURN:PARTIAL_TWO_LINES_CROSS_CAP": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_RETURN:PARTIAL_THREE_ROLL_FULL": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_RETURN:SPLIT_INVOICES_TWO_ROLL_FULL": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_RETURN:REPRICED_PARTIAL_TWO_ROLL_FULL": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_RETURN:PRIOR_RELIEF_CROSS_REMAINING_CAP": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_RETURN:LOW_CREDIT_SILENT_MISPOST": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_RETURN:LOW_CREDIT_PAYMENT_CAPACITY": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_RETURN:LATE_INVOICE_LAUNDER": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_RETURN:RETURN_REVERSE_RESTORE": "PASS",
+        "BUSINESS::CROSS:SUPPLIER_RETURN:FRACTIONAL_QUANTITY": "PASS",
+        "BUSINESS::CROSS:INVOICE:False:Asia/Jakarta:20": "PASS",
+        "BUSINESS::CROSS:INVOICE:False:Asia/Jakarta:20.003": "PASS",
+        "BUSINESS::CROSS:INVOICE:False:UTC:20": "PASS",
+        "BUSINESS::CROSS:INVOICE:False:UTC:20.003": "PASS",
+        "BUSINESS::CROSS:INVOICE:False:Etc/GMT+12:20": "PASS",
+        "BUSINESS::CROSS:INVOICE:False:Etc/GMT+12:20.003": "PASS",
+        "BUSINESS::CROSS:INVOICE:False:Pacific/Kiritimati:20": "PASS",
+        "BUSINESS::CROSS:INVOICE:False:Pacific/Kiritimati:20.003": "PASS",
+        "BUSINESS::CROSS:INVOICE:True:Asia/Jakarta:20": "PASS",
+        "BUSINESS::CROSS:INVOICE:True:Asia/Jakarta:20.003": "PASS",
+        "BUSINESS::CROSS:INVOICE:True:UTC:20": "PASS",
+        "BUSINESS::CROSS:INVOICE:True:UTC:20.003": "PASS",
+        "BUSINESS::CROSS:INVOICE:True:Etc/GMT+12:20": "PASS",
+        "BUSINESS::CROSS:INVOICE:True:Etc/GMT+12:20.003": "PASS",
+        "BUSINESS::CROSS:INVOICE:True:Pacific/Kiritimati:20": "PASS",
+        "BUSINESS::CROSS:INVOICE:True:Pacific/Kiritimati:20.003": "PASS",
+        "BUSINESS::CROSS:CASH_LINKED:0": "PASS",
+        "BUSINESS::CROSS:CASH_LINKED:1": "PASS",
+        "BUSINESS::CROSS:CASH_LINKED:2": "PASS",
+        "BUSINESS::CROSS:CASH_LINKED:3": "PASS",
+        "BUSINESS::CROSS:CASH_LINKED:4": "PASS",
+        "BUSINESS::CROSS:CASH_LINKED:5": "PASS",
+        "BUSINESS::CROSS:CASH_LINKED:6": "PASS",
+        "BUSINESS::CROSS:CASH_LINKED:7": "PASS",
+        "BUSINESS::CROSS:CASH_LINKED:8": "PASS",
+        "BUSINESS::CROSS:CASH_LINKED:9": "PASS",
+        "BUSINESS::CROSS:F_A01": "PASS",
+        "BUSINESS::CROSS:F_A02": "PASS",
+        "BUSINESS::CROSS:F_A03": "PASS",
+        "BUSINESS::CROSS:H_R02": "PASS",
+        "BUSINESS::CROSS:H_R03_UNDERPAID": "PASS",
+        "BUSINESS::CROSS:H_R03_PAID_RETURN": "PASS",
+        "BUSINESS::CROSS:H_R03_OVERPAID": "PASS",
+        "BUSINESS::CROSS:ORIGINAL_DRAFT_LIFECYCLE": "PASS",
+        "BUSINESS::WORK:WORK_CENTS": "CONTROL_PASS",
+        "BUSINESS::WORK:WORK_ZERO_RATE": "CONTROL_PASS",
+        "BUSINESS::WORK:WORK_UNPAID": "CONTROL_PASS",
+        "BUSINESS::WORK:WORK_PARTIAL_PAY": "CONTROL_PASS",
+        "BUSINESS::WORK:WORK_TIMEZONE": "CONTROL_PASS",
+        "BUSINESS::WORK:DIRECT_POST": "CONTROL_PASS",
+        "BUSINESS::WORK:PO_CONTRACTOR": "CONTROL_PASS",
+        "BUSINESS::WORK:SNAPSHOT_DELETE": "CONTROL_PASS",
+        "BUSINESS::WORK:PAYABLE_EXCEEDS_COMPLETED": "CONTROL_PASS",
+        "BUSINESS::WORK:NEGATIVE_PAYABLE": "CONTROL_PASS",
+        "BUSINESS::WORK:EMPTY_POST": "CONTROL_PASS",
+        "BUSINESS::WORK:BEFORE_PICKUP": "CONTROL_PASS",
+        "BUSINESS::WORK:FUTURE": "CONTROL_PASS",
+        "BUSINESS::WORK:DOUBLE_POST": "CONTROL_PASS",
+        "BUSINESS::WORK:POSTED_EDIT": "CONTROL_PASS",
+        "BUSINESS::WORK:POSTED_DELETE": "CONTROL_PASS",
+        "BUSINESS::WORK:POSTED_HEADER": "CONTROL_PASS",
+        "BUSINESS::WORK:REVERSE_REUSE": "CONTROL_PASS",
+        "BUSINESS::WORK:ROLE_UNREGISTERED": "CONTROL_PASS",
+        "BUSINESS::WORK:ROLE_INACTIVE_OWNER": "CONTROL_PASS",
+        "BUSINESS::WORK:ROLE_EMPTY_CLAIMS": "CONTROL_PASS",
+        "BUSINESS::WORK:HPP_THROUGH_SALE_0": "CONTROL_PASS",
+        "BUSINESS::WORK:HPP_THROUGH_SALE_1.27": "CONTROL_PASS",
+        "BUSINESS::INVOICE:UTC:4:False": "CONTROL_PASS",
+        "BUSINESS::INVOICE:UTC:4:True": "CONTROL_PASS",
+        "BUSINESS::INVOICE:UTC:7:False": "CONTROL_PASS",
+        "BUSINESS::INVOICE:UTC:7:True": "CONTROL_PASS",
+        "BUSINESS::INVOICE:Asia/Jakarta:4:False": "CONTROL_PASS",
+        "BUSINESS::INVOICE:Asia/Jakarta:4:True": "CONTROL_PASS",
+        "BUSINESS::INVOICE:Asia/Jakarta:7:False": "CONTROL_PASS",
+        "BUSINESS::INVOICE:Asia/Jakarta:7:True": "CONTROL_PASS",
+        "BUSINESS::INVOICE:Pacific/Kiritimati:4:False": "CONTROL_PASS",
+        "BUSINESS::INVOICE:Pacific/Kiritimati:4:True": "CONTROL_PASS",
+        "BUSINESS::INVOICE:Pacific/Kiritimati:7:False": "CONTROL_PASS",
+        "BUSINESS::INVOICE:Pacific/Kiritimati:7:True": "CONTROL_PASS",
+        "BUSINESS::INVOICE:America/Los_Angeles:4:False": "CONTROL_PASS",
+        "BUSINESS::INVOICE:America/Los_Angeles:4:True": "CONTROL_PASS",
+        "BUSINESS::INVOICE:America/Los_Angeles:7:False": "CONTROL_PASS",
+        "BUSINESS::INVOICE:America/Los_Angeles:7:True": "CONTROL_PASS",
+        "BUSINESS::CALENDAR:1_MONTHS:UTC:False": "DATE_POLICY_REVIEW_REQUIRED",
+        "BUSINESS::CALENDAR:1_MONTHS:UTC:True": "PASS",
+        "BUSINESS::CALENDAR:1_MONTHS:Pacific/Kiritimati:False": "DATE_POLICY_REVIEW_REQUIRED",
+        "BUSINESS::CALENDAR:1_MONTHS:Pacific/Kiritimati:True": "PASS",
+        "BUSINESS::CALENDAR:2_MONTHS:UTC:False": "DATE_POLICY_REVIEW_REQUIRED",
+        "BUSINESS::CALENDAR:2_MONTHS:UTC:True": "PASS",
+        "BUSINESS::CALENDAR:2_MONTHS:Pacific/Kiritimati:False": "DATE_POLICY_REVIEW_REQUIRED",
+        "BUSINESS::CALENDAR:2_MONTHS:Pacific/Kiritimati:True": "PASS",
+        "BUSINESS::CALENDAR:3_MONTHS:UTC:False": "DATE_POLICY_REVIEW_REQUIRED",
+        "BUSINESS::CALENDAR:3_MONTHS:UTC:True": "PASS",
+        "BUSINESS::CALENDAR:3_MONTHS:Pacific/Kiritimati:False": "DATE_POLICY_REVIEW_REQUIRED",
+        "BUSINESS::CALENDAR:3_MONTHS:Pacific/Kiritimati:True": "PASS",
+        "BUSINESS::CALENDAR:JAN31:UTC:False": "DATE_POLICY_REVIEW_REQUIRED",
+        "BUSINESS::CALENDAR:JAN31:UTC:True": "PASS",
+        "BUSINESS::CALENDAR:JAN31:Pacific/Kiritimati:False": "DATE_POLICY_REVIEW_REQUIRED",
+        "BUSINESS::CALENDAR:JAN31:Pacific/Kiritimati:True": "PASS",
+        "BUSINESS::CALENDAR:FEB28:UTC:False": "DATE_POLICY_REVIEW_REQUIRED",
+        "BUSINESS::CALENDAR:FEB28:UTC:True": "PASS",
+        "BUSINESS::CALENDAR:FEB28:Pacific/Kiritimati:False": "DATE_POLICY_REVIEW_REQUIRED",
+        "BUSINESS::CALENDAR:FEB28:Pacific/Kiritimati:True": "PASS",
+        "BUSINESS::CALENDAR:MAY31:UTC:False": "DATE_POLICY_REVIEW_REQUIRED",
+        "BUSINESS::CALENDAR:MAY31:UTC:True": "PASS",
+        "BUSINESS::CALENDAR:MAY31:Pacific/Kiritimati:False": "DATE_POLICY_REVIEW_REQUIRED",
+        "BUSINESS::CALENDAR:MAY31:Pacific/Kiritimati:True": "PASS",
+        "BUSINESS::IMPORT:VALID": "PASS",
+        "BUSINESS::IMPORT:MISSING_LOCATION": "PASS",
+        "BUSINESS::IMPORT:NEGATIVE_QTY": "PASS",
+        "BUSINESS::IMPORT:DUPLICATE_SOURCE": "PASS",
+        "BUSINESS::IMPORT:NONNUMERIC_QTY": "PASS",
+        "BUSINESS::IMPORT:MISSING_COST": "PASS",
+        "BUSINESS::IMPORT_VALUE:qty:NaN": "PASS",
+        "BUSINESS::IMPORT_VALUE:qty:Infinity": "PASS",
+        "BUSINESS::IMPORT_VALUE:qty:-Infinity": "PASS",
+        "BUSINESS::IMPORT_VALUE:unit_cost:NaN": "PASS",
+        "BUSINESS::IMPORT_VALUE:unit_cost:ten": "PASS",
+        "BUSINESS::IMPORT_VALUE:unit_cost:-1": "PASS",
+        "BUSINESS::IMPORT_VALUE:unit_cost: ": "PASS",
+        "BUSINESS::REWORK:0:CONTRACTOR:failed=False": "PASS",
+        "BUSINESS::REWORK:0:CONTRACTOR:failed=True": "PASS",
+        "BUSINESS::REWORK:0:LAUNDRY:failed=False": "PASS",
+        "BUSINESS::REWORK:0:LAUNDRY:failed=True": "PASS",
+        "BUSINESS::REWORK:4:CONTRACTOR:failed=False": "PASS",
+        "BUSINESS::REWORK:4:CONTRACTOR:failed=True": "PASS",
+        "BUSINESS::REWORK:4:LAUNDRY:failed=False": "PASS",
+        "BUSINESS::REWORK:4:LAUNDRY:failed=True": "PASS",
+        "BUSINESS::REWORK:MIXED_RATES:CONTRACTOR:failed=False": "PASS",
+        "BUSINESS::REWORK:MIXED_RATES:CONTRACTOR:failed=True": "PASS",
+        "BUSINESS::REWORK:MIXED_RATES:LAUNDRY:failed=False": "PASS",
+        "BUSINESS::REWORK:MIXED_RATES:LAUNDRY:failed=True": "PASS",
+        "IMPORTS::OPENING_REF:material_sku": "PASS",
+        "IMPORTS::OPENING_REF:location_code": "PASS",
+        "IMPORTS::OPENING_REF:model_code": "PASS",
+        "IMPORTS::OPENING_REF:contractor_code": "PASS",
+        "IMPORTS::OPENING_REF:customer_code": "PASS",
+        "IMPORTS::OPENING_REF:supplier_code": "PASS",
+        "IMPORTS::OPENING_REF:vendor_code": "PASS",
+        "IMPORTS::OPENING_REF:cash_account_code": "PASS",
+        "IMPORTS::OPENING_REF:product_sku": "PASS",
+        "IMPORTS::EDIT_PREPARED_DRAFT": "PASS",
+        "IMPORTS::MASTER_REF:PRODUCT:model_code": "PASS",
+        "IMPORTS::MASTER_REF:PRODUCT:brand_code": "PASS",
+        "IMPORTS::MASTER_REF:PRODUCT:size_code": "PASS",
+        "IMPORTS::MASTER_REF:MATERIAL:unit_code": "PASS",
+        "IMPORTS::MASTER_REF:MATERIAL:accessory_category_code": "PASS",
+        "IMPORTS::MASTER_REF:OPEN_PO:model_code": "PASS",
+        "IMPORTS::MASTER_REF:OPEN_PO:contractor_code": "PASS",
+        "IMPORTS::STAGED_MATERIAL": "PASS",
+        "IMPORTS::STAGED_INVALID_PARENT": "PASS",
+        "IMPORTS::DUPLICATE_MASTER": "PASS",
+        "IMPORTS::STAGED_PRODUCT": "PASS",
+        "IMPORTS::VALID_PARTY:CONTRACTOR_RECEIVABLE": "PASS",
+        "IMPORTS::VALID_PARTY:CONTRACTOR_PAYABLE": "PASS",
+        "IMPORTS::VALID_PARTY:CUSTOMER_RECEIVABLE": "PASS",
+        "IMPORTS::VALID_PARTY:SUPPLIER_PAYABLE": "PASS",
+        "IMPORTS::VALID_PARTY:VENDOR_PAYABLE": "PASS",
+        "IMPORTS::VALID_PARTY:CASH_BANK": "PASS",
+        "IMPORTS::RECOVERED_SALE:CONTRACTOR:False": "PASS",
+        "IMPORTS::RECOVERED_SALE:CONTRACTOR:True": "PASS",
+        "IMPORTS::RECOVERED_SALE:LAUNDRY:False": "PASS",
+        "IMPORTS::RECOVERED_SALE:LAUNDRY:True": "PASS",
+        "VALUES::DIRECT_MATERIAL_DRAFT": "PASS",
+        "VALUES::DIRECT_STAGE:ROW": "PASS",
+        "VALUES::DIRECT_STAGE:BATCH": "PASS",
+        "VALUES::ROLL_DRAFT:False": "PASS",
+        "VALUES::ROLL_DRAFT:True": "PASS",
+        "VALUES::BS:False:2": "PASS",
+        "VALUES::BS:False:1.5": "PASS",
+        "VALUES::BS:False:-2": "PASS",
+        "VALUES::BS:False:0": "PASS",
+        "VALUES::BS:False:None": "PASS",
+        "VALUES::WIP:False:AMOUNT": "PASS",
+        "VALUES::WIP:False:COST": "PASS",
+        "VALUES::WIP:False:NEGATIVE_AMOUNT": "PASS",
+        "VALUES::WIP:False:NEGATIVE_QTY": "PASS",
+        "VALUES::BS:True:2": "PASS",
+        "VALUES::BS:True:1.5": "PASS",
+        "VALUES::BS:True:-2": "PASS",
+        "VALUES::BS:True:0": "PASS",
+        "VALUES::BS:True:None": "PASS",
+        "VALUES::WIP:True:AMOUNT": "PASS",
+        "VALUES::WIP:True:COST": "PASS",
+        "VALUES::WIP:True:NEGATIVE_AMOUNT": "PASS",
+        "VALUES::WIP:True:NEGATIVE_QTY": "PASS",
+        "VALUES::TYPED:CUSTOMER:is_active": "PASS",
+        "VALUES::TYPED:SIZE:sort_order": "PASS",
+        "VALUES::TYPED:SUPPLIER:supplier_type": "PASS",
+        "VALUES::TYPED:CONTRACTOR:attendance_required": "PASS",
+        "VALUES::BOOL:BRAND": "PASS",
+        "VALUES::BOOL:SIZE": "PASS",
+        "VALUES::BOOL:MODEL": "PASS",
+        "VALUES::BOOL:PRODUCT": "PASS",
+        "VALUES::BOOL:CUSTOMER": "PASS",
+        "VALUES::BOOL:SUPPLIER": "PASS",
+        "VALUES::BOOL:CONTRACTOR": "PASS",
+        "VALUES::BOOL:ACCESSORY_CATEGORY": "PASS",
+        "VALUES::BOOL:MATERIAL": "PASS",
+        "VALUES::PRODUCT_PORTAL_BOOL": "PASS",
+        "VALUES::OPEN_PO:target_qty_pcs:1.5": "PASS",
+        "VALUES::OPEN_PO:target_qty_pcs:-1": "PASS",
+        "VALUES::OPEN_PO:target_dozens:-1": "PASS",
+        "VALUES::OPEN_PO:physical_start_at:not-a-date": "PASS",
+        "VALUES::SIZE_WIDTH": "PASS",
+        "VALUES::VALID_BOOL:False": "PASS",
+        "VALUES::VALID_BOOL:True": "PASS",
+        "VALUES::VALID_BOOL:": "PASS",
+        "VALUES::VALID_BOOL:None": "PASS",
+        "VALUES::VALID_BOOL:no": "PASS",
+        "VALUES::VALID_BOOL:0": "PASS",
+        "VALUES::VALID_ENUM_NORMALIZATION": "PASS",
+        "VALUES::MIXED_REPAIR": "PASS",
+        "VALUES::DIRECT_NAN:MATERIAL:qty": "PASS",
+        "VALUES::DIRECT_NAN:MATERIAL:amount": "PASS",
+        "VALUES::DIRECT_NAN:MATERIAL:unit_cost_snapshot": "PASS",
+        "VALUES::DIRECT_NAN:WIP:qty": "PASS",
+        "VALUES::DIRECT_NAN:WIP:amount": "PASS",
+        "VALUES::DIRECT_NAN:WIP:unit_cost_snapshot": "PASS",
+        "VALUES::DIRECT_NAN:BS:qty": "PASS",
+        "VALUES::DIRECT_NAN:BS:amount": "PASS",
+        "VALUES::DIRECT_NAN:BS:unit_cost_snapshot": "PASS",
+        "VALUES::WIP_EXPLICIT:False:{}": "PASS",
+        "VALUES::WIP_EXPLICIT:False:{\"qty\": \"2\"}": "PASS",
+        "VALUES::WIP_EXPLICIT:False:{\"qty\": \"2\", \"unit_cost\": \"-1\"}": "PASS",
+        "VALUES::WIP_EXPLICIT:True:{}": "PASS",
+        "VALUES::WIP_EXPLICIT:True:{\"qty\": \"2\"}": "PASS",
+        "VALUES::WIP_EXPLICIT:True:{\"qty\": \"2\", \"unit_cost\": \"-1\"}": "PASS",
+        "NEW_CASES::DATE:False:Asia/Jakarta:False:20.003": "PASS",
+        "T2_APPROVED_ORACLE::DATE:False:Asia/Jakarta:True:20": "MATCH",
+        "NEW_CASES::DATE:False:Asia/Jakarta:True:20": "COUNTEREXAMPLE",
+        "T2_APPROVED_ORACLE::DATE:False:Asia/Jakarta:True:20.003": "MATCH",
+        "NEW_CASES::DATE:False:Asia/Jakarta:True:20.003": "COUNTEREXAMPLE",
+        "NEW_CASES::DATE:False:UTC:False:20.003": "PASS",
+        "T2_APPROVED_ORACLE::DATE:False:UTC:True:20": "MATCH",
+        "NEW_CASES::DATE:False:UTC:True:20": "COUNTEREXAMPLE",
+        "T2_APPROVED_ORACLE::DATE:False:UTC:True:20.003": "MATCH",
+        "NEW_CASES::DATE:False:UTC:True:20.003": "COUNTEREXAMPLE",
+        "NEW_CASES::DATE:False:Etc/GMT+12:False:20.003": "PASS",
+        "T2_APPROVED_ORACLE::DATE:False:Etc/GMT+12:True:20": "MATCH",
+        "NEW_CASES::DATE:False:Etc/GMT+12:True:20": "COUNTEREXAMPLE",
+        "T2_APPROVED_ORACLE::DATE:False:Etc/GMT+12:True:20.003": "MATCH",
+        "NEW_CASES::DATE:False:Etc/GMT+12:True:20.003": "COUNTEREXAMPLE",
+        "NEW_CASES::DATE:False:Pacific/Kiritimati:False:20.003": "PASS",
+        "T2_APPROVED_ORACLE::DATE:False:Pacific/Kiritimati:True:20": "MATCH",
+        "NEW_CASES::DATE:False:Pacific/Kiritimati:True:20": "COUNTEREXAMPLE",
+        "T2_APPROVED_ORACLE::DATE:False:Pacific/Kiritimati:True:20.003": "MATCH",
+        "NEW_CASES::DATE:False:Pacific/Kiritimati:True:20.003": "COUNTEREXAMPLE",
+        "NEW_CASES::DATE:True:Asia/Jakarta:False:20.003": "PASS",
+        "NEW_CASES::DATE:True:Asia/Jakarta:True:20": "PASS",
+        "NEW_CASES::DATE:True:Asia/Jakarta:True:20.003": "PASS",
+        "NEW_CASES::DATE:True:UTC:False:20.003": "PASS",
+        "NEW_CASES::DATE:True:UTC:True:20": "PASS",
+        "NEW_CASES::DATE:True:UTC:True:20.003": "PASS",
+        "NEW_CASES::DATE:True:Etc/GMT+12:False:20.003": "PASS",
+        "NEW_CASES::DATE:True:Etc/GMT+12:True:20": "PASS",
+        "NEW_CASES::DATE:True:Etc/GMT+12:True:20.003": "PASS",
+        "NEW_CASES::DATE:True:Pacific/Kiritimati:False:20.003": "PASS",
+        "NEW_CASES::DATE:True:Pacific/Kiritimati:True:20": "PASS",
+        "NEW_CASES::DATE:True:Pacific/Kiritimati:True:20.003": "PASS",
+        "NEW_CASES::WIP_IDENTITY:UNIQUE": "PASS",
+        "NEW_CASES::WIP_IDENTITY:AMBIGUOUS": "PASS",
+        "NEW_CASES::WIP_IDENTITY:EXPLICIT_SECOND": "PASS",
+        "NEW_CASES::STAGED_BS_BRAND_MODEL": "PASS",
+        "NEW_CASES::WIP_GUARD:BRAND_SECOND": "PASS",
+        "NEW_CASES::WIP_GUARD:WRONG_BRAND": "PASS",
+        "NEW_CASES::WIP_GUARD:CONFLICTING_ID": "PASS",
+        "NEW_CASES::WIP_GUARD:FUTURE_ID": "PASS",
+        "NEW_CASES::ADJUSTMENT_DATE:False": "INCOMPLETE",
+        "NEW_CASES::ADJUSTMENT_DATE:True": "PASS",
+        "T2_CALENDAR_POLICY::CALENDAR:1_MONTHS:Pacific/Kiritimati:False": "COUNTEREXAMPLE",
+        "T2_CALENDAR_POLICY::CALENDAR:1_MONTHS:UTC:False": "COUNTEREXAMPLE",
+        "T2_CALENDAR_POLICY::CALENDAR:2_MONTHS:Pacific/Kiritimati:False": "COUNTEREXAMPLE",
+        "T2_CALENDAR_POLICY::CALENDAR:2_MONTHS:UTC:False": "COUNTEREXAMPLE",
+        "T2_CALENDAR_POLICY::CALENDAR:3_MONTHS:Pacific/Kiritimati:False": "COUNTEREXAMPLE",
+        "T2_CALENDAR_POLICY::CALENDAR:3_MONTHS:UTC:False": "COUNTEREXAMPLE",
+        "T2_CALENDAR_POLICY::CALENDAR:FEB28:Pacific/Kiritimati:False": "COUNTEREXAMPLE",
+        "T2_CALENDAR_POLICY::CALENDAR:FEB28:UTC:False": "COUNTEREXAMPLE",
+        "T2_CALENDAR_POLICY::CALENDAR:JAN31:Pacific/Kiritimati:False": "COUNTEREXAMPLE",
+        "T2_CALENDAR_POLICY::CALENDAR:JAN31:UTC:False": "COUNTEREXAMPLE",
+        "T2_CALENDAR_POLICY::CALENDAR:MAY31:Pacific/Kiritimati:False": "COUNTEREXAMPLE",
+        "T2_CALENDAR_POLICY::CALENDAR:MAY31:UTC:False": "COUNTEREXAMPLE",
+        "AO_TRIAL::RETAIL:12": "PASS",
+        "AO_TRIAL::RETAIL:144": "PASS",
+        "AO_TRIAL::BAD_PRICE:-1": "PASS",
+        "AO_TRIAL::BAD_PRICE:NaN": "PASS",
+        "AO_TRIAL::BAD_PRICE:0.005": "PASS",
+        "AO_TRIAL::FRACTIONAL_PCS": "PASS",
+        "AO_TRIAL::INVOICE:UTC:False": "INCOMPLETE",
+        "AO_TRIAL::INVOICE:UTC:True": "INCOMPLETE",
+        "AO_TRIAL::INVOICE:Pacific/Kiritimati:False": "INCOMPLETE",
+        "AO_TRIAL::INVOICE:Pacific/Kiritimati:True": "INCOMPLETE",
+        "AO_TRIAL::DIRECT_CORRECTION_REVERSAL:False": "PASS",
+        "AO_TRIAL::DIRECT_CORRECTION_REVERSAL:True": "PASS",
+        "APPROVED_ORACLE_B::AS:ADJUSTMENT_DATE:False": "PASS",
+        "APPROVED_ORACLE_B::AO:INVOICE:UTC:False": "PASS",
+        "APPROVED_ORACLE_B::AO:INVOICE:UTC:True": "PASS",
+        "APPROVED_ORACLE_B::AO:INVOICE:Pacific/Kiritimati:False": "PASS",
+        "APPROVED_ORACLE_B::AO:INVOICE:Pacific/Kiritimati:True": "PASS",
+        "T2_C0_ORACLE::G8C0:AS:DATE:False:Asia/Jakarta:True:20": "PASS",
+        "T2_C0_ORACLE::G8C0:AS:DATE:False:Asia/Jakarta:True:20.003": "PASS",
+        "T2_C0_ORACLE::G8C0:AS:DATE:False:UTC:True:20": "PASS",
+        "T2_C0_ORACLE::G8C0:AS:DATE:False:UTC:True:20.003": "PASS",
+        "T2_C0_ORACLE::G8C0:AS:DATE:False:Etc/GMT+12:True:20": "PASS",
+        "T2_C0_ORACLE::G8C0:AS:DATE:False:Etc/GMT+12:True:20.003": "PASS",
+        "T2_C0_ORACLE::G8C0:AS:DATE:False:Pacific/Kiritimati:True:20": "PASS",
+        "T2_C0_ORACLE::G8C0:AS:DATE:False:Pacific/Kiritimati:True:20.003": "PASS",
+        "T2_C0_ORACLE::G8C0:CALENDAR:1_MONTHS:UTC:False": "PASS",
+        "T2_C0_ORACLE::G8C0:CALENDAR:1_MONTHS:Pacific/Kiritimati:False": "PASS",
+        "T2_C0_ORACLE::G8C0:CALENDAR:2_MONTHS:UTC:False": "PASS",
+        "T2_C0_ORACLE::G8C0:CALENDAR:2_MONTHS:Pacific/Kiritimati:False": "PASS",
+        "T2_C0_ORACLE::G8C0:CALENDAR:3_MONTHS:UTC:False": "PASS",
+        "T2_C0_ORACLE::G8C0:CALENDAR:3_MONTHS:Pacific/Kiritimati:False": "PASS",
+        "T2_C0_ORACLE::G8C0:CALENDAR:JAN31:UTC:False": "PASS",
+        "T2_C0_ORACLE::G8C0:CALENDAR:JAN31:Pacific/Kiritimati:False": "PASS",
+        "T2_C0_ORACLE::G8C0:CALENDAR:FEB28:UTC:False": "PASS",
+        "T2_C0_ORACLE::G8C0:CALENDAR:FEB28:Pacific/Kiritimati:False": "PASS",
+        "T2_C0_ORACLE::G8C0:CALENDAR:MAY31:UTC:False": "PASS",
+        "T2_C0_ORACLE::G8C0:CALENDAR:MAY31:Pacific/Kiritimati:False": "PASS",
+        "T2_C0_ORACLE::G8C0:AO:INVOICE:UTC:False": "PASS",
+        "T2_C0_ORACLE::G8C0:AO:INVOICE:UTC:True": "PASS",
+        "T2_C0_ORACLE::G8C0:AO:INVOICE:Pacific/Kiritimati:False": "PASS",
+        "T2_C0_ORACLE::G8C0:AO:INVOICE:Pacific/Kiritimati:True": "PASS",
+        "T2_C0_ORACLE::G8C0:AS:ADJUSTMENT_DATE:False": "PASS"
+      },
+      "comparison_with_pre_revision_BE": {
+        "baseline_run": 36334558842,
+        "baseline_job": 108663058496,
+        "final_run": 36346155941,
+        "final_job": 108695591005,
+        "baseline_count": 422,
+        "final_count": 422,
+        "delta": []
+      }
+    }
+  },
+  "codeql": {
+    "run_id": 36346789851,
+    "commit": "d493144fb98728731d686bf285445f8eb6e91b3d",
+    "note": "security-extended; SARIF artifacts, not a Code Scanning upload",
+    "jobs": [
+      {
+        "job_id": 108697391515,
+        "status": "PASS",
+        "language": "javascript-typescript",
+        "result_count": 0,
+        "production_go": false
+      },
+      {
+        "job_id": 108697391662,
+        "status": "PASS",
+        "language": "actions",
+        "result_count": 0,
+        "production_go": false
+      },
+      {
+        "job_id": 108697391722,
+        "status": "PASS",
+        "language": "c-cpp",
+        "result_count": 0,
+        "production_go": false
+      },
+      {
+        "job_id": 108697391728,
+        "status": "PASS",
+        "language": "python",
+        "result_count": 0,
+        "production_go": false
+      }
+    ]
+  },
+  "acceptance_findings": {
+    "X-01": {
+      "writer_state": "REVISION_PROVIDED",
+      "auditor_state": "OPEN_PENDING_INDEPENDENT_RETEST"
+    },
+    "X-02": {
+      "writer_state": "REVISION_PROVIDED",
+      "auditor_state": "OPEN_PENDING_INDEPENDENT_RETEST"
+    },
+    "X-03": {
+      "writer_state": "REVISION_PROVIDED",
+      "auditor_state": "OPEN_PENDING_INDEPENDENT_RETEST"
+    },
+    "X-04": {
+      "writer_state": "REVISION_PROVIDED",
+      "auditor_state": "OPEN_PENDING_INDEPENDENT_RETEST"
+    },
+    "X-05": {
+      "writer_state": "REVISION_PROVIDED",
+      "auditor_state": "OPEN_PENDING_INDEPENDENT_RETEST"
+    },
+    "X-06": {
+      "writer_state": "REVISION_PROVIDED",
+      "auditor_state": "OPEN_PENDING_INDEPENDENT_RETEST"
+    },
+    "X-07": {
+      "writer_state": "REVISION_PROVIDED",
+      "auditor_state": "OPEN_PENDING_INDEPENDENT_RETEST"
+    },
+    "OWN-01": {
+      "writer_state": "REVISION_PROVIDED",
+      "auditor_state": "OPEN_PENDING_INDEPENDENT_RETEST"
+    },
+    "OWN-02": {
+      "writer_state": "REVISION_PROVIDED",
+      "auditor_state": "OPEN_PENDING_INDEPENDENT_RETEST"
+    }
+  },
+  "modes": {
+    "run_id": 36346789834,
+    "job_id": 108697391554,
+    "commit": "d493144fb98728731d686bf285445f8eb6e91b3d",
+    "status": "RUN_COMPLETE",
+    "run_identity": {
+      "label": "AUDITOR_SCENARIO",
+      "tool_head": "d493144fb98728731d686bf285445f8eb6e91b3d",
+      "product_ref": "78ce98bcf4cd7bb5bea349572c26c8c78c14c136",
+      "product_paths": [
+        "supabase/migrations",
+        "supabase/dev",
+        "supabase/release",
+        "supabase/rollbacks",
+        "src"
+      ],
+      "run_id": "36346789834",
+      "run_attempt": "1",
+      "workflow": "CP6 Auditor Scenario",
+      "job": "phase",
+      "event": "push",
+      "github_sha": "d493144fb98728731d686bf285445f8eb6e91b3d",
+      "release_evidence": false,
+      "production_go": false,
+      "phase": "after",
+      "scenario_sha256": "be85f6ebf4a5941d831b4eda5dd79c7cffe4236f8e6fa9b123e8e2a035320c25"
+    },
+    "cases": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 6
+      },
+      "planned_case_ids": [
+        "REV:X01_EXPLICIT_SIZE_COVERAGE_AND_RESPONSE",
+        "REV:X01_UNKNOWN_COMPLETION_PRESERVES_COVERAGE",
+        "REV:OWN02_FREE_WAIVED_LEGAL_PATH",
+        "REV:X02_MONEY_OVER_INT32",
+        "REV:X03_AUTH_BEFORE_REPLAY",
+        "REV:X05_PAGES_55_INVOICES_201_SOURCES"
+      ],
+      "final": {
+        "REV:X01_EXPLICIT_SIZE_COVERAGE_AND_RESPONSE": "PASS",
+        "REV:X01_UNKNOWN_COMPLETION_PRESERVES_COVERAGE": "PASS",
+        "REV:OWN02_FREE_WAIVED_LEGAL_PATH": "PASS",
+        "REV:X02_MONEY_OVER_INT32": "PASS",
+        "REV:X03_AUTH_BEFORE_REPLAY": "PASS",
+        "REV:X05_PAGES_55_INVOICES_201_SOURCES": "PASS"
+      },
+      "error": null
+    },
+    "races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 18
+      },
+      "database_remaining": 0,
+      "error": null
+    },
+    "http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 6
+      },
+      "database_remaining": 0,
+      "cleanup": {
+        "users_created": 13,
+        "cleanup_failures": [],
+        "rest_remaining": false
+      },
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "error": null
+    },
+    "browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 15
+      },
+      "script_sha256": "a515dfbef03b6e57302cf7dbfcad55c7e649e8ce095b877cb6fb0d890467f186",
+      "database_remaining": 0,
+      "cleanup": {
+        "users_created": 0,
+        "cleanup_failures": [],
+        "rest_remaining": false
+      },
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "console_errors": 0,
+      "users_created": 16,
+      "error": null
+    },
+    "primary_unchanged": true,
+    "clone_remaining": 0,
+    "per_case": [
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "REV:X01_EXPLICIT_SIZE_COVERAGE_AND_RESPONSE",
+        "status": "PASS",
+        "checks": {
+          "ambiguous_refused": true,
+          "foreign_refused": true,
+          "response_exact": true,
+          "unrelated_size_complete": true,
+          "finish_only_recipient": true,
+          "partial_receipts_conserve": true,
+          "lot_laundry_conserved": true,
+          "total_cost_conserved": true
+        },
+        "failed": [],
+        "estimates": [
+          [
+            "c8c10000-0000-4000-8000-000000000002",
+            "30247.63",
+            true
+          ],
+          [
+            "eb18617c-d9f3-4c9c-8d14-1371d0f88b28",
+            "29321.09",
+            true
+          ]
+        ],
+        "finish_shares": [
+          [
+            "c8c10000-0000-4000-8000-000000000002",
+            0,
+            "0.00"
+          ],
+          [
+            "eb18617c-d9f3-4c9c-8d14-1371d0f88b28",
+            5,
+            "3394.55"
+          ]
+        ],
+        "receipt_totals": {
+          "c8c10000-0000-4000-8000-000000000002": "30247.63",
+          "eb18617c-d9f3-4c9c-8d14-1371d0f88b28": "29321.09"
+        },
+        "lot_costs": {
+          "c8c10000-0000-4000-8000-000000000002": "30301.476154",
+          "eb18617c-d9f3-4c9c-8d14-1371d0f88b28": "29367.243846"
+        }
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "REV:X01_UNKNOWN_COMPLETION_PRESERVES_COVERAGE",
+        "status": "PASS",
+        "checks": {
+          "ambiguous_refused": true,
+          "foreign_refused": true,
+          "response_exact": true,
+          "unrelated_size_complete": true,
+          "finish_only_recipient": true,
+          "partial_receipts_conserve": true,
+          "lot_laundry_conserved": true,
+          "total_cost_conserved": true
+        },
+        "failed": [],
+        "estimates": [
+          [
+            "c8c10000-0000-4000-8000-000000000002",
+            "30247.63",
+            true
+          ],
+          [
+            "760c29ae-b530-46ce-a633-6df68d06b93a",
+            "25926.54",
+            false
+          ]
+        ],
+        "finish_shares": [
+          [
+            "c8c10000-0000-4000-8000-000000000002",
+            0,
+            "0.00"
+          ],
+          [
+            "760c29ae-b530-46ce-a633-6df68d06b93a",
+            5,
+            "3394.55"
+          ]
+        ],
+        "receipt_totals": {
+          "760c29ae-b530-46ce-a633-6df68d06b93a": "29321.09",
+          "c8c10000-0000-4000-8000-000000000002": "30247.63"
+        },
+        "lot_costs": {
+          "760c29ae-b530-46ce-a633-6df68d06b93a": "29367.243846",
+          "c8c10000-0000-4000-8000-000000000002": "30301.476154"
+        }
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "REV:OWN02_FREE_WAIVED_LEGAL_PATH",
+        "status": "PASS",
+        "checks": {
+          "FREE": true,
+          "WAIVED": true,
+          "unknown_to_waived": true
+        },
+        "failed": []
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "REV:X02_MONEY_OVER_INT32",
+        "status": "PASS",
+        "checks": {
+          "split_upper_bound": true,
+          "21474836.47": true,
+          "21474836.48": true,
+          "28123456.78": true,
+          "discount_exact": true,
+          "ap_exact": true,
+          "balanced": true
+        },
+        "failed": [],
+        "amounts": [
+          [
+            "28123456.78",
+            "0.70",
+            "28123456.08"
+          ],
+          [
+            "21474836.48",
+            "0.53",
+            "21474835.95"
+          ]
+        ],
+        "ap": "120671421.76",
+        "expected_ap": "120671421.76"
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "REV:X03_AUTH_BEFORE_REPLAY",
+        "status": "PASS",
+        "checks": {
+          "authorized_replay": true,
+          "revoke_fresh": true,
+          "revoke_replay": true,
+          "inactive": true,
+          "hidden": true,
+          "restored": true,
+          "one_effect": true
+        },
+        "failed": []
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "REV:X05_PAGES_55_INVOICES_201_SOURCES",
+        "status": "PASS",
+        "checks": {
+          "first_limits": true,
+          "remaining": true,
+          "no_lost_or_duplicate_invoices": true,
+          "no_lost_or_duplicate_sources": true,
+          "new_insert_excluded": true,
+          "end": true,
+          "invalid_cursor": true
+        },
+        "failed": [],
+        "counts": [
+          55,
+          201
+        ]
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BD_RACE:INV_TWO_POSTS_FIRST_COMMITS",
+        "status": "PASS"
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BD_RACE:INV_TWO_POSTS_FIRST_ABORTS",
+        "status": "PASS"
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BD_RACE:W05_COMPLETE_VS_CLAIM_FIRST_COMMITS",
+        "status": "PASS"
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BD_RACE:W05_COMPLETE_VS_CLAIM_FIRST_ABORTS",
+        "status": "PASS"
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BD_RACE:PRC_TWO_SETS_FIRST_COMMITS",
+        "status": "PASS"
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BD_RACE:PRC_TWO_SETS_FIRST_ABORTS",
+        "status": "PASS"
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BD_RACE:POL_TWO_OWNER_SETS_SAME_VERSION",
+        "status": "PASS"
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BD_RACE:EST_INVOICE_VS_ESTIMATE_FIRST_COMMITS",
+        "status": "PASS"
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BD_RACE:EST_INVOICE_VS_ESTIMATE_FIRST_ABORTS",
+        "status": "PASS"
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BE_RACE:CONVERSION_FIRST_COMMITS",
+        "status": "PASS",
+        "checks": {
+          "contended": true,
+          "second": true,
+          "once": true
+        },
+        "failed": []
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BE_RACE:CONVERSION_FIRST_ABORTS",
+        "status": "PASS",
+        "checks": {
+          "contended": true,
+          "second": true,
+          "once": true
+        },
+        "failed": []
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BE_RACE:CONVERSION_IDENTICAL_REPLAY",
+        "status": "PASS",
+        "checks": {
+          "contended": true,
+          "second": true,
+          "once": true
+        },
+        "failed": []
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BE_RACE:REDYE_PRICE_FIRST_COMMITS",
+        "status": "PASS",
+        "checks": {
+          "contended": true,
+          "second": true,
+          "once": true
+        },
+        "failed": []
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BE_RACE:REDYE_PRICE_FIRST_ABORTS",
+        "status": "PASS",
+        "checks": {
+          "contended": true,
+          "second": true,
+          "once": true
+        },
+        "failed": []
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BE_RACE:REDYE_INVOICE_FIRST_COMMITS",
+        "status": "PASS",
+        "checks": {
+          "contended": true,
+          "second": true,
+          "once": true
+        },
+        "failed": []
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BE_RACE:REDYE_INVOICE_FIRST_ABORTS",
+        "status": "PASS",
+        "checks": {
+          "contended": true,
+          "second": true,
+          "once": true
+        },
+        "failed": []
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BE_RACE:POCKET_PERIOD_FIRST_COMMITS",
+        "status": "PASS",
+        "checks": {
+          "two_connections": true,
+          "held_busy": true,
+          "retry": true,
+          "once": true
+        },
+        "failed": []
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BE_RACE:POCKET_PERIOD_FIRST_ABORTS",
+        "status": "PASS",
+        "checks": {
+          "two_connections": true,
+          "held_busy": true,
+          "retry": true,
+          "once": true
+        },
+        "failed": []
+      },
+      {
+        "group": "AUDITOR_HTTP_AFTER",
+        "case": "BD_HTTP:SET_POLICY_OWNER_ONLY",
+        "status": "PASS"
+      },
+      {
+        "group": "AUDITOR_HTTP_AFTER",
+        "case": "BD_HTTP:MONEY_HIDDEN_INVOICE_OWNER_ADMIN",
+        "status": "PASS"
+      },
+      {
+        "group": "AUDITOR_HTTP_AFTER",
+        "case": "BD_HTTP:W05_CLAIM_OWNER_ADMIN_ONLY",
+        "status": "PASS"
+      },
+      {
+        "group": "AUDITOR_HTTP_AFTER",
+        "case": "BE_HTTP:CONVERSION_AUTH_REPLAY_HIDDEN_COST",
+        "status": "PASS",
+        "checks": {
+          "anon": true,
+          "qc_refused": true,
+          "warehouse_refused": true,
+          "reader_refused": true,
+          "reader_hidden": true,
+          "preview_hidden": true,
+          "owner": true,
+          "replay": true,
+          "changed_key_refused": true
+        },
+        "failed": []
+      },
+      {
+        "group": "AUDITOR_HTTP_AFTER",
+        "case": "BE_HTTP:REDYE_PRICE_OWNER_REPLAY",
+        "status": "PASS",
+        "checks": {
+          "warehouse_refused": true,
+          "owner": true,
+          "replay": true,
+          "real_cost": true
+        },
+        "failed": []
+      },
+      {
+        "group": "AUDITOR_HTTP_AFTER",
+        "case": "BD_REV_HTTP:REVOKED_PERMISSION_REPLAY_NO_MONEY",
+        "status": "PASS",
+        "checks": {
+          "authorized": true,
+          "current_permission_cached": true,
+          "current_permission_fresh": true,
+          "hidden": true,
+          "restored": true,
+          "one_effect": true
+        },
+        "failed": []
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_BROWSER:LAU_T36_PHONE_MIXED_COVERAGE",
+        "status": "PASS",
+        "checks": {
+          "send_known_part_only": true,
+          "mixed_coverage": true,
+          "labels_from_server_components": true,
+          "unknown_listed_on_phone": true,
+          "filled_complete": true,
+          "accrual_matches": true,
+          "no_sideways_scroll": true
+        }
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_BROWSER:D12_PAYMENT_SCREEN_DAILY_CLAIM",
+        "status": "PASS"
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_BROWSER:D12_PAYMENT_SCREEN_OPENING_CLAIM",
+        "status": "PASS"
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_BROWSER:D08_LAUNDRY_QC_CANONICAL_IDS",
+        "status": "PASS"
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_BROWSER:OWNER_POLICY_SET_AND_CLEAR",
+        "status": "PASS"
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_BROWSER:W05_CLAIM_RECOVER_AND_REVERSE",
+        "status": "PASS"
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_BROWSER:W05_OPENING_ESTIMATE_QC_HIDDEN",
+        "status": "PASS"
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_BROWSER:DEC06_CORRECTION_UP_DOWN_ON_SCREEN",
+        "status": "PASS",
+        "checks": {
+          "linked_documents": true,
+          "screen_row": true,
+          "credit_row": true,
+          "ledger_matches": true,
+          "origin_untouched": true,
+          "no_sideways_scroll": true
+        },
+        "ap": "0.00"
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_COMPLETION:ALLOW_PENDING_VISIBLE_AND_BROWSER_RECOST",
+        "status": "PASS",
+        "checks": {
+          "pending_visible": true,
+          "original_close_blocked": true,
+          "lot_adds_10000": true,
+          "remaining_fg_adds_8000": true,
+          "sold_cogs_adds_2000": true,
+          "blocker_clears": true,
+          "sale_snapshot_immutable": true,
+          "sale_recosted": true,
+          "no_pending_goods": true
+        }
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BE_BROWSER:REDYE_SKU_UNKNOWN_THEN_PRICE_MOBILE",
+        "status": "PASS",
+        "checks": {
+          "partial_no_fg": true,
+          "completed_once": true,
+          "target": true,
+          "final": true
+        }
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_DESKTOP",
+        "status": "PASS",
+        "checks": {
+          "complete": true,
+          "qty": true,
+          "response": true,
+          "amount": true,
+          "one_delivery": true,
+          "coverage": true
+        },
+        "mobile": false,
+        "freeStatus": null,
+        "delivery_amounts": {
+          "known": "59568.72",
+          "complete": true,
+          "qty": 13
+        }
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_MOBILE",
+        "status": "PASS",
+        "checks": {
+          "complete": true,
+          "qty": true,
+          "response": true,
+          "amount": true,
+          "one_delivery": true,
+          "coverage": true
+        },
+        "mobile": true,
+        "freeStatus": null,
+        "delivery_amounts": {
+          "known": "59568.72",
+          "complete": true,
+          "qty": 13
+        }
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_REV_BROWSER:FREE_MASTER_THEN_PHYSICAL_DESKTOP",
+        "status": "PASS",
+        "checks": {
+          "complete": true,
+          "qty": true,
+          "response": true,
+          "amount": true,
+          "one_delivery": true,
+          "coverage": true
+        },
+        "mobile": false,
+        "freeStatus": "FREE",
+        "delivery_amounts": {
+          "known": "0.00",
+          "complete": true,
+          "qty": 13
+        }
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_REV_BROWSER:WAIVED_MASTER_THEN_PHYSICAL_MOBILE",
+        "status": "PASS",
+        "checks": {
+          "complete": true,
+          "qty": true,
+          "response": true,
+          "amount": true,
+          "one_delivery": true,
+          "coverage": true
+        },
+        "mobile": true,
+        "freeStatus": "WAIVED",
+        "delivery_amounts": {
+          "known": "0.00",
+          "complete": true,
+          "qty": 13
+        }
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_REV_BROWSER:PAGING_PRESERVES_EDIT_MOBILE",
+        "status": "PASS",
+        "checks": {
+          "sources_reachable_once": true,
+          "unchanged_invoice_count": true,
+          "form_preserved_and_saved": true
+        },
+        "mobile": true
+      }
+    ]
+  }
+}
