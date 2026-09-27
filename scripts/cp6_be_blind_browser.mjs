@@ -252,7 +252,11 @@ async function pocketBrowser(browser, today) {
     console.log(JSON.stringify({ diagnostic: 'POCKET_LEDGER_STAGES', baseline: f.before,
       post: posted.ledger, corrected: after.ledger, pools: after.pools,
       source: { before: initial.amount, posted: posted.amount, corrected: after.amount } }))
-    const delta = name => Number(after.ledger[name]) - Number(f.before[name])
+    const delta = name => Math.round((Number(after.ledger[name]) - Number(f.before[name])) * 100) / 100
+    const postDelta = name => Math.round((Number(posted.ledger[name]) - Number(f.before[name])) * 100) / 100
+    assert.equal(postDelta('WIP'), 5.62, 'Browser period must contain only its own pocket source')
+    assert.equal(postDelta('FG_INVENTORY'), 3.38)
+    assert.equal(postDelta('COGS'), 2.25)
     assert.equal(delta('WIP'), 7.5)
     assert.equal(delta('FG_INVENTORY'), 4.5)
     assert.equal(delta('COGS'), 3.0)

@@ -1,5 +1,5 @@
 """Disposable BE browser prerequisites and independent read-back, no product writes outside public commands."""
-from datetime import date
+from datetime import date, timedelta
 import json
 import os
 import sys
@@ -15,7 +15,12 @@ def main():
     action, arg = sys.argv[1], json.loads(sys.argv[2])
     with psycopg.connect(url) as conn, conn.cursor() as cur:
         if action == "create":
-            result = product_fixture.create(cur, date.fromisoformat(arg["today"]), arg["kind"])
+            # The business oracle already imports pocket sources on day -10.
+            # Give the browser source its own history day to assert one pool.
+            fixture_day = date.fromisoformat(arg["today"])
+            if arg["kind"] == "pocket":
+                fixture_day -= timedelta(days=7)
+            result = product_fixture.create(cur, fixture_day, arg["kind"])
             bd.api.admin(cur)
             conn.commit()
         elif action == "read":
