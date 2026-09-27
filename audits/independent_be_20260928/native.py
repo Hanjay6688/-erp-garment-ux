@@ -143,6 +143,8 @@ def direct():
     return out
 
 def run():
+    installation=json.loads((s.OUT/'installation.json').read_text());assert installation['status']=='READY_FOR_INDEPENDENT_TESTS'
+    assert A("select count(*) from erp.schema_migrations where version='v2.6.20be'",one=True)==1
     case('SETUP','Independent master and real non-PO source prerequisites',setup,'Controlled masters + authenticated public found-stock RPC')
     if not F:return
     case('CONV-02','Preview is free of stock and journal effects',preview)

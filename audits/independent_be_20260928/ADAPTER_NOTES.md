@@ -12,3 +12,25 @@ acceptance question, separate from source-cost conservation.
 All fixture masters and roles are created in the disposable clone. Public commands
 connect as authenticator/authenticated with distinct real ERP actors. PostgreSQL
 readbacks verify values directly. No native product security guard is disabled.
+
+## New independently calculated flow amounts, fixed before their first run
+
+Recovery fixture: expect five tags back, actually receive three, inspect two
+usable and one damaged. Two tags remain unreturned. Before owner valuation,
+no usable stock/value is assumed. Synthetic approved recovery at 7.13 for two
+usable tags gives 14.26 inventory and the same garment-cost reduction.
+The main redye actual invoice 1,417.53 is independently split into 1,012.52
+for five GOOD and 405.01 for two serviced BS. Together it releases the single
+1,381.17 service estimate and changes cost by 36.36; no second quantity.
+The owner-approved fixture explicitly charges both returned categories.
+
+## Run 1 release observation and continuation
+
+Unchanged candidate package installs and source55+AW..BE installs. The delivered
+BE rollback refuses at its platform identity guard before any business data.
+Its package hash literal starts 8702e951; the actual candidate manifest/package
+hash is 80cfbc8877cf5605d0f7ac147d9cd437f0caea1fa9ab177ce664fb14c33633fe.
+No rollback guard or hash will be patched. Subsequent business tests execute
+on the unchanged installed BE only after confirming installation READY and
+its application marker. A failed rollback verdict is retained and cannot
+suppress unrelated business assertions. Official candidate build passed.

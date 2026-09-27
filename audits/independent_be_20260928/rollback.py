@@ -16,7 +16,7 @@ def main():
         try:a.closed(lambda c:c.execute(text,prepare=False))
         except Exception as e:error=str(e)
         result['response_error']=error
-        after=snapshot()
+        after=snapshot();result['before']=before;result['after']=after;result['refusal_left_state_unchanged']=(after==before)
         if MODE=='pre':
             expected=json.loads((OUT/'independent-before-be.json').read_text())
             assert error is None,error
