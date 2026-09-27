@@ -70,9 +70,12 @@ def cancel():
 def overlap():return n.reject(lambda:n.pocket('POST_PERIOD',{**X['pocket_period']['payload'],'reason':'Independent overlapping period'}),'tumpang tindih')
 def stale_correct():return n.reject(lambda:n.pocket('CORRECT_OPENING_USAGE',{'usage_id':X['pocket_history']['usage'],'amount':'131.00','expected_amount':'116.71','economic_date':'2026-09-19','reason':'Independent stale source amount'}),'STALE_VERSION')
 def race():
-    for who in ['owner','admin']:
-        with s.actor_conn(who) as c: assert c.execute("select erp.has_permission('warehouse.stock.adjust')").fetchone()[0],who
     p=preview();payload={'period_start':p['period_start'],'period_end':p['period_end'],'expected_revision':p['revision'],'reason':'Independent two-operator allocation race'};bar=threading.Barrier(2)
+    controls=[]
+    for who in ['owner','admin']:
+        with s.actor_conn(who) as c:
+            control=c.execute('select public.erp_save_pocket_fabric_action_v1(%s,%s,%s::uuid)',('POST_PERIOD',Jsonb(payload),uid())).fetchone()[0];controls.append({'actor':who,'positive_response':control,'rolled_back':True});c.rollback()
+    n.E.append({'pocket_race_positive_controls':controls})
     def go(who):
         bar.wait()
         try:return {'actor':who,'accepted':True,'response':n.pocket('POST_PERIOD',payload,who=who)}

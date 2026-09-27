@@ -240,15 +240,16 @@ def button(text,who='owner',exact=True):
     if len(found)!=1:raise AssertionError({'button':text,'refs':found,'snapshot':s})
     ab('click','@'+found[0],who=who)
 
+def control_selector(code,who='owner'):
+    ab('wait','--fn','(()=>{const e='+code+';return !!e&&!e.disabled;})()',who=who)
+    selector=evaluate('(()=>{let e='+code+';const p=[];while(e&&e.nodeType===1){let n=1,s=e;while((s=s.previousElementSibling))if(s.tagName===e.tagName)n++;p.unshift(e.tagName.toLowerCase()+":nth-of-type("+n+")");e=e.parentElement;}return p.join(" > ");})()',who)
+    return selector
+
 def fill(label,value,who='owner'):
-    selector='[aria-label='+json.dumps(label)+']'
-    # AuthGate uses a wrapping HTML label rather than aria-label. Match the
-    # same accessible field as the native `find label` interaction below.
-    control='(document.querySelector('+json.dumps(selector)+')||Array.from(document.querySelectorAll("label")).find(l=>l.textContent.trim()==='+json.dumps(label)+')?.control)'
-    ab('wait','--fn',"(()=>{const e="+control+";return !!e&&!e.disabled;})()",who=who)
-    ab('snapshot','-i',who=who);ab('find','label',label,'fill',value,who=who)
-    # Preserve numeric-looking input text while unwrapping the CLI JSON output.
-    actual=evaluate('({value:'+control+'.value})',who)['value']
+    code='(document.querySelector('+json.dumps('[aria-label='+json.dumps(label)+']')+')||Array.from(document.querySelectorAll("label")).find(l=>l.textContent.trim()==='+json.dumps(label)+')?.control)'
+    selector=control_selector(code,who)
+    ab('snapshot','-i',who=who);ab('fill',selector,value,who=who)
+    actual=evaluate('({value:'+code+'.value})',who)['value']
     assert actual==str(value),{'input_entry_prerequisite':label,'expected':str(value),'actual':actual}
 
 def select(label,value,who='owner'):

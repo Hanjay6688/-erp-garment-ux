@@ -15,15 +15,22 @@ b.save=save
 def click(label,who='owner',exact=True):return b.mobile_button(label,who,exact) if who.startswith('mobile') else b.button(label,who,exact)
 def snap(label,who='owner'):return b.mobile_snap(label,who) if who.startswith('mobile') else b.snap(label,who)
 def nav(section,label,who='owner'):
-    if who.startswith('mobile'):click('Buka menu',who)
+    if who.startswith('mobile'):
+        opened=b.evaluate('document.querySelector("aside.sidebar")?.classList.contains("sidebar-open")',who)
+        if not opened:click('Buka menu',who)
+        b.ab('wait','--fn','Math.abs(document.querySelector("aside.sidebar").getBoundingClientRect().left)<1',who=who)
     visible=b.evaluate('Array.from(document.querySelectorAll("aside.sidebar button")).filter(x=>x.getClientRects().length).map(x=>x.textContent.trim())',who)
-    if '• '+label not in visible:click(section,who,False)
-    click('• '+label,who);b.wait_text(label,who)
+    if not any(label in x and '•' in x for x in visible):click(section,who,False)
+    b.ab('wait','--fn','Array.from(document.querySelectorAll("aside.sidebar button")).some(x=>x.textContent.includes('+json.dumps(label)+'))',who=who)
+    click('• '+label,who)
+    if who.startswith('mobile'):b.ab('wait','--fn','!document.querySelector("aside.sidebar").classList.contains("sidebar-open")',who=who)
+    ready={'Ganti Merek':'Array.from(document.querySelectorAll("label")).some(l=>l.textContent.trim()==="Cari lot / SKU")','Kain kantong':'!!document.querySelector('+json.dumps('select[aria-label="Roll kain kantong"]')+')','Barang BS & Rework':'!!document.querySelector(".cbsr-search input")'}[label]
+    b.ab('wait','--fn',ready,who=who)
 def wrapped(label,value,who='owner'):
     code='Array.from(document.querySelectorAll("label")).find(l=>l.textContent.split(/Pilih/)[0].trim()==='+json.dumps(label)+')?.control'
     # Get accessible selects through their wrapping label, as actual user input.
     b.ab('wait','--fn','(()=>{const e='+code+';return !!e&&!e.disabled&&Array.from(e.options).some(o=>o.value==='+json.dumps(value)+');})()',who=who)
-    b.ab('snapshot','-i',who=who);b.ab('find','label',label,'select',value,who=who)
+    selector=b.control_selector(code,who);b.ab('snapshot','-i',who=who);b.ab('select',selector,value,who=who)
     b.ab('wait','--fn','(()=>{const e='+code+';return !!e&&!e.disabled&&e.value==='+json.dumps(value)+';})()',who=who)
 def qty(lot):return b.sql('select coalesce(sum(qty_signed),0) from erp.fg_stock_movements where lot_id=%s',(lot,),one=True)
 def wait_db(fn,expected,seconds=25):
@@ -86,7 +93,7 @@ def pocket_period(who='owner'):
 
 def redye(who='owner',key='UI'):
     nav('Produksi','Barang BS & Rework',who);number=b.sql('select bs_number from erp.bs_cases where id=%s',(X['redye'][key]['bs'],),one=True)
-    b.ab('snapshot','-i',who=who);b.ab('fill','input[placeholder="Nomor, PO, model, Pola, pihak…"]',number,who=who);click('Cari',who);b.wait_text(number,who)
+    b.ab('snapshot','-i',who=who);b.ab('fill','input[placeholder="Nomor, PO, model, Pola, pihak…"]',number,who=who);b.ab('snapshot','-i',who=who);b.ab('click','.cbsr-search button',who=who) if not who.startswith('mobile') else b.ab('tap','.cbsr-search button',who=who);b.wait_text(number,who);b.ab('wait','--fn','document.querySelectorAll(".cbsr-list button").length===1&&!document.querySelector(".cbsr-busy")',who=who)
     click('Rewash',who);b.fill('NOMOR ORDER · WAJIB','BE-AUD-BROWSER-'+who,who);wrapped('VENDOR REWASH',C['daily_vendor'],who);b.fill('QTY DIKIRIM','7',who);b.fill('WAKTU FISIK · WIB','2026-09-14T08:00',who);wrapped('GUDANG FG BILA GOOD',C['fg'],who);b.fill('CATATAN / ALASAN','Independent browser new-color service '+who,who)
     b.ab('snapshot','-i',who=who);b.ab('find','label','Hasil GOOD menjadi SKU lain','check',who=who)
     wrapped('SKU hasil baru',C['redye_target'],who);wrapped('Proses celup berbayar',C['redye_process'],who);snap(who+'-redye-ready',who);click('Buat order celup ulang',who)

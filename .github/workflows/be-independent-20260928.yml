@@ -153,6 +153,10 @@ jobs:
         if: always()
         working-directory: auditor
         run: python audits/independent_be_20260928/pocket.py
+      - name: Independent downstream costs non-PO wages invoice payments and closed history
+        if: always()
+        working-directory: auditor
+        run: python audits/independent_be_20260928/extended.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
