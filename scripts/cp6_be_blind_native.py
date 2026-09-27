@@ -8,6 +8,7 @@ from __future__ import annotations
 import json
 import os
 import uuid
+from datetime import timedelta
 from decimal import Decimal
 from pathlib import Path
 
@@ -15,6 +16,7 @@ import psycopg
 
 import cp6_be_probe as setup
 import cp6_bd_probe as bdp
+import cp6_be_pocket_probe as pocket
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "be-blind-native-results.json"
@@ -40,6 +42,10 @@ def main() -> None:
     with psycopg.connect(os.environ["PGURL"].replace("//postgres:", "//supabase_admin:", 1)) as conn, conn.cursor() as cur:
         day = business_date(cur)
         assert one(cur, "select count(*) from erp.schema_migrations where version='v2.6.20be'") == 1
+        if not one(cur, "select has_schema_privilege('authenticated','erp','USAGE')"):
+            cur.execute("grant usage on schema erp to authenticated")
+        bdp.api.seed(cur)
+        bdp.boundary.historical.prior.set_open_period(cur, day - timedelta(days=30))
 
         # B01: selected source, real movements, replay, and inverse. A separate
         # fixture lot provides a negative control for accidental FIFO selection.
@@ -67,7 +73,11 @@ def main() -> None:
         http_payload = dict(chosen["payload"])
         http_payload["expected_version"] = one(cur, "select erp.be_source_revision_v1(%s,%s)",
                                                chosen["lot"], chosen["location"])
-        HTTP_FIXTURE.write_text(json.dumps({"payload": http_payload, "source_lot_id": chosen["lot"]}) + "\n")
+        race_payload = dict(unrelated["payload"])
+        race_payload["expected_version"] = one(cur, "select erp.be_source_revision_v1(%s,%s)",
+                                               unrelated["lot"], unrelated["location"])
+        HTTP_FIXTURE.write_text(json.dumps({"payload": http_payload, "source_lot_id": chosen["lot"],
+                                            "race_payload": race_payload, "race_lot_id": unrelated["lot"]}) + "\n")
         result["selected_lot"] = {"source_before": chosen_initial, "source_after_post": after_source,
                                   "target_after_post": after_target, "unrelated": unrelated_after,
                                   "replay_same": True, "inverse_restored": True,
@@ -126,6 +136,39 @@ def main() -> None:
         assert initial_rate is None and resolved == 50 and action["rate"] == "50.00"
         result["redye_unknown_resolution"] = {"initial_rate": None, "resolved_rate": str(resolved),
                                               "bd_facade_reachable": True}
+
+        # B08: real pre-cutover source and three destinations. The imported
+        # physical history is fixture data; expected postings are oracle facts.
+        cutover = day - timedelta(days=10)
+        pocket_source = bdp.bbp.production_post(cur, day, pocket.active_unit(cur, pocket.rows(cutover)))
+        start = cutover - timedelta(days=1)
+        before_physical = (one(cur, "select count(*) from erp.material_stock_movements"),
+                           one(cur, "select count(*) from erp.sewing_terminal_events"))
+        accounts = ("WIP", "FG_INVENTORY", "COGS", "OTHER_EXPENSE")
+        before_books = {account: bdp.gl(cur, account) for account in accounts}
+        preview = pocket.preview(cur, start, cutover)
+        assert preview["quantity"] == "10" and preview["amount"] == "11.25", preview
+        payload = {"period_start": str(start), "period_end": str(cutover),
+                   "expected_revision": preview["revision"], "reason": "Blind historical pocket allocation"}
+        period_key = str(uuid.uuid4())
+        allocation = pocket.call(cur, "POST_PERIOD", payload, period_key)
+        replay_allocation = pocket.call(cur, "POST_PERIOD", payload, period_key)
+        delta = {account: bdp.gl(cur, account) - before_books[account] for account in accounts}
+        expected = {"WIP": Decimal("5.62"), "FG_INVENTORY": Decimal("3.38"),
+                    "COGS": Decimal("2.25"), "OTHER_EXPENSE": Decimal("-11.25")}
+        assert delta == expected and allocation["id"] == replay_allocation["id"], (delta, replay_allocation)
+        revision = one(cur, "select erp.pocket_period_state_v1(%s)", allocation["id"])["revision"]
+        pocket.call(cur, "CANCEL_PERIOD", {"id": allocation["id"], "expected_revision": revision,
+                                              "reason": "Blind pocket inverse"})
+        inverse = {account: bdp.gl(cur, account) - before_books[account] for account in accounts}
+        after_physical = (one(cur, "select count(*) from erp.material_stock_movements"),
+                          one(cur, "select count(*) from erp.sewing_terminal_events"))
+        assert all(value == 0 for value in inverse.values()) and before_physical == after_physical
+        result["historical_pocket"] = {"batch": pocket_source["batch"],
+                                        "preview": {"qty": preview["quantity"], "amount": preview["amount"]},
+                                        "posted_delta": {k: str(v) for k, v in delta.items()},
+                                        "replay_same": True, "inverse_zero": True,
+                                        "no_synthetic_physical_events": True}
 
         result["status"] = "FULL_SCHEMA_PROBES_COMPLETE"
     OUT.write_text(json.dumps(result, indent=2) + "\n")
