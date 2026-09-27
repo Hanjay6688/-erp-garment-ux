@@ -1,6 +1,6 @@
 -- CP6 BD rollback: exact pre-use restore of the T3 release package to its predecessor; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_rollback.py from supabase/release/cp6-t3/20260925040000_erp_v2_6_20bd_cp6_laundry_prices_invoices.sql (sha256 30bf93681f4ded29dbf8b02fbd714effb2fe9907d2a7bfb7eafe7d36365ae35d) and docs/evidence/cp6-t3/rollback_capture.json (sha256 ae704f42e6d56fd8d5c8ea2b4a60aeb69aa319f50555d0cfe439408366d0ec61).
+-- Built by scripts/cp6_t3_rollback.py from supabase/release/cp6-t3/20260925040000_erp_v2_6_20bd_cp6_laundry_prices_invoices.sql (sha256 5daf8535106616c0348471a806cb00c77a3a47707bc1ece6adb3501e9b4283eb) and docs/evidence/cp6-t3/rollback_capture.json (sha256 84619f1558db3a43adec67154af498d9435a65541bc6e394b69e3690bf6c4472).
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
 do $closed_admission$
@@ -23,7 +23,7 @@ do $platform$ begin
  if not exists(select 1 from erp.schema_migrations where version='v2.6.20bd')
   or (select count(*) from supabase_migrations.schema_migrations where name='erp_v2_6_20bd_cp6_laundry_prices_invoices')<>1
   or not exists(select 1 from supabase_migrations.schema_migrations where version='20260925040000' and name='erp_v2_6_20bd_cp6_laundry_prices_invoices'
-   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')='30bf93681f4ded29dbf8b02fbd714effb2fe9907d2a7bfb7eafe7d36365ae35d')
+   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')='5daf8535106616c0348471a806cb00c77a3a47707bc1ece6adb3501e9b4283eb')
   or exists(select 1 from supabase_migrations.schema_migrations where version>'20260925040000')
  then raise exception 'BD_ROLLBACK_PLATFORM_OR_SUCCESSOR';end if;
 end $platform$;
@@ -102,7 +102,7 @@ with relations as (
 select coalesce(jsonb_object_agg(k,encode(extensions.digest(convert_to(v::text,'UTF8'),'sha256'),'hex')),'{}'::jsonb) from objects
 ) catalog;
  select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(length(key)::text||':'||key||':'||value,E'\n' order by key collate "C"),''),'UTF8'),'sha256'),'hex') into object_count,fingerprint from jsonb_each_text(actual);
- if object_count<>8812 or fingerprint is distinct from '92f2a961cf72c5affa4b461b9dd87900366c45e4f185281cb310abc0151af550' then
+ if object_count<>8819 or fingerprint is distinct from '50685c458c2e556a500101468ff852dcc9ff710c704a3abf8b2b552921bcf441' then
   raise exception 'BD_ROLLBACK_CATALOG_DRIFT';
  end if;
 end $catalog_guard$;
@@ -227,6 +227,7 @@ drop function erp.bd_invoice_billed_v1(uuid,text);
 drop function erp.bd_invoice_capacity_v1(uuid,text);
 drop function erp.bd_invoice_json_v1(uuid);
 drop function erp.bd_invoice_lines_json_v1(uuid);
+drop function erp.bd_invoice_page_v1(uuid,uuid,timestamp with time zone);
 drop function erp.bd_invoice_pieces_v1(uuid);
 drop function erp.bd_invoice_resync_v1(uuid,date);
 drop function erp.bd_line_complete_v1(uuid);
@@ -254,6 +255,7 @@ drop function erp.bd_process_rate_at_v1(uuid,uuid,timestamp with time zone);
 drop function erp.bd_product_variance_v1(uuid);
 drop function erp.bd_qty_v1(jsonb,text);
 drop function erp.bd_receipt_invoiced_v1(uuid);
+drop function erp.bd_receipt_page_v1(uuid,uuid,timestamp with time zone);
 drop function erp.bd_refresh_size_estimates_v1(uuid);
 drop function erp.bd_released_estimate_v1(uuid);
 drop function erp.bd_require_policy_v1(text,text);
@@ -267,6 +269,7 @@ drop function erp.bd_set_charge_price_v1(jsonb,uuid);
 drop function erp.bd_set_opening_estimate_v1(jsonb,uuid);
 drop function erp.bd_set_policy_v1(jsonb,uuid);
 drop function erp.bd_split_amount_v1(numeric,integer[]);
+drop function erp.bd_split_money_v1(numeric,numeric[]);
 drop function erp.bd_uncosted_estimate_v1(uuid,integer,numeric,numeric);
 drop function erp.bd_uuid_v1(jsonb,text,boolean);
 drop function erp.bd_validate_imports_v1(uuid);
