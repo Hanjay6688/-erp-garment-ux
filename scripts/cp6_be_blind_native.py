@@ -37,7 +37,7 @@ def post_draft(cur, invoice: dict):
 def main() -> None:
     result = {"status": "INCOMPLETE", "candidate": "2c2fd5e8e0df5f8ada44402c93f70dbaf0fbbb5b",
               "production_go": False}
-    with psycopg.connect(os.environ["PGURL"]) as conn, conn.cursor() as cur:
+    with psycopg.connect(os.environ["PGURL"].replace("//postgres:", "//supabase_admin:", 1)) as conn, conn.cursor() as cur:
         day = business_date(cur)
         assert one(cur, "select count(*) from erp.schema_migrations where version='v2.6.20be'") == 1
 
