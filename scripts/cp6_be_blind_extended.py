@@ -74,6 +74,7 @@ def accessory(cur, day):
 
 def rework(cur, day):
     f = avp.rework_ready(cur, day - timedelta(days=1))
+    bd.api.admin(cur)
     old = cur.execute("select vendor_id,physical_sent_at,return_fg_location_id from erp.rework_orders where id=%s",
                       (f["order"],)).fetchone()
     bd.chain.bs_action(cur, "SAVE_REWORK", {"id": f["order"], "action": "CANCEL",
@@ -131,7 +132,9 @@ def zero_redye(cur, day):
     payload = {"service_id": f["redye"], "rate": "0.00", "reason": "Blind owner explicitly approves zero"}
     key = str(uuid.uuid4())
     first = bd.bd(cur, "SET_REDYE_PRICE", payload, key)
-    assert bd.bd(cur, "SET_REDYE_PRICE", payload, key) == first
+    again = bd.bd(cur, "SET_REDYE_PRICE", payload, key)
+    assert (again.get("replayed") is True and
+            {k: v for k, v in again.items() if k != "replayed"} == first), (first, again)
     rate = one(cur, "select erp.be_redye_rate_v1(%s)", f["redye"])
     remaining = one(cur, "select count(*) from erp.period_blockers_v1(%s,%s) where code='BE_REDYE_PRICE_UNKNOWN'",
                     f["day"], f["day"])
@@ -139,6 +142,48 @@ def zero_redye(cur, day):
     assert one(cur, "select count(*) from erp.be_redye_price_events_v1 where service_id=%s", f["redye"]) == 1
     return {"unknown": None, "blocked_before": blocker, "explicit_zero_event": True,
             "cost": "0.00", "blockers_after": remaining, "replay_same": True}
+
+
+def paid_redye(cur, day):
+    f = be.redye_fixture(cur, day, known=True)
+    bd.invoice_policies(cur, after="CORRECTION_DOCUMENT")
+    bd.api.admin(cur)
+    sale = bd.sell(cur, f, f["target"], 1, 17)
+    sale_snapshot = one(cur, """select sum(total_hpp) from erp.sale_stock_allocations
+        where sale_item_id in(select id from erp.sales_items where sale_id=%s)""", sale)
+    before = {k: bd.gl(cur, k) for k in ("FG_INVENTORY", "COGS")}
+    payable = Decimal(str(bd.ap(cur, f["vendor"])))
+    draft = bd.bd(cur, "SAVE_INVOICE_DRAFT", {
+        "vendor_id": f["vendor"], "invoice_number": "BLIND-REDYE-" + uuid.uuid4().hex[:10],
+        "invoice_date": str(f["day"]), "header_total": "240.00",
+        "lines": [{"line_kind": "BILL", "rework_service_id": f["redye"],
+                   "category": "GOOD", "qty": 4, "amount": "240.00"}]})
+    posted = bd.post_draft(cur, draft)
+    assert posted["status"] == "POSTED"
+    delta = {k: bd.gl(cur, k) - v for k, v in before.items()}
+    assert delta == {"FG_INVENTORY": Decimal("30.00"), "COGS": Decimal("10.00")}, delta
+    assert Decimal(str(bd.ap(cur, f["vendor"]))) - payable == 240
+    assert one(cur, "select erp.be_redye_cost_v1(%s)", f["redye"]) == 240
+    assert one(cur, "select erp.be_redye_accrual_v1(%s)", f["po"]) == 0
+    assert one(cur, """select sum(total_hpp) from erp.sale_stock_allocations
+        where sale_item_id in(select id from erp.sales_items where sale_id=%s)""", sale) == sale_snapshot
+    repeat = bd.bd(cur, "SAVE_INVOICE_DRAFT", {
+        "vendor_id": f["vendor"], "invoice_number": "BLIND-OVER-" + uuid.uuid4().hex[:10],
+        "invoice_date": str(f["day"]), "header_total": "240.00",
+        "lines": [{"line_kind": "BILL", "rework_service_id": f["redye"],
+                   "category": "GOOD", "qty": 4, "amount": "240.00"}]})
+    try:
+        with cur.connection.transaction():
+            bd.post_draft(cur, repeat)
+    except psycopg.Error as error:
+        refusal = error.diag.message_primary
+    else:
+        refusal = "accepted"
+    assert "BD_INVOICE_CAPACITY" in refusal, refusal
+    return {"invoice": "240.00", "ap_delta": "240.00",
+            "fg_delta": str(delta["FG_INVENTORY"]), "cogs_delta": str(delta["COGS"]),
+            "accrual_left": "0.00", "sale_snapshot_immutable": True,
+            "second_invoice_refused": refusal}
 
 
 def afui_mix(cur, day):
@@ -152,7 +197,7 @@ def afui_mix(cur, day):
     physical = (one(cur, "select count(*) from erp.material_stock_movements"),
                 one(cur, "select count(*) from erp.sewing_terminal_events"))
     preview = pocket.preview(cur, start, end)
-    assert (preview["quantity"], preview["amount"], preview["per_piece"]) == ("20", "22.50", "1.125000")
+    assert (preview["quantity"], preview["amount"], preview["per_piece"]) == ("20", "22.50", "1.125000"), preview
     made = pocket.call(cur, "POST_PERIOD", {"period_start": str(start), "period_end": str(end),
              "expected_revision": preview["revision"], "reason": "Blind mixed native and historical including Afui"})
     pool = made["id"]
@@ -223,8 +268,14 @@ def main():
               "status": "INCOMPLETE", "production_go": False, "cases": {}}
     with psycopg.connect(os.environ["PGURL"].replace("//postgres:", "//supabase_admin:", 1)) as conn, conn.cursor() as cur:
         day = one(cur, "select (statement_timestamp() at time zone 'Asia/Jakarta')::date")
+        if one(cur, "select count(*) from erp.app_users") == 0:
+            if not one(cur, "select has_schema_privilege('authenticated','erp','USAGE')"):
+                cur.execute("grant usage on schema erp to authenticated")
+            bd.api.seed(cur)
+        bd.boundary.historical.prior.set_open_period(cur, day - timedelta(days=30))
         for name, case in (("B02_B03_ACCESSORY", accessory), ("B04_REWORK", rework),
-                           ("B06_EXPLICIT_ZERO", zero_redye), ("B08_AFUI_MIX", afui_mix),
+                           ("B05_SMALL_REDYE", paid_redye), ("B06_EXPLICIT_ZERO", zero_redye),
+                           ("B08_AFUI_MIX", afui_mix),
                            ("B09_POCKET_IMPORT", pocket_import)):
             bd.api.admin(cur)
             cur.execute("savepoint blind_extended_case")
