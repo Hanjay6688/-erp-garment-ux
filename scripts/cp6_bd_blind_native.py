@@ -98,7 +98,7 @@ def main() -> None:
             (json.dumps({"policy_key": "LAU_DEC03", "operation": "SET",
                 "expected_version": "1", "reason": "Audit extra policy",
                 "value": {"discount": "REFUSED", "extra": "ALLOWED", "rounding": "REFUSED"}}), uuid.uuid4())).fetchone()[0]
-        assert set_policy["status"] == "SAVED" and set_policy["version"] == "2", set_policy
+        assert set_policy["status"] == "SET" and set_policy["version"] == "2", set_policy
 
         package_only = quote(cur, VENDOR_A, {"package_id": str(PACKAGE)})
         package_extra = quote(cur, VENDOR_A, extra)
