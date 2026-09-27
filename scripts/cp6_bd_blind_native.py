@@ -7,7 +7,9 @@ from __future__ import annotations
 
 import json
 import os
+import time
 import uuid
+from concurrent.futures import ThreadPoolExecutor
 from decimal import Decimal
 from pathlib import Path
 
@@ -135,6 +137,42 @@ def main() -> None:
             "BD_COMPONENT_RATE_NOT_EXACT")
         redye = refuse(cur, "select erp.save_laundry_bd_action_v1('SET_REDYE_PRICE','{}'::jsonb,%s)",
             (uuid.uuid4(),), "BD_ACTION_UNKNOWN")
+        # Two real PostgreSQL sessions compete for the same pending setting.
+        race_payload = json.dumps({"policy_key": "LAU_DEC01", "operation": "SET",
+            "expected_version": "1", "reason": "Audit two sessions", "value": {"units": ["BATCH"]}})
+        with psycopg.connect(os.environ["PGURL"]) as first_conn, psycopg.connect(os.environ["PGURL"]) as second_conn:
+            for session in (first_conn, second_conn):
+                session.execute("select set_config('request.jwt.claims','{\"role\":\"service_role\"}',true)")
+            first_id, second_id = uuid.uuid4(), uuid.uuid4()
+            first_result = first_conn.execute(
+                "select erp.save_laundry_bd_action_v1('SET_POLICY',%s::jsonb,%s)",
+                (race_payload, first_id)).fetchone()[0]
+            assert first_result["version"] == "2"
+            def second_post() -> str:
+                try:
+                    second_conn.execute("select erp.save_laundry_bd_action_v1('SET_POLICY',%s::jsonb,%s)",
+                        (race_payload, second_id))
+                    return "UNEXPECTED_SUCCESS"
+                except psycopg.Error as error:
+                    second_conn.rollback()
+                    return error.diag.message_primary
+            with ThreadPoolExecutor(max_workers=1) as executor:
+                future = executor.submit(second_post)
+                blocked = False
+                try:
+                    for _ in range(30):
+                        blockers = cur.execute("select pg_blocking_pids(%s)",
+                            (second_conn.info.backend_pid,)).fetchone()[0]
+                        if first_conn.info.backend_pid in blockers:
+                            blocked = True
+                            break
+                        time.sleep(0.1)
+                finally:
+                    first_conn.commit()
+                race_second = future.result(timeout=10)
+            assert blocked and "STALE_VERSION" in race_second, (blocked, race_second)
+        race_version = cur.execute("select version from erp.bd_policy_settings_v1 where policy_key='LAU_DEC01'").fetchone()[0]
+        assert race_version == 2, race_version
         result = {"status": "FULL_SCHEMA_FUNCTION_PROBES", "candidate": "08065a3b4da71c51ffbbab77f0a6b1ac7e6638ec",
             "pending_default": pending, "pending_invoice_policy": pending_refusal,
             "package_total": package_only["total_known"], "package_plus_extra_total": package_extra["total_known"],
@@ -142,6 +180,8 @@ def main() -> None:
             "cross_vendor_refusal": wrong_vendor, "partial_component_total": b_partial["total_known"],
             "unknown_known_subtotal": b_unknown["total_known"], "unknown_complete": b_unknown["complete"],
             "missing_rate_refusal": no_version, "redye_router_refusal": redye,
+            "policy_two_session_race": {"blocked_on_first": blocked, "first_version": first_result["version"],
+                "second_refusal": race_second, "final_version": race_version},
             "production_go": False}
         OUT.write_text(json.dumps(result, indent=2) + "\n")
         print(OUT.read_text(), flush=True)
