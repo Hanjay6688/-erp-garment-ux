@@ -123,6 +123,10 @@ jobs:
         if: always()
         working-directory: auditor
         run: python audits/independent_bd_20260927/lifecycle.py
+      - name: Supplemental peer-informed checks on real installed schema
+        if: always()
+        working-directory: auditor
+        run: python audits/independent_bd_20260927/peer_recheck.py
       - name: Independent daily physical and cost continuation
         if: always()
         working-directory: auditor

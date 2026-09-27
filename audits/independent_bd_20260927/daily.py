@@ -69,7 +69,7 @@ def setup():
         c.execute("insert into erp.product_models(id,model_code,model_name) values(%s,'AUD-DAY','Independent daily model')",(C['model'],))
         c.execute("insert into erp.contractors(id,contractor_code,contractor_name,contractor_type,attendance_required) values(%s,'AUD-DAY','Independent mandor','MANDOR',false)",(C['mandor'],))
         c.execute("insert into erp.materials(id,material_sku,material_name,material_type,unit_code) values(%s,'AUD-DAY-FABRIC','Controlled zero-value source fabric','FABRIC','METER')",(C['material'],))
-        for key,kind in [('rawloc','MATERIAL_WAREHOUSE'),('fg','FG_WAREHOUSE')]:c.execute('insert into erp.locations(id,location_code,location_name,location_type) values(%s,%s,%s,%s)',(C[key],'AUD-'+key,'AUD-'+key,kind))
+        for key,kind in [('rawloc','RAW_MATERIAL_WAREHOUSE'),('fg','FG_WAREHOUSE')]:c.execute('insert into erp.locations(id,location_code,location_name,location_type) values(%s,%s,%s,%s)',(C[key],'AUD-'+key,'AUD-'+key,kind))
         c.execute("insert into erp.production_patterns(id,pattern_code,pattern_name) values(%s,'AUD-DAY','Independent pattern')",(C['pattern'],))
         c.execute("insert into erp.work_components(id,component_code,component_name) values(%s,'AUD-DAY-SEW','Independent sewing work')",(C['work_component'],))
         c.execute("insert into erp.customers(id,customer_code,customer_name) values(%s,'AUD-DAY','Independent customer')",(C['customer'],))
@@ -97,6 +97,18 @@ def ship(key,unknown=False):
     f['pricing_snapshot']=r['pricing'];return r
 def replay_ship():
     f=F['K'];before=fp();r=cmd('POST_PRICED_DELIVERY',f['shipment_payload'],f['shipment_request']);eq(fp(),before);eq(r['delivery_id'],f['delivery']);return r
+def day_boundary():
+    f=F['K']
+    physical=admin("select physical_at::text,(physical_at at time zone 'Asia/Jakarta')::date::text from erp.laundry_deliveries where id=%s",(f['delivery'],))[0]
+    dates=admin("select distinct transaction_date::text,economic_date::text from erp.journal_entries j join erp.journal_lines l on l.journal_entry_id=j.id where l.po_id=%s and l.account_id=erp.account_id('ACCRUED_MANUFACTURING')",(f['po'],))
+    eq(physical[1],'2026-09-15');eq(dates,[('2026-09-15','2026-09-15')])
+    return {'physical_utc_and_business_date':physical,'accrual_dates':dates}
+def reverse_unused():
+    f=F['R'];ship('R');r=rpc('REVERSE_DELIVERY',{'delivery_id':f['delivery'],'reason':'Independent unused shipment reversal'},ver('laundry_deliveries',f['delivery']))
+    eq(r['status'],'REVERSED')
+    eq(admin('select unsent_ready_qty_pcs from erp.v_wip_control_status_v1 where cutting_group_id=%s',(f['group'],),one=True),13)
+    eq(admin("select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where l.po_id=%s and l.account_id=erp.account_id('ACCRUED_MANUFACTURING') and j.status in('POSTED','REVERSED')",(f['po'],),one=True),D(0))
+    f['reversed']=r;return r
 def snapshot():
     f=F['K'];before=row('laundry_delivery_lines',f['delivery_line']);prices=admin('select to_jsonb(t) from erp.bd_laundry_charge_lines_v1 t where delivery_line_id=%s order by line_no',(f['delivery_line'],))
     s.rate(C['daily_wash'],'9000.17','2026-09-20T08:00:00+07:00')
@@ -165,6 +177,8 @@ def ledger(key):
     # Inspect direct accounting rows; no product target-computation helper is oracle.
     E.append({'direct_po_ledger':key,'rows':rows})
     gl={m:D(admin("select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where l.po_id=%s and l.account_id=erp.account_id(%s) and j.status in('POSTED','REVERSED')",(f['po'],m),one=True)) for m in ['WIP','FG_INVENTORY','COGS','AP_VENDOR','ACCRUED_MANUFACTURING']}
+    # AP is recorded per vendor/invoice; it need not repeat a PO dimension.
+    gl['AP_VENDOR']=D(admin("select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l where l.journal_entry_id=%s and l.account_id=erp.account_id('AP_VENDOR')",(f['invoice']['journal_id'],),one=True))
     total=D('62546.24');eq(gl['WIP'],D(0));eq(gl['FG_INVENTORY']+gl['COGS'],total,'FG plus COGS retains all labor and final laundry cost');eq(gl['AP_VENDOR'],-D('61246.24'));eq(gl['ACCRUED_MANUFACTURING'],D(0))
     return {'gl':gl,'raw_accounts':rows,'hpp':hpp(key),'fg_qty':qty(key)}
 def case(id,title,fn,needs=()):
@@ -176,6 +190,7 @@ def main():
     except Exception as e:R.append({'id':'SETUP.DAILY','status':'BLOCKED','error':str(e),'traceback':traceback.format_exc()});save();raise
     case('IND-01.DAILY','13 physical PCS with partial component; posted 59568.72 estimate',lambda:ship('K'))
     case('IND-19.DELIVERY','Replay posted shipment has one physical and financial effect',replay_ship,[('K','delivery')])
+    case('IND-35.DAILY','00:01 WIB shipment uses the local business day for accrual',day_boundary,[('K','delivery')])
     case('IND-05.POSTED','New master rate preserves posted charge snapshots',snapshot,[('K','delivery')])
     case('IND-12.DELIVERY','Second shipment cannot reuse consumed distribution capacity',lambda:refuse(lambda:cmd('POST_PRICED_DELIVERY',dp('K'))),[('K','delivery')])
     case('IND-33.PHYSICAL','Receipt before dispatch refused atomically',lambda:refuse(lambda:rpc('POST_RECEIPT',rp('K','2026-09-14T23:59:00+07:00'),ver('laundry_deliveries',F['K']['delivery']))),[('K','delivery')])
@@ -193,6 +208,7 @@ def main():
     case('IND-30.UNKNOWN','ALLOW_PENDING sale retains explicit unknown-laundry marker',lambda:sell('U'),[('U','qc')])
     case('IND-09.DAILY','Resolving unknown cost after processing updates HPP without stock duplication',resolve_unknown,[('U','qc')])
     case('IND-10.OVERWRITE','Known posted charge cannot be overwritten',lambda:refuse(lambda:cmd('SET_CHARGE_PRICE',{'charge_line_id':admin('select id::text from erp.bd_laundry_charge_lines_v1 where delivery_line_id=%s order by line_no limit 1',(F['K']['delivery_line'],),one=True),'rate_per_pcs':'1.00','reason':'Independent overwrite attempt'})),[('K','delivery')])
+    case('IND-25.DELIVERY','Unused shipment reversal restores sewing capacity and clears accrual',reverse_unused)
     save();print(json.dumps({'daily_counts':{x:sum(r['status']==x for r in R) for x in ['PASS','FAIL','BLOCKED']}}),flush=True)
     return int(any(r['status']!='PASS' for r in R))
 if __name__=='__main__':raise SystemExit(main())
