@@ -50,7 +50,12 @@ def coverage(b, cur, today, unknown=False):
     b.bd_ws(cur,dict(vendor_id=fx['vendor']))
     return b.verdict(dict(ambiguous_refused=ambiguous['ok'],foreign_refused=foreign['ok'],response_exact=response_exact,
         unrelated_size_complete=unrelated_complete,finish_only_recipient=dict((s,(n,a)) for s,n,a in charges)=={base.SIZE:(0,D(0)),fx['size2']:(5,D('3394.55'))},
-        partial_receipts_conserve=allocated==expected,lot_laundry_conserved=(lot_costs[base.SIZE]-expected[base.SIZE])/7==(lot_costs[fx['size2']]-expected[fx['size2']])/6),
+        partial_receipts_conserve=allocated==expected,
+        # Fixture input is 10 units at 10 each (cp6_aa_invoice_partial_audit.estimated_receipt), fully consumed.
+        # HPP uses six decimals: assert each exact lot, not equality after dividing repeating fractions by 7/6.
+        lot_laundry_conserved=lot_costs=={base.SIZE:expected[base.SIZE]+(D(100)*7/13).quantize(D('0.000001')),
+            fx['size2']:expected[fx['size2']]+(D(100)*6/13).quantize(D('0.000001'))},
+        total_cost_conserved=sum(lot_costs.values())==D('59668.72')),
         estimates=initial,finish_shares=charges,receipt_totals=allocated,lot_costs=lot_costs,response=sent['estimated_cost'])
 
 
@@ -133,12 +138,17 @@ def revoked_replay(b,cur,today):
         fresh=fresh,cached=cached,inactive=inactive)
 
 
-def pagination(b,cur,today):
-    if not b.bd_installed(cur): return b.no_route(cur,lambda:b.route_call(cur))
+def paging_fixture(b,cur,today):
     fx=b.two_size_fixture(cur,today,'REV-PAGES',201,1);b.process_rate(cur,fx,'1.00')
     delivery=b.plain_delivery(cur,fx,201,11)
     sources=[b.receipt_line(cur,b.receive(cur,delivery,fx,1,13)['receipt_id']) for _ in range(201)]
     invoices=[b.invoice(cur,fx,[dict(line=sources[0],qty=1,amount='1.00')],'1.00',post=False)[0]['invoice_id'] for _ in range(55)]
+    return fx,sources,invoices
+
+
+def pagination(b,cur,today):
+    if not b.bd_installed(cur): return b.no_route(cur,lambda:b.route_call(cur))
+    fx,sources,invoices=paging_fixture(b,cur,today)
     first=b.bd_ws(cur,dict(vendor_id=fx['vendor']));page=first['pagination']
     # This new invoice must not displace entries on the already captured continuation.
     later=b.invoice(cur,fx,[dict(line=sources[0],qty=1,amount='1.00')],'1.00',post=False)[0]['invoice_id']

@@ -29,3 +29,9 @@ Sumber intake: `Handoff_Writer_BD_20260927.md`, versi 1, diperbarui 2026-09-27T1
 Coverage per ukuran adalah aggregate qty jasa pada source batch/size yang sama, bukan serial per PCS. Partial receipt mengambil bagian dari biaya ukuran itu dengan residual terakhir, mengikuti mekanisme existing yang diuji; ukuran tanpa jasa tidak mendapat alokasi. Tidak menebak penerima saat input parsial ambigu.
 
 Setiap push asing pada writer branch menghentikan penulisan dan dilaporkan. Branch yang tidak bergerak hanya membuktikan belum ada push terlihat, bukan editor lain pasti berhenti.
+
+## Hasil putaran awal (bukan penutupan audit)
+
+- `e2b33f9`, T1 run36344158914: seluruh35 kasus existing PASS; enam kasus revisi: FREE/WAIVED, nominal besar, izin replay, dan paging PASS. Coverage dan response tepat, tetapi dua assertion HPP writer FAIL karena membandingkan per-PCS sesudah pembagian pecahan berulang7/6 secara exact. Fixture kain10×10=100 (sumber `cp6_aa_invoice_partial_audit.estimated_receipt`) dialokasikan pada HPP enam desimal:53.846154 dan46.153846. Oracle diperbaiki menjadi **nilai tiap lot exact** dan total exact, tanpa toleransi; produk tidak diubah karena kegagalan assertion itu. Hasil awal tetap FAIL, tidak dilabel ulang.
+- Reader native232 berkas (14 BD,205 import,13 Laundry) diterima parser halaman, nol penolakan.
+- T3 run36344158905 masih memakai paket lama; gate menolak `BD_T1_FUNCTION_NOT_CURRENT`. Paket source perlu regenerasi, capture pin, kemudian install/compare/rollback ulang.

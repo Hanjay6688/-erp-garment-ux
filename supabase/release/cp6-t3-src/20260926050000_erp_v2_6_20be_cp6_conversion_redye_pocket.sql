@@ -1,6 +1,6 @@
 -- CP6 BE: physical SKU conversion, rework/redye service and historical pocket allocation (LAU-06b and ALL-C04). Release candidate of the T3 combined package; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_be_t1_family.sql (sha256 a540f9a99ba9cb3f8bc99e95cde45a0c31bd1c1468a9f1a50e233f2fc4552384): the T1 body below is unchanged apart from the
+-- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_be_t1_family.sql (sha256 c4f91fd690e3308122d14b5fdb8d2c30f59bb7809136e63824109c51c462746e): the T1 body below is unchanged apart from the
 -- ledger description; guards follow AO..AV. Capsule and catalog pins are placeholders until the T3 capture.
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
@@ -32,7 +32,7 @@ end $predecessor$;
 do $prior_platform$
 declare r record;
 begin
- for r in select * from jsonb_to_recordset('[{"marker":"v2.6.20ac","stamp":"20260915031500","name":"erp_v2_6_20ac_cp6_temporal_surface_closure","sha":"7b5690a2eddf618833d352dc75eb95aa1ef4dbcfb25d39b30374b733d33dadbc"},{"marker":"v2.6.20ad","stamp":"20260915113627","name":"erp_v2_6_20ad_cp6_opening_material_business_day","sha":"cd4879eb9b053e3b7a975e1430f481131e377f260ece2f19f07bfb4c98498c1d"},{"marker":"v2.6.20ae","stamp":"20260915201500","name":"erp_v2_6_20ae_cp6_opening_roll_integrity","sha":"228d9185501d418835e6434e64e1445be7b12ce2f517778ea63d789d478461c1"},{"marker":"v2.6.20af","stamp":"20260916014332","name":"erp_v2_6_20af_cp6_posted_child_integrity","sha":"54c5f73b99a2e63c858a777f669432f28260177daf4c45d806bb0e8a7c7c8e8e"},{"marker":"v2.6.20ag","stamp":"20260916050822","name":"erp_v2_6_20ag_cp6_sale_reservation_lineage","sha":"bff1d7d82917ce226ad0fb8823418fa14e497407d9659e125dc01ed5e2fd5944"},{"marker":"v2.6.20ah","stamp":"20260916070451","name":"erp_v2_6_20ah_cp6_return_allocation_eligibility","sha":"e5312744a2ef9ac53717c97e155fccf96a33e2f6a0c68c4b9c45f378ac538219"},{"marker":"v2.6.20ai","stamp":"20260916090022","name":"erp_v2_6_20ai_cp6_work_source_lineage","sha":"d3a604e53e599221afd46d1397e0d0660ebd8dc48db27113dfa63d3c3613a61c"},{"marker":"v2.6.20aj","stamp":"20260916202400","name":"erp_v2_6_20aj_cp6_rework_output_lineage","sha":"2e6cd4e94b52a27c83d2ba134a996c1db66a6f7ff617a5895f8c14769673f9ea"},{"marker":"v2.6.20ak","stamp":"20260917033516","name":"erp_v2_6_20ak_cp6_import_reference_preview","sha":"0d42825b2f2fcb38b9678fe1e6982b0c63290aac012b92be224f4323d495c536"},{"marker":"v2.6.20al","stamp":"20260917054049","name":"erp_v2_6_20al_cp6_opening_value_validation","sha":"74a5d5e14d79c7bbafa731aaf2fe1708bc575299600261f7412f1f7ea7323920"},{"marker":"v2.6.20am","stamp":"20260921214120","name":"erp_v2_6_20am_cp6_transfer_integrity","sha":"d5b155edb19aa8ca949036ba8a9cf67090478083c2e1ae6cc5bbf00b445716a5"},{"marker":"v2.6.20an","stamp":"20260921223438","name":"erp_v2_6_20an_cp6_cutting_selectors","sha":"21ac97ded4ed0cee9175c7fac7ef28ab6713d08b00766e1e5adc86bd38205e6c"},{"marker":"v2.6.20ao","stamp":"20260922135612","name":"erp_v2_6_20ao_cp6_invoice_retail","sha":"5687bb0236528d7e485e738ee2f96c2be0f4bde7e0d41c16bacee3a58183bdbb"},{"marker":"v2.6.20ap","stamp":"20260922135615","name":"erp_v2_6_20ap_cp6_connected_import_materials","sha":"fb8e14f0fd505edf730c0908f7e1c500cf850e29bcc0e90b3a51877224edd61b"},{"marker":"v2.6.20aq","stamp":"20260922161019","name":"erp_v2_6_20aq_cp6_accessory_lock_order","sha":"b1b4e449ca84ad524189640bcd76302cb277b9b690ed89f739ad5706e3cfac5a"},{"marker":"v2.6.20ar","stamp":"20260922185015","name":"erp_v2_6_20ar_cp6_opening_overlap","sha":"7da20a87d48493b4b64c10c395e8e54f87c1c40a835fbd09bbf2cdbc8866fa10"},{"marker":"v2.6.20as","stamp":"20260922210815","name":"erp_v2_6_20as_cp6_event_dates_product_identity","sha":"84e95211698eb2426995fd59d702bb42674f9fff675401be4861c9aa568cc1a8"},{"marker":"v2.6.20at","stamp":"20260923005153","name":"erp_v2_6_20at_cp6_wip_temporal_identity","sha":"f114a78918138a65f761488b77cadb1ab8a70ce6a6a88ae58a9d38656d1cfdb4"},{"marker":"v2.6.20au","stamp":"20260923045944","name":"erp_v2_6_20au_cp6_controlled_product_lifecycle","sha":"593b06092c2d47e03644afb1b7b5aef46c1442a56613f853a151b78ef738f2c2"},{"marker":"v2.6.20av","stamp":"20260923110000","name":"erp_v2_6_20av_cp6_identity_new_stock_cutoff","sha":"193e84efac8ead7cab681071e40070e1f9249f82cec1b7972f0576e8df25a2dc"},{"marker":"v2.6.20aw","stamp":"20260924010000","name":"erp_v2_6_20aw_cp6_close_readiness_engine","sha":"08826a25c14f8f18f5a168040b6f96dc4efe15c4498be5e92b0834601e77407c"},{"marker":"v2.6.20ax","stamp":"20260924010100","name":"erp_v2_6_20ax_cp6_fg_unsourced_receipts","sha":"32b4d33ebd80ed55951736c23be71b7eb79343c4c8dd623a32ae673924fc0a18"},{"marker":"v2.6.20ay","stamp":"20260924010200","name":"erp_v2_6_20ay_cp6_hpp_dated_from_goods","sha":"b41617d7d764e7ef3f25b323d6b6896a0f363623b1691a23c745ed34d12e5473"},{"marker":"v2.6.20az","stamp":"20260924010300","name":"erp_v2_6_20az_cp6_material_recost_dated_from_movement","sha":"576749761dbfb711005f76962f5c0287a151a80f6c6fe97b4e8f28e70671c0c2"},{"marker":"v2.6.20ba","stamp":"20260925010000","name":"erp_v2_6_20ba_cp6_audit_closure","sha":"e8fba02c91177eef3ccec94cd8156e04bcf2c550278caf9bf34244284b4cb123"},{"marker":"v2.6.20bb","stamp":"20260925020000","name":"erp_v2_6_20bb_cp6_open_cutover_states","sha":"966939292e04f0cbfbbf113f7ec831e4a448958f6e6861fc0eb16bc31a5fcab1"},{"marker":"v2.6.20bc","stamp":"20260925030000","name":"erp_v2_6_20bc_cp6_accessory_service_returns","sha":"6257d5d8acc9b466a99090ea8d6c4b7f9874da605b77079d0ba0f3c1878f5539"},{"marker":"v2.6.20bd","stamp":"20260925040000","name":"erp_v2_6_20bd_cp6_laundry_prices_invoices","sha":"6ca8fbb51e7257ab14191ea0606e6e1795bf06835bce2e02eb6b4014854fbf46"}]'::jsonb) as x(marker text,stamp text,name text,sha text) loop
+ for r in select * from jsonb_to_recordset('[{"marker":"v2.6.20ac","stamp":"20260915031500","name":"erp_v2_6_20ac_cp6_temporal_surface_closure","sha":"7b5690a2eddf618833d352dc75eb95aa1ef4dbcfb25d39b30374b733d33dadbc"},{"marker":"v2.6.20ad","stamp":"20260915113627","name":"erp_v2_6_20ad_cp6_opening_material_business_day","sha":"cd4879eb9b053e3b7a975e1430f481131e377f260ece2f19f07bfb4c98498c1d"},{"marker":"v2.6.20ae","stamp":"20260915201500","name":"erp_v2_6_20ae_cp6_opening_roll_integrity","sha":"228d9185501d418835e6434e64e1445be7b12ce2f517778ea63d789d478461c1"},{"marker":"v2.6.20af","stamp":"20260916014332","name":"erp_v2_6_20af_cp6_posted_child_integrity","sha":"54c5f73b99a2e63c858a777f669432f28260177daf4c45d806bb0e8a7c7c8e8e"},{"marker":"v2.6.20ag","stamp":"20260916050822","name":"erp_v2_6_20ag_cp6_sale_reservation_lineage","sha":"bff1d7d82917ce226ad0fb8823418fa14e497407d9659e125dc01ed5e2fd5944"},{"marker":"v2.6.20ah","stamp":"20260916070451","name":"erp_v2_6_20ah_cp6_return_allocation_eligibility","sha":"e5312744a2ef9ac53717c97e155fccf96a33e2f6a0c68c4b9c45f378ac538219"},{"marker":"v2.6.20ai","stamp":"20260916090022","name":"erp_v2_6_20ai_cp6_work_source_lineage","sha":"d3a604e53e599221afd46d1397e0d0660ebd8dc48db27113dfa63d3c3613a61c"},{"marker":"v2.6.20aj","stamp":"20260916202400","name":"erp_v2_6_20aj_cp6_rework_output_lineage","sha":"2e6cd4e94b52a27c83d2ba134a996c1db66a6f7ff617a5895f8c14769673f9ea"},{"marker":"v2.6.20ak","stamp":"20260917033516","name":"erp_v2_6_20ak_cp6_import_reference_preview","sha":"0d42825b2f2fcb38b9678fe1e6982b0c63290aac012b92be224f4323d495c536"},{"marker":"v2.6.20al","stamp":"20260917054049","name":"erp_v2_6_20al_cp6_opening_value_validation","sha":"74a5d5e14d79c7bbafa731aaf2fe1708bc575299600261f7412f1f7ea7323920"},{"marker":"v2.6.20am","stamp":"20260921214120","name":"erp_v2_6_20am_cp6_transfer_integrity","sha":"d5b155edb19aa8ca949036ba8a9cf67090478083c2e1ae6cc5bbf00b445716a5"},{"marker":"v2.6.20an","stamp":"20260921223438","name":"erp_v2_6_20an_cp6_cutting_selectors","sha":"21ac97ded4ed0cee9175c7fac7ef28ab6713d08b00766e1e5adc86bd38205e6c"},{"marker":"v2.6.20ao","stamp":"20260922135612","name":"erp_v2_6_20ao_cp6_invoice_retail","sha":"5687bb0236528d7e485e738ee2f96c2be0f4bde7e0d41c16bacee3a58183bdbb"},{"marker":"v2.6.20ap","stamp":"20260922135615","name":"erp_v2_6_20ap_cp6_connected_import_materials","sha":"fb8e14f0fd505edf730c0908f7e1c500cf850e29bcc0e90b3a51877224edd61b"},{"marker":"v2.6.20aq","stamp":"20260922161019","name":"erp_v2_6_20aq_cp6_accessory_lock_order","sha":"b1b4e449ca84ad524189640bcd76302cb277b9b690ed89f739ad5706e3cfac5a"},{"marker":"v2.6.20ar","stamp":"20260922185015","name":"erp_v2_6_20ar_cp6_opening_overlap","sha":"7da20a87d48493b4b64c10c395e8e54f87c1c40a835fbd09bbf2cdbc8866fa10"},{"marker":"v2.6.20as","stamp":"20260922210815","name":"erp_v2_6_20as_cp6_event_dates_product_identity","sha":"84e95211698eb2426995fd59d702bb42674f9fff675401be4861c9aa568cc1a8"},{"marker":"v2.6.20at","stamp":"20260923005153","name":"erp_v2_6_20at_cp6_wip_temporal_identity","sha":"f114a78918138a65f761488b77cadb1ab8a70ce6a6a88ae58a9d38656d1cfdb4"},{"marker":"v2.6.20au","stamp":"20260923045944","name":"erp_v2_6_20au_cp6_controlled_product_lifecycle","sha":"593b06092c2d47e03644afb1b7b5aef46c1442a56613f853a151b78ef738f2c2"},{"marker":"v2.6.20av","stamp":"20260923110000","name":"erp_v2_6_20av_cp6_identity_new_stock_cutoff","sha":"193e84efac8ead7cab681071e40070e1f9249f82cec1b7972f0576e8df25a2dc"},{"marker":"v2.6.20aw","stamp":"20260924010000","name":"erp_v2_6_20aw_cp6_close_readiness_engine","sha":"08826a25c14f8f18f5a168040b6f96dc4efe15c4498be5e92b0834601e77407c"},{"marker":"v2.6.20ax","stamp":"20260924010100","name":"erp_v2_6_20ax_cp6_fg_unsourced_receipts","sha":"32b4d33ebd80ed55951736c23be71b7eb79343c4c8dd623a32ae673924fc0a18"},{"marker":"v2.6.20ay","stamp":"20260924010200","name":"erp_v2_6_20ay_cp6_hpp_dated_from_goods","sha":"b41617d7d764e7ef3f25b323d6b6896a0f363623b1691a23c745ed34d12e5473"},{"marker":"v2.6.20az","stamp":"20260924010300","name":"erp_v2_6_20az_cp6_material_recost_dated_from_movement","sha":"576749761dbfb711005f76962f5c0287a151a80f6c6fe97b4e8f28e70671c0c2"},{"marker":"v2.6.20ba","stamp":"20260925010000","name":"erp_v2_6_20ba_cp6_audit_closure","sha":"e8fba02c91177eef3ccec94cd8156e04bcf2c550278caf9bf34244284b4cb123"},{"marker":"v2.6.20bb","stamp":"20260925020000","name":"erp_v2_6_20bb_cp6_open_cutover_states","sha":"966939292e04f0cbfbbf113f7ec831e4a448958f6e6861fc0eb16bc31a5fcab1"},{"marker":"v2.6.20bc","stamp":"20260925030000","name":"erp_v2_6_20bc_cp6_accessory_service_returns","sha":"6257d5d8acc9b466a99090ea8d6c4b7f9874da605b77079d0ba0f3c1878f5539"},{"marker":"v2.6.20bd","stamp":"20260925040000","name":"erp_v2_6_20bd_cp6_laundry_prices_invoices","sha":"c32d63f9a8df0f21e8435147e9a3878d29c53bae3605f7feee37a2167d213894"}]'::jsonb) as x(marker text,stamp text,name text,sha text) loop
   if not exists(select 1 from erp.schema_migrations where version=r.marker)
    or (select count(*) from supabase_migrations.schema_migrations where name=r.name)<>1
    or not exists(select 1 from supabase_migrations.schema_migrations where version=r.stamp and name=r.name
@@ -315,6 +315,7 @@ begin
  if a not in('POST','REVERSE','POST_USAGE','SAVE_REWORK','SAVE_REDYE','SET_REDYE_PRICE') then raise exception 'BE_ACTION_UNKNOWN: tindakan tidak dikenal';end if;
  perform erp.require_permission(case when a='REVERSE' then 'warehouse.brand_conversion.reverse' else 'warehouse.brand_conversion.post' end);
  if a='REVERSE' then perform erp.require_owner_admin();end if;
+ if a='SET_REDYE_PRICE' then perform erp.require_owner_admin();perform erp.require_permission('finance.hpp.manage');end if;
  perform erp.require_internal();
  if p_client_request_id is null or jsonb_typeof(p_payload) is distinct from 'object' or octet_length(p_payload::text)>30000 then
    raise exception 'BE_REQUEST_INVALID: request id dan data wajib';end if;
@@ -3933,7 +3934,7 @@ CREATE OR REPLACE FUNCTION erp.bd_post_invoice_v1(p_payload jsonb,p_request uuid
  RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
 AS $function$
 declare i erp.bd_laundry_invoices_v1%rowtype;l record;v_dec02 jsonb;v_dec03 jsonb;v_dec06 jsonb;v_versions jsonb:='{}'::jsonb;v_billable jsonb;
-  v_gross numeric:=0;v_positive numeric:=0;v_payable numeric;v_weights integer[]:='{}';v_ids uuid[]:='{}';v_split numeric[];k integer;v_last uuid;
+  v_gross numeric:=0;v_positive numeric:=0;v_payable numeric;v_weights numeric[]:='{}';v_ids uuid[]:='{}';v_split numeric[];k integer;v_last uuid;
   v_pool numeric;v_pieces integer;v_prior numeric;v_released numeric;v_complete boolean;v_cap integer;v_billed integer;v_paid boolean;
   v_lines jsonb:='[]'::jsonb;v_po record;v_journal uuid;v_group uuid;v_line_ids uuid[];v_net numeric;v_open_rel numeric;v_open_var numeric;
   o erp.bd_laundry_invoices_v1%rowtype;v_source_net numeric;v_ap numeric;v_origin_left numeric;
@@ -3990,13 +3991,13 @@ begin
   -- Discount spread over the billed amounts (largest remainder on cents); rounding on the last billing line.
   for l in select * from erp.bd_laundry_invoice_lines_v1 where invoice_id=i.id order by line_no loop
     v_gross:=v_gross+l.amount;
-    if l.line_kind='BILL' then v_ids:=v_ids||l.id;v_weights:=v_weights||round(l.amount*100)::integer;v_positive:=v_positive+l.amount;v_last:=l.id;end if;
+    if l.line_kind='BILL' then v_ids:=v_ids||l.id;v_weights:=v_weights||round(l.amount*100);v_positive:=v_positive+l.amount;v_last:=l.id;end if;
   end loop;
   if i.discount_amount>v_positive then raise exception 'BD_DISCOUNT_EXCEEDS_LINES: diskon melebihi nilai baris tagih';end if;
   update erp.bd_laundry_invoice_lines_v1 set discount_share=0,rounding_share=0 where invoice_id=i.id;
   if i.discount_amount>0 then
     if v_positive<=0 then raise exception 'BD_DISCOUNT_EXCEEDS_LINES: diskon tanpa baris tagih bernilai';end if;
-    v_split:=erp.bd_split_amount_v1(i.discount_amount,v_weights);
+    v_split:=erp.bd_split_money_v1(i.discount_amount,v_weights);
     for k in 1..array_length(v_ids,1) loop update erp.bd_laundry_invoice_lines_v1 set discount_share=v_split[k] where id=v_ids[k];end loop;
   end if;
   if i.rounding_amount<>0 then
@@ -5053,12 +5054,29 @@ $function$;
 CREATE OR REPLACE FUNCTION erp.get_laundry_bd_workspace_v1(p_filters jsonb)
  RETURNS jsonb LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO ''
 AS $function$
-declare v_vendor uuid;v_now timestamptz:=statement_timestamp();v_money boolean;
+declare v_vendor uuid;v_now timestamptz:=statement_timestamp();v_money boolean;v_as_of timestamptz:=statement_timestamp();
+  v_invoice_page jsonb;v_receipt_page jsonb;v_invoice_after uuid;v_receipt_after uuid;
 begin
   perform erp.require_permission('production.laundry.view');
   if jsonb_typeof(coalesce(p_filters,'{}'::jsonb)) is distinct from 'object' then raise exception 'BD_FILTER_INVALID: filter wajib objek';end if;
   v_vendor:=erp.bd_uuid_v1(coalesce(p_filters,'{}'::jsonb),'vendor_id',false);
   v_money:=erp.has_permission('finance.hpp.view') or erp.has_permission('finance.hpp.manage');
+  perform erp._cp3_assert_closed_json_object(coalesce(p_filters,'{}'::jsonb),array[]::text[],
+    array['vendor_id','invoice_after','receipt_after','page_as_of'],'BD workspace filter');
+  v_invoice_after:=erp.bd_uuid_v1(p_filters,'invoice_after',false);v_receipt_after:=erp.bd_uuid_v1(p_filters,'receipt_after',false);
+  if p_filters ? 'page_as_of' then
+    if jsonb_typeof(p_filters->'page_as_of') is distinct from 'string' or length(p_filters->>'page_as_of')>40
+       or p_filters->>'page_as_of'!~'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})$' then
+      raise exception 'BD_PAGE_INVALID: waktu daftar tidak valid';end if;
+    v_as_of:=(p_filters->>'page_as_of')::timestamptz;
+    if v_as_of>v_now then raise exception 'BD_PAGE_INVALID: waktu daftar di masa depan';end if;
+  elsif v_invoice_after is not null or v_receipt_after is not null then
+    raise exception 'BD_PAGE_INVALID: kelanjutan memerlukan waktu daftar asal';
+  end if;
+  if v_money then
+    v_invoice_page:=erp.bd_invoice_page_v1(v_vendor,v_invoice_after,v_as_of);
+    if v_vendor is not null then v_receipt_page:=erp.bd_receipt_page_v1(v_vendor,v_receipt_after,v_as_of);end if;
+  end if;
   return jsonb_build_object(
     'redye_services',erp.be_redye_workspace_v1(v_vendor,v_money),
     'filters',coalesce(p_filters,'{}'::jsonb),'money_visible',v_money,
@@ -5077,7 +5095,7 @@ begin
       from erp.wash_processes w where w.is_active),'[]'::jsonb),
     'components',coalesce((select jsonb_agg(jsonb_build_object('id',c.id,'vendor_id',c.vendor_id,'code',c.component_code,'name',c.component_name,
         'is_active',c.is_active,'current',(select jsonb_build_object('status',r.rate_status,'rate',case when v_money then r.rate_per_pcs::numeric(18,2)::text end,
-          'from',to_char(r.effective_from at time zone 'Asia/Jakarta','YYYY-MM-DD"T"HH24:MI:SS'))
+          'reason',r.reason,'version_id',r.id,'from',to_char(r.effective_from at time zone 'Asia/Jakarta','YYYY-MM-DD"T"HH24:MI:SS'))
           from erp.bd_laundry_component_rates_v1 r where r.component_id=c.id and r.effective_from<=v_now and (r.effective_to is null or r.effective_to>v_now)))
         order by c.component_name,c.id)
       from erp.bd_laundry_components_v1 c where v_vendor is null or c.vendor_id=v_vendor),'[]'::jsonb),
@@ -5113,23 +5131,10 @@ begin
       from erp.bd_opening_laundry_uninvoiced_v1 u join erp.laundry_vendors v on v.id=u.vendor_id where v_vendor is null or u.vendor_id=v_vendor),'[]'::jsonb),
     -- Money readers only (null otherwise: hidden, never empty): the latest invoices and, for one vendor, the receipt lines it
     -- can still bill (capacity and billed quantity per category), and the accounts the owner may pick in LAU-DEC03/06.
-    'invoices',case when v_money then coalesce((select jsonb_agg(erp.bd_invoice_json_v1(i.id)||jsonb_build_object('vendor_code',v.vendor_code) order by i.created_at desc,i.id)
-        from (select * from erp.bd_laundry_invoices_v1 x where v_vendor is null or x.vendor_id=v_vendor order by x.created_at desc,x.id limit 50) i
-        join erp.laundry_vendors v on v.id=i.vendor_id),'[]'::jsonb) end,
-    'billable_receipts',case when v_money and v_vendor is not null then coalesce((select jsonb_agg(x.j order by x.at desc,x.id) from (
-        select rl.id,r.physical_at at,jsonb_build_object('receipt_line_id',rl.id,'receipt_number',r.receipt_number,'delivery_number',d.delivery_number,
-          'po_number',po.po_number,'received_local',to_char(r.physical_at at time zone 'Asia/Jakarta','YYYY-MM-DD"T"HH24:MI:SS'),
-          'failed_attempt',a.id is not null,'estimate',rl.actual_cost::numeric(18,2)::text,'released',erp.bd_released_estimate_v1(rl.id)::numeric(18,2)::text,
-          'price_known',erp.bd_line_complete_v1(rl.delivery_line_id),
-          'capacity',jsonb_build_object('GOOD',erp.bd_invoice_capacity_v1(rl.id,'GOOD'),'BS',erp.bd_invoice_capacity_v1(rl.id,'BS'),
-            'FAILED_ATTEMPT',erp.bd_invoice_capacity_v1(rl.id,'FAILED_ATTEMPT')),
-          'billed',jsonb_build_object('GOOD',erp.bd_invoice_billed_v1(rl.id,'GOOD'),'BS',erp.bd_invoice_billed_v1(rl.id,'BS'),
-            'FAILED_ATTEMPT',erp.bd_invoice_billed_v1(rl.id,'FAILED_ATTEMPT'))) j
-        from erp.laundry_receipt_lines rl join erp.laundry_receipts r on r.id=rl.receipt_id and r.status='POSTED'
-        join erp.laundry_delivery_lines dl on dl.id=rl.delivery_line_id join erp.laundry_deliveries d on d.id=dl.delivery_id
-        join erp.production_orders po on po.id=d.po_id left join erp.laundry_failed_wash_attempts a on a.receipt_line_id=rl.id
-        where d.vendor_id=v_vendor and rl.actual_cost_status='ESTIMATED' and rl.actual_cost is not null and not erp.bd_receipt_invoiced_v1(rl.id)
-        order by r.physical_at desc,rl.id limit 200) x),'[]'::jsonb) end,
+    'invoices',case when v_money then v_invoice_page->'items' end,
+    'billable_receipts',case when v_money and v_vendor is not null then v_receipt_page->'items' end,
+    'pagination',jsonb_build_object('as_of',to_char(v_as_of at time zone 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"'),
+      'invoice_next',v_invoice_page->'next_id','receipt_next',v_receipt_page->'next_id'),
     'accounts',case when v_money then coalesce((select jsonb_agg(jsonb_build_object('id',a.id,'code',a.account_code,'name',a.account_name,'type',a.account_type)
         order by a.account_code) from erp.chart_accounts a where a.is_active and a.is_postable and a.account_type in('ASSET','EXPENSE')),'[]'::jsonb) end,
     -- D12: the payment screen of one vendor (money readers only): documents with cash, claim credit and remaining, claim credits,
@@ -5152,6 +5157,20 @@ begin
     raise exception 'BD_ACTION_UNKNOWN: aksi laundry % tidak dikenal',v_action;end if;
   if v_action='SET_REDYE_PRICE' then perform erp.require_owner_admin();perform erp.require_permission('finance.hpp.manage');perform erp.require_permission('warehouse.brand_conversion.post');end if;
   perform pg_advisory_xact_lock(hashtextextended('BDREQ:'||p_client_request_id::text,0));
+  -- Recheck live action permissions after waiting for the request lock and BEFORE any cached response.
+  -- Inner commands retain their checks. Replays need the same authority as fresh commands.
+  if v_action='SET_POLICY' then
+    if session_user not in('postgres','supabase_admin') and erp.current_app_role() is distinct from 'OWNER' then
+      raise exception 'BD_OWNER_ONLY: pengaturan kebijakan laundry hanya dapat diubah owner';end if;
+    perform erp.require_permission('settings.erp.manage');
+  elsif v_action='POST_PRICED_DELIVERY' then
+    if erp.current_app_user_id() is null then raise exception 'BD_AUTH_REQUIRED: pengguna ERP aktif diperlukan';end if;
+    perform erp.require_permission('production.laundry.post');perform erp.require_permission('production.laundry.create');
+  elsif v_action in('SAVE_VENDOR_TERMS','SAVE_COMPONENT','SAVE_COMPONENT_RATE','SAVE_PACKAGE','SAVE_PACKAGE_RATE','SAVE_PROCESS_RATE','SAVE_SCOPED_RATE') then
+    perform erp.require_owner_admin();perform erp.require_permission('master.partner.manage');
+  else
+    perform erp.require_owner_admin();perform erp.require_permission('finance.hpp.manage');
+  end if;
   select * into v_prior from erp.bd_requests_v1 where request_id=p_client_request_id;
   if v_prior.request_id is not null then
     if v_prior.action<>v_action or v_prior.payload<>p_payload or v_prior.actor is distinct from erp.current_app_user_id() then
