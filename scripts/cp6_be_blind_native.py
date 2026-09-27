@@ -44,7 +44,8 @@ def main() -> None:
         assert one(cur, "select count(*) from erp.schema_migrations where version='v2.6.20be'") == 1
         if not one(cur, "select has_schema_privilege('authenticated','erp','USAGE')"):
             cur.execute("grant usage on schema erp to authenticated")
-        bdp.api.seed(cur)
+        if one(cur, "select count(*) from erp.app_users") == 0:
+            bdp.api.seed(cur)
         bdp.boundary.historical.prior.set_open_period(cur, day - timedelta(days=30))
 
         # B01: selected source, real movements, replay, and inverse. A separate
