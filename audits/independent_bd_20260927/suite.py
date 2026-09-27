@@ -28,11 +28,16 @@ def admin(sql,args=(),one=False):
         q=c.execute(sql,args)
         return q.fetchone()[0] if one else q.fetchall() if q.description else None
 def actor_conn(who='owner'):
-    c=psycopg.connect(DSN)
-    c.execute('set session authorization authenticated')
+    # Connect as the same unprivileged gateway principal used by PostgREST.
+    # postgres cannot SET SESSION AUTHORIZATION; merely SET ROLE from postgres
+    # would also leave session_user on the product's privileged bypass list.
+    c=psycopg.connect(DSN.replace('postgres:postgres@','authenticator:postgres@'))
+    c.execute('set role authenticated')
     claims={'sub':CTX[who],'role':'authenticated'}
     c.execute("select set_config('request.jwt.claims',%s,false)",(json.dumps(claims),))
     c.execute("select set_config('request.jwt.claim.sub',%s,false)",(CTX[who],))
+    identity=c.execute('select session_user,current_user').fetchone()
+    assert identity==('authenticator','authenticated'),identity
     c.commit();return c
 def command(action,payload,request=None,who='owner'):
     request=request or uid();start=time.monotonic()
