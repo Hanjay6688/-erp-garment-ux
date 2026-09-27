@@ -156,6 +156,10 @@ def sold_child_recost(cur, day):
         "reason": "Blind actual child conversion",
         "expected_version": one(cur, "select erp.be_source_revision_v1(%s,%s)", parent, f["location"])})["destination_lot_id"]
     bd.api.admin(cur)
+    # The legacy sale fixture switches to authenticated and calls an internal
+    # role introspection helper; this test-only grant rolls back with the case.
+    if not one(cur, "select has_schema_privilege('authenticated','erp','USAGE')"):
+        cur.execute("grant usage on schema erp to authenticated")
     sale1 = bd.sell(cur, f, f["target"], 1, 17)
     sale2 = bd.sell(cur, f, target2, 1, 18)
     snapshots = cur.execute("""select id,total_hpp from erp.sale_stock_allocations

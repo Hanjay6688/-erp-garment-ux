@@ -10,6 +10,8 @@ on:
       - scripts/cp6_be_blind_extended.py
       - scripts/cp6_be_blind_http.py
       - scripts/cp6_be_blind_races.py
+      - scripts/cp6_be_blind_browser_fixture.py
+      - scripts/cp6_be_blind_browser.mjs
 permissions:
   contents: read
 jobs:
@@ -64,7 +66,26 @@ jobs:
       - name: Run independent Auth and HTTP replay oracle
         run: python scripts/cp6_be_blind_http.py
       - name: Run independent commit and abort race matrix
+        continue-on-error: true
         run: python scripts/cp6_be_blind_races.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install browser test dependencies
+        run: |
+          npm ci --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: Run independent BE browser and real Auth oracle
+        run: node scripts/cp6_be_blind_browser.mjs
+      - name: Require all independent race cases to pass
+        run: |
+          python - <<'PY'
+          import json
+          report=json.load(open('be-blind-race-results.json'))
+          assert report['status']=='PASS',report
+          assert len(report['cases'])==9
+          PY
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -75,6 +96,7 @@ jobs:
             be-blind-http-results.json
             be-blind-extended-results.json
             be-blind-race-results.json
+            be-blind-browser-results.json
           if-no-files-found: ignore
       - name: Stop disposable runtime
         if: always()
