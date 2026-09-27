@@ -76,8 +76,9 @@ class Proxy(BaseHTTPRequestHandler):
     def log_message(self,*args):pass
     def do_OPTIONS(self):
         self.send_response(204);self.send_header('Access-Control-Allow-Origin',self.headers.get('Origin','*'))
-        self.send_header('Access-Control-Allow-Headers','authorization,apikey,content-type,x-client-info,accept-profile,content-profile,prefer')
+        self.send_header('Access-Control-Allow-Headers','authorization,apikey,content-type,x-client-info,x-supabase-api-version,accept-profile,content-profile,prefer')
         self.send_header('Access-Control-Allow-Methods','GET,POST,PUT,PATCH,DELETE,OPTIONS');self.send_header('Content-Length','0');self.end_headers()
+        HTTP_EVENTS.append({'method':'OPTIONS','path':self.path,'http_status':204,'requested_headers':self.headers.get('Access-Control-Request-Headers'),'origin':self.headers.get('Origin')})
     def proxy(self):
         is_rest=self.path.startswith('/rest/v1/')
         if is_rest:port,path=54329,self.path.removeprefix('/rest/v1')
@@ -259,7 +260,12 @@ def login_browser(who='owner'):
     snap(who+'-login',who)
     fill('Email akun ERP',FIX[who]['email'],who);fill('Kata sandi',FIX[who]['password'],who)
     button('Masuk',who)
-    ab('wait','aside.sidebar',who=who)
+    try:ab('wait','aside.sidebar',who=who)
+    except Exception:
+        snap(who+'-login-failed',who)
+        (OUT/(who+'-login-failed-body.txt')).write_text(redact(text_body(who)))
+        EVENTS.append({'browser_login_failure_form':evaluate("Array.from(document.querySelectorAll('input')).map(e=>({type:e.type,valid:e.checkValidity(),validationMessage:e.validationMessage,length:e.value.length}))",who)})
+        raise
     snap(who+'-authorized',who)
     button('Produksi',who,False);button('• Laundry',who)
     wait_text('Harga & tagihan',who)
