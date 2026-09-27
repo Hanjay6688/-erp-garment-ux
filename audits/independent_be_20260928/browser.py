@@ -104,7 +104,7 @@ def redye(who='owner',key='UI'):
     b.ab('snapshot','-i',who=who);b.ab('tap' if who.startswith('mobile') else 'click','.cbsr-list button',who=who)
     click('Rewash',who);b.fill('NOMOR ORDER · WAJIB','BE-AUD-BROWSER-'+who,who);wrapped('VENDOR REWASH',C['daily_vendor'],who);b.fill('QTY DIKIRIM','7',who);b.fill('WAKTU FISIK · WIB','2026-09-14T08:00',who);wrapped('GUDANG FG BILA GOOD',C['fg'],who);b.fill('CATATAN / ALASAN','Independent browser new-color service '+who,who)
     b.ab('snapshot','-i',who=who);b.ab('find','label','Hasil GOOD menjadi SKU lain','check',who=who)
-    wrapped('SKU hasil baru',C['redye_target'],who);wrapped('Proses celup berbayar',C['redye_process'],who)
+    wrapped('SKU hasil baru',C['redye_target'],who);wrapped('Proses celup berbayar',C['unknown_process'] if who=='mobile' else C['redye_process'],who)
     if who=='mobile':wrapped('Harga jasa','UNKNOWN',who)
     snap(who+'-redye-ready',who);click('Buat order celup ulang',who)
     wait_db(lambda:b.sql('select count(*) from erp.rework_orders where rework_number=%s',('BE-AUD-BROWSER-'+who,),one=True),1);b.wait_text('GOOD KUMULATIF',who)
