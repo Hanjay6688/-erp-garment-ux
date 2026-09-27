@@ -19,7 +19,10 @@ import psycopg
 ROOT = Path(__file__).resolve().parents[1]
 BASE = "08065a3b4da71c51ffbbab77f0a6b1ac7e6638ec"
 VENDOR = uuid.UUID("10000000-0000-4000-8000-000000000001")
+VENDOR_B = uuid.UUID("10000000-0000-4000-8000-00000000000b")
 COMPONENT = uuid.UUID("20000000-0000-4000-8000-000000000002")
+OTHER_COMPONENT = uuid.UUID("20000000-0000-4000-8000-00000000000b")
+UNKNOWN_COMPONENT = uuid.UUID("20000000-0000-4000-8000-00000000000c")
 SIZE_M = uuid.UUID("30000000-0000-4000-8000-000000000003")
 SIZE_L = uuid.UUID("40000000-0000-4000-8000-000000000004")
 ACTOR = uuid.UUID("50000000-0000-4000-8000-000000000005")
@@ -45,6 +48,7 @@ def main() -> None:
     pricing = exact_source("scripts/cp6_bd_objects_pricing.sql")
     invoice = exact_source("scripts/cp6_bd_objects_invoice.sql")
     router = exact_source("scripts/cp6_bd_objects_router.sql")
+    policy = exact_source("scripts/cp6_bd_objects_policy.sql")
     assert "v_weights:=v_weights||round(l.amount*100)::integer" in invoice
     assert "v_split:=erp.bd_split_amount_v1(v_amount,p_qtys)" in pricing
     assert "return v_prior.response||jsonb_build_object('replayed',true)" in router
@@ -79,16 +83,24 @@ def main() -> None:
                     p_component uuid,p_at timestamptz,
                     out rate_status text,out rate_per_pcs numeric,out version_id uuid)
                 language sql stable as $$
-                    select 'KNOWN'::text,1000::numeric,
-                           '70000000-0000-4000-8000-000000000007'::uuid
+                    select case when p_component='20000000-0000-4000-8000-00000000000c'::uuid
+                        then 'UNKNOWN' else 'KNOWN' end::text,
+                        case when p_component='20000000-0000-4000-8000-00000000000c'::uuid
+                            then null else 1000 end::numeric,
+                        '70000000-0000-4000-8000-000000000007'::uuid
                 $$
             """)
             cur.execute(
                 "insert into erp.bd_laundry_components_v1 values(%s,%s,'Whisker',true)",
                 (COMPONENT, VENDOR),
             )
+            cur.execute(
+                "insert into erp.bd_laundry_components_v1 values(%s,%s,'Whisker',true),(%s,%s,'Spray',true)",
+                (OTHER_COMPONENT, VENDOR_B, UNKNOWN_COMPONENT, VENDOR),
+            )
             cur.execute(function(pricing, "bd_split_amount_v1"))
             cur.execute(function(pricing, "bd_component_charge_v1"))
+            cur.execute(function(policy, "bd_amount_v1"))
             component_input = {"component_id": str(COMPONENT), "covered_qty": 5}
             row = cur.execute(
                 """select erp.bd_component_charge_v1(%s,%s::jsonb,now(),
@@ -98,6 +110,25 @@ def main() -> None:
             ).fetchone()[0]
             shares = [x["amount"] for x in row["shares"]]
             assert Decimal(row["amount"]) == Decimal("5000.00") and [Decimal(x) for x in shares] == [Decimal("3076.92"), Decimal("1923.08")], row
+            try:
+                cur.execute("""select erp.bd_component_charge_v1(%s,%s::jsonb,now(),
+                    array[%s,%s]::uuid[],array[8,5]::integer[],13,'COMPONENT',array[]::uuid[])""",
+                    (VENDOR, json.dumps({"component_id": str(OTHER_COMPONENT), "covered_qty": 5}), SIZE_M, SIZE_L))
+                other_vendor = "UNEXPECTED_SUCCESS"
+            except psycopg.Error as error:
+                other_vendor = error.diag.message_primary
+            assert "BD_COMPONENT_UNKNOWN" in other_vendor, other_vendor
+            unknown = cur.execute("""select erp.bd_component_charge_v1(%s,%s::jsonb,now(),
+                array[%s,%s]::uuid[],array[8,5]::integer[],13,'COMPONENT',array[]::uuid[])""",
+                (VENDOR, json.dumps({"component_id": str(UNKNOWN_COMPONENT), "covered_qty": 5}), SIZE_M, SIZE_L)).fetchone()[0]
+            assert unknown["rate_status"] == "UNKNOWN" and unknown["amount"] is None and all(
+                x["amount"] is None for x in unknown["shares"]), unknown
+            try:
+                cur.execute("select erp.bd_amount_v1('\"0.00\"'::jsonb,'rate',true)")
+                zero_rate = "UNEXPECTED_SUCCESS"
+            except psycopg.Error as error:
+                zero_rate = error.diag.message_primary
+            assert "BD_AMOUNT_INVALID" in zero_rate, zero_rate
 
             overflow = []
             for amount in ("21474836.47", "21474836.48", "22000000.00"):
@@ -238,6 +269,10 @@ def main() -> None:
                 "label": "ISOLATED_SOURCE_FUNCTIONS_ONLY",
                 "component_partial": {"size_8": shares[0], "size_5": shares[1],
                     "total": row["amount"], "expected_if_only_size_5_serviced": ["0.00", "5000.00"]},
+                "component_cross_vendor": other_vendor,
+                "unknown_price": {"status": unknown["rate_status"], "amount": unknown["amount"],
+                    "size_shares": [x["amount"] for x in unknown["shares"]]},
+                "zero_rate_without_free_policy": zero_rate,
                 "invoice_weight": overflow,
                 "invoice_post_22m": {"sqlstate": actual_post, "status_after": invoice_after},
                 "replay_after_permission_revoked": {
