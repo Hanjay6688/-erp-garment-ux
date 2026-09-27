@@ -2034,8 +2034,8 @@
       "name": "erp_v2_6_20bd_cp6_laundry_prices_invoices",
       "closed_admission": true,
       "source": "supabase/release/cp6-t3-src/20260925040000_erp_v2_6_20bd_cp6_laundry_prices_invoices.sql",
-      "source_sha256": "c32d63f9a8df0f21e8435147e9a3878d29c53bae3605f7feee37a2167d213894",
-      "package_sha256": "7671be818640240193e41c738722c139283e004f950038df14de7c7275ae9bbb",
+      "source_sha256": "15f8839041de7cbe49ebeb4a043b4228b188c95e266e13b404a02b3f39979d5c",
+      "package_sha256": "5daf8535106616c0348471a806cb00c77a3a47707bc1ece6adb3501e9b4283eb",
       "substitutions": [
         {
           "kind": "LEDGER",
@@ -2276,8 +2276,8 @@
       "name": "erp_v2_6_20be_cp6_conversion_redye_pocket",
       "closed_admission": true,
       "source": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
-      "source_sha256": "33880a420b5b6420535fc963cb965bca922d48571b9ddde0ca762895613a3560",
-      "package_sha256": "f4a394e9ccddc5732e4504403858f7999207109e4f786c76c2506ef1b200d29e",
+      "source_sha256": "8f2ba7f399723925afc036ea7862964b8f4e0998b8d69cb9b65067b48f816d78",
+      "package_sha256": "3c6cf7ab1ef9d0022b78b6063e91a41f7cd691066eff0bc71c19ecca72cd8ba6",
       "substitutions": [
         {
           "kind": "LEDGER",
@@ -2526,8 +2526,8 @@
   "release_evidence": false,
   "rollbacks": "NOT_TESTED",
   "pins": {
-    "file": "docs/evidence/cp6-t3/bd_revision_pins_36344627206.json",
-    "blob_sha256": "63310b1498ae7e34c605946a7640ae1392e4fb401ca62a4fb3927798083e62ae",
+    "file": "docs/evidence/cp6-t3/bd_revision_pins_36345520698.json",
+    "blob_sha256": "bc8d5bd910398c0219918b9b09b86c2265fe943944167bed1d2b58fe348090b9",
     "blob_bytes": 118733
   }
 }

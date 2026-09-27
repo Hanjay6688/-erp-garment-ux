@@ -39,7 +39,11 @@ def main():
         if sys.argv[1]=='create':
             with _fixture_usage(cur):out=create(cur,date.fromisoformat(payload['today']),payload['kind'])
             conn.commit()
-        elif sys.argv[1]=='read':out=read(cur,payload);conn.rollback()
+        elif sys.argv[1]=='read':
+            # as_owner probes its private role helper before calling the public reader.
+            # Keep that fixture-only grant uncommitted; Auth/browser calls never see it.
+            with _fixture_usage(cur):out=read(cur,payload)
+            conn.rollback()
         else:raise ValueError('Unknown fixture operation')
     print(json.dumps(out,default=str))
 

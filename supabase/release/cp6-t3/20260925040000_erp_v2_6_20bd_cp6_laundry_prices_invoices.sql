@@ -1,6 +1,6 @@
 -- CP6 BD: priced laundry deliveries, vendor invoices and owner laundry policy settings (LAU-05b, LAU-DEC01..06, ALL-W05). Release candidate of the T3 combined package; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_bd_t1_family.sql (sha256 e1706649bf664e125b1e4e7691bbd58eed08dbf0fce36e7aabdd633f6dcfc751): the T1 body below is unchanged apart from the
+-- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_bd_t1_family.sql (sha256 f480f8dd7dc2620e19994e328b971ef159ba81dca1b8272ae42b59e0d370f947): the T1 body below is unchanged apart from the
 -- ledger description; guards follow AO..AV. Capsule and catalog pins are placeholders until the T3 capture.
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
@@ -873,8 +873,10 @@ begin
   end loop;
   if v_total<=0 then raise exception 'BD_INTERNAL: bobot uang kosong';end if;
   for i in 1..cardinality(p_weights) loop
-    v_part:=v_cents*p_weights[i]/v_total;
-    v_base:=v_base||floor(v_part);v_frac:=v_frac||(v_part-floor(v_part));
+    -- Integer quotient/remainder keeps every cent even at NUMERIC(18,2)'s upper bound.
+    -- Decimal division can round an 18-digit quotient before floor() sees its fraction.
+    v_part:=v_cents*p_weights[i];
+    v_base:=v_base||div(v_part,v_total);v_frac:=v_frac||mod(v_part,v_total);
   end loop;
   select v_cents-sum(x) into v_left from unnest(v_base) x;
   while v_left>0 loop
@@ -8075,7 +8077,7 @@ with relations as (
 select coalesce(jsonb_object_agg(k,encode(extensions.digest(convert_to(v::text,'UTF8'),'sha256'),'hex')),'{}'::jsonb) from objects
 ) catalog;
  select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(length(key)::text||':'||key||':'||value,E'\n' order by key collate "C"),''),'UTF8'),'sha256'),'hex') into object_count,fingerprint from jsonb_each_text(actual);
- if object_count<>8819 or fingerprint is distinct from 'd2d643f8c9d339b384c229d800a3745c2d51944c3ba194ca0e4770c2e947a9ff' then
+ if object_count<>8819 or fingerprint is distinct from '50685c458c2e556a500101468ff852dcc9ff710c704a3abf8b2b552921bcf441' then
   raise exception 'BD_INSTALLED_CATALOG_DRIFT';
  end if;
 end $catalog_guard$;

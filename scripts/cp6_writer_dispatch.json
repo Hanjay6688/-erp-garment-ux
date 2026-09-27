@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 13,
+  "revision": 14,
   "phase": "after",
   "scenario_path": "scripts/cp6_bd_revision_modes.py",
   "browser_path": "scripts/cp6_bd_revision_browser.mjs",
-  "purpose": "BD revision: exact numeric remainder at upper bound; rerun browser with repository-based module imports after temp-entrypoint loader refusal"
+  "purpose": "BD revision: rerun browser with per-size coverage locators and transaction-only native fixture read grant; product/Auth grants unchanged"
 }
