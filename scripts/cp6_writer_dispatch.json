@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 16,
+  "revision": 17,
   "phase": "after",
   "scenario_path": "scripts/cp6_bd_revision_modes.py",
   "browser_path": "scripts/cp6_bd_revision_browser.mjs",
-  "purpose": "SKU range follow-up: full-shipment service selection, partial recipients, physical 31/32/33 and singleton 27, weighted SKU HPP derivation with exact-size sale/return/invoice; inherited BD+BE guards remain mandatory. This does not qualify a commercial-SKU tariff master."
+  "purpose": "Requalify SKU range follow-up after fixing the writer oracle to read price-version IDs from stored charge snapshots; public receipts intentionally omit these IDs. Product unchanged from 2f6ac0d. Prior run 36349471819 remains INCOMPLETE. Keep the configured native/race/HTTP/browser gate intact; this does not qualify a commercial-SKU tariff master."
 }

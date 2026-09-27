@@ -40,10 +40,13 @@ def same_rate(b,cur,today):
         sent=post(b,cur,fx,{})
         charges=sent['pricing']['charges'];total=sum(n for _,n in fx['sizes'])
         checks[str(list(fx['codes']))]=D(str(sent['estimated_cost']))==D('1731.29')*total and all(D(c['unit_rate'])==D('1731.29') for c in charges)
-        version_ids.update(c['version_id'] for c in charges)
+        # The public receipt deliberately omits internal price-version IDs. Read actual stored snapshots.
+        versions=b.q(cur,'select c.version_id::text from erp.bd_laundry_charge_lines_v1 c join erp.laundry_delivery_lines l on l.id=c.delivery_line_id where l.delivery_id=%s',sent['delivery_id'])
+        assert len(versions)==len(charges) and all(v for v, in versions),'STORED_PRICE_VERSION_REQUIRED'
+        version_ids.update(v for v, in versions)
         stored=b.q(cur,'select s.size_id::text,s.qty_sent_pcs from erp.laundry_delivery_batch_size_lines s join erp.laundry_delivery_lines l on l.id=s.delivery_line_id where l.delivery_id=%s',sent['delivery_id'])
         checks['physical_'+fx['batch']]=dict(stored)==dict(fx['sizes'])
-        evidence.append(dict(sizes=fx['codes'],quantities=stored,delivery=sent['delivery_id'],pricing=sent['pricing']))
+        evidence.append(dict(sizes=fx['codes'],quantities=stored,delivery=sent['delivery_id'],pricing=sent['pricing'],stored_version_ids=[v for v, in versions]))
     # Owner's 27 is a distinct commercial SKU, e.g. 32007-27, not a size-price override in the range SKU.
     # This case only proves delivery arithmetic and no implicit surcharge. It does not prove a SKU tariff resolver.
     checks.update(same_master_version=len(version_ids)==1,singleton_27_no_implicit_surcharge=b.line_state(cur,evidence[2]['delivery'])['known']=='5193.87')

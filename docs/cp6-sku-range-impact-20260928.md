@@ -47,15 +47,62 @@ Tidak ada perubahan SQL/migrasi, metode pembukuan, atau deployment dalam follow-
 
 ## Backbone revisi master SKU berikutnya
 
-1. Pisahkan identitas komersial dari produk fisik. Kunci kelompok tidak cukup berupa teks kode SKU saja: merek/model/warna dan versi identitas harus konsisten. Keanggotaan ukuran eksplisit; jangan menebak dari urutan angka, substring, atau banyaknya size yang diproduksi.
-2. Master harga jual dan jasa berisi identitas SKU komersial, jenis harga/penyedia/proses/komponen yang relevan, nominal, satuan, periode berlaku dan versi. Semua anggota ukuran merujuk versi yang sama. SKU27 dapat mempunyai master sendiri; tidak otomatis lebih mahal. Diskon transaksi yang sah bukan master harga per ukuran baru.
+Owner menanyakan apakah cukup satu pengaturan yang diterapkan bersama, tanpa perombakan besar. Jawabannya: pendekatan itu layak dan diprioritaskan. Kesenjangan source ini belum membuktikan pembukuan live rusak/fatal. Tidak ada keharusan mengganti ID barang, menyatukan stok, atau menulis ulang CP1–6.
+
+1. Identifikasi kelompok komersial dan anggota produk fisiknya. Kunci kelompok tidak cukup berupa teks kode SKU saja: merek/model/warna dan versi identitas harus konsisten. Keanggotaan ukuran eksplisit; jangan menebak dari urutan angka, substring, atau banyaknya size yang diproduksi. Pertahankan tabel/ID fisik existing bila memungkinkan.
+2. Satu perintah pengaturan harga jual/jasa SKU membawa jenis harga/penyedia/proses/komponen yang relevan, nominal, satuan, periode berlaku dan versi kelompok. Server boleh menerapkannya ke versi per-produk existing dalam satu transaksi; setiap hasil harus tertaut ke perubahan kelompok yang sama. Tidak wajib memaksa satu ID baris untuk seluruh penyimpanan internal. SKU27 mempunyai pengaturan SKU sendiri; tidak otomatis lebih mahal. Diskon transaksi yang sah bukan master harga per ukuran baru.
 3. SKU referensi tarif sebelum QC dicatat sebagai referensi pada order/kiriman dan dibawa ke snapshot. Target barang jadi di QC tetap identitas aktual. Perbedaan referensi dan target harus terlihat, tidak menyebabkan repricing diam-diam.
-4. Master BOM/resep berbagi versi SKU. Resolver mengambil resep yang berlaku pada transaksi dan membuat komitmen/snapshot untuk produk fisik dan lot. Perubahan master berikutnya tidak mengedit penggunaan lama.
+4. Satu pengaturan BOM/resep SKU diterapkan bersama, bisa menggunakan resolver bersama atau versi per-produk yang dibentuk dari satu perubahan kelompok. Resolver mengambil resep yang berlaku pada transaksi dan membuat komitmen/snapshot untuk produk fisik dan lot. Perubahan master berikutnya tidak mengedit penggunaan lama.
 5. Migrasi tarif/BOM lama memeriksa seluruh sibling. Bila tiga ukuran memiliki tarif/resep berbeda, laporkan konflik dan minta penyelesaian atas data konkret; jangan mengambil yang pertama atau merata-ratakannya diam-diam.
 6. Aturan kompatibilitas tarif khusus per ukuran existing harus diselesaikan saat migrasi master. Pengujian existing MODEL_SIZE membuktikan perilaku lama, bukan persetujuan untuk tiga harga pada satu SKU. Kasus khusus27 memakai master SKU baru `32007-27`, bukan jalur MODEL_SIZE di SKU range.
 7. Order lama tetap membawa versi yang sudah disepakati. Order baru memakai master SKU. Revisi historis hanya melalui koreksi/versioned recost yang sah.
+8. Penerapan bersama harus atomik, terkunci per kelompok, dan berlanjut pada update berikutnya maupun anggota baru. Copas sekali tanpa menjaga perubahan berikutnya belum memenuhi aturan.
+9. Perubahan range yang dicontohkan owner, 31–33 menjadi 31–34, memakai keanggotaan bertanggal/berversi. Data ukuran 34 tetap dapat ditelusuri; bila sebelumnya anggota SKU lain, keluarkan/masukkan dengan satu perubahan yang jelas dan cegah penghitungan ganda. Transaksi lama menyimpan kelompok dan harga saat transaksi. Pengelompokan ulang tidak menciptakan stok, menulis ulang biaya sumber, atau mengganti identitas fisik secara diam-diam. Pemindahan identitas barang existing, jika diperlukan, harus melalui jalur perubahan identitas/konversi yang sah. Dukungan perubahan range ini merupakan kebutuhan master berikutnya, belum dibuktikan oleh tes kiriman.
 
-Paket ini memerlukan perubahan lintas master/PO/laundry/BOM/import dan kualifikasi migrasi sendiri. Follow-up UI tidak mengklaim paket master ini sudah selesai.
+Paket ini menyentuh titik pengaturan/resolver dan sambungannya ke PO/laundry/BOM/import; luas perubahan dipilih setelah inventarisasi, bukan diasumsikan harus rebuild. Follow-up UI tidak mengklaim pekerjaan master ini sudah selesai.
+
+## Hubungan dengan pekerjaan CP1–6 yang sudah ada
+
+Riwayat checkpoint menjelaskan asal pekerjaan, bukan menggantikan kontrak Master Pulih/Perubahan Pulih/Addendum CP7 dan gate yang berlaku. Tidak ada pernyataan bahwa seluruh CP sebelumnya salah.
+
+| Checkpoint | Pekerjaan terdahulu | Dampak revisi SKU yang didukung penelusuran |
+|---|---|---|
+| CP1 | Baseline, fingerprint/schema/repo | Tidak ada bukti bahwa pencatatan baseline harus diulang karena range |
+| CP2 | Backup terenkripsi dan restore | Bukti recovery tetap berlaku pada snapshot yang diuji; tidak dibatalkan oleh kesenjangan master SKU |
+| CP3 | Attendance-HPP, hak kerja/payroll, denominator SELESAI_DIJAHIT | Rumus attendance belum terbukti salah. Resolver tarif jahit model+mandor+komponen harus dipetakan ke master SKU; perhitungan sumber dan snapshot lama dipertahankan |
+| CP3.5 | Kepemilikan source, cleanup, hash/migration ledger | Perubahan baru memperbarui ownership/evidence yang relevan; bukti historis tidak ditulis ulang |
+| CP4/4.5 | Auth/RBAC dan identitas/master/produksi yang diwarisi | Auth bukan penyebab range. Relasi SKU komersial ke akar produk fisik perlu dilengkapi agar resolver harga/BOM tidak memerlukan pengaturan tiap ukuran |
+| CP5 | BS, rework, rewash, klaim, dampak stok/payroll/HPP/jurnal | Resolver BOM/resep bersama memengaruhi rework; selected accessory lineage dan jumlah fisik harus tetap dijaga. Tidak ada bukti seluruh nominal BS/rework salah |
+| CP6 | Laundry/QC/FG, invoice/correction, import, conversion, tanggal dan gate | Form direvisi di sini; master tarif SKU, harga jual dan BOM masih gap. Integrasi terkena perubahan harus diuji ulang sebelum penutupan |
+
+Pemeriksaan fungsi efektif:
+
+- `resolve_product_price_at` dan `resolve_product_price_version_id_at` dari bootstrap CP4.5a tidak diganti oleh migration yang ada: keduanya mengambil `product_price_versions` melalui `products.identity_root_id`.
+- `commit_accessory_bom_for_lot` juga menggunakan `identity_root_id`, lalu menyimpan komitmen PO+produk fisik. Resolver tidak mencari resep milik ukuran saudara hanya karena teks SKU sama.
+- `ensure_po_work_component_snapshots` versi efektif AC mengambil Work BOM berdasarkan model dan tarif berdasarkan mandor+model+komponen. Ini bukan bukti bahwa jahit mempunyai tiga harga per ukuran; masalahnya belum ada binding master SKU yang menjamin aturan owner untuk SKU berbeda dalam model yang sama.
+- Akar identitas produk adalah riwayat produk fisik. Jangan menggabungkan atau mengganti seluruh `identity_root_id` lintas ukuran untuk memaksa satu harga: itu dapat merusak invariants size, versi identitas dan lineage. Tambahkan relasi master komersial, pertahankan relasi fisik.
+
+Penelusuran ini membuktikan keterbatasan resolver/schema pada source. Belum dilakukan audit data live untuk menghitung berapa SKU yang sudah mempunyai harga/BOM berbeda atau transaksi yang terkena. Jangan mengarang jumlah kerugian, memvonis jurnal historis salah, atau menutup gap ini hanya karena tes lama hijau.
+
+## Syarat bukti untuk menutup gap master SKU
+
+Tes berikut wajib menjadi oracle revisi master, tidak boleh dianggap sudah lulus oleh follow-up kiriman:
+
+| Kasus | Hasil yang wajib |
+|---|---|
+| Satu SKU31–33, simpan satu perubahan harga jual | Produk31,32,33 mendapat nominal/masa berlaku sama dengan satu asal perubahan kelompok, tanpa tiga input harga; ID baris internal boleh berbeda |
+| Satu resep SKU, tiga produk ukuran | Ketiga ukuran memakai isi/versi bisnis resep dari perubahan kelompok yang sama; kuantitas penerima dan snapshot lot tetap masing-masing |
+| Jahit/laundry satu SKU, kiriman campuran dibanding hanya32 | Basis tarif/versi bisnis sama pada tanggal dan penyedia/proses yang sama; qty benar-benar dikerjakan saja yang ditagih |
+| SKU spesial `32007-27` | Master terpisah, satu anggota27; perubahan harga tidak mengubah SKU range |
+| Master baru berlaku tanggal T | Semua ukuran mengikuti batas waktu yang sama; snapshot order/penjualan sebelum T tetap riwayat asli |
+| Range31–33 menjadi31–34 pada tanggal T | Qty/nilai ukuran34 tetap terlacak; kelompok lama/baru tidak menghitung barang yang sama dua kali; laporan historis memakai keanggotaan saat itu; transaksi baru memakai master kelompok baru tanpa repricing transaksi lama |
+| Impor master lama: tiga ukuran bertarif/BOM berbeda | Konflik terdaftar dan dicegah masuk sebagai satu master secara diam-diam; tidak mengambil baris pertama atau merata-ratakan tarif |
+| Dua operator mengubah master lewat ukuran berbeda | Keduanya tetap mengunci master SKU bersama; stale version ditolak, tidak membuat harga bercabang |
+| Kode SKU sama pada merek berbeda | Tetap kelompok master berbeda sesuai identitas komersial, tanpa lintas merek |
+| Replay setelah izin keuangan dicabut | Tidak mengembalikan harga/nominal dari cache lama |
+| QC/ganti merek, invoice terlambat, sale dan retur sesudah migrasi | Tidak mengganti ukuran, menggandakan stok/biaya, atau memutus referensi versi/lot lama |
+
+Prioritas implementasi: identitas master komersial dan laporan konflik data → resolver/write master harga jual+BOM → referensi SKU produksi dan tarif jasa → consumer/import/UI → regresi menyeluruh dan audit independen. Jangan mengedit migration historis atau memindahkan isi ledger demi menghilangkan konflik.
 
 ## HPP per SKU tanpa kehilangan asal biaya
 
