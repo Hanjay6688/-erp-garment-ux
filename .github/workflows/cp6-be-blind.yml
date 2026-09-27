@@ -7,6 +7,7 @@ on:
       - .github/workflows/cp6-be-blind.yml
       - scripts/cp6_be_blind_chain.py
       - scripts/cp6_be_blind_native.py
+      - scripts/cp6_be_blind_extended.py
       - scripts/cp6_be_blind_http.py
 permissions:
   contents: read
@@ -59,6 +60,8 @@ jobs:
         run: python scripts/cp6_be_blind_native.py
       - name: Run independent Auth and HTTP replay oracle
         run: python scripts/cp6_be_blind_http.py
+      - name: Run independent accessory, rework, zero-price and Afui oracles
+        run: python scripts/cp6_be_blind_extended.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -67,6 +70,7 @@ jobs:
             be-blind-chain-result.json
             be-blind-native-results.json
             be-blind-http-results.json
+            be-blind-extended-results.json
           if-no-files-found: ignore
       - name: Stop disposable runtime
         if: always()
