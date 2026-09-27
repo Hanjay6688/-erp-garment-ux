@@ -123,6 +123,10 @@ jobs:
         if: always()
         working-directory: auditor
         run: python audits/independent_bd_20260927/lifecycle.py
+      - name: Independent daily physical and cost continuation
+        if: always()
+        working-directory: auditor
+        run: python audits/independent_bd_20260927/daily.py
       - name: Independent post-use rollback refusal
         if: always()
         working-directory: auditor
