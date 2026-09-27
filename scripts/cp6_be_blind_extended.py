@@ -126,6 +126,20 @@ def rework(cur, day):
              "qty_sent": 4, "physical_sent_at": old[1].isoformat(), "status": "IN_PROGRESS",
              "return_fg_location_id": str(old[2]), "accessory_bom_version_id": str(bom),
              "accessory_bom_item_ids": [], "components": []}
+    wrong_size = str(uuid.uuid4())
+    cur.execute("insert into erp.sizes(id,size_code,sort_order,is_active) values(%s,%s,99,true)",
+                (wrong_size, "BLIND-" + wrong_size[:8]))
+    incompatible = bd.sized_product(cur, wrong_size, "BLIND-WRONG-" + uuid.uuid4().hex[:8])
+    try:
+        with cur.connection.transaction():
+            be.be(cur, "SAVE_REWORK", {"order": order, "target_product_id": incompatible,
+                                        "reason": "Blind wrong-size target must fail"})
+    except psycopg.Error as error:
+        assert "BE_DIMENSION_MISMATCH" in error.diag.message_primary, error.diag.message_primary
+    else:
+        raise AssertionError("Wrong-size rework target was accepted")
+    assert one(cur, "select count(*) from erp.rework_orders where rework_number=%s",
+               order["rework_number"]) == 0
     made = be.be(cur, "SAVE_REWORK", {"order": order, "target_product_id": target,
                                         "reason": "Blind same-construction target"})
     rid = made["rework_id"]
@@ -159,7 +173,8 @@ def rework(cur, day):
     bd.api.admin(cur)
     assert be.qty(cur, source) == 0 and be.qty(cur, dest) == 0
     return {"partial": partial[0], "partial_fg": 0, "good_target": 2, "bs": 2,
-            "source_shadow_good": 0, "replay_same": True, "inverse_zero": True}
+            "source_shadow_good": 0, "replay_same": True, "inverse_zero": True,
+            "wrong_size_refused_without_order": True}
 
 
 def zero_redye(cur, day):
@@ -181,6 +196,29 @@ def zero_redye(cur, day):
     assert one(cur, "select count(*) from erp.be_redye_price_events_v1 where service_id=%s", f["redye"]) == 1
     return {"unknown": None, "blocked_before": blocker, "explicit_zero_event": True,
             "cost": "0.00", "blockers_after": remaining, "replay_same": True}
+
+
+def later_rate_redye(cur, day):
+    f = be.redye_fixture(cur, day, known=True)
+    original = cur.execute("""select rate_version_id,initial_rate,wash_process_id,sent_at
+        from erp.be_redye_services_v1 where id=%s""", (f["redye"],)).fetchone()
+    assert original[0] is not None and original[1] == Decimal("50.00")
+    before = (one(cur, "select erp.be_redye_rate_v1(%s)", f["redye"]),
+              one(cur, "select erp.be_redye_cost_v1(%s)", f["redye"]),
+              bd.lot_value(cur, f["dest"]))
+    assert before[:2] == (Decimal("50.00"), Decimal("200.00"))
+    later = bd.chain.production.at(f["day"] + timedelta(days=1), 13)
+    assert later > original[3]
+    bd.process_rate(cur, {"vendor": f["vendor"], "process": str(original[2]), "start": later},
+                    "75.00")
+    frozen = cur.execute("""select rate_version_id,initial_rate from erp.be_redye_services_v1
+        where id=%s""", (f["redye"],)).fetchone()
+    after = (one(cur, "select erp.be_redye_rate_v1(%s)", f["redye"]),
+             one(cur, "select erp.be_redye_cost_v1(%s)", f["redye"]),
+             bd.lot_value(cur, f["dest"]))
+    assert frozen == original[:2] and after == before, (original, frozen, before, after)
+    return {"sent_rate": str(before[0]), "later_rate": "75.00",
+            "cost_and_lot_unchanged": True, "rate_version_unchanged": True}
 
 
 def paid_redye(cur, day):
@@ -315,6 +353,7 @@ def main():
         for name, case in (("B02_B03_ACCESSORY", accessory), ("B03_NONPO_OPENING", nonpo_conversion),
                            ("B04_REWORK", rework),
                            ("B05_SMALL_REDYE", paid_redye), ("B06_EXPLICIT_ZERO", zero_redye),
+                           ("B06_LATER_RATE", later_rate_redye),
                            ("B08_AFUI_MIX", afui_mix),
                            ("B09_POCKET_IMPORT", pocket_import)):
             bd.api.admin(cur)
