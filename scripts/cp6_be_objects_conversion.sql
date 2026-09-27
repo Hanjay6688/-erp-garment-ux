@@ -50,8 +50,10 @@ AS $function$
       from erp.fg_stock_movements m where m.lot_id=p_lot and m.location_id=p_location),'[]'::jsonb))::text)
 $function$;
 
+-- The identity validator deliberately takes transaction/row locks. PostgREST
+-- must use a READ WRITE transaction even though this preview posts no business fact.
 CREATE OR REPLACE FUNCTION erp.be_conversion_preview_v1(p_payload jsonb)
- RETURNS jsonb LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO ''
+ RETURNS jsonb LANGUAGE plpgsql VOLATILE SECURITY DEFINER SET search_path TO ''
 AS $function$
 declare l erp.fg_lots%rowtype;s erp.products%rowtype;t erp.products%rowtype;v_location uuid;v_qty integer;
  v_at timestamptz;v_current numeric;v_dated numeric;v_hpp numeric;v_cost jsonb;
@@ -159,7 +161,7 @@ begin
 end;$function$;
 
 CREATE OR REPLACE FUNCTION erp.get_product_conversion_workspace_v1(p_filters jsonb default '{}'::jsonb)
- RETURNS jsonb LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO ''
+ RETURNS jsonb LANGUAGE plpgsql VOLATILE SECURITY DEFINER SET search_path TO ''
 AS $function$
 declare v_page integer;v_size integer:=25;v_query text;v_lot uuid;v_result jsonb;v_values boolean;v_product uuid;v_target_query text;v_target_page int;v_doc_page int;
 begin
@@ -216,5 +218,5 @@ CREATE OR REPLACE FUNCTION public.erp_save_product_conversion_action_v1(p_action
  RETURNS jsonb LANGUAGE sql SECURITY DEFINER SET search_path TO ''
 AS $function$ select erp.save_product_conversion_action_v1(p_action,p_payload,p_client_request_id) $function$;
 CREATE OR REPLACE FUNCTION public.erp_get_product_conversion_workspace_v1(p_filters jsonb default '{}'::jsonb)
- RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+ RETURNS jsonb LANGUAGE sql VOLATILE SECURITY DEFINER SET search_path TO ''
 AS $function$ select erp.get_product_conversion_workspace_v1(p_filters) $function$;

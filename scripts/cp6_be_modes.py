@@ -63,11 +63,20 @@ def pocket_race(tools,today,commit):
         if commit:first.commit()
         else:first.rollback()
         if commit:
-            retry=b.refused(z,lambda:p.call(z,'POST_PERIOD',payload),'tumpang tindih');second.rollback();retried=retry['ok']
+            # This predecessor refusal has no machine-code prefix. The code-equality
+            # helper cannot test a phrase inside its message. Require the full
+            # established message, then prove the active period blocks a fresh preview.
+            retry=b.bcp.denied(z,lambda:p.call(z,'POST_PERIOD',payload),
+              'Periode memerlukan biaya dan hasil jahit positif serta tidak boleh tumpang tindih')
+            second.rollback()
+            refreshed=p.preview(z,cut-timedelta(days=1),cut)
+            blockers=be.one(z,"select erp.pocket_period_manifest_v1(%s,%s)->'blocked_by'",cut-timedelta(days=1),cut)
+            second.rollback()
+            retried=retry['ok'] and not refreshed['can_post'] and refreshed['blocked'] and held['id'] in blockers
         else:
-            result=p.call(z,'POST_PERIOD',payload);second.commit();retried=result['status']=='ACTIVE'
+            result=p.call(z,'POST_PERIOD',payload);second.commit();retried=result['status']=='ACTIVE';retry=result
     count=read(tools,lambda cur:be.one(cur,'select count(*) from erp.pocket_period_sources where historical_usage_id in(select id from erp.be_pocket_usage_v1 where batch_id=%s)',f['batch']))
-    return b.verdict(dict(two_connections=a_id!=z_id,held_busy=busy['ok'],retry=retried,once=count==1),first_committed=commit,busy=busy,source_allocations=count)
+    return b.verdict(dict(two_connections=a_id!=z_id,held_busy=busy['ok'],retry=retried,once=count==1),first_committed=commit,busy=busy,retry_result=retry,source_allocations=count)
 
 def races(tools,today):
     return [('BE_RACE:CONVERSION_FIRST_COMMITS',lambda:conversion_race(tools,today,True)),

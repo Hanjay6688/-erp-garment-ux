@@ -48,6 +48,13 @@ def build():
       "select case when s.target_kind='FINISHED_GOODS' then 'OPENING_EQUITY' when s.target_kind='COGS' then 'COGS' else 'WIP|'||d.po_id::text end key,\n   sum(erp.pocket_period_amount_v1(d.pool_id,d.preceding_qty,d.sewing_qty)) amount\n  from erp.pocket_period_destinations d left join erp.be_pocket_sewing_v1 s on s.id=d.historical_sewing_id where d.pool_id=p_pool group by 1")])
     book=patch(AP,'pocket_period_book_v1',[("   else 'INVALID|'", "   when l.account_id=erp.account_id('OPENING_EQUITY') and l.po_id is null then 'OPENING_EQUITY'\n   when l.account_id=erp.account_id('COGS') and l.po_id is null then 'COGS'\n   else 'INVALID|'")])
     sync=patch(AP,'sync_pocket_period_v1',[
+     # Equal-price invoices change certainty even when they have no monetary delta.
+     # Keep the common HPP refresh path, without inventing a zero-value period event.
+     (" if delta='{}'::jsonb and p_kind='RECOST' then return;end if;",''),
+     (" insert into erp.pocket_period_events(id,pool_id,kind,economic_date,prior_ledger,target_ledger,ledger_delta,journal_entry_id,reason,created_by)",
+      " if delta<>'{}'::jsonb or p_kind<>'RECOST' then\n insert into erp.pocket_period_events(id,pool_id,kind,economic_date,prior_ledger,target_ledger,ledger_delta,journal_entry_id,reason,created_by)"),
+     (" values(ident,p_pool,p_kind,p_date,book,target,delta,journal,p_reason,erp.current_app_user_id());",
+      " values(ident,p_pool,p_kind,p_date,book,target,delta,journal,p_reason,erp.current_app_user_id());\n end if;"),
      (' for v_po in select distinct po_id from erp.pocket_period_destinations where pool_id=p_pool order by po_id loop',
       " perform erp.be_pocket_sync_targets_v1(p_pool,p_date,p_kind='CANCEL');\n for v_po in select distinct po_id from erp.pocket_period_destinations where pool_id=p_pool and po_id is not null order by po_id loop")])
     post=patch(AP,'save_pocket_period_action_v1',[

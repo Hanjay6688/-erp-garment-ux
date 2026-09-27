@@ -26,17 +26,20 @@ AS $function$
    where backend_pid=pg_backend_pid() and transaction_id=txid_current()),false)
 $function$;
 
-CREATE OR REPLACE FUNCTION erp.be_nonpo_sync_all_v1(p_date date,p_source_type text,p_source_id uuid,p_reason text)
+-- Prepare the sourced graph and its value transfers before checking an opening
+-- root's source delta. This never invents source value or bypasses target/book checks.
+CREATE OR REPLACE FUNCTION erp.be_nonpo_prepare_transfers_v1(p_date date)
  RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
 AS $function$
-declare r record;v_own boolean;v_old numeric;v_new numeric;v_delta numeric;v_journal uuid;v_event uuid;v_product uuid;
+declare r record;v_own boolean;v_old numeric;v_new numeric;v_delta numeric;v_journal uuid;v_event uuid;
 begin
  perform erp.require_internal();
  perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
- if erp.be_nonpo_in_sync_v1() then raise exception 'BE_NON_PO_RECURSION';end if;
  v_own:=not erp.be_in_context_v1();
- if v_own then insert into erp.be_execution_context_v1(backend_pid,transaction_id,request_id) values(pg_backend_pid(),txid_current(),gen_random_uuid());end if;
- update erp.be_execution_context_v1 set syncing_nonpo=true where backend_pid=pg_backend_pid() and transaction_id=txid_current();
+ if v_own then
+   insert into erp.be_execution_context_v1(backend_pid,transaction_id,request_id,syncing_nonpo)
+   values(pg_backend_pid(),txid_current(),gen_random_uuid(),true);
+ end if;
  perform erp.be_propagate_nonpo_v1();
  for r in select c.id,c.from_product_id,c.to_product_id,a.id allocation_id,a.qty_pcs,a.original_hpp_per_pcs,
     h.hpp_per_pcs from erp.product_conversions c join erp.product_conversion_allocations a on a.conversion_id=c.id
@@ -55,6 +58,21 @@ begin
        values(v_event,r.id,v_old,v_new,v_journal,p_date);
    end if;
  end loop;
+ if v_own then delete from erp.be_execution_context_v1 where backend_pid=pg_backend_pid() and transaction_id=txid_current();end if;
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.be_nonpo_sync_all_v1(p_date date,p_source_type text,p_source_id uuid,p_reason text)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare v_own boolean;v_product uuid;
+begin
+ perform erp.require_internal();
+ perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
+ if erp.be_nonpo_in_sync_v1() then raise exception 'BE_NON_PO_RECURSION';end if;
+ v_own:=not erp.be_in_context_v1();
+ if v_own then insert into erp.be_execution_context_v1(backend_pid,transaction_id,request_id) values(pg_backend_pid(),txid_current(),gen_random_uuid());end if;
+ update erp.be_execution_context_v1 set syncing_nonpo=true where backend_pid=pg_backend_pid() and transaction_id=txid_current();
+ perform erp.be_nonpo_prepare_transfers_v1(p_date);
  for v_product in select distinct product_id from erp.fg_lots where po_id is null order by product_id loop
    perform erp.sync_non_po_product_hpp_to_gl_v2620f(v_product,p_date,p_source_type,p_source_id,p_reason);
  end loop;

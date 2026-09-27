@@ -16,6 +16,7 @@ F=ROOT/'supabase/migrations/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliab
 BC=ROOT/'supabase/dev/cp6_bc_t1_family.sql'
 BD=ROOT/'supabase/dev/cp6_bd_t1_family.sql'
 AV=ROOT/'supabase/migrations/20260923110000_erp_v2_6_20av_cp6_identity_new_stock_cutoff.sql'
+AP=ROOT/'supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql'
 OUT=ROOT/'supabase/dev/cp6_be_t1_family.sql'
 VERSION='v2.6.20be'
 REPLACED=['erp.post_product_conversion(uuid)','erp.propagate_conversion_hpp_for_po(uuid)',
@@ -24,7 +25,8 @@ REPLACED=['erp.post_product_conversion(uuid)','erp.propagate_conversion_hpp_for_
           'erp.reverse_product_conversion(uuid,text)','erp.compute_non_po_product_hpp_targets_v2620f(uuid)',
           'erp.compute_non_po_product_hpp_book_v2620f(uuid)','erp.assert_non_po_product_hpp_target_book_v2620f(uuid)',
           'erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)',
-          'erp.post_rework_completion(uuid)','erp.reverse_rework_completion(uuid,text)','erp.assert_new_stock_cutoff_coverage_v1()']+redye.REPLACED+pocket.REPLACED
+          'erp.post_rework_completion(uuid)','erp.reverse_rework_completion(uuid,text)','erp.assert_new_stock_cutoff_coverage_v1()',
+          'erp.sync_opening_lot_hpp_to_gl(uuid,date)']+redye.REPLACED+pocket.REPLACED
 NEW_TABLES=['be_execution_context_v1','be_conversion_sources_v1','be_conversion_returns_v1',
             'be_conversion_cost_sources_v1','be_conversion_cost_events_v1','be_nonpo_transfer_events_v1','be_rework_targets_v1','be_redye_services_v1','be_redye_price_events_v1']+pocket.TABLES
 OBJECTS=[ROOT/f'scripts/cp6_be_objects_{part}.sql' for part in ('conversion','cost','nonpo','rework','redye','pocket')]
@@ -113,6 +115,15 @@ def build():
           "    perform erp.be_nonpo_sync_all_v1(p_effective_date,p_trigger_source_type,p_trigger_source_id,p_reason);return;\n"
           "  end if;\n  if exists(\n")],'BE atomic non-PO graph sync')
       guards.append(body)
+    opening_sync=substitute(last_definition(AP,'sync_opening_lot_hpp_to_gl'),[
+      ("    raise exception 'Opening HPP conversion requires a sourced descendant correction workflow';",
+       "    if exists(select 1 from erp.product_conversion_allocations a\n"
+       "      join erp.product_conversions c on c.id=a.conversion_id\n"
+       "      where a.source_lot_id=l.id and c.status='POSTED' and not erp.be_nonpo_admitted_v1(c.id)) then\n"
+       "      raise exception 'Opening HPP conversion requires a sourced descendant correction workflow';\n"
+       "    end if;\n"
+       "    perform erp.be_nonpo_prepare_transfers_v1(p_effective_date);")
+    ],'BE opening lifecycle keeps exact source-delta check after sourced descendant transfers')
     inverse=substitute(last_definition(AC,'reverse_product_conversion'),[
       ("  if v_journal is not null then perform erp.reverse_journal(v_journal,p_reason); end if;",
        "  for r in select e.journal_id from erp.be_nonpo_transfer_events_v1 e join erp.journal_entries j on j.id=e.journal_id\n"
@@ -155,7 +166,7 @@ grant execute on function public.erp_get_product_conversion_workspace_v1(jsonb) 
       "do $guard$ begin if not exists(select 1 from erp.schema_migrations where version='v2.6.20bd') then raise exception 'BE_REQUIRES_BD';end if;",
       "if exists(select 1 from erp.schema_migrations where version='v2.6.20be') then raise exception 'BE_ALREADY_INSTALLED';end if;end $guard$;",
       objects(),conversion(),propagate,target,recover,reverse,recost,checks,nonpo_propagate,nonpo_target,nonpo_book,*guards,inverse,
-      complete,reverse_rework,coverage,redye.build(old_definition),pocket.build(),grants,
+      complete,reverse_rework,coverage,opening_sync,redye.build(old_definition),pocket.build(),grants,
       "insert into erp.schema_migrations(version,description) values('v2.6.20be','BE development family: SKU conversion, rework/redye and pocket cutover');",
       'commit;',''])
 
