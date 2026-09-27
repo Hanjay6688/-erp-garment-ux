@@ -119,7 +119,7 @@ def http_cases(http,today):
           reader_hidden=view['status']==200 and bool(view['body'].get('lots')) and all(x['unit_hpp'] is None for x in view['body']['lots']),
           preview_hidden=preview['status']==200 and preview['body']['preview']['cost']=={},
           owner=done['status']==200 and done['body'].get('status')=='POSTED',replay=again==done and count==1,changed_key_refused=changed['status']>=400),
-          http=dict(anon=anon['status'],qc=denied['status'],warehouse=warehouse_view['status'],reader=view['status'],reader_write=reader_write['status'],owner=done['status'],changed_key=changed['status']),body=done['body'])
+          http=dict(anon=anon['status'],qc=denied['status'],warehouse=warehouse_view['status'],reader=view['status'],reader_preview=preview['status'],reader_write=reader_write['status'],owner=done['status'],changed_key=changed['status']),preview=preview['body'],body=done['body'])
     def redye_price():
         with http.connect() as conn,conn.cursor() as cur:
             with bd_modes._fixture_usage(cur):f=be.redye_fixture(cur,today,False)

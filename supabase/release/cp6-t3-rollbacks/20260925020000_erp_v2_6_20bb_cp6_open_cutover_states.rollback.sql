@@ -1,6 +1,6 @@
 -- CP6 BB rollback: exact pre-use restore of the T3 release package to its predecessor; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_rollback.py from supabase/release/cp6-t3/20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql (sha256 ed95f1e84a8a924a830de9362ff890769875d01671b4e83c77208daf23a8df34) and docs/evidence/cp6-t3/rollback_capture.json (sha256 309f374cc818159b6b1882e154f861255c77d5a914b37a5bdbc5054e3dfb753c).
+-- Built by scripts/cp6_t3_rollback.py from supabase/release/cp6-t3/20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql (sha256 ed95f1e84a8a924a830de9362ff890769875d01671b4e83c77208daf23a8df34) and docs/evidence/cp6-t3/rollback_capture.json (sha256 edd1c9f5a18d899a215dce7d4baa22be43e98d20ff4c4eb6ed1873fdabe92fb9).
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
 do $closed_admission$
@@ -210,9 +210,9 @@ alter table erp.payroll_reimbursements drop column opening_carry_entitlement_id;
 alter table erp.payroll_reimbursements drop column opening_carry_qty;
 alter table erp.payroll_reimbursements drop column opening_payable_balance_id;
 alter table erp.work_completion_events drop column bb_opening_item_id;
-alter table erp.initial_import_production_sources drop constraint initial_import_production_sources_stage_check;
+alter table erp.initial_import_production_sources drop constraint if exists initial_import_production_sources_stage_check;
 alter table erp.initial_import_production_sources add constraint initial_import_production_sources_stage_check CHECK ((stage = ANY (ARRAY['SEWING'::text, 'LAUNDRY'::text, 'QC'::text])));
-alter table erp.payroll_reimbursements drop constraint payroll_reimbursements_source_type_check;
+alter table erp.payroll_reimbursements drop constraint if exists payroll_reimbursements_source_type_check;
 alter table erp.payroll_reimbursements add constraint payroll_reimbursements_source_type_check CHECK (((source_type)::text = ANY (ARRAY[('MANUAL'::character varying)::text, ('ACCESSORY_BOM'::character varying)::text])));
 drop trigger trg_bb_legacy_document_identity on erp.bb_legacy_documents_v1;
 drop trigger bb_opening_reworks_v1_immutable on erp.bb_opening_reworks_v1;

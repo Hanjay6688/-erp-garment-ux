@@ -1,6 +1,6 @@
 -- CP6 AX rollback: exact pre-use restore of the T3 release package to its predecessor; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_rollback.py from supabase/release/cp6-t3/20260924010100_erp_v2_6_20ax_cp6_fg_unsourced_receipts.sql (sha256 c736049386c65f75c82fa790b502cd32c999512738207b7be17d711185c3d9f2) and docs/evidence/cp6-t3/rollback_capture.json (sha256 309f374cc818159b6b1882e154f861255c77d5a914b37a5bdbc5054e3dfb753c).
+-- Built by scripts/cp6_t3_rollback.py from supabase/release/cp6-t3/20260924010100_erp_v2_6_20ax_cp6_fg_unsourced_receipts.sql (sha256 c736049386c65f75c82fa790b502cd32c999512738207b7be17d711185c3d9f2) and docs/evidence/cp6-t3/rollback_capture.json (sha256 edd1c9f5a18d899a215dce7d4baa22be43e98d20ff4c4eb6ed1873fdabe92fb9).
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
 do $closed_admission$
@@ -192,7 +192,7 @@ do $restore_function$ declare r record; begin
  then raise exception 'AX_FUNCTION_RESTORE_MISMATCH';end if;
 end $restore_function$;
 drop trigger trg_guard_bs_resolution_fg_unsourced_v1 on erp.bs_resolutions;
-alter table erp.payroll_work_items drop constraint payroll_work_items_source_type_check;
+alter table erp.payroll_work_items drop constraint if exists payroll_work_items_source_type_check;
 alter table erp.payroll_work_items add constraint payroll_work_items_source_type_check CHECK (((source_type)::text = ANY (ARRAY[('PRODUCTION'::character varying)::text, ('REWORK'::character varying)::text])));
 create or replace view erp.v_payroll_eligible_work_lines with (security_invoker=true) as
  SELECT 'PRODUCTION'::text AS source_type,

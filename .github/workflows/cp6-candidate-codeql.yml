@@ -4,7 +4,14 @@ on:
   push:
     branches: [claude/new-session-deapao]
     paths:
-      - .github/workflows/cp6-candidate-codeql.yml
+      # Bind security analysis to candidate changes, including generated SQL's
+      # Python builders and scenario harnesses, without requiring a no-op edit.
+      - .github/workflows/**
+      - scripts/**
+      - src/**
+      - supabase/tests/support/**
+      - package.json
+      - package-lock.json
   workflow_dispatch:
 permissions:
   contents: read

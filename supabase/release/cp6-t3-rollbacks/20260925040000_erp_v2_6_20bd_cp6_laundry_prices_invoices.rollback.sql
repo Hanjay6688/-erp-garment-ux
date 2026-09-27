@@ -1,6 +1,6 @@
 -- CP6 BD rollback: exact pre-use restore of the T3 release package to its predecessor; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_rollback.py from supabase/release/cp6-t3/20260925040000_erp_v2_6_20bd_cp6_laundry_prices_invoices.sql (sha256 30bf93681f4ded29dbf8b02fbd714effb2fe9907d2a7bfb7eafe7d36365ae35d) and docs/evidence/cp6-t3/rollback_capture.json (sha256 309f374cc818159b6b1882e154f861255c77d5a914b37a5bdbc5054e3dfb753c).
+-- Built by scripts/cp6_t3_rollback.py from supabase/release/cp6-t3/20260925040000_erp_v2_6_20bd_cp6_laundry_prices_invoices.sql (sha256 30bf93681f4ded29dbf8b02fbd714effb2fe9907d2a7bfb7eafe7d36365ae35d) and docs/evidence/cp6-t3/rollback_capture.json (sha256 edd1c9f5a18d899a215dce7d4baa22be43e98d20ff4c4eb6ed1873fdabe92fb9).
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
 do $closed_admission$
@@ -193,7 +193,7 @@ do $restore_function$ declare r record; begin
 end $restore_function$;
 drop trigger trg_bd_claim_credit_in_use_daily on erp.laundry_claims;
 drop trigger bd_guard_invoiced_receipt_v1 on erp.laundry_receipts;
-alter table erp.bb_opening_credits_v1 drop constraint bb_opening_credits_v1_credit_kind_check;
+alter table erp.bb_opening_credits_v1 drop constraint if exists bb_opening_credits_v1_credit_kind_check;
 alter table erp.bb_opening_credits_v1 add constraint bb_opening_credits_v1_credit_kind_check CHECK ((credit_kind = ANY (ARRAY['CUSTOMER_ALLOWANCE'::text, 'SUPPLIER_ALLOWANCE'::text, 'VENDOR_ALLOWANCE'::text, 'CUSTOMER_CREDIT_APPLY'::text, 'ACCESSORY_NOTE_RETURN'::text])));
 drop trigger trg_bd_claim_credit_in_use_opening on erp.bd_opening_laundry_claim_events_v1;
 drop function erp.bd_allocate_receipt_v1(uuid);

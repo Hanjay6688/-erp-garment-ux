@@ -1,5 +1,6 @@
 """BE writer T1_FAMILY probe. Expected comes from M:4828-4843/5057-5096, C6 and the ALL-C04 errata.
-Stage 1 covers the selected-lot conversion; other required BE flows remain explicitly unfinished.
+Selected-lot conversion, sourced costs, rework/redye and historical/native pocket lifecycle.
+Writer evidence only; broader acceptance remains independent.
 """
 from datetime import timedelta
 from pathlib import Path
@@ -230,7 +231,9 @@ PLAN=[('BE01:SELECTED_LOT_REPLAY_REVERSE','NO_ROUTE',conversion_roundtrip),('BE0
       ('BE04:HISTORICAL_PERIOD_WIP_SPLIT_COMPLETION_RECOST','NO_ROUTE',lambda cur,today:pocket_probe.historical_continuation(cur,today,installed(cur))),
       ('BE04:PROVENANCE_NUMERATOR_DENOMINATOR_REFUSALS','NO_ROUTE',lambda cur,today:pocket_probe.validation_controls(cur,today,installed(cur))),
       ('BE04:ALLOCATED_REFERENCE_ONLY_DUPLICATE_BATCH','NO_ROUTE',lambda cur,today:pocket_probe.allocated_and_duplicate(cur,today,installed(cur))),
-      ('BE04:SALE_RETURN_CONVERSION_RECOST','NO_ROUTE',lambda cur,today:pocket_probe.stock_continuation(cur,today,installed(cur)))]
+      ('BE04:SALE_RETURN_CONVERSION_RECOST','NO_ROUTE',lambda cur,today:pocket_probe.stock_continuation(cur,today,installed(cur))),
+      ('BE04:MIXED_NATIVE_HISTORICAL_AFUI_INVERSE','NO_ROUTE',lambda cur,today:pocket_probe.mixed_native_historical(cur,today,installed(cur))),
+      ('BE04:CLOSED_CORRECTION_ASOF_REPLAY_INVERSE','NO_ROUTE',lambda cur,today:pocket_probe.closed_correction(cur,today,installed(cur)))]
 def cases(cur,today):return [(key,lambda f=fn:f(cur,today)) for key,_,fn in PLAN]
 
 def run(phase):

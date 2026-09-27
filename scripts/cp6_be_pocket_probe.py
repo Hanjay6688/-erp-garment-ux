@@ -170,8 +170,8 @@ def stock_continuation(cur,today,installed):
     cut=today-timedelta(days=10);r=active_unit(cur,rows(cut))
     r['PRODUCT'].append(dict(r['PRODUCT'][0],sku='{C}T',color_name='BE target colour',product_name='BE cutover target'))
     f=b.bbp.production_post(cur,today,r)
-    p=preview(cur,cut-timedelta(days=1),cut)
-    call(cur,'POST_PERIOD',dict(period_start=p['period_start'],period_end=p['period_end'],expected_revision=p['revision'],reason='BE C04 before stock lifecycle'))
+    p=preview(cur,cut-timedelta(days=1),cut);unallocated=amounts(cur)
+    pool=call(cur,'POST_PERIOD',dict(period_start=p['period_start'],period_end=p['period_end'],expected_revision=p['revision'],reason='BE C04 before stock lifecycle'))['id']
     lot,product,location=q(cur,"select m.lot_id::text,l.product_id::text,m.location_id::text from erp.be_pocket_sewing_v1 s join erp.fg_stock_movements m on m.source_type='OPENING_BALANCE_ITEM' and m.source_id=s.opening_item_id and m.movement_type='OPENING' join erp.fg_lots l on l.id=m.lot_id where s.batch_id=%s and s.target_kind='FINISHED_GOODS'",f['batch'])[0]
     target=one(cur,'select id::text from erp.products where sku=%s',f['code']+'T')
     customer=b.chain.base.create_customer(cur,'BE-C04-'+uuid.uuid4().hex[:8]);b.chain.production.owner(cur)
@@ -186,6 +186,74 @@ def stock_continuation(cur,today,installed):
     old=amounts(cur);truth=b.all_truth(cur);usage=one(cur,'select id::text from erp.be_pocket_usage_v1 where batch_id=%s',f['batch'])
     call(cur,'CORRECT_OPENING_USAGE',dict(usage_id=usage,amount='15.00',expected_amount='11.25',economic_date=str(cut+timedelta(days=4)),reason='BE C04 recost sold returned converted'))
     delta=difference(old,amounts(cur));dest=converted['destination_lot_id'];after=b.all_truth(cur)
-    return b.verdict(dict(qty=be.qty(cur,lot)==2 and be.qty(cur,dest)==1,child=b.lot_value(cur,dest)==b.D('11.50'),source=b.lot_value(cur,lot)==b.D('34.50'),
+    corrected=dict(child=b.lot_value(cur,dest),source=b.lot_value(cur,lot))
+    call(cur,'CORRECT_OPENING_USAGE',dict(usage_id=usage,amount='11.25',expected_amount='15.00',economic_date=str(cut+timedelta(days=5)),reason='BE linked downward correction after return and conversion'))
+    correction_inverse=amounts(cur)==old
+    revision=one(cur,'select erp.pocket_period_state_v1(%s)',pool)['revision']
+    call(cur,'CANCEL_PERIOD',dict(id=pool,expected_revision=revision,reason='BE inverse allocation after sold returned converted'))
+    final_truth=b.all_truth(cur)
+    return b.verdict(dict(qty=be.qty(cur,lot)==2 and be.qty(cur,dest)==1,child=corrected['child']==b.D('11.50'),source=corrected['source']==b.D('34.50'),
       ledger=abs(delta['FG_INVENTORY']-b.D('1.12'))<=b.D('.01') and abs(delta['COGS']-b.D('.75'))<=b.D('.01'),
-      history=snapshots==q(cur,'select id,total_hpp from erp.sale_stock_allocations where sale_item_id in(select id from erp.sales_items where sale_id=%s)',sale),truth=b.truth_quiet(truth,after)),delta=delta,child=b.lot_value(cur,dest),source=b.lot_value(cur,lot),detectors=[truth,after])
+      correction_inverse=correction_inverse,allocation_inverse=amounts(cur)==unallocated and b.lot_value(cur,dest)==10 and b.lot_value(cur,lot)==30,
+      history=snapshots==q(cur,'select id,total_hpp from erp.sale_stock_allocations where sale_item_id in(select id from erp.sales_items where sale_id=%s)',sale),truth=b.truth_quiet(truth,after) and b.truth_quiet(truth,final_truth)),delta=delta,corrected=corrected,detectors=[truth,after,final_truth])
+
+def mixed_native_historical(cur,today,installed):
+    """Two actual 10-piece sources, one imported and one native special contractor.
+
+    Each supplies 11.25 of cost, shared across 20 pieces. Each 10-piece group has
+    5 WIP, 3 FG and 2 sold: 5.62 + 3.38 + 2.25, with the residual left in WIP.
+    The special contractor uses the same is_special policy as Afui; all native
+    movements use the existing receipt/production/warehouse commands.
+    """
+    if not installed:return roundtrip(cur,today,False)
+    import cp6_pocket_period_trial as native
+    cut=today-timedelta(days=10)
+    f=b.bbp.production_post(cur,today,active_unit(cur,rows(cut)))
+    n=native.fixture(api,cur,today,special=True)
+    api.admin(cur);start=cut-timedelta(days=1);end=n['end']
+    b.boundary.historical.prior.set_open_period(cur,start)
+    p=preview(cur,start,end);truth=b.all_truth(cur);old=amounts(cur)
+    physical=q(cur,'select id,qty_signed from erp.material_stock_movements order by id')
+    sewn=q(cur,'select id,qty_signed from erp.sewing_terminal_events order by id')
+    made=call(cur,'POST_PERIOD',dict(period_start=str(start),period_end=str(end),expected_revision=p['revision'],reason='BE actual mixed cutover including special contractor'))
+    pool=made['id'];delta=difference(old,amounts(cur))
+    source_kinds=q(cur,'select adjustment_id is not null,historical_usage_id is not null,count(*) from erp.pocket_period_sources where pool_id=%s group by 1,2 order by 1,2',pool)
+    destinations=q(cur,'select event_id is not null,sum(sewing_qty),sum(erp.pocket_period_amount_v1(pool_id,preceding_qty,sewing_qty)) from erp.pocket_period_destinations where pool_id=%s group by 1 order by 1',pool)
+    special=one(cur,"select count(*) from erp.pocket_period_destinations d join erp.contractor_hpp_policy_versions c on c.contractor_id=d.contractor_id where d.pool_id=%s and d.event_id is not null and c.is_special and not c.attendance_required and c.effective_from<=%s and (c.effective_to is null or c.effective_to>=%s)",pool,end,end)
+    after=b.all_truth(cur)
+    revision=one(cur,'select erp.pocket_period_state_v1(%s)',pool)['revision']
+    call(cur,'CANCEL_PERIOD',dict(id=pool,expected_revision=revision,reason='BE undo mixed allocation, preserve both sources'))
+    final=b.all_truth(cur)
+    return b.verdict(dict(combined=p['quantity']=='20' and p['amount']=='22.50' and p['per_piece']=='1.125000',
+      sources=source_kinds==[(False,True,1),(True,False,1)],special_included=special==1,
+      destinations=destinations==[(False,10,b.D('11.25')),(True,10,b.D('11.25'))],
+      amounts=delta==dict(WIP=b.D('11.24'),FG_INVENTORY=b.D('6.76'),COGS=b.D('4.50'),OTHER_EXPENSE=b.D('-22.50'),OPENING_EQUITY=b.D('0.00')),
+      inverse=amounts(cur)==old,no_fake_events=physical==q(cur,'select id,qty_signed from erp.material_stock_movements order by id') and sewn==q(cur,'select id,qty_signed from erp.sewing_terminal_events order by id'),
+      truth=b.truth_quiet(truth,after) and b.truth_quiet(truth,final)),preview=p,delta=delta,destinations=destinations,sources=source_kinds,afui_policy_rows=special)
+
+def closed_correction(cur,today,installed):
+    """Closed economic dates retain their date and recognize the correction today.
+    A report through yesterday must retain every old account balance.
+    """
+    if not installed:return roundtrip(cur,today,False)
+    cut=today-timedelta(days=10);f=b.bbp.production_post(cur,today,active_unit(cur,rows(cut)))
+    p=preview(cur,cut-timedelta(days=1),cut)
+    pool=call(cur,'POST_PERIOD',dict(period_start=p['period_start'],period_end=p['period_end'],expected_revision=p['revision'],reason='BE period before close'))['id']
+    usage=one(cur,'select id::text from erp.be_pocket_usage_v1 where batch_id=%s',f['batch'])
+    frozen=q(cur,'select id,to_jsonb(j) from erp.journal_entries j order by id')
+    def asof():
+        return q(cur,"select l.account_id,sum(l.debit-l.credit) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where j.status in('POSTED','REVERSED') and j.transaction_date<=%s group by l.account_id order by l.account_id",today-timedelta(days=1))
+    old=amounts(cur);old_asof=asof();truth=b.all_truth(cur)
+    b.boundary.historical.prior.set_open_period(cur,today)
+    request=str(uuid.uuid4());payload=dict(usage_id=usage,amount='15.00',expected_amount='11.25',economic_date=str(cut+timedelta(days=1)),reason='BE late correction to closed historical source')
+    first=call(cur,'CORRECT_OPENING_USAGE',payload,request);again=call(cur,'CORRECT_OPENING_USAGE',payload,request)
+    dates=q(cur,"select j.economic_date,j.transaction_date from erp.journal_entries j where j.id in(select journal_id from erp.be_pocket_source_events_v1 where id=%s union select journal_entry_id from erp.pocket_period_events where pool_id=%s and kind='RECOST') order by j.id",request,pool)
+    stale=b.refused(cur,lambda:call(cur,'CORRECT_OPENING_USAGE',payload),'STALE_VERSION')
+    invalid=b.refused(cur,lambda:call(cur,'CORRECT_OPENING_USAGE',dict(payload,amount='16.00',expected_amount='15.00',economic_date=str(cut-timedelta(days=1)))),'BE_POCKET_CORRECTION_DATE_REASON')
+    after=amounts(cur);newtruth=b.all_truth(cur)
+    historic_unchanged=frozen==q(cur,'select id,to_jsonb(j) from erp.journal_entries j where id=any(%s::uuid[]) order by id',[str(x[0]) for x in frozen])
+    call(cur,'CORRECT_OPENING_USAGE',dict(payload,amount='11.25',expected_amount='15.00',economic_date=str(cut+timedelta(days=2)),reason='BE reverse late correction with a sourced event'))
+    return b.verdict(dict(replay=first==again,closed_posting=len(dates)==2 and all(x==(cut+timedelta(days=1),today) for x in dates),
+      asof=old_asof==asof(),history=historic_unchanged,stale=stale['ok'],before_cutover=invalid['ok'],
+      delta=difference(old,after)==dict(WIP=b.D('1.88'),FG_INVENTORY=b.D('1.12'),COGS=b.D('.75'),OTHER_EXPENSE=b.D(0),OPENING_EQUITY=b.D('-3.75')),
+      inverse=amounts(cur)==old,truth=b.truth_quiet(truth,newtruth) and b.truth_quiet(truth,b.all_truth(cur))),dates=dates,delta=difference(old,after),refusals=[stale,invalid])

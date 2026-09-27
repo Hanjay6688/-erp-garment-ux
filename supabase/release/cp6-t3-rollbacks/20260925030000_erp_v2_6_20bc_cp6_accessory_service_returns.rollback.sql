@@ -1,6 +1,6 @@
 -- CP6 BC rollback: exact pre-use restore of the T3 release package to its predecessor; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_rollback.py from supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql (sha256 23f31eafc8b8f235465dac7871f5c3cbd13e4e646552abdf591f82a2a3445bbb) and docs/evidence/cp6-t3/rollback_capture.json (sha256 309f374cc818159b6b1882e154f861255c77d5a914b37a5bdbc5054e3dfb753c).
+-- Built by scripts/cp6_t3_rollback.py from supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql (sha256 23f31eafc8b8f235465dac7871f5c3cbd13e4e646552abdf591f82a2a3445bbb) and docs/evidence/cp6-t3/rollback_capture.json (sha256 edd1c9f5a18d899a215dce7d4baa22be43e98d20ff4c4eb6ed1873fdabe92fb9).
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
 do $closed_admission$
@@ -199,9 +199,9 @@ drop trigger trg_bc_carry_reimbursement on erp.payroll_reimbursements;
 alter table erp.payroll_reimbursements drop constraint payroll_reimbursements_bc_carry_check;
 alter table erp.payroll_reimbursements drop constraint payroll_reimbursements_bc_credit_event_id_fkey;
 alter table erp.payroll_reimbursements drop column bc_credit_event_id;
-alter table erp.bb_opening_credits_v1 drop constraint bb_opening_credits_v1_credit_kind_check;
+alter table erp.bb_opening_credits_v1 drop constraint if exists bb_opening_credits_v1_credit_kind_check;
 alter table erp.bb_opening_credits_v1 add constraint bb_opening_credits_v1_credit_kind_check CHECK ((credit_kind = ANY (ARRAY['CUSTOMER_ALLOWANCE'::text, 'SUPPLIER_ALLOWANCE'::text, 'VENDOR_ALLOWANCE'::text, 'CUSTOMER_CREDIT_APPLY'::text])));
-alter table erp.payroll_reimbursements drop constraint payroll_reimbursements_source_type_check;
+alter table erp.payroll_reimbursements drop constraint if exists payroll_reimbursements_source_type_check;
 alter table erp.payroll_reimbursements add constraint payroll_reimbursements_source_type_check CHECK (((source_type)::text = ANY (ARRAY['MANUAL'::text, 'ACCESSORY_BOM'::text, 'OPENING_PAYABLE'::text, 'OPENING_CARRY'::text])));
 drop trigger trg_bc_zone_row on erp.bc_accessory_zones_v1;
 drop function erp.bc_accessory_v1(uuid);

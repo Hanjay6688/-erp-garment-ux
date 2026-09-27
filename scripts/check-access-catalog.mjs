@@ -119,7 +119,16 @@ assert.ok(rpcBoundaries.has('src/ConnectedAccessoryServicePage.tsx:erp_get_acces
 assert.ok(rpcBoundaries.has('src/ConnectedAccessoryServicePage.tsx:erp_save_accessory_service_action_v1'))
 assert.ok(rpcBoundaries.has('src/LaundryBdPanel.tsx:erp_get_laundry_bd_workspace_v1'))
 assert.ok(rpcBoundaries.has('src/LaundryBdPanel.tsx:erp_save_laundry_bd_action_v1'))
-assert.equal(rpcBoundaries.size, evidence.counts.browser_rpc_boundaries + 15)
+const beRpcBoundaries = [
+  'src/BeReworkTargetFields.tsx:erp_get_laundry_bd_workspace_v1',
+  'src/BeReworkTargetFields.tsx:erp_get_product_conversion_workspace_v1',
+  'src/ConnectedBsResolutionPage.tsx:erp_save_product_conversion_action_v1',
+  'src/ConnectedProductConversionPage.tsx:erp_get_accessory_service_workspace_v1',
+  'src/ConnectedProductConversionPage.tsx:erp_get_product_conversion_workspace_v1',
+  'src/ConnectedProductConversionPage.tsx:erp_save_product_conversion_action_v1',
+]
+for (const boundary of beRpcBoundaries) assert.ok(rpcBoundaries.has(boundary), `Missing BE RPC ownership: ${boundary}`)
+assert.equal(rpcBoundaries.size, evidence.counts.browser_rpc_boundaries + 15 + beRpcBoundaries.length)
 assert.ok(rpcBoundaries.has('src/ConnectedInitialImportPage.tsx:erp_get_initial_import_workspace_v1'))
 assert.ok(rpcBoundaries.has('src/ConnectedInitialImportPage.tsx:erp_save_initial_import_action_v1'))
 assert.ok(rpcBoundaries.has('src/useLaundryQcWorkspace.ts:erp_get_laundry_qc_workspace_v1'))
@@ -199,7 +208,7 @@ assert.equal(evidence.invariants.bs_resolution_uses_two_public_rpc_facades, true
 const bsRpcNames = [...bsPage.matchAll(/\.rpc\s*\(\s*['"]([^'"]+)['"]/g)].map((match) => match[1])
 assert.deepEqual(
   [...new Set(bsRpcNames)].sort(),
-  ['erp_get_bs_resolution_workspace_v1', 'erp_save_bs_resolution_action_v1'],
+  ['erp_get_bs_resolution_workspace_v1', 'erp_save_bs_resolution_action_v1', 'erp_save_product_conversion_action_v1'],
 )
 assert.equal(bsRpcNames.filter((name) => name === 'erp_get_bs_resolution_workspace_v1').length, 1)
 assert.equal(bsRpcNames.filter((name) => name === 'erp_save_bs_resolution_action_v1').length, 1)

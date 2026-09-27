@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 7,
+  "revision": 8,
   "phase": "after",
   "scenario_path": "scripts/cp6_be_modes.py",
   "browser_path": "scripts/cp6_be_browser.mjs",
-  "purpose": "BE-18 takeover: verify corrected overlap refusal, volatile locked preview via real Auth HTTP, desktop/mobile conversion and historical pocket paths"
+  "purpose": "BE-19: retain all race/HTTP oracles, record reader preview response, and bind mobile document assertion to its own source SKU"
 }
