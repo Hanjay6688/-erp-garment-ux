@@ -128,7 +128,9 @@ def capacity_ui():
     return {'older_active_period_reachable':True}
 
 def selector_ui():
-    nav('Gudang','Ganti Merek');b.fill('Cari lot / SKU','AUD-DAY-1');click('Cari lot');b.wait_text('halaman 1');click('Lot berikutnya');b.wait_text('halaman 2');click('Lot berikutnya');b.wait_text('halaman 3');snap('owner-real-selector-page3')
+    nav('Gudang','Ganti Merek');b.fill('Cari lot / SKU','AUD-DAY-1');click('Cari lot')
+    ready='Array.from(document.querySelectorAll("button")).some(x=>x.textContent.trim()==="Lot berikutnya"&&!x.disabled)'
+    b.ab('wait','--fn',ready);click('Lot berikutnya');b.wait_text('halaman 2');b.ab('wait','--fn',ready);click('Lot berikutnya');b.wait_text('halaman 3');snap('owner-real-selector-page3')
     number=X['selector']['oldest'][1];b.fill('Cari lot / SKU',number);click('Cari lot');b.wait_text('1 lot/lokasi');snap('owner-oldest-source-search')
     return {'more_than_50_real_sources':True,'third_page_reached':True,'oldest_source_search':number}
 

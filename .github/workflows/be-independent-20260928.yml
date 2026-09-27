@@ -157,10 +157,10 @@ jobs:
         if: always()
         working-directory: auditor
         run: python audits/independent_be_20260928/extended.py
-      - name: Independent supplier invoice descendant lock and volume probes
+      - name: Independent scoped import race and real volume probes
         if: always()
         working-directory: auditor
-        run: python audits/independent_be_20260928/edges.py
+        run: python audits/independent_be_20260928/volume.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -188,6 +188,18 @@ jobs:
         if: always()
         working-directory: auditor
         run: python audits/independent_be_20260928/browser.py
+      - name: Independent supplier invoice descendant and mixed-root probes
+        if: always()
+        working-directory: auditor
+        run: python audits/independent_be_20260928/edges.py
+      - name: Fresh exact BE database for small mixed-root reproduction
+        if: always()
+        working-directory: auditor
+        run: |
+          set -euo pipefail
+          docker exec supabase_db_cp5-local psql -U supabase_admin -d template1 -v ON_ERROR_STOP=1 -c 'create database cp6_be_repro owner postgres'
+          docker exec -i supabase_db_cp5-local pg_restore -U supabase_admin -d cp6_be_repro --clean --if-exists --exit-on-error < audit-results/empty-be.dump
+          python audits/independent_be_20260928/repro_mixed.py
       - name: Independent post-use rollback refusal
         if: always()
         working-directory: auditor

@@ -21,7 +21,7 @@ def main():
             expected=json.loads((OUT/'independent-before-be.json').read_text())
             assert error is None,error
             result['expected']=expected;result['actual']=after
-            assert after==expected,'Rollback did not restore independent BC data/catalogue snapshot'
+            assert after==expected,'Rollback did not restore independent BD predecessor data/catalogue snapshot'
             result['status']='PASS'
         else:
             result['before']=before;result['after']=after
@@ -34,7 +34,7 @@ def main():
         print(json.dumps({k:v for k,v in result.items() if k not in ('before','after','actual','expected')},default=str),flush=True)
     if result['status']!='PASS':return 1
     if MODE=='pre':
-        # Restore the same frozen BD product for the native business tests.
+        # Restore the same frozen BE product for the native business tests.
         manifest=json.loads((ROOT/'supabase/release/cp6-t3/MANIFEST.json').read_text())
         b=next(x for x in manifest['files'] if x['key']=='BE');data=(ROOT/b['file']).read_bytes()
         assert hashlib.sha256(data).hexdigest()==b['package_sha256']

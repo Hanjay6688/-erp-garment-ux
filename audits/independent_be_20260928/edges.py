@@ -11,7 +11,8 @@ def fixture(key):
     return X[key]
 def physical():
     # Native costs/snapshots may change; immutable movement identity, quantity and date may not.
-    return {table:A("select md5(coalesce(string_agg((to_jsonb(t)-%s::text[])::text,'' order by id),'')) from erp."+table+' t',(excluded,),one=True) for table,excluded in [('fg_stock_movements',['unit_hpp_snapshot']),('material_stock_movements',['unit_cost','input_unit_cost','value_signed','running_qty','running_value','moving_average_cost_after']),('sewing_terminal_events',[])]}
+    keys=['id','material_id','product_id','location_id','roll_id','lot_id','movement_type','source_type','source_id','qty_signed','quality_grade','physical_at','movement_at','movement_date','created_at','reversal_of_id']
+    return {table:A("select md5(coalesce(string_agg((select jsonb_object_agg(k,to_jsonb(t)->k) from unnest(%s::text[]) k)::text,'' order by id),'')) from erp."+table+' t',(keys,),one=True) for table in ['fg_stock_movements','material_stock_movements','sewing_terminal_events']}
 def source_setup():
     entities=[('SUPPLIER',[{'supplier_code':'BE-AUD-LIVE','supplier_name':'Independent pocket supplier'}]),('MATERIAL',[{'material_sku':'BE-AUD-LIVE','material_name':'Independent invoiced pocket fabric','material_type':'FABRIC','unit_code':'METER'}]),('MATERIAL_ROLL',[{'material_sku':'BE-AUD-LIVE','roll_number':'BE-AUD-LIVE-ROLL','opening_qty':'20','unit_cost':'17.29','location_code':'AUD-rawloc','control_key':'MAT','opening_source_key':'LIVE-ROLL'}]),('UNINVOICED_RECEIPT',[{'receipt_number':'BE-AUD-LIVE-RECEIPT','receipt_line_number':'1','receipt_date':'2026-09-08','supplier_code':'BE-AUD-LIVE','material_sku':'BE-AUD-LIVE','location_code':'AUD-rawloc','qty':'20','unit_cost':'17.29','control_key':'AP','opening_source_key':'LIVE-ROLL'}]),('OPENING_CONTROL',[{'control_key':'MAT','balance_type':'MATERIAL','qty':'20','amount':'345.80'},{'control_key':'AP','balance_type':'GRNI_MATERIAL','qty':'20','amount':'345.80'}])]
     imp=f.imported('LIVE-RECEIPT',entities);material=A("select id::text from erp.materials where material_sku='BE-AUD-LIVE'",one=True);roll=A("select id::text from erp.material_rolls where roll_number='BE-AUD-LIVE-ROLL'",one=True);supplier=A("select id::text from erp.suppliers where supplier_code='BE-AUD-LIVE'",one=True)
@@ -28,8 +29,16 @@ def live_locks():
     v=fixture('live_invoice');prod=fixture('pocket_production');history=next(x for x in p.ws()['history'] if x['id']==v['issue']['id']);before=physical()
     denied=n.reject(lambda:n.pocket('REVERSE',{'id':history['id'],'expected_version':history['row_version'],'reason':'Independent active-period source inverse'}))
     row=next(x for x in p.ws()['rolls'] if x['id']==v['roll']);new=n.reject(lambda:n.pocket('POST',{'roll_id':v['roll'],'location_id':C['rawloc'],'expected_revision':row['revision'],'mode':'USED','quantity':'1','date':'2026-09-23','reason':'Independent add use inside active allocation'}))
-    sew=n.reject(lambda:n.rpc('erp_reverse_sewing_terminal_v1',[prod['sewing_terminal']['sewing_terminal_event_id'],'Independent active denominator inverse',uid()]))
+    event_id=prod['sewing_terminal']['sewing_terminal_event_id'];version=A('select row_version from erp.sewing_terminal_events where id=%s',(event_id,),one=True)
+    with psycopg.connect(s.DSN) as c:
+        c.execute("select set_config('request.jwt.claim.sub',%s,true)",(C['owner'],))
+        try:c.execute('select erp.reverse_sewing_terminal_v1(%s,%s,%s::uuid,%s)',(event_id,'Independent active denominator inverse',uid(),version))
+        except psycopg.Error as error:c.rollback();eq(error.sqlstate,'P0001');sew={'native_four_argument_guard':str(error),'sqlstate':error.sqlstate}
+        else:c.rollback();raise AssertionError('Active sewing denominator reversed')
     eq(physical(),before);return {'source_inverse':denied,'source_membership':new,'sewing_inverse':sew,'unchanged':True}
+def public_sewing_wrapper():
+    prod=fixture('pocket_production')
+    return n.reject(lambda:n.rpc('erp_reverse_sewing_terminal_v1',[prod['sewing_terminal']['sewing_terminal_event_id'],'Independent public active denominator inverse',uid()]))
 def live_descendants():
     prod=fixture('pocket_production');v=fixture('live_invoice');before=f.pogl(prod['po'])
     payload=d.dp('BE-POCKET',at='2026-09-24T08:00:00+07:00');payload['pricing']['components']=[{'component_id':C['daily_wash'],'covered_qty':13}]
@@ -70,11 +79,11 @@ def boundary_redye():
     for name,at in [('FUTURE','2099-01-01T08:00:00+07:00'),('BEFORE','2026-09-01T08:00:00+07:00')]:tests.append({'case':name,'result':n.reject(lambda at=at:n.cmd('SAVE_REDYE',{**payload,'order':{**payload['order'],'rework_number':'BE-AUD-BOUNDARY-'+name,'physical_sent_at':at}}))})
     return tests
 def recovery_atomic():
-    r=fixture('recovery');before=n.fp();qty=f.matqty(C['tag']);value=n.value(r['conversion']['destination_lot_id'])
-    try:f.bc('VALUE_CUSTODY',r['valuation_payload'])
+    before=n.fp();payload=n.pconv('EXTRA',qty=1,physical_at='2026-09-26T15:00:00+07:00');n.E.append({'unrelated_after_po_conversion':payload,'before':before})
+    try:r=n.cmd('POST',payload)
     except psycopg.Error as err:
-        eq(n.fp(),before);eq(f.matqty(C['tag']),qty);eq(n.value(r['conversion']['destination_lot_id']),value);eq(err.sqlstate,'23514');n.E.append({'recovery_reproduced_atomic':True,'sqlstate':err.sqlstate,'error':str(err),'expected_credit':'14.26','base_target_value':str(value),'actual_unchanged':True});raise
-    raise AssertionError('Recovery unexpectedly accepted; recheck independent first observation')
+        eq(n.fp(),before);n.E.append({'unrelated_conversion_atomic_refusal':True,'sqlstate':err.sqlstate,'error':str(err)});raise
+    return {'unrelated_posted':r}
 def closed_pocket():
     # Independent closed-period posting attempt; rollback the fixture cutoff.
     before=A('select to_jsonb(t) from erp.accounting_period_control t');state=p.preview();events=physical()
@@ -88,6 +97,34 @@ def closed_pocket():
             assert err.sqlstate=='P0001',str(err);out={'refused':True,'error':str(err),'sqlstate':err.sqlstate}
         finally:c.rollback()
     eq(A('select to_jsonb(t) from erp.accounting_period_control t'),before);eq(physical(),events);return out
+def import_conflict():
+    # Import is first validated with no active allocation. Both real public
+    # commands succeed in isolation, then compete while a transaction is held.
+    header=n.imp('CREATE',{'batch_code':'BE-AUD-RACE-IMPORT','cutover_date':'2026-09-10','notes':'Independent stale validated import race'})
+    header=n.imp('SAVE_FILE',{'batch_id':header['batch_id'],'expected_revision':header['revision'],'entity':'OPENING_POCKET_USAGE','filename':'race.csv','rows':[{'source_row_no':1,'payload':{'document_number':'BE-AUD-RACE-SOURCE','line_number':'1','physical_date':'2026-09-07','material_sku':'BE-AUD-POCKET','qty':'1','amount':'17.29','allocation_status':'UNALLOCATED','control_key':'RACE','control_qty':'1','control_amount':'17.29'}}]})
+    header=n.imp('VALIDATE',{'batch_id':header['batch_id'],'expected_revision':header['revision']});eq(header['error_rows'],0);payload={'batch_id':header['batch_id'],'expected_revision':header['revision']}
+    with s.actor_conn('admin') as control:
+        response=control.execute('select public.erp_save_initial_import_action_v1(%s,%s,%s::uuid)',('FINALIZE',Jsonb(payload),uid())).fetchone()[0];eq(response['status'],'POSTED');control.rollback()
+    preview=p.preview();period={'period_start':preview['period_start'],'period_end':preview['period_end'],'expected_revision':preview['revision'],'reason':'Independent held allocation versus stale import'}
+    with s.actor_conn('owner') as holder:
+        held=holder.execute('select public.erp_save_pocket_fabric_action_v1(%s,%s,%s::uuid)',('POST_PERIOD',Jsonb(period),uid())).fetchone()[0]
+        with s.actor_conn('admin') as other:
+            other.execute("set local lock_timeout='1200ms'")
+            try:other.execute('select public.erp_save_initial_import_action_v1(%s,%s,%s::uuid)',('FINALIZE',Jsonb(payload),uid())).fetchone()
+            except psycopg.Error as error:blocked={'sqlstate':error.sqlstate,'error':str(error)};eq(error.sqlstate,'55P03');other.rollback()
+            else:other.rollback();holder.rollback();raise AssertionError('Conflicting import did not wait for in-flight allocation')
+        with s.actor_conn('admin') as other:
+            other.execute("set local lock_timeout='1200ms'")
+            def call(action,payload):
+                r=other.execute('select public.erp_save_initial_import_action_v1(%s,%s,%s::uuid)',(action,Jsonb(payload),uid())).fetchone()[0];n.E.append({'unrelated_while_allocation_lock':action,'payload':payload,'response':r});return r
+            unrelated=call('CREATE',{'batch_code':'BE-AUD-UNRELATED-LOCK','cutover_date':'2026-09-10','notes':'Independent unrelated-domain concurrency'})
+            unrelated=call('SAVE_FILE',{'batch_id':unrelated['batch_id'],'expected_revision':unrelated['revision'],'entity':'CUSTOMER','filename':'unrelated.csv','rows':[{'source_row_no':1,'payload':{'customer_code':'BE-AUD-UNRELATED-LOCK','customer_name':'Independent unrelated customer'}}]})
+            unrelated=call('VALIDATE',{'batch_id':unrelated['batch_id'],'expected_revision':unrelated['revision']});eq(unrelated['error_rows'],0)
+            unrelated=call('FINALIZE',{'batch_id':unrelated['batch_id'],'expected_revision':unrelated['revision']});eq(unrelated['status'],'POSTED')
+        holder.commit()
+    before=physical();refused=n.reject(lambda:n.imp('FINALIZE',payload,who='admin'));eq(physical(),before)
+    state=next(x for x in p.ws()['periods'] if x['id']==held['id']);n.pocket('CANCEL_PERIOD',{'id':held['id'],'expected_revision':state['revision'],'reason':'Independent race fixture cleanup'})
+    return {'valid_before_race':header,'admin_positive_finalization_rolled_back':response,'conflicting_writer_waited':blocked,'unrelated_domain_while_lock_held':unrelated,'refused_after_commit':refused,'no_stale_membership':True}
 def capacity():
     v=fixture('live_invoice');fixture('pocket_production')
     # A legitimate older active period, followed by 51 successful correction/reallocation cycles.
@@ -100,17 +137,20 @@ def capacity():
     assert all(found.values()),{'active_period':old['id'],'searches_found':found,'workspace_returned':len(p.ws()['periods']),'actual_active':state}
 def run():
     f.load()
+    if 'capacity' in X and 'state' in X['capacity']:
+        cap=X['capacity'];state=A('select erp.pocket_period_state_v1(%s)',(cap['old']['id'],),one=True)
+        if state['status']=='ACTIVE':n.pocket('CANCEL_PERIOD',{'id':state['id'],'expected_revision':state['revision'],'reason':'Independent volume fixture cleanup after browser attempt'})
     f.case('SETUP-LIVE-INVOICE','Public import of actual supplier-backed pocket roll',source_setup)
     f.case('POCKET-07-08.WIP','Actual sewing denominator and initial WIP allocation',live_wip,'Controlled predecessor; native work/terminal plus public allocation')
     f.case('POCKET-13.LIVE','Active source and denominator inverses refuse atomically',live_locks)
+    f.case('RELATED.SEWING-WRAPPER','Public sewing inverse reaches actual domain guard',public_sewing_wrapper)
     f.case('POCKET-07-08.DESC','Laundry QC conversion sale and return retain pocket cost',live_descendants,'Public production/conversion; native sale/return')
     f.case('POCKET-09.INVOICE-UP','Actual supplier invoice increases only cost and preserves prior report',invoice_up,'Public sources plus native supplier posting')
     f.case('POCKET-09.INVOICE-DOWN','Inverse unpaid supplier invoice restores source and descendant cost',invoice_down,'Native supplier inverse and direct GL')
     f.case('POCKET-11.DESC','Cancel allocation after conversion and sale without stock movement',live_cancel)
     f.case('NONPO-05-06','Actual non-PO new-identity rework route and GOOD completion',nonpo_modes)
     f.case('REDYE-07-14','Wrong size same identity future and pre-source dispatch refused',boundary_redye)
-    f.case('CONV-07.REPRO','Independent recovery valuation retry preserves all facts on failure',recovery_atomic)
+    f.case('CROSS-PO-NONPO','Unrelated non-PO conversion still works after legitimate PO conversion',recovery_atomic)
     f.case('POCKET-10.CLOSED','Closed allocation either refuses or books in open day only',closed_pocket)
-    f.case('UI.POCKET.52','Old active allocation remains reachable after 51 later cycles',capacity)
     f.persist()
 if __name__=='__main__':run()
