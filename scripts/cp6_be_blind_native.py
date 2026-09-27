@@ -70,13 +70,14 @@ def main() -> None:
                                    "reason": "Independent inverse after selected-lot transfer"})
         assert (setup.qty(cur, chosen["lot"]), setup.qty(cur, target_lot),
                 setup.qty(cur, unrelated["lot"])) == (10, 0, 10)
-        http_payload = dict(chosen["payload"])
+        http_source = setup.fixture(cur, day)
+        http_payload = dict(http_source["payload"])
         http_payload["expected_version"] = one(cur, "select erp.be_source_revision_v1(%s,%s)",
-                                               chosen["lot"], chosen["location"])
+                                               http_source["lot"], http_source["location"])
         race_payload = dict(unrelated["payload"])
         race_payload["expected_version"] = one(cur, "select erp.be_source_revision_v1(%s,%s)",
                                                unrelated["lot"], unrelated["location"])
-        HTTP_FIXTURE.write_text(json.dumps({"payload": http_payload, "source_lot_id": chosen["lot"],
+        HTTP_FIXTURE.write_text(json.dumps({"payload": http_payload, "source_lot_id": http_source["lot"],
                                             "race_payload": race_payload, "race_lot_id": unrelated["lot"]}) + "\n")
         result["selected_lot"] = {"source_before": chosen_initial, "source_after_post": after_source,
                                   "target_after_post": after_target, "unrelated": unrelated_after,
