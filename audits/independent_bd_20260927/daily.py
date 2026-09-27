@@ -70,6 +70,7 @@ def setup():
         c.execute("select set_config('request.jwt.claim.sub',%s,true)",(C['owner'],))
         for key in ['brand','brand2']:c.execute('insert into erp.brands(id,brand_code,brand_name) values(%s,%s,%s)',(C[key],'AUD-'+key,'AUD-'+key))
         c.execute("insert into erp.product_models(id,model_code,model_name) values(%s,'AUD-DAY','Independent daily model')",(C['model'],))
+        for size in [C['s1'],C['s2']]:c.execute('insert into erp.product_model_sizes(model_id,size_id) values(%s,%s)',(C['model'],size))
         c.execute("insert into erp.contractors(id,contractor_code,contractor_name,contractor_type,attendance_required) values(%s,'AUD-DAY','Independent mandor','MANDOR',false)",(C['mandor'],))
         c.execute("insert into erp.materials(id,material_sku,material_name,material_type,unit_code) values(%s,'AUD-DAY-FABRIC','Controlled zero-value source fabric','FABRIC','METER')",(C['material'],))
         for key,kind in [('rawloc','RAW_MATERIAL_WAREHOUSE'),('fg','FG_WAREHOUSE')]:c.execute('insert into erp.locations(id,location_code,location_name,location_type) values(%s,%s,%s,%s)',(C[key],'AUD-'+key,'AUD-'+key,kind))

@@ -235,7 +235,13 @@ def fill(label,value,who='owner'):
     ab('snapshot','-i',who=who);ab('find','label',label,'fill',value,who=who)
 
 def select(label,value,who='owner'):
-    ab('snapshot','-i',who=who);ab('select','select[aria-label='+json.dumps(label)+']',value,who=who)
+    selector='select[aria-label='+json.dumps(label)+']'
+    # Native agent-browser select returned success against a disabled, empty
+    # selector in run10. Wait for a user-operable control and the actual option.
+    ready="(()=>{const e=document.querySelector("+json.dumps(selector)+");return !!e&&!e.disabled&&Array.from(e.options).some(o=>o.value==="+json.dumps(str(value))+");})()"
+    ab('wait','--fn',ready,who=who)
+    ab('snapshot','-i',who=who);ab('select',selector,value,who=who)
+    ab('wait','--fn',"document.querySelector("+json.dumps(selector)+")?.value==="+json.dumps(str(value)),who=who)
 
 def text_body(who='owner'):return ab('get','text','body',who=who)
 def wait_text(text,who='owner',timeout=30):
@@ -253,7 +259,7 @@ def evaluate(code,who='owner'):
         if not isinstance(out,str):break
     return out
 
-def login_browser(who='owner'):
+def browser_auth(who='owner'):
     ab('open','http://127.0.0.1:4176/',who=who)
     snap(who+'-initial-document',who)
     ab('wait','input[type="email"]',who=who)
@@ -267,6 +273,9 @@ def login_browser(who='owner'):
         EVENTS.append({'browser_login_failure_form':evaluate("Array.from(document.querySelectorAll('input')).map(e=>({type:e.type,valid:e.checkValidity(),validationMessage:e.validationMessage,length:e.value.length}))",who)})
         raise
     snap(who+'-authorized',who)
+    return {'real_browser_password_login':True,'authorized_app_shell':True}
+
+def open_bd_master(who='owner'):
     button('Produksi',who,False);button('• Laundry',who)
     wait_text('Harga & tagihan',who)
     button('Harga & tagihan',who)
@@ -275,7 +284,7 @@ def login_browser(who='owner'):
     button('Harga vendor',who)
     wait_text('AUD-BROWSER-KNOWN',who)
     snap(who+'-master',who)
-    return {'real_browser_login':True,'laundry_pricing_loaded':True}
+    return {'laundry_pricing_loaded':True,'fixture_vendor_selected':FIX['vendor']}
 
 def owner_browser_known_unknown():
     body=wait_text('AUD-BROWSER-UNKNOWN')
@@ -320,9 +329,16 @@ def browser_invoice_draft_reload():
     ab('wait','select[aria-label="Vendor harga laundry"]');select('Vendor harga laundry',vendor)
     button('Invoice vendor');wait_text('Ubah draf '+name);snap('owner-draft-after-page-reload')
     body=text_body();assert '1.234,57' in body,body
+    # The saved list row persists; edit selection itself is intentionally reopened.
+    button('Ubah draf '+name)
+    fields=evaluate("Object.fromEntries(['Nomor invoice vendor','Tanggal invoice','Total invoice','Sumber baris 1','Kategori baris 1','Qty baris 1','Nominal baris 1'].map(k=>[k,document.querySelector('[aria-label=\"'+k+'\"]')?.value]))")
+    expected={'Nomor invoice vendor':name,'Tanggal invoice':'2026-09-21','Total invoice':'1234.57',
+              'Sumber baris 1':'o:'+source,'Kategori baris 1':'GOOD','Qty baris 1':'1','Nominal baris 1':'1234.57'}
+    assert fields==expected,{'expected_form':expected,'actual_form':fields}
+    snap('owner-reopened-draft-fields')
     # Restore master for independent/supplemental cases; fresh snapshots per action.
     select('Vendor harga laundry',FIX['vendor']);button('Harga vendor');wait_text('AUD-BROWSER-KNOWN')
-    return {'draft':rows[0],'source':source,'journal_count_unchanged':True,'actual_page_reload_preserved_draft':True}
+    return {'draft':rows[0],'source':source,'journal_count_unchanged':True,'actual_page_reload_preserved_draft':True,'reopened_form_fields':fields}
 
 def package_extras_browser():
     # Explicitly peer-informed. Same own vendor has a package + component outside it.
@@ -341,7 +357,7 @@ def package_extras_browser():
     return form
 
 def viewer_browser():
-    login_browser('viewer');body=text_body('viewer')
+    open_bd_master('viewer');body=text_body('viewer')
     assert 'Hak master mitra diperlukan' in body,body
     assert '4.321,09' not in body and '678,91' not in body,body
     button('Invoice vendor','viewer');wait_text('Hak melihat nominal diperlukan untuk invoice vendor.','viewer')
@@ -402,7 +418,8 @@ def main():
         if not case('BROWSER.BUILD','Actual candidate UI build and local server',build_ui):
             RESULTS.append({'id':'BROWSER.DEPENDENT','status':'BLOCKED','reason':'Actual UI build/server prerequisite failed; HTTP results remain separate'})
             save();return 1
-        if case('BROWSER.LOGIN','Real browser password login and BD workspace',login_browser):
+        owner_auth=case('BROWSER.AUTH_OWNER','Real browser owner password login',browser_auth)
+        if owner_auth and case('BROWSER.LOGIN','Real owner BD workspace and fixture vendor selection',open_bd_master):
             case('BROWSER.KNOWN_UNKNOWN','Known price versus unknown UI presentation',owner_browser_known_unknown)
             case('BROWSER.MASTER','Create master through UI and verify committed row',browser_master_create)
             case('BROWSER.INVOICE_DRAFT_RELOAD','Create invoice draft through UI, reload, verify no journal',browser_invoice_draft_reload)
@@ -412,7 +429,8 @@ def main():
         else:
             RESULTS.append({'id':'BROWSER.OWNER_DEPENDENT','status':'BLOCKED','reason':'Real owner browser login/BD workspace prerequisite failed'})
             save()
-        case('BROWSER.VIEWER','Actual viewer UI hides nominal values and invoices',viewer_browser)
+        if case('BROWSER.AUTH_VIEWER','Real browser viewer password login',lambda:browser_auth('viewer')):
+            case('BROWSER.VIEWER','Actual viewer UI hides nominal values and invoices',viewer_browser)
     except Exception as e:
         RESULTS.append({'id':'HTTP_BROWSER.SETUP','status':'BLOCKED','error':redact(e),'traceback':redact(traceback.format_exc())});save();raise
     finally:cleanup()

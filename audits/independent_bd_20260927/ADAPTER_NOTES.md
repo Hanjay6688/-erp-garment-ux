@@ -1,0 +1,11 @@
+# Auditor adapter corrections — append-only evidence
+
+The product candidate remains 08065a3b4da71c51ffbbab77f0a6b1ac7e6638ec. PLAN.md and CONTINUATION.md business oracles remain unchanged. These corrections affect synthetic prerequisites or audit transport only. Earlier failures remain in the immutable run artifacts.
+
+- Run6: corrected the auditor's warehouse enum to RAW_MATERIAL_WAREHOUSE.
+- Run7: PCS is the baseline, not an optional LAU_DEC01 unit. The explicit optional-unit choice is BATCH. Numeric JSON values must become Decimal directly, not Decimal(binary float); the premature numeric probe failure was not a product failure.
+- Run8: initial pattern assignment requires a pristine CUT group. The precursor now creates that group before its issued/picked-up state. Explicit empty accessory BOM versions declare the controlled no-accessory fixture. Browser disposable origin is 4176, as required by the product guard; the earlier 4173 build was an auditor setup error.
+- Run9: distribution rows must be populated while pickup is DRAFT, then pickup becomes POSTED with actor/time. The test proxy must permit the Supabase Auth protocol header x-supabase-api-version; no auth or role guard is removed.
+- Run10: the synthetic model lacked its allowed size relations. Adding both product_model_sizes rows makes the positive QC case valid. The earlier wrong-size rejection is not accepted alone as proof of source-size validation without the corrected positive control. Browser vendor selection must wait for an enabled selector with the target option; selecting while options load is not evidence of a product selection defect. Browser authentication is recorded independently from later workspace interactions. Draft persistence is verified after actual page reload and reopening its edit form, including all entered fields.
+
+Observed run10 progress: normal dispatch/receipt, immutable price snapshots, date/quantity/refusal checks, source isolation, unused dispatch reversal, legitimate free legacy rewash, paid failed attempts with both custody outcomes, and closed-period correction executed. Remaining QC/sale/invoice/return/claim tests continue after completing the model prerequisite. FREE/WAIVED configured through the BD tariff interface remains a separate unresolved contract gap; the successful free legacy rewash does not close it.
