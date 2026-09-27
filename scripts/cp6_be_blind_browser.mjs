@@ -3,10 +3,12 @@ import assert from 'node:assert/strict'
 import { execFileSync, spawn } from 'node:child_process'
 import { randomBytes, randomUUID } from 'node:crypto'
 import { writeFileSync } from 'node:fs'
+import http from 'node:http'
 import { chromium, expect } from '@playwright/test'
 
 const origin = 'http://127.0.0.1:4176'
 const api = 'http://127.0.0.1:54321'
+const productApi = 'http://127.0.0.1:54328'
 const out = 'be-blind-browser-results.json'
 const report = { candidate: '2c2fd5e8e0df5f8ada44402c93f70dbaf0fbbb5b',
   production_go: false, status: 'INCOMPLETE', real_auth: true,
@@ -145,13 +147,34 @@ async function pocketCsv(browser, today) {
   } finally { await context.close() }
 }
 
-let preview, browser
+let preview, browser, proxy
 try {
   const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Jakarta',
     year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date())
+  proxy = http.createServer((req, res) => {
+    const allowed = req.headers.origin === origin
+    const cors = allowed ? { 'access-control-allow-origin': origin, vary: 'Origin',
+      'access-control-allow-headers': 'authorization,apikey,content-type,x-client-info,x-supabase-api-version,accept-profile,content-profile',
+      'access-control-allow-methods': 'GET,POST,PUT,DELETE,OPTIONS' } : {}
+    if (req.method === 'OPTIONS') { res.writeHead(allowed ? 204 : 403, cors); res.end(); return }
+    if (!req.url.startsWith('/auth/v1/') && !req.url.startsWith('/rest/v1/rpc/')) {
+      res.writeHead(404, cors); res.end(); return
+    }
+    const headers = { ...req.headers }; delete headers.host; delete headers.origin
+    const upstream = http.request({ hostname: '127.0.0.1', port: 54321, path: req.url,
+      method: req.method, headers }, response => {
+      const clean = { ...response.headers, ...cors }; delete clean['access-control-allow-credentials']
+      res.writeHead(response.statusCode, clean); response.pipe(res)
+    })
+    upstream.on('error', () => { if (!res.headersSent) res.writeHead(502, cors); res.end() })
+    req.pipe(upstream)
+  })
+  await new Promise((resolve, reject) => { proxy.once('error', reject); proxy.listen(54328, '127.0.0.1', resolve) })
+  const safeEnv = Object.fromEntries(['PATH', 'HOME', 'CI', 'TMPDIR', 'RUNNER_TEMP', 'PLAYWRIGHT_BROWSERS_PATH']
+    .filter(key => process.env[key]).map(key => [key, process.env[key]]))
   execFileSync('npm', ['run', 'build:cp6-disposable'], { env: {
-    ...process.env, VITE_ERP_RUNTIME_MODE: 'DISPOSABLE_TEST',
-    VITE_SUPABASE_URL: api, VITE_SUPABASE_ANON_KEY: anon }, stdio: ['ignore', 'pipe', 'pipe'] })
+    ...safeEnv, VITE_ERP_RUNTIME_MODE: 'DISPOSABLE_TEST',
+    VITE_SUPABASE_URL: productApi, VITE_SUPABASE_ANON_KEY: anon }, stdio: ['ignore', 'pipe', 'pipe'] })
   preview = spawn('node_modules/.bin/vite', ['preview', '--outDir', 'cp6-ui-build',
     '--host', '127.0.0.1', '--port', '4176', '--strictPort'], { stdio: 'ignore' })
   for (let i = 0; i < 40; i++) {
@@ -179,6 +202,7 @@ try {
 } finally {
   await browser?.close()
   preview?.kill()
+  proxy?.close()
   for (const id of users) await auth(`admin/users/${id}`, service, undefined, 'DELETE').catch(() => {})
   save()
   console.log(JSON.stringify({ status: report.status, cases: Object.fromEntries(Object.entries(report.cases).map(([k, v]) => [k, v.status])),
