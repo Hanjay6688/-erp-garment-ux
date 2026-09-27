@@ -138,6 +138,7 @@ jobs:
           set -euo pipefail
           pg_dump 'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' -Fc -f audit-results/empty-be.dump
           sha256sum audit-results/empty-be.dump > audit-results/empty-be-sha256.txt
+          docker exec supabase_db_cp5-local psql -U supabase_admin -d template1 -v ON_ERROR_STOP=1 -c 'create database cp6_be_repro with template cp6_rollback owner postgres'
       - name: Independent pre-use rollback and restore exact BE
         working-directory: auditor
         run: python audits/independent_be_20260928/rollback.py pre
@@ -197,8 +198,6 @@ jobs:
         working-directory: auditor
         run: |
           set -euo pipefail
-          docker exec supabase_db_cp5-local psql -U supabase_admin -d template1 -v ON_ERROR_STOP=1 -c 'create database cp6_be_repro owner postgres'
-          docker exec -i supabase_db_cp5-local pg_restore -U supabase_admin -d cp6_be_repro --clean --if-exists --exit-on-error < audit-results/empty-be.dump
           python audits/independent_be_20260928/repro_mixed.py
       - name: Independent post-use rollback refusal
         if: always()

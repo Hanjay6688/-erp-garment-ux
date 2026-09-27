@@ -111,6 +111,10 @@ class Proxy(BaseHTTPRequestHandler):
         try:
             conn.request(self.command,path,payload,headers)
             response=conn.getresponse();body=response.read()
+            if is_rest and path.endswith('/rpc/erp_save_product_conversion_action_v1') and FIX.get('drop_conversion_until_release') and json.loads(payload).get('p_action')=='POST':
+                HTTP_EVENTS.append({'method':self.command,'path':self.path,'http_status':response.status,'payload':json.loads(payload),'response':json.loads(body),'deliberately_lost_after_real_database_response':True,'downstream_status':503})
+                unavailable=b'{"message":"Independent transport outage after actual database response"}'
+                self.send_response(503);self.send_header('Access-Control-Allow-Origin',self.headers.get('Origin','*'));self.send_header('Content-Type','application/json');self.send_header('Content-Length',str(len(unavailable)));self.end_headers();self.wfile.write(unavailable);return
             if is_rest and path.endswith('/rpc/erp_save_product_conversion_action_v1') and FIX.get('drop_next_conversion') and json.loads(payload).get('p_action')=='POST':
                 FIX['drop_next_conversion']=False
                 HTTP_EVENTS.append({'method':self.command,'path':self.path,'http_status':response.status,'payload':json.loads(payload),'response':json.loads(body),'deliberately_lost_after_real_database_response':True})

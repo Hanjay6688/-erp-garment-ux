@@ -19,5 +19,6 @@ def run():
     f.load()
     f.case('NONPO-12.POCKET-RACE','Validated import waits for allocation then rechecks while unrelated import works',e.import_conflict)
     f.case('UI.POCKET.52','Old active allocation remains reachable after 51 real later cycles',capacity)
+    f.case('POCKET-10.CLOSED','Closed allocation either refuses for the date or books in open day only',e.closed_pocket)
     f.persist()
 if __name__=='__main__':run()

@@ -25,7 +25,7 @@ def nav(section,label,who='owner'):
     b.ab('wait','--fn','Array.from(document.querySelectorAll("aside.sidebar button")).some(x=>x.textContent.includes('+json.dumps(label)+'))',who=who)
     click('• '+label,who)
     if who.startswith('mobile'):b.ab('wait','--fn','!document.querySelector("aside.sidebar").classList.contains("sidebar-open")&&document.querySelector("aside.sidebar").getBoundingClientRect().right<=1',who=who)
-    ready={'Ganti Merek':'Array.from(document.querySelectorAll("label")).some(l=>l.textContent.trim()==="Cari lot / SKU")','Kain kantong':'!!document.querySelector('+json.dumps('select[aria-label="Roll kain kantong"]')+')','Barang BS & Rework':'!!document.querySelector(".cbsr-search input")'}[label]
+    ready={'Ganti Merek':'Array.from(document.querySelectorAll("label")).some(l=>l.textContent.trim()==="Cari lot / SKU")','Kain kantong':'!!document.querySelector('+json.dumps('select[aria-label="Roll kain kantong"]')+')','Barang BS & Rework':'!!document.querySelector(".cbsr-search input")','Laundry':'!!document.querySelector(".clq-tabs")'}[label]
     b.ab('wait','--fn',ready,who=who)
 def wrapped(label,value,who='owner'):
     code='Array.from(document.querySelectorAll("label")).find(l=>l.textContent.split(/Pilih/)[0].trim()==='+json.dumps(label)+')?.control'
@@ -67,13 +67,15 @@ def conversion(key='UI',who='owner'):
     b.wait_text(x['reason'],who);snap(who+'-'+key+'-posted',who);click('Muat ulang',who);b.wait_text(x['reason'],who);snap(who+'-'+key+'-reloaded',who)
     return {'source_before':x['before'],'source_after':qty(x['lot']),'posted_lineage':rows,'target_quantity':qty(rows[0][2]),'reload_preserved':True}
 def lost_response():
-    x=prepare_conversion('UI',q=2,reason='Independent real committed conversion with lost response');b.FIX['drop_next_conversion']=True;click('Catat konversi fisik');wait_db(lambda:qty(x['lot']),x['before']-2)
-    b.wait_text('Reconcile transaksi');snap('owner-lost-response-pending')
-    first=[e for e in b.HTTP_EVENTS if e.get('deliberately_lost_after_real_database_response')][-1];req=first['payload']['p_client_request_id']
-    click('Reconcile transaksi');b.wait_text(x['reason']);snap('owner-lost-response-reconciled');assert qty(x['lot'])==x['before']-2
-    calls=[e for e in b.HTTP_EVENTS if (e.get('payload') or {}).get('p_client_request_id')==req];assert len(calls)>=2,calls;assert all(e['payload']==first['payload'] for e in calls),calls
-    assert b.sql('select count(*) from erp.product_conversions where id=%s',(req,),one=True)==1
-    return {'same_uuid':req,'http_attempts':len(calls),'one_posted_conversion':True,'source_quantity':qty(x['lot']),'actual_first_response':first['response']}
+    x=prepare_conversion('UI',q=2,reason='Independent real committed conversion with lost response');b.FIX['drop_conversion_until_release']=True;click('Catat konversi fisik');wait_db(lambda:qty(x['lot']),x['before']-2)
+    try:
+        b.wait_text('Reconcile transaksi');snap('owner-lost-response-pending');b.ab('reload');b.wait_text('Reconcile transaksi');snap('owner-lost-response-persisted-after-reload');b.FIX['drop_conversion_until_release']=False
+        first=[e for e in b.HTTP_EVENTS if e.get('deliberately_lost_after_real_database_response')][-1];req=first['payload']['p_client_request_id']
+        click('Reconcile transaksi');b.wait_text(x['reason']);snap('owner-lost-response-reconciled');assert qty(x['lot'])==x['before']-2
+        calls=[e for e in b.HTTP_EVENTS if (e.get('payload') or {}).get('p_client_request_id')==req];assert len(calls)>=2,calls;assert all(e['payload']==first['payload'] for e in calls),calls
+        assert b.sql('select count(*) from erp.product_conversions where id=%s',(req,),one=True)==1
+        return {'same_uuid':req,'http_attempts':len(calls),'one_posted_conversion':True,'source_quantity':qty(x['lot']),'actual_first_response':first['response']}
+    finally:b.FIX['drop_conversion_until_release']=False
 
 def pocket_stock(who='owner'):
     nav('Gudang','Kain kantong',who);b.select('Roll kain kantong',C['pocket_roll']+':'+C['rawloc'],who);b.select('Cara mencatat','USED',who)
@@ -101,12 +103,38 @@ def redye(who='owner',key='UI'):
     b.ab('snapshot','-i',who=who);b.ab('tap' if who.startswith('mobile') else 'click','.cbsr-list button',who=who)
     click('Rewash',who);b.fill('NOMOR ORDER · WAJIB','BE-AUD-BROWSER-'+who,who);wrapped('VENDOR REWASH',C['daily_vendor'],who);b.fill('QTY DIKIRIM','7',who);b.fill('WAKTU FISIK · WIB','2026-09-14T08:00',who);wrapped('GUDANG FG BILA GOOD',C['fg'],who);b.fill('CATATAN / ALASAN','Independent browser new-color service '+who,who)
     b.ab('snapshot','-i',who=who);b.ab('find','label','Hasil GOOD menjadi SKU lain','check',who=who)
-    wrapped('SKU hasil baru',C['redye_target'],who);wrapped('Proses celup berbayar',C['redye_process'],who);snap(who+'-redye-ready',who);click('Buat order celup ulang',who)
+    wrapped('SKU hasil baru',C['redye_target'],who);wrapped('Proses celup berbayar',C['redye_process'],who)
+    if who=='mobile':wrapped('Harga jasa','UNKNOWN',who)
+    snap(who+'-redye-ready',who);click('Buat order celup ulang',who)
     wait_db(lambda:b.sql('select count(*) from erp.rework_orders where rework_number=%s',('BE-AUD-BROWSER-'+who,),one=True),1);b.wait_text('GOOD KUMULATIF',who)
     b.fill('GOOD KUMULATIF','5',who);b.fill('BS KUMULATIF','2',who);b.fill('WAKTU SELESAI · WIB','2026-09-18T08:00',who);wrapped('GUDANG GOOD FG',C['fg'],who);b.fill('ALASAN HASIL FISIK','Independent browser actual five good and two BS '+who,who);snap(who+'-redye-completion-ready',who);click('Post hasil & recovery',who)
     wait_db(lambda:b.sql('select status from erp.rework_orders where rework_number=%s',('BE-AUD-BROWSER-'+who,),one=True),'COMPLETED');snap(who+'-redye-completed',who);click('Refetch',who);b.wait_text('5 Good · 2 BS',who);snap(who+'-redye-reloaded',who)
     rows=b.sql('select c.to_product_id::text,a.qty_pcs,a.destination_lot_id::text from erp.rework_orders r join erp.be_conversion_sources_v1 s on s.rework_id=r.id join erp.product_conversions c on c.id=s.conversion_id join erp.product_conversion_allocations a on a.conversion_id=c.id where r.rework_number=%s',('BE-AUD-BROWSER-'+who,));assert len(rows)==1 and rows[0][0]==C['redye_target'] and rows[0][1]==5,rows
     return {'browser_posted_order':'BE-AUD-BROWSER-'+who,'new_identity_and_quantity':rows,'residual_bs':2,'reload_preserved':True}
+
+def redye_price_ui():
+    who='mobile';number='BE-AUD-BROWSER-mobile';service=b.sql('select id::text from erp.rework_orders where rework_number=%s',(number,),one=True);assert service
+    before=b.sql('select count(*) from erp.fg_stock_movements',one=True)
+    nav('Produksi','Laundry',who);click('Harga & tagihan',who);b.select('Vendor harga laundry',C['daily_vendor'],who);click('Invoice vendor',who);b.wait_text(number,who)
+    b.fill('Alasan pembatalan invoice','Independent actual redye quote entered after physical completion',who);b.fill('Tarif celup '+number,'197,31',who);snap('mobile-redye-price-before',who);click('Isi tarif celup '+number,who)
+    wait_db(lambda:b.sql('select count(*) from erp.be_redye_price_events_v1 where service_id=%s',(service,),one=True),1)
+    assert b.sql('select rate from erp.be_redye_price_events_v1 where service_id=%s',(service,),one=True)==D('197.31');assert b.sql('select count(*) from erp.fg_stock_movements',one=True)==before
+    click('Muat ulang harga',who);b.wait_text(number,who);snap('mobile-redye-price-reloaded',who)
+    return {'real_ui_service':service,'rate':'197.31','quoted_cost':'1381.17','physical_count_unchanged':before,'router':'public.erp_save_laundry_bd_action_v1 SET_REDYE_PRICE'}
+
+def price_role_revoke():
+    candidates=[x for x in b.HTTP_EVENTS if x.get('http_status')==200 and x.get('path')=='/rest/v1/rpc/erp_save_laundry_bd_action_v1' and (x.get('payload') or {}).get('p_action')=='SET_REDYE_PRICE']
+    assert candidates,'Missing actual successful UI price request'
+    payload=candidates[-1]['payload'];user=b.FIX['owner']['auth_id'];prior=b.sql('select role,role_id::text from erp.app_users where auth_user_id=%s',(user,))[0];viewer=b.sql('select role_id::text from erp.app_users where auth_user_id=%s',(b.FIX['viewer']['auth_id'],),one=True);before=b.sql('select count(*) from erp.be_redye_price_events_v1',one=True)
+    with psycopg.connect(b.DSN) as c:
+        c.execute("select set_config('app.change_reason','Independent removal of price-writing role, retain ordinary read',true)");c.execute("update erp.app_users set role='STAFF',role_id=%s where auth_user_id=%s",(viewer,user))
+    try:
+        fresh={**payload,'p_client_request_id':b.uid()};fs,fb=b.rpc('erp_save_laundry_bd_action_v1',fresh,expect_ok=False);assert fs in(400,403),(fs,fb)
+        rs,rb=b.rpc('erp_save_laundry_bd_action_v1',payload,expect_ok=False);b.EVENTS.append({'actual_price_role_revocation':{'fresh_status':fs,'fresh':fb,'replay_status':rs,'replay':rb,'price_event_count_unchanged':b.sql('select count(*) from erp.be_redye_price_events_v1',one=True)==before}});assert rs in(400,403),{'fresh_denied':fs,'replay_after_role_revoked':rs,'cached_response':rb}
+    finally:
+        with psycopg.connect(b.DSN) as c:
+            c.execute("select set_config('app.change_reason','Restore disposable browser owner',true)");c.execute('update erp.app_users set role=%s,role_id=%s where auth_user_id=%s',(*prior,user))
+    return {'fresh':fs,'replay':rs}
 
 def viewer_browser(who='viewer'):
     nav('Gudang','Ganti Merek',who);snap(who+'-conversion',who)
@@ -176,6 +204,8 @@ def main():
             b.case('MOBILE.POCKET_STOCK','Touch pocket issue posts only actual 0.75',lambda:pocket_stock('mobile'))
             b.case('MOBILE.POCKET_ALLOCATION','Touch period allocation and inverse preserve stock',lambda:pocket_period('mobile'))
             b.case('MOBILE.REDYE','Touch new-color BS service and completion',lambda:redye('mobile','MOBILE'))
+            b.case('MOBILE.REDYE_PRICE','Unknown completed service priced through actual UI router',redye_price_ui)
         b.case('HTTP.ANON_INACTIVE','Anonymous and inactive same-token workspace fresh and cached boundaries',inactive_http)
+        b.case('HTTP.PRICE_ROLE_REVOKE','Actual price UI replay rechecks removed owner privilege',price_role_revoke)
     finally:b.cleanup();save()
 if __name__=='__main__':main()

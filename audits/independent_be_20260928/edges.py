@@ -86,15 +86,15 @@ def recovery_atomic():
     return {'unrelated_posted':r}
 def closed_pocket():
     # Independent closed-period posting attempt; rollback the fixture cutoff.
-    before=A('select to_jsonb(t) from erp.accounting_period_control t');state=p.preview();events=physical()
+    before=A('select to_jsonb(t) from erp.accounting_period_control t');state=p.preview('2026-09-01','2026-09-04');events=physical()
     with psycopg.connect(s.DSN) as c:
         c.execute("select set_config('request.jwt.claim.sub',%s,true)",(C['owner'],));c.execute("select set_config('app.change_reason','Independent rolled-back closed pocket fixture',true)");c.execute("update erp.accounting_period_control set closed_through='2026-09-25',change_reason='Independent fixture' where singleton_id=1")
         try:
             r=c.execute('select public.erp_save_pocket_fabric_action_v1(%s,%s,%s::uuid)',('POST_PERIOD',Jsonb({'period_start':state['period_start'],'period_end':state['period_end'],'expected_revision':state['revision'],'reason':'Independent closed period allocation attempt'}),uid())).fetchone()[0]
             dates=c.execute('select j.transaction_date::text,j.economic_date::text from erp.pocket_period_events e join erp.journal_entries j on j.id=e.journal_entry_id where pool_id=%s',(r['id'],)).fetchall()
-            assert all(a>'2026-09-25' for a,b in dates),dates;out={'accepted_with_open_posting':r,'dates':dates}
+            assert dates and all(a>'2026-09-25' for a,b in dates),dates;out={'accepted_with_open_posting':r,'dates':dates}
         except psycopg.Error as err:
-            assert err.sqlstate=='P0001',str(err);out={'refused':True,'error':str(err),'sqlstate':err.sqlstate}
+            assert err.sqlstate=='P0001' and any(word in str(err).lower() for word in ['closed','tutup']),str(err);out={'refused':True,'error':str(err),'sqlstate':err.sqlstate}
         finally:c.rollback()
     eq(A('select to_jsonb(t) from erp.accounting_period_control t'),before);eq(physical(),events);return out
 def import_conflict():
@@ -105,6 +105,12 @@ def import_conflict():
     header=n.imp('VALIDATE',{'batch_id':header['batch_id'],'expected_revision':header['revision']});eq(header['error_rows'],0);payload={'batch_id':header['batch_id'],'expected_revision':header['revision']}
     with s.actor_conn('admin') as control:
         response=control.execute('select public.erp_save_initial_import_action_v1(%s,%s,%s::uuid)',('FINALIZE',Jsonb(payload),uid())).fetchone()[0];eq(response['status'],'POSTED');control.rollback()
+    unrelated=n.imp('CREATE',{'batch_code':'BE-AUD-UNRELATED-LOCK','cutover_date':'2026-09-10','notes':'Independent unrelated-domain concurrency'})
+    unrelated=n.imp('SAVE_FILE',{'batch_id':unrelated['batch_id'],'expected_revision':unrelated['revision'],'entity':'CUSTOMER','filename':'unrelated.csv','rows':[{'source_row_no':1,'payload':{'customer_code':'BE-AUD-UNRELATED-LOCK','customer_name':'Independent unrelated customer'}}]})
+    unrelated=n.imp('VALIDATE',{'batch_id':unrelated['batch_id'],'expected_revision':unrelated['revision']});eq(unrelated['error_rows'],0)
+    unrelated_payload={'batch_id':unrelated['batch_id'],'expected_revision':unrelated['revision']}
+    with s.actor_conn('admin') as control:
+        unrelated_control=control.execute('select public.erp_save_initial_import_action_v1(%s,%s,%s::uuid)',('FINALIZE',Jsonb(unrelated_payload),uid())).fetchone()[0];eq(unrelated_control['status'],'POSTED');control.rollback()
     preview=p.preview();period={'period_start':preview['period_start'],'period_end':preview['period_end'],'expected_revision':preview['revision'],'reason':'Independent held allocation versus stale import'}
     with s.actor_conn('owner') as holder:
         held=holder.execute('select public.erp_save_pocket_fabric_action_v1(%s,%s,%s::uuid)',('POST_PERIOD',Jsonb(period),uid())).fetchone()[0]
@@ -115,16 +121,18 @@ def import_conflict():
             else:other.rollback();holder.rollback();raise AssertionError('Conflicting import did not wait for in-flight allocation')
         with s.actor_conn('admin') as other:
             other.execute("set local lock_timeout='1200ms'")
-            def call(action,payload):
-                r=other.execute('select public.erp_save_initial_import_action_v1(%s,%s,%s::uuid)',(action,Jsonb(payload),uid())).fetchone()[0];n.E.append({'unrelated_while_allocation_lock':action,'payload':payload,'response':r});return r
-            unrelated=call('CREATE',{'batch_code':'BE-AUD-UNRELATED-LOCK','cutover_date':'2026-09-10','notes':'Independent unrelated-domain concurrency'})
-            unrelated=call('SAVE_FILE',{'batch_id':unrelated['batch_id'],'expected_revision':unrelated['revision'],'entity':'CUSTOMER','filename':'unrelated.csv','rows':[{'source_row_no':1,'payload':{'customer_code':'BE-AUD-UNRELATED-LOCK','customer_name':'Independent unrelated customer'}}]})
-            unrelated=call('VALIDATE',{'batch_id':unrelated['batch_id'],'expected_revision':unrelated['revision']});eq(unrelated['error_rows'],0)
-            unrelated=call('FINALIZE',{'batch_id':unrelated['batch_id'],'expected_revision':unrelated['revision']});eq(unrelated['status'],'POSTED')
+            try:
+                r=other.execute('select public.erp_save_initial_import_action_v1(%s,%s,%s::uuid)',('FINALIZE',Jsonb(unrelated_payload),uid())).fetchone()[0];eq(r['status'],'POSTED');unrelated_during={'completed':True,'response':r}
+            except psycopg.Error as error:
+                eq(error.sqlstate,'55P03');unrelated_during={'completed':False,'sqlstate':error.sqlstate,'error':str(error)};other.rollback()
         holder.commit()
     before=physical();refused=n.reject(lambda:n.imp('FINALIZE',payload,who='admin'));eq(physical(),before)
     state=next(x for x in p.ws()['periods'] if x['id']==held['id']);n.pocket('CANCEL_PERIOD',{'id':held['id'],'expected_revision':state['revision'],'reason':'Independent race fixture cleanup'})
-    return {'valid_before_race':header,'admin_positive_finalization_rolled_back':response,'conflicting_writer_waited':blocked,'unrelated_domain_while_lock_held':unrelated,'refused_after_commit':refused,'no_stale_membership':True}
+    unrelated_after=unrelated_during['response'] if unrelated_during['completed'] else n.imp('FINALIZE',unrelated_payload,who='admin');eq(unrelated_after['status'],'POSTED')
+    observation={'valid_before_race':header,'admin_positive_finalization_rolled_back':response,'conflicting_writer_waited':blocked,'unrelated_positive_control':unrelated_control,'unrelated_domain_while_lock_held':unrelated_during,'unrelated_after_release':unrelated_after,'refused_after_commit':refused,'no_stale_membership':True}
+    n.E.append({'independent_scoped_import_race':observation});f.persist()
+    assert unrelated_during['completed'],observation
+    return observation
 def capacity():
     v=fixture('live_invoice');fixture('pocket_production')
     # A legitimate older active period, followed by 51 successful correction/reallocation cycles.
@@ -151,6 +159,5 @@ def run():
     f.case('NONPO-05-06','Actual non-PO new-identity rework route and GOOD completion',nonpo_modes)
     f.case('REDYE-07-14','Wrong size same identity future and pre-source dispatch refused',boundary_redye)
     f.case('CROSS-PO-NONPO','Unrelated non-PO conversion still works after legitimate PO conversion',recovery_atomic)
-    f.case('POCKET-10.CLOSED','Closed allocation either refuses or books in open day only',closed_pocket)
     f.persist()
 if __name__=='__main__':run()
