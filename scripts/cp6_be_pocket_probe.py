@@ -219,7 +219,7 @@ def mixed_native_historical(cur,today,installed):
     pool=made['id'];delta=difference(old,amounts(cur))
     source_kinds=q(cur,'select adjustment_id is not null,historical_usage_id is not null,count(*) from erp.pocket_period_sources where pool_id=%s group by 1,2 order by 1,2',pool)
     destinations=q(cur,'select event_id is not null,sum(sewing_qty),sum(erp.pocket_period_amount_v1(pool_id,preceding_qty,sewing_qty)) from erp.pocket_period_destinations where pool_id=%s group by 1 order by 1',pool)
-    special=one(cur,"select count(*) from erp.pocket_period_destinations d join erp.contractor_hpp_policy_versions c on c.contractor_id=d.contractor_id where d.pool_id=%s and d.event_id is not null and c.is_special and not c.attendance_required and c.effective_from<=%s and (c.effective_to is null or c.effective_to>=%s)",pool,end,end)
+    special=one(cur,"select count(*) from erp.pocket_period_destinations d join erp.contractor_hpp_policy_versions c on c.contractor_id=d.contractor_id join erp.contractors k on k.id=c.contractor_id where d.pool_id=%s and d.event_id is not null and c.is_special and not k.attendance_required and c.effective_from<=%s and (c.effective_to is null or c.effective_to>=%s)",pool,end,end)
     after=b.all_truth(cur)
     revision=one(cur,'select erp.pocket_period_state_v1(%s)',pool)['revision']
     call(cur,'CANCEL_PERIOD',dict(id=pool,expected_revision=revision,reason='BE undo mixed allocation, preserve both sources'))
@@ -244,7 +244,8 @@ def closed_correction(cur,today,installed):
     def asof():
         return q(cur,"select l.account_id,sum(l.debit-l.credit) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where j.status in('POSTED','REVERSED') and j.transaction_date<=%s group by l.account_id order by l.account_id",today-timedelta(days=1))
     old=amounts(cur);old_asof=asof();truth=b.all_truth(cur)
-    b.boundary.historical.prior.set_open_period(cur,today)
+    # The helper takes the inclusive closing date, not the first open date.
+    b.boundary.historical.prior.set_open_period(cur,today-timedelta(days=1))
     request=str(uuid.uuid4());payload=dict(usage_id=usage,amount='15.00',expected_amount='11.25',economic_date=str(cut+timedelta(days=1)),reason='BE late correction to closed historical source')
     first=call(cur,'CORRECT_OPENING_USAGE',payload,request);again=call(cur,'CORRECT_OPENING_USAGE',payload,request)
     dates=q(cur,"select j.economic_date,j.transaction_date from erp.journal_entries j where j.id in(select journal_id from erp.be_pocket_source_events_v1 where id=%s union select journal_entry_id from erp.pocket_period_events where pool_id=%s and kind='RECOST') order by j.id",request,pool)

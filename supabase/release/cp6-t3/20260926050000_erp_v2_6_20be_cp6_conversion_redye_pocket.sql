@@ -1,6 +1,6 @@
 -- CP6 BE: physical SKU conversion, rework/redye service and historical pocket allocation (LAU-06b and ALL-C04). Release candidate of the T3 combined package; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_be_t1_family.sql (sha256 040b76836f0123b3d81f2e4798a8016126d39dfee5a6d2915eaf128528858181): the T1 body below is unchanged apart from the
+-- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_be_t1_family.sql (sha256 5360a2338155c77410761a30a5dee9c73206fb756b30444e9c84fd9d08ae494c): the T1 body below is unchanged apart from the
 -- ledger description; guards follow AO..AV. Capsule and catalog pins are placeholders until the T3 capture.
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
@@ -220,8 +220,11 @@ AS $function$
       from erp.fg_stock_movements m where m.lot_id=p_lot and m.location_id=p_location),'[]'::jsonb))::text)
 $function$;
 
--- The identity validator deliberately takes transaction/row locks. PostgREST
--- must use a READ WRITE transaction even though this preview posts no business fact.
+-- Preview authority is conversion.view, including custom read-only roles. The
+-- internal mutation validator also requires an internal writer role, so enforce
+-- its EXISTING_STOCK/NEW_STOCK time rules here on the same locked product rows.
+-- Actual posting still uses the native mutation validator. PostgREST must use a
+-- READ WRITE transaction for these locks; preview posts no business fact.
 CREATE OR REPLACE FUNCTION erp.be_conversion_preview_v1(p_payload jsonb)
  RETURNS jsonb LANGUAGE plpgsql VOLATILE SECURITY DEFINER SET search_path TO ''
 AS $function$
@@ -232,10 +235,11 @@ begin
  perform erp._cp3_assert_closed_json_object(p_payload,
    array['source_lot_id','target_product_id','location_id','qty_pcs','physical_at','reason','expected_version'],
    array['source_lot_id','target_product_id','location_id','qty_pcs','physical_at','reason','expected_version','expected_returns'],'konversi');
+ perform erp.pocket_period_lock_v1();
  select * into l from erp.fg_lots where id=erp.bd_uuid_v1(p_payload,'source_lot_id',true);
  if l.id is null then raise exception 'BE_SOURCE_NOT_FOUND: lot sumber tidak ditemukan';end if;
- select * into s from erp.products where id=l.product_id;
- select * into t from erp.products where id=erp.bd_uuid_v1(p_payload,'target_product_id',true);
+ select * into s from erp.products where id=l.product_id for share;
+ select * into t from erp.products where id=erp.bd_uuid_v1(p_payload,'target_product_id',true) for share;
  if t.id is null or not t.is_active then raise exception 'BE_TARGET_NOT_ACTIVE: SKU tujuan tidak aktif';end if;
  if t.id=s.id then raise exception 'BE_SAME_SKU: pilih SKU tujuan yang berbeda';end if;
  if t.model_id is distinct from s.model_id or t.size_id is distinct from s.size_id then
@@ -245,8 +249,15 @@ begin
  v_at:=erp.bd_at_v1(p_payload->>'physical_at','physical_at');
  perform erp.bc_text_v1(p_payload,'reason',true,1000);
  if v_at<l.produced_at then raise exception 'BE_BEFORE_SOURCE: waktu konversi sebelum lot tersedia';end if;
- perform erp.assert_product_identity_time(s.id,v_at,'EXISTING_STOCK');
- perform erp.assert_product_identity_time(t.id,v_at,'NEW_STOCK');
+ if v_at<s.effective_from then
+  raise exception 'SKU % belum berlaku pada tanggal/jam transaksi %. Berlaku mulai %.',s.sku,v_at,s.effective_from;
+ end if;
+ if v_at<t.effective_from then
+  raise exception 'SKU % belum berlaku pada tanggal/jam transaksi %. Berlaku mulai %.',t.sku,v_at,t.effective_from;
+ end if;
+ if t.effective_to is not null and v_at>=t.effective_to then
+  raise exception 'Versi SKU % sudah berakhir pada %. Gunakan versi SKU yang berlaku pada tanggal/jam transaksi.',t.sku,t.effective_to;
+ end if;
  if jsonb_typeof(p_payload->'expected_version') is distinct from 'string'
    or p_payload->>'expected_version' is distinct from erp.be_source_revision_v1(l.id,v_location) then
    raise exception 'STALE_VERSION: stok atau HPP sumber berubah; muat ulang';end if;
@@ -6828,7 +6839,7 @@ with relations as (
 select coalesce(jsonb_object_agg(k,encode(extensions.digest(convert_to(v::text,'UTF8'),'sha256'),'hex')),'{}'::jsonb) from objects
 ) catalog;
  select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(length(key)::text||':'||key||':'||value,E'\n' order by key collate "C"),''),'UTF8'),'sha256'),'hex') into object_count,fingerprint from jsonb_each_text(actual);
- if object_count<>9112 or fingerprint is distinct from '5500f9bea4cb468a4b79c23f7385c5eb8b955e9a1a9a41c598393ae153864814' then
+ if object_count<>9112 or fingerprint is distinct from '7fce1150212991affd693574bafc1157e0e95a5feb4aa52fd33ff50a96f41249' then
   raise exception 'BE_INSTALLED_CATALOG_DRIFT';
  end if;
 end $catalog_guard$;
