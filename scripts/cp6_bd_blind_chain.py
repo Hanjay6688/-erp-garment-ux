@@ -37,6 +37,32 @@ def psql_file(path: Path, name: str) -> None:
     run(["psql", PGURL, "-X", "-v", "ON_ERROR_STOP=1", "-f", str(path)], name)
 
 
+def closed_file(path: Path, name: str) -> None:
+    """Satisfy, rather than bypass, the package's closed/drained admission."""
+    target = psycopg.connect(PGURL, autocommit=True)
+    maintenance = psycopg.connect(PGURL.rsplit("/", 1)[0] + "/template1", autocommit=True)
+    try:
+        maintenance.execute("alter database postgres with allow_connections false")
+        maintenance.execute("""
+            select pg_terminate_backend(pid) from pg_stat_activity
+            where datname='postgres' and pid<>%s
+        """, (target.info.backend_pid,))
+        try:
+            target.execute(path.read_text(), prepare=False)
+            print(json.dumps({"step": name, "exit": 0, "closed_and_drained": True}), flush=True)
+        except psycopg.Error as error:
+            RESULT.write_text(json.dumps({"status": "BLOCKED", "step": name,
+                                          "message": error.diag.message_primary,
+                                          "sqlstate": error.sqlstate,
+                                          "production_go": False}, indent=2))
+            print(RESULT.read_text(), flush=True)
+            raise
+    finally:
+        maintenance.execute("alter database postgres with allow_connections true")
+        maintenance.close()
+        target.close()
+
+
 def main() -> None:
     tree = subprocess.check_output(["git", "rev-parse", BASE + "^{tree}"], cwd=ROOT, text=True).strip()
     assert tree == "ba3c3fc221ee72dc521991c52cc38ee9b624d9fa", tree
@@ -54,14 +80,20 @@ def main() -> None:
     files = [file for file in sorted((ROOT / "supabase/migrations").glob("*.sql"))
              if file.name[:14] > "20260902185106"]
     for file in files:
-        psql_file(file, file.name)
+        if "PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE" in file.read_text():
+            closed_file(file, file.name)
+        else:
+            psql_file(file, file.name)
         stamp, name = file.stem.split("_", 1)
         with psycopg.connect(PGURL) as conn:
             conn.execute("""insert into supabase_migrations.schema_migrations(version,name,statements)
                             values(%s,%s,%s)""", (stamp, name, [file.read_text()]))
     for family in ("aw", "ax", "ay", "az", "ba", "bb", "bc", "bd"):
         file = ROOT / f"supabase/dev/cp6_{family}_t1_family.sql"
-        psql_file(file, "T1_" + family.upper())
+        if "PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE" in file.read_text():
+            closed_file(file, "T1_" + family.upper())
+        else:
+            psql_file(file, "T1_" + family.upper())
     with psycopg.connect(PGURL) as conn:
         check = conn.execute("select to_regclass('erp.bd_laundry_invoices_v1') is not null").fetchone()[0]
     assert check
