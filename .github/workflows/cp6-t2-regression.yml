@@ -1,4 +1,6 @@
 name: CP6 T2 Combined Regression
+# Requested revalidation: BD audit revision e2b33f9; 41/41 BD family cases qualified on a43082f (run36344627262).
+# Preserve all frozen per-case dispositions while checking the combined BD+BE candidate.
 'on':
   push:
     branches:
