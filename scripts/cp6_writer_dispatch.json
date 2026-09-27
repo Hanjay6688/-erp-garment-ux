@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 9,
+  "revision": 10,
   "phase": "after",
   "scenario_path": "scripts/cp6_be_modes.py",
   "browser_path": "scripts/cp6_be_browser.mjs",
-  "purpose": "BE-21: complete C04 CSV upload, draft-no-post, validate and finalize through the real browser; retain all existing race, HTTP and five browser cases"
+  "purpose": "BE-22: CSV import plus existing full modes, with signed exact-money fixture parsing for the opening-equity assertion"
 }

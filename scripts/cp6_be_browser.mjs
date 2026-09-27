@@ -1,7 +1,7 @@
 // Writer BE browser cases, real Auth and product RPC. Native commands are fixture setup only.
 import { execFileSync } from 'node:child_process'
 const fixture=(op,payload)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp6_be_browser_fixture.py',op,JSON.stringify(payload)],{cwd:'../writer',encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim())
-const money=s=>{const [a,b='']=String(s).split('.');return BigInt(a)*1000000n+BigInt(b.padEnd(6,'0'))}
+const money=s=>{const text=String(s);if(!/^-?[0-9]+(?:\.[0-9]{1,6})?$/.test(text))throw new Error('BE money fixture format');const [a,b='']=text.replace(/^-/,'').split('.');const value=BigInt(a)*1000000n+BigInt(b.padEnd(6,'0'));return text.startsWith('-')?-value:value}
 async function navigate(p,name,group='Gudang'){
   const menu=p.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click()
   const link=p.getByRole('button',{name:'• '+name,exact:true})
