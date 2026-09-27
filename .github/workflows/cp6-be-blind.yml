@@ -1,0 +1,58 @@
+name: CP6 BE Blind Independent Audit
+on:
+  push:
+    branches:
+      - audit/sol-be-blind-20260928
+    paths:
+      - .github/workflows/cp6-be-blind.yml
+      - scripts/cp6_be_blind_chain.py
+      - scripts/cp6_be_blind_native.py
+      - scripts/cp6_be_blind_http.py
+permissions:
+  contents: read
+jobs:
+  full-chain:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 65
+    env:
+      PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
+        with:
+          version: 2.116.0
+      - name: Start disposable Supabase runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --quiet 'psycopg[binary]==3.2.10'
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client
+          mkdir cp6-be-blind-local
+          supabase init --force --workdir cp6-be-blind-local
+          mkdir -p cp6-be-blind-local/supabase/.temp
+          echo '17.6.1.165' > cp6-be-blind-local/supabase/.temp/postgres-version
+          supabase start --workdir cp6-be-blind-local -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor > "$RUNNER_TEMP/be-supabase-start.log" 2>&1 || { tail -n 60 "$RUNNER_TEMP/be-supabase-start.log"; exit 1; }
+      - name: Apply untouched candidate migration chain
+        run: python scripts/cp6_be_blind_chain.py
+      - name: Run independent business oracle on full schema
+        run: python scripts/cp6_be_blind_native.py
+      - name: Run independent Auth and HTTP replay oracle
+        run: python scripts/cp6_be_blind_http.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: be-blind-chain-result
+          path: |
+            be-blind-chain-result.json
+            be-blind-native-results.json
+            be-blind-http-results.json
+          if-no-files-found: ignore
+      - name: Stop disposable runtime
+        if: always()
+        run: supabase stop --workdir cp6-be-blind-local --no-backup || true
