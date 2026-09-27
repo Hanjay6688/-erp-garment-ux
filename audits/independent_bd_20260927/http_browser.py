@@ -9,6 +9,8 @@ from pathlib import Path
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
+from datetime import datetime
+from zoneinfo import ZoneInfo
 import concurrent.futures, http.client, json, os, re, secrets, subprocess, threading, time, traceback, uuid
 import psycopg
 
@@ -440,6 +442,264 @@ def pagination_browser():
     if missing and not navigation:raise AssertionError({'peer_finding_reproduced':True,'own_drafts_created':55,'rendered_rows':dom['rows'],'own_visible':len(own_visible),'missing':missing,'paging_search_controls':navigation})
     return {'rendered_rows':dom['rows'],'missing':missing,'navigation':navigation}
 
+# Gap completion requested after run15. The frozen original cases above stay
+# unchanged; each following check states whether its origin is independent or
+# a follow-up to a known concern.
+def gap_replay_controls():
+    who='revoked_owner';email='bd-gap-revoke-'+uid()[:8]+'@example.test';password='Bd-Audit-'+secrets.token_hex(16)+'!'
+    SECRET_VALUES.append(password)
+    status,user=request('http://127.0.0.1:54321/auth/v1/admin/users',{'email':email,'password':password,'email_confirm':True},
+        {'apikey':KEYS['SERVICE_ROLE_KEY'],'Authorization':'Bearer '+KEYS['SERVICE_ROLE_KEY']})
+    assert status in (200,201),(status,user)
+    role_owner=sql("select id from erp.app_roles where role_code='OWNER' and is_active",one=True)
+    role_viewer=sql("select id from erp.app_roles where role_code='AUD_OPERATOR' and is_active",one=True)
+    with psycopg.connect(DSN) as c:
+        c.execute("select set_config('app.change_reason','Independent HTTP revocation identity',true)")
+        appid=c.execute("insert into erp.app_users(auth_user_id,full_name,role,role_id) values(%s,%s,'OWNER',%s) returning id",
+                        (user['id'],'AUD-HTTP-REVOKED-OWNER',role_owner)).fetchone()[0]
+    status,session=request('http://127.0.0.1:54328/auth/v1/token?grant_type=password',{'email':email,'password':password},{'apikey':KEYS['ANON_KEY']})
+    assert status==200,(status,session)
+    TOKENS[who]=session['access_token'];SECRET_VALUES.extend([session['access_token'],session.get('refresh_token','')])
+    ctx=json.loads((ROOT/'audit-results'/'lifecycle-fixture.json').read_text());vendor=ctx['v1']
+    before=rpc('erp_get_laundry_bd_workspace_v1',{'p_filters':{'vendor_id':vendor}},who)
+    assert before['is_owner'] is True and before['money_visible'] is True,before
+    policy=next(p for p in before['policies'] if p['key']=='LAU-DEC01')
+    assert policy['status']=='SET' and isinstance(policy['value'],dict),policy
+    policy_payload={'policy_key':'LAU-DEC01','operation':'SET','value':policy['value'],'expected_version':policy['version'],'reason':'HTTP replay: preserve existing owner policy value'}
+    policy_request={'p_action':'SET_POLICY','p_payload':policy_payload,'p_client_request_id':uid()}
+    accepted_policy=rpc('erp_save_laundry_bd_action_v1',policy_request,who)
+    source=next(u['id'] for u in before['opening_uninvoiced'] if not u['invoiced'] and u['estimate_status']=='KNOWN' and u['qty']-u['billed']>=1)
+    invoice_payload={'vendor_id':vendor,'invoice_number':'AUD-HTTP-REVOKE-CACHED','invoice_date':'2026-09-21','header_total':'4321.67',
+                     'lines':[{'line_kind':'BILL','opening_uninvoiced_id':source,'category':'GOOD','qty':1,'amount':'4321.67'}]}
+    invoice_request={'p_action':'SAVE_INVOICE_DRAFT','p_payload':invoice_payload,'p_client_request_id':uid()}
+    accepted_invoice=rpc('erp_save_laundry_bd_action_v1',invoice_request,who)
+    assert accepted_invoice['header_total']=='4321.67' and accepted_invoice['status']=='DRAFT',accepted_invoice
+    def set_role(role_id,reason):
+        version=sql('select row_version from erp.app_users where id=%s',(appid,),one=True)
+        result=rpc('erp_save_app_user_v3',{'p_payload':{'id':str(appid),'full_name':'AUD-HTTP-REVOKED-OWNER',
+                   'auth_user_id':user['id'],'role_id':str(role_id),'is_active':True,'change_reason':reason},
+                   'p_expected_version':version,'p_client_request_id':uid()})
+        assert result['role_id']==str(role_id),result
+        return result
+    observation={'actor_auth_id':user['id'],'real_password_auth':True,'revocation_transport':'public.erp_save_app_user_v3 over HTTP',
+                 'policy_positive':accepted_policy,'invoice_positive':accepted_invoice,'jwt_unchanged':True}
+    try:
+        observation['role_revocation']=set_role(role_viewer,'Independent test: revoke OWNER rights from disposable actor')
+        normal=rpc('erp_get_laundry_bd_workspace_v1',{'p_filters':{'vendor_id':vendor}},who)
+        observation['normal_read_after_revocation']={'is_owner':normal['is_owner'],'money_visible':normal['money_visible'],
+                                                    'can_manage_master':normal['can_manage_master'],'invoices':normal['invoices']}
+        fresh_policy={**policy_payload,'expected_version':accepted_policy['version'],'reason':'Fresh policy request after owner revocation'}
+        observation['fresh_policy']=rpc('erp_save_laundry_bd_action_v1',{'p_action':'SET_POLICY','p_payload':fresh_policy,'p_client_request_id':uid()},who,False)
+        observation['fresh_invoice']=rpc('erp_save_laundry_bd_action_v1',{'p_action':'SAVE_INVOICE_DRAFT',
+            'p_payload':{**invoice_payload,'invoice_number':'AUD-HTTP-REVOKE-FRESH'},'p_client_request_id':uid()},who,False)
+        native_before=sql('select (select version from erp.bd_policy_settings_v1 where policy_key=\'LAU_DEC01\'),(select count(*) from erp.bd_laundry_invoices_v1)')[0]
+        observation['cached_policy']=rpc('erp_save_laundry_bd_action_v1',policy_request,who,False)
+        observation['cached_invoice']=rpc('erp_save_laundry_bd_action_v1',invoice_request,who,False)
+        native_after=sql('select (select version from erp.bd_policy_settings_v1 where policy_key=\'LAU_DEC01\'),(select count(*) from erp.bd_laundry_invoices_v1)')[0]
+        observation['cached_replay_did_not_repeat_writes']=native_before==native_after
+    finally:
+        observation['role_restored']=set_role(role_owner,'Independent test: restore original OWNER rights')
+        restored=rpc('erp_get_laundry_bd_workspace_v1',{'p_filters':{'vendor_id':vendor}},who)
+        observation['restored_owner_and_money']=restored['is_owner'] is True and restored['money_visible'] is True
+        FIX['revocation_observation']=observation;EVENTS.append({'owner_revocation_http':observation});save()
+    assert normal['is_owner'] is False and normal['money_visible'] is False and normal['invoices'] is None,observation
+    assert all(not 200<=observation[k][0]<300 for k in ('fresh_policy','fresh_invoice')),observation
+    assert observation['restored_owner_and_money'] and observation['cached_replay_did_not_repeat_writes'],observation
+    return observation
+
+def gap_replay_refusal(kind):
+    o=FIX['revocation_observation'];status,body=o['cached_'+kind]
+    result={'cached_http_status':status,'cached_response':body,'fresh_http_status':o['fresh_'+kind][0],
+            'normal_read_money_hidden':o['normal_read_after_revocation']['money_visible'] is False,
+            'no_repeated_write':o['cached_replay_did_not_repeat_writes'],'role_restored':o['restored_owner_and_money']}
+    if kind=='invoice':result['financial_nominal_disclosed']=isinstance(body,dict) and body.get('header_total')=='4321.67'
+    else:result['claim_scope']='Cached owner-only policy success; no claim that this policy response contains financial nominal'
+    assert not 200<=status<300,result
+    return result
+
+def mobile_open_pricing(who,vendor):
+    button('Buka menu',who)
+    ab('wait','--fn',"document.querySelector('aside.sidebar')?.getBoundingClientRect().left===0",who=who)
+    button('Produksi',who,False);button('• Laundry',who)
+    ab('wait','--fn',"document.querySelector('aside.sidebar')?.getBoundingClientRect().right<=0",who=who)
+    wait_text('Harga & tagihan',who);button('Harga & tagihan',who)
+    ab('wait','select[aria-label="Vendor harga laundry"]',who=who);select('Vendor harga laundry',vendor,who)
+
+def mobile_auth(who,actor):
+    FIX[who]=FIX[actor]
+    ab('set','device','iPhone 14',who=who)
+    result=browser_auth(who)
+    env=evaluate('({width:innerWidth,height:innerHeight,pixel_ratio:devicePixelRatio,user_agent:navigator.userAgent,touch_points:navigator.maxTouchPoints,coarse:matchMedia("(pointer:coarse)").matches})',who)
+    assert env['width']<=430 and env['touch_points']>0 and re.search('iPhone|Mobile',env['user_agent']),env
+    FIX[who+'_environment']=env
+    return {**result,'emulation':env,'physical_device':False}
+
+def mobile_master():
+    who='mobile_owner';mobile_open_pricing(who,FIX['vendor']);button('Harga vendor',who)
+    body=wait_text('AUD-BROWSER-UNKNOWN',who).replace('\u00a0',' ')
+    assert '4.321,09' in body and 'Belum diketahui sejak' in body,body
+    fill('Alasan','Independent mobile emulation master creation',who)
+    fill('Kode komponen','AUD-MOBILE-CREATED',who);fill('Nama komponen','Mobile emulation master',who);button('Tambah komponen',who)
+    wait_text('AUD-MOBILE-CREATED',who);snap('mobile-owner-master',who)
+    rows=sql("select component_code,component_name from erp.bd_laundry_components_v1 where vendor_id=%s and component_code='AUD-MOBILE-CREATED'",(FIX['vendor'],))
+    assert rows==[('AUD-MOBILE-CREATED','Mobile emulation master')],rows
+    sent=[x for x in HTTP_EVENTS if (x.get('payload') or {}).get('p_payload',{}).get('component_code')=='AUD-MOBILE-CREATED']
+    assert len(sent)==1 and sent[0]['http_status']==200,sent
+    layout=evaluate('({viewport:innerWidth,page_scroll_width:document.documentElement.scrollWidth})',who)
+    return {'row':rows,'http_mutations':len(sent),'known_unknown_visible':True,'layout_observation':layout,'physical_device':False}
+
+def mobile_draft():
+    who='mobile_owner';ctx=json.loads((ROOT/'audit-results'/'lifecycle-fixture.json').read_text());vendor=ctx['v1']
+    w=rpc('erp_get_laundry_bd_workspace_v1',{'p_filters':{'vendor_id':vendor}})
+    source=next(u['id'] for u in w['opening_uninvoiced'] if not u['invoiced'] and u['estimate_status']=='KNOWN' and u['qty']-u['billed']>=1)
+    day=datetime.now(ZoneInfo('Asia/Jakarta')).date().isoformat();name='AUD-MOBILE-DRAFT-RELOAD';before=sql('select count(*) from erp.journal_entries',one=True)
+    # Independent entry point: a master-form failure must not suppress this flow.
+    ab('open','http://127.0.0.1:4176/',who=who);ab('wait','aside.sidebar',who=who)
+    mobile_open_pricing(who,vendor);button('Invoice vendor',who);wait_text('Draf invoice baru',who)
+    fill('Nomor invoice vendor',name,who);fill('Total invoice','5678.43',who)
+    date=evaluate("({value:document.querySelector('input[aria-label=\"Tanggal invoice\"]').value})",who)['value']
+    assert date==day,{'expected_business_day':day,'rendered_date':date}
+    button('Tambah baris',who);select('Sumber baris 1','o:'+source,who);select('Kategori baris 1','GOOD',who)
+    fill('Qty baris 1','1',who);fill('Nominal baris 1','5678.43',who);snap('mobile-invoice-before-save',who)
+    button('Simpan draf invoice',who);wait_text('Ubah draf '+name,who)
+    row=sql("select id::text,status,header_total::text,invoice_date::text,journal_id from erp.bd_laundry_invoices_v1 where vendor_id=%s and invoice_number=%s",(vendor,name))
+    assert len(row)==1 and row[0][1:]==('DRAFT','5678.43',day,None),row
+    sent=[x for x in HTTP_EVENTS if (x.get('payload') or {}).get('p_payload',{}).get('invoice_number')==name]
+    assert len(sent)==1 and sent[0]['http_status']==200 and sent[0]['payload']['p_payload']['invoice_date']==day,sent
+    ab('open','http://127.0.0.1:4176/',who=who);ab('wait','aside.sidebar',who=who)
+    mobile_open_pricing(who,vendor);button('Invoice vendor',who);wait_text('Ubah draf '+name,who);button('Ubah draf '+name,who)
+    fields=evaluate("Object.fromEntries(['Nomor invoice vendor','Tanggal invoice','Total invoice','Sumber baris 1','Kategori baris 1','Qty baris 1','Nominal baris 1'].map(k=>[k,document.querySelector('[aria-label=\"'+k+'\"]')?.value]))",who)
+    expected={'Nomor invoice vendor':name,'Tanggal invoice':day,'Total invoice':'5678.43','Sumber baris 1':'o:'+source,'Kategori baris 1':'GOOD','Qty baris 1':'1','Nominal baris 1':'5678.43'}
+    assert fields==expected,{'expected':expected,'actual':fields}
+    assert sql('select count(*) from erp.journal_entries',one=True)==before,'Mobile draft changed journals'
+    snap('mobile-draft-after-reload',who)
+    return {'invoice':row[0],'http_payload_date':sent[0]['payload']['p_payload']['invoice_date'],'reopened_fields':fields,'journals_unchanged':True,
+            'date_scope':'Default business date persisted; mobile date-picker editing is not covered','physical_device':False}
+
+def mobile_viewer():
+    who='mobile_viewer';mobile_open_pricing(who,FIX['vendor']);button('Harga vendor',who)
+    body=wait_text('AUD-BROWSER-KNOWN',who)
+    assert 'Hak master mitra diperlukan' in body and '4.321,09' not in body and '678,91' not in body,body
+    snap('mobile-viewer-master',who);button('Invoice vendor',who)
+    wait_text('Hak melihat nominal diperlukan untuk invoice vendor.',who);snap('mobile-viewer-invoice-denied',who)
+    return {'master_money_hidden':True,'invoice_denial_visible':True,'physical_device':False}
+
+def gap_receipt_fixture():
+    p=ROOT/'audit-results'/'remaining-fixture.json'
+    assert p.exists(),{'missing_fixture':str(p),'required':'Native public priced dispatch and receipt fixture, no direct inserted receipt eligibility'}
+    f=json.loads(p.read_text())['browser_receipts'];ids=f['receipt_line_ids'];expected=f['expected_count']
+    assert expected>=201 and len(ids)==len(set(ids))==expected,f
+    rows=sql("select rl.id::text,r.status,rl.actual_cost_status,rl.actual_cost::text,rl.qty_good_received,rl.qty_bs_laundry,d.vendor_id::text from erp.laundry_receipt_lines rl join erp.laundry_receipts r on r.id=rl.receipt_id join erp.laundry_delivery_lines dl on dl.id=rl.delivery_line_id join erp.laundry_deliveries d on d.id=dl.delivery_id where rl.id=any(%s::uuid[])",(ids,))
+    assert len(rows)==expected and all(r[1]=='POSTED' and r[2]=='ESTIMATED' and r[3] is not None and r[4]==1 and r[5]==0 and r[6]==f['vendor_id'] for r in rows),rows
+    billed=sql("select count(*) from erp.bd_laundry_invoice_lines_v1 l join erp.bd_laundry_invoices_v1 i on i.id=l.invoice_id where l.receipt_line_id=any(%s::uuid[]) and i.status='POSTED'",(ids,),one=True)
+    assert billed==0,billed
+    w=rpc('erp_get_laundry_bd_workspace_v1',{'p_filters':{'vendor_id':f['vendor_id']}})
+    returned={x['receipt_line_id'] for x in w['billable_receipts']};missing=sorted(set(ids)-returned)
+    assert returned.issubset(set(ids)),{'unrelated_sources':sorted(returned-set(ids))}
+    probes=[];before=sql('select count(*) from erp.journal_entries',one=True)
+    # A public draft of every omitted receipt is an additional positive control
+    # that the absent identifier is a real usable source, not a fabricated row.
+    for n,source in enumerate(missing):
+        result=cmd('SAVE_INVOICE_DRAFT',{'vendor_id':f['vendor_id'],'invoice_number':'AUD-SOURCE-OMITTED-'+str(n),'invoice_date':'2026-09-21','header_total':'17.31',
+            'lines':[{'line_kind':'BILL','receipt_line_id':source,'category':'GOOD','qty':1,'amount':'17.31'}]})
+        assert result['status']=='DRAFT' and result['lines'][0]['receipt_line_id']==source,result
+        probes.append({'source':source,'invoice_id':result['invoice_id'],'status':result['status']})
+    assert sql('select count(*) from erp.journal_entries',one=True)==before,'Source eligibility drafts changed journals'
+    FIX['receipt_gap']={**f,'returned_ids':sorted(returned),'missing_ids':missing,'positive_omitted_drafts':probes}
+    return {'expected_public_lifecycle_receipts':expected,'native_verified_rows':len(rows),'posted_bills':billed,'public_returned_count':len(returned),
+            'missing_ids':missing,'positive_omitted_drafts':probes,'provenance':f.get('provenance'),'journals_unchanged':True}
+
+def gap_receipt_api_reachability():
+    f=FIX['receipt_gap'];o={'expected':f['expected_count'],'public_returned':len(f['returned_ids']),'missing':f['missing_ids'],'omitted_sources_accepted_by_public_draft':f['positive_omitted_drafts']}
+    assert not f['missing_ids'],o
+    return o
+
+def gap_open_desktop_invoices(vendor):
+    ab('open','http://127.0.0.1:4176/');ab('wait','aside.sidebar');button('Produksi',exact=False);button('• Laundry')
+    wait_text('Harga & tagihan');button('Harga & tagihan');ab('wait','select[aria-label="Vendor harga laundry"]')
+    select('Vendor harga laundry',vendor);button('Invoice vendor');wait_text('Draf invoice baru')
+
+def gap_receipt_browser_reachability():
+    f=FIX['receipt_gap'];gap_open_desktop_invoices(f['vendor_id']);button('Tambah baris')
+    selector='select[aria-label="Sumber baris 1"]';ab('wait',selector)
+    dom=evaluate("(()=>{const s=document.querySelector('section[aria-label=\"Invoice vendor laundry\"]');return {options:Array.from(s.querySelector('select[aria-label=\"Sumber baris 1\"]').options).map(o=>({value:o.value,label:o.text})),controls:Array.from(s.querySelectorAll('button,input,select')).map(e=>({tag:e.tagName,label:e.getAttribute('aria-label'),text:e.tagName==='BUTTON'?e.textContent:null,type:e.getAttribute('type')}))};})()")
+    ids={x['value'][2:] for x in dom['options'] if x['value'].startswith('r:')}
+    assert ids==set(f['returned_ids']),{'browser_ids':sorted(ids),'http_ids':f['returned_ids']}
+    select('Sumber baris 1','r:'+sorted(ids)[0]);snap('receipt-source-limit-201')
+    navigation=[c for c in dom['controls'] if re.search(r'cari|search|selanjut|sebelum|next|previous|halaman|muat lebih',str(c),re.I)]
+    missing=sorted(set(f['receipt_line_ids'])-ids)
+    observation={'native_eligible_count':f['expected_count'],'http_count':len(f['returned_ids']),'browser_receipt_options':len(ids),
+                 'missing_ids':missing,'paging_search_controls':navigation,'existing_source_selected':sorted(ids)[0]}
+    EVENTS.append({'receipt_source_browser_gap':observation})
+    assert not missing or navigation,observation
+    return observation
+
+def gap_bounded_reads():
+    f=FIX['receipt_gap'];samples=[];expected_ids=set(f['returned_ids'])
+    before=sql('select count(*) from erp.laundry_receipt_lines where id=any(%s::uuid[])',(f['receipt_line_ids'],),one=True)
+    for _ in range(5):
+        t=time.perf_counter();w=rpc('erp_get_laundry_bd_workspace_v1',{'p_filters':{'vendor_id':f['vendor_id']}});seconds=time.perf_counter()-t
+        got={x['receipt_line_id'] for x in w['billable_receipts']}
+        samples.append({'seconds':round(seconds,6),'http_receipts':len(got),'json_bytes':len(json.dumps(w).encode()),'same_returned_identifiers':got==expected_ids})
+        assert got==expected_ids and seconds<10,{'audit_local_budget_seconds':10,'sample':samples[-1]}
+    after=sql('select count(*) from erp.laundry_receipt_lines where id=any(%s::uuid[])',(f['receipt_line_ids'],),one=True)
+    assert before==after==f['expected_count'],{'before':before,'after':after,'expected':f['expected_count']}
+    return {'dataset_receipts':before,'sequential_reads':5,'samples':samples,'read_only_count_unchanged':True,
+            'audit_local_budget_seconds':10,'completeness_assessed_separately':'HTTP.RECEIPT_SOURCE_CAP and BROWSER.RECEIPT_SOURCE_CAP',
+            'limits':'Single local CI instance, five sequential reads; not concurrent or unlimited load certification'}
+
+def gap_redye_boundary():
+    schema=sql("select to_regclass('erp.be_redye_services_v1')::text,to_regprocedure('erp.be_set_redye_price_v1(jsonb,uuid)')::text")[0]
+    w=rpc('erp_get_laundry_bd_workspace_v1',{'p_filters':{'vendor_id':FIX['vendor']}})
+    # No valid BE service exists in the BD-only installed schema. This well-typed
+    # envelope measures routing only; its identifier is explicitly a sentinel.
+    sentinel=uid();status,body=rpc('erp_save_laundry_bd_action_v1',{'p_action':'SET_REDYE_PRICE',
+        'p_payload':{'service_id':sentinel,'rate':'987.65','reason':'Independent latent UI route boundary'},'p_client_request_id':uid()},expect_ok=False)
+    o={'be_service_table':schema[0],'be_price_function':schema[1],'reader_has_redye_services':'redye_services' in w,
+       'public_route_status':status,'public_route_response':body,'sentinel_service_id':sentinel,'valid_be_service_fixture':False,
+       'scope':'BD-only latent integration; no BE product schema installed; valid BE service mutation is not testable here'}
+    FIX['redye_boundary']=o
+    assert schema==(None,None) and 'redye_services' not in w and not 200<=status<300,o
+    return o
+
+def gap_redye_browser_boundary():
+    gap_open_desktop_invoices(FIX['vendor'])
+    dom=evaluate("({redye_sections:document.querySelectorAll('section[aria-label=\"Jasa celup ulang\"]').length,redye_buttons:Array.from(document.querySelectorAll('button')).filter(b=>b.textContent.includes('Isi tarif celup')).map(b=>b.textContent)})")
+    snap('redye-latent-bd-boundary')
+    assert dom['redye_sections']==0 and not dom['redye_buttons'],dom
+    return {'actual_ui':dom,'reader_and_route':FIX.get('redye_boundary'),'scope':'Latent UI only: no visible current redye button was clicked'}
+
+def run_gap_continuation():
+    own='independent gap completion';peer='peer-informed HTTP/browser continuation'
+    if case('HTTP.OWNER_REVOCATION_CONTROLS','Real Auth owner revocation/restoration, ordinary read and fresh UUID controls',gap_replay_controls,peer):
+        case('HTTP.OWNER_POLICY_REPLAY','Owner-only policy replay must refuse revoked actor',lambda:gap_replay_refusal('policy'),peer)
+        case('HTTP.OWNER_INVOICE_REPLAY','Invoice replay must not disclose cached money after revocation',lambda:gap_replay_refusal('invoice'),peer)
+    else:
+        RESULTS.append({'id':'HTTP.OWNER_REPLAY_DEPENDENT','status':'BLOCKED','origin':peer,'reason':'Revocation/restore control prerequisites failed; no refusal oracle established'});save()
+    try:
+        if case('MOBILE.AUTH_OWNER','Real owner login with iPhone14 browser emulation',lambda:mobile_auth('mobile_owner','owner'),own):
+            case('MOBILE.MASTER','Emulated mobile known/unknown and master creation with HTTP/DB proof',mobile_master,own)
+            case('MOBILE.DRAFT_RELOAD','Emulated mobile invoice draft and exact stored values after reload',mobile_draft,own)
+        else:
+            RESULTS.append({'id':'MOBILE.OWNER_DEPENDENT','status':'BLOCKED','origin':own,'reason':'Real mobile-emulated owner authentication prerequisite failed'});save()
+        if case('MOBILE.AUTH_VIEWER','Real viewer login with iPhone14 browser emulation',lambda:mobile_auth('mobile_viewer','viewer'),own):
+            case('MOBILE.VIEWER','Emulated mobile role visibility and invoice denial',mobile_viewer,own)
+        else:
+            RESULTS.append({'id':'MOBILE.VIEWER','status':'BLOCKED','origin':own,'reason':'Real mobile-emulated viewer authentication prerequisite failed'});save()
+    finally:
+        for who in ('mobile_owner','mobile_viewer'):
+            for operation in ('errors','console','close'):
+                try:ab(operation,who=who,check=False)
+                except Exception:pass
+    if case('HTTP.RECEIPT_SOURCE_FIXTURE','201 legitimate public-lifecycle receipt sources and omitted-source positive control',gap_receipt_fixture,peer):
+        case('HTTP.RECEIPT_SOURCE_CAP','Every eligible receipt remains reachable from public reader',gap_receipt_api_reachability,peer)
+        case('BROWSER.RECEIPT_SOURCE_CAP','Every eligible receipt remains selectable or searchable in new invoice',gap_receipt_browser_reachability,peer)
+        case('HTTP.BOUNDED_LARGER_READS','Five bounded larger-data reads preserve exact native counts',gap_bounded_reads,own)
+    else:
+        RESULTS.append({'id':'RECEIPT_SOURCE_DEPENDENT','status':'BLOCKED','origin':peer,'reason':'Public-lifecycle 201-receipt fixture prerequisite failed; no fabricated eligibility used'});save()
+    case('HTTP.REDYE_BOUNDARY','Measure missing BE reader/schema and actual BD HTTP route',gap_redye_boundary,'cross-check from prior static redye observation')
+    case('BROWSER.REDYE_BOUNDARY','Observe latent redye controls against actual BD reader',gap_redye_browser_boundary,'cross-check from prior static redye observation')
+
 def cleanup():
     for who in ['owner','viewer']:
         try:ab('errors',who=who,check=False);ab('console',who=who,check=False);ab('close',who=who,check=False)
@@ -480,6 +740,7 @@ def main():
             save()
         if case('BROWSER.AUTH_VIEWER','Real browser viewer password login',lambda:browser_auth('viewer')):
             case('BROWSER.VIEWER','Actual viewer UI hides nominal values and invoices',viewer_browser)
+        run_gap_continuation()
     except Exception as e:
         RESULTS.append({'id':'HTTP_BROWSER.SETUP','status':'BLOCKED','error':redact(e),'traceback':redact(traceback.format_exc())});save();raise
     finally:cleanup()

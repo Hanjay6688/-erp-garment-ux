@@ -68,6 +68,7 @@ jobs:
           PY
           git rev-parse HEAD > audit-results/audit-head.txt
           sha256sum audits/independent_bd_20260927/PLAN.md > audit-results/plan-sha256.txt
+          sha256sum audits/independent_bd_20260927/GAP_PLAN.md audits/independent_bd_20260927/GAPS_NATIVE_NOTES.md audits/independent_bd_20260927/RELEASE_GAPS_NOTES.md > audit-results/gap-oracles-sha256.txt
       - name: Start isolated Supabase runtime
         working-directory: base
         run: |
@@ -139,6 +140,14 @@ jobs:
         if: always()
         working-directory: auditor
         run: python audits/independent_bd_20260927/edges.py
+      - name: Independent remaining daily financial and concurrency gaps
+        if: always()
+        working-directory: auditor
+        run: python audits/independent_bd_20260927/gaps_native.py
+      - name: Independent legitimate free contract investigation
+        if: always()
+        working-directory: auditor
+        run: python audits/independent_bd_20260927/free_contract.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -156,6 +165,10 @@ jobs:
           npm ci
           npm install -g agent-browser@0.31.1
           agent-browser install --with-deps
+      - name: Independent official build and diagnostic compilers
+        if: always()
+        working-directory: auditor
+        run: python audits/independent_bd_20260927/release_gaps.py build
       - name: Independent actual HTTP and browser checks
         if: always()
         working-directory: auditor
@@ -168,6 +181,93 @@ jobs:
         if: always()
         with:
           name: bd-independent-20260927-${{ github.run_id }}
+          path: auditor/audit-results/
+          retention-days: 14
+      - name: Stop isolated runtime
+        if: always()
+        working-directory: base
+        run: supabase stop --workdir cp5-local --no-backup
+  source55:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+      CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+    steps:
+      - uses: actions/checkout@v4
+        with: {path: auditor, fetch-depth: 0}
+      - uses: actions/checkout@v4
+        with: {path: base, fetch-depth: 0, ref: 1bdca3766f7c9800d68295ff5122798060b8a05d}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Install disposable database clients
+        run: |
+          set -euo pipefail
+          python -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2'
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ca-certificates curl gnupg
+          sudo install -d /usr/share/postgresql-common/pgdg
+          sudo curl --fail --silent --show-error -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc https://www.postgresql.org/media/keys/ACCC4CF8.asc
+          fingerprint="$(gpg --show-keys --with-colons /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc | awk -F: '$1 == "fpr" { print $10; exit }')"
+          test "$fingerprint" = B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
+          . /etc/os-release
+          echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt ${VERSION_CODENAME}-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list >/dev/null
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client-17
+          echo /usr/lib/postgresql/17/bin >> "$GITHUB_PATH"
+      - uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
+        with: {version: 2.116.0}
+      - name: Verify frozen product identity
+        working-directory: auditor
+        run: |
+          set -euo pipefail
+          mkdir -p audit-results
+          git diff --name-only 08065a3b4da71c51ffbbab77f0a6b1ac7e6638ec HEAD > audit-results/changed-paths.txt
+          python - <<'PY'
+          from pathlib import Path
+          names=Path('audit-results/changed-paths.txt').read_text().splitlines()
+          assert all(x.startswith('audits/independent_bd_20260927/') or x=='.github/workflows/bd-independent-20260927.yml' for x in names),names
+          PY
+          git rev-parse HEAD > audit-results/audit-head.txt
+          sha256sum audits/independent_bd_20260927/PLAN.md > audit-results/plan-sha256.txt
+          sha256sum audits/independent_bd_20260927/GAP_PLAN.md audits/independent_bd_20260927/GAPS_NATIVE_NOTES.md audits/independent_bd_20260927/RELEASE_GAPS_NOTES.md > audit-results/gap-oracles-sha256.txt
+      - name: Start isolated Supabase runtime
+        working-directory: base
+        run: |
+          set -euo pipefail
+          supabase --help >/dev/null
+          supabase init --help >/dev/null
+          supabase start --help >/dev/null
+          mkdir cp5-local
+          supabase init --force --workdir cp5-local
+          mkdir -p cp5-local/supabase/.temp
+          echo 17.6.1.165 > cp5-local/supabase/.temp/postgres-version
+          sed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml
+          supabase start --workdir cp5-local -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor > ../auditor/audit-results/runtime-start.log 2>&1
+      - name: Restore fresh unchanged CP4.5a catalog fixture
+        working-directory: base
+        run: python ../auditor/audits/independent_bd_20260927/release_gaps.py bootstrap
+      - name: Provision isolated maintenance and clone
+        working-directory: auditor
+        run: |
+          set -euo pipefail
+          audit_maintenance_password="$(openssl rand -hex 32)"
+          audit_maintenance_url="postgresql://cp6_maintenance_admission:${audit_maintenance_password}@127.0.0.1:54322/template1"
+          echo "::add-mask::$audit_maintenance_password"
+          echo "::add-mask::$audit_maintenance_url"
+          docker exec -i supabase_db_cp5-local psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 -v audit_password="$audit_maintenance_password" <<'SQL'
+          create role cp6_maintenance_admission login superuser noinherit nocreatedb nocreaterole noreplication connection limit 4 password :'audit_password';
+          SQL
+          printf 'CP6_ADMISSION_CONTROL_PGURL=%s\n' "$audit_maintenance_url" >> "$GITHUB_ENV"
+          bash scripts/clone-cp6-disposable-database.sh 'postgresql://postgres:postgres@127.0.0.1:54322/postgres' 'postgresql://postgres:postgres@127.0.0.1:54322/template1' 'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' cp6_rollback supabase_db_cp5-local audit-results/clone
+      - name: Install 55 original migrations and eight dev files through BD
+        working-directory: auditor
+        run: python audits/independent_bd_20260927/release_gaps.py source55
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bd-independent-source55-${{ github.run_id }}
           path: auditor/audit-results/
           retention-days: 14
       - name: Stop isolated runtime
