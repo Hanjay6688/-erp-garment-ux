@@ -135,6 +135,72 @@ def nonpo_conversion(cur, day):
             "inverse_restored": True}
 
 
+def sold_child_recost(cur, day):
+    f, bc = be.fixture(cur, day), bd.bcp
+    acc = bc.fixture(cur, f["day"], stock_qty=100, cost="2.00")
+    bc.policy(cur, "ACC_DEC04", {"OWN_FG_REPAIR_account_id": bc.account(cur, "5100")})
+    bc.policy(cur, "ACC_DEC07", {"approval": "NONE"})
+    bd.api.admin(cur)
+    posted = be.be(cur, "POST", dict(f["payload"], expected_returns=[
+        {"material_id": acc["material"], "qty": "3", "holder": "Blind recost holder"}]))
+    parent, conv = posted["destination_lot_id"], posted["conversion_id"]
+    be.be(cur, "POST_USAGE", {"conversion_id": conv,
+        "expected_version": one(cur, "select erp.be_conversion_revision_v1(%s)", conv),
+        "location_id": acc["main"], "physical_at": f["payload"]["physical_at"],
+        "items": [{"material_id": acc["material"], "qty": "6"}],
+        "reason": "Blind actual six new components"})
+    target2 = bd.sized_product(cur, bd.chain.base.SIZE, "BLIND-CHILD-" + uuid.uuid4().hex[:8])
+    child = be.be(cur, "POST", {"source_lot_id": parent, "target_product_id": target2,
+        "location_id": f["location"], "qty_pcs": 2,
+        "physical_at": bd.iso(bd.chain.production.at(f["day"], 16)),
+        "reason": "Blind actual child conversion",
+        "expected_version": one(cur, "select erp.be_source_revision_v1(%s,%s)", parent, f["location"])})["destination_lot_id"]
+    sale1 = bd.sell(cur, f, f["target"], 1, 17)
+    sale2 = bd.sell(cur, f, target2, 1, 18)
+    snapshots = cur.execute("""select id,total_hpp from erp.sale_stock_allocations
+        where sale_item_id in(select id from erp.sales_items where sale_id in(%s,%s)) order by id""",
+        (sale1, sale2)).fetchall()
+    gl = lambda: {k: bd.gl(cur, k) for k in ("FG_INVENTORY", "COGS", "OTHER_INCOME")}
+    before, parent_value, child_value = gl(), bd.lot_value(cur, parent), bd.lot_value(cur, child)
+    trial = bd.bbp.receipt_trial
+    invoice = trial.post_invoice(bd.api, cur, trial.invoice(bd.api, cur, day,
+        {"supplier_id": acc["supplier"], "purchase_item_id": acc["item"]},
+        "100", "3.00", date=f["day"] + timedelta(days=1)))
+    bd.api.admin(cur)
+    after_invoice = gl()
+    assert {k: after_invoice[k] - before[k] for k in ("FG_INVENTORY", "COGS")} == {
+        "FG_INVENTORY": Decimal("4.00"), "COGS": Decimal("2.00")}
+    assert bd.lot_value(cur, parent) - parent_value == Decimal("6.00")
+    assert bd.lot_value(cur, child) - child_value == Decimal("2.00")
+    outstanding = one(cur, "select outstanding_id from erp.be_conversion_returns_v1 where conversion_id=%s", conv)
+    returned = bc.receive(cur, acc, "TEARDOWN", [(2, outstanding)],
+                          f["day"] + timedelta(days=1), reference="Blind recovered two")
+    lot = returned["lot_ids"][0]
+    bc.inspect(cur, lot, bc.local_at(f["day"] + timedelta(days=1), 10), "Blind inspect", usable=2)
+    bc.policy(cur, "ACC_DEC03", {"credit_account_id": bc.account(cur, "4100"),
+                                  "unit_value_cap": "MOVING_AVERAGE"})
+    recovered = bc.svc(cur, "VALUE_CUSTODY", {"lot_id": lot, "condition": "USABLE",
+        "qty": "2", "unit_value": "1.50", "location_id": acc["main"],
+        "physical_at": bc.local_at(f["day"] + timedelta(days=1), 11),
+        "reason": "Blind sourced two old accessories"})
+    after_recovery = gl()
+    assert {k: after_recovery[k] - after_invoice[k] for k in ("FG_INVENTORY", "COGS")} == {
+        "FG_INVENTORY": Decimal("-2.00"), "COGS": Decimal("-1.00")}
+    assert after_recovery["OTHER_INCOME"] == before["OTHER_INCOME"]
+    assert snapshots == cur.execute("""select id,total_hpp from erp.sale_stock_allocations
+        where sale_item_id in(select id from erp.sales_items where sale_id in(%s,%s)) order by id""",
+        (sale1, sale2)).fetchall()
+    bc.reverse(cur, recovered["document_id"])
+    assert gl() == after_invoice
+    trial.rpc(bd.api, cur, "reverse_material_supplier_invoice_v2",
+              invoice["supplier_invoice_id"], "Blind invoice inverse", uuid.uuid4(), invoice["row_version"])
+    bd.api.admin(cur)
+    assert gl() == before and (bd.lot_value(cur, parent), bd.lot_value(cur, child)) == (parent_value, child_value)
+    return {"invoice_fg": "4.00", "invoice_cogs": "2.00", "parent_recost": "6.00",
+            "child_recost": "2.00", "recovery_fg": "-2.00", "recovery_cogs": "-1.00",
+            "snapshots_immutable": True, "both_inverses_restored": True}
+
+
 def rework(cur, day):
     f = avp.rework_ready(cur, day - timedelta(days=1))
     bd.api.admin(cur)
@@ -364,6 +430,54 @@ def pocket_import(cur, day):
             "no_fake_material_or_sewing_events": True}
 
 
+def closed_pocket_correction(cur, day):
+    cut = day - timedelta(days=10)
+    f = bd.bbp.production_post(cur, day, pocket.active_unit(cur, pocket.rows(cut)))
+    preview = pocket.preview(cur, cut - timedelta(days=1), cut)
+    pool = pocket.call(cur, "POST_PERIOD", {"period_start": preview["period_start"],
+        "period_end": preview["period_end"], "expected_revision": preview["revision"],
+        "reason": "Blind period before business close"})["id"]
+    usage = one(cur, "select id from erp.be_pocket_usage_v1 where batch_id=%s", f["batch"])
+    old = pocket.amounts(cur)
+    prior = cur.execute("""select l.account_id,sum(l.debit-l.credit) from erp.journal_lines l
+        join erp.journal_entries j on j.id=l.journal_entry_id
+        where j.status in('POSTED','REVERSED') and j.transaction_date<=%s
+        group by l.account_id order by l.account_id""", (day - timedelta(days=1),)).fetchall()
+    historical = cur.execute("select id,to_jsonb(j) from erp.journal_entries j order by id").fetchall()
+    bd.boundary.historical.prior.set_open_period(cur, day - timedelta(days=1))
+    key = str(uuid.uuid4())
+    payload = {"usage_id": str(usage), "amount": "15.00", "expected_amount": "11.25",
+        "economic_date": str(cut + timedelta(days=1)),
+        "reason": "Blind late correction from closed source"}
+    first = pocket.call(cur, "CORRECT_OPENING_USAGE", payload, key)
+    again = pocket.call(cur, "CORRECT_OPENING_USAGE", payload, key)
+    assert first == again
+    now = pocket.amounts(cur)
+    delta = {k: now[k] - v for k, v in old.items()}
+    assert delta == {"WIP": Decimal("1.88"), "FG_INVENTORY": Decimal("1.12"),
+        "COGS": Decimal("0.75"), "OTHER_EXPENSE": Decimal("0.00"),
+        "OPENING_EQUITY": Decimal("-3.75")}, delta
+    dates = cur.execute("""select j.economic_date,j.transaction_date from erp.journal_entries j
+        where j.id in(select journal_id from erp.be_pocket_source_events_v1 where id=%s
+            union select journal_entry_id from erp.pocket_period_events
+            where pool_id=%s and kind='RECOST') order by j.id""", (key, pool)).fetchall()
+    assert len(dates) == 2 and all(x == (cut + timedelta(days=1), day) for x in dates), dates
+    old_asof = cur.execute("""select l.account_id,sum(l.debit-l.credit) from erp.journal_lines l
+        join erp.journal_entries j on j.id=l.journal_entry_id
+        where j.status in('POSTED','REVERSED') and j.transaction_date<=%s
+        group by l.account_id order by l.account_id""", (day - timedelta(days=1),)).fetchall()
+    assert prior == old_asof
+    immutable = cur.execute("select id,to_jsonb(j) from erp.journal_entries j where id=any(%s::uuid[]) order by id",
+                            ([str(x[0]) for x in historical],)).fetchall()
+    assert historical == immutable
+    pocket.call(cur, "CORRECT_OPENING_USAGE", dict(payload, amount="11.25", expected_amount="15.00",
+        economic_date=str(cut + timedelta(days=2)), reason="Blind linked inverse after close"))
+    assert pocket.amounts(cur) == old
+    return {"replay_same": True, "economic_date": str(cut + timedelta(days=1)),
+            "journal_date": str(day), "old_asof_immutable": True, "old_journals_immutable": True,
+            "delta": {k: str(v) for k, v in delta.items()}, "inverse_restored": True}
+
+
 def main():
     report = {"candidate": "2c2fd5e8e0df5f8ada44402c93f70dbaf0fbbb5b",
               "status": "INCOMPLETE", "production_go": False, "cases": {}}
@@ -375,10 +489,11 @@ def main():
             bd.api.seed(cur)
         bd.boundary.historical.prior.set_open_period(cur, day - timedelta(days=30))
         for name, case in (("B02_B03_ACCESSORY", accessory), ("B03_NONPO_OPENING", nonpo_conversion),
+                           ("B03_SOLD_CHILD_RECOST", sold_child_recost),
                            ("B04_REWORK", rework),
                            ("B05_SMALL_REDYE", paid_redye), ("B06_EXPLICIT_ZERO", zero_redye),
                            ("B06_LATER_RATE", later_rate_redye),
-                           ("B08_AFUI_MIX", afui_mix),
+                           ("B08_AFUI_MIX", afui_mix), ("B08_CLOSED_CORRECTION", closed_pocket_correction),
                            ("B09_POCKET_IMPORT", pocket_import)):
             bd.api.admin(cur)
             cur.execute("savepoint blind_extended_case")
