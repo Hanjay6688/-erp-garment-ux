@@ -1,0 +1,204 @@
+"""Additional auditor oracles on the same frozen BE disposable runtime.
+
+Existing fixture helpers only create prerequisites and call public commands;
+all pass/fail conditions here are explicit auditor assertions.
+"""
+from __future__ import annotations
+
+import json
+import os
+import uuid
+from datetime import timedelta
+from decimal import Decimal
+from pathlib import Path
+
+import psycopg
+
+import cp6_av_probe as avp
+import cp6_be_probe as be
+import cp6_be_pocket_probe as pocket
+import cp6_bd_probe as bd
+import cp6_pocket_period_trial as native_pocket
+
+ROOT = Path(__file__).resolve().parents[1]
+OUT = ROOT / "be-blind-extended-results.json"
+
+
+def one(cur, sql, *params):
+    return cur.execute(sql, params).fetchone()[0]
+
+
+def accessory(cur, day):
+    f = be.fixture(cur, day)
+    bc = bd.bcp
+    acc = bc.fixture(cur, f["day"], stock_qty=100, cost="2.00")
+    bc.policy(cur, "ACC_DEC04", {"OWN_FG_REPAIR_account_id": bc.account(cur, "5100")})
+    bc.policy(cur, "ACC_DEC07", {"approval": "NONE"})
+    bd.api.admin(cur)
+    original_stock = bc.stock(cur, acc["material"], acc["main"])
+    old_income = bd.gl(cur, "OTHER_INCOME")
+    old_hpp = bd.lot_value(cur, f["lot"])
+    posted = be.be(cur, "POST", dict(f["payload"], expected_returns=[
+        {"material_id": acc["material"], "qty": "10", "holder": "Blind actual teardown"}]))
+    dest, conv = posted["destination_lot_id"], posted["conversion_id"]
+    base_cost = bd.lot_value(cur, dest)
+    item = be.be(cur, "POST_USAGE", {
+        "conversion_id": conv, "expected_version": one(cur, "select erp.be_conversion_revision_v1(%s)", conv),
+        "location_id": acc["main"], "physical_at": f["payload"]["physical_at"],
+        "items": [{"material_id": acc["material"], "qty": "6"}],
+        "reason": "Blind six new components issued"})
+    after_use = bc.stock(cur, acc["material"], acc["main"])
+    assert original_stock == 100 and after_use == 94
+    assert bd.lot_value(cur, dest) - base_cost == Decimal("12.00")
+    assert bd.lot_value(cur, f["lot"]) == old_hpp
+    outstanding = one(cur, "select outstanding_id from erp.be_conversion_returns_v1 where conversion_id=%s", conv)
+    returned = bc.receive(cur, acc, "TEARDOWN", [(8, outstanding)], f["day"] + timedelta(days=1),
+                          reference="Blind actual 8 of 10")
+    return_lot = returned["lot_ids"][0]
+    bc.inspect(cur, return_lot, bc.local_at(f["day"] + timedelta(days=1), 10),
+               "Blind inspector", usable=6, damaged=2)
+    state = bc.lot_state(cur, return_lot)
+    progress = one(cur, "select erp.be_return_progress_v1(%s)", conv)
+    assert len(progress) == 1 and progress[0]["expected"] == "10.000000"
+    assert progress[0]["received"] == "8.000000" and progress[0]["unreturned"] == "2.000000"
+    assert progress[0]["awaiting_value"] == "8.000000"
+    assert state["usable"] == 6 and state["damaged"] == 2 and state["waiting"] == 0
+    assert one(cur, "select erp.be_conversion_value_state_v1(%s)", conv) == "PROVISIONAL_RECOVERY"
+    assert bd.gl(cur, "OTHER_INCOME") == old_income
+    return {"stock_before": original_stock, "stock_after_new_usage": after_use,
+            "new_cost": "12.00", "returned": progress[0],
+            "classified": {k: str(state[k]) for k in ("usable", "damaged", "waiting")},
+            "no_synthetic_income": True, "document": item["cost_document_id"]}
+
+
+def rework(cur, day):
+    f = avp.rework_ready(cur, day - timedelta(days=1))
+    old = cur.execute("select vendor_id,physical_sent_at,return_fg_location_id from erp.rework_orders where id=%s",
+                      (f["order"],)).fetchone()
+    bd.chain.bs_action(cur, "SAVE_REWORK", {"id": f["order"], "action": "CANCEL",
+                          "change_reason": "Blind replace draft"}, bd.chain.version(cur, "rework_orders", f["order"]))
+    bd.api.admin(cur)
+    target = bd.sized_product(cur, bd.chain.base.SIZE, "BLIND-REWORK-" + uuid.uuid4().hex[:8])
+    bom = one(cur, "select id from erp.accessory_bom_versions where product_id=%s and is_active", f["product"])
+    order = {"rework_number": "BE-BLIND-" + uuid.uuid4().hex[:15], "bs_case_id": str(f["bs"]),
+             "destination_type": "LAUNDRY", "contractor_id": None, "vendor_id": str(old[0]),
+             "qty_sent": 4, "physical_sent_at": old[1].isoformat(), "status": "IN_PROGRESS",
+             "return_fg_location_id": str(old[2]), "accessory_bom_version_id": str(bom),
+             "accessory_bom_item_ids": [], "components": []}
+    made = be.be(cur, "SAVE_REWORK", {"order": order, "target_product_id": target,
+                                        "reason": "Blind same-construction target"})
+    rid = made["rework_id"]
+    bd.chain.bs_action(cur, "COMPLETE_REWORK", {"rework_order_id": rid, "qty_good": 1, "qty_bs": 0,
+         "completed_at": bd.iso(bd.chain.production.at(f["day"], 15)),
+         "return_fg_location_id": str(old[2]), "change_reason": "Blind partial physical return"},
+         bd.chain.version(cur, "rework_orders", rid))
+    partial = cur.execute("select status,good_fg_lot_id from erp.rework_orders where id=%s", (rid,)).fetchone()
+    assert partial[0] == "PARTIAL" and partial[1] is None
+    assert one(cur, "select count(*) from erp.be_conversion_sources_v1 where rework_id=%s", rid) == 0
+    payload = {"rework_order_id": rid, "qty_good": 2, "qty_bs": 2,
+               "completed_at": bd.iso(bd.chain.production.at(f["day"], 16)),
+               "return_fg_location_id": str(old[2]), "change_reason": "Blind final 2 GOOD and 2 BS"}
+    version, key = bd.chain.version(cur, "rework_orders", rid), str(uuid.uuid4())
+    first = bd.chain.bs_action(cur, "COMPLETE_REWORK", payload, version, key=key)
+    second = bd.chain.bs_action(cur, "COMPLETE_REWORK", payload, version, key=key)
+    assert first == second
+    source = one(cur, "select good_fg_lot_id from erp.rework_orders where id=%s", rid)
+    destinations = cur.execute("""select a.destination_lot_id from erp.be_conversion_sources_v1 s
+        join erp.product_conversion_allocations a on a.conversion_id=s.conversion_id
+        where s.rework_id=%s""", (rid,)).fetchall()
+    assert len(destinations) == 1
+    dest = destinations[0][0]
+    assert be.qty(cur, source) == 0 and be.qty(cur, dest) == 2
+    assert str(one(cur, "select product_id from erp.fg_lots where id=%s", dest)) == target
+    bd.chain.bs_action(cur, "REVERSE_REWORK_COMPLETION", {
+        "rework_order_id": rid, "change_reason": "Blind inverse real rework"},
+        bd.chain.version(cur, "rework_orders", rid))
+    assert be.qty(cur, source) == 0 and be.qty(cur, dest) == 0
+    return {"partial": partial[0], "partial_fg": 0, "good_target": 2, "bs": 2,
+            "source_shadow_good": 0, "replay_same": True, "inverse_zero": True}
+
+
+def zero_redye(cur, day):
+    f = be.redye_fixture(cur, day, known=False)
+    pending = one(cur, "select erp.be_redye_rate_v1(%s)", f["redye"])
+    blocker = one(cur, "select count(*) from erp.period_blockers_v1(%s,%s) where code='BE_REDYE_PRICE_UNKNOWN'",
+                  f["day"], f["day"])
+    assert pending is None and blocker == 1
+    payload = {"service_id": f["redye"], "rate": "0.00", "reason": "Blind owner explicitly approves zero"}
+    key = str(uuid.uuid4())
+    first = bd.bd(cur, "SET_REDYE_PRICE", payload, key)
+    assert bd.bd(cur, "SET_REDYE_PRICE", payload, key) == first
+    rate = one(cur, "select erp.be_redye_rate_v1(%s)", f["redye"])
+    remaining = one(cur, "select count(*) from erp.period_blockers_v1(%s,%s) where code='BE_REDYE_PRICE_UNKNOWN'",
+                    f["day"], f["day"])
+    assert rate == 0 and one(cur, "select erp.be_redye_cost_v1(%s)", f["redye"]) == 0 and remaining == 0
+    assert one(cur, "select count(*) from erp.be_redye_price_events_v1 where service_id=%s", f["redye"]) == 1
+    return {"unknown": None, "blocked_before": blocker, "explicit_zero_event": True,
+            "cost": "0.00", "blockers_after": remaining, "replay_same": True}
+
+
+def afui_mix(cur, day):
+    cut = day - timedelta(days=10)
+    historical = bd.bbp.production_post(cur, day, pocket.active_unit(cur, pocket.rows(cut)))
+    fresh = native_pocket.fixture(bd.api, cur, day, special=True)
+    bd.api.admin(cur)
+    start, end = cut - timedelta(days=1), fresh["end"]
+    bd.boundary.historical.prior.set_open_period(cur, start)
+    before = {k: bd.gl(cur, k) for k in ("WIP", "FG_INVENTORY", "COGS", "OTHER_EXPENSE")}
+    physical = (one(cur, "select count(*) from erp.material_stock_movements"),
+                one(cur, "select count(*) from erp.sewing_terminal_events"))
+    preview = pocket.preview(cur, start, end)
+    assert (preview["quantity"], preview["amount"], preview["per_piece"]) == ("20", "22.50", "1.125000")
+    made = pocket.call(cur, "POST_PERIOD", {"period_start": str(start), "period_end": str(end),
+             "expected_revision": preview["revision"], "reason": "Blind mixed native and historical including Afui"})
+    pool = made["id"]
+    kinds = cur.execute("""select adjustment_id is not null,historical_usage_id is not null,count(*)
+        from erp.pocket_period_sources where pool_id=%s group by 1,2 order by 1,2""", (pool,)).fetchall()
+    assert kinds == [(False, True, 1), (True, False, 1)]
+    special = one(cur, """select count(*) from erp.pocket_period_destinations d
+        join erp.contractor_hpp_policy_versions h on h.contractor_id=d.contractor_id
+        join erp.contractors c on c.id=h.contractor_id where d.pool_id=%s and d.event_id is not null
+        and h.is_special and not c.attendance_required and h.effective_from<=%s
+        and (h.effective_to is null or h.effective_to>=%s)""", pool, end, end)
+    assert special >= 1
+    actual = {k: bd.gl(cur, k) - v for k, v in before.items()}
+    assert actual == {"WIP": Decimal("11.24"), "FG_INVENTORY": Decimal("6.76"),
+                      "COGS": Decimal("4.50"), "OTHER_EXPENSE": Decimal("-22.50")}
+    revision = one(cur, "select erp.pocket_period_state_v1(%s)", pool)["revision"]
+    pocket.call(cur, "CANCEL_PERIOD", {"id": pool, "expected_revision": revision,
+                                        "reason": "Blind mixed period inverse"})
+    assert {k: bd.gl(cur, k) for k in before} == before
+    assert physical == (one(cur, "select count(*) from erp.material_stock_movements"),
+                        one(cur, "select count(*) from erp.sewing_terminal_events"))
+    return {"historical_batch": historical["batch"], "source_kinds": [list(x) for x in kinds],
+            "afui_destinations": special, "allocation": {k: str(v) for k, v in actual.items()},
+            "inverse_exact": True, "no_second_physical_events": True}
+
+
+def main():
+    report = {"candidate": "2c2fd5e8e0df5f8ada44402c93f70dbaf0fbbb5b",
+              "status": "INCOMPLETE", "production_go": False, "cases": {}}
+    with psycopg.connect(os.environ["PGURL"].replace("//postgres:", "//supabase_admin:", 1)) as conn, conn.cursor() as cur:
+        day = one(cur, "select (statement_timestamp() at time zone 'Asia/Jakarta')::date")
+        for name, case in (("B02_B03_ACCESSORY", accessory), ("B04_REWORK", rework),
+                           ("B06_EXPLICIT_ZERO", zero_redye), ("B08_AFUI_MIX", afui_mix)):
+            bd.api.admin(cur)
+            cur.execute("savepoint blind_extended_case")
+            try:
+                value = case(cur, day)
+                report["cases"][name] = {"status": "PASS", **value}
+            except Exception as error:
+                report["cases"][name] = {"status": "INCOMPLETE", "error": str(error),
+                                          "kind": type(error).__name__}
+            finally:
+                cur.execute("rollback to savepoint blind_extended_case")
+                cur.execute("release savepoint blind_extended_case")
+                OUT.write_text(json.dumps(report, indent=2, default=str) + "\n")
+                print(json.dumps({"case": name, **report["cases"][name]}, default=str), flush=True)
+    report["status"] = "PASS" if all(c["status"] == "PASS" for c in report["cases"].values()) else "INCOMPLETE"
+    OUT.write_text(json.dumps(report, indent=2, default=str) + "\n")
+    assert report["status"] == "PASS", report
+
+
+if __name__ == "__main__":
+    main()
