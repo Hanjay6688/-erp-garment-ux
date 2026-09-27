@@ -43,10 +43,12 @@ def closed_file(path: Path, name: str) -> None:
     maintenance = psycopg.connect(PGURL.rsplit("/", 1)[0] + "/template1", autocommit=True)
     try:
         maintenance.execute("alter database postgres with allow_connections false")
-        maintenance.execute("""
-            select pg_terminate_backend(pid) from pg_stat_activity
-            where datname='postgres' and pid<>%s
-        """, (target.info.backend_pid,))
+        run(["docker", "exec", "-i", "supabase_db_cp6-bd-blind-local",
+             "psql", "-U", "supabase_admin", "-d", "template1", "-X",
+             "-v", "ON_ERROR_STOP=1", "-c",
+             "select pg_terminate_backend(pid) from pg_stat_activity "
+             f"where datname='postgres' and pid<>{int(target.info.backend_pid)}"],
+            name + "_DRAIN")
         try:
             target.execute(path.read_text(), prepare=False)
             print(json.dumps({"step": name, "exit": 0, "closed_and_drained": True}), flush=True)
