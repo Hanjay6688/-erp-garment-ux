@@ -225,10 +225,15 @@ export async function cases(ui, today) {
       // Unknown price: listed "Belum diketahui" on the phone, then filled from the page.
       await p.getByRole('button', { name: 'Harga belum diketahui', exact: true }).click()
       const unknownBox = p.getByRole('region', { name: 'Harga laundry belum diketahui' })
-      const unknownShown = await unknownBox.getByText('Belum diketahui', { exact: true }).count()
       const label = ui.sql(`select c.label from erp.bd_laundry_charge_lines_v1 c join erp.bd_laundry_priced_lines_v1 l on l.delivery_line_id=c.delivery_line_id
         where l.delivery_id='${sent}' and c.rate_status='UNKNOWN' limit 1`)
       const sprName = ui.sql(`select coalesce((select component_name from erp.bd_laundry_components_v1 where vendor_id='${vendor}' and component_code='SPR'),'')`)
+      // The revised cell retains UNKNOWN and appends the stored price reason. Check the visible status cell of this
+      // exact component row, allowing that metadata; a whole-cell text equality would reject the correct new display.
+      const unknownStatus = unknownBox.getByRole('row').filter({ hasText: sprName })
+        .getByRole('cell', { name: /^Belum diketahui(?: · .+)?$/ })
+      await ui.expect(unknownStatus).toBeVisible({ timeout: 20000 })
+      const unknownShown = await unknownStatus.count()
       widths.unknown = await widthOk(p)
       await unknownBox.getByLabel('Alasan', { exact: true }).fill('T36 harga SPR dari vendor')
       await unknownBox.getByLabel(`Harga per PCS ${label}`, { exact: true }).fill('3000')

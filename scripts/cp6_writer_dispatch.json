@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 14,
+  "revision": 15,
   "phase": "after",
   "scenario_path": "scripts/cp6_bd_revision_modes.py",
   "browser_path": "scripts/cp6_bd_revision_browser.mjs",
-  "purpose": "BD revision: rerun browser with per-size coverage locators and transaction-only native fixture read grant; product/Auth grants unchanged"
+  "purpose": "BD revision: qualify all per-case browser verdicts, including visible UNKNOWN status with stored reason; preserve prior run's 14 PASS / 1 FAIL despite its completed job"
 }
