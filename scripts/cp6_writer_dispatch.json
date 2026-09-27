@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 8,
+  "revision": 9,
   "phase": "after",
   "scenario_path": "scripts/cp6_be_modes.py",
   "browser_path": "scripts/cp6_be_browser.mjs",
-  "purpose": "BE-19: retain all race/HTTP oracles, record reader preview response, and bind mobile document assertion to its own source SKU"
+  "purpose": "BE-21: complete C04 CSV upload, draft-no-post, validate and finalize through the real browser; retain all existing race, HTTP and five browser cases"
 }

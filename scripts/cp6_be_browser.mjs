@@ -129,10 +129,49 @@ async function rework(ui,today,redye){
     return{status:Object.values(checks).every(Boolean)?'PASS':'FAIL',checks,partial,completed,final}
   }finally{await owner.context.close()}
 }
+async function pocketImport(ui,today){
+  const f=fixture('create',{kind:'pocket-import',today}),owner=await ui.login('OWNER',{label:'be-pocket-import',timezoneId:'Pacific/Honolulu'}),p=owner.page
+  const responses=[]
+  const submit=async(label,action)=>{
+    const response=p.waitForResponse(r=>r.url().includes('/rpc/erp_save_initial_import_action_v1')&&r.request().postDataJSON()?.p_action===action)
+    await p.getByRole('button',{name:label,exact:true}).click()
+    const r=await response,body=await r.json();responses.push({action,status:r.status(),body})
+    await ui.expect(r.status()).toBe(200)
+    await ui.expect(p.getByRole('button',{name:'Muat ulang',exact:true})).toBeEnabled({timeout:20000})
+    return body
+  }
+  try{
+    await navigate(p,'Impor data awal','Pengaturan & Audit')
+    await ui.expect(p.getByLabel('Batch impor',{exact:true})).toBeEnabled({timeout:20000})
+    await p.getByLabel('Batch impor',{exact:true}).selectOption(f.batch)
+    await ui.expect(p.getByRole('combobox',{name:'Jenis data',exact:true})).toBeEnabled({timeout:20000})
+    for(const [entity,rows] of Object.entries(f.files)){
+      await p.getByRole('combobox',{name:'Jenis data',exact:true}).selectOption(entity)
+      const fields=[...new Set(rows.flatMap(row=>Object.keys(row)))],cell=x=>'"'+String(x??'').replaceAll('"','""')+'"'
+      const csv=[fields.join(','),...rows.map(row=>fields.map(k=>cell(row[k])).join(','))].join('\n')+'\n'
+      await p.getByLabel('Pilih file CSV',{exact:true}).setInputFiles({name:entity+'.csv',mimeType:'text/csv',buffer:Buffer.from(csv)})
+      await submit('Simpan perubahan draft','SAVE_FILE')
+      await ui.expect(p.getByRole('button',{name:'Simpan perubahan draft',exact:true})).toHaveCount(0)
+    }
+    const draft=fixture('read',f)
+    await submit('Periksa seluruh draft','VALIDATE')
+    await ui.expect(p.getByRole('button',{name:'Sahkan data awal',exact:true})).toBeEnabled()
+    await submit('Sahkan data awal','FINALIZE')
+    await ui.expect.poll(()=>fixture('read',f).status,{timeout:20000}).toBe('POSTED')
+    const after=fixture('read',f),delta=k=>money(after.ledger[k])-money(f.before[k])
+    const checks={draft_no_facts:draft.usage.length===0&&draft.sewing.length===0&&Object.keys(f.before).every(k=>money(draft.ledger[k])===money(f.before[k])),
+      usage:after.usage.length===1&&after.usage[0][0]==='KELUAR-'+f.code&&money(after.usage[0][2])===5000000n&&money(after.usage[0][3])===11250000n,
+      denominator:after.sewing.length===3&&after.sewing.reduce((n,row)=>n+Number(row[2]),0)===10&&after.sewing.map(x=>x[3]).join(',')==='WIP,FINISHED_GOODS,COGS',
+      once:delta('WIP')===50000000n&&delta('FG_INVENTORY')===30000000n&&delta('OTHER_EXPENSE')===11250000n&&delta('COGS')===0n&&delta('OPENING_EQUITY')===-91250000n,
+      no_fake_movements:after.stock_moves===f.stock_moves&&after.sewing_events===f.sewing_events}
+    return{status:Object.values(checks).every(Boolean)?'PASS':'FAIL',checks,responses,after}
+  }finally{await owner.context.close()}
+}
 export async function cases(ui,today){return[
   ['BE_BROWSER:CONVERSION_DESKTOP_UTC_REVERSE',()=>conversion(ui,today,false,'UTC')],
   ['BE_BROWSER:CONVERSION_MOBILE_HONOLULU_REVERSE',()=>conversion(ui,today,true,'Pacific/Honolulu')],
   ['BE_BROWSER:POCKET_HISTORY_ALLOCATE_CORRECT_MOBILE',()=>pocket(ui,today)],
   ['BE_BROWSER:REWORK_SKU_PARTIAL_COMPLETE_REVERSE',()=>rework(ui,today,false)],
   ['BE_BROWSER:REDYE_SKU_UNKNOWN_THEN_PRICE_MOBILE',()=>rework(ui,today,true)],
+  ['BE_BROWSER:POCKET_CSV_IMPORT_DRAFT_VALIDATE_POST',()=>pocketImport(ui,today)],
 ]}

@@ -1,4 +1,4 @@
-"""T2 regression for the combined CP6 candidate: AU + AV + AW, AX, AY, AZ, BA, BB, BC and BD (T1 installs).
+"""T2 regression for the combined CP6 candidate: AU + AV + AW, AX, AY, AZ, BA, BB, BC, BD and BE (T1 installs).
 
 Owner decision A+B: once every family passes its T1 probe, the whole existing regression runs once on the combined
 candidate, then goes to independent audit. The case declarations, oracles and race schedules are the unchanged ones
@@ -21,6 +21,10 @@ for that whole range before the closing date is put back; any refused step or a 
 (its cases are not run). The run-3 side channel is opt-in (CP6_T2_DIAG=1) and reads inside a savepoint that is rolled
 back, so the case starts in the session state it had without it.
 
+BE (27 Sep, takeover): native16 PASS at cc5d5b0 (run36333366166), race9/HTTP2/browser5 PASS
+at 6f6c85d (run36332585980); product SQL is unchanged between those heads. The combined
+regression now verifies sourced conversions, reader preview and historical pocket recost
+against the same frozen cases and approved oracle dispositions. No T2 oracle is changed.
 BD (25 Sep, owner: every CR in CP6): the candidate also includes BD, priced laundry deliveries, vendor invoices, the laundry
 policy settings pending by default and ALL-W05 (scripts/cp6_bd_build.py).
 BC (25 Sep, owner: every CR in CP6): the candidate also includes BC, the accessory service, return and inspection

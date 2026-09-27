@@ -7,6 +7,18 @@ import cp6_be_probe as be
 b=be.bdp
 
 def create(cur,today,kind):
+    if kind=='pocket-import':
+        # Ordinary import RPCs prepare only prerequisite draft rows. The two BE
+        # files, validation and final posting are exercised through the browser.
+        cut=today-timedelta(days=20);rows=be.pocket_probe.active_unit(cur,be.pocket_probe.rows(cut))
+        pocket_rows={k:rows.pop(k) for k in ('OPENING_POCKET_USAGE','OPENING_POCKET_SEWING')}
+        f=b.bbp.production_post(cur,today,rows,cutover_days=20,expect=True)
+        assert not f['errors'],('BE_IMPORT_PREREQUISITE_DRAFT',f['errors'])
+        fill=lambda v:v.replace('{C}',f['code']) if isinstance(v,str) else v
+        return dict(kind=kind,batch=f['batch'],code=f['code'],cut=str(cut),
+          files={k:[{field:fill(value) for field,value in row.items()} for row in values] for k,values in pocket_rows.items()},
+          before=be.pocket_probe.amounts(cur),stock_moves=be.one(cur,'select count(*) from erp.material_stock_movements'),
+          sewing_events=be.one(cur,'select count(*) from erp.sewing_terminal_events'))
     if kind in ('rework','redye'):
         import cp6_av_probe as avp
         f=avp.rework_ready(cur,today-timedelta(days=1))
@@ -32,6 +44,12 @@ def create(cur,today,kind):
 
 def read(cur,f):
     b.api.admin(cur)
+    if f.get('kind')=='pocket-import':
+        return dict(status=be.one(cur,'select status from erp.migration_batches where id=%s',f['batch']),
+          usage=be.q(cur,'select document_number,line_number,material_qty,original_amount from erp.be_pocket_usage_v1 where batch_id=%s',f['batch']),
+          sewing=be.q(cur,'select document_number,line_number,qty,target_kind from erp.be_pocket_sewing_v1 where batch_id=%s order by line_number',f['batch']),
+          ledger=be.pocket_probe.amounts(cur),stock_moves=be.one(cur,'select count(*) from erp.material_stock_movements'),
+          sewing_events=be.one(cur,'select count(*) from erp.sewing_terminal_events'))
     if f.get('kind') in ('rework','redye'):
         orders=be.q(cur,'select id::text,status,qty_good_returned,qty_bs_returned,good_fg_lot_id::text from erp.rework_orders where rework_number=%s',f['number'])
         if not orders:return dict(orders=[],conversions=[],qty=0,cost=None)
