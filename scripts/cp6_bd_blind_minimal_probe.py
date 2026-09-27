@@ -114,6 +114,60 @@ def main() -> None:
                 {"amount": "22000000.00", "sqlstate": "22003"},
             ], overflow
 
+            # Execute the unmodified POST_INVOICE function itself with the
+            # smallest schema needed to reach its billing-line weight loop.
+            cur.execute("create table erp.laundry_vendors(id uuid primary key)")
+            cur.execute("create table erp.vendor_invoices(vendor_id uuid, invoice_number text, status text)")
+            cur.execute("create table erp.laundry_delivery_lines(id uuid primary key, cutting_group_id uuid)")
+            cur.execute("create table erp.laundry_receipt_lines(id uuid primary key, delivery_line_id uuid)")
+            cur.execute("create table erp.bd_opening_laundry_uninvoiced_v1(id uuid primary key)")
+            cur.execute("""
+                create table erp.bd_laundry_invoices_v1(
+                    id uuid primary key, vendor_id uuid, invoice_number text,
+                    invoice_date date, status text, row_version bigint,
+                    corrects_invoice_id uuid, discount_amount numeric(18,2),
+                    tax_amount numeric(18,2), rounding_amount numeric(18,2),
+                    header_total numeric(18,2))
+            """)
+            cur.execute("""
+                create table erp.bd_laundry_invoice_lines_v1(
+                    id uuid primary key, invoice_id uuid, line_no integer,
+                    line_kind text, receipt_line_id uuid,
+                    opening_uninvoiced_id uuid, amount numeric(18,2))
+            """)
+            cur.execute("create function erp.require_owner_admin() returns void language plpgsql as $$ begin return; end $$")
+            cur.execute("create function erp.require_permission(text) returns void language plpgsql as $$ begin return; end $$")
+            cur.execute("""
+                create function erp._cp3_assert_closed_json_object(jsonb,text[],text[],text)
+                returns void language plpgsql as $$ begin return; end $$
+            """)
+            cur.execute("""
+                create function erp.bd_require_policy_v1(text,text)
+                returns jsonb language sql as $$ select '{"billable":["GOOD"]}'::jsonb $$
+            """)
+            cur.execute("create function erp.bd_policy_version_v1(text) returns integer language sql as $$ select 1 $$")
+            cur.execute(function(invoice, "bd_post_invoice_v1"))
+            invoice_id = uuid.UUID("80000000-0000-4000-8000-000000000008")
+            opening_id = uuid.UUID("90000000-0000-4000-8000-000000000009")
+            cur.execute("insert into erp.laundry_vendors values(%s)", (VENDOR,))
+            cur.execute("insert into erp.bd_opening_laundry_uninvoiced_v1 values(%s)", (opening_id,))
+            cur.execute("""
+                insert into erp.bd_laundry_invoices_v1
+                    values(%s,%s,'INV-22M','2026-09-26','DRAFT',1,null,0,0,0,22000000.00)
+            """, (invoice_id, VENDOR))
+            cur.execute("""
+                insert into erp.bd_laundry_invoice_lines_v1
+                    values(%s,%s,1,'BILL',null,%s,22000000.00)
+            """, (uuid.uuid4(), invoice_id, opening_id))
+            try:
+                cur.execute("select erp.bd_post_invoice_v1(%s::jsonb,%s)",
+                    (json.dumps({"invoice_id": str(invoice_id), "expected_version": "1"}), uuid.uuid4()))
+                actual_post = "UNEXPECTED_SUCCESS"
+            except psycopg.errors.NumericValueOutOfRange as error:
+                actual_post = error.sqlstate
+            invoice_after = cur.execute("select status from erp.bd_laundry_invoices_v1 where id=%s", (invoice_id,)).fetchone()[0]
+            assert actual_post == "22003" and invoice_after == "DRAFT", (actual_post, invoice_after)
+
             cur.execute("""
                 create function erp.current_app_user_id()
                 returns uuid language sql stable as $$
@@ -176,6 +230,7 @@ def main() -> None:
                 "component_partial": {"size_8": shares[0], "size_5": shares[1],
                     "total": row["amount"], "expected_if_only_size_5_serviced": ["0.00", "5000.00"]},
                 "invoice_weight": overflow,
+                "invoice_post_22m": {"sqlstate": actual_post, "status_after": invoice_after},
                 "replay_after_permission_revoked": {
                     "first_saved": first["status"], "replayed_after_revocation": replay["replayed"],
                     "new_request_after_revocation": new_request},
