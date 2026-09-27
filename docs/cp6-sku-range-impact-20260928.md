@@ -132,12 +132,12 @@ Jalur produksi normal: lot FG → produk fisik → komitmen BOM untuk PO/produk 
 
 Belum dilakukan pembacaan master bisnis live untuk menentukan SKU owner mana yang memakai masing-masing metode. Bukti repository menjelaskan mekanisme, bukan menyatakan konfigurasi live telah sesuai.
 
-## Rencana bukti sebelum eksekusi
+## Cakupan bukti follow-up kiriman
 
 - Build resmi dan tes parser/model laundry serta conversion.
 - Tambahan browser desktop/HP emulasi: ALL31–33, single32 dalam batch, singleton27, finishing5×32, perubahan qty, cakupan kosong/berlebih, reset pilihan. Jalur package extra/FREE/WAIVED dan audit sebelumnya tetap diuji.
-- Native: satu versi tarif jasa pada kiriman campuran31/32/33, hanya32, dan singleton27; tidak menambah anggota ukuran fiktif atau harga khusus otomatis. Ini menguji aritmetika kiriman; belum menguji master harga SKU baru `32007-27`.
+- Native: satu versi tarif dasar yang efektif pada kiriman campuran31/32/33, hanya32, dan singleton27, dicocokkan dengan nominal/qty/jumlah snapshot. Ordinary RATE tidak menyimpan FK versi pada kolom charge.version_id; jangan samakan atribusi menurut waktu dengan FK tersimpan. Tidak menambah anggota ukuran fiktif atau harga khusus otomatis. Ini belum menguji master harga SKU baru `32007-27`; riwayat koreksi oracle dijelaskan pada handoff.
 - Native: satu SKU dengan tiga product fisik, stok4/7/2; biaya finishing hanya5×32; HPP tertimbang; jual2×32; invoice+13 dibagi FG11/COGS2; retur1×32 kembali ke lot yang sama.
 - Semua verdict per kasus wajib diperiksa. Job berstatus selesai tidak berarti semua kasus PASS. Native derivation HPP bukan bukti halaman HPP connected sudah dibuat.
 
-Hasil eksekusi dan commit kandidat akan dicatat terpisah setelah selesai. Auditor/user tetap pemilik penutupan temuan.
+Commit kandidat, hasil eksekusi, kegagalan awal dan perbaikannya dicatat di [handoff SKU range](cp6-bd-sku-range-handoff-20260928.md) dan [bukti terstruktur](evidence/cp6-bd/sku_range_20260928.json). Auditor/user tetap pemilik penutupan temuan. Bagian master SKU dan perubahan keanggotaan31–33 menjadi31–34 tetap memerlukan implementasi/kualifikasi tersendiri.

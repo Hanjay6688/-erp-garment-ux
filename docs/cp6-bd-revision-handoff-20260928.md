@@ -1,5 +1,7 @@
 # BD — kandidat revisi audit, 28 September 2026 WIB
 
+Follow-up form jasa dan klarifikasi SKU range ada di [cp6-bd-sku-range-handoff-20260928.md](cp6-bd-sku-range-handoff-20260928.md), dengan source produk `2f6ac0d` dan kandidat pengujian `1c1d1a6`. Bukti dan batas historis di dokumen ini tetap dipertahankan; petunjuk input cakupan di bawah dibaca bersama form terbaru pada follow-up tersebut.
+
 **Revisi siap diuji ulang auditor. CP6 HOLD; production_go=false, audit_complete=false. Semua temuan tetap terbuka sampai auditor/owner menguji dan menerima.** Kandidat audit lama08065a3 tetap HOLD. Tidak ada hosted migration, perubahan UAT/legacy, merge ke main, atau deployment.
 
 Intake: handoff gabungan auditor507931d, run36341741346. Baseline revisi2c2fd5e sudah memuat BE. Product revision awal e2b33f9; source final0133b16; paket dari capture source tersebut4851cca; rollback78ce98b; locator browser terakhir d493144. Daftar bukti final di bawah harus dibaca bersama batas dan hasil putaran sebelumnya.
