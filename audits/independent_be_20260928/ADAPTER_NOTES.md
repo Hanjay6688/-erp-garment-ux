@@ -34,3 +34,20 @@ No rollback guard or hash will be patched. Subsequent business tests execute
 on the unchanged installed BE only after confirming installation READY and
 its application marker. A failed rollback verdict is retained and cannot
 suppress unrelated business assertions. Official candidate build passed.
+
+## Run 2 fixture corrections
+
+Seven assertions passed. Setup mistakenly assumed prior found-stock lots were
+production comparators; the second receipt correctly required an explicit owner
+value. All independent base lots now explicitly request the same 1,234.57 value,
+with no prior production lot. No product guard is bypassed. Distinct product
+master fixtures also accidentally reused a model/brand/color/size tuple; their
+colors are now different documented synthetic identities (BE-NAVY, EMERALD,
+BE-POCKET). The whole failed master transaction rolled back. Run 2 failures
+are fixture failures, not BE bugs; downstream blocked cases must be rerun.
+
+Historical pocket fixture uses independently documented source amount 116.71,
+seven opening FG at 1,234.57 (8,641.99) and six genuinely sold historical PCS.
+Source allocation increases FG to 8,704.83; 53.87 goes to historical COGS.
+A separate live roll test preserves raw source precision 6.75 × 17.29 and checks
+the native monetary boundary at 116.71. These are separate real source types.

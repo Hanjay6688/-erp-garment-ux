@@ -149,6 +149,10 @@ jobs:
         if: always()
         working-directory: auditor
         run: python audits/independent_be_20260928/flows.py
+      - name: Independent pocket stock and historical cost allocation
+        if: always()
+        working-directory: auditor
+        run: python audits/independent_be_20260928/pocket.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -185,6 +189,7 @@ jobs:
         working-directory: base
         run: supabase stop --workdir cp5-local --no-backup
   source55:
+    if: github.run_number == 1
     runs-on: ubuntu-24.04
     timeout-minutes: 35
     env:

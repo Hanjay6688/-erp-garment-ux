@@ -72,7 +72,7 @@ def setup():
     keys=['MAIN','EMPTY','REV','CHAIN','STALE','RACE','SAME','AUTH','DATE','BAD','UI','UI_MOBILE','SALE','RETURNS','EXTRA']
     for index,key in enumerate(keys):
         p={'source_kind':'FOUND_AT_OPNAME','product_id':C['product'],'location_id':C['fg'],'qty_pcs':13,'physical_at':'2026-09-13T08:00:00+07:00','reason':'Independent found-stock prerequisite '+key}
-        if index==0:p.update(owner_unit_value='1234.57',owner_value_reason='Synthetic explicit owner amount, no prior comparator')
+        p.update(owner_unit_value='1234.57',owner_value_reason='Synthetic explicit owner amount; found-stock lots are not production comparators')
         r=rpc('erp_post_fg_unsourced_receipt_v1',[p,uid()]);eq(D(r['unit_value']),D('1234.57'));eq(D(r['total_value']),D('16049.41'))
         F[key]={'lot':r['lot_id'],'receipt':r['receipt_id'],'original':r}
     return {'sources':F,'no_fake_po':A('select count(*) from erp.production_orders',one=True),'basis':'Real public AX found-stock receipts, before BE conversion; controlled master records only'}

@@ -70,7 +70,7 @@ def new_products():
     with psycopg.connect(s.DSN) as c:
         c.execute("select set_config('app.change_reason','Independent unique source/target master fixtures',true)")
         c.execute("select set_config('request.jwt.claim.sub',%s,true)",(C['owner'],))
-        for key,sku,color in [('redye_product','BE-AUD-REDYE','NAVY'),('redye_target','BE-AUD-EMERALD','EMERALD'),('pocket_product','BE-AUD-POCKET-FG','NAVY')]:
+        for key,sku,color in [('redye_product','BE-AUD-REDYE','BE-NAVY'),('redye_target','BE-AUD-EMERALD','EMERALD'),('pocket_product','BE-AUD-POCKET-FG','BE-POCKET')]:
             ident=uid();C[key]=ident;c.execute("insert into erp.products(id,identity_root_id,sku,model_id,brand_id,color_name,size_id,product_name,effective_from) values(%s,%s,%s,%s,%s,%s,%s,%s,'2026-09-01T08:00:00+07:00')",(ident,ident,sku,C['model'],C['brand'],color,C['s1'],sku))
             c.execute("insert into erp.accessory_bom_versions(product_id,version_label,effective_from,notes,created_by) values(%s,'BE-AUD-NONE','2026-09-01T08:00:00+07:00','Explicit no accessory fixture',%s)",(ident,C['app_owner']))
         C['redye_process']=uid();C['unknown_process']=uid()
@@ -80,7 +80,7 @@ def new_products():
 def redye_sources():
     keys=['KNOWN','UNKNOWN','FREE','LEGACY','CANCEL','BAD','RACE','UI','MOBILE']
     entities=[('OPEN_PO',[{'po_number':'BE-AUD-RD-'+k,'model_code':'AUD-DAY','contractor_code':'AUD-DAY','target_qty_pcs':'9','status':'QC','current_stage':'QC','physical_start_at':'2026-09-02T08:00:00+07:00'} for k in keys]),
-      ('OPENING_BALANCE_ITEM',[{'balance_type':'BS','product_sku':'BE-AUD-REDYE','brand_code':'AUD-brand','model_code':'AUD-DAY','color_name':'NAVY','size_code':'AUD-1','location_code':'AUD-fg','stage':'QC','qty':'9','unit_cost':'1432.19','amount':'12889.71','po_number':'BE-AUD-RD-'+k,'accessory_cost_included':'false','opening_source_key':'BE-AUD-BS-'+k,'control_key':k,'hpp_input_method':'MANUAL'} for k in keys]),
+      ('OPENING_BALANCE_ITEM',[{'balance_type':'BS','product_sku':'BE-AUD-REDYE','brand_code':'AUD-brand','model_code':'AUD-DAY','color_name':'BE-NAVY','size_code':'AUD-1','location_code':'AUD-fg','stage':'QC','qty':'9','unit_cost':'1432.19','amount':'12889.71','po_number':'BE-AUD-RD-'+k,'accessory_cost_included':'false','opening_source_key':'BE-AUD-BS-'+k,'control_key':k,'hpp_input_method':'MANUAL'} for k in keys]),
       ('OPENING_CONTROL',[{'control_key':k,'balance_type':'BS','qty':'9','amount':'12889.71'} for k in keys])]
     before=A('select count(*) from erp.sewing_terminal_events',one=True);b=imported('REDYE-SOURCES',entities)
     eq(A('select count(*) from erp.sewing_terminal_events',one=True),before,'Opening BS cannot fabricate historical sewing')
