@@ -107,6 +107,10 @@ def main() -> None:
         assert package_only["qty"] == 13 and Decimal(package_only["total_known"]) == 156000, package_only
         assert package_extra["qty"] == 13 and Decimal(package_extra["total_known"]) == 161000, package_extra
         assert [ch["kind"] for ch in package_extra["charges"]] == ["PACKAGE", "EXTRA"], package_extra
+        extra_shares = {share["size_id"]: Decimal(share["amount"])
+            for share in package_extra["charges"][1]["shares"]}
+        assert extra_shares == {str(SIZE_M): Decimal("3076.92"),
+                                str(SIZE_L): Decimal("1923.08")}, extra_shares
         duplicate = refuse(cur, "select erp.bd_compute_pricing_v1(%s::jsonb,%s::jsonb)",
             (json.dumps({"vendor_id": str(VENDOR_A), "wash_process_id": str(PROCESS),
               "distribution_batch_id": str(BATCH), "physical_at": "2026-09-26T11:00:00+07:00",
@@ -176,6 +180,7 @@ def main() -> None:
         result = {"status": "FULL_SCHEMA_FUNCTION_PROBES", "candidate": "08065a3b4da71c51ffbbab77f0a6b1ac7e6638ec",
             "pending_default": pending, "pending_invoice_policy": pending_refusal,
             "package_total": package_only["total_known"], "package_plus_extra_total": package_extra["total_known"],
+            "extra_size_shares": {key: str(value) for key, value in extra_shares.items()},
             "package_duplicate_refusal": duplicate, "pending_extra_refusal": pending_extra,
             "cross_vendor_refusal": wrong_vendor, "partial_component_total": b_partial["total_known"],
             "unknown_known_subtotal": b_unknown["total_known"], "unknown_complete": b_unknown["complete"],
