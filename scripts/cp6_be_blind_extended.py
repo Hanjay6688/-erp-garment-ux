@@ -66,10 +66,34 @@ def accessory(cur, day):
     assert state["usable"] == 6 and state["damaged"] == 2 and state["waiting"] == 0
     assert one(cur, "select erp.be_conversion_value_state_v1(%s)", conv) == "PROVISIONAL_RECOVERY"
     assert bd.gl(cur, "OTHER_INCOME") == old_income
+    valuation = {"lot_id": return_lot, "condition": "USABLE", "qty": "2", "unit_value": "1.50",
+                 "location_id": acc["main"],
+                 "physical_at": bc.local_at(f["day"] + timedelta(days=1), 11),
+                 "reason": "Blind sourced value for two recovered usable accessories"}
+    before_recovery = bd.lot_value(cur, dest)
+    try:
+        with cur.connection.transaction():
+            bc.svc(cur, "VALUE_CUSTODY", valuation)
+    except psycopg.Error as error:
+        assert "BC_POLICY_PENDING" in error.diag.message_primary, error.diag.message_primary
+    else:
+        raise AssertionError("Recovery value accepted without owner policy")
+    bc.policy(cur, "ACC_DEC03", {"credit_account_id": bc.account(cur, "4100"),
+                                 "unit_value_cap": "MOVING_AVERAGE"})
+    recovery = bc.svc(cur, "VALUE_CUSTODY", valuation)
+    assert bd.lot_value(cur, dest) - before_recovery == Decimal("-3.00")
+    assert bd.gl(cur, "OTHER_INCOME") == old_income
+    bc.reverse(cur, recovery["document_id"])
+    assert bd.lot_value(cur, dest) == before_recovery
+    assert bd.gl(cur, "OTHER_INCOME") == old_income
+    remainder = one(cur, "select erp.be_return_progress_v1(%s)", conv)
+    assert remainder[0]["unreturned"] == "2.000000" and remainder[0]["awaiting_value"] == "8.000000"
     return {"stock_before": original_stock, "stock_after_new_usage": after_use,
             "new_cost": "12.00", "returned": progress[0],
             "classified": {k: str(state[k]) for k in ("usable", "damaged", "waiting")},
-            "no_synthetic_income": True, "document": item["cost_document_id"]}
+            "no_synthetic_income": True, "document": item["cost_document_id"],
+            "valuation_refused_until_policy": True,
+            "recovery_credit": "3.00", "inverse_recovery_restored": True}
 
 
 def nonpo_conversion(cur, day):
