@@ -25,7 +25,8 @@ begin
   select l.id into v_line from erp.laundry_delivery_lines l where l.delivery_id=(v_response->>'delivery_id')::uuid;
   if not exists(select 1 from erp.bd_laundry_priced_lines_v1 where delivery_line_id=v_line) then
     raise exception 'BD_INTERNAL: harga kiriman tidak tercatat';end if;
-  return v_response||jsonb_build_object('pricing',erp.bd_priced_line_json_v1(v_line));
+  return v_response||jsonb_build_object('estimated_cost',case when (v_computed->>'complete')::boolean
+    then (v_computed->>'total_known')::numeric end,'pricing',erp.bd_priced_line_json_v1(v_line));
 end;$function$;
 
 CREATE OR REPLACE FUNCTION erp.bd_priced_line_json_v1(p_line uuid)
@@ -35,7 +36,10 @@ AS $function$
     'qty_sent',p.qty_sent,'total_known',p.total_known::numeric(18,2)::text,'total_complete',p.total_complete,'policy_versions',p.policy_versions,
     'charges',coalesce((select jsonb_agg(jsonb_build_object('id',c.id,'line_no',c.line_no,'kind',c.kind,'ref_id',c.ref_id,'label',c.label,
         'covered_qty',c.covered_qty,'rate_status',c.rate_status,'unit_rate',c.unit_rate::numeric(18,2)::text,'amount',c.amount::numeric(18,2)::text,
-        'included_components',c.included_components) order by c.line_no) from erp.bd_laundry_charge_lines_v1 c where c.delivery_line_id=p.delivery_line_id),'[]'::jsonb),
+        'included_components',c.included_components,'price_reason',c.price_reason,
+        'coverage',(select jsonb_agg(jsonb_build_object('size_id',s.size_id,'qty',sh.covered_qty) order by s.size_id)
+          from erp.bd_laundry_charge_shares_v1 sh join erp.laundry_delivery_batch_size_lines s on s.id=sh.delivery_batch_size_line_id
+          where sh.charge_line_id=c.id and sh.covered_qty>0)) order by c.line_no) from erp.bd_laundry_charge_lines_v1 c where c.delivery_line_id=p.delivery_line_id),'[]'::jsonb),
     'sizes',coalesce((select jsonb_agg(jsonb_build_object('delivery_batch_size_line_id',e.delivery_batch_size_line_id,'size_id',s.size_id,
         'qty_sent',e.qty_sent,'known_amount',e.known_amount::numeric(18,2)::text,'complete',e.complete) order by s.size_id)
       from erp.bd_laundry_size_estimates_v1 e join erp.laundry_delivery_batch_size_lines s on s.id=e.delivery_batch_size_line_id
@@ -56,6 +60,20 @@ begin
     'APPLY_CLAIM_CREDIT','PAY_VENDOR_DOCUMENT','REVERSE_VENDOR_SETTLEMENT') then
     raise exception 'BD_ACTION_UNKNOWN: aksi laundry % tidak dikenal',v_action;end if;
   perform pg_advisory_xact_lock(hashtextextended('BDREQ:'||p_client_request_id::text,0));
+  -- Recheck live action permissions after waiting for the request lock and BEFORE any cached response.
+  -- Inner commands retain their checks. Replays need the same authority as fresh commands.
+  if v_action='SET_POLICY' then
+    if session_user not in('postgres','supabase_admin') and erp.current_app_role() is distinct from 'OWNER' then
+      raise exception 'BD_OWNER_ONLY: pengaturan kebijakan laundry hanya dapat diubah owner';end if;
+    perform erp.require_permission('settings.erp.manage');
+  elsif v_action='POST_PRICED_DELIVERY' then
+    if erp.current_app_user_id() is null then raise exception 'BD_AUTH_REQUIRED: pengguna ERP aktif diperlukan';end if;
+    perform erp.require_permission('production.laundry.post');perform erp.require_permission('production.laundry.create');
+  elsif v_action in('SAVE_VENDOR_TERMS','SAVE_COMPONENT','SAVE_COMPONENT_RATE','SAVE_PACKAGE','SAVE_PACKAGE_RATE','SAVE_PROCESS_RATE','SAVE_SCOPED_RATE') then
+    perform erp.require_owner_admin();perform erp.require_permission('master.partner.manage');
+  else
+    perform erp.require_owner_admin();perform erp.require_permission('finance.hpp.manage');
+  end if;
   select * into v_prior from erp.bd_requests_v1 where request_id=p_client_request_id;
   if v_prior.request_id is not null then
     if v_prior.action<>v_action or v_prior.payload<>p_payload or v_prior.actor is distinct from erp.current_app_user_id() then
@@ -80,16 +98,91 @@ begin
   return v_result;
 end;$function$;
 
+-- Stable, bounded pages. A continuation names an existing row in the same vendor scope.
+-- The capture cutoff excludes later inserts; current source capacity is always revalidated on write.
+CREATE OR REPLACE FUNCTION erp.bd_invoice_page_v1(p_vendor uuid,p_after uuid,p_as_of timestamptz)
+ RETURNS jsonb LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare v_after_at timestamptz;v_result jsonb;
+begin
+  if p_after is not null then
+    select created_at into v_after_at from erp.bd_laundry_invoices_v1 where id=p_after and (p_vendor is null or vendor_id=p_vendor) and created_at<=p_as_of;
+    if not found then raise exception 'BD_PAGE_INVALID: invoice penanda tidak sesuai filter; muat ulang';end if;
+  end if;
+  with page as materialized (
+    select i.*,v.vendor_code from erp.bd_laundry_invoices_v1 i join erp.laundry_vendors v on v.id=i.vendor_id
+    where (p_vendor is null or i.vendor_id=p_vendor) and i.created_at<=p_as_of
+      and (p_after is null or i.created_at<v_after_at or (i.created_at=v_after_at and i.id>p_after))
+    order by i.created_at desc,i.id limit 51
+  ), numbered as (select p.*,row_number() over(order by p.created_at desc,p.id) n from page p)
+  select jsonb_build_object('items',coalesce((select jsonb_agg(erp.bd_invoice_json_v1(n.id)||jsonb_build_object('vendor_code',n.vendor_code) order by n.n)
+      from numbered n where n.n<=50),'[]'::jsonb),
+    'next_id',case when (select count(*) from page)>50 then (select id from numbered where n=50) end,'limit',50)
+  into v_result;
+  return v_result;
+end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.bd_receipt_page_v1(p_vendor uuid,p_after uuid,p_as_of timestamptz)
+ RETURNS jsonb LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare v_after_at timestamptz;v_result jsonb;
+begin
+  if p_after is not null then
+    select r.physical_at into v_after_at from erp.laundry_receipt_lines rl join erp.laundry_receipts r on r.id=rl.receipt_id
+      join erp.laundry_delivery_lines dl on dl.id=rl.delivery_line_id join erp.laundry_deliveries d on d.id=dl.delivery_id
+    where rl.id=p_after and d.vendor_id=p_vendor and r.created_at<=p_as_of;
+    if not found then raise exception 'BD_PAGE_INVALID: penerimaan penanda tidak sesuai vendor; muat ulang';end if;
+  end if;
+  with page as materialized (
+        select rl.id,r.physical_at at,jsonb_build_object('receipt_line_id',rl.id,'receipt_number',r.receipt_number,'delivery_number',d.delivery_number,
+          'po_number',po.po_number,'received_local',to_char(r.physical_at at time zone 'Asia/Jakarta','YYYY-MM-DD"T"HH24:MI:SS'),
+          'failed_attempt',a.id is not null,'estimate',rl.actual_cost::numeric(18,2)::text,'released',erp.bd_released_estimate_v1(rl.id)::numeric(18,2)::text,
+          'price_known',erp.bd_line_complete_v1(rl.delivery_line_id),
+          'capacity',jsonb_build_object('GOOD',erp.bd_invoice_capacity_v1(rl.id,'GOOD'),'BS',erp.bd_invoice_capacity_v1(rl.id,'BS'),
+            'FAILED_ATTEMPT',erp.bd_invoice_capacity_v1(rl.id,'FAILED_ATTEMPT')),
+          'billed',jsonb_build_object('GOOD',erp.bd_invoice_billed_v1(rl.id,'GOOD'),'BS',erp.bd_invoice_billed_v1(rl.id,'BS'),
+            'FAILED_ATTEMPT',erp.bd_invoice_billed_v1(rl.id,'FAILED_ATTEMPT'))) j
+        from erp.laundry_receipt_lines rl join erp.laundry_receipts r on r.id=rl.receipt_id and r.status='POSTED'
+        join erp.laundry_delivery_lines dl on dl.id=rl.delivery_line_id join erp.laundry_deliveries d on d.id=dl.delivery_id
+        join erp.production_orders po on po.id=d.po_id left join erp.laundry_failed_wash_attempts a on a.receipt_line_id=rl.id
+        where d.vendor_id=p_vendor and rl.actual_cost_status='ESTIMATED' and rl.actual_cost is not null and not erp.bd_receipt_invoiced_v1(rl.id)
+        and r.created_at<=p_as_of
+        and (p_after is null or r.physical_at<v_after_at or (r.physical_at=v_after_at and rl.id>p_after))
+        order by r.physical_at desc,rl.id limit 201
+  ), numbered as (select p.*,row_number() over(order by p.at desc,p.id) n from page p)
+  select jsonb_build_object('items',coalesce((select jsonb_agg(n.j order by n.n) from numbered n where n.n<=200),'[]'::jsonb),
+    'next_id',case when (select count(*) from page)>200 then (select id from numbered where n=200) end,'limit',200)
+  into v_result;
+  return v_result;
+end;$function$;
+
 -- Reader: policies, master (terms, components with the current price, packages, process and scoped rates) and priced deliveries.
 CREATE OR REPLACE FUNCTION erp.get_laundry_bd_workspace_v1(p_filters jsonb)
  RETURNS jsonb LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO ''
 AS $function$
-declare v_vendor uuid;v_now timestamptz:=statement_timestamp();v_money boolean;
+declare v_vendor uuid;v_now timestamptz:=statement_timestamp();v_money boolean;v_as_of timestamptz:=statement_timestamp();
+  v_invoice_page jsonb;v_receipt_page jsonb;v_invoice_after uuid;v_receipt_after uuid;
 begin
   perform erp.require_permission('production.laundry.view');
   if jsonb_typeof(coalesce(p_filters,'{}'::jsonb)) is distinct from 'object' then raise exception 'BD_FILTER_INVALID: filter wajib objek';end if;
   v_vendor:=erp.bd_uuid_v1(coalesce(p_filters,'{}'::jsonb),'vendor_id',false);
   v_money:=erp.has_permission('finance.hpp.view') or erp.has_permission('finance.hpp.manage');
+  perform erp._cp3_assert_closed_json_object(coalesce(p_filters,'{}'::jsonb),array[]::text[],
+    array['vendor_id','invoice_after','receipt_after','page_as_of'],'BD workspace filter');
+  v_invoice_after:=erp.bd_uuid_v1(p_filters,'invoice_after',false);v_receipt_after:=erp.bd_uuid_v1(p_filters,'receipt_after',false);
+  if p_filters ? 'page_as_of' then
+    if jsonb_typeof(p_filters->'page_as_of') is distinct from 'string' or length(p_filters->>'page_as_of')>40
+       or p_filters->>'page_as_of'!~'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})$' then
+      raise exception 'BD_PAGE_INVALID: waktu daftar tidak valid';end if;
+    v_as_of:=(p_filters->>'page_as_of')::timestamptz;
+    if v_as_of>v_now then raise exception 'BD_PAGE_INVALID: waktu daftar di masa depan';end if;
+  elsif v_invoice_after is not null or v_receipt_after is not null then
+    raise exception 'BD_PAGE_INVALID: kelanjutan memerlukan waktu daftar asal';
+  end if;
+  if v_money then
+    v_invoice_page:=erp.bd_invoice_page_v1(v_vendor,v_invoice_after,v_as_of);
+    if v_vendor is not null then v_receipt_page:=erp.bd_receipt_page_v1(v_vendor,v_receipt_after,v_as_of);end if;
+  end if;
   return jsonb_build_object(
     'filters',coalesce(p_filters,'{}'::jsonb),'money_visible',v_money,
     'can_manage_master',erp.current_app_role() in('OWNER','ADMIN') and erp.has_permission('master.partner.manage'),
@@ -107,7 +200,7 @@ begin
       from erp.wash_processes w where w.is_active),'[]'::jsonb),
     'components',coalesce((select jsonb_agg(jsonb_build_object('id',c.id,'vendor_id',c.vendor_id,'code',c.component_code,'name',c.component_name,
         'is_active',c.is_active,'current',(select jsonb_build_object('status',r.rate_status,'rate',case when v_money then r.rate_per_pcs::numeric(18,2)::text end,
-          'from',to_char(r.effective_from at time zone 'Asia/Jakarta','YYYY-MM-DD"T"HH24:MI:SS'))
+          'reason',r.reason,'version_id',r.id,'from',to_char(r.effective_from at time zone 'Asia/Jakarta','YYYY-MM-DD"T"HH24:MI:SS'))
           from erp.bd_laundry_component_rates_v1 r where r.component_id=c.id and r.effective_from<=v_now and (r.effective_to is null or r.effective_to>v_now)))
         order by c.component_name,c.id)
       from erp.bd_laundry_components_v1 c where v_vendor is null or c.vendor_id=v_vendor),'[]'::jsonb),
@@ -143,23 +236,10 @@ begin
       from erp.bd_opening_laundry_uninvoiced_v1 u join erp.laundry_vendors v on v.id=u.vendor_id where v_vendor is null or u.vendor_id=v_vendor),'[]'::jsonb),
     -- Money readers only (null otherwise: hidden, never empty): the latest invoices and, for one vendor, the receipt lines it
     -- can still bill (capacity and billed quantity per category), and the accounts the owner may pick in LAU-DEC03/06.
-    'invoices',case when v_money then coalesce((select jsonb_agg(erp.bd_invoice_json_v1(i.id)||jsonb_build_object('vendor_code',v.vendor_code) order by i.created_at desc,i.id)
-        from (select * from erp.bd_laundry_invoices_v1 x where v_vendor is null or x.vendor_id=v_vendor order by x.created_at desc,x.id limit 50) i
-        join erp.laundry_vendors v on v.id=i.vendor_id),'[]'::jsonb) end,
-    'billable_receipts',case when v_money and v_vendor is not null then coalesce((select jsonb_agg(x.j order by x.at desc,x.id) from (
-        select rl.id,r.physical_at at,jsonb_build_object('receipt_line_id',rl.id,'receipt_number',r.receipt_number,'delivery_number',d.delivery_number,
-          'po_number',po.po_number,'received_local',to_char(r.physical_at at time zone 'Asia/Jakarta','YYYY-MM-DD"T"HH24:MI:SS'),
-          'failed_attempt',a.id is not null,'estimate',rl.actual_cost::numeric(18,2)::text,'released',erp.bd_released_estimate_v1(rl.id)::numeric(18,2)::text,
-          'price_known',erp.bd_line_complete_v1(rl.delivery_line_id),
-          'capacity',jsonb_build_object('GOOD',erp.bd_invoice_capacity_v1(rl.id,'GOOD'),'BS',erp.bd_invoice_capacity_v1(rl.id,'BS'),
-            'FAILED_ATTEMPT',erp.bd_invoice_capacity_v1(rl.id,'FAILED_ATTEMPT')),
-          'billed',jsonb_build_object('GOOD',erp.bd_invoice_billed_v1(rl.id,'GOOD'),'BS',erp.bd_invoice_billed_v1(rl.id,'BS'),
-            'FAILED_ATTEMPT',erp.bd_invoice_billed_v1(rl.id,'FAILED_ATTEMPT'))) j
-        from erp.laundry_receipt_lines rl join erp.laundry_receipts r on r.id=rl.receipt_id and r.status='POSTED'
-        join erp.laundry_delivery_lines dl on dl.id=rl.delivery_line_id join erp.laundry_deliveries d on d.id=dl.delivery_id
-        join erp.production_orders po on po.id=d.po_id left join erp.laundry_failed_wash_attempts a on a.receipt_line_id=rl.id
-        where d.vendor_id=v_vendor and rl.actual_cost_status='ESTIMATED' and rl.actual_cost is not null and not erp.bd_receipt_invoiced_v1(rl.id)
-        order by r.physical_at desc,rl.id limit 200) x),'[]'::jsonb) end,
+    'invoices',case when v_money then v_invoice_page->'items' end,
+    'billable_receipts',case when v_money and v_vendor is not null then v_receipt_page->'items' end,
+    'pagination',jsonb_build_object('as_of',to_char(v_as_of at time zone 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"'),
+      'invoice_next',v_invoice_page->'next_id','receipt_next',v_receipt_page->'next_id'),
     'accounts',case when v_money then coalesce((select jsonb_agg(jsonb_build_object('id',a.id,'code',a.account_code,'name',a.account_name,'type',a.account_type)
         order by a.account_code) from erp.chart_accounts a where a.is_active and a.is_postable and a.account_type in('ASSET','EXPENSE')),'[]'::jsonb) end,
     -- D12: the payment screen of one vendor (money readers only): documents with cash, claim credit and remaining, claim credits,

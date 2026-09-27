@@ -1,0 +1,31 @@
+# BD — revisi sesudah audit independen, 28 September 2026 WIB
+
+Mandat owner: revisi seluruh temuan pada handoff gabungan terbaru. Writer tetap tunggal pada `claude/new-session-deapao`; baseline revisi `2c2fd5e8e0df5f8ada44402c93f70dbaf0fbbb5b`, sudah memuat BE. Kandidat yang diaudit `08065a3b4da71c51ffbbab77f0a6b1ac7e6638ec`. Auditor independen menguji ulang sebelum temuan ditutup. CP6 HOLD; production_go=false. CP7 belum diimplementasikan.
+
+Sumber intake: `Handoff_Writer_BD_20260927.md`, versi 1, diperbarui 2026-09-27T18:51:39.999901Z; audit `507931ddf31aed44f449176646e3a44dc0481ec2`, run36341741346. Penelitian silang dalam handoff tetap dibedakan dari kasus awal buta. Branch audit tidak menjadi target penulisan. Tidak ada mutasi hosted/UAT/legacy atau deployment.
+
+## Kontrak perbaikan dan expected sebelum kode
+
+| ID | Perubahan | Expected dan kontrol |
+|---|---|---|
+| X-01 | Coverage jasa mengikat ukuran sumber dan qty yang benar-benar dilayani; snapshot coverage dipertahankan saat harga UNKNOWN diisi | Kirim7+6 PCS: wash13×4321.09=56174.17, finish5×678.91=3394.55 hanya pada ukuran kedua. Laundry ukuran pertama30247.63; kedua29321.09; total59568.72. Dengan labor700/600: HPP30947.63/29921.09. Coverage hilang pada beberapa ukuran, berlebih, duplicate/asing ditolak atomik; partial receipt, QC, sale/return dan resync tetap conserve. |
+| X-02 | Bobot uang untuk pembagian diskon tidak dibatasi integer32 | 21474836.47/48 dan28123456.78 dapat diposting tepat pada source sah; diskon multi-line/residual tepat; source capacity/atomicity tetap. |
+| X-03 | Otorisasi aksi terbaru sebelum cache/replay pada seluruh facade BD | Request sah/replay satu efek; revoke menolak fresh maupun replay tanpa nominal; restore memungkinkan replay sah tanpa write ulang; request berbeda payload/aktor tetap ditolak. |
+| X-04 | Input extra paket dengan coverage per ukuran dan alasan | Paket+extra sah mengirim payload tepat; included component tidak ditagih lagi; kebijakan extra tetap wajib; form tidak hilang saat error/refetch. |
+| X-05 | Semua invoice dan receipt yang sah dapat dijangkau lewat paging/search | 55 invoice dan201 receipt dapat diambil/dipilih, tanpa duplikasi/hilang; filter vendor dan otorisasi tetap; draft yang sedang diedit tidak dibuang saat pindah halaman. |
+| X-06 | Jalur tarif celup konsisten dengan extension BE | Verifikasi runtime BD+BE dan pemanggilan facade yang benar; BD-only tetap tidak mengaku mempunyai BE. |
+| X-07 | Build resmi dan ownership | Jalankan gate resmi tanpa melewati security; enam ownership BE sudah pernah diperbaiki pada baseline, buktikan status aktual dahulu. |
+| OWN-01 | Respons estimated_cost mengikuti jumlah exact snapshot | 13 PCS memberi59568.72, bukan59568.73; ledger yang sudah tepat tidak diubah. |
+| OWN-02 | Konfigurasi eksplisit FREE/WAIVED untuk komponen, serta penyelesaian harga UNKNOWN dengan alasan sah | Gratis/waiver0 berbeda dari UNKNOWN/null; KNOWN0 tetap ditolak; versi/scope/actor/reason tersimpan; tidak membuat payable atau biaya fiktif. Operator tanpa izin ditolak; snapshot historis dan free rewash legacy terjaga. Ini gap acceptance yang disediakan writer, belum temuan tertutup. |
+
+## Urutan dan bukti
+
+1. Simpan intake/expected dan cek baseline; cek official build serta seam BE sebelum atribusi.
+2. Perbaiki satu keluarga coverage/price, integer uang, dan auth; bentuk probe native dari expected di atas sebelum menjalankannya.
+3. Sambungkan UI coverage/extra/free dan paging; parser fail-closed; tes browser/Auth serta kontrol negatif.
+4. T1 keluarga pada disposable runtime yang dipin, lalu regresi BD+BE terdampak. Kandidat rilis/paket/rollback dikualifikasi setelah source stabil, sesuai A+B.
+5. Serahkan exact SHA, per-case results, kegagalan lama, source dependencies dan batas bukti. Writer tidak menutup temuan auditor atau memberi production GO.
+
+Coverage per ukuran adalah aggregate qty jasa pada source batch/size yang sama, bukan serial per PCS. Partial receipt mengambil bagian dari biaya ukuran itu dengan residual terakhir, mengikuti mekanisme existing yang diuji; ukuran tanpa jasa tidak mendapat alokasi. Tidak menebak penerima saat input parsial ambigu.
+
+Setiap push asing pada writer branch menghentikan penulisan dan dilaporkan. Branch yang tidak bergerak hanya membuktikan belum ada push terlihat, bukan editor lain pasti berhenti.

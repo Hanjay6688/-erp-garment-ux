@@ -126,6 +126,7 @@ const beRpcBoundaries = [
   'src/ConnectedProductConversionPage.tsx:erp_get_accessory_service_workspace_v1',
   'src/ConnectedProductConversionPage.tsx:erp_get_product_conversion_workspace_v1',
   'src/ConnectedProductConversionPage.tsx:erp_save_product_conversion_action_v1',
+  'src/LaundryBdPanel.tsx:erp_save_product_conversion_action_v1',
 ]
 for (const boundary of beRpcBoundaries) assert.ok(rpcBoundaries.has(boundary), `Missing BE RPC ownership: ${boundary}`)
 assert.equal(rpcBoundaries.size, evidence.counts.browser_rpc_boundaries + 15 + beRpcBoundaries.length)

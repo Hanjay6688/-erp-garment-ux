@@ -1703,6 +1703,8 @@ PLAN=[('POLICY:LAU_DEC_SETTINGS_OWNER_VERSIONED_PENDING','NO_ROUTE',policy_setti
       ('D12:CLAIM_CREDIT_OPENING_OLDER_PAYABLE','NO_ROUTE',d12_opening),
       ('DEC06:CORRECTION_DOCUMENT_UP_AND_DOWN','NO_ROUTE',dec06_correction_up_down),
       ('DEC06:CORRECTION_DOWN_SETTLES_ORIGIN_THEN_OLDER','NO_ROUTE',dec06_correction_down_settles)]
+from cp6_bd_revision_cases import revision_plan
+PLAN.extend(revision_plan(sys.modules[__name__]))
 assert len({k for k,_,_ in PLAN})==len(PLAN),'BD_DUPLICATE_CASE_ID'
 
 

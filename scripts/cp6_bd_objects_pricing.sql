@@ -31,7 +31,8 @@ create table erp.bd_laundry_charge_lines_v1(
   version_id uuid,
   label text not null,
   covered_qty integer not null check(covered_qty>0),
-  rate_status text not null check(rate_status in('KNOWN','UNKNOWN')),
+  rate_status text not null check(rate_status in('KNOWN','UNKNOWN','FREE','WAIVED')),
+  price_reason text,
   unit_rate numeric(18,2) check(unit_rate>=0),
   amount numeric(18,2) check(amount>=0),
   included_components jsonb,
@@ -40,12 +41,14 @@ create table erp.bd_laundry_charge_lines_v1(
   price_set_request uuid,
   price_set_reason text,
   unique(delivery_line_id,line_no),
-  check((rate_status='KNOWN')=(amount is not null))
+  check((rate_status<>'UNKNOWN')=(amount is not null)),
+  check(rate_status not in('FREE','WAIVED') or (unit_rate is not null and unit_rate=0 and amount=0 and price_reason is not null and length(btrim(price_reason))>0))
 );
 create table erp.bd_laundry_charge_shares_v1(
   charge_line_id uuid not null references erp.bd_laundry_charge_lines_v1(id),
   delivery_batch_size_line_id uuid not null references erp.laundry_delivery_batch_size_lines(id),
   amount numeric(18,2) check(amount>=0),
+  covered_qty integer not null check(covered_qty>=0),
   primary key(charge_line_id,delivery_batch_size_line_id)
 );
 create table erp.bd_laundry_size_estimates_v1(
@@ -86,6 +89,34 @@ begin
   end loop;
   for i in 1..array_length(v_base,1) loop v_parts:=v_parts||(v_base[i]::numeric/100);end loop;
   return v_parts;
+end;$function$;
+
+-- Monetary weights are NUMERIC, not int32 cents. Used by invoice discount allocation.
+CREATE OR REPLACE FUNCTION erp.bd_split_money_v1(p_amount numeric,p_weights numeric[])
+ RETURNS numeric[] LANGUAGE plpgsql IMMUTABLE SET search_path TO ''
+AS $function$
+declare v_total numeric:=0;v_cents numeric:=round(p_amount*100);v_base numeric[]:='{}';v_frac numeric[]:='{}';
+  v_result numeric[]:='{}';v_left numeric;w numeric;i integer;j integer;v_best integer;v_part numeric;
+begin
+  if p_amount is null or p_amount<0 or p_amount::text in('NaN','Infinity','-Infinity') or coalesce(cardinality(p_weights),0)=0 then
+    raise exception 'BD_INTERNAL: nominal dan bobot uang tidak valid';end if;
+  foreach w in array p_weights loop
+    if w is null or w<0 or w::text in('NaN','Infinity','-Infinity') then raise exception 'BD_INTERNAL: bobot uang tidak valid';end if;
+    v_total:=v_total+w;
+  end loop;
+  if v_total<=0 then raise exception 'BD_INTERNAL: bobot uang kosong';end if;
+  for i in 1..cardinality(p_weights) loop
+    v_part:=v_cents*p_weights[i]/v_total;
+    v_base:=v_base||floor(v_part);v_frac:=v_frac||(v_part-floor(v_part));
+  end loop;
+  select v_cents-sum(x) into v_left from unnest(v_base) x;
+  while v_left>0 loop
+    v_best:=1;
+    for j in 2..cardinality(v_frac) loop if v_frac[j]>v_frac[v_best] then v_best:=j;end if;end loop;
+    v_base[v_best]:=v_base[v_best]+1;v_frac[v_best]:=-1;v_left:=v_left-1;
+  end loop;
+  for i in 1..cardinality(v_base) loop v_result:=v_result||(v_base[i]/100);end loop;
+  return v_result;
 end;$function$;
 
 -- Does this vendor/process need BD pricing (so a direct POST_DELIVERY at the base rate would misprice it)?
@@ -170,7 +201,7 @@ begin
     if p_pricing ? 'extras' and jsonb_typeof(p_pricing->'extras')<>'null' then
       if jsonb_typeof(p_pricing->'extras')<>'array' or jsonb_array_length(p_pricing->'extras')>30 then raise exception 'BD_PRICING_INVALID: extras wajib daftar';end if;
       for v_x in select value from jsonb_array_elements(p_pricing->'extras') loop
-        perform erp._cp3_assert_closed_json_object(v_x,array['component_id','covered_qty','reason'],array['component_id','covered_qty','reason'],'extra component');
+        perform erp._cp3_assert_closed_json_object(v_x,array['component_id','covered_qty','reason'],array['component_id','covered_qty','coverage','reason'],'extra component');
         if erp.bd_uuid_v1(v_x,'component_id',true)=any(v_included) then
           raise exception 'BD_COMPONENT_ALREADY_INCLUDED: komponen ini sudah termasuk dalam paket; biaya untuk cakupan yang sama tidak ditagih dua kali';end if;
         v_dec03:=erp.bd_require_policy_v1('LAU_DEC03','komponen tambahan di luar paket');
@@ -187,7 +218,7 @@ begin
     if jsonb_typeof(p_pricing->'components') is distinct from 'array' or jsonb_array_length(p_pricing->'components') not between 1 and 30 then
       raise exception 'BD_PRICING_INVALID: pilih 1-30 komponen';end if;
     for v_x in select value from jsonb_array_elements(p_pricing->'components') loop
-      perform erp._cp3_assert_closed_json_object(v_x,array['component_id','covered_qty'],array['component_id','covered_qty'],'component');
+      perform erp._cp3_assert_closed_json_object(v_x,array['component_id','covered_qty'],array['component_id','covered_qty','coverage'],'component');
       v_charges:=v_charges||erp.bd_component_charge_v1(v_vendor,v_x,v_at,v_sizeids,v_qtys,v_total_qty,'COMPONENT',v_seen);
       v_seen:=v_seen||erp.bd_uuid_v1(v_x,'component_id',true);
     end loop;
@@ -197,7 +228,7 @@ begin
   if v_mode in('PACKAGE','COMPONENTS') then
     v_known:=0;
     for v_line in select value from jsonb_array_elements(v_charges) loop
-      if v_line->>'rate_status'='KNOWN' then v_known:=v_known+(v_line->>'amount')::numeric;else v_complete:=false;end if;
+      if v_line->>'rate_status'<>'UNKNOWN' then v_known:=v_known+(v_line->>'amount')::numeric;else v_complete:=false;end if;
     end loop;
   end if;
   if t.minimum_charge is not null then
@@ -225,21 +256,48 @@ CREATE OR REPLACE FUNCTION erp.bd_component_charge_v1(p_vendor uuid,p_line jsonb
  RETURNS jsonb LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO ''
 AS $function$
 declare v_id uuid:=erp.bd_uuid_v1(p_line,'component_id',true);v_cov integer:=erp.bd_qty_v1(p_line->'covered_qty','covered_qty');c record;r record;
-  v_amount numeric;v_split numeric[];v_shares jsonb:='[]'::jsonb;i integer;
+  v_amount numeric;v_shares jsonb:='[]'::jsonb;i integer;v_weights integer[];v_x jsonb;v_size uuid;v_index integer;
+  v_seen_sizes uuid[]:='{}';v_sum bigint:=0;v_qty integer;v_price_reason text;
 begin
   if v_id=any(p_seen) then raise exception 'BD_COMPONENT_DUPLICATE: komponen yang sama dipilih dua kali untuk kiriman ini';end if;
   select * into c from erp.bd_laundry_components_v1 where id=v_id and vendor_id=p_vendor and is_active;
   if c.id is null then raise exception 'BD_COMPONENT_UNKNOWN: komponen aktif vendor ini wajib dipilih';end if;
   if v_cov>p_total then raise exception 'BD_COVERAGE_EXCEEDS_DELIVERY: cakupan % PCS melebihi kiriman % PCS',v_cov,p_total;end if;
-  select * into r from erp.bd_component_rate_at_v1(v_id,p_at);
-  if r.rate_status='KNOWN' then
-    v_amount:=round(v_cov*r.rate_per_pcs,2);v_split:=erp.bd_split_amount_v1(v_amount,p_qtys);
-    for i in 1..array_length(p_sizes,1) loop v_shares:=v_shares||jsonb_build_object('size_id',p_sizes[i],'amount',v_split[i]::text);end loop;
+  if cardinality(p_sizes)<>cardinality(p_qtys) or cardinality(p_sizes)=0
+     or (select count(distinct x) from unnest(p_sizes) x)<>cardinality(p_sizes) then
+    raise exception 'BD_COVERAGE_INVALID: ukuran kiriman harus unik dan lengkap';end if;
+  v_weights:=array_fill(0,array[cardinality(p_sizes)]);
+  if p_line ? 'coverage' then
+    if jsonb_typeof(p_line->'coverage') is distinct from 'array' or jsonb_array_length(p_line->'coverage') not between 1 and cardinality(p_sizes) then
+      raise exception 'BD_COVERAGE_INVALID: coverage wajib daftar ukuran penerima jasa';end if;
+    for v_x in select value from jsonb_array_elements(p_line->'coverage') loop
+      perform erp._cp3_assert_closed_json_object(v_x,array['size_id','qty'],array['size_id','qty'],'component coverage');
+      v_size:=erp.bd_uuid_v1(v_x,'size_id',true);v_qty:=erp.bd_qty_v1(v_x->'qty','coverage qty');
+      v_index:=array_position(p_sizes,v_size);
+      if v_index is null or v_size=any(v_seen_sizes) or v_qty>p_qtys[v_index] then
+        raise exception 'BD_COVERAGE_INVALID: ukuran asing/ganda atau qty jasa melebihi ukuran kiriman';end if;
+      v_weights[v_index]:=v_qty;v_sum:=v_sum+v_qty;v_seen_sizes:=v_seen_sizes||v_size;
+    end loop;
+    if v_sum<>v_cov then raise exception 'BD_COVERAGE_MISMATCH: jumlah coverage harus sama dengan covered_qty';end if;
+  elsif v_cov=p_total then
+    v_weights:=p_qtys;
+  elsif cardinality(p_sizes)=1 then
+    -- A single source size is unambiguous, including legacy single-size callers.
+    v_weights[1]:=v_cov;
   else
-    for i in 1..array_length(p_sizes,1) loop v_shares:=v_shares||jsonb_build_object('size_id',p_sizes[i],'amount',null);end loop;
+    raise exception 'BD_COVERAGE_REQUIRED: jasa parsial pada beberapa ukuran wajib menyebut ukuran dan qty penerimanya';
   end if;
+  if p_kind='EXTRA' then perform erp.bc_text_v1(p_line,'reason',true,1000);end if;
+  select * into r from erp.bd_component_rate_at_v1(v_id,p_at);
+  select reason into v_price_reason from erp.bd_laundry_component_rates_v1 where id=r.version_id;
+  if r.rate_status<>'UNKNOWN' then v_amount:=round(v_cov*r.rate_per_pcs,2);end if;
+  for i in 1..cardinality(p_sizes) loop
+    -- A size receiving no service has a known zero share even when the service price is unknown.
+    v_shares:=v_shares||jsonb_build_object('size_id',p_sizes[i],'covered_qty',v_weights[i],
+      'amount',case when v_weights[i]=0 then '0.00' when r.rate_status<>'UNKNOWN' then round(v_weights[i]*r.rate_per_pcs,2)::text end);
+  end loop;
   return jsonb_build_object('kind',p_kind,'ref_id',v_id,'version_id',r.version_id,'label',c.component_name,'covered_qty',v_cov,
-    'rate_status',r.rate_status,'unit_rate',r.rate_per_pcs::text,'amount',v_amount::text,'shares',v_shares,
+    'rate_status',r.rate_status,'unit_rate',r.rate_per_pcs::text,'amount',v_amount::text,'shares',v_shares,'price_reason',v_price_reason,
     'reason',nullif(btrim(coalesce(p_line->>'reason','')),''));
 end;$function$;
 
@@ -260,14 +318,16 @@ begin
     p->'policy_versions',c.request_id);
   for v_ch in select value from jsonb_array_elements(p->'charges') loop
     v_no:=v_no+1;
-    insert into erp.bd_laundry_charge_lines_v1(delivery_line_id,line_no,kind,ref_id,version_id,label,covered_qty,rate_status,unit_rate,amount,included_components)
+    insert into erp.bd_laundry_charge_lines_v1(delivery_line_id,line_no,kind,ref_id,version_id,label,covered_qty,rate_status,unit_rate,amount,included_components,price_reason)
     values(l.id,v_no,v_ch->>'kind',(v_ch->>'ref_id')::uuid,(v_ch->>'version_id')::uuid,v_ch->>'label',(v_ch->>'covered_qty')::integer,v_ch->>'rate_status',
-      (v_ch->>'unit_rate')::numeric,(v_ch->>'amount')::numeric,v_ch->'included_components')
+      (v_ch->>'unit_rate')::numeric,(v_ch->>'amount')::numeric,v_ch->'included_components',v_ch->>'price_reason')
     returning id into v_charge;
     for v_sh in select value from jsonb_array_elements(v_ch->'shares') loop
       select s.id into v_size from erp.laundry_delivery_batch_size_lines s where s.delivery_line_id=l.id and s.size_id=(v_sh->>'size_id')::uuid;
       if v_size is null then raise exception 'BD_INTERNAL: ukuran harga tidak ada pada kiriman';end if;
-      insert into erp.bd_laundry_charge_shares_v1(charge_line_id,delivery_batch_size_line_id,amount) values(v_charge,v_size,(v_sh->>'amount')::numeric);
+      insert into erp.bd_laundry_charge_shares_v1(charge_line_id,delivery_batch_size_line_id,amount,covered_qty)
+      values(v_charge,v_size,(v_sh->>'amount')::numeric,coalesce((v_sh->>'covered_qty')::integer,
+        (select qty_sent_pcs from erp.laundry_delivery_batch_size_lines where id=v_size)));
     end loop;
   end loop;
   perform erp.bd_refresh_size_estimates_v1(l.id);
@@ -343,11 +403,11 @@ CREATE OR REPLACE FUNCTION erp.bd_set_charge_price_v1(p_payload jsonb,p_request 
  RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
 AS $function$
 declare ch erp.bd_laundry_charge_lines_v1%rowtype;v_rate numeric;v_amount numeric;v_split numeric[];v_ids uuid[];v_qtys integer[];i integer;
-  p erp.bd_laundry_priced_lines_v1%rowtype;v_reason text:=nullif(btrim(p_payload->>'reason'),'');r record;
+  p erp.bd_laundry_priced_lines_v1%rowtype;v_reason text:=nullif(btrim(p_payload->>'reason'),'');r record;v_status text:=coalesce(p_payload->>'rate_status','KNOWN');
 begin
   perform erp.require_owner_admin();perform erp.require_permission('finance.hpp.manage');
-  perform erp._cp3_assert_closed_json_object(p_payload,array['charge_line_id','rate_per_pcs','reason'],array['charge_line_id','rate_per_pcs','reason'],'charge price');
-  if v_reason is null then raise exception 'BD_REASON_REQUIRED: alasan wajib diisi';end if;
+  perform erp._cp3_assert_closed_json_object(p_payload,array['charge_line_id','rate_per_pcs','reason'],array['charge_line_id','rate_per_pcs','rate_status','reason'],'charge price');
+  if v_reason is null or length(v_reason)>1000 then raise exception 'BD_REASON_REQUIRED: alasan wajib diisi, maksimal 1000 karakter';end if;
   select * into ch from erp.bd_laundry_charge_lines_v1 where id=erp.bd_uuid_v1(p_payload,'charge_line_id',true) for update;
   if ch.id is null then raise exception 'BD_CHARGE_UNKNOWN: baris harga tidak dikenal';end if;
   if ch.rate_status<>'UNKNOWN' then raise exception 'BD_PRICE_ALREADY_KNOWN: harga baris ini sudah diketahui; snapshot tidak ditimpa';end if;
@@ -358,12 +418,16 @@ begin
   if exists(select 1 from erp.laundry_receipt_lines rl join erp.laundry_receipts rh on rh.id=rl.receipt_id and rh.status='POSTED'
             where rl.delivery_line_id=ch.delivery_line_id and rl.actual_cost_status='FINAL') then
     raise exception 'BD_ALREADY_INVOICED: kiriman sudah ditagih vendor';end if;
-  v_rate:=erp.bd_amount_v1(p_payload->'rate_per_pcs','rate_per_pcs',true);
+  if v_status not in('KNOWN','FREE','WAIVED') then raise exception 'BD_RATE_STATUS: penyelesaian harga harus KNOWN, FREE atau WAIVED';end if;
+  v_rate:=erp.bd_amount_v1(p_payload->'rate_per_pcs','rate_per_pcs',v_status='KNOWN');
+  if v_status in('FREE','WAIVED') and v_rate<>0 then raise exception 'BD_FREE_REQUIRES_ZERO: FREE/WAIVED wajib nominal 0.00';end if;
   v_amount:=round(ch.covered_qty*v_rate,2);
-  select array_agg(s.id order by s.id),array_agg(s.qty_sent_pcs order by s.id) into v_ids,v_qtys
-  from erp.laundry_delivery_batch_size_lines s where s.delivery_line_id=ch.delivery_line_id;
+  select array_agg(s.delivery_batch_size_line_id order by s.delivery_batch_size_line_id),array_agg(s.covered_qty order by s.delivery_batch_size_line_id)
+  into v_ids,v_qtys from erp.bd_laundry_charge_shares_v1 s where s.charge_line_id=ch.id;
+  if (select sum(x) from unnest(v_qtys) x) is distinct from ch.covered_qty::bigint then
+    raise exception 'BD_COVERAGE_MISMATCH: snapshot penerima jasa tidak lengkap';end if;
   v_split:=erp.bd_split_amount_v1(v_amount,v_qtys);
-  update erp.bd_laundry_charge_lines_v1 set rate_status='KNOWN',unit_rate=v_rate,amount=v_amount,price_set_by=erp.current_app_user_id(),
+  update erp.bd_laundry_charge_lines_v1 set rate_status=v_status,unit_rate=v_rate,amount=v_amount,price_reason=v_reason,price_set_by=erp.current_app_user_id(),
     price_set_at=statement_timestamp(),price_set_request=p_request,price_set_reason=v_reason where id=ch.id;
   for i in 1..array_length(v_ids,1) loop
     update erp.bd_laundry_charge_shares_v1 set amount=v_split[i] where charge_line_id=ch.id and delivery_batch_size_line_id=v_ids[i];

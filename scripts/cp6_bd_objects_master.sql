@@ -30,14 +30,15 @@ create unique index bd_laundry_components_v1_code on erp.bd_laundry_components_v
 create table erp.bd_laundry_component_rates_v1(
   id uuid primary key default gen_random_uuid(),
   component_id uuid not null references erp.bd_laundry_components_v1(id),
-  rate_status text not null check(rate_status in('KNOWN','UNKNOWN')),
+  rate_status text not null check(rate_status in('KNOWN','UNKNOWN','FREE','WAIVED')),
   rate_per_pcs numeric(18,2) check(rate_per_pcs>=0),
   effective_from timestamptz not null,
   effective_to timestamptz,
   reason text not null check(length(btrim(reason))>0),
   created_by uuid,
   created_at timestamptz not null default statement_timestamp(),
-  check((rate_status='KNOWN')=(rate_per_pcs is not null)),
+  check((rate_status='UNKNOWN' and rate_per_pcs is null) or (rate_status='KNOWN' and rate_per_pcs is not null and rate_per_pcs>0)
+     or (rate_status in('FREE','WAIVED') and rate_per_pcs is not null and rate_per_pcs=0)),
   check(effective_to is null or effective_to>effective_from)
 );
 comment on table erp.bd_laundry_component_rates_v1 is 'BD: component price versions. UNKNOWN is an explicit, attributed unknown price (LAU-T12), never zero; a missing version is an error, not unknown (LAU-T13).';
@@ -252,8 +253,12 @@ begin
     select vendor_id into v_vendor from erp.bd_laundry_components_v1 where id=v_id and is_active for update;
     if v_vendor is null then raise exception 'BD_COMPONENT_UNKNOWN: komponen aktif wajib dipilih';end if;
     v_status:=p_payload->>'rate_status';
-    if v_status not in('KNOWN','UNKNOWN') then raise exception 'BD_RATE_STATUS: KNOWN atau UNKNOWN';end if;
+    if v_status not in('KNOWN','UNKNOWN','FREE','WAIVED') then raise exception 'BD_RATE_STATUS: KNOWN, UNKNOWN, FREE atau WAIVED';end if;
     if v_status='KNOWN' then v_rate:=erp.bd_amount_v1(p_payload->'rate_per_pcs','rate_per_pcs',true);
+    elsif v_status in('FREE','WAIVED') then
+      -- LAU-T11: an explicit, attributed version; never infer free from a missing price.
+      v_rate:=erp.bd_amount_v1(p_payload->'rate_per_pcs','rate_per_pcs',false);
+      if v_rate<>0 then raise exception 'BD_FREE_REQUIRES_ZERO: FREE/WAIVED wajib nominal eksplisit 0.00 dan alasan';end if;
     elsif p_payload ? 'rate_per_pcs' and jsonb_typeof(p_payload->'rate_per_pcs')<>'null' then
       raise exception 'BD_RATE_STATUS: harga UNKNOWN tidak membawa nominal (bukan nol)';end if;
     v_from:=erp.bd_at_v1(p_payload->>'effective_from','effective_from');

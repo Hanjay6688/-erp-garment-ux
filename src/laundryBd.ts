@@ -22,14 +22,17 @@ type ChargeKind = keyof typeof CHARGE_KIND_LABEL
 export type BdPolicy = { key: LauPolicyKey; status: 'SET' | 'PENDING_POLICY_VALUE'; value: Record<string, unknown> | null; version: string; set_at: string; reason: string }
 export type BdVendor = { id: string; code: string; name: string; pricing_mode: 'RATE' | 'PACKAGE' | 'COMPONENTS'; pricing_unit: 'PCS' | 'BATCH';
   minimum_charge: string | null; terms_version: string; bd_priced: boolean }
+export const BD_RATE_STATUSES = ['KNOWN', 'UNKNOWN', 'FREE', 'WAIVED'] as const
+export type BdRateStatus = typeof BD_RATE_STATUSES[number]
+export const BD_RATE_LABEL: Record<BdRateStatus, string> = { KNOWN: 'Diketahui', UNKNOWN: 'Belum diketahui', FREE: 'Gratis', WAIVED: 'Tidak ditagih' }
 export type BdComponent = { id: string; vendor_id: string; code: string; name: string; is_active: boolean
-  current: { status: 'KNOWN' | 'UNKNOWN'; rate: string | null; from: string } | null }
+  current: { status: BdRateStatus; rate: string | null; from: string; reason: string; version_id: string } | null }
 export type BdPackage = { id: string; vendor_id: string; code: string; name: string; is_active: boolean; component_ids: string[]; current_rate: string | null }
 export type BdProcessRate = { id: string; vendor_id: string; wash_process_id: string; rate: string | null; from: string; to: string | null }
 export type BdScopedRate = { id: string; vendor_id: string; wash_process_id: string; scope: 'MODEL' | 'MODEL_SIZE' | 'MODEL_SIZE_COLOR'; model_id: string;
   size_id: string | null; color_name: string | null; rate: string | null; from: string }
-export type BdCharge = { id: string; line_no: number; kind: ChargeKind; label: string; covered_qty: number; rate_status: 'KNOWN' | 'UNKNOWN';
-  unit_rate: string | null; amount: string | null }
+export type BdCharge = { id: string; line_no: number; kind: ChargeKind; label: string; covered_qty: number; rate_status: BdRateStatus;
+  unit_rate: string | null; amount: string | null; price_reason: string | null; coverage: { size_id: string; qty: number }[] }
 export type BdPricedDelivery = { delivery_line_id: string; delivery_id: string; delivery_number: string; status: string; physical_local: string;
   mode: string; unit: string; qty_sent: number; total_known: string | null; total_complete: boolean; charges: BdCharge[] }
 export type BdInvoiceLine = { id: string; line_no: number; line_kind: 'BILL' | 'CORRECTION'; receipt_line_id: string | null; opening_uninvoiced_id: string | null; rework_service_id: string | null;
@@ -60,7 +63,9 @@ export type BdPendingSale = { id: string; sale_id: string; sale_number: string; 
 export type BdPayables = { documents: BdPayableDocument[]; credits: BdClaimCredit[]; cash_accounts: { id: string; code: string; name: string }[]
   ledger: { ap_balance: string; documents_remaining: string; credit_available: string; matches: boolean } }
 export type BdRedye = { id: string; number: string; vendor_id: string; po_number: string; status: string; qty: number; good: number; bs: number; billed_good: number; billed_bs: number; process: string; price_known: boolean; rate: string | null; cost: string | null }
-export type LaundryBdWorkspace = { money_visible: boolean; can_manage_master: boolean; can_set_price: boolean; is_owner: boolean
+export type BdPageKind = 'invoices' | 'receipts'
+export type BdPagination = { as_of: string; invoice_next: string | null; receipt_next: string | null }
+export type LaundryBdWorkspace = { pagination: BdPagination; money_visible: boolean; can_manage_master: boolean; can_set_price: boolean; is_owner: boolean
   policies: BdPolicy[]; vendors: BdVendor[]; processes: { id: string; code: string; name: string }[]; components: BdComponent[]; packages: BdPackage[]
   process_rates: BdProcessRate[]; scoped_rates: BdScopedRate[]; priced_deliveries: BdPricedDelivery[]; opening_uninvoiced: BdOpening[]
   invoices: BdInvoice[] | null; billable_receipts: BdBillable[] | null; accounts: { id: string; code: string; name: string; type: 'ASSET' | 'EXPENSE' }[] | null
@@ -121,12 +126,13 @@ export function parseLaundryBdWorkspace(value: unknown): LaundryBdWorkspace {
   const processes = list(r.processes, 'Proses cuci').map(p => ({ id: id(p.id, 'Proses'), code: text(p.code, 'Kode proses'), name: text(p.name, 'Nama proses') }))
   const components = list(r.components, 'Komponen laundry').map((c): BdComponent => {
     const current = c.current === null ? null : object(c.current, 'Harga komponen')
-    const status = current ? oneOf(current.status, ['KNOWN', 'UNKNOWN'] as const, 'Status harga komponen') : null
+    const status = current ? oneOf(current.status, BD_RATE_STATUSES, 'Status harga komponen') : null
     const rate = current ? (status === 'UNKNOWN' ? (current.rate === null ? null : (() => { throw new Error('Harga komponen belum diketahui tidak boleh bernilai.') })())
       : gated(current.rate, money_visible, 'Harga komponen')) : null
-    if (current && status === 'KNOWN' && money_visible && rate === null) throw new Error('Harga komponen yang diketahui tanpa nominal.')
+    if (current && status !== 'UNKNOWN' && money_visible && rate === null) throw new Error('Harga komponen yang diketahui tanpa nominal.')
+    if (current && (status === 'FREE' || status === 'WAIVED') && money_visible && rate !== '0.00') throw new Error('Harga gratis harus nol yang diketahui.')
     return { id: id(c.id, 'Komponen'), vendor_id: id(c.vendor_id, 'Vendor komponen'), code: text(c.code, 'Kode komponen'), name: text(c.name, 'Nama komponen'),
-      is_active: bool(c.is_active, 'Status komponen'), current: current && status ? { status, rate, from: local(current.from, 'Berlaku sejak') } : null }
+      is_active: bool(c.is_active, 'Status komponen'), current: current && status ? { status, rate, from: local(current.from, 'Berlaku sejak'), reason: text(current.reason, 'Alasan harga'), version_id: id(current.version_id, 'Versi harga') } : null }
   })
   const packages = list(r.packages, 'Paket laundry').map((p): BdPackage => {
     if (!Array.isArray(p.component_ids)) throw new Error('Isi paket tidak terbaca lengkap.')
@@ -143,12 +149,19 @@ export function parseLaundryBdWorkspace(value: unknown): LaundryBdWorkspace {
     rate: gated(x.rate, money_visible, 'Tarif khusus'), from: local(x.from, 'Berlaku sejak') }))
   const priced_deliveries = list(r.priced_deliveries, 'Kiriman berharga').map((d): BdPricedDelivery => {
     const charges = list(d.charges, 'Rincian harga kiriman').map((c): BdCharge => {
-      const rate_status = oneOf(c.rate_status, ['KNOWN', 'UNKNOWN'] as const, 'Status harga')
+      const rate_status = oneOf(c.rate_status, BD_RATE_STATUSES, 'Status harga')
       const unit_rate = gated(c.unit_rate, money_visible, 'Harga satuan'), amount = gated(c.amount, money_visible, 'Nominal harga')
-      if (money_visible && rate_status === 'KNOWN' && amount === null) throw new Error('Harga yang diketahui tanpa nominal.')
+      if (money_visible && rate_status !== 'UNKNOWN' && amount === null) throw new Error('Harga yang diketahui tanpa nominal.')
       if (rate_status === 'UNKNOWN' && (unit_rate !== null || amount !== null)) throw new Error('Harga belum diketahui tidak boleh bernilai.')
+      const price_reason = nullableText(c.price_reason, 'Alasan harga')
+      const coverage = list(c.coverage, 'Penerima jasa').map(x => ({ size_id: id(x.size_id, 'Ukuran jasa'), qty: count(x.qty, 'Qty jasa') }))
+      const covered_qty = count(c.covered_qty, 'Qty harga')
+      if (!coverage.length || coverage.some(x => x.qty === 0) || new Set(coverage.map(x => x.size_id)).size !== coverage.length
+        || coverage.reduce((n, x) => n + x.qty, 0) !== covered_qty) throw new Error('Penerima jasa tidak cocok dengan cakupan biaya.')
+      if ((rate_status === 'FREE' || rate_status === 'WAIVED') && (!price_reason || (money_visible && (unit_rate !== '0.00' || amount !== '0.00'))))
+        throw new Error('Gratis/waiver memerlukan alasan dan nominal nol yang diketahui.')
       return { id: id(c.id, 'Baris harga'), line_no: count(c.line_no, 'Nomor baris harga'), kind: oneOf(c.kind, Object.keys(CHARGE_KIND_LABEL) as ChargeKind[], 'Jenis harga'),
-        label: text(c.label, 'Keterangan harga'), covered_qty: count(c.covered_qty, 'Qty harga'), rate_status, unit_rate, amount }
+        label: text(c.label, 'Keterangan harga'), covered_qty, rate_status, unit_rate, amount, price_reason, coverage }
     })
     const total_complete = bool(d.total_complete, 'Harga lengkap')
     if (total_complete === charges.some(c => c.rate_status === 'UNKNOWN')) throw new Error('Status harga kiriman tidak cocok dengan rinciannya.')
@@ -209,7 +222,12 @@ export function parseLaundryBdWorkspace(value: unknown): LaundryBdWorkspace {
       policy_version: version(x.policy_version, 'Versi LAU-DEC04'), recorded_at: local(x.recorded_at, 'Waktu catat'),
       hpp_state: oneOf(x.hpp_state, ['NOT_FINAL', 'RECOSTED'] as const, 'Status HPP penjualan'),
       unit_hpp_at_sale: gated(x.unit_hpp_at_sale, money_visible, 'HPP saat dijual') })) }
-  return { money_visible, can_manage_master: bool(r.can_manage_master, 'Hak master'), can_set_price: bool(r.can_set_price, 'Hak harga'), is_owner: bool(r.is_owner, 'Owner'),
+  const page = object(r.pagination, 'Kelanjutan daftar laundry')
+  const as_of = text(page.as_of, 'Waktu daftar laundry')
+  if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$/.test(as_of)) throw new Error('Waktu daftar laundry tidak valid.')
+  const pagination = { as_of, invoice_next: nullableId(page.invoice_next, 'Invoice berikutnya'), receipt_next: nullableId(page.receipt_next, 'Penerimaan berikutnya') }
+  if (!money_visible && (pagination.invoice_next || pagination.receipt_next)) throw new Error('Penanda nominal tampil tanpa izin.')
+  return { pagination, money_visible, can_manage_master: bool(r.can_manage_master, 'Hak master'), can_set_price: bool(r.can_set_price, 'Hak harga'), is_owner: bool(r.is_owner, 'Owner'),
     policies, vendors, processes, components, packages, process_rates, scoped_rates, priced_deliveries, opening_uninvoiced, invoices, billable_receipts, accounts, payables,
     pending_cost, redye_services: r.redye_services === undefined ? [] : list(r.redye_services, 'Jasa celup ulang').map((x): BdRedye => ({
       id: id(x.id, 'Jasa'), number: text(x.number, 'Order'), vendor_id: id(x.vendor_id, 'Vendor'), po_number: text(x.po_number, 'PO'), status: text(x.status, 'Status'),
@@ -249,6 +267,22 @@ function parsePayables(value: unknown): BdPayables {
     cash_accounts: list(p.cash_accounts, 'Rekening kas').map(a => ({ id: id(a.id, 'Rekening kas'), code: text(a.code, 'Kode rekening'), name: text(a.name, 'Nama rekening') })),
     ledger: { ap_balance: money(l.ap_balance, 'Saldo utang'), documents_remaining: money(l.documents_remaining, 'Sisa tagihan'),
       credit_available: money(l.credit_available, 'Kredit belum dipakai'), matches: bool(l.matches, 'Cocok buku besar') } }
+}
+
+/** Append only the requested page; current authorization replaces cached authority and hidden data. */
+export function mergeLaundryBdPage(previous: LaundryBdWorkspace, next: LaundryBdWorkspace, kind: BdPageKind): LaundryBdWorkspace {
+  if (!next.money_visible) return next
+  if (previous.pagination.as_of !== next.pagination.as_of) throw new Error('Daftar berubah; muat ulang sebelum melanjutkan.')
+  const append = <T,>(old: T[] | null, fresh: T[] | null, key: (x: T) => string) => {
+    if (!old || !fresh) throw new Error('Halaman daftar tidak terbaca lengkap.')
+    const map = new Map(old.map(x => [key(x), x]))
+    for (const item of fresh) map.set(key(item), item)
+    return [...map.values()]
+  }
+  return { ...next,
+    invoices: kind === 'invoices' ? append(previous.invoices, next.invoices, x => x.invoice_id) : previous.invoices,
+    billable_receipts: kind === 'receipts' ? append(previous.billable_receipts, next.billable_receipts, x => x.receipt_line_id) : previous.billable_receipts,
+    pagination: { ...previous.pagination, ...(kind === 'invoices' ? { invoice_next: next.pagination.invoice_next } : { receipt_next: next.pagination.receipt_next }) } }
 }
 
 /** The facade echoes the request; a priced delivery answers with the laundry writer's own POST_DELIVERY response. */

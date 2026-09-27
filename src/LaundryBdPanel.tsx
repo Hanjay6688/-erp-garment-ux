@@ -1,5 +1,5 @@
 // BD (LAU-05b, LAU-DEC01..06, ALL-W05): laundry prices, priced deliveries, unknown prices, vendor invoices and opening
-// uninvoiced laundry work, on the Laundry page. Every write goes through erp_save_laundry_bd_action_v1 with one request id
+// uninvoiced laundry work, on the Laundry page. BD writes and the BE redye-price facade use one request id
 // (the server replays it); the server checks permissions, policies, capacity and versions again.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from './auth/AuthProvider'
@@ -8,8 +8,9 @@ import { getUatSupabaseClient } from './lib/supabase'
 import { normalizeClientError } from './lib/clientError'
 import { useProductionMutation, type ProductionMutationHandlers } from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
-import { CATEGORY_LABEL, CHARGE_KIND_LABEL, LAU_POLICY_KEYS, LAU_POLICY_LABEL, moneyInput, normalizeMoney, parseLaundryBdWorkspace, policyValue, rupiah,
-  signedMoneyInput, validateBdResult, wholePcs, wibTimestamp, type BdInvoice, type BdPayables, type Category, type LaundryBdWorkspace, type LauPolicyKey } from './laundryBd'
+import { BD_RATE_LABEL, BD_RATE_STATUSES, CATEGORY_LABEL, CHARGE_KIND_LABEL, LAU_POLICY_KEYS, LAU_POLICY_LABEL, mergeLaundryBdPage, moneyInput, normalizeMoney, parseLaundryBdWorkspace, policyValue, rupiah,
+  signedMoneyInput, validateBdResult, wholePcs, wibTimestamp, type BdInvoice, type BdPageKind, type BdPayables, type Category, type LaundryBdWorkspace, type LauPolicyKey } from './laundryBd'
+import { validateConversionResult } from './productConversion'
 import type { LaundryQcWorkspace } from './laundryQcModel'
 import type { Json } from './types/database.preconnect'
 import './initial-import.css'
@@ -45,9 +46,31 @@ export default function LaundryBdPanel({ laundry, onPosted }: { laundry: Laundry
   }, [client, beginRead, finishRead, isReadCurrent])
   useEffect(() => { void load() }, [load])
   const chooseVendor = (id: string) => { vendorRef.current = id; setVendorId(id); void load() }
+  const loadMore = async (kind: BdPageKind) => {
+    if (!data || loading || mutation.writerLocked || mutation.busy) return
+    const cursor = kind === 'invoices' ? data.pagination.invoice_next : data.pagination.receipt_next
+    if (!cursor) return
+    const previous = data, number = ++sequence.current, ticket = beginRead()
+    setLoading(true); setError('')
+    try {
+      const result = await client.rpc('erp_get_laundry_bd_workspace_v1', { p_filters: {
+        ...(vendorRef.current ? { vendor_id: vendorRef.current } : {}), page_as_of: previous.pagination.as_of,
+        [kind === 'invoices' ? 'invoice_after' : 'receipt_after']: cursor,
+      } })
+      if (!isReadCurrent(ticket) || number !== sequence.current) return
+      if (result.error) throw result.error
+      setData(mergeLaundryBdPage(previous, parseLaundryBdWorkspace(result.data), kind))
+      finishRead(ticket)
+    } catch (failure) {
+      if (isReadCurrent(ticket) && number === sequence.current) setError(failure instanceof Error ? failure.message : normalizeClientError(failure).message)
+    } finally { if (number === sequence.current) setLoading(false) }
+  }
   const handlers: ProductionMutationHandlers = {
-    send: envelope => client.rpc('erp_save_laundry_bd_action_v1', { p_action: envelope.action, p_payload: envelope.payload, p_client_request_id: envelope.id }),
-    validate: (value, envelope) => validateBdResult(value, envelope.action, envelope.id),
+    send: envelope => envelope.action === 'SET_REDYE_PRICE'
+      ? client.rpc('erp_save_product_conversion_action_v1', { p_action: envelope.action, p_payload: envelope.payload, p_client_request_id: envelope.id })
+      : client.rpc('erp_save_laundry_bd_action_v1', { p_action: envelope.action, p_payload: envelope.payload, p_client_request_id: envelope.id }),
+    validate: (value, envelope) => envelope.action === 'SET_REDYE_PRICE'
+      ? validateConversionResult(value, envelope.action, envelope.id, envelope.payload) : validateBdResult(value, envelope.action, envelope.id),
     retire: (_value, envelope) => { setData(null); if (envelope.action === 'POST_PRICED_DELIVERY') onPosted() },
     reload: load,
   }
@@ -66,12 +89,13 @@ export default function LaundryBdPanel({ laundry, onPosted }: { laundry: Laundry
         <option value="">Semua vendor</option>{data?.vendors.map(v => <option key={v.id} value={v.id}>{v.code} · {v.name}{v.bd_priced ? ' · harga BD' : ''}</option>)}</select></label></nav>
     {!data ? <p role="status">{loading ? 'Memuat harga laundry…' : 'Harga laundry belum terbaca.'}</p> : <>
       {section === 'policies' && <Policies data={data} locked={locked} send={send}/>}
-      {section === 'master' && (vendor ? <Master data={data} vendor={vendor.id} locked={locked} send={send}/> : <p>Pilih vendor untuk melihat dan mengubah harganya.</p>)}
+      {section === 'master' && (vendor ? <Master key={vendor.id} data={data} vendor={vendor.id} locked={locked} send={send}/> : <p>Pilih vendor untuk melihat dan mengubah harganya.</p>)}
       {section === 'send' && (!laundry ? <p role="status">Data Laundry (batch siap kirim) belum terbaca; kirim dengan harga terkunci sampai halaman Laundry terbaca.</p>
-        : vendor ? <PricedSend data={data} laundry={laundry} vendor={vendor.id} locked={locked} send={send}/> : <p>Pilih vendor laundry yang memakai harga BD.</p>)}
+        : vendor ? <PricedSend key={vendor.id} data={data} laundry={laundry} vendor={vendor.id} locked={locked} send={send}/> : <p>Pilih vendor laundry yang memakai harga BD.</p>)}
       {section === 'unknown' && <UnknownPrices data={data} locked={locked} send={send}/>}
       {section === 'invoices' && (data.invoices === null ? <p>Hak melihat nominal diperlukan untuk invoice vendor.</p>
-        : <Invoices data={data} vendor={vendor?.id ?? ''} locked={locked} send={send}/>)}
+        : <Invoices key={vendor?.id ?? ''} data={data} vendor={vendor?.id ?? ''} locked={locked} send={send} loadMore={kind => void loadMore(kind)}
+          canSetRedye={data.can_set_price && identity.permissions.includes('warehouse.brand_conversion.view') && identity.permissions.includes('warehouse.brand_conversion.post')}/>)}
       {section === 'payables' && (!data.money_visible ? <p>Hak melihat nominal diperlukan untuk pembayaran vendor.</p>
         : !vendor || !data.payables ? <p>Pilih vendor untuk melihat tagihan, kredit klaim, dan pembayarannya.</p>
         : <Payables payables={data.payables} locked={locked} send={send}/>)}
@@ -143,18 +167,18 @@ function Master({ data, vendor, locked, send }: { data: LaundryBdWorkspace; vend
         pricing_unit: f.unit, minimum_charge: f.minimum?.trim() ? normalizeMoney(f.minimum) : null, expected_version: v.terms_version, reason: reason.trim() })}>Simpan ketentuan</button></div>
     <h4>Komponen</h4>
     <table><thead><tr><th>Komponen</th><th>Harga berlaku</th><th>Aktif</th></tr></thead><tbody>{components.map(c => <tr key={c.id}><td>{c.code} · {c.name}</td>
-      <td>{c.current ? (c.current.status === 'UNKNOWN' ? `Belum diketahui sejak ${c.current.from}` : `${rupiah(c.current.rate)} sejak ${c.current.from}`) : 'Belum ada versi harga'}</td>
+      <td>{c.current ? `${BD_RATE_LABEL[c.current.status]}${c.current.status === 'KNOWN' ? ` · ${rupiah(c.current.rate)}` : ''} sejak ${c.current.from} · ${c.current.reason}` : 'Belum ada versi harga'}</td>
       <td>{c.is_active ? 'Ya' : 'Tidak'}</td></tr>)}</tbody></table>
     <div className="initial-import-toolbar">{field('component_code', 'Kode komponen')}{field('component_name', 'Nama komponen')}
       <button type="button" disabled={!can || !f.component_code?.trim() || !f.component_name?.trim()} onClick={() => send('SAVE_COMPONENT', { vendor_id: vendor,
         component_code: f.component_code.trim(), component_name: f.component_name.trim(), is_active: true, reason: reason.trim() })}>Tambah komponen</button></div>
     <div className="initial-import-toolbar"><label>Komponen<select aria-label="Komponen harga" value={f.component_id ?? ''} disabled={locked} onChange={e => set({ component_id: e.target.value })}>
       <option value="">Pilih…</option>{components.map(c => <option key={c.id} value={c.id}>{c.code}</option>)}</select></label>
-      <label>Status harga<select aria-label="Status harga komponen" value={f.rate_status ?? 'KNOWN'} disabled={locked} onChange={e => set({ rate_status: e.target.value })}><option value="KNOWN">Diketahui</option><option value="UNKNOWN">Belum diketahui</option></select></label>
+      <label>Status harga<select aria-label="Status harga komponen" value={f.rate_status ?? 'KNOWN'} disabled={locked} onChange={e => set({ rate_status: e.target.value })}>{BD_RATE_STATUSES.map(s => <option key={s} value={s}>{BD_RATE_LABEL[s]}</option>)}</select></label>
       {(f.rate_status ?? 'KNOWN') === 'KNOWN' && field('component_rate', 'Harga per PCS')}
       <button type="button" disabled={!can || !f.component_id || !from || ((f.rate_status ?? 'KNOWN') === 'KNOWN' && !moneyInput(f.component_rate ?? ''))} onClick={() => from &&
         send('SAVE_COMPONENT_RATE', { component_id: f.component_id, rate_status: f.rate_status ?? 'KNOWN', effective_from: from, reason: reason.trim(),
-          ...((f.rate_status ?? 'KNOWN') === 'KNOWN' ? { rate_per_pcs: normalizeMoney(f.component_rate) } : {}) })}>Simpan versi harga komponen</button></div>
+          ...((f.rate_status ?? 'KNOWN') === 'KNOWN' ? { rate_per_pcs: normalizeMoney(f.component_rate) } : f.rate_status === 'UNKNOWN' ? {} : { rate_per_pcs: '0.00' }) })}>Simpan versi harga komponen</button></div>
     <h4>Paket</h4>
     <table><thead><tr><th>Paket</th><th>Isi</th><th>Harga berlaku</th></tr></thead><tbody>{packages.map(p => <tr key={p.id}><td>{p.code} · {p.name}</td>
       <td>{p.component_ids.map(id => components.find(c => c.id === id)?.code ?? id).join(', ')}</td><td>{p.current_rate === null ? '—' : rupiah(p.current_rate)}</td></tr>)}</tbody></table>
@@ -182,22 +206,37 @@ function PricedSend({ data, laundry, vendor, locked, send }: { data: LaundryBdWo
   const v = data.vendors.find(x => x.id === vendor)!
   const [batchId, setBatchId] = useState(''), [process, setProcess] = useState(''), [color, setColor] = useState(''), [at, setAt] = useState('')
   const [reason, setReason] = useState(''), [qty, setQty] = useState<Record<string, string>>({}), [packageId, setPackageId] = useState(''), [lump, setLump] = useState('')
-  const [covered, setCovered] = useState<Record<string, string>>({}), [confirmed, setConfirmed] = useState(false)
+  const [covered, setCovered] = useState<Record<string, string>>({}), [extraReasons, setExtraReasons] = useState<Record<string, string>>({}), [confirmed, setConfirmed] = useState(false)
   const batch = laundry.ready_batches.find(b => b.distribution_batch_id === batchId)
   const lines = batch?.sizes.map(s => ({ size_id: s.size_id, qty_sent_pcs: wholePcs(qty[s.size_id] ?? '') ? Number(qty[s.size_id]) : 0 })).filter(l => l.qty_sent_pcs > 0) ?? []
   const physical = wibTimestamp(at)
   const components = data.components.filter(c => c.vendor_id === vendor && c.is_active)
+  const selectedPackage = data.packages.find(p => p.id === packageId && p.vendor_id === vendor && p.is_active)
+  const availableComponents = v.pricing_mode === 'PACKAGE' ? components.filter(c => !selectedPackage?.component_ids.includes(c.id)) : components
+  let coverageValid = true
+  const componentPayload = availableComponents.flatMap(c => {
+    const coverage = (batch?.sizes ?? []).flatMap(s => {
+      const value = covered[`${c.id}:${s.size_id}`]?.trim() ?? ''
+      if (!value || value === '0') return []
+      if (!wholePcs(value) || Number(value) > (lines.find(l => l.size_id === s.size_id)?.qty_sent_pcs ?? 0)) { coverageValid = false; return [] }
+      return [{ size_id: s.size_id, qty: Number(value) }]
+    })
+    if (!coverage.length) return []
+    const extraReason = extraReasons[c.id]?.trim() ?? ''
+    if (v.pricing_mode === 'PACKAGE' && !extraReason) coverageValid = false
+    return [{ component_id: c.id, covered_qty: coverage.reduce((n, s) => n + s.qty, 0), coverage,
+      ...(v.pricing_mode === 'PACKAGE' ? { reason: extraReason } : {}) }]
+  })
   const pricing: Record<string, Json> | null = v.pricing_unit === 'BATCH' ? (moneyInput(lump) ? { lump_sum: normalizeMoney(lump) } : null)
-    : v.pricing_mode === 'PACKAGE' ? (packageId ? { package_id: packageId } : null)
-    : v.pricing_mode === 'COMPONENTS' ? (() => { const c = components.filter(x => wholePcs(covered[x.id] ?? '')).map(x => ({ component_id: x.id, covered_qty: Number(covered[x.id]) }))
-      return c.length ? { components: c } : null })() : {}
+    : v.pricing_mode === 'PACKAGE' ? (selectedPackage && coverageValid ? { package_id: packageId, extras: componentPayload } : null)
+    : v.pricing_mode === 'COMPONENTS' ? (componentPayload.length && coverageValid ? { components: componentPayload } : null) : {}
   const valid = batch && process && color.trim() && physical && reason.trim().length >= 4 && lines.length && pricing && confirmed
     && batch.sizes.every(s => !qty[s.size_id] || (wholePcs(qty[s.size_id]) && Number(qty[s.size_id]) <= s.available_qty_pcs))
   return <section className="initial-import-table" aria-label="Kirim laundry dengan harga BD">
     <p>{v.code} memakai {v.pricing_mode === 'RATE' ? 'tarif proses' : v.pricing_mode === 'PACKAGE' ? 'harga paket' : 'harga komponen'} per {v.pricing_unit === 'BATCH' ? 'batch (borongan)' : 'PCS'}.
       Kiriman dicatat sekali: fisik, WIP, dan estimasi biaya bersama-sama. Harga komponen yang belum diketahui tetap “belum diketahui”.</p>
     <div className="initial-import-toolbar">
-      <label>Batch<select aria-label="Batch kirim berharga" value={batchId} disabled={locked} onChange={e => { setBatchId(e.target.value); setQty({}); setConfirmed(false) }}>
+      <label>Batch<select aria-label="Batch kirim berharga" value={batchId} disabled={locked} onChange={e => { setBatchId(e.target.value); setQty({}); setCovered({}); setConfirmed(false) }}>
         <option value="">Pilih batch…</option>{laundry.ready_batches.map(b => <option key={b.distribution_batch_id} value={b.distribution_batch_id}>{b.po_number} · {b.group_number} · Batch {b.batch_no} · siap {b.group_unsent_ready_qty_pcs} pcs</option>)}</select></label>
       <label>Proses<select aria-label="Proses kirim berharga" value={process} disabled={locked} onChange={e => { setProcess(e.target.value); setConfirmed(false) }}>
         <option value="">Pilih…</option>{laundry.lookups.wash_processes.map(p => <option key={p.id} value={p.id}>{p.code} · {p.name}</option>)}</select></label>
@@ -208,10 +247,19 @@ function PricedSend({ data, laundry, vendor, locked, send }: { data: LaundryBdWo
       inputMode="numeric" value={qty[s.size_id] ?? ''} disabled={locked} onChange={e => { setQty(x => ({ ...x, [s.size_id]: e.target.value })); setConfirmed(false) }}/></label>)}</div>}
     <div className="initial-import-toolbar">
       {v.pricing_unit === 'BATCH' && <label>Harga borongan batch<input aria-label="Harga borongan" value={lump} disabled={locked} onChange={e => { setLump(e.target.value); setConfirmed(false) }}/></label>}
-      {v.pricing_unit === 'PCS' && v.pricing_mode === 'PACKAGE' && <label>Paket<select aria-label="Paket kirim berharga" value={packageId} disabled={locked} onChange={e => { setPackageId(e.target.value); setConfirmed(false) }}>
+      {v.pricing_unit === 'PCS' && v.pricing_mode === 'PACKAGE' && <label>Paket<select aria-label="Paket kirim berharga" value={packageId} disabled={locked} onChange={e => { setPackageId(e.target.value); setCovered({}); setExtraReasons({}); setConfirmed(false) }}>
         <option value="">Pilih…</option>{data.packages.filter(p => p.vendor_id === vendor && p.is_active).map(p => <option key={p.id} value={p.id}>{p.code} · {p.name}</option>)}</select></label>}
-      {v.pricing_unit === 'PCS' && v.pricing_mode === 'COMPONENTS' && components.map(c => <label key={c.id}>{c.code} (PCS tercakup{c.current?.status === 'UNKNOWN' ? ', harga belum diketahui' : ''})
-        <input aria-label={`Cakupan ${c.code}`} inputMode="numeric" value={covered[c.id] ?? ''} disabled={locked} onChange={e => { setCovered(x => ({ ...x, [c.id]: e.target.value })); setConfirmed(false) }}/></label>)}
+      {v.pricing_unit === 'PCS' && (v.pricing_mode === 'COMPONENTS' || (v.pricing_mode === 'PACKAGE' && selectedPackage)) && <fieldset>
+        <legend>{v.pricing_mode === 'PACKAGE' ? 'Jasa tambahan di luar isi paket' : 'Penerima jasa per ukuran'}</legend>
+        <p>Isi jumlah PCS yang menerima setiap jasa pada ukurannya. Kosong atau 0 berarti ukuran itu tidak menerima jasa tersebut.</p>
+        {v.pricing_mode === 'PACKAGE' && <p>Sudah termasuk paket: {components.filter(c => selectedPackage?.component_ids.includes(c.id)).map(c => c.code).join(', ')}.</p>}
+        {availableComponents.map(c => <div key={c.id} className="initial-import-toolbar"><strong>{c.code} · {c.current ? BD_RATE_LABEL[c.current.status] : 'Belum ada harga'}</strong>
+          {(batch?.sizes ?? []).map(s => <label key={s.size_id}>{c.code} · {s.size_code}<input aria-label={`Cakupan ${c.code} ${s.size_code}`} inputMode="numeric"
+            value={covered[`${c.id}:${s.size_id}`] ?? ''} disabled={locked} onChange={e => { setCovered(x => ({ ...x, [`${c.id}:${s.size_id}`]: e.target.value })); setConfirmed(false) }}/></label>)}
+          {v.pricing_mode === 'PACKAGE' && <Reason label={`Alasan tambahan ${c.code}`} value={extraReasons[c.id] ?? ''} locked={locked}
+            set={value => { setExtraReasons(x => ({ ...x, [c.id]: value })); setConfirmed(false) }}/>}</div>)}
+        {!coverageValid && <p role="alert">Cakupan harus berupa PCS utuh, tidak melebihi kiriman pada ukuran itu, dan tambahan paket wajib disertai alasan.</p>}
+      </fieldset>}
     </div>
     <label><input type="checkbox" checked={confirmed} disabled={locked} onChange={e => setConfirmed(e.target.checked)}/>Vendor, batch, ukuran, jumlah, warna, waktu, dan harga sudah dicocokkan dengan serah-terima.</label>
     <button type="button" disabled={locked || !valid} onClick={() => batch && physical && pricing && send('POST_PRICED_DELIVERY', {
@@ -277,16 +325,19 @@ function Payables({ payables, locked, send }: { payables: BdPayables; locked: bo
 
 function UnknownPrices({ data, locked, send }: { data: LaundryBdWorkspace; locked: boolean; send: Send }) {
   const [rate, setRate] = useState<Record<string, string>>({}), [reason, setReason] = useState('')
+  const [resolution, setResolution] = useState<Record<string, string>>({})
   const pending = data.priced_deliveries.filter(d => !d.total_complete)
   return <section className="initial-import-table" aria-label="Harga laundry belum diketahui">
     <p>Selama harga komponen belum diketahui, biaya laundry kiriman ini baru bagian yang diketahui, HPP tetap estimasi, dan tutup buku tertahan (LAU-T12).</p>
     <Reason value={reason} set={setReason} locked={locked}/>
     {pending.length === 0 ? <p>Tidak ada harga laundry yang belum diketahui.</p> : <table><thead><tr><th>Kiriman</th><th>Rincian</th><th>PCS</th><th>Harga diketahui</th><th>Isi harga</th></tr></thead>
       <tbody>{pending.flatMap(d => d.charges.map(c => <tr key={c.id}><td>{d.delivery_number} · {d.physical_local}</td><td>{CHARGE_KIND_LABEL[c.kind]} · {c.label}</td><td>{c.covered_qty}</td>
-        <td>{c.rate_status === 'KNOWN' ? rupiah(c.amount) : 'Belum diketahui'}</td>
-        <td>{c.rate_status === 'UNKNOWN' && data.can_set_price && <><input aria-label={`Harga per PCS ${c.label}`} value={rate[c.id] ?? ''} disabled={locked} onChange={e => setRate(x => ({ ...x, [c.id]: e.target.value }))}/>
-          <button type="button" disabled={locked || !moneyInput(rate[c.id] ?? '') || !reason.trim()} onClick={() => send('SET_CHARGE_PRICE', { charge_line_id: c.id,
-            rate_per_pcs: normalizeMoney(rate[c.id]), reason: reason.trim() })}>Isi harga {c.label}</button></>}</td></tr>))}</tbody></table>}
+        <td>{c.rate_status === 'KNOWN' ? rupiah(c.amount) : BD_RATE_LABEL[c.rate_status]}{c.price_reason ? ` · ${c.price_reason}` : ''}</td>
+        <td>{c.rate_status === 'UNKNOWN' && data.can_set_price && <><select aria-label={`Status harga ${c.label}`} disabled={locked} value={resolution[c.id] ?? 'KNOWN'}
+          onChange={e => setResolution(x => ({ ...x, [c.id]: e.target.value }))}>{BD_RATE_STATUSES.filter(s => s !== 'UNKNOWN').map(s => <option key={s} value={s}>{BD_RATE_LABEL[s]}</option>)}</select>
+          {(resolution[c.id] ?? 'KNOWN') === 'KNOWN' && <input aria-label={`Harga per PCS ${c.label}`} value={rate[c.id] ?? ''} disabled={locked} onChange={e => setRate(x => ({ ...x, [c.id]: e.target.value }))}/>}
+          <button type="button" disabled={locked || ((resolution[c.id] ?? 'KNOWN') === 'KNOWN' && !moneyInput(rate[c.id] ?? '')) || !reason.trim()} onClick={() => send('SET_CHARGE_PRICE', { charge_line_id: c.id,
+            rate_status: resolution[c.id] ?? 'KNOWN', rate_per_pcs: (resolution[c.id] ?? 'KNOWN') === 'KNOWN' ? normalizeMoney(rate[c.id]) : '0.00', reason: reason.trim() })}>Isi harga {c.label}</button></>}</td></tr>))}</tbody></table>}
     <PendingCost data={data}/>
   </section>
 }
@@ -308,13 +359,16 @@ function PendingCost({ data }: { data: LaundryBdWorkspace }) {
 }
 
 type DraftLine = { key: string; kind: 'BILL' | 'CORRECTION'; source: string; category: Category; qty: string; amount: string }
-function Invoices({ data, vendor, locked, send }: { data: LaundryBdWorkspace; vendor: string; locked: boolean; send: Send }) {
+function Invoices({ data, vendor, locked, send, loadMore, canSetRedye }: { data: LaundryBdWorkspace; vendor: string; locked: boolean; send: Send; loadMore: (kind: BdPageKind) => void; canSetRedye: boolean }) {
   const [redyeRates, setRedyeRates] = useState<Record<string, string>>({})
+  const [invoiceSearch, setInvoiceSearch] = useState(''), [receiptSearch, setReceiptSearch] = useState('')
   const redye = data.redye_services ?? []
   const [editing, setEditing] = useState<BdInvoice | null>(null)
   const [head, setHead] = useState<Record<string, string>>({ number: '', date: today(), due: '', total: '', discount: '', tax: '', rounding: '', corrects: '' })
   const [lines, setLines] = useState<DraftLine[]>([]), [reason, setReason] = useState('')
   const invoices = data.invoices ?? [], billable = data.billable_receipts ?? [], opening = data.opening_uninvoiced.filter(u => u.vendor_id === vendor && !u.invoiced)
+  const visibleInvoices = invoices.filter(i => `${i.invoice_number} ${i.vendor_code}`.toLocaleLowerCase().includes(invoiceSearch.trim().toLocaleLowerCase()))
+  const visibleReceipts = billable.filter(b => `${b.receipt_number} ${b.delivery_number} ${b.po_number}`.toLocaleLowerCase().includes(receiptSearch.trim().toLocaleLowerCase()))
   const sourceLabel = (s: string) => s.startsWith('d:') ? (redye.find(x => x.id === s.slice(2))?.number ?? 'Jasa celup') : s.startsWith('r:') ? (() => { const b = billable.find(x => x.receipt_line_id === s.slice(2)); return b ? `${b.receipt_number} · ${b.po_number}` : s })()
     : (() => { const u = data.opening_uninvoiced.find(x => x.id === s.slice(2)); return u ? `Saldo awal ${u.document_number} · ${CATEGORY_LABEL[u.category]}` : s })()
   const setLine = (i: number, patch: Partial<DraftLine>) => setLines(ls => ls.map((l, j) => j === i ? { ...l, ...patch } : l))
@@ -348,9 +402,11 @@ function Invoices({ data, vendor, locked, send }: { data: LaundryBdWorkspace; ve
       amount: signed(l.amount),
       ...(l.source.startsWith('r:') ? { receipt_line_id: l.source.slice(2) } : l.source.startsWith('d:') ? { rework_service_id: l.source.slice(2) } : { opening_uninvoiced_id: l.source.slice(2) }) })) })
   return <section className="initial-import-table" aria-label="Invoice vendor laundry">
-    {redye.length > 0 && <section aria-label="Jasa celup ulang"><h3>Jasa celup ulang</h3><p>Tarif diikat pada waktu kirim. Invoice mengganti estimasi; selisih mengikuti biaya produk.</p><table><thead><tr><th>Order / proses</th><th>Hasil</th><th>Tarif per PCS</th><th>Biaya kini</th></tr></thead><tbody>{redye.map(x => <tr key={x.id}><td>{x.number} · {x.process}<br/>{x.status}</td><td>{x.good} GOOD · {x.bs} BS</td><td>{x.price_known ? rupiah(x.rate) : 'Belum diketahui'}{!x.price_known && data.can_set_price && x.status !== 'CANCELLED' && <><input aria-label={`Tarif celup ${x.number}`} value={redyeRates[x.id] ?? ''} onChange={e => setRedyeRates(v => ({ ...v, [x.id]: e.target.value }))}/><button type="button" disabled={locked || !moneyInput(redyeRates[x.id] ?? '') || !reason.trim()} onClick={() => send('SET_REDYE_PRICE', { service_id: x.id, rate: normalizeMoney(redyeRates[x.id]), reason: reason.trim() })}>Isi tarif celup {x.number}</button></>}</td><td>{x.price_known ? rupiah(x.cost) : 'HPP belum final'}</td></tr>)}</tbody></table><p>Pengisian tarif memakai alasan pada formulir di bawah.</p></section>}
+    {redye.length > 0 && <section aria-label="Jasa celup ulang"><h3>Jasa celup ulang</h3><p>Tarif diikat pada waktu kirim. Invoice mengganti estimasi; selisih mengikuti biaya produk.</p><table><thead><tr><th>Order / proses</th><th>Hasil</th><th>Tarif per PCS</th><th>Biaya kini</th></tr></thead><tbody>{redye.map(x => <tr key={x.id}><td>{x.number} · {x.process}<br/>{x.status}</td><td>{x.good} GOOD · {x.bs} BS</td><td>{x.price_known ? rupiah(x.rate) : 'Belum diketahui'}{!x.price_known && canSetRedye && x.status !== 'CANCELLED' && <><input aria-label={`Tarif celup ${x.number}`} value={redyeRates[x.id] ?? ''} disabled={locked} onChange={e => setRedyeRates(v => ({ ...v, [x.id]: e.target.value }))}/><button type="button" disabled={locked || !moneyInput(redyeRates[x.id] ?? '') || !reason.trim()} onClick={() => send('SET_REDYE_PRICE', { service_id: x.id, rate: normalizeMoney(redyeRates[x.id]), reason: reason.trim() })}>Isi tarif celup {x.number}</button></>}</td><td>{x.price_known ? rupiah(x.cost) : 'HPP belum final'}</td></tr>)}</tbody></table><p>Pengisian tarif memakai alasan pada formulir di bawah.</p></section>}
 
-    <table><thead><tr><th>Invoice</th><th>Vendor</th><th>Tanggal</th><th>Total</th><th>Dibayar</th><th>Status</th><th/></tr></thead><tbody>{invoices.map(i => <tr key={i.invoice_id}>
+    <div className="initial-import-toolbar"><label>Cari invoice yang dimuat<input aria-label="Cari invoice yang dimuat" value={invoiceSearch} onChange={e => setInvoiceSearch(e.target.value)}/></label>
+      <span>{invoices.length} invoice dimuat</span>{data.pagination.invoice_next && <button type="button" disabled={locked} onClick={() => loadMore('invoices')}>Muat invoice berikutnya</button>}</div>
+    <table><thead><tr><th>Invoice</th><th>Vendor</th><th>Tanggal</th><th>Total</th><th>Dibayar</th><th>Status</th><th/></tr></thead><tbody>{visibleInvoices.map(i => <tr key={i.invoice_id}>
       <td>{i.invoice_number}{i.document_kind !== 'INVOICE' ? ` · koreksi ${i.document_kind === 'CORRECTION_UP' ? 'naik' : 'turun'} atas ${i.corrects_invoice_number}` : ''}</td><td>{i.vendor_code}</td><td>{i.invoice_date}</td><td>{rupiah(i.header_total)}</td><td>{rupiah(i.paid)}</td><td>{i.status}{i.variance_mode ? ` · selisih ${i.variance_mode === 'PRODUCT_COST' ? 'ke biaya produk' : 'ke akun selisih'}` : ''}</td>
       <td>{i.status === 'DRAFT' && <><button type="button" disabled={locked} onClick={() => edit(i)}>Ubah draf {i.invoice_number}</button>
         <button type="button" disabled={locked} onClick={() => send('POST_INVOICE', { invoice_id: i.invoice_id, expected_version: i.row_version })}>Posting {i.invoice_number}</button>
@@ -360,6 +416,8 @@ function Invoices({ data, vendor, locked, send }: { data: LaundryBdWorkspace; ve
     <Reason value={reason} set={setReason} locked={locked} label="Alasan pembatalan invoice"/>
     {!vendor ? <p>Pilih vendor untuk membuat draf invoice.</p> : <>
       <h4>{editing ? `Ubah draf ${editing.invoice_number}` : 'Draf invoice baru'}</h4>
+      <div className="initial-import-toolbar"><label>Cari penerimaan yang dimuat<input aria-label="Cari penerimaan yang dimuat" value={receiptSearch} onChange={e => setReceiptSearch(e.target.value)}/></label>
+        <span>{billable.length} penerimaan dimuat</span>{data.pagination.receipt_next && <button type="button" disabled={locked} onClick={() => loadMore('receipts')}>Muat penerimaan berikutnya</button>}</div>
       <div className="initial-import-toolbar">
         {([['number', 'Nomor invoice vendor'], ['date', 'Tanggal invoice'], ['due', 'Jatuh tempo'], ['total', 'Total invoice'], ['discount', 'Diskon'], ['tax', 'Pajak masukan'],
           ['rounding', 'Pembulatan']] as const).map(([k, label]) => <label key={k}>{label}<input aria-label={label} type={k === 'date' || k === 'due' ? 'date' : 'text'} value={head[k]}
@@ -374,7 +432,7 @@ function Invoices({ data, vendor, locked, send }: { data: LaundryBdWorkspace; ve
             setLine(i, from ? { source, category: from.category } : { source }) }}><option value="">Pilih…</option>
           {correcting && originSources.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
           {!correcting && redye.filter(x => x.status === 'COMPLETED').map(x => <option key={x.id} value={'d:' + x.id}>Celup {x.number} · {x.po_number} · baik {x.billed_good}/{x.good} · BS {x.billed_bs}/{x.bs}{x.price_known ? '' : ' · harga belum diketahui'}</option>)}
-          {!correcting && billable.map(b => <option key={b.receipt_line_id} value={'r:' + b.receipt_line_id}>{b.receipt_number} · {b.po_number} · baik {b.billed.GOOD}/{b.capacity.GOOD} · BS {b.billed.BS}/{b.capacity.BS} · gagal {b.billed.FAILED_ATTEMPT}/{b.capacity.FAILED_ATTEMPT}{b.price_known ? '' : ' · harga belum lengkap'}</option>)}
+          {!correcting && billable.filter(b => visibleReceipts.includes(b) || 'r:' + b.receipt_line_id === l.source).map(b => <option key={b.receipt_line_id} value={'r:' + b.receipt_line_id}>{b.receipt_number} · {b.po_number} · baik {b.billed.GOOD}/{b.capacity.GOOD} · BS {b.billed.BS}/{b.capacity.BS} · gagal {b.billed.FAILED_ATTEMPT}/{b.capacity.FAILED_ATTEMPT}{b.price_known ? '' : ' · harga belum lengkap'}</option>)}
           {!correcting && opening.map(u => <option key={u.id} value={'o:' + u.id}>Saldo awal {u.document_number} · {CATEGORY_LABEL[u.category]} {u.billed}/{u.qty}{u.estimate_status === 'UNKNOWN' ? ' · estimasi belum diketahui' : ''}</option>)}
           {l.source && !(correcting ? originSources.some(o => o.value === l.source) : redye.some(x => 'd:' + x.id === l.source) || billable.some(b => 'r:' + b.receipt_line_id === l.source) || opening.some(u => 'o:' + u.id === l.source))
             && <option value={l.source}>{sourceLabel(l.source)}</option>}</select></label>

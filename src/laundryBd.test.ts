@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { parseLaundryBdWorkspace, policyValue, validateBdResult } from './laundryBd'
+import { mergeLaundryBdPage, parseLaundryBdWorkspace, policyValue, validateBdResult } from './laundryBd'
 
 // Shapes captured from erp.get_laundry_bd_workspace_v1 on the local BD chain (a components vendor with an UNKNOWN component
 // price and a delivery priced with it; a rate vendor with one posted invoice and its billable receipt line).
@@ -606,9 +606,19 @@ const CORRECTION = {
  }
 } as Record<string, any>
 
-const clone = () => JSON.parse(JSON.stringify(REAL)) as Record<string, any>
+// Historical native capture above; explicit contract additions for the BD revision below.
+// Current native workspaces are independently parsed by cp6_bd_workspace_parse.mjs in T1.
+const clone = () => {
+  const r = JSON.parse(JSON.stringify(REAL)) as Record<string, any>
+  r.pagination = { as_of: '2026-09-27T18:00:00.000000Z', invoice_next: null, receipt_next: null }
+  for (const c of r.components) if (c.current) Object.assign(c.current, { reason: 'Synthetic contract extension', version_id: c.id })
+  for (const d of r.priced_deliveries) for (const c of d.charges) Object.assign(c, {
+    price_reason: 'Synthetic contract extension', coverage: [{ size_id: d.sizes[0].size_id, qty: c.covered_qty }],
+  })
+  return r
+}
 describe('laundry BD workspace boundary', () => {
-  it('reads the real workspace: an unknown price stays unknown, never zero', () => {
+  it('reads the extended captured workspace: an unknown price stays unknown, never zero', () => {
     const ws = parseLaundryBdWorkspace(clone())
     const charge = ws.priced_deliveries[0].charges.find(c => c.rate_status === 'UNKNOWN')!
     expect(charge.amount).toBeNull()
@@ -705,5 +715,44 @@ describe('laundry BD workspace boundary', () => {
   it('builds only owner values the server accepts (a variance account is required for VARIANCE_ACCOUNT)', () => {
     expect(policyValue('LAU-DEC06', { variance_mode: 'VARIANCE_ACCOUNT', after_payment: 'REFUSE' }, {})).toBeTypeOf('string')
     expect(policyValue('LAU-DEC02', {}, { GOOD: true, BS: false })).toEqual({ billable: ['GOOD'] })
+  })
+})
+
+
+describe('BD audit revision contracts', () => {
+  it.each(['FREE', 'WAIVED'])('requires explicit zero and reason for %s, distinct from UNKNOWN', status => {
+    const r = clone(), c = r.priced_deliveries[0].charges[1]
+    Object.assign(c, { rate_status: status, unit_rate: '0.00', amount: '0.00', price_reason: 'Owner agreed no charge' })
+    r.priced_deliveries[0].total_complete = true
+    expect(parseLaundryBdWorkspace(r).priced_deliveries[0].charges[1].rate_status).toBe(status)
+    c.amount = null; expect(() => parseLaundryBdWorkspace(r)).toThrow()
+    c.amount = '0.01'; expect(() => parseLaundryBdWorkspace(r)).toThrow()
+    c.amount = '0.00'; c.price_reason = null; expect(() => parseLaundryBdWorkspace(r)).toThrow()
+  })
+  it('rejects missing, duplicate or mismatched coverage', () => {
+    for (const coverage of [[], [{ size_id: REAL.priced_deliveries[0].sizes[0].size_id, qty: 9 }],
+      [{ size_id: REAL.priced_deliveries[0].sizes[0].size_id, qty: 5 }, { size_id: REAL.priced_deliveries[0].sizes[0].size_id, qty: 5 }]]) {
+      const r = clone(); r.priced_deliveries[0].charges[0].coverage = coverage
+      expect(() => parseLaundryBdWorkspace(r)).toThrow(/Penerima jasa/)
+    }
+  })
+  it('appends invoice and source pages once while preserving the other loaded collection', () => {
+    const first = parseLaundryBdWorkspace(clone()), next = parseLaundryBdWorkspace(clone())
+    const newId = '1b1666e2-a09b-4428-bec7-9aa2bd36dd09'
+    next.invoices!.push({ ...next.invoices![0], invoice_id: newId })
+    const merged = mergeLaundryBdPage(first, next, 'invoices')
+    expect(merged.invoices?.map(i => i.invoice_id)).toEqual([first.invoices![0].invoice_id, newId])
+    expect(merged.billable_receipts).toEqual(first.billable_receipts)
+    const source = parseLaundryBdWorkspace(clone())
+    source.billable_receipts!.push({ ...source.billable_receipts![0], receipt_line_id: newId })
+    expect(mergeLaundryBdPage(merged, source, 'receipts').billable_receipts).toHaveLength(2)
+    source.pagination.as_of = '2026-09-27T19:00:00Z'
+    expect(() => mergeLaundryBdPage(first, source, 'receipts')).toThrow()
+  })
+  it('discards cached money rows if the next page loses money access', () => {
+    const first = parseLaundryBdWorkspace(clone())
+    const redacted = { ...first, money_visible: false, invoices: null, billable_receipts: null, accounts: null, payables: null,
+      pagination: { ...first.pagination, invoice_next: null, receipt_next: null } }
+    expect(mergeLaundryBdPage(first, redacted, 'invoices')).toBe(redacted)
   })
 })

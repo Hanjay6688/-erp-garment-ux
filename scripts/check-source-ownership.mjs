@@ -96,6 +96,7 @@ assert.deepEqual([...rpcOwnership].sort(), [
   'src/ConnectedProductConversionPage.tsx:erp_get_accessory_service_workspace_v1',
   'src/ConnectedProductConversionPage.tsx:erp_get_product_conversion_workspace_v1',
   'src/ConnectedProductConversionPage.tsx:erp_save_product_conversion_action_v1',
+  'src/LaundryBdPanel.tsx:erp_save_product_conversion_action_v1',
   'src/ConnectedAccessoryIssuePage.tsx:erp_get_accessory_issue_workspace_v1',
   'src/ConnectedAccessoryIssuePage.tsx:erp_save_accessory_issue_action_v1',
   'src/ConnectedAccessoryServicePage.tsx:erp_get_accessory_service_workspace_v1',

@@ -5,6 +5,7 @@ name: CP6 BD T1 Family Probe
     - claude/new-session-deapao
     paths:
     - scripts/cp6_bd_probe.py
+    - scripts/cp6_bd_revision_cases.py
     - scripts/cp6_bd_build.py
     - scripts/cp6_bd_objects_policy.sql
     - scripts/cp6_bd_objects_master.sql
