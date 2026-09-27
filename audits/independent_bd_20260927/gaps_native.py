@@ -2,11 +2,13 @@
 
 Only our prior adapter/fixtures are reused. Never repairs product or disables guards.
 """
-import json, traceback, time, threading, hashlib
+import json, traceback, time, threading, hashlib, secrets, subprocess
 from decimal import Decimal as D
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from concurrent.futures import ThreadPoolExecutor
+from urllib.request import Request, urlopen
+from urllib.error import HTTPError, URLError
 import psycopg
 from psycopg.types.json import Jsonb
 import suite as s
@@ -193,13 +195,17 @@ def multi_source_invoice():
     journal=invoice_journal(r,{'WIP':(D('123248.55'),D(0)),'AP_VENDOR':(D(0),D('123248.55'))})
     return {'invoice':r,'source_lines':rows,'journal':journal,'po_ledgers':ledgers,'combined_qty':26,'combined_fg_cost':'125848.55'}
 
-def two_sessions(sql,argsets,events):
+def two_sessions(sql,argsets,events,actors=('owner','owner')):
     gate=threading.Barrier(2)
     def work(i):
-        with s.actor_conn() as c:
-            pid=c.execute('select pg_backend_pid()').fetchone()[0];c.commit();gate.wait(timeout=20)
-            try:r=c.execute(sql,argsets[i]).fetchone()[0];c.commit();answer={'accepted':True,'backend_pid':pid,'response':r}
-            except psycopg.Error as e:c.rollback();answer={'accepted':False,'backend_pid':pid,'sqlstate':e.sqlstate,'error':str(e)}
+        who=actors[i]
+        with s.actor_conn(who) as c:
+            authid,appid,role,pid=c.execute('select auth.uid()::text,erp.current_app_user_id()::text,erp.current_app_role(),pg_backend_pid()').fetchone()
+            eq(authid,C[who]);eq(role,'OWNER');assert appid is not None
+            identity={'actor':who,'auth_id':authid,'erp_user_id':appid,'erp_role':role,'backend_pid':pid}
+            c.commit();gate.wait(timeout=20)
+            try:r=c.execute(sql,argsets[i]).fetchone()[0];c.commit();answer={**identity,'accepted':True,'response':r}
+            except psycopg.Error as e:c.rollback();answer={**identity,'accepted':False,'sqlstate':e.sqlstate,'error':str(e)}
             E.append({**events[i],**answer,'layer':'distinct authenticator/authenticated sessions'});return answer
     with ThreadPoolExecutor(max_workers=2) as pool:out=list(pool.map(work,range(2)))
     eq(len({x['backend_pid'] for x in out}),2);eq(sum(x['accepted'] for x in out),1);return out
@@ -233,6 +239,132 @@ def policy_race():
         p={'policy_key':'LAU_DEC01','operation':'SET' if original['status']=='SET' else 'CLEAR','expected_version':str(current_version),'reason':'Restore independent fixture policy after concurrency test'}
         if original['status']=='SET':p['value']=original['value']
         cmd('SET_POLICY',p)
+    return observation
+
+def local_auth_request(path,payload,apikey,bearer=None):
+    # Authentication setup only. Never append credentials, keys, or tokens to E.
+    data=None if payload is None else json.dumps(payload).encode()
+    req=Request('http://127.0.0.1:54321/auth/v1/'+path,data=data,
+        headers={'Content-Type':'application/json','apikey':apikey,'Authorization':'Bearer '+(bearer or apikey)},
+        method='GET' if payload is None else 'POST')
+    try:
+        with urlopen(req,timeout=30) as response:status,body=response.status,response.read()
+    except HTTPError as e:status,body=e.code,e.read()
+    except (URLError,TimeoutError):raise SetupBlocked('Isolated local Auth endpoint unavailable') from None
+    try:answer=json.loads(body)
+    except (ValueError,UnicodeDecodeError):raise SetupBlocked('Isolated local Auth returned non-JSON') from None
+    if status not in (200,201):raise SetupBlocked('Isolated local Auth '+path+' returned HTTP '+str(status))
+    return answer
+
+def distinct_owner_controls():
+    actors=('race_owner_a','race_owner_b')
+    if 'two_operators' not in G:
+        # Auth uses the already running disposable GoTrue service. ERP role rows
+        # live in cp6_rollback and are inserted with all normal guards enabled.
+        try:help_result=subprocess.run(['supabase','status','--help'],capture_output=True,text=True,timeout=30)
+        except (OSError,subprocess.TimeoutExpired):raise SetupBlocked('Cannot inspect local Supabase status command') from None
+        if help_result.returncode or any(flag not in help_result.stdout for flag in ['--output','--workdir']):
+            raise SetupBlocked('Local Supabase status command contract unavailable')
+        try:runtime=subprocess.run(['supabase','status','--workdir',str(s.ROOT.parent/'base'/'cp5-local'),'--output','json'],capture_output=True,text=True,timeout=30)
+        except (OSError,subprocess.TimeoutExpired):raise SetupBlocked('Cannot inspect isolated local Auth runtime') from None
+        if runtime.returncode:raise SetupBlocked('Cannot read isolated local Auth runtime configuration')
+        try:keys=json.loads(runtime.stdout)
+        except ValueError:raise SetupBlocked('Local Auth runtime configuration is not JSON') from None
+        if not keys.get('ANON_KEY') or not keys.get('SERVICE_ROLE_KEY'):raise SetupBlocked('Isolated local Auth keys unavailable')
+        rid=admin("select id from erp.app_roles where role_code='OWNER' and is_active",one=True)
+        if not rid:raise SetupBlocked('Active OWNER role missing')
+        identities={}
+        for who in actors:
+            email='bd-gap-'+who+'-'+uid()[:8]+'@example.test';password='Bd-Audit-'+secrets.token_hex(16)+'!'
+            user=local_auth_request('admin/users',{'email':email,'password':password,'email_confirm':True},keys['SERVICE_ROLE_KEY'])
+            authid=user.get('id')
+            if not authid:raise SetupBlocked('Local Auth creation did not return a user ID')
+            session=local_auth_request('token?grant_type=password',{'email':email,'password':password},keys['ANON_KEY'])
+            if session.get('user',{}).get('id')!=authid or not session.get('access_token'):
+                raise SetupBlocked('Local Auth password control did not identify the created operator')
+            verified=local_auth_request('user',None,keys['ANON_KEY'],session['access_token'])
+            if verified.get('id')!=authid:raise SetupBlocked('Local Auth token control returned a different operator')
+            try:
+                with psycopg.connect(s.DSN) as c:
+                    c.execute("select set_config('app.change_reason','Independent distinct-operator audit prerequisite',true)")
+                    appid=c.execute("insert into erp.app_users(auth_user_id,full_name,role,role_id) values(%s,%s,'OWNER',%s) returning id::text",
+                        (authid,'AUD-GAPS-'+who,rid)).fetchone()[0]
+            except psycopg.Error as e:raise SetupBlocked('Guarded independent ERP actor prerequisite: '+str(e)) from e
+            C[who]=authid;identities[who]={'auth_id':authid,'erp_user_id':appid,'role_id':str(rid),'real_password_authentication':True,'auth_token_user_verified':True}
+            E.append({'distinct_operator_fixture':who,**identities[who],'boundary':'Local GoTrue Auth prerequisite plus guarded ERP app-user insert; races use native SQL actor context'})
+        eq(len({x['auth_id'] for x in identities.values()}|{C['owner']}),3,'Two operators and original owner have distinct Auth IDs')
+        eq(len({x['erp_user_id'] for x in identities.values()}|{C['app_owner']}),3,'Two operators and original owner have distinct ERP app-user IDs')
+        G['two_operators']=identities
+    controls=[]
+    for who in actors:
+        with s.actor_conn(who) as c:
+            identity=c.execute("select auth.uid()::text,erp.current_app_user_id()::text,erp.current_app_role(),erp.has_permission('production.laundry.post'),erp.has_permission('settings.erp.manage')").fetchone()
+            workspace=c.execute('select public.erp_get_laundry_bd_workspace_v1(%s)',(Jsonb({'vendor_id':G['vendor']}),)).fetchone()[0]
+        expected=G['two_operators'][who]
+        eq(identity,(expected['auth_id'],expected['erp_user_id'],'OWNER',True,True),'Per-operator active role and action-permission control')
+        eq(workspace['is_owner'],True);eq(workspace['money_visible'],True)
+        control={'actor':who,**expected,'erp_role':identity[2],'can_post_laundry':identity[3],'can_manage_settings':identity[4],'workspace_is_owner':workspace['is_owner'],'money_visible':workspace['money_visible']}
+        controls.append(control);E.append({'distinct_operator_positive_control':control})
+    return actors,controls
+
+def assert_distinct_operators(out):
+    eq(len({x['auth_id'] for x in out}),2);eq(len({x['erp_user_id'] for x in out}),2)
+    for row in out:
+        expected=G['two_operators'][row['actor']]
+        eq(row['auth_id'],expected['auth_id']);eq(row['erp_user_id'],expected['erp_user_id']);eq(row['erp_role'],'OWNER')
+
+def two_actor_receipt_race():
+    actors,controls=distinct_owner_controls();key='GAP_RACE_ACTORS';f=build_source(key,receive=False)
+    p=d.rp(key);version=d.ver('laundry_deliveries',f['delivery']);requests=[uid(),uid()]
+    before=po_accounts(key);eq(before,{'WIP':D('60868.72'),'FG_INVENTORY':D(0),'COGS':D(0),'ACCRUED_MANUFACTURING':-D('59568.72')})
+    sql='select public.erp_save_laundry_qc_action_v1(%s,%s,%s::uuid,%s)'
+    out=two_sessions(sql,[('POST_RECEIPT',Jsonb(p),r,version) for r in requests],
+        [{'api':'public.erp_save_laundry_qc_action_v1','action':'POST_RECEIPT','payload':p,'request':r,'expected_version':version} for r in requests],actors)
+    assert_distinct_operators(out);winner=next(i for i,x in enumerate(out) if x['accepted']);loser=out[1-winner]
+    eq(loser['sqlstate'],'P0001')
+    if not any(token in loser['error'] for token in ['STALE_VERSION','active SENT/PARTIAL_RETURN','exceeds remaining']):raise AssertionError('Unexpected two-operator receipt refusal: '+loser['error'])
+    winner_app=out[winner]['erp_user_id'];receipt_id=out[winner]['response']['receipt_id']
+    def state():
+        rows=admin("select count(*),coalesce(sum(l.qty_good_received),0),coalesce(sum(l.qty_bs_laundry),0),min(h.created_by::text) from erp.laundry_receipts h join erp.laundry_receipt_lines l on l.receipt_id=h.id where h.delivery_id=%s and h.status='POSTED'",(f['delivery'],))[0]
+        return {'posted_count_good_bs_actor':rows,'delivery':d.row('laundry_deliveries',f['delivery']),'receipt':d.row('laundry_receipts',receipt_id),'accounts':po_accounts(key),'fg_qty':d.qty(key)}
+    after=state();eq(after['posted_count_good_bs_actor'],(1,13,0,winner_app));eq(after['delivery']['row_version'],version+1)
+    eq(after['delivery']['status'],'RETURNED');eq(after['accounts'],before);eq(after['fg_qty'],0)
+    with s.actor_conn(actors[winner]) as c:replay=c.execute(sql,('POST_RECEIPT',Jsonb(p),requests[winner],version)).fetchone()[0]
+    E.append({'api':'public.erp_save_laundry_qc_action_v1','action':'POST_RECEIPT','actor':actors[winner],'auth_id':out[winner]['auth_id'],'erp_user_id':winner_app,'request':requests[winner],'payload':p,'expected_version':version,'response':replay,'layer':'winning distinct operator replay via native SQL'})
+    eq(replay,out[winner]['response'],'Receipt replay preserves the winning operator response');eq(state(),after,'Receipt replay has no additional physical/version/cost effect')
+    return {'controls':controls,'sessions':out,'winning_app_user':winner_app,'posted_receipt_count_good_bs':after['posted_count_good_bs_actor'][:3],'delivery_version_before':version,'delivery_version_after':after['delivery']['row_version'],'accounts':after['accounts'],'fg_qty':0,'winner_replay':replay,'replay_state_unchanged':True}
+
+def two_actor_policy_race():
+    actors,controls=distinct_owner_controls()
+    original=admin("select to_jsonb(t) from erp.bd_policy_settings_v1 t where policy_key='LAU_DEC01'",one=True);version=int(original['version']);requests=[uid(),uid()]
+    payloads=[{'policy_key':'LAU_DEC01','operation':'SET','expected_version':str(version),'reason':'Independent distinct operator policy edit '+str(i),'value':{'units':[v]}} for i,v in enumerate(['BATCH','MINIMUM'])]
+    event_count=admin("select count(*) from erp.bd_policy_setting_events_v1 where policy_key='LAU_DEC01'",one=True)
+    event_sql="select version,set_by::text,request_id::text,value from erp.bd_policy_setting_events_v1 where policy_key='LAU_DEC01' and version>%s order by version"
+    request_sql="select request_id::text,actor::text,action from erp.bd_requests_v1 where request_id in(%s::uuid,%s::uuid) order by request_id"
+    try:
+        out=two_sessions('select public.erp_save_laundry_bd_action_v1(%s,%s,%s::uuid)',[('SET_POLICY',Jsonb(p),r) for p,r in zip(payloads,requests)],
+            [{'api':'public.erp_save_laundry_bd_action_v1','action':'SET_POLICY','payload':p,'request':r} for p,r in zip(payloads,requests)],actors)
+        assert_distinct_operators(out);winner=next(i for i,x in enumerate(out) if x['accepted']);loser=out[1-winner]
+        eq(loser['sqlstate'],'P0001');assert 'STALE_VERSION' in loser['error'],loser
+        current=admin("select to_jsonb(t) from erp.bd_policy_settings_v1 t where policy_key='LAU_DEC01'",one=True)
+        eq(int(current['version']),version+1);eq(current['value'],payloads[winner]['value']);eq(current['set_by'],out[winner]['erp_user_id'])
+        eq(admin("select count(*) from erp.bd_policy_setting_events_v1 where policy_key='LAU_DEC01'",one=True),event_count+1)
+        events=admin(event_sql,(version,));eq(events,[(version+1,out[winner]['erp_user_id'],requests[winner],payloads[winner]['value'])])
+        request_rows=admin(request_sql,tuple(requests));eq(request_rows,[(requests[winner],out[winner]['erp_user_id'],'SET_POLICY')])
+        replay=cmd('SET_POLICY',payloads[winner],requests[winner],who=actors[winner])
+        eq(replay.get('replayed') is True,True);eq(replay,{**out[winner]['response'],'replayed':True})
+        eq(admin("select to_jsonb(t) from erp.bd_policy_settings_v1 t where policy_key='LAU_DEC01'",one=True),current)
+        eq(admin("select count(*) from erp.bd_policy_setting_events_v1 where policy_key='LAU_DEC01'",one=True),event_count+1)
+        eq(admin(event_sql,(version,)),events);eq(admin(request_sql,tuple(requests)),request_rows)
+        observation={'controls':controls,'sessions':out,'version_before':version,'version_after':int(current['version']),'one_setting_event':events,'one_request_row':request_rows,'winning_actor_replay':replay,'replay_policy_events_requests_unchanged':True}
+    finally:
+        current_version=admin("select version from erp.bd_policy_settings_v1 where policy_key='LAU_DEC01'",one=True)
+        p={'policy_key':'LAU_DEC01','operation':'SET' if original['status']=='SET' else 'CLEAR','expected_version':str(current_version),'reason':'Original owner restores policy after independent two-operator race'}
+        if original['status']=='SET':p['value']=original['value']
+        restored=cmd('SET_POLICY',p,who='owner')
+        restored_row=admin("select to_jsonb(t) from erp.bd_policy_settings_v1 t where policy_key='LAU_DEC01'",one=True)
+        eq(restored_row['status'],original['status']);eq(restored_row['value'],original['value']);eq(restored_row['set_by'],C['app_owner'])
+    observation['restored_by_original_owner']={'auth_id':C['owner'],'erp_user_id':C['app_owner'],'response':restored}
     return observation
 
 def build_browser_receipts(count=201):
@@ -269,6 +401,8 @@ def main():
     case('GAP.MULTI-SOURCE','One positive invoice over two real receipt sources conserves cost, HPP and quantity',multi_source_invoice)
     case('GAP.RACE.RECEIPT','Two authenticated sessions compete for the same receipt capacity',receipt_race)
     case('GAP.RACE.POLICY','Two authenticated policy updates have one event/version and replay one effect',policy_race)
+    case('GAP.RACE.RECEIPT.TWO-ACTORS','Two distinct authorized operators compete for one fresh receipt capacity',two_actor_receipt_race)
+    case('GAP.RACE.POLICY.TWO-ACTORS','Two distinct authorized owners produce one policy version/event and replay as winner',two_actor_policy_race,['two_operators'])
     case('GAP.BROWSER.SOURCES','Build 201 legitimate known-priced unbilled receipt lines for live UI check',build_browser_receipts)
     save();return int(any(r['status']!='PASS' for r in R))
 

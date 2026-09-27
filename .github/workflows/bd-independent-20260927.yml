@@ -69,6 +69,31 @@ jobs:
           git rev-parse HEAD > audit-results/audit-head.txt
           sha256sum audits/independent_bd_20260927/PLAN.md > audit-results/plan-sha256.txt
           sha256sum audits/independent_bd_20260927/GAP_PLAN.md audits/independent_bd_20260927/GAPS_NATIVE_NOTES.md audits/independent_bd_20260927/RELEASE_GAPS_NOTES.md > audit-results/gap-oracles-sha256.txt
+      - name: Reserve fixed audit gateway ports on disposable runner
+        working-directory: auditor
+        run: |
+          python - <<'PYPORT'
+          import json, subprocess
+          from pathlib import Path
+          key='net.ipv4.ip_local_reserved_ports'
+          before=subprocess.check_output(['sysctl','-n',key],text=True).strip()
+          ports=set()
+          for token in filter(None,before.split(',')):
+              ends=list(map(int,token.split('-')))
+              ports.update(range(ends[0],ends[-1]+1))
+          ports.update([54328,54329])
+          ranges=[]
+          for port in sorted(ports):
+              if ranges and port==ranges[-1][1]+1:ranges[-1][1]=port
+              else:ranges.append([port,port])
+          value=','.join(str(a) if a==b else str(a)+'-'+str(b) for a,b in ranges)
+          subprocess.run(['sudo','sysctl','-w',key+'='+value],check=True,capture_output=True,text=True)
+          after=subprocess.check_output(['sysctl','-n',key],text=True).strip()
+          assert after==value,(value,after)
+          evidence={'scope':'Disposable GitHub runner only; prevents auto-assigned client source ports from colliding with fixed allowed browser gateway ports','before':before,'after':after,'required_reserved_ports':[54328,54329],'original_reservations_preserved':True,'ip_local_port_range':subprocess.check_output(['sysctl','-n','net.ipv4.ip_local_port_range'],text=True).strip()}
+          Path('audit-results/runner-gateway-port-reservation.json').write_text(json.dumps(evidence,indent=2)+'\n')
+          print(json.dumps(evidence))
+          PYPORT
       - name: Start isolated Supabase runtime
         working-directory: base
         run: |

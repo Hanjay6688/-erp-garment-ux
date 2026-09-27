@@ -20,3 +20,24 @@ not opened or executed and their business assertions/verdicts were not adopted.
 The release subtask uses only source identity, installation, admission and ledger
 checks. This disclosure accompanies the browser search exposure recorded above;
 there is no claim of zero incidental exposure during the supplemental phase.
+
+
+Pre-run18 scope and adapter addendum:
+The two earlier race cases used separate database sessions for one OWNER. Keep
+those cases and additionally use two distinct authorized OWNER identities for
+receipt-capacity and policy-version races, as specified in GAPS_NATIVE_NOTES.md.
+Each actor gets real local Auth controls; concurrent commands remain native
+unprivileged SQL RPCs. This closes the separate two-operator requirement rather
+than relabelling a same-account test.
+
+Run17 gateway binding failed before HTTP/browser tests with EADDRINUSE. No
+socket-state diagnostic existed in that attempt, so its precise cause remains
+unproven. Preserve the product's exact allowed gateway54328 and app origin4176.
+The disposable runner reserves54328/54329 from automatic ephemeral source-port
+selection while preserving all existing reservations. The audit gateway binds
+early, records socket states on collision, and only retries measured TIME-WAIT;
+unknown listeners are never killed or replaced. These are runner/adapter
+changes, not product guard changes. A later runtime must establish mobile touch
+and browser outcomes. A URL-source search incidentally displayed runtime.test.ts
+matching lines; configuration decisions came from runtime.ts itself, not those
+tests, and no BD business oracle was taken from them.

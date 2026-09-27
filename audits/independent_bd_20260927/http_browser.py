@@ -11,7 +11,7 @@ from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
 from datetime import datetime
 from zoneinfo import ZoneInfo
-import concurrent.futures, http.client, json, os, re, secrets, subprocess, threading, time, traceback, uuid
+import concurrent.futures, errno, http.client, json, os, re, secrets, subprocess, threading, time, traceback, uuid
 import psycopg
 
 ROOT=Path(__file__).resolve().parents[2]
@@ -108,7 +108,33 @@ class Proxy(BaseHTTPRequestHandler):
         finally:conn.close()
     do_GET=proxy;do_POST=proxy;do_PUT=proxy;do_PATCH=proxy;do_DELETE=proxy
 
+def bind_gateway():
+    # The frozen runtime pins this exact port. Reserve it before this script's
+    # own outbound connections; the runner also excludes it from ephemeral use.
+    deadline=time.monotonic()+65;attempt=0
+    while True:
+        attempt+=1
+        try:
+            server=ThreadingHTTPServer(('127.0.0.1',54328),Proxy)
+            FIX['proxy']=server
+            threading.Thread(target=server.serve_forever,daemon=True).start()
+            EVENTS.append({'gateway_bind':{'port':54328,'attempt':attempt,'success':True}})
+            return
+        except OSError as error:
+            if error.errno!=errno.EADDRINUSE:raise
+            probe=run(['ss','-Htan','( sport = :54328 )'],check=False)
+            states={line.split()[0] for line in probe.stdout.splitlines() if line.strip()}
+            evidence={'port':54328,'attempt':attempt,'errno':error.errno,'ss_exit':probe.returncode,
+                      'ss_output':probe.stdout,'ss_stderr':probe.stderr,'states':sorted(states)}
+            EVENTS.append({'gateway_bind_collision':evidence});save()
+            # Do not stop or replace an unknown listener. A measured TIME_WAIT
+            # conflict is the only condition for this bounded retry.
+            if probe.returncode or states!={'TIME-WAIT'} or time.monotonic()>=deadline:
+                raise RuntimeError({'gateway_bind_failed':evidence,'time_wait_retry_budget_seconds':65}) from error
+            time.sleep(1)
+
 def setup_gateway():
+    bind_gateway()
     # Only runtime configuration is reused; no writer tests or expected results.
     raw=run(['supabase','status','--workdir',str(ROOT.parent/'base'/'cp5-local'),'--output','json']).stdout
     KEYS.update(json.loads(raw));SECRET_VALUES.extend(str(v) for k,v in KEYS.items() if 'KEY' in k or 'SECRET' in k)
@@ -129,9 +155,6 @@ def setup_gateway():
         except (URLError,ConnectionError):pass
         time.sleep(.25)
     else:raise RuntimeError('Independent PostgREST did not become ready')
-    server=ThreadingHTTPServer(('127.0.0.1',54328),Proxy)
-    threading.Thread(target=server.serve_forever,daemon=True).start()
-    FIX['proxy']=server
     (OUT/'environment.json').write_text(json.dumps({'postgres_database':sql('select current_database()',one=True),
        'postgrest_image':original['Config']['Image'],'auth_gateway':'http://127.0.0.1:54321',
        'application_gateway':'http://127.0.0.1:54328','postgrest_database_role':'authenticator',

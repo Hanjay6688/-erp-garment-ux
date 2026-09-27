@@ -90,3 +90,26 @@ Source trace: official `vercel-labs/agent-browser` tag `v0.31.1`,
 `Emulation.setTouchEmulationEnabled`, with `enabled=true` and
 `maxTouchPoints=1`. Actual resulting environment, DOM, HTTP and DB evidence
 must pass the next run before any mobile-flow success is claimed.
+
+## Run17 gateway collision
+
+Run17 stopped before any HTTP/browser case when binding the audit gateway to
+127.0.0.1:54328 returned EADDRINUSE. It supplies no new mobile outcome. The
+existing artifact does not capture socket states, so an ephemeral TIME_WAIT
+collision is a plausible cause, not a proven diagnosis.
+
+The frozen product's `src/config/runtime.ts` requires precisely that gateway
+URL and UI origin 127.0.0.1:4176; dynamically changing the gateway would violate
+its disposable-runtime guard. The continuation keeps both product endpoints.
+The runner excludes 54328–54329 from automatic ephemeral port allocation before
+tests, preserving existing reservations and recording before/after values.
+The audit helper binds its own gateway before making outbound connections. On
+EADDRINUSE it records the actual `ss` socket states and retries for at most
+65 seconds only when all matching sockets are TIME_WAIT. Any listener, other
+state or missing diagnostic fails setup. No unknown process is killed, no
+product guard is changed, and prior failed run evidence remains retained.
+
+The runtime-URL filename search also surfaced matching URL lines in
+`runtime.test.ts`. That test file was not opened or copied; the required URL
+was verified directly in the product `runtime.ts` condition. This configuration
+check does not establish or change a BD business oracle.
