@@ -56,12 +56,12 @@ jobs:
           supabase start --workdir cp6-be-blind-local -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor > "$RUNNER_TEMP/be-supabase-start.log" 2>&1 || { tail -n 60 "$RUNNER_TEMP/be-supabase-start.log"; exit 1; }
       - name: Apply untouched candidate migration chain
         run: python scripts/cp6_be_blind_chain.py
+      - name: Run independent accessory, rework, zero-price and Afui oracles
+        run: python scripts/cp6_be_blind_extended.py
       - name: Run independent business oracle on full schema
         run: python scripts/cp6_be_blind_native.py
       - name: Run independent Auth and HTTP replay oracle
         run: python scripts/cp6_be_blind_http.py
-      - name: Run independent accessory, rework, zero-price and Afui oracles
-        run: python scripts/cp6_be_blind_extended.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
