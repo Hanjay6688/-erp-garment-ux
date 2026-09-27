@@ -144,7 +144,7 @@ def selectors():
     keys=[]
     for i in range(57):
         r=n.rpc('erp_post_fg_unsourced_receipt_v1',[{'source_kind':'FOUND_AT_OPNAME','product_id':C['wrongsize'],'location_id':C['fg'],'qty_pcs':1,'physical_at':'2026-09-13T08:00:00+07:00','reason':'Independent selector capacity source '+str(i)},uid()]);keys.append(r['lot_id'])
-    pages=[n.ws({'source_product_id':C['wrongsize'],'page':z}) for z in [1,2,3]];ids=[x['id'] for page in pages for x in page['lots']];eq(len(set(ids)),57);eq(set(ids),set(keys))
+    pages=[n.ws({'query':'AUD-DAY-1','page':z}) for z in [1,2,3]];ids=[x['id'] for page in pages for x in page['lots']];eq(len(set(ids)),57);eq(set(ids),set(keys))
     oldest=A('select id::text,lot_number from erp.fg_lots where id=any(%s::uuid[]) order by created_at,id limit 1',(keys,))[0];search=n.ws({'query':oldest[1]});eq([x['id'] for x in search['lots']],[oldest[0]]);X['selector']={'lots':keys,'oldest':oldest};return {'sources':57,'page_lengths':[len(x['lots']) for x in pages],'searched_oldest':oldest,'no_loss_or_duplicates':True}
 
 def run():

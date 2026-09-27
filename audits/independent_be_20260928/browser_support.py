@@ -252,13 +252,13 @@ def control_selector(code,who='owner'):
     return selector
 
 def fill(label,value,who='owner'):
-    code='(document.querySelector('+json.dumps('[aria-label='+json.dumps(label)+']')+')||Array.from(document.querySelectorAll("label")).find(l=>l.textContent.trim()==='+json.dumps(label)+')?.control)'
+    code='(document.querySelector('+json.dumps('[aria-label='+json.dumps(label)+']')+')||Array.from(document.querySelectorAll("label")).find(l=>Array.from(l.childNodes).filter(x=>!['+json.dumps('INPUT')+','+json.dumps('TEXTAREA')+','+json.dumps('SELECT')+'].includes(x.nodeName)).map(x=>x.textContent).join("").trim()==='+json.dumps(label)+')?.control)'
     selector=control_selector(code,who)
     ab('snapshot','-i',who=who)
     if evaluate(code+'.type',who) in ['date','datetime-local']:
         native_input(selector,value,who)
     else:ab('fill',selector,value,who=who)
-    actual=evaluate('({value:'+code+'.value})',who)['value']
+    actual=evaluate('({value:document.querySelector('+json.dumps(selector)+').value})',who)['value']
     assert actual==str(value),{'input_entry_prerequisite':label,'expected':str(value),'actual':actual}
 
 def native_input(selector,value,who='owner'):
@@ -280,6 +280,8 @@ try {
     r=run(['node','--input-type=module','-e',worker,endpoints[0],selector,value],timeout=45)
     out=json.loads(r.stdout);assert out['input_value']==value,out
     EVENTS.append({'native_input':out,'selector':selector,'session':who})
+    if who.startswith('mobile'):
+        mobile_touch_context(who,ab('get','url',who=who).strip())
 
 def select(label,value,who='owner'):
     selector='select[aria-label='+json.dumps(label)+']'

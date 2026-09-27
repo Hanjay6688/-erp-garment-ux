@@ -30,7 +30,7 @@ def refuse(fn):
         eq(e.sqlstate,'P0001','Expected domain refusal, not broken adapter');eq(fp(),before,'Rejected transaction left no effects')
         return {'sqlstate':e.sqlstate,'message':str(e),'unchanged':before}
     raise AssertionError('Expected refusal; operation accepted')
-def precursor(key):
+def precursor(key,work_at='2026-09-12T08:00:00+07:00'):
     f={k:uid() for k in ['po','group','cb','roll','groll','pickup','batch','work','snap']};f['key']=key
     with psycopg.connect(s.DSN) as c:
         c.execute("select set_config('app.change_reason','Independent controlled prerequisite',true)")
@@ -51,7 +51,7 @@ def precursor(key):
         c.execute("update erp.cutting_groups set material_issue_posted=true,picked_up_at='2026-09-11T08:00:00+07:00',status='SEWING' where id=%s",(f['group'],))
         c.execute("insert into erp.wip_stage_events(po_id,cutting_group_id,stage_from,stage_to,qty_pcs,contractor_id,source_type,source_id,physical_at,created_by) values(%s,%s,'CUTTING','SEWING',13,%s,'AUDIT_PREREQUISITE',%s,'2026-09-11T08:00:00+07:00',%s)",(f['po'],f['group'],C['mandor'],f['pickup'],C['app_owner']))
         c.execute("insert into erp.po_work_component_snapshots(id,po_id,work_component_id,rate_per_pcs_snapshot,committed_at) values(%s,%s,%s,100,'2026-09-11T08:00:00+07:00')",(f['snap'],f['po'],C['work_component']))
-        c.execute("insert into erp.work_completion_events(id,completion_number,po_id,contractor_id,cutting_group_id,physical_at,created_by) values(%s,%s,%s,%s,%s,'2026-09-12T08:00:00+07:00',%s)",(f['work'],'AUD-WORK-'+key,f['po'],C['mandor'],f['group'],C['app_owner']))
+        c.execute("insert into erp.work_completion_events(id,completion_number,po_id,contractor_id,cutting_group_id,physical_at,created_by) values(%s,%s,%s,%s,%s,%s,%s)",(f['work'],'AUD-WORK-'+key,f['po'],C['mandor'],f['group'],work_at,C['app_owner']))
         c.execute('insert into erp.work_completion_lines(completion_id,po_component_snapshot_id,work_component_id,qty_completed,qty_payable,rate_snapshot) values(%s,%s,%s,13,13,100)',(f['work'],f['snap'],C['work_component']))
         c.execute('select erp.post_work_completion(%s)',(f['work'],))
         r=c.execute('select erp.record_sewing_terminal_v1(%s,%s::uuid)',(Jsonb({'work_completion_id':f['work'],'qty_pcs':13,'reason':'Independent production prerequisite'}),uid())).fetchone()[0]

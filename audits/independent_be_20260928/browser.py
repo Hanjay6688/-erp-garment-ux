@@ -112,6 +112,47 @@ def viewer_browser(who='viewer'):
     nav('Gudang','Ganti Merek',who);snap(who+'-conversion',who)
     values=b.evaluate('Array.from(document.querySelectorAll("button")).filter(x=>x.textContent.trim()==="Lihat pratinjau").map(x=>({disabled:x.disabled}))',who);assert len(values)==1 and values[0]['disabled'],values
     return {'viewer_logged_in':True,'conversion_available':True,'writer_disabled':values}
+
+def capacity_ui():
+    if 'capacity' not in X or 'state' not in X['capacity']:raise AssertionError('Independent volume fixture not completed')
+    cap=X['capacity'];ident=cap['old']['id'];nav('Gudang','Kain kantong');snap('owner-old-active-period-hidden')
+    buttons=b.evaluate('Array.from(document.querySelectorAll("button")).map(x=>x.textContent.trim())')
+    b.EVENTS.append({'older_active_period':cap['state'],'shown_cancel_buttons':[x for x in buttons if 'Batalkan alokasi' in x],'51_actual_cycles':len(cap['cycles'])})
+    try:
+        assert 'Batalkan alokasi 2026-09-05' in buttons,{'old_active_period_missing_in_actual_browser':ident,'actual_backend_state':cap['state'],'shown':buttons}
+    finally:
+        # Only after recording the UI problem: ordinary public command cleans the
+        # audit fixture so independent UI allocation tests are still possible.
+        r=b.rpc('erp_save_pocket_fabric_action_v1',{'p_action':'CANCEL_PERIOD','p_payload':{'id':ident,'expected_revision':cap['state']['revision'],'reason':'Independent volume fixture cleanup after real UI evidence'},'p_client_request_id':b.uid()})
+        b.EVENTS.append({'hidden_period_public_cleanup':r})
+    return {'older_active_period_reachable':True}
+
+def selector_ui():
+    nav('Gudang','Ganti Merek');b.fill('Cari lot / SKU','AUD-DAY-1');click('Cari lot');b.wait_text('halaman 1');click('Lot berikutnya');b.wait_text('halaman 2');click('Lot berikutnya');b.wait_text('halaman 3');snap('owner-real-selector-page3')
+    number=X['selector']['oldest'][1];b.fill('Cari lot / SKU',number);click('Cari lot');b.wait_text('1 lot/lokasi');snap('owner-oldest-source-search')
+    return {'more_than_50_real_sources':True,'third_page_reached':True,'oldest_source_search':number}
+
+def inactive_http():
+    calls=[('erp_get_product_conversion_workspace_v1',{'p_filters':{}}),('erp_get_pocket_fabric_workspace_v1',{'p_query':''}),('erp_get_bs_resolution_workspace_v1',{'p_filter':'ACTIVE','p_kind':'ALL','p_query':None,'p_pattern_id':None,'p_limit':50,'p_offset':0})]
+    outcomes=[]
+    for name,payload in calls:
+        status,r=b.request('http://127.0.0.1:54328/rest/v1/rpc/'+name,payload,{'apikey':b.KEYS['ANON_KEY']});assert status in(401,403,400),(name,status,r);outcomes.append({'anonymous_rpc':name,'http':status,'body':r})
+    originals=[x for x in b.HTTP_EVENTS if x.get('http_status')==200 and x.get('path') in ['/rest/v1/rpc/erp_save_product_conversion_action_v1','/rest/v1/rpc/erp_save_pocket_fabric_action_v1','/rest/v1/rpc/erp_save_bs_resolution_action_v1']]
+    byfamily={x['path']:x['payload'] for x in originals}
+    with psycopg.connect(b.DSN) as c:
+        c.execute("select set_config('app.change_reason','Independent browser owner inactive test',true)");c.execute('update erp.app_users set is_active=false where auth_user_id=%s',(b.FIX['owner']['auth_id'],))
+    try:
+        for name,payload in calls:
+            status,r=b.rpc(name,payload,expect_ok=False);assert status in(400,401,403),(name,status,r);outcomes.append({'inactive_workspace':name,'http':status,'body':r})
+        for path,payload in byfamily.items():
+            for mode in ['REPLAY','FRESH']:
+                actual=dict(payload)
+                if mode=='FRESH':actual['p_client_request_id']=b.uid()
+                status,r=b.rpc(path.split('/')[-1],actual,expect_ok=False);outcomes.append({'inactive_mutation':path,'mode':mode,'http':status,'body':r});assert status in(400,401,403),(path,mode,status,r)
+    finally:
+        with psycopg.connect(b.DSN) as c:
+            c.execute("select set_config('app.change_reason','Restore independent browser owner',true)");c.execute('update erp.app_users set is_active=true where auth_user_id=%s',(b.FIX['owner']['auth_id'],))
+    return {'families_with_positive_cache':list(byfamily),'outcomes':outcomes}
 def main():
     b.OUT.mkdir(parents=True,exist_ok=True)
     try:
@@ -120,6 +161,8 @@ def main():
         b.case('HTTP.ACCESS','Authorized workspace and restricted money/write boundary',workspace_http)
         if not b.case('BROWSER.BUILD','Build and serve exact candidate UI',b.build_ui):return
         if b.case('BROWSER.LOGIN','Owner real browser password login',b.browser_auth):
+            b.case('BROWSER.CAPACITY','Actual older active allocation remains reachable beyond 50 periods',capacity_ui)
+            b.case('BROWSER.SELECTOR','Third source page and oldest-source search',selector_ui)
             b.case('BROWSER.CONVERSION','Preview, post three PCS, and reload with actual DB lineage',conversion)
             b.case('BROWSER.LOST_RESPONSE','Dropped response after real commit reconciles with identical UUID',lost_response)
             b.case('BROWSER.POCKET_STOCK','Actual pocket stock UI posts 0.75 and survives reload',pocket_stock)
@@ -131,5 +174,6 @@ def main():
             b.case('MOBILE.POCKET_STOCK','Touch pocket issue posts only actual 0.75',lambda:pocket_stock('mobile'))
             b.case('MOBILE.POCKET_ALLOCATION','Touch period allocation and inverse preserve stock',lambda:pocket_period('mobile'))
             b.case('MOBILE.REDYE','Touch new-color BS service and completion',lambda:redye('mobile','MOBILE'))
+        b.case('HTTP.ANON_INACTIVE','Anonymous and inactive same-token workspace fresh and cached boundaries',inactive_http)
     finally:b.cleanup();save()
 if __name__=='__main__':main()
