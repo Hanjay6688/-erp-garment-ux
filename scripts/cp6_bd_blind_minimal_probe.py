@@ -97,7 +97,7 @@ def main() -> None:
                 (VENDOR, json.dumps(component_input), SIZE_M, SIZE_L),
             ).fetchone()[0]
             shares = [x["amount"] for x in row["shares"]]
-            assert Decimal(row["amount"]) == Decimal("5000.00") and shares == ["3076.92", "1923.08"], row
+            assert Decimal(row["amount"]) == Decimal("5000.00") and [Decimal(x) for x in shares] == [Decimal("3076.92"), Decimal("1923.08")], row
 
             overflow = []
             for amount in ("21474836.47", "21474836.48", "22000000.00"):
