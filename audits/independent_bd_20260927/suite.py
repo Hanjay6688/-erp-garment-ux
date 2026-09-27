@@ -8,7 +8,11 @@ from decimal import Decimal as D
 from concurrent.futures import ThreadPoolExecutor
 import hashlib,json,os,sys,time,traceback,uuid,threading
 import psycopg
-from psycopg.types.json import Jsonb
+from psycopg.types.json import Jsonb,set_json_loads
+
+# Preserve exact PostgreSQL JSON numerics in the audit adapter. Converting a
+# binary float to Decimal manufactures noise that is not a product discrepancy.
+set_json_loads(lambda value:json.loads(value,parse_float=D))
 
 ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'audit-results';OUT.mkdir(exist_ok=True)

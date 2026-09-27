@@ -37,7 +37,7 @@ def precursor(key):
         c.execute("select set_config('request.jwt.claim.sub',%s,true)",(C['owner'],))
         c.execute("insert into erp.production_orders(id,po_number,model_id,contractor_id,target_qty_pcs,status,current_stage,physical_start_at) values(%s,%s,%s,%s,13,'SEWING','SEWING','2026-09-10T08:00:00+07:00')",(f['po'],'AUD-DAY-'+key,C['model'],C['mandor']))
         c.execute("insert into erp.cutting_batches(id,po_id,batch_number,cut_at) values(%s,%s,%s,'2026-09-10T08:00:00+07:00')",(f['cb'],f['po'],'AUD-CUT-'+key))
-        c.execute("insert into erp.cutting_groups(id,po_id,group_number,cut_at,picked_up_at,status,cutting_batch_id,pattern_id,source_location_id,material_issue_posted) values(%s,%s,%s,'2026-09-10T08:00:00+07:00','2026-09-11T08:00:00+07:00','SEWING',%s,%s,%s,true)",(f['group'],f['po'],'AUD-GROUP-'+key,f['cb'],C['pattern'],C['rawloc']))
+        c.execute("insert into erp.cutting_groups(id,po_id,group_number,cut_at,picked_up_at,status,cutting_batch_id,pattern_id,source_location_id,material_issue_posted) values(%s,%s,%s,'2026-09-10T08:00:00+07:00',null,'CUT',%s,%s,%s,false)",(f['group'],f['po'],'AUD-GROUP-'+key,f['cb'],C['pattern'],C['rawloc']))
         c.execute("insert into erp.material_rolls(id,material_id,roll_number,original_qty,cached_qty,received_at) values(%s,%s,%s,13,0,'2026-09-09T08:00:00+07:00')",(f['roll'],C['material'],'AUD-ROLL-'+key))
         c.execute("insert into erp.cutting_group_rolls(id,cutting_group_id,roll_id,qty_issued,qty_consumed,qty_reported_remaining,unit_cost_snapshot) values(%s,%s,%s,13,13,0,0)",(f['groll'],f['group'],f['roll']))
         c.execute("insert into erp.cutting_pickups(id,cutting_group_id,contractor_id,picked_up_at,allocation_mode,status,created_by,posted_by,posted_at) values(%s,%s,%s,'2026-09-11T08:00:00+07:00','SIZE','POSTED',%s,%s,'2026-09-11T08:00:00+07:00')",(f['pickup'],f['group'],C['mandor'],C['app_owner'],C['app_owner']))
@@ -47,6 +47,7 @@ def precursor(key):
             c.execute('insert into erp.cutting_group_size_slots(id,cutting_group_id,slot_no,size_id,drawing_no) values(%s,%s,%s,%s,1)',(sid,f['group'],slot,size))
             c.execute('insert into erp.cutting_roll_yields(id,cutting_group_roll_id,size_slot_id,qty_pcs) values(%s,%s,%s,%s)',(yid,f['groll'],sid,qty))
             c.execute('insert into erp.cutting_distribution_allocations(batch_id,cutting_roll_yield_id,qty_pcs) values(%s,%s,%s)',(f['batch'],yid,qty))
+        c.execute("update erp.cutting_groups set material_issue_posted=true,picked_up_at='2026-09-11T08:00:00+07:00',status='SEWING' where id=%s",(f['group'],))
         c.execute("insert into erp.wip_stage_events(po_id,cutting_group_id,stage_from,stage_to,qty_pcs,contractor_id,source_type,source_id,physical_at,created_by) values(%s,%s,'CUTTING','SEWING',13,%s,'AUDIT_PREREQUISITE',%s,'2026-09-11T08:00:00+07:00',%s)",(f['po'],f['group'],C['mandor'],f['pickup'],C['app_owner']))
         c.execute("insert into erp.po_work_component_snapshots(id,po_id,work_component_id,rate_per_pcs_snapshot,committed_at) values(%s,%s,%s,100,'2026-09-11T08:00:00+07:00')",(f['snap'],f['po'],C['work_component']))
         c.execute("insert into erp.work_completion_events(id,completion_number,po_id,contractor_id,cutting_group_id,physical_at,created_by) values(%s,%s,%s,%s,%s,'2026-09-12T08:00:00+07:00',%s)",(f['work'],'AUD-WORK-'+key,f['po'],C['mandor'],f['group'],C['app_owner']))
@@ -80,6 +81,7 @@ def setup():
             for brand in [C['brand'],C['brand2']]:
                 pid=uid();C['products'][size+':'+brand]=pid
                 c.execute("insert into erp.products(id,identity_root_id,sku,model_id,brand_id,color_name,size_id,product_name,effective_from) values(%s,%s,%s,%s,%s,'AUD-NAVY',%s,'Independent same-SKU different-brand product','2026-09-01T08:00:00+07:00')",(pid,pid,'AUD-DAY-'+str([C['s1'],C['s2']].index(size)),C['model'],brand,size))
+                c.execute("insert into erp.accessory_bom_versions(product_id,version_label,effective_from,notes,created_by) values(%s,'AUD-DAY-NONE','2026-09-01T08:00:00+07:00','Explicit NO ACCESSORY for controlled laundry cost model',%s)",(pid,C['app_owner']))
     C['daily_wash']=s.component(C['daily_vendor'],'AUD-WASH');C['daily_finish']=s.component(C['daily_vendor'],'AUD-FINISH');C['daily_unknown']=s.component(C['daily_vendor'],'AUD-UNKNOWN')
     s.rate(C['daily_wash'],'4321.09');s.rate(C['daily_finish'],'678.91');s.rate(C['daily_unknown'],None,status='UNKNOWN')
     s.policy('LAU_DEC01',{'units':['BATCH']});s.terms('COMPONENTS',vendor=C['daily_vendor'])
@@ -137,6 +139,15 @@ def finalsku(key):
     expected='60868.72' if key=='K' else '57474.17';values=costeq(key,expected)
     eq({x[1] for x in values},{C['products'][z+':'+(C['brand2'] if key=='U' else C['brand'])] for z in [C['s1'],C['s2']]},'Exact product identities')
     return {'response':r,'hpp':values,'net_fg':qty(key)}
+def wrong_size():
+    p=qp('K');original=p['lines'][0]['final_product_id'];p['lines'][0]['final_product_id']=next(x['final_product_id'] for x in p['lines'] if x['final_product_id']!=original)
+    return refuse(lambda:rpc('POST_FINAL_SKU',p,ver('cutting_groups',F['K']['group'])))
+def wrong_vendor():
+    p=dp('U');p['pricing']['components'][0]['component_id']=C['foreign']
+    return refuse(lambda:cmd('POST_PRICED_DELIVERY',p))
+def wrong_source():
+    p=rp('U');p['lines'][0]['delivery_batch_size_line_id']=rp('K')['lines'][0]['delivery_batch_size_line_id']
+    return refuse(lambda:rpc('POST_RECEIPT',p,ver('laundry_deliveries',F['U']['delivery'])))
 def sell(key):
     f=F[key];payload={'sale_number':'AUD-DAY-'+key,'customer_id':C['customer'],'source_location_id':C['fg'],'sale_date':'2026-09-22T08:00:00+07:00','reason':'Independent pending-cost sale','items':[{'product_id':C['products'][C['s1']+':'+(C['brand2'] if key=='U' else C['brand'])],'qty_pcs':4,'unit_price_snapshot':'20000.00','discount_amount':'0.00'}]}
     # The existing sales interface exposes native ERP commands; privileged calls
@@ -197,12 +208,15 @@ def main():
     case('IND-33.PHYSICAL','Receipt before dispatch refused atomically',lambda:refuse(lambda:rpc('POST_RECEIPT',rp('K','2026-09-14T23:59:00+07:00'),ver('laundry_deliveries',F['K']['delivery']))),[('K','delivery')])
     case('IND-18.RECEIPT','Excess receipt leaves no partial physical/financial effects',lambda:refuse(lambda:rpc('POST_RECEIPT',rp('K',extra=1),ver('laundry_deliveries',F['K']['delivery']))),[('K','delivery')])
     case('IND-05.RECEIPT','Receipt after new master uses original 59568.72 estimate',lambda:receive('K'),[('K','delivery')])
+    case('IND-11.SIZE','Final SKU of another size cannot consume the exact receipt source',wrong_size,[('K','receipt')])
     case('IND-06.FG','13 PCS enter exact FG identities with 60868.72 total HPP',lambda:finalsku('K'),[('K','receipt')])
     case('IND-30.KNOWN','Native sale moves four of thirteen PCS',lambda:sell('K'),[('K','qc')])
     case('IND-31.DAILY','Later invoice recosts 1677.52 without moving goods',lambda:invoice('K'),[('K','qc')])
     case('IND-32.DAILY','Native linked one-piece return after recost retains source',lambda:return_one('K'),[('K','sale_allocations')])
     case('IND-31.CONSERVATION','Independent WIP/FG/COGS/AP conservation after sale, invoice and return',lambda:ledger('K'),[('K','invoice'),('K','return')])
+    case('IND-04.DAILY','Posting cannot borrow another vendor component',wrong_vendor)
     case('IND-07.DELIVERY','Unknown component dispatches with incomplete price, not free',lambda:ship('U',True))
+    case('IND-11.SOURCE','Receipt cannot consume a sibling shipment source',wrong_source,[('U','delivery'),('K','delivery')])
     case('IND-07.RECEIPT','Unknown price permits physical receipt',lambda:receive('U'),[('U','delivery')])
     case('IND-07.FG','Unknown price permits FG while preserving known costs',lambda:finalsku('U'),[('U','receipt')])
     # Separate product identity for U sales will be supplied by fixture isolation if FIFO requires it.

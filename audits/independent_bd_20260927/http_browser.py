@@ -197,15 +197,15 @@ def build_ui():
             VITE_SUPABASE_PUBLISHABLE_KEY='',VITE_SUPABASE_ANON_KEY=KEYS['ANON_KEY'])
     run(['npm','run','build:cp6-disposable'],timeout=360,env=env,log='build.log')
     log=(OUT/'static-server.log').open('w')
-    p=subprocess.Popen(['python','-m','http.server','4173','--bind','127.0.0.1','--directory',str(ROOT/'cp6-ui-build')],stdout=log,stderr=log,cwd=ROOT)
+    p=subprocess.Popen(['python','-m','http.server','4176','--bind','127.0.0.1','--directory',str(ROOT/'cp6-ui-build')],stdout=log,stderr=log,cwd=ROOT)
     PROCESSES.append(p)
     for _ in range(80):
         try:
-            if request('http://127.0.0.1:4173/')[0]==200:break
+            if request('http://127.0.0.1:4176/')[0]==200:break
         except URLError:pass
         time.sleep(.25)
     else:raise RuntimeError('Built UI did not start')
-    return {'build':'Actual frozen candidate UI','url':'http://127.0.0.1:4173'}
+    return {'build':'Actual frozen candidate UI','url':'http://127.0.0.1:4176'}
 
 def ab(*args,who='owner',timeout=60,check=True):
     p=run(['agent-browser','--session','bd-independent-'+who,*args],timeout=timeout,check=False)
@@ -253,7 +253,8 @@ def evaluate(code,who='owner'):
     return out
 
 def login_browser(who='owner'):
-    ab('open','http://127.0.0.1:4173/',who=who)
+    ab('open','http://127.0.0.1:4176/',who=who)
+    snap(who+'-initial-document',who)
     ab('wait','input[type="email"]',who=who)
     snap(who+'-login',who)
     fill('Email akun ERP',FIX[who]['email'],who);fill('Kata sandi',FIX[who]['password'],who)
@@ -307,7 +308,7 @@ def browser_invoice_draft_reload():
     assert len(rows)==1 and rows[0][1:] == ('DRAFT','1234.57',None),rows
     assert sql('select count(*) from erp.journal_entries',one=True)==before,'Browser draft must not write a journal'
     # Actual page reload: React state is rebuilt and the draft must come from HTTP.
-    ab('open','http://127.0.0.1:4173/');ab('wait','aside.sidebar')
+    ab('open','http://127.0.0.1:4176/');ab('wait','aside.sidebar')
     snap('owner-page-reopened');button('Produksi',exact=False);button('• Laundry')
     wait_text('Harga & tagihan');button('Harga & tagihan')
     ab('wait','select[aria-label="Vendor harga laundry"]');select('Vendor harga laundry',vendor)
