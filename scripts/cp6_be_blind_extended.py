@@ -72,6 +72,45 @@ def accessory(cur, day):
             "no_synthetic_income": True, "document": item["cost_document_id"]}
 
 
+def nonpo_conversion(cur, day):
+    economic = day - timedelta(days=3)
+    bd.api.admin(cur)
+    bd.boundary.historical.prior.set_open_period(cur, economic - timedelta(days=1))
+    source_product = bd.sized_product(cur, bd.chain.base.SIZE, "BLIND-OPEN-" + uuid.uuid4().hex[:8])
+    target_product = bd.sized_product(cur, bd.chain.base.SIZE, "BLIND-DEST-" + uuid.uuid4().hex[:8])
+    opening = str(uuid.uuid4())
+    cur.execute("""insert into erp.opening_balance_headers(id,opening_number,opening_date,status,created_by)
+        values(%s,%s,%s,'DRAFT',%s)""",
+        (opening, "BLIND-OPEN-" + opening, economic, bd.chain.base.OPERATOR_APP))
+    cur.execute("""insert into erp.opening_balance_items(opening_id,balance_type,product_id,location_id,
+        qty,unit_cost_snapshot,quality_grade,hpp_input_method)
+        values(%s,'FINISHED_GOODS',%s,%s,10,10.01,'GRADE_A','MANUAL')""",
+        (opening, source_product, bd.chain.base.LOCATION))
+    bd.internal(cur, "post_opening_balance", opening)
+    lot = one(cur, "select id from erp.fg_lots where product_id=%s and lot_origin='OPENING'", source_product)
+    source_initial = be.qty(cur, lot)
+    payload = {"source_lot_id": str(lot), "target_product_id": target_product,
+               "location_id": bd.chain.base.LOCATION, "qty_pcs": 6,
+               "physical_at": bd.iso(bd.chain.production.at(economic + timedelta(days=1), 9)),
+               "reason": "Blind non-PO opening lot relabel",
+               "expected_version": one(cur, "select erp.be_source_revision_v1(%s,%s)", lot, bd.chain.base.LOCATION)}
+    posted = be.be(cur, "POST", payload)
+    dest = posted["destination_lot_id"]
+    assert source_initial == 10 and (be.qty(cur, lot), be.qty(cur, dest)) == (4, 6)
+    source_book = cur.execute("select * from erp.compute_non_po_product_hpp_book_v2620f(%s)",
+                              (source_product,)).fetchone()
+    target_book = cur.execute("select * from erp.compute_non_po_product_hpp_book_v2620f(%s)",
+                              (target_product,)).fetchone()
+    assert source_book[0] == Decimal("40.04") and target_book[0] == Decimal("60.06")
+    assert bd.lot_value(cur, dest) == Decimal("60.06")
+    be.be(cur, "REVERSE", {"conversion_id": posted["conversion_id"],
+                           "reason": "Blind inverse non-PO source"})
+    assert (be.qty(cur, lot), be.qty(cur, dest)) == (10, 0)
+    return {"source_opening": "100.10", "remaining_qty": 4, "target_qty": 6,
+            "source_book": str(source_book[0]), "target_book": str(target_book[0]),
+            "inverse_restored": True}
+
+
 def rework(cur, day):
     f = avp.rework_ready(cur, day - timedelta(days=1))
     bd.api.admin(cur)
@@ -273,7 +312,8 @@ def main():
                 cur.execute("grant usage on schema erp to authenticated")
             bd.api.seed(cur)
         bd.boundary.historical.prior.set_open_period(cur, day - timedelta(days=30))
-        for name, case in (("B02_B03_ACCESSORY", accessory), ("B04_REWORK", rework),
+        for name, case in (("B02_B03_ACCESSORY", accessory), ("B03_NONPO_OPENING", nonpo_conversion),
+                           ("B04_REWORK", rework),
                            ("B05_SMALL_REDYE", paid_redye), ("B06_EXPLICIT_ZERO", zero_redye),
                            ("B08_AFUI_MIX", afui_mix),
                            ("B09_POCKET_IMPORT", pocket_import)):
