@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 17,
+  "revision": 18,
   "phase": "after",
-  "scenario_path": "scripts/cp6_bd_revision_modes.py",
+  "scenario_path": "scripts/cp6_bd_range_modes.py",
   "browser_path": "scripts/cp6_bd_revision_browser.mjs",
-  "purpose": "Requalify SKU range follow-up after fixing the writer oracle to read price-version IDs from stored charge snapshots; public receipts intentionally omit these IDs. Product unchanged from 2f6ac0d. Prior run 36349471819 remains INCOMPLETE. Keep the configured native/race/HTTP/browser gate intact; this does not qualify a commercial-SKU tariff master."
+  "purpose": "Targeted corrected base-RATE oracle: match stored nominals to the unique effective vendor/process version at persisted delivery time; do not claim a stored RATE version FK. Runs 36349471819 and 36350528938 remain INCOMPLETE. Other 7 native, 18 race, 6 HTTP and 19 browser verdicts passed at unchanged product 2f6ac0d; this run checks only the remaining native case and repeats the configured browser suite. No commercial-SKU-master qualification."
 }

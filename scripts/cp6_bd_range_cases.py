@@ -33,24 +33,33 @@ def post(b,cur,fx,pricing,hour=11):
 def same_rate(b,cur,today):
     fixtures=[range_fixture(b,cur,today,'RANGE-'+name,sizes) for name,sizes in [
         ('31-33',[('31',4),('32',7),('33',2)]),('32-ONLY',[('32',6)]),('27-SINGLE',[('27',3)])]]
-    first=fixtures[0];b.process_rate(cur,first,'1731.29');b.terms(cur,first,'RATE')
+    first=fixtures[0];master=b.process_rate(cur,first,'1731.29');b.terms(cur,first,'RATE')
     evidence=[];checks={};version_ids=set()
     for fx in fixtures:
         fx.update(vendor=first['vendor'],process=first['process'])
         sent=post(b,cur,fx,{})
         charges=sent['pricing']['charges'];total=sum(n for _,n in fx['sizes'])
         checks[str(list(fx['codes']))]=D(str(sent['estimated_cost']))==D('1731.29')*total and all(D(c['unit_rate'])==D('1731.29') for c in charges)
-        # The public receipt deliberately omits internal price-version IDs. Read actual stored snapshots.
-        versions=b.q(cur,'select c.version_id::text from erp.bd_laundry_charge_lines_v1 c join erp.laundry_delivery_lines l on l.id=c.delivery_line_id where l.delivery_id=%s',sent['delivery_id'])
-        assert len(versions)==len(charges) and all(v for v, in versions),'STORED_PRICE_VERSION_REQUIRED'
-        version_ids.update(v for v, in versions)
+        # RATE stores nominal snapshots; its charge.version_id is not a base-rate FK.
+        # Match each stored charge to exactly one effective vendor/process version at
+        # the persisted delivery time. Do not claim that RATE pins a version FK.
+        snapshots=b.q(cur,"""select c.id::text,c.kind,c.unit_rate,c.covered_qty,c.amount,c.version_id::text,r.id::text,r.rate_per_pcs
+            from erp.bd_laundry_charge_lines_v1 c join erp.laundry_delivery_lines l on l.id=c.delivery_line_id
+            join erp.laundry_deliveries d on d.id=l.delivery_id
+            left join erp.laundry_vendor_rate_versions r on r.vendor_id=d.vendor_id and r.wash_process_id=d.target_wash_process_id
+                and r.effective_from<=d.physical_at and (r.effective_to is null or r.effective_to>d.physical_at)
+            where d.id=%s""",sent['delivery_id'])
+        checks['effective_snapshot_'+fx['batch']]=len(snapshots)==len(charges) and all(
+            kind=='RATE' and vid==master['rate_id'] and rate==base_rate==D('1731.29') and amount==qty*base_rate
+            for _,kind,rate,qty,amount,_,vid,base_rate in snapshots)
+        version_ids.update(row[6] for row in snapshots)
         stored=b.q(cur,'select s.size_id::text,s.qty_sent_pcs from erp.laundry_delivery_batch_size_lines s join erp.laundry_delivery_lines l on l.id=s.delivery_line_id where l.delivery_id=%s',sent['delivery_id'])
         checks['physical_'+fx['batch']]=dict(stored)==dict(fx['sizes'])
-        evidence.append(dict(sizes=fx['codes'],quantities=stored,delivery=sent['delivery_id'],pricing=sent['pricing'],stored_version_ids=[v for v, in versions]))
+        evidence.append(dict(sizes=fx['codes'],quantities=stored,delivery=sent['delivery_id'],pricing=sent['pricing'],charge_and_effective_rate_snapshots=snapshots))
     # Owner's 27 is a distinct commercial SKU, e.g. 32007-27, not a size-price override in the range SKU.
     # This case only proves delivery arithmetic and no implicit surcharge. It does not prove a SKU tariff resolver.
-    checks.update(same_master_version=len(version_ids)==1,singleton_27_no_implicit_surcharge=b.line_state(cur,evidence[2]['delivery'])['known']=='5193.87')
-    return b.verdict(checks,shipments=evidence)
+    checks.update(same_effective_master_version=version_ids=={master['rate_id']},singleton_27_no_implicit_surcharge=b.line_state(cur,evidence[2]['delivery'])['known']=='5193.87')
+    return b.verdict(checks,shipments=evidence,expected_effective_version=master['rate_id'],version_evidence='temporal resolution plus stored nominal; not a stored RATE version FK')
 
 
 def stock_hpp(b,cur,today):
@@ -102,5 +111,5 @@ def stock_hpp(b,cur,today):
 
 
 def cases(b,cur,today):
-    return [('RANGE:SAME_SERVICE_VERSION_MIXED_SINGLE_32_SINGLETON_27',lambda:same_rate(b,cur,today)),
+    return [('RANGE:SAME_EFFECTIVE_BASE_RATE_MIXED_SINGLE_32_SINGLETON_27',lambda:same_rate(b,cur,today)),
         ('RANGE:SKU_WEIGHTED_HPP_PHYSICAL_STOCK_SALE_RETURN_INVOICE',lambda:stock_hpp(b,cur,today))]
