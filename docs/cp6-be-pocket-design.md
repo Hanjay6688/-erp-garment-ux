@@ -1,6 +1,6 @@
 # BE / ALL-C04 — rancangan adapter cutover kain kantong
 
-Status: desain writer, implementasi belum selesai. Bukan perubahan kontrak atau oracle auditor.
+Status: rancangan yang sudah diimplementasikan dalam BE. Bukti writer dan status gate terbaru ada di [handoff BE](cp6-be-writer-handoff-20260927.md); penerimaan independen masih terbuka. Bukan perubahan kontrak atau oracle auditor.
 
 Dasar: M:466–511 / P:406–439, konsep dan errata auditor pada audit `9aa7c76`. Sumber native: AP `pocket_period_*`, `initial_import_source_value_v1`, `refresh_initial_import_fg_cost_v1`; BD adalah predecessor. Tidak ada akses hosted.
 
@@ -12,7 +12,7 @@ Dasar: M:466–511 / P:406–439, konsep dan errata auditor pada audit `9aa7c76`
 4. Bagian yang belum dialokasikan: sumber expense opening yang eksplisit, dipakai satu kali pada pengesahan periode. Pengesahan mereklasifikasi nilai tanpa pengeluaran kain kedua.
 5. Denominator hasil SELESAI_DIJAHIT historis yang terbukti, termasuk Afui, digabung dengan event native sesudah cutover. Data historis tetap bertipe sumber impor; jangan membuat work completion/sewing event palsu.
 
-## Integrasi yang direncanakan
+## Integrasi yang menjadi dasar implementasi
 
 - Dua entity impor dengan validation/apply/revision/workspace: OPENING_POCKET_USAGE dan OPENING_POCKET_SEWING; guard identitas lintas batch berbasis dokumen + baris, bukan request key saja. Draft boleh diedit lewat alur impor yang sah; posted fact immutable.
 - Pemakaian historis menyatakan ALLOCATED / UNALLOCATED, provenance, cutoff, qty/nilai. Nilai yang sudah termasuk opening tidak menjadi expense tambahan. Pool unallocated harus direkonsiliasi dengan total kontrolnya sendiri dan tidak diduplikasi dalam saldo pembuka lain.
@@ -29,6 +29,6 @@ Dasar: M:466–511 / P:406–439, konsep dan errata auditor pada audit `9aa7c76`
 
 10 PCS denominator: 5 WIP, 3 FG tersedia, 2 terjual. Biaya 11,25 → WIP5,62 / FG3,38 / COGS2,25. Setelah koreksi menjadi15,00 → 7,50 / 4,50 / 3,00. Seluruh sen dialokasikan; posisi deterministic dan residual WIP mengikuti native target, bukan pembulatan terpisah yang membuat11,26. Kain sisa tidak berubah oleh allocate/recost/cancel.
 
-## Gate writer yang masih harus dikerjakan
+## Cakupan pembuktian
 
-Impor → preview → post → lanjut WIP/sale/retur/konversi → correction → cancel; replay dan duplicate lintas batch; sumber/denominator tidak lengkap; ALLOCATED tidak double; mandor khusus termasuk; period overlap/closed/as-of; race; HTTP Auth; UI impor dan periode; T2; package BE + capsule structural rollback. Jangan tandai C04 selesai dari keberadaan berkas desain ini.
+Impor → preview → post → lanjut WIP/sale/retur/konversi → correction → cancel; replay dan duplicate lintas batch; sumber/denominator tidak lengkap; ALLOCATED tidak double; mandor khusus termasuk; period overlap/closed/as-of; race; HTTP Auth; UI impor dan periode; T2; package BE + capsule structural rollback. Hasil, run/job, hash, serta batas pembuktian tercatat dalam handoff. Keberadaan desain ini sendiri bukan bukti C04 lulus audit.

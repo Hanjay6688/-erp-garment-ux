@@ -1,6 +1,6 @@
 # BE — rencana implementasi writer GPT (27 September 2026 WIB)
 
-CP6 HOLD. Dokumen ini rencana implementasi, bukan bukti lulus. Dasar: kontrak M/P, C6 rev4 yang disahkan, konsep audit `9aa7c76`, serta errata ALL-C04. Nilai fixture bukan nilai kebijakan produksi.
+CP6 HOLD. Rencana awal ini dipertahankan sebagai dasar implementasi. Status dan bukti terbaru ada di [handoff BE](cp6-be-writer-handoff-20260927.md). Dasar: kontrak M/P, C6 rev4 yang disahkan, konsep audit `9aa7c76`, serta errata ALL-C04. Nilai fixture bukan nilai kebijakan produksi.
 
 ## Batas dan sumber existing
 | Alur | Rancangan | Sumber existing / perubahan yang harus dibuktikan |
@@ -36,4 +36,4 @@ CP6 HOLD. Dokumen ini rencana implementasi, bukan bukti lulus. Dasar: kontrak M/
 - Pocket period sources/destinations saat ini FK ke adjustment dan sewing event native. Fakta cutover perlu tipe sumber historis yang eksplisit; jangan membuat gerakan fisik palsu agar lolos FK.
 
 ## Status
-Rencana dikunci sebelum implementasi BE. Semua kasus BE BELUM. BD completion runtime: run 36263717916, job 108464257310; selftest 108464257515. Penerimaan independen dilakukan chat auditor lain.
+Rencana dikunci sebelum implementasi BE. Pada source `73dc405`, native16, race9, HTTP2, browser6 dan CodeQL lulus; paket29 juga terpasang dan pin terulang identik. Handoff BE mencatat hasil T2, rollback, identitas sumber serta status gate terakhir. Penerimaan independen dilakukan chat auditor lain; audit BD tetap terpisah. CP6 HOLD dan production_go=false.

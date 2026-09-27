@@ -1,6 +1,8 @@
-# BE — handoff writer, 27 September 2026
+# BE — handoff writer, 27–28 September 2026 WIB
 
-Status: verifikasi sumber BE-23 berjalan. **CP6 HOLD, audit_complete=false, production_go=false, release_evidence=false.** Hasil writer tidak menggantikan penerimaan auditor independen. Status final dan identitas bukti akan diisi setelah seluruh run dibaca.
+Status: **implementasi dan verifikasi writer selesai; siap audit independen dengan disposisi T2 yang tercatat.** Verifikasi terakhir dibaca pada 28 September 2026 sekitar00.09 WIB. **CP6 HOLD, audit_complete=false, production_go=false, release_evidence=false.** Hasil writer tidak menggantikan penerimaan auditor independen.
+
+Bukti terstruktur: [writer_verification.json](evidence/cp6-be-20260927/writer_verification.json). Log keamanan lokal: [security.log](evidence/cp6-be-20260927/security.log). Riwayat kegagalan dan perbaikan dipertahankan di [progres writer](cp6-writer-gpt-progress.md).
 
 ## Mandat dan batas
 
@@ -50,15 +52,55 @@ Seluruh posting tetap atomik dan immutable; koreksi append-only; permission dipe
 
 ## Bukti final
 
-PENDING: native16, race9, HTTP2, browser6, paket29 terpin, rollback143 checks, T2 dan CodeQL pada source BE-23. Bukti sebelum BE-23 dicatat di progres dengan identitas aslinya dan tidak dipindahkan ke source baru.
+Runtime SQL, frontend dan scripts tidak berubah sejak product head73dc405. Paket dipin pada `e09b0207f08b7736fad79e82fd81f1bf5dc1a85d`; rollback disesuaikan pada `bfeca3e9ff33d3c342fef931dac79f7e6a2c3279`. Commit dokumentasi berikutnya tidak mengubah sumber yang diuji. Bukti sebelum BE-23 dicatat di progres dengan identitas aslinya dan tidak dipindahkan ke source baru.
+
+| Bukti | Run / job | Hasil yang dibaca dari log |
+|---|---|---|
+| Native sebelum/sesudah BE | 36334558778 / 108662809909,108662810136 | Sebelum16 NO_ROUTE sesuai rencana; sesudah16/16 PASS,34 snapshot parser diterima,mismatch kosong |
+| Race / HTTP / browser BE | 36334558752 / 108662810029 | Race9/9,HTTP2/2,browser6/6 PASS,console_errors0,Auth dibersihkan,primary tidak berubah,clone0 |
+| CodeQL security-extended | 36334558739 / 108662809937,108662810067,108662810095,108662810118 | Actions,JS/TS,C/C++,Python PASS; masing-masing result_count0; SARIF artifact, bukan upload Code Scanning |
+| T2 temporal | 36334558842 / 108663058400 | AT16+4 race,AU15+6 race semuanya PASS |
+| T2 AR | 36334558842 / 108663058476 | 145 sequential PASS +1 superseded INCOMPLETE; pengganti BC PASS;28/28 race PASS,termasuk ACTION yang diperbaiki |
+| T2 regresi | 36334558842 / 108663058496 | 422 status per kasus sama dengan run sebelum koreksi lock; BUSINESS230/IMPORTS31/VALUES65 sama dengan AU; disposisi historis tetap, C0 25/25 PASS |
+| Paket install/compare/restore | 36334904571 / 108663778946,108663778791 | 29/29,ALL_STAGES_INSTALLED; pins_reproduced equal=true,differ=[]; keempat gate true |
+| Browser paket | 36334904571 / 108663779050 | 10/10 PASS,console_errors0; login asli,anonymous refusal,lost reply+replay,stok/HPP per brand,inverse |
+| Rollback final | 36335243724 / 108664744431 | 143/143 PASS: dua cycle29 keluarga, reinstall identik, urutan/admission ditolak,29 post-use refusal; primary tidak berubah |
+| Security lokal | npm run test:security pada e09b020 | Exit0; ownership/akses/CP5/CP6/predecessor,build-secret canary,UAT Auth boundaries |
+
+TypeScript `tsc -b` dan50 file/558 Vitest telah PASS pada estafet BE-18; tidak ada perubahan frontend sesudahnya. Ini dicatat sebagai bukti frontend yang sama, bukan run ulang pada commit dokumentasi akhir.
+
+Identitas SHA-256:
+
+| Artefak | SHA-256 |
+|---|---|
+| `supabase/dev/cp6_be_t1_family.sql` | `a540f9a99ba9cb3f8bc99e95cde45a0c31bd1c1468a9f1a50e233f2fc4552384` |
+| BE release SQL | `80cfbc8877cf5605d0f7ac147d9cd437f0caea1fa9ab177ce664fb14c33633fe` |
+| Release MANIFEST | `1bd374834e0a425e5191bf3b71397ace5fbe49b65a52b5a4dba1a813950544ec` |
+| Pin `be_pins_36334558775.json` | `64f99a9d4104207ecf68c64e7b5f0b9aa37eab8e39284cde45aace76b81f3ef5` |
+| Canonical rollback capture | `ae704f42e6d56fd8d5c8ea2b4a60aeb69aa319f50555d0cfe439408366d0ec61` |
+| BE rollback SQL | `71c2368dd40bb990569a48923e328e6d85cd29e9f55ad329260977bf592d49fb` |
+| Browser BE script | `c64245bbac78abd6744f3754f8b2983ed09ed2e73e33173ed9fc19ae8138ab52` |
+
+Advisor raw verdict tetap REVIEW_REQUIRED:73 baseline menjadi205,132 tambahan seluruhnya INFO `rls_enabled_no_policy` pada tabel private/capsule,tidak ada penghapusan. Gate khusus menerima jenis ini; bukan klaim zero-advisory. Restore `RESTORED_SAME_MEANING`:data identik dan engine sama; exit1 berisi19 galat pg_cron saja karena clone bukan database `postgres`,unexplained=[]; catalog difference seluruhnya diklasifikasi. Tidak ada job cron sumber. Restore cron produksi tidak diklaim.
+
+## Peta berkas implementasi
+
+| Area | Berkas utama |
+|---|---|
+| SQL | `scripts/cp6_be_objects_{conversion,cost,nonpo,rework,redye,pocket}.sql`; builder `cp6_be_build.py`,`cp6_be_pocket_build.py`,`cp6_be_redye_build.py`; hasil `supabase/dev/cp6_be_t1_family.sql` |
+| Ganti merek | `src/ConnectedProductConversionPage.tsx`,`src/productConversion.ts` |
+| Rework/celup | `src/ConnectedBsResolutionPage.tsx`,`src/ConnectedLaundryPage.tsx`,`src/LaundryBdPanel.tsx` |
+| Kain kantong/impor | `src/ConnectedPocketFabricPage.tsx`,`src/BePocketHistory.tsx`,`src/ConnectedInitialImportPage.tsx`,`src/initialImportCatalogBE.json` |
+| Pembuktian | `scripts/cp6_be_probe.py`,`cp6_be_cost_probe.py`,`cp6_be_pocket_probe.py`,`cp6_be_modes.py`,`cp6_be_browser.mjs`,`cp6_be_browser_fixture.py`; T2 `cp6_t2_regression.py` |
+| Rilis/pemulihan | `supabase/release/cp6-t3-src`,`cp6-t3`,`cp6-t3-rollbacks`; capture dan pins di `docs/evidence/cp6-t3` |
 
 ## Disposisi T2 yang tidak boleh disamarkan menjadi PASS
 
-Oracle beku dipertahankan. Pada run sebelum BE-23, BUSINESS230/IMPORTS31/VALUES65 mempunyai identitas/status sama dengan AU; BUSINESS mencakup179 PASS,39 CONTROL_PASS,12 DATE_POLICY_REVIEW_REQUIRED. NEW_CASES34:25 PASS,8 COUNTEREXAMPLE tanggal AS,1 INCOMPLETE ADJUSTMENT_DATE. Trial AO:8 PASS dan4 INCOMPLETE tanggal invoice. Kedua belas HOLD tetap HOLD.
+Oracle beku dipertahankan. Pada run final `36334558842`, BUSINESS230/IMPORTS31/VALUES65 mempunyai identitas/status sama dengan AU; BUSINESS mencakup179 PASS,39 CONTROL_PASS,12 DATE_POLICY_REVIEW_REQUIRED. NEW_CASES34:25 PASS,8 COUNTEREXAMPLE tanggal AS,1 INCOMPLETE ADJUSTMENT_DATE. Trial AO:8 PASS dan4 INCOMPLETE tanggal invoice. Kedua belas HOLD tetap HOLD. Seluruh422 status unik yang dicatat job regresi sama dengan run `36333723666`: tidak ada kasus ditambah,dihapus,atau bergeser akibat perbaikan scope lock BE.
 
 Oracle tanggal yang disetujui owner memiliki grup terpisah: AS8/8 MATCH, oracle B5/5 PASS ditambah kalender12 MATCH, serta C0 auditor25/25 PASS. Persetujuan, penjelasan pembaca tanggal dan sumber oracle ada di handoff Claude/GPT §23.5–23.6 dan dalam `scripts/cp6_t2_regression.py`. Tidak mengganti hasil kasus beku.
 
-Kasus AR lama `ACCESSORY_CONNECTED_ZERO` tetap INCOMPLETE karena harga nota manual nol ditolak `BC_FREE_REQUIRES_POLICY`. Pengganti `ACCESSORY_CONNECTED_ZERO_REFUSED_BC_FREE_POLICY` harus PASS, berdasarkan ERP-DEC02. Ini berbeda dari race ACTION BE-21 yang merupakan regresi produk dan telah diperbaiki, bukan diterima sebagai disposisi.
+Kasus AR lama `ACCESSORY_CONNECTED_ZERO` tetap INCOMPLETE karena harga nota manual nol ditolak `BC_FREE_REQUIRES_POLICY`. Pengganti `ACCESSORY_CONNECTED_ZERO_REFUSED_BC_FREE_POLICY` PASS, berdasarkan ERP-DEC02. Ini berbeda dari race ACTION BE-21 yang merupakan regresi produk dan telah diperbaiki: run final mengamati blocking nyata, menolak key sama dengan action berbeda sesudah pemenang commit, dan membuktikan perubahan stok/jurnal tepat sekali.
 
 ## Yang masih menjadi tanggung jawab penerimaan independen
 

@@ -1,0 +1,73 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> erp-garment-ux@0.1.2 test:security
+> npm run check:source && npm run check:access && npm run check:css && npm run check:cp5 && npm run check:cp6 && npm run check:backend && node scripts/test-build-preflight.mjs && node scripts/test-uat-auth-assertions.mjs
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> erp-garment-ux@0.1.2 check:source
+> node scripts/check-source-ownership.mjs
+
+Source ownership passed: 121 runtime files, 40 owned RPC boundaries, no orphan or direct table access.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> erp-garment-ux@0.1.2 check:access
+> node scripts/check-access-catalog.mjs
+
+Production recovery ownership passed: eight connected writer domains, exact envelope, shared lock and stale-read generation.
+Access ownership passed: frozen CP4.5/CP5 proofs intact; current code owns 111 backend permissions, 48 nav labels, 48 routes, 20 sensitive actions, and 40 browser RPC boundaries.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> erp-garment-ux@0.1.2 check:css
+> node scripts/check-css-ownership.mjs
+
+CSS ownership passed: 37 stylesheets have no unowned selector branches.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> erp-garment-ux@0.1.2 check:cp5
+> node scripts/check-cp5-boundary.mjs
+
+Production recovery ownership passed: eight connected writer domains, exact envelope, shared lock and stale-read generation.
+CP5 boundary passed: recorded Cutting 6a568a78ad0b, reconciliation d024a9ef2c8b, BS Resolution 79e7b51b8275, accessory lineage 204b9246f3c8, reliability closure 89ed4535720e, atomic reversal ledger 70bafe4f4c69/b11014081391; canonical gates, 12 actions, entitlement-derived defaults, conserved Laundry claims, lost-response reconciliation, claim/BS serialization, digest-bound rollback identities, and hosted-UAT boundaries are owned.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> erp-garment-ux@0.1.2 check:cp6
+> node scripts/check-cp6-boundary.mjs && node scripts/check-cp6-audit-closure.mjs && node scripts/check-cp6-reaudit-closure.mjs && node scripts/check-cp6-deep-business-repair.mjs && node scripts/check-cp6-reaudit-business-closure.mjs && node scripts/check-cp6-final-runtime-reliability.mjs && node scripts/check-cp6-independent-closure.mjs && node scripts/check-cp6-expanded-audit-closure.mjs && node scripts/check-cp6-h2-audit-closure.mjs && node scripts/check-cp6-payment-fact-closure.mjs && node scripts/check-cp6-payment-date-conservation.mjs && node scripts/check-cp6-exact-ledger-conservation.mjs && node scripts/check-cp6-subledger-closure.mjs && node scripts/check-cp6-supplier-cent-lifecycle.mjs && node scripts/check-cp6-supplier-return-allocation.mjs && node scripts/check-cp6-supplier-return-match-state.mjs && node scripts/check-cp6-supplier-invoice-exact-quantity.mjs && node scripts/check-cp6-receipt-invoice-dependency.mjs && node scripts/check-cp6-supplier-payment-business-date.mjs && node scripts/check-cp6-material-adjustment-revaluation.mjs && node scripts/check-cp6-canonical-business-date.mjs && node scripts/check-cp6-misc-finance-business-date.mjs && node scripts/check-cp6-scrap-business-date.mjs && node scripts/check-cp6-internal-role-fail-closed.mjs && node scripts/check-cp6-cash-business-dates.mjs && node scripts/check-cp6-accounting-close-business-date.mjs
+
+Production recovery ownership passed: eight connected writer domains, exact envelope, shared lock and stale-read generation.
+CP6 boundary passed: immutable migration 251923 bytes; exact ledger shapes e5fcf69ddec8/52e51f56f4b8; seven closed actions, physical-time conservation, Brand-scoped SKU identity, durable idempotency, append-only reversal, paid failed-wash custody/cost separation, finance/stock/HPP reconciliation, twelve serialized races, and digest-bound rollback are owned.
+CP6 audit closure passed: immutable v2.6.20 52e51f56f4b8, forward v2.6.20a 03e0dcaaafec, canonical invoice locks, physical-time prefix conservation, indexed dependency lookup, and portable exact rollback are statically owned.
+CP6 re-audit closure passed: v20b 67c2b8eeb4a4 owns full temporal prefixes, partial Laundry HPP/WIP lineage and granular reverse Auth; v20c CI adds 34 native runtime races, three reject/abort qualifications, actual-facade rollback races, and deep financial confidence probes.
+CP6 deep-business repair passed: v20c b90cd6c4aa53 closes N01–N12/R03/R05/R06/N05 with source-owned cost, exact books, historical report basis, source-bound UI, honest concurrency, and actual-facade rollback proof.
+{"status":"PASS_STATIC_SOURCE_OWNERSHIP_ONLY","migration":{"bytes":85944,"sha256":"eab866385d3a462aea5815dc5069d5d7a774f7aa88c43d983c665469f4469465","platform_ledger_sha256":"f3f1ba8f889440c8694ba2932fc787ea5bdfab980b2d94f24cd9bfabf1bbf222"},"rollback":{"bytes":12395,"sha256":"793cd96c44c4babcf78789ab01e3e932c04c1598cdc1dbe73afeedba18640fb7"},"regression":{"bytes":40170,"sha256":"1a0e9a7774857529e84291bdc9c4b5fbb2f4bb93464527d738de66304d293076"},"native_runtime_proven_by_this_check":false,"production_go":false}
+{"status":"PASS","boundary":"CP6_V2620F_A01_A04_FINAL_RUNTIME_RELIABILITY","migration_sha256":"48f0431ca57abc99906d3f578b53ef59f9072fef3fc3e11c0b50a5c3a581279c","migration_ledger_sha256":"5ffdf1e5c12ccc964cf41820a78a790f33b10bbe087397d41b62f6e315c928ae","rollback_sha256":"83819e093d1489af70431704c59e2cb50a0149e1adc8520d5b9536510572a23d","regression_sha256":"4656b11baaa1b14808d9fc5dbefeb262be58027bcc11bf64307df311a46e1c49","rollback_race_sha256":"41a612d39862c9254f6f555028e46f8e8acb242869d9c75e6efb5336c8e71006","production_go":false}
+CP6 G source contracts passed: N01-N03, exact source-basis corrections, seven-function rollback capsule, and final-G native proof gates. This static check is not runtime evidence.
+{"status":"PASS","boundary":"CP6_V2620H_R01_R03_EXPANDED_AUDIT_CLOSURE","migration_sha256":"e16dbb655164595be273c03582d35c9ac33593136bd418fdd87156e592f292b8","rollback_sha256":"0d0318e3848344c3642f1796a205d25bcf1cc2d2091ce28d1fc9cf6d186ecbe5","maintenance_matrix_schedules":460,"production_go":false}
+{"status":"PASS","boundary":"CP6_V2620I_H2_AUDIT_CLOSURE","migration_sha256":"01db1c8f2d59485c1c42567ec2d1318de156397483b1d0afd30a16b27450b683","rollback_sha256":"7719d329e7e0e4d4293466b9e425c9ef0b4a46a757545ad3d1bb6acbd2c535f2","maintenance_matrix_schedules":460,"writer_first_backend_body_entries":115,"production_go":false}
+{"status":"PASS","boundary":"CP6_V2620J_PAYMENT_FACT_CLOSURE","migration_sha256":"663cb98b2c432ce8518f922dcd7ecbaeb61d07bfb929ac49111a00ded29cad74","rollback_sha256":"b0def9ada0670e9cdfd9c33ee4c507b8be628fed17027651d4df4b3038264f6d","maintenance_endpoint_cases":31,"maintenance_matrix_schedules":460,"writer_first_backend_body_entries":115,"production_go":false}
+{"status":"PASS","classification":"STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF","production_go":false}
+{"status":"PASS","classification":"STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF","production_go":false}
+{"status":"PASS","classification":"STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF","functions":15,"boundary_tables":58,"production_go":false}
+{"status":"PASS","classification":"STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF","replaced_functions":7,"private_helpers":3,"boundary_tables":64,"production_go":false}
+{"status":"PASS","classification":"STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF","replaced_functions":2,"boundary_tables":65,"native_cases":18,"known_n_failures":11,"controls":7,"production_go":false}
+{"status":"PASS","classification":"STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF","replaced_functions":3,"boundary_tables":66,"native_cases":9,"known_o_failures":5,"controls":4,"maintenance_schedules":460,"writer_body_entries":115,"production_go":false}
+{"status":"PASS","classification":"STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF","replaced_functions":4,"boundary_tables":67,"native_cases":11,"known_p_paths":7,"controls":4,"maintenance_schedules":460,"writer_body_entries":115,"production_go":false}
+{"status":"PASS","classification":"STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF","replaced_functions":3,"boundary_tables":68,"native_cases":13,"known_q_paths":5,"controls":8,"receipt_invoice_native_races":2,"maintenance_schedules":460,"writer_body_entries":115,"production_go":false}
+{"status":"PASS","classification":"STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF","replaced_functions":3,"boundary_tables":69,"native_cases":12,"known_r_paths":6,"controls":6,"maintenance_schedules":460,"writer_body_entries":115,"production_go":false}
+{"status":"PASS","classification":"STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF","replaced_functions":6,"new_private_functions":3,"boundary_tables":73,"native_cases":21,"known_s_paths":15,"controls":6,"shared_document_native_races":3,"maintenance_schedules":460,"writer_body_entries":115,"production_go":false}
+{"status":"PASS","classification":"STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF","replaced_functions":7,"boundary_tables":74,"native_cases":5,"expanded_native_cases":20,"known_t_paths":4,"controls":1,"maintenance_schedules":460,"writer_body_entries":115,"rollback_setup_units":302,"production_go":false}
+{"status":"PASS","classification":"STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF","replaced_functions":3,"boundary_tables":77,"native_cases":8,"expanded_native_cases":21,"known_u_paths":4,"controls":4,"native_document_races":3,"maintenance_schedules":460,"writer_body_entries":115,"rollback_setup_units":302,"production_go":false}
+{"status":"PASS","classification":"STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF","replaced_functions":3,"boundary_tables":80,"native_cases":4,"expanded_native_cases":21,"known_v_paths":2,"controls":2,"native_document_races":3,"maintenance_schedules":460,"writer_body_entries":115,"rollback_setup_units":302,"production_go":false}
+{"status":"PASS","classification":"STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF","replaced_functions":1,"rollback_revision":"R2","frozen_original_rollback_preserved":true,"qualified_catalog_aliases":3,"boundary_tables":209,"paired_cases":10,"known_null_role_paths":6,"controls":4,"after_denials":7,"authorized_controls":3,"maintenance_schedules":460,"writer_body_entries":115,"rollback_setup_units":302,"production_go":false}
+{"status":"PASS","classification":"STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF","replaced_functions":6,"boundary_tables":210,"before_cases":35,"after_cases":45,"admission_refusals":10,"maintenance_schedules":460,"writer_body_entries":115,"production_go":false}
+{"status":"PASS","classification":"STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF","replaced_functions":1,"boundary_tables":211,"before_cases":20,"after_cases":20,"admission_refusals":10,"maintenance_schedules":460,"writer_body_entries":115,"production_go":false}
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> erp-garment-ux@0.1.2 check:backend
+> node scripts/check-predecessor-backend-ownership.mjs
+
+CP5 boundary passed: recorded Cutting 6a568a78ad0b, reconciliation d024a9ef2c8b, BS Resolution 79e7b51b8275, accessory lineage 204b9246f3c8, reliability closure 89ed4535720e, atomic reversal 70bafe4f4c69; canonical gates, 12 actions, entitlement-derived defaults, conserved Laundry claims, lost-response reconciliation, claim/BS serialization, digest-bound rollback identities, and hosted-UAT boundaries are owned.
+Backend ownership v3 passed: 55 inherited + 15 Cutting Bridge + 24 CP5 backend/proof entries; 89 effective unique files, 66 CP5 source files byte-bound, zero unowned.
+Predecessor backend ownership passed at exact CP5 base 6d4cda118f5d28d1f039cc0ecf318d0866f55c2c; current CP6 overlays remain owned by check:cp6.
+Build-secret regression passed: process env and .env.<mode> server-key canaries aborted before bundling; canary was absent.
+UAT Auth deployment assertions passed: environment, target isolation, artifact identity, and key-redaction failures.
