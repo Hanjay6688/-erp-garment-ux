@@ -155,6 +155,7 @@ def sold_child_recost(cur, day):
         "physical_at": bd.iso(bd.chain.production.at(f["day"], 16)),
         "reason": "Blind actual child conversion",
         "expected_version": one(cur, "select erp.be_source_revision_v1(%s,%s)", parent, f["location"])})["destination_lot_id"]
+    bd.api.admin(cur)
     sale1 = bd.sell(cur, f, f["target"], 1, 17)
     sale2 = bd.sell(cur, f, target2, 1, 18)
     snapshots = cur.execute("""select id,total_hpp from erp.sale_stock_allocations
