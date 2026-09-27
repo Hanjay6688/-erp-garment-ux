@@ -7,6 +7,7 @@ No token, password, or service key is written to logs or artifacts.
 from __future__ import annotations
 
 import json
+from concurrent.futures import ThreadPoolExecutor
 import os
 import shlex
 import subprocess
@@ -105,6 +106,16 @@ def main() -> None:
     assert first_code == 200 and first.get("status") == "POSTED", (first_code, first)
     owner_replay_code, owner_replay = rpc(url, anon, owner_jwt, "POST", policy_payload, action_id)
     assert owner_replay_code == 200 and owner_replay.get("conversion_id") == first.get("conversion_id")
+    race_payload = fixture["race_payload"]
+    race_keys = [uuid.uuid4(), uuid.uuid4()]
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        futures = [pool.submit(rpc, url, anon, owner_jwt, "POST", race_payload, key) for key in race_keys]
+        race = [future.result(timeout=30) for future in futures]
+    assert sorted(code < 400 for code, _ in race) == [False, True], race
+    with psycopg.connect(os.environ["PGURL"].replace("//postgres:", "//supabase_admin:", 1), autocommit=True) as conn, conn.cursor() as cur:
+        race_remaining = cur.execute("select coalesce(sum(qty_signed),0) from erp.fg_stock_movements where lot_id=%s",
+                                     (fixture["race_lot_id"],)).fetchone()[0]
+    assert race_remaining == 4, (race, race_remaining)
     view_code, view = rpc(url, anon, viewer_jwt, "POST", policy_payload, uuid.uuid4())
     assert view_code >= 400 and "PERMISSION_DENIED" in str(view), (view_code, view)
     with psycopg.connect(os.environ["PGURL"].replace("//postgres:", "//supabase_admin:", 1), autocommit=True) as conn, conn.cursor() as cur:
@@ -122,6 +133,7 @@ def main() -> None:
     assert anon_code >= 400, (anon_code, anon_result)
     result = {"status": "BE_AUTH_HTTP_PERMISSION_PROVEN", "candidate": "2c2fd5e8e0df5f8ada44402c93f70dbaf0fbbb5b",
               "first": first.get("status"), "owner_replay_same": owner_replay.get("conversion_id") == first.get("conversion_id"),
+              "concurrent_http": {"codes": [code for code, _ in race], "remaining_qty": race_remaining},
               "viewer_refusal": view.get("message"),
               "replay_after_owner_demoted": {"http": replay_code, "message": replay.get("message")},
               "fresh_after_owner_demoted": {"http": fresh_code, "message": fresh.get("message")},
