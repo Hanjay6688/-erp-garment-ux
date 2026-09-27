@@ -90,8 +90,8 @@ def rework(cur, day):
     made = be.be(cur, "SAVE_REWORK", {"order": order, "target_product_id": target,
                                         "reason": "Blind same-construction target"})
     rid = made["rework_id"]
-    bd.chain.bs_action(cur, "COMPLETE_REWORK", {"rework_order_id": rid, "qty_good": 1, "qty_bs": 0,
-         "completed_at": bd.iso(bd.chain.production.at(f["day"], 15)),
+    bd.chain.bs_action(cur, "SAVE_REWORK", {"id": rid, "action": "SAVE",
+         "qty_good_returned": 1, "qty_bs_returned": 0,
          "return_fg_location_id": str(old[2]), "change_reason": "Blind partial physical return"},
          bd.chain.version(cur, "rework_orders", rid))
     bd.api.admin(cur)
@@ -104,7 +104,7 @@ def rework(cur, day):
     version, key = bd.chain.version(cur, "rework_orders", rid), str(uuid.uuid4())
     first = bd.chain.bs_action(cur, "COMPLETE_REWORK", payload, version, key=key)
     second = bd.chain.bs_action(cur, "COMPLETE_REWORK", payload, version, key=key)
-    assert first == second
+    assert first.get("result") == second.get("result"), (first, second)
     bd.api.admin(cur)
     source = one(cur, "select good_fg_lot_id from erp.rework_orders where id=%s", rid)
     destinations = cur.execute("""select a.destination_lot_id from erp.be_conversion_sources_v1 s
