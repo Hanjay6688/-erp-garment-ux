@@ -224,6 +224,15 @@ def main() -> None:
             except psycopg.Error:
                 new_request = "PERMISSION_DENIED"
             assert first["applied"] and replay["replayed"] and new_request == "PERMISSION_DENIED"
+            try:
+                cur.execute(
+                    "select erp.save_laundry_bd_action_v1('SET_REDYE_PRICE','{}'::jsonb,%s)",
+                    (uuid.uuid4(),),
+                )
+                redye = "UNEXPECTED_SUCCESS"
+            except psycopg.Error as error:
+                redye = error.diag.message_primary
+            assert "BD_ACTION_UNKNOWN" in redye, redye
             print(json.dumps({
                 "candidate": BASE,
                 "label": "ISOLATED_SOURCE_FUNCTIONS_ONLY",
@@ -234,6 +243,7 @@ def main() -> None:
                 "replay_after_permission_revoked": {
                     "first_saved": first["status"], "replayed_after_revocation": replay["replayed"],
                     "new_request_after_revocation": new_request},
+                "redye_from_bd_ui_action": redye,
                 "production_go": False,
             }, indent=2))
 
