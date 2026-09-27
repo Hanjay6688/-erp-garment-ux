@@ -179,7 +179,7 @@ def main() -> None:
             stubs = [
                 "bd_post_priced_delivery_v1", "bd_set_charge_price_v1",
                 "bd_save_invoice_draft_v1", "bd_cancel_invoice_draft_v1",
-                "bd_post_invoice_v1", "bd_reverse_invoice_v1",
+                "bd_reverse_invoice_v1",
                 "bd_set_opening_estimate_v1", "bd_apply_claim_credit_v1",
                 "bd_pay_vendor_document_v1", "bd_reverse_vendor_settlement_v1",
             ]
