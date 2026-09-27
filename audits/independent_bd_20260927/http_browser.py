@@ -307,6 +307,32 @@ def browser_master_create():
     assert len(events)==1 and events[0]['http_status']==200,events
     return {'row_count':1,'native_readback':rows,'browser_sent_rpc_count':len(events)}
 
+def enter_date_with_keys(label,value,who='owner'):
+    selector='input[aria-label='+json.dumps(label)+']'
+    ab('wait','--fn',"(()=>{const e=document.querySelector("+json.dumps(selector)+");return !!e&&!e.disabled&&e.type==='date';})()",who=who)
+    desired={'Year':int(value[:4]),'Month':int(value[5:7]),'Day':int(value[8:10])}
+    changes=[]
+    # Run11 native `fill` cleared the date's shadow spinbuttons to zero without
+    # changing React state. Use actual keyboard arrows on the visible segments.
+    for part in ('Year','Month','Day'):
+        snapshot=ab('snapshot','-i','-s',selector,who=who)
+        found=[]
+        for line in snapshot.splitlines():
+            m=re.search(r'spinbutton "'+part+r'(?: '+part+r')?".*ref=(e\d+).*:\s*(\d+)',line)
+            if m:found.append((m.group(1),int(m.group(2))))
+        if len(found)!=1:raise AssertionError({'date_entry_prerequisite':'One native date segment required','part':part,'snapshot':snapshot})
+        ref,current=found[0];difference=desired[part]-current
+        assert abs(difference)<=100,{'unexpected_date_segment':part,'current':current,'target':desired[part]}
+        if difference:
+            ab('click','@'+ref,who=who)
+            for _ in range(abs(difference)):ab('press','ArrowUp' if difference>0 else 'ArrowDown',who=who)
+            ab('press','Tab',who=who)
+        changes.append({'part':part,'before':current,'target':desired[part],'keyboard_steps':abs(difference)})
+    actual=evaluate('document.querySelector('+json.dumps(selector)+').value',who)
+    assert actual==value,{'date_entry_prerequisite':True,'expected':value,'actual':actual,'changes':changes}
+    EVENTS.append({'native_date_entry':label,'expected':value,'actual':actual,'changes':changes})
+    return actual
+
 def browser_invoice_draft_reload():
     ctx=json.loads((ROOT/'audit-results'/'lifecycle-fixture.json').read_text())
     vendor=ctx['v1']
@@ -315,12 +341,19 @@ def browser_invoice_draft_reload():
     assert available,'No own unbilled opening source is available for browser draft probe'
     source=available[0]['id'];name='AUD-UI-DRAFT-RELOAD';before=sql('select count(*) from erp.journal_entries',one=True)
     select('Vendor harga laundry',vendor);button('Invoice vendor');wait_text('Draf invoice baru')
-    fill('Nomor invoice vendor',name);fill('Tanggal invoice','2026-09-21');fill('Total invoice','1234.57')
+    fill('Nomor invoice vendor',name);enter_date_with_keys('Tanggal invoice','2026-09-21');fill('Total invoice','1234.57')
+    committed_date=evaluate("document.querySelector('input[aria-label=\"Tanggal invoice\"]').value")
+    assert committed_date=='2026-09-21',{'date_after_other_field_changed':committed_date}
     button('Tambah baris');select('Sumber baris 1','o:'+source);select('Kategori baris 1','GOOD')
-    fill('Qty baris 1','1');fill('Nominal baris 1','1234.57');button('Simpan draf invoice')
+    fill('Qty baris 1','1');fill('Nominal baris 1','1234.57')
+    committed_date=evaluate("document.querySelector('input[aria-label=\"Tanggal invoice\"]').value")
+    assert committed_date=='2026-09-21',{'date_before_submit':committed_date}
+    snap('owner-invoice-before-save');button('Simpan draf invoice')
     wait_text('Ubah draf '+name);snap('owner-invoice-draft')
-    rows=sql("select id::text,status,header_total::text,journal_id from erp.bd_laundry_invoices_v1 where vendor_id=%s and invoice_number=%s",(vendor,name))
-    assert len(rows)==1 and rows[0][1:] == ('DRAFT','1234.57',None),rows
+    rows=sql("select id::text,status,header_total::text,journal_id,invoice_date::text from erp.bd_laundry_invoices_v1 where vendor_id=%s and invoice_number=%s",(vendor,name))
+    assert len(rows)==1 and rows[0][1:] == ('DRAFT','1234.57',None,'2026-09-21'),rows
+    sent=[e for e in HTTP_EVENTS if e.get('payload',{}).get('p_payload',{}).get('invoice_number')==name]
+    assert len(sent)==1 and sent[0]['payload']['p_payload']['invoice_date']=='2026-09-21',sent
     assert sql('select count(*) from erp.journal_entries',one=True)==before,'Browser draft must not write a journal'
     # Actual page reload: React state is rebuilt and the draft must come from HTTP.
     ab('open','http://127.0.0.1:4176/');ab('wait','aside.sidebar')
@@ -347,6 +380,7 @@ def package_extras_browser():
     select('Cara harga vendor','PACKAGE');select('Satuan harga vendor','PCS');button('Simpan ketentuan')
     wait_text('Cara harga PACKAGE')
     button('Kirim dengan harga');wait_text('harga paket per PCS')
+    select('Paket kirim berharga',FIX['package'])
     snap('peer-informed-package-extras')
     form=evaluate("(()=>{const s=document.querySelector('section[aria-label=\"Kirim laundry dengan harga BD\"]');return s?{text:s.innerText,controls:Array.from(s.querySelectorAll('input,select,button')).map(e=>({tag:e.tagName,aria:e.getAttribute('aria-label'),text:e.tagName==='SELECT'?e.innerText:e.textContent,type:e.getAttribute('type')}))}:null})()")
     assert isinstance(form,dict) and form.get('controls'),form

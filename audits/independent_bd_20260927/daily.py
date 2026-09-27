@@ -99,7 +99,15 @@ def ship(key,unknown=False):
     line=admin('select id::text from erp.laundry_delivery_lines where delivery_id=%s',(r['delivery_id'],),one=True);f['delivery_line']=line
     eq(D(r['pricing']['total_known']),D('56174.17' if unknown else '59568.72'));eq(r['pricing']['total_complete'],not unknown);eq(r['pricing']['qty_sent'],13)
     eq(admin("select sum(qty_pcs) from erp.wip_stage_events where source_type='LAUNDRY_DELIVERY_LINE' and source_id=%s",(line,),one=True),13)
-    f['pricing_snapshot']=r['pricing'];return r
+    f['pricing_snapshot']=r['pricing'];f['shipment_response']=r;return r
+def response_consistency():
+    f=F['K'];r=f['shipment_response']
+    accrued=admin("select coalesce(sum(l.credit-l.debit),0) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where l.po_id=%s and l.account_id=erp.account_id('ACCRUED_MANUFACTURING') and j.status in('POSTED','REVERSED')",(f['po'],),one=True)
+    observed={'expected_total':'59568.72','top_level_estimated_cost':r['estimated_cost'],'pricing_total_known':r['pricing']['total_known'],'direct_accrual':accrued}
+    E.append({'own_response_consistency':observed})
+    eq(accrued,D('59568.72'),'Exact ledger amount');eq(D(r['pricing']['total_known']),D('59568.72'))
+    eq(D(r['estimated_cost']),D('59568.72'),'Shipment response total must equal the independently calculated service amount')
+    return observed
 def replay_ship():
     f=F['K'];before=fp();r=cmd('POST_PRICED_DELIVERY',f['shipment_payload'],f['shipment_request']);eq(fp(),before);eq(r['delivery_id'],f['delivery']);return r
 def day_boundary():
@@ -203,6 +211,7 @@ def main():
     try:setup()
     except Exception as e:R.append({'id':'SETUP.DAILY','status':'BLOCKED','error':str(e),'traceback':traceback.format_exc()});save();raise
     case('IND-01.DAILY','13 physical PCS with partial component; posted 59568.72 estimate',lambda:ship('K'))
+    case('IND-01.RESPONSE','Shipment response total agrees with exact pricing and booked amount',response_consistency,[('K','shipment_response')])
     case('IND-19.DELIVERY','Replay posted shipment has one physical and financial effect',replay_ship,[('K','delivery')])
     case('IND-35.DAILY','00:01 WIB shipment uses the local business day for accrual',day_boundary,[('K','delivery')])
     case('IND-05.POSTED','New master rate preserves posted charge snapshots',snapshot,[('K','delivery')])
