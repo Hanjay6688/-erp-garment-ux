@@ -82,8 +82,8 @@ def main() -> None:
         owner = cur.execute("select id from erp.app_roles where role_code='OWNER' and is_active").fetchone()
         assert owner, "Owner role required in baseline fixture"
         for user, role_id, code in ((owner_auth, owner[0], "OWNER"), (spare_auth, owner[0], "OWNER")):
-            cur.execute("""insert into erp.app_users(auth_user_id,full_name,role,role_id)
-                           values(%s,%s,%s,%s)""", (user, "Blind BE local audit", code, role_id))
+            cur.execute("""insert into erp.app_users(id,auth_user_id,full_name,role,role_id,is_active)
+                           values(gen_random_uuid(),%s,%s,%s,%s,true)""", (user, "Blind BE local audit", code, role_id))
 
     owner_jwt = token(url, anon, owner_credentials)
     view_code_name = "BE_AUD_" + uuid.uuid4().hex[:10].upper()
@@ -97,8 +97,8 @@ def main() -> None:
         viewer = cur.execute("select id,role_code from erp.app_roles where role_code=%s and is_active",
                              (view_code_name,)).fetchone()
         assert viewer, "Owner-created view-only role missing"
-        cur.execute("""insert into erp.app_users(auth_user_id,full_name,role,role_id)
-                       values(%s,%s,%s,%s)""", (viewer_auth, "Blind BE local audit", viewer[1], viewer[0]))
+        cur.execute("""insert into erp.app_users(id,auth_user_id,full_name,role,role_id,is_active)
+                       values(gen_random_uuid(),%s,%s,%s,%s,true)""", (viewer_auth, "Blind BE local audit", viewer[1], viewer[0]))
     viewer_jwt = token(url, anon, viewer_credentials)
     policy_payload = fixture["payload"]
     action_id = uuid.uuid4()
