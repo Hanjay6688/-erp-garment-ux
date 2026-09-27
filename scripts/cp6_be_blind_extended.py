@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import json
 import os
+import traceback
 import uuid
 from datetime import timedelta
 from decimal import Decimal
@@ -92,6 +93,7 @@ def rework(cur, day):
          "completed_at": bd.iso(bd.chain.production.at(f["day"], 15)),
          "return_fg_location_id": str(old[2]), "change_reason": "Blind partial physical return"},
          bd.chain.version(cur, "rework_orders", rid))
+    bd.api.admin(cur)
     partial = cur.execute("select status,good_fg_lot_id from erp.rework_orders where id=%s", (rid,)).fetchone()
     assert partial[0] == "PARTIAL" and partial[1] is None
     assert one(cur, "select count(*) from erp.be_conversion_sources_v1 where rework_id=%s", rid) == 0
@@ -102,6 +104,7 @@ def rework(cur, day):
     first = bd.chain.bs_action(cur, "COMPLETE_REWORK", payload, version, key=key)
     second = bd.chain.bs_action(cur, "COMPLETE_REWORK", payload, version, key=key)
     assert first == second
+    bd.api.admin(cur)
     source = one(cur, "select good_fg_lot_id from erp.rework_orders where id=%s", rid)
     destinations = cur.execute("""select a.destination_lot_id from erp.be_conversion_sources_v1 s
         join erp.product_conversion_allocations a on a.conversion_id=s.conversion_id
@@ -113,6 +116,7 @@ def rework(cur, day):
     bd.chain.bs_action(cur, "REVERSE_REWORK_COMPLETION", {
         "rework_order_id": rid, "change_reason": "Blind inverse real rework"},
         bd.chain.version(cur, "rework_orders", rid))
+    bd.api.admin(cur)
     assert be.qty(cur, source) == 0 and be.qty(cur, dest) == 0
     return {"partial": partial[0], "partial_fg": 0, "good_target": 2, "bs": 2,
             "source_shadow_good": 0, "replay_same": True, "inverse_zero": True}
@@ -229,7 +233,7 @@ def main():
                 report["cases"][name] = {"status": "PASS", **value}
             except Exception as error:
                 report["cases"][name] = {"status": "INCOMPLETE", "error": str(error),
-                                          "kind": type(error).__name__}
+                                          "kind": type(error).__name__, "traceback": traceback.format_exc()[-3000:]}
             finally:
                 cur.execute("rollback to savepoint blind_extended_case")
                 cur.execute("release savepoint blind_extended_case")
