@@ -27,3 +27,23 @@ jobs:
           git diff --exit-code 08065a3b4da71c51ffbbab77f0a6b1ac7e6638ec -- src/LaundryBdPanel.tsx src/laundryBd.ts src/productConversion.ts
           npm ci
           npm run build
+  compile-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Type-check and bundle the frozen frontend independently of repository-wide source manifests
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --exit-code 08065a3b4da71c51ffbbab77f0a6b1ac7e6638ec -- src/LaundryBdPanel.tsx src/laundryBd.ts
+          npm ci
+          npx tsc -b
+          npx vite build --mode cp6-disposable-test --outDir cp6-bd-blind-dist
+          node scripts/scan-client-artifacts.mjs cp6-bd-blind-dist
