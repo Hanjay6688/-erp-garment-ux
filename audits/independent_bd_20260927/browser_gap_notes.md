@@ -126,3 +126,25 @@ single page whose URL exactly matches that active application URL; unrelated
 blank pages remain untouched. Evidence records total page count, matching page
 count, selected target ID and selected URL. Ambiguous or missing matches fail
 setup. Native touch, coarse-pointer and viewport assertions remain unchanged.
+
+## Run19 screenshot interaction with touch emulation
+
+Run19 selected the uniquely marked application target and logged in with
+native taps. The post-login probe nevertheless found zero touch points while
+the coarse-pointer media state was true. The oracle remained failed and the
+dependent workflows remained blocked.
+
+The upstream reports [Playwright issue 42607](https://github.com/microsoft/playwright/issues/42607)
+and [Chromium issue 558509412](https://issuetracker.google.com/issues/558509412)
+describe that exact state after beyond-viewport screenshots. Official
+agent-browser v0.31.1 `cli/src/native/screenshot.rs` sends
+`captureBeyondViewport=true` for `--full`; our general snapshot helper used
+that flag before the probe. This is a strong diagnosis, not yet a local
+controlled reproduction of the Chromium defect.
+
+The continuation routes every mobile capture through a separate viewport-only
+helper, retaining the full DOM snapshot. It records and asserts native touch
+points and coarse-pointer state immediately after CDP setup (before the first
+capture), and before and after every later mobile screenshot. Desktop capture
+behavior is unchanged. No navigator property is overridden, no expected value
+is loosened, and no mobile success is claimed until runtime evidence passes.

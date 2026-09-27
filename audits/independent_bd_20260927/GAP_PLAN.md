@@ -52,3 +52,15 @@ the uniquely identified active application page after navigation, while keeping
 the native touch, coarse-pointer, viewport, login and business-flow assertions.
 Preserve both raw failures as audit setup failures; neither establishes a BD
 product defect or closes the corresponding coverage until the rerun executes.
+
+Pre-run20 adapter correction: run19 passed all 12 native gap cases, including
+both distinct-operator races. Mobile selected the correct application target
+and completed native tap login, but the subsequent device probe found touch
+points 0 with coarse pointer true, so its dependent flows remained blocked.
+The audit captured full-page screenshots before that probe. The primary
+Chromium/Playwright issue at https://github.com/microsoft/playwright/issues/42607
+reports the same touch-state loss after captureBeyondViewport screenshots.
+Use viewport-only screenshots for mobile and record strict touch/coarse probes
+before and after capture. This is an audit-tool diagnosis to verify at runtime;
+it is not evidence of a BD application defect. Keep the original touch and
+business expectations and retain run19 raw results.

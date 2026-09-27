@@ -611,6 +611,19 @@ def mobile_button(text,who,exact=True):
     assert len(found)==1,{'mobile_button':text,'refs':found,'snapshot':s}
     ab('tap','@'+found[0],who=who)
 
+def mobile_snap(label,who):
+    # Chromium beyond-viewport capture can reset native maxTouchPoints.
+    # Keep real viewport captures and verify emulation on both sides.
+    probe='({touch_points:navigator.maxTouchPoints,coarse:matchMedia("(pointer:coarse)").matches})'
+    before=evaluate(probe,who)
+    s=ab('snapshot','-i',who=who);(OUT/(label+'.txt')).write_text(s)
+    ab('screenshot',str(OUT/(label+'.png')),who=who)
+    after=evaluate(probe,who)
+    observation={'mobile_viewport_capture':label,'session':who,'before':before,'after':after,'full_page':False}
+    EVENTS.append(observation)
+    assert all(x['touch_points']>0 and x['coarse'] is True for x in (before,after)),observation
+    return s
+
 def mobile_open_pricing(who,vendor):
     mobile_button('Buka menu',who)
     ab('wait','--fn',"document.querySelector('aside.sidebar')?.getBoundingClientRect().left===0",who=who)
@@ -627,9 +640,9 @@ def mobile_auth(who,actor):
     active_url=ab('get','url',who=who).strip()
     assert active_url==app_url,{'expected_active_url':app_url,'actual_active_url':active_url}
     emulation=mobile_touch_context(who,active_url)
-    snap(who+'-login',who)
+    mobile_snap(who+'-login',who)
     fill('Email akun ERP',FIX[who]['email'],who);fill('Kata sandi',FIX[who]['password'],who)
-    mobile_button('Masuk',who);ab('wait','aside.sidebar',who=who);snap(who+'-authorized',who)
+    mobile_button('Masuk',who);ab('wait','aside.sidebar',who=who);mobile_snap(who+'-authorized',who)
     result={'real_browser_password_login':True,'authorized_app_shell':True,'touch_configuration':emulation,'button_input':'native touch tap'}
     env=evaluate('({width:innerWidth,height:innerHeight,pixel_ratio:devicePixelRatio,user_agent:navigator.userAgent,touch_points:navigator.maxTouchPoints,coarse:matchMedia("(pointer:coarse)").matches})',who)
     assert env['width']<=430 and env['touch_points']>0 and env['coarse'] is True and re.search('iPhone|Mobile',env['user_agent']),env
@@ -642,7 +655,7 @@ def mobile_master():
     assert '4.321,09' in body and 'Belum diketahui sejak' in body,body
     fill('Alasan','Independent mobile emulation master creation',who)
     fill('Kode komponen','AUD-MOBILE-CREATED',who);fill('Nama komponen','Mobile emulation master',who);mobile_button('Tambah komponen',who)
-    wait_text('AUD-MOBILE-CREATED',who);snap('mobile-owner-master',who)
+    wait_text('AUD-MOBILE-CREATED',who);mobile_snap('mobile-owner-master',who)
     rows=sql("select component_code,component_name from erp.bd_laundry_components_v1 where vendor_id=%s and component_code='AUD-MOBILE-CREATED'",(FIX['vendor'],))
     assert rows==[('AUD-MOBILE-CREATED','Mobile emulation master')],rows
     sent=[x for x in HTTP_EVENTS if (x.get('payload') or {}).get('p_payload',{}).get('component_code')=='AUD-MOBILE-CREATED']
@@ -662,7 +675,7 @@ def mobile_draft():
     date=evaluate("({value:document.querySelector('input[aria-label=\"Tanggal invoice\"]').value})",who)['value']
     assert date==day,{'expected_business_day':day,'rendered_date':date}
     mobile_button('Tambah baris',who);select('Sumber baris 1','o:'+source,who);select('Kategori baris 1','GOOD',who)
-    fill('Qty baris 1','1',who);fill('Nominal baris 1','5678.43',who);snap('mobile-invoice-before-save',who)
+    fill('Qty baris 1','1',who);fill('Nominal baris 1','5678.43',who);mobile_snap('mobile-invoice-before-save',who)
     mobile_button('Simpan draf invoice',who);wait_text('Ubah draf '+name,who)
     row=sql("select id::text,status,header_total::text,invoice_date::text,journal_id from erp.bd_laundry_invoices_v1 where vendor_id=%s and invoice_number=%s",(vendor,name))
     assert len(row)==1 and row[0][1:]==('DRAFT','5678.43',day,None),row
@@ -674,7 +687,7 @@ def mobile_draft():
     expected={'Nomor invoice vendor':name,'Tanggal invoice':day,'Total invoice':'5678.43','Sumber baris 1':'o:'+source,'Kategori baris 1':'GOOD','Qty baris 1':'1','Nominal baris 1':'5678.43'}
     assert fields==expected,{'expected':expected,'actual':fields}
     assert sql('select count(*) from erp.journal_entries',one=True)==before,'Mobile draft changed journals'
-    snap('mobile-draft-after-reload',who)
+    mobile_snap('mobile-draft-after-reload',who)
     return {'invoice':row[0],'http_payload_date':sent[0]['payload']['p_payload']['invoice_date'],'reopened_fields':fields,'journals_unchanged':True,
             'date_scope':'Default business date persisted; mobile date-picker editing is not covered','physical_device':False}
 
@@ -682,8 +695,8 @@ def mobile_viewer():
     who='mobile_viewer';mobile_open_pricing(who,FIX['vendor']);mobile_button('Harga vendor',who)
     body=wait_text('AUD-BROWSER-KNOWN',who)
     assert 'Hak master mitra diperlukan' in body and '4.321,09' not in body and '678,91' not in body,body
-    snap('mobile-viewer-master',who);mobile_button('Invoice vendor',who)
-    wait_text('Hak melihat nominal diperlukan untuk invoice vendor.',who);snap('mobile-viewer-invoice-denied',who)
+    mobile_snap('mobile-viewer-master',who);mobile_button('Invoice vendor',who)
+    wait_text('Hak melihat nominal diperlukan untuk invoice vendor.',who);mobile_snap('mobile-viewer-invoice-denied',who)
     return {'master_money_hidden':True,'invoice_denial_visible':True,'physical_device':False}
 
 def gap_receipt_fixture():
