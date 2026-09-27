@@ -225,6 +225,8 @@ async function rework(browser, today, redye) {
 
 async function pocketBrowser(browser, today) {
   const f = fixture('create', { kind: 'pocket', today })
+  const initial = fixture('read', f)
+  assert.deepEqual(initial.ledger, f.before, 'Pocket fixture ledger baseline must be committed before browser actions')
   const { page, context } = await login(browser, true)
   try {
     await navigate(page, 'Kain kantong')
@@ -239,6 +241,7 @@ async function pocketBrowser(browser, today) {
     await page.getByRole('button', { name: 'Lihat pembagian', exact: true }).click()
     await page.getByRole('button', { name: 'Sahkan pembagian ke HPP', exact: true }).click()
     await expect.poll(() => fixture('read', f).pools.length).toBe(1)
+    const posted = fixture('read', f)
     await page.getByRole('button', { name: 'Koreksi KELUAR-' + f.code + ' / 1', exact: true }).click()
     await page.getByLabel('Nilai sumber kain kantong').fill('15.00')
     await page.getByLabel('Tanggal koreksi kain kantong').fill(today)
@@ -246,6 +249,9 @@ async function pocketBrowser(browser, today) {
     await page.getByRole('button', { name: 'Sahkan koreksi nilai', exact: true }).click()
     await expect.poll(() => fixture('read', f).amount).toBe('15.00')
     const after = fixture('read', f)
+    console.log(JSON.stringify({ diagnostic: 'POCKET_LEDGER_STAGES', baseline: f.before,
+      post: posted.ledger, corrected: after.ledger, pools: after.pools,
+      source: { before: initial.amount, posted: posted.amount, corrected: after.amount } }))
     const delta = name => Number(after.ledger[name]) - Number(f.before[name])
     assert.equal(delta('WIP'), 7.5)
     assert.equal(delta('FG_INVENTORY'), 4.5)
