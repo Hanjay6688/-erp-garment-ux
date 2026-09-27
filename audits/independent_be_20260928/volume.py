@@ -2,6 +2,9 @@
 import native as n,flows as f,pocket as p,edges as e
 from decimal import Decimal as D
 C=n.C;X=f.X;A=n.A;eq=n.eq
+def empty_period():
+    q=p.preview('2026-09-11','2026-09-11');eq(q['can_post'],False);eq(D(q['amount']),D(0));eq(D(q['quantity']),D(0));refused=n.reject(lambda:n.pocket('POST_PERIOD',{'period_start':q['period_start'],'period_end':q['period_end'],'expected_revision':q['revision'],'reason':'Independent empty period cannot invent a denominator'}),'memerlukan')
+    return {'empty_preview':q,'post_refused':refused}
 def capacity():
     imp=f.imported('SMALL-HISTORY',[
       ('OPENING_POCKET_USAGE',[{'document_number':'BE-AUD-SMALL-USE','line_number':'1','physical_date':'2026-09-02','material_sku':'BE-AUD-POCKET','qty':'1','amount':'1.03','allocation_status':'UNALLOCATED','control_key':'SMALL','control_qty':'1','control_amount':'1.03'}]),
@@ -17,6 +20,7 @@ def capacity():
     assert all(found.values()),{'active_period':old['id'],'searches_found':found,'workspace_returned':len(p.ws()['periods']),'actual_active':state}
 def run():
     f.load()
+    f.case('POCKET-14.EMPTY','Empty source and sewing period cannot allocate or invent output',empty_period)
     f.case('NONPO-12.POCKET-RACE','Validated import waits for allocation then rechecks while unrelated import works',e.import_conflict)
     f.case('UI.POCKET.52','Old active allocation remains reachable after 51 real later cycles',capacity)
     f.case('POCKET-10.CLOSED','Closed allocation either refuses for the date or books in open day only',e.closed_pocket)

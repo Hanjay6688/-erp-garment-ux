@@ -64,6 +64,13 @@ def invoice_down():
 def live_cancel():
     v=fixture('live_invoice');prod=fixture('pocket_production');state=next(x for x in p.ws()['periods'] if x['id']==v['pool']);before=physical();r=n.pocket('CANCEL_PERIOD',{'id':v['pool'],'expected_revision':state['revision'],'reason':'Independent remove pocket cost after conversion and sale'});eq(f.pogl(prod['po']),D('57474.17'));eq(physical(),before)
     return {'cancelled':r,'po_cost_without_pocket':'57474.17','source_remains_real_expense':True,'physical_unchanged':True}
+def descendant_cost_checkpoint(stage,expected_unit,expected_target,expected_fg,expected_cogs):
+    v=fixture('live_invoice');prod=fixture('pocket_production');lot=v['conversion']['destination_lot_id'];current=n.lotcost(lot)
+    gl={code:D(A('select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where l.po_id=%s and l.account_id=erp.account_id(%s) and j.status in(\'POSTED\',\'REVERSED\')',(prod['po'],code),one=True)) for code in ['FG_INVENTORY','COGS','WIP']}
+    actual={'target_unit_rounded':D(current[0]).quantize(D('.01')),'target_onhand_two_pcs':n.value(lot),'fg_gl':gl['FG_INVENTORY'],'cogs_gl':gl['COGS'],'wip_gl':gl['WIP']}
+    expected=dict(zip(actual,map(D,[expected_unit,expected_target,expected_fg,expected_cogs,'0.00'])))
+    observation={'stage':stage,'expected':expected,'actual':actual,'target_hpp_record':current,'target_qty':n.lotqty(lot),'po_total':f.pogl(prod['po'])}
+    n.E.append({'independent_descendant_cost_checkpoint':observation});f.persist();eq(actual,expected);return observation
 def nonpo_modes():
     src=fixture('nonpo_bs');before=n.fp();payload={'order':{'rework_number':'BE-AUD-NONPO-MODE','bs_case_id':src['case'],'destination_type':'LAUNDRY','vendor_id':C['daily_vendor'],'contractor_id':None,'qty_sent':3,'qty_good_returned':0,'qty_bs_returned':0,'physical_sent_at':'2026-09-16T08:00:00+07:00','status':'IN_PROGRESS','return_fg_location_id':C['fg'],'components':[],'accessory_bom_version_id':None,'accessory_bom_item_ids':[],'change_reason':'Independent genuine non-PO new identity rework'},'target_product_id':C['target'],'reason':'Independent genuine non-PO new identity rework'}
     try:result=n.cmd('SAVE_REWORK',payload)
@@ -126,7 +133,8 @@ def import_conflict():
             except psycopg.Error as error:
                 eq(error.sqlstate,'55P03');unrelated_during={'completed':False,'sqlstate':error.sqlstate,'error':str(error)};other.rollback()
         holder.commit()
-    before=physical();refused=n.reject(lambda:n.imp('FINALIZE',payload,who='admin'));eq(physical(),before)
+    before=physical();business_before=n.fp();refused=n.imp('FINALIZE',payload,who='admin');eq(refused['status'],'DRAFT');eq(refused['error_rows'],1);eq(refused['valid_rows'],0);eq(physical(),before);eq(n.fp(),business_before)
+    errors=A('select validation_errors from erp.migration_staging_rows where batch_id=%s',(payload['batch_id'],));assert 'BE_POCKET_PERIOD_ACTIVE' in str(errors),errors
     state=next(x for x in p.ws()['periods'] if x['id']==held['id']);n.pocket('CANCEL_PERIOD',{'id':held['id'],'expected_revision':state['revision'],'reason':'Independent race fixture cleanup'})
     unrelated_after=unrelated_during['response'] if unrelated_during['completed'] else n.imp('FINALIZE',unrelated_payload,who='admin');eq(unrelated_after['status'],'POSTED')
     observation={'valid_before_race':header,'admin_positive_finalization_rolled_back':response,'conflicting_writer_waited':blocked,'unrelated_positive_control':unrelated_control,'unrelated_domain_while_lock_held':unrelated_during,'unrelated_after_release':unrelated_after,'refused_after_commit':refused,'no_stale_membership':True}
@@ -154,8 +162,11 @@ def run():
     f.case('RELATED.SEWING-WRAPPER','Public sewing inverse reaches actual domain guard',public_sewing_wrapper)
     f.case('POCKET-07-08.DESC','Laundry QC conversion sale and return retain pocket cost',live_descendants,'Public production/conversion; native sale/return')
     f.case('POCKET-09.INVOICE-UP','Actual supplier invoice increases only cost and preserves prior report',invoice_up,'Public sources plus native supplier posting')
+    f.case('POCKET-09.LOT-UP','Supplier increase reaches converted lot and actual FG/COGS split',lambda:descendant_cost_checkpoint('UP','4431.12','8862.23','53173.39','4431.12'),'Direct lot HPP and account GL')
     f.case('POCKET-09.INVOICE-DOWN','Inverse unpaid supplier invoice restores source and descendant cost',invoice_down,'Native supplier inverse and direct GL')
+    f.case('POCKET-09.LOT-DOWN','Supplier inverse restores converted lot and actual FG/COGS split',lambda:descendant_cost_checkpoint('DOWN','4430.07','8860.14','53160.81','4430.07'),'Direct lot HPP and account GL')
     f.case('POCKET-11.DESC','Cancel allocation after conversion and sale without stock movement',live_cancel)
+    f.case('POCKET-11.LOT-CANCEL','Allocation inverse reaches converted lot and actual FG/COGS split',lambda:descendant_cost_checkpoint('CANCEL','4421.09','8842.18','53053.08','4421.09'),'Direct lot HPP and account GL')
     f.case('NONPO-05-06','Actual non-PO new-identity rework route and GOOD completion',nonpo_modes)
     f.case('REDYE-07-14','Wrong size same identity future and pre-source dispatch refused',boundary_redye)
     f.case('CROSS-PO-NONPO','Unrelated non-PO conversion still works after legitimate PO conversion',recovery_atomic)

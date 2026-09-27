@@ -69,7 +69,7 @@ def conversion(key='UI',who='owner'):
 def lost_response():
     x=prepare_conversion('UI',q=2,reason='Independent real committed conversion with lost response');b.FIX['drop_conversion_until_release']=True;click('Catat konversi fisik');wait_db(lambda:qty(x['lot']),x['before']-2)
     try:
-        b.wait_text('Reconcile transaksi');snap('owner-lost-response-pending');b.ab('reload');b.wait_text('Reconcile transaksi');snap('owner-lost-response-persisted-after-reload');b.FIX['drop_conversion_until_release']=False
+        b.wait_text('Reconcile transaksi');snap('owner-lost-response-pending');b.ab('reload');nav('Gudang','Ganti Merek');b.wait_text('Reconcile transaksi');snap('owner-lost-response-persisted-after-reload');b.FIX['drop_conversion_until_release']=False
         first=[e for e in b.HTTP_EVENTS if e.get('deliberately_lost_after_real_database_response')][-1];req=first['payload']['p_client_request_id']
         click('Reconcile transaksi');b.wait_text(x['reason']);snap('owner-lost-response-reconciled');assert qty(x['lot'])==x['before']-2
         calls=[e for e in b.HTTP_EVENTS if (e.get('payload') or {}).get('p_client_request_id')==req];assert len(calls)>=2,calls;assert all(e['payload']==first['payload'] for e in calls),calls
@@ -104,7 +104,7 @@ def redye(who='owner',key='UI'):
     click('Rewash',who);b.fill('NOMOR ORDER · WAJIB','BE-AUD-BROWSER-'+who,who);wrapped('VENDOR REWASH',C['daily_vendor'],who);b.fill('QTY DIKIRIM','7',who);b.fill('WAKTU FISIK · WIB','2026-09-14T08:00',who);wrapped('GUDANG FG BILA GOOD',C['fg'],who);b.fill('CATATAN / ALASAN','Independent browser new-color service '+who,who)
     b.ab('snapshot','-i',who=who);b.ab('find','label','Hasil GOOD menjadi SKU lain','check',who=who)
     wrapped('SKU hasil baru',C['redye_target'],who);wrapped('Proses celup berbayar',C['redye_process'],who)
-    if who=='mobile':wrapped('Harga jasa','UNKNOWN',who)
+    if who=='mobile':b.select('Harga jasa','UNKNOWN',who)
     snap(who+'-redye-ready',who);click('Buat order celup ulang',who)
     wait_db(lambda:b.sql('select count(*) from erp.rework_orders where rework_number=%s',('BE-AUD-BROWSER-'+who,),one=True),1);b.wait_text('GOOD KUMULATIF',who)
     b.fill('GOOD KUMULATIF','5',who);b.fill('BS KUMULATIF','2',who);b.fill('WAKTU SELESAI · WIB','2026-09-18T08:00',who);wrapped('GUDANG GOOD FG',C['fg'],who);b.fill('ALASAN HASIL FISIK','Independent browser actual five good and two BS '+who,who);snap(who+'-redye-completion-ready',who);click('Post hasil & recovery',who)
@@ -143,7 +143,7 @@ def viewer_browser(who='viewer'):
 
 def capacity_ui():
     if 'capacity' not in X or 'state' not in X['capacity']:raise AssertionError('Independent volume fixture not completed')
-    cap=X['capacity'];ident=cap['old']['id'];nav('Gudang','Kain kantong');snap('owner-old-active-period-hidden')
+    cap=X['capacity'];ident=cap['old']['id'];nav('Gudang','Kain kantong');b.ab('wait','--fn','Array.from(document.querySelectorAll("section")).some(x=>x.querySelector("h2")?.textContent==="Riwayat pembagian periode"&&x.querySelectorAll("tbody tr").length===50)');snap('owner-old-active-period-hidden')
     buttons=b.evaluate('Array.from(document.querySelectorAll("button")).map(x=>x.textContent.trim())')
     b.EVENTS.append({'older_active_period':cap['state'],'shown_cancel_buttons':[x for x in buttons if 'Batalkan alokasi' in x],'51_actual_cycles':len(cap['cycles'])})
     try:
