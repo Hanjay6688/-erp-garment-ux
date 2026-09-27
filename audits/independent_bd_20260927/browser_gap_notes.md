@@ -15,8 +15,11 @@ remain unchanged. Only disposable audit data and new test code are added.
   mutations refused while revoked. Cached policy success and cached invoice
   financial disclosure are separate cases. No expected error code is copied or
   required. Restoration executes in `finally`; repeated-write counts are checked.
-- **Mobile emulation:** new Chromium sessions use the documented agent-browser
-  `set device "iPhone 14"` command. Record viewport, user agent and touch support.
+- **Mobile emulation:** new Chromium sessions use agent-browser
+  `set device "iPhone 14"` plus Chromium's native
+  `Emulation.setTouchEmulationEnabled` through the CLI's local CDP endpoint.
+  Record viewport, user agent, touch points and coarse-pointer media state.
+  All mobile workflow buttons use the CLI's native `tap` operation.
   Real owner/viewer logins, known versus unknown money presentation, master
   creation, invoice draft creation, full-page reload and field persistence, and
   role-based visibility are checked with actual DOM, screenshots, HTTP and SQL.
@@ -60,3 +63,30 @@ money-hidden assertion lines in existing writer browser/mode scripts. Those
 files were not opened or copied; their assertions were not used. Subsequent SQL
 searches were restricted to product `.sql` files. Original cases were already
 frozen and executed before this search.
+
+## Run16 adapter finding and correction
+
+Run16 authenticated both mobile accounts, but its environment probe reported
+390 × 844, DPR 3 and an iPhone user agent with zero touch points and a fine
+pointer. The original touch-support oracle correctly failed; dependent mobile
+workflows stayed blocked. This is retained as an audit adapter failure, not
+reported as a product failure or mobile success.
+
+The installed agent-browser 0.31.1 implementation of `handle_device` sets
+device metrics and user agent but does not enable touch. Its supported
+`get cdp-url` exposes the actual browser connection, and `handle_tap` dispatches
+native `Input.dispatchTouchEvent` for Chromium. The continuation therefore
+attaches a Node24 WebSocket CDP session to the mobile browser's sole page,
+enables native touch emulation, and keeps that session alive until the mobile
+workflows finish. No package is added, no product JavaScript is injected, and
+no navigator property or media query is mocked. Native touch taps replace
+mouse clicks only in the added mobile workflows. The original touch-points
+oracle remains and coarse-pointer state must additionally be true.
+
+Source trace: official `vercel-labs/agent-browser` tag `v0.31.1`,
+`cli/src/native/actions.rs` (`handle_device`, `handle_cdp_url`, `handle_tap`),
+`cli/src/commands.rs` (`get cdp-url`), and
+`cli/src/native/interaction.rs` (`tap_touch`). The CDP operation is Chromium's
+`Emulation.setTouchEmulationEnabled`, with `enabled=true` and
+`maxTouchPoints=1`. Actual resulting environment, DOM, HTTP and DB evidence
+must pass the next run before any mobile-flow success is claimed.

@@ -3,6 +3,10 @@
 Frozen product: `08065a3b4da71c51ffbbab77f0a6b1ac7e6638ec`.
 This continuation changes only the independent audit runner and its notes. It
 does not change product SQL, guard pins, application source, UAT, or production.
+Provenance disclosure: an early broad setup search incidentally returned old
+AW/BA evidence labels, including LAU-T14 oracle labels. No writer/peer business
+test file was opened or run. Those incidental labels were not used to author
+the build/install assertions; this runner reuses no business verdict or oracle.
 
 ## Official build
 
@@ -24,8 +28,31 @@ The actual ownership list has six additional entries: two in
 `BeReworkTargetFields.tsx`, three in `ConnectedProductConversionPage.tsx`, and
 one in `ConnectedBsResolutionPage.tsx`. This is a finding about the frozen
 shared repository. Its attribution to the BD change alone is not established.
-Local evidence is `release-build-local-official.json` and its log. The CI
-official-gate replay and independent compiler results remain pending.
+Local evidence is `release-build-local-official.json` and its log.
+
+Run 16 (`36338382541`, audit head
+`c6787516e320d77be9665f907c4ecf3e8bba83ee`) independently confirms the same
+official build failure after `npm ci` under Node `v24.21.0` / npm `11.19.0`.
+Literal `npm run build` exits 1 in the ownership prebuild gate. The separately
+executed `tsc -b` and `vite build` each exit 0. Their successful compilation
+does not satisfy the official lifecycle gate, which stopped before the later
+access/CSS checks and postbuild artifact scan.
+
+The six actual additional ownership entries are:
+
+| Source | RPC |
+| --- | --- |
+| `src/BeReworkTargetFields.tsx` | `erp_get_laundry_bd_workspace_v1` |
+| `src/BeReworkTargetFields.tsx` | `erp_get_product_conversion_workspace_v1` |
+| `src/ConnectedBsResolutionPage.tsx` | `erp_save_product_conversion_action_v1` |
+| `src/ConnectedProductConversionPage.tsx` | `erp_get_accessory_service_workspace_v1` |
+| `src/ConnectedProductConversionPage.tsx` | `erp_get_product_conversion_workspace_v1` |
+| `src/ConnectedProductConversionPage.tsx` | `erp_save_product_conversion_action_v1` |
+
+`release-build.json` SHA-256:
+`79f490a6013141dd5fd4a539c8f4041d13176d40386acf2d385c4d7d7317620b`.
+All three log hashes were checked against the downloaded artifact. BD-only
+attribution remains `NOT_ESTABLISHED`.
 
 ## Source55 plus dev AW–BD
 
@@ -137,5 +164,22 @@ An incomplete harness returns nonzero; the JSON status is authoritative.
 Local verification completed: Python syntax check, source inventory check,
 all 63 files byte-identical to the frozen product, 55 source migrations,
 eight closed-admission source files, eight dev files, and original ledger
-serialization branches confirmed against the frozen workflow. Native execution
-remains pending the independent CI job.
+serialization branches confirmed against the frozen workflow.
+
+Run 16 independently executed this path on PostgreSQL `17.6` and returned
+`PASS_SOURCE55_PLUS_DEV_AW_BD`. The artifact review recomputed all 63 source
+hashes and all 55 ledger digests from the frozen source bytes. All eight
+closed-admission migrations AO through AV installed with the original guards.
+Application markers grew exactly from 48 to 111 and platform rows from 63 to
+118; all original 63 platform rows remained unchanged. All eight dev markers
+AW through BD are present, BE is absent, auth users/app users/audit rows remain
+zero, and admission is open. The separate primary fixture's measured marker,
+ledger, and empty state remained unchanged.
+
+Source55 artifact ID: `10938366480`; ZIP SHA-256:
+`056ce6a437ec74d9070a4a952f2d995a4bc4242748b3b50d1020fb4c6bd7aa35`.
+`source55-install.json` SHA-256:
+`cf2bff1edbd74010e6772a4c71b81f670c2702eec7b3ff8bd364a061047b7af8`.
+The report's runner SHA matches the independently authored runner. This result
+confirms installation on the fresh unaligned fixture. The main business audit
+continues to exercise the separately installed aligned release package.

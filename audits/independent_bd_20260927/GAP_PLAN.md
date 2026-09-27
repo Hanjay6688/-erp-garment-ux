@@ -11,3 +11,12 @@ Configured FREE/WAIVED remains conditional acceptance. Search the complete avail
 Exposure: the user supplied the expanded peer findings including dormant redye UI and official build drift. Those are peer-informed follow-ups. Browser worker reported an incidental filename grep showing RPC/signature and money-visibility lines from existing test files; it did not open/copy those files or adopt their expectations. Earlier own cases were already frozen and executed; new expectations above come from the user/owner contract. No claim of a fully blind audit after exposure.
 
 Completion means each requested cross has executed evidence or a concrete measured blocker, with own findings and cross-check findings separate and one combined writer handoff. It does not certify every ERP screen, production performance, physical phones, BE or all historical date combinations.
+
+
+Post-run16 provenance addendum (does not revise the locked business oracles):
+An early release setup filename search also returned incidental old AW/BA T1
+evidence lines, including LAU-T14 labels. Those writer/peer business files were
+not opened or executed and their business assertions/verdicts were not adopted.
+The release subtask uses only source identity, installation, admission and ledger
+checks. This disclosure accompanies the browser search exposure recorded above;
+there is no claim of zero incidental exposure during the supplemental phase.

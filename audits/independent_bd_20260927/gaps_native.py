@@ -222,9 +222,12 @@ def policy_race():
         loser=next(x for x in out if not x['accepted']);eq(loser['sqlstate'],'P0001');assert 'STALE_VERSION' in loser['error'],loser
         current=admin("select to_jsonb(t) from erp.bd_policy_settings_v1 t where policy_key='LAU_DEC01'",one=True);eq(int(current['version']),int(original['version'])+1)
         eq(admin("select count(*) from erp.bd_policy_setting_events_v1 where policy_key='LAU_DEC01'",one=True),event_count+1)
-        winner=next(i for i,x in enumerate(out) if x['accepted']);eq(current['value'],payloads[winner]['value']);again=cmd('SET_POLICY',payloads[winner],requests[winner]);eq(again,out[winner]['response'])
+        winner=next(i for i,x in enumerate(out) if x['accepted']);eq(current['value'],payloads[winner]['value']);again=cmd('SET_POLICY',payloads[winner],requests[winner])
+        eq(again.get('replayed') is True,True,'Replay explicitly identifies the saved response')
+        eq(again,{**out[winner]['response'],'replayed':True},'Replay preserves every original response field')
+        eq(admin("select to_jsonb(t) from erp.bd_policy_settings_v1 t where policy_key='LAU_DEC01'",one=True),current,'Replay leaves policy state and version unchanged')
         eq(admin("select count(*) from erp.bd_policy_setting_events_v1 where policy_key='LAU_DEC01'",one=True),event_count+1)
-        observation={'sessions':out,'winning_value':current['value'],'version_increased_by_one':True,'one_setting_event':True,'same_request_replay':again}
+        observation={'sessions':out,'winning_value':current['value'],'version_increased_by_one':True,'one_setting_event':True,'same_request_replay':again,'replay_state_and_event_count_unchanged':True}
     finally:
         current_version=admin("select version from erp.bd_policy_settings_v1 where policy_key='LAU_DEC01'",one=True)
         p={'policy_key':'LAU_DEC01','operation':'SET' if original['status']=='SET' else 'CLEAR','expected_version':str(current_version),'reason':'Restore independent fixture policy after concurrency test'}

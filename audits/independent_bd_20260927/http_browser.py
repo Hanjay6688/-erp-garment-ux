@@ -517,29 +517,103 @@ def gap_replay_refusal(kind):
     assert not 200<=status<300,result
     return result
 
+def mobile_touch_context(who):
+    # agent-browser 0.31.1 set device configures metrics/UA but omits touch.
+    # Use Chromium's actual emulation API on this session's sole page target;
+    # keep the CDP session alive through reloads. No product JS is injected.
+    raw=ab('get','cdp-url',who=who)
+    endpoints=re.findall(r'ws://(?:127\.0\.0\.1|localhost):\d+/[^\s"\x27]+',raw)
+    assert len(endpoints)==1,{'local_cdp_endpoint_count':len(endpoints)}
+    ready=OUT/(who+'-touch-ready.json');ready.unlink(missing_ok=True)
+    worker=r'''
+import {writeFileSync} from 'node:fs';
+const [endpoint, readyPath] = process.argv.slice(1);
+const ws = new WebSocket(endpoint);
+let nextId = 0;
+const pending = new Map();
+ws.addEventListener('message', event => {
+  const msg = JSON.parse(event.data), entry = pending.get(msg.id);
+  if (!entry) return;
+  pending.delete(msg.id); clearTimeout(entry.timer);
+  msg.error ? entry.reject(new Error(JSON.stringify(msg.error))) : entry.resolve(msg.result);
+});
+function send(method, params = {}, sessionId) {
+  return new Promise((resolve, reject) => {
+    const id = ++nextId;
+    const timer = setTimeout(() => {pending.delete(id); reject(new Error('CDP timeout: '+method));}, 10000);
+    pending.set(id, {resolve, reject, timer});
+    ws.send(JSON.stringify({id, method, params, ...(sessionId ? {sessionId} : {})}));
+  });
+}
+try {
+  await new Promise((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error('CDP connection timeout')), 10000);
+    ws.addEventListener('open', () => {clearTimeout(timer); resolve();}, {once:true});
+    ws.addEventListener('error', () => {clearTimeout(timer); reject(new Error('CDP connection failed'));}, {once:true});
+  });
+  const {targetInfos} = await send('Target.getTargets');
+  const pages = targetInfos.filter(t => t.type === 'page');
+  if (pages.length !== 1) throw new Error('Expected one mobile page, found '+pages.length);
+  const {sessionId} = await send('Target.attachToTarget', {targetId:pages[0].targetId, flatten:true});
+  await send('Emulation.setTouchEmulationEnabled', {enabled:true, maxTouchPoints:1}, sessionId);
+  writeFileSync(readyPath, JSON.stringify({method:'Emulation.setTouchEmulationEnabled',enabled:true,maxTouchPoints:1,page_target_count:pages.length}));
+  process.on('SIGTERM', () => {ws.close(); process.exit(0);});
+  await new Promise(resolve => ws.addEventListener('close', resolve, {once:true}));
+} catch (error) {
+  writeFileSync(readyPath, JSON.stringify({error:String(error)}));
+  ws.close(); process.exitCode = 1;
+}
+'''
+    log=(OUT/(who+'-touch-worker.log')).open('w')
+    p=subprocess.Popen(['node','--input-type=module','-e',worker,endpoints[0],str(ready)],cwd=ROOT,stdout=log,stderr=log)
+    log.close();PROCESSES.append(p);FIX[who+'_touch_worker']=p
+    deadline=time.monotonic()+25
+    while not ready.exists() and p.poll() is None and time.monotonic()<deadline:time.sleep(.1)
+    assert ready.exists(),{'touch_worker_exit':p.poll(),'ready':False}
+    result=json.loads(ready.read_text());assert 'error' not in result,result
+    assert p.poll() is None,{'touch_worker_exit':p.returncode,'ready':result}
+    EVENTS.append({'mobile_touch_emulation':result,'session':who})
+    return result
+
+def mobile_button(text,who,exact=True):
+    # Fresh refs and native Input.dispatchTouchEvent through agent-browser tap.
+    s=ab('snapshot','-i',who=who);found=[]
+    for line in s.splitlines():
+        m=re.search(r'button "([^"]*)".*\[ref=(e\d+)\]',line)
+        modern=re.search(r'@(e\d+)\s+\[button\]\s+"([^"]*)"',line)
+        label,ref=(m.group(1),m.group(2)) if m else (modern.group(2),modern.group(1)) if modern else ('','')
+        if ref and (label==text if exact else text in label):found.append(ref)
+    assert len(found)==1,{'mobile_button':text,'refs':found,'snapshot':s}
+    ab('tap','@'+found[0],who=who)
+
 def mobile_open_pricing(who,vendor):
-    button('Buka menu',who)
+    mobile_button('Buka menu',who)
     ab('wait','--fn',"document.querySelector('aside.sidebar')?.getBoundingClientRect().left===0",who=who)
-    button('Produksi',who,False);button('• Laundry',who)
+    mobile_button('Produksi',who,False);mobile_button('• Laundry',who)
     ab('wait','--fn',"document.querySelector('aside.sidebar')?.getBoundingClientRect().right<=0",who=who)
-    wait_text('Harga & tagihan',who);button('Harga & tagihan',who)
+    wait_text('Harga & tagihan',who);mobile_button('Harga & tagihan',who)
     ab('wait','select[aria-label="Vendor harga laundry"]',who=who);select('Vendor harga laundry',vendor,who)
 
 def mobile_auth(who,actor):
     FIX[who]=FIX[actor]
     ab('set','device','iPhone 14',who=who)
-    result=browser_auth(who)
+    emulation=mobile_touch_context(who)
+    ab('open','http://127.0.0.1:4176/',who=who);ab('wait','input[type="email"]',who=who)
+    snap(who+'-login',who)
+    fill('Email akun ERP',FIX[who]['email'],who);fill('Kata sandi',FIX[who]['password'],who)
+    mobile_button('Masuk',who);ab('wait','aside.sidebar',who=who);snap(who+'-authorized',who)
+    result={'real_browser_password_login':True,'authorized_app_shell':True,'touch_configuration':emulation,'button_input':'native touch tap'}
     env=evaluate('({width:innerWidth,height:innerHeight,pixel_ratio:devicePixelRatio,user_agent:navigator.userAgent,touch_points:navigator.maxTouchPoints,coarse:matchMedia("(pointer:coarse)").matches})',who)
-    assert env['width']<=430 and env['touch_points']>0 and re.search('iPhone|Mobile',env['user_agent']),env
+    assert env['width']<=430 and env['touch_points']>0 and env['coarse'] is True and re.search('iPhone|Mobile',env['user_agent']),env
     FIX[who+'_environment']=env
     return {**result,'emulation':env,'physical_device':False}
 
 def mobile_master():
-    who='mobile_owner';mobile_open_pricing(who,FIX['vendor']);button('Harga vendor',who)
+    who='mobile_owner';mobile_open_pricing(who,FIX['vendor']);mobile_button('Harga vendor',who)
     body=wait_text('AUD-BROWSER-UNKNOWN',who).replace('\u00a0',' ')
     assert '4.321,09' in body and 'Belum diketahui sejak' in body,body
     fill('Alasan','Independent mobile emulation master creation',who)
-    fill('Kode komponen','AUD-MOBILE-CREATED',who);fill('Nama komponen','Mobile emulation master',who);button('Tambah komponen',who)
+    fill('Kode komponen','AUD-MOBILE-CREATED',who);fill('Nama komponen','Mobile emulation master',who);mobile_button('Tambah komponen',who)
     wait_text('AUD-MOBILE-CREATED',who);snap('mobile-owner-master',who)
     rows=sql("select component_code,component_name from erp.bd_laundry_components_v1 where vendor_id=%s and component_code='AUD-MOBILE-CREATED'",(FIX['vendor'],))
     assert rows==[('AUD-MOBILE-CREATED','Mobile emulation master')],rows
@@ -555,19 +629,19 @@ def mobile_draft():
     day=datetime.now(ZoneInfo('Asia/Jakarta')).date().isoformat();name='AUD-MOBILE-DRAFT-RELOAD';before=sql('select count(*) from erp.journal_entries',one=True)
     # Independent entry point: a master-form failure must not suppress this flow.
     ab('open','http://127.0.0.1:4176/',who=who);ab('wait','aside.sidebar',who=who)
-    mobile_open_pricing(who,vendor);button('Invoice vendor',who);wait_text('Draf invoice baru',who)
+    mobile_open_pricing(who,vendor);mobile_button('Invoice vendor',who);wait_text('Draf invoice baru',who)
     fill('Nomor invoice vendor',name,who);fill('Total invoice','5678.43',who)
     date=evaluate("({value:document.querySelector('input[aria-label=\"Tanggal invoice\"]').value})",who)['value']
     assert date==day,{'expected_business_day':day,'rendered_date':date}
-    button('Tambah baris',who);select('Sumber baris 1','o:'+source,who);select('Kategori baris 1','GOOD',who)
+    mobile_button('Tambah baris',who);select('Sumber baris 1','o:'+source,who);select('Kategori baris 1','GOOD',who)
     fill('Qty baris 1','1',who);fill('Nominal baris 1','5678.43',who);snap('mobile-invoice-before-save',who)
-    button('Simpan draf invoice',who);wait_text('Ubah draf '+name,who)
+    mobile_button('Simpan draf invoice',who);wait_text('Ubah draf '+name,who)
     row=sql("select id::text,status,header_total::text,invoice_date::text,journal_id from erp.bd_laundry_invoices_v1 where vendor_id=%s and invoice_number=%s",(vendor,name))
     assert len(row)==1 and row[0][1:]==('DRAFT','5678.43',day,None),row
     sent=[x for x in HTTP_EVENTS if (x.get('payload') or {}).get('p_payload',{}).get('invoice_number')==name]
     assert len(sent)==1 and sent[0]['http_status']==200 and sent[0]['payload']['p_payload']['invoice_date']==day,sent
     ab('open','http://127.0.0.1:4176/',who=who);ab('wait','aside.sidebar',who=who)
-    mobile_open_pricing(who,vendor);button('Invoice vendor',who);wait_text('Ubah draf '+name,who);button('Ubah draf '+name,who)
+    mobile_open_pricing(who,vendor);mobile_button('Invoice vendor',who);wait_text('Ubah draf '+name,who);mobile_button('Ubah draf '+name,who)
     fields=evaluate("Object.fromEntries(['Nomor invoice vendor','Tanggal invoice','Total invoice','Sumber baris 1','Kategori baris 1','Qty baris 1','Nominal baris 1'].map(k=>[k,document.querySelector('[aria-label=\"'+k+'\"]')?.value]))",who)
     expected={'Nomor invoice vendor':name,'Tanggal invoice':day,'Total invoice':'5678.43','Sumber baris 1':'o:'+source,'Kategori baris 1':'GOOD','Qty baris 1':'1','Nominal baris 1':'5678.43'}
     assert fields==expected,{'expected':expected,'actual':fields}
@@ -577,10 +651,10 @@ def mobile_draft():
             'date_scope':'Default business date persisted; mobile date-picker editing is not covered','physical_device':False}
 
 def mobile_viewer():
-    who='mobile_viewer';mobile_open_pricing(who,FIX['vendor']);button('Harga vendor',who)
+    who='mobile_viewer';mobile_open_pricing(who,FIX['vendor']);mobile_button('Harga vendor',who)
     body=wait_text('AUD-BROWSER-KNOWN',who)
     assert 'Hak master mitra diperlukan' in body and '4.321,09' not in body and '678,91' not in body,body
-    snap('mobile-viewer-master',who);button('Invoice vendor',who)
+    snap('mobile-viewer-master',who);mobile_button('Invoice vendor',who)
     wait_text('Hak melihat nominal diperlukan untuk invoice vendor.',who);snap('mobile-viewer-invoice-denied',who)
     return {'master_money_hidden':True,'invoice_denial_visible':True,'physical_device':False}
 
@@ -691,6 +765,7 @@ def run_gap_continuation():
             for operation in ('errors','console','close'):
                 try:ab(operation,who=who,check=False)
                 except Exception:pass
+            if FIX.get(who+'_touch_worker'):FIX[who+'_touch_worker'].terminate()
     if case('HTTP.RECEIPT_SOURCE_FIXTURE','201 legitimate public-lifecycle receipt sources and omitted-source positive control',gap_receipt_fixture,peer):
         case('HTTP.RECEIPT_SOURCE_CAP','Every eligible receipt remains reachable from public reader',gap_receipt_api_reachability,peer)
         case('BROWSER.RECEIPT_SOURCE_CAP','Every eligible receipt remains selectable or searchable in new invoice',gap_receipt_browser_reachability,peer)
