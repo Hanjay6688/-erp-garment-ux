@@ -94,12 +94,14 @@ def setup():
     CTX.update(owner=uid(),admin=uid(),staff=uid(),v1=uid(),v2=uid(),process=uid(),s1=uid(),s2=uid(),nonphysical_batch=uid())
     with psycopg.connect(DSN) as c:
         c.execute("select set_config('app.change_reason','Independent synthetic audit fixture',true)")
+        operator_role=uid()
+        c.execute("insert into erp.app_roles(id,role_code,role_name,is_active) values(%s,'AUD_OPERATOR','Independent laundry viewer',true)",(operator_role,))
+        c.execute("insert into erp.app_role_permissions(role_id,permission_key) values(%s,'production.laundry.view')",(operator_role,))
         for who,role in [('owner','OWNER'),('admin','ADMIN'),('staff','STAFF')]:
-            rid=c.execute('select id from erp.app_roles where role_code=%s',(role,)).fetchone()
-            if not rid and role=='STAFF':rid=c.execute("select id from erp.app_roles where role_code='PRODUCTION'").fetchone()
+            rid=(operator_role,) if who=='staff' else c.execute('select id from erp.app_roles where role_code=%s and is_active',(role,)).fetchone()
             assert rid,('Missing supported role',role)
             rolecode=c.execute('select role_code from erp.app_roles where id=%s',rid).fetchone()[0]
-            c.execute('insert into erp.app_users(auth_user_id,full_name,role,role_id) values(%s,%s,%s,%s)',(CTX[who],'AUD-'+who,rolecode,rid[0]))
+            c.execute('insert into erp.app_users(auth_user_id,full_name,role,role_id) values(%s,%s,%s,%s)',(CTX[who],'AUD-'+who,'STAFF' if who=='staff' else rolecode,rid[0]))
         for key,name in [('v1','CEDAR'),('v2','BIRCH')]:
             c.execute('insert into erp.laundry_vendors(id,vendor_code,vendor_name) values(%s,%s,%s)',(CTX[key],'AUD-'+name,'AUD-'+name))
         c.execute('insert into erp.wash_processes(id,process_code,process_name) values(%s,%s,%s)',(CTX['process'],'AUD-WASH','Independent audit wash'))
@@ -108,6 +110,17 @@ def setup():
     CTX['foreign']=component(CTX['v2'],'AUD-FOREIGN')
     rate(CTX['wash'],'4321.09');rate(CTX['finish'],'678.91');rate(CTX['unknown'],None,status='UNKNOWN');rate(CTX['foreign'],'99.17')
     terms('COMPONENTS');terms('COMPONENTS',vendor=CTX['v2'])
+    # Positive controls: a refusal for an inactive/missing identity is not proof
+    # of the financial permission boundary. Confirm all ERP actors exist first.
+    for who in ('owner','admin','staff'):
+        with actor_conn(who) as c:
+            authid,appid,rolecode=c.execute('select auth.uid(),erp.current_app_user_id(),erp.current_app_role()').fetchone()
+            assert str(authid)==CTX[who] and appid is not None,(who,authid,appid,rolecode)
+            EVENTS.append({'fixture_actor':who,'auth_id':str(authid),'erp_user_id':str(appid),'erp_role':rolecode,'session_user':'authenticator','current_user':'authenticated'})
+    with actor_conn('staff') as c:
+        visible=c.execute('select public.erp_get_laundry_bd_workspace_v1(%s)',(Jsonb({'vendor_id':CTX['v1']}),)).fetchone()[0]
+        eq(visible['money_visible'],False);eq(visible['can_manage_master'],False)
+        EVENTS.append({'fixture_operator_positive_control':{'can_read_laundry':True,'money_visible':visible['money_visible'],'can_manage_master':visible['can_manage_master']}})
     (OUT/'fixture-identities.json').write_text(json.dumps(CTX,indent=2)+'\n')
 def known_total():
     r=pricing(comps());eq(D(r['total_known']),D('59568.72'));eq(r['qty'],13);eq(r['complete'],True)
