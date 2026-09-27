@@ -65,3 +65,8 @@ the native monetary boundary at 116.71. These are separate real source types.
 - Found BS repair: five at base1234.57 plus actual wage31.47 each gives6330.20, real wage payable157.35, other income6172.85. Convert3:3798.12, remainder2:2532.08. No normal sewing/work/payroll fiction.
 - Run4 browser failure was tool adapter selection/date entry and asynchronous navigation, not product acceptance: agent-browser find/label does not support select, date find/fill did not set values, and loading sidebar text was mistaken for a loaded page. Use native select/fill against unique read-only-derived CSS controls, check actual values, wait actual page fields and mobile drawer position. Preserve actual UI/HTTP/database checks.
 - Run4 private has_permission function correctly denied gateway access. Race positive control now executes each actual authorized public mutation in a separate fully rolled-back transaction before racing both sessions. No private helper permission is relaxed.
+
+## Before run 6: measured adapter corrections
+- The historical opening FG is now a legitimate production comparator at 1234.57. Extended found-stock fixtures must omit owner override and accept the documented dated comparator. Expected amounts are unchanged; run 5 OWNER_VALUE_NOT_ALLOWED is correct refusal, not a product bug.
+- Agent-browser 0.31.1 reported date fill success but left native date/datetime input empty. Use a pinned Playwright input adapter attached to the same real browser for these native controls; read back exact values before continuing. It performs only normal locator fill/click, no application state injection or mocked API.
+- Capture every failed browser state; synchronize list refresh, selected case and closing mobile sidebar geometry before actions.

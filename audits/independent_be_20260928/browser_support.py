@@ -51,7 +51,13 @@ def redact(value):
 def case(key,title,fn,origin='independent continuation'):
     row={'id':key,'title':title,'origin':origin};start=time.monotonic()
     try:row.update(status='PASS',observation=fn())
-    except Exception as e:row.update(status='FAIL',error=redact(e),traceback=redact(traceback.format_exc()))
+    except Exception as e:
+        row.update(status='FAIL',error=redact(e),traceback=redact(traceback.format_exc()))
+        try:
+            who='mobile' if key.startswith('MOBILE.') else 'viewer' if 'VIEWER' in key else 'owner'
+            snap('FAILED-'+key,who)
+            (OUT/('FAILED-'+key+'-body.txt')).write_text(redact(text_body(who)))
+        except Exception as capture:row['capture_error']=str(capture)
     row['seconds']=round(time.monotonic()-start,3);RESULTS.append(row);save()
     print(json.dumps({k:row.get(k) for k in ['id','title','status','error']},default=str),flush=True)
     return row['status']=='PASS'
@@ -248,9 +254,32 @@ def control_selector(code,who='owner'):
 def fill(label,value,who='owner'):
     code='(document.querySelector('+json.dumps('[aria-label='+json.dumps(label)+']')+')||Array.from(document.querySelectorAll("label")).find(l=>l.textContent.trim()==='+json.dumps(label)+')?.control)'
     selector=control_selector(code,who)
-    ab('snapshot','-i',who=who);ab('fill',selector,value,who=who)
+    ab('snapshot','-i',who=who)
+    if evaluate(code+'.type',who) in ['date','datetime-local']:
+        native_input(selector,value,who)
+    else:ab('fill',selector,value,who=who)
     actual=evaluate('({value:'+code+'.value})',who)['value']
     assert actual==str(value),{'input_entry_prerequisite':label,'expected':str(value),'actual':actual}
+
+def native_input(selector,value,who='owner'):
+    raw=ab('get','cdp-url',who=who)
+    endpoints=re.findall(r'ws://(?:127\.0\.0\.1|localhost):\d+/[^\s"\x27]+',raw)
+    assert len(endpoints)==1,{'cdp_endpoints':len(endpoints)}
+    worker=r'''
+import {pathToFileURL} from 'node:url';
+const {chromium}=await import(pathToFileURL(process.env.BE_PLAYWRIGHT_CORE+'/index.mjs').href);
+const [endpoint, selector, value]=process.argv.slice(1);
+const browser=await chromium.connectOverCDP(endpoint);
+try {
+ const pages=browser.contexts().flatMap(c=>c.pages()).filter(p=>p.url().startsWith('http://127.0.0.1:4176/'));
+ if(pages.length!==1)throw new Error('Expected exactly one real app page: '+pages.length);
+ const locator=pages[0].locator(selector);await locator.fill(value);await locator.press('Tab');
+ console.log(JSON.stringify({input_value:await locator.inputValue(),adapter:'playwright-native-locator-fill'}));
+} finally {await browser.close();}
+'''
+    r=run(['node','--input-type=module','-e',worker,endpoints[0],selector,value],timeout=45)
+    out=json.loads(r.stdout);assert out['input_value']==value,out
+    EVENTS.append({'native_input':out,'selector':selector,'session':who})
 
 def select(label,value,who='owner'):
     selector='select[aria-label='+json.dumps(label)+']'
