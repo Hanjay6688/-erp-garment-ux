@@ -1,0 +1,49 @@
+name: CP6 BD Blind Full Chain Attempt
+on:
+  push:
+    branches:
+      - audit/sol-bd-blind-20260927
+    paths:
+      - .github/workflows/cp6-bd-blind-chain.yml
+      - scripts/cp6_bd_blind_chain.py
+permissions:
+  contents: read
+jobs:
+  full-chain:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 65
+    env:
+      PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
+        with:
+          version: 2.116.0
+      - name: Start disposable Supabase runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --quiet 'psycopg[binary]==3.2.10'
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client
+          mkdir cp6-bd-blind-local
+          supabase init --force --workdir cp6-bd-blind-local
+          mkdir -p cp6-bd-blind-local/supabase/.temp
+          echo '17.6.1.165' > cp6-bd-blind-local/supabase/.temp/postgres-version
+          supabase start --workdir cp6-bd-blind-local -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor > "$RUNNER_TEMP/bd-supabase-start.log" 2>&1 || { tail -n 60 "$RUNNER_TEMP/bd-supabase-start.log"; exit 1; }
+      - name: Apply untouched candidate migration chain
+        run: python scripts/cp6_bd_blind_chain.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bd-blind-chain-result
+          path: bd-blind-chain-result.json
+          if-no-files-found: ignore
+      - name: Stop disposable runtime
+        if: always()
+        run: supabase stop --workdir cp6-bd-blind-local --no-backup || true
