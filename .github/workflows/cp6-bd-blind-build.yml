@@ -1,0 +1,29 @@
+name: CP6 BD Blind Frontend Build Gate
+on:
+  push:
+    branches:
+      - audit/sol-bd-blind-20260927
+    paths:
+      - .github/workflows/cp6-bd-blind-build.yml
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Verify frozen product and compile connected UI
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse 08065a3b4da71c51ffbbab77f0a6b1ac7e6638ec^{tree})" = ba3c3fc221ee72dc521991c52cc38ee9b624d9fa
+          git diff --exit-code 08065a3b4da71c51ffbbab77f0a6b1ac7e6638ec -- src/LaundryBdPanel.tsx src/laundryBd.ts src/productConversion.ts
+          npm ci
+          npm run build
