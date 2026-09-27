@@ -20,3 +20,16 @@ Additional oracle fixed before execution: the original two session cases use the
 - `GAP.RACE.POLICY.TWO-ACTORS`: both operators submit different valid values and UUIDs against the same policy version. Require one success, one `STALE_VERSION`, one version increment, one setting event and one request-log row attributable to the winning app user. Replay uses the winning operator and returns the same result plus `replayed: true`; the complete policy row, event rows and request rows remain unchanged. The original owner restores the original policy value/status through the public command.
 
 Both new cases record each Auth ID, ERP app-user ID and backend PID, assert that both operators differ from each other and from the original fixture owner, and execute before the separate 201-receipt browser fixture so its dedicated vendor/count are unaffected. These are additional coverage, not replacements or relaxed expectations for the original cases.
+
+
+Run18 setup correction: both distinct-operator cases stopped at the auditor's
+preflight call to private erp.has_permission. Authenticated clients correctly
+lack direct EXECUTE there; no receipt/policy race was reached in those two
+cases. Raw FAILs are retained as auditor-adapter failures, not product defects.
+The preflight now uses the supported public.erp_get_my_access_v1 reader, checks
+the exact active profile/Auth/app IDs and both required permission keys, and
+retains the existing public workspace control. No helper grant, privilege
+change, product patch or permission bypass is introduced. The public reader's
+response contract is independently visible in our own earlier HTTP evidence.
+Fresh runtime is required for the two-operator outcomes; original10 native gap
+cases remain PASS in run18.

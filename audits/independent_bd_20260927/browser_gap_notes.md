@@ -113,3 +113,16 @@ The runtime-URL filename search also surfaced matching URL lines in
 `runtime.test.ts`. That test file was not opened or copied; the required URL
 was verified directly in the product `runtime.ts` condition. This configuration
 check does not establish or change a BD business oracle.
+
+## Run18 CDP target selection
+
+Run18 reached the browser phase after the gateway correction, but each mobile
+browser exposed two page targets. The adapter's assumption of exactly one page
+failed before login. No mobile workflow success is claimed from that run.
+
+The continuation first opens the actual application with a unique audit query
+marker and checks the active URL using agent-browser. CDP then selects the
+single page whose URL exactly matches that active application URL; unrelated
+blank pages remain untouched. Evidence records total page count, matching page
+count, selected target ID and selected URL. Ambiguous or missing matches fail
+setup. Native touch, coarse-pointer and viewport assertions remain unchanged.

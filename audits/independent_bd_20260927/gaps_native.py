@@ -298,12 +298,17 @@ def distinct_owner_controls():
     controls=[]
     for who in actors:
         with s.actor_conn(who) as c:
-            identity=c.execute("select auth.uid()::text,erp.current_app_user_id()::text,erp.current_app_role(),erp.has_permission('production.laundry.post'),erp.has_permission('settings.erp.manage')").fetchone()
+            identity=c.execute("select auth.uid()::text,erp.current_app_user_id()::text,erp.current_app_role()").fetchone()
+            access=c.execute('select public.erp_get_my_access_v1()').fetchone()[0]
             workspace=c.execute('select public.erp_get_laundry_bd_workspace_v1(%s)',(Jsonb({'vendor_id':G['vendor']}),)).fetchone()[0]
         expected=G['two_operators'][who]
-        eq(identity,(expected['auth_id'],expected['erp_user_id'],'OWNER',True,True),'Per-operator active role and action-permission control')
+        eq(identity,(expected['auth_id'],expected['erp_user_id'],'OWNER'),'Per-operator identity and active role control')
+        eq(access['allowed'],True);eq(access['profile']['is_active'],True)
+        eq(access['profile']['id'],expected['erp_user_id']);eq(access['profile']['auth_user_id'],expected['auth_id']);eq(access['profile']['role_code'],'OWNER')
+        permissions=set(access['permissions'])
+        eq({'production.laundry.post','settings.erp.manage'}.issubset(permissions),True,'Permissions from the supported public access reader')
         eq(workspace['is_owner'],True);eq(workspace['money_visible'],True)
-        control={'actor':who,**expected,'erp_role':identity[2],'can_post_laundry':identity[3],'can_manage_settings':identity[4],'workspace_is_owner':workspace['is_owner'],'money_visible':workspace['money_visible']}
+        control={'actor':who,**expected,'erp_role':identity[2],'can_post_laundry':'production.laundry.post' in permissions,'can_manage_settings':'settings.erp.manage' in permissions,'authorization_reader':'public.erp_get_my_access_v1','workspace_is_owner':workspace['is_owner'],'money_visible':workspace['money_visible']}
         controls.append(control);E.append({'distinct_operator_positive_control':control})
     return actors,controls
 

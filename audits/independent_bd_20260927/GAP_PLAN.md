@@ -41,3 +41,14 @@ changes, not product guard changes. A later runtime must establish mobile touch
 and browser outcomes. A URL-source search incidentally displayed runtime.test.ts
 matching lines; configuration decisions came from runtime.ts itself, not those
 tests, and no BD business oracle was taken from them.
+
+Pre-run19 adapter correction: run18's new two-operator cases stopped at an
+auditor preflight call to private erp.has_permission, which correctly denies
+direct authenticated EXECUTE. Use the supported public.erp_get_my_access_v1
+reader for active identity and required permissions, retaining both workspace
+controls and all race assertions. Do not grant helper access or modify product
+permissions. Run18's mobile CDP setup encountered two pages before login; select
+the uniquely identified active application page after navigation, while keeping
+the native touch, coarse-pointer, viewport, login and business-flow assertions.
+Preserve both raw failures as audit setup failures; neither establishes a BD
+product defect or closes the corresponding coverage until the rerun executes.

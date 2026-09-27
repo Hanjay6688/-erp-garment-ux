@@ -540,9 +540,9 @@ def gap_replay_refusal(kind):
     assert not 200<=status<300,result
     return result
 
-def mobile_touch_context(who):
+def mobile_touch_context(who,app_url):
     # agent-browser 0.31.1 set device configures metrics/UA but omits touch.
-    # Use Chromium's actual emulation API on this session's sole page target;
+    # Use Chromium's actual emulation API on the uniquely marked active page;
     # keep the CDP session alive through reloads. No product JS is injected.
     raw=ab('get','cdp-url',who=who)
     endpoints=re.findall(r'ws://(?:127\.0\.0\.1|localhost):\d+/[^\s"\x27]+',raw)
@@ -550,7 +550,7 @@ def mobile_touch_context(who):
     ready=OUT/(who+'-touch-ready.json');ready.unlink(missing_ok=True)
     worker=r'''
 import {writeFileSync} from 'node:fs';
-const [endpoint, readyPath] = process.argv.slice(1);
+const [endpoint, readyPath, appUrl] = process.argv.slice(1);
 const ws = new WebSocket(endpoint);
 let nextId = 0;
 const pending = new Map();
@@ -576,10 +576,12 @@ try {
   });
   const {targetInfos} = await send('Target.getTargets');
   const pages = targetInfos.filter(t => t.type === 'page');
-  if (pages.length !== 1) throw new Error('Expected one mobile page, found '+pages.length);
-  const {sessionId} = await send('Target.attachToTarget', {targetId:pages[0].targetId, flatten:true});
+  const matches = pages.filter(t => t.url === appUrl);
+  if (matches.length !== 1) throw new Error(JSON.stringify({expected_app_url:appUrl,matching_pages:matches.length,page_urls:pages.map(t=>t.url)}));
+  const selected = matches[0];
+  const {sessionId} = await send('Target.attachToTarget', {targetId:selected.targetId, flatten:true});
   await send('Emulation.setTouchEmulationEnabled', {enabled:true, maxTouchPoints:1}, sessionId);
-  writeFileSync(readyPath, JSON.stringify({method:'Emulation.setTouchEmulationEnabled',enabled:true,maxTouchPoints:1,page_target_count:pages.length}));
+  writeFileSync(readyPath, JSON.stringify({method:'Emulation.setTouchEmulationEnabled',enabled:true,maxTouchPoints:1,page_target_count:pages.length,matching_page_count:matches.length,selected_target_url:selected.url,selected_target_id:selected.targetId}));
   process.on('SIGTERM', () => {ws.close(); process.exit(0);});
   await new Promise(resolve => ws.addEventListener('close', resolve, {once:true}));
 } catch (error) {
@@ -588,7 +590,7 @@ try {
 }
 '''
     log=(OUT/(who+'-touch-worker.log')).open('w')
-    p=subprocess.Popen(['node','--input-type=module','-e',worker,endpoints[0],str(ready)],cwd=ROOT,stdout=log,stderr=log)
+    p=subprocess.Popen(['node','--input-type=module','-e',worker,endpoints[0],str(ready),app_url],cwd=ROOT,stdout=log,stderr=log)
     log.close();PROCESSES.append(p);FIX[who+'_touch_worker']=p
     deadline=time.monotonic()+25
     while not ready.exists() and p.poll() is None and time.monotonic()<deadline:time.sleep(.1)
@@ -620,8 +622,11 @@ def mobile_open_pricing(who,vendor):
 def mobile_auth(who,actor):
     FIX[who]=FIX[actor]
     ab('set','device','iPhone 14',who=who)
-    emulation=mobile_touch_context(who)
-    ab('open','http://127.0.0.1:4176/',who=who);ab('wait','input[type="email"]',who=who)
+    app_url='http://127.0.0.1:4176/?audit_mobile='+uid()
+    ab('open',app_url,who=who);ab('wait','input[type="email"]',who=who)
+    active_url=ab('get','url',who=who).strip()
+    assert active_url==app_url,{'expected_active_url':app_url,'actual_active_url':active_url}
+    emulation=mobile_touch_context(who,active_url)
     snap(who+'-login',who)
     fill('Email akun ERP',FIX[who]['email'],who);fill('Kata sandi',FIX[who]['password'],who)
     mobile_button('Masuk',who);ab('wait','aside.sidebar',who=who);snap(who+'-authorized',who)
