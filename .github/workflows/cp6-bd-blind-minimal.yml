@@ -1,0 +1,49 @@
+name: CP6 BD Blind Isolated Function Audit
+on:
+  push:
+    branches:
+      - audit/sol-bd-blind-20260927
+    paths:
+      - .github/workflows/cp6-bd-blind-minimal.yml
+      - scripts/cp6_bd_blind_minimal_probe.py
+permissions:
+  contents: read
+jobs:
+  isolated-functions:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      PGURL: postgresql://postgres:postgres@127.0.0.1:5432/postgres
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install PostgreSQL adapter
+        run: python -m pip install --quiet 'psycopg[binary]==3.2.10'
+      - name: Run auditor-created source-bound counterexamples
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse 08065a3b4da71c51ffbbab77f0a6b1ac7e6638ec^{tree})" = ba3c3fc221ee72dc521991c52cc38ee9b624d9fa
+          git diff --exit-code 08065a3b4da71c51ffbbab77f0a6b1ac7e6638ec -- scripts/cp6_bd_objects_pricing.sql scripts/cp6_bd_objects_invoice.sql scripts/cp6_bd_objects_router.sql
+          python scripts/cp6_bd_blind_minimal_probe.py | tee bd-blind-isolated-results.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bd-blind-isolated-results
+          path: bd-blind-isolated-results.json
+          if-no-files-found: ignore
