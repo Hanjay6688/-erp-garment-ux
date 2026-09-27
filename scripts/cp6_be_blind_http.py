@@ -77,7 +77,7 @@ def main() -> None:
     owner_auth, owner_credentials = create_user(url, service)
     spare_auth, _ = create_user(url, service)
     viewer_auth, viewer_credentials = create_user(url, service)
-    with psycopg.connect(os.environ["PGURL"], autocommit=True) as conn, conn.cursor() as cur:
+    with psycopg.connect(os.environ["PGURL"].replace("//postgres:", "//supabase_admin:", 1), autocommit=True) as conn, conn.cursor() as cur:
         owner = cur.execute("select id from erp.app_roles where role_code='OWNER' and is_active").fetchone()
         assert owner, "Owner role required in baseline fixture"
         for user, role_id, code in ((owner_auth, owner[0], "OWNER"), (spare_auth, owner[0], "OWNER")):
@@ -92,7 +92,7 @@ def main() -> None:
                         "confirm_high_risk": False, "change_reason": "BE auditor permission matrix"},
          "p_client_request_id": str(uuid.uuid4()), "p_expected_version": None})
     assert create_code == 200, (create_code, create_role)
-    with psycopg.connect(os.environ["PGURL"], autocommit=True) as conn, conn.cursor() as cur:
+    with psycopg.connect(os.environ["PGURL"].replace("//postgres:", "//supabase_admin:", 1), autocommit=True) as conn, conn.cursor() as cur:
         viewer = cur.execute("select id,role_code from erp.app_roles where role_code=%s and is_active",
                              (view_code_name,)).fetchone()
         assert viewer, "Owner-created view-only role missing"
@@ -107,7 +107,7 @@ def main() -> None:
     assert owner_replay_code == 200 and owner_replay.get("conversion_id") == first.get("conversion_id")
     view_code, view = rpc(url, anon, viewer_jwt, "POST", policy_payload, uuid.uuid4())
     assert view_code >= 400 and "PERMISSION_DENIED" in str(view), (view_code, view)
-    with psycopg.connect(os.environ["PGURL"], autocommit=True) as conn, conn.cursor() as cur:
+    with psycopg.connect(os.environ["PGURL"].replace("//postgres:", "//supabase_admin:", 1), autocommit=True) as conn, conn.cursor() as cur:
         cur.execute("""update erp.app_users set role_id=%s,role=%s,row_version=row_version+1
                        where auth_user_id=%s""", (viewer[0], viewer[1], owner_auth))
     replay_code, replay = rpc(url, anon, owner_jwt, "POST", policy_payload, action_id)
