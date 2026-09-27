@@ -175,13 +175,53 @@ def afui_mix(cur, day):
             "inverse_exact": True, "no_second_physical_events": True}
 
 
+def pocket_import(cur, day):
+    cut = day - timedelta(days=20)
+    rows = pocket.active_unit(cur, pocket.rows(cut))
+    pending = {kind: rows.pop(kind) for kind in ("OPENING_POCKET_USAGE", "OPENING_POCKET_SEWING")}
+    before = (one(cur, "select count(*) from erp.journal_entries"),
+              one(cur, "select count(*) from erp.material_stock_movements"),
+              one(cur, "select count(*) from erp.sewing_terminal_events"))
+    draft = bd.bbp.production_post(cur, day, rows, cutover_days=20, expect=True)
+    assert not draft["errors"]
+    batch, code = draft["batch"], draft["code"]
+    fill = lambda value: value.replace("{C}", code) if isinstance(value, str) else value
+    for kind, records in pending.items():
+        bd.api.upload(cur, batch, kind, [{k: fill(v) for k, v in row.items()} for row in records])
+    checked = bd.api.invoke(cur, "VALIDATE", batch)
+    after_validate = (one(cur, "select count(*) from erp.journal_entries"),
+                      one(cur, "select count(*) from erp.material_stock_movements"),
+                      one(cur, "select count(*) from erp.sewing_terminal_events"))
+    assert checked["error_rows"] == 0 and before == after_validate, (checked, before, after_validate)
+    revision = bd.api.read(cur, batch)["batch"]["revision"]
+    payload = {"batch_id": batch, "expected_revision": revision}
+    key = str(uuid.uuid4())
+    posted = bd.api.call(cur, "FINALIZE", payload, key)
+    replay = bd.api.call(cur, "FINALIZE", payload, key)
+    assert posted == replay and posted["status"] == "POSTED"
+    bd.api.admin(cur)
+    usage = one(cur, "select count(*) from erp.be_pocket_usage_v1 where batch_id=%s", batch)
+    sewing = one(cur, "select count(*) from erp.be_pocket_sewing_v1 where batch_id=%s", batch)
+    source_amount = one(cur, "select sum(original_amount) from erp.be_pocket_usage_v1 where batch_id=%s", batch)
+    denominator = one(cur, "select sum(qty) from erp.be_pocket_sewing_v1 where batch_id=%s", batch)
+    after = (one(cur, "select count(*) from erp.material_stock_movements"),
+             one(cur, "select count(*) from erp.sewing_terminal_events"))
+    assert (usage, sewing, source_amount, denominator) == (1, 3, Decimal("11.25"), 10)
+    assert after == before[1:], (before, after)
+    return {"draft_and_validate_without_facts": True, "usage_rows": usage,
+            "sewing_rows": sewing, "source_amount": str(source_amount),
+            "denominator": denominator, "finalize_replay_same": True,
+            "no_fake_material_or_sewing_events": True}
+
+
 def main():
     report = {"candidate": "2c2fd5e8e0df5f8ada44402c93f70dbaf0fbbb5b",
               "status": "INCOMPLETE", "production_go": False, "cases": {}}
     with psycopg.connect(os.environ["PGURL"].replace("//postgres:", "//supabase_admin:", 1)) as conn, conn.cursor() as cur:
         day = one(cur, "select (statement_timestamp() at time zone 'Asia/Jakarta')::date")
         for name, case in (("B02_B03_ACCESSORY", accessory), ("B04_REWORK", rework),
-                           ("B06_EXPLICIT_ZERO", zero_redye), ("B08_AFUI_MIX", afui_mix)):
+                           ("B06_EXPLICIT_ZERO", zero_redye), ("B08_AFUI_MIX", afui_mix),
+                           ("B09_POCKET_IMPORT", pocket_import)):
             bd.api.admin(cur)
             cur.execute("savepoint blind_extended_case")
             try:
