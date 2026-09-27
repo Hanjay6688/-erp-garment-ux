@@ -232,7 +232,11 @@ def button(text,who='owner',exact=True):
     ab('click','@'+found[0],who=who)
 
 def fill(label,value,who='owner'):
+    selector='[aria-label='+json.dumps(label)+']'
+    ab('wait','--fn',"(()=>{const e=document.querySelector("+json.dumps(selector)+");return !!e&&!e.disabled;})()",who=who)
     ab('snapshot','-i',who=who);ab('find','label',label,'fill',value,who=who)
+    actual=evaluate('document.querySelector('+json.dumps(selector)+').value',who)
+    assert actual==str(value),{'input_entry_prerequisite':label,'expected':str(value),'actual':actual}
 
 def select(label,value,who='owner'):
     selector='select[aria-label='+json.dumps(label)+']'
@@ -241,7 +245,10 @@ def select(label,value,who='owner'):
     ready="(()=>{const e=document.querySelector("+json.dumps(selector)+");return !!e&&!e.disabled&&Array.from(e.options).some(o=>o.value==="+json.dumps(str(value))+");})()"
     ab('wait','--fn',ready,who=who)
     ab('snapshot','-i',who=who);ab('select',selector,value,who=who)
-    ab('wait','--fn',"document.querySelector("+json.dumps(selector)+")?.value==="+json.dumps(str(value)),who=who)
+    # Choosing a vendor starts an asynchronous workspace read. A matching value
+    # alone does not mean that the refreshed controls can be used yet (run12).
+    settled="(()=>{const e=document.querySelector("+json.dumps(selector)+");return !!e&&!e.disabled&&e.value==="+json.dumps(str(value))+";})()"
+    ab('wait','--fn',settled,who=who)
 
 def text_body(who='owner'):return ab('get','text','body',who=who)
 def wait_text(text,who='owner',timeout=30):
@@ -369,9 +376,13 @@ def browser_invoice_draft_reload():
               'Sumber baris 1':'o:'+source,'Kategori baris 1':'GOOD','Qty baris 1':'1','Nominal baris 1':'1234.57'}
     assert fields==expected,{'expected_form':expected,'actual_form':fields}
     snap('owner-reopened-draft-fields')
-    # Restore master for independent/supplemental cases; fresh snapshots per action.
-    select('Vendor harga laundry',FIX['vendor']);button('Harga vendor');wait_text('AUD-BROWSER-KNOWN')
-    return {'draft':rows[0],'source':source,'journal_count_unchanged':True,'actual_page_reload_preserved_draft':True,'reopened_form_fields':fields}
+    observation={'draft':rows[0],'source':source,'journal_count_unchanged':True,'actual_page_reload_preserved_draft':True,
+                 'date_before_submit':committed_date,'date_in_http_payload':sent[0]['payload']['p_payload']['invoice_date'],
+                 'date_in_database':rows[0][4],'reopened_form_fields':fields}
+    EVENTS.append({'draft_round_trip':observation})
+    # The following case owns its own navigation. Do not allow that navigation
+    # to shadow the independently verified stored draft round trip (run12).
+    return observation
 
 def package_extras_browser():
     # Explicitly peer-informed. Same own vendor has a package + component outside it.
