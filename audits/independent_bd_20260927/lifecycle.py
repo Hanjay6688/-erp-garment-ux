@@ -160,6 +160,40 @@ def unknown_import():
     eq(u,(None,D(0),None));return {'source':source('UNKNOWN'),'estimate_accrual_journal':u}
 def future_invoice():
     d=draft('FUTURE',[line('ATOMIC',1,'4450.13')],'4450.13',invoice_date='2099-01-01');return refuse(lambda:post(d),'FUTURE')
+def workspace(who='owner'):
+    with s.actor_conn(who) as c:r=c.execute('select public.erp_get_laundry_bd_workspace_v1(%s)',(Jsonb({'vendor_id':C['v1']}),)).fetchone()[0]
+    E.append({'api':'erp_get_laundry_bd_workspace_v1','actor':who,'vendor_id':C['v1'],'response':r});return r
+def owner_readback():
+    r=workspace();eq(r['money_visible'],True)
+    ledger=r['payables']['ledger']
+    # Independent business arithmetic: 6-piece invoice + winning 9-piece race + upward correction.
+    expected=D('26700.78')+D('2007.81')+D('129.04')
+    eq(expected,D('28837.63'));eq(D(ledger['ap_balance']),expected);eq(D(ledger['documents_remaining']),expected)
+    eq(D(ledger['credit_available']),D(0));eq(ledger['matches'],True)
+    actual=admin("select coalesce(sum(l.credit-l.debit),0) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where l.account_id=%s and l.vendor_id=%s and j.status in ('POSTED','REVERSED')",(C['AP_VENDOR'],C['v1']),one=True)
+    eq(actual,expected);return {'independent_expected':expected,'public_readback':ledger,'direct_ledger':actual}
+def staff_readback():
+    try:r=workspace('staff')
+    except psycopg.Error as e:
+        assert e.sqlstate=='P0001' and ('permission' in str(e).lower() or 'izin' in str(e).lower()),str(e)
+        return {'access_denied':True,'message':str(e),'note':'Does not prove redaction for a role that has laundry-view permission'}
+    eq(r['money_visible'],False)
+    for key in ['invoices','billable_receipts','accounts','payables']:eq(r[key],None,key)
+    for x in r['opening_uninvoiced']:
+        eq(x['estimated_amount'],None);eq(x['released'],None)
+    for x in r['components']:
+        if x['current']:eq(x['current']['rate'],None)
+    for x in r['packages']:eq(x['current_rate'],None)
+    return {'access_denied':False,'money_visible':False,'redacted_fields_checked':True}
+def private_boundary():
+    results=[]
+    for query,args in [('select * from erp.bd_laundry_invoices_v1 limit 1',()),('select erp.bd_compute_pricing_v1(%s,%s)',(Jsonb(s.delivery()),Jsonb({'lump_sum':'1000.01'})))]:
+        try:
+            with s.actor_conn() as c:c.execute(query,args)
+        except psycopg.Error as e:
+            eq(e.sqlstate,'42501');results.append({'statement':query,'refused':True,'sqlstate':e.sqlstate,'message':str(e)});continue
+        raise AssertionError('Authenticated caller accessed private table/function: '+query)
+    return results
 def dependency_case(key,title,fn,needs=()):
     missing=[x for x in needs if x not in C]
     if missing:R.append({'id':key,'title':title,'status':'BLOCKED','dependency_missing':missing});save();return
@@ -188,6 +222,9 @@ def main():
     dependency_case('IND-26.PAID','Paid invoice cannot be reversed in place',paid_reversal,['final_payment'])
     dependency_case('IND-26.CORRECTION','Separate upward correction preserves paid original',upward_correction,['final_payment'])
     dependency_case('IND-33.FUTURE','Future invoice refuses posting',future_invoice)
+    dependency_case('IND-24.READ','Public payable readback matches independent 28837.63 arithmetic',owner_readback,['final_payment'])
+    dependency_case('IND-38.READ','Staff cannot read protected financial details',staff_readback)
+    dependency_case('IND-38.PRIVATE','Even owner JWT cannot call private pricing functions or tables directly',private_boundary)
     save();print(json.dumps({'lifecycle_counts':{x:sum(r['status']==x for r in R) for x in ['PASS','FAIL','BLOCKED']}}),flush=True)
     return 1 if any(r['status']!='PASS' for r in R) else 0
 if __name__=='__main__':raise SystemExit(main())

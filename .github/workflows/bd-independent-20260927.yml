@@ -113,6 +113,9 @@ jobs:
           set -euo pipefail
           pg_dump 'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' -Fc -f audit-results/empty-bd.dump
           sha256sum audit-results/empty-bd.dump > audit-results/empty-bd-sha256.txt
+      - name: Independent pre-use rollback and restore exact BD
+        working-directory: auditor
+        run: python audits/independent_bd_20260927/rollback.py pre
       - name: Run independently authored native tests
         working-directory: auditor
         run: python audits/independent_bd_20260927/suite.py
@@ -120,6 +123,10 @@ jobs:
         if: always()
         working-directory: auditor
         run: python audits/independent_bd_20260927/lifecycle.py
+      - name: Independent post-use rollback refusal
+        if: always()
+        working-directory: auditor
+        run: python audits/independent_bd_20260927/rollback.py post
       - uses: actions/upload-artifact@v4
         if: always()
         with:

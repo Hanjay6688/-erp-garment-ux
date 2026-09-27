@@ -17,6 +17,9 @@ try:
         data=(ROOT/f['file']).read_bytes()
         actual=hashlib.sha256(data).hexdigest()
         assert actual==f['package_sha256'],('PACKAGE_IDENTITY_MISMATCH',f['key'])
+        if f['key']=='BD':
+            from audit_state import snapshot
+            (out/'independent-before-bd.json').write_text(json.dumps(snapshot(),indent=2,default=str)+'\n')
         applier.install({'stamp':f['stamp'],'name':f['name'],'closed':f['closed_admission']},data.decode())
         report['files'].append({'key':f['key'],'sha256':actual,'status':'INSTALLED'})
         print('INSTALLED',f['key'],actual,flush=True)
