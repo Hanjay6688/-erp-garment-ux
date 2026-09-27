@@ -15,6 +15,7 @@ b.save=save
 def click(label,who='owner',exact=True):return b.mobile_button(label,who,exact) if who.startswith('mobile') else b.button(label,who,exact)
 def snap(label,who='owner'):return b.mobile_snap(label,who) if who.startswith('mobile') else b.snap(label,who)
 def nav(section,label,who='owner'):
+    b.ab('wait','--fn','!!document.querySelector("aside.sidebar")',who=who)
     if who.startswith('mobile'):
         b.ab('scroll','up','5000',who=who)
         opened=b.evaluate('document.querySelector("aside.sidebar")?.classList.contains("sidebar-open")',who)
@@ -28,7 +29,7 @@ def nav(section,label,who='owner'):
     ready={'Ganti Merek':'Array.from(document.querySelectorAll("label")).some(l=>l.textContent.trim()==="Cari lot / SKU")','Kain kantong':'!!document.querySelector('+json.dumps('select[aria-label="Roll kain kantong"]')+')','Barang BS & Rework':'!!document.querySelector(".cbsr-search input")','Laundry':'!!document.querySelector(".clq-tabs")'}[label]
     b.ab('wait','--fn',ready,who=who)
 def wrapped(label,value,who='owner'):
-    code='Array.from(document.querySelectorAll("label")).find(l=>l.textContent.split(/Pilih/)[0].trim()==='+json.dumps(label)+')?.control'
+    code='Array.from(document.querySelectorAll("label")).find(l=>Array.from(l.childNodes).filter(x=>!["INPUT","TEXTAREA","SELECT"].includes(x.nodeName)).map(x=>x.textContent).join("").trim()==='+json.dumps(label)+')?.querySelector("select")'
     # Get accessible selects through their wrapping label, as actual user input.
     b.ab('wait','--fn','(()=>{const e='+code+';return !!e&&!e.disabled&&Array.from(e.options).some(o=>o.value==='+json.dumps(value)+');})()',who=who)
     selector=b.control_selector(code,who);b.ab('snapshot','-i',who=who);b.ab('select',selector,value,who=who)
@@ -104,7 +105,7 @@ def redye(who='owner',key='UI'):
     click('Rewash',who);b.fill('NOMOR ORDER · WAJIB','BE-AUD-BROWSER-'+who,who);wrapped('VENDOR REWASH',C['daily_vendor'],who);b.fill('QTY DIKIRIM','7',who);b.fill('WAKTU FISIK · WIB','2026-09-14T08:00',who);wrapped('GUDANG FG BILA GOOD',C['fg'],who);b.fill('CATATAN / ALASAN','Independent browser new-color service '+who,who)
     b.ab('snapshot','-i',who=who);b.ab('find','label','Hasil GOOD menjadi SKU lain','check',who=who)
     wrapped('SKU hasil baru',C['redye_target'],who);wrapped('Proses celup berbayar',C['redye_process'],who)
-    if who=='mobile':b.select('Harga jasa','UNKNOWN',who)
+    if who=='mobile':wrapped('Harga jasa','UNKNOWN',who)
     snap(who+'-redye-ready',who);click('Buat order celup ulang',who)
     wait_db(lambda:b.sql('select count(*) from erp.rework_orders where rework_number=%s',('BE-AUD-BROWSER-'+who,),one=True),1);b.wait_text('GOOD KUMULATIF',who)
     b.fill('GOOD KUMULATIF','5',who);b.fill('BS KUMULATIF','2',who);b.fill('WAKTU SELESAI · WIB','2026-09-18T08:00',who);wrapped('GUDANG GOOD FG',C['fg'],who);b.fill('ALASAN HASIL FISIK','Independent browser actual five good and two BS '+who,who);snap(who+'-redye-completion-ready',who);click('Post hasil & recovery',who)
