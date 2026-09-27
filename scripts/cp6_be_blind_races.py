@@ -151,8 +151,8 @@ def main():
         ("PRICE_ABORT", lambda: price(day, False)),
         ("INVOICE_COMMIT", lambda: invoice(day, True)),
         ("INVOICE_ABORT", lambda: invoice(day, False)),
-        ("POCKET_COMMIT", lambda: period(day, True, 10)),
-        ("POCKET_ABORT", lambda: period(day, False, 12))]
+        ("POCKET_COMMIT", lambda: period(day, True, 14)),
+        ("POCKET_ABORT", lambda: period(day, False, 16))]
     for name, case in cases:
         try:
             report["cases"][name] = {"status": "PASS", **case()}

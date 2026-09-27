@@ -147,6 +147,115 @@ async function pocketCsv(browser, today) {
   } finally { await context.close() }
 }
 
+async function rework(browser, today, redye) {
+  const f = fixture('create', { kind: redye ? 'redye' : 'rework', today })
+  const { page, context } = await login(browser, redye)
+  try {
+    await navigate(page, 'Barang BS & Rework', 'Produksi')
+    await expect(page.getByRole('button', { name: 'Refetch', exact: true })).toBeEnabled()
+    await page.locator('.cbsr-tabs').getByRole('button', { name: 'Semua', exact: true }).click()
+    await page.getByPlaceholder('Nomor, PO, model, Pola, pihak…').fill(f.bs_number)
+    await page.locator('.cbsr-search').getByRole('button', { name: 'Cari', exact: true }).click()
+    await page.locator('.cbsr-list button').filter({ hasText: f.bs_number }).click()
+    await page.locator('.cbsr-route-tabs').getByRole('button', { name: redye ? 'Rewash' : 'Rework', exact: true }).click()
+    const form = page.locator('.cbsr-route-form')
+    await form.getByLabel('NOMOR ORDER · WAJIB', { exact: true }).fill(f.number)
+    await form.getByLabel(redye ? /^VENDOR REWASH/ : /^MANDOR REWORK/).selectOption(redye ? f.vendor : f.contractor)
+    await form.getByLabel('QTY DIKIRIM', { exact: true }).fill('4')
+    await form.getByLabel('WAKTU FISIK · WIB', { exact: true }).fill(f.day + 'T14:00')
+    await form.getByLabel(/^GUDANG FG BILA GOOD/).selectOption(f.location)
+    await form.getByLabel('CATATAN / ALASAN', { exact: true }).fill('Blind UI actual BS service')
+    if (!redye) await form.locator('fieldset.cbsr-checks').filter({ has: page.getByText('KOMPONEN KERJA YANG DIULANG · DASAR UPAH REWORK', { exact: true }) }).getByRole('checkbox').first().check()
+    for (const box of await form.locator('.cbsr-accessories input[type=checkbox]').all()) await box.uncheck()
+    await form.getByRole('checkbox', { name: 'Hasil GOOD menjadi SKU lain', exact: true }).check()
+    await form.getByLabel('Cari SKU hasil', { exact: true }).fill(f.target_sku)
+    await form.getByRole('button', { name: 'Cari SKU hasil', exact: true }).click()
+    await expect(form.getByLabel(/^SKU hasil baru/)).toBeEnabled()
+    await form.getByLabel(/^SKU hasil baru/).selectOption(f.target)
+    if (redye) {
+      await form.getByLabel(/^Proses celup berbayar/).selectOption(f.process)
+      await form.getByLabel(/^Harga jasa/).selectOption('UNKNOWN')
+    }
+    await form.getByRole('button', { name: redye ? 'Buat order celup ulang' : 'Buat order rework', exact: true }).click()
+    const completion = () => page.locator('.cbsr-completion-form').filter({ hasText: f.number })
+    await expect(completion()).toBeVisible()
+    await completion().getByLabel('GOOD KUMULATIF', { exact: true }).fill('1')
+    await completion().getByLabel('BS KUMULATIF', { exact: true }).fill('0')
+    await completion().getByLabel('ALASAN HASIL FISIK', { exact: true }).fill('Blind actual partial one')
+    await completion().getByRole('button', { name: 'Simpan partial', exact: true }).click()
+    await expect.poll(() => fixture('read', f).orders[0]?.[2]).toBe(1)
+    const partial = fixture('read', f)
+    assert.equal(partial.conversions.length, 0)
+    assert.equal(partial.orders[0][4], null)
+    await completion().getByLabel('GOOD KUMULATIF', { exact: true }).fill('2')
+    await completion().getByLabel('BS KUMULATIF', { exact: true }).fill('2')
+    await completion().getByLabel('WAKTU SELESAI · WIB', { exact: true }).fill(f.day + 'T16:00')
+    await completion().getByLabel('ALASAN HASIL FISIK', { exact: true }).fill('Blind actual two GOOD two BS')
+    await completion().getByRole('button', { name: 'Post hasil & recovery', exact: true }).click()
+    await expect.poll(() => fixture('read', f).qty).toBe(2)
+    const completed = fixture('read', f)
+    assert.equal(completed.product, f.target)
+    assert.equal(completed.conversions.length, 1)
+    if (redye) {
+      assert.equal(completed.rate, 'None')
+      await navigate(page, 'Laundry', 'Produksi')
+      await page.getByRole('button', { name: 'Harga & tagihan', exact: true }).click()
+      await expect(page.getByRole('button', { name: 'Muat ulang harga', exact: true })).toBeEnabled()
+      await page.getByLabel('Vendor harga laundry', { exact: true }).selectOption(f.vendor)
+      await page.getByRole('button', { name: 'Invoice vendor', exact: true }).click()
+      await page.getByLabel('Tarif celup ' + f.number, { exact: true }).fill('50.00')
+      await page.getByLabel('Alasan pembatalan invoice', { exact: true }).fill('Blind vendor confirms original rate')
+      await page.getByRole('button', { name: 'Isi tarif celup ' + f.number, exact: true }).click()
+      await expect.poll(() => fixture('read', f).cost).toBe('200.00')
+      const priced = fixture('read', f)
+      assert.equal(priced.rate, '50.000000')
+      return { status: 'PASS', mode: 'paid redye', mobile: true, partial_no_fg: true,
+        good: completed.qty, bs: completed.orders[0][3], cost: priced.cost }
+    }
+    const done = page.locator('.cbsr-rework-complete')
+    await done.getByPlaceholder('Alasan reversal Owner/Admin').fill('Blind real UI inverse')
+    await done.getByRole('button', { name: 'Reverse', exact: true }).click()
+    await expect.poll(() => fixture('read', f).qty).toBe(0)
+    const inverse = fixture('read', f)
+    assert.equal(inverse.conversions[0][1], 'REVERSED')
+    return { status: 'PASS', mode: 'rework', partial_no_fg: true,
+      good: completed.qty, bs: completed.orders[0][3], inverse_zero: true }
+  } finally { await context.close() }
+}
+
+async function pocketBrowser(browser, today) {
+  const f = fixture('create', { kind: 'pocket', today })
+  const { page, context } = await login(browser, true)
+  try {
+    await navigate(page, 'Kain kantong')
+    await expect(page.getByLabel('Awal periode kain kantong')).toBeEnabled()
+    await page.getByLabel('Cari kain kantong', { exact: true }).fill(f.code)
+    await page.locator('form').filter({ has: page.getByLabel('Cari kain kantong', { exact: true }) })
+      .getByRole('button', { name: 'Cari', exact: true }).click()
+    await expect(page.getByText('KELUAR-' + f.code + ' / 1', { exact: true })).toBeVisible()
+    await page.getByLabel('Awal periode kain kantong').fill(f.period)
+    await page.getByLabel('Akhir periode kain kantong').fill(f.period)
+    await page.getByLabel('Alasan pembagian kain kantong').fill('Blind actual historical split')
+    await page.getByRole('button', { name: 'Lihat pembagian', exact: true }).click()
+    await page.getByRole('button', { name: 'Sahkan pembagian ke HPP', exact: true }).click()
+    await expect.poll(() => fixture('read', f).pools.length).toBe(1)
+    await page.getByRole('button', { name: 'Koreksi KELUAR-' + f.code + ' / 1', exact: true }).click()
+    await page.getByLabel('Nilai sumber kain kantong').fill('15.00')
+    await page.getByLabel('Tanggal koreksi kain kantong').fill(today)
+    await page.getByLabel('Alasan koreksi kain kantong').fill('Blind corrected source amount')
+    await page.getByRole('button', { name: 'Sahkan koreksi nilai', exact: true }).click()
+    await expect.poll(() => fixture('read', f).amount).toBe('15.00')
+    const after = fixture('read', f)
+    const delta = name => Number(after.ledger[name]) - Number(f.before[name])
+    assert.equal(delta('WIP'), 7.5)
+    assert.equal(delta('FG_INVENTORY'), 4.5)
+    assert.equal(delta('COGS'), 3.0)
+    assert.equal(after.pools[0][2], f.cut)
+    return { status: 'PASS', mobile: true, amount: after.amount,
+      allocations: { WIP: 7.5, FG: 4.5, COGS: 3.0 }, economic_day: f.cut }
+  } finally { await context.close() }
+}
+
 let preview, browser, proxy
 try {
   const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Jakarta',
@@ -186,6 +295,9 @@ try {
   const cases = [
     ['CONVERSION_DESKTOP', () => conversion(browser, today, false)],
     ['CONVERSION_MOBILE', () => conversion(browser, today, true)],
+    ['POCKET_MOBILE_CORRECTION', () => pocketBrowser(browser, today)],
+    ['REWORK_PARTIAL_COMPLETE_INVERSE', () => rework(browser, today, false)],
+    ['REDYE_UNKNOWN_FIRST_PRICE_MOBILE', () => rework(browser, today, true)],
     ['POCKET_CSV_IMPORT', () => pocketCsv(browser, today)],
   ]
   for (const [name, fn] of cases) {
