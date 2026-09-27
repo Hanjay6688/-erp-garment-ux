@@ -116,6 +116,10 @@ jobs:
       - name: Run independently authored native tests
         working-directory: auditor
         run: python audits/independent_bd_20260927/suite.py
+      - name: Run independently authored invoice lifecycle
+        if: always()
+        working-directory: auditor
+        run: python audits/independent_bd_20260927/lifecycle.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
