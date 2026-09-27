@@ -1,6 +1,6 @@
 -- CP6 BD: priced laundry deliveries, vendor invoices and owner laundry policy settings (LAU-05b, LAU-DEC01..06, ALL-W05). Release candidate of the T3 combined package; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_bd_t1_family.sql (sha256 e1706649bf664e125b1e4e7691bbd58eed08dbf0fce36e7aabdd633f6dcfc751): the T1 body below is unchanged apart from the
+-- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_bd_t1_family.sql (sha256 f480f8dd7dc2620e19994e328b971ef159ba81dca1b8272ae42b59e0d370f947): the T1 body below is unchanged apart from the
 -- ledger description; guards follow AO..AV. Capsule and catalog pins are placeholders until the T3 capture.
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
@@ -873,8 +873,10 @@ begin
   end loop;
   if v_total<=0 then raise exception 'BD_INTERNAL: bobot uang kosong';end if;
   for i in 1..cardinality(p_weights) loop
-    v_part:=v_cents*p_weights[i]/v_total;
-    v_base:=v_base||floor(v_part);v_frac:=v_frac||(v_part-floor(v_part));
+    -- Integer quotient/remainder keeps every cent even at NUMERIC(18,2)'s upper bound.
+    -- Decimal division can round an 18-digit quotient before floor() sees its fraction.
+    v_part:=v_cents*p_weights[i];
+    v_base:=v_base||div(v_part,v_total);v_frac:=v_frac||mod(v_part,v_total);
   end loop;
   select v_cents-sum(x) into v_left from unnest(v_base) x;
   while v_left>0 loop

@@ -97,7 +97,10 @@ def large_money(b,cur,today):
     fx=b.fixture(cur,today,'REV-MONEY');b.process_rate(cur,fx,'4321.09');b.invoice_policies(cur)
     delivery=b.plain_delivery(cur,fx,10,11)
     lines=[b.receipt_line(cur,b.receive(cur,delivery,fx,5,h)['receipt_id']) for h in [12,13]]
-    checks={};posted=[];total=D(0)
+    # Exact mathematical boundary: 999999999999999999 cents / 2 has a half-cent remainder.
+    # This directly qualifies the private splitter's range; it does not claim a full journal at this amount.
+    split=b.one(cur,"select erp.bd_split_money_v1(9999999999999999.99,array[1,1]::numeric[])")
+    checks=dict(split_upper_bound=split==[D('5000000000000000.00'),D('4999999999999999.99')]);posted=[];total=D(0)
     for amount in ['21474836.47','21474836.48','28123456.78']:
         _,p=b.invoice(cur,fx,[dict(line=lines[0],qty=1,amount=amount)],amount)
         posted.append(p);total+=D(amount);checks[amount]=p['status']=='POSTED'

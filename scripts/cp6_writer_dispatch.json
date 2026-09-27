@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 12,
+  "revision": 13,
   "phase": "after",
   "scenario_path": "scripts/cp6_bd_revision_modes.py",
   "browser_path": "scripts/cp6_bd_revision_browser.mjs",
-  "purpose": "BD audit revision: actual coverage, FREE/WAIVED, money boundary, current permission replay, package extras, 55/201 pagination and BD+BE redye route"
+  "purpose": "BD revision: exact numeric remainder at upper bound; rerun browser with repository-based module imports after temp-entrypoint loader refusal"
 }

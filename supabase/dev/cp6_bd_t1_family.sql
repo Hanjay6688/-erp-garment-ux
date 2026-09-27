@@ -709,8 +709,10 @@ begin
   end loop;
   if v_total<=0 then raise exception 'BD_INTERNAL: bobot uang kosong';end if;
   for i in 1..cardinality(p_weights) loop
-    v_part:=v_cents*p_weights[i]/v_total;
-    v_base:=v_base||floor(v_part);v_frac:=v_frac||(v_part-floor(v_part));
+    -- Integer quotient/remainder keeps every cent even at NUMERIC(18,2)'s upper bound.
+    -- Decimal division can round an 18-digit quotient before floor() sees its fraction.
+    v_part:=v_cents*p_weights[i];
+    v_base:=v_base||div(v_part,v_total);v_frac:=v_frac||mod(v_part,v_total);
   end loop;
   select v_cents-sum(x) into v_left from unnest(v_base) x;
   while v_left>0 loop

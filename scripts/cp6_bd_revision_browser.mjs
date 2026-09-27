@@ -1,8 +1,10 @@
 // Writer verification on actual Auth + browser + BD/BE database. No independent closure.
 import { execFileSync } from 'node:child_process'
-import { cases as originalBd } from './cp6_bd_browser.mjs'
-import { cases as completion } from './cp6_bd_completion_browser.mjs'
-import { cases as originalBe } from './cp6_be_browser.mjs'
+import { resolve } from 'node:path'
+import { pathToFileURL } from 'node:url'
+// The runtime copies this entrypoint to RUNNER_TEMP; cwd is the checked-out auditor repository.
+const [{ cases: originalBd }, { cases: completion }, { cases: originalBe }] = await Promise.all(
+  ['cp6_bd_browser.mjs', 'cp6_bd_completion_browser.mjs', 'cp6_be_browser.mjs'].map(name => import(pathToFileURL(resolve('scripts', name)).href)))
 const fixture = (operation, payload) => JSON.parse(execFileSync('python', ['../auditor/scripts/cp6_bd_revision_fixture.py', operation, JSON.stringify(payload)],
   { cwd: '../writer', encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 16 * 1024 * 1024 }).trim())
 async function openPricing(ui, user, vendor) {
