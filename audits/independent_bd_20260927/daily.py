@@ -65,6 +65,7 @@ def setup():
     C.update({k:uid() for k in ['model','brand','brand2','mandor','material','rawloc','fg','pattern','work_component','customer','daily_vendor']})
     with psycopg.connect(s.DSN) as c:
         c.execute("select set_config('app.change_reason','Independent daily master prerequisite',true)")
+        c.execute("select set_config('request.jwt.claim.sub',%s,true)",(C['owner'],))
         for key in ['brand','brand2']:c.execute('insert into erp.brands(id,brand_code,brand_name) values(%s,%s,%s)',(C[key],'AUD-'+key,'AUD-'+key))
         c.execute("insert into erp.product_models(id,model_code,model_name) values(%s,'AUD-DAY','Independent daily model')",(C['model'],))
         c.execute("insert into erp.contractors(id,contractor_code,contractor_name,contractor_type,attendance_required) values(%s,'AUD-DAY','Independent mandor','MANDOR',false)",(C['mandor'],))
@@ -81,7 +82,7 @@ def setup():
                 c.execute("insert into erp.products(id,identity_root_id,sku,model_id,brand_id,color_name,size_id,product_name,effective_from) values(%s,%s,%s,%s,%s,'AUD-NAVY',%s,'Independent same-SKU different-brand product','2026-09-01T08:00:00+07:00')",(pid,pid,'AUD-DAY-'+str([C['s1'],C['s2']].index(size)),C['model'],brand,size))
     C['daily_wash']=s.component(C['daily_vendor'],'AUD-WASH');C['daily_finish']=s.component(C['daily_vendor'],'AUD-FINISH');C['daily_unknown']=s.component(C['daily_vendor'],'AUD-UNKNOWN')
     s.rate(C['daily_wash'],'4321.09');s.rate(C['daily_finish'],'678.91');s.rate(C['daily_unknown'],None,status='UNKNOWN')
-    s.policy('LAU_DEC01',{'units':['PCS','BATCH']});s.terms('COMPONENTS',vendor=C['daily_vendor'])
+    s.policy('LAU_DEC01',{'units':['BATCH']});s.terms('COMPONENTS',vendor=C['daily_vendor'])
     s.policy('LAU_DEC02',{'billable':['GOOD']});s.policy('LAU_DEC04',{'sale_with_unknown_laundry':'ALLOW_PENDING'})
     s.policy('LAU_DEC06',{'variance_mode':'PRODUCT_COST','after_payment':'CORRECTION_DOCUMENT'})
     for key in ['K','U','R']:precursor(key)
@@ -207,6 +208,7 @@ def main():
     # Separate product identity for U sales will be supplied by fixture isolation if FIFO requires it.
     case('IND-30.UNKNOWN','ALLOW_PENDING sale retains explicit unknown-laundry marker',lambda:sell('U'),[('U','qc')])
     case('IND-09.DAILY','Resolving unknown cost after processing updates HPP without stock duplication',resolve_unknown,[('U','qc')])
+    case('IND-31.UNKNOWN','Invoice after resolving unknown price reconciles sold and remaining goods',lambda:invoice('U'),[('U','qc')])
     case('IND-10.OVERWRITE','Known posted charge cannot be overwritten',lambda:refuse(lambda:cmd('SET_CHARGE_PRICE',{'charge_line_id':admin('select id::text from erp.bd_laundry_charge_lines_v1 where delivery_line_id=%s order by line_no limit 1',(F['K']['delivery_line'],),one=True),'rate_per_pcs':'1.00','reason':'Independent overwrite attempt'})),[('K','delivery')])
     case('IND-25.DELIVERY','Unused shipment reversal restores sewing capacity and clears accrual',reverse_unused)
     save();print(json.dumps({'daily_counts':{x:sum(r['status']==x for r in R) for x in ['PASS','FAIL','BLOCKED']}}),flush=True)

@@ -91,7 +91,7 @@ def large_invoice(name, amount):
     initial_qty = life.billed('ATOMIC')
     draft = life.draft(name, [life.line('ATOMIC', 1, text_amount)], text_amount)
     raw = life.read_invoice(draft['invoice_id'])
-    s.eq(D(raw['header_total']), amount)
+    s.eq(D(str(raw['header_total'])), amount)
     s.eq((D(raw['discount_amount']), D(raw['tax_amount']), D(raw['rounding_amount'])), (D(0), D(0), D(0)))
     state_before = life.fingerprint(TABLES)
     observation = {'amount': text_amount, 'qty': 1, 'source': life.source('ATOMIC'),

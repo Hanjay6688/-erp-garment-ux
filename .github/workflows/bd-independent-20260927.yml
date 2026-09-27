@@ -131,6 +131,25 @@ jobs:
         if: always()
         working-directory: auditor
         run: python audits/independent_bd_20260927/daily.py
+      - name: Independent claim credit and cross-invoice continuation
+        if: always()
+        working-directory: auditor
+        run: python audits/independent_bd_20260927/credit.py
+      - uses: actions/setup-node@v4
+        if: always()
+        with: {node-version: '24'}
+      - name: Prepare independent browser runtime
+        if: always()
+        working-directory: auditor
+        run: |
+          set -euo pipefail
+          npm ci
+          npm install -g agent-browser@0.31.1
+          agent-browser install --with-deps
+      - name: Independent actual HTTP and browser checks
+        if: always()
+        working-directory: auditor
+        run: python audits/independent_bd_20260927/http_browser.py
       - name: Independent post-use rollback refusal
         if: always()
         working-directory: auditor
