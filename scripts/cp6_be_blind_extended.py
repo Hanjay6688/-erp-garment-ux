@@ -12,6 +12,7 @@ import uuid
 from datetime import timedelta
 from decimal import Decimal
 from pathlib import Path
+from copy import deepcopy
 
 import psycopg
 
@@ -94,6 +95,65 @@ def accessory(cur, day):
             "no_synthetic_income": True, "document": item["cost_document_id"],
             "valuation_refused_until_policy": True,
             "recovery_credit": "3.00", "inverse_recovery_restored": True}
+
+
+def accessory_scale(cur, day):
+    physical_day = day - timedelta(days=4)
+    bd.api.admin(cur)
+    source_product = bd.sized_product(cur, bd.chain.base.SIZE, "BLIND-100-SOURCE-" + uuid.uuid4().hex[:8])
+    target_product = bd.sized_product(cur, bd.chain.base.SIZE, "BLIND-100-TARGET-" + uuid.uuid4().hex[:8])
+    opening = str(uuid.uuid4())
+    cur.execute("""insert into erp.opening_balance_headers(id,opening_number,opening_date,status,created_by)
+        values(%s,%s,%s,'DRAFT',%s)""", (opening, "BLIND-100-" + opening, physical_day,
+                                           bd.chain.base.OPERATOR_APP))
+    cur.execute("""insert into erp.opening_balance_items(opening_id,balance_type,product_id,location_id,
+        qty,unit_cost_snapshot,quality_grade,hpp_input_method)
+        values(%s,'FINISHED_GOODS',%s,%s,100,1.00,'GRADE_A','MANUAL')""",
+        (opening, source_product, bd.chain.base.LOCATION))
+    bd.internal(cur, "post_opening_balance", opening)
+    lot = one(cur, "select id from erp.fg_lots where product_id=%s and lot_origin='OPENING'", source_product)
+    bc = bd.bcp
+    acc = bc.fixture(cur, physical_day, stock_qty=200, cost="2.00")
+    bc.policy(cur, "ACC_DEC04", {"OWN_FG_REPAIR_account_id": bc.account(cur, "5100")})
+    bc.policy(cur, "ACC_DEC07", {"approval": "NONE"})
+    bd.api.admin(cur)
+    before_stock = bc.stock(cur, acc["material"], acc["main"])
+    posting = be.be(cur, "POST", {"source_lot_id": str(lot),
+        "target_product_id": target_product, "location_id": bd.chain.base.LOCATION,
+        "qty_pcs": 100, "physical_at": bd.iso(bd.chain.production.at(physical_day + timedelta(days=1), 9)),
+        "reason": "Blind actual hundred-piece relabel",
+        "expected_version": one(cur, "select erp.be_source_revision_v1(%s,%s)", lot, bd.chain.base.LOCATION),
+        "expected_returns": [{"material_id": acc["material"], "qty": "100",
+                              "holder": "Blind teardown of hundred old tags"}]})
+    conv, dest = posting["conversion_id"], posting["destination_lot_id"]
+    before_value = bd.lot_value(cur, dest)
+    be.be(cur, "POST_USAGE", {"conversion_id": conv,
+        "expected_version": one(cur, "select erp.be_conversion_revision_v1(%s)", conv),
+        "location_id": acc["main"],
+        "physical_at": bd.iso(bd.chain.production.at(physical_day + timedelta(days=1), 10)),
+        "items": [{"material_id": acc["material"], "qty": "100"}],
+        "reason": "Blind actual replacement of hundred tags"})
+    assert bc.stock(cur, acc["material"], acc["main"]) == before_stock - 100
+    assert bd.lot_value(cur, dest) - before_value == Decimal("200.00")
+    outstanding = one(cur, "select outstanding_id from erp.be_conversion_returns_v1 where conversion_id=%s", conv)
+    old_income = bd.gl(cur, "OTHER_INCOME")
+    returned = bc.receive(cur, acc, "TEARDOWN", [(80, outstanding)],
+                          physical_day + timedelta(days=2), reference="Blind actual eighty returned")
+    return_lot = returned["lot_ids"][0]
+    bc.inspect(cur, return_lot, bc.local_at(physical_day + timedelta(days=2), 10),
+               "Blind scale inspection", usable=60, damaged=20)
+    state = bc.lot_state(cur, return_lot)
+    progress = one(cur, "select erp.be_return_progress_v1(%s)", conv)
+    assert progress[0]["expected"] == "100.000000"
+    assert progress[0]["received"] == "80.000000"
+    assert progress[0]["unreturned"] == "20.000000"
+    assert progress[0]["awaiting_value"] == "80.000000"
+    assert state["usable"] == 60 and state["damaged"] == 20
+    assert bd.gl(cur, "OTHER_INCOME") == old_income
+    return {"source_pcs": 100, "new_accessory_stock_delta": -100,
+            "new_cost_once": "200.00", "old_received": 80, "usable": 60,
+            "damaged": 20, "unreturned": 20, "awaiting_value": 80,
+            "no_synthetic_income": True}
 
 
 def nonpo_conversion(cur, day):
@@ -235,6 +295,26 @@ def rework(cur, day):
         raise AssertionError("Wrong-size rework target was accepted")
     assert one(cur, "select count(*) from erp.rework_orders where rework_number=%s",
                order["rework_number"]) == 0
+    wrong_model = str(uuid.uuid4())
+    cur.execute("insert into erp.product_models(id,model_code,model_name) values(%s,%s,%s)",
+                (wrong_model, "BLIND-" + wrong_model[:8], "Blind incompatible construction"))
+    incompatible_model = str(uuid.uuid4())
+    cur.execute("""insert into erp.products(id,sku,model_id,brand_id,color_name,size_id,
+        product_name,identity_root_id,effective_from,is_active,is_portal_visible)
+        select %s,%s,%s,brand_id,%s,size_id,%s,%s,effective_from,true,true
+        from erp.products where id=%s""", (incompatible_model,
+        "BLIND-MODEL-" + incompatible_model[:8], wrong_model,
+        "Blind construction", "Blind incompatible construction", incompatible_model, f["product"]))
+    try:
+        with cur.connection.transaction():
+            be.be(cur, "SAVE_REWORK", {"order": order, "target_product_id": incompatible_model,
+                                        "reason": "Blind wrong-model target must fail"})
+    except psycopg.Error as error:
+        assert "BE_DIMENSION_MISMATCH" in error.diag.message_primary, error.diag.message_primary
+    else:
+        raise AssertionError("Wrong-model rework target was accepted")
+    assert one(cur, "select count(*) from erp.rework_orders where rework_number=%s",
+               order["rework_number"]) == 0
     made = be.be(cur, "SAVE_REWORK", {"order": order, "target_product_id": target,
                                         "reason": "Blind same-construction target"})
     rid = made["rework_id"]
@@ -269,7 +349,8 @@ def rework(cur, day):
     assert be.qty(cur, source) == 0 and be.qty(cur, dest) == 0
     return {"partial": partial[0], "partial_fg": 0, "good_target": 2, "bs": 2,
             "source_shadow_good": 0, "replay_same": True, "inverse_zero": True,
-            "wrong_size_refused_without_order": True}
+            "wrong_size_refused_without_order": True,
+            "wrong_model_refused_without_order": True}
 
 
 def zero_redye(cur, day):
@@ -483,6 +564,37 @@ def closed_pocket_correction(cur, day):
             "delta": {k: str(v) for k, v in delta.items()}, "inverse_restored": True}
 
 
+def pocket_import_refusals(cur, day):
+    cut = day - timedelta(days=10)
+    template = pocket.active_unit(cur, pocket.rows(cut))
+    checks = (
+        ("missing_document", lambda r: r["OPENING_POCKET_USAGE"][0].update(document_number=""), "BE_POCKET_PROVENANCE"),
+        ("missing_prior_reference", lambda r: r["OPENING_POCKET_USAGE"][0].update(allocation_status="ALLOCATED"), "BE_POCKET_PRIOR_ALLOCATION"),
+        ("future_history", lambda r: r["OPENING_POCKET_USAGE"][0].update(physical_date=str(cut)), "BE_POCKET_DATE"),
+        ("incomplete_numerator", lambda r: r["OPENING_POCKET_USAGE"][0].update(control_amount="12.00"), "BE_POCKET_CONTROL"),
+        ("incomplete_denominator", lambda r: r["OPENING_POCKET_SEWING"].pop(), "BE_POCKET_DENOMINATOR_INCOMPLETE"),
+        ("fractional_piece", lambda r: r["OPENING_POCKET_SEWING"][0].update(qty="4.5"), "BE_POCKET_SEWING_PCS"),
+        ("missing_target", lambda r: r["OPENING_POCKET_SEWING"][0].update(target_source_key="ABSENT"), "BE_POCKET_TARGET_SOURCE_REQUIRED"),
+    )
+    observed = {}
+    for label, edit, expected in checks:
+        rows = deepcopy(template)
+        edit(rows)
+        before = one(cur, "select count(*) from erp.journal_entries")
+        bd.api.admin(cur)
+        cur.execute("savepoint blind_import_bad_file")
+        try:
+            result = bd.bbp.production_post(cur, day, rows, expect=True)
+            assert expected in str(result["errors"]), (label, expected, result["errors"])
+            assert one(cur, "select count(*) from erp.journal_entries") == before, label
+            observed[label] = expected
+        finally:
+            bd.api.admin(cur)
+            cur.execute("rollback to savepoint blind_import_bad_file")
+            cur.execute("release savepoint blind_import_bad_file")
+    return {"refused": observed, "draft_failures_no_ledger": True}
+
+
 def main():
     report = {"candidate": "2c2fd5e8e0df5f8ada44402c93f70dbaf0fbbb5b",
               "status": "INCOMPLETE", "production_go": False, "cases": {}}
@@ -493,13 +605,15 @@ def main():
                 cur.execute("grant usage on schema erp to authenticated")
             bd.api.seed(cur)
         bd.boundary.historical.prior.set_open_period(cur, day - timedelta(days=30))
-        for name, case in (("B02_B03_ACCESSORY", accessory), ("B03_NONPO_OPENING", nonpo_conversion),
+        for name, case in (("B02_B03_ACCESSORY", accessory), ("B02_SCALE_100", accessory_scale),
+                           ("B03_NONPO_OPENING", nonpo_conversion),
                            ("B03_SOLD_CHILD_RECOST", sold_child_recost),
                            ("B04_REWORK", rework),
                            ("B05_SMALL_REDYE", paid_redye), ("B06_EXPLICIT_ZERO", zero_redye),
                            ("B06_LATER_RATE", later_rate_redye),
                            ("B08_AFUI_MIX", afui_mix), ("B08_CLOSED_CORRECTION", closed_pocket_correction),
-                           ("B09_POCKET_IMPORT", pocket_import)):
+                           ("B09_POCKET_IMPORT", pocket_import),
+                           ("B09_IMPORT_NEGATIVES", pocket_import_refusals)):
             bd.api.admin(cur)
             cur.execute("savepoint blind_extended_case")
             try:
