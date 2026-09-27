@@ -2276,8 +2276,8 @@
       "name": "erp_v2_6_20be_cp6_conversion_redye_pocket",
       "closed_admission": true,
       "source": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
-      "source_sha256": "983d3364ddac45d804e6359cf378127d6e2bb98035834df8e961158e4bfeb4c8",
-      "package_sha256": "8702e951df88e859c7e49ddcad6764eb59943986fa9717f42669989d0367f0a7",
+      "source_sha256": "9b9feb8af7a137588748e1e9cc900d423d4efd2b3119dbf4fc00331d521cc5f8",
+      "package_sha256": "80cfbc8877cf5605d0f7ac147d9cd437f0caea1fa9ab177ce664fb14c33633fe",
       "substitutions": [
         {
           "kind": "LEDGER",
@@ -2526,8 +2526,8 @@
   "release_evidence": false,
   "rollbacks": "NOT_TESTED",
   "pins": {
-    "file": "docs/evidence/cp6-t3/be_pins_36332585995.json",
-    "blob_sha256": "f2fc82d9af87b6ac84fe9b37626f848a518d584e8356bd8376de5fa7be1a8ebd",
+    "file": "docs/evidence/cp6-t3/be_pins_36334558775.json",
+    "blob_sha256": "64f99a9d4104207ecf68c64e7b5f0b9aa37eab8e39284cde45aace76b81f3ef5",
     "blob_bytes": 118733
   }
 }

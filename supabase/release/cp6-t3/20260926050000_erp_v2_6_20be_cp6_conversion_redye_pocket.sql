@@ -1,6 +1,6 @@
 -- CP6 BE: physical SKU conversion, rework/redye service and historical pocket allocation (LAU-06b and ALL-C04). Release candidate of the T3 combined package; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_be_t1_family.sql (sha256 5360a2338155c77410761a30a5dee9c73206fb756b30444e9c84fd9d08ae494c): the T1 body below is unchanged apart from the
+-- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_be_t1_family.sql (sha256 a540f9a99ba9cb3f8bc99e95cde45a0c31bd1c1468a9f1a50e233f2fc4552384): the T1 body below is unchanged apart from the
 -- ledger description; guards follow AO..AV. Capsule and catalog pins are placeholders until the T3 capture.
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
@@ -1067,7 +1067,14 @@ CREATE OR REPLACE FUNCTION erp.be_apply_pocket_imports_v1(p_batch uuid)
 AS $function$
 declare r record;j jsonb;c jsonb;v_id uuid;v_date date;v_journal uuid;v_item uuid;v_po uuid;
 begin
- perform erp.require_owner_admin();perform erp.pocket_period_lock_v1();
+ perform erp.require_owner_admin();
+ -- The router already holds the batch row lock. Imports without pocket rows
+ -- must retain their native request-lock behavior and not claim this domain lock.
+ if not exists(select 1 from erp.migration_staging_rows where batch_id=p_batch
+   and entity_type in('OPENING_POCKET_USAGE','OPENING_POCKET_SEWING') and posted_entity_id is null) then
+  return;
+ end if;
+ perform erp.pocket_period_lock_v1();
  select erp._cp3_business_date(cutover_at) into strict v_date from erp.migration_batches where id=p_batch;
  for r in select * from erp.migration_staging_rows where batch_id=p_batch and entity_type in('OPENING_POCKET_USAGE','OPENING_POCKET_SEWING') and posted_entity_id is null order by entity_type,source_row_no loop
   if r.validation_status<>'VALID' then raise exception 'BE_POCKET_IMPORT_NOT_VALID';end if;
@@ -6839,7 +6846,7 @@ with relations as (
 select coalesce(jsonb_object_agg(k,encode(extensions.digest(convert_to(v::text,'UTF8'),'sha256'),'hex')),'{}'::jsonb) from objects
 ) catalog;
  select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(length(key)::text||':'||key||':'||value,E'\n' order by key collate "C"),''),'UTF8'),'sha256'),'hex') into object_count,fingerprint from jsonb_each_text(actual);
- if object_count<>9112 or fingerprint is distinct from '7fce1150212991affd693574bafc1157e0e95a5feb4aa52fd33ff50a96f41249' then
+ if object_count<>9112 or fingerprint is distinct from '5755fe1214450c1b580e4e2f6ab68f781d66428901d63e35751e78365c88fd1f' then
   raise exception 'BE_INSTALLED_CATALOG_DRIFT';
  end if;
 end $catalog_guard$;
