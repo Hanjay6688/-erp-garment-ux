@@ -62,6 +62,7 @@ def recovery():
     vp={'lot_id':lot,'condition':'USABLE','qty':'2','unit_value':'7.13','location_id':C['rawloc'],'physical_at':'2026-09-17T08:00:00+07:00','reason':'Explicit synthetic recovery value, two usable tags'}
     pending=n.reject(lambda:bc('VALUE_CUSTODY',vp),'PENDING')
     bp('ACC_DEC03',{'credit_account_id':X['expense'],'unit_value_cap':'NONE'})
+    X['recovery']={'receipt':rec,'lot':lot,'conversion':r,'valuation_payload':vp,'before_material':str(beforemat),'before_value':str(beforevalue),'inspection':ins,'pending_policy_refusal':pending};persist()
     val=bc('VALUE_CUSTODY',vp);eq(matqty(C['tag']),beforemat+2);eq(n.value(r['destination_lot_id']),beforevalue-D('14.26'))
     X['recovery']={'receipt':rec,'lot':lot,'conversion':r,'valuation':val}
     return {'conversion':r,'received':rec,'inspected':ins,'pending_policy_refusal':pending,'valued':val,'actual_stock_added':2,'target_value':n.value(r['destination_lot_id']),'unreturned':2,'damaged_pending':1}
@@ -123,13 +124,17 @@ def complete(k='KNOWN',good=5,bad=2):
 def redye_replay():
     f=rsource('KNOWN');before=n.fp();r=n.bs('COMPLETE_REWORK',f['complete_payload'],f['complete_version'],f['complete_request']);eq(n.fp(),before);eq(r,f['completion']);return r
 
+def physical_fingerprint():
+    # Unit-cost snapshots may legitimately be recosted; physical facts must not change.
+    return {'fg_stock_movements':A("select md5(coalesce(string_agg((to_jsonb(t)-'unit_hpp_snapshot')::text,'' order by id),'')) from erp.fg_stock_movements t",one=True),**n.fp(['bs_cases','bs_resolutions','rework_orders'])}
+
 def redye_invoice(k='KNOWN',amount='1417.53'):
     f=rsource(k);lines=[{'line_kind':'BILL','rework_service_id':f['service'],'category':'GOOD','qty':5,'amount':'1012.52','note':'Independent actual invoice good share'}, {'line_kind':'BILL','rework_service_id':f['service'],'category':'BS','qty':2,'amount':'405.01','note':'Independent actual invoice serviced BS'}]
     p={'vendor_id':C['daily_vendor'],'invoice_number':'BE-AUD-REDYE-ACTUAL','invoice_date':'2026-09-19','header_total':amount,'lines':lines}
-    phy=n.fp(['fg_stock_movements','bs_cases','bs_resolutions','rework_orders'])
-    dr=s.command('SAVE_INVOICE_DRAFT',p);eq(n.fp(['fg_stock_movements','bs_cases','bs_resolutions','rework_orders']),phy)
+    phy=physical_fingerprint()
+    dr=s.command('SAVE_INVOICE_DRAFT',p);eq(physical_fingerprint(),phy)
     r=s.command('POST_INVOICE',{'invoice_id':dr['invoice_id'],'expected_version':str(dr['row_version'])});f['invoice']=r
-    eq(pogl(f['po']),D('14307.24'));eq(n.fp(['fg_stock_movements','bs_cases','bs_resolutions','rework_orders']),phy)
+    eq(pogl(f['po']),D('14307.24'));eq(physical_fingerprint(),phy)
     vals=A('select sum(l.net_amount),sum(l.released_estimate),sum(l.product_variance) from erp.bd_laundry_invoice_lines_v1 l where invoice_id=%s',(r['invoice_id'],))[0];eq(vals,(D('1417.53'),D('1381.17'),D('36.36')))
     return {'draft':dr,'posted':r,'net_estimate_delta':vals,'total_cost':'14307.24','physical_unchanged':phy}
 

@@ -51,3 +51,10 @@ seven opening FG at 1,234.57 (8,641.99) and six genuinely sold historical PCS.
 Source allocation increases FG to 8,704.83; 53.87 goes to historical COGS.
 A separate live roll test preserves raw source precision 6.75 × 17.29 and checks
 the native monetary boundary at 116.71. These are separate real source types.
+
+## Before run 4: audit adapter repairs, not changed business expectations
+- Run 3 demoted the only OWNER and hit LAST_ACTIVE_OWNER_PROTECTED before the intended check. Use the already positively tested ADMIN writer as revocation subject; retain OWNER.
+- Run 3 pocket race's second actor lacked warehouse.stock.adjust. That row is not concurrency proof. Grant the disposable ADMIN this specific permission, verify both actors before barrier, and reject authorization errors as race evidence.
+- Redye invoice correctly reached total 14307.24, but full stock-row comparison included mutable unit_hpp_snapshot. Compare all physical movement fields excluding this explicitly recostable value; compare complete BS/resolution/rework facts. Numeric invoice oracle unchanged.
+- Persist partial recovery evidence before valuation; the observed negative HPP component constraint remains a candidate failure, not repaired.
+- Browser inputs use real UI, GoTrue and PostgREST. Lost-response probe drops one response after actual DB commit and must reconcile the identical UUID/payload once.

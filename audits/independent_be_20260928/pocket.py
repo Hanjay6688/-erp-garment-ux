@@ -70,13 +70,15 @@ def cancel():
 def overlap():return n.reject(lambda:n.pocket('POST_PERIOD',{**X['pocket_period']['payload'],'reason':'Independent overlapping period'}),'tumpang tindih')
 def stale_correct():return n.reject(lambda:n.pocket('CORRECT_OPENING_USAGE',{'usage_id':X['pocket_history']['usage'],'amount':'131.00','expected_amount':'116.71','economic_date':'2026-09-19','reason':'Independent stale source amount'}),'STALE_VERSION')
 def race():
+    for who in ['owner','admin']:
+        with s.actor_conn(who) as c: assert c.execute("select erp.has_permission('warehouse.stock.adjust')").fetchone()[0],who
     p=preview();payload={'period_start':p['period_start'],'period_end':p['period_end'],'expected_revision':p['revision'],'reason':'Independent two-operator allocation race'};bar=threading.Barrier(2)
     def go(who):
         bar.wait()
         try:return {'actor':who,'accepted':True,'response':n.pocket('POST_PERIOD',payload,who=who)}
         except psycopg.Error as e:return {'actor':who,'accepted':False,'error':str(e),'sqlstate':e.sqlstate}
     with ThreadPoolExecutor(2) as pool:rs=list(pool.map(go,['owner','admin']))
-    eq(sum(x['accepted'] for x in rs),1);X['pocket_period']={'result':next(x['response'] for x in rs if x['accepted']),'payload':payload}
+    eq(sum(x['accepted'] for x in rs),1);assert all('PERMISSION' not in x.get('error','') for x in rs),rs;X['pocket_period']={'result':next(x['response'] for x in rs if x['accepted']),'payload':payload}
     return {'actors':[C['owner'],C['admin']],'results':rs}
 def source_guard():
     r=n.imp('CREATE',{'batch_code':'BE-AUD-BLOCKED-HIST','cutover_date':'2026-09-10','notes':'Independent historical membership conflict'})

@@ -68,6 +68,8 @@ def setup():
         c.execute("select set_config('app.change_reason','Independent BE roles prerequisite',true)")
         rid=c.execute('select role_id from erp.app_users where auth_user_id=%s',(C['staff'],)).fetchone()[0]
         c.execute("insert into erp.app_role_permissions(role_id,permission_key) values(%s,'warehouse.brand_conversion.view')",(rid,))
+        arid=c.execute('select role_id from erp.app_users where auth_user_id=%s',(C['admin'],)).fetchone()[0]
+        c.execute("insert into erp.app_role_permissions(role_id,permission_key) values(%s,'warehouse.stock.adjust') on conflict do nothing",(arid,))
     # All base lots are established before any conversion adds or removes cost.
     keys=['MAIN','EMPTY','REV','CHAIN','STALE','RACE','SAME','AUTH','DATE','BAD','UI','UI_MOBILE','SALE','RETURNS','EXTRA']
     for index,key in enumerate(keys):
@@ -122,17 +124,17 @@ def viewer():
     for x in r['documents']:eq(x['target_value'],None);eq(x['extra_cost'],None)
     return {'workspace':r,'preview':preview,'post_refused':reject(lambda:cmd('POST',p,who='staff'))}
 def revoke():
-    p=pconv('AUTH');q=uid();r=cmd('POST',p,q)
-    own=A('select role,role_id from erp.app_users where auth_user_id=%s',(C['owner'],))[0];viewer_role=A('select role_id from erp.app_users where auth_user_id=%s',(C['staff'],),one=True)
+    p=pconv('AUTH');q=uid();r=cmd('POST',p,q,who='admin')
+    own=A('select role,role_id from erp.app_users where auth_user_id=%s',(C['admin'],))[0];viewer_role=A('select role_id from erp.app_users where auth_user_id=%s',(C['staff'],),one=True)
     try:
         with psycopg.connect(s.DSN) as c:
             c.execute("select set_config('app.change_reason','Independent permission revocation fixture',true)")
-            c.execute("update erp.app_users set role='STAFF',role_id=%s where auth_user_id=%s",(viewer_role,C['owner']))
-        denied=reject(lambda:cmd('POST',p,q));fresh=reject(lambda:cmd('POST',p))
+            c.execute("update erp.app_users set role='STAFF',role_id=%s where auth_user_id=%s",(viewer_role,C['admin']))
+        denied=reject(lambda:cmd('POST',p,q,who='admin'));fresh=reject(lambda:cmd('POST',p,who='admin'))
     finally:
         with psycopg.connect(s.DSN) as c:
             c.execute("select set_config('app.change_reason','Restore disposable owner after permission test',true)")
-            c.execute('update erp.app_users set role=%s,role_id=%s where auth_user_id=%s',(*own,C['owner']))
+            c.execute('update erp.app_users set role=%s,role_id=%s where auth_user_id=%s',(*own,C['admin']))
     return {'positive':r,'revoked_replay':denied,'revoked_fresh':fresh}
 def direct():
     out=[]
