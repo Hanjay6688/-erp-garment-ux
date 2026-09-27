@@ -238,7 +238,8 @@ def fill(label,value,who='owner'):
     control='(document.querySelector('+json.dumps(selector)+')||Array.from(document.querySelectorAll("label")).find(l=>l.textContent.trim()==='+json.dumps(label)+')?.control)'
     ab('wait','--fn',"(()=>{const e="+control+";return !!e&&!e.disabled;})()",who=who)
     ab('snapshot','-i',who=who);ab('find','label',label,'fill',value,who=who)
-    actual=evaluate(control+'.value',who)
+    # Preserve numeric-looking input text while unwrapping the CLI JSON output.
+    actual=evaluate('({value:'+control+'.value})',who)['value']
     assert actual==str(value),{'input_entry_prerequisite':label,'expected':str(value),'actual':actual}
 
 def select(label,value,who='owner'):
