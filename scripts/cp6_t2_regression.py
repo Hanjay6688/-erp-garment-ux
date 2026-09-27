@@ -7,6 +7,8 @@ Every case is compared with the AU recorded outcome per case id (H-01 comparator
 disposition instead of being absorbed by a count. No oracle is edited and no historical HOLD is resolved here.
 
 Label: T2_REGRESSION while the candidate is stable; T2_PRELIMINARY otherwise (set CP6_T2_LABEL).
+BE-23: FINALIZE without pocket staging rows must preserve all 28 AR race schedules. The BE adapter
+now returns before taking its domain lock for these batches; the frozen ACTION race remains unchanged.
 
 CP6_T2_SEED=QUIETED (run 2): run 1 (35911656309) moved 145 regression and 7 AR cases, every one stopped by POLICY
 blockers of the harness seed itself (4 seed workers without attendance, one seed payroll CALCULATED, seed contractor

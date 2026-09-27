@@ -903,7 +903,14 @@ CREATE OR REPLACE FUNCTION erp.be_apply_pocket_imports_v1(p_batch uuid)
 AS $function$
 declare r record;j jsonb;c jsonb;v_id uuid;v_date date;v_journal uuid;v_item uuid;v_po uuid;
 begin
- perform erp.require_owner_admin();perform erp.pocket_period_lock_v1();
+ perform erp.require_owner_admin();
+ -- The router already holds the batch row lock. Imports without pocket rows
+ -- must retain their native request-lock behavior and not claim this domain lock.
+ if not exists(select 1 from erp.migration_staging_rows where batch_id=p_batch
+   and entity_type in('OPENING_POCKET_USAGE','OPENING_POCKET_SEWING') and posted_entity_id is null) then
+  return;
+ end if;
+ perform erp.pocket_period_lock_v1();
  select erp._cp3_business_date(cutover_at) into strict v_date from erp.migration_batches where id=p_batch;
  for r in select * from erp.migration_staging_rows where batch_id=p_batch and entity_type in('OPENING_POCKET_USAGE','OPENING_POCKET_SEWING') and posted_entity_id is null order by entity_type,source_row_no loop
   if r.validation_status<>'VALID' then raise exception 'BE_POCKET_IMPORT_NOT_VALID';end if;

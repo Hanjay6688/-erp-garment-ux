@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 10,
+  "revision": 11,
   "phase": "after",
   "scenario_path": "scripts/cp6_be_modes.py",
   "browser_path": "scripts/cp6_be_browser.mjs",
-  "purpose": "BE-22: CSV import plus existing full modes, with signed exact-money fixture parsing for the opening-equity assertion"
+  "purpose": "BE-23: full native modes and CSV import after making the pocket adapter inert for batches without pocket rows"
 }
