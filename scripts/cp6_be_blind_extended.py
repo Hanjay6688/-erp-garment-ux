@@ -156,6 +156,41 @@ def accessory_scale(cur, day):
             "no_synthetic_income": True}
 
 
+def accessory_usage_inverse(cur, day):
+    f = be.fixture(cur, day)
+    bc = bd.bcp
+    acc = bc.fixture(cur, f["day"], stock_qty=100, cost="2.00")
+    bc.policy(cur, "ACC_DEC04", {"OWN_FG_REPAIR_account_id": bc.account(cur, "5100")})
+    bc.policy(cur, "ACC_DEC07", {"approval": "NONE"})
+    bd.api.admin(cur)
+    posting = be.be(cur, "POST", f["payload"])
+    dest, conv = posting["destination_lot_id"], posting["conversion_id"]
+    base_value = bd.lot_value(cur, dest)
+    item = be.be(cur, "POST_USAGE", {
+        "conversion_id": conv, "expected_version": one(cur, "select erp.be_conversion_revision_v1(%s)", conv),
+        "location_id": acc["main"], "physical_at": f["payload"]["physical_at"],
+        "items": [{"material_id": acc["material"], "qty": "6"}],
+        "reason": "Blind six sourced replacements before inverse"})
+    assert bc.stock(cur, acc["material"], acc["main"]) == 94
+    assert bd.lot_value(cur, dest) - base_value == Decimal("12.00")
+    try:
+        with cur.connection.transaction():
+            be.be(cur, "REVERSE", {"conversion_id": conv,
+                "reason": "Blind must block inverse before cost reversal"})
+    except psycopg.Error as error:
+        assert "BE_REVERSE_DEPENDANTS" in error.diag.message_primary, error.diag.message_primary
+    else:
+        raise AssertionError("Conversion reversed with active sourced usage")
+    bc.reverse(cur, item["cost_document_id"])
+    assert bc.stock(cur, acc["material"], acc["main"]) == 100
+    assert bd.lot_value(cur, dest) == base_value
+    be.be(cur, "REVERSE", {"conversion_id": conv,
+        "reason": "Blind inverse once usage source reversed"})
+    assert (be.qty(cur, f["lot"]), be.qty(cur, dest)) == (10, 0)
+    return {"new_cost": "12.00", "dependent_inverse_refused": True,
+            "usage_inverse_restored_stock": 100, "source_and_target_inverse": [10, 0]}
+
+
 def nonpo_conversion(cur, day):
     economic = day - timedelta(days=3)
     bd.api.admin(cur)
@@ -606,6 +641,7 @@ def main():
             bd.api.seed(cur)
         bd.boundary.historical.prior.set_open_period(cur, day - timedelta(days=30))
         for name, case in (("B02_B03_ACCESSORY", accessory), ("B02_SCALE_100", accessory_scale),
+                           ("B03_USAGE_INVERSE", accessory_usage_inverse),
                            ("B03_NONPO_OPENING", nonpo_conversion),
                            ("B03_SOLD_CHILD_RECOST", sold_child_recost),
                            ("B04_REWORK", rework),
