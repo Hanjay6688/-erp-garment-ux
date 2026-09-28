@@ -24,7 +24,7 @@ def fixture(cur,today,fabric=False,credit='10.00',return_qty=2):
     cur.execute("insert into erp.material_supplier_returns(id,return_number,supplier_id,location_id,physical_at,status,reason) values(%s,%s,%s,%s,%s,'DRAFT','Supplier responsibility return')",
       (ret,'CR-RETURN-'+ret,fx['supplier'],fx['main'],bc.local_at(today-timedelta(days=2),9)))
     cur.execute('insert into erp.material_supplier_return_items(return_id,material_id,roll_id,qty,purchase_item_id,supplier_credit_unit_price) values(%s,%s,%s,%s,%s,%s)',(ret,fx['material'],roll,return_qty,item,credit))
-    bc.internal(cur,'post_material_supplier_return',ret)
+    bc.internal(cur,'post_material_supplier_return_v2',ret,str(uuid.uuid4()),one(cur,'select row_version from erp.material_supplier_returns where id=%s',ret),'Post supplier return credit fixture')
     return dict(fx,purchases=purchases,ret=ret)
 
 def call(cur,payload,key=None,auth=None):
@@ -49,7 +49,8 @@ def allocation(cur,today,fabric=False):
     split=state(cur,f)
     wrong=payload(cur,f,[(z,'20.01')]);refused=b.refused(cur,lambda:call(cur,wrong),'BF_CREDIT_EXCEEDS_RETURN')
     stale=b.refused(cur,lambda:call(cur,request),'STALE_VERSION')
-    held=b.refused(cur,lambda:bc.internal(cur,'reverse_material_supplier_return',f['ret'],'No orphaned allocation'),'BF_CREDIT_RETURN_IN_USE')
+    held=b.refused(cur,lambda:bc.internal(cur,'reverse_material_supplier_return_v2',f['ret'],'No orphaned allocation',str(uuid.uuid4()),
+      one(cur,'select row_version from erp.material_supplier_returns where id=%s',f['ret'])),'BF_CREDIT_RETURN_IN_USE')
     restored=call(cur,payload(cur,f,[]));after=state(cur,f)
     checks=dict(original=before['ap']==['80.00','100.00','60.00'],split=split['ap']==['100.00','88.00','52.00'],
       amount_once=split['ledger']==before['ledger'],stock_once=b.D(split['stock'])==b.D(before['stock'])==28,hpp_unchanged=split['values']==before['values'],
@@ -76,7 +77,7 @@ def cash_and_reallocation(cur,today):
 
 def race(tools,today,commit):
     with tools.connect() as conn,conn.cursor() as cur:
-        with _fixture_usage(cur):f=fixture(cur,today)
+        f=fixture(cur,today)
         a=payload(cur,f,[(f['purchases'][1],'20.00')]);z=payload(cur,f,[(f['purchases'][2],'20.00')]);conn.commit()
     held,contention,outcome=tools.two_sessions(lambda cur:call(cur,a),lambda cur:call(cur,z),commit)
     with tools.connect() as conn,conn.cursor() as cur:after=state(cur,f);conn.rollback()
