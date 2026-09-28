@@ -3,12 +3,37 @@
 Status: **CP6 HOLD; production_go=false; audit_complete=false; CP7 belum boleh mulai.**
 
 **Pembaruan takeover 28 September:** koreksi sumber tarif R16, rincian laundry
-kosong sampai kontra bon, riwayat cucian SKU, dan temuan PR30 yang masih relevan
-telah dikerjakan. Bukti terbaru ada di
-[handover kelanjutan writer](cp6-writer-takeover-20260928.md). Pernyataan
-"belum retest" dan angka tes pada bagian lama di bawah merekam checkpoint asal;
-tidak menggantikan hasil kelanjutan tersebut. Status CP6 dan temuan lain tetap
-mengikuti batas masing-masing.
+kosong sampai kontra bon, kredit lintas tagihan dan PR30 sudah dilanjutkan dengan
+eksekusi gabungan R03/R06–R09/R11–R14 serta paket **AC..BF (30 berkas)**.
+Bukti dan status terbaru ada di [handover alur gabungan dan paket BF](cp6-combined-release-writer-handoff-20260928.md)
+serta [hasil per kasus](cp6-combined-release-writer-proof-20260928.json).
+Pernyataan "belum retest", "perlu eksekusi" dan "paket hanya BE" pada arsip di
+bawah merekam checkpoint asal; tidak menggantikan hasil kelanjutan tersebut.
+
+## Status lanjutan dan batas nyata
+
+| ID | Hasil/batas kelanjutan |
+|---|---|
+| R03 | Native membuktikan dua referensi untuk ukuran yang sama perlu wave fisik terpisah; input ganda satu wave ditolak atomik. |
+| R04/R05 | Alasan tarif SKU ditarik. Sumber vendor tetap benar, SKU opsional. |
+| R06 | Tambah anggota pada PO berjalan: resep identik lanjut sampai QC/HPP; resep berbeda menolak tanpa mengubah lot lama. |
+| R07 | Keempat kombinasi komitmen resep sudah/belum ada × mandor sama/berbeda setelah pindah range lulus, termasuk inverse. |
+| R08 | Receipt Laundry BS tanpa produk fisik menolak sebelum entitlements; setelah identifikasi, sumber pekerjaan tepat. Pemeriksaan pesan tanpa kode diperbaiki pada fixture. |
+| R09 | Kode komersial diterima pada pencarian konversi dan impor bertanggal; identitas fisik tetap, inverse konversi exact-size lulus. |
+| R10 | Halaman penjualan existing masih simulasi. Native jual/retur tidak menjadi bukti posting penjualan dari browser. |
+| R11 | Jual 4 PCS ukuran 34, pindah range, biaya susulan +160, retur satu lot asal, pembalikan biaya lulus untuk harga awal dikenal dan UNKNOWN. |
+| R12 | Dua versi fisik nyata dengan konstruksi sama diuji; alias historis dan product_id eksplisit menjaga sumber. Nama berubah saja bukan successor fisik. |
+| R13 | Paket+extra parsial, dua attempt berbayar, 18 GOOD/1 BS/1 hilang, invoice/koreksi/klaim serta dua rewash garansi lulus dalam satu kasus gabungan. |
+| R14 | Dua lokasi, ukuran nol FG, biaya pending/kontra bon/inverse lulus. Grade B hanya filter kosong; stok multi-grade berisi belum diklaim. |
+| R15 | Paket 30 berkas BF sudah terpasang, pins deterministik dan restore lulus. Rollback 147 pemeriksaan lulus. Status runtime akhir ada di handoff; CP6 independen tetap terpisah. |
+| R16/PR30 | Tetap mengikuti bukti sumber vendor, stale binding sebelum jasa pertama, dan workspace historis pada kelanjutan writer; tidak menghidupkan tarif laundry per SKU/ukuran. |
+
+Hasil akhir `add1704a`, run `36452814728`: **90 native, 22 contention, 8 Auth/HTTP,
+dan 27 browser BF PASS**, ditambah 10 browser AU PASS. Tidak ada FAIL/INCOMPLETE;
+capture/install/browser paket semuanya sukses. Batas R03/R10/R14 di atas tetap
+berlaku; angka ini tidak menggantikan keputusan audit independen CP6.
+
+## Arsip checkpoint awal
 
 Ini pemeriksaan writer atas source efektif dan kasus tambahan, bukan audit independen seluruh ERP. Tidak ada akses/tulisan data production, UAT, atau legacy. Dokumen ini menambah temuan yang belum tercakup pada handoff BF sebelumnya; tidak membuka ulang bug BD/BE yang sudah dinyatakan sembuh oleh auditor tanpa bukti baru.
 

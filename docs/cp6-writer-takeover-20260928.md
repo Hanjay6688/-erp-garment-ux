@@ -5,7 +5,22 @@ pending kontra bon, relevant PR30 findings, and same-supplier return credit fami
 Stop writing and inform Hansen if another writer pushes. Unpushed work in another
 chat cannot be observed. CP6 HOLD; audit_complete=false; production_go=false.
 
-## Latest result — writer continuation qualified
+## Latest continuation — combined flows and the BF release package
+
+The work after the checkpoint below is recorded in the
+[combined-flow and BF package handoff](cp6-combined-release-writer-handoff-20260928.md)
+and its [per-case proof](cp6-combined-release-writer-proof-20260928.json).
+It adds native running-PO/range/rework/return/import/partial-wash cases and the
+30-file AC..BF package, including exact rollback and backup/restore qualification.
+Read that handoff for the current run status and remaining acceptance boundary.
+Final installed-package run 36452814728 on `add1704a` passed 90 native, 22
+contention, 8 real Auth HTTP and 27 BF browser cases, plus 10 AU browser cases.
+All three package jobs passed. Packaged rollback run 36450928491 passed 147 checks;
+build and CodeQL passed. The follow-on writer scope is qualified; independent
+CP6 acceptance and the explicitly documented UI/coverage boundaries remain.
+The 133-case checkpoint below is historical, not a claim that all CP6 gates closed.
+
+## Earlier checkpoint — vendor authority and portable credit qualified
 
 Product commit **86f057c0308617fd92564ba586b8940ff0725bee** is qualified within the
 scope below. [Run 36415977301](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36415977301)

@@ -1,0 +1,5224 @@
+{
+  "label": "WRITER_CP6_COMBINED_AND_BF_RELEASE",
+  "status": "WRITER_SCOPE_QUALIFIED",
+  "date": "2026-09-28",
+  "production_go": false,
+  "audit_complete": false,
+  "independent_acceptance": false,
+  "slogan": "Keuangan (termasuk laporan), stok dan HPP adalah raja. Reliable data adalah dewa.",
+  "product": {
+    "source_commit": "790d0ffc1bd2f33945221c4b873a99bf734cce3b",
+    "bf_dev_sha256": "58b97662a093147f3e594987bcc662e0f7cf376aaaf7664364739508ab1fafbd",
+    "bf_package_sha256": "fa4dadf5cbab6ac34de94c72c4d67459a2cd1ba28eee33efee965fedc1de8caf",
+    "release_files": 30,
+    "release_pins_sha256": "3e9dc0047f0f62b575d2c4d2df817667080e3729cb6e3f296624ef73d753db2a",
+    "rollback_capture_sha256": "b0d0157528c5cf89c6290974acd3a963d784f5c938736e299e2d27f461bfe655",
+    "bf_rollback_sha256": "30723c59726a47ccfeb27b7b97405b295c85d7665b60dc176fddc6f85ff82716",
+    "rollback_manifest_sha256": "9b710738c3f6586c300639884a001e66deba7d77a48c501cfa58abcd512e8c70"
+  },
+  "prior_native_runs": [
+    {
+      "sha": "1eada67bf4354f61ff7e76eb618bd86f9afe6e28",
+      "run_id": 36428221106,
+      "job_id": 108947403543,
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36428221106",
+      "status": "INCOMPLETE",
+      "native_counts": {
+        "INCOMPLETE": 4,
+        "PASS": 78
+      },
+      "cases": [
+        {
+          "case": "R06:RUNNING_PO_NEW_MEMBER_IDENTICAL_RECIPE",
+          "status": "INCOMPLETE",
+          "error": "Accessory HPP snapshot has cost but zero Mandor reimbursement; configure reimbursement or use normal material issue flow\nCONTEXT:  PL/pgSQL function post_accessory_reimbursement_accrual(uuid) line 64 at RAISE\nSQL statement \"SELECT erp.post_accessory_reimbursement_accrual(v_lot_id)\"\nPL/pgSQL function post_qc(uuid) line 41 at PERFORM\nSQL statement \"SELECT erp.post_qc(v_qc_id)\"\nPL/pgSQL function post_fg_partial_completion_v2_legacy_v2610(jsonb,uuid,bigint) line 182 at PERFORM\nPL/pgSQL function post_fg_partial_completion_v2(jsonb,uuid,bigint) line 13 at assignment\nPL/pgSQL function erp.post_final_sku_allocation_v1(jsonb,uuid,bigint) line 27 at RETURN\nPL/pgSQL function erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint) line 1191 at assignment\nPL/pgSQL function public.erp_save_laundry_qc_action_v1(text,jsonb,uuid,bigint) line 3 at RETURN",
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true
+        },
+        {
+          "case": "R06:RUNNING_PO_NEW_MEMBER_DIFFERENT_RECIPE_ATOMIC",
+          "status": "INCOMPLETE",
+          "error": "Accessory HPP snapshot has cost but zero Mandor reimbursement; configure reimbursement or use normal material issue flow\nCONTEXT:  PL/pgSQL function post_accessory_reimbursement_accrual(uuid) line 64 at RAISE\nSQL statement \"SELECT erp.post_accessory_reimbursement_accrual(v_lot_id)\"\nPL/pgSQL function post_qc(uuid) line 41 at PERFORM\nSQL statement \"SELECT erp.post_qc(v_qc_id)\"\nPL/pgSQL function post_fg_partial_completion_v2_legacy_v2610(jsonb,uuid,bigint) line 182 at PERFORM\nPL/pgSQL assignment \"v_result := erp.post_fg_partial_completion_v2_legacy_v2610(\n    p_payload,\n    p_client_request_id,\n    p_expected_version\n  )\"\nPL/pgSQL function post_fg_partial_completion_v2(jsonb,uuid,bigint) line 13 at assignment\nSQL expression \"erp.post_fg_partial_completion_v2(p_payload,p_client_request_id,p_expected_version)\"\nPL/pgSQL function erp.post_final_sku_allocation_v1(jsonb,uuid,bigint) line 27 at RETURN\nPL/pgSQL assignment \"v_nested:=erp.post_final_sku_allocation_v1(p_payload,p_client_request_id,p_expected_version)\"\nPL/pgSQL function erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint) line 1191 at assignment\nSQL expression \"erp.save_laundry_qc_action_v1(\n    p_action,p_payload,p_client_request_id,p_expected_version\n  )\"\nPL/pgSQL function public.erp_save_laundry_qc_action_v1(text,jsonb,uuid,bigint) line 3 at RETURN",
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true
+        },
+        {
+          "case": "R07:COMMITTED_BS_RANGE_MOVE_SAME_CONTRACTOR_REWORK",
+          "status": "INCOMPLETE",
+          "error": "Accessory HPP snapshot has cost but zero Mandor reimbursement; configure reimbursement or use normal material issue flow\nCONTEXT:  PL/pgSQL function post_accessory_reimbursement_accrual(uuid) line 64 at RAISE\nSQL statement \"SELECT erp.post_accessory_reimbursement_accrual(v_lot_id)\"\nPL/pgSQL function post_qc(uuid) line 41 at PERFORM\nSQL statement \"SELECT erp.post_qc(v_qc_id)\"\nPL/pgSQL function post_fg_partial_completion_v2_legacy_v2610(jsonb,uuid,bigint) line 182 at PERFORM\nPL/pgSQL assignment \"v_result := erp.post_fg_partial_completion_v2_legacy_v2610(\n    p_payload,\n    p_client_request_id,\n    p_expected_version\n  )\"\nPL/pgSQL function post_fg_partial_completion_v2(jsonb,uuid,bigint) line 13 at assignment\nSQL expression \"erp.post_fg_partial_completion_v2(p_payload,p_client_request_id,p_expected_version)\"\nPL/pgSQL function erp.post_final_sku_allocation_v1(jsonb,uuid,bigint) line 27 at RETURN\nPL/pgSQL assignment \"v_nested:=erp.post_final_sku_allocation_v1(p_payload,p_client_request_id,p_expected_version)\"\nPL/pgSQL function erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint) line 1191 at assignment\nSQL expression \"erp.save_laundry_qc_action_v1(\n    p_action,p_payload,p_client_request_id,p_expected_version\n  )\"\nPL/pgSQL function public.erp_save_laundry_qc_action_v1(text,jsonb,uuid,bigint) line 3 at RETURN",
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true
+        },
+        {
+          "case": "R07:UNCOMMITTED_BS_RANGE_MOVE_OTHER_CONTRACTOR_REWORK",
+          "status": "INCOMPLETE",
+          "error": "Accessory HPP snapshot has cost but zero Mandor reimbursement; configure reimbursement or use normal material issue flow\nCONTEXT:  PL/pgSQL function post_accessory_reimbursement_accrual(uuid) line 64 at RAISE\nSQL statement \"SELECT erp.post_accessory_reimbursement_accrual(v_lot_id)\"\nPL/pgSQL function post_qc(uuid) line 41 at PERFORM\nSQL statement \"SELECT erp.post_qc(v_qc_id)\"\nPL/pgSQL function post_fg_partial_completion_v2_legacy_v2610(jsonb,uuid,bigint) line 182 at PERFORM\nPL/pgSQL assignment \"v_result := erp.post_fg_partial_completion_v2_legacy_v2610(\n    p_payload,\n    p_client_request_id,\n    p_expected_version\n  )\"\nPL/pgSQL function post_fg_partial_completion_v2(jsonb,uuid,bigint) line 13 at assignment\nSQL expression \"erp.post_fg_partial_completion_v2(p_payload,p_client_request_id,p_expected_version)\"\nPL/pgSQL function erp.post_final_sku_allocation_v1(jsonb,uuid,bigint) line 27 at RETURN\nPL/pgSQL assignment \"v_nested:=erp.post_final_sku_allocation_v1(p_payload,p_client_request_id,p_expected_version)\"\nPL/pgSQL function erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint) line 1191 at assignment\nSQL expression \"erp.save_laundry_qc_action_v1(\n    p_action,p_payload,p_client_request_id,p_expected_version\n  )\"\nPL/pgSQL function public.erp_save_laundry_qc_action_v1(text,jsonb,uuid,bigint) line 3 at RETURN",
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true
+        },
+        {
+          "case": "R11:SALE_MOVE_LATE_INVOICE_RETURN_INVERSE",
+          "status": "PASS",
+          "checks": {
+            "invoice_only_target": true,
+            "sold_variance": true,
+            "same_original_lot": true,
+            "stock_exact": true,
+            "return_cost": true,
+            "immutable_sale": true,
+            "historical_membership": true,
+            "current_one_group": true,
+            "current_value": true,
+            "invoice_clears": true,
+            "truth": true,
+            "inverse_exact": true,
+            "inverse_distribution": true,
+            "unknown_restored": true,
+            "stock_after_inverse": true
+          },
+          "failed": [],
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true
+        },
+        {
+          "case": "R11:UNKNOWN_SALE_MOVE_LATE_INVOICE_RETURN_INVERSE",
+          "status": "PASS",
+          "checks": {
+            "invoice_only_target": true,
+            "sold_variance": true,
+            "same_original_lot": true,
+            "stock_exact": true,
+            "return_cost": true,
+            "immutable_sale": true,
+            "historical_membership": true,
+            "current_one_group": true,
+            "current_value": true,
+            "invoice_clears": true,
+            "truth": true,
+            "inverse_exact": true,
+            "inverse_distribution": true,
+            "unknown_restored": true,
+            "stock_after_inverse": true
+          },
+          "failed": [],
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true
+        },
+        {
+          "case": "SUPPLIER:FABRIC_SPLIT_ORIGINAL_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "SUPPLIER:ACCESSORY_SPLIT_ORIGINAL_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "SUPPLIER:CASH_REALLOCATION_FINANCIAL_TRUTH",
+          "status": "PASS"
+        },
+        {
+          "case": "SUPPLIER:EXACT_CENT_FOREIGN_PARTY_REFUSAL",
+          "status": "PASS"
+        },
+        {
+          "case": "PR30:D03_HISTORICAL_WORKSPACE",
+          "status": "PASS"
+        },
+        {
+          "case": "PR30:D02_UNUSED_STALE_BINDING",
+          "status": "PASS"
+        },
+        {
+          "case": "PR30:D02_PRIOR_VALID_PIN",
+          "status": "PASS"
+        },
+        {
+          "case": "VENDOR:AUTHORITY_WITH_LEGACY_SKU_OVERRIDE",
+          "status": "PASS"
+        },
+        {
+          "case": "VENDOR:EMPTY_DETAILS_INVOICE_HPP_SALE_REVERSAL",
+          "status": "PASS"
+        },
+        {
+          "case": "VENDOR:UNKNOWN_COMPONENT_INVOICE_HPP_SALE_REVERSAL",
+          "status": "PASS"
+        },
+        {
+          "case": "VENDOR:HISTORY_PENDING_ACTUAL_REVERSAL",
+          "status": "PASS"
+        },
+        {
+          "case": "VENDOR_REG:D12:CLAIM_CREDIT_DAILY_OLDER_INVOICE",
+          "status": "PASS"
+        },
+        {
+          "case": "VENDOR_REG:D12:CLAIM_CREDIT_OPENING_OLDER_PAYABLE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE_REV:RECOVERY_NONPO_ZERO",
+          "status": "PASS"
+        },
+        {
+          "case": "BE_REV:RECOVERY_NONPO_USAGE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE_REV:RECOVERY_PO_ZERO",
+          "status": "PASS"
+        },
+        {
+          "case": "BE_REV:RECOVERY_PO_USAGE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE_REV:RECOVERY_EXCEEDS_GARMENT_ATOMIC",
+          "status": "PASS"
+        },
+        {
+          "case": "BE_REV:MIXED_PO_NONPO_SALE_RETURN_INVOICE_POCKET",
+          "status": "PASS"
+        },
+        {
+          "case": "BE_REV:52_POCKET_PERIODS_SEARCH_PAGE_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE_REV:NONPO_ENTRY_REFUSED_AX_REPAIR_CONVERSION",
+          "status": "PASS"
+        },
+        {
+          "case": "BE_REV:PUBLIC_SEWING_VERSION_DEPENDENCY_REPLAY",
+          "status": "PASS"
+        },
+        {
+          "case": "BE01:SELECTED_LOT_REPLAY_REVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE01:CAPACITY_STALE_NO_UNSOURCED_COST",
+          "status": "PASS"
+        },
+        {
+          "case": "BE01:ACTUAL_ACCESSORY_COST_ONCE_AND_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE01:OPENING_SOURCE_VALUE_AND_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE02:REWORK_NEW_SKU_ATOMIC_REPLAY_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE03:REAL_SERVICE_INVOICE_SOLD_VARIANCE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE03:UNKNOWN_PRICE_CLOSE_REPLAY",
+          "status": "PASS"
+        },
+        {
+          "case": "BE04:HISTORICAL_POCKET_ALLOCATION_CORRECTION_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE04:HISTORICAL_POCKET_RECEIPT_INVOICE_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE01:LATE_INVOICE_RECOVERY_SOLD_AND_CONVERTED",
+          "status": "PASS"
+        },
+        {
+          "case": "BE04:HISTORICAL_PERIOD_WIP_SPLIT_COMPLETION_RECOST",
+          "status": "PASS"
+        },
+        {
+          "case": "BE04:PROVENANCE_NUMERATOR_DENOMINATOR_REFUSALS",
+          "status": "PASS"
+        },
+        {
+          "case": "BE04:ALLOCATED_REFERENCE_ONLY_DUPLICATE_BATCH",
+          "status": "PASS"
+        },
+        {
+          "case": "BE04:SALE_RETURN_CONVERSION_RECOST",
+          "status": "PASS"
+        },
+        {
+          "case": "BE04:MIXED_NATIVE_HISTORICAL_AFUI_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE04:CLOSED_CORRECTION_ASOF_REPLAY_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:IMPORT_AMBIGUOUS_FAILS_BEFORE_POST",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:IMPORT_EXACT_SIZE_SALES_CUSTODY_COGS_REPLAY",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:IMPORT_INSUFFICIENT_STOCK_ATOMIC",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:IMPORT_REWORK_SOURCE_RECIPE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:IMPORT_REWORK_SOURCE_RECIPE_POSITIVE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:UNUSED_ROLLBACK_EXACT",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:USED_ROLLBACK_REFUSED",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:TWO_SKUS_ONE_WAVE_WORK_LAUNDRY_QC",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:SHARED_MASTER_PHYSICAL_ROOTS_REPLAY_GUARD",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:SINGLETON_BEFORE_ECONOMICS",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:SHARED_NONEMPTY_ACCESSORY_RECIPE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:TEMPORAL_31_33_TO_31_34_ATOMIC",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:NEW_MEMBER_AND_FUTURE_WAVE_TARIFF",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:LEGACY_CONFLICT_ACKNOWLEDGED_AND_FUTURE_PRICES",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T02:PACKAGE_ONE_CHARGE_PHYSICAL_QTY",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T03:COMPONENT_SUM_SAME_PIECES",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T04:FOUR_COMPONENTS",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T05:PARTIAL_COMPONENT_COVERAGE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T06:PACKAGE_EXTRA_ONCE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T07:VERSION_AFTER_POSTED_DELIVERY",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T12:UNKNOWN_COMPONENT_KNOWN_SUBTOTAL",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T13:NO_VERSION_IS_ERROR",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T20:LUMP_SUM_SPLIT_RECEIPTS",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:DEC01:MINIMUM_CHARGE_TOPUP",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T24:SCOPED_SIZE_RATE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T24:MULTI_SIZE_LOT_HPP",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:D10:VARIANCE_BY_BILLING_SOURCE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:REV:X01_EXPLICIT_SIZE_COVERAGE_AND_RESPONSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:REV:X01_UNKNOWN_COMPLETION_PRESERVES_COVERAGE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:REV:OWN02_FREE_WAIVED_LEGAL_PATH",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:REV:X02_MONEY_OVER_INT32",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:REV:X03_AUTH_BEFORE_REPLAY",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:REV:X05_PAGES_55_INVOICES_201_SOURCES",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BB:W:W02_SPLIT_BS_DISPOSE_AND_UNDO",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BB:W:W02_SPLIT_BS_REWORK_GOOD",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BB:W:W02_SPLIT_DATED_REMAINING",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BB:W:W02_WAGES_AFTER_CUTOVER_THROUGH_PAYROLL",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BB:W:W02_WAGES_OVER_PIECES_OR_BEFORE_CUTOVER_REFUSED",
+          "status": "PASS"
+        }
+      ],
+      "races": {
+        "status": "RUN_COMPLETE",
+        "counts": {
+          "PASS": 22
+        },
+        "database_remaining": 0,
+        "error": null
+      },
+      "http": {
+        "status": "RUN_COMPLETE",
+        "counts": {
+          "PASS": 8
+        },
+        "database_remaining": 0,
+        "cleanup": {
+          "users_created": 16,
+          "cleanup_failures": [],
+          "rest_remaining": false
+        },
+        "auth_counts": {
+          "before": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "after": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "restored": true
+        },
+        "error": null
+      },
+      "browser": {
+        "status": "RUN_COMPLETE",
+        "counts": {
+          "PASS": 27
+        },
+        "script_sha256": "cfebeee1b589e110ca16e43a744f98ad0ae4ba4ec54c68a4cc0ab878b6d3aa65",
+        "database_remaining": 0,
+        "cleanup": {
+          "users_created": 0,
+          "cleanup_failures": [],
+          "rest_remaining": false
+        },
+        "auth_counts": {
+          "before": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "after": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "restored": true
+        },
+        "console_errors": 0,
+        "users_created": 28,
+        "error": null
+      },
+      "primary_unchanged": true,
+      "clone_remaining": 0
+    },
+    {
+      "sha": "698e98f7b925ff8cac3830579d8aef47ad22e0b2",
+      "run_id": 36446479602,
+      "job_id": 109009985665,
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36446479602",
+      "status": "INCOMPLETE",
+      "native_counts": {
+        "PASS": 80,
+        "INCOMPLETE": 2
+      },
+      "cases": [
+        {
+          "case": "R06:RUNNING_PO_NEW_MEMBER_IDENTICAL_RECIPE",
+          "status": "PASS",
+          "checks": {
+            "all_sizes": true,
+            "old_lots_unchanged": true,
+            "original_pin": true,
+            "exact_recipe": true,
+            "work_still_original": true,
+            "positive_hpp": true,
+            "truth": true
+          },
+          "failed": [],
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true
+        },
+        {
+          "case": "R06:RUNNING_PO_NEW_MEMBER_DIFFERENT_RECIPE_ATOMIC",
+          "status": "PASS",
+          "checks": {
+            "refused": true,
+            "old_lots_unchanged": true,
+            "no_new_lot": true,
+            "physical_unchanged": true,
+            "truth": true
+          },
+          "failed": [],
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true
+        },
+        {
+          "case": "R07:COMMITTED_BS_RANGE_MOVE_SAME_CONTRACTOR_REWORK",
+          "status": "INCOMPLETE",
+          "error": "permission denied for table rework_component_lines\nHINT:  Grant the required privileges to the current role with: GRANT SELECT ON erp.rework_component_lines TO authenticated;",
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true
+        },
+        {
+          "case": "R07:UNCOMMITTED_BS_RANGE_MOVE_OTHER_CONTRACTOR_REWORK",
+          "status": "INCOMPLETE",
+          "error": "permission denied for table rework_component_lines\nHINT:  Grant the required privileges to the current role with: GRANT SELECT ON erp.rework_component_lines TO authenticated;",
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true
+        },
+        {
+          "case": "R11:SALE_MOVE_LATE_INVOICE_RETURN_INVERSE",
+          "status": "PASS",
+          "checks": {
+            "invoice_only_target": true,
+            "sold_variance": true,
+            "same_original_lot": true,
+            "stock_exact": true,
+            "return_cost": true,
+            "immutable_sale": true,
+            "historical_membership": true,
+            "current_one_group": true,
+            "current_value": true,
+            "invoice_clears": true,
+            "truth": true,
+            "inverse_exact": true,
+            "inverse_distribution": true,
+            "unknown_restored": true,
+            "stock_after_inverse": true
+          },
+          "failed": [],
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true
+        },
+        {
+          "case": "R11:UNKNOWN_SALE_MOVE_LATE_INVOICE_RETURN_INVERSE",
+          "status": "PASS",
+          "checks": {
+            "invoice_only_target": true,
+            "sold_variance": true,
+            "same_original_lot": true,
+            "stock_exact": true,
+            "return_cost": true,
+            "immutable_sale": true,
+            "historical_membership": true,
+            "current_one_group": true,
+            "current_value": true,
+            "invoice_clears": true,
+            "truth": true,
+            "inverse_exact": true,
+            "inverse_distribution": true,
+            "unknown_restored": true,
+            "stock_after_inverse": true
+          },
+          "failed": [],
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true
+        },
+        {
+          "case": "SUPPLIER:FABRIC_SPLIT_ORIGINAL_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "SUPPLIER:ACCESSORY_SPLIT_ORIGINAL_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "SUPPLIER:CASH_REALLOCATION_FINANCIAL_TRUTH",
+          "status": "PASS"
+        },
+        {
+          "case": "SUPPLIER:EXACT_CENT_FOREIGN_PARTY_REFUSAL",
+          "status": "PASS"
+        },
+        {
+          "case": "PR30:D03_HISTORICAL_WORKSPACE",
+          "status": "PASS"
+        },
+        {
+          "case": "PR30:D02_UNUSED_STALE_BINDING",
+          "status": "PASS"
+        },
+        {
+          "case": "PR30:D02_PRIOR_VALID_PIN",
+          "status": "PASS"
+        },
+        {
+          "case": "VENDOR:AUTHORITY_WITH_LEGACY_SKU_OVERRIDE",
+          "status": "PASS"
+        },
+        {
+          "case": "VENDOR:EMPTY_DETAILS_INVOICE_HPP_SALE_REVERSAL",
+          "status": "PASS"
+        },
+        {
+          "case": "VENDOR:UNKNOWN_COMPONENT_INVOICE_HPP_SALE_REVERSAL",
+          "status": "PASS"
+        },
+        {
+          "case": "VENDOR:HISTORY_PENDING_ACTUAL_REVERSAL",
+          "status": "PASS"
+        },
+        {
+          "case": "VENDOR_REG:D12:CLAIM_CREDIT_DAILY_OLDER_INVOICE",
+          "status": "PASS"
+        },
+        {
+          "case": "VENDOR_REG:D12:CLAIM_CREDIT_OPENING_OLDER_PAYABLE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE_REV:RECOVERY_NONPO_ZERO",
+          "status": "PASS"
+        },
+        {
+          "case": "BE_REV:RECOVERY_NONPO_USAGE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE_REV:RECOVERY_PO_ZERO",
+          "status": "PASS"
+        },
+        {
+          "case": "BE_REV:RECOVERY_PO_USAGE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE_REV:RECOVERY_EXCEEDS_GARMENT_ATOMIC",
+          "status": "PASS"
+        },
+        {
+          "case": "BE_REV:MIXED_PO_NONPO_SALE_RETURN_INVOICE_POCKET",
+          "status": "PASS"
+        },
+        {
+          "case": "BE_REV:52_POCKET_PERIODS_SEARCH_PAGE_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE_REV:NONPO_ENTRY_REFUSED_AX_REPAIR_CONVERSION",
+          "status": "PASS"
+        },
+        {
+          "case": "BE_REV:PUBLIC_SEWING_VERSION_DEPENDENCY_REPLAY",
+          "status": "PASS"
+        },
+        {
+          "case": "BE01:SELECTED_LOT_REPLAY_REVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE01:CAPACITY_STALE_NO_UNSOURCED_COST",
+          "status": "PASS"
+        },
+        {
+          "case": "BE01:ACTUAL_ACCESSORY_COST_ONCE_AND_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE01:OPENING_SOURCE_VALUE_AND_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE02:REWORK_NEW_SKU_ATOMIC_REPLAY_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE03:REAL_SERVICE_INVOICE_SOLD_VARIANCE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE03:UNKNOWN_PRICE_CLOSE_REPLAY",
+          "status": "PASS"
+        },
+        {
+          "case": "BE04:HISTORICAL_POCKET_ALLOCATION_CORRECTION_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE04:HISTORICAL_POCKET_RECEIPT_INVOICE_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE01:LATE_INVOICE_RECOVERY_SOLD_AND_CONVERTED",
+          "status": "PASS"
+        },
+        {
+          "case": "BE04:HISTORICAL_PERIOD_WIP_SPLIT_COMPLETION_RECOST",
+          "status": "PASS"
+        },
+        {
+          "case": "BE04:PROVENANCE_NUMERATOR_DENOMINATOR_REFUSALS",
+          "status": "PASS"
+        },
+        {
+          "case": "BE04:ALLOCATED_REFERENCE_ONLY_DUPLICATE_BATCH",
+          "status": "PASS"
+        },
+        {
+          "case": "BE04:SALE_RETURN_CONVERSION_RECOST",
+          "status": "PASS"
+        },
+        {
+          "case": "BE04:MIXED_NATIVE_HISTORICAL_AFUI_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE04:CLOSED_CORRECTION_ASOF_REPLAY_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:IMPORT_AMBIGUOUS_FAILS_BEFORE_POST",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:IMPORT_EXACT_SIZE_SALES_CUSTODY_COGS_REPLAY",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:IMPORT_INSUFFICIENT_STOCK_ATOMIC",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:IMPORT_REWORK_SOURCE_RECIPE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:IMPORT_REWORK_SOURCE_RECIPE_POSITIVE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:UNUSED_ROLLBACK_EXACT",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:USED_ROLLBACK_REFUSED",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:TWO_SKUS_ONE_WAVE_WORK_LAUNDRY_QC",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:SHARED_MASTER_PHYSICAL_ROOTS_REPLAY_GUARD",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:SINGLETON_BEFORE_ECONOMICS",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:SHARED_NONEMPTY_ACCESSORY_RECIPE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:TEMPORAL_31_33_TO_31_34_ATOMIC",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:NEW_MEMBER_AND_FUTURE_WAVE_TARIFF",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:LEGACY_CONFLICT_ACKNOWLEDGED_AND_FUTURE_PRICES",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T02:PACKAGE_ONE_CHARGE_PHYSICAL_QTY",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T03:COMPONENT_SUM_SAME_PIECES",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T04:FOUR_COMPONENTS",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T05:PARTIAL_COMPONENT_COVERAGE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T06:PACKAGE_EXTRA_ONCE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T07:VERSION_AFTER_POSTED_DELIVERY",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T12:UNKNOWN_COMPONENT_KNOWN_SUBTOTAL",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T13:NO_VERSION_IS_ERROR",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T20:LUMP_SUM_SPLIT_RECEIPTS",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:DEC01:MINIMUM_CHARGE_TOPUP",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T24:SCOPED_SIZE_RATE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T24:MULTI_SIZE_LOT_HPP",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:D10:VARIANCE_BY_BILLING_SOURCE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:REV:X01_EXPLICIT_SIZE_COVERAGE_AND_RESPONSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:REV:X01_UNKNOWN_COMPLETION_PRESERVES_COVERAGE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:REV:OWN02_FREE_WAIVED_LEGAL_PATH",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:REV:X02_MONEY_OVER_INT32",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:REV:X03_AUTH_BEFORE_REPLAY",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:REV:X05_PAGES_55_INVOICES_201_SOURCES",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BB:W:W02_SPLIT_BS_DISPOSE_AND_UNDO",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BB:W:W02_SPLIT_BS_REWORK_GOOD",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BB:W:W02_SPLIT_DATED_REMAINING",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BB:W:W02_WAGES_AFTER_CUTOVER_THROUGH_PAYROLL",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BB:W:W02_WAGES_OVER_PIECES_OR_BEFORE_CUTOVER_REFUSED",
+          "status": "PASS"
+        }
+      ],
+      "races": {
+        "status": "RUN_COMPLETE",
+        "counts": {
+          "PASS": 22
+        },
+        "database_remaining": 0,
+        "error": null
+      },
+      "http": {
+        "status": "RUN_COMPLETE",
+        "counts": {
+          "PASS": 8
+        },
+        "database_remaining": 0,
+        "cleanup": {
+          "users_created": 16,
+          "cleanup_failures": [],
+          "rest_remaining": false
+        },
+        "auth_counts": {
+          "before": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "after": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "restored": true
+        },
+        "error": null
+      },
+      "browser": {
+        "status": "RUN_COMPLETE",
+        "counts": {
+          "PASS": 27
+        },
+        "script_sha256": "cfebeee1b589e110ca16e43a744f98ad0ae4ba4ec54c68a4cc0ab878b6d3aa65",
+        "database_remaining": 0,
+        "cleanup": {
+          "users_created": 0,
+          "cleanup_failures": [],
+          "rest_remaining": false
+        },
+        "auth_counts": {
+          "before": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "after": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "restored": true
+        },
+        "console_errors": 0,
+        "users_created": 28,
+        "error": null
+      },
+      "primary_unchanged": true,
+      "clone_remaining": 0
+    },
+    {
+      "sha": "790d0ffc1bd2f33945221c4b873a99bf734cce3b",
+      "run_id": 36448070902,
+      "job_id": 109015420070,
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36448070902",
+      "status": "INCOMPLETE",
+      "native_counts": {
+        "PASS": 84,
+        "INCOMPLETE": 2
+      },
+      "cases": [
+        {
+          "case": "R06:RUNNING_PO_NEW_MEMBER_IDENTICAL_RECIPE",
+          "status": "PASS",
+          "checks": {
+            "all_sizes": true,
+            "old_lots_unchanged": true,
+            "original_pin": true,
+            "exact_recipe": true,
+            "work_still_original": true,
+            "positive_hpp": true,
+            "truth": true
+          },
+          "failed": [],
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true
+        },
+        {
+          "case": "R06:RUNNING_PO_NEW_MEMBER_DIFFERENT_RECIPE_ATOMIC",
+          "status": "PASS",
+          "checks": {
+            "refused": true,
+            "old_lots_unchanged": true,
+            "no_new_lot": true,
+            "physical_unchanged": true,
+            "truth": true
+          },
+          "failed": [],
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true
+        },
+        {
+          "case": "R07:COMMITTED_BS_RANGE_MOVE_SAME_CONTRACTOR_REWORK",
+          "status": "PASS",
+          "checks": {
+            "recipe_origin": true,
+            "correct_work_rate": true,
+            "correct_work_source": true,
+            "original_snapshot": true,
+            "physical_identity": true,
+            "recovered": true,
+            "positive_hpp": true,
+            "truth": true,
+            "inverse_stock": true
+          },
+          "failed": [],
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true
+        },
+        {
+          "case": "R07:UNCOMMITTED_BS_RANGE_MOVE_OTHER_CONTRACTOR_REWORK",
+          "status": "PASS",
+          "checks": {
+            "recipe_origin": true,
+            "correct_work_rate": true,
+            "correct_work_source": true,
+            "original_snapshot": true,
+            "physical_identity": true,
+            "recovered": true,
+            "positive_hpp": true,
+            "truth": true,
+            "inverse_stock": true
+          },
+          "failed": [],
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true
+        },
+        {
+          "case": "R11:SALE_MOVE_LATE_INVOICE_RETURN_INVERSE",
+          "status": "PASS",
+          "checks": {
+            "invoice_only_target": true,
+            "sold_variance": true,
+            "same_original_lot": true,
+            "stock_exact": true,
+            "return_cost": true,
+            "immutable_sale": true,
+            "historical_membership": true,
+            "current_one_group": true,
+            "current_value": true,
+            "invoice_clears": true,
+            "truth": true,
+            "inverse_exact": true,
+            "inverse_distribution": true,
+            "unknown_restored": true,
+            "stock_after_inverse": true
+          },
+          "failed": [],
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true
+        },
+        {
+          "case": "R11:UNKNOWN_SALE_MOVE_LATE_INVOICE_RETURN_INVERSE",
+          "status": "PASS",
+          "checks": {
+            "invoice_only_target": true,
+            "sold_variance": true,
+            "same_original_lot": true,
+            "stock_exact": true,
+            "return_cost": true,
+            "immutable_sale": true,
+            "historical_membership": true,
+            "current_one_group": true,
+            "current_value": true,
+            "invoice_clears": true,
+            "truth": true,
+            "inverse_exact": true,
+            "inverse_distribution": true,
+            "unknown_restored": true,
+            "stock_after_inverse": true
+          },
+          "failed": [],
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true
+        },
+        {
+          "case": "R08:MULTI_SKU_UNIDENTIFIED_BS_NO_GUESSED_ENTITLEMENT",
+          "status": "INCOMPLETE",
+          "error": "Receipt size lines must be unique, positive, and bind every Laundry BS to a product\nCONTEXT:  PL/pgSQL function erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint) line 524 at RAISE\nSQL expression \"erp.save_laundry_qc_action_v1(\n    p_action,p_payload,p_client_request_id,p_expected_version\n  )\"\nPL/pgSQL function public.erp_save_laundry_qc_action_v1(text,jsonb,uuid,bigint) line 3 at RETURN",
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true
+        },
+        {
+          "case": "R09:COMMERCIAL_CONVERSION_EXACT_SIZE_INVERSE",
+          "status": "PASS",
+          "checks": {
+            "commercial_source": true,
+            "commercial_target": true,
+            "legacy_search": true,
+            "exact_size": true,
+            "document_labels": true,
+            "immutable_physical_code": true,
+            "inverse": true
+          },
+          "failed": [],
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true
+        },
+        {
+          "case": "R12:HISTORICAL_IMPORT_MEMBERSHIP_AND_PHYSICAL_VERSIONS",
+          "status": "INCOMPLETE",
+          "error": "Varian size untuk merek + nomor SKU yang sama wajib memakai model dan warna yang sama\nCONTEXT:  PL/pgSQL function erp.validate_product_identity_period() line 112 at RAISE\nSQL statement \"insert into erp.products(sku,model_id,brand_id,color_name,size_id,product_name,is_portal_visible,is_active,\n                           identity_root_id,effective_from,effective_to,supersedes_product_id)\n  values(trim(p_sku),p_model_id,p_brand_id,trim(p_color_name),p_size_id,trim(p_product_name),p.is_portal_visible,p.is_active,\n         p.identity_root_id,v_eff,p.effective_to,p.id)\n  returning id\"\nPL/pgSQL function erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text) line 77 at SQL statement",
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true
+        },
+        {
+          "case": "R14:HPP_LOCATIONS_ZERO_MEMBER_PENDING_INVOICE_INVERSE",
+          "status": "PASS",
+          "checks": {
+            "physical_denominator": true,
+            "zero_stock_member": true,
+            "locations": true,
+            "value_conserved": true,
+            "unknown_visible": true,
+            "known_cost_positive": true,
+            "report_before_receipt_empty": true,
+            "grade_filter_no_fictitious_stock": true,
+            "invoice_exact_fg_share": true,
+            "weighted": true,
+            "inverse": true
+          },
+          "failed": [],
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true
+        },
+        {
+          "case": "SUPPLIER:FABRIC_SPLIT_ORIGINAL_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "SUPPLIER:ACCESSORY_SPLIT_ORIGINAL_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "SUPPLIER:CASH_REALLOCATION_FINANCIAL_TRUTH",
+          "status": "PASS"
+        },
+        {
+          "case": "SUPPLIER:EXACT_CENT_FOREIGN_PARTY_REFUSAL",
+          "status": "PASS"
+        },
+        {
+          "case": "PR30:D03_HISTORICAL_WORKSPACE",
+          "status": "PASS"
+        },
+        {
+          "case": "PR30:D02_UNUSED_STALE_BINDING",
+          "status": "PASS"
+        },
+        {
+          "case": "PR30:D02_PRIOR_VALID_PIN",
+          "status": "PASS"
+        },
+        {
+          "case": "VENDOR:AUTHORITY_WITH_LEGACY_SKU_OVERRIDE",
+          "status": "PASS"
+        },
+        {
+          "case": "VENDOR:EMPTY_DETAILS_INVOICE_HPP_SALE_REVERSAL",
+          "status": "PASS"
+        },
+        {
+          "case": "VENDOR:UNKNOWN_COMPONENT_INVOICE_HPP_SALE_REVERSAL",
+          "status": "PASS"
+        },
+        {
+          "case": "VENDOR:HISTORY_PENDING_ACTUAL_REVERSAL",
+          "status": "PASS"
+        },
+        {
+          "case": "VENDOR_REG:D12:CLAIM_CREDIT_DAILY_OLDER_INVOICE",
+          "status": "PASS"
+        },
+        {
+          "case": "VENDOR_REG:D12:CLAIM_CREDIT_OPENING_OLDER_PAYABLE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE_REV:RECOVERY_NONPO_ZERO",
+          "status": "PASS"
+        },
+        {
+          "case": "BE_REV:RECOVERY_NONPO_USAGE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE_REV:RECOVERY_PO_ZERO",
+          "status": "PASS"
+        },
+        {
+          "case": "BE_REV:RECOVERY_PO_USAGE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE_REV:RECOVERY_EXCEEDS_GARMENT_ATOMIC",
+          "status": "PASS"
+        },
+        {
+          "case": "BE_REV:MIXED_PO_NONPO_SALE_RETURN_INVOICE_POCKET",
+          "status": "PASS"
+        },
+        {
+          "case": "BE_REV:52_POCKET_PERIODS_SEARCH_PAGE_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE_REV:NONPO_ENTRY_REFUSED_AX_REPAIR_CONVERSION",
+          "status": "PASS"
+        },
+        {
+          "case": "BE_REV:PUBLIC_SEWING_VERSION_DEPENDENCY_REPLAY",
+          "status": "PASS"
+        },
+        {
+          "case": "BE01:SELECTED_LOT_REPLAY_REVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE01:CAPACITY_STALE_NO_UNSOURCED_COST",
+          "status": "PASS"
+        },
+        {
+          "case": "BE01:ACTUAL_ACCESSORY_COST_ONCE_AND_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE01:OPENING_SOURCE_VALUE_AND_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE02:REWORK_NEW_SKU_ATOMIC_REPLAY_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE03:REAL_SERVICE_INVOICE_SOLD_VARIANCE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE03:UNKNOWN_PRICE_CLOSE_REPLAY",
+          "status": "PASS"
+        },
+        {
+          "case": "BE04:HISTORICAL_POCKET_ALLOCATION_CORRECTION_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE04:HISTORICAL_POCKET_RECEIPT_INVOICE_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE01:LATE_INVOICE_RECOVERY_SOLD_AND_CONVERTED",
+          "status": "PASS"
+        },
+        {
+          "case": "BE04:HISTORICAL_PERIOD_WIP_SPLIT_COMPLETION_RECOST",
+          "status": "PASS"
+        },
+        {
+          "case": "BE04:PROVENANCE_NUMERATOR_DENOMINATOR_REFUSALS",
+          "status": "PASS"
+        },
+        {
+          "case": "BE04:ALLOCATED_REFERENCE_ONLY_DUPLICATE_BATCH",
+          "status": "PASS"
+        },
+        {
+          "case": "BE04:SALE_RETURN_CONVERSION_RECOST",
+          "status": "PASS"
+        },
+        {
+          "case": "BE04:MIXED_NATIVE_HISTORICAL_AFUI_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BE04:CLOSED_CORRECTION_ASOF_REPLAY_INVERSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:IMPORT_AMBIGUOUS_FAILS_BEFORE_POST",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:IMPORT_EXACT_SIZE_SALES_CUSTODY_COGS_REPLAY",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:IMPORT_INSUFFICIENT_STOCK_ATOMIC",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:IMPORT_REWORK_SOURCE_RECIPE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:IMPORT_REWORK_SOURCE_RECIPE_POSITIVE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:UNUSED_ROLLBACK_EXACT",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:USED_ROLLBACK_REFUSED",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:TWO_SKUS_ONE_WAVE_WORK_LAUNDRY_QC",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:SHARED_MASTER_PHYSICAL_ROOTS_REPLAY_GUARD",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:SINGLETON_BEFORE_ECONOMICS",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:SHARED_NONEMPTY_ACCESSORY_RECIPE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:TEMPORAL_31_33_TO_31_34_ATOMIC",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:NEW_MEMBER_AND_FUTURE_WAVE_TARIFF",
+          "status": "PASS"
+        },
+        {
+          "case": "BF:LEGACY_CONFLICT_ACKNOWLEDGED_AND_FUTURE_PRICES",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T02:PACKAGE_ONE_CHARGE_PHYSICAL_QTY",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T03:COMPONENT_SUM_SAME_PIECES",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T04:FOUR_COMPONENTS",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T05:PARTIAL_COMPONENT_COVERAGE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T06:PACKAGE_EXTRA_ONCE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T07:VERSION_AFTER_POSTED_DELIVERY",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T12:UNKNOWN_COMPONENT_KNOWN_SUBTOTAL",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T13:NO_VERSION_IS_ERROR",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T20:LUMP_SUM_SPLIT_RECEIPTS",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:DEC01:MINIMUM_CHARGE_TOPUP",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T24:SCOPED_SIZE_RATE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:T24:MULTI_SIZE_LOT_HPP",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:D10:VARIANCE_BY_BILLING_SOURCE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:REV:X01_EXPLICIT_SIZE_COVERAGE_AND_RESPONSE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:REV:X01_UNKNOWN_COMPLETION_PRESERVES_COVERAGE",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:REV:OWN02_FREE_WAIVED_LEGAL_PATH",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:REV:X02_MONEY_OVER_INT32",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:REV:X03_AUTH_BEFORE_REPLAY",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BD:REV:X05_PAGES_55_INVOICES_201_SOURCES",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BB:W:W02_SPLIT_BS_DISPOSE_AND_UNDO",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BB:W:W02_SPLIT_BS_REWORK_GOOD",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BB:W:W02_SPLIT_DATED_REMAINING",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BB:W:W02_WAGES_AFTER_CUTOVER_THROUGH_PAYROLL",
+          "status": "PASS"
+        },
+        {
+          "case": "BF_REG_BB:W:W02_WAGES_OVER_PIECES_OR_BEFORE_CUTOVER_REFUSED",
+          "status": "PASS"
+        }
+      ],
+      "races": {
+        "status": "RUN_COMPLETE",
+        "counts": {
+          "PASS": 22
+        },
+        "database_remaining": 0,
+        "error": null
+      },
+      "http": {
+        "status": "RUN_COMPLETE",
+        "counts": {
+          "PASS": 8
+        },
+        "database_remaining": 0,
+        "cleanup": {
+          "users_created": 16,
+          "cleanup_failures": [],
+          "rest_remaining": false
+        },
+        "auth_counts": {
+          "before": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "after": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "restored": true
+        },
+        "error": null
+      },
+      "browser": {
+        "status": "RUN_COMPLETE",
+        "counts": {
+          "PASS": 27
+        },
+        "script_sha256": "cfebeee1b589e110ca16e43a744f98ad0ae4ba4ec54c68a4cc0ab878b6d3aa65",
+        "database_remaining": 0,
+        "cleanup": {
+          "users_created": 0,
+          "cleanup_failures": [],
+          "rest_remaining": false
+        },
+        "auth_counts": {
+          "before": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "after": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "restored": true
+        },
+        "console_errors": 0,
+        "users_created": 28,
+        "error": null
+      },
+      "primary_unchanged": true,
+      "clone_remaining": 0
+    }
+  ],
+  "release_checkpoints": [
+    {
+      "sha": "698e98f7b925ff8cac3830579d8aef47ad22e0b2",
+      "run": 36446479977,
+      "status": "INCOMPLETE",
+      "cause": "BF_CAPSULE_SOURCE_DRIFT: two unchanged BD definitions were incorrectly listed as BF replacements; removed them without relaxing capsule guard."
+    },
+    {
+      "sha": "790d0ffc1bd2f33945221c4b873a99bf734cce3b",
+      "run": 36448070926,
+      "job": 109015418642,
+      "status": "CAPTURED_AND_INSTALLED",
+      "workflow_conclusion": "failure",
+      "cause": "New BF installed; committed manifest still only AC..BE, so determinism check correctly failed until build."
+    },
+    {
+      "sha": "decafe625b242572889077efa0503e5dc77ad6c4",
+      "run": 36448994855,
+      "job": 109018560045,
+      "status": "PASS",
+      "pins_reproduced": true,
+      "backup_restore": "RESTORED_SAME_MEANING",
+      "gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true
+      },
+      "primary_unchanged": true
+    },
+    {
+      "sha": "decafe625b242572889077efa0503e5dc77ad6c4",
+      "run": 36448994814,
+      "job": 109018560937,
+      "status": "CAPTURED",
+      "note": "Capture of BF rollback state only; not yet a rollback cycle proof."
+    },
+    {
+      "sha": "decafe625b242572889077efa0503e5dc77ad6c4",
+      "run": 36448994855,
+      "job": 109018560532,
+      "status": "INCOMPLETE",
+      "au_browser_counts": {
+        "PASS": 10
+      },
+      "bf_browser_counts": {
+        "PASS": 9,
+        "INCOMPLETE": 17,
+        "FAIL": 1
+      },
+      "cause": "Two fixture assumptions: AU seeded a different master set before BF copied it; separately, G-01 hosted alignment already grants authenticated schema USAGE. BF now runs before AU, and explicit HOSTED_USAGE fixture profile preserves the original complete schema ACL. Product grants are unchanged."
+    },
+    {
+      "sha": "decafe625b242572889077efa0503e5dc77ad6c4",
+      "run": 36448994855,
+      "job": 109018560227,
+      "status": "INCOMPLETE",
+      "native": {
+        "PASS": 86,
+        "INCOMPLETE": 2
+      },
+      "races": {
+        "PASS": 22
+      },
+      "http": {
+        "PASS": 3,
+        "INCOMPLETE": 5
+      },
+      "cause": "R08 requires identification before Laundry BS receipt, not at later classification; R12 changed a physical color and violated the one-construction commercial-range invariant. HTTP fixtures assumed the AN no-USAGE baseline instead of captured hosted ACL."
+    },
+    {
+      "sha": "d26f7dc9d8f3733dc882da57d397619d85ab46c7",
+      "run": 36450612563,
+      "job": 109024116342,
+      "status": "INCOMPLETE",
+      "counts": {
+        "native": {
+          "PASS": 88,
+          "FAIL": 1,
+          "INCOMPLETE": 1
+        },
+        "races": {
+          "PASS": 22
+        },
+        "http": {
+          "INCOMPLETE": 1,
+          "PASS": 7
+        }
+      },
+      "gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "primary_unchanged": true,
+      "backup_restore": "RESTORED_SAME_MEANING",
+      "failures": [
+        {
+          "group": "WRITER_PACKAGE_BF_NATIVE",
+          "case": "R08:MULTI_SKU_UNIDENTIFIED_BS_NO_GUESSED_ENTITLEMENT",
+          "status": "FAIL",
+          "failed": [
+            "unidentified_receipt_refused"
+          ]
+        },
+        {
+          "group": "WRITER_PACKAGE_BF_NATIVE",
+          "case": "R12:HISTORICAL_IMPORT_MEMBERSHIP_AND_PHYSICAL_VERSIONS",
+          "status": "INCOMPLETE",
+          "error": "list index out of range"
+        },
+        {
+          "group": "AUDITOR_HTTP_PACKAGE",
+          "case": "SUPPLIER_HTTP:PERMISSION_BEFORE_REPLAY",
+          "status": "INCOMPLETE",
+          "error": "BD_HTTP_FIXTURE_SCHEMA_USAGE_CHANGED"
+        }
+      ],
+      "cause": "R08 checked an uncoded refusal with a product-code parser; R12 name-only edit did not create a physical successor. Nested supplier fixture helper revoked its caller schema grant."
+    },
+    {
+      "sha": "d6137a9419945e896c934714a3ca463aed952886",
+      "run": 36451141727,
+      "job": 109025905150,
+      "status": "INCOMPLETE",
+      "counts": {
+        "native": {
+          "PASS": 89,
+          "FAIL": 1
+        },
+        "races": {
+          "PASS": 22
+        },
+        "http": {
+          "INCOMPLETE": 1,
+          "PASS": 7
+        }
+      },
+      "gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "primary_unchanged": true,
+      "backup_restore": "RESTORED_SAME_MEANING",
+      "failures": [
+        {
+          "group": "WRITER_PACKAGE_BF_NATIVE",
+          "case": "R08:MULTI_SKU_UNIDENTIFIED_BS_NO_GUESSED_ENTITLEMENT",
+          "status": "FAIL",
+          "failed": [
+            "unidentified_receipt_refused"
+          ]
+        },
+        {
+          "group": "AUDITOR_HTTP_PACKAGE",
+          "case": "SUPPLIER_HTTP:PERMISSION_BEFORE_REPLAY",
+          "status": "INCOMPLETE",
+          "error": "BD_HTTP_FIXTURE_SCHEMA_USAGE_CHANGED"
+        }
+      ],
+      "cause": "R12 is now PASS with a real same-construction physical successor. Remaining R08 oracle parser and nested fixture grant defects are corrected in a97962f; no product guard was weakened."
+    },
+    {
+      "sha": "a97962fb3ddd5ee5124b8bd3a6017b30f35c1bff",
+      "run": 36451999967,
+      "job": 109028797662,
+      "status": "PASS",
+      "bf_browser_counts": {
+        "PASS": 27
+      },
+      "au_browser_counts": {
+        "PASS": 10
+      },
+      "gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "writer_runtime": true
+      },
+      "primary_unchanged": true,
+      "console_errors": 0,
+      "schema_profile": "HOSTED_USAGE_UNCHANGED",
+      "database_remaining": 0
+    },
+    {
+      "sha": "a97962fb3ddd5ee5124b8bd3a6017b30f35c1bff",
+      "run": 36451999967,
+      "job": 109028798003,
+      "status": "PASS",
+      "pins_reproduced": true,
+      "backup_restore": "RESTORED_SAME_MEANING",
+      "gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true
+      },
+      "primary_unchanged": true
+    },
+    {
+      "sha": "a97962fb3ddd5ee5124b8bd3a6017b30f35c1bff",
+      "run": 36451999967,
+      "job": 109028798036,
+      "status": "PASS",
+      "counts": {
+        "native": 90,
+        "races": 22,
+        "http": 8
+      },
+      "gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "primary_unchanged": true,
+      "backup_restore": "RESTORED_SAME_MEANING"
+    }
+  ],
+  "latest_qualification_commit": "add1704a21e953757a26c4f2a13dc603fed61470",
+  "remaining": [
+    "Independent final CP6 retest/acceptance is separate; CP6 HOLD, production_go=false, audit_complete=false, CP7 not authorized."
+  ],
+  "rollback_qualification": {
+    "sha": "91445b4e1cd6a6c5363b70b92fdc7d71020a21cc",
+    "run": 36450928491,
+    "job": 109025180774,
+    "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36450928491",
+    "status": "PASS",
+    "primary_unchanged": true,
+    "counts": {
+      "PASS": 147
+    },
+    "checks": [
+      {
+        "check": "ROLLBACK_FILES_REBUILT_IDENTICALLY",
+        "status": "PASS"
+      },
+      {
+        "check": "PACKAGE_INSTALLED",
+        "status": "PASS"
+      },
+      {
+        "check": "REFUSED_OUT_OF_ORDER_AZ_WHILE_BF_INSTALLED",
+        "status": "PASS",
+        "expected_refusal": "AZ_ROLLBACK_PLATFORM_OR_SUCCESSOR"
+      },
+      {
+        "check": "REFUSED_OUT_OF_ORDER_AV_WHILE_BF_INSTALLED",
+        "status": "PASS",
+        "expected_refusal": "AV_ROLLBACK_PLATFORM_OR_SUCCESSOR"
+      },
+      {
+        "check": "REFUSED_OUT_OF_ORDER_AC_WHILE_BF_INSTALLED",
+        "status": "PASS",
+        "expected_refusal": "AC_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR"
+      },
+      {
+        "check": "REFUSED_OPEN_ADMISSION",
+        "status": "PASS",
+        "expected_refusal": "PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_BF_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_BE_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_BD_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_BC_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_BB_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_BA_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AZ_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AY_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AX_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AW_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "ORIGINAL_AV_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected_refusal": "AV_ROLLBACK_PLATFORM_OR_SUCCESSOR"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AV_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "ORIGINAL_AU_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected_refusal": "AU_ROLLBACK_PLATFORM_OR_SUCCESSOR"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AU_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "ORIGINAL_AT_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected_refusal": "AT_ROLLBACK_PLATFORM_OR_SUCCESSOR"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AT_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "ORIGINAL_AS_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected_refusal": "AS_ROLLBACK_PLATFORM_OR_SUCCESSOR"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AS_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "ORIGINAL_AR_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected_refusal": "AR_ROLLBACK_PLATFORM_OR_SUCCESSOR"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AR_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "ORIGINAL_AQ_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected_refusal": "AQ_ROLLBACK_PLATFORM_OR_SUCCESSOR"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AQ_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "ORIGINAL_AP_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected_refusal": "AP_ROLLBACK_PLATFORM_OR_SUCCESSOR"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AP_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "ORIGINAL_AO_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected_refusal": "AO_ROLLBACK_PLATFORM_OR_SUCCESSOR"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AO_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "ORIGINAL_AN_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected_refusal": "AN_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AN_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "ORIGINAL_AM_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected_refusal": "AM_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AM_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "ORIGINAL_AL_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected_refusal": "AL_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AL_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "ORIGINAL_AK_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected_refusal": "AK_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AK_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "ORIGINAL_AJ_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected_refusal": "AJ_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AJ_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "ORIGINAL_AI_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected_refusal": "AI_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AI_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "ORIGINAL_AH_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected_refusal": "AH_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AH_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "ORIGINAL_AG_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected_refusal": "AG_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AG_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "ORIGINAL_AF_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected_refusal": "AF_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AF_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "ORIGINAL_AE_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected_refusal": "AE_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AE_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "ORIGINAL_AD_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected_refusal": "AD_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AD_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "ORIGINAL_AC_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "expected_refusal": "AC_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AC_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_AC_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_AD_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_AE_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_AF_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_AG_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_AH_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_AI_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_AJ_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_AK_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_AL_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_AM_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_AN_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_AO_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_AP_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_AQ_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_AR_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_AS_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_AT_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_AU_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_AV_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_AW_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_AX_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_AY_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_AZ_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_BA_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_BB_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_BC_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_BD_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_BE_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "REINSTALL_BF_SAME_AS_FIRST_INSTALL",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_BF_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_BE_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_BD_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_BC_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_BB_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_BA_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AZ_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AY_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AX_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AW_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AV_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AU_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AT_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AS_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AR_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AQ_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AP_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AO_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AN_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AM_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AL_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AK_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AJ_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AI_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AH_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AG_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AF_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AE_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AD_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AC_RESTORES_PREDECESSOR",
+        "status": "PASS"
+      },
+      {
+        "check": "CYCLE_2_ENDS_AT_AB",
+        "status": "PASS"
+      },
+      {
+        "check": "POST_USE_AC_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "AC_POST_USE_ROLLBACK_REFUSED: account_daily_balances"
+      },
+      {
+        "check": "POST_USE_AD_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "AD_POST_USE_ROLLBACK_REFUSED: account_daily_balances"
+      },
+      {
+        "check": "POST_USE_AE_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "AE_POST_USE_ROLLBACK_REFUSED: account_daily_balances"
+      },
+      {
+        "check": "POST_USE_AF_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "AF_POST_USE_ROLLBACK_REFUSED: account_daily_balances"
+      },
+      {
+        "check": "POST_USE_AG_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "AG_POST_USE_ROLLBACK_REFUSED: account_daily_balances"
+      },
+      {
+        "check": "POST_USE_AH_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "AH_POST_USE_ROLLBACK_REFUSED: account_daily_balances"
+      },
+      {
+        "check": "POST_USE_AI_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "AI_POST_USE_ROLLBACK_REFUSED: account_daily_balances"
+      },
+      {
+        "check": "POST_USE_AJ_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "AJ_POST_USE_ROLLBACK_REFUSED: account_daily_balances"
+      },
+      {
+        "check": "POST_USE_AK_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "AK_POST_USE_ROLLBACK_REFUSED: account_daily_balances"
+      },
+      {
+        "check": "POST_USE_AL_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "AL_POST_USE_ROLLBACK_REFUSED: account_daily_balances"
+      },
+      {
+        "check": "POST_USE_AM_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "AM_POST_USE_ROLLBACK_REFUSED: account_daily_balances"
+      },
+      {
+        "check": "POST_USE_AN_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "AN_POST_USE_ROLLBACK_REFUSED: account_daily_balances"
+      },
+      {
+        "check": "POST_USE_AO_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "AO_POST_USE_ROLLBACK_REFUSED"
+      },
+      {
+        "check": "POST_USE_AP_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "AP_POST_USE_ROLLBACK_REFUSED"
+      },
+      {
+        "check": "POST_USE_AQ_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "AQ_POST_USE_ROLLBACK_REFUSED"
+      },
+      {
+        "check": "POST_USE_AR_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "AR_POST_USE_ROLLBACK_REFUSED"
+      },
+      {
+        "check": "POST_USE_AS_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "AS_POST_USE_ROLLBACK_REFUSED"
+      },
+      {
+        "check": "POST_USE_AT_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "AT_POST_USE_ROLLBACK_REFUSED"
+      },
+      {
+        "check": "POST_USE_AU_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "AU_POST_USE_ROLLBACK_REFUSED"
+      },
+      {
+        "check": "POST_USE_AV_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "AV_POST_USE_ROLLBACK_REFUSED"
+      },
+      {
+        "check": "POST_USE_AW_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "AW_POST_USE_ROLLBACK_REFUSED"
+      },
+      {
+        "check": "POST_USE_AX_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "AX_POST_USE_ROLLBACK_REFUSED"
+      },
+      {
+        "check": "POST_USE_AY_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "AY_POST_USE_ROLLBACK_REFUSED"
+      },
+      {
+        "check": "POST_USE_AZ_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "AZ_POST_USE_ROLLBACK_REFUSED"
+      },
+      {
+        "check": "POST_USE_BA_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "BA_POST_USE_ROLLBACK_REFUSED"
+      },
+      {
+        "check": "POST_USE_BB_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "BB_POST_USE_ROLLBACK_REFUSED"
+      },
+      {
+        "check": "POST_USE_BC_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "BC_POST_USE_ROLLBACK_REFUSED"
+      },
+      {
+        "check": "POST_USE_BD_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "BD_POST_USE_ROLLBACK_REFUSED"
+      },
+      {
+        "check": "POST_USE_BE_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "BE_POST_USE_ROLLBACK_REFUSED"
+      },
+      {
+        "check": "POST_USE_BF_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "expected_refusal": "BF_POST_USE_ROLLBACK_REFUSED"
+      }
+    ],
+    "prior_failure": {
+      "sha": "3b8c057aee781551ced36f82d8a0446c8b859325",
+      "run": 36450001332,
+      "job": 109022015370,
+      "status": "FAIL",
+      "cause": "BF_RESTORED_CATALOG_DRIFT: re-parsing the varchar rate_basis CHECK from pg_get_constraintdef changed the internal cast tree. Reconstruct the original IN expression through the existing G-01 check_source helper; strict whole-catalog equality is unchanged. BF transaction rolled back; later 29 cascade failures were consequences. Runner now stops at first failed restore."
+    },
+    "comparison_rules": "Strict catalogue, migration ledgers and predecessor business data; reinstall comparison excludes capsule capture time/boundary and seeded rows installation time/event IDs as recorded by the existing rollback verifier."
+  },
+  "boundaries": [
+    "R03 same-size distinct work references require separate physical waves.",
+    "R08 unidentified Laundry BS receipt refuses before partial financial or physical facts; normal laundry still does not require final SKU.",
+    "R10 SalesPages remains an existing simulation; native sales/return engine proof is not connected browser sale posting proof.",
+    "R12 exercises two actual physical identity versions with the same construction/root/size and explicit product_id disambiguation; it is not all possible historical imports.",
+    "R14 exercises two real locations, a zero-stock member, pending/late/inverse costs, and an empty Grade B filter; no nonempty mixed-grade inventory claim.",
+    "No production/UAT/legacy writes, no deployment or merge, no CP7 permission."
+  ],
+  "auxiliary_regressions": [
+    {
+      "sha": "a97962fb3ddd5ee5124b8bd3a6017b30f35c1bff",
+      "run": 36452000061,
+      "job": 109028798148,
+      "status": "FAIL",
+      "case": "D06:ACCESS_DENIED_BY_SERVER",
+      "cause": "Both direct reads/writes are correctly denied with SQLSTATE 42501 at the table boundary. The legacy test expected schema denial after its nested fixture used to revoke caller USAGE. Test now selects the precise denial boundary and additionally checks 42501 and complete schema ACL preservation; product permissions unchanged.",
+      "actual_refusals": [
+        "permission denied for table bc_documents_v1",
+        "permission denied for table bc_policy_settings_v1"
+      ],
+      "fixed_in": "add1704a21e953757a26c4f2a13dc603fed61470"
+    },
+    {
+      "sha": "add1704a21e953757a26c4f2a13dc603fed61470",
+      "run": 36452814699,
+      "job": 109031543506,
+      "status": "REVIEW_COMPLETE",
+      "phase": "after",
+      "counts": {
+        "PASS": 45
+      },
+      "primary_unchanged": true,
+      "clone_remaining": 0,
+      "mismatch": {},
+      "case": {
+        "group": "BC_CASES_AFTER",
+        "case": "D06:ACCESS_DENIED_BY_SERVER",
+        "refusals": {
+          "gudang_no_adjust": {
+            "sqlstate": "42501",
+            "message": "PERMISSION_DENIED: warehouse.stock.adjust"
+          },
+          "admin_no_adjust": {
+            "sqlstate": "42501",
+            "message": "PERMISSION_DENIED: warehouse.stock.adjust"
+          },
+          "keuangan_no_view": {
+            "sqlstate": "42501",
+            "message": "PERMISSION_DENIED: warehouse.accessory.view"
+          },
+          "anon": {
+            "sqlstate": "42501",
+            "message": "permission denied for function erp_get_accessory_service_workspace_v1"
+          },
+          "direct_read": {
+            "sqlstate": "42501",
+            "message": "permission denied for table bc_documents_v1"
+          },
+          "direct_write": {
+            "sqlstate": "42501",
+            "message": "permission denied for table bc_policy_settings_v1"
+          },
+          "admin_policy": {
+            "sqlstate": "P0001",
+            "message": "BC_OWNER_ONLY: pengaturan kebijakan hanya dapat diubah owner"
+          }
+        },
+        "checks": {
+          "gudang_no_adjust": true,
+          "admin_no_adjust": true,
+          "keuangan_no_view": true,
+          "anon": true,
+          "direct_read": true,
+          "direct_write": true,
+          "admin_policy": true,
+          "direct_sqlstates": true,
+          "schema_acl_preserved": true,
+          "gudang_reads": true,
+          "values_hidden": true
+        },
+        "failed": [],
+        "status": "PASS",
+        "full_boundary_restored": true
+      }
+    },
+    {
+      "sha": "add1704a21e953757a26c4f2a13dc603fed61470",
+      "run": 36452814750,
+      "job": 109032615804,
+      "status": "REVIEW_COMPLETE",
+      "phase": "after",
+      "counts": {
+        "PASS": 41
+      },
+      "primary_unchanged": true,
+      "clone_remaining": 0,
+      "mismatch": {}
+    }
+  ],
+  "qualified_runtime_checkpoint": {
+    "sha": "add1704a21e953757a26c4f2a13dc603fed61470",
+    "run": 36452814728,
+    "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36452814728",
+    "jobs": {
+      "install": 109031543528,
+      "capture": 109031543629,
+      "browser": 109031543740
+    },
+    "status": "PASS",
+    "counts": {
+      "native": 90,
+      "races": 22,
+      "http": 8,
+      "browser": 27
+    },
+    "additional_au_browser": 10,
+    "native_cases": [
+      {
+        "case": "R03:SAME_SIZE_TWO_SKUS_DISTINCT_WAVES",
+        "supported_boundary": "Same-size distinct work references use distinct physical waves",
+        "checks": {
+          "ambiguous_same_wave_refused": true,
+          "original_binding_unchanged": true,
+          "separate_waves_supported": true
+        },
+        "failed": [],
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "R06:RUNNING_PO_NEW_MEMBER_IDENTICAL_RECIPE",
+        "values": [
+          "125.850000",
+          "201.360000",
+          "75.510000",
+          "180.680000"
+        ],
+        "checks": {
+          "all_sizes": true,
+          "old_lots_unchanged": true,
+          "original_pin": true,
+          "exact_recipe": true,
+          "work_still_original": true,
+          "positive_hpp": true,
+          "truth": true
+        },
+        "failed": [],
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "R06:RUNNING_PO_NEW_MEMBER_DIFFERENT_RECIPE_ATOMIC",
+        "refusal": {
+          "code": "BF_PO_NEW_MEMBER",
+          "refusal": {
+            "sqlstate": "P0001",
+            "message": "BF_PO_NEW_MEMBER: resep ukuran baru berbeda dari komitmen PO"
+          },
+          "result": null,
+          "ok": true
+        },
+        "checks": {
+          "refused": true,
+          "old_lots_unchanged": true,
+          "no_new_lot": true,
+          "physical_unchanged": true,
+          "truth": true
+        },
+        "failed": [],
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "R07:COMMITTED_BS_RANGE_MOVE_SAME_CONTRACTOR_REWORK",
+        "committed": true,
+        "different_contractor": false,
+        "rate": "30.00",
+        "basis": "PO_SNAPSHOT",
+        "hpp": "84.000000",
+        "checks": {
+          "recipe_origin": true,
+          "correct_work_rate": true,
+          "correct_work_source": true,
+          "original_snapshot": true,
+          "physical_identity": true,
+          "recovered": true,
+          "positive_hpp": true,
+          "truth": true,
+          "inverse_stock": true
+        },
+        "failed": [],
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "R07:COMMITTED_BS_RANGE_MOVE_OTHER_CONTRACTOR_REWORK",
+        "committed": true,
+        "different_contractor": true,
+        "rate": "45.00",
+        "basis": "SKU_RATE",
+        "hpp": "84.000000",
+        "checks": {
+          "recipe_origin": true,
+          "correct_work_rate": true,
+          "correct_work_source": true,
+          "original_snapshot": true,
+          "physical_identity": true,
+          "recovered": true,
+          "positive_hpp": true,
+          "truth": true,
+          "inverse_stock": true
+        },
+        "failed": [],
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "R07:UNCOMMITTED_BS_RANGE_MOVE_SAME_CONTRACTOR_REWORK",
+        "committed": false,
+        "different_contractor": false,
+        "rate": "30.00",
+        "basis": "PO_SNAPSHOT",
+        "hpp": "168.000000",
+        "checks": {
+          "recipe_origin": true,
+          "correct_work_rate": true,
+          "correct_work_source": true,
+          "original_snapshot": true,
+          "physical_identity": true,
+          "recovered": true,
+          "positive_hpp": true,
+          "truth": true,
+          "inverse_stock": true
+        },
+        "failed": [],
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "R07:UNCOMMITTED_BS_RANGE_MOVE_OTHER_CONTRACTOR_REWORK",
+        "committed": false,
+        "different_contractor": true,
+        "rate": "45.00",
+        "basis": "SKU_RATE",
+        "hpp": "168.000000",
+        "checks": {
+          "recipe_origin": true,
+          "correct_work_rate": true,
+          "correct_work_source": true,
+          "original_snapshot": true,
+          "physical_identity": true,
+          "recovered": true,
+          "positive_hpp": true,
+          "truth": true,
+          "inverse_stock": true
+        },
+        "failed": [],
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "R11:SALE_MOVE_LATE_INVOICE_RETURN_INVERSE",
+        "lot_values_before": [
+          "110.000000",
+          "176.000000",
+          "66.000000",
+          "168.000000"
+        ],
+        "lot_values_after": [
+          "110.000000",
+          "176.000000",
+          "66.000000",
+          "328.000000"
+        ],
+        "invoice": "188.00",
+        "variance": "160.00",
+        "pending": false,
+        "checks": {
+          "invoice_only_target": true,
+          "sold_variance": true,
+          "same_original_lot": true,
+          "stock_exact": true,
+          "return_cost": true,
+          "immutable_sale": true,
+          "historical_membership": true,
+          "current_one_group": true,
+          "current_value": true,
+          "invoice_clears": true,
+          "truth": true,
+          "inverse_exact": true,
+          "inverse_distribution": true,
+          "unknown_restored": true,
+          "stock_after_inverse": true
+        },
+        "failed": [],
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "R11:UNKNOWN_SALE_MOVE_LATE_INVOICE_RETURN_INVERSE",
+        "lot_values_before": [
+          "110.000000",
+          "176.000000",
+          "66.000000",
+          "140.000000"
+        ],
+        "lot_values_after": [
+          "110.000000",
+          "176.000000",
+          "66.000000",
+          "300.000000"
+        ],
+        "invoice": "160.00",
+        "variance": "160.00",
+        "pending": true,
+        "checks": {
+          "invoice_only_target": true,
+          "sold_variance": true,
+          "same_original_lot": true,
+          "stock_exact": true,
+          "return_cost": true,
+          "immutable_sale": true,
+          "historical_membership": true,
+          "current_one_group": true,
+          "current_value": true,
+          "invoice_clears": true,
+          "truth": true,
+          "inverse_exact": true,
+          "inverse_distribution": true,
+          "unknown_restored": true,
+          "stock_after_inverse": true
+        },
+        "failed": [],
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "R08:MULTI_SKU_UNIDENTIFIED_BS_NO_GUESSED_ENTITLEMENT",
+        "refusal": {
+          "needle": "Receipt size lines must be unique, positive, and bind every Laundry BS to a product",
+          "refusal": {
+            "sqlstate": "P0001",
+            "message": "Receipt size lines must be unique, positive, and bind every Laundry BS to a product"
+          },
+          "result": null,
+          "ok": true
+        },
+        "checks": {
+          "unidentified_receipt_refused": true,
+          "no_partial_receipt": true,
+          "no_guessed_entitlement": true,
+          "money_unchanged": true,
+          "identified_scope": true,
+          "no_fg": true
+        },
+        "failed": [],
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "R09:COMMERCIAL_CONVERSION_EXACT_SIZE_INVERSE",
+        "checks": {
+          "commercial_source": true,
+          "commercial_target": true,
+          "legacy_search": true,
+          "exact_size": true,
+          "document_labels": true,
+          "immutable_physical_code": true,
+          "inverse": true
+        },
+        "failed": [],
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "R12:HISTORICAL_IMPORT_MEMBERSHIP_AND_PHYSICAL_VERSIONS",
+        "successor": "90c4e425-8b5c-481b-a2e6-1a3d5ded76b3",
+        "checks": {
+          "old_exact": true,
+          "historical_membership": true,
+          "future_membership_refused": true,
+          "current_alias": true,
+          "no_aggregate_split": true,
+          "two_versions_ambiguous": true,
+          "explicit_old": true,
+          "explicit_new": true,
+          "distinct_versions": true
+        },
+        "failed": [],
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "R13:PARTIAL_BS_REPEAT_WASH_PACKAGE_CORRECTION_CREDIT",
+        "lot_before": [
+          "107.486842",
+          "153.267068",
+          "64.492105",
+          "165.989474"
+        ],
+        "lot_after": [
+          "107.486842",
+          "155.932782",
+          "64.492105",
+          "165.989474"
+        ],
+        "ap_before": "154.89",
+        "ap_after": "144.89",
+        "checks": {
+          "package_once": true,
+          "exact_retry_sources": true,
+          "physical_stock": true,
+          "only32_cost_changed": true,
+          "variance_conserved": true,
+          "correction_exact": true,
+          "claim_lowers_ap_once": true,
+          "credit_replay": true,
+          "credit_cannot_double_spend": true,
+          "reversed_credit_available": true,
+          "warranty_one_physical_recovery": true,
+          "warranty_not_paid_redye": true,
+          "truth": true
+        },
+        "failed": [],
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "R14:HPP_LOCATIONS_ZERO_MEMBER_PENDING_INVOICE_INVERSE",
+        "before": "240.0000000000000000",
+        "after": "338.5600000000000000",
+        "locations": [
+          "2",
+          "14"
+        ],
+        "checks": {
+          "physical_denominator": true,
+          "zero_stock_member": true,
+          "locations": true,
+          "value_conserved": true,
+          "unknown_visible": true,
+          "known_cost_positive": true,
+          "report_before_receipt_empty": true,
+          "grade_filter_no_fictitious_stock": true,
+          "invoice_exact_fg_share": true,
+          "weighted": true,
+          "inverse": true
+        },
+        "failed": [],
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "SUPPLIER:FABRIC_SPLIT_ORIGINAL_INVERSE",
+        "status": "PASS",
+        "checks": {
+          "original": true,
+          "split": true,
+          "amount_once": true,
+          "stock_once": true,
+          "material_costs_unchanged": true,
+          "replay": true,
+          "over_credit": true,
+          "stale": true,
+          "return_dependency": true,
+          "original_restored": true,
+          "history": true,
+          "released_target_does_not_block_reuse": true,
+          "reused_credit_restores_origin": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "SUPPLIER:ACCESSORY_SPLIT_ORIGINAL_INVERSE",
+        "status": "PASS",
+        "checks": {
+          "original": true,
+          "split": true,
+          "amount_once": true,
+          "stock_once": true,
+          "material_costs_unchanged": true,
+          "replay": true,
+          "over_credit": true,
+          "stale": true,
+          "return_dependency": true,
+          "original_restored": true,
+          "history": true,
+          "released_target_does_not_block_reuse": true,
+          "reused_credit_restores_origin": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "SUPPLIER:CASH_REALLOCATION_FINANCIAL_TRUTH",
+        "status": "PASS",
+        "checks": {
+          "balances": true,
+          "net_ap_unchanged": true,
+          "stock_costs_unchanged": true,
+          "no_double_use": true,
+          "original_restored": true,
+          "financial_truth": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "SUPPLIER:EXACT_CENT_FOREIGN_PARTY_REFUSAL",
+        "status": "PASS",
+        "checks": {
+          "cent_from_posted_fact": true,
+          "original": true,
+          "net_cent": true,
+          "foreign_refused": true,
+          "inverse": true,
+          "ledger_once": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "PR30:D03_HISTORICAL_WORKSPACE",
+        "status": "PASS",
+        "checks": {
+          "old_a": true,
+          "old_b": true,
+          "new_a": true,
+          "new_b": true,
+          "physical_old": true,
+          "write_revision": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "PR30:D02_UNUSED_STALE_BINDING",
+        "status": "PASS",
+        "checks": {
+          "stale_refused": true,
+          "no_stale_snapshot": true,
+          "explicit_rebind": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "PR30:D02_PRIOR_VALID_PIN",
+        "status": "PASS",
+        "checks": {
+          "pin_retained": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "VENDOR:AUTHORITY_WITH_LEGACY_SKU_OVERRIDE",
+        "status": "PASS",
+        "checks": {
+          "vendor_rate": true,
+          "vendor_components": true,
+          "source_not_sku": true,
+          "new_sku_override_refused": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "VENDOR:EMPTY_DETAILS_INVOICE_HPP_SALE_REVERSAL",
+        "status": "PASS",
+        "checks": {
+          "rate_unknown": true,
+          "no_fake_component": true,
+          "replay": true,
+          "pending_before": true,
+          "pending_partial": true,
+          "invoice_clears": true,
+          "exact_hpp_delta": true,
+          "ap_once": true,
+          "close_current": true,
+          "close_historical": true,
+          "immutable_quote": true,
+          "reversal_reopens": true,
+          "sale_recorded": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "VENDOR:UNKNOWN_COMPONENT_INVOICE_HPP_SALE_REVERSAL",
+        "status": "PASS",
+        "checks": {
+          "rate_unknown": true,
+          "no_fake_component": true,
+          "replay": true,
+          "pending_before": true,
+          "pending_partial": true,
+          "invoice_clears": true,
+          "exact_hpp_delta": true,
+          "ap_once": true,
+          "close_current": true,
+          "close_historical": true,
+          "immutable_quote": true,
+          "reversal_reopens": true,
+          "sale_recorded": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "VENDOR:HISTORY_PENDING_ACTUAL_REVERSAL",
+        "status": "PASS",
+        "checks": {
+          "four_physical_sizes": true,
+          "work_costs": true,
+          "laundry_costs": true,
+          "shared_selling_price": true,
+          "exact_total": true,
+          "history_sku_selection": true,
+          "history_reference_only": true,
+          "history_actual": true,
+          "history_reversal": true,
+          "history_process_only": true,
+          "hpp_group_qty": true,
+          "hpp_weighted": true,
+          "hpp_before_fg": true,
+          "vendor_provenance": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "VENDOR_REG:D12:CLAIM_CREDIT_DAILY_OLDER_INVOICE",
+        "status": "PASS",
+        "checks": {
+          "reject_after_invoice": true,
+          "approval_lowers_payable": true,
+          "phantom_before_use": true,
+          "replay_once": true,
+          "invoice_paid": true,
+          "screen_ledger_agree": true,
+          "credit_once": true,
+          "no_overpay": true,
+          "claim_locked": true,
+          "reversal_frees_credit": true,
+          "reapplied": true,
+          "june_unchanged": true,
+          "truth_checks_quiet": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "VENDOR_REG:D12:CLAIM_CREDIT_OPENING_OLDER_PAYABLE",
+        "status": "PASS",
+        "checks": {
+          "invoice_older_than_reject": true,
+          "phantom_before_use": true,
+          "payable_settled": true,
+          "screen_ledger_agree": true,
+          "credit_once": true,
+          "claim_locked": true,
+          "cutover_unchanged": true,
+          "truth_checks_quiet": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BE_REV:RECOVERY_NONPO_ZERO",
+        "status": "PASS",
+        "checks": {
+          "recovery": true,
+          "fg": true,
+          "cogs": true,
+          "no_income": true,
+          "two_usable_only": true,
+          "missing_two": true,
+          "replay": true,
+          "truth": true,
+          "sale_snapshot": true,
+          "inverse": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BE_REV:RECOVERY_NONPO_USAGE",
+        "status": "PASS",
+        "checks": {
+          "recovery": true,
+          "fg": true,
+          "cogs": true,
+          "no_income": true,
+          "two_usable_only": true,
+          "missing_two": true,
+          "replay": true,
+          "truth": true,
+          "sale_snapshot": true,
+          "inverse": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BE_REV:RECOVERY_PO_ZERO",
+        "status": "PASS",
+        "checks": {
+          "recovery": true,
+          "fg": true,
+          "cogs": true,
+          "no_income": true,
+          "two_usable_only": true,
+          "missing_two": true,
+          "replay": true,
+          "truth": true,
+          "sale_snapshot": true,
+          "inverse": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BE_REV:RECOVERY_PO_USAGE",
+        "status": "PASS",
+        "checks": {
+          "recovery": true,
+          "fg": true,
+          "cogs": true,
+          "no_income": true,
+          "two_usable_only": true,
+          "missing_two": true,
+          "replay": true,
+          "truth": true,
+          "sale_snapshot": true,
+          "inverse": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BE_REV:RECOVERY_EXCEEDS_GARMENT_ATOMIC",
+        "status": "PASS",
+        "checks": {
+          "refused": true,
+          "atomic": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BE_REV:MIXED_PO_NONPO_SALE_RETURN_INVOICE_POCKET",
+        "status": "PASS",
+        "checks": {
+          "both_origins": true,
+          "late_invoice_isolated": true,
+          "sale_return": true,
+          "pocket": true,
+          "mixed_conversion_inverse": true,
+          "sales_immutable": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BE_REV:52_POCKET_PERIODS_SEARCH_PAGE_INVERSE",
+        "status": "PASS",
+        "checks": {
+          "paged": true,
+          "search_id_and_date": true,
+          "once": true,
+          "no_stock": true,
+          "inverse": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BE_REV:NONPO_ENTRY_REFUSED_AX_REPAIR_CONVERSION",
+        "status": "PASS",
+        "checks": {
+          "early_refusal": true,
+          "ax_repair": true,
+          "ax_conversion": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BE_REV:PUBLIC_SEWING_VERSION_DEPENDENCY_REPLAY",
+        "status": "PASS",
+        "checks": {
+          "missing_version": true,
+          "stale": true,
+          "dependency": true,
+          "replay": true,
+          "reversed_once": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BE01:SELECTED_LOT_REPLAY_REVERSE",
+        "status": "PASS",
+        "checks": {
+          "exact_selected_lot": true,
+          "quantity": true,
+          "value": true,
+          "replay": true,
+          "inverse": true,
+          "truth": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BE01:CAPACITY_STALE_NO_UNSOURCED_COST",
+        "status": "PASS",
+        "checks": {
+          "stale": true,
+          "over": true,
+          "same": true,
+          "unsourced": true,
+          "unchanged": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BE01:ACTUAL_ACCESSORY_COST_ONCE_AND_INVERSE",
+        "status": "PASS",
+        "checks": {
+          "cost_once": true,
+          "not_double_expense": true,
+          "material_once": true,
+          "truth": true,
+          "linked_inverse": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BE01:OPENING_SOURCE_VALUE_AND_INVERSE",
+        "status": "PASS",
+        "checks": {
+          "physical": true,
+          "source_target": true,
+          "destination_target": true,
+          "truth": true,
+          "inverse": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BE02:REWORK_NEW_SKU_ATOMIC_REPLAY_INVERSE",
+        "status": "PASS",
+        "checks": {
+          "one_conversion": true,
+          "good_once": true,
+          "target": true,
+          "replay": true,
+          "inverse": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BE03:REAL_SERVICE_INVOICE_SOLD_VARIANCE",
+        "status": "PASS",
+        "checks": {
+          "source_cost": true,
+          "estimate_replaced": true,
+          "lot_delta": true,
+          "fg_delta": true,
+          "cogs_delta": true,
+          "ap_once": true,
+          "over": true,
+          "truth": true,
+          "snapshot": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BE03:UNKNOWN_PRICE_CLOSE_REPLAY",
+        "status": "PASS",
+        "checks": {
+          "unknown": true,
+          "cleared": true,
+          "price_added": true,
+          "replay": true,
+          "overwrite": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BE04:HISTORICAL_POCKET_ALLOCATION_CORRECTION_INVERSE",
+        "status": "PASS",
+        "checks": {
+          "quantity": true,
+          "amount": true,
+          "no_fake_events": true,
+          "replay": true,
+          "first": true,
+          "correction": true,
+          "inverse": true,
+          "truth": true,
+          "detector_negative": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BE04:HISTORICAL_POCKET_RECEIPT_INVOICE_INVERSE",
+        "status": "PASS",
+        "checks": {
+          "certainty": true,
+          "receipt_quantity": true,
+          "stock_not_drawn_twice": true,
+          "recost": true,
+          "inverse": true,
+          "truth": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BE01:LATE_INVOICE_RECOVERY_SOLD_AND_CONVERTED",
+        "status": "PASS",
+        "checks": {
+          "invoice_to_sold_and_child": true,
+          "recovery_to_sold_and_child": true,
+          "no_extra_income": true,
+          "policy": true,
+          "capacity": true,
+          "source_immutable": true,
+          "sales_snapshots_immutable": true,
+          "inverse_recovery": true,
+          "inverse_invoice": true,
+          "provisional": true,
+          "truth": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BE04:HISTORICAL_PERIOD_WIP_SPLIT_COMPLETION_RECOST",
+        "status": "PASS",
+        "checks": {
+          "cutover_date": true,
+          "source_value": true,
+          "fg_current": true,
+          "bs_current": true,
+          "fg_was_sourced": true,
+          "bs_was_sourced": true,
+          "truth": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BE04:PROVENANCE_NUMERATOR_DENOMINATOR_REFUSALS",
+        "status": "PASS",
+        "checks": {
+          "missing_document": true,
+          "already_allocated_without_reference": true,
+          "future_history": true,
+          "incomplete_numerator": true,
+          "incomplete_denominator": true,
+          "fractional_pieces": true,
+          "missing_target": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BE04:ALLOCATED_REFERENCE_ONLY_DUPLICATE_BATCH",
+        "status": "PASS",
+        "checks": {
+          "no_second_expense": true,
+          "reference_only": true,
+          "excluded": true,
+          "duplicate_refused": true,
+          "unchanged": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BE04:SALE_RETURN_CONVERSION_RECOST",
+        "status": "PASS",
+        "checks": {
+          "qty": true,
+          "child": true,
+          "source": true,
+          "ledger": true,
+          "correction_inverse": true,
+          "allocation_inverse": true,
+          "history": true,
+          "truth": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BE04:MIXED_NATIVE_HISTORICAL_AFUI_INVERSE",
+        "status": "PASS",
+        "checks": {
+          "combined": true,
+          "sources": true,
+          "special_included": true,
+          "destinations": true,
+          "amounts": true,
+          "inverse": true,
+          "no_fake_events": true,
+          "truth": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BE04:CLOSED_CORRECTION_ASOF_REPLAY_INVERSE",
+        "status": "PASS",
+        "checks": {
+          "replay": true,
+          "closed_posting": true,
+          "asof": true,
+          "history": true,
+          "stale": true,
+          "before_cutover": true,
+          "delta": true,
+          "inverse": true,
+          "truth": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF:IMPORT_AMBIGUOUS_FAILS_BEFORE_POST",
+        "status": "PASS",
+        "checks": {
+          "all_three_fail_before_apply": true,
+          "no_partial_products": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF:IMPORT_EXACT_SIZE_SALES_CUSTODY_COGS_REPLAY",
+        "status": "PASS",
+        "checks": {
+          "sale_exact": true,
+          "custody_exact": true,
+          "cogs_exact": true,
+          "one_reservation": true,
+          "replay": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF:IMPORT_INSUFFICIENT_STOCK_ATOMIC",
+        "status": "PASS",
+        "checks": {
+          "refused": true,
+          "no_partial_draft": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF:IMPORT_REWORK_SOURCE_RECIPE",
+        "status": "PASS",
+        "checks": {
+          "source_bom_required": true,
+          "source_without_recipe": true,
+          "other_size_has_recipe": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF:IMPORT_REWORK_SOURCE_RECIPE_POSITIVE",
+        "status": "PASS",
+        "checks": {
+          "actual_source": true,
+          "recipe_source": true,
+          "good_product": true,
+          "good_cost": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF:UNUSED_ROLLBACK_EXACT",
+        "status": "PASS",
+        "checks": {
+          "prior_family_exact": true,
+          "tables_removed": true,
+          "unique_restored": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF:USED_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "checks": {
+          "refused": true,
+          "data_kept": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF:TWO_SKUS_ONE_WAVE_WORK_LAUNDRY_QC",
+        "status": "PASS",
+        "checks": {
+          "four_physical_sizes": true,
+          "work_costs": true,
+          "laundry_costs": true,
+          "shared_selling_price": true,
+          "exact_total": true,
+          "history_sku_selection": true,
+          "history_reference_only": true,
+          "history_actual": true,
+          "history_reversal": true,
+          "history_process_only": true,
+          "hpp_group_qty": true,
+          "hpp_weighted": true,
+          "hpp_before_fg": true,
+          "vendor_provenance": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF:SHARED_MASTER_PHYSICAL_ROOTS_REPLAY_GUARD",
+        "status": "PASS",
+        "checks": {
+          "same_price": true,
+          "physical_roots": true,
+          "one_revision": true,
+          "replay": true,
+          "guard": true,
+          "stale": true,
+          "child_versions": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF:SINGLETON_BEFORE_ECONOMICS",
+        "status": "PASS",
+        "checks": {
+          "singleton": true,
+          "no_invented_economics": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF:SHARED_NONEMPTY_ACCESSORY_RECIPE",
+        "status": "PASS",
+        "checks": {
+          "shared_recipe": true,
+          "two_buttons": true,
+          "standard_price": true,
+          "independent_size_edit_refused": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF:TEMPORAL_31_33_TO_31_34_ATOMIC",
+        "status": "PASS",
+        "checks": {
+          "atomic": true,
+          "old": true,
+          "new": true,
+          "no_stock": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF:NEW_MEMBER_AND_FUTURE_WAVE_TARIFF",
+        "status": "PASS",
+        "checks": {
+          "price_guard": true,
+          "bom_guard": true,
+          "current_members": true,
+          "current_tariff": true,
+          "new_member_future": true,
+          "historical_version": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF:LEGACY_CONFLICT_ACKNOWLEDGED_AND_FUTURE_PRICES",
+        "status": "PASS",
+        "checks": {
+          "explicit_basis": true,
+          "historical": true,
+          "successor": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF_REG_BD:T02:PACKAGE_ONE_CHARGE_PHYSICAL_QTY",
+        "status": "PASS",
+        "checks": {
+          "plain_refused": true,
+          "qty_10": true,
+          "total": true,
+          "rate": true,
+          "one_charge": true,
+          "accrual": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF_REG_BD:T03:COMPONENT_SUM_SAME_PIECES",
+        "status": "PASS",
+        "checks": {
+          "duplicate_refused": true,
+          "qty_10": true,
+          "total": true,
+          "charges": true,
+          "accrual": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF_REG_BD:T04:FOUR_COMPONENTS",
+        "status": "PASS",
+        "checks": {
+          "duplicate_refused": true,
+          "qty_10": true,
+          "total": true,
+          "charges": true,
+          "accrual": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF_REG_BD:T05:PARTIAL_COMPONENT_COVERAGE",
+        "status": "PASS",
+        "checks": {
+          "over_refused": true,
+          "qty_10": true,
+          "total": true,
+          "coverage": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF_REG_BD:T06:PACKAGE_EXTRA_ONCE",
+        "status": "PASS",
+        "checks": {
+          "same_refused": true,
+          "pending_refused": true,
+          "total": true,
+          "charges": true,
+          "versions": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF_REG_BD:T07:VERSION_AFTER_POSTED_DELIVERY",
+        "status": "PASS",
+        "checks": {
+          "early_refused": true,
+          "first_kept": true,
+          "second_v2": true,
+          "receipt_first_estimate": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF_REG_BD:T12:UNKNOWN_COMPONENT_KNOWN_SUBTOTAL",
+        "status": "PASS",
+        "checks": {
+          "physical": true,
+          "known_part": true,
+          "rate_null": true,
+          "accrued_known": true,
+          "blocked_out": true,
+          "flat_estimate_refused": true,
+          "receipt_known_part": true,
+          "blocked_back": true,
+          "denied": true,
+          "zero_refused": true,
+          "set": true,
+          "again_refused": true,
+          "complete": true,
+          "receipt_full": true,
+          "accrual_full": true,
+          "unblocked": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF_REG_BD:T13:NO_VERSION_IS_ERROR",
+        "status": "PASS",
+        "checks": {
+          "refused": true,
+          "nothing": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF_REG_BD:T20:LUMP_SUM_SPLIT_RECEIPTS",
+        "status": "PASS",
+        "checks": {
+          "pending_refused": true,
+          "no_lump_refused": true,
+          "batch": true,
+          "split": true,
+          "uncosted_zero": true,
+          "accrual": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF_REG_BD:DEC01:MINIMUM_CHARGE_TOPUP",
+        "status": "PASS",
+        "checks": {
+          "pending_refused": true,
+          "unknown_refused": true,
+          "total": true,
+          "topup": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF_REG_BD:T24:SCOPED_SIZE_RATE",
+        "status": "PASS",
+        "checks": {
+          "pending_refused": true,
+          "plain_refused": true,
+          "refuse_without_rate": true,
+          "mixed": true,
+          "posted": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF_REG_BD:T24:MULTI_SIZE_LOT_HPP",
+        "status": "PASS",
+        "checks": {
+          "estimates": true,
+          "allocations": true,
+          "receipt_line_cost": true,
+          "two_lots": true,
+          "per_size_laundry": true,
+          "other_costs_equal_per_piece": true,
+          "variance_by_pieces": true,
+          "nothing_left_in_wip": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF_REG_BD:D10:VARIANCE_BY_BILLING_SOURCE",
+        "status": "PASS",
+        "checks": {
+          "two_billing_sources": true,
+          "variance_stays_with_its_source": true,
+          "nothing_left_in_wip": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF_REG_BD:REV:X01_EXPLICIT_SIZE_COVERAGE_AND_RESPONSE",
+        "status": "PASS",
+        "checks": {
+          "ambiguous_refused": true,
+          "foreign_refused": true,
+          "response_exact": true,
+          "unrelated_size_complete": true,
+          "finish_only_recipient": true,
+          "partial_receipts_conserve": true,
+          "lot_laundry_conserved": true,
+          "total_cost_conserved": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF_REG_BD:REV:X01_UNKNOWN_COMPLETION_PRESERVES_COVERAGE",
+        "status": "PASS",
+        "checks": {
+          "ambiguous_refused": true,
+          "foreign_refused": true,
+          "response_exact": true,
+          "unrelated_size_complete": true,
+          "finish_only_recipient": true,
+          "partial_receipts_conserve": true,
+          "lot_laundry_conserved": true,
+          "total_cost_conserved": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF_REG_BD:REV:OWN02_FREE_WAIVED_LEGAL_PATH",
+        "status": "PASS",
+        "checks": {
+          "FREE": true,
+          "WAIVED": true,
+          "unknown_to_waived": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF_REG_BD:REV:X02_MONEY_OVER_INT32",
+        "status": "PASS",
+        "checks": {
+          "split_upper_bound": true,
+          "21474836.47": true,
+          "21474836.48": true,
+          "28123456.78": true,
+          "discount_exact": true,
+          "ap_exact": true,
+          "balanced": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF_REG_BD:REV:X03_AUTH_BEFORE_REPLAY",
+        "status": "PASS",
+        "checks": {
+          "authorized_replay": true,
+          "revoke_fresh": true,
+          "revoke_replay": true,
+          "inactive": true,
+          "hidden": true,
+          "restored": true,
+          "one_effect": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF_REG_BD:REV:X05_PAGES_55_INVOICES_201_SOURCES",
+        "status": "PASS",
+        "checks": {
+          "first_limits": true,
+          "remaining": true,
+          "no_lost_or_duplicate_invoices": true,
+          "no_lost_or_duplicate_sources": true,
+          "new_insert_excluded": true,
+          "end": true,
+          "invalid_cursor": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF_REG_BB:W:W02_SPLIT_BS_DISPOSE_AND_UNDO",
+        "status": "PASS",
+        "checks": {
+          "split_case_native": true,
+          "remaining_six": true,
+          "value_stays_in_wip": true,
+          "scrap_moves_value": true,
+          "undo_disposition_restores": true,
+          "split_locked_by_resolution": true,
+          "split_undone": true,
+          "stages_never_negative": true,
+          "reports_zero": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF_REG_BB:W:W02_SPLIT_BS_REWORK_GOOD",
+        "status": "PASS",
+        "checks": {
+          "good_lot_value": true,
+          "wip_to_fg": true,
+          "reverse_restores": true,
+          "reports_zero": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF_REG_BB:W:W02_SPLIT_DATED_REMAINING",
+        "status": "PASS",
+        "checks": {
+          "backdated_refused": true,
+          "today_fits": true,
+          "sewing_never_negative": true,
+          "reports_zero": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF_REG_BB:W:W02_WAGES_AFTER_CUTOVER_THROUGH_PAYROLL",
+        "status": "PASS",
+        "checks": {
+          "wage_accrued": true,
+          "output_carries_wage": true,
+          "payroll_pays_once": true,
+          "reports_zero": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      {
+        "case": "BF_REG_BB:W:W02_WAGES_OVER_PIECES_OR_BEFORE_CUTOVER_REFUSED",
+        "status": "PASS",
+        "checks": {
+          "over_refused": true,
+          "before_cutover_refused": true,
+          "cumulative_over_refused": true,
+          "remainder_fits": true
+        },
+        "failed": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      }
+    ],
+    "gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "backup_restore": "RESTORED_SAME_MEANING",
+    "primary_unchanged": true,
+    "groups": {
+      "native": {
+        "status": "PASS",
+        "counts": {
+          "PASS": 90
+        },
+        "database_remaining": null,
+        "error": null,
+        "cleanup": null,
+        "auth_counts": null,
+        "console_errors": null
+      },
+      "races": {
+        "status": "RUN_COMPLETE",
+        "counts": {
+          "PASS": 22
+        },
+        "database_remaining": 0,
+        "error": null,
+        "cleanup": null,
+        "auth_counts": null,
+        "console_errors": null
+      },
+      "http": {
+        "status": "RUN_COMPLETE",
+        "counts": {
+          "PASS": 8
+        },
+        "database_remaining": 0,
+        "error": null,
+        "cleanup": {
+          "users_created": 16,
+          "cleanup_failures": [],
+          "rest_remaining": false
+        },
+        "auth_counts": {
+          "before": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "after": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "restored": true
+        },
+        "console_errors": null
+      }
+    },
+    "schema_profile": "HOSTED_USAGE_UNCHANGED",
+    "cutover_checks": {
+      "uuid_quality": {
+        "status": "CLEAN",
+        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+        "columns_checked": 1109,
+        "refused_values": {},
+        "refused_total": 0,
+        "non_v4_defaults": {},
+        "non_rfc_values": {},
+        "non_rfc_total": 0,
+        "reads_only": true,
+        "note": "Frontend UUID pattern (canonical 8-4-4-4-12, D08) against every erp uuid column; non_rfc_values is information only"
+      },
+      "cash_bank_aliases": {
+        "status": "NONE",
+        "aliases": [],
+        "reads_only": true,
+        "note": "Active cash accounts sharing one COA account (CASH_BANK opening identity is per cash account)"
+      }
+    },
+    "browser_group": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 27
+      },
+      "database_remaining": 0,
+      "error": null,
+      "cleanup": {
+        "users_created": 0,
+        "cleanup_failures": [],
+        "rest_remaining": false
+      },
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "console_errors": 0
+    },
+    "au_browser": {
+      "REAL_LOGIN_PAGE": "PASS",
+      "ANONYMOUS_REFUSED": "PASS",
+      "REAL_PASSWORD_BROWSER_LOGIN": "PASS",
+      "AMBIGUOUS_REFUSED_0": "PASS",
+      "LOST_REPLY_RELOAD_EXACT_REPLAY": "PASS",
+      "EXACT_BRAND_STOCK_HPP_0": "PASS",
+      "LINKED_INVERSE_0": "PASS",
+      "AMBIGUOUS_REFUSED_1": "PASS",
+      "EXACT_BRAND_STOCK_HPP_1": "PASS",
+      "LINKED_INVERSE_1": "PASS"
+    },
+    "capture": {
+      "gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true
+      },
+      "pins_reproduced": {
+        "equal": true,
+        "differ": []
+      },
+      "backup_restore": "RESTORED_SAME_MEANING",
+      "primary_unchanged": true
+    }
+  },
+  "latest_build_codeql": {
+    "sha": "add1704a21e953757a26c4f2a13dc603fed61470",
+    "build": {
+      "run": 36452814726,
+      "status": "PASS"
+    },
+    "codeql": {
+      "run": 36452814716,
+      "status": "PASS"
+    }
+  },
+  "development_baseline_retest": {
+    "sha": "a97962fb3ddd5ee5124b8bd3a6017b30f35c1bff",
+    "run": 36452000113,
+    "job": 109028799055,
+    "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36452000113",
+    "status": "RUN_COMPLETE",
+    "independent_acceptance": false,
+    "counts": {
+      "auditor_cases": {
+        "PASS": 90
+      },
+      "auditor_races": {
+        "PASS": 22
+      },
+      "auditor_http": {
+        "PASS": 8
+      },
+      "auditor_browser": {
+        "PASS": 27
+      }
+    },
+    "primary_unchanged": true,
+    "clone_remaining": 0
+  },
+  "security_advisors": {
+    "status": "REVIEW_REQUIRED",
+    "gate_pass": true,
+    "before": 73,
+    "after": 216,
+    "added_count": 143,
+    "added_classes": [
+      "rls_enabled_no_policy:INFO:erp"
+    ],
+    "accepted_class_source": "Existing B2 CP6-11 gate: INFO rls_enabled_no_policy on erp owner-only tables reached through security-definer RPCs. No other added class is accepted.",
+    "added": [
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "accounting_close_filings_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bb_customer_credit_events_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bb_customer_credits_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bb_legacy_documents_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bb_open_sales_draft_lines_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bb_open_sales_drafts_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bb_opening_credits_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bb_opening_reworks_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bb_opening_sale_return_receipts_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bb_opening_sale_return_rights_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bb_payroll_entitlements_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bb_purchase_commitment_cancellations_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bb_purchase_commitment_drafts_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bb_purchase_commitment_lines_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bb_purchase_commitments_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bb_receipt_invoiced_parts_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bb_wip_bs_splits_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bb_wip_pickups_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bb_wip_split_value_events_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bc_accessory_zones_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bc_adjustment_purposes_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bc_count_variances_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bc_customer_custody_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bc_document_links_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bc_documents_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bc_execution_context_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bc_free_issue_lines_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bc_internal_use_lines_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bc_lot_events_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bc_note_roundings_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bc_opening_note_lines_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bc_outstanding_returns_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bc_policy_setting_events_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bc_policy_settings_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bc_return_lots_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bd_claim_credit_applications_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bd_custody_sources_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bd_execution_context_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bd_laundry_charge_lines_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bd_laundry_charge_shares_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bd_laundry_component_rates_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bd_laundry_components_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bd_laundry_invoice_lines_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bd_laundry_invoices_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bd_laundry_package_components_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bd_laundry_package_rates_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bd_laundry_packages_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bd_laundry_priced_lines_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bd_laundry_receipt_allocations_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bd_laundry_scoped_rates_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bd_laundry_size_estimates_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bd_laundry_vendor_terms_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bd_opening_laundry_claim_events_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bd_opening_laundry_claims_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bd_opening_laundry_uninvoiced_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bd_pending_price_sales_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bd_policy_setting_events_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bd_policy_settings_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bd_requests_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "be_conversion_cost_events_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "be_conversion_cost_sources_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "be_conversion_returns_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "be_conversion_sources_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "be_execution_context_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "be_nonpo_transfer_events_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "be_pocket_receipt_origins_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "be_pocket_sewing_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "be_pocket_source_events_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "be_pocket_target_events_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "be_pocket_usage_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "be_redye_price_events_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "be_redye_services_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "be_rework_targets_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bf_context_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bf_laundry_delivery_sources_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bf_po_boms_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bf_requests_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bf_rollback_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bf_sku_members_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bf_sku_versions_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bf_skus_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bf_supplier_credit_moves_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bf_wave_skus_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bs_case_manual_origins_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ac_relation_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ac_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ad_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ae_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620af_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ag_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ah_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ai_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620aj_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ak_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620al_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620am_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620an_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ao_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ap_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620aq_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ar_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620as_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620at_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620au_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620av_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620aw_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ax_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ay_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620az_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ba_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620bb_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620bc_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620bd_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620be_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620bf_rollback_capsule",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "fg_unsourced_receipts_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "fg_unsourced_repair_wages_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_bs_value_events",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_cost_origins",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_financial_sources",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_opening_stock_sources",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_origin_cost_events",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_prepayment_events",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_prepayment_payments",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_prepayments",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_production_sources",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_receipt_headers",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_receipt_lines",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_wip_output_identity_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_wip_output_reversals",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_wip_outputs",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "invoice_recost_execution_context",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "laundry_rate_owner_estimates_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "po_hpp_gl_lot_state_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "po_hpp_gl_material_state_v1",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "pocket_fabric_execution_context",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "pocket_fabric_materials",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "pocket_fabric_usage",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "pocket_period_destinations",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "pocket_period_events",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "pocket_period_sources",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "pocket_periods",
+        "table"
+      ],
+      [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "product_identity_mutation_context_v1",
+        "table"
+      ]
+    ]
+  }
+}
