@@ -151,7 +151,7 @@ def version_snapshot():
     return {'old':old['total_known'],'new':new['total_known'],'note':'Version lookup, not a posted-snapshot lifecycle proof'}
 def free_price():
     c=component(CTX['v1'],'AUD-FREE')
-    return rate(c,'0.00')
+    return reject(lambda:rate(c,'0.00'))
 def replay():
     p={'vendor_id':CTX['v1'],'component_code':'AUD-IDEMP','component_name':'AUD-IDEMP','is_active':True,'reason':'Independent replay test'}
     req=uid();a=command('SAVE_COMPONENT',p,req);before=counts();b=command('SAVE_COMPONENT',p,req)
@@ -206,7 +206,7 @@ def main():
     case('IND-38.STAFF','Staff cannot change master pricing',lambda:reject(lambda:command('SAVE_COMPONENT',{'vendor_id':CTX['v1'],'component_code':'AUD-DENY','component_name':'AUD-DENY','is_active':True,'reason':'Unauthorized attempt'},who='staff')))
     case('IND-37.BATCH','Unconfigured batch policy fails closed',lambda:reject(lambda:terms('COMPONENTS','BATCH',version='1')))
     case('IND-05.VERSION','New master version does not change old pricing date',version_snapshot,'public master RPC + pricing function')
-    case('IND-08.FREE','KNOWN zero without explicit free status refuses; legitimate FREE tested separately',lambda:reject(free_price))
+    case('IND-08.FREE','KNOWN zero without explicit free status refuses; legitimate FREE tested separately',free_price)
     case('IND-02.CALC','Package included processes charged once',package_total,'public master RPC + pricing function')
     if 'pkg' in CTX:
         case('IND-03.INCLUDED','Included process cannot be billed again as extra',lambda:helper_refuse({'package_id':CTX['pkg'],'extras':[{'component_id':CTX['wash'],'covered_qty':13,'reason':'Duplicate included'}]}),'pricing function')

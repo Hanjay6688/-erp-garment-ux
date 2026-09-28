@@ -205,7 +205,7 @@ jobs:
         working-directory: auditor
         run: |
           set -euo pipefail
-          for audit_mode in large pending po-zero po-usage nonpo-zero nonpo-usage; do
+          for audit_mode in large pending po-zero po-usage nonpo-zero nonpo-usage cross-races; do
             docker exec supabase_db_cp5-local psql -U supabase_admin -d template1 -v ON_ERROR_STOP=1 -c 'drop database if exists cp6_be_supp with (force)'
             docker exec supabase_db_cp5-local psql -U supabase_admin -d template1 -v ON_ERROR_STOP=1 -c 'create database cp6_be_supp with template cp6_be_empty owner postgres'
             python audits/independent_be_20260928/supplemental.py "$audit_mode" || true

@@ -100,6 +100,8 @@ def recovery(po=False,usage=False):
 
 if __name__=='__main__':
     if MODE=='large':large()
+    elif MODE=='cross-races':
+        import cross_races;cross_races.run()
     elif MODE=='pending':n.case('REV.PENDING.MATRIX','All three configured pending-sale choices plus close and resolution',pending)
     else:n.case('REV.RECOVERY.'+MODE,'Actual usable recovery with '+MODE,lambda:recovery('nonpo' not in MODE,MODE.endswith('usage')))
     n.save()
