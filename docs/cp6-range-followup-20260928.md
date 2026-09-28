@@ -32,7 +32,7 @@ Contoh bisnis: ukuran31 gambarA menghasilkan2PCS dan gambarB3PCS;32=8PCS;33=3PCS
 
 Perbaikan `scripts/cp6_bf_objects_router.sql`: deduplikasi size_id pada daftar pilihan referensi, sebelum join nama/binding. Tidak menduplikasi atau menghapus hasil potong, tidak mengubah aturan binding satu SKU per ukuran. Uji `scripts/cp6_bf_range_followup.py` memakai SAVE_DRAFT/POST potong normal, membaca public workspace, mengirim payload persis pola UI tanpa deduplikasi di test, memeriksa empat slot/5–8–3/tiga binding/replay/tidak ada FG fiktif.
 
-Hasil eksekusi kandidat dan batas bukti dicatat pada handoff SKU-01 terpisah. Sampai ada hasil, status implementasi bukan PASS.
+Hasil kandidat produk `fb8fb11`: RANGE-02 PASS pada native DB (empat slot/5–8–3/tiga binding/replay/tanpa FG fiktif). SKU-01 PASS pada master, invalid matrix, downstream hingga HPP, race, HTTP dan browser; retest desktop/HP `9e04af4` menggunakan produk identik. Bukti gabungan125kasus beserta kegagalan pengujian sebelumnya ada pada [handoff SKU-01/RANGE-02](cp6-bf-free-range-handoff-20260928.md). Ini writerPASS dalam cakupan terdaftar, bukan penutupan independen atau seluruh matriks R03–R15.
 
 ## Risiko lain yang ditemukan dari sambungan source
 

@@ -1,0 +1,895 @@
+{
+  "candidate": "9e04af4dbcf121a056250be40645c944887b8af6",
+  "product_candidate": "fb8fb11217e572d8c428e3796fddc28f1a2b2903",
+  "run": 36391872107,
+  "job": 108829312793,
+  "label": "WRITER_SCENARIO",
+  "production_go": false,
+  "audit_complete": false,
+  "release_evidence": false,
+  "status": "BROWSER_RETEST_PASS_ON_UNCHANGED_PRODUCT",
+  "bf_sql_sha256": "e100e8f97b8531bc7dfc6ebfd352af5d3d75594887205aecaef63c6ef4aa5b60",
+  "changed_paths_from_product_candidate": [
+    "docs/evidence/cp6-bf/fb8fb11.json",
+    "scripts/cp6_bf_browser_retest.mjs",
+    "scripts/cp6_bf_browser_retest.py",
+    "scripts/cp6_bf_free_browser.mjs",
+    "scripts/cp6_writer_dispatch.json"
+  ],
+  "native_business_cases_in_this_run": 0,
+  "native_group": {
+    "status": "PASS",
+    "counts": {},
+    "planned_case_ids": [],
+    "final": {},
+    "error": null
+  },
+  "browser": {
+    "status": "RUN_COMPLETE",
+    "counts": {
+      "PASS": 2
+    },
+    "script_sha256": "972376cce4fb7d598cee5b0345ab3172f603c65223fa985da0f0dd1ab5870113",
+    "database_remaining": 0,
+    "cleanup": {
+      "users_created": 0,
+      "cleanup_failures": [],
+      "rest_remaining": false
+    },
+    "auth_counts": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "console_errors": 0,
+    "users_created": 2,
+    "error": null
+  },
+  "primary_unchanged": true,
+  "clone_remaining": 0,
+  "browser_cases": [
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "SKU01_BROWSER:FREE_WAIVED_DESKTOP_SAVE_RELOAD",
+      "status": "PASS",
+      "checks": {
+        "three_physical_members": true,
+        "once": true,
+        "no_stock": true,
+        "free_waived_saved": true,
+        "reload_preserves_status_and_reason": true
+      },
+      "mobile": false
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "SKU01_BROWSER:FREE_WAIVED_MOBILE_SAVE_RELOAD",
+      "status": "PASS",
+      "checks": {
+        "three_physical_members": true,
+        "once": true,
+        "no_stock": true,
+        "free_waived_saved": true,
+        "reload_preserves_status_and_reason": true
+      },
+      "mobile": true
+    }
+  ],
+  "combined_qualification": {
+    "status": "WRITER_PASS_WITHIN_LISTED_SCOPE",
+    "distinct_cases": 125,
+    "counts": {
+      "AUDITOR_CASES_AFTER": 67,
+      "AUDITOR_RACES_AFTER": 22,
+      "AUDITOR_HTTP_AFTER": 9,
+      "AUDITOR_BROWSER_AFTER": 27
+    },
+    "full_scenario_run": 36390618767,
+    "browser_retest_run": 36391872107,
+    "outcomes": [
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "RANGE:REPEATED_DRAWINGS_ONE_CHOICE_PER_SIZE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "SKU01:ALL_FOUR_MASTER_STATUSES_AND_REPLAY",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "SKU01:INVALID_RATES_ATOMIC_REFUSAL",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "SKU01:FREE_WAIVED_SHIP_RECEIVE_QC_HPP",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BE_REV:RECOVERY_NONPO_ZERO",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BE_REV:RECOVERY_NONPO_USAGE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BE_REV:RECOVERY_PO_ZERO",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BE_REV:RECOVERY_PO_USAGE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BE_REV:RECOVERY_EXCEEDS_GARMENT_ATOMIC",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BE_REV:MIXED_PO_NONPO_SALE_RETURN_INVOICE_POCKET",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BE_REV:52_POCKET_PERIODS_SEARCH_PAGE_INVERSE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BE_REV:NONPO_ENTRY_REFUSED_AX_REPAIR_CONVERSION",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BE_REV:PUBLIC_SEWING_VERSION_DEPENDENCY_REPLAY",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BE01:SELECTED_LOT_REPLAY_REVERSE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BE01:CAPACITY_STALE_NO_UNSOURCED_COST",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BE01:ACTUAL_ACCESSORY_COST_ONCE_AND_INVERSE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BE01:OPENING_SOURCE_VALUE_AND_INVERSE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BE02:REWORK_NEW_SKU_ATOMIC_REPLAY_INVERSE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BE03:REAL_SERVICE_INVOICE_SOLD_VARIANCE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BE03:UNKNOWN_PRICE_CLOSE_REPLAY",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BE04:HISTORICAL_POCKET_ALLOCATION_CORRECTION_INVERSE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BE04:HISTORICAL_POCKET_RECEIPT_INVOICE_INVERSE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BE01:LATE_INVOICE_RECOVERY_SOLD_AND_CONVERTED",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BE04:HISTORICAL_PERIOD_WIP_SPLIT_COMPLETION_RECOST",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BE04:PROVENANCE_NUMERATOR_DENOMINATOR_REFUSALS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BE04:ALLOCATED_REFERENCE_ONLY_DUPLICATE_BATCH",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BE04:SALE_RETURN_CONVERSION_RECOST",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BE04:MIXED_NATIVE_HISTORICAL_AFUI_INVERSE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BE04:CLOSED_CORRECTION_ASOF_REPLAY_INVERSE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF:IMPORT_AMBIGUOUS_FAILS_BEFORE_POST",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF:IMPORT_EXACT_SIZE_SALES_CUSTODY_COGS_REPLAY",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF:IMPORT_INSUFFICIENT_STOCK_ATOMIC",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF:IMPORT_REWORK_SOURCE_RECIPE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF:IMPORT_REWORK_SOURCE_RECIPE_POSITIVE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF:UNUSED_ROLLBACK_EXACT",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF:USED_ROLLBACK_REFUSED",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF:TWO_SKUS_ONE_WAVE_WORK_LAUNDRY_QC",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF:SHARED_MASTER_PHYSICAL_ROOTS_REPLAY_GUARD",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF:SINGLETON_BEFORE_ECONOMICS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF:SHARED_NONEMPTY_ACCESSORY_RECIPE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF:TEMPORAL_31_33_TO_31_34_ATOMIC",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF:NEW_MEMBER_AND_FUTURE_WAVE_TARIFF",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF:LEGACY_CONFLICT_ACKNOWLEDGED_AND_FUTURE_PRICES",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF_REG_BD:T02:PACKAGE_ONE_CHARGE_PHYSICAL_QTY",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF_REG_BD:T03:COMPONENT_SUM_SAME_PIECES",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF_REG_BD:T04:FOUR_COMPONENTS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF_REG_BD:T05:PARTIAL_COMPONENT_COVERAGE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF_REG_BD:T06:PACKAGE_EXTRA_ONCE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF_REG_BD:T07:VERSION_AFTER_POSTED_DELIVERY",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF_REG_BD:T12:UNKNOWN_COMPONENT_KNOWN_SUBTOTAL",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF_REG_BD:T13:NO_VERSION_IS_ERROR",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF_REG_BD:T20:LUMP_SUM_SPLIT_RECEIPTS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF_REG_BD:DEC01:MINIMUM_CHARGE_TOPUP",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF_REG_BD:T24:SCOPED_SIZE_RATE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF_REG_BD:T24:MULTI_SIZE_LOT_HPP",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF_REG_BD:D10:VARIANCE_BY_BILLING_SOURCE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF_REG_BD:REV:X01_EXPLICIT_SIZE_COVERAGE_AND_RESPONSE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF_REG_BD:REV:X01_UNKNOWN_COMPLETION_PRESERVES_COVERAGE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF_REG_BD:REV:OWN02_FREE_WAIVED_LEGAL_PATH",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF_REG_BD:REV:X02_MONEY_OVER_INT32",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF_REG_BD:REV:X03_AUTH_BEFORE_REPLAY",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF_REG_BD:REV:X05_PAGES_55_INVOICES_201_SOURCES",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF_REG_BB:W:W02_SPLIT_BS_DISPOSE_AND_UNDO",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF_REG_BB:W:W02_SPLIT_BS_REWORK_GOOD",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF_REG_BB:W:W02_SPLIT_DATED_REMAINING",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF_REG_BB:W:W02_WAGES_AFTER_CUTOVER_THROUGH_PAYROLL",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_CASES_AFTER",
+        "case": "BF_REG_BB:W:W02_WAGES_OVER_PIECES_OR_BEFORE_CUTOVER_REFUSED",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "SKU01_RACE:FREE_FIRST_COMMITS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "SKU01_RACE:FREE_FIRST_ABORTS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BF_RACE:SHARED_SKU_FIRST_COMMITS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BF_RACE:SHARED_SKU_FIRST_ABORTS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BD_RACE:INV_TWO_POSTS_FIRST_COMMITS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BD_RACE:INV_TWO_POSTS_FIRST_ABORTS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BD_RACE:W05_COMPLETE_VS_CLAIM_FIRST_COMMITS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BD_RACE:W05_COMPLETE_VS_CLAIM_FIRST_ABORTS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BD_RACE:PRC_TWO_SETS_FIRST_COMMITS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BD_RACE:PRC_TWO_SETS_FIRST_ABORTS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BD_RACE:POL_TWO_OWNER_SETS_SAME_VERSION",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BD_RACE:EST_INVOICE_VS_ESTIMATE_FIRST_COMMITS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BD_RACE:EST_INVOICE_VS_ESTIMATE_FIRST_ABORTS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BE_RACE:CONVERSION_FIRST_COMMITS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BE_RACE:CONVERSION_FIRST_ABORTS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BE_RACE:CONVERSION_IDENTICAL_REPLAY",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BE_RACE:REDYE_PRICE_FIRST_COMMITS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BE_RACE:REDYE_PRICE_FIRST_ABORTS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BE_RACE:REDYE_INVOICE_FIRST_COMMITS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BE_RACE:REDYE_INVOICE_FIRST_ABORTS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BE_RACE:POCKET_PERIOD_FIRST_COMMITS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_RACES_AFTER",
+        "case": "BE_RACE:POCKET_PERIOD_FIRST_ABORTS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_HTTP_AFTER",
+        "case": "SKU01_HTTP:REAL_AUTH_FREE_WAIVED_AND_REJECTIONS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_HTTP_AFTER",
+        "case": "BE_REV_HTTP:PUBLIC_SEWING_AND_PERIOD_ACCESS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_HTTP_AFTER",
+        "case": "BF_HTTP:PERMISSION_BEFORE_REPLAY_AND_REPORTS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_HTTP_AFTER",
+        "case": "BD_HTTP:SET_POLICY_OWNER_ONLY",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_HTTP_AFTER",
+        "case": "BD_HTTP:MONEY_HIDDEN_INVOICE_OWNER_ADMIN",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_HTTP_AFTER",
+        "case": "BD_HTTP:W05_CLAIM_OWNER_ADMIN_ONLY",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_HTTP_AFTER",
+        "case": "BE_HTTP:CONVERSION_AUTH_REPLAY_HIDDEN_COST",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_HTTP_AFTER",
+        "case": "BE_HTTP:REDYE_PRICE_OWNER_REPLAY",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_HTTP_AFTER",
+        "case": "BD_REV_HTTP:REVOKED_PERMISSION_REPLAY_NO_MONEY",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_BROWSER:LAU_T36_PHONE_MIXED_COVERAGE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_BROWSER:D12_PAYMENT_SCREEN_DAILY_CLAIM",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_BROWSER:D12_PAYMENT_SCREEN_OPENING_CLAIM",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_BROWSER:D08_LAUNDRY_QC_CANONICAL_IDS",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_BROWSER:OWNER_POLICY_SET_AND_CLEAR",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_BROWSER:W05_CLAIM_RECOVER_AND_REVERSE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_BROWSER:W05_OPENING_ESTIMATE_QC_HIDDEN",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_BROWSER:DEC06_CORRECTION_UP_DOWN_ON_SCREEN",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_COMPLETION:ALLOW_PENDING_VISIBLE_AND_BROWSER_RECOST",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BE_BROWSER:REDYE_SKU_UNKNOWN_THEN_PRICE_MOBILE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_DESKTOP",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_MOBILE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_REV_BROWSER:FREE_MASTER_THEN_PHYSICAL_DESKTOP",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_REV_BROWSER:WAIVED_MASTER_THEN_PHYSICAL_MOBILE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BD_REV_BROWSER:PAGING_PRESERVES_EDIT_MOBILE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "RANGE_BROWSER:WHOLE_31_33_RESET_DESKTOP",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "RANGE_BROWSER:POPULAR_32_ONLY_MOBILE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "RANGE_BROWSER:SIZE_27_SINGLE_MOBILE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "RANGE_BROWSER:PARTIAL_FINISH_32_MOBILE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BF_BROWSER:FOUR_SIZE_MASTER_DESKTOP",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BF_BROWSER:SINGLETON_UNCONFIGURED_MOBILE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BF_BROWSER:SALES_MANUAL_13_DESKTOP",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BF_BROWSER:SALES_MANUAL_13_MOBILE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BE_REV_BROWSER:OLD_PERIOD_DESKTOP_PAGE_DATE",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "BE_REV_BROWSER:OLD_PERIOD_MOBILE_ID_CANCEL",
+        "status": "PASS",
+        "run": 36390618767
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "SKU01_BROWSER:FREE_WAIVED_DESKTOP_SAVE_RELOAD",
+        "status": "PASS",
+        "run": 36391872107
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "SKU01_BROWSER:FREE_WAIVED_MOBILE_SAVE_RELOAD",
+        "status": "PASS",
+        "run": 36391872107
+      }
+    ]
+  },
+  "gates": {
+    "build": {
+      "run": 36391872117,
+      "status": "success"
+    },
+    "codeql": {
+      "run": 36391872112,
+      "jobs": [
+        {
+          "id": 108829312574,
+          "name": "CodeQL c-cpp",
+          "conclusion": "success"
+        },
+        {
+          "id": 108829312703,
+          "name": "CodeQL actions",
+          "conclusion": "success"
+        },
+        {
+          "id": 108829312731,
+          "name": "CodeQL javascript-typescript",
+          "conclusion": "success"
+        },
+        {
+          "id": 108829312760,
+          "name": "CodeQL python",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "runtime_selftest": {
+      "job": 108829312576,
+      "status": "SELFTEST_PASS",
+      "not_product_evidence": true
+    }
+  },
+  "remaining": [
+    "Independent closure of free downstream flow",
+    "All rework/range variants",
+    "Latest combined release package",
+    "CP6 last check",
+    "Additional source-backed risks R03-R15 in docs/cp6-range-followup-20260928.md"
+  ]
+}

@@ -3,6 +3,8 @@
 Status: **NOT_READY / CP6 HOLD**. `production_go=false`, `audit_complete=false`.
 Ini bukti writer, bukan penutupan auditor. Tidak ada perubahan production/UAT/legacy, deploy, atau merge main.
 
+Pembaruan setelah audit independen `6739a2f`: lihat [handoff SKU-01 / RANGE-02](cp6-bf-free-range-handoff-20260928.md) dan [pemeriksaan dampak range lanjutan](cp6-range-followup-20260928.md). FREE/WAIVED master dan daftar ukuran wave berulang mendapat patch tersendiri; bukti lama di bawah tidak menggantikan retest patch tersebut. Penutupan alur gratis, seluruh variasi rework/range, paket rilis terbaru dan last check CP6 tetap mengikuti batas owner.
+
 ## Aturan owner yang dipertahankan
 
 SKU adalah identitas komersial bersama. Harga jual, resep aksesori, dan pengaturan tarif jasa ditulis sekali per SKU. Produk fisik, stok, lot, penerima jasa, allocation penjualan, retur, dan sumber biaya tetap per ukuran. SKU khusus27 terpisah; produksi hanya32 tetap memakai SKU/rate range asal. Satu wave boleh memuat lebih dari satu SKU. Referensi tarif sebelum QC tidak menetapkan identitas FG final.
