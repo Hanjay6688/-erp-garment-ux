@@ -139,6 +139,7 @@ jobs:
           pg_dump 'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' -Fc -f audit-results/empty-be.dump
           sha256sum audit-results/empty-be.dump > audit-results/empty-be-sha256.txt
           docker exec supabase_db_cp5-local psql -U supabase_admin -d template1 -v ON_ERROR_STOP=1 -c 'create database cp6_be_repro with template cp6_rollback owner postgres'
+          docker exec supabase_db_cp5-local psql -U supabase_admin -d template1 -v ON_ERROR_STOP=1 -c 'create database cp6_be_empty with template cp6_rollback owner postgres'
       - name: Independent pre-use rollback and restore exact BE
         working-directory: auditor
         run: python audits/independent_be_20260928/rollback.py pre
@@ -199,6 +200,18 @@ jobs:
         run: |
           set -euo pipefail
           python audits/independent_be_20260928/repro_mixed.py
+      - name: Independent invoice pending-policy and recovery revision matrices
+        if: always()
+        working-directory: auditor
+        run: |
+          set -euo pipefail
+          for audit_mode in large pending po-zero po-usage nonpo-zero nonpo-usage; do
+            docker exec supabase_db_cp5-local psql -U supabase_admin -d template1 -v ON_ERROR_STOP=1 -c 'drop database if exists cp6_be_supp with (force)'
+            docker exec supabase_db_cp5-local psql -U supabase_admin -d template1 -v ON_ERROR_STOP=1 -c 'create database cp6_be_supp with template cp6_be_empty owner postgres'
+            python audits/independent_be_20260928/supplemental.py "$audit_mode" || true
+          done
+        env:
+          PGPASSWORD: postgres
       - name: Independent post-use rollback refusal
         if: always()
         working-directory: auditor

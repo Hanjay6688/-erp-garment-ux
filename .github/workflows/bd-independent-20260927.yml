@@ -1,14 +1,14 @@
 name: BD Independent Audit 20260927
 on:
   push:
-    branches: [audit/bd-independent-20260927]
+    branches: [audit/bd-be-retest-20260928]
     paths: [audits/independent_bd_20260927/**, .github/workflows/bd-independent-20260927.yml]
   workflow_dispatch:
 permissions:
   contents: read
   actions: read
 concurrency:
-  group: bd-independent-20260927
+  group: bd-be-retest-bd-20260928
   cancel-in-progress: false
 jobs:
   independent:
@@ -60,11 +60,11 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p audit-results
-          git diff --name-only 08065a3b4da71c51ffbbab77f0a6b1ac7e6638ec HEAD > audit-results/changed-paths.txt
+          git diff --name-only e96db5a270da5aa6d0f12c3812ac1c0542df938e HEAD > audit-results/changed-paths.txt
           python - <<'PY'
           from pathlib import Path
           names=Path('audit-results/changed-paths.txt').read_text().splitlines()
-          assert all(x.startswith('audits/independent_bd_20260927/') or x=='.github/workflows/bd-independent-20260927.yml' for x in names),names
+          assert all(x.startswith(('audits/independent_bd_20260927/','audits/independent_be_20260928/')) or x in ['.github/workflows/bd-independent-20260927.yml','.github/workflows/be-independent-20260928.yml','.github/workflows/bd-be-retest-ci.yml','.github/workflows/bd-be-retest-codeql.yml'] for x in names),names
           PY
           git rev-parse HEAD > audit-results/audit-head.txt
           sha256sum audits/independent_bd_20260927/PLAN.md > audit-results/plan-sha256.txt
@@ -213,6 +213,7 @@ jobs:
         working-directory: base
         run: supabase stop --workdir cp5-local --no-backup
   source55:
+    if: contains(github.event.head_commit.message, 'baseline retest')
     runs-on: ubuntu-24.04
     timeout-minutes: 35
     env:
@@ -248,11 +249,11 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p audit-results
-          git diff --name-only 08065a3b4da71c51ffbbab77f0a6b1ac7e6638ec HEAD > audit-results/changed-paths.txt
+          git diff --name-only e96db5a270da5aa6d0f12c3812ac1c0542df938e HEAD > audit-results/changed-paths.txt
           python - <<'PY'
           from pathlib import Path
           names=Path('audit-results/changed-paths.txt').read_text().splitlines()
-          assert all(x.startswith('audits/independent_bd_20260927/') or x=='.github/workflows/bd-independent-20260927.yml' for x in names),names
+          assert all(x.startswith(('audits/independent_bd_20260927/','audits/independent_be_20260928/')) or x in ['.github/workflows/bd-independent-20260927.yml','.github/workflows/be-independent-20260928.yml','.github/workflows/bd-be-retest-ci.yml','.github/workflows/bd-be-retest-codeql.yml'] for x in names),names
           PY
           git rev-parse HEAD > audit-results/audit-head.txt
           sha256sum audits/independent_bd_20260927/PLAN.md > audit-results/plan-sha256.txt

@@ -189,6 +189,8 @@ def main():
     try:
         b.setup_gateway();metadata()
         if not b.case('HTTP.AUTH','Actual GoTrue owner and restricted viewer',b.setup_identities):return
+        import private_rest
+        b.case('HTTP.PRIVATE_REST','Known private helper RPCs and tables refuse direct REST access',lambda:private_rest.run(b,C))
         b.case('HTTP.ACCESS','Authorized workspace and restricted money/write boundary',workspace_http)
         if not b.case('BROWSER.BUILD','Build and serve exact candidate UI',b.build_ui):return
         if b.case('BROWSER.LOGIN','Owner real browser password login',b.browser_auth):

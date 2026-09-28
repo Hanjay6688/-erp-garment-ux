@@ -77,7 +77,7 @@ class Proxy(BaseHTTPRequestHandler):
     protocol_version='HTTP/1.1'
     def log_message(self,*args):pass
     def do_OPTIONS(self):
-        self.send_response(204);self.send_header('Access-Control-Allow-Origin',self.headers.get('Origin','*'))
+        self.send_response(204);self.send_header('Access-Control-Allow-Origin','http://127.0.0.1:4176')
         self.send_header('Access-Control-Allow-Headers','authorization,apikey,content-type,x-client-info,x-supabase-api-version,accept-profile,content-profile,prefer')
         self.send_header('Access-Control-Allow-Methods','GET,POST,PUT,PATCH,DELETE,OPTIONS');self.send_header('Content-Length','0');self.end_headers()
         HTTP_EVENTS.append({'method':'OPTIONS','path':self.path,'http_status':204,'requested_headers':self.headers.get('Access-Control-Request-Headers'),'origin':self.headers.get('Origin')})
@@ -96,7 +96,7 @@ class Proxy(BaseHTTPRequestHandler):
             self.send_response(response.status)
             for k,v in response.getheaders():
                 if k.lower() not in ('transfer-encoding','content-length','connection','access-control-allow-origin'):self.send_header(k,v)
-            self.send_header('Access-Control-Allow-Origin',self.headers.get('Origin','*'))
+            self.send_header('Access-Control-Allow-Origin','http://127.0.0.1:4176')
             self.send_header('Content-Length',str(len(body)));self.end_headers();self.wfile.write(body)
             event={'method':self.command,'path':self.path,'http_status':response.status,'transport_target':'cp6_rollback PostgREST' if is_rest else 'local GoTrue'}
             if is_rest:
@@ -830,6 +830,8 @@ def cleanup():
     save()
 
 def main():
+    import sys, revision_ui
+    revision_ui.install(sys.modules[__name__])
     try:
         setup_gateway()
         if not case('HTTP.AUTH','Real local Auth accounts and ERP access',setup_identities):

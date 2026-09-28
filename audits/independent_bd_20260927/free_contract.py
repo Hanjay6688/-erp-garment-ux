@@ -1,88 +1,74 @@
-"""Inspect legitimate configured-free entry points without inventing a free policy.
+"""Fresh independently authored revision tests; expectations frozen in RETEST_PLAN.
 
-Positive controls and zero/status probes run as authenticated OWNER inside one
-rolled-back transaction. A missing enabling contract is BLOCKED acceptance, not
-a demonstrated financial bug. This supplements original IND-08, not a new bug.
+The revised public contract explicitly permits reasoned FREE/WAIVED. Exercise
+that contract through physical receipt and final SKU; do not seed priced rows.
 """
-import json, traceback, hashlib
-from pathlib import Path
-import psycopg
-from psycopg.types.json import Jsonb
-import suite as s
-import daily as d
+import json,copy,traceback
+from decimal import Decimal as D
+import suite as s, daily as d
+C=s.CTX;A=s.admin;eq=s.eq
 
-EVENTS=[]; RESULTS=[]
 def save():
-    out={'candidate':'e96db5a270da5aa6d0f12c3812ac1c0542df938e','origin':'own remaining-gap contract investigation','results':RESULTS,'production_go':False,
-         'boundary':'Supported positive controls plus discovery; never substitutes a seeded zero for legitimate free configuration'}
-    (s.OUT/'free-contract-results.json').write_text(json.dumps(out,indent=2,default=str)+'\n')
-    (s.OUT/'free-contract-events.json').write_text(json.dumps(EVENTS,indent=2,default=str)+'\n')
+    (s.OUT/'free-contract-results.json').write_text(json.dumps({'candidate':'e96db5a270da5aa6d0f12c3812ac1c0542df938e','origin':'independent revision retest, peer-informed coverage additions labeled','results':s.RESULTS,'production_go':False},indent=2,default=str)+'\n')
+    (s.OUT/'free-contract-events.json').write_text(json.dumps(s.EVENTS,indent=2,default=str)+'\n')
+s.save=save
+
+def complete(key):
+    f=d.F[key];r=d.rpc('POST_RECEIPT',d.rp(key),d.ver('laundry_deliveries',f['delivery']));f.update(receipt=r['receipt_id'],receipt_line=A('select id::text from erp.laundry_receipt_lines where receipt_id=%s',(r['receipt_id'],),one=True))
+    q=d.rpc('POST_FINAL_SKU',d.qp(key),d.ver('cutting_groups',f['group']));eq(d.qty(key),13);return {'receipt':r,'final':q}
+
+def own_free(status):
+    key='REV_'+status;d.precursor(key);comp=s.component(C['daily_vendor'],'AUD-REV-'+status)
+    master=s.rate(comp,'0.00',status=status)
+    p=d.dp(key);p['pricing']={'components':[{'component_id':comp,'covered_qty':13}]}
+    r=s.command('POST_PRICED_DELIVERY',p);f=d.F[key];f.update(delivery=r['delivery_id'],delivery_line=A('select id::text from erp.laundry_delivery_lines where delivery_id=%s',(r['delivery_id'],),one=True))
+    eq(D(r['pricing']['total_known']),D(0));eq(r['pricing']['total_complete'],True)
+    ch=A('select rate_status,unit_rate,amount,price_reason from erp.bd_laundry_charge_lines_v1 where delivery_line_id=%s',(f['delivery_line'],));eq(ch[0][:3],(status,D(0),D(0)));assert ch[0][3]
+    done=complete(key);values=d.costeq(key,'1300.00')
+    accrued=A("select coalesce(sum(l.credit-l.debit),0) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where l.po_id=%s and l.account_id=erp.account_id('ACCRUED_MANUFACTURING') and j.status in('POSTED','REVERSED')",(f['po'],),one=True);eq(accrued,D(0))
+    return {'master':master,'shipment':r,'physical':done,'charges':ch,'hpp_labor_only':'1300.00','hpp':values,'laundry_accrual':'0.00'}
+
+def resolve_free(status):
+    key='REV_U_'+status;d.precursor(key);d.ship(key,True);done=complete(key);f=d.F[key]
+    ch=A("select id::text from erp.bd_laundry_charge_lines_v1 where delivery_line_id=%s and rate_status='UNKNOWN'",(f['delivery_line'],),one=True)
+    before=d.qty(key);r=s.command('SET_CHARGE_PRICE',{'charge_line_id':ch,'rate_status':status,'rate_per_pcs':'0.00','reason':'Independent explicit owner waiver after physical receipt and QC'})
+    eq(r['complete'],True);eq(D(r['total_known']),D('56174.17'));eq(d.qty(key),before)
+    values=d.costeq(key,'57474.17');shares=A('select s.size_id::text,sh.covered_qty,sh.amount from erp.bd_laundry_charge_shares_v1 sh join erp.laundry_delivery_batch_size_lines s on s.id=sh.delivery_batch_size_line_id where sh.charge_line_id=%s order by s.size_id',(ch,))
+    eq({z[0]:(z[1],z[2]) for z in shares},{C['s1']:(0,D(0)),C['s2']:(5,D(0))})
+    return {'resolution':r,'physical_unchanged':before,'coverage_preserved':shares,'hpp':values,'physical':done}
+
+def invalid_free():
+    comp=s.component(C['daily_vendor'],'AUD-REV-INVALID');out=[]
+    for status,amount,reason in [('KNOWN','0.00','Zero is not known positive'),('FREE','1.00','Positive cannot be free'),('WAIVED','-1.00','Negative is not waived'),('FREE','0.00','')]:
+        out.append(s.reject(lambda status=status,amount=amount,reason=reason:s.command('SAVE_COMPONENT_RATE',{'component_id':comp,'rate_status':status,'rate_per_pcs':amount,'effective_from':'2026-09-01T08:00:00+07:00','reason':reason})))
+    out.append(s.reject(lambda:s.command('SAVE_COMPONENT_RATE',{'component_id':comp,'rate_status':'FREE','rate_per_pcs':'0.00','effective_from':'2026-09-01T08:00:00+07:00','reason':'No privilege'},who='staff')))
+    return out
+
+def coverage():
+    # Peer concern independently recalculated: L-only five pieces at1000 must
+    # allocate exactly0 to M and5000 to L, regardless of7:6 shipment proportions.
+    comp=s.component(C['daily_vendor'],'AUD-REV-L-ONLY');s.rate(comp,'1000.00')
+    p={'components':[{'component_id':comp,'covered_qty':5,'coverage':[{'size_id':C['s2'],'qty':5}]}]}
+    delivery=s.delivery(vendor=C['daily_vendor']);r=s.pricing(p,delivery);eq(D(r['total_known']),D('5000.00'))
+    shares=r['charges'][0]['shares'];eq({x['size_id']:D(x['amount']) for x in shares},{C['s1']:D(0),C['s2']:D(5000)})
+    rejected=[]
+    for cov in [None,[{'size_id':C['s1'],'qty':4}],[{'size_id':C['s2'],'qty':7}],[{'size_id':s.uid(),'qty':5}],[{'size_id':C['s2'],'qty':2},{'size_id':C['s2'],'qty':3}]]:
+        bad=copy.deepcopy(p)
+        if cov is None:bad['components'][0].pop('coverage')
+        else:bad['components'][0]['coverage']=cov
+        rejected.append(s.helper_refuse(bad,delivery))
+    return {'origin':'peer-informed independent calculation','shares':shares,'invalid_or_ambiguous_coverage':rejected}
 
 def main():
-    fixture=json.loads((s.OUT/'daily-fixture.json').read_text());s.CTX.update(fixture['identity'])
-    vendor=s.uid()
-    with psycopg.connect(s.DSN) as setup:
-        setup.execute("select set_config('app.change_reason','Independent free contract master prerequisite',true)")
-        setup.execute("insert into erp.laundry_vendors(id,vendor_code,vendor_name) values(%s,'AUD-FREE-CONTRACT','Independent free contract vendor')",(vendor,))
-    # Real positive batch source from our own already-verified physical adapter.
-    d.precursor('GF');f=d.F['GF'];C=s.CTX
-    policies=s.admin('select policy_key,status,value,version from erp.bd_policy_settings_v1 order by policy_key')
-    versions={x[0]:x[3] for x in policies};before=s.counts()
-    def run_probe(c,label,action,payload,accepted_required=False):
-        event={'label':label,'api':'public.erp_save_laundry_bd_action_v1','action':action,'payload':payload,'request':s.uid()}
-        try:
-            with c.transaction():
-                result=c.execute('select public.erp_save_laundry_bd_action_v1(%s,%s,%s::uuid)',(action,Jsonb(payload),event['request'])).fetchone()[0]
-                event.update(accepted=True,response=result)
-        except psycopg.Error as e:
-            if e.sqlstate in ('42601','42703','42P01','42883'):raise
-            event.update(accepted=False,sqlstate=e.sqlstate,error=str(e))
-        EVENTS.append(event)
-        if accepted_required:assert event['accepted'],event
-        return event.get('response')
-    with s.actor_conn() as c:
-        try:
-            c.execute('select 1') # Establish outer transaction before savepoints.
-            def rpc(label,action,payload,positive=False):return run_probe(c,label,action,payload,positive)
-            reason='Independent explicit price contract inspection; transaction rolled back'
-            for key,value in [('LAU_DEC01',{'units':['BATCH','MINIMUM']}),('LAU_DEC05',{'scopes':['MODEL'],'fallback':'BASE_RATE'})]:
-                rpc('legitimate supported policy control','SET_POLICY',{'policy_key':key,'operation':'SET','expected_version':str(versions[key]),'value':value,'reason':reason},True)
-            comp=rpc('valid component','SAVE_COMPONENT',{'vendor_id':vendor,'component_code':'AUD-FREE-C','component_name':'Independent fee','is_active':True,'reason':reason},True)['component_id']
-            pkg=rpc('valid package','SAVE_PACKAGE',{'vendor_id':vendor,'package_code':'AUD-FREE-P','package_name':'Independent package','component_ids':[comp],'is_active':True,'reason':reason},True)['package_id']
-            base={'effective_from':'2026-09-01T08:00:00+07:00','reason':reason}
-            routes=[('component','SAVE_COMPONENT_RATE',{'component_id':comp,'rate_status':'KNOWN'}),
-                    ('package','SAVE_PACKAGE_RATE',{'package_id':pkg}),
-                    ('process','SAVE_PROCESS_RATE',{'vendor_id':vendor,'wash_process_id':C['process']}),
-                    ('scoped','SAVE_SCOPED_RATE',{'vendor_id':vendor,'wash_process_id':C['process'],'scope':'MODEL','model_id':C['model']})]
-            for name,action,payload in routes:
-                rpc(name+' positive control',action,{**payload,**base,'rate_per_pcs':'1.37'},True)
-                rpc(name+' zero probe',action,{**payload,**base,'effective_from':'2026-09-02T08:00:00+07:00','rate_per_pcs':'0.00'})
-            for status in ('FREE','WAIVED','UNKNOWN'):
-                p={'component_id':comp,**base,'effective_from':'2026-09-03T08:00:00+07:00','rate_status':status}
-                if status!='UNKNOWN':p['rate_per_pcs']='0.00'
-                rpc('explicit '+status+' status','SAVE_COMPONENT_RATE',p,status=='UNKNOWN')
-            terms={'vendor_id':vendor,'pricing_mode':'RATE','pricing_unit':'BATCH','expected_version':'0','reason':reason,'minimum_charge':'1.37'}
-            r=rpc('minimum positive control','SAVE_VENDOR_TERMS',terms,True)
-            rpc('minimum zero probe','SAVE_VENDOR_TERMS',{**terms,'expected_version':str(r['row_version']),'minimum_charge':'0.00'})
-            # Both pricing paths have identical valid physical inputs; price alone differs.
-            dl=d.dp('GF')['delivery'];dl['vendor_id']=vendor
-            version=s.admin('select row_version from erp.cutting_groups where id=%s',(f['group'],),one=True)
-            rpc('batch zero probe','POST_PRICED_DELIVERY',{'delivery':dl,'expected_version':str(version),'pricing':{'lump_sum':'0.00'}})
-            rpc('batch positive lifecycle control','POST_PRICED_DELIVERY',{'delivery':dl,'expected_version':str(version),'pricing':{'lump_sum':'23.57'}},True)
-            workspace=c.execute('select public.erp_get_laundry_bd_workspace_v1(%s)',(Jsonb({'vendor_id':vendor}),)).fetchone()[0]
-            RESULTS.append({'id':'GAP-FREE.CONTROLS','status':'PASS','title':'Valid controls for every supported price surface examined','observation':{'positive_routes':['component','package','process','scoped','minimum','batch public shipment','UNKNOWN null'],'workspace_keys':sorted(workspace),'policies':policies}})
-        finally:c.rollback()
-    s.eq(s.counts(),before,'Price/policy probes fully rolled back')
-    s.eq(s.admin('select policy_key,status,value,version from erp.bd_policy_settings_v1 order by policy_key'),policies,'Policy state fully restored')
-    zero=[x for x in EVENTS if 'zero probe' in x['label'] or x['label'] in ('explicit FREE status','explicit WAIVED status')]
-    accepted=[x for x in zero if x['accepted']]
-    if accepted:
-        RESULTS.append({'id':'GAP-FREE.CONFIGURED','status':'BLOCKED','title':'An accepted zero route requires semantic/lifecycle evaluation','observation':accepted,'reason':'Do not infer legitimate free policy merely from accepted zero; evaluate actual supported contract next.'})
-    else:
-        RESULTS.append({'id':'GAP-FREE.CONFIGURED','status':'BLOCKED','title':'Legitimate configured-free lifecycle prerequisite remains absent','reason':'All examined price surfaces require positive known amounts; component status is KNOWN/UNKNOWN; six public policy schemas have no free/waiver enabling field. Zero/status refusals are observations, not a proven configured-free financial bug.','observation':{'probes':len(zero),'accepted':0,'policies_examined':[x[0] for x in policies],'legacy_free_rewash':'separate PASS evidence in edges-results.json'}})
-
+    fixture=json.loads((s.OUT/'daily-fixture.json').read_text());C.update(fixture['identity']);d.F.update(fixture['sources'])
+    for status in ['FREE','WAIVED']:
+        s.case('REV.FREE.'+status,'Legitimate '+status+' dispatch receipt final SKU and zero laundry GL',lambda status=status:own_free(status),'public SQL physical lifecycle')
+        s.case('REV.UNKNOWN.'+status,'Actual unknown charge resolves to '+status+' with exact preserved recipients',lambda status=status:resolve_free(status),'public SQL physical and financial lifecycle')
+    s.case('REV.FREE.INVALID','Invalid free values and unauthorized actor fail closed',invalid_free,'public SQL authenticated')
+    s.case('REV.COVERAGE','Only the five actual L recipients get5000 service cost',coverage,'pricing readback + invalid public input contract')
+    d.precursor('REV_UI_EXTRA');(s.OUT/'revision-browser-fixture.json').write_text(json.dumps({'identity':C,'source':d.F['REV_UI_EXTRA']},default=str))
+    save()
 if __name__=='__main__':
     try:main()
-    except Exception as e:RESULTS.append({'id':'GAP-FREE.SETUP','status':'BLOCKED','classification':'auditor fixture/adapter; inspect traceback','error':str(e),'traceback':traceback.format_exc()})
-    finally:save();print(json.dumps(RESULTS,default=str),flush=True)
-    raise SystemExit(0 if all(x['status']=='PASS' for x in RESULTS) else 1)
+    except Exception as e:s.RESULTS.append({'id':'REV.SETUP','status':'BLOCKED','error':str(e),'traceback':traceback.format_exc()});save()
+    print(json.dumps(s.RESULTS,default=str),flush=True)

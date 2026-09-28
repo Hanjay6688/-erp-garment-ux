@@ -95,7 +95,7 @@ class Proxy(BaseHTTPRequestHandler):
     protocol_version='HTTP/1.1'
     def log_message(self,*args):pass
     def do_OPTIONS(self):
-        self.send_response(204);self.send_header('Access-Control-Allow-Origin',self.headers.get('Origin','*'))
+        self.send_response(204);self.send_header('Access-Control-Allow-Origin','http://127.0.0.1:4176')
         self.send_header('Access-Control-Allow-Headers','authorization,apikey,content-type,x-client-info,x-supabase-api-version,accept-profile,content-profile,prefer')
         self.send_header('Access-Control-Allow-Methods','GET,POST,PUT,PATCH,DELETE,OPTIONS');self.send_header('Content-Length','0');self.end_headers()
         HTTP_EVENTS.append({'method':'OPTIONS','path':self.path,'http_status':204,'requested_headers':self.headers.get('Access-Control-Request-Headers'),'origin':self.headers.get('Origin')})
@@ -114,7 +114,7 @@ class Proxy(BaseHTTPRequestHandler):
             if is_rest and path.endswith('/rpc/erp_save_product_conversion_action_v1') and FIX.get('drop_conversion_until_release') and json.loads(payload).get('p_action')=='POST':
                 HTTP_EVENTS.append({'method':self.command,'path':self.path,'http_status':response.status,'payload':json.loads(payload),'response':json.loads(body),'deliberately_lost_after_real_database_response':True,'downstream_status':503})
                 unavailable=b'{"message":"Independent transport outage after actual database response"}'
-                self.send_response(503);self.send_header('Access-Control-Allow-Origin',self.headers.get('Origin','*'));self.send_header('Content-Type','application/json');self.send_header('Content-Length',str(len(unavailable)));self.end_headers();self.wfile.write(unavailable);return
+                self.send_response(503);self.send_header('Access-Control-Allow-Origin','http://127.0.0.1:4176');self.send_header('Content-Type','application/json');self.send_header('Content-Length',str(len(unavailable)));self.end_headers();self.wfile.write(unavailable);return
             if is_rest and path.endswith('/rpc/erp_save_product_conversion_action_v1') and FIX.get('drop_next_conversion') and json.loads(payload).get('p_action')=='POST':
                 FIX['drop_next_conversion']=False
                 HTTP_EVENTS.append({'method':self.command,'path':self.path,'http_status':response.status,'payload':json.loads(payload),'response':json.loads(body),'deliberately_lost_after_real_database_response':True})
@@ -125,7 +125,7 @@ class Proxy(BaseHTTPRequestHandler):
             self.send_response(response.status)
             for k,v in response.getheaders():
                 if k.lower() not in ('transfer-encoding','content-length','connection','access-control-allow-origin'):self.send_header(k,v)
-            self.send_header('Access-Control-Allow-Origin',self.headers.get('Origin','*'))
+            self.send_header('Access-Control-Allow-Origin','http://127.0.0.1:4176')
             self.send_header('Content-Length',str(len(body)));self.end_headers();self.wfile.write(body)
             event={'method':self.command,'path':self.path,'http_status':response.status,'transport_target':'cp6_rollback PostgREST' if is_rest else 'local GoTrue'}
             if is_rest:

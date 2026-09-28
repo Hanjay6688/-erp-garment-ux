@@ -93,7 +93,7 @@ def setup():
     return {'sources':F,'controlled_labor_cost_each':'1300.00'}
 def dp(key,unknown=False,at='2026-09-15T00:01:00+07:00'):
     f=F[key]
-    return {'expected_version':str(ver('cutting_groups',f['group'])),'delivery':{'distribution_batch_id':f['batch'],'vendor_id':C['daily_vendor'],'wash_process_id':C['process'],'target_dyeing_color':'AUD-NAVY','physical_at':at,'reason':'Independent daily shipment','lines':[{'size_id':C['s1'],'qty_sent_pcs':7},{'size_id':C['s2'],'qty_sent_pcs':6}]},'pricing':{'components':[{'component_id':C['daily_wash'],'covered_qty':13},{'component_id':C['daily_unknown'] if unknown else C['daily_finish'],'covered_qty':5}]}}
+    return {'expected_version':str(ver('cutting_groups',f['group'])),'delivery':{'distribution_batch_id':f['batch'],'vendor_id':C['daily_vendor'],'wash_process_id':C['process'],'target_dyeing_color':'AUD-NAVY','physical_at':at,'reason':'Independent daily shipment','lines':[{'size_id':C['s1'],'qty_sent_pcs':7},{'size_id':C['s2'],'qty_sent_pcs':6}]},'pricing':{'components':[{'component_id':C['daily_wash'],'covered_qty':13},{'component_id':C['daily_unknown'] if unknown else C['daily_finish'],'covered_qty':5,'coverage':[{'size_id':C['s2'],'qty':5}]}]}}
 def ship(key,unknown=False):
     f=F[key];p=dp(key,unknown);req=uid();r=cmd('POST_PRICED_DELIVERY',p,req);f.update(delivery=r['delivery_id'],shipment_request=req,shipment_payload=p)
     line=admin('select id::text from erp.laundry_delivery_lines where delivery_id=%s',(r['delivery_id'],),one=True);f['delivery_line']=line

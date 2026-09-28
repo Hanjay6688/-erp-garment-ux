@@ -93,7 +93,9 @@ def pricing(p,d=None):
     # Helper-level calculation only. The nonphysical batch is not claimed as a posted source.
     r=admin('select erp.bd_compute_pricing_v1(%s,%s)',(Jsonb(d or delivery()),Jsonb(p)),one=True)
     EVENTS.append({'internal_pricing_input':p,'delivery_input':d or delivery(),'response':r});return r
-def comps(extra=None):return {'components':extra or [{'component_id':CTX['wash'],'covered_qty':13},{'component_id':CTX['finish'],'covered_qty':5}]}
+def comps(extra=None):
+    items=extra or [{'component_id':CTX['wash'],'covered_qty':13},{'component_id':CTX['finish'],'covered_qty':5}]
+    return {'components':[{**x,**({'coverage':[{'size_id':CTX['s2'],'qty':5}]} if x['covered_qty']==5 else {})} for x in items]}
 def setup():
     CTX.update(owner=uid(),admin=uid(),staff=uid(),v1=uid(),v2=uid(),process=uid(),s1=uid(),s2=uid(),nonphysical_batch=uid())
     with psycopg.connect(DSN) as c:
