@@ -16,6 +16,7 @@ def cases(cur,today):
       ('VENDOR:AUTHORITY_WITH_LEGACY_SKU_OVERRIDE',lambda:p.vendor_authority(cur,today)),
       ('VENDOR:EMPTY_DETAILS_INVOICE_HPP_SALE_REVERSAL',lambda:p.pending_invoice(cur,today)),
       ('VENDOR:UNKNOWN_COMPONENT_INVOICE_HPP_SALE_REVERSAL',lambda:p.pending_invoice(cur,today,True)),
+      ('VENDOR:HISTORY_PENDING_ACTUAL_REVERSAL',lambda:p.bf.production_ranges(cur,today,True)),
       ]+[
         ('VENDOR_REG:'+k,lambda f=f:f(cur,p.b.case_day(today))) for k,_,f in p.b.PLAN if k.startswith('D12:')]+regression.cases(cur,today)
 

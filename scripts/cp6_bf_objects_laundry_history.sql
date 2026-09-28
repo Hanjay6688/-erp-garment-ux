@@ -32,24 +32,31 @@ begin
  ), history as materialized(
    select c.sku_id,c.sku,c.sizes target_sizes,d.id delivery_id,d.delivery_number,d.physical_at,
      d.target_wash_process_id process_id,l.id line_id,p.pricing_mode,p.total_complete,p.total_known,p.qty_sent,
+     erp.bf_delivery_invoiced_v1(l.id,(at_time at time zone 'Asia/Jakarta')::date) actual_complete,
      (select array_agg(ps.size_id order by ps.size_id) from past_sizes ps where ps.line_id=l.id and ps.sku_id=c.sku_id) source_sizes
    from chosen c join erp.laundry_delivery_lines l on exists(select 1 from past_sizes ps where ps.line_id=l.id and ps.sku_id=c.sku_id)
    join erp.laundry_deliveries d on d.id=l.delivery_id and d.vendor_id=vendor and d.status not in('DRAFT','REVERSED') and d.physical_at<=at_time
    join erp.bd_laundry_priced_lines_v1 p on p.delivery_line_id=l.id
-   where exists(select 1 from erp.bd_laundry_charge_lines_v1 ch where ch.delivery_line_id=l.id)
    order by d.physical_at desc,d.id,c.sku_id limit 20
  ) select jsonb_build_object('vendor_id',vendor,'wave_id',wave,'at',at_time,'money_visible',money,
    'known_skus',(select count(*) from chosen),
    'items',coalesce((select jsonb_agg(jsonb_build_object('sku_id',h.sku_id,'sku',h.sku,'target_size_ids',h.target_sizes,
      'delivery_id',h.delivery_id,'number',h.delivery_number,'at',h.physical_at,'process_id',h.process_id,'mode',h.pricing_mode,
-     'reference_total',case when money and h.total_complete then h.total_known::numeric(18,2)::text end,
+     'reference_kind',case when h.actual_complete then 'ACTUAL' when h.total_complete then 'ESTIMATE' else 'UNKNOWN' end,
+     'reference_total',case when money and h.actual_complete then (
+       select sum(x.net_amount)::numeric(18,2)::text from erp.bd_laundry_invoice_lines_v1 x
+       join erp.bd_laundry_invoices_v1 bill on bill.id=x.invoice_id and bill.status='POSTED' and bill.invoice_date<=(at_time at time zone 'Asia/Jakarta')::date
+       join erp.laundry_receipt_lines receipt on receipt.id=x.receipt_line_id where receipt.delivery_line_id=h.line_id)
+       when money and h.total_complete then h.total_known::numeric(18,2)::text end,
      'reference_qty',h.qty_sent,'amount_scope','WHOLE_PREVIOUS_DELIVERY',
      'charges',coalesce((select jsonb_agg(jsonb_build_object('kind',ch.kind,'ref_id',ch.ref_id,'label',ch.label,
        'all_source_pieces',not exists(select 1 from erp.bd_laundry_charge_shares_v1 sh join erp.laundry_delivery_batch_size_lines ds on ds.id=sh.delivery_batch_size_line_id
          where sh.charge_line_id=ch.id and ds.size_id=any(h.source_sizes) and sh.covered_qty<>ds.qty_sent_pcs)) order by ch.line_no)
        from erp.bd_laundry_charge_lines_v1 ch where ch.delivery_line_id=h.line_id and exists(
          select 1 from erp.bd_laundry_charge_shares_v1 sh join erp.laundry_delivery_batch_size_lines ds on ds.id=sh.delivery_batch_size_line_id
-         where sh.charge_line_id=ch.id and sh.covered_qty>0 and ds.size_id=any(h.source_sizes))),'[]'))
+         where sh.charge_line_id=ch.id and sh.covered_qty>0 and ds.size_id=any(h.source_sizes))),
+         jsonb_build_array(jsonb_build_object('kind','PROCESS_REFERENCE','ref_id',h.process_id,
+           'label',(select process_name from erp.wash_processes where id=h.process_id),'all_source_pieces',true))))
      order by h.physical_at desc,h.delivery_id,h.sku_id) from history h),'[]')) into result;
  return result;
 end;$function$;

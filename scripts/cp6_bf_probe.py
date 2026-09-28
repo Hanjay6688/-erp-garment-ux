@@ -125,7 +125,7 @@ def recovery_used(cur,today):
     return b.verdict(dict(refused=blocked['ok'],data_kept=one(cur,'select revision from erp.bf_skus_v1 where id=%s',g['id'])==1))
 
 
-def production_ranges(cur,today):
+def production_ranges(cur,today,pending=False):
     """Two SKU work rates, one vendor wash rate, four sizes through work/laundry/QC."""
     prod,base=b.chain.production,b.chain.base
     now=one(cur,'select clock_timestamp()');at=now-timedelta(minutes=4)
@@ -152,7 +152,7 @@ def production_ranges(cur,today):
     fx=b.two_size_fixture(cur,b.case_day(today),'BF-RANGES',size_quantities=list(zip(sizes,qtys)),clock=clock,work_setup=setup,service_refs=(vendor,process))
     b.process_rate(cur,fx,'5.00')
     payload=dict(distribution_batch_id=fx['batch'],vendor_id=vendor,wash_process_id=process,target_dyeing_color='BF-BLUE',physical_at=clock(11).isoformat(),reason='BF two SKU tariffs one wave',lines=[dict(size_id=s,qty_sent_pcs=q) for s,q in zip(sizes,qtys)])
-    sent=b.bd(cur,'POST_PRICED_DELIVERY',dict(delivery=payload,expected_version=str(base.group_version(cur,fx['group'])),pricing={}))
+    sent=b.bd(cur,'POST_PRICED_DELIVERY',dict(delivery=payload,expected_version=str(base.group_version(cur,fx['group'])),pricing={'deferred':True} if pending else {}))
     delivery=sent['delivery_id']
     ds=dict(cur.execute('select s.size_id::text,s.id::text from erp.laundry_delivery_batch_size_lines s join erp.laundry_delivery_lines l on l.id=s.delivery_line_id where l.delivery_id=%s',(delivery,)).fetchall())
     received=b.chain.laundry_action(cur,'POST_RECEIPT',dict(delivery_id=delivery,wash_process_id=process,physical_at=clock(13).isoformat(),reason='BF exact-size return',
@@ -175,10 +175,21 @@ def production_ranges(cur,today):
     prod.owner(cur)
     history=one(cur,'select public.erp_get_laundry_history_v1(%s::jsonb)',json.dumps(dict(vendor_id=vendor,wave_id=fx['group'])))
     b.api.admin(cur)
-    return b.verdict(dict(four_physical_sizes=physical==qtys,work_costs=labor==[40,70,20,90],laundry_costs=laundry==[20,35,10,15],
-        shared_selling_price=price==[185000]*4,exact_total=sent['estimated_cost']==80,
+    b.invoice_policies(cur)
+    _,bill=b.invoice(cur,dict(fx,day=one(cur,'select erp.bb_business_today_v1()')),[dict(line=line,qty=16,amount='85.13')],'85.13')
+    def read_history():
+        prod.owner(cur);answer=one(cur,'select public.erp_get_laundry_history_v1(%s::jsonb)',json.dumps(dict(vendor_id=vendor,wave_id=fx['group'])))
+        b.api.admin(cur);return answer
+    actual=read_history()
+    b.bd(cur,'REVERSE_INVOICE',dict(invoice_id=bill['invoice_id'],expected_version=bill['row_version'],reason='History must follow actual invoice reversal'))
+    reversed_history=read_history()
+    return b.verdict(dict(four_physical_sizes=physical==qtys,work_costs=labor==[40,70,20,90],laundry_costs=laundry==([0]*4 if pending else [20,35,10,15]),
+        shared_selling_price=price==[185000]*4,exact_total=sent['estimated_cost']==(None if pending else 80),
         history_sku_selection={h['sku_id'] for h in history['items']}=={a['id'],c['id']},
-        history_reference_only=all(h['reference_total']=='80.00' and h['amount_scope']=='WHOLE_PREVIOUS_DELIVERY' for h in history['items']),
+        history_reference_only=all(h['reference_total']==(None if pending else '80.00') and h['amount_scope']=='WHOLE_PREVIOUS_DELIVERY' for h in history['items']),
+        history_actual=all(h['reference_kind']=='ACTUAL' and h['reference_total']=='85.13' for h in actual['items']),
+        history_reversal=all(h['reference_kind']==('UNKNOWN' if pending else 'ESTIMATE') and h['reference_total']==(None if pending else '80.00') for h in reversed_history['items']),
+        history_process_only=not pending or all(h['charges'][0]['kind']=='PROCESS_REFERENCE' for h in history['items']),
         hpp_group_qty=hpp['qty']=='13' and len(hpp['lots'])==3,hpp_weighted=b.D(hpp['value'])==expected_value and abs(b.D(hpp['hpp_per_pcs'])-expected_value/13)<b.D('0.00000001'),hpp_before_fg=before['groups']==[],
         vendor_provenance=one(cur,'select count(*) from erp.bd_laundry_charge_lines_v1 c join erp.laundry_delivery_lines l on l.id=c.delivery_line_id where l.delivery_id=%s and c.bf_sku_version_id is not null',delivery)==0),
         labor=list(map(str,labor)),laundry=list(map(str,laundry)),physical=physical)

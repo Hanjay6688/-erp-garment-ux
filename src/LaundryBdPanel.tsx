@@ -226,6 +226,11 @@ function PricedSend({ data, laundry, vendor, locked, send }: { data: LaundryBdWo
   const availableComponents = mode === 'PACKAGE' ? components.filter(c => !selectedPackage?.component_ids.includes(c.id)) : components
   const [historyNotice, setHistoryNotice] = useState('')
   const useHistory = (item: LaundryHistoryItem) => {
+    if (item.charges.every(c => c.kind === 'PROCESS_REFERENCE')) {
+      if (!laundry.lookups.wash_processes.some(p => p.id === item.process_id)) { setHistoryNotice('Jenis cucian lama sudah tidak aktif.'); return }
+      setProcess(item.process_id); setSelection('PENDING'); setScopes({}); setCovered({}); setExtraReasons({}); setConfirmed(false)
+      setHistoryNotice('Jenis cucian disalin. Riwayat ini tidak punya rincian komponen; pilih dari master vendor atau tunggu kontra bon.'); return
+    }
     const packageCharge = item.charges.find(c => c.kind === 'PACKAGE')
     const chosenComponents = item.charges.filter(c => ['COMPONENT', 'EXTRA'].includes(c.kind))
     const entireBatch = batch?.sizes.every(s => item.target_size_ids.includes(s.size_id))

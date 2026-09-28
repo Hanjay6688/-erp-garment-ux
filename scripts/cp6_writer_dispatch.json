@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 40,
+  "revision": 41,
   "phase": "after",
   "scenario_path": "scripts/cp6_bf_vendor_modes.py",
   "browser_path": "scripts/cp6_bf_vendor_browser.mjs",
-  "purpose": "Correct supplier native fixture to admitted versioned return APIs; contention fixture schema isolation; remove new trigger on exact unused rollback. Includes supplier Auth/cash/cents/browser and vendor/PR30 regressions. CP6 HOLD."
+  "purpose": "Qualify actual kontra bon amounts in SKU wash history, including originally empty details and invoice inverse; supplier credit cents/Auth/cash/contention/browser and corrected fixture/rollback. CP6 HOLD."
 }
