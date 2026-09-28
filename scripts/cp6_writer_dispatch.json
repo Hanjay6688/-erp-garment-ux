@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 46,
+  "revision": 47,
   "phase": "after",
   "scenario_path": "scripts/cp6_bf_combined_modes.py",
   "browser_path": "scripts/cp6_bf_vendor_browser.mjs",
-  "purpose": "R11 known/pending late-invoice returns passed on revision 45. Correct the R06/R07 fixture: mandor-provided BOM_STANDARD accessories need reimbursement matching their cost; zero reimbursement was correctly refused before QC. Rerun the combined scenarios and qualified regressions. Package BF preparation proceeds separately; CP6 HOLD."
+  "purpose": "R06 running-PO same/different recipe and R11 late-invoice returns passed on revision 46. Correct the R07 verification role without changing product ACL. Exercise R08 unidentified multi-SKU BS, R09 commercial conversion selectors, R12 historical commercial import and R14 pending HPP across locations. BF release removes two unchanged definitions from its replacement capsule; no guard relaxed. CP6 HOLD."
 }

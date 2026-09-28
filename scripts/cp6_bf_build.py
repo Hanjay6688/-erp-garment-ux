@@ -8,6 +8,7 @@ import cp6_bf_rework_build as rework
 import cp6_bf_recovery as recovery
 import cp6_bf_import_build as imports
 import cp6_bf_supplier_build as supplier
+import cp6_bf_selectors_build as selectors
 
 ROOT=Path(__file__).resolve().parents[1]
 VERSION='v2.6.20bf'
@@ -24,7 +25,7 @@ NEW_TABLES=['bf_rollback_v1','bf_skus_v1','bf_sku_versions_v1','bf_sku_members_v
 REPLACED=['erp.commit_accessory_bom_for_lot(uuid)','erp.ensure_po_work_component_snapshots(uuid,timestamp with time zone)',
  'erp.validate_work_completion()','erp.guard_work_completion_posting_consistency()',
  'erp.seed_bs_case_component_baseline()','erp.classify_bs_case_v2(uuid,jsonb,uuid,bigint)',
- 'erp.cp6_lot_work_cost_v2620c(uuid,text)','erp.assert_new_stock_cutoff_coverage_v1()']+laundry.REPLACED+rework.REPLACED+imports.REPLACED+supplier.REPLACED
+ 'erp.cp6_lot_work_cost_v2620c(uuid,text)','erp.assert_new_stock_cutoff_coverage_v1()']+laundry.REPLACED+rework.REPLACED+imports.REPLACED+supplier.REPLACED+selectors.REPLACED
 
 def fixture(name):return last_definition(None,name,text=gzip.open(FIXTURE,'rt').read())
 def objects():return '\n'.join((ROOT/f'scripts/cp6_bf_objects_{p}.sql').read_text() for p in PARTS)
@@ -65,7 +66,7 @@ def changed():
     coverage=substitute(last_definition(BE,'assert_new_stock_cutoff_coverage_v1'),[
       ('  -- Structural catalog read:', '''  v_registry:=v_registry||'{"erp.bf_sku_members_v1.product_root":{"class":"MASTER","reason":"Commercial SKU membership; exact physical root is preserved"}}'::jsonb;
   -- Structural catalog read:''')],'BF master classification')
-    return [bom,work,validate,posting,seed,classify,cost,coverage]+laundry.changed(BD)+rework.changed(fixture)+imports.changed(BB,BD,BE)+supplier.changed(fixture,BE,ROOT/'supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql')
+    return [bom,work,validate,posting,seed,classify,cost,coverage]+laundry.changed(BD)+rework.changed(fixture)+imports.changed(BB,BD,BE)+supplier.changed(fixture,BE,ROOT/'supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql')+selectors.changed(BE)
 
 def build():
     grants=r"""

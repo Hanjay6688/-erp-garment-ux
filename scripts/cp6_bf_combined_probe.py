@@ -8,6 +8,7 @@ import json
 import uuid
 from datetime import timedelta
 import cp6_bf_probe as bf
+import cp6_av_probe as avp
 
 b, one = bf.b, bf.one
 prod, base = b.chain.production, b.chain.base
@@ -69,13 +70,13 @@ def wash(cur,f,indexes,hour,pending=False,pricing=None):
     return dict(sent=sent,line=line,rs=rs)
 
 
-def finish(cur,f,washes,indexes,hour,bs=None,partial=False):
+def finish(cur,f,washes,indexes,hour,bs=None,partial=False,quantities=None,location=None):
     bs = bs or {}
     lines=[]
     for i in indexes:
         source=next(w for w in washes if f['size_ids'][i] in w['rs'])
-        lines.append(dict(final_product_id=f['roots'][i],qty_good_pcs=f['qtys'][i]-bs.get(i,0),qty_bs_pcs=bs.get(i,0),source_laundry_receipt_line_id=source['line'],source_laundry_receipt_batch_size_line_id=source['rs'][f['size_ids'][i]]))
-    return b.chain.laundry_action(cur,'POST_FINAL_SKU',dict(cutting_group_id=f['group'],destination_location_id=base.LOCATION,physical_at=f['when'](hour).isoformat(),reason='Combined range QC with exact physical sources',good_qty_pcs=sum(x['qty_good_pcs'] for x in lines),completion_mode='PARTIAL_SELECTION' if partial else 'ALL_READY',lines=lines),base.group_version(cur,f['group']))
+        lines.append(dict(final_product_id=f['roots'][i],qty_good_pcs=(quantities or {}).get(i,f['qtys'][i])-bs.get(i,0),qty_bs_pcs=bs.get(i,0),source_laundry_receipt_line_id=source['line'],source_laundry_receipt_batch_size_line_id=source['rs'][f['size_ids'][i]]))
+    return b.chain.laundry_action(cur,'POST_FINAL_SKU',dict(cutting_group_id=f['group'],destination_location_id=location or base.LOCATION,physical_at=f['when'](hour).isoformat(),reason='Combined range QC with exact physical sources',good_qty_pcs=sum(x['qty_good_pcs'] for x in lines),completion_mode='PARTIAL_SELECTION' if partial else 'ALL_READY',lines=lines),base.group_version(cur,f['group']))
 
 
 def move34(cur,f,hour,changed_recipe=False):
@@ -208,6 +209,7 @@ def range_rework(cur,today,committed=True,different=False):
     payload=dict(rework_number='BFC-RW-'+uuid.uuid4().hex[:10],bs_case_id=bs,destination_type='CONTRACTOR',contractor_id=contractor,vendor_id=None,qty_sent=count,physical_sent_at=f['when'](15).isoformat(),status='IN_PROGRESS',return_fg_location_id=base.LOCATION,accessory_bom_version_id=bom,accessory_bom_item_ids=[],change_reason='Rework after range move preserves physical provenance',components=[dict(bs_case_component_id=component,qty_performed=count)])
     made=b.chain.bs_action(cur,'SAVE_REWORK',payload)
     rid=made['result']['rework_order_id']
+    b.api.admin(cur)
     line=cur.execute('select rate_snapshot,rate_basis,source_po_component_snapshot_id::text,bf_sku_version_id::text from erp.rework_component_lines where rework_order_id=%s',(rid,)).fetchone()
     truth=b.all_truth(cur)
     completed=b.chain.bs_action(cur,'COMPLETE_REWORK',dict(rework_order_id=rid,qty_good=count,qty_bs=0,completed_at=f['when'](16).isoformat(),return_fg_location_id=base.LOCATION,change_reason='All actual rework pieces returned'),b.chain.version(cur,'rework_orders',rid))
@@ -222,3 +224,102 @@ def range_rework(cur,today,committed=True,different=False):
     result['checks']['inverse_stock']=stock(cur,lot)==0
     if not result['checks']['inverse_stock']:result['status']='FAIL'
     return result
+
+
+def unknown_bs_scope(cur,today):
+    f=fixture(cur,today)
+    payload=dict(distribution_batch_id=f['batch'],vendor_id=f['vendor'],wash_process_id=f['process'],target_dyeing_color='BS-SCOPE',physical_at=f['when'](11).isoformat(),reason='BS before final product identity',lines=[dict(size_id=s,qty_sent_pcs=q) for s,q in zip(f['size_ids'],f['qtys'])])
+    sent=b.bd(cur,'POST_PRICED_DELIVERY',dict(delivery=payload,expected_version=str(base.group_version(cur,f['group'])),pricing={}))
+    ds=dict(cur.execute('select s.size_id::text,s.id::text from erp.laundry_delivery_batch_size_lines s join erp.laundry_delivery_lines l on l.id=s.delivery_line_id where l.delivery_id=%s',(sent['delivery_id'],)).fetchall())
+    b.chain.laundry_action(cur,'POST_RECEIPT',dict(delivery_id=sent['delivery_id'],wash_process_id=f['process'],physical_at=f['when'](12).isoformat(),reason='Two BS pieces with final SKU not identified',lines=[dict(delivery_batch_size_line_id=ds[s],qty_good_received=q-(2 if i==1 else 0),qty_bs_laundry=2 if i==1 else 0,bs_product_id=None) for i,(s,q) in enumerate(zip(f['size_ids'],f['qtys']))]),base.delivery_version(cur,sent['delivery_id']))
+    bs=one(cur,"select id::text from erp.bs_cases where po_id=%s and status='OPEN'",f['po'])
+    before=books(cur)
+    result,error=b.chain.peer.attempt(cur,lambda:b.chain.bs_action(cur,'CLASSIFY_BS',dict(bs_case_id=bs,cause_source='UNKNOWN',components=[dict(work_component_id=prod.COMPONENT,completed_before_bs_qty=2)],change_reason='Do not guess first SKU on multi-SKU wave'),b.chain.version(cur,'bs_cases',bs)))
+    b.api.admin(cur)
+    return b.verdict(dict(unknown_product=one(cur,'select product_id is null from erp.bs_cases where id=%s',bs),
+        classification_refused=error is not None,
+        no_guessed_entitlement=one(cur,'select count(*) from erp.bs_case_components where bs_case_id=%s',bs)==0,
+        money_unchanged=books(cur)==before,no_fg=one(cur,'select count(*) from erp.fg_lots where po_id=%s',f['po'])==0),refusal=error,result=result)
+
+
+def commercial_selectors(cur,today):
+    f=fixture(cur,today)
+    w=wash(cur,f,range(4),11);finish(cur,f,[w],range(4),13)
+    ls=lots(cur,f);physical=one(cur,'select sku from erp.products where id=%s',f['roots'][1])
+    target=b.sized_product(cur,f['size_ids'][1],'BFC-DEST-'+uuid.uuid4().hex[:8])
+    target_group=bf.group(cur,[target],f['when'](14));bf.save(cur,[target_group],f['when'](14))
+    def workspace(**filters):
+        prod.owner(cur)
+        r=cur.execute('select public.erp_get_product_conversion_workspace_v1(%s::jsonb)',(json.dumps(filters),)).fetchone()[0]
+        b.api.admin(cur);return r
+    selected=workspace(query=f['a']['sku'],source_lot_id=ls[1],target_query=target_group['sku'])
+    legacy=workspace(query=physical,source_lot_id=ls[1])
+    before=[stock(cur,l) for l in ls]
+    out=bf.be.be(cur,'POST',dict(source_lot_id=ls[1],target_product_id=target,location_id=base.LOCATION,qty_pcs=1,physical_at=f['when'](15).isoformat(),reason='Commercial code selects exact physical size32',expected_version=one(cur,'select erp.be_source_revision_v1(%s,%s)',ls[1],base.LOCATION)))
+    dest=out['destination_lot_id'];doc=next(d for d in workspace()['documents'] if d['id']==out['conversion_id'])
+    after=[stock(cur,l) for l in ls]
+    checks=dict(commercial_source=len(selected['lots'])==1 and selected['lots'][0]['product_id']==f['roots'][1] and selected['lots'][0]['sku']==f['a']['sku'],
+        commercial_target=len(selected['targets'])==1 and selected['targets'][0]['id']==target,
+        legacy_search=len(legacy['lots'])==1 and legacy['lots'][0]['id']==ls[1],
+        exact_size=after==[before[0],before[1]-1,before[2],before[3]] and stock(cur,dest)==1,
+        document_labels=doc['source_sku']==f['a']['sku'] and doc['target_sku']==target_group['sku'],
+        immutable_physical_code=one(cur,'select sku from erp.products where id=%s',f['roots'][1])==physical)
+    bf.be.be(cur,'REVERSE',dict(conversion_id=out['conversion_id'],reason='Commercial selector exact inverse'))
+    checks['inverse']=stock(cur,dest)==0 and [stock(cur,l) for l in ls]==before
+    return b.verdict(checks)
+
+
+def historical_import_identity(cur,today):
+    """Resolver fixture at exact cutover instants; full import posting/replay is
+    covered separately by BF:IMPORT_EXACT_SIZE_SALES_CUSTODY_COGS_REPLAY.
+    Batch timestamps below are explicit prerequisites, not an owner mutation.
+    """
+    f=fixture(cur,today)
+    batch=b.api.call(cur,'CREATE',dict(batch_code='BFC-IMPORT-'+uuid.uuid4().hex[:8],cutover_date=str(today)))['batch_id']
+    b.api.admin(cur)
+    cur.execute('update erp.migration_batches set cutover_at=%s where id=%s',(f['when'](11),batch))
+    size=one(cur,'select size_code from erp.sizes where id=%s',f['size_ids'][3])
+    def resolve(**values):return one(cur,'select erp.bf_resolve_import_product_v1(%s,%s::jsonb,false)::text',batch,json.dumps(values))
+    old=resolve(product_sku=f['z']['sku'],size_code=size)
+    move34(cur,f,12)
+    historical=resolve(product_sku=f['z']['sku'],size_code=size)
+    future=b.refused(cur,lambda:resolve(product_sku=f['a']['sku'],size_code=size),'BF_IMPORT_PRODUCT_NOT_FOUND')
+    cur.execute('update erp.migration_batches set cutover_at=%s where id=%s',(f['when'](13),batch))
+    current=resolve(product_sku=f['a']['sku'],size_code=size)
+    aggregate=b.refused(cur,lambda:resolve(product_sku=f['a']['sku']),'SIZE_ALLOCATION_REQUIRED')
+    # A valid public physical successor creates a second historical identity of
+    # the same root/size. It must remain ambiguous until product_id is supplied.
+    successor=avp.edit(cur,f['roots'][3],f['when'](14));b.api.admin(cur)
+    current_id=one(cur,'select id::text from erp.products where supersedes_product_id=%s',f['roots'][3])
+    cur.execute('update erp.migration_batches set cutover_at=%s where id=%s',(f['when'](15),batch))
+    ambiguous=b.refused(cur,lambda:resolve(product_sku=f['a']['sku'],size_code=size),'SIZE_ALLOCATION_REQUIRED')
+    exact=resolve(product_sku=f['a']['sku'],product_id=f['roots'][3],size_code=size)
+    newest=resolve(product_sku=f['a']['sku'],product_id=current_id,size_code=size)
+    return b.verdict(dict(old_exact=old==f['roots'][3],historical_membership=historical==old,future_membership_refused=future['ok'],
+        current_alias=current==old,no_aggregate_split=aggregate['ok'],two_versions_ambiguous=ambiguous['ok'],
+        explicit_old=exact==old,explicit_new=newest==current_id,distinct_versions=old!=current_id),successor=successor)
+
+
+def hpp_locations_pending(cur,today):
+    f=fixture(cur,today)
+    w=wash(cur,f,range(4),11,True)
+    location=one(cur,"insert into erp.locations(location_code,location_name,location_type,is_active) values(%s,'Combined second FG warehouse','FG_WAREHOUSE',true) returning id::text",'BFC-'+uuid.uuid4().hex[:8])
+    finish(cur,f,[w],[0],13,partial=True,quantities={0:2})
+    finish(cur,f,[w],[0,1,2],14,partial=True,quantities={0:3},location=location)
+    move34(cur,f,15)
+    before=report(cur,f['a']['sku']);left=report(cur,f['a']['sku'],location_id=base.LOCATION);right=report(cur,f['a']['sku'],location_id=location)
+    old=report(cur,f['a']['sku'],f['when'](12));grade=report(cur,f['a']['sku'],grade='GRADE_B')
+    _,invoice=b.invoice(cur,f,[dict(line=w['line'],qty=20,amount='123.20')],'123.20')
+    after=report(cur,f['a']['sku']);a=after['groups'][0];v=before['groups'][0]
+    checks=dict(physical_denominator=v['qty']=='16' and len(v['lots'])==4,
+        zero_stock_member=all(x['product_id']!=f['roots'][3] for x in v['lots']),
+        locations=left['groups'][0]['qty']=='2' and right['groups'][0]['qty']=='14',
+        value_conserved=b.D(v['value'])==b.D(left['groups'][0]['value'])+b.D(right['groups'][0]['value']),
+        unknown_visible=v['provisional'] is True,known_cost_positive=b.D(v['value'])>0,
+        report_before_receipt_empty=old['groups']==[],grade_filter_no_fictitious_stock=grade['groups']==[],
+        invoice_exact_fg_share=b.D(a['value'])-b.D(v['value'])==b.D('98.56'),
+        weighted=b.D(a['hpp_per_pcs'])==b.D(a['value'])/16)
+    b.bd(cur,'REVERSE_INVOICE',dict(invoice_id=invoice['invoice_id'],expected_version=invoice['row_version'],reason='Combined location report inverse'))
+    inverse=report(cur,f['a']['sku'])['groups'][0]
+    checks['inverse']=inverse['value']==v['value'] and inverse['qty']=='16' and inverse['provisional'] is True
+    return b.verdict(checks,before=v['value'],after=a['value'],locations=[left['groups'][0]['qty'],right['groups'][0]['qty']])

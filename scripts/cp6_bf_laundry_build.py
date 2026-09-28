@@ -2,8 +2,7 @@
 from cp6_bc_build import last_definition, substitute
 
 REPLACED = ['erp.bd_priced_line_json_v1(uuid)', 'erp.bd_compute_pricing_v1(jsonb,jsonb)',
- 'erp.bd_attach_delivery_pricing_v1(uuid)', 'erp.bd_post_priced_delivery_v1(jsonb,uuid)',
- 'erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)', 'erp.bd_refresh_size_estimates_v1(uuid)',
+ 'erp.bd_attach_delivery_pricing_v1(uuid)', 'erp.bd_refresh_size_estimates_v1(uuid)',
  'erp.bd_line_complete_v1(uuid)', 'erp.bd_delivery_line_price_unknown_v1(uuid)',
  'erp.bd_post_invoice_v1(jsonb,uuid)', 'erp.bd_set_charge_price_v1(jsonb,uuid)',
  'erp.period_blockers_v1(date,date)']
@@ -71,5 +70,4 @@ def changed(bd):
       ("'mode',p.pricing_mode", "'mode',case when exists(select 1 from erp.bf_laundry_delivery_sources_v1 b where b.delivery_line_id=p.delivery_line_id and b.details_pending) then 'PENDING' else p.pricing_mode end"),
       ("'total_complete',p.total_complete", "'total_complete',p.total_complete,'cost_invoiced',erp.bf_delivery_invoiced_v1(p.delivery_line_id),'has_invoice',exists(select 1 from erp.bd_laundry_invoice_lines_v1 x join erp.bd_laundry_invoices_v1 i on i.id=x.invoice_id join erp.laundry_receipt_lines r on r.id=x.receipt_line_id where r.delivery_line_id=p.delivery_line_id and i.status='POSTED')")
     ], 'BF invoice completion separate from quote')
-    return [compute, attach, refresh, complete, unknown, invoice, price, blocker, reader,
-      last_definition(bd, 'bd_post_priced_delivery_v1'), last_definition(bd, 'save_laundry_qc_action_v1')]
+    return [compute, attach, refresh, complete, unknown, invoice, price, blocker, reader]

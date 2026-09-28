@@ -1,4 +1,12 @@
 -- One physical identity for every historical row. Never distribute an imported aggregate.
+CREATE OR REPLACE FUNCTION erp.bf_commercial_sku_at_v1(p_product uuid,p_at timestamptz)
+ RETURNS text LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+ select coalesce(s.sku,p.sku) from erp.products p
+ left join erp.bf_sku_versions_v1 v on v.id=erp.bf_version_at_v1(p.id,p_at)
+ left join erp.bf_skus_v1 s on s.id=v.sku_id where p.id=p_product
+$function$;
+
 CREATE OR REPLACE FUNCTION erp.bf_resolve_import_product_v1(p_batch uuid,p_value jsonb,p_allow_staged boolean DEFAULT false,p_optional boolean DEFAULT false)
  RETURNS uuid LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
 AS $function$
@@ -12,7 +20,8 @@ begin
  select coalesce(array_agg(p.id),'{}') into v_ids from erp.products p
  join erp.brands b on b.id=p.brand_id join erp.product_models m on m.id=p.model_id join erp.sizes z on z.id=p.size_id
  where p.effective_from<=v_at and (v_id is null or p.id=v_id)
-   and (nullif(btrim(p_value->>'product_sku'),'') is null or lower(btrim(p.sku))=lower(btrim(p_value->>'product_sku')))
+   and (nullif(btrim(p_value->>'product_sku'),'') is null or lower(btrim(p.sku))=lower(btrim(p_value->>'product_sku'))
+     or lower(btrim(erp.bf_commercial_sku_at_v1(p.id,v_at)))=lower(btrim(p_value->>'product_sku')))
    and (nullif(btrim(p_value->>'size_code'),'') is null or lower(btrim(z.size_code))=lower(btrim(p_value->>'size_code')))
    and (nullif(btrim(p_value->>'brand_code'),'') is null or lower(btrim(b.brand_code))=lower(btrim(p_value->>'brand_code')))
    and (nullif(btrim(p_value->>'model_code'),'') is null or lower(btrim(m.model_code))=lower(btrim(p_value->>'model_code')))

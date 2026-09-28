@@ -12,6 +12,10 @@ def cases(cur,today):
         ('R07:UNCOMMITTED_BS_RANGE_MOVE_OTHER_CONTRACTOR_REWORK',lambda:p.range_rework(cur,today,False,True)),
         ('R11:SALE_MOVE_LATE_INVOICE_RETURN_INVERSE',lambda:p.late_invoice_return(cur,today)),
         ('R11:UNKNOWN_SALE_MOVE_LATE_INVOICE_RETURN_INVERSE',lambda:p.late_invoice_return(cur,today,True)),
+        ('R08:MULTI_SKU_UNIDENTIFIED_BS_NO_GUESSED_ENTITLEMENT',lambda:p.unknown_bs_scope(cur,today)),
+        ('R09:COMMERCIAL_CONVERSION_EXACT_SIZE_INVERSE',lambda:p.commercial_selectors(cur,today)),
+        ('R12:HISTORICAL_IMPORT_MEMBERSHIP_AND_PHYSICAL_VERSIONS',lambda:p.historical_import_identity(cur,today)),
+        ('R14:HPP_LOCATIONS_ZERO_MEMBER_PENDING_INVOICE_INVERSE',lambda:p.hpp_locations_pending(cur,today)),
     ]+regression.cases(cur,today)
 
 
