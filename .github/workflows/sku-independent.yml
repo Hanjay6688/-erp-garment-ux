@@ -1,9 +1,9 @@
-name: SKU independent BD regression
+name: SKU independent master range and accounting
 permissions:
   contents: read
   actions: read
 concurrency:
-  group: sku-regression-bd
+  group: sku-independent
   cancel-in-progress: false
 jobs:
   independent:
@@ -175,84 +175,20 @@ jobs:
     - name: Install exact candidate through BF
       working-directory: auditor
       run: python audits/independent_sku_20260928/install.py
-    - name: Save reusable empty audit database
+    - name: Exact BF pre-use rollback and reinstall
       working-directory: auditor
-      run: 'set -euo pipefail
-
-        pg_dump ''postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback'' -Fc -f audit-results/empty-bd.dump
-
-        sha256sum audit-results/empty-bd.dump > audit-results/empty-bd-sha256.txt
-
-        '
-    - name: Run independently authored native tests
+      run: python audits/independent_sku_20260928/rollback.py pre
+    - name: Own master range physical cost permission and concurrency tests
       working-directory: auditor
-      run: python audits/independent_bd_20260927/suite.py
-    - name: Run independently authored invoice lifecycle
+      run: python audits/independent_sku_20260928/native.py
+    - name: Exact BF post-use rollback refusal
       if: always()
       working-directory: auditor
-      run: python audits/independent_bd_20260927/lifecycle.py
-    - name: Supplemental peer-informed checks on real installed schema
-      if: always()
-      working-directory: auditor
-      run: python audits/independent_bd_20260927/peer_recheck.py
-    - name: Independent daily physical and cost continuation
-      if: always()
-      working-directory: auditor
-      run: python audits/independent_bd_20260927/daily.py
-    - name: Independent claim credit and cross-invoice continuation
-      if: always()
-      working-directory: auditor
-      run: python audits/independent_bd_20260927/credit.py
-    - name: Independent free rewash and closed-period edges
-      if: always()
-      working-directory: auditor
-      run: python audits/independent_bd_20260927/edges.py
-    - name: Independent remaining daily financial and concurrency gaps
-      if: always()
-      working-directory: auditor
-      run: python audits/independent_bd_20260927/gaps_native.py
-    - name: Independent legitimate free contract investigation
-      if: always()
-      working-directory: auditor
-      run: python audits/independent_bd_20260927/free_contract.py
+      run: python audits/independent_sku_20260928/rollback.py post
     - uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: sku-regression-bd-bd-independent-native-${{ github.run_id }}
-        path: auditor/audit-results/*.json
-        retention-days: 14
-    - uses: actions/setup-node@v4
-      if: always()
-      with:
-        node-version: '24'
-    - name: Prepare independent browser runtime
-      if: always()
-      working-directory: auditor
-      run: 'set -euo pipefail
-
-        npm ci
-
-        npm install -g agent-browser@0.31.1
-
-        agent-browser install --with-deps
-
-        npm install --prefix "$RUNNER_TEMP/bd-browser-input" --no-save playwright-core@1.55.0
-
-        echo "BD_PLAYWRIGHT_CORE=$RUNNER_TEMP/bd-browser-input/node_modules/playwright-core" >> "$GITHUB_ENV"
-
-        '
-    - name: Independent official build and diagnostic compilers
-      if: always()
-      working-directory: auditor
-      run: python audits/independent_bd_20260927/release_gaps.py build
-    - name: Independent actual HTTP and browser checks
-      if: always()
-      working-directory: auditor
-      run: python audits/independent_bd_20260927/http_browser.py
-    - uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: sku-regression-bd-bd-independent-20260927-${{ github.run_id }}
+        name: sku-independent-${{ github.run_id }}
         path: auditor/audit-results/
         retention-days: 14
     - name: Stop isolated runtime
@@ -264,6 +200,6 @@ jobs:
     branches:
     - audit/sku-range-independent-20260928
     paths:
-    - audits/independent_bd_20260927/**
-    - .github/workflows/sku-regression-bd.yml
+    - audits/independent_sku_20260928/**
+    - .github/workflows/sku-independent.yml
   workflow_dispatch: null

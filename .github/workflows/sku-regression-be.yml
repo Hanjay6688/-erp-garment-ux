@@ -280,6 +280,6 @@ jobs:
     branches:
     - audit/sku-range-independent-20260928
     paths:
-    - audits/**
+    - audits/independent_be_20260928/**
     - .github/workflows/sku-regression-be.yml
   workflow_dispatch: null
