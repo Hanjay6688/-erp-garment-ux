@@ -39,7 +39,7 @@ def nav(section,label,who='owner'):
  visible=b.evaluate('Array.from(document.querySelectorAll("aside.sidebar button")).filter(e=>e.getClientRects().length).map(e=>e.textContent.trim())',who)
  if not any(label in x and '•' in x for x in visible):click(section,who,False)
  click('• '+label,who)
- b.ab('wait','--fn','!!document.querySelector(".sku-workspace")',who=who)
+ b.ab('wait','--fn','!!document.querySelector('+json.dumps('.biz-invoice-draft' if label=='Penjualan & Invoice' else '.sku-workspace')+')',who=who)
  if who.startswith('mobile'):b.ab('wait','--fn','!document.querySelector("aside.sidebar").classList.contains("sidebar-open")',who=who)
 def master_edit(who='owner',price='93456.78'):
  click=b.mobile_button if who.startswith('mobile') else b.button
@@ -66,7 +66,21 @@ def hpp_screen(who='owner'):
 def viewer_screen():
  nav('Master Data','Produk & SKU','viewer');b.ab('wait','--fn','document.body.innerText.includes("SKU bersama")',who='viewer')
  body=b.text_body('viewer');assert 'Anggota fisik tersedia' not in body and 'Terbatas' in body and 'Harga jual per PCS untuk seluruh ukuran' not in body,body;b.snap('restricted-sku','viewer');return {'no_editor':True,'prices_hidden':True}
+def manual_sales(who='owner'):
+ nav('Penjualan','Penjualan & Invoice',who);out=[]
+ # Real inputs on the retained simulation UI; no backend posting claimed.
+ for total in [12,13,23,24]:
+  for i,q in enumerate([total,0,0],1):b.ab('fill',f'.biz-invoice-lines > article:first-child .biz-size-entry label:nth-child({i}) input',str(q),who=who)
+  before=b.evaluate('({qty:Array.from(document.querySelectorAll(".biz-invoice-lines > article:first-child .biz-size-entry input")).map(e=>Number(e.value)),label:document.querySelector(".biz-invoice-lines > article:first-child .biz-line-total").innerText,helper:document.querySelector(".biz-invoice-lines > article:first-child .biz-dozen-helper input").value})',who)
+  assert sum(before['qty'])==total and before['helper']=='',before
+  assert f'{total//12} lusin · {total%12} potong' in before['label'],before
+  b.ab('click','.biz-invoice-lines > article:first-child .biz-dozen-helper button',who=who)
+  after=b.evaluate('Array.from(document.querySelectorAll(".biz-invoice-lines > article:first-child .biz-size-entry input")).map(e=>Number(e.value))',who);assert after==before['qty'],(before,after);out.append(before)
+ b.snap('manual-sales-'+who,who);return {'layer':'Retained sales UX simulation only','manual_cases':out,'empty_helper_is_noop':True}
 def main():
+ native_results=json.loads((ROOT/'audit-results/sku-native-results.json').read_text())['results']
+ if not any(x['id']=='SKU.L03' and x['status']=='PASS' for x in native_results):
+  b.RESULTS.append({'id':'SKU.BROWSER.PREREQUISITE','status':'BLOCKED','reason':'Own exact-size FG fixture did not pass; no UI conclusion'});save();return
  try:
   b.setup_gateway()
   if not b.case('SKU.HTTP.AUTH','Real owner and viewer authentication',b.setup_identities):return
@@ -76,9 +90,11 @@ def main():
   if b.case('SKU.BROWSER.LOGIN','Owner actual password form',b.browser_auth):
    b.case('SKU.BROWSER.MASTER','Review and save shared four-size price through actual UI',master_edit)
    b.case('SKU.BROWSER.HPP','Weighted summary and physical size detail through UI',hpp_screen)
+   b.case('SKU.X.SR02.DESKTOP','Manual PCS does not round-trip through a rounded dozen helper',manual_sales)
   if b.case('SKU.BROWSER.VIEWER_LOGIN','Restricted actual password form',lambda:b.browser_auth('viewer')):b.case('SKU.BROWSER.VIEWER','Read-only SKU identity UI hides costs',viewer_screen)
   if b.case('MOBILE.SKU.LOGIN','Touch Chromium owner login',lambda:b.mobile_auth('mobile','owner')):
    b.case('MOBILE.SKU.MASTER','Touch save shared four-size price',lambda:master_edit('mobile','94567.89'))
    b.case('MOBILE.SKU.HPP','Touch weighted HPP with physical detail',lambda:hpp_screen('mobile'))
+   b.case('MOBILE.SKU.SR02','Mobile manual PCS and empty helper preserve exact quantities',lambda:manual_sales('mobile'))
  finally:b.cleanup();save()
 if __name__=='__main__':main()

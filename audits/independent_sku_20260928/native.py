@@ -70,7 +70,7 @@ def setup():
     c.execute('insert into erp.sizes(id,size_code,sort_order) values(%s,%s,%s)',(C[key],code,int(code)))
     c.execute('insert into erp.product_model_sizes(model_id,size_id) values(%s,%s)',(C['model'],C[key]))
    pid=uid();C['products'][C[key]+':'+C['brand']]=pid
-   c.execute("insert into erp.products(id,identity_root_id,sku,model_id,brand_id,color_name,size_id,product_name,effective_from) values(%s,%s,'AUD-SKU-PHYSICAL',%s,%s,'AUD-NAVY',%s,'Independent range member','2026-09-01T00:00Z')",(pid,pid,C['model'],C['brand'],C[key]))
+   c.execute("insert into erp.products(id,identity_root_id,sku,model_id,brand_id,color_name,size_id,product_name,effective_from) values(%s,%s,'AUD-SKU-PHYSICAL',%s,%s,'AUD-SKU-INDIGO',%s,'Independent range member','2026-09-01T00:00Z')",(pid,pid,C['model'],C['brand'],C[key]))
    c.execute("insert into erp.accessory_bom_versions(product_id,version_label,effective_from,created_by) values(%s,'NONE','2026-09-01T00:00Z',%s)",(pid,C['app_owner']))
    if key!='s4':C['roots'].append(pid)
   rid=c.execute('select role_id from erp.app_users where auth_user_id=%s',(C['staff'],)).fetchone()[0]
@@ -118,7 +118,7 @@ def new_wave(key='A',mixed=False):
   c.execute("update erp.cutting_pickups set status='POSTED',posted_by=%s,posted_at=%s where id=%s",(C['app_owner'],at(6),f['pickup']));c.execute("update erp.cutting_groups set material_issue_posted=true,picked_up_at=%s,status='SEWING' where id=%s",(at(6),f['group']))
   c.execute("insert into erp.wip_stage_events(po_id,cutting_group_id,stage_from,stage_to,qty_pcs,contractor_id,source_type,source_id,physical_at,created_by) values(%s,%s,'CUTTING','SEWING',16,%s,'AUDIT_PREREQUISITE',%s,%s,%s)",(f['po'],f['group'],C['mandor'],f['pickup'],at(6),C['app_owner']))
   c.execute('insert into erp.po_work_component_snapshots(id,po_id,work_component_id,rate_per_pcs_snapshot,committed_at) values(%s,%s,%s,100,%s)',(f['base_snap'],f['po'],C['work_component'],at(6)))
- before=admin('select count(*) from erp.fg_lots',one=True);w=workspace({'wave_id':f['group']})['wave'];f['bind_payload']={'cutting_group_id':f['group'],'expected_version':w['revision'],'references':[{'sku_id':C['sku_id'],'size_id':C[x]} for x in ['s1','s2','s3']]}
+ before=admin('select count(*) from erp.fg_lots',one=True);w=workspace({'wave_id':f['group']})['wave'];f['bind_payload']={'cutting_group_id':f['group'],'expected_version':w['revision'],'references':[{'sku_id':C.get('wave_sku_by_size',{}).get(C[x],C['sku_id']),'size_id':C[x]} for x in ['s1','s2','s3']]}
  r=action('BIND_WAVE',f['bind_payload']);eq(admin('select count(*) from erp.fg_lots',one=True),before);eq(admin('select total_pcs from erp.v_cutting_group_totals where cutting_group_id=%s',(f['group'],),one=True),16);return r
 
 def work(key='A'):
@@ -133,25 +133,25 @@ def work(key='A'):
  eq(admin('select unsent_ready_qty_pcs from erp.v_wip_control_status_v1 where cutting_group_id=%s',(f['group'],),one=True),16)
  return {'result':r,'expected_labor':'2035.04','snap':f['snap'],'layer':'Native real work posting after own seeded cut/pickup'}
 def shipment(key='A'):
- f=F[key];p={'expected_version':str(d.ver('cutting_groups',f['group'])),'delivery':{'distribution_batch_id':f['batch'],'vendor_id':C['daily_vendor'],'wash_process_id':C['process'],'target_dyeing_color':'AUD-NAVY','physical_at':at(20),'reason':'Independent SKU scoped pricing','lines':[{'size_id':C[k],'qty_sent_pcs':n} for k,n in zip(['s1','s2','s3'],[5,8,3])]},'pricing':{'components':[{'component_id':C['daily_wash'],'covered_qty':16},{'component_id':C['daily_finish'],'covered_qty':3,'coverage':[{'size_id':C['s2'],'qty':3}]}]}}
+ f=F[key];p={'expected_version':str(d.ver('cutting_groups',f['group'])),'delivery':{'distribution_batch_id':f['batch'],'vendor_id':C['daily_vendor'],'wash_process_id':C['process'],'target_dyeing_color':'AUD-SKU-INDIGO','physical_at':at(20),'reason':'Independent SKU scoped pricing','lines':[{'size_id':C[k],'qty_sent_pcs':n} for k,n in zip(['s1','s2','s3'],[5,8,3])]},'pricing':{'components':[{'component_id':C['daily_wash'],'covered_qty':16},{'component_id':C['daily_finish'],'covered_qty':3,'coverage':[{'size_id':C['s2'],'qty':3}]}]}}
  r=s.command('POST_PRICED_DELIVERY',p);f['delivery']=r['delivery_id'];f['delivery_line']=admin('select id::text from erp.laundry_delivery_lines where delivery_id=%s',(f['delivery'],),one=True)
- eq(D(r['pricing']['total_known']),D('4359.49'));eq(D(r['estimated_cost']),D('4359.49'))
+ eq(D(r['pricing']['total_known']),D(f.get('expected_laundry','4359.49')));eq(D(r['estimated_cost']),D(f.get('expected_laundry','4359.49')))
  rows=admin('select ref_id::text,unit_rate,covered_qty,amount,bf_sku_version_id::text from erp.bd_laundry_charge_lines_v1 where delivery_line_id=%s order by line_no',(f['delivery_line'],));return {'response':r,'charges':rows}
 def receive(key='A'):
  f=F[key];xs=admin('select id::text,qty_sent_pcs from erp.laundry_delivery_batch_size_lines where delivery_line_id=%s order by size_id',(f['delivery_line'],))
  p={'delivery_id':f['delivery'],'wash_process_id':C['process'],'physical_at':at(30),'reason':'Independent uneven SKU receipt','lines':[{'delivery_batch_size_line_id':i,'qty_good_received':n,'qty_bs_laundry':0,'bs_product_id':None} for i,n in xs]}
- r=d.rpc('POST_RECEIPT',p,d.ver('laundry_deliveries',f['delivery']));f['receipt']=r['receipt_id'];f['receipt_line']=admin('select id::text from erp.laundry_receipt_lines where receipt_id=%s',(f['receipt'],),one=True);eq(D(r['actual_cost']),D('4359.49'));return r
+ r=d.rpc('POST_RECEIPT',p,d.ver('laundry_deliveries',f['delivery']));f['receipt']=r['receipt_id'];f['receipt_line']=admin('select id::text from erp.laundry_receipt_lines where receipt_id=%s',(f['receipt'],),one=True);eq(D(r['actual_cost']),D(f.get('expected_laundry','4359.49')));return r
 def qc(key='A'):
  f=F[key];xs=admin('select id::text,size_id::text,qty_good_received from erp.laundry_receipt_batch_size_lines where receipt_line_id=%s',(f['receipt_line'],))
  p={'cutting_group_id':f['group'],'destination_location_id':C['fg'],'physical_at':at(40),'reason':'Independent exact-size FG','good_qty_pcs':16,'completion_mode':'ALL_READY','lines':[{'final_product_id':C['products'][size+':'+C['brand']],'qty_good_pcs':n,'qty_bs_pcs':0,'source_laundry_receipt_line_id':f['receipt_line'],'source_laundry_receipt_batch_size_line_id':i} for i,size,n in xs]}
  r=d.rpc('POST_FINAL_SKU',p,d.ver('cutting_groups',f['group']));f['qc']=r
  rows=admin('select l.product_id::text,l.initial_qty_pcs,h.total_cost,l.id::text from erp.fg_lots l join erp.hpp_versions h on h.lot_id=l.id and h.is_current where l.po_id=%s',(f['po'],));f['lots']={x[0]:x[3] for x in rows}
- expected={C['roots'][0]:(5,D('1142.10')),C['roots'][1]:(8,D('4567.17')),C['roots'][2]:(3,D('685.26'))};eq({p:(q,t.quantize(D('.01'))) for p,q,t,_ in rows},expected,'Only three middle-size PCS receive 2739.81 extra cost');return {'response':r,'rows':rows,'independent_total':'6394.53'}
+ expected={p:(q,D(cost)) for p,q,cost in zip(C['roots'],[5,8,3],f.get('expected_size_costs',['1142.10','4567.17','685.26']))};eq({p:(q,t.quantize(D('.01'))) for p,q,t,_ in rows},expected,'Only three middle-size PCS receive 2739.81 extra cost');return {'response':r,'rows':rows,'independent_total':'6394.53'}
 def hpp_current():
  r=hpp({'query':'AUD-SKU-RANGE'});eq(r['total'],1);g=r['groups'][0];eq(int(g['qty']),16);eq(D(g['value']).quantize(D('.01')),D('6394.53'));eq(D(g['hpp_per_pcs']).quantize(D('.000001')),D('399.658125'));eq({x['size']:int(x['qty']) for x in g['lots']},{'31':5,'32':8,'33':3});return r
 def hpp_filters():
  r=hpp({'query':'AUD-SKU-RANGE','location_id':C['rawloc']});eq(r['total'],0)
- r=hpp({'query':'AUD-SKU-RANGE','location_id':C['fg'],'grade':'GOOD'});eq(int(r['groups'][0]['qty']),16)
+ r=hpp({'query':'AUD-SKU-RANGE','location_id':C['fg'],'grade':'GRADE_A'});eq(int(r['groups'][0]['qty']),16)
  eq(hpp({'brand_id':C['brand2']})['total'],0);refuse(lambda:hpp({'at':(datetime.now(timezone.utc)+timedelta(days=1)).isoformat()}));return r
 def historical_hpp_observation():
  r=hpp({'query':'AUD-SKU-RANGE','at':at(45)});eq(int(r['groups'][0]['qty']),16)

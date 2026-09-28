@@ -46,15 +46,53 @@ def import_resolution():
   outcomes.append({'refusal':n.refuse(lambda p=p:admin('select erp.bf_resolve_import_product_v1(%s,%s)',(batch,Jsonb(p)),one=True)),'input':p})
  return {'layer':'Native import product resolver; not full row/post pipeline','results':outcomes}
 def private_sql():
- rows=admin("select p.oid::regprocedure::text,has_function_privilege('authenticated',p.oid,'EXECUTE'),has_function_privilege('anon',p.oid,'EXECUTE') from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='erp' and (p.proname like 'bf_%' or p.proname in ('save_sku_action_v1','get_sku_workspace_v1','get_sku_hpp_v1')) order by 1")
+ rows=admin("select p.oid::regprocedure::text,has_function_privilege('authenticated',p.oid,'EXECUTE'),has_function_privilege('anon',p.oid,'EXECUTE') from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='erp' and (p.proname like 'bf_%%' or p.proname in ('save_sku_action_v1','get_sku_workspace_v1','get_sku_hpp_v1')) order by 1")
  assert rows and all(not a and not b for _,a,b in rows),rows
- tables=admin("select tablename,has_table_privilege('authenticated','erp.'||tablename,'SELECT,INSERT,UPDATE,DELETE') from pg_tables where schemaname='erp' and tablename like 'bf_%' order by 1");assert all(not allowed for _,allowed in tables),tables
+ tables=admin("select tablename,has_table_privilege('authenticated','erp.'||tablename,'SELECT,INSERT,UPDATE,DELETE') from pg_tables where schemaname='erp' and tablename like 'bf_%%' order by 1");assert all(not allowed for _,allowed in tables),tables
  return {'helpers':rows,'private_tables':tables}
+def new_sku_context(recipe=False):
+ C['base']=(datetime.now(timezone.utc)-timedelta(seconds=130)).isoformat();when=n.at();allroots=C['roots']+[C['products'][C['s4']+':'+C['brand']]]
+ if recipe:
+  cat=uid();admin("insert into erp.accessory_categories(id,category_code,category_name,base_uom_code) values(%s,'AUD-SKU-TAG','Independent SKU tag','PCS')",(cat,))
+  settings=copy.deepcopy(C['settings']);settings['bom']=[{'category_id':cat,'qty_per_good_fg_base':'2','hpp_method':'BOM_STANDARD','hpp_standard_rate':'17.31','hpp_uom_code':'PCS','reimbursement_rate':'0.00','reimbursement_uom_code':'PCS'}]
+  r=n.action('SAVE_GROUPS',n.payload([n.group(C['sku_id'],allroots,settings,when=when)],when));C['v1']=r['groups'][0]['version_id'];C['recipe_cat']=cat
+ else:
+  gid=uid();settings=copy.deepcopy(C['settings']);settings['work_rates'][0]['rate']='500.03';settings['laundry_rates'][0]['rate']='197.43'
+  groups=[n.group(C['sku_id'],[x for x in allroots if x!=C['roots'][2]],when=when),n.group(gid,[C['roots'][2]],settings,sku='AUD-SKU-MIXED33',when=when)]
+  r=n.action('SAVE_GROUPS',n.payload(groups,when));C['wave_sku_by_size']={C['s3']:gid};C['v1']=r['groups'][0]['version_id']
+ n.new_wave('B')
+ if recipe:F['B']['expected_size_costs']=['1315.20','4844.13','789.12']
+ else:F['B'].update(expected_laundry='4648.09',expected_size_costs=['1142.10','4567.17','2092.38'])
+ return r
+
+def mixed_work():
+ f=F['B']
+ with psycopg.connect(n.s.DSN) as c:
+  c.execute("select set_config('request.jwt.claim.sub',%s,true)",(C['owner'],));c.execute("select set_config('app.change_reason','Independent mixed SKU work',true)")
+  c.execute('select erp.bf_ensure_work_v1(%s,%s)',(f['po'],n.at(10)))
+  snaps=c.execute('select x.id,x.rate_per_pcs_snapshot,v.sku_id::text from erp.po_work_component_snapshots x join erp.bf_sku_versions_v1 v on v.id=x.bf_sku_version_id where x.po_id=%s',(f['po'],)).fetchall();eq(len(snaps),2)
+  c.execute('insert into erp.work_completion_events(id,completion_number,po_id,contractor_id,cutting_group_id,physical_at,created_by) values(%s,%s,%s,%s,%s,%s,%s)',(f['work'],'AUD-SKU-MIXED-WORK',f['po'],C['mandor'],f['group'],n.at(10),C['app_owner']))
+  for sid,rate,sku in snaps:
+   q=13 if sku==C['sku_id'] else 3;eq(rate,D('127.19' if q==13 else '500.03'))
+   c.execute('insert into erp.work_completion_lines(completion_id,po_component_snapshot_id,work_component_id,qty_completed,qty_payable,rate_snapshot) values(%s,%s,%s,%s,%s,%s)',(f['work'],sid,C['work_component'],q,q,rate))
+  c.execute('select erp.post_work_completion(%s)',(f['work'],));r=c.execute('select erp.record_sewing_terminal_v1(%s,%s::uuid)',(Jsonb({'work_completion_id':f['work'],'qty_pcs':16,'reason':'Independent mixed SKU sewing'}),uid())).fetchone()[0]
+ return {'snapshots':snaps,'result':r,'expected_labor':'3153.56'}
+def pinned_recipe():
+ rows=admin('select po_id::text,sku_id::text,version_id::text from erp.bf_po_boms_v1 where po_id=any(%s::uuid[]) order by po_id',([F['A']['po'],F['B']['po']],));eq(len(rows),2);assert len({x[2] for x in rows})==2,rows
+ old=admin('select sum(h.total_cost) from erp.hpp_versions h join erp.fg_lots l on l.id=h.lot_id where l.po_id=%s and h.is_current',(F['A']['po'],),one=True);eq(old.quantize(D('.01')),D('6394.53'))
+ return {'old_new_po_recipe_versions':rows,'old_cost_preserved':old}
 if mode=='sales':
  n.case('SKU.S01','Sale uses exact middle-size FIFO cost, summary recomputes remaining weighted cost',sales)
  n.case('SKU.S02','Late invoice after range change recosts all source cost, without stock change',lateinvoice,['SKU.S01'])
  n.case('SKU.S03','Linked return retains size, lot and total FG plus COGS after recost',returned,['SKU.S02'])
 elif mode=='move':n.case('SKU.R02','Member moves atomically between groups without duplicate stock/cost',move)
 elif mode=='import':n.case('SKU.I01','Import exact size selection and ambiguity refusal',import_resolution)
+elif mode in ['mixed','recipe']:
+ n.case('SKU.'+mode+'.SETUP','Separate mixed-wave rates or nonempty shared recipe',lambda:new_sku_context(mode=='recipe'))
+ n.case('SKU.'+mode+'.WORK','Actual scoped work completion',mixed_work if mode=='mixed' else lambda:n.work('B'),['SKU.'+mode+'.SETUP'])
+ n.case('SKU.'+mode+'.SHIP','Actual mixed SKU or recipe shipment',lambda:n.shipment('B'),['SKU.'+mode+'.WORK'])
+ n.case('SKU.'+mode+'.RECEIVE','Actual physical receipt',lambda:n.receive('B'),['SKU.'+mode+'.SHIP'])
+ n.case('SKU.'+mode+'.QC','Independent per-size work laundry and recipe arithmetic',lambda:n.qc('B'),['SKU.'+mode+'.RECEIVE'])
+ if mode=='recipe':n.case('SKU.RECIPE.PIN','Old PO recipe and cost remain while new PO uses new shared recipe',pinned_recipe,['SKU.recipe.QC'])
 elif mode=='access':n.case('SKU.A03','Direct helper SQL and table grants remain private',private_sql)
 n.save()
