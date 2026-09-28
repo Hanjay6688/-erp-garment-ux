@@ -96,7 +96,21 @@ def recovery(po=False,usage=False):
     try:val=f.bc('VALUE_CUSTODY',payload)
     except Exception as error:eq(n.fp(),state);n.E.append({'refusal_atomic':True,'error':str(error)});raise
     eq(f.matqty(C['tag']),stock+2);eq(n.value(lot),base-D('14.26'));eq(f.physical_fingerprint(),phy)
-    return {'po':po,'new_usage':usage,'valuation':val,'expected_and_actual_target_value':str(base-D('14.26')),'stock_added':2,'garment_qty_unchanged':True}
+    refusals=[]
+    if not usage:
+        rows=A('select c.id::text,to_jsonb(c) from erp.hpp_version_components c join erp.hpp_versions h on h.id=c.hpp_version_id where h.lot_id=%s and h.is_current and c.unit_cost<0',(lot,));eq(len(rows),1)
+        for label,change in [('wrong source','source_id=gen_random_uuid()'),('forged credit','total_cost=total_cost-1'),('negative ordinary cost',"component_type='LABOR'")]:
+            error=None
+            with psycopg.connect(s.DSN) as c:
+                try:
+                    c.execute("select set_config('app.change_reason','Independent negative cost integrity probe',true)")
+                    c.execute('update erp.hpp_version_components set '+change+' where id=%s',(rows[0][0],))
+                except psycopg.Error as ex:error={'sqlstate':ex.sqlstate,'message':str(ex)}
+                finally:c.rollback()
+            assert error and 'BE_SIGNED_HPP_REQUIRES_SOURCED_RECOVERY' in error['message'],(label,error)
+            refusals.append({'probe':label,'refusal':error})
+        eq(A('select to_jsonb(c) from erp.hpp_version_components c where c.id=%s',(rows[0][0],),one=True),rows[0][1])
+    return {'po':po,'new_usage':usage,'valuation':val,'expected_and_actual_target_value':str(base-D('14.26')),'stock_added':2,'garment_qty_unchanged':True,'signed_cost_tampering_refused':refusals}
 
 if __name__=='__main__':
     if MODE=='large':large()

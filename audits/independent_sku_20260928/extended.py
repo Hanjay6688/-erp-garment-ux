@@ -54,7 +54,7 @@ def new_sku_context(recipe=False):
  C['base']=(datetime.now(timezone.utc)-timedelta(seconds=60)).isoformat();when=n.at();allroots=C['roots']+[C['products'][C['s4']+':'+C['brand']]]
  if recipe:
   cat=uid();admin("insert into erp.accessory_categories(id,category_code,category_name,base_uom_code) values(%s,'AUD-SKU-TAG','Independent SKU tag','PCS')",(cat,))
-  settings=copy.deepcopy(C['settings']);settings['bom']=[{'category_id':cat,'qty_per_good_fg_base':'2','hpp_method':'BOM_STANDARD','hpp_standard_rate':'17.31','hpp_uom_code':'PCS','reimbursement_rate':'0.00','reimbursement_uom_code':'PCS'}]
+  settings=copy.deepcopy(C['settings']);settings['bom']=[{'category_id':cat,'qty_per_good_fg_base':'2','hpp_method':'BOM_STANDARD','hpp_standard_rate':'17.31','hpp_uom_code':'PCS','reimbursement_rate':'17.31','reimbursement_uom_code':'PCS'}]
   r=n.action('SAVE_GROUPS',n.payload([n.group(C['sku_id'],allroots,settings,when=when)],when));C['v1']=r['groups'][0]['version_id'];C['recipe_cat']=cat
  else:
   gid=uid();settings=copy.deepcopy(C['settings']);settings['work_rates'][0]['rate']='500.03';settings['laundry_rates'][0]['rate']='197.43'
@@ -65,7 +65,7 @@ def new_sku_context(recipe=False):
  else:F['B'].update(expected_laundry='4648.09',expected_size_costs=['1142.10','4567.17','2092.38'])
  return r
 
-def mixed_work():
+def mixed_work_combined():
  f=F['B']
  with psycopg.connect(n.s.DSN) as c:
   c.execute("select set_config('request.jwt.claim.sub',%s,true)",(C['owner'],));c.execute("select set_config('app.change_reason','Independent mixed SKU work',true)")
@@ -77,6 +77,20 @@ def mixed_work():
    c.execute('insert into erp.work_completion_lines(completion_id,po_component_snapshot_id,work_component_id,qty_completed,qty_payable,rate_snapshot) values(%s,%s,%s,%s,%s,%s)',(f['work'],sid,C['work_component'],q,q,rate))
   c.execute('select erp.post_work_completion(%s)',(f['work'],));r=c.execute('select erp.record_sewing_terminal_v1(%s,%s::uuid)',(Jsonb({'work_completion_id':f['work'],'qty_pcs':16,'reason':'Independent mixed SKU sewing'}),uid())).fetchone()[0]
  return {'snapshots':snaps,'result':r,'expected_labor':'3153.56'}
+def mixed_work():
+ f=F['B'];out=[]
+ with psycopg.connect(n.s.DSN) as c:
+  c.execute("select set_config('request.jwt.claim.sub',%s,true)",(C['owner'],));c.execute("select set_config('app.change_reason','Independent separate SKU completion events',true)")
+  c.execute('select erp.bf_ensure_work_v1(%s,%s)',(f['po'],n.at(10)))
+  snaps=c.execute('select x.id,x.rate_per_pcs_snapshot,v.sku_id::text from erp.po_work_component_snapshots x join erp.bf_sku_versions_v1 v on v.id=x.bf_sku_version_id where x.po_id=%s',(f['po'],)).fetchall();eq(len(snaps),2)
+  for sid,rate,sku in snaps:
+   q=13 if sku==C['sku_id'] else 3;event=uid();eq(rate,D('127.19' if q==13 else '500.03'))
+   c.execute('insert into erp.work_completion_events(id,completion_number,po_id,contractor_id,cutting_group_id,physical_at,created_by) values(%s,%s,%s,%s,%s,%s,%s)',(event,'AUD-MIX-'+event,f['po'],C['mandor'],f['group'],n.at(10),C['app_owner']))
+   c.execute('insert into erp.work_completion_lines(completion_id,po_component_snapshot_id,work_component_id,qty_completed,qty_payable,rate_snapshot) values(%s,%s,%s,%s,%s,%s)',(event,sid,C['work_component'],q,q,rate))
+   c.execute('select erp.post_work_completion(%s)',(event,));r=c.execute('select public.erp_record_sewing_terminal_v1(%s,%s::uuid)',(Jsonb({'work_completion_id':event,'qty_pcs':q,'reason':'Independent scoped completion per SKU'}),uid())).fetchone()[0];out.append(r)
+ eq(admin('select unsent_ready_qty_pcs from erp.v_wip_control_status_v1 where cutting_group_id=%s',(f['group'],),one=True),16)
+ return {'actual_completion_events':out,'expected_total_physical':16,'expected_labor':'3153.56','boundary':'Two SKU-specific completion events in the same physical wave'}
+
 def pinned_recipe():
  rows=admin('select po_id::text,sku_id::text,version_id::text from erp.bf_po_boms_v1 where po_id=any(%s::uuid[]) order by po_id',([F['A']['po'],F['B']['po']],));eq(len(rows),2);assert len({x[2] for x in rows})==2,rows
  old=admin('select sum(h.total_cost) from erp.hpp_versions h join erp.fg_lots l on l.id=h.lot_id where l.po_id=%s and h.is_current',(F['A']['po'],),one=True);eq(old.quantize(D('.01')),D('6394.53'))

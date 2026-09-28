@@ -42,10 +42,18 @@ def returned(sale,code,at='2026-09-18T08:00:00+07:00'):
     n.E.append({'native_return_layer':'Header/item prerequisites plus actual native return posting; not browser proof','return_id':ret,'original_allocation':sale['allocations'][0][0]});return ret
 
 def conversion_sale():
-    before=gl();loc=location('BE-AUD-SALE-ISOLATION');r=n.rpc('erp_post_fg_unsourced_receipt_v1',[{'source_kind':'FOUND_AT_OPNAME','product_id':C['product'],'location_id':loc,'qty_pcs':13,'physical_at':'2026-09-13T08:00:00+07:00','reason':'Independent isolated source for downstream cost'},uid()])
-    src=r['lot_id'];row=n.ws({'source_lot_id':src})['lots'][0]
-    cp={'source_lot_id':src,'target_product_id':C['target'],'location_id':loc,'qty_pcs':5,'physical_at':'2026-09-15T08:00:00+07:00','reason':'Independent downstream five-piece conversion','expected_version':row['source_revision']}
-    cv=n.cmd('POST',cp);lot=cv['destination_lot_id'];sl=sale(C['target'],loc,lot,'CONVERT');ret=returned(sl,'CONVERT');eq(n.lotqty(lot),3)
+    before=gl();loc=location('BE-AUD-SALE-ISOLATION');source=uid();target=uid()
+    with psycopg.connect(s.DSN) as c:
+        c.execute("select set_config('app.change_reason','Independent conversion cost isolation',true)")
+        c.execute("select set_config('request.jwt.claim.sub',%s,true)",(C['owner'],))
+        for ident,sku,color in [(source,'BE-AUD-CONV-ISOLATED-SOURCE','BE-CONV-SOURCE'),(target,'BE-AUD-CONV-ISOLATED-TARGET','BE-CONV-TARGET')]:
+            c.execute("insert into erp.products(id,identity_root_id,sku,model_id,brand_id,color_name,size_id,product_name,effective_from) values(%s,%s,%s,%s,%s,%s,%s,%s,'2026-09-01T08:00:00+07:00')",(ident,ident,sku,C['model'],C['brand'],color,C['s1'],sku))
+            c.execute("insert into erp.accessory_bom_versions(product_id,version_label,effective_from,notes,created_by) values(%s,'AUD-CONVERSION-NONE','2026-09-01T08:00:00+07:00','Explicit empty conversion BOM',%s)",(ident,C['app_owner']))
+    imported=f.imported('CONVERSION-SALE-ISOLATION',[('OPENING_BALANCE_ITEM',[{'balance_type':'FINISHED_GOODS','product_sku':'BE-AUD-CONV-ISOLATED-SOURCE','brand_code':'AUD-brand','model_code':'AUD-DAY','color_name':'BE-CONV-SOURCE','size_code':'AUD-1','location_code':'BE-AUD-SALE-ISOLATION','qty':'13','unit_cost':'1234.57','hpp_input_method':'MANUAL','quality_grade':'GRADE_A','opening_source_key':'BE-AUD-CONV-SOURCE','control_key':'FG'}]),('OPENING_CONTROL',[{'control_key':'FG','balance_type':'FINISHED_GOODS','qty':'13','amount':'16049.41'}])])
+    src=A("select m.lot_id::text from erp.fg_stock_movements m join erp.initial_import_opening_stock_sources k on k.opening_item_id=m.source_id where k.batch_id=%s and k.source_key='BE-AUD-CONV-SOURCE'",(imported['batch_id'],),one=True)
+    eq(n.value(src),D('16049.41'));row=n.ws({'source_lot_id':src})['lots'][0]
+    cp={'source_lot_id':src,'target_product_id':target,'location_id':loc,'qty_pcs':5,'physical_at':'2026-09-15T08:00:00+07:00','reason':'Independent downstream five-piece conversion','expected_version':row['source_revision']}
+    cv=n.cmd('POST',cp);lot=cv['destination_lot_id'];sl=sale(target,loc,lot,'CONVERT');ret=returned(sl,'CONVERT');eq(n.lotqty(lot),3)
     dates=['2026-09-19','2026-09-20'];old={day:report(day) for day in dates}
     doc=f.conversion_doc(cv['conversion_id']);usage=n.cmd('POST_USAGE',{'conversion_id':cv['conversion_id'],'expected_version':doc['revision'],'location_id':C['rawloc'],'physical_at':'2026-09-20T08:00:00+07:00','items':[{'material_id':C['tag'],'qty':'5'}],'reason':'Five actual tags after sale and one return'})
     eq(n.lotqty(src),8);eq(n.lotqty(lot),3);eq(n.lotcost(lot)[0],D('1257.740000'));eq(n.value(lot),D('3773.22'));now=gl();delta={k:now[k]-before[k] for k in now};eq(delta['FG_INVENTORY'],D('13649.78'));eq(delta['COGS'],D('2515.48'));eq(delta['FG_INVENTORY']+delta['COGS'],D('16165.26'))

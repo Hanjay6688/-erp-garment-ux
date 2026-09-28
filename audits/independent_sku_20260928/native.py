@@ -109,7 +109,7 @@ def invalid_master(kind):
  if kind=='basis':g['legacy_basis'][0]['price']='0.01'
  if kind=='unknown-zero':g['settings']['laundry_rates'][0].update(rate_status='UNKNOWN',rate='0.00')
  if kind=='free-reason':g['settings']['laundry_rates'][0].update(rate_status='FREE',rate='0.00',reason=None)
- return refuse(lambda:action('SAVE_GROUPS',p),{'stale':'STALE_VERSION','duplicate':'BF_DUPLICATE_MEMBER','cross-brand':'BF_MEMBER_IDENTITY','basis':'BF_BASIS_CHANGED','unknown-zero':'BF_UNKNOWN_RATE','free-reason':'BF_FREE_REASON'}[kind])
+ return refuse(lambda:action('SAVE_GROUPS',p),{'stale':'STALE_VERSION','duplicate':'BF_DUPLICATE_MEMBER','cross-brand':'BF_MEMBER_IDENTITY','basis':'BF_BASIS_CHANGED','unknown-zero':'BF_UNKNOWN_RATE','free-reason':'BD_AMOUNT_INVALID'}[kind])
 def legacy_write_guard():
  return refuse(lambda:admin("insert into erp.product_price_versions(product_id,price,effective_from) values(%s,1,now())",(C['roots'][0],)),'BF_SHARED_MASTER')
 def new_wave(key='A',mixed=False):

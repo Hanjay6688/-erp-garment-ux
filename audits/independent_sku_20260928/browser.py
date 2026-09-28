@@ -22,6 +22,16 @@ def http_boundaries():
  for name,args in [('erp_get_sku_hpp_v1',{'p_filters':{}}),('erp_save_sku_action_v1',{'p_action':'SAVE_GROUPS','p_payload':C['initial_payload'],'p_client_request_id':b.uid()})]:
   status,body=b.rpc(name,args,'viewer',False);assert status>=400,(status,body);outcomes.append({'name':name,'status':status,'response':body})
  return {'owner_group':r,'owner_hpp':h,'viewer_refusals':outcomes}
+def free_http():
+ from datetime import datetime,timezone
+ when=datetime.now(timezone.utc).isoformat();w=b.rpc('erp_get_sku_workspace_v1',{'p_filters':{'query':'AUD-SKU-RANGE'}});g=next(x for x in w['groups'] if x['id']==C['sku_id']);roots=[x['id'] for x in g['members']]
+ basis=b.rpc('erp_get_sku_workspace_v1',{'p_filters':{'at':when,'roots':roots}})['legacy_basis'];settings=copy.deepcopy(C['settings']);settings['laundry_rates'][0].update(rate_status='FREE',rate='0.00',reason='Independent explicit approved free service')
+ group={k:g[k] for k in ['id','brand_id','model_id','color_name','sku']};group.update(expected_version=g['revision'],members=roots,legacy_basis=basis,settings=settings)
+ payload={'effective_from':when,'reason':'Independent legitimate free SKU agreement','groups':[group]}
+ status,body=b.rpc('erp_save_sku_action_v1',{'p_action':'SAVE_GROUPS','p_payload':payload,'p_client_request_id':b.uid()},expect_ok=False)
+ assert status==200,{'legitimate_FREE_has_zero_and_reason':True,'http_status':status,'response':body,'payload':payload}
+ return {'legitimate_free_saved':True,'response':body}
+
 def private_helpers():
  # Bypass local browser allow-list and address actual public-only PostgREST.
  names=['bf_save_groups_v1','bf_bind_wave_v1','bf_ensure_work_v1','bf_legacy_basis_v1','bf_laundry_rate_v1','bf_resolve_import_product_v1','save_sku_action_v1','get_sku_workspace_v1','get_sku_hpp_v1','be_pocket_periods_v1','be_guard_signed_hpp_component_v1'];out=[]
@@ -31,7 +41,8 @@ def private_helpers():
  return out
 
 def ready_click(label,who='owner',exact=True):
- comparison='e.textContent.trim()==='+json.dumps(label) if exact else 'e.textContent.includes('+json.dumps(label)+')'
+ accessible='(e.getAttribute("aria-label")||e.textContent.trim())'
+ comparison=accessible+'==='+json.dumps(label) if exact else accessible+'.includes('+json.dumps(label)+')'
  b.ab('wait','--fn','Array.from(document.querySelectorAll("button")).some(e=>!e.disabled&&e.getClientRects().length&&('+comparison+'))',who=who)
  return (b.mobile_button if who.startswith('mobile') else b.button)(label,who,exact)
 
@@ -58,7 +69,12 @@ def master_edit(who='owner',price='93456.78'):
  b.ab('check',selector,who=who);click('Simpan seluruh perubahan SKU',who)
  b.ab('wait','--fn','!document.body.innerText.includes("Periksa sebelum menyimpan")',who=who)
  rows=b.sql('select p.price,m.product_root::text from erp.bf_sku_members_v1 m join erp.bf_sku_versions_v1 v on v.id=m.version_id join erp.bf_skus_v1 s on s.id=v.sku_id and s.revision=v.revision join erp.product_price_versions p on p.id=m.price_version_id where s.id=%s',(C['sku_id'],));assert len(rows)==4 and all(x[0]==D(price) for x in rows),rows
- b.ab('reload',who=who);b.ab('wait','--fn','!!document.querySelector(".sku-workspace")',who=who);b.snap('master-saved-'+who,who)
+ b.ab('reload',who=who);nav('Master Data','Produk & SKU',who);b.fill('Cari SKU atau merek','AUD-SKU-RANGE',who);click('Cari / muat ulang',who)
+ b.ab('wait','--fn','document.body.innerText.includes("Ubah SKU AUD-SKU-RANGE")',who=who)
+ click('Ubah SKU AUD-SKU-RANGE',who)
+ actual=b.evaluate('Array.from(document.querySelectorAll("label")).find(e=>e.textContent.includes("Harga jual per PCS untuk seluruh ukuran"))?.querySelector("input")?.value',who)
+ assert D(actual)==D(price),(actual,price)
+ b.snap('master-saved-'+who,who)
  return {'committed_members':rows,'all_size_price':price,'review_checkbox_required':True,'reload':True}
 def hpp_screen(who='owner'):
  click=ready_click
@@ -90,6 +106,7 @@ def main():
   b.setup_gateway()
   if not b.case('SKU.HTTP.AUTH','Real owner and viewer authentication',b.setup_identities):return
   b.case('SKU.HTTP.ACCESS','Actual REST economic access boundary',http_boundaries)
+  b.case('SKU.HTTP.FREE','Legitimate FREE SKU agreement through real Auth and HTTP',free_http)
   b.case('SKU.HTTP.PRIVATE','Private helpers are absent from direct REST public schema',private_helpers)
   if not b.case('SKU.BROWSER.BUILD','Actual frozen product bundle',b.build_ui):return
   if b.case('SKU.BROWSER.LOGIN','Owner actual password form',b.browser_auth):
