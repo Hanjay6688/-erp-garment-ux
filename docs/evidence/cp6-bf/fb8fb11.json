@@ -1,0 +1,1473 @@
+{
+  "candidate": "fb8fb11217e572d8c428e3796fddc28f1a2b2903",
+  "run": 36390618767,
+  "job": 108825401061,
+  "label": "WRITER_SCENARIO",
+  "production_go": false,
+  "audit_complete": false,
+  "release_evidence": false,
+  "bf_sql_sha256": "e100e8f97b8531bc7dfc6ebfd352af5d3d75594887205aecaef63c6ef4aa5b60",
+  "status": "INCOMPLETE",
+  "native": {
+    "status": "PASS",
+    "counts": {
+      "PASS": 67
+    },
+    "planned_case_ids": [
+      "RANGE:REPEATED_DRAWINGS_ONE_CHOICE_PER_SIZE",
+      "SKU01:ALL_FOUR_MASTER_STATUSES_AND_REPLAY",
+      "SKU01:INVALID_RATES_ATOMIC_REFUSAL",
+      "SKU01:FREE_WAIVED_SHIP_RECEIVE_QC_HPP",
+      "BE_REV:RECOVERY_NONPO_ZERO",
+      "BE_REV:RECOVERY_NONPO_USAGE",
+      "BE_REV:RECOVERY_PO_ZERO",
+      "BE_REV:RECOVERY_PO_USAGE",
+      "BE_REV:RECOVERY_EXCEEDS_GARMENT_ATOMIC",
+      "BE_REV:MIXED_PO_NONPO_SALE_RETURN_INVOICE_POCKET",
+      "BE_REV:52_POCKET_PERIODS_SEARCH_PAGE_INVERSE",
+      "BE_REV:NONPO_ENTRY_REFUSED_AX_REPAIR_CONVERSION",
+      "BE_REV:PUBLIC_SEWING_VERSION_DEPENDENCY_REPLAY",
+      "BE01:SELECTED_LOT_REPLAY_REVERSE",
+      "BE01:CAPACITY_STALE_NO_UNSOURCED_COST",
+      "BE01:ACTUAL_ACCESSORY_COST_ONCE_AND_INVERSE",
+      "BE01:OPENING_SOURCE_VALUE_AND_INVERSE",
+      "BE02:REWORK_NEW_SKU_ATOMIC_REPLAY_INVERSE",
+      "BE03:REAL_SERVICE_INVOICE_SOLD_VARIANCE",
+      "BE03:UNKNOWN_PRICE_CLOSE_REPLAY",
+      "BE04:HISTORICAL_POCKET_ALLOCATION_CORRECTION_INVERSE",
+      "BE04:HISTORICAL_POCKET_RECEIPT_INVOICE_INVERSE",
+      "BE01:LATE_INVOICE_RECOVERY_SOLD_AND_CONVERTED",
+      "BE04:HISTORICAL_PERIOD_WIP_SPLIT_COMPLETION_RECOST",
+      "BE04:PROVENANCE_NUMERATOR_DENOMINATOR_REFUSALS",
+      "BE04:ALLOCATED_REFERENCE_ONLY_DUPLICATE_BATCH",
+      "BE04:SALE_RETURN_CONVERSION_RECOST",
+      "BE04:MIXED_NATIVE_HISTORICAL_AFUI_INVERSE",
+      "BE04:CLOSED_CORRECTION_ASOF_REPLAY_INVERSE",
+      "BF:IMPORT_AMBIGUOUS_FAILS_BEFORE_POST",
+      "BF:IMPORT_EXACT_SIZE_SALES_CUSTODY_COGS_REPLAY",
+      "BF:IMPORT_INSUFFICIENT_STOCK_ATOMIC",
+      "BF:IMPORT_REWORK_SOURCE_RECIPE",
+      "BF:IMPORT_REWORK_SOURCE_RECIPE_POSITIVE",
+      "BF:UNUSED_ROLLBACK_EXACT",
+      "BF:USED_ROLLBACK_REFUSED",
+      "BF:TWO_SKUS_ONE_WAVE_WORK_LAUNDRY_QC",
+      "BF:SHARED_MASTER_PHYSICAL_ROOTS_REPLAY_GUARD",
+      "BF:SINGLETON_BEFORE_ECONOMICS",
+      "BF:SHARED_NONEMPTY_ACCESSORY_RECIPE",
+      "BF:TEMPORAL_31_33_TO_31_34_ATOMIC",
+      "BF:NEW_MEMBER_AND_FUTURE_WAVE_TARIFF",
+      "BF:LEGACY_CONFLICT_ACKNOWLEDGED_AND_FUTURE_PRICES",
+      "BF_REG_BD:T02:PACKAGE_ONE_CHARGE_PHYSICAL_QTY",
+      "BF_REG_BD:T03:COMPONENT_SUM_SAME_PIECES",
+      "BF_REG_BD:T04:FOUR_COMPONENTS",
+      "BF_REG_BD:T05:PARTIAL_COMPONENT_COVERAGE",
+      "BF_REG_BD:T06:PACKAGE_EXTRA_ONCE",
+      "BF_REG_BD:T07:VERSION_AFTER_POSTED_DELIVERY",
+      "BF_REG_BD:T12:UNKNOWN_COMPONENT_KNOWN_SUBTOTAL",
+      "BF_REG_BD:T13:NO_VERSION_IS_ERROR",
+      "BF_REG_BD:T20:LUMP_SUM_SPLIT_RECEIPTS",
+      "BF_REG_BD:DEC01:MINIMUM_CHARGE_TOPUP",
+      "BF_REG_BD:T24:SCOPED_SIZE_RATE",
+      "BF_REG_BD:T24:MULTI_SIZE_LOT_HPP",
+      "BF_REG_BD:D10:VARIANCE_BY_BILLING_SOURCE",
+      "BF_REG_BD:REV:X01_EXPLICIT_SIZE_COVERAGE_AND_RESPONSE",
+      "BF_REG_BD:REV:X01_UNKNOWN_COMPLETION_PRESERVES_COVERAGE",
+      "BF_REG_BD:REV:OWN02_FREE_WAIVED_LEGAL_PATH",
+      "BF_REG_BD:REV:X02_MONEY_OVER_INT32",
+      "BF_REG_BD:REV:X03_AUTH_BEFORE_REPLAY",
+      "BF_REG_BD:REV:X05_PAGES_55_INVOICES_201_SOURCES",
+      "BF_REG_BB:W:W02_SPLIT_BS_DISPOSE_AND_UNDO",
+      "BF_REG_BB:W:W02_SPLIT_BS_REWORK_GOOD",
+      "BF_REG_BB:W:W02_SPLIT_DATED_REMAINING",
+      "BF_REG_BB:W:W02_WAGES_AFTER_CUTOVER_THROUGH_PAYROLL",
+      "BF_REG_BB:W:W02_WAGES_OVER_PIECES_OR_BEFORE_CUTOVER_REFUSED"
+    ],
+    "final": {
+      "RANGE:REPEATED_DRAWINGS_ONE_CHOICE_PER_SIZE": "PASS",
+      "SKU01:ALL_FOUR_MASTER_STATUSES_AND_REPLAY": "PASS",
+      "SKU01:INVALID_RATES_ATOMIC_REFUSAL": "PASS",
+      "SKU01:FREE_WAIVED_SHIP_RECEIVE_QC_HPP": "PASS",
+      "BE_REV:RECOVERY_NONPO_ZERO": "PASS",
+      "BE_REV:RECOVERY_NONPO_USAGE": "PASS",
+      "BE_REV:RECOVERY_PO_ZERO": "PASS",
+      "BE_REV:RECOVERY_PO_USAGE": "PASS",
+      "BE_REV:RECOVERY_EXCEEDS_GARMENT_ATOMIC": "PASS",
+      "BE_REV:MIXED_PO_NONPO_SALE_RETURN_INVOICE_POCKET": "PASS",
+      "BE_REV:52_POCKET_PERIODS_SEARCH_PAGE_INVERSE": "PASS",
+      "BE_REV:NONPO_ENTRY_REFUSED_AX_REPAIR_CONVERSION": "PASS",
+      "BE_REV:PUBLIC_SEWING_VERSION_DEPENDENCY_REPLAY": "PASS",
+      "BE01:SELECTED_LOT_REPLAY_REVERSE": "PASS",
+      "BE01:CAPACITY_STALE_NO_UNSOURCED_COST": "PASS",
+      "BE01:ACTUAL_ACCESSORY_COST_ONCE_AND_INVERSE": "PASS",
+      "BE01:OPENING_SOURCE_VALUE_AND_INVERSE": "PASS",
+      "BE02:REWORK_NEW_SKU_ATOMIC_REPLAY_INVERSE": "PASS",
+      "BE03:REAL_SERVICE_INVOICE_SOLD_VARIANCE": "PASS",
+      "BE03:UNKNOWN_PRICE_CLOSE_REPLAY": "PASS",
+      "BE04:HISTORICAL_POCKET_ALLOCATION_CORRECTION_INVERSE": "PASS",
+      "BE04:HISTORICAL_POCKET_RECEIPT_INVOICE_INVERSE": "PASS",
+      "BE01:LATE_INVOICE_RECOVERY_SOLD_AND_CONVERTED": "PASS",
+      "BE04:HISTORICAL_PERIOD_WIP_SPLIT_COMPLETION_RECOST": "PASS",
+      "BE04:PROVENANCE_NUMERATOR_DENOMINATOR_REFUSALS": "PASS",
+      "BE04:ALLOCATED_REFERENCE_ONLY_DUPLICATE_BATCH": "PASS",
+      "BE04:SALE_RETURN_CONVERSION_RECOST": "PASS",
+      "BE04:MIXED_NATIVE_HISTORICAL_AFUI_INVERSE": "PASS",
+      "BE04:CLOSED_CORRECTION_ASOF_REPLAY_INVERSE": "PASS",
+      "BF:IMPORT_AMBIGUOUS_FAILS_BEFORE_POST": "PASS",
+      "BF:IMPORT_EXACT_SIZE_SALES_CUSTODY_COGS_REPLAY": "PASS",
+      "BF:IMPORT_INSUFFICIENT_STOCK_ATOMIC": "PASS",
+      "BF:IMPORT_REWORK_SOURCE_RECIPE": "PASS",
+      "BF:IMPORT_REWORK_SOURCE_RECIPE_POSITIVE": "PASS",
+      "BF:UNUSED_ROLLBACK_EXACT": "PASS",
+      "BF:USED_ROLLBACK_REFUSED": "PASS",
+      "BF:TWO_SKUS_ONE_WAVE_WORK_LAUNDRY_QC": "PASS",
+      "BF:SHARED_MASTER_PHYSICAL_ROOTS_REPLAY_GUARD": "PASS",
+      "BF:SINGLETON_BEFORE_ECONOMICS": "PASS",
+      "BF:SHARED_NONEMPTY_ACCESSORY_RECIPE": "PASS",
+      "BF:TEMPORAL_31_33_TO_31_34_ATOMIC": "PASS",
+      "BF:NEW_MEMBER_AND_FUTURE_WAVE_TARIFF": "PASS",
+      "BF:LEGACY_CONFLICT_ACKNOWLEDGED_AND_FUTURE_PRICES": "PASS",
+      "BF_REG_BD:T02:PACKAGE_ONE_CHARGE_PHYSICAL_QTY": "PASS",
+      "BF_REG_BD:T03:COMPONENT_SUM_SAME_PIECES": "PASS",
+      "BF_REG_BD:T04:FOUR_COMPONENTS": "PASS",
+      "BF_REG_BD:T05:PARTIAL_COMPONENT_COVERAGE": "PASS",
+      "BF_REG_BD:T06:PACKAGE_EXTRA_ONCE": "PASS",
+      "BF_REG_BD:T07:VERSION_AFTER_POSTED_DELIVERY": "PASS",
+      "BF_REG_BD:T12:UNKNOWN_COMPONENT_KNOWN_SUBTOTAL": "PASS",
+      "BF_REG_BD:T13:NO_VERSION_IS_ERROR": "PASS",
+      "BF_REG_BD:T20:LUMP_SUM_SPLIT_RECEIPTS": "PASS",
+      "BF_REG_BD:DEC01:MINIMUM_CHARGE_TOPUP": "PASS",
+      "BF_REG_BD:T24:SCOPED_SIZE_RATE": "PASS",
+      "BF_REG_BD:T24:MULTI_SIZE_LOT_HPP": "PASS",
+      "BF_REG_BD:D10:VARIANCE_BY_BILLING_SOURCE": "PASS",
+      "BF_REG_BD:REV:X01_EXPLICIT_SIZE_COVERAGE_AND_RESPONSE": "PASS",
+      "BF_REG_BD:REV:X01_UNKNOWN_COMPLETION_PRESERVES_COVERAGE": "PASS",
+      "BF_REG_BD:REV:OWN02_FREE_WAIVED_LEGAL_PATH": "PASS",
+      "BF_REG_BD:REV:X02_MONEY_OVER_INT32": "PASS",
+      "BF_REG_BD:REV:X03_AUTH_BEFORE_REPLAY": "PASS",
+      "BF_REG_BD:REV:X05_PAGES_55_INVOICES_201_SOURCES": "PASS",
+      "BF_REG_BB:W:W02_SPLIT_BS_DISPOSE_AND_UNDO": "PASS",
+      "BF_REG_BB:W:W02_SPLIT_BS_REWORK_GOOD": "PASS",
+      "BF_REG_BB:W:W02_SPLIT_DATED_REMAINING": "PASS",
+      "BF_REG_BB:W:W02_WAGES_AFTER_CUTOVER_THROUGH_PAYROLL": "PASS",
+      "BF_REG_BB:W:W02_WAGES_OVER_PIECES_OR_BEFORE_CUTOVER_REFUSED": "PASS"
+    },
+    "error": null
+  },
+  "http": {
+    "status": "RUN_COMPLETE",
+    "counts": {
+      "PASS": 9
+    },
+    "database_remaining": 0,
+    "cleanup": {
+      "users_created": 18,
+      "cleanup_failures": [],
+      "rest_remaining": false
+    },
+    "auth_counts": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "error": null
+  },
+  "races": {
+    "status": "RUN_COMPLETE",
+    "counts": {
+      "PASS": 22
+    },
+    "database_remaining": 0,
+    "error": null
+  },
+  "browser": {
+    "status": "INCOMPLETE",
+    "counts": {
+      "PASS": 26,
+      "INCOMPLETE": 1
+    },
+    "script_sha256": "b59aa76cffbe37d0d0f02a97c8d0d4fcbe2beff5837dc85a7ed1f3c6c5f3484f",
+    "database_remaining": 0,
+    "cleanup": {
+      "users_created": 0,
+      "cleanup_failures": [],
+      "rest_remaining": false
+    },
+    "auth_counts": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "console_errors": 0,
+    "users_created": 28,
+    "error": null
+  },
+  "primary_unchanged": true,
+  "clone_remaining": 0,
+  "outcomes": [
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "RANGE:REPEATED_DRAWINGS_ONE_CHOICE_PER_SIZE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "SKU01:ALL_FOUR_MASTER_STATUSES_AND_REPLAY",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "SKU01:INVALID_RATES_ATOMIC_REFUSAL",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "SKU01:FREE_WAIVED_SHIP_RECEIVE_QC_HPP",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE_REV:RECOVERY_NONPO_ZERO",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE_REV:RECOVERY_NONPO_USAGE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE_REV:RECOVERY_PO_ZERO",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE_REV:RECOVERY_PO_USAGE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE_REV:RECOVERY_EXCEEDS_GARMENT_ATOMIC",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE_REV:MIXED_PO_NONPO_SALE_RETURN_INVOICE_POCKET",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE_REV:52_POCKET_PERIODS_SEARCH_PAGE_INVERSE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE_REV:NONPO_ENTRY_REFUSED_AX_REPAIR_CONVERSION",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE_REV:PUBLIC_SEWING_VERSION_DEPENDENCY_REPLAY",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE01:SELECTED_LOT_REPLAY_REVERSE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE01:CAPACITY_STALE_NO_UNSOURCED_COST",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE01:ACTUAL_ACCESSORY_COST_ONCE_AND_INVERSE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE01:OPENING_SOURCE_VALUE_AND_INVERSE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE02:REWORK_NEW_SKU_ATOMIC_REPLAY_INVERSE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE03:REAL_SERVICE_INVOICE_SOLD_VARIANCE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE03:UNKNOWN_PRICE_CLOSE_REPLAY",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE04:HISTORICAL_POCKET_ALLOCATION_CORRECTION_INVERSE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE04:HISTORICAL_POCKET_RECEIPT_INVOICE_INVERSE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE01:LATE_INVOICE_RECOVERY_SOLD_AND_CONVERTED",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE04:HISTORICAL_PERIOD_WIP_SPLIT_COMPLETION_RECOST",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE04:PROVENANCE_NUMERATOR_DENOMINATOR_REFUSALS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE04:ALLOCATED_REFERENCE_ONLY_DUPLICATE_BATCH",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE04:SALE_RETURN_CONVERSION_RECOST",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE04:MIXED_NATIVE_HISTORICAL_AFUI_INVERSE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE04:CLOSED_CORRECTION_ASOF_REPLAY_INVERSE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:IMPORT_AMBIGUOUS_FAILS_BEFORE_POST",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:IMPORT_EXACT_SIZE_SALES_CUSTODY_COGS_REPLAY",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:IMPORT_INSUFFICIENT_STOCK_ATOMIC",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:IMPORT_REWORK_SOURCE_RECIPE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:IMPORT_REWORK_SOURCE_RECIPE_POSITIVE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:UNUSED_ROLLBACK_EXACT",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:USED_ROLLBACK_REFUSED",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:TWO_SKUS_ONE_WAVE_WORK_LAUNDRY_QC",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:SHARED_MASTER_PHYSICAL_ROOTS_REPLAY_GUARD",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:SINGLETON_BEFORE_ECONOMICS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:SHARED_NONEMPTY_ACCESSORY_RECIPE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:TEMPORAL_31_33_TO_31_34_ATOMIC",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:NEW_MEMBER_AND_FUTURE_WAVE_TARIFF",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:LEGACY_CONFLICT_ACKNOWLEDGED_AND_FUTURE_PRICES",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:T02:PACKAGE_ONE_CHARGE_PHYSICAL_QTY",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:T03:COMPONENT_SUM_SAME_PIECES",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:T04:FOUR_COMPONENTS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:T05:PARTIAL_COMPONENT_COVERAGE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:T06:PACKAGE_EXTRA_ONCE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:T07:VERSION_AFTER_POSTED_DELIVERY",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:T12:UNKNOWN_COMPONENT_KNOWN_SUBTOTAL",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:T13:NO_VERSION_IS_ERROR",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:T20:LUMP_SUM_SPLIT_RECEIPTS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:DEC01:MINIMUM_CHARGE_TOPUP",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:T24:SCOPED_SIZE_RATE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:T24:MULTI_SIZE_LOT_HPP",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:D10:VARIANCE_BY_BILLING_SOURCE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:REV:X01_EXPLICIT_SIZE_COVERAGE_AND_RESPONSE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:REV:X01_UNKNOWN_COMPLETION_PRESERVES_COVERAGE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:REV:OWN02_FREE_WAIVED_LEGAL_PATH",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:REV:X02_MONEY_OVER_INT32",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:REV:X03_AUTH_BEFORE_REPLAY",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:REV:X05_PAGES_55_INVOICES_201_SOURCES",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BB:W:W02_SPLIT_BS_DISPOSE_AND_UNDO",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BB:W:W02_SPLIT_BS_REWORK_GOOD",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BB:W:W02_SPLIT_DATED_REMAINING",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BB:W:W02_WAGES_AFTER_CUTOVER_THROUGH_PAYROLL",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BB:W:W02_WAGES_OVER_PIECES_OR_BEFORE_CUTOVER_REFUSED",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "SKU01_RACE:FREE_FIRST_COMMITS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "SKU01_RACE:FREE_FIRST_ABORTS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BF_RACE:SHARED_SKU_FIRST_COMMITS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BF_RACE:SHARED_SKU_FIRST_ABORTS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BD_RACE:INV_TWO_POSTS_FIRST_COMMITS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BD_RACE:INV_TWO_POSTS_FIRST_ABORTS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BD_RACE:W05_COMPLETE_VS_CLAIM_FIRST_COMMITS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BD_RACE:W05_COMPLETE_VS_CLAIM_FIRST_ABORTS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BD_RACE:PRC_TWO_SETS_FIRST_COMMITS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BD_RACE:PRC_TWO_SETS_FIRST_ABORTS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BD_RACE:POL_TWO_OWNER_SETS_SAME_VERSION",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BD_RACE:EST_INVOICE_VS_ESTIMATE_FIRST_COMMITS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BD_RACE:EST_INVOICE_VS_ESTIMATE_FIRST_ABORTS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BE_RACE:CONVERSION_FIRST_COMMITS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BE_RACE:CONVERSION_FIRST_ABORTS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BE_RACE:CONVERSION_IDENTICAL_REPLAY",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BE_RACE:REDYE_PRICE_FIRST_COMMITS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BE_RACE:REDYE_PRICE_FIRST_ABORTS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BE_RACE:REDYE_INVOICE_FIRST_COMMITS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BE_RACE:REDYE_INVOICE_FIRST_ABORTS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BE_RACE:POCKET_PERIOD_FIRST_COMMITS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BE_RACE:POCKET_PERIOD_FIRST_ABORTS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_HTTP_AFTER",
+      "case": "SKU01_HTTP:REAL_AUTH_FREE_WAIVED_AND_REJECTIONS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_HTTP_AFTER",
+      "case": "BE_REV_HTTP:PUBLIC_SEWING_AND_PERIOD_ACCESS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_HTTP_AFTER",
+      "case": "BF_HTTP:PERMISSION_BEFORE_REPLAY_AND_REPORTS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_HTTP_AFTER",
+      "case": "BD_HTTP:SET_POLICY_OWNER_ONLY",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_HTTP_AFTER",
+      "case": "BD_HTTP:MONEY_HIDDEN_INVOICE_OWNER_ADMIN",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_HTTP_AFTER",
+      "case": "BD_HTTP:W05_CLAIM_OWNER_ADMIN_ONLY",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_HTTP_AFTER",
+      "case": "BE_HTTP:CONVERSION_AUTH_REPLAY_HIDDEN_COST",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_HTTP_AFTER",
+      "case": "BE_HTTP:REDYE_PRICE_OWNER_REPLAY",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_HTTP_AFTER",
+      "case": "BD_REV_HTTP:REVOKED_PERMISSION_REPLAY_NO_MONEY",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_BROWSER:LAU_T36_PHONE_MIXED_COVERAGE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_BROWSER:D12_PAYMENT_SCREEN_DAILY_CLAIM",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_BROWSER:D12_PAYMENT_SCREEN_OPENING_CLAIM",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_BROWSER:D08_LAUNDRY_QC_CANONICAL_IDS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_BROWSER:OWNER_POLICY_SET_AND_CLEAR",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_BROWSER:W05_CLAIM_RECOVER_AND_REVERSE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_BROWSER:W05_OPENING_ESTIMATE_QC_HIDDEN",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_BROWSER:DEC06_CORRECTION_UP_DOWN_ON_SCREEN",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_COMPLETION:ALLOW_PENDING_VISIBLE_AND_BROWSER_RECOST",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BE_BROWSER:REDYE_SKU_UNKNOWN_THEN_PRICE_MOBILE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_DESKTOP",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_MOBILE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_REV_BROWSER:FREE_MASTER_THEN_PHYSICAL_DESKTOP",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_REV_BROWSER:WAIVED_MASTER_THEN_PHYSICAL_MOBILE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_REV_BROWSER:PAGING_PRESERVES_EDIT_MOBILE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "RANGE_BROWSER:WHOLE_31_33_RESET_DESKTOP",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "RANGE_BROWSER:POPULAR_32_ONLY_MOBILE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "RANGE_BROWSER:SIZE_27_SINGLE_MOBILE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "RANGE_BROWSER:PARTIAL_FINISH_32_MOBILE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BF_BROWSER:FOUR_SIZE_MASTER_DESKTOP",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BF_BROWSER:SINGLETON_UNCONFIGURED_MOBILE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BF_BROWSER:SALES_MANUAL_13_DESKTOP",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BF_BROWSER:SALES_MANUAL_13_MOBILE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BE_REV_BROWSER:OLD_PERIOD_DESKTOP_PAGE_DATE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BE_REV_BROWSER:OLD_PERIOD_MOBILE_ID_CANCEL",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "SKU01_BROWSER:FREE_WAIVED_DESKTOP_SAVE_RELOAD",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "SKU01_BROWSER:FREE_WAIVED_MOBILE_SAVE_RELOAD",
+      "status": "INCOMPLETE"
+    }
+  ],
+  "new_case_details": [
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "RANGE:REPEATED_DRAWINGS_ONE_CHOICE_PER_SIZE",
+      "exposed": [
+        {
+          "id": "9fd1dd64-6a88-49e9-81f5-c4a7f0c06778",
+          "sku": null,
+          "name": "BF-794d1a06-31",
+          "sku_id": null
+        },
+        {
+          "id": "312aab6c-6d8a-4776-a22f-ff401f8eb400",
+          "sku": null,
+          "name": "BF-794d1a06-32",
+          "sku_id": null
+        },
+        {
+          "id": "edf199ab-0558-482d-817d-1ebba498f7f9",
+          "sku": null,
+          "name": "BF-794d1a06-33",
+          "sku_id": null
+        }
+      ],
+      "physical": {
+        "312aab6c-6d8a-4776-a22f-ff401f8eb400": 8,
+        "9fd1dd64-6a88-49e9-81f5-c4a7f0c06778": 5,
+        "edf199ab-0558-482d-817d-1ebba498f7f9": 3
+      },
+      "slots": 4,
+      "checks": {
+        "three_unique_choices": true,
+        "four_slots_preserved": true,
+        "quantity_preserved": true,
+        "three_bindings": true,
+        "replay": true,
+        "no_fg": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "SKU01:ALL_FOUR_MASTER_STATUSES_AND_REPLAY",
+      "rates": [
+        {
+          "kind": "COMPONENT",
+          "rate": "0.00",
+          "reason": "Owner agreed FREE",
+          "ref_id": "215b30b6-75d7-4ce9-aea9-92bcc5273be7",
+          "vendor_id": "3a9ae88d-3f7a-48a9-8dbb-25f6d21b2d6a",
+          "rate_status": "FREE"
+        },
+        {
+          "kind": "COMPONENT",
+          "rate": "0.00",
+          "reason": "Owner agreed WAIVED",
+          "ref_id": "925096de-81f9-4018-b06b-10a22f980252",
+          "vendor_id": "3a9ae88d-3f7a-48a9-8dbb-25f6d21b2d6a",
+          "rate_status": "WAIVED"
+        },
+        {
+          "kind": "COMPONENT",
+          "rate": "101.23",
+          "reason": "Owner agreed KNOWN",
+          "ref_id": "9bf80d9d-27ae-4ac4-a9ac-c79d9b7f6454",
+          "vendor_id": "3a9ae88d-3f7a-48a9-8dbb-25f6d21b2d6a",
+          "rate_status": "KNOWN"
+        },
+        {
+          "kind": "COMPONENT",
+          "rate": null,
+          "reason": "Owner agreed UNKNOWN",
+          "ref_id": "bce76f8a-e227-4ae3-8e68-a8ab950acc0f",
+          "vendor_id": "3a9ae88d-3f7a-48a9-8dbb-25f6d21b2d6a",
+          "rate_status": "UNKNOWN"
+        }
+      ],
+      "checks": {
+        "all_four_statuses": true,
+        "one_shared_version": true,
+        "replay": true,
+        "once": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "SKU01:INVALID_RATES_ATOMIC_REFUSAL",
+      "evidence": [
+        {
+          "case": "FREE_MISSING_REASON",
+          "result": {
+            "code": "BF_FREE_REASON",
+            "refusal": {
+              "sqlstate": "P0001",
+              "message": "BF_FREE_REASON"
+            },
+            "result": null,
+            "ok": true
+          }
+        },
+        {
+          "case": "FREE_BLANK_REASON",
+          "result": {
+            "code": "BF_FREE_REASON",
+            "refusal": {
+              "sqlstate": "P0001",
+              "message": "BF_FREE_REASON"
+            },
+            "result": null,
+            "ok": true
+          }
+        },
+        {
+          "case": "WAIVED_MISSING_REASON",
+          "result": {
+            "code": "BF_FREE_REASON",
+            "refusal": {
+              "sqlstate": "P0001",
+              "message": "BF_FREE_REASON"
+            },
+            "result": null,
+            "ok": true
+          }
+        },
+        {
+          "case": "WAIVED_BLANK_REASON",
+          "result": {
+            "code": "BF_FREE_REASON",
+            "refusal": {
+              "sqlstate": "P0001",
+              "message": "BF_FREE_REASON"
+            },
+            "result": null,
+            "ok": true
+          }
+        },
+        {
+          "case": "FREE_NONZERO",
+          "result": {
+            "code": "BF_FREE_REASON",
+            "refusal": {
+              "sqlstate": "P0001",
+              "message": "BF_FREE_REASON"
+            },
+            "result": null,
+            "ok": true
+          }
+        },
+        {
+          "case": "WAIVED_NONZERO",
+          "result": {
+            "code": "BF_FREE_REASON",
+            "refusal": {
+              "sqlstate": "P0001",
+              "message": "BF_FREE_REASON"
+            },
+            "result": null,
+            "ok": true
+          }
+        },
+        {
+          "case": "KNOWN_ZERO",
+          "result": {
+            "code": "BD_AMOUNT_INVALID",
+            "refusal": {
+              "sqlstate": "P0001",
+              "message": "BD_AMOUNT_INVALID: rate harus lebih dari 0"
+            },
+            "result": null,
+            "ok": true
+          }
+        },
+        {
+          "case": "NEGATIVE",
+          "result": {
+            "code": "BD_AMOUNT_INVALID",
+            "refusal": {
+              "sqlstate": "P0001",
+              "message": "BD_AMOUNT_INVALID: rate wajib nominal teks dengan tepat dua desimal"
+            },
+            "result": null,
+            "ok": true
+          }
+        },
+        {
+          "case": "UNKNOWN_NUMERIC",
+          "result": {
+            "code": "BF_UNKNOWN_RATE",
+            "refusal": {
+              "sqlstate": "P0001",
+              "message": "BF_UNKNOWN_RATE"
+            },
+            "result": null,
+            "ok": true
+          }
+        }
+      ],
+      "checks": {
+        "FREE_MISSING_REASON": true,
+        "FREE_BLANK_REASON": true,
+        "WAIVED_MISSING_REASON": true,
+        "WAIVED_BLANK_REASON": true,
+        "FREE_NONZERO": true,
+        "WAIVED_NONZERO": true,
+        "KNOWN_ZERO": true,
+        "NEGATIVE": true,
+        "UNKNOWN_NUMERIC": true,
+        "PROCESS_FREE_REFUSED": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "SKU01:FREE_WAIVED_SHIP_RECEIVE_QC_HPP",
+      "labor": [
+        "635.9500000000000000",
+        "1017.5200000000000000",
+        "381.5700000000000000"
+      ],
+      "laundry": [
+        "0.00",
+        "0.00",
+        "0.00"
+      ],
+      "costs": [
+        "667.200000",
+        "1067.520000",
+        "400.320000"
+      ],
+      "charges": [
+        [
+          "1463c518-58e9-45b2-a559-975455171081",
+          "FREE",
+          "0.00",
+          "0.00",
+          "Owner agreed FREE",
+          "903c0b08-3287-4d31-955f-d0a59179b9f4"
+        ],
+        [
+          "79f6830b-8902-4973-b429-3fcac09e057c",
+          "WAIVED",
+          "0.00",
+          "0.00",
+          "Owner agreed WAIVED",
+          "903c0b08-3287-4d31-955f-d0a59179b9f4"
+        ]
+      ],
+      "shares": [
+        [
+          "7a72ddf1-e1cc-4ace-a5e8-62804496aa83",
+          0,
+          "0.00"
+        ],
+        [
+          "8baa1e54-a614-407e-af2a-f5c060837b04",
+          3,
+          "0.00"
+        ],
+        [
+          "1c25f81f-1ab8-4ab2-acc2-473e5f3a2f00",
+          0,
+          "0.00"
+        ]
+      ],
+      "oracle": {
+        "fabric": "100.00",
+        "labor": "2035.04",
+        "laundry": "0.00",
+        "total": "2135.04"
+      },
+      "checks": {
+        "physical_sizes": true,
+        "labor": true,
+        "laundry_zero": true,
+        "hpp_exact": true,
+        "known_zero_complete": true,
+        "no_laundry_payable": true,
+        "provenance": true,
+        "waived_only_three_middle": true,
+        "shipment_replay": true,
+        "later_paid_master_keeps_old_costs": true,
+        "weighted_hpp": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "SKU01_RACE:FREE_FIRST_COMMITS",
+      "status": "PASS",
+      "race": "SKU_FREE_TWO_EDITORS",
+      "first_committed": true,
+      "held": "{'action': 'SAVE_GROUPS', 'groups': [{'id': '5d0536de-39a1-45de-b203-19b9fc07f62f', 'revision': '2', 'version_id': 'ba7c23db-7161-47c6-b0fd-c454ad8222ab'}], 'status': 'SAVED', 'request_id': '873de771-622c-49e7-a589-61c864d44e7f'}",
+      "contention": {
+        "kind": "BLOCKED",
+        "holder_blocks_worker": true
+      },
+      "second": {
+        "ok": false,
+        "sqlstate": "P0001",
+        "message": "STALE_VERSION"
+      },
+      "state": {
+        "revision": 2,
+        "rates": [
+          {
+            "kind": "COMPONENT",
+            "rate": "0.00",
+            "reason": "Owner agreed FREE",
+            "ref_id": "22b93e42-9bd0-4338-bd0f-975d69fbcb13",
+            "vendor_id": "594a58ad-5fcd-4680-ba7b-eb85144d5ae8",
+            "rate_status": "FREE"
+          },
+          {
+            "kind": "COMPONENT",
+            "rate": "0.00",
+            "reason": "Owner agreed WAIVED",
+            "ref_id": "dab85b29-cd91-4b85-97af-a1f644d0bdac",
+            "vendor_id": "594a58ad-5fcd-4680-ba7b-eb85144d5ae8",
+            "rate_status": "WAIVED"
+          }
+        ]
+      },
+      "expected": {
+        "second": "REFUSED STALE_VERSION"
+      },
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "SKU01_RACE:FREE_FIRST_ABORTS",
+      "status": "PASS",
+      "race": "SKU_FREE_TWO_EDITORS",
+      "first_committed": false,
+      "held": "{'action': 'SAVE_GROUPS', 'groups': [{'id': '83af9999-8d8c-47b5-8853-32a0996490a5', 'revision': '2', 'version_id': '6f0299a5-6faf-435e-bf54-064839571072'}], 'status': 'SAVED', 'request_id': 'dfd4729c-f9c8-47c7-9fcc-b6f59087c909'}",
+      "contention": {
+        "kind": "BLOCKED",
+        "holder_blocks_worker": true
+      },
+      "second": {
+        "ok": true,
+        "result": {
+          "action": "SAVE_GROUPS",
+          "groups": [
+            {
+              "id": "83af9999-8d8c-47b5-8853-32a0996490a5",
+              "revision": "2",
+              "version_id": "fd2bd681-2119-4b1d-b340-577f4c427afa"
+            }
+          ],
+          "status": "SAVED",
+          "request_id": "6756623f-0461-41c9-a01a-7a2c0a6b69ae"
+        }
+      },
+      "state": {
+        "revision": 2,
+        "rates": [
+          {
+            "kind": "COMPONENT",
+            "rate": "0.00",
+            "reason": "Second owner documented waiver",
+            "ref_id": "442d6867-e39c-4358-a1eb-017972cf8dee",
+            "vendor_id": "8010f17f-6de3-48dd-a5d9-f1764d4b1ace",
+            "rate_status": "WAIVED"
+          },
+          {
+            "kind": "COMPONENT",
+            "rate": "0.00",
+            "reason": "Owner agreed WAIVED",
+            "ref_id": "ccdf5b9d-bc9d-481d-9f1d-b6583bcf1d0c",
+            "vendor_id": "8010f17f-6de3-48dd-a5d9-f1764d4b1ace",
+            "rate_status": "WAIVED"
+          }
+        ]
+      },
+      "expected": {
+        "second": "SUCCEEDS"
+      },
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_HTTP_AFTER",
+      "case": "SKU01_HTTP:REAL_AUTH_FREE_WAIVED_AND_REJECTIONS",
+      "invalid": [
+        {
+          "case": "FREE_MISSING_REASON",
+          "result": {
+            "status": 400,
+            "body": {
+              "code": "P0001",
+              "details": null,
+              "hint": null,
+              "message": "BF_FREE_REASON"
+            }
+          }
+        },
+        {
+          "case": "FREE_BLANK_REASON",
+          "result": {
+            "status": 400,
+            "body": {
+              "code": "P0001",
+              "details": null,
+              "hint": null,
+              "message": "BF_FREE_REASON"
+            }
+          }
+        },
+        {
+          "case": "WAIVED_MISSING_REASON",
+          "result": {
+            "status": 400,
+            "body": {
+              "code": "P0001",
+              "details": null,
+              "hint": null,
+              "message": "BF_FREE_REASON"
+            }
+          }
+        },
+        {
+          "case": "WAIVED_BLANK_REASON",
+          "result": {
+            "status": 400,
+            "body": {
+              "code": "P0001",
+              "details": null,
+              "hint": null,
+              "message": "BF_FREE_REASON"
+            }
+          }
+        },
+        {
+          "case": "FREE_NONZERO",
+          "result": {
+            "status": 400,
+            "body": {
+              "code": "P0001",
+              "details": null,
+              "hint": null,
+              "message": "BF_FREE_REASON"
+            }
+          }
+        },
+        {
+          "case": "WAIVED_NONZERO",
+          "result": {
+            "status": 400,
+            "body": {
+              "code": "P0001",
+              "details": null,
+              "hint": null,
+              "message": "BF_FREE_REASON"
+            }
+          }
+        },
+        {
+          "case": "KNOWN_ZERO",
+          "result": {
+            "status": 400,
+            "body": {
+              "code": "P0001",
+              "details": null,
+              "hint": null,
+              "message": "BD_AMOUNT_INVALID: rate harus lebih dari 0"
+            }
+          }
+        },
+        {
+          "case": "NEGATIVE",
+          "result": {
+            "status": 400,
+            "body": {
+              "code": "P0001",
+              "details": null,
+              "hint": null,
+              "message": "BD_AMOUNT_INVALID: rate wajib nominal teks dengan tepat dua desimal"
+            }
+          }
+        },
+        {
+          "case": "UNKNOWN_NUMERIC",
+          "result": {
+            "status": 400,
+            "body": {
+              "code": "P0001",
+              "details": null,
+              "hint": null,
+              "message": "BF_UNKNOWN_RATE"
+            }
+          }
+        }
+      ],
+      "revoked": {
+        "status": 400,
+        "body": {
+          "code": "P0001",
+          "details": null,
+          "hint": null,
+          "message": "BF_AUTH_REQUIRED"
+        }
+      },
+      "rates": [
+        {
+          "kind": "COMPONENT",
+          "rate": "0.00",
+          "reason": "Owner agreed FREE",
+          "ref_id": "7f477c95-c821-4651-94a4-42b4bb8e1f17",
+          "vendor_id": "3cb73280-2f41-4d25-8472-9235aa290736",
+          "rate_status": "FREE"
+        },
+        {
+          "kind": "COMPONENT",
+          "rate": "0.00",
+          "reason": "Owner agreed WAIVED",
+          "ref_id": "be3aef56-6009-4991-b008-0defb5308943",
+          "vendor_id": "3cb73280-2f41-4d25-8472-9235aa290736",
+          "rate_status": "WAIVED"
+        },
+        {
+          "kind": "COMPONENT",
+          "rate": "101.23",
+          "reason": "Owner agreed KNOWN",
+          "ref_id": "bd31065d-8963-420f-9312-9974389845c1",
+          "vendor_id": "3cb73280-2f41-4d25-8472-9235aa290736",
+          "rate_status": "KNOWN"
+        },
+        {
+          "kind": "COMPONENT",
+          "rate": null,
+          "reason": "Owner agreed UNKNOWN",
+          "ref_id": "1ec54be9-e805-4c1e-b260-2dac507bf47c",
+          "vendor_id": "3cb73280-2f41-4d25-8472-9235aa290736",
+          "rate_status": "UNKNOWN"
+        }
+      ],
+      "checks": {
+        "anon": true,
+        "role_refused": true,
+        "success": true,
+        "replay": true,
+        "FREE_MISSING_REASON": true,
+        "FREE_BLANK_REASON": true,
+        "WAIVED_MISSING_REASON": true,
+        "WAIVED_BLANK_REASON": true,
+        "FREE_NONZERO": true,
+        "WAIVED_NONZERO": true,
+        "KNOWN_ZERO": true,
+        "NEGATIVE": true,
+        "UNKNOWN_NUMERIC": true,
+        "revoked_replay": true,
+        "persisted_once_and_atomic": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "SKU01_BROWSER:FREE_WAIVED_DESKTOP_SAVE_RELOAD",
+      "status": "PASS",
+      "checks": {
+        "three_physical_members": true,
+        "once": true,
+        "no_stock": true,
+        "free_waived_saved": true,
+        "reload_preserves_status_and_reason": true
+      },
+      "mobile": false
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "SKU01_BROWSER:FREE_WAIVED_MOBILE_SAVE_RELOAD",
+      "status": "INCOMPLETE",
+      "error": "locator.click: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('.sidebar .nav-main').filter({ hasText: 'Master' })\n    - locator resolved to <button class=\"nav-main \">…</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - element is outside of the viewport\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - element is outside of the viewport\n    - retrying click action\n      - waiting 100ms\n    38 × waiting for element to be visible, enabled and stable\n       - element is visible, enabled and stable\n       - scrolling into view if needed\n       - done scrolling\n       - element is outside of the viewport\n     - retrying click action\n       - waiting 500ms\n\n    at open (/home/runner/work/_temp/auditor_browser.mjs:9:162)\n    at async freeMaster (/home/runner/work/_temp/auditor_browser.mjs:35:20)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3"
+    }
+  ],
+  "other_gates": {
+    "build": {
+      "run": 36390618814,
+      "status": "success"
+    },
+    "codeql": {
+      "run": 36390618670,
+      "status": "success"
+    }
+  },
+  "incomplete_reason": "Only mobile test after reload: helper checked menu visibility before Auth finished rendering. First save already succeeded; this is not a PASS for reload. Retest waits for authenticated sidebar and clicks the mobile menu normally; no force-click or product change."
+}

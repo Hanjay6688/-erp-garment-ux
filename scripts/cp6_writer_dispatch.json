@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 34,
+  "revision": 35,
   "phase": "after",
-  "scenario_path": "scripts/cp6_bf_free_modes.py",
-  "browser_path": "scripts/cp6_bf_free_browser.mjs",
-  "purpose": "SKU-01 plus RANGE-02: legitimate free master/downstream, repeated drawing slots expose one SKU choice per physical size and preserve all yields. Correct race fixture grant ownership and native select-label matching; no product-rule relaxation. Retains full BE/BF/BD regression. Fabric100 plus labor2035.04 plus laundry0 =>2135.04. Writer evidence only, CP6 HOLD; broader rework/range, release package and last check remain open."
+  "scenario_path": "scripts/cp6_bf_browser_retest.py",
+  "browser_path": "scripts/cp6_bf_browser_retest.mjs",
+  "purpose": "Focused browser-only retest on unchanged fb8fb11 product: wait for the authenticated sidebar before mobile menu interaction after reload. Run36390618767 already has native67 PASS/races22 PASS/HTTP9 PASS/browser26 PASS with only mobile reload test navigation INCOMPLETE. No native business cases in this follow-up; do not count empty native group as business evidence. Full regression entrypoints remain cp6_bf_free_modes.py and cp6_bf_free_browser.mjs. CP6 HOLD."
 }
