@@ -206,7 +206,7 @@ alter table erp.bd_laundry_charge_lines_v1 drop column bf_sku_version_id;
 alter table erp.po_work_component_snapshots drop column bf_sku_version_id;
 alter table erp.rework_component_lines drop column bf_sku_version_id;
 alter table erp.rework_component_lines drop constraint if exists rework_component_lines_rate_basis_check;
-alter table erp.rework_component_lines add constraint rework_component_lines_rate_basis_check CHECK (((rate_basis)::text = ANY ((ARRAY['CONTRACTOR_RATE'::character varying, 'PO_SNAPSHOT'::character varying, 'LAUNDRY_ZERO'::character varying, 'LEGACY_CLIENT'::character varying])::text[])));
+alter table erp.rework_component_lines add constraint rework_component_lines_rate_basis_check CHECK ((rate_basis IN ('CONTRACTOR_RATE', 'PO_SNAPSHOT', 'LAUNDRY_ZERO', 'LEGACY_CLIENT')));
 alter table erp.po_work_component_snapshots add constraint po_work_component_snapshots_po_id_work_component_id_key UNIQUE (po_id, work_component_id);
 drop trigger bf_supplier_credit_append_only on erp.bf_supplier_credit_moves_v1;
 drop function erp.bf_assert_work_scope_v1(uuid,uuid);

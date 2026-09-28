@@ -12,7 +12,7 @@
     "file": "docs/evidence/cp6-t3/release_pins.json",
     "blob_sha256": "3e9dc0047f0f62b575d2c4d2df817667080e3729cb6e3f296624ef73d753db2a"
   },
-  "builder_sha256": "fc637610a2b7710cbdb941a0ac8af817a0b2cf37aa42ca910ce8f9a890a75c97",
+  "builder_sha256": "692d62625f10333b663d91010a284e125bf565d9c0ce0ceaa5cfecd75661bb52",
   "variant_builder_sha256": "fc1a6a3ed4e516ecd82525e9b896adba02f691c8517b0c4d7440379af895e400",
   "files": [
     {
@@ -984,7 +984,7 @@
       "key": "BF",
       "kind": "FROM_CAPTURE",
       "file": "supabase/release/cp6-t3-rollbacks/20260928134500_erp_v2_6_20bf_cp6_commercial_ranges_vendor_credit.rollback.sql",
-      "sha256": "b15760e901ebf3b82be376014a1596b4453faa9f21cdf962ace6c41efd694cd2",
+      "sha256": "30723c59726a47ccfeb27b7b97405b295c85d7665b60dc176fddc6f85ff82716",
       "package_file": "supabase/release/cp6-t3/20260928134500_erp_v2_6_20bf_cp6_commercial_ranges_vendor_credit.sql",
       "package_sha256": "fa4dadf5cbab6ac34de94c72c4d67459a2cd1ba28eee33efee965fedc1de8caf"
     }

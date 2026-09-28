@@ -211,8 +211,17 @@ def restores(key,cap):
             out.append('create or replace view %s%s as\n%s;'%(ident,' with (%s)'%','.join(options) if options else '',viewdef))
         elif kind=='CONSTRAINT':
             schema,table,name=ident.split('.')
+            definition=before['definition']
+            if key=='BF' and name=='rework_component_lines_rate_basis_check':
+                # G-01: re-parsing pg_get_constraintdef's varchar ANY array
+                # changes its stored casts. Rebuild the original IN source so
+                # PostgreSQL recreates the exact captured catalog expression.
+                # The unchanged whole-catalog fingerprint must still match.
+                import cp6_g01_align as g01
+                definition=g01.check_source(definition)
+                assert definition!=before['definition'],'BF_EXPECT_HOSTED_VARCHAR_CONSTRAINT'
             out.append('alter table %s.%s drop constraint if exists %s;'%(schema,table,name))
-            out.append('alter table %s.%s add constraint %s %s;'%(schema,table,name,before['definition']))
+            out.append('alter table %s.%s add constraint %s %s;'%(schema,table,name,definition))
         elif kind=='COLUMN':
             schema,table,name=ident.split('.')
             assert key=='BE' and before and after and before['notnull'] and not after['notnull'],('BE_ROLLBACK_EXPECT_NULLABILITY_ONLY',k)
@@ -607,8 +616,9 @@ def cycle(out):
                 try:closed_run(rb[k])
                 except psycopg.Error as exc:error=exc
                 d=diff(reference[k],state(package.CLONE,block),strict=True)
-                check('CYCLE_%d_ROLLBACK_%s_RESTORES_PREDECESSOR'%(n,k),error is None and not d,
-                      error=None if error is None else str(error)[:800],differences=d)
+                ok=check('CYCLE_%d_ROLLBACK_%s_RESTORES_PREDECESSOR'%(n,k),error is None and not d,
+                         error=None if error is None else str(error)[:800],differences=d)
+                if not ok:raise AssertionError(('T3_ROLLBACK_STOP_AT_FIRST_FAILED_PREDECESSOR',n,k,str(error)[:800]))
         down(1,before0)
         # Cycle 2 is compared with the states recorded during its own reinstall, so every row counts, capsule capture
         # times and boundary snapshots included.
