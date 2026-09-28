@@ -275,6 +275,8 @@ def historical_import_identity(cur,today):
     Batch timestamps below are explicit prerequisites, not an owner mutation.
     """
     f=fixture(cur,today)
+    received=wash(cur,f,range(4),10.25)
+    finish(cur,f,[received],range(4),11.5)
     batch=b.api.call(cur,'CREATE',dict(batch_code='BFC-IMPORT-'+uuid.uuid4().hex[:8],cutover_date=str(today)))['batch_id']
     b.api.admin(cur)
     cur.execute('update erp.migration_batches set cutover_at=%s where id=%s',(f['when'](11),batch))
@@ -323,3 +325,88 @@ def hpp_locations_pending(cur,today):
     inverse=report(cur,f['a']['sku'])['groups'][0]
     checks['inverse']=inverse['value']==v['value'] and inverse['qty']=='16' and inverse['provisional'] is True
     return b.verdict(checks,before=v['value'],after=a['value'],locations=[left['groups'][0]['qty'],right['groups'][0]['qty']])
+
+
+def same_size_two_skus(cur,today):
+    first,size=bf.products(cur,('32',))[0]
+    second=b.sized_product(cur,size,'BFC-SECOND-'+uuid.uuid4().hex[:8])
+    at=one(cur,"select clock_timestamp()-interval '4 minutes'")
+    a=bf.group(cur,[first],at);z=bf.group(cur,[second],at);bf.save(cur,[a,z],at)
+    checks={};waves=[]
+    def setup(group,overlap=False):
+        def bind(cur,po,wave,batch,yields,when):
+            waves.append(wave)
+            def request(refs):return bf.call(cur,'BIND_WAVE',dict(cutting_group_id=wave,
+                expected_version=one(cur,'select erp.bf_wave_revision_v1(%s)',wave),references=refs))
+            request([dict(size_id=size,sku_id=group['id'])])
+            if overlap:
+                result=b.refused(cur,lambda:request([dict(size_id=size,sku_id=a['id']),dict(size_id=size,sku_id=z['id'])]),'BF_DUPLICATE_SIZE')
+                checks['ambiguous_same_wave_refused']=result['ok']
+                checks['original_binding_unchanged']=one(cur,'select sku_id::text from erp.bf_wave_skus_v1 where cutting_group_id=%s',wave)==a['id']
+        return bind
+    for group,qty in ((a,4),(z,7)):
+        b.two_size_fixture(cur,b.case_day(today),'SAME-SIZE',size_quantities=[(size,qty)],
+            clock=lambda h,m=0:at+timedelta(seconds=h*4+m/15),work_setup=setup(group,group is a))
+    checks['separate_waves_supported']=len(set(waves))==2 and set(one(cur,'select sku_id::text from erp.bf_wave_skus_v1 where cutting_group_id=%s',w) for w in waves)=={a['id'],z['id']}
+    return b.verdict(checks,supported_boundary='Same-size distinct work references use distinct physical waves')
+
+
+def partial_attempts_credit(cur,today):
+    """Two paid retries of size32 at the vendor, then 18 GOOD/1 BS/1 missing.
+    Package/extra shares, source invoice corrections and claim allocation all
+    traverse the ordinary posting routes; no monetary SKU override is used.
+    """
+    f=fixture(cur,today)
+    garment=b.component(cur,f,'GARMENT','5.00');spray=b.component(cur,f,'SPRAY','1.00')
+    extra=b.component(cur,f,'WHISKER','0.19')
+    package=b.bd(cur,'SAVE_PACKAGE',dict(vendor_id=f['vendor'],package_code='BFC-PACK',package_name='Garment spray',component_ids=[garment,spray],is_active=True,reason='Combined real package'))['package_id']
+    b.bd(cur,'SAVE_PACKAGE_RATE',dict(package_id=package,rate_per_pcs='6.17',effective_from=f['start'].isoformat(),reason='Combined vendor package'))
+    b.terms(cur,f,'PACKAGE');b.policy(cur,'LAU_DEC03',dict(discount='REFUSED',extra='ALLOWED',rounding='REFUSED'))
+    payload=dict(distribution_batch_id=f['batch'],vendor_id=f['vendor'],wash_process_id=f['process'],target_dyeing_color='BFC-ATTEMPTS',physical_at=f['when'](11).isoformat(),reason='Combined package and selected recipients',lines=[dict(size_id=s,qty_sent_pcs=q) for s,q in zip(f['size_ids'],f['qtys'])])
+    pricing=dict(package_id=package,extras=[dict(component_id=extra,covered_qty=2,coverage=[dict(size_id=f['size_ids'][1],qty=2)],reason='Whisker only two size32 pieces')])
+    def send(p):return b.bd(cur,'POST_PRICED_DELIVERY',dict(delivery=payload,expected_version=str(base.group_version(cur,f['group'])),pricing=p))
+    duplicate=b.refused(cur,lambda:send(dict(package_id=package,extras=[dict(component_id=garment,covered_qty=20,reason='Already included')])), 'BD_COMPONENT_ALREADY_INCLUDED')
+    sent=send(pricing);delivery=sent['delivery_id'];state=b.line_state(cur,delivery)
+    ds=dict(cur.execute('select s.size_id::text,s.id::text from erp.laundry_delivery_batch_size_lines s join erp.laundry_delivery_lines l on l.id=s.delivery_line_id where l.delivery_id=%s',(delivery,)).fetchall())
+    attempts=[]
+    for hour in (12,13):
+        r=b.chain.laundry_action(cur,'POST_FAILED_WASH',dict(delivery_id=delivery,wash_process_id=f['process'],custody_outcome='RETRY_AT_VENDOR',physical_at=f['when'](hour).isoformat(),reason='Real paid retry only two size32 pieces',lines=[dict(delivery_batch_size_line_id=ds[f['size_ids'][1]],qty_attempted_pcs=2)]),base.delivery_version(cur,delivery))
+        attempts.append(b.receipt_line(cur,r['receipt_id']))
+    rec=b.chain.laundry_action(cur,'POST_RECEIPT',dict(delivery_id=delivery,wash_process_id=f['process'],physical_at=f['when'](14).isoformat(),reason='18 good, one BS and one remains missing',lines=[dict(delivery_batch_size_line_id=ds[s],qty_good_received=6 if i==1 else q,qty_bs_laundry=1 if i==1 else 0,bs_product_id=f['roots'][i] if i==1 else None) for i,(s,q) in enumerate(zip(f['size_ids'],f['qtys']))]),base.delivery_version(cur,delivery))
+    line=b.receipt_line(cur,rec['receipt_id'])
+    rs=dict(cur.execute('select d.size_id::text,r.id::text from erp.laundry_receipt_batch_size_lines r join erp.laundry_delivery_batch_size_lines d on d.id=r.delivery_batch_size_line_id where r.receipt_line_id=%s',(line,)).fetchall())
+    finish(cur,f,[dict(line=line,rs=rs)],range(4),15,quantities={1:6})
+    ls=lots(cur,f);truth=b.all_truth(cur)
+    _,normal=b.invoice(cur,f,[dict(line=line,qty=18,amount='111.11'),dict(line=line,category='BS',qty=1,amount='12.67')],'123.78')
+    before=[b.lot_value(cur,l) for l in ls];ledger=books(cur)
+    _,retry=b.invoice(cur,f,[dict(line=attempts[0],category='FAILED_ATTEMPT',qty=2,amount='17.11')],'17.11')
+    after=[b.lot_value(cur,l) for l in ls];ledger_after=books(cur)
+    _,retry2=b.invoice(cur,f,[dict(line=attempts[1],category='FAILED_ATTEMPT',qty=2,amount='14.00')],'14.00')
+    _,correction=b.invoice(cur,f,[dict(line=attempts[0],category='FAILED_ATTEMPT',kind='CORRECTION',amount='0.89')],'0.89')
+    corrected=[b.lot_value(cur,l) for l in ls]
+    b.bd(cur,'REVERSE_INVOICE',dict(invoice_id=correction['invoice_id'],expected_version=correction['row_version'],reason='Exact correction inverse'))
+    inverse=[b.lot_value(cur,l) for l in ls]
+    name='BFC-CLAIM-'+uuid.uuid4().hex[:8]
+    b.d12_bs(cur,'SAVE_CLAIM',dict(action='SAVE',claim_number=name,vendor_id=f['vendor'],delivery_id=delivery,qty_claimed=1,claim_type='MISSING',compensation_amount=0,opened_at=f['when'](16).isoformat(),change_reason='One exact missing piece after repeated wash'))
+    claim=one(cur,'select id::text from erp.laundry_claims where claim_number=%s',name)
+    b.d12_bs(cur,'SAVE_CLAIM',dict(id=claim,action='SAVE',status='ACCEPTED',compensation_amount=10,resolution_date=str(f['day']),change_reason='Vendor accepts compensation'),one(cur,'select row_version from erp.laundry_claims where id=%s',claim))
+    ap_before=b.D(b.ap(cur,f['vendor']))
+    b.d12_bs(cur,'RESOLVE_CLAIM',dict(laundry_claim_id=claim,resolution='SETTLED',change_reason='Settle missing piece'),one(cur,'select row_version from erp.laundry_claims where id=%s',claim))
+    settled=b.D(b.ap(cur,f['vendor']))
+    credit=dict(source_kind='DAILY_CLAIM',source_id=claim,target_kind='VENDOR_INVOICE',target_id=retry['invoice_id'],amount='10.00',date=str(f['day']),reason='Use credit against retry invoice')
+    key=uuid.uuid4();b.bd(cur,'APPLY_CLAIM_CREDIT',credit,key=key)
+    replay=b.bd(cur,'APPLY_CLAIM_CREDIT',credit,key=key)
+    too_much=b.refused(cur,lambda:b.bd(cur,'APPLY_CLAIM_CREDIT',dict(credit,amount='0.01')),'BD_CLAIM_CREDIT_EXCEEDS_AVAILABLE')
+    applied=b.D(b.ap(cur,f['vendor']));b.bd(cur,'REVERSE_VENDOR_SETTLEMENT',dict(target_kind='VENDOR_INVOICE',settlement_id=str(key),reason='Return claim credit to available balance'))
+    screen=b.d12_screen(cur,f['vendor'])
+    return b.verdict(dict(package_once=state['known']=='123.78' and state['charges']==2 and duplicate['ok'],
+        exact_retry_sources=one(cur,'select count(*) from erp.laundry_failed_wash_batch_size_lines where size_id=%s and qty_attempted_pcs=2',f['size_ids'][1])==2,
+        physical_stock=[stock(cur,l) for l in ls]==[5,6,3,4],
+        only32_cost_changed=all(before[i]==after[i] for i in (0,2,3)) and after[1]>before[1],
+        variance_conserved=sum(ledger_after[k]-ledger[k] for k in ledger)==b.D('3.11'),
+        correction_exact=corrected[1]>after[1] and inverse==after,
+        claim_lowers_ap_once=ap_before-settled==10 and applied==settled and b.D(b.ap(cur,f['vendor']))==settled,
+        credit_replay=replay.get('replayed') is True,credit_cannot_double_spend=too_much['ok'],
+        reversed_credit_available=screen['ledger']['credit_available']=='10.00' and screen['ledger']['matches'] is True,
+        truth=b.truth_quiet(truth,b.all_truth(cur))),lot_before=list(map(str,before)),lot_after=list(map(str,after)),
+        ap_before=str(ap_before),ap_after=str(settled))
