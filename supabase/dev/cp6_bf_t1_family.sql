@@ -5,7 +5,7 @@ if exists(select 1 from erp.schema_migrations where version='v2.6.20bf') then ra
 
 create table erp.bf_rollback_v1(payload jsonb not null);
 insert into erp.bf_rollback_v1(payload)
-select jsonb_build_object('functions',(select jsonb_object_agg(s,pg_get_functiondef(s::regprocedure)) from unnest(array['erp.commit_accessory_bom_for_lot(uuid)','erp.ensure_po_work_component_snapshots(uuid,timestamp with time zone)','erp.validate_work_completion()','erp.guard_work_completion_posting_consistency()','erp.seed_bs_case_component_baseline()','erp.classify_bs_case_v2(uuid,jsonb,uuid,bigint)','erp.cp6_lot_work_cost_v2620c(uuid,text)','erp.assert_new_stock_cutoff_coverage_v1()','erp.bd_priced_line_json_v1(uuid)','erp.bd_compute_pricing_v1(jsonb,jsonb)','erp.bd_attach_delivery_pricing_v1(uuid)','erp.bd_post_priced_delivery_v1(jsonb,uuid)','erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','erp.prepare_rework_component_line()','erp.run_v263c_bs_rework_integrity_checks()','erp.get_hpp_completeness(uuid)','erp.resolve_rework_accessory_bom_v1(uuid,timestamp with time zone)','erp.save_initial_import_action_v1(text,jsonb,uuid)','erp.bb_check_sales_import_row_v1(uuid,uuid)','erp.bb_apply_sales_imports_v1(uuid)','erp.bc_check_import_row_v1(uuid,uuid)','erp.bc_apply_imports_v1(uuid)','erp.be_check_pocket_import_v1(uuid,uuid)','erp.be_apply_pocket_imports_v1(uuid)','erp.bb_check_rework_import_row_v1(uuid,uuid)']) s),
+select jsonb_build_object('functions',(select jsonb_object_agg(s,pg_get_functiondef(s::regprocedure)) from unnest(array['erp.commit_accessory_bom_for_lot(uuid)','erp.ensure_po_work_component_snapshots(uuid,timestamp with time zone)','erp.validate_work_completion()','erp.guard_work_completion_posting_consistency()','erp.seed_bs_case_component_baseline()','erp.classify_bs_case_v2(uuid,jsonb,uuid,bigint)','erp.cp6_lot_work_cost_v2620c(uuid,text)','erp.assert_new_stock_cutoff_coverage_v1()','erp.bd_priced_line_json_v1(uuid)','erp.bd_compute_pricing_v1(jsonb,jsonb)','erp.bd_attach_delivery_pricing_v1(uuid)','erp.bd_post_priced_delivery_v1(jsonb,uuid)','erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','erp.bd_refresh_size_estimates_v1(uuid)','erp.bd_line_complete_v1(uuid)','erp.bd_delivery_line_price_unknown_v1(uuid)','erp.bd_post_invoice_v1(jsonb,uuid)','erp.bd_set_charge_price_v1(jsonb,uuid)','erp.period_blockers_v1(date,date)','erp.prepare_rework_component_line()','erp.run_v263c_bs_rework_integrity_checks()','erp.get_hpp_completeness(uuid)','erp.resolve_rework_accessory_bom_v1(uuid,timestamp with time zone)','erp.save_initial_import_action_v1(text,jsonb,uuid)','erp.bb_check_sales_import_row_v1(uuid,uuid)','erp.bb_apply_sales_imports_v1(uuid)','erp.bc_check_import_row_v1(uuid,uuid)','erp.bc_apply_imports_v1(uuid)','erp.be_check_pocket_import_v1(uuid,uuid)','erp.be_apply_pocket_imports_v1(uuid)','erp.bb_check_rework_import_row_v1(uuid,uuid)']) s),
  'snapshot_constraint',(select pg_get_constraintdef(oid) from pg_constraint where conrelid='erp.po_work_component_snapshots'::regclass and conname='po_work_component_snapshots_po_id_work_component_id_key'),
  'rework_constraint',(select pg_get_constraintdef(oid) from pg_constraint where conrelid='erp.rework_component_lines'::regclass and conname='rework_component_lines_rate_basis_check'));
 
@@ -231,32 +231,9 @@ begin
    if key=any(seen) then raise exception 'BF_DUPLICATE_RATE';end if;seen:=seen||key;
  end loop;
  seen:='{}';
- for j in select value from jsonb_array_elements(p_settings->'laundry_rates') loop
-   perform erp._cp3_assert_closed_json_object(j,array['vendor_id','kind','ref_id','rate_status'],
-     array['vendor_id','kind','ref_id','rate_status','rate','reason'],'SKU laundry rate');
-   if not(j ?& array['rate','reason']) then raise exception 'BF_RATE_FIELDS';end if;
-   k:=j->>'kind';ref:=erp.bd_uuid_v1(j,'ref_id',true);vendor:=erp.bd_uuid_v1(j,'vendor_id',true);
-   if not exists(select 1 from erp.laundry_vendors where id=vendor and is_active) then raise exception 'BF_VENDOR';end if;
-   if k='PROCESS' then
-     if not exists(select 1 from erp.wash_processes where id=ref and is_active) then raise exception 'BF_PROCESS';end if;
-   elsif k='COMPONENT' then
-     if not exists(select 1 from erp.bd_laundry_components_v1 where id=ref and vendor_id=vendor and is_active) then raise exception 'BF_COMPONENT';end if;
-   elsif k='PACKAGE' then
-     if not exists(select 1 from erp.bd_laundry_packages_v1 where id=ref and vendor_id=vendor and is_active) then raise exception 'BF_PACKAGE';end if;
-   else raise exception 'BF_RATE_KIND';end if;
-   if j->>'rate_status' not in('KNOWN','UNKNOWN','FREE','WAIVED') or j->>'rate_status' is null then raise exception 'BF_RATE_STATUS';end if;
-   if k<>'COMPONENT' and j->>'rate_status'<>'KNOWN' then raise exception 'BF_COMPONENT_MODE_REQUIRED: gunakan komponen untuk UNKNOWN/FREE/WAIVED';end if;
-   if j->>'rate_status'='UNKNOWN' then
-     if j->'rate'<>'null'::jsonb then raise exception 'BF_UNKNOWN_RATE';end if;
-   else
-     -- KNOWN must be positive; FREE/WAIVED use exact zero plus the reason guard below.
-     amount:=erp.bd_amount_v1(j->'rate','rate',j->>'rate_status'='KNOWN');
-     if j->>'rate_status'='KNOWN' and amount<=0 then raise exception 'BF_ZERO_USE_FREE';end if;
-     if j->>'rate_status' in('FREE','WAIVED') and (amount<>0 or nullif(btrim(j->>'reason'),'') is null) then raise exception 'BF_FREE_REASON';end if;
-   end if;
-   key:=vendor::text||':'||k||':'||ref::text;
-   if key=any(seen) then raise exception 'BF_DUPLICATE_RATE';end if;seen:=seen||key;
- end loop;
+ if jsonb_array_length(p_settings->'laundry_rates')>0 then
+   raise exception 'BF_LAUNDRY_VENDOR_AUTHORITY: harga laundry diatur pada vendor; riwayat SKU hanya referensi pemilihan';
+ end if;
 end;$function$;
 
 -- SKU base rate applies to every member size. Optional contractor/special overrides are still per SKU.
@@ -275,9 +252,8 @@ $function$;
 CREATE OR REPLACE FUNCTION erp.bf_context_rate_v1(p_kind text,p_ref uuid,p_vendor uuid DEFAULT NULL)
  RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
 AS $function$
- select r||jsonb_build_object('version_id',v.id) from erp.bf_context_v1 c
- join erp.bf_sku_versions_v1 v on v.id=c.version_id cross join lateral jsonb_array_elements(v.settings->'laundry_rates') r
- where c.backend_pid=pg_backend_pid() and c.transaction_id=txid_current() and r->>'kind'=p_kind and r->>'ref_id'=p_ref::text and(p_vendor is null or r->>'vendor_id'=p_vendor::text)
+ -- Legacy context helper cannot supply SKU monetary rates.
+ select null::jsonb
 $function$;
 
 CREATE OR REPLACE FUNCTION erp.bf_bom_for_lot_v1(p_lot uuid)
@@ -418,6 +394,15 @@ begin
    if vid is not null then continue;end if;
    select id into vid from erp.bf_sku_versions_v1 where sku_id=s.sku_id and effective_from<=p_at and(effective_to is null or effective_to>p_at);
    if vid is null then raise exception 'BF_WORK_VERSION_MISSING';end if;
+   -- An unused binding is a choice, not a membership snapshot. Recheck it at
+   -- first financial use under the same lock as SAVE_GROUPS. Earlier pins above
+   -- retain their original version after a later membership change.
+   if exists(select 1 from erp.bf_wave_skus_v1 w join erp.cutting_groups g on g.id=w.cutting_group_id
+     where g.po_id=p_po and w.sku_id=s.sku_id and not exists(
+       select 1 from erp.bf_sku_members_v1 m join erp.products p on p.id=m.product_root
+       where m.version_id=vid and p.size_id=w.size_id)) then
+     raise exception 'BF_WAVE_REFERENCE_STALE: keanggotaan ukuran berubah sebelum tarif kerja dipakai; pilih ulang SKU wave';
+   end if;
    for base in select * from erp.po_work_component_snapshots where po_id=p_po and bf_sku_version_id is null order by sequence_no,id loop
      rate:=erp.bf_work_rate_v1(vid,contractor,base.work_component_id,p_at);
      insert into erp.po_work_component_snapshots(po_id,work_component_id,source_bom_version_id,sequence_no,rate_per_pcs_snapshot,source_bom_item_id,source_contractor_rate_id,committed_at,bf_sku_version_id)
@@ -450,20 +435,35 @@ end;$function$;
 
 alter table erp.bd_laundry_charge_lines_v1 add column bf_sku_version_id uuid references erp.bf_sku_versions_v1(id);
 
--- A rate reference follows the wave size, not the final FG product. The returned business version is frozen on the charge.
+create table erp.bf_laundry_delivery_sources_v1(
+ delivery_line_id uuid primary key references erp.bd_laundry_priced_lines_v1(delivery_line_id),
+ details_pending boolean not null,
+ created_at timestamptz not null default statement_timestamp()
+);
+
+-- Actual cost can come from invoices while the original quote stays unknown.
+-- All pieces must be returned and every source billed; reversing a bill reopens
+-- the cost. Later bills cannot clear a blocker at an earlier closing date.
+CREATE OR REPLACE FUNCTION erp.bf_delivery_invoiced_v1(p_line uuid,p_through date DEFAULT NULL)
+ RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+ select coalesce((select sum(r.qty_good_received+r.qty_bs_laundry)>=d.qty_sent_pcs
+   and bool_and(exists(select 1 from erp.bd_laundry_invoice_lines_v1 x join erp.bd_laundry_invoices_v1 i on i.id=x.invoice_id
+     where x.receipt_line_id=r.id and x.completes_source and i.status='POSTED'
+       and(p_through is null or i.invoice_date<=p_through)))
+   from erp.laundry_delivery_lines d join erp.laundry_receipt_lines r on r.delivery_line_id=d.id
+   join erp.laundry_receipts h on h.id=r.receipt_id and h.status='POSTED'
+   where d.id=p_line group by d.qty_sent_pcs),false)
+$function$;
+
+-- Vendor tariffs are authoritative. SKU membership is never a monetary override.
+-- Keep this compatibility helper for existing callers; historical charge snapshots
+-- are untouched and new charges carry the vendor rate version only.
 CREATE OR REPLACE FUNCTION erp.bf_laundry_rate_v1(p_kind text,p_ref uuid,p_vendor uuid,p_group uuid,p_size uuid,p_at timestamptz)
  RETURNS jsonb LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO ''
 AS $function$
 declare sku uuid;vid uuid;r jsonb;fallback record;reason text;amount numeric;
 begin
- select sku_id into sku from erp.bf_wave_skus_v1 where cutting_group_id=p_group and size_id=p_size;
- if sku is not null then
-   select id into vid from erp.bf_sku_versions_v1 where sku_id=sku and effective_from<=p_at and(effective_to is null or effective_to>p_at);
-   if vid is null then raise exception 'BF_TARIFF_NOT_EFFECTIVE: referensi SKU belum berlaku pada tanggal jasa';end if;
-   select j into r from erp.bf_sku_versions_v1 v cross join lateral jsonb_array_elements(v.settings->'laundry_rates') j
-     where v.id=vid and j->>'kind'=p_kind and j->>'ref_id'=p_ref::text and j->>'vendor_id'=p_vendor::text;
-   if r is not null then return r||jsonb_build_object('sku_version_id',vid,'version_id',null);end if;
- end if;
  if p_kind='COMPONENT' then
    select * into fallback from erp.bd_component_rate_at_v1(p_ref,p_at);
    select x.reason into reason from erp.bd_laundry_component_rates_v1 x where id=fallback.version_id;
@@ -639,13 +639,13 @@ begin
  if cardinality(roots)>500 then raise exception 'BF_MEMBER_LIMIT';end if;
  if cardinality(roots)>0 and not money then raise exception 'BF_PRICE_PERMISSION';end if;
  with g as materialized(
-   select s.*,v.id version_id,v.effective_from,v.effective_to,v.settings,b.brand_name,m.model_name,
+   select s.*,v.id version_id,v.revision selected_revision,v.effective_from,v.effective_to,v.settings,b.brand_name,m.model_name,
      coalesce((select jsonb_agg(jsonb_build_object('id',p.id,'size_id',p.size_id,'size',z.size_code) order by z.sort_order,z.size_code,p.id)
        from erp.bf_sku_members_v1 sm join erp.products p on p.id=sm.product_root join erp.sizes z on z.id=p.size_id
        where sm.version_id=v.id),'[]') members
    from erp.bf_skus_v1 s join erp.brands b on b.id=s.brand_id join erp.product_models m on m.id=s.model_id
-   left join lateral(select x.* from erp.bf_sku_versions_v1 x where x.sku_id=s.id
-     and (nullif(p_filters->>'wave_id','') is null or (x.effective_from<=statement_timestamp() and (x.effective_to is null or x.effective_to>statement_timestamp())))
+   join lateral(select x.* from erp.bf_sku_versions_v1 x where x.sku_id=s.id
+     and x.effective_from<=at_time and (x.effective_to is null or x.effective_to>at_time)
      order by x.revision desc limit 1) v on true
    where s.sku ilike '%'||q||'%' or b.brand_name ilike '%'||q||'%' or exists(select 1 from erp.bf_sku_members_v1 sm where sm.version_id=v.id and sm.product_root=any(roots))
  ), products as materialized(
@@ -655,10 +655,10 @@ begin
    from erp.products p join erp.brands b on b.id=p.brand_id join erp.product_models m on m.id=p.model_id join erp.sizes z on z.id=p.size_id
    where p.id=p.identity_root_id and p.is_active and (p.sku ilike '%'||q||'%' or b.brand_name ilike '%'||q||'%' or p.id=any(roots))
  ) select jsonb_build_object('at',at_time,'page',page_no,'page_size',50,'groups_total',(select count(*) from g),
-   'groups',coalesce((select jsonb_agg(to_jsonb(x)) from(select id,sku,brand_id,brand_name,model_id,model_name,color_name,revision::text,version_id,
+   'groups',coalesce((select jsonb_agg(to_jsonb(x)) from(select id,sku,brand_id,brand_name,model_id,model_name,color_name,revision::text,selected_revision::text,version_id,
       effective_from,effective_to,members,case when money then settings end settings from g order by brand_name,sku,id limit 50 offset (page_no-1)*50)x),'[]'),
    'products_total',(select count(*) from products),'products',coalesce((select jsonb_agg(to_jsonb(x)) from(select * from products order by brand_name,sku,size,id limit 50 offset (page_no-1)*50)x),'[]'),
-   'related_groups',coalesce((select jsonb_agg(to_jsonb(x)) from(select id,sku,brand_id,brand_name,model_id,model_name,color_name,revision::text,version_id,effective_from,effective_to,members,case when money then settings end settings from g
+   'related_groups',coalesce((select jsonb_agg(to_jsonb(x)) from(select id,sku,brand_id,brand_name,model_id,model_name,color_name,revision::text,selected_revision::text,version_id,effective_from,effective_to,members,case when money then settings end settings from g
      where exists(select 1 from jsonb_array_elements(members) mem where (mem->>'id')::uuid=any(roots)))x),'[]'),
    'wave',case when nullif(p_filters->>'wave_id','') is not null then (select jsonb_build_object('id',cg.id,'number',cg.group_number,
      'revision',erp.bf_wave_revision_v1(cg.id),'can_bind',erp.has_permission('production.cutting.edit_draft'),
@@ -1200,11 +1200,11 @@ declare v_vendor uuid:=erp.bd_uuid_v1(p_delivery,'vendor_id',true);v_process uui
   v_total_qty integer:=0;v_charges jsonb:='[]'::jsonb;v_known numeric:=0;v_complete boolean:=true;v_units jsonb;v_dec05 jsonb;v_dec03 jsonb;
   v_versions jsonb:='{}'::jsonb;v_line jsonb;v_x jsonb;v_split numeric[];v_shares jsonb;i integer;v_rate numeric;v_scoped record;v_base numeric;
   v_pkg record;v_comp record;v_included uuid[];v_seen uuid[]:='{}';v_cov integer;v_amount numeric;v_lump numeric;v_min numeric;v_topup numeric;
-  v_status text;v_label text;v_kind text;bf_group uuid;bf_rate jsonb;bf_ref uuid;bf_source uuid;
+  v_status text;v_label text;v_kind text;
 begin
   select * into t from erp.bd_laundry_vendor_terms_v1 where vendor_id=v_vendor;
   v_mode:=coalesce(t.pricing_mode,'RATE');v_unit:=coalesce(t.pricing_unit,'PCS');
-  select po.model_id,g.id into v_model,bf_group from erp.cutting_distribution_batches b join erp.cutting_pickups p on p.id=b.pickup_id
+  select po.model_id into v_model from erp.cutting_distribution_batches b join erp.cutting_pickups p on p.id=b.pickup_id
     join erp.cutting_groups g on g.id=p.cutting_group_id join erp.production_orders po on po.id=g.po_id where b.id=v_batch;
   if jsonb_typeof(p_delivery->'lines') is distinct from 'array' or jsonb_array_length(p_delivery->'lines')=0 then
     raise exception 'BD_LINES_REQUIRED: baris ukuran kiriman wajib diisi';end if;
@@ -1215,7 +1215,23 @@ begin
   v_units:=coalesce(erp.bd_policy_v1('LAU_DEC01')->'units','[]'::jsonb);
   if jsonb_typeof(p_pricing) is distinct from 'object' then raise exception 'BD_PRICING_INVALID: pricing wajib objek';end if;
 
-  if v_unit='BATCH' then
+  if p_pricing ? 'deferred' then
+    perform erp._cp3_assert_closed_json_object(p_pricing,array['deferred'],array['deferred'],'deferred pricing');
+    if p_pricing->'deferred' is distinct from 'true'::jsonb then raise exception 'BD_PRICING_INVALID: deferred harus true';end if;
+    v_mode:='PENDING';v_unit:='PCS';
+  elsif p_pricing ? 'components' then
+    v_mode:='COMPONENTS';v_unit:='PCS';
+    if p_pricing->'components'='[]'::jsonb then
+      perform erp._cp3_assert_closed_json_object(p_pricing,array['components'],array['components'],'deferred components');
+      v_mode:='PENDING';
+    end if;
+  elsif p_pricing ? 'package_id' then v_mode:='PACKAGE';v_unit:='PCS';
+  elsif p_pricing='{}'::jsonb and v_mode in('PACKAGE','COMPONENTS') then v_mode:='PENDING';v_unit:='PCS';
+  end if;
+  if v_mode='PENDING' then
+    -- No synthetic charge. Known subtotal is zero; unknown price stays NULL.
+    v_complete:=false;
+  elsif v_unit='BATCH' then
     -- LAU-T20: a lump sum agreed for this batch, spread over its sizes by quantity; the whole amount, not per receipt.
     if not v_units @> '["BATCH"]' then perform erp.bd_require_policy_v1('LAU_DEC01','satuan borongan per batch');
       raise exception 'BD_UNIT_NOT_ALLOWED: LAU-DEC01 belum mengizinkan satuan BATCH';end if;
@@ -1231,12 +1247,6 @@ begin
     perform erp._cp3_assert_closed_json_object(p_pricing,array[]::text[],array[]::text[],'rate pricing');
     v_dec05:=erp.bd_policy_v1('LAU_DEC05');
     for i in 1..array_length(v_sizeids,1) loop
-      bf_rate:=null;
-      if exists(select 1 from erp.bf_wave_skus_v1 where cutting_group_id=bf_group and size_id=v_sizeids[i]) then
-        bf_rate:=erp.bf_laundry_rate_v1('PROCESS',v_process,v_vendor,bf_group,v_sizeids[i],v_at);
-        bf_ref:=v_process;bf_source:=(bf_rate->>'version_id')::uuid;
-        v_rate:=(bf_rate->>'rate')::numeric;v_kind:='RATE';v_label:='Tarif bersama SKU';
-      else
       select * into v_scoped from erp.bd_scoped_rate_at_v1(v_vendor,v_process,v_model,v_sizeids[i],v_color,v_at);
       if v_scoped.rate_per_pcs is not null then
         v_rate:=v_scoped.rate_per_pcs;v_kind:='SCOPED_RATE';v_label:='Tarif khusus '||v_scoped.scope;v_mode:='SCOPED';
@@ -1246,10 +1256,8 @@ begin
           raise exception 'BD_SCOPED_RATE_MISSING: tidak ada tarif khusus untuk ukuran ini dan LAU-DEC05 menolak tarif dasar';end if;
         v_rate:=erp.bd_process_rate_at_v1(v_vendor,v_process,v_at);v_kind:='RATE';v_label:='Tarif dasar vendor/proses';
       end if;
-      bf_ref:=v_scoped.rate_id;bf_source:=v_scoped.rate_id;
-      end if;
       v_amount:=round(v_qtys[i]*v_rate,2);
-      v_charges:=v_charges||jsonb_build_object('kind',v_kind,'ref_id',bf_ref,'version_id',bf_source,'bf_sku_version_id',bf_rate->'sku_version_id','label',v_label,'covered_qty',v_qtys[i],
+      v_charges:=v_charges||jsonb_build_object('kind',v_kind,'ref_id',v_scoped.rate_id,'version_id',v_scoped.rate_id,'label',v_label,'covered_qty',v_qtys[i],
         'rate_status','KNOWN','unit_rate',v_rate::text,'amount',v_amount::text,
         'shares',jsonb_build_array(jsonb_build_object('size_id',v_sizeids[i],'amount',v_amount::text)));
       v_known:=v_known+v_amount;
@@ -1259,8 +1267,15 @@ begin
     perform erp._cp3_assert_closed_json_object(p_pricing,array['package_id'],array['package_id','extras'],'package pricing');
     select p.* into v_pkg from erp.bd_laundry_packages_v1 p where p.id=erp.bd_uuid_v1(p_pricing,'package_id',true) and p.vendor_id=v_vendor and p.is_active;
     if v_pkg.id is null then raise exception 'BD_PACKAGE_UNKNOWN: paket aktif vendor ini wajib dipilih';end if;
+    select * into v_scoped from erp.bd_package_rate_at_v1(v_pkg.id,v_at);
     select array_agg(component_id order by component_id) into v_included from erp.bd_laundry_package_components_v1 where package_id=v_pkg.id;
-    v_charges:=v_charges||erp.bf_complete_shares_v1(erp.bf_package_charges_v1(v_vendor,v_pkg.id,bf_group,v_at,v_sizeids,v_qtys,v_included,v_pkg.package_name),v_sizeids);
+    v_split:='{}';v_shares:='[]'::jsonb;
+    for i in 1..array_length(v_sizeids,1) loop v_shares:=v_shares||jsonb_build_object('size_id',v_sizeids[i],'amount',round(v_qtys[i]*v_scoped.rate_per_pcs,2)::text);end loop;
+    v_amount:=round(v_total_qty*v_scoped.rate_per_pcs,2);
+    v_charges:=v_charges||jsonb_build_object('kind','PACKAGE','ref_id',v_pkg.id,'version_id',v_scoped.version_id,'label','Paket '||v_pkg.package_name,
+      'covered_qty',v_total_qty,'rate_status','KNOWN','unit_rate',v_scoped.rate_per_pcs::text,'amount',v_amount::text,'shares',v_shares,
+      'included_components',to_jsonb(v_included));
+    v_known:=v_amount;
     if p_pricing ? 'extras' and jsonb_typeof(p_pricing->'extras')<>'null' then
       if jsonb_typeof(p_pricing->'extras')<>'array' or jsonb_array_length(p_pricing->'extras')>30 then raise exception 'BD_PRICING_INVALID: extras wajib daftar';end if;
       for v_x in select value from jsonb_array_elements(p_pricing->'extras') loop
@@ -1270,7 +1285,7 @@ begin
         v_dec03:=erp.bd_require_policy_v1('LAU_DEC03','komponen tambahan di luar paket');
         if v_dec03->>'extra'<>'ALLOWED' then raise exception 'BD_EXTRA_REFUSED: LAU-DEC03 tidak mengizinkan komponen tambahan';end if;
         v_versions:=v_versions||jsonb_build_object('LAU_DEC03',erp.bd_policy_version_v1('LAU_DEC03'));
-        v_charges:=v_charges||erp.bf_component_charge_v1(v_vendor,v_x,v_at,v_sizeids,v_qtys,v_total_qty,'EXTRA',v_seen,bf_group);
+        v_charges:=v_charges||erp.bd_component_charge_v1(v_vendor,v_x,v_at,v_sizeids,v_qtys,v_total_qty,'EXTRA',v_seen);
         v_seen:=v_seen||erp.bd_uuid_v1(v_x,'component_id',true);
       end loop;
     end if;
@@ -1282,7 +1297,7 @@ begin
       raise exception 'BD_PRICING_INVALID: pilih 1-30 komponen';end if;
     for v_x in select value from jsonb_array_elements(p_pricing->'components') loop
       perform erp._cp3_assert_closed_json_object(v_x,array['component_id','covered_qty'],array['component_id','covered_qty','coverage'],'component');
-      v_charges:=v_charges||erp.bf_component_charge_v1(v_vendor,v_x,v_at,v_sizeids,v_qtys,v_total_qty,'COMPONENT',v_seen,bf_group);
+      v_charges:=v_charges||erp.bd_component_charge_v1(v_vendor,v_x,v_at,v_sizeids,v_qtys,v_total_qty,'COMPONENT',v_seen);
       v_seen:=v_seen||erp.bd_uuid_v1(v_x,'component_id',true);
     end loop;
   end if;
@@ -1294,7 +1309,7 @@ begin
       if v_line->>'rate_status'<>'UNKNOWN' then v_known:=v_known+(v_line->>'amount')::numeric;else v_complete:=false;end if;
     end loop;
   end if;
-  if t.minimum_charge is not null then
+  if t.minimum_charge is not null and v_mode<>'PENDING' then
     if not v_units @> '["MINIMUM"]' then perform erp.bd_require_policy_v1('LAU_DEC01','minimum charge');
       raise exception 'BD_UNIT_NOT_ALLOWED: LAU-DEC01 tidak lagi mengizinkan minimum charge vendor ini';end if;
     if not v_complete then raise exception 'BD_MINIMUM_NEEDS_KNOWN_PRICE: minimum charge memerlukan semua harga komponen diketahui';end if;
@@ -1308,7 +1323,7 @@ begin
     end if;
   end if;
   for i in 1..array_length(v_sizeids,1) loop v_sizes:=v_sizes||jsonb_build_object('size_id',v_sizeids[i],'qty',v_qtys[i]);end loop;
-  return jsonb_build_object('mode',v_mode,'unit',v_unit,'vendor_id',v_vendor,'qty',v_total_qty,'sizes',v_sizes,'charges',v_charges,
+  return jsonb_build_object('mode',case when v_mode='PENDING' then 'COMPONENTS' else v_mode end,'deferred',v_mode='PENDING','unit',v_unit,'vendor_id',v_vendor,'qty',v_total_qty,'sizes',v_sizes,'charges',v_charges,
     'total_known',round(v_known,2)::text,'complete',v_complete,
     'avg_rate',case when v_complete then round(v_known/v_total_qty,2)::text end,'policy_versions',v_versions);
 end;$function$;
@@ -1328,9 +1343,9 @@ begin
     p->'policy_versions',c.request_id);
   for v_ch in select value from jsonb_array_elements(p->'charges') loop
     v_no:=v_no+1;
-    insert into erp.bd_laundry_charge_lines_v1(delivery_line_id,line_no,kind,ref_id,version_id,label,covered_qty,rate_status,unit_rate,amount,included_components,price_reason,bf_sku_version_id)
+    insert into erp.bd_laundry_charge_lines_v1(delivery_line_id,line_no,kind,ref_id,version_id,label,covered_qty,rate_status,unit_rate,amount,included_components,price_reason)
     values(l.id,v_no,v_ch->>'kind',(v_ch->>'ref_id')::uuid,(v_ch->>'version_id')::uuid,v_ch->>'label',(v_ch->>'covered_qty')::integer,v_ch->>'rate_status',
-      (v_ch->>'unit_rate')::numeric,(v_ch->>'amount')::numeric,v_ch->'included_components',v_ch->>'price_reason',(v_ch->>'bf_sku_version_id')::uuid)
+      (v_ch->>'unit_rate')::numeric,(v_ch->>'amount')::numeric,v_ch->'included_components',v_ch->>'price_reason')
     returning id into v_charge;
     for v_sh in select value from jsonb_array_elements(v_ch->'shares') loop
       select s.id into v_size from erp.laundry_delivery_batch_size_lines s where s.delivery_line_id=l.id and s.size_id=(v_sh->>'size_id')::uuid;
@@ -1340,8 +1355,711 @@ begin
         (select qty_sent_pcs from erp.laundry_delivery_batch_size_lines where id=v_size)));
     end loop;
   end loop;
+  insert into erp.bf_laundry_delivery_sources_v1(delivery_line_id,details_pending)
+    values(l.id,coalesce((p->>'deferred')::boolean,false));
   perform erp.bd_refresh_size_estimates_v1(l.id);
 end;$function$;
+CREATE OR REPLACE FUNCTION erp.bd_refresh_size_estimates_v1(p_delivery_line uuid)
+ RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+begin
+  insert into erp.bd_laundry_size_estimates_v1(delivery_batch_size_line_id,delivery_line_id,qty_sent,known_amount,complete)
+  select s.id,s.delivery_line_id,s.qty_sent_pcs,coalesce(sum(sh.amount),0),count(sh.charge_line_id)>0 and bool_and(sh.amount is not null)
+  from erp.laundry_delivery_batch_size_lines s left join erp.bd_laundry_charge_shares_v1 sh on sh.delivery_batch_size_line_id=s.id
+  where s.delivery_line_id=p_delivery_line group by s.id,s.delivery_line_id,s.qty_sent_pcs
+  on conflict(delivery_batch_size_line_id) do update set known_amount=excluded.known_amount,complete=excluded.complete;
+  update erp.bd_laundry_priced_lines_v1 p set total_known=x.known,total_complete=x.complete
+  from (select coalesce(sum(known_amount),0) known,bool_and(complete) complete from erp.bd_laundry_size_estimates_v1 where delivery_line_id=p_delivery_line) x
+  where p.delivery_line_id=p_delivery_line;
+end;$function$;
+CREATE OR REPLACE FUNCTION erp.bd_line_complete_v1(p_delivery_line uuid)
+ RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$ select coalesce((select total_complete from erp.bd_laundry_priced_lines_v1 where delivery_line_id=p_delivery_line),true) or erp.bf_delivery_invoiced_v1(p_delivery_line) $function$;
+CREATE OR REPLACE FUNCTION erp.bd_delivery_line_price_unknown_v1(p_delivery_line uuid)
+ RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select not erp.bf_delivery_invoiced_v1(dl.id) and (dl.estimated_rate_snapshot is null or not erp.bd_line_complete_v1(dl.id))
+  from erp.laundry_delivery_lines dl join erp.laundry_deliveries d on d.id=dl.delivery_id
+  where dl.id=p_delivery_line and d.status not in('DRAFT','REVERSED')
+$function$;
+CREATE OR REPLACE FUNCTION erp.bd_post_invoice_v1(p_payload jsonb,p_request uuid)
+ RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare i erp.bd_laundry_invoices_v1%rowtype;l record;v_dec02 jsonb;v_dec03 jsonb;v_dec06 jsonb;v_versions jsonb:='{}'::jsonb;v_billable jsonb;
+  v_gross numeric:=0;v_positive numeric:=0;v_payable numeric;v_weights numeric[]:='{}';v_ids uuid[]:='{}';v_split numeric[];k integer;v_last uuid;
+  v_pool numeric;v_pieces integer;v_prior numeric;v_released numeric;v_complete boolean;v_cap integer;v_billed integer;v_paid boolean;
+  v_lines jsonb:='[]'::jsonb;v_po record;v_journal uuid;v_group uuid;v_line_ids uuid[];v_net numeric;v_open_rel numeric;v_open_var numeric;
+  o erp.bd_laundry_invoices_v1%rowtype;v_source_net numeric;v_ap numeric;v_origin_left numeric;
+begin
+  perform erp.require_owner_admin();perform erp.require_permission('finance.hpp.manage');
+  perform erp._cp3_assert_closed_json_object(p_payload,array['invoice_id','expected_version'],array['invoice_id','expected_version'],'post invoice');
+  select * into i from erp.bd_laundry_invoices_v1 where id=erp.bd_uuid_v1(p_payload,'invoice_id',true) for update;
+  if i.id is null or i.status<>'DRAFT' then raise exception 'BD_INVOICE_NOT_DRAFT: hanya draf invoice yang dapat diposting';end if;
+  if p_payload->>'expected_version' is distinct from i.row_version::text then raise exception 'STALE_VERSION: draf invoice berubah; muat ulang';end if;
+  if i.invoice_date>(statement_timestamp() at time zone 'Asia/Jakarta')::date then
+    raise exception 'BD_INVOICE_FUTURE_DATE: tanggal invoice vendor laundry berada di masa depan';end if;
+  if exists(select 1 from erp.bd_laundry_invoices_v1 x where x.vendor_id=i.vendor_id and lower(btrim(x.invoice_number))=lower(btrim(i.invoice_number))
+      and x.status='POSTED') or exists(select 1 from erp.vendor_invoices v where v.vendor_id=i.vendor_id
+      and lower(btrim(v.invoice_number))=lower(btrim(i.invoice_number)) and v.status in('POSTED','PARTIAL_PAID','PAID')) then
+    raise exception 'BD_INVOICE_DUPLICATE_NUMBER: nomor invoice vendor ini sudah diposting';end if;
+  -- Owner settings (fail closed): billable categories, variance treatment, and discount/tax/rounding when used.
+  v_dec02:=erp.bd_require_policy_v1('LAU_DEC02','dasar qty yang ditagih vendor laundry');v_billable:=v_dec02->'billable';
+  v_dec06:=erp.bd_require_policy_v1('LAU_DEC06','perlakuan selisih invoice laundry');
+  v_versions:=jsonb_build_object('LAU_DEC02',erp.bd_policy_version_v1('LAU_DEC02'),'LAU_DEC06',erp.bd_policy_version_v1('LAU_DEC06'));
+  if i.discount_amount>0 or i.tax_amount>0 or i.rounding_amount<>0 then
+    v_dec03:=erp.bd_require_policy_v1('LAU_DEC03','diskon, pajak atau pembulatan invoice laundry');
+    v_versions:=v_versions||jsonb_build_object('LAU_DEC03',erp.bd_policy_version_v1('LAU_DEC03'));
+    if i.discount_amount>0 and v_dec03->>'discount'<>'ALLOWED' then raise exception 'BD_DISCOUNT_REFUSED: LAU-DEC03 tidak mengizinkan diskon invoice laundry';end if;
+    if i.rounding_amount<>0 and v_dec03->>'rounding'<>'LAST_LINE' then raise exception 'BD_ROUNDING_REFUSED: LAU-DEC03 tidak mengizinkan baris pembulatan';end if;
+    if i.tax_amount>0 and v_dec03->>'tax_account_id' is null then raise exception 'BD_TAX_ACCOUNT_REQUIRED: LAU-DEC03 belum menetapkan akun pajak masukan';end if;
+  end if;
+  if not exists(select 1 from erp.bd_laundry_invoice_lines_v1 where invoice_id=i.id) then raise exception 'BD_INVOICE_LINES: invoice tanpa baris';end if;
+  -- A correction document (owner decision no. 13) corrects one posted invoice of the same vendor, on or after its date, only in
+  -- the sources that invoice billed; the origin row is locked so it cannot be reversed meanwhile.
+  if i.corrects_invoice_id is null then
+    if exists(select 1 from erp.bd_laundry_invoice_lines_v1 where invoice_id=i.id and line_kind='CORRECTION') then
+      raise exception 'BD_CORRECTION_SEPARATE_DOCUMENT: koreksi dibuat sebagai dokumen koreksi tersendiri yang tertaut ke invoice asal';end if;
+  else
+    select * into o from erp.bd_laundry_invoices_v1 where id=i.corrects_invoice_id for update;
+    if o.status<>'POSTED' or o.corrects_invoice_id is not null or o.vendor_id<>i.vendor_id then
+      raise exception 'BD_CORRECTION_ORIGIN_INVALID: invoice asal harus invoice vendor laundry POSTED milik vendor yang sama';end if;
+    if i.invoice_date<o.invoice_date then
+      raise exception 'BD_CORRECTION_BEFORE_ORIGIN: tanggal dokumen koreksi % sebelum tanggal invoice asal %',i.invoice_date,o.invoice_date;end if;
+    perform erp.bd_check_correction_sources_v1(i.id);
+    if exists(select 1 from erp.bd_laundry_invoice_lines_v1 where invoice_id=i.id and sign(amount)<>sign(i.header_total)) then
+      raise exception 'BD_CORRECTION_MIXED_SIGN: satu dokumen koreksi hanya menaikkan atau hanya menurunkan tagihan';end if;
+  end if;
+  perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
+  perform 1 from erp.be_redye_services_v1 where id in(select rework_service_id from erp.bd_laundry_invoice_lines_v1 where invoice_id=i.id) order by id for update;
+  -- Lock the sources in a fixed order (with the baseline's per-cutting-group flow lock) before reading capacity and estimates.
+  for v_group in select distinct dl.cutting_group_id from erp.bd_laundry_invoice_lines_v1 x join erp.laundry_receipt_lines rl on rl.id=x.receipt_line_id
+      join erp.laundry_delivery_lines dl on dl.id=rl.delivery_line_id where x.invoice_id=i.id order by 1 loop
+    perform pg_advisory_xact_lock(hashtextextended('CP6FLOW:'||v_group::text,0));
+  end loop;
+  select array_agg(distinct x.receipt_line_id order by x.receipt_line_id) into v_line_ids from erp.bd_laundry_invoice_lines_v1 x where x.invoice_id=i.id;
+  perform 1 from erp.laundry_receipt_lines where id=any(v_line_ids) order by id for update;
+  perform 1 from erp.bd_opening_laundry_uninvoiced_v1 where id in(select x.opening_uninvoiced_id from erp.bd_laundry_invoice_lines_v1 x where x.invoice_id=i.id)
+    order by id for update;
+  -- Discount spread over the billed amounts (largest remainder on cents); rounding on the last billing line.
+  for l in select * from erp.bd_laundry_invoice_lines_v1 where invoice_id=i.id order by line_no loop
+    v_gross:=v_gross+l.amount;
+    if l.line_kind='BILL' then v_ids:=v_ids||l.id;v_weights:=v_weights||round(l.amount*100);v_positive:=v_positive+l.amount;v_last:=l.id;end if;
+  end loop;
+  if i.discount_amount>v_positive then raise exception 'BD_DISCOUNT_EXCEEDS_LINES: diskon melebihi nilai baris tagih';end if;
+  update erp.bd_laundry_invoice_lines_v1 set discount_share=0,rounding_share=0 where invoice_id=i.id;
+  if i.discount_amount>0 then
+    if v_positive<=0 then raise exception 'BD_DISCOUNT_EXCEEDS_LINES: diskon tanpa baris tagih bernilai';end if;
+    v_split:=erp.bd_split_money_v1(i.discount_amount,v_weights);
+    for k in 1..array_length(v_ids,1) loop update erp.bd_laundry_invoice_lines_v1 set discount_share=v_split[k] where id=v_ids[k];end loop;
+  end if;
+  if i.rounding_amount<>0 then
+    if v_last is null then raise exception 'BD_ROUNDING_REFUSED: pembulatan memerlukan baris tagih';end if;
+    update erp.bd_laundry_invoice_lines_v1 set rounding_share=i.rounding_amount where id=v_last;
+  end if;
+  v_payable:=v_gross-i.discount_amount+i.rounding_amount+i.tax_amount;
+  if v_payable<>i.header_total then
+    raise exception 'BD_INVOICE_TOTAL_MISMATCH: total invoice % tidak sama dengan baris - diskon + pembulatan + pajak = %',i.header_total,v_payable;end if;
+  if (i.corrects_invoice_id is null and i.header_total<=0) or i.header_total=0 then
+    raise exception 'BD_INVOICE_TOTAL_MISMATCH: total invoice harus lebih dari 0 (dokumen koreksi: tidak nol)';end if;
+  -- Each line in order: category billable, capacity, released estimate, variance.
+  for l in select x.*,rl.actual_cost,rl.actual_cost_status,rl.delivery_line_id,u.accrued_amount opening_pool,u.qty opening_qty
+      from erp.bd_laundry_invoice_lines_v1 x left join erp.laundry_receipt_lines rl on rl.id=x.receipt_line_id
+      left join erp.bd_opening_laundry_uninvoiced_v1 u on u.id=x.opening_uninvoiced_id where x.invoice_id=i.id order by x.line_no loop
+    if l.rework_service_id is not null then perform erp.be_invoice_redye_line_v1(l.id,v_billable,v_dec06);continue;end if;
+    -- ALL-W05: an opening record of work returned before cutover releases its opening accrual (none while its estimate is
+    -- unknown); the difference is not a PO's product cost, so it needs the owner's LAU-DEC06 variance account.
+    if l.opening_uninvoiced_id is not null then
+      if not v_billable @> to_jsonb(l.category) then
+        raise exception 'BD_CATEGORY_NOT_BILLABLE: LAU-DEC02 tidak menetapkan % sebagai qty yang ditagih',l.category;end if;
+      v_pool:=l.opening_pool;
+      v_prior:=erp.bd_opening_released_v1(l.opening_uninvoiced_id)+coalesce((select sum(x.released_estimate) from erp.bd_laundry_invoice_lines_v1 x
+        where x.invoice_id=i.id and x.opening_uninvoiced_id=l.opening_uninvoiced_id and x.line_no<l.line_no),0);
+      if l.line_kind='BILL' then
+        v_billed:=erp.bd_opening_billed_v1(l.opening_uninvoiced_id)+coalesce((select sum(x.qty) from erp.bd_laundry_invoice_lines_v1 x
+          where x.invoice_id=i.id and x.opening_uninvoiced_id=l.opening_uninvoiced_id and x.line_kind='BILL' and x.line_no<l.line_no),0);
+        if v_billed+l.qty>l.opening_qty then
+          raise exception 'BD_INVOICE_CAPACITY: % % sudah ditagih dari % yang tersedia pada penerimaan saldo awal ini; diminta %',v_billed,l.category,l.opening_qty,l.qty;end if;
+        v_complete:=v_billed+l.qty>=l.opening_qty;
+        if v_complete then v_released:=v_pool-v_prior;
+        else v_released:=least(round(v_pool*l.qty/l.opening_qty,2),v_pool-v_prior);end if;
+      else
+        if not exists(select 1 from erp.bd_laundry_invoice_lines_v1 x join erp.bd_laundry_invoices_v1 y on y.id=x.invoice_id
+            where x.opening_uninvoiced_id=l.opening_uninvoiced_id and x.line_kind='BILL' and (y.status='POSTED' or (y.id=i.id and x.line_no<l.line_no))) then
+          raise exception 'BD_CORRECTION_WITHOUT_BILL: koreksi hanya untuk sumber yang sudah ditagih';end if;
+        select exists(select 1 from erp.bd_laundry_invoice_lines_v1 x join erp.bd_laundry_invoices_v1 y on y.id=x.invoice_id
+            join erp.vendor_payments p on p.vendor_invoice_id=y.id and p.status='POSTED'
+            where x.opening_uninvoiced_id=l.opening_uninvoiced_id and y.status='POSTED') into v_paid;
+        if v_paid and v_dec06->>'after_payment'<>'CORRECTION_DOCUMENT' then
+          raise exception 'BD_PAID_CORRECTION_REFUSED: invoice sumber sudah dibayar dan LAU-DEC06 tidak mengizinkan dokumen koreksi';end if;
+        select coalesce(sum(x.net_amount),0) into v_source_net from erp.bd_laundry_invoice_lines_v1 x join erp.bd_laundry_invoices_v1 y on y.id=x.invoice_id
+          where y.status='POSTED' and x.opening_uninvoiced_id=l.opening_uninvoiced_id;
+        v_source_net:=v_source_net+(select coalesce(sum(x.amount),0) from erp.bd_laundry_invoice_lines_v1 x where x.invoice_id=i.id
+          and x.opening_uninvoiced_id=l.opening_uninvoiced_id and x.line_no<=l.line_no);
+        if v_source_net<0 then raise exception 'BD_CORRECTION_BELOW_ZERO: koreksi membuat biaya tertagih sumber ini negatif (%)',v_source_net;end if;
+        v_released:=0;v_complete:=false;
+      end if;
+      if v_released<0 then raise exception 'BD_INTERNAL: estimasi yang dilepas negatif';end if;
+      v_net:=l.amount-l.discount_share+l.rounding_share;
+      if v_net-v_released<>0 and v_dec06->>'variance_mode'<>'VARIANCE_ACCOUNT' then
+        raise exception 'BD_OPENING_VARIANCE_NEEDS_ACCOUNT: selisih % pada penerimaan laundry saldo awal bukan biaya produk PO; LAU-DEC06 harus memakai akun selisih (VARIANCE_ACCOUNT)',v_net-v_released;end if;
+      update erp.bd_laundry_invoice_lines_v1 x set net_amount=v_net,released_estimate=v_released,variance=v_net-v_released,product_variance=0,
+        completes_source=v_complete where x.id=l.id;
+      continue;
+    end if;
+    if l.actual_cost_status<>'ESTIMATED' or l.actual_cost is null then
+      raise exception 'BD_INVOICE_SOURCE_NOT_ESTIMATED: baris penerimaan belum berbiaya estimasi atau sudah final (status %)',l.actual_cost_status;end if;
+    -- Unknown estimates are billed directly; actual cost follows the goods.
+    if not erp.bd_line_complete_v1(l.delivery_line_id) and v_dec06->>'variance_mode'<>'PRODUCT_COST' then
+      raise exception 'BF_UNKNOWN_INVOICE_PRODUCT_COST: biaya yang belum diketahui harus mengikuti biaya produk';end if;
+    if not v_billable @> to_jsonb(l.category) then
+      raise exception 'BD_CATEGORY_NOT_BILLABLE: LAU-DEC02 tidak menetapkan % sebagai qty yang ditagih',l.category;end if;
+    -- Posted invoices plus the earlier lines of this invoice (the invoice is still DRAFT here).
+    v_pool:=l.actual_cost;v_pieces:=erp.bd_invoice_pieces_v1(l.receipt_line_id);
+    v_prior:=erp.bd_released_estimate_v1(l.receipt_line_id)+coalesce((select sum(x.released_estimate) from erp.bd_laundry_invoice_lines_v1 x
+      where x.invoice_id=i.id and x.receipt_line_id=l.receipt_line_id and x.line_no<l.line_no),0);
+    if l.line_kind='BILL' then
+      v_cap:=erp.bd_invoice_capacity_v1(l.receipt_line_id,l.category);
+      v_billed:=erp.bd_invoice_billed_v1(l.receipt_line_id,l.category)+coalesce((select sum(x.qty) from erp.bd_laundry_invoice_lines_v1 x
+        where x.invoice_id=i.id and x.receipt_line_id=l.receipt_line_id and x.category=l.category and x.line_kind='BILL' and x.line_no<l.line_no),0);
+      if v_billed+l.qty>v_cap then
+        raise exception 'BD_INVOICE_CAPACITY: % % sudah ditagih dari % yang tersedia pada baris penerimaan ini; diminta %',v_billed,l.category,v_cap,l.qty;end if;
+      -- Complete when every billable category of the source is billed up to its capacity with this line.
+      select bool_and(erp.bd_invoice_billed_v1(l.receipt_line_id,c)+coalesce((select sum(x.qty) from erp.bd_laundry_invoice_lines_v1 x
+          where x.invoice_id=i.id and x.receipt_line_id=l.receipt_line_id and x.category=c and x.line_kind='BILL' and x.line_no<=l.line_no),0)
+          >=erp.bd_invoice_capacity_v1(l.receipt_line_id,c))
+        into v_complete from jsonb_array_elements_text(v_billable) c;
+      if v_complete then v_released:=v_pool-v_prior;
+      else v_released:=least(round(v_pool*l.qty/nullif(v_pieces,0),2),v_pool-v_prior);end if;
+    else
+      if not exists(select 1 from erp.bd_laundry_invoice_lines_v1 x join erp.bd_laundry_invoices_v1 y on y.id=x.invoice_id
+          where x.receipt_line_id=l.receipt_line_id and x.line_kind='BILL' and (y.status='POSTED' or (y.id=i.id and x.line_no<l.line_no))) then
+        raise exception 'BD_CORRECTION_WITHOUT_BILL: koreksi hanya untuk baris penerimaan yang sudah ditagih';end if;
+      select exists(select 1 from erp.bd_laundry_invoice_lines_v1 x join erp.bd_laundry_invoices_v1 y on y.id=x.invoice_id
+          join erp.vendor_payments p on p.vendor_invoice_id=y.id and p.status='POSTED'
+          where x.receipt_line_id=l.receipt_line_id and y.status='POSTED') into v_paid;
+      if v_paid and v_dec06->>'after_payment'<>'CORRECTION_DOCUMENT' then
+        raise exception 'BD_PAID_CORRECTION_REFUSED: invoice sumber sudah dibayar dan LAU-DEC06 tidak mengizinkan dokumen koreksi';end if;
+      select coalesce(sum(x.net_amount),0) into v_source_net from erp.bd_laundry_invoice_lines_v1 x join erp.bd_laundry_invoices_v1 y on y.id=x.invoice_id
+        where y.status='POSTED' and x.receipt_line_id=l.receipt_line_id;
+      v_source_net:=v_source_net+(select coalesce(sum(x.amount),0) from erp.bd_laundry_invoice_lines_v1 x where x.invoice_id=i.id
+        and x.receipt_line_id=l.receipt_line_id and x.line_no<=l.line_no);
+      if v_source_net<0 then raise exception 'BD_CORRECTION_BELOW_ZERO: koreksi membuat biaya tertagih sumber ini negatif (%)',v_source_net;end if;
+      v_released:=0;v_complete:=false;
+    end if;
+    if v_released<0 then raise exception 'BD_INTERNAL: estimasi yang dilepas negatif';end if;
+    update erp.bd_laundry_invoice_lines_v1 x set net_amount=x.amount-x.discount_share+x.rounding_share,released_estimate=v_released,
+      variance=x.amount-x.discount_share+x.rounding_share-v_released,
+      product_variance=case when v_dec06->>'variance_mode'='PRODUCT_COST' then x.amount-x.discount_share+x.rounding_share-v_released else 0 end,
+      completes_source=coalesce(v_complete,false)
+    where x.id=l.id;
+  end loop;
+  if exists(select 1 from erp.bd_laundry_invoice_lines_v1 where invoice_id=i.id and net_amount<0 and line_kind='BILL') then
+    raise exception 'BD_INVOICE_LINE: nilai bersih baris tagih negatif';end if;
+  -- Journal: cost per PO (WIP), variance account when chosen, input tax, payable to the vendor.
+  for v_po in select po_id,sum(net_amount) net,sum(released_estimate) rel,sum(variance) var from erp.bd_laundry_invoice_lines_v1
+      where invoice_id=i.id and opening_uninvoiced_id is null group by po_id order by po_id loop
+    if v_dec06->>'variance_mode'='PRODUCT_COST' then
+      if v_po.net<>0 then v_lines:=v_lines||jsonb_build_object('mapping_key','WIP','debit',greatest(v_po.net,0),'credit',greatest(-v_po.net,0),'po_id',v_po.po_id,'vendor_id',i.vendor_id);end if;
+    else
+      if v_po.rel<>0 then v_lines:=v_lines||jsonb_build_object('mapping_key','WIP','debit',v_po.rel,'credit',0,'po_id',v_po.po_id,'vendor_id',i.vendor_id);end if;
+      if v_po.var<>0 then v_lines:=v_lines||jsonb_build_object('account_id',v_dec06->>'variance_account_id','debit',greatest(v_po.var,0),
+        'credit',greatest(-v_po.var,0),'po_id',v_po.po_id,'vendor_id',i.vendor_id,'description','Selisih invoice laundry');end if;
+    end if;
+  end loop;
+  -- ALL-W05: opening records release the opening accrual; their difference goes to the owner's variance account.
+  select coalesce(sum(released_estimate),0),coalesce(sum(variance),0) into v_open_rel,v_open_var from erp.bd_laundry_invoice_lines_v1
+    where invoice_id=i.id and opening_uninvoiced_id is not null;
+  if v_open_rel<>0 then v_lines:=v_lines||jsonb_build_object('mapping_key','ACCRUED_MANUFACTURING','debit',v_open_rel,'credit',0,'vendor_id',i.vendor_id,
+    'description','Akrual laundry saldo awal');end if;
+  if v_open_var<>0 then v_lines:=v_lines||jsonb_build_object('account_id',v_dec06->>'variance_account_id','debit',greatest(v_open_var,0),
+    'credit',greatest(-v_open_var,0),'vendor_id',i.vendor_id,'description','Selisih invoice laundry saldo awal');end if;
+  if i.tax_amount>0 then v_lines:=v_lines||jsonb_build_object('account_id',v_dec03->>'tax_account_id','debit',i.tax_amount,'credit',0,'vendor_id',i.vendor_id,'description','Pajak masukan invoice laundry');end if;
+  if i.header_total>0 then
+    v_lines:=v_lines||jsonb_build_object('mapping_key','AP_VENDOR','debit',0,'credit',i.header_total,'vendor_id',i.vendor_id);
+    -- The payable as an ordinary laundry vendor invoice (payments and AP checks read it); an upward correction document too.
+    -- Created as DRAFT and posted by a status change, so the vendor invoice post-date guard and the receipt guard run on it.
+    insert into erp.vendor_invoices(id,invoice_number,vendor_id,invoice_date,due_date,status,total_amount,notes,created_by)
+    values(i.id,i.invoice_number,i.vendor_id,i.invoice_date,i.due_date,'DRAFT',i.header_total,
+      case when i.corrects_invoice_id is null then 'BD invoice laundry (LAU-05b)' else 'BD koreksi naik atas invoice laundry '||o.invoice_number end,
+      erp.current_app_user_id());
+    update erp.vendor_invoices set status='POSTED' where id=i.id;
+    v_journal:=erp.post_journal('VENDOR_INVOICE',i.id,i.invoice_date,
+      case when i.corrects_invoice_id is null then 'Invoice vendor laundry ' else 'Koreksi naik invoice laundry '||o.invoice_number||': ' end||i.invoice_number,v_lines);
+  else
+    -- Downward correction: the vendor's payable falls on the correction date. It must be covered by what the vendor is still
+    -- owed (a vendor receivable is not silently created).
+    select coalesce(sum(jl.credit-jl.debit),0) into v_ap from erp.journal_lines jl join erp.journal_entries je on je.id=jl.journal_entry_id
+      where je.status in('POSTED','REVERSED') and jl.account_id=erp.account_id('AP_VENDOR') and jl.vendor_id=i.vendor_id;
+    if -i.header_total>v_ap then
+      raise exception 'BD_CORRECTION_EXCEEDS_PAYABLE: koreksi turun % melebihi utang ke vendor ini saat ini %; kelebihan bayar ke vendor perlu alur piutang vendor tersendiri',
+        -i.header_total,v_ap;end if;
+    v_lines:=v_lines||jsonb_build_object('mapping_key','AP_VENDOR','debit',-i.header_total,'credit',0,'vendor_id',i.vendor_id);
+    v_journal:=erp.post_journal('BD_LAUNDRY_CORRECTION_CREDIT',i.id,i.invoice_date,'Koreksi turun invoice laundry '||o.invoice_number||': '||i.invoice_number,v_lines);
+  end if;
+  update erp.bd_laundry_invoices_v1 set status='POSTED',policy_versions=v_versions,variance_mode=v_dec06->>'variance_mode',
+    variance_account_id=(v_dec06->>'variance_account_id')::uuid,tax_account_id=(v_dec03->>'tax_account_id')::uuid,journal_id=v_journal,
+    posted_by=erp.current_app_user_id(),posted_at=statement_timestamp(),row_version=row_version+1 where id=i.id;
+  -- A downward correction first settles what its origin still owes (same date); the rest stays a vendor credit.
+  if i.header_total<0 then
+    select v.total_amount-erp.bd_vendor_invoice_paid_v1(v.id,null) into v_origin_left from erp.vendor_invoices v where v.id=o.id;
+    if coalesce(v_origin_left,0)>0 then
+      perform erp.bd_apply_vendor_credit_v1('INVOICE_CORRECTION',i.id,'VENDOR_INVOICE',o.id,least(-i.header_total,v_origin_left),i.invoice_date,
+        'Koreksi turun '||i.invoice_number||' atas invoice asal',gen_random_uuid());
+    end if;
+  end if;
+  perform erp.bd_invoice_resync_v1(i.id,i.invoice_date);
+  return erp.bd_invoice_json_v1(i.id);
+end;$function$;
+CREATE OR REPLACE FUNCTION erp.bd_set_charge_price_v1(p_payload jsonb,p_request uuid)
+ RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare ch erp.bd_laundry_charge_lines_v1%rowtype;v_rate numeric;v_amount numeric;v_split numeric[];v_ids uuid[];v_qtys integer[];i integer;
+  p erp.bd_laundry_priced_lines_v1%rowtype;v_reason text:=nullif(btrim(p_payload->>'reason'),'');r record;v_status text:=coalesce(p_payload->>'rate_status','KNOWN');
+begin
+  perform erp.require_owner_admin();perform erp.require_permission('finance.hpp.manage');
+  perform erp._cp3_assert_closed_json_object(p_payload,array['charge_line_id','rate_per_pcs','reason'],array['charge_line_id','rate_per_pcs','rate_status','reason'],'charge price');
+  if v_reason is null or length(v_reason)>1000 then raise exception 'BD_REASON_REQUIRED: alasan wajib diisi, maksimal 1000 karakter';end if;
+  perform pg_advisory_xact_lock(hashtextextended('CP6FLOW:'||l.cutting_group_id::text,0))
+    from erp.bd_laundry_charge_lines_v1 c join erp.laundry_delivery_lines l on l.id=c.delivery_line_id
+    where c.id=erp.bd_uuid_v1(p_payload,'charge_line_id',true);
+  select * into ch from erp.bd_laundry_charge_lines_v1 where id=erp.bd_uuid_v1(p_payload,'charge_line_id',true) for update;
+  if ch.id is null then raise exception 'BD_CHARGE_UNKNOWN: baris harga tidak dikenal';end if;
+  if ch.rate_status<>'UNKNOWN' then raise exception 'BD_PRICE_ALREADY_KNOWN: harga baris ini sudah diketahui; snapshot tidak ditimpa';end if;
+  select * into p from erp.bd_laundry_priced_lines_v1 where delivery_line_id=ch.delivery_line_id for update;
+  -- Same order as a receipt (delivery, then size estimates): a receipt posting at the same time waits or is waited for.
+  perform 1 from erp.laundry_deliveries where id=p.delivery_id for update;
+  if exists(select 1 from erp.laundry_deliveries where id=p.delivery_id and status='REVERSED') then raise exception 'BD_DELIVERY_REVERSED: kiriman sudah dibatalkan';end if;
+  if exists(select 1 from erp.laundry_receipt_lines rl join erp.laundry_receipts rh on rh.id=rl.receipt_id and rh.status='POSTED'
+            where rl.delivery_line_id=ch.delivery_line_id and rl.actual_cost_status='FINAL') then
+    raise exception 'BD_ALREADY_INVOICED: kiriman sudah ditagih vendor';end if;
+  if exists(select 1 from erp.bd_laundry_invoice_lines_v1 x join erp.bd_laundry_invoices_v1 i on i.id=x.invoice_id
+    join erp.laundry_receipt_lines r on r.id=x.receipt_line_id where r.delivery_line_id=ch.delivery_line_id and i.status='POSTED') then
+    raise exception 'BD_ALREADY_INVOICED: biaya sudah berasal dari kontra bon; gunakan dokumen koreksi';end if;
+  if v_status not in('KNOWN','FREE','WAIVED') then raise exception 'BD_RATE_STATUS: penyelesaian harga harus KNOWN, FREE atau WAIVED';end if;
+  v_rate:=erp.bd_amount_v1(p_payload->'rate_per_pcs','rate_per_pcs',v_status='KNOWN');
+  if v_status in('FREE','WAIVED') and v_rate<>0 then raise exception 'BD_FREE_REQUIRES_ZERO: FREE/WAIVED wajib nominal 0.00';end if;
+  v_amount:=round(ch.covered_qty*v_rate,2);
+  select array_agg(s.delivery_batch_size_line_id order by s.delivery_batch_size_line_id),array_agg(s.covered_qty order by s.delivery_batch_size_line_id)
+  into v_ids,v_qtys from erp.bd_laundry_charge_shares_v1 s where s.charge_line_id=ch.id;
+  if (select sum(x) from unnest(v_qtys) x) is distinct from ch.covered_qty::bigint then
+    raise exception 'BD_COVERAGE_MISMATCH: snapshot penerima jasa tidak lengkap';end if;
+  v_split:=erp.bd_split_amount_v1(v_amount,v_qtys);
+  update erp.bd_laundry_charge_lines_v1 set rate_status=v_status,unit_rate=v_rate,amount=v_amount,price_reason=v_reason,price_set_by=erp.current_app_user_id(),
+    price_set_at=statement_timestamp(),price_set_request=p_request,price_set_reason=v_reason where id=ch.id;
+  for i in 1..array_length(v_ids,1) loop
+    update erp.bd_laundry_charge_shares_v1 set amount=v_split[i] where charge_line_id=ch.id and delivery_batch_size_line_id=v_ids[i];
+  end loop;
+  perform erp.bd_refresh_size_estimates_v1(ch.delivery_line_id);
+  -- Reallocate the posted receipts from scratch in physical order, so each takes its share and the last of a size the residual.
+  delete from erp.bd_laundry_receipt_allocations_v1 a using erp.laundry_receipt_lines rl,erp.laundry_receipts h
+  where rl.id=a.receipt_line_id and h.id=rl.receipt_id and h.status='POSTED' and rl.delivery_line_id=ch.delivery_line_id;
+  for r in select rl.id from erp.laundry_receipt_lines rl join erp.laundry_receipts h on h.id=rl.receipt_id and h.status='POSTED'
+    where rl.delivery_line_id=ch.delivery_line_id order by h.physical_at,rl.id loop
+    perform erp.bd_allocate_receipt_v1(r.id);
+  end loop;
+  select * into p from erp.bd_laundry_priced_lines_v1 where delivery_line_id=ch.delivery_line_id;
+  update erp.laundry_delivery_lines set estimated_rate_snapshot=case when p.total_complete then round(p.total_known/p.qty_sent,2) end,
+    estimated_cost_status=case when p.total_complete then 'ESTIMATED' else 'PENDING' end where id=ch.delivery_line_id;
+  -- The rate-snapshot trigger returns early when the snapshot stays NULL (another price still unknown); resync explicitly.
+  perform erp.bd_resync_delivery_v1(p.delivery_id);
+  return jsonb_build_object('charge_line_id',ch.id,'amount',v_amount::text,'total_known',p.total_known::text,'complete',p.total_complete);
+end;$function$;
+CREATE OR REPLACE FUNCTION erp.period_blockers_v1(p_through date, p_window_from date)
+ RETURNS TABLE(family text, code text, severity text, scope text, impact_date date, reference jsonb, reason text)
+ LANGUAGE plpgsql
+ STABLE SECURITY DEFINER
+ SET search_path TO ''
+AS $function$
+-- One engine for close, preview and report confidence (S06/B04).
+-- Open items (recost, laundry price, payroll due, dated integrity) use every fact dated on or before p_through.
+-- Completeness (attendance cells) uses the window [p_window_from, p_through]; a null start means unbounded. Callers
+-- pass erp.period_completeness_from_v1(), the first date this engine was responsible for, so a closed date inside
+-- the engine's era is re-checked after a later correction (P-01). Before that start only cells that once had a
+-- posted record and lost it (reversed, not replaced) are reported.
+-- Stock history follows the posting guards' own order (P-04). A current-state check whose defect is scoped by a
+-- dated detector is reported as INFO once the detector confirms it; every other failing current-state check blocks
+-- every date and names its class (P-03). Unknown check names block (fail closed).
+declare
+  v_end timestamptz := ((p_through + 1)::timestamp AT TIME ZONE 'Asia/Jakarta');
+  v_fg jsonb;
+  v_material jsonb;
+  v_fg_confirmed boolean;
+  v_material_confirmed boolean;
+begin
+  if p_through is null then raise exception 'PERIOD_BLOCKERS_DATE_REQUIRED'; end if;
+
+  -- RECOST: open queue rows whose PO has a dated fact on or before the date.
+  return query
+  select 'RECOST'::text,
+    case when q.status='FAILED' and q.attempt_count>=3 then 'RECOST_FAILED_EXHAUSTED' else 'RECOST_PENDING' end,
+    case when q.status='FAILED' and q.attempt_count>=3 then 'CRITICAL' else 'RECALC' end,
+    'AS_OF'::text, f.first_date,
+    jsonb_build_object('queue_id',q.id,'po_id',q.entity_id,'po_number',po.po_number,'status',q.status,
+      'attempt_count',q.attempt_count,'recalc_from',q.recalc_from,'facts',f.facts),
+    format('Hitung ulang biaya PO %s belum selesai (status %s, percobaan %s); PO ini punya fakta pada atau sebelum %s.',
+      coalesce(po.po_number,q.entity_id::text),q.status,q.attempt_count,p_through)
+  from erp.cost_recalc_queue q
+  left join erp.production_orders po on po.id=q.entity_id
+  cross join lateral (
+    select min(x.d) first_date, jsonb_agg(distinct x.k) facts from (
+      select 'RECALC_FROM' k, erp._cp3_business_date(q.recalc_from) d where q.recalc_from is not null and q.recalc_from<v_end
+      union all
+      select 'CUTTING_MATERIAL', min(erp._cp3_business_date(m.physical_at))
+        from erp.material_stock_movements m join erp.cutting_groups cg on cg.id=m.source_id
+        where m.source_type in('CUTTING_GROUP','CUTTING_GROUP_RETURN') and cg.po_id=q.entity_id and m.physical_at<v_end
+        having count(*)>0
+      union all
+      select 'CONTRACTOR_MATERIAL', min(erp._cp3_business_date(m.physical_at))
+        from erp.material_stock_movements m
+        join erp.contractor_material_issue_items ii on ii.id=m.source_id
+        join erp.contractor_material_issues cmi on cmi.id=ii.issue_id
+        where m.source_type='CONTRACTOR_MATERIAL_ISSUE_ITEM' and cmi.po_id=q.entity_id and m.physical_at<v_end
+        having count(*)>0
+      union all
+      select 'FG_LOT', min(erp._cp3_business_date(fl.produced_at))
+        from erp.fg_lots fl where fl.po_id=q.entity_id and fl.produced_at<v_end having count(*)>0
+      union all
+      select 'PO_JOURNAL', min(je.economic_date)
+        from erp.journal_lines jl join erp.journal_entries je on je.id=jl.journal_entry_id
+        where jl.po_id=q.entity_id and je.status in('POSTED','REVERSED') and je.economic_date<=p_through
+        having count(*)>0
+    ) x
+  ) f
+  where q.entity_type='PO' and q.status in('PENDING','RUNNING','FAILED') and f.first_date is not null;
+
+  -- A PO queue row whose PO has no dated fact at all cannot be scoped to a date: it applies to every date.
+  return query
+  select 'RECOST'::text,'RECOST_UNSCOPED_ENTITY'::text,
+    case when q.status='FAILED' and q.attempt_count>=3 then 'CRITICAL' else 'RECALC' end,'CURRENT_STATE'::text,null::date,
+    jsonb_build_object('queue_id',q.id,'entity_type',q.entity_type,'entity_id',q.entity_id,'status',q.status,'attempt_count',q.attempt_count),
+    format('Antrean hitung ulang PO %s belum selesai dan PO ini belum punya fakta bertanggal; berlaku untuk semua tanggal.',q.entity_id)
+  from erp.cost_recalc_queue q
+  where q.entity_type='PO' and q.status in('PENDING','RUNNING','FAILED') and q.recalc_from is null
+    and not exists(select 1 from erp.material_stock_movements m join erp.cutting_groups cg on cg.id=m.source_id
+      where m.source_type in('CUTTING_GROUP','CUTTING_GROUP_RETURN') and cg.po_id=q.entity_id)
+    and not exists(select 1 from erp.material_stock_movements m join erp.contractor_material_issue_items ii on ii.id=m.source_id
+      join erp.contractor_material_issues cmi on cmi.id=ii.issue_id
+      where m.source_type='CONTRACTOR_MATERIAL_ISSUE_ITEM' and cmi.po_id=q.entity_id)
+    and not exists(select 1 from erp.fg_lots fl where fl.po_id=q.entity_id)
+    and not exists(select 1 from erp.journal_lines jl join erp.journal_entries je on je.id=jl.journal_entry_id
+      where jl.po_id=q.entity_id and je.status in('POSTED','REVERSED'));
+
+  -- A queue row for another entity type cannot be scoped to a date: conservative, every date.
+  return query
+  select 'RECOST'::text,'RECOST_UNSCOPED_ENTITY'::text,'CRITICAL'::text,'CURRENT_STATE'::text,null::date,
+    jsonb_build_object('queue_id',q.id,'entity_type',q.entity_type,'entity_id',q.entity_id,'status',q.status),
+    format('Antrean hitung ulang %s %s belum selesai dan tidak dapat dibatasi ke tanggal.',q.entity_type,q.entity_id)
+  from erp.cost_recalc_queue q
+  where q.entity_type<>'PO' and q.status in('PENDING','RUNNING','FAILED');
+
+  -- FG history per SKU and per lot, in the order the posting guard uses (physical_at, system_created_at, id): every
+  -- prefix, not the net per instant (P-04). Computed over the whole history once; a key blocks the dates from its
+  -- first negative instant.
+  select coalesce(jsonb_agg(z.k),'[]'::jsonb) into v_fg from (
+    select jsonb_build_object('level',s.lvl,'product_id',min(s.product_id::text),'lot_id',s.lot_id,
+      'location_id',s.location_id,'quality_grade',s.quality_grade,
+      'first_negative_at',min(s.physical_at) filter(where s.balance<0),
+      'lowest_qty',min(s.balance)) k
+    from (
+      select 'SKU'::text lvl,m.product_id,null::uuid lot_id,m.location_id,m.quality_grade,m.physical_at,
+        sum(m.qty_signed) over(partition by m.product_id,m.location_id,m.quality_grade
+          order by m.physical_at,m.system_created_at,m.id rows unbounded preceding) balance
+      from erp.fg_stock_movements m
+      union all
+      select 'LOT'::text,m.product_id,m.lot_id,m.location_id,m.quality_grade,m.physical_at,
+        sum(m.qty_signed) over(partition by m.lot_id,m.location_id,m.quality_grade
+          order by m.physical_at,m.system_created_at,m.id rows unbounded preceding)
+      from erp.fg_stock_movements m where m.lot_id is not null
+    ) s
+    group by s.lvl,case when s.lvl='SKU' then s.product_id end,s.lot_id,s.location_id,s.quality_grade
+    having bool_or(s.balance<0)
+  ) z;
+
+  return query
+  select 'INTEGRITY'::text,'FG_QTY_NEGATIVE_ASOF'::text,'CRITICAL'::text,'AS_OF'::text,
+    erp._cp3_business_date((k->>'first_negative_at')::timestamptz),k,
+    format('Stok barang jadi (%s) negatif sejak %s untuk produk %s di lokasi %s.',
+      k->>'level',k->>'first_negative_at',k->>'product_id',k->>'location_id')
+  from jsonb_array_elements(v_fg) k
+  where (k->>'first_negative_at')::timestamptz<v_end;
+
+  -- Material history on the cost engine's effective history and its exact order (reversed pairs excluded, a
+  -- transfer-in ordered right after its transfer-out), per material, location and roll.
+  select coalesce(jsonb_agg(z.k),'[]'::jsonb) into v_material from (
+    with active as (
+      select m.*,row_number() over(partition by m.material_id,m.source_id,m.roll_id,m.physical_at,
+          abs(m.qty_signed),m.movement_type order by m.system_created_at,m.id) ordinal
+      from erp.material_stock_movements m
+      where m.source_type='MATERIAL_TRANSFER' and m.reversal_of_id is null
+        and not exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=m.id)
+    ), pairs as (
+      select i.id incoming,o.id outgoing,o.system_created_at out_created
+      from active i join active o on o.material_id=i.material_id and o.source_id=i.source_id
+        and o.roll_id is not distinct from i.roll_id and o.physical_at=i.physical_at
+        and o.qty_signed=-i.qty_signed and o.ordinal=i.ordinal
+        and o.movement_type='TRANSFER_OUT' and o.qty_signed<0
+      where i.movement_type='TRANSFER_IN' and i.qty_signed>0
+        and (o.physical_at,o.system_created_at,o.id)<(i.physical_at,i.system_created_at,i.id)
+        and o.location_id<>i.location_id
+    ), history as (
+      select m.material_id,m.location_id,m.roll_id,m.physical_at,
+        sum(m.qty_signed) over(partition by m.material_id,m.location_id,m.roll_id
+          order by m.physical_at,coalesce(p.out_created,m.system_created_at),coalesce(p.outgoing,m.id),
+            (p.outgoing is not null) rows unbounded preceding) balance
+      from erp.material_stock_movements m
+      left join pairs p on p.incoming=m.id
+      where m.reversal_of_id is null
+        and not exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=m.id)
+    )
+    select jsonb_build_object('material_id',h.material_id,'location_id',h.location_id,'roll_id',h.roll_id,
+      'first_negative_at',min(h.physical_at) filter(where h.balance<0),'lowest_qty',min(h.balance)) k
+    from history h
+    group by h.material_id,h.location_id,h.roll_id
+    having bool_or(h.balance<0)
+  ) z;
+
+  return query
+  select 'INTEGRITY'::text,'MATERIAL_QTY_NEGATIVE_ASOF'::text,'CRITICAL'::text,'AS_OF'::text,
+    erp._cp3_business_date((k->>'first_negative_at')::timestamptz),k,
+    format('Stok bahan negatif sejak %s untuk bahan %s.',k->>'first_negative_at',k->>'material_id')
+  from jsonb_array_elements(v_material) k
+  where (k->>'first_negative_at')::timestamptz<v_end;
+
+  -- Per-key confirmation (P-03): a current-state check scoped by a detector is INFO only when every key failing it
+  -- now is a key the detector found; an empty or partial match blocks every date.
+  select count(*)>0 and coalesce(bool_and(exists(select 1 from jsonb_array_elements(v_fg) x where x->>'level'='SKU'
+      and x->>'product_id'=k.product_id::text and x->>'location_id' is not distinct from k.location_id::text
+      and x->>'quality_grade' is not distinct from k.quality_grade)),false)
+  into v_fg_confirmed
+  from (select m.product_id,m.location_id,m.quality_grade from erp.fg_stock_movements m
+        group by m.product_id,m.location_id,m.quality_grade having sum(m.qty_signed)<0) k;
+  select count(*)>0 and coalesce(bool_and(exists(select 1 from jsonb_array_elements(v_material) x
+      where x->>'material_id'=k.material_id::text and x->>'location_id' is not distinct from k.location_id::text
+      and x->>'roll_id' is not distinct from k.roll_id::text)),false)
+  into v_material_confirmed
+  from (select m.material_id,m.location_id,m.roll_id from erp.material_stock_movements m
+        group by m.material_id,m.location_id,m.roll_id having sum(m.qty_signed)<-0.000001) k;
+
+  -- INTEGRITY (current state), classified (P-03). Queue checks are handled per date by RECOST above.
+  return query
+  with failing as (
+    select distinct on (c.check_name) c.check_name,c.src,c.issue_count,c.details from (
+      select 'run_v268_financial_report_checks' src,r.check_name,r.severity,r.issue_count,r.details from erp.run_v268_financial_report_checks() r
+      union all
+      select 'run_v267_financial_truth_checks',r.check_name,r.severity,r.issue_count,r.details from erp.run_v267_financial_truth_checks() r
+      union all
+      select 'run_integrity_checks',r.check_name,r.severity,r.issue_count,r.details from erp.run_integrity_checks() r
+    ) c
+    where c.issue_count>0 and c.severity in('CRITICAL','ERROR')
+      and c.check_name not in('V268_COST_RECALC_EXHAUSTED','V268_COST_RECALC_PENDING','STALE_RECOST_QUEUE','FAILED_RECOST_QUEUE')
+    order by c.check_name,c.src
+  ), registry(check_name,check_class,dated_by) as (
+    select * from erp.period_integrity_check_registry_v1()
+  ), classified as (
+    select f.*,coalesce(r.check_class,'UNCLASSIFIED') check_class,r.dated_by,
+      case r.dated_by when 'FG_QTY_NEGATIVE_ASOF' then v_fg_confirmed
+                      when 'MATERIAL_QTY_NEGATIVE_ASOF' then v_material_confirmed
+                      else false end confirmed
+    from failing f left join registry r on r.check_name=f.check_name
+  )
+  select 'INTEGRITY'::text,c.check_name,
+    case when c.check_class='DATED_EQUIVALENT' and c.confirmed then 'INFO' else 'CRITICAL' end,
+    'CURRENT_STATE'::text,null::date,
+    jsonb_build_object('check_name',c.check_name,'issue_count',c.issue_count,'source',c.src,'class',c.check_class,
+      'dated_by',c.dated_by,'dated_detector_confirmed',c.confirmed,
+      'date_policy',case when c.check_class='DATED_EQUIVALENT' and c.confirmed then 'SCOPED_BY_DATED_DETECTOR'
+                         else 'BLOCKS_EVERY_DATE' end),
+    case when c.check_class='DATED_EQUIVALENT' and c.confirmed
+      then format('%s: dibatasi per tanggal oleh %s.',coalesce(c.details,c.check_name),c.dated_by)
+      else coalesce(c.details,c.check_name) end
+  from classified c;
+
+  -- INTEGRITY (dated): GL inventory balance negative at any balance date on or before the date.
+  return query
+  select 'INTEGRITY'::text,'GL_INVENTORY_NEGATIVE_ASOF'::text,'CRITICAL'::text,'AS_OF'::text,min(g.balance_date),
+    jsonb_build_object('account',g.mapping_key,'first_negative_date',min(g.balance_date),'lowest_balance',min(g.balance)),
+    format('Saldo buku %s negatif sejak %s (terendah %s).',g.mapping_key,min(g.balance_date),min(g.balance))
+  from (
+    select k.mapping_key,a.balance_date,
+      sum(a.debit_total-a.credit_total) over(partition by a.account_id order by a.balance_date) balance
+    from erp.account_daily_balances a
+    join (values('MATERIAL_INVENTORY'),('WIP'),('FG_INVENTORY')) k(mapping_key) on a.account_id=erp.account_id(k.mapping_key)
+    where a.balance_date<=p_through
+  ) g
+  where g.balance<-0.005
+  group by g.mapping_key;
+
+  -- ATTENDANCE (window): eligible worker-days without a current posted record (owner: existing rule, OFF recorded).
+  return query
+  select 'ATTENDANCE'::text,'ATTENDANCE_CELL_MISSING'::text,'POLICY'::text,'WINDOW'::text,min(x.work_day),
+    jsonb_build_object('contractor_id',x.contractor_id,'contractor_name',x.contractor_name,'worker_id',x.worker_id,
+      'worker_name',x.worker_name,'missing_days',count(*),'first_missing',min(x.work_day),'last_missing',max(x.work_day),
+      'sample_days',(array_agg(x.work_day order by x.work_day))[1:10],'window_from',p_window_from),
+    format('Absensi %s (%s) kosong %s hari antara %s dan %s; hari libur dicatat OFF.',
+      x.worker_name,x.contractor_name,count(*),min(x.work_day),max(x.work_day))
+  from (
+    select w.contractor_id,c.contractor_name,w.id worker_id,w.worker_name,gs.d::date as work_day
+    from erp.contractor_workers w
+    join erp.contractors c on c.id=w.contractor_id
+    join erp.worker_employment_periods e on e.worker_id=w.id
+    cross join lateral generate_series(
+      greatest(e.started_on,coalesce(p_window_from,e.started_on))::timestamp,
+      least(coalesce(e.ended_on,p_through),p_through)::timestamp,interval '1 day') gs(d)
+    where c.attendance_required and w.pay_scheme in('DAILY','HYBRID')
+      and not exists(select 1 from erp.attendance_records a
+        where a.worker_id=w.id and a.attendance_date=gs.d::date and coalesce(a.record_lifecycle,'POSTED')='POSTED')
+  ) x
+  group by x.contractor_id,x.contractor_name,x.worker_id,x.worker_name;
+
+  -- ATTENDANCE (before the window): an eligible worker-day that had a posted record which was later reversed and
+  -- never replaced. The date was complete when it was accepted; a later change removed it (P-01).
+  return query
+  select 'ATTENDANCE'::text,'ATTENDANCE_CELL_REVERSED_UNREPLACED'::text,'POLICY'::text,'AS_OF'::text,min(x.work_day),
+    jsonb_build_object('contractor_id',x.contractor_id,'contractor_name',x.contractor_name,'worker_id',x.worker_id,
+      'worker_name',x.worker_name,'missing_days',count(*),'first_missing',min(x.work_day),'last_missing',max(x.work_day),
+      'sample_days',(array_agg(x.work_day order by x.work_day))[1:10],'window_from',p_window_from),
+    format('Absensi %s (%s) pada %s hari antara %s dan %s sudah dibatalkan dan belum dicatat ulang.',
+      x.worker_name,x.contractor_name,count(*),min(x.work_day),max(x.work_day))
+  from (
+    select distinct w.contractor_id,c.contractor_name,w.id worker_id,w.worker_name,r.attendance_date work_day
+    from erp.attendance_records r
+    join erp.contractor_workers w on w.id=r.worker_id
+    join erp.contractors c on c.id=w.contractor_id
+    where p_window_from is not null and r.attendance_date<p_window_from and r.attendance_date<=p_through
+      and r.record_lifecycle='REVERSED'
+      and c.attendance_required and w.pay_scheme in('DAILY','HYBRID')
+      and exists(select 1 from erp.worker_employment_periods e where e.worker_id=w.id
+        and r.attendance_date between e.started_on and coalesce(e.ended_on,r.attendance_date))
+      and not exists(select 1 from erp.attendance_records a
+        where a.worker_id=w.id and a.attendance_date=r.attendance_date and coalesce(a.record_lifecycle,'POSTED')='POSTED')
+  ) x
+  group by x.contractor_id,x.contractor_name,x.worker_id,x.worker_name;
+
+  -- PAYROLL: payroll due on or before the date that is not approved (owner: labour recognised at period_end).
+  return query
+  select 'PAYROLL'::text,'PAYROLL_NOT_APPROVED'::text,'POLICY'::text,'AS_OF'::text,ps.period_end,
+    jsonb_build_object('payroll_id',ps.id,'payroll_number',ps.payroll_number,'contractor_id',ps.contractor_id,
+      'period_start',ps.period_start,'period_end',ps.period_end,'status',ps.status),
+    format('Payroll %s (%s s/d %s) masih %s; belum disetujui.',ps.payroll_number,ps.period_start,ps.period_end,ps.status)
+  from erp.payroll_settlements ps
+  where ps.status in('DRAFT','CALCULATED','REVIEW') and ps.period_end<=p_through;
+
+  -- PAYROLL: paid attendance on or before the date that no non-reversed payroll has taken (linkage, not date range).
+  return query
+  select 'PAYROLL'::text,'PAYROLL_ATTENDANCE_UNCOVERED'::text,'POLICY'::text,'AS_OF'::text,min(ar.attendance_date),
+    jsonb_build_object('contractor_id',ar.contractor_id,'worker_id',ar.worker_id,'worker_name',w.worker_name,
+      'records',count(*),'first_date',min(ar.attendance_date),'last_date',max(ar.attendance_date)),
+    format('Absensi %s: %s hari berbayar antara %s dan %s belum masuk payroll.',w.worker_name,count(*),min(ar.attendance_date),max(ar.attendance_date))
+  from erp.attendance_records ar
+  join erp.contractor_workers w on w.id=ar.worker_id
+  join erp.contractors c on c.id=ar.contractor_id
+  where ar.attendance_date<=p_through and coalesce(ar.record_lifecycle,'POSTED')='POSTED'
+    and ar.paid_fraction>0 and w.pay_scheme in('DAILY','HYBRID') and c.attendance_required
+    and not exists(select 1 from erp.payroll_attendance_items pai join erp.payroll_settlements ps on ps.id=pai.payroll_id
+      where pai.attendance_record_id=ar.id and ps.status<>'REVERSED')
+  group by ar.contractor_id,ar.worker_id,w.worker_name;
+
+  -- PAYROLL: eligible piece or rework work on or before the date that no non-reversed payroll has taken.
+  return query
+  select 'PAYROLL'::text,'PAYROLL_WORK_UNCOVERED'::text,'POLICY'::text,'AS_OF'::text,
+    min(erp._cp3_business_date(e.eligible_at)),
+    jsonb_build_object('contractor_id',e.contractor_id,'lines',count(*),'remaining_qty',sum(e.remaining_qty),
+      'remaining_amount',sum(e.remaining_amount),'first_eligible_at',min(e.eligible_at)),
+    format('Hasil kerja kontraktor %s: %s baris (%s pcs) pada atau sebelum %s belum masuk payroll.',
+      e.contractor_id,count(*),sum(e.remaining_qty),p_through)
+  from erp.v_payroll_eligible_work_lines e
+  where e.eligible_at<v_end and e.remaining_qty>0
+  group by e.contractor_id;
+
+  -- LAUNDRY: sent quantity still costed at an unknown (null) delivery rate on or before the date.
+  return query
+  select 'LAUNDRY'::text,'LAUNDRY_PRICE_UNKNOWN'::text,'POLICY'::text,'AS_OF'::text,
+    erp._cp3_business_date(ld.physical_at),
+    jsonb_build_object('delivery_id',ld.id,'delivery_number',ld.delivery_number,'delivery_line_id',ldl.id,
+      'po_id',ld.po_id,'uncosted_qty',greatest(ldl.qty_sent_pcs-coalesce(rc.costed_qty,0),0)),
+    format('Harga laundry kiriman %s belum diketahui untuk %s pcs; isi estimasi owner.',
+      ld.delivery_number,greatest(ldl.qty_sent_pcs-coalesce(rc.costed_qty,0),0))
+  from erp.laundry_delivery_lines ldl
+  join erp.laundry_deliveries ld on ld.id=ldl.delivery_id
+  left join lateral (select sum(lrl.qty_good_received+lrl.qty_bs_laundry) costed_qty
+    from erp.laundry_receipt_lines lrl join erp.laundry_receipts lr on lr.id=lrl.receipt_id
+    where lrl.delivery_line_id=ldl.id and lr.status='POSTED' and lrl.actual_cost_status in('ESTIMATED','FINAL')) rc on true
+  where ld.status not in('DRAFT','REVERSED') and ldl.estimated_rate_snapshot is null
+    and ld.physical_at<v_end and ldl.qty_sent_pcs-coalesce(rc.costed_qty,0)>0;
+
+  -- BD (LAU-05b, LAU-T12): a component price of a priced delivery still unknown on or before the date, reported here when
+  -- LAUNDRY_PRICE_UNKNOWN does not (every piece already returned and costed at the known part only).
+  return query
+  select 'LAUNDRY'::text,'BD_LAUNDRY_COMPONENT_PRICE_UNKNOWN'::text,'POLICY'::text,'AS_OF'::text,
+    erp._cp3_business_date(ld.physical_at),
+    jsonb_build_object('delivery_id',ld.id,'delivery_number',ld.delivery_number,'delivery_line_id',bp.delivery_line_id,'po_id',ld.po_id,
+      'unknown_charges',(select count(*) from erp.bd_laundry_charge_lines_v1 c where c.delivery_line_id=bp.delivery_line_id and c.rate_status='UNKNOWN')),
+    format('Harga komponen laundry kiriman %s belum diketahui; isi harga komponen di halaman harga laundry.',ld.delivery_number)
+  from erp.bd_laundry_priced_lines_v1 bp
+  join erp.laundry_delivery_lines ldl on ldl.id=bp.delivery_line_id
+  join erp.laundry_deliveries ld on ld.id=bp.delivery_id
+  left join lateral (select sum(lrl.qty_good_received+lrl.qty_bs_laundry) costed_qty
+    from erp.laundry_receipt_lines lrl join erp.laundry_receipts lr on lr.id=lrl.receipt_id
+    where lrl.delivery_line_id=ldl.id and lr.status='POSTED' and lrl.actual_cost_status in('ESTIMATED','FINAL')) rc on true
+  where not bp.total_complete and not erp.bf_delivery_invoiced_v1(bp.delivery_line_id,p_through) and ld.status not in('DRAFT','REVERSED') and ld.physical_at<v_end
+    and not(ldl.estimated_rate_snapshot is null and ldl.qty_sent_pcs-coalesce(rc.costed_qty,0)>0);
+
+  -- BD (ALL-W05): laundry work returned before cutover whose value is still unknown (no estimate, not fully billed).
+  return query
+  select 'LAUNDRY'::text,'BD_OPENING_LAUNDRY_PRICE_UNKNOWN'::text,'POLICY'::text,'AS_OF'::text,u.receipt_date,
+    jsonb_build_object('opening_uninvoiced_id',u.id,'document_number',u.document_number,'vendor_id',u.vendor_id,'category',u.category,'qty',u.qty),
+    format('Nilai laundry saldo awal %s (%s) belum diketahui; isi estimasi atau posting invoice vendornya.',u.document_number,u.category)
+  from erp.bd_opening_laundry_uninvoiced_v1 u
+  where u.estimated_amount is null and u.receipt_date<=p_through and not erp.bd_opening_invoiced_v1(u.id);
+
+  return query
+  select 'LAUNDRY'::text,'BE_REDYE_PRICE_UNKNOWN'::text,'POLICY'::text,'AS_OF'::text,erp._cp3_business_date(s.sent_at),
+    jsonb_build_object('rework_service_id',s.id,'vendor_id',s.vendor_id,'po_id',s.po_id),
+    'Harga jasa celup ulang belum diketahui; isi harga sumber sebelum tutup buku.'::text
+  from erp.be_redye_services_v1 s join erp.rework_orders r on r.id=s.id
+  where r.status<>'CANCELLED' and s.sent_at<v_end and erp.be_redye_rate_v1(s.id) is null;
+
+  -- LAUNDRY: a delivery rate that is not a finite non-negative number is not a known price (P-02).
+  return query
+  select 'LAUNDRY'::text,'LAUNDRY_PRICE_INVALID'::text,'CRITICAL'::text,'AS_OF'::text,
+    erp._cp3_business_date(ld.physical_at),
+    jsonb_build_object('delivery_id',ld.id,'delivery_number',ld.delivery_number,'delivery_line_id',ldl.id,
+      'po_id',ld.po_id,'rate',ldl.estimated_rate_snapshot::text),
+    format('Harga laundry kiriman %s tidak valid (%s); harga harus angka hingga dan tidak negatif.',
+      ld.delivery_number,ldl.estimated_rate_snapshot::text)
+  from erp.laundry_delivery_lines ldl
+  join erp.laundry_deliveries ld on ld.id=ldl.delivery_id
+  where ld.status not in('DRAFT','REVERSED') and ld.physical_at<v_end
+    and (ldl.estimated_rate_snapshot='NaN'::numeric or ldl.estimated_rate_snapshot<0);
+
+  -- GRNI: owner allows close with an estimate; reported, never blocking.
+  return query
+  select 'GRNI'::text,'GRNI_ESTIMATE_OPEN'::text,'INFO'::text,'CURRENT_STATE'::text,
+    erp._cp3_business_date(min(g.physical_at)),
+    jsonb_build_object('receipts',count(*),'estimated_amount',sum(g.grni_estimated_amount)),
+    format('%s penerimaan bahan masih memakai estimasi GRNI (total %s); boleh ditutup dengan estimasi.',count(*),sum(g.grni_estimated_amount))
+  from erp.v_material_grni_aging g
+  where g.physical_at<v_end
+  having count(*)>0;
+end
+$function$;
+CREATE OR REPLACE FUNCTION erp.bd_priced_line_json_v1(p_line uuid)
+ RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select jsonb_build_object('delivery_line_id',p.delivery_line_id,'delivery_id',p.delivery_id,'mode',case when exists(select 1 from erp.bf_laundry_delivery_sources_v1 b where b.delivery_line_id=p.delivery_line_id and b.details_pending) then 'PENDING' else p.pricing_mode end,'unit',p.pricing_unit,
+    'qty_sent',p.qty_sent,'total_known',p.total_known::numeric(18,2)::text,'total_complete',p.total_complete,'cost_invoiced',erp.bf_delivery_invoiced_v1(p.delivery_line_id),'has_invoice',exists(select 1 from erp.bd_laundry_invoice_lines_v1 x join erp.bd_laundry_invoices_v1 i on i.id=x.invoice_id join erp.laundry_receipt_lines r on r.id=x.receipt_line_id where r.delivery_line_id=p.delivery_line_id and i.status='POSTED'),'policy_versions',p.policy_versions,
+    'charges',coalesce((select jsonb_agg(jsonb_build_object('id',c.id,'line_no',c.line_no,'kind',c.kind,'ref_id',c.ref_id,'label',c.label,
+        'covered_qty',c.covered_qty,'rate_status',c.rate_status,'unit_rate',c.unit_rate::numeric(18,2)::text,'amount',c.amount::numeric(18,2)::text,
+        'included_components',c.included_components,'price_reason',c.price_reason,
+        'coverage',(select jsonb_agg(jsonb_build_object('size_id',s.size_id,'qty',sh.covered_qty) order by s.size_id)
+          from erp.bd_laundry_charge_shares_v1 sh join erp.laundry_delivery_batch_size_lines s on s.id=sh.delivery_batch_size_line_id
+          where sh.charge_line_id=c.id and sh.covered_qty>0)) order by c.line_no) from erp.bd_laundry_charge_lines_v1 c where c.delivery_line_id=p.delivery_line_id),'[]'::jsonb),
+    'sizes',coalesce((select jsonb_agg(jsonb_build_object('delivery_batch_size_line_id',e.delivery_batch_size_line_id,'size_id',s.size_id,
+        'qty_sent',e.qty_sent,'known_amount',e.known_amount::numeric(18,2)::text,'complete',e.complete) order by s.size_id)
+      from erp.bd_laundry_size_estimates_v1 e join erp.laundry_delivery_batch_size_lines s on s.id=e.delivery_batch_size_line_id
+      where e.delivery_line_id=p.delivery_line_id),'[]'::jsonb))
+  from erp.bd_laundry_priced_lines_v1 p where p.delivery_line_id=p_line
+$function$;
 CREATE OR REPLACE FUNCTION erp.bd_post_priced_delivery_v1(p_payload jsonb,p_request uuid)
  RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
 AS $function$
@@ -1354,7 +2072,6 @@ begin
   if jsonb_typeof(p_payload->'expected_version') is distinct from 'string' or p_payload->>'expected_version'!~'^[1-9][0-9]{0,18}$' then
     raise exception 'BD_FIELD_INVALID: expected_version wajib versi Potongan';end if;
   v_version:=(p_payload->>'expected_version')::bigint;
-  perform pg_advisory_xact_lock(hashtextextended('BF:COMMERCIAL_SKUS',0));
   -- The prices read below stay as read until the delivery is posted: the version writers take the same locks (process and
   -- scoped rates per vendor/process, component and package prices per vendor) and the terms writer locks the vendor row.
   perform pg_advisory_xact_lock(hashtextextended('LRATE:'||erp.bd_uuid_v1(v_delivery,'vendor_id',true)::text||':'
@@ -1704,7 +2421,7 @@ begin
       -- BD (LAU-05b): the BD facade priced this delivery; the line keeps the exact average rate when every price is known and
       -- NULL while a component price is unknown (the charge lines are attached below).
       v_rate:=((erp.bd_context_v1()).pricing->>'avg_rate')::numeric;v_rate_count:=1;
-    elsif erp.bd_vendor_needs_pricing_v1(v_vendor_id,v_process_id) or exists(select 1 from erp.bf_wave_skus_v1 where cutting_group_id=v_group_id) then
+    elsif erp.bd_vendor_needs_pricing_v1(v_vendor_id,v_process_id) then
       raise exception 'BD_PRICING_REQUIRED: vendor ini memakai harga paket/komponen/borongan/minimum/tarif khusus; kirim lewat tab Harga & tagihan di halaman Laundry (Kirim dengan harga)';
     else
       select count(*)::integer,min(r.rate_per_pcs) into v_rate_count,v_rate
@@ -2640,23 +3357,6 @@ begin
     'cp6_laundry_qc_action_v1:'||lower(v_action),p_client_request_id,v_response
   );
 end
-$function$;
-CREATE OR REPLACE FUNCTION erp.bd_priced_line_json_v1(p_line uuid)
- RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
-AS $function$
-  select jsonb_build_object('delivery_line_id',p.delivery_line_id,'delivery_id',p.delivery_id,'mode',p.pricing_mode,'unit',p.pricing_unit,
-    'qty_sent',p.qty_sent,'total_known',p.total_known::numeric(18,2)::text,'total_complete',p.total_complete,'policy_versions',p.policy_versions,
-    'charges',coalesce((select jsonb_agg(jsonb_build_object('id',c.id,'line_no',c.line_no,'kind',c.kind,'ref_id',c.ref_id,'label',c.label||coalesce((select ' · SKU '||s.sku||' r'||v.revision from erp.bf_sku_versions_v1 v join erp.bf_skus_v1 s on s.id=v.sku_id where v.id=c.bf_sku_version_id),''),
-        'covered_qty',c.covered_qty,'rate_status',c.rate_status,'unit_rate',c.unit_rate::numeric(18,2)::text,'amount',c.amount::numeric(18,2)::text,
-        'included_components',c.included_components,'price_reason',c.price_reason,
-        'coverage',(select jsonb_agg(jsonb_build_object('size_id',s.size_id,'qty',sh.covered_qty) order by s.size_id)
-          from erp.bd_laundry_charge_shares_v1 sh join erp.laundry_delivery_batch_size_lines s on s.id=sh.delivery_batch_size_line_id
-          where sh.charge_line_id=c.id and sh.covered_qty>0)) order by c.line_no) from erp.bd_laundry_charge_lines_v1 c where c.delivery_line_id=p.delivery_line_id),'[]'::jsonb),
-    'sizes',coalesce((select jsonb_agg(jsonb_build_object('delivery_batch_size_line_id',e.delivery_batch_size_line_id,'size_id',s.size_id,
-        'qty_sent',e.qty_sent,'known_amount',e.known_amount::numeric(18,2)::text,'complete',e.complete) order by s.size_id)
-      from erp.bd_laundry_size_estimates_v1 e join erp.laundry_delivery_batch_size_lines s on s.id=e.delivery_batch_size_line_id
-      where e.delivery_line_id=p.delivery_line_id),'[]'::jsonb))
-  from erp.bd_laundry_priced_lines_v1 p where p.delivery_line_id=p_line
 $function$;
 CREATE OR REPLACE FUNCTION erp.prepare_rework_component_line()
  RETURNS trigger
@@ -3660,7 +4360,7 @@ begin
 end;$function$;
 
 do $grants$ declare t text;f record;begin
- foreach t in array ARRAY['bf_rollback_v1','bf_skus_v1','bf_sku_versions_v1','bf_sku_members_v1','bf_wave_skus_v1','bf_po_boms_v1','bf_requests_v1','bf_context_v1'] loop
+ foreach t in array ARRAY['bf_rollback_v1','bf_skus_v1','bf_sku_versions_v1','bf_sku_members_v1','bf_wave_skus_v1','bf_po_boms_v1','bf_requests_v1','bf_context_v1','bf_laundry_delivery_sources_v1'] loop
    execute format('alter table erp.%I enable row level security',t);
    execute format('revoke all on erp.%I from public,anon,authenticated,service_role',t);
  end loop;
@@ -3675,7 +4375,7 @@ end $grants$;
 
 update erp.bf_rollback_v1 set payload=payload||jsonb_build_object('installed',(
  select jsonb_object_agg(p.oid::regprocedure::text,md5(pg_get_functiondef(p.oid))) from pg_proc p join pg_namespace n on n.oid=p.pronamespace
- where n.nspname||'.'||p.proname=any(array['erp.commit_accessory_bom_for_lot','erp.ensure_po_work_component_snapshots','erp.validate_work_completion','erp.guard_work_completion_posting_consistency','erp.seed_bs_case_component_baseline','erp.classify_bs_case_v2','erp.cp6_lot_work_cost_v2620c','erp.assert_new_stock_cutoff_coverage_v1','erp.bd_priced_line_json_v1','erp.bd_compute_pricing_v1','erp.bd_attach_delivery_pricing_v1','erp.bd_post_priced_delivery_v1','erp.save_laundry_qc_action_v1','erp.prepare_rework_component_line','erp.run_v263c_bs_rework_integrity_checks','erp.get_hpp_completeness','erp.resolve_rework_accessory_bom_v1','erp.save_initial_import_action_v1','erp.bb_check_sales_import_row_v1','erp.bb_apply_sales_imports_v1','erp.bc_check_import_row_v1','erp.bc_apply_imports_v1','erp.be_check_pocket_import_v1','erp.be_apply_pocket_imports_v1','erp.bb_check_rework_import_row_v1','erp.bf_version_at_v1','erp.bf_guard_economic_v1','erp.bf_legacy_basis_v1','erp.bf_save_groups_v1','erp.bf_guard_new_member_v1','erp.bf_validate_rates_v1','erp.bf_work_rate_v1','erp.bf_context_rate_v1','erp.bf_bom_for_lot_v1','erp.bf_recipe_basis_v1','erp.bf_bind_wave_v1','erp.bf_work_capacity_v1','erp.bf_snapshot_sku_v1','erp.bf_wave_revision_v1','erp.bf_group_sku_v1','erp.bf_ensure_work_v1','erp.bf_snapshot_matches_v1','erp.bf_assert_work_scope_v1','erp.bf_laundry_rate_v1','erp.bf_merge_charges_v1','erp.bf_package_charges_v1','erp.bf_complete_shares_v1','erp.bf_component_charge_v1','erp.bf_resolve_import_product_v1','erp.save_sku_action_v1','erp.get_sku_workspace_v1','erp.get_sku_hpp_v1','public.erp_save_sku_action_v1','public.erp_get_sku_workspace_v1','public.erp_get_sku_hpp_v1'])));
+ where n.nspname||'.'||p.proname=any(array['erp.commit_accessory_bom_for_lot','erp.ensure_po_work_component_snapshots','erp.validate_work_completion','erp.guard_work_completion_posting_consistency','erp.seed_bs_case_component_baseline','erp.classify_bs_case_v2','erp.cp6_lot_work_cost_v2620c','erp.assert_new_stock_cutoff_coverage_v1','erp.bd_priced_line_json_v1','erp.bd_compute_pricing_v1','erp.bd_attach_delivery_pricing_v1','erp.bd_post_priced_delivery_v1','erp.save_laundry_qc_action_v1','erp.bd_refresh_size_estimates_v1','erp.bd_line_complete_v1','erp.bd_delivery_line_price_unknown_v1','erp.bd_post_invoice_v1','erp.bd_set_charge_price_v1','erp.period_blockers_v1','erp.prepare_rework_component_line','erp.run_v263c_bs_rework_integrity_checks','erp.get_hpp_completeness','erp.resolve_rework_accessory_bom_v1','erp.save_initial_import_action_v1','erp.bb_check_sales_import_row_v1','erp.bb_apply_sales_imports_v1','erp.bc_check_import_row_v1','erp.bc_apply_imports_v1','erp.be_check_pocket_import_v1','erp.be_apply_pocket_imports_v1','erp.bb_check_rework_import_row_v1','erp.bf_version_at_v1','erp.bf_guard_economic_v1','erp.bf_legacy_basis_v1','erp.bf_save_groups_v1','erp.bf_guard_new_member_v1','erp.bf_validate_rates_v1','erp.bf_work_rate_v1','erp.bf_context_rate_v1','erp.bf_bom_for_lot_v1','erp.bf_recipe_basis_v1','erp.bf_bind_wave_v1','erp.bf_work_capacity_v1','erp.bf_snapshot_sku_v1','erp.bf_wave_revision_v1','erp.bf_group_sku_v1','erp.bf_ensure_work_v1','erp.bf_snapshot_matches_v1','erp.bf_assert_work_scope_v1','erp.bf_delivery_invoiced_v1','erp.bf_laundry_rate_v1','erp.bf_merge_charges_v1','erp.bf_package_charges_v1','erp.bf_complete_shares_v1','erp.bf_component_charge_v1','erp.bf_resolve_import_product_v1','erp.save_sku_action_v1','erp.get_sku_workspace_v1','erp.get_sku_hpp_v1','public.erp_save_sku_action_v1','public.erp_get_sku_workspace_v1','public.erp_get_sku_hpp_v1'])));
 
 insert into erp.schema_migrations(version,description) values('v2.6.20bf','Commercial SKU ranges; physical-size lineage preserved');
 commit;

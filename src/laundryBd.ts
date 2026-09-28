@@ -34,7 +34,7 @@ export type BdScopedRate = { id: string; vendor_id: string; wash_process_id: str
 export type BdCharge = { id: string; line_no: number; kind: ChargeKind; label: string; covered_qty: number; rate_status: BdRateStatus;
   unit_rate: string | null; amount: string | null; price_reason: string | null; coverage: { size_id: string; qty: number }[] }
 export type BdPricedDelivery = { delivery_line_id: string; delivery_id: string; delivery_number: string; status: string; physical_local: string;
-  mode: string; unit: string; qty_sent: number; total_known: string | null; total_complete: boolean; charges: BdCharge[] }
+  mode: string; unit: string; qty_sent: number; total_known: string | null; total_complete: boolean; cost_invoiced?: boolean; has_invoice?: boolean; charges: BdCharge[] }
 export type BdInvoiceLine = { id: string; line_no: number; line_kind: 'BILL' | 'CORRECTION'; receipt_line_id: string | null; opening_uninvoiced_id: string | null; rework_service_id: string | null;
   category: Category; qty: number; amount: string; net_amount: string | null; released_estimate: string | null; variance: string | null
   product_variance: string | null; completes_source: boolean }

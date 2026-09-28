@@ -1,19 +1,34 @@
 alter table erp.bd_laundry_charge_lines_v1 add column bf_sku_version_id uuid references erp.bf_sku_versions_v1(id);
 
--- A rate reference follows the wave size, not the final FG product. The returned business version is frozen on the charge.
+create table erp.bf_laundry_delivery_sources_v1(
+ delivery_line_id uuid primary key references erp.bd_laundry_priced_lines_v1(delivery_line_id),
+ details_pending boolean not null,
+ created_at timestamptz not null default statement_timestamp()
+);
+
+-- Actual cost can come from invoices while the original quote stays unknown.
+-- All pieces must be returned and every source billed; reversing a bill reopens
+-- the cost. Later bills cannot clear a blocker at an earlier closing date.
+CREATE OR REPLACE FUNCTION erp.bf_delivery_invoiced_v1(p_line uuid,p_through date DEFAULT NULL)
+ RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+ select coalesce((select sum(r.qty_good_received+r.qty_bs_laundry)>=d.qty_sent_pcs
+   and bool_and(exists(select 1 from erp.bd_laundry_invoice_lines_v1 x join erp.bd_laundry_invoices_v1 i on i.id=x.invoice_id
+     where x.receipt_line_id=r.id and x.completes_source and i.status='POSTED'
+       and(p_through is null or i.invoice_date<=p_through)))
+   from erp.laundry_delivery_lines d join erp.laundry_receipt_lines r on r.delivery_line_id=d.id
+   join erp.laundry_receipts h on h.id=r.receipt_id and h.status='POSTED'
+   where d.id=p_line group by d.qty_sent_pcs),false)
+$function$;
+
+-- Vendor tariffs are authoritative. SKU membership is never a monetary override.
+-- Keep this compatibility helper for existing callers; historical charge snapshots
+-- are untouched and new charges carry the vendor rate version only.
 CREATE OR REPLACE FUNCTION erp.bf_laundry_rate_v1(p_kind text,p_ref uuid,p_vendor uuid,p_group uuid,p_size uuid,p_at timestamptz)
  RETURNS jsonb LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO ''
 AS $function$
 declare sku uuid;vid uuid;r jsonb;fallback record;reason text;amount numeric;
 begin
- select sku_id into sku from erp.bf_wave_skus_v1 where cutting_group_id=p_group and size_id=p_size;
- if sku is not null then
-   select id into vid from erp.bf_sku_versions_v1 where sku_id=sku and effective_from<=p_at and(effective_to is null or effective_to>p_at);
-   if vid is null then raise exception 'BF_TARIFF_NOT_EFFECTIVE: referensi SKU belum berlaku pada tanggal jasa';end if;
-   select j into r from erp.bf_sku_versions_v1 v cross join lateral jsonb_array_elements(v.settings->'laundry_rates') j
-     where v.id=vid and j->>'kind'=p_kind and j->>'ref_id'=p_ref::text and j->>'vendor_id'=p_vendor::text;
-   if r is not null then return r||jsonb_build_object('sku_version_id',vid,'version_id',null);end if;
- end if;
  if p_kind='COMPONENT' then
    select * into fallback from erp.bd_component_rate_at_v1(p_ref,p_at);
    select x.reason into reason from erp.bd_laundry_component_rates_v1 x where id=fallback.version_id;

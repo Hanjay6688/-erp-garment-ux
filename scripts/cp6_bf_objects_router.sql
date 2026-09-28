@@ -34,13 +34,13 @@ begin
  if cardinality(roots)>500 then raise exception 'BF_MEMBER_LIMIT';end if;
  if cardinality(roots)>0 and not money then raise exception 'BF_PRICE_PERMISSION';end if;
  with g as materialized(
-   select s.*,v.id version_id,v.effective_from,v.effective_to,v.settings,b.brand_name,m.model_name,
+   select s.*,v.id version_id,v.revision selected_revision,v.effective_from,v.effective_to,v.settings,b.brand_name,m.model_name,
      coalesce((select jsonb_agg(jsonb_build_object('id',p.id,'size_id',p.size_id,'size',z.size_code) order by z.sort_order,z.size_code,p.id)
        from erp.bf_sku_members_v1 sm join erp.products p on p.id=sm.product_root join erp.sizes z on z.id=p.size_id
        where sm.version_id=v.id),'[]') members
    from erp.bf_skus_v1 s join erp.brands b on b.id=s.brand_id join erp.product_models m on m.id=s.model_id
-   left join lateral(select x.* from erp.bf_sku_versions_v1 x where x.sku_id=s.id
-     and (nullif(p_filters->>'wave_id','') is null or (x.effective_from<=statement_timestamp() and (x.effective_to is null or x.effective_to>statement_timestamp())))
+   join lateral(select x.* from erp.bf_sku_versions_v1 x where x.sku_id=s.id
+     and x.effective_from<=at_time and (x.effective_to is null or x.effective_to>at_time)
      order by x.revision desc limit 1) v on true
    where s.sku ilike '%'||q||'%' or b.brand_name ilike '%'||q||'%' or exists(select 1 from erp.bf_sku_members_v1 sm where sm.version_id=v.id and sm.product_root=any(roots))
  ), products as materialized(
@@ -50,10 +50,10 @@ begin
    from erp.products p join erp.brands b on b.id=p.brand_id join erp.product_models m on m.id=p.model_id join erp.sizes z on z.id=p.size_id
    where p.id=p.identity_root_id and p.is_active and (p.sku ilike '%'||q||'%' or b.brand_name ilike '%'||q||'%' or p.id=any(roots))
  ) select jsonb_build_object('at',at_time,'page',page_no,'page_size',50,'groups_total',(select count(*) from g),
-   'groups',coalesce((select jsonb_agg(to_jsonb(x)) from(select id,sku,brand_id,brand_name,model_id,model_name,color_name,revision::text,version_id,
+   'groups',coalesce((select jsonb_agg(to_jsonb(x)) from(select id,sku,brand_id,brand_name,model_id,model_name,color_name,revision::text,selected_revision::text,version_id,
       effective_from,effective_to,members,case when money then settings end settings from g order by brand_name,sku,id limit 50 offset (page_no-1)*50)x),'[]'),
    'products_total',(select count(*) from products),'products',coalesce((select jsonb_agg(to_jsonb(x)) from(select * from products order by brand_name,sku,size,id limit 50 offset (page_no-1)*50)x),'[]'),
-   'related_groups',coalesce((select jsonb_agg(to_jsonb(x)) from(select id,sku,brand_id,brand_name,model_id,model_name,color_name,revision::text,version_id,effective_from,effective_to,members,case when money then settings end settings from g
+   'related_groups',coalesce((select jsonb_agg(to_jsonb(x)) from(select id,sku,brand_id,brand_name,model_id,model_name,color_name,revision::text,selected_revision::text,version_id,effective_from,effective_to,members,case when money then settings end settings from g
      where exists(select 1 from jsonb_array_elements(members) mem where (mem->>'id')::uuid=any(roots)))x),'[]'),
    'wave',case when nullif(p_filters->>'wave_id','') is not null then (select jsonb_build_object('id',cg.id,'number',cg.group_number,
      'revision',erp.bf_wave_revision_v1(cg.id),'can_bind',erp.has_permission('production.cutting.edit_draft'),

@@ -43,7 +43,7 @@ function moneyText(value: string | number): string {
 function normalizeSettings(s: SkuSettings): SkuSettings {
   return { ...s,price:s.price === null ? null : moneyText(s.price),
     work_rates:s.work_rates.map(r=>({...r,rate:moneyText(r.rate)})),
-    laundry_rates:s.laundry_rates.map(r=>({...r,rate:r.rate === null ? null : moneyText(r.rate)})) }
+    laundry_rates:[] }
 }
 /** Includes both sides of a transfer, retaining source settings and every unrelated member. */
 export function skuGroupChanges(target: SkuGroup, related: SkuGroup[], basis: Json[]) {

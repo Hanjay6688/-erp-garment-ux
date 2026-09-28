@@ -16,7 +16,7 @@ import type { Json } from './types/database.preconnect'
 import './initial-import.css'
 
 type Section = 'policies' | 'master' | 'send' | 'unknown' | 'invoices' | 'payables' | 'opening'
-const SECTIONS: [Section, string][] = [['policies', 'Kebijakan owner'], ['master', 'Harga vendor'], ['send', 'Kirim dengan harga'], ['unknown', 'Harga belum diketahui'],
+const SECTIONS: [Section, string][] = [['policies', 'Kebijakan owner'], ['master', 'Harga vendor'], ['send', 'Kirim & rincian biaya'], ['unknown', 'Harga belum diketahui'],
   ['invoices', 'Invoice vendor'], ['payables', 'Pembayaran vendor'], ['opening', 'Laundry saldo awal']]
 type Send = (action: string, payload: Record<string, Json>) => void
 const today = () => new Date(Date.now() + 7 * 3600_000).toISOString().slice(0, 10)
@@ -204,6 +204,9 @@ function Master({ data, vendor, locked, send }: { data: LaundryBdWorkspace; vend
 
 function PricedSend({ data, laundry, vendor, locked, send }: { data: LaundryBdWorkspace; laundry: LaundryQcWorkspace; vendor: string; locked: boolean; send: Send }) {
   const v = data.vendors.find(x => x.id === vendor)!
+  const [selection, setSelection] = useState('PENDING')
+  const mode = selection === 'VENDOR' ? v.pricing_mode : selection
+  const unit = selection === 'VENDOR' ? v.pricing_unit : 'PCS'
   const [batchId, setBatchId] = useState(''), [process, setProcess] = useState(''), [color, setColor] = useState(''), [at, setAt] = useState('')
   const [reason, setReason] = useState(''), [qty, setQty] = useState<Record<string, string>>({}), [packageId, setPackageId] = useState(''), [lump, setLump] = useState('')
   const [covered, setCovered] = useState<Record<string, string>>({}), [extraReasons, setExtraReasons] = useState<Record<string, string>>({}), [confirmed, setConfirmed] = useState(false)
@@ -219,7 +222,7 @@ function PricedSend({ data, laundry, vendor, locked, send }: { data: LaundryBdWo
   const physical = wibTimestamp(at)
   const components = data.components.filter(c => c.vendor_id === vendor && c.is_active)
   const selectedPackage = data.packages.find(p => p.id === packageId && p.vendor_id === vendor && p.is_active)
-  const availableComponents = v.pricing_mode === 'PACKAGE' ? components.filter(c => !selectedPackage?.component_ids.includes(c.id)) : components
+  const availableComponents = mode === 'PACKAGE' ? components.filter(c => !selectedPackage?.component_ids.includes(c.id)) : components
   let coverageValid = true
   const componentPayload = availableComponents.flatMap(c => {
     const scope = scopes[c.id] ?? 'NONE'
@@ -232,18 +235,21 @@ function PricedSend({ data, laundry, vendor, locked, send }: { data: LaundryBdWo
     })
     if (!coverage.length) { coverageValid = false; return [] }
     const extraReason = extraReasons[c.id]?.trim() ?? ''
-    if (v.pricing_mode === 'PACKAGE' && !extraReason) coverageValid = false
+    if (mode === 'PACKAGE' && !extraReason) coverageValid = false
     return [{ component_id: c.id, covered_qty: coverage.reduce((n, s) => n + s.qty, 0), coverage,
-      ...(v.pricing_mode === 'PACKAGE' ? { reason: extraReason } : {}) }]
+      ...(mode === 'PACKAGE' ? { reason: extraReason } : {}) }]
   })
-  const pricing: Record<string, Json> | null = v.pricing_unit === 'BATCH' ? (moneyInput(lump) ? { lump_sum: normalizeMoney(lump) } : null)
-    : v.pricing_mode === 'PACKAGE' ? (selectedPackage && coverageValid ? { package_id: packageId, extras: componentPayload } : null)
-    : v.pricing_mode === 'COMPONENTS' ? (componentPayload.length && coverageValid ? { components: componentPayload } : null) : {}
+  const pricing: Record<string, Json> | null = mode === 'PENDING' ? { deferred: true } : unit === 'BATCH' ? (moneyInput(lump) ? { lump_sum: normalizeMoney(lump) } : null)
+    : mode === 'PACKAGE' ? (selectedPackage && coverageValid ? { package_id: packageId, extras: componentPayload } : null)
+    : mode === 'COMPONENTS' ? (coverageValid ? { components: componentPayload } : null) : {}
   const valid = batch && process && color.trim() && physical && reason.trim().length >= 4 && lines.length && pricing && confirmed
     && batch.sizes.every(s => !(qty[s.size_id] ?? '').trim() || qty[s.size_id].trim() === '0' || (wholePcs(qty[s.size_id]) && Number(qty[s.size_id]) <= s.available_qty_pcs))
   return <section className="initial-import-table" aria-label="Kirim laundry dengan harga BD">
-    <p>{v.code} memakai {v.pricing_mode === 'RATE' ? 'tarif proses' : v.pricing_mode === 'PACKAGE' ? 'harga paket' : 'harga komponen'} per {v.pricing_unit === 'BATCH' ? 'batch (borongan)' : 'PCS'}.
-      Kiriman dicatat sekali: fisik, WIP, dan estimasi biaya bersama-sama. Harga komponen yang belum diketahui tetap “belum diketahui”.</p>
+    <p>Tarif mengikuti master {v.code}. Pilih kombinasi yang dikenal atau centang komponen. Rincian boleh kosong sampai kontra bon; biaya tetap belum diketahui.</p>
+    <label>Rincian biaya<select aria-label="Pilihan rincian biaya" value={selection} disabled={locked} onChange={e => { setSelection(e.target.value); setScopes({}); setCovered({}); setExtraReasons({}); setConfirmed(false) }}>
+      <option value="PENDING">Kosongkan — tunggu kontra bon</option><option value="PACKAGE">Kombinasi / paket cucian</option><option value="COMPONENTS">Centang komponen cucian</option><option value="VENDOR">Tarif proses / satuan vendor</option>
+    </select></label>
+    {(mode === 'PENDING' || (mode === 'COMPONENTS' && componentPayload.length === 0)) && <p role="status">Biaya belum diketahui. Isi nilai aktual saat kontra bon diterima.</p>}
     <div className="initial-import-toolbar">
       <label>Batch<select aria-label="Batch kirim berharga" value={batchId} disabled={locked} onChange={e => { setBatchId(e.target.value); setQty({}); setCovered({}); setScopes({}); setExtraReasons({}); setConfirmed(false) }}>
         <option value="">Pilih batch…</option>{laundry.ready_batches.map(b => <option key={b.distribution_batch_id} value={b.distribution_batch_id}>{b.po_number} · {b.group_number} · Batch {b.batch_no} · siap {b.group_unsent_ready_qty_pcs} pcs</option>)}</select></label>
@@ -255,13 +261,13 @@ function PricedSend({ data, laundry, vendor, locked, send }: { data: LaundryBdWo
     {batch && <div className="initial-import-toolbar">{batch.sizes.map(s => <label key={s.size_id}>Ukuran {s.size_code} (bisa {s.available_qty_pcs})<input aria-label={`Qty kirim berharga ${s.size_code}`}
       inputMode="numeric" value={qty[s.size_id] ?? ''} disabled={locked} onChange={e => { setQty(x => ({ ...x, [s.size_id]: e.target.value })); setConfirmed(false) }}/></label>)}</div>}
     <div className="initial-import-toolbar">
-      {v.pricing_unit === 'BATCH' && <label>Harga borongan batch<input aria-label="Harga borongan" value={lump} disabled={locked} onChange={e => { setLump(e.target.value); setConfirmed(false) }}/></label>}
-      {v.pricing_unit === 'PCS' && v.pricing_mode === 'PACKAGE' && <label>Paket<select aria-label="Paket kirim berharga" value={packageId} disabled={locked} onChange={e => { setPackageId(e.target.value); setCovered({}); setScopes({}); setExtraReasons({}); setConfirmed(false) }}>
+      {unit === 'BATCH' && <label>Harga borongan batch<input aria-label="Harga borongan" value={lump} disabled={locked} onChange={e => { setLump(e.target.value); setConfirmed(false) }}/></label>}
+      {unit === 'PCS' && mode === 'PACKAGE' && <label>Paket<select aria-label="Paket kirim berharga" value={packageId} disabled={locked} onChange={e => { setPackageId(e.target.value); setCovered({}); setScopes({}); setExtraReasons({}); setConfirmed(false) }}>
         <option value="">Pilih…</option>{data.packages.filter(p => p.vendor_id === vendor && p.is_active).map(p => <option key={p.id} value={p.id}>{p.code} · {p.name}</option>)}</select></label>}
-      {v.pricing_unit === 'PCS' && (v.pricing_mode === 'COMPONENTS' || (v.pricing_mode === 'PACKAGE' && selectedPackage)) && <fieldset>
-        <legend>{v.pricing_mode === 'PACKAGE' ? 'Jasa tambahan di luar isi paket' : 'Jasa untuk kiriman ini'}</legend>
+      {unit === 'PCS' && (mode === 'COMPONENTS' || (mode === 'PACKAGE' && selectedPackage)) && <fieldset>
+        <legend>{mode === 'PACKAGE' ? 'Jasa tambahan di luar isi paket' : 'Jasa untuk kiriman ini'}</legend>
         <p>Centang jasa untuk seluruh PCS yang dikirim. Pilih sebagian ukuran/jumlah bila hanya sebagian barang menerima jasa itu.</p>
-        {v.pricing_mode === 'PACKAGE' && <p>Sudah termasuk paket: {components.filter(c => selectedPackage?.component_ids.includes(c.id)).map(c => c.code).join(', ')}.</p>}
+        {mode === 'PACKAGE' && <p>Sudah termasuk paket: {components.filter(c => selectedPackage?.component_ids.includes(c.id)).map(c => c.code).join(', ')}.</p>}
         {availableComponents.map(c => <div key={c.id} className="initial-import-toolbar">
           <label><input type="checkbox" aria-label={`Jasa ${c.code}`} checked={Boolean(scopes[c.id] && scopes[c.id] !== 'NONE')} disabled={locked || !batch}
             onChange={e => chooseScope(c.id, e.target.checked ? 'ALL' : 'NONE')}/>{c.code} · {c.name} · {c.current ? BD_RATE_LABEL[c.current.status] : 'Belum ada harga'}</label>
@@ -273,13 +279,13 @@ function PricedSend({ data, laundry, vendor, locked, send }: { data: LaundryBdWo
             : <><p>Isi PCS penerima jasa per ukuran. Kosong atau 0 berarti tidak menerima jasa.</p>{(batch?.sizes ?? []).map(s => <label key={s.size_id}>{c.code} · {s.size_code}<input aria-label={`Cakupan ${c.code} ${s.size_code}`} inputMode="numeric"
             value={covered[`${c.id}:${s.size_id}`] ?? ''} disabled={locked} onChange={e => { setCovered(x => ({ ...x, [`${c.id}:${s.size_id}`]: e.target.value })); setConfirmed(false) }}/></label>)}
           </>}
-          {v.pricing_mode === 'PACKAGE' && <Reason label={`Alasan tambahan ${c.code}`} value={extraReasons[c.id] ?? ''} locked={locked}
+          {mode === 'PACKAGE' && <Reason label={`Alasan tambahan ${c.code}`} value={extraReasons[c.id] ?? ''} locked={locked}
             set={value => { setExtraReasons(x => ({ ...x, [c.id]: value })); setConfirmed(false) }}/>}</>}
         </div>)}
         {!coverageValid && <p role="alert">Jasa yang dipilih harus memiliki penerima: PCS utuh, tidak melebihi kiriman pada ukuran itu. Tambahan paket wajib disertai alasan.</p>}
       </fieldset>}
     </div>
-    <label><input type="checkbox" checked={confirmed} disabled={locked} onChange={e => setConfirmed(e.target.checked)}/>Vendor, batch, ukuran, jumlah, warna, waktu, dan harga sudah dicocokkan dengan serah-terima.</label>
+    <label><input type="checkbox" checked={confirmed} disabled={locked} onChange={e => setConfirmed(e.target.checked)}/>Vendor, batch, ukuran, jumlah, warna, waktu, dan pilihan rincian biaya sudah dicocokkan dengan serah-terima.</label>
     <button type="button" disabled={locked || !valid} onClick={() => batch && physical && pricing && send('POST_PRICED_DELIVERY', {
       expected_version: String(batch.cutting_group_row_version), pricing,
       delivery: { distribution_batch_id: batch.distribution_batch_id, vendor_id: vendor, wash_process_id: process, target_dyeing_color: color.trim(),
@@ -344,14 +350,16 @@ function Payables({ payables, locked, send }: { payables: BdPayables; locked: bo
 function UnknownPrices({ data, locked, send }: { data: LaundryBdWorkspace; locked: boolean; send: Send }) {
   const [rate, setRate] = useState<Record<string, string>>({}), [reason, setReason] = useState('')
   const [resolution, setResolution] = useState<Record<string, string>>({})
-  const pending = data.priced_deliveries.filter(d => !d.total_complete)
+  const pending = data.priced_deliveries.filter(d => !d.total_complete && !d.cost_invoiced && d.status !== 'REVERSED')
   return <section className="initial-import-table" aria-label="Harga laundry belum diketahui">
     <p>Selama harga komponen belum diketahui, biaya laundry kiriman ini baru bagian yang diketahui, HPP tetap estimasi, dan tutup buku tertahan (LAU-T12).</p>
+    {pending.filter(d => d.charges.length === 0).map(d => <p key={d.delivery_line_id}>{d.delivery_number} · {d.qty_sent} PCS · biaya belum diketahui. Catat nilai aktual pada Invoice vendor setelah barang diterima.</p>)}
+    {pending.some(d => d.has_invoice) && <p>Sebagian biaya sudah ditagih. Lengkapi kontra bon; perubahan biaya tertagih memakai dokumen koreksi.</p>}
     <Reason value={reason} set={setReason} locked={locked}/>
     {pending.length === 0 ? <p>Tidak ada harga laundry yang belum diketahui.</p> : <table><thead><tr><th>Kiriman</th><th>Rincian</th><th>PCS</th><th>Harga diketahui</th><th>Isi harga</th></tr></thead>
       <tbody>{pending.flatMap(d => d.charges.map(c => <tr key={c.id}><td>{d.delivery_number} · {d.physical_local}</td><td>{CHARGE_KIND_LABEL[c.kind]} · {c.label}</td><td>{c.covered_qty}</td>
         <td>{c.rate_status === 'KNOWN' ? rupiah(c.amount) : BD_RATE_LABEL[c.rate_status]}{c.price_reason ? ` · ${c.price_reason}` : ''}</td>
-        <td>{c.rate_status === 'UNKNOWN' && data.can_set_price && <><select aria-label={`Status harga ${c.label}`} disabled={locked} value={resolution[c.id] ?? 'KNOWN'}
+        <td>{c.rate_status === 'UNKNOWN' && !d.has_invoice && data.can_set_price && <><select aria-label={`Status harga ${c.label}`} disabled={locked} value={resolution[c.id] ?? 'KNOWN'}
           onChange={e => setResolution(x => ({ ...x, [c.id]: e.target.value }))}>{BD_RATE_STATUSES.filter(s => s !== 'UNKNOWN').map(s => <option key={s} value={s}>{BD_RATE_LABEL[s]}</option>)}</select>
           {(resolution[c.id] ?? 'KNOWN') === 'KNOWN' && <input aria-label={`Harga per PCS ${c.label}`} value={rate[c.id] ?? ''} disabled={locked} onChange={e => setRate(x => ({ ...x, [c.id]: e.target.value }))}/>}
           <button type="button" disabled={locked || ((resolution[c.id] ?? 'KNOWN') === 'KNOWN' && !moneyInput(rate[c.id] ?? '')) || !reason.trim()} onClick={() => send('SET_CHARGE_PRICE', { charge_line_id: c.id,

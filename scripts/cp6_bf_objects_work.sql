@@ -86,6 +86,15 @@ begin
    if vid is not null then continue;end if;
    select id into vid from erp.bf_sku_versions_v1 where sku_id=s.sku_id and effective_from<=p_at and(effective_to is null or effective_to>p_at);
    if vid is null then raise exception 'BF_WORK_VERSION_MISSING';end if;
+   -- An unused binding is a choice, not a membership snapshot. Recheck it at
+   -- first financial use under the same lock as SAVE_GROUPS. Earlier pins above
+   -- retain their original version after a later membership change.
+   if exists(select 1 from erp.bf_wave_skus_v1 w join erp.cutting_groups g on g.id=w.cutting_group_id
+     where g.po_id=p_po and w.sku_id=s.sku_id and not exists(
+       select 1 from erp.bf_sku_members_v1 m join erp.products p on p.id=m.product_root
+       where m.version_id=vid and p.size_id=w.size_id)) then
+     raise exception 'BF_WAVE_REFERENCE_STALE: keanggotaan ukuran berubah sebelum tarif kerja dipakai; pilih ulang SKU wave';
+   end if;
    for base in select * from erp.po_work_component_snapshots where po_id=p_po and bf_sku_version_id is null order by sequence_no,id loop
      rate:=erp.bf_work_rate_v1(vid,contractor,base.work_component_id,p_at);
      insert into erp.po_work_component_snapshots(po_id,work_component_id,source_bom_version_id,sequence_no,rate_per_pcs_snapshot,source_bom_item_id,source_contractor_rate_id,committed_at,bf_sku_version_id)

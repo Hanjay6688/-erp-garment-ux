@@ -13,32 +13,9 @@ begin
    if key=any(seen) then raise exception 'BF_DUPLICATE_RATE';end if;seen:=seen||key;
  end loop;
  seen:='{}';
- for j in select value from jsonb_array_elements(p_settings->'laundry_rates') loop
-   perform erp._cp3_assert_closed_json_object(j,array['vendor_id','kind','ref_id','rate_status'],
-     array['vendor_id','kind','ref_id','rate_status','rate','reason'],'SKU laundry rate');
-   if not(j ?& array['rate','reason']) then raise exception 'BF_RATE_FIELDS';end if;
-   k:=j->>'kind';ref:=erp.bd_uuid_v1(j,'ref_id',true);vendor:=erp.bd_uuid_v1(j,'vendor_id',true);
-   if not exists(select 1 from erp.laundry_vendors where id=vendor and is_active) then raise exception 'BF_VENDOR';end if;
-   if k='PROCESS' then
-     if not exists(select 1 from erp.wash_processes where id=ref and is_active) then raise exception 'BF_PROCESS';end if;
-   elsif k='COMPONENT' then
-     if not exists(select 1 from erp.bd_laundry_components_v1 where id=ref and vendor_id=vendor and is_active) then raise exception 'BF_COMPONENT';end if;
-   elsif k='PACKAGE' then
-     if not exists(select 1 from erp.bd_laundry_packages_v1 where id=ref and vendor_id=vendor and is_active) then raise exception 'BF_PACKAGE';end if;
-   else raise exception 'BF_RATE_KIND';end if;
-   if j->>'rate_status' not in('KNOWN','UNKNOWN','FREE','WAIVED') or j->>'rate_status' is null then raise exception 'BF_RATE_STATUS';end if;
-   if k<>'COMPONENT' and j->>'rate_status'<>'KNOWN' then raise exception 'BF_COMPONENT_MODE_REQUIRED: gunakan komponen untuk UNKNOWN/FREE/WAIVED';end if;
-   if j->>'rate_status'='UNKNOWN' then
-     if j->'rate'<>'null'::jsonb then raise exception 'BF_UNKNOWN_RATE';end if;
-   else
-     -- KNOWN must be positive; FREE/WAIVED use exact zero plus the reason guard below.
-     amount:=erp.bd_amount_v1(j->'rate','rate',j->>'rate_status'='KNOWN');
-     if j->>'rate_status'='KNOWN' and amount<=0 then raise exception 'BF_ZERO_USE_FREE';end if;
-     if j->>'rate_status' in('FREE','WAIVED') and (amount<>0 or nullif(btrim(j->>'reason'),'') is null) then raise exception 'BF_FREE_REASON';end if;
-   end if;
-   key:=vendor::text||':'||k||':'||ref::text;
-   if key=any(seen) then raise exception 'BF_DUPLICATE_RATE';end if;seen:=seen||key;
- end loop;
+ if jsonb_array_length(p_settings->'laundry_rates')>0 then
+   raise exception 'BF_LAUNDRY_VENDOR_AUTHORITY: harga laundry diatur pada vendor; riwayat SKU hanya referensi pemilihan';
+ end if;
 end;$function$;
 
 -- SKU base rate applies to every member size. Optional contractor/special overrides are still per SKU.
@@ -57,9 +34,8 @@ $function$;
 CREATE OR REPLACE FUNCTION erp.bf_context_rate_v1(p_kind text,p_ref uuid,p_vendor uuid DEFAULT NULL)
  RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
 AS $function$
- select r||jsonb_build_object('version_id',v.id) from erp.bf_context_v1 c
- join erp.bf_sku_versions_v1 v on v.id=c.version_id cross join lateral jsonb_array_elements(v.settings->'laundry_rates') r
- where c.backend_pid=pg_backend_pid() and c.transaction_id=txid_current() and r->>'kind'=p_kind and r->>'ref_id'=p_ref::text and(p_vendor is null or r->>'vendor_id'=p_vendor::text)
+ -- Legacy context helper cannot supply SKU monetary rates.
+ select null::jsonb
 $function$;
 
 CREATE OR REPLACE FUNCTION erp.bf_bom_for_lot_v1(p_lot uuid)

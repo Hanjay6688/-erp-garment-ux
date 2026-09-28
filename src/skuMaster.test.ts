@@ -18,7 +18,7 @@ describe('commercial SKU joins preserve physical identities', () => {
     target.settings!.laundry_rates=[{vendor_id:'v',kind:'PROCESS',ref_id:'p',rate_status:'KNOWN',rate:'90071992547409.99',reason:null}]
     const result=skuGroupChanges(target,[],[{product_root:'27'}])[0].settings
     expect(result.price).toBe('185000.00');expect(result.work_rates[0].rate).toBe('12.50')
-    expect(result.laundry_rates[0].rate).toBe('90071992547409.99')
+    expect(result.laundry_rates).toEqual([])
     target.settings!.price='1.001';expect(()=>skuGroupChanges(target,[],[{product_root:'27'}])).toThrow('dua desimal')
   })
   it('refuses incomplete conflict review and hidden source economics', () => {
@@ -26,14 +26,13 @@ describe('commercial SKU joins preserve physical identities', () => {
     const source = group('old',['27']); source.settings = null
     expect(() => skuGroupChanges(group('new',['27']), [source], [{ product_root: '27' }])).toThrow('Hak baca')
   })
-  it('keeps free and waived zero distinct from unknown when sending the shared SKU', () => {
+  it('does not carry legacy SKU laundry overrides into a new revision', () => {
     const target=group('31-33',['31','32','33'])
     target.settings!.laundry_rates=['FREE','WAIVED','UNKNOWN'].map((status,i)=>({vendor_id:'v',kind:'COMPONENT',ref_id:String(i),rate_status:status,rate:status==='UNKNOWN'?null:'0',reason:'Owner agreed '+status}))
     const result=skuGroupChanges(target,[],target.members.map(m=>({product_root:m.id})))[0]
     expect(result.members).toEqual(['31','32','33'])
-    expect(result.settings.laundry_rates.map(r=>[r.rate_status,r.rate,r.reason])).toEqual([
-      ['FREE','0.00','Owner agreed FREE'],['WAIVED','0.00','Owner agreed WAIVED'],['UNKNOWN',null,'Owner agreed UNKNOWN'],
-    ])
+    expect(result.settings.laundry_rates).toEqual([])
+    expect(target.settings!.laundry_rates.map(r => r.rate_status)).toEqual(['FREE','WAIVED','UNKNOWN'])
   })
   it('formats large money exactly and handles rounding carry without float conversion', () => {
     expect(skuMoney('9007199254740993.995')).toBe('Rp9.007.199.254.740.994,00')

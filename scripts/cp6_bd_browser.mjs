@@ -155,7 +155,7 @@ export async function cases(ui, today) {
     ['BD_BROWSER:LAU_T36_PHONE_MIXED_COVERAGE', async () => {
       // LAU-T36 (UI laundry desktop/HP, mixed coverage): on a 390 px phone the owner sets a component-priced vendor from the
       // "Harga vendor" section (terms COMPONENTS per PCS, component GAR known 5,000.00, component SPR unknown), sends 2 PCS of a
-      // ready batch from "Kirim dengan harga" with GAR covering 2 and SPR covering 1, sees SPR listed "Belum diketahui" (known
+      // ready batch from "Kirim & rincian biaya" with GAR covering 2 and SPR covering 1, sees SPR listed "Belum diketahui" (known
       // subtotal 10,000.00, not complete), and fills SPR at 3,000.00 from "Harga belum diketahui" (13,000.00, complete). The page
       // must never scroll sideways. Only 2 PCS are taken, so the batch keeps stock for the D08 case. Desktop use of the same tab
       // is covered by the other BD browser cases.
@@ -197,7 +197,8 @@ export async function cases(ui, today) {
       }
       widths.master = await widthOk(p)
       // Priced send: 2 PCS, GAR covers 2, SPR covers 1.
-      await p.getByRole('button', { name: 'Kirim dengan harga', exact: true }).click()
+      await p.getByRole('button', { name: 'Kirim & rincian biaya', exact: true }).click()
+    await p.getByLabel('Pilihan rincian biaya', { exact: true }).selectOption('VENDOR')
       const k = p.getByRole('region', { name: 'Kirim laundry dengan harga BD' })
       await k.getByLabel('Batch kirim berharga', { exact: true }).selectOption(ready.b.distribution_batch_id)
       await k.getByLabel('Proses kirim berharga', { exact: true }).selectOption(process)
@@ -209,7 +210,7 @@ export async function cases(ui, today) {
       await k.getByLabel('Jasa SPR', { exact: true }).check()
       await k.getByLabel('Penerima jasa SPR', { exact: true }).selectOption('PARTIAL')
       await k.getByLabel(`Cakupan SPR ${ready.size.size_code}`, { exact: true }).fill('1')
-      await k.getByLabel('Vendor, batch, ukuran, jumlah, warna, waktu, dan harga sudah dicocokkan dengan serah-terima.', { exact: true }).check()
+      await k.getByLabel('Vendor, batch, ukuran, jumlah, warna, waktu, dan pilihan rincian biaya sudah dicocokkan dengan serah-terima.', { exact: true }).check()
       widths.send = await widthOk(p)
       await k.getByRole('button', { name: 'Catat kiriman berharga', exact: true }).click()
       const delivery = () => ui.sql(`select coalesce((select id::text from erp.laundry_deliveries where vendor_id='${vendor}' and status<>'REVERSED' limit 1),'')`)
