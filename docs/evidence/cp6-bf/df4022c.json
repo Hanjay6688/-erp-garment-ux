@@ -1,0 +1,818 @@
+{
+  "candidate": "df4022c1ca21b29b6599b9c5ff8e1493f0bd6282",
+  "run": 36371146417,
+  "job": 108767591709,
+  "production_go": false,
+  "audit_complete": false,
+  "label": "WRITER_SCENARIO",
+  "summary": {
+    "status": "INCOMPLETE",
+    "native": {
+      "PASS": 35
+    },
+    "races": {
+      "INCOMPLETE": 2,
+      "PASS": 18
+    },
+    "http": {
+      "PASS": 7
+    },
+    "browser": {
+      "PASS": 21
+    }
+  },
+  "records": [
+    {
+      "case": "BF:IMPORT_AMBIGUOUS_FAILS_BEFORE_POST",
+      "status": "PASS",
+      "checks": {
+        "all_three_fail_before_apply": true,
+        "no_partial_products": true
+      }
+    },
+    {
+      "case": "BF:IMPORT_EXACT_SIZE_SALES_CUSTODY_COGS_REPLAY",
+      "status": "PASS",
+      "checks": {
+        "sale_exact": true,
+        "custody_exact": true,
+        "cogs_exact": true,
+        "one_reservation": true,
+        "replay": true
+      }
+    },
+    {
+      "case": "BF:IMPORT_INSUFFICIENT_STOCK_ATOMIC",
+      "status": "PASS",
+      "checks": {
+        "refused": true,
+        "no_partial_draft": true
+      }
+    },
+    {
+      "case": "BF:IMPORT_REWORK_SOURCE_RECIPE",
+      "status": "PASS",
+      "checks": {
+        "source_bom_required": true,
+        "source_without_recipe": true,
+        "other_size_has_recipe": true
+      }
+    },
+    {
+      "case": "BF:UNUSED_ROLLBACK_EXACT",
+      "status": "PASS",
+      "checks": {
+        "prior_family_exact": true,
+        "tables_removed": true,
+        "unique_restored": true
+      }
+    },
+    {
+      "case": "BF:USED_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "checks": {
+        "refused": true,
+        "data_kept": true
+      }
+    },
+    {
+      "case": "BF:TWO_SKUS_ONE_WAVE_WORK_LAUNDRY_QC",
+      "status": "PASS",
+      "checks": {
+        "four_physical_sizes": true,
+        "work_costs": true,
+        "laundry_costs": true,
+        "shared_selling_price": true,
+        "exact_total": true,
+        "immutable_provenance": true
+      }
+    },
+    {
+      "case": "BF:SHARED_MASTER_PHYSICAL_ROOTS_REPLAY_GUARD",
+      "status": "PASS",
+      "checks": {
+        "same_price": true,
+        "physical_roots": true,
+        "one_revision": true,
+        "replay": true,
+        "guard": true,
+        "stale": true,
+        "child_versions": true
+      }
+    },
+    {
+      "case": "BF:SINGLETON_BEFORE_ECONOMICS",
+      "status": "PASS",
+      "checks": {
+        "singleton": true,
+        "no_invented_economics": true
+      }
+    },
+    {
+      "case": "BF:TEMPORAL_31_33_TO_31_34_ATOMIC",
+      "status": "PASS",
+      "checks": {
+        "atomic": true,
+        "old": true,
+        "new": true,
+        "no_stock": true
+      }
+    },
+    {
+      "case": "BF:LEGACY_CONFLICT_ACKNOWLEDGED_AND_FUTURE_PRICES",
+      "status": "PASS",
+      "checks": {
+        "explicit_basis": true,
+        "historical": true,
+        "successor": true
+      }
+    },
+    {
+      "case": "BF_REG_BD:T02:PACKAGE_ONE_CHARGE_PHYSICAL_QTY",
+      "status": "PASS",
+      "checks": {
+        "plain_refused": true,
+        "qty_10": true,
+        "total": true,
+        "rate": true,
+        "one_charge": true,
+        "accrual": true
+      }
+    },
+    {
+      "case": "BF_REG_BD:T03:COMPONENT_SUM_SAME_PIECES",
+      "status": "PASS",
+      "checks": {
+        "duplicate_refused": true,
+        "qty_10": true,
+        "total": true,
+        "charges": true,
+        "accrual": true
+      }
+    },
+    {
+      "case": "BF_REG_BD:T04:FOUR_COMPONENTS",
+      "status": "PASS",
+      "checks": {
+        "duplicate_refused": true,
+        "qty_10": true,
+        "total": true,
+        "charges": true,
+        "accrual": true
+      }
+    },
+    {
+      "case": "BF_REG_BD:T05:PARTIAL_COMPONENT_COVERAGE",
+      "status": "PASS",
+      "checks": {
+        "over_refused": true,
+        "qty_10": true,
+        "total": true,
+        "coverage": true
+      }
+    },
+    {
+      "case": "BF_REG_BD:T06:PACKAGE_EXTRA_ONCE",
+      "status": "PASS",
+      "checks": {
+        "same_refused": true,
+        "pending_refused": true,
+        "total": true,
+        "charges": true,
+        "versions": true
+      }
+    },
+    {
+      "case": "BF_REG_BD:T07:VERSION_AFTER_POSTED_DELIVERY",
+      "status": "PASS",
+      "checks": {
+        "early_refused": true,
+        "first_kept": true,
+        "second_v2": true,
+        "receipt_first_estimate": true
+      }
+    },
+    {
+      "case": "BF_REG_BD:T12:UNKNOWN_COMPONENT_KNOWN_SUBTOTAL",
+      "status": "PASS",
+      "checks": {
+        "physical": true,
+        "known_part": true,
+        "rate_null": true,
+        "accrued_known": true,
+        "blocked_out": true,
+        "flat_estimate_refused": true,
+        "receipt_known_part": true,
+        "blocked_back": true,
+        "denied": true,
+        "zero_refused": true,
+        "set": true,
+        "again_refused": true,
+        "complete": true,
+        "receipt_full": true,
+        "accrual_full": true,
+        "unblocked": true
+      }
+    },
+    {
+      "case": "BF_REG_BD:T13:NO_VERSION_IS_ERROR",
+      "status": "PASS",
+      "checks": {
+        "refused": true,
+        "nothing": true
+      }
+    },
+    {
+      "case": "BF_REG_BD:T20:LUMP_SUM_SPLIT_RECEIPTS",
+      "status": "PASS",
+      "checks": {
+        "pending_refused": true,
+        "no_lump_refused": true,
+        "batch": true,
+        "split": true,
+        "uncosted_zero": true,
+        "accrual": true
+      }
+    },
+    {
+      "case": "BF_REG_BD:DEC01:MINIMUM_CHARGE_TOPUP",
+      "status": "PASS",
+      "checks": {
+        "pending_refused": true,
+        "unknown_refused": true,
+        "total": true,
+        "topup": true
+      }
+    },
+    {
+      "case": "BF_REG_BD:T24:SCOPED_SIZE_RATE",
+      "status": "PASS",
+      "checks": {
+        "pending_refused": true,
+        "plain_refused": true,
+        "refuse_without_rate": true,
+        "mixed": true,
+        "posted": true
+      }
+    },
+    {
+      "case": "BF_REG_BD:T24:MULTI_SIZE_LOT_HPP",
+      "status": "PASS",
+      "checks": {
+        "estimates": true,
+        "allocations": true,
+        "receipt_line_cost": true,
+        "two_lots": true,
+        "per_size_laundry": true,
+        "other_costs_equal_per_piece": true,
+        "variance_by_pieces": true,
+        "nothing_left_in_wip": true
+      }
+    },
+    {
+      "case": "BF_REG_BD:D10:VARIANCE_BY_BILLING_SOURCE",
+      "status": "PASS",
+      "checks": {
+        "two_billing_sources": true,
+        "variance_stays_with_its_source": true,
+        "nothing_left_in_wip": true
+      }
+    },
+    {
+      "case": "BF_REG_BD:REV:X01_EXPLICIT_SIZE_COVERAGE_AND_RESPONSE",
+      "status": "PASS",
+      "checks": {
+        "ambiguous_refused": true,
+        "foreign_refused": true,
+        "response_exact": true,
+        "unrelated_size_complete": true,
+        "finish_only_recipient": true,
+        "partial_receipts_conserve": true,
+        "lot_laundry_conserved": true,
+        "total_cost_conserved": true
+      }
+    },
+    {
+      "case": "BF_REG_BD:REV:X01_UNKNOWN_COMPLETION_PRESERVES_COVERAGE",
+      "status": "PASS",
+      "checks": {
+        "ambiguous_refused": true,
+        "foreign_refused": true,
+        "response_exact": true,
+        "unrelated_size_complete": true,
+        "finish_only_recipient": true,
+        "partial_receipts_conserve": true,
+        "lot_laundry_conserved": true,
+        "total_cost_conserved": true
+      }
+    },
+    {
+      "case": "BF_REG_BD:REV:OWN02_FREE_WAIVED_LEGAL_PATH",
+      "status": "PASS",
+      "checks": {
+        "FREE": true,
+        "WAIVED": true,
+        "unknown_to_waived": true
+      }
+    },
+    {
+      "case": "BF_REG_BD:REV:X02_MONEY_OVER_INT32",
+      "status": "PASS",
+      "checks": {
+        "split_upper_bound": true,
+        "21474836.47": true,
+        "21474836.48": true,
+        "28123456.78": true,
+        "discount_exact": true,
+        "ap_exact": true,
+        "balanced": true
+      }
+    },
+    {
+      "case": "BF_REG_BD:REV:X03_AUTH_BEFORE_REPLAY",
+      "status": "PASS",
+      "checks": {
+        "authorized_replay": true,
+        "revoke_fresh": true,
+        "revoke_replay": true,
+        "inactive": true,
+        "hidden": true,
+        "restored": true,
+        "one_effect": true
+      }
+    },
+    {
+      "case": "BF_REG_BD:REV:X05_PAGES_55_INVOICES_201_SOURCES",
+      "status": "PASS",
+      "checks": {
+        "first_limits": true,
+        "remaining": true,
+        "no_lost_or_duplicate_invoices": true,
+        "no_lost_or_duplicate_sources": true,
+        "new_insert_excluded": true,
+        "end": true,
+        "invalid_cursor": true
+      }
+    },
+    {
+      "case": "BF_REG_BB:W:W02_SPLIT_BS_DISPOSE_AND_UNDO",
+      "status": "PASS",
+      "checks": {
+        "split_case_native": true,
+        "remaining_six": true,
+        "value_stays_in_wip": true,
+        "scrap_moves_value": true,
+        "undo_disposition_restores": true,
+        "split_locked_by_resolution": true,
+        "split_undone": true,
+        "stages_never_negative": true,
+        "reports_zero": true
+      }
+    },
+    {
+      "case": "BF_REG_BB:W:W02_SPLIT_BS_REWORK_GOOD",
+      "status": "PASS",
+      "checks": {
+        "good_lot_value": true,
+        "wip_to_fg": true,
+        "reverse_restores": true,
+        "reports_zero": true
+      }
+    },
+    {
+      "case": "BF_REG_BB:W:W02_SPLIT_DATED_REMAINING",
+      "status": "PASS",
+      "checks": {
+        "backdated_refused": true,
+        "today_fits": true,
+        "sewing_never_negative": true,
+        "reports_zero": true
+      }
+    },
+    {
+      "case": "BF_REG_BB:W:W02_WAGES_AFTER_CUTOVER_THROUGH_PAYROLL",
+      "status": "PASS",
+      "checks": {
+        "wage_accrued": true,
+        "output_carries_wage": true,
+        "payroll_pays_once": true,
+        "reports_zero": true
+      }
+    },
+    {
+      "case": "BF_REG_BB:W:W02_WAGES_OVER_PIECES_OR_BEFORE_CUTOVER_REFUSED",
+      "status": "PASS",
+      "checks": {
+        "over_refused": true,
+        "before_cutover_refused": true,
+        "cumulative_over_refused": true,
+        "remainder_fits": true
+      }
+    },
+    {
+      "case": "BF_RACE:SHARED_SKU_FIRST_COMMITS",
+      "status": "INCOMPLETE",
+      "error": "BD_AMOUNT_INVALID: price wajib nominal teks dengan tepat dua desimal\nCONTEXT:  PL/pgSQL function erp.bd_amount_v1(jsonb,text,boolean) line 5 at RAISE\nSQL statement \"SELECT erp.bd_amount_v1(cfg->'price','price',true)\"\nPL/pgSQL function erp.bf_save_groups_v1(jsonb,uuid) line 63 at PERFORM\nPL/pgSQL function erp.save_sku_action_v1(text,jsonb,uuid) line 17 at assignment\nSQL function \"erp_save_sku_action_v1\" statement 1"
+    },
+    {
+      "case": "BF_RACE:SHARED_SKU_FIRST_ABORTS",
+      "status": "INCOMPLETE",
+      "error": "BD_AMOUNT_INVALID: price wajib nominal teks dengan tepat dua desimal\nCONTEXT:  PL/pgSQL function erp.bd_amount_v1(jsonb,text,boolean) line 5 at RAISE\nSQL statement \"SELECT erp.bd_amount_v1(cfg->'price','price',true)\"\nPL/pgSQL function erp.bf_save_groups_v1(jsonb,uuid) line 63 at PERFORM\nPL/pgSQL function erp.save_sku_action_v1(text,jsonb,uuid) line 17 at assignment\nSQL function \"erp_save_sku_action_v1\" statement 1"
+    },
+    {
+      "case": "BD_RACE:INV_TWO_POSTS_FIRST_COMMITS",
+      "status": "PASS"
+    },
+    {
+      "case": "BD_RACE:INV_TWO_POSTS_FIRST_ABORTS",
+      "status": "PASS"
+    },
+    {
+      "case": "BD_RACE:W05_COMPLETE_VS_CLAIM_FIRST_COMMITS",
+      "status": "PASS"
+    },
+    {
+      "case": "BD_RACE:W05_COMPLETE_VS_CLAIM_FIRST_ABORTS",
+      "status": "PASS"
+    },
+    {
+      "case": "BD_RACE:PRC_TWO_SETS_FIRST_COMMITS",
+      "status": "PASS"
+    },
+    {
+      "case": "BD_RACE:PRC_TWO_SETS_FIRST_ABORTS",
+      "status": "PASS"
+    },
+    {
+      "case": "BD_RACE:POL_TWO_OWNER_SETS_SAME_VERSION",
+      "status": "PASS"
+    },
+    {
+      "case": "BD_RACE:EST_INVOICE_VS_ESTIMATE_FIRST_COMMITS",
+      "status": "PASS"
+    },
+    {
+      "case": "BD_RACE:EST_INVOICE_VS_ESTIMATE_FIRST_ABORTS",
+      "status": "PASS"
+    },
+    {
+      "case": "BE_RACE:CONVERSION_FIRST_COMMITS",
+      "status": "PASS",
+      "checks": {
+        "contended": true,
+        "second": true,
+        "once": true
+      }
+    },
+    {
+      "case": "BE_RACE:CONVERSION_FIRST_ABORTS",
+      "status": "PASS",
+      "checks": {
+        "contended": true,
+        "second": true,
+        "once": true
+      }
+    },
+    {
+      "case": "BE_RACE:CONVERSION_IDENTICAL_REPLAY",
+      "status": "PASS",
+      "checks": {
+        "contended": true,
+        "second": true,
+        "once": true
+      }
+    },
+    {
+      "case": "BE_RACE:REDYE_PRICE_FIRST_COMMITS",
+      "status": "PASS",
+      "checks": {
+        "contended": true,
+        "second": true,
+        "once": true
+      }
+    },
+    {
+      "case": "BE_RACE:REDYE_PRICE_FIRST_ABORTS",
+      "status": "PASS",
+      "checks": {
+        "contended": true,
+        "second": true,
+        "once": true
+      }
+    },
+    {
+      "case": "BE_RACE:REDYE_INVOICE_FIRST_COMMITS",
+      "status": "PASS",
+      "checks": {
+        "contended": true,
+        "second": true,
+        "once": true
+      }
+    },
+    {
+      "case": "BE_RACE:REDYE_INVOICE_FIRST_ABORTS",
+      "status": "PASS",
+      "checks": {
+        "contended": true,
+        "second": true,
+        "once": true
+      }
+    },
+    {
+      "case": "BE_RACE:POCKET_PERIOD_FIRST_COMMITS",
+      "status": "PASS",
+      "checks": {
+        "two_connections": true,
+        "held_busy": true,
+        "retry": true,
+        "once": true
+      }
+    },
+    {
+      "case": "BE_RACE:POCKET_PERIOD_FIRST_ABORTS",
+      "status": "PASS",
+      "checks": {
+        "two_connections": true,
+        "held_busy": true,
+        "retry": true,
+        "once": true
+      }
+    },
+    {
+      "case": "BF_HTTP:PERMISSION_BEFORE_REPLAY_AND_REPORTS",
+      "status": "PASS",
+      "checks": {
+        "first": true,
+        "replay": true,
+        "revoked_replay": true,
+        "hpp_denied": true,
+        "hidden": true,
+        "restored": true
+      }
+    },
+    {
+      "case": "BD_HTTP:SET_POLICY_OWNER_ONLY",
+      "status": "PASS"
+    },
+    {
+      "case": "BD_HTTP:MONEY_HIDDEN_INVOICE_OWNER_ADMIN",
+      "status": "PASS"
+    },
+    {
+      "case": "BD_HTTP:W05_CLAIM_OWNER_ADMIN_ONLY",
+      "status": "PASS"
+    },
+    {
+      "case": "BE_HTTP:CONVERSION_AUTH_REPLAY_HIDDEN_COST",
+      "status": "PASS",
+      "checks": {
+        "anon": true,
+        "qc_refused": true,
+        "warehouse_refused": true,
+        "reader_refused": true,
+        "reader_hidden": true,
+        "preview_hidden": true,
+        "owner": true,
+        "replay": true,
+        "changed_key_refused": true
+      }
+    },
+    {
+      "case": "BE_HTTP:REDYE_PRICE_OWNER_REPLAY",
+      "status": "PASS",
+      "checks": {
+        "warehouse_refused": true,
+        "owner": true,
+        "replay": true,
+        "real_cost": true
+      }
+    },
+    {
+      "case": "BD_REV_HTTP:REVOKED_PERMISSION_REPLAY_NO_MONEY",
+      "status": "PASS",
+      "checks": {
+        "authorized": true,
+        "current_permission_cached": true,
+        "current_permission_fresh": true,
+        "hidden": true,
+        "restored": true,
+        "one_effect": true
+      }
+    },
+    {
+      "case": "BD_BROWSER:LAU_T36_PHONE_MIXED_COVERAGE",
+      "status": "PASS",
+      "checks": {
+        "send_known_part_only": true,
+        "mixed_coverage": true,
+        "labels_from_server_components": true,
+        "unknown_listed_on_phone": true,
+        "filled_complete": true,
+        "accrual_matches": true,
+        "no_sideways_scroll": true
+      }
+    },
+    {
+      "case": "BD_BROWSER:D12_PAYMENT_SCREEN_DAILY_CLAIM",
+      "status": "PASS"
+    },
+    {
+      "case": "BD_BROWSER:D12_PAYMENT_SCREEN_OPENING_CLAIM",
+      "status": "PASS"
+    },
+    {
+      "case": "BD_BROWSER:D08_LAUNDRY_QC_CANONICAL_IDS",
+      "status": "PASS"
+    },
+    {
+      "case": "BD_BROWSER:OWNER_POLICY_SET_AND_CLEAR",
+      "status": "PASS"
+    },
+    {
+      "case": "BD_BROWSER:W05_CLAIM_RECOVER_AND_REVERSE",
+      "status": "PASS"
+    },
+    {
+      "case": "BD_BROWSER:W05_OPENING_ESTIMATE_QC_HIDDEN",
+      "status": "PASS"
+    },
+    {
+      "case": "BD_BROWSER:DEC06_CORRECTION_UP_DOWN_ON_SCREEN",
+      "status": "PASS",
+      "checks": {
+        "linked_documents": true,
+        "screen_row": true,
+        "credit_row": true,
+        "ledger_matches": true,
+        "origin_untouched": true,
+        "no_sideways_scroll": true
+      }
+    },
+    {
+      "case": "BD_COMPLETION:ALLOW_PENDING_VISIBLE_AND_BROWSER_RECOST",
+      "status": "PASS",
+      "checks": {
+        "pending_visible": true,
+        "original_close_blocked": true,
+        "lot_adds_10000": true,
+        "remaining_fg_adds_8000": true,
+        "sold_cogs_adds_2000": true,
+        "blocker_clears": true,
+        "sale_snapshot_immutable": true,
+        "sale_recosted": true,
+        "no_pending_goods": true
+      }
+    },
+    {
+      "case": "BE_BROWSER:REDYE_SKU_UNKNOWN_THEN_PRICE_MOBILE",
+      "status": "PASS",
+      "checks": {
+        "partial_no_fg": true,
+        "completed_once": true,
+        "target": true,
+        "final": true
+      }
+    },
+    {
+      "case": "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_DESKTOP",
+      "status": "PASS",
+      "checks": {
+        "complete": true,
+        "qty": true,
+        "response": true,
+        "amount": true,
+        "one_delivery": true,
+        "coverage": true
+      }
+    },
+    {
+      "case": "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_MOBILE",
+      "status": "PASS",
+      "checks": {
+        "complete": true,
+        "qty": true,
+        "response": true,
+        "amount": true,
+        "one_delivery": true,
+        "coverage": true
+      }
+    },
+    {
+      "case": "BD_REV_BROWSER:FREE_MASTER_THEN_PHYSICAL_DESKTOP",
+      "status": "PASS",
+      "checks": {
+        "complete": true,
+        "qty": true,
+        "response": true,
+        "amount": true,
+        "one_delivery": true,
+        "coverage": true
+      }
+    },
+    {
+      "case": "BD_REV_BROWSER:WAIVED_MASTER_THEN_PHYSICAL_MOBILE",
+      "status": "PASS",
+      "checks": {
+        "complete": true,
+        "qty": true,
+        "response": true,
+        "amount": true,
+        "one_delivery": true,
+        "coverage": true
+      }
+    },
+    {
+      "case": "BD_REV_BROWSER:PAGING_PRESERVES_EDIT_MOBILE",
+      "status": "PASS",
+      "checks": {
+        "sources_reachable_once": true,
+        "unchanged_invoice_count": true,
+        "form_preserved_and_saved": true
+      }
+    },
+    {
+      "case": "RANGE_BROWSER:WHOLE_31_33_RESET_DESKTOP",
+      "status": "PASS",
+      "checks": {
+        "full_service_without_reentering_sizes": true,
+        "batch_reset": true,
+        "actual_quantities_only": true,
+        "quantity": true,
+        "same_component_price": true,
+        "charge_count": true,
+        "complete": true,
+        "response": true
+      }
+    },
+    {
+      "case": "RANGE_BROWSER:POPULAR_32_ONLY_MOBILE",
+      "status": "PASS",
+      "checks": {
+        "full_service_without_reentering_sizes": true,
+        "qty_change_updates_full_coverage": true,
+        "actual_quantities_only": true,
+        "quantity": true,
+        "same_component_price": true,
+        "charge_count": true,
+        "complete": true,
+        "response": true,
+        "mobile_width": true
+      }
+    },
+    {
+      "case": "RANGE_BROWSER:SIZE_27_SINGLE_MOBILE",
+      "status": "PASS",
+      "checks": {
+        "full_service_without_reentering_sizes": true,
+        "actual_quantities_only": true,
+        "quantity": true,
+        "same_component_price": true,
+        "charge_count": true,
+        "complete": true,
+        "response": true,
+        "mobile_width": true
+      }
+    },
+    {
+      "case": "RANGE_BROWSER:PARTIAL_FINISH_32_MOBILE",
+      "status": "PASS",
+      "checks": {
+        "full_service_without_reentering_sizes": true,
+        "partial_empty_and_over_qty_refused": true,
+        "actual_quantities_only": true,
+        "quantity": true,
+        "same_component_price": true,
+        "charge_count": true,
+        "complete": true,
+        "response": true,
+        "partial_only_32": true,
+        "mobile_width": true
+      }
+    },
+    {
+      "case": "BF_BROWSER:FOUR_SIZE_MASTER_DESKTOP",
+      "status": "PASS",
+      "checks": {
+        "members": true,
+        "revision": true,
+        "no_stock_mutation": true,
+        "price": true,
+        "bom": true,
+        "hpp_no_invented_stock": true
+      }
+    },
+    {
+      "case": "BF_BROWSER:SINGLETON_UNCONFIGURED_MOBILE",
+      "status": "PASS",
+      "checks": {
+        "members": true,
+        "revision": true,
+        "no_stock_mutation": true,
+        "price": true,
+        "bom": true,
+        "mobile_width": true,
+        "hpp_no_invented_stock": true
+      }
+    }
+  ]
+}
