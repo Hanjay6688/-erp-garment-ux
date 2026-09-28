@@ -33,9 +33,11 @@ def http_cases(http,today):
           cur.execute('update erp.app_users set is_active=true where auth_user_id=%s',(owner.auth_user_id,));conn.commit()
       with http.connect() as conn,conn.cursor() as cur:
         count=revision.one(cur,'select count(*) from erp.sewing_terminal_events where reversal_of_id=%s',f['event']);conn.rollback()
-      return revision.b.verdict(dict(anon=anon['status'] in (401,403),warehouse=denied['status']==403,
+      role_denied=lambda result:result['status']==400 and result['body'].get('message')=='OWNER or ADMIN access required'
+      return revision.b.verdict(dict(anon=anon['status'] in (401,403),warehouse=role_denied(denied),
         dependency=held['status']>=400 and 'sebelum mengoreksi hasil jahit' in str(held),
         version_required=missing['status']>=400 and 'expected_version are required' in str(missing),
         owner=done['status']==200,replay=done==again and count==1,revoked=revoked['status']>=400,
-        page_owner=page['status']==200 and page['body']['periods'][0]['id']==f['pool'],page_restricted=hidden['status']==403))
+        page_owner=page['status']==200 and page['body']['periods'][0]['id']==f['pool'],page_restricted=role_denied(hidden)),
+        http=dict(denied=denied,hidden=hidden,missing=missing,held=held,revoked=revoked))
     return [('BE_REV_HTTP:PUBLIC_SEWING_AND_PERIOD_ACCESS',sewing)]+bf.http_cases(http,today)

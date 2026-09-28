@@ -9,7 +9,8 @@ async function oldPeriod(ui,today,mobile){
  try{
   const menu=p.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click()
   const link=p.getByRole('button',{name:'• Kain kantong',exact:true});if(!await link.isVisible())await p.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).click();await link.click()
-  const ready=()=>ui.expect(p.getByRole('button',{name:'Cari',exact:true})).toBeEnabled({timeout:30000})
+  const search=p.locator('form').filter({has:p.getByLabel('Cari kain kantong',{exact:true})}).getByRole('button',{name:'Cari',exact:true})
+  const ready=()=>ui.expect(search).toBeEnabled({timeout:30000})
   await ready()
   const cancel=p.getByRole('button',{name:'Batalkan alokasi '+f.start,exact:true})
   if(!mobile){
@@ -20,7 +21,7 @@ async function oldPeriod(ui,today,mobile){
    await ui.expect(p.getByLabel('Alasan pembagian kain kantong',{exact:true})).toHaveValue('Draft survives history paging')
   }
   await p.getByLabel('Cari kain kantong',{exact:true}).fill(mobile?f.id:f.end)
-  await p.getByRole('button',{name:'Cari',exact:true}).click()
+  await search.click()
   await ui.expect(cancel).toBeVisible({timeout:30000})
   if(!mobile)return {status:'PASS',checks:{old_active_paged:true,date_search:true,draft_preserved:true},id:f.id}
   await cancel.click();await p.getByLabel('Alasan pembatalan alokasi',{exact:true}).fill('Cancel old active allocation from mobile search')

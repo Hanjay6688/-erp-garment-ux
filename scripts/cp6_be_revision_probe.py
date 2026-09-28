@@ -37,6 +37,10 @@ def recovery(cur,today,po,usage,excess=False):
     bc.policy(cur,'ACC_DEC04',dict(OWN_FG_REPAIR_account_id=bc.account(cur,'5100')))
     bc.policy(cur,'ACC_DEC07',dict(approval='NONE'))
     bc.policy(cur,'ACC_DEC03',dict(credit_account_id=bc.account(cur,'4100'),unit_value_cap='MOVING_AVERAGE'))
+    # BC's material fixture removes its temporary native-schema grant. This
+    # savepoint case uses native sales as a labelled prerequisite, as BE's
+    # existing chain-cost probe does; HTTP cases never receive this grant.
+    api.admin(cur);cur.execute('grant usage on schema erp to authenticated')
     c=convert(cur,f,expected_returns=[dict(material_id=a['material'],qty='5',holder='BE independent audit recovery')]);dest=c['destination_lot_id']
     base=b.lot_value(cur,dest)
     if not po:assert base==D('5.00' if excess else '6172.85'),base
@@ -157,14 +161,14 @@ def sewing_reverse(cur,today):
       bc.session(cur)
       value=one(cur,'select public.erp_reverse_sewing_terminal_v1(%s,%s,%s,%s)',f['event'],'BE public versioned reversal',key or str(uuid.uuid4()),version)
       api.admin(cur);return value
-    missing=b.refused(cur,lambda:call(None),'expected_version are required')
+    missing=b.refused(cur,lambda:call(None),'event_id and expected_version are required')
     stale=b.refused(cur,lambda:call(f['version']+1),'STALE_VERSION')
-    held=b.refused(cur,lambda:call(f['version']),'sebelum mengoreksi hasil jahit')
+    held=b.refused(cur,lambda:call(f['version']),'Batalkan alokasi kain kantong terkait sebelum mengoreksi hasil jahit')
     state=one(cur,'select erp.pocket_period_state_v1(%s)',f['pool'])
     be.pocket_probe.call(cur,'CANCEL_PERIOD',dict(id=f['pool'],expected_revision=state['revision'],reason='BE release active denominator'))
     key=str(uuid.uuid4());result=call(f['version'],key);again=call(f['version'],key)
     return b.verdict(dict(missing_version=missing['ok'],stale=stale['ok'],dependency=held['ok'],replay=result==again,
-      reversed_once=one(cur,'select count(*) from erp.sewing_terminal_events where reversal_of_id=%s',f['event'])==1))
+      reversed_once=one(cur,'select count(*) from erp.sewing_terminal_events where reversal_of_id=%s',f['event'])==1),refusals=[missing,stale,held])
 
 def cases(cur,today):
     return [(f'BE_REV:RECOVERY_{"PO" if po else "NONPO"}_{"USAGE" if usage else "ZERO"}',lambda po=po,usage=usage:recovery(cur,today,po,usage)) for po in (False,True) for usage in (False,True)]+[
