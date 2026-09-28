@@ -1,0 +1,6 @@
+.sku-workspace .panel { overflow-x: auto; }
+.sku-workspace fieldset { min-width: 0; display: flex; flex-wrap: wrap; gap: 12px; margin: 12px 0; border: 1px solid #456080; border-radius: 8px; }
+.sku-workspace fieldset > label { display: grid; gap: 6px; max-width: 100%; flex: 1 1 210px; }
+.sku-workspace fieldset > h3, .sku-workspace fieldset > p, .sku-workspace fieldset > fieldset { flex-basis: 100%; }
+.sku-workspace fieldset input:not([type=checkbox]), .sku-workspace fieldset select { width: 100%; box-sizing: border-box; }
+.sku-workspace legend { overflow-wrap: anywhere; }

@@ -11,6 +11,7 @@ import { skuMoney, skuObject } from './skuHpp'
 import SkuSettingsFields from './SkuSettingsFields'
 import type { Json } from './types/database.preconnect'
 import './initial-import.css'
+import './sku.css'
 
 export default function ConnectedSkuMasterPage() {
   const { runtime, identity } = useAuth()
@@ -74,7 +75,7 @@ function Workspace() {
     retire: () => { setDraft(null); setPreview(null); setApproved(false) }, reload: load,
   }
   const locked = busy || recovery.writerLocked
-  return <section className="initial-import">
+  return <section className="initial-import sku-workspace">
     <header className="panel"><h1>Produk & SKU</h1><p>Satu SKU memiliki satu harga jual, resep aksesori, dan pengaturan tarif jasa. Stok tetap dicatat per ukuran.</p></header>
     <ProductionRecoveryNotice recovery={recovery} onReconcile={() => reconcile(handlers)} className="initial-import-message"/>
     {error && <p role="alert">{error}</p>}

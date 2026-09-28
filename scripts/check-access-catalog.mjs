@@ -129,7 +129,7 @@ const beRpcBoundaries = [
   'src/LaundryBdPanel.tsx:erp_save_product_conversion_action_v1',
 ]
 for (const boundary of beRpcBoundaries) assert.ok(rpcBoundaries.has(boundary), `Missing BE RPC ownership: ${boundary}`)
-const bfRpcBoundaries = ['src/ConnectedSkuHppPage.tsx:erp_get_sku_hpp_v1', 'src/ConnectedSkuMasterPage.tsx:erp_get_sku_workspace_v1', 'src/ConnectedSkuMasterPage.tsx:erp_save_sku_action_v1']
+const bfRpcBoundaries = ['src/SkuWaveReferences.tsx:erp_get_sku_workspace_v1', 'src/SkuWaveReferences.tsx:erp_save_sku_action_v1', 'src/ConnectedSkuHppPage.tsx:erp_get_sku_hpp_v1', 'src/ConnectedSkuMasterPage.tsx:erp_get_sku_workspace_v1', 'src/ConnectedSkuMasterPage.tsx:erp_save_sku_action_v1']
 for (const boundary of bfRpcBoundaries) assert.ok(rpcBoundaries.has(boundary), `Missing BF RPC ownership: ${boundary}`)
 assert.equal(rpcBoundaries.size, evidence.counts.browser_rpc_boundaries + 15 + beRpcBoundaries.length + bfRpcBoundaries.length)
 assert.ok(rpcBoundaries.has('src/ConnectedInitialImportPage.tsx:erp_get_initial_import_workspace_v1'))

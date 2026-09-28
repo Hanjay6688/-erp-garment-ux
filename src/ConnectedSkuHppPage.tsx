@@ -7,6 +7,7 @@ import { useProductionMutation } from './useProductionMutation'
 import { cp6WibPhysicalTimeToIso, formatCp6WibDateTime } from './cp6BusinessTime'
 import { parseSkuHpp, skuMoney, type SkuHppWorkspace } from './skuHpp'
 import './initial-import.css'
+import './sku.css'
 
 export default function ConnectedSkuHppPage() {
   const { runtime, identity } = useAuth()
@@ -36,7 +37,7 @@ function Workspace() {
   }, [client, beginRead, finishRead, isReadCurrent])
   useEffect(() => { void load(); return () => { ++sequence.current } }, [load])
   const active = data?.groups.find(g => g.group_key === selected) ?? data?.groups[0]
-  return <section className="initial-import">
+  return <section className="initial-import sku-workspace">
     <header className="panel"><h1>HPP per SKU</h1><p>Nilai sisa stok seluruh ukuran ÷ jumlah PCS tersisa. Penjualan tetap memakai biaya lot asal.</p></header>
     <form className="panel initial-import-toolbar" onSubmit={e => { e.preventDefault(); const at = date ? cp6WibPhysicalTimeToIso(date) : ''; if (at === null) { setError('Tanggal WIB tidak valid.'); return } filters.current = { query: query.trim(), at, page: 1 }; void load() }}>
       <label>Cari SKU atau merek<input value={query} onChange={e => setQuery(e.target.value)} maxLength={120}/></label>

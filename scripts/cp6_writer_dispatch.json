@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 23,
+  "revision": 24,
   "phase": "after",
   "scenario_path": "scripts/cp6_bf_modes.py",
-  "browser_path": "scripts/cp6_bd_revision_browser.mjs",
-  "purpose": "BF development: PR29 SR03-05 physical import resolution at validation and apply, mixed-size import/rework native cases, tariff historical-use guard. Still NOT_READY; CP6 HOLD."
+  "browser_path": "scripts/cp6_bf_browser.mjs",
+  "purpose": "BF development: test exact-size import/rework fixes, wave reference picker, connected master and HPP browser desktop/mobile. Preserve registered later-family verification and use authenticated snapshot facade in work fixture. NOT_READY; CP6 HOLD."
 }

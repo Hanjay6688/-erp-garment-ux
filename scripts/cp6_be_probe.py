@@ -31,7 +31,7 @@ def verified(cur):
     sql=build.OUT.read_text()
     replaced=cp6_layers.superseded(cur,after=build.VERSION)
     for signature in dict.fromkeys(build.REPLACED+build.new_functions()):
-        if signature in replaced:continue
+        if signature in replaced or ('(' not in signature and signature in {s.split('(')[0] for s in replaced}):continue
         name=signature.split('(')[0];schema,fn=name.split('.')
         start=list(re.finditer(r'(?i)create or replace function '+re.escape(name)+r'\(',sql))[-1].start()
         body_start=sql.index('$function$',start)+len('$function$');body=sql[body_start:sql.index('$function$',body_start)]

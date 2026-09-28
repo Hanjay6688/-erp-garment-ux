@@ -142,7 +142,7 @@ def production_ranges(cur,today):
         call(cur,'BIND_WAVE',dict(cutting_group_id=wave,expected_version=one(cur,'select erp.bf_wave_revision_v1(%s)',wave),
             references=[dict(size_id=s,sku_id=a['id'] if i<3 else c['id']) for i,s in enumerate(sizes)]))
         cur.execute('insert into erp.po_work_component_snapshots(po_id,work_component_id,sequence_no,rate_per_pcs_snapshot,committed_at) values(%s,%s,1,3,%s)',(po,prod.COMPONENT,when(9,30)))
-        prod.owner(cur);cur.execute('select erp.ensure_po_work_component_snapshots(%s,%s)',(po,when(10)));b.api.admin(cur)
+        prod.owner(cur);cur.execute('select erp.ensure_po_work_component_snapshots_v2(%s,%s,%s)',(po,when(10),uuid.uuid4()));b.api.admin(cur)
         for sku,qty in ((a['id'],13),(c['id'],3)):
             snap=one(cur,'select s.id::text from erp.po_work_component_snapshots s join erp.bf_sku_versions_v1 v on v.id=s.bf_sku_version_id where s.po_id=%s and v.sku_id=%s and s.work_component_id=%s',po,sku,prod.COMPONENT)
             snapshots[sku]=snap;e=str(uuid.uuid4());b.chain.peer.ordinary(cur)
