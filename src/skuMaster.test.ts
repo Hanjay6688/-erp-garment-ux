@@ -26,6 +26,15 @@ describe('commercial SKU joins preserve physical identities', () => {
     const source = group('old',['27']); source.settings = null
     expect(() => skuGroupChanges(group('new',['27']), [source], [{ product_root: '27' }])).toThrow('Hak baca')
   })
+  it('keeps free and waived zero distinct from unknown when sending the shared SKU', () => {
+    const target=group('31-33',['31','32','33'])
+    target.settings!.laundry_rates=['FREE','WAIVED','UNKNOWN'].map((status,i)=>({vendor_id:'v',kind:'COMPONENT',ref_id:String(i),rate_status:status,rate:status==='UNKNOWN'?null:'0',reason:'Owner agreed '+status}))
+    const result=skuGroupChanges(target,[],target.members.map(m=>({product_root:m.id})))[0]
+    expect(result.members).toEqual(['31','32','33'])
+    expect(result.settings.laundry_rates.map(r=>[r.rate_status,r.rate,r.reason])).toEqual([
+      ['FREE','0.00','Owner agreed FREE'],['WAIVED','0.00','Owner agreed WAIVED'],['UNKNOWN',null,'Owner agreed UNKNOWN'],
+    ])
+  })
   it('formats large money exactly and handles rounding carry without float conversion', () => {
     expect(skuMoney('9007199254740993.995')).toBe('Rp9.007.199.254.740.994,00')
     expect(skuMoney(null)).toBe('Belum tersedia')

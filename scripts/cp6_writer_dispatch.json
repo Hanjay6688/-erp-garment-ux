@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 32,
+  "revision": 33,
   "phase": "after",
-  "scenario_path": "scripts/cp6_be_revision_modes.py",
-  "browser_path": "scripts/cp6_be_revision_browser.mjs",
-  "purpose": "BE audit revision final qualification: mixed-origin inverse uses an unused PO sibling because the original conversion retains the FIFO sale/return. Both origin families stay alive; exact target/book, inventory and replay remain required. Exact legacy refusal message/SQLSTATE checks retained. Product/package unchanged; full BF/BD/BE regression. CP6 HOLD."
+  "scenario_path": "scripts/cp6_bf_free_modes.py",
+  "browser_path": "scripts/cp6_bf_free_browser.mjs",
+  "purpose": "SKU-01: legitimate FREE/WAIVED master rates, invalid atomic refusals, native ship/receive/QC/HPP, real Auth, permission before replay, two-editor commit/abort and desktop/mobile save/reload. Retains full prior BE/BF/BD scenario. Known fixture fabric100 plus labor2035.04, laundry0 =>2135.04. Writer evidence only, CP6 HOLD; broader rework/range, latest release package and last check remain open."
 }

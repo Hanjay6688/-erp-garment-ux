@@ -31,7 +31,8 @@ begin
    if j->>'rate_status'='UNKNOWN' then
      if j->'rate'<>'null'::jsonb then raise exception 'BF_UNKNOWN_RATE';end if;
    else
-     amount:=erp.bd_amount_v1(j->'rate','rate',true);
+     -- KNOWN must be positive; FREE/WAIVED use exact zero plus the reason guard below.
+     amount:=erp.bd_amount_v1(j->'rate','rate',j->>'rate_status'='KNOWN');
      if j->>'rate_status'='KNOWN' and amount<=0 then raise exception 'BF_ZERO_USE_FREE';end if;
      if j->>'rate_status' in('FREE','WAIVED') and (amount<>0 or nullif(btrim(j->>'reason'),'') is null) then raise exception 'BF_FREE_REASON';end if;
    end if;
