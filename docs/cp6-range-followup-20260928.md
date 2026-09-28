@@ -2,6 +2,14 @@
 
 Status: **CP6 HOLD; production_go=false; audit_complete=false; CP7 belum boleh mulai.**
 
+**Pembaruan takeover 28 September:** koreksi sumber tarif R16, rincian laundry
+kosong sampai kontra bon, riwayat cucian SKU, dan temuan PR30 yang masih relevan
+telah dikerjakan. Bukti terbaru ada di
+[handover kelanjutan writer](cp6-writer-takeover-20260928.md). Pernyataan
+"belum retest" dan angka tes pada bagian lama di bawah merekam checkpoint asal;
+tidak menggantikan hasil kelanjutan tersebut. Status CP6 dan temuan lain tetap
+mengikuti batas masing-masing.
+
 Ini pemeriksaan writer atas source efektif dan kasus tambahan, bukan audit independen seluruh ERP. Tidak ada akses/tulisan data production, UAT, atau legacy. Dokumen ini menambah temuan yang belum tercakup pada handoff BF sebelumnya; tidak membuka ulang bug BD/BE yang sudah dinyatakan sembuh oleh auditor tanpa bukti baru.
 
 ## Dasar dan batas penutupan
@@ -105,3 +113,44 @@ Hasil kandidat produk `fb8fb11`: RANGE-02 PASS pada native DB (empat slot/5–8�
 4. Kualifikasi paket kandidat gabungan dan last check CP6. Auditor/owner menutup temuan berdasarkan bukti retest mereka; writer tidak menerbitkan izin CP7 sendiri.
 
 Tidak ada klaim “semua kemungkinan sudah aman”. Hasil yang menenangkan harus berupa invariant stok/nilai/asalbiaya yang terbukti dan batas yang jelas, bukan janji bahwa range hanya masalah string.
+
+## Tindak lanjut PR30 / R16 oleh writer takeover
+
+- **D01 / R16:** sumber tarif kembali ke master vendor; pengaturan laundry moneter
+  SKU baru ditolak dan konfigurasi lama tidak menjadi override. Native
+  `VENDOR:AUTHORITY_WITH_LEGACY_SKU_OVERRIDE` membuktikan tarif vendor 7,13 serta
+  komponen vendor 3,17 dipakai walaupun metadata SKU lama berisi 999,00. Jalur
+  resolver dan pemeriksaan kebijakan BD dipertahankan. Ini bukan pengaktifan
+  MODEL_SIZE atau klaim mengadopsi oracle tarif per ukuran yang tidak dipakai owner.
+- **D02:** native `PR30:D02_UNUSED_STALE_BINDING` membuktikan referensi lama ditolak
+  sebelum snapshot pertama, tanpa snapshot salah, lalu rebind eksplisit berhasil.
+  `PR30:D02_PRIOR_VALID_PIN` membuktikan snapshot lama yang sudah sah dipertahankan.
+- **D03:** native `PR30:D03_HISTORICAL_WORKSPACE` membuktikan grup, anggota dan
+  produk konsisten dengan tanggal historis, dengan revisi tulis terbaru terpisah.
+- **Biaya boleh menyusul:** kasus rincian kosong dan komponen UNKNOWN sudah
+  melewati invoice parsial/penuh, dampak HPP sesudah penjualan, utang sekali saja,
+  tutup buku bertanggal dan inverse invoice. Riwayat SKU membedakan referensi
+  ESTIMATE / ACTUAL / UNKNOWN; nilai historis seluruh kiriman bukan tarif baru.
+- **Kredit lintas tagihan:** klaim laundry lama ke invoice harian/opening payable
+  vendor sama tetap PASS. Kredit retur kain/aksesori dapat tetap di pembelian asal,
+  dibagi ke pembelian lain dari supplier sama, dipindah dan dibalik dengan riwayat
+  utuh. Cakupan supplier saat ini adalah retur yang sudah POSTED dan pembelian
+  normal; saldo awal utang supplier dan pembuatan retur baru pada asal yang sudah
+  lunas tidak ditambahkan dalam patch ini.
+
+Keempat kasus PR30/vendor di atas PASS pada run `36410963575` dan tetap PASS
+pada run `36413244138` (commit `51a300717857bdc88646ce48731c03ca5eecbc7c`). Run
+kedua mempunyai 76 native, 22 contention, 8 HTTP dan 26 browser PASS, serta satu
+browser HP INCOMPLETE; hasil run keseluruhan tersebut tidak disebut PASS. Hasil
+kualifikasi kandidat perbaikan HP dicatat di handover terbaru.
+
+**Kualifikasi final kelanjutan:** commit
+`86f057c0308617fd92564ba586b8940ff0725bee`,
+[run 36415977301](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36415977301),
+selesai dengan **76 native, 22 contention, 8 HTTP dan 27 browser PASS**, tanpa FAIL
+atau INCOMPLETE. Perbaikan HP dan reuse kredit setelah bekas tujuan dibatalkan
+lulus. Build dan CodeQL pada commit yang sama lulus. Daftar hasil per kasus ada di
+[bukti writer](cp6-vendor-credit-writer-proof-20260928.json).
+
+Ini penutupan pekerjaan writer dalam cakupan teruji, bukan persetujuan auditor
+independen, paket rilis gabungan, last check seluruh CP6, atau izin production.
