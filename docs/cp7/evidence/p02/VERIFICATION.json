@@ -1,0 +1,137 @@
+{
+  "schema_version": "cp7-p02-diagnostic-proof.v1",
+  "scope": "DIAGNOSTIC_ONLY_NO_ACTOR_FACADE_OR_IMMUTABLE_RUN",
+  "commit": "67f3b0f2b2903758d6acc25e2f73786d5b6411a9",
+  "run_id": "36480942787",
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36480942787",
+  "artifact_id": 10996712902,
+  "source_artifact": "cp7-p02-native-probe",
+  "capture_artifact_sha256": "5b209fd0eed721352fda1f7689e88192e0b362e1cbc0685039a0d1ad88690493",
+  "native_probe": {
+    "label": "CP7_P02_SOURCE_CAPTURE",
+    "status": "PASS",
+    "groups": {
+      "p00_catalogue": {
+        "label": "CP7_P00_CATALOGUE",
+        "status": "PASS",
+        "accepted_base": "10a834712e515af86c6d8baa89bbe40cff9793e3",
+        "runtime": {
+          "database": "cp6_rollback",
+          "actor": "supabase_admin",
+          "postgres_version": "17.6",
+          "isolation": "repeatable read",
+          "read_only": "on",
+          "snapshot": "7554:7554:"
+        },
+        "counts": {
+          "functions": 1009,
+          "relations": 409,
+          "triggers": 531,
+          "policies": 190
+        },
+        "catalogue_sha256": "47f39f4220a13ca06a34c7e49b587ce773e95935f21685d12a482f69bac7b616",
+        "resolved_current_readers": {
+          "erp_get_sku_workspace_v1": [
+            "public.erp_get_sku_workspace_v1(jsonb)"
+          ],
+          "erp_get_sku_hpp_v1": [
+            "public.erp_get_sku_hpp_v1(jsonb)"
+          ],
+          "erp_get_wip_control_v1": [
+            "public.erp_get_wip_control_v1(text,uuid,text,text)"
+          ],
+          "erp_get_laundry_qc_workspace_v1": [
+            "public.erp_get_laundry_qc_workspace_v1(text,text)"
+          ],
+          "erp_get_product_conversion_workspace_v1": [
+            "public.erp_get_product_conversion_workspace_v1(jsonb)"
+          ],
+          "erp_get_bs_resolution_workspace_v1": [
+            "public.erp_get_bs_resolution_workspace_v1(text,text,uuid,text,integer,integer)"
+          ]
+        },
+        "read_only_write_refusal_sqlstate": "25006",
+        "business_boundary_unchanged": true,
+        "actor_facade_tests": "NOT_RUN",
+        "analysis_capture_tests": "NOT_RUN",
+        "production_go": false,
+        "independent_acceptance": false
+      },
+      "read_only_missing": {
+        "status": "PASS",
+        "missing_root": "INCOMPLETE",
+        "read_only_transaction": true
+      },
+      "native_fixture": {
+        "status": "PASS",
+        "counts": {
+          "PASS": 1
+        },
+        "database_remaining": null,
+        "complete_boundary_restored": true,
+        "error": null
+      }
+    },
+    "production_go": false,
+    "independent_acceptance": false,
+    "actor_facade": "NOT_RUN",
+    "coherent_persistence": "NOT_RUN",
+    "concurrency": "NOT_RUN"
+  },
+  "package": {
+    "status": "ALL_STAGES_INSTALLED",
+    "gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "primary_unchanged": true,
+    "run_identity": {
+      "label": "T3_PREP",
+      "tool_head": "67f3b0f2b2903758d6acc25e2f73786d5b6411a9",
+      "product_ref": "5e227c493aa333c6457b8258d20cb892d66bb95d",
+      "product_paths": [
+        "supabase/migrations",
+        "supabase/dev",
+        "supabase/release",
+        "supabase/rollbacks",
+        "src"
+      ],
+      "run_id": "36480942787",
+      "run_attempt": "1",
+      "workflow": "CP7 P02 source capture probe",
+      "job": "phase",
+      "event": "push",
+      "github_sha": "67f3b0f2b2903758d6acc25e2f73786d5b6411a9",
+      "release_evidence": false,
+      "production_go": false,
+      "mode": "install"
+    }
+  },
+  "observed_case": {
+    "id": "P02_ONE_ROOT_TWO_CHILD_PENDING_COST",
+    "native_status": "PASS",
+    "child_qty_pcs": [
+      6,
+      7
+    ],
+    "cutting_linkage": "UNBOUND_CANDIDATE",
+    "fg_movement_qty_signed_pcs": "9",
+    "sale_draft_qty_pcs": "2",
+    "lot_cost": {
+      "state": "UNKNOWN",
+      "reason": "PENDING_COST_OR_NO_HPP"
+    },
+    "full_boundary_restored": true,
+    "source": "native job log + run artifact"
+  },
+  "frontend": {
+    "commit": "67f3b0f2b2903758d6acc25e2f73786d5b6411a9",
+    "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36480942635",
+    "conclusion": "success",
+    "contract_test_count": 10
+  },
+  "production_go": false
+}

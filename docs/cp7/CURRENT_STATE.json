@@ -32,7 +32,7 @@
   "packets": {
     "P00": "ENTRY_RECEIPT_AND_NATIVE_CATALOGUE_VERIFIED",
     "P01": "SOURCE_PROBE_DECODER_AND_NEGATIVE_CONTRACT_CASES_IMPLEMENTED",
-    "P02": "SINGLE_STATEMENT_READ_ONLY_DIAGNOSTIC_NATIVE_PENDING"
+    "P02": "SINGLE_STATEMENT_DIAGNOSTIC_NATIVE_PASS_ACTOR_FACADE_NOT_RUN"
   },
   "inherited_scope": {
     "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
@@ -47,6 +47,6 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Run P02 native disposable probe; if green, design current-actor facade, atomic immutable persistence and concurrent change detection before connecting CP7 UI.",
+  "next_action": "Implement P02 current-actor facade, atomic immutable facts and dependency vector; verify concurrent change, partial pages and revocation before connecting CP7 UI.",
   "verification_receipt": "docs/cp7/evidence/p00/VERIFICATION.json"
 }
