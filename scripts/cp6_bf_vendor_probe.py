@@ -27,7 +27,7 @@ def historical_workspace(cur, today):
 
 def stale_wave(cur, today, pinned=False):
     rows=bf.products(cur,('31','34')); roots=[p for p,s in rows]
-    now=one(cur,'select clock_timestamp()'); t0=now-timedelta(minutes=6); t1=now-timedelta(minutes=3)
+    now=one(cur,'select clock_timestamp()'); t0=now-timedelta(minutes=4); t1=now-timedelta(minutes=2)
     a=bf.group(cur,roots[:1],t0); z=bf.group(cur,roots[1:],t0)
     z['settings']['work_rates']=[dict(work_component_id=b.chain.production.COMPONENT,rate='17.00')]
     bf.save(cur,[a,z],t0); result={}
@@ -93,15 +93,17 @@ def pending_invoice(cur, today, selected_unknown=False):
 def vendor_authority(cur,today):
     fx=b.fixture(cur,b.case_day(today),'VENDOR-AUTHORITY');b.process_rate(cur,fx,'7.13')
     root=b.sized_product(cur,b.chain.base.SIZE,'VENDOR-'+uuid.uuid4().hex[:8])
-    g=bf.group(cur,[root],fx['start']);saved=bf.save(cur,[g],fx['start']);vid=saved['groups'][0]['version_id']
+    at=one(cur,"select clock_timestamp()-interval '4 minutes'")
+    g=bf.group(cur,[root],at);saved=bf.save(cur,[g],at);vid=saved['groups'][0]['version_id']
     # Existing wrong configuration is a fixture of the previous product, never a
     # new public master mutation. It must have no monetary authority after repair.
     override=dict(vendor_id=fx['vendor'],kind='PROCESS',ref_id=fx['process'],rate_status='KNOWN',rate='999.00',reason='Legacy wrong authority')
     cur.execute("update erp.bf_sku_versions_v1 set settings=jsonb_set(settings,'{laundry_rates}',%s::jsonb) where id=%s",(json.dumps([override]),vid))
     cur.execute('insert into erp.bf_wave_skus_v1 values(%s,%s,%s,clock_timestamp(),erp.current_app_user_id(),%s)',(fx['group'],b.chain.base.SIZE,g['id'],uuid.uuid4()))
-    computed=b.compute(cur,b.delivery_payload(fx),{})
-    c=b.component(cur,fx,'GARMENT','3.17');comp=b.compute(cur,b.delivery_payload(fx),dict(components=[dict(component_id=c,covered_qty=10)]))
-    g2=bf.group(cur,[root],fx['start']+timedelta(seconds=1),sku=g['sku'],gid=g['id'],revision=1);g2['settings']['laundry_rates']=[override]
-    rejected=b.refused(cur,lambda:bf.save(cur,[g2],fx['start']+timedelta(seconds=1)),'BF_LAUNDRY_VENDOR_AUTHORITY')
+    delivery=dict(b.delivery_payload(fx),physical_at=(at+timedelta(minutes=1)).isoformat())
+    computed=b.compute(cur,delivery,{})
+    c=b.component(cur,fx,'GARMENT','3.17');comp=b.compute(cur,delivery,dict(components=[dict(component_id=c,covered_qty=10)]))
+    g2=bf.group(cur,[root],at+timedelta(seconds=1),sku=g['sku'],gid=g['id'],revision=1);g2['settings']['laundry_rates']=[override]
+    rejected=b.refused(cur,lambda:bf.save(cur,[g2],at+timedelta(seconds=1)),'BF_LAUNDRY_VENDOR_AUTHORITY')
     return b.verdict(dict(vendor_rate=b.D(computed['total_known'])==b.D('71.30'),vendor_components=b.D(comp['total_known'])==b.D('31.70'),
         source_not_sku=all(c.get('bf_sku_version_id') is None for c in computed['charges']),new_sku_override_refused=rejected['ok']))

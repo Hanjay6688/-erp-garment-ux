@@ -58,3 +58,21 @@ same supplier. It may be split over multiple eligible bills within its balance;
 reallocation must preserve actual cash history and release the previous use.
 Slogan: **Reliable data adalah dewa; Keuangan (termasuk laporan), stok, HPP adalah
 raja.** Identity: **VENI. VIDI. VICI. ERP. — I CONQUERED ERP.**
+
+## Native checkpoint 140e569 / run 36409431496
+
+- 68 native transaction cases PASS; 3 INCOMPLETE because new fixture dates exceeded
+  the existing five-minute master creation window. No failed numerical oracle.
+- 20 contention cases, 7 real Auth HTTP cases and 25 desktop/mobile browser cases PASS.
+- Empty-detail delivery -> partial/full kontra bon -> sold-stock HPP -> invoice
+  reversal passed. Existing daily/opening laundry claim applications passed.
+- PR30 historical workspace passed; stale-binding and legacy-SKU-authority fixture
+  dates corrected in the next candidate. Product temporal admission is unchanged.
+- Initial run 36406827364 remains INCOMPLETE: duplicate scenario IDs, pending-detail
+  parser and SQL record alias defects. All three causes were corrected; evidence
+  from the incomplete run is not aggregated into the later passing counts.
+- Supplier credit implementation now reallocates original-purchase return relief
+  with append-only inverse events and net-zero AP journals. Current cash history,
+  return stock movement and economic cent facts are preserved. Native supplier
+  qualification is queued; this is not yet a claim of working supplier coverage.
+- CP6 HOLD; audit_complete=false; production_go=false.

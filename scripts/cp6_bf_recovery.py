@@ -45,6 +45,8 @@ begin
  drop trigger bf_shared_price on erp.product_price_versions;
  drop trigger bf_shared_bom on erp.accessory_bom_versions;
  drop trigger bf_shared_bom_item on erp.accessory_bom_items;
+ drop trigger bf_supplier_return_credit_guard on erp.material_supplier_returns;
+ drop trigger bf_supplier_purchase_credit_guard on erp.material_purchase_headers;
  alter table erp.po_work_component_snapshots drop column bf_sku_version_id;
  execute 'alter table erp.po_work_component_snapshots add constraint po_work_component_snapshots_po_id_work_component_id_key '||(capsule->>'snapshot_constraint');
  alter table erp.rework_component_lines drop column bf_sku_version_id;

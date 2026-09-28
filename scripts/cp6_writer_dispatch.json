@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 37,
+  "revision": 38,
   "phase": "after",
   "scenario_path": "scripts/cp6_bf_vendor_modes.py",
   "browser_path": "scripts/cp6_bf_vendor_browser.mjs",
-  "purpose": "Writer takeover correction: pending-details UI parser, invoice lock SQL alias, unique native case IDs; vendor-source oracles and SKU history reader. Supplier portability in progress. Disposable only; CP6 HOLD."
+  "purpose": "Writer native follow-up: repair fixture date window; supplier return credit split and original purchase inverse for fabric/accessory; connected credit UI. In progress qualification, CP6 HOLD, disposable only."
 }

@@ -33,6 +33,7 @@ import type { CuttingPatternChoice } from './CuttingPatternPicker'
 
 const SalesPages = lazy(() => import('./SalesPages'))
 const FinancePages = lazy(() => import('./FinancePages'))
+const ConnectedSupplierCreditPage = lazy(() => import('./ConnectedSupplierCreditPage'))
 const ConnectedSkuHppPage = lazy(() => import('./ConnectedSkuHppPage'))
 const HppPage = lazy(() => import('./HppPage'))
 const QcFinalPage = lazy(() => import('./QcFinalPage'))
@@ -603,7 +604,7 @@ function App() {
           onToggleReminder={(id)=>setReminders((current)=>current.map((item)=>item.id===id?{...item,status:item.status==='OPEN'?'DONE':'OPEN',completedAt:item.status==='OPEN'?'Sesi ini':undefined}:item))}
         />}
         {isSalesView(page) && <Suspense fallback={<WorkspaceFallback label="Penjualan"/>}><SalesPages view={page} onNavigate={(next)=>setPage(next)} /></Suspense>}
-        {isFinanceView(page) && <Suspense fallback={<WorkspaceFallback label="Keuangan"/>}><FinancePages view={page} onNavigate={(next)=>setPage(next)} onSalesPayment={()=>setPage('sales-payments')} onAttendance={()=>setPage('operations-attendance')} /></Suspense>}
+        {isFinanceView(page) && <Suspense fallback={<WorkspaceFallback label="Keuangan"/>}>{page === 'finance-ap' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedSupplierCreditPage onLaundry={()=>setPage('laundry')}/> : <FinancePages view={page} onNavigate={(next)=>setPage(next)} onSalesPayment={()=>setPage('sales-payments')} onAttendance={()=>setPage('operations-attendance')} />}</Suspense>}
         {page === 'stock-card' && <StockCard />}
         {page === 'movements-vivo' && <Movements bookName="Vivo" bookBrands={vivoBookBrands} setBookBrands={setVivoBookBrands} movements={movements} setMovements={setMovements} />}
         {page === 'movements-widie' && <Movements bookName="Widie" bookBrands={widieBookBrands} setBookBrands={setWidieBookBrands} movements={movements} setMovements={setMovements} />}

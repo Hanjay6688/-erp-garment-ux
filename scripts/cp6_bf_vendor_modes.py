@@ -1,11 +1,15 @@
 """Vendor-source and PR30 follow-up; writer evidence on disposable PostgreSQL."""
 import cp6_bf_vendor_probe as p
+import cp6_bf_supplier_probe as supplier
 import cp6_bf_modes as bf_modes
 import cp6_be_revision_modes as regression
 INSTALL_BF=True
 
 def cases(cur,today):
-    return [('PR30:D03_HISTORICAL_WORKSPACE',lambda:p.historical_workspace(cur,today)),
+    return [('SUPPLIER:FABRIC_SPLIT_ORIGINAL_INVERSE',lambda:supplier.allocation(cur,today,True)),
+      ('SUPPLIER:ACCESSORY_SPLIT_ORIGINAL_INVERSE',lambda:supplier.allocation(cur,today)),
+      ('SUPPLIER:CASH_REALLOCATION_FINANCIAL_TRUTH',lambda:supplier.cash_and_reallocation(cur,today)),
+      ('PR30:D03_HISTORICAL_WORKSPACE',lambda:p.historical_workspace(cur,today)),
       ('PR30:D02_UNUSED_STALE_BINDING',lambda:p.stale_wave(cur,today)),
       ('PR30:D02_PRIOR_VALID_PIN',lambda:p.stale_wave(cur,today,True)),
       ('VENDOR:AUTHORITY_WITH_LEGACY_SKU_OVERRIDE',lambda:p.vendor_authority(cur,today)),
@@ -14,5 +18,5 @@ def cases(cur,today):
       ]+[
         ('VENDOR_REG:'+k,lambda f=f:f(cur,p.b.case_day(today))) for k,_,f in p.b.PLAN if k.startswith('D12:')]+regression.cases(cur,today)
 
-def races(tools,today):return bf_modes.races(tools,today)
+def races(tools,today):return [('SUPPLIER_RACE:FIRST_COMMITS',lambda:supplier.race(tools,today,True)),('SUPPLIER_RACE:FIRST_ABORTS',lambda:supplier.race(tools,today,False))]+bf_modes.races(tools,today)
 def http_cases(http,today):return bf_modes.http_cases(http,today)
