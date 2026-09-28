@@ -6,7 +6,7 @@ The auditor's original probe lives separately and is retained byte-for-byte.
 import copy
 import json
 import uuid
-from datetime import timedelta
+from datetime import datetime, timedelta, timezone
 import cp6_bf_combined_probe as p
 
 b, bf, one = p.b, p.bf, p.one
@@ -55,7 +55,12 @@ def document(cur,f):
     p.prod.owner(cur)
     result=cur.execute('select public.erp_get_product_conversion_workspace_v1(%s::jsonb)',(json.dumps({}),)).fetchone()[0]
     b.api.admin(cur)
-    return next(row for row in result['documents'] if row['id']==f['conversion_request'])
+    row=next(row for row in result['documents'] if row['id']==f['conversion_request'])
+    # The reader serializes timestamptz in the caller's session timezone.
+    # Compare the exact instant, retaining precision, rather than its offset
+    # spelling; finance fixture helpers can switch Asia/Jakarta to UTC.
+    row['physical_at']=datetime.fromisoformat(row['physical_at']).astimezone(timezone.utc).isoformat()
+    return row
 
 
 def history(cur,today,source=False,reversed_=False):

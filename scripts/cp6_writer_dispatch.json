@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 48,
+  "revision": 49,
   "phase": "after",
   "scenario_path": "scripts/cp6_bf_combined_modes.py",
   "browser_path": "scripts/cp6_bf_vendor_browser.mjs",
-  "purpose": "Reproduce the unchanged independent conversion-history probe; guard source and destination history at backdated/equal times while retaining legitimate later moves and reversed documents. Verify both transaction orders with commit/abort and real nonempty Grade B returns. Run retained combined regressions. BF package capture is being renewed for the changed master guard; CP6 HOLD."
+  "purpose": "Original independent probes 3/3, conversion/master races 4/4, and nonempty Grade B passed. Correct writer fixture comparison to exact timezone-aware instants and put next-day non-PO recovery entirely in the past. Product guard and original auditor oracle unchanged. Retest all 97 native, 26 contention and 8 HTTP cases against the captured BF package. CP6 HOLD."
 }

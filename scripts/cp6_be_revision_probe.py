@@ -32,7 +32,9 @@ def convert(cur,f,qty=5,hour=15,at=None,**extra):
 def ledger(cur):return {k:b.gl(cur,k) for k in ('FG_INVENTORY','COGS','OTHER_INCOME','OTHER_EXPENSE')}
 
 def recovery(cur,today,po,usage,excess=False):
-    f=be.fixture(cur,today) if po else opening(cur,today,unit='1.00' if excess else '1234.57')
+    # Non-PO recovery includes next-day receipt/inspection/value at 09:00-11:00.
+    # Finish that sequence yesterday so it is valid even just after midnight.
+    f=be.fixture(cur,today) if po else opening(cur,today-timedelta(days=1),unit='1.00' if excess else '1234.57')
     a=bc.fixture(cur,f['day'],stock_qty=100,cost='23.17')
     bc.policy(cur,'ACC_DEC04',dict(OWN_FG_REPAIR_account_id=bc.account(cur,'5100')))
     bc.policy(cur,'ACC_DEC07',dict(approval='NONE'))

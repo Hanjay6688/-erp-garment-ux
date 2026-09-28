@@ -29,10 +29,13 @@ name: CP6 T3 Release Package (hosted-faithful baseline)
     - scripts/cp6_bd_probe.py
     - scripts/cp6_be_build.py
     - scripts/cp6_be_probe.py
+    - scripts/cp6_be_revision_probe.py
     - scripts/cp6_bf_build.py
     - scripts/cp6_bf_probe.py
     - scripts/cp6_bf_combined_probe.py
     - scripts/cp6_bf_combined_modes.py
+    - scripts/cp6_bf_conversion_history_probe.py
+    - scripts/cp6_independent_final_probe.py
     - scripts/cp6_layers.py
     - supabase/dev/cp6_aw_t1_family.sql
     - supabase/dev/cp6_ax_t1_family.sql
