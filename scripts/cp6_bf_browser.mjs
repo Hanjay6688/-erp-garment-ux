@@ -17,7 +17,7 @@ async function master(ui,singleton,mobile) {
   await p.getByRole('button',{name:'Buat SKU dari ukuran '+f.sizes[0],exact:true}).click()
   await p.getByLabel('Kode SKU',{exact:true}).fill(f.sku)
   for(const size of f.sizes.slice(1))await p.getByRole('button',{name:'Tambah ukuran '+size,exact:true}).click()
-  if(!singleton){await p.getByLabel('Harga jual per PCS untuk seluruh ukuran',{exact:true}).fill('185000.00');await p.getByLabel('Status resep',{exact:true}).selectOption('SET')}
+  if(!singleton){await p.getByLabel('Harga jual per PCS untuk seluruh ukuran',{exact:true}).fill('185000');await p.getByLabel('Status resep',{exact:true}).selectOption('SET')}
   await p.getByLabel('Alasan perubahan',{exact:true}).fill('Browser owner confirms one SKU for actual member sizes')
   await p.getByRole('button',{name:'Periksa seluruh dampak perubahan',exact:true}).click()
   await ui.expect(p.getByRole('heading',{name:'Periksa sebelum menyimpan',exact:true})).toBeVisible()
@@ -34,4 +34,21 @@ async function master(ui,singleton,mobile) {
   return {status:Object.values(checks).every(Boolean)?'PASS':'FAIL',checks,singleton,mobile}
  }finally{await user.context.close()}
 }
-export async function cases(ui,today){return [...await regression(ui,today),['BF_BROWSER:FOUR_SIZE_MASTER_DESKTOP',()=>master(ui,false,false)],['BF_BROWSER:SINGLETON_UNCONFIGURED_MOBILE',()=>master(ui,true,true)]]}
+async function salesManual(ui,mobile) {
+ const user=await ui.login('OWNER',{label:'bf-sales-manual-'+mobile,mobile})
+ try {
+  const p=await open(user,'Penjualan','Penjualan & Invoice')
+  const line=p.locator('.biz-invoice-lines > article').first(), quantities=line.locator('.biz-size-entry input'), helper=line.locator('.biz-dozen-helper input')
+  await ui.expect(quantities).toHaveCount(3)
+  for(const [i,n] of ['5','4','4'].entries())await quantities.nth(i).fill(n)
+  await ui.expect(helper).toHaveValue('')
+  await line.getByRole('button',{name:'Terapkan',exact:true}).click()
+  await ui.expect(line.locator('.biz-line-total')).toHaveText('QTY BARIS · SUMBER AKHIR13 pcs · 1 lusin · 1 potong')
+  await helper.fill('1.1');await line.getByRole('button',{name:'Terapkan',exact:true}).click()
+  for(const [i,n] of ['5','4','4'].entries())await ui.expect(quantities.nth(i)).toHaveValue(n)
+  await helper.fill('1');await line.getByRole('button',{name:'Terapkan',exact:true}).click()
+  for(let i=0;i<3;i++)await ui.expect(quantities.nth(i)).toHaveValue('4')
+  return {status:'PASS',checks:{manual_13_preserved:true,blank_helper_noop:true,fractional_pcs_refused:true,one_dozen_4_4_4:true},scope:'Sales UX simulation only; no connected sale posting claimed',mobile}
+ }finally{await user.context.close()}
+}
+export async function cases(ui,today){return [...await regression(ui,today),['BF_BROWSER:FOUR_SIZE_MASTER_DESKTOP',()=>master(ui,false,false)],['BF_BROWSER:SINGLETON_UNCONFIGURED_MOBILE',()=>master(ui,true,true)],['BF_BROWSER:SALES_MANUAL_13_DESKTOP',()=>salesManual(ui,false)],['BF_BROWSER:SALES_MANUAL_13_MOBILE',()=>salesManual(ui,true)]]}

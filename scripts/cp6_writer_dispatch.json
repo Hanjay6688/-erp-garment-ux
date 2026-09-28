@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 25,
+  "revision": 26,
   "phase": "after",
   "scenario_path": "scripts/cp6_bf_modes.py",
   "browser_path": "scripts/cp6_bf_browser.mjs",
-  "purpose": "BF development: fix tariff source metadata, replay original import request, explicit recipe selector; verify shared-master races/HTTP and BD-BE controls, prevent unadopted physical member costs, preserve compatible legacy PO recipe and rework recipe scope. NOT_READY; CP6 HOLD."
+  "purpose": "BF development: correct two-editor money fixture; exact UI money; PR29 positive multi-size rework completion and manual13 browser; future wave current tariff, shared nonempty recipe and HPP report. NOT_READY; CP6 HOLD."
 }

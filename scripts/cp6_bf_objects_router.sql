@@ -39,7 +39,9 @@ begin
        from erp.bf_sku_members_v1 sm join erp.products p on p.id=sm.product_root join erp.sizes z on z.id=p.size_id
        where sm.version_id=v.id),'[]') members
    from erp.bf_skus_v1 s join erp.brands b on b.id=s.brand_id join erp.product_models m on m.id=s.model_id
-   left join lateral(select x.* from erp.bf_sku_versions_v1 x where x.sku_id=s.id order by x.revision desc limit 1) v on true
+   left join lateral(select x.* from erp.bf_sku_versions_v1 x where x.sku_id=s.id
+     and (nullif(p_filters->>'wave_id','') is null or (x.effective_from<=statement_timestamp() and (x.effective_to is null or x.effective_to>statement_timestamp())))
+     order by x.revision desc limit 1) v on true
    where s.sku ilike '%'||q||'%' or b.brand_name ilike '%'||q||'%' or exists(select 1 from erp.bf_sku_members_v1 sm where sm.version_id=v.id and sm.product_root=any(roots))
  ), products as materialized(
    select p.id,p.sku,p.brand_id,b.brand_name,p.model_id,m.model_name,p.color_name,p.size_id,z.size_code size,

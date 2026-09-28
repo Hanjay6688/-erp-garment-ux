@@ -33,6 +33,18 @@ export function parseSkuMaster(v: unknown): SkuMasterWorkspace {
   if (w.lookups !== null) { const l = skuObject(w.lookups); for (const k of ['accessories','work','contractors','vendors','laundry']) if (!Array.isArray(l[k])) throw new Error('Pilihan master tidak lengkap.') }
   return w as SkuMasterWorkspace
 }
+/** Exact text conversion; no floating-point rounding or removal of an ambiguous separator. */
+function moneyText(value: string | number): string {
+  const text=String(value).trim().replace(',', '.')
+  if (!/^\d+(?:\.\d{1,2})?$/.test(text)) throw new Error('Nominal harus angka tanpa pemisah ribuan, maksimal dua desimal.')
+  const [whole,fraction='']=text.split('.')
+  return `${whole.replace(/^0+(?=\d)/,'')}.${fraction.padEnd(2,'0')}`
+}
+function normalizeSettings(s: SkuSettings): SkuSettings {
+  return { ...s,price:s.price === null ? null : moneyText(s.price),
+    work_rates:s.work_rates.map(r=>({...r,rate:moneyText(r.rate)})),
+    laundry_rates:s.laundry_rates.map(r=>({...r,rate:r.rate === null ? null : moneyText(r.rate)})) }
+}
 /** Includes both sides of a transfer, retaining source settings and every unrelated member. */
 export function skuGroupChanges(target: SkuGroup, related: SkuGroup[], basis: Json[]) {
   const selected = new Set(target.members.map(m => m.id))
@@ -41,6 +53,6 @@ export function skuGroupChanges(target: SkuGroup, related: SkuGroup[], basis: Js
     if (!g.settings) throw new Error('Hak baca harga/resep semua SKU asal diperlukan.')
     const roots = new Set(g.members.map(m => m.id)), legacy = basis.filter(x => roots.has(String(skuObject(x).product_root)))
     if (legacy.length !== roots.size) throw new Error('Harga/resep anggota belum seluruhnya diperiksa.')
-    return { id: g.id, expected_version: g.revision, brand_id: g.brand_id, model_id: g.model_id, color_name: g.color_name, sku: g.sku, members: [...roots], settings: g.settings, legacy_basis: legacy }
+    return { id: g.id, expected_version: g.revision, brand_id: g.brand_id, model_id: g.model_id, color_name: g.color_name, sku: g.sku, members: [...roots], settings: normalizeSettings(g.settings), legacy_basis: legacy }
   })
 }

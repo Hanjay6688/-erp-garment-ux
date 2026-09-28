@@ -26,7 +26,7 @@ function Workspace() {
   const [data, setData] = useState<SkuMasterWorkspace | null>(null), [error, setError] = useState(''), [busy, setBusy] = useState(false)
   const [query, setQuery] = useState(''), filters = useRef({ query: '', page: 1 }), sequence = useRef(0)
   const [draft, setDraft] = useState<SkuGroup | null>(null), [date, setDate] = useState(cp6WibDateTimeInput), [reason, setReason] = useState('')
-  const [preview, setPreview] = useState<{ payload: Json; groups: ReturnType<typeof skuGroupChanges>; basis: Json[] } | null>(null)
+  const [preview, setPreview] = useState<{ payload: Json; groups: ReturnType<typeof skuGroupChanges>; basis: Json[]; members: SkuProduct[] } | null>(null)
   const [approved, setApproved] = useState(false)
   const load = useCallback(async () => {
     const seq = ++sequence.current, ticket = beginRead(), requested = { ...filters.current }
@@ -61,7 +61,7 @@ function Workspace() {
       const fresh = parseSkuMaster(second.data), current = fresh.related_groups.find(g => g.id === captured.id)
       if (current && current.revision !== captured.revision) throw new Error('SKU sudah diubah operator lain. Muat ulang dan pilih ulang SKU.')
       const groups = skuGroupChanges(captured, fresh.related_groups, fresh.legacy_basis ?? [])
-      setPreview({ payload: { effective_from: at, reason: reason.trim(), groups } as Json, groups, basis: fresh.legacy_basis ?? [] }); finishRead(ticket)
+      setPreview({ payload: { effective_from: at, reason: reason.trim(), groups } as Json, groups, basis: fresh.legacy_basis ?? [], members: fresh.selected_products }); finishRead(ticket)
     } catch (e) { if (seq === sequence.current && isReadCurrent(ticket)) setError(normalizeClientError(e).message) }
     finally { if (seq === sequence.current) setBusy(false) }
   }
@@ -91,8 +91,8 @@ function Workspace() {
       <SkuSettingsFields value={draft.settings ?? emptySkuSettings()} lookups={data.lookups} change={settings => setDraft({ ...draft, settings })}/>
       <button type="button" disabled={!draft.sku.trim() || !reason.trim()} onClick={() => void review()}>Periksa seluruh dampak perubahan</button>
     </fieldset>
-    {preview && <section><h3>Periksa sebelum menyimpan</h3>{preview.groups.map(g => <p key={g.id}>{g.sku}: {g.members.length} ukuran setelah perubahan. Revisi lama {g.expected_version}; harga baru {skuMoney(g.settings.price === null ? null : String(g.settings.price))}.</p>)}
-      <table><thead><tr><th>Ukuran</th><th>Harga sebelumnya</th><th>Resep sebelumnya</th></tr></thead><tbody>{preview.basis.map(x => { const b = skuObject(x), m = draft.members.find(m => m.id === b.product_root); return <tr key={String(b.product_root)}><td>{m?.size ?? 'Anggota kelompok asal'}</td><td>{skuMoney(b.price === null ? null : String(b.price))}</td><td>{b.bom === null ? 'Belum ditentukan' : Array.isArray(b.bom) ? `${b.bom.length} komponen` : 'Tidak valid'}</td></tr> })}</tbody></table>
+    {preview && <section><h3>Periksa sebelum menyimpan</h3>{preview.groups.map(g => <p key={g.id}>{g.sku}: {g.members.map(id=>preview.members.find(m=>m.id===id)?.size ?? 'Ukuran belum terbaca').join(', ') || 'Tidak ada anggota'} setelah perubahan. Revisi lama {g.expected_version}; harga baru {skuMoney(g.settings.price === null ? null : String(g.settings.price))}.</p>)}
+      <table><thead><tr><th>Ukuran</th><th>Harga sebelumnya</th><th>Resep sebelumnya</th></tr></thead><tbody>{preview.basis.map(x => { const b = skuObject(x), m = preview.members.find(m => m.id === b.product_root); return <tr key={String(b.product_root)}><td>{m?.size ?? 'Anggota kelompok asal'}</td><td>{skuMoney(b.price === null ? null : String(b.price))}</td><td>{b.bom === null ? 'Belum ditentukan' : Array.isArray(b.bom) ? b.bom.length === 0 ? 'Tanpa aksesori' : b.bom.map((v,i) => { const item=skuObject(v), category=data.lookups?.accessories.find(a=>a.id===item.category_id); return <p key={i}>{category?.name ?? String(item.category_id)}: {String(item.qty_per_good_fg_base)} {category?.unit} / PCS · {item.hpp_method === 'BOM_STANDARD' ? `Standar ${skuMoney(String(item.hpp_standard_rate))} / ${String(item.hpp_uom_code)}` : 'Rata-rata kategori stok'} · penggantian {skuMoney(String(item.reimbursement_rate))} / {String(item.reimbursement_uom_code)}</p> }) : 'Tidak valid'}</td></tr> })}</tbody></table>
       <p>Harga/resep lama tetap menjadi riwayat. Pengaturan bersama di atas berlaku untuk semua anggota baru, termasuk ukuran yang dipindah.</p>
       <label><input type="checkbox" checked={approved} disabled={locked} onChange={e => setApproved(e.target.checked)}/>Saya sudah memeriksa anggota dan pengaturan seluruh kelompok yang berubah.</label>
       <button disabled={locked || !approved} onClick={() => void run('SAVE_GROUPS', preview.payload, null, handlers)}>Simpan seluruh perubahan SKU</button><button disabled={locked} onClick={() => { setPreview(null); setApproved(false) }}>Kembali mengubah</button>

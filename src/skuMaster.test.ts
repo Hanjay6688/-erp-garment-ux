@@ -8,9 +8,18 @@ describe('commercial SKU joins preserve physical identities', () => {
     const target = group('31-33', ['31','32','33','34'])
     const changes = skuGroupChanges(target, [source], ['31','32','33','34','35','36'].map(product_root => ({ product_root })))
     expect(changes.map(g => g.members)).toEqual([['31','32','33','34'],['35','36']])
-    expect(changes[1].settings.price).toBe('195000')
+    expect(changes[1].settings.price).toBe('195000.00')
     expect(source.members.map(m => m.id)).toEqual(['34','35','36'])
     expect(changes.map(g => g.legacy_basis.length)).toEqual([4,2])
+  })
+  it('sends exact two-decimal money from ordinary owner input without changing cents', () => {
+    const target=group('27',['27']);target.settings!.price='185000'
+    target.settings!.work_rates=[{work_component_id:'sewing',rate:'12,5'}]
+    target.settings!.laundry_rates=[{vendor_id:'v',kind:'PROCESS',ref_id:'p',rate_status:'KNOWN',rate:'90071992547409.99',reason:null}]
+    const result=skuGroupChanges(target,[],[{product_root:'27'}])[0].settings
+    expect(result.price).toBe('185000.00');expect(result.work_rates[0].rate).toBe('12.50')
+    expect(result.laundry_rates[0].rate).toBe('90071992547409.99')
+    target.settings!.price='1.001';expect(()=>skuGroupChanges(target,[],[{product_root:'27'}])).toThrow('dua desimal')
   })
   it('refuses incomplete conflict review and hidden source economics', () => {
     expect(() => skuGroupChanges(group('27',['27']), [], [])).toThrow('belum seluruhnya')

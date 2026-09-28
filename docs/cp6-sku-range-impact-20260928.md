@@ -141,3 +141,8 @@ Belum dilakukan pembacaan master bisnis live untuk menentukan SKU owner mana yan
 - Semua verdict per kasus wajib diperiksa. Job berstatus selesai tidak berarti semua kasus PASS. Native derivation HPP bukan bukti halaman HPP connected sudah dibuat.
 
 Commit kandidat, hasil eksekusi, kegagalan awal dan perbaikannya dicatat di [handoff SKU range](cp6-bd-sku-range-handoff-20260928.md) dan [bukti terstruktur](evidence/cp6-bd/sku_range_20260928.json). Auditor/user tetap pemilik penutupan temuan. Bagian master SKU dan perubahan keanggotaan31–33 menjadi31–34 tetap memerlukan implementasi/kualifikasi tersendiri.
+
+
+## Pembaruan BF dan PR #29
+
+Implementasi master SKU, connected master/HPP, referensi wave, snapshot jasa per SKU, guard harga/resep bersama, serta enam delta PR #29 sekarang ada pada development family BF. Status implementasi tidak lagi “belum dibuat”, tetapi **belum release / CP6 HOLD**. Lihat [handoff BF](cp6-bf-sku-range-handoff-20260928.md) untuk peta dampak dan hasil per SHA; bagian bukti lama di atas tetap riwayat, bukan bukti otomatis untuk seluruh BF.

@@ -166,8 +166,15 @@ def production_ranges(cur,today):
     laundry=[one(cur,'select amount from erp.bd_laundry_receipt_allocations_v1 where receipt_batch_size_line_id=%s',rs[s]) for s in sizes]
     physical=[one(cur,'select sum(qty_signed) from erp.fg_stock_movements where lot_id=%s',lot) for lot in lots]
     price=[one(cur,'select erp.resolve_product_price_at(%s,%s)',p,clock(14)) for p in roots]
+    expected_value=one(cur,'select sum(total_cost) from erp.hpp_versions where lot_id=any(%s::uuid[]) and is_current',lots[:3])
+    prod.owner(cur)
+    report=one(cur,'select public.erp_get_sku_hpp_v1(%s::jsonb)',json.dumps(dict(query=a['sku'])))
+    before=one(cur,'select public.erp_get_sku_hpp_v1(%s::jsonb)',json.dumps(dict(query=a['sku'],at=clock(13).isoformat())))
+    b.api.admin(cur)
+    hpp=report['groups'][0]
     return b.verdict(dict(four_physical_sizes=physical==qtys,work_costs=labor==[40,70,20,90],laundry_costs=laundry==[20,35,10,27],
         shared_selling_price=price==[185000]*4,exact_total=sent['estimated_cost']==92,
+        hpp_group_qty=hpp['qty']=='13' and len(hpp['lots'])==3,hpp_weighted=b.D(hpp['value'])==expected_value and abs(b.D(hpp['hpp_per_pcs'])-expected_value/13)<b.D('0.00000001'),hpp_before_fg=before['groups']==[],
         immutable_provenance=one(cur,'select count(distinct c.bf_sku_version_id) from erp.bd_laundry_charge_lines_v1 c join erp.laundry_delivery_lines l on l.id=c.delivery_line_id where l.delivery_id=%s',delivery)==2),
         labor=list(map(str,labor)),laundry=list(map(str,laundry)),physical=physical)
 
@@ -219,7 +226,7 @@ def import_insufficient(cur,today):
     return b.verdict(dict(refused=blocked['ok'],no_partial_draft=one(cur,'select count(*) from erp.sales_headers')==before),refusal=blocked)
 
 
-def import_rework_source(cur,today):
+def import_rework_source(cur,today,positive=False):
     code=b.bbp.rework_masters(cur,today);b.api.admin(cur)
     root=one(cur,'select id from erp.products where sku=%s',code+'P')
     sid=one(cur,'insert into erp.sizes(size_code,is_active) values(%s,true) returning id',code+'32')
@@ -228,9 +235,49 @@ def import_rework_source(cur,today):
     r=b.bbp.rework_import_rows()
     for x in r['OPENING_BALANCE_ITEM']:
       if x.get('balance_type')=='BS':x['size_code']=code+'32'
+    if positive:
+      # Only the actual source size has a recipe. A SKU-only LIMIT 1 would choose the recipe-less sibling.
+      cur.execute('delete from erp.accessory_bom_versions where product_id=%s',(root,))
+      cur.execute("insert into erp.accessory_bom_versions(product_id,effective_from,notes) values(%s,%s,'BF actual BS source')",(sibling,b.chain.production.at(today-timedelta(days=40),0)))
+      f=b.bbp.rework_post(cur,today,code,r)
+      record=b.bbp.ws(cur,f['batch'])['opening_reworks'][0];b.api.admin(cur)
+      order=cur.execute('select o.row_version,b.product_id,d.bom_version_id from erp.rework_orders o join erp.bs_cases b on b.id=o.bs_case_id join erp.rework_accessory_decisions d on d.rework_order_id=o.id where o.id=%s',(record['rework_order_id'],)).fetchone()
+      b.bbp.bs_act(cur,'COMPLETE_REWORK',dict(rework_order_id=record['rework_order_id'],qty_good=3,qty_bs=1,completed_at=b.chain.production.at(f['cutover']+timedelta(days=3),10),return_fg_location_id=f['fg'],change_reason='BF actual source recipe'),order[0]);b.api.admin(cur)
+      lot=one(cur,'select good_fg_lot_id from erp.rework_orders where id=%s',record['rework_order_id'])
+      return b.verdict(dict(actual_source=order[1]==sibling,recipe_source=one(cur,'select product_id from erp.accessory_bom_versions where id=%s',order[2])==sibling,good_product=one(cur,'select product_id from erp.fg_lots where id=%s',lot)==sibling,good_cost=b.D(b.bbp.lot_cost(cur,lot))==b.D('19.50')))
     refused=b.bbp.rework_post(cur,today,code,r,expect=True)
     errors=' '.join(e for _,e in refused['errors'])
     # A sibling's valid recipe must not satisfy the source BS size.
     return b.verdict(dict(source_bom_required='BB_REWORK_ACCESSORY_BOM_REQUIRED' in errors,
       source_without_recipe=one(cur,'select count(*) from erp.accessory_bom_versions where product_id=%s',sibling)==0,
       other_size_has_recipe=one(cur,'select count(*) from erp.accessory_bom_versions where product_id=%s',root)>0),errors=errors)
+
+
+def adoption_and_future(cur,today):
+    rows=products(cur,('31','32','33','34'));roots=[r[0] for r in rows]
+    now=one(cur,'select clock_timestamp()');at=now-timedelta(minutes=4)
+    g=group(cur,roots[:3],at);saved=save(cur,[g],at)
+    price=b.refused(cur,lambda:cur.execute('insert into erp.product_price_versions(product_id,price,effective_from) values(%s,1,%s)',(roots[3],now)),'BF_MEMBER_ADOPTION_REQUIRED')
+    bom=b.refused(cur,lambda:cur.execute("insert into erp.accessory_bom_versions(product_id,effective_from,notes) values(%s,%s,'unadopted')",(roots[3],now)),'BF_MEMBER_ADOPTION_REQUIRED')
+    future=now+timedelta(days=1)
+    next_group=group(cur,roots,future,sku=g['sku'],gid=g['id'],revision=1);next_group['settings']['price']='200000.00'
+    save(cur,[next_group],future)
+    b.chain.production.owner(cur)
+    # A future master must not hide today's valid tariff from the cutting-wave selector.
+    w=one(cur,'select public.erp_get_sku_workspace_v1(%s::jsonb)',json.dumps(dict(query=g['sku'],wave_id=str(uuid.uuid4()))));b.api.admin(cur)
+    return b.verdict(dict(price_guard=price['ok'],bom_guard=bom['ok'],current_members=len(w['groups'][0]['members'])==3,
+      current_tariff=b.D(w['groups'][0]['settings']['price'])==185000,
+      new_member_future=one(cur,'select erp.bf_version_at_v1(%s,%s)',roots[3],now) is None and one(cur,'select erp.bf_version_at_v1(%s,%s)',roots[3],future) is not None,
+      historical_version=one(cur,'select erp.bf_version_at_v1(%s,%s)::text',roots[0],now)==saved['groups'][0]['version_id']))
+
+
+def shared_recipe(cur,today):
+    roots=[r[0] for r in products(cur)];at=one(cur,"select clock_timestamp()-interval '4 minutes'")
+    pcs=one(cur,"select unit_code from erp.uom_definitions where upper(unit_code)='PCS' and dimension='COUNT' and is_active")
+    cat=one(cur,"insert into erp.accessory_categories(category_code,category_name,base_uom_code,is_active) values(%s,'BF shared buttons',%s,true) returning id::text",'BF-'+uuid.uuid4().hex[:8],pcs)
+    settings=dict(price='185000.00',bom=[dict(category_id=cat,qty_per_good_fg_base='2',hpp_method='BOM_STANDARD',hpp_standard_rate='300',hpp_uom_code=pcs,reimbursement_rate='0',reimbursement_uom_code=pcs)],work_rates=[],laundry_rates=[])
+    g=group(cur,roots,at,settings=settings);save(cur,[g],at)
+    basis=[one(cur,'select erp.bf_recipe_basis_v1(m.bom_version_id) from erp.bf_sku_members_v1 m where m.version_id=erp.bf_version_at_v1(%s,%s) and m.product_root=%s',r,at,r) for r in roots]
+    item=one(cur,'select i.id from erp.accessory_bom_items i join erp.bf_sku_members_v1 m on m.bom_version_id=i.bom_version_id where m.version_id=erp.bf_version_at_v1(%s,%s) and m.product_root=%s',roots[1],at,roots[1])
+    blocked=b.refused(cur,lambda:cur.execute('update erp.accessory_bom_items set qty_per_good_fg_base=3 where id=%s',(item,)),'BF_SHARED_MASTER')
+    return b.verdict(dict(shared_recipe=basis[0]==basis[1]==basis[2],two_buttons=basis[0][0]['qty']==2,standard_price=basis[0][0]['standard']==300,independent_size_edit_refused=blocked['ok']))
