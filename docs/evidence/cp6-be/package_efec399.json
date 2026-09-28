@@ -1,0 +1,2725 @@
+{
+  "candidate": "efec399c4e2639d9ee854f34b27f8294c16a8de7",
+  "run": 36377094023,
+  "label": "T3_PREP",
+  "production_go": false,
+  "audit_complete": false,
+  "records": [
+    {
+      "job": 108785042225,
+      "records": [
+        {
+          "t3_package_run": {
+            "label": "T3_PREP",
+            "mode": "browser",
+            "status": "BROWSER_PASS",
+            "production_go": false,
+            "release_evidence": false,
+            "run_identity": {
+              "label": "T3_PREP",
+              "tool_head": "efec399c4e2639d9ee854f34b27f8294c16a8de7",
+              "product_ref": "efec399c4e2639d9ee854f34b27f8294c16a8de7",
+              "product_paths": [
+                "supabase/migrations",
+                "supabase/dev",
+                "supabase/release",
+                "supabase/rollbacks",
+                "src"
+              ],
+              "run_id": "36377094023",
+              "run_attempt": "1",
+              "workflow": "CP6 T3 Release Package (hosted-faithful baseline)",
+              "job": "phase",
+              "event": "push",
+              "github_sha": "efec399c4e2639d9ee854f34b27f8294c16a8de7",
+              "release_evidence": false,
+              "production_go": false,
+              "mode": "browser"
+            },
+            "auth_users_before": 0,
+            "ledger_start": {
+              "app": [
+                "v2.6.20aa",
+                "v2.6.20ab"
+              ],
+              "platform_last": "20260914190500"
+            },
+            "fingerprint_AB": {
+              "view": {
+                "n": 51,
+                "md5": "68b2fbf688881496413307954006bdbe"
+              },
+              "index": {
+                "n": 605,
+                "md5": "65816b59b4bd7675995b7b9bc98fa4c5"
+              },
+              "policy": {
+                "n": 190,
+                "md5": "48bb358e009dc8d19417bbb3982f6d3f"
+              },
+              "schema": {
+                "n": 2,
+                "md5": "6ee1ffa742c0945434188ce249e139ca"
+              },
+              "trigger": {
+                "n": 448,
+                "md5": "971341de44cfecc9a587fc140c6cf30a"
+              },
+              "function": {
+                "n": 574,
+                "md5": "5e235119482f9767a74ba3fe7fbd2619"
+              },
+              "relation": {
+                "n": 272,
+                "md5": "5a8c31607ad25d70808ba9f7699bf690"
+              },
+              "sequence": {
+                "n": 6,
+                "md5": "dacd751dd3a5f2f7efbc203171be4ead"
+              },
+              "extension": {
+                "n": 6,
+                "md5": "15a959c38d716ad2af3fe1f1dc4419ef"
+              },
+              "app_ledger": {
+                "n": 83,
+                "md5": "7ad6fed4ecef5f62d3be04fffdbc9e69"
+              },
+              "constraint": {
+                "n": 1308,
+                "md5": "1a354c9c9ddc0b40782e80339e1dbacd"
+              },
+              "config_hash": {
+                "n": 6,
+                "md5": "2193b4becca1d4d89e40b444b0a8af29"
+              },
+              "default_acl": {
+                "n": 6,
+                "md5": "c9c232814a7b3ee3eaadb50e8b7dc7fd"
+              },
+              "platform_ledger": {
+                "n": 98,
+                "md5": "39e21c0d5d36ef100d312dd736898487"
+              },
+              "function_owner_acl": {
+                "n": 574,
+                "md5": "12a9878282b3db31bec2d8e34eb57c59"
+              },
+              "relation_owner_acl": {
+                "n": 272,
+                "md5": "bf0e6b7cd7ea3e25b7b94918cd3cc844"
+              }
+            },
+            "hosted_capsules": {
+              "equal": true,
+              "capsules": {
+                "bs_resolution_v2619_rollback_capsule": {
+                  "hosted": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+                  "clone": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+                  "equal": true
+                },
+                "bs_resolution_v2619a_rollback_capsule": {
+                  "hosted": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+                  "clone": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+                  "equal": true
+                },
+                "bs_resolution_v2619b_rollback_capsule": {
+                  "hosted": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+                  "clone": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+                  "equal": true
+                },
+                "bs_resolution_v2619c_rollback_capsule": {
+                  "hosted": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+                  "clone": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+                  "equal": true
+                },
+                "cp3_r4_rollback_capsule": {
+                  "hosted": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+                  "clone": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+                  "equal": true
+                },
+                "cp45_v2617_rollback_capsule": {
+                  "hosted": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+                  "clone": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+                  "equal": true
+                },
+                "cp45_v2617a_rollback_capsule": {
+                  "hosted": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+                  "clone": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+                  "equal": true
+                },
+                "cp4_v2616_rollback_capsule": {
+                  "hosted": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+                  "clone": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+                  "equal": true
+                },
+                "cp6_v2620_rollback_capsule": {
+                  "hosted": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+                  "clone": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+                  "equal": true
+                },
+                "cutting_bridge_v2618_rollback_capsule": {
+                  "hosted": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+                  "clone": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+                  "equal": true
+                },
+                "cutting_bridge_v2618a_rollback_capsule": {
+                  "hosted": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+                  "clone": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+                  "equal": true
+                }
+              },
+              "cp6_v2620_rows_differing": []
+            },
+            "browser": {
+              "label": "T3_PREP_BROWSER",
+              "status": "PASS",
+              "frontend": "candidate branch checkout (auditor)",
+              "production_go": false,
+              "release_evidence": false,
+              "seed": {
+                "exit": 0,
+                "stderr": ""
+              },
+              "flow_exit_code": 0,
+              "cases": {
+                "REAL_LOGIN_PAGE": "PASS",
+                "ANONYMOUS_REFUSED": "PASS",
+                "REAL_PASSWORD_BROWSER_LOGIN": "PASS",
+                "AMBIGUOUS_REFUSED_0": "PASS",
+                "LOST_REPLY_RELOAD_EXACT_REPLAY": "PASS",
+                "EXACT_BRAND_STOCK_HPP_0": "PASS",
+                "LINKED_INVERSE_0": "PASS",
+                "AMBIGUOUS_REFUSED_1": "PASS",
+                "EXACT_BRAND_STOCK_HPP_1": "PASS",
+                "LINKED_INVERSE_1": "PASS"
+              },
+              "flow_status": "PASS",
+              "console_errors": 0,
+              "candidate_verified_after_flow": "T3_PACKAGE_PLUS_AW_AX_AY_AZ_T1",
+              "rest_remaining": false
+            },
+            "primary_unchanged": true,
+            "auth_users_after": 0,
+            "gate": {
+              "installed": true,
+              "primary_unchanged": true
+            }
+          }
+        }
+      ],
+      "partial_final": []
+    },
+    {
+      "job": 108785042318,
+      "records": [
+        {
+          "group": "T3_SECURITY_ADVISORS",
+          "status": "REVIEW_REQUIRED",
+          "before": 73,
+          "after": 205,
+          "added": [
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "accounting_close_filings_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_customer_credit_events_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_customer_credits_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_legacy_documents_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_open_sales_draft_lines_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_open_sales_drafts_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_opening_credits_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_opening_reworks_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_opening_sale_return_receipts_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_opening_sale_return_rights_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_payroll_entitlements_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_purchase_commitment_cancellations_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_purchase_commitment_drafts_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_purchase_commitment_lines_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_purchase_commitments_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_receipt_invoiced_parts_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_wip_bs_splits_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_wip_pickups_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_wip_split_value_events_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_accessory_zones_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_adjustment_purposes_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_count_variances_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_customer_custody_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_document_links_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_documents_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_execution_context_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_free_issue_lines_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_internal_use_lines_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_lot_events_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_note_roundings_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_opening_note_lines_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_outstanding_returns_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_policy_setting_events_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_policy_settings_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_return_lots_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_claim_credit_applications_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_custody_sources_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_execution_context_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_charge_lines_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_charge_shares_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_component_rates_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_components_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_invoice_lines_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_invoices_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_package_components_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_package_rates_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_packages_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_priced_lines_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_receipt_allocations_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_scoped_rates_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_size_estimates_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_vendor_terms_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_opening_laundry_claim_events_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_opening_laundry_claims_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_opening_laundry_uninvoiced_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_pending_price_sales_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_policy_setting_events_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_policy_settings_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_requests_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_conversion_cost_events_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_conversion_cost_sources_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_conversion_returns_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_conversion_sources_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_execution_context_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_nonpo_transfer_events_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_pocket_receipt_origins_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_pocket_sewing_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_pocket_source_events_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_pocket_target_events_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_pocket_usage_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_redye_price_events_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_redye_services_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_rework_targets_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bs_case_manual_origins_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ac_relation_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ac_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ad_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ae_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620af_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ag_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ah_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ai_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620aj_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ak_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620al_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620am_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620an_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ao_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ap_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620aq_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ar_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620as_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620at_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620au_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620av_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620aw_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ax_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ay_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620az_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ba_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620bb_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620bc_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620bd_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620be_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "fg_unsourced_receipts_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "fg_unsourced_repair_wages_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_bs_value_events",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_cost_origins",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_financial_sources",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_opening_stock_sources",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_origin_cost_events",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_prepayment_events",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_prepayment_payments",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_prepayments",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_production_sources",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_receipt_headers",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_receipt_lines",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_wip_output_identity_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_wip_output_reversals",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_wip_outputs",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "invoice_recost_execution_context",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "laundry_rate_owner_estimates_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "po_hpp_gl_lot_state_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "po_hpp_gl_material_state_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "pocket_fabric_execution_context",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "pocket_fabric_materials",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "pocket_fabric_usage",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "pocket_period_destinations",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "pocket_period_events",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "pocket_period_sources",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "pocket_periods",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "product_identity_mutation_context_v1",
+              "table"
+            ]
+          ],
+          "removed": []
+        },
+        {
+          "group": "T3_CUTOVER_DATA_CHECKS",
+          "uuid_quality": {
+            "status": "CLEAN",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+            "columns_checked": 1075,
+            "refused_values": {},
+            "refused_total": 0,
+            "non_v4_defaults": {},
+            "non_rfc_values": {},
+            "non_rfc_total": 0,
+            "reads_only": true,
+            "note": "Frontend UUID pattern (canonical 8-4-4-4-12, D08) against every erp uuid column; non_rfc_values is information only"
+          },
+          "cash_bank_aliases": {
+            "status": "NONE",
+            "aliases": [],
+            "reads_only": true,
+            "note": "Active cash accounts sharing one COA account (CASH_BANK opening identity is per cash account)"
+          }
+        },
+        {
+          "t3_package_run": {
+            "label": "T3_PREP",
+            "mode": "install",
+            "status": "ALL_STAGES_INSTALLED",
+            "production_go": false,
+            "release_evidence": false,
+            "run_identity": {
+              "label": "T3_PREP",
+              "tool_head": "efec399c4e2639d9ee854f34b27f8294c16a8de7",
+              "product_ref": "efec399c4e2639d9ee854f34b27f8294c16a8de7",
+              "product_paths": [
+                "supabase/migrations",
+                "supabase/dev",
+                "supabase/release",
+                "supabase/rollbacks",
+                "src"
+              ],
+              "run_id": "36377094023",
+              "run_attempt": "1",
+              "workflow": "CP6 T3 Release Package (hosted-faithful baseline)",
+              "job": "phase",
+              "event": "push",
+              "github_sha": "efec399c4e2639d9ee854f34b27f8294c16a8de7",
+              "release_evidence": false,
+              "production_go": false,
+              "mode": "install"
+            },
+            "auth_users_before": 0,
+            "ledger_start": {
+              "app": [
+                "v2.6.20aa",
+                "v2.6.20ab"
+              ],
+              "platform_last": "20260914190500"
+            },
+            "fingerprint_AB": {
+              "view": {
+                "n": 51,
+                "md5": "68b2fbf688881496413307954006bdbe"
+              },
+              "index": {
+                "n": 605,
+                "md5": "65816b59b4bd7675995b7b9bc98fa4c5"
+              },
+              "policy": {
+                "n": 190,
+                "md5": "48bb358e009dc8d19417bbb3982f6d3f"
+              },
+              "schema": {
+                "n": 2,
+                "md5": "6ee1ffa742c0945434188ce249e139ca"
+              },
+              "trigger": {
+                "n": 448,
+                "md5": "971341de44cfecc9a587fc140c6cf30a"
+              },
+              "function": {
+                "n": 574,
+                "md5": "5e235119482f9767a74ba3fe7fbd2619"
+              },
+              "relation": {
+                "n": 272,
+                "md5": "5a8c31607ad25d70808ba9f7699bf690"
+              },
+              "sequence": {
+                "n": 6,
+                "md5": "dacd751dd3a5f2f7efbc203171be4ead"
+              },
+              "extension": {
+                "n": 6,
+                "md5": "15a959c38d716ad2af3fe1f1dc4419ef"
+              },
+              "app_ledger": {
+                "n": 83,
+                "md5": "7ad6fed4ecef5f62d3be04fffdbc9e69"
+              },
+              "constraint": {
+                "n": 1308,
+                "md5": "1a354c9c9ddc0b40782e80339e1dbacd"
+              },
+              "config_hash": {
+                "n": 6,
+                "md5": "2193b4becca1d4d89e40b444b0a8af29"
+              },
+              "default_acl": {
+                "n": 6,
+                "md5": "c9c232814a7b3ee3eaadb50e8b7dc7fd"
+              },
+              "platform_ledger": {
+                "n": 98,
+                "md5": "39e21c0d5d36ef100d312dd736898487"
+              },
+              "function_owner_acl": {
+                "n": 574,
+                "md5": "12a9878282b3db31bec2d8e34eb57c59"
+              },
+              "relation_owner_acl": {
+                "n": 272,
+                "md5": "bf0e6b7cd7ea3e25b7b94918cd3cc844"
+              }
+            },
+            "hosted_capsules": {
+              "equal": true,
+              "capsules": {
+                "bs_resolution_v2619_rollback_capsule": {
+                  "hosted": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+                  "clone": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+                  "equal": true
+                },
+                "bs_resolution_v2619a_rollback_capsule": {
+                  "hosted": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+                  "clone": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+                  "equal": true
+                },
+                "bs_resolution_v2619b_rollback_capsule": {
+                  "hosted": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+                  "clone": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+                  "equal": true
+                },
+                "bs_resolution_v2619c_rollback_capsule": {
+                  "hosted": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+                  "clone": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+                  "equal": true
+                },
+                "cp3_r4_rollback_capsule": {
+                  "hosted": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+                  "clone": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+                  "equal": true
+                },
+                "cp45_v2617_rollback_capsule": {
+                  "hosted": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+                  "clone": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+                  "equal": true
+                },
+                "cp45_v2617a_rollback_capsule": {
+                  "hosted": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+                  "clone": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+                  "equal": true
+                },
+                "cp4_v2616_rollback_capsule": {
+                  "hosted": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+                  "clone": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+                  "equal": true
+                },
+                "cp6_v2620_rollback_capsule": {
+                  "hosted": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+                  "clone": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+                  "equal": true
+                },
+                "cutting_bridge_v2618_rollback_capsule": {
+                  "hosted": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+                  "clone": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+                  "equal": true
+                },
+                "cutting_bridge_v2618a_rollback_capsule": {
+                  "hosted": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+                  "clone": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+                  "equal": true
+                }
+              },
+              "cp6_v2620_rows_differing": []
+            },
+            "ledger_final": {
+              "app": [
+                "v2.6.20aa",
+                "v2.6.20ab",
+                "v2.6.20ac",
+                "v2.6.20ad",
+                "v2.6.20ae",
+                "v2.6.20af",
+                "v2.6.20ag",
+                "v2.6.20ah",
+                "v2.6.20ai",
+                "v2.6.20aj",
+                "v2.6.20ak",
+                "v2.6.20al",
+                "v2.6.20am",
+                "v2.6.20an",
+                "v2.6.20ao",
+                "v2.6.20ap",
+                "v2.6.20aq",
+                "v2.6.20ar",
+                "v2.6.20as",
+                "v2.6.20at",
+                "v2.6.20au",
+                "v2.6.20av",
+                "v2.6.20aw",
+                "v2.6.20ax",
+                "v2.6.20ay",
+                "v2.6.20az"
+              ],
+              "platform_last": "20260926050000"
+            },
+            "fingerprint_final": {
+              "view": {
+                "n": 51,
+                "md5": "c08bd89cf82d60763558b988fea065b3"
+              },
+              "index": {
+                "n": 896,
+                "md5": "d574565c06863b265f1f927da94af7f6"
+              },
+              "policy": {
+                "n": 190,
+                "md5": "48bb358e009dc8d19417bbb3982f6d3f"
+              },
+              "schema": {
+                "n": 2,
+                "md5": "6ee1ffa742c0945434188ce249e139ca"
+              },
+              "trigger": {
+                "n": 524,
+                "md5": "d259bed9b2a968553c1e7077938da2f6"
+              },
+              "function": {
+                "n": 969,
+                "md5": "0be93bdc962db25e5862445395458dc3"
+              },
+              "relation": {
+                "n": 404,
+                "md5": "b520f1a9c7096659efda9cc84f26291a"
+              },
+              "sequence": {
+                "n": 6,
+                "md5": "dacd751dd3a5f2f7efbc203171be4ead"
+              },
+              "extension": {
+                "n": 6,
+                "md5": "15a959c38d716ad2af3fe1f1dc4419ef"
+              },
+              "app_ledger": {
+                "n": 112,
+                "md5": "d97741645c2208a27b10be40aade7c51"
+              },
+              "constraint": {
+                "n": 2114,
+                "md5": "3edf95f77b4288f347a161c3718540cd"
+              },
+              "config_hash": {
+                "n": 6,
+                "md5": "2193b4becca1d4d89e40b444b0a8af29"
+              },
+              "default_acl": {
+                "n": 6,
+                "md5": "c9c232814a7b3ee3eaadb50e8b7dc7fd"
+              },
+              "platform_ledger": {
+                "n": 127,
+                "md5": "96fdc87154073ec68d1eeb067a327188"
+              },
+              "function_owner_acl": {
+                "n": 969,
+                "md5": "82a9105b1c6956ad7f28dc653c6228b8"
+              },
+              "relation_owner_acl": {
+                "n": 404,
+                "md5": "e47525ffd734e9e593913036827bcdc4"
+              }
+            },
+            "backup_restore_drill": "RESTORED_SAME_MEANING",
+            "cutover_data_checks": {
+              "uuid_quality": {
+                "status": "CLEAN",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                "columns_checked": 1075,
+                "refused_values": {},
+                "refused_total": 0,
+                "non_v4_defaults": {},
+                "non_rfc_values": {},
+                "non_rfc_total": 0,
+                "reads_only": true,
+                "note": "Frontend UUID pattern (canonical 8-4-4-4-12, D08) against every erp uuid column; non_rfc_values is information only"
+              },
+              "cash_bank_aliases": {
+                "status": "NONE",
+                "aliases": [],
+                "reads_only": true,
+                "note": "Active cash accounts sharing one COA account (CASH_BANK opening identity is per cash account)"
+              }
+            },
+            "primary_unchanged": true,
+            "auth_users_after": 0,
+            "gate": {
+              "installed": true,
+              "primary_unchanged": true,
+              "backup_restore_drill": true,
+              "security_advisors": true
+            }
+          }
+        }
+      ],
+      "partial_final": []
+    },
+    {
+      "job": 108785042463,
+      "records": [
+        {
+          "group": "T3_PINS_REPRODUCED",
+          "equal": true,
+          "differ": []
+        },
+        {
+          "group": "T3_SECURITY_ADVISORS",
+          "status": "REVIEW_REQUIRED",
+          "before": 73,
+          "after": 205,
+          "added": [
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "accounting_close_filings_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_customer_credit_events_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_customer_credits_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_legacy_documents_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_open_sales_draft_lines_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_open_sales_drafts_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_opening_credits_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_opening_reworks_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_opening_sale_return_receipts_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_opening_sale_return_rights_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_payroll_entitlements_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_purchase_commitment_cancellations_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_purchase_commitment_drafts_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_purchase_commitment_lines_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_purchase_commitments_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_receipt_invoiced_parts_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_wip_bs_splits_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_wip_pickups_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bb_wip_split_value_events_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_accessory_zones_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_adjustment_purposes_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_count_variances_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_customer_custody_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_document_links_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_documents_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_execution_context_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_free_issue_lines_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_internal_use_lines_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_lot_events_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_note_roundings_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_opening_note_lines_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_outstanding_returns_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_policy_setting_events_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_policy_settings_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bc_return_lots_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_claim_credit_applications_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_custody_sources_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_execution_context_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_charge_lines_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_charge_shares_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_component_rates_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_components_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_invoice_lines_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_invoices_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_package_components_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_package_rates_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_packages_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_priced_lines_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_receipt_allocations_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_scoped_rates_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_size_estimates_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_laundry_vendor_terms_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_opening_laundry_claim_events_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_opening_laundry_claims_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_opening_laundry_uninvoiced_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_pending_price_sales_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_policy_setting_events_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_policy_settings_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bd_requests_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_conversion_cost_events_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_conversion_cost_sources_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_conversion_returns_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_conversion_sources_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_execution_context_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_nonpo_transfer_events_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_pocket_receipt_origins_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_pocket_sewing_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_pocket_source_events_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_pocket_target_events_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_pocket_usage_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_redye_price_events_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_redye_services_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "be_rework_targets_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "bs_case_manual_origins_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ac_relation_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ac_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ad_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ae_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620af_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ag_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ah_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ai_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620aj_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ak_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620al_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620am_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620an_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ao_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ap_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620aq_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ar_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620as_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620at_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620au_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620av_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620aw_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ax_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ay_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620az_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620ba_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620bb_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620bc_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620bd_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "cp6_v2620be_rollback_capsule",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "fg_unsourced_receipts_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "fg_unsourced_repair_wages_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_bs_value_events",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_cost_origins",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_financial_sources",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_opening_stock_sources",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_origin_cost_events",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_prepayment_events",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_prepayment_payments",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_prepayments",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_production_sources",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_receipt_headers",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_receipt_lines",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_wip_output_identity_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_wip_output_reversals",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "initial_import_wip_outputs",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "invoice_recost_execution_context",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "laundry_rate_owner_estimates_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "po_hpp_gl_lot_state_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "po_hpp_gl_material_state_v1",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "pocket_fabric_execution_context",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "pocket_fabric_materials",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "pocket_fabric_usage",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "pocket_period_destinations",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "pocket_period_events",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "pocket_period_sources",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "pocket_periods",
+              "table"
+            ],
+            [
+              "rls_enabled_no_policy",
+              "INFO",
+              "erp",
+              "product_identity_mutation_context_v1",
+              "table"
+            ]
+          ],
+          "removed": []
+        },
+        {
+          "group": "T3_CUTOVER_DATA_CHECKS",
+          "uuid_quality": {
+            "status": "CLEAN",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+            "columns_checked": 1075,
+            "refused_values": {},
+            "refused_total": 0,
+            "non_v4_defaults": {},
+            "non_rfc_values": {},
+            "non_rfc_total": 0,
+            "reads_only": true,
+            "note": "Frontend UUID pattern (canonical 8-4-4-4-12, D08) against every erp uuid column; non_rfc_values is information only"
+          },
+          "cash_bank_aliases": {
+            "status": "NONE",
+            "aliases": [],
+            "reads_only": true,
+            "note": "Active cash accounts sharing one COA account (CASH_BANK opening identity is per cash account)"
+          }
+        },
+        {
+          "t3_package_run": {
+            "label": "T3_PREP",
+            "mode": "capture",
+            "status": "ALL_STAGES_INSTALLED",
+            "production_go": false,
+            "release_evidence": false,
+            "run_identity": {
+              "label": "T3_PREP",
+              "tool_head": "efec399c4e2639d9ee854f34b27f8294c16a8de7",
+              "product_ref": "efec399c4e2639d9ee854f34b27f8294c16a8de7",
+              "product_paths": [
+                "supabase/migrations",
+                "supabase/dev",
+                "supabase/release",
+                "supabase/rollbacks",
+                "src"
+              ],
+              "run_id": "36377094023",
+              "run_attempt": "1",
+              "workflow": "CP6 T3 Release Package (hosted-faithful baseline)",
+              "job": "phase",
+              "event": "push",
+              "github_sha": "efec399c4e2639d9ee854f34b27f8294c16a8de7",
+              "release_evidence": false,
+              "production_go": false,
+              "mode": "capture"
+            },
+            "auth_users_before": 0,
+            "ledger_start": {
+              "app": [
+                "v2.6.20aa",
+                "v2.6.20ab"
+              ],
+              "platform_last": "20260914190500"
+            },
+            "fingerprint_AB": {
+              "view": {
+                "n": 51,
+                "md5": "68b2fbf688881496413307954006bdbe"
+              },
+              "index": {
+                "n": 605,
+                "md5": "65816b59b4bd7675995b7b9bc98fa4c5"
+              },
+              "policy": {
+                "n": 190,
+                "md5": "48bb358e009dc8d19417bbb3982f6d3f"
+              },
+              "schema": {
+                "n": 2,
+                "md5": "6ee1ffa742c0945434188ce249e139ca"
+              },
+              "trigger": {
+                "n": 448,
+                "md5": "971341de44cfecc9a587fc140c6cf30a"
+              },
+              "function": {
+                "n": 574,
+                "md5": "5e235119482f9767a74ba3fe7fbd2619"
+              },
+              "relation": {
+                "n": 272,
+                "md5": "5a8c31607ad25d70808ba9f7699bf690"
+              },
+              "sequence": {
+                "n": 6,
+                "md5": "dacd751dd3a5f2f7efbc203171be4ead"
+              },
+              "extension": {
+                "n": 6,
+                "md5": "15a959c38d716ad2af3fe1f1dc4419ef"
+              },
+              "app_ledger": {
+                "n": 83,
+                "md5": "7ad6fed4ecef5f62d3be04fffdbc9e69"
+              },
+              "constraint": {
+                "n": 1308,
+                "md5": "1a354c9c9ddc0b40782e80339e1dbacd"
+              },
+              "config_hash": {
+                "n": 6,
+                "md5": "2193b4becca1d4d89e40b444b0a8af29"
+              },
+              "default_acl": {
+                "n": 6,
+                "md5": "c9c232814a7b3ee3eaadb50e8b7dc7fd"
+              },
+              "platform_ledger": {
+                "n": 98,
+                "md5": "39e21c0d5d36ef100d312dd736898487"
+              },
+              "function_owner_acl": {
+                "n": 574,
+                "md5": "12a9878282b3db31bec2d8e34eb57c59"
+              },
+              "relation_owner_acl": {
+                "n": 272,
+                "md5": "bf0e6b7cd7ea3e25b7b94918cd3cc844"
+              }
+            },
+            "hosted_capsules": {
+              "equal": true,
+              "capsules": {
+                "bs_resolution_v2619_rollback_capsule": {
+                  "hosted": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+                  "clone": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+                  "equal": true
+                },
+                "bs_resolution_v2619a_rollback_capsule": {
+                  "hosted": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+                  "clone": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+                  "equal": true
+                },
+                "bs_resolution_v2619b_rollback_capsule": {
+                  "hosted": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+                  "clone": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+                  "equal": true
+                },
+                "bs_resolution_v2619c_rollback_capsule": {
+                  "hosted": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+                  "clone": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+                  "equal": true
+                },
+                "cp3_r4_rollback_capsule": {
+                  "hosted": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+                  "clone": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+                  "equal": true
+                },
+                "cp45_v2617_rollback_capsule": {
+                  "hosted": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+                  "clone": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+                  "equal": true
+                },
+                "cp45_v2617a_rollback_capsule": {
+                  "hosted": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+                  "clone": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+                  "equal": true
+                },
+                "cp4_v2616_rollback_capsule": {
+                  "hosted": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+                  "clone": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+                  "equal": true
+                },
+                "cp6_v2620_rollback_capsule": {
+                  "hosted": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+                  "clone": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+                  "equal": true
+                },
+                "cutting_bridge_v2618_rollback_capsule": {
+                  "hosted": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+                  "clone": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+                  "equal": true
+                },
+                "cutting_bridge_v2618a_rollback_capsule": {
+                  "hosted": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+                  "clone": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+                  "equal": true
+                }
+              },
+              "cp6_v2620_rows_differing": []
+            },
+            "pins_reproduced": {
+              "equal": true,
+              "differ": []
+            },
+            "ledger_final": {
+              "app": [
+                "v2.6.20aa",
+                "v2.6.20ab",
+                "v2.6.20ac",
+                "v2.6.20ad",
+                "v2.6.20ae",
+                "v2.6.20af",
+                "v2.6.20ag",
+                "v2.6.20ah",
+                "v2.6.20ai",
+                "v2.6.20aj",
+                "v2.6.20ak",
+                "v2.6.20al",
+                "v2.6.20am",
+                "v2.6.20an",
+                "v2.6.20ao",
+                "v2.6.20ap",
+                "v2.6.20aq",
+                "v2.6.20ar",
+                "v2.6.20as",
+                "v2.6.20at",
+                "v2.6.20au",
+                "v2.6.20av",
+                "v2.6.20aw",
+                "v2.6.20ax",
+                "v2.6.20ay",
+                "v2.6.20az"
+              ],
+              "platform_last": "20260926050000"
+            },
+            "fingerprint_final": {
+              "view": {
+                "n": 51,
+                "md5": "c08bd89cf82d60763558b988fea065b3"
+              },
+              "index": {
+                "n": 896,
+                "md5": "d574565c06863b265f1f927da94af7f6"
+              },
+              "policy": {
+                "n": 190,
+                "md5": "48bb358e009dc8d19417bbb3982f6d3f"
+              },
+              "schema": {
+                "n": 2,
+                "md5": "6ee1ffa742c0945434188ce249e139ca"
+              },
+              "trigger": {
+                "n": 524,
+                "md5": "d259bed9b2a968553c1e7077938da2f6"
+              },
+              "function": {
+                "n": 969,
+                "md5": "0be93bdc962db25e5862445395458dc3"
+              },
+              "relation": {
+                "n": 404,
+                "md5": "b520f1a9c7096659efda9cc84f26291a"
+              },
+              "sequence": {
+                "n": 6,
+                "md5": "dacd751dd3a5f2f7efbc203171be4ead"
+              },
+              "extension": {
+                "n": 6,
+                "md5": "15a959c38d716ad2af3fe1f1dc4419ef"
+              },
+              "app_ledger": {
+                "n": 112,
+                "md5": "d97741645c2208a27b10be40aade7c51"
+              },
+              "constraint": {
+                "n": 2114,
+                "md5": "3edf95f77b4288f347a161c3718540cd"
+              },
+              "config_hash": {
+                "n": 6,
+                "md5": "2193b4becca1d4d89e40b444b0a8af29"
+              },
+              "default_acl": {
+                "n": 6,
+                "md5": "c9c232814a7b3ee3eaadb50e8b7dc7fd"
+              },
+              "platform_ledger": {
+                "n": 127,
+                "md5": "96fdc87154073ec68d1eeb067a327188"
+              },
+              "function_owner_acl": {
+                "n": 969,
+                "md5": "82a9105b1c6956ad7f28dc653c6228b8"
+              },
+              "relation_owner_acl": {
+                "n": 404,
+                "md5": "e47525ffd734e9e593913036827bcdc4"
+              }
+            },
+            "backup_restore_drill": "RESTORED_SAME_MEANING",
+            "cutover_data_checks": {
+              "uuid_quality": {
+                "status": "CLEAN",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                "columns_checked": 1075,
+                "refused_values": {},
+                "refused_total": 0,
+                "non_v4_defaults": {},
+                "non_rfc_values": {},
+                "non_rfc_total": 0,
+                "reads_only": true,
+                "note": "Frontend UUID pattern (canonical 8-4-4-4-12, D08) against every erp uuid column; non_rfc_values is information only"
+              },
+              "cash_bank_aliases": {
+                "status": "NONE",
+                "aliases": [],
+                "reads_only": true,
+                "note": "Active cash accounts sharing one COA account (CASH_BANK opening identity is per cash account)"
+              }
+            },
+            "primary_unchanged": true,
+            "auth_users_after": 0,
+            "gate": {
+              "installed": true,
+              "primary_unchanged": true,
+              "backup_restore_drill": true,
+              "security_advisors": true
+            }
+          }
+        }
+      ],
+      "partial_final": []
+    }
+  ]
+}

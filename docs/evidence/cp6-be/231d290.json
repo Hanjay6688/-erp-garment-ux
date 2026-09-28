@@ -1,0 +1,2554 @@
+{
+  "candidate": "231d29064b8ccf7221ad004cd8ef0017598242fc",
+  "run": 36378513772,
+  "job": 108789168846,
+  "label": "WRITER_SCENARIO",
+  "production_go": false,
+  "audit_complete": false,
+  "evidence_projection": "Every case verdict, checks, failure/refusal and boundary result retained; full response snapshots are in the referenced GitHub job log.",
+  "job_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36378513772/job/108789168846",
+  "summary": {
+    "status": "RUN_COMPLETE",
+    "counts": {
+      "AUDITOR_CASES_AFTER": {
+        "PASS": 63
+      },
+      "AUDITOR_RACES_AFTER": {
+        "PASS": 20
+      },
+      "AUDITOR_HTTP_AFTER": {
+        "PASS": 8
+      },
+      "AUDITOR_BROWSER_AFTER": {
+        "PASS": 25
+      }
+    },
+    "primary_unchanged": true,
+    "clone_remaining": 0
+  },
+  "workflows": [
+    {
+      "id": 36378513769,
+      "name": "Build UX",
+      "head_sha": "231d29064b8ccf7221ad004cd8ef0017598242fc",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36378513769"
+    },
+    {
+      "id": 36378513758,
+      "name": "CP6 Candidate CodeQL (T3)",
+      "head_sha": "231d29064b8ccf7221ad004cd8ef0017598242fc",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36378513758"
+    },
+    {
+      "id": 36378513811,
+      "name": "CP6 BE T1 Family Probe",
+      "head_sha": "231d29064b8ccf7221ad004cd8ef0017598242fc",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36378513811"
+    },
+    {
+      "id": 36378513772,
+      "name": "CP6 Auditor Scenario",
+      "head_sha": "231d29064b8ccf7221ad004cd8ef0017598242fc",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36378513772"
+    }
+  ],
+  "codeql_jobs": [
+    {
+      "id": 108789168810,
+      "name": "CodeQL actions",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 108789169021,
+      "name": "CodeQL c-cpp",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 108789169091,
+      "name": "CodeQL javascript-typescript",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 108789169119,
+      "name": "CodeQL python",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "records": [
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE_REV:RECOVERY_NONPO_ZERO",
+      "po": false,
+      "new_usage": false,
+      "base": "6172.850000",
+      "recovery": "14.26",
+      "delta": {
+        "FG_INVENTORY": "-11.41",
+        "COGS": "-2.85",
+        "OTHER_INCOME": "0.00",
+        "OTHER_EXPENSE": "0"
+      },
+      "checks": {
+        "recovery": true,
+        "fg": true,
+        "cogs": true,
+        "no_income": true,
+        "two_usable_only": true,
+        "missing_two": true,
+        "replay": true,
+        "truth": true,
+        "sale_snapshot": true,
+        "inverse": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE_REV:RECOVERY_NONPO_USAGE",
+      "po": false,
+      "new_usage": true,
+      "base": "6172.850000",
+      "recovery": "14.26",
+      "delta": {
+        "FG_INVENTORY": "-11.41",
+        "COGS": "-2.85",
+        "OTHER_INCOME": "0.00",
+        "OTHER_EXPENSE": "0"
+      },
+      "checks": {
+        "recovery": true,
+        "fg": true,
+        "cogs": true,
+        "no_income": true,
+        "two_usable_only": true,
+        "missing_two": true,
+        "replay": true,
+        "truth": true,
+        "sale_snapshot": true,
+        "inverse": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE_REV:RECOVERY_PO_ZERO",
+      "po": true,
+      "new_usage": false,
+      "base": "25050.000000",
+      "recovery": "14.26",
+      "delta": {
+        "FG_INVENTORY": "-11.41",
+        "COGS": "-2.85",
+        "OTHER_INCOME": "0.00",
+        "OTHER_EXPENSE": "0"
+      },
+      "checks": {
+        "recovery": true,
+        "fg": true,
+        "cogs": true,
+        "no_income": true,
+        "two_usable_only": true,
+        "missing_two": true,
+        "replay": true,
+        "truth": true,
+        "sale_snapshot": true,
+        "inverse": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE_REV:RECOVERY_PO_USAGE",
+      "po": true,
+      "new_usage": true,
+      "base": "25050.000000",
+      "recovery": "14.26",
+      "delta": {
+        "FG_INVENTORY": "-11.41",
+        "COGS": "-2.85",
+        "OTHER_INCOME": "0.00",
+        "OTHER_EXPENSE": "0"
+      },
+      "checks": {
+        "recovery": true,
+        "fg": true,
+        "cogs": true,
+        "no_income": true,
+        "two_usable_only": true,
+        "missing_two": true,
+        "replay": true,
+        "truth": true,
+        "sale_snapshot": true,
+        "inverse": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE_REV:RECOVERY_EXCEEDS_GARMENT_ATOMIC",
+      "checks": {
+        "refused": true,
+        "atomic": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE_REV:MIXED_PO_NONPO_SALE_RETURN_INVOICE_POCKET",
+      "checks": {
+        "both_origins": true,
+        "late_invoice_isolated": true,
+        "sale_return": true,
+        "pocket": true,
+        "mixed_conversion_inverse": true,
+        "sales_immutable": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE_REV:52_POCKET_PERIODS_SEARCH_PAGE_INVERSE",
+      "delta": {
+        "WIP": "-5.62",
+        "FG_INVENTORY": "-3.38",
+        "COGS": "-2.25",
+        "OTHER_EXPENSE": "11.25",
+        "OPENING_EQUITY": "0.00"
+      },
+      "checks": {
+        "paged": true,
+        "search_id_and_date": true,
+        "once": true,
+        "no_stock": true,
+        "inverse": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE_REV:NONPO_ENTRY_REFUSED_AX_REPAIR_CONVERSION",
+      "checks": {
+        "early_refusal": true,
+        "ax_repair": true,
+        "ax_conversion": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE_REV:PUBLIC_SEWING_VERSION_DEPENDENCY_REPLAY",
+      "refusals": [
+        {
+          "expected_message": "event_id and expected_version are required",
+          "refusal": {
+            "sqlstate": "P0001",
+            "message": "event_id and expected_version are required"
+          },
+          "result": null,
+          "ok": true
+        },
+        {
+          "code": "STALE_VERSION",
+          "refusal": {
+            "sqlstate": "P0001",
+            "message": "STALE_VERSION expected 2, current 1"
+          },
+          "result": null,
+          "ok": true
+        },
+        {
+          "expected_message": "Batalkan alokasi kain kantong terkait sebelum mengoreksi hasil jahit",
+          "refusal": {
+            "sqlstate": "P0001",
+            "message": "Batalkan alokasi kain kantong terkait sebelum mengoreksi hasil jahit"
+          },
+          "result": null,
+          "ok": true
+        }
+      ],
+      "checks": {
+        "missing_version": true,
+        "stale": true,
+        "dependency": true,
+        "replay": true,
+        "reversed_once": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE01:SELECTED_LOT_REPLAY_REVERSE",
+      "checks": {
+        "exact_selected_lot": true,
+        "quantity": true,
+        "value": true,
+        "replay": true,
+        "inverse": true,
+        "truth": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE01:CAPACITY_STALE_NO_UNSOURCED_COST",
+      "refusals": [
+        {
+          "code": "STALE_VERSION",
+          "refusal": {
+            "sqlstate": "P0001",
+            "message": "STALE_VERSION: stok atau HPP sumber berubah; muat ulang"
+          },
+          "result": null,
+          "ok": true
+        },
+        {
+          "code": "BE_SOURCE_CAPACITY",
+          "refusal": {
+            "sqlstate": "P0001",
+            "message": "BE_SOURCE_CAPACITY: jumlah melebihi stok sumber pada tanggalnya"
+          },
+          "result": null,
+          "ok": true
+        },
+        {
+          "code": "BE_SAME_SKU",
+          "refusal": {
+            "sqlstate": "P0001",
+            "message": "BE_SAME_SKU: pilih SKU tujuan yang berbeda"
+          },
+          "result": null,
+          "ok": true
+        },
+        {
+          "needle": "contains unexpected key conversion_cost_total",
+          "refusal": {
+            "sqlstate": "P0001",
+            "message": "konversi contains unexpected key conversion_cost_total"
+          },
+          "result": null,
+          "ok": true
+        }
+      ],
+      "checks": {
+        "stale": true,
+        "over": true,
+        "same": true,
+        "unsourced": true,
+        "unchanged": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE01:ACTUAL_ACCESSORY_COST_ONCE_AND_INVERSE",
+      "refusals": [
+        {
+          "code": "BE_REVERSE_DEPENDANTS",
+          "refusal": {
+            "sqlstate": "P0001",
+            "message": "BE_REVERSE_DEPENDANTS: batalkan dahulu sumber biaya/pemulihan"
+          },
+          "result": null,
+          "ok": true
+        }
+      ],
+      "checks": {
+        "cost_once": true,
+        "not_double_expense": true,
+        "material_once": true,
+        "truth": true,
+        "linked_inverse": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE01:OPENING_SOURCE_VALUE_AND_INVERSE",
+      "checks": {
+        "physical": true,
+        "source_target": true,
+        "destination_target": true,
+        "truth": true,
+        "inverse": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE02:REWORK_NEW_SKU_ATOMIC_REPLAY_INVERSE",
+      "checks": {
+        "one_conversion": true,
+        "good_once": true,
+        "target": true,
+        "replay": true,
+        "inverse": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE03:REAL_SERVICE_INVOICE_SOLD_VARIANCE",
+      "refusals": [
+        {
+          "code": "BD_INVOICE_CAPACITY",
+          "refusal": {
+            "sqlstate": "P0001",
+            "message": "BD_INVOICE_CAPACITY"
+          },
+          "result": null,
+          "ok": true
+        }
+      ],
+      "checks": {
+        "source_cost": true,
+        "estimate_replaced": true,
+        "lot_delta": true,
+        "fg_delta": true,
+        "cogs_delta": true,
+        "ap_once": true,
+        "over": true,
+        "truth": true,
+        "snapshot": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE03:UNKNOWN_PRICE_CLOSE_REPLAY",
+      "refusals": [
+        {
+          "code": "BE_PRICE_ALREADY_KNOWN",
+          "refusal": {
+            "sqlstate": "P0001",
+            "message": "BE_PRICE_ALREADY_KNOWN: koreksi harga memakai invoice sumber"
+          },
+          "result": null,
+          "ok": true
+        }
+      ],
+      "checks": {
+        "unknown": true,
+        "cleared": true,
+        "price_added": true,
+        "replay": true,
+        "overwrite": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE04:HISTORICAL_POCKET_ALLOCATION_CORRECTION_INVERSE",
+      "checks": {
+        "quantity": true,
+        "amount": true,
+        "no_fake_events": true,
+        "replay": true,
+        "first": true,
+        "correction": true,
+        "inverse": true,
+        "truth": true,
+        "detector_negative": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE04:HISTORICAL_POCKET_RECEIPT_INVOICE_INVERSE",
+      "delta": {
+        "WIP": "1.88",
+        "FG_INVENTORY": "1.12",
+        "COGS": "0.75",
+        "OTHER_EXPENSE": "0.00",
+        "OPENING_EQUITY": "0.00"
+      },
+      "checks": {
+        "certainty": true,
+        "receipt_quantity": true,
+        "stock_not_drawn_twice": true,
+        "recost": true,
+        "inverse": true,
+        "truth": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE01:LATE_INVOICE_RECOVERY_SOLD_AND_CONVERTED",
+      "refusals": [
+        {
+          "code": "BC_POLICY_PENDING",
+          "refusal": {
+            "sqlstate": "P0001",
+            "message": "BC_POLICY_PENDING: nilai pemulihan barang bekas menunggu keputusan owner (ACC-DEC03); langkah finansial ini belum dapat diposting"
+          },
+          "result": null,
+          "ok": true
+        },
+        {
+          "code": "BC_RETURN_EXCEEDS_SOURCE",
+          "refusal": {
+            "sqlstate": "P0001",
+            "message": "BC_RETURN_EXCEEDS_SOURCE: sisa yang ditunggu 1.000000 , diterima 2"
+          },
+          "result": null,
+          "ok": true
+        }
+      ],
+      "checks": {
+        "invoice_to_sold_and_child": true,
+        "recovery_to_sold_and_child": true,
+        "no_extra_income": true,
+        "policy": true,
+        "capacity": true,
+        "source_immutable": true,
+        "sales_snapshots_immutable": true,
+        "inverse_recovery": true,
+        "inverse_invoice": true,
+        "provisional": true,
+        "truth": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE04:HISTORICAL_PERIOD_WIP_SPLIT_COMPLETION_RECOST",
+      "checks": {
+        "cutover_date": true,
+        "source_value": true,
+        "fg_current": true,
+        "bs_current": true,
+        "fg_was_sourced": true,
+        "bs_was_sourced": true,
+        "truth": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE04:PROVENANCE_NUMERATOR_DENOMINATOR_REFUSALS",
+      "refusals": {
+        "missing_document": {
+          "ok": true,
+          "errors": [
+            [
+              "OPENING_POCKET_USAGE",
+              "[\"BE_POCKET_PROVENANCE: document_number wajib dan maksimal 120 karakter\"]"
+            ]
+          ]
+        },
+        "already_allocated_without_reference": {
+          "ok": true,
+          "errors": [
+            [
+              "OPENING_POCKET_USAGE",
+              "[\"BE_POCKET_PRIOR_ALLOCATION: referensi wajib hanya untuk nilai yang telah dialokasikan\"]"
+            ]
+          ]
+        },
+        "future_history": {
+          "ok": true,
+          "errors": [
+            [
+              "OPENING_POCKET_USAGE",
+              "[\"BE_POCKET_DATE: riwayat harus sebelum tanggal cutover\"]"
+            ]
+          ]
+        },
+        "incomplete_numerator": {
+          "ok": true,
+          "errors": [
+            [
+              "OPENING_POCKET_USAGE",
+              "[\"BE_POCKET_CONTROL_MISMATCH\"]"
+            ]
+          ]
+        },
+        "incomplete_denominator": {
+          "ok": true,
+          "errors": [
+            [
+              "OPENING_POCKET_SEWING",
+              "[\"BE_POCKET_DENOMINATOR_INCOMPLETE\"]"
+            ],
+            [
+              "OPENING_POCKET_SEWING",
+              "[\"BE_POCKET_DENOMINATOR_INCOMPLETE\"]"
+            ]
+          ]
+        },
+        "fractional_pieces": {
+          "ok": true,
+          "errors": [
+            [
+              "OPENING_POCKET_SEWING",
+              "[\"BE_POCKET_SEWING_PCS\"]"
+            ],
+            [
+              "OPENING_POCKET_SEWING",
+              "[\"BE_POCKET_DENOMINATOR_INCOMPLETE\"]"
+            ],
+            [
+              "OPENING_POCKET_SEWING",
+              "[\"BE_POCKET_DENOMINATOR_INCOMPLETE\"]"
+            ]
+          ]
+        },
+        "missing_target": {
+          "ok": true,
+          "errors": [
+            [
+              "OPENING_POCKET_SEWING",
+              "[\"BE_POCKET_TARGET_SOURCE_REQUIRED\"]"
+            ]
+          ]
+        }
+      },
+      "checks": {
+        "missing_document": true,
+        "already_allocated_without_reference": true,
+        "future_history": true,
+        "incomplete_numerator": true,
+        "incomplete_denominator": true,
+        "fractional_pieces": true,
+        "missing_target": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE04:ALLOCATED_REFERENCE_ONLY_DUPLICATE_BATCH",
+      "checks": {
+        "no_second_expense": true,
+        "reference_only": true,
+        "excluded": true,
+        "duplicate_refused": true,
+        "unchanged": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE04:SALE_RETURN_CONVERSION_RECOST",
+      "delta": {
+        "WIP": "1.88",
+        "FG_INVENTORY": "1.12",
+        "COGS": "0.75",
+        "OTHER_EXPENSE": "0.00",
+        "OPENING_EQUITY": "-3.75"
+      },
+      "checks": {
+        "qty": true,
+        "child": true,
+        "source": true,
+        "ledger": true,
+        "correction_inverse": true,
+        "allocation_inverse": true,
+        "history": true,
+        "truth": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE04:MIXED_NATIVE_HISTORICAL_AFUI_INVERSE",
+      "delta": {
+        "WIP": "11.24",
+        "FG_INVENTORY": "6.76",
+        "COGS": "4.50",
+        "OTHER_EXPENSE": "-22.50",
+        "OPENING_EQUITY": "0.00"
+      },
+      "checks": {
+        "combined": true,
+        "sources": true,
+        "special_included": true,
+        "destinations": true,
+        "amounts": true,
+        "inverse": true,
+        "no_fake_events": true,
+        "truth": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BE04:CLOSED_CORRECTION_ASOF_REPLAY_INVERSE",
+      "delta": {
+        "WIP": "1.88",
+        "FG_INVENTORY": "1.12",
+        "COGS": "0.75",
+        "OTHER_EXPENSE": "0.00",
+        "OPENING_EQUITY": "-3.75"
+      },
+      "refusals": [
+        {
+          "code": "STALE_VERSION",
+          "refusal": {
+            "sqlstate": "P0001",
+            "message": "STALE_VERSION: nilai sumber kain kantong berubah"
+          },
+          "result": null,
+          "ok": true
+        },
+        {
+          "code": "BE_POCKET_CORRECTION_DATE_REASON",
+          "refusal": {
+            "sqlstate": "P0001",
+            "message": "BE_POCKET_CORRECTION_DATE_REASON"
+          },
+          "result": null,
+          "ok": true
+        }
+      ],
+      "checks": {
+        "replay": true,
+        "closed_posting": true,
+        "asof": true,
+        "history": true,
+        "stale": true,
+        "before_cutover": true,
+        "delta": true,
+        "inverse": true,
+        "truth": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:IMPORT_AMBIGUOUS_FAILS_BEFORE_POST",
+      "checks": {
+        "all_three_fail_before_apply": true,
+        "no_partial_products": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:IMPORT_EXACT_SIZE_SALES_CUSTODY_COGS_REPLAY",
+      "checks": {
+        "sale_exact": true,
+        "custody_exact": true,
+        "cogs_exact": true,
+        "one_reservation": true,
+        "replay": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:IMPORT_INSUFFICIENT_STOCK_ATOMIC",
+      "checks": {
+        "refused": true,
+        "no_partial_draft": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:IMPORT_REWORK_SOURCE_RECIPE",
+      "checks": {
+        "source_bom_required": true,
+        "source_without_recipe": true,
+        "other_size_has_recipe": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:IMPORT_REWORK_SOURCE_RECIPE_POSITIVE",
+      "checks": {
+        "actual_source": true,
+        "recipe_source": true,
+        "good_product": true,
+        "good_cost": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:UNUSED_ROLLBACK_EXACT",
+      "checks": {
+        "prior_family_exact": true,
+        "tables_removed": true,
+        "unique_restored": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:USED_ROLLBACK_REFUSED",
+      "checks": {
+        "refused": true,
+        "data_kept": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:TWO_SKUS_ONE_WAVE_WORK_LAUNDRY_QC",
+      "checks": {
+        "four_physical_sizes": true,
+        "work_costs": true,
+        "laundry_costs": true,
+        "shared_selling_price": true,
+        "exact_total": true,
+        "hpp_group_qty": true,
+        "hpp_weighted": true,
+        "hpp_before_fg": true,
+        "immutable_provenance": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:SHARED_MASTER_PHYSICAL_ROOTS_REPLAY_GUARD",
+      "checks": {
+        "same_price": true,
+        "physical_roots": true,
+        "one_revision": true,
+        "replay": true,
+        "guard": true,
+        "stale": true,
+        "child_versions": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:SINGLETON_BEFORE_ECONOMICS",
+      "checks": {
+        "singleton": true,
+        "no_invented_economics": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:SHARED_NONEMPTY_ACCESSORY_RECIPE",
+      "checks": {
+        "shared_recipe": true,
+        "two_buttons": true,
+        "standard_price": true,
+        "independent_size_edit_refused": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:TEMPORAL_31_33_TO_31_34_ATOMIC",
+      "checks": {
+        "atomic": true,
+        "old": true,
+        "new": true,
+        "no_stock": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:NEW_MEMBER_AND_FUTURE_WAVE_TARIFF",
+      "checks": {
+        "price_guard": true,
+        "bom_guard": true,
+        "current_members": true,
+        "current_tariff": true,
+        "new_member_future": true,
+        "historical_version": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF:LEGACY_CONFLICT_ACKNOWLEDGED_AND_FUTURE_PRICES",
+      "checks": {
+        "explicit_basis": true,
+        "historical": true,
+        "successor": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:T02:PACKAGE_ONE_CHARGE_PHYSICAL_QTY",
+      "checks": {
+        "plain_refused": true,
+        "qty_10": true,
+        "total": true,
+        "rate": true,
+        "one_charge": true,
+        "accrual": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:T03:COMPONENT_SUM_SAME_PIECES",
+      "checks": {
+        "duplicate_refused": true,
+        "qty_10": true,
+        "total": true,
+        "charges": true,
+        "accrual": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:T04:FOUR_COMPONENTS",
+      "checks": {
+        "duplicate_refused": true,
+        "qty_10": true,
+        "total": true,
+        "charges": true,
+        "accrual": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:T05:PARTIAL_COMPONENT_COVERAGE",
+      "checks": {
+        "over_refused": true,
+        "qty_10": true,
+        "total": true,
+        "coverage": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:T06:PACKAGE_EXTRA_ONCE",
+      "checks": {
+        "same_refused": true,
+        "pending_refused": true,
+        "total": true,
+        "charges": true,
+        "versions": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:T07:VERSION_AFTER_POSTED_DELIVERY",
+      "checks": {
+        "early_refused": true,
+        "first_kept": true,
+        "second_v2": true,
+        "receipt_first_estimate": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:T12:UNKNOWN_COMPONENT_KNOWN_SUBTOTAL",
+      "checks": {
+        "physical": true,
+        "known_part": true,
+        "rate_null": true,
+        "accrued_known": true,
+        "blocked_out": true,
+        "flat_estimate_refused": true,
+        "receipt_known_part": true,
+        "blocked_back": true,
+        "denied": true,
+        "zero_refused": true,
+        "set": true,
+        "again_refused": true,
+        "complete": true,
+        "receipt_full": true,
+        "accrual_full": true,
+        "unblocked": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:T13:NO_VERSION_IS_ERROR",
+      "checks": {
+        "refused": true,
+        "nothing": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:T20:LUMP_SUM_SPLIT_RECEIPTS",
+      "refusals": [
+        {
+          "code": "BD_POLICY_PENDING",
+          "refusal": {
+            "sqlstate": "P0001",
+            "message": "BD_POLICY_PENDING: satuan borongan per batch menunggu keputusan owner (LAU-DEC01); langkah ini belum dapat dijalankan"
+          },
+          "result": null,
+          "ok": true
+        },
+        {
+          "needle": "requires non-null key lump_sum",
+          "refusal": {
+            "sqlstate": "P0001",
+            "message": "batch pricing requires non-null key lump_sum"
+          },
+          "result": null,
+          "ok": true
+        }
+      ],
+      "checks": {
+        "pending_refused": true,
+        "no_lump_refused": true,
+        "batch": true,
+        "split": true,
+        "uncosted_zero": true,
+        "accrual": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:DEC01:MINIMUM_CHARGE_TOPUP",
+      "checks": {
+        "pending_refused": true,
+        "unknown_refused": true,
+        "total": true,
+        "topup": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:T24:SCOPED_SIZE_RATE",
+      "checks": {
+        "pending_refused": true,
+        "plain_refused": true,
+        "refuse_without_rate": true,
+        "mixed": true,
+        "posted": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:T24:MULTI_SIZE_LOT_HPP",
+      "checks": {
+        "estimates": true,
+        "allocations": true,
+        "receipt_line_cost": true,
+        "two_lots": true,
+        "per_size_laundry": true,
+        "other_costs_equal_per_piece": true,
+        "variance_by_pieces": true,
+        "nothing_left_in_wip": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:D10:VARIANCE_BY_BILLING_SOURCE",
+      "checks": {
+        "two_billing_sources": true,
+        "variance_stays_with_its_source": true,
+        "nothing_left_in_wip": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:REV:X01_EXPLICIT_SIZE_COVERAGE_AND_RESPONSE",
+      "checks": {
+        "ambiguous_refused": true,
+        "foreign_refused": true,
+        "response_exact": true,
+        "unrelated_size_complete": true,
+        "finish_only_recipient": true,
+        "partial_receipts_conserve": true,
+        "lot_laundry_conserved": true,
+        "total_cost_conserved": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:REV:X01_UNKNOWN_COMPLETION_PRESERVES_COVERAGE",
+      "checks": {
+        "ambiguous_refused": true,
+        "foreign_refused": true,
+        "response_exact": true,
+        "unrelated_size_complete": true,
+        "finish_only_recipient": true,
+        "partial_receipts_conserve": true,
+        "lot_laundry_conserved": true,
+        "total_cost_conserved": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:REV:OWN02_FREE_WAIVED_LEGAL_PATH",
+      "checks": {
+        "FREE": true,
+        "WAIVED": true,
+        "unknown_to_waived": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:REV:X02_MONEY_OVER_INT32",
+      "checks": {
+        "split_upper_bound": true,
+        "21474836.47": true,
+        "21474836.48": true,
+        "28123456.78": true,
+        "discount_exact": true,
+        "ap_exact": true,
+        "balanced": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:REV:X03_AUTH_BEFORE_REPLAY",
+      "checks": {
+        "authorized_replay": true,
+        "revoke_fresh": true,
+        "revoke_replay": true,
+        "inactive": true,
+        "hidden": true,
+        "restored": true,
+        "one_effect": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BD:REV:X05_PAGES_55_INVOICES_201_SOURCES",
+      "checks": {
+        "first_limits": true,
+        "remaining": true,
+        "no_lost_or_duplicate_invoices": true,
+        "no_lost_or_duplicate_sources": true,
+        "new_insert_excluded": true,
+        "end": true,
+        "invalid_cursor": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BB:W:W02_SPLIT_BS_DISPOSE_AND_UNDO",
+      "checks": {
+        "split_case_native": true,
+        "remaining_six": true,
+        "value_stays_in_wip": true,
+        "scrap_moves_value": true,
+        "undo_disposition_restores": true,
+        "split_locked_by_resolution": true,
+        "split_undone": true,
+        "stages_never_negative": true,
+        "reports_zero": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BB:W:W02_SPLIT_BS_REWORK_GOOD",
+      "checks": {
+        "good_lot_value": true,
+        "wip_to_fg": true,
+        "reverse_restores": true,
+        "reports_zero": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BB:W:W02_SPLIT_DATED_REMAINING",
+      "checks": {
+        "backdated_refused": true,
+        "today_fits": true,
+        "sewing_never_negative": true,
+        "reports_zero": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BB:W:W02_WAGES_AFTER_CUTOVER_THROUGH_PAYROLL",
+      "checks": {
+        "wage_accrued": true,
+        "output_carries_wage": true,
+        "payroll_pays_once": true,
+        "reports_zero": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "case": "BF_REG_BB:W:W02_WAGES_OVER_PIECES_OR_BEFORE_CUTOVER_REFUSED",
+      "refusals": [
+        {
+          "sqlstate": "P0001",
+          "message": "BB_WORK_OPENING_EXCEEDS: komponen BB W jahit melebihi 8 pcs WIP saldo awal (sudah 0, input 9)"
+        },
+        {
+          "sqlstate": "P0001",
+          "message": "BB_WORK_OPENING_DATE: tanggal hasil kerja harus sejak cutover (dan sejak pickup) dan tidak di masa depan"
+        },
+        {
+          "sqlstate": "P0001",
+          "message": "BB_WORK_OPENING_EXCEEDS: komponen BB W jahit melebihi 8 pcs WIP saldo awal (sudah 5, input 4)"
+        }
+      ],
+      "checks": {
+        "over_refused": true,
+        "before_cutover_refused": true,
+        "cumulative_over_refused": true,
+        "remainder_fits": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_CASES_AFTER",
+      "planned": [
+        "BE_REV:RECOVERY_NONPO_ZERO",
+        "BE_REV:RECOVERY_NONPO_USAGE",
+        "BE_REV:RECOVERY_PO_ZERO",
+        "BE_REV:RECOVERY_PO_USAGE",
+        "BE_REV:RECOVERY_EXCEEDS_GARMENT_ATOMIC",
+        "BE_REV:MIXED_PO_NONPO_SALE_RETURN_INVOICE_POCKET",
+        "BE_REV:52_POCKET_PERIODS_SEARCH_PAGE_INVERSE",
+        "BE_REV:NONPO_ENTRY_REFUSED_AX_REPAIR_CONVERSION",
+        "BE_REV:PUBLIC_SEWING_VERSION_DEPENDENCY_REPLAY",
+        "BE01:SELECTED_LOT_REPLAY_REVERSE",
+        "BE01:CAPACITY_STALE_NO_UNSOURCED_COST",
+        "BE01:ACTUAL_ACCESSORY_COST_ONCE_AND_INVERSE",
+        "BE01:OPENING_SOURCE_VALUE_AND_INVERSE",
+        "BE02:REWORK_NEW_SKU_ATOMIC_REPLAY_INVERSE",
+        "BE03:REAL_SERVICE_INVOICE_SOLD_VARIANCE",
+        "BE03:UNKNOWN_PRICE_CLOSE_REPLAY",
+        "BE04:HISTORICAL_POCKET_ALLOCATION_CORRECTION_INVERSE",
+        "BE04:HISTORICAL_POCKET_RECEIPT_INVOICE_INVERSE",
+        "BE01:LATE_INVOICE_RECOVERY_SOLD_AND_CONVERTED",
+        "BE04:HISTORICAL_PERIOD_WIP_SPLIT_COMPLETION_RECOST",
+        "BE04:PROVENANCE_NUMERATOR_DENOMINATOR_REFUSALS",
+        "BE04:ALLOCATED_REFERENCE_ONLY_DUPLICATE_BATCH",
+        "BE04:SALE_RETURN_CONVERSION_RECOST",
+        "BE04:MIXED_NATIVE_HISTORICAL_AFUI_INVERSE",
+        "BE04:CLOSED_CORRECTION_ASOF_REPLAY_INVERSE",
+        "BF:IMPORT_AMBIGUOUS_FAILS_BEFORE_POST",
+        "BF:IMPORT_EXACT_SIZE_SALES_CUSTODY_COGS_REPLAY",
+        "BF:IMPORT_INSUFFICIENT_STOCK_ATOMIC",
+        "BF:IMPORT_REWORK_SOURCE_RECIPE",
+        "BF:IMPORT_REWORK_SOURCE_RECIPE_POSITIVE",
+        "BF:UNUSED_ROLLBACK_EXACT",
+        "BF:USED_ROLLBACK_REFUSED",
+        "BF:TWO_SKUS_ONE_WAVE_WORK_LAUNDRY_QC",
+        "BF:SHARED_MASTER_PHYSICAL_ROOTS_REPLAY_GUARD",
+        "BF:SINGLETON_BEFORE_ECONOMICS",
+        "BF:SHARED_NONEMPTY_ACCESSORY_RECIPE",
+        "BF:TEMPORAL_31_33_TO_31_34_ATOMIC",
+        "BF:NEW_MEMBER_AND_FUTURE_WAVE_TARIFF",
+        "BF:LEGACY_CONFLICT_ACKNOWLEDGED_AND_FUTURE_PRICES",
+        "BF_REG_BD:T02:PACKAGE_ONE_CHARGE_PHYSICAL_QTY",
+        "BF_REG_BD:T03:COMPONENT_SUM_SAME_PIECES",
+        "BF_REG_BD:T04:FOUR_COMPONENTS",
+        "BF_REG_BD:T05:PARTIAL_COMPONENT_COVERAGE",
+        "BF_REG_BD:T06:PACKAGE_EXTRA_ONCE",
+        "BF_REG_BD:T07:VERSION_AFTER_POSTED_DELIVERY",
+        "BF_REG_BD:T12:UNKNOWN_COMPONENT_KNOWN_SUBTOTAL",
+        "BF_REG_BD:T13:NO_VERSION_IS_ERROR",
+        "BF_REG_BD:T20:LUMP_SUM_SPLIT_RECEIPTS",
+        "BF_REG_BD:DEC01:MINIMUM_CHARGE_TOPUP",
+        "BF_REG_BD:T24:SCOPED_SIZE_RATE",
+        "BF_REG_BD:T24:MULTI_SIZE_LOT_HPP",
+        "BF_REG_BD:D10:VARIANCE_BY_BILLING_SOURCE",
+        "BF_REG_BD:REV:X01_EXPLICIT_SIZE_COVERAGE_AND_RESPONSE",
+        "BF_REG_BD:REV:X01_UNKNOWN_COMPLETION_PRESERVES_COVERAGE",
+        "BF_REG_BD:REV:OWN02_FREE_WAIVED_LEGAL_PATH",
+        "BF_REG_BD:REV:X02_MONEY_OVER_INT32",
+        "BF_REG_BD:REV:X03_AUTH_BEFORE_REPLAY",
+        "BF_REG_BD:REV:X05_PAGES_55_INVOICES_201_SOURCES",
+        "BF_REG_BB:W:W02_SPLIT_BS_DISPOSE_AND_UNDO",
+        "BF_REG_BB:W:W02_SPLIT_BS_REWORK_GOOD",
+        "BF_REG_BB:W:W02_SPLIT_DATED_REMAINING",
+        "BF_REG_BB:W:W02_WAGES_AFTER_CUTOVER_THROUGH_PAYROLL",
+        "BF_REG_BB:W:W02_WAGES_OVER_PIECES_OR_BEFORE_CUTOVER_REFUSED"
+      ],
+      "final": {
+        "BE_REV:RECOVERY_NONPO_ZERO": "PASS",
+        "BE_REV:RECOVERY_NONPO_USAGE": "PASS",
+        "BE_REV:RECOVERY_PO_ZERO": "PASS",
+        "BE_REV:RECOVERY_PO_USAGE": "PASS",
+        "BE_REV:RECOVERY_EXCEEDS_GARMENT_ATOMIC": "PASS",
+        "BE_REV:MIXED_PO_NONPO_SALE_RETURN_INVOICE_POCKET": "PASS",
+        "BE_REV:52_POCKET_PERIODS_SEARCH_PAGE_INVERSE": "PASS",
+        "BE_REV:NONPO_ENTRY_REFUSED_AX_REPAIR_CONVERSION": "PASS",
+        "BE_REV:PUBLIC_SEWING_VERSION_DEPENDENCY_REPLAY": "PASS",
+        "BE01:SELECTED_LOT_REPLAY_REVERSE": "PASS",
+        "BE01:CAPACITY_STALE_NO_UNSOURCED_COST": "PASS",
+        "BE01:ACTUAL_ACCESSORY_COST_ONCE_AND_INVERSE": "PASS",
+        "BE01:OPENING_SOURCE_VALUE_AND_INVERSE": "PASS",
+        "BE02:REWORK_NEW_SKU_ATOMIC_REPLAY_INVERSE": "PASS",
+        "BE03:REAL_SERVICE_INVOICE_SOLD_VARIANCE": "PASS",
+        "BE03:UNKNOWN_PRICE_CLOSE_REPLAY": "PASS",
+        "BE04:HISTORICAL_POCKET_ALLOCATION_CORRECTION_INVERSE": "PASS",
+        "BE04:HISTORICAL_POCKET_RECEIPT_INVOICE_INVERSE": "PASS",
+        "BE01:LATE_INVOICE_RECOVERY_SOLD_AND_CONVERTED": "PASS",
+        "BE04:HISTORICAL_PERIOD_WIP_SPLIT_COMPLETION_RECOST": "PASS",
+        "BE04:PROVENANCE_NUMERATOR_DENOMINATOR_REFUSALS": "PASS",
+        "BE04:ALLOCATED_REFERENCE_ONLY_DUPLICATE_BATCH": "PASS",
+        "BE04:SALE_RETURN_CONVERSION_RECOST": "PASS",
+        "BE04:MIXED_NATIVE_HISTORICAL_AFUI_INVERSE": "PASS",
+        "BE04:CLOSED_CORRECTION_ASOF_REPLAY_INVERSE": "PASS",
+        "BF:IMPORT_AMBIGUOUS_FAILS_BEFORE_POST": "PASS",
+        "BF:IMPORT_EXACT_SIZE_SALES_CUSTODY_COGS_REPLAY": "PASS",
+        "BF:IMPORT_INSUFFICIENT_STOCK_ATOMIC": "PASS",
+        "BF:IMPORT_REWORK_SOURCE_RECIPE": "PASS",
+        "BF:IMPORT_REWORK_SOURCE_RECIPE_POSITIVE": "PASS",
+        "BF:UNUSED_ROLLBACK_EXACT": "PASS",
+        "BF:USED_ROLLBACK_REFUSED": "PASS",
+        "BF:TWO_SKUS_ONE_WAVE_WORK_LAUNDRY_QC": "PASS",
+        "BF:SHARED_MASTER_PHYSICAL_ROOTS_REPLAY_GUARD": "PASS",
+        "BF:SINGLETON_BEFORE_ECONOMICS": "PASS",
+        "BF:SHARED_NONEMPTY_ACCESSORY_RECIPE": "PASS",
+        "BF:TEMPORAL_31_33_TO_31_34_ATOMIC": "PASS",
+        "BF:NEW_MEMBER_AND_FUTURE_WAVE_TARIFF": "PASS",
+        "BF:LEGACY_CONFLICT_ACKNOWLEDGED_AND_FUTURE_PRICES": "PASS",
+        "BF_REG_BD:T02:PACKAGE_ONE_CHARGE_PHYSICAL_QTY": "PASS",
+        "BF_REG_BD:T03:COMPONENT_SUM_SAME_PIECES": "PASS",
+        "BF_REG_BD:T04:FOUR_COMPONENTS": "PASS",
+        "BF_REG_BD:T05:PARTIAL_COMPONENT_COVERAGE": "PASS",
+        "BF_REG_BD:T06:PACKAGE_EXTRA_ONCE": "PASS",
+        "BF_REG_BD:T07:VERSION_AFTER_POSTED_DELIVERY": "PASS",
+        "BF_REG_BD:T12:UNKNOWN_COMPONENT_KNOWN_SUBTOTAL": "PASS",
+        "BF_REG_BD:T13:NO_VERSION_IS_ERROR": "PASS",
+        "BF_REG_BD:T20:LUMP_SUM_SPLIT_RECEIPTS": "PASS",
+        "BF_REG_BD:DEC01:MINIMUM_CHARGE_TOPUP": "PASS",
+        "BF_REG_BD:T24:SCOPED_SIZE_RATE": "PASS",
+        "BF_REG_BD:T24:MULTI_SIZE_LOT_HPP": "PASS",
+        "BF_REG_BD:D10:VARIANCE_BY_BILLING_SOURCE": "PASS",
+        "BF_REG_BD:REV:X01_EXPLICIT_SIZE_COVERAGE_AND_RESPONSE": "PASS",
+        "BF_REG_BD:REV:X01_UNKNOWN_COMPLETION_PRESERVES_COVERAGE": "PASS",
+        "BF_REG_BD:REV:OWN02_FREE_WAIVED_LEGAL_PATH": "PASS",
+        "BF_REG_BD:REV:X02_MONEY_OVER_INT32": "PASS",
+        "BF_REG_BD:REV:X03_AUTH_BEFORE_REPLAY": "PASS",
+        "BF_REG_BD:REV:X05_PAGES_55_INVOICES_201_SOURCES": "PASS",
+        "BF_REG_BB:W:W02_SPLIT_BS_DISPOSE_AND_UNDO": "PASS",
+        "BF_REG_BB:W:W02_SPLIT_BS_REWORK_GOOD": "PASS",
+        "BF_REG_BB:W:W02_SPLIT_DATED_REMAINING": "PASS",
+        "BF_REG_BB:W:W02_WAGES_AFTER_CUTOVER_THROUGH_PAYROLL": "PASS",
+        "BF_REG_BB:W:W02_WAGES_OVER_PIECES_OR_BEFORE_CUTOVER_REFUSED": "PASS"
+      },
+      "missing": [],
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BF_RACE:SHARED_SKU_FIRST_COMMITS",
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BF_RACE:SHARED_SKU_FIRST_ABORTS",
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BD_RACE:INV_TWO_POSTS_FIRST_COMMITS",
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BD_RACE:INV_TWO_POSTS_FIRST_ABORTS",
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BD_RACE:W05_COMPLETE_VS_CLAIM_FIRST_COMMITS",
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BD_RACE:W05_COMPLETE_VS_CLAIM_FIRST_ABORTS",
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BD_RACE:PRC_TWO_SETS_FIRST_COMMITS",
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BD_RACE:PRC_TWO_SETS_FIRST_ABORTS",
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BD_RACE:POL_TWO_OWNER_SETS_SAME_VERSION",
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BD_RACE:EST_INVOICE_VS_ESTIMATE_FIRST_COMMITS",
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BD_RACE:EST_INVOICE_VS_ESTIMATE_FIRST_ABORTS",
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BE_RACE:CONVERSION_FIRST_COMMITS",
+      "checks": {
+        "contended": true,
+        "second": true,
+        "once": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BE_RACE:CONVERSION_FIRST_ABORTS",
+      "checks": {
+        "contended": true,
+        "second": true,
+        "once": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BE_RACE:CONVERSION_IDENTICAL_REPLAY",
+      "checks": {
+        "contended": true,
+        "second": true,
+        "once": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BE_RACE:REDYE_PRICE_FIRST_COMMITS",
+      "checks": {
+        "contended": true,
+        "second": true,
+        "once": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BE_RACE:REDYE_PRICE_FIRST_ABORTS",
+      "checks": {
+        "contended": true,
+        "second": true,
+        "once": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BE_RACE:REDYE_INVOICE_FIRST_COMMITS",
+      "checks": {
+        "contended": true,
+        "second": true,
+        "once": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BE_RACE:REDYE_INVOICE_FIRST_ABORTS",
+      "checks": {
+        "contended": true,
+        "second": true,
+        "once": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BE_RACE:POCKET_PERIOD_FIRST_COMMITS",
+      "checks": {
+        "two_connections": true,
+        "held_busy": true,
+        "retry": true,
+        "once": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "case": "BE_RACE:POCKET_PERIOD_FIRST_ABORTS",
+      "checks": {
+        "two_connections": true,
+        "held_busy": true,
+        "retry": true,
+        "once": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_AFTER",
+      "planned": [
+        "BF_RACE:SHARED_SKU_FIRST_COMMITS",
+        "BF_RACE:SHARED_SKU_FIRST_ABORTS",
+        "BD_RACE:INV_TWO_POSTS_FIRST_COMMITS",
+        "BD_RACE:INV_TWO_POSTS_FIRST_ABORTS",
+        "BD_RACE:W05_COMPLETE_VS_CLAIM_FIRST_COMMITS",
+        "BD_RACE:W05_COMPLETE_VS_CLAIM_FIRST_ABORTS",
+        "BD_RACE:PRC_TWO_SETS_FIRST_COMMITS",
+        "BD_RACE:PRC_TWO_SETS_FIRST_ABORTS",
+        "BD_RACE:POL_TWO_OWNER_SETS_SAME_VERSION",
+        "BD_RACE:EST_INVOICE_VS_ESTIMATE_FIRST_COMMITS",
+        "BD_RACE:EST_INVOICE_VS_ESTIMATE_FIRST_ABORTS",
+        "BE_RACE:CONVERSION_FIRST_COMMITS",
+        "BE_RACE:CONVERSION_FIRST_ABORTS",
+        "BE_RACE:CONVERSION_IDENTICAL_REPLAY",
+        "BE_RACE:REDYE_PRICE_FIRST_COMMITS",
+        "BE_RACE:REDYE_PRICE_FIRST_ABORTS",
+        "BE_RACE:REDYE_INVOICE_FIRST_COMMITS",
+        "BE_RACE:REDYE_INVOICE_FIRST_ABORTS",
+        "BE_RACE:POCKET_PERIOD_FIRST_COMMITS",
+        "BE_RACE:POCKET_PERIOD_FIRST_ABORTS"
+      ],
+      "final": {
+        "BF_RACE:SHARED_SKU_FIRST_COMMITS": "PASS",
+        "BF_RACE:SHARED_SKU_FIRST_ABORTS": "PASS",
+        "BD_RACE:INV_TWO_POSTS_FIRST_COMMITS": "PASS",
+        "BD_RACE:INV_TWO_POSTS_FIRST_ABORTS": "PASS",
+        "BD_RACE:W05_COMPLETE_VS_CLAIM_FIRST_COMMITS": "PASS",
+        "BD_RACE:W05_COMPLETE_VS_CLAIM_FIRST_ABORTS": "PASS",
+        "BD_RACE:PRC_TWO_SETS_FIRST_COMMITS": "PASS",
+        "BD_RACE:PRC_TWO_SETS_FIRST_ABORTS": "PASS",
+        "BD_RACE:POL_TWO_OWNER_SETS_SAME_VERSION": "PASS",
+        "BD_RACE:EST_INVOICE_VS_ESTIMATE_FIRST_COMMITS": "PASS",
+        "BD_RACE:EST_INVOICE_VS_ESTIMATE_FIRST_ABORTS": "PASS",
+        "BE_RACE:CONVERSION_FIRST_COMMITS": "PASS",
+        "BE_RACE:CONVERSION_FIRST_ABORTS": "PASS",
+        "BE_RACE:CONVERSION_IDENTICAL_REPLAY": "PASS",
+        "BE_RACE:REDYE_PRICE_FIRST_COMMITS": "PASS",
+        "BE_RACE:REDYE_PRICE_FIRST_ABORTS": "PASS",
+        "BE_RACE:REDYE_INVOICE_FIRST_COMMITS": "PASS",
+        "BE_RACE:REDYE_INVOICE_FIRST_ABORTS": "PASS",
+        "BE_RACE:POCKET_PERIOD_FIRST_COMMITS": "PASS",
+        "BE_RACE:POCKET_PERIOD_FIRST_ABORTS": "PASS"
+      },
+      "missing": []
+    },
+    {
+      "group": "AUDITOR_HTTP_AFTER",
+      "case": "BE_REV_HTTP:PUBLIC_SEWING_AND_PERIOD_ACCESS",
+      "checks": {
+        "anon": true,
+        "warehouse": true,
+        "dependency": true,
+        "version_required": true,
+        "owner": true,
+        "replay": true,
+        "revoked": true,
+        "page_owner": true,
+        "page_restricted": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_HTTP_AFTER",
+      "case": "BF_HTTP:PERMISSION_BEFORE_REPLAY_AND_REPORTS",
+      "checks": {
+        "first": true,
+        "replay": true,
+        "revoked_replay": true,
+        "hpp_denied": true,
+        "hidden": true,
+        "restored": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_HTTP_AFTER",
+      "case": "BD_HTTP:SET_POLICY_OWNER_ONLY",
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_HTTP_AFTER",
+      "case": "BD_HTTP:MONEY_HIDDEN_INVOICE_OWNER_ADMIN",
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_HTTP_AFTER",
+      "case": "BD_HTTP:W05_CLAIM_OWNER_ADMIN_ONLY",
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_HTTP_AFTER",
+      "case": "BE_HTTP:CONVERSION_AUTH_REPLAY_HIDDEN_COST",
+      "checks": {
+        "anon": true,
+        "qc_refused": true,
+        "warehouse_refused": true,
+        "reader_refused": true,
+        "reader_hidden": true,
+        "preview_hidden": true,
+        "owner": true,
+        "replay": true,
+        "changed_key_refused": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_HTTP_AFTER",
+      "case": "BE_HTTP:REDYE_PRICE_OWNER_REPLAY",
+      "checks": {
+        "warehouse_refused": true,
+        "owner": true,
+        "replay": true,
+        "real_cost": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_HTTP_AFTER",
+      "case": "BD_REV_HTTP:REVOKED_PERMISSION_REPLAY_NO_MONEY",
+      "checks": {
+        "authorized": true,
+        "current_permission_cached": true,
+        "current_permission_fresh": true,
+        "hidden": true,
+        "restored": true,
+        "one_effect": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_HTTP_AFTER",
+      "planned": [
+        "BE_REV_HTTP:PUBLIC_SEWING_AND_PERIOD_ACCESS",
+        "BF_HTTP:PERMISSION_BEFORE_REPLAY_AND_REPORTS",
+        "BD_HTTP:SET_POLICY_OWNER_ONLY",
+        "BD_HTTP:MONEY_HIDDEN_INVOICE_OWNER_ADMIN",
+        "BD_HTTP:W05_CLAIM_OWNER_ADMIN_ONLY",
+        "BE_HTTP:CONVERSION_AUTH_REPLAY_HIDDEN_COST",
+        "BE_HTTP:REDYE_PRICE_OWNER_REPLAY",
+        "BD_REV_HTTP:REVOKED_PERMISSION_REPLAY_NO_MONEY"
+      ],
+      "final": {
+        "BE_REV_HTTP:PUBLIC_SEWING_AND_PERIOD_ACCESS": "PASS",
+        "BF_HTTP:PERMISSION_BEFORE_REPLAY_AND_REPORTS": "PASS",
+        "BD_HTTP:SET_POLICY_OWNER_ONLY": "PASS",
+        "BD_HTTP:MONEY_HIDDEN_INVOICE_OWNER_ADMIN": "PASS",
+        "BD_HTTP:W05_CLAIM_OWNER_ADMIN_ONLY": "PASS",
+        "BE_HTTP:CONVERSION_AUTH_REPLAY_HIDDEN_COST": "PASS",
+        "BE_HTTP:REDYE_PRICE_OWNER_REPLAY": "PASS",
+        "BD_REV_HTTP:REVOKED_PERMISSION_REPLAY_NO_MONEY": "PASS"
+      },
+      "missing": []
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_BROWSER:LAU_T36_PHONE_MIXED_COVERAGE",
+      "status": "PASS",
+      "checks": {
+        "send_known_part_only": true,
+        "mixed_coverage": true,
+        "labels_from_server_components": true,
+        "unknown_listed_on_phone": true,
+        "filled_complete": true,
+        "accrual_matches": true,
+        "no_sideways_scroll": true
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_BROWSER:D12_PAYMENT_SCREEN_DAILY_CLAIM",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_BROWSER:D12_PAYMENT_SCREEN_OPENING_CLAIM",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_BROWSER:D08_LAUNDRY_QC_CANONICAL_IDS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_BROWSER:OWNER_POLICY_SET_AND_CLEAR",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_BROWSER:W05_CLAIM_RECOVER_AND_REVERSE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_BROWSER:W05_OPENING_ESTIMATE_QC_HIDDEN",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_BROWSER:DEC06_CORRECTION_UP_DOWN_ON_SCREEN",
+      "status": "PASS",
+      "checks": {
+        "linked_documents": true,
+        "screen_row": true,
+        "credit_row": true,
+        "ledger_matches": true,
+        "origin_untouched": true,
+        "no_sideways_scroll": true
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_COMPLETION:ALLOW_PENDING_VISIBLE_AND_BROWSER_RECOST",
+      "status": "PASS",
+      "checks": {
+        "pending_visible": true,
+        "original_close_blocked": true,
+        "lot_adds_10000": true,
+        "remaining_fg_adds_8000": true,
+        "sold_cogs_adds_2000": true,
+        "blocker_clears": true,
+        "sale_snapshot_immutable": true,
+        "sale_recosted": true,
+        "no_pending_goods": true
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BE_BROWSER:REDYE_SKU_UNKNOWN_THEN_PRICE_MOBILE",
+      "status": "PASS",
+      "checks": {
+        "partial_no_fg": true,
+        "completed_once": true,
+        "target": true,
+        "final": true
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_DESKTOP",
+      "status": "PASS",
+      "checks": {
+        "complete": true,
+        "qty": true,
+        "response": true,
+        "amount": true,
+        "one_delivery": true,
+        "coverage": true
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_MOBILE",
+      "status": "PASS",
+      "checks": {
+        "complete": true,
+        "qty": true,
+        "response": true,
+        "amount": true,
+        "one_delivery": true,
+        "coverage": true
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_REV_BROWSER:FREE_MASTER_THEN_PHYSICAL_DESKTOP",
+      "status": "PASS",
+      "checks": {
+        "complete": true,
+        "qty": true,
+        "response": true,
+        "amount": true,
+        "one_delivery": true,
+        "coverage": true
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_REV_BROWSER:WAIVED_MASTER_THEN_PHYSICAL_MOBILE",
+      "status": "PASS",
+      "checks": {
+        "complete": true,
+        "qty": true,
+        "response": true,
+        "amount": true,
+        "one_delivery": true,
+        "coverage": true
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BD_REV_BROWSER:PAGING_PRESERVES_EDIT_MOBILE",
+      "status": "PASS",
+      "checks": {
+        "sources_reachable_once": true,
+        "unchanged_invoice_count": true,
+        "form_preserved_and_saved": true
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "RANGE_BROWSER:WHOLE_31_33_RESET_DESKTOP",
+      "status": "PASS",
+      "checks": {
+        "full_service_without_reentering_sizes": true,
+        "batch_reset": true,
+        "actual_quantities_only": true,
+        "quantity": true,
+        "same_component_price": true,
+        "charge_count": true,
+        "complete": true,
+        "response": true
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "RANGE_BROWSER:POPULAR_32_ONLY_MOBILE",
+      "status": "PASS",
+      "checks": {
+        "full_service_without_reentering_sizes": true,
+        "qty_change_updates_full_coverage": true,
+        "actual_quantities_only": true,
+        "quantity": true,
+        "same_component_price": true,
+        "charge_count": true,
+        "complete": true,
+        "response": true,
+        "mobile_width": true
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "RANGE_BROWSER:SIZE_27_SINGLE_MOBILE",
+      "status": "PASS",
+      "checks": {
+        "full_service_without_reentering_sizes": true,
+        "actual_quantities_only": true,
+        "quantity": true,
+        "same_component_price": true,
+        "charge_count": true,
+        "complete": true,
+        "response": true,
+        "mobile_width": true
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "RANGE_BROWSER:PARTIAL_FINISH_32_MOBILE",
+      "status": "PASS",
+      "checks": {
+        "full_service_without_reentering_sizes": true,
+        "partial_empty_and_over_qty_refused": true,
+        "actual_quantities_only": true,
+        "quantity": true,
+        "same_component_price": true,
+        "charge_count": true,
+        "complete": true,
+        "response": true,
+        "partial_only_32": true,
+        "mobile_width": true
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BF_BROWSER:FOUR_SIZE_MASTER_DESKTOP",
+      "status": "PASS",
+      "checks": {
+        "members": true,
+        "revision": true,
+        "no_stock_mutation": true,
+        "price": true,
+        "bom": true,
+        "hpp_no_invented_stock": true
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BF_BROWSER:SINGLETON_UNCONFIGURED_MOBILE",
+      "status": "PASS",
+      "checks": {
+        "members": true,
+        "revision": true,
+        "no_stock_mutation": true,
+        "price": true,
+        "bom": true,
+        "mobile_width": true,
+        "hpp_no_invented_stock": true
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BF_BROWSER:SALES_MANUAL_13_DESKTOP",
+      "status": "PASS",
+      "checks": {
+        "manual_13_preserved": true,
+        "blank_helper_noop": true,
+        "fractional_pcs_refused": true,
+        "one_dozen_4_4_4": true
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BF_BROWSER:SALES_MANUAL_13_MOBILE",
+      "status": "PASS",
+      "checks": {
+        "manual_13_preserved": true,
+        "blank_helper_noop": true,
+        "fractional_pcs_refused": true,
+        "one_dozen_4_4_4": true
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BE_REV_BROWSER:OLD_PERIOD_DESKTOP_PAGE_DATE",
+      "status": "PASS",
+      "checks": {
+        "old_active_paged": true,
+        "date_search": true,
+        "draft_preserved": true
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BE_REV_BROWSER:OLD_PERIOD_MOBILE_ID_CANCEL",
+      "status": "PASS",
+      "checks": {
+        "id_search": true,
+        "once": true,
+        "no_stock": true,
+        "exact_cost_inverse": true
+      },
+      "delta": {
+        "WIP": -562,
+        "FG_INVENTORY": -338,
+        "COGS": -225,
+        "OTHER_EXPENSE": 1125,
+        "OPENING_EQUITY": 0
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "planned": [
+        "BD_BROWSER:LAU_T36_PHONE_MIXED_COVERAGE",
+        "BD_BROWSER:D12_PAYMENT_SCREEN_DAILY_CLAIM",
+        "BD_BROWSER:D12_PAYMENT_SCREEN_OPENING_CLAIM",
+        "BD_BROWSER:D08_LAUNDRY_QC_CANONICAL_IDS",
+        "BD_BROWSER:OWNER_POLICY_SET_AND_CLEAR",
+        "BD_BROWSER:W05_CLAIM_RECOVER_AND_REVERSE",
+        "BD_BROWSER:W05_OPENING_ESTIMATE_QC_HIDDEN",
+        "BD_BROWSER:DEC06_CORRECTION_UP_DOWN_ON_SCREEN",
+        "BD_COMPLETION:ALLOW_PENDING_VISIBLE_AND_BROWSER_RECOST",
+        "BE_BROWSER:REDYE_SKU_UNKNOWN_THEN_PRICE_MOBILE",
+        "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_DESKTOP",
+        "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_MOBILE",
+        "BD_REV_BROWSER:FREE_MASTER_THEN_PHYSICAL_DESKTOP",
+        "BD_REV_BROWSER:WAIVED_MASTER_THEN_PHYSICAL_MOBILE",
+        "BD_REV_BROWSER:PAGING_PRESERVES_EDIT_MOBILE",
+        "RANGE_BROWSER:WHOLE_31_33_RESET_DESKTOP",
+        "RANGE_BROWSER:POPULAR_32_ONLY_MOBILE",
+        "RANGE_BROWSER:SIZE_27_SINGLE_MOBILE",
+        "RANGE_BROWSER:PARTIAL_FINISH_32_MOBILE",
+        "BF_BROWSER:FOUR_SIZE_MASTER_DESKTOP",
+        "BF_BROWSER:SINGLETON_UNCONFIGURED_MOBILE",
+        "BF_BROWSER:SALES_MANUAL_13_DESKTOP",
+        "BF_BROWSER:SALES_MANUAL_13_MOBILE",
+        "BE_REV_BROWSER:OLD_PERIOD_DESKTOP_PAGE_DATE",
+        "BE_REV_BROWSER:OLD_PERIOD_MOBILE_ID_CANCEL"
+      ],
+      "final": {
+        "BD_BROWSER:LAU_T36_PHONE_MIXED_COVERAGE": "PASS",
+        "BD_BROWSER:D12_PAYMENT_SCREEN_DAILY_CLAIM": "PASS",
+        "BD_BROWSER:D12_PAYMENT_SCREEN_OPENING_CLAIM": "PASS",
+        "BD_BROWSER:D08_LAUNDRY_QC_CANONICAL_IDS": "PASS",
+        "BD_BROWSER:OWNER_POLICY_SET_AND_CLEAR": "PASS",
+        "BD_BROWSER:W05_CLAIM_RECOVER_AND_REVERSE": "PASS",
+        "BD_BROWSER:W05_OPENING_ESTIMATE_QC_HIDDEN": "PASS",
+        "BD_BROWSER:DEC06_CORRECTION_UP_DOWN_ON_SCREEN": "PASS",
+        "BD_COMPLETION:ALLOW_PENDING_VISIBLE_AND_BROWSER_RECOST": "PASS",
+        "BE_BROWSER:REDYE_SKU_UNKNOWN_THEN_PRICE_MOBILE": "PASS",
+        "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_DESKTOP": "PASS",
+        "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_MOBILE": "PASS",
+        "BD_REV_BROWSER:FREE_MASTER_THEN_PHYSICAL_DESKTOP": "PASS",
+        "BD_REV_BROWSER:WAIVED_MASTER_THEN_PHYSICAL_MOBILE": "PASS",
+        "BD_REV_BROWSER:PAGING_PRESERVES_EDIT_MOBILE": "PASS",
+        "RANGE_BROWSER:WHOLE_31_33_RESET_DESKTOP": "PASS",
+        "RANGE_BROWSER:POPULAR_32_ONLY_MOBILE": "PASS",
+        "RANGE_BROWSER:SIZE_27_SINGLE_MOBILE": "PASS",
+        "RANGE_BROWSER:PARTIAL_FINISH_32_MOBILE": "PASS",
+        "BF_BROWSER:FOUR_SIZE_MASTER_DESKTOP": "PASS",
+        "BF_BROWSER:SINGLETON_UNCONFIGURED_MOBILE": "PASS",
+        "BF_BROWSER:SALES_MANUAL_13_DESKTOP": "PASS",
+        "BF_BROWSER:SALES_MANUAL_13_MOBILE": "PASS",
+        "BE_REV_BROWSER:OLD_PERIOD_DESKTOP_PAGE_DATE": "PASS",
+        "BE_REV_BROWSER:OLD_PERIOD_MOBILE_ID_CANCEL": "PASS"
+      },
+      "status": "RUN_COMPLETE",
+      "console_errors": 0,
+      "users_created": 26,
+      "auth_cleanup_failures": []
+    }
+  ]
+}
