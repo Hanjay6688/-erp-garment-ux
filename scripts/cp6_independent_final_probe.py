@@ -9,7 +9,7 @@ def backdated_move_after_posted_fg(cur, today):
     f=p.fixture(cur, today)
     wash=p.wash(cur,f,range(4),11)
     p.finish(cur,f,[wash],range(4),13)
-    lot=p.lots(cur)[3]
+    lot=p.lots(cur,f)[3]
     stamp=f['when'](13)
     before=p.one(cur,'select erp.bf_commercial_sku_at_v1(%s,%s)',f['roots'][3],stamp)
     assert before==f['z']['sku'], ('PRECONDITION_OLD_SKU',before)
@@ -37,7 +37,7 @@ def backdated_move_after_posted_sale(cur,today):
     f=p.fixture(cur,today)
     wash=p.wash(cur,f,range(4),11)
     p.finish(cur,f,[wash],range(4),13)
-    lot=p.lots(cur)[3]
+    lot=p.lots(cur,f)[3]
     sale=p.sale(cur,f,3,1,15)
     at=f['when'](13)
     before=p.one(cur,'select erp.bf_commercial_sku_at_v1(%s,%s)',f['roots'][3],at)
