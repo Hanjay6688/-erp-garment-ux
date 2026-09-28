@@ -21,7 +21,7 @@ def backdated_move_after_posted_fg(cur, today):
         cur.execute('rollback to savepoint independent_backdate')
         cur.execute('release savepoint independent_backdate')
         p.b.api.admin(cur)
-        return dict(status='PASS',posted_lot=lot,original_sku=before,
+        return dict(status='PASS' if 'financial commitment time' in str(exc) else 'INCOMPLETE',posted_lot=lot,original_sku=before,
             guard=str(exc).splitlines()[0][:500],stock_pcs=old_stock)
     cur.execute('release savepoint independent_backdate')
     after=p.one(cur,'select erp.bf_commercial_sku_at_v1(%s,%s)',f['roots'][3],stamp)
@@ -49,7 +49,7 @@ def backdated_move_after_posted_sale(cur,today):
         cur.execute('rollback to savepoint independent_sale_backdate')
         cur.execute('release savepoint independent_sale_backdate')
         p.b.api.admin(cur)
-        return dict(status='PASS',sale_id=sale,posted_lot=lot,guard=str(exc).splitlines()[0][:500])
+        return dict(status='PASS' if 'financial commitment time' in str(exc) else 'INCOMPLETE',sale_id=sale,posted_lot=lot,guard=str(exc).splitlines()[0][:500])
     cur.execute('release savepoint independent_sale_backdate')
     after=p.one(cur,'select erp.bf_commercial_sku_at_v1(%s,%s)',f['roots'][3],at)
     sold=p.one(cur,'select count(*) from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id where i.sale_id=%s and a.lot_id=%s',sale,lot)
@@ -79,6 +79,14 @@ def backdated_move_after_posted_conversion(cur,today):
     before=p.one(cur,'select erp.bf_commercial_sku_at_v1(%s,%s)',target,stamp)
     assert before==a['sku'],('PRECONDITION_CONVERSION_SKU',before)
     assert p.one(cur,'select count(*) from erp.fg_lots where id=%s',destination)==1
+    def document():
+        p.prod.owner(cur)
+        payload=p.one(cur,'select public.erp_get_product_conversion_workspace_v1(%s::jsonb)',json.dumps({}))
+        p.b.api.admin(cur)
+        return next(row for row in payload['documents'] if row['id']==sent['conversion_id'])
+    before_document=document()['target_sku']
+    before_hpp=p.report(cur,a['sku'],stamp+timedelta(seconds=1))['groups']
+    before_stock=p.stock(cur,destination)
     at=f['when'](14,30)
     a2=p.bf.group(cur,[target],at,sku=a['sku'],gid=a['id'],revision=1)
     a2.update(members=[],legacy_basis=[])
@@ -90,11 +98,21 @@ def backdated_move_after_posted_conversion(cur,today):
         cur.execute('rollback to savepoint independent_conversion_backdate')
         cur.execute('release savepoint independent_conversion_backdate')
         p.b.api.admin(cur)
-        return dict(status='PASS',conversion_id=sent['conversion_id'],destination_lot=destination,
+        return dict(status='PASS' if 'financial commitment time' in str(exc) or 'BF_TARIFF_HISTORY' in str(exc) else 'INCOMPLETE',conversion_id=sent['conversion_id'],destination_lot=destination,
             original_sku=before,guard=str(exc).splitlines()[0][:500])
     cur.execute('release savepoint independent_conversion_backdate')
     after=p.one(cur,'select erp.bf_commercial_sku_at_v1(%s,%s)',target,stamp)
-    return dict(status='COUNTEREXAMPLE' if after!=before else 'INCOMPLETE',
+    after_document=document()['target_sku']
+    old_hpp=p.report(cur,a['sku'],stamp+timedelta(seconds=1))['groups']
+    new_hpp=p.report(cur,z['sku'],stamp+timedelta(seconds=1))['groups']
+    same_lot=p.one(cur,'select count(*) from erp.fg_lots where id=%s',destination)==1
+    same_stock=p.stock(cur,destination)==before_stock
+    return dict(status='COUNTEREXAMPLE' if after!=before and after_document!=before_document and same_lot and same_stock else 'INCOMPLETE',
+        document_label_before=before_document,document_label_after=after_document,
+        historical_hpp_before=[dict(sku=x['sku'],qty=x['qty'],value=x['value']) for x in before_hpp],
+        historical_hpp_old_after=[dict(sku=x['sku'],qty=x['qty'],value=x['value']) for x in old_hpp],
+        historical_hpp_new_after=[dict(sku=x['sku'],qty=x['qty'],value=x['value']) for x in new_hpp],
+        same_physical_lot=same_lot,same_stock_qty=same_stock,
         conversion_id=sent['conversion_id'],destination_lot=destination,
         physical_at=stamp.isoformat(),backdated_effective_at=at.isoformat(),
         original_sku=before,after_sku=after,
