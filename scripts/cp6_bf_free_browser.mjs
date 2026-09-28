@@ -19,8 +19,9 @@ async function freeMaster(ui,mobile){
   for(const [i,rate] of f.rates.entries()){
    await p.getByRole('button',{name:'Tambah tarif laundry',exact:true}).click()
    const fields=p.getByRole('group',{name:'Jasa laundry '+(i+1),exact:true})
-   await fields.getByLabel('Vendor',{exact:true}).selectOption(rate.vendor_id);await fields.getByLabel('Jenis',{exact:true}).selectOption('COMPONENT')
-   await fields.getByLabel('Jasa',{exact:true}).selectOption(rate.ref_id);await fields.getByLabel('Status harga',{exact:true}).selectOption(rate.rate_status)
+   await ui.expect(fields).toBeVisible()
+   await fields.getByLabel(/^Vendor/).selectOption(rate.vendor_id);await fields.getByLabel(/^Jenis/).selectOption('COMPONENT')
+   await fields.getByLabel(/^Jasa/).selectOption(rate.ref_id);await fields.getByLabel(/^Status harga/).selectOption(rate.rate_status)
    await fields.getByLabel('Alasan harga',{exact:true}).fill(rate.reason)
   }
   await p.getByLabel('Alasan perubahan',{exact:true}).fill('Browser agreed FREE and WAIVED with valid reasons')
@@ -35,7 +36,7 @@ async function freeMaster(ui,mobile){
   await p.getByRole('button',{name:'Ubah SKU '+f.sku,exact:true}).click()
   for(const [i,rate] of f.rates.entries()){
    const fields=p.getByRole('group',{name:'Jasa laundry '+(i+1),exact:true})
-   await ui.expect(fields.getByLabel('Status harga',{exact:true})).toHaveValue(rate.rate_status)
+   await ui.expect(fields.getByLabel(/^Status harga/)).toHaveValue(rate.rate_status)
    await ui.expect(fields.getByLabel('Alasan harga',{exact:true})).toHaveValue(rate.reason)
   }
   checks.reload_preserves_status_and_reason=true

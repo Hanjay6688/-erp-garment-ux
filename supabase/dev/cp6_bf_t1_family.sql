@@ -663,9 +663,10 @@ begin
    'wave',case when nullif(p_filters->>'wave_id','') is not null then (select jsonb_build_object('id',cg.id,'number',cg.group_number,
      'revision',erp.bf_wave_revision_v1(cg.id),'can_bind',erp.has_permission('production.cutting.edit_draft'),
      'sizes',coalesce((select jsonb_agg(jsonb_build_object('id',z.id,'name',z.size_code,'sku_id',w.sku_id,'sku',s.sku) order by z.sort_order,z.size_code)
-       from erp.cutting_group_size_slots sl join erp.sizes z on z.id=sl.size_id
+       from (select distinct size_id from erp.cutting_group_size_slots where cutting_group_id=cg.id) sl
+       join erp.sizes z on z.id=sl.size_id
        left join erp.bf_wave_skus_v1 w on w.cutting_group_id=cg.id and w.size_id=z.id left join erp.bf_skus_v1 s on s.id=w.sku_id
-       where sl.cutting_group_id=cg.id),'[]')) from erp.cutting_groups cg where cg.id=(p_filters->>'wave_id')::uuid) end,
+       ),'[]')) from erp.cutting_groups cg where cg.id=(p_filters->>'wave_id')::uuid) end,
    'selected_products',coalesce((select jsonb_agg(to_jsonb(x)) from products x where id=any(roots)),'[]'),
    'lookups',case when money then jsonb_build_object(
      'accessories',coalesce((select jsonb_agg(jsonb_build_object('id',id,'name',category_name,'unit',base_uom_code) order by category_name,id) from erp.accessory_categories where is_active),'[]'),

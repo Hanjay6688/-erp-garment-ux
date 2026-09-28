@@ -2,6 +2,7 @@
 import copy,uuid
 from datetime import timedelta
 import cp6_bf_free_probe as free
+import cp6_bf_range_followup as range_followup
 import cp6_be_revision_modes as regression
 from cp6_bd_modes import _fixture_usage,_verdict
 
@@ -9,16 +10,17 @@ INSTALL_BF=True
 bf=free.bf
 
 def cases(cur,today):
-    return [('SKU01:ALL_FOUR_MASTER_STATUSES_AND_REPLAY',lambda:free.master_statuses(cur,today)),
+    return [('RANGE:REPEATED_DRAWINGS_ONE_CHOICE_PER_SIZE',lambda:range_followup.repeated_drawings(cur,today)),
+        ('SKU01:ALL_FOUR_MASTER_STATUSES_AND_REPLAY',lambda:free.master_statuses(cur,today)),
         ('SKU01:INVALID_RATES_ATOMIC_REFUSAL',lambda:free.atomic_rejections(cur,today)),
         ('SKU01:FREE_WAIVED_SHIP_RECEIVE_QC_HPP',lambda:free.free_production(cur,today))]+regression.cases(cur,today)
 
 def race_free(tools,today,commit):
     with tools.connect() as conn,conn.cursor() as cur:
-        with _fixture_usage(cur):
-            f=free.master_fixture(cur);g=f['g'];bf.save(cur,[g],f['at']);at=f['now']-timedelta(minutes=2)
-            a=bf.group(cur,[p for p,_ in f['rows']],at,sku=g['sku'],gid=g['id'],revision=1,settings=copy.deepcopy(g['settings']))
-            z=copy.deepcopy(a);z['settings']['laundry_rates'][0].update(rate_status='WAIVED',reason='Second owner documented waiver')
+        # RaceTools supplies its own disposable-only schema grant; HTTP/browser copies do not.
+        f=free.master_fixture(cur);g=f['g'];bf.save(cur,[g],f['at']);at=f['now']-timedelta(minutes=2)
+        a=bf.group(cur,[p for p,_ in f['rows']],at,sku=g['sku'],gid=g['id'],revision=1,settings=copy.deepcopy(g['settings']))
+        z=copy.deepcopy(a);z['settings']['laundry_rates'][0].update(rate_status='WAIVED',reason='Second owner documented waiver')
         conn.commit()
     held,contention,outcome=tools.two_sessions(lambda cur:bf.save(cur,[a],at),lambda cur:bf.save(cur,[z],at),commit)
     with tools.connect() as conn,conn.cursor() as cur:

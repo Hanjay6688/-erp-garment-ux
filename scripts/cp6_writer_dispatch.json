@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 33,
+  "revision": 34,
   "phase": "after",
   "scenario_path": "scripts/cp6_bf_free_modes.py",
   "browser_path": "scripts/cp6_bf_free_browser.mjs",
-  "purpose": "SKU-01: legitimate FREE/WAIVED master rates, invalid atomic refusals, native ship/receive/QC/HPP, real Auth, permission before replay, two-editor commit/abort and desktop/mobile save/reload. Retains full prior BE/BF/BD scenario. Known fixture fabric100 plus labor2035.04, laundry0 =>2135.04. Writer evidence only, CP6 HOLD; broader rework/range, latest release package and last check remain open."
+  "purpose": "SKU-01 plus RANGE-02: legitimate free master/downstream, repeated drawing slots expose one SKU choice per physical size and preserve all yields. Correct race fixture grant ownership and native select-label matching; no product-rule relaxation. Retains full BE/BF/BD regression. Fabric100 plus labor2035.04 plus laundry0 =>2135.04. Writer evidence only, CP6 HOLD; broader rework/range, release package and last check remain open."
 }
