@@ -1,0 +1,66 @@
+{
+  "finding": "CP7-DELTA-01",
+  "status": "WRITER_FIX_VERIFIED_SHELL_ONLY",
+  "product_head": "c9c228a087532cdabe53748568ab82b80e048790",
+  "product_tree": "2572b824cd99472673144eaf4e27107445ca405d",
+  "source_head": "6465825d0f8a865f28264626a4e0af818d66967e",
+  "auditor_handoff_commit": "c2728c7e28ed674e680590b6f3db56478b1388b5",
+  "original_probe_sha256": "6f0a42844c0a62d9ddf22245410f1397ae656843ec75018b3d885a3824a2e1ef",
+  "original_probe_unchanged": true,
+  "local": {
+    "before": {
+      "pass": 6,
+      "fail": 1
+    },
+    "after_focused": {
+      "pass": 44,
+      "fail": 0
+    },
+    "build": "PASS",
+    "security_after_missing_git_objects_fetched": "PASS",
+    "browser": "NOT_RUN_MISSING_EXECUTABLE"
+  },
+  "ci": {
+    "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36460822362",
+    "head": "c9c228a087532cdabe53748568ab82b80e048790",
+    "tests": {
+      "files": 57,
+      "pass": 619,
+      "fail": 0
+    },
+    "browser": {
+      "pass": 6,
+      "fail": 0
+    },
+    "security": "PASS",
+    "build": "PASS",
+    "jobs": [
+      {
+        "id": 109058612945,
+        "name": "CP7 CodeQL actions",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 109058613119,
+        "name": "shell",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 109058613259,
+        "name": "CP7 CodeQL javascript-typescript",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ],
+    "codeql": "BOTH_COMPLETED_ZERO_FINDINGS"
+  },
+  "boundaries": {
+    "synthetic_only": true,
+    "live_data_leak_proven": false,
+    "backend_authorization_implemented": false,
+    "cp6_integration_qualified": false,
+    "production_go": false
+  }
+}

@@ -26,9 +26,15 @@ available. OWNER retains the original analysis; DENIED receives empty output.
   check OWNER → OPERATIONS → DENIED → OPERATIONS → OWNER, unchanged source,
   retained operational facts, and report/prompt/WhatsApp preview output.
 - Build, typecheck and built-client scan: PASS locally.
-- CI browser and security qualification: pending at this commit. Local browser
-  launch lacked the pinned executable; the security check initially lacked a
-  historical Git object. Neither is claimed as a passing product test.
+- CI on product commit `c9c228a087532cdabe53748568ab82b80e048790`:
+  [run 36460822362](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36460822362)
+  passes 57 files / 619 tests, security checks, build and all six browser cases
+  (desktop/mobile). CodeQL Actions and JavaScript/TypeScript both completed
+  with zero findings; each result was checked in the original job log.
+- Local browser launch lacked the pinned executable; no browser assertion ran
+  locally. CI used its pinned browser successfully. The local security check
+  initially lacked two historical Git objects; after fetching those objects,
+  the unmodified security command passed. No guard was bypassed.
 
 No schema or oracle was relaxed. Six consumers still derive from the shared
 projection. This fixes the synthetic shell; the future connected reader must
