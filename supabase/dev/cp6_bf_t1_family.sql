@@ -2,6 +2,13 @@
 begin;set local search_path='';set local lock_timeout='10s';set local statement_timeout='240s';
 do $guard$ begin if not exists(select 1 from erp.schema_migrations where version='v2.6.20be') then raise exception 'BF_REQUIRES_BE';end if;
 if exists(select 1 from erp.schema_migrations where version='v2.6.20bf') then raise exception 'BF_ALREADY_INSTALLED';end if;end $guard$;
+
+create table erp.bf_rollback_v1(payload jsonb not null);
+insert into erp.bf_rollback_v1(payload)
+select jsonb_build_object('functions',(select jsonb_object_agg(s,pg_get_functiondef(s::regprocedure)) from unnest(array['erp.commit_accessory_bom_for_lot(uuid)','erp.ensure_po_work_component_snapshots(uuid,timestamp with time zone)','erp.validate_work_completion()','erp.guard_work_completion_posting_consistency()','erp.seed_bs_case_component_baseline()','erp.classify_bs_case_v2(uuid,jsonb,uuid,bigint)','erp.cp6_lot_work_cost_v2620c(uuid,text)','erp.assert_new_stock_cutoff_coverage_v1()','erp.bd_compute_pricing_v1(jsonb,jsonb)','erp.bd_attach_delivery_pricing_v1(uuid)','erp.bd_post_priced_delivery_v1(jsonb,uuid)','erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','erp.prepare_rework_component_line()','erp.run_v263c_bs_rework_integrity_checks()','erp.get_hpp_completeness(uuid)']) s),
+ 'snapshot_constraint',(select pg_get_constraintdef(oid) from pg_constraint where conrelid='erp.po_work_component_snapshots'::regclass and conname='po_work_component_snapshots_po_id_work_component_id_key'),
+ 'rework_constraint',(select pg_get_constraintdef(oid) from pg_constraint where conrelid='erp.rework_component_lines'::regclass and conname='rework_component_lines_rate_basis_check'));
+
 -- Commercial identity is separate from the exact-size physical identity root.
 create table erp.bf_skus_v1(
  id uuid primary key default gen_random_uuid(), brand_id uuid not null references erp.brands(id),
@@ -137,7 +144,8 @@ begin
    raise exception 'BF_ORPHAN_MEMBER: anggota yang dikeluarkan wajib dipindah ke SKU tujuan';end if;
  for g in select value from jsonb_array_elements(p_payload->'groups') loop
    sid:=(g->>'id')::uuid;cfg:=g->'settings';
-   perform erp._cp3_assert_closed_json_object(cfg,array['price','bom','work_rates','laundry_rates'],array['price','bom','work_rates','laundry_rates'],'SKU settings');
+   perform erp._cp3_assert_closed_json_object(cfg,array['work_rates','laundry_rates'],array['price','bom','work_rates','laundry_rates'],'SKU settings');
+   if not (cfg ?& array['price','bom']) then raise exception 'BF_SETTINGS_MISSING: harga/resep wajib disebut, boleh belum diisi';end if;
    if jsonb_typeof(cfg->'bom') not in('array','null') or jsonb_typeof(cfg->'work_rates') is distinct from 'array'
      or jsonb_typeof(cfg->'laundry_rates') is distinct from 'array' then raise exception 'BF_SETTINGS_ARRAY';end if;
    if cfg->'price'<>'null'::jsonb then perform erp.bd_amount_v1(cfg->'price','price',true);end if;
@@ -194,8 +202,9 @@ begin
  end loop;
  seen:='{}';
  for j in select value from jsonb_array_elements(p_settings->'laundry_rates') loop
-   perform erp._cp3_assert_closed_json_object(j,array['vendor_id','kind','ref_id','rate_status','rate','reason'],
+   perform erp._cp3_assert_closed_json_object(j,array['vendor_id','kind','ref_id','rate_status'],
      array['vendor_id','kind','ref_id','rate_status','rate','reason'],'SKU laundry rate');
+   if not(j ?& array['rate','reason']) then raise exception 'BF_RATE_FIELDS';end if;
    k:=j->>'kind';ref:=erp.bd_uuid_v1(j,'ref_id',true);vendor:=erp.bd_uuid_v1(j,'vendor_id',true);
    if not exists(select 1 from erp.laundry_vendors where id=vendor and is_active) then raise exception 'BF_VENDOR';end if;
    if k='PROCESS' then
@@ -2789,7 +2798,7 @@ order by p.po_number;
 $function$;
 
 do $grants$ declare t text;f record;begin
- foreach t in array ARRAY['bf_skus_v1','bf_sku_versions_v1','bf_sku_members_v1','bf_wave_skus_v1','bf_po_boms_v1','bf_requests_v1','bf_context_v1'] loop
+ foreach t in array ARRAY['bf_rollback_v1','bf_skus_v1','bf_sku_versions_v1','bf_sku_members_v1','bf_wave_skus_v1','bf_po_boms_v1','bf_requests_v1','bf_context_v1'] loop
    execute format('alter table erp.%I enable row level security',t);
    execute format('revoke all on erp.%I from public,anon,authenticated,service_role',t);
  end loop;
@@ -2800,6 +2809,11 @@ do $grants$ declare t text;f record;begin
    if f.nspname='public' then execute format('grant execute on function %s to authenticated,service_role',f.sig);end if;
  end loop;
 end $grants$;
+
+
+update erp.bf_rollback_v1 set payload=payload||jsonb_build_object('installed',(
+ select jsonb_object_agg(p.oid::regprocedure::text,md5(pg_get_functiondef(p.oid))) from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+ where n.nspname||'.'||p.proname=any(array['erp.commit_accessory_bom_for_lot','erp.ensure_po_work_component_snapshots','erp.validate_work_completion','erp.guard_work_completion_posting_consistency','erp.seed_bs_case_component_baseline','erp.classify_bs_case_v2','erp.cp6_lot_work_cost_v2620c','erp.assert_new_stock_cutoff_coverage_v1','erp.bd_compute_pricing_v1','erp.bd_attach_delivery_pricing_v1','erp.bd_post_priced_delivery_v1','erp.save_laundry_qc_action_v1','erp.prepare_rework_component_line','erp.run_v263c_bs_rework_integrity_checks','erp.get_hpp_completeness','erp.bf_version_at_v1','erp.bf_guard_economic_v1','erp.bf_legacy_basis_v1','erp.bf_save_groups_v1','erp.bf_validate_rates_v1','erp.bf_work_rate_v1','erp.bf_context_rate_v1','erp.bf_bom_for_lot_v1','erp.bf_bind_wave_v1','erp.bf_work_capacity_v1','erp.bf_snapshot_sku_v1','erp.bf_wave_revision_v1','erp.bf_group_sku_v1','erp.bf_ensure_work_v1','erp.bf_snapshot_matches_v1','erp.bf_assert_work_scope_v1','erp.bf_laundry_rate_v1','erp.bf_merge_charges_v1','erp.bf_package_charges_v1','erp.bf_complete_shares_v1','erp.bf_component_charge_v1','erp.save_sku_action_v1','erp.get_sku_workspace_v1','erp.get_sku_hpp_v1','public.erp_save_sku_action_v1','public.erp_get_sku_workspace_v1','public.erp_get_sku_hpp_v1'])));
 
 insert into erp.schema_migrations(version,description) values('v2.6.20bf','Commercial SKU ranges; physical-size lineage preserved');
 commit;

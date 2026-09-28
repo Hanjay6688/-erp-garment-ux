@@ -98,3 +98,71 @@ def conflicts(cur,today):
     g2['settings']['price']='190000.00';save(cur,[g2],future)
     return b.verdict(dict(explicit_basis=blocked['ok'],historical=all(one(cur,'select erp.resolve_product_price_at(%s,%s)',r,at)==185000 for r in roots),
         successor=all(one(cur,'select erp.resolve_product_price_at(%s,%s)',r,future)==190000 for r in roots)))
+
+
+def rollback_sql():
+    return (build.ROOT/'supabase/dev/cp6_bf_t2_rollback.sql').read_text().replace('\nbegin;\n','\n').replace('\ncommit;\n','\n')
+
+
+def recovery_unused(cur,today):
+    b.api.admin(cur)
+    cur.execute(rollback_sql(),prepare=False)
+    result=be.verified(cur)
+    assert not one(cur,"select exists(select 1 from erp.schema_migrations where version='v2.6.20bf')")
+    assert not one(cur,"select to_regclass('erp.bf_skus_v1') is not null")
+    assert one(cur,"select count(*) from pg_constraint where conrelid='erp.po_work_component_snapshots'::regclass and conname='po_work_component_snapshots_po_id_work_component_id_key'")==1
+    return b.verdict(dict(prior_family_exact=bool(result),tables_removed=True,unique_restored=True))
+
+
+def recovery_used(cur,today):
+    rows=products(cur,('27',));at=one(cur,"select clock_timestamp()-interval '4 minutes'")
+    g=group(cur,[rows[0][0]],at);save(cur,[g],at)
+    blocked=b.refused(cur,lambda:cur.execute(rollback_sql(),prepare=False),'BF_USED_ROLLBACK_REFUSED')
+    return b.verdict(dict(refused=blocked['ok'],data_kept=one(cur,'select revision from erp.bf_skus_v1 where id=%s',g['id'])==1))
+
+
+def production_ranges(cur,today):
+    """Two real SKU tariffs in one wave, four physical sizes, ordinary work/laundry/QC posting. No ledger seeding."""
+    prod,base=b.chain.production,b.chain.base
+    now=one(cur,'select clock_timestamp()');at=now-timedelta(minutes=4)
+    clock=lambda hour,minute=0:now-timedelta(seconds=(19-hour-minute/60)*10)
+    rows=products(cur,('31','32','33','27'));roots=[p for p,_ in rows];sizes=[s for _,s in rows];qtys=[4,7,2,3]
+    vendor,process=str(uuid.uuid4()),str(uuid.uuid4());tag=uuid.uuid4().hex[:8]
+    cur.execute("insert into erp.laundry_vendors(id,vendor_code,vendor_name,is_active) values(%s,%s,'BF service',true)",(vendor,'BF-'+tag))
+    cur.execute("insert into erp.wash_processes(id,process_code,process_name,is_active) values(%s,%s,'BF wash',true)",(process,'BF-'+tag))
+    def cfg(work,laundry):return dict(price='185000.00',bom=[],work_rates=[dict(contractor_id=None,work_component_id=prod.COMPONENT,rate=work)],
+        laundry_rates=[dict(vendor_id=vendor,kind='PROCESS',ref_id=process,rate_status='KNOWN',rate=laundry,reason='Synthetic shared SKU rate')])
+    a=group(cur,roots[:3],at,settings=cfg('10.00','5.00'));c=group(cur,[roots[3]],at,settings=cfg('30.00','9.00'));save(cur,[a,c],at)
+    snapshots={}
+    def setup(cur,po,wave,batch,yields,when):
+        call(cur,'BIND_WAVE',dict(cutting_group_id=wave,expected_version=one(cur,'select erp.bf_wave_revision_v1(%s)',wave),
+            references=[dict(size_id=s,sku_id=a['id'] if i<3 else c['id']) for i,s in enumerate(sizes)]))
+        cur.execute('insert into erp.po_work_component_snapshots(po_id,work_component_id,sequence_no,rate_per_pcs_snapshot,committed_at) values(%s,%s,1,3,%s)',(po,prod.COMPONENT,when(9,30)))
+        prod.owner(cur);cur.execute('select erp.ensure_po_work_component_snapshots(%s,%s)',(po,when(10)));b.api.admin(cur)
+        for sku,qty in ((a['id'],13),(c['id'],3)):
+            snap=one(cur,'select s.id::text from erp.po_work_component_snapshots s join erp.bf_sku_versions_v1 v on v.id=s.bf_sku_version_id where s.po_id=%s and v.sku_id=%s and s.work_component_id=%s',po,sku,prod.COMPONENT)
+            snapshots[sku]=snap;e=str(uuid.uuid4());b.chain.peer.ordinary(cur)
+            cur.execute("insert into erp.work_completion_events(id,completion_number,po_id,contractor_id,cutting_group_id,physical_at,status,notes,created_by) values(%s,%s,%s,%s,%s,%s,'DRAFT','BF scoped work',%s)",(e,'BF-'+e,po,prod.CONTRACTOR,wave,when(10),base.OPERATOR_APP))
+            cur.execute('insert into erp.work_completion_lines(completion_id,po_component_snapshot_id,work_component_id,qty_completed,qty_payable,rate_snapshot) values(%s,%s,%s,%s,%s,0)',(e,snap,prod.COMPONENT,qty,qty))
+            cur.execute('select erp.post_work_completion(%s)',(e,));prod.owner(cur)
+            cur.execute('select public.erp_record_sewing_terminal_v1(%s::jsonb,%s)',(json.dumps(dict(work_completion_id=e,qty_pcs=qty,reason='BF scoped physical sewing')),uuid.uuid4()));b.api.admin(cur)
+    fx=b.two_size_fixture(cur,b.case_day(today),'BF-RANGES',size_quantities=list(zip(sizes,qtys)),clock=clock,work_setup=setup,service_refs=(vendor,process))
+    payload=dict(distribution_batch_id=fx['batch'],vendor_id=vendor,wash_process_id=process,target_dyeing_color='BF-BLUE',physical_at=clock(11).isoformat(),reason='BF two SKU tariffs one wave',lines=[dict(size_id=s,qty_sent_pcs=q) for s,q in zip(sizes,qtys)])
+    sent=b.bd(cur,'POST_PRICED_DELIVERY',dict(delivery=payload,expected_version=str(base.group_version(cur,fx['group'])),pricing={}))
+    delivery=sent['delivery_id']
+    ds=dict(cur.execute('select s.size_id::text,s.id::text from erp.laundry_delivery_batch_size_lines s join erp.laundry_delivery_lines l on l.id=s.delivery_line_id where l.delivery_id=%s',(delivery,)).fetchall())
+    received=b.chain.laundry_action(cur,'POST_RECEIPT',dict(delivery_id=delivery,wash_process_id=process,physical_at=clock(13).isoformat(),reason='BF exact-size return',
+        lines=[dict(delivery_batch_size_line_id=ds[s],qty_good_received=q,qty_bs_laundry=0,bs_product_id=None) for s,q in zip(sizes,qtys)]),base.delivery_version(cur,delivery))
+    line=b.receipt_line(cur,received['receipt_id'])
+    rs=dict(cur.execute('select d.size_id::text,r.id::text from erp.laundry_receipt_batch_size_lines r join erp.laundry_delivery_batch_size_lines d on d.id=r.delivery_batch_size_line_id where r.receipt_line_id=%s',(line,)).fetchall())
+    b.chain.laundry_action(cur,'POST_FINAL_SKU',dict(cutting_group_id=fx['group'],destination_location_id=base.LOCATION,physical_at=clock(14).isoformat(),reason='BF exact-size final goods',good_qty_pcs=16,completion_mode='ALL_READY',
+        lines=[dict(final_product_id=p,qty_good_pcs=q,qty_bs_pcs=0,source_laundry_receipt_line_id=line,source_laundry_receipt_batch_size_line_id=rs[s]) for (p,s),q in zip(rows,qtys)]),base.group_version(cur,fx['group']))
+    lots=[one(cur,"select id::text from erp.fg_lots where po_id=%s and product_id=%s and lot_origin='PRODUCTION'",fx['po'],p) for p in roots]
+    labor=[one(cur,"select erp.cp6_lot_work_cost_v2620c(%s,'LABOR')",lot) for lot in lots]
+    laundry=[one(cur,'select amount from erp.bd_laundry_receipt_allocations_v1 where receipt_batch_size_line_id=%s',rs[s]) for s in sizes]
+    physical=[one(cur,'select sum(qty_signed) from erp.fg_stock_movements where lot_id=%s',lot) for lot in lots]
+    price=[one(cur,'select erp.resolve_product_price_at(%s,%s)',p,clock(14)) for p in roots]
+    return b.verdict(dict(four_physical_sizes=physical==qtys,work_costs=labor==[40,70,20,90],laundry_costs=laundry==[20,35,10,27],
+        shared_selling_price=price==[185000]*4,exact_total=sent['estimated_cost']==92,
+        immutable_provenance=one(cur,'select count(distinct c.bf_sku_version_id) from erp.bd_laundry_charge_lines_v1 c join erp.laundry_delivery_lines l on l.id=c.delivery_line_id where l.delivery_id=%s',delivery)==2),
+        labor=list(map(str,labor)),laundry=list(map(str,laundry)),physical=physical)

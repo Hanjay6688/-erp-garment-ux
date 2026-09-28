@@ -133,7 +133,8 @@ begin
    raise exception 'BF_ORPHAN_MEMBER: anggota yang dikeluarkan wajib dipindah ke SKU tujuan';end if;
  for g in select value from jsonb_array_elements(p_payload->'groups') loop
    sid:=(g->>'id')::uuid;cfg:=g->'settings';
-   perform erp._cp3_assert_closed_json_object(cfg,array['price','bom','work_rates','laundry_rates'],array['price','bom','work_rates','laundry_rates'],'SKU settings');
+   perform erp._cp3_assert_closed_json_object(cfg,array['work_rates','laundry_rates'],array['price','bom','work_rates','laundry_rates'],'SKU settings');
+   if not (cfg ?& array['price','bom']) then raise exception 'BF_SETTINGS_MISSING: harga/resep wajib disebut, boleh belum diisi';end if;
    if jsonb_typeof(cfg->'bom') not in('array','null') or jsonb_typeof(cfg->'work_rates') is distinct from 'array'
      or jsonb_typeof(cfg->'laundry_rates') is distinct from 'array' then raise exception 'BF_SETTINGS_ARRAY';end if;
    if cfg->'price'<>'null'::jsonb then perform erp.bd_amount_v1(cfg->'price','price',true);end if;

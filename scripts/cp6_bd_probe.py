@@ -441,7 +441,7 @@ def t24_scoped(cur,today):
         posted=st['known']=='80000.00' and st['mode']=='SCOPED' and st['charges']==1),state=st,mixed=mixed)
 
 
-def two_size_fixture(cur,today,label,q1=6,q2=4,*,size_quantities=None):
+def two_size_fixture(cur,today,label,q1=6,q2=4,*,size_quantities=None,clock=None,work_setup=None,service_refs=None):
     """The chain's production fixture (cp6_aa partial_production) with two sizes: one roll of 10 cut into q1 of the base size
     and q2 of a fresh RFC size of the same model, one pickup batch, a zero-rate sewing completion of all pieces and its
     terminal. Explicit size_quantities also supports real ranges and a singleton without inventing siblings.
@@ -458,11 +458,12 @@ def two_size_fixture(cur,today,label,q1=6,q2=4,*,size_quantities=None):
     else:
         assert size_quantities and all(n>0 for _,n in size_quantities),'POSITIVE_PHYSICAL_SIZES_REQUIRED'
         size2=size_quantities[-1][0]
+    when=clock or (lambda hour,minute=0:prod.at(day,hour,minute))
     total=sum(n for _,n in size_quantities)
     po=str(uuid.uuid4())
     cur.execute("""insert into erp.production_orders(id,po_number,model_id,target_qty_pcs,status,current_stage,physical_start_at,notes)
-      values(%s,%s,%s,%s,'CUTTING','CUTTING',%s,'BD physical-size lot')""",(po,'BD2-PO-'+po,prod.MODEL,total,prod.at(day,7)))
-    cut_payload=dict(action='SAVE_DRAFT',po_id=po,pattern_id=prod.PATTERN,source_location_id=f['location'],cut_at=prod.at(day,8),
+      values(%s,%s,%s,%s,'CUTTING','CUTTING',%s,'BD physical-size lot')""",(po,'BD2-PO-'+po,prod.MODEL,total,when(7)))
+    cut_payload=dict(action='SAVE_DRAFT',po_id=po,pattern_id=prod.PATTERN,source_location_id=f['location'],cut_at=when(8),
                      change_reason='BD two-size cutting',
                      size_slots=[dict(slot_no=i,size_id=s,drawing_no=1) for i,(s,_) in enumerate(size_quantities,1)],
                      rolls=[dict(roll_id=f['roll'],qty_issued=10,qty_consumed=10,qty_reported_remaining=0,
@@ -474,31 +475,37 @@ def two_size_fixture(cur,today,label,q1=6,q2=4,*,size_quantities=None):
     yields=q(cur,"""select y.id::text,s.size_id::text,y.qty_pcs from erp.cutting_roll_yields y join erp.cutting_group_rolls r on r.id=y.cutting_group_roll_id
       join erp.cutting_group_size_slots s on s.id=y.size_slot_id where r.cutting_group_id=%s order by s.slot_no""",group)
     assert [(s,n) for _,s,n in yields]==size_quantities,('BD_PHYSICAL_SIZE_YIELDS',yields)
-    pickup_payload=dict(action='SAVE_DRAFT',cutting_group_id=group,contractor_id=prod.CONTRACTOR,picked_up_at=prod.at(day,9),allocation_mode='ROLL',
+    pickup_payload=dict(action='SAVE_DRAFT',cutting_group_id=group,contractor_id=prod.CONTRACTOR,picked_up_at=when(9),allocation_mode='ROLL',
                         expected_group_version=int(cut['row_version']),change_reason='BD two-size pickup',
                         batches=[dict(batch_no=1,allocations=[dict(cutting_roll_yield_id=y,qty_pcs=n) for y,_,n in yields])])
     pickup=prod.rpc(cur,'public.erp_save_cutting_pickup_v1',pickup_payload)
     pickup=prod.rpc(cur,'public.erp_save_cutting_pickup_v1',dict(pickup_payload,id=pickup['pickup_id'],action='POST'),expected_version=int(pickup['row_version']))
     chain.actors.admin(cur)
     batch=one(cur,'select id::text from erp.cutting_distribution_batches where pickup_id=%s',pickup['pickup_id'])
-    snapshot,completion=str(uuid.uuid4()),str(uuid.uuid4())
-    cur.execute('insert into erp.po_work_component_snapshots(id,po_id,work_component_id,sequence_no,rate_per_pcs_snapshot,committed_at) values(%s,%s,%s,1,0,%s)',
-                (snapshot,po,prod.COMPONENT,prod.at(day,9,30)))
-    chain.peer.ordinary(cur)
-    cur.execute("""insert into erp.work_completion_events(id,completion_number,po_id,contractor_id,cutting_group_id,physical_at,status,notes,created_by)
-      values(%s,%s,%s,%s,%s,%s,'DRAFT','BD two-size sewing draft',%s)""",(completion,'BD2-WC-'+completion,po,prod.CONTRACTOR,group,prod.at(day,10),base.OPERATOR_APP))
-    cur.execute('insert into erp.work_completion_lines(completion_id,po_component_snapshot_id,work_component_id,qty_completed,qty_payable,rate_snapshot) values(%s,%s,%s,%s,%s,0)',
-                (completion,snapshot,prod.COMPONENT,total,total))
-    cur.execute('select erp.post_work_completion(%s)',(completion,))
-    prod.owner(cur)
-    cur.execute('select public.erp_record_sewing_terminal_v1(%s::jsonb,%s)',
-        (json.dumps(dict(work_completion_id=completion,qty_pcs=total,reason='BD '+label+' physical-size terminal')),uuid.uuid4()))
+    if work_setup is not None:
+        work_setup(cur,po,group,batch,yields,when)
+    else:
+        snapshot,completion=str(uuid.uuid4()),str(uuid.uuid4())
+        cur.execute('insert into erp.po_work_component_snapshots(id,po_id,work_component_id,sequence_no,rate_per_pcs_snapshot,committed_at) values(%s,%s,%s,1,0,%s)',
+                    (snapshot,po,prod.COMPONENT,when(9,30)))
+        chain.peer.ordinary(cur)
+        cur.execute("""insert into erp.work_completion_events(id,completion_number,po_id,contractor_id,cutting_group_id,physical_at,status,notes,created_by)
+          values(%s,%s,%s,%s,%s,%s,'DRAFT','BD two-size sewing draft',%s)""",(completion,'BD2-WC-'+completion,po,prod.CONTRACTOR,group,when(10),base.OPERATOR_APP))
+        cur.execute('insert into erp.work_completion_lines(completion_id,po_component_snapshot_id,work_component_id,qty_completed,qty_payable,rate_snapshot) values(%s,%s,%s,%s,%s,0)',
+                    (completion,snapshot,prod.COMPONENT,total,total))
+        cur.execute('select erp.post_work_completion(%s)',(completion,))
+        prod.owner(cur)
+        cur.execute('select public.erp_record_sewing_terminal_v1(%s::jsonb,%s)',
+            (json.dumps(dict(work_completion_id=completion,qty_pcs=total,reason='BD '+label+' physical-size terminal')),uuid.uuid4()))
     chain.actors.admin(cur)
-    vendor=str(uuid.uuid4());process=str(uuid.uuid4());tag=uuid.uuid4().hex[:12]
-    cur.execute("insert into erp.laundry_vendors(id,vendor_code,vendor_name,is_active) values(%s,%s,%s,true)",(vendor,'BD-'+tag,'BD vendor '+label))
-    cur.execute("insert into erp.wash_processes(id,process_code,process_name,is_active) values(%s,%s,%s,true)",(process,'BDP-'+tag,'BD wash '+label))
+    if service_refs is not None:
+        vendor,process=service_refs
+    else:
+        vendor=str(uuid.uuid4());process=str(uuid.uuid4());tag=uuid.uuid4().hex[:12]
+        cur.execute("insert into erp.laundry_vendors(id,vendor_code,vendor_name,is_active) values(%s,%s,%s,true)",(vendor,'BD-'+tag,'BD vendor '+label))
+        cur.execute("insert into erp.wash_processes(id,process_code,process_name,is_active) values(%s,%s,%s,true)",(process,'BDP-'+tag,'BD wash '+label))
     return dict(day=day,batch=batch,model=prod.MODEL,vendor=vendor,process=process,group=group,po=po,size2=size2,q1=q1,q2=q2,sizes=size_quantities,
-                start=prod.at(day,0),send=prod.at(day,11))
+                start=when(0),send=when(11))
 
 
 def sized_product(cur,size,label):

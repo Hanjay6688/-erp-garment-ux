@@ -14,8 +14,9 @@ begin
  end loop;
  seen:='{}';
  for j in select value from jsonb_array_elements(p_settings->'laundry_rates') loop
-   perform erp._cp3_assert_closed_json_object(j,array['vendor_id','kind','ref_id','rate_status','rate','reason'],
+   perform erp._cp3_assert_closed_json_object(j,array['vendor_id','kind','ref_id','rate_status'],
      array['vendor_id','kind','ref_id','rate_status','rate','reason'],'SKU laundry rate');
+   if not(j ?& array['rate','reason']) then raise exception 'BF_RATE_FIELDS';end if;
    k:=j->>'kind';ref:=erp.bd_uuid_v1(j,'ref_id',true);vendor:=erp.bd_uuid_v1(j,'vendor_id',true);
    if not exists(select 1 from erp.laundry_vendors where id=vendor and is_active) then raise exception 'BF_VENDOR';end if;
    if k='PROCESS' then

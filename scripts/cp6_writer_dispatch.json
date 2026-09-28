@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 20,
+  "revision": 21,
   "phase": "after",
   "scenario_path": "scripts/cp6_bf_modes.py",
   "browser_path": "scripts/cp6_bd_revision_browser.mjs",
-  "purpose": "BF development: fix ISO time in new native fixtures; test shared SKU master plus BD pricing/cost-source and BB imported-WIP regressions. Adds shared SKU laundry provenance and work/rework scope, retaining existing snapshots. Still NOT_READY; CP6 HOLD."
+  "purpose": "BF development: qualify exact unused rollback, refuse rollback after use, two commercial SKUs in one wave through work/laundry/QC; allow unconfigured SKU economics. NOT_READY, CP6 HOLD."
 }

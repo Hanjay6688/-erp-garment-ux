@@ -5,6 +5,7 @@ import gzip,hashlib,re,sys
 from cp6_bc_build import last_definition,substitute
 import cp6_bf_laundry_build as laundry
 import cp6_bf_rework_build as rework
+import cp6_bf_recovery as recovery
 
 ROOT=Path(__file__).resolve().parents[1]
 VERSION='v2.6.20bf'
@@ -17,7 +18,7 @@ BD=ROOT/'supabase/dev/cp6_bd_t1_family.sql'
 BB=ROOT/'supabase/dev/cp6_bb_t1_family.sql'
 FIXTURE=ROOT/'supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz'
 PARTS=('master','rates','work','laundry','router')
-NEW_TABLES=['bf_skus_v1','bf_sku_versions_v1','bf_sku_members_v1','bf_wave_skus_v1','bf_po_boms_v1','bf_requests_v1','bf_context_v1']
+NEW_TABLES=['bf_rollback_v1','bf_skus_v1','bf_sku_versions_v1','bf_sku_members_v1','bf_wave_skus_v1','bf_po_boms_v1','bf_requests_v1','bf_context_v1']
 REPLACED=['erp.commit_accessory_bom_for_lot(uuid)','erp.ensure_po_work_component_snapshots(uuid,timestamp with time zone)',
  'erp.validate_work_completion()','erp.guard_work_completion_posting_consistency()',
  'erp.seed_bs_case_component_baseline()','erp.classify_bs_case_v2(uuid,jsonb,uuid,bigint)',
@@ -83,10 +84,15 @@ end $grants$;
       "begin;set local search_path='';set local lock_timeout='10s';set local statement_timeout='240s';",
       "do $guard$ begin if not exists(select 1 from erp.schema_migrations where version='v2.6.20be') then raise exception 'BF_REQUIRES_BE';end if;",
       "if exists(select 1 from erp.schema_migrations where version='v2.6.20bf') then raise exception 'BF_ALREADY_INSTALLED';end if;end $guard$;",
-      objects(),*changed(),grants,"insert into erp.schema_migrations(version,description) values('v2.6.20bf','Commercial SKU ranges; physical-size lineage preserved');",'commit;',''])
+      recovery.capture(REPLACED),objects(),*changed(),grants,recovery.seal(list(dict.fromkeys([s.split('(')[0] for s in REPLACED]+new_functions()))),
+      "insert into erp.schema_migrations(version,description) values('v2.6.20bf','Commercial SKU ranges; physical-size lineage preserved');",'commit;',''])
 
 if __name__=='__main__':
     value=build()
     if '--check' in sys.argv:assert OUT.read_text()==value,'BF_BUILD_STALE'
     else:OUT.write_text(value)
+    rollback=ROOT/'supabase/dev/cp6_bf_t2_rollback.sql'
+    rollback_value=recovery.rollback(new_functions(),NEW_TABLES)
+    if '--check' in sys.argv:assert rollback.read_text()==rollback_value,'BF_ROLLBACK_BUILD_STALE'
+    else:rollback.write_text(rollback_value)
     print(OUT.relative_to(ROOT),len(value),hashlib.sha256(value.encode()).hexdigest())
