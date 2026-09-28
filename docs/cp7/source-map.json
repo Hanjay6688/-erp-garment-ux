@@ -1,7 +1,7 @@
 {
   "version": "cp7.source-map.v1",
   "accepted_base": "10a834712e515af86c6d8baa89bbe40cff9793e3",
-  "resolution_status": "NATIVE_CATALOGUE_PENDING",
+  "resolution_status": "NATIVE_CATALOGUE_CAPTURED",
   "repo_sources": [
     {
       "path": "src/config/runtime.ts",
@@ -257,7 +257,17 @@
     "workflow": ".github/workflows/cp7-p00.yml",
     "artifact": "cp7-p00-native-catalogue",
     "file": "CP7_P00_CATALOGUE.json",
-    "status": "NOT_RUN"
+    "status": "PASS",
+    "tested_head": "5e227c493aa333c6457b8258d20cb892d66bb95d",
+    "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36477457603",
+    "preserved": "docs/cp7/evidence/p00/CP7_P00_CATALOGUE.json.gz",
+    "json_sha256": "47f39f4220a13ca06a34c7e49b587ce773e95935f21685d12a482f69bac7b616",
+    "counts": {
+      "functions": 1009,
+      "relations": 409,
+      "triggers": 531,
+      "policies": 190
+    }
   },
   "cp7_analysis_facade": "NOT_IMPLEMENTED",
   "missing_capabilities": [
@@ -267,5 +277,444 @@
     "Production policy history independent of SKU active/sale permission",
     "Global shared-source scenario allocation",
     "R10 connected sales/return browser proof"
+  ],
+  "resolved_reader_index": [
+    {
+      "schema": "public",
+      "name": "erp_get_bs_resolution_workspace_v1",
+      "signature": "public.erp_get_bs_resolution_workspace_v1(text,text,uuid,text,integer,integer)",
+      "result_type": "jsonb",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "s",
+      "settings": [
+        "search_path=\"\""
+      ],
+      "language": "plpgsql",
+      "acl": [
+        {
+          "grantee": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "grantee": "authenticated",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "grantee": "service_role",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        }
+      ],
+      "definition_sha256": "555668854bf8318ee83c050feb6284552f8560234857778647c9df24b30c95d9",
+      "textual_call_candidates": [
+        "erp.bs_accessory_bom_options_v1",
+        "erp.get_bs_resolution_workspace_v1",
+        "erp.get_rework_accessory_decision_v1",
+        "public.erp_get_bs_resolution_workspace_v1"
+      ]
+    },
+    {
+      "schema": "public",
+      "name": "erp_get_laundry_qc_workspace_v1",
+      "signature": "public.erp_get_laundry_qc_workspace_v1(text,text)",
+      "result_type": "jsonb",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "s",
+      "settings": [
+        "search_path=\"\""
+      ],
+      "language": "plpgsql",
+      "acl": [
+        {
+          "grantee": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "grantee": "authenticated",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "grantee": "service_role",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        }
+      ],
+      "definition_sha256": "cc09c0497a8d476fe993b34364ece62b06fcf2f122ceedf38bb47c6a2fba87bb",
+      "textual_call_candidates": [
+        "erp.get_laundry_qc_workspace_v1",
+        "public.erp_get_laundry_qc_workspace_v1"
+      ]
+    },
+    {
+      "schema": "public",
+      "name": "erp_get_product_conversion_workspace_v1",
+      "signature": "public.erp_get_product_conversion_workspace_v1(jsonb)",
+      "result_type": "jsonb",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "v",
+      "settings": [
+        "search_path=\"\""
+      ],
+      "language": "sql",
+      "acl": [
+        {
+          "grantee": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "grantee": "authenticated",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "grantee": "service_role",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        }
+      ],
+      "definition_sha256": "8b73be3e172a40ea881adc2aca997e3eecb0cea2f0fe6b0fc1340d82ed15bcf7",
+      "textual_call_candidates": [
+        "erp.get_product_conversion_workspace_v1",
+        "public.erp_get_product_conversion_workspace_v1"
+      ]
+    },
+    {
+      "schema": "public",
+      "name": "erp_get_sku_hpp_v1",
+      "signature": "public.erp_get_sku_hpp_v1(jsonb)",
+      "result_type": "jsonb",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "s",
+      "settings": [
+        "search_path=\"\""
+      ],
+      "language": "sql",
+      "acl": [
+        {
+          "grantee": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "grantee": "authenticated",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "grantee": "service_role",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        }
+      ],
+      "definition_sha256": "562f63e3109a61c402a9d41b0c99499ed2a05db5c34facd406943426370ca917",
+      "textual_call_candidates": [
+        "erp.get_sku_hpp_v1",
+        "public.erp_get_sku_hpp_v1"
+      ]
+    },
+    {
+      "schema": "public",
+      "name": "erp_get_sku_workspace_v1",
+      "signature": "public.erp_get_sku_workspace_v1(jsonb)",
+      "result_type": "jsonb",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "s",
+      "settings": [
+        "search_path=\"\""
+      ],
+      "language": "sql",
+      "acl": [
+        {
+          "grantee": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "grantee": "authenticated",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "grantee": "service_role",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        }
+      ],
+      "definition_sha256": "cd470d48e1fa53f1a5d7b2d08da80f95aa8305983c813a77c686a4be910f46f3",
+      "textual_call_candidates": [
+        "erp.get_sku_workspace_v1",
+        "public.erp_get_sku_workspace_v1"
+      ]
+    },
+    {
+      "schema": "public",
+      "name": "erp_get_wip_control_v1",
+      "signature": "public.erp_get_wip_control_v1(text,uuid,text,text)",
+      "result_type": "jsonb",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "s",
+      "settings": [
+        "search_path=\"\""
+      ],
+      "language": "plpgsql",
+      "acl": [
+        {
+          "grantee": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "grantee": "authenticated",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "grantee": "service_role",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        }
+      ],
+      "definition_sha256": "b5748bfc241715756749f2445b6d610c58b6584551a0cd2ee6fc866e2dbbd2f2",
+      "textual_call_candidates": [
+        "erp.get_wip_control_v1",
+        "public.erp_get_wip_control_v1"
+      ]
+    },
+    {
+      "schema": "erp",
+      "name": "bs_accessory_bom_options_v1",
+      "signature": "erp.bs_accessory_bom_options_v1(uuid,timestamp with time zone)",
+      "result_type": "jsonb",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "s",
+      "settings": [
+        "search_path=\"\""
+      ],
+      "language": "plpgsql",
+      "acl": [
+        {
+          "grantee": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        }
+      ],
+      "definition_sha256": "241c0264f85216a335628d6092e4e51dc574808a4d9f36aec21baf4f3b098d5d",
+      "textual_call_candidates": [
+        "erp.bs_accessory_bom_options_v1",
+        "erp.resolve_rework_accessory_bom_v1"
+      ]
+    },
+    {
+      "schema": "erp",
+      "name": "get_bs_resolution_workspace_v1",
+      "signature": "erp.get_bs_resolution_workspace_v1(text,text,uuid,text,integer,integer)",
+      "result_type": "jsonb",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "s",
+      "settings": [
+        "search_path=\"\""
+      ],
+      "language": "plpgsql",
+      "acl": [
+        {
+          "grantee": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        }
+      ],
+      "definition_sha256": "35f925b3c4765bd7656aed37b27a1a827750da72522e8cc03a9394bb3626195a",
+      "textual_call_candidates": [
+        "erp.get_bs_resolution_workspace_v1",
+        "erp.require_permission"
+      ]
+    },
+    {
+      "schema": "erp",
+      "name": "get_laundry_qc_workspace_v1",
+      "signature": "erp.get_laundry_qc_workspace_v1(text,text)",
+      "result_type": "jsonb",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "s",
+      "settings": [
+        "search_path=\"\""
+      ],
+      "language": "plpgsql",
+      "acl": [
+        {
+          "grantee": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        }
+      ],
+      "definition_sha256": "32b06240e5318445a36ce0e86800e2c4498b21c7f2d847a4da600b2392acde16",
+      "textual_call_candidates": [
+        "erp.fg_lot_has_active_downstream",
+        "erp.get_laundry_qc_workspace_v1",
+        "erp.require_permission"
+      ]
+    },
+    {
+      "schema": "erp",
+      "name": "get_product_conversion_workspace_v1",
+      "signature": "erp.get_product_conversion_workspace_v1(jsonb)",
+      "result_type": "jsonb",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "v",
+      "settings": [
+        "search_path=\"\""
+      ],
+      "language": "plpgsql",
+      "acl": [
+        {
+          "grantee": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        }
+      ],
+      "definition_sha256": "c1c8fc8c34840f91324d83ee2c6ff4a32db946e0b3cf2e9a8b1c687e14fcfe2a",
+      "textual_call_candidates": [
+        "erp._cp3_assert_closed_json_object",
+        "erp.bc_text_v1",
+        "erp.bd_uuid_v1",
+        "erp.be_conversion_extra_v1",
+        "erp.be_conversion_preview_v1",
+        "erp.be_conversion_revision_v1",
+        "erp.be_conversion_value_state_v1",
+        "erp.be_return_progress_v1",
+        "erp.be_source_revision_v1",
+        "erp.bf_commercial_sku_at_v1",
+        "erp.get_product_conversion_workspace_v1",
+        "erp.has_permission",
+        "erp.require_permission"
+      ]
+    },
+    {
+      "schema": "erp",
+      "name": "get_rework_accessory_decision_v1",
+      "signature": "erp.get_rework_accessory_decision_v1(uuid)",
+      "result_type": "jsonb",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "s",
+      "settings": [
+        "search_path=\"\""
+      ],
+      "language": "sql",
+      "acl": [
+        {
+          "grantee": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        }
+      ],
+      "definition_sha256": "7049caf21beb1b2981cb234bcf66e2ad38db9e1c77a8f54acfcf1962be586c17",
+      "textual_call_candidates": [
+        "erp.get_rework_accessory_decision_v1"
+      ]
+    },
+    {
+      "schema": "erp",
+      "name": "get_sku_hpp_v1",
+      "signature": "erp.get_sku_hpp_v1(jsonb)",
+      "result_type": "jsonb",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "s",
+      "settings": [
+        "search_path=\"\""
+      ],
+      "language": "plpgsql",
+      "acl": [
+        {
+          "grantee": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        }
+      ],
+      "definition_sha256": "a6229c12333f2ae2e9a4b7c06924abb789c129f497edcbe4baa69a4e6eb8c310",
+      "textual_call_candidates": [
+        "erp.bd_lot_laundry_unknown_v1",
+        "erp.bf_version_at_v1",
+        "erp.get_hpp_completeness",
+        "erp.get_sku_hpp_v1",
+        "erp.require_permission"
+      ]
+    },
+    {
+      "schema": "erp",
+      "name": "get_sku_workspace_v1",
+      "signature": "erp.get_sku_workspace_v1(jsonb)",
+      "result_type": "jsonb",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "s",
+      "settings": [
+        "search_path=\"\""
+      ],
+      "language": "plpgsql",
+      "acl": [
+        {
+          "grantee": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        }
+      ],
+      "definition_sha256": "664efd5144e41ee39b168ad80e47021fcbdff00d4bac01617a57773b075c6711",
+      "textual_call_candidates": [
+        "erp.bf_legacy_basis_v1",
+        "erp.bf_wave_revision_v1",
+        "erp.current_app_role",
+        "erp.get_sku_workspace_v1",
+        "erp.has_permission",
+        "erp.require_permission"
+      ]
+    },
+    {
+      "schema": "erp",
+      "name": "get_wip_control_v1",
+      "signature": "erp.get_wip_control_v1(text,uuid,text,text)",
+      "result_type": "jsonb",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "s",
+      "settings": [
+        "search_path=\"\""
+      ],
+      "language": "plpgsql",
+      "acl": [
+        {
+          "grantee": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        }
+      ],
+      "definition_sha256": "8c3a73df8e0f4331174e109b2ad491430d1a34702f6dfec53da760ebf93c8fdd",
+      "textual_call_candidates": [
+        "erp.get_wip_control_v1",
+        "erp.initial_import_production_rows_v1",
+        "erp.require_permission"
+      ]
+    }
+  ],
+  "source_adapter_notes": [
+    "The conversion workspace is VOLATILE; do not treat six existing calls as one coherent capture.",
+    "Existing workspaces paginate or cap collections. Their empty/partial display result is not a complete planning fact set.",
+    "The six facades are source-discovery anchors, not an approved global analysis API.",
+    "Review called helpers, source scope, money projection and actor authorization before P02."
   ]
 }

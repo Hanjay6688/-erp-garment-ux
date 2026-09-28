@@ -30,8 +30,8 @@
     "enforcement": "Branch isolation and ref recheck before push; unpushed work in other chats cannot be observed or stopped"
   },
   "packets": {
-    "P00": "RECEIPT_RECORDED_CATALOGUE_PENDING_RUNTIME",
-    "P01": "ORIGINAL_CONTRACT_AND_ORACLES_IMPORTED",
+    "P00": "ENTRY_RECEIPT_AND_NATIVE_CATALOGUE_VERIFIED",
+    "P01": "STARTED_CONTRACT_LOCK_AND_FIXTURE_CHARTER",
     "P02": "NOT_STARTED"
   },
   "inherited_scope": {
@@ -47,5 +47,6 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Run P00 catalogue against the unchanged accepted package; resolve source functions/ACL/triggers, then P01 contracts before P02 snapshot."
+  "next_action": "Complete P01 live envelope and source adapter contract, then P02 coherent authorized snapshot; R10/P11 remains open.",
+  "verification_receipt": "docs/cp7/evidence/p00/VERIFICATION.json"
 }

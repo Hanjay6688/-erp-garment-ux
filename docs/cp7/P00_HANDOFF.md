@@ -24,7 +24,9 @@ The vendor is the tariff authority. SKU wash history only assists selection. Emp
 
 ## Evidence and limits
 
-Current verification is tracked in CURRENT_STATE.json and the result receipt added after the run. Native catalogue output is CP7_P00_CATALOGUE.json; compact result is CP7_P00_RESULT.json in the workflow artifact. This is administrative source discovery on an isolated database. It does not prove the future analysis actor permissions, coherent business facts, WIP/forecast correctness or R10.
+P00 native discovery passed on 5e227c4: 1009 functions, 409 relations/views, 531 user triggers, 190 policies. Six existing facade signatures resolved. The no-row write control refused with SQLSTATE 25006; business and primary database boundaries stayed unchanged. The 30-file install, existing advisor gate and backup/restore passed. Raw advisors remain REVIEW_REQUIRED for the previously accepted INFO class; this is not zero findings.
+
+The same source passed 623 unit/DOM tests, 6 shell browser tests, build, security and both CodeQL languages. See [verification receipt](evidence/p00/VERIFICATION.json); the full captured catalogue is preserved as a deterministic gzip beside it. Native catalogue output is CP7_P00_CATALOGUE.json; compact result is CP7_P00_RESULT.json in the workflow artifact. This is administrative source discovery on an isolated database. It does not prove the future analysis actor permissions, coherent business facts, WIP/forecast correctness or R10.
 
 P00's E14/E21 links preserve accepted predecessor evidence. New CP7 facade authorization and CP7 installation/recovery tests remain required in their implementing packets. Original 84 case contracts retain their own NOT_RUN status until exercised; shell/offline contract counts are reported separately.
 

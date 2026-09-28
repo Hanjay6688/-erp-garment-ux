@@ -1,0 +1,62 @@
+{
+  "tested_head": "5e227c493aa333c6457b8258d20cb892d66bb95d",
+  "native_run": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36477457603",
+  "shell_run": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36477457343",
+  "native_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "package_stages": [
+    {
+      "stage": "PACKAGE",
+      "status": "PASS",
+      "result": "ALL_FILES_INSTALLED"
+    },
+    {
+      "stage": "AW_AX_AY_AZ_VERIFY",
+      "status": "PASS",
+      "result": {
+        "stage": "BE_PLUS_BF_T1",
+        "functions": 9,
+        "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+        "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+        "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+        "az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9",
+        "ba_sql_sha256": "3359a42fe93c35da481d164e5e6d70e79da41559621a65736418bfc8f32d93a7",
+        "bb_sql_sha256": "a423268697f9290d7278bd98a364f9207562769c277d036ccf1c31902bbdf142",
+        "bc_sql_sha256": "f72f72d38ed8d44cd24002e94733f55473760244686296a3970961d7aa4a9ec7",
+        "bd_sql_sha256": "f480f8dd7dc2620e19994e328b971ef159ba81dca1b8272ae42b59e0d370f947",
+        "be_sql_sha256": "695475db3719617bd2c10d82c4dee2eaa567f4c10f322697a1714b17b60d29f6",
+        "bf_sql_sha256": "d5e66d221878db1ba34b0c159e05c13f6b12bac3acc2b3066fcff514ef876ffd"
+      }
+    }
+  ],
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "primary_unchanged": true,
+  "advisors": {
+    "status": "REVIEW_REQUIRED",
+    "before": 73,
+    "after": 216
+  },
+  "shell": {
+    "unit_dom": 623,
+    "browser": 6,
+    "build": "PASS",
+    "security": "PASS",
+    "codeql_javascript_typescript": "PASS",
+    "codeql_actions": "PASS"
+  },
+  "native_catalogue_gzip_sha256": "274a0f8649ddb4d22887c65f7da1757a92e62e650fb572009af34194a960da2a",
+  "native_catalogue_json_sha256": "47f39f4220a13ca06a34c7e49b587ce773e95935f21685d12a482f69bac7b616",
+  "artifact": {
+    "id": 10994860073,
+    "zip_sha256": "61d1395e2f52a7fc9d74f5a7882994ade6c7a27f78180ac511b5ae2a6bb87bd7"
+  },
+  "verification_owner": "Current writer session; not independent CP7 acceptance",
+  "cp7_erp_cases": "NOT_RUN",
+  "R10": "OPEN_CP7",
+  "production_go": false
+}

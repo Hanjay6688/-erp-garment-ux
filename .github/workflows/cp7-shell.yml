@@ -25,6 +25,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: python3 scripts/cp7_contract_receipt.py
       - run: npm test
       - run: npm run test:security
       - run: npm run build

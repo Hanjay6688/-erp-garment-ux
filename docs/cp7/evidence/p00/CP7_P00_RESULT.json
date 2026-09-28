@@ -1,0 +1,46 @@
+{
+  "label": "CP7_P00_CATALOGUE",
+  "status": "PASS",
+  "accepted_base": "10a834712e515af86c6d8baa89bbe40cff9793e3",
+  "runtime": {
+    "database": "cp6_rollback",
+    "actor": "supabase_admin",
+    "postgres_version": "17.6",
+    "isolation": "repeatable read",
+    "read_only": "on",
+    "snapshot": "7554:7554:"
+  },
+  "counts": {
+    "functions": 1009,
+    "relations": 409,
+    "triggers": 531,
+    "policies": 190
+  },
+  "catalogue_sha256": "47f39f4220a13ca06a34c7e49b587ce773e95935f21685d12a482f69bac7b616",
+  "resolved_current_readers": {
+    "erp_get_sku_workspace_v1": [
+      "public.erp_get_sku_workspace_v1(jsonb)"
+    ],
+    "erp_get_sku_hpp_v1": [
+      "public.erp_get_sku_hpp_v1(jsonb)"
+    ],
+    "erp_get_wip_control_v1": [
+      "public.erp_get_wip_control_v1(text,uuid,text,text)"
+    ],
+    "erp_get_laundry_qc_workspace_v1": [
+      "public.erp_get_laundry_qc_workspace_v1(text,text)"
+    ],
+    "erp_get_product_conversion_workspace_v1": [
+      "public.erp_get_product_conversion_workspace_v1(jsonb)"
+    ],
+    "erp_get_bs_resolution_workspace_v1": [
+      "public.erp_get_bs_resolution_workspace_v1(text,text,uuid,text,integer,integer)"
+    ]
+  },
+  "read_only_write_refusal_sqlstate": "25006",
+  "business_boundary_unchanged": true,
+  "actor_facade_tests": "NOT_RUN",
+  "analysis_capture_tests": "NOT_RUN",
+  "production_go": false,
+  "independent_acceptance": false
+}
