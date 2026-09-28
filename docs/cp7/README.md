@@ -12,7 +12,7 @@ Active branch: `cp7/integration`. Owner has instructed implementation to start.
 4. [Backbone](framework-v2/02_BACKBONE_TEKNIS.md) and [start runbook](framework-v2/05_RUNBOOK_MULAI_CP7.md).
 5. [Complete framework](framework-v2/CP7_Framework_Lengkap_20260928.md), [22 work packets](framework-v2/registries/work_packets.json), [requirements](framework-v2/registries/requirements.json), [84 cases](framework-v2/registries/cases.json).
 6. [Source map](source-map.json); shell in `src/cp7/`, contract and oracles in `docs/cp7/contracts/` and `framework-v2/contracts/`.
-7. [P01 contract lock and fixture charter](P01_CONTRACT_HANDOFF.md).
+7. [P01 contract lock and fixture charter](P01_CONTRACT_HANDOFF.md), then [P02 source capture handoff](P02_SOURCE_HANDOFF.md).
 
 ## Current scope
 

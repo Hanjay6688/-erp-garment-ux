@@ -31,8 +31,8 @@
   },
   "packets": {
     "P00": "ENTRY_RECEIPT_AND_NATIVE_CATALOGUE_VERIFIED",
-    "P01": "STARTED_CONTRACT_LOCK_AND_FIXTURE_CHARTER",
-    "P02": "NOT_STARTED"
+    "P01": "SOURCE_PROBE_DECODER_AND_NEGATIVE_CONTRACT_CASES_IMPLEMENTED",
+    "P02": "SINGLE_STATEMENT_READ_ONLY_DIAGNOSTIC_NATIVE_PENDING"
   },
   "inherited_scope": {
     "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
@@ -47,6 +47,6 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Complete P01 live envelope and source adapter contract, then P02 coherent authorized snapshot; R10/P11 remains open.",
+  "next_action": "Run P02 native disposable probe; if green, design current-actor facade, atomic immutable persistence and concurrent change detection before connecting CP7 UI.",
   "verification_receipt": "docs/cp7/evidence/p00/VERIFICATION.json"
 }

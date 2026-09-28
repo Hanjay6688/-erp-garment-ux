@@ -716,5 +716,38 @@
     "Existing workspaces paginate or cap collections. Their empty/partial display result is not a complete planning fact set.",
     "The six facades are source-discovery anchors, not an approved global analysis API.",
     "Review called helpers, source scope, money projection and actor authorization before P02."
-  ]
+  ],
+  "p02_diagnostic": {
+    "contract": "cp7.source-probe.v1",
+    "query": "scripts/cp7-src/snapshot/capture_probe.sql",
+    "parser": "tests/cp7/sourceProbeContract.ts",
+    "native_probe": "scripts/cp7_p02_snapshot_probe.py",
+    "runtime_proof": "PENDING",
+    "source_relations": [
+      "erp.products",
+      "erp.bf_sku_members_v1",
+      "erp.bf_sku_versions_v1",
+      "erp.bf_skus_v1",
+      "erp.cutting_groups",
+      "erp.cutting_group_size_slots",
+      "erp.cutting_group_rolls",
+      "erp.cutting_roll_yields",
+      "erp.production_orders",
+      "erp.fg_stock_movements",
+      "erp.sales_headers",
+      "erp.sales_items",
+      "erp.fg_lots",
+      "erp.hpp_versions"
+    ],
+    "read_helpers": [
+      "erp.bd_lot_laundry_unknown_v1",
+      "erp.get_hpp_completeness"
+    ],
+    "limitations": [
+      "One physical root/exact size only; cutting candidates cannot be assigned by model/size alone",
+      "A single SELECT snapshot is transient: no persisted immutable facts or actor-safe serve/replay",
+      "Partial source pages or overlapping versions return INCOMPLETE; no silent zero",
+      "Finance cost pending remains UNKNOWN until verified"
+    ]
+  }
 }

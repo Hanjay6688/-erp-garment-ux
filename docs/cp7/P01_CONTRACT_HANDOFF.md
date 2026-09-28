@@ -32,3 +32,7 @@ Expected results are retained from the owner framework. Do not generate them usi
 ## Next deliverable
 
 Resolve the minimum P02 source set against the native catalogue, then define the live capture envelope, quality/completeness, authorization projection, immutable fact keys and dependency vector. Keep R10/P11 and mandor payroll/P12 visible in the packet ledger; they are not closed by shell or contract checks.
+
+## P01 implementation delta
+
+`tests/cp7/sourceProbeContract.ts` validates the first diagnostic live-source shape separately from the unchanged synthetic `AnalysisResult`. It checks six complete source pages, root/exact size, unique source keys, signed movement versus unsigned PCS, exact decimal IDR, missing HPP as UNKNOWN, one statement cutoff and microsecond future knowledge. It rejects extra fields in the diagnostic tests; it is not wired into the application until there is an authorized server consumer. This parser validates transport shape; it cannot authorize an actor or verify the database snapshot hash as a cryptographic signature. The P02 query remains internal to the disposable runner. Independent O01/O04/O15 engine outputs and E22 actor proof remain NOT_RUN.
