@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 43,
+  "revision": 44,
   "phase": "after",
   "scenario_path": "scripts/cp6_bf_vendor_modes.py",
   "browser_path": "scripts/cp6_bf_vendor_browser.mjs",
-  "purpose": "Run 36413244138: 76 native, 22 contention, 8 HTTP and 26 browser PASS; one mobile credit control was covered. Constrain mobile table/control width and qualify credit reuse after a fully released former purchase is reversed. CP6 HOLD."
+  "purpose": "Fix the ambiguous amount column introduced in revision 43's released-target query. The mobile viewport and controls now pass interaction before that SQL error; rerun the complete supplier transaction and invoice-history qualification. CP6 HOLD."
 }

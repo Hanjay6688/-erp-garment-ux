@@ -757,9 +757,9 @@ begin
    total:=total+amount;targets:=targets||target;
  end loop;
  select array_agg(distinct x order by x) into affected from(
-   select unnest(targets) x union select target_purchase_id from erp.bf_supplier_credit_moves_v1
-     where return_id=h.id and source_purchase_id=src
-     group by target_purchase_id having sum(amount)<>0) ids;
+   select unnest(targets) x union select e.target_purchase_id from erp.bf_supplier_credit_moves_v1 e
+     where e.return_id=h.id and e.source_purchase_id=src
+     group by e.target_purchase_id having sum(e.amount)<>0) ids;
  perform 1 from erp.material_purchase_headers where id=any(affected) order by id for update;
  if (select count(*) from erp.material_purchase_headers where id=any(affected) and supplier_id=h.supplier_id
      and status='POSTED' and erp._cp3_business_date(physical_at)<=today)<>cardinality(affected) then
