@@ -23,7 +23,7 @@ owner settings, ALL-W05 r9 "concurrent return/claim consuming same PCS", "double
 """
 from contextlib import contextmanager
 from datetime import timedelta
-import json,uuid
+import json,os,uuid
 import psycopg
 import cp6_bd_probe as bdp
 
@@ -167,13 +167,20 @@ def _fixture_usage(cur):
     is revoked before that transaction commits: no committed state and no HTTP call ever sees it (checked before and after).
     First run without it: run 36190024230, BD_HTTP:MONEY_HIDDEN_INVOICE_OWNER_ADMIN INCOMPLETE 'permission denied for schema erp'."""
     usage=lambda:cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]
-    assert usage() is False,'BD_HTTP_COPY_ALREADY_HAS_SCHEMA_GRANT'
-    cur.execute('grant usage on schema erp to authenticated')
+    # G-01's captured hosted baseline already grants schema USAGE (not table
+    # access). Preserve that exact ACL. The AN test chain must still have no
+    # committed fixture grant. The packaged runner explicitly selects its profile.
+    hosted=os.environ.get('CP6_FIXTURE_SCHEMA_PROFILE')=='HOSTED_USAGE'
+    assert usage() is hosted,'BD_HTTP_SCHEMA_PROFILE_MISMATCH'
+    acl=cur.execute("select nspacl::text from pg_namespace where nspname='erp'").fetchone()[0]
+    if not hosted:cur.execute('grant usage on schema erp to authenticated')
     try:yield
     except BaseException:
         cur.connection.rollback();raise  # the grant goes with the rolled-back fixture transaction
-    api.admin(cur);cur.execute('revoke usage on schema erp from authenticated')
-    assert usage() is False,'BD_HTTP_FIXTURE_GRANT_NOT_REVOKED'
+    api.admin(cur)
+    if not hosted:cur.execute('revoke usage on schema erp from authenticated')
+    assert usage() is hosted,'BD_HTTP_FIXTURE_SCHEMA_USAGE_CHANGED'
+    if hosted:assert cur.execute("select nspacl::text from pg_namespace where nspname='erp'").fetchone()[0]==acl,'BD_HTTP_HOSTED_SCHEMA_ACL_CHANGED'
 
 
 def http_cases(http,today):
@@ -215,9 +222,10 @@ def http_cases(http,today):
                    lines=[dict(line_kind='BILL',receipt_line_id=line,category='GOOD',qty=10,amount='70000.00')])
         denied=_save(qc,'SAVE_INVOICE_DRAFT',draft)
         done=_save(owner,'SAVE_INVOICE_DRAFT',draft)
-        ok=(committed_usage is False and hidden and denied['status']>=400 and 'OWNER or ADMIN' in json.dumps(denied['body'])
+        expected_usage=os.environ.get('CP6_FIXTURE_SCHEMA_PROFILE')=='HOSTED_USAGE'
+        ok=(committed_usage is expected_usage and hidden and denied['status']>=400 and 'OWNER or ADMIN' in json.dumps(denied['body'])
             and done['status']==200 and (done['body'] or {}).get('status')=='DRAFT')
-        return dict(status='PASS' if ok else 'FAIL',fixture_schema_grant='TRANSACTION_ONLY_REVOKED_BEFORE_COMMIT',committed_usage=committed_usage,qc_read=dict(status=read['status'],money_visible=body.get('money_visible'),invoices=body.get('invoices'),
+        return dict(status='PASS' if ok else 'FAIL',fixture_schema_grant='PREEXISTING_HOSTED_USAGE_UNCHANGED' if expected_usage else 'TRANSACTION_ONLY_REVOKED_BEFORE_COMMIT',committed_usage=committed_usage,qc_read=dict(status=read['status'],money_visible=body.get('money_visible'),invoices=body.get('invoices'),
                     priced=str(priced)[:400],components=str(comps)[:300]),qc_draft=dict(status=denied['status'],body=str(denied['body'])[:300]),
                     owner_draft=dict(status=done['status'],body=str(done['body'])[:300]))
 

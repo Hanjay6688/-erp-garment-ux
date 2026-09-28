@@ -98,6 +98,28 @@ def verify_awx():
 
 
 def writer_runtime(browser_mode=False):
+    # The G-01 hosted alignment deliberately preserves its captured USAGE ACL.
+    # Do not revoke it to make AN-only fixture assumptions pass. Exercise the
+    # same business permissions with that exact ACL and record its preservation.
+    with psycopg.connect(boundary.ADMIN) as conn,conn.cursor() as cur:
+        before=cur.execute("select has_schema_privilege('authenticated','erp','USAGE'),nspacl::text from pg_namespace where nspname='erp'").fetchone()
+        assert before[0] is True,'T3_HOSTED_SCHEMA_USAGE_MISSING'
+    prior=os.environ.get('CP6_FIXTURE_SCHEMA_PROFILE')
+    os.environ['CP6_FIXTURE_SCHEMA_PROFILE']='HOSTED_USAGE'
+    try:
+        result=_writer_runtime(browser_mode)
+        with psycopg.connect(boundary.ADMIN) as conn,conn.cursor() as cur:
+            after=cur.execute("select has_schema_privilege('authenticated','erp','USAGE'),nspacl::text from pg_namespace where nspname='erp'").fetchone()
+            assert after==before,'T3_RUNTIME_SCHEMA_ACL_CHANGED'
+        result['schema_profile']='HOSTED_USAGE_UNCHANGED'
+        print(json.dumps(dict(group='T3_RUNTIME_SCHEMA_PROFILE',authenticated_usage=True,acl_unchanged=True)),flush=True)
+        return result
+    finally:
+        if prior is None:os.environ.pop('CP6_FIXTURE_SCHEMA_PROFILE',None)
+        else:os.environ['CP6_FIXTURE_SCHEMA_PROFILE']=prior
+
+
+def _writer_runtime(browser_mode=False):
     """Run the writer's current cases on this installed package, never dev-install
     BF a second time. Each native case rolls back; HTTP/races/browser use copies.
     The release rollback cycle separately proves the actual packaged rollback.
