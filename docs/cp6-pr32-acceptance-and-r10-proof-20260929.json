@@ -1,0 +1,384 @@
+{
+  "label": "PR32_INDEPENDENT_CONVERSION_ACCEPTANCE_AND_R10_SCOPE",
+  "recorded_at_local": "2026-09-29",
+  "status": "CONVERSION_FIX_INDEPENDENTLY_ACCEPTED_CP6_HOLD",
+  "writer_action": "Read auditor PR and original job logs; recover pinned scope contract; documentation only. No native/browser rerun by writer in this follow-up.",
+  "cp6": {
+    "status": "HOLD",
+    "audit_complete": false,
+    "production_go": false,
+    "overall_independent_acceptance": false
+  },
+  "conversion_finding": {
+    "id": "CP6-FINAL-01",
+    "status": "CLOSED_FIX_VERIFIED",
+    "independent_acceptance": true
+  },
+  "source": {
+    "writer_commit": "fab23e77669f899594f983b41a6301c32246958b",
+    "qualified_product_commit": "434b18215f57dd7a361ca621341488d3c31e9703",
+    "pr": 32,
+    "pr_head": "55e041dcc36cf5fea01cc049e5442f077a31921f",
+    "pr_url": "https://github.com/Hanjay6688/-erp-garment-ux/pull/32",
+    "run": 36467230838,
+    "job": 109080246040,
+    "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36467230838",
+    "run_started_at": "2026-09-28T18:43:41Z",
+    "run_updated_at": "2026-09-28T18:47:07Z",
+    "bf_package_sha256": "9bf4b5642c9d6af3369f98ad265bd802ee993fac7e1d8d290412184588392643",
+    "run_identity": {
+      "label": "T3_PREP",
+      "tool_head": "330fbf40ce6c526f4d7b5a0c2e7fecf7ed3d8ab9",
+      "product_ref": "434b18215f57dd7a361ca621341488d3c31e9703",
+      "product_paths": [
+        "supabase/migrations",
+        "supabase/dev",
+        "supabase/release",
+        "supabase/rollbacks",
+        "src"
+      ],
+      "run_id": "36467230838",
+      "run_attempt": "1",
+      "workflow": "CP6 Independent Final Audit (disposable)",
+      "job": "phase",
+      "event": "pull_request",
+      "github_sha": "330fbf40ce6c526f4d7b5a0c2e7fecf7ed3d8ab9",
+      "release_evidence": false,
+      "production_go": false,
+      "mode": "install"
+    },
+    "note": "Audit product_paths fingerprint uses 434b182; writer base fab23e7 retains the same product bytes.",
+    "product_paths_identical_verified": true
+  },
+  "cases": [
+    {
+      "group": "INDEPENDENT_CP6_FINAL",
+      "case": "INDEPENDENT:BACKDATE_AFTER_POSTED_FG",
+      "status": "PASS",
+      "posted_lot": "1ff391d1-4338-4fdb-bd31-76d291c04b19",
+      "original_sku": "BF-SKU-a279874b",
+      "guard": "Accessory BOM effective_to cannot precede/equal its financial commitment time",
+      "stock_pcs": 4,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "INDEPENDENT_CP6_FINAL",
+      "case": "INDEPENDENT:BACKDATE_AFTER_POSTED_SALE",
+      "status": "PASS",
+      "sale_id": "f34de3eb-e765-41da-bb36-8500d7a24c1f",
+      "posted_lot": "d35b7dd7-1e25-4418-abf0-2698a9cfbd93",
+      "guard": "Accessory BOM effective_to cannot precede/equal its financial commitment time",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "INDEPENDENT_CP6_FINAL",
+      "case": "INDEPENDENT:BACKDATE_AFTER_POSTED_CONVERSION",
+      "status": "PASS",
+      "conversion_id": "1a6cd2a2-8ced-411b-a07a-db378fb2bd99",
+      "destination_lot": "10d0a20e-0e24-4ab7-9ec3-384386c1b13e",
+      "original_sku": "BF-SKU-a32d4c61",
+      "guard": "BF_TARIFF_HISTORY: waktu perubahan mendahului identitas konversi yang sudah tercatat",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "INDEPENDENT_CP6_FINAL",
+      "case": "INDEPENDENT:SOURCE_AFTER_POSTED_CONVERSION",
+      "status": "PASS",
+      "conversion_id": "b4dbccda-a5ad-4b39-9a0a-eb7f152a89ed",
+      "guard": "BF_TARIFF_HISTORY: waktu perubahan mendahului identitas konversi yang sudah tercatat",
+      "history_intact": true,
+      "later_move_ok": true,
+      "reversed_doc": false,
+      "source_side": true,
+      "destination_stock_pcs": 1,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "INDEPENDENT_CP6_FINAL",
+      "case": "INDEPENDENT:TARGET_AFTER_REVERSED_CONVERSION",
+      "status": "PASS",
+      "conversion_id": "90ec4405-9e42-4e23-81ac-682c10bbd0f6",
+      "guard": "BF_TARIFF_HISTORY: waktu perubahan mendahului identitas konversi yang sudah tercatat",
+      "history_intact": true,
+      "later_move_ok": true,
+      "reversed_doc": true,
+      "source_side": false,
+      "destination_stock_pcs": 0,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    }
+  ],
+  "installs": [
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AC",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AD",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AE",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AF",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AG",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AH",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AI",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AJ",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AK",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AL",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AM",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AN",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AO",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AP",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AQ",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AR",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AS",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AT",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AU",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AV",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AW",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AX",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AY",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AZ",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "BA",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "BB",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "BC",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "BD",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "BE",
+      "status": "PASS"
+    },
+    {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "BF",
+      "status": "PASS"
+    }
+  ],
+  "package_gates": {
+    "status": "ALL_STAGES_INSTALLED",
+    "gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "hosted_capsules_equal": true,
+    "backup_restore_drill": "RESTORED_SAME_MEANING",
+    "primary_unchanged": true,
+    "auth_users_before": 0,
+    "auth_users_after": 0,
+    "raw_security_advisors_status": "REVIEW_REQUIRED",
+    "security_note": "The raw advisor report is REVIEW_REQUIRED; the package security_advisors gate is true. This is not a claim of zero advisor findings.",
+    "raw_runtime_independent_acceptance": false,
+    "acceptance_note": "The generic package wrapper retains independent_acceptance=false. Conversion-specific auditor acceptance comes from PR32's explicit verdict and its independent probe; not a global package flag."
+  },
+  "r10": {
+    "status": "OPEN_UNIMPLEMENTED",
+    "existing_master_gate": "CP7 full dummy sales flow",
+    "same_gap_as": "AUD-G04",
+    "overall_cp6_closure_granted": false,
+    "disposition": "Recover the existing master mapping for final-audit reconciliation. Do not label R10 PASS or N/A, silently add it to CP6, or treat this documentation as CP7 integration authorization.",
+    "ui_files": [
+      "src/SalesPages.tsx",
+      "src/App.tsx"
+    ],
+    "observed": "productCatalog and local state; save draft notice only; post/return/payment simulate. Native engine evidence does not prove connected browser persistence.",
+    "required_flow": [
+      "draft",
+      "edit",
+      "post",
+      "partial payment",
+      "return",
+      "refund",
+      "reversal"
+    ],
+    "required_controls": [
+      "exact size and original allocation/lot",
+      "one reservation and no double stock reduction",
+      "stale state",
+      "double submit",
+      "lost response recovery",
+      "current role authorization",
+      "per-document and aggregate stock/AR/COGS/journal reconciliation",
+      "readback after reload"
+    ],
+    "independent_browser_execution_in_audit_run": false,
+    "existing_contract_mapping_recovered": true
+  },
+  "retained_boundaries": [
+    "Independent five-case audit does not qualify cross-session races or connected Sales browser flow.",
+    "R14 nonempty Grade B case remains writer evidence; no independent acceptance in these five cases.",
+    "Overall CP6 terminal sign-off is still absent.",
+    "CP7 shell remains authorized; operational integration is not activated.",
+    "No product changes, merge, deployment, production writes, or messages/comments to other people."
+  ],
+  "contract_source": {
+    "file": "ERP_V3_2_Master_Pulih_20260923.md",
+    "sha256": "f21ac70360915a1f1021b42a3918e862ca7d11cf88c1b90c5627b4490c69af07",
+    "pin_in_repo": "docs/contracts/ERP_ADDENDUM_OWNER_DECISIONS_CP6_2026-09-25.md section 1 (M)",
+    "archive_file": "ERP_CP6_Claude_Serah_Terima_20260923.zip",
+    "archive_sha256": "3388adf93a33b0447d19988171e0deda0119d01918a40a85c5256946a0a0bbbc",
+    "archive_review": "docs/reviews/ERP_CP6_Audit_757b79a_20260923.md section 10",
+    "scope_file_note": "03_SCOPE_CP6.md was not found by exact Library title search or in the downloaded writer archive. The recovered hash-matching master is the direct basis; no claim of recovering that missing file.",
+    "original_owner_quote_not_claimed": true,
+    "size_bytes": 681195,
+    "exact_excerpts": [
+      {
+        "line": 1694,
+        "text": "| **Sesudah CP6 sah dan owner memberi perintah CP7** | Penyambungan alur lain sesuai kontrak CP7; A–D data/WIP/baseline/adaptive; E–F planner, UX32, Stok per-SKU, BR on-demand, Tanya AI V1; G seluruh consumer/full flow | Semua tampilan berbagi definisi/snapshot. Consumer BR/UX32 masuk sebelum CP7 G, bukan ditambahkan setelah mengklaim audit final CP7 lulus. |"
+      },
+      {
+        "line": 1699,
+        "text": "Untuk scope CP6 sendiri, belum boleh ada `POLICY_BLOCKED`, `INCOMPLETE`, atau kasus material yang belum selesai lalu diberi label lock. Item CP7/CP7.5/CP7C/CP8 tetap terbuka **pada tahapnya**, dengan requirement dan bukti yang harus dicapai; tidak perlu berpura-pura menyelesaikan seluruh roadmap untuk menerima CP6."
+      },
+      {
+        "line": 1728,
+        "text": "| AUD-G04 | OPEN UI sales/payment/return/refund | CP7 full dummy sales; backend dependency tetap diuji saat CP6/CR memengaruhi nilai atau source. |"
+      },
+      {
+        "line": 6289,
+        "text": "**Cakupan:** Sales, AR, COGS. **Gate:** CP7 full dummy sales flow."
+      },
+      {
+        "line": 6301,
+        "text": "**Reproduksi / acceptance berikutnya:** Draft → edit → post → bayar sebagian → retur → refund → reversal. Uji data stale, double-click, respons hilang, role endpoint, dan rekonsiliasi per nota serta agregat."
+      }
+    ]
+  }
+}

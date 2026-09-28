@@ -3,9 +3,13 @@
 Writer product change: `90f1ca11fe5d59d4776a812a2a6c8e51fc665ce6`.
 Packaged product: `f8ddf7d0c42993b6e17dd2cc25b39131373a83b2`.
 Rollback package: `434b18215f57dd7a361ca621341488d3c31e9703`.
-CP6 remains HOLD for independent acceptance; audit_complete=false and
-production_go=false. CP7's separate shell is authorized; operational integration
-is still closed. No merge or deployment was performed.
+CP6 remains HOLD for overall independent acceptance; audit_complete=false and
+production_go=false. **Update 29 September WIB:** PR32 independently accepted
+the conversion-history fix, with 5/5 native probes and 30/30 package installs.
+See the [acceptance and recovered R10 scope](cp6-pr32-acceptance-and-r10-scope-20260929.md).
+The pinned master places connected Sales/return UI at CP7; it remains OPEN.
+CP7's separate shell is authorized; operational integration is still closed.
+No merge or deployment was performed.
 
 **Writer scope qualified.** Final packaged runtime on
 `0b78dbd6bfabdb13340f1d7b22298b963cc9239c` passes **97 native, 26 contention,

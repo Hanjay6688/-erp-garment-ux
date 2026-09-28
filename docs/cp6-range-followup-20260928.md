@@ -3,6 +3,12 @@
 Status: **CP6 HOLD; production_go=false; audit_complete=false. Cangkang CP7
 diizinkan owner; integrasi operasional belum dibuka.**
 
+**Pembaruan 29 September WIB:** PR32 menerima bug riwayat konversi secara
+independen, 5/5 PASS pada paket BF yang sama. R10 tetap OPEN; master yang
+hash-nya cocok dengan acuan addendum menempatkan UI jual/retur pada CP7.
+Lihat [penerimaan dan dasar cakupan R10](cp6-pr32-acceptance-and-r10-scope-20260929.md).
+Pemetaan ini tidak menjadi sign-off seluruh CP6 atau PASS UI.
+
 **Tindak lanjut dua auditor:** lihat [handoff riwayat konversi dan CP7](cp6-conversion-history-writer-handoff-20260928.md).
 Penjagaan BF kini mencakup identitas konversi yang sudah tercatat, dengan
 perpindahan range setelah transaksi tetap diperbolehkan. Temuan CP7-DELTA-01
@@ -27,7 +33,7 @@ bawah merekam checkpoint asal; tidak menggantikan hasil kelanjutan tersebut.
 | R07 | Keempat kombinasi komitmen resep sudah/belum ada × mandor sama/berbeda setelah pindah range lulus, termasuk inverse. |
 | R08 | Receipt Laundry BS tanpa produk fisik menolak sebelum entitlements; setelah identifikasi, sumber pekerjaan tepat. Pemeriksaan pesan tanpa kode diperbaiki pada fixture. |
 | R09 | Kode komersial diterima pada pencarian konversi dan impor bertanggal; identitas fisik tetap, inverse konversi exact-size lulus. |
-| R10 | Halaman penjualan existing masih simulasi. Native jual/retur tidak menjadi bukti posting penjualan dari browser. |
+| R10 | OPEN, halaman penjualan existing masih simulasi. Master M, R1.4 AUD-G04 dan G04, menempatkan UI jual/payment/retur/refund pada CP7 full dummy sales; native CP6 tetap diuji saat engine terdampak. Lihat dasar cakupan di pembaruan 29 September. |
 | R11 | Jual 4 PCS ukuran 34, pindah range, biaya susulan +160, retur satu lot asal, pembalikan biaya lulus untuk harga awal dikenal dan UNKNOWN. |
 | R12 | Dua versi fisik nyata dengan konstruksi sama diuji; alias historis dan product_id eksplisit menjaga sumber. Nama berubah saja bukan successor fisik. |
 | R13 | Paket+extra parsial, dua attempt berbayar, 18 GOOD/1 BS/1 hilang, invoice/koreksi/klaim serta dua rewash garansi lulus dalam satu kasus gabungan. |

@@ -5,7 +5,15 @@ pending kontra bon, relevant PR30 findings, and same-supplier return credit fami
 Stop writing and inform Hansen if another writer pushes. Unpushed work in another
 chat cannot be observed. CP6 HOLD; audit_complete=false; production_go=false.
 
-## Latest continuation — two independent auditor handoffs
+## Latest acceptance — PR32 and R10 scope, 29 September WIB
+
+PR32 independently accepts CP6-FINAL-01 on the current BF package: five native
+probes and 30 package installs PASS. The [acceptance and scope record](cp6-pr32-acceptance-and-r10-scope-20260929.md)
+preserves those results and the recovered master clauses placing connected
+Sales/payment/return/refund at CP7. R10 remains OPEN, and overall CP6 sign-off
+is still HOLD. This update changes documentation only.
+
+## Previous continuation — two independent auditor handoffs
 
 The [conversion-history and CP7 handoff](cp6-conversion-history-writer-handoff-20260928.md)
 records the subsequent conversion history guard, unchanged independent probes,
