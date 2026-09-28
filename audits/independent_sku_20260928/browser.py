@@ -30,8 +30,13 @@ def private_helpers():
    status,body=b.request('http://127.0.0.1:54329/rpc/'+name,{},headers={'apikey':b.KEYS['ANON_KEY'],'Authorization':'Bearer '+b.TOKENS[who]});assert status==404,(who,name,status,body);out.append({'actor':who,'private_helper':name,'status':status})
  return out
 
+def ready_click(label,who='owner',exact=True):
+ comparison='e.textContent.trim()==='+json.dumps(label) if exact else 'e.textContent.includes('+json.dumps(label)+')'
+ b.ab('wait','--fn','Array.from(document.querySelectorAll("button")).some(e=>!e.disabled&&e.getClientRects().length&&('+comparison+'))',who=who)
+ return (b.mobile_button if who.startswith('mobile') else b.button)(label,who,exact)
+
 def nav(section,label,who='owner'):
- click=b.mobile_button if who.startswith('mobile') else b.button
+ click=ready_click
  if who.startswith('mobile'):
   b.ab('scroll','up','5000',who=who)
   if not b.evaluate('document.querySelector("aside.sidebar")?.classList.contains("sidebar-open")',who):click('Buka menu',who)
@@ -42,7 +47,7 @@ def nav(section,label,who='owner'):
  b.ab('wait','--fn','!!document.querySelector('+json.dumps('.biz-invoice-draft' if label=='Penjualan & Invoice' else '.sku-workspace')+')',who=who)
  if who.startswith('mobile'):b.ab('wait','--fn','!document.querySelector("aside.sidebar").classList.contains("sidebar-open")',who=who)
 def master_edit(who='owner',price='93456.78'):
- click=b.mobile_button if who.startswith('mobile') else b.button
+ click=ready_click
  nav('Master Data','Produk & SKU',who);b.fill('Cari SKU atau merek','AUD-SKU-RANGE',who);click('Cari / muat ulang',who)
  b.ab('wait','--fn','document.body.innerText.includes("Ubah SKU AUD-SKU-RANGE")',who=who)
  click('Ubah SKU AUD-SKU-RANGE',who);b.fill('Harga jual per PCS untuk seluruh ukuran',price,who);b.fill('Alasan perubahan','Independent real browser all-size update',who)
@@ -56,7 +61,7 @@ def master_edit(who='owner',price='93456.78'):
  b.ab('reload',who=who);b.ab('wait','--fn','!!document.querySelector(".sku-workspace")',who=who);b.snap('master-saved-'+who,who)
  return {'committed_members':rows,'all_size_price':price,'review_checkbox_required':True,'reload':True}
 def hpp_screen(who='owner'):
- click=b.mobile_button if who.startswith('mobile') else b.button
+ click=ready_click
  nav('Keuangan','HPP & Rekalkulasi',who)
  b.ab('wait','--fn','document.body.innerText.includes("HPP per SKU")',who=who);b.fill('Cari SKU atau merek','AUD-SKU-RANGE',who);click('Tampilkan',who)
  b.ab('wait','--fn','document.body.innerText.includes("Rincian AUD-SKU-RANGE")',who=who)

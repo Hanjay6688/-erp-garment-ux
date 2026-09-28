@@ -51,7 +51,7 @@ def private_sql():
  tables=admin("select tablename,has_table_privilege('authenticated','erp.'||tablename,'SELECT,INSERT,UPDATE,DELETE') from pg_tables where schemaname='erp' and tablename like 'bf_%%' order by 1");assert all(not allowed for _,allowed in tables),tables
  return {'helpers':rows,'private_tables':tables}
 def new_sku_context(recipe=False):
- C['base']=(datetime.now(timezone.utc)-timedelta(seconds=130)).isoformat();when=n.at();allroots=C['roots']+[C['products'][C['s4']+':'+C['brand']]]
+ C['base']=(datetime.now(timezone.utc)-timedelta(seconds=60)).isoformat();when=n.at();allroots=C['roots']+[C['products'][C['s4']+':'+C['brand']]]
  if recipe:
   cat=uid();admin("insert into erp.accessory_categories(id,category_code,category_name,base_uom_code) values(%s,'AUD-SKU-TAG','Independent SKU tag','PCS')",(cat,))
   settings=copy.deepcopy(C['settings']);settings['bom']=[{'category_id':cat,'qty_per_good_fg_base':'2','hpp_method':'BOM_STANDARD','hpp_standard_rate':'17.31','hpp_uom_code':'PCS','reimbursement_rate':'0.00','reimbursement_uom_code':'PCS'}]
@@ -95,7 +95,7 @@ def identities():
  eq(admin('select count(*) from erp.bf_sku_members_v1 where version_id=%s',(singleton['groups'][0]['version_id'],),one=True),1)
  return {'singleton27':singleton,'same_code_other_brand':other,'primary_group_unchanged':True}
 def free_context():
- C['base']=(datetime.now(timezone.utc)-timedelta(seconds=100)).isoformat();when=n.at();settings=copy.deepcopy(C['settings'])
+ C['base']=(datetime.now(timezone.utc)-timedelta(seconds=60)).isoformat();when=n.at();settings=copy.deepcopy(C['settings'])
  for r,status in zip(settings['laundry_rates'],['FREE','WAIVED']):r.update(rate_status=status,rate='0.00',reason='Independent explicitly approved synthetic '+status)
  roots=C['roots']+[C['products'][C['s4']+':'+C['brand']]];r=n.action('SAVE_GROUPS',n.payload([n.group(C['sku_id'],roots,settings,when=when)],when));C['v1']=r['groups'][0]['version_id'];n.new_wave('B');F['B'].update(expected_laundry='0.00',expected_size_costs=['635.95','1017.52','381.57']);return r
 if mode=='sales':
