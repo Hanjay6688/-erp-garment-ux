@@ -1,6 +1,7 @@
 import { execFileSync } from 'node:child_process'
 import { resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
+const { cases: supplier } = await import(pathToFileURL(resolve('scripts/cp6_bf_supplier_browser.mjs')).href)
 const { cases: regression } = await import(pathToFileURL(resolve('scripts/cp6_bf_browser.mjs')).href)
 const fixture = (op, payload) => JSON.parse(execFileSync('python', ['../auditor/scripts/cp6_bd_revision_fixture.py', op, JSON.stringify(payload)], { cwd: '../writer', encoding: 'utf8' }).trim())
 async function deferred(ui, today, mobile) {
@@ -34,4 +35,4 @@ async function deferred(ui, today, mobile) {
 }
 export async function cases(ui,today){return [
  ['VENDOR_BROWSER:EMPTY_DETAILS_DESKTOP',()=>deferred(ui,today,false)],
- ['VENDOR_BROWSER:EMPTY_DETAILS_MOBILE',()=>deferred(ui,today,true)],...await regression(ui,today)]}
+ ['VENDOR_BROWSER:EMPTY_DETAILS_MOBILE',()=>deferred(ui,today,true)],...await supplier(ui,today),...await regression(ui,today)]}

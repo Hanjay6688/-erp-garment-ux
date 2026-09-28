@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 38,
+  "revision": 39,
   "phase": "after",
   "scenario_path": "scripts/cp6_bf_vendor_modes.py",
   "browser_path": "scripts/cp6_bf_vendor_browser.mjs",
-  "purpose": "Writer native follow-up: repair fixture date window; supplier return credit split and original purchase inverse for fabric/accessory; connected credit UI. In progress qualification, CP6 HOLD, disposable only."
+  "purpose": "Writer qualification: supplier credit exact cents, same-party, Auth before replay, cash reallocation/inverse, contention and desktop/mobile real browser; vendor authority/pending contra bon and PR30 regressions. CP6 HOLD."
 }

@@ -6,7 +6,7 @@ import cp6_bf_probe as bf
 from cp6_bd_modes import _fixture_usage
 b=bf.b;one=bf.one;bc=b.bcp
 
-def fixture(cur,today,fabric=False):
+def fixture(cur,today,fabric=False,credit='10.00',return_qty=2):
     fx=bc.fixture(cur,today,purchase=False,zones=False)
     if fabric:
         unit=one(cur,"select unit_code from erp.uom_definitions where dimension='LENGTH' and is_active order by unit_code limit 1")
@@ -23,7 +23,7 @@ def fixture(cur,today,fabric=False):
     roll=one(cur,'select id::text from erp.material_rolls where purchase_item_id=%s',item) if fabric else None
     cur.execute("insert into erp.material_supplier_returns(id,return_number,supplier_id,location_id,physical_at,status,reason) values(%s,%s,%s,%s,%s,'DRAFT','Supplier responsibility return')",
       (ret,'CR-RETURN-'+ret,fx['supplier'],fx['main'],bc.local_at(today-timedelta(days=2),9)))
-    cur.execute('insert into erp.material_supplier_return_items(return_id,material_id,roll_id,qty,purchase_item_id,supplier_credit_unit_price) values(%s,%s,%s,2,%s,10)',(ret,fx['material'],roll,item))
+    cur.execute('insert into erp.material_supplier_return_items(return_id,material_id,roll_id,qty,purchase_item_id,supplier_credit_unit_price) values(%s,%s,%s,%s,%s,%s)',(ret,fx['material'],roll,return_qty,item,credit))
     bc.internal(cur,'post_material_supplier_return',ret)
     return dict(fx,purchases=purchases,ret=ret)
 
@@ -83,3 +83,38 @@ def race(tools,today,commit):
     from cp6_bd_modes import _verdict
     return _verdict('SUPPLIER_CREDIT_ONE_BALANCE',commit,held,contention,outcome,'STALE_VERSION',after,
       after['ap']==(['100.00','80.00','60.00'] if commit else ['100.00','100.00','40.00']))
+
+def exact_cent_and_party(cur,today):
+    f=fixture(cur,today,credit='0.015',return_qty=1);foreign=fixture(cur,today)
+    before=state(cur,f);source=one(cur,'select erp.bf_supplier_credit_source_v1(%s,%s)',f['ret'],f['purchases'][0])
+    wrong=payload(cur,f,[(foreign['purchases'][1],'0.01')])
+    denied=b.refused(cur,lambda:call(cur,wrong),'BF_CREDIT_SAME_SUPPLIER_REQUIRED')
+    call(cur,payload(cur,f,[(f['purchases'][1],'0.01')]))
+    moved=state(cur,f);call(cur,payload(cur,f,[]))
+    return b.verdict(dict(cent_from_posted_fact=source==b.D('0.01'),original=before['ap'][0]=='99.99',
+      net_cent=moved['ap']==['100.00','99.99','60.00'],foreign_refused=denied['ok'],inverse=state(cur,f)==before,
+      ledger_once=moved['ledger']==before['ledger']))
+
+def http_cases(http,today):
+    def access():
+        with http.connect() as conn,conn.cursor() as cur:
+            with _fixture_usage(cur):f=fixture(cur,today)
+            p=payload(cur,f,[(f['purchases'][1],'20.00')]);conn.commit()
+        admin=http.login('ADMIN','supplier-credit-admin');qc=http.login('PRODUKSI_QC','supplier-credit-no-finance')
+        args=dict(p_payload=p,p_client_request_id=str(uuid.uuid4()))
+        anon=http.anon_rpc('erp_save_supplier_credit_v1',args);denied=qc.rpc('erp_save_supplier_credit_v1',args)
+        first=admin.rpc('erp_save_supplier_credit_v1',args);again=admin.rpc('erp_save_supplier_credit_v1',args)
+        read=admin.rpc('erp_get_supplier_credit_v1',dict(p_filters=dict(supplier_id=f['supplier'])))
+        hidden=qc.rpc('erp_get_supplier_credit_v1',dict(p_filters=dict(supplier_id=f['supplier'])))
+        with http.connect() as conn,conn.cursor() as cur:
+            role=one(cur,'select role_id from erp.app_users where auth_user_id=%s',admin.auth_user_id)
+            grants=b.q(cur,"select role_id,permission_key,granted_by,granted_at from erp.app_role_permissions where role_id=%s and permission_key='finance.ap.pay'",role)
+            cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.ap.pay'",(role,));conn.commit()
+        try:revoked=admin.rpc('erp_save_supplier_credit_v1',args)
+        finally:
+            with http.connect() as conn,conn.cursor() as cur:
+                cur.executemany('insert into erp.app_role_permissions(role_id,permission_key,granted_by,granted_at) values(%s,%s,%s,%s)',grants);conn.commit()
+        return b.verdict(dict(anon=anon['status']>=400,qc=denied['status']>=400,hidden=hidden['status']>=400,
+          admin=first['status']==200,replay=again['status']==200 and again['body'].get('replayed') is True,
+          view=read['status']==200 and read['body']['credits'][0]['original_purchase_credit']=='0.00',permission_before_replay=revoked['status']>=400),first=first,read_status=read['status'])
+    return [('SUPPLIER_HTTP:PERMISSION_BEFORE_REPLAY',access)]

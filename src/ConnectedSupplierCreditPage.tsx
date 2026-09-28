@@ -38,6 +38,10 @@ function Workspace({onLaundry}:{onLaundry:()=>void}){
  const allocations=Object.entries(amounts).filter(([,v])=>v.trim()&&creditCents(v)!==0n)
  const validAmounts=allocations.every(([,v])=>creditCents(v)!==null)
  const moved=allocations.reduce((n,[,v])=>n+(creditCents(v)??0n),0n),original=draft?(creditCents(draft.credit)??0n)-moved:0n
+ const previousMoved=draft?.allocations.reduce((n,a)=>n+creditCents(a.amount)!,0n)??0n
+ const projected=data?.purchases.map(p=>({number:p.number,remaining:creditCents(p.remaining)!+(p.id===draft?.source_purchase_id
+  ? moved-previousMoved : (creditCents(draft?.allocations.find(a=>a.purchase_id===p.id)?.amount??'0')??0n)-(creditCents(amounts[p.id]??'0')??0n))}))??[]
+ const balancesValid=projected.every(p=>p.remaining>=0n)
  const edit=(c:SupplierCredit)=>{setDraft(c);setAmounts(Object.fromEntries(c.allocations.map(a=>[a.purchase_id,a.amount])));setReason('');setConfirmed(false)}
  return <section className="initial-import">
   <header className="panel"><h1>Utang & kredit retur supplier</h1><p>Kredit retur kain dan aksesori tetap memotong pembelian asal. Alihkan seluruhnya atau sebagian ke pembelian lain dari supplier yang sama.</p><button type="button" onClick={onLaundry}>Buka tagihan & kredit klaim laundry</button></header>
@@ -49,13 +53,14 @@ function Workspace({onLaundry}:{onLaundry:()=>void}){
     {c.events.length>0&&<details><summary>Riwayat alokasi</summary>{c.events.map(e=><p key={e.id}>{e.date} · {data.purchases.find(p=>p.id===e.purchase_id)?.number??e.purchase_id} · {e.reversal_of?'Pembatalan':'Pengalihan'} {skuMoney(e.amount.replace('-',''))} · {e.reason}</p>)}</details>}</article>)}{data.credits.length===0&&<p>Belum ada kredit retur yang bisa dialokasikan.</p>}
     <button disabled={locked||data.page<=1} onClick={()=>{filters.current.page--;void load()}}>Sebelumnya</button> Halaman {data.page} <button disabled={locked||data.page*50>=data.total} onClick={()=>{filters.current.page++;void load()}}>Berikutnya</button></section>
   </>}
-  {draft&&data&&<form className="panel" onSubmit={e=>{e.preventDefault();if(locked||!confirmed||!validAmounts||original<0n||reason.trim().length<4)return;void run('ALLOCATE',{return_id:draft.return_id,source_purchase_id:draft.source_purchase_id,expected_version:draft.version,reason:reason.trim(),allocations:allocations.map(([purchase_id,v])=>({purchase_id,amount:creditAmount(creditCents(v)!)}))},null,handlers)}}>
+  {draft&&data&&<form className="panel" onSubmit={e=>{e.preventDefault();if(locked||!confirmed||!validAmounts||!balancesValid||original<0n||reason.trim().length<4)return;void run('ALLOCATE',{return_id:draft.return_id,source_purchase_id:draft.source_purchase_id,expected_version:draft.version,reason:reason.trim(),allocations:allocations.map(([purchase_id,v])=>({purchase_id,amount:creditAmount(creditCents(v)!)}))},null,handlers)}}>
    <h2>Alokasi {draft.return_number}</h2><p>Kosongkan semua tujuan untuk mengembalikan kredit ke pembelian asal. Pengalihan dicatat pada hari ini.</p><fieldset disabled={locked}>
     {data.purchases.filter(p=>p.id!==draft.source_purchase_id).map(p=><label key={p.id}>{p.number} · sisa {skuMoney(p.remaining)}<input aria-label={`Kredit untuk ${p.number}`} inputMode="decimal" value={amounts[p.id]??''} onChange={e=>{setAmounts(x=>({...x,[p.id]:e.target.value}));setConfirmed(false)}}/></label>)}
     <p>Bagian kredit untuk {draft.purchase_number}: {original<0n?'Melebihi kredit retur':skuMoney(creditAmount(original))}.</p>
+    <h3>Sisa utang setelah alokasi</h3>{projected.map(p=><p key={p.number}>{p.number}: {p.remaining<0n?'Alokasi melebihi sisa utang sesudah pembayaran':skuMoney(creditAmount(p.remaining))}.</p>)}
     <label>Alasan pengalihan<input aria-label="Alasan pengalihan kredit" maxLength={1000} value={reason} onChange={e=>{setReason(e.target.value);setConfirmed(false)}}/></label>
     <label><input type="checkbox" checked={confirmed} onChange={e=>setConfirmed(e.target.checked)}/>Saya sudah memeriksa pembelian asal, tujuan, dan nominal kredit.</label>
-    <button disabled={!confirmed||!validAmounts||original<0n||reason.trim().length<4}>Simpan alokasi kredit</button>
+    <button disabled={!confirmed||!validAmounts||!balancesValid||original<0n||reason.trim().length<4}>Simpan alokasi kredit</button>
    </fieldset>
   </form>}
  </section>
