@@ -221,7 +221,8 @@ def range_rework(cur,today,committed=True,different=False):
         recovered=count==stock(cur,lot),positive_hpp=value>0,truth=b.truth_quiet(truth,b.all_truth(cur))),committed=committed,different_contractor=different,rate=str(line[0]),basis=line[1],hpp=str(value))
     b.chain.bs_action(cur,'REVERSE_REWORK_COMPLETION',dict(rework_order_id=rid,change_reason='Combined range recovery inverse'),b.chain.version(cur,'rework_orders',rid))
     result['checks']['inverse_stock']=stock(cur,lot)==0
-    if not result['checks']['inverse_stock']:result['status']='FAIL'
+    result['failed']=[key for key,ok in result['checks'].items() if not ok]
+    result['status']='FAIL' if result['failed'] else 'PASS'
     return result
 
 
@@ -297,7 +298,7 @@ def historical_import_identity(cur,today):
     physical=cur.execute('select id,sku,model_id,brand_id,color_name,size_id from erp.products where id=%s',(f['roots'][3],)).fetchone()
     prod.owner(cur)
     successor=cur.execute('select erp.edit_product_identity_effective(%s,%s,%s,%s,%s,%s,%s,%s,%s)',
-        (*physical,'Combined corrected product name',f['when'](14),'Historical identity with unchanged construction')).fetchone()[0]
+        (physical[0],physical[1]+'-V2',*physical[2:],'Combined successor with the same construction',f['when'](14),'New physical code; commercial range and historical root stay traceable')).fetchone()[0]
     b.api.admin(cur)
     current_id=one(cur,'select id::text from erp.products where supersedes_product_id=%s',f['roots'][3])
     cur.execute('update erp.migration_batches set cutover_at=%s where id=%s',(f['when'](15),batch))
