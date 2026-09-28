@@ -33,3 +33,18 @@ tests are not evidence of a connected ERP, training, reminders or WhatsApp send.
 
 Business failures are retained as FAIL; fixture/setup failures as INCOMPLETE.
 Results are scoped, not a certification of every CP6/CP7 combination.
+
+## Focused retest after first run
+
+Run 36456038419 passed 10 native cases and 1 Auth case; the historical HPP case
+was INCOMPLETE because its fixture omitted the invoice quantity policy. The
+fixture now explicitly selects the supported correction-document policy before
+posting. Expected results are unchanged. CP6_DELTA_FOCUS=pending_history reruns
+only this unresolved case; prior passes are retained from their original run.
+No unexecuted Auth revocation or write scenario is claimed as a pass.
+
+Local CP7 browser launch was blocked by the container socket permission. The
+same six desktop/phone scenarios are run in disposable CI on the frozen CP7 ref.
+Seven new independent contract tests and the populated schema-valid comparison
+are retained alongside all findings. A nonblocking contract-test step preserves
+its failure evidence; a green browser job is not a contract PASS.

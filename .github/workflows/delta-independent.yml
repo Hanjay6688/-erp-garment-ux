@@ -27,6 +27,7 @@ jobs:
           proof: auditor
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      CP6_DELTA_FOCUS: pending_history
       CP6_AC_INDEPENDENT_CONFIRM: postgres
       CP6_AF_INDEPENDENT_CONFIRM: postgres
       CP6_AH_CONFIRM: postgres
@@ -222,3 +223,63 @@ jobs:
         name: cp6-auditor-scenario-${{ github.run_id }}-${{ matrix.key }}
         path: auditor/cp6-proof/${{ matrix.proof }}
         retention-days: 30
+
+  cp7_browser:
+    name: Independent CP7 shell and browser verification
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: audit-source
+      - uses: actions/checkout@v4
+        with:
+          path: cp7
+          ref: 6465825d0f8a865f28264626a4e0af818d66967e
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate schema and copy independent assertions
+        working-directory: cp7
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = 6465825d0f8a865f28264626a4e0af818d66967e
+          python -m pip install --quiet 'jsonschema==4.25.1'
+          python - <<'PYSCHEMA'
+          import json,jsonschema
+          from pathlib import Path
+          schema=json.loads(Path('docs/cp7/contracts/analysis.schema.json').read_text())
+          example=json.loads(Path('../audit-source/audits/independent_delta_20260929/cp7.financial-comparison-probe.json').read_text())
+          jsonschema.validate(example,schema)
+          print('Independent populated financial comparison is valid against full contract')
+          PYSCHEMA
+          cp ../audit-source/audits/independent_delta_20260929/cp7.delta.test.ts tests/cp7/independent.delta.test.ts
+          npm ci --ignore-scripts
+      - name: Independent contract assertions (retain any finding)
+        id: contract_probe
+        continue-on-error: true
+        working-directory: cp7
+        run: npx vitest run tests/cp7/independent.delta.test.ts --reporter=json --outputFile=independent-results.json
+      - name: Build frozen CP7 shell
+        working-directory: cp7
+        run: npm run build
+      - name: Install browser
+        working-directory: cp7
+        run: npx playwright install --with-deps chromium
+      - name: Exercise desktop and phone flows
+        working-directory: cp7
+        run: npx playwright test --config playwright.cp7.config.ts
+      - name: Record contract test outcome separately
+        if: always()
+        run: echo 'Independent contract probe outcome = ${{ steps.contract_probe.outcome }}; browser success does not override this result.'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: independent-cp7-shell-${{ github.run_id }}
+          path: |
+            cp7/independent-results.json
+            cp7/test-results/cp7-shell-proof
+          retention-days: 30

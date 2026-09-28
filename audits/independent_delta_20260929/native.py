@@ -1,6 +1,7 @@
 """Independent expectations on borrowed disposable setup, no product mutations."""
 import copy
 import json
+import os
 import uuid
 from datetime import timedelta
 from decimal import Decimal as D
@@ -113,6 +114,7 @@ def alias_boundary(cur,today,future=False):
 def pending_snapshot(cur,today):
     f=b.fixture(cur,b.case_day(today),'DELTA-HPP-HISTORY')
     b.terms(cur,f,'COMPONENTS')
+    b.invoice_policies(cur, after='CORRECTION_DOCUMENT')
     sent=b.bd(cur,'POST_PRICED_DELIVERY',dict(delivery=b.delivery_payload(f),expected_version=str(b.chain.base.group_version(cur,f['group'])),pricing={'components':[]}))
     receipt=b.receive(cur,sent['delivery_id'],f,10,13)
     line=b.receipt_line(cur,receipt['receipt_id'])
@@ -166,6 +168,8 @@ def vendor_version(cur,today,status):
 
 
 def cases(cur,today):
+    if os.environ.get('CP6_DELTA_FOCUS') == 'pending_history':
+        return [('DELTA:PENDING_HPP_HISTORICAL_READINESS',lambda:pending_snapshot(cur,today))]
     return [
       ('DELTA:CREDIT_ACCESSORY_DECIMAL_REPLACE_OLD_REPLAY',lambda:credit_lifecycle(cur,today)),
       ('DELTA:CREDIT_FABRIC_DECIMAL_REPLACE_OLD_REPLAY',lambda:credit_lifecycle(cur,today,True)),
@@ -179,6 +183,8 @@ def cases(cur,today):
 
 
 def http_cases(http,today):
+    if os.environ.get('CP6_DELTA_FOCUS') == 'pending_history':
+        return []
     def permission():
         owner=http.login('OWNER','delta-credit-owner')
         viewer=http.login('PRODUKSI_QC','delta-credit-viewer')
