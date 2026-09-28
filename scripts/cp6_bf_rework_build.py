@@ -1,6 +1,8 @@
 """Keep BS/rework and HPP completeness on the same commercial tariff scope as sewing."""
-from cp6_bc_build import substitute
-REPLACED=['erp.prepare_rework_component_line()','erp.run_v263c_bs_rework_integrity_checks()','erp.get_hpp_completeness(uuid)']
+from pathlib import Path
+import re
+from cp6_bc_build import substitute,last_definition
+REPLACED=['erp.prepare_rework_component_line()','erp.run_v263c_bs_rework_integrity_checks()','erp.get_hpp_completeness(uuid)','erp.resolve_rework_accessory_bom_v1(uuid,timestamp with time zone)']
 
 def changed(fixture):
     rework=substitute(fixture('prepare_rework_component_line'),[
@@ -42,4 +44,30 @@ def changed(fixture):
               select 1 from erp.cutting_groups cg join erp.bf_wave_skus_v1 w on w.cutting_group_id=cg.id where cg.po_id=p.id)
               or exists(select 1 from erp.cutting_groups cg where cg.po_id=p.id and not exists(select 1 from erp.bf_wave_skus_v1 w where w.cutting_group_id=cg.id)))
             and not exists(''')], 'BF completeness ignores unconsumed template when all waves are SKU scoped')
-    return [rework,checks,completeness]
+    accessory_source=Path(__file__).resolve().parents[1]/'supabase/migrations/20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.sql'
+    accessory=substitute(last_definition(accessory_source,'resolve_rework_accessory_bom_v1',text=re.sub(r'(?i)create function erp\.', 'CREATE OR REPLACE FUNCTION erp.',accessory_source.read_text())),[
+      ('  v_distinct integer;','  v_distinct integer;bf_version uuid;bf_pinned uuid;bf_sku uuid;bf_frozen uuid;'),
+      ('  select abv.id into v_bom',"""  bf_version:=erp.bf_version_at_v1(v_product,p_basis_at);
+  if bf_version is not null then
+    select sku_id into bf_sku from erp.bf_sku_versions_v1 where id=bf_version;
+    select version_id into bf_pinned from erp.bf_po_boms_v1 where po_id=v_po and sku_id=bf_sku;
+    if bf_pinned is null then
+      select v.id into bf_pinned from erp.po_accessory_bom_commitments c
+        join erp.bf_sku_members_v1 m on m.bom_version_id=c.bom_version_id join erp.bf_sku_versions_v1 v on v.id=m.version_id
+        where c.po_id=v_po and v.sku_id=bf_sku order by c.committed_at,c.id limit 1;
+    end if;
+    select bom_version_id into v_bom from erp.bf_sku_members_v1 where version_id=coalesce(bf_pinned,bf_version) and product_root=v_root;
+    if v_bom is null and bf_pinned is not null then
+      select bom_version_id into bf_frozen from erp.bf_sku_members_v1 where version_id=bf_pinned and bom_version_id is not null order by product_root limit 1;
+      select bom_version_id into v_bom from erp.bf_sku_members_v1 where version_id=bf_version and product_root=v_root;
+      if erp.bf_recipe_basis_v1(v_bom) is distinct from erp.bf_recipe_basis_v1(bf_frozen) then raise exception 'BF_PO_NEW_MEMBER';end if;
+    end if;
+    if v_bom is null then raise exception 'BF_BOM_UNCONFIGURED';end if;
+    if exists(select 1 from erp.po_accessory_bom_commitments c join erp.products cp on cp.id=c.product_id
+      join erp.bf_sku_members_v1 m on m.product_root=cp.identity_root_id and m.version_id=coalesce(bf_pinned,bf_version)
+      where c.po_id=v_po and erp.bf_recipe_basis_v1(c.bom_version_id) is distinct from erp.bf_recipe_basis_v1(v_bom)) then raise exception 'BF_PO_LEGACY_BOM';end if;
+    return v_bom;
+  end if;
+
+  select abv.id into v_bom""")],'BF rework recipe follows pinned commercial SKU')
+    return [rework,checks,completeness,accessory]

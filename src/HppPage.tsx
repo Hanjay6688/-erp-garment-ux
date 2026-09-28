@@ -295,10 +295,10 @@ function HppPage() {
         </div>
       </aside>
 
-      <div className="hpp-detail-stack">
+      {visibleSkuGroups.length > 0 && <div className="hpp-detail-stack">
         <section className="panel hpp-sku-summary">
-          <div><span>HPP RATA-RATA STOK SKU</span><strong>{money(skuWeightedHpp)} <small>/ pcs</small></strong><p>{skuRemaining} pcs tersisa · nilai stok {money(skuInventoryValue)}</p></div>
-          <div className="hpp-size-summary">{skuSizes.map((row)=><button key={row.size} onClick={()=>{const target=skuLots.find((item)=>item.sizes.includes(row.size));if(target)chooseLot(target.id)}}><span>SIZE {row.size}</span><strong>{row.qty} pcs</strong><small>{money(row.qty>0?Math.round(row.value/row.qty):0)} / pcs</small></button>)}</div>
+          <div><span>HPP RATA-RATA STOK SKU</span><strong>{skuRemaining > 0 ? money(skuWeightedHpp) : 'Tidak ada sisa stok'} <small>/ pcs</small></strong><p>{skuRemaining} pcs tersisa · nilai stok {money(skuInventoryValue)}</p></div>
+          <div className="hpp-size-summary">{skuSizes.map((row)=><button key={row.size} onClick={()=>{const target=skuLots.find((item)=>item.sizeStock.some(s => s.size === row.size));if(target)chooseLot(target.id)}}><span>SIZE {row.size}</span><strong>{row.qty} pcs</strong><small>{money(row.qty>0?Math.round(row.value/row.qty):0)} / pcs</small></button>)}</div>
           <p className="hpp-sku-rule"><Info /> Angka ini weighted average untuk melihat nilai stok SKU. Saat penjualan, COGS tetap mengambil HPP lot sesuai FIFO.</p>
         </section>
         <section className="panel hpp-lot-picker"><div><span>LOT / PO PEMBENTUK SKU</span><strong>{skuLots.length} lot</strong></div>{skuLots.map((item)=><button className={item.id===lot.id?'active':''} onClick={()=>chooseLot(item.id)} key={item.id}><small>{item.po}</small><strong>{item.id}</strong><span>{item.material} · {remainingStock(item)} pcs sisa · {money(activeCost(item))}/pcs</span></button>)}</section>
@@ -420,7 +420,7 @@ function HppPage() {
           <div className="hpp-check-grid">{lot.checks.map((item) => <article className={item.ok ? 'done' : 'open'} key={item.label}><span>{item.ok ? <Check /> : <AlertTriangle />}</span><div><strong>{item.label}</strong><small>{item.note}</small></div></article>)}</div>
           <footer><Info /><p><strong>ACTUAL tidak otomatis final.</strong> Halaman ini mengikuti fungsi kelengkapan backend, jadi biaya aktual tetap bisa berlabel “Belum lengkap” bila proses fisiknya belum beres.</p></footer>
         </section>
-      </div>
+      </div>}
     </section>
   </>
 }

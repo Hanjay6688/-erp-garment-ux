@@ -59,6 +59,10 @@ begin
  if exists(select 1 from erp.bf_sku_members_v1 where product_root in(select identity_root_id from erp.products where id in(r,previous_root))) then
    raise exception 'BF_SHARED_MASTER: ubah harga/resep melalui master SKU bersama';
  end if;
+ if exists(select 1 from erp.products p join erp.bf_skus_v1 s on s.brand_id=p.brand_id and s.model_id=p.model_id and s.color_name=p.color_name
+   where p.id in(r,previous_root) and (s.sku=p.sku or exists(select 1 from erp.bf_sku_versions_v1 v join erp.bf_sku_members_v1 m on m.version_id=v.id
+     join erp.products member on member.id=m.product_root where v.sku_id=s.id and member.sku=p.sku))) then
+   raise exception 'BF_MEMBER_ADOPTION_REQUIRED: hubungkan ukuran baru ke master SKU sebelum menetapkan harga/resep';end if;
  if TG_OP='DELETE' then return old;else return new;end if;
 end;$function$;
 create trigger bf_shared_price before insert or update or delete on erp.product_price_versions for each row execute function erp.bf_guard_economic_v1();
@@ -180,3 +184,23 @@ begin
  delete from erp.bf_context_v1 where backend_pid=pg_backend_pid() and transaction_id=txid_current();
  return jsonb_build_object('groups',result);
 end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.bf_guard_new_member_v1()
+ RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare p erp.products%rowtype; at_time timestamptz;
+begin
+ if new.product_id is null then return new;end if;
+ at_time:=case when TG_TABLE_NAME='fg_lots' then (to_jsonb(new)->>'produced_at')::timestamptz else (to_jsonb(new)->>'physical_at')::timestamptz end;
+ select * into p from erp.products where id=new.product_id;
+ if erp.bf_version_at_v1(p.id,at_time) is null and exists(
+   select 1 from erp.bf_skus_v1 s join erp.bf_sku_versions_v1 v on v.sku_id=s.id
+   where s.brand_id=p.brand_id and s.model_id=p.model_id and s.color_name=p.color_name
+     and v.effective_from<=at_time and(v.effective_to is null or v.effective_to>at_time)
+     and (s.sku=p.sku or exists(select 1 from erp.bf_sku_members_v1 m join erp.products member on member.id=m.product_root where m.version_id=v.id and member.sku=p.sku))) then
+   raise exception 'BF_MEMBER_ADOPTION_REQUIRED: ukuran fisik belum menjadi anggota SKU pada tanggal barang masuk';
+ end if;
+ return new;
+end;$function$;
+create trigger bf_fg_member before insert on erp.fg_lots for each row execute function erp.bf_guard_new_member_v1();
+create trigger bf_bs_member before insert on erp.bs_cases for each row execute function erp.bf_guard_new_member_v1();

@@ -197,13 +197,16 @@ def import_ambiguity(cur,today):
 
 
 def import_exact(cur,today):
-    f=b.bbp.production_post(cur,today,imported_range_rows(today));code=f['code']
+    f=b.bbp.production_post(cur,today,imported_range_rows(today),expect=True);code=f['code']
+    assert not f['errors'],f['errors']
+    payload=dict(batch_id=f['batch'],expected_revision=b.api.read(cur,f['batch'])['batch']['revision']);key=str(uuid.uuid4())
+    b.api.call(cur,'FINALIZE',payload,key)
     p=one(cur,'select p.id from erp.products p join erp.sizes z on z.id=p.size_id where p.sku=%s and z.size_code=%s',code+'P',code+'32')
     sale=one(cur,'select i.product_id from erp.sales_items i join erp.sales_headers h on h.id=i.sale_id where h.sale_number=%s','SD-'+code)
     custody=cur.execute('select product_id from erp.bc_customer_custody_v1 where customer_id=(select id from erp.customers where customer_code=%s) order by product_id nulls last',(code,)).fetchall()
     sewing=one(cur,"select product_id from erp.be_pocket_sewing_v1 where batch_id=%s and target_kind='COGS'",f['batch'])
     counts=(one(cur,'select count(*) from erp.sales_headers where sale_number=%s','SD-'+code),one(cur,'select count(*) from erp.be_pocket_sewing_v1 where batch_id=%s',f['batch']))
-    again=b.api.invoke(cur,'FINALIZE',f['batch']);b.api.admin(cur)
+    again=b.api.call(cur,'FINALIZE',payload,key);b.api.admin(cur)
     return b.verdict(dict(sale_exact=sale==p,custody_exact=custody==[(p,),(None,)],cogs_exact=sewing==p,
       one_reservation=b.bbp.s02_free(cur,code)==7,replay=again['status']=='POSTED' and counts==(1,1)),product=str(p),counts=counts)
 

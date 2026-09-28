@@ -40,6 +40,8 @@ begin
      raise exception 'BF_ROLLBACK_SOURCE_DRIFT: %',r.key;end if;
  end loop;
  for r in select value from jsonb_each_text(capsule->'functions') loop execute r.value;end loop;
+ drop trigger bf_fg_member on erp.fg_lots;
+ drop trigger bf_bs_member on erp.bs_cases;
  drop trigger bf_shared_price on erp.product_price_versions;
  drop trigger bf_shared_bom on erp.accessory_bom_versions;
  drop trigger bf_shared_bom_item on erp.accessory_bom_items;

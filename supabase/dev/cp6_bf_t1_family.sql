@@ -5,7 +5,7 @@ if exists(select 1 from erp.schema_migrations where version='v2.6.20bf') then ra
 
 create table erp.bf_rollback_v1(payload jsonb not null);
 insert into erp.bf_rollback_v1(payload)
-select jsonb_build_object('functions',(select jsonb_object_agg(s,pg_get_functiondef(s::regprocedure)) from unnest(array['erp.commit_accessory_bom_for_lot(uuid)','erp.ensure_po_work_component_snapshots(uuid,timestamp with time zone)','erp.validate_work_completion()','erp.guard_work_completion_posting_consistency()','erp.seed_bs_case_component_baseline()','erp.classify_bs_case_v2(uuid,jsonb,uuid,bigint)','erp.cp6_lot_work_cost_v2620c(uuid,text)','erp.assert_new_stock_cutoff_coverage_v1()','erp.bd_compute_pricing_v1(jsonb,jsonb)','erp.bd_attach_delivery_pricing_v1(uuid)','erp.bd_post_priced_delivery_v1(jsonb,uuid)','erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','erp.prepare_rework_component_line()','erp.run_v263c_bs_rework_integrity_checks()','erp.get_hpp_completeness(uuid)','erp.save_initial_import_action_v1(text,jsonb,uuid)','erp.bb_check_sales_import_row_v1(uuid,uuid)','erp.bb_apply_sales_imports_v1(uuid)','erp.bc_check_import_row_v1(uuid,uuid)','erp.bc_apply_imports_v1(uuid)','erp.be_check_pocket_import_v1(uuid,uuid)','erp.be_apply_pocket_imports_v1(uuid)','erp.bb_check_rework_import_row_v1(uuid,uuid)']) s),
+select jsonb_build_object('functions',(select jsonb_object_agg(s,pg_get_functiondef(s::regprocedure)) from unnest(array['erp.commit_accessory_bom_for_lot(uuid)','erp.ensure_po_work_component_snapshots(uuid,timestamp with time zone)','erp.validate_work_completion()','erp.guard_work_completion_posting_consistency()','erp.seed_bs_case_component_baseline()','erp.classify_bs_case_v2(uuid,jsonb,uuid,bigint)','erp.cp6_lot_work_cost_v2620c(uuid,text)','erp.assert_new_stock_cutoff_coverage_v1()','erp.bd_priced_line_json_v1(uuid)','erp.bd_compute_pricing_v1(jsonb,jsonb)','erp.bd_attach_delivery_pricing_v1(uuid)','erp.bd_post_priced_delivery_v1(jsonb,uuid)','erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','erp.prepare_rework_component_line()','erp.run_v263c_bs_rework_integrity_checks()','erp.get_hpp_completeness(uuid)','erp.resolve_rework_accessory_bom_v1(uuid,timestamp with time zone)','erp.save_initial_import_action_v1(text,jsonb,uuid)','erp.bb_check_sales_import_row_v1(uuid,uuid)','erp.bb_apply_sales_imports_v1(uuid)','erp.bc_check_import_row_v1(uuid,uuid)','erp.bc_apply_imports_v1(uuid)','erp.be_check_pocket_import_v1(uuid,uuid)','erp.be_apply_pocket_imports_v1(uuid)','erp.bb_check_rework_import_row_v1(uuid,uuid)']) s),
  'snapshot_constraint',(select pg_get_constraintdef(oid) from pg_constraint where conrelid='erp.po_work_component_snapshots'::regclass and conname='po_work_component_snapshots_po_id_work_component_id_key'),
  'rework_constraint',(select pg_get_constraintdef(oid) from pg_constraint where conrelid='erp.rework_component_lines'::regclass and conname='rework_component_lines_rate_basis_check'));
 
@@ -70,6 +70,10 @@ begin
  if exists(select 1 from erp.bf_sku_members_v1 where product_root in(select identity_root_id from erp.products where id in(r,previous_root))) then
    raise exception 'BF_SHARED_MASTER: ubah harga/resep melalui master SKU bersama';
  end if;
+ if exists(select 1 from erp.products p join erp.bf_skus_v1 s on s.brand_id=p.brand_id and s.model_id=p.model_id and s.color_name=p.color_name
+   where p.id in(r,previous_root) and (s.sku=p.sku or exists(select 1 from erp.bf_sku_versions_v1 v join erp.bf_sku_members_v1 m on m.version_id=v.id
+     join erp.products member on member.id=m.product_root where v.sku_id=s.id and member.sku=p.sku))) then
+   raise exception 'BF_MEMBER_ADOPTION_REQUIRED: hubungkan ukuran baru ke master SKU sebelum menetapkan harga/resep';end if;
  if TG_OP='DELETE' then return old;else return new;end if;
 end;$function$;
 create trigger bf_shared_price before insert or update or delete on erp.product_price_versions for each row execute function erp.bf_guard_economic_v1();
@@ -192,6 +196,26 @@ begin
  return jsonb_build_object('groups',result);
 end;$function$;
 
+CREATE OR REPLACE FUNCTION erp.bf_guard_new_member_v1()
+ RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare p erp.products%rowtype; at_time timestamptz;
+begin
+ if new.product_id is null then return new;end if;
+ at_time:=case when TG_TABLE_NAME='fg_lots' then (to_jsonb(new)->>'produced_at')::timestamptz else (to_jsonb(new)->>'physical_at')::timestamptz end;
+ select * into p from erp.products where id=new.product_id;
+ if erp.bf_version_at_v1(p.id,at_time) is null and exists(
+   select 1 from erp.bf_skus_v1 s join erp.bf_sku_versions_v1 v on v.sku_id=s.id
+   where s.brand_id=p.brand_id and s.model_id=p.model_id and s.color_name=p.color_name
+     and v.effective_from<=at_time and(v.effective_to is null or v.effective_to>at_time)
+     and (s.sku=p.sku or exists(select 1 from erp.bf_sku_members_v1 m join erp.products member on member.id=m.product_root where m.version_id=v.id and member.sku=p.sku))) then
+   raise exception 'BF_MEMBER_ADOPTION_REQUIRED: ukuran fisik belum menjadi anggota SKU pada tanggal barang masuk';
+ end if;
+ return new;
+end;$function$;
+create trigger bf_fg_member before insert on erp.fg_lots for each row execute function erp.bf_guard_new_member_v1();
+create trigger bf_bs_member before insert on erp.bs_cases for each row execute function erp.bf_guard_new_member_v1();
+
 CREATE OR REPLACE FUNCTION erp.bf_validate_rates_v1(p_sku uuid,p_settings jsonb)
  RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
 AS $function$
@@ -258,7 +282,7 @@ $function$;
 CREATE OR REPLACE FUNCTION erp.bf_bom_for_lot_v1(p_lot uuid)
  RETURNS uuid LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
 AS $function$
-declare l erp.fg_lots%rowtype; vid uuid; pinned uuid; sid uuid; root uuid; bom uuid;
+declare l erp.fg_lots%rowtype; vid uuid; pinned uuid; sid uuid; root uuid; bom uuid; frozen_bom uuid;
 begin
  select * into l from erp.fg_lots where id=p_lot;
  vid:=erp.bf_version_at_v1(l.product_id,l.produced_at);
@@ -267,10 +291,19 @@ begin
  select identity_root_id into root from erp.products where id=l.product_id;
  select version_id into pinned from erp.bf_po_boms_v1 where po_id=l.po_id and sku_id=sid;
  if pinned is null then
-   -- A pre-adoption PO has already committed its old recipe. Never silently mix a new group recipe into that PO.
+   -- Rework can be the first financial use, before any GOOD lot. Its native commitment already pins a real SKU recipe.
+   select v.id into pinned from erp.po_accessory_bom_commitments c
+     join erp.bf_sku_members_v1 m on m.bom_version_id=c.bom_version_id join erp.bf_sku_versions_v1 v on v.id=m.version_id
+     where c.po_id=l.po_id and v.sku_id=sid order by c.committed_at,c.id limit 1;
+   if pinned is not null then insert into erp.bf_po_boms_v1 values(l.po_id,sid,pinned);end if;
+ end if;
+ if pinned is null then
+   select bom_version_id into bom from erp.bf_sku_members_v1 where version_id=vid and product_root=root;
+   -- Adoption may continue an existing PO only when every old commitment has the exact same economic recipe.
    if exists(select 1 from erp.po_accessory_bom_commitments c join erp.products p on p.id=c.product_id
-     join erp.bf_sku_members_v1 m on m.product_root=p.identity_root_id and m.version_id=vid where c.po_id=l.po_id) then
-     raise exception 'BF_PO_LEGACY_BOM: PO sudah memakai resep lama; selesaikan memakai komitmen lama sebelum adopsi SKU';end if;
+     join erp.bf_sku_members_v1 m on m.product_root=p.identity_root_id and m.version_id=vid
+     where c.po_id=l.po_id and erp.bf_recipe_basis_v1(c.bom_version_id) is distinct from erp.bf_recipe_basis_v1(bom)) then
+     raise exception 'BF_PO_LEGACY_BOM: resep PO lama berbeda; komitmen lama tidak boleh diganti diam-diam';end if;
    insert into erp.bf_po_boms_v1 values(l.po_id,sid,vid);pinned:=vid;
  end if;
  select bom_version_id into bom from erp.bf_sku_members_v1 where version_id=pinned and product_root=root;
@@ -278,10 +311,23 @@ begin
    if exists(select 1 from erp.bf_sku_members_v1 where version_id=pinned and product_root=root) then
      raise exception 'BF_BOM_UNCONFIGURED: tentukan resep SKU (termasuk tanpa aksesori bila benar) sebelum penggunaan biaya';
    end if;
-   raise exception 'BF_PO_NEW_MEMBER: ukuran baru tidak termasuk resep PO yang telah disepakati';
+   -- Adding a size must not force a new price for the other members of a PO already in progress.
+   select bom_version_id into frozen_bom from erp.bf_sku_members_v1 where version_id=pinned and bom_version_id is not null order by product_root limit 1;
+   select bom_version_id into bom from erp.bf_sku_members_v1 where version_id=vid and product_root=root;
+   if bom is null or erp.bf_recipe_basis_v1(bom) is distinct from erp.bf_recipe_basis_v1(frozen_bom) then
+     raise exception 'BF_PO_NEW_MEMBER: resep ukuran baru berbeda dari komitmen PO';end if;
  end if;
  return bom;
 end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.bf_recipe_basis_v1(p_bom uuid)
+ RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+ select case when p_bom is not null then coalesce(jsonb_agg(jsonb_build_object('category',category_id,'qty',qty_per_good_fg_base,
+   'method',hpp_method,'standard',case when hpp_method='BOM_STANDARD' then hpp_standard_rate end,
+   'unit',case when hpp_method='BOM_STANDARD' then hpp_uom_code end,'reimbursement',reimbursement_rate,'reimbursement_unit',reimbursement_uom_code)
+   order by category_id),'[]') end from erp.accessory_bom_items where bom_version_id=p_bom
+$function$;
 
 -- A wave can contain several ranges. Its reference chooses rates, never final FG identity.
 alter table erp.rework_component_lines add column bf_sku_version_id uuid references erp.bf_sku_versions_v1(id);
@@ -1150,7 +1196,7 @@ declare v_vendor uuid:=erp.bd_uuid_v1(p_delivery,'vendor_id',true);v_process uui
   v_total_qty integer:=0;v_charges jsonb:='[]'::jsonb;v_known numeric:=0;v_complete boolean:=true;v_units jsonb;v_dec05 jsonb;v_dec03 jsonb;
   v_versions jsonb:='{}'::jsonb;v_line jsonb;v_x jsonb;v_split numeric[];v_shares jsonb;i integer;v_rate numeric;v_scoped record;v_base numeric;
   v_pkg record;v_comp record;v_included uuid[];v_seen uuid[]:='{}';v_cov integer;v_amount numeric;v_lump numeric;v_min numeric;v_topup numeric;
-  v_status text;v_label text;v_kind text;bf_group uuid;bf_rate jsonb;
+  v_status text;v_label text;v_kind text;bf_group uuid;bf_rate jsonb;bf_ref uuid;bf_source uuid;
 begin
   select * into t from erp.bd_laundry_vendor_terms_v1 where vendor_id=v_vendor;
   v_mode:=coalesce(t.pricing_mode,'RATE');v_unit:=coalesce(t.pricing_unit,'PCS');
@@ -1184,6 +1230,7 @@ begin
       bf_rate:=null;
       if exists(select 1 from erp.bf_wave_skus_v1 where cutting_group_id=bf_group and size_id=v_sizeids[i]) then
         bf_rate:=erp.bf_laundry_rate_v1('PROCESS',v_process,v_vendor,bf_group,v_sizeids[i],v_at);
+        bf_ref:=v_process;bf_source:=(bf_rate->>'version_id')::uuid;
         v_rate:=(bf_rate->>'rate')::numeric;v_kind:='RATE';v_label:='Tarif bersama SKU';
       else
       select * into v_scoped from erp.bd_scoped_rate_at_v1(v_vendor,v_process,v_model,v_sizeids[i],v_color,v_at);
@@ -1195,9 +1242,10 @@ begin
           raise exception 'BD_SCOPED_RATE_MISSING: tidak ada tarif khusus untuk ukuran ini dan LAU-DEC05 menolak tarif dasar';end if;
         v_rate:=erp.bd_process_rate_at_v1(v_vendor,v_process,v_at);v_kind:='RATE';v_label:='Tarif dasar vendor/proses';
       end if;
+      bf_ref:=v_scoped.rate_id;bf_source:=v_scoped.rate_id;
       end if;
       v_amount:=round(v_qtys[i]*v_rate,2);
-      v_charges:=v_charges||jsonb_build_object('kind',v_kind,'ref_id',case when bf_rate is not null then v_process else v_scoped.rate_id end,'version_id',case when bf_rate is not null then (bf_rate->>'version_id')::uuid else v_scoped.rate_id end,'bf_sku_version_id',bf_rate->'sku_version_id','label',v_label,'covered_qty',v_qtys[i],
+      v_charges:=v_charges||jsonb_build_object('kind',v_kind,'ref_id',bf_ref,'version_id',bf_source,'bf_sku_version_id',bf_rate->'sku_version_id','label',v_label,'covered_qty',v_qtys[i],
         'rate_status','KNOWN','unit_rate',v_rate::text,'amount',v_amount::text,
         'shares',jsonb_build_array(jsonb_build_object('size_id',v_sizeids[i],'amount',v_amount::text)));
       v_known:=v_known+v_amount;
@@ -2589,6 +2637,23 @@ begin
   );
 end
 $function$;
+CREATE OR REPLACE FUNCTION erp.bd_priced_line_json_v1(p_line uuid)
+ RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select jsonb_build_object('delivery_line_id',p.delivery_line_id,'delivery_id',p.delivery_id,'mode',p.pricing_mode,'unit',p.pricing_unit,
+    'qty_sent',p.qty_sent,'total_known',p.total_known::numeric(18,2)::text,'total_complete',p.total_complete,'policy_versions',p.policy_versions,
+    'charges',coalesce((select jsonb_agg(jsonb_build_object('id',c.id,'line_no',c.line_no,'kind',c.kind,'ref_id',c.ref_id,'label',c.label||coalesce((select ' · SKU '||s.sku||' r'||v.revision from erp.bf_sku_versions_v1 v join erp.bf_skus_v1 s on s.id=v.sku_id where v.id=c.bf_sku_version_id),''),
+        'covered_qty',c.covered_qty,'rate_status',c.rate_status,'unit_rate',c.unit_rate::numeric(18,2)::text,'amount',c.amount::numeric(18,2)::text,
+        'included_components',c.included_components,'price_reason',c.price_reason,
+        'coverage',(select jsonb_agg(jsonb_build_object('size_id',s.size_id,'qty',sh.covered_qty) order by s.size_id)
+          from erp.bd_laundry_charge_shares_v1 sh join erp.laundry_delivery_batch_size_lines s on s.id=sh.delivery_batch_size_line_id
+          where sh.charge_line_id=c.id and sh.covered_qty>0)) order by c.line_no) from erp.bd_laundry_charge_lines_v1 c where c.delivery_line_id=p.delivery_line_id),'[]'::jsonb),
+    'sizes',coalesce((select jsonb_agg(jsonb_build_object('delivery_batch_size_line_id',e.delivery_batch_size_line_id,'size_id',s.size_id,
+        'qty_sent',e.qty_sent,'known_amount',e.known_amount::numeric(18,2)::text,'complete',e.complete) order by s.size_id)
+      from erp.bd_laundry_size_estimates_v1 e join erp.laundry_delivery_batch_size_lines s on s.id=e.delivery_batch_size_line_id
+      where e.delivery_line_id=p.delivery_line_id),'[]'::jsonb))
+  from erp.bd_laundry_priced_lines_v1 p where p.delivery_line_id=p_line
+$function$;
 CREATE OR REPLACE FUNCTION erp.prepare_rework_component_line()
  RETURNS trigger
  LANGUAGE plpgsql
@@ -2862,6 +2927,85 @@ select p.id,
        f.latest_at
 from po p join flags f on f.po_id=p.id
 order by p.po_number;
+$function$;
+CREATE OR REPLACE FUNCTION erp.resolve_rework_accessory_bom_v1(
+  p_bs_case_id uuid,p_basis_at timestamptz
+)
+returns uuid language plpgsql stable security definer set search_path=''
+as $function$
+declare
+  v_po uuid;
+  v_product uuid;
+  v_po_model uuid;
+  v_product_model uuid;
+  v_root uuid;
+  v_bom uuid;
+  v_distinct integer;bf_version uuid;bf_pinned uuid;bf_sku uuid;bf_frozen uuid;
+begin
+  select b.po_id,b.product_id,po.model_id,p.model_id,p.identity_root_id
+  into v_po,v_product,v_po_model,v_product_model,v_root
+  from erp.bs_cases b
+  left join erp.production_orders po on po.id=b.po_id
+  left join erp.products p on p.id=b.product_id
+  where b.id=p_bs_case_id;
+  if not found then raise exception 'BS case not found'; end if;
+  if v_po is null or v_product is null then return null; end if;
+  if p_basis_at is null then raise exception 'Accessory BOM basis_at is required'; end if;
+  if v_product_model is distinct from v_po_model then
+    raise exception 'BS product model does not match production order model';
+  end if;
+
+  select c.bom_version_id into v_bom
+  from erp.po_accessory_bom_commitments c
+  where c.po_id=v_po and c.product_id=v_product;
+  if v_bom is not null then return v_bom; end if;
+
+  select count(distinct c.bom_version_id) into v_distinct
+  from erp.po_accessory_bom_commitments c
+  join erp.products cp on cp.id=c.product_id
+  where c.po_id=v_po and cp.identity_root_id=v_root;
+  if coalesce(v_distinct,0)>1 then
+    raise exception 'PO has ambiguous accessory BOM commitments for this logical SKU';
+  end if;
+  if coalesce(v_distinct,0)=1 then
+    select c.bom_version_id into v_bom
+    from erp.po_accessory_bom_commitments c
+    join erp.products cp on cp.id=c.product_id
+    where c.po_id=v_po and cp.identity_root_id=v_root
+    order by c.committed_at,c.id limit 1;
+    return v_bom;
+  end if;
+
+  bf_version:=erp.bf_version_at_v1(v_product,p_basis_at);
+  if bf_version is not null then
+    select sku_id into bf_sku from erp.bf_sku_versions_v1 where id=bf_version;
+    select version_id into bf_pinned from erp.bf_po_boms_v1 where po_id=v_po and sku_id=bf_sku;
+    if bf_pinned is null then
+      select v.id into bf_pinned from erp.po_accessory_bom_commitments c
+        join erp.bf_sku_members_v1 m on m.bom_version_id=c.bom_version_id join erp.bf_sku_versions_v1 v on v.id=m.version_id
+        where c.po_id=v_po and v.sku_id=bf_sku order by c.committed_at,c.id limit 1;
+    end if;
+    select bom_version_id into v_bom from erp.bf_sku_members_v1 where version_id=coalesce(bf_pinned,bf_version) and product_root=v_root;
+    if v_bom is null and bf_pinned is not null then
+      select bom_version_id into bf_frozen from erp.bf_sku_members_v1 where version_id=bf_pinned and bom_version_id is not null order by product_root limit 1;
+      select bom_version_id into v_bom from erp.bf_sku_members_v1 where version_id=bf_version and product_root=v_root;
+      if erp.bf_recipe_basis_v1(v_bom) is distinct from erp.bf_recipe_basis_v1(bf_frozen) then raise exception 'BF_PO_NEW_MEMBER';end if;
+    end if;
+    if v_bom is null then raise exception 'BF_BOM_UNCONFIGURED';end if;
+    if exists(select 1 from erp.po_accessory_bom_commitments c join erp.products cp on cp.id=c.product_id
+      join erp.bf_sku_members_v1 m on m.product_root=cp.identity_root_id and m.version_id=coalesce(bf_pinned,bf_version)
+      where c.po_id=v_po and erp.bf_recipe_basis_v1(c.bom_version_id) is distinct from erp.bf_recipe_basis_v1(v_bom)) then raise exception 'BF_PO_LEGACY_BOM';end if;
+    return v_bom;
+  end if;
+
+  select abv.id into v_bom
+  from erp.accessory_bom_versions abv
+  where abv.product_id=v_root and abv.is_active
+    and abv.effective_from<=p_basis_at
+    and(abv.effective_to is null or abv.effective_to>p_basis_at)
+  order by abv.effective_from desc,abv.created_at desc,abv.id desc limit 1;
+  return v_bom;
+end
 $function$;
 CREATE OR REPLACE FUNCTION erp.bb_check_sales_import_row_v1(p_batch uuid,p_row uuid)
  RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO '' SET DateStyle TO 'ISO, YMD'
@@ -3527,7 +3671,7 @@ end $grants$;
 
 update erp.bf_rollback_v1 set payload=payload||jsonb_build_object('installed',(
  select jsonb_object_agg(p.oid::regprocedure::text,md5(pg_get_functiondef(p.oid))) from pg_proc p join pg_namespace n on n.oid=p.pronamespace
- where n.nspname||'.'||p.proname=any(array['erp.commit_accessory_bom_for_lot','erp.ensure_po_work_component_snapshots','erp.validate_work_completion','erp.guard_work_completion_posting_consistency','erp.seed_bs_case_component_baseline','erp.classify_bs_case_v2','erp.cp6_lot_work_cost_v2620c','erp.assert_new_stock_cutoff_coverage_v1','erp.bd_compute_pricing_v1','erp.bd_attach_delivery_pricing_v1','erp.bd_post_priced_delivery_v1','erp.save_laundry_qc_action_v1','erp.prepare_rework_component_line','erp.run_v263c_bs_rework_integrity_checks','erp.get_hpp_completeness','erp.save_initial_import_action_v1','erp.bb_check_sales_import_row_v1','erp.bb_apply_sales_imports_v1','erp.bc_check_import_row_v1','erp.bc_apply_imports_v1','erp.be_check_pocket_import_v1','erp.be_apply_pocket_imports_v1','erp.bb_check_rework_import_row_v1','erp.bf_version_at_v1','erp.bf_guard_economic_v1','erp.bf_legacy_basis_v1','erp.bf_save_groups_v1','erp.bf_validate_rates_v1','erp.bf_work_rate_v1','erp.bf_context_rate_v1','erp.bf_bom_for_lot_v1','erp.bf_bind_wave_v1','erp.bf_work_capacity_v1','erp.bf_snapshot_sku_v1','erp.bf_wave_revision_v1','erp.bf_group_sku_v1','erp.bf_ensure_work_v1','erp.bf_snapshot_matches_v1','erp.bf_assert_work_scope_v1','erp.bf_laundry_rate_v1','erp.bf_merge_charges_v1','erp.bf_package_charges_v1','erp.bf_complete_shares_v1','erp.bf_component_charge_v1','erp.bf_resolve_import_product_v1','erp.save_sku_action_v1','erp.get_sku_workspace_v1','erp.get_sku_hpp_v1','public.erp_save_sku_action_v1','public.erp_get_sku_workspace_v1','public.erp_get_sku_hpp_v1'])));
+ where n.nspname||'.'||p.proname=any(array['erp.commit_accessory_bom_for_lot','erp.ensure_po_work_component_snapshots','erp.validate_work_completion','erp.guard_work_completion_posting_consistency','erp.seed_bs_case_component_baseline','erp.classify_bs_case_v2','erp.cp6_lot_work_cost_v2620c','erp.assert_new_stock_cutoff_coverage_v1','erp.bd_priced_line_json_v1','erp.bd_compute_pricing_v1','erp.bd_attach_delivery_pricing_v1','erp.bd_post_priced_delivery_v1','erp.save_laundry_qc_action_v1','erp.prepare_rework_component_line','erp.run_v263c_bs_rework_integrity_checks','erp.get_hpp_completeness','erp.resolve_rework_accessory_bom_v1','erp.save_initial_import_action_v1','erp.bb_check_sales_import_row_v1','erp.bb_apply_sales_imports_v1','erp.bc_check_import_row_v1','erp.bc_apply_imports_v1','erp.be_check_pocket_import_v1','erp.be_apply_pocket_imports_v1','erp.bb_check_rework_import_row_v1','erp.bf_version_at_v1','erp.bf_guard_economic_v1','erp.bf_legacy_basis_v1','erp.bf_save_groups_v1','erp.bf_guard_new_member_v1','erp.bf_validate_rates_v1','erp.bf_work_rate_v1','erp.bf_context_rate_v1','erp.bf_bom_for_lot_v1','erp.bf_recipe_basis_v1','erp.bf_bind_wave_v1','erp.bf_work_capacity_v1','erp.bf_snapshot_sku_v1','erp.bf_wave_revision_v1','erp.bf_group_sku_v1','erp.bf_ensure_work_v1','erp.bf_snapshot_matches_v1','erp.bf_assert_work_scope_v1','erp.bf_laundry_rate_v1','erp.bf_merge_charges_v1','erp.bf_package_charges_v1','erp.bf_complete_shares_v1','erp.bf_component_charge_v1','erp.bf_resolve_import_product_v1','erp.save_sku_action_v1','erp.get_sku_workspace_v1','erp.get_sku_hpp_v1','public.erp_save_sku_action_v1','public.erp_get_sku_workspace_v1','public.erp_get_sku_hpp_v1'])));
 
 insert into erp.schema_migrations(version,description) values('v2.6.20bf','Commercial SKU ranges; physical-size lineage preserved');
 commit;

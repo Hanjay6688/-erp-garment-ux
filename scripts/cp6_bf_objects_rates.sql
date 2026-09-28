@@ -64,7 +64,7 @@ $function$;
 CREATE OR REPLACE FUNCTION erp.bf_bom_for_lot_v1(p_lot uuid)
  RETURNS uuid LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
 AS $function$
-declare l erp.fg_lots%rowtype; vid uuid; pinned uuid; sid uuid; root uuid; bom uuid;
+declare l erp.fg_lots%rowtype; vid uuid; pinned uuid; sid uuid; root uuid; bom uuid; frozen_bom uuid;
 begin
  select * into l from erp.fg_lots where id=p_lot;
  vid:=erp.bf_version_at_v1(l.product_id,l.produced_at);
@@ -73,10 +73,19 @@ begin
  select identity_root_id into root from erp.products where id=l.product_id;
  select version_id into pinned from erp.bf_po_boms_v1 where po_id=l.po_id and sku_id=sid;
  if pinned is null then
-   -- A pre-adoption PO has already committed its old recipe. Never silently mix a new group recipe into that PO.
+   -- Rework can be the first financial use, before any GOOD lot. Its native commitment already pins a real SKU recipe.
+   select v.id into pinned from erp.po_accessory_bom_commitments c
+     join erp.bf_sku_members_v1 m on m.bom_version_id=c.bom_version_id join erp.bf_sku_versions_v1 v on v.id=m.version_id
+     where c.po_id=l.po_id and v.sku_id=sid order by c.committed_at,c.id limit 1;
+   if pinned is not null then insert into erp.bf_po_boms_v1 values(l.po_id,sid,pinned);end if;
+ end if;
+ if pinned is null then
+   select bom_version_id into bom from erp.bf_sku_members_v1 where version_id=vid and product_root=root;
+   -- Adoption may continue an existing PO only when every old commitment has the exact same economic recipe.
    if exists(select 1 from erp.po_accessory_bom_commitments c join erp.products p on p.id=c.product_id
-     join erp.bf_sku_members_v1 m on m.product_root=p.identity_root_id and m.version_id=vid where c.po_id=l.po_id) then
-     raise exception 'BF_PO_LEGACY_BOM: PO sudah memakai resep lama; selesaikan memakai komitmen lama sebelum adopsi SKU';end if;
+     join erp.bf_sku_members_v1 m on m.product_root=p.identity_root_id and m.version_id=vid
+     where c.po_id=l.po_id and erp.bf_recipe_basis_v1(c.bom_version_id) is distinct from erp.bf_recipe_basis_v1(bom)) then
+     raise exception 'BF_PO_LEGACY_BOM: resep PO lama berbeda; komitmen lama tidak boleh diganti diam-diam';end if;
    insert into erp.bf_po_boms_v1 values(l.po_id,sid,vid);pinned:=vid;
  end if;
  select bom_version_id into bom from erp.bf_sku_members_v1 where version_id=pinned and product_root=root;
@@ -84,7 +93,20 @@ begin
    if exists(select 1 from erp.bf_sku_members_v1 where version_id=pinned and product_root=root) then
      raise exception 'BF_BOM_UNCONFIGURED: tentukan resep SKU (termasuk tanpa aksesori bila benar) sebelum penggunaan biaya';
    end if;
-   raise exception 'BF_PO_NEW_MEMBER: ukuran baru tidak termasuk resep PO yang telah disepakati';
+   -- Adding a size must not force a new price for the other members of a PO already in progress.
+   select bom_version_id into frozen_bom from erp.bf_sku_members_v1 where version_id=pinned and bom_version_id is not null order by product_root limit 1;
+   select bom_version_id into bom from erp.bf_sku_members_v1 where version_id=vid and product_root=root;
+   if bom is null or erp.bf_recipe_basis_v1(bom) is distinct from erp.bf_recipe_basis_v1(frozen_bom) then
+     raise exception 'BF_PO_NEW_MEMBER: resep ukuran baru berbeda dari komitmen PO';end if;
  end if;
  return bom;
 end;$function$;
+
+CREATE OR REPLACE FUNCTION erp.bf_recipe_basis_v1(p_bom uuid)
+ RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+ select case when p_bom is not null then coalesce(jsonb_agg(jsonb_build_object('category',category_id,'qty',qty_per_good_fg_base,
+   'method',hpp_method,'standard',case when hpp_method='BOM_STANDARD' then hpp_standard_rate end,
+   'unit',case when hpp_method='BOM_STANDARD' then hpp_uom_code end,'reimbursement',reimbursement_rate,'reimbursement_unit',reimbursement_uom_code)
+   order by category_id),'[]') end from erp.accessory_bom_items where bom_version_id=p_bom
+$function$;

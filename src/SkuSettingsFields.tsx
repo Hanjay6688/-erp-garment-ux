@@ -4,7 +4,7 @@ export default function SkuSettingsFields({ value, lookups, change }: { value: S
   return <>
     <label>Harga jual per PCS untuk seluruh ukuran<input inputMode="decimal" value={value.price ?? ''} placeholder="Belum ditentukan" onChange={e => patch({ price: e.target.value === '' ? null : e.target.value })}/></label>
     <h3>Resep aksesori per PCS bagus</h3><p>Biaya aksesori = jumlah resep × harga per satuan. Pilih rata-rata kategori dari stok, atau harga standar resep. Penggantian biaya mandor dicatat terpisah.</p>
-    <label>Status resep<select value={value.bom === null ? 'PENDING' : 'SET'} onChange={e => patch({ bom: e.target.value === 'PENDING' ? null : [] })}><option value="PENDING">Belum ditentukan</option><option value="SET">Sudah ditentukan</option></select></label>
+    <label>Status resep<select aria-label="Status resep" value={value.bom === null ? 'PENDING' : 'SET'} onChange={e => patch({ bom: e.target.value === 'PENDING' ? null : [] })}><option value="PENDING">Belum ditentukan</option><option value="SET">Sudah ditentukan</option></select></label>
     {value.bom !== null && <>{value.bom.length === 0 && <p>Tanpa aksesori: resep sudah ditentukan dengan 0 komponen.</p>}{value.bom.map((b, i) => {
       const category = lookups.accessories.find(a => a.id === b.category_id)
       const set = (p: Partial<typeof b>) => patch({ bom: value.bom!.map((x, j) => j === i ? { ...x, ...p } : x) })
