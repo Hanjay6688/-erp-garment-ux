@@ -1,5 +1,7 @@
 # Handoff penerimaan independen CP6/CP7 — 29 September 2026 WIB
 
+**Putusan akhir setelah verifikasi G04: CP6 CLOSED / diterima independen sesuai cakupan kontrak. R10 tetap OPEN di CP7; `production_go=false`.** Dasar master asli, hash, kandidat writer dokumentasi `10a8347`, dan acceptance R10 tersedia di [CLOSURE_R10_SCOPE.md](CLOSURE_R10_SCOPE.md). Byte produk/paket tetap sama dengan kandidat yang diuji di bawah.
+
 **Dua perbaikan diterima. Tidak ada tiket perbaikan produk baru dari retest ini.**
 
 Kandidat CP6: `fab23e77669f899594f983b41a6301c32246958b`, produk/paket `434b18215f57dd7a361ca621341488d3c31e9703`.
@@ -26,7 +28,7 @@ Cross-check log writer terpisah: CP6 **97/26/8/37** pada [36463334464](https://g
 
 ## Batas yang tetap ditulis
 
-- **R10:** sales UI masih simulasi. Native jual/retur lulus tidak menutup bukti UI terhubung. Ini batas cakupan yang sudah ada, bukan tiket bug konversi baru. Auditor tidak menetapkan sendiri bahwa batas ini dipindahkan ke CP7.
+- **R10 / AUD-G04: OPEN_CP7.** Sales UI masih simulasi. Native jual/retur lulus tidak menutup bukti UI terhubung. Master asli dengan hash yang cocok menempatkan full dummy sales flow pada CP7; pemetaan ini sudah diverifikasi dalam putusan akhir, sehingga R10 tidak menahan penutupan CP6. Requirement UI tetap wajib diselesaikan dan diuji di CP7.
 - **R03:** referensi pekerjaan berbeda untuk ukuran sama memakai wave fisik terpisah.
 - **R14:** bukti baru meliputi retur Grade B native dan laporan/inverse yang terkait; jangan mengklaim semua rute Grade B.
 - **CP7:** izin cangkang tetap berlaku. Integrasi nyata dan kandidat gabungan CP6/CP7 belum menerima acceptance; verifikasi kontrak dan akses yang berubah saat koneksi dibuat.

@@ -1,0 +1,128 @@
+{
+  "master_file": "ERP_V3_2_Master_Pulih_20260923.md",
+  "master_bytes": 681195,
+  "master_sha256": "f21ac70360915a1f1021b42a3918e862ca7d11cf88c1b90c5627b4490c69af07",
+  "verified_against": "docs/contracts/ERP_ADDENDUM_OWNER_DECISIONS_CP6_2026-09-25.md at 10a834712e515af86c6d8baa89bbe40cff9793e3, section 1 M",
+  "source_note": "Master asli didapat terpisah, seluruh byte dihitung SHA-256, dan klausul dibaca bersama konteksnya. Kutipan writer cocok dengan hasil baca auditor.",
+  "excerpts": [
+    {
+      "line": 1694,
+      "text": "| **Sesudah CP6 sah dan owner memberi perintah CP7** | Penyambungan alur lain sesuai kontrak CP7; A–D data/WIP/baseline/adaptive; E–F planner, UX32, Stok per-SKU, BR on-demand, Tanya AI V1; G seluruh consumer/full flow | Semua tampilan berbagi definisi/snapshot. Consumer BR/UX32 masuk sebelum CP7 G, bukan ditambahkan setelah mengklaim audit final CP7 lulus. |"
+    },
+    {
+      "line": 1699,
+      "text": "Untuk scope CP6 sendiri, belum boleh ada `POLICY_BLOCKED`, `INCOMPLETE`, atau kasus material yang belum selesai lalu diberi label lock. Item CP7/CP7.5/CP7C/CP8 tetap terbuka **pada tahapnya**, dengan requirement dan bukti yang harus dicapai; tidak perlu berpura-pura menyelesaikan seluruh roadmap untuk menerima CP6."
+    },
+    {
+      "line": 1704,
+      "text": "Status awal dan rincian expected/actual di arsip tidak diubah. Tabel ini adalah status penerus berdasarkan bukti yang tersedia, bukan 33 pengujian baru. `OPEN` berarti belum ada penutupan yang cukup untuk ID tersebut; bukan klaim bug baru. Kolom tahap tidak menghapus kewajiban."
+    },
+    {
+      "line": 1728,
+      "text": "| AUD-G04 | OPEN UI sales/payment/return/refund | CP7 full dummy sales; backend dependency tetap diuji saat CP6/CR memengaruhi nilai atau source. |"
+    },
+    {
+      "line": 6285,
+      "text": "### G04 — Penjualan, pembayaran, retur dan refund belum full UI→ledger terverifikasi"
+    },
+    {
+      "line": 6286,
+      "text": ""
+    },
+    {
+      "line": 6287,
+      "text": "**Jenis:** GAP · **Bukti:** SOURCE_GAP · **Prioritas:** Gate/roadmap sesuai domain"
+    },
+    {
+      "line": 6288,
+      "text": ""
+    },
+    {
+      "line": 6289,
+      "text": "**Cakupan:** Sales, AR, COGS. **Gate:** CP7 full dummy sales flow."
+    },
+    {
+      "line": 6290,
+      "text": ""
+    },
+    {
+      "line": 6291,
+      "text": "**Yang diperoleh:** SalesPages yang dibaca menggunakan catalog/data contoh. Bukti native sales/reservation/return ada dari kandidat terdahulu, tetapi itu tidak membuktikan setiap tombol UI connected."
+    },
+    {
+      "line": 6292,
+      "text": ""
+    },
+    {
+      "line": 6293,
+      "text": "**Seharusnya:** Sambungkan draft invoice harian dan posting, alokasi exact size, pembayaran, retur/refund dan inverse. Draft hanya mengurangi availability sekali; jangan menambah pengurangan reserved/ATP kedua."
+    },
+    {
+      "line": 6294,
+      "text": ""
+    },
+    {
+      "line": 6295,
+      "text": "**Dampak:** Fitur atau jaminan terkait belum dapat dinyatakan selesai. Ini tidak otomatis bug pada jalur backend yang sudah lulus."
+    },
+    {
+      "line": 6296,
+      "text": ""
+    },
+    {
+      "line": 6297,
+      "text": "**Lokasi sumber:**"
+    },
+    {
+      "line": 6298,
+      "text": "- [src/SalesPages.tsx](https://github.com/Hanjay6688/-erp-garment-ux/blob/8c1a22b8fba26c1ee820645cf5793f19353522b8/src/SalesPages.tsx) — 1–155; fixture imports and mode; inspect handlers before connection."
+    },
+    {
+      "line": 6299,
+      "text": "- [src/App.tsx](https://github.com/Hanjay6688/-erp-garment-ux/blob/8c1a22b8fba26c1ee820645cf5793f19353522b8/src/App.tsx) — 595–690; sales routing."
+    },
+    {
+      "line": 6300,
+      "text": ""
+    },
+    {
+      "line": 6301,
+      "text": "**Reproduksi / acceptance berikutnya:** Draft → edit → post → bayar sebagian → retur → refund → reversal. Uji data stale, double-click, respons hilang, role endpoint, dan rekonsiliasi per nota serta agregat."
+    },
+    {
+      "line": 6302,
+      "text": ""
+    },
+    {
+      "line": 6303,
+      "text": "**Arah perbaikan terbatas:** Selesaikan wiring/bukti pada checkpoint yang berwenang; gunakan source/kontrak existing, jangan fallback fixture atau mengambil kebijakan finansial sendiri."
+    },
+    {
+      "line": 6304,
+      "text": ""
+    },
+    {
+      "line": 6305,
+      "text": "**Batas klaim:** Audit ini tidak mengklaim modul tidak mempunyai kode sama sekali; label menyatakan batas source/bukti yang benar-benar ditemukan."
+    }
+  ],
+  "writer_commit": "10a834712e515af86c6d8baa89bbe40cff9793e3",
+  "previous_writer_commit": "fab23e77669f899594f983b41a6301c32246958b",
+  "product_commit": "434b18215f57dd7a361ca621341488d3c31e9703",
+  "documentation_only_diff": true,
+  "unchanged_paths": [
+    "src",
+    "supabase",
+    "scripts",
+    ".github"
+  ],
+  "cp6": "CLOSED_CONTRACT_SCOPE_ACCEPTED",
+  "r10": "OPEN_CP7_AUD_G04",
+  "production_go": false,
+  "runtime_rerun_this_scope_review": false,
+  "peer_pr32_scope_reconciled": true,
+  "peer_pr32_head": "55e041dcc36cf5fea01cc049e5442f077a31921f",
+  "peer_pr32_note": "PR body independently re-read after scope correction; R10 removed as CP6 HOLD reason, finding and PR32 audit scope closed. PR remains open/draft as an artifact carrier.",
+  "matrix_reconciliation": "C6-01 through C6-10: retained accepted evidence and targeted revision tests, with source provenance separated. No new full matrix execution in this documentation turn.",
+  "prior_combined_auditor_handoff": "9aa7c766ac0d23f403fc458ce513193716c6bd1e:AUDIT_WRITER_HANDOFF_CP6.md"
+}

@@ -1,5 +1,7 @@
 # Penerimaan independen revisi CP6 dan CP7 — 29 September 2026 WIB
 
+**Addendum putusan akhir:** master G04 telah diverifikasi dari byte aslinya. **CP6 CLOSED / diterima sesuai cakupan kontrak; R10 OPEN_CP7; `production_go=false`.** Lihat [CLOSURE_R10_SCOPE.md](CLOSURE_R10_SCOPE.md). Writer terbaru `10a8347` hanya mengubah dokumentasi; seluruh hasil runtime dan asal tes di bawah tetap pada kandidat produk yang sama.
+
 **Putusan: dua perbaikan diterima. CP6-FINAL-01 dan CP7-DELTA-01 CLOSED/PASS.** Tidak ada bug produk baru yang terbukti dalam pemeriksaan perubahan ini. Penerimaan berlaku pada kandidat di bawah; `production_go=false` tetap terpisah.
 
 | Kandidat | Commit |
@@ -74,7 +76,7 @@ Run writer yang awalnya gagal tetap tercatat. Koreksi menyamakan representasi wa
 - **Tidak ada pekerjaan perbaikan produk baru untuk writer dari retest ini.** Dua tiket di atas dapat ditutup dengan penerimaan independen ini. Temuan lama yang sudah lulus tidak dibuka ulang.
 - Hasil audit perubahan CP6 sebelumnya, 11 native + 1 Auth/HTTP, tetap menjadi bukti historis pada kandidat sebelumnya; tidak dihitung ulang sebagai tes putaran ini.
 - R03 tetap memakai wave fisik terpisah bila ukuran sama mempunyai dua referensi pekerjaan berbeda.
-- R10 tetap: layar penjualan merupakan simulasi. Lulus engine jual/retur bukan bukti posting penjualan melalui UI terhubung. Retest ini tidak memutuskan sendiri pemindahan ruang lingkup tersebut ke CP7.
+- R10 tetap OPEN: layar penjualan merupakan simulasi. Lulus engine jual/retur bukan bukti posting penjualan melalui UI terhubung. Addendum putusan akhir telah memverifikasi bahwa master G04 menempatkan pekerjaan UI tersebut pada CP7; tidak menjadi syarat tambahan penutupan CP6.
 - CP7 tetap cangkang sintetis yang diizinkan owner. Integrasi operasional dan otorisasi backend harus diverifikasi pada kandidat gabungan ketika koneksi dibuat.
 - Penerimaan dua perbaikan ini menyelesaikan blocker yang diuji, bukan pernyataan seluruh aplikasi siap produksi. Tidak ada merge atau deployment dari auditor; `production_go=false`.
 
