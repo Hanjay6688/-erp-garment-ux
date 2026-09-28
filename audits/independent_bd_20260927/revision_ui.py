@@ -90,12 +90,22 @@ def package_extras_browser():
 def free_master():
     b=B;b.select('Vendor harga laundry',b.FIX['vendor']);b.button('Harga vendor');b.wait_text('AUD-UI-CREATED')
     comp=b.sql("select id::text from erp.bd_laundry_components_v1 where vendor_id=%s and component_code='AUD-UI-CREATED'",(b.FIX['vendor'],),one=True)
-    b.select('Komponen harga',comp);responses=[]
+    responses=[]
     for status,day in [('FREE','22'),('WAIVED','23')]:
-        b.fill('Alasan','Independent explicit '+status+' agreement from actual screen');native_datetime('Berlaku sejak (WIB)','2026-09-'+day+'T08:00');b.select('Status harga komponen',status);b.button('Simpan versi harga komponen')
-        b.ab('wait','--fn',"!Array.from(document.querySelectorAll('button')).some(e=>e.textContent==='Simpan versi harga komponen'&&e.disabled)")
+        # Successful save remounts Master and resets its fields. Its disabled
+        # empty form is not a pending request; observe actual HTTP + table row.
+        reason='Independent explicit '+status+' agreement from actual screen'
+        b.select('Komponen harga',comp);b.fill('Alasan',reason);native_datetime('Berlaku sejak (WIB)','2026-09-'+day+'T08:00');b.select('Status harga komponen',status);b.button('Simpan versi harga komponen')
+        import time
+        until=time.monotonic()+10
+        def saves():
+            return [e for e in b.HTTP_EVENTS if e.get('payload',{}).get('p_action')=='SAVE_COMPONENT_RATE' and e.get('payload',{}).get('p_payload',{}).get('reason')==reason]
+        while not saves() and time.monotonic()<until:time.sleep(.1)
+        saved=saves();assert len(saved)==1 and saved[0]['http_status']==200,saved
+        assert saved[0]['payload']['p_payload']['component_id']==comp and saved[0]['payload']['p_payload']['rate_status']==status and D(saved[0]['payload']['p_payload']['rate_per_pcs'])==0,saved
+        b.ab('wait','--fn',"Array.from(document.querySelectorAll('tr')).some(e=>e.textContent.includes('AUD-UI-CREATED')&&e.textContent.includes("+json.dumps(reason)+"))")
         rows=b.sql('select rate_status,rate_per_pcs,reason from erp.bd_laundry_component_rates_v1 where component_id=%s order by effective_from',(comp,))
-        assert rows[-1][0]==status and D(rows[-1][1])==D(0) and rows[-1][2]=='Independent explicit '+status+' agreement from actual screen',rows
+        assert rows[-1][0]==status and D(rows[-1][1])==D(0) and rows[-1][2]==reason,rows
         responses.append(rows[-1])
     b.snap('revision-free-waived-configured-in-browser')
     return {'actual_UI_versions':responses,'explicit_zero_distinct_from_unknown':True}
