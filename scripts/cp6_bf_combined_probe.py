@@ -8,7 +8,6 @@ import json
 import uuid
 from datetime import timedelta
 import cp6_bf_probe as bf
-import cp6_av_probe as avp
 
 b, one = bf.b, bf.one
 prod, base = b.chain.production, b.chain.base
@@ -231,15 +230,19 @@ def unknown_bs_scope(cur,today):
     payload=dict(distribution_batch_id=f['batch'],vendor_id=f['vendor'],wash_process_id=f['process'],target_dyeing_color='BS-SCOPE',physical_at=f['when'](11).isoformat(),reason='BS before final product identity',lines=[dict(size_id=s,qty_sent_pcs=q) for s,q in zip(f['size_ids'],f['qtys'])])
     sent=b.bd(cur,'POST_PRICED_DELIVERY',dict(delivery=payload,expected_version=str(base.group_version(cur,f['group'])),pricing={}))
     ds=dict(cur.execute('select s.size_id::text,s.id::text from erp.laundry_delivery_batch_size_lines s join erp.laundry_delivery_lines l on l.id=s.delivery_line_id where l.delivery_id=%s',(sent['delivery_id'],)).fetchall())
-    b.chain.laundry_action(cur,'POST_RECEIPT',dict(delivery_id=sent['delivery_id'],wash_process_id=f['process'],physical_at=f['when'](12).isoformat(),reason='Two BS pieces with final SKU not identified',lines=[dict(delivery_batch_size_line_id=ds[s],qty_good_received=q-(2 if i==1 else 0),qty_bs_laundry=2 if i==1 else 0,bs_product_id=None) for i,(s,q) in enumerate(zip(f['size_ids'],f['qtys']))]),base.delivery_version(cur,sent['delivery_id']))
-    bs=one(cur,"select id::text from erp.bs_cases where po_id=%s and status='OPEN'",f['po'])
+    receipt=dict(delivery_id=sent['delivery_id'],wash_process_id=f['process'],physical_at=f['when'](12).isoformat(),reason='Two BS pieces with physical source not identified',lines=[dict(delivery_batch_size_line_id=ds[s],qty_good_received=q-(2 if i==1 else 0),qty_bs_laundry=2 if i==1 else 0,bs_product_id=None) for i,(s,q) in enumerate(zip(f['size_ids'],f['qtys']))])
     before=books(cur)
-    result,error=b.chain.peer.attempt(cur,lambda:b.chain.bs_action(cur,'CLASSIFY_BS',dict(bs_case_id=bs,cause_source='UNKNOWN',components=[dict(work_component_id=prod.COMPONENT,completed_before_bs_qty=2)],change_reason='Do not guess first SKU on multi-SKU wave'),b.chain.version(cur,'bs_cases',bs)))
+    refused=b.refused(cur,lambda:b.chain.laundry_action(cur,'POST_RECEIPT',receipt,base.delivery_version(cur,sent['delivery_id'])),'bind every Laundry BS to a product')
     b.api.admin(cur)
-    return b.verdict(dict(unknown_product=one(cur,'select product_id is null from erp.bs_cases where id=%s',bs),
-        classification_refused=error is not None,
-        no_guessed_entitlement=one(cur,'select count(*) from erp.bs_case_components where bs_case_id=%s',bs)==0,
-        money_unchanged=books(cur)==before,no_fg=one(cur,'select count(*) from erp.fg_lots where po_id=%s',f['po'])==0),refusal=error,result=result)
+    checks=dict(unidentified_receipt_refused=refused['ok'],no_partial_receipt=one(cur,'select count(*) from erp.laundry_receipts where delivery_id=%s',sent['delivery_id'])==0,
+        no_guessed_entitlement=one(cur,'select count(*) from erp.bs_cases where po_id=%s',f['po'])==0,money_unchanged=books(cur)==before)
+    receipt['lines'][1]['bs_product_id']=f['roots'][1]
+    b.chain.laundry_action(cur,'POST_RECEIPT',receipt,base.delivery_version(cur,sent['delivery_id']))
+    bs=one(cur,"select id::text from erp.bs_cases where po_id=%s and status='OPEN'",f['po'])
+    b.chain.bs_action(cur,'CLASSIFY_BS',dict(bs_case_id=bs,cause_source='UNKNOWN',components=[dict(work_component_id=prod.COMPONENT,completed_before_bs_qty=2)],change_reason='Physical size32 identified explicitly'),b.chain.version(cur,'bs_cases',bs))
+    checks['identified_scope']=one(cur,'select po_component_snapshot_id::text from erp.bs_case_components where bs_case_id=%s',bs)==f['snapshots'][f['a']['id']]
+    checks['no_fg']=one(cur,'select count(*) from erp.fg_lots where po_id=%s',f['po'])==0
+    return b.verdict(checks,refusal=refused)
 
 
 def commercial_selectors(cur,today):
@@ -291,7 +294,11 @@ def historical_import_identity(cur,today):
     aggregate=b.refused(cur,lambda:resolve(product_sku=f['a']['sku']),'SIZE_ALLOCATION_REQUIRED')
     # A valid public physical successor creates a second historical identity of
     # the same root/size. It must remain ambiguous until product_id is supplied.
-    successor=avp.edit(cur,f['roots'][3],f['when'](14));b.api.admin(cur)
+    physical=cur.execute('select id,sku,model_id,brand_id,color_name,size_id from erp.products where id=%s',(f['roots'][3],)).fetchone()
+    prod.owner(cur)
+    successor=cur.execute('select erp.edit_product_identity_effective(%s,%s,%s,%s,%s,%s,%s,%s,%s)',
+        (*physical,'Combined corrected product name',f['when'](14),'Historical identity with unchanged construction')).fetchone()[0]
+    b.api.admin(cur)
     current_id=one(cur,'select id::text from erp.products where supersedes_product_id=%s',f['roots'][3])
     cur.execute('update erp.migration_batches set cutover_at=%s where id=%s',(f['when'](15),batch))
     ambiguous=b.refused(cur,lambda:resolve(product_sku=f['a']['sku'],size_code=size),'SIZE_ALLOCATION_REQUIRED')
@@ -399,6 +406,19 @@ def partial_attempts_credit(cur,today):
     too_much=b.refused(cur,lambda:b.bd(cur,'APPLY_CLAIM_CREDIT',dict(credit,amount='0.01')),'BD_CLAIM_CREDIT_EXCEEDS_AVAILABLE')
     applied=b.D(b.ap(cur,f['vendor']));b.bd(cur,'REVERSE_VENDOR_SETTLEMENT',dict(target_kind='VENDOR_INVOICE',settlement_id=str(key),reason='Return claim credit to available balance'))
     screen=b.d12_screen(cur,f['vendor'])
+    # The returned BS piece gets two warranty rewash attempts: first still BS,
+    # second physically GOOD. Ordinary LAUNDRY rework has no new vendor fee;
+    # paid redye is a separate service. The same BS balance must not be doubled.
+    bs=one(cur,"select id::text from erp.bs_cases where po_id=%s and product_id=%s and status='OPEN'",f['po'],f['roots'][1])
+    b.chain.bs_action(cur,'CLASSIFY_BS',dict(bs_case_id=bs,cause_source='UNKNOWN',components=[dict(work_component_id=prod.COMPONENT,completed_before_bs_qty=1)],change_reason='One returned BS piece, original work earned'),b.chain.version(cur,'bs_cases',bs))
+    bom=one(cur,'select erp.resolve_rework_accessory_bom_v1(%s,%s)::text',bs,f['when'](17))
+    money_before=books(cur);repair_lot=None
+    for hour,good in ((17,0),(20,1)):
+        made=b.chain.bs_action(cur,'SAVE_REWORK',dict(rework_number='BFC-FREE-'+uuid.uuid4().hex[:10],bs_case_id=bs,destination_type='LAUNDRY',contractor_id=None,vendor_id=f['vendor'],qty_sent=1,physical_sent_at=f['when'](hour).isoformat(),status='IN_PROGRESS',return_fg_location_id=base.LOCATION,accessory_bom_version_id=bom,accessory_bom_item_ids=[],components=[],change_reason='Warranty rewash of the same BS piece'))
+        rid=made['result']['rework_order_id']
+        done=b.chain.bs_action(cur,'COMPLETE_REWORK',dict(rework_order_id=rid,qty_good=good,qty_bs=1-good,completed_at=f['when'](hour+1).isoformat(),return_fg_location_id=base.LOCATION,change_reason='Physical result of this warranty attempt'),b.chain.version(cur,'rework_orders',rid))
+        if good:repair_lot=done['result']['good_fg_lot_id']
+    money_after=books(cur)
     return b.verdict(dict(package_once=state['known']=='123.78' and state['charges']==2 and duplicate['ok'],
         exact_retry_sources=one(cur,'select count(*) from erp.laundry_failed_wash_batch_size_lines where size_id=%s and qty_attempted_pcs=2',f['size_ids'][1])==2,
         physical_stock=[stock(cur,l) for l in ls]==[5,6,3,4],
@@ -408,5 +428,7 @@ def partial_attempts_credit(cur,today):
         claim_lowers_ap_once=ap_before-settled==10 and applied==settled and b.D(b.ap(cur,f['vendor']))==settled,
         credit_replay=replay.get('replayed') is True,credit_cannot_double_spend=too_much['ok'],
         reversed_credit_available=screen['ledger']['credit_available']=='10.00' and screen['ledger']['matches'] is True,
+        warranty_one_physical_recovery=repair_lot is not None and stock(cur,repair_lot)==1 and one(cur,'select product_id::text from erp.fg_lots where id=%s',repair_lot)==f['roots'][1],
+        warranty_not_paid_redye=one(cur,'select erp.be_redye_po_cost_v1(%s)',f['po'])==0 and sum(money_after.values())==sum(money_before.values()),
         truth=b.truth_quiet(truth,b.all_truth(cur))),lot_before=list(map(str,before)),lot_after=list(map(str,after)),
         ap_before=str(ap_before),ap_after=str(settled))

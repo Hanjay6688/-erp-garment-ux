@@ -168,8 +168,11 @@ def run(mode):
             # Browser mode: the unchanged AU browser flow on the installed combined candidate, then cleanup. The status is
             # the flow's own result: 10 cases PASS and the candidate verified again afterwards.
             installed=len(report['stages'])==len(stages) and all(s['status']=='PASS' for s in report['stages'])
-            report['browser']=browser.run(OUT/'T3_BROWSER.json') if installed else 'NOT_RUN'
+            # BF fixtures use isolated copies of the pristine installed package.
+            # AU seeds its own masters and native fixture schema grant on the
+            # base clone, so run AU afterwards instead of copying that fixture.
             report['writer_runtime']=writer_runtime(True) if installed else dict(status='NOT_RUN')
+            report['browser']=browser.run(OUT/'T3_BROWSER.json') if installed else 'NOT_RUN'
             flow=report['browser'].get('status') if isinstance(report['browser'],dict) else None
             report['status']='BROWSER_PASS' if flow=='PASS' else ('REFUSED' if not installed else 'BROWSER_'+str(flow))
         else:
