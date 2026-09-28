@@ -5,7 +5,15 @@ pending kontra bon, relevant PR30 findings, and same-supplier return credit fami
 Stop writing and inform Hansen if another writer pushes. Unpushed work in another
 chat cannot be observed. CP6 HOLD; audit_complete=false; production_go=false.
 
-## Latest continuation — combined flows and the BF release package
+## Latest continuation — two independent auditor handoffs
+
+The [conversion-history and CP7 handoff](cp6-conversion-history-writer-handoff-20260928.md)
+records the subsequent conversion history guard, unchanged independent probes,
+nonempty Grade B case, renewed package/rollback evidence, and CP7-DELTA-01 fix.
+The CP7 shell is owner-authorized; operational integration remains closed.
+The prior results below retain their original scope and source revisions.
+
+## Previous continuation — combined flows and the BF release package
 
 The work after the checkpoint below is recorded in the
 [combined-flow and BF package handoff](cp6-combined-release-writer-handoff-20260928.md)

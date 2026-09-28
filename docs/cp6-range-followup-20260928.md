@@ -1,6 +1,13 @@
 # Pemeriksaan lanjutan range SKU — 28 September 2026
 
-Status: **CP6 HOLD; production_go=false; audit_complete=false; CP7 belum boleh mulai.**
+Status: **CP6 HOLD; production_go=false; audit_complete=false. Cangkang CP7
+diizinkan owner; integrasi operasional belum dibuka.**
+
+**Tindak lanjut dua auditor:** lihat [handoff riwayat konversi dan CP7](cp6-conversion-history-writer-handoff-20260928.md).
+Penjagaan BF kini mencakup identitas konversi yang sudah tercatat, dengan
+perpindahan range setelah transaksi tetap diperbolehkan. Temuan CP7-DELTA-01
+ditangani terpisah pada PR #31. Hasil lama di bawah tetap menjadi riwayat
+pengujian dalam lingkupnya.
 
 **Pembaruan takeover 28 September:** koreksi sumber tarif R16, rincian laundry
 kosong sampai kontra bon, kredit lintas tagihan dan PR30 sudah dilanjutkan dengan
@@ -24,7 +31,7 @@ bawah merekam checkpoint asal; tidak menggantikan hasil kelanjutan tersebut.
 | R11 | Jual 4 PCS ukuran 34, pindah range, biaya susulan +160, retur satu lot asal, pembalikan biaya lulus untuk harga awal dikenal dan UNKNOWN. |
 | R12 | Dua versi fisik nyata dengan konstruksi sama diuji; alias historis dan product_id eksplisit menjaga sumber. Nama berubah saja bukan successor fisik. |
 | R13 | Paket+extra parsial, dua attempt berbayar, 18 GOOD/1 BS/1 hilang, invoice/koreksi/klaim serta dua rewash garansi lulus dalam satu kasus gabungan. |
-| R14 | Dua lokasi, ukuran nol FG, biaya pending/kontra bon/inverse lulus. Grade B hanya filter kosong; stok multi-grade berisi belum diklaim. |
+| R14 | Dua lokasi, ukuran nol FG, biaya pending/kontra bon/inverse lulus. Tambahan follow-up membuktikan retur Grade B berisi setelah pindah range: 18 A + 1 B = 19 PCS, nilai B 42.00, lot asal, pemisahan nilai dan inverse. Ini belum membuktikan semua jalur Grade B. |
 | R15 | Paket 30 berkas BF sudah terpasang, pins deterministik dan restore lulus. Rollback 147 pemeriksaan lulus. Status runtime akhir ada di handoff; CP6 independen tetap terpisah. |
 | R16/PR30 | Tetap mengikuti bukti sumber vendor, stale binding sebelum jasa pertama, dan workspace historis pada kelanjutan writer; tidak menghidupkan tarif laundry per SKU/ukuran. |
 
