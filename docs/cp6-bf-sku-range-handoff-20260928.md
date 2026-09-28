@@ -7,7 +7,9 @@ Pembaruan setelah audit independen `6739a2f`: lihat [handoff SKU-01 / RANGE-02](
 
 ## Aturan owner yang dipertahankan
 
-SKU adalah identitas komersial bersama. Harga jual, resep aksesori, dan pengaturan tarif jasa ditulis sekali per SKU. Produk fisik, stok, lot, penerima jasa, allocation penjualan, retur, dan sumber biaya tetap per ukuran. SKU khusus27 terpisah; produksi hanya32 tetap memakai SKU/rate range asal. Satu wave boleh memuat lebih dari satu SKU. Referensi tarif sebelum QC tidak menetapkan identitas FG final.
+SKU adalah identitas komersial bersama. Harga jual, resep aksesori, dan pengaturan tarif pekerjaan jahit ditulis sekali per SKU. **Laundry mengikuti tarif vendor menurut proses/paket/komponen yang dipilih; SKU final tidak wajib sebelum laundry.** Produk fisik, stok, lot, penerima jasa, allocation penjualan, retur, dan sumber biaya tetap per ukuran. SKU khusus27 terpisah; produksi hanya32 tetap memakai SKU/rate jahit range asal. Satu wave boleh memuat lebih dari satu SKU. Referensi pekerjaan sebelum QC tidak menetapkan identitas FG final.
+
+Penegasan owner28September14:59WIB mengoreksi perluasan aturan jasa oleh writer menjadi harga laundry wajib perSKU. LAU-DEC05 sebelumnya sudah diputuskan tidak diaktifkan. Implementasi/oracle overrideSKU yang tercatat pada bukti lama tetap menjadi fakta historis pengujian, tetapi bukan bukti kesesuaian aturan laundry. Lihat koreksi R04/R05 serta R16 pada [laporan lanjutan](cp6-range-followup-20260928.md).
 
 Perubahan31–33 menjadi31–34 membuat versi keanggotaan bertanggal secara atomik pada kedua kelompok. Tidak mengubah identitas fisik, memindah ledger lama, mengulang reservasi, atau menulis ulang transaksi posted. Price/BOM null berarti belum dikonfigurasi; BOM kosong berarti keputusan tanpa aksesori.
 
@@ -18,7 +20,7 @@ Perubahan31–33 menjadi31–34 membuat versi keanggotaan bertanggal secara atom
 | Master komersial | `bf_skus_v1`, versi bertanggal, anggota physical root, satu writer lock dan expected revision | Harga/BOM lama, konflik adopsi, perubahan anggota, request replay, hak keuangan |
 | Harga/resep | Satu perubahan grup menghasilkan child version untuk setiap ukuran | Consumer lama tetap memakai exact root; tulis per ukuran diblokir; old posted history tetap |
 | PO dan jasa jahit | Snapshot PO + komponen + versi SKU; kapasitas dan biaya dipisah per SKU dalam wave | Work completion, BS entitlement, rework, sumber HPP; tidak menggabungkan semua ukuran satu PO secara membabi buta |
-| Laundry | PROCESS/COMPONENT/PACKAGE dengan override SKU atau dasar vendor, provenance disimpan | Coverage actual PCS/size, FREE/WAIVED, extra paket, receipt allocation, invoice variance dan HPP |
+| Laundry | Kode BF saat ini mempunyai overrideSKU sebelum dasar vendor; **prioritas ini perlu dikoreksi menurut aturan owner**, lihat R16 | Coverage actual PCS/size, FREE/WAIVED vendor, extra paket, receipt allocation, invoice variance dan HPP; bukti lama overrideSKU tidak cukup sebagai acceptance bisnis |
 | Aksesori | Resep SKU dipakai per actual GOOD PCS; komitmen PO tetap dikunci | Rework memilih item actual, kompatibilitas resep PO legacy, anggota baru tidak mengganti resep PO lama |
 | Ringkasan HPP | Nilai sisa lot / PCS sisa semua anggota SKU pada tanggal laporan | Filter lokasi/grade/tanggal konsisten, drill-down physical size/lot, status provisional; FIFO/COGS tidak diganti |
 | UI master/HPP | Halaman connected, preflight konflik, transfer kelompok, pagination, permission masking, mutation recovery | Mobile, stale reads, replay sesudah izin dicabut, SKU tanpa economics |
@@ -57,7 +59,7 @@ Dokumen asli dipertahankan di `docs/cp6-sku-range-audit-delta-writer-handoff-202
 
 Belum audit data bisnis live; belum mengukur jumlah SKU lama yang konflik. HP fisik belum diuji. Halaman sales masih simulasi existing; perubahan helper tidak membuatnya menjadi posting connected. BF masih family development, belum paket release yang diterapkan. Setiap INCOMPLETE/FAIL wajib tetap tampak dalam evidence. Cost source work/laundry dua SKU dalam satu wave dan rework impor exact source telah PASS. Pengujian ini bukan bukti seluruh kombinasi recipe pin PO legacy, penambahan anggota pada PO yang sedang berjalan, dan rework bertarif SKU; kombinasi itu tetap perlu perluasan audit sebelum klaim BF menyeluruh.
 
-Jalur celup ulang BE memiliki service attempt dan price source vendor/proses tersendiri. Jangan menganggap pengujian laundry normal sudah membuktikan override SKU untuk celup ulang; pemetaan sumber SKU/target perubahan identitas perlu ditelusuri tersendiri.
+Jalur celup ulang BE memiliki service attempt dan price source vendor/proses tersendiri. Sumber vendor bukan kekurangan dan tidak perlu diganti menjadi hargaSKU. Pengujian laundry normal tidak otomatis membuktikan seluruh biaya attempt, asal barang, dan perubahan identitas hasil celup ulang.
 
 ## Lokasi implementasi
 

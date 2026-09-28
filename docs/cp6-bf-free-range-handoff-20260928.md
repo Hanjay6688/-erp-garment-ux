@@ -3,6 +3,8 @@
 **CP6 HOLD.** `production_go=false`, `audit_complete=false`, `release_evidence=false`.
 Writer menyiapkan patch dan bukti retest; auditor/owner tetap menentukan penutupan independen. Tidak ada deploy, merge main, atau tulisan ke production/UAT/legacy.
 
+**Koreksi dasar bisnis, 28 September 2026 14:59 WIB:** tarif laundry berasal dari vendor/proses/paket/komponen yang dipilih; SKU final opsional dan biasanya baru muncul saat finishing. Ini aturan lama LAU-DEC05, ditegaskan ulang owner. Sebagian kasus di bawah memakai tarif master SKU sebagai oracle: PASS teknisnya tetap tercatat, tetapi **bukan bukti bahwa sumber tarif laundry sesuai aturan owner**. Jangan memakai angka125 untuk menutup kekurangan ini. Alasan R04/R05 yang mewajibkan tarif SKU telah ditarik; prioritas override BF perlu ditangani sebagai R16 pada [laporan yang dikoreksi](cp6-range-followup-20260928.md). Tidak ada kode produk atau snapshot posted yang diubah oleh koreksi laporan ini.
+
 **Hasil akhir writer untuk cakupan terdaftar: PASS.** Kode produk `fb8fb11` mendapat bukti gabungan **67 native DB +22 race +9 real HTTP +27 kasus browser unik =125 kasus PASS**. Dua browser retest berada pada `9e04af4`, yang hanya mengubah pengujian/bukti. Ini hasil gabungan pada produk identik, bukan satu run berisi125 kasus dan bukan seluruh variasi bisnis sudah selesai.
 
 ## Kandidat dan perubahan
@@ -55,6 +57,6 @@ Untuk mengulang seluruh regresi, gunakan `cp6_bf_free_modes.py` bersama `cp6_bf_
 
 Audit independen ulangi SKU-01 pada kandidat gabungan, termasuk empat tahap sebelumnya BLOCKED (work/ship/receive/QC) memakai prasyarat mereka, penolakan invalid, izin/replay, browser dan race. Tambahkan RANGE-02 potong dengan drawing berulang, bukan hanya satu slot per ukuran.
 
-Temuan dan potensi tambahan berikut terpetakan dalam [pemeriksaan range lanjutan](cp6-range-followup-20260928.md): batas duaSKU berukuran sama dalam satu wave; referensiSKU opsional/fallback; celupulang belum memakai resolverSKU; PO sedangjalan dan anggota34; perpindahan range saatBS/rework; kodeSKU komersial versus produkfisik; penjualan connected; retur lintasrange; impor versiidentitas; paket/extra/rewash; HPP lintastanggal/lokasi.
+Temuan dan potensi tambahan berikut terpetakan dalam [pemeriksaan range lanjutan](cp6-range-followup-20260928.md): batas dua referensi pekerjaan berukuran sama dalam satu wave; prioritas tarifSKU yang keliru terhadap aturan vendor (R16); PO sedangjalan dan anggota34; perpindahan range saatBS/rework; kodeSKU komersial versus produkfisik; penjualan connected; retur lintasrange; impor versiidentitas; paket/extra/rewash; HPP lintastanggal/lokasi. Laundry tanpa SKU dan celupulang memakai tarif vendor tidak lagi diklasifikasikan sebagai bug sumber tarif.
 
 **Empat batas owner tetap terbuka:** penutupan independen alur gratis; seluruh variasi rework/range; paket rilis kandidat terbaru; last check CP6. Hasil writer terbatas tidak memberi izin CP7 dan tidak membuktikan data bisnis live sudah aman.
