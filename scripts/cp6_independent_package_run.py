@@ -15,7 +15,10 @@ def independent_runtime(browser_mode=False):
     import cp6_bf_probe as bf
     import cp6_auditor_runner as runner
     import cp6_independent_final_probe as probe
-    group=runner.strict_group('INDEPENDENT_CP6_FINAL',probe.cases,bf.verified)
+    import cp6_independent_conversion_edges as edge
+    def expanded_cases(cur,today):
+        return probe.cases(cur,today)+edge.cases(cur,today)
+    group=runner.strict_group('INDEPENDENT_CP6_FINAL',expanded_cases,bf.verified)
     return dict(label='INDEPENDENT_CP6_FINAL',status=group['status'],independent_acceptance=False,
         groups={'native':{k:group.get(k) for k in ('status','counts','database_remaining','error','cleanup')}})
 
