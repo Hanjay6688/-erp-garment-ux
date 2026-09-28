@@ -1,7 +1,30 @@
 """Independent actual browser revision probes; no mocked network or product fixes."""
-import json
+import json,re
 from decimal import Decimal as D
 B=None
+
+def native_datetime(label,value,who='owner'):
+    b=B;selector='input[aria-label='+json.dumps(label)+']'
+    b.ab('wait',selector,who=who)
+    raw=b.ab('get','cdp-url',who=who)
+    endpoints=re.findall(r'ws://(?:127\.0\.0\.1|localhost):\d+/[^\s"\x27]+',raw)
+    assert len(endpoints)==1,{'cdp_endpoints':len(endpoints)}
+    worker=r'''
+import {pathToFileURL} from 'node:url';
+const {chromium}=await import(pathToFileURL(process.env.BD_PLAYWRIGHT_CORE+'/index.mjs').href);
+const [endpoint, selector, value]=process.argv.slice(1);
+const browser=await chromium.connectOverCDP(endpoint);
+try {
+ const pages=browser.contexts().flatMap(c=>c.pages()).filter(p=>p.url().startsWith('http://127.0.0.1:4176/'));
+ if(pages.length!==1)throw new Error('Expected exactly one real app page: '+pages.length);
+ const locator=pages[0].locator(selector);await locator.fill(value);await locator.press('Tab');
+ console.log(JSON.stringify({input_value:await locator.inputValue(),adapter:'playwright-native-locator-fill'}));
+} finally {await browser.close();}
+'''
+    r=b.run(['node','--input-type=module','-e',worker,endpoints[0],selector,value],timeout=45)
+    out=json.loads(r.stdout);assert out['input_value']==value,out
+    b.EVENTS.append({'native_input':out,'selector':selector,'session':who})
+
 
 def field(label):return B.evaluate('document.querySelector('+json.dumps('[aria-label='+json.dumps(label)+']')+').value')
 def options():return B.evaluate('Array.from(document.querySelector(\'select[aria-label="Sumber baris 1"]\').options).map(x=>x.value)')
@@ -47,11 +70,13 @@ def package_extras_browser():
     b.cmd('SET_POLICY',{'policy_key':'LAU-DEC03','operation':'SET','expected_version':policy['version'],'value':{'discount':'ALLOWED','extra':'ALLOWED','rounding':'LAST_LINE'},'reason':'Independent synthetic package extra agreement'})
     b.select('Vendor harga laundry',b.FIX['vendor']);b.button('Harga vendor');b.wait_text('AUD-BROWSER-KNOWN')
     b.fill('Alasan','Independent agreed package and extra');b.select('Cara harga vendor','PACKAGE');b.select('Satuan harga vendor','PCS');b.button('Simpan ketentuan');b.wait_text('Cara harga PACKAGE')
-    b.button('Kirim dengan harga');b.select('Batch kirim berharga',f['batch']);b.select('Proses kirim berharga',c['process']);b.fill('Warna kirim berharga','AUD-NAVY');b.fill('Waktu kirim berharga','2026-09-16T08:00');b.fill('Bukti serah terima','Independent six actual L pieces plus five-piece extra')
+    b.button('Kirim dengan harga');b.select('Batch kirim berharga',f['batch']);b.select('Proses kirim berharga',c['process']);b.fill('Warna kirim berharga','AUD-NAVY');native_datetime('Waktu kirim berharga','2026-09-16T08:00');b.fill('Bukti serah terima','Independent six actual L pieces plus five-piece extra')
     b.fill('Qty kirim berharga AUD-1','0');b.fill('Qty kirim berharga AUD-2','6');b.select('Paket kirim berharga',b.FIX['package'])
     b.ab('check','input[aria-label="Jasa AUD-BROWSER-EXTRA"]');b.select('Penerima jasa AUD-BROWSER-EXTRA','PARTIAL');b.fill('Cakupan AUD-BROWSER-EXTRA AUD-2','5');b.fill('Alasan tambahan AUD-BROWSER-EXTRA','Five L pieces require extra finishing')
     b.ab('find','label','Vendor, batch, ukuran, jumlah, warna, waktu, dan harga sudah dicocokkan dengan serah-terima.','check');b.button('Catat kiriman berharga')
-    b.ab('wait','--fn',"!Array.from(document.querySelectorAll('button')).some(e=>e.textContent==='Catat kiriman berharga'&&e.disabled)",check=False)
+    import time
+    until=time.monotonic()+10
+    while not any(x.get('payload',{}).get('p_action')=='POST_PRICED_DELIVERY' for x in b.HTTP_EVENTS) and time.monotonic()<until:time.sleep(.1)
     ev=[x for x in b.HTTP_EVENTS if x.get('payload',{}).get('p_action')=='POST_PRICED_DELIVERY' and x.get('payload',{}).get('p_payload',{}).get('delivery',{}).get('distribution_batch_id')==f['batch']]
     assert len(ev)==1 and ev[0]['http_status']==200,ev
     response=ev[0]['response'];assert D(response['pricing']['total_known'])==D('55668.65'),response
@@ -67,7 +92,7 @@ def free_master():
     comp=b.sql("select id::text from erp.bd_laundry_components_v1 where vendor_id=%s and component_code='AUD-UI-CREATED'",(b.FIX['vendor'],),one=True)
     b.select('Komponen harga',comp);responses=[]
     for status,day in [('FREE','22'),('WAIVED','23')]:
-        b.fill('Alasan','Independent explicit '+status+' agreement from actual screen');b.fill('Berlaku sejak (WIB)','2026-09-'+day+'T08:00');b.select('Status harga komponen',status);b.button('Simpan versi harga komponen')
+        b.fill('Alasan','Independent explicit '+status+' agreement from actual screen');native_datetime('Berlaku sejak (WIB)','2026-09-'+day+'T08:00');b.select('Status harga komponen',status);b.button('Simpan versi harga komponen')
         b.ab('wait','--fn',"!Array.from(document.querySelectorAll('button')).some(e=>e.textContent==='Simpan versi harga komponen'&&e.disabled)")
         rows=b.sql('select rate_status,rate_per_pcs,reason from erp.bd_laundry_component_rates_v1 where component_id=%s order by effective_from',(comp,))
         assert rows[-1][0]==status and D(rows[-1][1])==D(0) and rows[-1][2]=='Independent explicit '+status+' agreement from actual screen',rows

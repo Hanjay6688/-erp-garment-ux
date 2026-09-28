@@ -190,6 +190,8 @@ jobs:
           npm ci
           npm install -g agent-browser@0.31.1
           agent-browser install --with-deps
+          npm install --prefix "$RUNNER_TEMP/bd-browser-input" --no-save playwright-core@1.55.0
+          echo "BD_PLAYWRIGHT_CORE=$RUNNER_TEMP/bd-browser-input/node_modules/playwright-core" >> "$GITHUB_ENV"
       - name: Independent official build and diagnostic compilers
         if: always()
         working-directory: auditor
