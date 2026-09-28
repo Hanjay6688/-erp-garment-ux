@@ -1,0 +1,248 @@
+name: SKU independent master range and accounting
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: current-sku-independent
+  cancel-in-progress: false
+jobs:
+  independent:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      CP6_AC_INDEPENDENT_CONFIRM: postgres
+      CP6_AF_INDEPENDENT_CONFIRM: postgres
+      CP6_AH_CONFIRM: postgres
+      CP6_AI_CONFIRM: postgres
+      CP6_AH_INDEPENDENT_CONFIRM: postgres
+      CP6_AI_INDEPENDENT_CONFIRM: postgres
+      CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+      CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+      CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+      CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+      CP6_AR_CONFIRM: cp6_rollback
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        path: auditor
+        fetch-depth: 0
+    - uses: actions/checkout@v4
+      with:
+        path: base
+        fetch-depth: 0
+        ref: 1bdca3766f7c9800d68295ff5122798060b8a05d
+    - uses: actions/checkout@v4
+      with:
+        path: harness
+        fetch-depth: 0
+        ref: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+    - uses: actions/checkout@v4
+      with:
+        path: candidate
+        fetch-depth: 0
+        ref: 25fa4736329e5148dfdb3572bc169952cba23251
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - name: Install disposable database clients
+      run: 'set -euo pipefail
+
+        python -m pip install --quiet ''psycopg[binary]==3.2.10'' ''PyYAML==6.0.2''
+
+        sudo apt-get update -qq
+
+        sudo apt-get install -y -qq ca-certificates curl gnupg
+
+        sudo install -d /usr/share/postgresql-common/pgdg
+
+        sudo curl --fail --silent --show-error -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc https://www.postgresql.org/media/keys/ACCC4CF8.asc
+
+        fingerprint="$(gpg --show-keys --with-colons /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc | awk -F: ''$1 == "fpr" { print $10; exit
+        }'')"
+
+        test "$fingerprint" = B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
+
+        . /etc/os-release
+
+        echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt ${VERSION_CODENAME}-pgdg
+        main" | sudo tee /etc/apt/sources.list.d/pgdg.list >/dev/null
+
+        sudo apt-get update -qq
+
+        sudo apt-get install -y -qq postgresql-client-17
+
+        echo /usr/lib/postgresql/17/bin >> "$GITHUB_PATH"
+
+        '
+    - uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
+      with:
+        version: 2.116.0
+    - name: Verify frozen product identity
+      working-directory: auditor
+      run: 'set -euo pipefail
+
+        mkdir -p audit-results
+
+        git diff --name-only 6739a2f37939b4c76a5d064790d0aaba0049a7e8 HEAD > audit-results/changed-paths.txt
+
+        python - <<''CHECK''
+
+        from pathlib import Path
+
+        paths=Path(''audit-results/changed-paths.txt'').read_text().splitlines()
+
+        assert all(p.startswith(''audits/independent_'') or p.startswith(''.github/workflows/sku-'') for p in paths),paths
+
+        CHECK
+
+        git rev-parse HEAD > audit-results/audit-head.txt
+
+        sha256sum audits/independent_sku_20260928/ORACLE.md > audit-results/sku-oracle-sha256.txt
+
+        '
+    - name: Reserve fixed audit gateway ports on disposable runner
+      working-directory: auditor
+      run: "python - <<'PYPORT'\nimport json, subprocess\nfrom pathlib import Path\nkey='net.ipv4.ip_local_reserved_ports'\nbefore=subprocess.check_output(['sysctl','-n',key],text=True).strip()\n\
+        ports=set()\nfor token in filter(None,before.split(',')):\n    ends=list(map(int,token.split('-')))\n    ports.update(range(ends[0],ends[-1]+1))\n\
+        ports.update([54328,54329])\nranges=[]\nfor port in sorted(ports):\n    if ranges and port==ranges[-1][1]+1:ranges[-1][1]=port\n    else:ranges.append([port,port])\n\
+        value=','.join(str(a) if a==b else str(a)+'-'+str(b) for a,b in ranges)\nsubprocess.run(['sudo','sysctl','-w',key+'='+value],check=True,capture_output=True,text=True)\n\
+        after=subprocess.check_output(['sysctl','-n',key],text=True).strip()\nassert after==value,(value,after)\nevidence={'scope':'Disposable GitHub runner\
+        \ only; prevents auto-assigned client source ports from colliding with fixed allowed browser gateway ports','before':before,'after':after,'required_reserved_ports':[54328,54329],'original_reservations_preserved':True,'ip_local_port_range':subprocess.check_output(['sysctl','-n','net.ipv4.ip_local_port_range'],text=True).strip()}\n\
+        Path('audit-results/runner-gateway-port-reservation.json').write_text(json.dumps(evidence,indent=2)+'\\n')\nprint(json.dumps(evidence))\nPYPORT\n"
+    - name: Start isolated Supabase runtime
+      working-directory: base
+      run: 'set -euo pipefail
+
+        supabase --help >/dev/null
+
+        supabase init --help >/dev/null
+
+        supabase start --help >/dev/null
+
+        mkdir cp5-local
+
+        supabase init --force --workdir cp5-local
+
+        mkdir -p cp5-local/supabase/.temp
+
+        echo 17.6.1.165 > cp5-local/supabase/.temp/postgres-version
+
+        sed -i ''0,/^enable_signup = true$/s//enable_signup = false/'' cp5-local/supabase/config.toml
+
+        supabase start --workdir cp5-local -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor > ../auditor/audit-results/runtime-start.log
+        2>&1
+
+        '
+    - name: Restore schema and configuration only to AB
+      working-directory: base
+      env:
+        GITHUB_SHA: 1bdca3766f7c9800d68295ff5122798060b8a05d
+        GH_TOKEN: ${{ github.token }}
+      run: 'set -euo pipefail
+
+        export CP6_AC_WRITER_ARTIFACT="$RUNNER_TEMP/ac-bootstrap-input.zip"
+
+        gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip > "$CP6_AC_WRITER_ARTIFACT"
+
+        PYTHONPATH=scripts python ../auditor/scripts/cp6_t3_aligned_chain.py ../auditor/audit-results/bootstrap.json --stop-after-ab
+
+        '
+    - name: Provision isolated maintenance and clone
+      working-directory: auditor
+      run: 'set -euo pipefail
+
+        audit_maintenance_password="$(openssl rand -hex 32)"
+
+        audit_maintenance_url="postgresql://cp6_maintenance_admission:${audit_maintenance_password}@127.0.0.1:54322/template1"
+
+        echo "::add-mask::$audit_maintenance_password"
+
+        echo "::add-mask::$audit_maintenance_url"
+
+        docker exec -i supabase_db_cp5-local psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 -v audit_password="$audit_maintenance_password" <<''SQL''
+
+        create role cp6_maintenance_admission login superuser noinherit nocreatedb nocreaterole noreplication connection limit 4 password :''audit_password'';
+
+        SQL
+
+        printf ''CP6_ADMISSION_CONTROL_PGURL=%s\n'' "$audit_maintenance_url" >> "$GITHUB_ENV"
+
+        bash scripts/clone-cp6-disposable-database.sh ''postgresql://postgres:postgres@127.0.0.1:54322/postgres'' ''postgresql://postgres:postgres@127.0.0.1:54322/template1''
+        ''postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback'' cp6_rollback supabase_db_cp5-local audit-results/clone
+
+        '
+    - name: Install exact candidate through BF
+      working-directory: auditor
+      run: python audits/independent_sku_20260928/install.py
+    - name: Exact BF pre-use rollback and reinstall
+      working-directory: auditor
+      run: python audits/independent_sku_20260928/rollback.py pre
+    - name: Own master range physical cost permission and concurrency tests
+      working-directory: auditor
+      run: python audits/independent_sku_20260928/native.py
+    - name: Isolated sales range moves import and direct grants
+      if: always()
+      working-directory: auditor
+      run: "set -euo pipefail\nfor audit_mode in sales move import access mixed recipe free identities; do\n  docker exec supabase_db_cp5-local psql -U\
+        \ supabase_admin -d template1 -v ON_ERROR_STOP=1 -c 'drop database if exists cp6_sku_edges with (force)'\n  docker exec supabase_db_cp5-local psql\
+        \ -U supabase_admin -d template1 -v ON_ERROR_STOP=1 -c 'create database cp6_sku_edges with template cp6_rollback owner postgres'\n  python audits/independent_sku_20260928/extended.py\
+        \ \"$audit_mode\"\ndone\ndocker exec supabase_db_cp5-local psql -U supabase_admin -d template1 -v ON_ERROR_STOP=1 -c 'drop database if exists cp6_sku_edges\
+        \ with (force)'\ndocker exec supabase_db_cp5-local psql -U supabase_admin -d template1 -v ON_ERROR_STOP=1 -c 'create database cp6_sku_edges with\
+        \ template cp6_rollback owner postgres'\npython audits/independent_sku_20260928/imports.py\n"
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: sku-native-${{ github.run_id }}
+        path: auditor/audit-results/
+        retention-days: 14
+    - uses: actions/setup-node@v4
+      if: always()
+      with:
+        node-version: '24'
+    - name: Prepare independent browser runtime
+      if: always()
+      working-directory: auditor
+      run: 'set -euo pipefail
+
+        npm ci
+
+        npm install -g agent-browser@0.31.1
+
+        agent-browser install --with-deps
+
+        npm install --prefix "$RUNNER_TEMP/be-browser-input" --no-save playwright-core@1.55.0
+
+        echo "BE_PLAYWRIGHT_CORE=$RUNNER_TEMP/be-browser-input/node_modules/playwright-core" >> "$GITHUB_ENV"
+
+        '
+    - name: Own exact PCS and dynamic size helper matrix
+      if: always()
+      working-directory: auditor
+      run: node audits/independent_sku_20260928/quantities.cjs
+    - name: Actual SKU Auth HTTP desktop and touch UI
+      if: always()
+      working-directory: auditor
+      run: python audits/independent_sku_20260928/browser.py
+    - name: Exact BF post-use rollback refusal
+      if: always()
+      working-directory: auditor
+      run: python audits/independent_sku_20260928/rollback.py post
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: sku-independent-${{ github.run_id }}
+        path: auditor/audit-results/
+        retention-days: 14
+    - name: Stop isolated runtime
+      if: always()
+      working-directory: base
+      run: supabase stop --workdir cp5-local --no-backup
+'on':
+  push:
+    branches:
+    - audit/sku-be-current-20260928
+    paths:
+    - audits/independent_sku_20260928/**
+    - .github/workflows/sku-independent.yml
+  workflow_dispatch: null

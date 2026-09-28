@@ -1,0 +1,32 @@
+"""Exact BF installation over delivered AC..BE. No writer tests executed."""
+from pathlib import Path
+import sys,subprocess,json,hashlib
+ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'audit-results';OUT.mkdir(exist_ok=True)
+sys.path.insert(0,str(ROOT/'audits/independent_be_20260928'))
+import audit_state
+
+def state():
+ r=audit_state.snapshot()
+ import psycopg
+ with psycopg.connect(audit_state.DSN) as c:
+  for key,query in {
+   'constraints':"select n.nspname,t.relname,c.conname,pg_get_constraintdef(c.oid) from pg_constraint c join pg_class t on t.oid=c.conrelid join pg_namespace n on n.oid=t.relnamespace where n.nspname in ('erp','public') order by 1,2,3",
+   'indexes':"select schemaname,tablename,indexname,indexdef from pg_indexes where schemaname in ('erp','public') order by 1,2,3",
+   'triggers':"select n.nspname,t.relname,g.tgname,pg_get_triggerdef(g.oid) from pg_trigger g join pg_class t on t.oid=g.tgrelid join pg_namespace n on n.oid=t.relnamespace where n.nspname in ('erp','public') and not g.tgisinternal order by 1,2,3",
+   'policies':"select * from pg_policies where schemaname in ('erp','public') order by schemaname,tablename,policyname"
+  }.items():
+   rows=c.execute(query).fetchall();r[key]=audit_state.digest(rows)
+   if key=='constraints':r['constraint_definitions']=json.loads(json.dumps(rows,default=str))
+ r['limits']='Sequence counters excluded; data, functions, permissions, relations, columns, constraints, indexes, triggers and RLS policies compared.'
+ return r
+
+def apply(path):
+ import psycopg
+ with psycopg.connect(audit_state.DSN,autocommit=True) as c:c.execute((ROOT/path).read_text(),prepare=False)
+
+if __name__=='__main__':
+ subprocess.run([sys.executable,str(ROOT/'audits/independent_be_20260928/install_be.py')],check=True)
+ before=state();(OUT/'sku-before-bf.json').write_text(json.dumps(before,indent=2,default=str))
+ p='supabase/dev/cp6_bf_t1_family.sql';apply(p)
+ (OUT/'sku-installation.json').write_text(json.dumps({'candidate':'6739a2f37939b4c76a5d064790d0aaba0049a7e8','scope':'Exact AC..BD package, revised BE dev T1, unchanged BF dev T1; not release qualification','BF_sha256':hashlib.sha256((ROOT/p).read_bytes()).hexdigest(),'status':'INSTALLED'},indent=2))
+ print('BF installed; ready for own tests')
