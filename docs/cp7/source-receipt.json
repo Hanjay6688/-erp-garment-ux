@@ -1,0 +1,38 @@
+{
+  "framework": "CP7-BACKBONE-20260928-v2",
+  "files": [
+    {
+      "name": "analysis.example.json",
+      "sha256": "db63c2f81aae10c059954a1f63f6a0b4e86e3bcdda1ed7a0b98cc2396ca75daa"
+    },
+    {
+      "name": "analysis.schema.json",
+      "sha256": "c6e38f059d992c5916b7a799c153ad5a6cc4858dc8ffd6085bb8e5356ebc72a1"
+    },
+    {
+      "name": "backbone.ts",
+      "sha256": "16a320a188d1fafe3912c33ac6e07de26bda2a506654f05e20a57195ed846ddf"
+    },
+    {
+      "name": "notification.ts",
+      "sha256": "4deb0a93a5b80befec6f2f811d78d0b990c5c8abefb8b3ddbc5d7ae4a2c136d7"
+    },
+    {
+      "name": "reasons.json",
+      "sha256": "55741fc4be42afe73a3b942b4af7f1839c53197599f0a605c63ec7db0533e551"
+    },
+    {
+      "name": "reminder.rules.json",
+      "sha256": "c94377dae6e0c318c23e1d2ba0453250c70075fced3ed6d5aaad85ce8d0e821b"
+    },
+    {
+      "name": "report.output.example.md",
+      "sha256": "172d510191f4d75f4507abe9591c6a42c5b9b1f04dfcd31399a1d28e5c67bc84"
+    }
+  ],
+  "reference_source_commit": "da20943c25cafe887d96943428fc157f80839e24",
+  "accepted_execution_base": null,
+  "cp6_gate": "HOLD",
+  "production_go": false,
+  "mandate": "Owner in the 2026-09-28 session: isolated empty shell with labelled examples; skip unstable CP6-dependent implementation."
+}

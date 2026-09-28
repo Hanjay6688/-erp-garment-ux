@@ -1,0 +1,55 @@
+{
+  "version": "cp7.reminder.rules.v2",
+  "status": "PROPOSED_NOT_IMPLEMENTED",
+  "global_rules": [
+    "Same authoritative engine",
+    "Versioned scope/unit/policy",
+    "Zero != null != disabled",
+    "No business ledger writes",
+    "Episode != attention != delivery"
+  ],
+  "rules": [
+    {
+      "id": "PRODUCTION_GAP",
+      "source": "authorized analysis exact-size timeline/WIP/production status",
+      "unknown": "DATA_REVIEW; no automatic production",
+      "resolution": "Latest coherent eligible coverage/source state",
+      "cases": [
+        "X20",
+        "X24"
+      ]
+    },
+    {
+      "id": "ACCESSORY_NEED",
+      "source": "pinned BOM/installed/unused eligible/incoming/ownership/location",
+      "unknown": "Do not infer consumption from issue",
+      "resolution": "Physical need/inspection/valuation intents resolved separately",
+      "cases": [
+        "X21",
+        "X24"
+      ]
+    },
+    {
+      "id": "AR_DUE",
+      "source": "invoice/opening AR/linked receipts/credit/reversal/due date",
+      "unknown": "Outstanding can be known while overdue unknown",
+      "resolution": "Lawful settlement/applied credit; never ACK",
+      "cases": [
+        "X22",
+        "X23",
+        "X24"
+      ]
+    },
+    {
+      "id": "AP_DUE",
+      "source": "invoice/opening AP/linked payments/credit/reversal/due date",
+      "unknown": "Pending invoice/value separate from due status",
+      "resolution": "Lawful settlement/applied credit; never notification delivery",
+      "cases": [
+        "X22",
+        "X23",
+        "X24"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+.cp7-shell { color: #ecf0fa; background: #0b1020; font: 16px/1.55 Inter, ui-sans-serif, system-ui, sans-serif; min-height: 100vh; display: grid; grid-template-columns: 246px minmax(0,1fr); --cp7-muted: #a7b3cb; --cp7-border: #27334c; }
+.cp7-shell * { box-sizing: border-box; }
+.cp7-shell h1, .cp7-shell h2, .cp7-shell h3, .cp7-shell p { margin: 0; }
+.cp7-shell h1 { font-size: 1.75rem; line-height: 1.25; font-weight: 650; letter-spacing: -.03em; margin-top: 5px; }
+.cp7-shell h2 { font-size: 1.1rem; font-weight: 620; }
+.cp7-shell h3 { font-size: 1rem; font-weight: 650; overflow-wrap: anywhere; }
+.cp7-shell a { color: #a5c1ff; text-underline-offset: 4px; }
+.cp7-shell button, .cp7-shell select, .cp7-shell textarea { font: inherit; }
+.cp7-shell button:focus-visible, .cp7-shell a:focus-visible, .cp7-shell input:focus-visible, .cp7-shell select:focus-visible, .cp7-shell textarea:focus-visible, .cp7-shell summary:focus-visible { outline: 2px solid #a2beff; outline-offset: 4px; }
+.cp7-sidebar { padding: 26px 18px; background: #0e1527; border-right: 1px solid var(--cp7-border); position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; gap: 30px; }
+.cp7-back { display: flex; align-items: center; gap: 8px; text-decoration: none; font-size: .875rem; }
+.cp7-brand { padding: 0 12px; font-size: 1.2rem; font-weight: 700; letter-spacing: .12em; }
+.cp7-brand span { display: block; margin-top: 5px; font-size: .75rem; color: var(--cp7-muted); letter-spacing: .09em; font-weight: 500; }
+.cp7-sidebar nav { display: grid; gap: 7px; }
+.cp7-sidebar nav button { border: 1px solid transparent; background: transparent; color: var(--cp7-muted); border-radius: 9px; text-align: left; padding: 12px; display: flex; align-items: center; gap: 11px; font-size: .875rem; cursor: pointer; }
+.cp7-sidebar nav button svg { flex-shrink: 0; }
+.cp7-sidebar nav button[aria-current="page"] { color: #ecf0ff; background: #23355c; border-color: #375081; }
+.cp7-rail-note { margin-top: auto; border-top: 1px solid var(--cp7-border); padding: 20px 12px 0; font-size: .875rem; color: var(--cp7-muted); }
+.cp7-rail-note strong { display: block; color: #dbe5fc; margin: 8px 0 4px; }
+.cp7-main { padding: 34px clamp(20px,3.5vw,58px); min-width: 0; width: 100%; max-width: 1560px; }
+.cp7-header, .cp7-card-heading, .cp7-section-heading, .cp7-dialog-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.cp7-header { margin-bottom: 28px; }
+.cp7-eyebrow { font-size: .75rem; letter-spacing: .11em; color: #9cafe0; font-weight: 600; }
+.cp7-tag { font-size: .75rem; font-weight: 650; letter-spacing: .04em; border: 1px solid #47588b; color: #c1d4ff; padding: 6px 10px; border-radius: 7px; white-space: normal; }
+.cp7-controls { display: flex; flex-wrap: wrap; align-items: end; gap: 14px; padding-bottom: 20px; }
+.cp7-controls label { display: grid; gap: 7px; font-size: .875rem; color: var(--cp7-muted); }
+.cp7-controls select { display: block; color: #eef3ff; border: 1px solid #374765; padding: 10px 36px 10px 12px; border-radius: 8px; background: #141e33; min-height: 44px; max-width: 100%; font-size: .875rem; }
+.cp7-button { display: inline-flex; justify-content: center; align-items: center; gap: 9px; padding: 10px 15px; min-height: 44px; background: #17223a; border: 1px solid #384b70; color: #e7edfb; border-radius: 8px; cursor: pointer; font-size: .875rem !important; text-decoration: none; }
+.cp7-button:hover:enabled { background: #233455; border-color: #789be1; }
+.cp7-primary { background: #334f86; border-color: #5b7bb9; }
+.cp7-shell button:disabled { cursor: not-allowed; opacity: .55; }
+.cp7-notice { background: #17253e; border: 1px solid #354b70; border-left: 3px solid #7b9dd6; border-radius: 8px; padding: 13px 16px; font-size: .875rem; margin-bottom: 22px; }
+.cp7-notice[data-state="STALE"], .cp7-notice[data-state="PARTIAL"] { background: #2b251e; border-color: #6e5738; border-left-color: #dcad62; }
+.cp7-notice[data-state="ERROR"] { background: #302028; border-color: #754451; border-left-color: #e392a5; }
+.cp7-context { display: flex; flex-wrap: wrap; gap: 10px 26px; color: var(--cp7-muted); font-size: .8125rem; margin-bottom: 24px; }
+.cp7-context b { font-weight: 500; color: #d4def3; }
+.cp7-context details { flex-basis: 100%; overflow-wrap: anywhere; }
+.cp7-context details p { padding-top: 10px; }
+.cp7-shell summary { cursor: pointer; color: #bcd0f7; padding: 5px 0; }
+.cp7-search { display: flex; gap: 10px; align-items: center; border: 1px solid #34415b; background: #111b2f; padding: 12px 16px; border-radius: 9px; margin-bottom: 26px; }
+.cp7-search input { border: none; outline: none; background: transparent; color: #f0f4ff; width: 100%; min-width: 0; font: inherit; }
+.cp7-search input::placeholder { color: #8f9fbc; }
+.cp7-section-heading { margin: 24px 0 15px; }
+.cp7-section-heading > span { font-size: .8125rem; color: var(--cp7-muted); }
+.cp7-card { padding: 24px; background: #121d32; border: 1px solid var(--cp7-border); border-radius: 12px; margin-bottom: 18px; min-width: 0; }
+.cp7-card > p { margin: 12px 0; }
+.cp7-action { display: flex; align-items: flex-start; gap: 18px; border-top: 2px solid #728ec5; }
+.cp7-action-body { min-width: 0; flex: 1; }
+.cp7-action-body h3 { font-size: 1.25rem; margin: 5px 0 14px; }
+.cp7-action-body p { margin: 9px 0; overflow-wrap: anywhere; }
+.cp7-rank { display: grid; place-items: center; min-width: 38px; height: 38px; font-size: 1.05rem; border: 1px solid #4b6290; border-radius: 9px; background: #23385d; }
+.cp7-facts { display: grid; grid-template-columns: repeat(auto-fit,minmax(165px,1fr)); gap: 16px; margin: 20px 0; }
+.cp7-fact span { display: block; color: var(--cp7-muted); font-size: .8125rem; margin-bottom: 5px; }
+.cp7-fact strong { display: block; font-size: 1rem; color: #e3edff; font-weight: 600; overflow-wrap: anywhere; }
+.cp7-fact[data-fact-state="UNKNOWN"] strong { color: #deb77d; }
+.cp7-muted, .cp7-footnote { color: var(--cp7-muted); }
+.cp7-footnote { font-size: .8125rem; margin: 18px 0 !important; }
+.cp7-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 17px; }
+.cp7-empty { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 15px; min-height: 300px; border: 1px dashed #36476a; background: #10192b; border-radius: 12px; padding: clamp(22px,4vw,50px); }
+.cp7-empty > svg { color: #8da9df; }
+.cp7-empty h2 { font-size: 1.35rem; }
+.cp7-empty p { max-width: 640px; color: var(--cp7-muted); }
+.cp7-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 22px; }
+.cp7-tabs button { padding: 10px 16px; font-size: .875rem; color: #acbad4; border: 1px solid #344663; background: #121d32; border-radius: 8px; cursor: pointer; }
+.cp7-tabs button[aria-pressed="true"] { background: #294168; color: #f1f5ff; border-color: #7392c6; }
+.cp7-report { margin-top: 18px; }
+.cp7-report p { margin: 0 0 18px; overflow-wrap: anywhere; }
+.cp7-copy { margin: 20px 0; }
+.cp7-copy [role="status"] { color: #c1d4f4; font-size: .875rem; }
+.cp7-text-label { display: grid; gap: 10px; margin-top: 16px; color: #bac7df; font-size: .875rem; }
+.cp7-copy textarea { width: 100%; padding: 18px; color: #d9e3f5; border: 1px solid #344c75; background: #0f182a; border-radius: 9px; resize: vertical; line-height: 1.7; font-size: .9375rem; }
+.cp7-readiness { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; }
+.cp7-readiness dt { color: var(--cp7-muted); font-size: .8125rem; }
+.cp7-readiness dd { margin: 4px 0 0; }
+.cp7-method-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; margin-top: 22px; }
+.cp7-method-grid .cp7-card { margin-bottom: 0; }
+.cp7-method-grid h2 { margin-top: 8px; }
+.cp7-method-grid a { font-size: .875rem; }
+.cp7-method-grid a svg { vertical-align: middle; }
+.cp7-footer { display: flex; flex-wrap: wrap; gap: 10px 24px; border-top: 1px solid var(--cp7-border); margin-top: 36px; padding-top: 20px; color: #98a8c3; font-size: .8125rem; }
+.cp7-dialog.cp7-shell { display: block; position: fixed; min-height: 0; max-height: 90vh; width: min(960px,94vw); padding: 26px; color: #ecf0fa; border: 1px solid #435c83; border-radius: 14px; overflow-y: auto; }
+.cp7-dialog.cp7-shell:not([open]) { display: none; }
+.cp7-dialog::backdrop { background: #040916c9; backdrop-filter: blur(4px); }
+.cp7-dialog-heading { border-bottom: 1px solid #34415b; padding-bottom: 15px; position: sticky; top: -26px; background: #0b1020; z-index: 1; }
+.cp7-detail > h3 { margin: 24px 0 8px; }
+.cp7-detail p, .cp7-detail li { overflow-wrap: anywhere; }
+.cp7-detail li { margin: 7px 0; color: #b6c4df; }
+.cp7-source { padding: 18px; margin: 12px 0; border: 1px solid #344663; border-radius: 9px; background: #111e34; overflow-wrap: anywhere; }
+.cp7-source > strong { font-size: .875rem; }
+.cp7-source > p { font-size: .875rem; color: #acbddb; margin-top: 8px; }
+.cp7-table-scroll { overflow-x: auto; margin: 12px 0; }
+.cp7-shell table { border-collapse: collapse; width: 100%; font-size: .875rem; }
+.cp7-shell th, .cp7-shell td { text-align: left; padding: 10px; border-bottom: 1px solid #34415b; }
+.cp7-unavailable { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 30px; gap: 20px; }
+@media(max-width: 1000px) { .cp7-shell { grid-template-columns: 215px minmax(0,1fr); } .cp7-main { padding: 28px 22px; } .cp7-method-grid { grid-template-columns: 1fr; } }
+@media(max-width: 720px) { .cp7-shell { display: block; } .cp7-sidebar { height: auto; position: static; padding: 18px; gap: 16px; border-right: none; border-bottom: 1px solid #27334c; } .cp7-brand { padding: 0; } .cp7-sidebar nav { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 4px; } .cp7-sidebar nav button { padding: 10px 8px; font-size: .8125rem; gap: 7px; } .cp7-rail-note { display: none; } .cp7-main { padding: 26px 18px; } .cp7-header { align-items: flex-start; } .cp7-controls label { width: 100%; } .cp7-controls select { width: 100%; } .cp7-card { padding: 18px; } .cp7-action { gap: 12px; } .cp7-rank { min-width: 30px; height: 30px; } .cp7-action-body h3 { font-size: 1.1rem; } .cp7-facts { grid-template-columns: 1fr; gap: 13px; } .cp7-readiness { grid-template-columns: 1fr; } .cp7-dialog.cp7-shell { width: 100vw; height: 100dvh; max-height: 100dvh; border-radius: 0; margin: 0; padding: 20px; } .cp7-dialog-heading { top: -20px; } .cp7-unavailable { display: flex; } }

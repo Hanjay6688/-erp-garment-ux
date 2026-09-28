@@ -1,0 +1,85 @@
+name: CP7 Shell S0
+on:
+  push:
+    branches: ['cp7/**']
+  pull_request:
+    branches: [claude/new-session-deapao]
+    paths: ['src/cp7/**', 'tests/cp7/**', 'tests/browser/cp7-shell.spec.ts', 'playwright.cp7.config.ts', '.github/workflows/cp7-shell.yml']
+permissions:
+  contents: read
+concurrency:
+  group: cp7-shell-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  shell:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run test:security
+      - run: npm run build
+      - run: npx --no-install playwright install --with-deps chromium
+      - run: npx --no-install playwright test --config playwright.cp7.config.ts
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: cp7-shell-proof
+          path: test-results/cp7-shell-proof
+          if-no-files-found: warn
+          retention-days: 30
+  codeql:
+    name: CP7 CodeQL ${{ matrix.language }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [javascript-typescript, actions]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: none
+          queries: security-extended
+      - uses: github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63
+        with:
+          output: cp7-codeql
+          upload: never
+          upload-database: false
+      - name: Reject CodeQL findings or incomplete runs
+        run: |
+          python3 - <<'PY'
+          import json, pathlib
+          files = list(pathlib.Path('cp7-codeql').glob('*.sarif'))
+          assert files, 'No SARIF produced'
+          for f in files:
+              report = json.loads(f.read_text())
+              assert report.get('runs'), 'No analysis runs'
+              for run in report['runs']:
+                  assert not run.get('results'), 'CodeQL findings need review'
+                  assert run.get('invocations'), 'No invocation evidence'
+                  for invocation in run['invocations']:
+                      assert invocation.get('executionSuccessful') is True, 'Incomplete CodeQL'
+          print('CodeQL completed with zero findings')
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: cp7-codeql-${{ matrix.language }}
+          path: cp7-codeql
+          if-no-files-found: error
+          retention-days: 30
