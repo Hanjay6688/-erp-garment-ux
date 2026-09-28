@@ -8,6 +8,7 @@ permissions:
   actions: read
 concurrency:
   # Every job owns its disposable local database; revisions share no service.
+  # Auditor-owned probe now checks posted destination, posted source and reversed destination.
   # A known-incomplete old fixture must not block qualification of its correction.
   group: cp6-t3-release-package-${{ github.run_id }}
   cancel-in-progress: false
