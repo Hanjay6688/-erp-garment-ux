@@ -40,7 +40,7 @@ begin
        where sm.version_id=v.id),'[]') members
    from erp.bf_skus_v1 s join erp.brands b on b.id=s.brand_id join erp.product_models m on m.id=s.model_id
    left join lateral(select x.* from erp.bf_sku_versions_v1 x where x.sku_id=s.id order by x.revision desc limit 1) v on true
-   where s.sku ilike '%'||q||'%' or b.brand_name ilike '%'||q||'%'
+   where s.sku ilike '%'||q||'%' or b.brand_name ilike '%'||q||'%' or exists(select 1 from erp.bf_sku_members_v1 sm where sm.version_id=v.id and sm.product_root=any(roots))
  ), products as materialized(
    select p.id,p.sku,p.brand_id,b.brand_name,p.model_id,m.model_name,p.color_name,p.size_id,z.size_code size,
      (select v.sku_id from erp.bf_sku_members_v1 sm join erp.bf_sku_versions_v1 v on v.id=sm.version_id
@@ -51,6 +51,18 @@ begin
    'groups',coalesce((select jsonb_agg(to_jsonb(x)) from(select id,sku,brand_id,brand_name,model_id,model_name,color_name,revision::text,version_id,
       effective_from,effective_to,members,case when money then settings end settings from g order by brand_name,sku,id limit 50 offset (page_no-1)*50)x),'[]'),
    'products_total',(select count(*) from products),'products',coalesce((select jsonb_agg(to_jsonb(x)) from(select * from products order by brand_name,sku,size,id limit 50 offset (page_no-1)*50)x),'[]'),
+   'related_groups',coalesce((select jsonb_agg(to_jsonb(x)) from(select id,sku,brand_id,brand_name,model_id,model_name,color_name,revision::text,version_id,effective_from,effective_to,members,case when money then settings end settings from g
+     where exists(select 1 from jsonb_array_elements(members) mem where (mem->>'id')::uuid=any(roots)))x),'[]'),
+   'selected_products',coalesce((select jsonb_agg(to_jsonb(x)) from products x where id=any(roots)),'[]'),
+   'lookups',case when money then jsonb_build_object(
+     'accessories',coalesce((select jsonb_agg(jsonb_build_object('id',id,'name',category_name,'unit',base_uom_code) order by category_name,id) from erp.accessory_categories where is_active),'[]'),
+     'work',coalesce((select jsonb_agg(jsonb_build_object('id',id,'name',component_name,'category',component_category) order by sequence_default,id) from erp.work_components where is_active),'[]'),
+     'contractors',coalesce((select jsonb_agg(jsonb_build_object('id',id,'name',contractor_name) order by contractor_name,id) from erp.contractors where is_active),'[]'),
+     'vendors',coalesce((select jsonb_agg(jsonb_build_object('id',id,'name',vendor_name) order by vendor_name,id) from erp.laundry_vendors where is_active),'[]'),
+     'laundry',coalesce((select jsonb_agg(to_jsonb(x)) from(
+       select id,process_name name,'PROCESS' kind,null::uuid vendor_id from erp.wash_processes where is_active
+       union all select id,component_name,'COMPONENT',vendor_id from erp.bd_laundry_components_v1 where is_active
+       union all select id,package_name,'PACKAGE',vendor_id from erp.bd_laundry_packages_v1 where is_active)x),'[]')) end,
    'legacy_basis',case when money then erp.bf_legacy_basis_v1(roots,at_time) end,'can_edit',erp.has_permission('master.product.manage') and erp.has_permission('finance.hpp.manage') and erp.current_app_role() in('OWNER','ADMIN')) into result;
  return result;
 end;$function$;
@@ -73,7 +85,7 @@ begin
    select coalesce(s.id::text,p.brand_id::text||':'||p.sku) group_key,coalesce(s.sku,p.sku) sku,
      p.brand_id,b.brand_name,z.size_code size,st.*,l.lot_number,h.id hpp_version_id,h.cost_state,
      (st.qty*h.total_cost/nullif(h.qty_basis_pcs,0)) value,
-     (h.id is null or h.cost_state='ESTIMATED' or erp.bd_lot_laundry_unknown_v1(l.id)) provisional
+     (h.id is null or h.cost_state='ESTIMATED' or erp.bd_lot_laundry_unknown_v1(l.id) or (l.po_id is not null and exists(select 1 from erp.get_hpp_completeness(l.po_id) c where c.pending_reason_count>0))) provisional
    from stock st join erp.fg_lots l on l.id=st.lot_id join erp.products p on p.id=st.product_id
    join erp.brands b on b.id=p.brand_id join erp.sizes z on z.id=p.size_id
    left join erp.bf_sku_versions_v1 v on v.id=erp.bf_version_at_v1(p.id,at_time)
@@ -83,14 +95,14 @@ begin
    select group_key,sku,brand_id,brand_name,sum(qty)::bigint qty,
      case when bool_and(value is not null) then sum(value) end value,bool_or(provisional) provisional,
      jsonb_agg(jsonb_build_object('lot_id',lot_id,'lot_number',lot_number,'product_id',product_id,'size',size,'location_id',location_id,
-       'grade',quality_grade,'qty',qty,'value',value::text,'hpp_version_id',hpp_version_id,'cost_state',cost_state,'provisional',provisional)
+       'grade',quality_grade,'qty',qty::text,'value',value::text,'hpp_version_id',hpp_version_id,'cost_state',cost_state,'provisional',provisional)
        order by size,lot_number,location_id,quality_grade) lots
    from facts group by group_key,sku,brand_id,brand_name
  ), filtered as materialized(
    select * from groups where (nullif(p_filters->>'brand_id','') is null or brand_id=(p_filters->>'brand_id')::uuid)
      and (sku ilike '%'||coalesce(p_filters->>'query','')||'%' or brand_name ilike '%'||coalesce(p_filters->>'query','')||'%')
  ) select jsonb_build_object('at',at_time,'page',page_no,'page_size',50,'total',(select count(*) from filtered),
-   'groups',coalesce((select jsonb_agg(to_jsonb(x)) from(select group_key,sku,brand_id,brand_name,qty,value::text,
+   'groups',coalesce((select jsonb_agg(to_jsonb(x)) from(select group_key,sku,brand_id,brand_name,qty::text,value::text,
      (value/nullif(qty,0))::text hpp_per_pcs,provisional,lots from filtered order by brand_name,sku,group_key limit 50 offset (page_no-1)*50)x),'[]')) into result;
  return result;
 end;$function$;

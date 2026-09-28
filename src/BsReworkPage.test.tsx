@@ -21,6 +21,15 @@ afterEach(() => {
 })
 
 describe('calculateSusulanResolution', () => {
+  it('preserves singleton and fourth-size stock through partial receipt and BS', () => {
+    expect(calculateSusulanResolution([12], [2], [15])).toEqual({ total: [12], bs: [2], good: [10], remaining: [3] })
+    expect(calculateSusulanResolution([1, 2, 3, 4], [0, 1, 0, 2], [2, 4, 6, 8])).toEqual({
+      total: [1, 2, 3, 4], bs: [0, 1, 0, 2], good: [1, 1, 3, 2], remaining: [1, 2, 3, 4],
+    })
+    expect(calculateSusulanResolution([1], [], [2, 4, 6, 8])).toEqual({
+      total: [1, 0, 0, 0], bs: [0, 0, 0, 0], good: [1, 0, 0, 0], remaining: [1, 4, 6, 8],
+    })
+  })
   it('derives Good and clamps BS within Susulan within outstanding', () => {
     expect(calculateSusulanResolution([5, 2, 9], [6, 1, 2], [4, 3, 1])).toEqual({
       total: [4, 2, 1],

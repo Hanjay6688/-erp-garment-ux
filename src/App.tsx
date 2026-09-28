@@ -1,3 +1,4 @@
+import { alignSizeQuantities } from './sizeQuantities'
 import { Fragment, lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import type { ClipboardEvent as ReactClipboardEvent, CSSProperties, KeyboardEvent as ReactKeyboardEvent, PointerEvent as ReactPointerEvent, ReactNode } from 'react'
 import {
@@ -32,6 +33,7 @@ import type { CuttingPatternChoice } from './CuttingPatternPicker'
 
 const SalesPages = lazy(() => import('./SalesPages'))
 const FinancePages = lazy(() => import('./FinancePages'))
+const ConnectedSkuHppPage = lazy(() => import('./ConnectedSkuHppPage'))
 const HppPage = lazy(() => import('./HppPage'))
 const QcFinalPage = lazy(() => import('./QcFinalPage'))
 const BsReworkPage = lazy(() => import('./BsReworkPage'))
@@ -42,6 +44,7 @@ const ConnectedAccessoryIssuePage = lazy(() => import('./ConnectedAccessoryIssue
 const ConnectedProductConversionPage = lazy(() => import('./ConnectedProductConversionPage'))
 const ConnectedAccessoryServicePage = lazy(() => import('./ConnectedAccessoryServicePage'))
 const MaterialMasterPages = lazy(() => import('./MaterialMasterPages'))
+const ConnectedSkuMasterPage = lazy(() => import('./ConnectedSkuMasterPage'))
 const MasterDataPages = lazy(() => import('./MasterDataPages'))
 const OperationsAdminPages = lazy(() => import('./OperationsAdminPages'))
 const FgNotaPage = lazy(() => import('./FgNotaPage'))
@@ -59,8 +62,8 @@ const ConnectedFgHandoffBoundary = lazy(() => import('./ConnectedFgHandoffBounda
 
 type Page = 'dashboard' | 'stock-card' | 'movements-vivo' | 'movements-widie' | 'procurement' | 'cutting-roll' | 'mandor-wip' | 'contractor-issue' | 'sewing-wip' | 'qc' | 'fg-handoff' | 'bs-rework' | 'laundry' | 'hpp' | 'master-pattern' | 'admin-access' | 'admin-import' | 'pocket-fabric' | SalesView | FinanceView | WarehouseView | MaterialMasterView | BusinessMasterView | OperationsAdminView | 'placeholder'
 type NavSection = 'Produksi' | 'Gudang' | 'Penjualan' | 'Keuangan' | 'Master Data'
-type QtyTuple = [number, number, number]
-type SizeTuple = [string, string, string]
+type QtyTuple = number[]
+type SizeTuple = string[]
 type WipAdjustmentHistoryEntry = {
   id: string
   operation: 'REDISTRIBUTION' | 'PHYSICAL_RECOUNT'
@@ -676,8 +679,8 @@ function App() {
           onNotaCardReady={rememberFgNotaCard}
           onOpenNota={(card)=>{rememberFgNotaCard(card);setNotaFocus({kind:'REPAIR',id:card.id});setNotaOrigin('BS_REWORK');setPage('fg-handoff')}}
           onStuckReturned={({batchId,laundry,goodBySize,bsBySize})=>{
-            const remainingGood:[number,number,number]=[...goodBySize]
-            const remainingBs:[number,number,number]=[...bsBySize]
+            const remainingGood:number[]=[...goodBySize]
+            const remainingBs:number[]=[...bsBySize]
             setLaundryDeliveries((current)=>current.map((delivery)=>{
               if(delivery.batchId!==batchId||(!delivery.vendor.includes(laundry)&&!laundry.includes(delivery.vendor))||(remainingGood.every((qty)=>qty<=0)&&remainingBs.every((qty)=>qty<=0)))return delivery
               const outstanding=laundryOutstandingSizes(delivery)
@@ -713,9 +716,9 @@ function App() {
           }}
           onOpenQc={(parentId,batchId)=>{setQcSeedId(`${parentId}::${batchId}`);setQcResult(null);setPage('qc')}}
         />}
-        {page === 'hpp' && <Suspense fallback={<WorkspaceFallback label="HPP & Rekalkulasi"/>}><HppPage /></Suspense>}
+        {page === 'hpp' && <Suspense fallback={<WorkspaceFallback label="HPP & Rekalkulasi"/>}>{runtime.mode === 'DEMO_SIMULATION' ? <HppPage /> : <ConnectedSkuHppPage/>}</Suspense>}
         {(page === 'master-fabric' || page === 'master-accessory') && <Suspense fallback={<WorkspaceFallback label="Master Material"/>}><MaterialMasterPages view={page}/></Suspense>}
-        {(page === 'master-products' || page === 'master-customers' || page === 'master-partners' || page === 'master-workforce' || page === 'master-locations') && <Suspense fallback={<WorkspaceFallback label="Master Data"/>}><MasterDataPages view={page}/></Suspense>}
+        {(page === 'master-products' || page === 'master-customers' || page === 'master-partners' || page === 'master-workforce' || page === 'master-locations') && <Suspense fallback={<WorkspaceFallback label="Master Data"/>}>{page === 'master-products' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedSkuMasterPage/> : <MasterDataPages view={page}/>}</Suspense>}
         {page === 'master-pattern' && <Suspense fallback={<WorkspaceFallback label="Master Pola"/>}><PatternPage/></Suspense>}
         {page === 'admin-access' && <Suspense fallback={<WorkspaceFallback label="Pengguna & Hak Akses"/>}><AccessControlPage/></Suspense>}
         {page === 'pocket-fabric' && <Suspense fallback={<WorkspaceFallback label="Kain kantong"/>}><ConnectedPocketFabricPage/></Suspense>}
@@ -1834,20 +1837,23 @@ const summarizeLaundryBatch = (deliveries:LaundryDelivery[],batchId:string) => {
   const returned=good+bs
   const outside=rows.reduce((sum,delivery)=>sum+laundryOutstanding(delivery),0)
   const reversed=rows.reduce((sum,delivery)=>sum+delivery.reversed,0)
-  const goodSizes=([0,1,2].map((index)=>rows.reduce((sum,delivery)=>sum+delivery.goodSizes[index],0)) as QtyTuple)
-  const bsSizes=([0,1,2].map((index)=>rows.reduce((sum,delivery)=>sum+delivery.bsSizes[index],0)) as QtyTuple)
-  const outsideSizes=([0,1,2].map((index)=>rows.reduce((sum,delivery)=>sum+laundryOutstandingSizes(delivery)[index],0)) as QtyTuple)
+  const sizeLabels=Array.from(new Set(rows.flatMap(row=>row.sizeLabels)))
+  const goodSizes=(sizeLabels.map((size)=>rows.reduce((sum,delivery)=>sum+(delivery.goodSizes[delivery.sizeLabels.indexOf(size)] ?? 0),0)) as QtyTuple)
+  const bsSizes=(sizeLabels.map((size)=>rows.reduce((sum,delivery)=>sum+(delivery.bsSizes[delivery.sizeLabels.indexOf(size)] ?? 0),0)) as QtyTuple)
+  const outsideSizes=(sizeLabels.map((size)=>rows.reduce((sum,delivery)=>sum+(laundryOutstandingSizes(delivery)[delivery.sizeLabels.indexOf(size)] ?? 0),0)) as QtyTuple)
   const activeVendors=Array.from(new Set(rows.filter((delivery)=>laundryOutstanding(delivery)>0).map((delivery)=>delivery.vendor)))
   const returnedVendors=Array.from(new Set(rows.filter((delivery)=>delivery.good+delivery.bs>0).map((delivery)=>delivery.vendor)))
-  return {good,bs,returned,outside,reversed,goodSizes,bsSizes,outsideSizes,activeVendors,returnedVendors}
+  return {good,bs,returned,outside,reversed,sizeLabels,goodSizes,bsSizes,outsideSizes,activeVendors,returnedVendors}
 }
 
 function makeQcSeed(parent:SewingParentSeed,batch:SewingBatchSeed,summary:ReturnType<typeof summarizeLaundryBatch>):QcSeed {
-  const qcSourceSizes=([0,1,2].map((index)=>summary.goodSizes[index]+summary.bsSizes[index]+summary.outsideSizes[index]) as QtyTuple)
+  const sizes=Array.from(new Set([...parent.sizes,...summary.sizeLabels]))
+  const good=alignSizeQuantities(summary.sizeLabels,summary.goodSizes,sizes),bs=alignSizeQuantities(summary.sizeLabels,summary.bsSizes,sizes),outside=alignSizeQuantities(summary.sizeLabels,summary.outsideSizes,sizes)
+  const qcSourceSizes=sizes.map((_,index)=>good[index]+bs[index]+outside[index])
   return {
     parentId:parent.id,batchId:batch.id,plannedBrand:parent.plannedBrand,pattern:parent.pattern,model:parent.model,material:parent.material,mandor:parent.mandor,
     laundry:[...new Set([...summary.activeVendors,...summary.returnedVendors])].join(' & '),
-    sizes:parent.sizes,expected:qcSourceSizes,returnedGoodBySize:summary.goodSizes,returnedBsBySize:summary.bsSizes,stuckBySize:summary.outsideSizes,
+    sizes,expected:qcSourceSizes,returnedGoodBySize:good,returnedBsBySize:bs,stuckBySize:outside,
   }
 }
 
@@ -1859,11 +1865,10 @@ function buildQcSeeds(deliveries:LaundryDelivery[]):QcSeed[] {
     const parent=sewingWipSeeds.find((item)=>item.id===first.parentId)
     const batch=parent?.batches.find((item)=>item.id===batchId)
     if(parent&&batch)return makeQcSeed(parent,batch,summarizeLaundryBatch(deliveries,batchId))
-    const goodSizes=([0,1,2].map((index)=>rows.reduce((sum,row)=>sum+row.goodSizes[index],0)) as QtyTuple)
-    const bsSizes=([0,1,2].map((index)=>rows.reduce((sum,row)=>sum+row.bsSizes[index],0)) as QtyTuple)
-    const stuckBySize=([0,1,2].map((index)=>rows.reduce((sum,row)=>sum+laundryOutstandingSizes(row)[index],0)) as QtyTuple)
-    const expected=([0,1,2].map((index)=>goodSizes[index]+bsSizes[index]+stuckBySize[index]) as QtyTuple)
-    return {parentId:first.parentId,batchId,plannedBrand:first.plannedBrand,pattern:first.pattern,model:first.model,material:first.material,mandor:first.mandor,laundry:Array.from(new Set(rows.map((row)=>row.vendor))).join(' & '),sizes:first.sizeLabels,expected,returnedGoodBySize:goodSizes,returnedBsBySize:bsSizes,stuckBySize}
+    const summary=summarizeLaundryBatch(deliveries,batchId)
+    const {sizeLabels,goodSizes,bsSizes,outsideSizes:stuckBySize}=summary
+    const expected=sizeLabels.map((_,i)=>goodSizes[i]+bsSizes[i]+stuckBySize[i])
+    return {parentId:first.parentId,batchId,plannedBrand:first.plannedBrand,pattern:first.pattern,model:first.model,material:first.material,mandor:first.mandor,laundry:Array.from(new Set(rows.map(row=>row.vendor))).join(' & '),sizes:sizeLabels,expected,returnedGoodBySize:goodSizes,returnedBsBySize:bsSizes,stuckBySize}
   }).sort((a,b)=>b.parentId.localeCompare(a.parentId))
 }
 
@@ -1915,12 +1920,12 @@ function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,setDeliver
   const [patternFilter,setPatternFilter]=useState('')
   const [query,setQuery]=useState('')
   const [selectedIds,setSelectedIds]=useState<string[]>(initialBatch?[initialBatch.id]:[])
-  const [sendSizeInputs,setSendSizeInputs]=useState<Record<string,[string,string,string]>>(()=>Object.fromEntries(readyBatches.map((batch)=>[batch.id,batch.sizes.map(String) as [string,string,string]])))
+  const [sendSizeInputs,setSendSizeInputs]=useState<Record<string,string[]>>(()=>Object.fromEntries(readyBatches.map((batch)=>[batch.id,batch.sizes.map(String) as string[]])))
   const [selectedProcess,setSelectedProcess]=useState(initialBatch?.process??'Stone Wash')
   const [sentAt,setSentAt]=useState('2026-08-27T16:00')
   const [sendNote,setSendNote]=useState('')
   const [notice,setNotice]=useState('')
-  const [returnInputs,setReturnInputs]=useState<Record<string,{good:[string,string,string];bs:[string,string,string]}>>({})
+  const [returnInputs,setReturnInputs]=useState<Record<string,{good:string[];bs:string[]}>>({})
   const [returnTimes,setReturnTimes]=useState<Record<string,string>>({})
   const [pendingReverse,setPendingReverse]=useState<LaundryDelivery|null>(null)
   const vendorOptions=['Semua laundry',...laundryVendorNames]
@@ -1963,38 +1968,38 @@ function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,setDeliver
     const [physicalDate,physicalTime]=sentAt.split('T')
     const physicalSentAt=physicalDate==='2026-08-27'?`27 Agu 2026 · ${physicalTime}`:`${physicalDate} · ${physicalTime}`
     setDeliveries((current)=>[
-      ...posted.map(({batch,qty,sizes},index)=>({id:`LDR-260827-${String(startNo+index).padStart(3,'0')}`,parentId:batch.parentId,sequence:batch.sequence,batchId:batch.id,plannedBrand:batch.plannedBrand,pattern:batch.pattern,model:batch.model,material:batch.material,mandor:batch.mandor,vendor:batch.vendor,process:selectedProcess,sentAt:physicalSentAt,qty,sizes,sizeLabels:batch.sizeLabels,good:0,bs:0,goodSizes:[0,0,0] as QtyTuple,bsSizes:[0,0,0] as QtyTuple,reversed:0,reversedSizes:[0,0,0] as QtyTuple})),
+      ...posted.map(({batch,qty,sizes},index)=>({id:`LDR-260827-${String(startNo+index).padStart(3,'0')}`,parentId:batch.parentId,sequence:batch.sequence,batchId:batch.id,plannedBrand:batch.plannedBrand,pattern:batch.pattern,model:batch.model,material:batch.material,mandor:batch.mandor,vendor:batch.vendor,process:selectedProcess,sentAt:physicalSentAt,qty,sizes,sizeLabels:batch.sizeLabels,good:0,bs:0,goodSizes:sizes.map(() => 0),bsSizes:sizes.map(() => 0),reversed:0,reversedSizes:sizes.map(() => 0)})),
       ...current,
     ])
     const sentById=new Map(posted.map((row)=>[row.batch.id,row.sizes]))
-    setReadyBatches((current)=>current.flatMap((batch)=>{const sent=sentById.get(batch.id)??[0,0,0];const sizes=batch.sizes.map((value,index)=>Math.max(0,value-sent[index])) as QtyTuple;const remaining=sizes.reduce((sum,value)=>sum+value,0);return remaining<=0?[]:[{...batch,qty:remaining,sizes}]}))
-    setSendSizeInputs((current)=>{const next={...current};posted.forEach(({batch,sizes})=>{const remaining=batch.sizes.map((value,index)=>Math.max(0,value-sizes[index])) as QtyTuple;if(remaining.some((value)=>value>0))next[batch.id]=remaining.map(String) as [string,string,string];else delete next[batch.id]});return next})
+    setReadyBatches((current)=>current.flatMap((batch)=>{const sent=sentById.get(batch.id)??batch.sizes.map(() => 0);const sizes=batch.sizes.map((value,index)=>Math.max(0,value-sent[index])) as QtyTuple;const remaining=sizes.reduce((sum,value)=>sum+value,0);return remaining<=0?[]:[{...batch,qty:remaining,sizes}]}))
+    setSendSizeInputs((current)=>{const next={...current};posted.forEach(({batch,sizes})=>{const remaining=batch.sizes.map((value,index)=>Math.max(0,value-sizes[index])) as QtyTuple;if(remaining.some((value)=>value>0))next[batch.id]=remaining.map(String) as string[];else delete next[batch.id]});return next})
     onPosted(posted.map(({batch})=>batch.id))
     setSelectedIds([])
     setNotice(`${posted.reduce((sum,row)=>sum+row.qty,0)} pcs dicatat keluar ke ${selectedVendor}.`)
     setActiveTab('return')
   }
 
-  const emptyReturnDraft=()=>({good:['','',''] as [string,string,string],bs:['','',''] as [string,string,string]})
+  const emptyReturnDraft=(delivery: LaundryDelivery)=>({good:delivery.sizeLabels.map(() => ''),bs:delivery.sizeLabels.map(() => '')})
   const updateReturn=(delivery:LaundryDelivery,sizeIndex:number,field:'good'|'bs',raw:string)=>{
     const outstanding=laundryOutstandingSizes(delivery)[sizeIndex]
     setReturnInputs((current)=>{
-      const row=current[delivery.id]??emptyReturnDraft()
+      const row=current[delivery.id]??emptyReturnDraft(delivery)
       const other=cellQuantity(row[field==='good'?'bs':'good'][sizeIndex])
-      const nextField=[...row[field]] as [string,string,string]
+      const nextField=[...row[field]] as string[]
       nextField[sizeIndex]=laundryDigits(raw,Math.max(0,outstanding-other))
       return{...current,[delivery.id]:{...row,[field]:nextField}}
     })
   }
 
   const postReturn=(delivery:LaundryDelivery)=>{
-    const values=returnInputs[delivery.id]??emptyReturnDraft()
+    const values=returnInputs[delivery.id]??emptyReturnDraft(delivery)
     const goodSizes=values.good.map(cellQuantity) as QtyTuple
     const bsSizes=values.bs.map(cellQuantity) as QtyTuple
     const good=goodSizes.reduce((sum,value)=>sum+value,0);const bs=bsSizes.reduce((sum,value)=>sum+value,0)
     if(good+bs<=0)return
     setDeliveries((current)=>current.map((item)=>item.id===delivery.id?{...item,good:item.good+good,bs:item.bs+bs,goodSizes:item.goodSizes.map((value,index)=>value+goodSizes[index]) as QtyTuple,bsSizes:item.bsSizes.map((value,index)=>value+bsSizes[index]) as QtyTuple}:item))
-    setReturnInputs((current)=>({...current,[delivery.id]:emptyReturnDraft()}))
+    setReturnInputs((current)=>({...current,[delivery.id]:emptyReturnDraft(delivery)}))
     setNotice(`${good} Good + ${bs} BS diterima dari ${delivery.vendor}.`)
   }
 
@@ -2016,7 +2021,7 @@ function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,setDeliver
     })
     const existingReady=readyBatches.find((batch)=>batch.id===pendingReverse.batchId)
     const restoredSizes=(existingReady?existingReady.sizes.map((value,index)=>value+reverseSizes[index]):reverseSizes) as QtyTuple
-    setSendSizeInputs((current)=>({...current,[pendingReverse.batchId]:restoredSizes.map(String) as [string,string,string]}))
+    setSendSizeInputs((current)=>({...current,[pendingReverse.batchId]:restoredSizes.map(String) as string[]}))
     const batchId=pendingReverse.batchId
     const vendor=pendingReverse.vendor
     setPendingReverse(null)
@@ -2048,7 +2053,7 @@ function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,setDeliver
             <div className="laundry-batch-rows">{batches.map((batch,batchIndex)=>{const selected=selectedIds.includes(batch.id);const foreign=selectedBatches.length>0&&(selectedParent!==batch.parentId||selectedVendor!==batch.vendor);return <div className={`laundry-batch-row ${selected?'selected':''}`} key={batch.id}>
               <button type="button" className="laundry-batch-select" onClick={()=>toggleBatch(batch)}><span className="laundry-check">{selected&&<Icon name="check"/>}</span><div><span>BATCH {batch.id}</span><strong>{batch.note}</strong><small>Selesai {batch.sewingDoneAt}</small></div><b>{batch.qty} pcs</b></button>
               <div className="laundry-size-pills">{batch.sizeLabels.map((size,index)=>batch.sizes[index]>0&&<span key={size}>Size <b>{size}</b> · {batch.sizes[index]}</span>)}</div>
-              {selected&&<div className="laundry-send-by-size"><span>QTY DIKIRIM PER SIZE</span><div>{batch.sizeLabels.map((size,sizeIndex)=><label key={size}><small>SIZE {size}</small><input inputMode="numeric" data-grid-row={groupIndex*100+batchIndex} data-grid-col={sizeIndex} value={(sendSizeInputs[batch.id]??batch.sizes.map(String))[sizeIndex]} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>setSendSizeInputs((current)=>{const row=[...(current[batch.id]??batch.sizes.map(String))] as [string,string,string];row[sizeIndex]=laundryDigits(event.target.value,batch.sizes[sizeIndex]);return{...current,[batch.id]:row}})}/><em>/ {batch.sizes[sizeIndex]}</em></label>)}</div></div>}
+              {selected&&<div className="laundry-send-by-size"><span>QTY DIKIRIM PER SIZE</span><div>{batch.sizeLabels.map((size,sizeIndex)=><label key={size}><small>SIZE {size}</small><input inputMode="numeric" data-grid-row={groupIndex*100+batchIndex} data-grid-col={sizeIndex} value={(sendSizeInputs[batch.id]??batch.sizes.map(String))[sizeIndex]} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>setSendSizeInputs((current)=>{const row=[...(current[batch.id]??batch.sizes.map(String))] as string[];row[sizeIndex]=laundryDigits(event.target.value,batch.sizes[sizeIndex]);return{...current,[batch.id]:row}})}/><em>/ {batch.sizes[sizeIndex]}</em></label>)}</div></div>}
               {foreign&&!selected&&<small className="laundry-switch-note">Memilih ini akan pindah ke surat kirim Potongan tersebut.</small>}
             </div>})}</div>
           </article>})}{groupedReady.length===0&&<div className="laundry-empty"><Icon name="search"/><strong>Batch tidak ditemukan</strong><small>Coba ganti laundry atau kata pencarian.</small></div>}</div>
@@ -2073,7 +2078,7 @@ function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,setDeliver
           const returnedSizes=laundryReturnedSizes(delivery)
           const progress=Math.round((received+delivery.reversed)/Math.max(1,delivery.qty)*100)
           const status=laundryDeliveryStatus(delivery)
-          const values=returnInputs[delivery.id]??emptyReturnDraft()
+          const values=returnInputs[delivery.id]??emptyReturnDraft(delivery)
           const inputGood=values.good.map(cellQuantity) as QtyTuple
           const inputBs=values.bs.map(cellQuantity) as QtyTuple
           const inputTotal=inputGood.reduce((sum,value)=>sum+value,0)+inputBs.reduce((sum,value)=>sum+value,0)
@@ -2239,10 +2244,10 @@ function Movements({ bookName, bookBrands, setBookBrands, movements, setMovement
   const finalByProduct = new Map<string, QtyTuple>()
   initialMovements.forEach((movement)=>{ const key=movementProductKey(movement); if(!finalByProduct.has(key)) finalByProduct.set(key,[...movement.balance] as QtyTuple) })
   const totalDeltaByProduct = new Map<string, QtyTuple>()
-  movements.forEach((movement)=>{ const key=movementProductKey(movement); const current=totalDeltaByProduct.get(key)??[0,0,0]; totalDeltaByProduct.set(key,current.map((qty,index)=>qty+movement.delta[index]) as QtyTuple) })
+  movements.forEach((movement)=>{ const key=movementProductKey(movement); const current=totalDeltaByProduct.get(key)??movement.delta.map(() => 0); totalDeltaByProduct.set(key,current.map((qty,index)=>qty+movement.delta[index]) as QtyTuple) })
   const runningByProduct = new Map<string, QtyTuple>()
-  finalByProduct.forEach((final,key)=>{ const delta=totalDeltaByProduct.get(key)??[0,0,0]; runningByProduct.set(key,final.map((qty,index)=>qty-delta[index]) as QtyTuple) })
-  const bookRows = movements.map((movement)=>{ const key=movementProductKey(movement); const before=[...(runningByProduct.get(key)??[0,0,0])] as QtyTuple; const after=before.map((qty,index)=>qty+movement.delta[index]) as QtyTuple; runningByProduct.set(key,after); return {...movement,before,after} })
+  finalByProduct.forEach((final,key)=>{ const delta=totalDeltaByProduct.get(key)??final.map(() => 0); runningByProduct.set(key,final.map((qty,index)=>qty-delta[index]) as QtyTuple) })
+  const bookRows = movements.map((movement)=>{ const key=movementProductKey(movement); const before=[...(runningByProduct.get(key)??movement.delta.map(() => 0))] as QtyTuple; const after=before.map((qty,index)=>qty+movement.delta[index]) as QtyTuple; runningByProduct.set(key,after); return {...movement,before,after} })
   const visibleRows = bookRows.filter((movement)=>{ const customer=movement.customer??'Tanpa toko'; const product=productCatalog.find((item)=>productKey(item)===movementProductKey(movement)); const matchesQuery=`${movement.brand} ${movement.sku} ${product?.name??''} ${product?.color??''} ${movement.ref} ${movement.note} ${customer}`.toLowerCase().includes(movementQuery.toLowerCase()); return bookBrands.includes(movement.brand)&&matchesQuery&&selectedCustomers.includes(customer)&&selectedTypes.includes(movement.type) })
   const visibleIds=visibleRows.map((movement)=>movement.id)
 

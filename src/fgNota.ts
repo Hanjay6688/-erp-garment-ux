@@ -1,5 +1,5 @@
-export type NotaSizeValues = [number, number, number]
-export type NotaSizeLabels = [string, string, string]
+export type NotaSizeValues = number[]
+export type NotaSizeLabels = string[]
 
 export type ReadyFgNotaComponent = {
   id: string

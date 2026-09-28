@@ -46,6 +46,7 @@ type HppLot = {
   qty: number
   soldQty: number
   sizes: string
+  sizeStock: { size: string; qty: number }[]
   producedAt: string
   displayStatus: DisplayStatus
   currentVersion: number
@@ -132,10 +133,10 @@ const firstLotVersions = [
 
 const hppLots: HppLot[] = [
   {
-    id: 'FG-260827-005', po: 'PO-260812-028', brand: 'Widie', sku: '73002', product: 'Widie Regular', color: 'Vintage Blue', material: 'Lucy', qty: firstLotQty, soldQty: 12, sizes: '31–33', producedAt: '27 Agu 2026 · 09:55', displayStatus: 'LENGKAP_BERDASARKAN_DATA_SAAT_INI', currentVersion: 3, versions: firstLotVersions, checks: allComplete,
+    id: 'FG-260827-005', po: 'PO-260812-028', brand: 'Widie', sku: '73002', product: 'Widie Regular', color: 'Vintage Blue', material: 'Lucy', qty: firstLotQty, soldQty: 12, sizes: '31–33', sizeStock: [{ size: '31', qty: 42 }, { size: '32', qty: 36 }, { size: '33', qty: 48 }], producedAt: '27 Agu 2026 · 09:55', displayStatus: 'LENGKAP_BERDASARKAN_DATA_SAAT_INI', currentVersion: 3, versions: firstLotVersions, checks: allComplete,
   },
   {
-    id: 'FG-260827-006', po: 'PO-260812-031', brand: 'Vivo', sku: '73002', product: 'Vivo Regular', color: 'Washed Blue', material: 'Lucy', qty: 72, soldQty: 0, sizes: '31–33', producedAt: '27 Agu 2026 · 10:22', displayStatus: 'BELUM_LENGKAP', currentVersion: 2,
+    id: 'FG-260827-006', po: 'PO-260812-031', brand: 'Vivo', sku: '73002', product: 'Vivo Regular', color: 'Washed Blue', material: 'Lucy', qty: 72, soldQty: 0, sizes: '31–33', sizeStock: [{ size: '31', qty: 18 }, { size: '32', qty: 30 }, { size: '33', qty: 24 }], producedAt: '27 Agu 2026 · 10:22', displayStatus: 'BELUM_LENGKAP', currentVersion: 2,
     versions: [
       makeVersion(72, 1, 'ESTIMATED', '27 Agu 2026 · 10:22', 'HPP awal dari QC.', { MATERIAL: 56600, ACCESSORY: 8700, LABOR: 23600, COMMISSION: 1800, LAUNDRY: 13200, REWORK: 0, OTHER: 5900 }),
       makeVersion(72, 2, 'ACTUAL', '27 Agu 2026 · 17:08', 'Invoice utama sudah aktual; kelengkapan operasional masih diperiksa.', { MATERIAL: 57800, ACCESSORY: 8700, LABOR: 23600, COMMISSION: 1800, LAUNDRY: 13700, REWORK: 2400, OTHER: 5900 }),
@@ -147,7 +148,7 @@ const hppLots: HppLot[] = [
         : item),
   },
   {
-    id: 'FG-260826-021', po: 'PO-260810-024', brand: 'Widie', sku: '73001', product: 'Widie Daily', color: 'Dark Navy', material: 'Zodiak KW', qty: 252, soldQty: 0, sizes: '28–30', producedAt: '26 Agu 2026 · 15:40', displayStatus: 'SEMENTARA', currentVersion: 1,
+    id: 'FG-260826-021', po: 'PO-260810-024', brand: 'Widie', sku: '73001', product: 'Widie Daily', color: 'Dark Navy', material: 'Zodiak KW', qty: 252, soldQty: 0, sizes: '28–30', sizeStock: [{ size: '28', qty: 84 }, { size: '29', qty: 78 }, { size: '30', qty: 90 }], producedAt: '26 Agu 2026 · 15:40', displayStatus: 'SEMENTARA', currentVersion: 1,
     versions: [
       makeVersion(252, 1, 'ESTIMATED', '26 Agu 2026 · 15:40', 'Sebagian produksi belum selesai; laundry masih memakai tarif estimasi.', { MATERIAL: 54100, ACCESSORY: 8250, LABOR: 22900, COMMISSION: 1800, LAUNDRY: 12100, REWORK: 0, OTHER: 5600 }),
     ],
@@ -158,7 +159,7 @@ const hppLots: HppLot[] = [
         : item),
   },
   {
-    id: 'FG-260825-018', po: 'PO-260809-019', brand: 'Vivo', sku: '73001', product: 'Vivo Classic', color: 'Indigo', material: '1069 Ori', qty: 216, soldQty: 36, sizes: '28–30', producedAt: '25 Agu 2026 · 14:10', displayStatus: 'LENGKAP_BERDASARKAN_DATA_SAAT_INI', currentVersion: 2,
+    id: 'FG-260825-018', po: 'PO-260809-019', brand: 'Vivo', sku: '73001', product: 'Vivo Classic', color: 'Indigo', material: '1069 Ori', qty: 216, soldQty: 36, sizes: '28–30', sizeStock: [{ size: '28', qty: 54 }, { size: '29', qty: 60 }, { size: '30', qty: 66 }], producedAt: '25 Agu 2026 · 14:10', displayStatus: 'LENGKAP_BERDASARKAN_DATA_SAAT_INI', currentVersion: 2,
     versions: [
       makeVersion(216, 1, 'ESTIMATED', '25 Agu 2026 · 14:10', 'HPP awal dari QC.', { MATERIAL: 60300, ACCESSORY: 9400, LABOR: 25100, COMMISSION: 2200, LAUNDRY: 14200, OTHER: 6200 }),
       makeVersion(216, 2, 'ACTUAL', '26 Agu 2026 · 11:20', 'Seluruh biaya sumber sudah aktual dan lengkap saat ini.', { MATERIAL: 61500, ACCESSORY: 9400, LABOR: 25100, COMMISSION: 2200, LAUNDRY: 14700, OTHER: 6200 }),
@@ -194,7 +195,7 @@ function HppPage() {
     return matchesQuery && matchesBrand && matchesStatus
   }), [query, brand, status])
 
-  const visibleSkuGroups = useMemo(() => Array.from(visibleLots.reduce((groups, item) => {
+  const visibleSkuGroups = useMemo(() => Array.from(hppLots.filter(item => visibleLots.some(match => match.brand === item.brand && match.sku === item.sku)).reduce((groups, item) => {
     const key = `${item.brand}::${item.sku}`
     groups.set(key, [...(groups.get(key) ?? []), item])
     return groups
@@ -202,17 +203,13 @@ function HppPage() {
 
   const skuKey = visibleSkuGroups.some(([key]) => key === activeSkuKey) ? activeSkuKey : visibleSkuGroups[0]?.[0] ?? `${hppLots[0].brand}::${hppLots[0].sku}`
   const skuLots = visibleSkuGroups.find(([key]) => key === skuKey)?.[1] ?? [hppLots[0]]
-  const remainingStock = (item:HppLot) => Math.max(0,item.qty-item.soldQty)
+  const remainingStock = (item:HppLot) => item.sizeStock.reduce((sum, size) => sum + size.qty, 0)
   const activeCost = (item:HppLot) => (item.versions.find((version)=>version.no===item.currentVersion)??item.versions[item.versions.length-1]).perPcs
   const skuRemaining = skuLots.reduce((sum,item)=>sum+remainingStock(item),0)
   const skuInventoryValue = skuLots.reduce((sum,item)=>sum+remainingStock(item)*activeCost(item),0)
   const skuWeightedHpp = skuRemaining>0?Math.round(skuInventoryValue/skuRemaining):0
   const skuSizes = Array.from(skuLots.reduce((rows,item)=>{
-    const labels=item.sizes.split('–').map(Number)
-    const sizeLabels=labels.length===2?Array.from({length:labels[1]-labels[0]+1},(_,index)=>String(labels[0]+index)):[item.sizes]
-    const stock=remainingStock(item)
-    sizeLabels.forEach((size,index)=>{
-      const qty=Math.floor(stock/sizeLabels.length)+(index<stock%sizeLabels.length?1:0)
+    item.sizeStock.forEach(({ size, qty })=>{
       const current=rows.get(size)??{size,qty:0,value:0,lots:0}
       rows.set(size,{size,qty:current.qty+qty,value:current.value+qty*activeCost(item),lots:current.lots+1})
     })

@@ -58,6 +58,10 @@ def foundation(cur,today):
     rows=products(cur);roots=[r[0] for r in rows]
     now=one(cur,'select clock_timestamp()');at=now-timedelta(minutes=4)
     g=group(cur,roots,at);key=str(uuid.uuid4());result=save(cur,[g],at,key);again=save(cur,[g],at,key)
+    b.chain.production.owner(cur)
+    workspace=one(cur,'select public.erp_get_sku_workspace_v1(%s::jsonb)',json.dumps(dict(roots=roots),default=str))
+    assert workspace['lookups'] is not None and len(workspace['selected_products'])==3
+    b.api.admin(cur)
     prices=[one(cur,'select erp.resolve_product_price_at(%s,%s)',r,now) for r in roots]
     ids=cur.execute('select product_root::text,price_version_id::text,bom_version_id::text from erp.bf_sku_members_v1 where version_id=%s',(result['groups'][0]['version_id'],)).fetchall()
     bad=b.refused(cur,lambda:cur.execute("insert into erp.product_price_versions(product_id,price,effective_from) values(%s,1,%s)",(roots[1],now+timedelta(days=1))),'BF_SHARED_MASTER')

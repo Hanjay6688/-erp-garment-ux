@@ -30,8 +30,8 @@ type MasterConfig={
 }
 type EditorDraft={code:string;name:string;active:boolean;values:Record<string,string>}
 
-const allSizes=['28','29','30','31','32','33','34','35','36'] as const
-const sizeGroups=[['28','29','30'],['31','32','33'],['34','35','36']] as const
+const allSizes=['27','28','29','30','31','32','33','34','35','36'] as const
+const sizeGroups=[['27'],['28','29','30'],['31','32','33'],['34','35','36']] as const
 const today='2026-08-29'
 const idr=(value:string)=>new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(Number(value)||0)
 const uomFactor=(uom:string)=>({pcs:1,lusin:12,gross:144}[uom.toLowerCase()]??1)

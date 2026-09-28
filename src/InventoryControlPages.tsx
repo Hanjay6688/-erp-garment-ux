@@ -208,7 +208,7 @@ export function BrandConversionPage() {
   const targets = productCatalog.filter((item) => item.code === source.code && item.brand !== source.brand)
   const [targetKey, setTargetKey] = useState(productKey('Vivo', '73001'))
   const target = targets.find((item) => productKey(item.brand, item.code) === targetKey) ?? targets[0]
-  const [quantities, setQuantities] = useState(['12', '12', '12'])
+  const [quantities, setQuantities] = useState(source.sizes.map(() => '0'))
   const [reason, setReason] = useState<ConversionCase['reason']>('RELABEL')
   const [labelCost, setLabelCost] = useState('350')
   const [note, setNote] = useState('Ganti label merek untuk memenuhi alokasi penjualan tanpa mengubah konstruksi produk.')
@@ -218,7 +218,7 @@ export function BrandConversionPage() {
   const qtyValues = quantities.map(parseNumber)
   const totalQty = qtyValues.reduce((sum, qty) => sum + qty, 0)
   const stockEnough = qtyValues.every((qty, index) => qty <= source.stocks[index])
-  const compatible = source.code === target.code && source.range === target.range
+  const compatible = source.code === target.code && source.sizes.every((size,index) => qtyValues[index] === 0 || target.sizes.includes(size))
   const sourceHpp = source.code === '73001' ? 187450 : 193200
   const extraCost = parseNumber(labelCost)
   const targetHpp = sourceHpp + extraCost

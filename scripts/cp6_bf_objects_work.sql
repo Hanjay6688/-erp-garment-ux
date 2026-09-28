@@ -7,9 +7,10 @@ alter table erp.rework_component_lines add constraint rework_component_lines_rat
 CREATE OR REPLACE FUNCTION erp.bf_bind_wave_v1(p_payload jsonb,p_request uuid)
  RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
 AS $function$
-declare g erp.cutting_groups%rowtype; r jsonb; sid uuid; sku uuid; vid uuid; model uuid; seen uuid[]:='{}'; before_hash text;
+declare g erp.cutting_groups%rowtype; r jsonb; sid uuid; v_sku uuid; vid uuid; model uuid; seen uuid[]:='{}'; before_hash text;
 begin
  perform erp._cp3_assert_closed_json_object(p_payload,array['cutting_group_id','references','expected_version'],array['cutting_group_id','references','expected_version'],'wave SKU references');
+ perform pg_advisory_xact_lock(hashtextextended('BF:COMMERCIAL_SKUS',0));
  select * into g from erp.cutting_groups where id=erp.bd_uuid_v1(p_payload,'cutting_group_id',true) for update;
  if g.id is null then raise exception 'BF_WAVE_MISSING';end if;
  select model_id into model from erp.production_orders where id=g.po_id;
@@ -24,14 +25,14 @@ begin
  delete from erp.bf_wave_skus_v1 where cutting_group_id=g.id;
  for r in select value from jsonb_array_elements(p_payload->'references') loop
    perform erp._cp3_assert_closed_json_object(r,array['sku_id','size_id'],array['sku_id','size_id'],'wave size SKU');
-   sku:=erp.bd_uuid_v1(r,'sku_id',true);sid:=erp.bd_uuid_v1(r,'size_id',true);
+   v_sku:=erp.bd_uuid_v1(r,'sku_id',true);sid:=erp.bd_uuid_v1(r,'size_id',true);
    if sid=any(seen) then raise exception 'BF_DUPLICATE_SIZE';end if;seen:=seen||sid;
    if not exists(select 1 from erp.cutting_group_size_slots where cutting_group_id=g.id and size_id=sid) then raise exception 'BF_SIZE_NOT_IN_WAVE';end if;
    select v.id into vid from erp.bf_sku_versions_v1 v join erp.bf_skus_v1 s on s.id=v.sku_id
      join erp.bf_sku_members_v1 m on m.version_id=v.id join erp.products p on p.id=m.product_root
-     where s.id=sku and s.model_id=model and p.size_id=sid and v.effective_from<=statement_timestamp() and(v.effective_to is null or v.effective_to>statement_timestamp());
+     where s.id=v_sku and s.model_id=model and p.size_id=sid and v.effective_from<=statement_timestamp() and(v.effective_to is null or v.effective_to>statement_timestamp());
    if vid is null then raise exception 'BF_SKU_SIZE_MODEL: SKU referensi harus memuat ukuran/model saat dipilih';end if;
-   insert into erp.bf_wave_skus_v1 values(g.id,sid,sku,clock_timestamp(),erp.current_app_user_id(),p_request);
+   insert into erp.bf_wave_skus_v1 values(g.id,sid,v_sku,clock_timestamp(),erp.current_app_user_id(),p_request);
  end loop;
  if cardinality(seen)>0 and exists(select 1 from erp.cutting_group_size_slots where cutting_group_id=g.id and not(size_id=any(seen))) then
    raise exception 'BF_WAVE_COVERAGE: tentukan SKU referensi setiap ukuran wave';end if;
@@ -76,6 +77,7 @@ CREATE OR REPLACE FUNCTION erp.bf_ensure_work_v1(p_po uuid,p_at timestamptz)
 AS $function$
 declare s record; base record; vid uuid; rate numeric; n integer:=0; contractor uuid;
 begin
+ perform pg_advisory_xact_lock(hashtextextended('BF:COMMERCIAL_SKUS',0));
  select contractor_id into contractor from erp.production_orders where id=p_po for update;
  for s in select distinct w.sku_id from erp.bf_wave_skus_v1 w join erp.cutting_groups g on g.id=w.cutting_group_id where g.po_id=p_po loop
    -- First financial use pins the SKU version for the PO. Merely cutting/binding does not pin a tariff.
@@ -98,7 +100,7 @@ end;$function$;
 CREATE OR REPLACE FUNCTION erp.bf_snapshot_matches_v1(p_snapshot uuid,p_group uuid,p_product uuid)
  RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
 AS $function$
- select case when erp.bf_group_sku_v1(p_group,p_product) is null then s.bf_sku_version_id is null
+ select case when erp.bf_group_sku_v1(p_group,p_product) is null then s.bf_sku_version_id is null and not exists(select 1 from erp.bf_wave_skus_v1 w where w.cutting_group_id=p_group)
    else v.sku_id=erp.bf_group_sku_v1(p_group,p_product) end
  from erp.po_work_component_snapshots s left join erp.bf_sku_versions_v1 v on v.id=s.bf_sku_version_id where s.id=p_snapshot
 $function$;

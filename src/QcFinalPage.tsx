@@ -4,8 +4,8 @@ import './finalization-flow.css'
 import { regularFgNotaCardId } from './fgNota'
 import { productCatalog } from './productCatalog'
 
-type NumberTuple = [number, number, number]
-type StringTuple = [string, string, string]
+type NumberTuple = number[]
+type StringTuple = string[]
 
 export type QcSeed = {
   parentId: string
@@ -43,8 +43,8 @@ export type QcFinalResult = QcSeed & {
 }
 
 const keyOf = (seed:QcSeed) => `${seed.parentId}::${seed.batchId}`
-const asNumberTuple = (values:number[]):NumberTuple => [values[0]??0,values[1]??0,values[2]??0]
-const asStringTuple = (values:string[]):StringTuple => [values[0]??'',values[1]??'',values[2]??'']
+const asNumberTuple = (values:number[]):NumberTuple => [...values]
+const asStringTuple = (values:string[]):StringTuple => [...values]
 const total = (values:NumberTuple) => values.reduce((sum,value)=>sum+value,0)
 const cleanNumber = (raw:string,max:number) => {
   const digits=raw.replace(/\D/g,'').replace(/^0+(?=\d)/,'')

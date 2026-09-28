@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 21,
+  "revision": 22,
   "phase": "after",
   "scenario_path": "scripts/cp6_bf_modes.py",
   "browser_path": "scripts/cp6_bd_revision_browser.mjs",
-  "purpose": "BF development: qualify exact unused rollback, refuse rollback after use, two commercial SKUs in one wave through work/laundry/QC; allow unconfigured SKU economics. NOT_READY, CP6 HOLD."
+  "purpose": "BF development: fix wave reference ambiguity; exercise connected master reader, mixed SKU work/laundry/QC and unused rollback. Dynamic size UI and connected SKU master/HPP are development, PR29 import/rework follow-up remains. NOT_READY, CP6 HOLD."
 }

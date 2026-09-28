@@ -90,6 +90,9 @@ for (const file of sourceFiles.filter((candidate) => !isTestSource(candidate) &&
 assert.deepEqual(dataReads, [], 'Browser code must not read ERP tables/views directly')
 
 assert.deepEqual([...rpcOwnership].sort(), [
+  'src/ConnectedSkuHppPage.tsx:erp_get_sku_hpp_v1',
+  'src/ConnectedSkuMasterPage.tsx:erp_get_sku_workspace_v1',
+  'src/ConnectedSkuMasterPage.tsx:erp_save_sku_action_v1',
   'src/BeReworkTargetFields.tsx:erp_get_laundry_bd_workspace_v1',
   'src/BeReworkTargetFields.tsx:erp_get_product_conversion_workspace_v1',
   'src/ConnectedBsResolutionPage.tsx:erp_save_product_conversion_action_v1',

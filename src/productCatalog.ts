@@ -4,8 +4,8 @@ export type Product = {
   name: string
   color: string
   brand: string
-  sizes: [string, string, string]
-  stocks: [number, number, number]
+  sizes: string[]
+  stocks: number[]
   location: string
   grade: string
 }

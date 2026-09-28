@@ -9,8 +9,8 @@ import type { QcFinalResult } from './QcFinalPage'
 import type { ReadyFgNotaCard } from './fgNota'
 import './bs-rework.css'
 
-export type SizeValues = [number, number, number]
-type SizeInputs = [string, string, string]
+export type SizeValues = number[]
+type SizeInputs = string[]
 type BsSource = 'QC_AUTO' | 'LEGACY_IMPORT' | 'HOLD_RESOLUTION'
 type BsStatus = 'OPEN' | 'ASSIGNED' | 'IN_REWORK' | 'QC_REWORK' | 'GOOD_RESTORED' | 'BS_FINAL'
 type StuckStatus = 'OUTSIDE' | 'PARTIAL' | 'RESOLVED'
@@ -22,13 +22,13 @@ type WorkComponent = { id: string; name: string; note: string; rate: number }
 type BsCase = {
   kind: 'BS'; id: string; source: BsSource; sourceNote: string; parentId: string; batchId: string
   originalMandor: string; reworkMandor: string | null; brand: string; sku: string; material: string
-  sizes: [string, string, string]; qtyBySize: SizeValues; origin: 'QC' | 'LEGACY' | 'HOLD'; reason: string
+  sizes: string[]; qtyBySize: SizeValues; origin: 'QC' | 'LEGACY' | 'HOLD'; reason: string
   status: BsStatus; componentIds: string[]; createdAt: string; deductionOriginId?: string; fixedDeductionRate?: number
 }
 
 type StuckCase = {
   kind: 'STUCK'; id: string; parentId: string; batchId: string; mandor: string; laundry: string
-  brand: string; sku: string; material: string; sizes: [string, string, string]; qtyBySize: SizeValues
+  brand: string; sku: string; material: string; sizes: string[]; qtyBySize: SizeValues
   deliveryRef: string; receiptRef: string; status: StuckStatus; createdAt: string
 }
 
@@ -79,8 +79,8 @@ const resolutionOptions: Array<{ id: ResolutionRoute; label: string; description
 
 const sum = (values: SizeValues) => values.reduce((total, value) => total + value, 0)
 const money = (value: number) => `Rp${Math.round(value).toLocaleString('id-ID')}`
-const asSizeValues = (values: number[]): SizeValues => [values[0] ?? 0, values[1] ?? 0, values[2] ?? 0]
-const asSizeInputs = (values: string[]): SizeInputs => [values[0] ?? '', values[1] ?? '', values[2] ?? '']
+const asSizeValues = (values: number[]): SizeValues => [...values]
+const asSizeInputs = (values: string[]): SizeInputs => [...values]
 export const cleanQuantity = (raw: string, max = 9999) => {
   const normalized = raw.trim().replace(',', '.')
   if (normalized === '') return ''
@@ -95,10 +95,10 @@ const caseComponents = (item: BsCase): WorkComponent[] => item.origin === 'HOLD'
 const caseComponentRate = (item: BsCase, ids: string[]) => caseComponents(item).filter((component) => ids.includes(component.id)).reduce((total, component) => total + component.rate, 0)
 const firstPositiveUnit = (values: SizeValues): SizeValues => {
   const index = values.findIndex((value) => value > 0)
-  return index < 0 ? [0, 0, 0] : asSizeValues(values.map((_, row) => row === index ? 1 : 0))
+  return index < 0 ? values.map(() => 0) : asSizeValues(values.map((_, row) => row === index ? 1 : 0))
 }
-const subtractSizes = (source: SizeValues, used: SizeValues): SizeValues => asSizeValues(source.map((value, index) => Math.max(0, value - used[index])))
-const addSizes = (left: SizeValues, right: SizeValues): SizeValues => asSizeValues(left.map((value, index) => value + right[index]))
+const subtractSizes = (source: SizeValues, used: SizeValues): SizeValues => asSizeValues(source.map((value, index) => Math.max(0, value - (used[index] ?? 0))))
+const addSizes = (left: SizeValues, right: SizeValues): SizeValues => Array.from({ length: Math.max(left.length, right.length) }, (_, index) => (left[index] ?? 0) + (right[index] ?? 0))
 const caseStatusLabel = (item: OperationalCase) => item.kind === 'BS' ? bsStatusLabels[item.status] : stuckStatusLabels[item.status]
 const caseIsDone = (item: OperationalCase) => item.kind === 'BS' ? ['GOOD_RESTORED', 'BS_FINAL'].includes(item.status) : item.status === 'RESOLVED'
 const caseSourceValue = (item: OperationalCase) => item.kind === 'STUCK' ? 'LAUNDRY' : item.source
@@ -106,8 +106,8 @@ const caseMandors = (item: OperationalCase) => item.kind === 'BS' ? [item.origin
 
 export function calculateSusulanResolution(qtySusulan: number[], qtyBsSusulan: number[], outstanding: number[]) {
   const safeOutstanding = asSizeValues(outstanding.map((value) => Math.max(0, Math.floor(Number.isFinite(value) ? value : 0))))
-  const total = asSizeValues(qtySusulan.map((value, index) => Math.min(safeOutstanding[index], Math.max(0, Math.floor(Number.isFinite(value) ? value : 0)))))
-  const bs = asSizeValues(qtyBsSusulan.map((value, index) => Math.min(total[index], Math.max(0, Math.floor(Number.isFinite(value) ? value : 0)))))
+  const total = safeOutstanding.map((available, index) => Math.min(available, Math.max(0, Math.floor(Number.isFinite(qtySusulan[index]) ? qtySusulan[index] : 0))))
+  const bs = total.map((received, index) => Math.min(received, Math.max(0, Math.floor(Number.isFinite(qtyBsSusulan[index]) ? qtyBsSusulan[index] : 0))))
   const good = subtractSizes(total, bs)
   return { total, bs, good, remaining: subtractSizes(safeOutstanding, total) }
 }
@@ -133,7 +133,7 @@ export function ResolutionRoutePicker({ value, onChange, disabled = false }: {
 }
 
 function seedCases(result?: QcFinalResult | null): OperationalCase[] {
-  const sizes: [string, string, string] = result?.sizes ?? ['31', '32', '33']
+  const sizes: string[] = result?.sizes ?? ['31', '32', '33']
   const incomingBs: SizeValues = result ? asSizeValues(result.postedBsBySize) : [2, 1, 0]
   const bsQty: SizeValues = result ? incomingBs : [2, 1, 0]
   const stuckQty: SizeValues = result ? asSizeValues(result.stuckBySize) : [21, 21, 22]
@@ -219,10 +219,10 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
   const [statusFilter, setStatusFilter] = useState('ALL')
   const [sourceFilter, setSourceFilter] = useState('ALL')
   const [showLegacyForm, setShowLegacyForm] = useState(false)
-  const [reworkInputs, setReworkInputs] = useState<SizeInputs>(['', '', ''])
+  const [reworkInputs, setReworkInputs] = useState<SizeInputs>(() => (initialResult?.sizes ?? cases[0]?.sizes ?? ['31', '32', '33']).map(() => ''))
   const [reworkComponentIds, setReworkComponentIds] = useState<string[]>(['obras', 'centang', 'lipat'])
-  const [susulanQtyInputs, setSusulanQtyInputs] = useState<SizeInputs>(['', '', ''])
-  const [susulanBsInputs, setSusulanBsInputs] = useState<SizeInputs>(['', '', ''])
+  const [susulanQtyInputs, setSusulanQtyInputs] = useState<SizeInputs>(() => (initialResult?.sizes ?? cases[0]?.sizes ?? ['31', '32', '33']).map(() => ''))
+  const [susulanBsInputs, setSusulanBsInputs] = useState<SizeInputs>(() => (initialResult?.sizes ?? cases[0]?.sizes ?? ['31', '32', '33']).map(() => ''))
   const [resolutionByCase, setResolutionByCase] = useState<Record<string, ResolutionRoute>>({})
   const [notice, setNotice] = useState<string | null>(null)
 
@@ -241,6 +241,9 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
     setCases((current) => [...missingCases, ...current])
     setLedger((current) => [...incomingLedger.filter((item) => !current.some((entry) => entry.id === item.id)), ...current])
     setSelectedId(missingCases[0].id)
+    setReworkInputs(missingCases[0].sizes.map(()=>''))
+    setSusulanQtyInputs(missingCases[0].sizes.map(()=>''))
+    setSusulanBsInputs(missingCases[0].sizes.map(()=>''))
   }, [initialResult, initialWorkspace])
 
   const mandors = Array.from(new Set(cases.flatMap(caseMandors).filter(Boolean)))
@@ -265,14 +268,14 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
       : ledger.find((item) => item.kind === 'BS_DEDUCTION' && item.caseId === selectedBs.id)
     : undefined
   const releasedForCase: SizeValues = selectedBs && caseDeduction
-    ? ledger.filter((item) => item.kind === 'REWORK_RELEASE' && item.originId === caseDeduction.id).reduce<SizeValues>((total, item) => addSizes(total, item.qtyBySize), [0, 0, 0])
-    : [0, 0, 0]
-  const reworkRemaining: SizeValues = selectedBs ? subtractSizes(selectedBs.qtyBySize, releasedForCase) : [0, 0, 0]
+    ? ledger.filter((item) => item.kind === 'REWORK_RELEASE' && item.originId === caseDeduction.id).reduce<SizeValues>((total, item) => addSizes(total, item.qtyBySize), [])
+    : []
+  const reworkRemaining: SizeValues = selectedBs ? subtractSizes(selectedBs.qtyBySize, releasedForCase) : []
   const selectedHold = selectedStuck ? ledger.find((item) => item.kind === 'STUCK_HOLD' && item.caseId === selectedStuck.id) : undefined
   const holdReleased: SizeValues = selectedHold
-    ? ledger.filter((item) => ['STUCK_RELEASE', 'STUCK_TO_BS'].includes(item.kind) && item.originId === selectedHold.id).reduce<SizeValues>((total, item) => addSizes(total, item.qtyBySize), [0, 0, 0])
-    : [0, 0, 0]
-  const holdRemaining: SizeValues = selectedHold ? subtractSizes(selectedHold.qtyBySize, holdReleased) : [0, 0, 0]
+    ? ledger.filter((item) => ['STUCK_RELEASE', 'STUCK_TO_BS'].includes(item.kind) && item.originId === selectedHold.id).reduce<SizeValues>((total, item) => addSizes(total, item.qtyBySize), [])
+    : []
+  const holdRemaining: SizeValues = selectedHold ? subtractSizes(selectedHold.qtyBySize, holdReleased) : []
   const susulanResolution = calculateSusulanResolution(susulanQtyInputs.map(Number), susulanBsInputs.map(Number), holdRemaining)
   const requestedHoldGood = susulanResolution.good
   const requestedHoldBs = susulanResolution.bs
@@ -289,7 +292,7 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
           .filter((component) => (item.componentIds ?? []).includes(component.id))
           .map(({ id, name, rate }) => ({ id, name, rate }))
         : [])
-    const fallbackSizes: [string, string, string] = ['31', '32', '33']
+    const fallbackSizes: string[] = ['31', '32', '33']
     return {
       id: item.id,
       kind: item.kind === 'STUCK_RELEASE' ? 'STUCK_RELEASE' : 'REWORK_RELEASE',
@@ -313,7 +316,8 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
 
   const setSelectedCase = (id: string) => {
     const target=cases.find((item):item is BsCase=>item.kind==='BS'&&item.id===id)
-    setSelectedId(id); setReworkInputs(['', '', '']); setSusulanQtyInputs(['', '', '']); setSusulanBsInputs(['', '', '']); setReworkComponentIds(target?.componentIds??[])
+    const empty = (cases.find(item => item.id === id)?.sizes ?? []).map(() => '')
+    setSelectedId(id); setReworkInputs(empty); setSusulanQtyInputs(empty); setSusulanBsInputs(empty); setReworkComponentIds(target?.componentIds??[])
   }
   const updateReworkMandor = (mandor: string) => {
     if (!selectedBs) return
@@ -345,7 +349,7 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
     const remainingAfter = subtractSizes(reworkRemaining, requested)
     setLedger((current) => [...current, item])
     setCases((current) => current.map((entry) => entry.kind === 'BS' && entry.id === selectedBs.id ? { ...entry, status: sum(remainingAfter) === 0 ? 'GOOD_RESTORED' : 'QC_REWORK' } : entry))
-    setReworkInputs(['', '', ''])
+    setReworkInputs((selectedBs?.sizes ?? []).map(() => ''))
     onNotaCardReady?.(toNotaCard(item))
     setNotice(`${qty} pcs Bikin Bagus menjadi card siap Nota FG untuk ${item.payee}. ${reworkComponentIds.length} komponen bayar sudah disnapshot.`)
   }
@@ -388,7 +392,7 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
     })
     onStuckReturned?.({parentId:selectedStuck.parentId,batchId:selectedStuck.batchId,laundry:selectedStuck.laundry,goodBySize,bsBySize})
     if (goodItem) onNotaCardReady?.(toNotaCard(goodItem))
-    setSusulanQtyInputs(['', '', '']); setSusulanBsInputs(['', '', ''])
+    setSusulanQtyInputs((selectedStuck?.sizes ?? []).map(() => '')); setSusulanBsInputs((selectedStuck?.sizes ?? []).map(() => ''))
     setNotice(`${goodQty} Good melepas Hold +${money(goodItem?.amount ?? 0)}; ${bsQty} BS direklasifikasi tanpa minus kedua dan tanpa QC kedua. Outstanding Laundry ikut turun.`)
   }
 
@@ -404,7 +408,7 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
   const totalStuck = cases.filter((item): item is StuckCase => item.kind === 'STUCK').reduce((total, item) => {
     const hold = ledger.find((entry) => entry.kind === 'STUCK_HOLD' && entry.caseId === item.id)
     if (!hold) return total
-    const released = ledger.filter((entry) => ['STUCK_RELEASE', 'STUCK_TO_BS'].includes(entry.kind) && entry.originId === hold.id).reduce<SizeValues>((sizes, entry) => addSizes(sizes, entry.qtyBySize), [0, 0, 0])
+    const released = ledger.filter((entry) => ['STUCK_RELEASE', 'STUCK_TO_BS'].includes(entry.kind) && entry.originId === hold.id).reduce<SizeValues>((sizes, entry) => addSizes(sizes, entry.qtyBySize), [])
     return total + sum(subtractSizes(hold.qtyBySize, released))
   }, 0)
 
@@ -448,7 +452,7 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
           <header className="bsr-detail-head"><span className="bsr-detail-icon"><Wrench/></span><div><small>{selectedBs.source === 'QC_AUTO' ? 'BS OTOMATIS DARI QC' : selectedBs.source === 'HOLD_RESOLUTION' ? `BS DARI HOLD · ${selectedBs.sourceNote}` : `IMPOR LEGACY · ${selectedBs.sourceNote}`}</small><h2>{selectedBs.id} · {selectedBs.brand} SKU {selectedBs.sku}</h2><p>{selectedBs.parentId} · Batch {selectedBs.batchId} · {selectedBs.material}</p></div><strong className="bsr-case-total">{sum(selectedBs.qtyBySize)} BS</strong></header>
           <ResolutionRoutePicker value={selectedResolution} disabled={['GOOD_RESTORED', 'BS_FINAL'].includes(selectedBs.status)} onChange={(route) => {
             setResolutionByCase((current) => ({ ...current, [selectedBs.id]: route }))
-            setReworkInputs(['', '', ''])
+            setReworkInputs((selectedBs?.sizes ?? []).map(() => ''))
             setNotice(null)
           }}/>
           {selectedResolution === 'REWORK' && <>
@@ -520,7 +524,7 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
 }
 
 function LegacyBsDialog({ result, onClose, onCreate }: { result?: QcFinalResult | null; onClose: () => void; onCreate: (item: BsCase, deduction: LedgerItem) => void }) {
-  const sizes: [string, string, string] = result?.sizes ?? ['31', '32', '33']
+  const sizes: string[] = result?.sizes ?? ['31', '32', '33']
   const [legacyRef, setLegacyRef] = useState('NOTA-LAMA-08/26-')
   const [physicalDate, setPhysicalDate] = useState('2026-08-26')
   const [parentId, setParentId] = useState(result?.parentId ?? 'POT-260826-041')
@@ -528,7 +532,7 @@ function LegacyBsDialog({ result, onClose, onCreate }: { result?: QcFinalResult 
   const [originalMandor, setOriginalMandor] = useState(result?.mandor ?? 'Mandor Asep')
   const [brand, setBrand] = useState(result?.brand ?? 'Widie')
   const [sku, setSku] = useState(result?.finalSku ?? '73001')
-  const [qtyInputs, setQtyInputs] = useState<SizeInputs>(['', '', ''])
+  const [qtyInputs, setQtyInputs] = useState<SizeInputs>(() => sizes.map(() => ''))
   const [selectedComponents, setSelectedComponents] = useState<string[]>(['obras', 'centang', 'lipat'])
   const [reason, setReason] = useState('')
   const quantities = asSizeValues(qtyInputs.map((value) => Number(value) || 0))

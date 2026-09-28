@@ -6,7 +6,7 @@ import {
 import './wip-control.css'
 
 export type WipControlMode = 'adjust' | 'reverse'
-export type WipControlQty = [number, number, number]
+export type WipControlQty = number[]
 
 export type WipControlBatch = {
   id: string
@@ -24,7 +24,7 @@ export type WipControlParent = {
   model: string
   material: string
   mandor: string
-  sizeLabels: [string, string, string]
+  sizeLabels: string[]
   batches: WipControlBatch[]
 }
 
@@ -62,8 +62,8 @@ export default function WipBatchControlLayer({ mode, parent, targetBatchId, onCl
   const [drafts,setDrafts] = useState<Record<string,WipControlQty>>(()=>batchMap(parent))
   const [note,setNote] = useState('')
 
-  const originalTotals = useMemo<WipControlQty>(() => [0,1,2].map((sizeIndex)=>parent.batches.reduce((sum,batch)=>sum+batch.sizes[sizeIndex],0)) as WipControlQty,[parent])
-  const afterTotals = useMemo<WipControlQty>(() => [0,1,2].map((sizeIndex)=>parent.batches.reduce((sum,batch)=>sum+(drafts[batch.id]?.[sizeIndex]??batch.sizes[sizeIndex]),0)) as WipControlQty,[drafts,parent])
+  const originalTotals = useMemo<WipControlQty>(() => parent.sizeLabels.map((_,sizeIndex)=>parent.batches.reduce((sum,batch)=>sum+batch.sizes[sizeIndex],0)) as WipControlQty,[parent])
+  const afterTotals = useMemo<WipControlQty>(() => parent.sizeLabels.map((_,sizeIndex)=>parent.batches.reduce((sum,batch)=>sum+(drafts[batch.id]?.[sizeIndex]??batch.sizes[sizeIndex]),0)) as WipControlQty,[drafts,parent])
   const changed = parent.batches.some((batch)=>batch.sizes.some((qty,sizeIndex)=>qty!==(drafts[batch.id]?.[sizeIndex]??qty)))
   const netDelta = total(afterTotals)-total(originalTotals)
   const redistributionExact = originalTotals.every((qty,index)=>qty===afterTotals[index])

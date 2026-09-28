@@ -15,7 +15,7 @@ import './business-pages.css'
 export type SalesView = 'sales-invoice' | 'sales-allocation' | 'sales-returns' | 'sales-payments' | 'sales-history'
 
 type SalesPageProps = { view: SalesView; onNavigate: (view: SalesView) => void }
-type DraftLine = { key: string; product: Product; quantities: [number, number, number]; priceDozen: number }
+type DraftLine = { key: string; product: Product; quantities: number[]; priceDozen: number }
 type Tone = 'good' | 'warn' | 'danger' | 'neutral'
 
 const money = (value: number) => new Intl.NumberFormat('id-ID', {
@@ -30,8 +30,7 @@ const defaultSalesLocation = 'Gudang FG Utama'
 const initialSalesProducts = productCatalog.filter((product) => isSellableGoodAtLocation(product, defaultSalesLocation)).slice(0, 2)
 
 function makeLine(product: Product, dozens: number): DraftLine {
-  const quantities = distributeDozensEvenly(dozens)
-  if (!quantities) throw new Error('Draft line requires an exact, evenly distributed three-size quantity.')
+  const quantities = distributeDozensEvenly(dozens, product.sizes.length) ?? product.sizes.map(() => 0)
   return {
     key: productKey(product), product,
     quantities,
@@ -145,37 +144,42 @@ function InvoiceWorkspace({ onNavigate }: { onNavigate: SalesPageProps['onNaviga
   }),[query,brand,location])
   const totalQty=lines.reduce((sum,line)=>sum+lineQty(line),0)
   const gross=lines.reduce((sum,line)=>sum+lineGross(line),0)
-  const stockValid=lines.every((line)=>isSellableGoodAtLocation(line.product,location)&&line.quantities.every((qty,index)=>Number.isSafeInteger(qty)&&qty>=0&&qty<=line.product.stocks[index]))
+  const stockValid=lines.every((line)=>isSellableGoodAtLocation(line.product,location)&&line.quantities.length===line.product.sizes.length&&line.product.stocks.length===line.product.sizes.length&&new Set(line.product.sizes).size===line.product.sizes.length&&line.quantities.every((qty,index)=>Number.isSafeInteger(qty)&&qty>=0&&qty<=line.product.stocks[index]))
   const canReview=lines.length>0&&totalQty>0&&stockValid&&customer.trim().length>0
 
   const addProduct=(product:Product)=>{
     const key=productKey(product)
     if(!isSellableGoodAtLocation(product,location)){setNotice('SKU diblokir: Sales hanya boleh memilih grade GOOD dari lokasi FG yang sedang aktif.');return}
     if(lines.some((line)=>line.key===key)){setNotice(`${product.brand} ${product.code} sudah ada di invoice.`);return}
-    setLines((current)=>[...current,makeLine(product,1)])
-    setLineDozens((current)=>({...current,[key]:'1'}))
-    setNotice(`${product.brand} ${product.code} masuk ke draft dengan helper 1 lusin. Size tetap bisa diubah bebas.`)
+    const newLine=makeLine(product,1)
+    setLines((current)=>[...current,newLine])
+    const evenlyApplied=newLine.quantities.reduce((sum,qty)=>sum+qty,0)===12
+    setLineDozens((current)=>({...current,[key]:evenlyApplied?'1':''}))
+    setNotice(evenlyApplied?`${product.brand} ${product.code}: 1 lusin dibagi merata ke ${product.sizes.length} ukuran.`:`${product.brand} ${product.code}: isi PCS per ukuran; 1 lusin tidak terbagi rata ke ${product.sizes.length} ukuran.`)
   }
   const updateQty=(key:string,index:number,value:string)=>{
     const source=lines.find((line)=>line.key===key)
     if(!source)return
     const parsed=parseManualPieceQuantity(value)
     if(parsed===null){setNotice('Qty size tidak berubah: masukkan bilangan bulat PCS yang aman, tanpa minus, desimal, atau notasi ilmiah.');return}
-    const next=[...source.quantities] as [number,number,number]
+    const next=[...source.quantities]
     next[index]=parsed
     setLines((current)=>current.map((line)=>line.key===key?{...line,quantities:next}:line))
-    setLineDozens((current)=>({...current,[key]:(next.reduce((sum,qty)=>sum+qty,0)/12).toLocaleString('id-ID',{maximumFractionDigits:2})}))
+    setLineDozens((current)=>({...current,[key]:''}))
   }
   const applyDozens=(key:string)=>{
     const rawDozens=(lineDozens[key]??'').trim().replace(',','.')
-    const dozens=rawDozens===''?Number.NaN:Number(rawDozens)
-    const quantities=distributeDozensEvenly(dozens)
+    if(rawDozens==='')return
+    const dozens=Number(rawDozens)
+    const source=lines.find((line)=>line.key===key)
+    if(!source)return
+    const quantities=distributeDozensEvenly(dozens,source.product.sizes.length)
     if(!quantities){
-      setNotice('Helper tidak diterapkan: total potong harus bulat dan habis dibagi rata ke 3 size aktif. Qty size lama tidak berubah; isi qty per size secara eksplisit.')
+      setNotice(`Helper tidak diterapkan: total potong harus bulat dan habis dibagi rata ke ${source.product.sizes.length} ukuran SKU ini. Qty lama tetap; isi pembagian per ukuran secara eksplisit.`)
       return
     }
     setLines((current)=>current.map((line)=>line.key===key?{...line,quantities}:line))
-    setNotice(`Helper ${dozens.toLocaleString('id-ID',{maximumFractionDigits:2})} lusin diterapkan rata ke tiga size. Size tetap menjadi sumber qty akhir.`)
+    setNotice(`Helper ${dozens.toLocaleString('id-ID',{maximumFractionDigits:2})} lusin diterapkan rata ke ${source.product.sizes.length} ukuran SKU ini. Jumlah per ukuran tetap bisa diedit.`)
   }
   const updatePrice=(key:string,value:string)=>setLines((current)=>current.map((line)=>line.key===key?{...line,priceDozen:Math.max(0,Number(value.replace(/\D/g,''))||0)}:line))
 
@@ -212,7 +216,7 @@ function InvoiceWorkspace({ onNavigate }: { onNavigate: SalesPageProps['onNaviga
 
       <aside className="panel biz-review-card">
         <span>RINGKASAN INVOICE</span><h2>{money(gross)}</h2><p>{customer} · {terms}</p>
-        <div><article><small>SKU</small><strong>{lines.length}</strong></article><article><small>QTY</small><strong>{totalQty} pcs</strong></article><article><small>LUSIN</small><strong>{(totalQty/12).toLocaleString('id-ID',{maximumFractionDigits:2})}</strong></article></div>
+        <div><article><small>SKU</small><strong>{lines.length}</strong></article><article><small>QTY</small><strong>{totalQty} pcs</strong></article><article><small>LUSIN</small><strong>{qtyLabel(totalQty)}</strong></article></div>
         <section><p><Check/> SKU/size langsung dicek terhadap stok siap jual</p><p><Check/> Simpan Draft langsung membuat mutasi reserve −qty</p><p><Check/> Post mengunci invoice tanpa mengurangi stok kedua kali</p><p><Check/> Batal/kurangi Draft membuat release +qty</p></section>
         {!stockValid&&<div className="biz-guard danger"><AlertTriangle/><span>Ada baris di luar lokasi aktif, bukan grade GOOD, qty tidak aman, atau melebihi stok. Posting harus diblokir.</span></div>}
         <label><span>CATATAN INVOICE</span><textarea placeholder="PO pelanggan, instruksi kirim, atau catatan harga..."/></label>
