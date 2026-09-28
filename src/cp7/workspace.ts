@@ -104,6 +104,10 @@ export function projectShell(state: ShellState, access: PreviewAccess) {
   const analysis = access === 'DENIED' || !state.analysis ? null : structuredClone(state.analysis)
   if (analysis && access !== 'OWNER') {
     analysis.metrics = []
+    // Comparisons are another metric payload, including values, refs and prose.
+    // The shell contract has no per-metric access classification; withhold the
+    // whole collection under the same restriction as metrics before formatting.
+    analysis.plan_comparisons = []
     analysis.financial_readiness = 'BLOCKED'
     analysis.quality.financial = 'UNKNOWN'
   }
