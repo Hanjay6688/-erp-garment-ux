@@ -1,0 +1,988 @@
+[
+  {
+    "id": "P00",
+    "title": "CP6 receipt dan katalog efektif",
+    "wave": "ENTRY",
+    "depends_on": [],
+    "proposed_owner_role": "INTEGRATOR",
+    "status": "BLOCKED_CP6_GATE",
+    "inputs": "CP6 accepted audit BD/BE, D01–D10 terbaru, handoff BE, git/schema/runtime identities; latest accepted BD/BE/BF, FREE/WAIVED and range audit dispositions, release and CP6 last check",
+    "outputs": "accepted_base_receipt; resolved function/ACL/trigger/source map; scope disposition; single-writer receipt",
+    "proposed_owned_paths": [
+      "docs/cp7/CURRENT_STATE.json",
+      "docs/cp7/source-map.json"
+    ],
+    "invariants": "No CP6 HOLD relabel; no hosted write; exact base and actor",
+    "exit_case_ids": [
+      "E21",
+      "E14"
+    ],
+    "common_trap": "Menganggap newest head sama dengan independently accepted head",
+    "shared_files_rule": "Integrator only: App.tsx, runtime, auth/access catalog, shared DTO/schema, source/migration/CI manifests",
+    "verification_level": "T1_FAMILY",
+    "receipt_required": [
+      "source_head",
+      "tree",
+      "schema_runtime",
+      "changed_symbols",
+      "dependency_hash",
+      "oracle_hash",
+      "fixture_hash",
+      "expected_actual",
+      "case_status",
+      "cleanup",
+      "remaining_risk"
+    ],
+    "revision": "CP7-BACKBONE-20260928-v2"
+  },
+  {
+    "id": "P01",
+    "title": "Kontrak engine dan oracle",
+    "wave": "A",
+    "depends_on": [
+      "P00"
+    ],
+    "proposed_owner_role": "INTEGRATOR",
+    "status": "PLANNED_NOT_STARTED",
+    "inputs": "CP7 rev3, BR V3.1, UX32, source catalog P00, package numeric vectors; owner28 delta, AnalysisResult v2, notification contracts, semantic rules and independent vectors",
+    "outputs": "versioned JSON/TS contract; metrics/reasons/permissions; fixture charter and requirement crosswalk",
+    "proposed_owned_paths": [
+      "src/cp7/contracts/",
+      "docs/cp7/registries/",
+      "tests/cp7/oracles/"
+    ],
+    "invariants": "No duplicate formula; UNKNOWN is not zero; owner scope retained",
+    "exit_case_ids": [
+      "O01",
+      "O04",
+      "O15",
+      "E22",
+      "X07"
+    ],
+    "common_trap": "Golden expected dihasilkan dari helper produksi yang sama",
+    "shared_files_rule": "Integrator only: App.tsx, runtime, auth/access catalog, shared DTO/schema, source/migration/CI manifests",
+    "verification_level": "T1_FAMILY",
+    "receipt_required": [
+      "source_head",
+      "tree",
+      "schema_runtime",
+      "changed_symbols",
+      "dependency_hash",
+      "oracle_hash",
+      "fixture_hash",
+      "expected_actual",
+      "case_status",
+      "cleanup",
+      "remaining_risk"
+    ],
+    "revision": "CP7-BACKBONE-20260928-v2"
+  },
+  {
+    "id": "P02",
+    "title": "Capture fakta dan snapshot",
+    "wave": "A",
+    "depends_on": [
+      "P01"
+    ],
+    "proposed_owner_role": "CORE",
+    "status": "PLANNED_NOT_STARTED",
+    "inputs": "Accepted source readers, permissions and contract v1",
+    "outputs": "coherent persisted snapshot; immutable fact pages; completeness and dependency/stale vector",
+    "proposed_owned_paths": [
+      "scripts/cp7-src/snapshot/",
+      "tests/cp7/families/snapshot/"
+    ],
+    "invariants": "One MVCC capture; no domain writes/locks; no incomplete READY",
+    "exit_case_ids": [
+      "E09",
+      "E14",
+      "E15",
+      "E20",
+      "E22",
+      "X09"
+    ],
+    "common_trap": "Menggabungkan halaman atau RPC live dari waktu berbeda",
+    "shared_files_rule": "Integrator only: App.tsx, runtime, auth/access catalog, shared DTO/schema, source/migration/CI manifests",
+    "verification_level": "T1_FAMILY",
+    "receipt_required": [
+      "source_head",
+      "tree",
+      "schema_runtime",
+      "changed_symbols",
+      "dependency_hash",
+      "oracle_hash",
+      "fixture_hash",
+      "expected_actual",
+      "case_status",
+      "cleanup",
+      "remaining_risk"
+    ],
+    "revision": "CP7-BACKBONE-20260928-v2"
+  },
+  {
+    "id": "P03",
+    "title": "Identity, status produksi, lineage",
+    "wave": "A",
+    "depends_on": [
+      "P02"
+    ],
+    "proposed_owner_role": "CORE",
+    "status": "PLANNED_NOT_STARTED",
+    "inputs": "Physical and product identity facts; CP4.5/AV/BE source map",
+    "outputs": "canonical source+size graph; ACTIVE/PAUSED/STOPPED history and atomic command",
+    "proposed_owned_paths": [
+      "scripts/cp7-src/identity/",
+      "src/cp7/production-status/",
+      "tests/cp7/families/identity/"
+    ],
+    "invariants": "Brand/version/size exact; posted snapshots immutable; Stop separate from is_active",
+    "exit_case_ids": [
+      "O15",
+      "O17",
+      "E02",
+      "E23",
+      "X01",
+      "X03"
+    ],
+    "common_trap": "Stop mematikan penjualan/master atau parent+child dihitung ganda",
+    "shared_files_rule": "Integrator only: App.tsx, runtime, auth/access catalog, shared DTO/schema, source/migration/CI manifests",
+    "verification_level": "T1_FAMILY",
+    "receipt_required": [
+      "source_head",
+      "tree",
+      "schema_runtime",
+      "changed_symbols",
+      "dependency_hash",
+      "oracle_hash",
+      "fixture_hash",
+      "expected_actual",
+      "case_status",
+      "cleanup",
+      "remaining_risk"
+    ],
+    "revision": "CP7-BACKBONE-20260928-v2"
+  },
+  {
+    "id": "P04",
+    "title": "WIP matching dan ETA",
+    "wave": "B",
+    "depends_on": [
+      "P03"
+    ],
+    "proposed_owner_role": "CORE",
+    "status": "PLANNED_NOT_STARTED",
+    "inputs": "Normalized source graph, stage events, confirmed destinations/calendar/yield",
+    "outputs": "unique WIP classification; hard matching reasons; remaining-stage ETA; pooled capacities",
+    "proposed_owned_paths": [
+      "scripts/cp7-src/wip/",
+      "tests/cp7/families/wip/"
+    ],
+    "invariants": "No multistage/incoming double count; problems not automatic GOOD",
+    "exit_case_ids": [
+      "O03",
+      "O04",
+      "O05",
+      "O15",
+      "E02",
+      "M07",
+      "X06",
+      "X08"
+    ],
+    "common_trap": "Tariff SKU dianggap final SKU; unknown ETA dianggap on-time",
+    "shared_files_rule": "Integrator only: App.tsx, runtime, auth/access catalog, shared DTO/schema, source/migration/CI manifests",
+    "verification_level": "T1_FAMILY",
+    "receipt_required": [
+      "source_head",
+      "tree",
+      "schema_runtime",
+      "changed_symbols",
+      "dependency_hash",
+      "oracle_hash",
+      "fixture_hash",
+      "expected_actual",
+      "case_status",
+      "cleanup",
+      "remaining_risk"
+    ],
+    "revision": "CP7-BACKBONE-20260928-v2"
+  },
+  {
+    "id": "P05",
+    "title": "Demand dan availability history",
+    "wave": "C",
+    "depends_on": [
+      "P04"
+    ],
+    "proposed_owner_role": "CORE",
+    "status": "PLANNED_NOT_STARTED",
+    "inputs": "Sales lifecycle facts through authoritative reader; available/stockout/unknown days",
+    "outputs": "dedup demand events; residual horizon demand; labeled analog/manual estimates",
+    "proposed_owned_paths": [
+      "scripts/cp7-src/demand/",
+      "tests/cp7/families/demand/"
+    ],
+    "invariants": "Draft once; no future knowledge; stockout not zero demand",
+    "exit_case_ids": [
+      "O06",
+      "O11",
+      "O12",
+      "E01",
+      "M03",
+      "X02"
+    ],
+    "common_trap": "Posted sale dihitung lagi atau returns menghapus demand secara buta",
+    "shared_files_rule": "Integrator only: App.tsx, runtime, auth/access catalog, shared DTO/schema, source/migration/CI manifests",
+    "verification_level": "T1_FAMILY",
+    "receipt_required": [
+      "source_head",
+      "tree",
+      "schema_runtime",
+      "changed_symbols",
+      "dependency_hash",
+      "oracle_hash",
+      "fixture_hash",
+      "expected_actual",
+      "case_status",
+      "cleanup",
+      "remaining_risk"
+    ],
+    "revision": "CP7-BACKBONE-20260928-v2"
+  },
+  {
+    "id": "P06",
+    "title": "Baseline dan dated feasibility",
+    "wave": "C",
+    "depends_on": [
+      "P05"
+    ],
+    "proposed_owner_role": "CORE",
+    "status": "PLANNED_NOT_STARTED",
+    "inputs": "Demand, WIP, FG, policy versions, material/capacity facts",
+    "outputs": "base/conditional gap per date+size; rounding delta; material and capacity scenarios; ranking reasons",
+    "proposed_owned_paths": [
+      "scripts/cp7-src/baseline/",
+      "tests/cp7/families/baseline/"
+    ],
+    "invariants": "Late arrival cannot cure prior gap; no double buffer; shortage distinct from feasible",
+    "exit_case_ids": [
+      "O01",
+      "O02",
+      "O03",
+      "O07",
+      "O08",
+      "O09",
+      "O10",
+      "O16",
+      "O19",
+      "M06",
+      "M07",
+      "X10",
+      "X11",
+      "X12"
+    ],
+    "common_trap": "Total horizon atau total SKU menutupi gap tanggal/size",
+    "shared_files_rule": "Integrator only: App.tsx, runtime, auth/access catalog, shared DTO/schema, source/migration/CI manifests",
+    "verification_level": "T1_FAMILY",
+    "receipt_required": [
+      "source_head",
+      "tree",
+      "schema_runtime",
+      "changed_symbols",
+      "dependency_hash",
+      "oracle_hash",
+      "fixture_hash",
+      "expected_actual",
+      "case_status",
+      "cleanup",
+      "remaining_risk"
+    ],
+    "revision": "CP7-BACKBONE-20260928-v2"
+  },
+  {
+    "id": "P07",
+    "title": "Adaptive evaluation",
+    "wave": "D",
+    "depends_on": [
+      "P06"
+    ],
+    "proposed_owner_role": "CORE",
+    "status": "PLANNED_NOT_STARTED",
+    "inputs": "Frozen demand dataset, model registry, baseline, horizon and proposed technical promotion guard",
+    "outputs": "eligible model kernels; rolling train/validation/holdout; versioned scores and fallback reasons",
+    "proposed_owned_paths": [
+      "scripts/cp7-src/models/",
+      "tests/cp7/families/models/"
+    ],
+    "invariants": "No leakage; baseline stays if evidence insufficient; statistical status honest",
+    "exit_case_ids": [
+      "M01",
+      "M02",
+      "M03",
+      "M04",
+      "M05",
+      "M06",
+      "M08",
+      "O20",
+      "X13",
+      "X14",
+      "X15"
+    ],
+    "common_trap": "Retune memakai holdout lalu mengklaim model menang",
+    "shared_files_rule": "Integrator only: App.tsx, runtime, auth/access catalog, shared DTO/schema, source/migration/CI manifests",
+    "verification_level": "T1_FAMILY",
+    "receipt_required": [
+      "source_head",
+      "tree",
+      "schema_runtime",
+      "changed_symbols",
+      "dependency_hash",
+      "oracle_hash",
+      "fixture_hash",
+      "expected_actual",
+      "case_status",
+      "cleanup",
+      "remaining_risk"
+    ],
+    "revision": "CP7-BACKBONE-20260928-v2"
+  },
+  {
+    "id": "P08",
+    "title": "Scenario, draft dan apply",
+    "wave": "E",
+    "depends_on": [
+      "P07",
+      "P10"
+    ],
+    "proposed_owner_role": "CORE",
+    "status": "PLANNED_NOT_STARTED",
+    "inputs": "Complete analysis result, existing operational command contract, recovery fence",
+    "outputs": "scenario capacity validation; versioned drafts; preview/apply intent bridge and outcome recovery",
+    "proposed_owned_paths": [
+      "scripts/cp7-src/scenario/",
+      "scripts/cp7-src/apply/",
+      "src/cp7/drafts/",
+      "tests/cp7/families/apply/"
+    ],
+    "invariants": "Draft not reservation; no duplicate physical use or plan-induced start",
+    "exit_case_ids": [
+      "O04",
+      "E09",
+      "E10",
+      "E11",
+      "E12",
+      "E13",
+      "E22"
+    ],
+    "common_trap": "Hanya request_id guard; dua draft berbeda memproduksi gap yang sama",
+    "shared_files_rule": "Integrator only: App.tsx, runtime, auth/access catalog, shared DTO/schema, source/migration/CI manifests",
+    "verification_level": "T1_FAMILY",
+    "receipt_required": [
+      "source_head",
+      "tree",
+      "schema_runtime",
+      "changed_symbols",
+      "dependency_hash",
+      "oracle_hash",
+      "fixture_hash",
+      "expected_actual",
+      "case_status",
+      "cleanup",
+      "remaining_risk"
+    ],
+    "revision": "CP7-BACKBONE-20260928-v2"
+  },
+  {
+    "id": "P09",
+    "title": "Procurement dan gudang connected",
+    "wave": "INTEGRATION",
+    "depends_on": [
+      "P03"
+    ],
+    "proposed_owner_role": "OPS_CONTRIBUTOR",
+    "status": "PLANNED_NOT_STARTED",
+    "inputs": "Existing CP6 receipt/material/roll/accessory sources and approved facades",
+    "outputs": "connected receipts/warehouse/search/transfer/stock actions, versioned DTO and source drilldown",
+    "proposed_owned_paths": [
+      "src/connected/procurement/",
+      "scripts/cp7-src/bridges/procurement/",
+      "tests/cp7/families/procurement/"
+    ],
+    "invariants": "No duplicate stock/value; location and historical prefix valid",
+    "exit_case_ids": [
+      "E01",
+      "E24",
+      "E14",
+      "E12"
+    ],
+    "common_trap": "Mengganti demo dengan local optimistic stock atau menaikkan LIMIT saja",
+    "shared_files_rule": "Integrator only: App.tsx, runtime, auth/access catalog, shared DTO/schema, source/migration/CI manifests",
+    "verification_level": "T1_FAMILY",
+    "receipt_required": [
+      "source_head",
+      "tree",
+      "schema_runtime",
+      "changed_symbols",
+      "dependency_hash",
+      "oracle_hash",
+      "fixture_hash",
+      "expected_actual",
+      "case_status",
+      "cleanup",
+      "remaining_risk"
+    ],
+    "revision": "CP7-BACKBONE-20260928-v2"
+  },
+  {
+    "id": "P10",
+    "title": "FG stock, handoff dan adjustment",
+    "wave": "INTEGRATION",
+    "depends_on": [
+      "P04"
+    ],
+    "proposed_owner_role": "OPS_CONTRIBUTOR",
+    "status": "PLANNED_NOT_STARTED",
+    "inputs": "CP6 QC/FG/AX/non-PO/conversion lots; source identity and permissions",
+    "outputs": "authoritative FG ledger+running balance+search; Nota handoff; existing adjustment lifecycle UI",
+    "proposed_owned_paths": [
+      "src/connected/fg/",
+      "scripts/cp7-src/bridges/fg/",
+      "tests/cp7/families/fg/"
+    ],
+    "invariants": "Exact size/lot/ownership; no duplicate handoff post; blocked mode removed only after proof",
+    "exit_case_ids": [
+      "O07",
+      "E01",
+      "E04",
+      "E13",
+      "E14",
+      "E20"
+    ],
+    "common_trap": "Kartu Nota tampil dianggap sumber FG baru",
+    "shared_files_rule": "Integrator only: App.tsx, runtime, auth/access catalog, shared DTO/schema, source/migration/CI manifests",
+    "verification_level": "T1_FAMILY",
+    "receipt_required": [
+      "source_head",
+      "tree",
+      "schema_runtime",
+      "changed_symbols",
+      "dependency_hash",
+      "oracle_hash",
+      "fixture_hash",
+      "expected_actual",
+      "case_status",
+      "cleanup",
+      "remaining_risk"
+    ],
+    "revision": "CP7-BACKBONE-20260928-v2"
+  },
+  {
+    "id": "P11",
+    "title": "Sales, return, refund, payment",
+    "wave": "INTEGRATION",
+    "depends_on": [
+      "P10"
+    ],
+    "proposed_owner_role": "SALES_CONTRIBUTOR",
+    "status": "PLANNED_NOT_STARTED",
+    "inputs": "Eligible FG lots, existing sales/AR/cash backend, draft lifecycle contract",
+    "outputs": "connected invoice draft/post/cancel, physical return and refund/payment with ledger reload",
+    "proposed_owned_paths": [
+      "src/connected/sales/",
+      "scripts/cp7-src/bridges/sales/",
+      "tests/cp7/families/sales/"
+    ],
+    "invariants": "Availability once; AR and cash distinct; source capacity after lock",
+    "exit_case_ids": [
+      "O06",
+      "E01",
+      "E03",
+      "E12",
+      "E13",
+      "E14"
+    ],
+    "common_trap": "Draft->posted stok dipotong lagi; paid treated as revenue event twice",
+    "shared_files_rule": "Integrator only: App.tsx, runtime, auth/access catalog, shared DTO/schema, source/migration/CI manifests",
+    "verification_level": "T1_FAMILY",
+    "receipt_required": [
+      "source_head",
+      "tree",
+      "schema_runtime",
+      "changed_symbols",
+      "dependency_hash",
+      "oracle_hash",
+      "fixture_hash",
+      "expected_actual",
+      "case_status",
+      "cleanup",
+      "remaining_risk"
+    ],
+    "revision": "CP7-BACKBONE-20260928-v2"
+  },
+  {
+    "id": "P12",
+    "title": "Attendance, payroll dan Nota",
+    "wave": "INTEGRATION",
+    "depends_on": [
+      "P03"
+    ],
+    "proposed_owner_role": "PAYROLL_CONTRIBUTOR",
+    "status": "PLANNED_NOT_STARTED",
+    "inputs": "CP3 approved attendance, SELESAI_DIJAHIT, entitlement, advance/issue source facts",
+    "outputs": "connected approve/pay/reverse/carry/deduction and source notes; no invented wage policy",
+    "proposed_owned_paths": [
+      "src/connected/payroll/",
+      "scripts/cp7-src/bridges/payroll/",
+      "tests/cp7/families/payroll/"
+    ],
+    "invariants": "APPROVED expense once; PAID settlement; rework/QC not new denominator",
+    "exit_case_ids": [
+      "E05",
+      "E07",
+      "E12",
+      "E14"
+    ],
+    "common_trap": "Menghitung upah dari QC GOOD atau cash paid status",
+    "shared_files_rule": "Integrator only: App.tsx, runtime, auth/access catalog, shared DTO/schema, source/migration/CI manifests",
+    "verification_level": "T1_FAMILY",
+    "receipt_required": [
+      "source_head",
+      "tree",
+      "schema_runtime",
+      "changed_symbols",
+      "dependency_hash",
+      "oracle_hash",
+      "fixture_hash",
+      "expected_actual",
+      "case_status",
+      "cleanup",
+      "remaining_risk"
+    ],
+    "revision": "CP7-BACKBONE-20260928-v2"
+  },
+  {
+    "id": "P13",
+    "title": "Finance, HPP, close dan reporting",
+    "wave": "INTEGRATION",
+    "depends_on": [
+      "P09",
+      "P11",
+      "P12"
+    ],
+    "proposed_owner_role": "FINANCE_CONTRIBUTOR",
+    "status": "PLANNED_NOT_STARTED",
+    "inputs": "Source-owned HPP/GL/AR/AP/cash, AW close, D01 dates and late recost facts",
+    "outputs": "connected finance/HPP/close/report source DTO; per-date readiness and corrections visible",
+    "proposed_owned_paths": [
+      "src/connected/finance/",
+      "scripts/cp7-src/bridges/finance/",
+      "tests/cp7/families/finance/"
+    ],
+    "invariants": "No fabricated zero cost/final; current balance not historic readiness",
+    "exit_case_ids": [
+      "O13",
+      "O14",
+      "O18",
+      "E04",
+      "E05",
+      "E06",
+      "E07",
+      "E13",
+      "E14",
+      "X04"
+    ],
+    "common_trap": "Invoice nol delta tidak menyegarkan certainty atau report false READY",
+    "shared_files_rule": "Integrator only: App.tsx, runtime, auth/access catalog, shared DTO/schema, source/migration/CI manifests",
+    "verification_level": "T1_FAMILY",
+    "receipt_required": [
+      "source_head",
+      "tree",
+      "schema_runtime",
+      "changed_symbols",
+      "dependency_hash",
+      "oracle_hash",
+      "fixture_hash",
+      "expected_actual",
+      "case_status",
+      "cleanup",
+      "remaining_risk"
+    ],
+    "revision": "CP7-BACKBONE-20260928-v2"
+  },
+  {
+    "id": "P14",
+    "title": "Planner dan panel bersama",
+    "wave": "E",
+    "depends_on": [
+      "P08",
+      "P11"
+    ],
+    "proposed_owner_role": "UI_CONTRIBUTOR",
+    "status": "PLANNED_NOT_STARTED",
+    "inputs": "AnalysisResult v1, action/reason catalog, source deep links and command bridge",
+    "outputs": "Planner; Buat/Bagi shared panel; Stok per-SKU explanation; Master production status controls",
+    "proposed_owned_paths": [
+      "src/cp7/ui/",
+      "src/cp7/stock-panel/",
+      "tests/cp7/browser/planner/"
+    ],
+    "invariants": "Same run same numbers; stable ranking; grouping not source merge; dirty form preserved",
+    "exit_case_ids": [
+      "O04",
+      "E08",
+      "E09",
+      "E19",
+      "E23",
+      "X05",
+      "X18",
+      "X19"
+    ],
+    "common_trap": "JSX score/netting engine kedua; filter mereset kapasitas",
+    "shared_files_rule": "Integrator only: App.tsx, runtime, auth/access catalog, shared DTO/schema, source/migration/CI manifests",
+    "verification_level": "T1_FAMILY",
+    "receipt_required": [
+      "source_head",
+      "tree",
+      "schema_runtime",
+      "changed_symbols",
+      "dependency_hash",
+      "oracle_hash",
+      "fixture_hash",
+      "expected_actual",
+      "case_status",
+      "cleanup",
+      "remaining_risk"
+    ],
+    "revision": "CP7-BACKBONE-20260928-v2"
+  },
+  {
+    "id": "P15",
+    "title": "Business Report on-demand",
+    "wave": "BR",
+    "depends_on": [
+      "P13",
+      "P14"
+    ],
+    "proposed_owner_role": "REPORT_CONTRIBUTOR",
+    "status": "PLANNED_NOT_STARTED",
+    "inputs": "Metrics and analysis result; authorized source links; immutable run+versions",
+    "outputs": "single menu; deterministic Indonesian templates; daily/weekly/custom; publish/history/revision",
+    "proposed_owned_paths": [
+      "src/cp7/reports/",
+      "scripts/cp7-src/reports/",
+      "tests/cp7/families/reports/"
+    ],
+    "invariants": "No LLM call; caveats/source kept; archive immutable; no false financial READY",
+    "exit_case_ids": [
+      "O13",
+      "O14",
+      "E06",
+      "E08",
+      "E09",
+      "E15",
+      "E16",
+      "E22",
+      "X16"
+    ],
+    "common_trap": "Paragraf menghapus kata jika atau menganggap cooccurrence sebab",
+    "shared_files_rule": "Integrator only: App.tsx, runtime, auth/access catalog, shared DTO/schema, source/migration/CI manifests",
+    "verification_level": "T1_FAMILY",
+    "receipt_required": [
+      "source_head",
+      "tree",
+      "schema_runtime",
+      "changed_symbols",
+      "dependency_hash",
+      "oracle_hash",
+      "fixture_hash",
+      "expected_actual",
+      "case_status",
+      "cleanup",
+      "remaining_risk"
+    ],
+    "revision": "CP7-BACKBONE-20260928-v2"
+  },
+  {
+    "id": "P16",
+    "title": "Reminder manual dan kondisi",
+    "wave": "BR",
+    "depends_on": [
+      "P15"
+    ],
+    "proposed_owner_role": "REMINDER_CONTRIBUTOR",
+    "status": "PLANNED_NOT_STARTED",
+    "inputs": "Existing manual reminder facade; complete domain observation; explicit rule policy",
+    "outputs": "server manual lifecycle, condition episodes, ACK/snooze separation and shared analysis links; production/material/ARAP rule families, WA contract and local-sink readiness; live transport remains explicit CP7C gate",
+    "proposed_owned_paths": [
+      "src/cp7/reminder/",
+      "scripts/cp7-src/conditions/",
+      "tests/cp7/families/reminder/"
+    ],
+    "invariants": "Attention not source resolved; unknown not healthy; no scheduler/delivery enabled",
+    "exit_case_ids": [
+      "E08",
+      "E15",
+      "E17",
+      "E22",
+      "E14",
+      "X20",
+      "X21",
+      "X22",
+      "X23",
+      "X24",
+      "X25",
+      "X26",
+      "X29"
+    ],
+    "common_trap": "Mark DONE membuat shortage/invoice dianggap selesai",
+    "shared_files_rule": "Integrator only: App.tsx, runtime, auth/access catalog, shared DTO/schema, source/migration/CI manifests",
+    "verification_level": "T1_FAMILY",
+    "receipt_required": [
+      "source_head",
+      "tree",
+      "schema_runtime",
+      "changed_symbols",
+      "dependency_hash",
+      "oracle_hash",
+      "fixture_hash",
+      "expected_actual",
+      "case_status",
+      "cleanup",
+      "remaining_risk"
+    ],
+    "revision": "CP7-BACKBONE-20260928-v2"
+  },
+  {
+    "id": "P17",
+    "title": "Tanya AI V1",
+    "wave": "F",
+    "depends_on": [
+      "P14"
+    ],
+    "proposed_owner_role": "UI_CONTRIBUTOR",
+    "status": "PLANNED_NOT_STARTED",
+    "inputs": "Authorized analysis snapshot, scope and truncation metadata",
+    "outputs": "prompt serialization, copy/open actions and manual fallback; calculator independent of ChatGPT",
+    "proposed_owned_paths": [
+      "src/cp7/ai-v1/",
+      "tests/cp7/browser/ai-v1/"
+    ],
+    "invariants": "No external AI API/key/writeback; no sensitive URL or false clipboard success",
+    "exit_case_ids": [
+      "E08",
+      "E18",
+      "E14",
+      "E22",
+      "X17"
+    ],
+    "common_trap": "Tab terbuka dianggap message sent atau model diberi data di luar izin",
+    "shared_files_rule": "Integrator only: App.tsx, runtime, auth/access catalog, shared DTO/schema, source/migration/CI manifests",
+    "verification_level": "T1_FAMILY",
+    "receipt_required": [
+      "source_head",
+      "tree",
+      "schema_runtime",
+      "changed_symbols",
+      "dependency_hash",
+      "oracle_hash",
+      "fixture_hash",
+      "expected_actual",
+      "case_status",
+      "cleanup",
+      "remaining_risk"
+    ],
+    "revision": "CP7-BACKBONE-20260928-v2"
+  },
+  {
+    "id": "P18",
+    "title": "Full dummy-flow dan predecessor",
+    "wave": "G",
+    "depends_on": [
+      "P09",
+      "P10",
+      "P11",
+      "P12",
+      "P13",
+      "P14",
+      "P15",
+      "P16",
+      "P17"
+    ],
+    "proposed_owner_role": "VERIFIER",
+    "status": "PLANNED_NOT_STARTED",
+    "inputs": "All stable packets, accepted CP6 evidence index and final consumer source",
+    "outputs": "T2 candidate reconciliation, case dispositions and real Auth/HTTP/browser journeys",
+    "proposed_owned_paths": [
+      "tests/cp7/full-flow/",
+      "docs/cp7/evidence/t2/"
+    ],
+    "invariants": "No scoped HOLD relabel; no product count inflation; same candidate/runtime",
+    "exit_case_ids": [
+      "E01",
+      "E02",
+      "E03",
+      "E04",
+      "E05",
+      "E06",
+      "E07",
+      "E08",
+      "E12",
+      "E13",
+      "E14",
+      "E22",
+      "E24"
+    ],
+    "common_trap": "Unit/UI mock suite dianggap full ERP integration",
+    "shared_files_rule": "Integrator only: App.tsx, runtime, auth/access catalog, shared DTO/schema, source/migration/CI manifests",
+    "verification_level": "T2_CANDIDATE",
+    "receipt_required": [
+      "source_head",
+      "tree",
+      "schema_runtime",
+      "changed_symbols",
+      "dependency_hash",
+      "oracle_hash",
+      "fixture_hash",
+      "expected_actual",
+      "case_status",
+      "cleanup",
+      "remaining_risk"
+    ],
+    "revision": "CP7-BACKBONE-20260928-v2"
+  },
+  {
+    "id": "P19",
+    "title": "Scale dan resilience",
+    "wave": "G",
+    "depends_on": [
+      "P18"
+    ],
+    "proposed_owner_role": "VERIFIER",
+    "status": "PLANNED_NOT_STARTED",
+    "inputs": "Same frozen candidate and representative synthetic size profiles",
+    "outputs": "complete multi-page/multiuser results, p95/query/lock metrics, recovery and role-revocation evidence",
+    "proposed_owned_paths": [
+      "tests/cp7/scale/",
+      "tests/cp7/races/",
+      "docs/cp7/evidence/scale/"
+    ],
+    "invariants": "Bounded work and no hidden truncation; analysis does not stall writers",
+    "exit_case_ids": [
+      "E09",
+      "E10",
+      "E11",
+      "E12",
+      "E14",
+      "E15",
+      "E19",
+      "E20",
+      "E22",
+      "X27",
+      "X28",
+      "X30"
+    ],
+    "common_trap": "Mengukur cepat pada fixture10row lalu klaim pabrik siap",
+    "shared_files_rule": "Integrator only: App.tsx, runtime, auth/access catalog, shared DTO/schema, source/migration/CI manifests",
+    "verification_level": "T2_CANDIDATE",
+    "receipt_required": [
+      "source_head",
+      "tree",
+      "schema_runtime",
+      "changed_symbols",
+      "dependency_hash",
+      "oracle_hash",
+      "fixture_hash",
+      "expected_actual",
+      "case_status",
+      "cleanup",
+      "remaining_risk"
+    ],
+    "revision": "CP7-BACKBONE-20260928-v2"
+  },
+  {
+    "id": "P20",
+    "title": "Independent audit",
+    "wave": "G",
+    "depends_on": [
+      "P19"
+    ],
+    "proposed_owner_role": "INDEPENDENT_AUDITOR",
+    "status": "PLANNED_NOT_STARTED",
+    "inputs": "Exact immutable candidate, contracts and source-bound writer receipts; separate oracle charter",
+    "outputs": "Independent ACCEPT/HOLD/INCOMPLETE per scope, root-cause findings and delta qualification",
+    "proposed_owned_paths": [
+      "audit-only branch: docs/cp7/independent/ and own probe files"
+    ],
+    "invariants": "No self-certification; own native execution; external findings beyond writer list",
+    "exit_case_ids": [
+      "E01",
+      "E02",
+      "E06",
+      "E10",
+      "E11",
+      "E14",
+      "E15",
+      "E20",
+      "E22",
+      "M03",
+      "X31"
+    ],
+    "common_trap": "Auditor hanya mengulangi summary writer atau ikut menulis lalu menyebut independen",
+    "shared_files_rule": "Integrator only: App.tsx, runtime, auth/access catalog, shared DTO/schema, source/migration/CI manifests",
+    "verification_level": "INDEPENDENT",
+    "receipt_required": [
+      "source_head",
+      "tree",
+      "schema_runtime",
+      "changed_symbols",
+      "dependency_hash",
+      "oracle_hash",
+      "fixture_hash",
+      "expected_actual",
+      "case_status",
+      "cleanup",
+      "remaining_risk"
+    ],
+    "revision": "CP7-BACKBONE-20260928-v2"
+  },
+  {
+    "id": "P21",
+    "title": "Release package dan next-CP receipt",
+    "wave": "RELEASE",
+    "depends_on": [
+      "P20"
+    ],
+    "proposed_owner_role": "INTEGRATOR",
+    "status": "PLANNED_NOT_STARTED",
+    "inputs": "Accepted candidate, representative base, immutable predecessors, source/ACL/runtime pins",
+    "outputs": "reproducible combined install; installed T2; refusal/restore/cleanup; CP7 acceptance handoff",
+    "proposed_owned_paths": [
+      "supabase/release/cp7/",
+      "scripts/cp7-release/",
+      "docs/cp7/evidence/t3/"
+    ],
+    "invariants": "No hosted deploy/GO; post-use rollback lawful; previous migrations preserved",
+    "exit_case_ids": [
+      "E21",
+      "E14",
+      "E22",
+      "X32"
+    ],
+    "common_trap": "Rilis berasal dari clone terbaru yang tidak setara baseline pemasangan",
+    "shared_files_rule": "Integrator only: App.tsx, runtime, auth/access catalog, shared DTO/schema, source/migration/CI manifests",
+    "verification_level": "T3_RELEASE",
+    "receipt_required": [
+      "source_head",
+      "tree",
+      "schema_runtime",
+      "changed_symbols",
+      "dependency_hash",
+      "oracle_hash",
+      "fixture_hash",
+      "expected_actual",
+      "case_status",
+      "cleanup",
+      "remaining_risk"
+    ],
+    "revision": "CP7-BACKBONE-20260928-v2"
+  }
+]

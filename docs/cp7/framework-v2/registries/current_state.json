@@ -1,0 +1,20 @@
+{
+  "framework_version": "CP7-BACKBONE-20260928-v2",
+  "mode": "PREPARATION_ONLY",
+  "cp6_gate": "HOLD",
+  "cp7_implementation": "NOT_STARTED",
+  "observed_writer_branch": "claude/new-session-deapao",
+  "observed_head": "2c2fd5e8e0df5f8ada44402c93f70dbaf0fbbb5b",
+  "observed_tree": "20826407e5f98f798b1650f520300e85aebbd2eb",
+  "production_go": false,
+  "accepted_execution_base": null,
+  "base_reason": "Independent CP6 acceptance pending",
+  "first_execution_packet": "P00",
+  "product_mutations": 0,
+  "hosted_mutations": 0,
+  "deployments": 0,
+  "preparation_status": "FRAMEWORK_REVISED",
+  "owner_delta_source": "Current owner message 2026-09-28 14:03 Asia/Bangkok",
+  "messages_sent": 0,
+  "next_action": "Review v2; P00 only after accepted CP6 and implementation mandate. Do not reuse historical writer head as accepted base."
+}

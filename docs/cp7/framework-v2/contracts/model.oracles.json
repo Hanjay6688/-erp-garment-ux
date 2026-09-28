@@ -1,0 +1,45 @@
+{
+  "scope": "SYNTHETIC_PREPARATION_ONLY",
+  "kernel_coverage": "SES example only; every selected kernel needs numeric oracle before P07 acceptance",
+  "ses": {
+    "initial": "10",
+    "alpha": "0.5",
+    "observations": [
+      "20",
+      "30"
+    ],
+    "expected_levels": [
+      "15",
+      "22.5"
+    ],
+    "expected_next": "22.5",
+    "absolute_tolerance": "0.000000001"
+  },
+  "promotion": {
+    "folds": 3,
+    "horizon_complete": true,
+    "actual": [
+      "10",
+      "10",
+      "10"
+    ],
+    "baseline": [
+      "5",
+      "5",
+      "5"
+    ],
+    "challenger": [
+      "9",
+      "9",
+      "9"
+    ],
+    "expected": {
+      "baseline_mae": "5",
+      "challenger_mae": "1",
+      "baseline_bias": "-5",
+      "challenger_bias": "-1",
+      "selected": "challenger"
+    },
+    "holdout_used_for_selection": false
+  }
+}

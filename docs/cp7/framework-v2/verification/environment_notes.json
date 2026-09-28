@@ -1,0 +1,9 @@
+{
+  "resolved_setup_events": [
+    "System and primary Python lacked jsonschema; isolated dependency directory supplied jsonschema4.25.1.",
+    "Earlier checkout had no TypeScript executable; isolated TypeScript5.9.3 installed with lifecycle scripts disabled; final compile succeeded.",
+    "One document patch was rejected before applying due to duplicate path operations; applied as separate new validator plus entrypoint."
+  ],
+  "classification": "TOOL_SETUP_RESOLVED_NOT_PRODUCT_DEFECT",
+  "product_mutations": 0
+}

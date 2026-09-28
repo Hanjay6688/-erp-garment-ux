@@ -1,0 +1,166 @@
+{
+  "observed_head": "2c2fd5e8e0df5f8ada44402c93f70dbaf0fbbb5b",
+  "observed_tree": "20826407e5f98f798b1650f520300e85aebbd2eb",
+  "observation_kind": "STATIC_SOURCE_AND_REMOTE_REF_READ_ONLY",
+  "runtime_cp7_tests": "NOT_RUN",
+  "repo_files": [
+    {
+      "path": "src/config/runtime.ts",
+      "sha256": "ad630ef3e3708a35ad2aabd05a3acc5306ae0d164b2eb15c70e1eaee192675a8",
+      "exists": true
+    },
+    {
+      "path": "src/App.tsx",
+      "sha256": "7121679802ba0992661e9f00076c281dd9dcf3fd4da772cfdfb65ac605ff0d17",
+      "exists": true
+    },
+    {
+      "path": "src/SalesPages.tsx",
+      "sha256": "d806896f24f1023c60bb4b4ebc379f33d8189f4b0452487a9ec21c3cb611a144",
+      "exists": true
+    },
+    {
+      "path": "src/FinancePages.tsx",
+      "sha256": "ee0e841caef0cff25edf22aa00ab91444a559f7e92eff56ec7ab3fac3030e484",
+      "exists": true
+    },
+    {
+      "path": "src/HppPage.tsx",
+      "sha256": "cee06f6a7ece210a56f1fb75ad32d1b17b93a8391bafbb217486ec8229839842",
+      "exists": true
+    },
+    {
+      "path": "src/OperationsAdminPages.tsx",
+      "sha256": "784c9de6bd778b20bfd4d2a1d1c9c7afb92edf672d205ed82082ee0dbbd00b53",
+      "exists": true
+    },
+    {
+      "path": "src/ConnectedWipStatusPage.tsx",
+      "sha256": "8452a0fae356d241fee1cf172b9cfbc189d5def5735b1aa540debb1130a38c99",
+      "exists": true
+    },
+    {
+      "path": "src/useLaundryQcWorkspace.ts",
+      "sha256": "b33d4a6e92e7a6eddebceaadb5dc95a4ec6704cad60f4346fd56d613c0a99805",
+      "exists": true
+    },
+    {
+      "path": "src/ConnectedBsResolutionPage.tsx",
+      "sha256": "b71b2090f65e206a57b3764c6ea0f9ed2fa23179918fc36003a1ec7572acd040",
+      "exists": true
+    },
+    {
+      "path": "src/ConnectedProductConversionPage.tsx",
+      "sha256": "d72d4efb77475ab65b777001bb8663d9cabf35598af542d2a63671d417f8cc9e",
+      "exists": true
+    },
+    {
+      "path": "src/ConnectedPocketFabricPage.tsx",
+      "sha256": "fccf60522c099a8ed6ad2016a26db369884f62c2af929f8d3112ebe69b2af06c",
+      "exists": true
+    },
+    {
+      "path": "src/types/database.preconnect.ts",
+      "sha256": "4074f018a340ef2af72145039fe8a36a57ebd31e5e6d814d552243307034baa9",
+      "exists": true
+    },
+    {
+      "path": "wrangler.jsonc",
+      "sha256": "4920522668fcf3222320c8651d65df08b6528b0fe211bf8152e3c0546b387dff",
+      "exists": true
+    },
+    {
+      "path": "package.json",
+      "sha256": "188026b2d570d1f5ebcc1e1f5a7a950ae0327c326da7a0e6ce8e22f8b99c4d20",
+      "exists": true
+    },
+    {
+      "path": "docs/cp6-au-r1-handoff.md",
+      "sha256": "0b5eb054f5b6ff71164c4e25c4dbf7b4c22aa52c62f6c2d37c988379350469d7",
+      "exists": true
+    },
+    {
+      "path": "docs/cp6-be-writer-handoff-20260927.md",
+      "sha256": "13926d955a9d14481ab87676df693a5c84bb9187a6080a14d610c44717d50705",
+      "exists": true
+    },
+    {
+      "path": "docs/cp6-writer-gpt-progress.md",
+      "sha256": "2ab6baf66b2e8a115a59622e59adf7e50f6b46b0714b4531752e17309235d582",
+      "exists": true
+    },
+    {
+      "path": "docs/contracts/ERP_ADDENDUM_OWNER_DECISIONS_CP6_2026-09-25.md",
+      "sha256": "ffa61953def6305c21c2ba61ab8526442974083cc43e65062220be322e059559",
+      "exists": true
+    },
+    {
+      "path": "docs/contracts/ERP_ADDENDUM_OWNER_DECISIONS_CP6_2026-09-25_LAMPIRAN_C6.md",
+      "sha256": "4bf8671ee27544c811a821668cef845379afd9e3823b3d4117f5833258de97bf",
+      "exists": true
+    }
+  ],
+  "business_documents": [
+    {
+      "name": "ERP_V3_2_Master_Pulih_20260923.md",
+      "sha256": "f21ac70360915a1f1021b42a3918e862ca7d11cf88c1b90c5627b4490c69af07",
+      "bytes": 681195
+    },
+    {
+      "name": "ERP_V3_2_Perubahan_Pulih_20260923.md",
+      "sha256": "92966cd6ed27e64123be6c52e2263bfbdb3db91c97f2e441c3bdc98589397676",
+      "bytes": 131244
+    },
+    {
+      "name": "ERP_ADDENDUM_BUSINESS_REPORT_CP7_2026-09-18.md",
+      "sha256": "4566ab6f1c8e53bc21c70c0c777f780b526305815e04d5913a5c858dfaa85886",
+      "bytes": 56297
+    },
+    {
+      "name": "Rancangan_A_B_CP6_20260923.zip",
+      "sha256": "2597a15dd0ad4c1ddb3d815f4beb90991cf0d8f52d00975b2a5ab6c38afe5132",
+      "bytes": 6059
+    }
+  ],
+  "external_method_sources": [
+    {
+      "url": "https://learn.chatgpt.com/guides/best-practices",
+      "purpose": "task contracts and reusable instructions",
+      "read_on": "2026-09-27"
+    },
+    {
+      "url": "https://learn.chatgpt.com/docs/environments/git-worktrees",
+      "purpose": "isolated proposal worktrees",
+      "read_on": "2026-09-27"
+    },
+    {
+      "url": "https://code.claude.com/docs/en/best-practices",
+      "purpose": "explore-plan-build-verify and independent checks",
+      "read_on": "2026-09-27"
+    },
+    {
+      "url": "https://code.claude.com/docs/en/agent-teams",
+      "purpose": "parallelism boundaries, overhead, file ownership",
+      "read_on": "2026-09-27"
+    },
+    {
+      "url": "https://supabase.com/docs/guides/database/postgres/row-level-security",
+      "purpose": "permission/query design; no runtime implementation in this task",
+      "read_on": "2026-09-27"
+    }
+  ],
+  "library_contracts": [
+    {
+      "name": "CP7_PERENCANAAN_PRODUKSI_KONTRAK_2026-09-10.md",
+      "library_file_id": "libfile_1db7680caecc81919acbb2721ff97b44",
+      "version": "3",
+      "declared_bytes": 44260
+    },
+    {
+      "name": "CP7_ADVANCED_CALCULATOR_RISET_2026-09-10.md",
+      "library_file_id": "libfile_3f1f18e5535081918eb27a83e872f826",
+      "version": "1",
+      "declared_bytes": 24383
+    }
+  ]
+}

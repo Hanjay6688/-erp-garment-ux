@@ -1,0 +1,23 @@
+{
+  "checked_refs": [
+    {
+      "name": "claude/new-session-deapao",
+      "head": "2c2fd5e8e0df5f8ada44402c93f70dbaf0fbbb5b"
+    },
+    {
+      "name": "competition/cp6-j-closure-20260911",
+      "head": "ca7f09556397801c50a2277bdb65b1bf019f9a05"
+    },
+    {
+      "name": "main",
+      "head": "557005e6674058f1e5e966b350cba05501e06182"
+    }
+  ],
+  "check_kind": "REMOTE_PUSH_VISIBILITY_ONLY",
+  "expected_writer_head": "2c2fd5e8e0df5f8ada44402c93f70dbaf0fbbb5b",
+  "unexpected_writer_push_detected": false,
+  "does_not_prove_other_local_sessions_stopped": true,
+  "background_monitoring_created": false,
+  "checked_at_utc": "2026-09-27T18:02:01Z",
+  "method": "GitHub branches API; writer/main/competition compared to observed baseline"
+}

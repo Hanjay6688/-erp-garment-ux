@@ -1,0 +1,112 @@
+[
+  {
+    "id": "P03-A",
+    "parent_packet": "P03",
+    "title": "Commercial/physical membership",
+    "case_ids": [
+      "X01",
+      "X02"
+    ],
+    "runtime_status": "NOT_RUN",
+    "owner": "Parent packet owner; no separate canonical writer"
+  },
+  {
+    "id": "P03-B",
+    "parent_packet": "P03",
+    "title": "Production status and dynamic members",
+    "case_ids": [
+      "X03",
+      "X05"
+    ],
+    "runtime_status": "NOT_RUN",
+    "owner": "Parent packet owner; no separate canonical writer"
+  },
+  {
+    "id": "P07-A",
+    "parent_packet": "P07",
+    "title": "Kernel numeric oracles",
+    "case_ids": [
+      "X13"
+    ],
+    "runtime_status": "NOT_RUN",
+    "owner": "Parent packet owner; no separate canonical writer"
+  },
+  {
+    "id": "P07-B",
+    "parent_packet": "P07",
+    "title": "Promotion and holdout",
+    "case_ids": [
+      "X14",
+      "X15"
+    ],
+    "runtime_status": "NOT_RUN",
+    "owner": "Parent packet owner; no separate canonical writer"
+  },
+  {
+    "id": "P15-A",
+    "parent_packet": "P15",
+    "title": "Metric context and report output",
+    "case_ids": [
+      "X16"
+    ],
+    "runtime_status": "NOT_RUN",
+    "owner": "Parent packet owner; no separate canonical writer"
+  },
+  {
+    "id": "P16-A",
+    "parent_packet": "P16",
+    "title": "Manual, policy, episode and attention",
+    "case_ids": [
+      "E17",
+      "X24"
+    ],
+    "runtime_status": "NOT_RUN",
+    "owner": "Parent packet owner; no separate canonical writer"
+  },
+  {
+    "id": "P16-B",
+    "parent_packet": "P16",
+    "title": "Production reminders",
+    "case_ids": [
+      "X20"
+    ],
+    "runtime_status": "NOT_RUN",
+    "owner": "Parent packet owner; no separate canonical writer"
+  },
+  {
+    "id": "P16-C",
+    "parent_packet": "P16",
+    "title": "Accessory/material reminders",
+    "case_ids": [
+      "X21"
+    ],
+    "runtime_status": "NOT_RUN",
+    "owner": "Parent packet owner; no separate canonical writer"
+  },
+  {
+    "id": "P16-D",
+    "parent_packet": "P16",
+    "title": "AR/AP reminders",
+    "case_ids": [
+      "X22",
+      "X23"
+    ],
+    "runtime_status": "NOT_RUN",
+    "owner": "Parent packet owner; no separate canonical writer"
+  },
+  {
+    "id": "P16-E",
+    "parent_packet": "P16",
+    "title": "WA readiness and future live handoff",
+    "case_ids": [
+      "X25",
+      "X26",
+      "X27",
+      "X28",
+      "X29",
+      "X30"
+    ],
+    "runtime_status": "NOT_RUN",
+    "owner": "Parent packet owner; no separate canonical writer"
+  }
+]

@@ -1,0 +1,87 @@
+[
+  {
+    "id": "F0",
+    "title": "Baseline and contracts",
+    "work_packets": [
+      "P00",
+      "P01"
+    ],
+    "scheduling": "Use packet dependencies, not whole-family serial ordering",
+    "exit": "Affected entrypoints + positive/negative/unknown/replay/race where relevant; T1 does not replace independent T2/T3",
+    "change_rule": "One root cause with impacted subcases; evidence reused only with dependency parity"
+  },
+  {
+    "id": "F1",
+    "title": "Shared analysis and apply",
+    "work_packets": [
+      "P02",
+      "P03",
+      "P04",
+      "P05",
+      "P06",
+      "P07",
+      "P08"
+    ],
+    "scheduling": "Use packet dependencies, not whole-family serial ordering",
+    "exit": "Affected entrypoints + positive/negative/unknown/replay/race where relevant; T1 does not replace independent T2/T3",
+    "change_rule": "One root cause with impacted subcases; evidence reused only with dependency parity"
+  },
+  {
+    "id": "F2",
+    "title": "Physical and warehouse",
+    "work_packets": [
+      "P09",
+      "P10"
+    ],
+    "scheduling": "Use packet dependencies, not whole-family serial ordering",
+    "exit": "Affected entrypoints + positive/negative/unknown/replay/race where relevant; T1 does not replace independent T2/T3",
+    "change_rule": "One root cause with impacted subcases; evidence reused only with dependency parity"
+  },
+  {
+    "id": "F3",
+    "title": "Financial and entitlement",
+    "work_packets": [
+      "P11",
+      "P12",
+      "P13"
+    ],
+    "scheduling": "Use packet dependencies, not whole-family serial ordering",
+    "exit": "Affected entrypoints + positive/negative/unknown/replay/race where relevant; T1 does not replace independent T2/T3",
+    "change_rule": "One root cause with impacted subcases; evidence reused only with dependency parity"
+  },
+  {
+    "id": "F4",
+    "title": "Consumers and reports",
+    "work_packets": [
+      "P14",
+      "P15",
+      "P17"
+    ],
+    "scheduling": "Use packet dependencies, not whole-family serial ordering",
+    "exit": "Affected entrypoints + positive/negative/unknown/replay/race where relevant; T1 does not replace independent T2/T3",
+    "change_rule": "One root cause with impacted subcases; evidence reused only with dependency parity"
+  },
+  {
+    "id": "F5",
+    "title": "Reminder and WA readiness",
+    "work_packets": [
+      "P16"
+    ],
+    "scheduling": "Use packet dependencies, not whole-family serial ordering",
+    "exit": "Affected entrypoints + positive/negative/unknown/replay/race where relevant; T1 does not replace independent T2/T3",
+    "change_rule": "One root cause with impacted subcases; evidence reused only with dependency parity"
+  },
+  {
+    "id": "F6",
+    "title": "Candidate evidence and release",
+    "work_packets": [
+      "P18",
+      "P19",
+      "P20",
+      "P21"
+    ],
+    "scheduling": "Use packet dependencies, not whole-family serial ordering",
+    "exit": "Affected entrypoints + positive/negative/unknown/replay/race where relevant; T1 does not replace independent T2/T3",
+    "change_rule": "One root cause with impacted subcases; evidence reused only with dependency parity"
+  }
+]

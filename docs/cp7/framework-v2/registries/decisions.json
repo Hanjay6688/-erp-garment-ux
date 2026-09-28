@@ -1,0 +1,62 @@
+[
+  {
+    "id": "CP7-OPEN-01",
+    "question": "Accepted CP6 base dan hasil audit BD/BE final belum tersedia di paket",
+    "disposition": "BLOCKED_UPSTREAM; import acceptance receipt di P00, bukan pertanyaan bisnis ulang",
+    "status": "RESOLVE_AT_DEPENDENT_GATE_NOT_BLANKET_BLOCK"
+  },
+  {
+    "id": "CP7-OPEN-02",
+    "question": "Nilai bisnis target layanan/buffer/calendar/capacity nyata",
+    "disposition": "Gunakan fallback kontrak yang berlabel dan fixture terpisah; policy ditinjau saat setup operasional. Tidak menghalangi pembangunan jalur unknown/valid",
+    "status": "RESOLVE_AT_DEPENDENT_GATE_NOT_BLANKET_BLOCK"
+  },
+  {
+    "id": "CP7-OPEN-03",
+    "question": "Reconstruction known_at lengkap sebelum snapshot system tersedia",
+    "disposition": "Query audit/history nyata di P02; bila tidak cukup, AS_KNOWN_UNAVAILABLE untuk periode itu",
+    "status": "RESOLVE_AT_DEPENDENT_GATE_NOT_BLANKET_BLOCK"
+  },
+  {
+    "id": "CP7-OPEN-04",
+    "question": "Scope role yang boleh melihat global planning/material/cost dan siapa mengubah policy",
+    "disposition": "Petakan permission existing, default deny privilege baru; bawa hanya gap bisnis yang tak punya keputusan",
+    "status": "RESOLVE_AT_DEPENDENT_GATE_NOT_BLANKET_BLOCK"
+  },
+  {
+    "id": "CP7-OPEN-05",
+    "question": "Performance database engine pada volume nyata",
+    "disposition": "Spike bounded di P02/P07, profile di P19. ADR teknis alternative hanya jika hasil gagal target dan bottleneck jelas",
+    "status": "RESOLVE_AT_DEPENDENT_GATE_NOT_BLANKET_BLOCK"
+  },
+  {
+    "id": "CP7-OPEN-06",
+    "question": "Policy pending nilai pada aksesori/laundry",
+    "disposition": "Ikuti CP6 latest accepted config; pending tetap pending, tidak isi nol/free atau tariff ilustrasi",
+    "status": "RESOLVE_AT_DEPENDENT_GATE_NOT_BLANKET_BLOCK"
+  },
+  {
+    "id": "CP7-OPEN-07",
+    "question": "Apakah optional cash forecast/scorecard/order/export baru kelak dipilih",
+    "disposition": "OPTIONAL_NOT_SELECTED; tidak dibangun dan tidak blocker CP7 inti",
+    "status": "RESOLVE_AT_DEPENDENT_GATE_NOT_BLANKET_BLOCK"
+  },
+  {
+    "id": "CP7-OPEN-08",
+    "question": "Kanal/schedule/delivery dan SLA/RPO/RTO operasional",
+    "disposition": "Milik CP7C/cutover; seam saja sekarang, no unauthorized egress",
+    "status": "RESOLVE_AT_DEPENDENT_GATE_NOT_BLANKET_BLOCK"
+  },
+  {
+    "id": "CP7-DELTA-09",
+    "question": "Latest commercial SKU/range contract",
+    "status": "OWNER_REQUIREMENT_CONFIRMED",
+    "disposition": "Use physical exact-size roots + dated commercial membership; P00 imports actual BF acceptance"
+  },
+  {
+    "id": "CP7-DELTA-10",
+    "question": "WA backbone now versus live execution phase",
+    "status": "FRAMEWORK_AUTHORIZED_LIVE_NOT_ACTIVATED",
+    "disposition": "Complete contracts/dry-run design in CP7; live scheduler/transport CP7C unless owner explicitly moves packet; provider/recipient/budget not selected"
+  }
+]

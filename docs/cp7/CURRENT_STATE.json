@@ -1,0 +1,51 @@
+{
+  "version": "cp7.integration-entry.v1",
+  "cp6": "CLOSED_CONTRACT_SCOPE",
+  "production_go": false,
+  "accepted_execution_base": "10a834712e515af86c6d8baa89bbe40cff9793e3",
+  "accepted_tree": "20f23f598334b52b6ee5fed8acc356d499a43705",
+  "accepted_product_commit": "434b18215f57dd7a361ca621341488d3c31e9703",
+  "accepted_manifest_sha256": "40795c3fce619c5795b427e9aa31836777b687f82eba4ab5654264d57564879f",
+  "acceptance_ref": "761f1bf33199519205248947b5fe2d86e25b2fa0",
+  "acceptance_source": "https://github.com/Hanjay6688/-erp-garment-ux/blob/761f1bf33199519205248947b5fe2d86e25b2fa0/audits/acceptance_20260929/HANDOFF.md",
+  "shell_import": {
+    "from": "fa0ed346c322b8f24924f19f3a39f4117e6a0068",
+    "base": "da20943c25cafe887d96943428fc157f80839e24",
+    "pr": 31,
+    "method": "three-way patch onto accepted CP6; no CP6 product downgrade",
+    "financial_projection_finding": "CP7-DELTA-01_CLOSED"
+  },
+  "framework": {
+    "version": "CP7-BACKBONE-20260928-v2",
+    "path": "docs/cp7/framework-v2",
+    "zip_sha256": "184ef050b6462dbdde96cfc00a824a3978afbbfc80559f06c115cf92a45af6de",
+    "original_hashes_verified": 48,
+    "historical_current_state": "Preserved as source history; this file is the active entry delta"
+  },
+  "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
+  "single_writer": {
+    "branch": "cp7/integration",
+    "writer": "Current takeover session",
+    "last_observed_upstream": "10a834712e515af86c6d8baa89bbe40cff9793e3",
+    "enforcement": "Branch isolation and ref recheck before push; unpushed work in other chats cannot be observed or stopped"
+  },
+  "packets": {
+    "P00": "RECEIPT_RECORDED_CATALOGUE_PENDING_RUNTIME",
+    "P01": "ORIGINAL_CONTRACT_AND_ORACLES_IMPORTED",
+    "P02": "NOT_STARTED"
+  },
+  "inherited_scope": {
+    "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
+    "CP7_DELTA_01": "CLOSED",
+    "conversion_history": "CLOSED_ACCEPTED",
+    "E14": "Accepted CP6 access evidence is predecessor-only; CP7 facade authorization remains NOT_RUN",
+    "E21": "Accepted CP6 install/rollback evidence is predecessor-only; CP7 release gate remains NOT_RUN"
+  },
+  "connection": {
+    "operational_data": false,
+    "apply": false,
+    "publish": false,
+    "whatsapp": false
+  },
+  "next_action": "Run P00 catalogue against the unchanged accepted package; resolve source functions/ACL/triggers, then P01 contracts before P02 snapshot."
+}

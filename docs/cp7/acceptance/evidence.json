@@ -1,0 +1,899 @@
+{
+  "schema_version": 1,
+  "date_utc": "2026-09-28",
+  "date_wib": "2026-09-29",
+  "verdict": "CP6_CLOSED_CONTRACT_SCOPE_ACCEPTED",
+  "scope": "CP6 checkpoint accepted within the pinned master contract; CP7 synthetic-shell projection fix accepted. R10 remains OPEN under CP7 G04; not production authorization.",
+  "findings": {
+    "CP6-FINAL-01": "CLOSED_AFTER_INDEPENDENT_RETEST",
+    "CP7-DELTA-01": "CLOSED_AFTER_INDEPENDENT_RETEST"
+  },
+  "confirmed_new_defects": [],
+  "production_go": false,
+  "candidates": {
+    "cp6": "fab23e77669f899594f983b41a6301c32246958b",
+    "cp6_product": "434b18215f57dd7a361ca621341488d3c31e9703",
+    "cp7": "fa0ed346c322b8f24924f19f3a39f4117e6a0068",
+    "heads_rechecked": true
+  },
+  "independent_run": {
+    "id": 36466041148,
+    "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36466041148",
+    "commit": "2506454eb686e000c69cfd1f6b422be57e4b62e4",
+    "branch": "audit/cp6-cp7-acceptance-20260929",
+    "native_job_id": 109076252267,
+    "cp7_job_id": 109076252333
+  },
+  "counts": {
+    "cp6_native": {
+      "pass": 8,
+      "fail": 0,
+      "incomplete": 0,
+      "provenance": {
+        "unchanged_peer_probes": 3,
+        "independently_authored_boundary_cases": 4,
+        "writer_grade_b_case_rerun": 1
+      }
+    },
+    "cp6_races": {
+      "pass": 4,
+      "fail": 0,
+      "provenance": "writer schedules, independently executed"
+    },
+    "cp7_focused": {
+      "pass": 10,
+      "fail": 0,
+      "skipped": 0,
+      "provenance": {
+        "unchanged_own_probes": 7,
+        "writer_access_transition_cases": 3
+      }
+    },
+    "cp7_browser": {
+      "pass": 6,
+      "fail": 0,
+      "skipped": 0,
+      "flaky": 0,
+      "provenance": "writer desktop/mobile scenarios, independently executed"
+    }
+  },
+  "cases": [
+    {
+      "group": "INDEPENDENT_ACCEPTANCE_CP6",
+      "case": "INDEPENDENT:BACKDATE_AFTER_POSTED_FG",
+      "status": "PASS",
+      "posted_lot": "55e79110-f3b9-48df-88cd-6eb3b822b259",
+      "original_sku": "BF-SKU-bf07a859",
+      "guard": "Accessory BOM effective_to cannot precede/equal its financial commitment time",
+      "stock_pcs": 4,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "INDEPENDENT_ACCEPTANCE_CP6",
+      "case": "INDEPENDENT:BACKDATE_AFTER_POSTED_SALE",
+      "status": "PASS",
+      "sale_id": "27d3e43b-8cdf-4cd1-8a51-97ea7278bc0b",
+      "posted_lot": "0f803a86-ec1b-4db9-932f-535d66e3323a",
+      "guard": "Accessory BOM effective_to cannot precede/equal its financial commitment time",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "INDEPENDENT_ACCEPTANCE_CP6",
+      "case": "INDEPENDENT:BACKDATE_AFTER_POSTED_CONVERSION",
+      "status": "PASS",
+      "conversion_id": "0394550d-9101-43a1-9211-029f5864ff26",
+      "destination_lot": "cd11d284-6b18-4406-811d-91910335a6d2",
+      "original_sku": "BF-SKU-8fc50882",
+      "guard": "BF_TARIFF_HISTORY: waktu perubahan mendahului identitas konversi yang sudah tercatat",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "INDEPENDENT_ACCEPTANCE_CP6",
+      "case": "OWN_ACCEPT:BOUNDARY_SOURCE_POSTED",
+      "status": "PASS",
+      "checks": {
+        "old_identity": true,
+        "one_microsecond_before_refused": true,
+        "one_microsecond_before_atomic": true,
+        "same_instant_refused": true,
+        "same_instant_atomic": true,
+        "later_change_accepted": true,
+        "exact_boundary": true,
+        "history_and_money_unchanged": true,
+        "replay_no_second_effect": true,
+        "inverse_books": true,
+        "inverse_source": true,
+        "inverse_destination": true,
+        "reversed_document_keeps_labels": true
+      },
+      "failed": [],
+      "source": true,
+      "reversed_before_move": false,
+      "physical_at": "2026-09-28T18:35:07.557275+00:00",
+      "accepted_at": "2026-09-28T18:35:07.557276+00:00",
+      "old_label": "BF-SKU-bf2ca4fa",
+      "new_label": "BF-SKU-05e68de2",
+      "before": {
+        "document": {
+          "id": "4ddc06f1-6b06-4a68-984d-5c93264303e7",
+          "notes": "Posted conversion identity must retain its original commercial range",
+          "status": "POSTED",
+          "qty_pcs": 1,
+          "returns": [],
+          "revision": "666fb75e8be9b35f51fdab5cf8e27f94",
+          "rework_id": null,
+          "extra_cost": "0",
+          "source_sku": "BF-SKU-bf2ca4fa",
+          "target_sku": "BF-SKU-a7b80806",
+          "origin_kind": "FG",
+          "physical_at": "2026-09-28T18:35:07.557275+00:00",
+          "value_state": "SOURCED_TO_DATE",
+          "target_value": "22.000000",
+          "source_lot_id": "0a470a68-2aa2-436d-9215-71d9bbf85513",
+          "pending_returns": 0,
+          "conversion_number": "BE-4ddc06f1-6b06-4a68-984d-5c93264303e7",
+          "destination_lot_id": "53e3e4a8-f6b7-4ed1-b1db-eeeb5a313735"
+        },
+        "books": {
+          "FG_INVENTORY": "520.00",
+          "COGS": "0",
+          "WIP": "1759.00"
+        },
+        "source": 7,
+        "destination": 1,
+        "historical": [
+          {
+            "qty": "1",
+            "sku": "BF-SKU-a7b80806",
+            "lots": [
+              {
+                "qty": "1",
+                "size": "BF-512733c9-32",
+                "grade": "GRADE_A",
+                "value": null,
+                "lot_id": "53e3e4a8-f6b7-4ed1-b1db-eeeb5a313735",
+                "cost_state": null,
+                "lot_number": "BE-4ddc06f1-6b06-4a68-984d-5c93264303e7-0a470a68-85ab49",
+                "product_id": "b59e1bb6-ab91-47c9-b3d9-ac68aee8fe19",
+                "location_id": "c8c20000-0000-4000-8000-000000000001",
+                "provisional": true,
+                "hpp_version_id": null
+              }
+            ],
+            "value": null,
+            "brand_id": "c8c10000-0000-4000-8000-000000000003",
+            "group_key": "9c1c9462-1c99-4174-8873-fa91bd63fced",
+            "brand_name": "CP6 Race Brand",
+            "hpp_per_pcs": null,
+            "provisional": true
+          }
+        ]
+      },
+      "after": {
+        "id": "4ddc06f1-6b06-4a68-984d-5c93264303e7",
+        "notes": "Posted conversion identity must retain its original commercial range",
+        "status": "REVERSED",
+        "qty_pcs": 1,
+        "returns": [],
+        "revision": "ec78117aac1c60203ebee558b47c6c4a",
+        "rework_id": null,
+        "extra_cost": "0",
+        "source_sku": "BF-SKU-bf2ca4fa",
+        "target_sku": "BF-SKU-a7b80806",
+        "origin_kind": "FG",
+        "physical_at": "2026-09-28T18:35:07.557275+00:00",
+        "value_state": "SOURCED_TO_DATE",
+        "target_value": "22.000000",
+        "source_lot_id": "0a470a68-2aa2-436d-9215-71d9bbf85513",
+        "pending_returns": 0,
+        "conversion_number": "BE-4ddc06f1-6b06-4a68-984d-5c93264303e7",
+        "destination_lot_id": "53e3e4a8-f6b7-4ed1-b1db-eeeb5a313735"
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "INDEPENDENT_ACCEPTANCE_CP6",
+      "case": "OWN_ACCEPT:BOUNDARY_SOURCE_REVERSED",
+      "status": "PASS",
+      "checks": {
+        "old_identity": true,
+        "one_microsecond_before_refused": true,
+        "one_microsecond_before_atomic": true,
+        "same_instant_refused": true,
+        "same_instant_atomic": true,
+        "later_change_accepted": true,
+        "exact_boundary": true,
+        "history_and_money_unchanged": true,
+        "replay_no_second_effect": true,
+        "inverse_books": true,
+        "inverse_source": true,
+        "inverse_destination": true,
+        "reversed_document_keeps_labels": true
+      },
+      "failed": [],
+      "source": true,
+      "reversed_before_move": true,
+      "physical_at": "2026-09-28T18:35:10.362035+00:00",
+      "accepted_at": "2026-09-28T18:35:10.362036+00:00",
+      "old_label": "BF-SKU-0b7ff321",
+      "new_label": "BF-SKU-d06dd280",
+      "before": {
+        "document": {
+          "id": "3bfd7acd-dc76-46da-ba6a-a829dbba1323",
+          "notes": "Posted conversion identity must retain its original commercial range",
+          "status": "REVERSED",
+          "qty_pcs": 1,
+          "returns": [],
+          "revision": "58ef4b34a4e3709eaefd57a091507833",
+          "rework_id": null,
+          "extra_cost": "0",
+          "source_sku": "BF-SKU-0b7ff321",
+          "target_sku": "BF-SKU-9770a7ec",
+          "origin_kind": "FG",
+          "physical_at": "2026-09-28T18:35:10.362035+00:00",
+          "value_state": "SOURCED_TO_DATE",
+          "target_value": "22.000000",
+          "source_lot_id": "2db3ae23-9689-4f37-91c9-de3a87e01460",
+          "pending_returns": 0,
+          "conversion_number": "BE-3bfd7acd-dc76-46da-ba6a-a829dbba1323",
+          "destination_lot_id": "0c95c91b-d99a-4921-b07f-b26b4498acbe"
+        },
+        "books": {
+          "FG_INVENTORY": "520.00",
+          "COGS": "0",
+          "WIP": "1759.00"
+        },
+        "source": 8,
+        "destination": 0,
+        "historical": [
+          {
+            "qty": "1",
+            "sku": "BF-SKU-9770a7ec",
+            "lots": [
+              {
+                "qty": "1",
+                "size": "BF-15ca7229-32",
+                "grade": "GRADE_A",
+                "value": null,
+                "lot_id": "0c95c91b-d99a-4921-b07f-b26b4498acbe",
+                "cost_state": null,
+                "lot_number": "BE-3bfd7acd-dc76-46da-ba6a-a829dbba1323-2db3ae23-8d0ee2",
+                "product_id": "80f4e0bb-aff3-4391-a247-a1c607505e66",
+                "location_id": "c8c20000-0000-4000-8000-000000000001",
+                "provisional": true,
+                "hpp_version_id": null
+              }
+            ],
+            "value": null,
+            "brand_id": "c8c10000-0000-4000-8000-000000000003",
+            "group_key": "e7160ad6-02cd-417f-bab0-691fde41db94",
+            "brand_name": "CP6 Race Brand",
+            "hpp_per_pcs": null,
+            "provisional": true
+          }
+        ]
+      },
+      "after": {
+        "id": "3bfd7acd-dc76-46da-ba6a-a829dbba1323",
+        "notes": "Posted conversion identity must retain its original commercial range",
+        "status": "REVERSED",
+        "qty_pcs": 1,
+        "returns": [],
+        "revision": "58ef4b34a4e3709eaefd57a091507833",
+        "rework_id": null,
+        "extra_cost": "0",
+        "source_sku": "BF-SKU-0b7ff321",
+        "target_sku": "BF-SKU-9770a7ec",
+        "origin_kind": "FG",
+        "physical_at": "2026-09-28T18:35:10.362035+00:00",
+        "value_state": "SOURCED_TO_DATE",
+        "target_value": "22.000000",
+        "source_lot_id": "2db3ae23-9689-4f37-91c9-de3a87e01460",
+        "pending_returns": 0,
+        "conversion_number": "BE-3bfd7acd-dc76-46da-ba6a-a829dbba1323",
+        "destination_lot_id": "0c95c91b-d99a-4921-b07f-b26b4498acbe"
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "INDEPENDENT_ACCEPTANCE_CP6",
+      "case": "OWN_ACCEPT:BOUNDARY_DESTINATION_POSTED",
+      "status": "PASS",
+      "checks": {
+        "old_identity": true,
+        "one_microsecond_before_refused": true,
+        "one_microsecond_before_atomic": true,
+        "same_instant_refused": true,
+        "same_instant_atomic": true,
+        "later_change_accepted": true,
+        "exact_boundary": true,
+        "history_and_money_unchanged": true,
+        "replay_no_second_effect": true,
+        "inverse_books": true,
+        "inverse_source": true,
+        "inverse_destination": true,
+        "reversed_document_keeps_labels": true
+      },
+      "failed": [],
+      "source": false,
+      "reversed_before_move": false,
+      "physical_at": "2026-09-28T18:35:13.165687+00:00",
+      "accepted_at": "2026-09-28T18:35:13.165688+00:00",
+      "old_label": "BF-SKU-d5881fa7",
+      "new_label": "BF-SKU-5be83030",
+      "before": {
+        "document": {
+          "id": "96716e11-9518-4d62-92ec-33df86ad9337",
+          "notes": "Posted conversion identity must retain its original commercial range",
+          "status": "POSTED",
+          "qty_pcs": 1,
+          "returns": [],
+          "revision": "4555178f5ef6342b21c9e767423bab42",
+          "rework_id": null,
+          "extra_cost": "0",
+          "source_sku": "BF-SKU-96f43def",
+          "target_sku": "BF-SKU-d5881fa7",
+          "origin_kind": "FG",
+          "physical_at": "2026-09-28T18:35:13.165687+00:00",
+          "value_state": "SOURCED_TO_DATE",
+          "target_value": "22.000000",
+          "source_lot_id": "4a09123b-10ae-4e50-aeef-7b980f6c6ffc",
+          "pending_returns": 0,
+          "conversion_number": "BE-96716e11-9518-4d62-92ec-33df86ad9337",
+          "destination_lot_id": "9d95f13c-5129-45a4-8469-534e438848a7"
+        },
+        "books": {
+          "FG_INVENTORY": "520.00",
+          "COGS": "0",
+          "WIP": "1759.00"
+        },
+        "source": 7,
+        "destination": 1,
+        "historical": [
+          {
+            "qty": "1",
+            "sku": "BF-SKU-d5881fa7",
+            "lots": [
+              {
+                "qty": "1",
+                "size": "BF-ecbe755d-32",
+                "grade": "GRADE_A",
+                "value": null,
+                "lot_id": "9d95f13c-5129-45a4-8469-534e438848a7",
+                "cost_state": null,
+                "lot_number": "BE-96716e11-9518-4d62-92ec-33df86ad9337-4a09123b-2131fe",
+                "product_id": "3eb05594-dfe8-46a8-b715-2647d995b39a",
+                "location_id": "c8c20000-0000-4000-8000-000000000001",
+                "provisional": true,
+                "hpp_version_id": null
+              }
+            ],
+            "value": null,
+            "brand_id": "c8c10000-0000-4000-8000-000000000003",
+            "group_key": "f0f737aa-8abe-4ac5-a965-4b7e14a1e798",
+            "brand_name": "CP6 Race Brand",
+            "hpp_per_pcs": null,
+            "provisional": true
+          }
+        ]
+      },
+      "after": {
+        "id": "96716e11-9518-4d62-92ec-33df86ad9337",
+        "notes": "Posted conversion identity must retain its original commercial range",
+        "status": "REVERSED",
+        "qty_pcs": 1,
+        "returns": [],
+        "revision": "c662fb899da695db35d0aadc0e18706e",
+        "rework_id": null,
+        "extra_cost": "0",
+        "source_sku": "BF-SKU-96f43def",
+        "target_sku": "BF-SKU-d5881fa7",
+        "origin_kind": "FG",
+        "physical_at": "2026-09-28T18:35:13.165687+00:00",
+        "value_state": "SOURCED_TO_DATE",
+        "target_value": "22.000000",
+        "source_lot_id": "4a09123b-10ae-4e50-aeef-7b980f6c6ffc",
+        "pending_returns": 0,
+        "conversion_number": "BE-96716e11-9518-4d62-92ec-33df86ad9337",
+        "destination_lot_id": "9d95f13c-5129-45a4-8469-534e438848a7"
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "INDEPENDENT_ACCEPTANCE_CP6",
+      "case": "OWN_ACCEPT:BOUNDARY_DESTINATION_REVERSED",
+      "status": "PASS",
+      "checks": {
+        "old_identity": true,
+        "one_microsecond_before_refused": true,
+        "one_microsecond_before_atomic": true,
+        "same_instant_refused": true,
+        "same_instant_atomic": true,
+        "later_change_accepted": true,
+        "exact_boundary": true,
+        "history_and_money_unchanged": true,
+        "replay_no_second_effect": true,
+        "inverse_books": true,
+        "inverse_source": true,
+        "inverse_destination": true,
+        "reversed_document_keeps_labels": true
+      },
+      "failed": [],
+      "source": false,
+      "reversed_before_move": true,
+      "physical_at": "2026-09-28T18:35:15.958110+00:00",
+      "accepted_at": "2026-09-28T18:35:15.958111+00:00",
+      "old_label": "BF-SKU-cf84f4e3",
+      "new_label": "BF-SKU-cb838656",
+      "before": {
+        "document": {
+          "id": "b55aa5b7-9c21-41b4-8e33-90c331e4f1c5",
+          "notes": "Posted conversion identity must retain its original commercial range",
+          "status": "REVERSED",
+          "qty_pcs": 1,
+          "returns": [],
+          "revision": "bec668db698f550dc14bdb5330008f5b",
+          "rework_id": null,
+          "extra_cost": "0",
+          "source_sku": "BF-SKU-d7940c51",
+          "target_sku": "BF-SKU-cf84f4e3",
+          "origin_kind": "FG",
+          "physical_at": "2026-09-28T18:35:15.958110+00:00",
+          "value_state": "SOURCED_TO_DATE",
+          "target_value": "22.000000",
+          "source_lot_id": "36fae7ac-2b98-4dea-a948-cf1a93fc20f1",
+          "pending_returns": 0,
+          "conversion_number": "BE-b55aa5b7-9c21-41b4-8e33-90c331e4f1c5",
+          "destination_lot_id": "f3c2ae51-9d7e-4f9d-96ad-ec5109a21c24"
+        },
+        "books": {
+          "FG_INVENTORY": "520.00",
+          "COGS": "0",
+          "WIP": "1759.00"
+        },
+        "source": 8,
+        "destination": 0,
+        "historical": [
+          {
+            "qty": "1",
+            "sku": "BF-SKU-cf84f4e3",
+            "lots": [
+              {
+                "qty": "1",
+                "size": "BF-568f625e-32",
+                "grade": "GRADE_A",
+                "value": null,
+                "lot_id": "f3c2ae51-9d7e-4f9d-96ad-ec5109a21c24",
+                "cost_state": null,
+                "lot_number": "BE-b55aa5b7-9c21-41b4-8e33-90c331e4f1c5-36fae7ac-8b29c1",
+                "product_id": "65020a5b-94d3-4b10-b790-7e5891640b6c",
+                "location_id": "c8c20000-0000-4000-8000-000000000001",
+                "provisional": true,
+                "hpp_version_id": null
+              }
+            ],
+            "value": null,
+            "brand_id": "c8c10000-0000-4000-8000-000000000003",
+            "group_key": "d4682bde-7f4b-424e-a490-cfcd6c7a324a",
+            "brand_name": "CP6 Race Brand",
+            "hpp_per_pcs": null,
+            "provisional": true
+          }
+        ]
+      },
+      "after": {
+        "id": "b55aa5b7-9c21-41b4-8e33-90c331e4f1c5",
+        "notes": "Posted conversion identity must retain its original commercial range",
+        "status": "REVERSED",
+        "qty_pcs": 1,
+        "returns": [],
+        "revision": "bec668db698f550dc14bdb5330008f5b",
+        "rework_id": null,
+        "extra_cost": "0",
+        "source_sku": "BF-SKU-d7940c51",
+        "target_sku": "BF-SKU-cf84f4e3",
+        "origin_kind": "FG",
+        "physical_at": "2026-09-28T18:35:15.958110+00:00",
+        "value_state": "SOURCED_TO_DATE",
+        "target_value": "22.000000",
+        "source_lot_id": "36fae7ac-2b98-4dea-a948-cf1a93fc20f1",
+        "pending_returns": 0,
+        "conversion_number": "BE-b55aa5b7-9c21-41b4-8e33-90c331e4f1c5",
+        "destination_lot_id": "f3c2ae51-9d7e-4f9d-96ad-ec5109a21c24"
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "INDEPENDENT_ACCEPTANCE_CP6",
+      "case": "WRITER_RERUN:POPULATED_GRADE_B_RETURN",
+      "grade_b": {
+        "qty": "1",
+        "sku": "BF-SKU-4d85832b",
+        "lots": [
+          {
+            "qty": "1",
+            "size": "BF-690e3cf5-34",
+            "grade": "GRADE_B",
+            "value": "42.0000000000000000",
+            "lot_id": "566071e7-0714-434c-a465-bda0edfbf605",
+            "cost_state": "ESTIMATED",
+            "lot_number": "FGP-260929-CD5DA97D28524304B79FC96032419D45-CP6EBF690e3cf5-9738d5e8",
+            "product_id": "36c6f1d2-0f18-4e98-a410-b2c499022ff2",
+            "location_id": "c8c20000-0000-4000-8000-000000000001",
+            "provisional": true,
+            "hpp_version_id": "6f13f9d9-ee41-45e3-b83f-c352ae855a04"
+          }
+        ],
+        "value": "42.0000000000000000",
+        "brand_id": "c8c10000-0000-4000-8000-000000000003",
+        "group_key": "b600eb00-997b-4eac-8956-9c60f0e1f59c",
+        "brand_name": "CP6 Race Brand",
+        "hpp_per_pcs": "42.0000000000000000",
+        "provisional": true
+      },
+      "grade_a_qty": "18",
+      "all_qty": "19",
+      "unit_value": "42.000000",
+      "checks": {
+        "nonempty": true,
+        "original_lot": true,
+        "exact_grade_value": true,
+        "partition_qty": true,
+        "partition_value": true,
+        "old_membership": true,
+        "inverse_grade_empty": true,
+        "inverse_qty": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_INDEPENDENT_ACCEPTANCE",
+      "case": "WRITER_RERUN:CONVERSION_MASTER_CONVERSION_COMMIT",
+      "first": "CONVERSION",
+      "first_committed": true,
+      "contention": {
+        "kind": "BLOCKED",
+        "holder_blocks_worker": true
+      },
+      "second": {
+        "ok": false,
+        "sqlstate": "P0001",
+        "message": "BF_TARIFF_HISTORY: waktu perubahan mendahului identitas konversi yang sudah tercatat"
+      },
+      "conversion_count": 1,
+      "revision": 1,
+      "document_target_sku": "BF-SKU-7723ab27",
+      "checks": {
+        "serialized": true,
+        "outcome": true,
+        "conversion_count": true,
+        "revision": true,
+        "identity": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_INDEPENDENT_ACCEPTANCE",
+      "case": "WRITER_RERUN:CONVERSION_MASTER_CONVERSION_ABORT",
+      "first": "CONVERSION",
+      "first_committed": false,
+      "contention": {
+        "kind": "BLOCKED",
+        "holder_blocks_worker": true
+      },
+      "second": {
+        "ok": true,
+        "result": {
+          "action": "SAVE_GROUPS",
+          "groups": [
+            {
+              "id": "3810a447-2ed1-4b95-b5cc-610e4a855dd3",
+              "revision": "2",
+              "version_id": "68c24de4-4dc8-43ec-827d-a6482428a3ef"
+            },
+            {
+              "id": "ddacabe0-7fb2-4796-92ef-cc731457d07c",
+              "revision": "2",
+              "version_id": "4a45219f-d09c-4691-bb41-0ff78ea6c9c0"
+            }
+          ],
+          "status": "SAVED",
+          "request_id": "9b97bc8e-994d-4248-8ca3-b75a867bacc1"
+        }
+      },
+      "conversion_count": 0,
+      "revision": 2,
+      "document_target_sku": null,
+      "checks": {
+        "serialized": true,
+        "outcome": true,
+        "conversion_count": true,
+        "revision": true,
+        "identity": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_INDEPENDENT_ACCEPTANCE",
+      "case": "WRITER_RERUN:CONVERSION_MASTER_MOVE_COMMIT",
+      "first": "MOVE",
+      "first_committed": true,
+      "contention": {
+        "kind": "BLOCKED",
+        "holder_blocks_worker": true
+      },
+      "second": {
+        "ok": true,
+        "result": {
+          "cost": {
+            "source_value": "22.00",
+            "source_unit_hpp": "22.000000"
+          },
+          "action": "POST",
+          "status": "POSTED",
+          "qty_pcs": 1,
+          "request_id": "bc437f5f-7284-4ef5-ae35-97d9f9a60ca8",
+          "source_sku": "CP6-E-BF-a6b67f56",
+          "target_sku": "CP6-E-BF-HISTORY-f0d50d17",
+          "location_id": "c8c20000-0000-4000-8000-000000000001",
+          "physical_at": "2026-09-28T18:35:43.211092+00:00",
+          "conversion_id": "bc437f5f-7284-4ef5-ae35-97d9f9a60ca8",
+          "source_lot_id": "e363675c-3538-48cb-8eee-04542b0354c6",
+          "pending_returns": 0,
+          "source_revision": "8e1f636c2149dfc0f4d13ac926e6faeb",
+          "source_product_id": "df206041-b3ea-47ee-96e7-15df183f0671",
+          "target_product_id": "3d24b536-2e07-4751-80aa-32950351ca31",
+          "destination_lot_id": "c52b55ef-7cde-4716-a5ba-3ba4669deeae"
+        }
+      },
+      "conversion_count": 1,
+      "revision": 2,
+      "document_target_sku": "BF-SKU-4dfd303d",
+      "checks": {
+        "serialized": true,
+        "outcome": true,
+        "conversion_count": true,
+        "revision": true,
+        "identity": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_INDEPENDENT_ACCEPTANCE",
+      "case": "WRITER_RERUN:CONVERSION_MASTER_MOVE_ABORT",
+      "first": "MOVE",
+      "first_committed": false,
+      "contention": {
+        "kind": "BLOCKED",
+        "holder_blocks_worker": true
+      },
+      "second": {
+        "ok": true,
+        "result": {
+          "cost": {
+            "source_value": "22.00",
+            "source_unit_hpp": "22.000000"
+          },
+          "action": "POST",
+          "status": "POSTED",
+          "qty_pcs": 1,
+          "request_id": "9293e072-baa6-4bbc-be95-0dc219578c9d",
+          "source_sku": "CP6-E-BF-9b418fcd",
+          "target_sku": "CP6-E-BF-HISTORY-df591c91",
+          "location_id": "c8c20000-0000-4000-8000-000000000001",
+          "physical_at": "2026-09-28T18:35:52.557207+00:00",
+          "conversion_id": "9293e072-baa6-4bbc-be95-0dc219578c9d",
+          "source_lot_id": "1ae99a8f-09ae-4040-b127-0a799375f6f6",
+          "pending_returns": 0,
+          "source_revision": "91111bcd40e973c64e53560b0e19b084",
+          "source_product_id": "63852e2b-169a-401f-bde0-a6cacc6d0bfa",
+          "target_product_id": "3edaa6ff-07c6-49d4-8e3d-d228116c2c5b",
+          "destination_lot_id": "730f2846-5e90-4c4b-84dc-45b7f091b33b"
+        }
+      },
+      "conversion_count": 1,
+      "revision": 1,
+      "document_target_sku": "BF-SKU-9f0c256a",
+      "checks": {
+        "serialized": true,
+        "outcome": true,
+        "conversion_count": true,
+        "revision": true,
+        "identity": true
+      },
+      "failed": [],
+      "status": "PASS",
+      "session_leaks": []
+    }
+  ],
+  "package": {
+    "status": "ALL_STAGES_INSTALLED",
+    "files_installed": 30,
+    "product_ref": "434b18215f57dd7a361ca621341488d3c31e9703",
+    "tool_head": "2506454eb686e000c69cfd1f6b422be57e4b62e4",
+    "gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "backup_restore_drill": "RESTORED_SAME_MEANING",
+    "primary_unchanged": true,
+    "auth_users_before": 0,
+    "auth_users_after": 0,
+    "security_advisor": {
+      "status": "REVIEW_REQUIRED",
+      "before": 73,
+      "after": 216,
+      "added_counts": {
+        "rls_enabled_no_policy:INFO": 143
+      },
+      "removed": [],
+      "explanation": "Full AC..BF upgrade produces 143 INFO rls_enabled_no_policy entries. The unchanged package security gate accepts this class. Do not describe the run as zero advisor findings."
+    }
+  },
+  "writer_crosscheck_only": {
+    "cp6_runtime": {
+      "run_id": 36463334464,
+      "sha": "0b78dbd6bfabdb13340f1d7b22298b963cc9239c",
+      "native_pass": 97,
+      "race_pass": 26,
+      "auth_http_pass": 8,
+      "bf_browser_pass": 27,
+      "au_browser_pass": 10
+    },
+    "cp6_rollback": {
+      "run_id": 36462684960,
+      "pass": 147,
+      "product_bytes_unchanged_at_candidate": true
+    },
+    "cp7": {
+      "run_id": 36460822362,
+      "tests_pass": 619,
+      "browser_pass": 6
+    },
+    "note": "These full counts were verified against original job logs; they were not all executed again by this auditor. Focused re-execution is listed separately."
+  },
+  "scope_boundaries": {
+    "R03": "Distinct physical waves for different work references sharing a size; retained documented constraint.",
+    "R10": "OPEN_CP7 under verified master AUD-G04/G04. Sales UI remains EXISTING_SIMULATION. Native sale/return is not connected sales UI acceptance; this gap does not block CP6 contract-scope closure.",
+    "R14": "Previously missing nonempty Grade B report case now independently executed: 18 A + 1 B = 19 PCS, B value 42.00, original lot and exact inverse; not every Grade B route.",
+    "CP7": "Synthetic shell only; real backend authorization and combined CP6/CP7 integration remain unqualified.",
+    "unchanged_regressions": "Prior independently passed CP6 11 native + 1 Auth/HTTP results retained; not counted as rerun here."
+  },
+  "artifacts": [
+    {
+      "id": 10989802592,
+      "name": "cp7-independent-acceptance-36466041148",
+      "digest": "sha256:cc6466ea6b935d0883fd9786babc0a298542cec4ea06c5a1905e21485dcad082",
+      "size_in_bytes": 485394,
+      "expires_at": "2026-10-28T18:34:33Z"
+    },
+    {
+      "id": 10988694180,
+      "name": "cp6-independent-acceptance-36466041148",
+      "digest": "sha256:5eeb6675687574082450833d82f4057dd745a17e5a926e0e52e785944696cd11",
+      "size_in_bytes": 1619915,
+      "expires_at": "2026-10-28T18:37:46Z"
+    }
+  ],
+  "hashes": {
+    "original_cp6_probe": "584de8be2246e2bba85b9f2e1c1bbd5619c7d18279de1f53bbb42e0d8ff3a736",
+    "original_cp7_probe": "6f0a42844c0a62d9ddf22245410f1397ae656843ec75018b3d885a3824a2e1ef",
+    "oracle": "b8e76dcf8f8580de6a45bba22c239a3493f991366829c7f5548142a17b2f5925",
+    "probe": "ead538779b23bf4e57b3a536e3bfcbfd7e029382f57d78f62de5540ee590540d",
+    "package_runner": "8b5df5c7d1a4e171d8d543cc35df3de84118221d36c7e9f184ee0749bbcae063",
+    "bf_release": "9bf4b5642c9d6af3369f98ad265bd802ee993fac7e1d8d290412184588392643"
+  },
+  "cp7_assertions": [
+    {
+      "name": "restricts the entire comparison for KNOWN facts through every access transition",
+      "status": "passed"
+    },
+    {
+      "name": "restricts the entire comparison for ASSUMED facts through every access transition",
+      "status": "passed"
+    },
+    {
+      "name": "restricts the entire comparison for UNKNOWN facts through every access transition",
+      "status": "passed"
+    },
+    {
+      "name": "Independent CP6 policy to CP7 contract deltas; synthetic only retains physical target identity when commercial group changes",
+      "status": "passed"
+    },
+    {
+      "name": "Independent CP6 policy to CP7 contract deltas; synthetic only export never converts pending cost to free when a current snapshot has physical stock",
+      "status": "passed"
+    },
+    {
+      "name": "Independent CP6 policy to CP7 contract deltas; synthetic only access denied clears all downstream consumers after a previous owner projection",
+      "status": "passed"
+    },
+    {
+      "name": "Independent CP6 policy to CP7 contract deltas; synthetic only financial plan comparisons do not survive an operations projection",
+      "status": "passed"
+    },
+    {
+      "name": "Independent CP6 policy to CP7 contract deltas; synthetic only a source correction and policy correction request fresh analysis without training",
+      "status": "passed"
+    },
+    {
+      "name": "Independent CP6 policy to CP7 contract deltas; synthetic only malformed physical allocation is refused before any formatted recommendation",
+      "status": "passed"
+    },
+    {
+      "name": "Independent CP6 policy to CP7 contract deltas; synthetic only each consumer can be cleared after a successful read without reusing the last example",
+      "status": "passed"
+    }
+  ],
+  "revision_verdict_before_scope_review": "INDEPENDENT_REVISION_ACCEPTED",
+  "scope_resolution": {
+    "document": "CLOSURE_R10_SCOPE.md",
+    "proof": "scope-evidence.json",
+    "writer_commit": "10a834712e515af86c6d8baa89bbe40cff9793e3",
+    "product_unchanged": true,
+    "master_sha256": "f21ac70360915a1f1021b42a3918e862ca7d11cf88c1b90c5627b4490c69af07",
+    "cp6_independent_acceptance": true,
+    "r10_status": "OPEN_CP7",
+    "production_go": false,
+    "new_runtime_tests": 0
+  }
+}

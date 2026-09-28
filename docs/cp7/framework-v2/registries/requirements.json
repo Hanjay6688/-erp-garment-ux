@@ -1,0 +1,5145 @@
+[
+  {
+    "id": "ACC-A01",
+    "scope": "CP6_INHERITED",
+    "scenario": "1, 5, 7, 11, 12, 13, 29 PCS; input lusin+PCS dan Total PCS",
+    "expected": "PCS exact; representasi berbeda memberi jumlah dan nominal yang sama menurut policy",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5254,
+    "work_packets": [
+      "P09",
+      "P12"
+    ],
+    "case_ids": [
+      "E05",
+      "E24"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-A02",
+    "scope": "CP6_INHERITED",
+    "scenario": "Stok tinggal 7; permintaan 7 dan 8",
+    "expected": "7 sah; 8 ditolak utuh, tidak silently diubah menjadi 7",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5255,
+    "work_packets": [
+      "P09",
+      "P12"
+    ],
+    "case_ids": [
+      "E05",
+      "E24"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-A03",
+    "scope": "CP6_INHERITED",
+    "scenario": "Faktor 12, gross 144, pack dengan conversion snapshot",
+    "expected": "Tidak merusak satuan yang sah; unknown/mismatched conversion ditolak",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5256,
+    "work_packets": [
+      "P09",
+      "P12"
+    ],
+    "case_ids": [
+      "E05",
+      "E24"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-A04",
+    "scope": "CP6_INHERITED",
+    "scenario": "COUNT negatif, nol, kosong, pecahan PCS, NaN/Infinity, overflow, format ambigu",
+    "expected": "Ditolak tanpa residue; invalid bukan diubah menjadi 0/angka positif",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5257,
+    "work_packets": [
+      "P09",
+      "P12"
+    ],
+    "case_ids": [
+      "E05",
+      "E24"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-A05",
+    "scope": "CP6_INHERITED",
+    "scenario": "Material meter/kg",
+    "expected": "Perilaku decimal yang sah tetap utuh; tidak terkena aturan PCS bulat",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5258,
+    "work_packets": [
+      "P09",
+      "P12"
+    ],
+    "case_ids": [
+      "E05",
+      "E24"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-A06",
+    "scope": "CP6_INHERITED",
+    "scenario": "Harga berubah, draft berganti tanggal/mandor, posting setelah preview stale",
+    "expected": "Harga/version/waktu direvalidasi; operator tidak mendapat tagihan berbeda secara silent",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5259,
+    "work_packets": [
+      "P09",
+      "P12"
+    ],
+    "case_ids": [
+      "E05",
+      "E24"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-A07",
+    "scope": "CP6_INHERITED",
+    "scenario": "Nota posted legacy, payroll dan reversal lama sebelum/sesudah upgrade",
+    "expected": "Quantity, nominal, journal, outstanding dan histori exact; tidak recompute generated lama",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5260,
+    "work_packets": [
+      "P09",
+      "P12"
+    ],
+    "case_ids": [
+      "E05",
+      "E24"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-A08",
+    "scope": "CP6_INHERITED",
+    "scenario": "Multi-line, retur sebagian berulang, reversal penuh, batas sen",
+    "expected": "Line/document/journal/subledger cocok; credit kumulatif capped dan full inverse exact",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5261,
+    "work_packets": [
+      "P09",
+      "P12"
+    ],
+    "case_ids": [
+      "E05",
+      "E24"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-B01",
+    "scope": "CP6_INHERITED",
+    "scenario": "Transfer 120 dari stok 1.000",
+    "expected": "Gudang 880 + pos120; total1.000; tidak ada kasbon/reimburse/biaya baru",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5267,
+    "work_packets": [
+      "P09"
+    ],
+    "case_ids": [
+      "E03",
+      "E24"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-B02",
+    "scope": "CP6_INHERITED",
+    "scenario": "Pemakaian95 lalu kembali25",
+    "expected": "Stok akhir905; pemakaian95; pengembalian tidak membuat income/pembelian",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5268,
+    "work_packets": [
+      "P09"
+    ],
+    "case_ids": [
+      "E03",
+      "E24"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-B03",
+    "scope": "CP6_INHERITED",
+    "scenario": "Pemakaian langsung3 tanpa pos",
+    "expected": "Stok−3 dari lokasi benar; biaya purpose sekali; tidak membuat entitlement",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5269,
+    "work_packets": [
+      "P09"
+    ],
+    "case_ids": [
+      "E03",
+      "E24"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-B04",
+    "scope": "CP6_INHERITED",
+    "scenario": "Transfer backdate + invoice biaya susulan",
+    "expected": "Qty/net value/average tidak berubah semu; tanggal sesuai kontrak",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5270,
+    "work_packets": [
+      "P09"
+    ],
+    "case_ids": [
+      "E03",
+      "E24"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-B05",
+    "scope": "CP6_INHERITED",
+    "scenario": "Lokasi inactive/tidak berizin/sama atau tipe tidak didukung",
+    "expected": "Penolakan jelas dan atomik, bukan grant bypass",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5271,
+    "work_packets": [
+      "P09"
+    ],
+    "case_ids": [
+      "E03",
+      "E24"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-B06",
+    "scope": "CP6_INHERITED",
+    "scenario": "Rekap beberapa hari dan selisih opname",
+    "expected": "Tanggal nyata dipertahankan; selisih tak diketahui tidak dilabeli penggunaan pasti",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5272,
+    "work_packets": [
+      "P09"
+    ],
+    "case_ids": [
+      "E03",
+      "E24"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-B07",
+    "scope": "CP6_INHERITED",
+    "scenario": "Pembelian/penerimaan sah → transfer/pemakaian/nota → retur/settlement → laporan",
+    "expected": "Satu alur integrasi memakai source bisnis nyata pada disposable; stock/value/journal reconcile dari awal sampai akhir",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5273,
+    "work_packets": [
+      "P09"
+    ],
+    "case_ids": [
+      "E03",
+      "E24"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-C01",
+    "scope": "CP6_INHERITED",
+    "scenario": "Terima100, inspeksi80 layak+20 rusak",
+    "expected": "Jumlah fisik tidak bertambah lagi saat inspeksi; hanya80 eligible issue",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5279,
+    "work_packets": [
+      "P10",
+      "P13"
+    ],
+    "case_ids": [
+      "E03",
+      "E04",
+      "E13"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-C02",
+    "scope": "CP6_INHERITED",
+    "scenario": "Inspeksi parsial dan dua pemeriksa",
+    "expected": "Total klasifikasi≤received; sisa terlihat; tidak over-inspect/double accept",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5280,
+    "work_packets": [
+      "P10",
+      "P13"
+    ],
+    "case_ids": [
+      "E03",
+      "E04",
+      "E13"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-C03",
+    "scope": "CP6_INHERITED",
+    "scenario": "Source return yang sama dipakai lagi lewat request baru",
+    "expected": "Kapasitas source menolak double recovery; idempotency saja tidak cukup",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5281,
+    "work_packets": [
+      "P10",
+      "P13"
+    ],
+    "case_ids": [
+      "E03",
+      "E04",
+      "E13"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-C04",
+    "scope": "CP6_INHERITED",
+    "scenario": "Sisa baru vs retur nota berbayar vs bongkaran",
+    "expected": "Efek finansial berbeda sesuai sumber; tidak tertukar",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5282,
+    "work_packets": [
+      "P10",
+      "P13"
+    ],
+    "case_ids": [
+      "E03",
+      "E04",
+      "E13"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-C05",
+    "scope": "CP6_INHERITED",
+    "scenario": "Nilai bekas belum sah",
+    "expected": "Qty/custody jelas; no fake zero/income; tidak dijual/issued sebagai stok ready",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5283,
+    "work_packets": [
+      "P10",
+      "P13"
+    ],
+    "case_ids": [
+      "E03",
+      "E04",
+      "E13"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-C06",
+    "scope": "CP6_INHERITED",
+    "scenario": "Ganti merek100, aksesori baru100, bongkaran80+20",
+    "expected": "FG source−100/target+100; stok detail benar; biaya sekali; no new BOM reimbursement",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5284,
+    "work_packets": [
+      "P10",
+      "P13"
+    ],
+    "case_ids": [
+      "E03",
+      "E04",
+      "E13"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-C07",
+    "scope": "CP6_INHERITED",
+    "scenario": "Biaya label manual + baris aksesori otomatis yang sama",
+    "expected": "Double charge diblok; jasa sah tetap dapat terpisah",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5285,
+    "work_packets": [
+      "P10",
+      "P13"
+    ],
+    "case_ids": [
+      "E03",
+      "E04",
+      "E13"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-C08",
+    "scope": "CP6_INHERITED",
+    "scenario": "Return baru tiba setelah conversion; ada sale/return/konversi turunan",
+    "expected": "Source/valuation correction tertaut; HPP/COGS/GL cocok atau pending yang jujur",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5286,
+    "work_packets": [
+      "P10",
+      "P13"
+    ],
+    "case_ids": [
+      "E03",
+      "E04",
+      "E13"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-C09",
+    "scope": "CP6_INHERITED",
+    "scenario": "Retur mandor sesudah payroll partial/lunas",
+    "expected": "Tidak melebihi qty/nominal sumber; tidak mengubah histori settlement tanpa correction",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5287,
+    "work_packets": [
+      "P10",
+      "P13"
+    ],
+    "case_ids": [
+      "E03",
+      "E04",
+      "E13"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-C10",
+    "scope": "CP6_INHERITED",
+    "scenario": "Garment servis masih milik pelanggan",
+    "expected": "Tidak menambah FG perusahaan/AR/refund atau entitlement produksi",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5288,
+    "work_packets": [
+      "P10",
+      "P13"
+    ],
+    "case_ids": [
+      "E03",
+      "E04",
+      "E13"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-C11",
+    "scope": "CP6_INHERITED",
+    "scenario": "Fisik kembali dahulu, inspeksi akhir tahun; atau fisik baru kembali akhir tahun",
+    "expected": "Kedua pola menghasilkan tanggal/posisi/availability yang benar",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5289,
+    "work_packets": [
+      "P10",
+      "P13"
+    ],
+    "case_ids": [
+      "E03",
+      "E04",
+      "E13"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-C12",
+    "scope": "CP6_INHERITED",
+    "scenario": "Opname baseline historis, sumber tidak lengkap",
+    "expected": "Tidak menciptakan nota palsu/double stock; value pending tidak dianggap selesai",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5290,
+    "work_packets": [
+      "P10",
+      "P13"
+    ],
+    "case_ids": [
+      "E03",
+      "E04",
+      "E13"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-D01",
+    "scope": "CP6_INHERITED",
+    "scenario": "Dua sesi issue/pemakaian pada stok7, masing-masing ambil4",
+    "expected": "Satu menang; yang lain menolak atomik; saldo tidak negatif",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5296,
+    "work_packets": [
+      "P18",
+      "P19"
+    ],
+    "case_ids": [
+      "E10",
+      "E12",
+      "E14",
+      "E21"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-D02",
+    "scope": "CP6_INHERITED",
+    "scenario": "Transfer vs issue/pemakaian lokasi sama",
+    "expected": "Lock bersama efektif; barang tidak dikeluarkan dua kali",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5297,
+    "work_packets": [
+      "P18",
+      "P19"
+    ],
+    "case_ids": [
+      "E10",
+      "E12",
+      "E14",
+      "E21"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-D03",
+    "scope": "CP6_INHERITED",
+    "scenario": "Posting vs edit DRAFT, harga/UOM berubah ketika menunggu lock",
+    "expected": "State terbaru dinilai; posted immutable; tidak menggunakan snapshot stale",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5298,
+    "work_packets": [
+      "P18",
+      "P19"
+    ],
+    "case_ids": [
+      "E10",
+      "E12",
+      "E14",
+      "E21"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-D04",
+    "scope": "CP6_INHERITED",
+    "scenario": "Return/inspection vs return lain, payroll, reversal source",
+    "expected": "Tidak over-credit/over-capacity; tidak ada orphan",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5299,
+    "work_packets": [
+      "P18",
+      "P19"
+    ],
+    "case_ids": [
+      "E10",
+      "E12",
+      "E14",
+      "E21"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-D05",
+    "scope": "CP6_INHERITED",
+    "scenario": "Request sama ulang, key sama payload beda, timeout setelah commit",
+    "expected": "Replay tepat; mismatch ditolak; refetch bukan posting UUID baru",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5300,
+    "work_packets": [
+      "P18",
+      "P19"
+    ],
+    "case_ids": [
+      "E10",
+      "E12",
+      "E14",
+      "E21"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-D06",
+    "scope": "CP6_INHERITED",
+    "scenario": "Null/inactive role, revocation, lintas lokasi/source, direct table/API",
+    "expected": "Penolakan nyata melalui Auth/HTTP; tidak hanya fixture OWNER",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5301,
+    "work_packets": [
+      "P18",
+      "P19"
+    ],
+    "case_ids": [
+      "E10",
+      "E12",
+      "E14",
+      "E21"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-D07",
+    "scope": "CP6_INHERITED",
+    "scenario": "Kesalahan sengaja di tengah command multi-line",
+    "expected": "Semua efek domain rollback; boundary/residue terbukti",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5302,
+    "work_packets": [
+      "P18",
+      "P19"
+    ],
+    "case_ids": [
+      "E10",
+      "E12",
+      "E14",
+      "E21"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-D08",
+    "scope": "CP6_INHERITED",
+    "scenario": "Tanggal WIB lintas UTC, backdate dan closed period",
+    "expected": "Physical/system/book dates tidak tertukar; report as-of tidak false READY",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5303,
+    "work_packets": [
+      "P18",
+      "P19"
+    ],
+    "case_ids": [
+      "E10",
+      "E12",
+      "E14",
+      "E21"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-D09",
+    "scope": "CP6_INHERITED",
+    "scenario": "Desktop/HP, reload, double click, empty/error/loading, 7PCS tanggung",
+    "expected": "UI terhubung RPC benar, saldo server terlihat, tidak seed/local fallback",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5304,
+    "work_packets": [
+      "P18",
+      "P19"
+    ],
+    "case_ids": [
+      "E10",
+      "E12",
+      "E14",
+      "E21"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-D10",
+    "scope": "CP6_INHERITED",
+    "scenario": "Refetch gagal sesudah commit",
+    "expected": "Pesan dan lock state benar; retry aman; tidak klaim transaksi gagal",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5305,
+    "work_packets": [
+      "P18",
+      "P19"
+    ],
+    "case_ids": [
+      "E10",
+      "E12",
+      "E14",
+      "E21"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-D11",
+    "scope": "CP6_INHERITED",
+    "scenario": "Upgrade/replay refusal, rollback sebelum/sesudah use, exact restore",
+    "expected": "Definisi/owner/ACL/trigger/data/marker/orphan terverifikasi, guard tidak dilonggarkan",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5306,
+    "work_packets": [
+      "P18",
+      "P19"
+    ],
+    "case_ids": [
+      "E10",
+      "E12",
+      "E14",
+      "E21"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ACC-D12",
+    "scope": "CP6_INHERITED",
+    "scenario": "Performa query/history dan daftar besar",
+    "expected": "Pagination/search server; tidak memuat semua histori atau menghitung saldo di browser",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5307,
+    "work_packets": [
+      "P18",
+      "P19"
+    ],
+    "case_ids": [
+      "E10",
+      "E12",
+      "E14",
+      "E21"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original oracle retained; current D01/D06/C6/BE policy and approved dispositions govern. Not a new CP7 test claim."
+  },
+  {
+    "id": "ALL-A01",
+    "scope": "CP6_INHERITED",
+    "scenario": "uang muka supplier/pelanggan/vendor laundry",
+    "expected": "Import with honest provenance and supported continuation; reconcile quantity/value/source/permission and no invented history. aksi PREPAYMENT → `manage_initial_prepayment_v1` (BA): APPLY/REVERSE_PAYMENT/REFUND/CORRECT/REVERSE_EVENT",
+    "source": "repo:docs/cp6-au-r1-handoff.md",
+    "source_line": 2288,
+    "work_packets": [
+      "P12",
+      "P13"
+    ],
+    "case_ids": [
+      "E05",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Scope inventory §29.6 is historical, not current MAPPED/NO_ADAPTER verdict. Later BB/BC/BD/BE and ALL-C04 errata supersede status; acceptance still CP6 gate."
+  },
+  {
+    "id": "ALL-A02",
+    "scope": "CP6_INHERITED",
+    "scenario": "kasbon mandor dipotong payroll",
+    "expected": "Import with honest provenance and supported continuation; reconcile quantity/value/source/permission and no invented history. ALLOCATE_CASH_ADVANCE → `set_opening_cash_advance_payroll_v1` (AP:4936) → potongan payroll; bayar `post_payroll_payment`; tunai lewat OSS",
+    "source": "repo:docs/cp6-au-r1-handoff.md",
+    "source_line": 2289,
+    "work_packets": [
+      "P12",
+      "P13"
+    ],
+    "case_ids": [
+      "E05",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Scope inventory §29.6 is historical, not current MAPPED/NO_ADAPTER verdict. Later BB/BC/BD/BE and ALL-C04 errata supersede status; acceptance still CP6 gate."
+  },
+  {
+    "id": "ALL-A03",
+    "scope": "CP6_INHERITED",
+    "scenario": "settlement historis / dokumen habis",
+    "expected": "Import with honest provenance and supported continuation; reconcile quantity/value/source/permission and no invented history. tidak perlu (hanya histori)",
+    "source": "repo:docs/cp6-au-r1-handoff.md",
+    "source_line": 2290,
+    "work_packets": [
+      "P12",
+      "P13"
+    ],
+    "case_ids": [
+      "E05",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Scope inventory §29.6 is historical, not current MAPPED/NO_ADAPTER verdict. Later BB/BC/BD/BE and ALL-C04 errata supersede status; acceptance still CP6 gate."
+  },
+  {
+    "id": "ALL-C01",
+    "scope": "CP6_INHERITED",
+    "scenario": "aksesori/kain kantong perusahaan",
+    "expected": "Import with honest provenance and supported continuation; reconcile quantity/value/source/permission and no invented history. `erp_save_accessory_issue_action_v1`; `erp_save_pocket_fabric_action_v1` REGISTER/POST",
+    "source": "repo:docs/cp6-au-r1-handoff.md",
+    "source_line": 2297,
+    "work_packets": [
+      "P09",
+      "P13"
+    ],
+    "case_ids": [
+      "E03",
+      "E07"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Scope inventory §29.6 is historical, not current MAPPED/NO_ADAPTER verdict. Later BB/BC/BD/BE and ALL-C04 errata supersede status; acceptance still CP6 gate."
+  },
+  {
+    "id": "ALL-C02",
+    "scope": "CP6_INHERITED",
+    "scenario": "nota aksesori mandor sebelum cutover",
+    "expected": "Import with honest provenance and supported continuation; reconcile quantity/value/source/permission and no invented history. BALANCE: OSS tunai; CASH_ADVANCE: payroll",
+    "source": "repo:docs/cp6-au-r1-handoff.md",
+    "source_line": 2298,
+    "work_packets": [
+      "P09",
+      "P13"
+    ],
+    "case_ids": [
+      "E03",
+      "E07"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Scope inventory §29.6 is historical, not current MAPPED/NO_ADAPTER verdict. Later BB/BC/BD/BE and ALL-C04 errata supersede status; acceptance still CP6 gate."
+  },
+  {
+    "id": "ALL-C03",
+    "scope": "CP6_INHERITED",
+    "scenario": "titipan/karantina/pemulihan aksesori",
+    "expected": "Import with honest provenance and supported continuation; reconcile quantity/value/source/permission and no invented history. —",
+    "source": "repo:docs/cp6-au-r1-handoff.md",
+    "source_line": 2299,
+    "work_packets": [
+      "P09",
+      "P13"
+    ],
+    "case_ids": [
+      "E03",
+      "E07"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Scope inventory §29.6 is historical, not current MAPPED/NO_ADAPTER verdict. Later BB/BC/BD/BE and ALL-C04 errata supersede status; acceptance still CP6 gate."
+  },
+  {
+    "id": "ALL-C04",
+    "scope": "CP6_INHERITED",
+    "scenario": "kain kantong sudah ditarik / periode alokasi terbuka",
+    "expected": "Import with honest provenance and supported continuation; reconcile quantity/value/source/permission and no invented history. —",
+    "source": "repo:docs/cp6-au-r1-handoff.md",
+    "source_line": 2300,
+    "work_packets": [
+      "P09",
+      "P13"
+    ],
+    "case_ids": [
+      "E03",
+      "E07"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Scope inventory §29.6 is historical, not current MAPPED/NO_ADAPTER verdict. Later BB/BC/BD/BE and ALL-C04 errata supersede status; acceptance still CP6 gate."
+  },
+  {
+    "id": "ALL-P01",
+    "scope": "CP6_INHERITED",
+    "scenario": "diterima belum ditagih, sebagian terpakai",
+    "expected": "Import with honest provenance and supported continuation; reconcile quantity/value/source/permission and no invented history. invoice supplier (`save_material_supplier_invoice_draft_v2` AC:10194, `post_material_supplier_invoice_v2`) → recost origin (AP:6421); bayar `post_supplier_payment` atau APPLY uang muka",
+    "source": "repo:docs/cp6-au-r1-handoff.md",
+    "source_line": 2279,
+    "work_packets": [
+      "P09",
+      "P13"
+    ],
+    "case_ids": [
+      "E01",
+      "E24"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Scope inventory §29.6 is historical, not current MAPPED/NO_ADAPTER verdict. Later BB/BC/BD/BE and ALL-C04 errata supersede status; acceptance still CP6 gate."
+  },
+  {
+    "id": "ALL-P02",
+    "scope": "CP6_INHERITED",
+    "scenario": "hutang supplier sebagian dibayar",
+    "expected": "Import with honest provenance and supported continuation; reconcile quantity/value/source/permission and no invented history. OSS cabang supplier; APPLY uang muka supplier ke target OPENING",
+    "source": "repo:docs/cp6-au-r1-handoff.md",
+    "source_line": 2280,
+    "work_packets": [
+      "P09",
+      "P13"
+    ],
+    "case_ids": [
+      "E01",
+      "E24"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Scope inventory §29.6 is historical, not current MAPPED/NO_ADAPTER verdict. Later BB/BC/BD/BE and ALL-C04 errata supersede status; acceptance still CP6 gate."
+  },
+  {
+    "id": "ALL-P03",
+    "scope": "CP6_INHERITED",
+    "scenario": "terima sebagian ditagih",
+    "expected": "Import with honest provenance and supported continuation; reconcile quantity/value/source/permission and no invented history. seperti P01 + P02",
+    "source": "repo:docs/cp6-au-r1-handoff.md",
+    "source_line": 2281,
+    "work_packets": [
+      "P09",
+      "P13"
+    ],
+    "case_ids": [
+      "E01",
+      "E24"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Scope inventory §29.6 is historical, not current MAPPED/NO_ADAPTER verdict. Later BB/BC/BD/BE and ALL-C04 errata supersede status; acceptance still CP6 gate."
+  },
+  {
+    "id": "ALL-P04",
+    "scope": "CP6_INHERITED",
+    "scenario": "PO belum diterima / draf pengadaan",
+    "expected": "Import with honest provenance and supported continuation; reconcile quantity/value/source/permission and no invented history. —",
+    "source": "repo:docs/cp6-au-r1-handoff.md",
+    "source_line": 2282,
+    "work_packets": [
+      "P09",
+      "P13"
+    ],
+    "case_ids": [
+      "E01",
+      "E24"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Scope inventory §29.6 is historical, not current MAPPED/NO_ADAPTER verdict. Later BB/BC/BD/BE and ALL-C04 errata supersede status; acceptance still CP6 gate."
+  },
+  {
+    "id": "ALL-S01",
+    "scope": "CP6_INHERITED",
+    "scenario": "invoice penjualan lama belum lunas",
+    "expected": "Import with honest provenance and supported continuation; reconcile quantity/value/source/permission and no invented history. OSS cabang AR; APPLY uang muka pelanggan ke OPENING",
+    "source": "repo:docs/cp6-au-r1-handoff.md",
+    "source_line": 2283,
+    "work_packets": [
+      "P11",
+      "P13"
+    ],
+    "case_ids": [
+      "E01",
+      "E03"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Scope inventory §29.6 is historical, not current MAPPED/NO_ADAPTER verdict. Later BB/BC/BD/BE and ALL-C04 errata supersede status; acceptance still CP6 gate."
+  },
+  {
+    "id": "ALL-S02",
+    "scope": "CP6_INHERITED",
+    "scenario": "draf penjualan dengan reservasi",
+    "expected": "Import with honest provenance and supported continuation; reconcile quantity/value/source/permission and no invented history. —",
+    "source": "repo:docs/cp6-au-r1-handoff.md",
+    "source_line": 2284,
+    "work_packets": [
+      "P11",
+      "P13"
+    ],
+    "case_ids": [
+      "E01",
+      "E03"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Scope inventory §29.6 is historical, not current MAPPED/NO_ADAPTER verdict. Later BB/BC/BD/BE and ALL-C04 errata supersede status; acceptance still CP6 gate."
+  },
+  {
+    "id": "ALL-S03",
+    "scope": "CP6_INHERITED",
+    "scenario": "retur/kredit/refund pelanggan terbuka",
+    "expected": "Import with honest provenance and supported continuation; reconcile quantity/value/source/permission and no invented history. PREPAYMENT APPLY/REFUND (BA)",
+    "source": "repo:docs/cp6-au-r1-handoff.md",
+    "source_line": 2285,
+    "work_packets": [
+      "P11",
+      "P13"
+    ],
+    "case_ids": [
+      "E01",
+      "E03"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Scope inventory §29.6 is historical, not current MAPPED/NO_ADAPTER verdict. Later BB/BC/BD/BE and ALL-C04 errata supersede status; acceptance still CP6 gate."
+  },
+  {
+    "id": "ALL-W01",
+    "scope": "CP6_INHERITED",
+    "scenario": "header PO terbuka",
+    "expected": "Import with honest provenance and supported continuation; reconcile quantity/value/source/permission and no invented history. alur produksi native; guard selesai/batal (AP:6510–6520)",
+    "source": "repo:docs/cp6-au-r1-handoff.md",
+    "source_line": 2291,
+    "work_packets": [
+      "P04",
+      "P10"
+    ],
+    "case_ids": [
+      "E01",
+      "E02"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Scope inventory §29.6 is historical, not current MAPPED/NO_ADAPTER verdict. Later BB/BC/BD/BE and ALL-C04 errata supersede status; acceptance still CP6 gate."
+  },
+  {
+    "id": "ALL-W02",
+    "scope": "CP6_INHERITED",
+    "scenario": "WIP fisik SEWING/LAUNDRY",
+    "expected": "Import with honest provenance and supported continuation; reconcile quantity/value/source/permission and no invented history. WIP_OUTPUT → `complete_initial_import_wip_v1` (BA): COMPLETE ke FG QC_GOOD / REVERSE",
+    "source": "repo:docs/cp6-au-r1-handoff.md",
+    "source_line": 2292,
+    "work_packets": [
+      "P04",
+      "P10"
+    ],
+    "case_ids": [
+      "E01",
+      "E02"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Scope inventory §29.6 is historical, not current MAPPED/NO_ADAPTER verdict. Later BB/BC/BD/BE and ALL-C04 errata supersede status; acceptance still CP6 gate."
+  },
+  {
+    "id": "ALL-W03",
+    "scope": "CP6_INHERITED",
+    "scenario": "BS bernilai",
+    "expected": "Import with honest provenance and supported continuation; reconcile quantity/value/source/permission and no invented history. `erp_save_bs_resolution_action_v1` (BSR:1127): CLASSIFY/REWORK/DISPOSE/HOLD/CLAIM",
+    "source": "repo:docs/cp6-au-r1-handoff.md",
+    "source_line": 2293,
+    "work_packets": [
+      "P04",
+      "P10"
+    ],
+    "case_ids": [
+      "E01",
+      "E02"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Scope inventory §29.6 is historical, not current MAPPED/NO_ADAPTER verdict. Later BB/BC/BD/BE and ALL-C04 errata supersede status; acceptance still CP6 gate."
+  },
+  {
+    "id": "ALL-W04",
+    "scope": "CP6_INHERITED",
+    "scenario": "potongan menunggu pickup",
+    "expected": "Import with honest provenance and supported continuation; reconcile quantity/value/source/permission and no invented history. —",
+    "source": "repo:docs/cp6-au-r1-handoff.md",
+    "source_line": 2294,
+    "work_packets": [
+      "P04",
+      "P10"
+    ],
+    "case_ids": [
+      "E01",
+      "E02"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Scope inventory §29.6 is historical, not current MAPPED/NO_ADAPTER verdict. Later BB/BC/BD/BE and ALL-C04 errata supersede status; acceptance still CP6 gate."
+  },
+  {
+    "id": "ALL-W05",
+    "scope": "CP6_INHERITED",
+    "scenario": "laundry di luar, cuci gagal, klaim, invoice lama",
+    "expected": "Import with honest provenance and supported continuation; reconcile quantity/value/source/permission and no invented history. WIP_OUTPUT; OSS AP vendor; APPLY ke invoice vendor",
+    "source": "repo:docs/cp6-au-r1-handoff.md",
+    "source_line": 2295,
+    "work_packets": [
+      "P04",
+      "P10"
+    ],
+    "case_ids": [
+      "E01",
+      "E02"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Scope inventory §29.6 is historical, not current MAPPED/NO_ADAPTER verdict. Later BB/BC/BD/BE and ALL-C04 errata supersede status; acceptance still CP6 gate."
+  },
+  {
+    "id": "ALL-W06",
+    "scope": "CP6_INHERITED",
+    "scenario": "rework terkirim/sebagian/komponen belum dibayar",
+    "expected": "Import with honest provenance and supported continuation; reconcile quantity/value/source/permission and no invented history. —",
+    "source": "repo:docs/cp6-au-r1-handoff.md",
+    "source_line": 2296,
+    "work_packets": [
+      "P04",
+      "P10"
+    ],
+    "case_ids": [
+      "E01",
+      "E02"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Scope inventory §29.6 is historical, not current MAPPED/NO_ADAPTER verdict. Later BB/BC/BD/BE and ALL-C04 errata supersede status; acceptance still CP6 gate."
+  },
+  {
+    "id": "ALL-Y01",
+    "scope": "CP6_INHERITED",
+    "scenario": "upah/reimburse mandor diakui belum dibayar",
+    "expected": "Import with honest provenance and supported continuation; reconcile quantity/value/source/permission and no invented history. OSS, tunai saja",
+    "source": "repo:docs/cp6-au-r1-handoff.md",
+    "source_line": 2286,
+    "work_packets": [
+      "P12"
+    ],
+    "case_ids": [
+      "E05"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Scope inventory §29.6 is historical, not current MAPPED/NO_ADAPTER verdict. Later BB/BC/BD/BE and ALL-C04 errata supersede status; acceptance still CP6 gate."
+  },
+  {
+    "id": "ALL-Y02",
+    "scope": "CP6_INHERITED",
+    "scenario": "jahit/absensi belum disetujui, carry komponen, reimburse belum dialokasi",
+    "expected": "Import with honest provenance and supported continuation; reconcile quantity/value/source/permission and no invented history. —",
+    "source": "repo:docs/cp6-au-r1-handoff.md",
+    "source_line": 2287,
+    "work_packets": [
+      "P12"
+    ],
+    "case_ids": [
+      "E05"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Scope inventory §29.6 is historical, not current MAPPED/NO_ADAPTER verdict. Later BB/BC/BD/BE and ALL-C04 errata supersede status; acceptance still CP6 gate."
+  },
+  {
+    "id": "AUD-A01",
+    "scope": "CP6_INHERITED",
+    "scenario": "BS/Rework: error transport berstatus dianggap penolakan pasti",
+    "expected": "Resolve/requalify original finding against current accepted source; P2; eskalasi bila duplikasi native terbukti",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5767,
+    "work_packets": [
+      "P00",
+      "P18"
+    ],
+    "case_ids": [
+      "E01",
+      "E12",
+      "E14"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-A02",
+    "scope": "CP6_INHERITED",
+    "scenario": "BS/Rework: envelope invalid dapat dihapus lalu dibaca sebagai tidak ada transaksi",
+    "expected": "Resolve/requalify original finding against current accepted source; P2",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5768,
+    "work_packets": [
+      "P00",
+      "P18"
+    ],
+    "case_ids": [
+      "E01",
+      "E12",
+      "E14"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-A03",
+    "scope": "CP6_INHERITED",
+    "scenario": "Potongan/Pickup: gagal refetch setelah commit tidak mempertahankan pagar writer",
+    "expected": "Resolve/requalify original finding against current accepted source; P2",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5769,
+    "work_packets": [
+      "P00",
+      "P18"
+    ],
+    "case_ids": [
+      "E01",
+      "E12",
+      "E14"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-A04",
+    "scope": "CP6_INHERITED",
+    "scenario": "Parser WIP mengubah field hilang/invalid menjadi nol",
+    "expected": "Resolve/requalify original finding against current accepted source; P2",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5770,
+    "work_packets": [
+      "P00",
+      "P18"
+    ],
+    "case_ids": [
+      "E01",
+      "E12",
+      "E14"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-A05",
+    "scope": "CP6_INHERITED",
+    "scenario": "Input COUNT connected dapat mengubah angka salah menjadi angka sah lain",
+    "expected": "Resolve/requalify original finding against current accepted source; P2",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5771,
+    "work_packets": [
+      "P00",
+      "P18"
+    ],
+    "case_ids": [
+      "E01",
+      "E12",
+      "E14"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-B01",
+    "scope": "CP6_INHERITED",
+    "scenario": "Saldo awal BS invalid menjadi POSTED tanpa kasus BS",
+    "expected": "Resolve/requalify original finding against current accepted source; P2 terkonfirmasi pada AK",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5778,
+    "work_packets": [
+      "P00",
+      "P18"
+    ],
+    "case_ids": [
+      "E01",
+      "E12",
+      "E14"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-B02",
+    "scope": "CP6_INHERITED",
+    "scenario": "Saldo awal WIP negatif menjadi POSTED tanpa jurnal WIP",
+    "expected": "Resolve/requalify original finding against current accepted source; P2 terkonfirmasi pada AK",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5779,
+    "work_packets": [
+      "P00",
+      "P18"
+    ],
+    "case_ids": [
+      "E01",
+      "E12",
+      "E14"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-B03",
+    "scope": "CP6_INHERITED",
+    "scenario": "Preview master VALID walau tipe input akan ditolak saat apply",
+    "expected": "Resolve/requalify original finding against current accepted source; P3 diagnostik",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5780,
+    "work_packets": [
+      "P00",
+      "P18"
+    ],
+    "case_ids": [
+      "E01",
+      "E12",
+      "E14"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-B04",
+    "scope": "CP6_INHERITED",
+    "scenario": "Laporan historis dapat READY walaupun per-date alokasi belum konsisten",
+    "expected": "Resolve/requalify original finding against current accepted source; P2 terkonfirmasi; kebijakan sebagian pending",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5781,
+    "work_packets": [
+      "P00",
+      "P18"
+    ],
+    "case_ids": [
+      "E01",
+      "E12",
+      "E14"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-G01",
+    "scope": "CP7_INTEGRATION",
+    "scenario": "Penerimaan/pembelian frontend belum dibuktikan connected",
+    "expected": "Resolve/requalify original finding against current accepted source; Gate/roadmap sesuai domain",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5784,
+    "work_packets": [
+      "P09"
+    ],
+    "case_ids": [
+      "E24"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-G02",
+    "scope": "CP7_INTEGRATION",
+    "scenario": "Nota Mandor/master aksesori masih mempunyai jalur demo lokal",
+    "expected": "Resolve/requalify original finding against current accepted source; Gate/roadmap sesuai domain",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5785,
+    "work_packets": [
+      "P09",
+      "P12"
+    ],
+    "case_ids": [
+      "E05",
+      "E24"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-G03",
+    "scope": "CP7_INTEGRATION",
+    "scenario": "Gudang dan Ganti Merek UI belum menjadi bukti ledger nyata",
+    "expected": "Resolve/requalify original finding against current accepted source; Gate/roadmap sesuai domain",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5786,
+    "work_packets": [
+      "P09",
+      "P10"
+    ],
+    "case_ids": [
+      "E24",
+      "E04"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-G04",
+    "scope": "CP7_INTEGRATION",
+    "scenario": "Penjualan, pembayaran, retur dan refund belum full UI→ledger terverifikasi",
+    "expected": "Resolve/requalify original finding against current accepted source; Gate/roadmap sesuai domain",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5787,
+    "work_packets": [
+      "P11"
+    ],
+    "case_ids": [
+      "E01",
+      "E03"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-G05",
+    "scope": "CP7_INTEGRATION",
+    "scenario": "Absensi/payroll frontend masih state lokal; denominator/upah tidak boleh ditebak",
+    "expected": "Resolve/requalify original finding against current accepted source; Gate/roadmap sesuai domain",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5788,
+    "work_packets": [
+      "P12"
+    ],
+    "case_ids": [
+      "E05"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-G06",
+    "scope": "CP7_INTEGRATION",
+    "scenario": "Layar HPP/finance/close/audit/reminder belum mewakili sumber data resmi",
+    "expected": "Resolve/requalify original finding against current accepted source; Gate/roadmap sesuai domain",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5789,
+    "work_packets": [
+      "P13",
+      "P15",
+      "P16"
+    ],
+    "case_ids": [
+      "E06",
+      "E08",
+      "E17"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-G07",
+    "scope": "CP7_INTEGRATION",
+    "scenario": "Cakupan Auth/action/location belum lengkap lintas ERP",
+    "expected": "Resolve/requalify original finding against current accepted source; Gate/roadmap sesuai domain",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5790,
+    "work_packets": [
+      "P18"
+    ],
+    "case_ids": [
+      "E14"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-G08",
+    "scope": "CP7_INTEGRATION",
+    "scenario": "Parser/upload CSV belum punya bukti transport lengkap",
+    "expected": "Resolve/requalify original finding against current accepted source; Gate/roadmap sesuai domain",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5791,
+    "work_packets": [
+      "P18"
+    ],
+    "case_ids": [
+      "E01",
+      "E07"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-G09",
+    "scope": "CP7_INTEGRATION",
+    "scenario": "CP7 perencanaan adaptif masih spesifikasi, bukan fitur teruji",
+    "expected": "Resolve/requalify original finding against current accepted source; Gate/roadmap sesuai domain",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5792,
+    "work_packets": [
+      "P07",
+      "P14"
+    ],
+    "case_ids": [
+      "M01",
+      "M03",
+      "E08"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-G10",
+    "scope": "CP7.5_FUTURE",
+    "scenario": "CP7.5 clean baseline/fresh-install equivalence belum terbukti pada produk final",
+    "expected": "Resolve/requalify original finding against current accepted source; Gate/roadmap sesuai domain",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5793,
+    "work_packets": [
+      "P21"
+    ],
+    "case_ids": [
+      "E21"
+    ],
+    "status": "FUTURE_GATE",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-G11",
+    "scope": "CP7C_FUTURE",
+    "scenario": "Automation, alert dan disaster recovery mandiri belum diterima",
+    "expected": "Resolve/requalify original finding against current accepted source; Gate/roadmap sesuai domain",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5794,
+    "work_packets": [
+      "P21"
+    ],
+    "case_ids": [
+      "E21"
+    ],
+    "status": "FUTURE_GATE",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-G12",
+    "scope": "CP8_FUTURE",
+    "scenario": "Go-live/cutover belum diotorisasi atau dibuktikan",
+    "expected": "Resolve/requalify original finding against current accepted source; Gate/roadmap sesuai domain",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5795,
+    "work_packets": [
+      "P21"
+    ],
+    "case_ids": [
+      "E21"
+    ],
+    "status": "FUTURE_GATE",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-G13",
+    "scope": "CP6_INHERITED",
+    "scenario": "Pemakaian/retur aksesori internal belum diimplementasikan; policy sebagian belum pasti",
+    "expected": "Resolve/requalify original finding against current accepted source; Gate/roadmap sesuai domain",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5796,
+    "work_packets": [
+      "P00",
+      "P18"
+    ],
+    "case_ids": [
+      "E01",
+      "E12",
+      "E14"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-G14",
+    "scope": "CP7_INTEGRATION",
+    "scenario": "Performa dan cakupan interleaving belum diukur untuk beban pabrik",
+    "expected": "Resolve/requalify original finding against current accepted source; Gate/roadmap sesuai domain",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5797,
+    "work_packets": [
+      "P19"
+    ],
+    "case_ids": [
+      "E20",
+      "E10"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-G15",
+    "scope": "CP7_INTEGRATION",
+    "scenario": "Pagar pending mutation belum dibuktikan lintas seluruh layar/tab",
+    "expected": "Resolve/requalify original finding against current accepted source; Gate/roadmap sesuai domain",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5798,
+    "work_packets": [
+      "P08",
+      "P18"
+    ],
+    "case_ids": [
+      "E12"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-G16",
+    "scope": "CP7_INTEGRATION",
+    "scenario": "Validasi visual/mobile dan full build terbaru belum dijalankan",
+    "expected": "Resolve/requalify original finding against current accepted source; Gate/roadmap sesuai domain",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5799,
+    "work_packets": [
+      "P14",
+      "P18"
+    ],
+    "case_ids": [
+      "E19"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-S01",
+    "scope": "CP6_INHERITED",
+    "scenario": "Harga per lusin mengakibatkan round-trip PCS melalui skala enam desimal",
+    "expected": "Resolve/requalify original finding against current accepted source; P2 sementara",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5772,
+    "work_packets": [
+      "P00",
+      "P18"
+    ],
+    "case_ids": [
+      "E01",
+      "E12",
+      "E14"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-S02",
+    "scope": "CP6_INHERITED",
+    "scenario": "Transfer backdate berpotensi menciptakan selisih nilai persediaan",
+    "expected": "Resolve/requalify original finding against current accepted source; P2 sementara",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5773,
+    "work_packets": [
+      "P00",
+      "P18"
+    ],
+    "case_ids": [
+      "E01",
+      "E12",
+      "E14"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-S03",
+    "scope": "CP6_INHERITED",
+    "scenario": "Transfer melewati baris material nonaktif di loop posting",
+    "expected": "Resolve/requalify original finding against current accepted source; P2 sementara",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5774,
+    "work_packets": [
+      "P00",
+      "P18"
+    ],
+    "case_ids": [
+      "E01",
+      "E12",
+      "E14"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-S04",
+    "scope": "CP6_INHERITED",
+    "scenario": "Backdate perlu validasi saldo historis per lokasi, bukan hanya saldo terkini",
+    "expected": "Resolve/requalify original finding against current accepted source; P2 sementara",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5775,
+    "work_packets": [
+      "P00",
+      "P18"
+    ],
+    "case_ids": [
+      "E01",
+      "E12",
+      "E14"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-S05",
+    "scope": "CP6_INHERITED",
+    "scenario": "Selector PO dan potongan belum diambil mempunyai batas tanpa navigasi setara",
+    "expected": "Resolve/requalify original finding against current accepted source; P2 pada skala terdampak",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5776,
+    "work_packets": [
+      "P00",
+      "P18"
+    ],
+    "case_ids": [
+      "E01",
+      "E12",
+      "E14"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-S06",
+    "scope": "CP6_INHERITED",
+    "scenario": "Tutup buku membutuhkan satu preflight dan pemeriksaan ulang seluruh blocker",
+    "expected": "Resolve/requalify original finding against current accepted source; P1 sebelum izin tutup buku produksi",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5777,
+    "work_packets": [
+      "P00",
+      "P18"
+    ],
+    "case_ids": [
+      "E01",
+      "E12",
+      "E14"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-T01",
+    "scope": "CP6_INHERITED",
+    "scenario": "Runner audit terhenti pada dependency drift; perlu kualifikasi delta, bukan hapus guard",
+    "expected": "Resolve/requalify original finding against current accepted source; P2 gate",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5782,
+    "work_packets": [
+      "P00",
+      "P18"
+    ],
+    "case_ids": [
+      "E01",
+      "E12",
+      "E14"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "AUD-T02",
+    "scope": "CP6_INHERITED",
+    "scenario": "AL masih draft dan belum terintegrasi sebagai kandidat yang dapat diterima",
+    "expected": "Resolve/requalify original finding against current accepted source; P2 gate",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 5783,
+    "work_packets": [
+      "P00",
+      "P18"
+    ],
+    "case_ids": [
+      "E01",
+      "E12",
+      "E14"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Historical audit register; status at 18Sep is not current implementation status. Current disposition imported only in P00."
+  },
+  {
+    "id": "BR-T01",
+    "scope": "BR_INTI",
+    "scenario": "Stok/Planner/popup/Business Report/Reminder membaca run+scope+scenario sama",
+    "expected": "Semua operand/status/narasi konsisten; tidak ada formula cabang",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2773,
+    "work_packets": [
+      "P14",
+      "P15",
+      "P16",
+      "P17"
+    ],
+    "case_ids": [
+      "E08"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T02",
+    "scope": "BR_INTI",
+    "scenario": "Buka, hitung, filter, baca riwayat, ekspor dan ACK",
+    "expected": "Ledger FG/WIP/uang/HPP/reservation sebelum-sesudah identik; hanya state analisis/perhatian sah berubah",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2774,
+    "work_packets": [
+      "P02",
+      "P15",
+      "P16"
+    ],
+    "case_ids": [
+      "E22"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T03",
+    "scope": "BR_INTI",
+    "scenario": "FG18,target48,WIPterarah12,candidateallocation10",
+    "expected": "Qdasar18, Qbersyarat8; label bersyarat dan syarat kandidat ada",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2775,
+    "work_packets": [
+      "P06",
+      "P15"
+    ],
+    "case_ids": [
+      "O01"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T04",
+    "scope": "BR_INTI",
+    "scenario": "Timeline fixture hari1–10 BR.4",
+    "expected": "Saldo akhir14,10,18,14,10,16,20,16,12,8; buffer tidak ganda",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2776,
+    "work_packets": [
+      "P06"
+    ],
+    "case_ids": [
+      "O02"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T05",
+    "scope": "BR_INTI",
+    "scenario": "Incoming12 dipindah hari3→8",
+    "expected": "Gapawal hari5 tetap tampak meski total akhir cukup; ETA terlambat tidak hijau palsu",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2777,
+    "work_packets": [
+      "P06"
+    ],
+    "case_ids": [
+      "O03"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T06",
+    "scope": "BR_INTI",
+    "scenario": "Actual-low tetapi tertutup proyeksi WIP",
+    "expected": "Dua status berdampingan; actual FG tidak ditambah WIP",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2778,
+    "work_packets": [
+      "P04",
+      "P06",
+      "P16"
+    ],
+    "case_ids": [
+      "O05",
+      "E08"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T07",
+    "scope": "CP7_LAMA",
+    "scenario": "Shared kandidat20 antaraA/B, filter hanyaA, halaman lain/two user",
+    "expected": "Alokasi bersama total≤20; filter tidak mengembalikan kapasitas atau membocorkan scope",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2779,
+    "work_packets": [
+      "P08"
+    ],
+    "case_ids": [
+      "O04",
+      "E10",
+      "E20"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T08",
+    "scope": "CP7_LAMA",
+    "scenario": "Kandidat tanpa SKU, metadata opsional kosong, referensi SKU tarif laundry",
+    "expected": "Kandidat ditemukan lewat lineage bila cukup; pricing reference bukan finalidentity",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2780,
+    "work_packets": [
+      "P04"
+    ],
+    "case_ids": [
+      "E02"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T09",
+    "scope": "CP7_LAMA",
+    "scenario": "Revisi/warna/ukuran/bahan konflik",
+    "expected": "Match ditolak/PerluCek tepat, bukan fuzzy pasti",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2781,
+    "work_packets": [
+      "P04"
+    ],
+    "case_ids": [
+      "E02"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T10",
+    "scope": "CP7_LAMA",
+    "scenario": "Partial jahit/laundry/QC/FG, rework/rewash, BS/missing/stuck/reversal",
+    "expected": "Sisa sumber unik benar; no multistage atau incoming double-count",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2782,
+    "work_packets": [
+      "P04"
+    ],
+    "case_ids": [
+      "O15",
+      "E02"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T11",
+    "scope": "CP7_LAMA",
+    "scenario": "Draft→posted→return/cancel; cutoff availability dan demand sisa; order hanya jika existing",
+    "expected": "Efek draft tidak dikurangi dua kali; forecast/order pada bucket sama tidak diduplikasi; kontrol100−24−20=56 dengan asumsi demand residual eksplisit; tidak membuat modul order baru",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2783,
+    "work_packets": [
+      "P05",
+      "P11"
+    ],
+    "case_ids": [
+      "O06",
+      "E01"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T12",
+    "scope": "CP7_LAMA",
+    "scenario": "Stockout, hari tersedia0jual, unknownavailability, promo dan SKUbaru",
+    "expected": "Perlakuan demand berbeda; no zero demand palsu/mass auto12PCS",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2784,
+    "work_packets": [
+      "P05",
+      "P07"
+    ],
+    "case_ids": [
+      "O11",
+      "O12",
+      "M01",
+      "M02"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T13",
+    "scope": "CP7_LAMA",
+    "scenario": "Forecast horizon/metode/parameter/version/backdated knowledge",
+    "expected": "Baseline/gate rev3, no future leakage atau salah klaim akurasi",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2785,
+    "work_packets": [
+      "P07"
+    ],
+    "case_ids": [
+      "M03",
+      "M04",
+      "M05"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T14",
+    "scope": "CP7_LAMA",
+    "scenario": "Ukuran total cukup tetapi exact size kurang",
+    "expected": "Gap tetap terlihat, tanpa substitusi size fiktif",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2786,
+    "work_packets": [
+      "P06"
+    ],
+    "case_ids": [
+      "O07"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T15",
+    "scope": "CP7_LAMA",
+    "scenario": "Qty8→12 oleh policy batch, lusin/PCS serta sisa",
+    "expected": "Extra4 dan distribusi sah jelas; tidak menjadi seed global atau silent round",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2787,
+    "work_packets": [
+      "P06"
+    ],
+    "case_ids": [
+      "O08"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T16",
+    "scope": "CP7_LAMA",
+    "scenario": "SKU Stop/Tunda, tanggal review lewat, merek sama nomorSKU",
+    "expected": "No startbaru/auto-reactivate; pekerjaan lama tetap terlihat; brand lain terpisah",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2788,
+    "work_packets": [
+      "P03",
+      "P14"
+    ],
+    "case_ids": [
+      "O17",
+      "E23"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T17",
+    "scope": "BR_INTI",
+    "scenario": "Qty lengkap, biaya laundry UNKNOWN/recost pending",
+    "expected": "Analisis qty berjalan dengan label; margin final/rankingprofit ditahan",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2789,
+    "work_packets": [
+      "P13",
+      "P15"
+    ],
+    "case_ids": [
+      "E04",
+      "E06"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T18",
+    "scope": "BR_INTI",
+    "scenario": "Quantity query gagal/timeout/null/partialpagination/lineageconflict",
+    "expected": "Tidak ada0/Cukup/semuaaman palsu; partial per domain eksplisit",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2790,
+    "work_packets": [
+      "P02",
+      "P15"
+    ],
+    "case_ids": [
+      "E15"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T19",
+    "scope": "DATA_BERSYARAT",
+    "scenario": "Kebutuhan BOM, issue, pemasangan aktual, sisa teralokasi, retur dan dua skenario",
+    "expected": "Issue bukan bukti konsumsi; contoh100 kebutuhan/60terpasang/20sisa terverifikasi→40belum terpasang/20tambahan. Issue80 tanpa sumber tidak membuktikan kebutuhan20; ownership/reimburse tidak berubah",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2791,
+    "work_packets": [
+      "P06",
+      "P09"
+    ],
+    "case_ids": [
+      "O09",
+      "E03"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T20",
+    "scope": "DATA_BERSYARAT",
+    "scenario": "Kain totalcukup tetapi roll tidak cocok; aksesori pos/used/quarantine",
+    "expected": "Feasibility dan ready qty sesuai real constraint; transfer/PO tidak otomatis",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2792,
+    "work_packets": [
+      "P06",
+      "P09"
+    ],
+    "case_ids": [
+      "O09",
+      "E24"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T21",
+    "scope": "DATA_BERSYARAT",
+    "scenario": "Gap100, material/capacity60",
+    "expected": "Tulis gap100/feasible60/unresolved40; bukan shortage60",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2793,
+    "work_packets": [
+      "P06"
+    ],
+    "case_ids": [
+      "O10"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T22",
+    "scope": "DATA_BERSYARAT",
+    "scenario": "Kapasitas unknown/overloaded, kalender, ETA asumsi",
+    "expected": "Tidak mengklaim feasible/tepatwaktu; pekerjaan existing diperhitungkan",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2794,
+    "work_packets": [
+      "P04",
+      "P06"
+    ],
+    "case_ids": [
+      "M07"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T23",
+    "scope": "CP7_LAMA",
+    "scenario": "Prioritas tie, role-filter, owneroverride dan HPPpending",
+    "expected": "Tie stabil; alasan/override terlacak; tidak ada hiddenprofitranking",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2795,
+    "work_packets": [
+      "P06",
+      "P14"
+    ],
+    "case_ids": [
+      "E08",
+      "E19"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T24",
+    "scope": "BR_INTI",
+    "scenario": "Growth baseline0, margin27→24, agregasi persen",
+    "expected": "N/A yang tepat;3 poinpersentase; agregasi dari operand, bukan sumpercent",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2796,
+    "work_packets": [
+      "P15"
+    ],
+    "case_ids": [
+      "O13"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T25",
+    "scope": "BR_INTI",
+    "scenario": "Cash actual internaltransfer, unpaidinvoice, AP/ARpartial, refund dan corrections",
+    "expected": "Kas/revenue/profit/outstanding/duedate tidak tertukar/ganda. Cash forecast bertanggal baru hanya diuji jika scope itu dipilih dan basisnya sah",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2797,
+    "work_packets": [
+      "P11",
+      "P13",
+      "P15"
+    ],
+    "case_ids": [
+      "O14",
+      "E03",
+      "E06"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T26",
+    "scope": "DATA_BERSYARAT",
+    "scenario": "Aging stockcohort dibanding lastmovement",
+    "expected": "Label benar; seluruhstock tidak diklaim tua hanya dari lastsale",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2798,
+    "work_packets": [
+      "P10",
+      "P15"
+    ],
+    "case_ids": [
+      "E01",
+      "E24"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T27",
+    "scope": "OPTIONAL_NOT_SELECTED",
+    "scenario": "Analisis perbandingan pihak, hanya bila fitur baru ini dipilih",
+    "expected": "OPSIONAL: jangan membuat scorecard/ranking vendor atau mandor sebagai gate BR inti. Bila tampilkan perbandingan, basis/sampel/denominator sebanding dan no causal blame tanpa bukti",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2799,
+    "work_packets": [
+      "P15"
+    ],
+    "case_ids": [
+      "E08"
+    ],
+    "status": "OPTIONAL_NOT_SELECTED",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Guard against accidental scope expansion only; no scorecard implementation mandated."
+  },
+  {
+    "id": "BR-T28",
+    "scope": "BR_INTI",
+    "scenario": "Contoh pertumbuhan omzet bersamaan laundrydelay, valid HPPdecomposition",
+    "expected": "Cooccurrence bukan sebab; attribution hanya untuk metode/source sah",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2800,
+    "work_packets": [
+      "P13",
+      "P15"
+    ],
+    "case_ids": [
+      "E04",
+      "E06"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T29",
+    "scope": "BR_INTI",
+    "scenario": "Tanggalintrahari/WIB dan perangkattimezone lain",
+    "expected": "Periode/known/effective/generation terpisah; no shiftdate/dayfull comparison palsu",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2801,
+    "work_packets": [
+      "P02",
+      "P15"
+    ],
+    "case_ids": [
+      "E06"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T30",
+    "scope": "BR_INTI",
+    "scenario": "Invoice3bulan/backdate/recost, filedreport dan data as-known yang tersedia",
+    "expected": "Arsip asli utuh; current ditandai stale; revision explicit/scheduled authorized. Tidak rebuild/send semua arsip otomatis; tidak mengarang histori pengetahuan sebelum snapshot tersedia",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2802,
+    "work_packets": [
+      "P13",
+      "P15"
+    ],
+    "case_ids": [
+      "E06",
+      "E09"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T31",
+    "scope": "BR_INTI",
+    "scenario": "Sumber berubah setelah report/draf, stale deeplink",
+    "expected": "Arsip historis jelas; refresh/revalidate sebelum apply, no qty dariURL",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2803,
+    "work_packets": [
+      "P08",
+      "P15"
+    ],
+    "case_ids": [
+      "E09"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T32",
+    "scope": "BR_INTI",
+    "scenario": "Doubleclick/retry/ambiguouscommit, duarun/worker",
+    "expected": "Stable request identity; same retry replay; deliberate refresh versi baru; no doublepublishedcurrent",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2804,
+    "work_packets": [
+      "P15"
+    ],
+    "case_ids": [
+      "E16",
+      "E12"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T33",
+    "scope": "BR_INTI",
+    "scenario": "Viewer/roleinactive/revoked/unauthorized + API/deeplink/export/cache/history",
+    "expected": "Semua layer fail-closed; totals/metadata tidak bocor",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2805,
+    "work_packets": [
+      "P02",
+      "P15"
+    ],
+    "case_ids": [
+      "E14"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T34",
+    "scope": "BR_INTI",
+    "scenario": "Temuan yang sama muncul tiap report, ACK/snooze/manualDONE",
+    "expected": "Incident sama; source tidak resolved palsu; reminder tidak membanjir",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2806,
+    "work_packets": [
+      "P16"
+    ],
+    "case_ids": [
+      "E17"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T35",
+    "scope": "BR_INTI",
+    "scenario": "Template unknown/candidate/truncated/catatanberbahaya",
+    "expected": "Tidak menghilangkan caveat/jika; no arbitrarycode/XSS/instructionexecution",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2807,
+    "work_packets": [
+      "P15",
+      "P17"
+    ],
+    "case_ids": [
+      "E18",
+      "E15"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T36",
+    "scope": "BR_INTI",
+    "scenario": "Snapshot/metode/policy/template sama; UUID/waktu generate/serialisasi berbeda",
+    "expected": "Operand/status/narasi dan semantic hash stabil untuk konten sama. Hash artefak byte boleh berbeda karena metadata; canonicalization tidak mengubah chronology bisnis",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2808,
+    "work_packets": [
+      "P02",
+      "P15"
+    ],
+    "case_ids": [
+      "E08",
+      "E16"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T37",
+    "scope": "BR_INTI",
+    "scenario": "Data besar/multipage, beberapa report/user/channel",
+    "expected": "Complete aggregation, boundedwork, sharedengine; performance dengan angka fixture nyata",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2809,
+    "work_packets": [
+      "P02",
+      "P19"
+    ],
+    "case_ids": [
+      "E20"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T38",
+    "scope": "CP7_AND_CP7C",
+    "scenario": "Generate on-demand; scheduled generation dan delivery diuji pada gate CP7C tersendiri",
+    "expected": "On-demand teruji tidak berarti scheduler/delivery lulus; reuseV2 dan batas NOT_RUN jelas. Scheduler tidak menjadi blocker tersembunyi BR on-demand; no unauthorized egress",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2810,
+    "work_packets": [
+      "P15",
+      "P16"
+    ],
+    "case_ids": [
+      "E16",
+      "E17"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "CP7 on-demand required; scheduled generation/delivery is FUTURE_CP7C, no egress now."
+  },
+  {
+    "id": "BR-T39",
+    "scope": "BR_INTI",
+    "scenario": "Upgrade/rollback/refusal/restore dan secrets/log/cache",
+    "expected": "Data/audit terjaga, restoreegressoff; no orphanroute/adapter/schema",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2811,
+    "work_packets": [
+      "P21"
+    ],
+    "case_ids": [
+      "E21",
+      "E14"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "BR-T40",
+    "scope": "BR_INTI",
+    "scenario": "Full real-wired flow desktop/mobile/iPad: report→SKU→WIP→draf→validapply→refresh",
+    "expected": "Source/Auth/API/DB/UI terhubung; no optimistic seed, role/race/refetch/stale benar; independent gate sesuai scope",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2812,
+    "work_packets": [
+      "P18"
+    ],
+    "case_ids": [
+      "E01",
+      "E08",
+      "E19"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-01",
+    "scope": "CP7_LAMA",
+    "scenario": "SKU Stop produksi dengan penjualan tinggi dan stok kosong tidak menghasilkan usulan mulai produksi baru. Penjualan stok tersisa dan transaksi koreksi sah tetap bekerja.",
+    "expected": "SKU Stop produksi dengan penjualan tinggi dan stok kosong tidak menghasilkan usulan mulai produksi baru. Penjualan stok tersisa dan transaksi koreksi sah tetap bekerja.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7032,
+    "work_packets": [
+      "P03",
+      "P14"
+    ],
+    "case_ids": [
+      "O17",
+      "E23"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-02",
+    "scope": "CP7_LAMA",
+    "scenario": "Stop produksi pada satu merek tidak mengubah SKU bernomor sama di merek lain. Bulk action mengikuti pilihan ukuran/range yang benar.",
+    "expected": "Stop produksi pada satu merek tidak mengubah SKU bernomor sama di merek lain. Bulk action mengikuti pilihan ukuran/range yang benar.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7033,
+    "work_packets": [
+      "P03"
+    ],
+    "case_ids": [
+      "E23"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-03",
+    "scope": "CP7_LAMA",
+    "scenario": "Menghentikan SKU dengan WIP berjalan menampilkan dampak tanpa membatalkan/menghapus WIP. Tanggal evaluasi Tunda tidak mengaktifkan produksi diam-diam.",
+    "expected": "Menghentikan SKU dengan WIP berjalan menampilkan dampak tanpa membatalkan/menghapus WIP. Tanggal evaluasi Tunda tidak mengaktifkan produksi diam-diam.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7034,
+    "work_packets": [
+      "P03",
+      "P04"
+    ],
+    "case_ids": [
+      "O17",
+      "E23"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-04",
+    "scope": "CP7_LAMA",
+    "scenario": "FG kosong dan WIP yang relevan sudah di laundry menghasilkan informasi pasokan/ETA dan tindakan yang sesuai.",
+    "expected": "FG kosong dan WIP yang relevan sudah di laundry menghasilkan informasi pasokan/ETA dan tindakan yang sesuai.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7035,
+    "work_packets": [
+      "P04",
+      "P06"
+    ],
+    "case_ids": [
+      "O05",
+      "E02"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-05",
+    "scope": "CP7_LAMA",
+    "scenario": "WIP tanpa SKU muncul sebagai kandidat dari sumber pola/bahan/ukuran, termasuk ketika metadata opsional SKU kosong.",
+    "expected": "WIP tanpa SKU muncul sebagai kandidat dari sumber pola/bahan/ukuran, termasuk ketika metadata opsional SKU kosong.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7036,
+    "work_packets": [
+      "P04"
+    ],
+    "case_ids": [
+      "E02"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-06",
+    "scope": "CP7_LAMA",
+    "scenario": "Pola/bahan sama tetapi ukuran, warna, revisi atau proses bertentangan tidak berubah menjadi match pasti.",
+    "expected": "Pola/bahan sama tetapi ukuran, warna, revisi atau proses bertentangan tidak berubah menjadi match pasti.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7037,
+    "work_packets": [
+      "P04"
+    ],
+    "case_ids": [
+      "E02"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-07",
+    "scope": "CP7_LAMA",
+    "scenario": "Satu batch kandidat 40 PCS yang cocok untuk dua SKU tidak dapat menutup total 80 PCS pada satu skenario rencana.",
+    "expected": "Satu batch kandidat 40 PCS yang cocok untuk dua SKU tidak dapat menutup total 80 PCS pada satu skenario rencana.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7038,
+    "work_packets": [
+      "P04",
+      "P08"
+    ],
+    "case_ids": [
+      "O04",
+      "E10"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-08",
+    "scope": "CP7_LAMA",
+    "scenario": "Barang yang berpindah tahap atau menjadi FG hanya dihitung sekali. Reversal, partial, BS, missing, rework, dan rewash mempertahankan sisa yang benar.",
+    "expected": "Barang yang berpindah tahap atau menjadi FG hanya dihitung sekali. Reversal, partial, BS, missing, rework, dan rewash mempertahankan sisa yang benar.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7039,
+    "work_packets": [
+      "P03",
+      "P04"
+    ],
+    "case_ids": [
+      "O15",
+      "E02"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-09",
+    "scope": "CP7_LAMA",
+    "scenario": "Incoming terlambat/ETA tidak diketahui tidak menutup kekurangan sebelum waktunya atau membuat status aman.",
+    "expected": "Incoming terlambat/ETA tidak diketahui tidak menutup kekurangan sebelum waktunya atau membuat status aman.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7040,
+    "work_packets": [
+      "P04",
+      "P06"
+    ],
+    "case_ids": [
+      "O03",
+      "E02"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-10",
+    "scope": "CP7_LAMA",
+    "scenario": "Draft penjualan dihitung sekali pada availability dan perpindahan ke posted tidak menduplikasi permintaan.",
+    "expected": "Draft penjualan dihitung sekali pada availability dan perpindahan ke posted tidak menduplikasi permintaan.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7041,
+    "work_packets": [
+      "P05",
+      "P11"
+    ],
+    "case_ids": [
+      "O06",
+      "E01"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-11",
+    "scope": "CP7_LAMA",
+    "scenario": "Data tipis menghasilkan estimasi berlabel beserta asumsi; angka aktual yang hilang tidak berubah menjadi nol. SKU tanpa histori dapat melihat skenario uji yang jelas, tanpa produksi massal otomatis.",
+    "expected": "Data tipis menghasilkan estimasi berlabel beserta asumsi; angka aktual yang hilang tidak berubah menjadi nol. SKU tanpa histori dapat melihat skenario uji yang jelas, tanpa produksi massal otomatis.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7042,
+    "work_packets": [
+      "P05",
+      "P06"
+    ],
+    "case_ids": [
+      "O11",
+      "O19",
+      "M01"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-12",
+    "scope": "CP7_LAMA",
+    "scenario": "Range/ukuran kurang tetap terdeteksi walaupun total produk cukup. Pembulatan batch dan konversi UOM menjelaskan selisih dan tidak melanggar pembagian ukuran.",
+    "expected": "Range/ukuran kurang tetap terdeteksi walaupun total produk cukup. Pembulatan batch dan konversi UOM menjelaskan selisih dan tidak melanggar pembagian ukuran.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7043,
+    "work_packets": [
+      "P06"
+    ],
+    "case_ids": [
+      "O07",
+      "O08"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-13",
+    "scope": "CP7_LAMA",
+    "scenario": "Status SKU, stok, atau sumber batch berubah setelah draf dibuat: penerapan memeriksa ulang dan tidak memakai snapshot kedaluwarsa secara diam-diam.",
+    "expected": "Status SKU, stok, atau sumber batch berubah setelah draf dibuat: penerapan memeriksa ulang dan tidak memakai snapshot kedaluwarsa secara diam-diam.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7044,
+    "work_packets": [
+      "P08",
+      "P14"
+    ],
+    "case_ids": [
+      "E09",
+      "E10"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-14",
+    "scope": "CP7_LAMA",
+    "scenario": "Pengguna tanpa hak tidak dapat mengubah kebijakan, mengonfirmasi rencana, atau mengekspor snapshot berisi data di luar haknya.",
+    "expected": "Pengguna tanpa hak tidak dapat mengubah kebijakan, mengonfirmasi rencana, atau mengekspor snapshot berisi data di luar haknya.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7045,
+    "work_packets": [
+      "P02",
+      "P08",
+      "P17"
+    ],
+    "case_ids": [
+      "E14",
+      "E18"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-15",
+    "scope": "CP7_LAMA",
+    "scenario": "Snapshot V1 mempertahankan angka sumber, asumsi, tanggal, dan keterbatasan dengan benar. Tidak ada panggilan API AI berbayar atau penulisan balik jawaban secara otomatis. Calculator tetap bekerja ketika ChatGPT tidak tersedia.",
+    "expected": "Snapshot V1 mempertahankan angka sumber, asumsi, tanggal, dan keterbatasan dengan benar. Tidak ada panggilan API AI berbayar atau penulisan balik jawaban secara otomatis. Calculator tetap bekerja ketika ChatGPT tidak tersedia.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7046,
+    "work_packets": [
+      "P17"
+    ],
+    "case_ids": [
+      "E08",
+      "E18"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-16",
+    "scope": "CP7_LAMA",
+    "scenario": "Dataset dengan banyak SKU/batch tidak terpotong oleh batas halaman UI. Hasil perhitungan memiliki waktu, versi rumus, versi kebijakan, serta penelusuran sumber yang dapat direproduksi.",
+    "expected": "Dataset dengan banyak SKU/batch tidak terpotong oleh batas halaman UI. Hasil perhitungan memiliki waktu, versi rumus, versi kebijakan, serta penelusuran sumber yang dapat direproduksi.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7047,
+    "work_packets": [
+      "P02",
+      "P19"
+    ],
+    "case_ids": [
+      "E20",
+      "E09"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-17",
+    "scope": "CP7_LAMA",
+    "scenario": "Skenario kapasitas yang belum diukur diberi label asumsi; perubahan rencana tetap tidak mengubah stok/jurnal sebelum transaksi operasional yang sah dijalankan.",
+    "expected": "Skenario kapasitas yang belum diukur diberi label asumsi; perubahan rencana tetap tidak mengubah stok/jurnal sebelum transaksi operasional yang sah dijalankan.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7048,
+    "work_packets": [
+      "P06",
+      "P08"
+    ],
+    "case_ids": [
+      "O10",
+      "E22",
+      "M07"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-18",
+    "scope": "CP7_LAMA",
+    "scenario": "Clipboard/popup ditolak: prompt tetap dapat disalin manual dan ChatGPT dapat dibuka terpisah. UI tidak mengklaim sukses palsu, tidak mengirim data melalui URL, dan tidak menganggap tab terbuka berarti pesan sudah terkirim. Flow diuji pada browser desktop dan perangkat mobile yang dipakai owner.",
+    "expected": "Clipboard/popup ditolak: prompt tetap dapat disalin manual dan ChatGPT dapat dibuka terpisah. UI tidak mengklaim sukses palsu, tidak mengirim data melalui URL, dan tidak menganggap tab terbuka berarti pesan sudah terkirim. Flow diuji pada browser desktop dan perangkat mobile yang dipakai owner.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7049,
+    "work_packets": [
+      "P17"
+    ],
+    "case_ids": [
+      "E18",
+      "E19"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-19",
+    "scope": "CP7_LAMA",
+    "scenario": "Backtest/pemilihan parameter tidak memakai data masa depan, backdated entry yang belum diketahui saat itu, atau periode uji akhir. Horizon evaluasi mengikuti keputusan produksi dan memiliki baseline yang jelas.",
+    "expected": "Backtest/pemilihan parameter tidak memakai data masa depan, backdated entry yang belum diketahui saat itu, atau periode uji akhir. Horizon evaluasi mengikuti keputusan produksi dan memiliki baseline yang jelas.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7050,
+    "work_packets": [
+      "P07"
+    ],
+    "case_ids": [
+      "M03",
+      "M04"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-20",
+    "scope": "CP7_LAMA",
+    "scenario": "Hari nol saat tersedia, hari stockout, dan availability unknown menghasilkan perlakuan yang berbeda. TSB/model lain tidak menafsirkan stockout sebagai bukti permintaan menurun.",
+    "expected": "Hari nol saat tersedia, hari stockout, dan availability unknown menghasilkan perlakuan yang berbeda. TSB/model lain tidak menafsirkan stockout sebagai bukti permintaan menurun.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7051,
+    "work_packets": [
+      "P05",
+      "P07"
+    ],
+    "case_ids": [
+      "O11",
+      "O12",
+      "M02"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-21",
+    "scope": "CP7_LAMA",
+    "scenario": "Metode fallback dipertahankan bila data tidak cukup atau kandidat tidak memberi manfaat yang memadai. Alasan, versi kebijakan, metrik terdefinisi, bias dan keterbatasan terlihat; tidak mengklaim akurasi bisnis dari seri sintetis.",
+    "expected": "Metode fallback dipertahankan bila data tidak cukup atau kandidat tidak memberi manfaat yang memadai. Alasan, versi kebijakan, metrik terdefinisi, bias dan keterbatasan terlihat; tidak mengklaim akurasi bisnis dari seri sintetis.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7052,
+    "work_packets": [
+      "P07"
+    ],
+    "case_ids": [
+      "M01",
+      "M05"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-22",
+    "scope": "CP7_LAMA",
+    "scenario": "Mode buffer hari dan buffer statistik tidak dihitung ganda. Target layanan merupakan kebijakan eksplisit; interval statistik dan skenario WIP dilabeli sesuai maknanya.",
+    "expected": "Mode buffer hari dan buffer statistik tidak dihitung ganda. Target layanan merupakan kebijakan eksplisit; interval statistik dan skenario WIP dilabeli sesuai maknanya.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7053,
+    "work_packets": [
+      "P06",
+      "P07"
+    ],
+    "case_ids": [
+      "M06"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-23",
+    "scope": "CP7_LAMA",
+    "scenario": "Menjalankan kalkulasi pada runtime yang diuji tidak mengubah data operasional atau reservation. Hak baca dan penyimpanan analisis terpisah dibuktikan; penerapan rencana selalu memeriksa ulang sumber dan status terbaru.",
+    "expected": "Menjalankan kalkulasi pada runtime yang diuji tidak mengubah data operasional atau reservation. Hak baca dan penyimpanan analisis terpisah dibuktikan; penerapan rencana selalu memeriksa ulang sumber dan status terbaru.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7054,
+    "work_packets": [
+      "P02",
+      "P08"
+    ],
+    "case_ids": [
+      "E22",
+      "E10"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-24",
+    "scope": "CP7_LAMA",
+    "scenario": "Satu child batch yang berpindah jahit → DO laundry → receipt → QC → FG hanya menyumbang satu pasokan pada setiap snapshot, termasuk partial receipt dan partial QC.",
+    "expected": "Satu child batch yang berpindah jahit → DO laundry → receipt → QC → FG hanya menyumbang satu pasokan pada setiap snapshot, termasuk partial receipt dan partial QC.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7195,
+    "work_packets": [
+      "P03",
+      "P04"
+    ],
+    "case_ids": [
+      "O15",
+      "E02"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-25",
+    "scope": "CP7_LAMA",
+    "scenario": "Dua child batch dari satu parent dibedakan dengan benar; batas parent/roll tidak membuat jumlah fisik dapat dipakai dua kali.",
+    "expected": "Dua child batch dari satu parent dibedakan dengan benar; batas parent/roll tidak membuat jumlah fisik dapat dipakai dua kali.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7196,
+    "work_packets": [
+      "P03",
+      "P04"
+    ],
+    "case_ids": [
+      "O15",
+      "E02"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-26",
+    "scope": "CP7_LAMA",
+    "scenario": "Koreksi potongan sebelum laundry mengubah sisa dan proyeksi size; reversal mengembalikan keadaan melalui event tertaut tanpa menghapus histori.",
+    "expected": "Koreksi potongan sebelum laundry mengubah sisa dan proyeksi size; reversal mengembalikan keadaan melalui event tertaut tanpa menghapus histori.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7197,
+    "work_packets": [
+      "P03",
+      "P04"
+    ],
+    "case_ids": [
+      "E02",
+      "E13"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-27",
+    "scope": "CP7_LAMA",
+    "scenario": "Rework GOOD tidak menciptakan produksi baru atau menduplikasi denominator/hasil; rewash, susulan stuck dan BS final mengikuti sisa kumulatif yang benar.",
+    "expected": "Rework GOOD tidak menciptakan produksi baru atau menduplikasi denominator/hasil; rewash, susulan stuck dan BS final mengikuti sisa kumulatif yang benar.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7198,
+    "work_packets": [
+      "P04",
+      "P12"
+    ],
+    "case_ids": [
+      "E02",
+      "E05"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-28",
+    "scope": "CP7_LAMA",
+    "scenario": "WIP laundry 60 PCS dengan ETA tepat waktu menutup proyeksi paling banyak sesuai estimasi hasil baik yang beralasan; jumlah dikirim, diterima dan outstanding tidak dijumlahkan.",
+    "expected": "WIP laundry 60 PCS dengan ETA tepat waktu menutup proyeksi paling banyak sesuai estimasi hasil baik yang beralasan; jumlah dikirim, diterima dan outstanding tidak dijumlahkan.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7199,
+    "work_packets": [
+      "P04"
+    ],
+    "case_ids": [
+      "O05",
+      "E02"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-29",
+    "scope": "CP7_LAMA",
+    "scenario": "WIP tanpa final SKU dapat ditemukan dari pola+bahan+size meskipun metadata SKU opsional kosong, tetapi konflik revisi/warna/proses menghasilkan Perlu cek atau Tidak cocok.",
+    "expected": "WIP tanpa final SKU dapat ditemukan dari pola+bahan+size meskipun metadata SKU opsional kosong, tetapi konflik revisi/warna/proses menghasilkan Perlu cek atau Tidak cocok.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7200,
+    "work_packets": [
+      "P04"
+    ],
+    "case_ids": [
+      "E02"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-30",
+    "scope": "CP7_LAMA",
+    "scenario": "Satu kandidat yang kompatibel dengan beberapa SKU mengikuti kapasitas sumber dan skenario global lintas halaman; membuka rekomendasi lain tidak mereset kapasitas lalu mengklaim semua kebutuhan tertutup.",
+    "expected": "Satu kandidat yang kompatibel dengan beberapa SKU mengikuti kapasitas sumber dan skenario global lintas halaman; membuka rekomendasi lain tidak mereset kapasitas lalu mengklaim semua kebutuhan tertutup.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7201,
+    "work_packets": [
+      "P04",
+      "P08"
+    ],
+    "case_ids": [
+      "O04",
+      "E10",
+      "E20"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-31",
+    "scope": "CP7_LAMA",
+    "scenario": "SKU Stop dengan WIP terarah tetap menampilkan pekerjaan yang perlu diselesaikan/ditinjau dan gap kebutuhan, tetapi kalkulasi ulang tidak membuat usulan start baru.",
+    "expected": "SKU Stop dengan WIP terarah tetap menampilkan pekerjaan yang perlu diselesaikan/ditinjau dan gap kebutuhan, tetapi kalkulasi ulang tidak membuat usulan start baru.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7202,
+    "work_packets": [
+      "P03",
+      "P14"
+    ],
+    "case_ids": [
+      "O17",
+      "E23"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-32",
+    "scope": "CP7_LAMA",
+    "scenario": "Query WIP gagal, terpotong, timeout atau memiliki konflik lineage menghasilkan **Belum dapat dipastikan**; UI tidak menampilkan hijau/Cukup dari snapshot parsial.",
+    "expected": "Query WIP gagal, terpotong, timeout atau memiliki konflik lineage menghasilkan **Belum dapat dipastikan**; UI tidak menampilkan hijau/Cukup dari snapshot parsial.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7203,
+    "work_packets": [
+      "P02",
+      "P04"
+    ],
+    "case_ids": [
+      "E15",
+      "E20"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-33",
+    "scope": "CP7_LAMA",
+    "scenario": "ETA asumsi dan ETA berbasis histori dapat dibedakan. Perubahan kalender/kapasitas atau keterlambatan membuat rekomendasi lama stale dan memicu hitung ulang sebelum penerapan.",
+    "expected": "ETA asumsi dan ETA berbasis histori dapat dibedakan. Perubahan kalender/kapasitas atau keterlambatan membuat rekomendasi lama stale dan memicu hitung ulang sebelum penerapan.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7204,
+    "work_packets": [
+      "P04",
+      "P08"
+    ],
+    "case_ids": [
+      "M07",
+      "E09"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-34",
+    "scope": "CP7_LAMA",
+    "scenario": "Kebutuhan size 28–30, 31–33 dan 34–36 direkonsiliasi dengan rincian size; surplus satu size tidak menutupi kekurangan size lain tanpa aturan konversi fisik yang sah.",
+    "expected": "Kebutuhan size 28–30, 31–33 dan 34–36 direkonsiliasi dengan rincian size; surplus satu size tidak menutupi kekurangan size lain tanpa aturan konversi fisik yang sah.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7205,
+    "work_packets": [
+      "P06"
+    ],
+    "case_ids": [
+      "O07"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CP7-35",
+    "scope": "CP7_LAMA",
+    "scenario": "Menjalankan calculator, membuka popup, drill-down, mengubah filter dan mengekspor Tanya AI tidak mengubah ledger FG/WIP, HPP, jurnal, invoice, potongan atau reservation.",
+    "expected": "Menjalankan calculator, membuka popup, drill-down, mengubah filter dan mengekspor Tanya AI tidak mengubah ledger FG/WIP, HPP, jurnal, invoice, potongan atau reservation.",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 7206,
+    "work_packets": [
+      "P02",
+      "P14",
+      "P17"
+    ],
+    "case_ids": [
+      "E22"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "CROSS-T01",
+    "scope": "CP6_INHERITED",
+    "scenario": "Opening sah → receipt bahan/aksesori → cutting/pickup → laundry pending → partial QC/FG → invoice laundry",
+    "expected": "Physical source satu kali; pending cost dan final delta ke state benar",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4380,
+    "work_packets": [
+      "P18"
+    ],
+    "case_ids": [
+      "E01"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Inherited cross-domain acceptance plus downstream regression obligation."
+  },
+  {
+    "id": "CROSS-T02",
+    "scope": "CP6_INHERITED",
+    "scenario": "GOOD lama → retur/service → 3 aksesori perusahaan terpakai → laundry servis sesuai kontrak",
+    "expected": "Tidak membuat produksi/reimburse baru, tidak mengubah AR/refund tanpa transaksi sah",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4381,
+    "work_packets": [
+      "P18"
+    ],
+    "case_ids": [
+      "E03"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Inherited cross-domain acceptance plus downstream regression obligation."
+  },
+  {
+    "id": "CROSS-T03",
+    "scope": "CP6_INHERITED",
+    "scenario": "Ganti merek 100 FG, aksesori baru 100, returned old 80+20 rusak, laundry tambahan yang nyata bila ada",
+    "expected": "Setiap biaya sumber sekali, recovered value tidak ganda, tidak ada FG fiktif",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4382,
+    "work_packets": [
+      "P18"
+    ],
+    "case_ids": [
+      "E04"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Inherited cross-domain acceptance plus downstream regression obligation."
+  },
+  {
+    "id": "CROSS-T04",
+    "scope": "CP6_INHERITED",
+    "scenario": "Nota aksesori 7 PCS dengan harga per lusin → payroll partial → retur parsial → biaya laundry invoice susulan",
+    "expected": "Harga, kasbon dan entitlement terpisah; settlement lama tidak ditimpa; HPP tidak double",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4383,
+    "work_packets": [
+      "P18"
+    ],
+    "case_ids": [
+      "E05",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Inherited cross-domain acceptance plus downstream regression obligation."
+  },
+  {
+    "id": "CROSS-T05",
+    "scope": "CP6_INHERITED",
+    "scenario": "Respons BS ambigu lalu tindakan Laundry/QC/aksesori pada source terkait dari tab lain",
+    "expected": "Pagar envelope lintas domain + server capacity; jangan mengandalkan storage saja",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4384,
+    "work_packets": [
+      "P18"
+    ],
+    "case_ids": [
+      "E12"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Inherited cross-domain acceptance plus downstream regression obligation."
+  },
+  {
+    "id": "CROSS-T06",
+    "scope": "CP6_INHERITED",
+    "scenario": "Semua data final → tanggal laporan lama → close preview → invoice/recost baru race close → restore",
+    "expected": "Snapshot dan atomic preflight benar; restart/restore memakai source/schema yang sama",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4385,
+    "work_packets": [
+      "P18"
+    ],
+    "case_ids": [
+      "E06",
+      "E21"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Inherited cross-domain acceptance plus downstream regression obligation."
+  },
+  {
+    "id": "LAU-T01",
+    "scope": "CP6_INHERITED",
+    "scenario": "Vendor A/B mempunyai komponen bernama sama tetapi harga berbeda",
+    "expected": "Resolver hanya memakai vendor/source yang benar; tidak bocor tarif vendor lain",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4339,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T02",
+    "scope": "CP6_INHERITED",
+    "scenario": "Paket fixed Rp12.000 sudah memuat beberapa komponen",
+    "expected": "Total 100 PCS=1.200.000; included components tidak ditambahkan lagi",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4340,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T03",
+    "scope": "CP6_INHERITED",
+    "scenario": "Garment 5000 + Spray 1000 + Whisker 1000, 100 PCS",
+    "expected": "Per PCS 7000, total 700000, qty fisik 100 bukan 300",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4341,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T04",
+    "scope": "CP6_INHERITED",
+    "scenario": "Semua empat contoh owner dipilih, 100 PCS",
+    "expected": "Per PCS 12000, total 1200000; tidak hardcode nama/jumlah komponen",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4342,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T05",
+    "scope": "CP6_INHERITED",
+    "scenario": "Garment 100 PCS dan Spray 40 PCS",
+    "expected": "Total 540000; source coverage tidak melampaui unit/pekerjaan yang sah",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4343,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T06",
+    "scope": "CP6_INHERITED",
+    "scenario": "Paket included dan extra yang sama dipilih ulang",
+    "expected": "Duplikasi biaya ditolak atau extra disahkan sebagai pekerjaan berbeda dengan lineage",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4344,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T07",
+    "scope": "CP6_INHERITED",
+    "scenario": "Favorit/recipe tersimpan lalu tarif master berubah",
+    "expected": "Template baru dapat memakai versi baru; transaksi posted lama exact",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4345,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T08",
+    "scope": "CP6_INHERITED",
+    "scenario": "Rate negatif/NaN/Infinity/format ambigu/overflow",
+    "expected": "Ditolak atomik; bukan diubah menjadi nol atau angka positif",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4346,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T09",
+    "scope": "CP6_INHERITED",
+    "scenario": "Rate benar-benar UNKNOWN, proses/vendor/source valid",
+    "expected": "Fisik dapat dicatat melalui jalur pending yang disepakati; tidak ada nol palsu/final cost",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4347,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T10",
+    "scope": "CP6_INHERITED",
+    "scenario": "ESTIMATED/AGREED tetapi invoice belum ada",
+    "expected": "Status harga dan invoice berbeda, accrued obligation tidak ganda",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4348,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T11",
+    "scope": "CP6_INHERITED",
+    "scenario": "FREE configured dengan alasan dibanding rate missing",
+    "expected": "Nol diketahui berbeda dari null; permission/approval sesuai contract",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4349,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T12",
+    "scope": "CP6_INHERITED",
+    "scenario": "Salah satu komponen null, sisanya berharga",
+    "expected": "Known subtotal tampil; total_complete=false; laporan relevan pending",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4350,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T13",
+    "scope": "CP6_INHERITED",
+    "scenario": "Query tarif timeout/malformed/overlap",
+    "expected": "Error tidak menjadi harga sengaja unknown atau fallback fixture",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4351,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T14",
+    "scope": "CP6_INHERITED",
+    "scenario": "Harga kirim/agreement versi 1; master naik sebelum penerimaan",
+    "expected": "Dokumen lama tidak otomatis reprice hanya karena waktu kembali berubah",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4352,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T15",
+    "scope": "CP6_INHERITED",
+    "scenario": "Proses aktual berbeda dari yang diminta",
+    "expected": "Instruksi original utuh; actual/source adjustment tertaut; review harga terlihat",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4353,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T16",
+    "scope": "CP6_INHERITED",
+    "scenario": "Invoice 750000 atas estimate 700000 untuk scope 100 PCS",
+    "expected": "Final 750000; delta 50000; accrual/AP dan HPP reconcile, fisik tetap",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4354,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T17",
+    "scope": "CP6_INHERITED",
+    "scenario": "Invoice awal 40 PCS, sisa 60 PCS menyusul",
+    "expected": "Quantity/amount coverage diselesaikan bertahap; tidak double accrue/double bill",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4355,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T18",
+    "scope": "CP6_INHERITED",
+    "scenario": "Satu invoice beberapa kiriman; satu kiriman beberapa invoice",
+    "expected": "Exact vendor/source allocations, sisa terlihat, totals source/document/GL cocok",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4356,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T19",
+    "scope": "CP6_INHERITED",
+    "scenario": "Source component/attempt sama ditagih dengan request ID baru",
+    "expected": "Capacity/unique business source menolak duplikasi; bukan hanya idempotency",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4357,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T20",
+    "scope": "CP6_INHERITED",
+    "scenario": "Borongan 100000 pada 100 PCS diterima 40+60",
+    "expected": "Total biaya tetap 100000, bukan 200000; alokasi parsial+residual tepat",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4358,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T21",
+    "scope": "CP6_INHERITED",
+    "scenario": "Diskon invoice/global rounding/multi-line",
+    "expected": "Line totals+alokasi diskon=invoice=payable/journal; sen tidak diciptakan/dihapus",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4359,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T22",
+    "scope": "CP6_INHERITED",
+    "scenario": "Sebagian WIP, sebagian FG, sebagian terjual sebelum invoice final",
+    "expected": "Delta cost mengikuti source descendants; FG/WIP/COGS/current/as-of reconcile",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4360,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T23",
+    "scope": "CP6_INHERITED",
+    "scenario": "Invoice datang 1–3 bulan kemudian, reversal/replacement",
+    "expected": "Physical unchanged, histori asli utuh, tanggal buku sesuai policy, report tidak false READY",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4361,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T24",
+    "scope": "CP6_INHERITED",
+    "scenario": "Tarif SKU khusus vs template SKU vs paket dasar",
+    "expected": "Hanya satu dasar untuk coverage sama; mismatch brand/process/vendor ditolak/direview",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4362,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T25",
+    "scope": "CP6_INHERITED",
+    "scenario": "WIP belum mempunyai SKU final",
+    "expected": "Send/receive tidak dipaksa membuat SKU/FG; recipe opsional; output QC tetap sah",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4363,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T26",
+    "scope": "CP6_INHERITED",
+    "scenario": "Batch campuran tujuan SKU/ukuran dengan rate khusus",
+    "expected": "Coverage dipecah exact; satu override SKU tidak diterapkan pada semua tanpa dasar",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4364,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T27",
+    "scope": "CP6_INHERITED",
+    "scenario": "Paid failed-wash attempt, retry HTTP, actual new attempt",
+    "expected": "Retry network bukan charge baru; attempt jasa baru sah bisa tercatat; tidak ada GOOD/BS palsu",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4365,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T28",
+    "scope": "CP6_INHERITED",
+    "scenario": "Rewash dengan policy fee 0",
+    "expected": "Tidak diwarisi otomatis dari paket normal; perubahan fee perlu versi/otorisasi",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4366,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T29",
+    "scope": "CP6_INHERITED",
+    "scenario": "Claim aktif lalu barang datang/credit vendor/invoice",
+    "expected": "Pool custody/claim/settlement consistent; tidak barang pulih+tagihan kompensasi penuh diam-diam",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4367,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T30",
+    "scope": "CP6_INHERITED",
+    "scenario": "Dua operator menagih kapasitas source yang sama",
+    "expected": "Satu/dua alokasi sah hanya sampai capacity; oversubscription ditolak atomik",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4368,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T31",
+    "scope": "CP6_INHERITED",
+    "scenario": "Master/draft berubah ketika posting menunggu lock",
+    "expected": "Revalidate source/price/version; stale preview tidak menghasilkan harga diam-diam berbeda",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4369,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T32",
+    "scope": "CP6_INHERITED",
+    "scenario": "Lost commit response, refetch error, reload/two-tabs",
+    "expected": "UUID lama dipertahankan; committed tidak diduplikasi; unrelated read tetap boleh",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4370,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T33",
+    "scope": "CP6_INHERITED",
+    "scenario": "Role null/inactive/revoked/lokasi lain/view-only",
+    "expected": "Auth/RPC asli menolak; operator fisik tak bisa edit price/approve invoice/pay tanpa hak",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4371,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T34",
+    "scope": "CP6_INHERITED",
+    "scenario": "Pending price/recost gagal lalu report dan close",
+    "expected": "Data unknown terlihat; close/report final yang terdampak diblok sesuai policy; tidak mengklaim READY palsu",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4372,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T35",
+    "scope": "CP6_INHERITED",
+    "scenario": "Legacy snapshot dan upgrade/rollback sebelum/sesudah penggunaan",
+    "expected": "Nilai posted lama exact; refusal tidak menghapus histori; source/pins/ACL/cleanup benar",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4373,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "LAU-T36",
+    "scope": "CP6_INHERITED",
+    "scenario": "UI desktop/HP, mixed coverage, mode/vendor switch, search large dataset",
+    "expected": "Harga per PCS/per batch jelas; form tidak stale; actual route/RPC; tidak fixture fallback",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 4374,
+    "work_packets": [
+      "P04",
+      "P13",
+      "P18"
+    ],
+    "case_ids": [
+      "E02",
+      "E04",
+      "E06"
+    ],
+    "status": "UPSTREAM_ACCEPTANCE_PENDING",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Upstream BD/BE acceptance required. Import actual case result from accepted audit; do not infer from historical contract."
+  },
+  {
+    "id": "RMD-T01",
+    "scope": "CP7_LAMA",
+    "scenario": "Reminder manual create/edit/DONE/CANCELLED, reload dan pindah perangkat",
+    "expected": "Server menjadi sumber, legacy lifecycle tidak hilang, data tidak kembali ke seed",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3464,
+    "work_packets": [
+      "P16"
+    ],
+    "case_ids": [
+      "E17"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "RMD-T02",
+    "scope": "CP7_LAMA",
+    "scenario": "Viewer, unauthorized, null/inactive role dan assignee berbeda",
+    "expected": "Read/write/action scope benar; tombol dan RPC sama-sama menjaga izin",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3465,
+    "work_packets": [
+      "P16",
+      "P02"
+    ],
+    "case_ids": [
+      "E14",
+      "E17"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "RMD-T03",
+    "scope": "CP7_LAMA",
+    "scenario": "Threshold 120, qty 121/120/119/0",
+    "expected": "Comparator persis; boundary equality sesuai policy; nol benar-benar stok habis bukan missing",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3466,
+    "work_packets": [
+      "P16"
+    ],
+    "case_ids": [
+      "E17"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "RMD-T04",
+    "scope": "CP7_LAMA",
+    "scenario": "Qty berulang di sekitar trigger/recovery",
+    "expected": "Tidak spam/flapping di luar policy; episode dan hysteresis dapat dijelaskan",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3467,
+    "work_packets": [
+      "P16"
+    ],
+    "case_ids": [
+      "E17"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "RMD-T05",
+    "scope": "CP7_LAMA",
+    "scenario": "threshold 0, threshold null, enabled false, input negatif/NaN/format ambigu",
+    "expected": "Keadaan berbeda dan parsing fail-closed tanpa silent rounding/clamp",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3468,
+    "work_packets": [
+      "P16"
+    ],
+    "case_ids": [
+      "E17"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "RMD-T06",
+    "scope": "CP7_LAMA",
+    "scenario": "Query timeout, malformed, null, partial page, stok yang tidak terbaca",
+    "expected": "Tidak menulis healthy/resolve/0 palsu; kualitas data dan observasi terakhir tetap terlihat",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3469,
+    "work_packets": [
+      "P16",
+      "P13"
+    ],
+    "case_ids": [
+      "E15",
+      "E06"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "RMD-T07",
+    "scope": "CP7_LAMA",
+    "scenario": "Override global/kategori/item/lokasi, versi overlap dan perubahan rule",
+    "expected": "Satu effective policy deterministik; preview sesuai evaluator; histori policy utuh",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3470,
+    "work_packets": [
+      "P16"
+    ],
+    "case_ids": [
+      "E17"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "RMD-T08",
+    "scope": "CP7_LAMA",
+    "scenario": "Stock total cukup tetapi gudang utama rendah; transfer antarlokasi",
+    "expected": "Alert scope tepat, total tidak double-count; tindakan transfer hanya dari stok yang eligible",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3471,
+    "work_packets": [
+      "P16",
+      "P09"
+    ],
+    "case_ids": [
+      "E24",
+      "E03",
+      "E17"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "RMD-T09",
+    "scope": "CP7_LAMA",
+    "scenario": "Aksesori baru/bekas/karantina/rusak/customer-owned/pos",
+    "expected": "Ready quantity hanya sesuai policy; unknown value/condition tidak diam-diam dianggap layak",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3472,
+    "work_packets": [
+      "P16",
+      "P09"
+    ],
+    "case_ids": [
+      "E24",
+      "E03",
+      "E17"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "RMD-T10",
+    "scope": "CP7_LAMA",
+    "scenario": "PCS/lusin/gross/pack serta meter/kg",
+    "expected": "Unit threshold/quantity konsisten; COUNT exact, dimensi decimal sah tidak dibulatkan menjadiPCS",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3473,
+    "work_packets": [
+      "P16",
+      "P09"
+    ],
+    "case_ids": [
+      "E24",
+      "E03",
+      "E17"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "RMD-T11",
+    "scope": "CP7_LAMA",
+    "scenario": "Evaluator dua worker atau run yang sama berulang",
+    "expected": "Satu incident aktif/episode, observasi tidak menggandakan pekerjaan",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3474,
+    "work_packets": [
+      "P16"
+    ],
+    "case_ids": [
+      "E17"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "RMD-T12",
+    "scope": "CP7_LAMA",
+    "scenario": "ACK/snooze/markmanualDONE pada source otomatis",
+    "expected": "Perhatian dan fakta dipisah; shortage/invoice tidak selesai palsu; snooze tidak reset umur",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3475,
+    "work_packets": [
+      "P16"
+    ],
+    "case_ids": [
+      "E17"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "RMD-T13",
+    "scope": "CP7_LAMA",
+    "scenario": "Kondisi pulih lalu muncul lagi; rule dinonaktifkan",
+    "expected": "Episode baru tertaut; disable bukan recovery; recurrence sesuai cooldown",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3476,
+    "work_packets": [
+      "P16"
+    ],
+    "case_ids": [
+      "E17"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "RMD-T14",
+    "scope": "CP7_LAMA",
+    "scenario": "Laundry UNKNOWN/ESTIMATED/AGREED/FREE, invoice partial/matched/payment",
+    "expected": "Pemicu dan resolusi per price/invoice/cost source benar, tidak membuat invoice atau harga fiktif",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3477,
+    "work_packets": [
+      "P16",
+      "P13"
+    ],
+    "case_ids": [
+      "E04",
+      "E06",
+      "E17"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "RMD-T15",
+    "scope": "CP7_LAMA",
+    "scenario": "Return aksesori sisa baru/nota mandor/bongkaran, partial inspection/value pending",
+    "expected": "Tugas mengikuti source/condition; physical receipt tidak otomatis menyelesaikan valuation/credit",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3478,
+    "work_packets": [
+      "P16",
+      "P09"
+    ],
+    "case_ids": [
+      "E24",
+      "E03",
+      "E17"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "RMD-T16",
+    "scope": "CP7_LAMA",
+    "scenario": "Backdate, waktu sistem, tanggal buku dan due date reminder",
+    "expected": "Waktu terpisah; jadwal tidak menggeser transaksi; as-of sesuai policy proyek",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3479,
+    "work_packets": [
+      "P16",
+      "P02"
+    ],
+    "case_ids": [
+      "E06",
+      "E17"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "RMD-T17",
+    "scope": "CP7_LAMA",
+    "scenario": "Invoice selesai tetapi HPP recost masih pending atau report BLOCKED",
+    "expected": "Tidak menampilkan nilai final/READY; alert biaya tetap sesuai cakupan yang belum selesai",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3480,
+    "work_packets": [
+      "P16",
+      "P13"
+    ],
+    "case_ids": [
+      "E15",
+      "E06"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "RMD-T18",
+    "scope": "CP7C_FUTURE",
+    "scenario": "Jadwal08.00 WIB di perangkat UTC/Jakarta/zona lain",
+    "expected": "Occurrence absolut sama; next3times benar; tidak bergantung timezone browser",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3481,
+    "work_packets": [
+      "P16"
+    ],
+    "case_ids": [
+      "E17"
+    ],
+    "status": "FUTURE_GATE",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Future full scheduling/transport acceptance. P16 records seam and proves no unauthorized egress; not accepted by CP7 preparation."
+  },
+  {
+    "id": "RMD-T19",
+    "scope": "CP7C_FUTURE",
+    "scenario": "Harian/hari pilihan/sekali/H-minus dueAt",
+    "expected": "Tidak mengubah deadline domain; hitung next occurrence tepat dan tidak retroactively spam",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3482,
+    "work_packets": [
+      "P16"
+    ],
+    "case_ids": [
+      "E17"
+    ],
+    "status": "FUTURE_GATE",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Future full scheduling/transport acceptance. P16 records seam and proves no unauthorized egress; not accepted by CP7 preparation."
+  },
+  {
+    "id": "RMD-T20",
+    "scope": "CP7C_FUTURE",
+    "scenario": "Quiet hours, critical exception, snooze dan cooldown",
+    "expected": "Perilaku sesuai konfigurasi/izin; tidak menganggap semua critical boleh menerobos jam tenang",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3483,
+    "work_packets": [
+      "P16"
+    ],
+    "case_ids": [
+      "E17"
+    ],
+    "status": "FUTURE_GATE",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Future full scheduling/transport acceptance. P16 records seam and proves no unauthorized egress; not accepted by CP7 preparation."
+  },
+  {
+    "id": "RMD-T21",
+    "scope": "CP7C_FUTURE",
+    "scenario": "Edit/disable jadwal saat queued, source sudah pulih, pesan kedaluwarsa",
+    "expected": "Recheck/suppress/regenerate sebelum dispatch; log isi final; yang sudah dikirim tidak diklaim ditarik",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3484,
+    "work_packets": [
+      "P16"
+    ],
+    "case_ids": [
+      "E17"
+    ],
+    "status": "FUTURE_GATE",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Future full scheduling/transport acceptance. P16 records seam and proves no unauthorized egress; not accepted by CP7 preparation."
+  },
+  {
+    "id": "RMD-T22",
+    "scope": "CP7C_FUTURE",
+    "scenario": "Scheduler mati lalu pulih setelah banyak missed slots",
+    "expected": "Catch-up coalesced sesuai policy, audit missed lengkap, tidak mengirim seluruh backlog mentah",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3485,
+    "work_packets": [
+      "P16"
+    ],
+    "case_ids": [
+      "E17"
+    ],
+    "status": "FUTURE_GATE",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Future full scheduling/transport acceptance. P16 records seam and proves no unauthorized egress; not accepted by CP7 preparation."
+  },
+  {
+    "id": "RMD-T23",
+    "scope": "CP7C_FUTURE",
+    "scenario": "Dua worker mencoba occurrence/destination sama",
+    "expected": "Claim/unique constraint mencegah duplicate intent dan race; bukan hanya useRef browser",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3486,
+    "work_packets": [
+      "P16"
+    ],
+    "case_ids": [
+      "E17"
+    ],
+    "status": "FUTURE_GATE",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Future full scheduling/transport acceptance. P16 records seam and proves no unauthorized egress; not accepted by CP7 preparation."
+  },
+  {
+    "id": "RMD-T24",
+    "scope": "CP7C_FUTURE",
+    "scenario": "Crash sebelum request, setelah request, lease expired, worker lama bangun",
+    "expected": "Fencing/status benar; no blind resend setelah mungkin terkirim; attempts tidak hilang",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3487,
+    "work_packets": [
+      "P16"
+    ],
+    "case_ids": [
+      "E17"
+    ],
+    "status": "FUTURE_GATE",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Future full scheduling/transport acceptance. P16 records seam and proves no unauthorized egress; not accepted by CP7 preparation."
+  },
+  {
+    "id": "RMD-T25",
+    "scope": "CP7C_FUTURE",
+    "scenario": "Provider accepted tetapi tidak ada bukti delivery/read",
+    "expected": "UI tetap accepted/unknown yang tepat, tidak mengarang delivered/read/businessDONE",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3488,
+    "work_packets": [
+      "P16"
+    ],
+    "case_ids": [
+      "E17"
+    ],
+    "status": "FUTURE_GATE",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Future full scheduling/transport acceptance. P16 records seam and proves no unauthorized egress; not accepted by CP7 preparation."
+  },
+  {
+    "id": "RMD-T26",
+    "scope": "CP7C_FUTURE",
+    "scenario": "Timeout, 429, 5xx, invalid body, rejection pasti dan lookup status",
+    "expected": "Classifier diuji per kontrak adapter; UUID/payload/attempt retained bila ambiguous",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3489,
+    "work_packets": [
+      "P16"
+    ],
+    "case_ids": [
+      "E17"
+    ],
+    "status": "FUTURE_GATE",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Future full scheduling/transport acceptance. P16 records seam and proves no unauthorized egress; not accepted by CP7 preparation."
+  },
+  {
+    "id": "RMD-T27",
+    "scope": "CP7_LAMA",
+    "scenario": "Owner versus mandor/vendor, scope read berubah dan redacted totals",
+    "expected": "Tidak ada nama/angka/link di luar izin; global source capacity tetap conserved",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3490,
+    "work_packets": [
+      "P16",
+      "P02"
+    ],
+    "case_ids": [
+      "E14",
+      "E17"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "RMD-T28",
+    "scope": "CP7C_FUTURE",
+    "scenario": "Penerima unsubscribe/role revoked/destination diganti sebelum dispatch",
+    "expected": "Send baru ditahan; failure window sesudah dispatch dicatat tanpa klaim retract mustahil",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3491,
+    "work_packets": [
+      "P16"
+    ],
+    "case_ids": [
+      "E17"
+    ],
+    "status": "FUTURE_GATE",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Future full scheduling/transport acceptance. P16 records seam and proves no unauthorized egress; not accepted by CP7 preparation."
+  },
+  {
+    "id": "RMD-T29",
+    "scope": "CP7C_FUTURE",
+    "scenario": "Preview versus SendTest, secret dan logging",
+    "expected": "Preview tidak egress; test nyata butuh izin; token/destination sensitif tidak bocor di bundle/log/URL aplikasi",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3492,
+    "work_packets": [
+      "P16"
+    ],
+    "case_ids": [
+      "E17"
+    ],
+    "status": "FUTURE_GATE",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Future full scheduling/transport acceptance. P16 records seam and proves no unauthorized egress; not accepted by CP7 preparation."
+  },
+  {
+    "id": "RMD-T30",
+    "scope": "CP7C_FUTURE",
+    "scenario": "Dev/disposable/restore/import jadwal production",
+    "expected": "Default disabled, destination allowlist, kill switch; tidak ada pesan ke penerima real",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3493,
+    "work_packets": [
+      "P16"
+    ],
+    "case_ids": [
+      "E17"
+    ],
+    "status": "FUTURE_GATE",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Future full scheduling/transport acceptance. P16 records seam and proves no unauthorized egress; not accepted by CP7 preparation."
+  },
+  {
+    "id": "RMD-T31",
+    "scope": "CP7C_FUTURE",
+    "scenario": "Adapter yang dipilih: rate limit, unsupported capability, opt-in",
+    "expected": "Batas provider dihormati; tidak menggunakan key pribadi untuk penerima lain atau paid option otomatis",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3494,
+    "work_packets": [
+      "P16"
+    ],
+    "case_ids": [
+      "E17"
+    ],
+    "status": "FUTURE_GATE",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Future full scheduling/transport acceptance. P16 records seam and proves no unauthorized egress; not accepted by CP7 preparation."
+  },
+  {
+    "id": "RMD-T32",
+    "scope": "CP7_LAMA",
+    "scenario": "Snapshot prompt V1, catatan mirip instruksi, clipboard/popup gagal",
+    "expected": "Angka/scope/unknown utuh; note data tidak dieksekusi; no paid AI/no query-string prompt",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3495,
+    "work_packets": [
+      "P17"
+    ],
+    "case_ids": [
+      "E18"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "RMD-T33",
+    "scope": "CP7_LAMA",
+    "scenario": "Double click, reload, envelope corrupt, commit success/refetch fail",
+    "expected": "Sesuai closure AUD-A01–A03/G15; tidak pakai fixture/UUID baru untuk menutupi state belum pasti",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3496,
+    "work_packets": [
+      "P16"
+    ],
+    "case_ids": [
+      "E12",
+      "E17"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "RMD-T34",
+    "scope": "CP7_LAMA",
+    "scenario": "Evaluate, open, ACK, snooze, send dan prompt export",
+    "expected": "Snapshot ledger bisnis sebelum/sesudah identik; hanya data monitoring/notification yang berubah sesuai izin",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3497,
+    "work_packets": [
+      "P16"
+    ],
+    "case_ids": [
+      "E22"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "RMD-T35",
+    "scope": "CP7_AND_CP7C",
+    "scenario": "Banyak barang/penerima/pages, payload terpotong, outbox backlog",
+    "expected": "Query lengkap/pagination/index terukur; total dan detail tidak mislabeled; pekerjaan bounded",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3498,
+    "work_packets": [
+      "P19",
+      "P16"
+    ],
+    "case_ids": [
+      "E20",
+      "E17"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "In-app completeness now; outbox backlog/delivery capacity at CP7C."
+  },
+  {
+    "id": "RMD-T36",
+    "scope": "CP7_AND_CP7C",
+    "scenario": "Upgrade/refusal/rollback/backup-restore, scheduler dan send watermark",
+    "expected": "Definisi/data/ACL/marker/source pin tepat; cleanup nyata; external send history tidak hilang/terulang",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3499,
+    "work_packets": [
+      "P21",
+      "P16"
+    ],
+    "case_ids": [
+      "E21"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "CP7 install/recovery now; send watermark/operational DR at CP7C."
+  },
+  {
+    "id": "UX32-T01",
+    "scope": "CP7_LAMA",
+    "scenario": "Entry Bagi/Buat Potongan dan Stok/Planner membuka hasil yang sama",
+    "expected": "Run/scenario/source konsisten; no second calculator; form belum disimpan aman",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2119,
+    "work_packets": [
+      "P14"
+    ],
+    "case_ids": [
+      "E19"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original source crosswalk: BR-T01/T40; WIP-T12"
+  },
+  {
+    "id": "UX32-T02",
+    "scope": "CP7_LAMA",
+    "scenario": "Kategori/filter, default daftar tindakan, count kartu/SKU/batch",
+    "expected": "Kategori bukan urutan mutlak; no duplicate intent; cukup/berlebih dapat diakses; count tidak menjumlah unit berbeda",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2120,
+    "work_packets": [
+      "P14"
+    ],
+    "case_ids": [
+      "E08",
+      "E19"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original source crosswalk: BR-T01/T06/T37; RMD-T11"
+  },
+  {
+    "id": "UX32-T03",
+    "scope": "CP7_LAMA",
+    "scenario": "Ranking lintas kategori, tie, ETA unknown dan biaya pending",
+    "expected": "Alasan terbaca; urutan stabil; unknown tidak dianggap ringan; no hidden profit rank",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2121,
+    "work_packets": [
+      "P14",
+      "P06"
+    ],
+    "case_ids": [
+      "E19",
+      "E08"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original source crosswalk: BR-T22/T23/T36; WIP-T06/T07"
+  },
+  {
+    "id": "UX32-T04",
+    "scope": "CP7_LAMA",
+    "scenario": "Satu batch60 untuk gapA42/B30",
+    "expected": "Satu kartu sumber, alokasi42+18≤60, sisa12 bersyarat; alternatif tidak dijumlah",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2122,
+    "work_packets": [
+      "P14"
+    ],
+    "case_ids": [
+      "O04",
+      "E08"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original source crosswalk: BR-T07; WIP-T02"
+  },
+  {
+    "id": "UX32-T05",
+    "scope": "CP7_LAMA",
+    "scenario": "Filter merek, pagination/group terpotong, role terbatas",
+    "expected": "Kapasitas global tidak kembali penuh; total lengkap; sumber tersembunyi tidak bocor",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2123,
+    "work_packets": [
+      "P14",
+      "P19"
+    ],
+    "case_ids": [
+      "E20",
+      "E14"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original source crosswalk: BR-T07/T18/T33/T37; WIP-T10/T12"
+  },
+  {
+    "id": "UX32-T06",
+    "scope": "CP7_LAMA",
+    "scenario": "Batch sama: telat fisik dan invoice pending; batch berbeda berpola sama",
+    "expected": "Intent berbeda tidak hilang; fisik pulih tidak menutup invoice; source berbeda tidak dilebur",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2124,
+    "work_packets": [
+      "P14",
+      "P16"
+    ],
+    "case_ids": [
+      "E17",
+      "E08"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original source crosswalk: BR-T34; RMD-T14; WIP-T03"
+  },
+  {
+    "id": "UX32-T07",
+    "scope": "CP7_LAMA",
+    "scenario": "Potongan baru berpola sama tetapi beda revisi/material/size/waktu",
+    "expected": "Hanya kompatibel dikelompokkan; child demand exact; no auto merge; rounding extra terlihat",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2125,
+    "work_packets": [
+      "P14",
+      "P06"
+    ],
+    "case_ids": [
+      "O07",
+      "O08"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original source crosswalk: BR-T09/T14/T15/T19/T20/T21"
+  },
+  {
+    "id": "UX32-T08",
+    "scope": "CP7_LAMA",
+    "scenario": "Detail kecocokan tanpa final SKU, tarif laundry SKU, riwayat tahap",
+    "expected": "Label/asal benar; pricing bukan hasil final; no multistage doublecount/probabilitas palsu",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2126,
+    "work_packets": [
+      "P14",
+      "P04"
+    ],
+    "case_ids": [
+      "E02"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original source crosswalk: BR-T08/T09/T10; WIP-T03/T04/T05"
+  },
+  {
+    "id": "UX32-T09",
+    "scope": "CP7_LAMA",
+    "scenario": "Source berubah, partial/QC/reversal, dua user apply dan reload",
+    "expected": "Refresh/review eksplisit; latest-state/locks/idempotency domain; tidak menerapkan data lama",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2127,
+    "work_packets": [
+      "P08",
+      "P14"
+    ],
+    "case_ids": [
+      "E09",
+      "E10",
+      "E12"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original source crosswalk: BR-T31/T32/T40; WIP-T08"
+  },
+  {
+    "id": "UX32-T10",
+    "scope": "CP7_LAMA",
+    "scenario": "Open/filter/expand/sort/back/tautan vs susun draft/apply",
+    "expected": "Read tidak menulis ledger atau reservation; command eksplisit terpisah; no qty dari URL",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2128,
+    "work_packets": [
+      "P14",
+      "P08"
+    ],
+    "case_ids": [
+      "E22"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original source crosswalk: BR-T02/T31; WIP-T12; RMD-T34"
+  },
+  {
+    "id": "UX32-T11",
+    "scope": "CP7_LAMA",
+    "scenario": "Desktop/HP/iPad, keyboard/fokus/back, form kotor, refetch gagal",
+    "expected": "Detail satu konteks, no popup stack; tidak lost input/stale success; pesan nyata bukan fixture",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2129,
+    "work_packets": [
+      "P14"
+    ],
+    "case_ids": [
+      "E19",
+      "E12"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original source crosswalk: BR-T35/T40; RMD-T33; AUD-A03/G16"
+  },
+  {
+    "id": "UX32-T12",
+    "scope": "CP7_LAMA",
+    "scenario": "Business Report/Reminder/detail SKU menampilkan sumber grup dan status berbeda",
+    "expected": "Angka sama pada basis sama; arsip vs current jelas; ACK tidak resolve; Stop tidak start baru",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 2130,
+    "work_packets": [
+      "P14",
+      "P15",
+      "P16"
+    ],
+    "case_ids": [
+      "E08",
+      "E17",
+      "O17"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": "Original source crosswalk: BR-T01/T16/T30/T34; WIP-T09/T12"
+  },
+  {
+    "id": "WIP-T01",
+    "scope": "CP7_LAMA",
+    "scenario": "FG18/target 60 dan batch 60 kandidat; belum ada SKU final",
+    "expected": "Tidak langsung memberi perintah produksi42; tampilkan gap, kandidat, syarat dan tindakan cekWIP",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3505,
+    "work_packets": [
+      "P04",
+      "P06"
+    ],
+    "case_ids": [
+      "O05"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "WIP-T02",
+    "scope": "CP7_LAMA",
+    "scenario": "GapA42 + gapB30 berebut batch 60",
+    "expected": "Skenario bersama maksimal60; contoh42+18 menyisakanB12; bukanA60+B60",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3506,
+    "work_packets": [
+      "P08"
+    ],
+    "case_ids": [
+      "O04"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "WIP-T03",
+    "scope": "CP7_LAMA",
+    "scenario": "Partial jahit→DO→receipt→QC→FG, rework/susulan/reversal",
+    "expected": "Sisa unik tetap satu per snapshot; tidak menjumlah counter historis/incoming yang sama",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3507,
+    "work_packets": [
+      "P04"
+    ],
+    "case_ids": [
+      "O15",
+      "E02"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "WIP-T04",
+    "scope": "CP7_LAMA",
+    "scenario": "Metadata pola/SKU kosong, histori lineage tersedia, referensi tarif laundry SKU",
+    "expected": "Bisa menilai kandidat bersyarat tanpa mengarang finalSKU; tariff reference tidak menetapkan output",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3508,
+    "work_packets": [
+      "P04"
+    ],
+    "case_ids": [
+      "E02"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "WIP-T05",
+    "scope": "CP7_LAMA",
+    "scenario": "Pola sama tetapi size/revisi/material/warna/proses tidak cocok atau belum diketahui",
+    "expected": "Reject/PerluCek tepat; tidak dianggap pasti hanya karena nama sama",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3509,
+    "work_packets": [
+      "P04"
+    ],
+    "case_ids": [
+      "E02"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "WIP-T06",
+    "scope": "CP7_LAMA",
+    "scenario": "WIP tiba terlambat/ETA unknown, actual stok sudah rendah",
+    "expected": "Tidak menutup gap tanggal awal; actual-low tetap fakta; saran percepat/cek bukan aman palsu",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3510,
+    "work_packets": [
+      "P06"
+    ],
+    "case_ids": [
+      "O03"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "WIP-T07",
+    "scope": "CP7_LAMA",
+    "scenario": "Qty fisik lengkap tetapi biaya laundry UNKNOWN/recost pending",
+    "expected": "Qty tetap dihitung sesuai sumber; margin tidak dipakai sebagai ranking final; pending terlihat",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3511,
+    "work_packets": [
+      "P13",
+      "P15"
+    ],
+    "case_ids": [
+      "E04",
+      "E06"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "WIP-T08",
+    "scope": "CP7_LAMA",
+    "scenario": "Dua user apply rencana yang berbagi source, retry dan snapshot berubah",
+    "expected": "Satu penerapan sah; revalidate/lock/capacity dan request ID; no double order/source consumption",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3512,
+    "work_packets": [
+      "P08"
+    ],
+    "case_ids": [
+      "E10",
+      "E11"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "WIP-T09",
+    "scope": "CP7_LAMA",
+    "scenario": "SKU STOP/Tunda, nomor SKU sama beda merek",
+    "expected": "Tidak start otomatis, stok lama tetap dapat diproses sesuai izin; merek lain tidak ikut berubah",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3513,
+    "work_packets": [
+      "P03"
+    ],
+    "case_ids": [
+      "O17",
+      "E23"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "WIP-T10",
+    "scope": "CP7_LAMA",
+    "scenario": "Read-model parsial, row version invalid, source conflict",
+    "expected": "Tidak ada healthy/0 palsu; planner/reminder sama-sama fail-closed pada scope terdampak",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3514,
+    "work_packets": [
+      "P02"
+    ],
+    "case_ids": [
+      "E15"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "WIP-T11",
+    "scope": "CP7_LAMA",
+    "scenario": "Incoming sudah diterima, RM sudah di-issue, batch tampil di beberapa tahap",
+    "expected": "Tidak double netting/double demand; raw/accessory dan WIP tidak mengklaim sumber sama dua kali",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3515,
+    "work_packets": [
+      "P04",
+      "P06"
+    ],
+    "case_ids": [
+      "O09",
+      "O15"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  },
+  {
+    "id": "WIP-T12",
+    "scope": "CP7_LAMA",
+    "scenario": "Planner/popup/reminder/digest/filter membaca skenario sama",
+    "expected": "Snapshot/hasil konsisten dan redacted; membuka atau mengirim tidak memutasi ledger/reservasi",
+    "source": "ERP_V3_2_Master_Pulih_20260923.md",
+    "source_line": 3516,
+    "work_packets": [
+      "P14",
+      "P16"
+    ],
+    "case_ids": [
+      "E08",
+      "E22"
+    ],
+    "status": "NOT_RUN",
+    "implementation_evidence": "NONE_ADDED_BY_PREPARATION",
+    "notes": ""
+  }
+]

@@ -1,0 +1,1614 @@
+{
+  "status": "PREPARATION_VALIDATION_PASS",
+  "scope": "DOCUMENTS_REGISTRIES_SCHEMA_SYNTHETIC_ARITHMETIC_ONLY",
+  "erp_runtime_verdict": "NOT_RUN",
+  "requirement_groups": 271,
+  "case_contracts": 52,
+  "work_packets": 22,
+  "check_count": 313,
+  "checks": [
+    {
+      "name": "source_requirement_counts",
+      "status": "PASS",
+      "detail": {
+        "ACC": 39,
+        "ALL": 22,
+        "AUD": 33,
+        "BR": 40,
+        "CP7": 35,
+        "CROSS": 6,
+        "LAU": 36,
+        "RMD": 36,
+        "UX32": 12,
+        "WIP": 12
+      }
+    },
+    {
+      "name": "unique_ids",
+      "status": "PASS",
+      "detail": {
+        "requirements": 271,
+        "packets": 22,
+        "case_contracts": 52
+      }
+    },
+    {
+      "name": "requirement_mapping:ACC-A01",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-A02",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-A03",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-A04",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-A05",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-A06",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-A07",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-A08",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-B01",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-B02",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-B03",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-B04",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-B05",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-B06",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-B07",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-C01",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-C02",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-C03",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-C04",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-C05",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-C06",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-C07",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-C08",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-C09",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-C10",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-C11",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-C12",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-D01",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-D02",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-D03",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-D04",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-D05",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-D06",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-D07",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-D08",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-D09",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-D10",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-D11",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ACC-D12",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ALL-A01",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ALL-A02",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ALL-A03",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ALL-C01",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ALL-C02",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ALL-C03",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ALL-C04",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ALL-P01",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ALL-P02",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ALL-P03",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ALL-P04",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ALL-S01",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ALL-S02",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ALL-S03",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ALL-W01",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ALL-W02",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ALL-W03",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ALL-W04",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ALL-W05",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ALL-W06",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ALL-Y01",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:ALL-Y02",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-A01",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-A02",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-A03",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-A04",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-A05",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-B01",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-B02",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-B03",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-B04",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-G01",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-G02",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-G03",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-G04",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-G05",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-G06",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-G07",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-G08",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-G09",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-G10",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-G11",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-G12",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-G13",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-G14",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-G15",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-G16",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-S01",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-S02",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-S03",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-S04",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-S05",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-S06",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-T01",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:AUD-T02",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T01",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T02",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T03",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T04",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T05",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T06",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T07",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T08",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T09",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T10",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T11",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T12",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T13",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T14",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T15",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T16",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T17",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T18",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T19",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T20",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T21",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T22",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T23",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T24",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T25",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T26",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T27",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T28",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T29",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T30",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T31",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T32",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T33",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T34",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T35",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T36",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T37",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T38",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T39",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:BR-T40",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-01",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-02",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-03",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-04",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-05",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-06",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-07",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-08",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-09",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-10",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-11",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-12",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-13",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-14",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-15",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-16",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-17",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-18",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-19",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-20",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-21",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-22",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-23",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-24",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-25",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-26",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-27",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-28",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-29",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-30",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-31",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-32",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-33",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-34",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CP7-35",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CROSS-T01",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CROSS-T02",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CROSS-T03",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CROSS-T04",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CROSS-T05",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:CROSS-T06",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T01",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T02",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T03",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T04",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T05",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T06",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T07",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T08",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T09",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T10",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T11",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T12",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T13",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T14",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T15",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T16",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T17",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T18",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T19",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T20",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T21",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T22",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T23",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T24",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T25",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T26",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T27",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T28",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T29",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T30",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T31",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T32",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T33",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T34",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T35",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:LAU-T36",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T01",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T02",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T03",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T04",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T05",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T06",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T07",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T08",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T09",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T10",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T11",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T12",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T13",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T14",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T15",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T16",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T17",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T18",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T19",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T20",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T21",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T22",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T23",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T24",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T25",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T26",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T27",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T28",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T29",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T30",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T31",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T32",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T33",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T34",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T35",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:RMD-T36",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:UX32-T01",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:UX32-T02",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:UX32-T03",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:UX32-T04",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:UX32-T05",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:UX32-T06",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:UX32-T07",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:UX32-T08",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:UX32-T09",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:UX32-T10",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:UX32-T11",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:UX32-T12",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:WIP-T01",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:WIP-T02",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:WIP-T03",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:WIP-T04",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:WIP-T05",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:WIP-T06",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:WIP-T07",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:WIP-T08",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:WIP-T09",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:WIP-T10",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:WIP-T11",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "requirement_mapping:WIP-T12",
+      "status": "PASS",
+      "detail": "source, owner, test and expected filled"
+    },
+    {
+      "name": "erp_not_run",
+      "status": "PASS",
+      "detail": "No runtime acceptance fabricated"
+    },
+    {
+      "name": "scope_optional_guard",
+      "status": "PASS",
+      "detail": "No vendor scorecard gate added"
+    },
+    {
+      "name": "future_gate_preserved",
+      "status": "PASS",
+      "detail": "Checkpoint sequence retained"
+    },
+    {
+      "name": "inherited_c6_stays_cp6",
+      "status": "PASS",
+      "detail": "ALL22/ACC39/LAU36 not silently deferred"
+    },
+    {
+      "name": "acyclic_work_packets",
+      "status": "PASS",
+      "detail": [
+        "P00",
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P07",
+        "P10",
+        "P08",
+        "P09",
+        "P11",
+        "P12",
+        "P13",
+        "P14",
+        "P15",
+        "P16",
+        "P17",
+        "P18",
+        "P19",
+        "P20",
+        "P21"
+      ]
+    },
+    {
+      "name": "all_packet_exit_cases",
+      "status": "PASS",
+      "detail": "All work packets reference real case contracts"
+    },
+    {
+      "name": "all_cases_used",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "name": "core_dependency_order",
+      "status": "PASS",
+      "detail": "A-B-C-D-E-F-G retained"
+    },
+    {
+      "name": "example_schema_valid",
+      "status": "PASS",
+      "detail": "Typed synthetic O02 example conforms"
+    },
+    {
+      "name": "schema_rejects:missing_quantity",
+      "status": "PASS",
+      "detail": "Malformed data is rejected; this is a contract check, not ERP parser execution"
+    },
+    {
+      "name": "schema_rejects:unknown_disguised_as_zero",
+      "status": "PASS",
+      "detail": "Malformed data is rejected; this is a contract check, not ERP parser execution"
+    },
+    {
+      "name": "schema_rejects:untyped_extra",
+      "status": "PASS",
+      "detail": "Malformed data is rejected; this is a contract check, not ERP parser execution"
+    },
+    {
+      "name": "schema_rejects:bad_decimal",
+      "status": "PASS",
+      "detail": "Malformed data is rejected; this is a contract check, not ERP parser execution"
+    },
+    {
+      "name": "sample_capacity:fixture-batch-directed:size30",
+      "status": "PASS",
+      "detail": "Allocated <= eligible <= physical"
+    },
+    {
+      "name": "sample_capacity:fixture-batch-candidate:size30",
+      "status": "PASS",
+      "detail": "Allocated <= eligible <= physical"
+    },
+    {
+      "name": "sample_no_fake_feasible",
+      "status": "PASS",
+      "detail": "Complete run is not final financial/feasible status"
+    },
+    {
+      "name": "reason_references",
+      "status": "PASS",
+      "detail": "Reasons use the shared catalog"
+    },
+    {
+      "name": "O01_netting",
+      "status": "PASS",
+      "detail": "Base18 conditional8"
+    },
+    {
+      "name": "O02_timeline",
+      "status": "PASS",
+      "detail": "Target48, terminal buffer8 not double consumed"
+    },
+    {
+      "name": "O03_early_gap",
+      "status": "PASS",
+      "detail": "Day5 shortage2 retained"
+    },
+    {
+      "name": "O04_shared_source",
+      "status": "PASS",
+      "detail": "Two needs share one60 source"
+    },
+    {
+      "name": "O06_draft_once",
+      "status": "PASS",
+      "detail": "No second reserve subtraction"
+    },
+    {
+      "name": "O07_size_gap",
+      "status": "PASS",
+      "detail": "Total sufficient but L still short15"
+    },
+    {
+      "name": "O09_remaining_material",
+      "status": "PASS",
+      "detail": "Issued quantity alone cannot prove these operands"
+    },
+    {
+      "name": "O13_metric_math",
+      "status": "PASS",
+      "detail": "20 percent growth and minus3pp"
+    },
+    {
+      "name": "O14_cash_transfer",
+      "status": "PASS",
+      "detail": "Internal transfer net0"
+    },
+    {
+      "name": "O15_lineage",
+      "status": "PASS",
+      "detail": "Physical total100"
+    },
+    {
+      "name": "O16_capacity",
+      "status": "PASS",
+      "detail": "Feasible36 unresolved24 unused4"
+    },
+    {
+      "name": "O18_cost_conservation",
+      "status": "PASS",
+      "detail": "Inherited rounding vector conserved; not a new engine test"
+    },
+    {
+      "name": "sample_semantic_hash",
+      "status": "PASS",
+      "detail": "Hash matches declared example canonicalization"
+    },
+    {
+      "name": "sample_hash_ignores_generation_meta",
+      "status": "PASS",
+      "detail": "Business chronology remains included"
+    },
+    {
+      "name": "sample_hash_keeps_business_time",
+      "status": "PASS",
+      "detail": "Effective chronology affects semantic identity"
+    },
+    {
+      "name": "no_implementation_or_go",
+      "status": "PASS",
+      "detail": "Preparation preserves gates"
+    },
+    {
+      "name": "balanced_code_fences:01_KONTRAK_DAN_INTEGRASI.md",
+      "status": "PASS",
+      "detail": "Fences paired"
+    },
+    {
+      "name": "balanced_code_fences:02_BACKBONE_TEKNIS.md",
+      "status": "PASS",
+      "detail": "Fences paired"
+    },
+    {
+      "name": "balanced_code_fences:04_BUKTI_DAN_ORACLE.md",
+      "status": "PASS",
+      "detail": "Fences paired"
+    },
+    {
+      "name": "balanced_code_fences:05_RUNBOOK_MULAI_CP7.md",
+      "status": "PASS",
+      "detail": "Fences paired"
+    },
+    {
+      "name": "balanced_code_fences:00_MULAI_DI_SINI.md",
+      "status": "PASS",
+      "detail": "Fences paired"
+    },
+    {
+      "name": "balanced_code_fences:03_KOLABORASI_DAN_PAKET_KERJA.md",
+      "status": "PASS",
+      "detail": "Fences paired"
+    },
+    {
+      "name": "balanced_code_fences:README.md",
+      "status": "PASS",
+      "detail": "Fences paired"
+    }
+  ]
+}

@@ -1,0 +1,171 @@
+[
+  {
+    "id": "OWN28-01",
+    "need": "Tanya AI",
+    "work_packets": [
+      "P17"
+    ],
+    "case_ids": [
+      "E18",
+      "X17"
+    ],
+    "source": "Owner current message 2026-09-28 14:03 Asia/Bangkok; prior business contract preserved",
+    "framework_status": "SPECIFIED_IN_V2",
+    "runtime_status": "NOT_RUN"
+  },
+  {
+    "id": "OWN28-02",
+    "need": "SKU/size recommendation",
+    "work_packets": [
+      "P03",
+      "P04",
+      "P06",
+      "P14"
+    ],
+    "case_ids": [
+      "X01",
+      "X02",
+      "X03",
+      "X04",
+      "X05",
+      "X06",
+      "X18",
+      "X19",
+      "X20"
+    ],
+    "source": "Owner current message 2026-09-28 14:03 Asia/Bangkok; prior business contract preserved",
+    "framework_status": "SPECIFIED_IN_V2",
+    "runtime_status": "NOT_RUN"
+  },
+  {
+    "id": "OWN28-03",
+    "need": "Business Report output",
+    "work_packets": [
+      "P15"
+    ],
+    "case_ids": [
+      "E08",
+      "E16",
+      "X16"
+    ],
+    "source": "Owner current message 2026-09-28 14:03 Asia/Bangkok; prior business contract preserved",
+    "framework_status": "SPECIFIED_IN_V2",
+    "runtime_status": "NOT_RUN"
+  },
+  {
+    "id": "OWN28-04",
+    "need": "Production priority",
+    "work_packets": [
+      "P14"
+    ],
+    "case_ids": [
+      "O17",
+      "X18",
+      "X19"
+    ],
+    "source": "Owner current message 2026-09-28 14:03 Asia/Bangkok; prior business contract preserved",
+    "framework_status": "SPECIFIED_IN_V2",
+    "runtime_status": "NOT_RUN"
+  },
+  {
+    "id": "OWN28-05",
+    "need": "Production reminders",
+    "work_packets": [
+      "P16"
+    ],
+    "case_ids": [
+      "X20",
+      "X24"
+    ],
+    "source": "Owner current message 2026-09-28 14:03 Asia/Bangkok; prior business contract preserved",
+    "framework_status": "SPECIFIED_IN_V2",
+    "runtime_status": "NOT_RUN"
+  },
+  {
+    "id": "OWN28-06",
+    "need": "Material/accessory reminders",
+    "work_packets": [
+      "P16"
+    ],
+    "case_ids": [
+      "O09",
+      "X21",
+      "X24"
+    ],
+    "source": "Owner current message 2026-09-28 14:03 Asia/Bangkok; prior business contract preserved",
+    "framework_status": "SPECIFIED_IN_V2",
+    "runtime_status": "NOT_RUN"
+  },
+  {
+    "id": "OWN28-07",
+    "need": "AR/AP reminders",
+    "work_packets": [
+      "P13",
+      "P16"
+    ],
+    "case_ids": [
+      "X22",
+      "X23",
+      "X24"
+    ],
+    "source": "Owner current message 2026-09-28 14:03 Asia/Bangkok; prior business contract preserved",
+    "framework_status": "SPECIFIED_IN_V2",
+    "runtime_status": "NOT_RUN"
+  },
+  {
+    "id": "OWN28-08",
+    "need": "WhatsApp connection backbone",
+    "work_packets": [
+      "P16",
+      "P19"
+    ],
+    "case_ids": [
+      "X25",
+      "X26",
+      "X27",
+      "X28",
+      "X29",
+      "X30"
+    ],
+    "source": "Owner current message 2026-09-28 14:03 Asia/Bangkok; prior business contract preserved",
+    "framework_status": "SPECIFIED_IN_V2",
+    "runtime_status": "NOT_RUN"
+  },
+  {
+    "id": "OWN28-09",
+    "need": "Commercial SKU and size/range",
+    "work_packets": [
+      "P03",
+      "P05",
+      "P10",
+      "P11",
+      "P13"
+    ],
+    "case_ids": [
+      "X01",
+      "X02",
+      "X03",
+      "X04",
+      "X05"
+    ],
+    "source": "Owner current message 2026-09-28 14:03 Asia/Bangkok; prior business contract preserved",
+    "framework_status": "SPECIFIED_IN_V2",
+    "runtime_status": "NOT_RUN"
+  },
+  {
+    "id": "OWN28-10",
+    "need": "Family work without repetitive audits",
+    "work_packets": [
+      "P01",
+      "P20",
+      "P21"
+    ],
+    "case_ids": [
+      "X31",
+      "X32"
+    ],
+    "source": "Owner current message 2026-09-28 14:03 Asia/Bangkok; prior business contract preserved",
+    "framework_status": "SPECIFIED_IN_V2",
+    "runtime_status": "NOT_RUN"
+  }
+]

@@ -1,0 +1,28 @@
+{
+  "reviewed_at_utc": "2026-09-28T07:21:40.714415+00:00",
+  "owner_instruction": "2026-09-28 14:03 Asia/Bangkok: expand framework only, including AI/recommendations/reporting/priority/reminders/WA/SKU-range/family workflow",
+  "framework_source": {
+    "library_file_id": "libfile_88c2f532f4388191a9b1a7a344d83591",
+    "version_id": null,
+    "original_sha256": "791bdd581b5341b3a7316fb8e557e0d2da4b60b3866f5f2e2452bd7ef93fb2d1"
+  },
+  "master_source": {
+    "name": "ERP_V3_2_Master_Pulih_20260923.md",
+    "library_file_id": "libfile_2ea9c9938f2881918efa1804de7b3bd6",
+    "read_scope": "Reminder V2.1/V2.7–V2.10, RMD36 and relevant BR/CP7 sections; not a new full master audit"
+  },
+  "sku_context": {
+    "commit": "6739a2f37939b4c76a5d064790d0aaba0049a7e8",
+    "status": "PINNED_PRIOR_AUDIT_CONTEXT_NOT_LATEST_REMOTE_OR_ACCEPTED_BASE",
+    "files": [
+      {
+        "path": "docs/cp6-bf-sku-range-handoff-20260928.md",
+        "sha256": "43053732c268d5565286e1d3194854d625c2cc25fc3a1b4dd8ddaec7aae13596"
+      },
+      {
+        "path": "docs/cp6-bf-sku-implementation.md",
+        "sha256": "c7a68d9546216f6765688cdd4b1c13ad178ef97f2391e250794bd98e56d950c6"
+      }
+    ]
+  }
+}

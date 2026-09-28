@@ -1,0 +1,271 @@
+{
+  "version": "cp7.source-map.v1",
+  "accepted_base": "10a834712e515af86c6d8baa89bbe40cff9793e3",
+  "resolution_status": "NATIVE_CATALOGUE_PENDING",
+  "repo_sources": [
+    {
+      "path": "src/config/runtime.ts",
+      "exists": true,
+      "sha256": "ad630ef3e3708a35ad2aabd05a3acc5306ae0d164b2eb15c70e1eaee192675a8",
+      "framework_observation_sha256": "ad630ef3e3708a35ad2aabd05a3acc5306ae0d164b2eb15c70e1eaee192675a8"
+    },
+    {
+      "path": "src/App.tsx",
+      "exists": true,
+      "sha256": "48701472c1bb70a67359b46ce79f6f71466b2fb757abeae8f2cd9bc47718957f",
+      "framework_observation_sha256": "7121679802ba0992661e9f00076c281dd9dcf3fd4da772cfdfb65ac605ff0d17"
+    },
+    {
+      "path": "src/SalesPages.tsx",
+      "exists": true,
+      "sha256": "6c7af6fe718aa8ec38e15d4c53312e98cf867c736aa16d1e29cd4aa1bf76a2b6",
+      "framework_observation_sha256": "d806896f24f1023c60bb4b4ebc379f33d8189f4b0452487a9ec21c3cb611a144"
+    },
+    {
+      "path": "src/FinancePages.tsx",
+      "exists": true,
+      "sha256": "ee0e841caef0cff25edf22aa00ab91444a559f7e92eff56ec7ab3fac3030e484",
+      "framework_observation_sha256": "ee0e841caef0cff25edf22aa00ab91444a559f7e92eff56ec7ab3fac3030e484"
+    },
+    {
+      "path": "src/HppPage.tsx",
+      "exists": true,
+      "sha256": "111d25b86ee180ab4f6cf59e1a9439fb1e2d15d7438832c4b72d756129b1b583",
+      "framework_observation_sha256": "cee06f6a7ece210a56f1fb75ad32d1b17b93a8391bafbb217486ec8229839842"
+    },
+    {
+      "path": "src/OperationsAdminPages.tsx",
+      "exists": true,
+      "sha256": "784c9de6bd778b20bfd4d2a1d1c9c7afb92edf672d205ed82082ee0dbbd00b53",
+      "framework_observation_sha256": "784c9de6bd778b20bfd4d2a1d1c9c7afb92edf672d205ed82082ee0dbbd00b53"
+    },
+    {
+      "path": "src/ConnectedWipStatusPage.tsx",
+      "exists": true,
+      "sha256": "8452a0fae356d241fee1cf172b9cfbc189d5def5735b1aa540debb1130a38c99",
+      "framework_observation_sha256": "8452a0fae356d241fee1cf172b9cfbc189d5def5735b1aa540debb1130a38c99"
+    },
+    {
+      "path": "src/useLaundryQcWorkspace.ts",
+      "exists": true,
+      "sha256": "b33d4a6e92e7a6eddebceaadb5dc95a4ec6704cad60f4346fd56d613c0a99805",
+      "framework_observation_sha256": "b33d4a6e92e7a6eddebceaadb5dc95a4ec6704cad60f4346fd56d613c0a99805"
+    },
+    {
+      "path": "src/ConnectedBsResolutionPage.tsx",
+      "exists": true,
+      "sha256": "c544c2a198f208d942a8b2432bc241622b3002527578fa17577072b00a5dc1dd",
+      "framework_observation_sha256": "b71b2090f65e206a57b3764c6ea0f9ed2fa23179918fc36003a1ec7572acd040"
+    },
+    {
+      "path": "src/ConnectedProductConversionPage.tsx",
+      "exists": true,
+      "sha256": "d72d4efb77475ab65b777001bb8663d9cabf35598af542d2a63671d417f8cc9e",
+      "framework_observation_sha256": "d72d4efb77475ab65b777001bb8663d9cabf35598af542d2a63671d417f8cc9e"
+    },
+    {
+      "path": "src/ConnectedPocketFabricPage.tsx",
+      "exists": true,
+      "sha256": "565cabf63761bbe2a9d14a1b4c08da04e562f7a858ecf8a97a26685b9b0b1443",
+      "framework_observation_sha256": "fccf60522c099a8ed6ad2016a26db369884f62c2af929f8d3112ebe69b2af06c"
+    },
+    {
+      "path": "src/types/database.preconnect.ts",
+      "exists": true,
+      "sha256": "fd26d9f200d958da1b4baf2d1b51922fa5780b54d038a20dafb1e6a8df1595f0",
+      "framework_observation_sha256": "4074f018a340ef2af72145039fe8a36a57ebd31e5e6d814d552243307034baa9"
+    },
+    {
+      "path": "wrangler.jsonc",
+      "exists": true,
+      "sha256": "4920522668fcf3222320c8651d65df08b6528b0fe211bf8152e3c0546b387dff",
+      "framework_observation_sha256": "4920522668fcf3222320c8651d65df08b6528b0fe211bf8152e3c0546b387dff"
+    },
+    {
+      "path": "package.json",
+      "exists": true,
+      "sha256": "188026b2d570d1f5ebcc1e1f5a7a950ae0327c326da7a0e6ce8e22f8b99c4d20",
+      "framework_observation_sha256": "188026b2d570d1f5ebcc1e1f5a7a950ae0327c326da7a0e6ce8e22f8b99c4d20"
+    },
+    {
+      "path": "docs/cp6-au-r1-handoff.md",
+      "exists": true,
+      "sha256": "0b5eb054f5b6ff71164c4e25c4dbf7b4c22aa52c62f6c2d37c988379350469d7",
+      "framework_observation_sha256": "0b5eb054f5b6ff71164c4e25c4dbf7b4c22aa52c62f6c2d37c988379350469d7"
+    },
+    {
+      "path": "docs/cp6-be-writer-handoff-20260927.md",
+      "exists": true,
+      "sha256": "13926d955a9d14481ab87676df693a5c84bb9187a6080a14d610c44717d50705",
+      "framework_observation_sha256": "13926d955a9d14481ab87676df693a5c84bb9187a6080a14d610c44717d50705"
+    },
+    {
+      "path": "docs/cp6-writer-gpt-progress.md",
+      "exists": true,
+      "sha256": "2ab6baf66b2e8a115a59622e59adf7e50f6b46b0714b4531752e17309235d582",
+      "framework_observation_sha256": "2ab6baf66b2e8a115a59622e59adf7e50f6b46b0714b4531752e17309235d582"
+    },
+    {
+      "path": "docs/contracts/ERP_ADDENDUM_OWNER_DECISIONS_CP6_2026-09-25.md",
+      "exists": true,
+      "sha256": "ffa61953def6305c21c2ba61ab8526442974083cc43e65062220be322e059559",
+      "framework_observation_sha256": "ffa61953def6305c21c2ba61ab8526442974083cc43e65062220be322e059559"
+    },
+    {
+      "path": "docs/contracts/ERP_ADDENDUM_OWNER_DECISIONS_CP6_2026-09-25_LAMPIRAN_C6.md",
+      "exists": true,
+      "sha256": "4bf8671ee27544c811a821668cef845379afd9e3823b3d4117f5833258de97bf",
+      "framework_observation_sha256": "4bf8671ee27544c811a821668cef845379afd9e3823b3d4117f5833258de97bf"
+    }
+  ],
+  "literal_rpc_callers": {
+    "public.erp_deactivate_role_v1": [
+      "src/AccessControlPage.tsx"
+    ],
+    "public.erp_get_access_admin_v1": [
+      "src/AccessControlPage.tsx"
+    ],
+    "public.erp_save_app_user_v3": [
+      "src/AccessControlPage.tsx"
+    ],
+    "public.erp_save_role_v1": [
+      "src/AccessControlPage.tsx"
+    ],
+    "public.erp_get_laundry_bd_workspace_v1": [
+      "src/BeReworkTargetFields.tsx",
+      "src/LaundryBdPanel.tsx"
+    ],
+    "public.erp_get_product_conversion_workspace_v1": [
+      "src/BeReworkTargetFields.tsx",
+      "src/ConnectedProductConversionPage.tsx"
+    ],
+    "public.erp_get_accessory_issue_workspace_v1": [
+      "src/ConnectedAccessoryIssuePage.dom.test.tsx",
+      "src/ConnectedAccessoryIssuePage.tsx"
+    ],
+    "public.erp_save_accessory_issue_action_v1": [
+      "src/ConnectedAccessoryIssuePage.tsx"
+    ],
+    "public.erp_get_accessory_service_workspace_v1": [
+      "src/ConnectedAccessoryServicePage.tsx",
+      "src/ConnectedProductConversionPage.tsx"
+    ],
+    "public.erp_save_accessory_service_action_v1": [
+      "src/ConnectedAccessoryServicePage.tsx"
+    ],
+    "public.erp_get_bs_resolution_workspace_v1": [
+      "src/ConnectedBsResolutionPage.tsx"
+    ],
+    "public.erp_save_bs_resolution_action_v1": [
+      "src/ConnectedBsResolutionPage.tsx"
+    ],
+    "public.erp_save_product_conversion_action_v1": [
+      "src/ConnectedBsResolutionPage.tsx",
+      "src/ConnectedProductConversionPage.tsx",
+      "src/LaundryBdPanel.tsx"
+    ],
+    "public.erp_get_cutting_workspace_v2": [
+      "src/ConnectedCuttingPage.tsx"
+    ],
+    "public.erp_save_cutting_group_before_sewing_v2": [
+      "src/ConnectedCuttingPage.tsx"
+    ],
+    "public.erp_get_initial_import_workspace_v1": [
+      "src/ConnectedInitialImportPage.tsx"
+    ],
+    "public.erp_save_initial_import_action_v1": [
+      "src/ConnectedInitialImportPage.tsx"
+    ],
+    "public.erp_list_patterns_v1": [
+      "src/ConnectedPatternFilter.tsx",
+      "src/CuttingPatternPicker.tsx",
+      "src/PatternPage.tsx"
+    ],
+    "public.erp_get_cutting_pickup_queue_v1": [
+      "src/ConnectedPickupPage.tsx"
+    ],
+    "public.erp_save_cutting_pickup_v1": [
+      "src/ConnectedPickupPage.tsx"
+    ],
+    "public.erp_get_pocket_fabric_workspace_v1": [
+      "src/ConnectedPocketFabricPage.tsx"
+    ],
+    "public.erp_get_pocket_periods_v1": [
+      "src/ConnectedPocketFabricPage.tsx"
+    ],
+    "public.erp_preview_pocket_fabric_period_v1": [
+      "src/ConnectedPocketFabricPage.tsx"
+    ],
+    "public.erp_save_pocket_fabric_action_v1": [
+      "src/ConnectedPocketFabricPage.tsx"
+    ],
+    "public.erp_get_sku_hpp_v1": [
+      "src/ConnectedSkuHppPage.tsx"
+    ],
+    "public.erp_get_sku_workspace_v1": [
+      "src/ConnectedSkuMasterPage.tsx",
+      "src/SkuWaveReferences.tsx"
+    ],
+    "public.erp_save_sku_action_v1": [
+      "src/ConnectedSkuMasterPage.tsx",
+      "src/SkuWaveReferences.tsx"
+    ],
+    "public.erp_get_supplier_credit_v1": [
+      "src/ConnectedSupplierCreditPage.tsx"
+    ],
+    "public.erp_save_supplier_credit_v1": [
+      "src/ConnectedSupplierCreditPage.tsx"
+    ],
+    "public.erp_get_wip_control_v1": [
+      "src/ConnectedWipStatusPage.tsx"
+    ],
+    "public.erp_set_wip_control_flag_v1": [
+      "src/ConnectedWipStatusPage.tsx"
+    ],
+    "public.erp_save_pattern_v1": [
+      "src/CuttingPatternPicker.tsx",
+      "src/PatternPage.tsx"
+    ],
+    "public.erp_save_laundry_bd_action_v1": [
+      "src/LaundryBdPanel.tsx"
+    ],
+    "public.erp_get_laundry_history_v1": [
+      "src/LaundrySkuHistory.tsx"
+    ],
+    "public.erp_deactivate_pattern_v1": [
+      "src/PatternPage.tsx"
+    ],
+    "public.erp_get_my_access_v1": [
+      "src/auth/AuthProvider.tsx"
+    ],
+    "public.erp_get_laundry_qc_workspace_v1": [
+      "src/useLaundryQcWorkspace.ts"
+    ],
+    "public.erp_save_laundry_qc_action_v1": [
+      "src/useLaundryQcWorkspace.ts"
+    ],
+    "public.erp_search_final_sku_products_v1": [
+      "src/useLaundryQcWorkspace.ts"
+    ],
+    "public.erp_search_laundry_bs_products_v1": [
+      "src/useLaundryQcWorkspace.ts"
+    ]
+  },
+  "caller_scan_scope": "literal client.rpc calls only; dynamic calls and indirect PL/pgSQL require review",
+  "native_catalogue": {
+    "runner": "scripts/cp7_p00_catalogue.py",
+    "workflow": ".github/workflows/cp7-p00.yml",
+    "artifact": "cp7-p00-native-catalogue",
+    "file": "CP7_P00_CATALOGUE.json",
+    "status": "NOT_RUN"
+  },
+  "cp7_analysis_facade": "NOT_IMPLEMENTED",
+  "missing_capabilities": [
+    "Coherent immutable multi-domain capture",
+    "Current actor projection on serve/cache/replay",
+    "Historical known-at availability per source",
+    "Production policy history independent of SKU active/sale permission",
+    "Global shared-source scenario allocation",
+    "R10 connected sales/return browser proof"
+  ]
+}

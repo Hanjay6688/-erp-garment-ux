@@ -1,0 +1,146 @@
+{
+  "review_scope": "FRAMEWORK_AND_OFFLINE_SCHEMA_ONLY",
+  "erp_runtime_tests": "NOT_RUN",
+  "framework_version": "CP7-BACKBONE-20260928-v1",
+  "inputs_sha256": {
+    "history/v1/CP7_Framework_Lengkap_20260928.md": "791bdd581b5341b3a7316fb8e557e0d2da4b60b3866f5f2e2452bd7ef93fb2d1",
+    "history/v1/contracts/analysis.schema.json": "6c92d2b65666f1f088defdcb12ec21a37db44e33b5ca8f9366e8cbb20402364a",
+    "history/v1/contracts/backbone.ts": "b0300c9cd6e28391e1f4e1a5cc273ccbfdb9a37fc30d6ce1b694ab8787533b6e"
+  },
+  "probe_count": 9,
+  "all_review_observations_reproduced": true,
+  "caution": "Schema acceptance is not proof an ERP implementation accepts a bad transaction. The package is proposed, and P01 is explicitly responsible for final contracts. The shipped semantic checks cover only its original example; these mutations do not rerun that example checksum.",
+  "probes": [
+    {
+      "id": "CONTROL-original",
+      "schema_accepted": true,
+      "review_observation_reproduced": true,
+      "meaning": "The supplied complete example is valid.",
+      "errors": []
+    },
+    {
+      "id": "CONTROL-NaN",
+      "schema_accepted": false,
+      "review_observation_reproduced": true,
+      "meaning": "Malformed numeric text is correctly rejected.",
+      "errors": [
+        {
+          "path": [
+            "recommendations",
+            0,
+            "actual_fg"
+          ],
+          "message": "{'state': 'KNOWN', 'value': 'NaN', 'unit': 'PCS', 'refs': [{'kind': 'FG_LEDGER', 'id': 'fg', 'revision': 'fixture-r1'}]} is not valid under any of the given schemas"
+        }
+      ]
+    },
+    {
+      "id": "C01-fractional-PCS",
+      "schema_accepted": true,
+      "review_observation_reproduced": true,
+      "meaning": "COUNT/PCS integrality is stated in prose but not enforced by this shape schema.",
+      "errors": []
+    },
+    {
+      "id": "C02-over-allocation",
+      "schema_accepted": true,
+      "review_observation_reproduced": true,
+      "meaning": "Allocated21 exceeds physical/eligible20; a runtime semantic validator must reject it.",
+      "errors": []
+    },
+    {
+      "id": "C03-incomplete-capture",
+      "schema_accepted": true,
+      "review_observation_reproduced": true,
+      "meaning": "COMPLETE with incomplete capture passes shape validation; semantic gate is necessary.",
+      "errors": []
+    },
+    {
+      "id": "C04-negative-lost-sales",
+      "schema_accepted": true,
+      "review_observation_reproduced": true,
+      "meaning": "LOST_SALES retaining negative inventory as backlog passes shape validation.",
+      "errors": []
+    },
+    {
+      "id": "C05-unknown-demand",
+      "schema_accepted": false,
+      "review_observation_reproduced": true,
+      "meaning": "Typed UNKNOWN cannot currently be represented in timeline.demand.",
+      "errors": [
+        {
+          "path": [
+            "timeline",
+            0,
+            "demand"
+          ],
+          "message": "{'state': 'UNKNOWN', 'unit': 'PCS', 'reason': 'AVAILABILITY_UNKNOWN', 'refs': []} is not of type 'string'"
+        }
+      ]
+    },
+    {
+      "id": "C06-unmet-demand-field",
+      "schema_accepted": false,
+      "review_observation_reproduced": true,
+      "meaning": "The timeline prohibits an explicit unmet-demand output; prose requires that distinction.",
+      "errors": [
+        {
+          "path": [
+            "timeline",
+            0
+          ],
+          "message": "Additional properties are not allowed ('unmet_demand' was unexpected)"
+        }
+      ]
+    },
+    {
+      "id": "C07-source-target-edge",
+      "schema_accepted": false,
+      "review_observation_reproduced": true,
+      "meaning": "No typed allocation-edge collection exists in AnalysisResult; actions only contain ID lists.",
+      "errors": [
+        {
+          "path": [],
+          "message": "Additional properties are not allowed ('allocations' was unexpected)"
+        }
+      ]
+    }
+  ],
+  "allocation_counterexample": {
+    "allocation_1": {
+      "S1->A": 10,
+      "S1->B": 0,
+      "S2->A": 0,
+      "S2->B": 10
+    },
+    "allocation_2": {
+      "S1->A": 0,
+      "S1->B": 10,
+      "S2->A": 10,
+      "S2->B": 0
+    },
+    "same_marginal_totals": {
+      "S1": 10,
+      "S2": 10,
+      "A": 10,
+      "B": 10
+    },
+    "conclusion": "Source totals and target totals cannot reconstruct source-to-target matching, allocation, or provenance."
+  },
+  "intraday_counterexample": {
+    "morning_demand_evening_supply": {
+      "end_balance": 0,
+      "earliest_gap": "08:00"
+    },
+    "morning_supply_evening_demand": {
+      "end_balance": 0,
+      "earliest_gap": null
+    },
+    "daily_summary_in_both": {
+      "demand": 5,
+      "supply": 5,
+      "balance_end": 0
+    },
+    "conclusion": "Same daily totals do not prove absence of an intraday gap; output needs timing evidence or an explicit conservative timing convention."
+  }
+}

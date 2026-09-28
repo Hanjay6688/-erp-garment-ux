@@ -1,0 +1,22 @@
+# CP7 — entry after accepted CP6
+
+Active branch: `cp7/integration`. Owner has instructed implementation to start.
+
+**Keuangan (termasuk laporan), stok dan HPP adalah raja. Reliable data adalah dewa.**
+
+## Read in this order
+
+1. [Current state](CURRENT_STATE.json) and [entry receipt](P00_HANDOFF.md).
+2. [Combined auditor handoff](acceptance/HANDOFF.md), [scope decision](acceptance/CLOSURE_R10_SCOPE.md), [evidence](acceptance/evidence.json).
+3. [Owner rusuk](framework-v2/06_RUSUK_KEBUTUHAN_OWNER.md).
+4. [Backbone](framework-v2/02_BACKBONE_TEKNIS.md) and [start runbook](framework-v2/05_RUNBOOK_MULAI_CP7.md).
+5. [Complete framework](framework-v2/CP7_Framework_Lengkap_20260928.md), [22 work packets](framework-v2/registries/work_packets.json), [requirements](framework-v2/registries/requirements.json), [84 cases](framework-v2/registries/cases.json).
+6. [Source map](source-map.json); shell in `src/cp7/`, contract and oracles in `docs/cp7/contracts/` and `framework-v2/contracts/`.
+
+## Current scope
+
+CP6 is CLOSED for the accepted contract. R10 remains an obligatory CP7/P11 connected sales/return browser flow. Production GO remains false. CP7 has started with receipt, shell integration and database source discovery; its operational engine is not connected yet.
+
+Original framework documents are imported byte-for-byte. Their earlier HOLD/null/preparation-only fields are historical and are superseded by CURRENT_STATE.json, the final audit and the owner's start instruction. Prior test reports retain their original scope; no old NOT_RUN becomes a PASS by importing files.
+
+The accepted S0 shell includes the audited financial projection fix. Six consumers still use the same typed example and no operational command is enabled by a successful example read. Independent final evidence is required for new runtime work.

@@ -1,0 +1,251 @@
+{
+  "framework_version": "CP7-BACKBONE-20260928-v2",
+  "scope": "OFFLINE_FRAMEWORK_SCHEMA_SEMANTIC_SAMPLES_AND_ARITHMETIC_ONLY",
+  "status": "PREPARATION_VALIDATION_PASS",
+  "erp_runtime_verdict": "NOT_RUN",
+  "checks_count": 43,
+  "checks": [
+    {
+      "name": "example_shape",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "example_semantics",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "name": "typescript_shape_generated_from_schema",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "example_semantic_hash",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "fractional_count",
+      "status": "PASS",
+      "detail": [
+        "COUNT_INVALID:actual_fg"
+      ]
+    },
+    {
+      "name": "source_overallocation",
+      "status": "PASS",
+      "detail": [
+        "SOURCE_INPUT_CAPACITY",
+        "EDGE_INPUT_TOTAL"
+      ]
+    },
+    {
+      "name": "incomplete_complete",
+      "status": "PASS",
+      "detail": [
+        "COMPLETE_WITH_INCOMPLETE_CAPTURE"
+      ]
+    },
+    {
+      "name": "negative_lost_sales",
+      "status": "PASS",
+      "detail": [
+        "LOST_SALES_CARRIES_BACKLOG"
+      ]
+    },
+    {
+      "name": "wrong_edge_size",
+      "status": "PASS",
+      "detail": [
+        "EDGE_SIZE_MISMATCH"
+      ]
+    },
+    {
+      "name": "incompatible_edge",
+      "status": "PASS",
+      "detail": [
+        "INELIGIBLE_MATCH"
+      ]
+    },
+    {
+      "name": "missing_edge",
+      "status": "PASS",
+      "detail": [
+        "EDGE_INPUT_TOTAL"
+      ]
+    },
+    {
+      "name": "stopped_start",
+      "status": "PASS",
+      "detail": [
+        "INACTIVE_START_NEW"
+      ]
+    },
+    {
+      "name": "undefined_assumption",
+      "status": "PASS",
+      "detail": [
+        "UNRESOLVED_ASSUMPTION"
+      ]
+    },
+    {
+      "name": "metric_scope",
+      "status": "PASS",
+      "detail": [
+        "UNRESOLVED_METRIC_TARGET"
+      ]
+    },
+    {
+      "name": "schema_represents_unknown_timeline",
+      "status": "PASS",
+      "detail": "Shape only; propagation needs ERP proof"
+    },
+    {
+      "name": "yield_input100_output90",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "name": "yield_output91_rejected",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "counts",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "unique_ids",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "legacy_mappings",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "owner_mapping",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "subpacket_mapping",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "family_partition",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "packet_dag",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "all_cases_owned",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "no_runtime_pass",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "legacy_status_preserved",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "gates",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "wa_phase_explicit",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "ses_arithmetic",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "promotion_arithmetic",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "cross_invoice_arithmetic",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "financial_report_arithmetic",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "intraday_counterexample",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "lost_sales_counterexample",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "fences:07_REVIEW_DAN_DELTA.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "fences:00_MULAI_DI_SINI.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "fences:06_RUSUK_KEBUTUHAN_OWNER.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "fences:02_BACKBONE_TEKNIS.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "fences:03_KOLABORASI_DAN_PAKET_KERJA.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "fences:01_KONTRAK_DAN_INTEGRASI.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "fences:04_BUKTI_DAN_ORACLE.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "fences:05_RUNBOOK_MULAI_CP7.md",
+      "status": "PASS",
+      "detail": ""
+    }
+  ],
+  "limitations": [
+    "Not a complete runtime semantic validator",
+    "No ERP/native/Auth/HTTP/browser tests",
+    "No scheduler/provider/delivery tested",
+    "Kernel example SES only; chosen kernels need independent vectors before P07 acceptance"
+  ]
+}

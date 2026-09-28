@@ -60,6 +60,7 @@ const ConnectedBsResolutionPage = lazy(() => import('./ConnectedBsResolutionPage
 const ConnectedLaundryPage = lazy(() => import('./ConnectedLaundryPage'))
 const ConnectedQcFinalPage = lazy(() => import('./ConnectedQcFinalPage'))
 const ConnectedFgHandoffBoundary = lazy(() => import('./ConnectedFgHandoffBoundary'))
+const Cp7Shell = lazy(() => import('./cp7/Cp7Shell'))
 
 type Page = 'dashboard' | 'stock-card' | 'movements-vivo' | 'movements-widie' | 'procurement' | 'cutting-roll' | 'mandor-wip' | 'contractor-issue' | 'sewing-wip' | 'qc' | 'fg-handoff' | 'bs-rework' | 'laundry' | 'hpp' | 'master-pattern' | 'admin-access' | 'admin-import' | 'pocket-fabric' | SalesView | FinanceView | WarehouseView | MaterialMasterView | BusinessMasterView | OperationsAdminView | 'placeholder'
 type NavSection = 'Produksi' | 'Gudang' | 'Penjualan' | 'Keuangan' | 'Master Data'
@@ -420,6 +421,14 @@ function handleErgonomicKeyboard(event: ReactKeyboardEvent<HTMLDivElement>) {
 }
 
 function App() {
+  const { runtime } = useAuth()
+  if (globalThis.location.pathname === '/cp7-preview') {
+    return <Suspense fallback={<WorkspaceFallback label="Pratinjau CP7" />}><Cp7Shell runtimeMode={runtime.mode} /></Suspense>
+  }
+  return <ErpApp />
+}
+
+function ErpApp() {
   const { runtime, identity } = useAuth()
   const accessBundle = identity.status === 'AUTHORIZED' ? identity : null
   const demoAccess = identity.status === 'DEMO'
@@ -586,6 +595,7 @@ function App() {
           return <button key={item} className={active ? 'sub-active' : ''} onClick={() => chooseSubmenu(item)}>• {item}</button>
         })}</div>}
       </div>)}
+      {demoAccess && <a className="nav-main" href="/cp7-preview"><Icon name="dashboard" /><span>Pratinjau CP7</span></a>}
       <div className="sidebar-spacer" />
       {adminNav.some(canSeeNavLabel) && <div className="nav-section admin-nav-section"><button className={`nav-main ${adminExpanded||page.startsWith('admin-')?'active':''}`} onClick={()=>{setAdminExpanded((value)=>!value);setExpanded(null)}}><Icon name="audit" /><span>Pengaturan & Audit</span><span className="chevron">{adminExpanded?'⌄':'›'}</span></button>
         {adminExpanded&&<div className="submenu">{adminNav.filter(canSeeNavLabel).map((item)=>{const target=item==='Pengguna & Hak Akses'?'admin-access':item==='Impor data awal'?'admin-import':operationsPageByLabel[item];return <button key={item} className={page===target?'sub-active':''} onClick={()=>chooseSubmenu(item)}>• {item}</button>})}</div>}

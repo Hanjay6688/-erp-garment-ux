@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "scope": "TYPECHECK_PROPOSED_CONTRACTS_ONLY",
+  "typescript_version": "5.9.3",
+  "command": "tsc --noEmit --skipLibCheck --target es2022 contracts/backbone.ts contracts/notification.ts",
+  "exit_code": 0,
+  "erp_runtime_verdict": "NOT_RUN"
+}
