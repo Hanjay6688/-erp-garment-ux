@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 18,
+  "revision": 19,
   "phase": "after",
-  "scenario_path": "scripts/cp6_bd_range_modes.py",
+  "scenario_path": "scripts/cp6_bf_modes.py",
   "browser_path": "scripts/cp6_bd_revision_browser.mjs",
-  "purpose": "Targeted corrected base-RATE oracle: match stored nominals to the unique effective vendor/process version at persisted delivery time; do not claim a stored RATE version FK. Runs 36349471819 and 36350528938 remain INCOMPLETE. Other 7 native, 18 race, 6 HTTP and 19 browser verdicts passed at unchanged product 2f6ac0d; this run checks only the remaining native case and repeats the configured browser suite. No commercial-SKU-master qualification."
+  "purpose": "Writer development qualification of commercial SKU master fanout, replay, conflicts, temporal membership and optional economics. BF remains NOT_READY; no production/audit closure claim. Prior BD/BE regression browser retained."
 }

@@ -85,6 +85,11 @@ def run(phase,scenario,selftest=False,browser=None):
         if phase in('pre_bd','pre_be','after'):report['bc_install']=bcp.install_bc();verify=bcp.bc_verified
         if phase in('pre_be','after'):report['bd_install']=bdp.install_bd();verify=bdp.bd_verified
         if phase=='after':report['be_install']=bep.install_be();verify=bep.verified
+        if getattr(module,'INSTALL_BF',False):
+            assert phase=='after','BF_REQUIRES_AFTER_PHASE'
+            import cp6_bf_probe as bfp
+            report['bf_install']=bfp.install();verify=bfp.verified
+            print(json.dumps(dict(bf_install=report['bf_install']),default=str),flush=True)
         print(json.dumps(dict(auditor_setup={k:report.get(k) for k in ('au_install','av_install','ay_install','az_install','ba_install','bb_install','bc_install','bd_install','be_install')}),default=str),flush=True)
         # B1 (CP6-10): the strict group (duplicate ids refused, status vocabulary, public schema, advisory locks and
         # leaked sessions checked after every case, planned vs final printed).
