@@ -15,7 +15,7 @@ test('six consumers share the fixture, remain isolated, and retain caveats', asy
   await page.getByLabel('Isi pratinjau').selectOption('FRAMEWORK')
   await expect(page.getByRole('heading', { name: 'Periksa kecocokan dan ETA batch' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Terapkan rencana' })).toBeDisabled()
-  await page.screenshot({ path: `cp7-shell-proof/${testInfo.project.name}-planner.png`, fullPage: true })
+  await page.screenshot({ path: `test-results/cp7-shell-proof/${testInfo.project.name}-planner.png`, fullPage: true })
   await page.getByRole('button', { name: 'Lihat detail', exact: true }).click()
   await expect(page.getByRole('dialog')).toContainText('Keanggotaan komersial: fixture-A-members-v1')
   await expect(page.getByRole('dialog')).toContainText('Kekurangan belum teratasi')

@@ -34,7 +34,7 @@ jobs:
         if: always()
         with:
           name: cp7-shell-proof
-          path: cp7-shell-proof
+          path: test-results/cp7-shell-proof
           if-no-files-found: warn
           retention-days: 30
   codeql:

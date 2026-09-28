@@ -44,6 +44,10 @@ bukan keberhasilan agent-browser. Percobaan pertama 5/6: tes belum membuka
 menu mobile ERP sebelum kembali ke CP7. Langkah pengguna itu ditambahkan;
 rerun lengkap 6/6. Build awal juga mengungkap impor Node di tes di dalam `src`;
 tes filesystem dipindahkan ke `tests/cp7`, kemudian build dan suite lulus.
+CI pertama juga menolak tambahan ignore output CP7 karena `.gitignore`
+merupakan artefak CP5 yang dibekukan. File itu dikembalikan persis ke sumber;
+output CP7 dipindahkan ke `test-results/cp7-shell-proof` yang sudah diabaikan.
+Pemeriksaan CP5/CP6 tetap dijalankan tanpa melonggarkan guard.
 
 Skenario browser memeriksa kesamaan hasil lintas consumer; detail sumber;
 dua pintu panel Potongan; laporan dan arsip kosong; reminder unknown; prompt
