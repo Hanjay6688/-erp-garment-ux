@@ -233,7 +233,8 @@ def unknown_bs_scope(cur,today):
     ds=dict(cur.execute('select s.size_id::text,s.id::text from erp.laundry_delivery_batch_size_lines s join erp.laundry_delivery_lines l on l.id=s.delivery_line_id where l.delivery_id=%s',(sent['delivery_id'],)).fetchall())
     receipt=dict(delivery_id=sent['delivery_id'],wash_process_id=f['process'],physical_at=f['when'](12).isoformat(),reason='Two BS pieces with physical source not identified',lines=[dict(delivery_batch_size_line_id=ds[s],qty_good_received=q-(2 if i==1 else 0),qty_bs_laundry=2 if i==1 else 0,bs_product_id=None) for i,(s,q) in enumerate(zip(f['size_ids'],f['qtys']))])
     before=books(cur)
-    refused=b.refused(cur,lambda:b.chain.laundry_action(cur,'POST_RECEIPT',receipt,base.delivery_version(cur,sent['delivery_id'])),'bind every Laundry BS to a product')
+    refused=b.bcp.denied(cur,lambda:b.chain.laundry_action(cur,'POST_RECEIPT',receipt,base.delivery_version(cur,sent['delivery_id'])),
+        'Receipt size lines must be unique, positive, and bind every Laundry BS to a product')
     b.api.admin(cur)
     checks=dict(unidentified_receipt_refused=refused['ok'],no_partial_receipt=one(cur,'select count(*) from erp.laundry_receipts where delivery_id=%s',sent['delivery_id'])==0,
         no_guessed_entitlement=one(cur,'select count(*) from erp.bs_cases where po_id=%s',f['po'])==0,money_unchanged=books(cur)==before)

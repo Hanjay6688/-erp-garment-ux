@@ -141,10 +141,18 @@ def note_read(cur,filters,auth=None):
 
 
 def internal(cur,name,*args):
-    """A native internal function as the owner (the chain grants the erp schema to authenticated only for the call)."""
-    api.admin(cur);cur.execute('grant usage on schema erp to authenticated');session(cur)
+    """Call a native function as owner, preserving an existing schema grant.
+
+    Hosted alignment and an enclosing fixture may already provide USAGE. Only
+    revoke a grant created by this helper, never either caller's original ACL.
+    """
+    api.admin(cur)
+    had=cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]
+    if not had:cur.execute('grant usage on schema erp to authenticated')
+    session(cur)
     value=cur.execute('select erp.'+name+'('+','.join(['%s']*len(args))+')',args).fetchone()[0];api.admin(cur)
-    cur.execute('revoke usage on schema erp from authenticated');return value
+    if not had:cur.execute('revoke usage on schema erp from authenticated')
+    return value
 
 
 def user(cur,role_code,grants=()):
