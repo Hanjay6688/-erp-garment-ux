@@ -164,10 +164,16 @@ export function parseLaundryBdWorkspace(value: unknown): LaundryBdWorkspace {
         label: text(c.label, 'Keterangan harga'), covered_qty, rate_status, unit_rate, amount, price_reason, coverage }
     })
     const total_complete = bool(d.total_complete, 'Harga lengkap')
-    if (total_complete === charges.some(c => c.rate_status === 'UNKNOWN')) throw new Error('Status harga kiriman tidak cocok dengan rinciannya.')
+    const mode = text(d.mode, 'Cara harga')
+    const pending = mode === 'PENDING'
+    if (pending ? charges.length !== 0 || total_complete : !charges.length || total_complete === charges.some(c => c.rate_status === 'UNKNOWN'))
+      throw new Error('Status harga kiriman tidak cocok dengan rinciannya.')
+    const cost_invoiced = d.cost_invoiced === undefined ? false : bool(d.cost_invoiced, 'Biaya sudah ditagih lengkap')
+    const has_invoice = d.has_invoice === undefined ? false : bool(d.has_invoice, 'Ada tagihan')
+    if (cost_invoiced && !has_invoice) throw new Error('Status tagihan kiriman tidak cocok.')
     return { delivery_line_id: id(d.delivery_line_id, 'Baris kiriman'), delivery_id: id(d.delivery_id, 'Kiriman'), delivery_number: text(d.delivery_number, 'Nomor kirim'),
-      status: text(d.status, 'Status kiriman'), physical_local: local(d.physical_local, 'Waktu kirim'), mode: text(d.mode, 'Cara harga'), unit: text(d.unit, 'Satuan'),
-      qty_sent: count(d.qty_sent, 'Qty kirim'), total_known: gated(d.total_known, money_visible, 'Total diketahui'), total_complete, charges }
+      status: text(d.status, 'Status kiriman'), physical_local: local(d.physical_local, 'Waktu kirim'), mode, unit: text(d.unit, 'Satuan'),
+      qty_sent: count(d.qty_sent, 'Qty kirim'), total_known: gated(d.total_known, money_visible, 'Total diketahui'), total_complete, cost_invoiced, has_invoice, charges }
   })
   const opening_uninvoiced = list(r.opening_uninvoiced, 'Laundry saldo awal belum ditagih').map((u): BdOpening => {
     const estimate_status = oneOf(u.estimate_status, ['KNOWN', 'UNKNOWN'] as const, 'Status estimasi')

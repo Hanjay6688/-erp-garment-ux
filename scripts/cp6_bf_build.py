@@ -18,7 +18,7 @@ BE=ROOT/'supabase/dev/cp6_be_t1_family.sql'
 BD=ROOT/'supabase/dev/cp6_bd_t1_family.sql'
 BB=ROOT/'supabase/dev/cp6_bb_t1_family.sql'
 FIXTURE=ROOT/'supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz'
-PARTS=('master','rates','work','laundry','import','router')
+PARTS=('master','rates','work','laundry','laundry_history','import','router')
 NEW_TABLES=['bf_rollback_v1','bf_skus_v1','bf_sku_versions_v1','bf_sku_members_v1','bf_wave_skus_v1','bf_po_boms_v1','bf_requests_v1','bf_context_v1','bf_laundry_delivery_sources_v1']
 REPLACED=['erp.commit_accessory_bom_for_lot(uuid)','erp.ensure_po_work_component_snapshots(uuid,timestamp with time zone)',
  'erp.validate_work_completion()','erp.guard_work_completion_posting_consistency()',
@@ -75,7 +75,7 @@ do $grants$ declare t text;f record;begin
  end loop;
  for f in select p.oid::regprocedure sig,n.nspname from pg_proc p join pg_namespace n on n.oid=p.pronamespace
    where (n.nspname='erp' and(p.proname like 'bf\_%' or p.proname in('save_sku_action_v1','get_sku_workspace_v1','get_sku_hpp_v1')))
-     or (n.nspname='public' and p.proname in('erp_save_sku_action_v1','erp_get_sku_workspace_v1','erp_get_sku_hpp_v1')) loop
+     or (n.nspname='public' and p.proname in('erp_save_sku_action_v1','erp_get_sku_workspace_v1','erp_get_sku_hpp_v1','erp_get_laundry_history_v1')) loop
    execute format('revoke all on function %s from public,anon,authenticated,service_role',f.sig);
    if f.nspname='public' then execute format('grant execute on function %s to authenticated,service_role',f.sig);end if;
  end loop;

@@ -720,6 +720,19 @@ describe('laundry BD workspace boundary', () => {
 
 
 describe('BD audit revision contracts', () => {
+  it('keeps deliberately empty details unknown before and after actual invoicing', () => {
+    const r = clone(), d = r.priced_deliveries[0]
+    Object.assign(d, { mode: 'PENDING', charges: [], total_known: '0.00', total_complete: false, cost_invoiced: false, has_invoice: false })
+    expect(parseLaundryBdWorkspace(r).priced_deliveries[0]).toMatchObject({ charges: [], total_complete: false, cost_invoiced: false })
+    d.has_invoice = true
+    expect(parseLaundryBdWorkspace(r).priced_deliveries[0]).toMatchObject({ has_invoice: true, cost_invoiced: false })
+    d.cost_invoiced = true
+    expect(parseLaundryBdWorkspace(r).priced_deliveries[0]).toMatchObject({ cost_invoiced: true, total_complete: false })
+    d.total_complete = true
+    expect(() => parseLaundryBdWorkspace(r)).toThrow(/Status harga/)
+    d.total_complete = false; d.mode = 'COMPONENTS'
+    expect(() => parseLaundryBdWorkspace(r)).toThrow(/Status harga/)
+  })
   it.each(['FREE', 'WAIVED'])('requires explicit zero and reason for %s, distinct from UNKNOWN', status => {
     const r = clone(), c = r.priced_deliveries[0].charges[1]
     Object.assign(c, { rate_status: status, unit_rate: '0.00', amount: '0.00', price_reason: 'Owner agreed no charge' })

@@ -126,7 +126,7 @@ def recovery_used(cur,today):
 
 
 def production_ranges(cur,today):
-    """Two real SKU tariffs in one wave, four physical sizes, ordinary work/laundry/QC posting. No ledger seeding."""
+    """Two SKU work rates, one vendor wash rate, four sizes through work/laundry/QC."""
     prod,base=b.chain.production,b.chain.base
     now=one(cur,'select clock_timestamp()');at=now-timedelta(minutes=4)
     clock=lambda hour,minute=0:now-timedelta(seconds=(19-hour-minute/60)*10)
@@ -134,9 +134,8 @@ def production_ranges(cur,today):
     vendor,process=str(uuid.uuid4()),str(uuid.uuid4());tag=uuid.uuid4().hex[:8]
     cur.execute("insert into erp.laundry_vendors(id,vendor_code,vendor_name,is_active) values(%s,%s,'BF service',true)",(vendor,'BF-'+tag))
     cur.execute("insert into erp.wash_processes(id,process_code,process_name,is_active) values(%s,%s,'BF wash',true)",(process,'BF-'+tag))
-    def cfg(work,laundry):return dict(price='185000.00',bom=[],work_rates=[dict(contractor_id=None,work_component_id=prod.COMPONENT,rate=work)],
-        laundry_rates=[dict(vendor_id=vendor,kind='PROCESS',ref_id=process,rate_status='KNOWN',rate=laundry,reason='Synthetic shared SKU rate')])
-    a=group(cur,roots[:3],at,settings=cfg('10.00','5.00'));c=group(cur,[roots[3]],at,settings=cfg('30.00','9.00'));save(cur,[a,c],at)
+    def cfg(work):return dict(price='185000.00',bom=[],work_rates=[dict(contractor_id=None,work_component_id=prod.COMPONENT,rate=work)],laundry_rates=[])
+    a=group(cur,roots[:3],at,settings=cfg('10.00'));c=group(cur,[roots[3]],at,settings=cfg('30.00'));save(cur,[a,c],at)
     snapshots={}
     def setup(cur,po,wave,batch,yields,when):
         call(cur,'BIND_WAVE',dict(cutting_group_id=wave,expected_version=one(cur,'select erp.bf_wave_revision_v1(%s)',wave),
@@ -151,6 +150,7 @@ def production_ranges(cur,today):
             cur.execute('select erp.post_work_completion(%s)',(e,));prod.owner(cur)
             cur.execute('select public.erp_record_sewing_terminal_v1(%s::jsonb,%s)',(json.dumps(dict(work_completion_id=e,qty_pcs=qty,reason='BF scoped physical sewing')),uuid.uuid4()));b.api.admin(cur)
     fx=b.two_size_fixture(cur,b.case_day(today),'BF-RANGES',size_quantities=list(zip(sizes,qtys)),clock=clock,work_setup=setup,service_refs=(vendor,process))
+    b.process_rate(cur,fx,'5.00')
     payload=dict(distribution_batch_id=fx['batch'],vendor_id=vendor,wash_process_id=process,target_dyeing_color='BF-BLUE',physical_at=clock(11).isoformat(),reason='BF two SKU tariffs one wave',lines=[dict(size_id=s,qty_sent_pcs=q) for s,q in zip(sizes,qtys)])
     sent=b.bd(cur,'POST_PRICED_DELIVERY',dict(delivery=payload,expected_version=str(base.group_version(cur,fx['group'])),pricing={}))
     delivery=sent['delivery_id']
@@ -172,10 +172,15 @@ def production_ranges(cur,today):
     before=one(cur,'select public.erp_get_sku_hpp_v1(%s::jsonb)',json.dumps(dict(query=a['sku'],at=clock(13).isoformat())))
     b.api.admin(cur)
     hpp=report['groups'][0]
-    return b.verdict(dict(four_physical_sizes=physical==qtys,work_costs=labor==[40,70,20,90],laundry_costs=laundry==[20,35,10,27],
-        shared_selling_price=price==[185000]*4,exact_total=sent['estimated_cost']==92,
+    prod.owner(cur)
+    history=one(cur,'select public.erp_get_laundry_history_v1(%s::jsonb)',json.dumps(dict(vendor_id=vendor,wave_id=fx['group'])))
+    b.api.admin(cur)
+    return b.verdict(dict(four_physical_sizes=physical==qtys,work_costs=labor==[40,70,20,90],laundry_costs=laundry==[20,35,10,15],
+        shared_selling_price=price==[185000]*4,exact_total=sent['estimated_cost']==80,
+        history_sku_selection={h['sku_id'] for h in history['items']}=={a['id'],c['id']},
+        history_reference_only=all(h['reference_total']=='80.00' and h['amount_scope']=='WHOLE_PREVIOUS_DELIVERY' for h in history['items']),
         hpp_group_qty=hpp['qty']=='13' and len(hpp['lots'])==3,hpp_weighted=b.D(hpp['value'])==expected_value and abs(b.D(hpp['hpp_per_pcs'])-expected_value/13)<b.D('0.00000001'),hpp_before_fg=before['groups']==[],
-        immutable_provenance=one(cur,'select count(distinct c.bf_sku_version_id) from erp.bd_laundry_charge_lines_v1 c join erp.laundry_delivery_lines l on l.id=c.delivery_line_id where l.delivery_id=%s',delivery)==2),
+        vendor_provenance=one(cur,'select count(*) from erp.bd_laundry_charge_lines_v1 c join erp.laundry_delivery_lines l on l.id=c.delivery_line_id where l.delivery_id=%s and c.bf_sku_version_id is not null',delivery)==0),
         labor=list(map(str,labor)),laundry=list(map(str,laundry)),physical=physical)
 
 

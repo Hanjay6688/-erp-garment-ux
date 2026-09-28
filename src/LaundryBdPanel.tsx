@@ -8,6 +8,7 @@ import { getUatSupabaseClient } from './lib/supabase'
 import { normalizeClientError } from './lib/clientError'
 import { useProductionMutation, type ProductionMutationHandlers } from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
+import LaundrySkuHistory, { type LaundryHistoryItem } from './LaundrySkuHistory'
 import { BD_RATE_LABEL, BD_RATE_STATUSES, CATEGORY_LABEL, CHARGE_KIND_LABEL, LAU_POLICY_KEYS, LAU_POLICY_LABEL, mergeLaundryBdPage, moneyInput, normalizeMoney, parseLaundryBdWorkspace, policyValue, rupiah,
   signedMoneyInput, validateBdResult, wholePcs, wibTimestamp, type BdInvoice, type BdPageKind, type BdPayables, type Category, type LaundryBdWorkspace, type LauPolicyKey } from './laundryBd'
 import { validateConversionResult } from './productConversion'
@@ -223,6 +224,30 @@ function PricedSend({ data, laundry, vendor, locked, send }: { data: LaundryBdWo
   const components = data.components.filter(c => c.vendor_id === vendor && c.is_active)
   const selectedPackage = data.packages.find(p => p.id === packageId && p.vendor_id === vendor && p.is_active)
   const availableComponents = mode === 'PACKAGE' ? components.filter(c => !selectedPackage?.component_ids.includes(c.id)) : components
+  const [historyNotice, setHistoryNotice] = useState('')
+  const useHistory = (item: LaundryHistoryItem) => {
+    const packageCharge = item.charges.find(c => c.kind === 'PACKAGE')
+    const chosenComponents = item.charges.filter(c => ['COMPONENT', 'EXTRA'].includes(c.kind))
+    const entireBatch = batch?.sizes.every(s => item.target_size_ids.includes(s.size_id))
+    if (packageCharge && (!entireBatch || !data.packages.some(p => p.id === packageCharge.ref_id && p.vendor_id === vendor && p.is_active))) {
+      setHistoryNotice('Paket sebelumnya tidak cocok untuk seluruh batch ini. Pilih kombinasi dan penerimanya secara manual.'); return
+    }
+    if (chosenComponents.some(c => !components.some(x => x.id === c.ref_id))) {
+      setHistoryNotice('Ada komponen lama yang sudah tidak aktif. Pilih komponen vendor yang masih berlaku.'); return
+    }
+    if (!packageCharge && !chosenComponents.length && (v.pricing_mode !== 'RATE' || !entireBatch)) {
+      setHistoryNotice('Pengaturan tarif proses atau penerimanya sudah berbeda. Pilih rincian vendor yang sesuai secara manual.'); return
+    }
+    if (!laundry.lookups.wash_processes.some(p => p.id === item.process_id)) {
+      setHistoryNotice('Jenis cucian lama sudah tidak aktif. Pilih jenis cucian yang masih berlaku.'); return
+    }
+    setSelection(packageCharge ? 'PACKAGE' : chosenComponents.length ? 'COMPONENTS' : 'VENDOR')
+    setProcess(item.process_id); setPackageId(packageCharge?.ref_id ?? '')
+    setScopes(Object.fromEntries(chosenComponents.map(c => [c.ref_id!, entireBatch ? 'ALL' : 'PARTIAL'])))
+    setCovered(Object.fromEntries(chosenComponents.flatMap(c => lines.filter(l => item.target_size_ids.includes(l.size_id)).map(l => [`${c.ref_id}:${l.size_id}`, String(l.qty_sent_pcs)]))))
+    setExtraReasons({}); setConfirmed(false)
+    setHistoryNotice('Pilihan jasa disalin. Periksa penerima jasa dan alasan tambahan paket; harga lama tidak disalin.')
+  }
   let coverageValid = true
   const componentPayload = availableComponents.flatMap(c => {
     const scope = scopes[c.id] ?? 'NONE'
@@ -245,6 +270,8 @@ function PricedSend({ data, laundry, vendor, locked, send }: { data: LaundryBdWo
   const valid = batch && process && color.trim() && physical && reason.trim().length >= 4 && lines.length && pricing && confirmed
     && batch.sizes.every(s => !(qty[s.size_id] ?? '').trim() || qty[s.size_id].trim() === '0' || (wholePcs(qty[s.size_id]) && Number(qty[s.size_id]) <= s.available_qty_pcs))
   return <section className="initial-import-table" aria-label="Kirim laundry dengan harga BD">
+    {batch && <LaundrySkuHistory key={`${vendor}:${batch.cutting_group_id}:${physical}`} vendor={vendor} wave={batch.cutting_group_id} at={physical} locked={locked} onSelect={useHistory}/>}
+    {historyNotice && <p role="status">{historyNotice}</p>}
     <p>Tarif mengikuti master {v.code}. Pilih kombinasi yang dikenal atau centang komponen. Rincian boleh kosong sampai kontra bon; biaya tetap belum diketahui.</p>
     <label>Rincian biaya<select aria-label="Pilihan rincian biaya" value={selection} disabled={locked} onChange={e => { setSelection(e.target.value); setScopes({}); setCovered({}); setExtraReasons({}); setConfirmed(false) }}>
       <option value="PENDING">Kosongkan — tunggu kontra bon</option><option value="PACKAGE">Kombinasi / paket cucian</option><option value="COMPONENTS">Centang komponen cucian</option><option value="VENDOR">Tarif proses / satuan vendor</option>

@@ -60,7 +60,7 @@ def changed(bd):
     where c.id=erp.bd_uuid_v1(p_payload,'charge_line_id',true);
   select * into ch from erp.bd_laundry_charge_lines_v1"""),
       ("  if v_status not in('KNOWN','FREE','WAIVED')", """  if exists(select 1 from erp.bd_laundry_invoice_lines_v1 x join erp.bd_laundry_invoices_v1 i on i.id=x.invoice_id
-    join erp.laundry_receipt_lines r on r.id=x.receipt_line_id where r.delivery_line_id=ch.delivery_line_id and i.status='POSTED') then
+    join erp.laundry_receipt_lines receipt on receipt.id=x.receipt_line_id where receipt.delivery_line_id=ch.delivery_line_id and i.status='POSTED') then
     raise exception 'BD_ALREADY_INVOICED: biaya sudah berasal dari kontra bon; gunakan dokumen koreksi';end if;
   if v_status not in('KNOWN','FREE','WAIVED')""")
     ], 'BF immutable quote after any billing')
