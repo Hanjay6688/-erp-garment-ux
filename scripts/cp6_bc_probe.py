@@ -824,6 +824,7 @@ def d05_replay(cur,today):
 def d06_access(cur,today):
     """ACC-D06 (M:5301, M:11.3): a role without the existing permission, a view-only role, anon and a direct table access are
     denied by the server; only the owner changes a policy (ACC-DEC07 grants nothing new)."""
+    schema_acl=one(cur,"select nspacl::text from pg_namespace where nspname='erp'")
     fx=fixture(cur,today)
     if not bc_installed(cur):return no_route(cur,lambda:ws(cur))
     d=today-timedelta(days=1);item=[dict(material_id=fx['material'],qty='1')]
@@ -836,14 +837,21 @@ def d06_access(cur,today):
         session(cur);cur.execute('select count(*) from erp.bc_documents_v1')
     def direct_insert():
         session(cur);cur.execute("insert into erp.bc_policy_settings_v1(policy_key,reason) values('ACC_DEC03','x')")
+    # Native setup may already expose the schema name; tables must still deny
+    # direct access. Match the actual denial boundary without revoking its ACL.
+    schema_usage=one(cur,"select has_schema_privilege('authenticated','erp','USAGE')")
+    direct_boundary=lambda table:'permission denied for '+('table '+table if schema_usage else 'schema erp')
     checks=dict(gudang_no_adjust=denied(cur,lambda:move(gudang),'PERMISSION_DENIED: warehouse.stock.adjust'),
         admin_no_adjust=denied(cur,lambda:move(admin_user),'PERMISSION_DENIED: warehouse.stock.adjust'),
         keuangan_no_view=denied(cur,lambda:ws(cur,auth=keuangan),'PERMISSION_DENIED: warehouse.accessory.view'),
-        anon=denied(cur,anon,'permission denied for function'),direct_read=denied(cur,direct,'permission denied for schema erp'),
-        direct_write=denied(cur,direct_insert,'permission denied for schema erp'),
+        anon=denied(cur,anon,'permission denied for function'),direct_read=denied(cur,direct,direct_boundary('bc_documents_v1')),
+        direct_write=denied(cur,direct_insert,direct_boundary('bc_policy_settings_v1')),
         admin_policy=refused(cur,lambda:policy(cur,'ACC_DEC05',dict(mode='CREDIT_UNPAID_ONLY',credit_conditions=['USABLE']),auth=admin_user),'BC_OWNER_ONLY'))
     gudang_read=ws(cur,auth=gudang)
-    return verdict(dict({k:v['ok'] for k,v in checks.items()},gudang_reads=isinstance(gudang_read,dict) and not gudang_read['is_admin'],
+    return verdict(dict({k:v['ok'] for k,v in checks.items()},
+        direct_sqlstates=all(checks[k]['refusal'] is not None and checks[k]['refusal']['sqlstate']=='42501' for k in ('direct_read','direct_write')),
+        schema_acl_preserved=one(cur,"select nspacl::text from pg_namespace where nspname='erp'")==schema_acl,
+        gudang_reads=isinstance(gudang_read,dict) and not gudang_read['is_admin'],
         values_hidden=all(p['value'] is None for p in gudang_read['policies'])),refusals={k:v['refusal'] for k,v in checks.items()})
 
 
