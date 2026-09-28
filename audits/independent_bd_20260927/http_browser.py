@@ -73,6 +73,9 @@ def rpc(name,payload,who='owner',expect_ok=True):
 def cmd(action,payload,who='owner'):
     return rpc('erp_save_laundry_bd_action_v1',{'p_action':action,'p_payload':payload,'p_client_request_id':uid()},who)
 
+# Fixed local transport routes: browser-supplied paths cannot select arbitrary upstream URLs.
+PROXY_ROUTES={'/rest/v1/rpc/bc_value_custody_v1': [54329, '/rpc/bc_value_custody_v1'], '/rest/v1/rpc/bd_set_charge_price_v1': [54329, '/rpc/bd_set_charge_price_v1'], '/rest/v1/rpc/be_post_conversion_v1': [54329, '/rpc/be_post_conversion_v1'], '/rest/v1/rpc/be_set_redye_price_v1': [54329, '/rpc/be_set_redye_price_v1'], '/rest/v1/rpc/erp_deactivate_pattern_v1': [54329, '/rpc/erp_deactivate_pattern_v1'], '/rest/v1/rpc/erp_deactivate_role_v1': [54329, '/rpc/erp_deactivate_role_v1'], '/rest/v1/rpc/erp_get_': [54329, '/rpc/erp_get_'], '/rest/v1/rpc/erp_get_access_admin_v1': [54329, '/rpc/erp_get_access_admin_v1'], '/rest/v1/rpc/erp_get_accessory_issue_workspace_v1': [54329, '/rpc/erp_get_accessory_issue_workspace_v1'], '/rest/v1/rpc/erp_get_accessory_service_workspace_v1': [54329, '/rpc/erp_get_accessory_service_workspace_v1'], '/rest/v1/rpc/erp_get_bs_resolution_workspace_v1': [54329, '/rpc/erp_get_bs_resolution_workspace_v1'], '/rest/v1/rpc/erp_get_cutting_pickup_queue_v1': [54329, '/rpc/erp_get_cutting_pickup_queue_v1'], '/rest/v1/rpc/erp_get_cutting_workspace_v2': [54329, '/rpc/erp_get_cutting_workspace_v2'], '/rest/v1/rpc/erp_get_initial_import_workspace_v1': [54329, '/rpc/erp_get_initial_import_workspace_v1'], '/rest/v1/rpc/erp_get_laundry_bd_workspace_v1': [54329, '/rpc/erp_get_laundry_bd_workspace_v1'], '/rest/v1/rpc/erp_get_laundry_qc_workspace_v1': [54329, '/rpc/erp_get_laundry_qc_workspace_v1'], '/rest/v1/rpc/erp_get_pocket_fabric_workspace_v1': [54329, '/rpc/erp_get_pocket_fabric_workspace_v1'], '/rest/v1/rpc/erp_get_product_conversion_workspace_v1': [54329, '/rpc/erp_get_product_conversion_workspace_v1'], '/rest/v1/rpc/erp_get_wip_control_v1': [54329, '/rpc/erp_get_wip_control_v1'], '/rest/v1/rpc/erp_list_patterns_v1': [54329, '/rpc/erp_list_patterns_v1'], '/rest/v1/rpc/erp_preview_pocket_fabric_period_v1': [54329, '/rpc/erp_preview_pocket_fabric_period_v1'], '/rest/v1/rpc/erp_save_': [54329, '/rpc/erp_save_'], '/rest/v1/rpc/erp_save_accessory_issue_action_v1': [54329, '/rpc/erp_save_accessory_issue_action_v1'], '/rest/v1/rpc/erp_save_accessory_service_action_v1': [54329, '/rpc/erp_save_accessory_service_action_v1'], '/rest/v1/rpc/erp_save_app_user_v3': [54329, '/rpc/erp_save_app_user_v3'], '/rest/v1/rpc/erp_save_bs_resolution_action_v1': [54329, '/rpc/erp_save_bs_resolution_action_v1'], '/rest/v1/rpc/erp_save_cutting_group_before_sewing_v2': [54329, '/rpc/erp_save_cutting_group_before_sewing_v2'], '/rest/v1/rpc/erp_save_cutting_pickup_v1': [54329, '/rpc/erp_save_cutting_pickup_v1'], '/rest/v1/rpc/erp_save_initial_import_action_v1': [54329, '/rpc/erp_save_initial_import_action_v1'], '/rest/v1/rpc/erp_save_laundry_bd_action_v1': [54329, '/rpc/erp_save_laundry_bd_action_v1'], '/rest/v1/rpc/erp_save_laundry_qc_action_v1': [54329, '/rpc/erp_save_laundry_qc_action_v1'], '/rest/v1/rpc/erp_save_pattern_v1': [54329, '/rpc/erp_save_pattern_v1'], '/rest/v1/rpc/erp_save_pocket_fabric_action_v1': [54329, '/rpc/erp_save_pocket_fabric_action_v1'], '/rest/v1/rpc/erp_save_product_conversion_action_v1': [54329, '/rpc/erp_save_product_conversion_action_v1'], '/rest/v1/rpc/erp_save_role_v1': [54329, '/rpc/erp_save_role_v1'], '/rest/v1/rpc/erp_search_final_sku_products_v1': [54329, '/rpc/erp_search_final_sku_products_v1'], '/rest/v1/rpc/erp_search_laundry_bs_products_v1': [54329, '/rpc/erp_search_laundry_bs_products_v1'], '/rest/v1/rpc/erp_set_wip_control_flag_v1': [54329, '/rpc/erp_set_wip_control_flag_v1'], '/rest/v1/rpc/save_pocket_fabric_action_v1': [54329, '/rpc/save_pocket_fabric_action_v1'], '/rest/v1/rpc/save_product_conversion_action_v1': [54329, '/rpc/save_product_conversion_action_v1'], '/auth/v1/token?grant_type=password': [54321, '/auth/v1/token?grant_type=password'], '/auth/v1/token?grant_type=refresh_token': [54321, '/auth/v1/token?grant_type=refresh_token'], '/auth/v1/user': [54321, '/auth/v1/user'], '/auth/v1/logout': [54321, '/auth/v1/logout'], '/auth/v1/logout?scope=local': [54321, '/auth/v1/logout?scope=local'], '/rest/v1/be_redye_services_v1?select=id': [54329, '/be_redye_services_v1?select=id']}
+
 class Proxy(BaseHTTPRequestHandler):
     protocol_version='HTTP/1.1'
     def log_message(self,*args):pass
@@ -82,11 +85,11 @@ class Proxy(BaseHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Methods','GET,POST,PUT,PATCH,DELETE,OPTIONS');self.send_header('Content-Length','0');self.end_headers()
         HTTP_EVENTS.append({'method':'OPTIONS','path':self.path,'http_status':204,'requested_headers':self.headers.get('Access-Control-Request-Headers'),'origin':self.headers.get('Origin')})
     def proxy(self):
-        is_rest=self.path.startswith('/rest/v1/')
-        if is_rest:port,path=54329,self.path.removeprefix('/rest/v1')
-        elif self.path.startswith('/auth/v1/'):port,path=54321,self.path
-        else:
+        route=PROXY_ROUTES.get(self.path)
+        if route is None:
             self.send_response(404);self.send_header('Content-Length','0');self.end_headers();return
+        port,path=route
+        is_rest=(port==54329)
         payload=self.rfile.read(int(self.headers.get('Content-Length','0')))
         headers={k:v for k,v in self.headers.items() if k.lower() not in ('host','connection','content-length','accept-encoding')}
         conn=http.client.HTTPConnection('127.0.0.1',port,timeout=60)
@@ -245,6 +248,9 @@ def snap(label,who='owner'):
     return s
 
 def button(text,who='owner',exact=True):
+    # Normal scroll brings a real target clear of sticky chrome; no force click
+    # or DOM state mutation is used. Re-snapshot after scrolling.
+    evaluate('(()=>{const xs=Array.from(document.querySelectorAll("button")).filter(e=>e.getClientRects().length&&'+('e.textContent.trim()==='+json.dumps(text) if exact else 'e.textContent.includes('+json.dumps(text)+')')+');if(xs.length===1)xs[0].scrollIntoView({block:"center",inline:"center",behavior:"instant"});return xs.length;})()',who)
     # Fresh snapshot for every semantic action; no stale ref reuse.
     s=ab('snapshot','-i',who=who)
     found=[]
@@ -851,6 +857,7 @@ def main():
             case('BROWSER.MASTER','Create master through UI and verify committed row',browser_master_create)
             case('BROWSER.INVOICE_DRAFT_RELOAD','Create invoice draft through UI, reload, verify no journal',browser_invoice_draft_reload)
             case('BROWSER.PACKAGE_EXTRAS','Package shipment offers outside-package extras',package_extras_browser,'peer-informed reproduction')
+            case('BROWSER.FREE_MASTER','Configure FREE and WAIVED through actual UI, verify explicit zero and reason',revision_ui.free_master)
             if case('HTTP.PAGINATION_FIXTURE','55 public invoice drafts without ledger effects',seed_pagination,'peer-informed reproduction'):
                 case('BROWSER.INVOICE_PAGINATION','Invoices beyond 50 remain reachable with search or paging',pagination_browser,'peer-informed reproduction')
         else:

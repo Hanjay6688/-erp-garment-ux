@@ -1,7 +1,8 @@
 """Own retest additions on a freshly restored BE database for each mode.
 No writer business scenarios, oracle helpers, or product modifications are used.
 """
-import sys,json,copy
+import sys,json,copy,psycopg
+from psycopg.types.json import Jsonb
 from decimal import Decimal as D
 import native as n,flows as f,suite as s,daily as d,extended as e
 C=n.C;A=n.A;eq=n.eq;uid=n.uid
@@ -33,6 +34,21 @@ def large():
     for k,a,dc in [('KNOWN','240.00','0.00'),('UNKNOWN','21474836.46','0.00'),('FREE','21474836.47','0.00'),('LEGACY','21474836.48','0.00'),('CANCEL','22000000.00','0.00'),('BAD','28123456.78','0.00'),('UI','28123456.78','1.23')]:
         n.case('REV.BE.INVOICE.'+k,'Real one-line redye invoice '+a+' discount '+dc,lambda k=k,a=a,dc=dc:invoice_case(k,a,dc))
 
+def refused_pending_sale(mode,lot):
+    before=n.fp();error=None;accepted=None
+    payload={'sale_number':'AUD-PENDING-'+mode,'customer_id':C['customer'],'source_location_id':C['fg'],'sale_date':'2026-09-19T08:00:00+07:00','reason':'Independent pending refusal probe','items':[{'product_id':C['redye_target'],'qty_pcs':2,'unit_price_snapshot':'20000.00','discount_amount':'0.00'}]}
+    with psycopg.connect(s.DSN) as c:
+        try:
+            c.execute("select set_config('request.jwt.claim.sub',%s,true)",(C['owner'],))
+            made=c.execute('select erp.save_sale_draft_v2(%s,%s::uuid,null)',(Jsonb(payload),uid())).fetchone()[0]
+            accepted=c.execute('select erp.post_sale(%s)',(made['sale_id'],)).fetchone()[0]
+        except psycopg.Error as ex:error={'sqlstate':ex.sqlstate,'message':str(ex)}
+        finally:c.rollback()
+    eq(n.fp(),before)
+    n.E.append({'pending_policy':mode,'sale_payload':payload,'refusal':error,'accepted_if_bug':accepted,'transaction_rolled_back_for_case_isolation':True})
+    assert error and error['sqlstate']=='P0001' and 'BD_SALE_LAUNDRY_PRICE_UNKNOWN' in error['message'],{'expected':'policy refusal of actual unknown-redye sale','error':error,'accepted':accepted}
+    return {'policy':mode,'error':error,'unchanged':True,'native_sales_layer':'real native save and post in one outer transaction, not HTTP authorization proof'}
+
 def pending():
     setup(True);f.start_redye('UNKNOWN',True);f.complete('UNKNOWN');r=f.rsource('UNKNOWN');lot=r['targetlot']
     def preview():return n.rpc('erp_accounting_close_preflight_v1',['2026-09-21'])
@@ -44,11 +60,15 @@ def pending():
         p={'policy_key':'LAU_DEC04','operation':'CLEAR' if mode=='UNSET' else 'SET','expected_version':str(ver),'reason':'Independent synthetic pending sale decision '+mode}
         if mode=='REFUSE':p['value']={'sale_with_unknown_laundry':'REFUSE'}
         s.command('SET_POLICY',p)
-        n.case('REV.PENDING.'+mode,'Unknown-price sale refuses under '+mode,lambda mode=mode:n.reject(lambda:e.sale(C['redye_target'],C['fg'],lot,mode,qty=2,at='2026-09-19T08:00:00+07:00'),'BD_SALE_LAUNDRY_PRICE_UNKNOWN'))
+        n.case('REV.PENDING.'+mode,'Unknown-price sale refuses under '+mode,lambda mode=mode:refused_pending_sale(mode,lot))
     s.policy('LAU_DEC04',{'sale_with_unknown_laundry':'ALLOW_PENDING'})
     sl=e.sale(C['redye_target'],C['fg'],lot,'ALLOW',qty=3,at='2026-09-19T08:00:00+07:00');eq(n.lotqty(lot),2)
-    markers=A('select to_jsonb(t) from erp.bd_pending_price_sales_v1 t where sale_id=%s',(sl['sale_id'],));assert markers
-    n.case('REV.PENDING.ALLOW','Allowed pending sale consumes three real PCS and carries pending marker',lambda:{'sale':sl,'markers':markers,'remaining_qty':n.lotqty(lot),'own_blockers_still_present':own_blockers(preview())})
+    markers=A('select to_jsonb(t) from erp.bd_pending_price_sales_v1 t where sale_id=%s',(sl['sale_id'],))
+    def verify_allowed():
+        assert markers,{'pending_sale_missing_marker':sl}
+        blockers=own_blockers(preview());assert blockers
+        return {'sale':sl,'markers':markers,'remaining_qty':n.lotqty(lot),'own_blockers_still_present':blockers}
+    n.case('REV.PENDING.ALLOW','Allowed pending sale consumes three real PCS and carries pending marker',verify_allowed)
     ret=e.returned(sl,'PENDING',at='2026-09-20T08:00:00+07:00');eq(n.lotqty(lot),3)
     historical=e.report('2026-09-18')['financial_position'];phy=f.physical_fingerprint();base=f.pogl(r['po']);posted=A("select j.id::text,j.transaction_date,j.economic_date,(select jsonb_agg(to_jsonb(l) order by l.id) from erp.journal_lines l where l.journal_entry_id=j.id) from erp.journal_entries j where j.status in('POSTED','REVERSED') order by j.id")
     # No expectation of deleting audit markers: readiness must consult resolved price.

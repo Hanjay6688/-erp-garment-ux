@@ -220,24 +220,12 @@ def closed_correction():
     return observation
 
 def free_contract():
-    # Contract-discovery evidence, not a fabricated valid configuration. No
-    # business PASS is awarded to an unavailable explicit-free acceptance path.
-    comp=s.component(C['daily_vendor'],'AUD-EDGE-FREE-CONTRACT');probes=[]
-    for status,price in [('FREE','0.00'),('WAIVED','0.00'),('KNOWN','0.00')]:
-        p={'component_id':comp,'rate_status':status,'rate_per_pcs':price,'effective_from':'2026-09-25T08:00:00+07:00','reason':'Independent explicitly waived vendor fee'}
-        try:r=cmd('SAVE_COMPONENT_RATE',p);probes.append({'input':p,'accepted':True,'response':r})
-        except psycopg.Error as e:probes.append({'input':p,'accepted':False,'sqlstate':e.sqlstate,'message':str(e)})
-    # Positive controls rule out an inactive actor/component/vendor as the
-    # explanation for those refusals. UNKNOWN is NULL, then an ordinary known
-    # positive rate has its own later effective version.
-    unknown=cmd('SAVE_COMPONENT_RATE',{'component_id':comp,'rate_status':'UNKNOWN','effective_from':'2026-09-25T08:00:00+07:00','reason':'Independent unknown-price positive control'})
-    known=cmd('SAVE_COMPONENT_RATE',{'component_id':comp,'rate_status':'KNOWN','rate_per_pcs':'123.45','effective_from':'2026-09-26T08:00:00+07:00','reason':'Independent known-price positive control'})
-    controls=admin('select rate_status,rate_per_pcs from erp.bd_laundry_component_rates_v1 where component_id=%s order by effective_from',(comp,))
-    eq(controls,[('UNKNOWN',None),('KNOWN',D('123.45'))])
-    constraints=admin("select conname,pg_get_constraintdef(oid) from pg_constraint where conrelid='erp.bd_laundry_component_rates_v1'::regclass and contype='c' order by conname")
-    policies=admin('select policy_key,to_jsonb(t) from erp.bd_policy_settings_v1 t order by policy_key')
-    E.append({'configured_free_contract_probes':probes,'live_component_price_constraints':constraints,'live_owner_policies':policies,'supported_price_controls':{'unknown_response':unknown,'known_response':known,'rate_versions':controls}})
-    R.append({'id':'IND-08.CONFIGURED-FREE','title':'Configured FREE/WAIVED must be distinct from UNKNOWN','status':'BLOCKED','classification':'Acceptance contract not represented by available public price status/configuration','observation':{'probes':probes,'constraints':constraints,'supported_price_controls':controls},'reason':'Current public rate command supports KNOWN/UNKNOWN and demands positive known rates; no invented owner free-price policy or seeded zero tariff is counted as configuration. Free legacy rewash is separately exercised under IND-41.'});save()
+    comp=s.component(C['daily_vendor'],'AUD-EDGE-FREE-CONTRACT');controls=[]
+    for day,status,price in [(25,'FREE','0.00'),(26,'WAIVED','0.00'),(27,'UNKNOWN',None),(28,'KNOWN','123.45')]:
+        controls.append(s.rate(comp,price,'2026-09-'+str(day)+'T08:00:00+07:00',status))
+    versions=admin('select rate_status,rate_per_pcs from erp.bd_laundry_component_rates_v1 where component_id=%s order by effective_from',(comp,))
+    eq(versions,[('FREE',D(0)),('WAIVED',D(0)),('UNKNOWN',None),('KNOWN',D('123.45'))])
+    R.append({'id':'IND-08.CONFIGURED-FREE','title':'Explicit FREE/WAIVED zero is distinct from UNKNOWN null','status':'PASS','classification':'Revised public master contract; full physical lifecycle in free-contract-results.json','observation':{'responses':controls,'native_versions':versions}});save()
 
 def main():
     try:setup();save()

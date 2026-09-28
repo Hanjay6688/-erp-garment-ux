@@ -17,10 +17,13 @@ def complete(key):
     f=d.F[key];r=d.rpc('POST_RECEIPT',d.rp(key),d.ver('laundry_deliveries',f['delivery']));f.update(receipt=r['receipt_id'],receipt_line=A('select id::text from erp.laundry_receipt_lines where receipt_id=%s',(r['receipt_id'],),one=True))
     q=d.rpc('POST_FINAL_SKU',d.qp(key),d.ver('cutting_groups',f['group']));eq(d.qty(key),13);return {'receipt':r,'final':q}
 
+def new_vendor(code):
+    ident=s.uid();A('insert into erp.laundry_vendors(id,vendor_code,vendor_name) values(%s,%s,%s)',(ident,code,code));s.terms('COMPONENTS',vendor=ident);return ident
+
 def own_free(status):
-    key='REV_'+status;d.precursor(key);comp=s.component(C['daily_vendor'],'AUD-REV-'+status)
+    key='REV_'+status;d.precursor(key);vendor=new_vendor('AUD-REV-'+status);comp=s.component(vendor,'AUD-REV-'+status)
     master=s.rate(comp,'0.00',status=status)
-    p=d.dp(key);p['pricing']={'components':[{'component_id':comp,'covered_qty':13}]}
+    p=d.dp(key);p['delivery']['vendor_id']=vendor;p['pricing']={'components':[{'component_id':comp,'covered_qty':13}]}
     r=s.command('POST_PRICED_DELIVERY',p);f=d.F[key];f.update(delivery=r['delivery_id'],delivery_line=A('select id::text from erp.laundry_delivery_lines where delivery_id=%s',(r['delivery_id'],),one=True))
     eq(D(r['pricing']['total_known']),D(0));eq(r['pricing']['total_complete'],True)
     ch=A('select rate_status,unit_rate,amount,price_reason from erp.bd_laundry_charge_lines_v1 where delivery_line_id=%s',(f['delivery_line'],));eq(ch[0][:3],(status,D(0),D(0)));assert ch[0][3]
@@ -47,9 +50,9 @@ def invalid_free():
 def coverage():
     # Peer concern independently recalculated: L-only five pieces at1000 must
     # allocate exactly0 to M and5000 to L, regardless of7:6 shipment proportions.
-    comp=s.component(C['daily_vendor'],'AUD-REV-L-ONLY');s.rate(comp,'1000.00')
+    vendor=new_vendor('AUD-REV-COVERAGE');comp=s.component(vendor,'AUD-REV-L-ONLY');s.rate(comp,'1000.00')
     p={'components':[{'component_id':comp,'covered_qty':5,'coverage':[{'size_id':C['s2'],'qty':5}]}]}
-    delivery=s.delivery(vendor=C['daily_vendor']);r=s.pricing(p,delivery);eq(D(r['total_known']),D('5000.00'))
+    delivery=s.delivery(vendor=vendor);r=s.pricing(p,delivery);eq(D(r['total_known']),D('5000.00'))
     shares=r['charges'][0]['shares'];eq({x['size_id']:D(x['amount']) for x in shares},{C['s1']:D(0),C['s2']:D(5000)})
     rejected=[]
     for cov in [None,[{'size_id':C['s1'],'qty':4}],[{'size_id':C['s2'],'qty':7}],[{'size_id':s.uid(),'qty':5}],[{'size_id':C['s2'],'qty':2},{'size_id':C['s2'],'qty':3}]]:

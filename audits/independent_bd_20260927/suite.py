@@ -206,7 +206,7 @@ def main():
     case('IND-38.STAFF','Staff cannot change master pricing',lambda:reject(lambda:command('SAVE_COMPONENT',{'vendor_id':CTX['v1'],'component_code':'AUD-DENY','component_name':'AUD-DENY','is_active':True,'reason':'Unauthorized attempt'},who='staff')))
     case('IND-37.BATCH','Unconfigured batch policy fails closed',lambda:reject(lambda:terms('COMPONENTS','BATCH',version='1')))
     case('IND-05.VERSION','New master version does not change old pricing date',version_snapshot,'public master RPC + pricing function')
-    case('IND-08.FREE','Explicit free master price with recorded reason is supported',free_price)
+    case('IND-08.FREE','KNOWN zero without explicit free status refuses; legitimate FREE tested separately',lambda:reject(free_price))
     case('IND-02.CALC','Package included processes charged once',package_total,'public master RPC + pricing function')
     if 'pkg' in CTX:
         case('IND-03.INCLUDED','Included process cannot be billed again as extra',lambda:helper_refuse({'package_id':CTX['pkg'],'extras':[{'component_id':CTX['wash'],'covered_qty':13,'reason':'Duplicate included'}]}),'pricing function')

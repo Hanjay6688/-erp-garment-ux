@@ -148,6 +148,8 @@ def finalsku(key):
     f=F[key];r=rpc('POST_FINAL_SKU',qp(key),ver('cutting_groups',f['group']));f['qc']=r['qc_inspection_id'];eq(qty(key),13)
     expected='60868.72' if key=='K' else '57474.17';values=costeq(key,expected)
     eq({x[1] for x in values},{C['products'][z+':'+(C['brand2'] if key=='U' else C['brand'])] for z in [C['s1'],C['s2']]},'Exact product identities')
+    expected_by_size={C['s1']:D('30947.63'),C['s2']:D('26526.54' if key=='U' else '29921.09')}
+    eq({x[1]:x[4].quantize(D('.01')) for x in values},{C['products'][z+':'+(C['brand2'] if key=='U' else C['brand'])]:amount for z,amount in expected_by_size.items()},'Actual per-size HPP must follow recipients, labor100 per PCS')
     return {'response':r,'hpp':values,'net_fg':qty(key)}
 def wrong_size():
     p=qp('K');original=p['lines'][0]['final_product_id'];p['lines'][0]['final_product_id']=next(x['final_product_id'] for x in p['lines'] if x['final_product_id']!=original)

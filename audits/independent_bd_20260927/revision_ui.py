@@ -36,7 +36,7 @@ def gap_receipt_browser_reachability():
     assert {x:field(x) for x in before}==before
     got={x[2:] for x in options() if x.startswith('r:')};assert got==set(f['receipt_line_ids'])
     old=f['missing_ids'][0];b.select('Sumber baris 1','r:'+old);b.enter_date_with_keys('Tanggal invoice','2026-09-21');b.fill('Alasan pembatalan invoice','Independent existing-source draft; no posting')
-    b.button('Simpan draf');b.wait_text('AUD-REV-OLD-SOURCE')
+    b.button('Simpan draf invoice');b.wait_text('AUD-REV-OLD-SOURCE')
     rows=b.sql("select i.status,l.receipt_line_id::text from erp.bd_laundry_invoices_v1 i join erp.bd_laundry_invoice_lines_v1 l on l.invoice_id=i.id where i.invoice_number='AUD-REV-OLD-SOURCE'");assert rows==[('DRAFT',old)],rows
     b.snap('revision-old-receipt-saved-draft')
     return {'all_201_options_reachable':True,'selected_source_and_typed_draft_preserved':before,'previously_omitted_source_saved':rows}
@@ -61,6 +61,19 @@ def package_extras_browser():
     rows=b.sql('select ch.kind,bs.size_id::text,sh.covered_qty,sh.amount from erp.bd_laundry_charge_lines_v1 ch join erp.bd_laundry_charge_shares_v1 sh on sh.charge_line_id=ch.id join erp.laundry_delivery_batch_size_lines bs on bs.id=sh.delivery_batch_size_line_id where ch.delivery_line_id=%s order by ch.kind',(line,));assert [(x[0],x[2],D(x[3])) for x in rows]==[('EXTRA',5,D('3394.55')),('PACKAGE',6,D('52274.10'))],rows
     b.snap('revision-extra-physical-posted')
     return {'actual_browser_post':response,'readback':rows,'zero_unsent_size_accepted':True,'expected_package':'52274.10','expected_extra':'3394.55','expected_total':'55668.65'}
+
+def free_master():
+    b=B;b.select('Vendor harga laundry',b.FIX['vendor']);b.button('Harga vendor');b.wait_text('AUD-UI-CREATED')
+    comp=b.sql("select id::text from erp.bd_laundry_components_v1 where vendor_id=%s and component_code='AUD-UI-CREATED'",(b.FIX['vendor'],),one=True)
+    b.select('Komponen harga',comp);responses=[]
+    for status,day in [('FREE','22'),('WAIVED','23')]:
+        b.fill('Alasan','Independent explicit '+status+' agreement from actual screen');b.fill('Berlaku sejak (WIB)','2026-09-'+day+'T08:00');b.select('Status harga komponen',status);b.button('Simpan versi harga komponen')
+        b.ab('wait','--fn',"!Array.from(document.querySelectorAll('button')).some(e=>e.textContent==='Simpan versi harga komponen'&&e.disabled)")
+        rows=b.sql('select rate_status,rate_per_pcs,reason from erp.bd_laundry_component_rates_v1 where component_id=%s order by effective_from',(comp,))
+        assert rows[-1][0]==status and D(rows[-1][1])==D(0) and rows[-1][2]=='Independent explicit '+status+' agreement from actual screen',rows
+        responses.append(rows[-1])
+    b.snap('revision-free-waived-configured-in-browser')
+    return {'actual_UI_versions':responses,'explicit_zero_distinct_from_unknown':True}
 
 def install(module):
     global B;B=module
