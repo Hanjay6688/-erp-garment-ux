@@ -95,6 +95,10 @@ begin
  if at_time<statement_timestamp()-interval '5 minutes' then raise exception 'BF_HISTORY: master baru hanya mulai sekarang atau mendatang';end if;
  if jsonb_typeof(p_payload->'groups') is distinct from 'array' or jsonb_array_length(p_payload->'groups') not between 1 and 30 then
    raise exception 'BF_GROUPS: wajib 1 sampai 30 kelompok';end if;
+ -- Conversion posting already takes the FG/HPP lock before product locks.
+ -- Read posted history only after that writer finishes, including direct native
+ -- conversion routes. Keep the same order before the commercial master lock.
+ perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
  -- One lock also serializes movements between groups and edits arriving via different member sizes.
  perform pg_advisory_xact_lock(hashtextextended('BF:COMMERCIAL_SKUS',0));
  insert into erp.bf_context_v1(backend_pid,transaction_id) values(pg_backend_pid(),txid_current());
@@ -125,6 +129,17 @@ begin
    basis:=erp.bf_legacy_basis_v1(roots,at_time);
    if g->'legacy_basis' is distinct from basis then raise exception 'BF_BASIS_CHANGED: baca semua harga/resep anggota lalu konfirmasi pengaturan bersama';end if;
    select * into current_v from erp.bf_sku_versions_v1 where sku_id=sid and effective_to is null;
+   -- A conversion uses both commercial identities even when its destination
+   -- has no production BOM commitment. Reversed documents still retain history.
+   -- Include old and incoming members and all physical versions of each root.
+   if exists(select 1 from erp.product_conversions c
+     join erp.products used on used.id in(c.from_product_id,c.to_product_id)
+     where c.status in('POSTED','REVERSED') and c.physical_at>=at_time
+       and (used.identity_root_id=any(roots) or exists(
+         select 1 from erp.bf_sku_members_v1 m
+         where m.version_id=current_v.id and m.product_root=used.identity_root_id))) then
+     raise exception 'BF_TARIFF_HISTORY: waktu perubahan mendahului identitas konversi yang sudah tercatat';
+   end if;
    if current_v.id is not null then
      if at_time<=current_v.effective_from then raise exception 'BF_EFFECTIVE_ORDER';end if;
      if exists(select 1 from erp.po_work_component_snapshots where bf_sku_version_id=current_v.id and committed_at>=at_time)

@@ -1,11 +1,17 @@
 """Writer continuation of explicitly open combined CP6 scenarios."""
 import cp6_bf_combined_probe as p
 import cp6_bf_vendor_modes as regression
+import cp6_independent_final_probe as independent
+import cp6_bf_conversion_history_probe as history
 INSTALL_BF=True
 
 
 def cases(cur,today):
-    return [
+    return independent.cases(cur,today)+[
+        ('CONVERSION_HISTORY:TARGET_BACKDATE_EQUAL_AND_LATER_MOVE',lambda:history.history(cur,today)),
+        ('CONVERSION_HISTORY:SOURCE_BACKDATE_EQUAL_AND_LATER_MOVE',lambda:history.history(cur,today,True)),
+        ('CONVERSION_HISTORY:REVERSED_DOCUMENT_REMAINS_IMMUTABLE',lambda:history.history(cur,today,reversed_=True)),
+        ('R14:NONEMPTY_GRADE_B_RETURN_AFTER_RANGE_MOVE_AND_INVERSE',lambda:history.grade_b_return(cur,today)),
         ('R03:SAME_SIZE_TWO_SKUS_DISTINCT_WAVES',lambda:p.same_size_two_skus(cur,today)),
         ('R06:RUNNING_PO_NEW_MEMBER_IDENTICAL_RECIPE',lambda:p.new_member_running_po(cur,today)),
         ('R06:RUNNING_PO_NEW_MEMBER_DIFFERENT_RECIPE_ATOMIC',lambda:p.new_member_running_po(cur,today,True)),
@@ -23,5 +29,7 @@ def cases(cur,today):
     ]+regression.cases(cur,today)
 
 
-races=regression.races
+def races(tools,today):
+    return [('CONVERSION_HISTORY_RACE:'+first+('_COMMIT' if commit else '_ABORT'),lambda first=first,commit=commit:history.race(tools,today,first,commit))
+            for first in ('CONVERSION','MOVE') for commit in (True,False)]+regression.races(tools,today)
 http_cases=regression.http_cases
