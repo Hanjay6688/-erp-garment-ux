@@ -171,9 +171,15 @@ def sewing_reverse(cur,today):
       bc.session(cur)
       value=one(cur,'select public.erp_reverse_sewing_terminal_v1(%s,%s,%s,%s)',f['event'],'BE public versioned reversal',key or str(uuid.uuid4()),version)
       api.admin(cur);return value
-    missing=b.refused(cur,lambda:call(None),'event_id and expected_version are required')
+    def refused_message(version,message):
+      # These legacy guards return a sentence, not the symbolic token consumed
+      # by b.refused/code_of. Require the exact message and SQLSTATE instead.
+      result,error=bc.r1.peer.attempt(cur,lambda:call(version))
+      return dict(expected_message=message,refusal=error,result=result,
+        ok=error is not None and error.get('sqlstate')=='P0001' and error.get('message')==message)
+    missing=refused_message(None,'event_id and expected_version are required')
     stale=b.refused(cur,lambda:call(f['version']+1),'STALE_VERSION')
-    held=b.refused(cur,lambda:call(f['version']),'Batalkan alokasi kain kantong terkait sebelum mengoreksi hasil jahit')
+    held=refused_message(f['version'],'Batalkan alokasi kain kantong terkait sebelum mengoreksi hasil jahit')
     state=one(cur,'select erp.pocket_period_state_v1(%s)',f['pool'])
     be.pocket_probe.call(cur,'CANCEL_PERIOD',dict(id=f['pool'],expected_revision=state['revision'],reason='BE release active denominator'))
     key=str(uuid.uuid4());result=call(f['version'],key);again=call(f['version'],key)
