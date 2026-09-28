@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 41,
+  "revision": 42,
   "phase": "after",
   "scenario_path": "scripts/cp6_bf_vendor_modes.py",
   "browser_path": "scripts/cp6_bf_vendor_browser.mjs",
-  "purpose": "Qualify actual kontra bon amounts in SKU wash history, including originally empty details and invoice inverse; supplier credit cents/Auth/cash/contention/browser and corrected fixture/rollback. CP6 HOLD."
+  "purpose": "Supplier native/browser fixture now enters Auth session without private role-debug query, and calls public credit RPC directly. Real Auth credit checks already PASS in run 36412138937; qualify all native/browser inverses and actual SKU history. CP6 HOLD."
 }

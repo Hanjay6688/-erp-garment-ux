@@ -28,9 +28,8 @@ def fixture(cur,today,fabric=False,credit='10.00',return_qty=2):
     return dict(fx,purchases=purchases,ret=ret)
 
 def call(cur,payload,key=None,auth=None):
-    if auth:bc.session(cur,auth)
-    else:b.chain.production.owner(cur)
-    result=one(cur,'select public.erp_save_supplier_credit_v1(%s::jsonb,%s)',json.dumps(payload),key or str(uuid.uuid4()))
+    bc.session(cur,auth)
+    result=cur.execute('select public.erp_save_supplier_credit_v1(%s::jsonb,%s)',(json.dumps(payload),key or str(uuid.uuid4()))).fetchone()[0]
     b.api.admin(cur);return result
 
 def payload(cur,f,allocations):
@@ -53,7 +52,7 @@ def allocation(cur,today,fabric=False):
       one(cur,'select row_version from erp.material_supplier_returns where id=%s',f['ret'])),'BF_CREDIT_RETURN_IN_USE')
     restored=call(cur,payload(cur,f,[]));after=state(cur,f)
     checks=dict(original=before['ap']==['80.00','100.00','60.00'],split=split['ap']==['100.00','88.00','52.00'],
-      amount_once=split['ledger']==before['ledger'],stock_once=b.D(split['stock'])==b.D(before['stock'])==28,hpp_unchanged=split['values']==before['values'],
+      amount_once=split['ledger']==before['ledger'],stock_once=b.D(split['stock'])==b.D(before['stock'])==28,material_costs_unchanged=split['values']==before['values'],
       replay=again['replayed'] and first['version']==again['version'],over_credit=refused['ok'],stale=stale['ok'],return_dependency=held['ok'],original_restored=after==before,
       history=one(cur,'select count(*) from erp.bf_supplier_credit_moves_v1 where return_id=%s',f['ret'])==4)
     return b.verdict(checks,fabric=fabric,before=before,split=split,after=after)

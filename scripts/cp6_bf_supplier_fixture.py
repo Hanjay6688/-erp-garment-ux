@@ -7,8 +7,8 @@ import cp6_bf_supplier_probe as s
 from cp6_bd_modes import _fixture_usage
 
 def read(cur,f):
-    s.b.chain.production.owner(cur)
-    out=s.one(cur,'select public.erp_get_supplier_credit_v1(%s::jsonb)',json.dumps(dict(supplier_id=f['supplier'])))
+    s.bc.session(cur)
+    out=cur.execute('select public.erp_get_supplier_credit_v1(%s::jsonb)',(json.dumps(dict(supplier_id=f['supplier'])),)).fetchone()[0]
     s.b.api.admin(cur);return out
 
 def main():
