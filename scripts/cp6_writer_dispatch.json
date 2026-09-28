@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 42,
+  "revision": 43,
   "phase": "after",
   "scenario_path": "scripts/cp6_bf_vendor_modes.py",
   "browser_path": "scripts/cp6_bf_vendor_browser.mjs",
-  "purpose": "Supplier native/browser fixture now enters Auth session without private role-debug query, and calls public credit RPC directly. Real Auth credit checks already PASS in run 36412138937; qualify all native/browser inverses and actual SKU history. CP6 HOLD."
+  "purpose": "Run 36413244138: 76 native, 22 contention, 8 HTTP and 26 browser PASS; one mobile credit control was covered. Constrain mobile table/control width and qualify credit reuse after a fully released former purchase is reversed. CP6 HOLD."
 }

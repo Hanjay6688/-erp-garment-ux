@@ -12,6 +12,9 @@ async function allocate(ui,today,mobile){
   const select=p.getByLabel('Supplier kredit',{exact:true}),ready=()=>ui.expect(select).toBeEnabled({timeout:20000})
   await ready();await select.selectOption(f.supplier);await ready()
   const credit=f.view.credits[0],targets=f.purchases.slice(1).map(id=>f.view.purchases.find(p=>p.id===id))
+  if(mobile)await ui.expect.poll(()=>p.locator('.supplier-credit').evaluate(el=>{
+   const b=el.getBoundingClientRect();return b.left>=0&&b.right<=innerWidth+1&&document.documentElement.scrollWidth<=innerWidth+1
+  })).toBe(true)
   const open=()=>p.getByRole('button',{name:'Atur alokasi '+credit.return_number,exact:true}).click()
   await open()
   for(const [i,target]of targets.entries())await p.getByLabel('Kredit untuk '+target.number,{exact:true}).fill(i===0?'12':'8')

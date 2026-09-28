@@ -55,6 +55,12 @@ def allocation(cur,today,fabric=False):
       amount_once=split['ledger']==before['ledger'],stock_once=b.D(split['stock'])==b.D(before['stock'])==28,material_costs_unchanged=split['values']==before['values'],
       replay=again['replayed'] and first['version']==again['version'],over_credit=refused['ok'],stale=stale['ok'],return_dependency=held['ok'],original_restored=after==before,
       history=one(cur,'select count(*) from erp.bf_supplier_credit_moves_v1 where return_id=%s',f['ret'])==4)
+    # A fully released former target may be reversed without trapping the credit.
+    bc.internal(cur,'reverse_material_purchase',k,'Reverse the former target after its credit was released')
+    call(cur,payload(cur,f,[(z,'20.00')]))
+    checks['released_target_does_not_block_reuse']=state(cur,f)['ap'][:2]==['100.00','80.00']
+    call(cur,payload(cur,f,[]))
+    checks['reused_credit_restores_origin']=state(cur,f)['ap'][:2]==['80.00','100.00']
     return b.verdict(checks,fabric=fabric,before=before,split=split,after=after)
 
 def cash_and_reallocation(cur,today):
