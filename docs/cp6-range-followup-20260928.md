@@ -16,6 +16,8 @@ Satu SKU mengatur harga jual, resep, dan tarif pekerjaan jahit bersama; ukuran m
 
 Owner mengingatkan bahwa tarif vendor mengikuti jenis cucian yang dicentang. SKU hasil biasanya baru muncul saat finishing; biaya yang kemudian dikenal untuk SKU tersebut berasal dari proses yang benar-benar dijalani. Ini **penegasan aturan lama**, bukan permintaan aturan baru: `cp6-d11-kebijakan-dan-gbd03.md` §4, LAU-DEC05, sudah mencatat keputusan tidak mengaktifkan tarif khusus; Lampiran C6 §3.1 mencatat master per vendor, paket/komponen, dan SKU opsional.
 
+Penegasan lanjutan15:05WIB: daftar jenis cucian dapat panjang; operator memilih checkbox dan harga komponen/proses yang dipilih dikombinasikan. Jika SKU hasil sudah diketahui saat kirim, SKU boleh membantu menarik riwayat kombinasi cucian yang biasa dan referensi biayanya. Ini kebutuhan bantuan pemilihan/riwayat, **bukan master tarif laundry kedua yang menimpa tarif vendor**. SKU tidak dilarang diketahui lebih awal dan juga tidak diwajibkan sebelum laundry. Paket/komponen tetap menjaga penerima jasa aktual, sumber versi harga dan biaya kiriman; rata-rata historis bukan bukti tarif vendor pada tanggal kirim.
+
 Konsekuensi terhadap laporan writer:
 
 - Alasan lama R04/R05 bahwa laundry/celup ulang wajib mengambil tarif master SKU **ditarik dan ditutup sebagai salah klasifikasi**, bukan bug yang harus diperbaiki dengan menambahkan override SKU.
@@ -34,6 +36,14 @@ Konsekuensi terhadap laporan writer:
 | Last check CP6 | Banyak skenario BD/BE/BF sudah lulus pada versi dan batasnya | Belum pemeriksaan akhir kandidat gabungan beserta sambungan lintasCP dan seluruh temuan yang masih berlaku. Writer tidak menerbitkan izin CP7 sendiri |
 
 Tidak ada empat baris ini yang menunggu owner mengulang aturan tarif laundry. Penutupan harus berdasarkan bukti atau penetapan bahwa temuan tidak berlaku, bukan sekadar mengganti label menjadi PASS.
+
+### PR #30 — diterima dan dibaca, belum retest native
+
+[Draft PR #30](https://github.com/Hanjay6688/-erp-garment-ux/pull/30), head`e9bba9907089546bcf439dd5ace9d86d87c1b592`, menambah satu dokumen audit delta. Tiga pemeriksaan source auditor mendukung prediksi; bukan tiga transaksi PostgreSQL yang telah terbukti. Tidak ada merge produk atau penutupan independen dari pembacaan ini.
+
+- **D-01:** bindingBF tanpa override melewati resolver tarif khusus/fallbackREFUSE. Fixture auditor mengaktifkan MODEL_SIZE; itu konfigurasi bersyarat yang owner saat ini memutuskan tidak diaktifkan. Tetap berguna sebagai pemeriksaan bahwa referensi pekerjaan tidak membypass kebijakan tarif, tetapi jangan mengaktifkan tarif ukuran atau mempertahankan overrideSKU yang salah demi membuat oracle lama lulus. Hubungkan dengan koreksi sumber vendor R16.
+- **D-02:** binding wave dibuat sebelum ukuran pindah kelompok, kemudian jasa pertama memakai kelompok lama. Dampak tarif laundry dariSKU harus dieliminasi menurut aturan di atas. Pemeriksaan referensi pekerjaan jahit sebelum pin tetap relevan; pekerjaan yang sudah sah terpin harus mempertahankan snapshot historis. Belum ada hasil native kasus gabungan ini.
+- **D-03:** workspace menggunakan tanggal historis untuk produk tetapi revisi terbaru untuk grup/anggota. Ini masalah konsistensi pratinjau bertanggal yang tetap relevan, terpisah dari sumber tarif laundry. Perlu native/API/browser sesuai fixture auditor; belum dinyatakan selesai.
 
 ## Temuan yang dikerjakan
 
