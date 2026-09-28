@@ -1,0 +1,55 @@
+name: BD BE Independent Retest Official CI
+
+on:
+  push:
+    branches: [audit/sku-range-independent-20260928]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Pull request workflows default to a synthetic merge commit. The
+          # ownership manifest is bound to the candidate commit and its real
+          # parent, so always validate the exact PR head bytes instead.
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          # The Cutting Bridge ownership gate compares the exact candidate
+          # delta to its frozen base tree, which is the third commit here.
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Install pinned Chromium test runtime
+        run: npx --no-install playwright install --with-deps chromium
+      - run: npm test
+      - run: npm run test:security
+      - run: npm run build
+      - run: npm run test:browser:cp45
+      - run: npm run test:browser:precp5
+      - run: npm run test:browser:cp5
+      - run: npm run test:browser:cp6
+      - name: Upload non-secret browser proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: erp-desktop-mobile-browser-proof
+          path: |
+            cp45-browser-proof
+            cp5-browser-contract-proof
+            cp6-browser-contract-proof
+          if-no-files-found: warn
+          retention-days: 30
+      - run: npm run scan:dist
+      - name: Verify Cloudflare package
+        run: npx --no-install wrangler deploy --env uat-auth --dry-run --outdir .wrangler-dry-run
+      - uses: actions/upload-artifact@v4
+        with:
+          name: erp-ux-dist
+          path: dist
+          retention-days: 3
