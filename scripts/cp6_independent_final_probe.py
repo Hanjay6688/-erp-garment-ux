@@ -58,8 +58,52 @@ def backdated_move_after_posted_sale(cur,today):
         explanation='Sale remains allocated to the exact lot, but its historical SKU has changed.')
 
 
+
+def backdated_move_after_posted_conversion(cur,today):
+    f=p.fixture(cur,today)
+    wash=p.wash(cur,f,range(4),11)
+    p.finish(cur,f,[wash],range(4),13)
+    source=p.lots(cur,f)[1]
+    label='BFC-CONV-'+p.uuid.uuid4().hex[:8]
+    target=p.b.sized_product(cur,f['size_ids'][1],label)
+    sibling=p.b.sized_product(cur,f['size_ids'][2],label)
+    a=p.bf.group(cur,[target],f['when'](14))
+    z=p.bf.group(cur,[sibling],f['when'](14))
+    p.bf.save(cur,[a,z],f['when'](14))
+    sent=p.bf.be.be(cur,'POST',dict(source_lot_id=source,target_product_id=target,
+        location_id=p.base.LOCATION,qty_pcs=1,physical_at=f['when'](15).isoformat(),
+        reason='Independent conversion before commercial range move',
+        expected_version=p.one(cur,'select erp.be_source_revision_v1(%s,%s)',source,p.base.LOCATION)))
+    destination=sent['destination_lot_id']
+    stamp=f['when'](15)
+    before=p.one(cur,'select erp.bf_commercial_sku_at_v1(%s,%s)',target,stamp)
+    assert before==a['sku'],('PRECONDITION_CONVERSION_SKU',before)
+    assert p.one(cur,'select count(*) from erp.fg_lots where id=%s',destination)==1
+    at=f['when'](14,30)
+    a2=p.bf.group(cur,[target],at,sku=a['sku'],gid=a['id'],revision=1)
+    a2.update(members=[],legacy_basis=[])
+    z2=p.bf.group(cur,[sibling,target],at,sku=z['sku'],gid=z['id'],revision=1)
+    cur.execute('savepoint independent_conversion_backdate')
+    try:
+        p.bf.save(cur,[a2,z2],at)
+    except Exception as exc:
+        cur.execute('rollback to savepoint independent_conversion_backdate')
+        cur.execute('release savepoint independent_conversion_backdate')
+        p.b.api.admin(cur)
+        return dict(status='PASS',conversion_id=sent['conversion_id'],destination_lot=destination,
+            original_sku=before,guard=str(exc).splitlines()[0][:500])
+    cur.execute('release savepoint independent_conversion_backdate')
+    after=p.one(cur,'select erp.bf_commercial_sku_at_v1(%s,%s)',target,stamp)
+    return dict(status='COUNTEREXAMPLE' if after!=before else 'INCOMPLETE',
+        conversion_id=sent['conversion_id'],destination_lot=destination,
+        physical_at=stamp.isoformat(),backdated_effective_at=at.isoformat(),
+        original_sku=before,after_sku=after,
+        explanation='Already-posted conversion destination changes historical commercial SKU without changing the physical lot.')
+
+
 def cases(cur,today):
     return [
         ('INDEPENDENT:BACKDATE_AFTER_POSTED_FG',lambda:backdated_move_after_posted_fg(cur,today)),
         ('INDEPENDENT:BACKDATE_AFTER_POSTED_SALE',lambda:backdated_move_after_posted_sale(cur,today)),
+        ('INDEPENDENT:BACKDATE_AFTER_POSTED_CONVERSION',lambda:backdated_move_after_posted_conversion(cur,today)),
     ]
