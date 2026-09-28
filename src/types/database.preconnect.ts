@@ -36,6 +36,7 @@ export type PreconnectDatabase = {
       erp_get_laundry_bd_workspace_v1: { Args: { p_filters?: Json }; Returns: Json }
       erp_save_laundry_bd_action_v1: { Args: { p_action: string; p_payload: Json; p_client_request_id: string }; Returns: Json }
       erp_get_pocket_fabric_workspace_v1: { Args: { p_query?: string }; Returns: Json }
+      erp_get_pocket_periods_v1: { Args: { p_query?: string; p_offset?: number }; Returns: Json }
       erp_preview_pocket_fabric_period_v1: { Args: { p_period_start: string; p_period_end: string }; Returns: Json }
       erp_save_pocket_fabric_action_v1: { Args: { p_action: string; p_payload: Json; p_client_request_id: string }; Returns: Json }
       erp_get_initial_import_workspace_v1: { Args: { p_batch_id?: string | null }; Returns: Json }

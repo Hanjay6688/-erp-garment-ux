@@ -19,7 +19,8 @@ type Period = { id: string; period_start: string; period_end: string; status: 'A
   quantity: string; original_amount: string; current_amount: string; per_piece: string; revision: string }
 type Preview = { period_start: string; period_end: string; amount: string; quantity: string; per_piece: string;
   economic_date?: string; source_count: number; blocked: boolean; can_post: boolean; revision: string }
-type Workspace = { opening_history: PocketOpening | null; rolls: Roll[]; roll_count: number; materials: { id: string; sku: string; name: string }[]; history: Entry[]; periods: Period[] }
+type PeriodPage = { periods: Period[]; period_count: number; period_offset: number; period_next_offset: number | null }
+type Workspace = { opening_history: PocketOpening | null; rolls: Roll[]; roll_count: number; materials: { id: string; sku: string; name: string }[]; history: Entry[]; periods: Period[]; period_count?: number; period_next_offset?: number | null }
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 class PocketDataError extends Error {}
 function object(value: unknown): Record<string, unknown> {
@@ -46,6 +47,27 @@ export function parsePocketPreview(value: unknown): Preview {
     || p.can_post !== (!p.blocked && BigInt(p.quantity) > 0n && micro(p.amount) > 0n && Number(p.source_count) > 0)) throw new PocketDataError('Pembagian periode tidak valid.')
   return p as Preview
 }
+export function parsePocketPeriodPage(value: unknown): PeriodPage {
+  const p = object(value)
+  if (!Array.isArray(p.periods) || !Number.isSafeInteger(p.period_count) || !Number.isSafeInteger(p.period_offset)
+    || Number(p.period_offset) < 0 || Number(p.period_count) < p.periods.length
+    || (p.period_next_offset !== null && (!Number.isSafeInteger(p.period_next_offset)
+      || Number(p.period_next_offset) !== Number(p.period_offset) + p.periods.length
+      || Number(p.period_next_offset) >= Number(p.period_count)))) throw new PocketDataError('Halaman periode tidak valid.')
+  validatePeriods(p.periods)
+  return p as PeriodPage
+}
+function validatePeriods(periods: unknown[]) {
+  const seen = new Set<string>()
+  for (const value of periods) {
+    const p = object(value)
+    if (!id(p.id) || seen.has(p.id) || !day(p.period_start) || !day(p.period_end) || p.period_start > p.period_end
+      || !text(p.reason) || !whole(p.quantity) || BigInt(p.quantity) <= 0n || !money(p.original_amount)
+      || !money(p.current_amount) || !rate(p.per_piece) || !revision(p.revision)
+      || !['ACTIVE','CANCELLED'].includes(String(p.status))) throw new Error('Riwayat pembagian tidak valid.')
+    seen.add(p.id)
+  }
+}
 export function parsePocketWorkspace(value: unknown): Workspace {
   const w = object(value)
   if (!Array.isArray(w.rolls) || !Array.isArray(w.materials) || !Array.isArray(w.history) || !Array.isArray(w.periods)
@@ -68,13 +90,8 @@ export function parsePocketWorkspace(value: unknown): Workspace {
       || !text(h.date) || !/^\d{4}-\d{2}-\d{2}$/.test(h.date) || !quantity(h.issued_quantity) || !money(h.current_cost)
       || h.cost_policy !== 'PERIOD_EXPENSE') throw new Error('Riwayat pengurangan tidak valid.')
   }
-  for (const value of w.periods) {
-    const p = object(value)
-    if (!id(p.id) || !day(p.period_start) || !day(p.period_end) || p.period_start > p.period_end
-      || !text(p.reason) || !whole(p.quantity) || BigInt(p.quantity) <= 0n || !money(p.original_amount)
-      || !money(p.current_amount) || !rate(p.per_piece) || !revision(p.revision)
-      || !['ACTIVE','CANCELLED'].includes(String(p.status))) throw new Error('Riwayat pembagian tidak valid.')
-  }
+  validatePeriods(w.periods)
+  if (w.period_count !== undefined) parsePocketPeriodPage(w)
   return { ...w, opening_history: parsePocketOpening(w) } as Workspace
 }
 
@@ -115,6 +132,23 @@ function PocketWorkspace() {
     finally { if (s === sequence.current) setLoading(false) }
   }, [client, beginRead, finishRead, isReadCurrent])
   useEffect(() => { void load() }, [load])
+  const morePeriods = async () => {
+    const offset = workspace?.period_next_offset
+    if (offset === null || offset === undefined) return
+    const s = ++sequence.current, ticket = beginRead(), requested = queryRef.current
+    setLoading(true); setError('')
+    try {
+      const result = await client.rpc('erp_get_pocket_periods_v1', { p_query: requested, p_offset: offset })
+      if (!isReadCurrent(ticket) || requested !== queryRef.current) return
+      if (result.error) throw result.error
+      const data = parsePocketPeriodPage(result.data)
+      if (data.period_offset !== offset) throw new PocketDataError('Halaman periode tidak cocok.')
+      setWorkspace(old => old ? { ...old, period_count: data.period_count, period_next_offset: data.period_next_offset,
+        periods: [...old.periods, ...data.periods.filter(p => !old.periods.some(previous => previous.id === p.id))] } : old)
+      finishRead(ticket)
+    } catch (failure) { if (isReadCurrent(ticket)) setError(normalizeClientError(failure).message) }
+    finally { if (s === sequence.current) setLoading(false) }
+  }
   const previewPeriod = async () => {
     const s = ++sequence.current, ticket = beginRead(), requested = { ...periodRef.current }
     setLoading(true); setError(''); setPreview(null)
@@ -153,7 +187,7 @@ function PocketWorkspace() {
     <ProductionRecoveryNotice recovery={mutation} onReconcile={() => reconcile(handlers)} className="initial-import-message"/>
     {error && <p role="alert" className="initial-import-message">{error}</p>}
     <form className="panel initial-import-toolbar" onSubmit={e => { e.preventDefault(); queryRef.current = query.trim(); void load() }}>
-      <label>Cari bahan atau roll<input aria-label="Cari kain kantong" maxLength={120} value={query} onChange={e => setQuery(e.target.value)}/></label><button disabled={mutation.busy}>Cari</button>
+      <label>Cari bahan, roll, tanggal atau ID periode<input aria-label="Cari kain kantong" maxLength={120} value={query} onChange={e => setQuery(e.target.value)}/></label><button disabled={mutation.busy}>Cari</button>
       {workspace && <span>{workspace.rolls.length} dari {workspace.roll_count} stok roll. Persempit pencarian bila belum terlihat.</span>}
     </form>
     <div className="panel initial-import-advances">
@@ -190,11 +224,12 @@ function PocketWorkspace() {
       </div>}
     </section>}
     {workspace?.opening_history && <BePocketHistory data={workspace.opening_history} locked={locked} canCorrect={canAllocate} onCorrect={p => void act('CORRECT_OPENING_USAGE', p)}/>}
-    <section className="panel initial-import-table"><h2>Riwayat pembagian periode</h2><p>50 alokasi terbaru. Pembatalan mengembalikan biaya periode dan menghitung ulang HPP; stok tetap.</p>
+    <section className="panel initial-import-table"><h2>Riwayat pembagian periode</h2><p>{workspace?.periods.length ?? 0} dari {workspace?.period_count ?? workspace?.periods.length ?? 0} alokasi. Cari tanggal atau ID periode untuk menemukannya. Pembatalan mengembalikan biaya periode dan menghitung ulang HPP; stok tetap.</p>
       <table><thead><tr><th>Periode</th><th>Hasil jahit</th><th>Nilai terkini</th><th>Status</th><th>Tindakan</th></tr></thead><tbody>{workspace?.periods.map(p => <tr key={p.id}>
         <td>{p.period_start} — {p.period_end}</td><td>{p.quantity} pcs</td><td>Rp {p.current_amount.replace('.',',')}</td><td>{p.status==='ACTIVE'?'Aktif':'Dibatalkan'}</td>
         <td>{canAllocate && p.status==='ACTIVE' && <button type="button" disabled={locked} onClick={() => { setCancelling(p); setCancelReason('') }}>Batalkan alokasi {p.period_start}</button>}</td>
       </tr>)}</tbody></table>
+      {workspace?.period_next_offset != null && <button type="button" disabled={locked} onClick={() => void morePeriods()}>Muat periode berikutnya</button>}
       {cancelling && <div className="initial-import-toolbar"><label>Alasan pembatalan alokasi<input aria-label="Alasan pembatalan alokasi" disabled={locked} maxLength={1000} value={cancelReason} onChange={e => setCancelReason(e.target.value)}/></label>
         <button type="button" disabled={locked || !cancelReason.trim()} onClick={() => void act('CANCEL_PERIOD',{id:cancelling.id,expected_revision:cancelling.revision,reason:cancelReason.trim()})}>Sahkan pembatalan alokasi</button><button type="button" disabled={mutation.busy} onClick={() => setCancelling(null)}>Tutup alokasi</button></div>}
     </section>

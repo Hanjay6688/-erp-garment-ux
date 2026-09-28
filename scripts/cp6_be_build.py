@@ -26,10 +26,11 @@ REPLACED=['erp.post_product_conversion(uuid)','erp.propagate_conversion_hpp_for_
           'erp.compute_non_po_product_hpp_book_v2620f(uuid)','erp.assert_non_po_product_hpp_target_book_v2620f(uuid)',
           'erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)',
           'erp.post_rework_completion(uuid)','erp.reverse_rework_completion(uuid,text)','erp.assert_new_stock_cutoff_coverage_v1()',
-          'erp.sync_opening_lot_hpp_to_gl(uuid,date)']+redye.REPLACED+pocket.REPLACED
+          'erp.sync_opening_lot_hpp_to_gl(uuid,date)','erp.save_rework_order_v2(jsonb,uuid,bigint)',
+          'public.erp_reverse_sewing_terminal_v1(uuid,text,uuid)']+redye.REPLACED+pocket.REPLACED
 NEW_TABLES=['be_execution_context_v1','be_conversion_sources_v1','be_conversion_returns_v1',
             'be_conversion_cost_sources_v1','be_conversion_cost_events_v1','be_nonpo_transfer_events_v1','be_rework_targets_v1','be_redye_services_v1','be_redye_price_events_v1']+pocket.TABLES
-OBJECTS=[ROOT/f'scripts/cp6_be_objects_{part}.sql' for part in ('conversion','cost','nonpo','rework','redye','pocket')]
+OBJECTS=[ROOT/f'scripts/cp6_be_objects_{part}.sql' for part in ('conversion','cost','nonpo','rework','redye','pocket','revision')]
 
 def objects():return '\n'.join(p.read_text().rstrip() for p in OBJECTS)
 
@@ -102,7 +103,10 @@ def build():
        "       join erp.product_conversions c on c.id=a.conversion_id where a.source_lot_id=fl.id and c.status='POSTED'),0))::numeric raw_total,"),
       ("and fl.lot_origin not in('CONVERSION','VOIDED_PRODUCTION')","and fl.lot_origin<>'VOIDED_PRODUCTION'")],'BE non-PO source target')
     nonpo_book=substitute(old_definition(F,'compute_non_po_product_hpp_book_v2620f'),[
-      ("    and e.source_type<>'PRODUCT_CONVERSION'\n    and not(e.source_type='JOURNAL_REVERSAL'\n      and o.source_type='PRODUCT_CONVERSION')",'')],'BE include real SKU value transfers')
+      ("    and e.source_type<>'PRODUCT_CONVERSION'\n    and not(e.source_type='JOURNAL_REVERSAL'\n      and o.source_type='PRODUCT_CONVERSION')",
+       "    and (e.source_type<>'PRODUCT_CONVERSION' or erp.be_nonpo_admitted_v1(e.source_id))\n"
+       "    and (e.source_type<>'JOURNAL_REVERSAL' or o.source_type is distinct from 'PRODUCT_CONVERSION'\n"
+       "      or erp.be_nonpo_admitted_v1(o.source_id))")],'BE include only non-PO SKU value transfers')
     guards=[]
     for name in ('assert_non_po_product_hpp_target_book_v2620f','sync_non_po_product_hpp_to_gl_v2620f'):
       body=substitute(old_definition(F,name),[
@@ -135,6 +139,12 @@ def build():
        "  insert into erp.audit_logs(entity_type,entity_id,action,changed_by,change_reason)")],'BE non-PO inverse')
     complete=substitute(last_definition(AV,'post_rework_completion'),[
       ('end\n$function$;', '  perform erp.be_complete_rework_target_v1(r.id);\nend\n$function$;')],'BE atomic rework target')
+    save_rework=substitute(last_definition(ROOT/'supabase/migrations/20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.sql','save_rework_order_v2'),[
+      ("    insert into erp.rework_orders(",
+       "    select * into v_case from erp.bs_cases where id=(p_payload->>'bs_case_id')::uuid for update;\n"
+       "    if v_case.id is not null and (v_case.po_id is null or v_case.product_id is null) then\n"
+       "      raise exception 'BE_NONPO_REWORK_UNSUPPORTED: rework ini memerlukan PO dan produk asal; gunakan perbaikan barang non-PO (AX) untuk barang tanpa PO';\n"
+       "    end if;\n\n    insert into erp.rework_orders(")],'BE reject unsupported generic rework before dispatch')
     reverse_rework=substitute(last_definition(AC,'reverse_rework_completion'),[
       ("  if r.good_fg_lot_id is not null then\n    if erp.fg_lot_has_active_downstream",
        "  perform erp.be_reverse_rework_target_v1(r.id,p_reason);\n  if r.good_fg_lot_id is not null then\n    if erp.fg_lot_has_active_downstream")],'BE reverse child conversion before rework')
@@ -158,6 +168,10 @@ revoke all on function public.erp_save_product_conversion_action_v1(text,jsonb,u
 revoke all on function public.erp_get_product_conversion_workspace_v1(jsonb) from public,anon;
 grant execute on function public.erp_save_product_conversion_action_v1(text,jsonb,uuid) to authenticated,service_role;
 grant execute on function public.erp_get_product_conversion_workspace_v1(jsonb) to authenticated,service_role;
+revoke all on function public.erp_get_pocket_periods_v1(text,integer) from public,anon;
+grant execute on function public.erp_get_pocket_periods_v1(text,integer) to authenticated,service_role;
+revoke all on function public.erp_reverse_sewing_terminal_v1(uuid,text,uuid,bigint) from public,anon;
+grant execute on function public.erp_reverse_sewing_terminal_v1(uuid,text,uuid,bigint) to authenticated,service_role;
 """
     return '\n'.join([
       '-- BE T1_FAMILY development install, NOT release evidence. Stage 1; remaining flows recorded in writer progress.',
@@ -166,7 +180,7 @@ grant execute on function public.erp_get_product_conversion_workspace_v1(jsonb) 
       "do $guard$ begin if not exists(select 1 from erp.schema_migrations where version='v2.6.20bd') then raise exception 'BE_REQUIRES_BD';end if;",
       "if exists(select 1 from erp.schema_migrations where version='v2.6.20be') then raise exception 'BE_ALREADY_INSTALLED';end if;end $guard$;",
       objects(),conversion(),propagate,target,recover,reverse,recost,checks,nonpo_propagate,nonpo_target,nonpo_book,*guards,inverse,
-      complete,reverse_rework,coverage,opening_sync,redye.build(old_definition),pocket.build(),grants,
+      complete,save_rework,reverse_rework,coverage,opening_sync,redye.build(old_definition),pocket.build(),grants,
       "insert into erp.schema_migrations(version,description) values('v2.6.20be','BE development family: SKU conversion, rework/redye and pocket cutover');",
       'commit;',''])
 

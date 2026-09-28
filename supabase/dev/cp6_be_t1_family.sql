@@ -1119,6 +1119,67 @@ AS $function$
   'opening_usage_count',(select count(*) from sources),'opening_sewing',coalesce((select jsonb_agg(to_jsonb(x) order by x.date desc,x.id) from(select * from targets order by date desc,id limit 100) x),'[]'),
   'opening_sewing_count',(select count(*) from targets))
 $function$;
+-- A sourced recovery is a credit to conversion cost. Only that component may
+-- have a signed unit amount; ordinary material/work prices stay nonnegative.
+alter table erp.hpp_version_components drop constraint hpp_version_components_unit_cost_check;
+alter table erp.hpp_version_components add constraint hpp_version_components_unit_cost_check
+ check(unit_cost>=0 or(component_type='CONVERSION' and source_type='PRODUCT_CONVERSION_ALLOCATION' and source_id is not null));
+
+CREATE OR REPLACE FUNCTION erp.be_guard_signed_hpp_component_v1()
+ RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare a erp.product_conversion_allocations%rowtype;h erp.hpp_versions%rowtype;v_extra numeric;
+begin
+ if new.unit_cost>=0 then return new;end if;
+ select * into a from erp.product_conversion_allocations where id=new.source_id;
+ select * into h from erp.hpp_versions where id=new.hpp_version_id;
+ v_extra:=erp.be_allocation_extra_v1(a.id);
+ if new.component_type<>'CONVERSION' or new.source_type is distinct from 'PRODUCT_CONVERSION_ALLOCATION'
+   or a.id is null or h.lot_id is distinct from a.destination_lot_id or h.total_cost<0
+   or new.qty_basis is distinct from a.qty_pcs::numeric or v_extra is null or v_extra>=0
+   or new.total_cost is distinct from v_extra or new.unit_cost is distinct from (v_extra/a.qty_pcs)::numeric(18,6)
+   or not exists(select 1 from erp.be_conversion_cost_sources_v1 where conversion_id=a.conversion_id and kind='RECOVERY') then
+   raise exception 'BE_SIGNED_HPP_REQUIRES_SOURCED_RECOVERY';
+ end if;
+ return new;
+end;$function$;
+create trigger be_signed_hpp_component before insert or update on erp.hpp_version_components
+ for each row execute function erp.be_guard_signed_hpp_component_v1();
+
+CREATE OR REPLACE FUNCTION erp.be_pocket_periods_v1(p_query text default '',p_offset integer default 0)
+ RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare q text:=lower(btrim(coalesce(p_query,'')));v_result jsonb;
+begin
+ perform erp.require_owner_admin();perform erp.require_permission('warehouse.stock.adjust');
+ if length(q)>120 or p_offset is null or p_offset<0 then raise exception 'BE_INVALID_PERIOD_FILTER';end if;
+ with matching as materialized (
+  select p.* from erp.pocket_periods p where q='' or
+   strpos(lower(concat_ws(' ',p.id::text,p.period_start::text,p.period_end::text,p.reason)),q)>0 or
+   (q ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' and q between p.period_start::text and p.period_end::text)
+ ), page as(select * from matching order by created_at desc,id limit 50 offset p_offset)
+ select jsonb_build_object('periods',coalesce((select jsonb_agg(erp.pocket_period_state_v1(id) order by created_at desc,id) from page),'[]'::jsonb),
+  'period_count',(select count(*) from matching),'period_offset',p_offset,
+  'period_next_offset',case when (select count(*) from matching)>p_offset+50 then p_offset+50 else null end) into v_result;
+ return v_result;
+end;$function$;
+
+CREATE OR REPLACE FUNCTION public.erp_get_pocket_periods_v1(p_query text default '',p_offset integer default 0)
+ RETURNS jsonb LANGUAGE sql SECURITY DEFINER SET search_path TO ''
+AS $function$ select erp.be_pocket_periods_v1(p_query,p_offset);$function$;
+
+-- CP4's three-argument wrapper called a nonexistent native overload. Match the
+-- native optimistic-version contract. Legacy calls fail with its explicit
+-- expected_version-required message, before a mutation or idempotency entry.
+drop function public.erp_reverse_sewing_terminal_v1(uuid,text,uuid);
+CREATE OR REPLACE FUNCTION public.erp_reverse_sewing_terminal_v1(
+ p_event_id uuid,p_reason text,p_client_request_id uuid,p_expected_version bigint default null)
+ RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+begin
+ perform erp.require_owner_admin();
+ return erp.reverse_sewing_terminal_v1(p_event_id,p_reason,p_client_request_id,p_expected_version);
+end;$function$;
 CREATE OR REPLACE FUNCTION erp.post_product_conversion(p_conversion_id uuid)
  RETURNS void
  LANGUAGE plpgsql
@@ -3077,7 +3138,9 @@ with book as(
     and e.status in('POSTED','REVERSED')
   left join erp.journal_entries o on o.id=e.reversal_of_id
   where l.po_id is null and l.product_id=p_product_id
-
+    and (e.source_type<>'PRODUCT_CONVERSION' or erp.be_nonpo_admitted_v1(e.source_id))
+    and (e.source_type<>'JOURNAL_REVERSAL' or o.source_type is distinct from 'PRODUCT_CONVERSION'
+      or erp.be_nonpo_admitted_v1(o.source_id))
 )
 select (fg+cogs+other_out)::numeric,fg,cogs,other_out from book
 $function$;
@@ -3414,6 +3477,298 @@ begin
     end if;
   end if;
   perform erp.be_complete_rework_target_v1(r.id);
+end
+$function$;
+create or replace function erp.save_rework_order_v2(
+  p_payload jsonb,p_client_request_id uuid,p_expected_version bigint default null
+)
+returns jsonb language plpgsql security definer
+set search_path='erp','public','auth','extensions','pg_temp'
+as $function$
+declare
+  v_hash text;
+  v_cached jsonb;
+  v_response jsonb;
+  v_id uuid:=nullif(p_payload->>'id','')::uuid;
+  v_action text:=upper(coalesce(nullif(p_payload->>'action',''),'SAVE'));
+  v_reason text:=nullif(btrim(p_payload->>'change_reason'),'');
+  v_order erp.rework_orders%rowtype;
+  v_case erp.bs_cases%rowtype;
+  v_component jsonb;
+  v_total_return integer;
+  v_previous_return integer;
+  v_good integer;
+  v_bad integer;
+  v_accessories jsonb;
+  v_selected_count integer;
+  v_distinct_count integer;
+  v_bom uuid;
+  v_expected_bom uuid;
+  v_decision uuid;
+  v_recipient uuid;
+  v_po_contractor uuid;
+  v_item record;
+  v_hpp_factor numeric(18,6);
+  v_reimburse_factor numeric(18,6);
+  v_hpp_base numeric(18,6);
+  v_reimburse_base numeric(18,6);
+  v_selection_hash text;
+begin
+  perform erp.require_internal();
+  if p_payload is null or jsonb_typeof(p_payload)<>'object' then
+    raise exception 'payload must be a JSON object';
+  end if;
+  if v_action not in('SAVE','CANCEL') then raise exception 'Rework action must be SAVE or CANCEL'; end if;
+  if v_reason is null then raise exception 'change_reason is required'; end if;
+  v_hash:=erp._request_hash(jsonb_build_object('payload',p_payload,'expected_version',p_expected_version));
+  v_cached:=erp._idempotency_begin('save_rework_order_v2',p_client_request_id,v_hash);
+  if v_cached is not null then return v_cached; end if;
+  perform set_config('app.change_reason',v_reason,true);
+
+  if v_id is null then
+    if v_action='CANCEL' then raise exception 'Rework id is required for CANCEL'; end if;
+    if p_expected_version is not null then raise exception 'expected_version must be null when creating rework'; end if;
+    if not(p_payload?'accessory_bom_item_ids')
+       or jsonb_typeof(p_payload->'accessory_bom_item_ids')<>'array' then
+      raise exception 'accessory_bom_item_ids must be an explicit array; use [] when nothing was installed';
+    end if;
+    v_accessories:=p_payload->'accessory_bom_item_ids';
+    v_selected_count:=jsonb_array_length(v_accessories);
+    select count(*) into v_distinct_count
+    from(select distinct value::uuid from jsonb_array_elements_text(v_accessories)) x;
+    if v_selected_count<>v_distinct_count then
+      raise exception 'accessory_bom_item_ids must not contain duplicates';
+    end if;
+    if coalesce(nullif(p_payload->>'qty_good_returned','')::integer,0)<>0
+       or coalesce(nullif(p_payload->>'qty_bs_returned','')::integer,0)<>0 then
+      raise exception 'Create the order first; cumulative partial returns must use a versioned SAVE_REWORK update';
+    end if;
+    if upper(coalesce(nullif(p_payload->>'status',''),'IN_PROGRESS')) not in('OPEN','IN_PROGRESS') then
+      raise exception 'New rework status must be OPEN or IN_PROGRESS';
+    end if;
+
+    select * into v_case from erp.bs_cases where id=(p_payload->>'bs_case_id')::uuid for update;
+    if v_case.id is not null and (v_case.po_id is null or v_case.product_id is null) then
+      raise exception 'BE_NONPO_REWORK_UNSUPPORTED: rework ini memerlukan PO dan produk asal; gunakan perbaikan barang non-PO (AX) untuk barang tanpa PO';
+    end if;
+
+    insert into erp.rework_orders(
+      rework_number,bs_case_id,destination_type,contractor_id,vendor_id,
+      qty_sent,qty_good_returned,qty_bs_returned,physical_sent_at,status,
+      return_fg_location_id,notes
+    ) values(
+      btrim(p_payload->>'rework_number'),(p_payload->>'bs_case_id')::uuid,
+      upper(p_payload->>'destination_type'),nullif(p_payload->>'contractor_id','')::uuid,
+      nullif(p_payload->>'vendor_id','')::uuid,(p_payload->>'qty_sent')::integer,
+      0,0,(p_payload->>'physical_sent_at')::timestamptz,
+      upper(coalesce(nullif(p_payload->>'status',''),'IN_PROGRESS')),
+      nullif(p_payload->>'return_fg_location_id','')::uuid,
+      nullif(btrim(p_payload->>'notes'),'')
+    ) returning * into v_order;
+    v_id:=v_order.id;
+
+    select * into v_case from erp.bs_cases where id=v_order.bs_case_id for update;
+    select po.contractor_id into v_po_contractor
+    from erp.production_orders po where po.id=v_case.po_id;
+    v_bom:=erp.resolve_rework_accessory_bom_v1(v_case.id,v_order.physical_sent_at);
+    v_expected_bom:=nullif(p_payload->>'accessory_bom_version_id','')::uuid;
+    if v_expected_bom is not null and v_expected_bom is distinct from v_bom then
+      raise exception 'ACCESSORY_BOM_CHANGED_REFRESH';
+    end if;
+
+    if v_bom is null then
+      if v_case.po_id is not null and v_case.product_id is not null then
+        raise exception 'Native BS requires an effective accessory BOM, including an explicit empty BOM when there are no accessories';
+      end if;
+      if v_selected_count<>0 then
+        raise exception 'Untracked BS without PO/product lineage cannot select accessory BOM items';
+      end if;
+      v_selection_hash:=encode(extensions.digest(convert_to('','UTF8'),'sha256'),'hex');
+      insert into erp.rework_accessory_decisions(
+        rework_order_id,bs_case_id,bom_version_id,reimbursement_contractor_id,
+        decision_state,selected_item_count,selection_sha256,basis_at,
+        decided_by,client_request_id
+      ) values(
+        v_order.id,v_case.id,null,null,'UNAVAILABLE',0,v_selection_hash,
+        v_order.physical_sent_at,erp.current_app_user_id(),p_client_request_id
+      ) returning id into v_decision;
+    else
+      if exists(
+        select 1 from jsonb_array_elements_text(v_accessories) x(item_id)
+        left join erp.accessory_bom_items i
+          on i.id=x.item_id::uuid and i.bom_version_id=v_bom
+        where i.id is null
+      ) then raise exception 'Selected accessory does not belong to the authoritative BOM; refresh the workspace'; end if;
+
+      insert into erp.po_accessory_bom_commitments(
+        po_id,product_id,bom_version_id,committed_at,commit_source,committed_by
+      ) values(
+        v_case.po_id,v_case.product_id,v_bom,v_order.physical_sent_at,
+        'FIRST_FINANCIAL_USE',erp.current_app_user_id()
+      ) on conflict(po_id,product_id) do nothing;
+      if (select c.bom_version_id from erp.po_accessory_bom_commitments c
+          where c.po_id=v_case.po_id and c.product_id=v_case.product_id) is distinct from v_bom then
+        raise exception 'ACCESSORY_BOM_CHANGED_REFRESH';
+      end if;
+
+      v_recipient:=case when v_order.destination_type='CONTRACTOR'
+        then v_order.contractor_id else v_po_contractor end;
+      select encode(extensions.digest(convert_to(coalesce(string_agg(
+        x.item_id::uuid::text,',' order by x.item_id::uuid::text
+      ),''),'UTF8'),'sha256'),'hex') into v_selection_hash
+      from jsonb_array_elements_text(v_accessories) x(item_id);
+      insert into erp.rework_accessory_decisions(
+        rework_order_id,bs_case_id,bom_version_id,reimbursement_contractor_id,
+        decision_state,selected_item_count,selection_sha256,basis_at,
+        decided_by,client_request_id
+      ) values(
+        v_order.id,v_case.id,v_bom,v_recipient,
+        case when v_selected_count>0 then 'SELECTED' else 'NONE' end,
+        v_selected_count,v_selection_hash,v_order.physical_sent_at,
+        erp.current_app_user_id(),p_client_request_id
+      ) returning id into v_decision;
+
+      for v_item in
+        select i.* from erp.accessory_bom_items i
+        join jsonb_array_elements_text(v_accessories) x(item_id)
+          on x.item_id::uuid=i.id
+        where i.bom_version_id=v_bom order by i.id
+      loop
+        if v_item.hpp_method='BOM_STANDARD' then
+          v_hpp_factor:=erp.accessory_uom_factor(
+            v_item.category_id,v_item.hpp_uom_code,v_order.physical_sent_at
+          );
+          v_hpp_base:=v_item.hpp_standard_rate/v_hpp_factor;
+        else
+          v_hpp_base:=null;
+        end if;
+        v_reimburse_factor:=erp.accessory_uom_factor(
+          v_item.category_id,v_item.reimbursement_uom_code,v_order.physical_sent_at
+        );
+        v_reimburse_base:=v_item.reimbursement_rate/v_reimburse_factor;
+        if v_reimburse_base>0 and v_recipient is null then
+          raise exception 'Selected accessory reimbursement requires an authoritative Mandor';
+        end if;
+        insert into erp.rework_accessory_selection_lines(
+          decision_id,rework_order_id,bom_item_id,category_id,
+          qty_per_good_fg_base_snapshot,hpp_method_snapshot,
+          hpp_standard_unit_cost_base_snapshot,reimbursement_unit_rate_base_snapshot
+        ) values(
+          v_decision,v_order.id,v_item.id,v_item.category_id,
+          v_item.qty_per_good_fg_base,v_item.hpp_method,
+          v_hpp_base,v_reimburse_base
+        );
+      end loop;
+    end if;
+
+    if p_payload?'components' then
+      if jsonb_typeof(p_payload->'components')<>'array' then raise exception 'components must be an array'; end if;
+      for v_component in select value from jsonb_array_elements(p_payload->'components') loop
+        insert into erp.rework_component_lines(
+          rework_order_id,bs_case_component_id,qty_performed,qty_newly_payable,
+          rate_snapshot,notes
+        ) values(
+          v_id,(v_component->>'bs_case_component_id')::uuid,
+          (v_component->>'qty_performed')::integer,0,0,
+          nullif(btrim(v_component->>'notes'),'')
+        );
+      end loop;
+    end if;
+    if v_order.destination_type='CONTRACTOR' and not exists(
+      select 1 from erp.rework_component_lines where rework_order_id=v_order.id
+    ) then raise exception 'Contractor rework requires at least one component line'; end if;
+    update erp.rework_orders set updated_at=clock_timestamp()
+    where id=v_id returning * into v_order;
+  else
+    if p_expected_version is null then raise exception 'expected_version is required'; end if;
+    select * into v_order from erp.rework_orders where id=v_id for update;
+    if v_order.id is null then raise exception 'Rework order not found'; end if;
+    if v_order.row_version<>p_expected_version then
+      raise exception 'STALE_VERSION expected %, current %',p_expected_version,v_order.row_version;
+    end if;
+    if v_order.cost_posted or v_order.status in('COMPLETED','CANCELLED') then
+      raise exception 'Completed/cancelled rework is locked; use reversal/correction';
+    end if;
+    if v_action='CANCEL' then
+      if v_order.qty_good_returned+v_order.qty_bs_returned>0 then
+        raise exception 'Partially returned rework must be fully reconciled before cancellation';
+      end if;
+      update erp.rework_orders
+      set status='CANCELLED',notes=concat_ws(E'\n',notes,'CANCELLED: '||v_reason),
+          updated_at=clock_timestamp()
+      where id=v_id returning * into v_order;
+      perform erp.refresh_bs_case_status(v_order.bs_case_id);
+      v_response:=jsonb_build_object(
+        'rework_order_id',v_order.id,'status',v_order.status,
+        'row_version',v_order.row_version,
+        'accessory_decision',erp.get_rework_accessory_decision_v1(v_order.id)
+      );
+      return erp._idempotency_complete('save_rework_order_v2',p_client_request_id,v_response);
+    end if;
+
+    if exists(
+      select 1 from jsonb_object_keys(p_payload) k(key)
+      where k.key not in(
+        'id','action','qty_good_returned','qty_bs_returned',
+        'return_fg_location_id','change_reason'
+      )
+    ) then
+      raise exception 'Rework route, quantity sent, work components, and accessory choice are immutable after creation';
+    end if;
+    if not(p_payload?'qty_good_returned') and not(p_payload?'qty_bs_returned') then
+      raise exception 'Partial SAVE_REWORK requires cumulative GOOD or BS quantity';
+    end if;
+    v_good:=coalesce(nullif(p_payload->>'qty_good_returned','')::integer,v_order.qty_good_returned);
+    v_bad:=coalesce(nullif(p_payload->>'qty_bs_returned','')::integer,v_order.qty_bs_returned);
+    v_previous_return:=v_order.qty_good_returned+v_order.qty_bs_returned;
+    v_total_return:=v_good+v_bad;
+    if v_good<v_order.qty_good_returned or v_bad<v_order.qty_bs_returned then
+      raise exception 'Cumulative rework return quantities cannot decrease';
+    end if;
+    if v_total_return<=v_previous_return then
+      raise exception 'Partial rework update must record newly returned physical quantity';
+    end if;
+    if v_total_return>=v_order.qty_sent then
+      raise exception 'Fully reconciled return must use complete_rework_order_v2';
+    end if;
+    if p_payload?'return_fg_location_id'
+       and nullif(p_payload->>'return_fg_location_id','') is not null
+       and not exists(
+         select 1 from erp.locations l
+         where l.id=(p_payload->>'return_fg_location_id')::uuid
+           and l.is_active and l.location_type='FG_WAREHOUSE'
+       ) then raise exception 'Selected rework return location must be an active FG warehouse'; end if;
+    update erp.rework_orders
+    set qty_good_returned=v_good,qty_bs_returned=v_bad,status='PARTIAL',
+        return_fg_location_id=case when p_payload?'return_fg_location_id'
+          then nullif(p_payload->>'return_fg_location_id','')::uuid
+          else return_fg_location_id end,
+        notes=concat_ws(E'\n',notes,format(
+          'PARTIAL RETURN: GOOD %s + BS %s / %s · %s',v_good,v_bad,qty_sent,v_reason
+        )),updated_at=clock_timestamp()
+    where id=v_id returning * into v_order;
+  end if;
+
+  perform erp.refresh_bs_case_status(v_order.bs_case_id);
+  select * into v_order from erp.rework_orders where id=v_order.id;
+  v_response:=jsonb_build_object(
+    'rework_order_id',v_order.id,'status',v_order.status,
+    'row_version',v_order.row_version,'bs_case_id',v_order.bs_case_id,
+    'qty_good_returned',v_order.qty_good_returned,
+    'qty_bs_returned',v_order.qty_bs_returned,
+    'components',coalesce((
+      select jsonb_agg(jsonb_build_object(
+        'rework_component_line_id',l.id,'bs_case_component_id',l.bs_case_component_id,
+        'qty_performed',l.qty_performed,'qty_newly_payable',l.qty_newly_payable,
+        'rate_snapshot',l.rate_snapshot,'rate_basis',l.rate_basis,
+        'source_contractor_rate_id',l.source_contractor_rate_id,
+        'source_po_component_snapshot_id',l.source_po_component_snapshot_id
+      ) order by l.id)
+      from erp.rework_component_lines l where l.rework_order_id=v_order.id
+    ),'[]'::jsonb),
+    'accessory_decision',erp.get_rework_accessory_decision_v1(v_order.id)
+  );
+  return erp._idempotency_complete('save_rework_order_v2',p_client_request_id,v_response);
 end
 $function$;
 CREATE OR REPLACE FUNCTION erp.reverse_rework_completion(p_rework_order_id uuid, p_reason text)
@@ -5082,10 +5437,10 @@ begin
      and (v_query='' or strpos(lower(concat_ws(' ',m.material_sku,m.material_name)),v_query)>0)
      and not exists(select 1 from erp.cutting_group_rolls c join erp.material_rolls r on r.id=c.roll_id where r.material_id=m.id)
     order by m.material_name,m.id limit 50) x),'[]'::jsonb),
-  'periods',coalesce((select jsonb_agg(erp.pocket_period_state_v1(p.id) order by p.created_at desc,p.id) from (select * from erp.pocket_periods order by created_at desc,id limit 50) p),'[]'::jsonb),
+  'periods','[]'::jsonb,
   'history',coalesce((select jsonb_agg(to_jsonb(x) order by x.date desc,x.id) from recent x),'[]'::jsonb)
  ) into v_result;
- return v_result||erp.be_pocket_workspace_v1(v_query);
+ return v_result||erp.be_pocket_workspace_v1(v_query)||erp.be_pocket_periods_v1(v_query,0);
 end;$function$;
 CREATE OR REPLACE FUNCTION erp.check_initial_import_receipt_v1(p_batch_id uuid,p_row_id uuid)
 RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO '' SET DateStyle TO 'ISO, YMD' AS $function$
@@ -6636,6 +6991,10 @@ revoke all on function public.erp_save_product_conversion_action_v1(text,jsonb,u
 revoke all on function public.erp_get_product_conversion_workspace_v1(jsonb) from public,anon;
 grant execute on function public.erp_save_product_conversion_action_v1(text,jsonb,uuid) to authenticated,service_role;
 grant execute on function public.erp_get_product_conversion_workspace_v1(jsonb) to authenticated,service_role;
+revoke all on function public.erp_get_pocket_periods_v1(text,integer) from public,anon;
+grant execute on function public.erp_get_pocket_periods_v1(text,integer) to authenticated,service_role;
+revoke all on function public.erp_reverse_sewing_terminal_v1(uuid,text,uuid,bigint) from public,anon;
+grant execute on function public.erp_reverse_sewing_terminal_v1(uuid,text,uuid,bigint) to authenticated,service_role;
 
 insert into erp.schema_migrations(version,description) values('v2.6.20be','BE development family: SKU conversion, rework/redye and pocket cutover');
 commit;

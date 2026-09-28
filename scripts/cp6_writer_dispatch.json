@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 26,
+  "revision": 27,
   "phase": "after",
-  "scenario_path": "scripts/cp6_bf_modes.py",
-  "browser_path": "scripts/cp6_bf_browser.mjs",
-  "purpose": "BF development: correct two-editor money fixture; exact UI money; PR29 positive multi-size rework completion and manual13 browser; future wave current tariff, shared nonempty recipe and HPP report. NOT_READY; CP6 HOLD."
+  "scenario_path": "scripts/cp6_be_revision_modes.py",
+  "browser_path": "scripts/cp6_be_revision_browser.mjs",
+  "purpose": "BE audit revision: sourced signed recovery, mixed PO/non-PO journal boundary, searchable/paged pocket periods, unsupported rework admission and public sewing reversal. Includes BF/BD/BE regression. CP6 HOLD; writer evidence only."
 }

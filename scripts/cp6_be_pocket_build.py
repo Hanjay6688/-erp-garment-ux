@@ -77,7 +77,9 @@ def build():
     recost=patch(BB,'recost_initial_import_origins_v1',[("end;$function$;"," perform erp.be_pocket_recost_receipt_v1(p_purchase_item);\nend;$function$;")])
     receipt_checks=patch(BB,'run_v267_financial_truth_checks',[("where purchase_item_id=pi.id),0)","where purchase_item_id=pi.id),0)+coalesce((select sum(material_qty) from erp.be_pocket_receipt_origins_v1 where purchase_item_id=pi.id),0)")])
     cents=patch(AP,'_cp6_supplier_cent_state',[("o.purchase_item_id=i.id),0)","o.purchase_item_id=i.id),0)+coalesce((select sum(round(o.material_qty*erp.material_purchase_current_unit_cost(i.id),2)) from erp.be_pocket_receipt_origins_v1 o where o.purchase_item_id=i.id),0)")])
-    pocket_ws=patch(AP,'get_pocket_fabric_workspace_v1',[(" return v_result;"," return v_result||erp.be_pocket_workspace_v1(v_query);")])
+    pocket_ws=patch(AP,'get_pocket_fabric_workspace_v1',[
+      ("'periods',coalesce((select jsonb_agg(erp.pocket_period_state_v1(p.id) order by p.created_at desc,p.id) from (select * from erp.pocket_periods order by created_at desc,id limit 50) p),'[]'::jsonb),", "'periods','[]'::jsonb,"),
+      (" return v_result;"," return v_result||erp.be_pocket_workspace_v1(v_query)||erp.be_pocket_periods_v1(v_query,0);")])
     preview=patch(AP,'preview_pocket_period_v1',[("'period_end',p_end,'amount'","'period_end',p_end,'economic_date',erp.be_pocket_period_post_date_v1(m,p_end),'amount'")])
     certainty=patch(AP,'refresh_initial_import_fg_cost_v1',[(" then 'ESTIMATED' else 'ADJUSTED' end;"," or erp.be_pocket_item_pending_v1(p_item) then 'ESTIMATED' else 'ADJUSTED' end;")])
     return '\n'.join([certainty,pocket_ws,receipt,recost,receipt_checks,cents,stage,base,final,router,ws,rev,total,manifest,target,book,sync,post,value,checks,facade,preview])

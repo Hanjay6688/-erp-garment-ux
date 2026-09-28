@@ -69,7 +69,8 @@ RESTORABLE={'AX':{'VIEW:erp.v_payroll_eligible_work_lines','CONSTRAINT:erp.payro
             # correction credit (owner decision no. 13, VENDOR_CORRECTION_APPLY) applied to an opening vendor payable. The rollback
             # is pre-use only (data unchanged since the install), so no row carries those kinds when BC's definition is restored.
             'BD':{'CONSTRAINT:erp.bb_opening_credits_v1.bb_opening_credits_v1_credit_kind_check'},
-            'BE':{'CONSTRAINT:erp.bd_laundry_invoice_lines_v1.bd_laundry_invoice_lines_v1_check1',
+            'BE':{'CONSTRAINT:erp.hpp_version_components.hpp_version_components_unit_cost_check',
+                  'CONSTRAINT:erp.bd_laundry_invoice_lines_v1.bd_laundry_invoice_lines_v1_check1',
                   'CONSTRAINT:erp.pocket_period_sources.pocket_period_sources_pkey',
                   'CONSTRAINT:erp.pocket_period_destinations.pocket_period_destinations_pkey',
                   'INDEX:erp.pocket_period_sources_pkey','INDEX:erp.pocket_period_destinations_pkey',

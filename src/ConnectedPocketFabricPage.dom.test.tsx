@@ -43,6 +43,20 @@ function server(){
 async function prepare(){await change('Roll kain kantong',`${id}:${id}`);await change('Tanggal pengurangan','2026-09-21')}
 
 describe('pocket fabric warehouse-only expense flow',()=>{
+  it('finds and cancels a period from a later page while preserving the stock draft',async()=>{
+    const actor=auth.current as typeof recoveryIdentity;actor.identity.permissions.push('finance.hpp.manage')
+    const s=server(), original=client.rpc.getMockImplementation()!
+    Object.assign(s.data,{period_count:2,period_offset:0,period_next_offset:1})
+    const period={id:doc,period_start:'2026-09-01',period_end:'2026-09-03',status:'ACTIVE',reason:'Old allocation',quantity:'10',original_amount:'11.25',current_amount:'11.25',per_piece:'1.125000',revision:revision(6)}
+    s.data.periods=[{...period,id,status:'CANCELLED',period_start:'2026-09-10',period_end:'2026-09-11'}]
+    client.rpc.mockImplementation(async(name:string,args:Record<string,unknown>)=>name==='erp_get_pocket_periods_v1'
+      ?{data:{periods:[period],period_count:2,period_offset:1,period_next_offset:null},error:null}:original(name,args))
+    await mount();await prepare();await change('Jumlah kain kantong','7,5');await click('Muat periode berikutnya')
+    expect((container.querySelector('[aria-label="Jumlah kain kantong"]') as HTMLInputElement).value).toBe('7,5')
+    expect(client.rpc).toHaveBeenCalledWith('erp_get_pocket_periods_v1',{p_query:'',p_offset:1})
+    await click('Batalkan alokasi 2026-09-01');await change('Alasan pembatalan alokasi','Koreksi periode lama');await click('Sahkan pembatalan alokasi')
+    expect(writes()[0][1].p_payload).toEqual({id:doc,expected_revision:revision(6),reason:'Koreksi periode lama'})
+  })
   it('counts remaining stock, accepts zero and posts only after explicit confirmation without production fields',async()=>{
     server();await mount();await prepare();await change('Jumlah kain kantong','0')
     expect(writes()).toHaveLength(0);expect(container.querySelector('[aria-label="Mandor"]')).toBeNull()
