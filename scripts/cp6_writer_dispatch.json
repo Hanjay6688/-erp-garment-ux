@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 19,
+  "revision": 20,
   "phase": "after",
   "scenario_path": "scripts/cp6_bf_modes.py",
   "browser_path": "scripts/cp6_bd_revision_browser.mjs",
-  "purpose": "Writer development qualification of commercial SKU master fanout, replay, conflicts, temporal membership and optional economics. BF remains NOT_READY; no production/audit closure claim. Prior BD/BE regression browser retained."
+  "purpose": "BF development: fix ISO time in new native fixtures; test shared SKU master plus BD pricing/cost-source and BB imported-WIP regressions. Adds shared SKU laundry provenance and work/rework scope, retaining existing snapshots. Still NOT_READY; CP6 HOLD."
 }

@@ -4,11 +4,12 @@ AS $function$
 declare j jsonb; k text; ref uuid; vendor uuid; amount numeric; seen text[]:='{}'; key text;
 begin
  for j in select value from jsonb_array_elements(p_settings->'work_rates') loop
-   perform erp._cp3_assert_closed_json_object(j,array['contractor_id','work_component_id','rate'],array['contractor_id','work_component_id','rate'],'SKU work rate');
-   vendor:=erp.bd_uuid_v1(j,'contractor_id',true);ref:=erp.bd_uuid_v1(j,'work_component_id',true);
-   if not exists(select 1 from erp.contractors where id=vendor and is_active)
+   perform erp._cp3_assert_closed_json_object(j,array['work_component_id','rate'],array['contractor_id','work_component_id','rate','special'],'SKU work rate');
+   vendor:=erp.bd_uuid_v1(j,'contractor_id',false);ref:=erp.bd_uuid_v1(j,'work_component_id',true);
+   if (vendor is not null and not exists(select 1 from erp.contractors where id=vendor and is_active))
      or not exists(select 1 from erp.work_components where id=ref and is_active) then raise exception 'BF_WORK_RATE_REFERENCE';end if;
-   perform erp.bd_amount_v1(j->'rate','rate',true);key:=vendor::text||':'||ref::text;
+   if j ? 'special' and jsonb_typeof(j->'special') is distinct from 'boolean' then raise exception 'BF_SPECIAL_FLAG';end if;
+   perform erp.bd_amount_v1(j->'rate','rate',true);key:=coalesce(vendor::text,'*')||':'||ref::text||':'||coalesce(j->>'special','false');
    if key=any(seen) then raise exception 'BF_DUPLICATE_RATE';end if;seen:=seen||key;
  end loop;
  seen:='{}';
@@ -37,6 +38,19 @@ begin
    if key=any(seen) then raise exception 'BF_DUPLICATE_RATE';end if;seen:=seen||key;
  end loop;
 end;$function$;
+
+-- SKU base rate applies to every member size. Optional contractor/special overrides are still per SKU.
+CREATE OR REPLACE FUNCTION erp.bf_work_rate_v1(p_version uuid,p_contractor uuid,p_component uuid,p_at timestamptz)
+ RETURNS numeric LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+ select (r->>'rate')::numeric from erp.bf_sku_versions_v1 v cross join lateral jsonb_array_elements(v.settings->'work_rates') r
+ where v.id=p_version and r->>'work_component_id'=p_component::text
+   and (r->>'contractor_id' is null or r->>'contractor_id'=p_contractor::text)
+   and (not coalesce((r->>'special')::boolean,false) or exists(select 1 from erp.contractor_hpp_policy_versions pol
+     where pol.contractor_id=p_contractor and pol.is_special and pol.effective_from<=erp._cp3_business_date(p_at)
+       and (pol.effective_to is null or pol.effective_to>=erp._cp3_business_date(p_at))))
+ order by (r->>'contractor_id' is not null) desc,coalesce((r->>'special')::boolean,false) desc limit 1
+$function$;
 
 CREATE OR REPLACE FUNCTION erp.bf_context_rate_v1(p_kind text,p_ref uuid,p_vendor uuid DEFAULT NULL)
  RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''

@@ -1,4 +1,9 @@
 -- A wave can contain several ranges. Its reference chooses rates, never final FG identity.
+alter table erp.rework_component_lines add column bf_sku_version_id uuid references erp.bf_sku_versions_v1(id);
+alter table erp.rework_component_lines drop constraint rework_component_lines_rate_basis_check;
+alter table erp.rework_component_lines add constraint rework_component_lines_rate_basis_check
+ check(rate_basis in('CONTRACTOR_RATE','PO_SNAPSHOT','LAUNDRY_ZERO','LEGACY_CLIENT','SKU_RATE'));
+
 CREATE OR REPLACE FUNCTION erp.bf_bind_wave_v1(p_payload jsonb,p_request uuid)
  RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
 AS $function$
@@ -24,8 +29,8 @@ begin
    if not exists(select 1 from erp.cutting_group_size_slots where cutting_group_id=g.id and size_id=sid) then raise exception 'BF_SIZE_NOT_IN_WAVE';end if;
    select v.id into vid from erp.bf_sku_versions_v1 v join erp.bf_skus_v1 s on s.id=v.sku_id
      join erp.bf_sku_members_v1 m on m.version_id=v.id join erp.products p on p.id=m.product_root
-     where s.id=sku and s.model_id=model and p.size_id=sid and v.effective_from<=g.cut_at and(v.effective_to is null or v.effective_to>g.cut_at);
-   if vid is null then raise exception 'BF_SKU_SIZE_MODEL: SKU referensi harus memuat ukuran/model pada tanggal potong';end if;
+     where s.id=sku and s.model_id=model and p.size_id=sid and v.effective_from<=statement_timestamp() and(v.effective_to is null or v.effective_to>statement_timestamp());
+   if vid is null then raise exception 'BF_SKU_SIZE_MODEL: SKU referensi harus memuat ukuran/model saat dipilih';end if;
    insert into erp.bf_wave_skus_v1 values(g.id,sid,sku,clock_timestamp(),erp.current_app_user_id(),p_request);
  end loop;
  if cardinality(seen)>0 and exists(select 1 from erp.cutting_group_size_slots where cutting_group_id=g.id and not(size_id=any(seen))) then
@@ -61,7 +66,9 @@ $function$;
 CREATE OR REPLACE FUNCTION erp.bf_group_sku_v1(p_group uuid,p_product uuid)
  RETURNS uuid LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
 AS $function$
- select w.sku_id from erp.bf_wave_skus_v1 w join erp.products p on p.size_id=w.size_id where w.cutting_group_id=p_group and p.id=p_product
+ select case when p_product is null then
+   (select min(w.sku_id::text)::uuid from erp.bf_wave_skus_v1 w where w.cutting_group_id=p_group having count(distinct w.sku_id)=1)
+ else (select w.sku_id from erp.bf_wave_skus_v1 w join erp.products p on p.size_id=w.size_id where w.cutting_group_id=p_group and p.id=p_product) end
 $function$;
 
 CREATE OR REPLACE FUNCTION erp.bf_ensure_work_v1(p_po uuid,p_at timestamptz)
@@ -78,8 +85,7 @@ begin
    select id into vid from erp.bf_sku_versions_v1 where sku_id=s.sku_id and effective_from<=p_at and(effective_to is null or effective_to>p_at);
    if vid is null then raise exception 'BF_WORK_VERSION_MISSING';end if;
    for base in select * from erp.po_work_component_snapshots where po_id=p_po and bf_sku_version_id is null order by sequence_no,id loop
-     select (r->>'rate')::numeric into rate from erp.bf_sku_versions_v1 v cross join lateral jsonb_array_elements(v.settings->'work_rates') r
-       where v.id=vid and r->>'contractor_id'=contractor::text and r->>'work_component_id'=base.work_component_id::text;
+     rate:=erp.bf_work_rate_v1(vid,contractor,base.work_component_id,p_at);
      insert into erp.po_work_component_snapshots(po_id,work_component_id,source_bom_version_id,sequence_no,rate_per_pcs_snapshot,source_bom_item_id,source_contractor_rate_id,committed_at,bf_sku_version_id)
        values(p_po,base.work_component_id,base.source_bom_version_id,base.sequence_no,coalesce(rate,base.rate_per_pcs_snapshot),base.source_bom_item_id,
          case when rate is null then base.source_contractor_rate_id end,p_at,vid);

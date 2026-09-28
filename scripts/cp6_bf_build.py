@@ -3,6 +3,8 @@
 from pathlib import Path
 import gzip,hashlib,re,sys
 from cp6_bc_build import last_definition,substitute
+import cp6_bf_laundry_build as laundry
+import cp6_bf_rework_build as rework
 
 ROOT=Path(__file__).resolve().parents[1]
 VERSION='v2.6.20bf'
@@ -12,13 +14,14 @@ AI=ROOT/'supabase/migrations/20260916090022_erp_v2_6_20ai_cp6_work_source_lineag
 C=ROOT/'supabase/migrations/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.sql'
 BE=ROOT/'supabase/dev/cp6_be_t1_family.sql'
 BD=ROOT/'supabase/dev/cp6_bd_t1_family.sql'
+BB=ROOT/'supabase/dev/cp6_bb_t1_family.sql'
 FIXTURE=ROOT/'supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz'
-PARTS=('master','rates','work','router')
+PARTS=('master','rates','work','laundry','router')
 NEW_TABLES=['bf_skus_v1','bf_sku_versions_v1','bf_sku_members_v1','bf_wave_skus_v1','bf_po_boms_v1','bf_requests_v1','bf_context_v1']
 REPLACED=['erp.commit_accessory_bom_for_lot(uuid)','erp.ensure_po_work_component_snapshots(uuid,timestamp with time zone)',
  'erp.validate_work_completion()','erp.guard_work_completion_posting_consistency()',
  'erp.seed_bs_case_component_baseline()','erp.classify_bs_case_v2(uuid,jsonb,uuid,bigint)',
- 'erp.cp6_lot_work_cost_v2620c(uuid,text)','erp.assert_new_stock_cutoff_coverage_v1()']
+ 'erp.cp6_lot_work_cost_v2620c(uuid,text)','erp.assert_new_stock_cutoff_coverage_v1()']+laundry.REPLACED+rework.REPLACED
 
 def fixture(name):return last_definition(None,name,text=gzip.open(FIXTURE,'rt').read())
 def objects():return '\n'.join((ROOT/f'scripts/cp6_bf_objects_{p}.sql').read_text() for p in PARTS)
@@ -33,7 +36,7 @@ def changed():
       ('  return v_count;','  perform erp.bf_ensure_work_v1(p_po_id,p_basis_at);\n  return v_count;')],'BF work scopes')
     validate=substitute(last_definition(AI,'validate_work_completion',text=AI.read_text().replace('$function$\n$definition$;', '$function$;')),[('  new.rate_snapshot:=v_snapshot_rate;',
       '  perform erp.bf_assert_work_scope_v1(new.completion_id,new.po_component_snapshot_id);\n  new.rate_snapshot:=v_snapshot_rate;')],'BF line scope')
-    posting=substitute(last_definition(AI,'guard_work_completion_posting_consistency',text=AI.read_text().replace('$function$\n$definition$;', '$function$;')),[
+    posting=substitute(last_definition(BB,'guard_work_completion_posting_consistency'),[
       ('  v_prior_payable bigint;','  v_prior_payable bigint;\n  v_scope_capacity bigint;'),
       ('select l.id,l.work_component_id,l.qty_completed,l.qty_payable,wc.component_name','select l.id,l.po_component_snapshot_id,l.work_component_id,l.qty_completed,l.qty_payable,wc.component_name'),
       ('    loop\n      select coalesce(sum(l2.qty_completed),0)',
@@ -59,7 +62,7 @@ def changed():
     coverage=substitute(last_definition(BE,'assert_new_stock_cutoff_coverage_v1'),[
       ('  -- Structural catalog read:', '''  v_registry:=v_registry||'{"erp.bf_sku_members_v1.product_root":{"class":"MASTER","reason":"Commercial SKU membership; exact physical root is preserved"}}'::jsonb;
   -- Structural catalog read:''')],'BF master classification')
-    return [bom,work,validate,posting,seed,classify,cost,coverage]
+    return [bom,work,validate,posting,seed,classify,cost,coverage]+laundry.changed(BD)+rework.changed(fixture)
 
 def build():
     grants=r"""

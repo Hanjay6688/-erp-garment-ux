@@ -52,7 +52,7 @@ def group(cur,roots,at,sku=None,gid=None,revision=0,settings=None):
         settings=settings or dict(price='185000.00',bom=[],work_rates=[],laundry_rates=[]))
 
 def save(cur,groups,at,key=None):
-    return call(cur,'SAVE_GROUPS',dict(effective_from=at,reason='BF synthetic owner scenario',groups=groups),key)
+    return call(cur,'SAVE_GROUPS',dict(effective_from=at.isoformat(),reason='BF synthetic owner scenario',groups=groups),key)
 
 def foundation(cur,today):
     rows=products(cur);roots=[r[0] for r in rows]
