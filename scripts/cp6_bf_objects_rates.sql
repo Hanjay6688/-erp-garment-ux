@@ -80,6 +80,11 @@ begin
    insert into erp.bf_po_boms_v1 values(l.po_id,sid,vid);pinned:=vid;
  end if;
  select bom_version_id into bom from erp.bf_sku_members_v1 where version_id=pinned and product_root=root;
- if bom is null then raise exception 'BF_PO_NEW_MEMBER: ukuran baru tidak termasuk resep PO yang telah disepakati';end if;
+ if bom is null then
+   if exists(select 1 from erp.bf_sku_members_v1 where version_id=pinned and product_root=root) then
+     raise exception 'BF_BOM_UNCONFIGURED: tentukan resep SKU (termasuk tanpa aksesori bila benar) sebelum penggunaan biaya';
+   end if;
+   raise exception 'BF_PO_NEW_MEMBER: ukuran baru tidak termasuk resep PO yang telah disepakati';
+ end if;
  return bom;
 end;$function$;

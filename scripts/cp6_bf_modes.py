@@ -5,7 +5,11 @@ import cp6_bd_revision_modes as bd_revision
 INSTALL_BF=True
 
 def cases(cur,today):
-    return [('BF:UNUSED_ROLLBACK_EXACT',lambda:bf.recovery_unused(cur,today)),
+    return [('BF:IMPORT_AMBIGUOUS_FAILS_BEFORE_POST',lambda:bf.import_ambiguity(cur,today)),
+        ('BF:IMPORT_EXACT_SIZE_SALES_CUSTODY_COGS_REPLAY',lambda:bf.import_exact(cur,today)),
+        ('BF:IMPORT_INSUFFICIENT_STOCK_ATOMIC',lambda:bf.import_insufficient(cur,today)),
+        ('BF:IMPORT_REWORK_SOURCE_RECIPE',lambda:bf.import_rework_source(cur,today)),
+        ('BF:UNUSED_ROLLBACK_EXACT',lambda:bf.recovery_unused(cur,today)),
         ('BF:USED_ROLLBACK_REFUSED',lambda:bf.recovery_used(cur,today)),
         ('BF:TWO_SKUS_ONE_WAVE_WORK_LAUNDRY_QC',lambda:bf.production_ranges(cur,today)),
         ('BF:SHARED_MASTER_PHYSICAL_ROOTS_REPLAY_GUARD',lambda:bf.foundation(cur,today)),

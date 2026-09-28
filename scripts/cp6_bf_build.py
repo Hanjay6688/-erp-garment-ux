@@ -6,6 +6,7 @@ from cp6_bc_build import last_definition,substitute
 import cp6_bf_laundry_build as laundry
 import cp6_bf_rework_build as rework
 import cp6_bf_recovery as recovery
+import cp6_bf_import_build as imports
 
 ROOT=Path(__file__).resolve().parents[1]
 VERSION='v2.6.20bf'
@@ -17,12 +18,12 @@ BE=ROOT/'supabase/dev/cp6_be_t1_family.sql'
 BD=ROOT/'supabase/dev/cp6_bd_t1_family.sql'
 BB=ROOT/'supabase/dev/cp6_bb_t1_family.sql'
 FIXTURE=ROOT/'supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz'
-PARTS=('master','rates','work','laundry','router')
+PARTS=('master','rates','work','laundry','import','router')
 NEW_TABLES=['bf_rollback_v1','bf_skus_v1','bf_sku_versions_v1','bf_sku_members_v1','bf_wave_skus_v1','bf_po_boms_v1','bf_requests_v1','bf_context_v1']
 REPLACED=['erp.commit_accessory_bom_for_lot(uuid)','erp.ensure_po_work_component_snapshots(uuid,timestamp with time zone)',
  'erp.validate_work_completion()','erp.guard_work_completion_posting_consistency()',
  'erp.seed_bs_case_component_baseline()','erp.classify_bs_case_v2(uuid,jsonb,uuid,bigint)',
- 'erp.cp6_lot_work_cost_v2620c(uuid,text)','erp.assert_new_stock_cutoff_coverage_v1()']+laundry.REPLACED+rework.REPLACED
+ 'erp.cp6_lot_work_cost_v2620c(uuid,text)','erp.assert_new_stock_cutoff_coverage_v1()']+laundry.REPLACED+rework.REPLACED+imports.REPLACED
 
 def fixture(name):return last_definition(None,name,text=gzip.open(FIXTURE,'rt').read())
 def objects():return '\n'.join((ROOT/f'scripts/cp6_bf_objects_{p}.sql').read_text() for p in PARTS)
@@ -63,7 +64,7 @@ def changed():
     coverage=substitute(last_definition(BE,'assert_new_stock_cutoff_coverage_v1'),[
       ('  -- Structural catalog read:', '''  v_registry:=v_registry||'{"erp.bf_sku_members_v1.product_root":{"class":"MASTER","reason":"Commercial SKU membership; exact physical root is preserved"}}'::jsonb;
   -- Structural catalog read:''')],'BF master classification')
-    return [bom,work,validate,posting,seed,classify,cost,coverage]+laundry.changed(BD)+rework.changed(fixture)
+    return [bom,work,validate,posting,seed,classify,cost,coverage]+laundry.changed(BD)+rework.changed(fixture)+imports.changed(BB,BD,BE)
 
 def build():
     grants=r"""

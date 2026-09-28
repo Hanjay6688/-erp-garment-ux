@@ -42,7 +42,8 @@ describe('file impor dari Excel', () => {
 describe('D09: opening accessory custody names its source', () => {
   it('adds the count sheet, sheet line and source lot columns after the file\'s own fields', () => {
     const fields = Object.keys(initialImportCatalog.OPENING_ACCESSORY_CUSTODY.fields)
-    expect(fields.slice(-3)).toEqual(['count_sheet', 'sheet_line', 'source_lot'])
+    expect(fields.slice(fields.indexOf('count_sheet'), fields.indexOf('count_sheet') + 3)).toEqual(['count_sheet', 'sheet_line', 'source_lot'])
+    expect(fields.slice(-5)).toEqual(['product_id', 'size_code', 'brand_code', 'model_code', 'color_name'])
     expect(initialImportTemplate('OPENING_ACCESSORY_CUSTODY')).toContain('"Lot sumber (pengganti lembar hitung + baris)"')
     expect(initialImportCatalog.OPENING_ACCESSORY_CUSTODY.required).not.toContain('count_sheet')
   })

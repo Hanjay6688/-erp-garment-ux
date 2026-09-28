@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 22,
+  "revision": 23,
   "phase": "after",
   "scenario_path": "scripts/cp6_bf_modes.py",
   "browser_path": "scripts/cp6_bd_revision_browser.mjs",
-  "purpose": "BF development: fix wave reference ambiguity; exercise connected master reader, mixed SKU work/laundry/QC and unused rollback. Dynamic size UI and connected SKU master/HPP are development, PR29 import/rework follow-up remains. NOT_READY, CP6 HOLD."
+  "purpose": "BF development: PR29 SR03-05 physical import resolution at validation and apply, mixed-size import/rework native cases, tariff historical-use guard. Still NOT_READY; CP6 HOLD."
 }

@@ -56,7 +56,7 @@ begin
    if TG_OP='UPDATE' then select product_id into previous_root from erp.accessory_bom_versions where id=old.bom_version_id;end if;
  else r:=case when TG_OP='DELETE' then old.product_id else new.product_id end;end if;
  if TG_TABLE_NAME<>'accessory_bom_items' and TG_OP='UPDATE' then previous_root:=old.product_id;end if;
- if exists(select 1 from erp.bf_sku_members_v1 where product_root in(r,previous_root)) then
+ if exists(select 1 from erp.bf_sku_members_v1 where product_root in(select identity_root_id from erp.products where id in(r,previous_root))) then
    raise exception 'BF_SHARED_MASTER: ubah harga/resep melalui master SKU bersama';
  end if;
  if TG_OP='DELETE' then return old;else return new;end if;
@@ -123,6 +123,12 @@ begin
    select * into current_v from erp.bf_sku_versions_v1 where sku_id=sid and effective_to is null;
    if current_v.id is not null then
      if at_time<=current_v.effective_from then raise exception 'BF_EFFECTIVE_ORDER';end if;
+     if exists(select 1 from erp.po_work_component_snapshots where bf_sku_version_id=current_v.id and committed_at>=at_time)
+       or exists(select 1 from erp.bd_laundry_charge_lines_v1 c join erp.laundry_delivery_lines l on l.id=c.delivery_line_id
+         join erp.laundry_deliveries d on d.id=l.delivery_id where c.bf_sku_version_id=current_v.id and d.physical_at>=at_time)
+       or exists(select 1 from erp.rework_component_lines c join erp.rework_orders o on o.id=c.rework_order_id
+         where c.bf_sku_version_id=current_v.id and o.physical_sent_at>=at_time) then
+       raise exception 'BF_TARIFF_HISTORY: waktu perubahan mendahului pemakaian tarif yang sudah tercatat';end if;
      update erp.bf_sku_versions_v1 set effective_to=at_time where id=current_v.id;
    end if;
  end loop;

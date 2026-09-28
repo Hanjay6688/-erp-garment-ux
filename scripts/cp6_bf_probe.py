@@ -170,3 +170,64 @@ def production_ranges(cur,today):
         shared_selling_price=price==[185000]*4,exact_total=sent['estimated_cost']==92,
         immutable_provenance=one(cur,'select count(distinct c.bf_sku_version_id) from erp.bd_laundry_charge_lines_v1 c join erp.laundry_delivery_lines l on l.id=c.delivery_line_id where l.delivery_id=%s',delivery)==2),
         labor=list(map(str,labor)),laundry=list(map(str,laundry)),physical=physical)
+
+
+def imported_range_rows(today,explicit=True,stock='10'):
+    import copy
+    cut=today-timedelta(days=10);r=b.bbp.s02_rows(cut,stock=stock)
+    r['SIZE'].append(dict(size_code='{C}32'))
+    sibling=copy.deepcopy(r['PRODUCT'][0]);sibling['size_code']='{C}32';r['PRODUCT'].append(sibling)
+    r['OPENING_BALANCE_ITEM'][0]['size_code']='{C}32'
+    r['CONTRACTOR']=[dict(contractor_code='{C}',contractor_name='BF imported mandor',contractor_type='MANDOR')]
+    r['OPENING_ACCESSORY_CUSTODY']=[dict(custody_kind='CUSTOMER_GARMENT',custody_key='{C}-KNOWN',customer_code='{C}',description='Celana servis ukuran 32',qty='1',product_sku='{C}P',source_lot='{C}-GARMENT32'),
+      dict(custody_kind='CUSTOMER_GARMENT',custody_key='{C}-TEXT',customer_code='{C}',description='Celana pelanggan belum punya SKU',qty='1',source_lot='{C}-DESCRIPTIVE')]
+    r['OPENING_POCKET_SEWING']=[dict(document_number='BF-JAHIT-{C}',line_number='1',physical_date=str(cut-timedelta(days=1)),contractor_code='{C}',qty='2',target_kind='COGS',control_key='SEWN',control_qty='2',product_sku='{C}P',sold_reference='HISTORICAL-SALE-{C}')]
+    if explicit:
+      for k in ['OPEN_SALES_DRAFT','OPENING_POCKET_SEWING']:
+        r[k][0].update(size_code='{C}32',brand_code='{C}',model_code='{C}',color_name='Blue')
+      r['OPENING_ACCESSORY_CUSTODY'][0].update(size_code='{C}32',brand_code='{C}',model_code='{C}',color_name='Blue')
+    return r
+
+
+def import_ambiguity(cur,today):
+    f=b.bbp.production_post(cur,today,imported_range_rows(today,False),expect=True)
+    errors={k:e for k,e in f['errors']}
+    count=one(cur,'select count(*) from erp.products where sku=%s',f['code']+'P')
+    return b.verdict(dict(all_three_fail_before_apply=all('SIZE_ALLOCATION_REQUIRED' in errors.get(k,'') for k in ['OPEN_SALES_DRAFT','OPENING_ACCESSORY_CUSTODY','OPENING_POCKET_SEWING']),no_partial_products=count==0),errors=errors)
+
+
+def import_exact(cur,today):
+    f=b.bbp.production_post(cur,today,imported_range_rows(today));code=f['code']
+    p=one(cur,'select p.id from erp.products p join erp.sizes z on z.id=p.size_id where p.sku=%s and z.size_code=%s',code+'P',code+'32')
+    sale=one(cur,'select i.product_id from erp.sales_items i join erp.sales_headers h on h.id=i.sale_id where h.sale_number=%s','SD-'+code)
+    custody=cur.execute('select product_id from erp.bc_customer_custody_v1 where customer_id=(select id from erp.customers where customer_code=%s) order by product_id nulls last',(code,)).fetchall()
+    sewing=one(cur,"select product_id from erp.be_pocket_sewing_v1 where batch_id=%s and target_kind='COGS'",f['batch'])
+    counts=(one(cur,'select count(*) from erp.sales_headers where sale_number=%s','SD-'+code),one(cur,'select count(*) from erp.be_pocket_sewing_v1 where batch_id=%s',f['batch']))
+    again=b.api.invoke(cur,'FINALIZE',f['batch']);b.api.admin(cur)
+    return b.verdict(dict(sale_exact=sale==p,custody_exact=custody==[(p,),(None,)],cogs_exact=sewing==p,
+      one_reservation=b.bbp.s02_free(cur,code)==7,replay=again['status']=='POSTED' and counts==(1,1)),product=str(p),counts=counts)
+
+
+def import_insufficient(cur,today):
+    rows=imported_range_rows(today,stock='2');rows['OPENING_CONTROL'][0]['amount']='12.00'
+    before=one(cur,'select count(*) from erp.sales_headers')
+    # Nested ordinary transaction refusal must roll back the complete import, including masters and custody.
+    blocked=b.refused(cur,lambda:b.bbp.production_post(cur,today,rows),'BB_S02_RESERVATION_REFUSED')
+    return b.verdict(dict(refused=blocked['ok'],no_partial_draft=one(cur,'select count(*) from erp.sales_headers')==before),refusal=blocked)
+
+
+def import_rework_source(cur,today):
+    code=b.bbp.rework_masters(cur,today);b.api.admin(cur)
+    root=one(cur,'select id from erp.products where sku=%s',code+'P')
+    sid=one(cur,'insert into erp.sizes(size_code,is_active) values(%s,true) returning id',code+'32')
+    cur.execute('insert into erp.product_model_sizes(model_id,size_id) select model_id,%s from erp.products where id=%s',(sid,root))
+    sibling=one(cur,"insert into erp.products(sku,model_id,brand_id,color_name,size_id,product_name,effective_from,is_active) select sku,model_id,brand_id,color_name,%s,product_name,effective_from,true from erp.products where id=%s returning id",sid,root)
+    r=b.bbp.rework_import_rows()
+    for x in r['OPENING_BALANCE_ITEM']:
+      if x.get('balance_type')=='BS':x['size_code']=code+'32'
+    refused=b.bbp.rework_post(cur,today,code,r,expect=True)
+    errors=' '.join(e for _,e in refused['errors'])
+    # A sibling's valid recipe must not satisfy the source BS size.
+    return b.verdict(dict(source_bom_required='BB_REWORK_ACCESSORY_BOM_REQUIRED' in errors,
+      source_without_recipe=one(cur,'select count(*) from erp.accessory_bom_versions where product_id=%s',sibling)==0,
+      other_size_has_recipe=one(cur,'select count(*) from erp.accessory_bom_versions where product_id=%s',root)>0),errors=errors)

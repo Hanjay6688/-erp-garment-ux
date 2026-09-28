@@ -1,0 +1,29 @@
+{
+  "OPEN_SALES_DRAFT": {
+    "fields": {
+      "product_id": "ID produk fisik asal (opsional; harus cocok dengan identitas baris)",
+      "size_code": "Ukuran fisik asal",
+      "brand_code": "Kode merek asal",
+      "model_code": "Kode model asal",
+      "color_name": "Warna asal"
+    }
+  },
+  "OPENING_ACCESSORY_CUSTODY": {
+    "fields": {
+      "product_id": "ID produk fisik asal (opsional; harus cocok dengan identitas baris)",
+      "size_code": "Ukuran fisik asal",
+      "brand_code": "Kode merek asal",
+      "model_code": "Kode model asal",
+      "color_name": "Warna asal"
+    }
+  },
+  "OPENING_POCKET_SEWING": {
+    "fields": {
+      "product_id": "ID produk fisik asal (opsional; harus cocok dengan identitas baris)",
+      "size_code": "Ukuran fisik asal",
+      "brand_code": "Kode merek asal",
+      "model_code": "Kode model asal",
+      "color_name": "Warna asal"
+    }
+  }
+}

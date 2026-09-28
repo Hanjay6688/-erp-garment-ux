@@ -3,6 +3,7 @@ import bbCatalog from './initialImportCatalogBB.json'
 import bcCatalog from './initialImportCatalogBC.json'
 import bdCatalog from './initialImportCatalogBD.json'
 import beCatalog from './initialImportCatalogBE.json'
+import bfExtensions from './initialImportCatalogBF.json'
 
 type CatalogSpec = { label: string; required: readonly string[]; fields: Record<string, string> }
 const { _extend: bbExtensions, ...bbEntities } = bbCatalog
@@ -17,7 +18,7 @@ function mergeCatalog(): Record<Entity, CatalogSpec> {
     if (key in merged) throw new Error(`Katalog impor ganda: ${key}`)
     merged[key] = spec
   }
-  for (const [key, more] of [...Object.entries(bbExtensions), ...Object.entries(bdExtensions)] as [string, { fields: Record<string, string> }][]) {
+  for (const [key, more] of [...Object.entries(bbExtensions), ...Object.entries(bdExtensions), ...Object.entries(bfExtensions)] as [string, { fields: Record<string, string> }][]) {
     if (!(key in merged) || Object.keys(more.fields).some(field => field in merged[key].fields)) throw new Error(`Perluasan katalog impor tidak valid: ${key}`)
     merged[key].fields = { ...merged[key].fields, ...more.fields }
   }
