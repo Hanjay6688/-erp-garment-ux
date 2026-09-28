@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 44,
+  "revision": 45,
   "phase": "after",
-  "scenario_path": "scripts/cp6_bf_vendor_modes.py",
+  "scenario_path": "scripts/cp6_bf_combined_modes.py",
   "browser_path": "scripts/cp6_bf_vendor_browser.mjs",
-  "purpose": "Fix the ambiguous amount column introduced in revision 43's released-target query. The mobile viewport and controls now pass interaction before that SQL error; rerun the complete supplier transaction and invoice-history qualification. CP6 HOLD."
+  "purpose": "Continue open CP6 R06/R07/R11: running-PO new member with same/different recipe, committed/uncommitted BS across a range move and same/other contractor, original-size sale then move, late invoice, return and invoice inverse (known and pending costs), plus the qualified vendor/supplier regression. Writer evidence only; CP6 HOLD."
 }

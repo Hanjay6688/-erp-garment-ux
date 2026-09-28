@@ -1,0 +1,221 @@
+"""Writer CP6 continuation: real combined range/QC/rework/sale/invoice transactions.
+
+Only disposable PostgreSQL fixtures. Unequal size quantities expose accidental
+averaging; expected stock, source identity and money are checked independently.
+"""
+import copy
+import json
+import uuid
+from datetime import timedelta
+import cp6_bf_probe as bf
+
+b, one = bf.b, bf.one
+prod, base = b.chain.production, b.chain.base
+
+
+def fixture(cur, today, recipe=False):
+    now = one(cur, 'select clock_timestamp()')
+    at = now - timedelta(minutes=4)
+    when = lambda hour, minute=0: now - timedelta(seconds=(30-hour-minute/60)*6)
+    rows = bf.products(cur, ('31', '32', '33', '34'))
+    roots, sizes, qtys = [p for p,s in rows], [s for p,s in rows], [5,8,3,4]
+    bom = []
+    if recipe:
+        unit = one(cur, "select unit_code from erp.uom_definitions where upper(unit_code)='PCS' and dimension='COUNT' and is_active")
+        cat = one(cur, "insert into erp.accessory_categories(category_code,category_name,base_uom_code,is_active) values(%s,'Combined range buttons',%s,true) returning id::text", 'BFC-'+uuid.uuid4().hex[:8],unit)
+        bom = [dict(category_id=cat,qty_per_good_fg_base='1',hpp_method='BOM_STANDARD',hpp_standard_rate='3.17',hpp_uom_code=unit,reimbursement_rate='0',reimbursement_uom_code=unit)]
+    def settings(rate):
+        return dict(price='185000.00',bom=copy.deepcopy(bom),work_rates=[dict(work_component_id=prod.COMPONENT,rate=rate)],laundry_rates=[])
+    a = bf.group(cur,roots[:3],at,settings=settings('10.00'))
+    z = bf.group(cur,roots[3:],at,settings=settings('30.00'))
+    saved = bf.save(cur,[a,z],at)
+    versions = {x['sku_id'] if 'sku_id' in x else x['id']:x['version_id'] for x in saved['groups']}
+    snapshots = {}
+    def work(cur,po,wave,batch,yields,clock):
+        bf.call(cur,'BIND_WAVE',dict(cutting_group_id=wave,expected_version=one(cur,'select erp.bf_wave_revision_v1(%s)',wave),references=[dict(size_id=s,sku_id=a['id'] if i<3 else z['id']) for i,s in enumerate(sizes)]))
+        cur.execute('insert into erp.po_work_component_snapshots(po_id,work_component_id,sequence_no,rate_per_pcs_snapshot,committed_at) values(%s,%s,1,3,%s)',(po,prod.COMPONENT,clock(9,30)))
+        prod.owner(cur)
+        cur.execute('select erp.ensure_po_work_component_snapshots_v2(%s,%s,%s)',(po,clock(10),uuid.uuid4()))
+        b.api.admin(cur)
+        for group,qty in ((a,16),(z,4)):
+            snap = one(cur,'select s.id::text from erp.po_work_component_snapshots s join erp.bf_sku_versions_v1 v on v.id=s.bf_sku_version_id where s.po_id=%s and v.sku_id=%s and s.work_component_id=%s',po,group['id'],prod.COMPONENT)
+            snapshots[group['id']] = snap
+            event = str(uuid.uuid4())
+            b.chain.peer.ordinary(cur)
+            cur.execute("insert into erp.work_completion_events(id,completion_number,po_id,contractor_id,cutting_group_id,physical_at,status,notes,created_by) values(%s,%s,%s,%s,%s,%s,'DRAFT','Combined range actual sewing',%s)",(event,'BFC-'+event,po,prod.CONTRACTOR,wave,clock(10),base.OPERATOR_APP))
+            cur.execute('insert into erp.work_completion_lines(completion_id,po_component_snapshot_id,work_component_id,qty_completed,qty_payable,rate_snapshot) values(%s,%s,%s,%s,%s,0)',(event,snap,prod.COMPONENT,qty,qty))
+            cur.execute('select erp.post_work_completion(%s)',(event,))
+            prod.owner(cur)
+            cur.execute('select public.erp_record_sewing_terminal_v1(%s::jsonb,%s)',(json.dumps(dict(work_completion_id=event,qty_pcs=qty,reason='Combined range physical sewing')),uuid.uuid4()))
+            b.api.admin(cur)
+    fx = b.two_size_fixture(cur,b.case_day(today),'COMBINED',size_quantities=list(zip(sizes,qtys)),clock=when,work_setup=work)
+    fx.update(now=now,when=when,rows=rows,roots=roots,size_ids=sizes,qtys=qtys,a=a,z=z,versions=versions,snapshots=snapshots)
+    fx['day'] = one(cur,'select erp.bb_business_today_v1()')
+    b.process_rate(cur,fx,'7.00')
+    b.invoice_policies(cur,after='CORRECTION_DOCUMENT')
+    return fx
+
+
+def wash(cur,f,indexes,hour,pending=False,pricing=None):
+    payload = dict(distribution_batch_id=f['batch'],vendor_id=f['vendor'],wash_process_id=f['process'],target_dyeing_color='COMBINED-BLUE',physical_at=f['when'](hour).isoformat(),reason='Combined range exact service recipients',lines=[dict(size_id=f['size_ids'][i],qty_sent_pcs=f['qtys'][i]) for i in indexes])
+    sent = b.bd(cur,'POST_PRICED_DELIVERY',dict(delivery=payload,expected_version=str(base.group_version(cur,f['group'])),pricing=pricing if pricing is not None else {'deferred':True} if pending else {}))
+    ds = dict(cur.execute('select s.size_id::text,s.id::text from erp.laundry_delivery_batch_size_lines s join erp.laundry_delivery_lines l on l.id=s.delivery_line_id where l.delivery_id=%s',(sent['delivery_id'],)).fetchall())
+    rec = b.chain.laundry_action(cur,'POST_RECEIPT',dict(delivery_id=sent['delivery_id'],wash_process_id=f['process'],physical_at=f['when'](hour+1).isoformat(),reason='Combined range exact-size receipts',lines=[dict(delivery_batch_size_line_id=ds[f['size_ids'][i]],qty_good_received=f['qtys'][i],qty_bs_laundry=0,bs_product_id=None) for i in indexes]),base.delivery_version(cur,sent['delivery_id']))
+    line = b.receipt_line(cur,rec['receipt_id'])
+    rs = dict(cur.execute('select d.size_id::text,r.id::text from erp.laundry_receipt_batch_size_lines r join erp.laundry_delivery_batch_size_lines d on d.id=r.delivery_batch_size_line_id where r.receipt_line_id=%s',(line,)).fetchall())
+    return dict(sent=sent,line=line,rs=rs)
+
+
+def finish(cur,f,washes,indexes,hour,bs=None,partial=False):
+    bs = bs or {}
+    lines=[]
+    for i in indexes:
+        source=next(w for w in washes if f['size_ids'][i] in w['rs'])
+        lines.append(dict(final_product_id=f['roots'][i],qty_good_pcs=f['qtys'][i]-bs.get(i,0),qty_bs_pcs=bs.get(i,0),source_laundry_receipt_line_id=source['line'],source_laundry_receipt_batch_size_line_id=source['rs'][f['size_ids'][i]]))
+    return b.chain.laundry_action(cur,'POST_FINAL_SKU',dict(cutting_group_id=f['group'],destination_location_id=base.LOCATION,physical_at=f['when'](hour).isoformat(),reason='Combined range QC with exact physical sources',good_qty_pcs=sum(x['qty_good_pcs'] for x in lines),completion_mode='PARTIAL_SELECTION' if partial else 'ALL_READY',lines=lines),base.group_version(cur,f['group']))
+
+
+def move34(cur,f,hour,changed_recipe=False):
+    at=f['when'](hour)
+    settings=copy.deepcopy(f['a']['settings'])
+    if changed_recipe:settings['bom'][0]['qty_per_good_fg_base']='2'
+    settings['work_rates'][0]['rate']='90.00'
+    a=bf.group(cur,f['roots'],at,sku=f['a']['sku'],gid=f['a']['id'],revision=1,settings=settings)
+    z=bf.group(cur,f['roots'][3:],at,sku=f['z']['sku'],gid=f['z']['id'],revision=1,settings=copy.deepcopy(f['z']['settings']))
+    z.update(members=[],legacy_basis=[])
+    z['settings']['work_rates'][0]['rate']='45.00'
+    return bf.save(cur,[a,z],at)
+
+
+def lots(cur,f):
+    return [one(cur,"select (select id::text from erp.fg_lots where po_id=%s and product_id=%s and lot_origin='PRODUCTION')",f['po'],p) for p in f['roots']]
+
+
+def stock(cur,lot):
+    return one(cur,'select coalesce(sum(qty_signed),0) from erp.fg_stock_movements where lot_id=%s',lot)
+
+
+def books(cur):
+    return {k:b.gl(cur,k) for k in ('FG_INVENTORY','COGS','WIP')}
+
+
+def report(cur,query,at=None,**filters):
+    prod.owner(cur)
+    result=cur.execute('select public.erp_get_sku_hpp_v1(%s::jsonb)',(json.dumps(dict(query=query,**({'at':at.isoformat()} if at else {}),**filters)),)).fetchone()[0]
+    b.api.admin(cur)
+    return result
+
+
+def sale(cur,f,index,qty,hour):
+    customer=base.create_customer(cur,'BFC-'+uuid.uuid4().hex[:8])
+    prod.owner(cur)
+    draft=cur.execute('select erp.save_sale_draft_v2(%s::jsonb,%s::uuid,null)',(json.dumps(dict(sale_number='BFC-'+uuid.uuid4().hex[:12],customer_id=customer,source_location_id=base.LOCATION,sale_date=f['when'](hour).isoformat(),reason='Combined range sale before membership move',items=[dict(product_id=f['roots'][index],qty_pcs=qty,unit_price_snapshot='185000',discount_amount=0)])),uuid.uuid4())).fetchone()[0]
+    b.api.admin(cur)
+    version=one(cur,'select row_version from erp.sales_headers where id=%s',draft['sale_id'])
+    prod.owner(cur)
+    cur.execute('select erp.post_sale_v2(%s,%s,%s)',(draft['sale_id'],uuid.uuid4(),version))
+    b.api.admin(cur)
+    return draft['sale_id']
+
+
+def return_one(cur,f,sale_id,hour):
+    ret=str(uuid.uuid4())
+    prod.owner(cur)
+    cur.execute("insert into erp.sales_returns(id,return_number,sale_id,customer_id,physical_at,created_by) select %s,%s,id,customer_id,%s,erp.current_app_user_id() from erp.sales_headers where id=%s",(ret,'BFC-RET-'+ret,f['when'](hour),sale_id))
+    cur.execute("insert into erp.sales_return_items(return_id,sale_stock_allocation_id,product_id,lot_id,location_id,qty_pcs,refund_amount) select %s,a.id,l.product_id,l.id,a.location_id,1,185000 from erp.sale_stock_allocations a join erp.fg_lots l on l.id=a.lot_id where a.sale_item_id in(select id from erp.sales_items where sale_id=%s)",(ret,sale_id))
+    cur.execute('select erp.post_sales_return(%s)',(ret,))
+    b.api.admin(cur)
+    return ret
+
+
+def late_invoice_return(cur,today,pending=False):
+    f=fixture(cur,today)
+    if pending:b.policy(cur,'LAU_DEC04',dict(sale_with_unknown_laundry='ALLOW_PENDING'))
+    regular=wash(cur,f,[0,1,2],11)
+    target=wash(cur,f,[3],13,pending)
+    finish(cur,f,[regular,target],range(4),15)
+    ls=lots(cur,f)
+    old=[b.lot_value(cur,l) for l in ls]
+    sid=sale(cur,f,3,4,16)
+    allocated=cur.execute('select to_jsonb(a) from erp.sale_stock_allocations a where sale_item_id in(select id from erp.sales_items where sale_id=%s)',(sid,)).fetchall()
+    old_report=report(cur,f['z']['sku'],f['when'](15,30))
+    move34(cur,f,17)
+    before=books(cur);truth=b.all_truth(cur)
+    amount='160.00' if pending else '188.00'
+    _,invoice=b.invoice(cur,f,[dict(line=target['line'],qty=4,amount=amount)],amount)
+    after=books(cur);priced=[b.lot_value(cur,l) for l in ls]
+    ret=return_one(cur,f,sid,19)
+    returned=books(cur)
+    current=report(cur,f['a']['sku'])
+    return_source=cur.execute('select product_id::text,lot_id::text,qty_pcs from erp.sales_return_items where return_id=%s',(ret,)).fetchone()
+    checks=dict(invoice_only_target=priced[:3]==old[:3] and priced[3]-old[3]==160,
+        sold_variance=after['COGS']-before['COGS']==160 and after['FG_INVENTORY']==before['FG_INVENTORY'] and after['WIP']==before['WIP'],
+        same_original_lot=return_source==(f['roots'][3],ls[3],1),stock_exact=[stock(cur,l) for l in ls]==[5,8,3,1],
+        return_cost=returned['FG_INVENTORY']-after['FG_INVENTORY']==priced[3]/4 and returned['COGS']-after['COGS']==-priced[3]/4,
+        immutable_sale=allocated==cur.execute('select to_jsonb(a) from erp.sale_stock_allocations a where sale_item_id in(select id from erp.sales_items where sale_id=%s)',(sid,)).fetchall(),
+        historical_membership=len(old_report['groups'])==1 and old_report['groups'][0]['qty']=='4',
+        current_one_group=len(current['groups'])==1 and current['groups'][0]['qty']=='17' and len(current['groups'][0]['lots'])==4,
+        current_value=b.D(current['groups'][0]['value'])==sum(priced[:3])+priced[3]/4,
+        invoice_clears=not one(cur,'select erp.bd_lot_laundry_unknown_v1(%s)',ls[3]),truth=b.truth_quiet(truth,b.all_truth(cur)))
+    b.bd(cur,'REVERSE_INVOICE',dict(invoice_id=invoice['invoice_id'],expected_version=invoice['row_version'],reason='Combined range inverse after original-lot return'))
+    inverse=books(cur)
+    checks.update(inverse_exact=[b.lot_value(cur,l) for l in ls]==old,
+        inverse_distribution=inverse['FG_INVENTORY']-returned['FG_INVENTORY']==-40 and inverse['COGS']-returned['COGS']==-120,
+        unknown_restored=one(cur,'select erp.bd_lot_laundry_unknown_v1(%s)',ls[3])==pending,
+        stock_after_inverse=[stock(cur,l) for l in ls]==[5,8,3,1])
+    return b.verdict(checks,lot_values_before=list(map(str,old)),lot_values_after=list(map(str,priced)),invoice=amount,variance='160.00',pending=pending)
+
+
+def new_member_running_po(cur,today,mismatch=False):
+    f=fixture(cur,today,True)
+    w=wash(cur,f,range(4),11)
+    finish(cur,f,[w],range(3),13,partial=True)
+    original=lots(cur,f)[:3]
+    old=[b.lot_value(cur,l) for l in original]
+    move34(cur,f,14,changed_recipe=mismatch)
+    before=b.all_truth(cur)
+    if mismatch:
+        refused=b.refused(cur,lambda:finish(cur,f,[w],[3],15),'BF_PO_NEW_MEMBER')
+        return b.verdict(dict(refused=refused['ok'],old_lots_unchanged=[b.lot_value(cur,l) for l in original]==old,
+            no_new_lot=lots(cur,f)[3] is None,physical_unchanged=[stock(cur,l) for l in original]==[5,8,3],truth=b.truth_quiet(before,b.all_truth(cur))),refusal=refused)
+    finish(cur,f,[w],[3],15)
+    ls=lots(cur,f)
+    recipe=one(cur,'select erp.bf_recipe_basis_v1(bom_version_id) from erp.po_accessory_bom_commitments where po_id=%s and product_id=%s',f['po'],f['roots'][3])
+    return b.verdict(dict(all_sizes=[stock(cur,l) for l in ls]==[5,8,3,4],old_lots_unchanged=[b.lot_value(cur,l) for l in original]==old,
+        original_pin=one(cur,'select version_id::text from erp.bf_po_boms_v1 where po_id=%s and sku_id=%s',f['po'],f['a']['id'])==f['versions'][f['a']['id']],
+        exact_recipe=recipe[0]['qty']==1 and b.D(str(recipe[0]['standard']))==b.D('3.17'),
+        work_still_original=one(cur,"select erp.cp6_lot_work_cost_v2620c(%s,'LABOR')",ls[3])==120,
+        positive_hpp=b.lot_value(cur,ls[3])>0,truth=b.truth_quiet(before,b.all_truth(cur))),values=list(map(str,[b.lot_value(cur,l) for l in ls])))
+
+
+def range_rework(cur,today,committed=True,different=False):
+    f=fixture(cur,today,True)
+    w=wash(cur,f,range(4),11)
+    count=2 if committed else 4
+    finish(cur,f,[w],range(4),13,bs={3:count})
+    bs=one(cur,"select id::text from erp.bs_cases where po_id=%s and product_id=%s and status='OPEN'",f['po'],f['roots'][3])
+    old_bom=one(cur,'select (select bom_version_id::text from erp.po_accessory_bom_commitments where po_id=%s and product_id=%s)',f['po'],f['roots'][3])
+    b.chain.bs_action(cur,'CLASSIFY_BS',dict(bs_case_id=bs,cause_source='UNKNOWN',components=[dict(work_component_id=prod.COMPONENT,completed_before_bs_qty=count)],change_reason='Original work earned before range move'),b.chain.version(cur,'bs_cases',bs))
+    move34(cur,f,14,changed_recipe=committed)
+    contractor=prod.CONTRACTOR
+    if different:
+        contractor=one(cur,"insert into erp.contractors(contractor_code,contractor_name,contractor_type,attendance_required,is_active) values(%s,'Combined alternate mandor','MANDOR',false,true) returning id::text",'BFC-'+uuid.uuid4().hex[:8])
+    component=one(cur,'select id::text from erp.bs_case_components where bs_case_id=%s and work_component_id=%s',bs,prod.COMPONENT)
+    bom=one(cur,'select erp.resolve_rework_accessory_bom_v1(%s,%s)::text',bs,f['when'](15))
+    payload=dict(rework_number='BFC-RW-'+uuid.uuid4().hex[:10],bs_case_id=bs,destination_type='CONTRACTOR',contractor_id=contractor,vendor_id=None,qty_sent=count,physical_sent_at=f['when'](15).isoformat(),status='IN_PROGRESS',return_fg_location_id=base.LOCATION,accessory_bom_version_id=bom,accessory_bom_item_ids=[],change_reason='Rework after range move preserves physical provenance',components=[dict(bs_case_component_id=component,qty_performed=count)])
+    made=b.chain.bs_action(cur,'SAVE_REWORK',payload)
+    rid=made['result']['rework_order_id']
+    line=cur.execute('select rate_snapshot,rate_basis,source_po_component_snapshot_id::text,bf_sku_version_id::text from erp.rework_component_lines where rework_order_id=%s',(rid,)).fetchone()
+    truth=b.all_truth(cur)
+    completed=b.chain.bs_action(cur,'COMPLETE_REWORK',dict(rework_order_id=rid,qty_good=count,qty_bs=0,completed_at=f['when'](16).isoformat(),return_fg_location_id=base.LOCATION,change_reason='All actual rework pieces returned'),b.chain.version(cur,'rework_orders',rid))
+    lot=completed['result']['good_fg_lot_id']
+    value=b.lot_value(cur,lot)
+    result=b.verdict(dict(recipe_origin=(bom==old_bom if committed else old_bom is None),
+        correct_work_rate=line[0]==(45 if different else 30),correct_work_source=line[1]==('SKU_RATE' if different else 'PO_SNAPSHOT'),
+        original_snapshot=different or line[2]==f['snapshots'][f['z']['id']],
+        physical_identity=one(cur,'select product_id::text from erp.fg_lots where id=%s',lot)==f['roots'][3],
+        recovered=count==stock(cur,lot),positive_hpp=value>0,truth=b.truth_quiet(truth,b.all_truth(cur))),committed=committed,different_contractor=different,rate=str(line[0]),basis=line[1],hpp=str(value))
+    b.chain.bs_action(cur,'REVERSE_REWORK_COMPLETION',dict(rework_order_id=rid,change_reason='Combined range recovery inverse'),b.chain.version(cur,'rework_orders',rid))
+    result['checks']['inverse_stock']=stock(cur,lot)==0
+    if not result['checks']['inverse_stock']:result['status']='FAIL'
+    return result
