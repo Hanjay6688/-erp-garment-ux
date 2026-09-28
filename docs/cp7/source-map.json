@@ -722,7 +722,7 @@
     "query": "scripts/cp7-src/snapshot/capture_probe.sql",
     "parser": "tests/cp7/sourceProbeContract.ts",
     "native_probe": "scripts/cp7_p02_snapshot_probe.py",
-    "runtime_proof": "PENDING",
+    "runtime_proof": "DIAGNOSTIC_NATIVE_PASS_RUN_36480942787_NO_ACTOR_FACADE",
     "source_relations": [
       "erp.products",
       "erp.bf_sku_members_v1",
@@ -748,6 +748,7 @@
       "A single SELECT snapshot is transient: no persisted immutable facts or actor-safe serve/replay",
       "Partial source pages or overlapping versions return INCOMPLETE; no silent zero",
       "Finance cost pending remains UNKNOWN until verified"
-    ]
+    ],
+    "verification": "docs/cp7/evidence/p02/VERIFICATION.json"
   }
 }
