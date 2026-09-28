@@ -69,3 +69,27 @@ Sesudah CP6 diterima, bandingkan accepted tree dengan referensi di atas,
 finalkan parser/izin/snapshot backend, hubungkan port, lalu uji angka,
 keanggotaan exact size, permission, replay dan transaksi atomik. Cangkang
 yang lulus S0 belum menjanjikan integrasi langsung lulus.
+
+## Delta riset dan prototipe pemicu — 28 September 2026
+
+Owner menanyakan pembelajaran pola dari histori dan pemicu backend. Tambahan
+ini adalah kontrak executable di `docs/cp7/prototypes/automation.ts`, bukan
+runtime worker. Lihat [automation-seam.md](automation-seam.md). Integrasi
+CP6 tetap HOLD; scheduler/worker mandiri tetap CP7C dan tidak diaktifkan.
+
+| Pemeriksaan delta | Hasil | Batas bukti |
+|---|---|---|
+| Suite unit/DOM | 55 file, 609 tes PASS | Termasuk 12 skenario pemicu baru; bukan eksekusi job backend |
+| Rerun 12 tes setelah pemindahan prototipe | PASS | Replay identity, revisi/scope/versi, disabled/uncommitted, kelayakan data, pemisahan refresh/training |
+| Typecheck prototipe dengan TypeScript proyek | PASS | Strict, noEmit, ignoreConfig eksplisit untuk file di luar runtime |
+| Build + source/access/CSS + scan artefak | PASS | Runtime aplikasi tetap sama; prototipe tidak masuk bundle |
+| `npm run test:security` | PASS | Guard CP5/CP6 tetap utuh; bukan native DB proof |
+| Browser / native worker / training aktual | NOT_RUN pada delta ini | Tidak ada perubahan UI; worker/model belum diimplementasikan |
+
+Build awal menolak file prototipe di `src` karena bukan bagian import graph
+aplikasi. File dipindah ke area prototipe dokumentasi, tanpa mengubah guard
+atau menambah impor palsu. Typecheck file terpisah memakai `--ignoreConfig`
+sesuai kebutuhan TypeScript 7; build dan tes kemudian lulus.
+
+Hasil riset diserahkan sebagai `CP7_Riset_Metode_dan_Pola_Data_20260928.md`.
+Tidak ada klaim akurasi model Hansen: dataset usaha belum dilatih/backtest.

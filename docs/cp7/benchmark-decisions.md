@@ -39,3 +39,37 @@ Tidak ada sumber blog SEO/angka industri tanpa konteks yang dipakai untuk
 menetapkan parameter usaha. Rujukan di atas dibaca sebagai sumber primer
 penulis/pengajar/penerbit produk; usia bahan ajar tidak menjadi klaim data
 pasar terbaru.
+
+## Delta riset: belajar pola dan memilih metode
+
+Permintaan owner berikutnya mencakup praktik perusahaan besar/kecil, pola
+usaha sendiri, alasan pemilihan SKU/jumlah, dan pemicu backend. Rekomendasi:
+model belajar dari fakta eligible, dibandingkan pada data uji kronologis,
+lalu hasilnya melewati netting, timeline, bahan dan kapasitas yang eksplisit.
+Statistik dan machine learning sama-sama dapat belajar pola; tidak ada
+jaminan model paling rumit paling akurat pada data Hansen.
+
+Kandidat awal tetap baseline mean/naive/moving mean, SES, damped/seasonal bila
+eligible, serta SBA/TSB untuk intermittent. Global LightGBM layak menjadi
+challenger setelah dataset siap. DeepAR bukan persyaratan awal. Satu tahun
+histori tidak membuktikan musim tahunan berulang; stockout/missing tidak
+diubah menjadi nol permintaan. SKU baru memerlukan analog beralasan/skenario.
+
+| Bukti primer tambahan | Hal yang didukung | Batas |
+|---|---|---|
+| Amazon Science, SCOT (2022) | Forecast ML + optimasi/simulasi | Bukan akurasi untuk Hansen |
+| Studi Zara, implementasi 2006/publikasi 2010 | Alokasi inventori toko dengan kendala ukuran | Bukan formula produksi atau klaim algoritme Zara sekarang |
+| Fast Retailing, Ariake (2024) | Algoritme permintaan dan penyesuaian produksi mingguan | Formula spesifik tidak dibuka |
+| Katana, Buttercream Clothing | Perencanaan produksi dan inventori kain pada usaha kecil | Studi vendor, bukan audit independen atau bukti forecast ML |
+| M5, preprint 2020/publikasi 2022 | Solusi berbasis LightGBM kuat pada kompetisi data retail | Tidak membuktikan Walmart mengoperasikan solusi pemenang |
+
+- https://www.amazon.science/latest-news/solving-some-of-the-largest-most-complex-operations-problems
+- https://web.mit.edu/jgallien/www/ZaraInterfacesPaperDraftFeb23.pdf
+- https://www.fastretailing.com/eng/sustainability/news/2411131510.html
+- https://katanamrp.com/wp-content/uploads/2021/06/buttercream-clothing.pdf
+- https://statmodeling.stat.columbia.edu/wp-content/uploads/2021/10/M5_accuracy_competition.pdf
+
+Ini shortlist untuk evaluasi, bukan aktivasi estimator. Prototipe pemicu dan
+batas CP7/CP7C ada di [automation-seam.md](automation-seam.md). Laporan riset
+owner `CP7_Riset_Metode_dan_Pola_Data_20260928.md` memuat perbandingan rumus,
+asumsi, sumber primer, kebutuhan data, evaluasi, dan rancangan penjelasan.
