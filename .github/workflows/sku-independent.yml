@@ -181,6 +181,37 @@ jobs:
     - name: Own master range physical cost permission and concurrency tests
       working-directory: auditor
       run: python audits/independent_sku_20260928/native.py
+    - name: Isolated sales range moves import and direct grants
+      if: always()
+      working-directory: auditor
+      run: "set -euo pipefail\nfor audit_mode in sales move import access; do\n  docker exec supabase_db_cp5-local psql -U supabase_admin -d template1 -v\
+        \ ON_ERROR_STOP=1 -c 'drop database if exists cp6_sku_edges with (force)'\n  docker exec supabase_db_cp5-local psql -U supabase_admin -d template1\
+        \ -v ON_ERROR_STOP=1 -c 'create database cp6_sku_edges with template cp6_rollback owner postgres'\n  python audits/independent_sku_20260928/extended.py\
+        \ \"$audit_mode\"\ndone\n"
+    - uses: actions/setup-node@v4
+      if: always()
+      with:
+        node-version: '24'
+    - name: Prepare independent browser runtime
+      if: always()
+      working-directory: auditor
+      run: 'set -euo pipefail
+
+        npm ci
+
+        npm install -g agent-browser@0.31.1
+
+        agent-browser install --with-deps
+
+        npm install --prefix "$RUNNER_TEMP/be-browser-input" --no-save playwright-core@1.55.0
+
+        echo "BE_PLAYWRIGHT_CORE=$RUNNER_TEMP/be-browser-input/node_modules/playwright-core" >> "$GITHUB_ENV"
+
+        '
+    - name: Actual SKU Auth HTTP desktop and touch UI
+      if: always()
+      working-directory: auditor
+      run: python audits/independent_sku_20260928/browser.py
     - name: Exact BF post-use rollback refusal
       if: always()
       working-directory: auditor

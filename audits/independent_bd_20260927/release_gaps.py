@@ -54,7 +54,7 @@ def save(name: str, report: dict) -> None:
 def identity() -> dict:
     changed = git("diff", "--name-only", PRODUCT, "--").decode().splitlines()
     assert all(
-        path.startswith(("audits/independent_be_20260928/", "audits/independent_bd_20260927/"))
+        path.startswith(("audits/independent_be_20260928/", "audits/independent_bd_20260927/", "audits/independent_sku_20260928/", ".github/workflows/sku-"))
         or path in (".github/workflows/be-independent-20260928.yml", ".github/workflows/bd-independent-20260927.yml", ".github/workflows/bd-be-retest-codeql.yml", ".github/workflows/bd-be-retest-ci.yml")
         for path in changed
     ), ("FROZEN_PRODUCT_DRIFT", changed)

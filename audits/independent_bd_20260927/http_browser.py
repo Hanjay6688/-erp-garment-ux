@@ -780,7 +780,8 @@ def gap_redye_boundary():
        'public_route_status':status,'public_route_response':body,'sentinel_service_id':sentinel,'valid_be_service_fixture':False,
        'scope':'BD-only latent integration; no BE product schema installed; valid BE service mutation is not testable here'}
     FIX['redye_boundary']=o
-    assert schema==(None,None) and 'redye_services' not in w and not 200<=status<300,o
+    assert schema[0]=='erp.be_redye_services_v1' and schema[1] and 'redye_services' in w and status==400 and body.get('message')=='BE_SERVICE_NOT_FOUND',o
+    o['scope']='SKU/BF candidate includes BE: real router must reach the correct missing-service guard; positive valid-service behavior is separately tested by own BE regression'
     return o
 
 def gap_redye_browser_boundary():

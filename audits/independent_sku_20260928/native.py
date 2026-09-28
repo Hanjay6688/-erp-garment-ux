@@ -61,18 +61,18 @@ def setup():
  try:d.setup()
  finally:d.precursor=original
  C['base']=(datetime.now(timezone.utc)-timedelta(seconds=210)).isoformat();C['sku_id']=uid();C['s3']=uid();C['s4']=uid()
- C['roots']=[C['products'][C[k]+':'+C['brand']] for k in ['s1','s2']]
+ C['roots']=[]
  with psycopg.connect(s.DSN) as c:
   c.execute("select set_config('app.change_reason','Independent size fixture',true)")
   for key,code in [('s1','31'),('s2','32')]:c.execute('update erp.sizes set size_code=%s where id=%s',(code,C[key]))
-  for key,code in [('s3','33'),('s4','34')]:
-   c.execute('insert into erp.sizes(id,size_code,sort_order) values(%s,%s,%s)',(C[key],code,int(code)))
-   c.execute('insert into erp.product_model_sizes(model_id,size_id) values(%s,%s)',(C['model'],C[key]))
+  for key,code in [('s1','31'),('s2','32'),('s3','33'),('s4','34')]:
+   if key in ['s3','s4']:
+    c.execute('insert into erp.sizes(id,size_code,sort_order) values(%s,%s,%s)',(C[key],code,int(code)))
+    c.execute('insert into erp.product_model_sizes(model_id,size_id) values(%s,%s)',(C['model'],C[key]))
    pid=uid();C['products'][C[key]+':'+C['brand']]=pid
    c.execute("insert into erp.products(id,identity_root_id,sku,model_id,brand_id,color_name,size_id,product_name,effective_from) values(%s,%s,'AUD-SKU-PHYSICAL',%s,%s,'AUD-NAVY',%s,'Independent range member','2026-09-01T00:00Z')",(pid,pid,C['model'],C['brand'],C[key]))
    c.execute("insert into erp.accessory_bom_versions(product_id,version_label,effective_from,created_by) values(%s,'NONE','2026-09-01T00:00Z',%s)",(pid,C['app_owner']))
-  C['roots'].append(C['products'][C['s3']+':'+C['brand']])
-  for pid in C['roots']:c.execute("update erp.products set sku='AUD-SKU-PHYSICAL' where id=%s",(pid,))
+   if key!='s4':C['roots'].append(pid)
   rid=c.execute('select role_id from erp.app_users where auth_user_id=%s',(C['staff'],)).fetchone()[0]
   c.execute("insert into erp.app_role_permissions(role_id,permission_key) values(%s,'master.product.view') on conflict do nothing",(rid,))
  C['settings']={'price':'87654.32','bom':[],'work_rates':[{'work_component_id':C['work_component'],'rate':'127.19'}],'laundry_rates':[{'vendor_id':C['daily_vendor'],'kind':'COMPONENT','ref_id':C['daily_wash'],'rate_status':'KNOWN','rate':'101.23','reason':None},{'vendor_id':C['daily_vendor'],'kind':'COMPONENT','ref_id':C['daily_finish'],'rate_status':'KNOWN','rate':'913.27','reason':None}]}
@@ -136,7 +136,7 @@ def shipment(key='A'):
  f=F[key];p={'expected_version':str(d.ver('cutting_groups',f['group'])),'delivery':{'distribution_batch_id':f['batch'],'vendor_id':C['daily_vendor'],'wash_process_id':C['process'],'target_dyeing_color':'AUD-NAVY','physical_at':at(20),'reason':'Independent SKU scoped pricing','lines':[{'size_id':C[k],'qty_sent_pcs':n} for k,n in zip(['s1','s2','s3'],[5,8,3])]},'pricing':{'components':[{'component_id':C['daily_wash'],'covered_qty':16},{'component_id':C['daily_finish'],'covered_qty':3,'coverage':[{'size_id':C['s2'],'qty':3}]}]}}
  r=s.command('POST_PRICED_DELIVERY',p);f['delivery']=r['delivery_id'];f['delivery_line']=admin('select id::text from erp.laundry_delivery_lines where delivery_id=%s',(f['delivery'],),one=True)
  eq(D(r['pricing']['total_known']),D('4359.49'));eq(D(r['estimated_cost']),D('4359.49'))
- rows=admin('select component_id::text,rate_per_pcs,covered_qty,known_amount,bf_sku_version_id::text from erp.bd_laundry_charge_lines_v1 where delivery_line_id=%s order by line_no',(f['delivery_line'],));return {'response':r,'charges':rows}
+ rows=admin('select ref_id::text,unit_rate,covered_qty,amount,bf_sku_version_id::text from erp.bd_laundry_charge_lines_v1 where delivery_line_id=%s order by line_no',(f['delivery_line'],));return {'response':r,'charges':rows}
 def receive(key='A'):
  f=F[key];xs=admin('select id::text,qty_sent_pcs from erp.laundry_delivery_batch_size_lines where delivery_line_id=%s order by size_id',(f['delivery_line'],))
  p={'delivery_id':f['delivery'],'wash_process_id':C['process'],'physical_at':at(30),'reason':'Independent uneven SKU receipt','lines':[{'delivery_batch_size_line_id':i,'qty_good_received':n,'qty_bs_laundry':0,'bs_product_id':None} for i,n in xs]}

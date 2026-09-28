@@ -14,7 +14,9 @@ def state():
    'indexes':"select schemaname,tablename,indexname,indexdef from pg_indexes where schemaname in ('erp','public') order by 1,2,3",
    'triggers':"select n.nspname,t.relname,g.tgname,pg_get_triggerdef(g.oid) from pg_trigger g join pg_class t on t.oid=g.tgrelid join pg_namespace n on n.oid=t.relnamespace where n.nspname in ('erp','public') and not g.tgisinternal order by 1,2,3",
    'policies':"select * from pg_policies where schemaname in ('erp','public') order by schemaname,tablename,policyname"
-  }.items():r[key]=audit_state.digest(c.execute(query).fetchall())
+  }.items():
+   rows=c.execute(query).fetchall();r[key]=audit_state.digest(rows)
+   if key=='constraints':r['constraint_definitions']=json.loads(json.dumps(rows,default=str))
  r['limits']='Sequence counters excluded; data, functions, permissions, relations, columns, constraints, indexes, triggers and RLS policies compared.'
  return r
 
