@@ -1,6 +1,6 @@
 -- CP6 BF: commercial SKU ranges, vendor-authoritative optional laundry costs and portable supplier credits. Release candidate of the T3 combined package; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_bf_t1_family.sql (sha256 58b97662a093147f3e594987bcc662e0f7cf376aaaf7664364739508ab1fafbd): the T1 body below is unchanged apart from the
+-- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_bf_t1_family.sql (sha256 d5e66d221878db1ba34b0c159e05c13f6b12bac3acc2b3066fcff514ef876ffd): the T1 body below is unchanged apart from the
 -- ledger description; guards follow AO..AV. Capsule and catalog pins are placeholders until the T3 capture.
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
@@ -271,6 +271,10 @@ begin
  if at_time<statement_timestamp()-interval '5 minutes' then raise exception 'BF_HISTORY: master baru hanya mulai sekarang atau mendatang';end if;
  if jsonb_typeof(p_payload->'groups') is distinct from 'array' or jsonb_array_length(p_payload->'groups') not between 1 and 30 then
    raise exception 'BF_GROUPS: wajib 1 sampai 30 kelompok';end if;
+ -- Conversion posting already takes the FG/HPP lock before product locks.
+ -- Read posted history only after that writer finishes, including direct native
+ -- conversion routes. Keep the same order before the commercial master lock.
+ perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
  -- One lock also serializes movements between groups and edits arriving via different member sizes.
  perform pg_advisory_xact_lock(hashtextextended('BF:COMMERCIAL_SKUS',0));
  insert into erp.bf_context_v1(backend_pid,transaction_id) values(pg_backend_pid(),txid_current());
@@ -301,6 +305,17 @@ begin
    basis:=erp.bf_legacy_basis_v1(roots,at_time);
    if g->'legacy_basis' is distinct from basis then raise exception 'BF_BASIS_CHANGED: baca semua harga/resep anggota lalu konfirmasi pengaturan bersama';end if;
    select * into current_v from erp.bf_sku_versions_v1 where sku_id=sid and effective_to is null;
+   -- A conversion uses both commercial identities even when its destination
+   -- has no production BOM commitment. Reversed documents still retain history.
+   -- Include old and incoming members and all physical versions of each root.
+   if exists(select 1 from erp.product_conversions c
+     join erp.products used on used.id in(c.from_product_id,c.to_product_id)
+     where c.status in('POSTED','REVERSED') and c.physical_at>=at_time
+       and (used.identity_root_id=any(roots) or exists(
+         select 1 from erp.bf_sku_members_v1 m
+         where m.version_id=current_v.id and m.product_root=used.identity_root_id))) then
+     raise exception 'BF_TARIFF_HISTORY: waktu perubahan mendahului identitas konversi yang sudah tercatat';
+   end if;
    if current_v.id is not null then
      if at_time<=current_v.effective_from then raise exception 'BF_EFFECTIVE_ORDER';end if;
      if exists(select 1 from erp.po_work_component_snapshots where bf_sku_version_id=current_v.id and committed_at>=at_time)
@@ -3694,7 +3709,7 @@ with relations as (
 select coalesce(jsonb_object_agg(k,encode(extensions.digest(convert_to(v::text,'UTF8'),'sha256'),'hex')),'{}'::jsonb) from objects
 ) catalog;
  select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(length(key)::text||':'||key||':'||value,E'\n' order by key collate "C"),''),'UTF8'),'sha256'),'hex') into object_count,fingerprint from jsonb_each_text(actual);
- if object_count<>9292 or fingerprint is distinct from 'ea5ef2829f732c7302c8e17e168a2679a539c2afa48cc78fb316fb019bb03234' then
+ if object_count<>9292 or fingerprint is distinct from '81583060be5c75c1006ec08b3827bda4ca7de772df81bad64ff25e5cdec3c329' then
   raise exception 'BF_INSTALLED_CATALOG_DRIFT';
  end if;
 end $catalog_guard$;

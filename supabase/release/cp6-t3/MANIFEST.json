@@ -2528,8 +2528,8 @@
       "name": "erp_v2_6_20bf_cp6_commercial_ranges_vendor_credit",
       "closed_admission": true,
       "source": "supabase/release/cp6-t3-src/20260928134500_erp_v2_6_20bf_cp6_commercial_ranges_vendor_credit.sql",
-      "source_sha256": "e52ae87cc289d1265ba75dbecf560b9ca8e53d5e38c3b8135c2b31872e3e9229",
-      "package_sha256": "fa4dadf5cbab6ac34de94c72c4d67459a2cd1ba28eee33efee965fedc1de8caf",
+      "source_sha256": "abcd0f5fa75f381a4629d09afc220ace2b68962a5c4329952782b233e41e3f7e",
+      "package_sha256": "9bf4b5642c9d6af3369f98ad265bd802ee993fac7e1d8d290412184588392643",
       "substitutions": [
         {
           "kind": "LEDGER",
@@ -2789,7 +2789,7 @@
   "rollbacks": "NOT_TESTED",
   "pins": {
     "file": "docs/evidence/cp6-t3/release_pins.json",
-    "blob_sha256": "3e9dc0047f0f62b575d2c4d2df817667080e3729cb6e3f296624ef73d753db2a",
+    "blob_sha256": "01790c42b28a109220204ef692a77ef05694f73d9b46dd92ebe6cdd4a9aec5ea",
     "blob_bytes": 130872
   }
 }
