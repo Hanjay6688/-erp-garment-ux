@@ -33,10 +33,17 @@ def verified(cur):
     for signature in dict.fromkeys(build.REPLACED+build.new_functions()):
         if signature in replaced or ('(' not in signature and signature in {s.split('(')[0] for s in replaced}):continue
         name=signature.split('(')[0];schema,fn=name.split('.')
-        start=list(re.finditer(r'(?i)create or replace function '+re.escape(name)+r'\(',sql))[-1].start()
+        definitions=list(re.finditer(r'(?i)create or replace function '+re.escape(name)+r'\(',sql))
+        start=definitions[-1].start()
         body_start=sql.index('$function$',start)+len('$function$');body=sql[body_start:sql.index('$function$',body_start)]
         actual=q(cur,'select p.prosrc from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname=%s and p.proname=%s',schema,fn)
-        assert len(actual)==1 and actual[0][0]==body,('BE_INSTALLED_SOURCE_MISMATCH',signature)
+        if name=='public.erp_reverse_sewing_terminal_v1':
+            expected=[]
+            for definition in definitions:
+                at=sql.index('$function$',definition.start())+len('$function$')
+                expected.append(sql[at:sql.index('$function$',at)])
+            assert len(actual)==2 and sorted(x[0] for x in actual)==sorted(expected),('BE_INSTALLED_OVERLOAD_MISMATCH',signature)
+        else:assert len(actual)==1 and actual[0][0]==body,('BE_INSTALLED_SOURCE_MISMATCH',signature)
     for table in build.NEW_TABLES:assert one(cur,'select to_regclass(%s) is not null','erp.'+table),table
     return dict(result,stage='BD_PLUS_BE_T1',be_sql_sha256=hashlib.sha256(sql.encode()).hexdigest())
 

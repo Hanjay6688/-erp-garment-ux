@@ -1,6 +1,6 @@
 -- CP6 BE: physical SKU conversion, rework/redye service and historical pocket allocation (LAU-06b and ALL-C04). Release candidate of the T3 combined package; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_be_t1_family.sql (sha256 7caea674c7085f38af07d40c8abb12adc2be6e9bb0e98eb665580108ced50b4a): the T1 body below is unchanged apart from the
+-- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_be_t1_family.sql (sha256 695475db3719617bd2c10d82c4dee2eaa567f4c10f322697a1714b17b60d29f6): the T1 body below is unchanged apart from the
 -- ledger description; guards follow AO..AV. Capsule and catalog pins are placeholders until the T3 capture.
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
@@ -1332,12 +1332,18 @@ CREATE OR REPLACE FUNCTION public.erp_get_pocket_periods_v1(p_query text default
  RETURNS jsonb LANGUAGE sql SECURITY DEFINER SET search_path TO ''
 AS $function$ select erp.be_pocket_periods_v1(p_query,p_offset);$function$;
 
--- CP4's three-argument wrapper called a nonexistent native overload. Match the
--- native optimistic-version contract. Legacy calls fail with its explicit
--- expected_version-required message, before a mutation or idempotency entry.
-drop function public.erp_reverse_sewing_terminal_v1(uuid,text,uuid);
+-- Keep the existing identity for exact capsule restore. Legacy callers reach
+-- the native missing-version refusal; the four-argument overload is actionable.
 CREATE OR REPLACE FUNCTION public.erp_reverse_sewing_terminal_v1(
- p_event_id uuid,p_reason text,p_client_request_id uuid,p_expected_version bigint default null)
+ p_event_id uuid,p_reason text,p_client_request_id uuid)
+ RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+begin
+ perform erp.require_owner_admin();
+ return erp.reverse_sewing_terminal_v1(p_event_id,p_reason,p_client_request_id,null);
+end;$function$;
+CREATE OR REPLACE FUNCTION public.erp_reverse_sewing_terminal_v1(
+ p_event_id uuid,p_reason text,p_client_request_id uuid,p_expected_version bigint)
  RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
 AS $function$
 begin

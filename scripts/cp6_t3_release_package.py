@@ -311,6 +311,8 @@ def capture(out):
                       error=str(exc)[:3000],traceback=traceback.format_exc()[-3000:])
     finally:
         Path(out).write_text(json.dumps(report,indent=2,default=str)+'\n')
+        if report.get('error'):
+            print(json.dumps(dict(group='T3_PACKAGE_CAPTURE_ERROR',status=report['status'],error=report['error'])),flush=True)
         pins=dict(format='CP6_T3_RELEASE_PINS_V1',status=report['status'],
                   files=[{k:f.get(k) for k in ('key','path','stamp','name','closed','source_sha256','package_sha256','subs','status')}
                          for f in report['files']])

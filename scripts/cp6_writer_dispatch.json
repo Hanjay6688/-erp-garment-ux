@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 27,
+  "revision": 28,
   "phase": "after",
   "scenario_path": "scripts/cp6_be_revision_modes.py",
   "browser_path": "scripts/cp6_be_revision_browser.mjs",
-  "purpose": "BE audit revision: sourced signed recovery, mixed PO/non-PO journal boundary, searchable/paged pocket periods, unsupported rework admission and public sewing reversal. Includes BF/BD/BE regression. CP6 HOLD; writer evidence only."
+  "purpose": "BE audit revision: sourced signed recovery, mixed PO/non-PO journal boundary, searchable/paged pocket periods, unsupported rework admission and public sewing reversal. Includes BF/BD/BE regression. CP6 HOLD; writer evidence only. Preserve the legacy sewing facade identity for exact rollback; add explicit versioned overload and prevent unsupported order creation in UI."
 }

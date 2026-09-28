@@ -47,12 +47,18 @@ CREATE OR REPLACE FUNCTION public.erp_get_pocket_periods_v1(p_query text default
  RETURNS jsonb LANGUAGE sql SECURITY DEFINER SET search_path TO ''
 AS $function$ select erp.be_pocket_periods_v1(p_query,p_offset);$function$;
 
--- CP4's three-argument wrapper called a nonexistent native overload. Match the
--- native optimistic-version contract. Legacy calls fail with its explicit
--- expected_version-required message, before a mutation or idempotency entry.
-drop function public.erp_reverse_sewing_terminal_v1(uuid,text,uuid);
+-- Keep the existing identity for exact capsule restore. Legacy callers reach
+-- the native missing-version refusal; the four-argument overload is actionable.
 CREATE OR REPLACE FUNCTION public.erp_reverse_sewing_terminal_v1(
- p_event_id uuid,p_reason text,p_client_request_id uuid,p_expected_version bigint default null)
+ p_event_id uuid,p_reason text,p_client_request_id uuid)
+ RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
+AS $function$
+begin
+ perform erp.require_owner_admin();
+ return erp.reverse_sewing_terminal_v1(p_event_id,p_reason,p_client_request_id,null);
+end;$function$;
+CREATE OR REPLACE FUNCTION public.erp_reverse_sewing_terminal_v1(
+ p_event_id uuid,p_reason text,p_client_request_id uuid,p_expected_version bigint)
  RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
 AS $function$
 begin
