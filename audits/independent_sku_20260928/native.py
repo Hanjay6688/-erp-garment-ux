@@ -7,11 +7,20 @@ from datetime import datetime,timezone,timedelta
 from concurrent.futures import ThreadPoolExecutor
 from decimal import Decimal as D
 import psycopg
-from psycopg.types.json import Jsonb
+from psycopg.types.json import Jsonb,set_json_dumps
 ROOT=Path(__file__).resolve().parents[2]
 sys.path[:0]=[str(ROOT/'audits/independent_bd_20260927')]
 import suite as s
 import daily as d
+def exact_json(value):
+ # Preserve PostgreSQL numeric JSON types without binary-float conversion.
+ if isinstance(value,D):
+  if not value.is_finite():raise ValueError('Nonfinite audit JSON number')
+  return format(value,'f')
+ if isinstance(value,dict):return '{'+','.join(json.dumps(k)+':'+exact_json(v) for k,v in value.items())+'}'
+ if isinstance(value,(list,tuple)):return '['+','.join(exact_json(v) for v in value)+']'
+ return json.dumps(value)
+set_json_dumps(exact_json)
 C=s.CTX;R=[];E=s.EVENTS;F={};OUT=s.OUT;uid=s.uid;eq=s.eq;admin=s.admin
 CANDIDATE='23e9c9830c32dce10604c43d17e4476d2707b55d'
 def save():
@@ -64,6 +73,7 @@ def setup():
  C['roots']=[]
  with psycopg.connect(s.DSN) as c:
   c.execute("select set_config('app.change_reason','Independent size fixture',true)")
+  C['backup_owner']=uid();c.execute("insert into erp.app_users(auth_user_id,full_name,role,role_id) select %s,'AUD-BACKUP-OWNER','OWNER',role_id from erp.app_users where auth_user_id=%s",(C['backup_owner'],C['owner']))
   for key,code in [('s1','31'),('s2','32')]:c.execute('update erp.sizes set size_code=%s where id=%s',(code,C[key]))
   for key,code in [('s1','31'),('s2','32'),('s3','33'),('s4','34')]:
    if key in ['s3','s4']:

@@ -50,7 +50,27 @@ def custody(kind):
  b,rows=batch(code,[('OPENING_ACCESSORY_CUSTODY',[row])])
  if kind=='AMBIG':
   assert b['error_rows']>0 and 'SIZE_ALLOCATION_REQUIRED' in json.dumps(rows),rows;return {'invalid_before_post':True,'rows':rows}
- r=post(b);got=admin('select product_id::text,qty_received from erp.bc_customer_custody_v1 where batch_id=%s',(b['batch_id'],));eq(got,[(None if kind=='DESCRIPTION' else C['roots'][1],3)]);return {'posted':r,'custody':got}
+ r=post(b);got=admin('select product_id::text,qty from erp.bc_customer_custody_v1 where batch_id=%s',(b['batch_id'],));eq(got,[(None if kind=='DESCRIPTION' else C['roots'][1],3)]);return {'posted':r,'custody':got}
+
+def rework_source(has_bom):
+ # Independent legacy siblings: source is size32; size31 deliberately has opposite BOM state.
+ suffix='YES' if has_bom else 'NO';code='AUD-SKU-RW-'+suffix;source=None
+ import psycopg
+ with psycopg.connect(n.s.DSN) as c:
+  c.execute("select set_config('app.change_reason','Independent legacy sibling recipe fixture',true)")
+  for size,want_bom in [(C['s1'],not has_bom),(C['s2'],has_bom)]:
+   product=uid()
+   c.execute("insert into erp.products(id,identity_root_id,sku,model_id,brand_id,color_name,size_id,product_name,effective_from) values(%s,%s,%s,%s,%s,%s,%s,'Independent exact rework source','2026-09-01T00:00Z')",(product,product,code,C['model'],C['brand'],code,size))
+   if size==C['s2']:source=product
+   if want_bom:c.execute("insert into erp.accessory_bom_versions(product_id,version_label,effective_from,created_by) values(%s,'INDEPENDENT-EMPTY','2026-09-01T00:00Z',%s)",(product,C['app_owner']))
+ entities=[('OPEN_PO',[{'po_number':code,'model_code':'AUD-DAY','contractor_code':'AUD-DAY','target_qty_pcs':'4','status':'QC','current_stage':'QC','physical_start_at':'2026-09-02T08:00:00+07:00'}]),
+  ('OPENING_BALANCE_ITEM',[{'balance_type':'BS','product_sku':code,'brand_code':'AUD-brand','model_code':'AUD-DAY','color_name':code,'size_code':'32','location_code':'AUD-fg','stage':'QC','qty':'4','unit_cost':'6.13','amount':'24.52','po_number':code,'vendor_code':'AUD-DAY','accessory_cost_included':'false','opening_source_key':code,'control_key':'BS','hpp_input_method':'MANUAL'}]),
+  ('OPENING_CONTROL',[{'control_key':'BS','balance_type':'BS','qty':'4','amount':'24.52'}]),
+  ('OPENING_REWORK',[{'rework_number':code,'bs_source_key':code,'destination_type':'LAUNDRY','vendor_code':'AUD-DAY','sent_date':'2026-09-08','qty_sent_original':'2','qty_returned_before_cutover':'0','qty_open':'2'}])]
+ b,rows=batch('REWORK-'+suffix,entities);rw=[x for x in rows if x[0]=='OPENING_REWORK'];assert len(rw)==1,rw
+ if has_bom:eq(rw[0][1],'VALID');eq(b['error_rows'],0)
+ else:assert rw[0][1]=='ERROR' and 'BB_REWORK_ACCESSORY_BOM_REQUIRED' in str(rw),rw
+ return {'layer':'Real public import validation; rework completion not claimed by this case','source_product_size32':source,'source_has_bom':has_bom,'sibling31_has_opposite_bom':True,'rows':rows}
 
 n.case('SKU.X.SR03.AMBIG','Ambiguous open-sales import rejected before posting',lambda:open_sales(False))
 n.case('SKU.X.SR03.EXACT','Open-sales import retains exact size32 and replay has one effect',open_sales)
@@ -58,4 +78,8 @@ n.case('SKU.X.SR03.OVER','Insufficient stock import refuses atomically',lambda:o
 n.case('SKU.X.SR04.POCKET_AMBIG','Ambiguous historical COGS input rejected',lambda:pocket(False))
 n.case('SKU.X.SR04.POCKET_EXACT','Historical COGS input and replay retain exact size32',pocket)
 for k in ['AMBIG','EXACT','DESCRIPTION']:n.case('SKU.X.SR04.CUSTODY_'+k,'Customer custody input '+k,lambda k=k:custody(k))
+n.save()
+
+n.case('SKU.X.SR05.SOURCE_MISSING','Source32 cannot borrow legacy sibling31 recipe',lambda:rework_source(False))
+n.case('SKU.X.SR05.SOURCE_PRESENT','Source32 recipe validates even when sibling31 has none',lambda:rework_source(True))
 n.save()

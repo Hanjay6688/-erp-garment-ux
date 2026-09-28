@@ -81,14 +81,32 @@ def pinned_recipe():
  rows=admin('select po_id::text,sku_id::text,version_id::text from erp.bf_po_boms_v1 where po_id=any(%s::uuid[]) order by po_id',([F['A']['po'],F['B']['po']],));eq(len(rows),2);assert len({x[2] for x in rows})==2,rows
  old=admin('select sum(h.total_cost) from erp.hpp_versions h join erp.fg_lots l on l.id=h.lot_id where l.po_id=%s and h.is_current',(F['A']['po'],),one=True);eq(old.quantize(D('.01')),D('6394.53'))
  return {'old_new_po_recipe_versions':rows,'old_cost_preserved':old}
+def identities():
+ size,root,gid=uid(),uid(),uid();when=(datetime.now(timezone.utc)-timedelta(seconds=1)).isoformat()
+ with psycopg.connect(n.s.DSN) as c:
+  c.execute("select set_config('app.change_reason','Independent singleton27 boundary',true)")
+  c.execute("insert into erp.sizes(id,size_code,sort_order) values(%s,'27',27)",(size,));c.execute('insert into erp.product_model_sizes(model_id,size_id) values(%s,%s)',(C['model'],size))
+  c.execute("insert into erp.products(id,identity_root_id,sku,model_id,brand_id,color_name,size_id,product_name,effective_from) values(%s,%s,'AUD-SPECIAL-27',%s,%s,'AUD-SKU-INDIGO',%s,'Independent singleton','2026-09-01T00:00Z')",(root,root,C['model'],C['brand'],size))
+ settings=copy.deepcopy(C['settings']);settings['price']='45678.91';before=admin('select revision from erp.bf_skus_v1 where id=%s',(C['sku_id'],),one=True)
+ singleton=n.action('SAVE_GROUPS',n.payload([n.group(gid,[root],settings,sku='AUD-SPECIAL-27',when=when)],when))
+ otherroots=[C['products'][C[x]+':'+C['brand2']] for x in ['s1','s2']];other=n.action('SAVE_GROUPS',n.payload([n.group(uid(),otherroots,settings,sku='AUD-SKU-RANGE',when=when)],when))
+ eq(admin('select revision from erp.bf_skus_v1 where id=%s',(C['sku_id'],),one=True),before)
+ eq(admin("select count(*) from erp.bf_skus_v1 where sku='AUD-SKU-RANGE'",one=True),2)
+ eq(admin('select count(*) from erp.bf_sku_members_v1 where version_id=%s',(singleton['groups'][0]['version_id'],),one=True),1)
+ return {'singleton27':singleton,'same_code_other_brand':other,'primary_group_unchanged':True}
+def free_context():
+ C['base']=(datetime.now(timezone.utc)-timedelta(seconds=100)).isoformat();when=n.at();settings=copy.deepcopy(C['settings'])
+ for r,status in zip(settings['laundry_rates'],['FREE','WAIVED']):r.update(rate_status=status,rate='0.00',reason='Independent explicitly approved synthetic '+status)
+ roots=C['roots']+[C['products'][C['s4']+':'+C['brand']]];r=n.action('SAVE_GROUPS',n.payload([n.group(C['sku_id'],roots,settings,when=when)],when));C['v1']=r['groups'][0]['version_id'];n.new_wave('B');F['B'].update(expected_laundry='0.00',expected_size_costs=['635.95','1017.52','381.57']);return r
 if mode=='sales':
  n.case('SKU.S01','Sale uses exact middle-size FIFO cost, summary recomputes remaining weighted cost',sales)
  n.case('SKU.S02','Late invoice after range change recosts all source cost, without stock change',lateinvoice,['SKU.S01'])
  n.case('SKU.S03','Linked return retains size, lot and total FG plus COGS after recost',returned,['SKU.S02'])
 elif mode=='move':n.case('SKU.R02','Member moves atomically between groups without duplicate stock/cost',move)
 elif mode=='import':n.case('SKU.I01','Import exact size selection and ambiguity refusal',import_resolution)
-elif mode in ['mixed','recipe']:
- n.case('SKU.'+mode+'.SETUP','Separate mixed-wave rates or nonempty shared recipe',lambda:new_sku_context(mode=='recipe'))
+elif mode=='identities':n.case('SKU.M04','Singleton27 and same commercial code on another brand stay independent',identities)
+elif mode in ['mixed','recipe','free']:
+ n.case('SKU.'+mode+'.SETUP','Separate mixed-wave rates or nonempty shared recipe',free_context if mode=='free' else lambda:new_sku_context(mode=='recipe'))
  n.case('SKU.'+mode+'.WORK','Actual scoped work completion',mixed_work if mode=='mixed' else lambda:n.work('B'),['SKU.'+mode+'.SETUP'])
  n.case('SKU.'+mode+'.SHIP','Actual mixed SKU or recipe shipment',lambda:n.shipment('B'),['SKU.'+mode+'.WORK'])
  n.case('SKU.'+mode+'.RECEIVE','Actual physical receipt',lambda:n.receive('B'),['SKU.'+mode+'.SHIP'])

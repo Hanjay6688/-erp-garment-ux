@@ -184,9 +184,9 @@ jobs:
     - name: Isolated sales range moves import and direct grants
       if: always()
       working-directory: auditor
-      run: "set -euo pipefail\nfor audit_mode in sales move import access mixed recipe; do\n  docker exec supabase_db_cp5-local psql -U supabase_admin -d\
-        \ template1 -v ON_ERROR_STOP=1 -c 'drop database if exists cp6_sku_edges with (force)'\n  docker exec supabase_db_cp5-local psql -U supabase_admin\
-        \ -d template1 -v ON_ERROR_STOP=1 -c 'create database cp6_sku_edges with template cp6_rollback owner postgres'\n  python audits/independent_sku_20260928/extended.py\
+      run: "set -euo pipefail\nfor audit_mode in sales move import access mixed recipe free identities; do\n  docker exec supabase_db_cp5-local psql -U\
+        \ supabase_admin -d template1 -v ON_ERROR_STOP=1 -c 'drop database if exists cp6_sku_edges with (force)'\n  docker exec supabase_db_cp5-local psql\
+        \ -U supabase_admin -d template1 -v ON_ERROR_STOP=1 -c 'create database cp6_sku_edges with template cp6_rollback owner postgres'\n  python audits/independent_sku_20260928/extended.py\
         \ \"$audit_mode\"\ndone\ndocker exec supabase_db_cp5-local psql -U supabase_admin -d template1 -v ON_ERROR_STOP=1 -c 'drop database if exists cp6_sku_edges\
         \ with (force)'\ndocker exec supabase_db_cp5-local psql -U supabase_admin -d template1 -v ON_ERROR_STOP=1 -c 'create database cp6_sku_edges with\
         \ template cp6_rollback owner postgres'\npython audits/independent_sku_20260928/imports.py\n"
