@@ -43,7 +43,7 @@ import cp6_t3_rollback_acav as acav
 RELEASE=ROOT/'supabase/release/cp6-t3'
 OUTDIR=ROOT/'supabase/release/cp6-t3-rollbacks'
 CAPTURE=ROOT/'docs/evidence/cp6-t3/rollback_capture.json'
-KEYS=['AW','AX','AY','AZ','BA','BB','BC','BD','BE']
+KEYS=['AW','AX','AY','AZ','BA','BB','BC','BD','BE','BF']
 # AC..AV: release variants of the reviewed test-chain rollbacks (scripts/cp6_t3_rollback_acav.py); AW..BA: built here from
 # the capture. ALL is the whole package in install order.
 ALL=acav.KEYS+KEYS
@@ -75,7 +75,8 @@ RESTORABLE={'AX':{'VIEW:erp.v_payroll_eligible_work_lines','CONSTRAINT:erp.payro
                   'CONSTRAINT:erp.pocket_period_destinations.pocket_period_destinations_pkey',
                   'INDEX:erp.pocket_period_sources_pkey','INDEX:erp.pocket_period_destinations_pkey',
                   'COLUMN:erp.pocket_period_sources.adjustment_id','COLUMN:erp.pocket_period_destinations.event_id',
-                  'COLUMN:erp.pocket_period_destinations.po_id'}}
+                  'COLUMN:erp.pocket_period_destinations.po_id'},
+            'BF':{'CONSTRAINT:erp.rework_component_lines.rework_component_lines_rate_basis_check'}}
 LEDGER_HASH=awx.LEDGER_HASH
 DATA=awx.DATA
 PROBE_ROW=("insert into erp.audit_logs(entity_type,entity_id,action,new_data,change_reason) "
@@ -234,9 +235,19 @@ def rollback_sql(key,entry,text,cap,capture_sha):
     assert cap['package_sha256']==entry['package_sha256'],('T3_ROLLBACK_CAPTURE_FOR_OTHER_PACKAGE',key)
     changed_functions=sorted(k.split(':',1)[1] for k in cap['changed'] if k.startswith('FUNCTION:'))
     assert changed_functions==sorted(f['replaced']),('T3_ROLLBACK_CAPSULE_IS_NOT_THE_CHANGE',key,changed_functions)
-    assert not cap['removed'],('T3_ROLLBACK_FILE_REMOVED_OBJECTS',key,cap['removed'])
+    removed_restore=[]
+    if cap['removed']:
+        # BF replaces the former PO/component UNIQUE constraint with a scoped
+        # unique index. Restore that exact captured constraint (which recreates
+        # its backing index); no other object removal is admitted.
+        constraint='CONSTRAINT:erp.po_work_component_snapshots.po_work_component_snapshots_po_id_work_component_id_key'
+        index='INDEX:erp.po_work_component_snapshots_po_id_work_component_id_key'
+        assert key=='BF' and set(cap['removed'])=={constraint,index},('T3_ROLLBACK_FILE_REMOVED_OBJECTS',key,cap['removed'])
+        before=cap['before'][constraint]
+        assert before['contype']=='u' and cap['before'][index]['table']=='erp.po_work_component_snapshots','BF_ROLLBACK_ORIGINAL_UNIQUE_REQUIRED'
+        removed_restore=['alter table erp.po_work_component_snapshots add constraint po_work_component_snapshots_po_id_work_component_id_key '+before['definition']+';']
     drop,restore_at=drops(key,cap,text)
-    body=drop[:restore_at]+restores(key,cap)+drop[restore_at:]
+    body=drop[:restore_at]+restores(key,cap)+removed_restore+drop[restore_at:]
     installed=blocks[1]['text'].replace("raise exception '%s_INSTALLED_CATALOG_DRIFT'"%code,"raise exception '%s_ROLLBACK_CATALOG_DRIFT'"%code)
     restored=blocks[0]['text'].replace("raise exception '%s_PREDECESSOR_CATALOG_DRIFT'"%code,"raise exception '%s_RESTORED_CATALOG_DRIFT'"%code)
     assert installed!=blocks[1]['text'] and restored!=blocks[0]['text']
@@ -395,6 +406,7 @@ def capture(out):
     report=dict(format='CP6_T3_ROLLBACK_CAPTURE_V1',label='T3_PREP_ROLLBACK_CAPTURE',status='INCOMPLETE',files={},
                 production_go=False,release_evidence=False)
     try:
+        assert [f['key'] for f in files]==ALL,'T3_ROLLBACK_CAPTURE_REQUIRES_COMPLETE_PACKAGE'
         for f in files:
             text=(ROOT/f['file']).read_text();assert sha(text)==f['package_sha256'],('T3_PACKAGE_FILE_DRIFT',f['key'])
             row=dict(stamp=f['stamp'],name=f['name'],closed=f['closed_admission'])
@@ -435,7 +447,10 @@ STABLE="select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(
 # the seed itself is checked by the release file (<KEY>_SEED_CHANGED / <KEY>_SEED_NOT_PENDING).
 SEED_INSTALL_TIME={'bc_policy_settings_v1':('set_at',),'bc_policy_setting_events_v1':('id','set_at'),
                   # BD seeds its six laundry policy rows the same way (install time and a random event id).
-                  'bd_policy_settings_v1':('set_at',),'bd_policy_setting_events_v1':('id','set_at')}
+                  'bd_policy_settings_v1':('set_at',),'bd_policy_setting_events_v1':('id','set_at'),
+                  # BF's single recovery payload is deterministic; no column
+                  # is excluded from its reinstall comparison.
+                  'bf_rollback_v1':()}
 assert set(SEED_INSTALL_TIME)=={t for f in awx.FILES for t in (f.get('seeded') or {})},'T3_ROLLBACK_SEEDED_TABLES_NOT_DECLARED'
 SEEDED="select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(h,',' order by h),''),'UTF8'),'sha256'),'hex') from(select encode(extensions.digest(convert_to((to_jsonb(t)-%s)::text,'UTF8'),'sha256'),'hex') h from erp.%I t)s"
 

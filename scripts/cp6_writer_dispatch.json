@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 45,
+  "revision": 46,
   "phase": "after",
   "scenario_path": "scripts/cp6_bf_combined_modes.py",
   "browser_path": "scripts/cp6_bf_vendor_browser.mjs",
-  "purpose": "Continue open CP6 R06/R07/R11: running-PO new member with same/different recipe, committed/uncommitted BS across a range move and same/other contractor, original-size sale then move, late invoice, return and invoice inverse (known and pending costs), plus the qualified vendor/supplier regression. Writer evidence only; CP6 HOLD."
+  "purpose": "R11 known/pending late-invoice returns passed on revision 45. Correct the R06/R07 fixture: mandor-provided BOM_STANDARD accessories need reimbursement matching their cost; zero reimbursement was correctly refused before QC. Rerun the combined scenarios and qualified regressions. Package BF preparation proceeds separately; CP6 HOLD."
 }

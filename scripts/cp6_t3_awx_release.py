@@ -33,6 +33,7 @@ import cp6_bb_build as bb
 import cp6_bc_build as bc
 import cp6_bd_build as bd
 import cp6_be_build as be
+import cp6_bf_build as bf
 
 SRC=ROOT/'supabase/release/cp6-t3-src'
 MIGRATIONS=ROOT/'supabase/migrations'
@@ -107,6 +108,16 @@ FILES=[
                         'pocket_period_destinations':['historical_sewing_id','id']},
          derived_columns={'pocket_period_sources':{'id':'coalesce(adjustment_id,historical_usage_id)'},
                           'pocket_period_destinations':{'id':'coalesce(event_id,historical_sewing_id)'}}),
+    dict(key='BF',stamp='20260928134500',name='erp_v2_6_20bf_cp6_commercial_ranges_vendor_credit',version=bf.VERSION,
+         body=bf.OUT,title='commercial SKU ranges, vendor-authoritative optional laundry costs and portable supplier credits',
+         description='Commercial SKU ranges with physical-size lineage, optional vendor laundry details and same-supplier return credit allocation',
+         replaced=list(dict.fromkeys(bf.REPLACED)),new_tables=list(bf.NEW_TABLES),
+         added_columns={'po_work_component_snapshots':['bf_sku_version_id'],
+                        'rework_component_lines':['bf_sku_version_id'],
+                        'bd_laundry_charge_lines_v1':['bf_sku_version_id']},
+         seeded={'bf_rollback_v1':1},
+         seed_check=("exists(select 1 from erp.bf_rollback_v1 where not(payload ?& array['functions','installed','snapshot_constraint','rework_constraint'])"
+                     " or jsonb_typeof(payload->'functions') is distinct from 'object' or jsonb_typeof(payload->'installed') is distinct from 'object')")),
 ]
 PLACEHOLDER='0'*64
 # The package capsules AO..AV (AO..AW for AX) are checked like AV checks AO..AU; the capsules of this builder are left out
@@ -139,8 +150,15 @@ def block(text,name):
 
 def body(path,version,description):
     lines=path.read_text().splitlines(keepends=True)
-    assert lines[2]=='begin;\n' and lines[-1]=='commit;\n'
-    inner=''.join(lines[3:-1])
+    if version==bf.VERSION:
+        # BF's development header combines BEGIN and SET LOCAL on one line.
+        # Keep every following byte of the family, including its own recovery
+        # capsule and source checks; the outer release transaction supplies SET.
+        assert lines[1]=="begin;set local search_path='';set local lock_timeout='10s';set local statement_timeout='240s';\n" and lines[-1]=='commit;\n'
+        inner=''.join(lines[2:-1])
+    else:
+        assert lines[2]=='begin;\n' and lines[-1]=='commit;\n'
+        inner=''.join(lines[3:-1])
     marker=re.compile(r"insert into erp\.schema_migrations\(version,description\) values\('%s','[^']*'\);\n"%re.escape(version))
     assert len(marker.findall(inner))==1
     return marker.sub("insert into erp.schema_migrations(version,description) values('%s','%s');\n"%(version,description),inner)

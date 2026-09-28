@@ -87,13 +87,40 @@ def verify_awx():
     import cp6_bc_probe as bcp
     import cp6_bd_probe as bdp
     import cp6_be_probe as bep
+    import cp6_bf_probe as bfp
     with psycopg.connect(boundary.ADMIN) as conn,conn.cursor() as cur:
         # The committed package decides the stage: with BC (or BB, BA) in it, that family and every earlier one are verified.
-        verify=(bep.verified if bep.installed(cur) else bdp.bd_verified if bdp.bd_installed(cur) else bcp.bc_verified if bcp.bc_installed(cur) else bbp.bb_verified if bbp.bb_installed(cur)
+        verify=(bfp.verified if cur.execute("select exists(select 1 from erp.schema_migrations where version='v2.6.20bf')").fetchone()[0] else bep.verified if bep.installed(cur) else bdp.bd_verified if bdp.bd_installed(cur) else bcp.bc_verified if bcp.bc_installed(cur) else bbp.bb_verified if bbp.bb_installed(cur)
                 else bap.ba_verified if bap.ba_installed(cur) else azp.az_verified)
         result=verify(cur);conn.rollback()
     return {k:result.get(k) for k in ('stage','functions','sql_sha256','ax_sql_sha256','ay_sql_sha256','az_sql_sha256','ba_sql_sha256','bb_sql_sha256',
-                                       'bc_sql_sha256','bd_sql_sha256','be_sql_sha256')}
+                                       'bc_sql_sha256','bd_sql_sha256','be_sql_sha256','bf_sql_sha256')}
+
+
+def writer_runtime(browser_mode=False):
+    """Run the writer's current cases on this installed package, never dev-install
+    BF a second time. Each native case rolls back; HTTP/races/browser use copies.
+    The release rollback cycle separately proves the actual packaged rollback.
+    """
+    import cp6_bf_probe as bfp
+    import cp6_bf_combined_modes as scenario
+    import cp6_auditor_runner as runner
+    import cp6_auditor_modes as modes
+    result=dict(label='WRITER_PACKAGE_RUNTIME',independent_acceptance=False)
+    if browser_mode:
+        result['browser']=modes.run_browser(AUDITOR/'scripts/cp6_bf_vendor_browser.mjs',bfp.verified,'package')
+    else:
+        result['native']=runner.strict_group('WRITER_PACKAGE_BF_NATIVE',scenario.cases,bfp.verified)
+        result['races']=modes.run_races(scenario,bfp.verified,'package')
+        result['http']=modes.run_http(scenario,bfp.verified,'package')
+    groups={k:v for k,v in result.items() if isinstance(v,dict)}
+    result['status']='PASS' if groups and all(v.get('status') in ('PASS','RUN_COMPLETE')
+        and set(v.get('counts',{}))=={'PASS'} and v['counts']['PASS']>0
+        and v.get('database_remaining',0)==0 for v in groups.values()) else 'INCOMPLETE'
+    print(json.dumps(dict(group='WRITER_PACKAGE_RUNTIME',status=result['status'],browser_mode=browser_mode,
+        counts={k:v.get('counts') for k,v in result.items() if isinstance(v,dict)})),flush=True)
+    return dict(label=result['label'],status=result['status'],independent_acceptance=False,
+        groups={k:{field:v.get(field) for field in ('status','counts','database_remaining','error','cleanup','auth_counts','console_errors')} for k,v in groups.items()})
 
 
 def run(mode):
@@ -142,6 +169,7 @@ def run(mode):
             # the flow's own result: 10 cases PASS and the candidate verified again afterwards.
             installed=len(report['stages'])==len(stages) and all(s['status']=='PASS' for s in report['stages'])
             report['browser']=browser.run(OUT/'T3_BROWSER.json') if installed else 'NOT_RUN'
+            report['writer_runtime']=writer_runtime(True) if installed else dict(status='NOT_RUN')
             flow=report['browser'].get('status') if isinstance(report['browser'],dict) else None
             report['status']='BROWSER_PASS' if flow=='PASS' else ('REFUSED' if not installed else 'BROWSER_'+str(flow))
         else:
@@ -155,6 +183,8 @@ def run(mode):
             print(json.dumps(dict(group='T3_SECURITY_ADVISORS',status=delta.get('status'),before=delta.get('before'),after=delta.get('after'),
                                   added=[compact(f) for f in delta.get('added',[])],removed=[compact(f) for f in delta.get('removed',[])]),default=str),flush=True)
             report['status']='ALL_STAGES_INSTALLED' if len(installed)==len(stages) else 'REFUSED'
+            if mode=='install' and report['status']=='ALL_STAGES_INSTALLED':
+                report['writer_runtime']=writer_runtime()
             report['backup_restore_drill']=drill.run(OUT/'T3_BACKUP_RESTORE_DRILL.json',installed)['status']
             # Round 9, W12 (b) and W6: the read-only cutover data checks on the final clone (frontend UUID pattern on every erp
             # uuid column; active cash accounts sharing a COA account). Observations of this baseline; on a cutover drill copy of
@@ -179,6 +209,8 @@ def run(mode):
     if mode!='browser':
         gate.update(backup_restore_drill=report.get('backup_restore_drill') in DRILL_OK,
                     security_advisors=advisors_ok(((report.get('security_advisors') or {}).get('delta')) or {}))
+    if mode in ('install','browser'):
+        gate['writer_runtime']=(report.get('writer_runtime') or {}).get('status')=='PASS'
     report['gate']=gate;save()
     print(json.dumps(dict(t3_package_run={k:v for k,v in report.items() if k not in('stages','security_advisors')}),default=str)[:8000],flush=True)
     # Every outcome is recorded above; the job is red unless every part of the gate holds (read the gate line in the log).

@@ -23,7 +23,10 @@ def fixture(cur, today, recipe=False):
     if recipe:
         unit = one(cur, "select unit_code from erp.uom_definitions where upper(unit_code)='PCS' and dimension='COUNT' and is_active")
         cat = one(cur, "insert into erp.accessory_categories(category_code,category_name,base_uom_code,is_active) values(%s,'Combined range buttons',%s,true) returning id::text", 'BFC-'+uuid.uuid4().hex[:8],unit)
-        bom = [dict(category_id=cat,qty_per_good_fg_base='1',hpp_method='BOM_STANDARD',hpp_standard_rate='3.17',hpp_uom_code=unit,reimbursement_rate='0',reimbursement_uom_code=unit)]
+        # This is the mandor-provided accessory route, so its reimbursement must
+        # match the nonzero BOM cost. Zero reimbursement requires actual company
+        # material issues and would refuse before the range oracle is reached.
+        bom = [dict(category_id=cat,qty_per_good_fg_base='1',hpp_method='BOM_STANDARD',hpp_standard_rate='3.17',hpp_uom_code=unit,reimbursement_rate='3.17',reimbursement_uom_code=unit)]
     def settings(rate):
         return dict(price='185000.00',bom=copy.deepcopy(bom),work_rates=[dict(work_component_id=prod.COMPONENT,rate=rate)],laundry_rates=[])
     a = bf.group(cur,roots[:3],at,settings=settings('10.00'))
