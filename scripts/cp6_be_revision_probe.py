@@ -80,6 +80,7 @@ def nonpo_books(cur,products):
 
 def mixed(cur,today):
     p=be.fixture(cur,today);n=opening(cur,today,p['product'],p['target'])
+    source_qty=be.qty(cur,p['lot'])
     a=convert(cur,n,5,15);c=convert(cur,p,3,16);z=convert(cur,n,1,17)
     assert b.lot_value(cur,a['destination_lot_id'])==D('6172.85')
     assert b.lot_value(cur,z['destination_lot_id'])==D('1234.57')
@@ -101,7 +102,16 @@ def mixed(cur,today):
     # Additional historical pocket stock has both conversion families beside it.
     pocket=be.pocket_probe.roundtrip(cur,today,True)
     nonpo_books(cur,products)
+    # Exercise the other changed journal boundary while the sold/returned
+    # non-PO conversion remains alive: PO reversal must stay outside its book.
+    for conversion in (c,z):
+      key=str(uuid.uuid4());payload=dict(conversion_id=conversion['conversion_id'],reason='BE mixed origin conversion inverse')
+      reversed_once=be.be(cur,'REVERSE',payload,key)
+      assert be.be(cur,'REVERSE',payload,key)==reversed_once
+      assert be.qty(cur,conversion['destination_lot_id'])==0
+      nonpo_books(cur,products)
     return b.verdict(dict(both_origins=True,late_invoice_isolated=True,sale_return=True,pocket=pocket['status']=='PASS',
+      mixed_conversion_inverse=be.qty(cur,p['lot'])==source_qty and be.qty(cur,n['lot'])==8,
       sales_immutable=snapshots==q(cur,'select id,total_hpp from erp.sale_stock_allocations where sale_item_id in(select id from erp.sales_items where sale_id=%s) order by id',sale)),pocket=pocket)
 
 def pocket_many(cur,today,old_days=20,new_days=10):

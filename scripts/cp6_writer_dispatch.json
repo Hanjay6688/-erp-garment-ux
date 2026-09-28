@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 29,
+  "revision": 30,
   "phase": "after",
   "scenario_path": "scripts/cp6_be_revision_modes.py",
   "browser_path": "scripts/cp6_be_revision_browser.mjs",
-  "purpose": "BE audit revision qualification: correct native fixture usage grant, assert exact existing refusal messages/status, scope pocket search button; business oracles unchanged. Aligned BE package rebuilt from captured pins. CP6 HOLD."
+  "purpose": "BE audit revision final qualification: also exercise PO and non-PO conversion reversal/replay while both origin families and a sale/return remain alive, asserting separate target/book after each inverse. Same qualified product and aligned package; regenerated exact rollback. CP6 HOLD."
 }
