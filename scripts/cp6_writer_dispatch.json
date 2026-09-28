@@ -1,8 +1,8 @@
 {
   "label": "WRITER_SCENARIO",
-  "revision": 31,
+  "revision": 32,
   "phase": "after",
   "scenario_path": "scripts/cp6_be_revision_modes.py",
   "browser_path": "scripts/cp6_be_revision_browser.mjs",
-  "purpose": "BE audit revision final qualification: compare legacy sewing refusal sentences with exact message and SQLSTATE, not the symbolic-code helper. Includes mixed-origin conversion inverse/replay and full BF/BD/BE regression. Product and aligned package unchanged; no business oracle weakened. CP6 HOLD."
+  "purpose": "BE audit revision final qualification: mixed-origin inverse uses an unused PO sibling because the original conversion retains the FIFO sale/return. Both origin families stay alive; exact target/book, inventory and replay remain required. Exact legacy refusal message/SQLSTATE checks retained. Product/package unchanged; full BF/BD/BE regression. CP6 HOLD."
 }
