@@ -43,3 +43,9 @@ The next candidate also qualifies editing a one-input count draft in desktop and
 [Run36540541805](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36540541805) on `4fae1a0067f7058fb7eaf2b4eaf527028716e8d9` passes **109/109 cases plus three separate smokes**. All16 count cases, including both draft-edit browsers and the corrected access fixture, pass. Both app workflows and the automatically triggered P02/P03/P04 native workflows pass. Accepted CP6 restoration, advisor gate, and Auth counts0→0 pass. Desktop and mobile count screenshots were visually inspected. The bundle hash is `bb481dc94a097f5347626536aef74f5e994fc3c6b07af05e77e9641cd27dff0b`.
 
 This is writer qualification of the bounded increment. The UI limits above, remaining P09 invoice/return workflows, F03, independent acceptance and production gates remain open.
+
+## Count selection feedback — 30 September 2026 WIB
+
+The count screen now explains the server's availability state beside each material: zero system stock, a balance/roll requiring review, inactive material/location, service zone or an unsuitable location. It also explains unavailable stock-adjustment permission and distinguishes successfully loaded empty material/document searches from loading or failed reads. This avoids unexplained disabled choices and blank search results.
+
+The existing selection, preview, save, access and recovery conditions are unchanged. All9 existing count DOM cases, TypeScript and diff checks pass locally. This is a display-only follow-up after source `c3a3fd214f0fbc612d83f29baf0c96a588647c74`; its own P09 CI result is not yet claimed. Prior native count qualification remains tied to its recorded source. Multi-input counts, materials with no location history and remaining P09/F03 scope remain open. The separate P12 run17 evidence is80/80 PASS on `5082fbec159095c3452c14c6ad500839f28a166b`, not on this later UI patch.
