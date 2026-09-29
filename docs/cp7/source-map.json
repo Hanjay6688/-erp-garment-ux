@@ -941,8 +941,18 @@
       },
       "receipt_reversal_extension": {
         "module": "scripts/cp7-src/procurement/reversal.sql",
-        "status": "CANDIDATE_NATIVE_RETEST_PENDING",
-        "private_principal_exception": "postgres-owned SECURITY DEFINER receipt lock/version adapter; empty search_path, real current authorization, only accepted reverse_material_purchase writer; EXECUTE only cp7_procure_write. No business table SELECT/DML grants to command principal."
+        "status": "12_OF_13_NEW_CASES_PASS_HISTORICAL_FIXTURE_RETEST_PENDING",
+        "private_principal_exception": "postgres-owned SECURITY DEFINER receipt lock/version adapter; empty search_path, real current authorization, only accepted reverse_material_purchase writer; EXECUTE only cp7_procure_write. No business table SELECT/DML grants to command principal.",
+        "diagnostic": "docs/cp7/evidence/p09-procurement/REVERSAL_RUN_2.json"
+      },
+      "uom_extension": {
+        "modules": [
+          "scripts/cp7-src/procurement/uom.sql"
+        ],
+        "public_entrypoint": "public.erp_cp7_get_procurement_uom_v1",
+        "status": "NATIVE_AND_BROWSER_CANDIDATE_PENDING",
+        "authority": "Dated accessory category conversion master; accepted normalize_accessory_purchase_uom trigger computes base quantities and prices. No client conversion/factor overrides.",
+        "private_validation": "read-owned SECURITY DEFINER validates accessory type and active purchase unit only on first draft intent; actor/request cache precedes mutable master validation."
       }
     }
   }

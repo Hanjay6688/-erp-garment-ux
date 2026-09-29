@@ -137,7 +137,7 @@ assert.ok(rpcBoundaries.has('src/ConnectedSupplierCreditPage.tsx:erp_save_suppli
 assert.ok(rpcBoundaries.has('src/LaundrySkuHistory.tsx:erp_get_laundry_history_v1'))
 const cp7MaterialBoundaries = ['erp_cp7_get_materials_v1', 'erp_cp7_get_material_ledger_v1', 'erp_cp7_get_material_transfers_v1', 'erp_cp7_get_material_locations_v1', 'erp_cp7_save_materials_v1']
 for (const name of cp7MaterialBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedMaterialsPage.tsx:${name}`))
-const cp7ProcurementBoundaries = ['erp_cp7_get_procurement_v1','erp_cp7_get_procurement_options_v1','erp_cp7_save_procurement_v1']
+const cp7ProcurementBoundaries = ['erp_cp7_get_procurement_uom_v1','erp_cp7_get_procurement_v1','erp_cp7_get_procurement_options_v1','erp_cp7_save_procurement_v1']
 for (const name of cp7ProcurementBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedProcurementPage.tsx:${name}`))
 const cp7InvoiceBoundaries = ['erp_cp7_get_purchase_invoices_v1','erp_cp7_save_purchase_invoice_v1']
 for (const name of cp7InvoiceBoundaries) assert.ok(rpcBoundaries.has(`src/PurchaseInvoicePanel.tsx:${name}`))

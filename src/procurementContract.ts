@@ -3,9 +3,10 @@ import type { Json } from './types/database.preconnect'
 export type ProcurementOption = { id: string; code: string; name: string; material_type?: string; unit_code?: string }
 export type OptionKind = 'MATERIAL' | 'SUPPLIER' | 'LOCATION'
 export type ProcurementOptions = { contract_version: 'cp7.procurement-options.v1'; kind: OptionKind; rows: ProcurementOption[]; total: string; offset: number; limit: number; next_offset: number | null }
+export type ProcurementUom = { contract_version: 'cp7.procurement-uom.v1'; material_id: string; physical_at: string; base_unit: string; rows: { code: string; name: string; factor: string; dimension: string }[] }
 type ReceiptFinance = { supplier_invoice_number: string | null; due_date: string | null; payment_status: string; receipt_value: string; basis: 'RECEIPT_PRICE_NOT_CURRENT_PAYABLE' }
 export type ReceiptRow = { id: string; purchase_number: string; supplier_id: string | null; supplier_name: string | null; location_id: string | null; location_name: string | null; physical_at: string; status: 'DRAFT' | 'POSTED' | 'REVERSED'; row_version: string; notes: string | null; line_count: number; finance?: ReceiptFinance }
-export type ReceiptItem = { id: string; material_id: string; material_sku: string; material_name: string; material_type: string; unit_code: string; qty: string; purchase_qty_entered: string | null; purchase_uom_code: string | null; purchase_uom_factor: string | null; lot_number: string | null; notes: string | null; rolls: { id: string; roll_number: string; receipt_qty: string; notes: string | null }[]; finance?: { unit_price: string; line_total: string; price_state: 'ESTIMATED' | 'PARTIAL' | 'FINAL'; price_source: string; invoice_match_state: string; benchmark_price_version_id: string | null } }
+export type ReceiptItem = { id: string; material_id: string; material_sku: string; material_name: string; material_type: string; unit_code: string; qty: string; purchase_qty_entered: string | null; purchase_uom_code: string | null; purchase_uom_factor: string | null; lot_number: string | null; notes: string | null; rolls: { id: string; roll_number: string; receipt_qty: string; notes: string | null }[]; finance?: { unit_price: string; line_total: string; price_state: 'ESTIMATED' | 'PARTIAL' | 'FINAL'; price_source: string; invoice_match_state: string; benchmark_price_version_id: string | null; purchase_price_per_uom: string | null } }
 export type ReceiptDetail = ReceiptRow & { items: ReceiptItem[]; stock_effect: 'NOT_POSTED' | 'POSTED_RECEIPT' | 'REVERSED_RECEIPT'; quantity_basis: 'RECEIPT_DOCUMENT_NOT_CURRENT_ON_HAND' }
 export type ProcurementWorkspace = { contract_version: 'cp7.procurement-workspace.v1'; kind: 'LIVE_WORKSPACE'; read_at: string; capabilities: { create: boolean; post: boolean; reverse: boolean; view_value: boolean }; page: { rows: ReceiptRow[]; total: string; offset: number; limit: number; next_offset: number | null }; detail: ReceiptDetail | null }
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
@@ -63,8 +64,8 @@ export function parseProcurementWorkspace(v: unknown, allowValue: boolean): Proc
         rollIds.add(r.id)
       }
       if (allowValue) {
-        const f = closed(i.finance,['unit_price','line_total','price_state','price_source','invoice_match_state','benchmark_price_version_id'])
-        if (!exact(f.unit_price) || !exact(f.line_total) || !['ESTIMATED','PARTIAL','FINAL'].includes(String(f.price_state)) || !isString(f.price_source) || !isString(f.invoice_match_state) || !nullableId(f.benchmark_price_version_id)) fail()
+        const f = closed(i.finance,['unit_price','line_total','price_state','price_source','invoice_match_state','benchmark_price_version_id','purchase_price_per_uom'])
+        if (!exact(f.unit_price) || !exact(f.line_total) || !['ESTIMATED','PARTIAL','FINAL'].includes(String(f.price_state)) || !isString(f.price_source) || !isString(f.invoice_match_state) || !nullableId(f.benchmark_price_version_id) || f.purchase_price_per_uom !== null && !exact(f.purchase_price_per_uom)) fail()
       }
     }
     if (rollIds.size > 2000) fail()
@@ -88,6 +89,19 @@ export function parseProcurementOutcome(v: unknown, request: string, action: str
   if (!expectedStatus || r.contract_version !== 'cp7.procurement-outcome.v1' || r.kind !== 'COMMITTED_OUTCOME' || r.action !== action || r.request_id !== request || !isId(r.purchase_id) || !isString(r.row_version) || !version.test(r.row_version) || r.status !== expectedStatus || action !== 'SAVE_DRAFT' && r.purchase_id !== p.purchase_id || action === 'SAVE_DRAFT' && p.id && r.purchase_id !== p.id) fail()
   return r as { purchase_id: string; row_version: string; status: 'DRAFT' | 'POSTED' | 'REVERSED' }
 }
+export function parseProcurementUom(v: unknown, material: ProcurementOption, at: string): ProcurementUom {
+  const w = closed(v, ['contract_version','material_id','physical_at','base_unit','rows'])
+  if (w.contract_version !== 'cp7.procurement-uom.v1' || w.material_id !== material.id || w.base_unit !== material.unit_code || !instant(w.physical_at) || Date.parse(w.physical_at as string) !== Date.parse(at) || !Array.isArray(w.rows) || w.rows.length < 1 || w.rows.length > 100) return fail()
+  const seen = new Set<string>()
+  for (const value of w.rows) {
+    const r = closed(value, ['code','name','factor','dimension'])
+    if (!isString(r.code) || !r.code.trim() || r.code.length > 20 || seen.has(r.code.toUpperCase()) || !isString(r.name) || !isString(r.dimension) || !exact(r.factor) || !/[1-9]/.test(r.factor as string)) return fail()
+    seen.add(r.code.toUpperCase())
+    if (r.code.toUpperCase() === material.unit_code?.toUpperCase() && !/^1(?:\.0+)?$/.test(r.factor as string)) fail()
+  }
+  if (!seen.has(material.unit_code?.toUpperCase() ?? '')) fail()
+  return w as unknown as ProcurementUom
+}
 export function receiptDecimal(raw: string, positive = false) {
   const v = raw.trim().replace(',', '.')
   return /^(0|[1-9][0-9]{0,11})(\.[0-9]{1,6})?$/.test(v) && (!positive || /[1-9]/.test(v)) ? v : null
@@ -97,8 +111,8 @@ export function formatReceiptDecimal(v: string) {
   const f = fraction.replace(/0+$/, '')
   return whole.replace(/\B(?=(\d{3})+(?!\d))/g, '.') + (f ? ',' + f : '')
 }
-export function receiptEditableInBaseUnits(d: ReceiptDetail) {
+export function receiptEditable(d: ReceiptDetail) {
   return d.items.every(i => i.finance && ['BENCHMARK','MANUAL_ESTIMATE','SUPPLIER_QUOTE','SUPPLIER_INVOICE'].includes(i.finance.price_source)
-    && (i.purchase_uom_code === null || i.purchase_uom_code === i.unit_code)
-    && (i.purchase_uom_factor === null || /^1(?:\.0+)?$/.test(i.purchase_uom_factor)))
+    && (i.material_type === 'ACCESSORY' ? Boolean(i.purchase_qty_entered && i.purchase_uom_code && i.finance.purchase_price_per_uom !== null)
+      : (i.purchase_uom_code === null || i.purchase_uom_code === i.unit_code) && (i.purchase_uom_factor === null || /^1(?:\.0+)?$/.test(i.purchase_uom_factor))))
 }

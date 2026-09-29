@@ -68,11 +68,19 @@ def cases(cur,today):
     def historical_stock():
         before=net_ledger(cur);f=material.fixture(cur,today);d,p=material.draft(cur,f);d=material.post(cur,d)
         boundary=b.boundary.snapshot(cur)
-        auth.refused(cur,lambda:reverse(cur,f),'AM_BACKDATE_WOULD_CREATE_NEGATIVE_LOCATION_ROLL_HISTORY')
+        auth.refused(cur,lambda:reverse(cur,f),'Material stock would become negative at selected location/roll')
         assert b.boundary.snapshot(cur)==boundary and material.balances(cur,f)=={f['location']:6,f['destination']:4}
-        material.reverse(cur,d);reverse(cur,f)
+        # Put the goods back with a later ordinary transfer. Current source
+        # stock now permits the inverse, while the earlier OUT still requires
+        # its original receipt in chronological history.
+        back,p=material.draft(cur,f,source=f['destination'],dest=f['location'],at=receipt.aa.at(f['day']+receipt.timedelta(days=2),10).isoformat())
+        back=material.post(cur,back);assert material.balances(cur,f)=={f['location']:10,f['destination']:0}
+        boundary=b.boundary.snapshot(cur)
+        auth.refused(cur,lambda:reverse(cur,f),'AM_BACKDATE_WOULD_CREATE_NEGATIVE_LOCATION_ROLL_HISTORY')
+        assert b.boundary.snapshot(cur)==boundary
+        material.reverse(cur,back);material.reverse(cur,d);reverse(cur,f)
         assert receipt.qty(cur,f)[0]==0 and net_ledger(cur)==before
-        return dict(status='PASS',source_time_negative_prefix_refused=True,no_partial_stock_or_journal=True,transfer_inverse_then_receipt_inverse=True)
+        return dict(status='PASS',current_stock_guard_refused=True,source_time_negative_prefix_refused_after_stock_returned=True,no_partial_stock_or_journal=True,transfer_inverses_then_receipt_inverse=True)
     def access():
         f=invoice.fixture(cur,today);subject,role=receipt.custom(cur,['warehouse.procurement.view','warehouse.procurement.reverse'])
         assert receipt.workspace(cur,subject=subject)['capabilities']['reverse'] is False

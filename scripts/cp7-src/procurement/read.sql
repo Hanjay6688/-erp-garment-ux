@@ -47,7 +47,7 @@ begin
     from erp.material_rolls r where r.purchase_item_id=i.id),'[]'::jsonb))
    ||case when (a->>'can_value')::boolean then jsonb_build_object('finance',jsonb_build_object(
     'unit_price',i.unit_price::text,'line_total',i.line_total::text,'price_state',i.price_state,'price_source',i.price_source,
-    'invoice_match_state',i.invoice_match_state,'benchmark_price_version_id',i.benchmark_price_version_id)) else '{}'::jsonb end order by i.id),'[]'::jsonb)
+    'invoice_match_state',i.invoice_match_state,'benchmark_price_version_id',i.benchmark_price_version_id,'purchase_price_per_uom',i.purchase_price_per_uom_snapshot::text)) else '{}'::jsonb end order by i.id),'[]'::jsonb)
    into items from erp.material_purchase_items i join erp.materials m on m.id=i.material_id where i.purchase_id=pid;
   detail:=cp7_procurement.header(h,(a->>'can_value')::boolean)||jsonb_build_object('items',items,
    'stock_effect',case when h.status='DRAFT' then 'NOT_POSTED' when h.status='POSTED' then 'POSTED_RECEIPT' else 'REVERSED_RECEIPT' end,

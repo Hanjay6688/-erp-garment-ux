@@ -18,13 +18,21 @@ begin
   if nullif(p_payload->>'id','') is not null and a->'can_value'<>'true'::jsonb then raise exception using errcode='42501',message='CP7_PROCUREMENT_VALUE_REQUIRED_FOR_EDIT';end if;
   if jsonb_typeof(p_payload->'lines') is distinct from 'array' or jsonb_array_length(p_payload->'lines') not between 1 and 100 then raise exception 'CP7_PROCUREMENT_LINES';end if;
   for line in select value from jsonb_array_elements(p_payload->'lines') loop
-   perform cp7_procurement.fields(line,array['material_id','qty','unit_price','price_state','price_source','rolls','lot_number','notes'],array['material_id','qty','price_state','price_source','rolls']);
+   perform cp7_procurement.fields(line,array['material_id','qty','unit_price','price_state','price_source','rolls','lot_number','notes','purchase_qty_entered','purchase_uom_code','purchase_price_per_uom_snapshot'],array['material_id','price_state','price_source','rolls']);
    if exists(select 1 from jsonb_each(line) e where e.key<>'rolls' and jsonb_typeof(e.value) not in ('string','null')) then raise exception 'CP7_PROCUREMENT_FIELDS';end if;
-   perform cp7_procurement.decimal(line->'qty',true);
+   if line ?| array['purchase_qty_entered','purchase_uom_code','purchase_price_per_uom_snapshot'] then
+    if not line ?& array['purchase_qty_entered','purchase_uom_code','purchase_price_per_uom_snapshot'] or line ?| array['qty','unit_price']
+     or jsonb_typeof(line->'purchase_uom_code') is distinct from 'string' or length(btrim(line->>'purchase_uom_code')) not between 1 and 20
+     or line->>'price_source'='BENCHMARK' or line->'rolls'<>'[]'::jsonb then raise exception 'CP7_PROCUREMENT_UOM_FIELDS';end if;
+    perform cp7_procurement.decimal(line->'purchase_qty_entered',true);
+    perform cp7_procurement.decimal(line->'purchase_price_per_uom_snapshot',false);price:=true;
+   else
+    perform cp7_procurement.decimal(line->'qty',true);
    if line ? 'unit_price' and line->'unit_price'<>'null'::jsonb then
     perform cp7_procurement.decimal(line->'unit_price',false);price:=true;
    elsif line->>'price_source' is distinct from 'BENCHMARK' or line->>'price_state' is distinct from 'ESTIMATED' then
     raise exception 'CP7_PROCUREMENT_PRICE_REQUIRED_OR_BENCHMARK';end if;
+   end if;
    if line->>'price_source'='MIGRATION' then raise exception 'CP7_PROCUREMENT_USE_IMPORT_WORKFLOW';end if;
    if jsonb_typeof(line->'rolls') is distinct from 'array' or jsonb_array_length(line->'rolls')>500 then raise exception 'CP7_PROCUREMENT_ROLLS';end if;
    roll_count:=roll_count+jsonb_array_length(line->'rolls');
@@ -37,7 +45,7 @@ begin
   end loop;
   if price and a->'can_value'<>'true'::jsonb then raise exception using errcode='42501',message='CP7_PROCUREMENT_VALUE_DENIED';end if;
   insert into cp7_procurement.execution_context values(pg_backend_pid(),txid_current(),auth.uid(),p_action,'warehouse.procurement.create');
-  r:=erp.save_material_purchase_draft_v2(p_payload,p_request,expected);
+  r:=cp7_procurement.save_draft_request(p_payload,p_request,p_expected);
  else
   if a->'can_post'<>'true'::jsonb then raise exception using errcode='42501',message='CP7_PROCUREMENT_POST_DENIED';end if;
   perform cp7_procurement.fields(p_payload,array['purchase_id','change_reason'],array['purchase_id','change_reason']);

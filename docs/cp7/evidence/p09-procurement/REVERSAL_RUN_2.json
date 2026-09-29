@@ -1,0 +1,102 @@
+{
+  "source_head": "b860c19b6527b5c6dde9c4f3edcfdbed6968b1b3",
+  "source_tree": "affcad0e6b504d4aecd8caf50209bc5332bbb324",
+  "run_id": 36531553207,
+  "job_id": 109286137403,
+  "artifact_id": 11017015434,
+  "archive_sha256": "797c08916c15852addf91b9b6bf4ca8f9e10f8911177bb940a8ebd20410978cf",
+  "report_sha256": "6806700a7bf0b1f2380fe20c90761f2728092dab1ba5c929cb3b73714f2c4546",
+  "report_gzip_sha256": "48d71b225e9c604d77126409e6fc1722c8783e0f45b6a3bbc444263a48b8db9b",
+  "report": "REVERSAL_RUN_2.json.gz",
+  "bundle_sha256": "d0fb334ca402495c5a3215ae5b868dc0bf375a0fae26d9a4a7fd7e62844cd6da",
+  "counts": {
+    "smoke": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 9
+    },
+    "races": {
+      "PASS": 3
+    },
+    "http": {
+      "PASS": 1
+    },
+    "material_smoke": {
+      "PASS": 1
+    },
+    "material": {
+      "PASS": 9
+    },
+    "material_crossflow": {
+      "PASS": 2
+    },
+    "material_races": {
+      "PASS": 2
+    },
+    "material_http": {
+      "PASS": 1
+    },
+    "invoice": {
+      "PASS": 9
+    },
+    "invoice_races": {
+      "PASS": 3
+    },
+    "invoice_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 10
+    },
+    "return_smoke": {
+      "PASS": 1
+    },
+    "returns": {
+      "PASS": 10
+    },
+    "return_races": {
+      "PASS": 3
+    },
+    "return_http": {
+      "PASS": 1
+    },
+    "receipt_reversal": {
+      "PASS": 6,
+      "INCOMPLETE": 1
+    },
+    "receipt_reversal_races": {
+      "PASS": 3
+    },
+    "receipt_reversal_http": {
+      "PASS": 1
+    }
+  },
+  "total_cases": {
+    "PASS": 74,
+    "INCOMPLETE": 1
+  },
+  "smokes_separate": 3,
+  "status": "INCOMPLETE",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "diagnosis": "All previous62 plus12 new inverse cases PASS. Historical-stock fixture expected the AM chronological guard, but current source stock6 correctly rejected reversal of10 first. Revised fixture preserves that current-stock refusal, adds a later real transfer back to source10, then requires the AM historical-prefix refusal with the earlier outbound still active. Both refusals must preserve the whole boundary; both transfers must then be reversed before receipt cancellation. No business guard is weakened.",
+  "browser_status": "RUN_COMPLETE",
+  "browser_auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  }
+}

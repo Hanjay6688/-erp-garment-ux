@@ -8,12 +8,12 @@ import { useProductionMutation, type ProductionMutationHandlers } from './usePro
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import PurchaseInvoicePanel from './PurchaseInvoicePanel'
 import SupplierReturnPanel from './SupplierReturnPanel'
-import { formatReceiptDecimal as numberText, parseProcurementOptions, parseProcurementOutcome, parseProcurementWorkspace, procurementObject, receiptDecimal, receiptEditableInBaseUnits, type OptionKind, type ProcurementOption, type ProcurementOptions, type ProcurementWorkspace, type ReceiptDetail } from './procurementContract'
+import { formatReceiptDecimal as numberText, parseProcurementOptions, parseProcurementOutcome, parseProcurementUom, parseProcurementWorkspace, procurementObject, receiptDecimal, receiptEditable, type OptionKind, type ProcurementOption, type ProcurementOptions, type ProcurementUom, type ProcurementWorkspace, type ReceiptDetail } from './procurementContract'
 import type { Json } from './types/database.preconnect'
 import './procurement-connected.css'
 
 type Client = ReturnType<typeof getUatSupabaseClient>
-type Line = { key: string; material: ProcurementOption | null; qty: string; price: string; priceMode: 'BENCHMARK' | 'MANUAL_ESTIMATE' | 'SUPPLIER_QUOTE' | 'SUPPLIER_INVOICE'; lot?: string | null; notes?: string | null; rolls: { key: string; number: string; qty: string; notes?: string | null }[] }
+type Line = { key: string; material: ProcurementOption | null; qty: string; price: string; uomCode?: string; priceMode: 'BENCHMARK' | 'MANUAL_ESTIMATE' | 'SUPPLIER_QUOTE' | 'SUPPLIER_INVOICE'; lot?: string | null; notes?: string | null; rolls: { key: string; number: string; qty: string; notes?: string | null }[] }
 type Draft = { id: string | null; version: string | null; number: string; supplier: ProcurementOption | null; location: ProcurementOption | null; at: string; notes: string; reason: string; originalAt?: string; invoiceNumber?: string | null; dueDate?: string | null; lines: Line[] }
 const blankLine = (): Line => ({ key: crypto.randomUUID(), material: null, qty: '', price: '', priceMode: 'BENCHMARK', rolls: [{ key: crypto.randomUUID(), number: '', qty: '' }] })
 const blank = (): Draft => ({ id: null, version: null, number: '', supplier: null, location: null, at: cp6WibDateTimeInput(), notes: '', reason: 'Penerimaan barang sesuai surat jalan', lines: [blankLine()] })
@@ -53,12 +53,13 @@ function MasterPicker({ client, kind, label, value, disabled, onChange }: { clie
 function fromDetail(d: ReceiptDetail): Draft {
   return { id: d.id, version: d.row_version, number: d.purchase_number, supplier: d.supplier_id ? { id: d.supplier_id, code: '', name: d.supplier_name ?? '' } : null,
     location: d.location_id ? { id: d.location_id, code: '', name: d.location_name ?? '' } : null, at: cp6WibDateTimeInput(d.physical_at), notes: d.notes ?? '', reason: '', originalAt: d.physical_at, invoiceNumber: d.finance?.supplier_invoice_number, dueDate: d.finance?.due_date,
-    lines: d.items.map(i => ({ key: i.id, material: { id: i.material_id, code: i.material_sku, name: i.material_name, material_type: i.material_type, unit_code: i.unit_code }, qty: i.qty,
-      price: i.finance?.price_source === 'BENCHMARK' ? '' : i.finance?.unit_price ?? '', priceMode: ['BENCHMARK','MANUAL_ESTIMATE','SUPPLIER_QUOTE','SUPPLIER_INVOICE'].includes(i.finance?.price_source ?? '') ? i.finance!.price_source as Line['priceMode'] : 'MANUAL_ESTIMATE',
+    lines: d.items.map(i => ({ key: i.id, material: { id: i.material_id, code: i.material_sku, name: i.material_name, material_type: i.material_type, unit_code: i.unit_code }, qty: i.material_type === 'ACCESSORY' ? i.purchase_qty_entered ?? '' : i.qty, uomCode: i.material_type === 'ACCESSORY' ? i.purchase_uom_code ?? undefined : undefined,
+      price: i.material_type === 'ACCESSORY' ? i.finance?.purchase_price_per_uom ?? '' : i.finance?.price_source === 'BENCHMARK' ? '' : i.finance?.unit_price ?? '', priceMode: ['BENCHMARK','MANUAL_ESTIMATE','SUPPLIER_QUOTE','SUPPLIER_INVOICE'].includes(i.finance?.price_source ?? '') ? i.finance!.price_source as Line['priceMode'] : 'MANUAL_ESTIMATE',
       lot: i.lot_number, notes: i.notes, rolls: i.rolls.map(r => ({ key: r.id, number: r.roll_number, qty: r.receipt_qty, notes: r.notes })) })) }
 }
-function document(d: Draft, valueAccess: boolean): Json | null {
-  const at = d.originalAt && d.at === cp6WibDateTimeInput(d.originalAt) ? d.originalAt : cp6WibPhysicalTimeToIso(d.at)
+function receiptTime(d: Draft) { return d.originalAt && d.at === cp6WibDateTimeInput(d.originalAt) ? d.originalAt : cp6WibPhysicalTimeToIso(d.at) }
+function document(d: Draft, valueAccess: boolean, uoms: Record<string, ProcurementUom> | null): Json | null {
+  const at = receiptTime(d)
   if (!d.number.trim() || !d.supplier || !d.location || !at || !d.reason.trim() || !d.lines.length || d.lines.length > 100) return null
   const lines: Json[] = []
   for (const l of d.lines) {
@@ -71,8 +72,10 @@ function document(d: Draft, valueAccess: boolean): Json | null {
       if (!l.rolls.length) return null
       for (const r of l.rolls) { const q = receiptDecimal(r.qty, true); if (!r.number.trim() || !q) return null; rolls.push({ roll_number: r.number.trim(), qty: q, notes: r.notes ?? null }) }
     }
-    lines.push({ material_id: l.material.id, qty, price_source: benchmark ? 'BENCHMARK' : l.priceMode === 'BENCHMARK' ? 'MANUAL_ESTIMATE' : l.priceMode,
-      price_state: l.priceMode === 'SUPPLIER_INVOICE' ? 'FINAL' : 'ESTIMATED', ...(benchmark ? {} : { unit_price: price }), lot_number: l.lot ?? null, notes: l.notes ?? null, rolls })
+    const accessory = l.material.material_type === 'ACCESSORY', uomCode = (l.uomCode ?? l.material.unit_code ?? '').toUpperCase()
+    if (accessory && !uoms?.[l.material.id]?.rows.some(r => r.code === uomCode)) return null
+    lines.push({ material_id: l.material.id, ...(accessory ? { purchase_qty_entered: qty, purchase_uom_code: uomCode, purchase_price_per_uom_snapshot: price } : { qty }), price_source: benchmark ? 'BENCHMARK' : l.priceMode === 'BENCHMARK' ? 'MANUAL_ESTIMATE' : l.priceMode,
+      price_state: l.priceMode === 'SUPPLIER_INVOICE' ? 'FINAL' : 'ESTIMATED', ...(benchmark || accessory ? {} : { unit_price: price }), lot_number: l.lot ?? null, notes: l.notes ?? null, rolls })
   }
   return { ...(d.id ? { id: d.id } : {}), ...(valueAccess ? { supplier_invoice_number: d.invoiceNumber ?? null, due_date: d.dueDate ?? null } : {}), purchase_number: d.number.trim(), supplier_id: d.supplier.id, location_id: d.location.id, physical_at: at, notes: d.notes.trim(), change_reason: d.reason.trim(), lines }
 }
@@ -119,7 +122,30 @@ function ProcurementWorkspace() {
   const locked = mutation.writerLocked || loading, current = data?.detail
   const staleDraft = Boolean(draft?.id && (!current || current.id !== draft.id || current.row_version !== draft.version))
   const staleReverse = Boolean(reverseReview && (!current || current.id !== reverseReview.id || current.row_version !== reverseReview.version || data?.read_at !== reverseReview.readAt || current.status !== 'POSTED'))
-  const payload = draft ? document(draft, valueAccess) : null
+  const uomAt = draft ? receiptTime(draft) : null
+  const uomMaterials = JSON.stringify([...new Map((draft?.lines ?? []).filter(l => l.material?.material_type === 'ACCESSORY').map(l => [l.material!.id, l.material!])).values()])
+  const [uomReload, setUomReload] = useState(0)
+  const uomKey = JSON.stringify([uomAt, uomMaterials, uomReload])
+  const [uomRead, setUomRead] = useState<{ key: string; rows: Record<string, ProcurementUom> | null; error: string }>({ key: '', rows: null, error: '' })
+  useEffect(() => {
+    let currentRead = true
+    setUomRead({ key: uomKey, rows: null, error: '' })
+    if (!uomAt) return () => { currentRead = false }
+    const materials = JSON.parse(uomMaterials) as ProcurementOption[]
+    void (async () => {
+      try {
+        const result = await Promise.all(materials.map(async m => {
+          const r = await client.rpc('erp_cp7_get_procurement_uom_v1', { p_material: m.id, p_at: uomAt })
+          if (r.error) throw r.error
+          return [m.id, parseProcurementUom(r.data, m, uomAt)] as const
+        }))
+        if (currentRead) setUomRead({ key: uomKey, rows: Object.fromEntries(result), error: '' })
+      } catch (e) { if (currentRead) setUomRead({ key: uomKey, rows: null, error: normalizeClientError(e).message }) }
+    })()
+    return () => { currentRead = false }
+  }, [client, uomAt, uomMaterials, uomKey])
+  const uoms = uomRead.key === uomKey ? uomRead.rows : null
+  const payload = draft ? document(draft, valueAccess, uoms) : null
   const changeLine = (key: string, fn: (l: Line) => Line) => setDraft(d => d ? { ...d, lines: d.lines.map(l => l.key === key ? fn(l) : l) } : d)
   const write = (action: string, doc: Json, version: string | null) => run(action, { document: doc, expected_version: version }, null, handlers)
   return <section className="cproc">
@@ -136,6 +162,7 @@ function ProcurementWorkspace() {
     {draft ? <form className="panel cproc-editor" onSubmit={e => { e.preventDefault(); if (payload && !locked && !staleDraft && data?.capabilities.create) void write('SAVE_DRAFT', payload, draft.version) }}>
       <div className="cproc-heading"><div><div className="eyebrow">SURAT JALAN</div><h2>{draft.id ? 'Perbaiki draft penerimaan' : 'Penerimaan baru'}</h2><p>Draft belum menambah stok. Setelah disimpan, periksa dokumennya sebelum disahkan.</p></div><button type="button" disabled={mutation.busy} onClick={() => setDraft(null)}>Tutup formulir</button></div>
       {staleDraft ? <p role="alert">Versi draft sudah berubah. Tutup formulir dan buka ulang dokumen sebelum mengubahnya.</p> : null}
+      {uomRead.key === uomKey && uomRead.error ? <div role="alert"><p>Pilihan satuan belum bisa dimuat: {uomRead.error}</p><button type="button" disabled={locked} onClick={() => setUomReload(n => n + 1)}>Muat ulang satuan</button></div> : null}
       <fieldset disabled={locked || staleDraft}><div className="cproc-grid">
         <label>Nomor surat jalan<input aria-label="Nomor surat jalan" required value={draft.number} onChange={e => setDraft({ ...draft, number: e.target.value })}/></label>
         <label>Waktu barang datang · WIB<input aria-label="Waktu barang datang WIB" type="datetime-local" required value={draft.at} onChange={e => setDraft({ ...draft, at: e.target.value })}/></label>
@@ -144,12 +171,16 @@ function ProcurementWorkspace() {
       </div>
       {draft.lines.map((l, index) => <section className="cproc-line" key={l.key}>
         <div className="cproc-heading"><h3>Barang {index + 1}</h3><button type="button" disabled={draft.lines.length === 1} onClick={() => setDraft(d => d ? { ...d, lines: d.lines.filter(x => x.key !== l.key) } : d)}>Hapus barang {index + 1}</button></div>
-        <div className="cproc-grid"><MasterPicker client={client} kind="MATERIAL" label={`Bahan ${index + 1}`} value={l.material} disabled={locked} onChange={material => changeLine(l.key, old => ({ ...old, material, qty: '', price: '', priceMode: material.material_type === 'FABRIC' ? 'BENCHMARK' : 'MANUAL_ESTIMATE' }))}/>
-          <label>Jumlah sesuai surat jalan {l.material?.unit_code ? `(${l.material.unit_code})` : ''}<input aria-label={`Jumlah barang ${index + 1}`} inputMode="decimal" required value={l.qty} onChange={e => changeLine(l.key, old => ({ ...old, qty: e.target.value }))}/></label></div>
-        {l.material ? <p className="cproc-help">Satuan bahan: <strong>{l.material.unit_code}</strong>. Isi jumlah dan harga dalam satuan ini; Yard dan Meter tidak dikonversi otomatis.</p> : null}
+        <div className="cproc-grid"><MasterPicker client={client} kind="MATERIAL" label={`Bahan ${index + 1}`} value={l.material} disabled={locked} onChange={material => changeLine(l.key, old => ({ ...old, material, qty: '', price: '', uomCode: undefined, priceMode: material.material_type === 'FABRIC' ? 'BENCHMARK' : 'MANUAL_ESTIMATE' }))}/>
+          <label>Jumlah sesuai surat jalan {l.material?.unit_code ? `(${l.uomCode ?? l.material.unit_code})` : ''}<input aria-label={`Jumlah barang ${index + 1}`} inputMode="decimal" required value={l.qty} onChange={e => changeLine(l.key, old => ({ ...old, qty: e.target.value }))}/></label></div>
+        {l.material?.material_type === 'ACCESSORY' ? <div className="cproc-grid"><label>Satuan pembelian<select aria-label={`Satuan pembelian ${index + 1}`} value={(l.uomCode ?? l.material.unit_code ?? '').toUpperCase()} disabled={!uoms?.[l.material.id]} onChange={e => changeLine(l.key, old => ({ ...old, uomCode: e.target.value, qty: '', price: '' }))}>
+          {!uoms?.[l.material.id] ? <option value={(l.uomCode ?? l.material.unit_code ?? '').toUpperCase()}>Memuat satuan…</option> : null}
+          {uoms?.[l.material.id]?.rows.map(u => <option key={u.code} value={u.code}>{u.code} · {u.name}</option>)}
+          {uoms?.[l.material.id] && !uoms[l.material.id].rows.some(u => u.code === (l.uomCode ?? l.material?.unit_code ?? '').toUpperCase()) ? <option value={l.uomCode}>Satuan lama tidak berlaku — pilih ulang</option> : null}
+        </select></label><p>Isi jumlah dan harga per {l.uomCode ?? l.material.unit_code}. {uoms?.[l.material.id]?.rows.filter(u => u.code === (l.uomCode ?? l.material?.unit_code ?? '').toUpperCase()).map(u => <span key={u.code}>1 {u.code} = {numberText(u.factor)} {l.material?.unit_code}. </span>)}Jumlah stok dihitung saat draft disimpan dan diperiksa sebelum penerimaan disahkan.</p></div> : l.material ? <p className="cproc-help">Satuan bahan: <strong>{l.material.unit_code}</strong>. Isi jumlah dan harga dalam satuan ini; Yard dan Meter tidak dikonversi otomatis.</p> : null}
         {l.material?.material_type === 'FABRIC' ? <div className="cproc-rolls"><h4>Rincian roll</h4>{l.rolls.map((r, ri) => <div className="cproc-inline" key={r.key}><label>Nomor roll<input aria-label={`Nomor roll ${index + 1}.${ri + 1}`} required value={r.number} onChange={e => changeLine(l.key, old => ({ ...old, rolls: old.rolls.map(x => x.key === r.key ? { ...x, number: e.target.value } : x) }))}/></label><label>Jumlah ({l.material?.unit_code})<input aria-label={`Jumlah roll ${index + 1}.${ri + 1}`} required inputMode="decimal" value={r.qty} onChange={e => changeLine(l.key, old => ({ ...old, rolls: old.rolls.map(x => x.key === r.key ? { ...x, qty: e.target.value } : x) }))}/></label><button type="button" disabled={l.rolls.length === 1} onClick={() => changeLine(l.key, old => ({ ...old, rolls: old.rolls.filter(x => x.key !== r.key) }))}>Hapus roll {ri + 1}</button></div>)}<button type="button" onClick={() => changeLine(l.key, old => ({ ...old, rolls: [...old.rolls, { key: crypto.randomUUID(), number: '', qty: '' }] }))}>Tambah roll barang {index + 1}</button></div> : null}
         {valueAccess ? <div className="cproc-grid"><label>Dasar harga<select aria-label={`Dasar harga ${index + 1}`} value={l.priceMode} onChange={e => changeLine(l.key, old => ({ ...old, priceMode: e.target.value as Line['priceMode'] }))}>{l.material?.material_type === 'FABRIC' ? <option value="BENCHMARK">Benchmark saat barang datang</option> : null}<option value="MANUAL_ESTIMATE">Perkiraan sementara</option><option value="SUPPLIER_QUOTE">Penawaran supplier</option><option value="SUPPLIER_INVOICE">Harga pada invoice supplier</option></select></label>
-          {l.priceMode !== 'BENCHMARK' ? <label>Harga per {l.material?.unit_code ?? 'satuan'}<input aria-label={`Harga barang ${index + 1}`} inputMode="decimal" value={l.price} onChange={e => changeLine(l.key, old => ({ ...old, price: e.target.value }))}/></label> : <p>Benchmark yang berlaku pada waktu penerimaan diambil saat draft disimpan. Nilainya masih perkiraan sampai invoice final.</p>}</div>
+          {l.priceMode !== 'BENCHMARK' ? <label>Harga per {l.uomCode ?? l.material?.unit_code ?? 'satuan'}<input aria-label={`Harga barang ${index + 1}`} inputMode="decimal" value={l.price} onChange={e => changeLine(l.key, old => ({ ...old, price: e.target.value }))}/></label> : <p>Benchmark yang berlaku pada waktu penerimaan diambil saat draft disimpan. Nilainya masih perkiraan sampai invoice final.</p>}</div>
           : <p className="cproc-help">Penerimaan kain memakai benchmark yang berlaku. Pengisian harga barang lain memerlukan petugas dengan akses nilai pembelian.</p>}
       </section>)}
       <button type="button" disabled={draft.lines.length >= 100} onClick={() => setDraft(d => d ? { ...d, lines: [...d.lines, blankLine()] } : d)}>Tambah barang</button>
@@ -161,10 +192,10 @@ function ProcurementWorkspace() {
       {data ? <div className="cproc-pagination"><span>{data.page.rows.length} dokumen pada halaman ini · total {data.page.total}</span><button type="button" disabled={loading || mutation.busy || !data.page.offset} onClick={() => { requested.current.offset = Math.max(0, data.page.offset - 25); void load() }}>Sebelumnya</button><button type="button" disabled={loading || mutation.busy || data.page.next_offset === null} onClick={() => { requested.current.offset = data.page.next_offset ?? data.page.offset; void load() }}>Berikutnya</button></div> : null}
     </section>
     <aside className="panel cproc-detail">{current ? <><div className="eyebrow">DOKUMEN PENERIMAAN</div><h2>{current.purchase_number}</h2><p>{current.supplier_name} · {current.location_name}</p><span className={`cproc-status ${current.status.toLowerCase()}`}>{statusLabel[current.status]}</span><p>{current.status === 'DRAFT' ? 'Belum menambah stok gudang.' : current.status === 'POSTED' ? 'Penerimaan sudah tercatat. Kuantitas di bawah mengikuti dokumen masuk.' : 'Penerimaan sudah dibatalkan.'}</p>
-      {current.items.map(i => <article className="cproc-item" key={i.id}><h3>{i.material_name}</h3><strong>{numberText(i.qty)} {i.unit_code}</strong><small>{i.material_sku}</small>{i.purchase_uom_code && i.purchase_qty_entered ? <small>Di surat jalan: {numberText(i.purchase_qty_entered)} {i.purchase_uom_code}</small> : null}{i.finance ? <p>{i.finance.price_state === 'ESTIMATED' ? 'Perkiraan saat penerimaan' : i.finance.price_state === 'PARTIAL' ? 'Harga saat penerimaan · invoice sebagian' : 'Harga saat penerimaan · invoice lengkap'} · Rp{numberText(i.finance.unit_price)} / {i.unit_code}<br/>Nilai baris Rp{numberText(i.finance.line_total)}</p> : null}
+      {current.items.map(i => <article className="cproc-item" key={i.id}><h3>{i.material_name}</h3><strong>{numberText(i.qty)} {i.unit_code}</strong><small>{i.material_sku}</small>{i.purchase_uom_code && i.purchase_qty_entered ? <small>Di surat jalan: {numberText(i.purchase_qty_entered)} {i.purchase_uom_code}</small> : null}{i.finance?.purchase_price_per_uom !== null && i.finance?.purchase_price_per_uom !== undefined && i.purchase_uom_code ? <small>Harga pada surat jalan Rp{numberText(i.finance.purchase_price_per_uom)} / {i.purchase_uom_code}</small> : null}{i.finance ? <p>{i.finance.price_state === 'ESTIMATED' ? 'Perkiraan saat penerimaan' : i.finance.price_state === 'PARTIAL' ? 'Harga saat penerimaan · invoice sebagian' : 'Harga saat penerimaan · invoice lengkap'} · Rp{numberText(i.finance.unit_price)} / {i.unit_code}<br/>Nilai baris Rp{numberText(i.finance.line_total)}</p> : null}
         {i.rolls.length ? <details><summary>{i.rolls.length} roll</summary><ul>{i.rolls.map(r => <li key={r.id}>{r.roll_number} · {numberText(r.receipt_qty)} {i.unit_code}</li>)}</ul></details> : null}</article>)}
       {current.finance ? <div className="cproc-total"><span>Nilai pada penerimaan</span><strong>Rp{numberText(current.finance.receipt_value)}</strong><small>Jumlah utang mengikuti invoice dan penyelesaian supplier.</small></div> : null}
-      {current.status === 'DRAFT' ? <div className="cproc-review"><h3>Periksa sebelum menerima</h3><p>Pastikan supplier, gudang, waktu, bahan dan jumlah roll sudah sesuai barang datang.</p>{valueAccess && data?.capabilities.create && receiptEditableInBaseUnits(current) ? <button type="button" disabled={locked} onClick={() => setDraft(fromDetail(current))}>Perbaiki draft</button> : null}<label>Catatan pemeriksaan<input aria-label="Catatan pemeriksaan penerimaan" disabled={locked} value={postReason} onChange={e => setPostReason(e.target.value)}/></label><button className="primary-btn" type="button" disabled={locked || Boolean(draft) || !data?.capabilities.post || !postReason.trim()} onClick={() => void write('POST', { purchase_id: current.id, change_reason: postReason.trim() }, current.row_version)}>Sahkan penerimaan ke gudang</button></div> : null}
+      {current.status === 'DRAFT' ? <div className="cproc-review"><h3>Periksa sebelum menerima</h3><p>Pastikan supplier, gudang, waktu, bahan dan jumlah roll sudah sesuai barang datang.</p>{valueAccess && data?.capabilities.create && receiptEditable(current) ? <button type="button" disabled={locked} onClick={() => setDraft(fromDetail(current))}>Perbaiki draft</button> : null}<label>Catatan pemeriksaan<input aria-label="Catatan pemeriksaan penerimaan" disabled={locked} value={postReason} onChange={e => setPostReason(e.target.value)}/></label><button className="primary-btn" type="button" disabled={locked || Boolean(draft) || !data?.capabilities.post || !postReason.trim()} onClick={() => void write('POST', { purchase_id: current.id, change_reason: postReason.trim() }, current.row_version)}>Sahkan penerimaan ke gudang</button></div> : null}
       {current.status === 'POSTED' && data?.capabilities.reverse ? <div className="cproc-review"><h3>Pembatalan penerimaan</h3><p>Invoice, pembayaran, retur aktif, dan pemakaian barang yang masih terkait harus diselesaikan sebelum penerimaan dapat dibatalkan. Riwayat dokumen tetap disimpan.</p>
         {!reverseReview ? <button type="button" disabled={locked || Boolean(draft)} onClick={() => setReverseReview({ id: current.id, version: current.row_version, readAt: data.read_at, reason: '', checked: false })}>Tinjau pembatalan penerimaan</button> : <>
           {staleReverse ? <p role="alert">Data penerimaan telah dimuat ulang atau berubah. Tutup pemeriksaan ini, lalu periksa kembali dokumen terbaru.</p> : null}

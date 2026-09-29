@@ -3,7 +3,7 @@ import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { beforeEach, afterEach, describe, expect, it, vi } from 'vitest'
 import ConnectedProcurementPage from './ConnectedProcurementPage'
-import { parseProcurementOutcome, parseProcurementWorkspace, receiptDecimal } from './procurementContract'
+import { parseProcurementOutcome, parseProcurementUom, parseProcurementWorkspace, receiptDecimal } from './procurementContract'
 import { recoveryIdentity } from '../tests/fixtures/productionRecovery'
 import { readProductionRecovery } from './productionRecovery'
 import { invoiceWorkspaceFixture } from '../tests/fixtures/purchaseInvoices'
@@ -17,7 +17,7 @@ function workspace(finance = true, posted = false) {
   const row = { id: doc, purchase_number: 'SJ-TEST', supplier_id: id, supplier_name: 'Supplier A', location_id: id, location_name: 'Gudang kain', physical_at: '2026-09-26T03:00:00+00:00', status: posted ? 'POSTED' : 'DRAFT', row_version: posted ? '9007199254740994' : '9007199254740993', notes: null, line_count: 1,
     ...(finance ? { finance: { supplier_invoice_number: null, due_date: null, payment_status: 'UNPAID', receipt_value: '100.000000', basis: 'RECEIPT_PRICE_NOT_CURRENT_PAYABLE' } } : {}) }
   return { contract_version: 'cp7.procurement-workspace.v1', kind: 'LIVE_WORKSPACE', read_at: '2026-09-29T03:00:00Z', capabilities: { create: true, post: true, reverse: finance, view_value: finance }, page: { rows: [row], total: '1', offset: 0, limit: 25, next_offset: null }, detail: null as unknown,
-    makeDetail: () => ({ ...row, stock_effect: posted ? 'POSTED_RECEIPT' : 'NOT_POSTED', quantity_basis: 'RECEIPT_DOCUMENT_NOT_CURRENT_ON_HAND', items: [{ id, material_id: id, material_sku: 'K-1', material_name: 'Denim', material_type: 'FABRIC', unit_code: 'YD', qty: '10.000000', purchase_qty_entered: null, purchase_uom_code: null, purchase_uom_factor: null, lot_number: null, notes: null, rolls: [{ id, roll_number: 'ROLL-1', receipt_qty: '10.000000', notes: null }], ...(finance ? { finance: { unit_price: '10.000000', line_total: '100.000000', price_state: 'ESTIMATED', price_source: 'MANUAL_ESTIMATE', invoice_match_state: 'UNMATCHED', benchmark_price_version_id: null } } : {}) }] }) }
+    makeDetail: () => ({ ...row, stock_effect: posted ? 'POSTED_RECEIPT' : 'NOT_POSTED', quantity_basis: 'RECEIPT_DOCUMENT_NOT_CURRENT_ON_HAND', items: [{ id, material_id: id, material_sku: 'K-1', material_name: 'Denim', material_type: 'FABRIC', unit_code: 'YD', qty: '10.000000', purchase_qty_entered: null, purchase_uom_code: null, purchase_uom_factor: null, lot_number: null, notes: null, rolls: [{ id, roll_number: 'ROLL-1', receipt_qty: '10.000000', notes: null }], ...(finance ? { finance: { unit_price: '10.000000', line_total: '100.000000', price_state: 'ESTIMATED', price_source: 'MANUAL_ESTIMATE', invoice_match_state: 'UNMATCHED', benchmark_price_version_id: null, purchase_price_per_uom: null } } : {}) }] }) }
 }
 let root: Root, container: HTMLDivElement
 beforeEach(() => {
@@ -52,6 +52,41 @@ function server(finance=true) {
   });return s
 }
 describe('connected procurement recovery and financial boundary',()=>{
+  function accessoryServer(){
+    server();const original=client.rpc.getMockImplementation()!,control={fail:false,wrong:false}
+    client.rpc.mockImplementation(async(name:string,args:Record<string,unknown>)=>{
+      if(name==='erp_cp7_get_procurement_uom_v1')return control.fail?{data:null,error:{message:'Master tidak tersedia'}}:{data:{contract_version:'cp7.procurement-uom.v1',material_id:control.wrong?doc:id,physical_at:args.p_at,base_unit:'PCS',rows:[{code:'PCS',name:'Piece',factor:'1',dimension:'COUNT'},{code:'LUSIN',name:'Lusin',factor:'12',dimension:'COUNT'},{code:'GROSS',name:'Gross',factor:'144',dimension:'COUNT'}]},error:null}
+      const r=await original(name,args)
+      if(name==='erp_cp7_get_procurement_v1'&&r.data.detail){const i=r.data.detail.items[0];Object.assign(i,{material_type:'ACCESSORY',unit_code:'PCS',qty:'24.000000',purchase_qty_entered:'2.000000',purchase_uom_code:'LUSIN',purchase_uom_factor:'12.000000',rolls:[]});i.finance.purchase_price_per_uom='120.000000';i.finance.line_total='240.000000'}
+      return r
+    });return control
+  }
+  async function fill(label:string,value:string){const input=container.querySelector<HTMLInputElement>(`[aria-label="${label}"]`)!;await act(async()=>{Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')!.set!.call(input,value);input.dispatchEvent(new Event('input',{bubbles:true}))});await flush()}
+  it('edits an accessory receipt using entered quantity and price per purchase unit without client conversion',async()=>{
+    accessoryServer();await mount();await click('SJ-TEST');expect(container.querySelector('.cproc-detail')?.textContent).toContain('Rp120 / LUSIN');await click('Perbaiki draft')
+    expect(container.querySelector<HTMLInputElement>('[aria-label="Jumlah barang 1"]')!.value).toBe('2.000000');expect(container.querySelector<HTMLInputElement>('[aria-label="Harga barang 1"]')!.value).toBe('120.000000')
+    await fill('Alasan pencatatan penerimaan','Periksa jumlah sesuai lusin');await click('Simpan draft penerimaan')
+    expect(writes()[0][1].p_payload.lines[0]).toMatchObject({purchase_qty_entered:'2.000000',purchase_uom_code:'LUSIN',purchase_price_per_uom_snapshot:'120.000000',rolls:[]})
+    for(const key of ['qty','unit_price','purchase_uom_factor_snapshot'])expect(writes()[0][1].p_payload.lines[0]).not.toHaveProperty(key)
+  })
+  it('clears quantity and price when switching purchase unit so old values are not reinterpreted',async()=>{
+    accessoryServer();await mount();await click('SJ-TEST');await click('Perbaiki draft');await fill('Alasan pencatatan penerimaan','Supplier memakai gross')
+    const select=container.querySelector<HTMLSelectElement>('[aria-label="Satuan pembelian 1"]')!;await act(async()=>{select.value='GROSS';select.dispatchEvent(new Event('change',{bubbles:true}))});await flush()
+    expect(container.querySelector<HTMLInputElement>('[aria-label="Jumlah barang 1"]')!.value).toBe('');expect(container.querySelector<HTMLInputElement>('[aria-label="Harga barang 1"]')!.value).toBe('');expect(button('Simpan draft penerimaan').disabled).toBe(true)
+    await fill('Jumlah barang 1','0,5');await fill('Harga barang 1','1440');await click('Simpan draft penerimaan')
+    expect(writes()[0][1].p_payload.lines[0]).toMatchObject({purchase_qty_entered:'0.5',purchase_uom_code:'GROSS',purchase_price_per_uom_snapshot:'1440'})
+  })
+  it('blocks missing or mismatched unit masters and allows an explicit current read retry',async()=>{
+    const c=accessoryServer();c.fail=true;await mount();await click('SJ-TEST');await click('Perbaiki draft');await fill('Alasan pencatatan penerimaan','Periksa master')
+    expect(button('Simpan draft penerimaan').disabled).toBe(true);expect(container.textContent).toContain('Master tidak tersedia')
+    c.fail=false;c.wrong=true;await click('Muat ulang satuan');expect(button('Simpan draft penerimaan').disabled).toBe(true)
+    c.wrong=false;await click('Muat ulang satuan');expect(button('Simpan draft penerimaan').disabled).toBe(false);expect(writes()).toHaveLength(0)
+  })
+  it('rejects wrong dated unit rows, duplicate codes, or non-unit base factors',()=>{
+    const material={id,code:'ACC',name:'Kancing',unit_code:'PCS'},at='2026-09-26T03:00:00Z',row={code:'PCS',name:'Piece',factor:'1',dimension:'COUNT'},w={contract_version:'cp7.procurement-uom.v1',material_id:id,physical_at:at,base_unit:'PCS',rows:[row]}
+    expect(()=>parseProcurementUom(w,material,at)).not.toThrow()
+    for(const bad of [{...w,physical_at:'2026-09-27T03:00:00Z'},{...w,rows:[row,row]},{...w,rows:[{...row,factor:'12'}]}])expect(()=>parseProcurementUom(bad,material,at)).toThrow()
+  })
   async function reviewReverse(){
     await click('Tinjau pembatalan penerimaan')
     const input=container.querySelector<HTMLInputElement>('[aria-label="Alasan pembatalan penerimaan"]')!

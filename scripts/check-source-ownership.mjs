@@ -102,6 +102,7 @@ assert.deepEqual([...rpcOwnership].sort(), [
   'src/ConnectedMaterialsPage.tsx:erp_cp7_save_materials_v1',
   'src/ConnectedProcurementPage.tsx:erp_cp7_get_procurement_v1',
   'src/ConnectedProcurementPage.tsx:erp_cp7_get_procurement_options_v1',
+  'src/ConnectedProcurementPage.tsx:erp_cp7_get_procurement_uom_v1',
   'src/ConnectedProcurementPage.tsx:erp_cp7_save_procurement_v1',
   'src/SkuWaveReferences.tsx:erp_get_sku_workspace_v1',
   'src/SkuWaveReferences.tsx:erp_save_sku_action_v1',

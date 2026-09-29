@@ -2,7 +2,7 @@
 from pathlib import Path
 import cp7_wip_bundle
 ROOT=Path(__file__).resolve().parents[1]
-FILES=('bootstrap.sql','accepted-deltas.sql','read.sql','reversal.sql','command.sql','ownership.sql')
+FILES=('bootstrap.sql','accepted-deltas.sql','read.sql','reversal.sql','uom.sql','command.sql','ownership.sql')
 REPLACED=('erp.require_internal()','erp.bc_guard_zone_location_v1()')
 def extension():
     procure=ROOT/'scripts/cp7-src/procurement';material=ROOT/'scripts/cp7-src/materials';invoice=ROOT/'scripts/cp7-src/invoices';returns=ROOT/'scripts/cp7-src/supplier-returns'
