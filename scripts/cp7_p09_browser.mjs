@@ -147,7 +147,7 @@ async function supplierInvoice(ui,today,mobile) {
   await ui.expect.poll(()=>fixture('read_invoice',f).invoices.length,{timeout:20000}).toBe(2)
   await ui.expect(panel).toContainText('Nilai dokumen Rp45',{timeout:20000});verify(95,0,95,2)
   await ui.expect.poll(()=>panel.evaluate(el=>{const b=el.getBoundingClientRect();return b.left>=0&&b.right<=innerWidth+1&&document.documentElement.scrollWidth<=innerWidth+1})).toBe(true)
-  await panel.scrollIntoViewIfNeeded();await p.screenshot({path:`cp6-proof/t3/P09_INVOICE_${mobile?'MOBILE':'DESKTOP'}.png`,fullPage:true})
+  await p.evaluate(()=>window.scrollTo(0,0));await p.screenshot({path:`cp6-proof/t3/P09_INVOICE_${mobile?'MOBILE':'DESKTOP'}.png`,fullPage:true})
   for(const n of [2,1]) {
    const inspect=panel.getByRole('button',{name:'Tinjau pembatalan '+f.tag+'-UI-INVOICE-'+n,exact:true});await ui.expect(inspect).toBeEnabled();await inspect.click()
    await panel.getByLabel('Alasan pembatalan invoice',{exact:true}).fill('Dokumen invoice diganti sesuai pemeriksaan supplier')

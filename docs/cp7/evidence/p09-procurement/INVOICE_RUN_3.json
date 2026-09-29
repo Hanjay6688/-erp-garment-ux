@@ -1,0 +1,58 @@
+{
+  "source": "5be9c8ad89b952b71cc59e2f1876677875e1a4ce",
+  "tree": "fb8dcdd8e9c78c1ee4a50668ead4432467d487f2",
+  "run": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36526278414",
+  "artifact_id": 11014659990,
+  "zip_sha256": "68c864c0cf5122b6709164fdb7f4d7519f8fa080709c6056d8956ab9b3bef67c",
+  "report_sha256": "ce72bf5c440d6b667ce3e25c7610ce1df87861d968dfd3c37caf6c29ca5e5348",
+  "bundle_sha256": "67c68a1b8d38275b91d041fda19071d743fb902219ff2edce320f5be899bf105",
+  "status": "INCOMPLETE",
+  "counts": {
+    "smoke": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 9
+    },
+    "races": {
+      "PASS": 3
+    },
+    "http": {
+      "PASS": 1
+    },
+    "material_smoke": {
+      "PASS": 1
+    },
+    "material": {
+      "PASS": 9
+    },
+    "material_crossflow": {
+      "PASS": 2
+    },
+    "material_races": {
+      "PASS": 2
+    },
+    "material_http": {
+      "PASS": 1
+    },
+    "invoice": {
+      "PASS": 9
+    },
+    "invoice_races": {
+      "PASS": 3
+    },
+    "invoice_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 4,
+      "INCOMPLETE": 2
+    }
+  },
+  "findings": [
+    "Receipt PARTIAL UI and exact lost-response recovery advanced to both invoices; both browsers then failed the AP GL read-back at invoice reversal.",
+    "Browser fixture filtered journal source_id by invoice IDs; accepted reverse_journal instead links the inverse to the original journal. Read all original/inverse/cent-adjustment journal IDs from immutable supplier cent posting facts, retaining the same AP50/95/50/0 assertions."
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}

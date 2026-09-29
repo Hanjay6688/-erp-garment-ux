@@ -8,6 +8,8 @@ name: CP7 P09 Procurement
     - scripts/cp7-src/procurement/**
     - scripts/cp7-src/materials/**
     - scripts/cp7-src/invoices/**
+    - scripts/cp7-src/supplier-returns/**
+    - scripts/cp7_supplier_return_cases.py
     - scripts/cp7_invoice_cases.py
     - scripts/cp7_material_cases.py
     - scripts/cp7-src/wip/**

@@ -1,0 +1,16 @@
+grant create on schema public,cp7_supplier_return to cp7_return_read,cp7_return_write;
+alter function cp7_supplier_return.access_now() owner to cp7_return_read;
+alter function cp7_supplier_return.validate_source(uuid,jsonb) owner to cp7_return_read;
+alter function cp7_supplier_return.assert_document(uuid,uuid) owner to cp7_return_read;
+alter function cp7_supplier_return.validate_post(uuid,uuid) owner to cp7_return_read;
+alter function cp7_supplier_return.location_qty(uuid,uuid,uuid) owner to cp7_return_read;
+alter function cp7_supplier_return.document(uuid,uuid,boolean) owner to cp7_return_read;
+alter function cp7_supplier_return.workspace(uuid,uuid,integer,integer) owner to cp7_return_read;
+alter function cp7_supplier_return.command(text,jsonb,uuid,text) owner to cp7_return_write;
+alter function public.erp_cp7_get_supplier_returns_v1(uuid,uuid,integer,integer) owner to cp7_return_read;
+alter function public.erp_cp7_save_supplier_return_v1(text,jsonb,uuid,text) owner to cp7_return_write;
+revoke create on schema public,cp7_supplier_return from cp7_return_read,cp7_return_write;
+revoke all on all functions in schema cp7_supplier_return from public,anon,authenticated,service_role,cp7_capture;
+grant execute on function cp7_supplier_return.access_now(),cp7_supplier_return.validate_source(uuid,jsonb),cp7_supplier_return.assert_document(uuid,uuid),cp7_supplier_return.validate_post(uuid,uuid) to cp7_return_write;
+revoke all on function public.erp_cp7_get_supplier_returns_v1(uuid,uuid,integer,integer),public.erp_cp7_save_supplier_return_v1(text,jsonb,uuid,text) from public,anon,authenticated,service_role,cp7_capture;
+grant execute on function public.erp_cp7_get_supplier_returns_v1(uuid,uuid,integer,integer),public.erp_cp7_save_supplier_return_v1(text,jsonb,uuid,text) to authenticated;
