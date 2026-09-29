@@ -24,7 +24,7 @@ $$;
 create function cp7_wip.normalize_cutting(capture jsonb) returns jsonb
 language plpgsql immutable security invoker set search_path='' as $$
 declare f jsonb:=capture->'facts';g jsonb;grp jsonb;y record;d jsonb;s jsonb;r jsonb;q jsonb;b jsonb;rw jsonb;
- pool text;sz text;src text;dst text;ref jsonb;qty numeric;amt numeric;cnt integer;result jsonb;
+ pool text;sz text;src text;dst text;ref jsonb;claim jsonb;line_id text;qty numeric;amt numeric;cnt integer;result jsonb;
  drows jsonb:='[]';rrows jsonb:='[]';bsnodes jsonb:='{}';scope_at timestamptz:=(capture->>'captured_at')::timestamptz;
 begin
  if capture->>'contract_version' is distinct from 'cp7.cutting-facts.v1' or capture->>'status' is distinct from 'COMPLETE' then
@@ -32,11 +32,6 @@ begin
  end if;
  if exists(select 1 from jsonb_array_elements(f->'groups') where value->'material_issue_posted'<>'true'::jsonb) then
   return jsonb_build_object('status','UNKNOWN','reason','CUTTING_NOT_POSTED');
- end if;
- -- Claimed custody is withheld until its physical-source reconciliation is qualified.
- if exists(select 1 from jsonb_array_elements(f->'claims') where value->>'claim_type' in ('MISSING','STUCK'))
-    or exists(select 1 from jsonb_array_elements(f->'receipts') where (value->>'missing_pcs')::numeric+(value->>'stuck_pcs')::numeric>0) then
-  return jsonb_build_object('status','UNKNOWN','reason','MISSING_STUCK_CUSTODY_REQUIRES_RECONCILIATION');
  end if;
  if not cp7_wip.redispatch_valid(f) then
   return jsonb_build_object('status','CONFLICT','reason','REDISPATCH_RANGE_LINEAGE_CONFLICT');
@@ -108,12 +103,25 @@ begin
    g:=cp7_wip.transition(g,pool,src,'LBS:'||(r->>'id')||':'||sz,'BS',(s->>'bs')::numeric,ref);
   end loop;
   if (r->>'missing_pcs')::numeric+(r->>'stuck_pcs')::numeric>0 then
-   select count(distinct value->>'size'),min(value->>'size') into cnt,sz from jsonb_array_elements(drows) where value->>'line'=r->>'delivery_line_id';
-   if cnt<>1 then return jsonb_build_object('status','UNKNOWN','reason','MISSING_STUCK_SIZE_UNPROVEN','source_id',r->'id');end if;
-   pool:='CUT:'||(r->>'group_id')||':'||sz;src:='D:'||(r->>'delivery_line_id')||':'||sz;ref:=cp7_wip.ref('erp.laundry_receipt_lines',r->>'id',r->>'revision');
-   g:=cp7_wip.transition(g,pool,src,'MISSING:'||(r->>'id'),'MISSING',(r->>'missing_pcs')::numeric,ref);
-   g:=cp7_wip.transition(g,pool,src,'STUCK:'||(r->>'id'),'STUCK',(r->>'stuck_pcs')::numeric,ref);
+   return jsonb_build_object('status','UNKNOWN','reason','LEGACY_RECEIPT_CUSTODY_REQUIRES_RECONCILIATION','source_id',r->'id');
   end if;
+ end loop;
+ -- Missing/stuck claims consume unreturned input once. A financial settlement
+ -- does not recreate the lost/held goods. Rejected claims cease to reserve it.
+ for claim in select value from jsonb_array_elements(f->'claims') where value->>'claim_type' in ('MISSING','STUCK')
+  and value->>'status'<>'REJECTED' order by value->>'opened_at',value->>'id' loop
+  line_id:=null;
+  if claim->'receipt_line_id'<>'null'::jsonb then
+   return jsonb_build_object('status','CONFLICT','reason','MISSING_STUCK_CLAIM_REQUIRES_DELIVERY_SOURCE','source_id',claim->'id');
+  end if;
+  select count(*),min(value->>'id') into cnt,line_id from jsonb_array_elements(f->'deliveries') where value->>'delivery_id'=claim->>'delivery_id';
+  if cnt<>1 or (claim->>'delivery_line_count')::int<>1 then line_id:=null;end if;
+  select count(distinct value->>'size'),min(value->>'size'),min(value->>'group') into cnt,sz,pool
+   from jsonb_array_elements(drows) where value->>'line'=line_id;
+  if line_id is null or cnt<>1 then return jsonb_build_object('status','UNKNOWN','reason','CLAIM_EXACT_SIZE_OR_SOURCE_UNPROVEN','source_id',claim->'id');end if;
+  pool:='CUT:'||pool||':'||sz;src:='D:'||line_id||':'||sz;
+  g:=cp7_wip.transition(g,pool,src,'CLAIM:'||(claim->>'id'),claim->>'claim_type',(claim->>'qty_pcs')::numeric,
+   cp7_wip.ref('erp.laundry_claims',claim->>'id',claim->>'revision'));
  end loop;
  for q in select value from jsonb_array_elements(f->'qc') where value->>'status'='POSTED' order by value->>'physical_at',value->>'id' loop
   sz:=q->>'size_id';pool:='CUT:'||(q->>'group_id')||':'||sz;src:=pool||':PRE';

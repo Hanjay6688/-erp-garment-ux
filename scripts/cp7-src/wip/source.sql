@@ -97,8 +97,9 @@ redispatch as materialized(
 ),
 claims as materialized(
  select x.id,x.delivery_id,x.receipt_line_id,x.claim_type,x.qty_claimed::text qty_pcs,x.status,
- x.opened_at,x.resolved_at,x.row_version::text revision
- from erp.laundry_claims x where x.delivery_id in (select delivery_id from deliveries) order by x.id limit 2001
+ x.opened_at,x.resolved_at,x.row_version::text revision,
+ (select count(*) from erp.laundry_delivery_lines claim_line where claim_line.delivery_id=x.delivery_id) delivery_line_count
+ from erp.laundry_claims x cross join clock c where x.delivery_id in (select delivery_id from deliveries) and x.opened_at<=c.at order by x.id limit 2001
 ),
 sewing as materialized(
  select e.id,e.cutting_group_id group_id,e.qty_signed::text qty_signed,e.event_kind,e.reversal_of_id,e.physical_at,e.row_version::text revision

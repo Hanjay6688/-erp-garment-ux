@@ -109,6 +109,10 @@ def cases(cur,today):
         return dict(status='PASS',ordinary_rework_start_partial_complete=True,partial_good_not_fg=True,final=[100,80,18,2])
     def rewash_lifecycle():
         f=b.two_size_fixture(cur,b.case_day(today),'P04-REWASH',q1=60,q2=40)
+        # Accepted POST_FAILED_WASH requires exactly one vendor/process rate.
+        # This qualifies known vendor pricing only; ordinary deferred-price
+        # sending/receipt/QC is independently covered by O15 above.
+        b.process_rate(cur,f,'5.00')
         def send(qty,hour):
             payload=dict(distribution_batch_id=f['batch'],vendor_id=f['vendor'],wash_process_id=f['process'],target_dyeing_color='P04-REWASH',
               physical_at=b.chain.production.at(f['day'],hour).isoformat(),reason='Same source redispatch',lines=[dict(size_id=base.SIZE,qty_sent_pcs=qty)])
@@ -136,13 +140,32 @@ def cases(cur,today):
         facts['facts']['redispatch'].append(clone)
         blocked=cur.execute('select cp7_wip.normalize_cutting(%s::jsonb)',(json.dumps(facts),)).fetchone()[0]
         assert blocked['status']=='CONFLICT' and blocked['reason']=='REDISPATCH_RANGE_LINEAGE_CONFLICT'
-        return dict(status='PASS',ordinary_return_redispatch_and_retries=True,final=[100,80,20,0],same_source_not_new_input=True,overlapping_participant_interval_denied=True)
+        return dict(status='PASS',ordinary_return_redispatch_and_retries=True,failed_wash_vendor_rate='5.00',unknown_failed_wash_not_qualified=True,final=[100,80,20,0],same_source_not_new_input=True,overlapping_participant_interval_denied=True)
+    def claims():
+        f=fixture(cur,today);ids=[]
+        for kind,qty in [('MISSING',2),('STUCK',3)]:
+            name='P04-'+kind+'-'+uuid.uuid4().hex[:8]
+            b.d12_bs(cur,'SAVE_CLAIM',dict(action='SAVE',claim_number=name,vendor_id=f['vendor'],delivery_id=f['delivery'],
+              qty_claimed=qty,claim_type=kind,compensation_amount=0,
+              opened_at=b.chain.production.at(f['day'],15).isoformat(),change_reason='P04 physical unreturned custody'))
+            ids.append(b.one(cur,'select id::text from erp.laundry_claims where claim_number=%s',name))
+        r=capture(cur,[f['group']]);assert [total(r['result'],k+'_pcs') for k in ('input','wip','fg','bs','withheld')]==[100,75,15,5,5],r
+        b.d12_bs(cur,'SAVE_CLAIM',dict(id=ids[0],action='REJECT',change_reason='Missing classification recorded in error; remains outstanding'),b.one(cur,'select row_version from erp.laundry_claims where id=%s',ids[0]))
+        old=read(cur,r['run_id']);assert old['source_state']=='ARCHIVED_STALE' and old['result']==r['result']
+        now=capture(cur,[f['group']]);assert [total(now['result'],k+'_pcs') for k in ('input','wip','fg','bs','withheld')]==[100,77,15,5,3],now
+        # The source cannot use a single visible line to assign a header claim
+        # whose delivery actually contains additional lines outside this scope.
+        b.api.admin(cur);facts=cur.execute('select facts from cp7_wip.runs where id=%s',(now['run_id'],)).fetchone()[0]
+        item=next(x for x in facts['facts']['claims'] if x['status']!='REJECTED');item['receipt_line_id']=None;item['delivery_line_count']=2
+        unknown=cur.execute('select cp7_wip.normalize_cutting(%s::jsonb)',(json.dumps(facts),)).fetchone()[0]
+        assert unknown['status']=='UNKNOWN' and unknown['reason']=='CLAIM_EXACT_SIZE_OR_SOURCE_UNPROVEN'
+        return dict(status='PASS',ordinary_missing_and_stuck=True,held=5,rejection_refreshed_not_rewritten=True,hidden_header_source_not_guessed=True)
     def multi_scope():
         f=fixture(cur,today);other=b.two_size_fixture(cur,b.case_day(today),'P04-OTHER',q1=6,q2=4)
         r=capture(cur,[other['group'],f['group']]);assert [total(r['result'],k+'_pcs') for k in ('input','wip','fg','bs')]==[110,90,15,5]
         assert len(r['result']['totals'])==4 and len({x['pool_key'] for x in r['result']['totals']})==4
         return dict(status='PASS',one_capture_multiple_groups=True,input=110,wip=90,fg=15,bs=5)
-    return [('P04_SOURCE_'+name,fn) for name,fn in [('O15_ACTUAL_POSTING',actual),('IMMUTABLE_QC_REPLAY',immutable),('AUTH_NO_MONEY',access),('MALFORMED_NO_PARTIAL',malformed),('CONFLICT_PROPAGATES',conflict),('MULTI_GROUP_ONE_CAPTURE',multi_scope),('REWORK_PARTIAL_COMPLETION',rework_lifecycle),('REWASH_RETURN_REDISPATCH',rewash_lifecycle)]]
+    return [('P04_SOURCE_'+name,fn) for name,fn in [('O15_ACTUAL_POSTING',actual),('IMMUTABLE_QC_REPLAY',immutable),('AUTH_NO_MONEY',access),('MALFORMED_NO_PARTIAL',malformed),('CONFLICT_PROPAGATES',conflict),('MULTI_GROUP_ONE_CAPTURE',multi_scope),('REWORK_PARTIAL_COMPLETION',rework_lifecycle),('REWASH_RETURN_REDISPATCH',rewash_lifecycle),('CLAIM_CUSTODY',claims)]]
 
 def http_cases(http,today):
     def auth():

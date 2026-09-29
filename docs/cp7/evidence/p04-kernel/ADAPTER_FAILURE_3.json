@@ -1,0 +1,16 @@
+{
+  "status": "INCOMPLETE_NEW_REWASH_FIXTURE",
+  "source": "c923e3faceb7be092d5e57a2344572a56f0ad1c6",
+  "run": 36513301637,
+  "job": 109229977031,
+  "bundle_sha256": "172aec2f2c14c66105d61f9402c1c695cac73051e79c610e0a59f525e42cf0c6",
+  "counts": {"kernel": {"PASS": 14}, "smoke": {"PASS": 1}, "source": {"PASS": 7, "INCOMPLETE": 1}, "races": {"PASS": 2}, "http": {"PASS": 1}},
+  "error": "Exactly one authoritative failed-wash rate must be effective for this vendor/process/time; found 0",
+  "source_contract": "erp.save_laundry_qc_action_v1 POST_FAILED_WASH reads erp.laundry_vendor_rate_versions",
+  "correction": "Declare known vendor/process rate 5.00 through SAVE_PROCESS_RATE for the rewash fixture; no SKU price and no change to the accepted posting guard",
+  "ordinary_unknown_price_proof": "O15 actual posting passed canonical unknown predicate and public lot valuation UNKNOWN",
+  "carried_dependency": "F03/P13 must review failed-wash without a known vendor rate against owner's price-later rule. Known-rate rewash cannot prove that path.",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "retest": "PENDING"
+}
