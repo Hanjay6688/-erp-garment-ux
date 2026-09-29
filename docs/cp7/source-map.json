@@ -895,6 +895,31 @@
       "Connected operations P09-P13; current FG on-hand P10 and R10 P11",
       "Connected planning/report consumers P14-P17",
       "Historical AS_KNOWN where reconstructible, global scale, full lifecycle and integrated release P18-P21"
-    ]
+    ],
+    "p09": {
+      "tested_source": "08f5c813431e1af3c3b80c0a3035c55bdfc9b58d",
+      "modules": [
+        "scripts/cp7-src/procurement",
+        "scripts/cp7-src/materials"
+      ],
+      "public_entrypoints": [
+        "public.erp_cp7_get_procurement_v1",
+        "public.erp_cp7_get_procurement_options_v1",
+        "public.erp_cp7_save_procurement_v1",
+        "public.erp_cp7_get_materials_v1",
+        "public.erp_cp7_get_material_ledger_v1",
+        "public.erp_cp7_get_material_transfers_v1",
+        "public.erp_cp7_get_material_locations_v1",
+        "public.erp_cp7_save_materials_v1"
+      ],
+      "consumer": [
+        "src/ConnectedProcurementPage.tsx",
+        "src/ConnectedMaterialsPage.tsx"
+      ],
+      "verification": "docs/cp7/evidence/p09-procurement/MATERIAL_VERIFICATION.json",
+      "writer_proof": "31_NATIVE_RACE_HTTP_BROWSER_CROSSFLOW_PASS_PLUS_2_SMOKES",
+      "independent_acceptance": false,
+      "invoice_extension": "Native facade proposed in scripts/cp7-src/invoices; its independent source-bound proof and connected UI pending"
+    }
   }
 }

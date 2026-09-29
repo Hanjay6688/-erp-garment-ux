@@ -1,0 +1,85 @@
+{
+  "status": "PASS_WRITER_BOUNDED_RECEIPT_MATERIAL_TRANSFER_AND_LATE_INVOICE_CROSSFLOW",
+  "source_head": "08f5c813431e1af3c3b80c0a3035c55bdfc9b58d",
+  "source_tree": "2bdab6f5e17072d821b9fb3f2687fc9cbf3bde59",
+  "run_id": 36522939940,
+  "job_id": 109259599280,
+  "artifact_id": 11013955339,
+  "archive_sha256": "015e5913914fbda8fb9e69913f365c90ec4252553a8cf38876db49159b8b81b0",
+  "bundle_sha256": "372133cdb5255ecf388393a91afb2efb3a6c3210f634f8bdf55c9956383d2665",
+  "report_sha256": "9b9d73f437d6d48ccd0d04697f05cf908242f2493c35fc84f164b9846a06720a",
+  "report_gzip_sha256": "3444bba6d6fdac6b9e7fad494b55258854f4d87c5f81405915fe9e1f5f14be8f",
+  "cases": 31,
+  "counts": {
+    "smoke": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 9
+    },
+    "races": {
+      "PASS": 3
+    },
+    "http": {
+      "PASS": 1
+    },
+    "material_smoke": {
+      "PASS": 1
+    },
+    "material": {
+      "PASS": 9
+    },
+    "material_crossflow": {
+      "PASS": 2
+    },
+    "material_races": {
+      "PASS": 2
+    },
+    "material_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 4
+    }
+  },
+  "smoke_counted_separately": 2,
+  "sources": {
+    "scripts/cp7_material_cases.py": "ce27119982447dc073aebd9bfad092896dcf715c9766cef817fbc284e6e18794",
+    "scripts/cp7_p09_procurement_probe.py": "a7270816b1006a1bc266bf652f62c1f4ce63fd5aca62ff60aa5e4068af73718c",
+    "scripts/cp7_procurement_bundle.py": "f2f9ba903db467dc47d09a25e3be50850cdb5831ac7dc5223f30c5570a49a77a",
+    "scripts/cp7_p09_browser.mjs": "f5a1eecc18c858a737abf45e156c1da4721c3fe5e4f7cb5dae5bda0606907565",
+    "scripts/cp7_p09_browser_fixture.py": "0ac1ca6d34aee72d0d4d62fceba42920a6a68a03cfb835c0837f4b4bfdd2aee0",
+    "src/ConnectedMaterialsPage.tsx": "6e26f7d93de2179f7116a9c6a04f9bd880af3305d675a9acbfab609535970401",
+    "src/materialContract.ts": "9054386bbf8bdd5a03e7d8ad9598e296ef1991cdd41b538b74a23e3f5120b169",
+    "src/materials-connected.css": "74229377f2ce1a7671ba95ce79808e86510c6d131614331b9cb81e26218b2bcb",
+    "src/ConnectedProcurementPage.tsx": "33a6ddd211943cd0ccef33ee9eed4bafd4a32af286a883e078886c4e38bc8006",
+    "src/procurement-connected.css": "1ba8d699298403bb278e794b0991880d122b302291bef975232a39913b8bf744"
+  },
+  "screenshots": {
+    "P09_MATERIAL_DESKTOP.png": "6b38f56807c96ef4e81097aa57107c446d0402711fe925d3399cc07052176d04",
+    "P09_MATERIAL_MOBILE.png": "b887aa6f69cfbc6d4a1fa83b14fb86affdcb4ebd00a8b750e2536399e5138cc5",
+    "P09_RECEIPT_RETEST_DESKTOP.png": "f044077ba7286353de868d35fc23f058bf2bc74db4a404b8bf75f50aa23d6e68",
+    "P09_RECEIPT_RETEST_MOBILE.png": "81796c95b4dd81ba617c480f598bf59b3c70e9001655b8fc0de11c805972740a"
+  },
+  "app_runs": [
+    36522944078,
+    36522939871
+  ],
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "limitations": [
+    "Writer evidence, independent review pending",
+    "Not full P09 or F03 closure",
+    "Late invoice and sale crossflow uses existing native boundaries; connected invoice/sale browser still open",
+    "No hosted writes or release approval"
+  ],
+  "production_go": false,
+  "independent_acceptance": false,
+  "app_tests": {
+    "unit": 651,
+    "files": 62,
+    "shell_browser": 6,
+    "build_security_codeql": "PASS"
+  },
+  "visual_review": "Desktop/mobile roll and receipt controls are readable; no horizontal overflow; selected ledger includes warehouse identity. Mobile initially requests roll selection after recovery."
+}

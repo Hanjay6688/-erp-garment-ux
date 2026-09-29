@@ -7,6 +7,8 @@ name: CP7 P09 Procurement
     - scripts/cp7_p09_procurement_probe.py
     - scripts/cp7-src/procurement/**
     - scripts/cp7-src/materials/**
+    - scripts/cp7-src/invoices/**
+    - scripts/cp7_invoice_cases.py
     - scripts/cp7_material_cases.py
     - scripts/cp7-src/wip/**
     - scripts/cp7_wip_bundle.py
