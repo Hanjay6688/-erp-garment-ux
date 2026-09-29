@@ -54,7 +54,9 @@ def main():
               contexts=cur.execute('select count(*) from cp7_supplier_return.execution_context').fetchone()[0])
             if h:
                 out['document']=dict(id=str(h[0]),status=h[1],version=str(h[2]),physical_at=h[3].isoformat(),
-                  movement_count=cur.execute('select count(*) from erp.material_stock_movements where source_id in(select id from erp.material_supplier_return_items where return_id=%s)',(h[0],)).fetchone()[0],
+                  # Inverses identify the original movement, not the return item.
+                  # Count both legs through the native reversal lineage.
+                  movement_count=cur.execute("with originals as(select m.id from erp.material_stock_movements m join erp.material_supplier_return_items i on i.id=m.source_id where i.return_id=%s and m.source_type='MATERIAL_SUPPLIER_RETURN_ITEM' and m.movement_type='SUPPLIER_RETURN') select count(*) from erp.material_stock_movements m where m.id in(select id from originals) or m.reversal_of_id in(select id from originals)",(h[0],)).fetchone()[0],
                   credit=str(cur.execute('select erp.bf_supplier_credit_source_v1(%s,%s)',(h[0],payload['receipt']['purchase_id'])).fetchone()[0]),
                   moved=str(cur.execute('select coalesce(sum(amount),0) from erp.bf_supplier_credit_moves_v1 where return_id=%s',(h[0],)).fetchone()[0]))
             conn.rollback()

@@ -1,0 +1,77 @@
+{
+  "source_head": "6c4bb4e097356cccc2eafd547d83b545e3f12d1b",
+  "source_tree": "38ee8a8e558a44e92229fcce31779e6dac2f373d",
+  "run_id": 36528661258,
+  "job_id": 109277169164,
+  "artifact_id": 11015309896,
+  "archive_sha256": "896dde41919eaff10c304334a4dbeaee734e596ca2a3ba410aea115a38419892",
+  "report_sha256": "5e2d65a362c688374691a6426ed452decff4508b714ac824a866f3c9d3c39f7b",
+  "report_gzip_sha256": "814c27ebceb548db155112c32f9feae3450e2dd5f9efc38cca63b15c5a727889",
+  "report": "RETURN_RUN_2.json.gz",
+  "bundle_sha256": "d81674efefa6395baa2ccfc5db094dfa60ebdeab835c4d97ab4268aba300bde7",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "status": "INCOMPLETE",
+  "counts": {
+    "smoke": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 9
+    },
+    "races": {
+      "PASS": 3
+    },
+    "http": {
+      "PASS": 1
+    },
+    "material_smoke": {
+      "PASS": 1
+    },
+    "material": {
+      "PASS": 9
+    },
+    "material_crossflow": {
+      "PASS": 2
+    },
+    "material_races": {
+      "PASS": 2
+    },
+    "material_http": {
+      "PASS": 1
+    },
+    "invoice": {
+      "PASS": 9
+    },
+    "invoice_races": {
+      "PASS": 3
+    },
+    "invoice_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 6,
+      "INCOMPLETE": 2
+    },
+    "return_smoke": {
+      "PASS": 1
+    },
+    "returns": {
+      "PASS": 10
+    },
+    "return_races": {
+      "PASS": 3
+    },
+    "return_http": {
+      "PASS": 1
+    }
+  },
+  "total_cases": {
+    "PASS": 60,
+    "INCOMPLETE": 2
+  },
+  "smokes_separate": 3,
+  "diagnosis": "The browser inverse counter joined only return item source_id. The accepted reverse_material_movement records its inverse via reversal_of_id. Both browser flows reached restored quantity/value/AP and expected 6+4 warehouse balances, but the counter omitted the inverse. Correct the fixture to follow native reversal lineage; preserve the assertion of exactly two movements and rerun both flows."
+}
