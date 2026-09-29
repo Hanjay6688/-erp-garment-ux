@@ -12,7 +12,12 @@ async function openPage(ui,p){
 async function compose(ui,today,mobile){
  const f=fixture('create',{today,ops:mobile}),user=await ui.login(mobile?'ADMIN':'OWNER',{label:'p12-nota-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'})
  try{
-  const p=user.page;await openPage(ui,p);const panel=p.locator('.cnota'),composer=panel.getByRole('region',{name:'Susunan nota'})
+  const p=user.page
+  // The host captures its WIB fixture day before building/starting the browser.
+  // Keep Date at that day's already elapsed midnight so an actual midnight
+  // crossing cannot split fixture and UI calendars. Timers keep running.
+  await p.clock.setFixedTime(new Date(today+'T00:00:00+07:00'))
+  await openPage(ui,p);const panel=p.locator('.cnota'),composer=panel.getByRole('region',{name:'Susunan nota'})
   async function search(){await p.getByLabel('Cari kartu nota',{exact:true}).fill(f.label);await p.getByRole('button',{name:'Cari kartu',exact:true}).click()}
   await search();await ui.expect(panel.locator('.cnota-source')).toHaveCount(2)
   if(!mobile){
@@ -52,7 +57,7 @@ async function compose(ui,today,mobile){
   mkdirSync('cp6-proof/t3',{recursive:true});await p.evaluate(()=>window.scrollTo(0,0));await p.screenshot({path:`cp6-proof/t3/P12_NOTA_${mobile?'MOBILE':'DESKTOP'}.png`,fullPage:true})
   fixture('cancel',f);await p.getByRole('button',{name:'Muat ulang nota',exact:true}).click();await ui.expect(panel.locator('.cnota-review')).toContainText('Payroll dibatalkan');await ui.expect(panel.locator('.cnota-source')).toHaveCount(2)
   if(mobile){await p.route('**/rest/v1/rpc/erp_cp7_get_nota_workspace_v1',r=>r.abort('failed'));await p.getByRole('button',{name:'Muat ulang nota',exact:true}).click();await ui.expect(panel.locator('.cnota-source')).toHaveCount(0);await ui.expect(panel.locator('.cnota-review')).toHaveCount(0);await ui.expect(panel.locator('[role="alert"]').first()).toBeVisible()}
-  return {status:'PASS',mobile,real_auth_browser_native_save_post:true,review_card_text_contrast_at_least_4_5:true,posted_quantity_label_is_historical:true,desktop_native_drag:!mobile,touch_button_fallback:mobile,two_complete_cards:true,component_qty:3,labor:'6000',native_calculated_not_paid:true,no_duplicate_fg_hpp_or_journal:true,native_cancel_control_not_connected_payroll_reverse:true,source_cards_return_after_cancel:true,ops_money_hidden:mobile?true:null,lost_reply_exact_uuid_payload_version:mobile?true:null,failed_refresh_retires_stale_cards:mobile?true:null,screenshot:`P12_NOTA_${mobile?'MOBILE':'DESKTOP'}.png`}
+  return {status:'PASS',mobile,fixture_and_browser_date_bound_to_elapsed_wib_midnight:true,real_auth_browser_native_save_post:true,review_card_text_contrast_at_least_4_5:true,posted_quantity_label_is_historical:true,desktop_native_drag:!mobile,touch_button_fallback:mobile,two_complete_cards:true,component_qty:3,labor:'6000',native_calculated_not_paid:true,no_duplicate_fg_hpp_or_journal:true,native_cancel_control_not_connected_payroll_reverse:true,source_cards_return_after_cancel:true,ops_money_hidden:mobile?true:null,lost_reply_exact_uuid_payload_version:mobile?true:null,failed_refresh_retires_stale_cards:mobile?true:null,screenshot:`P12_NOTA_${mobile?'MOBILE':'DESKTOP'}.png`}
  }catch(error){
   const p=user.page,panel=p.locator('.cnota');mkdirSync('cp6-proof/t3',{recursive:true})
   // Synthetic fixture and public DTO only: never persist headers or Auth state.

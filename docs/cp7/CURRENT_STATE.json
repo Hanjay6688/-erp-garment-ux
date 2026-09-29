@@ -52,7 +52,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Qualify connected attendance source-to-Nota/payroll/inverse candidate (80 cases), then advances/carry; qualified63-case roster checkpoint remains separate.",
+  "next_action": "Rerun unchanged80 oracles with midnight-safe Nota clock and completed-day kasbon fixture; then continue advances/carry.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -118,20 +118,22 @@
     "attendance_candidate": "DATED_READER_AND_DESKTOP_MOBILE_UI_51_PASS",
     "attendance_read_verification": "docs/cp7/evidence/p12-attendance/READ_VERIFICATION.json",
     "attendance_ui_verification": "docs/cp7/evidence/p12-attendance/READ_UI_VERIFICATION.json",
-    "p09_regression_latest": "docs/cp7/evidence/p12-attendance/P09_RUN12_REGRESSION.json",
+    "p09_regression_latest": "docs/cp7/evidence/p12-attendance/P09_RUN15_REGRESSION.json",
     "roster_candidate": "ROSTER_NATIVE_AND_CONNECTED_BROWSER_63_PASS",
     "roster_verification": "docs/cp7/evidence/p12-attendance/ROSTER_VERIFICATION.json",
     "source_handoff": "docs/cp7/P12_SOURCE_HANDOFF.md",
-    "attendance_write_candidate": "75_PASS_1_FIXTURE_INCOMPLETE_CONNECTED_80_CASES_PENDING"
+    "attendance_write_candidate": "17_ATTENDANCE_ADDITIONS_PASS_COMBINED_77_PASS_3_TIME_FIXTURES_RERUN_REQUIRED"
   },
   "connected_attendance_candidate": {
     "source_commit": "cb7ffc933ed20e0f7b249b38264920829f84c98f",
     "source_tree": "f0516b17ef91e22f38e1d20347e08659f5806a6f",
     "run_id": 36601315289,
     "declared_cases": 80,
-    "status": "RUNNING_NOT_QUALIFIED",
+    "status": "77_PASS_3_INCOMPLETE_TIME_FIXTURES_RERUN_REQUIRED",
     "local_tests_pass": 93,
     "independent_acceptance": false,
-    "production_go": false
+    "production_go": false,
+    "receipt": "docs/cp7/evidence/p12-attendance/WRITE_RUN15_RECEIPT.json",
+    "new_attendance_cases_pass": 17
   }
 }

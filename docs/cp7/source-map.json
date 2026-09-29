@@ -1059,7 +1059,7 @@
     "roster_verification": "docs/cp7/evidence/p12-attendance/ROSTER_VERIFICATION.json",
     "attendance_write_source": "scripts/cp7-src/payroll/attendance-write.sql",
     "attendance_write_cases": "scripts/cp7_attendance_write_cases.py",
-    "attendance_write_status": "75_PASS_1_FIXTURE_INCOMPLETE_CONNECTED_80_CASES_PENDING",
+    "attendance_write_status": "17_ADDITIONS_PASS_COMBINED_77_PASS_3_TIME_FIXTURES_RERUN_REQUIRED",
     "attendance_entry_reader": "scripts/cp7-src/payroll/attendance-entry.sql",
     "attendance_entry_editor": "src/AttendanceEntryEditor.tsx",
     "attendance_entry_contract": "src/attendanceEntryContract.ts",

@@ -1,0 +1,125 @@
+{
+  "status": "77_PASS_3_INCOMPLETE_TIME_FIXTURES",
+  "source_commit": "cb7ffc933ed20e0f7b249b38264920829f84c98f",
+  "source_tree": "f0516b17ef91e22f38e1d20347e08659f5806a6f",
+  "run_id": 36601315289,
+  "job_id": 109519129811,
+  "artifact_id": 11049880958,
+  "archive_sha256": "5d1a2c50b869e0508f8f3d871543693ea88f1ee35ebe52b916c1df4ad4c38610",
+  "report_sha256": "ad80d0a2ad1000f8ecc803990c740f8818c7a5f5ad6c35779a7897edbeeb0bed",
+  "bundle_sha256": "820ce4b5f3b36b63117ea88524beb47990bb0d6354306f71ea4f480387fbef3e",
+  "counts": {
+    "PASS": 77,
+    "INCOMPLETE": 3
+  },
+  "groups": {
+    "native": {
+      "PASS": 5
+    },
+    "http": {
+      "PASS": 1
+    },
+    "notes": {
+      "PASS": 7
+    },
+    "note_races": {
+      "PASS": 3
+    },
+    "note_http": {
+      "PASS": 1
+    },
+    "admission_regression": {
+      "PASS": 1
+    },
+    "browser": {
+      "INCOMPLETE": 2
+    },
+    "payroll_review": {
+      "PASS": 4
+    },
+    "payroll_review_http": {
+      "PASS": 1
+    },
+    "payroll_review_browser": {
+      "PASS": 2
+    },
+    "settlement": {
+      "PASS": 6,
+      "INCOMPLETE": 1
+    },
+    "settlement_races": {
+      "PASS": 4
+    },
+    "settlement_http": {
+      "PASS": 1
+    },
+    "settlement_browser": {
+      "PASS": 3
+    },
+    "attendance_read": {
+      "PASS": 6
+    },
+    "attendance_read_http": {
+      "PASS": 1
+    },
+    "attendance_read_browser": {
+      "PASS": 2
+    },
+    "roster": {
+      "PASS": 6
+    },
+    "roster_races": {
+      "PASS": 3
+    },
+    "roster_http": {
+      "PASS": 1
+    },
+    "roster_browser": {
+      "PASS": 2
+    },
+    "attendance_write": {
+      "PASS": 10
+    },
+    "attendance_write_races": {
+      "PASS": 4
+    },
+    "attendance_write_http": {
+      "PASS": 1
+    },
+    "attendance_write_browser": {
+      "PASS": 2
+    }
+  },
+  "diagnoses": [
+    {
+      "cases": [
+        "P12_NOTA_BROWSER_DESKTOP_DRAG",
+        "P12_NOTA_BROWSER_MOBILE_RECOVERY"
+      ],
+      "error": "Expected2026-09-29; UI correctly defaulted2026-09-30 after actual WIB midnight.",
+      "fix": "Pin the browser Date to the already elapsed WIB midnight of the native fixture day; timers continue. Keep the exact date equality and both business oracles."
+    },
+    {
+      "cases": [
+        "P12_SETTLEMENT_KASBON_CARRY"
+      ],
+      "error": "Accepted BC fixture chose08:00WIB on2026-09-30 while the test ran shortly after00:00; native future-physical guard correctly refused.",
+      "fix": "Place work, payroll period and accessory issue on the same completed prior day, keeping current payment date. Preserve10000 receivable/6000 deduction/4000 carry and inverse oracles."
+    }
+  ],
+  "new_attendance_cases": {
+    "native": 10,
+    "races": 4,
+    "http": 1,
+    "browser": 2,
+    "all_pass": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_cleanup": true,
+  "database_cleanup": true,
+  "browser_screenshots_visually_inspected": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "rerun_80_cases_required": true
+}
