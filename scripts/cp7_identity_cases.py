@@ -11,7 +11,7 @@ def fixture(cur,today):
     f=p02.fixture(cur,today)
     more=bf.products(cur,('XS','L','34'),tag='P03-'+uuid.uuid4().hex[:8])
     roots=[f['root']]+[r for r,_ in more]
-    at=cur.execute("select clock_timestamp()-interval '5 minutes'").fetchone()[0]
+    at=cur.execute("select clock_timestamp()-interval '4 minutes'").fetchone()[0]
     groups=[bf.group(cur,roots[:3],at,settings=dict(price=None,bom=None,work_rates=[],laundry_rates=[])),
             bf.group(cur,roots[3:],at,settings=dict(price=None,bom=None,work_rates=[],laundry_rates=[]))]
     bf.save(cur,groups,at)
