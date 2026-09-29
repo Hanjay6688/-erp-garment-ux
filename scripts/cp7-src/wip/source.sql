@@ -5,7 +5,7 @@ grant select on erp.cutting_pickups,erp.cutting_distribution_batches,erp.cutting
  erp.laundry_receipts,erp.laundry_receipt_lines,erp.laundry_receipt_batch_size_lines,
  erp.qc_inspections,erp.qc_inspection_items,erp.bs_cases,erp.rework_orders,
  erp.laundry_failed_wash_attempts,erp.laundry_redispatch_participant_events,erp.bs_resolutions,
- erp.sewing_terminal_events to cp7_capture;
+ erp.sewing_terminal_events,erp.laundry_claims to cp7_capture;
 create function cp7_wip.capture_cutting_sources(p_groups uuid[]) returns jsonb
 language sql stable security invoker set search_path='' set timezone='Asia/Jakarta' as $$
 with clock as materialized(select clock_timestamp() at),
@@ -72,7 +72,7 @@ bs as materialized(
 ),
 reworks as materialized(
  select r.id,r.bs_case_id,r.qty_sent::text sent_pcs,r.qty_good_returned::text good_pcs,r.qty_bs_returned::text bs_pcs,
- r.physical_sent_at,r.completed_at,r.status,r.row_version::text revision,r.good_fg_lot_id
+ r.physical_sent_at,r.completed_at,r.status,r.row_version::text revision,r.good_fg_lot_id,r.cost_posted completion_posted
  from erp.rework_orders r join bs b on b.id=r.bs_case_id cross join clock c
  where r.physical_sent_at<=c.at order by r.physical_sent_at,r.id limit 2001
 ),
@@ -90,6 +90,11 @@ redispatch as materialized(
  e.qty_pcs::text qty_pcs,e.releases_allocation_event_id,e.released_delivery_id
  from erp.laundry_redispatch_participant_events e where e.source_delivery_batch_size_line_id in (select id from delivery_sizes)
   or e.successor_delivery_batch_size_line_id in (select id from delivery_sizes) order by e.created_at,e.id limit 2001
+),
+claims as materialized(
+ select x.id,x.delivery_id,x.receipt_line_id,x.claim_type,x.qty_claimed::text qty_pcs,x.status,
+ x.opened_at,x.resolved_at,x.row_version::text revision
+ from erp.laundry_claims x where x.delivery_id in (select delivery_id from deliveries) order by x.id limit 2001
 ),
 sewing as materialized(
  select e.id,e.cutting_group_id group_id,e.qty_signed::text qty_signed,e.event_kind,e.reversal_of_id,e.physical_at,e.row_version::text revision
@@ -109,6 +114,7 @@ source as (select jsonb_build_object(
  'resolutions',coalesce((select jsonb_agg(to_jsonb(x) order by id) from resolutions x),'[]'::jsonb),
  'failed',coalesce((select jsonb_agg(to_jsonb(x) order by id) from failed x),'[]'::jsonb),
  'redispatch',coalesce((select jsonb_agg(to_jsonb(x) order by id) from redispatch x),'[]'::jsonb),
+ 'claims',coalesce((select jsonb_agg(to_jsonb(x) order by id) from claims x),'[]'::jsonb),
  'sewing',coalesce((select jsonb_agg(to_jsonb(x) order by id) from sewing x),'[]'::jsonb)) facts)
 select jsonb_build_object('contract_version','cp7.cutting-facts.v1','knowledge_mode','CURRENT',
  'captured_at',(select at from clock),'scope',to_jsonb(p_groups),'facts',facts,

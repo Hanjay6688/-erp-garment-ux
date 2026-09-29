@@ -35,6 +35,10 @@ begin
  end if;
  -- Exceptional custody needs its own range normalization; do not publish an
  -- ordinary-delivery balance when returned/reused participants exist.
+ if exists(select 1 from jsonb_array_elements(f->'claims') where value->>'claim_type' in ('MISSING','STUCK'))
+    or exists(select 1 from jsonb_array_elements(f->'receipts') where (value->>'missing_pcs')::numeric+(value->>'stuck_pcs')::numeric>0) then
+  return jsonb_build_object('status','UNKNOWN','reason','MISSING_STUCK_CUSTODY_REQUIRES_RECONCILIATION');
+ end if;
  if jsonb_array_length(f->'failed')>0 or jsonb_array_length(f->'redispatch')>0 then
   return jsonb_build_object('status','UNKNOWN','reason','REWASH_PARTICIPANTS_REQUIRE_NORMALIZATION');
  end if;
@@ -62,8 +66,8 @@ begin
    if qty<>(d->>'qty_pcs')::numeric then return jsonb_build_object('status','CONFLICT','reason','DELIVERY_SIZE_TOTAL_MISMATCH','source_id',d->'id');end if;
    for s in select value from jsonb_array_elements(f->'delivery_sizes') where value->>'delivery_line_id'=d->>'id' order by value->>'id' loop
     -- An explicit batch reference must point to posted distribution of that size.
-    if not exists(select 1 from jsonb_array_elements(f->'batches') a join jsonb_array_elements(f->'yields') y on y->>'id'=a->>'yield_id'
-       where a->>'batch_id'=s->>'batch_id' and a->>'group_id'=d->>'group_id' and a->>'status'='POSTED' and y->>'size_id'=s->>'size_id') then
+    if not exists(select 1 from jsonb_array_elements(f->'batches') batch_entry join jsonb_array_elements(f->'yields') yield_entry on yield_entry->>'id'=batch_entry->>'yield_id'
+       where batch_entry->>'batch_id'=s->>'batch_id' and batch_entry->>'group_id'=d->>'group_id' and batch_entry->>'status'='POSTED' and yield_entry->>'size_id'=s->>'size_id') then
      return jsonb_build_object('status','CONFLICT','reason','DELIVERY_BATCH_LINEAGE_UNPROVEN','source_id',s->'id');end if;
     drows:=drows||jsonb_build_array(jsonb_build_object('id',s->>'id','line',d->>'id','size',s->>'size_id','group',d->>'group_id','qty',s->>'qty_pcs'));
    end loop;
@@ -85,7 +89,7 @@ begin
      or (select coalesce(sum((value->>'good_pcs')::numeric),0) from jsonb_array_elements(f->'receipt_sizes') where value->>'receipt_line_id'=r->>'id')<>(r->>'good_pcs')::numeric
      or (select coalesce(sum((value->>'bs_pcs')::numeric),0) from jsonb_array_elements(f->'receipt_sizes') where value->>'receipt_line_id'=r->>'id')<>(r->>'bs_pcs')::numeric then return jsonb_build_object('status','CONFLICT','reason','RECEIPT_SIZE_TOTAL_MISMATCH','source_id',r->'id');end if;
    for s in select value from jsonb_array_elements(f->'receipt_sizes') where value->>'receipt_line_id'=r->>'id' order by value->>'id' loop
-    if not exists(select 1 from jsonb_array_elements(drows) d where d->>'id'=s->>'delivery_size_id' and d->>'line'=r->>'delivery_line_id' and d->>'size'=s->>'size_id') then
+    if not exists(select 1 from jsonb_array_elements(drows) delivery_entry where delivery_entry->>'id'=s->>'delivery_size_id' and delivery_entry->>'line'=r->>'delivery_line_id' and delivery_entry->>'size'=s->>'size_id') then
      return jsonb_build_object('status','CONFLICT','reason','RECEIPT_DELIVERY_LINEAGE_MISMATCH','source_id',s->'id');end if;
     rrows:=rrows||jsonb_build_array(jsonb_build_object('id',s->>'id','line',r->>'id','size',s->>'size_id','group',r->>'group_id','good',s->>'good_pcs','bs',s->>'bs_pcs'));
    end loop;
@@ -107,8 +111,8 @@ begin
  for q in select value from jsonb_array_elements(f->'qc') where value->>'status'='POSTED' order by value->>'physical_at',value->>'id' loop
   sz:=q->>'size_id';pool:='CUT:'||(q->>'group_id')||':'||sz;src:=pool||':PRE';
   if q->'receipt_line_id'<>'null'::jsonb then
-   if not exists(select 1 from jsonb_array_elements(rrows) r where r->>'line'=q->>'receipt_line_id' and r->>'size'=sz
-     and (q->'receipt_size_id'='null'::jsonb or r->>'id'=q->>'receipt_size_id')) then
+   if not exists(select 1 from jsonb_array_elements(rrows) receipt_entry where receipt_entry->>'line'=q->>'receipt_line_id' and receipt_entry->>'size'=sz
+     and (q->'receipt_size_id'='null'::jsonb or receipt_entry->>'id'=q->>'receipt_size_id')) then
     return jsonb_build_object('status','CONFLICT','reason','QC_RECEIPT_LINEAGE_MISMATCH','source_id',q->'id');end if;
    src:='R:'||(q->>'receipt_line_id')||':'||sz;
   elsif q->'receipt_size_id'<>'null'::jsonb then return jsonb_build_object('status','CONFLICT','reason','QC_RECEIPT_PARENT_MISSING','source_id',q->'id');end if;
@@ -137,7 +141,10 @@ begin
   if b is null then return jsonb_build_object('status','UNKNOWN','reason','REWORK_BS_SOURCE_UNPROVEN','source_id',rw->'id');end if;
   pool:=b->>'pool';src:=b->>'node';dst:='REWORK:'||(rw->>'id');ref:=cp7_wip.ref('erp.rework_orders',rw->>'id',rw->>'revision');
   g:=cp7_wip.transition(g,pool,src,dst,'REWORK',(rw->>'sent_pcs')::numeric,ref);
-  if rw->>'status'='PARTIAL' then return jsonb_build_object('status','UNKNOWN','reason','PARTIAL_REWORK_RETURN_TIME_UNPROVEN','source_id',rw->'id');end if;
+  -- SAVE_REWORK records cumulative returns but posts no FG. The full source
+  -- remains WIP until the authoritative completion is posted. No ETA inferred.
+  if rw->>'status'='COMPLETED' and rw->'completion_posted'<>'true'::jsonb then
+   return jsonb_build_object('status','UNKNOWN','reason','REWORK_COMPLETION_NOT_POSTED','source_id',rw->'id');end if;
   if rw->>'status'='COMPLETED' and (rw->>'completed_at')::timestamptz<=scope_at then
    if (rw->>'good_pcs')::numeric+(rw->>'bs_pcs')::numeric<>(rw->>'sent_pcs')::numeric then return jsonb_build_object('status','CONFLICT','reason','REWORK_COMPLETION_MISMATCH','source_id',rw->'id');end if;
    g:=cp7_wip.transition(g,pool,dst,'FGREWORK:'||(rw->>'id'),'FG',(rw->>'good_pcs')::numeric,ref);
@@ -147,5 +154,6 @@ begin
  result:=cp7_wip.reconcile(g);
  return result||jsonb_build_object('graph',g,'source_basis','CUTTING_GROUP_EXACT_SIZE_SHARED_POOL',
   'fg_basis','PRODUCTION_DISPOSITION_NOT_CURRENT_ON_HAND','sewing_detail','SUBSTAGE_NOT_ALLOCATABLE_FROM_GROUP_EVENTS',
-  'scope','SELECTED_CUTTING_GROUPS_ONLY_NO_OPENING_OR_NON_PO');
+  'scope','SELECTED_CUTTING_GROUPS_ONLY_NO_OPENING_OR_NON_PO',
+  'partial_rework_basis','REPORTED_RETURN_REMAINS_WIP_UNTIL_COMPLETION_POSTED');
 end $$;

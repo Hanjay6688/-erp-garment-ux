@@ -85,12 +85,28 @@ def cases(cur,today):
         r=capture(cur,[f['group']]);assert r['capture_complete'] and r['result']['status']=='CONFLICT' and r['result']['reason']=='RECEIPT_SIZE_TOTAL_MISMATCH',r
         assert 'totals' not in r['result']
         return dict(status='PASS',administrative_conflict_fixture=True,capture_not_mislabeled_as_analysis_complete=True,no_zero_balance_fallback=True)
+    def rework_lifecycle():
+        f=fixture(cur,today);b.api.admin(cur)
+        bs=b.one(cur,"select id::text from erp.bs_cases where cutting_group_id=%s and qc_item_id is not null",f['group'])
+        bom=b.one(cur,'select erp.resolve_rework_accessory_bom_v1(%s,%s)::text',bs,b.chain.production.at(f['day'],15))
+        payload=dict(rework_number='P04-RW-'+uuid.uuid4().hex[:10],bs_case_id=bs,destination_type='LAUNDRY',
+          contractor_id=None,vendor_id=f['vendor'],qty_sent=5,physical_sent_at=b.chain.production.at(f['day'],15).isoformat(),
+          status='IN_PROGRESS',return_fg_location_id=base.LOCATION,accessory_bom_version_id=bom,accessory_bom_item_ids=[],components=[],change_reason='P04 actual rework lifecycle')
+        made=b.chain.bs_action(cur,'SAVE_REWORK',payload);rid=made['result']['rework_order_id']
+        pending=capture(cur,[f['group']]);assert [total(pending['result'],k+'_pcs') for k in ('input','wip','fg','bs')]==[100,85,15,0]
+        b.chain.bs_action(cur,'SAVE_REWORK',dict(id=rid,qty_good_returned=2,qty_bs_returned=1,change_reason='Cumulative return still not posted FG'),b.chain.version(cur,'rework_orders',rid))
+        partial=capture(cur,[f['group']]);assert [total(partial['result'],k+'_pcs') for k in ('input','wip','fg','bs')]==[100,85,15,0]
+        b.api.admin(cur);assert b.one(cur,'select good_fg_lot_id is null from erp.rework_orders where id=%s',rid)
+        b.chain.bs_action(cur,'COMPLETE_REWORK',dict(rework_order_id=rid,qty_good=3,qty_bs=2,completed_at=b.chain.production.at(f['day'],16).isoformat(),
+          return_fg_location_id=base.LOCATION,change_reason='Three GOOD and two BS final'),b.chain.version(cur,'rework_orders',rid))
+        complete=capture(cur,[f['group']]);assert [total(complete['result'],k+'_pcs') for k in ('input','wip','fg','bs')]==[100,80,18,2]
+        return dict(status='PASS',ordinary_rework_start_partial_complete=True,partial_good_not_fg=True,final=[100,80,18,2])
     def multi_scope():
         f=fixture(cur,today);other=b.two_size_fixture(cur,b.case_day(today),'P04-OTHER',q1=6,q2=4)
         r=capture(cur,[other['group'],f['group']]);assert [total(r['result'],k+'_pcs') for k in ('input','wip','fg','bs')]==[110,90,15,5]
         assert len(r['result']['totals'])==4 and len({x['pool_key'] for x in r['result']['totals']})==4
         return dict(status='PASS',one_capture_multiple_groups=True,input=110,wip=90,fg=15,bs=5)
-    return [('P04_SOURCE_'+name,fn) for name,fn in [('O15_ACTUAL_POSTING',actual),('IMMUTABLE_QC_REPLAY',immutable),('AUTH_NO_MONEY',access),('MALFORMED_NO_PARTIAL',malformed),('CONFLICT_PROPAGATES',conflict),('MULTI_GROUP_ONE_CAPTURE',multi_scope)]]
+    return [('P04_SOURCE_'+name,fn) for name,fn in [('O15_ACTUAL_POSTING',actual),('IMMUTABLE_QC_REPLAY',immutable),('AUTH_NO_MONEY',access),('MALFORMED_NO_PARTIAL',malformed),('CONFLICT_PROPAGATES',conflict),('MULTI_GROUP_ONE_CAPTURE',multi_scope),('REWORK_PARTIAL_COMPLETION',rework_lifecycle)]]
 
 def http_cases(http,today):
     def auth():

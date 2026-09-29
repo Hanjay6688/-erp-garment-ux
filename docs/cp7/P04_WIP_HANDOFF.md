@@ -49,8 +49,14 @@ connected sales/return R10 remain downstream obligations. `production_go=false`.
 
 ## Cutting source adapter under verification
 
-Explicit selected groups (1–50), 14 nonfinancial source domains bounded at 2,000 rows each, one STABLE capture inside an immutable-run INSERT. Capture/serve/replay validate current Auth; real request lock precedes capture clock. Scope is selected cutting groups, not opening/non-PO sources or a whole planner snapshot. Results preserve current production disposition, not current FG on hand after later sales/conversions.
+Explicit selected groups (1–50), 15 nonfinancial source domains bounded at 2,000 rows each, one STABLE capture inside an immutable-run INSERT. Capture/serve/replay validate current Auth; real request lock precedes capture clock. Scope is selected cutting groups, not opening/non-PO sources or a whole planner snapshot. Results preserve current production disposition, not current FG on hand after later sales/conversions.
 
-Shared pool is group + exact size. Batch references remain provenance; group sewing totals are not divided among sizes/children. Explicit size-line/header mismatches block the result; legacy missing size resolves only for a single-size source. Deferred invoice costs do not enter these projections. Draft/unposted input, unproven partial rework times, and rewash/redispatch participants are currently held for further normalization. Public RPCs are authored for isolated tests and are not connected to the browser.
+Shared pool is group + exact size. Batch references remain provenance; group sewing totals are not divided among sizes/children. Explicit size-line/header mismatches block the result; legacy missing size resolves only for a single-size source. Deferred invoice costs do not enter these projections. Draft/unposted input, unreconciled MISSING/STUCK custody and rewash/redispatch participants are currently held for further normalization. Public RPCs are authored for isolated tests and are not connected to the browser.
 
 Additional declared source proof: ordinary cut/pickup/sewing/deferred laundry/receipt/partial QC produces 100=80+15+5; later ordinary QC changes the new run while preserving the old run; actor/revoke, malformed scope, inconsistent quantity, multiple groups, real HTTP and two snapshot/replay races. No source-case result is claimed until its run finishes.
+
+### First adapter run and correction
+
+Run `36512452133` on `7840397916676257621e5059e6126024932db4d7` passed the 14 kernels, but the first actual-source smoke failed with PostgreSQL `AmbiguousColumn` for `y` inside `normalize_cutting`. This is a new adapter implementation defect, not a CP6 posting failure; the ordinary posting fixture reached capture. Distinct SQL aliases replace the colliding PL/pgSQL names. Source-family/race/HTTP cases were NOT_RUN behind that smoke gate. CP6 boundary was restored and advisors passed.
+
+The follow-up also checks ordinary partial rework: SAVE keeps the full rework resource in WIP; only a posted completion transfers actual GOOD to production disposition FG. A posted-completion flag is captured; no timestamp is invented for partial return. Claims join the source dependency hash, so a claim resolution/rejection cannot silently leave a run current. Claim custody normalization is held explicitly until its cases are qualified.

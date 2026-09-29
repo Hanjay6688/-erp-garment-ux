@@ -1,0 +1,52 @@
+{
+  "status": "WRITER_NATIVE_PASS_KERNEL_ONLY",
+  "independent_acceptance": false,
+  "production_go": false,
+  "tested_source": "33356d2dd9cd6cf10fb378bb0e93d7dfce357bee",
+  "tested_tree": "276b0cbd418867f9b86fed9b15a1731075d08351",
+  "bundle_sha256": "4484de0c6b982067969532b3840e95ef198b5f9cb2da3cb6df39331fb31e5e76",
+  "run": 36511438524,
+  "job": 109224233413,
+  "artifact_id": 11010120071,
+  "zip_sha256": "76d662a1fad85d146168b6bb0bcb6bf6f429b498be32f7c9c7b4e8537aeefb86",
+  "report_sha256": "0b2be7790df9f038e718b217d9b062dc1de88b0205d8e884b98f8e6dbd431e2a",
+  "report_gz_sha256": "a7ca648b5fef83e8f45ec319eb61efcfa42915a2b216d8e3fafa313629f06e73",
+  "counts": {
+    "PASS": 14
+  },
+  "final": {
+    "P04_O15_CONSERVATION": "PASS",
+    "P04_NEGATIVE_PREFIX": "PASS",
+    "P04_INPUT_UNIQUENESS": "PASS",
+    "P04_REWORK_DENOMINATOR": "PASS",
+    "P04_REWASH_CYCLE": "PASS",
+    "P04_REVERSAL_DEPENDENCIES": "PASS",
+    "P04_LINEAGE_SIZE_DUPLICATE": "PASS",
+    "P04_PARTIAL_MALFORMED": "PASS",
+    "P04_OWNERSHIP_HOLD": "PASS",
+    "P04_HARD_MATCHING": "PASS",
+    "P04_SHARED_POOL": "PASS",
+    "P04_REMAINING_ETA": "PASS",
+    "P04_EXACT_INTEGER": "PASS",
+    "P04_PRIVATE_KERNEL_ACL": "PASS"
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "source_hashes": {
+    "scripts/cp7-src/wip/bootstrap.sql": "f13d218d6ef6c38bea1968081368cdf253538c79d36b67a51e61d126927c2769",
+    "scripts/cp7-src/wip/graph.sql": "3a6d3af1fdf5f1d0c262639652ec491a447e4abba5315463253f733f0623b9d9",
+    "scripts/cp7-src/wip/matching.sql": "3fb198fac534caa0bdda2c9752a722cdba6cd3fe7fd9599ed5c9196faf59a143",
+    "scripts/cp7-src/wip/ownership.sql": "26ef9e3d11dd2b1f798e5cff92ea231bcff67c19e2b7801118800210aa75d5b2",
+    "scripts/cp7-src/wip/timing.sql": "cf61bae66086edd7a34e3456e5bad9d644cf42ced4cf2a2bedee4f89f1c9ebc9",
+    "scripts/cp7_wip_bundle.py": "e37c503b5c3015670efdd9237cc58fcd97e49d3ced0ce9606184668f3003a32a",
+    "scripts/cp7_wip_cases.py": "26eda1c3a0cb2616ff1a27c89e6d2d51549d19bcb480f67dfb66d0184676a416",
+    "scripts/cp7_p04_wip_probe.py": "72934d567e083d4aef6236e7cf3208f7a3321f7d1e167aec030cfd565d834fc5",
+    ".github/workflows/cp7-p04-wip.yml": "4290929aca1fb0694f31d1ad9b378645e9dd866162af9d70baed87287dc9c7cc"
+  },
+  "limitations": [
+    "Normalized fixtures only; actual posting/source adapter tested on a later commit",
+    "No complete F02 or independent acceptance",
+    "No connected production UI",
+    "Calendar ETA requires independent capacity feasibility"
+  ]
+}

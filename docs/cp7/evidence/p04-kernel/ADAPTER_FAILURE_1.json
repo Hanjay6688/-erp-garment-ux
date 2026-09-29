@@ -1,0 +1,16 @@
+{
+  "status": "INCOMPLETE_PRODUCT_DEFECT",
+  "source": "7840397916676257621e5059e6126024932db4d7",
+  "run": 36512452133,
+  "job": 109227370560,
+  "bundle_sha256": "7a0b24d3fbddc55a25044c172ead24de302e9b6d84cba8e495160c9a471cbe73",
+  "kernel": {
+    "PASS": 14
+  },
+  "smoke_error": "AmbiguousColumn: column reference y is ambiguous in cp7_wip.normalize_cutting",
+  "source_cases": "NOT_RUN_AFTER_SMOKE_FAILURE",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "correction": "Distinct SQL aliases; original quantity oracle unchanged",
+  "retest": "PENDING"
+}
