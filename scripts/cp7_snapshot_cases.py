@@ -39,7 +39,7 @@ def refused(cur,op,code):
 def custom_actor(cur,finance=False):
     b.api.admin(cur);role,subject=uuid.uuid4(),str(uuid.uuid4())
     cur.execute("insert into erp.app_roles(id,role_code,role_name,is_system,is_protected,is_active) values(%s,%s,'CP7 fixture',false,false,true)",
-                (role,'P02_'+role.hex[:12]))
+                (role,'P02_'+role.hex[:12].upper()))
     for key in PERMS+(('finance.hpp.view',) if finance else ()):
         cur.execute('insert into erp.app_role_permissions(role_id,permission_key) values(%s,%s)',(role,key))
     cur.execute("insert into erp.app_users(id,auth_user_id,full_name,role,role_id,is_active) values(%s,%s,'P02 actor','STAFF',%s,true)",
@@ -159,10 +159,42 @@ def cases(cur,today):
         assert not cur.execute("select has_function_privilege('cp7_capture','public.erp_save_sku_action_v1(text,jsonb,uuid)','EXECUTE')").fetchone()[0]
         assert not cur.execute("select has_table_privilege('cp7_capture','erp.fg_stock_movements','INSERT,UPDATE,DELETE')").fetchone()[0]
         assert not cur.execute("select has_schema_privilege('authenticated','cp7_private','USAGE')").fetchone()[0]
+        def poisoned_writer():
+            cur.execute('set local role cp7_capture')
+            cur.execute("select public.erp_save_sku_action_v1('SAVE_GROUPS','{}'::jsonb,%s)",(uuid.uuid4(),))
+        refused(cur,poisoned_writer,'permission denied')
         return dict(status='PASS',immutable=True,compute_mutator_denied=True,private_data_api_denied=True)
+    def source_changes():
+        f=fixture(cur,today);changes=[]
+        for kind in ('INSERT_BACKDATED','DELETE','STATUS'):
+            r=create(cur,f['root']);old=stored(cur,r['run_id'])
+            cur.execute('set local session_replication_role=replica')
+            if kind=='INSERT_BACKDATED':
+                cur.execute('insert into erp.sales_items(sale_id,product_id,qty_pcs,unit_price_snapshot) values(%s,%s,3,1)',(f['sale'],f['root']))
+                cur.execute("update erp.sales_headers set sale_date=sale_date-interval '1 day' where id=%s",(f['sale'],))
+            elif kind=='DELETE':cur.execute('delete from erp.sales_items where sale_id=%s and qty_pcs=3',(f['sale'],))
+            else:cur.execute("update erp.sales_headers set status='POSTED' where id=%s",(f['sale'],))
+            cur.execute('set local session_replication_role=origin')
+            assert read(cur,r['run_id'],'sales_lines')['source_state']=='ARCHIVED_STALE'
+            assert stored(cur,r['run_id'])==old;changes.append(kind)
+        return dict(status='PASS',changes_detected=changes,archive_unchanged=True)
+    def financial_change():
+        f=fixture(cur,today);subject,_=custom_actor(cur)
+        ops=create(cur,f['root'],subject=subject);owner=create(cur,f['root'])
+        cur.execute('set local session_replication_role=replica')
+        cur.execute("insert into erp.hpp_versions(lot_id,version_no,cost_state,qty_basis_pcs,total_cost,is_current,calculation_reason) values(%s,1,'ADJUSTED',9,99.01,true,'P02 exact cost fixture')",(f['lot'],))
+        cur.execute('set local session_replication_role=origin')
+        ops_after=read(cur,ops['run_id'],subject=subject)
+        assert ops_after['source_state']=='CURRENT' and ops_after['projection_hash']==ops['projection_hash']
+        assert read(cur,owner['run_id'],'lot_cost')['source_state']=='ARCHIVED_STALE'
+        fresh=create(cur,f['root'])
+        value=read(cur,fresh['run_id'],'lot_cost')['page']['rows'][0]['valuation']
+        assert value==dict(state='KNOWN',value='99.010000',unit='IDR'),value
+        return dict(status='PASS',financial_change_hidden_from_operations=True,financial_stale=True,known_exact_cost=value)
     return [('P02_CAPTURE_FACTS_BOUNDARY',snapshot),('P02_REPLAY_STALE_REQUEST_CONFLICT',replay),
         ('P02_SERVER_PROJECTION_REVOKE',projection),('P02_ACTOR_SCOPE',auth),
-        ('P02_IMMUTABLE_CURSOR',pagination),('P02_INCOMPLETE_REFUSED',incomplete),('P02_COMPUTE_PRIVILEGES_IMMUTABLE',immutable)]
+        ('P02_IMMUTABLE_CURSOR',pagination),('P02_INCOMPLETE_REFUSED',incomplete),('P02_COMPUTE_PRIVILEGES_IMMUTABLE',immutable),
+        ('P02_INSERT_BACKDATE_DELETE_STATUS',source_changes),('P02_FINANCE_DEPENDENCY_NO_OPS_LEAK',financial_change)]
 
 def races(tools,today):
     def coherent():

@@ -2,6 +2,8 @@
 
 Status: implementation prepared; native family execution PENDING. This is a development bundle on the accepted CP6 base. It is not a release migration or an operator UI connection.
 
+First run `36504059754` at `479d916`: native 5 PASS / 2 INCOMPLETE, races 2 PASS / 1 INCOMPLETE, real Auth/HTTP 2 PASS; CP6 restoration and advisor gate passed. Three incomplete cases share a FIXTURE_DEFECT: lowercase hex in a synthetic role code violates the existing uppercase role constraint. The fixture is corrected before requalification; no product rule or expected refusal is weakened.
+
 ## Contract
 
 `erp_cp7_capture_snapshot_v1(root, request)` captures one exact physical root at the current statement cutoff. A repeated request from the same actor and root returns the same immutable run. Reusing the request for a different root refuses. A source page over 500, missing root, overlapping identity or HPP conflict refuses without persisting a partial run.
