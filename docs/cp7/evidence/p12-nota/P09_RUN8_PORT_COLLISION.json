@@ -1,0 +1,16 @@
+{
+  "source_commit": "b03a5da9be186e976fb97b0e59b553d1bb28dce0",
+  "run_id": 36587580149,
+  "attempt": 1,
+  "job_id": 109471899941,
+  "artifact_id": 11043040536,
+  "archive_sha256": "b756952115a9ddadc623612dfa6f4065b7150f123827f19f19381f5c77d1feb6",
+  "report_sha256": "fc164852c5bfcb1cf544ea5b0d0be300123da7bddb324f56c24fd9af2c3a3bca",
+  "native_race_http_pass": 103,
+  "separate_smokes": 3,
+  "browser_status": "NOT_RUN_EADDRINUSE_127_0_0_1_54328",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "retry_requested": true,
+  "production_go": false
+}

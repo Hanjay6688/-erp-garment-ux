@@ -1027,7 +1027,7 @@
     "consumer": "src/ConnectedNotaPage.tsx",
     "native_probe": "scripts/cp7_p12_nota_probe.py",
     "browser_probe": "scripts/cp7_p12_browser.mjs",
-    "status": "FINANCE_REVIEW_27_PASS_SETTLEMENT_UI_42_CASE_PENDING",
+    "status": "BOUNDED_SETTLEMENT_WRITER_42_PASS_SOURCE_EDITING_OPEN",
     "hosted_boundary_preserved": true,
     "production_go": false,
     "verification": "docs/cp7/evidence/p12-nota/NOTA_VERIFICATION.json",
@@ -1041,6 +1041,8 @@
     "settlement_cases": "scripts/cp7_settlement_cases.py",
     "settlement_handoff": "docs/cp7/P12_PAYROLL_HANDOFF.md",
     "settlement_browser_probe": "scripts/cp7_p12_settlement_browser.mjs",
-    "settlement_diagnostic": "docs/cp7/evidence/p12-nota/SETTLEMENT_RUN7_RECEIPT.json"
+    "settlement_diagnostic": "docs/cp7/evidence/p12-nota/SETTLEMENT_RUN7_RECEIPT.json",
+    "settlement_verification": "docs/cp7/evidence/p12-nota/SETTLEMENT_VERIFICATION.json",
+    "attendance_entry": "docs/cp7/P12_ATTENDANCE_ENTRY.md"
   }
 }

@@ -1,4 +1,14 @@
-# P12 payroll continuation — writer candidate, 29 September 2026
+# P12 payroll settlement — writer checkpoint, 29 September 2026
+
+## Qualified settlement checkpoint
+
+**42/42 PASS** on `b03a5da9be186e976fb97b0e59b553d1bb28dce0`, tree `0957c8198fbfe3a3ddfe43505e8f17d6874acd1c`. [Run36587580221](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36587580221); exact source/report/archive hashes and case breakdown in [SETTLEMENT_VERIFICATION.json](evidence/p12-nota/SETTLEMENT_VERIFICATION.json). This supersedes the pending language below only for the listed42 cases. It is writer evidence awaiting independent acceptance; P12/F03 remain OPEN and production_go=false.
+
+All27 preceding source/Nota/finance-reader cases remain PASS. All15 new settlement cases pass:7 native,4 real transaction races,1 actual Auth/HTTP custom-role flow, and3 connected browser flows. Desktop and mobile both prepare6000 work +100 ordinary attendance, approve one100 accrual, pay6100 once, and reverse both approval/payment to REVERSED with neutral GL delta. Mobile commits PAY then loses the response; reload/reconciliation replays exactly the same UUID, intent, date, cash account, review token and version, without duplicate payment. A separate browser case cancels approved unpaid payroll. Native cases also prove selected work preservation, capped6000 deduction from10000 accessory kasbon with4000 carry, stale-child refusal, current revocation during actual lock wait and changed attendance forcing new review.
+
+Full artifact digest verified; CP6 restoration, advisor gate, Auth cleanup, database cleanup and absence of leaked browser sessions pass. Both actual settlement screenshots were inspected at desktop/mobile sizes. Local79 DOM/recovery checks, compiler and ownership gates pass. Both application/Shell workflows pass. The automatically triggered P09 regression retained103 native/race/HTTP cases plus3 separate smokes; its18-case browser group stopped before startup with `EADDRINUSE` on the disposable proxy port. Attempt1 evidence is retained under `P09_RUN8_PORT_COLLISION*`; the failed job was rerun on the same source. Do not call that regression complete until its retry artifact is checked.
+
+Next source work is bound in [P12_ATTENDANCE_ENTRY.md](P12_ATTENDANCE_ENTRY.md). Existing native roster/attendance fixtures in this checkpoint do not claim connected source editing.
 
 Finance review is qualified on `5da1fb6106c7c72058ebd73a782a5155f59c258d`: **27/27 PASS**, including desktop/mobile finance-view-only UI, complete native totals and source Nota trace. Full receipt: [PAYROLL_UI_VERIFICATION.json](evidence/p12-nota/PAYROLL_UI_VERIFICATION.json); [run36583328093](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36583328093). This remains writer evidence, independent acceptance pending. Full P12/F03 OPEN; production_go=false.
 

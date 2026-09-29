@@ -1,0 +1,90 @@
+{
+  "status": "SOURCE_INSPECTED_NOT_RUNTIME_QUALIFIED",
+  "accepted_catalogue_sha256": "274a0f8649ddb4d22887c65f7da1757a92e62e650fb572009af34194a960da2a",
+  "functions": [
+    {
+      "schema": "erp",
+      "name": "guard_worker_daily_rate_version",
+      "definition_sha256": "55b312965c514e099aa5b2fe4c62ca25de5961279bbe69ab9bd7c4ad2093815d",
+      "owner": "postgres",
+      "security_definer": false
+    },
+    {
+      "schema": "erp",
+      "name": "post_attendance_period_v1",
+      "definition_sha256": "1fd30916d3e20ef6188defa8278f5d6f0816773d5168b9433bc922fdfd5eaab0",
+      "owner": "postgres",
+      "security_definer": true
+    },
+    {
+      "schema": "erp",
+      "name": "reverse_attendance_period_v1",
+      "definition_sha256": "5d4bcd38ea370ae08f3b24abf9ef223d9da0d143cc6e40e72df5f1172af5237a",
+      "owner": "postgres",
+      "security_definer": true
+    },
+    {
+      "schema": "erp",
+      "name": "save_attendance_period_v1",
+      "definition_sha256": "f4f49ee12e624370273840a1d70ebfb560f3ef716ecc64f00e78e4247a07208e",
+      "owner": "postgres",
+      "security_definer": true
+    },
+    {
+      "schema": "erp",
+      "name": "save_worker_roster_v1",
+      "definition_sha256": "df5d27e328760a1d2454eaa15003f669fcbd1b0bf5eaca171fe99dc0c58a85ac",
+      "owner": "postgres",
+      "security_definer": true
+    },
+    {
+      "schema": "erp",
+      "name": "set_worker_daily_rate_v1",
+      "definition_sha256": "6f20fad879ed8635e05ec06f36898d2b6e627ae308f82751e32beed249302379",
+      "owner": "postgres",
+      "security_definer": true
+    },
+    {
+      "schema": "erp",
+      "name": "worker_daily_rate_at",
+      "definition_sha256": "49f545dc4962bfe99c0df4697c542523854d4a4c262c3db5d8cd41e12ed7ee46",
+      "owner": "postgres",
+      "security_definer": false
+    },
+    {
+      "schema": "erp",
+      "name": "worker_daily_rate_version_id_at",
+      "definition_sha256": "5ff2dacd7ff406354c002f53589698bd072f34d6ff224d1f45e77a8244c7fbc6",
+      "owner": "postgres",
+      "security_definer": false
+    },
+    {
+      "schema": "erp",
+      "name": "worker_is_employed_on",
+      "definition_sha256": "5aa1793b7aa35447f2eb7d7c8d91a5566b56c7649fdc050086d934f480c1c717",
+      "owner": "postgres",
+      "security_definer": false
+    }
+  ],
+  "permissions": [
+    "finance.attendance.view",
+    "finance.attendance.create",
+    "finance.attendance.edit_draft",
+    "finance.attendance.post",
+    "finance.attendance.reverse"
+  ],
+  "source_tables": [
+    "contractors",
+    "contractor_workers",
+    "worker_employment_periods",
+    "worker_daily_rate_versions",
+    "attendance_periods",
+    "attendance_records",
+    "payroll_attendance_items",
+    "payroll_settlements"
+  ],
+  "native_roster_rate_require_owner_admin": true,
+  "connected_source_ui": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

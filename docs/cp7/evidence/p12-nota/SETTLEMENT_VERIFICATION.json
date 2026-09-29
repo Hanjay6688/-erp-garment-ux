@@ -1,0 +1,113 @@
+{
+  "status": "WRITER_BOUNDED_42_PASS_INDEPENDENT_PENDING",
+  "source_commit": "b03a5da9be186e976fb97b0e59b553d1bb28dce0",
+  "source_tree": "0957c8198fbfe3a3ddfe43505e8f17d6874acd1c",
+  "run_id": 36587580221,
+  "job_id": 109471900046,
+  "artifact_id": 11041929917,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36587580221",
+  "archive_sha256": "f842965a0a41688ef57a4c6379d49382184bb97f68be60dad8a944a384c2372e",
+  "report_sha256": "7e4db5448d5e11bdc0d926965a4e6ddf8d45f4da4ef941f0fb3db55a4237c3f8",
+  "bundle_sha256": "fbaf95a0a2c5f3432055f20ab35b4293f6a6bf67e24290d2a931c461b47ee8dc",
+  "case_counts": {
+    "native": {
+      "PASS": 5
+    },
+    "http": {
+      "PASS": 1
+    },
+    "notes": {
+      "PASS": 7
+    },
+    "note_races": {
+      "PASS": 3
+    },
+    "note_http": {
+      "PASS": 1
+    },
+    "admission_regression": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    },
+    "payroll_review": {
+      "PASS": 4
+    },
+    "payroll_review_http": {
+      "PASS": 1
+    },
+    "payroll_review_browser": {
+      "PASS": 2
+    },
+    "settlement": {
+      "PASS": 7
+    },
+    "settlement_races": {
+      "PASS": 4
+    },
+    "settlement_http": {
+      "PASS": 1
+    },
+    "settlement_browser": {
+      "PASS": 3
+    }
+  },
+  "total_pass": 42,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "disposable_auth_and_database_cleanup_verified": true,
+  "screenshots": {
+    "P12_PAYROLL_SETTLEMENT_DESKTOP.png": {
+      "sha256": "36eb698a891e42a15abf3b4d608bec9f6c8fb97c1a5bb634fdc7230a4fff9286",
+      "visually_reviewed": true
+    },
+    "P12_PAYROLL_SETTLEMENT_MOBILE.png": {
+      "sha256": "2e02bd0fd58d67ceb0ffd6c32ff7a2f353e891191b3234e7a95a3f73f083523c",
+      "visually_reviewed": true
+    }
+  },
+  "source_hashes": {
+    "scripts/cp7-src/payroll/settlement-write.sql": "760f6da1a0ce4b96f62be7a860e8f5e22333b1c528ebebc14cfb4c61aad3453a",
+    "scripts/cp7-src/payroll/settlement-read.sql": "22f0bbf0871ee80d9085ed9847d6b97362601cb4795a6fd8f744cc428c400ba4",
+    "scripts/cp7_settlement_bundle.py": "73db0f978347da428b774762a32658d3b2e0c58d78404bb75d07e2bd651f51d9",
+    "scripts/cp7_settlement_cases.py": "8d25efe4ce6fafc043f30b857247d269c348e103b79eb0d85fc7d956c98a79ae",
+    "scripts/cp7_p12_settlement_browser.mjs": "c19c455e8557aa2238e680056e99bfd9d98c5ea1eeac785b06fbea2a5fb0113a",
+    "scripts/cp7_p12_browser_fixture.py": "beb7374f6b1d9454e7964051bf3d4552d33e2082b9595a0cfb1807832015ef55",
+    "scripts/cp7_p12_nota_probe.py": "ace5b081cb1b27a43767ef953c783620a64f5c3f33ef32a4d4a1e993ff4be828",
+    "src/ConnectedPayrollPage.tsx": "73f558c9dea9fcb39390714b6c0f7cdd1bff78996d12f7181dcb6c87b3fccab6",
+    "src/payrollContract.ts": "a2a1dbc37349a79c4d06289272ecc773bd13db4856c0eedbe4c26aa1398b7b82",
+    "src/productionRecovery.ts": "b803dc936a068d0a3e06066a2bf79095442ae9a188b0c942d9fb9ffd5719943a"
+  },
+  "local_tests": {
+    "files": 4,
+    "pass_count": 79,
+    "compiler": true,
+    "source_ownership": true,
+    "access_ownership": true,
+    "css_ownership": true,
+    "recovery_ownership": true
+  },
+  "app_runs": [
+    36587590833,
+    36587580396
+  ],
+  "app_status": "SUCCESS",
+  "independent_acceptance": false,
+  "production_go": false,
+  "scope": "selected Nota; finance read; native and connected reviewed preparation/approval/full payment/unpaid cancellation/paid reversal/exact lost reply recovery",
+  "remaining": [
+    "connected_attendance_roster_rate_source_editing",
+    "opening_advances_payables_carry",
+    "E05_partial_cash_payment",
+    "P11_R10",
+    "P13",
+    "full_F03_independent_acceptance",
+    "combined_release_install_recovery"
+  ],
+  "p09_regression": {
+    "run_id": 36587580149,
+    "attempt_1_status": "103_PASS_PLUS_3_SMOKES_BROWSER_NOT_RUN_PORT_COLLISION",
+    "retry": "REQUESTED_SAME_SOURCE"
+  }
+}

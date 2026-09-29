@@ -36,8 +36,8 @@
     "P03": "BOUNDED_POLICY_NATIVE_PASS_15_CASES_INDEPENDENT_PENDING",
     "P04": "F02_REPAIR_53_PASS_PLUS_SMOKE_INDEPENDENT_HOLD_X06_PUBLIC_JOIN_OPEN",
     "P09": "BOUNDED_121_PASS_COUNTS_AND_COMBINED_INVOICES_QUALIFIED_REMAINING_SCOPE_OPEN",
-    "P10": "FG_BOOK_34_PASS_NOTA_TRANSACTIONS_20_PASS_VISUAL_FOLLOWUP",
-    "P12": "NOTA_FINANCE_UI_27_PASS_SETTLEMENT_UI_42_CASE_CANDIDATE"
+    "P10": "FG_BOOK_34_PASS_NOTA_COMPOSITION_QUALIFIED_SCOPE_OPEN",
+    "P12": "BOUNDED_NOTA_FINANCE_SETTLEMENT_UI_42_PASS_SOURCE_EDITING_OPEN"
   },
   "inherited_scope": {
     "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
@@ -52,11 +52,11 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Qualify corrected native payroll adapter and connected approval/full payment/cancellation/recovery UI (42 combined cases); continue ordinary attendance/advance sources.",
+  "next_action": "Connect ordinary attendance/roster/rate sources and qualify historical/current access/recovery; finish same-source P09 regression retry and remaining P12 advances/carry.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
-  "last_writer_checkpoint": "docs/cp7/P12_NOTA_HANDOFF.md",
+  "last_writer_checkpoint": "docs/cp7/P12_PAYROLL_HANDOFF.md",
   "family_status": {
     "F01_P00_P02": "WRITER_T1_BOUNDED_FOUNDATION_PASS_INDEPENDENT_PENDING",
     "F02_P03_P04": "WRITER_REPAIR_VERIFIED_53_CASES_INDEPENDENT_HOLD",
@@ -65,7 +65,7 @@
     "F05_P14_P17": "PLANNED",
     "F06_P18_P21": "PLANNED"
   },
-  "latest_tested_source": "3d7ef09cc67426fda5c333ee6b963a587fc31c7e",
+  "latest_tested_source": "b03a5da9be186e976fb97b0e59b553d1bb28dce0",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
   "p04_cutting_verification_receipt": "docs/cp7/evidence/p04-cutting/VERIFICATION.json",
@@ -95,14 +95,15 @@
   "p12_entry": {
     "source_verification": "docs/cp7/evidence/p12-nota/SOURCE_VERIFICATION.json",
     "notes": "docs/cp7/P12_NOTA_ENTRY.md",
-    "status": "FINANCE_REVIEW_27_PASS_SETTLEMENT_RUN7_INCOMPLETE_UI_42_CASE_PENDING",
+    "status": "BOUNDED_SETTLEMENT_WRITER_42_PASS_INDEPENDENT_PENDING",
     "scope": "P10_NOTA_P12_SELECTED_COMPONENT_HANDOFF",
     "remaining": [
-      "payroll_approval_payment_reversal",
-      "attendance_and_advances",
-      "full_E05_family_crossflow",
+      "connected_attendance_roster_rate_source_editing",
+      "opening_advances_payables_carry",
+      "E05_partial_cash_payment",
       "P11_R10",
-      "P13"
+      "P13",
+      "full_F03_independent_acceptance"
     ],
     "diagnostic": "docs/cp7/evidence/p12-nota/NOTA_RUN_3.json",
     "verification": "docs/cp7/evidence/p12-nota/NOTA_VERIFICATION.json",
@@ -110,6 +111,9 @@
     "finance_read_verification": "docs/cp7/evidence/p12-nota/PAYROLL_READ_VERIFICATION.json",
     "finance_ui_verification": "docs/cp7/evidence/p12-nota/PAYROLL_UI_VERIFICATION.json",
     "settlement_handoff": "docs/cp7/P12_PAYROLL_HANDOFF.md",
-    "settlement_diagnostic": "docs/cp7/evidence/p12-nota/SETTLEMENT_RUN7_RECEIPT.json"
+    "settlement_diagnostic": "docs/cp7/evidence/p12-nota/SETTLEMENT_RUN7_RECEIPT.json",
+    "settlement_verification": "docs/cp7/evidence/p12-nota/SETTLEMENT_VERIFICATION.json",
+    "attendance_entry": "docs/cp7/P12_ATTENDANCE_ENTRY.md",
+    "p09_regression_retry": "RUN_36587580149_ATTEMPT_2_PENDING"
   }
 }
