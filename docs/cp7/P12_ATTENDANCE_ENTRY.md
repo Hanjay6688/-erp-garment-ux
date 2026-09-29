@@ -47,3 +47,7 @@ Local compilation and86 tests across attendance, payroll and shared recovery pas
 ### Run11 retained diagnostic
 
 Run36595109618 retained all51 prior cases and9/10 roster additions. `P12_ROSTER_RACE_REVOKE` did not observe its intended wait (`EXPECTED_ROSTER_ROW_WAIT`). [Full receipt](evidence/p12-attendance/ROSTER_RUN11_RECEIPT.json) and report retain that failure; CP6 restoration/advisor/Auth/database cleanup passed. The observer polled `pg_stat_activity` inside a held transaction without clearing its statistics snapshot. The correction uses a separate autocommit observer with `pg_stat_clear_snapshot()` and requires the exact sender PID to be blocked by the exact holder PID. Permission is still revoked only after an observed real wait; unchanged worker version and denial remain mandatory. No product SQL or business oracle was changed for this diagnostic. The corrected case and two browser additions remain pending (63 cases).
+
+## Qualified roster/rate checkpoint; attendance command continuation
+
+**63/63 PASS** now supersedes the pending roster language above, on `634490e6c330c0b766fd9b346c57a97c9a3e28cc`. [Auditor handoff](P12_SOURCE_HANDOFF.md) preserves exact source, artifact hashes, run11 diagnostic, scope and open obligations. The current candidate adds13 native attendance lifecycle cases for76 total. Attendance-entry UI remains open; no new attendance case is yet claimed PASS.

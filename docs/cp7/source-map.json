@@ -1027,7 +1027,7 @@
     "consumer": "src/ConnectedNotaPage.tsx",
     "native_probe": "scripts/cp7_p12_nota_probe.py",
     "browser_probe": "scripts/cp7_p12_browser.mjs",
-    "status": "BOUNDED_ATTENDANCE_READ_UI_51_PASS_ROSTER_WRITER_PENDING",
+    "status": "BOUNDED_ROSTER_RATE_UI_63_PASS_ATTENDANCE_COMMAND_PENDING",
     "hosted_boundary_preserved": true,
     "production_go": false,
     "verification": "docs/cp7/evidence/p12-nota/NOTA_VERIFICATION.json",
@@ -1055,6 +1055,10 @@
     "roster_source": "scripts/cp7-src/payroll/roster-write.sql",
     "roster_editor": "src/RosterEditor.tsx",
     "roster_browser_probe": "scripts/cp7_p12_roster_browser.mjs",
-    "roster_status": "NATIVE_AND_BROWSER_63_CASES_PENDING"
+    "roster_status": "NATIVE_AND_BROWSER_63_PASS",
+    "roster_verification": "docs/cp7/evidence/p12-attendance/ROSTER_VERIFICATION.json",
+    "attendance_write_source": "scripts/cp7-src/payroll/attendance-write.sql",
+    "attendance_write_cases": "scripts/cp7_attendance_write_cases.py",
+    "attendance_write_status": "NATIVE_76_CASES_PENDING_NO_ENTRY_UI"
   }
 }
