@@ -9,6 +9,7 @@ import cp7_invoice_cases as invoice
 import cp7_supplier_return_cases as returns
 import cp7_receipt_reversal_cases as reversal
 import cp7_procurement_uom_cases as uom
+import cp7_material_unrolled_cases as unrolled
 
 def main():
     target=os.environ['AUDITOR_BROWSER_DB_URL'];url=urlparse(target)
@@ -30,6 +31,10 @@ def main():
                 f.update(target=g['receipt']['purchase_id'],target_tag=g['tag'],return_day=str(f['day']+timedelta(days=2)))
                 f['ap_before']=str(cur.execute("select coalesce(sum(credit_total-debit_total),0) from erp.account_daily_balances where account_id=erp.account_id('AP_SUPPLIER')").fetchone()[0])
             conn.commit();out=f
+        elif sys.argv[1]=='create_transfer_unrolled':
+            f=unrolled.fixture(cur,date.fromisoformat(payload['today']),payload['kind'])
+            f['material_code'],f['unit'],f['material_name']=cur.execute('select material_sku,unit_code,material_name from erp.materials where id=%s',(f['material'],)).fetchone()
+            out=f;conn.commit()
         elif sys.argv[1]=='create_uom':
             f=uom.fixture(cur,date.fromisoformat(payload['today']),'GROSS' if payload['mobile'] else 'LUSIN','0.5' if payload['mobile'] else '2','1440' if payload['mobile'] else '120',payload['mobile'])
             f['material_code'],f['unit']=cur.execute('select material_sku,unit_code from erp.materials where id=%s',(f['material'],)).fetchone()

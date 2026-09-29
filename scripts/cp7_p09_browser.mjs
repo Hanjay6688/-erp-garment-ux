@@ -54,12 +54,12 @@ async function receipt(ui,today,mobile) {
   return {status:'PASS',mobile,real_ui_auth_rpc_database:true,qty:read.qty,stock_movements:1,grni:read.document.grni,final_ap:read.document.ap,recovery_identical_request:mobile?true:null,browser_timezone:mobile?'America/Los_Angeles':'Asia/Jakarta',screenshot:`P09_${mobile?'MOBILE':'DESKTOP'}.png`}
  } finally {await user.context.close()}
 }
-async function transfer(ui,today,mobile) {
- const f=fixture('create_transfer',{today}),user=await ui.login('OWNER',{label:'cp7-material-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'})
+async function transfer(ui,today,mobile,kind='FABRIC') {
+ const f=fixture(kind==='FABRIC'?'create_transfer':'create_transfer_unrolled',{today,kind}),user=await ui.login('OWNER',{label:'cp7-material-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'})
  try {
   const p=user.page;await openPage(ui,p,true)
   await p.getByLabel('Cari stok bahan',{exact:true}).fill(f.material_code);await p.getByRole('button',{name:'Cari stok',exact:true}).click()
-  const roll=f.tag+'-R';await ui.expect(p.getByRole('button',{name:'Pindahkan '+roll,exact:true})).toBeEnabled()
+  const roll=kind==='FABRIC'?f.tag+'-R':f.material_name;await ui.expect(p.getByRole('button',{name:'Pindahkan '+roll,exact:true})).toBeEnabled()
   await p.getByRole('button',{name:'Mutasi '+roll,exact:true}).click();await ui.expect(p.locator('.cmat-ledger')).toContainText('Saldo 10')
   await p.getByRole('button',{name:'Pindahkan '+roll,exact:true}).click()
   await p.getByLabel('Nomor transfer',{exact:true}).fill(f.tag+'-UI-TRANSFER')
@@ -73,7 +73,7 @@ async function transfer(ui,today,mobile) {
   let lost=false,first=null,replay=null
   if(mobile)await p.route('**/rest/v1/rpc/erp_cp7_save_materials_v1',async handler=>{
    const body=handler.request().postDataJSON()
-   if(body.p_action==='POST_TRANSFER'&&!lost){first=body;const response=await handler.fetch();if(response.status()!==200)throw Error('Expected committed transfer');lost=true;await handler.abort('failed')}
+   if(body.p_action==='POST_TRANSFER'&&!lost){first=body;const response=await handler.fetch();if(response.status()!==200){await handler.fulfill({response});return}lost=true;await handler.abort('failed')}
    else{if(body.p_action==='POST_TRANSFER')replay=body;await handler.continue()}
   })
   const post=p.getByRole('button',{name:'Sahkan perpindahan stok',exact:true});await ui.expect(post).toBeEnabled();await post.click()
@@ -88,7 +88,7 @@ async function transfer(ui,today,mobile) {
   await p.getByLabel('Cari stok bahan',{exact:true}).fill(f.material_code);await p.getByRole('button',{name:'Cari stok',exact:true}).click()
   await ui.expect(p.locator('.cmat-roll')).toHaveCount(2);await ui.expect(p.locator('.cmat-roll').filter({hasText:f.tag+' destination'})).toContainText('4 '+f.unit)
   await ui.expect.poll(()=>p.locator('.cmat').evaluate(el=>{const b=el.getBoundingClientRect();return b.left>=0&&b.right<=innerWidth+1&&document.documentElement.scrollWidth<=innerWidth+1})).toBe(true)
-  await p.evaluate(()=>window.scrollTo(0,0));await p.screenshot({path:`cp6-proof/t3/P09_MATERIAL_${mobile?'MOBILE':'DESKTOP'}.png`,fullPage:true})
+  await p.evaluate(()=>window.scrollTo(0,0));await p.screenshot({path:`cp6-proof/t3/P09_MATERIAL_${kind==='FABRIC'?'':kind+'_'}${mobile?'MOBILE':'DESKTOP'}.png`,fullPage:true})
   await p.getByRole('button',{name:'Transfer gudang',exact:true}).click()
   await p.getByLabel('Saya sudah memeriksa alasan pembatalan transfer ini.',{exact:true}).check()
   await p.getByLabel('Catatan transfer',{exact:true}).fill('Barang kembali ke gudang asal sesuai pemeriksaan')
@@ -96,7 +96,7 @@ async function transfer(ui,today,mobile) {
   await ui.expect(p.locator('.cmat-transfer-detail')).toContainText('Transfer sudah dibatalkan',{timeout:20000})
   read=fixture('read_transfer',f)
   if(Number(read.balances[f.location])!==10||Number(read.balances[f.destination])!==0||read.document.movements!==4||Number(read.total_value)!==100)throw Error('Transfer reverse native mismatch')
-  return {status:'PASS',mobile,real_ui_auth_rpc_database:true,draft_no_stock:true,posted_source:6,posted_destination:4,total_value:100,transfer_net_value:0,reversed_source:10,reversed_destination:0,movements_with_inverse:4,recovery_identical_request:mobile?true:null,screenshot:`P09_MATERIAL_${mobile?'MOBILE':'DESKTOP'}.png`}
+  return {status:'PASS',mobile,real_ui_auth_rpc_database:true,draft_no_stock:true,posted_source:6,posted_destination:4,total_value:100,transfer_net_value:0,reversed_source:10,reversed_destination:0,movements_with_inverse:4,recovery_identical_request:mobile?true:null,screenshot:`P09_MATERIAL_${kind==='FABRIC'?'':kind+'_'}${mobile?'MOBILE':'DESKTOP'}.png`}
  } finally {await user.context.close()}
 }
 async function supplierInvoice(ui,today,mobile) {
@@ -265,4 +265,4 @@ async function purchaseUom(ui,today,mobile){
   return {status:'PASS',mobile,unit,purchase_quantity:quantity,price_per_purchase_unit:price,base_stock:stock,value,real_ui_auth_rpc_database:true,draft_edit_preserves_entered_units:true,recovery_identical_request:mobile?true:null,screenshot:`P09_UOM_${mobile?'MOBILE':'DESKTOP'}.png`}
  }finally{await user.context.close()}
 }
-export async function cases(ui,today){return [['P09_BROWSER_RECEIPT_DESKTOP',()=>receipt(ui,today,false)],['P09_BROWSER_LOST_REPLY_MOBILE',()=>receipt(ui,today,true)],['P09_BROWSER_TRANSFER_DESKTOP',()=>transfer(ui,today,false)],['P09_BROWSER_TRANSFER_LOST_REPLY_MOBILE',()=>transfer(ui,today,true)],['P09_BROWSER_INVOICE_DESKTOP',()=>supplierInvoice(ui,today,false)],['P09_BROWSER_INVOICE_LOST_REPLY_MOBILE',()=>supplierInvoice(ui,today,true)],['P09_BROWSER_RETURN_CREDIT_DESKTOP',()=>supplierReturn(ui,today,false)],['P09_BROWSER_RETURN_CREDIT_LOST_REPLY_MOBILE',()=>supplierReturn(ui,today,true)],['P09_BROWSER_RECEIPT_REVERSE_DESKTOP',()=>receiptReversal(ui,today,false)],['P09_BROWSER_RECEIPT_REVERSE_LOST_REPLY_MOBILE',()=>receiptReversal(ui,today,true)],['P09_BROWSER_UOM_DESKTOP',()=>purchaseUom(ui,today,false)],['P09_BROWSER_UOM_LOST_DRAFT_REPLY_MOBILE',()=>purchaseUom(ui,today,true)]]}
+export async function cases(ui,today){return [['P09_BROWSER_RECEIPT_DESKTOP',()=>receipt(ui,today,false)],['P09_BROWSER_LOST_REPLY_MOBILE',()=>receipt(ui,today,true)],['P09_BROWSER_TRANSFER_DESKTOP',()=>transfer(ui,today,false)],['P09_BROWSER_TRANSFER_LOST_REPLY_MOBILE',()=>transfer(ui,today,true)],['P09_BROWSER_INVOICE_DESKTOP',()=>supplierInvoice(ui,today,false)],['P09_BROWSER_INVOICE_LOST_REPLY_MOBILE',()=>supplierInvoice(ui,today,true)],['P09_BROWSER_RETURN_CREDIT_DESKTOP',()=>supplierReturn(ui,today,false)],['P09_BROWSER_RETURN_CREDIT_LOST_REPLY_MOBILE',()=>supplierReturn(ui,today,true)],['P09_BROWSER_RECEIPT_REVERSE_DESKTOP',()=>receiptReversal(ui,today,false)],['P09_BROWSER_RECEIPT_REVERSE_LOST_REPLY_MOBILE',()=>receiptReversal(ui,today,true)],['P09_BROWSER_UOM_DESKTOP',()=>purchaseUom(ui,today,false)],['P09_BROWSER_UOM_LOST_DRAFT_REPLY_MOBILE',()=>purchaseUom(ui,today,true)],['P09_BROWSER_ACCESSORY_TRANSFER_DESKTOP',()=>transfer(ui,today,false,'ACCESSORY')],['P09_BROWSER_OTHER_TRANSFER_MOBILE',()=>transfer(ui,today,true,'OTHER')]]}

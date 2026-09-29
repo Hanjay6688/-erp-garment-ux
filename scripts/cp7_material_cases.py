@@ -57,6 +57,7 @@ def smoke(cur,today):
     return [('P09_MATERIAL_SMOKE',run)]
 
 def cases(cur,today):
+    import cp7_material_unrolled_cases as unrolled
     def draft_not_stock():
         f=fixture(cur,today,False)
         assert cur.execute('select cached_qty from erp.material_rolls where id=%s',(f['roll'],)).fetchone()[0]==10
@@ -82,11 +83,11 @@ def cases(cur,today):
         return dict(status='PASS',backdated_negative_prefix_refused=True,zero_partial_effects=True,refusal=message)
     def location_and_roll():
         f=fixture(cur,today);d,p=draft(cur,f);cur.execute('update erp.locations set is_active=false where id=%s',(f['destination'],))
-        auth.refused(cur,lambda:post(cur,d),'active raw-material warehouses');assert balances(cur,f)=={f['location']:10}
+        auth.refused(cur,lambda:post(cur,d),'CP7_MATERIAL_ACTIVE_WAREHOUSES_REQUIRED');assert balances(cur,f)=={f['location']:10}
         assert rpc(cur,'erp_cp7_get_material_locations_v1',[f['tag']+'-TO',0,25])['rows']==[]
         cur.execute('update erp.locations set is_active=true where id=%s',(f['destination'],))
         g=fixture(cur,today);bad=copy.deepcopy(p);bad['items'][0]['roll_id']=g['roll']
-        auth.refused(cur,lambda:command(cur,'SAVE_TRANSFER',bad),'CP7_MATERIAL_FABRIC_ROLL_REQUIRED')
+        auth.refused(cur,lambda:command(cur,'SAVE_TRANSFER',bad),'CP7_MATERIAL_LINEAGE_REQUIRED')
         bad=copy.deepcopy(p);bad['items'][0]['qty']=4
         auth.refused(cur,lambda:command(cur,'SAVE_TRANSFER',bad),'CP7_MATERIAL_EXACT_LINE')
         cur.execute('update erp.materials set is_active=false where id=%s',(f['material'],))
@@ -153,12 +154,16 @@ def cases(cur,today):
         return dict(status='PASS',view_only_cannot_transfer=True,compute_read_no_writer=True,no_context_forge=True)
     return [('P09_MATERIAL_DRAFT_NOT_STOCK',draft_not_stock),('P09_TRANSFER_CONSERVATION',conserve),('P09_TRANSFER_HISTORICAL_PREFIX',historical),
       ('P09_TRANSFER_LOCATIONS_LINEAGE',location_and_roll),('P09_MATERIAL_REDACTION_ACCESS',redaction),('P09_TRANSFER_REPLAY_STALE',replay),
-      ('P09_TRANSFER_CONSUMED_REVERSE',consumed_destination),('P09_MATERIAL_COMPLETE_PAGES_UNITS',pages_units),('P09_MATERIAL_PRINCIPALS',principals)]
+      ('P09_TRANSFER_CONSUMED_REVERSE',consumed_destination),('P09_MATERIAL_COMPLETE_PAGES_UNITS',pages_units),('P09_MATERIAL_PRINCIPALS',principals)]+unrolled.cases(cur,today)
 
 def races(tools,today):
-    def compete():
+    def compete(unrolled=False):
         with tools.connect() as conn,conn.cursor() as cur:
-            f=fixture(cur,today);one,_=draft(cur,f,qty='7');two,_=draft(cur,f,qty='7');conn.commit()
+            if unrolled:
+                import cp7_material_unrolled_cases as raw
+                f=raw.fixture(cur,today)
+            else:f=fixture(cur,today)
+            one,_=draft(cur,f,qty='7');two,_=draft(cur,f,qty='7');conn.commit()
         barrier=threading.Barrier(2)
         def send(d):
             with tools.connect() as conn,conn.cursor() as cur:
@@ -169,7 +174,7 @@ def races(tools,today):
             futures=[pool.submit(send,d) for d in (one,two)];results=[f.result(30) for f in futures]
         assert sum(isinstance(r,dict) for r in results)==1 and any('negative' in r.lower() for r in results if isinstance(r,str)),results
         with tools.connect() as conn,conn.cursor() as cur:assert balances(cur,f)=={f['location']:3,f['destination']:7}
-        return dict(status='PASS',two_documents_compete_for_same_roll=True,one_commit=True,source=3,destination=7)
+        return dict(status='PASS',two_documents_compete_for_same_physical_stock=True,null_roll=unrolled,one_commit=True,source=3,destination=7)
     def revoke():
         with tools.connect() as conn,conn.cursor() as cur:
             f=fixture(cur,today);d,_=draft(cur,f);subject,role=receipt.custom(cur,PERMS);conn.commit()
@@ -195,7 +200,7 @@ def races(tools,today):
         assert 'CP7_MATERIAL_ACCESS_CHANGED' in result or 'Internal ERP access required' in result,result
         with tools.connect() as conn,conn.cursor() as cur:assert balances(cur,f)=={f['location']:10}
         return dict(status='PASS',current_revoke_after_real_row_wait=True,whole_transfer_rolled_back=True)
-    return [('P09_TRANSFER_RACE_SHARED_ROLL',compete),('P09_TRANSFER_RACE_REVOKE',revoke)]
+    return [('P09_TRANSFER_RACE_SHARED_ROLL',compete),('P09_TRANSFER_RACE_UNROLLED',lambda:compete(True)),('P09_TRANSFER_RACE_REVOKE',revoke)]
 
 def http_cases(http,today):
     def flow():

@@ -35,7 +35,7 @@
     "P02": "BOUNDED_ACTOR_CAPTURE_T1_PASS_16_CASES_INDEPENDENT_PENDING",
     "P03": "BOUNDED_POLICY_NATIVE_PASS_15_CASES_INDEPENDENT_PENDING",
     "P04": "BOUNDED_ATOMIC_WIP_NATIVE_PASS_39_CASES_PLUS_SMOKE_INDEPENDENT_PENDING",
-    "P09": "BOUNDED_62_PASS_RECEIPT_INVERSE_12_OF_13_PASS_UOM_CANDIDATE_PENDING"
+    "P09": "BOUNDED_86_PASS_NON_ROLL_MATERIAL_EXTENSION_CANDIDATE_PENDING"
   },
   "inherited_scope": {
     "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
@@ -50,7 +50,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Qualify receipt inverse chronological fixture and connected accessory UOM; continue issue/adjustment and remaining P09/F03 scope.",
+  "next_action": "Qualify non-roll material ledger/transfers, then complete remaining P09 and F03 P10-P13 integration.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -63,7 +63,7 @@
     "F05_P14_P17": "PLANNED",
     "F06_P18_P21": "PLANNED"
   },
-  "latest_tested_source": "9d4afb23c2da4157d8c46d28b4c43ae9189d67b4",
+  "latest_tested_source": "2809b8641d0729c0e90cacbe6ac0a0fe275d5852",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
   "p04_cutting_verification_receipt": "docs/cp7/evidence/p04-cutting/VERIFICATION.json",
@@ -76,5 +76,6 @@
   "p09_invoice_verification": "docs/cp7/evidence/p09-procurement/INVOICE_VERIFICATION.json",
   "p09_return_diagnostic": "docs/cp7/evidence/p09-procurement/RETURN_RUN_2.json",
   "p09_return_verification": "docs/cp7/evidence/p09-procurement/RETURN_VERIFICATION.json",
-  "p09_reversal_diagnostic": "docs/cp7/evidence/p09-procurement/REVERSAL_RUN_2.json"
+  "p09_reversal_diagnostic": "docs/cp7/evidence/p09-procurement/REVERSAL_RUN_2.json",
+  "p09_uom_and_reversal_verification": "docs/cp7/evidence/p09-procurement/UOM_REVERSE_VERIFICATION.json"
 }

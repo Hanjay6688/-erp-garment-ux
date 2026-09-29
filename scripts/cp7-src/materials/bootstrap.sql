@@ -18,6 +18,12 @@ create table cp7_material.execution_context(
 alter table cp7_material.execution_context owner to cp7_material_write;
 alter table cp7_material.execution_context enable row level security;
 revoke all on cp7_material.execution_context from public,anon,authenticated,service_role,cp7_capture,cp7_material_read;
+create table cp7_material.requests(
+ actor uuid not null,request_id uuid not null,action text not null,payload jsonb not null,expected_version text,response jsonb,primary key(actor,request_id)
+);
+alter table cp7_material.requests owner to cp7_material_write;
+alter table cp7_material.requests enable row level security;
+revoke all on cp7_material.requests from public,anon,authenticated,service_role,cp7_capture,cp7_material_read;
 
 create function cp7_material.access_now() returns jsonb
 language plpgsql stable security invoker set search_path='' as $$
@@ -33,6 +39,19 @@ begin
   'can_reverse',adjust and a->'profile'->>'role_code' in('OWNER','ADMIN'));
 end $$;
 
+create function cp7_material.validate_transfer_scope(p_source uuid,p_destination uuid,p_transfer uuid default null) returns void
+language plpgsql stable security definer set search_path='' as $$
+begin
+ perform cp7_material.access_now();
+ if p_transfer is not null then
+  select from_location_id,to_location_id into p_source,p_destination from erp.material_transfers where id=p_transfer;
+  if not found then raise exception 'CP7_MATERIAL_TRANSFER_NOT_FOUND';end if;
+ end if;
+ if p_source is null or p_destination is null or p_source=p_destination then raise exception 'CP7_MATERIAL_DIFFERENT_LOCATIONS_REQUIRED';end if;
+ if exists(select 1 from erp.bc_accessory_zones_v1 where location_id in(p_source,p_destination)) then raise exception 'CP7_MATERIAL_SERVICE_ZONE_WORKFLOW_REQUIRED';end if;
+ if (select count(*) from erp.locations where id in(p_source,p_destination) and is_active and location_type='RAW_MATERIAL_WAREHOUSE')<>2 then raise exception 'CP7_MATERIAL_ACTIVE_WAREHOUSES_REQUIRED';end if;
+end $$;
+
 create function cp7_material.validate_lines(p_lines jsonb) returns void
 language plpgsql stable security definer set search_path='' as $$
 declare line jsonb;
@@ -45,7 +64,8 @@ begin
   if jsonb_typeof(line) is distinct from 'object' or not line ?& array['material_id','roll_id','qty']
    or exists(select 1 from jsonb_each(line) e where e.key not in('material_id','roll_id','qty','notes') or jsonb_typeof(e.value) not in('string','null'))
    or line->>'qty' is null or line->>'qty'!~'^(0|[1-9][0-9]{0,11})(\.[0-9]{1,6})?$' or (line->>'qty')::numeric<=0 then raise exception 'CP7_MATERIAL_EXACT_LINE';end if;
-  if not exists(select 1 from erp.materials m join erp.material_rolls r on r.material_id=m.id
-   where m.id=(line->>'material_id')::uuid and r.id=(line->>'roll_id')::uuid and m.material_type='FABRIC') then raise exception 'CP7_MATERIAL_FABRIC_ROLL_REQUIRED';end if;
+  if not exists(select 1 from erp.materials m where m.id=(line->>'material_id')::uuid
+   and ((m.material_type='FABRIC' and exists(select 1 from erp.material_rolls r where r.id=(line->>'roll_id')::uuid and r.material_id=m.id))
+    or (m.material_type<>'FABRIC' and line->'roll_id'='null'::jsonb))) then raise exception 'CP7_MATERIAL_LINEAGE_REQUIRED';end if;
  end loop;
 end $$;

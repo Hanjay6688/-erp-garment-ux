@@ -897,7 +897,7 @@
       "Historical AS_KNOWN where reconstructible, global scale, full lifecycle and integrated release P18-P21"
     ],
     "p09": {
-      "tested_source": "9d4afb23c2da4157d8c46d28b4c43ae9189d67b4",
+      "tested_source": "2809b8641d0729c0e90cacbe6ac0a0fe275d5852",
       "modules": [
         "scripts/cp7-src/procurement",
         "scripts/cp7-src/materials",
@@ -920,8 +920,8 @@
         "src/ConnectedMaterialsPage.tsx",
         "src/PurchaseInvoicePanel.tsx"
       ],
-      "verification": "docs/cp7/evidence/p09-procurement/RETURN_VERIFICATION.json",
-      "writer_proof": "62_NATIVE_RACE_HTTP_BROWSER_CROSSFLOW_PASS_PLUS_3_SMOKES",
+      "verification": "docs/cp7/evidence/p09-procurement/UOM_REVERSE_VERIFICATION.json",
+      "writer_proof": "86_NATIVE_RACE_HTTP_BROWSER_CROSSFLOW_PASS_PLUS_3_SMOKES",
       "independent_acceptance": false,
       "invoice_extension": "Qualified bounded source receipt invoice FINALIZE/REVERSE; legacy mixed-receipt reversal remains outside connected action.",
       "source_return_extension": {
@@ -941,18 +941,25 @@
       },
       "receipt_reversal_extension": {
         "module": "scripts/cp7-src/procurement/reversal.sql",
-        "status": "12_OF_13_NEW_CASES_PASS_HISTORICAL_FIXTURE_RETEST_PENDING",
+        "status": "13_NATIVE_RACE_HTTP_BROWSER_CASES_PASS",
         "private_principal_exception": "postgres-owned SECURITY DEFINER receipt lock/version adapter; empty search_path, real current authorization, only accepted reverse_material_purchase writer; EXECUTE only cp7_procure_write. No business table SELECT/DML grants to command principal.",
-        "diagnostic": "docs/cp7/evidence/p09-procurement/REVERSAL_RUN_2.json"
+        "diagnostic": "docs/cp7/evidence/p09-procurement/REVERSAL_RUN_2.json",
+        "verification": "docs/cp7/evidence/p09-procurement/UOM_REVERSE_VERIFICATION.json"
       },
       "uom_extension": {
         "modules": [
           "scripts/cp7-src/procurement/uom.sql"
         ],
         "public_entrypoint": "public.erp_cp7_get_procurement_uom_v1",
-        "status": "NATIVE_AND_BROWSER_CANDIDATE_PENDING",
+        "status": "11_NATIVE_RACE_HTTP_BROWSER_CASES_PASS",
         "authority": "Dated accessory category conversion master; accepted normalize_accessory_purchase_uom trigger computes base quantities and prices. No client conversion/factor overrides.",
-        "private_validation": "read-owned SECURITY DEFINER validates accessory type and active purchase unit only on first draft intent; actor/request cache precedes mutable master validation."
+        "private_validation": "read-owned SECURITY DEFINER validates accessory type and active purchase unit only on first draft intent; actor/request cache precedes mutable master validation.",
+        "verification": "docs/cp7/evidence/p09-procurement/UOM_REVERSE_VERIFICATION.json"
+      },
+      "unrolled_material_extension": {
+        "status": "CANDIDATE_NATIVE_AND_BROWSER_PENDING",
+        "scope": "ACCESSORY/OTHER and existing raw material types with null roll; ordinary warehouse transfers only. Service-zone movement retains its service workflow.",
+        "notes": "Read labels advance to LIVE_MATERIAL_LEDGER. Private actor/request cache precedes mutable master validation. No command principal business SELECT/DML."
       }
     }
   }

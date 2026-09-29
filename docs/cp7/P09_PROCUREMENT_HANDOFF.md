@@ -2,7 +2,7 @@
 
 Family F03 is active. The receipt increment is **writer-verified in a disposable database and real connected browser**, not full P09 or family acceptance. No hosted writes; `production_go=false`.
 
-Latest qualified source: **`9d4afb23c2da4157d8c46d28b4c43ae9189d67b4`**, 62 cases PASS plus three smokes. The receipt reversal extension described at the end is a newer candidate, not included in that qualification.
+Latest qualified source: **`2809b8641d0729c0e90cacbe6ac0a0fe275d5852`**, 86 cases PASS plus three smokes. The non-roll material extension described at the end is a newer candidate, not included in that qualification.
 
 ## Contract and authorization
 
@@ -158,3 +158,15 @@ Accessory UOM candidate: `procurement/uom.sql` reads complete dated active unit 
 The command's new private draft-intent cache binds actor/request/payload/version before read-owned accessory validation and the accepted writer. Cached outcomes precede mutable master checks, but current permission is checked before admission and after waits/writes. The private validator has no public EXECUTE and read-only master access; command principals receive no business table SELECT/DML. Existing draft request UUIDs still reach the accepted native cache on first use after upgrade.
 
 Local64/64 targeted DOM/recovery cases, TypeScript and source/access/CSS gates passed. New declared proof: six native UOM cases, two SAVE races, real Auth/HTTP, and desktop/mobile UI create/edit/post (mobile loses committed draft response). Expected fixtures:2LUSIN at120 per lusin→24PCS at10/value240;0.5GROSS at1440→72PCS at10/value720. Dated custom packaging, fractional-count rejection, mixed fabric/accessory receipt, no factor injection, master-change replay, and current financial permission are required. Native/browser results are pending. P09/F03 remain open.
+
+## Receipt inverse and accessory UOM qualification — 29 September 2026
+
+Source **`2809b8641d0729c0e90cacbe6ac0a0fe275d5852`**, [run36532543911](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36532543911): **86/86 PASS plus three separate smokes**, complete workflow, CP6 restoration, advisor gate and both app workflows PASS. `UOM_REVERSE_VERIFICATION.json` pins the complete report, source/tree/bundle and four inverse/UOM screenshots. Browser Auth counts returned to their exact baseline. Receipt cancellation now has both current-stock and chronological-negative controls, its unchanged payment/invoice/return dependencies, exact request/version/race/Auth checks, and desktop/mobile UI. Purchase-unit inputs have real dated native conversion and actual desktop/mobile create/edit/post proof. Older pending lines above remain run history, superseded only within this stated scope. Independent acceptance and full P09/F03 remain open.
+
+## Non-roll material continuation — candidate pending
+
+The material bridge now includes ACCESSORY/OTHER and other native raw-material types alongside fabric. A null roll is ordinary identity for non-fabric material; fabric still requires its real matching roll, and contradictory lineage is flagged for review. Warehouse stock/prefix ledger and transfer selection preserve null rather than fabricate roll IDs. Totals remain separated by base unit, with exact string quantities and independently authorized valuation. The UI exposes material names for unrolled stock.
+
+The ordinary transfer command refuses service-zone sources/destinations, uses only active raw-material warehouses, and rechecks POST scope after native waits. Service movements retain their existing service workflow. A private actor/request cache precedes mutable master checks; current action permission and inherited inverse role checks precede cached outcomes. The write principal retains no business-table SELECT/DML; the narrow location validator is read-owned and has no public EXECUTE.
+
+Declared new cases cover accessory/other stock6+4, null-roll prefix reads/pages, late-invoice value125 then invoice/transfer inverses, operational money redaction, service-zone rejection, inactive-master replay, simultaneous 7+7 transfers against10, and desktop/mobile transfers. Local71 targeted DOM/recovery cases and TypeScript passed. These PostgreSQL/browser cases are still pending. Full material issue/adjustment and other P09/F03 obligations remain open.

@@ -1,0 +1,125 @@
+{
+  "source_head": "2809b8641d0729c0e90cacbe6ac0a0fe275d5852",
+  "source_tree": "e88c34decffdc9ef09c77feff8cb33f6eba7c51c",
+  "run_id": 36532543911,
+  "job_id": 109289237726,
+  "artifact_id": 11017906390,
+  "archive_sha256": "777e058fc362c45f4b22cc6942c7b63457429ad203a9849d5d12119cf13d96c6",
+  "report_sha256": "33bc5e37ce89857ef03e251c72d012adc59803e26f33d7d24f2e24069b792e68",
+  "report_gzip_sha256": "ae347be382a84783a9383b673cc5b817c35061c5eda93add3b6d4044cbf8ed36",
+  "report": "CP7_P09_UOM_REVERSE.json.gz",
+  "bundle_sha256": "62cd8dd3c97c58979d2e3ceb5127a39a6d08f551ff2ec30b407c5d6b1eb9947e",
+  "counts": {
+    "smoke": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 9
+    },
+    "races": {
+      "PASS": 3
+    },
+    "http": {
+      "PASS": 1
+    },
+    "material_smoke": {
+      "PASS": 1
+    },
+    "material": {
+      "PASS": 9
+    },
+    "material_crossflow": {
+      "PASS": 2
+    },
+    "material_races": {
+      "PASS": 2
+    },
+    "material_http": {
+      "PASS": 1
+    },
+    "invoice": {
+      "PASS": 9
+    },
+    "invoice_races": {
+      "PASS": 3
+    },
+    "invoice_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 12
+    },
+    "return_smoke": {
+      "PASS": 1
+    },
+    "returns": {
+      "PASS": 10
+    },
+    "return_races": {
+      "PASS": 3
+    },
+    "return_http": {
+      "PASS": 1
+    },
+    "receipt_reversal": {
+      "PASS": 7
+    },
+    "receipt_reversal_races": {
+      "PASS": 3
+    },
+    "receipt_reversal_http": {
+      "PASS": 1
+    },
+    "uom": {
+      "PASS": 6
+    },
+    "uom_races": {
+      "PASS": 2
+    },
+    "uom_http": {
+      "PASS": 1
+    }
+  },
+  "total_cases": {
+    "PASS": 86
+  },
+  "smokes_separate": 3,
+  "screenshots": {
+    "P09_UOM_DESKTOP.png": "938a938adefa26d1cb7983dc9d79c05855b316d91cacfe096966bb1e2e263235",
+    "P09_UOM_MOBILE.png": "3ba024a8be47fbe16d53d42d5b405d2f9e98211d3f619848b08e534e972b4e0d",
+    "P09_RECEIPT_REVERSE_DESKTOP.png": "b8c091862e49b85c05628e6d22ec41fb844fd7def68d39ad7da74ea157b97cc7",
+    "P09_RECEIPT_REVERSE_MOBILE.png": "17cdac92abaf2e39c10e23f890de79fcd67bff6b29907f9c5515bfbfc32c4212"
+  },
+  "status": "PASS",
+  "scope": "BOUNDED_RECEIPT_MATERIAL_TRANSFER_INVOICE_RETURN_RECEIPT_INVERSE_AND_ACCESSORY_UOM",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "browser_auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "app_runs": [
+    36532548197,
+    36532543987
+  ],
+  "production_go": false,
+  "independent_acceptance": false,
+  "limitations": [
+    "Non-roll material ledger/transfer extension is a newer unqualified candidate.",
+    "Material issue/adjustment and full P09/F03 coverage remain open.",
+    "Mixed-receipt invoice/return writes remain outside the bounded source-receipt form.",
+    "Paid-source return carry remains for P13; no newly invented credit/refund rule.",
+    "Integrated release/restore and independent family acceptance remain pending."
+  ]
+}
