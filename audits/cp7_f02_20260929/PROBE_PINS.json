@@ -12,5 +12,11 @@
     "audits/cp7_f02_20260929/probe.py": "43ac48d8ec4dffdffa94722348a503a345771094d1f33219c72a4d70431c29d1",
     "audits/cp7_f02_20260929/runner.py": "47bb70760b4795bee1c1588ba5067fcce7197b2e1c6d2144487cb3dc6b4ea6cf",
     ".github/workflows/audit-cp7-f02.yml": "d7c0e7764a48abd6014285c2ae4fc5f76684364f1d21ed2d5de19194dabc5474"
+  },
+  "supplemental_commit": "9f2ff86af5c5eefaca637df8e7210ee7c79dd20b",
+  "supplemental": {
+    "audits/cp7_f02_20260929/x06_probe.py": "1fd148a236cd4105aebbd1c2b84fe3014f9d091ef6233edf43e6e793a5d10fef",
+    "audits/cp7_f02_20260929/X06_ORACLE.md": "b56dae500c8b365c483be048367a581dc3d66fa993bd8dd4e1609d88efa6b00a",
+    ".github/workflows/audit-cp7-f02-x06.yml": "35a2ed9e70ca836d1b3f0ddd891c9b73ee18aab60e02f548d7141805517fce2b"
   }
 }

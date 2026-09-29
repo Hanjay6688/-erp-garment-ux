@@ -1,0 +1,225 @@
+{
+  "origin": "USER_SUPPLIED_PEER_AUDIT_THEN_OWN_REPRODUCTION",
+  "peer_pr": 34,
+  "peer_run": 36525980112,
+  "peer_commit": "79a85208ad150065f4a1b8649977862d2d742d90",
+  "peer_artifact": {
+    "id": 11014752599,
+    "zip_sha256": "4253815ba3538bf58463550902a3b8568db83b9bba59ccd09594f5d5f6671760"
+  },
+  "peer_report_status": "PROBED_WITH_FINDING",
+  "peer_cases": {
+    "SOL_F01_F02_CROSS_IDENTITY": {
+      "status": "PASS",
+      "oracle": "membership update does not rewrite capture or preserve STOPPED applicability",
+      "policy_quality": "MEMBERSHIP_CHANGED",
+      "source_state": "ARCHIVED_STALE",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    "SOL_F02_MIXED_ORIGIN_REPLAY": {
+      "status": "PASS",
+      "oracle": "one source capture, immutable same-key replay, true-origin conservation",
+      "vector": [
+        108,
+        88,
+        15,
+        5,
+        0,
+        0
+      ],
+      "run_id": "ddd000e4-cd17-419a-80cc-63624bc899f1",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    "SOL_F02_MATCH_LABEL_BINDING": {
+      "status": "PASS",
+      "oracle": "hard FACT color mismatch must be bound to allocation edge",
+      "match_target": {
+        "match": "INCOMPATIBLE",
+        "reasons": [
+          "COLOR_MISMATCH"
+        ]
+      },
+      "forged_label_allocation": "FEASIBLE",
+      "finding": "ALLOCATOR_TRUSTS_CALLER_MATCH_LABEL",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    }
+  },
+  "independent_run": 36528326077,
+  "independent_commit": "9f2ff86af5c5eefaca637df8e7210ee7c79dd20b",
+  "independent_artifact": {
+    "id": 11015218644,
+    "zip_sha256": "f1765da497f7ab15a8aa6aff2c732014bbc3b7defa841a8042ed147e305388bf"
+  },
+  "independent_case": {
+    "status": "COUNTEREXAMPLE",
+    "case": "AUD_F02_X06_MATCH_BINDING_REPRO",
+    "origin": "USER_SUPPLIED_PEER_FINDING_INDEPENDENTLY_REPRODUCED",
+    "candidate": "17e85404c9c5f088875099d7875be6342ca6b266",
+    "production_go": false,
+    "scope": "PRIVATE_POSTGRESQL_KERNEL_ONLY",
+    "product_source_changed": false,
+    "postgres_version": "PostgreSQL 17.6 (Debian 17.6-2.pgdg13+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit",
+    "source_sha256": {
+      "bootstrap.sql": "f13d218d6ef6c38bea1968081368cdf253538c79d36b67a51e61d126927c2769",
+      "graph.sql": "3a6d3af1fdf5f1d0c262639652ec491a447e4abba5315463253f733f0623b9d9",
+      "matching.sql": "6eba1327d2d94d197f665aa3336a6637cb34f3224ba18cccf36bd8a4d42b804f",
+      "yield.sql": "56ebb415524603e86f34492b7eb186b95a58e9b4984c45d6809ede198c84d59c"
+    },
+    "input": 17,
+    "yield_ratio": "2/3",
+    "projected_good": 11,
+    "valid_control": {
+      "match": {
+        "match": "CANDIDATE_MATCH",
+        "reasons": [
+          "KNOWN_CONSTRAINTS_COMPATIBLE"
+        ]
+      },
+      "allocation": "FEASIBLE"
+    },
+    "original_source": {
+      "key": "source",
+      "quality": "COMPLETE",
+      "size_id": "XS",
+      "confirmed_target": null,
+      "constraints": [
+        {
+          "field": "color",
+          "value": "RED",
+          "required": true,
+          "basis": "FACT"
+        }
+      ],
+      "refs": [
+        {
+          "kind": "AUDITOR_X06_FACT",
+          "id": "source-facts",
+          "revision": "1"
+        }
+      ]
+    },
+    "original_target": {
+      "key": "target",
+      "size_id": "XS",
+      "constraints": [
+        {
+          "field": "color",
+          "value": "RED",
+          "required": true,
+          "basis": "FACT"
+        }
+      ],
+      "refs": [
+        {
+          "kind": "AUDITOR_X06_FACT",
+          "id": "target-facts",
+          "revision": "1"
+        }
+      ]
+    },
+    "changed_target": {
+      "key": "target",
+      "size_id": "XS",
+      "constraints": [
+        {
+          "field": "color",
+          "value": "BLUE",
+          "required": true,
+          "basis": "FACT"
+        }
+      ],
+      "refs": [
+        {
+          "kind": "AUDITOR_X06_FACT",
+          "id": "target-facts",
+          "revision": "2"
+        }
+      ]
+    },
+    "incompatible_match": {
+      "match": "INCOMPATIBLE",
+      "reasons": [
+        "COLOR_MISMATCH"
+      ]
+    },
+    "honest_label_refused": "CP7_WIP_INELIGIBLE_ALLOCATION",
+    "forged_candidate_allocation": {
+      "basis": "SIMULATION_NOT_RESERVATION",
+      "edges": [
+        {
+          "key": "source-to-target",
+          "refs": [
+            {
+              "id": "edge",
+              "kind": "AUDITOR_X06_FACT",
+              "revision": "1"
+            }
+          ],
+          "match": "CANDIDATE_MATCH",
+          "size_id": "XS",
+          "input_pcs": "17",
+          "target_key": "target",
+          "position_key": "source",
+          "projected_good_pcs": "11"
+        }
+      ],
+      "status": "FEASIBLE",
+      "scope_id": "complete",
+      "violations": [],
+      "scenario_id": "one"
+    },
+    "missing_required_match": {
+      "match": "NEEDS_CHECK",
+      "reasons": [
+        "COLOR_NEEDS_PROOF"
+      ]
+    },
+    "forged_confirmed_allocation": {
+      "basis": "SIMULATION_NOT_RESERVATION",
+      "edges": [
+        {
+          "key": "source-to-target",
+          "refs": [
+            {
+              "id": "edge",
+              "kind": "AUDITOR_X06_FACT",
+              "revision": "1"
+            }
+          ],
+          "match": "CONFIRMED_TARGET",
+          "size_id": "XS",
+          "input_pcs": "17",
+          "target_key": "target",
+          "position_key": "source",
+          "projected_good_pcs": "11"
+        }
+      ],
+      "status": "FEASIBLE",
+      "scope_id": "complete",
+      "violations": [],
+      "scenario_id": "one"
+    },
+    "limitation": "No operational caller is exercised. This proves absent matcher-to-allocator binding inside the private kernel API, not a live stock/auth bypass.",
+    "transaction_cleanup_restored": true
+  },
+  "classification": "OPEN_F02_X06_INTEGRATION_GATE_NOT_LIVE_TRANSACTION_BUG",
+  "production_go": false
+}

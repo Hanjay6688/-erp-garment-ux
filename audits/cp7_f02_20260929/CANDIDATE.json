@@ -71,5 +71,15 @@
   "targeted_artifact": {
     "id": 11015371503,
     "zip_sha256": "b07735db1fc6aad201a993c23e50ccad6b486bc2cc57bde048614cc4e0e9317b"
+  },
+  "supplemental_x06": {
+    "run": 36528326077,
+    "commit": "9f2ff86af5c5eefaca637df8e7210ee7c79dd20b",
+    "scope": "PRIVATE_POSTGRESQL_KERNEL_ONLY",
+    "artifact": {
+      "id": 11015218644,
+      "zip_sha256": "f1765da497f7ab15a8aa6aff2c732014bbc3b7defa841a8042ed147e305388bf"
+    },
+    "finding_origin": "PEER_PR34"
   }
 }

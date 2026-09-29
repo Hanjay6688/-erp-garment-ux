@@ -42,6 +42,24 @@
       "raw_bytes": 360379
     },
     {
+      "path": "evidence/PEER_PR34_CP7_F01_F02_SOL_INDEPENDENT.json.gz",
+      "gzip_sha256": "ee03f6fc567412c6c18a421c0da040739c19645f7ec449f449066fe6ae3289f9",
+      "raw_sha256": "9c675746f5db2af423349605c1cbc75b945941957a994c7924e1db5f897d254f",
+      "raw_bytes": 56290
+    },
+    {
+      "path": "evidence/PEER_PR34_T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "5f51ffd695237a14b39367ec77491b75a159e5761ceb8260ddac6c84855656bd",
+      "raw_sha256": "8b40aaaab745bf95684a5cb499620a9c46ee18306e816798d1e20a2ba07eac2d",
+      "raw_bytes": 360497
+    },
+    {
+      "path": "evidence/SUPPLEMENT_CP7_F02_X06_REPRO.json.gz",
+      "gzip_sha256": "263ba563ffb505132ae2b335a365eeb11200174bc92b4fbdb5e0fd27f51ef59c",
+      "raw_sha256": "4463a2a1c59889d2384488e244d023bf34823af6e974832be46d9e1fa950c9a9",
+      "raw_bytes": 3807
+    },
+    {
       "path": "evidence/TARGETED_ALIGNED_CHAIN.json.gz",
       "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
       "raw_sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
@@ -70,6 +88,16 @@
       "gzip_sha256": "68b58b26b6798439d9fa149d96d546bd9a0d028a5ab89d968167bb70b71402e8",
       "raw_sha256": "e9d82e15cfc99c85d4ecbfee4f156d8533374f62a73c94d72fae39f04a5ebca6",
       "raw_bytes": 360383
+    }
+  ],
+  "supplement_artifacts": [
+    {
+      "id": 11014752599,
+      "zip_sha256": "4253815ba3538bf58463550902a3b8568db83b9bba59ccd09594f5d5f6671760"
+    },
+    {
+      "id": 11015218644,
+      "zip_sha256": "f1765da497f7ab15a8aa6aff2c732014bbc3b7defa841a8042ed147e305388bf"
     }
   ]
 }
