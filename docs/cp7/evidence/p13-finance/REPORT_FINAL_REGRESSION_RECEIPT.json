@@ -1,0 +1,72 @@
+{
+  "status": "PASS",
+  "source_commit": "55cb59dd914052f2c5a72dc535960c0aac00d65d",
+  "source_tree": "4f47389d983f37fbb54450fae670c61e84433fdb",
+  "run_id": 36643127137,
+  "job_id": 109659815762,
+  "artifact_id": 11068095051,
+  "artifact_bytes": 4071097,
+  "artifact_sha256": "62a8e6e9d2a7a465ef55290143b50f9e036065423cc2d774dcdeff049f9d5488",
+  "report_sha256": "cbddb59b69cbf1f5522262ed619b9b6a98b64a3a8c01bfd15401ee59eb837b63",
+  "report_gzip_sha256": "3ab62f24f1f7fcb271dfb02f9bb8cbfbb3307b91bf62e85fe33d1d371869256e",
+  "source_bundle_sha256": "0a9b3d0333c2829aa1607684510ccb11f8eebb6d9e55f9c2e7b08150584cb33f",
+  "counts": {
+    "PASS": 12,
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0
+  },
+  "observed_case_count": 12,
+  "expected_cases": 12,
+  "groups": {
+    "native": {
+      "PASS": 8
+    },
+    "races": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "nonpassing_cases": {},
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "55cb59dd914052f2c5a72dc535960c0aac00d65d",
+    "product_ref": "23f795aac1b3b619108c93e525dd5d609c5908d5",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36643127137",
+    "run_attempt": "1",
+    "workflow": "CP7 P13 Finance",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "55cb59dd914052f2c5a72dc535960c0aac00d65d",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false,
+  "recovery": "Original artifact re-fetched and verified in read-only GitHub Actions after the local executor disconnected; results are not a new business test execution."
+}

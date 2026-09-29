@@ -1,0 +1,88 @@
+{
+  "status": "PASS",
+  "source_commit": "23f795aac1b3b619108c93e525dd5d609c5908d5",
+  "source_tree": "3d271804db41e7afa8eb37586632b51a4fcccc1a",
+  "run_id": 36642733490,
+  "job_id": 109658549095,
+  "artifact_id": 11067422965,
+  "artifact_bytes": 6381092,
+  "artifact_sha256": "68bca2332da5502f5ae873755960f9fdb8f592848d2ee22d5a0553df6277eac0",
+  "report_sha256": "f93506f190f88c67e62fdbb04766e2f6cf631c1ab8eb110e5887a7eaae4df8d7",
+  "report_gzip_sha256": "418a9853fc2f0183982b5381709ffb7af85bcc31bcc60a0c1222bd1426dfb42b",
+  "source_bundle_sha256": "d999ab45ebe40001e7a30ba46e0e10a18b950cc19531555716060d62cdd1759e",
+  "counts": {
+    "PASS": 22,
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0
+  },
+  "observed_case_count": 22,
+  "expected_cases": 22,
+  "groups": {
+    "native": {
+      "PASS": 10
+    },
+    "races": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 4
+    },
+    "sales_browser": {
+      "PASS": 2
+    },
+    "opening_payroll_browser": {
+      "PASS": 2
+    },
+    "finance_browser": {
+      "PASS": 2
+    }
+  },
+  "nonpassing_cases": {},
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "23f795aac1b3b619108c93e525dd5d609c5908d5",
+    "product_ref": "23f795aac1b3b619108c93e525dd5d609c5908d5",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36642733490",
+    "run_attempt": "1",
+    "workflow": "CP7 F03 Combined Stack",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "23f795aac1b3b619108c93e525dd5d609c5908d5",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false,
+  "recovery": "Original artifact re-fetched and verified in read-only GitHub Actions after the local executor disconnected; results are not a new business test execution.",
+  "candidate_product_equivalence": {
+    "compared_commit": "55cb59dd914052f2c5a72dc535960c0aac00d65d",
+    "paths": [
+      "src",
+      "scripts/cp7-src",
+      "supabase"
+    ],
+    "changed_files": [],
+    "scope": "Product paths match; original run identity remains23f795a."
+  }
+}

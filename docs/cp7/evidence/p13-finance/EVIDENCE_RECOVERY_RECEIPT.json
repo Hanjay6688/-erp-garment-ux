@@ -1,0 +1,89 @@
+{
+  "scope": "READ_ONLY_RECOVERY_OF_EXISTING_WRITER_EVIDENCE_NOT_NEW_BUSINESS_TESTS",
+  "reason": "Local executor transport disconnected after results had been verified; originals were re-fetched and revalidated through GitHub Actions.",
+  "recovery_commit": "674560d2254561c90db2bf79c523fe5096b907f2",
+  "recovery_run": 36644601888,
+  "recovery_job": 109664530563,
+  "manifest": {
+    "kind": "CP7_EVIDENCE_MANIFEST",
+    "sha256": "3eefb1b73a2ebb2fd9583af71abd4ee253eeb44b75150cc4c915244eacbf3b68",
+    "bytes": 852418,
+    "files": 14,
+    "chunks": 57
+  },
+  "source_files": [
+    {
+      "path": "docs/cp7/evidence/p13-finance/P13_RECOST_DESKTOP.png",
+      "git_blob_sha": "f8b57f0d3106097b622ce69fc93de8034fdb97fc",
+      "sha256": "a273baef311e980b84930c00d423156476bbbd6fdc381c15ac96008f2194ebd5"
+    },
+    {
+      "path": "docs/cp7/evidence/p13-finance/P13_RECOST_MOBILE.png",
+      "git_blob_sha": "f78e7715d1e7a23c07bf0c0c85adcb5f31259165",
+      "sha256": "2c5fd8e8f86b38e371f0917df829289d5458ad6f62d5447fa56283bfced0622e"
+    },
+    {
+      "path": "docs/cp7/evidence/p13-finance/RECOST_QUALIFIED.json.gz",
+      "git_blob_sha": "d04d927eed13adef0cc6ef56a57524181ebcd2ee",
+      "sha256": "543fb055ab54c3402a069fd4352401985af66ca25071d9e60f73f2bfab2e760a"
+    },
+    {
+      "path": "docs/cp7/evidence/p13-finance/RECOST_QUALIFIED_RECEIPT.json",
+      "git_blob_sha": "4959e5d62892e96c5c804b362ffc7e973f2d43f6",
+      "sha256": "c2c46b9f349a22fc8d54036248fcbcdf70195a3cc31c27052383442e016a03b2"
+    },
+    {
+      "path": "docs/cp7/evidence/p13-finance/ANALYSIS_FINAL_REGRESSION.json.gz",
+      "git_blob_sha": "7e4eb95d68aea0000e4078044033f736eeba0886",
+      "sha256": "c3cfeab4d9e4c86694c38b53950dc16ae59236c3a8a53684200e7633a05f9afe"
+    },
+    {
+      "path": "docs/cp7/evidence/p13-finance/ANALYSIS_FINAL_REGRESSION_RECEIPT.json",
+      "git_blob_sha": "65303c4b698851571e6b6346b0d89549b53ddf85",
+      "sha256": "380fe89120a14a02335e5c316dd3c12702b12a86a35365995467b5fd94cf08ea"
+    },
+    {
+      "path": "docs/cp7/evidence/p13-finance/PERIOD_FINAL_REGRESSION.json.gz",
+      "git_blob_sha": "dc956fed2fc5cca67c68445cb659ae14245a8b46",
+      "sha256": "a2e053c1e7324b2166233d544f5716ca990832e5b000cebe0f05d44bd0b7be02"
+    },
+    {
+      "path": "docs/cp7/evidence/p13-finance/PERIOD_FINAL_REGRESSION_RECEIPT.json",
+      "git_blob_sha": "93cfc756dbff111825a295915d6435e1327cc977",
+      "sha256": "a16d48e30169194859fd711d23a430c0eee13600cb2593b6fb06059f9e5d8b46"
+    },
+    {
+      "path": "docs/cp7/evidence/p13-finance/REPORT_FINAL_REGRESSION.json.gz",
+      "git_blob_sha": "0540de962f60bcdeda55f035982198e57d506de1",
+      "sha256": "3ab62f24f1f7fcb271dfb02f9bb8cbfbb3307b91bf62e85fe33d1d371869256e"
+    },
+    {
+      "path": "docs/cp7/evidence/p13-finance/REPORT_FINAL_REGRESSION_RECEIPT.json",
+      "git_blob_sha": "da3f0f1a8f3b33e8060bd26423e90e58111e5675",
+      "sha256": "0d8ad88c8bcda174f1ff9defac4b8233b03028c67818277d69ef67bc36b6e270"
+    },
+    {
+      "path": "docs/cp7/evidence/p13-finance/RECOST_MICROSECOND_COMBINED.json.gz",
+      "git_blob_sha": "2a031f50eb9c7e29bc67609730e8a9aa3127beff",
+      "sha256": "418a9853fc2f0183982b5381709ffb7af85bcc31bcc60a0c1222bd1426dfb42b"
+    },
+    {
+      "path": "docs/cp7/evidence/p13-finance/RECOST_MICROSECOND_COMBINED_RECEIPT.json",
+      "git_blob_sha": "724f79b113cc7af660c355a78fa4360afbd0a342",
+      "sha256": "a6fec6f851f7d8eeea0961d5745698537e42d74d6c4cc63d41f6230fe4b996df"
+    },
+    {
+      "path": "docs/cp7/evidence/p13-finance/RECOST_MICROSECOND_RUN.json.gz",
+      "git_blob_sha": "294938002b91648c5215cf8e8ed2d3c930d19c79",
+      "sha256": "08239a3ff9e49c14cea713f1c69d454d30129230918377145103a8fc000079cf"
+    },
+    {
+      "path": "docs/cp7/evidence/p13-finance/RECOST_MICROSECOND_RUN_RECEIPT.json",
+      "git_blob_sha": "dd652aaef639d9442acf8842dc633373d9a8fd84",
+      "sha256": "40c0173d6d4f0def5a19ff7c620a4852cbeb1d622e4538884e60300dde933ac8"
+    }
+  ],
+  "git_blob_bytes_verified": true,
+  "independent_acceptance": false,
+  "production_go": false
+}

@@ -1,0 +1,91 @@
+{
+  "status": "INCOMPLETE",
+  "source_commit": "23f795aac1b3b619108c93e525dd5d609c5908d5",
+  "source_tree": "3d271804db41e7afa8eb37586632b51a4fcccc1a",
+  "run_id": 36642733489,
+  "job_id": 109658544138,
+  "artifact_id": 11067203566,
+  "artifact_bytes": 4587629,
+  "artifact_sha256": "04291ad281986403fd91a83bc68e10959eabba5203216238bf3f2572f794baf7",
+  "report_sha256": "f35fe187d8855d77f468b52989ecf5eccb564493a0e18af100083c830d494ac6",
+  "report_gzip_sha256": "08239a3ff9e49c14cea713f1c69d454d30129230918377145103a8fc000079cf",
+  "source_bundle_sha256": "0a9b3d0333c2829aa1607684510ccb11f8eebb6d9e55f9c2e7b08150584cb33f",
+  "counts": {
+    "PASS": 24,
+    "FAIL": 0,
+    "INCOMPLETE": 1,
+    "NOT_RUN": 0
+  },
+  "observed_case_count": 25,
+  "expected_cases": 25,
+  "groups": {
+    "native": {
+      "PASS": 8
+    },
+    "races": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    },
+    "recost_native": {
+      "PASS": 8
+    },
+    "recost_races": {
+      "PASS": 2
+    },
+    "recost_http": {
+      "PASS": 1
+    },
+    "recost_browser": {
+      "INCOMPLETE": 1,
+      "PASS": 1
+    }
+  },
+  "nonpassing_cases": {
+    "P13_RECOST_BROWSER_DESKTOP": {
+      "status": "INCOMPLETE",
+      "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByRole('region', { name: 'Antrean hitung ulang HPP', exact: true }).getByRole('alert')\nExpected: visible\nError: strict mode violation: getByRole('region', { name: 'Antrean hitung ulang HPP', exact: true }).getByRole('alert') resolved to 2 elements:\n    1) <div class=\"\" role=\"alert\">\u2026</div> aka getByRole('alert').filter({ hasText: 'Data belum dimuat ulang.' })\n    2) <p role=\"alert\">Layanan UAT belum dapat dihubungi. Coba lagi sete\u2026</p> aka getByText('Layanan UAT belum dapat')\n\nCall log:\n  - Expect \"to.be.visible\" with timeout 5000ms\n  - waiting for getByRole('region', { name: 'Antrean hitung ulang HPP', exact: true }).getByRole('alert')\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toBeVisible (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at recost (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p13_recost_browser.mjs:24:217)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3"
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "23f795aac1b3b619108c93e525dd5d609c5908d5",
+    "product_ref": "23f795aac1b3b619108c93e525dd5d609c5908d5",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36642733489",
+    "run_attempt": "1",
+    "workflow": "CP7 P13 HPP recost",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "23f795aac1b3b619108c93e525dd5d609c5908d5",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false,
+  "recovery": "Original artifact re-fetched and verified in read-only GitHub Actions after the local executor disconnected; results are not a new business test execution.",
+  "diagnosis": "24 PASS/1 INCOMPLETE: desktop strict generic alert selector matches both the legitimate recovery notice and network error. Native/race/Auth and mobile recovery pass.55cb59d repairs selector precision without changing product paths."
+}

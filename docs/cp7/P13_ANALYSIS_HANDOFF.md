@@ -1,5 +1,7 @@
 # P13 recorded comparison and cash ledger — bounded writer qualification
 
+Latest functional regression at `55cb59dd914052f2c5a72dc535960c0aac00d65d`: **24 PASS / 0 FAIL / 0 INCOMPLETE / 0 NOT_RUN**, [run36643127097](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36643127097), [source-bound receipt](evidence/p13-finance/ANALYSIS_FINAL_REGRESSION_RECEIPT.json). Restoration/advisor/Auth/database and package recovery pass. Earlier visual review below keeps its original source.
+
 ## Current qualification:24 PASS
 
 Source `c8f1ba56e328ced7293647e314ab5cbb58ea7db1`, tree `95bb422bf22092bcfdd98beef44b0ce4eb65ec5f`, [run36642251622](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36642251622): **24 PASS /0 FAIL /0 INCOMPLETE /0 NOT_RUN**. All12 retained report/archive cases and12 new analysis cases ran. Both real desktop/mobile browser journeys now prove native comparison20%, margin change−3 percentage points, debit1300/credit1200/net cash100, source-journal visibility, read-only equality and failed-refresh removal of old money. The16MiB fixture limit preserves complete source equality.

@@ -1,5 +1,7 @@
 # P13 reviewed period control — bounded writer qualification
 
+Latest functional regression at `55cb59dd914052f2c5a72dc535960c0aac00d65d`: **25 PASS / 0 FAIL / 0 INCOMPLETE / 0 NOT_RUN**, [run36643127110](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36643127110), [source-bound receipt](evidence/p13-finance/PERIOD_FINAL_REGRESSION_RECEIPT.json). Restoration/advisor/Auth/database and package recovery pass. Earlier visual review below keeps its original source.
+
 ## Visual correction also qualified
 
 [Run36640775187](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36640775187) on `41a112b0332fa1ab992bf91bb02efdeca75e3d1c`, tree `8980326dc359a9d3db95f343eb0dd61ff5ede1c9`: **25 PASS /0 FAIL /0 INCOMPLETE /0 NOT_RUN**, with restoration/advisor/Auth/database/package gates passing. Actual desktop1440/mobile390 controls were inspected: reason fields now match the dark theme and confirmation checkboxes retain normal inline size. [Receipt, original-artifact screenshot hashes and retained control crops](evidence/p13-finance/PERIOD_VISUAL_QUALIFIED_RECEIPT.json). Earlier visual correction is no longer pending.

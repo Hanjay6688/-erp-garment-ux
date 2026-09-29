@@ -1,6 +1,6 @@
 # F03 combined development installation — bounded writer candidate
 
-The period and recost extensions add four private principals (26 total), preserving the original22-role checkpoint below as history. Latest retained same-stack selected regression:22 PASS on `3668749aebc9136b20162fc0c70a1774deb4bd82`, [receipt](evidence/p13-finance/RECOST_COMBINED_REGRESSION_RECEIPT.json). Period25 also passes on that source. Analysis24 and recost25 have separate qualifiers; the selected22 do not substitute for those outcomes. [Current family contract and next work](F03_REMAINING_CONTRACT.md).
+The period and recost extensions add four private principals (26 total), preserving the original22-role checkpoint below as history. Latest selected regression:22 PASS on `23f795aac1b3b619108c93e525dd5d609c5908d5`, [receipt](evidence/p13-finance/RECOST_MICROSECOND_COMBINED_RECEIPT.json). Product paths are identical to55cb59d; the original run identity remains23f795a. On55cb59d, period25, analysis24 and recost25 each pass separate qualifiers. [Current P13 auditor checkpoint](F03_P13_AUDITOR_CHECKPOINT.md) and [remaining family contract](F03_REMAINING_CONTRACT.md).
 
 ## Exact combined stack qualified22
 

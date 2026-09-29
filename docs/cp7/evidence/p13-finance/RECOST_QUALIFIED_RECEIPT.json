@@ -1,0 +1,98 @@
+{
+  "status": "PASS",
+  "source_commit": "55cb59dd914052f2c5a72dc535960c0aac00d65d",
+  "source_tree": "4f47389d983f37fbb54450fae670c61e84433fdb",
+  "run_id": 36643127078,
+  "job_id": 109659815201,
+  "artifact_id": 11067651517,
+  "artifact_bytes": 4586306,
+  "artifact_sha256": "0e366d96df4dfa6313e9976faf18bb32c18d3bf3ba13a0a3ffa8055616f2b5a3",
+  "report_sha256": "fb461069d363d58263e8a8690e06f94ebe41011cd74c7ff7462818a252d46156",
+  "report_gzip_sha256": "543fb055ab54c3402a069fd4352401985af66ca25071d9e60f73f2bfab2e760a",
+  "source_bundle_sha256": "0a9b3d0333c2829aa1607684510ccb11f8eebb6d9e55f9c2e7b08150584cb33f",
+  "counts": {
+    "PASS": 25,
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0
+  },
+  "observed_case_count": 25,
+  "expected_cases": 25,
+  "groups": {
+    "native": {
+      "PASS": 8
+    },
+    "races": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    },
+    "recost_native": {
+      "PASS": 8
+    },
+    "recost_races": {
+      "PASS": 2
+    },
+    "recost_http": {
+      "PASS": 1
+    },
+    "recost_browser": {
+      "PASS": 2
+    }
+  },
+  "nonpassing_cases": {},
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "55cb59dd914052f2c5a72dc535960c0aac00d65d",
+    "product_ref": "23f795aac1b3b619108c93e525dd5d609c5908d5",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36643127078",
+    "run_attempt": "1",
+    "workflow": "CP7 P13 HPP recost",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "55cb59dd914052f2c5a72dc535960c0aac00d65d",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": {
+    "source": "Original run36643127078 screenshots inspected by writer before executor disconnection",
+    "result": "Desktop/mobile queue controls fit; existing SKU/lot tables retain their internal horizontal scrolling. Native incomplete-cost status remains visible after an empty queue."
+  },
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false,
+  "recovery": "Original artifact re-fetched and verified in read-only GitHub Actions after the local executor disconnected; results are not a new business test execution.",
+  "amount_basis": "Native po_hpp_gl_state.hpp_total_cost85->90 is the basis of produced FG output, not the entire PO including unfinished WIP. Remaining FG51->54 and COGS34->36 are separately checked.",
+  "screenshots": {
+    "P13_RECOST_DESKTOP.png": {
+      "sha256": "a273baef311e980b84930c00d423156476bbbd6fdc381c15ac96008f2194ebd5",
+      "bytes": 307818
+    },
+    "P13_RECOST_MOBILE.png": {
+      "sha256": "2c5fd8e8f86b38e371f0917df829289d5458ad6f62d5447fa56283bfced0622e",
+      "bytes": 224053
+    }
+  }
+}

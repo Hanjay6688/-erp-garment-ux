@@ -39,7 +39,7 @@
     "P10": "FG_BOOK_34_PASS_NOTA_COMPOSITION_QUALIFIED_SCOPE_OPEN",
     "P12": "BOUNDED_ATTENDANCE_SOURCE_TO_PAYROLL_80_PASS_REMAINING_SCOPE_OPEN",
     "P11": "WRITER_RETURN64_PASS_R10_BROWSER_SOURCE_LIFECYCLE_PASS_INDEPENDENT_PENDING",
-    "P13": "BOUNDED_REPORT_ARCHIVE_READER_12_PASS_FINANCIAL_WRITERS_AND_FULL_SCOPE_OPEN"
+    "P13": "BOUNDED_REPORT12_ANALYSIS24_PERIOD25_RECOST25_PASS_REMAINING_SCOPE_OPEN"
   },
   "inherited_scope": {
     "R10": "WRITER_SOURCE_BROWSER_PASS_ON_e8084530_INDEPENDENT_ACCEPTANCE_OPEN",
@@ -54,11 +54,11 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Finish recost25 browser qualifier after precise alert selection and microsecond DTO repair. Analysis24, period25 and selected combined22 retain their source-bound PASS receipts. Continue unambiguous remaining F03 contract and E01; E05 remains a documented decision boundary. F04 follows F03 completion.",
+  "next_action": "Continue the exact E01 lawful source-to-cash/return oracle and remaining unambiguous F03 material, customer-owned, transitive-cost, date and recovery contracts. P13 controls have scoped writer qualification. E05 still requires the explicit partial-settlement contract. F03 and independent acceptance remain OPEN; F04 has not started.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
-  "last_writer_checkpoint": "docs/cp7/F03_REMAINING_CONTRACT.md",
+  "last_writer_checkpoint": "docs/cp7/F03_P13_AUDITOR_CHECKPOINT.md",
   "family_status": {
     "F01_P00_P02": "WRITER_T1_BOUNDED_FOUNDATION_PASS_INDEPENDENT_PENDING",
     "F02_P03_P04": "WRITER_REPAIR_VERIFIED_53_CASES_INDEPENDENT_HOLD",
@@ -67,7 +67,7 @@
     "F05_P14_P17": "PLANNED",
     "F06_P18_P21": "PLANNED"
   },
-  "latest_tested_source": "5082fbec159095c3452c14c6ad500839f28a166b",
+  "latest_tested_source": "55cb59dd914052f2c5a72dc535960c0aac00d65d",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
   "p04_cutting_verification_receipt": "docs/cp7/evidence/p04-cutting/VERIFICATION.json",
@@ -234,10 +234,11 @@
     "full_family_acceptance": false,
     "independent_acceptance": false,
     "production_go": false,
-    "source_commit": "e808453079f44876d576cecbc5fce9a7aba389ee",
-    "source_tree": "83d276edcd21ffd2c9ea81ca0d023eb8d7d0b9a0",
-    "verification": "docs/cp7/evidence/f03-combined/COMBINED_VERIFICATION.json",
-    "latest_regression": "docs/cp7/evidence/p13-finance/RECOST_COMBINED_REGRESSION_RECEIPT.json"
+    "source_commit": "23f795aac1b3b619108c93e525dd5d609c5908d5",
+    "source_tree": "3d271804db41e7afa8eb37586632b51a4fcccc1a",
+    "verification": "docs/cp7/evidence/p13-finance/RECOST_MICROSECOND_COMBINED_RECEIPT.json",
+    "latest_regression": "docs/cp7/evidence/p13-finance/RECOST_MICROSECOND_COMBINED_RECEIPT.json",
+    "run_id": 36642733490
   },
   "p09_unmoved_count_candidate": {
     "status": "WRITER_BOUNDED_132_PASS_PLUS_3_SMOKES",
@@ -261,11 +262,11 @@
     "local_period_cases": 6,
     "independent_acceptance": false,
     "production_go": false,
-    "source_commit": "41a112b0332fa1ab992bf91bb02efdeca75e3d1c",
-    "source_tree": "8980326dc359a9d3db95f343eb0dd61ff5ede1c9",
-    "verification": "docs/cp7/evidence/p13-finance/PERIOD_VISUAL_QUALIFIED_RECEIPT.json",
-    "run_id": 36640775187,
-    "latest_regression": "docs/cp7/evidence/p13-finance/PERIOD_RECOST_REGRESSION_RECEIPT.json"
+    "source_commit": "55cb59dd914052f2c5a72dc535960c0aac00d65d",
+    "source_tree": "4f47389d983f37fbb54450fae670c61e84433fdb",
+    "verification": "docs/cp7/evidence/p13-finance/PERIOD_FINAL_REGRESSION_RECEIPT.json",
+    "run_id": 36643127110,
+    "latest_regression": "docs/cp7/evidence/p13-finance/PERIOD_FINAL_REGRESSION_RECEIPT.json"
   },
   "p13_analysis_candidate": {
     "status": "WRITER_BOUNDED_24_PASS",
@@ -276,26 +277,28 @@
     "local_analysis_cases": 8,
     "independent_acceptance": false,
     "production_go": false,
-    "source_commit": "c8f1ba56e328ced7293647e314ab5cbb58ea7db1",
-    "source_tree": "95bb422bf22092bcfdd98beef44b0ce4eb65ec5f",
+    "source_commit": "55cb59dd914052f2c5a72dc535960c0aac00d65d",
+    "source_tree": "4f47389d983f37fbb54450fae670c61e84433fdb",
     "diagnostic": "docs/cp7/evidence/p13-finance/ANALYSIS_RUN3_RECEIPT.json",
-    "latest_regression": "docs/cp7/evidence/p13-finance/ANALYSIS_RECOST_REGRESSION_RECEIPT.json",
-    "run_id": 36642251622,
-    "verification": "docs/cp7/evidence/p13-finance/ANALYSIS_QUALIFIED_RECEIPT.json"
+    "latest_regression": "docs/cp7/evidence/p13-finance/ANALYSIS_FINAL_REGRESSION_RECEIPT.json",
+    "run_id": 36643127097,
+    "verification": "docs/cp7/evidence/p13-finance/ANALYSIS_FINAL_REGRESSION_RECEIPT.json"
   },
   "p13_recost_candidate": {
-    "status": "RUN2_24_PASS_1_BROWSER_SELECTOR_INCOMPLETE_RETEST_PENDING",
+    "status": "WRITER_BOUNDED_25_PASS",
     "handoff": "docs/cp7/P13_RECOST_HANDOFF.md",
     "expected_cases": 25,
     "retained_report_cases": 12,
     "new_recost_cases": 13,
-    "local_recost_cases": 6,
+    "local_recost_cases": 8,
     "independent_acceptance": false,
     "production_go": false,
-    "source_commit": "c8f1ba56e328ced7293647e314ab5cbb58ea7db1",
-    "source_tree": "95bb422bf22092bcfdd98beef44b0ce4eb65ec5f",
-    "run_id": 36642251641,
+    "source_commit": "55cb59dd914052f2c5a72dc535960c0aac00d65d",
+    "source_tree": "4f47389d983f37fbb54450fae670c61e84433fdb",
+    "run_id": 36643127078,
     "diagnostic": "docs/cp7/evidence/p13-finance/RECOST_RUN2_RECEIPT.json",
-    "precision_repair": "docs/cp7/evidence/p13-finance/RECOST_MICROSECOND_LOCAL_RECEIPT.json"
-  }
+    "precision_repair": "docs/cp7/evidence/p13-finance/RECOST_MICROSECOND_LOCAL_RECEIPT.json",
+    "verification": "docs/cp7/evidence/p13-finance/RECOST_QUALIFIED_RECEIPT.json"
+  },
+  "latest_tested_scope": "P13_REPORT12_ANALYSIS24_PERIOD25_RECOST25_SEPARATE_OVERLAPPING_SUITES"
 }

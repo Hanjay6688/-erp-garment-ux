@@ -1,4 +1,15 @@
-# P13 native HPP queue control — candidate
+# P13 native HPP queue control — bounded writer qualification
+
+## Current qualification: 25 PASS
+
+Source `55cb59dd914052f2c5a72dc535960c0aac00d65d`, tree `4f47389d983f37fbb54450fae670c61e84433fdb`, [run36643127078](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36643127078): **25 PASS / 0 FAIL / 0 INCOMPLETE / 0 NOT_RUN**. All 12 retained report/archive cases, 8 recost-native, 2 real races, 1 real Auth/HTTP and 2 browser journeys completed. Desktop/mobile verify the real late-price source, unchanged physical movements and closed-day GL/original filing. Mobile recovers the identical lost request with one native queue attempt. Both failed-refresh cases verify the specific network error and removal of the process action.
+
+[Original report and verified receipt](evidence/p13-finance/RECOST_QUALIFIED_RECEIPT.json) binds the complete artifact, exact git tree and rebuilt bundle hash. CP6 restoration, advisors, installation/backup recovery, unchanged primary and Auth/database cleanup all pass. Actual desktop/mobile screenshots are retained and inspected. Queue controls fit; existing SKU/lot tables use internal horizontal scrolling on narrow screens. Incomplete source costs remain visible after an empty queue. This is scoped writer qualification, not independent/full-family acceptance or all costs final.
+
+Money basis clarification: 85→90 is `po_hpp_gl_state.hpp_total_cost`, the native HPP basis of already-produced FG output. It is not the cost of the entire ten-piece PO including unfinished WIP. Remaining FG 51→54 and COGS 34→36 are separate asserted balances. No oracle or historical report is rewritten.
+
+The same source passes [analysis 24](evidence/p13-finance/ANALYSIS_FINAL_REGRESSION_RECEIPT.json), [period 25](evidence/p13-finance/PERIOD_FINAL_REGRESSION_RECEIPT.json) and [report 12](evidence/p13-finance/REPORT_FINAL_REGRESSION_RECEIPT.json). [Combined 22](evidence/p13-finance/RECOST_MICROSECOND_COMBINED_RECEIPT.json) passes on 23f795a with no product-path difference to 55cb59d; its run identity remains 23f795a. Counts overlap. Prior failures below remain historical evidence. The intermediate microsecond candidate's 24/1 result is [retained](evidence/p13-finance/RECOST_MICROSECOND_RUN_RECEIPT.json).
+
 
 CP6 CLOSED_CONTRACT_SCOPE. P13/F03 OPEN; independent_acceptance=false and production_go=false. This is writer development, not independent acceptance.
 
