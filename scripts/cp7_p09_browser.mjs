@@ -134,7 +134,15 @@ async function supplierInvoice(ui,today,mobile) {
    return r
   }
   verify(50,60,110,1)
-  if(mobile&&(!lost||JSON.stringify(first)!==JSON.stringify(replay)))throw Error('Invoice recovery did not reuse the exact request')
+  if(mobile){
+   // Invoice data can already be visible from the reload's read before the
+   // replay response arrives. Wait for the completed recovery, not that data.
+   await ui.expect(panel.getByRole('button',{name:'Reconcile transaksi',exact:true})).toHaveCount(0)
+   await ui.expect(panel).toContainText('Invoice supplier sudah diperbarui.')
+   if(!lost||JSON.stringify(first)!==JSON.stringify(replay))throw Error('Invoice recovery did not reuse the exact request')
+  }
+  await ui.expect(p.locator('.cproc-detail')).toContainText(f.tag)
+  await ui.expect(p.locator('.cproc-detail')).toContainText('invoice sebagian')
   const secondPost=await enter(2,'6','7.5');await secondPost.click()
   await ui.expect.poll(()=>fixture('read_invoice',f).invoices.length,{timeout:20000}).toBe(2)
   await ui.expect(panel).toContainText('Nilai dokumen Rp45',{timeout:20000});verify(95,0,95,2)

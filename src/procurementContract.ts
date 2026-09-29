@@ -5,7 +5,7 @@ export type OptionKind = 'MATERIAL' | 'SUPPLIER' | 'LOCATION'
 export type ProcurementOptions = { contract_version: 'cp7.procurement-options.v1'; kind: OptionKind; rows: ProcurementOption[]; total: string; offset: number; limit: number; next_offset: number | null }
 type ReceiptFinance = { supplier_invoice_number: string | null; due_date: string | null; payment_status: string; receipt_value: string; basis: 'RECEIPT_PRICE_NOT_CURRENT_PAYABLE' }
 export type ReceiptRow = { id: string; purchase_number: string; supplier_id: string | null; supplier_name: string | null; location_id: string | null; location_name: string | null; physical_at: string; status: 'DRAFT' | 'POSTED' | 'REVERSED'; row_version: string; notes: string | null; line_count: number; finance?: ReceiptFinance }
-export type ReceiptItem = { id: string; material_id: string; material_sku: string; material_name: string; material_type: string; unit_code: string; qty: string; purchase_qty_entered: string | null; purchase_uom_code: string | null; purchase_uom_factor: string | null; lot_number: string | null; notes: string | null; rolls: { id: string; roll_number: string; receipt_qty: string; notes: string | null }[]; finance?: { unit_price: string; line_total: string; price_state: 'ESTIMATED' | 'FINAL'; price_source: string; invoice_match_state: string; benchmark_price_version_id: string | null } }
+export type ReceiptItem = { id: string; material_id: string; material_sku: string; material_name: string; material_type: string; unit_code: string; qty: string; purchase_qty_entered: string | null; purchase_uom_code: string | null; purchase_uom_factor: string | null; lot_number: string | null; notes: string | null; rolls: { id: string; roll_number: string; receipt_qty: string; notes: string | null }[]; finance?: { unit_price: string; line_total: string; price_state: 'ESTIMATED' | 'PARTIAL' | 'FINAL'; price_source: string; invoice_match_state: string; benchmark_price_version_id: string | null } }
 export type ReceiptDetail = ReceiptRow & { items: ReceiptItem[]; stock_effect: 'NOT_POSTED' | 'POSTED_RECEIPT' | 'REVERSED_RECEIPT'; quantity_basis: 'RECEIPT_DOCUMENT_NOT_CURRENT_ON_HAND' }
 export type ProcurementWorkspace = { contract_version: 'cp7.procurement-workspace.v1'; kind: 'LIVE_WORKSPACE'; read_at: string; capabilities: { create: boolean; post: boolean; view_value: boolean }; page: { rows: ReceiptRow[]; total: string; offset: number; limit: number; next_offset: number | null }; detail: ReceiptDetail | null }
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
@@ -64,7 +64,7 @@ export function parseProcurementWorkspace(v: unknown, allowValue: boolean): Proc
       }
       if (allowValue) {
         const f = closed(i.finance,['unit_price','line_total','price_state','price_source','invoice_match_state','benchmark_price_version_id'])
-        if (!exact(f.unit_price) || !exact(f.line_total) || !['ESTIMATED','FINAL'].includes(String(f.price_state)) || !isString(f.price_source) || !isString(f.invoice_match_state) || !nullableId(f.benchmark_price_version_id)) fail()
+        if (!exact(f.unit_price) || !exact(f.line_total) || !['ESTIMATED','PARTIAL','FINAL'].includes(String(f.price_state)) || !isString(f.price_source) || !isString(f.invoice_match_state) || !nullableId(f.benchmark_price_version_id)) fail()
       }
     }
     if (rollIds.size > 2000) fail()

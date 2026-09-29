@@ -1,0 +1,58 @@
+{
+  "source": "dbaea7745eec994a7901e63a49d792643c17c523",
+  "tree": "35685e2f7893bdf11f113589fa4b3c96ee6ab785",
+  "run": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36524645682",
+  "artifact_id": 11013688831,
+  "zip_sha256": "56648e1dc1b20e11848a2c8dc7a0bde76dc73d703363cdb6a063d0f3c4d9a80d",
+  "report_sha256": "13d3643b370393ebb33c5f2eeb31a42fed466a3490b50e3b612cad2659f98264",
+  "bundle_sha256": "67c68a1b8d38275b91d041fda19071d743fb902219ff2edce320f5be899bf105",
+  "status": "INCOMPLETE",
+  "counts": {
+    "smoke": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 9
+    },
+    "races": {
+      "PASS": 3
+    },
+    "http": {
+      "PASS": 1
+    },
+    "material_smoke": {
+      "PASS": 1
+    },
+    "material": {
+      "PASS": 9
+    },
+    "material_crossflow": {
+      "PASS": 2
+    },
+    "material_races": {
+      "PASS": 2
+    },
+    "material_http": {
+      "PASS": 1
+    },
+    "invoice": {
+      "PASS": 9
+    },
+    "invoice_races": {
+      "PASS": 3
+    },
+    "invoice_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 4,
+      "INCOMPLETE": 2
+    }
+  },
+  "findings": [
+    "Receipt parser excludes native price_state PARTIAL, causing read-back to clear receipt and invoice after partial finalization.",
+    "Mobile browser check can read an already-visible invoice before replay has completed; must wait for recovery completion before comparing exact requests."
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}

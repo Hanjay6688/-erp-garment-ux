@@ -79,6 +79,46 @@ describe('connected procurement recovery and financial boundary',()=>{
     expect(()=>parseProcurementWorkspace({...w,private_cost:'9'},false)).toThrow()
     ;(w.detail as Record<string,unknown>).finance={receipt_value:'9'};expect(()=>parseProcurementWorkspace(w,false)).toThrow()
   })
+  it('reads native PARTIAL invoice pricing without treating the receipt as malformed',()=>{
+    const {makeDetail,...w}=workspace(true,true);const d=makeDetail();d.items[0].finance!.price_state='PARTIAL';d.items[0].finance!.invoice_match_state='PARTIAL';w.detail=d
+    expect(()=>parseProcurementWorkspace(w,true)).not.toThrow()
+  })
+  for(const loseReply of [false,true])it(`keeps the receipt and partial invoice together after ${loseReply?'lost reply recovery':'finalization'}`,async()=>{
+    const s=server();s.posted=true;const original=client.rpc.getMockImplementation()!
+    let invoiced=false,lose=loseReply,effects=0;const cache=new Map<string,unknown>()
+    client.rpc.mockImplementation(async(name:string,args:Record<string,unknown>)=>{
+      if(name==='erp_cp7_save_purchase_invoice_v1'){
+        const key=String(args.p_request)
+        if(!cache.has(key)){invoiced=true;effects++;cache.set(key,{contract_version:'cp7.purchase-invoice-outcome.v1',kind:'COMMITTED_OUTCOME',action:'FINALIZE',request_id:key,purchase_id:doc,invoice_id:'33333333-3333-4333-8333-333333333333',version_subject:'RECEIPT',row_version:'9007199254740995',status:'POSTED'})}
+        return lose?{data:null,error:{status:503,message:'Lost committed invoice reply'}}:{data:cache.get(key),error:null}
+      }
+      if(name==='erp_cp7_get_purchase_invoices_v1')return {data:invoiceWorkspaceFixture(invoiced),error:null}
+      const r=await original(name,args)
+      if(name==='erp_cp7_get_procurement_v1'&&invoiced){
+        for(const row of [...r.data.page.rows,...(r.data.detail?[r.data.detail]:[])])row.row_version='9007199254740995'
+        if(r.data.detail){r.data.detail.items[0].finance.price_state='PARTIAL';r.data.detail.items[0].finance.invoice_match_state='PARTIAL'}
+      }
+      return r
+    })
+    await mount();await click('SJ-TEST');await click('Catat invoice supplier')
+    for(const [label,value] of [['Nomor invoice supplier','INV-TEST'],['Jumlah invoice 1','4'],['Harga invoice 1','12.5']]){
+      const input=container.querySelector<HTMLInputElement>(`[aria-label="${label}"]`)!
+      await act(async()=>{Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')!.set!.call(input,value);input.dispatchEvent(new Event('input',{bubbles:true}))});await flush()
+    }
+    await act(async()=>container.querySelector<HTMLInputElement>('[aria-label="Invoice sudah diperiksa"]')!.click());await flush();await click('Sahkan invoice supplier')
+    const invoiceWrites=()=>client.rpc.mock.calls.filter(([name])=>name==='erp_cp7_save_purchase_invoice_v1')
+    const first=structuredClone(invoiceWrites()[0][1])
+    if(loseReply){
+      expect(readProductionRecovery('disposable:actor-1').pending.PURCHASE_INVOICE?.id).toBe(first.p_request)
+      await act(async()=>root.unmount());root=createRoot(container);lose=false;await mount();await click('Reconcile transaksi')
+      expect(invoiceWrites()[1][1]).toEqual(first)
+    }
+    expect(effects).toBe(1);expect(readProductionRecovery('disposable:actor-1').pending.PURCHASE_INVOICE).toBeUndefined()
+    expect(container.querySelector('.cproc-detail')?.textContent).toContain('SJ-TEST')
+    expect(container.querySelector('.cproc-detail')?.textContent).toContain('invoice sebagian')
+    expect(container.querySelector('.cproc-invoices')?.textContent).toContain('Nilai dokumen Rp50')
+    expect(container.querySelector('.cproc-invoices')?.textContent).not.toContain('Pilih penerimaan')
+  })
   it('rejects partial pagination and keeps exact decimal input without rounding',()=>{
     const {makeDetail:_,...w}=workspace();expect(()=>parseProcurementWorkspace({...w,page:{...w.page,total:'2'}},true)).toThrow()
     expect(receiptDecimal('1,123456',true)).toBe('1.123456');expect(receiptDecimal('1.1234567',true)).toBeNull();expect(receiptDecimal('0')).toBe('0');expect(receiptDecimal('0',true)).toBeNull()

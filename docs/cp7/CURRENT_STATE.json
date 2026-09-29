@@ -35,7 +35,7 @@
     "P02": "BOUNDED_ACTOR_CAPTURE_T1_PASS_16_CASES_INDEPENDENT_PENDING",
     "P03": "BOUNDED_POLICY_NATIVE_PASS_15_CASES_INDEPENDENT_PENDING",
     "P04": "BOUNDED_ATOMIC_WIP_NATIVE_PASS_39_CASES_PLUS_SMOKE_INDEPENDENT_PENDING",
-    "P09": "BOUNDED_RECEIPT_MATERIAL_TRANSFER_AND_LATE_INVOICE_NATIVE_CROSSFLOW_31_PASS_INVOICE_UI_IN_PROGRESS"
+    "P09": "BOUNDED_RECEIPT_MATERIAL_31_PASS_INVOICE_NATIVE_13_PASS_TWO_BROWSER_REPAIRS_RETEST_PENDING"
   },
   "inherited_scope": {
     "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
@@ -71,5 +71,6 @@
   "p04_production_verification_receipt": "docs/cp7/evidence/p04-production/VERIFICATION.json",
   "p09_entry": "docs/cp7/P09_PROCUREMENT_HANDOFF.md",
   "p09_receipt_verification": "docs/cp7/evidence/p09-procurement/RECEIPT_VERIFICATION.json",
-  "p09_material_verification": "docs/cp7/evidence/p09-procurement/MATERIAL_VERIFICATION.json"
+  "p09_material_verification": "docs/cp7/evidence/p09-procurement/MATERIAL_VERIFICATION.json",
+  "p09_invoice_diagnostic": "docs/cp7/evidence/p09-procurement/INVOICE_RUN_2.json"
 }

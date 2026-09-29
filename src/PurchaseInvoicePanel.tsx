@@ -9,7 +9,7 @@ import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import { formatReceiptDecimal as numberText, procurementObject, receiptDecimal } from './procurementContract'
 import { hasInvoiceCapacity, parsePurchaseInvoices, parsePurchaseInvoiceOutcome, type PurchaseInvoices, type PurchaseInvoice } from './purchaseInvoiceContract'
 import type { Json } from './types/database.preconnect'
-type Props={purchaseId:string|null;receiptRevision?:string|null;onReceiptUpdated:()=>Promise<boolean>}
+type Props={purchaseId:string|null;receiptRevision?:string|null;onReceiptUpdated:(purchaseId:string)=>Promise<boolean>}
 type Form={purchaseId:string;version:string;number:string;date:string;at:string;due:string;reason:string;notes:string;reviewed:boolean;lines:{id:string;name:string;unit:string;selected:boolean;qty:string;price:string;discount:string}[]}
 function document(f:Form):Json|null{
  const at=cp6WibPhysicalTimeToIso(f.at)
@@ -55,7 +55,7 @@ function InvoiceWorkspace({purchaseId,receiptRevision,onReceiptUpdated}:Props){
   send:envelope=>{const p=procurementObject(envelope.payload);return client.rpc('erp_cp7_save_purchase_invoice_v1',{p_action:envelope.action,p_payload:p.document as Json,p_request:envelope.id,p_expected:p.expected_version as string})},
   validate:(r,e)=>{parsePurchaseInvoiceOutcome(r,e.id,e.action,procurementObject(e.payload).document as Json)},
   retire:(r,e)=>{const out=parsePurchaseInvoiceOutcome(r,e.id,e.action,procurementObject(e.payload).document as Json);requested.current={purchase:out.purchase_id,offset:0};setForm(null);setReverseDoc(null);setConfirmed(false);setData(null)},
-  reload:async()=>{if(!await onReceiptUpdated()){invalidate();setData(null);return false};return load()},
+  reload:async()=>{if(!requested.current.purchase||!await onReceiptUpdated(requested.current.purchase)){invalidate();setData(null);return false};return load()},
  }
  const locked=mutation.writerLocked||loading,stale=Boolean(form&&(!data||form.purchaseId!==data.purchase_id||form.version!==data.purchase_version)),payload=form?document(form):null
  const activeReverse=reverseDoc&&data?.page.rows.find(d=>d.id===reverseDoc.id&&d.row_version===reverseDoc.row_version&&d.status==='POSTED'&&d.single_receipt)
