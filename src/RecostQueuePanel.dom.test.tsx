@@ -33,6 +33,16 @@ it('rejects contradictory counts, hidden sources, unsafe queue IDs and impossibl
  const numeric=queue();Object.assign(numeric.page.rows[0],{id:9007199254740993});expect(()=>parseRecostQueue(numeric)).toThrow()
  expect(()=>parseRecostOutcome({kind:'COMMITTED_OUTCOME',completed:21},id,{limit:20,reason:'checked'})).toThrow()
 })
+it('keeps a retry one PostgreSQL microsecond in the future ineligible',()=>{
+ const r=queue('FAILED');r.captured_at='2026-09-29T10:00:00.123456+00:00';r.page.rows[0].next_attempt_at='2026-09-29T10:00:00.123457+00:00'
+ expect(parseRecostQueue(r).page.rows[0].eligible).toBe(false)
+ r.page.rows[0].eligible=true;r.counts.eligible='1';expect(()=>parseRecostQueue(r)).toThrow()
+})
+it('accepts an exactly due microsecond across timezone offsets and rejects a forged not-yet-due flag',()=>{
+ const r=queue('FAILED');r.captured_at='2026-09-29T10:00:00.123456Z';r.page.rows[0].next_attempt_at='2026-09-29T17:00:00.123456+07:00';r.page.rows[0].eligible=true;r.counts.eligible='1'
+ expect(parseRecostQueue(r).page.rows[0].eligible).toBe(true)
+ r.page.rows[0].eligible=false;r.counts.eligible='0';expect(()=>parseRecostQueue(r)).toThrow()
+})
 it('requires explicit reason and confirmation, bounds native work to20 and reloads HPP',async()=>{
  const s=server();await mount();expect(button('Proses maksimal 20 pekerjaan').disabled).toBe(true);await review();await click('Proses maksimal 20 pekerjaan')
  expect(writes()[0][1].p_payload).toEqual({limit:20,reason:'Periksa biaya susulan'});expect(s.effects).toBe(1);expect(onChanged).toHaveBeenCalledOnce();expect(container.textContent).toContain('menyelesaikan 1 pekerjaan');expect(button('Proses maksimal 20 pekerjaan').disabled).toBe(true)

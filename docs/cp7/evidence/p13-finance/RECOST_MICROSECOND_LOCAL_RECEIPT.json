@@ -1,0 +1,31 @@
+{
+  "scope": "FRONTEND_QUEUE_TIMESTAMP_PRECISION_ONLY",
+  "baseline_source": "c8f1ba56e328ced7293647e314ab5cbb58ea7db1",
+  "reproduction": {
+    "captured_at": "2026-09-29T10:00:00.123456+00:00",
+    "next_attempt_at": "2026-09-29T10:00:00.123457+00:00",
+    "native_eligible": false,
+    "previous_client_result": "Refused valid queue because Date.parse collapsed both instants to the same millisecond"
+  },
+  "before": {
+    "PASS": 7,
+    "FAIL": 1
+  },
+  "after": {
+    "PASS": 8,
+    "FAIL": 0
+  },
+  "report_sha256": "6daf6b08f996f6c745c8dea2c6da53b22bf18e58435b723e4380705ac44bfae3",
+  "report_gzip_sha256": "ddfef737eecebeb684c4c78c1a2bed82cd71efb7164731d58ce469c3ec614488",
+  "candidate_files": {
+    "src/recostContract.ts": "0b0831f63a8b37e71be60c41ccd1db66333676a1f3dd9b66b109682cfa0588dd",
+    "src/RecostQueuePanel.dom.test.tsx": "bc92eba87d8c0997e724f1978742c00e1beb5fa3010c73caea7bd4f5666dc6a1"
+  },
+  "typescript_and_build": true,
+  "source_access_css_checks": true,
+  "client_secret_scan": true,
+  "native_bundle_unchanged": "0a9b3d0333c2829aa1607684510ccb11f8eebb6d9e55f9c2e7b08150584cb33f",
+  "native_browser_retest": "PENDING",
+  "independent_acceptance": false,
+  "production_go": false
+}

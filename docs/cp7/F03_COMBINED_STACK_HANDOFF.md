@@ -1,6 +1,6 @@
 # F03 combined development installation — bounded writer candidate
 
-The period extension now adds two private principals (24 total), preserving the original22-role checkpoint below as history. Latest retained same-stack selected regression:22 PASS on `d1a8a84bce5bf5cf25c716ec2fbe2dc783724b36`, [receipt](evidence/p13-finance/PERIOD_COMBINED_REPAIRED_RECEIPT.json). Period writes and comparison/cash are qualified separately; this selected regression does not substitute for their pending results. [Current family contract and next work](F03_REMAINING_CONTRACT.md).
+The period and recost extensions add four private principals (26 total), preserving the original22-role checkpoint below as history. Latest retained same-stack selected regression:22 PASS on `3668749aebc9136b20162fc0c70a1774deb4bd82`, [receipt](evidence/p13-finance/RECOST_COMBINED_REGRESSION_RECEIPT.json). Period25 also passes on that source. Analysis24 and recost25 have separate qualifiers; the selected22 do not substitute for those outcomes. [Current family contract and next work](F03_REMAINING_CONTRACT.md).
 
 ## Exact combined stack qualified22
 
@@ -30,4 +30,4 @@ The tests are selected risk-based regression plus a new cross-component money/re
 
 ## Explicit remaining work
 
-P09 source/continuation coverage, E05 partial settlement contract/proof, P13 financial writers/recost/close UI and full integration/scale obligations remain open. Existing qualified component handoffs retain their original source SHAs. A PASS here would prove this declared development-stack composition within22 cases; it would not close F03, accept F02 planner gates, authorize production or satisfy P18–P21. F04 takeover remains after the F03 completion boundary the owner requested.
+P09 source/continuation coverage, E05 partial settlement contract/proof, remaining P13 financial writers and full integration/scale obligations remain open. Period-close UI is qualified separately; analysis and recost keep their own current handoff status. Existing qualified component handoffs retain their original source SHAs. A PASS here would prove this declared development-stack composition within22 cases; it would not close F03, accept F02 planner gates, authorize production or satisfy P18–P21. F04 takeover remains after the F03 completion boundary the owner requested.

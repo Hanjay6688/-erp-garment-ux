@@ -1,0 +1,70 @@
+{
+  "status": "PASS",
+  "source_commit": "3668749aebc9136b20162fc0c70a1774deb4bd82",
+  "source_tree": "d594e7865a2c8ad76a102437f7800baf583c98e4",
+  "run_id": 36641034240,
+  "job_id": 109653089523,
+  "artifact_id": 11067195123,
+  "artifact_bytes": 2352735,
+  "artifact_sha256": "379565084e5bdacf6fe843fb0a134264966e7f2433f1d41bf4cece392ea6ca05",
+  "report_sha256": "2f54118c06d826b83de6bf07b4e41fc781d418ba3230774f96271c99d29e74d0",
+  "report_gzip_sha256": "ae7f29cbc86e7f8fccb27cec134eed1c9395651bfb8c006efccb360c8218ec5f",
+  "source_bundle_sha256": "c12004efa601c713dd324a09aded6d9face0bba3f51752cdcf59774647b1ffee",
+  "counts": {
+    "PASS": 10,
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0
+  },
+  "separate_smoke_counts": {},
+  "expected_cases": 10,
+  "groups": {
+    "opening_payroll": {
+      "PASS": 5
+    },
+    "opening_payroll_races": {
+      "PASS": 2
+    },
+    "opening_payroll_http": {
+      "PASS": 1
+    },
+    "opening_payroll_browser": {
+      "PASS": 2
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "3668749aebc9136b20162fc0c70a1774deb4bd82",
+    "product_ref": "3668749aebc9136b20162fc0c70a1774deb4bd82",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36641034240",
+    "run_attempt": "1",
+    "workflow": "CP7 P12 Nota and payroll lifecycle",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "3668749aebc9136b20162fc0c70a1774deb4bd82",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false
+}
