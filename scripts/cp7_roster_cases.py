@@ -99,18 +99,23 @@ def races(tools,today):
             f=source.repair(cur,today);save(cur,'CREATE_WORKER',f,today,initial(f,today));subject,role=admin_actor(cur);v=view(cur,f,today,subject=subject);w=v['page']['rows'][0];p=envelope(v,dict(worker_id=w['id'],daily_rate='200.123456',effective_from=str(today+timedelta(days=1)),reason='P12 authorization after wait'));conn.commit()
         with tools.connect() as holder,holder.cursor() as h:
             h.execute('select id from erp.contractor_workers where id=%s for update',(w['id'],))
+            holder_pid=h.execute('select pg_backend_pid()').fetchone()[0];ready=threading.Event();sender_pid=[]
             def send():
                 with tools.connect() as conn,conn.cursor() as cur:
+                    sender_pid.append(cur.execute('select pg_backend_pid()').fetchone()[0]);ready.set()
                     try:command(cur,'SET_RATE',p,w['row_version'],subject=subject);conn.commit();return 'UNEXPECTED_SUCCESS'
                     except psycopg.Error as e:conn.rollback();return str(e).splitlines()[0]
             with ThreadPoolExecutor(max_workers=1) as pool:
                 future=pool.submit(send);blocked=False;deadline=time.monotonic()+8
                 try:
-                    while time.monotonic()<deadline:
-                        blocked=h.execute("select exists(select 1 from pg_stat_activity where datname=current_database() and pid<>pg_backend_pid() and wait_event_type='Lock' and query like '%%erp_cp7_save_roster_v1%%')").fetchone()[0]
-                        if blocked:break
-                        time.sleep(.03)
-                    assert blocked,'EXPECTED_ROSTER_ROW_WAIT'
+                    assert ready.wait(5),'ROSTER_SENDER_NOT_STARTED'
+                    with tools.connect(autocommit=True) as inspect,inspect.cursor() as c:
+                        while time.monotonic()<deadline:
+                            c.execute('select pg_stat_clear_snapshot()')
+                            blocked=c.execute("select exists(select 1 from pg_stat_activity where datname=current_database() and pid=%s and wait_event_type='Lock' and %s=any(pg_blocking_pids(pid)))",(sender_pid[0],holder_pid)).fetchone()[0]
+                            if blocked or future.done():break
+                            time.sleep(.03)
+                    assert blocked,('EXPECTED_ROSTER_ROW_WAIT',future.result() if future.done() else 'sender pending')
                     with tools.connect() as writer,writer.cursor() as c:c.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.attendance.edit_draft'",(role,));writer.commit()
                 finally:holder.rollback()
                 result=future.result(30)

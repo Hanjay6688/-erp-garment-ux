@@ -1027,7 +1027,7 @@
     "consumer": "src/ConnectedNotaPage.tsx",
     "native_probe": "scripts/cp7_p12_nota_probe.py",
     "browser_probe": "scripts/cp7_p12_browser.mjs",
-    "status": "BOUNDED_SETTLEMENT_WRITER_42_PASS_SOURCE_EDITING_OPEN",
+    "status": "BOUNDED_ATTENDANCE_READ_UI_51_PASS_ROSTER_WRITER_PENDING",
     "hosted_boundary_preserved": true,
     "production_go": false,
     "verification": "docs/cp7/evidence/p12-nota/NOTA_VERIFICATION.json",
@@ -1047,9 +1047,14 @@
     "attendance_reader": "scripts/cp7-src/payroll/attendance-read.sql",
     "attendance_bundle": "scripts/cp7_attendance_read_bundle.py",
     "attendance_cases": "scripts/cp7_attendance_read_cases.py",
-    "attendance_status": "DATED_READER_49_PASS_UI_51_CASE_PENDING",
+    "attendance_status": "DATED_READER_AND_DESKTOP_MOBILE_UI_51_PASS",
     "attendance_read_verification": "docs/cp7/evidence/p12-attendance/READ_VERIFICATION.json",
     "attendance_consumer": "src/ConnectedAttendancePage.tsx",
-    "attendance_browser_probe": "scripts/cp7_p12_attendance_browser.mjs"
+    "attendance_browser_probe": "scripts/cp7_p12_attendance_browser.mjs",
+    "attendance_ui_verification": "docs/cp7/evidence/p12-attendance/READ_UI_VERIFICATION.json",
+    "roster_source": "scripts/cp7-src/payroll/roster-write.sql",
+    "roster_editor": "src/RosterEditor.tsx",
+    "roster_browser_probe": "scripts/cp7_p12_roster_browser.mjs",
+    "roster_status": "NATIVE_AND_BROWSER_63_CASES_PENDING"
   }
 }

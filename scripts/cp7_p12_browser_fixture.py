@@ -22,7 +22,16 @@ def main():
     with psycopg.connect(target) as conn,conn.cursor() as cur:
         had=cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]
         if not had:cur.execute('grant usage on schema erp to authenticated')
-        if op=='create_attendance_read':
+        if op=='create_roster':
+            import cp7_roster_cases as r
+            today=date.fromisoformat(p['today']);f=n.source.repair(cur,today);label='Mandor Roster '+uuid.uuid4().hex[:8]
+            cur.execute('update erp.contractors set contractor_name=%s where id=%s',(label,f['contractor']));r.admin_actor(cur)
+            out=dict(contractor=f['contractor'],label=label,start=str(today-timedelta(days=6)),stop=str(today-timedelta(days=2)),restart=str(today),future=str(today+timedelta(days=1)),facts=n.facts(cur))
+        elif op=='read_roster':
+            out=dict(facts=n.facts(cur),workers=cur.execute('select id::text,worker_name,is_active,row_version::text from erp.contractor_workers where contractor_id=%s order by id',(p['contractor'],)).fetchall(),
+                rates=cur.execute('select r.daily_rate::text,r.effective_from,r.effective_to from erp.worker_daily_rate_versions r join erp.contractor_workers w on w.id=r.worker_id where w.contractor_id=%s order by r.effective_from',(p['contractor'],)).fetchall(),
+                employment=cur.execute('select e.started_on,e.ended_on from erp.worker_employment_periods e join erp.contractor_workers w on w.id=e.worker_id where w.contractor_id=%s order by e.started_on',(p['contractor'],)).fetchall())
+        elif op=='create_attendance_read':
             import cp7_attendance_read_cases as a
             today=date.fromisoformat(p['today']);start=today-timedelta(days=4);workday=today-timedelta(days=3)
             f=n.source.repair(cur,today);label='Mandor Absensi '+uuid.uuid4().hex[:8];cur.execute('update erp.contractors set contractor_name=%s,attendance_required=true where id=%s',(label,f['contractor']))

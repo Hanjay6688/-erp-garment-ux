@@ -97,7 +97,7 @@ def run(with_review=False,with_settlement=False,with_attendance=False,with_roste
         report.update(label='CP7_P12_ATTENDANCE_READ',scope=report['scope']+'_WITH_DATED_ATTENDANCE_READER_AND_BROWSER_NO_ATTENDANCE_WRITER_UI')
         out=OUT.with_name('CP7_P12_ATTENDANCE_READ.json')
     if with_roster:
-        report.update(label='CP7_P12_ROSTER',scope=report['scope']+'_WITH_NATIVE_ROSTER_RATE_WRITER_NO_SOURCE_WRITER_BROWSER_CLAIM')
+        report.update(label='CP7_P12_ROSTER',scope=report['scope']+'_WITH_NATIVE_ROSTER_RATE_WRITER_AND_CONNECTED_SOURCE_BROWSER')
         out=OUT.with_name('CP7_P12_ROSTER.json')
     installed=False
     try:
@@ -173,6 +173,7 @@ def run(with_review=False,with_settlement=False,with_attendance=False,with_roste
             report['roster']=native.strict_group('CP7_P12_ROSTER',roster_cases.cases,verifier)
             report['roster_races']=modes.run_races(roster_cases,verifier,'cp7_p12_roster')
             report['roster_http']=modes.run_http(roster_cases,verifier,'cp7_p12_roster')
+            report['roster_browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_p12_roster_browser.mjs',verifier,'cp7_p12_roster')
     except Exception as e:report.update(error=str(e),traceback=traceback.format_exc())
     finally:
         if installed:
@@ -184,7 +185,7 @@ def run(with_review=False,with_settlement=False,with_attendance=False,with_roste
                 conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
             report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta']
             report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or (d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and (f.get('metadata') or {}).get('schema') in ('cp7_attendance','cp7_payroll','cp7_fg','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice') for f in d.get('added',[])))
-        group_keys=('native','http','notes','note_races','note_http','admission_regression','browser')+(('payroll_review','payroll_review_http','payroll_review_browser') if with_review else ())+(('settlement','settlement_races','settlement_http','settlement_browser') if with_settlement else ())+(('attendance_read','attendance_read_http','attendance_read_browser') if with_attendance else ())+(('roster','roster_races','roster_http') if with_roster else ())
+        group_keys=('native','http','notes','note_races','note_http','admission_regression','browser')+(('payroll_review','payroll_review_http','payroll_review_browser') if with_review else ())+(('settlement','settlement_races','settlement_http','settlement_browser') if with_settlement else ())+(('attendance_read','attendance_read_http','attendance_read_browser') if with_attendance else ())+(('roster','roster_races','roster_http','roster_browser') if with_roster else ())
         groups=[report.get(k,{}) for k in group_keys]
         report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and all(r.get('status') in ('PASS','RUN_COMPLETE') and set(r.get('counts',{}))=={'PASS'} and r['counts']['PASS']>0 and r.get('database_remaining',0)==0 for r in groups) else 'INCOMPLETE'
         out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,indent=2,default=str)+'\n');print(json.dumps({k:report.get(k) for k in ('label','status','source_sha256','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)

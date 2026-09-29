@@ -52,7 +52,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Qualify native roster/rate command (61 combined cases), connect its source editor and attendance mutations, then remaining advances/carry.",
+  "next_action": "Qualify roster/rate command and connected UI (63 combined cases); continue attendance entry/post/correction/reversal, then remaining advances/carry.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -119,6 +119,6 @@
     "attendance_read_verification": "docs/cp7/evidence/p12-attendance/READ_VERIFICATION.json",
     "attendance_ui_verification": "docs/cp7/evidence/p12-attendance/READ_UI_VERIFICATION.json",
     "p09_regression_latest": "docs/cp7/evidence/p12-attendance/P09_RUN10_REGRESSION.json",
-    "roster_candidate": "NATIVE_COMMAND_61_CASES_PENDING_NO_SOURCE_WRITER_UI_CLAIM"
+    "roster_candidate": "NATIVE_61_AND_CONNECTED_UI_63_CASES_PENDING"
   }
 }

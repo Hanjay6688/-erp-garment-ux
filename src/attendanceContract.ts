@@ -62,3 +62,15 @@ export function parseAttendanceRead(v:unknown,section:AttendanceSection):Attenda
  if(new Set(p.rows.map(x=>(x as AttendanceRow).id)).size!==p.rows.length)fail()
  return r as unknown as AttendanceRead
 }
+
+export type RosterAction='CREATE_WORKER'|'UPDATE_WORKER'|'SET_RATE'
+export type RosterOutcome={contract_version:'cp7.roster-outcome.v1';kind:'COMMITTED_OUTCOME';action:RosterAction;request_id:string;worker_id:string;contractor_id:string;row_version:string;status:'ACTIVE'|'INACTIVE';source_token:string}
+export function parseRosterOutcome(value:unknown,request:string,action:string,payload:unknown):RosterOutcome{
+ const r=closed(value,['contract_version','kind','action','request_id','worker_id','contractor_id','row_version','status','source_token']),outer=closed(payload,['document','expected_version']),p=closed(outer.document,['contractor_id','date_from','date_to','source_token','document'])
+ const d=p.document as Record<string,unknown>|null
+ if(!d||typeof d!=='object'||Array.isArray(d))return fail()
+ if(r.contract_version!=='cp7.roster-outcome.v1'||r.kind!=='COMMITTED_OUTCOME'||r.request_id!==request||r.action!==action||!['CREATE_WORKER','UPDATE_WORKER','SET_RATE'].includes(action)||!uuid(r.worker_id)||r.contractor_id!==p.contractor_id||!uuid(r.contractor_id)||!version(r.row_version)||!['ACTIVE','INACTIVE'].includes(String(r.status))||!text(r.source_token)||!/^[a-f0-9]{32}$/.test(r.source_token))fail()
+ if(action==='CREATE_WORKER'?outer.expected_version!==null:!version(outer.expected_version)||r.worker_id!==d.worker_id||BigInt(String(r.row_version))<=BigInt(String(outer.expected_version)))fail()
+ if(action!=='SET_RATE'&&(typeof d.is_active!=='boolean'||r.status!==(d.is_active?'ACTIVE':'INACTIVE')))fail()
+ return r as RosterOutcome
+}

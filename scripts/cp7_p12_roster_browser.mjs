@@ -1,0 +1,39 @@
+import assert from 'node:assert/strict'
+import {execFileSync} from 'node:child_process'
+import {mkdirSync,writeFileSync} from 'node:fs'
+const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_p12_browser_fixture.py',op,JSON.stringify(p)],{cwd:'../writer',encoding:'utf8'}).trim())
+async function openPage(ui,p){
+ await ui.expect(p.locator('.sidebar .nav-main').filter({hasText:'Keuangan'})).toBeAttached()
+ const menu=p.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click()
+ const link=p.getByRole('button',{name:'• Absensi & Rate Harian',exact:true});if(!await link.isVisible())await p.locator('.sidebar .nav-main').filter({hasText:'Keuangan'}).click();await link.click()
+ await ui.expect(p.locator('.catt').getByRole('heading',{name:'Absensi & Rate Harian',exact:true})).toBeVisible()
+}
+async function lifecycle(ui,today,mobile){
+ // Only the mandor and access profile are native setup. Every roster, initial
+ // rate, appended rate and employment episode is created through the browser.
+ const f=fixture('create_roster',{today}),user=await ui.login('ADMIN',{label:'p12-roster-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'}),p=user.page,suffix=mobile?'MOBILE':'DESKTOP'
+ try{
+  await openPage(ui,p);const panel=p.locator('.catt'),editor=panel.getByRole('region',{name:'Form pekerja dan tarif'}),detail=panel.getByRole('region',{name:'Rincian sumber absensi'})
+  await panel.getByLabel('Pencarian absensi',{exact:true}).fill(f.label);await panel.getByLabel('Absensi dari tanggal',{exact:true}).fill(f.start);await panel.getByLabel('Absensi sampai tanggal',{exact:true}).fill(today);await panel.getByRole('button',{name:'Tampilkan absensi',exact:true}).click()
+  await ui.expect(panel.locator('.cproc-receipt')).toHaveCount(1);await panel.locator('.cproc-receipt').click();await ui.expect(panel.getByRole('button',{name:'Tambah pekerja',exact:true})).toBeEnabled()
+  let first=null,replay=null,lost=false
+  if(mobile)await p.route('**/rest/v1/rpc/erp_cp7_save_roster_v1',async route=>{const body=route.request().postDataJSON();if(body.p_action==='CREATE_WORKER'&&!lost){first=body;const response=await route.fetch();assert.equal(response.status(),200,'Worker must commit before reply loss');lost=true;await route.abort('failed')}else{if(body.p_action==='CREATE_WORKER'&&replay===null)replay=body;await route.continue()}})
+  await panel.getByRole('button',{name:'Tambah pekerja',exact:true}).click();await editor.getByLabel('Nama pekerja',{exact:true}).fill('Pekerja browser');await editor.getByLabel('Pekerjaan pekerja',{exact:true}).fill('Jahit');await editor.getByLabel('Alasan perubahan pekerja',{exact:true}).fill('P12 mulai kerja melalui browser')
+  await ui.expect(editor.getByRole('button',{name:'Simpan pekerja',exact:true})).toBeDisabled();await editor.getByLabel('Tarif harian pekerja',{exact:true}).fill('100,123456');await ui.expect(editor.getByLabel('Tanggal mulai pekerja',{exact:true})).toHaveValue(f.start);await ui.expect(editor.getByLabel('Tarif berlaku mulai',{exact:true})).toHaveValue(f.start)
+  await editor.getByRole('button',{name:'Simpan pekerja',exact:true}).click()
+  await ui.expect.poll(()=>fixture('read_roster',f).workers.length).toBe(1)
+  if(mobile){await ui.expect(panel.getByRole('button',{name:'Periksa status simpan pekerja',exact:true})).toBeVisible();await p.reload();await openPage(ui,p);await panel.getByRole('button',{name:'Periksa status simpan pekerja',exact:true}).click();await ui.expect(panel.getByRole('button',{name:'Periksa status simpan pekerja',exact:true})).toHaveCount(0);assert.ok(lost);assert.deepEqual(replay,first,'Lost create reply must retain identical UUID, money, dates and source token')}
+  await ui.expect(panel.locator('.cproc-receipt')).toHaveCount(1);await panel.locator('.cproc-receipt').click();await ui.expect(detail.locator('.catt-line')).toContainText('Rp100,123456 / hari');await detail.getByRole('button',{name:'Tambah tarif harian',exact:true}).click()
+  await editor.getByLabel('Tarif harian pekerja',{exact:true}).fill('200,654321');await editor.getByLabel('Tarif berlaku mulai',{exact:true}).fill(f.future);await editor.getByLabel('Alasan perubahan pekerja',{exact:true}).fill('P12 tarif baru pada tanggal mendatang')
+  await ui.expect(editor.locator('.catt-review')).toContainText('Rp200,654321 / hari');await ui.expect.poll(()=>panel.evaluate(el=>{const b=el.getBoundingClientRect();return b.left>=0&&b.right<=innerWidth+1&&document.documentElement.scrollWidth<=innerWidth+1})).toBe(true)
+  mkdirSync('cp6-proof/t3',{recursive:true});await p.evaluate(()=>window.scrollTo(0,0));await p.screenshot({path:`cp6-proof/t3/P12_ROSTER_${suffix}.png`,fullPage:true});await editor.getByRole('button',{name:'Simpan tarif',exact:true}).click()
+  await ui.expect.poll(()=>fixture('read_roster',f).rates.length).toBe(2);await ui.expect(panel.locator('.cproc-receipt')).toHaveCount(1);await ui.expect(panel.locator('.cproc-receipt')).toContainText('Rp100,123456')
+  async function edit(){await panel.locator('.cproc-receipt').click();await detail.getByRole('button',{name:'Ubah pekerja',exact:true}).click();await ui.expect(editor.getByLabel('Tanggal mulai pekerja',{exact:true})).toBeDisabled()}
+  await edit();await editor.getByLabel('Status pekerja',{exact:true}).selectOption('INACTIVE');await editor.getByLabel('Tanggal berhenti pekerja',{exact:true}).fill(f.stop);await editor.getByLabel('Alasan perubahan pekerja',{exact:true}).fill('P12 akhir masa kerja pertama');await editor.getByRole('button',{name:'Simpan pekerja',exact:true}).click()
+  await ui.expect(panel.locator('.cproc-receipt')).toContainText('Nonaktif sekarang');await edit();await editor.getByLabel('Status pekerja',{exact:true}).selectOption('ACTIVE');await editor.getByLabel('Tanggal kembali pekerja',{exact:true}).fill(f.restart);await editor.getByLabel('Alasan perubahan pekerja',{exact:true}).fill('P12 bekerja kembali setelah jeda');await editor.getByRole('button',{name:'Simpan pekerja',exact:true}).click()
+  await ui.expect(panel.locator('.cproc-receipt')).toContainText('Aktif sekarang');await panel.locator('.cproc-receipt').click();await detail.getByRole('button',{name:'Riwayat masa kerja',exact:true}).click();await ui.expect(detail.locator('.catt-line')).toHaveCount(2)
+  const actual=fixture('read_roster',f);assert.equal(actual.workers.length,1);assert.equal(actual.workers[0][1],'Pekerja browser');assert.equal(actual.workers[0][2],true);assert.equal(actual.rates.length,2);assert.equal(actual.rates[0][0],'100.123456');assert.equal(actual.rates[0][1],f.start);assert.equal(actual.rates[1][0],'200.654321');assert.equal(actual.rates[1][1],f.future);assert.deepEqual(actual.employment,[[f.start,f.stop],[f.restart,null]]);assert.deepEqual(actual.facts,f.facts)
+  return {status:'PASS',mobile,real_auth_native_admin_authority:true,browser_creates_worker_initial_rate_future_rate_stop_and_reactivation:true,blank_initial_rate_refused:true,earlier_rate:'100.123456',future_rate:'200.654321',historical_review_retains_earlier_rate:true,one_worker_two_rates_two_employment_episodes:true,exact_lost_create_reply_replay:mobile?true:null,stock_hpp_gl_unchanged:true,no_attendance_writer_ui_claim:true,screenshot:`P12_ROSTER_${suffix}.png`}
+ }catch(error){mkdirSync('cp6-proof/t3',{recursive:true});writeFileSync(`cp6-proof/t3/P12_ROSTER_${suffix}_FAILURE.json`,JSON.stringify({error:String(error),panel:await p.locator('.catt').innerText().catch(()=>''),facts:fixture('read_roster',f)},null,2));await p.screenshot({path:`cp6-proof/t3/P12_ROSTER_${suffix}_FAILURE.png`,fullPage:true});throw error}finally{await user.context.close()}
+}
+export async function cases(ui,today){return [['P12_ROSTER_BROWSER_DESKTOP',()=>lifecycle(ui,today,false)],['P12_ROSTER_BROWSER_MOBILE_RECOVERY',()=>lifecycle(ui,today,true)]]}

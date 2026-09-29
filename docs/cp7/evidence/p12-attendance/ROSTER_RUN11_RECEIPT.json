@@ -1,0 +1,24 @@
+{
+  "status": "INCOMPLETE",
+  "source_commit": "af7c850ab10eebc060e29055c02cac54ee191cd7",
+  "source_tree": "49e25d3c5a5a2f93ecf6187ea2c547d5f93412f8",
+  "run_id": 36595109618,
+  "job_id": 109497876564,
+  "artifact_id": 11045871879,
+  "archive_sha256": "9cd0ada4e3c403a1c4cc38b4f59237c1d5da2bf1866a6f2c70b979e50f87c7b4",
+  "report_sha256": "c20490248609f62296974d49fdcc92bd30e7eeb628f4ba8c58133aefa0ce0eb1",
+  "bundle_sha256": "8ec3be06d4eb3d2e61f4bdea752d2b493374a26c9e5e247e3d1ac829a40d6f6b",
+  "counts": {
+    "PASS": 60,
+    "INCOMPLETE": 1
+  },
+  "retained_cases_pass": 51,
+  "new_roster_cases_pass": 9,
+  "incomplete": "P12_ROSTER_RACE_REVOKE: EXPECTED_ROSTER_ROW_WAIT",
+  "diagnosis": "The observer read pg_stat_activity repeatedly inside the held transaction without clearing its cached statistics snapshot. Replace it with a fresh independent observer and bind sender PID to actual holder PID. Authority refusal after the real wait remains unqualified until rerun.",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_copy_cleanup": true,
+  "production_go": false,
+  "independent_acceptance": false
+}
