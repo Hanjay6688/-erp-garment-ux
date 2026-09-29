@@ -1,0 +1,23 @@
+{
+  "status": "INCOMPLETE",
+  "counts": {
+    "PASS": 18,
+    "INCOMPLETE": 1
+  },
+  "browser_cases_not_run": 4,
+  "tested_source": "bb84dd4adc611ec5c78175068a34685f329e272d",
+  "tested_tree": "27f040ed8aa7398a226a96643015eac61e6bf933",
+  "run_id": 36564028231,
+  "job_id": 109391479832,
+  "artifact_id": 11031516382,
+  "archive_sha256": "7a49bb168ae39360742615b21b713c128f14ebfd29a5e84c288a6c961ad70539",
+  "source_bundle_sha256": "4860f9b97c8bf9a185beaa16dffe423acc56ce6b6124ba0dafecc62d46335a70",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "remaining_failures": [
+    "Revocation correctly refused with native Internal ERP access required; test only accepted uppercase ACCESS. Match casing without relaxing stock/draft rollback assertions.",
+    "Browser build stopped before any browser case by TS2571 in signed-rank test: unknown DTO fixture row accessed directly. Use explicit object mutation for the negative test."
+  ],
+  "classification": "TEST_ASSERTION_AND_TEST_COMPILE_DEFECT",
+  "production_go": false
+}

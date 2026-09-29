@@ -120,7 +120,7 @@ def races(tools,today):
                         assert blocked,'EXPECTED_REAL_FG_WAIT';c.execute('update erp.app_users set is_active=false where auth_user_id=%s',(subject,))
                 finally:holder.rollback()
                 result=future.result(30)
-        assert 'ACCESS' in result or 'OWNER or ADMIN' in result,result
+        assert 'access' in result.lower() or 'OWNER or ADMIN' in result,result
         with tools.connect() as conn,conn.cursor() as cur:
             actual=cur.execute('select sum(qty_signed) from erp.fg_stock_movements where lot_id=%s',(f['lot'],)).fetchone()[0];assert actual==10
             assert cur.execute('select status from erp.fg_adjustments where id=%s',(d['adjustment_id'],)).fetchone()[0]=='DRAFT'
