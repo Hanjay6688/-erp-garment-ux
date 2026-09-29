@@ -29,10 +29,11 @@ def run():
         with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
             bf.verified(cur);before=package.boundary.snapshot(cur);public_before=native.public_state(cur);conn.rollback()
             cur.execute(bundle.bundle(),prepare=False);conn.commit();installed=True;verify(cur);conn.rollback()
-            smoke=cases.fixture(cur,cur.execute('select current_date').fetchone()[0])
-            assert len(cases.get(cur,smoke['skus'])['rows'])==2
-            conn.rollback();report['fixture_smoke']='PASS'
         initial_advisors=advisors(package.boundary.PG)
+        report['advisors_with_cp7']=initial_advisors
+        # Qualify fixture setup and first command in the same seeded native runner.
+        report['fixture_smoke']=native.strict_group('CP7_P03_FIXTURE_SMOKE',cases.smoke,verify)
+        assert report['fixture_smoke']['status']=='PASS','P03_FIXTURE_SMOKE_INCOMPLETE'
         # Compare with pristine CP6 after cleanup below, preserving every finding.
         report['native']=native.strict_group('CP7_P03_FACADE_NATIVE',cases.cases,verify)
         report['races']=modes.run_races(cases,verify,'cp7_p03')
