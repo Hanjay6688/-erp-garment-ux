@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "scope": "ORIGINAL_BYTES_AND_SHELL_CONTRACT_LOCK_ONLY",
+  "original_files_verified": 48,
+  "contract_sha256": {
+    "analysis.schema.json": "c6e38f059d992c5916b7a799c153ad5a6cc4858dc8ffd6085bb8e5356ebc72a1",
+    "analysis.example.json": "db63c2f81aae10c059954a1f63f6a0b4e86e3bcdda1ed7a0b98cc2396ca75daa",
+    "backbone.ts": "16a320a188d1fafe3912c33ac6e07de26bda2a506654f05e20a57195ed846ddf",
+    "notification.ts": "4deb0a93a5b80befec6f2f811d78d0b990c5c8abefb8b3ddbc5d7ae4a2c136d7",
+    "reasons.json": "55741fc4be42afe73a3b942b4af7f1839c53197599f0a605c63ec7db0533e551",
+    "reminder.rules.json": "c94377dae6e0c318c23e1d2ba0453250c70075fced3ed6d5aaad85ce8d0e821b"
+  },
+  "packets": 22,
+  "cases": 84,
+  "requirement_groups": 271,
+  "erp_case_verdict": "NOT_RUN",
+  "production_go": false,
+  "family1_source_files_verified": 7,
+  "family1_bundle_sha256": "bfe90effa5af89941a02669b05ed855f54cb2c76ae8433e7cd01ae3b5f5bc9c4",
+  "cp6_operational_sql_diff": "EMPTY",
+  "writer_proof_digests": "MATCH"
+}

@@ -36,12 +36,29 @@ def cases(cur,today):
         return dict(status='PASS',revoked_finance_archive_redacted=True,cost_only_change_has_no_visible_signal=True)
     def cost_reader_denied():
         f=w.fixture(cur,today);subject,_=w.custom_actor(cur)
-        cur.execute('revoke execute on function erp.bd_lot_laundry_unknown_v1(uuid),erp.get_hpp_completeness(uuid) from cp7_capture')
+        cost(cur,f,'543.123456')
+        cur.execute("set local track_functions='all'")
+        def stats():
+            calls=dict(cur.execute("select funcname,calls from pg_stat_xact_user_functions where schemaname='erp' and funcname in ('bd_lot_laundry_unknown_v1','get_hpp_completeness')").fetchall())
+            io=dict(cur.execute("select relname,seq_tup_read+idx_tup_fetch from pg_stat_xact_user_tables where schemaname='erp' and relname in ('fg_lots','hpp_versions')").fetchall())
+            return {k:calls.get(k,0) for k in ('bd_lot_laundry_unknown_v1','get_hpp_completeness')},io
+        before=stats()
         r=w.create(cur,f['root'],subject=subject)
+        after_ops=stats();assert after_ops==before,(before,after_ops)
         assert 'lot_cost' not in w.stored(cur,r['run_id'])['sources']
         assert 'lot_cost' not in cur.execute('select dependencies from cp7_private.analysis_runs where id=%s',(r['run_id'],)).fetchone()[0]['domains']
+        w.create(cur,f['root']);after_finance=stats()
+        assert after_finance[0]['bd_lot_laundry_unknown_v1']>after_ops[0]['bd_lot_laundry_unknown_v1'],after_finance
+        assert after_finance[1]['hpp_versions']>after_ops[1]['hpp_versions'],after_finance
+        # Removing an installed helper grant can fail at query initialization,
+        # before any financial branch executes. It is a fail-closed source-error
+        # control, not an execution detector. Keep this original observation.
+        count=cur.execute('select count(*) from cp7_private.analysis_runs').fetchone()[0]
+        cur.execute('revoke execute on function erp.bd_lot_laundry_unknown_v1(uuid),erp.get_hpp_completeness(uuid) from cp7_capture')
+        w.refused(cur,lambda:w.create(cur,f['root'],subject=subject),'permission denied')
         w.refused(cur,lambda:w.create(cur,f['root']),'permission denied')
-        return dict(status='PASS',operations_does_not_execute_finance_helpers=True,finance_source_error_refuses_capture=True)
+        assert cur.execute('select count(*) from cp7_private.analysis_runs').fetchone()[0]==count
+        return dict(status='PASS',operations_does_not_execute_finance_helpers=True,operations_does_not_read_cost_rows=True,stats_before=before,stats_after_operations=after_ops,stats_finance_positive_control=after_finance,missing_source_privilege_fails_closed=True)
     def decimals():
         vals=[]
         for value in ('0.000000','21474836.480001','999999999.123456'):
@@ -107,16 +124,26 @@ def cases(cur,today):
     def privileges():
         business=cur.execute("select n.nspname,c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and c.relkind in ('r','p','v') and has_table_privilege('cp7_capture',c.oid,'INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER')").fetchall()
         assert not business,business
-        funcs=cur.execute("select p.oid::regprocedure::text from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname in ('erp','public') and has_function_privilege('cp7_capture',p.oid,'EXECUTE') order by 1").fetchall()
+        funcs=cur.execute("select p.oid::regprocedure::text,p.prorettype='trigger'::regtype,p.prosecdef from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname in ('erp','public') and has_function_privilege('cp7_capture',p.oid,'EXECUTE') order by 1").fetchall()
         expected={'erp.get_my_access_v1()','erp.has_permission(text)','erp.bd_lot_laundry_unknown_v1(uuid)','erp.get_hpp_completeness(uuid)','erp_cp7_capture_snapshot_v1(uuid,uuid)','erp_cp7_read_snapshot_v1(uuid,text,text,integer)'}
-        unexpected=[x[0] for x in funcs if x[0] not in expected]
+        # Eight inherited PUBLIC trigger functions are invoker-only. A trigger
+        # function cannot be called as a normal RPC, and the principal has no
+        # TRIGGER/business-write privilege. Prove that instead of treating the
+        # catalogue EXECUTE bit alone as an operational mutator capability.
+        trigger_only=[x[0] for x in funcs if x[1] and not x[2]]
+        for signature in trigger_only:
+            def direct_trigger():
+                cur.execute('set local role cp7_capture')
+                cur.execute('select '+signature)
+            w.refused(cur,direct_trigger,'trigger functions can only be called as triggers')
+        unexpected=[x[0] for x in funcs if x[0] not in expected and x[0] not in trigger_only]
         assert not unexpected,unexpected
         private=[]
         for role in ('anon','authenticated','service_role'):
             assert not cur.execute("select has_schema_privilege(%s,'cp7_private','USAGE')",(role,)).fetchone()[0]
             private+=cur.execute("select %s,p.oid::regprocedure::text from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_private' and has_function_privilege(%s,p.oid,'EXECUTE')",(role,role)).fetchall()
         assert not private,private
-        return dict(status='PASS',business_write_grants=business,allowed_functions=[x[0] for x in funcs],private_helper_grants=private)
+        return dict(status='PASS',business_write_grants=business,allowed_functions=[x[0] for x in funcs if x[0] in expected],trigger_functions_direct_call_denied=trigger_only,private_helper_grants=private)
     def permission_matrix():
         f=w.fixture(cur,today);subject,role=w.custom_actor(cur,True);key=uuid.uuid4();r=w.create(cur,f['root'],key,subject)
         denied=[]

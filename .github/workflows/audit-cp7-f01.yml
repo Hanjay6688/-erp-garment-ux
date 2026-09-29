@@ -5,6 +5,7 @@ name: CP7 F01 independent audit
     - audit/cp7-f01-independent-20260929
     paths:
     - audits/cp7_f01_20260929/probe.py
+    - audits/cp7_f01_20260929/targeted.py
     - audits/cp7_f01_20260929/ORACLE.md
     - .github/workflows/audit-cp7-f01.yml
 permissions:
@@ -195,7 +196,7 @@ jobs:
         python3 scripts/cp7_contract_receipt.py
     - name: Install accepted package and qualify P02 actor facade
       working-directory: writer
-      run: python '../auditor/audits/cp7_f01_20260929/probe.py'
+      run: python '../auditor/audits/cp7_f01_20260929/targeted.py'
     - name: Remove disposable database
       if: always()
       working-directory: base
@@ -208,6 +209,7 @@ jobs:
         retention-days: 30
         if-no-files-found: error
   application:
+    if: github.event.before == '0000000000000000000000000000000000000000'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
