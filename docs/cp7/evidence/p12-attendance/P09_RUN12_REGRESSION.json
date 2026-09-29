@@ -1,0 +1,16 @@
+{
+  "status": "WRITER_BOUNDED_121_PASS_PLUS_3_SMOKES",
+  "source_commit": "634490e6c330c0b766fd9b346c57a97c9a3e28cc",
+  "run_id": 36596457392,
+  "artifact_id": 11045579801,
+  "archive_sha256": "f265bcbb9d00297bf8a40e5233af0dc754bad5f38d91bb2fb6545be59f1d6bd1",
+  "report_sha256": "18812cafcdc868806679f54062f88f95b1404c619a5983e0a5d4de730e116c89",
+  "bundle_sha256": "d34acae6754a9e6c390c54696b4b8d7acbf44697723243b249bf79c839344450",
+  "total_pass": 121,
+  "separate_smokes": 3,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_copy_cleanup": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

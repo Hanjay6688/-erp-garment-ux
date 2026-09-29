@@ -93,7 +93,7 @@ begin
   return jsonb_build_object('contract_version','cp7.attendance-preview.v1','kind','READ_ONLY_PREVIEW','contractor_id',cid,'period_id',pid,'source_token',p_payload->>'source_token','line_count',native->>'line_count','paid_day_equivalent',native->>'paid_day_equivalent','estimated_amount',native->>'estimated_amount');
  end if;
  select * into p from erp.attendance_periods where id=pid;
- if p.id is null or p.contractor_id<>cid or native->>'period_id' is distinct from p.id::text or native->>'row_version' is distinct from p.row_version::text or p.status is distinct from case p_action when 'SAVE' then 'DRAFT' when 'POST' then 'POSTED' when 'REVERSE' then 'REVERSED' end then raise exception 'CP7_ATTENDANCE_NATIVE_OUTCOME';end if;
+ if p.id is null or p.contractor_id<>cid or native->>'period_id' is distinct from p.id::text or native->>'row_version' is distinct from p.row_version::text or p.status is distinct from (case p_action when 'SAVE' then 'DRAFT' when 'POST' then 'POSTED' when 'REVERSE' then 'REVERSED' end) then raise exception 'CP7_ATTENDANCE_NATIVE_OUTCOME';end if;
  return jsonb_build_object('contract_version','cp7.attendance-outcome.v1','kind','COMMITTED_OUTCOME','action',p_action,'request_id',p_request,'period_id',p.id,'contractor_id',cid,'row_version',p.row_version::text,'status',p.status,'source_token',cp7_attendance.source_token(cid,(p_payload->>'date_from')::date,(p_payload->>'date_to')::date));
 end $$;
 

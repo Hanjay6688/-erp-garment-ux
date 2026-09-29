@@ -1,0 +1,17 @@
+{
+  "status": "INCOMPLETE_BEFORE_CASE_EXECUTION",
+  "source_commit": "517fc90e59b19f79b78551f25bb8c4f8ff8ad6e7",
+  "source_tree": "3207bbf953415ff220013d3b2f3023f03e9aaf38",
+  "run_id": 36597949782,
+  "job_id": 109507613879,
+  "artifact_id": 11047461653,
+  "archive_sha256": "095e25f23de5589cc588c79e7f4a635775e741f54c665104a3392fd84613129b",
+  "report_sha256": "6833fd43ccb097536a37a310ef83ad3eeb60d9ac0e5ef140b53d66e3dbca438d",
+  "bundle_sha256": "12f118939757790e7ceb5b17c18f5bbc76a0aabfa07a8ef761f33388743957ce",
+  "case_count": 0,
+  "diagnosis": "PL/pgSQL IF parser requires parentheses around the CASE expression in the native outcome status comparison. Candidate installation raised SyntaxError before commit or case execution.",
+  "cp6_restored_gate": "NOT_RUN",
+  "advisor_gate": "NOT_RUN",
+  "production_go": false,
+  "independent_acceptance": false
+}
