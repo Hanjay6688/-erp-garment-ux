@@ -25,7 +25,7 @@ export const domainLabels: Record<ProductionDomain, string> = {
   PICKUP: 'Bagi Potongan', WIP: 'Status WIP', INITIAL_IMPORT: 'Impor data awal',
 }
 const actions: Record<ProductionDomain, readonly string[]> = {
-  SALES: ['POST', 'CANCEL'],
+  SALES: ['CREATE', 'EDIT', 'POST', 'CANCEL'],
   ROSTER: ['CREATE_WORKER', 'UPDATE_WORKER', 'SET_RATE', 'SAVE_ATTENDANCE', 'POST_ATTENDANCE', 'REVERSE_ATTENDANCE'],
   PAYROLL: ['PREPARE', 'APPROVE', 'PAY', 'CANCEL', 'REVERSE'],
   FG_NOTA: ['SAVE', 'POST', 'VOID'],

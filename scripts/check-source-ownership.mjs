@@ -90,6 +90,7 @@ for (const file of sourceFiles.filter((candidate) => !isTestSource(candidate) &&
 assert.deepEqual(dataReads, [], 'Browser code must not read ERP tables/views directly')
 
 assert.deepEqual([...rpcOwnership].sort(), [
+  'src/SalesDraftPanel.tsx:erp_cp7_get_sales_form_v1',
   'src/ConnectedSalesPage.tsx:erp_cp7_get_sales_v1',
   'src/ConnectedSalesPage.tsx:erp_cp7_save_sale_v1',
   'src/ConnectedPayrollPage.tsx:erp_cp7_get_payroll_workspace_v1',

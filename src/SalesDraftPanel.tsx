@@ -1,0 +1,58 @@
+import {useEffect,useMemo,useRef,useState} from 'react'
+import {useAuth} from './auth/AuthProvider'
+import {isConnectedRuntime} from './config/runtime'
+import {getUatSupabaseClient} from './lib/supabase'
+import {normalizeClientError} from './lib/clientError'
+import {cp6WibDateTimeInput,cp6WibPhysicalTimeToIso} from './cp6BusinessTime'
+import {formatReceiptDecimal as numberText} from './procurementContract'
+import {parseSalesFormOptions,salesQtyInput,salesMoneyInput,salesLineTotal,type SalesRead,type SalesFormOptions,type SalesCustomerOption,type SalesStockOption} from './salesReadContract'
+import type {Json} from './types/database.preconnect'
+type Detail=NonNullable<SalesRead['detail']>
+type Line={key:string;product_id:string;sku:string;size:string;qty:string;price:string;discount:string;notes:string|null;dozens:string;pieces:string}
+type Form={customer:SalesCustomerOption|null;location:{id:string;name:string}|null;number:string;at:string;originalAt:string|null;due:string;terms:string;notes:string;reason:string;lines:Line[]}
+type Kind='CUSTOMER'|'STOCK'
+export default function SalesDraftPanel({initial,locked,stale,onSave,onClose}:{initial:Detail|null;locked:boolean;stale:boolean;onSave:(action:'CREATE'|'EDIT',document:Json,version:string|null)=>void;onClose:()=>void}){
+ const {runtime}=useAuth();if(!isConnectedRuntime(runtime))throw Error('Sesi penjualan belum siap.')
+ const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime])
+ const [form,setForm]=useState<Form>(()=>({customer:initial?{id:initial.customer_id,code:'',name:initial.customer_name}:null,location:initial?.location_id?{id:initial.location_id,name:initial.location_name??''}:null,number:initial?.number??'',at:cp6WibDateTimeInput(initial?.physical_at),originalAt:initial?.physical_at??null,due:initial?.due_date??'',terms:initial?.payment_terms??'',notes:initial?.notes??'',reason:'',lines:initial?.items.map(i=>({key:i.id,product_id:i.product_id,sku:i.product_sku,size:i.size_code,qty:i.qty_pcs,price:i.financial?.unit_price??'',discount:i.financial?.discount??'',notes:i.notes,dozens:'',pieces:''}))??[]}))
+ const [reviewed,setReviewed]=useState(false),[options,setOptions]=useState<Partial<Record<Kind,SalesFormOptions>>>({}),[query,setQuery]=useState({CUSTOMER:'',STOCK:''}),[loading,setLoading]=useState({CUSTOMER:false,STOCK:false}),[error,setError]=useState('')
+ const sequences=useRef({CUSTOMER:0,STOCK:0}),queryUsed=useRef({CUSTOMER:'',STOCK:''})
+ const at=form.originalAt&&form.at===cp6WibDateTimeInput(form.originalAt)?form.originalAt:cp6WibPhysicalTimeToIso(form.at),location=form.location?.id??null
+ useEffect(()=>{sequences.current.CUSTOMER++;sequences.current.STOCK++;setOptions({});setLoading({CUSTOMER:false,STOCK:false});setError('');return()=>{sequences.current.CUSTOMER++;sequences.current.STOCK++}},[at,location,client])
+ const update=(patch:Partial<Form>)=>{setForm(f=>({...f,...patch}));setReviewed(false)}
+ const editLine=(key:string,patch:Partial<Line>)=>{setForm(f=>({...f,lines:f.lines.map(l=>l.key===key?{...l,...patch}:l)}));setReviewed(false)}
+ async function search(kind:Kind,offset=0,continued=false){
+  if(!at)return;const s=++sequences.current[kind],q=continued?queryUsed.current[kind]:query[kind].trim(),loc=kind==='STOCK'?location:null;queryUsed.current[kind]=q
+  setLoading(v=>({...v,[kind]:true}));setOptions(v=>({...v,[kind]:undefined}));setError('')
+  try{const r=await client.rpc('erp_cp7_get_sales_form_v1',{p_query:{kind,q,physical_at:at,location_id:loc,offset,limit:25}});if(s!==sequences.current[kind])return;if(r.error)throw r.error;const o=parseSalesFormOptions(r.data,kind,at,loc);if(o.offset!==offset||o.limit!==25)throw Error('Pilihan sumber berubah. Cari ulang sumber invoice.');setOptions(v=>({...v,[kind]:o}))}catch(e){if(s===sequences.current[kind])setError(normalizeClientError(e).message)}finally{if(s===sequences.current[kind])setLoading(v=>({...v,[kind]:false}))}
+ }
+ const amounts=form.lines.map(l=>salesLineTotal(l.qty,l.price,l.discount)),valid=!!at&&!!form.customer&&!!form.location&&form.number.trim().length>0&&form.reason.trim().length>=5&&form.lines.length>0&&form.lines.length<=100&&amounts.every(a=>a!==null)
+ const total=form.lines.length>0&&amounts.every(a=>a!==null)?amounts.reduce((n,a)=>n+BigInt(a!.replace('.','')),0n):null
+ const blocked=locked||stale
+ function save(){
+  if(!valid||blocked||!reviewed)return
+  onSave(initial?'EDIT':'CREATE',{...(initial?{sale_id:initial.id,review_token:initial.review_token!}:{}),sale_number:form.number.trim(),customer_id:form.customer!.id,source_location_id:form.location!.id,sale_date:at!,due_date:form.due||null,payment_terms:form.terms||null,notes:form.notes||null,change_reason:form.reason.trim(),items:form.lines.map(l=>({product_id:l.product_id,qty_pcs:salesQtyInput(l.qty)!,unit_price_snapshot:salesMoneyInput(l.price)!,discount_amount:salesMoneyInput(l.discount)!,notes:l.notes}))},initial?.row_version??null)
+ }
+ const picker=(kind:Kind)=>{const candidate=options[kind],o=candidate&&at&&Date.parse(candidate.physical_at)===Date.parse(at)&&candidate.location_id===(kind==='STOCK'?location:null)?candidate:undefined;return <section className="cproc-line" aria-label={kind==='CUSTOMER'?'Pilih pelanggan invoice':'Pilih barang invoice'}>
+  <div className="cproc-inline"><label>{kind==='CUSTOMER'?'Cari pelanggan':'Cari SKU, ukuran, atau gudang'}<input aria-label={kind==='CUSTOMER'?'Cari pelanggan draft':'Cari barang draft'} value={query[kind]} maxLength={120} onChange={e=>setQuery(v=>({...v,[kind]:e.target.value}))} onKeyDown={e=>{if(e.key==='Enter'){e.preventDefault();void search(kind)}}}/></label><button type="button" disabled={loading[kind]||!at} onClick={()=>void search(kind)}>{kind==='CUSTOMER'?'Cari pelanggan draft':'Cari barang draft'}</button></div>
+  {loading[kind]?<p role="status">Memuat pilihan…</p>:null}{o?.rows.length===0?<p>Tidak ada sumber sesuai pencarian.</p>:null}
+  {o?.rows.map(row=>{if(kind==='CUSTOMER'){const c=row as SalesCustomerOption;return <button className="cproc-receipt" type="button" key={c.id} aria-pressed={form.customer?.id===c.id} onClick={()=>update({customer:c})}><strong>{c.code} · {c.name}</strong></button>}
+   const p=row as SalesStockOption;return <button className="cproc-receipt" type="button" key={`${p.product_id}/${p.location_id}`} disabled={form.lines.length>=100||!!form.location&&form.location.id!==p.location_id} onClick={()=>update({location:{id:p.location_id,name:p.location_name},lines:[...form.lines,{key:crypto.randomUUID(),product_id:p.product_id,sku:p.product_sku,size:p.size_code,qty:'',price:'',discount:'0',notes:null,dozens:'',pieces:''}]})}><span><strong>{p.commercial_sku} · {p.size_code}</strong><small>{p.product_name} · {p.brand_name} · {p.location_name}</small></span><span>{numberText(p.available_qty)} PCS tersedia sekarang</span></button>})}
+  {o?<div className="cproc-pagination"><span>Total {o.total}</span><button type="button" disabled={loading[kind]||o.offset===0} onClick={()=>void search(kind,Math.max(0,o.offset-25),true)}>Sumber sebelumnya</button><button type="button" disabled={loading[kind]||o.next_offset===null} onClick={()=>void search(kind,o.next_offset??0,true)}>Sumber berikutnya</button></div>:null}
+ </section>}
+ return <form className="panel" aria-label="Draft invoice" onSubmit={e=>{e.preventDefault();save()}}>
+  <div className="cproc-heading"><h2>{initial?'Edit draft invoice':'Buat draft invoice'}</h2><button type="button" disabled={locked} onClick={onClose}>Tutup formulir invoice</button></div>
+  {stale?<p role="alert">Dokumen berubah. Tutup formulir, muat ulang, lalu periksa versi terbaru.</p>:null}{error?<p role="alert">{error}</p>:null}
+  <fieldset disabled={blocked}><div className="cproc-grid"><label>Nomor invoice<input aria-label="Nomor draft invoice" required maxLength={60} value={form.number} onChange={e=>update({number:e.target.value})}/></label><label>Waktu invoice · WIB<input type="datetime-local" aria-label="Waktu draft invoice WIB" required value={form.at} onChange={e=>update({at:e.target.value})}/></label><label>Jatuh tempo<input type="date" aria-label="Jatuh tempo draft invoice" value={form.due} onChange={e=>update({due:e.target.value})}/></label><label>Syarat pembayaran<input aria-label="Syarat pembayaran draft" maxLength={100} value={form.terms} onChange={e=>update({terms:e.target.value})}/></label></div>
+   {picker('CUSTOMER')}<p>Pelanggan terpilih: <strong>{form.customer?.name??'Belum dipilih'}</strong></p>
+   {picker('STOCK')}<p>Gudang invoice: <strong>{form.location?.name??'Pilih barang untuk menentukan gudang'}</strong>. Stok tersedia saat ini menjadi referensi; penyimpanan memeriksa stok pada tanggal transaksi.</p>
+   {form.lines.map((l,i)=><article className="cproc-line" key={l.key}><h3>{l.sku} · {l.size}</h3><div className="cproc-grid"><label>Total PCS<input aria-label={`Jumlah invoice ${i+1}`} inputMode="numeric" value={l.qty} onChange={e=>editLine(l.key,{qty:e.target.value})}/></label><label>Harga per PCS<input aria-label={`Harga invoice ${i+1}`} inputMode="decimal" value={l.price} onChange={e=>editLine(l.key,{price:e.target.value})}/></label><label>Potongan baris<input aria-label={`Potongan invoice ${i+1}`} inputMode="decimal" value={l.discount} onChange={e=>editLine(l.key,{discount:e.target.value})}/></label><label>Catatan barang<input aria-label={`Catatan barang invoice ${i+1}`} maxLength={4000} value={l.notes??''} onChange={e=>editLine(l.key,{notes:e.target.value||null})}/></label></div>
+    <details><summary>Isi dengan lusin + PCS</summary><div className="cproc-inline"><label>Lusin<input aria-label={`Lusin invoice ${i+1}`} inputMode="numeric" value={l.dozens} onChange={e=>editLine(l.key,{dozens:e.target.value})}/></label><label>Sisa PCS<input aria-label={`Sisa PCS invoice ${i+1}`} inputMode="numeric" value={l.pieces} onChange={e=>editLine(l.key,{pieces:e.target.value})}/></label><button type="button" disabled={!/^[0-9]{1,7}$/.test(l.dozens)||!/^[0-9]{1,2}$/.test(l.pieces)||Number(l.pieces)>11||BigInt(l.dozens||0)*12n+BigInt(l.pieces||0)===0n} onClick={()=>editLine(l.key,{qty:String(BigInt(l.dozens)*12n+BigInt(l.pieces))})}>Terapkan lusin baris {i+1}</button></div></details>
+    <p>Jumlah baris {amounts[i]===null?'belum valid':`Rp${numberText(amounts[i]!)}`}</p><button type="button" onClick={()=>{const lines=form.lines.filter(x=>x.key!==l.key);update({lines,location:lines.length?form.location:null})}}>Hapus barang {i+1}</button>
+   </article>)}
+   <label>Catatan invoice<input aria-label="Catatan draft invoice" maxLength={4000} value={form.notes} onChange={e=>update({notes:e.target.value})}/></label><label>Alasan penyimpanan<input aria-label="Alasan simpan invoice" required minLength={5} maxLength={1000} value={form.reason} onChange={e=>update({reason:e.target.value})}/></label>
+   <div className="cproc-total"><span>Nilai draft</span><strong>{total===null?'Belum lengkap':`Rp${numberText(`${total/100n}.${String(total%100n).padStart(2,'0')}`)}`}</strong><p>Menyimpan draft memesan stok siap jual. Piutang belum dibukukan sampai invoice disahkan.</p></div>
+   <label className="cproc-check"><input type="checkbox" aria-label="Draft invoice sudah diperiksa" checked={reviewed} onChange={e=>setReviewed(e.target.checked)}/>Pelanggan, tanggal, jumlah, harga, dan potongan sudah saya periksa.</label><button className="primary-btn" disabled={!valid||!reviewed}>Simpan draft invoice</button>
+  </fieldset>
+ </form>
+}

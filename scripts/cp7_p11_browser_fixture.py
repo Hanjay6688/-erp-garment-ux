@@ -5,6 +5,7 @@ import json,os,sys
 import psycopg
 import cp7_sales_cases as cases
 import cp7_sales_command_cases as commands
+import cp7_sales_draft_cases as drafts
 
 def main():
  target=os.environ['AUDITOR_BROWSER_DB_URL'];url=urlparse(target)
@@ -17,6 +18,11 @@ def main():
    out=cases.fixture(cur,date.fromisoformat(p['today']))
    if p.get('ops'):
     role=cur.execute("select id from erp.app_roles where role_code='ADMIN'").fetchone()[0];cur.execute('delete from erp.app_role_permissions where role_id=%s',(role,));cur.execute("insert into erp.app_role_permissions(role_id,permission_key) values(%s,'sales.invoice.view')",(role,))
+  elif op=='create_draft_source':
+   out=drafts.fixture(cur,date.fromisoformat(p['today']),30);out['second']=drafts.fixture(cur,date.fromisoformat(p['today']),30)
+  elif op=='read_draft':
+   found=cur.execute('select id::text from erp.sales_headers where sale_number=%s',(p['tag'],)).fetchone();d=cases.read(cur,dict(p,sale=found[0]))['detail'] if found else None
+   out=dict(document=d,available=[commands.available(cur,p),commands.available(cur,p['second'])],gl=[[str(x) for x in row] for row in cases.gl(cur)])
   elif op=='progress':
    cases.fg.post_sale(cur,p['draft']);cases.payment(cur,p,date.fromisoformat(p['today']),'30');cases.returned(cur,p);out={'ok':True}
   elif op=='read':

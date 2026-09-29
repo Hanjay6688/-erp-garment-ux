@@ -8,8 +8,10 @@ name: CP7 P11 Sales
     - scripts/cp7_sales_bundle.py
     - scripts/cp7_sales_cases.py
     - scripts/cp7_sales_command_cases.py
+    - scripts/cp7_sales_draft_cases.py
     - scripts/cp7_p11_*
     - src/ConnectedSalesPage*
+    - src/SalesDraftPanel*
     - src/salesReadContract.ts
     - .github/workflows/cp7-p11-sales.yml
 permissions:

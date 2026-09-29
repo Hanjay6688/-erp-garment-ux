@@ -37,7 +37,7 @@ language sql stable security invoker set search_path='' as $$
  select jsonb_build_object('id',h.id,'number',h.sale_number,'customer_id',h.customer_id,
   'customer_name',(select customer_name from erp.customers where id=h.customer_id),'location_id',h.source_location_id,
   'location_name',(select location_name from erp.locations where id=h.source_location_id),'physical_at',h.sale_date,
-  'due_date',h.due_date,'status',h.status,'row_version',h.row_version::text,'notes',h.notes,
+  'due_date',h.due_date,'status',h.status,'row_version',h.row_version::text,'notes',h.notes,'payment_terms',h.payment_terms,
   'line_count',(select count(*)::text from erp.sales_items where sale_id=h.id),
   'qty_pcs',(select coalesce(sum(qty_pcs),0)::text from erp.sales_items where sale_id=h.id),
   'reserved_qty',(select coalesce(sum(-m.qty_signed),0)::text from erp.fg_stock_movements m join erp.sales_items i on m.source_id=i.id and m.source_type='SALE_ITEM'

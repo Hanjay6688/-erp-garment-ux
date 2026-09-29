@@ -12,7 +12,7 @@ vi.mock('./lib/supabase',()=>({getUatSupabaseClient:()=>client}))
 const id='11111111-1111-4111-8111-111111111111',line='22222222-2222-4222-8222-222222222222'
 function data(finance=true,selected=false){
  const financial={basis:'CURRENT_NATIVE_DOCUMENT',state:'ACTIVE_RECEIVABLE',gross_total:'80.00',return_total:'20.00',net_total:'60.00',paid_total:'30.00',open_balance:'30.00'}
- const row={id,number:'INV-1',customer_id:id,customer_name:'Toko satu',location_id:id,location_name:'Gudang FG',physical_at:'2026-09-29T03:00:00Z',due_date:'2026-10-29',status:'PARTIAL_PAID',row_version:'9007199254740993',notes:null,line_count:'1',qty_pcs:'4',reserved_qty:'0',returned_qty:'1',...(finance?{financial}: {})}
+ const row={id,number:'INV-1',customer_id:id,customer_name:'Toko satu',location_id:id,location_name:'Gudang FG',physical_at:'2026-09-29T03:00:00Z',due_date:'2026-10-29',status:'PARTIAL_PAID',row_version:'9007199254740993',notes:null,payment_terms:null,line_count:'1',qty_pcs:'4',reserved_qty:'0',returned_qty:'1',...(finance?{financial}: {})}
  return {contract_version:'cp7.sales-workspace.v1',read_at:'2026-09-29T05:00:00Z',financial_captured:finance,read_only:true,page:{rows:[row],total:'1',offset:0,limit:25,next_offset:null},detail:selected?{...row,...(finance?{review_token:'a'.repeat(32)}:{}),items:[{id:line,product_id:id,product_sku:'PHYSICAL',commercial_sku:'HISTORICAL',product_name:'Celana',size_code:'32',brand_name:'Vivo',qty_pcs:'4',notes:null,...(finance?{financial:{unit_price:'20.00',discount:'0.00',line_total:'80.00'}}:{})}]}:null}
 }
 let root:Root,container:HTMLDivElement

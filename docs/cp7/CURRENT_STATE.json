@@ -38,7 +38,7 @@
     "P09": "BOUNDED_125_PASS_MULTI_INPUT_COUNTS_AND_COMBINED_INVOICES_REMAINING_SCOPE_OPEN",
     "P10": "FG_BOOK_34_PASS_NOTA_COMPOSITION_QUALIFIED_SCOPE_OPEN",
     "P12": "BOUNDED_ATTENDANCE_SOURCE_TO_PAYROLL_80_PASS_REMAINING_SCOPE_OPEN",
-    "P11": "BOUNDED_READER_AND_POST_CANCEL_22_PASS_FULL_R10_OPEN"
+    "P11": "BOUNDED_22_PASS_SOURCE_CREATE_EDIT_33_CASE_CANDIDATE_PENDING"
   },
   "inherited_scope": {
     "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
@@ -174,6 +174,13 @@
     "status": "WRITER_BOUNDED_22_PASS",
     "reader_run1_diagnostic": "docs/cp7/evidence/p11-sales/READ_RUN1_RECEIPT.json",
     "source_commit": "6d3b019df6054b2cc77c6ab5bd44f7164494cee9",
-    "verification": "docs/cp7/evidence/p11-sales/TRANSITIONS_VERIFICATION.json"
+    "verification": "docs/cp7/evidence/p11-sales/TRANSITIONS_VERIFICATION.json",
+    "draft_candidate": {
+      "status": "IMPLEMENTED_NATIVE_BROWSER_PENDING",
+      "expected_cases": 33,
+      "local_cases": 15,
+      "shared_recovery_cases": 30,
+      "scope": "REAL_CUSTOMER_STOCK_CREATE_FULL_EDIT_POST_CANCEL_R10_RETURN_PAYMENT_OPEN"
+    }
   }
 }
