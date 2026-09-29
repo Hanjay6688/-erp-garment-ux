@@ -1,12 +1,13 @@
 import type { Json } from './types/database.preconnect'
 
-export const productionDomains = ['FG_BOOK', 'FG_ADJUSTMENT', 'MATERIAL_COUNT', 'SUPPLIER_RETURN', 'PURCHASE_INVOICE', 'MATERIALS', 'PROCUREMENT', 'SUPPLIER_CREDIT', 'SKU', 'BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT', 'POCKET_FABRIC', 'ACCESSORY_ISSUE', 'ACCESSORY_SERVICE', 'LAUNDRY_BD', 'PRODUCT_CONVERSION'] as const
+export const productionDomains = ['FG_NOTA', 'FG_BOOK', 'FG_ADJUSTMENT', 'MATERIAL_COUNT', 'SUPPLIER_RETURN', 'PURCHASE_INVOICE', 'MATERIALS', 'PROCUREMENT', 'SUPPLIER_CREDIT', 'SKU', 'BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT', 'POCKET_FABRIC', 'ACCESSORY_ISSUE', 'ACCESSORY_SERVICE', 'LAUNDRY_BD', 'PRODUCT_CONVERSION'] as const
 export type ProductionDomain = typeof productionDomains[number]
 export type ProductionEnvelope = {
   action: string; payload: Json; expectedVersion: number | null
   fingerprint: string; id: string; createdAt: string
 }
 export const domainLabels: Record<ProductionDomain, string> = {
+  FG_NOTA: 'Nota FG mandor',
   FG_BOOK: 'Buku mutasi barang jadi',
   FG_ADJUSTMENT: 'Penyesuaian barang jadi',
   MATERIAL_COUNT: 'Penyesuaian bahan',
@@ -21,6 +22,7 @@ export const domainLabels: Record<ProductionDomain, string> = {
   PICKUP: 'Bagi Potongan', WIP: 'Status WIP', INITIAL_IMPORT: 'Impor data awal',
 }
 const actions: Record<ProductionDomain, readonly string[]> = {
+  FG_NOTA: ['SAVE', 'POST', 'VOID'],
   FG_BOOK: ['MOVE', 'RESET'],
   FG_ADJUSTMENT: ['SAVE', 'POST', 'DELETE', 'REVERSE'],
   MATERIAL_COUNT: ['SAVE', 'POST', 'DELETE', 'REVERSE'],

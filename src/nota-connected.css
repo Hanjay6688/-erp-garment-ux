@@ -1,0 +1,44 @@
+.cnota { color: #322e2a; }
+.cnota-columns { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.08fr); gap: 22px; align-items: start; }
+.cnota-sources, .cnota-composer { min-width: 0; }
+.cnota-sources > header { padding: 6px 2px 14px; }
+.cnota h2, .cnota h3 { margin: 6px 0 10px; }
+.cnota p { line-height: 1.5; }
+.cnota-search { display: flex; gap: 10px; align-items: end; margin-bottom: 16px; }
+.cnota-search label { flex: 1; min-width: 0; }
+.cnota label { display: grid; gap: 7px; }
+.cnota textarea { width: 100%; box-sizing: border-box; min-height: 74px; resize: vertical; }
+.cnota-source { margin-bottom: 14px; border: 1px solid #d2c6b8; border-left: 4px solid #737f62; }
+.cnota-source[draggable="true"] { cursor: grab; }
+.cnota-source > footer, .cnota-composer > header { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+.cnota-source > footer { border-top: 1px solid #ddd2c5; padding-top: 12px; margin-top: 12px; flex-wrap: wrap; }
+.cnota-grip { font-size: 24px; padding: 2px 10px; user-select: none; }
+.cnota-kind { display: inline-block; padding: 5px 9px; border-radius: 5px; font-size: 12px; font-weight: 700; }
+.cnota-regular { background: #e1e9db; color: #2d4d2e; }
+.cnota-repair { background: #f1dfce; color: #734225; }
+.cnota-reference { overflow-wrap: anywhere; font-size: 13px; color: #635950; }
+.cnota-components { margin-top: 14px; }
+.cnota-components > div { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid #e0d8cf; font-size: 13px; }
+.cnota-components small, .cnota-components strong { display: block; line-height: 1.6; }
+.cnota-components > div > span:last-child:not(:first-child) { text-align: right; flex-shrink: 0; }
+.cnota-card-total { display: flex; justify-content: space-between; gap: 12px; background: #eee9e0; padding: 12px; border-radius: 6px; color: #2e3328; }
+.cnota-composer { border: 2px solid #c8bba8; }
+.cnota-drop { border-color: #587052; background: #f3f7ee; }
+.cnota-drop-hint { min-height: 140px; display: grid; place-content: center; text-align: center; border: 2px dashed #c8bba8; border-radius: 8px; padding: 24px; }
+.cnota fieldset { border: 0; padding: 0; min-width: 0; display: grid; gap: 16px; }
+.cnota-selected > article, .cnota-review > article { padding: 15px; background: #f8f5ef; border: 1px solid #ded2c3; border-radius: 8px; margin: 12px 0; }
+.cnota-review { margin-top: 22px; border-top: 1px solid #d2c6b8; padding-top: 18px; }
+.cnota-total { display: block; font-size: 26px; color: #284c36; margin-bottom: 12px; }
+.cnota-check { display: flex !important; align-items: flex-start; gap: 10px; margin: 16px 0; }
+.cnota-check input { width: auto; margin-top: 4px; }
+.cnota-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.cnota-payroll { padding: 14px; border: 1px solid #d2c6b8; border-radius: 7px; }
+.cnota-payroll summary { cursor: pointer; font-weight: 650; }
+.cnota-payroll-option { display: block; width: 100%; text-align: left; overflow-wrap: anywhere; margin: 10px 0; }
+.cnota-history { margin-top: 24px; }
+.cnota-note-row { display: flex; width: 100%; justify-content: space-between; gap: 18px; text-align: left; margin-bottom: 10px; padding: 14px; }
+.cnota-note-row small, .cnota-note-row strong { display: block; overflow-wrap: anywhere; }
+.cnota-note-row > span { min-width: 0; }
+.cnota-note-row > span:last-child { text-align: right; flex-shrink: 0; }
+@media (max-width: 900px) { .cnota-columns { grid-template-columns: minmax(0,1fr); } }
+@media (max-width: 520px) { .cnota-search { flex-direction: column; align-items: stretch; } .cnota-note-row { flex-direction: column; gap: 8px; } .cnota-note-row > span:last-child { text-align: left; } .cnota-components > div { flex-wrap: wrap; } .cnota-components > div > span:last-child:not(:first-child) { text-align: left; } }

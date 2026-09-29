@@ -1,0 +1,15 @@
+{
+  "source": "30caa18a0938a6691aa5d6aa42fff100781c8016",
+  "tree": "fb0b5cfb079582661798132f42a857207c48a9d5",
+  "run_id": 36576257422,
+  "job_id": 109432529794,
+  "artifact_id": 11037982046,
+  "archive_sha256": "292082c9d552e13c3b2faba5704fe51266ce04236d7ac25716b88deb4cb166fc",
+  "status": "INCOMPLETE",
+  "source_sha256": "f4cc89bc15d5d4231bd13f7791be90a4dd74b4197c397932018678172faaceee",
+  "business_cases_executed": 0,
+  "finding": "Harness passed a stored MD5 fingerprint into a helper requiring full SQL definition; installation check aborted before commit or business probes.",
+  "correction": "Capture pg_get_functiondef before extension, compare exact declared full-definition delta plus MD5 fingerprint, and report actual definition SHA256. Do not weaken the predecessor gate.",
+  "cp6_restored": null,
+  "production_go": false
+}

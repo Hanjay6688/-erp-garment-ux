@@ -12,7 +12,7 @@
     {
       "path": "src/App.tsx",
       "exists": true,
-      "sha256": "48701472c1bb70a67359b46ce79f6f71466b2fb757abeae8f2cd9bc47718957f",
+      "sha256": "a7f0d93a88018a27fbe2bac34e1b1dcba499aa50e608685276d71cb9c99d1785",
       "framework_observation_sha256": "7121679802ba0992661e9f00076c281dd9dcf3fd4da772cfdfb65ac605ff0d17"
     },
     {
@@ -72,7 +72,7 @@
     {
       "path": "src/types/database.preconnect.ts",
       "exists": true,
-      "sha256": "fd26d9f200d958da1b4baf2d1b51922fa5780b54d038a20dafb1e6a8df1595f0",
+      "sha256": "38f6a4e3fcd1e827347e4522389788be0db0fc99b97f81251178972bd95db5d3",
       "framework_observation_sha256": "4074f018a340ef2af72145039fe8a36a57ebd31e5e6d814d552243307034baa9"
     },
     {
@@ -1019,5 +1019,16 @@
     "verification": "docs/cp7/evidence/p10-fg/BOOK_VERIFICATION.json",
     "correction_consumer": "src/ConnectedFgAdjustmentPage.tsx",
     "book_consumer": "src/ConnectedFgBookPage.tsx"
+  },
+  "p12_candidate": {
+    "source_proof": "docs/cp7/evidence/p12-nota/SOURCE_VERIFICATION.json",
+    "entry": "docs/cp7/P12_NOTA_ENTRY.md",
+    "source": "scripts/cp7_nota_bundle.py",
+    "consumer": "src/ConnectedNotaPage.tsx",
+    "native_probe": "scripts/cp7_p12_nota_probe.py",
+    "browser_probe": "scripts/cp7_p12_browser.mjs",
+    "status": "COMPOSER_CANDIDATE_NATIVE_AND_BROWSER_RERUN_PENDING",
+    "hosted_boundary_preserved": true,
+    "production_go": false
   }
 }

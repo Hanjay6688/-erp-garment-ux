@@ -1,4 +1,4 @@
-"""P12 selected-card Nota qualification; UI and full payroll lifecycle remain open."""
+"""P12 selected-card Nota and connected browser qualification; full payroll lifecycle remains open."""
 from pathlib import Path
 import hashlib,json,traceback
 import psycopg
@@ -30,12 +30,13 @@ def verify(cur):
     return dict(result,cp7_p12_bundle_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest())
 
 def run():
-    report=dict(label='CP7_P12_NOTA_COMPOSER',status='INCOMPLETE',production_go=False,independent_acceptance=False,scope='NATIVE_SOURCE_SELECTED_CARD_COMPOSITION_AND_ALLOCATION_NO_PAYROLL_SETTLEMENT_UI',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest())
+    report=dict(label='CP7_P12_NOTA_COMPOSER',status='INCOMPLETE',production_go=False,independent_acceptance=False,scope='NATIVE_SOURCE_SELECTED_CARD_COMPOSITION_ALLOCATION_AND_BROWSER_NO_PAYROLL_SETTLEMENT_UI',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest())
     installed=False
     try:
         with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
             p09.wip.policy.bf.verified(cur);before=package.boundary.snapshot(cur);public_before=native.public_state(cur);conn.rollback()
             originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)
+            internal_before=cur.execute("select pg_get_functiondef('erp.require_internal()'::regprocedure)").fetchone()[0]
             cur.execute(fg_bundle.extension(),prepare=False);cur.execute(source_bundle.extension(),prepare=False);cur.execute(bundle.extension(),prepare=False);after=p09.functions(cur)
             grants=('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)','erp.bf_commercial_sku_at_v1(uuid,timestamptz)','erp.bd_lot_laundry_unknown_v1(uuid)','erp.get_hpp_completeness(uuid)')
             # regprocedure prints timestamp with time zone with empty search_path.
@@ -51,12 +52,14 @@ def run():
             key=str(cur.execute("select 'erp.merge_eligible_work_into_payroll_v2(uuid,jsonb,uuid,bigint)'::regprocedure::text").fetchone()[0]);grants.setdefault(key,set()).add(('cp7_nota_write','EXECUTE',False))
             cur.execute("select set_config('search_path',%s,true)",(path,))
             for signature,old in pre.items():
-                new=after[signature];expected_definition=bundle.patched_internal(old['definition']) if signature=='erp.require_internal()' else old['definition']
+                new=after[signature];expected_definition=hashlib.md5(bundle.patched_internal(internal_before).encode()).hexdigest() if signature=='erp.require_internal()' else old['definition']
                 assert new['definition']==expected_definition and new['owner']==old['owner'],('P12_PREDECESSOR_CHANGED',signature)
                 expected={tuple(x) for x in old['acl'] or []}|grants.get(signature,set())
                 assert {tuple(x) for x in new['acl'] or []}==expected,('P12_UNDECLARED_ACL_DELTA',signature)
             p09.INSTALLED_FUNCTIONS=after;report['source_declared_execute_grants']={k:sorted(v) for k,v in grants.items()}
-            report['nota_admission_delta']={k:hashlib.sha256(v['erp.require_internal()']['definition'].encode()).hexdigest() for k,v in [('before',pre),('after',after)]}
+            internal_after=cur.execute("select pg_get_functiondef('erp.require_internal()'::regprocedure)").fetchone()[0]
+            assert internal_after==bundle.patched_internal(internal_before),'P12_EXACT_ADMISSION_DELTA'
+            report['nota_admission_delta']={k:hashlib.sha256(v.encode()).hexdigest() for k,v in [('before',internal_before),('after',internal_after)]}
             conn.commit();installed=True;verify(cur);conn.rollback()
         report['advisors_with_cp7']=advisors(package.boundary.PG)
         report['native']=native.strict_group('CP7_P12_NOTA_SOURCE',cases.cases,verify)
@@ -64,6 +67,8 @@ def run():
         report['notes']=native.strict_group('CP7_P12_NOTA',notes.cases,verify)
         report['note_races']=modes.run_races(notes,verify,'cp7_p12_nota')
         report['note_http']=modes.run_http(notes,verify,'cp7_p12_nota')
+        report['admission_regression']=modes.run_http(p09.cases,verify,'cp7_p12_p09_admission')
+        report['browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_p12_browser.mjs',verify,'cp7_p12_nota')
     except Exception as e:report.update(error=str(e),traceback=traceback.format_exc())
     finally:
         if installed:
@@ -75,7 +80,7 @@ def run():
                 conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
             report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta']
             report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or (d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and (f.get('metadata') or {}).get('schema') in ('cp7_payroll','cp7_fg','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice') for f in d.get('added',[])))
-        groups=[report.get(k,{}) for k in ('native','http','notes','note_races','note_http')]
+        groups=[report.get(k,{}) for k in ('native','http','notes','note_races','note_http','admission_regression','browser')]
         report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and all(r.get('status') in ('PASS','RUN_COMPLETE') and set(r.get('counts',{}))=={'PASS'} and r['counts']['PASS']>0 and r.get('database_remaining',0)==0 for r in groups) else 'INCOMPLETE'
         OUT.parent.mkdir(parents=True,exist_ok=True);OUT.write_text(json.dumps(report,indent=2,default=str)+'\n');print(json.dumps({k:report.get(k) for k in ('label','status','source_sha256','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)
     return dict(status=report['status'],production_go=False,independent_acceptance=False)

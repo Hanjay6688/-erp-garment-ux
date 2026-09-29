@@ -1,15 +1,15 @@
 {
-  "source": "1fb3016fc73a226bb820d85174968b1d5cc92d81",
-  "tree": "1e262ead2a2eaad27a98a6d587e42bcdfcc052f2",
-  "run_id": 36572505551,
-  "job_id": 109419710870,
-  "artifact_id": 11036341203,
-  "archive_sha256": "76b42c726d2fd14ecdd4ba56c9db2109f359d384afc2b38b39f398dd9b1c4355",
+  "source": "30caa18a0938a6691aa5d6aa42fff100781c8016",
+  "tree": "fb0b5cfb079582661798132f42a857207c48a9d5",
+  "run_id": 36576257390,
+  "job_id": 109432530196,
+  "artifact_id": 11037642467,
+  "archive_sha256": "995839b1926a4fac5c41358fd412e2a4c35a91130c0a744cd449b54e8849412c",
   "status": "PASS",
-  "source_sha256": "acd34553f2118ad0d8ba5c609155d504b0d208426775ca06f5cf55f8b709336a",
+  "source_sha256": "d2ec734fa0d467bc76e8ecc36a303fb70308f8307c7ca573cc472d090c99a2d7",
   "counts": {
     "native": {
-      "PASS": 4
+      "PASS": 5
     },
     "http": {
       "PASS": 1
@@ -17,8 +17,8 @@
   },
   "cp6_restored": true,
   "advisor_gate": true,
-  "scope": "NATIVE_SOURCE_READS_ONLY",
-  "ordinary_contractor_rework_and_composer_open": true,
+  "scope": "NATIVE_SOURCE_READS_WITH_CANONICAL_TIMESTAMP_TOKEN_ONLY",
+  "composer_pending": true,
   "production_go": false,
   "independent_acceptance": false
 }

@@ -7,6 +7,11 @@ name: CP7 P12 Nota composer
     - scripts/cp7_payroll_bundle.py
     - scripts/cp7_nota_bundle.py
     - scripts/cp7_nota_cases.py
+    - scripts/cp7_p12_browser.mjs
+    - scripts/cp7_p12_browser_fixture.py
+    - src/ConnectedNotaPage.tsx
+    - src/notaContract.ts
+    - src/nota-connected.css
     - scripts/cp7_nota_source_cases.py
     - scripts/cp7_p12_nota_probe.py
     - .github/workflows/cp7-p12-nota.yml

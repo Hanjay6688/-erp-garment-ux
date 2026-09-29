@@ -69,7 +69,21 @@ export function normalizeClientError(error: unknown): ClientAppError {
     return new ClientAppError('VERSION_CONFLICT', 'Data berubah di perangkat lain. Muat ulang sebelum menyimpan.')
   }
 
-  // W11 (independent audit round 9): only a failure that never got an answer is "unreachable"; a refusal with a message
+  const notaMessages: Record<string,string> = {
+    cp7_nota_source_changed: 'Hak kerja sumber berubah. Muat ulang dan pilih kembali kartu sebelum menyimpan.',
+    cp7_nota_payroll_target_changed: 'Payroll tujuan berubah. Muat ulang dan periksa kembali draft nota.',
+    cp7_nota_stale_version: 'Draft nota berubah. Muat ulang sebelum menyimpan.',
+    cp7_nota_card_in_other_draft: 'Kartu sudah berada di draft nota lain. Buka draft tersebut atau pilih sumber lain.',
+    cp7_nota_different_contractor: 'Semua kartu dalam satu nota harus milik mandor yang sama.',
+    cp7_nota_after_period: 'Ada pekerjaan yang selesai setelah akhir periode. Periksa kembali periode nota.',
+    cp7_nota_locked: 'Nota ini sudah dikunci. Koreksi mengikuti status payroll yang terkait.',
+    'payroll period overlaps': 'Periode ini sudah mempunyai payroll aktif. Pilih payroll yang ada untuk menggabungkan nota.',
+  }
+  for (const [key,message] of Object.entries(notaMessages)) {
+    if (rawMessage.includes(key)) return new ClientAppError('REJECTED',message)
+  }
+
+  // W11: only a failure that never got an answer is unreachable; show definite refusals.
   // (a server rule such as CLOSE_ALREADY_CLOSED, or a page parser such as "Model produk bukan UUID valid.") is shown as is.
   const originalMessage = typeof candidate.message === 'string' ? candidate.message.trim() : ''
   if (!isUnansweredFailure(error) && originalMessage) {

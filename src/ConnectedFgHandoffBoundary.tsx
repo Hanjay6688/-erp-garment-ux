@@ -1,7 +1,13 @@
 import { AlertTriangle, Calculator, ShieldCheck } from 'lucide-react'
 import './connected-laundry-qc.css'
+import {useAuth} from './auth/AuthProvider'
+import ConnectedNotaPage from './ConnectedNotaPage'
 
 export default function ConnectedFgHandoffBoundary() {
+  const {runtime}=useAuth()
+  // CP7 candidate is exercised against the disposable native stack. The hosted
+  // CP6 boundary stays in place until the complete P12 package is admitted.
+  if(runtime.mode==='DISPOSABLE_TEST')return <ConnectedNotaPage/>
   return <div className="connected-laundry-qc-page">
     <section className="clq-hero"><div><span>CP6 · PAGAR KEAMANAN DATA</span><h1>Susun Nota FG</h1><p>Fitur ini belum aktif di UAT. Ini bukan masalah hak akses role Anda.</p></div></section>
     <div className="clq-boundary"><ShieldCheck/><span><strong>Final SKU dan stok FG sudah tersimpan dari halaman QC.</strong> Hak kerja dan payroll tidak boleh dihitung ulang dari angka sementara di browser.</span></div>

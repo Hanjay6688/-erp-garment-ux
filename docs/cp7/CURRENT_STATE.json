@@ -51,7 +51,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Connect P10 Nota handoff and P12 source cards/composer/payroll, then P11/R10, P13 and remaining P09. F02 independent retest remains pending.",
+  "next_action": "Qualify the native Nota composer and real browser recovery, then continue P12 payroll/attendance/advance and the remaining F03 packets.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -90,5 +90,19 @@
   "p10_entry": "docs/cp7/P10_FG_HANDOFF.md",
   "p10_verification": "docs/cp7/evidence/p10-fg/VERIFICATION.json",
   "p10_adjustment_verification": "docs/cp7/evidence/p10-fg/ADJUSTMENT_VERIFICATION.json",
-  "p10_book_verification": "docs/cp7/evidence/p10-fg/BOOK_VERIFICATION.json"
+  "p10_book_verification": "docs/cp7/evidence/p10-fg/BOOK_VERIFICATION.json",
+  "p12_entry": {
+    "source_verification": "docs/cp7/evidence/p12-nota/SOURCE_VERIFICATION.json",
+    "notes": "docs/cp7/P12_NOTA_ENTRY.md",
+    "status": "SOURCE_6_PASS_COMPOSER_RERUN_PENDING",
+    "scope": "P10_NOTA_P12_SELECTED_COMPONENT_HANDOFF",
+    "remaining": [
+      "composer_and_browser_qualification",
+      "payroll_approval_payment_reversal",
+      "attendance_and_advances",
+      "full_E05_family_crossflow",
+      "P11_R10",
+      "P13"
+    ]
+  }
 }

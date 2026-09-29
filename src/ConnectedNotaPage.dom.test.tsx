@@ -1,0 +1,32 @@
+// @vitest-environment jsdom
+import {act} from 'react'
+import {createRoot,type Root} from 'react-dom/client'
+import {afterEach,beforeEach,describe,expect,it,vi} from 'vitest'
+import ConnectedNotaPage from './ConnectedNotaPage'
+import {parseNotaWorkspace,parseNotaOutcome} from './notaContract'
+import {recoveryIdentity} from '../tests/fixtures/productionRecovery'
+const state=vi.hoisted(()=>({auth:null as unknown}))
+const client=vi.hoisted(()=>({rpc:vi.fn()}))
+vi.mock('./auth/AuthProvider',()=>({useAuth:()=>state.auth}))
+vi.mock('./lib/supabase',()=>({getUatSupabaseClient:()=>client}))
+const id='11111111-1111-4111-8111-111111111111',origin='22222222-2222-4222-8222-222222222222',noteId='33333333-3333-4333-8333-333333333333',at='2026-09-29T03:00:00.000000Z'
+const card={card_key:`FG_REPAIR:${origin}:${id}`,source_type:'FG_REPAIR',origin_id:origin,origin_number:'BB-001',contractor_id:id,contractor_name:'Mandor Test',contractor_active:true,po_id:null,po_number:null,cutting_group_id:null,group_number:null,bs_case_id:origin,eligible_at:at,line_count:'1',source_token:'a'.repeat(32),basis:'NATIVE_REMAINING_COMPONENT_ENTITLEMENT',lines:[{source_type:'FG_REPAIR',source_id:id,component_id:id,component_code:'JAHIT',component_name:'Jahit utama',source_qty:'2',eligible_qty:'2',allocated_qty:'0',remaining_qty:'2',held_qty:'0',eligible_at:at,eligibility_reason:'FG_UNSOURCED_REPAIR_POSTED'}]}
+const page=(rows:unknown[])=>({rows,total:String(rows.length),offset:0,limit:25,next_offset:null})
+const workspace=(section:string,rows:unknown[],financial=false)=>({contract_version:'cp7.nota-workspace.v1',section,read_at:at,financial_captured:financial,can_post:true,page:page(rows)})
+function noteFixture(){return {id:noteId,note_number:'NFG-001',contractor_id:id,contractor_name:'Mandor Test',note_date:'2026-09-29',period_start:'2026-09-29',period_end:'2026-09-29',notes:'',status:'DRAFT',row_version:'9007199254740993',target_payroll_id:null,target_version:null,posted_payroll_id:null,payroll_number:null,payroll_status:null,posted_at:null,void_reason:null,created_at:at,updated_at:at,cards:[card]}}
+let root:Root,container:HTMLDivElement,saved:ReturnType<typeof noteFixture>|null
+beforeEach(()=>{Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true});saved=null;localStorage.clear();client.rpc.mockReset();const a=structuredClone(recoveryIdentity);a.identity.permissions.push('production.fg_handoff.view','production.fg_handoff.post');state.auth=a;Object.defineProperty(navigator,'locks',{configurable:true,value:{request:async(_n:string,_o:unknown,fn:(l:unknown)=>Promise<unknown>)=>fn({})}});container=document.createElement('div');document.body.append(container);root=createRoot(container)})
+afterEach(async()=>{await act(async()=>root.unmount());container.remove();localStorage.clear();Reflect.deleteProperty(navigator,'locks');vi.restoreAllMocks()})
+async function flush(){await act(async()=>{await new Promise(r=>setTimeout(r,0))})}
+async function mount(){await act(async()=>root.render(<ConnectedNotaPage/>));await flush()}
+async function click(label:string){const b=[...container.querySelectorAll('button')].find(x=>x.textContent===label);if(!b)throw Error(label);await act(async()=>b.click());await flush()}
+function server(){client.rpc.mockImplementation(async(name:string,args:Record<string,unknown>)=>{
+ if(name==='erp_cp7_save_nota_v1'){saved=noteFixture();return {error:null,data:{contract_version:'cp7.nota-outcome.v1',kind:'COMMITTED_OUTCOME',action:args.p_action,request_id:args.p_request,note_id:noteId,status:'DRAFT',row_version:saved.row_version,payroll_id:null}}}
+ return {error:null,data:args.p_section==='SOURCES'?workspace('SOURCES',[{...card,claimed_by_note:saved?noteId:null}]):workspace(String(args.p_section),args.p_section==='NOTES'&&saved?[saved]:[])}
+})}
+describe('native Nota boundary',()=>{
+ it('rejects money in operational nested cards and an inconsistent financial source total',()=>{const w=workspace('SOURCES',[{...card,claimed_by_note:null}]);expect(parseNotaWorkspace(w,'SOURCES').page.rows[0].remaining_amount).toBeUndefined();expect(()=>parseNotaWorkspace(workspace('SOURCES',[{...card,claimed_by_note:null,remaining_amount:'4000'}]),'SOURCES')).toThrow();expect(()=>parseNotaWorkspace(workspace('SOURCES',[{...card,claimed_by_note:null,remaining_amount:'3000',lines:[{...card.lines[0],rate:'2000',amount:'4000'}]}],true),'SOURCES')).toThrow()})
+ it('adds a complete card and saves only source identity/token, then requires explicit post review',async()=>{server();await mount();await click('Tambahkan ke nota');expect(container.textContent).toContain('Bikin Bagus');expect(container.textContent).not.toContain('Rp');await click('Simpan draft nota');const call=client.rpc.mock.calls.find(([n])=>n==='erp_cp7_save_nota_v1')![1];expect(call.p_payload.cards).toEqual([{card_key:card.card_key,source_token:card.source_token}]);expect(call.p_expected).toBeNull();expect(call.p_payload).not.toHaveProperty('amount');const post=[...container.querySelectorAll('button')].find(x=>x.textContent==='Posting ke payroll')!;expect(post.disabled).toBe(true);expect(container.textContent).toContain('Pembayaran dilakukan terpisah.')})
+ it('keeps a large row version as exact text and clears rendered source facts after failed refresh',async()=>{server();saved=noteFixture();await mount();await click('Mandor Test2026-09-29 · NFG-001Draft');expect(parseNotaWorkspace(workspace('NOTES',[saved]),'NOTES').page.rows[0].row_version).toBe('9007199254740993');client.rpc.mockResolvedValue({data:null,error:{status:403,message:'Access revoked'}});await click('Muat ulang nota');expect(container.querySelectorAll('.cnota-source')).toHaveLength(0);expect(container.querySelectorAll('.cnota-selected article')).toHaveLength(0);expect(container.textContent).not.toContain('Mandor Test')})
+ it('refuses mismatched successful outcome document, action, and UUID',()=>{const p={document:{id:noteId},expected_version:'1'},r={contract_version:'cp7.nota-outcome.v1',kind:'COMMITTED_OUTCOME',action:'SAVE',request_id:id,note_id:origin,status:'DRAFT',row_version:'2',payroll_id:null};expect(()=>parseNotaOutcome(r,id,'SAVE',p)).toThrow();expect(()=>parseNotaOutcome({...r,note_id:noteId},origin,'SAVE',p)).toThrow();expect(()=>parseNotaOutcome({...r,note_id:noteId},id,'POST',p)).toThrow()})
+})
