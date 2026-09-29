@@ -28,6 +28,7 @@ def call(cur,name,*args):
     sql={'reconcile':'select cp7_wip.reconcile(%s::jsonb)',
       'match':'select cp7_wip.match_target(%s::jsonb,%s::jsonb)',
       'allocate':'select cp7_wip.check_allocations(%s::jsonb,%s::jsonb)',
+      'yield':'select cp7_wip.project_yield(%s::jsonb,%s::jsonb)',
       'eta':'select cp7_wip.remaining_eta(%s::timestamptz,%s::timestamptz,%s::jsonb)'}[name]
     return cur.execute(sql,tuple(json.dumps(x) if isinstance(x,(dict,list)) else x for x in args)).fetchone()[0]
 
@@ -101,6 +102,7 @@ def cases(cur,today):
         return dict(status='PASS',tariff_hint_not_confirmation=True,required_unknown_needs_check=True,optional_empty_not_rejected=True)
     def allocate():
         r=call(cur,'reconcile',graph())
+        r=call(cur,'yield',r,[dict(position_key='A-sew',eligible_input_pcs='20',numerator='1',denominator='1',basis='ASSUMED',assumption_id='test-full-yield',refs=refs('yield-100pct'))])
         def edge(k,target,q):return dict(key=k,position_key='A-sew',target_key=target,size_id='31',input_pcs=str(q),projected_good_pcs=str(q),match='CANDIDATE_MATCH',refs=refs(k))
         a=dict(scenario_id='S1',scope_id='ALL-A-B',complete_scope=True,edges=[edge('1','brand-A',15),edge('2','brand-B',10)])
         result=call(cur,'allocate',r,a);assert result['status']=='INFEASIBLE' and result['violations'][0]['excess_pcs']=='5'
@@ -109,6 +111,43 @@ def cases(cur,today):
         a['complete_scope']=False;assert call(cur,'allocate',r,a)['status']=='UNKNOWN'
         a['filter']='brand-A';check(cur,lambda:call(cur,'allocate',r,a),'CP7_WIP_FIELDS')
         return dict(status='PASS',shared_remaining_20_not_40=True,hidden_scope_not_reset=True,alternatives_not_summed=True)
+    def yield_cap():
+        g=graph();g['pools']=g['pools'][:1];g['nodes']=g['nodes'][:1];g['events']=g['events'][:1]
+        g['pools'][0]['input_pcs']=g['events'][0]['qty_pcs']='100'
+        physical=call(cur,'reconcile',g)
+        policy=dict(position_key='A-sew',eligible_input_pcs='100',numerator='9',denominator='10',basis='ASSUMED',assumption_id='yield90',refs=refs('yield90-v1'))
+        r=call(cur,'yield',physical,[policy]);projection=r['positions'][0]['projection']
+        assert projection['eligible_input_pcs']=='100' and projection['projected_good_pcs']=='90' and projection['expected_loss_pcs']=='10' and projection['not_actual_bs']
+        edge=dict(key='X08',position_key='A-sew',target_key='A',size_id='31',input_pcs='100',projected_good_pcs='90',match='CANDIDATE_MATCH',refs=refs('X08'))
+        a=dict(scenario_id='yield90',scope_id='ALL',complete_scope=True,edges=[edge])
+        assert call(cur,'allocate',physical,a)['status']=='UNKNOWN'
+        assert call(cur,'allocate',r,a)['status']=='FEASIBLE'
+        edge['projected_good_pcs']='91';assert call(cur,'allocate',r,a)['status']=='INFEASIBLE'
+        edge.update(input_pcs='101',projected_good_pcs='90');assert call(cur,'allocate',r,a)['status']=='INFEASIBLE'
+        edge.update(input_pcs='100',projected_good_pcs='90');check(cur,lambda:call(cur,'yield',physical,[dict(policy,denominator='0')]),'CP7_WIP_YIELD_POLICY')
+        precise=call(cur,'yield',physical,[dict(policy,eligible_input_pcs='1',numerator='99999999999999999999999999999',denominator='100000000000000000000000000000')])
+        assert precise['positions'][0]['projection']['projected_good_pcs']=='0'
+        assert total(r,'input_pcs')==100 and total(r,'bs_pcs')==0 and total(r,'fg_pcs')==0
+        return dict(status='PASS',oracle='X08',physical=100,eligible_input=100,projected_good=90,output91_denied=True,input101_denied=True,loss_not_actual_bs=True,exact_rational_floor=True)
+    def edges():
+        g=graph();g['pools']=[dict(key=k,size_id='31',input_pcs='50',origin='CUTTING',ownership='COMPANY',refs=refs(k)) for k in ['S1','S2']]
+        g['nodes']=[dict(key=k,pool_key=k,stage='SEWING_ACTIVE',refs=refs(k)) for k in ['S1','S2']];g['events']=[]
+        event(g,'S1',None,'S1',50);event(g,'S2',None,'S2',50)
+        r=call(cur,'yield',call(cur,'reconcile',g),[dict(position_key=k,eligible_input_pcs='50',numerator='1',denominator='1',basis='ASSUMED',assumption_id='X06-100pct',refs=refs('X06')) for k in ['S1','S2']])
+        def e(key,source,target):return dict(key=key,position_key=source,target_key=target,size_id='31',input_pcs='30',projected_good_pcs='30',match='CANDIDATE_MATCH',refs=refs(key))
+        a=dict(scenario_id='X06',scope_id='GLOBAL',complete_scope=True,edges=[e('1','S1','A'),e('2','S2','B')])
+        first=call(cur,'allocate',r,a);a['edges']=[e('1','S2','A'),e('2','S1','B')];second=call(cur,'allocate',r,a)
+        assert first['status']==second['status']=='FEASIBLE' and first['edges']!=second['edges']
+        a['edges'][0]['match']='INCOMPATIBLE';check(cur,lambda:call(cur,'allocate',r,a),'CP7_WIP_INELIGIBLE_ALLOCATION')
+        return dict(status='PASS',oracle='X06',same_totals_distinct_edges=True,incompatible_positive_edge_refused=True)
+    def shared60():
+        g=graph();g['pools']=g['pools'][:1];g['nodes']=g['nodes'][:1];g['events']=g['events'][:1]
+        r=call(cur,'yield',call(cur,'reconcile',g),[dict(position_key='A-sew',eligible_input_pcs='60',numerator='1',denominator='1',basis='ASSUMED',assumption_id='O04-100pct',refs=refs('O04'))])
+        def e(key,target,qty):return dict(key=key,position_key='A-sew',target_key=target,size_id='31',input_pcs=str(qty),projected_good_pcs=str(qty),match='CANDIDATE_MATCH',refs=refs(key))
+        a=dict(scenario_id='O04',scope_id='ALL-A-B',complete_scope=True,edges=[e('A','A',42),e('B','B',18)])
+        assert call(cur,'allocate',r,a)['status']=='FEASIBLE'
+        a['edges'][1]=e('B','B',30);over=call(cur,'allocate',r,a);assert over['status']=='INFEASIBLE' and any(v['excess_pcs']=='12' for v in over['violations'])
+        return dict(status='PASS',oracle='O04_SOURCE_CAPACITY_ONLY',source=60,allocated_a=42,allocated_b=18,requested_b=30,uncovered_b=12,dated_netting_owned_by_P06=True)
     def timing():
         work=[dict(stage='QC',remaining_minutes='90',basis='CONFIRMED_PLAN',assumption_id=None,calendar_version='QC-calendar-v1',
           windows=[{'start':'2026-09-29T09:00:00+07:00','end':'2026-09-29T10:00:00+07:00'},
@@ -137,4 +176,5 @@ def cases(cur,today):
     return [('P04_'+name,fn) for name,fn in [('O15_CONSERVATION',o15),('NEGATIVE_PREFIX',negative),('INPUT_UNIQUENESS',extra_input),
       ('REWORK_DENOMINATOR',rework),('REWASH_CYCLE',rewash),('REVERSAL_DEPENDENCIES',reversals),('LINEAGE_SIZE_DUPLICATE',lineage),
       ('PARTIAL_MALFORMED',partial),('OWNERSHIP_HOLD',ownership),('HARD_MATCHING',matching),('SHARED_POOL',allocate),
+      ('X08_YIELD_INPUT_OUTPUT',yield_cap),('X06_DISTINCT_EDGES',edges),('O04_SHARED60',shared60),
       ('REMAINING_ETA',timing),('EXACT_INTEGER',large),('PRIVATE_KERNEL_ACL',private)]]

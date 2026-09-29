@@ -10,6 +10,8 @@ begin
   stage:=null;
   if origin->>'header_status'<>'POSTED' or origin->>'batch_status'<>'POSTED' then return jsonb_build_object('status','UNKNOWN','reason','OPENING_NOT_POSTED','source_id',origin->'id');end if;
   if origin->>'size_id' is null then return jsonb_build_object('status','UNKNOWN','reason','OPENING_SIZE_UNPROVEN','source_id',origin->'id');end if;
+  if (origin->>'opening_qty_pcs')::numeric is distinct from cp7_wip.pcs(origin->'qty_pcs') then
+   return jsonb_build_object('status','CONFLICT','reason','OPENING_ORIGIN_QUANTITY_MISMATCH','source_id',origin->'id');end if;
   pool:='OPEN:'||(origin->>'id');src:=pool||':PRE';ref:=cp7_wip.ref('erp.initial_import_production_sources',origin->>'id',origin->>'batch_id');
   g:=jsonb_set(g,'{pools}',g->'pools'||jsonb_build_array(jsonb_build_object('key',pool,'size_id',origin->'size_id','input_pcs',origin->'qty_pcs',
    'origin','OPENING','ownership',case when origin->>'customer_id' is null then 'COMPANY' else 'CUSTOMER' end,'refs',jsonb_build_array(ref))));

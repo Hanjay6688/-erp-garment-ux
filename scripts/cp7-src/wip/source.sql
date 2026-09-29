@@ -5,7 +5,7 @@ grant select on erp.cutting_pickups,erp.cutting_distribution_batches,erp.cutting
  erp.laundry_receipts,erp.laundry_receipt_lines,erp.laundry_receipt_batch_size_lines,
  erp.qc_inspections,erp.qc_inspection_items,erp.bs_cases,erp.rework_orders,
  erp.laundry_failed_wash_attempts,erp.laundry_failed_wash_batch_size_lines,erp.laundry_redispatch_participant_events,erp.bs_resolutions,
- erp.sewing_terminal_events,erp.laundry_claims,erp.bs_case_hold_events,erp.fg_unsourced_receipts_v1 to cp7_capture;
+ erp.sewing_terminal_events,erp.laundry_claims,erp.bs_case_hold_events,erp.fg_unsourced_receipts_v1,erp.wip_control_flags to cp7_capture;
 create function cp7_wip.capture_cutting_sources(p_groups uuid[],p_at timestamptz) returns jsonb
 language sql stable security invoker set search_path='' set timezone='Asia/Jakarta' as $$
 with clock as materialized(select p_at at),
@@ -115,6 +115,11 @@ sewing as materialized(
  select e.id,e.cutting_group_id group_id,e.qty_signed::text qty_signed,e.event_kind,e.reversal_of_id,e.physical_at,e.row_version::text revision
  from erp.sewing_terminal_events e join groups g on g.id=e.cutting_group_id cross join clock c where e.physical_at<=c.at order by e.physical_at,e.id limit 2001
 ),
+flags as materialized(
+ select x.id,x.cutting_group_id group_id,x.flag_type,x.status,x.row_version::text revision,x.created_at,x.resolved_at
+ from erp.wip_control_flags x join groups g on g.id=x.cutting_group_id cross join clock c
+ where x.created_at<=c.at order by x.id limit 2001
+),
 source as (select jsonb_build_object(
  'groups',coalesce((select jsonb_agg(to_jsonb(x) order by id) from groups x),'[]'::jsonb),
  'yields',coalesce((select jsonb_agg(to_jsonb(x) order by id) from yields x),'[]'::jsonb),
@@ -133,7 +138,8 @@ source as (select jsonb_build_object(
  'failed_sizes',coalesce((select jsonb_agg(to_jsonb(x) order by id) from failed_sizes x),'[]'::jsonb),
  'redispatch',coalesce((select jsonb_agg(to_jsonb(x) order by id) from redispatch x),'[]'::jsonb),
  'claims',coalesce((select jsonb_agg(to_jsonb(x) order by id) from claims x),'[]'::jsonb),
- 'sewing',coalesce((select jsonb_agg(to_jsonb(x) order by id) from sewing x),'[]'::jsonb)) facts)
+ 'sewing',coalesce((select jsonb_agg(to_jsonb(x) order by id) from sewing x),'[]'::jsonb),
+ 'flags',coalesce((select jsonb_agg(to_jsonb(x) order by id) from flags x),'[]'::jsonb)) facts)
 select jsonb_build_object('contract_version','cp7.cutting-facts.v1','knowledge_mode','CURRENT',
  'captured_at',(select at from clock),'scope',to_jsonb(p_groups),'facts',facts,
  'status',case when jsonb_array_length(facts->'groups')=cardinality(p_groups)

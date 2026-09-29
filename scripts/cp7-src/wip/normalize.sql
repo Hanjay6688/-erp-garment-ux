@@ -162,6 +162,8 @@ begin
   'fg_basis','PRODUCTION_DISPOSITION_NOT_CURRENT_ON_HAND','sewing_detail','SUBSTAGE_NOT_ALLOCATABLE_FROM_GROUP_EVENTS',
   'scope','SELECTED_CUTTING_GROUPS_ONLY_NO_OPENING_OR_NON_PO',
   'partial_rework_basis','REPORTED_RETURN_REMAINS_WIP_UNTIL_COMPLETION_POSTED',
+  'allocation_review_required',exists(select 1 from jsonb_array_elements(f->'flags') where value->>'status'='OPEN' and value->>'flag_type' in ('PENDING_CORRECTION','PENDING_REVERSAL')),
+  'attention',coalesce((select jsonb_agg(value order by value->>'id') from jsonb_array_elements(f->'flags') where value->>'status'='OPEN'),'[]'::jsonb),
   'rewash_review_required',exists(select 1 from jsonb_array_elements(f->'failed') attempt_entry join jsonb_array_elements(f->'receipts') receipt_entry on receipt_entry->>'id'=attempt_entry->>'receipt_line_id' where receipt_entry->>'status'='POSTED'),
   'rewash_basis','RETRY_REMAINS_IN_DELIVERY_RETURN_UNPROCESSED_REUSES_ORIGINAL_POOL');
 end $$;

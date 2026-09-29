@@ -175,12 +175,27 @@ def cases(cur,today):
         restored=capture(cur,[f['group']]);assert total(restored['result'],'bs_pcs')==5 and total(restored['result'],'exited_pcs')==0,restored
         assert read(cur,scrap['run_id'])['source_state']=='ARCHIVED_STALE' and read(cur,held['run_id'])['result']==held['result']
         return dict(status='PASS',ordinary_hold_release_scrap_reverse=True,held=5,scrap_exit=2,restored_bs=5,no_extra_good=True,old_results_immutable=True)
+    def attention():
+        f=fixture(cur,today)
+        def flag(payload,version=None):
+            b.chain.production.owner(cur)
+            v=cur.execute('select public.erp_set_wip_control_flag_v1(%s::jsonb,%s,%s)',(json.dumps(payload),uuid.uuid4(),version)).fetchone()[0]
+            b.api.admin(cur);return v
+        payload=dict(cutting_group_id=f['group'],flag_type='PENDING_CORRECTION',note='Check physical reconciliation',change_reason='P04 actual attention flag')
+        mark=flag(payload);r=capture(cur,[f['group']]);assert r['result']['allocation_review_required'] and total(r['result'],'wip_pcs')==80
+        a=dict(scenario_id='P04-FLAG',scope_id=r['run_id'],complete_scope=True,edges=[])
+        checked=cur.execute('select cp7_wip.check_allocations(%s::jsonb,%s::jsonb)',(json.dumps(r['result']),json.dumps(a))).fetchone()[0]
+        assert checked==dict(status='UNKNOWN',reason='SOURCE_REVIEW_REQUIRED')
+        flag(dict(payload,id=mark['flag_id'],status='RESOLVED'),mark['row_version'])
+        now=capture(cur,[f['group']]);assert not now['result']['allocation_review_required']
+        assert read(cur,r['run_id'])['source_state']=='ARCHIVED_STALE'
+        return dict(status='PASS',ordinary_flag_changes_dependency=True,quantity_preserved=80,allocation_requires_review=True,resolution_does_not_rewrite_archive=True)
     def multi_scope():
         f=fixture(cur,today);other=b.two_size_fixture(cur,b.case_day(today),'P04-OTHER',q1=6,q2=4)
         r=capture(cur,[other['group'],f['group']]);assert [total(r['result'],k+'_pcs') for k in ('input','wip','fg','bs')]==[110,90,15,5]
         assert len(r['result']['totals'])==4 and len({x['pool_key'] for x in r['result']['totals']})==4
         return dict(status='PASS',one_capture_multiple_groups=True,input=110,wip=90,fg=15,bs=5)
-    return [('P04_SOURCE_'+name,fn) for name,fn in [('O15_ACTUAL_POSTING',actual),('IMMUTABLE_QC_REPLAY',immutable),('AUTH_NO_MONEY',access),('MALFORMED_NO_PARTIAL',malformed),('CONFLICT_PROPAGATES',conflict),('MULTI_GROUP_ONE_CAPTURE',multi_scope),('REWORK_PARTIAL_COMPLETION',rework_lifecycle),('REWASH_RETURN_REDISPATCH',rewash_lifecycle),('CLAIM_CUSTODY',claims),('BS_HOLD_DISPOSITION',bs_disposition)]]
+    return [('P04_SOURCE_'+name,fn) for name,fn in [('O15_ACTUAL_POSTING',actual),('IMMUTABLE_QC_REPLAY',immutable),('AUTH_NO_MONEY',access),('MALFORMED_NO_PARTIAL',malformed),('CONFLICT_PROPAGATES',conflict),('MULTI_GROUP_ONE_CAPTURE',multi_scope),('REWORK_PARTIAL_COMPLETION',rework_lifecycle),('REWASH_RETURN_REDISPATCH',rewash_lifecycle),('CLAIM_CUSTODY',claims),('BS_HOLD_DISPOSITION',bs_disposition),('SOURCE_REVIEW_FLAG',attention)]]
 
 def http_cases(http,today):
     def auth():

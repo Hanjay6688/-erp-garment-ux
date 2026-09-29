@@ -48,6 +48,7 @@ begin
  result:=cp7_wip.reconcile(g);
  return result||jsonb_build_object('graph',g,'source_basis','ONE_CAPTURE_EXPLICIT_PRODUCTION_ORIGINS',
   'scope','SELECTED_ORIGINS_ONLY','fg_basis','PRODUCTION_DISPOSITION_NOT_CURRENT_ON_HAND',
+  'allocation_review_required',cut->'allocation_review_required','attention',cut->'attention',
   'sewing_detail','SUBSTAGE_NOT_ALLOCATABLE_FROM_GROUP_EVENTS','rewash_review_required',cut->'rewash_review_required',
   'timing',jsonb_build_object('quality','UNKNOWN','reason','NO_CALENDAR_OR_REMAINING_WORK_SELECTED','eta',null,'on_time',null));
 end $$;

@@ -48,8 +48,8 @@ end $$;
 -- do not enter this function. Both original pool and remaining-position caps apply.
 create function cp7_wip.check_allocations(positions jsonb, a jsonb) returns jsonb
 language plpgsql immutable security invoker set search_path='' as $$
-declare e jsonb; n jsonb; p jsonb; used jsonb:='{}';pool_used jsonb:='{}'; seen jsonb:='{}';
- qty numeric; k text;pk text; deficits jsonb:='[]';
+declare e jsonb; n jsonb; p jsonb; projection jsonb;used jsonb:='{}';good_used jsonb:='{}';pool_used jsonb:='{}'; seen jsonb:='{}';
+ qty numeric;good numeric;cap numeric;k text;pk text; deficits jsonb:='[]';
 begin
  perform cp7_wip.fields(a,array['scenario_id','scope_id','complete_scope','edges']);
  perform cp7_wip.key(a->'scenario_id');perform cp7_wip.key(a->'scope_id');
@@ -58,23 +58,37 @@ begin
    or not (a->>'complete_scope')::boolean then
   return jsonb_build_object('status','UNKNOWN','reason','ALLOCATION_SCOPE_INCOMPLETE');
  end if;
+ if positions->'allocation_review_required'='true'::jsonb then
+  return jsonb_build_object('status','UNKNOWN','reason','SOURCE_REVIEW_REQUIRED');end if;
  if jsonb_array_length(a->'edges')>10000 then raise exception 'CP7_WIP_LIMIT';end if;
  for e in select value from jsonb_array_elements(a->'edges') loop
   perform cp7_wip.fields(e,array['key','position_key','target_key','size_id','input_pcs','projected_good_pcs','match','refs']);
   k:=cp7_wip.key(e->'key');perform cp7_wip.key(e->'target_key');perform cp7_wip.key(e->'size_id');perform cp7_wip.refs(e->'refs');
   if seen ? k then raise exception 'CP7_WIP_DUPLICATE_ALLOCATION';end if;seen:=seen||jsonb_build_object(k,true);
   select value into n from jsonb_array_elements(positions->'positions') where value->>'key'=cp7_wip.key(e->'position_key');
-  qty:=cp7_wip.pcs(e->'input_pcs');
+  qty:=cp7_wip.pcs(e->'input_pcs');good:=cp7_wip.pcs(e->'projected_good_pcs');
   if n is null or n->>'size_id'<>e->>'size_id' or n->'eligible_company_wip'<>'true'::jsonb
     or e->>'match' is null or e->>'match' not in ('CONFIRMED_TARGET','CANDIDATE_MATCH')
-    or cp7_wip.pcs(e->'projected_good_pcs')>qty then raise exception 'CP7_WIP_INELIGIBLE_ALLOCATION';end if;
+    or good>qty then raise exception 'CP7_WIP_INELIGIBLE_ALLOCATION';end if;
   k:=n->>'key';pk:=n->>'pool_key';
+  projection:=n->'projection';
+  if qty>0 and (projection->>'quality' is distinct from 'SCENARIO') then
+   return jsonb_build_object('status','UNKNOWN','reason','YIELD_NOT_SELECTED','position_key',k);end if;
+  if qty>0 then
+   cap:=div(qty*cp7_wip.pcs(projection->'numerator'),cp7_wip.pcs(projection->'denominator'));
+   if good>cap then deficits:=deficits||jsonb_build_array(jsonb_build_object('kind','EDGE_YIELD','key',e->'key','excess_pcs',(good-cap)::text));end if;
+  end if;
   used:=used||jsonb_build_object(k,coalesce((used->>k)::numeric,0)+qty);
+  good_used:=good_used||jsonb_build_object(k,coalesce((good_used->>k)::numeric,0)+good);
   pool_used:=pool_used||jsonb_build_object(pk,coalesce((pool_used->>pk)::numeric,0)+qty);
  end loop;
  for n in select value from jsonb_array_elements(positions->'positions') loop
   k:=n->>'key';qty:=coalesce((used->>k)::numeric,0);
   if qty>cp7_wip.pcs(n->'remaining_pcs') then deficits:=deficits||jsonb_build_array(jsonb_build_object('kind','POSITION','key',k,'excess_pcs',(qty-cp7_wip.pcs(n->'remaining_pcs'))::text));end if;
+  if qty>0 and n->'projection'->>'quality'='SCENARIO' then
+   if qty>cp7_wip.pcs(n->'projection'->'eligible_input_pcs') then deficits:=deficits||jsonb_build_array(jsonb_build_object('kind','ELIGIBLE_INPUT','key',k,'excess_pcs',(qty-cp7_wip.pcs(n->'projection'->'eligible_input_pcs'))::text));end if;
+   if (good_used->>k)::numeric>cp7_wip.pcs(n->'projection'->'projected_good_pcs') then deficits:=deficits||jsonb_build_array(jsonb_build_object('kind','PROJECTED_GOOD','key',k,'excess_pcs',((good_used->>k)::numeric-cp7_wip.pcs(n->'projection'->'projected_good_pcs'))::text));end if;
+  end if;
  end loop;
  for p in select value from jsonb_array_elements(positions->'totals') loop
   pk:=p->>'pool_key';qty:=coalesce((pool_used->>pk)::numeric,0);
@@ -82,5 +96,6 @@ begin
  end loop;
  return jsonb_build_object('status',case when jsonb_array_length(deficits)=0 then 'FEASIBLE' else 'INFEASIBLE' end,
   'scenario_id',a->'scenario_id','scope_id',a->'scope_id','violations',deficits,
+  'edges',coalesce((select jsonb_agg(value order by value->>'key') from jsonb_array_elements(a->'edges')),'[]'::jsonb),
   'basis','SIMULATION_NOT_RESERVATION');
 end $$;

@@ -1,6 +1,6 @@
 # P04 — conserved WIP, matching and remaining ETA
 
-Status: WRITER_CUTTING_LIFECYCLE_NATIVE_PASS (14 kernel + 10 source + 2 races + 1 HTTP, plus fixture smoke); atomic opening/non-PO extension under verification. F02 remains open. No operational
+Status: WRITER_ATOMIC_ORIGIN_NATIVE_PASS (14 kernel + 16 source + 3 races + 2 HTTP, plus fixture smoke); explicit yield and review-flag increment under verification. F02 remains open. No operational
 connection, production deployment, or independent acceptance.
 
 ## Authoritative implementation
@@ -86,3 +86,11 @@ All declared cutting lifecycle cases passed on `b925976a2d8c7004d7eb740d9918d4b2
 `erp_cp7_capture_production_wip_v1` declares selected cutting groups, opening item IDs and unsourced BS case IDs, at most 50 origins in total. All readers use the same capture clock and the same MVCC statement. Each source domain is bounded; a missing/partial origin refuses the entire capture. Ordinary cutting BS cannot be recaptured as non-PO input. Opening import, pickup, outputs/reversals, BS splits/reworks, claim recovery and resolution are projected from explicit nonfinancial columns. Missing exact size stays UNKNOWN. Claim settlement never becomes recovered goods. Existing FG-only non-PO receipts belong to P10 stock; they are not additional WIP.
 
 Declared cases: opening 8 PCS → pickup → 3 FG → 2 BS split → reverse 3 FG; opening claim 2 with recovery 1 and write-off 1; combined 100 cutting + 8 opening = 108 input, 88 WIP, 15 FG, 5 BS; found BS 5 → 3 FG + 2 BS → reversal; current Auth, source-alias refusal, one cross-origin snapshot race and one real HTTP case. The production result explicitly has unknown ETA until a calendar and remaining work are selected. This increment remains pending until its own source-bound native run passes.
+
+All atomic-origin cases passed on `6abdf3263ba03b443a17a8c34b44effffd55db2f`, [run 36515005355](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36515005355), bundle `aafd1e085955faf541bcb650a863f9e86b8d2a0355aeef6033844779cb8ff50a`. Six additional actual-source cases, a cross-origin MVCC race and real HTTP case passed alongside the cutting baseline. This supersedes their pending labels above. CP6 restored; advisors passed.
+
+### Oracle crosswalk correction: X08 and source review
+
+Cross-checking the original packet exit cases identified an implementation gap: the physical allocation cap alone does not enforce an explicitly selected 90% yield. `project_yield` now keeps physical input, eligible input, projected GOOD and expected loss separate, with versioned source references and explicit plan/history/assumption basis. Positive allocation without selected yield is UNKNOWN. The allocator checks both each edge's rational yield cap and shared input/output caps, using exact integer division (no rounding-up of an almost-whole result). Expected loss is never posted BS. X08 now declares 100/100/90, refuses output 91 or input 101. X06 returns distinct source→target edges even when totals match; incompatible positive edges are refused. O04 directly qualifies the 60 PCS resource shared 42+18 and refusal of 42+30; dated demand arithmetic remains P06.
+
+Open source correction/reversal flags preserve quantities but require review before simulated allocation. Other operator/handoff flags remain visible attention without inventing a physical hold. Resolving a flag changes the dependency hash, not archived results. Opening quantities are checked against their posted opening-item control. These additions are pending their native follow-up; the prior 35-case source-qualified result is not relabeled as proof of new code.

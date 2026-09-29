@@ -8,7 +8,7 @@ create function cp7_wip.capture_other_sources(p_items uuid[],p_cases uuid[],p_at
 language sql stable security invoker set search_path='' set timezone='Asia/Jakarta' as $$
 with origins as materialized(
  select s.opening_item_id id,s.source_row_id,s.batch_id,s.po_id,s.size_id,s.stage,s.qty_pcs::text qty_pcs,s.bs_case_id,
- i.balance_type,i.product_id,i.model_id,i.customer_id,i.vendor_id,i.contractor_id,h.opening_date,h.status header_status,m.status batch_status
+ i.balance_type,i.qty::text opening_qty_pcs,i.product_id,i.model_id,i.customer_id,i.vendor_id,i.contractor_id,h.opening_date,h.status header_status,m.status batch_status
  from erp.initial_import_production_sources s join erp.opening_balance_items i on i.id=s.opening_item_id
  join erp.opening_balance_headers h on h.id=i.opening_id join erp.migration_batches m on m.id=s.batch_id
  where s.opening_item_id=any(p_items) and h.opening_date<=(p_at at time zone 'Asia/Jakarta')::date order by s.opening_item_id limit 51
