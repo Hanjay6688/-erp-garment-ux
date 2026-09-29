@@ -1,0 +1,64 @@
+[
+  {
+    "family": "p03-policy",
+    "run": 36509688817,
+    "artifact": 11009006689,
+    "status": "PASS",
+    "zip_and_preserved_raw_identical": true,
+    "source_files": 8,
+    "source_hashes_match": true,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "counts": {
+      "fixture_smoke": {
+        "PASS": 1
+      },
+      "native": {
+        "PASS": 10
+      },
+      "races": {
+        "PASS": 4
+      },
+      "http": {
+        "PASS": 1
+      }
+    }
+  },
+  {
+    "family": "p04-production",
+    "run": 36515586854,
+    "artifact": 11011070876,
+    "status": "PASS",
+    "zip_and_preserved_raw_identical": true,
+    "source_files": 28,
+    "source_hashes_match": true,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "counts": {
+      "native": {
+        "PASS": 17
+      },
+      "source_smoke": {
+        "PASS": 1
+      },
+      "source": {
+        "PASS": 11
+      },
+      "races": {
+        "PASS": 2
+      },
+      "http": {
+        "PASS": 1
+      },
+      "production": {
+        "PASS": 6
+      },
+      "production_races": {
+        "PASS": 1
+      },
+      "production_http": {
+        "PASS": 1
+      }
+    }
+  }
+]

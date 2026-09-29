@@ -1,0 +1,9 @@
+# Auditor probe corrections — not product findings
+
+Initial run 36526434075 at e1c9e72b0ddd6fad26ffc0e21473184c73c75c2f planned 74 unique cases: 69 PASS, five INCOMPLETE. All original outcomes and traces are retained in `evidence/INITIAL_CP7_F02_INDEPENDENT.json.gz`.
+
+1. `AUD_F02_QC_BS_REVERSAL`, `AUD_F02_GOOD_ONLY_REVERSAL_CONTROL`, `AUD_F02_LAUNDRY_BS_REVERSAL`: the reused `chain.version()` helper only accepts BS/rework tables. It raised a Python assertion before the reversal command was submitted. Auditor code now reads `row_version` through two explicit queries for QC and receipt headers, as the existing public action contract requires. No product guard, expected quantity or command payload was relaxed.
+2. `AUD_F02_SCOPE_AND_SOURCE_LIMITS`: the synthetic source-volume fixture nulled the source-completion reference of a sewing completion event. The database correctly rejected its CHECK constraint. Auditor code now clones each referenced work-completion record with distinct IDs/numbers and assigns those real references to the cloned sewing rows; CHECK and unique constraints remain active and a no-dangling-reference assertion is added. This remains an administrative volume fixture, not 2000 ordinary production postings.
+3. `WRITER_RERUN_P04_PRODUCTION_HTTP_AUTH`: combining suites on one HTTP database collided with the opening fixture's constant `BB brand` display name from an earlier auditor case. The writer's production HTTP suite now receives its own fresh disposable database, matching its original isolation assumption. No application schema or import rule changed.
+
+Follow-up commit 81bcafbc43e8f65b1dafe008565b2fe1f24e061b / run 36527127588 selects only these five incomplete cases. The original 69 passing cases, application gates and oracle remain preserved. Full mode also isolates the production HTTP suite for reproducibility. No other test assertion was changed and no product file was edited.

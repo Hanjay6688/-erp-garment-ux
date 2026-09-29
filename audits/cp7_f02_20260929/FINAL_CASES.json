@@ -1,0 +1,1406 @@
+{
+  "verdict": "HOLD_F02",
+  "production_go": false,
+  "candidate": "17e85404c9c5f088875099d7875be6342ca6b266",
+  "unique_cases": 74,
+  "independent_counts": {
+    "COUNTEREXAMPLE": 2,
+    "PASS": 18
+  },
+  "writer_rerun_counts": {
+    "PASS": 54
+  },
+  "cases": {
+    "AUD_F02_QC_BS_REVERSAL": {
+      "status": "COUNTEREXAMPLE",
+      "run": 36527127588,
+      "detail": {
+        "status": "COUNTEREXAMPLE",
+        "expected": [
+          [
+            100,
+            100,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            100,
+            100,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "actual": [
+          {
+            "status": "CONFLICT",
+            "reason": "BS_SOURCE_LINEAGE_MISMATCH",
+            "component": null
+          },
+          {
+            "status": "CONFLICT",
+            "reason": "BS_SOURCE_LINEAGE_MISMATCH",
+            "component": "CUTTING"
+          }
+        ],
+        "ordinary_post_and_reversal": true,
+        "qc_id": "6f1a08c0-387b-4344-b159-5dbbf1023429",
+        "bs_statuses": [
+          [
+            "CANCELLED",
+            1
+          ]
+        ],
+        "archive_preserved": true,
+        "read_did_not_change_business": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "AUD_F02_GOOD_ONLY_REVERSAL_CONTROL": {
+      "status": "PASS",
+      "run": 36527127588,
+      "detail": {
+        "status": "PASS",
+        "ordinary_good_only_qc_then_receipt_reversal": true,
+        "expected_actual": [
+          100,
+          100,
+          0,
+          0,
+          0,
+          0
+        ],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "AUD_F02_LAUNDRY_BS_REVERSAL": {
+      "status": "COUNTEREXAMPLE",
+      "run": 36527127588,
+      "detail": {
+        "status": "COUNTEREXAMPLE",
+        "expected": [
+          100,
+          100,
+          0,
+          0,
+          0,
+          0
+        ],
+        "actual": {
+          "status": "CONFLICT",
+          "reason": "BS_SOURCE_LINEAGE_MISMATCH",
+          "component": "CUTTING"
+        },
+        "ordinary_receipt_bs_reversal": true,
+        "receipt_id": "ae80175a-bf67-44b7-a015-314193ff7298",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "AUD_F02_REWORK_COMPLETION_REVERSE": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "expected": [
+          100,
+          80,
+          15,
+          5,
+          0,
+          0
+        ],
+        "actual": [
+          100,
+          80,
+          15,
+          5,
+          0,
+          0
+        ],
+        "ordinary_rework_completion_reversal": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "AUD_F02_GRAPH17_CONSERVATION_INVERSE": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "independent_17pcs_oracle": true,
+        "after_rework": [
+          17,
+          10,
+          6,
+          1,
+          0,
+          0
+        ],
+        "inverse_restores_original": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "AUD_F02_EXACT_YIELD_MATRIX": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "exact_integer_oracles": [
+          {
+            "input": "1",
+            "numerator": "0",
+            "denominator": "1",
+            "expected_output": "0"
+          },
+          {
+            "input": "1",
+            "numerator": "2",
+            "denominator": "3",
+            "expected_output": "0"
+          },
+          {
+            "input": "2",
+            "numerator": "2",
+            "denominator": "3",
+            "expected_output": "1"
+          },
+          {
+            "input": "7",
+            "numerator": "3",
+            "denominator": "7",
+            "expected_output": "3"
+          },
+          {
+            "input": "101",
+            "numerator": "9",
+            "denominator": "10",
+            "expected_output": "90"
+          },
+          {
+            "input": "9007199254740993",
+            "numerator": "2",
+            "denominator": "3",
+            "expected_output": "6004799503160662"
+          },
+          {
+            "input": "999999999999999999999999999999",
+            "numerator": "999999999999999999999999999998",
+            "denominator": "999999999999999999999999999999",
+            "expected_output": "999999999999999999999999999998"
+          }
+        ],
+        "physical_totals_unchanged": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "AUD_F02_MALFORMED_COUNTS": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "malformed_physical_counts_refused": 10,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "AUD_F02_SHARED_ELIGIBLE_EDGES": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "physical": 17,
+        "eligible": 13,
+        "valid_inputs": [
+          6,
+          7
+        ],
+        "invalid_inputs": [
+          7,
+          7
+        ],
+        "duplicate_and_uncertain_edges_refused": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "AUD_F02_ETA_BOUNDARIES": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "sequential_remaining_work_finishes": "2026-09-29T11:15:00+07:00",
+        "exact_deadline_boundary": true,
+        "overlap_denied": true,
+        "exhausted_horizon_unknown": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "AUD_F02_EXPLICIT_POLICY_CYCLES": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "explicit_status_history": [
+          "ACTIVE",
+          "PAUSED",
+          "STOPPED",
+          "ACTIVE"
+        ],
+        "erp_business_boundary_unchanged": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "AUD_F02_BULK_INVALID_AND_BIGINT": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "late_invalid_rows_rollback_entire_bulk": 5,
+        "exact_revision": "9007199254740994",
+        "revision_seed_is_administrative": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "AUD_F02_SCOPE_AND_SOURCE_LIMITS": {
+      "status": "PASS",
+      "run": 36527127588,
+      "detail": {
+        "status": "PASS",
+        "scope_parser_50_allowed_51_refused": true,
+        "source_2000_complete_2001_refused": true,
+        "administrative_bounded_source_fixture": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "AUD_F02_OPENING_CONTROL_CONFLICT": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "administrative_mismatched_source_not_ready": true,
+        "archive_preserved": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "AUD_F02_PRIVILEGED_PRINCIPALS": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "both_principals_have_no_business_write_grants": true,
+        "compute_cannot_write_policy": true,
+        "private_helpers_no_public_grants": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P03_STATUS_DOMAIN_BOUNDARY": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "stopped_scope_only": true,
+        "erp_business_boundary_unchanged": true,
+        "member_counts": [
+          3,
+          1
+        ],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P03_REPLAY_CONFLICT": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "one_outcome": true,
+        "changed_payload_denied": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P03_BULK_ATOMIC_STALE": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "later_stale_rolls_back_earlier_member": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P03_MEMBERSHIP_REVIEW": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "membership_change_refused": true,
+        "no_silent_activation": true,
+        "history_immutable": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P03_PAST_REVIEW_PAUSED": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "past_review_never_reactivates": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P03_PRIVILEGES_REVOKE": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "unauthorized_denied": true,
+        "replay_revocation_denied": true,
+        "compute_cannot_write_policy": true,
+        "policy_cannot_write_erp": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P03_MALFORMED_NO_PARTIAL": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "malformed_and_duplicate_refused": true,
+        "no_partial_rows": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P03_PRICE_REVISION_POLICY_STABLE": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "price_revision_does_not_reactivate_or_invalidate_members": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P03_FUTURE_MEMBERSHIP_REVIEW": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "future_version_hidden_until_effective": true,
+        "no_new_member_activation": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P03_HISTORICAL_IDENTITY_CONSERVATION": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "original_membership_preserved": true,
+        "current_restatement_labeled": true,
+        "pcs_conserved": 6,
+        "cross_actor_denied": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_O15_CONSERVATION": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "expected": {
+          "input": 100,
+          "wip": 80,
+          "fg": 15,
+          "bs": 5
+        },
+        "actual": {
+          "input": 100,
+          "wip": 80,
+          "fg": 15,
+          "bs": 5
+        },
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_NEGATIVE_PREFIX": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "negative_prefix_not_clamped": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_INPUT_UNIQUENESS": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "second_document_not_fresh_supply": true,
+        "missing_origin_not_zero": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_REWORK_DENOMINATOR": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "denominator_unchanged": 100,
+        "good_return": 3,
+        "bs_remaining": 2,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_REWASH_CYCLE": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "redispatch_is_same_pool": true,
+        "return_cycle_does_not_add_supply": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_REVERSAL_DEPENDENCIES": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "downstream_must_unwind_first": true,
+        "duplicate_reversal_denied": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_LINEAGE_SIZE_DUPLICATE": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "cross_size_pool_denied": true,
+        "duplicate_fact_denied": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_PARTIAL_MALFORMED": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "partial_not_empty_or_zero": true,
+        "numeric_transport_and_money_extra_denied": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_OWNERSHIP_HOLD": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "custody_not_company_supply": true,
+        "hold_retained_not_available": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_HARD_MATCHING": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "tariff_hint_not_confirmation": true,
+        "required_unknown_needs_check": true,
+        "optional_empty_not_rejected": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_SHARED_POOL": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "shared_remaining_20_not_40": true,
+        "hidden_scope_not_reset": true,
+        "alternatives_not_summed": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_X08_YIELD_INPUT_OUTPUT": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "oracle": "X08",
+        "physical": 100,
+        "eligible_input": 100,
+        "projected_good": 90,
+        "output91_denied": true,
+        "input101_denied": true,
+        "loss_not_actual_bs": true,
+        "exact_rational_floor": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_X06_DISTINCT_EDGES": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "oracle": "X06",
+        "same_totals_distinct_edges": true,
+        "incompatible_positive_edge_refused": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_O04_SHARED60": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "oracle": "O04_SOURCE_CAPACITY_ONLY",
+        "source": 60,
+        "allocated_a": 42,
+        "allocated_b": 18,
+        "requested_b": 30,
+        "uncovered_b": 12,
+        "dated_netting_owned_by_P06": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_REMAINING_ETA": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "remaining_qc_only": true,
+        "closed_hours_not_worked": true,
+        "unknown_not_on_time": true,
+        "assumption_explicit": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_EXACT_INTEGER": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "integer_precision_above_javascript_safe_range": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_PRIVATE_KERNEL_ACL": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "api_cannot_invoke_normalized_kernel": true,
+        "compute_can_read_only": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_SOURCE_O15_ACTUAL_POSTING": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "ordinary_cut_pickup_sewing_laundry_qc": true,
+        "input": 100,
+        "wip": 80,
+        "fg": 15,
+        "bs": 5,
+        "unknown_cost_does_not_block_quantity": true,
+        "canonical_price_unknown": true,
+        "public_valuation": "UNKNOWN",
+        "internal_known_cost": "0.00",
+        "business_boundary_unchanged": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_SOURCE_IMMUTABLE_QC_REPLAY": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "ordinary_later_qc_marks_stale": true,
+        "archive_and_replay_immutable": true,
+        "new_capture": [
+          100,
+          75,
+          20,
+          5
+        ],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_SOURCE_AUTH_NO_MONEY": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "other_actor_and_revoked_replay_denied": true,
+        "no_financial_fields": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_SOURCE_MALFORMED_NO_PARTIAL": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "no_partial_run": true,
+        "unknown_group_not_empty_supply": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_SOURCE_CONFLICT_PROPAGATES": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "administrative_conflict_fixture": true,
+        "capture_not_mislabeled_as_analysis_complete": true,
+        "no_zero_balance_fallback": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_SOURCE_MULTI_GROUP_ONE_CAPTURE": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "one_capture_multiple_groups": true,
+        "input": 110,
+        "wip": 90,
+        "fg": 15,
+        "bs": 5,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_SOURCE_REWORK_PARTIAL_COMPLETION": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "ordinary_rework_start_partial_complete": true,
+        "partial_good_not_fg": true,
+        "final": [
+          100,
+          80,
+          18,
+          2
+        ],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_SOURCE_REWASH_RETURN_REDISPATCH": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "ordinary_return_redispatch_and_retries": true,
+        "failed_wash_vendor_rate": "5.00",
+        "unknown_failed_wash_not_qualified": true,
+        "final": [
+          100,
+          80,
+          20,
+          0
+        ],
+        "same_source_not_new_input": true,
+        "overlapping_participant_interval_denied": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_SOURCE_CLAIM_CUSTODY": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "ordinary_missing_and_stuck": true,
+        "held": 5,
+        "rejection_refreshed_not_rewritten": true,
+        "hidden_header_source_not_guessed": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_SOURCE_BS_HOLD_DISPOSITION": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "ordinary_hold_release_scrap_reverse": true,
+        "held": 5,
+        "scrap_exit": 2,
+        "restored_bs": 5,
+        "no_extra_good": true,
+        "old_results_immutable": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_SOURCE_SOURCE_REVIEW_FLAG": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "ordinary_flag_changes_dependency": true,
+        "quantity_preserved": 80,
+        "allocation_requires_review": true,
+        "resolution_does_not_rewrite_archive": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_PRODUCTION_OPENING_LIFECYCLE": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "ordinary_import_pickup_complete_split_reverse": true,
+        "initial": 8,
+        "after_split": [
+          8,
+          3,
+          3,
+          2,
+          0,
+          0
+        ],
+        "after_reverse": [
+          8,
+          6,
+          0,
+          2,
+          0,
+          0
+        ],
+        "old_snapshot_immutable": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_PRODUCTION_OPENING_CLAIMS": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "ordinary_import_claim_recover_writeoff": true,
+        "opening": 8,
+        "recovered_to_wip": 1,
+        "writeoff_does_not_create_good": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_PRODUCTION_MIXED_ONE_CAPTURE": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "one_capture_mixed_origins": true,
+        "expected_actual": [
+          108,
+          88,
+          15,
+          5,
+          0,
+          0
+        ],
+        "no_calendar_no_eta": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_PRODUCTION_UNSOURCED_BS_GOOD": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "ordinary_found_bs_and_ax_recovery": true,
+        "initial_bs": 5,
+        "good": 3,
+        "remaining_bs": 2,
+        "reversal_restores_same_origin": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_PRODUCTION_CURRENT_AUTH": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "owner_only_and_current_auth_replay": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "WRITER_RERUN_P04_PRODUCTION_NO_ORIGIN_ALIAS": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "ordinary_bs_not_recaptured_as_non_po": true,
+        "no_partial_runs": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "AUD_F02_CAPTURE_COMMIT_AFTER_WAIT": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "ordinary_qc_commit_while_waiting_included": true,
+        "expected_actual": [
+          100,
+          75,
+          20,
+          5,
+          0,
+          0
+        ],
+        "session_leaks": []
+      }
+    },
+    "AUD_F02_CAPTURE_REVOKE_AFTER_WAIT": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "revoked_during_real_wait": true,
+        "existing_replay": false,
+        "result": "CP7_ACCESS_DENIED",
+        "session_leaks": []
+      }
+    },
+    "AUD_F02_REPLAY_REVOKE_AFTER_WAIT": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "revoked_during_real_wait": true,
+        "existing_replay": true,
+        "result": "CP7_ACCESS_DENIED",
+        "session_leaks": []
+      }
+    },
+    "AUD_F02_OPPOSITE_BULK_ORDER": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "opposite_bulk_order_no_deadlock": true,
+        "one_atomic_winner": true,
+        "session_leaks": []
+      }
+    },
+    "WRITER_RERUN_P03_COMPETING_POLICY_REVISIONS": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "exactly_one_committed": true,
+        "loser_stale": true,
+        "session_leaks": []
+      }
+    },
+    "WRITER_RERUN_P03_REVOKE_WHILE_WAITING": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "change_during_wait": "REVOKE",
+        "refusal": "CP7_POLICY_ACCESS_DENIED",
+        "partial_policy_rows": 0,
+        "partial_command_rows": 0,
+        "session_leaks": []
+      }
+    },
+    "WRITER_RERUN_P03_MEMBERSHIP_WHILE_WAITING": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "change_during_wait": "MEMBERSHIP",
+        "refusal": "CP7_POLICY_MEMBERSHIP_STALE",
+        "partial_policy_rows": 0,
+        "partial_command_rows": 0,
+        "session_leaks": []
+      }
+    },
+    "WRITER_RERUN_P03_DUPLICATE_REQUEST_RACE": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "one_policy_for_duplicate_request": true,
+        "session_leaks": []
+      }
+    },
+    "WRITER_RERUN_P04_RACE_DUPLICATE": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "one_immutable_run": true,
+        "session_leaks": []
+      }
+    },
+    "WRITER_RERUN_P04_RACE_SOURCE_COHERENCE": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "paired_sources_one_snapshot": true,
+        "captures": 12,
+        "overlap": 12,
+        "observed_pairs": [
+          [
+            29,
+            29
+          ],
+          [
+            30,
+            30
+          ]
+        ],
+        "session_leaks": []
+      }
+    },
+    "WRITER_RERUN_P04_PRODUCTION_RACE_CROSS_ORIGIN": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "cross_origin_one_mvcc_snapshot": true,
+        "overlap": 12,
+        "captures": 12,
+        "observed_pairs": [
+          [
+            29,
+            8
+          ],
+          [
+            30,
+            9
+          ]
+        ],
+        "session_leaks": []
+      }
+    },
+    "AUD_F02_HTTP_PRIVATE_REST": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "direct_private_rest_denied": [
+          {
+            "schema": "cp7_identity",
+            "status": 406
+          },
+          {
+            "schema": "cp7_identity",
+            "status": 406
+          },
+          {
+            "schema": "cp7_wip",
+            "status": 406
+          },
+          {
+            "schema": "cp7_wip",
+            "status": 406
+          }
+        ],
+        "session_leaks": []
+      }
+    },
+    "AUD_F02_HTTP_OPS_SCOPE_REVOKE": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "operations_no_financial_fields": true,
+        "other_actor_cannot_enumerate_run": true,
+        "same_token_revoked_replay": true,
+        "session_leaks": []
+      }
+    },
+    "WRITER_RERUN_P03_HTTP_POLICY_AUTH_REPLAY_REVOKE": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "real_auth": true,
+        "write_and_replay": true,
+        "same_token_revoked": true,
+        "read_only_actor_denied": true,
+        "identity_http_labels_valid": true,
+        "session_leaks": []
+      }
+    },
+    "WRITER_RERUN_P04_HTTP_CUTTING_RUN_AUTH": {
+      "status": "PASS",
+      "run": 36526434075,
+      "detail": {
+        "status": "PASS",
+        "real_auth": true,
+        "ordinary_posting_result": [
+          100,
+          80,
+          15,
+          5
+        ],
+        "same_token_revoked": true,
+        "other_actor_denied": true,
+        "session_leaks": []
+      }
+    },
+    "WRITER_RERUN_P04_PRODUCTION_HTTP_AUTH": {
+      "status": "PASS",
+      "run": 36527127588,
+      "detail": {
+        "status": "PASS",
+        "real_http_mixed_facade": true,
+        "owner_actor_revocation": true,
+        "session_leaks": []
+      }
+    }
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "candidate": "17e85404c9c5f088875099d7875be6342ca6b266",
+  "run_artifacts": [
+    {
+      "id": 11015410222,
+      "zip_sha256": "e1eb0dbc748bc312fa6f9d02977f1c2edcf9a100cf12b156314eb0825c71bf89"
+    },
+    {
+      "id": 11015371503,
+      "zip_sha256": "b07735db1fc6aad201a993c23e50ccad6b486bc2cc57bde048614cc4e0e9317b"
+    }
+  ],
+  "reports": [
+    {
+      "path": "evidence/INITIAL_ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "raw_sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "raw_bytes": 17286
+    },
+    {
+      "path": "evidence/INITIAL_CP7_F02_INDEPENDENT.json.gz",
+      "gzip_sha256": "812500f7e1c197d356f91bca0004bbb2a54dea7c09c38015d40c27aa1c417515",
+      "raw_sha256": "d6fa74e6e647429a44ffc1e7c3d419f7157014308d21e8e3b20bcd15ee2a2bdc",
+      "raw_bytes": 595772
+    },
+    {
+      "path": "evidence/INITIAL_T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "da6d54cebf3bd513cac35fe5c2046bd614047a69668f26faa3e611a83d257265",
+      "raw_sha256": "6582d267d7258701c2a936e3923c2f15c99d5db2f6fc9c90d89aefddce410c57",
+      "raw_bytes": 10524
+    },
+    {
+      "path": "evidence/INITIAL_T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "raw_bytes": 1806
+    },
+    {
+      "path": "evidence/INITIAL_T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "410a6d6624fa6c621a58262f9c6d71bd06c0c4a33d3a6d754b040ffc7490174f",
+      "raw_sha256": "9fe49764f59f08bb12f0f57096b1d8b790f2e258a3862c6da3e15879da93adcd",
+      "raw_bytes": 360379
+    },
+    {
+      "path": "evidence/TARGETED_ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "raw_sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "raw_bytes": 17286
+    },
+    {
+      "path": "evidence/TARGETED_CP7_F02_INDEPENDENT.json.gz",
+      "gzip_sha256": "4fe9385dad690880db505bf89758013b40eec3a43d6635446b2fe2e5ff6d2e2f",
+      "raw_sha256": "da1cf5d0d5928d95ba02f7045802ed467581ae18be346b5978c56223a942264a",
+      "raw_bytes": 258681
+    },
+    {
+      "path": "evidence/TARGETED_T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "991bb146aecd168ff7d51912d99f9ceacd9db9252fcd810a7bff2610ccb6c38f",
+      "raw_sha256": "b49788bdd33c4812aad51e4f053ecf9c2ea226e45064ca20a9eaaeb26ed11d3c",
+      "raw_bytes": 10524
+    },
+    {
+      "path": "evidence/TARGETED_T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "raw_bytes": 1806
+    },
+    {
+      "path": "evidence/TARGETED_T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "68b58b26b6798439d9fa149d96d546bd9a0d028a5ab89d968167bb70b71402e8",
+      "raw_sha256": "e9d82e15cfc99c85d4ecbfee4f156d8533374f62a73c94d72fae39f04a5ebca6",
+      "raw_bytes": 360383
+    }
+  ]
+}

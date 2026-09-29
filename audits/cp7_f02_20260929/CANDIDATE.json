@@ -1,0 +1,75 @@
+{
+  "candidate": "17e85404c9c5f088875099d7875be6342ca6b266",
+  "documentation_checkpoint": "5dd3b781ceef161afe59739d9e74a72e049d6a30",
+  "audit_execution_commit": "e1c9e72b0ddd6fad26ffc0e21473184c73c75c2f",
+  "run": 36526434075,
+  "bundle_sha256": "b50edbb4f45c6e1282a3744096c5a74fbc2487a1442211307ac9d1ab45eb76cc",
+  "latest_writer_checked": "e21f0b94c3d25a787b83470a28b557aa7a88326a",
+  "latest_writer_p03_p04_source_unchanged": true,
+  "app": {
+    "run": 36526434075,
+    "head": "e1c9e72b0ddd6fad26ffc0e21473184c73c75c2f",
+    "job": 109270404782,
+    "status": "PASS",
+    "selected_log_lines": [
+      "2026-09-29T05:30:06.7276261Z   \"original_files_verified\": 48,",
+      "2026-09-29T05:30:26.4538819Z  Test Files  60 passed (60)",
+      "2026-09-29T05:30:26.4539866Z       Tests  638 passed (638)",
+      "2026-09-29T05:30:26.8067996Z Source ownership passed: 141 runtime files, 50 owned RPC boundaries, no orphan or direct table access.",
+      "2026-09-29T05:30:26.9692239Z Production recovery ownership passed: eight connected writer domains, exact envelope, shared lock and stale-read generation.",
+      "2026-09-29T05:30:26.9849038Z Access ownership passed: frozen CP4.5/CP5 proofs intact; current code owns 111 backend permissions, 48 nav labels, 48 routes, 20 sensitive actions, and 50 browser RPC boundaries.",
+      "2026-09-29T05:30:29.9810713Z CSS ownership passed: 40 stylesheets have no unowned selector branches.",
+      "2026-09-29T05:30:30.1349377Z Production recovery ownership passed: eight connected writer domains, exact envelope, shared lock and stale-read generation.",
+      "2026-09-29T05:30:30.1480099Z CP5 boundary passed: recorded Cutting 6a568a78ad0b, reconciliation d024a9ef2c8b, BS Resolution 79e7b51b8275, accessory lineage 204b9246f3c8, reliability closure 89ed4535720e, atomic reversal ledger 70bafe4f4c69/b11014081391; canonical gates, 12 actions, entitlement-derived defaults, conserved Laundry claims, lost-response reconciliation, claim/BS serialization, digest-bound rollback identities, and hosted-UAT boundaries are owned.",
+      "2026-09-29T05:30:30.2918984Z Production recovery ownership passed: eight connected writer domains, exact envelope, shared lock and stale-read generation.",
+      "2026-09-29T05:30:30.3348413Z CP6 boundary passed: immutable migration 251923 bytes; exact ledger shapes e5fcf69ddec8/52e51f56f4b8; seven closed actions, physical-time conservation, Brand-scoped SKU identity, durable idempotency, append-only reversal, paid failed-wash custody/cost separation, finance/stock/HPP reconciliation, twelve serialized races, and digest-bound rollback are owned.",
+      "2026-09-29T05:30:30.3773889Z CP6 audit closure passed: immutable v2.6.20 52e51f56f4b8, forward v2.6.20a 03e0dcaaafec, canonical invoice locks, physical-time prefix conservation, indexed dependency lookup, and portable exact rollback are statically owned.",
+      "2026-09-29T05:30:30.4238043Z CP6 re-audit closure passed: v20b 67c2b8eeb4a4 owns full temporal prefixes, partial Laundry HPP/WIP lineage and granular reverse Auth; v20c CI adds 34 native runtime races, three reject/abort qualifications, actual-facade rollback races, and deep financial confidence probes.",
+      "2026-09-29T05:30:30.4678112Z CP6 deep-business repair passed: v20c b90cd6c4aa53 closes N01\u2013N12/R03/R05/R06/N05 with source-owned cost, exact books, historical report basis, source-bound UI, honest concurrency, and actual-facade rollback proof.",
+      "2026-09-29T05:30:30.5914731Z CP6 G source contracts passed: N01-N03, exact source-basis corrections, seven-function rollback capsule, and final-G native proof gates. This static check is not runtime evidence.",
+      "2026-09-29T05:30:31.8645164Z CP5 boundary passed: recorded Cutting 6a568a78ad0b, reconciliation d024a9ef2c8b, BS Resolution 79e7b51b8275, accessory lineage 204b9246f3c8, reliability closure 89ed4535720e, atomic reversal 70bafe4f4c69; canonical gates, 12 actions, entitlement-derived defaults, conserved Laundry claims, lost-response reconciliation, claim/BS serialization, digest-bound rollback identities, and hosted-UAT boundaries are owned.",
+      "2026-09-29T05:30:31.8649597Z Backend ownership v3 passed: 55 inherited + 15 Cutting Bridge + 24 CP5 backend/proof entries; 89 effective unique files, 66 CP5 source files byte-bound, zero unowned.",
+      "2026-09-29T05:30:32.5125841Z Build-secret regression passed: process env and .env.<mode> server-key canaries aborted before bundling; canary was absent.",
+      "2026-09-29T05:30:32.9752879Z UAT Auth deployment assertions passed: environment, target isolation, artifact identity, and key-redaction failures.",
+      "2026-09-29T05:30:33.3066828Z Source ownership passed: 141 runtime files, 50 owned RPC boundaries, no orphan or direct table access.",
+      "2026-09-29T05:30:33.4536128Z Production recovery ownership passed: eight connected writer domains, exact envelope, shared lock and stale-read generation.",
+      "2026-09-29T05:30:33.4702904Z Access ownership passed: frozen CP4.5/CP5 proofs intact; current code owns 111 backend permissions, 48 nav labels, 48 routes, 20 sensitive actions, and 50 browser RPC boundaries.",
+      "2026-09-29T05:30:36.4481349Z CSS ownership passed: 40 stylesheets have no unowned selector branches.",
+      "2026-09-29T05:30:38.8400993Z \u2713 built in 578ms",
+      "2026-09-29T05:30:38.9022929Z Client artifact secret scan passed: /home/runner/work/-erp-garment-ux/-erp-garment-ux/dist"
+    ]
+  },
+  "historical_writer_runs": [
+    {
+      "run": 36509688817,
+      "head": "c56c3bb9b84a8d24e8dbe7a3b22bbd98b4d39111",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "run": 36515586854,
+      "head": "17e85404c9c5f088875099d7875be6342ca6b266",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "run": 36515590677,
+      "head": "17e85404c9c5f088875099d7875be6342ca6b266",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "preserved_F01_UI_and_snapshot_source_unchanged": true,
+  "framework_bytes_verified": 48,
+  "production_go": false,
+  "targeted_execution_commit": "81bcafbc43e8f65b1dafe008565b2fe1f24e061b",
+  "targeted_run": 36527127588,
+  "initial_artifact": {
+    "id": 11015410222,
+    "zip_sha256": "e1eb0dbc748bc312fa6f9d02977f1c2edcf9a100cf12b156314eb0825c71bf89"
+  },
+  "targeted_artifact": {
+    "id": 11015371503,
+    "zip_sha256": "b07735db1fc6aad201a993c23e50ccad6b486bc2cc57bde048614cc4e0e9317b"
+  }
+}
