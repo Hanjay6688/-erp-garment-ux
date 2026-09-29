@@ -1,0 +1,40 @@
+{
+  "status": "WRITER_BOUNDED_10_PASS",
+  "independent_acceptance": false,
+  "production_go": false,
+  "tested_source": "f41e6eb1dd7fc44d8cd60a1b02ff3998e14f499a",
+  "tested_tree": "e004bc7632728af486a392553f307a356f66cc92",
+  "run_id": 36560773493,
+  "job_id": 109380830035,
+  "artifact_id": 11030740060,
+  "archive_sha256": "ee8fc6e5f45c33c408e73f7617122f2e06828e9315c732fc47c3640471f4865d",
+  "source_bundle_sha256": "e08eec0784749b0d3847d24ef68aef570d676ab5691c409fb7b8566344ac4799",
+  "native": 7,
+  "auth_http": 1,
+  "connected_browser": 2,
+  "local_dom": 5,
+  "app_runs": [
+    36560781311,
+    36560773373
+  ],
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "screenshots_visually_reviewed": true,
+  "p09_shared_install_regression": {
+    "status": "PASS",
+    "run_id": 36560773198,
+    "job_id": 109380855206,
+    "artifact_id": 11030580674,
+    "counts": 121,
+    "separate_smoke": 3,
+    "source_bundle_sha256": "d34acae6754a9e6c390c54696b4b8d7acbf44697723243b249bf79c839344450",
+    "archive_sha256": "2f91e34022dbfc24711b7bc1d39527180b52eff41502e9582c530fc77c37e36f",
+    "cp6_restored": true,
+    "advisor_gate": true
+  },
+  "limits": [
+    "P10 FG summary and full position ledger only; adjustments still candidate",
+    "Browser source sale commands are fixtures, not P11/R10 browser writes",
+    "F03 and F02 independent acceptance remain open"
+  ]
+}

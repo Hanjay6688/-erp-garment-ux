@@ -7,9 +7,14 @@ name: CP7 P10 Finished goods
     - scripts/cp7-src/fg/**
     - scripts/cp7_fg_bundle.py
     - scripts/cp7_fg_cases.py
+    - scripts/cp7_fg_adjustment_cases.py
+    - scripts/cp7_p10_adjustment_browser.mjs
     - scripts/cp7_p10_fg_probe.py
     - scripts/cp7_p10_browser*
     - src/ConnectedFgStockPage*
+    - src/ConnectedFgAdjustmentPage*
+    - src/ConnectedStockAdjustmentPage*
+    - src/fgAdjustmentContract.ts
     - src/fgContract.ts
     - src/fg-connected.css
     - scripts/cp7_p09_procurement_probe.py

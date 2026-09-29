@@ -36,7 +36,7 @@
     "P03": "BOUNDED_POLICY_NATIVE_PASS_15_CASES_INDEPENDENT_PENDING",
     "P04": "F02_REPAIR_53_PASS_PLUS_SMOKE_INDEPENDENT_HOLD_X06_PUBLIC_JOIN_OPEN",
     "P09": "BOUNDED_121_PASS_COUNTS_AND_COMBINED_INVOICES_QUALIFIED_REMAINING_SCOPE_OPEN",
-    "P10": "FG_SUMMARY_AND_CARD_CANDIDATE_NATIVE_BROWSER_PENDING"
+    "P10": "FG_SUMMARY_CARD_10_PASS_ADJUSTMENT_IMPLEMENTATION_IN_PROGRESS"
   },
   "inherited_scope": {
     "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
@@ -51,7 +51,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Qualify P10 FG summary/card through native lifecycle, Auth/HTTP and connected browsers; finish P10 remaining operations toward P11/R10 while independent F02 retest is pending.",
+  "next_action": "Implement native FG adjustment lifecycle and connected UI; continue Nota/P11/R10. Independent F02 retest remains pending.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -59,12 +59,12 @@
   "family_status": {
     "F01_P00_P02": "WRITER_T1_BOUNDED_FOUNDATION_PASS_INDEPENDENT_PENDING",
     "F02_P03_P04": "WRITER_REPAIR_VERIFIED_53_CASES_INDEPENDENT_HOLD",
-    "F03_P09_P13": "IN_PROGRESS_P09_PROCUREMENT",
+    "F03_P09_P13": "IN_PROGRESS_P10_FG",
     "F04_P05_P08": "PLANNED",
     "F05_P14_P17": "PLANNED",
     "F06_P18_P21": "PLANNED"
   },
-  "latest_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
+  "latest_tested_source": "f41e6eb1dd7fc44d8cd60a1b02ff3998e14f499a",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
   "p04_cutting_verification_receipt": "docs/cp7/evidence/p04-cutting/VERIFICATION.json",
@@ -87,5 +87,6 @@
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "p09_combined_invoice_verification": "docs/cp7/evidence/p09-procurement/COMBINED_INVOICE_VERIFICATION.json",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
-  "p10_entry": "docs/cp7/P10_FG_HANDOFF.md"
+  "p10_entry": "docs/cp7/P10_FG_HANDOFF.md",
+  "p10_verification": "docs/cp7/evidence/p10-fg/VERIFICATION.json"
 }

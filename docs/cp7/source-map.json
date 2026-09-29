@@ -999,7 +999,7 @@
     "remaining": "Independent retest and P06/P07 authoritative source/target/policy composition plus planner Auth/HTTP."
   },
   "p10_candidate": {
-    "status": "NATIVE_BROWSER_PENDING",
+    "status": "BOUNDED_FG_READ_10_PASS_ADJUSTMENTS_IN_PROGRESS",
     "handoff": "docs/cp7/P10_FG_HANDOFF.md",
     "modules": [
       "scripts/cp7-src/fg"
@@ -1009,6 +1009,8 @@
       "public.erp_cp7_get_fg_v1",
       "public.erp_cp7_get_fg_ledger_v1"
     ],
-    "authority": "Posted FG ledger with separate physical/reserved/available; accepted BF identity and HPP readers; no new stock writer."
+    "authority": "Posted FG ledger with separate physical/reserved/available; accepted BF identity and HPP readers; no new stock writer.",
+    "tested_source": "f41e6eb1dd7fc44d8cd60a1b02ff3998e14f499a",
+    "verification": "docs/cp7/evidence/p10-fg/VERIFICATION.json"
   }
 }

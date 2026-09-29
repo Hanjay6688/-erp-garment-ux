@@ -38,7 +38,7 @@ const ConnectedSkuHppPage = lazy(() => import('./ConnectedSkuHppPage'))
 const HppPage = lazy(() => import('./HppPage'))
 const QcFinalPage = lazy(() => import('./QcFinalPage'))
 const BsReworkPage = lazy(() => import('./BsReworkPage'))
-const ConnectedMaterialCountPage = lazy(() => import('./ConnectedMaterialCountPage'))
+const ConnectedStockAdjustmentPage = lazy(() => import('./ConnectedStockAdjustmentPage'))
 const ConnectedMaterialsPage = lazy(() => import('./ConnectedMaterialsPage'))
 const WarehousePages = lazy(() => import('./WarehousePages'))
 const WipBatchControlLayer = lazy(() => import('./WipBatchControlLayer'))
@@ -626,7 +626,7 @@ function ErpApp() {
         {page === 'procurement' && (runtime.mode === 'DEMO_SIMULATION' ? <ProcurementPage /> : <Suspense fallback={<WorkspaceFallback label="Penerimaan"/>}><ConnectedProcurementPage/></Suspense>)}
         {page === 'brand-conversion' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Ganti Merek"/>}><ConnectedProductConversionPage/></Suspense>}
         {page === 'accessories' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Aksesori"/>}><ConnectedAccessoryServicePage/></Suspense>}
-        {page === 'stock-adjustment' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Hitung fisik"/>}><ConnectedMaterialCountPage/></Suspense>}
+        {page === 'stock-adjustment' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Hitung fisik"/>}><ConnectedStockAdjustmentPage/></Suspense>}
         {page === 'materials-rolls' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Bahan & Roll"/>}><ConnectedMaterialsPage/></Suspense>}
         {(page === 'warehouse-dashboard' || (page === 'materials-rolls' && runtime.mode === 'DEMO_SIMULATION') || (page === 'accessories' && runtime.mode === 'DEMO_SIMULATION') || (page === 'fg-summary' && runtime.mode === 'DEMO_SIMULATION') || (page === 'stock-adjustment' && runtime.mode === 'DEMO_SIMULATION') || (page === 'brand-conversion' && runtime.mode === 'DEMO_SIMULATION')) && <Suspense fallback={<WorkspaceFallback label="Gudang"/>}><WarehousePages view={page} onNavigate={(next)=>setPage(next)} /></Suspense>}
         {page === 'cutting-roll' && runtime.cuttingMode === 'CONNECTED' && <Suspense fallback={<WorkspaceFallback label="Buat Potongan connected"/>}><ConnectedCuttingPage/></Suspense>}
