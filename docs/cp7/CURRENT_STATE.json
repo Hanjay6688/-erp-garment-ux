@@ -36,7 +36,7 @@
     "P03": "BOUNDED_POLICY_NATIVE_PASS_15_CASES_INDEPENDENT_PENDING",
     "P04": "F02_REPAIR_53_PASS_PLUS_SMOKE_INDEPENDENT_HOLD_X06_PUBLIC_JOIN_OPEN",
     "P09": "BOUNDED_121_PASS_COUNTS_AND_COMBINED_INVOICES_QUALIFIED_REMAINING_SCOPE_OPEN",
-    "P10": "FG_SUMMARY_CARD_10_PASS_ADJUSTMENT_IMPLEMENTATION_IN_PROGRESS"
+    "P10": "FG_SOURCE_CARD_AND_ADJUSTMENTS_23_PASS_BOOK_NOTA_REMAIN_OPEN"
   },
   "inherited_scope": {
     "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
@@ -51,7 +51,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Implement native FG adjustment lifecycle and connected UI; continue Nota/P11/R10. Independent F02 retest remains pending.",
+  "next_action": "Continue global FG books with native presentation reorder and scoped historical balances; bind Nota handoff to authoritative payroll entitlement. Finish P11/R10, P12, P13 and remaining P09. F02 independent retest remains pending.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -64,7 +64,7 @@
     "F05_P14_P17": "PLANNED",
     "F06_P18_P21": "PLANNED"
   },
-  "latest_tested_source": "f41e6eb1dd7fc44d8cd60a1b02ff3998e14f499a",
+  "latest_tested_source": "fa75d47de5b8fa010071b35d551018b064d64d60",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
   "p04_cutting_verification_receipt": "docs/cp7/evidence/p04-cutting/VERIFICATION.json",
@@ -88,5 +88,6 @@
   "p09_combined_invoice_verification": "docs/cp7/evidence/p09-procurement/COMBINED_INVOICE_VERIFICATION.json",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
   "p10_entry": "docs/cp7/P10_FG_HANDOFF.md",
-  "p10_verification": "docs/cp7/evidence/p10-fg/VERIFICATION.json"
+  "p10_verification": "docs/cp7/evidence/p10-fg/VERIFICATION.json",
+  "p10_adjustment_verification": "docs/cp7/evidence/p10-fg/ADJUSTMENT_VERIFICATION.json"
 }

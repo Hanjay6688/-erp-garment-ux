@@ -1,0 +1,92 @@
+{
+  "status": "WRITER_23_PASS",
+  "tested_source": "fa75d47de5b8fa010071b35d551018b064d64d60",
+  "tested_tree": "832ee37d9f96ffc2ab4ec999de83873646570f04",
+  "run_id": 36564816759,
+  "job_id": 109394053455,
+  "artifact_id": 11031337775,
+  "archive_sha256": "866e4de94123ed4fdbfc901e1f83f3fbeb9b548861be470afbdcdf51d74a2f80",
+  "source_bundle_sha256": "4860f9b97c8bf9a185beaa16dffe423acc56ce6b6124ba0dafecc62d46335a70",
+  "counts": {
+    "native": {
+      "PASS": 7
+    },
+    "http": {
+      "PASS": 1
+    },
+    "adjustments": {
+      "PASS": 8
+    },
+    "adjustment_races": {
+      "PASS": 2
+    },
+    "adjustment_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 4
+    }
+  },
+  "total": 23,
+  "local_dom": 9,
+  "app_runs": [
+    36564823645,
+    36564816525
+  ],
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_cleanup_restored": true,
+  "disposable_database_remaining": 0,
+  "independent_acceptance": false,
+  "production_go": false,
+  "p09_regression": {
+    "tested_source": "7e2aedd5a2cdad4461355637bdf4f09c83ed609c",
+    "run_id": 36563203850,
+    "job_id": 109388776168,
+    "artifact_id": 11030976796,
+    "archive_sha256": "6d47fb1518f488a4438e4856f0dc11dfb0c61d05601de4dc16a21cee428a1184",
+    "status": "PASS",
+    "cases": 121,
+    "separate_smokes": 3,
+    "cp6_restored": true,
+    "advisor_gate": true
+  },
+  "visual_review": {
+    "screenshots": [
+      "P10_ADJUST_DESKTOP.png",
+      "P10_ADJUST_MOBILE.png"
+    ],
+    "quantities_and_complete_document_visible": true,
+    "no_horizontal_overflow": true,
+    "followup": "Inventory-type switcher lies outside cproc style namespace; contrast fix prepared for the next visual increment. Transaction qualification does not claim finished visual polish."
+  },
+  "source_files_sha256": {
+    ".github/workflows/cp7-p10-fg.yml": "ecd9d24e1654177b787caa47759f4bdc3631fe38cae58d5764ab7ba72a1a58b8",
+    "scripts/cp7-src/fg/adjustment-read.sql": "de2e9cc11db6cbe46594166cfc51f8682d60f69c264d823333f1840124b5f1dc",
+    "scripts/cp7-src/fg/adjustments.sql": "cddc890a1f7792040210f7e6ade7faf3a0fd5788d20313f3c706073ca2f98db9",
+    "scripts/cp7-src/fg/bootstrap.sql": "4378be5809f27d38d0d4fca63efd974840f1e4c9bf0a9d2ba121c9245e758117",
+    "scripts/cp7-src/fg/ledger.sql": "8f51d8d7329fe139acf26465589df963be53f188ef667bb8dc6212a8c2b29cde",
+    "scripts/cp7-src/fg/ownership.sql": "6774a182153b2145a50f1b406eb85018a097cf0d17f254bcfa04aab2eaf9bc2e",
+    "scripts/cp7-src/fg/read.sql": "2ad7a8f4925e603f93e0c0e265a89662dd57c25e950f738fd6731ca37d0aeb09",
+    "scripts/cp7_fg_adjustment_cases.py": "fc8b7e19efbed8623c653549241e2274938301170479419be888a09326c04cca",
+    "scripts/cp7_fg_bundle.py": "f4ca8b3ef650e930fd2a00bc92ba3085525218d3efb5a545acac84c92eac9e8c",
+    "scripts/cp7_fg_cases.py": "9387f52fe45b0c3d68b11dba21c4b121d5e52f2ab65e966aecdc43f2f85288de",
+    "scripts/cp7_p10_adjustment_browser.mjs": "53005d3524c3d0347087dc45a523ee4b8692b4ff161d18d02faf678e9a8f580f",
+    "scripts/cp7_p10_browser.mjs": "8c0d3538dd1dcadea256c7b553286269208aefb1ec22696b15d990a7031480c4",
+    "scripts/cp7_p10_browser_fixture.py": "169624f51d884d0f612db46575fe26d35ddfc7a7994247e378d9eebdda25a616",
+    "scripts/cp7_p10_fg_probe.py": "e119d97ec5505db3a4299a823ed995eed45dfd73dc21fe3c698df3e35f8d2f7f",
+    "src/App.tsx": "9a7415c11ab395a6ab1f42ecf08870a1169486d9f42761a913b6cf00b7393ad7",
+    "src/ConnectedFgAdjustmentPage.tsx": "4c72ce8db4cbdbbfe798df7a9f8f6e4e84c5de9e54d8fa93643381b47bc07d16",
+    "src/ConnectedFgStockPage.tsx": "bd2086e27d52e4d3cad61535152842bbfcae070177e3e460ba721f17db77316a",
+    "src/ConnectedStockAdjustmentPage.tsx": "acaf25fc584c27ea971a8fd9a2ab1fd15d1993fb499144d5782f8d84fa57e621",
+    "src/fgAdjustmentContract.ts": "3943416b260cf6c2532c09c75fef7761363603fd218935919700f26643dcf919",
+    "src/fgContract.ts": "36510a17d4c777a08723206d8737bce4b766d09d450dfc8b411f373d519a74f6",
+    "src/productionRecovery.ts": "7bced9c8f3597266df3fafb56bc8bdb0f670965ec4b2730d671dd50d781acc86"
+  },
+  "remaining": [
+    "Global FG books and Nota handoff remain P10 follow-up",
+    "P11/R10 connected sales/return/payment still open",
+    "F03 full family remains open",
+    "F02 independent HOLD remains unchanged"
+  ]
+}
