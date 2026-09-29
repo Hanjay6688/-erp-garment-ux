@@ -13,6 +13,7 @@ name: CP7 P09 Procurement
     - scripts/cp7_invoice_cases.py
     - scripts/cp7_material_cases.py
     - scripts/cp7_material_unrolled_cases.py
+    - scripts/cp7_material_count_cases.py
     - scripts/cp7-src/wip/**
     - scripts/cp7_wip_bundle.py
     - scripts/cp7_p04_wip_probe.py
@@ -21,6 +22,8 @@ name: CP7 P09 Procurement
     - scripts/cp7_p09_browser.mjs
     - scripts/cp7_p09_browser_fixture.py
     - src/ConnectedMaterialsPage.tsx
+    - src/ConnectedMaterialCountPage.tsx
+    - src/materialCountContract.ts
     - src/materialContract.ts
     - src/materials-connected.css
     - src/SupplierReturnPanel.tsx

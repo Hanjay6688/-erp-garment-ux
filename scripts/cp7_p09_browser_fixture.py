@@ -10,6 +10,7 @@ import cp7_supplier_return_cases as returns
 import cp7_receipt_reversal_cases as reversal
 import cp7_procurement_uom_cases as uom
 import cp7_material_unrolled_cases as unrolled
+import cp7_material_count_cases as counts
 
 def main():
     target=os.environ['AUDITOR_BROWSER_DB_URL'];url=urlparse(target)
@@ -31,6 +32,17 @@ def main():
                 f.update(target=g['receipt']['purchase_id'],target_tag=g['tag'],return_day=str(f['day']+timedelta(days=2)))
                 f['ap_before']=str(cur.execute("select coalesce(sum(credit_total-debit_total),0) from erp.account_daily_balances where account_id=erp.account_id('AP_SUPPLIER')").fetchone()[0])
             conn.commit();out=f
+        elif sys.argv[1]=='create_count':
+            f=(unrolled.fixture if payload['mobile'] else material.fixture)(cur,date.fromisoformat(payload['today']))
+            f['material_code'],f['unit'],f['material_name']=cur.execute('select material_sku,unit_code,material_name from erp.materials where id=%s',(f['material'],)).fetchone()
+            f['count_day']=str(f['day']+timedelta(days=2));f['ledger_before']=reversal.net_ledger(cur);out=f;conn.commit()
+        elif sys.argv[1]=='read_count':
+            h=cur.execute('select id,status,row_version,physical_at from erp.material_adjustments where adjustment_number=%s',(payload['tag']+'-COUNT-UI',)).fetchone()
+            out=dict(qty=str(cur.execute('select coalesce(sum(qty_signed),0) from erp.material_stock_movements where material_id=%s',(payload['material'],)).fetchone()[0]),
+                movements=cur.execute('select count(*) from erp.material_stock_movements where material_id=%s',(payload['material'],)).fetchone()[0],ledger=reversal.net_ledger(cur),document=None)
+            if h:
+                d=counts.read(cur,str(h[0]))['detail'];out['document']=dict(id=str(h[0]),status=h[1],version=str(h[2]),physical_at=h[3].isoformat(),items=d['items'])
+            conn.rollback()
         elif sys.argv[1]=='create_transfer_unrolled':
             f=unrolled.fixture(cur,date.fromisoformat(payload['today']),payload['kind'])
             f['material_code'],f['unit'],f['material_name']=cur.execute('select material_sku,unit_code,material_name from erp.materials where id=%s',(f['material'],)).fetchone()

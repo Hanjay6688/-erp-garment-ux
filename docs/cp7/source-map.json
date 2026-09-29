@@ -960,6 +960,18 @@
         "status": "CANDIDATE_NATIVE_AND_BROWSER_PENDING",
         "scope": "ACCESSORY/OTHER and existing raw material types with null roll; ordinary warehouse transfers only. Service-zone movement retains its service workflow.",
         "notes": "Read labels advance to LIVE_MATERIAL_LEDGER. Private actor/request cache precedes mutable master validation. No command principal business SELECT/DML."
+      },
+      "physical_count_extension": {
+        "status": "CANDIDATE_NATIVE_BROWSER_PENDING",
+        "modules": [
+          "scripts/cp7-src/materials/counts.sql",
+          "scripts/cp7-src/materials/count-read.sql",
+          "src/ConnectedMaterialCountPage.tsx",
+          "src/materialCountContract.ts"
+        ],
+        "authority": "Accepted material adjustment SAVE/POST/REVERSE writers. Server derives signed delta from physical count and dated posted ledger; current basis and native document signature rechecked after real material-row waits.",
+        "limits": "Browser creates one counted stock position per document; complete native history reads and bounded server multi-line scope. Draft editing UI and zero-history material selection remain follow-up; FG adjustments remain P10.",
+        "handoff": "docs/cp7/P09_MATERIAL_COUNT_HANDOFF.md"
       }
     }
   }

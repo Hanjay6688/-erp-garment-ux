@@ -28,6 +28,9 @@ export type PreconnectDatabase = {
       erp_cp7_save_supplier_return_v1: { Args: { p_action: string; p_payload: Json; p_request: string; p_expected: string | null }; Returns: Json }
       erp_cp7_get_purchase_invoices_v1: { Args: { p_purchase: string; p_offset: number; p_limit: number }; Returns: Json }
       erp_cp7_save_purchase_invoice_v1: { Args: { p_action: string; p_payload: Json; p_request: string; p_expected: string }; Returns: Json }
+      erp_cp7_preview_material_count_v1: { Args: { p_scope: Json }; Returns: Json }
+      erp_cp7_get_material_counts_v1: { Args: { p_query: Json }; Returns: Json }
+      erp_cp7_save_material_count_v1: { Args: { p_action: string; p_payload: Json; p_request: string; p_expected: string | null }; Returns: Json }
       erp_cp7_get_materials_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_material_ledger_v1: { Args: { p_material: string; p_roll: string | null; p_location: string; p_offset: number; p_limit: number }; Returns: Json }
       erp_cp7_get_material_transfers_v1: { Args: { p_query: Json }; Returns: Json }

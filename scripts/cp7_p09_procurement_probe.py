@@ -5,6 +5,7 @@ import psycopg
 import cp7_procurement_bundle as bundle
 import cp7_procurement_cases as cases
 import cp7_material_cases as material
+import cp7_material_count_cases as counts
 import cp7_invoice_cases as invoice
 import cp7_supplier_return_cases as returns
 import cp7_receipt_reversal_cases as reversal
@@ -35,12 +36,13 @@ def verify(cur):
     assert INSTALLED_FUNCTIONS is not None and functions(cur)==INSTALLED_FUNCTIONS,'P09_INSTALLED_FUNCTION_OR_ACL_CHANGED'
     assert cur.execute("select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_procurement' and (p.prosecdef is distinct from (p.proname in('reverse_receipt_locked','validate_uom_lines')) or pg_get_userbyid(p.proowner)<>case when p.proname='reverse_receipt_locked' then 'postgres' when p.proname in('command','reverse_request','save_draft_request') then 'cp7_procure_write' else 'cp7_procure_read' end or p.proconfig is distinct from array['search_path=\"\"'])").fetchone()[0]==0
     for name,role in [('erp_cp7_get_procurement_v1','cp7_procure_read'),('erp_cp7_get_procurement_options_v1','cp7_procure_read'),('erp_cp7_get_procurement_uom_v1','cp7_procure_read'),('erp_cp7_save_procurement_v1','cp7_procure_write'),
+      ('erp_cp7_preview_material_count_v1','cp7_material_read'),('erp_cp7_get_material_counts_v1','cp7_material_read'),('erp_cp7_save_material_count_v1','cp7_material_write'),
       ('erp_cp7_get_materials_v1','cp7_material_read'),('erp_cp7_get_material_ledger_v1','cp7_material_read'),
       ('erp_cp7_get_material_transfers_v1','cp7_material_read'),('erp_cp7_get_material_locations_v1','cp7_material_read'),('erp_cp7_save_materials_v1','cp7_material_write'),
       ('erp_cp7_get_purchase_invoices_v1','cp7_invoice_read'),('erp_cp7_save_purchase_invoice_v1','cp7_invoice_write'),
       ('erp_cp7_get_supplier_returns_v1','cp7_return_read'),('erp_cp7_save_supplier_return_v1','cp7_return_write')]:
         assert cur.execute("select p.prosecdef and pg_get_userbyid(p.proowner)=%s and p.proconfig=array['search_path=\"\"'] from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname=%s",(role,name)).fetchone()==(True,)
-    assert cur.execute("select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_material' and (p.prosecdef is distinct from (p.proname in('validate_lines','validate_transfer_scope')) or pg_get_userbyid(p.proowner)<>case when p.proname='command' then 'cp7_material_write' else 'cp7_material_read' end or p.proconfig is distinct from array['search_path=\"\"'])").fetchone()[0]==0
+    assert cur.execute("select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_material' and (p.prosecdef is distinct from (p.proname in('validate_lines','validate_transfer_scope','count_lines','count_signature')) or pg_get_userbyid(p.proowner)<>case when p.proname in('command','count_command') then 'cp7_material_write' else 'cp7_material_read' end or p.proconfig is distinct from array['search_path=\"\"'])").fetchone()[0]==0
     assert cur.execute("select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_invoice' and (p.prosecdef is distinct from (p.proname='assert_single_receipt') or pg_get_userbyid(p.proowner)<>case when p.proname='command' then 'cp7_invoice_write' else 'cp7_invoice_read' end or p.proconfig is distinct from array['search_path=\"\"'])").fetchone()[0]==0
     assert cur.execute("select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_supplier_return' and (p.prosecdef is distinct from (p.proname in('validate_source','assert_document','validate_post')) or pg_get_userbyid(p.proowner)<>case when p.proname='command' then 'cp7_return_write' else 'cp7_return_read' end or p.proconfig is distinct from array['search_path=\"\"'])").fetchone()[0]==0
     return dict(stage='CP7_F02_PLUS_DECLARED_P09' ,cp7_p09_bundle_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest())
@@ -48,7 +50,7 @@ def verify(cur):
 def run():
     global INSTALLED_FUNCTIONS
     report=dict(label='CP7_P09_RECEIPT_BRIDGE',status='INCOMPLETE',production_go=False,independent_acceptance=False,
-      scope='BOUNDED_RECEIPT_MATERIAL_TRANSFER_INVOICE_RETURN_AND_RECEIPT_INVERSE_CONNECTED',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest())
+      scope='BOUNDED_RECEIPT_MATERIAL_TRANSFER_COUNT_INVOICE_RETURN_AND_RECEIPT_INVERSE_CONNECTED',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest())
     installed=False
     try:
         with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
@@ -62,7 +64,7 @@ def run():
             assert changed==set(bundle.REPLACED),('P09_UNDECLARED_PREDECESSOR_CHANGE',changed)
             grants={s:{(r,'EXECUTE',False) for r in ('cp7_procure_read','cp7_procure_write','cp7_material_read','cp7_material_write','cp7_invoice_read','cp7_invoice_write','cp7_return_read','cp7_return_write')} for s in ('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)')}
             grants.update({s:{('cp7_procure_write','EXECUTE',False)} for s in ('erp.save_material_purchase_draft_v2(jsonb,uuid,bigint)','erp.post_material_purchase_v2(uuid,uuid,bigint,text)')})
-            grants.update({s:{('cp7_material_write','EXECUTE',False)} for s in ('erp.save_material_transfer_draft_v2(jsonb,uuid,bigint)','erp.post_material_transfer_v2(uuid,uuid,bigint,text)','erp.reverse_material_transfer_v2(uuid,text,uuid,bigint)')})
+            grants.update({s:{('cp7_material_write','EXECUTE',False)} for s in ('erp.save_material_transfer_draft_v2(jsonb,uuid,bigint)','erp.post_material_transfer_v2(uuid,uuid,bigint,text)','erp.reverse_material_transfer_v2(uuid,text,uuid,bigint)','erp.save_material_adjustment_draft_v2(jsonb,uuid,bigint)','erp.post_material_adjustment_v2(uuid,uuid,bigint,text)','erp.reverse_material_adjustment_v2(uuid,text,uuid,bigint)')})
             grants.update({s:{('cp7_invoice_read','EXECUTE',False)} for s in ('erp.material_purchase_invoice_capacity(uuid)','erp.material_purchase_posted_invoice_qty(uuid)')})
             grants.update({s:{('cp7_invoice_write','EXECUTE',False)} for s in ('erp.finalize_material_purchase_invoice_v2(jsonb,uuid,bigint)','erp.reverse_material_supplier_invoice_v2(uuid,text,uuid,bigint)')})
             grants.update({s:{('cp7_return_write','EXECUTE',False)} for s in ('erp.save_material_supplier_return_draft_v2(jsonb,uuid,bigint)','erp.post_material_supplier_return_v2(uuid,uuid,bigint,text)','erp.reverse_material_supplier_return_v2(uuid,text,uuid,bigint)')})
@@ -86,6 +88,9 @@ def run():
         report['material_crossflow']=native.strict_group('CP7_P09_MATERIAL_CROSSFLOW',material.crossflow_cases,verify)
         report['material_races']=modes.run_races(material,verify,'cp7_p09_material')
         report['material_http']=modes.run_http(material,verify,'cp7_p09_material')
+        report['material_count']=native.strict_group('CP7_P09_MATERIAL_COUNT',counts.cases,verify)
+        report['material_count_races']=modes.run_races(counts,verify,'cp7_p09_material_count')
+        report['material_count_http']=modes.run_http(counts,verify,'cp7_p09_material_count')
         report['invoice']=native.strict_group('CP7_P09_INVOICE',invoice.cases,verify)
         report['invoice_races']=modes.run_races(invoice,verify,'cp7_p09_invoice')
         report['invoice_http']=modes.run_http(invoice,verify,'cp7_p09_invoice')
@@ -112,7 +117,7 @@ def run():
             report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}))
             d=report['advisor_delta'];report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or (d['status']=='REVIEW_REQUIRED' and all(
              f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and (f.get('metadata') or {}).get('schema') in ('cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return') for f in d.get('added',[])))
-        groups=[report.get(k,{}) for k in ('smoke','native','races','http','browser','material_smoke','material','material_races','material_http','material_crossflow','invoice','invoice_races','invoice_http','return_smoke','returns','return_races','return_http','receipt_reversal','receipt_reversal_races','receipt_reversal_http','uom','uom_races','uom_http')]
+        groups=[report.get(k,{}) for k in ('smoke','native','races','http','browser','material_smoke','material','material_races','material_http','material_crossflow','material_count','material_count_races','material_count_http','invoice','invoice_races','invoice_http','return_smoke','returns','return_races','return_http','receipt_reversal','receipt_reversal_races','receipt_reversal_http','uom','uom_races','uom_http')]
         report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and all(r.get('status') in ('PASS','RUN_COMPLETE') and set(r.get('counts',{}))=={'PASS'} and r['counts']['PASS']>0 and r.get('database_remaining',0)==0 for r in groups) else 'INCOMPLETE'
         OUT.parent.mkdir(parents=True,exist_ok=True);OUT.write_text(json.dumps(report,indent=2,default=str)+'\n')
         print(json.dumps({k:report.get(k) for k in ('label','status','source_sha256','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)

@@ -36,7 +36,7 @@ begin
   and erp.has_permission('warehouse.procurement.view') and erp.has_permission(c.permission_key)) then return;end if;
  if exists(select 1 from cp7_material.execution_context c where c.backend_pid=pg_backend_pid()
   and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'
-  and c.action in('SAVE_TRANSFER','POST_TRANSFER','REVERSE_TRANSFER') and c.permission_key='warehouse.stock.adjust'
+  and c.action in('SAVE_TRANSFER','POST_TRANSFER','REVERSE_TRANSFER','SAVE_COUNT','POST_COUNT','DELETE_COUNT','REVERSE_COUNT') and c.permission_key='warehouse.stock.adjust'
   and erp.has_permission('warehouse.material.view') and erp.has_permission(c.permission_key)) then return;end if;
  if exists(select 1 from cp7_supplier_return.execution_context c where c.backend_pid=pg_backend_pid()
   and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'

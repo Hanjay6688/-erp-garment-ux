@@ -12,7 +12,7 @@ grant execute on function erp.save_material_transfer_draft_v2(jsonb,uuid,bigint)
  erp.reverse_material_transfer_v2(uuid,text,uuid,bigint) to cp7_material_write;
 create table cp7_material.execution_context(
  backend_pid integer not null,transaction_id bigint not null,actor uuid not null,
- action text not null check(action in('SAVE_TRANSFER','POST_TRANSFER','REVERSE_TRANSFER')),
+ action text not null check(action in('SAVE_TRANSFER','POST_TRANSFER','REVERSE_TRANSFER','SAVE_COUNT','POST_COUNT','DELETE_COUNT','REVERSE_COUNT')),
  permission_key text not null check(permission_key='warehouse.stock.adjust'),primary key(backend_pid,transaction_id)
 );
 alter table cp7_material.execution_context owner to cp7_material_write;

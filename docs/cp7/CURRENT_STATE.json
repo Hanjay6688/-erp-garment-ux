@@ -35,7 +35,7 @@
     "P02": "BOUNDED_ACTOR_CAPTURE_T1_PASS_16_CASES_INDEPENDENT_PENDING",
     "P03": "BOUNDED_POLICY_NATIVE_PASS_15_CASES_INDEPENDENT_PENDING",
     "P04": "BOUNDED_ATOMIC_WIP_NATIVE_PASS_39_CASES_PLUS_SMOKE_INDEPENDENT_PENDING",
-    "P09": "BOUNDED_86_PASS_NON_ROLL_MATERIAL_EXTENSION_CANDIDATE_PENDING"
+    "P09": "BOUNDED_86_PASS_NON_ROLL_RETEST_AND_PHYSICAL_COUNT_CANDIDATE_PENDING"
   },
   "inherited_scope": {
     "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
@@ -50,7 +50,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Qualify non-roll material ledger/transfers, then complete remaining P09 and F03 P10-P13 integration.",
+  "next_action": "Qualify non-roll transfers and physical material counts, then close remaining P09 and continue F03 P10-P13.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",

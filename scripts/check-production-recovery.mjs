@@ -58,3 +58,9 @@ const supplierReturns = read('src/SupplierReturnPanel.tsx')
 for (const token of ["useProductionMutation('SUPPLIER_RETURN')", 'beginRead()', 'finishRead(ticket)', 'p_request:e.id', 'p_expected:p.expected_version', 'parseSupplierReturnOutcome']) {
   assert.ok(supplierReturns.includes(token), `Supplier return recovery boundary missing ${token}`)
 }
+
+const materialCount = read('src/ConnectedMaterialCountPage.tsx')
+for (const token of ["useProductionMutation('MATERIAL_COUNT')", 'beginRead()', 'finishRead(ticket)', 'p_request:envelope.id', 'p_expected:p.expected_version', 'parseCountOutcome', 'reload:load']) {
+  assert.ok(materialCount.includes(token), `Material count recovery omits ${token}`)
+}
+assert.doesNotMatch(materialCount, /p_request:\s*(?:globalThis\.)?crypto\.randomUUID/)

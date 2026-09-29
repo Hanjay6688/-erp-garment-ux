@@ -90,6 +90,10 @@ for (const file of sourceFiles.filter((candidate) => !isTestSource(candidate) &&
 assert.deepEqual(dataReads, [], 'Browser code must not read ERP tables/views directly')
 
 assert.deepEqual([...rpcOwnership].sort(), [
+  'src/ConnectedMaterialCountPage.tsx:erp_cp7_get_materials_v1',
+  'src/ConnectedMaterialCountPage.tsx:erp_cp7_get_material_counts_v1',
+  'src/ConnectedMaterialCountPage.tsx:erp_cp7_preview_material_count_v1',
+  'src/ConnectedMaterialCountPage.tsx:erp_cp7_save_material_count_v1',
   'src/SupplierReturnPanel.tsx:erp_cp7_get_supplier_returns_v1',
   'src/SupplierReturnPanel.tsx:erp_cp7_save_supplier_return_v1',
   'src/SupplierReturnPanel.tsx:erp_cp7_get_procurement_options_v1',

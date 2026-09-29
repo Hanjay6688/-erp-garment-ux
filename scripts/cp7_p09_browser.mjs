@@ -5,9 +5,9 @@ async function openPage(ui,p,materials=false) {
  const menu=p.getByRole('button',{name:'Buka menu',exact:true})
  await ui.expect(p.locator('.sidebar .nav-main').filter({hasText:'Gudang'})).toBeAttached({timeout:20000})
  if(await menu.isVisible())await menu.click()
- const link=p.getByRole('button',{name:materials?'• Bahan & Roll':'• Pembelian & Penerimaan',exact:true})
+ const link=p.getByRole('button',{name:materials==='count'?'• Stock Adjustment':materials?'• Bahan & Roll':'• Pembelian & Penerimaan',exact:true})
  if(!await link.isVisible())await p.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).click()
- await link.click();await ui.expect(p.getByRole('heading',{name:materials?'Bahan & roll':'Pembelian & penerimaan',exact:true})).toBeVisible()
+ await link.click();await ui.expect(p.getByRole('heading',{name:materials==='count'?'Penyesuaian bahan':materials?'Bahan & roll':'Pembelian & penerimaan',exact:true})).toBeVisible()
 }
 
 async function receipt(ui,today,mobile) {
@@ -268,4 +268,36 @@ async function purchaseUom(ui,today,mobile){
   return {status:'PASS',mobile,unit,purchase_quantity:quantity,price_per_purchase_unit:price,base_stock:stock,value,real_ui_auth_rpc_database:true,draft_edit_preserves_entered_units:true,recovery_identical_request:mobile?true:null,screenshot:`P09_UOM_${mobile?'MOBILE':'DESKTOP'}.png`}
  }finally{await user.context.close()}
 }
-export async function cases(ui,today){return [['P09_BROWSER_RECEIPT_DESKTOP',()=>receipt(ui,today,false)],['P09_BROWSER_LOST_REPLY_MOBILE',()=>receipt(ui,today,true)],['P09_BROWSER_TRANSFER_DESKTOP',()=>transfer(ui,today,false)],['P09_BROWSER_TRANSFER_LOST_REPLY_MOBILE',()=>transfer(ui,today,true)],['P09_BROWSER_INVOICE_DESKTOP',()=>supplierInvoice(ui,today,false)],['P09_BROWSER_INVOICE_LOST_REPLY_MOBILE',()=>supplierInvoice(ui,today,true)],['P09_BROWSER_RETURN_CREDIT_DESKTOP',()=>supplierReturn(ui,today,false)],['P09_BROWSER_RETURN_CREDIT_LOST_REPLY_MOBILE',()=>supplierReturn(ui,today,true)],['P09_BROWSER_RECEIPT_REVERSE_DESKTOP',()=>receiptReversal(ui,today,false)],['P09_BROWSER_RECEIPT_REVERSE_LOST_REPLY_MOBILE',()=>receiptReversal(ui,today,true)],['P09_BROWSER_UOM_DESKTOP',()=>purchaseUom(ui,today,false)],['P09_BROWSER_UOM_LOST_DRAFT_REPLY_MOBILE',()=>purchaseUom(ui,today,true)],['P09_BROWSER_ACCESSORY_TRANSFER_DESKTOP',()=>transfer(ui,today,false,'ACCESSORY')],['P09_BROWSER_OTHER_TRANSFER_MOBILE',()=>transfer(ui,today,true,'OTHER')]]}
+export async function cases(ui,today){return [['P09_BROWSER_RECEIPT_DESKTOP',()=>receipt(ui,today,false)],['P09_BROWSER_LOST_REPLY_MOBILE',()=>receipt(ui,today,true)],['P09_BROWSER_TRANSFER_DESKTOP',()=>transfer(ui,today,false)],['P09_BROWSER_TRANSFER_LOST_REPLY_MOBILE',()=>transfer(ui,today,true)],['P09_BROWSER_INVOICE_DESKTOP',()=>supplierInvoice(ui,today,false)],['P09_BROWSER_INVOICE_LOST_REPLY_MOBILE',()=>supplierInvoice(ui,today,true)],['P09_BROWSER_RETURN_CREDIT_DESKTOP',()=>supplierReturn(ui,today,false)],['P09_BROWSER_RETURN_CREDIT_LOST_REPLY_MOBILE',()=>supplierReturn(ui,today,true)],['P09_BROWSER_RECEIPT_REVERSE_DESKTOP',()=>receiptReversal(ui,today,false)],['P09_BROWSER_RECEIPT_REVERSE_LOST_REPLY_MOBILE',()=>receiptReversal(ui,today,true)],['P09_BROWSER_UOM_DESKTOP',()=>purchaseUom(ui,today,false)],['P09_BROWSER_UOM_LOST_DRAFT_REPLY_MOBILE',()=>purchaseUom(ui,today,true)],['P09_BROWSER_ACCESSORY_TRANSFER_DESKTOP',()=>transfer(ui,today,false,'ACCESSORY')],['P09_BROWSER_OTHER_TRANSFER_MOBILE',()=>transfer(ui,today,true,'OTHER')],['P09_BROWSER_COUNT_DESKTOP',()=>materialCount(ui,today,false)],['P09_BROWSER_COUNT_LOST_REPLY_MOBILE',()=>materialCount(ui,today,true)]]}
+
+async function materialCount(ui,today,mobile){
+ const f=fixture('create_count',{today,mobile}),user=await ui.login('OWNER',{label:'cp7-material-count-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'})
+ try{
+  const p=user.page;await openPage(ui,p,'count')
+  await p.getByLabel('Cari bahan hitung fisik',{exact:true}).fill(f.material_code);await p.getByRole('button',{name:'Cari bahan',exact:true}).click()
+  const source=p.locator('.cmat-roll').filter({hasText:f.material_code});await ui.expect(source).toHaveCount(1)
+  const choose=source.getByRole('button',{name:'Hitung '+(f.roll?f.tag+'-R':f.material_name),exact:true});await ui.expect(choose).toBeEnabled();await choose.click()
+  await p.getByLabel('Nomor hitung fisik',{exact:true}).fill(f.tag+'-COUNT-UI')
+  await p.getByLabel('Waktu hitung WIB',{exact:true}).fill(f.count_day+'T10:00');await p.getByLabel('Jumlah fisik bahan',{exact:true}).fill(mobile?'12':'8')
+  await p.getByLabel('Alasan hitung fisik',{exact:true}).selectOption(mobile?'FOUND':'COUNT_CORRECTION');await p.getByLabel('Catatan hitung fisik',{exact:true}).fill('Hitung ulang bersama petugas dan cocokkan foto gudang')
+  await p.getByRole('button',{name:'Periksa selisih',exact:true}).click();const form=p.locator('.cmat-count-form');await ui.expect(form).toContainText('Saldo pada waktu hitung 10')
+  if(mobile)await p.getByLabel('Harga satuan hasil hitung',{exact:true}).fill('10')
+  const save=p.getByRole('button',{name:'Simpan draft hitung fisik',exact:true});await ui.expect(save).toBeEnabled();await save.click()
+  const detail=p.locator('.cmat-count-detail');await ui.expect(detail).toContainText('Draft belum mengubah stok.')
+  let read=fixture('read_count',f);if(Number(read.qty)!==10||read.movements!==1||Number(read.document.items[0].qty_signed)!==(mobile?2:-2))throw Error('Count draft changed stock or server delta')
+  const review=p.getByLabel('Saya sudah memeriksa jumlah dan alasan tindakan ini.',{exact:true});await review.check()
+  let lost=false,first=null,replay=null
+  if(mobile)await p.route('**/rest/v1/rpc/erp_cp7_save_material_count_v1',async route=>{const body=route.request().postDataJSON();if(body.p_action==='POST'&&!lost){first=body;const response=await route.fetch();if(response.status()!==200){await route.fulfill({response});return}lost=true;await route.abort('failed')}else{if(body.p_action==='POST')replay=body;await route.continue()}})
+  const post=p.getByRole('button',{name:'Sahkan hitung fisik',exact:true});await ui.expect(post).toBeEnabled();await post.click()
+  await ui.expect.poll(()=>fixture('read_count',f).document?.status,{timeout:20000}).toBe('POSTED')
+  if(mobile){await ui.expect(p.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeVisible();await p.reload();await openPage(ui,p,'count');await p.getByRole('button',{name:'Reconcile transaksi',exact:true}).click();await ui.expect(p.getByRole('button',{name:'Reconcile transaksi',exact:true})).toHaveCount(0);if(!lost||JSON.stringify(first)!==JSON.stringify(replay))throw Error('Count replay changed request')}
+  await ui.expect(detail).toContainText('Penyesuaian stok sudah disahkan.');read=fixture('read_count',f)
+  if(Number(read.qty)!==(mobile?12:8)||read.movements!==2||Number(read.document.items[0].valuation.restated_value)!==(mobile?20:-20))throw Error('Count native quantity/value mismatch')
+  if(Date.parse(read.document.physical_at)!==Date.parse(f.count_day+'T10:00:00+07:00'))throw Error('Count WIB date changed')
+  await ui.expect.poll(()=>detail.evaluate(el=>{const b=el.getBoundingClientRect();return b.left>=0&&b.right<=innerWidth+1&&document.documentElement.scrollWidth<=innerWidth+1})).toBe(true)
+  await p.evaluate(()=>window.scrollTo(0,0));await p.screenshot({path:`cp6-proof/t3/P09_COUNT_${mobile?'MOBILE':'DESKTOP'}.png`,fullPage:true})
+  await review.check();await p.getByRole('button',{name:'Batalkan hitung fisik',exact:true}).click();await ui.expect(detail).toContainText('Penyesuaian sudah dibatalkan dengan mutasi pembalik.')
+  read=fixture('read_count',f);if(Number(read.qty)!==10||read.movements!==3||JSON.stringify(read.ledger)!==JSON.stringify(f.ledger_before))throw Error('Count inverse failed to restore stock/accounts')
+  return {status:'PASS',mobile,real_ui_auth_rpc_database:true,physical_input:true,server_delta:mobile?2:-2,posted_stock:mobile?12:8,posted_value_delta:mobile?20:-20,restored_stock:10,all_accounts_restored:true,recovery_identical_request:mobile?true:null,screenshot:`P09_COUNT_${mobile?'MOBILE':'DESKTOP'}.png`}
+ }finally{await user.context.close()}
+}
