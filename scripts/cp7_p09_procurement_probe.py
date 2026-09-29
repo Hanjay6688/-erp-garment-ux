@@ -72,6 +72,7 @@ def run():
         report['material_smoke']=native.strict_group('CP7_P09_MATERIAL_SMOKE',material.smoke,verify)
         assert report['material_smoke']['status']=='PASS','P09_MATERIAL_SMOKE_INCOMPLETE'
         report['material']=native.strict_group('CP7_P09_MATERIAL',material.cases,verify)
+        report['material_crossflow']=native.strict_group('CP7_P09_MATERIAL_CROSSFLOW',material.crossflow_cases,verify)
         report['material_races']=modes.run_races(material,verify,'cp7_p09_material')
         report['material_http']=modes.run_http(material,verify,'cp7_p09_material')
         report['browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_p09_browser.mjs',verify,'cp7_p09')
@@ -86,7 +87,7 @@ def run():
             report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}))
             d=report['advisor_delta'];report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or (d['status']=='REVIEW_REQUIRED' and all(
              f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and (f.get('metadata') or {}).get('schema') in ('cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material') for f in d.get('added',[])))
-        groups=[report.get(k,{}) for k in ('smoke','native','races','http','browser','material_smoke','material','material_races','material_http')]
+        groups=[report.get(k,{}) for k in ('smoke','native','races','http','browser','material_smoke','material','material_races','material_http','material_crossflow')]
         report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and all(r.get('status') in ('PASS','RUN_COMPLETE') and set(r.get('counts',{}))=={'PASS'} and r['counts']['PASS']>0 and r.get('database_remaining',0)==0 for r in groups) else 'INCOMPLETE'
         OUT.parent.mkdir(parents=True,exist_ok=True);OUT.write_text(json.dumps(report,indent=2,default=str)+'\n')
         print(json.dumps({k:report.get(k) for k in ('label','status','source_sha256','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)

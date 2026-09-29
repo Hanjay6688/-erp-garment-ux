@@ -1,5 +1,5 @@
 .cmat-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
-.cmat-tabs button[aria-pressed="true"] { background: #293f5b; border-color: #819adc; color: #fff; }
+.cproc.cmat .cmat-tabs button[aria-pressed="true"] { background: #293f5b; border-color: #819adc; color: #fff; }
 .cmat-totals { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
 .cmat-totals article { display: grid; gap: 10px; }
 .cmat-totals strong { font-size: 30px; font-variant-numeric: tabular-nums; }

@@ -76,7 +76,7 @@ def cases(cur,today):
         return dict(status='PASS',total_qty=10,total_value=100,transfer_net_qty=0,transfer_net_value=0,paged_prefix=[6,10],reversal_pairs=2)
     def historical():
         f=fixture(cur,today);d,p=draft(cur,f,at=aa.at(f['day']-timedelta(days=1),10).isoformat())
-        message=auth.refused(cur,lambda:post(cur,d),'negative')
+        message=auth.refused(cur,lambda:post(cur,d),'AM_BACKDATE_WOULD_CREATE_NEGATIVE_LOCATION_ROLL_HISTORY')
         assert balances(cur,f)=={f['location']:10} and read_transfer(cur,d['transfer_id'])['detail']['status']=='DRAFT'
         assert cur.execute('select count(*) from erp.material_stock_movements where source_id=%s',(d['transfer_id'],)).fetchone()[0]==0
         return dict(status='PASS',backdated_negative_prefix_refused=True,zero_partial_effects=True,refusal=message)
@@ -217,3 +217,33 @@ def http_cases(http,today):
         assert owner.rpc('erp_cp7_save_materials_v1',args)['status']==403
         return dict(status='PASS',real_auth_postgrest=True,ops_money_redacted=True,post_replay_revoke=True)
     return [('P09_MATERIAL_HTTP_TRANSFER_AUTH',flow)]
+
+
+def crossflow_cases(cur,today):
+    # Fixture wiring only: the existing independent money oracle is unchanged.
+    # Receipt + transfer are now created through the actual CP7 public boundary.
+    import cp6_final_crossflow_review as oracle
+    def journey(closed):
+        original=oracle.production.estimated_receipt;observed={}
+        def receipt_at_destination(c,day):
+            f=fixture(c,day)
+            d,_=draft(c,f,qty='10',at=aa.at(f['day'],11).isoformat());d=post(c,d)
+            assert balances(c,f)=={f['location']:0,f['destination']:10}
+            item,movement=c.execute("select i.id,sm.id from erp.material_purchase_items i join erp.material_stock_movements sm on sm.source_type='MATERIAL_PURCHASE_ROLL' and sm.source_id=%s where i.purchase_id=%s",(f['roll'],f['receipt']['purchase_id'])).fetchone()
+            result=dict(material=f['material'],purchase=f['receipt']['purchase_id'],item=item,roll=f['roll'],movement=movement,location=f['destination'],purchase_day=f['day'])
+            observed.update(f=f,transfer=d)
+            return result
+        oracle.production.estimated_receipt=receipt_at_destination
+        try:result=oracle.case(cur,today,'UTC' if closed else 'Asia/Jakarta',7 if closed else 4,closed)
+        finally:oracle.production.estimated_receipt=original
+        assert result['status']=='CONTROL_PASS',result
+        b.api.admin(cur);f=observed['f'];d=observed['transfer'];assert balances(cur,f)=={f['location']:0,f['destination']:0}
+        pairs=cur.execute("select sum(qty_signed),sum(qty_signed*unit_cost_snapshot),count(*) from erp.material_stock_movements where source_type='MATERIAL_TRANSFER' and source_id=%s",(d['transfer_id'],)).fetchone()
+        assert pairs==(0,0,2),pairs
+        assert all(not x['mismatches'] and x['replay_exact'] for x in result['observations'])
+        return dict(status='PASS',public_receipt_transfer=True,ordinary_cutting_sewing_laundry_partial_fg_sale=True,
+          staged_invoice_quantities=[7,3] if closed else [4,6],final_material_value=110 if closed else 95,
+          source_material_on_hand=0,transfer_net_qty=0,transfer_net_value=0,closed_receipt_day=closed,
+          old_report_preserved=closed,observations=result['observations'],
+          limit='Native existing final-invoice/production/sale boundaries; connected invoice and sale UI still P09/P11/P13 obligations')
+    return [('P09_TRANSFER_PRODUCTION_LATE_INVOICE',lambda:journey(False)),('P09_TRANSFER_CLOSED_DAY_LATE_INVOICE',lambda:journey(True))]

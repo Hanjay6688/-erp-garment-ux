@@ -1,0 +1,45 @@
+{
+  "status": "28_PASS_1_PREFIX_ASSERTION_INCOMPLETE",
+  "source": "a4707a4e19549ac29cde2576489266f6605c0071",
+  "run": 36521391129,
+  "job": 109254825854,
+  "artifact_id": 11013506399,
+  "zip_sha256": "a6cbc6ddb79989a9610bb566a5c737cd5c19580e964d0850606c8f0b8247481c",
+  "bundle_sha256": "372133cdb5255ecf388393a91afb2efb3a6c3210f634f8bdf55c9956383d2665",
+  "report_sha256": "43461f34e840bcd6b85d2eec7b84e83dff85037d00eeaece67b8730efc2abe1d",
+  "report_gz_sha256": "d36803d4c55f6d0ab6bbccde229c593e0d67744374032d7b740eeea58b9c5134",
+  "counts": {
+    "native": {
+      "PASS": 9
+    },
+    "races": {
+      "PASS": 3
+    },
+    "http": {
+      "PASS": 1
+    },
+    "material": {
+      "PASS": 8,
+      "INCOMPLETE": 1
+    },
+    "material_races": {
+      "PASS": 2
+    },
+    "material_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 4
+    },
+    "smoke": {
+      "PASS": 1
+    },
+    "material_smoke": {
+      "PASS": 1
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "independent_acceptance": false,
+  "production_go": false
+}
