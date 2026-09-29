@@ -2,7 +2,9 @@
 create function cp7_private.capture_sources(p_root uuid,p_financial boolean) returns jsonb
 language sql stable security invoker set search_path='' set timezone='Asia/Jakarta' as $cp7source$
 with clock as materialized (
-  select p_root as root_id, statement_timestamp() as at
+  -- The request may have waited before this INSERT/SELECT acquired its snapshot.
+  -- Materialize the capture-time clock once, after the request lock is acquired.
+  select p_root as root_id, clock_timestamp() as at
 ),
 physical as materialized (
   select p.id,coalesce(p.identity_root_id,p.id) root_id,p.size_id,p.model_id,p.brand_id,
