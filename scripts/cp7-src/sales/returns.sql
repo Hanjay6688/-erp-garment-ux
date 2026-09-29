@@ -31,8 +31,10 @@ begin
    or(x->>'qty_pcs')!~'^[1-9][0-9]{0,8}$' or(x->>'quality_grade') not in('GRADE_A','GRADE_B','HOLD')
    or(x->>'refund_amount')!~'^(0|[1-9][0-9]{0,17})(\.[0-9]{1,2})?$' then raise exception 'CP7_SALES_RETURN_LINES';end if;
  end loop;
- -- One allocation may be split across destination/grade lines. The native
- -- poster sums every line for that allocation before enforcing its capacity.
+ -- Accepted uq_sales_return_item_allocation allows one line per allocation
+ -- in a document. Split grade/destination for the same allocation across
+ -- explicit return documents; preserve the original unique constraint.
+ if exists(select 1 from jsonb_array_elements(p->'items') x group by x->>'allocation_id' having count(*)>1) then raise exception 'CP7_SALES_RETURN_DUPLICATE_ALLOCATION';end if;
 end $$;
 
 create function cp7_sales.return_workspace(p_query jsonb) returns jsonb

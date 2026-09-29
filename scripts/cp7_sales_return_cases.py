@@ -45,18 +45,20 @@ def cases(cur,today):
   z=reverse_sale(cur,f);assert z['status']=='REVERSED' and cmd.accounts(cur)==f['before_sale'] and positions(cur,f)=={(f['location'],'GRADE_A'):10}
   return dict(status='PASS',sale80_return40_cash30_balance10=True,return_A_to_other_warehouse2=True,return_AR_minus40_revenue_plus40_FG_plus20_COGS_minus20=True,inverse_payment_return_sale_order=True,all_GL_neutral=True,final_stock10=True)
  def grades():
-  f=fixture(cur,today);before=cmd.accounts(cur);p,v=payload(cur,f,refund='20');p['items']=[dict(p['items'][0],quality_grade=g,location_id=f['location'] if g=='GRADE_A' else f['destination']) for g in ('GRADE_A','GRADE_B','HOLD')]
-  r=cmd.command(cur,'RETURN',p,v);assert positions(cur,f)=={(f['location'],'GRADE_A'):7,(f['destination'],'GRADE_B'):1,(f['destination'],'HOLD'):1}
+  f=fixture(cur,today,True);before=cmd.accounts(cur);p,v=payload(cur,f,refund='20',destination=f['location']);p['items'].append(dict(p['items'][0],allocation_id=f['allocations'][1]['allocation_id'],quality_grade='GRADE_B',location_id=f['destination']))
+  r=cmd.command(cur,'RETURN',p,v);hold=returned(cur,f,grade='HOLD')
+  assert positions(cur,f)=={(f['location'],'GRADE_A'):7,(f['destination'],'GRADE_B'):1,(f['destination'],'HOLD'):1}
   assert source.read(cur,f)['detail']['financial']['open_balance']=='20.00' and read(cur,f)['page']['rows'][0]['remaining_qty']=='1'
-  history=read(cur,f,'RETURNS')['page']['rows'][0];assert history['line_count']=='3' and {i['quality_grade'] for i in history['items']}=={'GRADE_A','GRADE_B','HOLD'}
-  assert 'unit_hpp' not in json.dumps(history);inverse(cur,f,r['return_id']);assert cmd.accounts(cur)==before and positions(cur,f)=={(f['location'],'GRADE_A'):6}
-  return dict(status='PASS',one_allocation_split_A_B_HOLD_three_lines=True,current_remaining1=True,native_HPP_conserved_and_inverse_neutral=True,no_HPP_in_AR_projection=True)
+  history=read(cur,f,'RETURNS')['page']['rows'];assert sorted(h['line_count'] for h in history)==['1','2'] and {i['quality_grade'] for h in history for i in h['items']}=={'GRADE_A','GRADE_B','HOLD'}
+  assert 'unit_hpp' not in json.dumps(history);inverse(cur,f,hold['return_id']);inverse(cur,f,r['return_id']);assert cmd.accounts(cur)==before and positions(cur,f)=={(f['location'],'GRADE_A'):6}
+  return dict(status='PASS',two_allocations_split_A_B_in_one_document=True,same_allocation_HOLD_in_separate_document=True,native_unique_allocation_constraint_preserved=True,current_remaining1=True,native_HPP_conserved_and_inverse_neutral=True,no_HPP_in_AR_projection=True)
  def capacity():
   f=fixture(cur,today,True);assert len(f['allocations'])==2 and all(a['allocated_qty']=='2' for a in f['allocations']);p,v=payload(cur,f,qty='2',refund='40');p['items']*=2;before=b.boundary.snapshot(cur)
-  auth.refused(cur,lambda:cmd.command(cur,'RETURN',p,v),'AH_RETURN_EXCEEDS_ORIGINAL_ALLOCATION');assert b.boundary.snapshot(cur)==before
+  auth.refused(cur,lambda:cmd.command(cur,'RETURN',p,v),'CP7_SALES_RETURN_DUPLICATE_ALLOCATION');assert b.boundary.snapshot(cur)==before
+  p,v=payload(cur,f,qty='3',refund='60');auth.refused(cur,lambda:cmd.command(cur,'RETURN',p,v),'AH_RETURN_EXCEEDS_ORIGINAL_ALLOCATION');assert b.boundary.snapshot(cur)==before
   a=returned(cur,f,qty='2',refund='40');p,v=payload(cur,f,qty='1',refund='20');before=b.boundary.snapshot(cur);auth.refused(cur,lambda:cmd.command(cur,'RETURN',p,v),'AH_RETURN_EXCEEDS_ORIGINAL_ALLOCATION');assert b.boundary.snapshot(cur)==before
   assert read(cur,f)['page']['rows'][0]['allocation_id']==f['allocations'][1]['allocation_id'];returned(cur,f,qty='2',refund='40',allocation=f['allocations'][1]['allocation_id']);assert read(cur,f)['page']['total']=='0' and source.read(cur,f)['detail']['status']=='PAID'
-  return dict(status='PASS',same_product_lot_has_two_independent_allocations=True,duplicate_lines_and_prior_documents_share_selected_cap=True,other_allocation_remains_eligible=True,full_return_net_zero=True)
+  return dict(status='PASS',same_product_lot_has_two_independent_allocations=True,duplicate_same_document_line_refused_before_effect=True,prior_documents_share_selected_cap=True,other_allocation_remains_eligible=True,full_return_net_zero=True)
  def fields():
   f=fixture(cur,today);g=fixture(cur,today);p,v=payload(cur,f);before=b.boundary.snapshot(cur)
   for key,value in [('qty_pcs','0'),('qty_pcs','1.5'),('qty_pcs',1),('refund_amount',None),('refund_amount','20.001'),('unit_hpp_snapshot','0'),('product_id',f['product']),('lot_id',g['lot']),('quality_grade','UNKNOWN')]:
@@ -114,7 +116,7 @@ def cases(cur,today):
   return dict(status='PASS',complete_allocation_pages2_return_pages3_location_pages3=True,explicit_empty_and_invalid_page=True)
  def consumed():
   f=fixture(cur,today);r=returned(cur,f);sale=b.chain.production.rpc(cur,'erp.save_sale_draft_v2',dict(sale_number='DOWN-'+f['tag'],customer_id=f['customer'],source_location_id=f['destination'],sale_date=source.fg.ax.r1.now(cur).isoformat(),reason='Consume exactly the returned stock',items=[dict(product_id=f['product'],qty_pcs=1,unit_price_snapshot='20',discount_amount=0)]),uuid.uuid4(),None);source.fg.post_sale(cur,sale)
-  before=b.boundary.snapshot(cur);auth.refused(cur,lambda:inverse(cur,f,r['return_id']),'menjadi negatif');assert b.boundary.snapshot(cur)==before
+  before=b.boundary.snapshot(cur);auth.refused(cur,lambda:inverse(cur,f,r['return_id']),'Finished goods stock cannot become negative');assert b.boundary.snapshot(cur)==before
   source.native(cur,'select erp.reverse_sale(%s,%s)',(sale['sale_id'],'Undo downstream sale before original return'));inverse(cur,f,r['return_id']);assert positions(cur,f)=={(f['location'],'GRADE_A'):6}
   return dict(status='PASS',consumed_other_warehouse_return_inverse_refused=True,downstream_inverse_then_return_inverse_allowed=True)
  return [('P11_RETURN_'+n,fn) for n,fn in [('LIFECYCLE',lifecycle),('SPLIT_GRADES',grades),('ALLOCATION_CAP',capacity),('FIELDS',fields),('PAID_REFUSAL',paid_return),('DATE_LOCATION',dates_locations),('REPLAY',replay),('SOURCE_CHANGE',source_change),('PERMISSIONS',permissions),('PAGES',pages),('CONSUMED',consumed)]]

@@ -38,7 +38,7 @@
     "P09": "BOUNDED_125_PASS_MULTI_INPUT_COUNTS_AND_COMBINED_INVOICES_REMAINING_SCOPE_OPEN",
     "P10": "FG_BOOK_34_PASS_NOTA_COMPOSITION_QUALIFIED_SCOPE_OPEN",
     "P12": "BOUNDED_ATTENDANCE_SOURCE_TO_PAYROLL_80_PASS_REMAINING_SCOPE_OPEN",
-    "P11": "BOUNDED_CREATE_EDIT_POST_CANCEL_33_PASS_CASH_47_CASE_CANDIDATE_PENDING"
+    "P11": "CASH_SOURCE47_PASS_RETURN64_RUN1_61_PASS_3_INCOMPLETE"
   },
   "inherited_scope": {
     "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
@@ -53,7 +53,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Qualify P11 cash/payment/inverse47, then selected-allocation physical return/GradeB and P13. Qualified P11draft33, P12opening10, P09multi-count125+3 remain source-bound. E05 mechanism and full F03 acceptance remain open; F04 takeover follows completed F03.",
+  "next_action": "Qualify P11 return64 allocation-line repair; P13 report/archive reader preparation in progress. F03 remains OPEN, followed by F04 only after completion. E05 contract/proof, remaining P09, full family integration and independent acceptance remain explicit.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -186,22 +186,27 @@
       "verification": "docs/cp7/evidence/p11-sales/DRAFT_VERIFICATION.json"
     },
     "cash_candidate": {
-      "status": "RUN2_44_PASS_3_INCOMPLETE_HARNESS_REPAIR_PENDING",
+      "status": "WRITER_BOUNDED_47_PASS_INCLUDED_IN_RETURN_RUN1",
       "expected_cases": 47,
       "local_source_cases": 21,
       "shared_recovery_cases": 30,
       "handoff": "docs/cp7/P11_CASH_HANDOFF.md",
-      "diagnostic": "docs/cp7/evidence/p11-sales/CASH_RUN2_RECEIPT.json"
+      "diagnostic": "docs/cp7/evidence/p11-sales/CASH_RUN2_RECEIPT.json",
+      "source_commit": "8bbd467cee5207b8bd2e741a28539782dd266754",
+      "verification": "docs/cp7/evidence/p11-sales/RETURN_RUN1_RECEIPT.json"
     },
     "return_candidate": {
-      "status": "CANDIDATE_64_CASES_NATIVE_BROWSER_PENDING",
+      "status": "RUN1_61_PASS_3_INCOMPLETE_ALLOCATION_LINE_REPAIR_PENDING",
       "expected_cases": 64,
       "local_source_cases": 28,
       "shared_recovery_cases": 30,
       "handoff": "docs/cp7/P11_RETURN_HANDOFF.md",
       "scope": "ORIGINAL_ALLOCATION_GRADE_A_B_HOLD_FULL_BROWSER_SALE_RETURN_CASH_INVERSE",
       "independent_acceptance": false,
-      "production_go": false
+      "production_go": false,
+      "diagnostic": "docs/cp7/evidence/p11-sales/RETURN_RUN1_RECEIPT.json",
+      "r10_browser_cases": 2,
+      "r10_browser_status": "WRITER_SOURCE_LIFECYCLE_PASS_INDEPENDENT_PENDING"
     }
   }
 }

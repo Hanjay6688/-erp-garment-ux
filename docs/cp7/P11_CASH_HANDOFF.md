@@ -1,5 +1,9 @@
 # P11 ordinary customer cash receipt and inverse candidate
 
+## Cash/source47 now PASS within return run1
+
+All47 cash/source cases pass at `8bbd467cee5207b8bd2e741a28539782dd266754`, [run36629457186](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36629457186). Both cash browser flows complete partial10.01/full30.01 and inverse, with identical-envelope lost-payment recovery on mobile. The owner fixture and exact region locator corrections pass. Receipt: [RETURN_RUN1_RECEIPT.json](evidence/p11-sales/RETURN_RUN1_RECEIPT.json). These47 are included in the run's64, not added to them. Overall run remains61 PASS /3 INCOMPLETE due to separate return cases; full P11/F03 remain OPEN. Four cash/return screenshots were inspected with the stated mobile-list limitation. Writer evidence only.
+
 ## Cash run2: 44 PASS /3 INCOMPLETE; harness repair pending
 
 Source `882c32facbe62bcb59aa415111470b1b77ac782c`, tree `1b29094ae69abc41d6e2883307a741fa12346fb5`, [run36628056046](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36628056046). The 47 declared cases were all observed: **44 PASS /0 FAIL /3 INCOMPLETE /0 NOT_RUN**. Native exact cents, cash/AR-only effects, both native inverses, three cash races and real Auth/HTTP passed. CP6 restoration, advisor, Auth/database cleanup and accepted-package backup/restore passed; writer gate remains false. Diagnostic report and original errors: [CASH_RUN2_RECEIPT.json](evidence/p11-sales/CASH_RUN2_RECEIPT.json).

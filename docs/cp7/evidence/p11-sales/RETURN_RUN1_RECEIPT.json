@@ -1,0 +1,170 @@
+{
+  "status": "INCOMPLETE",
+  "source_commit": "8bbd467cee5207b8bd2e741a28539782dd266754",
+  "source_tree": "e68259227a8be616ea967e3f7d37408dcf42acac",
+  "run_id": 36629457186,
+  "job_id": 109614675459,
+  "artifact_id": 11061602508,
+  "artifact_bytes": 8215819,
+  "artifact_sha256": "9f8a555bf8e53b368e35623cc6e850b15a933924f3870420488f4884e2e3b51a",
+  "report_sha256": "0602995260ec91583f4e778631bf5163b6847c37a3de6cbcaed75faf1f00eb8a",
+  "report_gzip_sha256": "201add4f3d0be0a5957161738fbeb7942f4c6911b9317e4f2609cef5482df01f",
+  "counts": {
+    "PASS": 61,
+    "FAIL": 0,
+    "INCOMPLETE": 3,
+    "NOT_RUN": 0
+  },
+  "source_bundle_sha256": "2c23a8ab0701d070961fbd6f8ae330be46ef8437cf4d7d369f0b26906d70a08e",
+  "groups": {
+    "native": {
+      "PASS": 8
+    },
+    "http": {
+      "PASS": 1
+    },
+    "commands": {
+      "PASS": 6
+    },
+    "command_races": {
+      "PASS": 2
+    },
+    "command_http": {
+      "PASS": 1
+    },
+    "drafts": {
+      "PASS": 7
+    },
+    "draft_races": {
+      "PASS": 1
+    },
+    "draft_http": {
+      "PASS": 1
+    },
+    "payments": {
+      "PASS": 8
+    },
+    "payment_races": {
+      "PASS": 3
+    },
+    "payment_http": {
+      "PASS": 1
+    },
+    "returns": {
+      "PASS": 8,
+      "INCOMPLETE": 3
+    },
+    "return_races": {
+      "PASS": 3
+    },
+    "return_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 10
+    }
+  },
+  "nonpassing_cases": {
+    "P11_RETURN_SPLIT_GRADES": {
+      "status": "INCOMPLETE",
+      "error": "duplicate key value violates unique constraint \"uq_sales_return_item_allocation\"\nDETAIL:  Key (return_id, sale_stock_allocation_id)=(9038e385-e47c-49ac-bc56-67755f7693d6, ce32482d-c623-4e34-8889-d02b406348f3) already exists.\nCONTEXT:  SQL statement \"insert into erp.sales_return_items(return_id,sale_stock_allocation_id,product_id,lot_id,location_id,qty_pcs,quality_grade,refund_amount,notes)\n   values(return_id,allocation.id,allocation.product_id,allocation.lot_id,(line->>'location_id')::uuid,(line->>'qty_pcs')::integer,line->>'quality_grade',(line->>'refund_amount')::numeric,line->>'notes')\"\nPL/pgSQL function cp7_sales.apply_command(text,jsonb,uuid,text) line 56 at SQL statement\nPL/pgSQL assignment \"r:=cp7_sales.apply_command(p_action,p_payload,p_request,p_expected)\"\nPL/pgSQL function cp7_sales.command(text,jsonb,uuid,text) line 26 at assignment\nSQL function \"erp_cp7_save_sale_v1\" statement 1"
+    },
+    "P11_RETURN_ALLOCATION_CAP": {
+      "status": "INCOMPLETE",
+      "error": "('AH_RETURN_EXCEEDS_ORIGINAL_ALLOCATION', 'duplicate key value violates unique constraint \"uq_sales_return_item_allocation\"')"
+    },
+    "P11_RETURN_CONSUMED": {
+      "status": "INCOMPLETE",
+      "error": "('menjadi negatif', 'Finished goods stock cannot become negative')"
+    }
+  },
+  "prior_cash_scope_included": {
+    "PASS": 47,
+    "additive_to64": false
+  },
+  "r10_writer_browser_cases": {
+    "P11_RETURN_BROWSER_R10_DESKTOP_A": {
+      "status": "PASS",
+      "mobile": false,
+      "only_master_and_FG_stock_are_native_fixtures": true,
+      "real_browser_source_create_post_return_payment_and_full_inverse": true,
+      "dedicated_return_and_payment_navigation_connected": true,
+      "sale80_return20_cash60": true,
+      "grade": "GRADE_A",
+      "destination": "OTHER_ACTIVE_FG_WAREHOUSE",
+      "source_available6_after_sale_total7_after_return_final10": true,
+      "exact_cash_AR_revenue_FG_COGS_assertions": true,
+      "all_final_GL_accounts_neutral": true,
+      "lost_return_response_replay_identical": null,
+      "original_payment_and_return_history_retained": true,
+      "screenshot": "P11_RETURN_DESKTOP.png"
+    },
+    "P11_RETURN_BROWSER_R10_MOBILE_B_RECOVERY": {
+      "status": "PASS",
+      "mobile": true,
+      "only_master_and_FG_stock_are_native_fixtures": true,
+      "real_browser_source_create_post_return_payment_and_full_inverse": true,
+      "dedicated_return_and_payment_navigation_connected": true,
+      "sale80_return20_cash60": true,
+      "grade": "GRADE_B",
+      "destination": "OTHER_ACTIVE_FG_WAREHOUSE",
+      "source_available6_after_sale_total7_after_return_final10": true,
+      "exact_cash_AR_revenue_FG_COGS_assertions": true,
+      "all_final_GL_accounts_neutral": true,
+      "lost_return_response_replay_identical": true,
+      "original_payment_and_return_history_retained": true,
+      "screenshot": "P11_RETURN_MOBILE.png"
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "8bbd467cee5207b8bd2e741a28539782dd266754",
+    "product_ref": "8bbd467cee5207b8bd2e741a28539782dd266754",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36629457186",
+    "run_attempt": "1",
+    "workflow": "CP7 P11 Sales",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "8bbd467cee5207b8bd2e741a28539782dd266754",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": {
+    "payment_desktop": true,
+    "payment_mobile": true,
+    "return_desktop": true,
+    "return_mobile": true,
+    "limits": "Inspected four current screenshots; readable stacked panels, no horizontal overflow. Mobile list becomes long after lost-response recovery reload. Six repeated read/command/draft screenshots not newly inspected."
+  },
+  "screenshots": {
+    "RETURN_RUN1_PAYMENT_DESKTOP.png": "236444a6c5ff5cf95d87d26b21a86cb47a89a23bf0ec38a35cc3d66f33fb4625",
+    "RETURN_RUN1_PAYMENT_MOBILE.png": "964f4dec533b30f41cca84b63b3f5f1c6d83d941c07defea577b4902271a7b3f",
+    "RETURN_RUN1_RETURN_DESKTOP.png": "c9dcc65f1f2dfec478941977bcbb8ae38d2553017b34367a9b365642f8b02189",
+    "RETURN_RUN1_RETURN_MOBILE.png": "322a6f8539731f4bf58d6e3fcc6e190260195b0307285dfa4f2edcaaa061af74"
+  },
+  "diagnosis": {
+    "P11_RETURN_SPLIT_GRADES": "Adapter/UI and charter wrongly allowed repeating one allocation within one native return document. Accepted unique index uq_sales_return_item_allocation forbids it; accepted AH split_destination uses separate return documents. Preserve native constraint, refuse duplicate request lines before effects, and disable repeat selection. Different allocations can still use separate destinations/grades within one return. Same allocation splits across explicit documents.",
+    "P11_RETURN_ALLOCATION_CAP": "The duplicate-lines setup stopped at the native uniqueness constraint before reaching quantity cap. Add explicit duplicate refusal and a separate single-line over-allocation oracle; preserve prior-document cap and independent second allocation cases.",
+    "P11_RETURN_CONSUMED": "Stock inverse was correctly refused, but the harness expected the later Indonesian chronological guard; actual first guard says Finished goods stock cannot become negative. Match that native refusal, retain complete atomic-boundary and downstream-inverse assertions."
+  },
+  "independent_acceptance": false,
+  "production_go": false
+}
