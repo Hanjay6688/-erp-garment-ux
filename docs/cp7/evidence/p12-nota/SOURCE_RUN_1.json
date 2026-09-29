@@ -1,0 +1,23 @@
+{
+  "source": "308ed8bfadbc3faab6372c0c69553562e33d89de",
+  "tree": "66e73370a2a58e5d9d481348d8264f99d96045f4",
+  "run_id": 36571223860,
+  "job_id": 109415446277,
+  "artifact_id": 11033684782,
+  "archive_sha256": "4a5d4809c3c7615afaf261e9b768fd593e4f71deb9cbbc37948ef6364eb39f43",
+  "status": "INCOMPLETE",
+  "source_sha256": "a1ea4e0591f6910f408d28e902d51c340fc2f4bbcc6b70a0688c8505fada4e5c",
+  "counts": {
+    "native": {
+      "INCOMPLETE": 4
+    },
+    "http": {
+      "INCOMPLETE": 1
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "finding": "All five source-read cases blocked by missing SELECT on nested security-invoker v_payroll_production_work_eligibility. Source monetary/transaction results not proved.",
+  "correction": "Grant only the exact view dependency closure to the private read role; preserve failure and rerun unchanged oracles.",
+  "production_go": false
+}

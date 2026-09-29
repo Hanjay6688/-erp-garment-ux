@@ -5,7 +5,12 @@ create schema cp7_payroll authorization cp7_payroll_read;
 revoke all on schema cp7_payroll from public,anon,authenticated,service_role;
 grant usage on schema auth,erp to cp7_payroll_read;
 grant execute on function auth.uid(),auth.jwt(),erp.get_my_access_v1(),erp.has_permission(text) to cp7_payroll_read;
-grant select on erp.v_payroll_eligible_work_lines,erp.contractors,erp.work_components,erp.work_completion_lines,erp.work_completion_events,
+-- Both accepted eligibility views use security_invoker: grant their complete,
+-- explicit dependency closure, not schema-wide SELECT or elevated view ownership.
+grant select on erp.v_payroll_eligible_work_lines,erp.v_payroll_production_work_eligibility,
+ erp.laundry_delivery_lines,erp.laundry_deliveries,erp.laundry_receipt_lines,erp.laundry_receipts,
+ erp.payroll_work_items,erp.payroll_settlements,erp.bs_case_components,erp.bs_cases,
+ erp.contractors,erp.work_components,erp.work_completion_lines,erp.work_completion_events,
  erp.rework_component_lines,erp.rework_orders,erp.fg_unsourced_repair_wages_v1,erp.fg_unsourced_receipts_v1,
  erp.production_orders,erp.cutting_groups to cp7_payroll_read;
 

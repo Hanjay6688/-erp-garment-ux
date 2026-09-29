@@ -14,6 +14,8 @@ Required proof: regular vs Bikin Bagus exact component/rate history; same/differ
 
 Status: source mapping and candidate implementation, NOT an accepted product checkpoint. production_go=false.
 
+First source qualification (308ed8b, run 36571223860): 0 PASS / 5 INCOMPLETE. Every case reached the source reader but was blocked by the missing SELECT grant on the accepted nested security-invoker view. Installation, CP6 restoration and advisor gate passed. Failure report is retained under evidence/p12-nota/SOURCE_RUN_1.json and its full compressed report. The correction grants the explicit dependency closure of both native source views to the private read role; no public/schema-wide data grants and no monetary result claimed from the failed run. Original five oracles retained for rerun.
+
 
 Candidate files: scripts/cp7-src/payroll/source.sql and ownership.sql, cp7_payroll_bundle.py and cp7_p12_nota_source_probe.py. Source-only public reader has a NOLOGIN/NOINHERIT read principal with explicit SELECT and four auth/access EXECUTE grants, current handoff permission, separate payroll-money permission and complete component groups before card paging. Stable card key includes contractor for an unsourced repair receipt that may contain multiple contractors. The source token uses native row revisions and allocation quantities rather than a hash of a low-entropy price. No write API or UI route is enabled by this increment.
 
