@@ -98,8 +98,11 @@ begin
   results:=results||jsonb_build_array(jsonb_build_object('model',model,'summary',summary,'folds',fold_results));
  end loop;
  b:=results->0;selected:=v->'baseline'->>'id';best_mae:=(b->'summary'->>'mae')::numeric;
- -- Equal MAE retains baseline; ties between winning challengers use declared order.
- for candidate in select value from jsonb_array_elements(results) with ordinality where ordinality>1 loop
+ -- Equal MAE retains baseline. Among equally winning challengers, prefer the
+ -- fixed simpler-kernel order, then stable id; input-array order cannot select it.
+ for candidate in select value from jsonb_array_elements(results) with ordinality where ordinality>1 order by
+  case value->'model'->>'method' when 'MEAN' then 1 when 'NAIVE' then 1 when 'MOVING_MEAN' then 2 when 'SEASONAL_NAIVE' then 2
+   when 'SES' then 3 when 'SBA' then 4 when 'TSB' then 4 when 'DAMPED_HOLT' then 5 end,value->'model'->>'id' loop
   decision:=cp7_models.promotion(b->'summary',candidate->'summary',v->'policy');
   if decision->'promote'='true'::jsonb and (candidate->'summary'->>'mae')::numeric<best_mae then selected:=candidate->'model'->>'id';best_mae:=(candidate->'summary'->>'mae')::numeric;end if;
   models_with_decision:=models_with_decision||jsonb_build_array(candidate||jsonb_build_object('decision',decision));
@@ -116,6 +119,7 @@ begin
   'target_key',v->'target_key','size_id',v->'size_id','known_as_of',v->'known_as_of','selected_model_id',selected,'baseline',b,'challengers',models_with_decision,
   'selection_basis','COMPLETE_PAIRED_CHRONOLOGICAL_VALIDATION_ONLY','selection_status',case when selected=v->'baseline'->>'id' then 'BASELINE_RETAINED' else 'CHALLENGER_RECOMMENDED' end,
   'activation_status','REVIEW_REQUIRED','automatic_activation',false,
+  'challenger_tie_policy','FIXED_KERNEL_COMPLEXITY_THEN_STABLE_ID',
   'holdout',jsonb_build_object('definition',v->'holdout','results',holdout_results,'used_for_selection',false),
   'policy',v->'policy','refs',v->'refs','reason','NO_REGISTRY_WRITE_NO_HOLDOUT_RETUNING_NO_BUSINESS_ACCURACY_CLAIM');
 end $$;

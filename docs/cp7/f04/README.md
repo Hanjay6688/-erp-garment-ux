@@ -87,7 +87,8 @@ search, learn holiday effects, or invent training data.
 - All requested folds must be complete and share the same horizon. Fold count is
   an explicit technical policy, not a statistical guarantee. Primary MAE must improve
   strictly beyond the configured margin; absolute bias and worst horizon-total error
-  must pass their guards. Baseline wins ties; equal winning challengers use declared order.
+  must pass their guards. Baseline wins ties; equal winning challengers prefer the
+  fixed simpler-kernel order, then stable model ID, independent of input-array order.
 - Holdout is evaluated only after selection; it is never used to re-tune or select.
   A holdout loss stays visible. `activation_status=REVIEW_REQUIRED`,
   `automatic_activation=false`; nothing is promoted into a live registry.
