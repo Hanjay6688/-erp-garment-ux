@@ -9,6 +9,10 @@ const csv=rows=>{
  return [keys,...rows.map(row=>keys.map(key=>row[key]??''))].map(row=>row.map(escape).join(',')).join('\n')
 }
 async function open(ui,p,section,label,selector){
+ // Reload first restores Auth. Do not inspect the mobile menu before the
+ // authorized shell exists: isVisible() would otherwise return false and the
+ // following click would target the closed, offscreen drawer.
+ await ui.expect(p.locator('.sidebar .nav-main').filter({hasText:section})).toBeAttached({timeout:20000})
  const menu=p.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click()
  const link=p.getByRole('button',{name:'• '+label,exact:true});if(!await link.isVisible())await p.locator('.sidebar .nav-main').filter({hasText:section}).click()
  await link.click();await ui.expect(p.locator(selector).getByRole('heading',{name:label,exact:true})).toBeVisible()

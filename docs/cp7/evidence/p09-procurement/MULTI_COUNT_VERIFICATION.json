@@ -1,0 +1,408 @@
+{
+  "schema_version": "cp7.writer-verification.v1",
+  "status": "WRITER_125_PASS_PLUS_3_SMOKES",
+  "source_commit": "a2643533457925213f90d56ab9646ccd0fae8a5c",
+  "source_tree": "47a0c9f852a4250fbc30e510739b6c2d2cc3cc90",
+  "run_id": 36619561999,
+  "job_id": 109581186004,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36619561999",
+  "artifact_id": 11057837936,
+  "artifact_sha256": "8a3f1118df63c609efab9b9020b3e3a38993118616ca91582c104813cfa8fd8e",
+  "artifact_bytes": 17072484,
+  "report_name": "CP7_P09_PROCUREMENT.json",
+  "report_sha256": "428bc0c1584e962fbe9ebdafb74962913fb1697457c21808bf12279fc3d54795",
+  "report_gzip_sha256": "4d3c04a62471e07dffbea86268cc458e7aef6579d8fbb2fea21737e0c457d8ef",
+  "source_bundle_sha256": "b7ad3e127c84de7ee49bc2de024a188a458b8ee5f5ade76b86b4f7b842c1d8e9",
+  "counts": {
+    "PASS": 125,
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0
+  },
+  "separate_smokes_pass": 3,
+  "groups": {
+    "smoke": {
+      "counts": {
+        "PASS": 1
+      },
+      "status": "PASS"
+    },
+    "native": {
+      "counts": {
+        "PASS": 9
+      },
+      "status": "PASS"
+    },
+    "races": {
+      "counts": {
+        "PASS": 3
+      },
+      "status": "RUN_COMPLETE",
+      "database_remaining": 0
+    },
+    "http": {
+      "counts": {
+        "PASS": 1
+      },
+      "status": "RUN_COMPLETE",
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "cleanup_failures": false
+    },
+    "material_smoke": {
+      "counts": {
+        "PASS": 1
+      },
+      "status": "PASS"
+    },
+    "material": {
+      "counts": {
+        "PASS": 13
+      },
+      "status": "PASS"
+    },
+    "material_crossflow": {
+      "counts": {
+        "PASS": 2
+      },
+      "status": "PASS"
+    },
+    "material_races": {
+      "counts": {
+        "PASS": 3
+      },
+      "status": "RUN_COMPLETE",
+      "database_remaining": 0
+    },
+    "material_http": {
+      "counts": {
+        "PASS": 1
+      },
+      "status": "RUN_COMPLETE",
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "cleanup_failures": false
+    },
+    "material_count": {
+      "counts": {
+        "PASS": 13
+      },
+      "status": "PASS"
+    },
+    "material_count_races": {
+      "counts": {
+        "PASS": 2
+      },
+      "status": "RUN_COMPLETE",
+      "database_remaining": 0
+    },
+    "material_count_http": {
+      "counts": {
+        "PASS": 1
+      },
+      "status": "RUN_COMPLETE",
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "cleanup_failures": false
+    },
+    "invoice": {
+      "counts": {
+        "PASS": 9
+      },
+      "status": "PASS"
+    },
+    "invoice_races": {
+      "counts": {
+        "PASS": 3
+      },
+      "status": "RUN_COMPLETE",
+      "database_remaining": 0
+    },
+    "invoice_http": {
+      "counts": {
+        "PASS": 1
+      },
+      "status": "RUN_COMPLETE",
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "cleanup_failures": false
+    },
+    "combined_invoice": {
+      "counts": {
+        "PASS": 6
+      },
+      "status": "PASS"
+    },
+    "combined_invoice_races": {
+      "counts": {
+        "PASS": 3
+      },
+      "status": "RUN_COMPLETE",
+      "database_remaining": 0
+    },
+    "combined_invoice_http": {
+      "counts": {
+        "PASS": 1
+      },
+      "status": "RUN_COMPLETE",
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "cleanup_failures": false
+    },
+    "browser": {
+      "counts": {
+        "PASS": 20
+      },
+      "status": "RUN_COMPLETE",
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "cleanup_failures": false,
+      "auth_cleanup_failures": []
+    },
+    "return_smoke": {
+      "counts": {
+        "PASS": 1
+      },
+      "status": "PASS"
+    },
+    "returns": {
+      "counts": {
+        "PASS": 10
+      },
+      "status": "PASS"
+    },
+    "return_races": {
+      "counts": {
+        "PASS": 3
+      },
+      "status": "RUN_COMPLETE",
+      "database_remaining": 0
+    },
+    "return_http": {
+      "counts": {
+        "PASS": 1
+      },
+      "status": "RUN_COMPLETE",
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "cleanup_failures": false
+    },
+    "receipt_reversal": {
+      "counts": {
+        "PASS": 7
+      },
+      "status": "PASS"
+    },
+    "receipt_reversal_races": {
+      "counts": {
+        "PASS": 3
+      },
+      "status": "RUN_COMPLETE",
+      "database_remaining": 0
+    },
+    "receipt_reversal_http": {
+      "counts": {
+        "PASS": 1
+      },
+      "status": "RUN_COMPLETE",
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "cleanup_failures": false
+    },
+    "uom": {
+      "counts": {
+        "PASS": 6
+      },
+      "status": "PASS"
+    },
+    "uom_races": {
+      "counts": {
+        "PASS": 2
+      },
+      "status": "RUN_COMPLETE",
+      "database_remaining": 0
+    },
+    "uom_http": {
+      "counts": {
+        "PASS": 1
+      },
+      "status": "RUN_COMPLETE",
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "cleanup_failures": false
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_install": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "a2643533457925213f90d56ab9646ccd0fae8a5c",
+    "product_ref": "a2643533457925213f90d56ab9646ccd0fae8a5c",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36619561999",
+    "run_attempt": "1",
+    "workflow": "CP7 P09 Procurement",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "a2643533457925213f90d56ab9646ccd0fae8a5c",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "app_workflows": [
+    36619567805,
+    36619561842
+  ],
+  "both_app_workflows_pass": true,
+  "independent_acceptance": false,
+  "production_go": false,
+  "browser_cases_pass": 20,
+  "visual_review": {
+    "new_desktop_and_mobile": true,
+    "notes": "Multi-input form, complete physical inputs, price and no horizontal overflow inspected. Full-page snapshots retain sticky chrome at captured scroll position; mobile list is long after recovery resets search. This is bounded visual inspection, not full UX acceptance."
+  },
+  "screenshots": {
+    "P09_COUNT_MULTI_DESKTOP.png": "482a05b99930e58c43e7aa09b265a596a272a25836aeb9e1ac5c85a1b46d2754",
+    "P09_COUNT_MULTI_MOBILE.png": "76f73302b6a3277679bcba6fd1c68f6955da6831d6e032b8b36c2abd795f9701"
+  }
+}

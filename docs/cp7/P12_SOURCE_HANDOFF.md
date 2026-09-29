@@ -1,6 +1,8 @@
 # P12 source continuation — writer checkpoint
 
-Next candidate: [opening sources → CP7 payroll](P12_OPENING_PAYROLL_HANDOFF.md), 10 predeclared additions. First90-case run:85 PASS /3 INCOMPLETE /2 NOT_RUN; all80 predecessors and five new native cases pass. The10 affected additions are being corrected and rerun separately, without relabelling prior80 as new execution. See the linked handoff and diagnostic receipt.
+E05 terminology correction: [partial-settlement contract boundary](P12_E05_CONTRACT_BOUNDARY.md). Earlier mentions of “partial cash” below are writer interpretations; the exact partial mechanism is unresolved and E05 remains OPEN.
+
+Next candidate: [opening sources → CP7 payroll](P12_OPENING_PAYROLL_HANDOFF.md), 10 predeclared additions. Latest delta run2:9 PASS /1 INCOMPLETE; only mobile reload navigation remains to rerun. First90-case run:85 PASS /3 INCOMPLETE /2 NOT_RUN; all80 predecessors and five new native cases pass. The10 affected additions are being corrected and rerun separately, without relabelling prior80 as new execution. See the linked handoff and diagnostic receipt.
 
 30 September 2026 WIB. **Current bounded writer qualification: 80 PASS / 0 FAIL / 0 INCOMPLETE / 0 NOT_RUN**, source `5082fbec159095c3452c14c6ad500839f28a166b`, tree `e7bc8fcf93e24447a76d8047bf489956e304262f`. [Run36604436688](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36604436688). [Receipt, hashes and case groups](evidence/p12-attendance/WRITE_RUN17_RECEIPT.json); the complete compressed report and inspected desktop/mobile screenshots are beside it. All63 prior cases plus17 attendance additions pass, including both connected source-to-payroll cycles. This supersedes the incomplete run15/run16 checkpoints below. **P12/F03 remain OPEN; independent_acceptance=false; production_go=false. CP6 remains CLOSED within its accepted contract.**
 

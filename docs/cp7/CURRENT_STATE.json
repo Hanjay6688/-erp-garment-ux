@@ -35,7 +35,7 @@
     "P02": "BOUNDED_ACTOR_CAPTURE_T1_PASS_16_CASES_INDEPENDENT_PENDING",
     "P03": "BOUNDED_POLICY_NATIVE_PASS_15_CASES_INDEPENDENT_PENDING",
     "P04": "F02_REPAIR_53_PASS_PLUS_SMOKE_INDEPENDENT_HOLD_X06_PUBLIC_JOIN_OPEN",
-    "P09": "BOUNDED_121_PASS_COUNTS_AND_COMBINED_INVOICES_QUALIFIED_REMAINING_SCOPE_OPEN",
+    "P09": "BOUNDED_125_PASS_MULTI_INPUT_COUNTS_AND_COMBINED_INVOICES_REMAINING_SCOPE_OPEN",
     "P10": "FG_BOOK_34_PASS_NOTA_COMPOSITION_QUALIFIED_SCOPE_OPEN",
     "P12": "BOUNDED_ATTENDANCE_SOURCE_TO_PAYROLL_80_PASS_REMAINING_SCOPE_OPEN"
   },
@@ -52,7 +52,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Qualify multi-input P09 count candidate (125 cases plus3 smokes) and rerun10 P12 opening additions after diagnostic run1 (85PASS/3INCOMPLETE/2NOT_RUN). Retain prior80 separately. Finish remaining F03 before authorized F04 takeover.",
+  "next_action": "Rerun10 P12 opening additions after run2 (9PASS/1INCOMPLETE; mobile reload navigation timing). P09 multi-input125+3 qualified. Continue P11/R10, P13 and remaining F03 before F04 takeover. E05 partial mechanism unresolved; no invented wage policy.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -99,7 +99,7 @@
     "scope": "P10_NOTA_P12_SELECTED_COMPONENT_HANDOFF",
     "remaining": [
       "opening_advances_payables_carry",
-      "E05_partial_cash_payment",
+      "E05_partial_settlement_contract_and_proof",
       "P11_R10",
       "P13",
       "full_F03_independent_acceptance"
@@ -124,7 +124,8 @@
     "attendance_write_candidate": "ALL_80_CASES_PASS_BOUNDED_WRITER_QUALIFICATION",
     "attendance_write_verification": "docs/cp7/evidence/p12-attendance/WRITE_RUN17_RECEIPT.json",
     "opening_payroll_candidate": "docs/cp7/P12_OPENING_PAYROLL_HANDOFF.md",
-    "opening_payroll_diagnostic": "docs/cp7/evidence/p12-attendance/OPENING_RUN1_RECEIPT.json"
+    "opening_payroll_diagnostic": "docs/cp7/evidence/p12-attendance/OPENING_RUN2_RECEIPT.json",
+    "e05_contract_boundary": "docs/cp7/P12_E05_CONTRACT_BOUNDARY.md"
   },
   "connected_attendance_candidate": {
     "source_commit": "5082fbec159095c3452c14c6ad500839f28a166b",
@@ -147,9 +148,12 @@
   "p09_count_feedback_verification": "docs/cp7/evidence/p09-procurement/COUNT_FEEDBACK_VERIFICATION.json",
   "p09_multi_input_candidate": {
     "handoff": "docs/cp7/P09_MATERIAL_COUNT_HANDOFF.md",
-    "status": "IMPLEMENTED_LOCAL_13_PASS_NATIVE_BROWSER_PENDING",
+    "status": "WRITER_125_PASS_PLUS_3_SMOKES",
     "expected_cases": 125,
-    "separate_smokes": 3
+    "separate_smokes": 3,
+    "source_commit": "a2643533457925213f90d56ab9646ccd0fae8a5c",
+    "receipt": "docs/cp7/evidence/p09-procurement/MULTI_COUNT_VERIFICATION.json",
+    "browser_cases_pass": 20
   },
   "f04_takeover_reference": {
     "branch": "cp7/f04-planning-20260929",

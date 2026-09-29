@@ -1,5 +1,7 @@
 # P09 material physical counts — bounded writer qualification
 
+30 September 2026 WIB: **multi-input count qualified125 PASS +3 separate smokes**, including20 connected browser cases, on `a2643533457925213f90d56ab9646ccd0fae8a5c` (tree`47a0c9f852a4250fbc30e510739b6c2d2cc3cc90`). [Run36619561999](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36619561999), [complete receipt and hashes](evidence/p09-procurement/MULTI_COUNT_VERIFICATION.json). This supersedes the pending multi-input qualification below; earlier single-input limits are historical. Both new responsive screenshots were inspected and retained. CP6 restoration, advisors, Auth/database cleanup and both app workflows pass. P09/F03 and independent acceptance remain OPEN.
+
 ## Multi-input continuation — candidate, 30 September 2026 WIB
 
 The connected editor now composes up to100 unique material/roll positions in one warehouse and checks the complete server preview before saving. A different warehouse requires closing the current form. Duplicate selections are disabled, and removing a line invalidates the whole preview. Money and quantities remain exact decimal strings. The editor retains the original document ID, exact bigint version and full original timestamp when its displayed minute is unchanged.

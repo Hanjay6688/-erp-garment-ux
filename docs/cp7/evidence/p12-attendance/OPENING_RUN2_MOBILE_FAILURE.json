@@ -1,0 +1,81 @@
+{
+  "error": "TimeoutError: locator.click: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('.sidebar .nav-main').filter({ hasText: 'Pengaturan & Audit' })\n    - locator resolved to <button class=\"nav-main \">…</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - element is outside of the viewport\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - element is outside of the viewport\n    - retrying click action\n      - waiting 100ms\n    38 × waiting for element to be visible, enabled and stable\n       - element is visible, enabled and stable\n       - scrolling into view if needed\n       - done scrolling\n       - element is outside of the viewport\n     - retrying click action\n       - waiting 500ms\n",
+  "stack": "locator.click: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('.sidebar .nav-main').filter({ hasText: 'Pengaturan & Audit' })\n    - locator resolved to <button class=\"nav-main \">…</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - element is outside of the viewport\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - element is outside of the viewport\n    - retrying click action\n      - waiting 100ms\n    38 × waiting for element to be visible, enabled and stable\n       - element is visible, enabled and stable\n       - scrolling into view if needed\n       - done scrolling\n       - element is outside of the viewport\n     - retrying click action\n       - waiting 500ms\n\n    at open (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p12_opening_browser.mjs:13:155)\n    at async lifecycle (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p12_opening_browser.mjs:73:116)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3",
+  "import": "",
+  "payroll": "",
+  "source": {
+    "remaining": {
+      "UPAH-OLD": "65.00",
+      "REIMB-OLD": "20.00",
+      "KASBON-OLD": "30.00"
+    },
+    "carry": "2.000000",
+    "gl": {
+      "00295850-33a0-41c3-805d-04e7bc8efdbb": "-102.00",
+      "20a7533b-5578-4799-9973-90ab000e9e43": "12442.00",
+      "3a527053-fd63-40fd-a3b8-fcd9e3ed7c6f": "-200.00",
+      "5f27ccb9-107f-4d19-a52c-e7eef8e9d69b": "-13929.00",
+      "610928c8-468a-49f5-969c-c6cd5d02a7fc": "0.00",
+      "62f7aa96-1b72-4977-b3d9-36af9041a4d3": "110.00",
+      "8a010a94-c1c1-4b2a-b7e7-4e937c65ad47": "60.00",
+      "9ce89e21-9a21-40e5-859d-237b89d5a767": "1759.00",
+      "ad29d857-c523-48d4-8ad0-1275e999a4c3": "-140.00",
+      "b93886b8-30ee-4b3b-80c5-a9c868dd30e6": "0.00",
+      "ef9ee70a-177e-4e2b-9a8f-760742d80ff5": "0.00",
+      "f9912b87-fe33-4bd8-8a65-0b1fb69316a6": "0.00"
+    },
+    "physical": {
+      "movements": "cb3943498e76b9b76b076d2e8df9132a",
+      "hpp": "8a9ca6dd84f0b963fd37a07996bf8095"
+    },
+    "balances": {
+      "UPAH-OLD": "5085c992-b36f-4be5-a944-1f5d8ec23dba",
+      "REIMB-OLD": "7fa18686-edc8-4d6b-baa4-04a3c3a89278",
+      "KASBON-OLD": "45fbf9cf-1411-459b-b045-c5498284bd58"
+    },
+    "entitlement": "68fec897-46b5-44f5-aee1-a710702fae78",
+    "opening_journals": [
+      [
+        "b2af7a98-be2b-4e43-bf5f-343f65c614e7",
+        "POSTED"
+      ],
+      [
+        "cf269453-1c6c-4da1-a2da-3ef50eed084c",
+        "POSTED"
+      ]
+    ],
+    "document": {
+      "id": "8e0d0977-b8f0-4222-86bc-8f07bbff4ffa",
+      "notes": "Dibuat dari Nota FG da1d6fcb-34dd-4d1b-9b7f-eb5c1e415750",
+      "counts": {
+        "work": "2",
+        "notes": "1",
+        "attendance": "0",
+        "deductions": "1",
+        "reimbursements": "3"
+      },
+      "status": "CALCULATED",
+      "created_at": "2026-09-29T19:33:23.233509Z",
+      "period_end": "2026-09-30",
+      "settled_at": null,
+      "updated_at": "2026-09-29T19:33:25.231473Z",
+      "labor_total": "6000.00",
+      "net_payable": "6060.00",
+      "row_version": "6",
+      "payment_date": "2026-09-30",
+      "period_start": "2026-09-30",
+      "review_token": "aba8032097b2ebdea29a27681f7cdd13",
+      "contractor_id": "ed7152af-8adc-4d77-9349-c476b99f7cf9",
+      "payroll_number": "PAY-da1d6fcb-34dd-4d1b-9b7f-eb5c1e415750",
+      "contractor_name": "Mandor Saldo c71bcc2f",
+      "deduction_total": "30.00",
+      "reimburse_total": "90.00",
+      "attendance_total": "0.00",
+      "manual_adjustment": "0.00",
+      "totals_match_items": true,
+      "attendance_required": false,
+      "payment_cash_account_id": null,
+      "payment_cash_account_name": null
+    }
+  }
+}

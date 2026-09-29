@@ -1,0 +1,138 @@
+{
+  "schema_version": "cp7.writer-verification.v1",
+  "status": "INCOMPLETE",
+  "source_commit": "a2643533457925213f90d56ab9646ccd0fae8a5c",
+  "source_tree": "47a0c9f852a4250fbc30e510739b6c2d2cc3cc90",
+  "run_id": 36619562035,
+  "job_id": 109581185927,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36619562035",
+  "artifact_id": 11057597813,
+  "artifact_sha256": "bf29ee3c0f113c38e3fa7585f3d07cac5a44db5b2dd8e1241652d82d2e97fe68",
+  "artifact_bytes": 2416995,
+  "report_name": "CP7_P12_OPENING_PAYROLL.json",
+  "report_sha256": "e7a89e2dcf6d793a8cc945210fa3f92977cd9955b21c8b52ba6f32a236f7a106",
+  "report_gzip_sha256": "ca79eea99a3ce1d2859358b6aeb94efdfbee0ebd7acb4ca83c73319b267925e6",
+  "source_bundle_sha256": "1082d8e4897f864745ad6c0ab0944eb132bbe074e5cbbc2bca9ec5b3ddc66a8b",
+  "counts": {
+    "PASS": 9,
+    "FAIL": 0,
+    "INCOMPLETE": 1,
+    "NOT_RUN": 0
+  },
+  "separate_smokes_pass": 0,
+  "groups": {
+    "opening_payroll": {
+      "counts": {
+        "PASS": 5
+      },
+      "status": "PASS"
+    },
+    "opening_payroll_races": {
+      "counts": {
+        "PASS": 2
+      },
+      "status": "RUN_COMPLETE",
+      "database_remaining": 0
+    },
+    "opening_payroll_http": {
+      "counts": {
+        "PASS": 1
+      },
+      "status": "RUN_COMPLETE",
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "cleanup_failures": false
+    },
+    "opening_payroll_browser": {
+      "counts": {
+        "PASS": 1,
+        "INCOMPLETE": 1
+      },
+      "status": "INCOMPLETE",
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "cleanup_failures": false,
+      "auth_cleanup_failures": []
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_install": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "a2643533457925213f90d56ab9646ccd0fae8a5c",
+    "product_ref": "a2643533457925213f90d56ab9646ccd0fae8a5c",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36619562035",
+    "run_attempt": "1",
+    "workflow": "CP7 P12 Nota and payroll lifecycle",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "a2643533457925213f90d56ab9646ccd0fae8a5c",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "app_workflows": [
+    36619567805,
+    36619561842
+  ],
+  "both_app_workflows_pass": true,
+  "independent_acceptance": false,
+  "production_go": false,
+  "observations": [
+    "Five native, two race, one real Auth and the complete desktop browser cycle pass.",
+    "Mobile carry allocation commits; reload recovery stops at navigation before UUID reconciliation. Screenshot shows closed mobile menu; helper queried menu visibility before authorized shell mounted. Add the existing qualified shell-attached wait, then rerun.",
+    "No payroll or accounting product rule changed. Prior80 cases remain separate source-bound evidence."
+  ],
+  "visual_review": {
+    "desktop": true,
+    "mobile_failure_only": true,
+    "mobile_completed_journey": false
+  },
+  "screenshot_sha256": {
+    "P12_OPENING_DESKTOP.png": "61537cdd831f9dce55fb9df6875d5dc7584f25338d70cae7908b0102d1e5cc8c",
+    "P12_OPENING_MOBILE_FAILURE.png": "a49755b94e903c39d353c9e4ba6425ff9ca46bcb94eb67fc52dda9762e13b750"
+  }
+}
