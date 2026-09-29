@@ -138,6 +138,10 @@ shell-browser checks and CodeQL (JS/TS and Actions). Workflow bytes are unchange
 
 ## Handoff and remaining gates
 
+Current 138-case native/source-bound evidence is indexed by
+`CONTINUATION_VERIFICATION.json`; `HANDOFF.md` gives the review and integration
+sequence. The unsuffixed receipt files are preserved historical 91-case evidence.
+
 | Boundary | Status in this contribution |
 | --- | --- |
 | Isolated P05/P06/P07 fixture kernels | Writer implementation and local proof; native CI receipt tracked separately. |
