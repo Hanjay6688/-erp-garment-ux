@@ -34,6 +34,7 @@ import type { CuttingPatternChoice } from './CuttingPatternPicker'
 const SalesPages = lazy(() => import('./SalesPages'))
 const FinancePages = lazy(() => import('./FinancePages'))
 const ConnectedPayrollPage = lazy(() => import('./ConnectedPayrollPage'))
+const ConnectedAttendancePage = lazy(() => import('./ConnectedAttendancePage'))
 const ConnectedSupplierCreditPage = lazy(() => import('./ConnectedSupplierCreditPage'))
 const ConnectedSkuHppPage = lazy(() => import('./ConnectedSkuHppPage'))
 const HppPage = lazy(() => import('./HppPage'))
@@ -743,7 +744,7 @@ function ErpApp() {
         {page === 'admin-access' && <Suspense fallback={<WorkspaceFallback label="Pengguna & Hak Akses"/>}><AccessControlPage/></Suspense>}
         {page === 'pocket-fabric' && <Suspense fallback={<WorkspaceFallback label="Kain kantong"/>}><ConnectedPocketFabricPage/></Suspense>}
         {page === 'admin-import' && <Suspense fallback={<WorkspaceFallback label="Impor data awal"/>}><ConnectedInitialImportPage/></Suspense>}
-        {isOperationsView(page) && <Suspense fallback={<WorkspaceFallback label="Pengaturan operasional"/>}><OperationsAdminPages view={page} onNavigate={(next)=>setPage(next)} reminders={reminders} onChangeReminders={setReminders}/></Suspense>}
+        {isOperationsView(page) && <Suspense fallback={<WorkspaceFallback label="Pengaturan operasional"/>}>{page === 'operations-attendance' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedAttendancePage/> : <OperationsAdminPages view={page} onNavigate={(next)=>setPage(next)} reminders={reminders} onChangeReminders={setReminders}/>}</Suspense>}
         {page === 'placeholder' && <Placeholder />}
         </>}
       </div>

@@ -1,9 +1,19 @@
 """Ordinary source setup only; composer saves/posts occur through the real browser."""
-from datetime import date
+from datetime import date,timedelta
 from urllib.parse import urlparse
 import json,os,sys,uuid
 import psycopg
 import cp7_nota_cases as n
+
+def attendance_facts(cur,cid):
+    zone=cur.execute('show timezone').fetchone()[0]
+    try:
+        cur.execute("select set_config('TimeZone','UTC',true)")
+        return {table:cur.execute('select md5(coalesce(jsonb_agg(to_jsonb(t) order by t.id)::text,\'\')) from erp.'+table+' t where '+condition,(cid,)).fetchone()[0] for table,condition in {
+          'contractor_workers':'t.contractor_id=%s','worker_daily_rate_versions':'exists(select 1 from erp.contractor_workers w where w.id=t.worker_id and w.contractor_id=%s)',
+          'worker_employment_periods':'exists(select 1 from erp.contractor_workers w where w.id=t.worker_id and w.contractor_id=%s)',
+          'attendance_periods':'t.contractor_id=%s','attendance_records':'t.contractor_id=%s','payroll_settlements':'t.contractor_id=%s'}.items()}
+    finally:cur.execute("select set_config('TimeZone',%s,true)",(zone,))
 
 def main():
     target=os.environ['AUDITOR_BROWSER_DB_URL'];url=urlparse(target)
@@ -12,7 +22,17 @@ def main():
     with psycopg.connect(target) as conn,conn.cursor() as cur:
         had=cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]
         if not had:cur.execute('grant usage on schema erp to authenticated')
-        if op in ('create','create_payroll_review','create_payroll_settlement'):
+        if op=='create_attendance_read':
+            import cp7_attendance_read_cases as a
+            today=date.fromisoformat(p['today']);start=today-timedelta(days=4);workday=today-timedelta(days=3)
+            f=n.source.repair(cur,today);label='Mandor Absensi '+uuid.uuid4().hex[:8];cur.execute('update erp.contractors set contractor_name=%s,attendance_required=true where id=%s',(label,f['contractor']))
+            wid,wp=a.worker(cur,f,start,name='Pekerja riwayat');other,_=a.worker(cur,f,start,rate='50.000000',name='Pekerja aktif')
+            r=a.s.native(cur,'select public.erp_save_attendance_period_v1(%s::jsonb,%s,null,false)',(json.dumps(dict(contractor_id=f['contractor'],period_number='ABS-UI-'+uuid.uuid4().hex[:8],period_start=str(workday),period_end=str(workday),pay_date=str(workday),reason='P12 ordinary browser source fixture',attendance=[dict(worker_id=wid,attendance_date=str(workday),status='PRESENT'),dict(worker_id=other,attendance_date=str(workday),status='HALF_DAY')])),uuid.uuid4()))
+            pid=str(a.s.bc.awp.find(r,'period_id'));a.s.native(cur,'select public.erp_post_attendance_period_v1(%s,%s,%s,%s)',(pid,'P12 complete ordinary attendance source',uuid.uuid4(),a.s.bc.awp.find(r,'row_version')))
+            a.rate(cur,wid,'200.654321',today+timedelta(days=1));a.stop(cur,wid,wp,today-timedelta(days=2));_,role=a.source.procurement.custom(cur,(a.PERM,))
+            out=dict(contractor=f['contractor'],label=label,worker=wid,period=pid,role=str(role),workday=str(workday),facts=n.facts(cur),source_facts=attendance_facts(cur,f['contractor']))
+        elif op=='read_attendance_facts':out=dict(facts=n.facts(cur),source_facts=attendance_facts(cur,p['contractor']))
+        elif op in ('create','create_payroll_review','create_payroll_settlement'):
             f=n.source.repair(cur,date.fromisoformat(p['today']));label='Mandor Nota '+uuid.uuid4().hex[:8]
             cur.execute('update erp.contractors set contractor_name=%s where id=%s',(label,f['contractor']))
             n.source.ax.post(cur,n.source.ax.repair_payload(f,1));out=dict(f,label=label,facts=n.facts(cur))

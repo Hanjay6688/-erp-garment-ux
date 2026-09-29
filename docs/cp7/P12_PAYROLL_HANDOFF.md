@@ -10,6 +10,8 @@ Full artifact digest verified; CP6 restoration, advisor gate, Auth cleanup, data
 
 Next source work is bound in [P12_ATTENDANCE_ENTRY.md](P12_ATTENDANCE_ENTRY.md). Existing native roster/attendance fixtures in this checkpoint do not claim connected source editing.
 
+Same-source P09 retry is now fully verified: attempt2 of [run36587580149](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36587580149), job109476239946, **121/121 PASS plus3 separate smokes**, including all18 browser cases. Archive/report hashes, restoration and cleanup receipt: [P09_RUN8_RETRY_QUALIFIED.json](evidence/p12-nota/P09_RUN8_RETRY_QUALIFIED.json). No product change was needed for the transient port collision. This closes that regression obligation at b03a5da. The source continuation now adds a49-pass dated attendance reader; its connected reader browser increment is pending separately.
+
 Finance review is qualified on `5da1fb6106c7c72058ebd73a782a5155f59c258d`: **27/27 PASS**, including desktop/mobile finance-view-only UI, complete native totals and source Nota trace. Full receipt: [PAYROLL_UI_VERIFICATION.json](evidence/p12-nota/PAYROLL_UI_VERIFICATION.json); [run36583328093](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36583328093). This remains writer evidence, independent acceptance pending. Full P12/F03 OPEN; production_go=false.
 
 ## Lifecycle and connected writer candidate — result pending

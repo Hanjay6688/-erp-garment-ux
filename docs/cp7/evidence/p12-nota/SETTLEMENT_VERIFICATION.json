@@ -108,6 +108,8 @@
   "p09_regression": {
     "run_id": 36587580149,
     "attempt_1_status": "103_PASS_PLUS_3_SMOKES_BROWSER_NOT_RUN_PORT_COLLISION",
-    "retry": "REQUESTED_SAME_SOURCE"
+    "retry": "QUALIFIED_SAME_SOURCE",
+    "attempt_2_status": "121_PASS_PLUS_3_SEPARATE_SMOKES",
+    "verification": "docs/cp7/evidence/p12-nota/P09_RUN8_RETRY_QUALIFIED.json"
   }
 }

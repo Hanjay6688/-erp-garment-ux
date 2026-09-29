@@ -1,0 +1,20 @@
+{
+  "status": "WRITER_BOUNDED_49_PASS_NO_ATTENDANCE_UI_CLAIM",
+  "source_commit": "666c24cff54477753cb26f15972ba2332a0a9db2",
+  "source_tree": "fe575e0daf91cd6e9508931fec7713f3ef5f0885",
+  "run_id": 36589976079,
+  "job_id": 109480217339,
+  "artifact_id": 11043951630,
+  "archive_sha256": "25595218baed16f30d31abf50826ffd5c62f3fd00882a022bbae28200a2e65f1",
+  "report_sha256": "d56ec4819428a45afbc7d4de912f2911da62f2ed8659accf985ffab5c4a812e4",
+  "bundle_sha256": "6959577c25fc598788c6e4b942a07fc6db900ee2586adbc1aea37c550ff75e30",
+  "total_pass": 49,
+  "new_reader_cases": 7,
+  "retained_nota_settlement_cases": 42,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_copy_cleanup": true,
+  "independent_acceptance": false,
+  "production_go": false,
+  "scope": "dated attendance reader; source mutation and browser source editing remain open"
+}

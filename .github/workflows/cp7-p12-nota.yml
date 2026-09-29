@@ -11,6 +11,10 @@ name: CP7 P12 Nota and payroll lifecycle
     - scripts/cp7_settlement_cases.py
     - scripts/cp7_attendance_read_bundle.py
     - scripts/cp7_attendance_read_cases.py
+    - scripts/cp7_p12_attendance_browser.mjs
+    - src/ConnectedAttendancePage.tsx
+    - src/attendanceContract.ts
+    - src/attendance-connected.css
     - scripts/cp7_settlement_read_bundle.py
     - scripts/cp7_settlement_read_cases.py
     - scripts/cp7_p12_payroll_browser.mjs

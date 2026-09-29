@@ -92,6 +92,7 @@ assert.deepEqual(dataReads, [], 'Browser code must not read ERP tables/views dir
 assert.deepEqual([...rpcOwnership].sort(), [
   'src/ConnectedPayrollPage.tsx:erp_cp7_get_payroll_workspace_v1',
   'src/ConnectedPayrollPage.tsx:erp_cp7_save_payroll_v1',
+  'src/ConnectedAttendancePage.tsx:erp_cp7_get_attendance_workspace_v1',
   'src/ConnectedNotaPage.tsx:erp_cp7_get_nota_workspace_v1',
   'src/ConnectedNotaPage.tsx:erp_cp7_save_nota_v1',
   'src/ConnectedFgAdjustmentPage.tsx:erp_cp7_get_fg_v1',

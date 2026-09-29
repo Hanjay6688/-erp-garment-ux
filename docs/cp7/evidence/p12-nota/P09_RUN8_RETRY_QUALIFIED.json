@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "source_commit": "b03a5da9be186e976fb97b0e59b553d1bb28dce0",
+  "run_id": 36587580149,
+  "attempt": 2,
+  "job_id": 109476239946,
+  "artifact_id": 11043212926,
+  "archive_sha256": "1ed0badb390818b6437423f8c895386f5a372d0be1956a4e9e4c6bb5c44c527c",
+  "report_sha256": "525a6790e8a31bd1ae97bd575b3ecb22d76557e304907ff350fe40f7f931e13d",
+  "total_pass": 121,
+  "separate_smokes": 3,
+  "browser_pass": 18,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_copy_cleanup": true,
+  "independent_acceptance": false,
+  "production_go": false
+}
