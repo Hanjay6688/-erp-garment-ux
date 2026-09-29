@@ -67,9 +67,10 @@ def cases(cur,today):
         return dict(status='PASS',ordinary_roster_rate_and_posted_attendance=True,approve_requires_current_review=True,labor='6000',attendance='100',net='6100',attendance_accrual_at_approval_once=True,payment_settlement_only=True,inverse_neutral=True)
     def kasbon():
         # The accepted BC note fixture uses 08:00 WIB. Use a completed day for
-        # both work/payroll and issue so this remains valid before 08:00 today.
+        # the accessory issue so it remains valid before08:00. Keep payroll today:
+        # native repair source posting uses its actual current business date.
         workday=today-timedelta(days=1)
-        f=review.fixture(cur,workday);pid=f['payroll'];fx=bc.fixture(cur,workday,zones=False);_,item=bc.note(cur,fx,10,'1000.00',workday,contractor=f['contractor']);before=n.facts(cur);base=gl(cur,f['contractor'])
+        f=review.fixture(cur,today);pid=f['payroll'];fx=bc.fixture(cur,workday,zones=False);_,item=bc.note(cur,fx,10,'1000.00',workday,contractor=f['contractor']);before=n.facts(cur);base=gl(cur,f['contractor'])
         for _ in range(2):act(cur,'PREPARE',doc(cur,pid))
         d=doc(cur,pid);assert (d['labor_total'],d['deduction_total'],d['net_payable'])==('6000.00','6000.00','0.00') and n.facts(cur)==before
         deductions=review.read(cur,'DEDUCTIONS',id=pid)['page']['rows'];assert len(deductions)==1 and deductions[0]['contractor_issue_item_id']==item and deductions[0]['amount']=='6000.00'

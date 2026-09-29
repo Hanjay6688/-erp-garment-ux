@@ -52,7 +52,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Rerun unchanged80 oracles with midnight-safe Nota clock and completed-day kasbon fixture; then continue advances/carry.",
+  "next_action": "Rerun80 with current-day payroll/prior-day accessory issue and precise reader transport-error locator; then advances/carry.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -122,18 +122,18 @@
     "roster_candidate": "ROSTER_NATIVE_AND_CONNECTED_BROWSER_63_PASS",
     "roster_verification": "docs/cp7/evidence/p12-attendance/ROSTER_VERIFICATION.json",
     "source_handoff": "docs/cp7/P12_SOURCE_HANDOFF.md",
-    "attendance_write_candidate": "17_ATTENDANCE_ADDITIONS_PASS_COMBINED_77_PASS_3_TIME_FIXTURES_RERUN_REQUIRED"
+    "attendance_write_candidate": "17_ADDITIONS_PASS_COMBINED_78_PASS_2_FIXTURES_RERUN_REQUIRED"
   },
   "connected_attendance_candidate": {
-    "source_commit": "cb7ffc933ed20e0f7b249b38264920829f84c98f",
-    "source_tree": "f0516b17ef91e22f38e1d20347e08659f5806a6f",
-    "run_id": 36601315289,
+    "source_commit": "dbc76eae71ac0a4b93f32d7cd3cfdd4e855753cc",
+    "source_tree": "008a6b40d0261bcefcc8ecb248edf74a04b39431",
+    "run_id": 36603095055,
     "declared_cases": 80,
-    "status": "77_PASS_3_INCOMPLETE_TIME_FIXTURES_RERUN_REQUIRED",
+    "status": "78_PASS_2_INCOMPLETE_FIXTURES_RERUN_REQUIRED",
     "local_tests_pass": 93,
     "independent_acceptance": false,
     "production_go": false,
-    "receipt": "docs/cp7/evidence/p12-attendance/WRITE_RUN15_RECEIPT.json",
+    "receipt": "docs/cp7/evidence/p12-attendance/WRITE_RUN16_RECEIPT.json",
     "new_attendance_cases_pass": 17
   }
 }

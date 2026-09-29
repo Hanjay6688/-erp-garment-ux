@@ -1,0 +1,37 @@
+{
+  "status": "78_PASS_2_INCOMPLETE_FIXTURES",
+  "source_commit": "dbc76eae71ac0a4b93f32d7cd3cfdd4e855753cc",
+  "source_tree": "008a6b40d0261bcefcc8ecb248edf74a04b39431",
+  "run_id": 36603095055,
+  "job_id": 109525147788,
+  "artifact_id": 11049509218,
+  "archive_sha256": "be780734bba2b4398d9084f941aa37f2ef11f199b60a4b45f035c167ae7e0e4c",
+  "report_sha256": "c693f4af36032eb50e907ccb2948b1d69c202c0436a2a12f939c307fa2b8c0d2",
+  "bundle_sha256": "820ce4b5f3b36b63117ea88524beb47990bb0d6354306f71ea4f480387fbef3e",
+  "counts": {
+    "PASS": 78,
+    "INCOMPLETE": 2
+  },
+  "diagnoses": [
+    {
+      "case": "P12_SETTLEMENT_KASBON_CARRY",
+      "error": "CP7_NOTA_AFTER_PERIOD",
+      "cause": "Moving payroll to yesterday conflicts with the native repair posting date, which remains the current business day.",
+      "fix": "Keep work/payroll today, place only the accessory advance issue on the completed prior day; preserve10000 receivable/6000 deduction/4000 carry and inverse."
+    },
+    {
+      "case": "P12_ATTENDANCE_READ_BROWSER_DESKTOP",
+      "error": "Strict locator resolved2 legitimate alerts.",
+      "fix": "Target the transport-error paragraph; retain all stale card/rate/money clearing assertions."
+    }
+  ],
+  "both_nota_browser_cases_pass": true,
+  "all17_attendance_additions_pass": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_cleanup": true,
+  "database_cleanup": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "rerun_80_cases_required": true
+}
