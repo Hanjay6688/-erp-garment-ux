@@ -993,6 +993,9 @@
       "F02-01 reversed BS active projection",
       "F02-02/X06 matching binding"
     ],
-    "fix": "CANDIDATE_NATIVE_PENDING"
+    "fix": "WRITER_RETEST_53_PASS_PLUS_ONE_SMOKE",
+    "tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
+    "verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
+    "remaining": "Independent retest and P06/P07 authoritative source/target/policy composition plus planner Auth/HTTP."
   }
 }

@@ -1,6 +1,6 @@
 # Checkpoint keluarga 2 — P03–P04
 
-**29 September independent update: F02 HOLD.** The historical writer passes below remain valid within their tests, but the combined independent handoff found F02-01 (cancelled BS after source reversal) and F02-02/X06 (unbound matching labels). See [current repair handoff](F02_FIX_HANDOFF.md). The repair candidate is not qualified yet; no independent closure is claimed.
+**29 September independent update: F02 HOLD.** The historical writer passes below remain valid within their tests, but the combined independent handoff found F02-01 (cancelled BS after source reversal) and F02-02/X06 (unbound matching labels). See [current repair handoff](F02_FIX_HANDOFF.md). The repair is writer-qualified on `ee86998` with53 cases plus one smoke; no independent closure is claimed.
 
 **Untuk Sol / auditor independen.** Implementasi dengan batas di bawah lulus tes writer. Independent acceptance **BELUM**; keluarga belum diterima auditor. CP6 tetap CLOSED_CONTRACT_SCOPE, R10 tetap P11, `production_go=false`.
 

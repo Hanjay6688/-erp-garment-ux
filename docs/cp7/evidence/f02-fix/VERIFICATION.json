@@ -1,0 +1,235 @@
+{
+  "source_head": "ee8699829bc53799e5f840bb5490059e456fa81a",
+  "source_tree": "bec58171053c1b694fca82a777e7212d1090fbcb",
+  "run_id": 36558701316,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36558701316",
+  "job_id": 109374035483,
+  "artifact_id": 11029367401,
+  "archive_sha256": "c32513351a3e2c4fc4b571701295ddb239c0a4c635f77e0da83d1c6d3a54a3d8",
+  "report": "CP7_F02_FIXED.json.gz",
+  "report_sha256": "918c0609b16eddf4f8898b7af294c415a03b188b25c52ca943f6d2d985fb455f",
+  "report_gzip_sha256": "b8e389d925a78061601cfeb09bfafda51cddf9de26d7368f08e8146f7b9228dd",
+  "bundle_sha256": "bde0745490b055586745c19fa50c01caa32ed1687874f5879ef97422247fe829",
+  "status": "PASS",
+  "counts": {
+    "PASS": 53
+  },
+  "smokes_separate": 1,
+  "groups": {
+    "native": {
+      "PASS": 17
+    },
+    "source_smoke": {
+      "PASS": 1
+    },
+    "source": {
+      "PASS": 11
+    },
+    "races": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 1
+    },
+    "production": {
+      "PASS": 6
+    },
+    "production_races": {
+      "PASS": 1
+    },
+    "production_http": {
+      "PASS": 1
+    },
+    "audit_replay": {
+      "PASS": 5
+    },
+    "regressions": {
+      "PASS": 8
+    },
+    "regression_http": {
+      "PASS": 1
+    }
+  },
+  "case_results": {
+    "native": {
+      "P04_O15_CONSERVATION": "PASS",
+      "P04_NEGATIVE_PREFIX": "PASS",
+      "P04_INPUT_UNIQUENESS": "PASS",
+      "P04_REWORK_DENOMINATOR": "PASS",
+      "P04_REWASH_CYCLE": "PASS",
+      "P04_REVERSAL_DEPENDENCIES": "PASS",
+      "P04_LINEAGE_SIZE_DUPLICATE": "PASS",
+      "P04_PARTIAL_MALFORMED": "PASS",
+      "P04_OWNERSHIP_HOLD": "PASS",
+      "P04_HARD_MATCHING": "PASS",
+      "P04_SHARED_POOL": "PASS",
+      "P04_X08_YIELD_INPUT_OUTPUT": "PASS",
+      "P04_X06_DISTINCT_EDGES": "PASS",
+      "P04_O04_SHARED60": "PASS",
+      "P04_REMAINING_ETA": "PASS",
+      "P04_EXACT_INTEGER": "PASS",
+      "P04_PRIVATE_KERNEL_ACL": "PASS"
+    },
+    "source_smoke": {
+      "P04_SOURCE_FIXTURE_SMOKE": "PASS"
+    },
+    "source": {
+      "P04_SOURCE_O15_ACTUAL_POSTING": "PASS",
+      "P04_SOURCE_IMMUTABLE_QC_REPLAY": "PASS",
+      "P04_SOURCE_AUTH_NO_MONEY": "PASS",
+      "P04_SOURCE_MALFORMED_NO_PARTIAL": "PASS",
+      "P04_SOURCE_CONFLICT_PROPAGATES": "PASS",
+      "P04_SOURCE_MULTI_GROUP_ONE_CAPTURE": "PASS",
+      "P04_SOURCE_REWORK_PARTIAL_COMPLETION": "PASS",
+      "P04_SOURCE_REWASH_RETURN_REDISPATCH": "PASS",
+      "P04_SOURCE_CLAIM_CUSTODY": "PASS",
+      "P04_SOURCE_BS_HOLD_DISPOSITION": "PASS",
+      "P04_SOURCE_SOURCE_REVIEW_FLAG": "PASS"
+    },
+    "http": {
+      "P04_HTTP_CUTTING_RUN_AUTH": "PASS"
+    },
+    "production": {
+      "P04_PRODUCTION_OPENING_LIFECYCLE": "PASS",
+      "P04_PRODUCTION_OPENING_CLAIMS": "PASS",
+      "P04_PRODUCTION_MIXED_ONE_CAPTURE": "PASS",
+      "P04_PRODUCTION_UNSOURCED_BS_GOOD": "PASS",
+      "P04_PRODUCTION_CURRENT_AUTH": "PASS",
+      "P04_PRODUCTION_NO_ORIGIN_ALIAS": "PASS"
+    },
+    "production_http": {
+      "P04_PRODUCTION_HTTP_AUTH": "PASS"
+    },
+    "audit_replay": {
+      "F02_AUDITOR_REPLAY_REVERSE_QC_BS": "PASS",
+      "F02_AUDITOR_REPLAY_REVERSE_QC_CONTROL": "PASS",
+      "F02_AUDITOR_REPLAY_REVERSE_RECEIPT_BS": "PASS",
+      "F02_AUDITOR_REPLAY_REVERSE_REWORK": "PASS",
+      "F02_AUDITOR_REPLAY_SOURCE_LIMITS": "PASS"
+    },
+    "regressions": {
+      "F02_FIX_NEW_QC_AFTER_REVERSAL": "PASS",
+      "F02_FIX_NEW_RECEIPT_MIXED_REPLAY": "PASS",
+      "F02_FIX_HELD_BS_SOURCE_REVERSED": "PASS",
+      "F02_FIX_ACTIVE_LINEAGE_NEGATIVE": "PASS",
+      "F02_FIX_ACTIVE_CHILD_CANCELLED_PARENT": "PASS",
+      "F02_FIX_X06_FORGED_MATCH": "PASS",
+      "F02_FIX_X06_VERSION_SNAPSHOT": "PASS",
+      "F02_FIX_X06_SHAPE_CONFIRMATION": "PASS"
+    },
+    "regression_http": {
+      "F02_FIX_HTTP_REVERSED_BS_CURRENT_AUTH": "PASS"
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "http_cleanup": {
+    "http": {
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "cleanup_failures": false
+    },
+    "production_http": {
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "cleanup_failures": false
+    },
+    "regression_http": {
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "cleanup_failures": false
+    }
+  },
+  "application_runs": [
+    36558707443,
+    36558701502
+  ],
+  "source_hashes": {
+    "scripts/cp7-src/wip/matching.sql": "b3fc0e9307f0d87ca80b7935412210b4eba7f38d9568c6d68dfa6355d97d8c4f",
+    "scripts/cp7-src/wip/normalize.sql": "a857f47243743738a7955ea901ad60e0fb967b44fcc2e19d98e0a5537395293e",
+    "scripts/cp7-src/wip/bs.sql": "a9903bc00cc6502d54ecaafdd0119ac6bf36d679912f6cabd6ada026f56c6284",
+    "scripts/cp7_wip_cases.py": "a4044dd682fc65562f0d08529fc5bdc49bfb4e146757f90de69e22a3fd861bf1",
+    "scripts/cp7_f02_audit_replay.py": "161c7d92ae9d9f6f021ed180d433c0d2fc25a338f622e27aa875b9cec320ea3d",
+    "scripts/cp7_f02_regression_cases.py": "b2ba988e2c38f8359a66ce3e2fb5a5ae3ebef279a8ffc517df07dfc8b2df2988",
+    "scripts/cp7_p04_wip_probe.py": "8d9f7130124ebf7f74b0a51872693e6fc551563c5e38497450b294175ca99064",
+    ".github/workflows/cp7-p04-wip.yml": "0f231784024fcdfe284bf1401224c370e225747e2c1b63ea4f5363cd910de936"
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "acceptance": "F02 HOLD pending independent retest; P06/P07 authoritative matching joins and public planner stale/auth proof remain OPEN.",
+  "prior_failure": "RUN_1.json",
+  "p09_regression": {
+    "source_head": "ee8699829bc53799e5f840bb5490059e456fa81a",
+    "run_id": 36558701532,
+    "job_id": 109374036549,
+    "artifact_id": 11029322961,
+    "archive_sha256": "57d3345387f1b954f72c99094abefe30f3d7ba5138fb252511a286107df2324b",
+    "report": "P09_REGRESSION.json.gz",
+    "report_sha256": "d5bbada402fa015fc7e39081b9ab966bb8685d944085929eab381dfddd49ec75",
+    "report_gzip_sha256": "79d1eb126db0db5ce090c7d38a2203d839a15f87b0c5ebc83000a89c4dd0709f",
+    "bundle_sha256": "d34acae6754a9e6c390c54696b4b8d7acbf44697723243b249bf79c839344450",
+    "counts": {
+      "PASS": 121
+    },
+    "smokes_separate": 3,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "browser_auth_counts": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    }
+  }
+}

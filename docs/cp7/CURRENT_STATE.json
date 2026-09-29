@@ -34,7 +34,7 @@
     "P01": "CONTRACT_READY_WITH_DOWNSTREAM_ENGINE_ORACLES_OPEN",
     "P02": "BOUNDED_ACTOR_CAPTURE_T1_PASS_16_CASES_INDEPENDENT_PENDING",
     "P03": "BOUNDED_POLICY_NATIVE_PASS_15_CASES_INDEPENDENT_PENDING",
-    "P04": "F02_HOLD_INDEPENDENT_REVERSAL_DEFECT_AND_X06_GATE_FIX_CANDIDATE",
+    "P04": "F02_REPAIR_53_PASS_PLUS_SMOKE_INDEPENDENT_HOLD_X06_PUBLIC_JOIN_OPEN",
     "P09": "BOUNDED_121_PASS_COUNTS_AND_COMBINED_INVOICES_QUALIFIED_REMAINING_SCOPE_OPEN",
     "P10": "LOCAL_PREPARATION_NOT_QUALIFIED"
   },
@@ -51,24 +51,24 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Qualify F02 cancellation and matching regressions against the combined independent handoff, then continue F03 P10-P13 and remaining P09 scope.",
+  "next_action": "Forward the qualified F02 repair checkpoint for independent retest; continue P10 FG summary/card integration and remaining F03 P09-P13 scope.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
   "last_writer_checkpoint": "docs/cp7/F02_AUDITOR_HANDOFF.md",
   "family_status": {
     "F01_P00_P02": "WRITER_T1_BOUNDED_FOUNDATION_PASS_INDEPENDENT_PENDING",
-    "F02_P03_P04": "HOLD_F02_01_REVERSAL_AND_F02_02_X06_INDEPENDENT_FINDINGS",
+    "F02_P03_P04": "WRITER_REPAIR_VERIFIED_53_CASES_INDEPENDENT_HOLD",
     "F03_P09_P13": "IN_PROGRESS_P09_PROCUREMENT",
     "F04_P05_P08": "PLANNED",
     "F05_P14_P17": "PLANNED",
     "F06_P18_P21": "PLANNED"
   },
-  "latest_tested_source": "a499f39d5e9df6893ed5705ac79bc70e177487ba",
+  "latest_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
   "p04_cutting_verification_receipt": "docs/cp7/evidence/p04-cutting/VERIFICATION.json",
-  "latest_p04_tested_source": "17e85404c9c5f088875099d7875be6342ca6b266",
+  "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
   "p04_production_verification_receipt": "docs/cp7/evidence/p04-production/VERIFICATION.json",
   "p09_entry": "docs/cp7/P09_PROCUREMENT_HANDOFF.md",
   "p09_receipt_verification": "docs/cp7/evidence/p09-procurement/RECEIPT_VERIFICATION.json",
@@ -85,5 +85,6 @@
   "p09_combined_invoice_candidate": "docs/cp7/P09_COMBINED_INVOICE_HANDOFF.md",
   "f02_independent_handoff": "https://github.com/Hanjay6688/-erp-garment-ux/blob/09990020355fb7329fbc7b8710692bf1357d2401/audits/cp7_f02_20260929/HANDOFF.md",
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
-  "p09_combined_invoice_verification": "docs/cp7/evidence/p09-procurement/COMBINED_INVOICE_VERIFICATION.json"
+  "p09_combined_invoice_verification": "docs/cp7/evidence/p09-procurement/COMBINED_INVOICE_VERIFICATION.json",
+  "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json"
 }

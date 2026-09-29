@@ -40,3 +40,7 @@ Current exact status and next action: [CURRENT_STATE.json](CURRENT_STATE.json).
 [F02 handoff](F02_AUDITOR_HANDOFF.md): bounded P03 policy/identity proof (15 cases) and P04 atomic-origin WIP proof (39 cases plus repeated smoke) are source-bound and ready for independent review. This is WRITER_VERIFIED within the stated boundary, not INDEPENDENT_ACCEPTED. Dated demand, planner integration, connected browser and scale obligations remain assigned to their owning packets.
 
 Current writing proceeds to family 3, beginning with P09 procurement/materials. F01/F02 independent review may follow the frozen checkpoints without two writers sharing the canonical branch.
+
+## Independent F02 follow-up
+
+F02 remains HOLD after combined independent findings. The [writer-qualified repair](F02_FIX_HANDOFF.md) passes53 cases plus one smoke on `ee86998`; the original auditor failures and first repair failure are preserved. Family3 preparation continues independently. P06/P07 must still provide the authoritative matching composition and public Auth/stale-preview evidence; no planner promotion bypasses this gate.
