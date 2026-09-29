@@ -112,9 +112,9 @@ def cases(cur,today):
         cur.execute('insert into erp.sales_items(sale_id,product_id,qty_pcs,unit_price_snapshot) values(%s,%s,6,1)',(f['sale'],root))
         cur.execute('set local session_replication_role=origin')
         captured=p02.create(cur,root);before=p02.stored(cur,captured['run_id'])
-        first=identity(cur,captured['run_id']);assert not first['membership_changed']
+        first=identity(cur,captured['run_id']);assert not first['group_changed']
         move(cur,f);after=identity(cur,captured['run_id'])
-        assert after['original']==first['original'] and after['membership_changed']
+        assert after['original']==first['original'] and after['group_changed']
         assert after['original']['commercial'][0]['sku_id']==f['skus'][1]
         assert after['current_restatement']['commercial'][0]['sku_id']==f['skus'][0]
         assert after['original']['basis']=='AT_CAPTURE' and after['current_restatement']['basis']=='CURRENT_RESTATED'
@@ -126,6 +126,7 @@ def cases(cur,today):
         return dict(status='PASS',original_membership_preserved=True,current_restatement_labeled=True,pcs_conserved=6,cross_actor_denied=True)
     def price_only():
         f=fixture(cur,today);a=proposal(row(get(cur,f['skus']),f['skus'][0]));apply(cur,[a])
+        captured=p02.create(cur,f['root']);original=identity(cur,captured['run_id'])
         at=cur.execute('select clock_timestamp()').fetchone()[0];g=f['groups'][0]
         updated=bf.group(cur,f['roots'][:3],at,sku=g['sku'],gid=g['id'],revision=1,
             settings=dict(price='190000.00',bom=None,work_rates=[],laundry_rates=[]))
@@ -133,6 +134,8 @@ def cases(cur,today):
         current=row(get(cur,f['skus']),a['sku_id'])
         assert current['commercial_revision']=='2' and current['policy_revision']=='1'
         assert current['policy']['quality']=='KNOWN' and current['policy']['state']=='STOPPED'
+        after=identity(cur,captured['run_id'])
+        assert after['original']==original['original'] and after['commercial_version_changed'] and not after['group_changed']
         return dict(status='PASS',price_revision_does_not_reactivate_or_invalidate_members=True)
     def future_members():
         f=fixture(cur,today);a=proposal(row(get(cur,f['skus']),f['skus'][0]));apply(cur,[a])
@@ -259,8 +262,13 @@ def http_cases(http,today):
         assert operator.rpc('erp_cp7_set_production_policy_v1',args)['status']==403
         result=owner.rpc('erp_cp7_set_production_policy_v1',args);assert result['status']==200,result
         assert owner.rpc('erp_cp7_set_production_policy_v1',args)['body']['replayed']
+        captured=owner.rpc('erp_cp7_capture_snapshot_v1',dict(p_root=f['root'],p_request=str(uuid.uuid4())))
+        assert captured['status']==200,captured
+        history=owner.rpc('erp_cp7_get_source_identity_v1',dict(p_run=captured['body']['run_id']))
+        assert history['status']==200 and not history['body']['group_changed']
+        assert history['body']['original']['basis']=='AT_CAPTURE' and history['body']['current_restatement']['basis']=='CURRENT_RESTATED'
         with http.connect() as conn,conn.cursor() as cur:
             cur.execute('update erp.app_users set is_active=false where auth_user_id=%s',(owner.auth_user_id,));conn.commit()
         assert owner.rpc('erp_cp7_set_production_policy_v1',args)['status']==403
-        return dict(status='PASS',real_auth=True,write_and_replay=True,same_token_revoked=True,read_only_actor_denied=True)
+        return dict(status='PASS',real_auth=True,write_and_replay=True,same_token_revoked=True,read_only_actor_denied=True,identity_http_labels_valid=True)
     return [('P03_HTTP_POLICY_AUTH_REPLAY_REVOKE',real_auth)]

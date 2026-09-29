@@ -9,12 +9,13 @@ begin
  a:=cp7_private.access_now();
  select * into r from cp7_private.analysis_runs where id=p_run and actor=auth.uid();
  if not found then raise exception using errcode='42501',message='CP7_RUN_UNAVAILABLE';end if;
- at:=clock_timestamp();
- select coalesce(jsonb_agg(jsonb_build_object('sku_id',s.id,'sku',s.sku,'version_id',v.id,'revision',v.revision::text) order by v.id),'[]')
- into current_members
- from erp.bf_sku_members_v1 m join erp.bf_sku_versions_v1 v on v.id=m.version_id
- join erp.bf_skus_v1 s on s.id=v.sku_id
- where m.product_root=r.root_id and v.effective_from<=at and (v.effective_to is null or v.effective_to>at);
+ with capture_clock as materialized (select clock_timestamp() captured_at)
+ select c.captured_at,coalesce((
+  select jsonb_agg(jsonb_build_object('sku_id',s.id,'sku',s.sku,'version_id',v.id,'revision',v.revision::text) order by v.id)
+  from erp.bf_sku_members_v1 m join erp.bf_sku_versions_v1 v on v.id=m.version_id
+  join erp.bf_skus_v1 s on s.id=v.sku_id
+  where m.product_root=r.root_id and v.effective_from<=c.captured_at and (v.effective_to is null or v.effective_to>c.captured_at)
+ ),'[]'::jsonb) into at,current_members from capture_clock c;
  if jsonb_array_length(current_members)>1 then
   raise exception using errcode='22023',message='CP7_IDENTITY_CONFLICT';
  end if;
@@ -23,7 +24,8 @@ begin
   'original',jsonb_build_object('basis','AT_CAPTURE','effective_as_of',r.payload->'snapshot'->'effective_as_of',
     'known_as_of',r.payload->'snapshot'->'known_as_of','commercial',r.payload->'sources'->'commercial'),
   'current_restatement',jsonb_build_object('basis','CURRENT_RESTATED','generated_at',at,'commercial',current_members),
-  'membership_changed',current_members is distinct from r.payload->'sources'->'commercial');
+  'commercial_version_changed',current_members is distinct from r.payload->'sources'->'commercial',
+  'group_changed',(current_members->0->'sku_id') is distinct from (r.payload->'sources'->'commercial'->0->'sku_id'));
  if cp7_private.access_now()<>a then raise exception using errcode='42501',message='CP7_ACCESS_CHANGED';end if;
  return result;
 end $$;
