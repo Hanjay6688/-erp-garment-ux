@@ -16,7 +16,7 @@ import cp6_t3_package_run as package
 from cp6_t3_aligned_install import advisors,advisor_delta
 OUT=bundle.ROOT/'cp6-proof/t3/CP7_P12_NOTA.json'
 
-def verify(cur,with_review=False,with_settlement=False,with_attendance=False):
+def verify(cur,with_review=False,with_settlement=False,with_attendance=False,with_roster=False):
     result=p10.verify(cur)
     rules={
       'access_now':('cp7_payroll_read',False,'s'),'source_lines':('cp7_payroll_read',False,'s'),'source_cards':('cp7_payroll_read',False,'s'),'source_workspace':('cp7_payroll_read',False,'s'),
@@ -46,6 +46,7 @@ def verify(cur,with_review=False,with_settlement=False,with_attendance=False):
         assert cur.execute("select pg_get_userbyid(p.proowner),p.prosecdef,p.provolatile::text,p.proconfig from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname=%s",(name,)).fetchone()==(owner,True,vol,['search_path=""'])
     if with_attendance:
         import cp7_attendance_read_bundle as attendance
+        if with_roster:import cp7_roster_bundle as attendance
         funcs=cur.execute("select p.proname,pg_get_userbyid(p.proowner),p.prosecdef,p.provolatile::text,p.proconfig from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_attendance'").fetchall()
         assert {v[0] for v in funcs}==set(attendance.RULES)
         for name,owner,secdef,vol,config in funcs:assert (owner,secdef,vol)==attendance.RULES[name] and config==['search_path=""']
@@ -53,12 +54,21 @@ def verify(cur,with_review=False,with_settlement=False,with_attendance=False):
         assert not cur.execute("select exists(select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and c.relkind in('r','p','v') and has_table_privilege('cp7_attendance_read',c.oid,'INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER'))").fetchone()[0]
         for who in ('anon','authenticated','service_role','cp7_capture'):
             assert not cur.execute("select has_schema_privilege(%s,'cp7_attendance','USAGE')",(who,)).fetchone()[0]
+    if with_roster:
+        assert cur.execute("select pg_get_userbyid(p.proowner),p.prosecdef,p.provolatile::text,p.proconfig from pg_proc p where p.oid='public.erp_cp7_save_roster_v1(text,jsonb,uuid,text)'::regprocedure").fetchone()==('cp7_roster_write',True,'v',['search_path=""'])
+        assert not cur.execute("select exists(select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and c.relkind in('r','p','v') and has_table_privilege('cp7_roster_write',c.oid,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER'))").fetchone()[0]
+        for signature in ('cp7_attendance.roster_access(text)','cp7_attendance.source_token(uuid,date,date)'):
+            assert cur.execute("select has_function_privilege('postgres',%s,'EXECUTE')",(signature,)).fetchone()[0],('P12_ROSTER_NATIVE_ADAPTER_EXECUTE',signature)
+        for who in ('anon','authenticated','service_role','cp7_capture','cp7_attendance_read','cp7_payroll_read','cp7_payroll_write'):
+            assert not cur.execute("select has_table_privilege(%s,'cp7_attendance.roster_requests','SELECT,INSERT,UPDATE,DELETE')",(who,)).fetchone()[0]
+            assert not cur.execute("select has_function_privilege(%s,'cp7_attendance.apply_roster(text,jsonb,uuid,text)','EXECUTE')",(who,)).fetchone()[0]
     return dict(result,cp7_p12_bundle_sha256=hashlib.sha256((attendance.bundle() if with_attendance else settlement.bundle() if with_settlement else review.bundle() if with_review else bundle.bundle()).encode()).hexdigest())
 
-def run(with_review=False,with_settlement=False,with_attendance=False):
+def run(with_review=False,with_settlement=False,with_attendance=False,with_roster=False):
+    with_attendance=with_attendance or with_roster
     with_settlement=with_settlement or with_attendance
     with_review=with_review or with_settlement
-    verifier=partial(verify,with_review=with_review,with_settlement=with_settlement,with_attendance=with_attendance)
+    verifier=partial(verify,with_review=with_review,with_settlement=with_settlement,with_attendance=with_attendance,with_roster=with_roster)
     runtime=bundle
     if with_review:
         import cp7_settlement_read_bundle as runtime
@@ -71,6 +81,10 @@ def run(with_review=False,with_settlement=False,with_attendance=False):
         import cp7_attendance_read_bundle as attendance
         import cp7_attendance_read_cases as attendance_cases
         source_sql=attendance.bundle()
+    if with_roster:
+        import cp7_roster_bundle as roster
+        import cp7_roster_cases as roster_cases
+        source_sql=roster.bundle()
     report=dict(label='CP7_P12_NOTA_COMPOSER',status='INCOMPLETE',production_go=False,independent_acceptance=False,scope='NATIVE_SOURCE_SELECTED_CARD_COMPOSITION_ALLOCATION_AND_BROWSER_NO_PAYROLL_SETTLEMENT_UI',source_sha256=hashlib.sha256(source_sql.encode()).hexdigest())
     out=OUT
     if with_review:
@@ -82,6 +96,9 @@ def run(with_review=False,with_settlement=False,with_attendance=False):
     if with_attendance:
         report.update(label='CP7_P12_ATTENDANCE_READ',scope=report['scope']+'_WITH_DATED_ATTENDANCE_READER_AND_BROWSER_NO_ATTENDANCE_WRITER_UI')
         out=OUT.with_name('CP7_P12_ATTENDANCE_READ.json')
+    if with_roster:
+        report.update(label='CP7_P12_ROSTER',scope=report['scope']+'_WITH_NATIVE_ROSTER_RATE_WRITER_NO_SOURCE_WRITER_BROWSER_CLAIM')
+        out=OUT.with_name('CP7_P12_ROSTER.json')
     installed=False
     try:
         with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
@@ -96,6 +113,7 @@ def run(with_review=False,with_settlement=False,with_attendance=False):
                 originals['erp.require_owner_admin()']=cur.execute("select pg_get_functiondef('erp.require_owner_admin()'::regprocedure)").fetchone()[0]
                 cur.execute(runtime.extension(),prepare=False)
             if with_attendance:cur.execute(attendance.extension(),prepare=False)
+            if with_roster:cur.execute(roster.extension(),prepare=False)
             after=p09.functions(cur)
             grants=('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)','erp.bf_commercial_sku_at_v1(uuid,timestamptz)','erp.bd_lot_laundry_unknown_v1(uuid)','erp.get_hpp_completeness(uuid)')
             # regprocedure prints timestamp with time zone with empty search_path.
@@ -105,7 +123,7 @@ def run(with_review=False,with_settlement=False,with_attendance=False):
                 key=str(cur.execute('select %s::regprocedure::text',(signature,)).fetchone()[0]);grants.setdefault(key,set()).add(('cp7_fg_write','EXECUTE',False))
             for signature in ('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)'):
                 key=str(cur.execute('select %s::regprocedure::text',(signature,)).fetchone()[0]);grants.setdefault(key,set()).add(('cp7_payroll_read','EXECUTE',False))
-            for who in ('cp7_nota_write','cp7_payroll_header')+(('cp7_payroll_write',) if with_settlement else ())+(('cp7_attendance_read',) if with_attendance else ()):
+            for who in ('cp7_nota_write','cp7_payroll_header')+(('cp7_payroll_write',) if with_settlement else ())+(('cp7_attendance_read',) if with_attendance else ())+(('cp7_roster_write',) if with_roster else ()):
                 for signature in ('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)'):
                     key=str(cur.execute('select %s::regprocedure::text',(signature,)).fetchone()[0]);grants.setdefault(key,set()).add((who,'EXECUTE',False))
             key=str(cur.execute("select 'erp.merge_eligible_work_into_payroll_v2(uuid,jsonb,uuid,bigint)'::regprocedure::text").fetchone()[0]);grants.setdefault(key,set()).add(('cp7_nota_write','EXECUTE',False))
@@ -151,24 +169,28 @@ def run(with_review=False,with_settlement=False,with_attendance=False):
             report['attendance_read']=native.strict_group('CP7_P12_ATTENDANCE_READ',attendance_cases.cases,verifier)
             report['attendance_read_http']=modes.run_http(attendance_cases,verifier,'cp7_p12_attendance_read')
             report['attendance_read_browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_p12_attendance_browser.mjs',verifier,'cp7_p12_attendance_read')
+        if with_roster:
+            report['roster']=native.strict_group('CP7_P12_ROSTER',roster_cases.cases,verifier)
+            report['roster_races']=modes.run_races(roster_cases,verifier,'cp7_p12_roster')
+            report['roster_http']=modes.run_http(roster_cases,verifier,'cp7_p12_roster')
     except Exception as e:report.update(error=str(e),traceback=traceback.format_exc())
     finally:
         if installed:
             with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
                 for definition in originals.values():cur.execute(definition,prepare=False)
-                for role in (('cp7_attendance_read',) if with_attendance else ())+(('cp7_payroll_write',) if with_settlement else ())+('cp7_nota_write','cp7_payroll_header','cp7_payroll_read','cp7_fg_write','cp7_fg_read','cp7_return_write','cp7_return_read','cp7_invoice_write','cp7_invoice_read','cp7_material_write','cp7_material_read','cp7_procure_write','cp7_procure_read','cp7_policy','cp7_capture'):
+                for role in (('cp7_roster_write',) if with_roster else ())+(('cp7_attendance_read',) if with_attendance else ())+(('cp7_payroll_write',) if with_settlement else ())+('cp7_nota_write','cp7_payroll_header','cp7_payroll_read','cp7_fg_write','cp7_fg_read','cp7_return_write','cp7_return_read','cp7_invoice_write','cp7_invoice_read','cp7_material_write','cp7_material_read','cp7_procure_write','cp7_procure_read','cp7_policy','cp7_capture'):
                     cur.execute('drop owned by '+role+' cascade;drop role '+role,prepare=False)
                 conn.commit();report['cp6_restored']=package.boundary.snapshot(cur)==before and native.public_state(cur)==public_before
                 conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
             report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta']
-            report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or (d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and (f.get('metadata') or {}).get('schema') in ('cp7_payroll','cp7_fg','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice') for f in d.get('added',[])))
-        group_keys=('native','http','notes','note_races','note_http','admission_regression','browser')+(('payroll_review','payroll_review_http','payroll_review_browser') if with_review else ())+(('settlement','settlement_races','settlement_http','settlement_browser') if with_settlement else ())+(('attendance_read','attendance_read_http','attendance_read_browser') if with_attendance else ())
+            report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or (d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and (f.get('metadata') or {}).get('schema') in ('cp7_attendance','cp7_payroll','cp7_fg','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice') for f in d.get('added',[])))
+        group_keys=('native','http','notes','note_races','note_http','admission_regression','browser')+(('payroll_review','payroll_review_http','payroll_review_browser') if with_review else ())+(('settlement','settlement_races','settlement_http','settlement_browser') if with_settlement else ())+(('attendance_read','attendance_read_http','attendance_read_browser') if with_attendance else ())+(('roster','roster_races','roster_http') if with_roster else ())
         groups=[report.get(k,{}) for k in group_keys]
         report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and all(r.get('status') in ('PASS','RUN_COMPLETE') and set(r.get('counts',{}))=={'PASS'} and r['counts']['PASS']>0 and r.get('database_remaining',0)==0 for r in groups) else 'INCOMPLETE'
         out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,indent=2,default=str)+'\n');print(json.dumps({k:report.get(k) for k in ('label','status','source_sha256','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)
     return dict(status=report['status'],production_go=False,independent_acceptance=False)
 
 if __name__=='__main__':
-    assert sys.argv[1:] in ([],['--payroll-review'],['--settlement'],['--attendance-review']),'UNKNOWN_P12_PROBE_ARGUMENT'
-    package._writer_runtime=lambda browser_mode=False:run(with_review='--payroll-review' in sys.argv,with_settlement='--settlement' in sys.argv,with_attendance='--attendance-review' in sys.argv)
+    assert sys.argv[1:] in ([],['--payroll-review'],['--settlement'],['--attendance-review'],['--roster']),'UNKNOWN_P12_PROBE_ARGUMENT'
+    package._writer_runtime=lambda browser_mode=False:run(with_review='--payroll-review' in sys.argv,with_settlement='--settlement' in sys.argv,with_attendance='--attendance-review' in sys.argv,with_roster='--roster' in sys.argv)
     package.run('install')

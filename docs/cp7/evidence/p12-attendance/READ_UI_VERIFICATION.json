@@ -1,0 +1,23 @@
+{
+  "status": "WRITER_BOUNDED_51_PASS",
+  "source_commit": "79a77bb7bb5da49ac3c89546d3859c69c31c5dbb",
+  "source_tree": "ca37ccd5e8d18c30caaf19e0f9ee3ba912b5a76c",
+  "run_id": 36592088361,
+  "artifact_id": 11044377905,
+  "archive_sha256": "dd4d272375019e91585843f55dc768e7644cda50d1839b8893660a87d00b17d7",
+  "report_sha256": "766aa59ae856ea3fd0f2241af7cfa537aab1f8d9c01fffd847533c4e03e404fc",
+  "bundle_sha256": "6959577c25fc598788c6e4b942a07fc6db900ee2586adbc1aea37c550ff75e30",
+  "total_pass": 51,
+  "separate_smokes": 0,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_copy_cleanup": true,
+  "independent_acceptance": false,
+  "production_go": false,
+  "job_id": 109487490553,
+  "retained_cases": 49,
+  "new_browser_cases": 2,
+  "desktop_mobile_visually_inspected": true,
+  "source_mutation_ui_claim": false,
+  "scope": "Connected historical attendance reader, current finance.attendance.view, exact dated rates and failed-read retirement; source editing open"
+}

@@ -37,7 +37,7 @@
     "P04": "F02_REPAIR_53_PASS_PLUS_SMOKE_INDEPENDENT_HOLD_X06_PUBLIC_JOIN_OPEN",
     "P09": "BOUNDED_121_PASS_COUNTS_AND_COMBINED_INVOICES_QUALIFIED_REMAINING_SCOPE_OPEN",
     "P10": "FG_BOOK_34_PASS_NOTA_COMPOSITION_QUALIFIED_SCOPE_OPEN",
-    "P12": "BOUNDED_NOTA_FINANCE_SETTLEMENT_UI_42_PASS_SOURCE_EDITING_OPEN"
+    "P12": "BOUNDED_NOTA_FINANCE_SETTLEMENT_ATTENDANCE_READ_UI_51_PASS_SOURCE_EDITING_OPEN"
   },
   "inherited_scope": {
     "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
@@ -52,7 +52,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Qualify connected attendance source reader on desktop/mobile (51 cases); connect native authorized roster/rate/attendance source mutations and remaining advances/carry.",
+  "next_action": "Qualify native roster/rate command (61 combined cases), connect its source editor and attendance mutations, then remaining advances/carry.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -95,7 +95,7 @@
   "p12_entry": {
     "source_verification": "docs/cp7/evidence/p12-nota/SOURCE_VERIFICATION.json",
     "notes": "docs/cp7/P12_NOTA_ENTRY.md",
-    "status": "BOUNDED_SETTLEMENT_WRITER_42_PASS_INDEPENDENT_PENDING",
+    "status": "BOUNDED_PAYROLL_ATTENDANCE_READ_UI_51_PASS_INDEPENDENT_PENDING",
     "scope": "P10_NOTA_P12_SELECTED_COMPONENT_HANDOFF",
     "remaining": [
       "connected_attendance_roster_rate_source_editing",
@@ -115,7 +115,10 @@
     "settlement_verification": "docs/cp7/evidence/p12-nota/SETTLEMENT_VERIFICATION.json",
     "attendance_entry": "docs/cp7/P12_ATTENDANCE_ENTRY.md",
     "p09_regression_retry": "RUN_36587580149_ATTEMPT_2_121_PASS_PLUS_3_SMOKES",
-    "attendance_candidate": "DATED_READER_49_PASS_UI_51_CASE_PENDING",
-    "attendance_read_verification": "docs/cp7/evidence/p12-attendance/READ_VERIFICATION.json"
+    "attendance_candidate": "DATED_READER_AND_DESKTOP_MOBILE_UI_51_PASS",
+    "attendance_read_verification": "docs/cp7/evidence/p12-attendance/READ_VERIFICATION.json",
+    "attendance_ui_verification": "docs/cp7/evidence/p12-attendance/READ_UI_VERIFICATION.json",
+    "p09_regression_latest": "docs/cp7/evidence/p12-attendance/P09_RUN10_REGRESSION.json",
+    "roster_candidate": "NATIVE_COMMAND_61_CASES_PENDING_NO_SOURCE_WRITER_UI_CLAIM"
   }
 }

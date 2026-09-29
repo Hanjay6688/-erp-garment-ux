@@ -1,0 +1,17 @@
+{
+  "status": "WRITER_BOUNDED_121_PASS",
+  "source_commit": "79a77bb7bb5da49ac3c89546d3859c69c31c5dbb",
+  "source_tree": "ca37ccd5e8d18c30caaf19e0f9ee3ba912b5a76c",
+  "run_id": 36592088241,
+  "artifact_id": 11044467986,
+  "archive_sha256": "137859051d95ecadb30ad077b115eb5a2c41b1d1bda0231eeab0ef88dec2cc91",
+  "report_sha256": "af60d620ece508246ba552ee5084a3f24945cd9f35f0150502851758daea18e3",
+  "bundle_sha256": "d34acae6754a9e6c390c54696b4b8d7acbf44697723243b249bf79c839344450",
+  "total_pass": 121,
+  "separate_smokes": 3,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_copy_cleanup": true,
+  "independent_acceptance": false,
+  "production_go": false
+}
