@@ -52,7 +52,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Execute the 90-case opening-source/payroll candidate; retain the qualified80-case predecessor. Continue E05 and remaining F03 before authorized F04 takeover.",
+  "next_action": "Qualify multi-input P09 count candidate (125 cases plus3 smokes) and rerun10 P12 opening additions after diagnostic run1 (85PASS/3INCOMPLETE/2NOT_RUN). Retain prior80 separately. Finish remaining F03 before authorized F04 takeover.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -123,7 +123,8 @@
     "source_handoff": "docs/cp7/P12_SOURCE_HANDOFF.md",
     "attendance_write_candidate": "ALL_80_CASES_PASS_BOUNDED_WRITER_QUALIFICATION",
     "attendance_write_verification": "docs/cp7/evidence/p12-attendance/WRITE_RUN17_RECEIPT.json",
-    "opening_payroll_candidate": "docs/cp7/P12_OPENING_PAYROLL_HANDOFF.md"
+    "opening_payroll_candidate": "docs/cp7/P12_OPENING_PAYROLL_HANDOFF.md",
+    "opening_payroll_diagnostic": "docs/cp7/evidence/p12-attendance/OPENING_RUN1_RECEIPT.json"
   },
   "connected_attendance_candidate": {
     "source_commit": "5082fbec159095c3452c14c6ad500839f28a166b",
@@ -143,5 +144,20 @@
       "NOT_RUN": 0
     }
   },
-  "p09_count_feedback_verification": "docs/cp7/evidence/p09-procurement/COUNT_FEEDBACK_VERIFICATION.json"
+  "p09_count_feedback_verification": "docs/cp7/evidence/p09-procurement/COUNT_FEEDBACK_VERIFICATION.json",
+  "p09_multi_input_candidate": {
+    "handoff": "docs/cp7/P09_MATERIAL_COUNT_HANDOFF.md",
+    "status": "IMPLEMENTED_LOCAL_13_PASS_NATIVE_BROWSER_PENDING",
+    "expected_cases": 125,
+    "separate_smokes": 3
+  },
+  "f04_takeover_reference": {
+    "branch": "cp7/f04-planning-20260929",
+    "head": "f6162a9e6f4257d4cab7181c227e7af31d415a07",
+    "handoff": "docs/cp7/f04/HANDOFF.md",
+    "pr": 36,
+    "reported_kernel_source": "08487236b3305727eb4c470ca896e271a911bdaa",
+    "status": "HANDOFF_READ_TAKEOVER_AFTER_F03_COMPLETE_RECHECK_HEAD_FIRST",
+    "independent_acceptance": false
+  }
 }

@@ -75,7 +75,8 @@ def verify(cur,with_review=False,with_settlement=False,with_attendance=False,wit
             assert not cur.execute("select has_function_privilege(%s,'cp7_attendance.apply_command(text,jsonb,uuid,text)','EXECUTE')",(who,)).fetchone()[0]
     return dict(result,cp7_p12_bundle_sha256=hashlib.sha256((attendance.bundle() if with_attendance else settlement.bundle() if with_settlement else review.bundle() if with_review else bundle.bundle()).encode()).hexdigest())
 
-def run(with_review=False,with_settlement=False,with_attendance=False,with_roster=False,with_attendance_write=False,with_opening=False):
+def run(with_review=False,with_settlement=False,with_attendance=False,with_roster=False,with_attendance_write=False,with_opening=False,opening_only=False):
+    with_opening=with_opening or opening_only
     with_attendance_write=with_attendance_write or with_opening
     with_roster=with_roster or with_attendance_write
     with_attendance=with_attendance or with_roster
@@ -121,8 +122,9 @@ def run(with_review=False,with_settlement=False,with_attendance=False,with_roste
         out=OUT.with_name('CP7_P12_ATTENDANCE_WRITE.json')
     if with_opening:
         import cp7_opening_payroll_cases as opening_cases
-        report.update(label='CP7_P12_OPENING_PAYROLL',scope=report['scope']+'_WITH_ACCEPTED_CP6_OPENING_IMPORT_ALLOCATION_PAYROLL_AND_INVERSE',expected_case_count=90)
+        report.update(label='CP7_P12_OPENING_PAYROLL',scope=report['scope']+'_WITH_ACCEPTED_CP6_OPENING_IMPORT_ALLOCATION_PAYROLL_AND_INVERSE',expected_case_count=10 if opening_only else 90,retained_predecessor={'source':'74ae3a1b39b39d878d92bab4604b01cb3a639d16','run':36617726767,'cases':80} if opening_only else None)
         out=OUT.with_name('CP7_P12_OPENING_PAYROLL.json')
+        if opening_only:report['label']='CP7_P12_OPENING_DELTA'
     installed=False
     try:
         with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
@@ -176,36 +178,37 @@ def run(with_review=False,with_settlement=False,with_attendance=False,with_roste
             report['nota_admission_delta']={k:hashlib.sha256(v.encode()).hexdigest() for k,v in [('before',internal_before),('after',internal_after)]}
             conn.commit();installed=True;verifier(cur);conn.rollback()
         report['advisors_with_cp7']=advisors(package.boundary.PG)
-        report['native']=native.strict_group('CP7_P12_NOTA_SOURCE',cases.cases,verifier)
-        report['http']=modes.run_http(cases,verifier,'cp7_p12_nota_source')
-        report['notes']=native.strict_group('CP7_P12_NOTA',notes.cases,verifier)
-        report['note_races']=modes.run_races(notes,verifier,'cp7_p12_nota')
-        report['note_http']=modes.run_http(notes,verifier,'cp7_p12_nota')
-        report['admission_regression']=modes.run_http(p09.cases,verifier,'cp7_p12_p09_admission')
-        report['browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_p12_browser.mjs',verifier,'cp7_p12_nota')
-        if with_review:
-            report['payroll_review']=native.strict_group('CP7_P12_PAYROLL_REVIEW',review_cases.cases,verifier)
-            report['payroll_review_http']=modes.run_http(review_cases,verifier,'cp7_p12_payroll_review')
-            report['payroll_review_browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_p12_payroll_browser.mjs',verifier,'cp7_p12_payroll_review')
-        if with_settlement:
-            report['settlement']=native.strict_group('CP7_P12_SETTLEMENT',settlement_cases.cases,verifier)
-            report['settlement_races']=modes.run_races(settlement_cases,verifier,'cp7_p12_settlement')
-            report['settlement_http']=modes.run_http(settlement_cases,verifier,'cp7_p12_settlement')
-            report['settlement_browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_p12_settlement_browser.mjs',verifier,'cp7_p12_settlement')
-        if with_attendance:
-            report['attendance_read']=native.strict_group('CP7_P12_ATTENDANCE_READ',attendance_cases.cases,verifier)
-            report['attendance_read_http']=modes.run_http(attendance_cases,verifier,'cp7_p12_attendance_read')
-            report['attendance_read_browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_p12_attendance_browser.mjs',verifier,'cp7_p12_attendance_read')
-        if with_roster:
-            report['roster']=native.strict_group('CP7_P12_ROSTER',roster_cases.cases,verifier)
-            report['roster_races']=modes.run_races(roster_cases,verifier,'cp7_p12_roster')
-            report['roster_http']=modes.run_http(roster_cases,verifier,'cp7_p12_roster')
-            report['roster_browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_p12_roster_browser.mjs',verifier,'cp7_p12_roster')
-        if with_attendance_write:
-            report['attendance_write']=native.strict_group('CP7_P12_ATTENDANCE_WRITE',attendance_write_cases.cases,verifier)
-            report['attendance_write_races']=modes.run_races(attendance_write_cases,verifier,'cp7_p12_attendance_write')
-            report['attendance_write_http']=modes.run_http(attendance_write_cases,verifier,'cp7_p12_attendance_write')
-            report['attendance_write_browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_p12_attendance_write_browser.mjs',verifier,'cp7_p12_attendance_write')
+        if not opening_only:
+            report['native']=native.strict_group('CP7_P12_NOTA_SOURCE',cases.cases,verifier)
+            report['http']=modes.run_http(cases,verifier,'cp7_p12_nota_source')
+            report['notes']=native.strict_group('CP7_P12_NOTA',notes.cases,verifier)
+            report['note_races']=modes.run_races(notes,verifier,'cp7_p12_nota')
+            report['note_http']=modes.run_http(notes,verifier,'cp7_p12_nota')
+            report['admission_regression']=modes.run_http(p09.cases,verifier,'cp7_p12_p09_admission')
+            report['browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_p12_browser.mjs',verifier,'cp7_p12_nota')
+            if with_review:
+                report['payroll_review']=native.strict_group('CP7_P12_PAYROLL_REVIEW',review_cases.cases,verifier)
+                report['payroll_review_http']=modes.run_http(review_cases,verifier,'cp7_p12_payroll_review')
+                report['payroll_review_browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_p12_payroll_browser.mjs',verifier,'cp7_p12_payroll_review')
+            if with_settlement:
+                report['settlement']=native.strict_group('CP7_P12_SETTLEMENT',settlement_cases.cases,verifier)
+                report['settlement_races']=modes.run_races(settlement_cases,verifier,'cp7_p12_settlement')
+                report['settlement_http']=modes.run_http(settlement_cases,verifier,'cp7_p12_settlement')
+                report['settlement_browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_p12_settlement_browser.mjs',verifier,'cp7_p12_settlement')
+            if with_attendance:
+                report['attendance_read']=native.strict_group('CP7_P12_ATTENDANCE_READ',attendance_cases.cases,verifier)
+                report['attendance_read_http']=modes.run_http(attendance_cases,verifier,'cp7_p12_attendance_read')
+                report['attendance_read_browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_p12_attendance_browser.mjs',verifier,'cp7_p12_attendance_read')
+            if with_roster:
+                report['roster']=native.strict_group('CP7_P12_ROSTER',roster_cases.cases,verifier)
+                report['roster_races']=modes.run_races(roster_cases,verifier,'cp7_p12_roster')
+                report['roster_http']=modes.run_http(roster_cases,verifier,'cp7_p12_roster')
+                report['roster_browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_p12_roster_browser.mjs',verifier,'cp7_p12_roster')
+            if with_attendance_write:
+                report['attendance_write']=native.strict_group('CP7_P12_ATTENDANCE_WRITE',attendance_write_cases.cases,verifier)
+                report['attendance_write_races']=modes.run_races(attendance_write_cases,verifier,'cp7_p12_attendance_write')
+                report['attendance_write_http']=modes.run_http(attendance_write_cases,verifier,'cp7_p12_attendance_write')
+                report['attendance_write_browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_p12_attendance_write_browser.mjs',verifier,'cp7_p12_attendance_write')
         if with_opening:
             report['opening_payroll']=native.strict_group('CP7_P12_OPENING_PAYROLL',opening_cases.cases,verifier)
             report['opening_payroll_races']=modes.run_races(opening_cases,verifier,'cp7_p12_opening_payroll')
@@ -223,6 +226,7 @@ def run(with_review=False,with_settlement=False,with_attendance=False,with_roste
             report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta']
             report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or (d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and (f.get('metadata') or {}).get('schema') in ('cp7_attendance','cp7_payroll','cp7_fg','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice') for f in d.get('added',[])))
         group_keys=('native','http','notes','note_races','note_http','admission_regression','browser')+(('payroll_review','payroll_review_http','payroll_review_browser') if with_review else ())+(('settlement','settlement_races','settlement_http','settlement_browser') if with_settlement else ())+(('attendance_read','attendance_read_http','attendance_read_browser') if with_attendance else ())+(('roster','roster_races','roster_http','roster_browser') if with_roster else ())+(('attendance_write','attendance_write_races','attendance_write_http','attendance_write_browser') if with_attendance_write else ())
+        if opening_only:group_keys=()
         if with_opening:group_keys+=('opening_payroll','opening_payroll_races','opening_payroll_http','opening_payroll_browser')
         groups=[report.get(k,{}) for k in group_keys]
         report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and all(r.get('status') in ('PASS','RUN_COMPLETE') and set(r.get('counts',{}))=={'PASS'} and r['counts']['PASS']>0 and r.get('database_remaining',0)==0 for r in groups) else 'INCOMPLETE'
@@ -233,6 +237,6 @@ def run(with_review=False,with_settlement=False,with_attendance=False,with_roste
     return dict(status=report['status'],production_go=False,independent_acceptance=False)
 
 if __name__=='__main__':
-    assert sys.argv[1:] in ([],['--payroll-review'],['--settlement'],['--attendance-review'],['--roster'],['--attendance-write'],['--opening-payroll']),'UNKNOWN_P12_PROBE_ARGUMENT'
-    package._writer_runtime=lambda browser_mode=False:run(with_review='--payroll-review' in sys.argv,with_settlement='--settlement' in sys.argv,with_attendance='--attendance-review' in sys.argv,with_roster='--roster' in sys.argv,with_attendance_write='--attendance-write' in sys.argv,with_opening='--opening-payroll' in sys.argv)
+    assert sys.argv[1:] in ([],['--payroll-review'],['--settlement'],['--attendance-review'],['--roster'],['--attendance-write'],['--opening-payroll'],['--opening-delta']),'UNKNOWN_P12_PROBE_ARGUMENT'
+    package._writer_runtime=lambda browser_mode=False:run(with_review='--payroll-review' in sys.argv,with_settlement='--settlement' in sys.argv,with_attendance='--attendance-review' in sys.argv,with_roster='--roster' in sys.argv,with_attendance_write='--attendance-write' in sys.argv,with_opening='--opening-payroll' in sys.argv,opening_only='--opening-delta' in sys.argv)
     package.run('install')

@@ -31,13 +31,25 @@ begin
      'restated_value',(select round(sum(s.qty_signed*s.unit_cost_snapshot),6)::text from erp.material_stock_movements s where s.source_type='MATERIAL_ADJUSTMENT_ITEM' and s.source_id=i.id and s.reversal_of_id is null),
      'basis','CURRENT_RESTATED_DOCUMENT_NOT_STOCK')) else '{}'::jsonb end order by i.id),'[]')
    into items from erp.material_adjustment_items i join erp.materials m on m.id=i.material_id left join erp.material_rolls r on r.id=i.roll_id where i.adjustment_id=chosen;
-  -- The current browser editor preserves one complete physical-count input.
-  -- Larger/imported source bindings remain readable; never drop hidden inputs.
-  if h.status='DRAFT' and jsonb_array_length(proof->'items')=1 and jsonb_array_length(items)=1
-   and (a->'can_value'='true'::jsonb or proof->'items'->0->>'input_unit_cost' is null)
+  -- Edit the complete original input, including zero differences omitted by the
+  -- native adjustment. A user without value access cannot edit priced inputs.
+  if h.status='DRAFT' and jsonb_array_length(proof->'items') between 1 and 100
+   and (a->'can_value'='true'::jsonb or not exists(select 1 from jsonb_array_elements(proof->'items') e where e->>'input_unit_cost' is not null))
    and cp7_material.count_signature(chosen)=(select source_signature from cp7_material.count_documents where adjustment_id=chosen) then
-   editable:=jsonb_build_object('physical_qty',proof->'items'->0->>'physical_qty')
-    ||case when a->'can_value'='true'::jsonb then jsonb_build_object('input_unit_cost',proof->'items'->0->>'input_unit_cost') else '{}'::jsonb end;
+   if jsonb_array_length(proof->'items')=1 and jsonb_array_length(items)=1 then
+    editable:=jsonb_build_object('physical_qty',proof->'items'->0->>'physical_qty')
+     ||case when a->'can_value'='true'::jsonb then jsonb_build_object('input_unit_cost',proof->'items'->0->>'input_unit_cost') else '{}'::jsonb end;
+   else
+    select jsonb_build_object('items',jsonb_agg(jsonb_build_object(
+      'material_id',m.id,'material_sku',m.material_sku,'material_name',m.material_name,'unit_code',m.unit_code,
+      'roll_id',r.id,'roll_number',r.roll_number,'physical_qty',e.value->>'physical_qty','notes',e.value->>'notes')
+      ||case when a->'can_value'='true'::jsonb then jsonb_build_object('input_unit_cost',e.value->>'input_unit_cost') else '{}'::jsonb end
+      order by e.ordinality)) into editable
+    from jsonb_array_elements(proof->'items') with ordinality e
+    join erp.materials m on m.id=(e.value->>'material_id')::uuid
+    left join erp.material_rolls r on r.id=(e.value->>'roll_id')::uuid;
+    if jsonb_array_length(editable->'items') is distinct from jsonb_array_length(proof->'items') then editable:=null;end if;
+   end if;
   end if;
   detail:=cp7_material.count_header(h)||jsonb_build_object('items',items,'edit',editable);
  end if;

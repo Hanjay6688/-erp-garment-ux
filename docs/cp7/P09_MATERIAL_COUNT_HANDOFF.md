@@ -1,5 +1,15 @@
 # P09 material physical counts — bounded writer qualification
 
+## Multi-input continuation — candidate, 30 September 2026 WIB
+
+The connected editor now composes up to100 unique material/roll positions in one warehouse and checks the complete server preview before saving. A different warehouse requires closing the current form. Duplicate selections are disabled, and removing a line invalidates the whole preview. Money and quantities remain exact decimal strings. The editor retains the original document ID, exact bigint version and full original timestamp when its displayed minute is unchanged.
+
+The reader now exposes the entire original input for editable multi-input drafts, including zero-difference rows that the native adjustment correctly omits. It preserves per-line notes and authorized positive-cost inputs. External native changes still disable editing; operational users receive no money fields and cannot edit a draft containing priced inputs. The single-input response remains supported. The native adjustment writer, stock/HPP posting and inverse are unchanged.
+
+Local TypeScript and13 count UI/contract tests pass (9 retained +4 new). Two native additions and two desktop/mobile browser journeys are predeclared: `P09_COUNT_MULTI_EDIT_INVERSE`, `P09_COUNT_MULTI_ACCESS`, `P09_BROWSER_COUNT_MULTI_DESKTOP`, and `P09_BROWSER_COUNT_MULTI_MOBILE_RECOVERY`. They extend the P09 target to **125 cases plus3 separate smokes**, with20 browser cases. The existing forged-input case now checks that the complete two-input editor explicitly retains its zero-difference row; it no longer assumes a single-input editor. The browser creates two inputs, edits the same draft, posts one actual difference, reverses it, and requires both materials and all accounts to return to baseline. Mobile additionally loses a committed two-input SAVE reply and retries the identical request after reload. **Native/browser result is pending; no visual review claimed yet.**
+
+Materials with no movement history at the selected location, the remaining P09 scope, F03 and independent/release acceptance remain open. The previous qualified source below remains separately bound to its receipts.
+
 29 September 2026. F03/P09 remains open. The latest count source `4fae1a0067f7058fb7eaf2b4eaf527028716e8d9` passes109 native/race/HTTP/browser cases plus three separate smokes, including all93 prior P09 cases. It does not close P09, F03, independent acceptance, R10, or production (`production_go=false`). The prior procurement and all-material transfer source `b81a5f607404075929fe74e0dac5608f5fbfe9e4` passed93 cases plus three smokes; its receipt is `UNROLLED_VERIFICATION.json`. `COUNT_VERIFICATION.json` identifies the qualified source, native run, app runs, report/archive hashes and screenshots; earlier failed attempts remain preserved below.
 
 ## Existing rule and authority

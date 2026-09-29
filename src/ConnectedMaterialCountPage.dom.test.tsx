@@ -33,6 +33,22 @@ function server(finance=true){const s={posted:false,lose:false,failRead:false,ef
 });return s}
 async function select(){await act(async()=>container.querySelector<HTMLButtonElement>('.cproc-receipt')!.click());await flush();await check()}
 async function form(){await click('Hitung Kancing');await fill('Nomor hitung fisik','COUNT-NEW');await fill('Waktu hitung WIB','2026-09-29T10:00');await fill('Jumlah fisik bahan','8');await fill('Catatan hitung fisik','Hitung ulang dan foto gudang');await click('Periksa selisih')}
+function multiServer(edit=false){
+ server();const original=client.rpc.getMockImplementation()!
+ const second={...(stock().page.rows[0] as Record<string,unknown>),material_id:doc,material_sku:'ZIP',material_name:'Resleting'}
+ const inputs=[{material_id:id,material_sku:'BUTTON',material_name:'Kancing',unit_code:'PCS',roll_id:null,roll_number:null,physical_qty:'8',notes:'Baris pertama',input_unit_cost:null},
+  {material_id:doc,material_sku:'ZIP',material_name:'Resleting',unit_code:'PCS',roll_id:null,roll_number:null,physical_qty:'10',notes:'Jumlah sesuai',input_unit_cost:null}]
+ client.rpc.mockImplementation(async(name:string,args:Record<string,unknown>)=>{
+  if(name==='erp_cp7_get_materials_v1')return {data:{...stock(),totals_by_unit:[{unit_code:'PCS',qty:'30',quality:'KNOWN'}],page:page([...stock().page.rows,second,{...second,location_id:doc,location_name:'Gudang lain'}])},error:null}
+  if(name==='erp_cp7_get_material_counts_v1'&&edit&&(args.p_query as Record<string,unknown>).adjustment_id){const d=countDocs(true,false,true);return {data:{...d,detail:{...d.detail,edit:{items:inputs}}},error:null}}
+  if(name==='erp_cp7_preview_material_count_v1'){
+   const p=args.p_scope as {physical_at:string;items:{material_id:string;physical_qty:string}[]}
+   return {data:{contract_version:'cp7.material-count-preview.v1',read_at:at,location_id:id,physical_at:p.physical_at,basis:'POSTED_PHYSICAL_AT_COUNT_CURRENT_KNOWLEDGE',items:[...p.items].reverse().map(item=>({...inputs.find(i=>i.material_id===item.material_id)!,notes:undefined,input_unit_cost:undefined,system_qty:'10',physical_qty:item.physical_qty,qty_signed:item.material_id===id?'-2':'0',basis_token:token})).map(({notes:_,input_unit_cost:__,...line})=>line)},error:null}
+  }
+  return original(name,args)
+ })
+ return inputs
+}
 describe('physical count connected boundary',()=>{
  it('submits physical quantity and server basis without any client delta or system balance',async()=>{server();await mount();await form();expect(container.textContent).toContain('selisih -2 PCS');await click('Simpan draft hitung fisik');const sent=writes()[0][1];expect(sent.p_payload.items).toEqual([{material_id:id,roll_id:null,physical_qty:'8',basis_token:token}]);expect(sent.p_expected).toBeNull()})
  it('invalidates review when quantity or physical time changes',async()=>{server();await mount();await form();expect(button('Simpan draft hitung fisik').disabled).toBe(false);await fill('Jumlah fisik bahan','7');expect(button('Simpan draft hitung fisik').disabled).toBe(true);expect(writes()).toHaveLength(0)})
@@ -43,4 +59,29 @@ describe('physical count connected boundary',()=>{
  it('recovers a committed draft that another authorized action subsequently deleted',async()=>{const s=server();await mount();await form();s.lose=true;await click('Simpan draft hitung fisik');const sent=structuredClone(writes()[0][1]);s.lose=false;s.deleted=true;await click('Reconcile transaksi');expect(writes()[1][1]).toEqual(sent);expect(readProductionRecovery('disposable:actor-1').pending.MATERIAL_COUNT).toBeUndefined();expect(container.querySelectorAll('.cproc-receipt')).toHaveLength(0);expect(button('Hitung Kancing').disabled).toBe(false)})
  it('edits the exact draft version and retains its full original timestamp',async()=>{server();await mount();await select();await click('Edit draft hitung fisik');expect((container.querySelector('[aria-label="Jumlah fisik bahan"]') as HTMLInputElement).value).toBe('8');await fill('Catatan hitung fisik','Koreksi catatan setelah hitung ulang');await click('Periksa selisih');await click('Simpan draft hitung fisik');const sent=writes()[0][1];expect(sent.p_expected).toBe('9007199254740993');expect(sent.p_payload.id).toBe(doc);expect(sent.p_payload.physical_at).toBe(at);expect(sent.p_payload.notes).toBe('Koreksi catatan setelah hitung ulang')})
  it('rejects operational money leakage and incomplete document details',()=>{expect(()=>parseCounts(countDocs(true,true,true),false)).toThrow();const d=countDocs(false,false,true);expect(()=>parseCounts({...d,detail:{...d.detail,line_count:'2'}},false)).toThrow();expect(()=>parseCountPreview({items:[]})).toThrow()})
+ it('preserves two physical inputs including zero difference and matches preview by source rather than order',async()=>{
+  multiServer();await mount();await click('Hitung Kancing');await fill('Jumlah fisik bahan','8')
+  const other=[...container.querySelectorAll('.cmat-roll')].find(row=>row.textContent?.includes('Gudang lain'))!;expect(other.querySelector('button')!.disabled).toBe(true)
+  await click('Hitung Resleting');await fill('Jumlah fisik Resleting ZIP','10');await fill('Nomor hitung fisik','COUNT-MULTI');await fill('Waktu hitung WIB','2026-09-29T10:00');await fill('Catatan hitung fisik','Dua posisi dihitung');await click('Periksa selisih')
+  expect(container.querySelectorAll('.cmat-count-input')).toHaveLength(2);expect(container.textContent).toContain('Hasil hitung tetap disimpan tanpa mutasi penyesuaian.')
+  await click('Simpan draft hitung fisik');expect(writes()[0][1].p_payload.items).toEqual([{material_id:id,roll_id:null,physical_qty:'8',basis_token:token},{material_id:doc,roll_id:null,physical_qty:'10',basis_token:token}])
+ })
+ it('reopens all original inputs and preserves zero-count notes and exact document timestamp on edit',async()=>{
+  multiServer(true);await mount();await select();await click('Edit draft hitung fisik');expect(container.querySelectorAll('.cmat-count-input')).toHaveLength(2)
+  expect((container.querySelector('[aria-label="Jumlah fisik Resleting ZIP"]') as HTMLInputElement).value).toBe('10')
+  await click('Periksa selisih');await click('Simpan draft hitung fisik');const sent=writes()[0][1]
+  expect(sent.p_payload.physical_at).toBe(at);expect(sent.p_expected).toBe('9007199254740993');expect(sent.p_payload.items).toHaveLength(2);expect(sent.p_payload.items[1]).toMatchObject({physical_qty:'10',notes:'Jumlah sesuai'})
+ })
+ it('invalidates the entire review after removing a counted source',async()=>{
+  multiServer(true);await mount();await select();await click('Edit draft hitung fisik');await click('Periksa selisih');expect(button('Simpan draft hitung fisik').disabled).toBe(false)
+  await act(async()=>container.querySelector<HTMLButtonElement>('[aria-label="Lepas Resleting ZIP dari pemeriksaan"]')!.click());await flush()
+  expect(container.querySelectorAll('.cmat-count-input')).toHaveLength(1);expect(button('Simpan draft hitung fisik').disabled).toBe(true);expect(writes()).toHaveLength(0)
+ })
+ it('refuses duplicate, missing or financially unredacted editable source inputs',()=>{
+  const inputs=multiServer(true),d=countDocs(true,false,true),detail={...d.detail,edit:{items:inputs}}
+  expect(()=>parseCounts({...d,detail},true)).not.toThrow()
+  expect(()=>parseCounts({...d,detail:{...detail,edit:{items:[inputs[1]]}}},true)).toThrow()
+  expect(()=>parseCounts({...d,detail:{...detail,edit:{items:[...inputs,inputs[1]]}}},true)).toThrow()
+  const ops=countDocs(false,false,true);expect(()=>parseCounts({...ops,detail:{...ops.detail,edit:{items:inputs}}},false)).toThrow()
+ })
 })

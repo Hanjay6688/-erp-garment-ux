@@ -1,5 +1,6 @@
 import { execFileSync } from 'node:child_process'
 import { mkdirSync } from 'node:fs'
+import assert from 'node:assert/strict'
 const fixture = (op,payload) => JSON.parse(execFileSync('python',['../auditor/scripts/cp7_p09_browser_fixture.py',op,JSON.stringify(payload)],{cwd:'../writer',encoding:'utf8'}).trim())
 async function openPage(ui,p,materials=false) {
  const menu=p.getByRole('button',{name:'Buka menu',exact:true})
@@ -268,7 +269,7 @@ async function purchaseUom(ui,today,mobile){
   return {status:'PASS',mobile,unit,purchase_quantity:quantity,price_per_purchase_unit:price,base_stock:stock,value,real_ui_auth_rpc_database:true,draft_edit_preserves_entered_units:true,recovery_identical_request:mobile?true:null,screenshot:`P09_UOM_${mobile?'MOBILE':'DESKTOP'}.png`}
  }finally{await user.context.close()}
 }
-export async function cases(ui,today){return [['P09_BROWSER_RECEIPT_DESKTOP',()=>receipt(ui,today,false)],['P09_BROWSER_LOST_REPLY_MOBILE',()=>receipt(ui,today,true)],['P09_BROWSER_TRANSFER_DESKTOP',()=>transfer(ui,today,false)],['P09_BROWSER_TRANSFER_LOST_REPLY_MOBILE',()=>transfer(ui,today,true)],['P09_BROWSER_INVOICE_DESKTOP',()=>supplierInvoice(ui,today,false)],['P09_BROWSER_INVOICE_LOST_REPLY_MOBILE',()=>supplierInvoice(ui,today,true)],['P09_BROWSER_RETURN_CREDIT_DESKTOP',()=>supplierReturn(ui,today,false)],['P09_BROWSER_RETURN_CREDIT_LOST_REPLY_MOBILE',()=>supplierReturn(ui,today,true)],['P09_BROWSER_RECEIPT_REVERSE_DESKTOP',()=>receiptReversal(ui,today,false)],['P09_BROWSER_RECEIPT_REVERSE_LOST_REPLY_MOBILE',()=>receiptReversal(ui,today,true)],['P09_BROWSER_UOM_DESKTOP',()=>purchaseUom(ui,today,false)],['P09_BROWSER_UOM_LOST_DRAFT_REPLY_MOBILE',()=>purchaseUom(ui,today,true)],['P09_BROWSER_ACCESSORY_TRANSFER_DESKTOP',()=>transfer(ui,today,false,'ACCESSORY')],['P09_BROWSER_OTHER_TRANSFER_MOBILE',()=>transfer(ui,today,true,'OTHER')],['P09_BROWSER_COUNT_DESKTOP',()=>materialCount(ui,today,false)],['P09_BROWSER_COUNT_LOST_REPLY_MOBILE',()=>materialCount(ui,today,true)],['P09_BROWSER_COMBINED_INVOICE_DESKTOP',()=>combinedInvoice(ui,today,false)],['P09_BROWSER_COMBINED_INVOICE_LOST_REPLY_MOBILE',()=>combinedInvoice(ui,today,true)]]}
+export async function cases(ui,today){return [['P09_BROWSER_RECEIPT_DESKTOP',()=>receipt(ui,today,false)],['P09_BROWSER_LOST_REPLY_MOBILE',()=>receipt(ui,today,true)],['P09_BROWSER_TRANSFER_DESKTOP',()=>transfer(ui,today,false)],['P09_BROWSER_TRANSFER_LOST_REPLY_MOBILE',()=>transfer(ui,today,true)],['P09_BROWSER_INVOICE_DESKTOP',()=>supplierInvoice(ui,today,false)],['P09_BROWSER_INVOICE_LOST_REPLY_MOBILE',()=>supplierInvoice(ui,today,true)],['P09_BROWSER_RETURN_CREDIT_DESKTOP',()=>supplierReturn(ui,today,false)],['P09_BROWSER_RETURN_CREDIT_LOST_REPLY_MOBILE',()=>supplierReturn(ui,today,true)],['P09_BROWSER_RECEIPT_REVERSE_DESKTOP',()=>receiptReversal(ui,today,false)],['P09_BROWSER_RECEIPT_REVERSE_LOST_REPLY_MOBILE',()=>receiptReversal(ui,today,true)],['P09_BROWSER_UOM_DESKTOP',()=>purchaseUom(ui,today,false)],['P09_BROWSER_UOM_LOST_DRAFT_REPLY_MOBILE',()=>purchaseUom(ui,today,true)],['P09_BROWSER_ACCESSORY_TRANSFER_DESKTOP',()=>transfer(ui,today,false,'ACCESSORY')],['P09_BROWSER_OTHER_TRANSFER_MOBILE',()=>transfer(ui,today,true,'OTHER')],['P09_BROWSER_COUNT_DESKTOP',()=>materialCount(ui,today,false)],['P09_BROWSER_COUNT_LOST_REPLY_MOBILE',()=>materialCount(ui,today,true)],['P09_BROWSER_COMBINED_INVOICE_DESKTOP',()=>combinedInvoice(ui,today,false)],['P09_BROWSER_COMBINED_INVOICE_LOST_REPLY_MOBILE',()=>combinedInvoice(ui,today,true)],['P09_BROWSER_COUNT_MULTI_DESKTOP',()=>materialCountMulti(ui,today,false)],['P09_BROWSER_COUNT_MULTI_MOBILE_RECOVERY',()=>materialCountMulti(ui,today,true)]]}
 
 async function materialCount(ui,today,mobile){
  const f=fixture('create_count',{today,mobile}),user=await ui.login('OWNER',{label:'cp7-material-count-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'})
@@ -345,5 +346,50 @@ async function combinedInvoice(ui,today,mobile){
   await panel.getByLabel('Konfirmasi pembatalan invoice',{exact:true}).check();await panel.getByRole('button',{name:'Batalkan invoice supplier',exact:true}).click();await ui.expect(panel).toContainText('Invoice dibatalkan')
   read=fixture('read_combined_invoice',f);if(JSON.stringify(read.ledger)!==JSON.stringify(f.ledger_before)||read.receipts.some(r=>Number(r.ap)!==0||Number(r.grni)!==100||Number(r.qty)!==10||Number(r.value)!==100))throw Error('Combined invoice inverse did not restore both receipts/accounts')
   return {status:'PASS',mobile,real_ui_auth_rpc_database:true,complete_receipts:2,draft_edit_preserves_id_time_money:true,ap:[50,45],grni:[60,40],stock_values:[110,85],all_accounts_restored:true,recovery_identical_request:mobile?true:null,screenshot:`P09_COMBINED_INVOICE_${mobile?'MOBILE':'DESKTOP'}.png`}
+ }finally{await user.context.close()}
+}
+
+async function materialCountMulti(ui,today,mobile){
+ const f=fixture('create_count_multi',{today}),user=await ui.login('OWNER',{label:'cp7-count-multi-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'})
+ const label=x=>x.material_name+' '+x.material_code
+ try{
+  const p=user.page;await openPage(ui,p,'count')
+  for(const item of [f,f.other]){
+   await p.getByLabel('Cari bahan hitung fisik',{exact:true}).fill(item.material_code);await p.getByRole('button',{name:'Cari bahan',exact:true}).click()
+   const card=p.locator('.cmat-roll').filter({hasText:item.material_code}).filter({hasText:f.location_name});await ui.expect(card).toHaveCount(1)
+   await card.getByRole('button',{name:'Hitung '+item.material_name,exact:true}).click()
+  }
+  const form=p.locator('.cmat-count-form');await ui.expect(form.locator('.cmat-count-input')).toHaveCount(2)
+  await p.getByLabel('Nomor hitung fisik',{exact:true}).fill(f.tag+'-COUNT-UI');await p.getByLabel('Waktu hitung WIB',{exact:true}).fill(f.count_day+'T10:00')
+  await p.getByLabel('Jumlah fisik '+label(f),{exact:true}).fill(mobile?'12':'8');await p.getByLabel('Jumlah fisik '+label(f.other),{exact:true}).fill('10')
+  await p.getByLabel('Catatan hitung fisik',{exact:true}).fill('Dua bahan diperiksa; satu jumlah sesuai tetap tercatat')
+  await p.getByRole('button',{name:'Periksa selisih',exact:true}).click();await ui.expect(form).toContainText('Hasil hitung tetap disimpan tanpa mutasi penyesuaian.')
+  if(mobile)await p.getByLabel('Harga satuan hasil hitung '+label(f),{exact:true}).fill('10')
+  let first=null,replay=null,lost=false
+  if(mobile)await p.route('**/rest/v1/rpc/erp_cp7_save_material_count_v1',async route=>{
+   const body=route.request().postDataJSON()
+   if(body.p_action==='SAVE'&&!lost){first=body;const response=await route.fetch();assert.equal(response.status(),200);lost=true;await route.abort('failed')}
+   else{if(body.p_action==='SAVE'&&replay===null)replay=body;await route.continue()}
+  })
+  await p.getByRole('button',{name:'Simpan draft hitung fisik',exact:true}).click();await ui.expect.poll(()=>fixture('read_count',f).document?.status).toBe('DRAFT')
+  if(mobile){
+   await ui.expect(p.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeVisible();await p.reload();await openPage(ui,p,'count')
+   await p.getByRole('button',{name:'Reconcile transaksi',exact:true}).click();await ui.expect(p.getByRole('button',{name:'Reconcile transaksi',exact:true})).toHaveCount(0);assert.ok(lost);assert.deepEqual(replay,first)
+  }
+  let actual=fixture('read_count',f);const original=actual.document;assert.equal(actual.input_count,2);assert.equal(original.items.length,1);assert.equal(Number(actual.qty),10);assert.equal(Number(actual.other_qty),10);assert.deepEqual(actual.ledger,f.ledger_before)
+  await p.getByRole('button',{name:'Edit draft hitung fisik',exact:true}).click();await ui.expect(form.locator('.cmat-count-input')).toHaveCount(2)
+  await ui.expect(p.getByLabel('Jumlah fisik '+label(f.other),{exact:true})).toHaveValue('10')
+  await p.getByLabel('Jumlah fisik '+label(f),{exact:true}).fill(mobile?'13':'7');await p.getByRole('button',{name:'Periksa selisih',exact:true}).click()
+  if(mobile)await ui.expect(p.getByLabel('Harga satuan hasil hitung '+label(f),{exact:true})).toHaveValue('10')
+  await ui.expect.poll(()=>form.evaluate(el=>{const b=el.getBoundingClientRect();return b.left>=0&&b.right<=innerWidth+1&&document.documentElement.scrollWidth<=innerWidth+1})).toBe(true)
+  mkdirSync('cp6-proof/t3',{recursive:true});await p.screenshot({path:`cp6-proof/t3/P09_COUNT_MULTI_${mobile?'MOBILE':'DESKTOP'}.png`,fullPage:true})
+  await p.getByRole('button',{name:'Simpan draft hitung fisik',exact:true}).click();await ui.expect(form).toHaveCount(0)
+  actual=fixture('read_count',f);assert.equal(actual.document.id,original.id);assert.equal(actual.document.physical_at,original.physical_at);assert.ok(BigInt(actual.document.version)>BigInt(original.version));assert.equal(actual.input_count,2)
+  await p.getByLabel('Saya sudah memeriksa jumlah dan alasan tindakan ini.',{exact:true}).check();await p.getByRole('button',{name:'Sahkan hitung fisik',exact:true}).click()
+  await ui.expect.poll(()=>fixture('read_count',f).document?.status).toBe('POSTED');actual=fixture('read_count',f);assert.equal(Number(actual.qty),mobile?13:7);assert.equal(Number(actual.other_qty),10);assert.equal(actual.document.items.length,1);assert.equal(actual.input_count,2)
+  await ui.expect(p.locator('.cmat-count-detail')).toContainText('Penyesuaian stok sudah disahkan.')
+  await p.getByLabel('Saya sudah memeriksa jumlah dan alasan tindakan ini.',{exact:true}).check();await p.getByRole('button',{name:'Batalkan hitung fisik',exact:true}).click()
+  await ui.expect.poll(()=>fixture('read_count',f).document?.status).toBe('REVERSED');actual=fixture('read_count',f);assert.equal(Number(actual.qty),10);assert.equal(Number(actual.other_qty),10);assert.deepEqual(actual.ledger,f.ledger_before)
+  return {status:'PASS',mobile,ordinary_multi_input_browser_save_edit_post_reverse:true,zero_difference_input_preserved:true,native_movement_count:1,physical_inputs:2,edited_quantity:mobile?'13':'7',original_document_time_retained:true,price_preserved:mobile,exact_lost_save_reply:mobile?true:null,final_stock_and_all_accounts_restored:true,screenshot:`P09_COUNT_MULTI_${mobile?'MOBILE':'DESKTOP'}.png`}
  }finally{await user.context.close()}
 }

@@ -4,7 +4,8 @@ export type CountPreviewLine = { material_id:string; material_sku:string; materi
 export type CountPreview = { contract_version:'cp7.material-count-preview.v1'; read_at:string; location_id:string; physical_at:string; basis:'POSTED_PHYSICAL_AT_COUNT_CURRENT_KNOWLEDGE'; items:CountPreviewLine[] }
 export type CountRow = { id:string; number:string; location_id:string|null; location_name:string|null; physical_at:string; reason_code:string; status:'DRAFT'|'POSTED'|'REVERSED'; row_version:string; notes:string|null; managed_count:boolean; line_count:string }
 export type CountItem = { id:string; material_id:string; material_sku:string; material_name:string; unit_code:string; roll_id:string|null; roll_number:string|null; qty_signed:string; physical_qty:string|null; notes:string|null; valuation?:{input_unit_cost:string|null;restated_value:string|null;basis:'CURRENT_RESTATED_DOCUMENT_NOT_STOCK'} }
-export type CountDetail = CountRow & {items:CountItem[];edit:{physical_qty:string;input_unit_cost?:string|null}|null}
+export type CountEditItem = Pick<CountItem,'material_id'|'material_sku'|'material_name'|'unit_code'|'roll_id'|'roll_number'|'notes'> & {physical_qty:string;input_unit_cost?:string|null}
+export type CountDetail = CountRow & {items:CountItem[];edit:{physical_qty:string;input_unit_cost?:string|null}|{items:CountEditItem[]}|null}
 export type CountWorkspace = {contract_version:'cp7.material-counts.v1';read_at:string;financial_captured:boolean;capabilities:{adjust:boolean;reverse:boolean};page:MaterialPage<CountRow>;detail:CountDetail|null}
 const fail=():never=>{throw Error('Data hitung fisik belum lengkap. Muat ulang sebelum melanjutkan.')}
 const text=(v:unknown):v is string=>typeof v==='string'
@@ -37,7 +38,21 @@ export function parseCounts(v:unknown,finance:boolean):CountWorkspace {
   const keys=(d.items as unknown[]).map(v=>{const r=closed(v,['id','material_id','material_sku','material_name','unit_code','roll_id','roll_number','qty_signed','physical_qty','notes',...(finance?['valuation']:[])]);if(!id(r.id)||!id(r.material_id)||r.roll_id!==null&&!id(r.roll_id)||!nullable(r.roll_number)||![r.material_sku,r.material_name,r.unit_code].every(text)||!exact(r.qty_signed)||r.physical_qty!==null&&!exact(r.physical_qty)||!nullable(r.notes))fail()
    if(finance){const a=closed(r.valuation,['input_unit_cost','restated_value','basis']);if(a.basis!=='CURRENT_RESTATED_DOCUMENT_NOT_STOCK'||a.input_unit_cost!==null&&!exact(a.input_unit_cost)||a.restated_value!==null&&!exact(a.restated_value))fail()}return r.id})
   if(new Set(keys).size!==keys.length)fail()
-  if(d.edit!==null){const e=closed(d.edit,['physical_qty',...(finance?['input_unit_cost']:[])]);if(d.status!=='DRAFT'||!d.managed_count||keys.length!==1||!exact(e.physical_qty)||e.physical_qty.startsWith('-')||finance&&e.input_unit_cost!==null&&!exact(e.input_unit_cost))fail()}
+  if(d.edit!==null){
+   if(d.status!=='DRAFT'||!d.managed_count)fail()
+   const edit=materialObject(d.edit)
+   if('items' in edit){
+    const e=closed(edit,['items']);if(!Array.isArray(e.items)||!e.items.length||e.items.length>100)fail()
+    const inputKeys=(e.items as unknown[]).map(v=>{
+     const r=closed(v,['material_id','material_sku','material_name','unit_code','roll_id','roll_number','physical_qty','notes',...(finance?['input_unit_cost']:[])])
+     if(!id(r.material_id)||r.roll_id!==null&&!id(r.roll_id)||!nullable(r.roll_number)||![r.material_sku,r.material_name,r.unit_code].every(text)||!nullable(r.notes)||!exact(r.physical_qty)||r.physical_qty.startsWith('-')||finance&&r.input_unit_cost!==null&&!exact(r.input_unit_cost))fail()
+     return `${r.material_id}:${r.roll_id}`
+    })
+    const nativeKeys=(d.items as unknown[]).map(v=>{const r=materialObject(v);return `${r.material_id}:${r.roll_id}`})
+    if(new Set(inputKeys).size!==inputKeys.length||new Set(nativeKeys).size!==nativeKeys.length)fail()
+    for(const item of d.items as unknown[]){const i=materialObject(item),source=(e.items as unknown[]).map(materialObject).find(r=>r.material_id===i.material_id&&r.roll_id===i.roll_id);if(!source||source.physical_qty!==i.physical_qty||source.unit_code!==i.unit_code)fail()}
+   }else{const e=closed(edit,['physical_qty',...(finance?['input_unit_cost']:[])]);if(keys.length!==1||!exact(e.physical_qty)||e.physical_qty.startsWith('-')||finance&&e.input_unit_cost!==null&&!exact(e.input_unit_cost))fail()}
+  }
  }
  return w as unknown as CountWorkspace
 }

@@ -40,6 +40,12 @@ def main():
             for source in (payload,payload['other']):
                 ap,grni,qty,cost=invoice.amounts(cur,source);rows.append(dict(ap=str(ap),grni=str(grni),qty=str(qty),value=str(qty*cost)))
             out=dict(receipts=rows,documents=invoice.read(cur,payload['receipt']['purchase_id'])['page']['rows'],ledger=reversal.net_ledger(cur));conn.rollback()
+        elif sys.argv[1]=='create_count_multi':
+            f,g=counts.multi_fixture(cur,date.fromisoformat(payload['today']))
+            for item in (f,g):
+                item['material_code'],item['unit'],item['material_name']=cur.execute('select material_sku,unit_code,material_name from erp.materials where id=%s',(item['material'],)).fetchone()
+            f['location_name']=cur.execute('select location_name from erp.locations where id=%s',(f['location'],)).fetchone()[0]
+            f['other']=g;f['count_day']=str(f['day']+timedelta(days=2));f['ledger_before']=reversal.net_ledger(cur);out=f;conn.commit()
         elif sys.argv[1]=='create_count':
             f=(unrolled.fixture if payload['mobile'] else material.fixture)(cur,date.fromisoformat(payload['today']))
             f['material_code'],f['unit'],f['material_name']=cur.execute('select material_sku,unit_code,material_name from erp.materials where id=%s',(f['material'],)).fetchone()
@@ -49,7 +55,9 @@ def main():
             out=dict(qty=str(cur.execute('select coalesce(sum(qty_signed),0) from erp.material_stock_movements where material_id=%s',(payload['material'],)).fetchone()[0]),
                 movements=cur.execute('select count(*) from erp.material_stock_movements where material_id=%s',(payload['material'],)).fetchone()[0],ledger=reversal.net_ledger(cur),document=None)
             if h:
-                d=counts.read(cur,str(h[0]))['detail'];out['document']=dict(id=str(h[0]),status=h[1],version=str(h[2]),physical_at=h[3].isoformat(),items=d['items'])
+                d=counts.read(cur,str(h[0]))['detail'];out['document']=dict(id=str(h[0]),status=h[1],version=str(h[2]),physical_at=h[3].isoformat(),items=d['items'],edit=d['edit'])
+                out['input_count']=cur.execute("select jsonb_array_length(input->'items') from cp7_material.count_documents where adjustment_id=%s",(h[0],)).fetchone()[0]
+            if payload.get('other'):out['other_qty']=str(cur.execute('select coalesce(sum(qty_signed),0) from erp.material_stock_movements where material_id=%s and location_id=%s',(payload['other']['material'],payload['location'])).fetchone()[0])
             conn.rollback()
         elif sys.argv[1]=='create_transfer_unrolled':
             f=unrolled.fixture(cur,date.fromisoformat(payload['today']),payload['kind'])

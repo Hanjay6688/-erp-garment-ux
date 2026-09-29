@@ -1,0 +1,316 @@
+{
+  "schema_version": "cp7.writer-verification.v1",
+  "status": "INCOMPLETE",
+  "source_commit": "74ae3a1b39b39d878d92bab4604b01cb3a639d16",
+  "source_tree": "50291e7b17326e5ce1fe933cd8926d0d6ec7f64a",
+  "run_id": 36617726767,
+  "job_id": 109575045273,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36617726767",
+  "artifact_id": 11057905865,
+  "artifact_sha256": "af476a738e37d2ff57da664e27c6c3715506041b214307c1fad4c64fff95fd8e",
+  "artifact_bytes": 6456328,
+  "report_sha256": "1227228cd162047f9c7b2bba1933c8f59ec18918fb6e24d90b996a97409144f0",
+  "report_gzip_sha256": "80bfc886ba2b0a53980999ae220312c2d67208af48a95325b00dee0922597b0c",
+  "source_bundle_sha256": "820ce4b5f3b36b63117ea88524beb47990bb0d6354306f71ea4f480387fbef3e",
+  "counts": {
+    "PASS": 85,
+    "FAIL": 0,
+    "INCOMPLETE": 3,
+    "NOT_RUN": 2
+  },
+  "planned_total": 90,
+  "groups": {
+    "native": {
+      "counts": {
+        "PASS": 5
+      },
+      "status": "PASS",
+      "error": null,
+      "database_remaining": null,
+      "cleanup_failures": null
+    },
+    "http": {
+      "counts": {
+        "PASS": 1
+      },
+      "status": "RUN_COMPLETE",
+      "error": null,
+      "database_remaining": 0,
+      "cleanup_failures": false
+    },
+    "notes": {
+      "counts": {
+        "PASS": 7
+      },
+      "status": "PASS",
+      "error": null,
+      "database_remaining": null,
+      "cleanup_failures": null
+    },
+    "note_races": {
+      "counts": {
+        "PASS": 3
+      },
+      "status": "RUN_COMPLETE",
+      "error": null,
+      "database_remaining": 0,
+      "cleanup_failures": null
+    },
+    "note_http": {
+      "counts": {
+        "PASS": 1
+      },
+      "status": "RUN_COMPLETE",
+      "error": null,
+      "database_remaining": 0,
+      "cleanup_failures": false
+    },
+    "admission_regression": {
+      "counts": {
+        "PASS": 1
+      },
+      "status": "RUN_COMPLETE",
+      "error": null,
+      "database_remaining": 0,
+      "cleanup_failures": false
+    },
+    "browser": {
+      "counts": {
+        "PASS": 2
+      },
+      "status": "RUN_COMPLETE",
+      "error": null,
+      "database_remaining": 0,
+      "cleanup_failures": false
+    },
+    "payroll_review": {
+      "counts": {
+        "PASS": 4
+      },
+      "status": "PASS",
+      "error": null,
+      "database_remaining": null,
+      "cleanup_failures": null
+    },
+    "payroll_review_http": {
+      "counts": {
+        "PASS": 1
+      },
+      "status": "RUN_COMPLETE",
+      "error": null,
+      "database_remaining": 0,
+      "cleanup_failures": false
+    },
+    "payroll_review_browser": {
+      "counts": {
+        "PASS": 2
+      },
+      "status": "RUN_COMPLETE",
+      "error": null,
+      "database_remaining": 0,
+      "cleanup_failures": false
+    },
+    "settlement": {
+      "counts": {
+        "PASS": 7
+      },
+      "status": "PASS",
+      "error": null,
+      "database_remaining": null,
+      "cleanup_failures": null
+    },
+    "settlement_races": {
+      "counts": {
+        "PASS": 4
+      },
+      "status": "RUN_COMPLETE",
+      "error": null,
+      "database_remaining": 0,
+      "cleanup_failures": null
+    },
+    "settlement_http": {
+      "counts": {
+        "PASS": 1
+      },
+      "status": "RUN_COMPLETE",
+      "error": null,
+      "database_remaining": 0,
+      "cleanup_failures": false
+    },
+    "settlement_browser": {
+      "counts": {
+        "PASS": 3
+      },
+      "status": "RUN_COMPLETE",
+      "error": null,
+      "database_remaining": 0,
+      "cleanup_failures": false
+    },
+    "attendance_read": {
+      "counts": {
+        "PASS": 6
+      },
+      "status": "PASS",
+      "error": null,
+      "database_remaining": null,
+      "cleanup_failures": null
+    },
+    "attendance_read_http": {
+      "counts": {
+        "PASS": 1
+      },
+      "status": "RUN_COMPLETE",
+      "error": null,
+      "database_remaining": 0,
+      "cleanup_failures": false
+    },
+    "attendance_read_browser": {
+      "counts": {
+        "PASS": 2
+      },
+      "status": "RUN_COMPLETE",
+      "error": null,
+      "database_remaining": 0,
+      "cleanup_failures": false
+    },
+    "roster": {
+      "counts": {
+        "PASS": 6
+      },
+      "status": "PASS",
+      "error": null,
+      "database_remaining": null,
+      "cleanup_failures": null
+    },
+    "roster_races": {
+      "counts": {
+        "PASS": 3
+      },
+      "status": "RUN_COMPLETE",
+      "error": null,
+      "database_remaining": 0,
+      "cleanup_failures": null
+    },
+    "roster_http": {
+      "counts": {
+        "PASS": 1
+      },
+      "status": "RUN_COMPLETE",
+      "error": null,
+      "database_remaining": 0,
+      "cleanup_failures": false
+    },
+    "roster_browser": {
+      "counts": {
+        "PASS": 2
+      },
+      "status": "RUN_COMPLETE",
+      "error": null,
+      "database_remaining": 0,
+      "cleanup_failures": false
+    },
+    "attendance_write": {
+      "counts": {
+        "PASS": 10
+      },
+      "status": "PASS",
+      "error": null,
+      "database_remaining": null,
+      "cleanup_failures": null
+    },
+    "attendance_write_races": {
+      "counts": {
+        "PASS": 4
+      },
+      "status": "RUN_COMPLETE",
+      "error": null,
+      "database_remaining": 0,
+      "cleanup_failures": null
+    },
+    "attendance_write_http": {
+      "counts": {
+        "PASS": 1
+      },
+      "status": "RUN_COMPLETE",
+      "error": null,
+      "database_remaining": 0,
+      "cleanup_failures": false
+    },
+    "attendance_write_browser": {
+      "counts": {
+        "PASS": 2
+      },
+      "status": "RUN_COMPLETE",
+      "error": null,
+      "database_remaining": 0,
+      "cleanup_failures": false
+    },
+    "opening_payroll": {
+      "counts": {
+        "PASS": 5
+      },
+      "status": "PASS",
+      "error": null,
+      "database_remaining": null,
+      "cleanup_failures": null
+    },
+    "opening_payroll_races": {
+      "counts": {},
+      "status": "INCOMPLETE",
+      "error": "module 'cp7_opening_payroll_cases' has no attribute 'races'",
+      "database_remaining": 0,
+      "cleanup_failures": null
+    },
+    "opening_payroll_http": {
+      "counts": {
+        "INCOMPLETE": 1
+      },
+      "status": "INCOMPLETE",
+      "error": null,
+      "database_remaining": 0,
+      "cleanup_failures": false
+    },
+    "opening_payroll_browser": {
+      "counts": {
+        "INCOMPLETE": 2
+      },
+      "status": "INCOMPLETE",
+      "error": null,
+      "database_remaining": 0,
+      "cleanup_failures": false
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "74ae3a1b39b39d878d92bab4604b01cb3a639d16",
+    "product_ref": "287f44c3c63fc9c9eb94e48d87de9a6d837e2380",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36617726767",
+    "run_attempt": "1",
+    "workflow": "CP7 P12 Nota and payroll lifecycle",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "74ae3a1b39b39d878d92bab4604b01cb3a639d16",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "observations": [
+    "All80 retained cases and five new native opening/payroll cases pass.",
+    "Two new races not run: module named race_cases instead of inherited races entry point.",
+    "Auth replay refusal expected403 incorrectly; accepted CP6 require_owner_admin uses P0001/HTTP400. Rerun checks exact message and unchanged allocation.",
+    "Both browser journeys stop before opening entitlement is created. Diagnostic read masked the original failure; original UI error must be captured on rerun. Root cause remains unresolved."
+  ],
+  "next_run_scope": "Ten opening additions only; prior80 stay source-bound to this run, not relabeled as executed at the next SHA.",
+  "visual_review": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

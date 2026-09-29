@@ -30,6 +30,19 @@ def read(cur,ident=None,subject=None,**query):return rpc(cur,'erp_cp7_get_materi
 def qty(cur,f):return material.balances(cur,f)[f['location']]
 def ledger(cur):return cur.execute("select account_id,sum(debit-credit) from erp.journal_lines group by account_id having sum(debit-credit)<>0 order by account_id").fetchall()
 
+def multi_fixture(cur,today):
+    f=raw.fixture(cur,today);other=raw.fixture(cur,today)
+    transfer,_=material.draft(cur,other,'10',dest=f['location'],at=aa.at(f['day']+timedelta(days=1),10).isoformat());material.post(cur,transfer)
+    other['location']=f['location']
+    return f,other
+
+def reviewed_items(cur,p):
+    observed=preview(cur,{k:p[k] for k in ('location_id','physical_at','items')})['items']
+    for item in p['items']:
+        match=next(r for r in observed if (r['material_id'],r['roll_id'])==(item['material_id'],item['roll_id']))
+        item['basis_token']=match['basis_token']
+    return p
+
 def cases(cur,today):
     def lifecycle(kind):
         f=material.fixture(cur,today) if kind=='FABRIC' else raw.fixture(cur,today)
@@ -66,8 +79,9 @@ def cases(cur,today):
         other=raw.fixture(cur,today);extra=dict(material_id=other['material'],roll_id=None,physical_qty='0')
         extra['basis_token']=preview(cur,dict(location_id=f['location'],physical_at=p['physical_at'],items=[extra]))['items'][0]['basis_token']
         multi=copy.deepcopy(p);multi['items'].append(extra);d=command(cur,'SAVE',multi);detail=read(cur,d['adjustment_id'])['detail']
-        assert len(detail['items'])==1 and detail['edit'] is None
-        return dict(status='PASS',no_client_delta_or_system_balance=True,exact_physical_quantity=True,duplicate_and_zero_and_missing_cost_atomic=True,hidden_zero_input_never_dropped_by_single_editor=True)
+        assert len(detail['items'])==1 and len(detail['edit']['items'])==2
+        assert {r['material_id']:r['physical_qty'] for r in detail['edit']['items']}=={f['material']:'8',other['material']:'0'}
+        return dict(status='PASS',no_client_delta_or_system_balance=True,exact_physical_quantity=True,duplicate_and_zero_and_missing_cost_atomic=True,complete_edit_preserves_zero_input=True)
     def changed_native():
         f=material.fixture(cur,today);d,p=draft(cur,f)
         cur.execute("select erp.save_material_adjustment_draft_v2(%s,%s,%s)",(json.dumps(dict(id=d['adjustment_id'],change_reason='P09 legacy draft modification',items=[dict(material_id=f['material'],roll_id=f['roll'],qty_signed='-1')])),uuid.uuid4(),int(d['row_version'])))
@@ -115,9 +129,30 @@ def cases(cur,today):
             r=read(cur,q=f['tag'],offset=offset,limit=1);assert r['page']['total']=='3';seen.append(r['page']['rows'][0]['id'])
         assert len(set(seen))==3
         return dict(status='PASS',complete_native_document_pages=3)
+    def multi_cycle():
+        f,g=multi_fixture(cur,today);zero=raw.fixture(cur,today);before=ledger(cur)
+        p=payload(cur,f);p['items'] += [dict(material_id=g['material'],roll_id=None,physical_qty='12',input_unit_cost='10',notes='positive count'),dict(material_id=zero['material'],roll_id=None,physical_qty='0',notes='checked empty')]
+        d=command(cur,'SAVE',reviewed_items(cur,p));detail=read(cur,d['adjustment_id'])['detail'];assert len(detail['items'])==2 and len(detail['edit']['items'])==3
+        original_time=detail['physical_at'];p['id']=d['adjustment_id'];p['items'][1]['physical_qty']='13'
+        d=command(cur,'SAVE',reviewed_items(cur,p),d['row_version']);detail=read(cur,d['adjustment_id'])['detail']
+        assert detail['physical_at']==original_time and [r['physical_qty'] for r in detail['edit']['items']]==['8','13','0']
+        assert detail['edit']['items'][1]['input_unit_cost']=='10' and detail['edit']['items'][2]['notes']=='checked empty'
+        posted=action(cur,'POST',d);assert qty(cur,f)==8 and qty(cur,g)==13
+        assert cur.execute('select jsonb_array_length(input->\'items\') from cp7_material.count_documents where adjustment_id=%s',(d['adjustment_id'],)).fetchone()[0]==3
+        assert cur.execute('select count(*) from erp.material_adjustment_items where adjustment_id=%s',(d['adjustment_id'],)).fetchone()[0]==2
+        action(cur,'REVERSE',posted);assert qty(cur,f)==10 and qty(cur,g)==10 and ledger(cur)==before
+        return dict(status='PASS',negative_positive_zero_inputs=[8,13,0],complete_edit_preserves_price_notes_and_time=True,three_physical_inputs_two_native_movements=True,inverse_restores_both_materials_and_all_accounts=True)
+    def multi_access():
+        f,g=multi_fixture(cur,today);ops,_=receipt.custom(cur,material.PERMS);p=payload(cur,f)
+        p['items'].append(dict(material_id=g['material'],roll_id=None,physical_qty='10'));d=command(cur,'SAVE',reviewed_items(cur,p),subject=ops)
+        detail=read(cur,d['adjustment_id'],subject=ops)['detail'];assert len(detail['edit']['items'])==2 and 'input_unit_cost' not in json.dumps(detail) and 'valuation' not in json.dumps(detail)
+        p=payload(cur,f);p['items'].append(dict(material_id=g['material'],roll_id=None,physical_qty='12',input_unit_cost='10'));d=command(cur,'SAVE',reviewed_items(cur,p))
+        assert read(cur,d['adjustment_id'],subject=ops)['detail']['edit'] is None
+        return dict(status='PASS',operational_complete_inputs_without_money=True,priced_multi_input_edit_requires_value_authority=True)
     return [('P09_COUNT_FABRIC',lambda:lifecycle('FABRIC')),('P09_COUNT_ACCESSORY',lambda:lifecycle('ACCESSORY')),('P09_COUNT_POSITIVE',positive),
       ('P09_COUNT_STALE_BASIS',stale_basis),('P09_COUNT_FORGED_ATOMIC',forged),('P09_COUNT_NATIVE_EDIT',changed_native),('P09_COUNT_REPLAY_DELETE',replay_delete),
-      ('P09_COUNT_ACCESS',access),('P09_COUNT_SCOPE',scope_guard),('P09_COUNT_HISTORICAL',prefix),('P09_COUNT_COMPLETE_PAGES',pages)]
+      ('P09_COUNT_ACCESS',access),('P09_COUNT_SCOPE',scope_guard),('P09_COUNT_HISTORICAL',prefix),('P09_COUNT_COMPLETE_PAGES',pages),
+      ('P09_COUNT_MULTI_EDIT_INVERSE',multi_cycle),('P09_COUNT_MULTI_ACCESS',multi_access)]
 
 def races(tools,today):
     def compete():

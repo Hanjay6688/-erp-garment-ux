@@ -149,7 +149,7 @@ def cases(cur, today):
     return [('P12_OPENING_LIFECYCLE',cycle),('P12_OPENING_EDIT_RELEASE',edit_release),('P12_OPENING_STALE_REVIEW',stale),('P12_OPENING_GUARDS',guards),('P12_OPENING_CANCEL',cancel)]
 
 
-def race_cases(tools,today):
+def races(tools,today):
     def race(same):
         with tools.connect() as conn,conn.cursor() as cur:
             f=fixture(cur,today); other=s.n.seed_header(cur,f,today+timedelta(days=1),today+timedelta(days=1))
@@ -183,6 +183,12 @@ def http_cases(http,today):
         with http.connect() as conn,conn.cursor() as cur:
             assert s.doc(cur,f['payroll'])['net_payable']=='6005.00'
             cur.execute('update erp.app_users set is_active=false where auth_user_id=%s',(user.auth_user_id,)); conn.commit()
-        assert user.rpc('erp_save_initial_import_action_v1',request)['status']==403
-        return dict(status='PASS',real_auth_accepted_opening_writer=True,exact_replay_one_allocation=True,current_deactivation_denies_cached_replay=True)
+        denied=user.rpc('erp_save_initial_import_action_v1',request)
+        # Accepted CP6 require_owner_admin raises P0001 (HTTP400), not42501.
+        # Check the exact denial and absence of effect, not any HTTP failure.
+        assert denied['status']==400 and denied['body'].get('code')=='P0001' and denied['body'].get('message')=='OWNER or ADMIN access required',denied
+        with http.connect() as conn,conn.cursor() as cur:
+            assert s.doc(cur,f['payroll'])['net_payable']=='6005.00'
+            assert cur.execute('select count(*),sum(opening_carry_qty) from erp.payroll_reimbursements where opening_carry_entitlement_id=%s',(f['entitlement'],)).fetchone()==(1,D(2))
+        return dict(status='PASS',real_auth_accepted_opening_writer=True,exact_replay_one_allocation=True,current_deactivation_denies_cached_replay=True,denial_http_status=400,denial_code='P0001',no_effect_after_denied_replay=True)
     return [('P12_OPENING_HTTP',flow)]

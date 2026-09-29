@@ -96,8 +96,9 @@ async function lifecycle(ui,today,mobile){
   assert.deepEqual(changed(baseline.gl,actual.gl),{});assert.deepEqual(actual.physical,baseline.physical);assert.deepEqual(actual.opening_journals,baseline.opening_journals)
   return {status:'PASS',mobile,browser_csv_create_validate_finalize:true,browser_nota_and_three_opening_source_allocations:true,browser_prepare_approve_pay_reverse:true,cash:'6060',only_new_carry_expense:'5',old_payables_not_reaccrued:true,inverse_restores_opening_balances_carry_gl:true,stock_hpp_opening_journals_unchanged:true,exact_lost_allocation_reply_replay:mobile?true:null,screenshot:`P12_OPENING_${suffix}.png`}
  }catch(error){
-  mkdirSync('cp6-proof/t3',{recursive:true});writeFileSync(`cp6-proof/t3/P12_OPENING_${suffix}_FAILURE.json`,JSON.stringify({error:String(error),import:await imp.innerText().catch(()=>''),payroll:await pay.innerText().catch(()=>''),source:f.batch?read():null},null,2))
-  await p.screenshot({path:`cp6-proof/t3/P12_OPENING_${suffix}_FAILURE.png`,fullPage:true});throw error
+  let source=null;try{if(f.batch)source=read()}catch(e){source={read_error:String(e)}}
+  mkdirSync('cp6-proof/t3',{recursive:true});writeFileSync(`cp6-proof/t3/P12_OPENING_${suffix}_FAILURE.json`,JSON.stringify({error:String(error),stack:error.stack,import:await imp.innerText().catch(()=>''),payroll:await pay.innerText().catch(()=>''),source},null,2))
+  await p.screenshot({path:`cp6-proof/t3/P12_OPENING_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw error
  }finally{await user.context.close()}
 }
 export async function cases(ui,today){return [['P12_OPENING_BROWSER_DESKTOP_CYCLE',()=>lifecycle(ui,today,false)],['P12_OPENING_BROWSER_MOBILE_RECOVERY',()=>lifecycle(ui,today,true)]]}
