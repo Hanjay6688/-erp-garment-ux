@@ -33,8 +33,8 @@
     "P00": "ENTRY_RECEIPT_AND_NATIVE_CATALOGUE_VERIFIED",
     "P01": "CONTRACT_READY_WITH_DOWNSTREAM_ENGINE_ORACLES_OPEN",
     "P02": "BOUNDED_ACTOR_CAPTURE_T1_PASS_16_CASES_INDEPENDENT_PENDING",
-    "P03": "POLICY_AND_CAPTURED_CURRENT_IDENTITY_NATIVE_PASS_15_CASES_GRAPH_IN_PROGRESS",
-    "P04": "ATOMIC_ORIGIN_NATIVE_PASS_35_PLUS_SMOKE_YIELD_AND_REVIEW_INCREMENT_UNDER_VERIFICATION"
+    "P03": "BOUNDED_POLICY_NATIVE_PASS_15_CASES_INDEPENDENT_PENDING",
+    "P04": "BOUNDED_ATOMIC_WIP_NATIVE_PASS_39_CASES_PLUS_SMOKE_INDEPENDENT_PENDING"
   },
   "inherited_scope": {
     "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
@@ -49,22 +49,23 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Qualify one MVCC capture for cutting, opening and unsourced BS, with matching/timing integration and source registry; publish F02 checkpoint then continue F03.",
+  "next_action": "Implement P09 authorized procurement read/write bridge and connected receipt flow with actual stock/AP/HPP proof; continue F03 P10-P13. F01/F02 independent review pending.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
-  "active_family": "F02_P03_P04",
-  "last_writer_checkpoint": "docs/cp7/F01_AUDITOR_HANDOFF.md",
+  "active_family": "F03_P09_P13",
+  "last_writer_checkpoint": "docs/cp7/F02_AUDITOR_HANDOFF.md",
   "family_status": {
     "F01_P00_P02": "WRITER_T1_BOUNDED_FOUNDATION_PASS_INDEPENDENT_PENDING",
-    "F02_P03_P04": "IN_PROGRESS",
-    "F03_P09_P13": "PLANNED",
+    "F02_P03_P04": "WRITER_BOUNDED_IDENTITY_WIP_PASS_INDEPENDENT_PENDING",
+    "F03_P09_P13": "IN_PROGRESS_P09_PROCUREMENT",
     "F04_P05_P08": "PLANNED",
     "F05_P14_P17": "PLANNED",
     "F06_P18_P21": "PLANNED"
   },
-  "latest_tested_source": "735056db3b42cc7fc3999149b42e2cadac7b42b2",
+  "latest_tested_source": "17e85404c9c5f088875099d7875be6342ca6b266",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
   "p04_cutting_verification_receipt": "docs/cp7/evidence/p04-cutting/VERIFICATION.json",
-  "latest_p04_tested_source": "6abdf3263ba03b443a17a8c34b44effffd55db2f"
+  "latest_p04_tested_source": "17e85404c9c5f088875099d7875be6342ca6b266",
+  "p04_production_verification_receipt": "docs/cp7/evidence/p04-production/VERIFICATION.json"
 }

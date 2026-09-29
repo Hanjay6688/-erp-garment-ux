@@ -1,7 +1,7 @@
 {
-  "version": "cp7.source-map.v1",
+  "version": "cp7.source-map.v2",
   "accepted_base": "10a834712e515af86c6d8baa89bbe40cff9793e3",
-  "resolution_status": "NATIVE_CATALOGUE_CAPTURED",
+  "resolution_status": "ACCEPTED_CATALOGUE_PLUS_SOURCE_BOUND_CP7_EXTENSIONS",
   "repo_sources": [
     {
       "path": "src/config/runtime.ts",
@@ -269,14 +269,14 @@
       "policies": 190
     }
   },
-  "cp7_analysis_facade": "NOT_IMPLEMENTED",
+  "cp7_analysis_facade": "BOUNDED_ACTOR_SNAPSHOT_AND_PRODUCTION_WIP_IMPLEMENTED_FULL_PLANNER_PENDING",
   "missing_capabilities": [
-    "Coherent immutable multi-domain capture",
-    "Current actor projection on serve/cache/replay",
+    "Global planner coherent source/dependency capture beyond qualified selected-origin boundaries",
     "Historical known-at availability per source",
-    "Production policy history independent of SKU active/sale permission",
-    "Global shared-source scenario allocation",
-    "R10 connected sales/return browser proof"
+    "Connected policy/WIP consumer and downstream STOP planning arithmetic",
+    "Dated demand netting with shared-source allocation, calendar and yield policy capture",
+    "R10 connected sales/return browser proof",
+    "Integrated CP7 release/restore and independent acceptance"
   ],
   "resolved_reader_index": [
     {
@@ -790,5 +790,111 @@
     "writer_proof": "10_NATIVE_4_RACE_2_REAL_AUTH_HTTP_PASS",
     "production_connected": false,
     "independent_acceptance": false
+  },
+  "baseline_observation_note": "Accepted-base catalog and repo hashes below describe P00 observation; active CP7 extension registry is additive and source-bound.",
+  "cp7_extensions": {
+    "tested_source": "17e85404c9c5f088875099d7875be6342ca6b266",
+    "integration_rule": "A future planner must capture its entire source/dependency scope in one statement; do not merge independent P02/P03/P04 capture clocks.",
+    "p03": {
+      "modules": [
+        "scripts/cp7-src/identity/bootstrap.sql",
+        "scripts/cp7-src/identity/workspace.sql",
+        "scripts/cp7-src/identity/history.sql",
+        "scripts/cp7-src/identity/command.sql"
+      ],
+      "source_relations": [
+        "erp.products",
+        "erp.bf_skus_v1",
+        "erp.bf_sku_versions_v1",
+        "erp.bf_sku_members_v1"
+      ],
+      "private_policy": "cp7_identity immutable policy events/commands; cp7_policy NOLOGIN principal",
+      "public_entrypoints": [
+        "public.erp_cp7_get_production_policy_v1",
+        "public.erp_cp7_get_source_identity_v1",
+        "public.erp_cp7_set_production_policy_v1"
+      ],
+      "consumer": "Bounded API + contracts/cp7/production-policy.ts; browser consumer not connected",
+      "verification": "docs/cp7/evidence/p03-policy/VERIFICATION.json"
+    },
+    "p04": {
+      "modules": [
+        "scripts/cp7-src/wip/bootstrap.sql",
+        "scripts/cp7-src/wip/bs.sql",
+        "scripts/cp7-src/wip/facade.sql",
+        "scripts/cp7-src/wip/graph.sql",
+        "scripts/cp7-src/wip/matching.sql",
+        "scripts/cp7-src/wip/normalize.sql",
+        "scripts/cp7-src/wip/other-normalize.sql",
+        "scripts/cp7-src/wip/other-source.sql",
+        "scripts/cp7-src/wip/ownership.sql",
+        "scripts/cp7-src/wip/production.sql",
+        "scripts/cp7-src/wip/rewash.sql",
+        "scripts/cp7-src/wip/source.sql",
+        "scripts/cp7-src/wip/timing.sql",
+        "scripts/cp7-src/wip/yield.sql"
+      ],
+      "source_relations": [
+        "erp.bb_wip_bs_splits_v1",
+        "erp.bb_wip_pickups_v1",
+        "erp.bd_opening_laundry_claim_events_v1",
+        "erp.bd_opening_laundry_claims_v1",
+        "erp.bs_case_hold_events",
+        "erp.bs_cases",
+        "erp.bs_resolutions",
+        "erp.cutting_distribution_allocations",
+        "erp.cutting_distribution_batches",
+        "erp.cutting_group_rolls",
+        "erp.cutting_group_size_slots",
+        "erp.cutting_groups",
+        "erp.cutting_pickups",
+        "erp.cutting_roll_yields",
+        "erp.fg_lots",
+        "erp.fg_unsourced_receipts_v1",
+        "erp.initial_import_production_sources",
+        "erp.initial_import_wip_output_reversals",
+        "erp.initial_import_wip_outputs",
+        "erp.laundry_claims",
+        "erp.laundry_deliveries",
+        "erp.laundry_delivery_batch_size_lines",
+        "erp.laundry_delivery_lines",
+        "erp.laundry_failed_wash_attempts",
+        "erp.laundry_failed_wash_batch_size_lines",
+        "erp.laundry_receipt_batch_size_lines",
+        "erp.laundry_receipt_lines",
+        "erp.laundry_receipts",
+        "erp.laundry_redispatch_participant_events",
+        "erp.migration_batches",
+        "erp.opening_balance_headers",
+        "erp.opening_balance_items",
+        "erp.production_orders",
+        "erp.products",
+        "erp.qc_inspection_items",
+        "erp.qc_inspections",
+        "erp.rework_orders",
+        "erp.sewing_terminal_events",
+        "erp.wip_control_flags"
+      ],
+      "public_entrypoints": [
+        "public.erp_cp7_capture_cutting_wip_v1",
+        "public.erp_cp7_read_cutting_wip_v1",
+        "public.erp_cp7_capture_production_wip_v1",
+        "public.erp_cp7_read_production_wip_v1"
+      ],
+      "principal": "cp7_capture: explicit source SELECT; private immutable runs; no business DML/mutators",
+      "consumer": "Selected-origin immutable WIP API; matching/yield/calendar kernels remain private until coherent planner integration",
+      "tests": [
+        "scripts/cp7_wip_cases.py",
+        "scripts/cp7_wip_source_cases.py",
+        "scripts/cp7_wip_production_cases.py"
+      ],
+      "verification": "docs/cp7/evidence/p04-production/VERIFICATION.json"
+    },
+    "remaining": [
+      "Global planner demand/calendar/policy/source capture and dated netting P05-P08",
+      "Connected operations P09-P13; current FG on-hand P10 and R10 P11",
+      "Connected planning/report consumers P14-P17",
+      "Historical AS_KNOWN where reconstructible, global scale, full lifecycle and integrated release P18-P21"
+    ]
   }
 }

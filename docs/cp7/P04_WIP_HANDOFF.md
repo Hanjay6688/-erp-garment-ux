@@ -1,6 +1,6 @@
 # P04 — conserved WIP, matching and remaining ETA
 
-Status: WRITER_ATOMIC_ORIGIN_NATIVE_PASS (14 kernel + 16 source + 3 races + 2 HTTP, plus fixture smoke); explicit yield and review-flag increment under verification. F02 remains open. No operational
+Status: WRITER_BOUNDED_NATIVE_PASS on `17e85404c9c5f088875099d7875be6342ca6b266` (17 kernel + 17 source + 3 races + 2 HTTP = 39, plus repeated fixture smoke). [F02 checkpoint](F02_AUDITOR_HANDOFF.md) is ready for independent review. Historical pending labels below describe earlier increments and are superseded by the final receipt in `evidence/p04-production/`. No operational
 connection, production deployment, or independent acceptance.
 
 ## Authoritative implementation

@@ -34,3 +34,9 @@ Family 1 handoff must distinguish the implemented boundary from the full case ch
 R10 remains P11's connected sale/return browser obligation. Mandor payroll and its Nota interaction remain P12's obligation, reviewed against the owner frontend rules. Existing business decisions about vendor tariffs, UNKNOWN costs and reusable same-counterparty credits remain binding.
 
 Current exact status and next action: [CURRENT_STATE.json](CURRENT_STATE.json).
+
+## Family 2 writer checkpoint
+
+[F02 handoff](F02_AUDITOR_HANDOFF.md): bounded P03 policy/identity proof (15 cases) and P04 atomic-origin WIP proof (39 cases plus repeated smoke) are source-bound and ready for independent review. This is WRITER_VERIFIED within the stated boundary, not INDEPENDENT_ACCEPTED. Dated demand, planner integration, connected browser and scale obligations remain assigned to their owning packets.
+
+Current writing proceeds to family 3, beginning with P09 procurement/materials. F01/F02 independent review may follow the frozen checkpoints without two writers sharing the canonical branch.
