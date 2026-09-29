@@ -1,0 +1,31 @@
+# Independent F02 oracle — 2026-09-29
+
+Frozen product 17e85404c9c5f088875099d7875be6342ca6b266; documentation checkpoint 5dd3b781ceef161afe59739d9e74a72e049d6a30. Prior F01 acceptance a62e0f08148423d4ae2591c23d1378e1e6e10ab7 remains scoped to its frozen bundle. Writer handoff has been read; this is independently authored testing plus separately disclosed cross-check, not a blind audit.
+
+Authority: unchanged owner framework P03/P04, O04/O15/O17, E02/E09/E14/E15/E20/E22/E23, X01/X03/X06/X08 and M07. Oracle recorded before implementation/kernel/test inspection. Administrative test setup is explicitly distinguished from existing ERP posting commands. Product source and writer branch will not be modified; only disposable PostgreSQL/Supabase and the auditor branch may be written.
+
+## Expected invariants
+
+1. Preserve accepted CP6 and F01 semantics; verify candidate/source/test/workflow byte pins and 48 framework digests. Never borrow green evidence from later F03 code.
+2. SKU production state is independently versioned ACTIVE/PAUSED/STOPPED; no modification of master active/sales, quantities, HPP or books. Past review_at does not reactivate. Missing/unreviewed/changed membership is not silently ACTIVE. Economic-only revisions do not replace physical identity or reviewed membership.
+3. Exact root, brand, size, version and membership. Singleton/alphanumeric/uneven ranges are allowed by IDs, not parsing labels. Original captured commercial identity survives regrouping; current restatement is separately labeled. No manufacture or duplication of quantities.
+4. Atomic bulk: stale/malformed/duplicate member or policy revision on any selected SKU refuses all. Revision arithmetic remains exact above JavaScript safe integer. Same actor+request+payload one effect; mismatched payload refuses. Current authorization before replay and after a lock wait; consistent lock order; compute cannot invoke policy writer.
+5. One original physical pool per lineage+size+ownership. Parent totals are controls, not additional supply. Every valid transition conserves input = live WIP + FG disposition + BS/withheld/exits. Rework/rewash/redispatch/retry reuse the pool and are never new input. Header-only sewing cannot invent exact size shares.
+6. Negative prefix, unknown/cross-size/cross-owner endpoints, duplicate original input or alias origins fail closed. Exact reversal only restores the earlier transfer and cannot consume already-used downstream units. Duplicate reversal cannot mint input. Claims settlement is not physical recovery. Missing/stuck/HOLD consumes custody once; rejection/release reclassifies rather than creating FG.
+7. Explicit UNKNOWN/CONFLICT for unsupported lineage or partial source capture; malformed/missing/ambiguous data never becomes zero or COMPLETE. Quantity can remain usable while financial value is UNKNOWN. Declared review flags block allocation until resolved while preserving quantities.
+8. Owner arithmetic anchors: 100 = 80 WIP + 15 FG + 5 BS; completing 3 GOOD+2 BS from that BS gives 100=80+18+2. Shared source60 allocating42+18 is valid, 42+30 is not. Cutting100+opening8 totals108=88+15+5. Additional tests use different values and derive expected totals independently.
+9. Matching follows hard physical constraints and confirmed destination, never a tariff SKU hint alone. Missing required fields produce NEEDS_CHECK/UNKNOWN. Optional absence is not a hard conflict. Different source-to-target edges remain distinct even if their aggregates match.
+10. Yield cap is exact rational arithmetic: input100/eligible100/yield90% permits output90, refuses91 and input101. Test small fractions and large integers near a whole result; no float rounding-up, negative, fractional physical PCS, NaN or Infinity. Projection loss is not actual BS.
+11. One scenario shares input and output capacity across all edges/targets/visible filters. Multiple slices from the same physical pool cannot each spend the full pool. Alternate scenarios are alternatives, not additive reservations. Positive incompatible/unreviewed allocation refuses.
+12. ETA uses explicitly remaining stage work and non-overlapping supplied work intervals; elapsed stages add no new duration. Unknown calendar, capacity, leadtime or yield cannot become on-time/feasible. Check exact boundaries, gaps, stage order, overlap, invalid duration and minute arithmetic. Kernel proof does not close downstream dated-demand O03/O05.
+13. One MVCC capture of selected cutting/opening/non-PO-BS origins after request lock; one capture clock. No mixing independently captured P02/P03/P04 runs. Immutable result and dependency hash; later insert/delete/reversal/policy/correction yields stale or unavailable appropriately without rewriting archive. Include mixed-origin contention, replay, current auth, source alias and scope completeness.
+14. Bound at 50 selected origins and 2000 facts/domain: explicit overflow/missing origin refuses without partial persisted run. Cursor/scope/identity must not leak other actors or money. Real Auth/REST and native helpers must enforce current access, including revoked or null/inactive role and no service-role shortcut.
+15. Read/compute must not mutate business data/counters/books or acquire writer capabilities. Install/rollback/cleanup/primary conservation must be real; preserve raw failures and distinguish product defect, test assumption/setup issue and untested scope.
+
+## Acceptance limits
+
+This is bounded CURRENT source capture, status/identity and private WIP/matching/yield/ETA kernels. Production FG disposition is not on-hand after sales/conversion. It does not close global planning/policy joins, connected P04 UI, R10/P11, arbitrary AS_KNOWN, full P18 lifecycle, P19 scale, P20/P21 or production authorization. Known-rate failed-wash coverage must not erase the price-later obligation carried to F03/P13. New material defects in delivered contracts block dependent use; deferred work is not itself a proven defect.
+
+## Evidence provenance
+
+AUD_F02: new auditor probes. WRITER_RERUN: existing writer probes executed by auditor. WRITER_CROSSCHECK: historical writer receipts/logs read and hash checked. Existing successful F01/CP6 tests are preserved; repeat only seams affected by this family or required installation gates.
