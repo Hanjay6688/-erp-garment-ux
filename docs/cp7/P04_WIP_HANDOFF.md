@@ -1,6 +1,6 @@
 # P04 — conserved WIP, matching and remaining ETA
 
-Status: WRITER_KERNEL_NATIVE_PASS_14_CASES; actual cutting source adapter implemented, native verification pending. F02 remains open. No operational
+Status: WRITER_CUTTING_LIFECYCLE_NATIVE_PASS (14 kernel + 10 source + 2 races + 1 HTTP, plus fixture smoke); atomic opening/non-PO extension under verification. F02 remains open. No operational
 connection, production deployment, or independent acceptance.
 
 ## Authoritative implementation
@@ -76,3 +76,13 @@ The follow-up also tests actual MISSING/STUCK claims. Existing `validate_laundry
 Run `36514086766` on `1d5d5971300b952c25892eec65780f77309193de` passed the claim custody case and all previous passing cases: 14 kernels, one smoke, eight source cases, two races, one HTTP. Rewash reached the final QC but its fixture incorrectly declared PARTIAL_SELECTION while consuming all 20 ready pieces. The follow-up uses the accepted ALL_READY declaration; no guard is relaxed. Raw failure receipts remain alongside the positive proof.
 
 The next scope adds BS HOLD/release and disposition/reversal. Each BS case receives its own slice of any shared laundry receipt-size node. Rework GOOD resolution rows do not post a second FG quantity; ordinary scrap/write-off/other resolved quantities leave available BS, while a linked posted unsourced-FG receipt becomes FG disposition. HOLD withholds only the case's remaining quantity. Source captures include explicit nonfinancial hold and linked-FG rows and their dependency hashes. Native proof pending for this increment.
+
+### Cutting lifecycle checkpoint
+
+All declared cutting lifecycle cases passed on `b925976a2d8c7004d7eb740d9918d4b25f2d358b`, [run 36514601655](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36514601655): 14 kernel, one smoke, 10 source, two races, one real Auth/HTTP. CP6 restored and advisors passed. App/build/security/browser runs `36514605655` and `36514601796` passed. Full original report and hash-bound receipt are in `evidence/p04-cutting/`; prior failures remain in `evidence/p04-kernel/`. This supersedes the pending cutting statements above, without claiming opening/non-PO or global planner acceptance.
+
+### Atomic production-origin extension (pending native proof)
+
+`erp_cp7_capture_production_wip_v1` declares selected cutting groups, opening item IDs and unsourced BS case IDs, at most 50 origins in total. All readers use the same capture clock and the same MVCC statement. Each source domain is bounded; a missing/partial origin refuses the entire capture. Ordinary cutting BS cannot be recaptured as non-PO input. Opening import, pickup, outputs/reversals, BS splits/reworks, claim recovery and resolution are projected from explicit nonfinancial columns. Missing exact size stays UNKNOWN. Claim settlement never becomes recovered goods. Existing FG-only non-PO receipts belong to P10 stock; they are not additional WIP.
+
+Declared cases: opening 8 PCS → pickup → 3 FG → 2 BS split → reverse 3 FG; opening claim 2 with recovery 1 and write-off 1; combined 100 cutting + 8 opening = 108 input, 88 WIP, 15 FG, 5 BS; found BS 5 → 3 FG + 2 BS → reversal; current Auth, source-alias refusal, one cross-origin snapshot race and one real HTTP case. The production result explicitly has unknown ETA until a calendar and remaining work are selected. This increment remains pending until its own source-bound native run passes.

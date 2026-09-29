@@ -34,7 +34,7 @@
     "P01": "CONTRACT_READY_WITH_DOWNSTREAM_ENGINE_ORACLES_OPEN",
     "P02": "BOUNDED_ACTOR_CAPTURE_T1_PASS_16_CASES_INDEPENDENT_PENDING",
     "P03": "POLICY_AND_CAPTURED_CURRENT_IDENTITY_NATIVE_PASS_15_CASES_GRAPH_IN_PROGRESS",
-    "P04": "KERNEL_NATIVE_PASS_14_SOURCE_ADAPTER_UNDER_VERIFICATION"
+    "P04": "CUTTING_LIFECYCLES_NATIVE_PASS_27_PLUS_SMOKE_OPENING_NONPO_EXTENSION_UNDER_VERIFICATION"
   },
   "inherited_scope": {
     "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
@@ -49,7 +49,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Qualify P04 conserved lineage, matching and remaining ETA kernels, then connect atomic scoped source adapter. F02 checkpoint requires both; continue F03 after family handoff.",
+  "next_action": "Qualify one MVCC capture for cutting, opening and unsourced BS, with matching/timing integration and source registry; publish F02 checkpoint then continue F03.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F02_P03_P04",
@@ -64,5 +64,6 @@
   },
   "latest_tested_source": "735056db3b42cc7fc3999149b42e2cadac7b42b2",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
-  "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json"
+  "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
+  "p04_cutting_verification_receipt": "docs/cp7/evidence/p04-cutting/VERIFICATION.json"
 }

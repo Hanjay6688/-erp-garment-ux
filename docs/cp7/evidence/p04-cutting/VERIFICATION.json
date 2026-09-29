@@ -1,0 +1,68 @@
+{
+  "status": "WRITER_NATIVE_PASS_CUTTING_LIFECYCLES",
+  "independent_acceptance": false,
+  "production_go": false,
+  "tested_source": "b925976a2d8c7004d7eb740d9918d4b25f2d358b",
+  "tested_tree": "f541a20af2522ad81112d7310bc583aed2fe26a6",
+  "bundle_sha256": "ad9a675ea70f5184cc673a26115093177056e63b31f73637161a6916f441e302",
+  "run": 36514601655,
+  "job": 109233989180,
+  "artifact_id": 11010820682,
+  "zip_sha256": "e210df7d67b4ad6c157f9f4cc3e3ed0d3c16d445034331a638fe4de19d71bb2b",
+  "report_sha256": "b9f9be93347db4d1a2ae3dc9074c0498daa1685c1858f79fbefb24c400f94768",
+  "report_gz_sha256": "a52696ab157ab834419e6d63475968c2eaace9322b5921577ea6cf9940667ce7",
+  "counts": {
+    "native": {
+      "PASS": 14
+    },
+    "source_smoke": {
+      "PASS": 1
+    },
+    "source": {
+      "PASS": 10
+    },
+    "races": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 1
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "source_hashes": {
+    ".github/workflows/cp7-p04-wip.yml": "a07920b7f1bdc0dd343d2f01a2b802aba92c6a48d40f83b3e8b4cb21dc0a19af",
+    "scripts/cp7-src/identity/bootstrap.sql": "29ec0cc24ba7784300eb480a27cc635428b80d9cfdefa3b242a2ac8c83a937c4",
+    "scripts/cp7-src/identity/command.sql": "847c82b25b2c87b0cfbddd3e91ac91b07f025d411d3faffa44f05ea31df7e3af",
+    "scripts/cp7-src/identity/history.sql": "e78b35242bc95e46b38ce3bfe2d535e796d698e265f7601a88b5bd7b5d2b0c6b",
+    "scripts/cp7-src/identity/workspace.sql": "417335fe50095bd903c7bb305b25ae4cbfef9b17986883190a661eeefb99165e",
+    "scripts/cp7-src/snapshot/bootstrap.sql": "64ebe8090b7ca588f234bc98c5a4c57be34dd071631d41b6b7b30f3fefe1b916",
+    "scripts/cp7-src/snapshot/capture_probe.sql": "b10b77ffe46290fabaff90f5d2609ccb56255c2b65c018c327442d207f7e6647",
+    "scripts/cp7-src/snapshot/facades.sql": "ba8b2b1ebc8134ee3efe7da6d47dd1cce5a8304f4df5565b044bd2a004186fa8",
+    "scripts/cp7-src/snapshot/sources.sql": "d53f5428e04c9d5f2bf598691c84b53b488b01131a0591f9b71fa0a07678604d",
+    "scripts/cp7-src/wip/bootstrap.sql": "f13d218d6ef6c38bea1968081368cdf253538c79d36b67a51e61d126927c2769",
+    "scripts/cp7-src/wip/bs.sql": "13dd87527775ea2c423318632209be42f796f5e39c685ffddc66638af0fa7506",
+    "scripts/cp7-src/wip/facade.sql": "26c6b1c2294e5f7e4e9829a3be37a0e5389e9888c4d56be1e4b37d4d4b4cef2b",
+    "scripts/cp7-src/wip/graph.sql": "3a6d3af1fdf5f1d0c262639652ec491a447e4abba5315463253f733f0623b9d9",
+    "scripts/cp7-src/wip/matching.sql": "3fb198fac534caa0bdda2c9752a722cdba6cd3fe7fd9599ed5c9196faf59a143",
+    "scripts/cp7-src/wip/normalize.sql": "a60206c7e05d3cf1d56321c55c5dbf0c7258df4ce1063b5c1a829de3b1a657e9",
+    "scripts/cp7-src/wip/ownership.sql": "edaafe0a6a093f9ad5dc17a2282b98a87275422768071e10bfacb78c9b28c038",
+    "scripts/cp7-src/wip/rewash.sql": "0868d8cbdc46fd6a0da67cf06c05b0ccd08e3854f10b588d92bdb7ae36bae8bc",
+    "scripts/cp7-src/wip/source.sql": "28f24d76465922487b712f6c9bf942e33a6f2397eca314aa9a9f9136a5ba78d9",
+    "scripts/cp7-src/wip/timing.sql": "cf61bae66086edd7a34e3456e5bad9d644cf42ced4cf2a2bedee4f89f1c9ebc9",
+    "scripts/cp7_p04_wip_probe.py": "14ef17fc89ac59b6c834f04a3b7ce3f2c195dd17d59d86df98ff1dae6ed8e24c",
+    "scripts/cp7_wip_bundle.py": "455928f938ec9a858c68c37f7b4e1d7ff240f7c057a240a0f990bb3b2d42834e",
+    "scripts/cp7_wip_cases.py": "26eda1c3a0cb2616ff1a27c89e6d2d51549d19bcb480f67dfb66d0184676a416",
+    "scripts/cp7_wip_source_cases.py": "8122c3fd801a625c5c4217f253a3409d24712d9f542ed0d3e32d9f70ceab1622"
+  },
+  "app_runs": [
+    36514605655,
+    36514601796
+  ],
+  "limitations": [
+    "Known vendor-rate failed wash only; absent rate remains F03/P13 dependency",
+    "Selected cutting sources, not opening/non-PO or whole planner",
+    "FG is production disposition, not post-sale on-hand",
+    "No independent family acceptance or connected UI"
+  ]
+}
