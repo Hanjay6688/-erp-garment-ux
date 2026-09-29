@@ -37,7 +37,7 @@
     "P04": "F02_REPAIR_53_PASS_PLUS_SMOKE_INDEPENDENT_HOLD_X06_PUBLIC_JOIN_OPEN",
     "P09": "BOUNDED_121_PASS_COUNTS_AND_COMBINED_INVOICES_QUALIFIED_REMAINING_SCOPE_OPEN",
     "P10": "FG_BOOK_34_PASS_NOTA_COMPOSITION_QUALIFIED_SCOPE_OPEN",
-    "P12": "BOUNDED_ROSTER_RATE_AND_PAYROLL_UI_63_PASS_ATTENDANCE_ENTRY_OPEN"
+    "P12": "BOUNDED_ATTENDANCE_SOURCE_TO_PAYROLL_80_PASS_REMAINING_SCOPE_OPEN"
   },
   "inherited_scope": {
     "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
@@ -52,7 +52,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Rerun80 with current-day payroll/prior-day accessory issue and precise reader transport-error locator; then advances/carry.",
+  "next_action": "Independent retest of the qualified80-case source; continue opening advances/payables/carry and remaining F03 obligations. E05 partial cash remains open.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -65,7 +65,7 @@
     "F05_P14_P17": "PLANNED",
     "F06_P18_P21": "PLANNED"
   },
-  "latest_tested_source": "666c24cff54477753cb26f15972ba2332a0a9db2",
+  "latest_tested_source": "5082fbec159095c3452c14c6ad500839f28a166b",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
   "p04_cutting_verification_receipt": "docs/cp7/evidence/p04-cutting/VERIFICATION.json",
@@ -95,10 +95,9 @@
   "p12_entry": {
     "source_verification": "docs/cp7/evidence/p12-nota/SOURCE_VERIFICATION.json",
     "notes": "docs/cp7/P12_NOTA_ENTRY.md",
-    "status": "BOUNDED_ROSTER_RATE_UI_63_PASS_INDEPENDENT_PENDING",
+    "status": "BOUNDED_ATTENDANCE_SOURCE_TO_PAYROLL_80_PASS_INDEPENDENT_PENDING",
     "scope": "P10_NOTA_P12_SELECTED_COMPONENT_HANDOFF",
     "remaining": [
-      "connected_attendance_entry_post_correction_reverse_source_to_payroll",
       "opening_advances_payables_carry",
       "E05_partial_cash_payment",
       "P11_R10",
@@ -122,18 +121,25 @@
     "roster_candidate": "ROSTER_NATIVE_AND_CONNECTED_BROWSER_63_PASS",
     "roster_verification": "docs/cp7/evidence/p12-attendance/ROSTER_VERIFICATION.json",
     "source_handoff": "docs/cp7/P12_SOURCE_HANDOFF.md",
-    "attendance_write_candidate": "17_ADDITIONS_PASS_COMBINED_78_PASS_2_FIXTURES_RERUN_REQUIRED"
+    "attendance_write_candidate": "ALL_80_CASES_PASS_BOUNDED_WRITER_QUALIFICATION",
+    "attendance_write_verification": "docs/cp7/evidence/p12-attendance/WRITE_RUN17_RECEIPT.json"
   },
   "connected_attendance_candidate": {
-    "source_commit": "dbc76eae71ac0a4b93f32d7cd3cfdd4e855753cc",
-    "source_tree": "008a6b40d0261bcefcc8ecb248edf74a04b39431",
-    "run_id": 36603095055,
+    "source_commit": "5082fbec159095c3452c14c6ad500839f28a166b",
+    "source_tree": "e7bc8fcf93e24447a76d8047bf489956e304262f",
+    "run_id": 36604436688,
     "declared_cases": 80,
-    "status": "78_PASS_2_INCOMPLETE_FIXTURES_RERUN_REQUIRED",
+    "status": "WRITER_BOUNDED_80_PASS",
     "local_tests_pass": 93,
     "independent_acceptance": false,
     "production_go": false,
-    "receipt": "docs/cp7/evidence/p12-attendance/WRITE_RUN16_RECEIPT.json",
-    "new_attendance_cases_pass": 17
+    "receipt": "docs/cp7/evidence/p12-attendance/WRITE_RUN17_RECEIPT.json",
+    "new_attendance_cases_pass": 17,
+    "counts": {
+      "PASS": 80,
+      "FAIL": 0,
+      "INCOMPLETE": 0,
+      "NOT_RUN": 0
+    }
   }
 }

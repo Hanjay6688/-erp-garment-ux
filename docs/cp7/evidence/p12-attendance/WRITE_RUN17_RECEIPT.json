@@ -1,0 +1,144 @@
+{
+  "status": "WRITER_BOUNDED_80_PASS",
+  "source_commit": "5082fbec159095c3452c14c6ad500839f28a166b",
+  "source_tree": "e7bc8fcf93e24447a76d8047bf489956e304262f",
+  "product_ref": "cb7ffc933ed20e0f7b249b38264920829f84c98f",
+  "product_paths_unchanged_since_product_ref": true,
+  "run_id": 36604436688,
+  "job_id": 109529732938,
+  "artifact_id": 11051215896,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36604436688",
+  "artifact_created_at": "2026-09-29T17:30:22Z",
+  "archive_sha256": "deff69bacc661e558e92f3c1c39d7cbae93cc026e7216f0adea4027ce7a47d39",
+  "report_sha256": "c0251cd3aafd036acfc0aafc1b7878c4f37e7d1c219f3ae810169aea21c2c936",
+  "compressed_report_sha256": "92cf50537e411031e92e8feeaf0e8950e808dbfac0d2ba5380e63c32af8d41d1",
+  "bundle_sha256": "820ce4b5f3b36b63117ea88524beb47990bb0d6354306f71ea4f480387fbef3e",
+  "counts": {
+    "PASS": 80,
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0
+  },
+  "planned_case_ids_match": true,
+  "original_job_log_case_ids_and_statuses_match": true,
+  "case_groups": {
+    "native": {
+      "PASS": 5
+    },
+    "http": {
+      "PASS": 1
+    },
+    "notes": {
+      "PASS": 7
+    },
+    "note_races": {
+      "PASS": 3
+    },
+    "note_http": {
+      "PASS": 1
+    },
+    "admission_regression": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    },
+    "payroll_review": {
+      "PASS": 4
+    },
+    "payroll_review_http": {
+      "PASS": 1
+    },
+    "payroll_review_browser": {
+      "PASS": 2
+    },
+    "settlement": {
+      "PASS": 7
+    },
+    "settlement_races": {
+      "PASS": 4
+    },
+    "settlement_http": {
+      "PASS": 1
+    },
+    "settlement_browser": {
+      "PASS": 3
+    },
+    "attendance_read": {
+      "PASS": 6
+    },
+    "attendance_read_http": {
+      "PASS": 1
+    },
+    "attendance_read_browser": {
+      "PASS": 2
+    },
+    "roster": {
+      "PASS": 6
+    },
+    "roster_races": {
+      "PASS": 3
+    },
+    "roster_http": {
+      "PASS": 1
+    },
+    "roster_browser": {
+      "PASS": 2
+    },
+    "attendance_write": {
+      "PASS": 10
+    },
+    "attendance_write_races": {
+      "PASS": 4
+    },
+    "attendance_write_http": {
+      "PASS": 1
+    },
+    "attendance_write_browser": {
+      "PASS": 2
+    }
+  },
+  "retained_cases_pass": 63,
+  "new_attendance_cases_pass": 17,
+  "source_to_payroll_browser_cases": [
+    "P12_ATTENDANCE_BROWSER_DESKTOP_CYCLE",
+    "P12_ATTENDANCE_BROWSER_MOBILE_POST_RECOVERY"
+  ],
+  "previous_nota_clock_kasbon_and_reader_failures_now_pass": true,
+  "kasbon_carry_oracle": {
+    "receivable": "10000",
+    "deduction": "6000",
+    "carry": "4000",
+    "cash_journal": false,
+    "inverse_releases_receivable": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "advisor_note": "25 declared INFO rls_enabled_no_policy findings in private CP7 schemas; no claim of zero findings.",
+  "auth_cleanup": true,
+  "database_cleanup": true,
+  "browser_session_leaks": false,
+  "screenshots": {
+    "WRITE_RUN17_ENTRY_DESKTOP.png": {
+      "artifact_path": "P12_ATTENDANCE_ENTRY_DESKTOP.png",
+      "sha256": "7060b2639b086dd265147a72f7e16c867b7b10137b1cf6703ff500a9635a1930",
+      "visually_inspected": true
+    },
+    "WRITE_RUN17_ENTRY_MOBILE.png": {
+      "artifact_path": "P12_ATTENDANCE_ENTRY_MOBILE.png",
+      "sha256": "301885e3b77beb3a8ee722085295c330c4ceed83743cac058aca5f4b6a881698",
+      "visually_inspected": true
+    }
+  },
+  "p09_regression": {
+    "run_id": 36601315303,
+    "source_commit": "cb7ffc933ed20e0f7b249b38264920829f84c98f",
+    "status": "121_PASS_PLUS_3_SEPARATE_SMOKES",
+    "receipt": "P09_RUN15_REGRESSION.json",
+    "same_run17_product_paths": true
+  },
+  "evidence_authority": "WRITER_NOT_INDEPENDENT_AUDIT",
+  "production_go": false,
+  "independent_acceptance": false,
+  "scope": "Roster/rates, attendance entry/post/correction/inverse, Nota, full payroll lifecycle and exact reply recovery. P12/F03 and remaining opening balances, advances/carry, E05 partial cash, P11/R10 and P13 remain open."
+}
