@@ -963,7 +963,7 @@
         "verification": "docs/cp7/evidence/p09-procurement/UNROLLED_VERIFICATION.json"
       },
       "physical_count_extension": {
-        "status": "CANDIDATE_NATIVE_BROWSER_PENDING",
+        "status": "108_PASS_1_FIXTURE_INCOMPLETE_DRAFT_EDIT_RETEST_PENDING",
         "modules": [
           "scripts/cp7-src/materials/counts.sql",
           "scripts/cp7-src/materials/count-read.sql",
@@ -971,7 +971,7 @@
           "src/materialCountContract.ts"
         ],
         "authority": "Accepted material adjustment SAVE/POST/REVERSE writers. Server derives signed delta from physical count and dated posted ledger; current basis and native document signature rechecked after real material-row waits.",
-        "limits": "Browser creates one counted stock position per document; complete native history reads and bounded server multi-line scope. Draft editing UI and zero-history material selection remain follow-up; FG adjustments remain P10.",
+        "limits": "Browser creates and edits one complete counted stock position per document; larger or externally changed source bindings remain readable without silently dropping inputs. Multi-input editing and zero-history material selection remain follow-up; FG adjustments remain P10.",
         "handoff": "docs/cp7/P09_MATERIAL_COUNT_HANDOFF.md"
       }
     }

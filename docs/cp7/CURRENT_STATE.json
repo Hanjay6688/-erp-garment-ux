@@ -35,7 +35,7 @@
     "P02": "BOUNDED_ACTOR_CAPTURE_T1_PASS_16_CASES_INDEPENDENT_PENDING",
     "P03": "BOUNDED_POLICY_NATIVE_PASS_15_CASES_INDEPENDENT_PENDING",
     "P04": "BOUNDED_ATOMIC_WIP_NATIVE_PASS_39_CASES_PLUS_SMOKE_INDEPENDENT_PENDING",
-    "P09": "BOUNDED_93_PASS_PHYSICAL_COUNT_FIX_RETEST_PENDING"
+    "P09": "BOUNDED_93_PASS_COUNT_108_PASS_1_FIXTURE_INCOMPLETE_EDIT_RETEST_PENDING"
   },
   "inherited_scope": {
     "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
@@ -79,5 +79,5 @@
   "p09_reversal_diagnostic": "docs/cp7/evidence/p09-procurement/REVERSAL_RUN_2.json",
   "p09_uom_and_reversal_verification": "docs/cp7/evidence/p09-procurement/UOM_REVERSE_VERIFICATION.json",
   "p09_unrolled_verification": "docs/cp7/evidence/p09-procurement/UNROLLED_VERIFICATION.json",
-  "p09_count_diagnostic": "docs/cp7/evidence/p09-procurement/COUNT_RUN_1.json"
+  "p09_count_diagnostic": "docs/cp7/evidence/p09-procurement/COUNT_RUN_2.json"
 }

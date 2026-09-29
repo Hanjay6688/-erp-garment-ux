@@ -7,7 +7,7 @@ language sql stable security invoker set search_path='' as $$
 $$;
 create function cp7_material.count_workspace(p_query jsonb) returns jsonb
 language plpgsql stable security invoker set search_path='' as $$
-declare a jsonb;q text;n integer;off integer;chosen uuid;total bigint;rows jsonb;detail jsonb:=null;h erp.material_adjustments;items jsonb;proof jsonb;
+declare a jsonb;q text;n integer;off integer;chosen uuid;total bigint;rows jsonb;detail jsonb:=null;h erp.material_adjustments;items jsonb;proof jsonb;editable jsonb:=null;
 begin
  a:=cp7_material.access_now();
  if jsonb_typeof(p_query) is distinct from 'object' or exists(select 1 from jsonb_object_keys(p_query) k where k not in('q','limit','offset','adjustment_id'))
@@ -31,7 +31,15 @@ begin
      'restated_value',(select round(sum(s.qty_signed*s.unit_cost_snapshot),6)::text from erp.material_stock_movements s where s.source_type='MATERIAL_ADJUSTMENT_ITEM' and s.source_id=i.id and s.reversal_of_id is null),
      'basis','CURRENT_RESTATED_DOCUMENT_NOT_STOCK')) else '{}'::jsonb end order by i.id),'[]')
    into items from erp.material_adjustment_items i join erp.materials m on m.id=i.material_id left join erp.material_rolls r on r.id=i.roll_id where i.adjustment_id=chosen;
-  detail:=cp7_material.count_header(h)||jsonb_build_object('items',items);
+  -- The current browser editor preserves one complete physical-count input.
+  -- Larger/imported source bindings remain readable; never drop hidden inputs.
+  if h.status='DRAFT' and jsonb_array_length(proof->'items')=1 and jsonb_array_length(items)=1
+   and (a->'can_value'='true'::jsonb or proof->'items'->0->>'input_unit_cost' is null)
+   and cp7_material.count_signature(chosen)=(select source_signature from cp7_material.count_documents where adjustment_id=chosen) then
+   editable:=jsonb_build_object('physical_qty',proof->'items'->0->>'physical_qty')
+    ||case when a->'can_value'='true'::jsonb then jsonb_build_object('input_unit_cost',proof->'items'->0->>'input_unit_cost') else '{}'::jsonb end;
+  end if;
+  detail:=cp7_material.count_header(h)||jsonb_build_object('items',items,'edit',editable);
  end if;
  return jsonb_build_object('contract_version','cp7.material-counts.v1','read_at',statement_timestamp(),'financial_captured',a->'can_value',
   'capabilities',jsonb_build_object('adjust',a->'can_adjust','reverse',a->'can_reverse'),

@@ -38,8 +38,8 @@ def refused(cur,op,code):
 
 def custom_actor(cur,finance=False):
     b.api.admin(cur);role,subject=uuid.uuid4(),str(uuid.uuid4())
-    cur.execute("insert into erp.app_roles(id,role_code,role_name,is_system,is_protected,is_active) values(%s,%s,'CP7 fixture',false,false,true)",
-                (role,'P02_'+role.hex[:12].upper()))
+    cur.execute("insert into erp.app_roles(id,role_code,role_name,is_system,is_protected,is_active) values(%s,%s,%s,false,false,true)",
+                (role,'P02_'+role.hex[:12].upper(),'CP7 fixture '+role.hex))
     for key in PERMS+(('finance.hpp.view',) if finance else ()):
         cur.execute('insert into erp.app_role_permissions(role_id,permission_key) values(%s,%s)',(role,key))
     cur.execute("insert into erp.app_users(id,auth_user_id,full_name,role,role_id,is_active) values(%s,%s,'P02 actor','STAFF',%s,true)",

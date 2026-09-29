@@ -4,7 +4,7 @@ export type CountPreviewLine = { material_id:string; material_sku:string; materi
 export type CountPreview = { contract_version:'cp7.material-count-preview.v1'; read_at:string; location_id:string; physical_at:string; basis:'POSTED_PHYSICAL_AT_COUNT_CURRENT_KNOWLEDGE'; items:CountPreviewLine[] }
 export type CountRow = { id:string; number:string; location_id:string|null; location_name:string|null; physical_at:string; reason_code:string; status:'DRAFT'|'POSTED'|'REVERSED'; row_version:string; notes:string|null; managed_count:boolean; line_count:string }
 export type CountItem = { id:string; material_id:string; material_sku:string; material_name:string; unit_code:string; roll_id:string|null; roll_number:string|null; qty_signed:string; physical_qty:string|null; notes:string|null; valuation?:{input_unit_cost:string|null;restated_value:string|null;basis:'CURRENT_RESTATED_DOCUMENT_NOT_STOCK'} }
-export type CountDetail = CountRow & {items:CountItem[]}
+export type CountDetail = CountRow & {items:CountItem[];edit:{physical_qty:string;input_unit_cost?:string|null}|null}
 export type CountWorkspace = {contract_version:'cp7.material-counts.v1';read_at:string;financial_captured:boolean;capabilities:{adjust:boolean;reverse:boolean};page:MaterialPage<CountRow>;detail:CountDetail|null}
 const fail=():never=>{throw Error('Data hitung fisik belum lengkap. Muat ulang sebelum melanjutkan.')}
 const text=(v:unknown):v is string=>typeof v==='string'
@@ -24,7 +24,7 @@ export function parseCountPreview(v:unknown):CountPreview {
  if(new Set(keys).size!==keys.length)fail();return p as unknown as CountPreview
 }
 const headerKeys=['id','number','location_id','location_name','physical_at','reason_code','status','row_version','notes','managed_count','line_count']
-function header(v:unknown,detail=false){const r=closed(v,[...headerKeys,...(detail?['items']:[])]);if(!id(r.id)||r.location_id!==null&&!id(r.location_id)||!nullable(r.location_name)||![r.number,r.reason_code].every(text)||!at(r.physical_at)||!['DRAFT','POSTED','REVERSED'].includes(String(r.status))||!version(r.row_version)||!nullable(r.notes)||typeof r.managed_count!=='boolean'||!whole(r.line_count))fail();return r}
+function header(v:unknown,detail=false){const r=closed(v,[...headerKeys,...(detail?['items','edit']:[])]);if(!id(r.id)||r.location_id!==null&&!id(r.location_id)||!nullable(r.location_name)||![r.number,r.reason_code].every(text)||!at(r.physical_at)||!['DRAFT','POSTED','REVERSED'].includes(String(r.status))||!version(r.row_version)||!nullable(r.notes)||typeof r.managed_count!=='boolean'||!whole(r.line_count))fail();return r}
 export function parseCounts(v:unknown,finance:boolean):CountWorkspace {
  const w=closed(v,['contract_version','read_at','financial_captured','capabilities','page','detail'])
  if(w.contract_version!=='cp7.material-counts.v1'||!at(w.read_at)||w.financial_captured!==finance)fail()
@@ -37,6 +37,7 @@ export function parseCounts(v:unknown,finance:boolean):CountWorkspace {
   const keys=(d.items as unknown[]).map(v=>{const r=closed(v,['id','material_id','material_sku','material_name','unit_code','roll_id','roll_number','qty_signed','physical_qty','notes',...(finance?['valuation']:[])]);if(!id(r.id)||!id(r.material_id)||r.roll_id!==null&&!id(r.roll_id)||!nullable(r.roll_number)||![r.material_sku,r.material_name,r.unit_code].every(text)||!exact(r.qty_signed)||r.physical_qty!==null&&!exact(r.physical_qty)||!nullable(r.notes))fail()
    if(finance){const a=closed(r.valuation,['input_unit_cost','restated_value','basis']);if(a.basis!=='CURRENT_RESTATED_DOCUMENT_NOT_STOCK'||a.input_unit_cost!==null&&!exact(a.input_unit_cost)||a.restated_value!==null&&!exact(a.restated_value))fail()}return r.id})
   if(new Set(keys).size!==keys.length)fail()
+  if(d.edit!==null){const e=closed(d.edit,['physical_qty',...(finance?['input_unit_cost']:[])]);if(d.status!=='DRAFT'||!d.managed_count||keys.length!==1||!exact(e.physical_qty)||e.physical_qty.startsWith('-')||finance&&e.input_unit_cost!==null&&!exact(e.input_unit_cost))fail()}
  }
  return w as unknown as CountWorkspace
 }

@@ -1,0 +1,46 @@
+{
+  "source_head": "e527f8ca7d678b5f12ddc17332f1631f487cd9b3",
+  "source_tree": "b17390e4d3e2e11d8e14bee617895de8ed311ece",
+  "run_id": 36538868285,
+  "job_id": 109309236468,
+  "artifact_id": 11019404320,
+  "archive_sha256": "d17b9685e06cb533de9f0dd481d7fed33c225b2dd6b869a21d8fc608fbbd7df4",
+  "report": "COUNT_RUN_2.json.gz",
+  "report_sha256": "1efa121243b4fcc5cfcbbcfdc897dce197b9b15223e1dd78045dfb141e3753b6",
+  "report_gzip_sha256": "b3ea063876f18a79ebc9fb0762bf189453d2b3ae1f70b7ced5900eb7c1545095",
+  "bundle_sha256": "831a8d012a62ef7e29cfefc4c693d40fef6a2e940b3d2d5461caecfd4f4d9df7",
+  "status": "INCOMPLETE",
+  "observed_counts": {
+    "PASS": 108,
+    "INCOMPLETE": 1
+  },
+  "smokes_separate": 3,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "browser_auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "app_runs": [
+    36538874873,
+    36538868240
+  ],
+  "production_go": false,
+  "independent_acceptance": false,
+  "findings": [
+    "The access case creates two active fixture roles in one transaction. Both used the constant display name CP7 fixture, violating native uq_app_roles_active_name before the second principal check. Make fixture role names unique; preserve all native business constraints and access assertions."
+  ],
+  "unchanged_prior_qualified_cases": 93,
+  "changes_to_native_business_engine": false
+}

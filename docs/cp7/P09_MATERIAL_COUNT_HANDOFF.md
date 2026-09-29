@@ -1,6 +1,6 @@
 # P09 material physical counts — candidate for qualification
 
-29 September 2026. F03/P09 remains open. This increment is a writer candidate; native and connected-browser results are pending. It does not close P09, F03, independent acceptance, R10, or production (`production_go=false`). The prior procurement and all-material transfer source `b81a5f607404075929fe74e0dac5608f5fbfe9e4` passed93 cases plus three smokes; its receipt is `UNROLLED_VERIFICATION.json`. This physical-count candidate is source `4003d16f6375bcaaff70d7c403578b00ef83ecd3` and remains outside that qualification.
+29 September 2026. F03/P09 remains open. This increment is a writer candidate; native and connected-browser results are pending. It does not close P09, F03, independent acceptance, R10, or production (`production_go=false`). The prior procurement and all-material transfer source `b81a5f607404075929fe74e0dac5608f5fbfe9e4` passed93 cases plus three smokes; its receipt is `UNROLLED_VERIFICATION.json`. The physical-count candidate remains outside that full qualification; the diagnostic sequence below identifies each tested source.
 
 ## Existing rule and authority
 
@@ -20,14 +20,20 @@ Accepted `save_material_adjustment_draft_v2`, `post_material_adjustment_v2`, and
 
 ## Declared proof and remaining limits
 
-Local **45/45 targeted DOM/recovery cases**, TypeScript, source/access/CSS gates and script syntax pass. These do not prove PostgreSQL transactions.
+Local **72/72 targeted DOM/recovery cases**, TypeScript, source/access/CSS gates and script syntax pass. These do not prove PostgreSQL transactions.
 
 The candidate adds **11 native, two concurrent, one real Auth/HTTP, and two desktop/mobile browser cases**. Combined with the previous93 planned procurement/material cases, the target is109 plus three separate smokes. Required examples include count10→8, late invoice at12.5 yielding inventory100 and adjustment expense25, invoice inverse, then count inverse restoring all account balances; positive10→12 at10; dated count before a later transfer; changed stock/native draft rejection; forged client delta rejection; duplicate/zero/cost/zone/lineage refusal; exact replay/draft delete; two competing counts; revocation at a real material-row wait; money redaction; and lost committed response recovery on mobile.
 
-Current UI creates one counted existing material/roll/location per document and shows complete bounded native document detail. The server supports up to100 unique count positions and omits zero-difference lines from the native adjustment. Draft editing UI and selecting a material with no prior movement at a location remain follow-up. Legacy/service adjustments can be read but are corrected through their source workflow. FG adjustments remain P10. Mixed-receipt invoice/return writes and other P09/F03 obligations remain open. No completion claim is based on the target case count.
+Current UI creates one counted existing material/roll/location per document and shows complete bounded native document detail. The server supports up to100 unique count positions and omits zero-difference lines from the native adjustment. The editor now preserves one complete original physical input, document ID, exact bigint version, notes, positive-cost input when authorized, and the full timestamp when its displayed minute is unchanged. Multi-input editing and selecting a material with no prior movement at a location remain follow-up. A private binding with additional zero-difference inputs cannot enter the single-position editor. Legacy/service adjustments can be read but are corrected through their source workflow. FG adjustments remain P10. Mixed-receipt invoice/return writes and other P09/F03 obligations remain open. No completion claim is based on the target case count.
 
 ## First native result and corrections
 
 Run36537511255 on4003d16 produced **97 PASS /12 INCOMPLETE plus three smokes**, including all93 previously qualified cases. Both app workflows, CP6 restoration, advisor gate and exact Auth cleanup passed. `COUNT_RUN_1` retains the complete report and hashes. The new count read had a PL/pgSQL alias collision; its signature used a timezone-dependent timestamp string; and positive-count fixture/UI used FOUND, which is not a native material-adjustment enum.
 
 Corrections rename the SQL alias, compare an absolute epoch in the private document signature, and post the human “Barang ditemukan” choice as accepted COUNT_CORRECTION with that reason preserved in notes. Native reason constraints and writers are unchanged. The lifecycle probe now deliberately switches to America/Los_Angeles between SAVE and POST. Local45 targeted cases still pass; native/browser retest is pending. These corrections do not close the count increment yet.
+
+## Second native result and draft-edit continuation
+
+Run36538868285 on `e527f8ca7d678b5f12ddc17332f1631f487cd9b3` produced **108 PASS /1 INCOMPLETE plus three smokes**. Both count browsers, two count races, real count Auth/HTTP, valuation/reversal examples, and all93 prior cases pass. Both app workflows, CP6 restoration, advisor gate and exact Auth cleanup pass. `COUNT_RUN_2` retains the full report and hashes. The remaining access case stopped while creating its second fixture role because both used the same active display name; the correction makes test-role names unique without changing native constraints.
+
+The next candidate also qualifies editing a one-input count draft in desktop and mobile browsers before POST. It must retain the same document, exact physical timestamp and untouched ledger while advancing the native version. Native read assertions check operational edit cost redaction, positive-cost authorization, external-edit refusal and a source with a hidden zero-difference input. Local72 targeted DOM/recovery cases passed; native results for this continuation remain pending. P09/F03 remain open.

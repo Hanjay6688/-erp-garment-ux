@@ -63,12 +63,17 @@ def cases(cur,today):
         bad=payload(cur,f,'10');auth.refused(cur,lambda:command(cur,'SAVE',bad),'CP7_COUNT_NO_DIFFERENCE')
         bad=payload(cur,f,'12');auth.refused(cur,lambda:command(cur,'SAVE',bad),'CP7_COUNT_POSITIVE_COST_REQUIRED')
         assert b.boundary.snapshot(cur)==before
-        return dict(status='PASS',no_client_delta_or_system_balance=True,exact_physical_quantity=True,duplicate_and_zero_and_missing_cost_atomic=True)
+        other=raw.fixture(cur,today);extra=dict(material_id=other['material'],roll_id=None,physical_qty='0')
+        extra['basis_token']=preview(cur,dict(location_id=f['location'],physical_at=p['physical_at'],items=[extra]))['items'][0]['basis_token']
+        multi=copy.deepcopy(p);multi['items'].append(extra);d=command(cur,'SAVE',multi);detail=read(cur,d['adjustment_id'])['detail']
+        assert len(detail['items'])==1 and detail['edit'] is None
+        return dict(status='PASS',no_client_delta_or_system_balance=True,exact_physical_quantity=True,duplicate_and_zero_and_missing_cost_atomic=True,hidden_zero_input_never_dropped_by_single_editor=True)
     def changed_native():
         f=material.fixture(cur,today);d,p=draft(cur,f)
         cur.execute("select erp.save_material_adjustment_draft_v2(%s,%s,%s)",(json.dumps(dict(id=d['adjustment_id'],change_reason='P09 legacy draft modification',items=[dict(material_id=f['material'],roll_id=f['roll'],qty_signed='-1')])),uuid.uuid4(),int(d['row_version'])))
         d['row_version']=str(cur.execute('select row_version from erp.material_adjustments where id=%s',(d['adjustment_id'],)).fetchone()[0]);before=b.boundary.snapshot(cur)
         auth.refused(cur,lambda:action(cur,'POST',d),'CP7_COUNT_DRAFT_CHANGED_REVIEW_AGAIN');assert b.boundary.snapshot(cur)==before and qty(cur,f)==10
+        assert read(cur,d['adjustment_id'])['detail']['edit'] is None
         return dict(status='PASS',native_external_edit_requires_new_physical_review=True)
     def replay_delete():
         f=material.fixture(cur,today);p=payload(cur,f);key=str(uuid.uuid4());d=command(cur,'SAVE',p,key=key);assert command(cur,'SAVE',p,key=key)==d
@@ -79,7 +84,9 @@ def cases(cur,today):
     def access():
         f=raw.fixture(cur,today);ops,role=receipt.custom(cur,material.PERMS);p=payload(cur,f,'12','10')
         auth.refused(cur,lambda:command(cur,'SAVE',p,subject=ops),'CP7_COUNT_COST_DENIED')
-        d,p=draft(cur,f);posted=action(cur,'POST',d,subject=ops);assert qty(cur,f)==8
+        positive,p=draft(cur,f,'12','10');assert read(cur,positive['adjustment_id'],subject=ops)['detail']['edit'] is None
+        d,p=draft(cur,f);detail=read(cur,d['adjustment_id'],subject=ops)['detail'];assert detail['edit']==dict(physical_qty='8') and 'input_unit_cost' not in json.dumps(detail)
+        posted=action(cur,'POST',d,subject=ops);assert qty(cur,f)==8
         assert 'valuation' not in json.dumps(read(cur,d['adjustment_id'],subject=ops))
         auth.refused(cur,lambda:action(cur,'REVERSE',posted,subject=ops),'CP7_MATERIAL_REVERSE_DENIED')
         view,role=receipt.custom(cur,('warehouse.material.view',));auth.refused(cur,lambda:action(cur,'POST',d,subject=view),'CP7_MATERIAL_ADJUST_DENIED')

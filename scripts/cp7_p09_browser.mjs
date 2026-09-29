@@ -285,6 +285,15 @@ async function materialCount(ui,today,mobile){
   const save=p.getByRole('button',{name:'Simpan draft hitung fisik',exact:true});await ui.expect(save).toBeEnabled();await save.click()
   const detail=p.locator('.cmat-count-detail');await ui.expect(detail).toContainText('Draft belum mengubah stok.')
   let read=fixture('read_count',f);if(Number(read.qty)!==10||read.movements!==1||Number(read.document.items[0].qty_signed)!==(mobile?2:-2))throw Error('Count draft changed stock or server delta')
+  const originalCount=read.document
+  await p.getByRole('button',{name:'Edit draft hitung fisik',exact:true}).click()
+  await ui.expect(p.getByLabel('Jumlah fisik bahan',{exact:true})).toHaveValue(mobile?'12':'8')
+  await p.getByLabel('Catatan hitung fisik',{exact:true}).fill('Diperiksa ulang sebelum disahkan; jumlah dan waktu tetap sama')
+  await p.getByRole('button',{name:'Periksa selisih',exact:true}).click();await ui.expect(p.locator('.cmat-count-form')).toContainText('Saldo pada waktu hitung 10')
+  if(mobile)await ui.expect(p.getByLabel('Harga satuan hasil hitung',{exact:true})).toHaveValue('10')
+  await p.getByRole('button',{name:'Simpan draft hitung fisik',exact:true}).click();await ui.expect(p.locator('.cmat-count-form')).toHaveCount(0)
+  read=fixture('read_count',f)
+  if(read.document.id!==originalCount.id||BigInt(read.document.version)<=BigInt(originalCount.version)||read.document.physical_at!==originalCount.physical_at||Number(read.qty)!==10||read.movements!==1)throw Error('Draft edit lost original identity, time or quantity')
   const review=p.getByLabel('Saya sudah memeriksa jumlah dan alasan tindakan ini.',{exact:true});await review.check()
   let lost=false,first=null,replay=null
   if(mobile)await p.route('**/rest/v1/rpc/erp_cp7_save_material_count_v1',async route=>{const body=route.request().postDataJSON();if(body.p_action==='POST'&&!lost){first=body;const response=await route.fetch();if(response.status()!==200){await route.fulfill({response});return}lost=true;await route.abort('failed')}else{if(body.p_action==='POST')replay=body;await route.continue()}})
@@ -298,6 +307,6 @@ async function materialCount(ui,today,mobile){
   await p.evaluate(()=>window.scrollTo(0,0));await p.screenshot({path:`cp6-proof/t3/P09_COUNT_${mobile?'MOBILE':'DESKTOP'}.png`,fullPage:true})
   await review.check();await p.getByRole('button',{name:'Batalkan hitung fisik',exact:true}).click();await ui.expect(detail).toContainText('Penyesuaian sudah dibatalkan dengan mutasi pembalik.')
   read=fixture('read_count',f);if(Number(read.qty)!==10||read.movements!==3||JSON.stringify(read.ledger)!==JSON.stringify(f.ledger_before))throw Error('Count inverse failed to restore stock/accounts')
-  return {status:'PASS',mobile,real_ui_auth_rpc_database:true,physical_input:true,server_delta:mobile?2:-2,posted_stock:mobile?12:8,posted_value_delta:mobile?20:-20,restored_stock:10,all_accounts_restored:true,recovery_identical_request:mobile?true:null,screenshot:`P09_COUNT_${mobile?'MOBILE':'DESKTOP'}.png`}
+  return {status:'PASS',mobile,real_ui_auth_rpc_database:true,physical_input:true,draft_edit_preserves_id_time_and_quantity:true,server_delta:mobile?2:-2,posted_stock:mobile?12:8,posted_value_delta:mobile?20:-20,restored_stock:10,all_accounts_restored:true,recovery_identical_request:mobile?true:null,screenshot:`P09_COUNT_${mobile?'MOBILE':'DESKTOP'}.png`}
  }finally{await user.context.close()}
 }
