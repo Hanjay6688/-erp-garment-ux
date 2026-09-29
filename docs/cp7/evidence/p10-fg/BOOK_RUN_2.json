@@ -1,0 +1,22 @@
+{
+  "status": "INCOMPLETE",
+  "production_go": false,
+  "independent_acceptance": false,
+  "source_commit": "3c1452042049c62ed463012921f9ade7666880bf",
+  "source_tree": "638857a8aa70c316b693b1094f7b51a72b67cecc",
+  "native_bundle_sha256": "6cc24ff093edc17d5e9863729920926719bdbf07855816e991b5a97085389587",
+  "run_id": 36568965310,
+  "job_id": 109407852770,
+  "artifact_id": 11033596260,
+  "archive_sha256": "fcd704e0ad2edfaf68c70ad7f3b08361e367a11cdad5bd1d30d2691d0f29a8e8",
+  "counts": {
+    "PASS": 33,
+    "INCOMPLETE": 1
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "failures": {
+    "P10_BOOK_BROWSER_DESKTOP_DRAG": "No native browser drag events recorded. Product synchronous-ref change alone did not resolve it. Next case starts actual mouse drag from visible grip before scrolling distant target; no synthetic drop/RPC is used."
+  },
+  "visual_review": "Desktop and mobile book counts now have readable dark-theme contrast; failing desktop screenshot retained in run artifact. Native prefix/pagination and all previous passes retained."
+}

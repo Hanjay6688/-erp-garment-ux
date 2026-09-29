@@ -20,13 +20,21 @@ async function bookFlow(ui,today,mobile){
    await brand.locator('summary').click()
   }
   await chooseSource()
-  if(!mobile)await p.evaluate(()=>{window.__bookDragEvents=[];for(const type of ['dragstart','dragenter','dragover','drop','dragend'])document.addEventListener(type,e=>{const card=e.target.closest?.('[data-movement-id]');if(card)window.__bookDragEvents.push({type,id:card.getAttribute('data-movement-id'),prevented:e.defaultPrevented})})})
+  if(!mobile)await p.evaluate(()=>{window.__bookDragEvents=[];for(const type of ['mousedown','mousemove','mouseup','dragstart','dragenter','dragover','drop','dragend'])document.addEventListener(type,e=>{const card=e.target.closest?.('[data-movement-id]');if(card)window.__bookDragEvents.push({type,id:card.getAttribute('data-movement-id'),prevented:e.defaultPrevented})})})
   const card=id=>panel.locator(`.cfgb-card[data-movement-id="${id}"]`)
   await ui.expect(card(f.sale).locator('.cfgb-balances>div').nth(0)).toContainText('15')
   let first=null,replay=null,lost=false
   if(mobile)await p.route('**/rest/v1/rpc/erp_cp7_save_fg_book_v1',async route=>{const body=route.request().postDataJSON();if(body.p_action==='MOVE'&&!lost){first=body;const result=await route.fetch();if(result.status()!==200)throw Error('Book move must commit before dropped response');lost=true;await route.abort('failed')}else{if(body.p_action==='MOVE'&&replay===null)replay=body;await route.continue()}})
   if(mobile)await card(f.sale).getByRole('button',{name:/ke atas$/}).click()
-  else {await ui.expect(card(f.sale)).toHaveAttribute('draggable','true');await card(f.sale).dragTo(card(f.first),{sourcePosition:{x:20,y:20},targetPosition:{x:20,y:10}})}
+  else {
+   await ui.expect(card(f.sale)).toHaveAttribute('draggable','true')
+   const grip=card(f.sale).locator('.cfgb-grip');await grip.scrollIntoViewIfNeeded();const start=await grip.boundingBox();if(!start)throw Error('Drag grip not visible')
+   const x=start.x+start.width/2,y=start.y+start.height/2
+   await p.mouse.move(x,y);await p.mouse.down();await p.mouse.move(x+18,y-18,{steps:5})
+   // Initiate the real mouse drag before scrolling a distant destination into view.
+   await card(f.first).evaluate(el=>el.scrollIntoView({block:'center'}));const target=await card(f.first).boundingBox();if(!target)throw Error('Drag target not visible')
+   await p.mouse.move(target.x+target.width/2,target.y+target.height*.25,{steps:12});await p.mouse.move(target.x+target.width/2+1,target.y+target.height*.25,{steps:2});await p.mouse.up()
+  }
   const movedFirst=mobile?f.first:f.sale
   try{await ui.expect.poll(()=>fixture('read_book',f).book.page.rows.map(r=>r.id),{timeout:20000}).toEqual(mobile?[f.first,f.sale,f.second]:[f.sale,f.first,f.second])}catch(e){await p.screenshot({path:`cp6-proof/t3/P10_BOOK_FAILED_${mobile?'MOBILE':'DESKTOP'}.png`,fullPage:true});throw Error(String(e)+' DnD events: '+JSON.stringify(await p.evaluate(()=>window.__bookDragEvents??[])))}
   if(mobile){
