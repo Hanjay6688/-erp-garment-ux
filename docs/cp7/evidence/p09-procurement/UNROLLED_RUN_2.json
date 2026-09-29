@@ -1,0 +1,37 @@
+{
+  "source": "14e598020b93cb054eaca9e22e58d1a4c922331d",
+  "run": 36534504375,
+  "job": 109295370611,
+  "artifact": 11018400497,
+  "status": "INCOMPLETE",
+  "observed_counts": {
+    "PASS": 92,
+    "INCOMPLETE": 1
+  },
+  "separate_smokes": 3,
+  "missing_browser_cases": [],
+  "bundle_sha256": "bc913730324779ed92aa59eef79712e92b008d43033e78f874df61931f8bda73",
+  "report": "UNROLLED_RUN_2.json.gz",
+  "report_sha256": "b75db11af6f15e94c59b4cfbac5c7e3bbd4cb804044194b7ee094fdf57e4bfec",
+  "archive_sha256": "2e6ec5ecd70e901a4450dd8c9afc4a0240187497fe4ce1442fa2a79b57659f71",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "independent_acceptance": false,
+  "production_go": false,
+  "diagnosis": "Accessory browser locator used a shared display name while a stock search was pending, matching three old disabled rows. Scope it to the unique material SKU before interacting; retain all native stock/value/inverse assertions. Other cases passed."
+}

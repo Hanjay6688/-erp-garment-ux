@@ -61,7 +61,7 @@ async function transfer(ui,today,mobile,kind='FABRIC') {
   await p.getByLabel('Cari stok bahan',{exact:true}).fill(f.material_code);await p.getByRole('button',{name:'Cari stok',exact:true}).click()
   const roll=kind==='FABRIC'?f.tag+'-R':f.material_name;await ui.expect(p.getByRole('button',{name:'Pindahkan '+roll,exact:true})).toBeEnabled()
   await p.getByRole('button',{name:'Mutasi '+roll,exact:true}).click();await ui.expect(p.locator('.cmat-ledger')).toContainText('Saldo 10')
-  await p.getByRole('button',{name:'Pindahkan '+roll,exact:true}).click()
+  await source.getByRole('button',{name:'Pindahkan '+roll,exact:true}).click()
   await p.getByLabel('Nomor transfer',{exact:true}).fill(f.tag+'-UI-TRANSFER')
   await p.getByLabel('Waktu transfer WIB',{exact:true}).fill(f.day+'T11:00')
   const search=p.getByLabel('Cari gudang tujuan',{exact:true});await search.fill(f.tag+'-TO');await search.press('Enter')

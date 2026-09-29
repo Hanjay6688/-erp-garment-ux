@@ -1,0 +1,52 @@
+{
+  "source": "d385f284b8d4c0932afce81a4d8da3f3b199e797",
+  "run": 36534338551,
+  "job": 109294853287,
+  "artifact": 11017014175,
+  "status": "INCOMPLETE",
+  "observed_counts": {
+    "PASS": 79
+  },
+  "separate_smokes": 3,
+  "missing_browser_cases": [
+    "P09_BROWSER_RECEIPT_DESKTOP",
+    "P09_BROWSER_LOST_REPLY_MOBILE",
+    "P09_BROWSER_TRANSFER_DESKTOP",
+    "P09_BROWSER_TRANSFER_LOST_REPLY_MOBILE",
+    "P09_BROWSER_INVOICE_DESKTOP",
+    "P09_BROWSER_INVOICE_LOST_REPLY_MOBILE",
+    "P09_BROWSER_RETURN_CREDIT_DESKTOP",
+    "P09_BROWSER_RETURN_CREDIT_LOST_REPLY_MOBILE",
+    "P09_BROWSER_RECEIPT_REVERSE_DESKTOP",
+    "P09_BROWSER_RECEIPT_REVERSE_LOST_REPLY_MOBILE",
+    "P09_BROWSER_UOM_DESKTOP",
+    "P09_BROWSER_UOM_LOST_DRAFT_REPLY_MOBILE",
+    "P09_BROWSER_ACCESSORY_TRANSFER_DESKTOP",
+    "P09_BROWSER_OTHER_TRANSFER_MOBILE"
+  ],
+  "bundle_sha256": "bc913730324779ed92aa59eef79712e92b008d43033e78f874df61931f8bda73",
+  "report": "UNROLLED_RUN_1.json.gz",
+  "report_sha256": "4773d862e10015ae9c9e2d53afffcb9ce34b06c0d61516c7cfcdcd4d1347965d",
+  "archive_sha256": "3a5954c6646c9dc42a4102f25c4a07c88e4651363f832220fb986aaef8dd00c8",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "independent_acceptance": false,
+  "production_go": false,
+  "diagnosis": "Browser build stopped by non-existent SelectedRoll.material_name fallback; corrected in 14e5980. Native/race/HTTP unchanged.",
+  "planned_browser_cases": 14
+}
