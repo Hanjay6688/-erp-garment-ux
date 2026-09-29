@@ -8,7 +8,9 @@ export type NotaSection='SOURCES'|'NOTES'|'PAYROLLS'
 export type NotaWorkspace<T>={contract_version:'cp7.nota-workspace.v1';section:NotaSection;read_at:string;financial_captured:boolean;can_post:boolean;page:MaterialPage<T>}
 const fail=():never=>{throw Error('Data nota belum lengkap atau hasilnya tidak cocok. Muat ulang nota.')}
 const text=(v:unknown):v is string=>typeof v==='string'
-const id=(v:unknown):v is string=>text(v)&&/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(v)
+// Accepted legacy masters contain canonical PostgreSQL UUIDs without RFC version
+// or variant bits. Validate their representation, not a new identity policy.
+const id=(v:unknown):v is string=>text(v)&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v)
 const nullable=(check:(v:unknown)=>boolean,v:unknown)=>v===null||check(v)
 const whole=(v:unknown):v is string=>text(v)&&/^(0|[1-9][0-9]{0,29})$/.test(v)
 const version=(v:unknown)=>whole(v)&&v!=='0'

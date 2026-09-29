@@ -1,0 +1,36 @@
+{
+  "source": "c251a6242cd7c1e079d78082fcb4504e81bc2a92",
+  "tree": "d82395e8828ecc2d29ec2abb9012b15253b20e03",
+  "run_id": 36577500141,
+  "job_id": 109436777608,
+  "artifact_id": 11036949412,
+  "archive_sha256": "34c49d213cfacc6b844171c2241d4f4b18c670a0ddec3e3054b04a13a386c237",
+  "bundle_sha256": "f4cc89bc15d5d4231bd13f7791be90a4dd74b4197c397932018678172faaceee",
+  "status": "INCOMPLETE",
+  "counts": {
+    "native": {
+      "PASS": 5
+    },
+    "http": {
+      "PASS": 1
+    },
+    "notes": {
+      "PASS": 7
+    },
+    "note_races": {
+      "PASS": 3
+    },
+    "note_http": {
+      "INCOMPLETE": 1
+    },
+    "admission_regression": {
+      "PASS": 1
+    },
+    "browser": {
+      "INCOMPLETE": 2
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false
+}

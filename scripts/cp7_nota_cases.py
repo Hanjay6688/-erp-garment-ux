@@ -8,6 +8,16 @@ import cp7_nota_source_cases as source
 import cp6_bf_combined_probe as combined
 auth,b,fg,book=source.auth,source.b,source.fg,source.book
 
+def facts(cur):
+    # Full movement/HPP/journal rows, with only the P10 book presentation rank
+    # excluded. Canonical UTC prevents different connection TimeZones changing
+    # JSON timestamp spellings and masquerading as a business mutation.
+    zone=cur.execute('show timezone').fetchone()[0]
+    try:
+        cur.execute("select set_config('TimeZone','UTC',true)")
+        return book.facts(cur)
+    finally:cur.execute("select set_config('TimeZone',%s,true)",(zone,))
+
 def read(cur,section='NOTES',subject=None,**query):
     auth.actor(cur,subject);r=cur.execute('select public.erp_cp7_get_nota_workspace_v1(%s,%s)',(section,json.dumps(query))).fetchone()[0];b.api.admin(cur);return r
 def command(cur,action,p,version=None,key=None,subject=None):
@@ -152,7 +162,11 @@ def http_cases(http,today):
     def flow():
         ops=http.login('ADMIN','p12-nota-ops')
         with http.connect() as conn,conn.cursor() as cur:
-            f=source.repair(cur,today);p=payload(cur,f,today);before=book.facts(cur);role=cur.execute("select id from erp.app_roles where role_code='ADMIN'").fetchone()[0]
+            f=source.repair(cur,today);p=payload(cur,f,today);before=facts(cur);role=cur.execute("select id from erp.app_roles where role_code='ADMIN'").fetchone()[0]
+            zone=cur.execute('show timezone').fetchone()[0];raw=[]
+            for test_zone in ('Asia/Jakarta','UTC','America/Los_Angeles'):
+                cur.execute("select set_config('TimeZone',%s,true)",(test_zone,));raw.append(book.facts(cur));assert facts(cur)==before
+            cur.execute("select set_config('TimeZone',%s,true)",(zone,))
             cur.execute('delete from erp.app_role_permissions where role_id=%s',(role,))
             for perm in ('production.fg_handoff.view','production.fg_handoff.post'):cur.execute('insert into erp.app_role_permissions(role_id,permission_key) values(%s,%s)',(role,perm))
             conn.commit()
@@ -161,7 +175,9 @@ def http_cases(http,today):
         args=dict(p_action='POST',p_payload=dict(id=n['note_id'],change_reason='Reviewed HTTP source components'),p_request=str(uuid.uuid4()),p_expected=n['row_version'])
         r=ops.rpc('erp_cp7_save_nota_v1',args);assert r['status']==200,r;assert ops.rpc('erp_cp7_save_nota_v1',args)['body']==r['body']
         d=ops.rpc('erp_cp7_get_nota_workspace_v1',dict(p_section='NOTES',p_query=dict(id=n['note_id'])));assert d['status']==200 and not {'rate','amount','remaining_amount'}.intersection(source.keys(d['body']))
-        with http.connect() as conn,conn.cursor() as cur:assert book.facts(cur)==before;cur.execute('update erp.app_users set is_active=false where auth_user_id=%s',(ops.auth_user_id,));conn.commit()
+        with http.connect() as conn,conn.cursor() as cur:
+            after=facts(cur);assert after==before,dict(before=before,after=after,changed=[k for k in before if before[k]!=after[k]])
+            cur.execute('update erp.app_users set is_active=false where auth_user_id=%s',(ops.auth_user_id,));conn.commit()
         assert ops.rpc('erp_cp7_save_nota_v1',args)['status']==403
-        return dict(status='PASS',real_auth_http_save_post_replay=True,operational_writer_no_money_fields=True,current_deactivation_denies_replay=True)
+        return dict(status='PASS',real_auth_http_save_post_replay=True,operational_writer_no_money_fields=True,current_deactivation_denies_replay=True,full_stock_hpp_journal_facts_unchanged=True,canonical_snapshot_invariant_across_three_timezones=True,legacy_snapshot_zone_spellings_differ=len({json.dumps(x,sort_keys=True) for x in raw})>1)
     return [('P12_NOTA_HTTP',flow)]

@@ -94,7 +94,7 @@
   "p12_entry": {
     "source_verification": "docs/cp7/evidence/p12-nota/SOURCE_VERIFICATION.json",
     "notes": "docs/cp7/P12_NOTA_ENTRY.md",
-    "status": "SOURCE_6_PASS_COMPOSER_RERUN_PENDING",
+    "status": "COMPOSER_17_PASS_3_INCOMPLETE_LEGACY_ID_AND_SNAPSHOT_RETEST",
     "scope": "P10_NOTA_P12_SELECTED_COMPONENT_HANDOFF",
     "remaining": [
       "composer_and_browser_qualification",
@@ -103,6 +103,7 @@
       "full_E05_family_crossflow",
       "P11_R10",
       "P13"
-    ]
+    ],
+    "diagnostic": "docs/cp7/evidence/p12-nota/NOTA_RUN_3.json"
   }
 }

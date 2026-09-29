@@ -1027,7 +1027,7 @@
     "consumer": "src/ConnectedNotaPage.tsx",
     "native_probe": "scripts/cp7_p12_nota_probe.py",
     "browser_probe": "scripts/cp7_p12_browser.mjs",
-    "status": "COMPOSER_CANDIDATE_NATIVE_AND_BROWSER_RERUN_PENDING",
+    "status": "COMPOSER_17_PASS_3_INCOMPLETE_RETEST_PENDING",
     "hosted_boundary_preserved": true,
     "production_go": false
   }

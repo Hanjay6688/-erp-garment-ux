@@ -1,5 +1,5 @@
 import {execFileSync} from 'node:child_process'
-import {mkdirSync} from 'node:fs'
+import {mkdirSync,writeFileSync} from 'node:fs'
 const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_p12_browser_fixture.py',op,JSON.stringify(p)],{cwd:'../writer',encoding:'utf8'}).trim())
 async function openPage(ui,p){
  const menu=p.getByRole('button',{name:'Buka menu',exact:true})
@@ -47,6 +47,12 @@ async function compose(ui,today,mobile){
   fixture('cancel',f);await p.getByRole('button',{name:'Muat ulang nota',exact:true}).click();await ui.expect(panel.locator('.cnota-review')).toContainText('Payroll dibatalkan');await ui.expect(panel.locator('.cnota-source')).toHaveCount(2)
   if(mobile){await p.route('**/rest/v1/rpc/erp_cp7_get_nota_workspace_v1',r=>r.abort('failed'));await p.getByRole('button',{name:'Muat ulang nota',exact:true}).click();await ui.expect(panel.locator('.cnota-source')).toHaveCount(0);await ui.expect(panel.locator('.cnota-review')).toHaveCount(0);await ui.expect(panel.locator('[role="alert"]').first()).toBeVisible()}
   return {status:'PASS',mobile,real_auth_browser_native_save_post:true,desktop_native_drag:!mobile,touch_button_fallback:mobile,two_complete_cards:true,component_qty:3,labor:'6000',native_calculated_not_paid:true,no_duplicate_fg_hpp_or_journal:true,native_cancel_control_not_connected_payroll_reverse:true,source_cards_return_after_cancel:true,ops_money_hidden:mobile?true:null,lost_reply_exact_uuid_payload_version:mobile?true:null,failed_refresh_retires_stale_cards:mobile?true:null,screenshot:`P12_NOTA_${mobile?'MOBILE':'DESKTOP'}.png`}
+ }catch(error){
+  const p=user.page,panel=p.locator('.cnota');mkdirSync('cp6-proof/t3',{recursive:true})
+  // Synthetic fixture and public DTO only: never persist headers or Auth state.
+  const direct=await user.rpc('erp_cp7_get_nota_workspace_v1',{p_section:'SOURCES',p_query:{contractor_id:f.contractor}})
+  writeFileSync(`cp6-proof/t3/P12_NOTA_${mobile?'MOBILE':'DESKTOP'}_FAILURE.json`,JSON.stringify({error:String(error),panel:await panel.innerText().catch(()=>''),source:direct},null,2))
+  await p.screenshot({path:`cp6-proof/t3/P12_NOTA_${mobile?'MOBILE':'DESKTOP'}_FAILURE.png`,fullPage:true});throw error
  }finally{await user.context.close()}
 }
 export async function cases(ui,today){return [['P12_NOTA_BROWSER_DESKTOP_DRAG',()=>compose(ui,today,false)],['P12_NOTA_BROWSER_MOBILE_RECOVERY',()=>compose(ui,today,true)]]}
