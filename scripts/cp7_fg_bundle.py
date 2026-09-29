@@ -2,7 +2,7 @@
 from pathlib import Path
 import cp7_procurement_bundle
 ROOT=Path(__file__).resolve().parents[1]
-FILES=('bootstrap.sql','read.sql','ledger.sql','adjustments.sql','adjustment-read.sql','ownership.sql')
+FILES=('bootstrap.sql','read.sql','ledger.sql','adjustments.sql','adjustment-read.sql','book.sql','ownership.sql')
 def extension():
     return '\n'.join((ROOT/'scripts/cp7-src/fg'/f).read_text() for f in FILES)
 def bundle():

@@ -5,6 +5,7 @@ import json,os,sys
 import psycopg
 import cp7_fg_cases as cases
 import cp7_fg_adjustment_cases as adjustments
+import cp7_fg_book_cases as book
 
 def main():
     target=os.environ['AUDITOR_BROWSER_DB_URL'];url=urlparse(target)
@@ -15,7 +16,14 @@ def main():
         # Fixture-only native commands need schema resolution; the grant is never
         # committed or exposed to the live browser/Auth session.
         if not had:cur.execute('grant usage on schema erp to authenticated')
-        if op=='create_adjust':
+        if op=='create_book':
+            f=book.fixture(cur,date.fromisoformat(p['today']));out=dict(f,facts=book.facts(cur))
+            if p.get('ops'):
+                role=cur.execute("select id from erp.app_roles where role_code='ADMIN'").fetchone()[0]
+                cur.execute('delete from erp.app_role_permissions where role_id=%s',(role,))
+                for key in ('warehouse.movement.view','warehouse.stock.adjust'):cur.execute('insert into erp.app_role_permissions(role_id,permission_key) values(%s,%s)',(role,key))
+        elif op=='read_book':out=dict(book=book.read(cur,p),facts=book.facts(cur),qty=cases.qty(cases.workspace(cur,p)))
+        elif op=='create_adjust':
             f=cases.fixture(cur,date.fromisoformat(p['today']));g=cases.fixture(cur,date.fromisoformat(p['today']))
             out=dict(f,second=g,number='P10-UI-'+__import__('uuid').uuid4().hex[:10],accounts=[[str(x) for x in row] for row in adjustments.accounts(cur)])
             if p.get('ops'):

@@ -62,6 +62,7 @@ const ConnectedWipStatusPage = lazy(() => import('./ConnectedWipStatusPage'))
 const ConnectedBsResolutionPage = lazy(() => import('./ConnectedBsResolutionPage'))
 const ConnectedLaundryPage = lazy(() => import('./ConnectedLaundryPage'))
 const ConnectedQcFinalPage = lazy(() => import('./ConnectedQcFinalPage'))
+const ConnectedFgBookPage = lazy(() => import('./ConnectedFgBookPage'))
 const ConnectedFgStockPage = lazy(() => import('./ConnectedFgStockPage'))
 const ConnectedFgHandoffBoundary = lazy(() => import('./ConnectedFgHandoffBoundary'))
 const Cp7Shell = lazy(() => import('./cp7/Cp7Shell'))
@@ -621,8 +622,8 @@ function ErpApp() {
         {isFinanceView(page) && <Suspense fallback={<WorkspaceFallback label="Keuangan"/>}>{page === 'finance-ap' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedSupplierCreditPage onLaundry={()=>setPage('laundry')}/> : <FinancePages view={page} onNavigate={(next)=>setPage(next)} onSalesPayment={()=>setPage('sales-payments')} onAttendance={()=>setPage('operations-attendance')} />}</Suspense>}
         {page === 'stock-card' && (runtime.mode === 'DEMO_SIMULATION' ? <StockCard /> : <Suspense fallback={<WorkspaceFallback label="Kartu stok FG"/>}><ConnectedFgStockPage purpose="CARD"/></Suspense>)}
         {page === 'fg-summary' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Barang jadi"/>}><ConnectedFgStockPage/></Suspense>}
-        {page === 'movements-vivo' && <Movements bookName="Vivo" bookBrands={vivoBookBrands} setBookBrands={setVivoBookBrands} movements={movements} setMovements={setMovements} />}
-        {page === 'movements-widie' && <Movements bookName="Widie" bookBrands={widieBookBrands} setBookBrands={setWidieBookBrands} movements={movements} setMovements={setMovements} />}
+        {page === 'movements-vivo' && (runtime.mode === 'DEMO_SIMULATION' ? <Movements bookName="Vivo" bookBrands={vivoBookBrands} setBookBrands={setVivoBookBrands} movements={movements} setMovements={setMovements} /> : <Suspense fallback={<WorkspaceFallback label="Buku mutasi Vivo"/>}><ConnectedFgBookPage bookName="Vivo"/></Suspense>)}
+        {page === 'movements-widie' && (runtime.mode === 'DEMO_SIMULATION' ? <Movements bookName="Widie" bookBrands={widieBookBrands} setBookBrands={setWidieBookBrands} movements={movements} setMovements={setMovements} /> : <Suspense fallback={<WorkspaceFallback label="Buku mutasi Widie"/>}><ConnectedFgBookPage bookName="Widie"/></Suspense>)}
         {page === 'procurement' && (runtime.mode === 'DEMO_SIMULATION' ? <ProcurementPage /> : <Suspense fallback={<WorkspaceFallback label="Penerimaan"/>}><ConnectedProcurementPage/></Suspense>)}
         {page === 'brand-conversion' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Ganti Merek"/>}><ConnectedProductConversionPage/></Suspense>}
         {page === 'accessories' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Aksesori"/>}><ConnectedAccessoryServicePage/></Suspense>}

@@ -6,6 +6,11 @@ name: CP7 P10 Finished goods
     paths:
     - scripts/cp7-src/fg/**
     - scripts/cp7_fg_bundle.py
+    - scripts/cp7_fg_book_cases.py
+    - scripts/cp7_p10_book_browser.mjs
+    - src/ConnectedFgBookPage.tsx
+    - src/fgBookContract.ts
+    - src/fg-book-connected.css
     - scripts/cp7_fg_cases.py
     - scripts/cp7_fg_adjustment_cases.py
     - scripts/cp7_p10_adjustment_browser.mjs

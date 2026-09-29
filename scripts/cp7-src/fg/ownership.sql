@@ -23,3 +23,20 @@ revoke all on all functions in schema cp7_fg from public,anon,authenticated,serv
 grant execute on function cp7_fg.access_now(text),cp7_fg.adjust_access(),cp7_fg.adjust_signature(uuid),cp7_fg.adjust_validate(jsonb,uuid) to cp7_fg_write;
 revoke all on function public.erp_cp7_get_fg_adjustments_v1(jsonb),public.erp_cp7_save_fg_adjustment_v1(text,jsonb,uuid,text) from public,anon,authenticated,service_role,cp7_capture;
 grant execute on function public.erp_cp7_get_fg_adjustments_v1(jsonb),public.erp_cp7_save_fg_adjustment_v1(text,jsonb,uuid,text) to authenticated;
+
+grant create on schema public,cp7_fg to cp7_fg_read,cp7_fg_write;
+alter function cp7_fg.book_access() owner to cp7_fg_read;
+alter function cp7_fg.book_signature() owner to cp7_fg_read;
+alter function cp7_fg.book_rows() owner to cp7_fg_read;
+alter function cp7_fg.book_workspace(jsonb) owner to cp7_fg_read;
+alter function cp7_fg.book_anchor(uuid,uuid,text) owner to cp7_fg_read;
+alter function cp7_fg.book_options(text,text,integer,integer) owner to cp7_fg_read;
+alter function cp7_fg.book_command(text,jsonb,uuid) owner to cp7_fg_write;
+alter function public.erp_cp7_get_fg_book_v1(jsonb) owner to cp7_fg_read;
+alter function public.erp_cp7_get_fg_book_options_v1(text,text,integer,integer) owner to cp7_fg_read;
+alter function public.erp_cp7_save_fg_book_v1(text,jsonb,uuid) owner to cp7_fg_write;
+revoke create on schema public,cp7_fg from cp7_fg_read,cp7_fg_write;
+revoke all on all functions in schema cp7_fg from public,anon,authenticated,service_role,cp7_capture;
+grant execute on function cp7_fg.book_access(),cp7_fg.book_signature(),cp7_fg.book_anchor(uuid,uuid,text) to cp7_fg_write;
+revoke all on function public.erp_cp7_get_fg_book_v1(jsonb),public.erp_cp7_get_fg_book_options_v1(text,text,integer,integer),public.erp_cp7_save_fg_book_v1(text,jsonb,uuid) from public,anon,authenticated,service_role,cp7_capture;
+grant execute on function public.erp_cp7_get_fg_book_v1(jsonb),public.erp_cp7_get_fg_book_options_v1(text,text,integer,integer),public.erp_cp7_save_fg_book_v1(text,jsonb,uuid) to authenticated;

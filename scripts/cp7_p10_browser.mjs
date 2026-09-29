@@ -1,5 +1,6 @@
 import {execFileSync} from 'node:child_process'
 import {mkdirSync} from 'node:fs'
+import {bookCases} from './cp7_p10_book_browser.mjs'
 import {adjustmentCases} from './cp7_p10_adjustment_browser.mjs'
 const fixture=(op,payload)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_p10_browser_fixture.py',op,JSON.stringify(payload)],{cwd:'../writer',encoding:'utf8'}).trim())
 async function openPage(ui,p){
@@ -39,4 +40,4 @@ async function sourceReads(ui,today,mobile){
   return {status:'PASS',mobile,real_ui_auth_rpc_database_reads:true,ordinary_fixture_writes_not_P11_browser:true,initial:[10,4,6],cancelled:[10,0,10],posted:[6,0,6],ops_money_hidden:mobile?true:null,failed_read_clears_stale_stock:mobile?true:null,screenshot:`P10_FG_${mobile?'MOBILE':'DESKTOP'}.png`}
  }finally{await user.context.close()}
 }
-export async function cases(ui,today){return [['P10_FG_BROWSER_DESKTOP',()=>sourceReads(ui,today,false)],['P10_FG_BROWSER_OPERATIONS_MOBILE',()=>sourceReads(ui,today,true)],...adjustmentCases(ui,today)]}
+export async function cases(ui,today){return [['P10_FG_BROWSER_DESKTOP',()=>sourceReads(ui,today,false)],['P10_FG_BROWSER_OPERATIONS_MOBILE',()=>sourceReads(ui,today,true)],...adjustmentCases(ui,today),...bookCases(ui,today)]}
