@@ -1,4 +1,4 @@
-name: CP7 P12 Nota composer
+name: CP7 P12 Nota and payroll review
 'on':
   push:
     branches: [cp7/integration]
@@ -7,6 +7,8 @@ name: CP7 P12 Nota composer
     - scripts/cp7_payroll_bundle.py
     - scripts/cp7_nota_bundle.py
     - scripts/cp7_nota_cases.py
+    - scripts/cp7_settlement_read_bundle.py
+    - scripts/cp7_settlement_read_cases.py
     - scripts/cp7_p12_browser.mjs
     - scripts/cp7_p12_browser_fixture.py
     - src/ConnectedNotaPage.tsx
@@ -202,7 +204,7 @@ jobs:
           cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_install'
     - name: Install accepted package and qualify P12 selected-card Nota
       working-directory: writer
-      run: python '../auditor/scripts/cp7_p12_nota_probe.py'
+      run: python '../auditor/scripts/cp7_p12_nota_probe.py' --payroll-review
     - name: Remove disposable database
       if: always()
       working-directory: base

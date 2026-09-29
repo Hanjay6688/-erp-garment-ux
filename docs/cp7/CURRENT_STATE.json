@@ -36,7 +36,8 @@
     "P03": "BOUNDED_POLICY_NATIVE_PASS_15_CASES_INDEPENDENT_PENDING",
     "P04": "F02_REPAIR_53_PASS_PLUS_SMOKE_INDEPENDENT_HOLD_X06_PUBLIC_JOIN_OPEN",
     "P09": "BOUNDED_121_PASS_COUNTS_AND_COMBINED_INVOICES_QUALIFIED_REMAINING_SCOPE_OPEN",
-    "P10": "FG_SOURCE_CARD_ADJUSTMENTS_BOOK_34_PASS_NOTA_OPEN"
+    "P10": "FG_BOOK_34_PASS_NOTA_TRANSACTIONS_20_PASS_VISUAL_FOLLOWUP",
+    "P12": "NOTA_20_PASS_FINANCE_REVIEW_CANDIDATE_SETTLEMENT_OPEN"
   },
   "inherited_scope": {
     "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
@@ -51,11 +52,11 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Qualify the native Nota composer and real browser recovery, then continue P12 payroll/attendance/advance and the remaining F03 packets.",
+  "next_action": "Qualify Nota contrast and five finance review cases, then connect payroll preparation/approval/payment/attendance/advance and finish remaining F03.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
-  "last_writer_checkpoint": "docs/cp7/P10_FG_HANDOFF.md",
+  "last_writer_checkpoint": "docs/cp7/P12_NOTA_HANDOFF.md",
   "family_status": {
     "F01_P00_P02": "WRITER_T1_BOUNDED_FOUNDATION_PASS_INDEPENDENT_PENDING",
     "F02_P03_P04": "WRITER_REPAIR_VERIFIED_53_CASES_INDEPENDENT_HOLD",
@@ -64,7 +65,7 @@
     "F05_P14_P17": "PLANNED",
     "F06_P18_P21": "PLANNED"
   },
-  "latest_tested_source": "eadc0b95552a5116ffdcd657a2b0f07630f61364",
+  "latest_tested_source": "3d7ef09cc67426fda5c333ee6b963a587fc31c7e",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
   "p04_cutting_verification_receipt": "docs/cp7/evidence/p04-cutting/VERIFICATION.json",
@@ -94,7 +95,7 @@
   "p12_entry": {
     "source_verification": "docs/cp7/evidence/p12-nota/SOURCE_VERIFICATION.json",
     "notes": "docs/cp7/P12_NOTA_ENTRY.md",
-    "status": "COMPOSER_17_PASS_3_INCOMPLETE_LEGACY_ID_AND_SNAPSHOT_RETEST",
+    "status": "NOTA_20_PASS_VISUAL_AND_FINANCE_REVIEW_RERUN",
     "scope": "P10_NOTA_P12_SELECTED_COMPONENT_HANDOFF",
     "remaining": [
       "composer_and_browser_qualification",
@@ -104,6 +105,8 @@
       "P11_R10",
       "P13"
     ],
-    "diagnostic": "docs/cp7/evidence/p12-nota/NOTA_RUN_3.json"
+    "diagnostic": "docs/cp7/evidence/p12-nota/NOTA_RUN_3.json",
+    "verification": "docs/cp7/evidence/p12-nota/NOTA_VERIFICATION.json",
+    "handoff": "docs/cp7/P12_NOTA_HANDOFF.md"
   }
 }

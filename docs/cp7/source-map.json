@@ -1027,8 +1027,11 @@
     "consumer": "src/ConnectedNotaPage.tsx",
     "native_probe": "scripts/cp7_p12_nota_probe.py",
     "browser_probe": "scripts/cp7_p12_browser.mjs",
-    "status": "COMPOSER_17_PASS_3_INCOMPLETE_RETEST_PENDING",
+    "status": "NOTA_20_PASS_VISUAL_AND_FINANCE_READ_CANDIDATE",
     "hosted_boundary_preserved": true,
-    "production_go": false
+    "production_go": false,
+    "verification": "docs/cp7/evidence/p12-nota/NOTA_VERIFICATION.json",
+    "handoff": "docs/cp7/P12_NOTA_HANDOFF.md",
+    "finance_reader": "scripts/cp7-src/payroll/settlement-read.sql"
   }
 }

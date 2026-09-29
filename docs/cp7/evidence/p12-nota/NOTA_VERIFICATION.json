@@ -1,0 +1,57 @@
+{
+  "source": "3d7ef09cc67426fda5c333ee6b963a587fc31c7e",
+  "tree": "db90eb5b83186ad632dab654dd35d200b0cce78c",
+  "run_id": 36579321113,
+  "job_id": 109443017719,
+  "artifact_id": 11039022192,
+  "archive_sha256": "9329b2cc91d8a9a57a7b39d84f99c5a2443461e00104c7c0537c6d4c37bca48a",
+  "bundle_sha256": "f4cc89bc15d5d4231bd13f7791be90a4dd74b4197c397932018678172faaceee",
+  "status": "PASS",
+  "counts": {
+    "native": {
+      "PASS": 5
+    },
+    "http": {
+      "PASS": 1
+    },
+    "notes": {
+      "PASS": 7
+    },
+    "note_races": {
+      "PASS": 3
+    },
+    "note_http": {
+      "PASS": 1
+    },
+    "admission_regression": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "total_pass": 20,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "local_dom_contract_pass": 5,
+  "shell_codeql_run": 36579336948,
+  "independent_acceptance": false,
+  "production_go": false,
+  "visual_review": "Both screenshots inspected; low contrast found in posted card theme. Transaction flow passes; contrast and historical quantity-label correction is a subsequent candidate awaiting browser rerun.",
+  "p09_regression": {
+    "source": "c251a6242cd7c1e079d78082fcb4504e81bc2a92",
+    "run_id": 36577500114,
+    "job_id": 109436777730,
+    "artifact_id": 11037944931,
+    "archive_sha256": "4f17fd902fbbe7050d7ba6ae2313fe2a3ee208f9f4382656f9ade4159af82d4a",
+    "pass_cases": 121,
+    "separate_smokes": 3,
+    "reuse_reason": "Nota UUID parser/oracle fixes do not change P09 backend or consumers. Existing P09 HTTP admission case also passes on the qualified Nota stack."
+  },
+  "files_sha256": {
+    "CP7_P12_NOTA.json.gz": "3eaaac0e131881814acb064dec4667f3485e7f1989a59384cc979c03287596b3",
+    "P09_REGRESSION.json.gz": "946327b31e4a76d62aeeb41febfa14606bbd8ed726f1a3fa8b4308ed9b4dbcaf",
+    "P12_NOTA_DESKTOP.png": "bdb4a1e6f058843fa2c1dfe4baf0e0861d6a21bb52cbf48669febedaa3a4aec0",
+    "P12_NOTA_MOBILE.png": "d4d4c6c19fb146946cc43d629790a2ed1f451c0de1d5c3ca369780733cd43a79"
+  }
+}
