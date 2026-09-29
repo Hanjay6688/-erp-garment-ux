@@ -1,0 +1,21 @@
+{
+  "status": "INSTALL_VERIFIER_INCOMPLETE_BEFORE_CASES",
+  "source": "290f1db7b2d4f22d425988815dc3dcc14fbc3be2",
+  "tree": "ffc9b71911845256e710972a54e545d3adc4d6b3",
+  "run": 36517745486,
+  "job": 109243714872,
+  "bundle_sha256": "1b756f99d6c0de67bdeed3713ce76317f4adf138ac7dac6342457bb3a32a40b2",
+  "error": "P09_UNDECLARED_PREDECESSOR_CHANGE",
+  "actual": [
+    "erp.require_internal()",
+    "erp.bc_guard_zone_location_v1()",
+    "erp.save_material_purchase_draft_v2(jsonb,uuid,bigint)",
+    "erp.post_material_purchase_v2(uuid,uuid,bigint,text)",
+    "erp.has_permission(text)",
+    "erp.get_my_access_v1()"
+  ],
+  "adjudication": "VERIFIER_DEFECT: function body and ACL were hashed together; the four additional entries are explicitly authored least-privilege execution grants. No native cases ran. Install transaction rolled back before commit.",
+  "fix": "Compare predecessor definitions separately (exact two replacements). For every existing function, require same owner and exact old ACL union the explicit read/write-principal grants; auth.uid/jwt included. The full installed registry remains pinned for every case.",
+  "production_go": false,
+  "independent_acceptance": false
+}

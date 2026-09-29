@@ -15,7 +15,12 @@ INSTALLED_FUNCTIONS=None
 def functions(cur):
     path=cur.execute('show search_path').fetchone()[0]
     cur.execute("select set_config('search_path','',true)")
-    try:return dict(cur.execute("select p.oid::regprocedure::text,md5(pg_get_functiondef(p.oid)||coalesce(p.proacl::text,'')) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where p.prokind='f' and (n.nspname in ('erp','public') or n.nspname like 'cp7_%') order by 1").fetchall())
+    try:return dict(cur.execute("""select p.oid::regprocedure::text,jsonb_build_object(
+      'definition',md5(pg_get_functiondef(p.oid)),'owner',pg_get_userbyid(p.proowner),
+      'acl',(select jsonb_agg(jsonb_build_array(case when a.grantee=0 then 'PUBLIC' else pg_get_userbyid(a.grantee) end,a.privilege_type,a.is_grantable) order by a.grantee,a.privilege_type,a.is_grantable)
+        from aclexplode(coalesce(p.proacl,acldefault('f',p.proowner))) a))
+      from pg_proc p join pg_namespace n on n.oid=p.pronamespace where p.prokind='f' and
+      (n.nspname in ('erp','public') or n.nspname like 'cp7_%' or n.nspname='auth' and p.proname in ('uid','jwt')) order by 1""").fetchall())
     finally:cur.execute("select set_config('search_path',%s,true)",(path,))
 
 def verify(cur):
@@ -41,8 +46,16 @@ def run():
             pre_functions=functions(cur)
             cur.execute(bundle.extension(),prepare=False)
             INSTALLED_FUNCTIONS=functions(cur)
-            changed={s for s,v in pre_functions.items() if INSTALLED_FUNCTIONS.get(s)!=v}
+            changed={s for s,v in pre_functions.items() if INSTALLED_FUNCTIONS.get(s,{}).get('definition')!=v['definition']}
             assert changed==set(bundle.REPLACED),('P09_UNDECLARED_PREDECESSOR_CHANGE',changed)
+            grants={s:{('cp7_procure_read','EXECUTE',False),('cp7_procure_write','EXECUTE',False)} for s in ('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)')}
+            grants.update({s:{('cp7_procure_write','EXECUTE',False)} for s in ('erp.save_material_purchase_draft_v2(jsonb,uuid,bigint)','erp.post_material_purchase_v2(uuid,uuid,bigint,text)')})
+            for signature,old in pre_functions.items():
+                new=INSTALLED_FUNCTIONS[signature]
+                assert new['owner']==old['owner'],('P09_PREDECESSOR_OWNER_CHANGED',signature)
+                old_acl={tuple(x) for x in old['acl'] or []};new_acl={tuple(x) for x in new['acl'] or []}
+                assert new_acl==old_acl|grants.get(signature,set()),('P09_UNDECLARED_ACL_DELTA',signature,new_acl-old_acl,old_acl-new_acl)
+            report['declared_execute_grants']={s:sorted(rows) for s,rows in grants.items()}
             report['replaced_functions']={s:dict(before_sha256=hashlib.sha256(originals[s].encode()).hexdigest(),after_sha256=hashlib.sha256(cur.execute('select pg_get_functiondef(%s::regprocedure)',(s,)).fetchone()[0].encode()).hexdigest()) for s in bundle.REPLACED}
             conn.commit();installed=True;verify(cur);conn.rollback()
         report['advisors_with_cp7']=advisors(package.boundary.PG)
