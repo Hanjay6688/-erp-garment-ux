@@ -1,0 +1,103 @@
+{
+  "status": "INCOMPLETE",
+  "source_commit": "3668749aebc9136b20162fc0c70a1774deb4bd82",
+  "source_tree": "d594e7865a2c8ad76a102437f7800baf583c98e4",
+  "run_id": 36641034282,
+  "job_id": 109653089852,
+  "artifact_id": 11067270076,
+  "artifact_bytes": 4374024,
+  "artifact_sha256": "8f62e1584ce6ea6f3073cc036fef71345620e0dcfc612150388d0117c0b2f4a1",
+  "report_sha256": "5892d2d0c90781b44a5fbd7bb836bbd6214c9d8a21fe8c4fa8d4c87b48376001",
+  "report_gzip_sha256": "5bd2fd5213964b2293e5d78826aaa0d6c8fdbad93ee1734f3063ae83f7b1ec26",
+  "source_bundle_sha256": "0a9b3d0333c2829aa1607684510ccb11f8eebb6d9e55f9c2e7b08150584cb33f",
+  "counts": {
+    "PASS": 21,
+    "FAIL": 0,
+    "INCOMPLETE": 4,
+    "NOT_RUN": 0
+  },
+  "observed_case_count": 25,
+  "expected_cases": 25,
+  "groups": {
+    "native": {
+      "PASS": 8
+    },
+    "races": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    },
+    "recost_native": {
+      "PASS": 5,
+      "INCOMPLETE": 3
+    },
+    "recost_races": {
+      "PASS": 2
+    },
+    "recost_http": {
+      "PASS": 1
+    },
+    "recost_browser": {
+      "PASS": 1,
+      "INCOMPLETE": 1
+    }
+  },
+  "nonpassing_cases": {
+    "P13_RECOST_REPLAY": {
+      "status": "INCOMPLETE",
+      "error": "new row for relation \"cost_recalc_queue\" violates check constraint \"cost_recalc_queue_entity_type_check\"\nDETAIL:  Failing row contains (4, P13_UNSUPPORTED, 87d4308d-49ff-4c66-b987-e70896cadfcb, null, Disposable queue failure control, PENDING, 2026-09-29 22:45:44.912003+00, null, null, null, 0, null, null)."
+    },
+    "P13_RECOST_BOUNDED_FAILURE": {
+      "status": "INCOMPLETE",
+      "error": "new row for relation \"cost_recalc_queue\" violates check constraint \"cost_recalc_queue_entity_type_check\"\nDETAIL:  Failing row contains (5, P13_UNSUPPORTED, 607f090e-19bf-4ff4-87c0-8552dee1ec1d, null, Disposable queue failure control, PENDING, 2026-09-29 22:45:46.505919+00, null, null, null, 0, null, null)."
+    },
+    "P13_RECOST_RETRY": {
+      "status": "INCOMPLETE",
+      "error": "new row for relation \"cost_recalc_queue\" violates check constraint \"cost_recalc_queue_entity_type_check\"\nDETAIL:  Failing row contains (6, P13_UNSUPPORTED, d0b4fd06-4e6a-4120-b8b4-368d9768a858, null, Disposable queue failure control, FAILED, 2026-09-29 22:45:47.294986+00, null, null, null, 1, null, 2026-09-29 23:45:47.294986+00)."
+    },
+    "P13_RECOST_BROWSER_MOBILE_RECOVERY": {
+      "status": "INCOMPLETE",
+      "error": "Error: Command failed: python ../auditor/scripts/cp7_p13_recost_fixture.py prepare {\"today\":\"2026-09-30\"}\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_p13_recost_fixture.py\", line 24, in <module>\n    if __name__=='__main__':main()\n                            ^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_p13_recost_fixture.py\", line 15, in main\n    f=cases.fixture(cur,date.fromisoformat(p['today']));out=dict(po=str(f['f']['po']),day=str(f['day']),filing=f['filing'],original=f['original']['filing'],position=f['original']['snapshot']['financial_position'])\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_recost_cases.py\", line 19, in fixture\n    f,day,filing=finance.archive_fixture(cur,today);original=finance.read(cur,day,filing_id=filing);period.late(cur,f)\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_finance_cases.py\", line 16, in archive_fixture\n    f,_=aw.recost_fixture(cur,today,False);day=f['purchase_day']+timedelta(days=1);quiet=aw.quiet_seed(cur,f['purchase_day'],day);pre=aw.preflight(cur,day);assert pre and pre['status']=='READY',dict(reason='Fixture not ready to file',preflight=pre,quiet=quiet)\n                                                                                                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: {'reason': 'Fixture not ready to file', 'preflight': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '2 penerimaan bahan masih memakai estimasi GRNI (total 200.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 'reference': {'receipts': 2, 'estimated_amount': 200.0}, 'impact_date': '2026-09-27'}], 'engine': 'PERIOD_READINESS_V1', 'status': 'BLOCKED', 'through': '2026-09-28', 'blockers': [{'code': 'PAYROLL_WORK_UNCOVERED', 'scope': 'AS_OF', 'family': 'PAYROLL', 'reason': 'Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum 2026-09-28 belum masuk payroll.', 'severity': 'POLICY', 'reference': {'lines': 1, 'contractor_id': 'a1000000-0000-0000-0000-000000000001', 'remaining_qty': 10, 'remaining_amount': 0.0, 'first_eligible_at': '2026-09-28T10:00:00+07:00'}, 'impact_date': '2026-09-28'}], 'window_from': '2026-09-27', 'date_allowed': True, 'policy_count': 1, 'recalc_count': 0, 'blocker_count': 1, 'closed_through': '2026-09-26', 'critical_count': 0}, 'quiet': {'attendance': [], 'approved': [], 'work_payrolls': [], 'refused': [{'step': 'work_payroll', 'contractor': 'a1000000-0000-0000-0000-000000000001', 'message': 'Payroll period overlaps another active payroll for this contractor'}]}}\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappe"
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "3668749aebc9136b20162fc0c70a1774deb4bd82",
+    "product_ref": "3668749aebc9136b20162fc0c70a1774deb4bd82",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36641034282",
+    "run_attempt": "1",
+    "workflow": "CP7 P13 HPP recost",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "3668749aebc9136b20162fc0c70a1774deb4bd82",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false,
+  "diagnosis": "Actual late-source recost85->90/FG51->54/COGS34->36, races, HTTP and desktop passed. Three administrative fault controls could not insert their arbitrary entity label because the accepted queue check allows only MATERIAL/PO/LOT/SALE. The processor supports only PO; repair the control to admitted MATERIAL without altering any constraint or failure oracle. Mobile preparation reused the desktop contractor and collided with an approved payroll period. Isolate each browser source with a fresh zero-rate mandor master, retain the full native production/filing/late-purchase path and unchanged money/recovery assertions. These four cases remain INCOMPLETE until retest."
+}

@@ -1,5 +1,9 @@
 # P13 recorded comparison and cash ledger — candidate
 
+## Third run:22 PASS /2 browser INCOMPLETE
+
+[Run36640775178](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36640775178) on `41a112b0332fa1ab992bf91bb02efdeca75e3d1c`: all8 analysis-native cases, concurrent cash visibility and actual Auth/HTTP pass, alongside the original12 report cases. Both browser cases start but their full native boundary read-back exceeds the1MiB default child-process output buffer. **22 PASS /0 FAIL /2 INCOMPLETE /0 NOT_RUN** is retained. Increase only that helper limit to16MiB while retaining full native-source equality and every UI assertion; no product change or truncated boundary. [Original report/receipt](evidence/p13-finance/ANALYSIS_RUN3_RECEIPT.json).
+
 ## Second run: same15 PASS /7 INCOMPLETE /2 NOT_RUN
 
 [Run36639703356](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36639703356) on `9861692f79764860c6241234dc280a1a956a2a10` retains the same counts. The preparation helper now stops at its own overly narrow postgres assertion: the isolated runtime actually connects as supabase_admin. Both names are already admitted by the unchanged native guard. The fixture now accepts exactly those administrator identities, keeps OWNER claims and adds no app/reader grant. [Original result and diagnosis](evidence/p13-finance/ANALYSIS_RUN2_RECEIPT.json). No new cash correctness or browser claim is made before retest.
@@ -25,3 +29,5 @@ Local validation: **22 cases pass** (8 new analysis DOM/contract,8 report,6 peri
 Predeclared native qualification: **24 cases**, consisting of the original12 report/archive cases and12 new analysis cases:8 native,1 concurrent cash writer/reader,1 real Auth/HTTP and2 desktop/mobile browser journeys. O13 creates real found-stock lots and native sales at1000/730 and1200/912; O14 uses an actual customer receipt300 and supplier payment200, with a native journal transfer1000 between accounts. Master/capital preparation and the transfer journal are disposable native fixture controls; browser claims cover report selection and source reads only. Additional cases cover zero baseline, exact9007199254740993.01, duplicate/inactive cash COA, complete pages, accounting-day reversal, timezones, closed queries and current authorization. CP6 restoration, advisors, Auth/database cleanup and actual screenshot inspection remain required before qualification.
 
 P13 period-close25 and F03 combined22 are separate source-bound regression counts. Remaining cash/misc-finance writers, recost commands, E05 installment semantics and the rest of F03 acceptance are not closed by this reader.
+
+Regression with the recost extension at `3668749aebc9136b20162fc0c70a1774deb4bd82`, [run36641034267](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36641034267), has the same **22 PASS /2 browser INCOMPLETE** output-buffer result. [Receipt](evidence/p13-finance/ANALYSIS_RECOST_REGRESSION_RECEIPT.json) binds the original report/artifact and confirms cleanup, restoration and advisor gates. The explicit16MiB fixture output limit is awaiting browser retest; it does not trim source data or weaken equality.

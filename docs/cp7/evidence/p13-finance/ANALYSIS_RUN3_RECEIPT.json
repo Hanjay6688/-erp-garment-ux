@@ -1,0 +1,93 @@
+{
+  "status": "INCOMPLETE",
+  "source_commit": "41a112b0332fa1ab992bf91bb02efdeca75e3d1c",
+  "source_tree": "8980326dc359a9d3db95f343eb0dd61ff5ede1c9",
+  "run_id": 36640775178,
+  "job_id": 109652261347,
+  "artifact_id": 11066084599,
+  "artifact_bytes": 4074509,
+  "artifact_sha256": "7754e118c100d78d3df0b3e3ea75e1aa20e29e365984ab6aea99fe9a980e0740",
+  "report_sha256": "51b8c6c5e9f73aa888afe14e503f3ec5974bc9f590cf4f30b8b8419835b60cd9",
+  "report_gzip_sha256": "797d5a53571c40cca432c1d324264d70d87cc6f38af389261543029cfef05601",
+  "source_bundle_sha256": "5396b3f08b7f51004017987c0c5fafd36a27b22c3613f66e1ea0929eb534af5e",
+  "counts": {
+    "PASS": 22,
+    "FAIL": 0,
+    "INCOMPLETE": 2,
+    "NOT_RUN": 0
+  },
+  "observed_case_count": 24,
+  "expected_cases": 24,
+  "groups": {
+    "native": {
+      "PASS": 8
+    },
+    "races": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    },
+    "analysis_native": {
+      "PASS": 8
+    },
+    "analysis_races": {
+      "PASS": 1
+    },
+    "analysis_http": {
+      "PASS": 1
+    },
+    "analysis_browser": {
+      "INCOMPLETE": 2
+    }
+  },
+  "nonpassing_cases": {
+    "P13_ANALYSIS_BROWSER_DESKTOP": {
+      "status": "INCOMPLETE",
+      "error": "Error: spawnSync python ENOBUFS\n    at Object.spawnSync (node:internal/child_process:1120:20)\n    at spawnSync (node:child_process:902:24)\n    at execFileSync (node:child_process:945:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p13_analysis_browser.mjs:4:34)\n    at read (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p13_analysis_browser.mjs:7:108)\n    at analysis (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p13_analysis_browser.mjs:27:216)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3"
+    },
+    "P13_ANALYSIS_BROWSER_MOBILE": {
+      "status": "INCOMPLETE",
+      "error": "Error: spawnSync python ENOBUFS\n    at Object.spawnSync (node:internal/child_process:1120:20)\n    at spawnSync (node:child_process:902:24)\n    at execFileSync (node:child_process:945:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p13_analysis_browser.mjs:4:34)\n    at read (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p13_analysis_browser.mjs:7:108)\n    at analysis (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p13_analysis_browser.mjs:27:216)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3"
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "41a112b0332fa1ab992bf91bb02efdeca75e3d1c",
+    "product_ref": "41a112b0332fa1ab992bf91bb02efdeca75e3d1c",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36640775178",
+    "run_attempt": "1",
+    "workflow": "CP7 P13 Finance Analysis",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "41a112b0332fa1ab992bf91bb02efdeca75e3d1c",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false,
+  "diagnosis": "All8 analysis-native,1 concurrency and1 actual Auth/HTTP cases now pass alongside the original12. Both browser cases start but their full native catalogue/data read-back exceeds the default1MiB execFileSync output buffer (ENOBUFS). Increase only the disposable helper output limit to16MiB, keep the full source comparison and every UI assertion, and do not truncate or replace the financial oracle. Browser cases remain INCOMPLETE until complete retest."
+}

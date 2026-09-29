@@ -1,7 +1,9 @@
 import assert from 'node:assert/strict'
 import {execFileSync} from 'node:child_process'
 import {mkdirSync,writeFileSync} from 'node:fs'
-const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_p13_analysis_fixture.py',op,JSON.stringify(p)],{cwd:'../writer',encoding:'utf8'}).trim())
+// The complete native catalogue/data boundary exceeds Node's default1MiB.
+// Preserve the full comparison; refuse explicitly at16MiB rather than trim it.
+const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_p13_analysis_fixture.py',op,JSON.stringify(p)],{cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
 async function analysis(ui,f,mobile){
  const user=await ui.login('OWNER',{label:'p13-analysis-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'}),p=user.page,suffix=mobile?'MOBILE':'DESKTOP'
  const panel=p.getByRole('region',{name:'Perbandingan periode dan arus kas',exact:true}),read=()=>{const r=fixture('read',f);delete r.report.captured_at;return r}

@@ -1,5 +1,9 @@
 # P13 reviewed period control — bounded writer qualification
 
+## Visual correction also qualified
+
+[Run36640775187](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36640775187) on `41a112b0332fa1ab992bf91bb02efdeca75e3d1c`, tree `8980326dc359a9d3db95f343eb0dd61ff5ede1c9`: **25 PASS /0 FAIL /0 INCOMPLETE /0 NOT_RUN**, with restoration/advisor/Auth/database/package gates passing. Actual desktop1440/mobile390 controls were inspected: reason fields now match the dark theme and confirmation checkboxes retain normal inline size. [Receipt, original-artifact screenshot hashes and retained control crops](evidence/p13-finance/PERIOD_VISUAL_QUALIFIED_RECEIPT.json). Earlier visual correction is no longer pending.
+
 ## Qualified:25 PASS on9861692
 
 [Run36639703448](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36639703448), source `9861692f79764860c6241234dc280a1a956a2a10`, tree `0bbf7f31a97eb7c315f8d19f871bc65bd7d32225`: **25 PASS /0 FAIL /0 INCOMPLETE /0 NOT_RUN**. Both real browser journeys now close, read the immutable archive and reopen; mobile recovers the same lost-CLOSE request after reload without another archive. Native8, races2, HTTP1 and the retained report12 all pass. CP6 restoration, advisors, Auth/database cleanup and package gates pass. [Receipt and retained report](evidence/p13-finance/PERIOD_QUALIFIED_RECEIPT.json). [Same-source combined22](evidence/p13-finance/PERIOD_QUALIFIED_COMBINED_RECEIPT.json) also passes.

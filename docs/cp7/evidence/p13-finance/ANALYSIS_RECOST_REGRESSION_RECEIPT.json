@@ -1,0 +1,93 @@
+{
+  "status": "INCOMPLETE",
+  "source_commit": "3668749aebc9136b20162fc0c70a1774deb4bd82",
+  "source_tree": "d594e7865a2c8ad76a102437f7800baf583c98e4",
+  "run_id": 36641034267,
+  "job_id": 109653089749,
+  "artifact_id": 11065624267,
+  "artifact_bytes": 4073527,
+  "artifact_sha256": "11c20265e4490d1ddb5273dd9e95de8ad80f8f5ea56a9ed38a006e030608b4ad",
+  "report_sha256": "5e04258f0e4ffbde0034697a645aa9cbffd57f966952e01742b88d21aa5c442a",
+  "report_gzip_sha256": "9a207c8845f74548b170e1dd7795a7357625ec65c0f7cdea8b215a1bcefe0ac2",
+  "source_bundle_sha256": "0a9b3d0333c2829aa1607684510ccb11f8eebb6d9e55f9c2e7b08150584cb33f",
+  "counts": {
+    "PASS": 22,
+    "FAIL": 0,
+    "INCOMPLETE": 2,
+    "NOT_RUN": 0
+  },
+  "observed_case_count": 24,
+  "expected_cases": 24,
+  "groups": {
+    "native": {
+      "PASS": 8
+    },
+    "races": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    },
+    "analysis_native": {
+      "PASS": 8
+    },
+    "analysis_races": {
+      "PASS": 1
+    },
+    "analysis_http": {
+      "PASS": 1
+    },
+    "analysis_browser": {
+      "INCOMPLETE": 2
+    }
+  },
+  "nonpassing_cases": {
+    "P13_ANALYSIS_BROWSER_DESKTOP": {
+      "status": "INCOMPLETE",
+      "error": "Error: spawnSync python ENOBUFS\n    at Object.spawnSync (node:internal/child_process:1120:20)\n    at spawnSync (node:child_process:902:24)\n    at execFileSync (node:child_process:945:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p13_analysis_browser.mjs:4:34)\n    at read (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p13_analysis_browser.mjs:7:108)\n    at analysis (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p13_analysis_browser.mjs:27:216)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3"
+    },
+    "P13_ANALYSIS_BROWSER_MOBILE": {
+      "status": "INCOMPLETE",
+      "error": "Error: spawnSync python ENOBUFS\n    at Object.spawnSync (node:internal/child_process:1120:20)\n    at spawnSync (node:child_process:902:24)\n    at execFileSync (node:child_process:945:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p13_analysis_browser.mjs:4:34)\n    at read (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p13_analysis_browser.mjs:7:108)\n    at analysis (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p13_analysis_browser.mjs:27:216)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3"
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "3668749aebc9136b20162fc0c70a1774deb4bd82",
+    "product_ref": "3668749aebc9136b20162fc0c70a1774deb4bd82",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36641034267",
+    "run_attempt": "1",
+    "workflow": "CP7 P13 Finance Analysis",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "3668749aebc9136b20162fc0c70a1774deb4bd82",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false,
+  "diagnosis": "22 native/race/Auth/retained cases pass. Both analysis browsers hit Node execFileSync default output buffer while fetching the complete native read-only boundary. Retest with an explicit16MiB output bound, preserving the full comparison and every UI assertion."
+}

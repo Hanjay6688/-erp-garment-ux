@@ -20,10 +20,11 @@ def fixture(cur,today):
  assert cur.execute("select count(*) from erp.cost_recalc_queue where entity_id=%s and status='PENDING'",(f['po'],)).fetchone()[0]>0
  return dict(f=f,day=day,filing=filing,original=original)
 def fault(cur,status='PENDING',attempts=0,future=False):
- # Explicit administrative fault injection. No ordinary business API creates
- # an unsupported queue entity. It tests the unchanged native catch/retry path.
+ # Explicit administrative fault injection. MATERIAL is allowed by the accepted
+ # queue constraint, but unsupported by this native processor (which handles PO).
+ # No ordinary business posting claim is made for this catch/retry control.
  b.api.admin(cur)
- return str(cur.execute("insert into erp.cost_recalc_queue(entity_type,entity_id,reason,status,attempt_count,next_attempt_at) values('P13_UNSUPPORTED',%s,'Disposable queue failure control',%s,%s,case when %s then statement_timestamp()+interval '1 hour' end) returning id",(uuid.uuid4(),status,attempts,future)).fetchone()[0])
+ return str(cur.execute("insert into erp.cost_recalc_queue(entity_type,entity_id,reason,status,attempt_count,next_attempt_at) values('MATERIAL',%s,'Disposable queue failure control',%s,%s,case when %s then statement_timestamp()+interval '1 hour' end) returning id",(uuid.uuid4(),status,attempts,future)).fetchone()[0])
 def cases(cur,today):
  def lifecycle():
   f=fixture(cur,today);old=values(cur,f['f']);physical=stock(cur);r=command(cur);new=values(cur,f['f'])

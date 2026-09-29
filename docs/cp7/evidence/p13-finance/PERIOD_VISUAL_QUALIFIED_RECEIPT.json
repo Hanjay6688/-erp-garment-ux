@@ -1,0 +1,100 @@
+{
+  "status": "PASS",
+  "source_commit": "41a112b0332fa1ab992bf91bb02efdeca75e3d1c",
+  "source_tree": "8980326dc359a9d3db95f343eb0dd61ff5ede1c9",
+  "run_id": 36640775187,
+  "job_id": 109652261331,
+  "artifact_id": 11067085051,
+  "artifact_bytes": 6459833,
+  "artifact_sha256": "3f59b0ccd700ebcaa90075a6d829a22842bc817e97ec393640817a1da670428f",
+  "report_sha256": "4a26ee98d7613b579c33f2f870793a82671f692e73bc94502fccace7530d7a2f",
+  "report_gzip_sha256": "9cb7d80028eeb27266c0f3a07f444e8b793b198e00e927cfa093b2f9370eeb6e",
+  "source_bundle_sha256": "5396b3f08b7f51004017987c0c5fafd36a27b22c3613f66e1ea0929eb534af5e",
+  "counts": {
+    "PASS": 25,
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0
+  },
+  "observed_case_count": 25,
+  "expected_cases": 25,
+  "groups": {
+    "native": {
+      "PASS": 8
+    },
+    "races": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    },
+    "period_native": {
+      "PASS": 8
+    },
+    "period_races": {
+      "PASS": 2
+    },
+    "period_http": {
+      "PASS": 1
+    },
+    "period_browser": {
+      "PASS": 2
+    }
+  },
+  "nonpassing_cases": {},
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "41a112b0332fa1ab992bf91bb02efdeca75e3d1c",
+    "product_ref": "41a112b0332fa1ab992bf91bb02efdeca75e3d1c",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36640775187",
+    "run_attempt": "1",
+    "workflow": "CP7 P13 Period control",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "41a112b0332fa1ab992bf91bb02efdeca75e3d1c",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": true,
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false,
+  "visual_scope": "Actual desktop1440 and mobile390 controls inspected at original pixels. Dark84px-minimum reason field and correctly sized inline confirmation checkbox verified. Both close/archive/reopen journeys and mobile exact lost-response recovery pass. Original full screenshots remain in the hash-bound artifact; cropped controls are additionally retained here.",
+  "screenshots": {
+    "DESKTOP": {
+      "artifact_path": "P13_PERIOD_DESKTOP.png",
+      "sha256": "c3f2691782682c114458125638f9960ba49015f3cb11406a4178824aab5b72f0",
+      "retained_controls": "P13_PERIOD_VISUAL_DESKTOP_CONTROLS.png",
+      "controls_sha256": "2fb44304b851746221119c3d10e383639e1bd833217c856fb4e1040e14f8ef2b",
+      "crop_origin_y": 460
+    },
+    "MOBILE": {
+      "artifact_path": "P13_PERIOD_MOBILE.png",
+      "sha256": "880fe18bfcf57deda8ba1315e53f3e37083ebc893ba2696752f06b079a3c3571",
+      "retained_controls": "P13_PERIOD_VISUAL_MOBILE_CONTROLS.png",
+      "controls_sha256": "fe225dabac1d01854631245dc85bf6023a94f3686f296b8e87268228d9f4b6d2",
+      "crop_origin_y": 1220
+    }
+  }
+}

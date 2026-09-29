@@ -54,7 +54,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Finish native period25 and comparison/cash24 qualifiers, retain exact source evidence and inspect screenshots. P09 132 plus3 smokes, P11 64 and selected combined22 are already writer-qualified within receipts. Continue remaining unambiguous F03 contract; E05 remains an explicit decision boundary. F04 follows F03 completion.",
+  "next_action": "Qualify recost25 and analysis24 after fixture-only repairs, retain original failures and exact source evidence, inspect actual screenshots. Period25 and combined22 pass on3668749. Continue unambiguous remaining F03 contract; E05 remains a documented decision boundary. F04 follows F03 completion.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -236,7 +236,8 @@
     "production_go": false,
     "source_commit": "e808453079f44876d576cecbc5fce9a7aba389ee",
     "source_tree": "83d276edcd21ffd2c9ea81ca0d023eb8d7d0b9a0",
-    "verification": "docs/cp7/evidence/f03-combined/COMBINED_VERIFICATION.json"
+    "verification": "docs/cp7/evidence/f03-combined/COMBINED_VERIFICATION.json",
+    "latest_regression": "docs/cp7/evidence/p13-finance/RECOST_COMBINED_REGRESSION_RECEIPT.json"
   },
   "p09_unmoved_count_candidate": {
     "status": "WRITER_BOUNDED_132_PASS_PLUS_3_SMOKES",
@@ -260,13 +261,14 @@
     "local_period_cases": 6,
     "independent_acceptance": false,
     "production_go": false,
-    "source_commit": "9861692f79764860c6241234dc280a1a956a2a10",
-    "source_tree": "0bbf7f31a97eb7c315f8d19f871bc65bd7d32225",
-    "verification": "docs/cp7/evidence/p13-finance/PERIOD_QUALIFIED_RECEIPT.json",
-    "run_id": 36639703448
+    "source_commit": "41a112b0332fa1ab992bf91bb02efdeca75e3d1c",
+    "source_tree": "8980326dc359a9d3db95f343eb0dd61ff5ede1c9",
+    "verification": "docs/cp7/evidence/p13-finance/PERIOD_VISUAL_QUALIFIED_RECEIPT.json",
+    "run_id": 36640775187,
+    "latest_regression": "docs/cp7/evidence/p13-finance/PERIOD_RECOST_REGRESSION_RECEIPT.json"
   },
   "p13_analysis_candidate": {
-    "status": "RUN2_15_PASS_7_INCOMPLETE_2_NOT_RUN_FIXTURE_ADMIN_RETEST_PENDING",
+    "status": "RUN3_22_PASS_2_BROWSER_INCOMPLETE_BUFFER_RETEST_PENDING",
     "handoff": "docs/cp7/P13_ANALYSIS_HANDOFF.md",
     "expected_cases": 24,
     "retained_report_cases": 12,
@@ -274,18 +276,23 @@
     "local_analysis_cases": 8,
     "independent_acceptance": false,
     "production_go": false,
-    "source_commit": "9861692f79764860c6241234dc280a1a956a2a10",
-    "source_tree": "0bbf7f31a97eb7c315f8d19f871bc65bd7d32225",
-    "diagnostic": "docs/cp7/evidence/p13-finance/ANALYSIS_RUN2_RECEIPT.json"
+    "source_commit": "41a112b0332fa1ab992bf91bb02efdeca75e3d1c",
+    "source_tree": "8980326dc359a9d3db95f343eb0dd61ff5ede1c9",
+    "diagnostic": "docs/cp7/evidence/p13-finance/ANALYSIS_RUN3_RECEIPT.json",
+    "latest_regression": "docs/cp7/evidence/p13-finance/ANALYSIS_RECOST_REGRESSION_RECEIPT.json"
   },
   "p13_recost_candidate": {
-    "status": "CANDIDATE_NATIVE_25_PENDING",
+    "status": "RUN1_21_PASS_4_FIXTURE_INCOMPLETE_RETEST_PENDING",
     "handoff": "docs/cp7/P13_RECOST_HANDOFF.md",
     "expected_cases": 25,
     "retained_report_cases": 12,
     "new_recost_cases": 13,
     "local_recost_cases": 6,
     "independent_acceptance": false,
-    "production_go": false
+    "production_go": false,
+    "source_commit": "3668749aebc9136b20162fc0c70a1774deb4bd82",
+    "source_tree": "d594e7865a2c8ad76a102437f7800baf583c98e4",
+    "run_id": 36641034282,
+    "diagnostic": "docs/cp7/evidence/p13-finance/RECOST_RUN1_RECEIPT.json"
   }
 }
