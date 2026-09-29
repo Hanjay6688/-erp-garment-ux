@@ -1,0 +1,21 @@
+{
+  "status": "75_PASS_1_INCOMPLETE_FIXTURE",
+  "source_commit": "06f8e0a3f25283feacb06b92d5391d00cb44a51e",
+  "source_tree": "28e619bb2d281fe2d92a101811cf6b3123ae8be6",
+  "run_id": 36598783538,
+  "job_id": 109510453918,
+  "artifact_id": 11049021926,
+  "archive_sha256": "1b05b097f10ec4e452e2cec50afa635398158bc4ce0edf5d8b73628cfc0844ed",
+  "report_sha256": "28dbe5159f60c13e43780eb0b2d51c8a7357b69c595ff0cdbfdcf88209271ec7",
+  "bundle_sha256": "dda5fa21712cc62f2c2003be3db3220186e0d173482a3213d01884a2e78aba11",
+  "counts": {
+    "PASS": 75,
+    "INCOMPLETE": 1
+  },
+  "diagnosis": "TWO_PERIODS fixture tried creating two active overlapping drafts sequentially. Accepted native guard rejects the second draft before the planned posting race. Corrected probe competes two distinct CREATE requests from the same empty source and requires one winner, one refusal and one native period; no native overlap guard changed.",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "database_cleanup": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

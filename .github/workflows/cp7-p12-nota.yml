@@ -15,6 +15,9 @@ name: CP7 P12 Nota and payroll lifecycle
     - scripts/cp7_roster_cases.py
     - scripts/cp7_attendance_write_bundle.py
     - scripts/cp7_attendance_write_cases.py
+    - scripts/cp7_p12_attendance_write_browser.mjs
+    - src/AttendanceEntryEditor.tsx
+    - src/attendanceEntryContract.ts
     - scripts/cp7_p12_roster_browser.mjs
     - src/RosterEditor.tsx
     - src/productionRecovery.ts

@@ -22,6 +22,6 @@ end $verify$;"""%hashlib.sha256(expected.encode()).hexdigest()
  d:=pg_get_functiondef('erp.require_internal()'::regprocedure);
  execute replace(d,$anchor$%s$anchor$,$delta$%s$delta$);
 end $patch$;"""%(nota.ANCHOR,CONTEXT+nota.ANCHOR)
-    return '\n'.join((guard,(ROOT/'scripts/cp7-src/payroll/attendance-write.sql').read_text(),patch))
+    return '\n'.join((guard,(ROOT/'scripts/cp7-src/payroll/attendance-write.sql').read_text(),patch,(ROOT/'scripts/cp7-src/payroll/attendance-entry.sql').read_text()))
 def bundle():return roster.bundle()+'\n'+extension()
-RULES={**roster.RULES,'command_access':('cp7_attendance_read',True,'s'),'validate_command':('cp7_attendance_write',False,'i'),'apply_command':('postgres',True,'v'),'attendance_command':('cp7_attendance_write',False,'v')}
+RULES={**roster.RULES,'entry_workspace':('cp7_attendance_read',False,'s'),'command_access':('cp7_attendance_read',True,'s'),'validate_command':('cp7_attendance_write',False,'i'),'apply_command':('postgres',True,'v'),'attendance_command':('cp7_attendance_write',False,'v')}

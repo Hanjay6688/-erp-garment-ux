@@ -52,7 +52,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Qualify native attendance preview/save/post/correction/reverse (76 cases); connect complete-cell attendance entry and recovery, then advances/carry.",
+  "next_action": "Qualify connected attendance source-to-Nota/payroll/inverse candidate (80 cases), then advances/carry; qualified63-case roster checkpoint remains separate.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -118,10 +118,10 @@
     "attendance_candidate": "DATED_READER_AND_DESKTOP_MOBILE_UI_51_PASS",
     "attendance_read_verification": "docs/cp7/evidence/p12-attendance/READ_VERIFICATION.json",
     "attendance_ui_verification": "docs/cp7/evidence/p12-attendance/READ_UI_VERIFICATION.json",
-    "p09_regression_latest": "docs/cp7/evidence/p12-attendance/P09_RUN10_REGRESSION.json",
+    "p09_regression_latest": "docs/cp7/evidence/p12-attendance/P09_RUN12_REGRESSION.json",
     "roster_candidate": "ROSTER_NATIVE_AND_CONNECTED_BROWSER_63_PASS",
     "roster_verification": "docs/cp7/evidence/p12-attendance/ROSTER_VERIFICATION.json",
     "source_handoff": "docs/cp7/P12_SOURCE_HANDOFF.md",
-    "attendance_write_candidate": "NATIVE_76_CASES_PENDING_NO_ATTENDANCE_ENTRY_UI"
+    "attendance_write_candidate": "75_PASS_1_FIXTURE_INCOMPLETE_CONNECTED_80_CASES_PENDING"
   }
 }

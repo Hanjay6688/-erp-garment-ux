@@ -17,13 +17,13 @@ const nullable=(test:(v:unknown)=>boolean,v:unknown)=>v===null||test(v)
 const decimal=(v:unknown,scale=6):v is string=>text(v)&&new RegExp('^(0|[1-9][0-9]{0,25})(\\.[0-9]{1,'+scale+'})?$').test(v)
 const date=(v:unknown):v is string=>text(v)&&/^\d{4}-\d{2}-\d{2}$/.test(v)&&Number.isFinite(Date.parse(v+'T00:00:00Z'))&&new Date(v+'T00:00:00Z').toISOString().slice(0,10)===v
 function closed(v:unknown,keys:string[]){if(!v||typeof v!=='object'||Array.isArray(v))return fail();const r=v as Record<string,unknown>;if(Object.keys(r).length!==keys.length||keys.some(k=>!(k in r)))fail();return r}
-function contractor(v:unknown):AttendanceContractor{const r=closed(v,['id','name','active_now','attendance_required']);if(!uuid(r.id)||!text(r.name)||typeof r.active_now!=='boolean'||typeof r.attendance_required!=='boolean')fail();return r as AttendanceContractor}
+export function parseAttendanceContractor(v:unknown):AttendanceContractor{const r=closed(v,['id','name','active_now','attendance_required']);if(!uuid(r.id)||!text(r.name)||typeof r.active_now!=='boolean'||typeof r.attendance_required!=='boolean')fail();return r as AttendanceContractor}
 function worker(v:unknown):AttendanceWorker{
  const r=closed(v,['id','contractor_id','code','name','job_description','pay_scheme','active_now','joined_at','left_at','notes','row_version','rate_at','daily_rate_at_date','employed_at_date'])
  if(!uuid(r.id)||!uuid(r.contractor_id)||!nullable(text,r.code)||!text(r.name)||!nullable(text,r.job_description)||!['DAILY','PIECE','HYBRID','NONE'].includes(String(r.pay_scheme))||typeof r.active_now!=='boolean'||typeof r.employed_at_date!=='boolean'||!nullable(date,r.joined_at)||!nullable(date,r.left_at)||!nullable(text,r.notes)||!version(r.row_version)||!date(r.rate_at)||!nullable(v=>decimal(v),r.daily_rate_at_date))fail()
  return r as AttendanceWorker
 }
-function period(v:unknown):AttendancePeriod{
+export function parseAttendancePeriod(v:unknown):AttendancePeriod{
  const r=closed(v,['id','contractor_id','number','period_start','period_end','pay_date','status','correction_of_id','notes','row_version','record_count','consuming_payroll_count'])
  if(!uuid(r.id)||!uuid(r.contractor_id)||!text(r.number)||!date(r.period_start)||!date(r.period_end)||r.period_end<r.period_start||!date(r.pay_date)||!['DRAFT','POSTED','CORRECTED','REVERSED'].includes(String(r.status))||!nullable(uuid,r.correction_of_id)||!nullable(text,r.notes)||!version(r.row_version)||!whole(r.record_count)||!whole(r.consuming_payroll_count))fail()
  return r as AttendancePeriod
@@ -34,15 +34,15 @@ export function parseAttendanceRead(v:unknown,section:AttendanceSection):Attenda
  const end=BigInt(Number(p.offset))+BigInt(p.rows.length),total=BigInt(p.total)
  if(p.rows.length&&end>total||end<total&&p.next_offset===null||p.next_offset!==null&&(p.next_offset!==Number(p.offset)+p.rows.length||!p.rows.length||end>=total))fail()
  if(section==='CONTRACTORS'){
-  if([r.date_from,r.date_to,r.source_token,r.contractor,r.worker,r.period].some(x=>x!==null))fail();p.rows.forEach(contractor)
+  if([r.date_from,r.date_to,r.source_token,r.contractor,r.worker,r.period].some(x=>x!==null))fail();p.rows.forEach(parseAttendanceContractor)
  }else{
-  const c=contractor(r.contractor)
+  const c=parseAttendanceContractor(r.contractor)
   if(!date(r.date_from)||!date(r.date_to)||r.date_to<r.date_from||!text(r.source_token)||!/^[a-f0-9]{32}$/.test(r.source_token))fail()
-  const w=r.worker===null?null:worker(r.worker),h=r.period===null?null:period(r.period)
+  const w=r.worker===null?null:worker(r.worker),h=r.period===null?null:parseAttendancePeriod(r.period)
   if(w&&(w.contractor_id!==c.id||w.rate_at!==r.date_from)||h&&(h.contractor_id!==c.id||h.period_start!==r.date_from||h.period_end!==r.date_to))fail()
   if(section==='WORKERS'||section==='PERIODS'){
    if(w||h)fail()
-   for(const item of p.rows){const row=section==='WORKERS'?worker(item):period(item);if(row.contractor_id!==c.id||section==='WORKERS'&&(row as AttendanceWorker).rate_at!==r.date_from)fail()}
+   for(const item of p.rows){const row=section==='WORKERS'?worker(item):parseAttendancePeriod(item);if(row.contractor_id!==c.id||section==='WORKERS'&&(row as AttendanceWorker).rate_at!==r.date_from)fail()}
   }else if(section==='RATES'||section==='EMPLOYMENT'){
    if(!w||h)fail()
    for(const item of p.rows){

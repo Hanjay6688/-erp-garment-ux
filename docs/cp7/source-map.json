@@ -1059,6 +1059,10 @@
     "roster_verification": "docs/cp7/evidence/p12-attendance/ROSTER_VERIFICATION.json",
     "attendance_write_source": "scripts/cp7-src/payroll/attendance-write.sql",
     "attendance_write_cases": "scripts/cp7_attendance_write_cases.py",
-    "attendance_write_status": "NATIVE_76_CASES_PENDING_NO_ENTRY_UI"
+    "attendance_write_status": "75_PASS_1_FIXTURE_INCOMPLETE_CONNECTED_80_CASES_PENDING",
+    "attendance_entry_reader": "scripts/cp7-src/payroll/attendance-entry.sql",
+    "attendance_entry_editor": "src/AttendanceEntryEditor.tsx",
+    "attendance_entry_contract": "src/attendanceEntryContract.ts",
+    "attendance_write_browser_probe": "scripts/cp7_p12_attendance_write_browser.mjs"
   }
 }

@@ -33,6 +33,9 @@ def records(cur,pid):return cur.execute('select id::text,worker_id::text,attenda
 def correction(cur,f,today,pid):
     rows=records(cur,pid);return document(f,today,correction_of_period_id=pid,attendance=[dict(worker_id=x[1],attendance_date=str(x[2]),status='ABSENT',paid_fraction='0.0000',supersedes_attendance_record_id=x[0]) for x in rows])
 
+def entry(cur,f,start,end=None,pid=None,offset=0,limit=100):
+    auth.actor(cur);r=cur.execute('select public.erp_cp7_get_attendance_entry_v1(%s)',(json.dumps(dict(a.scope(f,start,end),period_id=pid,offset=offset,limit=limit)),)).fetchone()[0];b.api.admin(cur);return r
+
 def cases(cur,today):
     def lifecycle():
         f=fixture(cur,today,True);doc=document(f,today);p=envelope(cur,f,today,doc);before=b.boundary.snapshot(cur);financial=n.facts(cur)
@@ -44,7 +47,7 @@ def cases(cur,today):
         act(cur,'REVERSE',f,today,pid);assert all(r[5]=='REVERSED' for r in records(cur,pid)) and n.facts(cur)==financial
         return dict(status='PASS',native_preview_no_business_write=True,exact_preview='125.123456',paid_days='1.5',save_post_reverse_exact_replay=True,draft_not_payroll_cost=True,no_stock_hpp_gl_effect=True)
     def blanks():
-        f=fixture(cur,today,True);doc=document(f,today);draft=save(cur,f,today,doc);pid=draft['period_id'];h=period(cur,f,today,pid);doc.update(period_id=pid,attendance=doc['attendance'][:1]);save(cur,f,today,doc,h['row_version']);assert len(records(cur,pid))==1
+        f=fixture(cur,today,True);doc=document(f,today);draft=save(cur,f,today,doc);pid=draft['period_id'];frozen=b.boundary.snapshot(cur);auth.refused(cur,lambda:save(cur,f,today,document(f,today)),'Active attendance periods for one contractor cannot overlap');assert b.boundary.snapshot(cur)==frozen;h=period(cur,f,today,pid);doc.update(period_id=pid,attendance=doc['attendance'][:1]);save(cur,f,today,doc,h['row_version']);assert len(records(cur,pid))==1
         before=b.boundary.snapshot(cur);auth.refused(cur,lambda:act(cur,'POST',f,today,pid),'unrecorded eligible worker/day cells');assert b.boundary.snapshot(cur)==before and period(cur,f,today,pid)['status']=='DRAFT'
         doc['attendance']=document(f,today)['attendance'];h=period(cur,f,today,pid);save(cur,f,today,doc,h['row_version']);act(cur,'POST',f,today,pid);assert len(records(cur,pid))==2
         return dict(status='PASS',omitted_draft_cell_deleted_to_unrecorded=True,blank_not_absent_or_off=True,incomplete_post_atomic=True,complete_native_matrix_posts=True)
@@ -89,29 +92,41 @@ def cases(cur,today):
         assert b.boundary.snapshot(cur)==before
         key=uuid.uuid4();command(cur,'SAVE',p,key=key);before=b.boundary.snapshot(cur);auth.refused(cur,lambda:command(cur,'SAVE',dict(p,document=dict(doc,reason='Changed request meaning')),key=key),'CP7_ATTENDANCE_REQUEST_CHANGED');assert b.boundary.snapshot(cur)==before
         return dict(status='PASS',missing_mark_not_default_present=True,string_exact_fraction_required=True,half_day_and_absence_meaning_explicit=True,same_uuid_changed_intent_refused=True)
-    return [('P12_ATTENDANCE_WRITE_'+key,fn) for key,fn in [('LIFECYCLE',lifecycle),('BLANKS',blanks),('DATED_RATES',dated_rates),('CORRECTION',correction_lineage),('CONSUMED',consumed),('ACCESS',access),('STALE',stale),('FIELDS_INTENT',fields_intent)]]
+    def matrix_pages():
+        f=source.repair(cur,today);cur.execute('update erp.contractors set attendance_required=true where id=%s',(f['contractor'],));start=today-timedelta(days=2);wid,wp=a.worker(cur,f,start);a.rate(cur,wid,'200.654321',today-timedelta(days=1));a.stop(cur,wid,wp,today-timedelta(days=1));other,_=a.worker(cur,f,today,rate='50.000000',name='P12 current matrix worker');before=b.boundary.snapshot(cur)
+        pages=[entry(cur,f,start,today,offset=i,limit=1) for i in range(3)];assert all(p['page']['total']=='3' for p in pages);assert len({p['source_token'] for p in pages})==1
+        rows=[p['page']['rows'][0] for p in pages];assert [r['daily_rate'] for r in rows]==['100.123456','200.654321','50.000000'];assert [r['date'] for r in rows]==[str(start),str(today-timedelta(days=1)),str(today)];assert all(r['eligible'] and r['required'] and r['record'] is None for r in rows)
+        assert pages[0]['page']['next_offset']==1 and pages[1]['page']['next_offset']==2 and pages[2]['page']['next_offset'] is None
+        zone=cur.execute('show timezone').fetchone()[0];cur.execute("select set_config('TimeZone','America/Los_Angeles',true)");assert entry(cur,f,start,today,limit=1)==pages[0];cur.execute("select set_config('TimeZone',%s,true)",(zone,));assert b.boundary.snapshot(cur)==before
+        return dict(status='PASS',three_eligible_historical_cells_paged_completely=True,inactive_current_status_not_history_filter=True,exact_daily_rates=['100.123456','200.654321','50.000000'],unrecorded_cells_null=True,timezone_independent_calendar_days=True,no_read_effect=True)
+    def matrix_period():
+        f=fixture(cur,today,True);doc=document(f,today);doc['attendance']=doc['attendance'][:1];pid=save(cur,f,today,doc)['period_id'];before=b.boundary.snapshot(cur);m=entry(cur,f,today,pid=pid);assert m['page']['total']=='2' and m['period']['record_count']=='1';rows=m['page']['rows'];assert sum(r['record'] is None for r in rows)==1
+        recorded=next(r for r in rows if r['record']);assert recorded['record']['mark']=='PRESENT' and recorded['record']['paid_fraction']=='1.0000' and recorded['record']['lifecycle']=='DRAFT'
+        other=source.repair(cur,today);frozen=b.boundary.snapshot(cur);auth.refused(cur,lambda:entry(cur,other,today,pid=pid),'CP7_ATTENDANCE_ENTRY_PARENT');auth.refused(cur,lambda:entry(cur,f,today,pid=pid,limit=101),'CP7_ATTENDANCE_ENTRY_QUERY');assert b.boundary.snapshot(cur)==frozen
+        return dict(status='PASS',existing_draft_line_and_missing_cell_distinct=True,exact_parent_period_and_dates=True,closed_page_bounds=True,no_mutation_on_invalid_query=True)
+    return [('P12_ATTENDANCE_WRITE_'+key,fn) for key,fn in [('LIFECYCLE',lifecycle),('BLANKS',blanks),('DATED_RATES',dated_rates),('CORRECTION',correction_lineage),('CONSUMED',consumed),('ACCESS',access),('STALE',stale),('FIELDS_INTENT',fields_intent),('MATRIX_PAGES',matrix_pages),('MATRIX_PERIOD',matrix_period)]]
 
 def races(tools,today):
     def compete(kind):
         with tools.connect() as conn,conn.cursor() as cur:
             f=fixture(cur,today);p=envelope(cur,f,today,document(f,today));version=None;pid=None;payloads=[]
-            if kind!='SAVE_REPLAY':
+            if kind=='POST_VERSION':
                 pid=save(cur,f,today)['period_id'];h=period(cur,f,today,pid);version=h['row_version'];p=envelope(cur,f,today,dict(period_id=pid,reason='P12 concurrent complete posting'))
-                if kind=='TWO_PERIODS':
-                    second=save(cur,f,today)['period_id'];p=envelope(cur,f,today,dict(period_id=pid,reason='P12 first complete posting'));q=envelope(cur,f,today,dict(period_id=second,reason='P12 competing complete posting'));payloads=[(p,version),(q,period(cur,f,today,second)['row_version'])]
+            if kind=='TWO_PERIODS':
+                q=dict(p,document=dict(p['document'],period_number='P12-COMPETE-'+uuid.uuid4().hex[:10]));payloads=[(p,None),(q,None)]
             conn.commit()
         gate=threading.Barrier(2);key=uuid.uuid4()
         def send(i):
             with tools.connect() as conn,conn.cursor() as cur:
                 gate.wait()
                 try:
-                    doc,v=payloads[i] if payloads else (p,version);r=command(cur,'SAVE' if kind=='SAVE_REPLAY' else 'POST',doc,v,key if kind=='SAVE_REPLAY' else uuid.uuid4());conn.commit();return ('PASS',r)
+                    doc,v=payloads[i] if payloads else (p,version);r=command(cur,'POST' if kind=='POST_VERSION' else 'SAVE',doc,v,key if kind=='SAVE_REPLAY' else uuid.uuid4());conn.commit();return ('PASS',r)
                 except psycopg.Error as e:conn.rollback();return ('REFUSED',str(e).splitlines()[0])
         with ThreadPoolExecutor(max_workers=2) as pool:rows=list(pool.map(send,range(2)))
         if kind=='SAVE_REPLAY':assert rows[0]==rows[1] and rows[0][0]=='PASS',rows
         else:assert sorted(x[0] for x in rows)==['PASS','REFUSED'],rows
         with tools.connect() as conn,conn.cursor() as cur:
-            if kind=='SAVE_REPLAY':assert cur.execute('select count(*) from erp.attendance_periods where contractor_id=%s',(f['contractor'],)).fetchone()[0]==1
+            if kind!='POST_VERSION':assert cur.execute('select count(*) from erp.attendance_periods where contractor_id=%s',(f['contractor'],)).fetchone()[0]==1
             else:assert cur.execute("select count(*) from erp.attendance_records where contractor_id=%s and record_lifecycle='POSTED'",(f['contractor'],)).fetchone()[0]==1
         return dict(status='PASS',scenario=kind,one_native_fact_or_exact_replay=True)
     def revoke():

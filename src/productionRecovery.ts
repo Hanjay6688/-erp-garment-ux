@@ -7,7 +7,7 @@ export type ProductionEnvelope = {
   fingerprint: string; id: string; createdAt: string
 }
 export const domainLabels: Record<ProductionDomain, string> = {
-  ROSTER: 'Pekerja & tarif di Absensi',
+  ROSTER: 'Absensi, pekerja & tarif',
   PAYROLL: 'Payroll & Kasbon',
   FG_NOTA: 'Nota FG mandor',
   FG_BOOK: 'Buku mutasi barang jadi',
@@ -24,7 +24,7 @@ export const domainLabels: Record<ProductionDomain, string> = {
   PICKUP: 'Bagi Potongan', WIP: 'Status WIP', INITIAL_IMPORT: 'Impor data awal',
 }
 const actions: Record<ProductionDomain, readonly string[]> = {
-  ROSTER: ['CREATE_WORKER', 'UPDATE_WORKER', 'SET_RATE'],
+  ROSTER: ['CREATE_WORKER', 'UPDATE_WORKER', 'SET_RATE', 'SAVE_ATTENDANCE', 'POST_ATTENDANCE', 'REVERSE_ATTENDANCE'],
   PAYROLL: ['PREPARE', 'APPROVE', 'PAY', 'CANCEL', 'REVERSE'],
   FG_NOTA: ['SAVE', 'POST', 'VOID'],
   FG_BOOK: ['MOVE', 'RESET'],

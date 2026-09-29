@@ -64,6 +64,7 @@ def verify(cur,with_review=False,with_settlement=False,with_attendance=False,wit
             assert not cur.execute("select has_table_privilege(%s,'cp7_attendance.roster_requests','SELECT,INSERT,UPDATE,DELETE')",(who,)).fetchone()[0]
             assert not cur.execute("select has_function_privilege(%s,'cp7_attendance.apply_roster(text,jsonb,uuid,text)','EXECUTE')",(who,)).fetchone()[0]
     if with_attendance_write:
+        assert cur.execute("select pg_get_userbyid(p.proowner),p.prosecdef,p.provolatile::text,p.proconfig from pg_proc p where p.oid='public.erp_cp7_get_attendance_entry_v1(jsonb)'::regprocedure").fetchone()==('cp7_attendance_read',True,'s',['search_path=""'])
         for signature in ('public.erp_cp7_save_attendance_v1(text,jsonb,uuid,text)','public.erp_cp7_preview_attendance_v1(jsonb,text)'):
             assert cur.execute("select pg_get_userbyid(p.proowner),p.prosecdef,p.provolatile::text,p.proconfig from pg_proc p where p.oid=%s::regprocedure",(signature,)).fetchone()==('cp7_attendance_write',True,'v',['search_path=""'])
         assert not cur.execute("select exists(select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and c.relkind in('r','p','v') and has_table_privilege('cp7_attendance_write',c.oid,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER'))").fetchone()[0]
@@ -115,7 +116,7 @@ def run(with_review=False,with_settlement=False,with_attendance=False,with_roste
         report.update(label='CP7_P12_ROSTER',scope=report['scope']+'_WITH_NATIVE_ROSTER_RATE_WRITER_AND_CONNECTED_SOURCE_BROWSER')
         out=OUT.with_name('CP7_P12_ROSTER.json')
     if with_attendance_write:
-        report.update(label='CP7_P12_ATTENDANCE_WRITE',scope=report['scope']+'_WITH_NATIVE_ATTENDANCE_PREVIEW_SAVE_POST_CORRECTION_REVERSE_NO_ENTRY_UI')
+        report.update(label='CP7_P12_ATTENDANCE_WRITE',scope=report['scope']+'_WITH_NATIVE_ATTENDANCE_COMMANDS_AND_BROWSER_SOURCE_TO_PAYROLL_INVERSE')
         out=OUT.with_name('CP7_P12_ATTENDANCE_WRITE.json')
     installed=False
     try:
@@ -199,6 +200,7 @@ def run(with_review=False,with_settlement=False,with_attendance=False,with_roste
             report['attendance_write']=native.strict_group('CP7_P12_ATTENDANCE_WRITE',attendance_write_cases.cases,verifier)
             report['attendance_write_races']=modes.run_races(attendance_write_cases,verifier,'cp7_p12_attendance_write')
             report['attendance_write_http']=modes.run_http(attendance_write_cases,verifier,'cp7_p12_attendance_write')
+            report['attendance_write_browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_p12_attendance_write_browser.mjs',verifier,'cp7_p12_attendance_write')
     except Exception as e:report.update(error=str(e),traceback=traceback.format_exc())
     finally:
         if installed:
@@ -210,7 +212,7 @@ def run(with_review=False,with_settlement=False,with_attendance=False,with_roste
                 conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
             report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta']
             report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or (d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and (f.get('metadata') or {}).get('schema') in ('cp7_attendance','cp7_payroll','cp7_fg','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice') for f in d.get('added',[])))
-        group_keys=('native','http','notes','note_races','note_http','admission_regression','browser')+(('payroll_review','payroll_review_http','payroll_review_browser') if with_review else ())+(('settlement','settlement_races','settlement_http','settlement_browser') if with_settlement else ())+(('attendance_read','attendance_read_http','attendance_read_browser') if with_attendance else ())+(('roster','roster_races','roster_http','roster_browser') if with_roster else ())+(('attendance_write','attendance_write_races','attendance_write_http') if with_attendance_write else ())
+        group_keys=('native','http','notes','note_races','note_http','admission_regression','browser')+(('payroll_review','payroll_review_http','payroll_review_browser') if with_review else ())+(('settlement','settlement_races','settlement_http','settlement_browser') if with_settlement else ())+(('attendance_read','attendance_read_http','attendance_read_browser') if with_attendance else ())+(('roster','roster_races','roster_http','roster_browser') if with_roster else ())+(('attendance_write','attendance_write_races','attendance_write_http','attendance_write_browser') if with_attendance_write else ())
         groups=[report.get(k,{}) for k in group_keys]
         report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and all(r.get('status') in ('PASS','RUN_COMPLETE') and set(r.get('counts',{}))=={'PASS'} and r['counts']['PASS']>0 and r.get('database_remaining',0)==0 for r in groups) else 'INCOMPLETE'
         out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,indent=2,default=str)+'\n');print(json.dumps({k:report.get(k) for k in ('label','status','source_sha256','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)

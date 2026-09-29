@@ -22,7 +22,27 @@ def main():
     with psycopg.connect(target) as conn,conn.cursor() as cur:
         had=cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]
         if not had:cur.execute('grant usage on schema erp to authenticated')
-        if op=='create_roster':
+        if op=='create_attendance_write':
+            import cp7_attendance_write_cases as a
+            import cp7_settlement_cases as s
+            today=date.fromisoformat(p['today']);f=n.source.repair(cur,today);label='Mandor Sumber '+uuid.uuid4().hex[:8]
+            cur.execute('update erp.contractors set contractor_name=%s,attendance_required=true where id=%s',(label,f['contractor']))
+            n.source.ax.post(cur,n.source.ax.repair_payload(f,1));bank=s.cash(cur)
+            code,coa=cur.execute('select cash_account_code,coa_account_id::text from erp.cash_accounts where id=%s',(bank,)).fetchone()
+            role=cur.execute("select id from erp.app_roles where role_code='ADMIN'").fetchone()[0];cur.execute('delete from erp.app_role_permissions where role_id=%s',(role,))
+            for perm in a.PERMS+s.PERMS+('production.fg_handoff.view','production.fg_handoff.post'):cur.execute('insert into erp.app_role_permissions(role_id,permission_key) values(%s,%s)',(role,perm))
+            out=dict(f,label=label,today=str(today),bank=bank,bank_code=code,bank_coa=coa,base_gl=s.gl(cur,f['contractor']),physical=s.physical(cur),facts=n.facts(cur),wip=s.acct(cur,'WIP'),payable=s.acct(cur,'CONTRACTOR_PAYABLE'))
+            assert cur.execute('select count(*) from erp.contractor_workers where contractor_id=%s',(f['contractor'],)).fetchone()[0]==0
+            assert cur.execute('select count(*) from erp.attendance_periods where contractor_id=%s',(f['contractor'],)).fetchone()[0]==0
+            assert cur.execute('select count(*) from erp.payroll_settlements where contractor_id=%s',(f['contractor'],)).fetchone()[0]==0
+        elif op=='read_attendance_pipeline':
+            import cp7_settlement_cases as s
+            out=dict(periods=cur.execute('select id::text,period_number,status,correction_of_period_id::text,row_version::text from erp.attendance_periods where contractor_id=%s order by period_number',(p['contractor'],)).fetchall(),
+                records=cur.execute('select ar.id::text,ar.attendance_period_id::text,w.worker_name,ar.status,ar.paid_fraction::text,ar.record_lifecycle,ar.supersedes_attendance_record_id::text from erp.attendance_records ar join erp.contractor_workers w on w.id=ar.worker_id where ar.contractor_id=%s order by ar.attendance_period_id,w.worker_name',(p['contractor'],)).fetchall(),
+                workers=cur.execute('select count(*) from erp.contractor_workers where contractor_id=%s',(p['contractor'],)).fetchone()[0],
+                rates=cur.execute('select count(*) from erp.worker_daily_rate_versions r join erp.contractor_workers w on w.id=r.worker_id where w.contractor_id=%s',(p['contractor'],)).fetchone()[0],
+                gl=s.gl(cur,p['contractor']),physical=s.physical(cur))
+        elif op=='create_roster':
             import cp7_roster_cases as r
             today=date.fromisoformat(p['today']);f=n.source.repair(cur,today);label='Mandor Roster '+uuid.uuid4().hex[:8]
             cur.execute('update erp.contractors set contractor_name=%s where id=%s',(label,f['contractor']));r.admin_actor(cur)
