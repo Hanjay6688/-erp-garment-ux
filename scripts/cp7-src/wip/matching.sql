@@ -94,8 +94,8 @@ begin
   select value into target_facts from jsonb_array_elements(matching->'targets') where value->>'key'=e->>'target_key';
   if source_facts is null or target_facts is null then raise exception 'CP7_WIP_MATCH_FACTS';end if;
   if source_facts->>'size_id' is distinct from n->>'size_id' or target_facts->>'size_id' is distinct from e->>'size_id'
-    or not (source_facts->'refs' @> n->'refs')
-    or not (e->'refs' @> source_facts->'refs') or not (e->'refs' @> target_facts->'refs') then
+    or not ((source_facts->'refs') @> (n->'refs'))
+    or not ((e->'refs') @> (source_facts->'refs')) or not ((e->'refs') @> (target_facts->'refs')) then
    raise exception 'CP7_WIP_MATCH_BINDING';end if;
   computed:=cp7_wip.match_target(source_facts,target_facts);
   if computed->>'match' not in ('CONFIRMED_TARGET','CANDIDATE_MATCH') then

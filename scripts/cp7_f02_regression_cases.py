@@ -59,11 +59,13 @@ def cases(cur,today):
         f=cut.fixture(cur,today);case=b.one(cur,'select id::text from erp.bs_cases where cutting_group_id=%s and qc_item_id is not null',f['group'])
         b.chain.bs_action(cur,'HOLD_BS',dict(bs_case_id=case,physical_at=b.chain.production.at(f['day'],15).isoformat(),change_reason='F02 retained hold history'),b.chain.version(cur,'bs_cases',case))
         held=cut.capture(cur,[f['group']]);assert audit.actual_vector(held)==[100,80,15,0,5,0],held
+        p02.refused(cur,lambda:audit.qc_reverse(cur,f),'BS_HOLD_TRANSITION_REQUIRES_CP5_ACTION')
+        b.chain.bs_action(cur,'RELEASE_HOLD',dict(bs_case_id=case,physical_at=b.chain.production.at(f['day'],16).isoformat(),change_reason='F02 release hold before ordinary source reversal'),b.chain.version(cur,'bs_cases',case))
         audit.qc_reverse(cur,f);new=prod.capture(cur,prod.scope(groups=[f['group']]))
         assert prod.vector(new)==[100,100,0,0,0,0],new
-        assert cur.execute('select count(*) from erp.bs_case_hold_events where bs_case_id=%s',(case,)).fetchone()[0]==1
+        assert cur.execute('select count(*) from erp.bs_case_hold_events where bs_case_id=%s',(case,)).fetchone()[0]==2
         assert cut.read(cur,held['run_id'])['result']==held['result']
-        return dict(status='PASS',cancelled_hold_history_preserved=True,expected_actual=[100,100,0,0,0,0])
+        return dict(status='PASS',active_hold_reversal_still_denied=True,ordinary_release_before_reversal=True,cancelled_hold_history_preserved=True,expected_actual=[100,100,0,0,0,0])
     def bad_active_lineage():
         f,old=reversed_qc(cur,today)
         captured=cur.execute('select cp7_wip.capture_cutting_sources(%s::uuid[])',([f['group']],)).fetchone()[0]

@@ -1,0 +1,68 @@
+{
+  "source_head": "58a4977f413cfa3d5adfabf99fe8cb0e3fed4112",
+  "source_tree": "99817d7c8fed2147c685bb776ad2098f7b4b3f23",
+  "run_id": 36557753382,
+  "job_id": 109370914311,
+  "artifact_id": 11028900705,
+  "archive_sha256": "8e00d04c8df106d65c51394911605b9820d4cd5247769465091af31d4f8ee689",
+  "report": "RUN_1_CP7_P04_KERNEL.json.gz",
+  "report_sha256": "213b70fd31f3d073503a818b2ae8e3874075b787b7e5a634d2ebe11beaf9470f",
+  "report_gzip_sha256": "c08d7b0929862908e38099287d4df9ba729c4c0b41d807edb1fcc3f5049912bd",
+  "bundle_sha256": "4479a3a99d2e50e84264462a73cd4ee5aa612944c21bec4997ab3be72513e1c3",
+  "status": "INCOMPLETE",
+  "counts": {
+    "PASS": 45,
+    "INCOMPLETE": 8
+  },
+  "smokes_separate": 1,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "failures": [
+    {
+      "case": "P04_SHARED_POOL",
+      "status": "INCOMPLETE",
+      "error": "operator does not exist: boolean -> unknown\nLINE 2:     or not (source_facts->'refs' @> n->'refs')\n                                             ^\nHINT:  No operator matches the given name and argument types. You might need to add explicit type casts.\nQUERY:  source_facts->>'size_id' is distinct from n->>'size_id' or target_facts->>'size_id' is distinct from e->>'size_id'\n    or not (source_facts->'refs' @> n->'refs')\n    or not (e->'refs' @> source_facts->'refs') or not (e->'refs' @> target_facts->'refs')\nCONTEXT:  PL/pgSQL function cp7_wip.check_allocations(jsonb,jsonb) line 44 at IF"
+    },
+    {
+      "case": "P04_X08_YIELD_INPUT_OUTPUT",
+      "status": "INCOMPLETE",
+      "error": "operator does not exist: boolean -> unknown\nLINE 2:     or not (source_facts->'refs' @> n->'refs')\n                                             ^\nHINT:  No operator matches the given name and argument types. You might need to add explicit type casts.\nQUERY:  source_facts->>'size_id' is distinct from n->>'size_id' or target_facts->>'size_id' is distinct from e->>'size_id'\n    or not (source_facts->'refs' @> n->'refs')\n    or not (e->'refs' @> source_facts->'refs') or not (e->'refs' @> target_facts->'refs')\nCONTEXT:  PL/pgSQL function cp7_wip.check_allocations(jsonb,jsonb) line 44 at IF"
+    },
+    {
+      "case": "P04_X06_DISTINCT_EDGES",
+      "status": "INCOMPLETE",
+      "error": "operator does not exist: boolean -> unknown\nLINE 2:     or not (source_facts->'refs' @> n->'refs')\n                                             ^\nHINT:  No operator matches the given name and argument types. You might need to add explicit type casts.\nQUERY:  source_facts->>'size_id' is distinct from n->>'size_id' or target_facts->>'size_id' is distinct from e->>'size_id'\n    or not (source_facts->'refs' @> n->'refs')\n    or not (e->'refs' @> source_facts->'refs') or not (e->'refs' @> target_facts->'refs')\nCONTEXT:  PL/pgSQL function cp7_wip.check_allocations(jsonb,jsonb) line 44 at IF"
+    },
+    {
+      "case": "P04_O04_SHARED60",
+      "status": "INCOMPLETE",
+      "error": "operator does not exist: boolean -> unknown\nLINE 2:     or not (source_facts->'refs' @> n->'refs')\n                                             ^\nHINT:  No operator matches the given name and argument types. You might need to add explicit type casts.\nQUERY:  source_facts->>'size_id' is distinct from n->>'size_id' or target_facts->>'size_id' is distinct from e->>'size_id'\n    or not (source_facts->'refs' @> n->'refs')\n    or not (e->'refs' @> source_facts->'refs') or not (e->'refs' @> target_facts->'refs')\nCONTEXT:  PL/pgSQL function cp7_wip.check_allocations(jsonb,jsonb) line 44 at IF"
+    },
+    {
+      "case": "F02_FIX_HELD_BS_SOURCE_REVERSED",
+      "status": "INCOMPLETE",
+      "error": "BS_HOLD_TRANSITION_REQUIRES_CP5_ACTION\nCONTEXT:  PL/pgSQL function erp.guard_bs_case_lifecycle() line 11 at RAISE\nSQL statement \"update erp.bs_cases set status='CANCELLED',notes=concat_ws(E'\\n',notes,'CANCELLED karena source QC direverse: '||p_reason),updated_at=statement_timestamp()\n  where qc_item_id in (select id from erp.qc_inspection_items where inspection_id=h.id) and status<>'CANCELLED'\"\nPL/pgSQL function reverse_qc(uuid,text) line 59 at SQL statement\nSQL statement \"SELECT erp.reverse_qc(v_qc.id,v_reason)\"\nPL/pgSQL function erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint) line 1235 at PERFORM\nPL/pgSQL function public.erp_save_laundry_qc_action_v1(text,jsonb,uuid,bigint) line 3 at RETURN"
+    },
+    {
+      "case": "F02_FIX_X06_FORGED_MATCH",
+      "status": "INCOMPLETE",
+      "error": "operator does not exist: boolean -> unknown\nLINE 2:     or not (source_facts->'refs' @> n->'refs')\n                                             ^\nHINT:  No operator matches the given name and argument types. You might need to add explicit type casts.\nQUERY:  source_facts->>'size_id' is distinct from n->>'size_id' or target_facts->>'size_id' is distinct from e->>'size_id'\n    or not (source_facts->'refs' @> n->'refs')\n    or not (e->'refs' @> source_facts->'refs') or not (e->'refs' @> target_facts->'refs')\nCONTEXT:  PL/pgSQL function cp7_wip.check_allocations(jsonb,jsonb) line 44 at IF"
+    },
+    {
+      "case": "F02_FIX_X06_VERSION_SNAPSHOT",
+      "status": "INCOMPLETE",
+      "error": "('CP7_WIP_MATCH_BINDING', 'operator does not exist: boolean -> unknown')"
+    },
+    {
+      "case": "F02_FIX_X06_SHAPE_CONFIRMATION",
+      "status": "INCOMPLETE",
+      "error": "('CP7_WIP_MATCH_STALE', 'operator does not exist: boolean -> unknown')"
+    }
+  ],
+  "adjudication": {
+    "product": "Seven allocation cases hit new SQL operator precedence; parenthesize both JSONB operands.",
+    "fixture": "One writer-only HOLD reversal attempted cancellation before accepted RELEASE_HOLD. Preserve refusal, then release and reverse.",
+    "independent": "All five unmodified auditor case bodies PASS; independent acceptance remains HOLD."
+  },
+  "production_go": false
+}
