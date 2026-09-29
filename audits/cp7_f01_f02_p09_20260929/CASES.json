@@ -1,0 +1,1188 @@
+{
+  "independent": {
+    "AUD_F02_QC_BS_REVERSAL": {
+      "status": "PASS",
+      "expected": [
+        [
+          100,
+          100,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          100,
+          100,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "actual": [
+        [
+          100,
+          100,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          100,
+          100,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "ordinary_post_and_reversal": true,
+      "qc_id": "4b112bf8-f917-4252-acf2-a4e75ae1928f",
+      "bs_statuses": [
+        [
+          "CANCELLED",
+          1
+        ]
+      ],
+      "archive_preserved": true,
+      "read_did_not_change_business": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    "AUD_F02_GOOD_ONLY_REVERSAL_CONTROL": {
+      "status": "PASS",
+      "ordinary_good_only_qc_then_receipt_reversal": true,
+      "expected_actual": [
+        100,
+        100,
+        0,
+        0,
+        0,
+        0
+      ],
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    "AUD_F02_LAUNDRY_BS_REVERSAL": {
+      "status": "PASS",
+      "expected": [
+        100,
+        100,
+        0,
+        0,
+        0,
+        0
+      ],
+      "actual": [
+        100,
+        100,
+        0,
+        0,
+        0,
+        0
+      ],
+      "ordinary_receipt_bs_reversal": true,
+      "receipt_id": "6e52bfe9-cfa7-4046-99b4-93ad0c460c51",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    "AUD_F02_REWORK_COMPLETION_REVERSE": {
+      "status": "PASS",
+      "expected": [
+        100,
+        80,
+        15,
+        5,
+        0,
+        0
+      ],
+      "actual": [
+        100,
+        80,
+        15,
+        5,
+        0,
+        0
+      ],
+      "ordinary_rework_completion_reversal": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    "AUD_F02_SCOPE_AND_SOURCE_LIMITS": {
+      "status": "PASS",
+      "scope_parser_50_allowed_51_refused": true,
+      "source_2000_complete_2001_refused": true,
+      "administrative_bounded_source_fixture": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    "AUD_NEW_F02_REPEAT_CANCEL_ACTIVE_BS": {
+      "status": "PASS",
+      "vectors": [
+        [
+          100,
+          80,
+          15,
+          5
+        ],
+        [
+          100,
+          100,
+          0,
+          0
+        ],
+        [
+          100,
+          90,
+          7,
+          3
+        ],
+        [
+          100,
+          100,
+          0,
+          0
+        ],
+        [
+          100,
+          87,
+          11,
+          2
+        ]
+      ],
+      "cancelled_and_active_bs_coexist": true,
+      "archives_immutable": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    "AUD_NEW_F02_MATCH_LABEL_COLOR": {
+      "status": "PASS",
+      "legacy_label_unknown": true,
+      "red_red_feasible": true,
+      "red_blue_both_positive_labels_denied": true,
+      "required_unknown_denied": true,
+      "forged_confirmation_denied": true,
+      "input": 17,
+      "projected_good": 11,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    "AUD_NEW_F02_MATCH_REFS_CAPACITY": {
+      "status": "PASS",
+      "source_target_version_binding": true,
+      "duplicate_missing_facts_denied": true,
+      "snapshot_binding": true,
+      "capacity_and_yield_preserved": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    "AUD_NEW_F01_ACTOR_UUID_DEACTIVATE": {
+      "status": "PASS",
+      "same_uuid_actor_isolation": true,
+      "inactive_actor_cached_replay_and_read_denied": true,
+      "other_actor_unaffected": true,
+      "fixture": "ADMIN_SOURCE_READER_ONLY",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    "AUD_NEW_F01_FINANCE_GRANT_REVOKE": {
+      "status": "PASS",
+      "grant_does_not_backfill_old_snapshot": true,
+      "revocation_redacts_old_financial_capture": true,
+      "fixture": "ADMIN_SOURCE_READER_ONLY",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    "AUD_NEW_P09_BIG_INVOICE_22M": {
+      "status": "PASS",
+      "one_line_no_discount": 22000000,
+      "ap_gl": "22000000.00",
+      "physical_qty": 1,
+      "inverse_exact": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    "AUD_NEW_P09_TWO_RECEIPTS_278": {
+      "status": "PASS",
+      "independent_inputs": [
+        "7*13",
+        "11*17"
+      ],
+      "net_invoice": 278,
+      "source_ap": [
+        91,
+        187
+      ],
+      "physical": [
+        7,
+        11
+      ],
+      "replay_once_and_inverse_exact": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    "AUD_NEW_P09_MULTILINE_COUNT": {
+      "status": "PASS",
+      "physical_count": [
+        8,
+        7
+      ],
+      "independent_deltas": [
+        -2,
+        -3
+      ],
+      "inverse_restores": [
+        10,
+        10
+      ],
+      "scope": "NATIVE_PUBLIC_API_MULTILINE_NOT_UI",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    "AUD_NEW_P09_ZERO_DELTA_LINE_STALE": {
+      "status": "PASS",
+      "initial_zero_delta_line_changed_before_post": true,
+      "entire_count_refused_atomically": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    "AUD_NEW_P09_CROSS_ACTION_UUID": {
+      "status": "PASS",
+      "shared_request_namespace_cannot_change_action": true,
+      "original_outcome_still_recoverable": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    "AUD_NEW_F02_HTTP_FIXED_REPLAY": {
+      "status": "PASS",
+      "ordinary_bs_reversal_public_http": true,
+      "vector": [
+        100,
+        100,
+        0,
+        0,
+        0,
+        0
+      ],
+      "replay_stable": true,
+      "other_actor_and_revoked_replay_denied": true,
+      "session_leaks": []
+    }
+  },
+  "writer_reruns": {
+    "P09_RECEIPT_SMOKE": {
+      "status": "PASS"
+    },
+    "WRITER_RETEST_F02_FIX_NEW_QC_AFTER_REVERSAL": {
+      "status": "PASS"
+    },
+    "WRITER_RETEST_F02_FIX_NEW_RECEIPT_MIXED_REPLAY": {
+      "status": "PASS"
+    },
+    "WRITER_RETEST_F02_FIX_HELD_BS_SOURCE_REVERSED": {
+      "status": "PASS"
+    },
+    "WRITER_RETEST_F02_FIX_ACTIVE_LINEAGE_NEGATIVE": {
+      "status": "PASS"
+    },
+    "WRITER_RETEST_F02_FIX_ACTIVE_CHILD_CANCELLED_PARENT": {
+      "status": "PASS"
+    },
+    "WRITER_RETEST_F02_FIX_X06_FORGED_MATCH": {
+      "status": "PASS"
+    },
+    "WRITER_RETEST_F02_FIX_X06_VERSION_SNAPSHOT": {
+      "status": "PASS"
+    },
+    "WRITER_RETEST_F02_FIX_X06_SHAPE_CONFIRMATION": {
+      "status": "PASS"
+    },
+    "WRITER_RETEST_P04_O15_CONSERVATION": {
+      "status": "PASS"
+    },
+    "WRITER_RETEST_P04_NEGATIVE_PREFIX": {
+      "status": "PASS"
+    },
+    "WRITER_RETEST_P04_INPUT_UNIQUENESS": {
+      "status": "PASS"
+    },
+    "WRITER_RETEST_P04_REWORK_DENOMINATOR": {
+      "status": "PASS"
+    },
+    "WRITER_RETEST_P04_REWASH_CYCLE": {
+      "status": "PASS"
+    },
+    "WRITER_RETEST_P04_REVERSAL_DEPENDENCIES": {
+      "status": "PASS"
+    },
+    "WRITER_RETEST_P04_LINEAGE_SIZE_DUPLICATE": {
+      "status": "PASS"
+    },
+    "WRITER_RETEST_P04_PARTIAL_MALFORMED": {
+      "status": "PASS"
+    },
+    "WRITER_RETEST_P04_OWNERSHIP_HOLD": {
+      "status": "PASS"
+    },
+    "WRITER_RETEST_P04_HARD_MATCHING": {
+      "status": "PASS"
+    },
+    "WRITER_RETEST_P04_SHARED_POOL": {
+      "status": "PASS"
+    },
+    "WRITER_RETEST_P04_X08_YIELD_INPUT_OUTPUT": {
+      "status": "PASS"
+    },
+    "WRITER_RETEST_P04_X06_DISTINCT_EDGES": {
+      "status": "PASS"
+    },
+    "WRITER_RETEST_P04_O04_SHARED60": {
+      "status": "PASS"
+    },
+    "WRITER_RETEST_P04_REMAINING_ETA": {
+      "status": "PASS"
+    },
+    "WRITER_RETEST_P04_EXACT_INTEGER": {
+      "status": "PASS"
+    },
+    "WRITER_RETEST_P04_PRIVATE_KERNEL_ACL": {
+      "status": "PASS"
+    },
+    "P09_DRAFT_ESTIMATED_GRNI": {
+      "status": "PASS"
+    },
+    "P09_FINAL_EXACT_VALUE": {
+      "status": "PASS"
+    },
+    "P09_REPLAY_STALE": {
+      "status": "PASS"
+    },
+    "P09_OPS_FINANCE_REDACTION": {
+      "status": "PASS"
+    },
+    "P09_OPS_BENCHMARK": {
+      "status": "PASS"
+    },
+    "P09_PERMISSION_PRINCIPALS": {
+      "status": "PASS"
+    },
+    "P09_COMPLETE_PAGES_OPTIONS": {
+      "status": "PASS"
+    },
+    "P09_INVALID_ATOMIC": {
+      "status": "PASS"
+    },
+    "P09_ZONE_GUARD_REGRESSION": {
+      "status": "PASS"
+    },
+    "P09_RACE_SAME_REQUEST": {
+      "status": "PASS"
+    },
+    "P09_RACE_COMPETING_POST": {
+      "status": "PASS"
+    },
+    "P09_RACE_REVOKE_WAIT": {
+      "status": "PASS"
+    },
+    "P09_HTTP_RECEIPT_REPLAY_AUTH": {
+      "status": "PASS"
+    },
+    "P09_MATERIAL_SMOKE": {
+      "status": "PASS"
+    },
+    "P09_MATERIAL_DRAFT_NOT_STOCK": {
+      "status": "PASS"
+    },
+    "P09_TRANSFER_CONSERVATION": {
+      "status": "PASS"
+    },
+    "P09_TRANSFER_HISTORICAL_PREFIX": {
+      "status": "PASS"
+    },
+    "P09_TRANSFER_LOCATIONS_LINEAGE": {
+      "status": "PASS"
+    },
+    "P09_MATERIAL_REDACTION_ACCESS": {
+      "status": "PASS"
+    },
+    "P09_TRANSFER_REPLAY_STALE": {
+      "status": "PASS"
+    },
+    "P09_TRANSFER_CONSUMED_REVERSE": {
+      "status": "PASS"
+    },
+    "P09_MATERIAL_COMPLETE_PAGES_UNITS": {
+      "status": "PASS"
+    },
+    "P09_MATERIAL_PRINCIPALS": {
+      "status": "PASS"
+    },
+    "P09_ACCESSORY_LEDGER_TRANSFER": {
+      "status": "PASS"
+    },
+    "P09_OTHER_LEDGER_TRANSFER": {
+      "status": "PASS"
+    },
+    "P09_UNROLLED_SERVICE_ZONE_REPLAY": {
+      "status": "PASS"
+    },
+    "P09_UNROLLED_COMPLETE_PAGES": {
+      "status": "PASS"
+    },
+    "P09_TRANSFER_PRODUCTION_LATE_INVOICE": {
+      "status": "PASS"
+    },
+    "P09_TRANSFER_CLOSED_DAY_LATE_INVOICE": {
+      "status": "PASS"
+    },
+    "P09_TRANSFER_RACE_SHARED_ROLL": {
+      "status": "PASS"
+    },
+    "P09_TRANSFER_RACE_UNROLLED": {
+      "status": "PASS"
+    },
+    "P09_TRANSFER_RACE_REVOKE": {
+      "status": "PASS"
+    },
+    "P09_MATERIAL_HTTP_TRANSFER_AUTH": {
+      "status": "PASS"
+    },
+    "P09_COUNT_FABRIC": {
+      "status": "PASS"
+    },
+    "P09_COUNT_ACCESSORY": {
+      "status": "PASS"
+    },
+    "P09_COUNT_POSITIVE": {
+      "status": "PASS"
+    },
+    "P09_COUNT_STALE_BASIS": {
+      "status": "PASS"
+    },
+    "P09_COUNT_FORGED_ATOMIC": {
+      "status": "PASS"
+    },
+    "P09_COUNT_NATIVE_EDIT": {
+      "status": "PASS"
+    },
+    "P09_COUNT_REPLAY_DELETE": {
+      "status": "PASS"
+    },
+    "P09_COUNT_ACCESS": {
+      "status": "PASS"
+    },
+    "P09_COUNT_SCOPE": {
+      "status": "PASS"
+    },
+    "P09_COUNT_HISTORICAL": {
+      "status": "PASS"
+    },
+    "P09_COUNT_COMPLETE_PAGES": {
+      "status": "PASS"
+    },
+    "P09_COUNT_RACE_PREFIX": {
+      "status": "PASS"
+    },
+    "P09_COUNT_RACE_REVOKE": {
+      "status": "PASS"
+    },
+    "P09_COUNT_HTTP": {
+      "status": "PASS"
+    },
+    "P09_INVOICE_STAGED_AND_REVERSE": {
+      "status": "PASS"
+    },
+    "P09_INVOICE_EXACT_DECIMAL": {
+      "status": "PASS"
+    },
+    "P09_INVOICE_DISCOUNT": {
+      "status": "PASS"
+    },
+    "P09_INVOICE_REPLAY_STALE": {
+      "status": "PASS"
+    },
+    "P09_INVOICE_ATOMIC_REFUSALS": {
+      "status": "PASS"
+    },
+    "P09_INVOICE_ACCESS_PRINCIPALS": {
+      "status": "PASS"
+    },
+    "P09_INVOICE_COMPLETE_MULTI_RECEIPT": {
+      "status": "PASS"
+    },
+    "P09_INVOICE_COMPLETE_PAGES": {
+      "status": "PASS"
+    },
+    "P09_INVOICE_AFTER_TRANSFER": {
+      "status": "PASS"
+    },
+    "P09_INVOICE_RACE_SAME_REQUEST": {
+      "status": "PASS"
+    },
+    "P09_INVOICE_RACE_COMPETING": {
+      "status": "PASS"
+    },
+    "P09_INVOICE_RACE_REVOKE": {
+      "status": "PASS"
+    },
+    "P09_INVOICE_HTTP_AUTH_REPLAY": {
+      "status": "PASS"
+    },
+    "P09_COMBINED_INVOICE_LIFECYCLE": {
+      "status": "PASS"
+    },
+    "P09_COMBINED_INVOICE_REPLAY_DELETE": {
+      "status": "PASS"
+    },
+    "P09_COMBINED_INVOICE_ATOMIC": {
+      "status": "PASS"
+    },
+    "P09_COMBINED_INVOICE_SOURCES": {
+      "status": "PASS"
+    },
+    "P09_COMBINED_INVOICE_ACCESS": {
+      "status": "PASS"
+    },
+    "P09_COMBINED_INVOICE_CAPACITY": {
+      "status": "PASS"
+    },
+    "P09_COMBINED_INVOICE_RACE_SAME": {
+      "status": "PASS"
+    },
+    "P09_COMBINED_INVOICE_RACE_CAPACITY": {
+      "status": "PASS"
+    },
+    "P09_COMBINED_INVOICE_RACE_REVOKE": {
+      "status": "PASS"
+    },
+    "P09_COMBINED_INVOICE_HTTP": {
+      "status": "PASS"
+    },
+    "P09_BROWSER_RECEIPT_DESKTOP": {
+      "status": "PASS"
+    },
+    "P09_BROWSER_LOST_REPLY_MOBILE": {
+      "status": "PASS"
+    },
+    "P09_BROWSER_TRANSFER_DESKTOP": {
+      "status": "PASS"
+    },
+    "P09_BROWSER_TRANSFER_LOST_REPLY_MOBILE": {
+      "status": "PASS"
+    },
+    "P09_BROWSER_INVOICE_DESKTOP": {
+      "status": "PASS"
+    },
+    "P09_BROWSER_INVOICE_LOST_REPLY_MOBILE": {
+      "status": "PASS"
+    },
+    "P09_BROWSER_RETURN_CREDIT_DESKTOP": {
+      "status": "PASS"
+    },
+    "P09_BROWSER_RETURN_CREDIT_LOST_REPLY_MOBILE": {
+      "status": "PASS"
+    },
+    "P09_BROWSER_RECEIPT_REVERSE_DESKTOP": {
+      "status": "PASS"
+    },
+    "P09_BROWSER_RECEIPT_REVERSE_LOST_REPLY_MOBILE": {
+      "status": "PASS"
+    },
+    "P09_BROWSER_UOM_DESKTOP": {
+      "status": "PASS"
+    },
+    "P09_BROWSER_UOM_LOST_DRAFT_REPLY_MOBILE": {
+      "status": "PASS"
+    },
+    "P09_BROWSER_ACCESSORY_TRANSFER_DESKTOP": {
+      "status": "PASS"
+    },
+    "P09_BROWSER_OTHER_TRANSFER_MOBILE": {
+      "status": "PASS"
+    },
+    "P09_BROWSER_COUNT_DESKTOP": {
+      "status": "PASS"
+    },
+    "P09_BROWSER_COUNT_LOST_REPLY_MOBILE": {
+      "status": "PASS"
+    },
+    "P09_BROWSER_COMBINED_INVOICE_DESKTOP": {
+      "status": "PASS"
+    },
+    "P09_BROWSER_COMBINED_INVOICE_LOST_REPLY_MOBILE": {
+      "status": "PASS"
+    },
+    "P09_RETURN_SMOKE": {
+      "status": "PASS"
+    },
+    "P09_RETURN_TRANSFERRED_GRNI": {
+      "status": "PASS"
+    },
+    "P09_RETURN_FABRIC_PORTABLE_CREDIT": {
+      "status": "PASS"
+    },
+    "P09_RETURN_ACCESSORY_PORTABLE_CREDIT": {
+      "status": "PASS"
+    },
+    "P09_RETURN_PARTIAL_AP_GRNI": {
+      "status": "PASS"
+    },
+    "P09_RETURN_EXACT_CENTS": {
+      "status": "PASS"
+    },
+    "P09_RETURN_REPLAY_STALE_SOURCE": {
+      "status": "PASS"
+    },
+    "P09_RETURN_ATOMIC_LINEAGE": {
+      "status": "PASS"
+    },
+    "P09_RETURN_HISTORICAL_PREFIX": {
+      "status": "PASS"
+    },
+    "P09_RETURN_ACCESS_PRINCIPALS": {
+      "status": "PASS"
+    },
+    "P09_RETURN_COMPLETE_DOCUMENT_PAGES": {
+      "status": "PASS"
+    },
+    "P09_RETURN_RACE_SAME_REQUEST": {
+      "status": "PASS"
+    },
+    "P09_RETURN_RACE_SOURCE_CAPACITY": {
+      "status": "PASS"
+    },
+    "P09_RETURN_RACE_REVOKE": {
+      "status": "PASS"
+    },
+    "P09_RETURN_HTTP_AUTH_REPLAY": {
+      "status": "PASS"
+    },
+    "P09_RECEIPT_REVERSE_ESTIMATED": {
+      "status": "PASS"
+    },
+    "P09_RECEIPT_REVERSE_EXACT_FINAL": {
+      "status": "PASS"
+    },
+    "P09_RECEIPT_REVERSE_REPLAY": {
+      "status": "PASS"
+    },
+    "P09_RECEIPT_REVERSE_INVOICE_RETURN": {
+      "status": "PASS"
+    },
+    "P09_RECEIPT_REVERSE_PAYMENT": {
+      "status": "PASS"
+    },
+    "P09_RECEIPT_REVERSE_HISTORY": {
+      "status": "PASS"
+    },
+    "P09_RECEIPT_REVERSE_ACCESS": {
+      "status": "PASS"
+    },
+    "P09_RECEIPT_REVERSE_RACE_SAME": {
+      "status": "PASS"
+    },
+    "P09_RECEIPT_REVERSE_RACE_DIFFERENT": {
+      "status": "PASS"
+    },
+    "P09_RECEIPT_REVERSE_RACE_REVOKE": {
+      "status": "PASS"
+    },
+    "P09_RECEIPT_REVERSE_HTTP_AUTH": {
+      "status": "PASS"
+    },
+    "P09_UOM_DOZEN": {
+      "status": "PASS"
+    },
+    "P09_UOM_GROSS_FINAL": {
+      "status": "PASS"
+    },
+    "P09_UOM_DATED_MASTER": {
+      "status": "PASS"
+    },
+    "P09_UOM_ATOMIC_INVALID": {
+      "status": "PASS"
+    },
+    "P09_UOM_REPLAY_ACCESS": {
+      "status": "PASS"
+    },
+    "P09_UOM_MIXED_RECEIPT": {
+      "status": "PASS"
+    },
+    "P09_UOM_RACE_SAME_SAVE": {
+      "status": "PASS"
+    },
+    "P09_UOM_RACE_REVOKE_SAVE": {
+      "status": "PASS"
+    },
+    "P09_UOM_HTTP": {
+      "status": "PASS"
+    }
+  },
+  "groups": {
+    "smoke": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 1
+      },
+      "database_remaining": null,
+      "auth_counts": null,
+      "console_errors": null
+    },
+    "native": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 49
+      },
+      "database_remaining": null,
+      "auth_counts": null,
+      "console_errors": null
+    },
+    "races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 3
+      },
+      "database_remaining": 0,
+      "auth_counts": null,
+      "console_errors": null
+    },
+    "http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "console_errors": null
+    },
+    "material_smoke": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 1
+      },
+      "database_remaining": null,
+      "auth_counts": null,
+      "console_errors": null
+    },
+    "material": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 13
+      },
+      "database_remaining": null,
+      "auth_counts": null,
+      "console_errors": null
+    },
+    "material_crossflow": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 2
+      },
+      "database_remaining": null,
+      "auth_counts": null,
+      "console_errors": null
+    },
+    "material_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 3
+      },
+      "database_remaining": 0,
+      "auth_counts": null,
+      "console_errors": null
+    },
+    "material_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "console_errors": null
+    },
+    "material_count": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 11
+      },
+      "database_remaining": null,
+      "auth_counts": null,
+      "console_errors": null
+    },
+    "material_count_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "database_remaining": 0,
+      "auth_counts": null,
+      "console_errors": null
+    },
+    "material_count_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "console_errors": null
+    },
+    "invoice": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 9
+      },
+      "database_remaining": null,
+      "auth_counts": null,
+      "console_errors": null
+    },
+    "invoice_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 3
+      },
+      "database_remaining": 0,
+      "auth_counts": null,
+      "console_errors": null
+    },
+    "invoice_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "console_errors": null
+    },
+    "combined_invoice": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 6
+      },
+      "database_remaining": null,
+      "auth_counts": null,
+      "console_errors": null
+    },
+    "combined_invoice_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 3
+      },
+      "database_remaining": 0,
+      "auth_counts": null,
+      "console_errors": null
+    },
+    "combined_invoice_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "console_errors": null
+    },
+    "browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 18
+      },
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "console_errors": 0
+    },
+    "return_smoke": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 1
+      },
+      "database_remaining": null,
+      "auth_counts": null,
+      "console_errors": null
+    },
+    "returns": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 10
+      },
+      "database_remaining": null,
+      "auth_counts": null,
+      "console_errors": null
+    },
+    "return_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 3
+      },
+      "database_remaining": 0,
+      "auth_counts": null,
+      "console_errors": null
+    },
+    "return_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "console_errors": null
+    },
+    "receipt_reversal": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 7
+      },
+      "database_remaining": null,
+      "auth_counts": null,
+      "console_errors": null
+    },
+    "receipt_reversal_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 3
+      },
+      "database_remaining": 0,
+      "auth_counts": null,
+      "console_errors": null
+    },
+    "receipt_reversal_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "console_errors": null
+    },
+    "uom": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 6
+      },
+      "database_remaining": null,
+      "auth_counts": null,
+      "console_errors": null
+    },
+    "uom_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "database_remaining": 0,
+      "auth_counts": null,
+      "console_errors": null
+    },
+    "uom_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "console_errors": null
+    }
+  },
+  "detail_reference": "evidence/auditor-CP7_F01_F02_P09_INDEPENDENT.json.gz preserves all raw per-case details"
+}

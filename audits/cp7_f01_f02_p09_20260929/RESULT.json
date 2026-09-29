@@ -1,0 +1,49 @@
+{
+  "decision": "F02_REPRODUCED_DEFECTS_CLOSED_P09_IMPLEMENTED_INCREMENT_PASS",
+  "product_commit": "ee8699829bc53799e5f840bb5490059e456fa81a",
+  "checkpoint": "e3ddcec94c4db2b6fe299cdadc82f50d57781bfc",
+  "audit_commit": "b345d4e4fb50e0142d9e741acccf926863bb5617",
+  "run": 36563251161,
+  "job": 109388934360,
+  "artifact": 11030893468,
+  "production_go": false,
+  "closed_findings": [
+    "F02-01",
+    "F02-02_PRIVATE_MATCH_LABEL_BYPASS"
+  ],
+  "new_findings": [],
+  "independent_counts": {
+    "PASS": 16
+  },
+  "writer_rerun_cases": {
+    "PASS": 146
+  },
+  "writer_smokes": {
+    "PASS": 3
+  },
+  "p09_rerun_breakdown": {
+    "native": 73,
+    "races": 22,
+    "http": 8,
+    "browser": 18
+  },
+  "f02_writer_native_reruns": 25,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "blind_audit": false,
+  "fixture_corrections": 0,
+  "product_changed": false,
+  "open_scope": [
+    "P04_X06_AUTHORITATIVE_PUBLIC_P06_P07_JOIN",
+    "P09_FULL_SCOPE_REMAINING_WORK",
+    "F03_FAMILY_RELEASE_ACCEPTANCE",
+    "P10_NOT_IN_CANDIDATE"
+  ],
+  "prior_safe_f01_evidence_preserved": true,
+  "screenshot_spot_checks": [
+    "P09_COUNT_DESKTOP.png",
+    "P09_COMBINED_INVOICE_MOBILE.png"
+  ]
+}

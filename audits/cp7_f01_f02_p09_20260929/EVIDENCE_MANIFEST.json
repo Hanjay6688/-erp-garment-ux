@@ -1,0 +1,58 @@
+[
+  {
+    "file": "audits/cp7_f01_f02_p09_20260929/evidence/writer-f02-CP7_P04_KERNEL.json.gz",
+    "raw_sha256": "918c0609b16eddf4f8898b7af294c415a03b188b25c52ca943f6d2d985fb455f",
+    "gzip_sha256": "b8e389d925a78061601cfeb09bfafda51cddf9de26d7368f08e8146f7b9228dd"
+  },
+  {
+    "file": "audits/cp7_f01_f02_p09_20260929/evidence/writer-f02-T3_PACKAGE_INSTALL.json.gz",
+    "raw_sha256": "1085d39606d4e267795d99e89dd8ccb85a7a0301c300b9f4ff6032d0b33900fb",
+    "gzip_sha256": "0bacaa39c7587216a24ab73c19b1414a326a1958a83e99f6e6e4141103112c38"
+  },
+  {
+    "file": "audits/cp7_f01_f02_p09_20260929/evidence/writer-p09-CP7_P09_PROCUREMENT.json.gz",
+    "raw_sha256": "d5bbada402fa015fc7e39081b9ab966bb8685d944085929eab381dfddd49ec75",
+    "gzip_sha256": "79d1eb126db0db5ce090c7d38a2203d839a15f87b0c5ebc83000a89c4dd0709f"
+  },
+  {
+    "file": "audits/cp7_f01_f02_p09_20260929/evidence/writer-p09-T3_PACKAGE_INSTALL.json.gz",
+    "raw_sha256": "6b2b0e00180b05988aa4311b270a82abfcf62bbdfa704301c67fd6b95ac14f66",
+    "gzip_sha256": "f9a67a2ed19a1b47f8f085edbcb861e5951f3f691942a9b2337ff82ce523fe9d"
+  },
+  {
+    "file": "audits/cp7_f01_f02_p09_20260929/evidence/auditor-CP7_F01_F02_P09_INDEPENDENT.json.gz",
+    "raw_sha256": "77027e956e233541ee3d1eb243ef7bbcb576a054a7be4f066f9ecba12a83da34",
+    "gzip_sha256": "13f1e3c6eaf1b75c8bb96fb357d8a31400b7760158e70f13b34c752d2d194855",
+    "run": 36563251161,
+    "artifact": 11030893468,
+    "zip_sha256": "a922449ea3fa83d4167e996cb288ed519d6a1011d99d328ca1d5739ed8129f0c"
+  },
+  {
+    "file": "audits/cp7_f01_f02_p09_20260929/evidence/auditor-T3_PACKAGE_INSTALL.json.gz",
+    "raw_sha256": "30dd1201139fe6ed1d8e7dff4a838ee7a151834ffd926ef3a2f6b83f11c92289",
+    "gzip_sha256": "ee766b322c1511c4ddc8ebeb863256b2f28d31957d9510fd85c465ab6b601575",
+    "run": 36563251161,
+    "artifact": 11030893468,
+    "zip_sha256": "a922449ea3fa83d4167e996cb288ed519d6a1011d99d328ca1d5739ed8129f0c"
+  },
+  {
+    "file": "audits/cp7_f01_f02_p09_20260929/evidence/auditor-ALIGNED_CHAIN.json.gz",
+    "raw_sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+    "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+    "run": 36563251161,
+    "artifact": 11030893468,
+    "zip_sha256": "a922449ea3fa83d4167e996cb288ed519d6a1011d99d328ca1d5739ed8129f0c"
+  },
+  {
+    "sha256": "29109fd00e980adb5ec14bfe3bb4a8e734017c643e85594714c63bd4851aeffc",
+    "source_run": 36563251161,
+    "artifact_member": "P09_COMBINED_INVOICE_MOBILE.png",
+    "artifact": 11030893468
+  },
+  {
+    "sha256": "0550b592686d9714898dd90c0d7c8b52f7b5fa871762737b9ed1132531a2b46c",
+    "source_run": 36563251161,
+    "artifact_member": "P09_COUNT_DESKTOP.png",
+    "artifact": 11030893468
+  }
+]

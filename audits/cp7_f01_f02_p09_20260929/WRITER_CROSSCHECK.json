@@ -1,0 +1,332 @@
+[
+  {
+    "zip": "writer-f02-fixed.zip",
+    "sha256": "c32513351a3e2c4fc4b571701295ddb239c0a4c635f77e0da83d1c6d3a54a3d8",
+    "reports": [
+      {
+        "name": "CP7_P04_KERNEL.json",
+        "sha256": "918c0609b16eddf4f8898b7af294c415a03b188b25c52ca943f6d2d985fb455f",
+        "status": "PASS",
+        "source_sha256": "bde0745490b055586745c19fa50c01caa32ed1687874f5879ef97422247fe829",
+        "cp6_restored": true,
+        "advisor_gate": true,
+        "production_go": false,
+        "groups": {
+          "native": {
+            "status": "PASS",
+            "counts": {
+              "PASS": 17
+            },
+            "database_remaining": null
+          },
+          "source_smoke": {
+            "status": "PASS",
+            "counts": {
+              "PASS": 1
+            },
+            "database_remaining": null
+          },
+          "source": {
+            "status": "PASS",
+            "counts": {
+              "PASS": 11
+            },
+            "database_remaining": null
+          },
+          "races": {
+            "status": "RUN_COMPLETE",
+            "counts": {
+              "PASS": 2
+            },
+            "database_remaining": 0
+          },
+          "http": {
+            "status": "RUN_COMPLETE",
+            "counts": {
+              "PASS": 1
+            },
+            "database_remaining": 0
+          },
+          "production": {
+            "status": "PASS",
+            "counts": {
+              "PASS": 6
+            },
+            "database_remaining": null
+          },
+          "production_races": {
+            "status": "RUN_COMPLETE",
+            "counts": {
+              "PASS": 1
+            },
+            "database_remaining": 0
+          },
+          "production_http": {
+            "status": "RUN_COMPLETE",
+            "counts": {
+              "PASS": 1
+            },
+            "database_remaining": 0
+          },
+          "audit_replay": {
+            "status": "PASS",
+            "counts": {
+              "PASS": 5
+            },
+            "database_remaining": null
+          },
+          "regressions": {
+            "status": "PASS",
+            "counts": {
+              "PASS": 8
+            },
+            "database_remaining": null
+          },
+          "regression_http": {
+            "status": "RUN_COMPLETE",
+            "counts": {
+              "PASS": 1
+            },
+            "database_remaining": 0
+          }
+        }
+      },
+      {
+        "name": "T3_PACKAGE_INSTALL.json",
+        "sha256": "1085d39606d4e267795d99e89dd8ccb85a7a0301c300b9f4ff6032d0b33900fb",
+        "status": "ALL_STAGES_INSTALLED",
+        "production_go": false,
+        "primary_unchanged": true,
+        "groups": {}
+      }
+    ]
+  },
+  {
+    "zip": "writer-p09-regression.zip",
+    "sha256": "57d3345387f1b954f72c99094abefe30f3d7ba5138fb252511a286107df2324b",
+    "reports": [
+      {
+        "name": "CP7_P09_PROCUREMENT.json",
+        "sha256": "d5bbada402fa015fc7e39081b9ab966bb8685d944085929eab381dfddd49ec75",
+        "status": "PASS",
+        "source_sha256": "d34acae6754a9e6c390c54696b4b8d7acbf44697723243b249bf79c839344450",
+        "cp6_restored": true,
+        "advisor_gate": true,
+        "production_go": false,
+        "groups": {
+          "smoke": {
+            "status": "PASS",
+            "counts": {
+              "PASS": 1
+            },
+            "database_remaining": null
+          },
+          "native": {
+            "status": "PASS",
+            "counts": {
+              "PASS": 9
+            },
+            "database_remaining": null
+          },
+          "races": {
+            "status": "RUN_COMPLETE",
+            "counts": {
+              "PASS": 3
+            },
+            "database_remaining": 0
+          },
+          "http": {
+            "status": "RUN_COMPLETE",
+            "counts": {
+              "PASS": 1
+            },
+            "database_remaining": 0
+          },
+          "material_smoke": {
+            "status": "PASS",
+            "counts": {
+              "PASS": 1
+            },
+            "database_remaining": null
+          },
+          "material": {
+            "status": "PASS",
+            "counts": {
+              "PASS": 13
+            },
+            "database_remaining": null
+          },
+          "material_crossflow": {
+            "status": "PASS",
+            "counts": {
+              "PASS": 2
+            },
+            "database_remaining": null
+          },
+          "material_races": {
+            "status": "RUN_COMPLETE",
+            "counts": {
+              "PASS": 3
+            },
+            "database_remaining": 0
+          },
+          "material_http": {
+            "status": "RUN_COMPLETE",
+            "counts": {
+              "PASS": 1
+            },
+            "database_remaining": 0
+          },
+          "material_count": {
+            "status": "PASS",
+            "counts": {
+              "PASS": 11
+            },
+            "database_remaining": null
+          },
+          "material_count_races": {
+            "status": "RUN_COMPLETE",
+            "counts": {
+              "PASS": 2
+            },
+            "database_remaining": 0
+          },
+          "material_count_http": {
+            "status": "RUN_COMPLETE",
+            "counts": {
+              "PASS": 1
+            },
+            "database_remaining": 0
+          },
+          "invoice": {
+            "status": "PASS",
+            "counts": {
+              "PASS": 9
+            },
+            "database_remaining": null
+          },
+          "invoice_races": {
+            "status": "RUN_COMPLETE",
+            "counts": {
+              "PASS": 3
+            },
+            "database_remaining": 0
+          },
+          "invoice_http": {
+            "status": "RUN_COMPLETE",
+            "counts": {
+              "PASS": 1
+            },
+            "database_remaining": 0
+          },
+          "combined_invoice": {
+            "status": "PASS",
+            "counts": {
+              "PASS": 6
+            },
+            "database_remaining": null
+          },
+          "combined_invoice_races": {
+            "status": "RUN_COMPLETE",
+            "counts": {
+              "PASS": 3
+            },
+            "database_remaining": 0
+          },
+          "combined_invoice_http": {
+            "status": "RUN_COMPLETE",
+            "counts": {
+              "PASS": 1
+            },
+            "database_remaining": 0
+          },
+          "browser": {
+            "status": "RUN_COMPLETE",
+            "counts": {
+              "PASS": 18
+            },
+            "database_remaining": 0
+          },
+          "return_smoke": {
+            "status": "PASS",
+            "counts": {
+              "PASS": 1
+            },
+            "database_remaining": null
+          },
+          "returns": {
+            "status": "PASS",
+            "counts": {
+              "PASS": 10
+            },
+            "database_remaining": null
+          },
+          "return_races": {
+            "status": "RUN_COMPLETE",
+            "counts": {
+              "PASS": 3
+            },
+            "database_remaining": 0
+          },
+          "return_http": {
+            "status": "RUN_COMPLETE",
+            "counts": {
+              "PASS": 1
+            },
+            "database_remaining": 0
+          },
+          "receipt_reversal": {
+            "status": "PASS",
+            "counts": {
+              "PASS": 7
+            },
+            "database_remaining": null
+          },
+          "receipt_reversal_races": {
+            "status": "RUN_COMPLETE",
+            "counts": {
+              "PASS": 3
+            },
+            "database_remaining": 0
+          },
+          "receipt_reversal_http": {
+            "status": "RUN_COMPLETE",
+            "counts": {
+              "PASS": 1
+            },
+            "database_remaining": 0
+          },
+          "uom": {
+            "status": "PASS",
+            "counts": {
+              "PASS": 6
+            },
+            "database_remaining": null
+          },
+          "uom_races": {
+            "status": "RUN_COMPLETE",
+            "counts": {
+              "PASS": 2
+            },
+            "database_remaining": 0
+          },
+          "uom_http": {
+            "status": "RUN_COMPLETE",
+            "counts": {
+              "PASS": 1
+            },
+            "database_remaining": 0
+          }
+        }
+      },
+      {
+        "name": "T3_PACKAGE_INSTALL.json",
+        "sha256": "6b2b0e00180b05988aa4311b270a82abfcf62bbdfa704301c67fd6b95ac14f66",
+        "status": "ALL_STAGES_INSTALLED",
+        "production_go": false,
+        "primary_unchanged": true,
+        "groups": {}
+      }
+    ]
+  }
+]
