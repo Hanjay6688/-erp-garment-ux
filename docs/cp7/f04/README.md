@@ -20,8 +20,9 @@ schema/function access. No new tables, operational writes, public RPCs,
 SECURITY DEFINER functions, dynamic SQL, migrations, credentials, scheduled jobs,
 model registry writes, or client-side calculation engine are introduced.
 
-Every scenario retains inputs/references, explicit reason codes and model/kernel
-versions. A missing essential input produces UNKNOWN/INELIGIBLE or a validation
+Outputs retain the inputs/references and reason codes used by each kernel;
+model results also expose kernel versions. Receipts bind all implementation and
+dependency hashes. A missing essential input produces UNKNOWN/INELIGIBLE or a validation
 error. Fixture parameters (including 3 folds, alpha 0.5, 12-PCS rounding and
 example lead time) are **not operational defaults**.
 

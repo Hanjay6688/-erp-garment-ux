@@ -12,7 +12,7 @@ begin
  if v->'unit_minutes'='null'::jsonb or v->>'unit_time_basis'='UNKNOWN' then unknown:=true;
  else unit_minutes:=cp7_demand.decimal(v->'unit_minutes');if unit_minutes=0 then raise exception 'CP7_CAPACITY_UNIT_TIME';end if;end if;
  perform cp7_demand.items(v->'windows',10000);
- for e in select value from jsonb_array_elements(v->'windows') order by value->>'starts_at',value->>'key' loop
+ for e in select value from jsonb_array_elements(v->'windows') order by cp7_demand.instant(value->'starts_at'),value->>'key' loop
   perform cp7_wip.fields(e,array['key','starts_at','ends_at','existing_load_minutes','refs']);k:=cp7_wip.key(e->'key');perform cp7_wip.refs(e->'refs');
   if seen ? k then raise exception 'CP7_CAPACITY_DUPLICATE_WINDOW';end if;seen:=seen||jsonb_build_object(k,true);
   starts:=cp7_demand.instant(e->'starts_at');ends:=cp7_demand.instant(e->'ends_at');
