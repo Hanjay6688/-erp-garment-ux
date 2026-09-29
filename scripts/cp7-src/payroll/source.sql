@@ -46,18 +46,18 @@ language sql stable security invoker set search_path='' as $$
  with grouped as(
   select e.source_type,e.origin_id,e.origin_number,e.contractor_id,e.contractor_name,e.contractor_active,e.po_id,e.po_number,e.cutting_group_id,e.group_number,e.bs_case_id,
    min(e.eligible_at) eligible_at,count(*) line_count,
-   md5(jsonb_agg(jsonb_build_array(e.source_id,e.work_component_id,e.source_qty,e.eligible_qty,e.allocated_qty,e.remaining_qty,e.held_qty,e.source_revision,e.eligible_at) order by e.source_id,e.work_component_id)::text) source_token,
+   md5(jsonb_agg(jsonb_build_array(e.source_id,e.work_component_id,e.source_qty,e.eligible_qty,e.allocated_qty,e.remaining_qty,e.held_qty,e.source_revision,extract(epoch from e.eligible_at)) order by e.source_id,e.work_component_id)::text) source_token,
    sum(e.remaining_amount) remaining_amount,
    jsonb_agg(jsonb_build_object('source_type',e.source_type,'source_id',e.source_id,'component_id',e.work_component_id,'component_code',e.component_code,'component_name',e.component_name,
     'source_qty',e.source_qty::text,'eligible_qty',e.eligible_qty::text,'allocated_qty',e.allocated_qty::text,'remaining_qty',e.remaining_qty::text,'held_qty',e.held_qty::text,
-    'eligible_at',e.eligible_at,'eligibility_reason',e.eligibility_reason)
+    'eligible_at',to_char(e.eligible_at at time zone 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"'),'eligibility_reason',e.eligibility_reason)
     ||case when p_financial then jsonb_build_object('rate',e.rate_snapshot::text,'amount',e.remaining_amount::text) else '{}'::jsonb end order by e.component_order,e.source_id) lines
   from cp7_payroll.source_lines() e
   group by e.source_type,e.origin_id,e.origin_number,e.contractor_id,e.contractor_name,e.contractor_active,e.po_id,e.po_number,e.cutting_group_id,e.group_number,e.bs_case_id
  )
  select source_type||':'||origin_id||':'||contractor_id,contractor_id,eligible_at,lower(concat_ws(' ',origin_number,contractor_name,po_number,group_number)),
   jsonb_build_object('card_key',source_type||':'||origin_id||':'||contractor_id,'source_type',source_type,'origin_id',origin_id,'origin_number',origin_number,'contractor_id',contractor_id,'contractor_name',contractor_name,
-   'contractor_active',contractor_active,'po_id',po_id,'po_number',po_number,'cutting_group_id',cutting_group_id,'group_number',group_number,'bs_case_id',bs_case_id,'eligible_at',eligible_at,
+   'contractor_active',contractor_active,'po_id',po_id,'po_number',po_number,'cutting_group_id',cutting_group_id,'group_number',group_number,'bs_case_id',bs_case_id,'eligible_at',to_char(eligible_at at time zone 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"'),
    'line_count',line_count::text,'source_token',source_token,'lines',lines,'basis','NATIVE_REMAINING_COMPONENT_ENTITLEMENT')
    ||case when p_financial then jsonb_build_object('remaining_amount',remaining_amount::text) else '{}'::jsonb end
  from grouped

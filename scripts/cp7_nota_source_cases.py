@@ -52,7 +52,16 @@ def cases(cur,today):
         for who in ('anon','authenticated','service_role','cp7_capture'):assert not cur.execute("select has_schema_privilege(%s,'cp7_payroll','USAGE')",(who,)).fetchone()[0]
         assert not cur.execute("select exists(select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and c.relkind in('r','p','v') and has_table_privilege('cp7_payroll_read',c.oid,'INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER'))").fetchone()[0]
         return dict(status='PASS',complete_card_pages=True,ops_no_monetary_fields=True,source_token_uses_row_revision_not_price_hash=True,current_revocation=True,private_read_no_business_writes=True)
-    return [('P12_NOTA_SOURCE_'+k,fn) for k,fn in [('REPAIR_FIXED_VALUE',fixed_repair),('REGULAR_LAUNDRY_OUTSTANDING',regular_outstanding),('NATIVE_ALLOCATION_RELEASE',native_allocation_release),('PAGES_ACCESS',pages_access)]]
+    def timezones():
+        f=repair(cur,today);saved=cur.execute('show timezone').fetchone()[0];cards=[];legacy=[]
+        try:
+            for zone in ('Asia/Jakarta','UTC','America/Los_Angeles'):
+                cur.execute("select set_config('TimeZone',%s,true)",(zone,));cards.append(read(cur,f['contractor'])['page']['rows'])
+                legacy.append(cur.execute("select md5(jsonb_agg(jsonb_build_array(e.source_id,e.work_component_id,e.source_qty,e.eligible_qty,e.allocated_qty,e.remaining_qty,e.held_qty,e.source_revision,e.eligible_at) order by e.source_id,e.work_component_id)::text) from cp7_payroll.source_lines() e where contractor_id=%s",(f['contractor'],)).fetchone()[0])
+        finally:cur.execute("select set_config('TimeZone',%s,true)",(saved,))
+        assert cards[0]==cards[1]==cards[2] and len(set(legacy))==3
+        return dict(status='PASS',legacy_timestamp_hash_defect_reproduced=True,source_tokens_and_full_card_snapshots_invariant_across_session_timezones=True,zones=['Asia/Jakarta','UTC','America/Los_Angeles'])
+    return [('P12_NOTA_SOURCE_'+k,fn) for k,fn in [('REPAIR_FIXED_VALUE',fixed_repair),('REGULAR_LAUNDRY_OUTSTANDING',regular_outstanding),('NATIVE_ALLOCATION_RELEASE',native_allocation_release),('PAGES_ACCESS',pages_access),('CROSS_TIMEZONE',timezones)]]
 
 def http_cases(http,today):
     def flow():

@@ -1,0 +1,31 @@
+{
+  "source": "cb6a0d5d4a14f7bcb756175912e53b1be9ed0f9f",
+  "tree": "0e3f9006fbc167446d4a8dd912ccb1b78609f447",
+  "run_id": 36574203987,
+  "job_id": 109425494968,
+  "artifact_id": 11036059064,
+  "archive_sha256": "c9b80acbe6f1f55a7c5f75c19aa0781ae7681caad9a12f82c60e7547e13744d4",
+  "bundle_sha256": "71828f44f765c59b4a6f1113e7174fa4a702e0989c397fb3df9d35e77d1523ce",
+  "status": "INCOMPLETE",
+  "counts": {
+    "native": {
+      "PASS": 4
+    },
+    "http": {
+      "PASS": 1
+    },
+    "notes": {
+      "INCOMPLETE": 2,
+      "PASS": 5
+    },
+    "note_races": {
+      "INCOMPLETE": 3
+    },
+    "note_http": {
+      "INCOMPLETE": 1
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false
+}

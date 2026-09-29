@@ -22,13 +22,17 @@ create table cp7_payroll.notes(
 );
 create table cp7_payroll.card_claims(card_key text primary key,note_id uuid not null references cp7_payroll.notes(id));
 create table cp7_payroll.note_requests(actor uuid not null,request_id uuid not null,action text not null,payload jsonb not null,expected_version text,response jsonb,primary key(actor,request_id));
+create table cp7_payroll.execution_context(backend_pid integer not null,transaction_id bigint not null,actor uuid not null,action text not null check(action='POST_NOTE'),permission_key text not null check(permission_key='production.fg_handoff.post'),primary key(backend_pid,transaction_id));
 alter table cp7_payroll.notes owner to cp7_nota_write;
 alter table cp7_payroll.card_claims owner to cp7_nota_write;
 alter table cp7_payroll.note_requests owner to cp7_nota_write;
+alter table cp7_payroll.execution_context owner to cp7_nota_write;
 alter table cp7_payroll.notes enable row level security;
 alter table cp7_payroll.card_claims enable row level security;
 alter table cp7_payroll.note_requests enable row level security;
+alter table cp7_payroll.execution_context enable row level security;
 revoke all on cp7_payroll.notes,cp7_payroll.card_claims,cp7_payroll.note_requests from public,anon,authenticated,service_role,cp7_capture;
+revoke all on cp7_payroll.execution_context from public,anon,authenticated,service_role,cp7_capture,cp7_payroll_read,cp7_payroll_header;
 grant select on cp7_payroll.notes,cp7_payroll.card_claims to cp7_payroll_read;
 
 create function cp7_payroll.note_access() returns jsonb
@@ -156,7 +160,9 @@ begin
   perform set_config('app.change_reason',btrim(p_payload->>'change_reason'),true);
   -- The private envelope owns retry identity. Do not forward an untrusted UUID
   -- into another scope's cache; its native request commits atomically with ours.
+  insert into cp7_payroll.execution_context values(pg_backend_pid(),txid_current(),auth.uid(),'POST_NOTE','production.fg_handoff.post');
   r:=erp.merge_eligible_work_into_payroll_v2((target->>'id')::uuid,lines,gen_random_uuid(),(target->>'row_version')::bigint);
+  delete from cp7_payroll.execution_context where backend_pid=pg_backend_pid() and transaction_id=txid_current();
   perform cp7_payroll.note_verify_allocation((target->>'id')::uuid,prior,snapshot_cards);
   update cp7_payroll.notes set status='POSTED',posted_payroll_id=(target->>'id')::uuid,posted_at=statement_timestamp(),row_version=row_version+1,updated_by=auth.uid(),updated_at=statement_timestamp() where id=ident;
   delete from cp7_payroll.card_claims where note_id=ident;

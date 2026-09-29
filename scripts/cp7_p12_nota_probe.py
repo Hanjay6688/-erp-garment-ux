@@ -51,10 +51,12 @@ def run():
             key=str(cur.execute("select 'erp.merge_eligible_work_into_payroll_v2(uuid,jsonb,uuid,bigint)'::regprocedure::text").fetchone()[0]);grants.setdefault(key,set()).add(('cp7_nota_write','EXECUTE',False))
             cur.execute("select set_config('search_path',%s,true)",(path,))
             for signature,old in pre.items():
-                new=after[signature];assert new['definition']==old['definition'] and new['owner']==old['owner'],('P12_PREDECESSOR_CHANGED',signature)
+                new=after[signature];expected_definition=bundle.patched_internal(old['definition']) if signature=='erp.require_internal()' else old['definition']
+                assert new['definition']==expected_definition and new['owner']==old['owner'],('P12_PREDECESSOR_CHANGED',signature)
                 expected={tuple(x) for x in old['acl'] or []}|grants.get(signature,set())
                 assert {tuple(x) for x in new['acl'] or []}==expected,('P12_UNDECLARED_ACL_DELTA',signature)
             p09.INSTALLED_FUNCTIONS=after;report['source_declared_execute_grants']={k:sorted(v) for k,v in grants.items()}
+            report['nota_admission_delta']={k:hashlib.sha256(v['erp.require_internal()']['definition'].encode()).hexdigest() for k,v in [('before',pre),('after',after)]}
             conn.commit();installed=True;verify(cur);conn.rollback()
         report['advisors_with_cp7']=advisors(package.boundary.PG)
         report['native']=native.strict_group('CP7_P12_NOTA_SOURCE',cases.cases,verify)

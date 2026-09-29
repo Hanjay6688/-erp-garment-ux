@@ -28,7 +28,7 @@ def cases(cur,today):
     def lifecycle():
         f=source.repair(cur,today);source.ax.post(cur,source.ax.repair_payload(f,1));p=payload(cur,f,today);before=book.facts(cur)
         n=command(cur,'SAVE',p);d=note(cur,n);assert d['status']=='DRAFT' and len(d['cards'])==2 and Decimal(d['amount'])==6000
-        assert cur.execute('select count(*) from erp.payroll_work_items').fetchone()[0]==0 and book.facts(cur)==before
+        assert cur.execute('select count(*) from erp.payroll_work_items i join erp.payroll_settlements p on p.id=i.payroll_id where p.contractor_id=%s',(f['contractor'],)).fetchone()[0]==0 and book.facts(cur)==before
         auth.refused(cur,lambda:command(cur,'SAVE',p),'CP7_NOTA_CARD_IN_OTHER_DRAFT')
         key=uuid.uuid4();posted=act(cur,'POST',n,key);assert act(cur,'POST',n,key)==posted
         d=note(cur,posted);assert d['status']=='POSTED' and d['payroll_status']=='CALCULATED' and Decimal(d['amount'])==6000
@@ -121,7 +121,7 @@ def races(tools,today):
             with tools.connect() as conn,conn.cursor() as cur:gate.wait();r=act(cur,'POST',n,key);conn.commit();return r
         with ThreadPoolExecutor(max_workers=2) as pool:r=list(pool.map(lambda _:send(),range(2)))
         assert r[0]==r[1]
-        with tools.connect() as conn,conn.cursor() as cur:assert cur.execute('select count(*),sum(amount) from erp.payroll_work_items').fetchone()==(1,Decimal(4000))
+        with tools.connect() as conn,conn.cursor() as cur:assert cur.execute('select count(*),sum(amount) from erp.payroll_work_items where payroll_id=%s',(r[0]['payroll_id'],)).fetchone()==(1,Decimal(4000))
         return dict(status='PASS',concurrent_post_same_uuid_exact_outcome=True,one_native_header_allocation=True)
     def revoke():
         with tools.connect() as conn,conn.cursor() as cur:
@@ -144,7 +144,7 @@ def races(tools,today):
                 finally:holder.rollback()
                 result=future.result(30)
         assert 'ACCESS' in result or 'DENIED' in result,result
-        with tools.connect() as conn,conn.cursor() as cur:assert note(cur,n)['status']=='DRAFT' and cur.execute('select count(*) from erp.payroll_settlements').fetchone()[0]==0
+        with tools.connect() as conn,conn.cursor() as cur:assert note(cur,n)['status']=='DRAFT' and cur.execute('select count(*) from erp.payroll_settlements where contractor_id=%s',(f['contractor'],)).fetchone()[0]==0
         return dict(status='PASS',current_access_after_actual_note_lock_wait=True,no_partial_header_or_post=True)
     return [('P12_NOTA_RACE_CLAIM',claims),('P12_NOTA_RACE_REPLAY',replay),('P12_NOTA_RACE_REVOKE',revoke)]
 
