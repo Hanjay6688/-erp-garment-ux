@@ -1,0 +1,85 @@
+{
+  "status": "PASS",
+  "source_commit": "7ddeca846551cd30d957b57484a11dc21f08d116",
+  "source_tree": "00f66b357a68c937ef371371d5a669ecd9bd1de8",
+  "run_id": 36634722514,
+  "job_id": 109632448715,
+  "artifact_id": 11064420076,
+  "artifact_bytes": 5230556,
+  "artifact_sha256": "0061257e233f585d16e54dcc921bc7b185de8b615453a92e9cd7420a654e6a0d",
+  "report_sha256": "7f318d28a4726d26a80f1ada79366f663488a8ed64392db584ad269c6c1d0a07",
+  "report_gzip_sha256": "30c3a69806bc75d013d6bd6c541b1a0252ba6b877bc3b00e335bfc8686d9a160",
+  "source_bundle_sha256": "61eb24aa7dd2297f1b1d1e11dac99851402c08876eb7fd091b7298472919ff72",
+  "counts": {
+    "PASS": 34,
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0
+  },
+  "separate_smokes": 0,
+  "groups": {
+    "native": {
+      "PASS": 7
+    },
+    "http": {
+      "PASS": 1
+    },
+    "adjustments": {
+      "PASS": 8
+    },
+    "adjustment_races": {
+      "PASS": 2
+    },
+    "adjustment_http": {
+      "PASS": 1
+    },
+    "book": {
+      "PASS": 6
+    },
+    "book_races": {
+      "PASS": 2
+    },
+    "book_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 6
+    }
+  },
+  "nonpassing_cases": {},
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "7ddeca846551cd30d957b57484a11dc21f08d116",
+    "product_ref": "7ddeca846551cd30d957b57484a11dc21f08d116",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36634722514",
+    "run_attempt": "1",
+    "workflow": "CP7 P10 Finished goods",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "7ddeca846551cd30d957b57484a11dc21f08d116",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false
+}

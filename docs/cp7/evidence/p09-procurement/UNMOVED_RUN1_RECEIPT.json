@@ -1,0 +1,152 @@
+{
+  "status": "INCOMPLETE",
+  "source_commit": "7ddeca846551cd30d957b57484a11dc21f08d116",
+  "source_tree": "00f66b357a68c937ef371371d5a669ecd9bd1de8",
+  "run_id": 36634722548,
+  "job_id": 109632448907,
+  "artifact_id": 11064695423,
+  "artifact_bytes": 19630777,
+  "artifact_sha256": "e654f1ba4b5f4c9fa0fa1c06910619134bd991c62c212ad0c852dbe7331b1061",
+  "report_sha256": "43bf707d0f920ec5d44e1ab851abebcac368e9f8eec1260700e24ab5a7758874",
+  "report_gzip_sha256": "7bbf79c9e3f72367bde4223e6495e2177af80ae319d82b2f3f0f94dcba3a1758",
+  "source_bundle_sha256": "3e4b94844a3a9560550a494e887d63640c33c2f762d6efa9e50b92499a7d7011",
+  "counts": {
+    "PASS": 131,
+    "FAIL": 0,
+    "INCOMPLETE": 1,
+    "NOT_RUN": 0
+  },
+  "separate_smokes": 3,
+  "groups": {
+    "smoke": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 9
+    },
+    "races": {
+      "PASS": 3
+    },
+    "http": {
+      "PASS": 1
+    },
+    "material_smoke": {
+      "PASS": 1
+    },
+    "material": {
+      "PASS": 13
+    },
+    "material_crossflow": {
+      "PASS": 2
+    },
+    "material_races": {
+      "PASS": 3
+    },
+    "material_http": {
+      "PASS": 1
+    },
+    "material_count": {
+      "PASS": 17
+    },
+    "material_count_races": {
+      "PASS": 2
+    },
+    "material_count_http": {
+      "PASS": 1,
+      "INCOMPLETE": 1
+    },
+    "invoice": {
+      "PASS": 9
+    },
+    "invoice_races": {
+      "PASS": 3
+    },
+    "invoice_http": {
+      "PASS": 1
+    },
+    "combined_invoice": {
+      "PASS": 6
+    },
+    "combined_invoice_races": {
+      "PASS": 3
+    },
+    "combined_invoice_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 22
+    },
+    "return_smoke": {
+      "PASS": 1
+    },
+    "returns": {
+      "PASS": 10
+    },
+    "return_races": {
+      "PASS": 3
+    },
+    "return_http": {
+      "PASS": 1
+    },
+    "receipt_reversal": {
+      "PASS": 7
+    },
+    "receipt_reversal_races": {
+      "PASS": 3
+    },
+    "receipt_reversal_http": {
+      "PASS": 1
+    },
+    "uom": {
+      "PASS": 6
+    },
+    "uom_races": {
+      "PASS": 2
+    },
+    "uom_http": {
+      "PASS": 1
+    }
+  },
+  "nonpassing_cases": {
+    "P09_COUNT_OPTIONS_HTTP": {
+      "status": "INCOMPLETE",
+      "error": "{'status': 403, 'body': {'code': '42501', 'details': None, 'hint': None, 'message': 'CP7_MATERIAL_ADJUST_DENIED'}}"
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "7ddeca846551cd30d957b57484a11dc21f08d116",
+    "product_ref": "7ddeca846551cd30d957b57484a11dc21f08d116",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36634722548",
+    "run_attempt": "1",
+    "workflow": "CP7 P09 Procurement",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "7ddeca846551cd30d957b57484a11dc21f08d116",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false,
+  "diagnosis": "The preceding P09_COUNT_HTTP intentionally revokes finance.hpp.view and warehouse.stock.adjust from the shared ADMIN role. New options HTTP fixture logged in another ADMIN but removed only hpp, inheriting the previous adjust revocation. Its first request correctly returned CP7_MATERIAL_ADJUST_DENIED. Assign this Auth user a fresh custom role with exactly warehouse.material.view and warehouse.stock.adjust, then retain the explicit role revocation assertion. No product change. Four new native cases and both new source-selection browser journeys pass; total132 still requires retest."
+}

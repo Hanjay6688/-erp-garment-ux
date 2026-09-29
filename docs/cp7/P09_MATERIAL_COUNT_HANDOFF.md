@@ -1,5 +1,11 @@
 # P09 material physical counts — bounded writer qualification
 
+## First zero-history run:131 PASS, isolated HTTP fixture repair pending
+
+Source `7ddeca846551cd30d957b57484a11dc21f08d116`, tree `00f66b357a68c937ef371371d5a669ecd9bd1de8`; [run36634722548](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36634722548): **131 PASS /0 FAIL /1 INCOMPLETE /0 NOT_RUN plus3 separate smokes**. All4 new native cases and both new browser journeys pass, including explicit zero-history quantity/value, inverse and identical mobile lost-POST replay. CP6 restoration, advisor, Auth/database cleanup and primary/backup gates pass. Writer gate remains false until132 passes. [Unaltered report and diagnosis](evidence/p09-procurement/UNMOVED_RUN1_RECEIPT.json).
+
+The previous HTTP case deliberately removed stock-adjust authority from shared ADMIN. The new case accidentally reused that modified role; the server correctly refused its first request. Its real Auth identity now receives a fresh role with only material-view and stock-adjust grants. The later explicit revocation test stays intact; product code is unchanged. The same source passes [F03 combined22](evidence/p09-procurement/UNMOVED_F03_REGRESSION_RECEIPT.json) and [P10 full34](evidence/p09-procurement/UNMOVED_P10_REGRESSION_RECEIPT.json). Counts are separate; no new screenshot review is claimed here.
+
 ## Registered identities without prior stock movements — candidate
 
 The count editor can explicitly choose an ordinary active warehouse and registered material/roll even if that position never had a movement. `erp_cp7_get_material_count_options_v1` returns identity only, with complete pages and the current material-view/stock-adjust permission check. It supplies no quantity, price, cached roll balance or fabricated movement date. Fabric still requires an actual registered roll. Other material types have no roll. Inactive materials/warehouses and service zones are excluded/refused.

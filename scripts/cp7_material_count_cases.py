@@ -270,8 +270,10 @@ def http_cases(http,today):
     def identities():
         owner=http.login('OWNER','p09-count-options-owner');ops=http.login('ADMIN','p09-count-options-ops')
         with http.connect() as conn,conn.cursor() as cur:
-            f=unmoved_fixture(cur,today,'ACCESSORY');role=cur.execute("select id from erp.app_roles where role_code='ADMIN'").fetchone()[0]
-            cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.hpp.view'",(role,));before=ledger(cur);conn.commit()
+            f=unmoved_fixture(cur,today,'ACCESSORY');_,role=receipt.custom(cur,material.PERMS)
+            # The preceding HTTP case intentionally revokes the shared ADMIN
+            # role. Give this real Auth identity its own declared fixture role.
+            cur.execute('update erp.app_users set role_id=%s where auth_user_id=%s',(role,ops.auth_user_id));before=ledger(cur);conn.commit()
         args=dict(p_query=dict(location_id=f['location'],q=f['material_code']))
         result=ops.rpc('erp_cp7_get_material_count_options_v1',args);assert result['status']==200,result
         row=result['body']['page']['rows'][0];assert row['material_id']==f['material'] and set(row)=={'material_id','material_sku','material_name','material_type','unit_code','roll_id','roll_number'}
