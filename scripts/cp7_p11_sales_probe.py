@@ -32,15 +32,18 @@ def run():
   with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
    p09.wip.policy.bf.verified(cur);before=package.boundary.snapshot(cur);public_before=native.public_state(cur);conn.rollback()
    originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)
+   internal_before=cur.execute("select pg_get_functiondef('erp.require_internal()'::regprocedure)").fetchone()[0]
    cur.execute(bundle.extension(),prepare=False);after=p09.functions(cur)
    path=cur.execute('show search_path').fetchone()[0];cur.execute("select set_config('search_path','',true)")
    grants={str(cur.execute('select %s::regprocedure::text',(s,)).fetchone()[0]):{('cp7_sales_read','EXECUTE',False)} for s in bundle.GRANTS}
    uid=str(cur.execute("select 'auth.uid()'::regprocedure::text").fetchone()[0]);grants[uid].add(('cp7_sales_write','EXECUTE',False))
    cur.execute("select set_config('search_path',%s,true)",(path,))
    for sig,old in pre.items():
-    new=after[sig];assert new['definition']==old['definition'] and new['owner']==old['owner'],('P11_PREDECESSOR_CHANGED',sig)
+    new=after[sig];expected=hashlib.md5(bundle.patched_internal(internal_before).encode()).hexdigest() if sig=='erp.require_internal()' else old['definition']
+    assert new['definition']==expected and new['owner']==old['owner'],('P11_PREDECESSOR_CHANGED',sig)
     assert {tuple(x) for x in new['acl'] or []}=={tuple(x) for x in old['acl'] or []}|grants.get(sig,set()),('P11_UNDECLARED_ACL_DELTA',sig)
    p09.INSTALLED_FUNCTIONS=after;report['sales_declared_execute_grants']={k:sorted(v) for k,v in grants.items()}
+   report['sales_declared_guard_delta']=dict(signature='erp.require_internal()',before_sha256=hashlib.sha256(internal_before.encode()).hexdigest(),after_sha256=hashlib.sha256(bundle.patched_internal(internal_before).encode()).hexdigest(),scope='PRIVATE_ACTOR_TRANSACTION_CREATE_EDIT_POST_CANCEL_CONTEXT_ONLY')
    conn.commit();installed=True;verify(cur);conn.rollback()
   report['advisors_with_cp7']=advisors(package.boundary.PG)
   report['native']=native.strict_group('CP7_P11_READ_NATIVE',cases.cases,verify)

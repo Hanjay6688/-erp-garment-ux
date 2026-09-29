@@ -16,7 +16,7 @@ def create(cur,f,p=None,key=None,subject=None):
  r=cmd.command(cur,'CREATE',p or payload(f),None,key,subject);f['sale']=r['sale_id'];return r
 
 def edit_payload(cur,f,p):
- d=source.read(cur,f)['detail'];return dict(p,sale_id=f['sale'],review_token=d['review_token']),d['row_version']
+ d=source.read(cur,f)['detail'];return dict(copy.deepcopy(p),sale_id=f['sale'],review_token=d['review_token']),d['row_version']
 
 def options(cur,kind,at,subject=None,**q):
  auth.actor(cur,subject);r=cur.execute('select public.erp_cp7_get_sales_form_v1(%s)',(json.dumps(dict(kind=kind,physical_at=at,**q)),)).fetchone()[0];b.api.admin(cur);return r
@@ -74,8 +74,12 @@ def cases(cur,today):
   p=payload(f);d=create(cur,f,p,subject=subject);e,v=edit_payload(cur,f,p)
   auth.refused(cur,lambda:cmd.command(cur,'EDIT',e,v,subject=subject),'CP7_SALES_WRITE_DENIED')
   cur.execute("insert into erp.app_role_permissions(role_id,permission_key) values(%s,'sales.invoice.edit_draft')",(role,));e['items'][0]['qty_pcs']='3';cmd.command(cur,'EDIT',e,v,subject=subject);assert cmd.available(cur,f)==7
+  p2,v2=cmd.review(cur,f);auth.refused(cur,lambda:cmd.command(cur,'POST',p2,v2,subject=subject),'CP7_SALES_WRITE_DENIED')
+  cur.execute("insert into erp.app_role_permissions(role_id,permission_key) values(%s,'sales.invoice.post')",(role,));cmd.command(cur,'POST',p2,v2,subject=subject);assert source.read(cur,f)['detail']['status']=='POSTED' and cmd.available(cur,f)==7
+  g=fixture(cur,today);create(cur,g,subject=subject);p2,v2=cmd.review(cur,g);cmd.command(cur,'CANCEL',p2,v2,subject=subject);assert cmd.available(cur,g)==10
+  assert cur.execute('select count(*) from cp7_sales.command_context').fetchone()[0]==0
   cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.ar.view'",(role,));auth.refused(cur,lambda:options(cur,'STOCK',f['sale_at'],subject,q=f['sku']),'CP7_SALES_FORM_DENIED')
-  return dict(status='PASS',create_and_edit_authority_distinct=True,current_financial_authority_required_for_form=True)
+  return dict(status='PASS',custom_role_create_edit_post_cancel=True,create_edit_post_authority_distinct=True,current_financial_authority_required_for_form=True,private_context_removed=True)
  return [('P11_DRAFT_'+n,fn) for n,fn in [('MULTI_CREATE_EDIT_POST',multi),('REPLAY',replay),('INSUFFICIENT_EDIT',unavailable_edit),('EXACT_FIELDS',exact_fields),('SELECTORS',selectors),('MASTER_REFUSAL',master_refusal),('PERMISSIONS',permissions)]]
 
 def races(tools,today):

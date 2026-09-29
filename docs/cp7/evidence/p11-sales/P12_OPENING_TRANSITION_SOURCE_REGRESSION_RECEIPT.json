@@ -1,0 +1,69 @@
+{
+  "status": "PASS",
+  "source_commit": "6d3b019df6054b2cc77c6ab5bd44f7164494cee9",
+  "source_tree": "b8f0a1cf025b79a1bb3a2e91357cbbd783ce0ec2",
+  "run_id": 36623475509,
+  "job_id": 109594435406,
+  "artifact_id": 11058554046,
+  "artifact_bytes": 2350571,
+  "artifact_sha256": "adee114b1618f3b3460bfa8626cc2c41dba13dc4f3d1c2a2973b39d153c8253f",
+  "report_sha256": "47b517cbcccc87ec409a376f66e6d725e346367cc971e75c9a4b5bf955bf609f",
+  "report_gzip_sha256": "12a86c63fa2b535a0f745ace85acdf55f713af3310effbdf9d4b4ce86a26e613",
+  "source_bundle_sha256": "1082d8e4897f864745ad6c0ab0944eb132bbe074e5cbbc2bca9ec5b3ddc66a8b",
+  "counts": {
+    "PASS": 10,
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0
+  },
+  "separate_smokes": {},
+  "groups": {
+    "opening_payroll": {
+      "PASS": 5
+    },
+    "opening_payroll_races": {
+      "PASS": 2
+    },
+    "opening_payroll_http": {
+      "PASS": 1
+    },
+    "opening_payroll_browser": {
+      "PASS": 2
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "6d3b019df6054b2cc77c6ab5bd44f7164494cee9",
+    "product_ref": "6d3b019df6054b2cc77c6ab5bd44f7164494cee9",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36623475509",
+    "run_attempt": "1",
+    "workflow": "CP7 P12 Nota and payroll lifecycle",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "6d3b019df6054b2cc77c6ab5bd44f7164494cee9",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "new_visual_review": false,
+  "scope": "Source-bound repeated unchanged P12_OPENING bundle only. Does not prove P11 or a later source. Previous visual qualification retained separately.",
+  "independent_acceptance": false,
+  "production_go": false
+}

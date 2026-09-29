@@ -1,0 +1,101 @@
+{
+  "status": "INCOMPLETE",
+  "source_commit": "2e599df17643e67c03b6b5dd75976f21cb77fe9c",
+  "source_tree": "f8317c448fd13a899b7b56d53fbadd5092700ffe",
+  "run_id": 36625253578,
+  "job_id": 109600448937,
+  "artifact_id": 11060655930,
+  "artifact_bytes": 4923687,
+  "artifact_sha256": "37a639a414f411e7860d2572164cddb5ddb48185e957820b9c5e5808feec7816",
+  "report_sha256": "4110aba3e76e1fd3bdd6e9af87ee45f9c239fd94ed8d3b33f23eb1ade0d3d629",
+  "report_gzip_sha256": "5e041f480e565d436ba47c869e991236e501f4bfeca2361641f5c7cd969703ac",
+  "counts": {
+    "PASS": 31,
+    "FAIL": 0,
+    "INCOMPLETE": 2,
+    "NOT_RUN": 0
+  },
+  "source_bundle_sha256": "72d6be2716880fc7ae365505ea5ba7c23ec9c0cb3aa71bd8b7702b40b38bde80",
+  "groups": {
+    "native": {
+      "PASS": 8
+    },
+    "http": {
+      "PASS": 1
+    },
+    "commands": {
+      "PASS": 6
+    },
+    "command_races": {
+      "PASS": 2
+    },
+    "command_http": {
+      "PASS": 1
+    },
+    "drafts": {
+      "PASS": 5,
+      "INCOMPLETE": 2
+    },
+    "draft_races": {
+      "PASS": 1
+    },
+    "draft_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 6
+    }
+  },
+  "nonpassing_cases": {
+    "P11_DRAFT_REPLAY": {
+      "status": "INCOMPLETE",
+      "error": "CP7_SALES_REQUEST_CHANGED\nCONTEXT:  PL/pgSQL function cp7_sales.command(text,jsonb,uuid,text) line 18 at RAISE\nSQL function \"erp_cp7_save_sale_v1\" statement 1"
+    },
+    "P11_DRAFT_PERMISSIONS": {
+      "status": "INCOMPLETE",
+      "error": "Internal ERP access required\nCONTEXT:  PL/pgSQL function erp.require_internal() line 38 at RAISE\nSQL statement \"SELECT erp.require_internal()\"\nPL/pgSQL function save_sale_draft_v2(jsonb,uuid,bigint) line 22 at PERFORM\nPL/pgSQL assignment \"r:=erp.save_sale_draft_v2((p_payload-'review_token'-'change_reason')||jsonb_build_object('reason',btrim(p_payload->>'change_reason')),native_request,p_expected::bigint)\"\nPL/pgSQL function cp7_sales.apply_command(text,jsonb,uuid,text) line 29 at assignment\nPL/pgSQL assignment \"r:=cp7_sales.apply_command(p_action,p_payload,p_request,p_expected)\"\nPL/pgSQL function cp7_sales.command(text,jsonb,uuid,text) line 22 at assignment\nSQL function \"erp_cp7_save_sale_v1\" statement 1"
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "2e599df17643e67c03b6b5dd75976f21cb77fe9c",
+    "product_ref": "2e599df17643e67c03b6b5dd75976f21cb77fe9c",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36625253578",
+    "run_attempt": "1",
+    "workflow": "CP7 P11 Sales",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "2e599df17643e67c03b6b5dd75976f21cb77fe9c",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": {
+    "draft_desktop": true,
+    "draft_mobile": true,
+    "limits": "Two edit-form screenshots inspected, readable and no horizontal overflow; long all-invoice list on mobile. Other four repeated screenshots not newly inspected."
+  },
+  "diagnosis": {
+    "P11_DRAFT_REPLAY": "Fixture shallow-copy of items mutated original CREATE payload. Native exact-intent replay correctly refused. Deep-copy fixture fix required.",
+    "P11_DRAFT_PERMISSIONS": "Real adapter admission gap: current custom role with invoice.create/AR reaches native require_internal but its role code is not legacy OWNER/ADMIN/STAFF. Add exact hash-guarded private transaction/actor context, retaining native business writers and all other grants."
+  },
+  "independent_acceptance": false,
+  "production_go": false
+}

@@ -176,11 +176,12 @@
     "source_commit": "6d3b019df6054b2cc77c6ab5bd44f7164494cee9",
     "verification": "docs/cp7/evidence/p11-sales/TRANSITIONS_VERIFICATION.json",
     "draft_candidate": {
-      "status": "IMPLEMENTED_NATIVE_BROWSER_PENDING",
+      "status": "RUN1_31_PASS_2_INCOMPLETE_ADMISSION_REPAIR_PENDING",
       "expected_cases": 33,
       "local_cases": 15,
       "shared_recovery_cases": 30,
-      "scope": "REAL_CUSTOMER_STOCK_CREATE_FULL_EDIT_POST_CANCEL_R10_RETURN_PAYMENT_OPEN"
+      "scope": "REAL_CUSTOMER_STOCK_CREATE_FULL_EDIT_POST_CANCEL_R10_RETURN_PAYMENT_OPEN",
+      "diagnostic": "docs/cp7/evidence/p11-sales/DRAFT_RUN1_RECEIPT.json"
     }
   }
 }
