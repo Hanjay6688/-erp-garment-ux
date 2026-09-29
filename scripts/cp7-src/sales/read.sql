@@ -23,6 +23,9 @@ language sql stable security invoker set search_path='' as $$
  select md5(jsonb_build_object('header',to_jsonb(h),
   'items',(select coalesce(jsonb_agg(to_jsonb(i) order by i.id),'[]') from erp.sales_items i where i.sale_id=h.id),
   'allocations',(select coalesce(jsonb_agg(to_jsonb(a) order by a.id),'[]') from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id where i.sale_id=h.id),
+  'payments',(select coalesce(jsonb_agg(to_jsonb(p) order by p.id),'[]') from erp.sales_payments p where p.sale_id=h.id),
+  'returns',(select coalesce(jsonb_agg(to_jsonb(r) order by r.id),'[]') from erp.sales_returns r where r.sale_id=h.id),
+  'return_items',(select coalesce(jsonb_agg(to_jsonb(i) order by i.id),'[]') from erp.sales_return_items i join erp.sales_returns r on r.id=i.return_id where r.sale_id=h.id),
   'reservations',(select coalesce(jsonb_agg(to_jsonb(m) order by m.id),'[]') from erp.fg_stock_movements m join erp.sales_items i on i.id=m.source_id and m.source_type='SALE_ITEM' where i.sale_id=h.id))::text)
  from erp.sales_headers h where h.id=p_id
 $$;

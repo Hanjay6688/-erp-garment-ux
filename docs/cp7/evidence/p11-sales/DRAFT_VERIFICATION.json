@@ -1,0 +1,114 @@
+{
+  "status": "WRITER_BOUNDED_33_PASS",
+  "source_commit": "a5e0e7dc25f9c92ae9ae16a7b7e23262f2f8d8a0",
+  "source_tree": "654e7bb772f4220c7f621bbeae5c720a11f639ed",
+  "run_id": 36626262007,
+  "job_id": 109603910083,
+  "artifact_id": 11059933118,
+  "artifact_bytes": 4923945,
+  "artifact_sha256": "340d1170ff0fb26fb5f8986314e5fa6a51d1fa576948cd88dc6ed5d093f5c109",
+  "report_sha256": "91cf7a4354579ba6ce53a419268e5cd3b16a6750e692b89aa39a63b7c75f8bee",
+  "report_gzip_sha256": "dfbfbb1efaa410c81099e52721080b0689c2bbf1d0853b97893bcf1a404ced1e",
+  "counts": {
+    "PASS": 33,
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0
+  },
+  "source_bundle_sha256": "aaa89db4e91abac39d6210a2c328e224cf02ca522bb72fecf66d8342b1b57dda",
+  "recomputed_exact_bundle_from_git_source": true,
+  "groups": {
+    "native": {
+      "PASS": 8
+    },
+    "http": {
+      "PASS": 1
+    },
+    "commands": {
+      "PASS": 6
+    },
+    "command_races": {
+      "PASS": 2
+    },
+    "command_http": {
+      "PASS": 1
+    },
+    "drafts": {
+      "PASS": 7
+    },
+    "draft_races": {
+      "PASS": 1
+    },
+    "draft_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 6
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "a5e0e7dc25f9c92ae9ae16a7b7e23262f2f8d8a0",
+    "product_ref": "2e599df17643e67c03b6b5dd75976f21cb77fe9c",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36626262007",
+    "run_attempt": "1",
+    "workflow": "CP7 P11 Sales",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "a5e0e7dc25f9c92ae9ae16a7b7e23262f2f8d8a0",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "product_ref_note": "Product path selector excludes scripts; frontend/accepted native release remains2e599df, actual extension/probe comes froma5e0e7d. Exact extension bundle recomputed from source and matches report.",
+  "guard_delta": {
+    "signature": "erp.require_internal()",
+    "before_sha256": "1aea98ba94ef621c842f27d3a5f495b60e84068c51c4fa15ff4dd804356cfa6b",
+    "after_sha256": "c54a906138bd9cdacb09ca8fdebb6a94b511e87efa9bec0e1ca15f7a501786ce",
+    "scope": "PRIVATE_ACTOR_TRANSACTION_CREATE_EDIT_POST_CANCEL_CONTEXT_ONLY"
+  },
+  "app_workflows": [
+    36626269048,
+    36626262006
+  ],
+  "both_app_workflows_pass": true,
+  "visual_review": {
+    "draft_desktop": true,
+    "draft_mobile": true,
+    "limits": "Two edit-form screenshots inspected, readable with no horizontal overflow. Mobile all-document list remains long. Other four repeated screenshots not newly inspected."
+  },
+  "screenshots": {
+    "P11_DRAFT_DESKTOP.png": "4f2516d51a7a6d96b9d4f62b669a92716771b97517ab56ce6bf59f1fb872b602",
+    "P11_DRAFT_MOBILE.png": "4ac88f87d0baba5bcfadae6141c6a23996dc7496fbe846703159411274cad3db"
+  },
+  "local_source_tests": 15,
+  "shared_recovery_tests": 30,
+  "independent_acceptance": false,
+  "production_go": false,
+  "remaining_scope": [
+    "Connected customer cash/payment/inverse candidate not qualified here",
+    "Physical return and GradeB browser",
+    "Full R10/P11",
+    "P13",
+    "E05 mechanism and proof",
+    "Remaining P09",
+    "Full F03 independent acceptance/release"
+  ]
+}

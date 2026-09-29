@@ -1,0 +1,52 @@
+import {useCallback,useEffect,useMemo,useRef,useState} from 'react'
+import {useAuth} from './auth/AuthProvider'
+import {isConnectedRuntime} from './config/runtime'
+import {getUatSupabaseClient} from './lib/supabase'
+import {normalizeClientError} from './lib/clientError'
+import {cp6WibDateTimeInput,cp6WibPhysicalTimeToIso,formatCp6WibDateTime} from './cp6BusinessTime'
+import {formatReceiptDecimal as numberText} from './procurementContract'
+import {parseSalesCash,salesCashAmount,salesCashCents,type SalesCash,type SalesCashAccount,type SalesPayment} from './salesCashContract'
+import type {SalesRead} from './salesReadContract'
+import type {Json} from './types/database.preconnect'
+type Source=NonNullable<SalesRead['detail']>
+type Props={source:Source;locked:boolean;stale:boolean;onClose:()=>void;onSave:(action:'PAYMENT'|'PAYMENT_REVERSE',document:Json,version:string)=>void}
+const money=(s:string)=>`Rp${numberText(s)}`
+export default function SalesPaymentPanel({source,locked,stale,onClose,onSave}:Props){
+ const {runtime,identity}=useAuth();if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED')throw Error('Sesi pembayaran belum siap.')
+ const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),seq=useRef(0),query=useRef({payment_offset:0,bank_offset:0,bank_q:''})
+ const [data,setData]=useState<SalesCash|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState(''),[q,setQ]=useState('')
+ const [bank,setBank]=useState<SalesCashAccount|null>(null),[number,setNumber]=useState(''),[at,setAt]=useState(()=>cp6WibDateTimeInput()),[amount,setAmount]=useState(''),[method,setMethod]=useState('BANK_TRANSFER'),[reference,setReference]=useState(''),[notes,setNotes]=useState(''),[reason,setReason]=useState('Pembayaran dan invoice sudah diperiksa'),[review,setReview]=useState(false),[reverse,setReverse]=useState<SalesPayment|null>(null)
+ const load=useCallback(async()=>{
+  const ticket=++seq.current,p={...query.current};setData(null);setBusy(true);setError('');setReview(false)
+  try{const r=await client.rpc('erp_cp7_get_sales_cash_v1',{p_query:{sale_id:source.id,...p,payment_limit:25,bank_limit:25}});if(ticket!==seq.current)return;if(r.error)throw r.error;setData(parseSalesCash(r.data,source,p.payment_offset,p.bank_offset))}
+  catch(e){if(ticket===seq.current)setError(normalizeClientError(e).message)}finally{if(ticket===seq.current)setBusy(false)}
+ },[client,source])
+ useEffect(()=>{void load();return()=>{++seq.current}},[load])
+ const canPay=identity.permissions.includes('sales.payment.create')&&identity.permissions.includes('sales.payment.post'),canReverse=identity.permissions.includes('sales.payment.reverse')&&['OWNER','ADMIN'].includes(identity.profile.role)
+ const disabled=locked||stale||busy||!data,physical=cp6WibPhysicalTimeToIso(at),exact=salesCashAmount(amount),balance=source.financial?.open_balance
+ const validAmount=exact!==null&&salesCashCents(exact)>0n&&balance!==null&&balance!==undefined&&salesCashCents(exact)<=salesCashCents(balance)
+ const valid=review&&reason.trim().length>=5&&(reverse?reverse.status==='POSTED':canPay&&number.trim()&&physical&&bank&&validAmount&&['POSTED','PARTIAL_PAID'].includes(source.status))
+ const save=()=>{if(disabled||!valid||!source.review_token)return
+  const base={sale_id:source.id,review_token:source.review_token,change_reason:reason.trim()}
+  if(reverse){if(canReverse)onSave('PAYMENT_REVERSE',{...base,payment_id:reverse.id},source.row_version)}
+  else onSave('PAYMENT',{...base,payment_number:number.trim(),payment_date:physical!,amount:exact!,cash_account_id:bank!.id,payment_method:method,reference_number:reference.trim()||null,notes:notes.trim()||null},source.row_version)
+ }
+ return <section className="panel" aria-label="Pembayaran invoice">
+  <div className="cproc-heading"><div><h2>Pembayaran {source.number}</h2><p>{source.customer_name} · sisa {balance!==null&&balance!==undefined?money(balance):'belum tersedia'}</p></div><button disabled={locked} onClick={onClose}>Tutup pembayaran invoice</button></div>
+  {stale?<p role="alert">Invoice berubah. Tutup formulir dan muat ulang sebelum membayar.</p>:null}{error?<p role="alert">{error}</p>:null}{busy?<p role="status">Memuat pembayaran…</p>:null}
+  <button disabled={locked||busy||stale} onClick={()=>void load()}>Muat ulang pembayaran</button>
+  {data?<section aria-label="Riwayat pembayaran invoice"><h3>Riwayat pembayaran</h3>{data.payments.rows.length===0?<p>Belum ada pembayaran tercatat.</p>:null}{data.payments.rows.map(p=><article className="cproc-item" key={p.id}><h4>{p.number} · {money(p.amount)}</h4><p>{formatCp6WibDateTime(p.physical_at)} · {p.cash_account_name??'Sumber saldo awal'} · {p.status==='POSTED'?'Tercatat':p.status==='REVERSED'?'Dibatalkan':'Draft'}</p>{p.reference?<p>Referensi {p.reference}</p>:null}{p.notes?<p>{p.notes}</p>:null}{canReverse&&p.status==='POSTED'?<button disabled={disabled} onClick={()=>{setReverse(p);setReason('');setReview(false)}}>Koreksi pembayaran {p.number}</button>:null}</article>)}<div className="cproc-pagination"><span>Total {data.payments.total} pembayaran</span><button disabled={disabled||data.payments.offset===0} onClick={()=>{query.current.payment_offset=Math.max(0,data.payments.offset-25);void load()}}>Pembayaran sebelumnya</button><button disabled={disabled||data.payments.next_offset===null} onClick={()=>{query.current.payment_offset=data.payments.next_offset??0;void load()}}>Pembayaran berikutnya</button></div></section>:null}
+  {reverse||canPay&&['POSTED','PARTIAL_PAID'].includes(source.status)?<form aria-label="Catat pembayaran pelanggan" onSubmit={e=>{e.preventDefault();save()}} onChange={()=>setReview(false)}><fieldset className="cproc-fieldset" disabled={disabled}>
+   {reverse?<div className="cproc-review"><h3>Batalkan pembayaran {reverse.number}</h3><p>{money(reverse.amount)} akan dikembalikan ke sisa tagihan melalui pembalikan jurnal. Stok dan nilai penjualan tetap mengikuti invoice.</p><button type="button" onClick={()=>{setReverse(null);setReview(false)}}>Urungkan koreksi pembayaran</button></div>:<>
+    <div className="cproc-grid"><label>Nomor pembayaran<input aria-label="Nomor pembayaran pelanggan" value={number} maxLength={60} onChange={e=>setNumber(e.target.value)}/></label><label>Waktu pembayaran · WIB<input type="datetime-local" aria-label="Waktu pembayaran pelanggan WIB" value={at} onChange={e=>setAt(e.target.value)}/></label><label>Nominal diterima<input inputMode="decimal" aria-label="Nominal pembayaran pelanggan" value={amount} onChange={e=>setAmount(e.target.value)}/></label><label>Metode<select aria-label="Metode pembayaran pelanggan" value={method} onChange={e=>setMethod(e.target.value)}><option value="BANK_TRANSFER">Transfer bank</option><option value="CASH">Tunai</option></select></label></div>
+    {amount&&!validAmount?<p role="alert">Isi nominal positif dengan maksimal dua desimal, sesuai sisa tagihan.</p>:null}
+    <div className="cproc-search"><label>Cari kas atau rekening<input aria-label="Cari rekening pembayaran pelanggan" value={q} maxLength={120} onChange={e=>setQ(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'){e.preventDefault();query.current.bank_offset=0;query.current.bank_q=q.trim();void load()}}}/></label><button type="button" onClick={()=>{query.current.bank_offset=0;query.current.bank_q=q.trim();void load()}}>Cari rekening pelanggan</button></div>
+    {data?<section aria-label="Pilih rekening pembayaran pelanggan">{data.cash_accounts.rows.length===0?<p>Tidak ada rekening aktif sesuai pencarian.</p>:null}{data.cash_accounts.rows.map(b=><button type="button" className="cproc-receipt" key={b.id} aria-pressed={bank?.id===b.id} onClick={()=>{setBank(b);setReview(false)}}><span><strong>{b.code} · {b.name}</strong><small>{b.kind}</small></span></button>)}<div className="cproc-pagination"><span>Total {data.cash_accounts.total} rekening</span><button type="button" disabled={data.cash_accounts.offset===0} onClick={()=>{query.current.bank_offset=Math.max(0,data.cash_accounts.offset-25);void load()}}>Rekening sebelumnya</button><button type="button" disabled={data.cash_accounts.next_offset===null} onClick={()=>{query.current.bank_offset=data.cash_accounts.next_offset??0;void load()}}>Rekening berikutnya</button></div></section>:null}
+    <p>Rekening terpilih: {bank?.name??'belum dipilih'}</p><label>Nomor referensi<input aria-label="Referensi pembayaran pelanggan" value={reference} maxLength={100} onChange={e=>setReference(e.target.value)}/></label><label>Catatan pembayaran<input aria-label="Catatan pembayaran pelanggan" value={notes} maxLength={2000} onChange={e=>setNotes(e.target.value)}/></label>
+   </>}
+   <label>{reverse?'Alasan koreksi':'Catatan pemeriksaan'}<input aria-label="Alasan tindakan pembayaran" value={reason} maxLength={1000} onChange={e=>setReason(e.target.value)}/></label>
+   <label className="cproc-check"><input type="checkbox" aria-label="Pembayaran pelanggan sudah diperiksa" checked={review} onChange={e=>{e.stopPropagation();setReview(e.target.checked)}}/>{reverse?'Pembayaran dan alasan pembatalan sudah saya periksa.':'Invoice, nominal, rekening, dan waktu pembayaran sudah saya periksa.'}</label>
+   <button className="primary-btn" disabled={!valid}>{reverse?'Batalkan pembayaran tercatat':'Catat pembayaran pelanggan'}</button>
+  </fieldset></form>:null}
+ </section>
+}

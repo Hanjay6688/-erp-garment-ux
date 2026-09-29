@@ -38,7 +38,7 @@
     "P09": "BOUNDED_125_PASS_MULTI_INPUT_COUNTS_AND_COMBINED_INVOICES_REMAINING_SCOPE_OPEN",
     "P10": "FG_BOOK_34_PASS_NOTA_COMPOSITION_QUALIFIED_SCOPE_OPEN",
     "P12": "BOUNDED_ATTENDANCE_SOURCE_TO_PAYROLL_80_PASS_REMAINING_SCOPE_OPEN",
-    "P11": "BOUNDED_22_PASS_SOURCE_CREATE_EDIT_33_CASE_CANDIDATE_PENDING"
+    "P11": "BOUNDED_CREATE_EDIT_POST_CANCEL_33_PASS_CASH_47_CASE_CANDIDATE_PENDING"
   },
   "inherited_scope": {
     "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
@@ -53,7 +53,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Connect P11 draft creation/edit then physical return/payment/refund and P13. P11 read/post/cancel22, P12 opening10 and P09 multi-count125+3 are bounded writer evidence. E05 mechanism, remaining P09/F03 and independent acceptance remain open; F04 takeover follows completed F03.",
+  "next_action": "Qualify P11 cash/payment/inverse47, then selected-allocation physical return/GradeB and P13. Qualified P11draft33, P12opening10, P09multi-count125+3 remain source-bound. E05 mechanism and full F03 acceptance remain open; F04 takeover follows completed F03.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -176,12 +176,21 @@
     "source_commit": "6d3b019df6054b2cc77c6ab5bd44f7164494cee9",
     "verification": "docs/cp7/evidence/p11-sales/TRANSITIONS_VERIFICATION.json",
     "draft_candidate": {
-      "status": "RUN1_31_PASS_2_INCOMPLETE_ADMISSION_REPAIR_PENDING",
+      "status": "WRITER_BOUNDED_33_PASS",
       "expected_cases": 33,
       "local_cases": 15,
       "shared_recovery_cases": 30,
       "scope": "REAL_CUSTOMER_STOCK_CREATE_FULL_EDIT_POST_CANCEL_R10_RETURN_PAYMENT_OPEN",
-      "diagnostic": "docs/cp7/evidence/p11-sales/DRAFT_RUN1_RECEIPT.json"
+      "diagnostic": "docs/cp7/evidence/p11-sales/DRAFT_RUN1_RECEIPT.json",
+      "source_commit": "a5e0e7dc25f9c92ae9ae16a7b7e23262f2f8d8a0",
+      "verification": "docs/cp7/evidence/p11-sales/DRAFT_VERIFICATION.json"
+    },
+    "cash_candidate": {
+      "status": "IMPLEMENTED_NATIVE_BROWSER_PENDING",
+      "expected_cases": 47,
+      "local_source_cases": 21,
+      "shared_recovery_cases": 30,
+      "handoff": "docs/cp7/P11_CASH_HANDOFF.md"
     }
   }
 }

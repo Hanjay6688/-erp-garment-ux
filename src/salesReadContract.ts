@@ -50,10 +50,12 @@ export function parseSalesRead(v:unknown,finance:boolean):SalesRead{
  return w as unknown as SalesRead
 }
 
-export function parseSalesOutcome(v:unknown,requestId:string,action:string,saleId:string|null){
- const r=closed(v,['contract_version','kind','action','request_id','sale_id','status','row_version'])
- if(r.contract_version!=='cp7.sales-outcome.v1'||r.kind!=='COMMITTED_OUTCOME'||!['CREATE','EDIT','POST','CANCEL'].includes(action)||r.action!==action||r.request_id!==requestId||(action==='CREATE'?saleId!==null:r.sale_id!==saleId)||!id(r.sale_id)||r.status!==({CREATE:'DRAFT',EDIT:'DRAFT',POST:'POSTED',CANCEL:'CANCELLED'} as Record<string,string>)[action]||!whole(r.row_version)||r.row_version==='0')fail()
- return r as {sale_id:string;status:'DRAFT'|'POSTED'|'CANCELLED';row_version:string}
+export function parseSalesOutcome(v:unknown,requestId:string,action:string,saleId:string|null,expectedPaymentId:string|null=null){
+ const cash=['PAYMENT','PAYMENT_REVERSE'].includes(action),r=closed(v,['contract_version','kind','action','request_id','sale_id','status','row_version',...(cash?['payment_id','payment_status']:[])])
+ if(r.contract_version!=='cp7.sales-outcome.v1'||r.kind!=='COMMITTED_OUTCOME'||!['CREATE','EDIT','POST','CANCEL','PAYMENT','PAYMENT_REVERSE'].includes(action)||r.action!==action||r.request_id!==requestId||(action==='CREATE'?saleId!==null:r.sale_id!==saleId)||!id(r.sale_id)||!whole(r.row_version)||r.row_version==='0')fail()
+ if(cash){if(action==='PAYMENT_REVERSE'&&r.payment_id!==expectedPaymentId||!id(r.payment_id)||r.payment_status!==(action==='PAYMENT'?'POSTED':'REVERSED')||!(action==='PAYMENT'?['PARTIAL_PAID','PAID']:['POSTED','PARTIAL_PAID','PAID']).includes(String(r.status)))fail()}
+ else if(r.status!==({CREATE:'DRAFT',EDIT:'DRAFT',POST:'POSTED',CANCEL:'CANCELLED'} as Record<string,string>)[action])fail()
+ return r as {sale_id:string;status:SalesStatus;row_version:string;payment_id?:string;payment_status?:'POSTED'|'REVERSED'}
 }
 
 export type SalesCustomerOption={id:string;code:string;name:string}

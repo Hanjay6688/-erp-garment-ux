@@ -1,5 +1,11 @@
 # P11 — invoice source reader
 
+## Qualified source create/edit —33/33 PASS
+
+Source `a5e0e7dc25f9c92ae9ae16a7b7e23262f2f8d8a0`, tree `654e7bb772f4220c7f621bbeae5c720a11f639ed`; [run36626262007](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36626262007), [receipt and hashes](evidence/p11-sales/DRAFT_VERIFICATION.json). All21 native,3 committed races,3 realAuth and6 browser cases pass. Exact native110.01→109.99 and browser280→120 oracles pass, with complete other lines, notes, terms, due date and full timestamp preserved. Custom-role create/edit/post/cancel and unchanged original CREATE replay after later edit/cancel now pass. CP6 restore/advisor/Auth/database cleanup, package restore and both app workflows pass. Two current draft screenshots were inspected and retained. The source extension bundle was independently recomputed from this Git source and matches the report; the installer's narrower product-path pointer remains2e599df because the admission repair resides under scripts.
+
+Earlier31/33 diagnostic remains in history. This closes that draft increment only. Cash/payment, physical returns/GradeB, R10, full P11/P13/F03 and independent acceptance remain OPEN. `production_go=false`.
+
 ## Draft run1 diagnosis and admission repair candidate
 
 Source `2e599df17643e67c03b6b5dd75976f21cb77fe9c`, tree `f8317c448fd13a899b7b56d53fbadd5092700ffe`, [run36625253578](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36625253578): **31 PASS /0 FAIL /2 INCOMPLETE /0 NOT_RUN**. All6 connected browser cases passed, including complete source create/edit/post and mobile lost-CREATE recovery. Both new draft screenshots were inspected; long mobile document list remains a layout limitation. CP6 restore/advisor/Auth/database cleanup and backup restore passed; overall writer gate correctly remained false. Full diagnostic: [DRAFT_RUN1_RECEIPT.json](evidence/p11-sales/DRAFT_RUN1_RECEIPT.json).
