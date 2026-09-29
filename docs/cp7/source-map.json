@@ -750,5 +750,45 @@
       "Finance cost pending remains UNKNOWN until verified"
     ],
     "verification": "docs/cp7/evidence/p02/VERIFICATION.json"
+  },
+  "p02_actor_facade": {
+    "contract": "cp7.snapshot-page.v1",
+    "sources": [
+      "scripts/cp7-src/snapshot/bootstrap.sql",
+      "scripts/cp7-src/snapshot/sources.sql",
+      "scripts/cp7-src/snapshot/facades.sql"
+    ],
+    "public_entrypoints": [
+      "public.erp_cp7_capture_snapshot_v1(uuid,uuid)",
+      "public.erp_cp7_read_snapshot_v1(uuid,text,text,integer)"
+    ],
+    "source_relations": [
+      "erp.products",
+      "erp.bf_sku_members_v1",
+      "erp.bf_sku_versions_v1",
+      "erp.bf_skus_v1",
+      "erp.cutting_groups",
+      "erp.cutting_group_size_slots",
+      "erp.cutting_group_rolls",
+      "erp.cutting_roll_yields",
+      "erp.production_orders",
+      "erp.fg_stock_movements",
+      "erp.sales_headers",
+      "erp.sales_items",
+      "erp.fg_lots",
+      "erp.hpp_versions"
+    ],
+    "read_helpers": [
+      "erp.bd_lot_laundry_unknown_v1",
+      "erp.get_hpp_completeness",
+      "erp.get_my_access_v1",
+      "erp.has_permission"
+    ],
+    "principal": "cp7_capture: NOLOGIN; explicit source SELECT; analysis-only INSERT; no business writers",
+    "source_head": "735056db3b42cc7fc3999149b42e2cadac7b42b2",
+    "verification": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
+    "writer_proof": "10_NATIVE_4_RACE_2_REAL_AUTH_HTTP_PASS",
+    "production_connected": false,
+    "independent_acceptance": false
   }
 }

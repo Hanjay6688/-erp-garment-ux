@@ -1,0 +1,128 @@
+{
+  "label": "T3_PREP_RELEASE_PACKAGE_INSTALL",
+  "status": "ALL_FILES_INSTALLED",
+  "files": [
+    {
+      "key": "AC",
+      "status": "PASS"
+    },
+    {
+      "key": "AD",
+      "status": "PASS"
+    },
+    {
+      "key": "AE",
+      "status": "PASS"
+    },
+    {
+      "key": "AF",
+      "status": "PASS"
+    },
+    {
+      "key": "AG",
+      "status": "PASS"
+    },
+    {
+      "key": "AH",
+      "status": "PASS"
+    },
+    {
+      "key": "AI",
+      "status": "PASS"
+    },
+    {
+      "key": "AJ",
+      "status": "PASS"
+    },
+    {
+      "key": "AK",
+      "status": "PASS"
+    },
+    {
+      "key": "AL",
+      "status": "PASS"
+    },
+    {
+      "key": "AM",
+      "status": "PASS"
+    },
+    {
+      "key": "AN",
+      "status": "PASS"
+    },
+    {
+      "key": "AO",
+      "status": "PASS"
+    },
+    {
+      "key": "AP",
+      "status": "PASS"
+    },
+    {
+      "key": "AQ",
+      "status": "PASS"
+    },
+    {
+      "key": "AR",
+      "status": "PASS"
+    },
+    {
+      "key": "AS",
+      "status": "PASS"
+    },
+    {
+      "key": "AT",
+      "status": "PASS"
+    },
+    {
+      "key": "AU",
+      "status": "PASS"
+    },
+    {
+      "key": "AV",
+      "status": "PASS"
+    },
+    {
+      "key": "AW",
+      "status": "PASS"
+    },
+    {
+      "key": "AX",
+      "status": "PASS"
+    },
+    {
+      "key": "AY",
+      "status": "PASS"
+    },
+    {
+      "key": "AZ",
+      "status": "PASS"
+    },
+    {
+      "key": "BA",
+      "status": "PASS"
+    },
+    {
+      "key": "BB",
+      "status": "PASS"
+    },
+    {
+      "key": "BC",
+      "status": "PASS"
+    },
+    {
+      "key": "BD",
+      "status": "PASS"
+    },
+    {
+      "key": "BE",
+      "status": "PASS"
+    },
+    {
+      "key": "BF",
+      "status": "PASS"
+    }
+  ],
+  "production_go": false,
+  "release_evidence": false
+}

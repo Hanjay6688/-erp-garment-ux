@@ -1,6 +1,6 @@
 # P01 — contract lock and fixture charter
 
-Status: STARTED; native engine/oracle execution NOT_RUN. Dependency: P00 receipt and source catalogue. This file starts the P01 contract work without claiming packet acceptance.
+Status: contract and fixture charter ready for family 1 review. Native planning/WIP engine oracles remain NOT_RUN in their downstream packets. Dependency: P00 receipt and source catalogue; independent acceptance remains pending.
 
 ## Locked inputs
 
@@ -38,3 +38,7 @@ Resolve the minimum P02 source set against the native catalogue, then define the
 `tests/cp7/sourceProbeContract.ts` validates the first diagnostic live-source shape separately from the unchanged synthetic `AnalysisResult`. It checks six complete source pages, root/exact size, unique source keys, signed movement versus unsigned PCS, exact decimal IDR, missing HPP as UNKNOWN, one statement cutoff and microsecond future knowledge. It rejects extra fields in the diagnostic tests; it is not wired into the application until there is an authorized server consumer. This parser validates transport shape; it cannot authorize an actor or verify the database snapshot hash as a cryptographic signature. The P02 query remains internal to the disposable runner. Independent O01/O04/O15 engine outputs and E22 actor proof remain NOT_RUN.
 
 At `67f3b0f`, ten local negative/shape tests and the [CP7 shell CI](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36480942635) passed. The [P02 native diagnostic](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36480942787) passed its first source fixture; this does not satisfy the P01 engine or authorization oracles in the table above.
+
+## Family 1 actor delta
+
+The [P02 actor family](P02_FACADE_HANDOFF.md) now provides server authorization, immutable persisted runs, real Auth/HTTP, source-change and concurrent-capture evidence at `735056db3b42cc7fc3999149b42e2cadac7b42b2`. It supplies the bounded capture/poisoned-principal portion of E22; export, ACK and downstream consumers retain their own open obligations. The original diagnostic decoder remains a diagnostic contract and is not silently reused for the versioned actor page envelope. No application consumer has been connected by this work. O01/O04/O15 engine outputs must be verified when those engines exist; their expected values remain locked above.

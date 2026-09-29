@@ -2,6 +2,8 @@
 
 Status: diagnostic SELECT and native fixture PASS at `67f3b0f2b2903758d6acc25e2f73786d5b6411a9` on [run 36480942787](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36480942787). This is a source capture spike, not packet P02 acceptance. Production connection: false.
 
+**Successor:** the [actor facade handoff](P02_FACADE_HANDOFF.md) now supplies scoped native/Auth/concurrency evidence. The diagnostic receipt below remains unchanged and keeps its original limits.
+
 ## What the code does
 
 - `scripts/cp7-src/snapshot/capture_probe.sql` captures six bounded source families (physical identity, dated commercial membership, cutting yield candidates, FG movements, sale lines, lot cost) for one physical root/exact size in one PostgreSQL statement. All domain rows share the same MVCC statement snapshot. Cutting candidates are explicitly UNBOUND_CANDIDATE: model/size agreement cannot prove destination. Signed FG movements are kept as facts; no stock arithmetic or reservation is inferred.
@@ -14,7 +16,7 @@ The native fixture returned COMPLETE with two distinct cutting groups (6+7 PCS) 
 
 This proof uses an administrative disposable fixture for the FG movement and draft sale. It does not prove normal posting of those records, actor-facing authorization, six-domain completeness under concurrent changes, or a persisted immutable run. The SQL is internal to the native harness; no browser or server endpoint serves its output.
 
-## What remains to implement in P02
+## Remaining work recorded after this diagnostic
 
 - A scoped actor-facing facade with current-role checks before initial response and before cached/replayed response; authorize finance at the server before its facts enter output.
 - Persist coherent facts and dependency vector atomically; provide versioned run/cursor and stale tracking including insert/backdate/reversal/recost/status/role changes.

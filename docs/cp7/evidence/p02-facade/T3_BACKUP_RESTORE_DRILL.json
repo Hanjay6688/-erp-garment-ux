@@ -1,0 +1,315 @@
+{
+  "label": "T3_PREP_BACKUP_RESTORE_DRILL",
+  "status": "RESTORED_SAME_MEANING",
+  "source": "cp6_rollback",
+  "target": "cp6_restore_drill",
+  "installed_stages": [
+    "PACKAGE",
+    "AW_AX_AY_AZ_VERIFY"
+  ],
+  "production_go": false,
+  "release_evidence": false,
+  "dump": {
+    "exit": 0,
+    "stderr": "",
+    "seconds": 1.1,
+    "bytes": 10639813
+  },
+  "restore": {
+    "exit": 1,
+    "seconds": 3.9,
+    "error_count": 19,
+    "ignored_reported": 19,
+    "unexplained": [],
+    "errors": [
+      "pg_restore: error: could not execute query: ERROR:  can only create extension in database postgres",
+      "pg_restore: error: could not execute query: ERROR:  extension \"pg_cron\" does not exist",
+      "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+      "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+      "pg_restore: error: could not execute query: ERROR:  relation \"cron.jobid_seq\" does not exist",
+      "pg_restore: error: could not execute query: ERROR:  relation \"cron.runid_seq\" does not exist",
+      "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+      "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+      "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+      "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+      "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+      "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+      "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+      "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+      "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+      "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+      "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+      "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+      "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist"
+    ]
+  },
+  "catalog": {
+    "match": [
+      "app_ledger",
+      "config_hash",
+      "default_acl",
+      "function",
+      "function_owner_acl",
+      "platform_ledger",
+      "policy",
+      "relation",
+      "relation_owner_acl",
+      "schema",
+      "sequence",
+      "trigger"
+    ],
+    "differ": {
+      "constraint": {
+        "source": {
+          "n": 2155,
+          "md5": "344d937d7b895739431b3c0571e40960"
+        },
+        "restored": {
+          "n": 2155,
+          "md5": "b81cbb5246a8832807de8839a3de15ff"
+        }
+      },
+      "extension": {
+        "source": {
+          "n": 6,
+          "md5": "15a959c38d716ad2af3fe1f1dc4419ef"
+        },
+        "restored": {
+          "n": 5,
+          "md5": "2193000efffb6e05911a1c3af1f57381"
+        }
+      },
+      "index": {
+        "source": {
+          "n": 913,
+          "md5": "07758af6439607a0302f57cfd5eb556b"
+        },
+        "restored": {
+          "n": 913,
+          "md5": "f0f899946e4e9be0d80ff5f82cd7d90b"
+        }
+      },
+      "view": {
+        "source": {
+          "n": 51,
+          "md5": "c08bd89cf82d60763558b988fea065b3"
+        },
+        "restored": {
+          "n": 51,
+          "md5": "1fdac63ca8f241d961df89bbc0cbcbaf"
+        }
+      }
+    },
+    "objects": {
+      "constraint": {
+        "differing": 29,
+        "by_class": {
+          "VARCHAR_IN_LIST_REPARSE": 29
+        },
+        "objects": [
+          {
+            "object": "erp.attendance_hpp_journal_line_links.attendance_hpp_journal_line_links_link_type_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.attendance_hpp_pools.attendance_hpp_pools_status_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.attendance_periods.attendance_periods_status_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.attendance_records.attendance_records_lifecycle_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.bs_cases.bs_cases_status_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.fg_stock_movements.fg_stock_movements_movement_type_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.idempotency_requests.idempotency_requests_status_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.laundry_claims.laundry_claims_claim_type_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.manual_reminders.manual_reminders_priority_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.manual_reminders.manual_reminders_status_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.material_purchase_cost_corrections.material_purchase_cost_corrections_post_seq_state",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.material_purchase_items.material_purchase_items_invoice_match_state_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.material_purchase_items.material_purchase_items_price_source_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.material_purchase_items.material_purchase_items_price_state_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.material_stock_movements.material_stock_movements_movement_type_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.material_supplier_invoices.material_supplier_invoices_status_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.material_transfers.material_transfers_status_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.payroll_deductions.payroll_deductions_deduction_type_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.qc_inspections.qc_inspections_completion_mode_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.rework_accessory_decisions.rework_accessory_decisions_decision_state_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.rework_accessory_selection_lines.rework_accessory_selection_lines_hpp_method_snapshot_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.rework_accessory_selection_lines.rework_accessory_selection_lines_selection_basis_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.rework_component_lines.rework_component_lines_rate_basis_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.sewing_terminal_events.sewing_terminal_events_event_kind_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.stock_explainability_snapshots.stock_explainability_snapshots_basis_source_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.stock_explainability_snapshots.stock_explainability_snapshots_health_status_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.stock_explainability_snapshots.stock_explainability_snapshots_subject_type_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.stock_policy_versions.stock_policy_versions_basis_source_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.stock_policy_versions.stock_policy_versions_subject_type_check",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          }
+        ]
+      },
+      "extension": {
+        "differing": 1,
+        "by_class": {
+          "PG_CRON_ONLY_IN_DATABASE_POSTGRES": 1
+        },
+        "objects": [
+          {
+            "object": "pg_cron",
+            "cls": "PG_CRON_ONLY_IN_DATABASE_POSTGRES"
+          }
+        ]
+      },
+      "index": {
+        "differing": 1,
+        "by_class": {
+          "VARCHAR_IN_LIST_REPARSE": 1
+        },
+        "objects": [
+          {
+            "object": "erp.uq_cp6_wip_reversal_source_v2620",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          }
+        ]
+      },
+      "view": {
+        "differing": 6,
+        "by_class": {
+          "VARCHAR_IN_LIST_REPARSE": 6
+        },
+        "objects": [
+          {
+            "object": "erp.v_case_browser",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.v_customer_receivables",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.v_fg_partial_completion_progress",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.v_laundry_po_operational_progress",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.v_payroll_production_work_eligibility",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          },
+          {
+            "object": "erp.v_wip_control_status_v1",
+            "cls": "VARCHAR_IN_LIST_REPARSE"
+          }
+        ]
+      }
+    }
+  },
+  "data": {
+    "tables": 407,
+    "rows": 1860,
+    "schemas": [
+      "_realtime",
+      "auth",
+      "erp",
+      "realtime",
+      "storage",
+      "supabase_functions",
+      "supabase_migrations",
+      "vault"
+    ],
+    "differ": {}
+  },
+  "engine": {
+    "day": "2026-09-28",
+    "equal": true,
+    "source_status": "READY",
+    "restored_status": "READY"
+  },
+  "source_cron_jobs": 0,
+  "checks": {
+    "restore_errors_only_pg_cron": true,
+    "catalog_explained": true,
+    "data_identical": true,
+    "engine_answer_present": true,
+    "engine_equal": true
+  }
+}

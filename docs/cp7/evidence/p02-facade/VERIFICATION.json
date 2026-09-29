@@ -1,0 +1,368 @@
+{
+  "version": "cp7.p02-facade.receipt.v1",
+  "writer_status": "T1_FAMILY_PASS_BOUNDED_CAPTURE",
+  "source_head": "735056db3b42cc7fc3999149b42e2cadac7b42b2",
+  "source_tree": "a1d59c31b67deb0ba3c815784d9d5d8b6bcd191e",
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36505788525",
+  "artifact_id": 11006994658,
+  "artifact_sha256": "9d18e90577d36b4c2666afc11c909a194952bafee6c9e8bc32e1235cbbc340dc",
+  "source_bundle_sha256": "bfe90effa5af89941a02669b05ed855f54cb2c76ae8433e7cd01ae3b5f5bc9c4",
+  "source_files": {
+    "scripts/cp7-src/snapshot/bootstrap.sql": "64ebe8090b7ca588f234bc98c5a4c57be34dd071631d41b6b7b30f3fefe1b916",
+    "scripts/cp7-src/snapshot/sources.sql": "d53f5428e04c9d5f2bf598691c84b53b488b01131a0591f9b71fa0a07678604d",
+    "scripts/cp7-src/snapshot/facades.sql": "ba8b2b1ebc8134ee3efe7da6d47dd1cce5a8304f4df5565b044bd2a004186fa8",
+    "scripts/cp7_snapshot_bundle.py": "bd72247cfaf74c88b2af954dc1ae4052962c6becdf9e34e302550142b76a9b49",
+    "scripts/cp7_snapshot_cases.py": "c8ea05c06f200c4b4052e9e98abdd454057630b8f5935c32ed8e8e8fb3bf7d07",
+    "scripts/cp7_p02_facade_probe.py": "9e90c8e0e2518f264022c7dec11cb1fd33b710afd634795f578ba454bbf54b7c",
+    ".github/workflows/cp7-p02-facade.yml": "f4056f3646990c922002088d97c95183c3e0aca5206d2b0f71c178f11f37d944"
+  },
+  "raw_proof_sha256": "2924fd7cba72d3bf382ace0659a29d1fdafa9b29cc915b9412ee05bd4a39d4e8",
+  "raw_proof_gzip_sha256": "4ee91f1fa1f94c141cceaa9d297e80efbb489ed81772f4ab00a0f63370978def",
+  "before_proof_sha256": "7684a9a6d42dcb550a12f4fba582acb9716dc368babacc3289a004caa3d6eef2",
+  "before_proof_gzip_sha256": "433b3dc70e3d60501b71fe0488178db33443e4686f986fd80a4e76b575afe6e5",
+  "scope": "ONE_ROOT_SIX_SOURCE_DOMAINS_CURRENT_ONLY",
+  "case_groups": {
+    "native": {
+      "counts": {
+        "PASS": 10
+      },
+      "cases": {
+        "P02_CAPTURE_FACTS_BOUNDARY": {
+          "status": "PASS",
+          "pair": [
+            9,
+            2
+          ],
+          "cutting": [
+            6,
+            7
+          ],
+          "cost": "UNKNOWN",
+          "business_boundary_unchanged": true,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          }
+        },
+        "P02_REPLAY_STALE_REQUEST_CONFLICT": {
+          "status": "PASS",
+          "replay_stable": true,
+          "stale_after_atomic_correction": true,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          }
+        },
+        "P02_SERVER_PROJECTION_REVOKE": {
+          "status": "PASS",
+          "server_redaction": true,
+          "grant_requires_new_capture": true,
+          "revoke_denied": true,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          }
+        },
+        "P02_ACTOR_SCOPE": {
+          "status": "PASS",
+          "unmapped_denied": true,
+          "service_role_denied": true,
+          "other_actor_denied": true,
+          "inactive_role_denied": true,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          }
+        },
+        "P02_IMMUTABLE_CURSOR": {
+          "status": "PASS",
+          "immutable_page_values": [
+            2,
+            3
+          ],
+          "cursor_bound_to_run_domain": true,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          }
+        },
+        "P02_INCOMPLETE_REFUSED": {
+          "status": "PASS",
+          "source_rows": 501,
+          "partial_run_rows": 0,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          }
+        },
+        "P02_COMPUTE_PRIVILEGES_IMMUTABLE": {
+          "status": "PASS",
+          "immutable": true,
+          "compute_mutator_denied": true,
+          "private_data_api_denied": true,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          }
+        },
+        "P02_INSERT_BACKDATE_DELETE_STATUS": {
+          "status": "PASS",
+          "changes_detected": [
+            "INSERT_BACKDATED",
+            "DELETE",
+            "STATUS"
+          ],
+          "archive_unchanged": true,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          }
+        },
+        "P02_FINANCE_DEPENDENCY_NO_OPS_LEAK": {
+          "status": "PASS",
+          "financial_change_hidden_from_operations": true,
+          "financial_stale": true,
+          "known_exact_cost": {
+            "unit": "IDR",
+            "state": "KNOWN",
+            "value": "99.010000"
+          },
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          }
+        },
+        "P02_COMPLETE_PAGE_PROFILES": {
+          "status": "PASS",
+          "profiles": [
+            {
+              "rows": 1,
+              "pages": 1,
+              "pcs": 2,
+              "capture_ms": 26.783
+            },
+            {
+              "rows": 101,
+              "pages": 2,
+              "pcs": 102,
+              "capture_ms": 34.721
+            },
+            {
+              "rows": 500,
+              "pages": 5,
+              "pcs": 501,
+              "capture_ms": 65.045
+            }
+          ],
+          "all_pages_complete": true,
+          "business_boundary_unchanged": true,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          }
+        }
+      },
+      "database_remaining": 0
+    },
+    "races": {
+      "counts": {
+        "PASS": 4
+      },
+      "cases": {
+        "P02_CONCURRENT_COHERENCE": {
+          "status": "PASS",
+          "captures": 12,
+          "committed_updates": 30,
+          "captures_while_writer_active": 12,
+          "observed_pairs": [
+            [
+              9,
+              2
+            ],
+            [
+              12,
+              5
+            ]
+          ],
+          "session_leaks": []
+        },
+        "P02_REVOCATION_DURING_CAPTURE": {
+          "status": "PASS",
+          "revoked_while_capture_waited": true,
+          "refusal": "CP7_ACCESS_DENIED",
+          "partial_run_rows": 0,
+          "session_leaks": []
+        },
+        "P02_CONCURRENT_REQUEST_REPLAY": {
+          "status": "PASS",
+          "same_run": true,
+          "persisted_runs": 1,
+          "session_leaks": []
+        },
+        "P02_CAPTURE_CLOCK_AFTER_WAIT": {
+          "status": "PASS",
+          "capture_includes_commit_before_lock_release": true,
+          "captured_quantities": [
+            2,
+            3
+          ],
+          "session_leaks": []
+        }
+      },
+      "database_remaining": 0
+    },
+    "http": {
+      "counts": {
+        "PASS": 2
+      },
+      "cases": {
+        "P02_HTTP_REAL_AUTH_REPLAY_REVOKE": {
+          "status": "PASS",
+          "real_auth": true,
+          "owner_capture_cost": true,
+          "other_actor_denied": true,
+          "anonymous_denied": true,
+          "same_token_revoked": true,
+          "business_boundary_unchanged": true,
+          "session_leaks": []
+        },
+        "P02_HTTP_OPERATIONS_REDACTION": {
+          "status": "PASS",
+          "real_auth": true,
+          "financial_domain_absent": true,
+          "financial_read_denied": true,
+          "session_leaks": []
+        }
+      },
+      "database_remaining": 0
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "advisor_delta": {
+    "status": "REVIEW_REQUIRED",
+    "before": 216,
+    "after": 217,
+    "added": [
+      {
+        "name": "rls_enabled_no_policy",
+        "title": "RLS Enabled No Policy",
+        "level": "INFO",
+        "facing": "EXTERNAL",
+        "categories": [
+          "SECURITY"
+        ],
+        "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+        "detail": "Table `cp7_private.analysis_runs` has RLS enabled, but no policies exist",
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+        "metadata": {
+          "name": "analysis_runs",
+          "type": "table",
+          "schema": "cp7_private"
+        },
+        "cache_key": "rls_enabled_no_policy_cp7_private_analysis_runs"
+      }
+    ],
+    "removed": []
+  },
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "package_run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "735056db3b42cc7fc3999149b42e2cadac7b42b2",
+    "product_ref": "5e227c493aa333c6457b8258d20cb892d66bb95d",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36505788525",
+    "run_attempt": "1",
+    "workflow": "CP7 P02 actor facade",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "735056db3b42cc7fc3999149b42e2cadac7b42b2",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "frontend": {
+    "source_head": "735056db3b42cc7fc3999149b42e2cadac7b42b2",
+    "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36505793360",
+    "shell": "PASS",
+    "codeql_actions": "PASS",
+    "codeql_javascript_typescript": "PASS"
+  },
+  "failures": [
+    {
+      "classification": "FIXTURE_DEFECT",
+      "run": 36504059754,
+      "head": "479d91681a7d6de36749274c2d111268024eeab1",
+      "reason": "Lowercase synthetic role code violated existing uppercase constraint; fixed without weakening product rule"
+    },
+    {
+      "classification": "PRODUCT_DEFECT",
+      "run": 36505409042,
+      "head": "bb37cd2d01e96c68b3dad0dd58646a4579207e48",
+      "case": "P02_CAPTURE_CLOCK_AFTER_WAIT",
+      "harness_status": "INCOMPLETE",
+      "expected_quantities": [
+        2,
+        3
+      ],
+      "observed_quantities": [
+        2
+      ],
+      "reason": "Outer statement timestamp preceded request-lock wait; later MVCC capture excluded a newly committed source",
+      "fix": "One materialized clock_timestamp at source capture, after the request lock; same oracle and fixture PASS in final run"
+    }
+  ],
+  "independent_acceptance": false,
+  "release_qualified": false,
+  "production_go": false,
+  "limitations": [
+    "One exact physical root and bounded five operational/six financial source domains; not full ERP analysis",
+    "500 facts/domain maximum, 100/page; 501 refuses without partial run. Timings are disposable profiles, not a production SLA",
+    "CURRENT capture only; arbitrary earlier AS_KNOWN and RESTATED not supported",
+    "Administrative FG/sales fixture is not normal posting or connected browser acceptance",
+    "Cutting candidates remain unbound; no WIP/forecast/apply computation",
+    "R10/P11 and full E09/E14/E15/E20/E22/X09 charters remain in their owning downstream scopes"
+  ]
+}
