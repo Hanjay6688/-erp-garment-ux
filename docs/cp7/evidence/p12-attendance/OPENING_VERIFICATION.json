@@ -1,0 +1,142 @@
+{
+  "schema_version": "cp7.writer-verification.v1",
+  "status": "WRITER_OPENING_10_PASS",
+  "source_commit": "13febc977b2a90e0097e0349b7adc6f0940ab7ab",
+  "source_tree": "a6886f3f782286de4be4f8a600a21ecf7f662991",
+  "run_id": 36620813223,
+  "job_id": 109585439838,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36620813223",
+  "artifact_id": 11058234090,
+  "artifact_bytes": 2351110,
+  "artifact_sha256": "412eeb2e9bd5ae83cb996e9090482f3abf1df668da8a3dc8ce7d15840444a6e4",
+  "report_sha256": "d7d3c5cb1f93658781e6bd01de3a3b8aa6d189e1b6262adc4d4d1badb8391aab",
+  "report_gzip_sha256": "7fcae80abca171c412671df9fadc697a07a8e802f13a7b3aa2866d420c7bdc85",
+  "source_bundle_sha256": "1082d8e4897f864745ad6c0ab0944eb132bbe074e5cbbc2bca9ec5b3ddc66a8b",
+  "counts": {
+    "PASS": 10,
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0
+  },
+  "groups": {
+    "opening_payroll": {
+      "counts": {
+        "PASS": 5
+      },
+      "status": "PASS"
+    },
+    "opening_payroll_races": {
+      "counts": {
+        "PASS": 2
+      },
+      "status": "RUN_COMPLETE",
+      "database_remaining": 0
+    },
+    "opening_payroll_http": {
+      "counts": {
+        "PASS": 1
+      },
+      "status": "RUN_COMPLETE",
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "cleanup_failures": false
+    },
+    "opening_payroll_browser": {
+      "counts": {
+        "PASS": 2
+      },
+      "status": "RUN_COMPLETE",
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "cleanup_failures": false,
+      "auth_cleanup_failures": []
+    }
+  },
+  "retained_predecessor": {
+    "source": "74ae3a1b39b39d878d92bab4604b01cb3a639d16",
+    "run": 36617726767,
+    "cases": 80
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_install": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "13febc977b2a90e0097e0349b7adc6f0940ab7ab",
+    "product_ref": "a2643533457925213f90d56ab9646ccd0fae8a5c",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36620813223",
+    "run_attempt": "1",
+    "workflow": "CP7 P12 Nota and payroll lifecycle",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "13febc977b2a90e0097e0349b7adc6f0940ab7ab",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "app_workflows": [
+    36620820512,
+    36620813203
+  ],
+  "both_app_workflows_pass": true,
+  "visual_review": {
+    "desktop": true,
+    "mobile": true
+  },
+  "screenshots": {
+    "P12_OPENING_DESKTOP.png": "22511e1ffaeac798a9bad6ab442c614dd4c91d9a22a234dd71977612e4f1cbec",
+    "P12_OPENING_MOBILE.png": "155b94c42b0cd3ba9d4e054fb99f2a72ace08b4866591c58f2f5d8920f7812ab"
+  },
+  "independent_acceptance": false,
+  "production_go": false,
+  "remaining_scope": [
+    "E05 partial-settlement mechanism and proof",
+    "P11 R10 connected writes",
+    "P13",
+    "remaining P09 source workflows",
+    "F03 independent acceptance",
+    "combined release/install/recovery"
+  ]
+}

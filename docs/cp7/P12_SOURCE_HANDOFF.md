@@ -1,5 +1,7 @@
 # P12 source continuation — writer checkpoint
 
+Opening-source increment qualified: [10/10 PASS](P12_OPENING_PAYROLL_HANDOFF.md) on13febc9, including both source-to-payroll browser cycles and mobile exact retry. Prior80 are separate retained evidence. Earlier pending paragraphs below are history.
+
 E05 terminology correction: [partial-settlement contract boundary](P12_E05_CONTRACT_BOUNDARY.md). Earlier mentions of “partial cash” below are writer interpretations; the exact partial mechanism is unresolved and E05 remains OPEN.
 
 Next candidate: [opening sources → CP7 payroll](P12_OPENING_PAYROLL_HANDOFF.md), 10 predeclared additions. Latest delta run2:9 PASS /1 INCOMPLETE; only mobile reload navigation remains to rerun. First90-case run:85 PASS /3 INCOMPLETE /2 NOT_RUN; all80 predecessors and five new native cases pass. The10 affected additions are being corrected and rerun separately, without relabelling prior80 as new execution. See the linked handoff and diagnostic receipt.
