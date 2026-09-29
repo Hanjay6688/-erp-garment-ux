@@ -38,7 +38,7 @@
     "P09": "BOUNDED_125_PASS_MULTI_INPUT_COUNTS_AND_COMBINED_INVOICES_REMAINING_SCOPE_OPEN",
     "P10": "FG_BOOK_34_PASS_NOTA_COMPOSITION_QUALIFIED_SCOPE_OPEN",
     "P12": "BOUNDED_ATTENDANCE_SOURCE_TO_PAYROLL_80_PASS_REMAINING_SCOPE_OPEN",
-    "P11": "CASH_SOURCE47_PASS_RETURN64_RUN1_61_PASS_3_INCOMPLETE"
+    "P11": "RETURN64_RUN2_ALIAS_FAILURE_AND_AUTH_CLEANUP_REFUSE_ACCEPTANCE"
   },
   "inherited_scope": {
     "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
@@ -53,7 +53,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Qualify P11 return64 allocation-line repair; P13 report/archive reader preparation in progress. F03 remains OPEN, followed by F04 only after completion. E05 contract/proof, remaining P09, full family integration and independent acceptance remain explicit.",
+  "next_action": "Qualify the P11 return SQL alias and failed-route cleanup repair with the same64 cases; complete P13 report reader proof. F03 OPEN, E05 contract, remaining P09, combined family installation and independent acceptance outstanding.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -196,7 +196,7 @@
       "verification": "docs/cp7/evidence/p11-sales/RETURN_RUN1_RECEIPT.json"
     },
     "return_candidate": {
-      "status": "RUN1_61_PASS_3_INCOMPLETE_ALLOCATION_LINE_REPAIR_PENDING",
+      "status": "RUN2_47_PASS_16_INCOMPLETE_1_NOT_RUN_ALIAS_AND_HOST_REPAIR_PENDING",
       "expected_cases": 64,
       "local_source_cases": 28,
       "shared_recovery_cases": 30,
@@ -204,7 +204,7 @@
       "scope": "ORIGINAL_ALLOCATION_GRADE_A_B_HOLD_FULL_BROWSER_SALE_RETURN_CASH_INVERSE",
       "independent_acceptance": false,
       "production_go": false,
-      "diagnostic": "docs/cp7/evidence/p11-sales/RETURN_RUN1_RECEIPT.json",
+      "diagnostic": "docs/cp7/evidence/p11-sales/RETURN_RUN2_RECEIPT.json",
       "r10_browser_cases": 2,
       "r10_browser_status": "WRITER_SOURCE_LIFECYCLE_PASS_INDEPENDENT_PENDING"
     }

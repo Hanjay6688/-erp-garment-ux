@@ -1,5 +1,11 @@
 # P11 physical return and full invoice inverse — writer candidate
 
+## Run2: validator alias and failed-browser cleanup repair
+
+Source `4dc25d5701ea2c24e50b332fc0f10c4fea8efe06`, tree `10b213074ca7e13ae89da4fc593f8d0a19f346c6`; [run36630711725](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36630711725): **47 PASS /0 FAIL /16 INCOMPLETE /1 NOT_RUN** of64, reconstructed from recorded outcomes and the predeclared browser list. The raw report's54 count omits browser outcomes because its host exited before finalization. [Original report and receipt](evidence/p11-sales/RETURN_RUN2_RECEIPT.json) preserve this discrepancy.
+
+The new duplicate-line guard used SQL alias `x`, which conflicts with the function's existing PL/pgSQL variable. Candidate repair explicitly qualifies `return_line.value`. The failed return also exposed a browser harness problem: asserting inside an asynchronous route callback terminated the host before cleanup. The callback now forwards a refused RPC normally; lost-response simulation happens only after HTTP200. Product success assertions remain unchanged. The run's Auth cleanup and primary-unchanged gates failed; CP6 schema restoration, disposable test database removal, advisor and backup/restore passed. No new visual review or acceptance is claimed. Full64 native/Auth/browser rerun, including cleanup, remains required.
+
 ## Run1 result and source-contract correction
 
 Source `8bbd467cee5207b8bd2e741a28539782dd266754`, tree `e68259227a8be616ea967e3f7d37408dcf42acac`; [run36629457186](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36629457186): **61 PASS /0 FAIL /3 INCOMPLETE /0 NOT_RUN** of64. All10 browser cases passed, including both complete real source CREATE → POST → Grade A/B RETURN to another warehouse → cash60 → full inverse journeys and mobile lost-RETURN recovery. All47 prior cash/source cases now pass on this exact source (included in64, not additional). CP6 restoration, advisor, Auth/database cleanup and backup/restore pass; the overall writer gate correctly stays false. Four current cash/return screenshots were inspected and retained; long mobile invoice lists after recovery remain a layout limitation. [Receipt and original diagnostics](evidence/p11-sales/RETURN_RUN1_RECEIPT.json).

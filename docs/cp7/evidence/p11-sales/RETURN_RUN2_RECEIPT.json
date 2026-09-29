@@ -1,0 +1,193 @@
+{
+  "status": "INCOMPLETE",
+  "source_commit": "4dc25d5701ea2c24e50b332fc0f10c4fea8efe06",
+  "source_tree": "10b213074ca7e13ae89da4fc593f8d0a19f346c6",
+  "run_id": 36630711725,
+  "job_id": 109618923034,
+  "artifact_id": 11062702974,
+  "artifact_bytes": 7517857,
+  "artifact_sha256": "868d08e804e206610d265a15c6bf14889453988759cd3834e57f1c552b15f27f",
+  "report_sha256": "df83fc533fcf0b107b3e47055b00f9e92b73d5b71adf595d5aa746277065c58d",
+  "report_gzip_sha256": "7cf507be4bb25adf68227fc53fdd63b597b114da97fc75d5c3b9cd7d423dcc1f",
+  "source_bundle_sha256": "dd42584218574e9c27e85d83f62131d82726d87c07add8b15ecbd975f800d060",
+  "counts": {
+    "PASS": 47,
+    "FAIL": 0,
+    "INCOMPLETE": 16,
+    "NOT_RUN": 1
+  },
+  "groups": {
+    "native": {
+      "PASS": 8
+    },
+    "http": {
+      "PASS": 1
+    },
+    "commands": {
+      "PASS": 6
+    },
+    "command_races": {
+      "PASS": 2
+    },
+    "command_http": {
+      "PASS": 1
+    },
+    "drafts": {
+      "PASS": 7
+    },
+    "draft_races": {
+      "PASS": 1
+    },
+    "draft_http": {
+      "PASS": 1
+    },
+    "payments": {
+      "PASS": 8
+    },
+    "payment_races": {
+      "PASS": 3
+    },
+    "payment_http": {
+      "PASS": 1
+    },
+    "returns": {
+      "INCOMPLETE": 11
+    },
+    "return_races": {
+      "INCOMPLETE": 3
+    },
+    "return_http": {
+      "INCOMPLETE": 1
+    },
+    "browser": {
+      "PASS": 8,
+      "INCOMPLETE": 1
+    }
+  },
+  "not_run": [
+    "P11_RETURN_BROWSER_R10_MOBILE_B_RECOVERY"
+  ],
+  "nonpassing_cases": {
+    "P11_RETURN_LIFECYCLE": {
+      "status": "INCOMPLETE",
+      "error": "column reference \"x\" is ambiguous\nLINE 1: ... from jsonb_array_elements(p->'items') x group by x->>'alloc...\n                                                             ^\nDETAIL:  It could refer to either a PL/pgSQL variable or a table column.\nQUERY:  exists(select 1 from jsonb_array_elements(p->'items') x group by x->>'allocation_id' having count(*)>1)\nCONTEXT:  PL/pgSQL function cp7_sales.validate_return(jsonb,boolean) line 33 at IF\nSQL statement \"SELECT cp7_sales.validate_return(p_payload,p_action='RETURN_REVERSE')\"\nPL/pgSQL function cp7_sales.command(text,jsonb,uuid,text) line 12 at PERFORM\nSQL function \"erp_cp7_save_sale_v1\" statement 1"
+    },
+    "P11_RETURN_SPLIT_GRADES": {
+      "status": "INCOMPLETE",
+      "error": "column reference \"x\" is ambiguous\nLINE 1: ... from jsonb_array_elements(p->'items') x group by x->>'alloc...\n                                                             ^\nDETAIL:  It could refer to either a PL/pgSQL variable or a table column.\nQUERY:  exists(select 1 from jsonb_array_elements(p->'items') x group by x->>'allocation_id' having count(*)>1)\nCONTEXT:  PL/pgSQL function cp7_sales.validate_return(jsonb,boolean) line 33 at IF\nSQL statement \"SELECT cp7_sales.validate_return(p_payload,p_action='RETURN_REVERSE')\"\nPL/pgSQL function cp7_sales.command(text,jsonb,uuid,text) line 12 at PERFORM\nSQL function \"erp_cp7_save_sale_v1\" statement 1"
+    },
+    "P11_RETURN_ALLOCATION_CAP": {
+      "status": "INCOMPLETE",
+      "error": "('CP7_SALES_RETURN_DUPLICATE_ALLOCATION', 'column reference \"x\" is ambiguous')"
+    },
+    "P11_RETURN_FIELDS": {
+      "status": "INCOMPLETE",
+      "error": "('CP7_SALES_RETURN_ALLOCATION_CHANGED', 'column reference \"x\" is ambiguous')"
+    },
+    "P11_RETURN_PAID_REFUSAL": {
+      "status": "INCOMPLETE",
+      "error": "('membuat pembayaran customer melebihi nilai penjualan tersisa', 'column reference \"x\" is ambiguous')"
+    },
+    "P11_RETURN_DATE_LOCATION": {
+      "status": "INCOMPLETE",
+      "error": "('CP7_SALES_RETURN_FUTURE_DATE', 'column reference \"x\" is ambiguous')"
+    },
+    "P11_RETURN_REPLAY": {
+      "status": "INCOMPLETE",
+      "error": "column reference \"x\" is ambiguous\nLINE 1: ... from jsonb_array_elements(p->'items') x group by x->>'alloc...\n                                                             ^\nDETAIL:  It could refer to either a PL/pgSQL variable or a table column.\nQUERY:  exists(select 1 from jsonb_array_elements(p->'items') x group by x->>'allocation_id' having count(*)>1)\nCONTEXT:  PL/pgSQL function cp7_sales.validate_return(jsonb,boolean) line 33 at IF\nSQL statement \"SELECT cp7_sales.validate_return(p_payload,p_action='RETURN_REVERSE')\"\nPL/pgSQL function cp7_sales.command(text,jsonb,uuid,text) line 12 at PERFORM\nSQL function \"erp_cp7_save_sale_v1\" statement 1"
+    },
+    "P11_RETURN_SOURCE_CHANGE": {
+      "status": "INCOMPLETE",
+      "error": "('CP7_SALES_REVIEW_CHANGED', 'column reference \"x\" is ambiguous')"
+    },
+    "P11_RETURN_PERMISSIONS": {
+      "status": "INCOMPLETE",
+      "error": "column reference \"x\" is ambiguous\nLINE 1: ... from jsonb_array_elements(p->'items') x group by x->>'alloc...\n                                                             ^\nDETAIL:  It could refer to either a PL/pgSQL variable or a table column.\nQUERY:  exists(select 1 from jsonb_array_elements(p->'items') x group by x->>'allocation_id' having count(*)>1)\nCONTEXT:  PL/pgSQL function cp7_sales.validate_return(jsonb,boolean) line 33 at IF\nSQL statement \"SELECT cp7_sales.validate_return(p_payload,p_action='RETURN_REVERSE')\"\nPL/pgSQL function cp7_sales.command(text,jsonb,uuid,text) line 12 at PERFORM\nSQL function \"erp_cp7_save_sale_v1\" statement 1"
+    },
+    "P11_RETURN_PAGES": {
+      "status": "INCOMPLETE",
+      "error": "column reference \"x\" is ambiguous\nLINE 1: ... from jsonb_array_elements(p->'items') x group by x->>'alloc...\n                                                             ^\nDETAIL:  It could refer to either a PL/pgSQL variable or a table column.\nQUERY:  exists(select 1 from jsonb_array_elements(p->'items') x group by x->>'allocation_id' having count(*)>1)\nCONTEXT:  PL/pgSQL function cp7_sales.validate_return(jsonb,boolean) line 33 at IF\nSQL statement \"SELECT cp7_sales.validate_return(p_payload,p_action='RETURN_REVERSE')\"\nPL/pgSQL function cp7_sales.command(text,jsonb,uuid,text) line 12 at PERFORM\nSQL function \"erp_cp7_save_sale_v1\" statement 1"
+    },
+    "P11_RETURN_CONSUMED": {
+      "status": "INCOMPLETE",
+      "error": "column reference \"x\" is ambiguous\nLINE 1: ... from jsonb_array_elements(p->'items') x group by x->>'alloc...\n                                                             ^\nDETAIL:  It could refer to either a PL/pgSQL variable or a table column.\nQUERY:  exists(select 1 from jsonb_array_elements(p->'items') x group by x->>'allocation_id' having count(*)>1)\nCONTEXT:  PL/pgSQL function cp7_sales.validate_return(jsonb,boolean) line 33 at IF\nSQL statement \"SELECT cp7_sales.validate_return(p_payload,p_action='RETURN_REVERSE')\"\nPL/pgSQL function cp7_sales.command(text,jsonb,uuid,text) line 12 at PERFORM\nSQL function \"erp_cp7_save_sale_v1\" statement 1"
+    },
+    "P11_RETURN_RACE_CAPACITY": {
+      "status": "INCOMPLETE",
+      "error": "['column reference \"x\" is ambiguous', 'column reference \"x\" is ambiguous']"
+    },
+    "P11_RETURN_RACE_CASH": {
+      "status": "INCOMPLETE",
+      "error": "['column reference \"x\" is ambiguous', {'kind': 'COMMITTED_OUTCOME', 'action': 'PAYMENT', 'status': 'PARTIAL_PAID', 'sale_id': '07c64538-9380-4425-adfb-c86ce7a346fb', 'payment_id': '5f10eb6d-20f5-40c4-80c5-e247323a2390', 'request_id': '49a64341-ff75-41d1-8704-a9c1ec376b45', 'row_version': '3', 'payment_status': 'POSTED', 'contract_version': 'cp7.sales-outcome.v1'}]"
+    },
+    "P11_RETURN_RACE_REVOKE": {
+      "status": "INCOMPLETE",
+      "error": "EXPECTED_REAL_RETURN_WAIT"
+    },
+    "P11_RETURN_HTTP": {
+      "status": "INCOMPLETE",
+      "error": "{'status': 400, 'body': {'code': '42702', 'details': 'It could refer to either a PL/pgSQL variable or a table column.', 'hint': None, 'message': 'column reference \"x\" is ambiguous'}}"
+    },
+    "P11_RETURN_BROWSER_R10_DESKTOP_A": {
+      "status": "INCOMPLETE",
+      "error": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  locator('.csales').getByRole('region', { name: 'Retur fisik invoice' })\nExpected: 0\nReceived: 1\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.have.count\" with timeout 5000ms\n  - waiting for locator('.csales').getByRole('region', { name: 'Retur fisik invoice' })\n    14 \u00d7 locator resolved to 1 element\n       - unexpected value \"1\"\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toHaveCount (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at lifecycle (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p11_returns_browser.mjs:32:24)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3"
+    }
+  },
+  "raw_observed_case_count": 54,
+  "raw_count_limit": "Host interrupted before browser counts finalized. Receipt reconstructs 63 recorded outcomes plus one unrecorded mobile case from planned_case_ids; unrecorded case is NOT_RUN, not PASS.",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "browser_auth_cleanup": false,
+  "browser_auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      10,
+      10,
+      20,
+      20
+    ],
+    "restored": false
+  },
+  "disposable_database_removed": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": false,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "4dc25d5701ea2c24e50b332fc0f10c4fea8efe06",
+    "product_ref": "4dc25d5701ea2c24e50b332fc0f10c4fea8efe06",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36630711725",
+    "run_attempt": "1",
+    "workflow": "CP7 P11 Sales",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "4dc25d5701ea2c24e50b332fc0f10c4fea8efe06",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": false,
+  "diagnosis": [
+    "New return validator SQL alias x collided with existing PL/pgSQL variable x. Qualify the new query column as return_line.value; no business-rule change.",
+    "Failed mobile return RPC caused an assertion inside an asynchronous Playwright route handler to terminate the host before final cleanup. Forward non-200 response to the product and let case assertions record the refusal; simulate lost response only after confirmed 200. Do not hide the original product failure or change success oracles.",
+    "Browser Auth cleanup failed (10 temporary users remained until the job destroyed its disposable stack). Primary-unchanged and writer gate both false; no acceptance claimed. Full 64-case rerun must verify cleanup again."
+  ],
+  "independent_acceptance": false,
+  "production_go": false
+}

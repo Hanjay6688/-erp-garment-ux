@@ -34,7 +34,7 @@ begin
  -- Accepted uq_sales_return_item_allocation allows one line per allocation
  -- in a document. Split grade/destination for the same allocation across
  -- explicit return documents; preserve the original unique constraint.
- if exists(select 1 from jsonb_array_elements(p->'items') x group by x->>'allocation_id' having count(*)>1) then raise exception 'CP7_SALES_RETURN_DUPLICATE_ALLOCATION';end if;
+ if exists(select 1 from jsonb_array_elements(p->'items') as return_line(value) group by return_line.value->>'allocation_id' having count(*)>1) then raise exception 'CP7_SALES_RETURN_DUPLICATE_ALLOCATION';end if;
 end $$;
 
 create function cp7_sales.return_workspace(p_query jsonb) returns jsonb
