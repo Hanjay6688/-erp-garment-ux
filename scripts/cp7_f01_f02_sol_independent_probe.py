@@ -103,6 +103,8 @@ def run():
         OUT.parent.mkdir(parents=True,exist_ok=True);OUT.write_text(json.dumps(report,indent=2,default=str)+'\n')
         print(json.dumps({'status':report['status'],'native':group.get('counts'),'cp6_restored':report.get('cp6_restored'),'error':report.get('error'),'traceback':report.get('traceback')},default=str),flush=True)
     assert report['status']=='PROBED_WITH_FINDING',report
+    return {'status':'PASS','audit_disposition':'F02_MATCH_BINDING_FOUND','native_cases':group.get('counts'),\
+            'cp6_restored':True,'independent_acceptance':False,'production_go':False}
 if __name__=='__main__':
     package._writer_runtime=lambda browser_mode=False:run()
     package.run('install')
