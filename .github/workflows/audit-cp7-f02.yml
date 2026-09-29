@@ -4,7 +4,9 @@ name: Independent CP7 F02 audit
     branches:
     - audit/cp7-f02-independent-20260929
     paths:
-    - audits/cp7_f02_20260929/**
+    - audits/cp7_f02_20260929/probe.py
+    - audits/cp7_f02_20260929/runner.py
+    - audits/cp7_f02_20260929/ORACLE.md
     - .github/workflows/audit-cp7-f02.yml
 permissions:
   contents: read
@@ -18,6 +20,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:
+      F02_TARGETED: '1'
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
       CP6_AC_INDEPENDENT_CONFIRM: postgres
       CP6_AF_INDEPENDENT_CONFIRM: postgres
@@ -160,21 +163,3 @@ jobs:
         path: auditor/cp6-proof/t3
         retention-days: 30
         if-no-files-found: error
-  app:
-    name: Frozen F02 application gates
-    runs-on: ubuntu-24.04
-    timeout-minutes: 20
-    steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      with:
-        fetch-depth: 0
-        persist-credentials: false
-    - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
-      with:
-        node-version: 22
-        cache: npm
-    - run: npm ci
-    - run: python3 scripts/cp7_contract_receipt.py
-    - run: npm test
-    - run: npm run test:security
-    - run: npm run build

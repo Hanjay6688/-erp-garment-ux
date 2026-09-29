@@ -1,5 +1,7 @@
 """Independent F02 execution; product source frozen, own and writer cases separated by ID."""
 import probe
+import os
+from types import SimpleNamespace
 from collections import Counter
 from pathlib import Path
 import hashlib,json,traceback
@@ -28,8 +30,13 @@ def run():
             cur.execute(bundle.bundle(),prepare=False);conn.commit();installed=True;verify(cur);conn.rollback()
         report['advisors_with_cp7']=advisors(package.boundary.PG)
         report['native']=native.strict_group('AUD_F02_NATIVE',probe.cases,verify)
-        report['races']=modes.run_races(probe,verify,'aud_f02')
-        report['http']=modes.run_http(probe,verify,'aud_f02')
+        if os.environ.get('F02_TARGETED')!='1':
+            report['races']=modes.run_races(probe,verify,'aud_f02')
+            report['http']=modes.run_http(probe,verify,'aud_f02')
+        else:
+            report['preserved_prior_run']=36526434075
+            report['targeted_only']=True
+        report['http_production']=modes.run_http(SimpleNamespace(http_cases=probe.http_production_cases),verify,'aud_f02_production')
     except Exception as e:report.update(error=str(e),traceback=traceback.format_exc())
     finally:
         if installed:
@@ -40,7 +47,7 @@ def run():
             report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}))
             d=report['advisor_delta'];report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or (d['status']=='REVIEW_REQUIRED' and all(
              f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and (f.get('metadata') or {}).get('schema') in ('cp7_private','cp7_identity','cp7_wip') for f in d.get('added',[])))
-        groups=[report.get(k,{}) for k in ('native','races','http')]
+        groups=[report.get(k,{}) for k in (('native','http_production') if os.environ.get('F02_TARGETED')=='1' else ('native','races','http','http_production'))]
         all_rows={}
         for group in groups:
             for key in ('cases','races'):

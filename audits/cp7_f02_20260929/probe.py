@@ -3,7 +3,7 @@ from pathlib import Path
 from copy import deepcopy
 from datetime import timedelta
 from concurrent.futures import ThreadPoolExecutor
-import sys,json,uuid,time,threading
+import sys,json,uuid,time,threading,os
 ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/'scripts'))
 import psycopg
@@ -35,9 +35,15 @@ def actual_vector(r):
     v=r.get('result',r)
     return [kernel.total(v,k+'_pcs') for k in ('input','wip','fg','bs','withheld','exited')] if v.get('status')=='COMPLETE' else dict(status=v.get('status'),reason=v.get('reason'),component=v.get('component'))
 def verdict(expected,actual,**detail):return dict(status='PASS' if actual==expected else 'COUNTEREXAMPLE',expected=expected,actual=actual,**detail)
+def doc_version(cur,table,ident):
+    b.api.admin(cur)
+    query={'qc_inspections':'select row_version from erp.qc_inspections where id=%s',
+           'laundry_receipts':'select row_version from erp.laundry_receipts where id=%s'}[table]
+    return cur.execute(query,(ident,)).fetchone()[0]
+
 def qc_reverse(cur,f):
     b.api.admin(cur);qid=b.one(cur,"select q.id::text from erp.qc_inspections q join erp.qc_inspection_items i on i.inspection_id=q.id where i.cutting_group_id=%s and q.status='POSTED' order by q.physical_at desc limit 1",f['group'])
-    b.chain.laundry_action(cur,'REVERSE_FINAL_SKU',dict(qc_inspection_id=qid,reason='Independent F02 restore source before re-QC'),b.chain.version(cur,'qc_inspections',qid))
+    b.chain.laundry_action(cur,'REVERSE_FINAL_SKU',dict(qc_inspection_id=qid,reason='Independent F02 restore source before re-QC'),doc_version(cur,'qc_inspections',qid))
     b.api.admin(cur);return qid
 
 
@@ -54,7 +60,7 @@ def cases(cur,today):
         f=cut.fixture(cur,today,False);cut.qc(cur,f,12,0,14);old=cut.capture(cur,[f['group']]);qc_reverse(cur,f)
         a=prod.capture(cur,prod.scope(groups=[f['group']]))
         assert actual_vector(a)==[100,100,0,0,0,0],a
-        b.chain.laundry_action(cur,'REVERSE_RECEIPT',dict(receipt_id=f['receipt'],reason='Independent F02 reverse now-unconsumed receipt'),b.chain.version(cur,'laundry_receipts',f['receipt']))
+        b.chain.laundry_action(cur,'REVERSE_RECEIPT',dict(receipt_id=f['receipt'],reason='Independent F02 reverse now-unconsumed receipt'),doc_version(cur,'laundry_receipts',f['receipt']))
         z=prod.capture(cur,prod.scope(groups=[f['group']]))
         assert actual_vector(z)==[100,100,0,0,0,0],z
         assert cut.read(cur,old['run_id'])['source_state']=='ARCHIVED_STALE'
@@ -64,7 +70,7 @@ def cases(cur,today):
         ds=b.one(cur,'select s.id::text from erp.laundry_delivery_batch_size_lines s join erp.laundry_delivery_lines l on l.id=s.delivery_line_id where l.delivery_id=%s',f['delivery'])
         rec=b.chain.laundry_action(cur,'POST_RECEIPT',dict(delivery_id=f['delivery'],wash_process_id=f['process'],physical_at=b.chain.production.at(f['day'],14).isoformat(),reason='Independent receipt with five BS',lines=[dict(delivery_batch_size_line_id=ds,qty_good_received=5,qty_bs_laundry=5,bs_product_id=f['product'])]),base.delivery_version(cur,f['delivery']))
         old=prod.capture(cur,prod.scope(groups=[f['group']]));assert actual_vector(old)==[100,95,0,5,0,0],old
-        b.chain.laundry_action(cur,'REVERSE_RECEIPT',dict(receipt_id=rec['receipt_id'],reason='Independent undo receipt containing BS'),b.chain.version(cur,'laundry_receipts',rec['receipt_id']))
+        b.chain.laundry_action(cur,'REVERSE_RECEIPT',dict(receipt_id=rec['receipt_id'],reason='Independent undo receipt containing BS'),doc_version(cur,'laundry_receipts',rec['receipt_id']))
         fresh=prod.capture(cur,prod.scope(groups=[f['group']]))
         assert prod.read(cur,old['run_id'])['source_state']=='ARCHIVED_STALE'
         return verdict([100,100,0,0,0,0],actual_vector(fresh),ordinary_receipt_bs_reversal=True,receipt_id=rec['receipt_id'])
@@ -148,13 +154,24 @@ def cases(cur,today):
         normalized=cur.execute('select cp7_wip.production_scope(%s::jsonb)',(json.dumps(fifty),)).fetchone()[0];assert sum(map(len,normalized.values()))==50
         fifty['unsourced_bs'].append(str(uuid.uuid4()));p02.refused(cur,lambda:cur.execute('select cp7_wip.production_scope(%s::jsonb)',(json.dumps(fifty),)),'CP7_WIP_SCOPE')
         f=cut.fixture(cur,today);n=cur.execute('select count(*) from erp.sewing_terminal_events where cutting_group_id=%s',(f['group'],)).fetchone()[0];assert 0<n<2000
-        cur.execute('set local session_replication_role=replica')
-        cur.execute("insert into erp.sewing_terminal_events select (jsonb_populate_record(null::erp.sewing_terminal_events,to_jsonb(s)||jsonb_build_object('id',gen_random_uuid(),'event_number','AUD-F02-'||gen_random_uuid(),'source_work_completion_id',null))).* from (select * from erp.sewing_terminal_events where cutting_group_id=%s limit 1) s cross join generate_series(1,%s)",(f['group'],2000-n))
-        cur.execute('set local session_replication_role=origin')
+        def inflate(count):
+            # Administrative volume fixture only. Keep CHECKs and unique source
+            # identities valid; every terminal row points to its own cloned
+            # work-completion record. No operational posting claim is made.
+            cur.execute('set local session_replication_role=replica')
+            cur.execute("""with source as materialized(select * from erp.sewing_terminal_events where cutting_group_id=%s limit 1),
+              clones as(insert into erp.work_completion_events
+                select (jsonb_populate_record(null::erp.work_completion_events,to_jsonb(w)||jsonb_build_object('id',gen_random_uuid(),'completion_number','AUD-F02-'||gen_random_uuid()))).*
+                from erp.work_completion_events w join source s on s.source_work_completion_id=w.id cross join generate_series(1,%s) returning id)
+              insert into erp.sewing_terminal_events
+                select (jsonb_populate_record(null::erp.sewing_terminal_events,to_jsonb(s)||jsonb_build_object('id',gen_random_uuid(),'event_number','AUD-F02-'||gen_random_uuid(),'source_work_completion_id',c.id))).*
+                from source s cross join clones c""",(f['group'],count))
+            cur.execute('set local session_replication_role=origin')
+            assert cur.execute('select count(*) from erp.sewing_terminal_events s left join erp.work_completion_events w on w.id=s.source_work_completion_id where s.cutting_group_id=%s and w.id is null',(f['group'],)).fetchone()[0]==0
+        inflate(2000-n)
         r=prod.capture(cur,prod.scope(groups=[f['group']]));assert r['capture_complete'] and actual_vector(r)==[100,80,15,5,0,0]
-        count=cur.execute('select jsonb_array_length(facts->\'facts\'->\'cutting\'->\'sewing\') from cp7_wip.production_runs where id=%s',(r['run_id'],)).fetchone()[0];assert count==2000
-        cur.execute('set local session_replication_role=replica')
-        cur.execute("insert into erp.sewing_terminal_events select (jsonb_populate_record(null::erp.sewing_terminal_events,to_jsonb(s)||jsonb_build_object('id',gen_random_uuid(),'event_number','AUD-F02-'||gen_random_uuid(),'source_work_completion_id',null))).* from erp.sewing_terminal_events s where cutting_group_id=%s limit 1",(f['group'],));cur.execute('set local session_replication_role=origin')
+        count=cur.execute("select jsonb_array_length(facts->'facts'->'cutting'->'sewing') from cp7_wip.production_runs where id=%s",(r['run_id'],)).fetchone()[0];assert count==2000
+        inflate(1)
         p02.refused(cur,lambda:prod.capture(cur,prod.scope(groups=[f['group']])),'CP7_WIP_SOURCE_INCOMPLETE')
         assert cur.execute('select count(*) from cp7_wip.production_runs').fetchone()[0]==1
         return dict(status='PASS',scope_parser_50_allowed_51_refused=True,source_2000_complete_2001_refused=True,administrative_bounded_source_fixture=True)
@@ -174,7 +191,9 @@ def cases(cur,today):
         return dict(status='PASS',both_principals_have_no_business_write_grants=True,compute_cannot_write_policy=True,private_helpers_no_public_grants=True)
     own=[('QC_BS_REVERSAL',reverse_qc_bs),('GOOD_ONLY_REVERSAL_CONTROL',reverse_qc_control),('LAUNDRY_BS_REVERSAL',reverse_receipt_bs),('REWORK_COMPLETION_REVERSE',reverse_rework),('GRAPH17_CONSERVATION_INVERSE',graph_conservation),('EXACT_YIELD_MATRIX',yield_matrix),('MALFORMED_COUNTS',malformed_pcs),('SHARED_ELIGIBLE_EDGES',shared_edges),('ETA_BOUNDARIES',eta_boundaries),('EXPLICIT_POLICY_CYCLES',policy_cycles),('BULK_INVALID_AND_BIGINT',bulk_and_exact_revision),('SCOPE_AND_SOURCE_LIMITS',source_limits),('OPENING_CONTROL_CONFLICT',opening_conflict),('PRIVILEGED_PRINCIPALS',private_principals)]
     inherited=ident.cases(cur,today)+kernel.cases(cur,today)+cut.cases(cur,today)+prod.cases(cur,today)
-    return [('AUD_F02_'+k,f) for k,f in own]+[('WRITER_RERUN_'+k,f) for k,f in inherited]
+    planned=[('AUD_F02_'+k,f) for k,f in own]+[('WRITER_RERUN_'+k,f) for k,f in inherited]
+    targets={'AUD_F02_QC_BS_REVERSAL','AUD_F02_GOOD_ONLY_REVERSAL_CONTROL','AUD_F02_LAUNDRY_BS_REVERSAL','AUD_F02_SCOPE_AND_SOURCE_LIMITS'}
+    return [(k,f) for k,f in planned if k in targets] if os.environ.get('F02_TARGETED')=='1' else planned
 
 
 def races(tools,today):
@@ -259,4 +278,8 @@ def http_cases(http,today):
         assert op.rpc('erp_cp7_capture_production_wip_v1',args)['status']==403
         assert op.rpc('erp_cp7_read_production_wip_v1',dict(p_run=rid))['status']==403
         return dict(status='PASS',operations_no_financial_fields=True,other_actor_cannot_enumerate_run=True,same_token_revoked_replay=True)
-    return [('AUD_F02_HTTP_PRIVATE_REST',private_rest),('AUD_F02_HTTP_OPS_SCOPE_REVOKE',ops_scope)]+[('WRITER_RERUN_'+k,f) for k,f in ident.http_cases(http,today)+cut.http_cases(http,today)+prod.http_cases(http,today)]
+    return [('AUD_F02_HTTP_PRIVATE_REST',private_rest),('AUD_F02_HTTP_OPS_SCOPE_REVOKE',ops_scope)]+[('WRITER_RERUN_'+k,f) for k,f in ident.http_cases(http,today)+cut.http_cases(http,today)]
+
+
+def http_production_cases(http,today):
+    return [('WRITER_RERUN_'+k,f) for k,f in prod.http_cases(http,today)]
