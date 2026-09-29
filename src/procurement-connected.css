@@ -42,3 +42,8 @@
 .cproc-pagination { padding-top: 20px; font-size: 12px; }
 @media (max-width: 1000px) { .cproc-layout { grid-template-columns: 1fr; } }
 @media (max-width: 640px) { .cproc-grid, .cproc-search { grid-template-columns: 1fr; } .cproc .panel { padding: 16px; } .cproc-line { padding: 12px; } .cproc-receipt { flex-wrap: wrap; } }
+
+.cproc-invoices { margin-top: 1.25rem; min-width: 0; }
+.cproc-invoices .cproc-line { overflow-wrap: anywhere; }
+.cproc label.cproc-check { display: flex; align-items: center; gap: 10px; margin: 12px 0; }
+.cproc .cproc-check input[type="checkbox"] { width: 18px; min-height: 18px; height: 18px; flex: 0 0 18px; padding: 0; }

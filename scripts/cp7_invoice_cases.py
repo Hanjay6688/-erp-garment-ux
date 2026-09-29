@@ -48,9 +48,9 @@ def amounts(cur,f):
       (f['receipt']['purchase_id'],f['receipt']['purchase_id'],f['material'])).fetchone()
 
 def admin_actor(cur):
-    subject,_=receipt.custom(cur,[])
+    b.api.admin(cur);subject=str(uuid.uuid4())
     role=cur.execute("select id from erp.app_roles where role_code='ADMIN'").fetchone()[0]
-    cur.execute("update erp.app_users set role='ADMIN',role_id=%s where auth_user_id=%s",(role,subject))
+    cur.execute("insert into erp.app_users(id,auth_user_id,full_name,role,role_id,is_active) values(%s,%s,'P09 invoice admin','ADMIN',%s,true)",(uuid.uuid4(),subject,role))
     return subject,role
 
 def cases(cur,today):
@@ -70,9 +70,14 @@ def cases(cur,today):
         f=fixture(cur,today,'1.123456','3.000001');r=finalize(cur,f,'1.123456','3.000001')
         w=read(cur,f['receipt']['purchase_id']);l=w['page']['rows'][0]['lines'][0]
         assert l['qty']=='1.123456' and l['unit_price']=='3.000001' and Decimal(l['net_amount'])==Decimal('3.370369')
-        assert amounts(cur,f)[:3]==(Decimal('3.37'),0,Decimal('1.123456')),amounts(cur,f)
+        # The source-document helper keeps six decimals; the financial posting
+        # books document cents. Assert both, without substituting one for the
+        # other or weakening the GL money oracle.
+        assert amounts(cur,f)[:3]==(Decimal('3.370369'),0,Decimal('1.123456')),amounts(cur,f)
+        ap_gl=cur.execute("select sum(l.credit-l.debit) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id join erp.accounting_account_mappings a on a.account_id=l.account_id where a.mapping_key='AP_SUPPLIER' and j.source_type='MATERIAL_SUPPLIER_INVOICE' and j.source_id=%s",(r['invoice_id'],)).fetchone()[0]
+        assert ap_gl==Decimal('3.37'),ap_gl
         reverse(cur,f,r['invoice_id']);assert amounts(cur,f)[0]==0
-        return dict(status='PASS',exact_qty='1.123456',exact_price='3.000001',document_net='3.370369',recognized_ap='3.37',reversal_ap=0)
+        return dict(status='PASS',exact_qty='1.123456',exact_price='3.000001',document_net='3.370369',ap_gl=str(ap_gl),reversal_ap=0)
     def discounted():
         f=fixture(cur,today);p=payload(f,discount='2.25');d=finalize(cur,f,p=p)
         w=read(cur,f['receipt']['purchase_id']);assert Decimal(w['page']['rows'][0]['document_net_amount'])==Decimal('47.75')
@@ -127,7 +132,7 @@ def cases(cur,today):
         p=dict(invoice_number=f['tag']+'-MULTI',supplier_id=str(aa.prior.BASE_SUPPLIER),invoice_date=str(f['day']),received_at=aa.at(f['day']+timedelta(days=2),15).isoformat(),change_reason='P09 complete legacy invoice',
           lines=[dict(purchase_item_id=x['item'],qty_invoiced='2',unit_price='12.5',discount_amount='0') for x in (f,g)])
         d=cur.execute('select erp.save_material_supplier_invoice_draft_v2(%s::jsonb,%s,null)',(json.dumps(p),uuid.uuid4())).fetchone()[0]
-        cur.execute('select erp.post_material_supplier_invoice_v2(%s,%s,%s)',(d['supplier_invoice_id'],uuid.uuid4(),d['row_version']))
+        cur.execute('select erp.post_material_supplier_invoice_v2(%s,%s,%s,%s)',(d['supplier_invoice_id'],uuid.uuid4(),d['row_version'],'P09 ordinary multi-receipt posting'))
         b.api.admin(cur);w=read(cur,f['receipt']['purchase_id']);doc=w['page']['rows'][0]
         assert not doc['single_receipt'] and doc['line_count']=='2' and len(doc['lines'])==2 and Decimal(doc['document_net_amount'])==50
         assert {x['purchase_id'] for x in doc['lines']}=={f['receipt']['purchase_id'],g['receipt']['purchase_id']}

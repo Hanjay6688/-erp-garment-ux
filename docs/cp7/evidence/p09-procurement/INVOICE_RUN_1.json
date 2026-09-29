@@ -1,0 +1,61 @@
+{
+  "status": "INCOMPLETE",
+  "source_head": "f7756c0836e3a442571456c9a3bbb7ca24c39f39",
+  "source_tree": "e5e506fc0e822e4d263dc853321782a5db82be0d",
+  "run_id": 36523679220,
+  "job_id": 109261874689,
+  "artifact_id": 11013642594,
+  "archive_sha256": "1edd72ab81c9cfaa413fa2900164cb11e0c0cab8a4729239b06d02ca279f05ec",
+  "report_sha256": "ca22e4568ece77108447b8c060e6dcf966993bf8f495f69cb474f4a15fcc127e",
+  "report_gzip_sha256": "e8400ead02957c2a76ee182647a90cfda797703a5ce29ab3da2be8d99dd73479",
+  "bundle_sha256": "67c68a1b8d38275b91d041fda19071d743fb902219ff2edce320f5be899bf105",
+  "counts": {
+    "smoke": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 9
+    },
+    "races": {
+      "PASS": 3
+    },
+    "http": {
+      "PASS": 1
+    },
+    "material_smoke": {
+      "PASS": 1
+    },
+    "material": {
+      "PASS": 9
+    },
+    "material_crossflow": {
+      "PASS": 2
+    },
+    "material_races": {
+      "PASS": 2
+    },
+    "material_http": {
+      "PASS": 1
+    },
+    "invoice": {
+      "PASS": 6,
+      "INCOMPLETE": 3
+    },
+    "invoice_races": {
+      "PASS": 3
+    },
+    "invoice_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 4
+    }
+  },
+  "corrections": [
+    "AP helper returns exact document amount3.370369; add separate GL assertion3.37 (do not call unrounded helper booked money).",
+    "Use an ADMIN user on the existing role, avoiding duplicate fixture role name.",
+    "Multi-receipt fixture must supply the accepted four-argument POST signature including reason."
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}

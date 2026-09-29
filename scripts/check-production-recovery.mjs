@@ -47,3 +47,9 @@ for (const token of ["useProductionMutation('MATERIALS')", 'beginRead()', 'finis
   assert.ok(materials.includes(token), `Material recovery omits ${token}`)
 }
 assert.doesNotMatch(materials, /p_request:\s*(?:globalThis\.)?crypto\.randomUUID/)
+
+const invoices = read('src/PurchaseInvoicePanel.tsx')
+for (const token of ["useProductionMutation('PURCHASE_INVOICE')", 'beginRead()', 'finishRead(ticket)', 'p_request:envelope.id', 'p_expected:p.expected_version', 'parsePurchaseInvoiceOutcome']) {
+  assert.ok(invoices.includes(token), `Invoice recovery omits ${token}`)
+}
+assert.doesNotMatch(invoices, /p_request:\s*(?:globalThis\.)?crypto\.randomUUID/)

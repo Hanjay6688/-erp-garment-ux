@@ -6,6 +6,7 @@ import ConnectedProcurementPage from './ConnectedProcurementPage'
 import { parseProcurementWorkspace, receiptDecimal } from './procurementContract'
 import { recoveryIdentity } from '../tests/fixtures/productionRecovery'
 import { readProductionRecovery } from './productionRecovery'
+import { invoiceWorkspaceFixture } from '../tests/fixtures/purchaseInvoices'
 const state = vi.hoisted(() => ({ auth: null as unknown }))
 const client = vi.hoisted(() => ({ rpc: vi.fn() }))
 vi.mock('./auth/AuthProvider', () => ({ useAuth: () => state.auth }))
@@ -39,6 +40,8 @@ function server(finance=true) {
       return {data:w,error:null}
     }
     if(name==='erp_cp7_get_procurement_options_v1')return {data:{contract_version:'cp7.procurement-options.v1',kind:args.p_kind,rows:[],total:'0',offset:0,limit:25,next_offset:null},error:null}
+    if(name==='erp_cp7_get_purchase_invoices_v1')return {data:{...invoiceWorkspaceFixture(false),purchase_status:s.posted?'POSTED':'DRAFT'},error:null}
+    if(name!=='erp_cp7_save_procurement_v1')throw Error('Unexpected RPC '+name)
     const key=String(args.p_request)
     if(!cache.has(key)){s.effects++;s.posted=args.p_action==='POST';cache.set(key,{contract_version:'cp7.procurement-outcome.v1',kind:'COMMITTED_OUTCOME',action:args.p_action,request_id:key,purchase_id:doc,status:s.posted?'POSTED':'DRAFT',row_version:'9007199254740994'})}
     return s.lose?{data:null,error:{status:503,message:'Lost reply'}}:{data:s.wrong?{ok:true}:cache.get(key),error:null}

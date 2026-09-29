@@ -1,12 +1,13 @@
 import type { Json } from './types/database.preconnect'
 
-export const productionDomains = ['MATERIALS', 'PROCUREMENT', 'SUPPLIER_CREDIT', 'SKU', 'BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT', 'POCKET_FABRIC', 'ACCESSORY_ISSUE', 'ACCESSORY_SERVICE', 'LAUNDRY_BD', 'PRODUCT_CONVERSION'] as const
+export const productionDomains = ['PURCHASE_INVOICE', 'MATERIALS', 'PROCUREMENT', 'SUPPLIER_CREDIT', 'SKU', 'BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT', 'POCKET_FABRIC', 'ACCESSORY_ISSUE', 'ACCESSORY_SERVICE', 'LAUNDRY_BD', 'PRODUCT_CONVERSION'] as const
 export type ProductionDomain = typeof productionDomains[number]
 export type ProductionEnvelope = {
   action: string; payload: Json; expectedVersion: number | null
   fingerprint: string; id: string; createdAt: string
 }
 export const domainLabels: Record<ProductionDomain, string> = {
+  PURCHASE_INVOICE: 'Invoice supplier di Pembelian & Penerimaan',
   MATERIALS: 'Bahan & Roll',
   PROCUREMENT: 'Pembelian & Penerimaan',
   SUPPLIER_CREDIT: 'Kredit retur supplier',
@@ -16,6 +17,7 @@ export const domainLabels: Record<ProductionDomain, string> = {
   PICKUP: 'Bagi Potongan', WIP: 'Status WIP', INITIAL_IMPORT: 'Impor data awal',
 }
 const actions: Record<ProductionDomain, readonly string[]> = {
+  PURCHASE_INVOICE: ['FINALIZE', 'REVERSE'],
   MATERIALS: ['SAVE_TRANSFER', 'POST_TRANSFER', 'REVERSE_TRANSFER'],
   PROCUREMENT: ['SAVE_DRAFT', 'POST'],
   SUPPLIER_CREDIT: ['ALLOCATE'],

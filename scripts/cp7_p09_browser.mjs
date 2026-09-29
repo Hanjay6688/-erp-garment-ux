@@ -99,4 +99,57 @@ async function transfer(ui,today,mobile) {
   return {status:'PASS',mobile,real_ui_auth_rpc_database:true,draft_no_stock:true,posted_source:6,posted_destination:4,total_value:100,transfer_net_value:0,reversed_source:10,reversed_destination:0,movements_with_inverse:4,recovery_identical_request:mobile?true:null,screenshot:`P09_MATERIAL_${mobile?'MOBILE':'DESKTOP'}.png`}
  } finally {await user.context.close()}
 }
-export async function cases(ui,today){return [['P09_BROWSER_RECEIPT_DESKTOP',()=>receipt(ui,today,false)],['P09_BROWSER_LOST_REPLY_MOBILE',()=>receipt(ui,today,true)],['P09_BROWSER_TRANSFER_DESKTOP',()=>transfer(ui,today,false)],['P09_BROWSER_TRANSFER_LOST_REPLY_MOBILE',()=>transfer(ui,today,true)]]}
+async function supplierInvoice(ui,today,mobile) {
+ const f=fixture('create_invoice',{today}),user=await ui.login('OWNER',{label:'cp7-invoice-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'})
+ try {
+  const p=user.page;await openPage(ui,p)
+  await p.getByLabel('Cari penerimaan',{exact:true}).fill(f.tag);await p.getByRole('button',{name:'Cari penerimaan',exact:true}).click()
+  const receipt=p.locator('.cproc-receipt').filter({hasText:f.tag});await ui.expect(receipt).toHaveCount(1);await ui.expect(receipt).toBeEnabled();await receipt.click()
+  const panel=p.locator('.cproc-invoices');await ui.expect(panel).toContainText('Penerimaan '+f.tag)
+  async function enter(n,qty,price) {
+   const add=panel.getByRole('button',{name:'Catat invoice supplier',exact:true});await ui.expect(add).toBeEnabled();await add.click()
+   await panel.getByLabel('Nomor invoice supplier',{exact:true}).fill(f.tag+'-UI-INVOICE-'+n)
+   await panel.getByLabel('Tanggal invoice supplier',{exact:true}).fill(f.day)
+   await panel.getByLabel('Waktu invoice diterima WIB',{exact:true}).fill(f.invoice_received_day+'T15:00')
+   await panel.getByLabel('Jumlah invoice 1',{exact:true}).fill(qty)
+   await panel.getByLabel('Harga invoice 1',{exact:true}).fill(price)
+   const post=panel.getByRole('button',{name:'Sahkan invoice supplier',exact:true});await ui.expect(post).toBeDisabled()
+   await panel.getByLabel('Invoice sudah diperiksa',{exact:true}).check();await ui.expect(post).toBeEnabled()
+   return post
+  }
+  let lost=false,first=null,replay=null
+  if(mobile)await p.route('**/rest/v1/rpc/erp_cp7_save_purchase_invoice_v1',async handler=>{
+   const body=handler.request().postDataJSON()
+   if(body.p_action==='FINALIZE'&&!lost){first=body;const response=await handler.fetch();if(response.status()!==200)throw Error('Expected committed invoice before lost reply');lost=true;await handler.abort('failed')}
+   else{if(body.p_action==='FINALIZE'&&replay===null)replay=body;await handler.continue()}
+  })
+  const firstPost=await enter(1,'4','12.5');await firstPost.click()
+  await ui.expect.poll(()=>fixture('read_invoice',f).invoices.length,{timeout:20000}).toBe(1)
+  if(mobile){await ui.expect(panel.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeVisible();await p.reload();await openPage(ui,p);await panel.getByRole('button',{name:'Reconcile transaksi',exact:true}).click()}
+  await ui.expect(panel).toContainText('Nilai dokumen Rp50',{timeout:20000})
+  function verify(expectedAp,expectedGrni,expectedValue,count) {
+   const r=fixture('read_invoice',f)
+   if(Number(r.document_ap)!==expectedAp||Number(r.grni)!==expectedGrni||Number(r.ap_gl)!==expectedAp||Number(r.material_value)!==expectedValue||Number(r.qty)!==10||Number(r.balances[f.location])!==6||Number(r.balances[f.destination])!==4||r.invoices.length!==count)throw Error('Invoice native conservation mismatch '+JSON.stringify(r))
+   for(const d of r.invoices)if(Date.parse(d.received_at)!==Date.parse(f.invoice_received_day+'T15:00:00+07:00'))throw Error('Invoice received WIB time changed')
+   return r
+  }
+  verify(50,60,110,1)
+  if(mobile&&(!lost||JSON.stringify(first)!==JSON.stringify(replay)))throw Error('Invoice recovery did not reuse the exact request')
+  const secondPost=await enter(2,'6','7.5');await secondPost.click()
+  await ui.expect.poll(()=>fixture('read_invoice',f).invoices.length,{timeout:20000}).toBe(2)
+  await ui.expect(panel).toContainText('Nilai dokumen Rp45',{timeout:20000});verify(95,0,95,2)
+  await ui.expect.poll(()=>panel.evaluate(el=>{const b=el.getBoundingClientRect();return b.left>=0&&b.right<=innerWidth+1&&document.documentElement.scrollWidth<=innerWidth+1})).toBe(true)
+  await panel.scrollIntoViewIfNeeded();await p.screenshot({path:`cp6-proof/t3/P09_INVOICE_${mobile?'MOBILE':'DESKTOP'}.png`,fullPage:true})
+  for(const n of [2,1]) {
+   const inspect=panel.getByRole('button',{name:'Tinjau pembatalan '+f.tag+'-UI-INVOICE-'+n,exact:true});await ui.expect(inspect).toBeEnabled();await inspect.click()
+   await panel.getByLabel('Alasan pembatalan invoice',{exact:true}).fill('Dokumen invoice diganti sesuai pemeriksaan supplier')
+   await panel.getByLabel('Konfirmasi pembatalan invoice',{exact:true}).check()
+   const cancel=panel.getByRole('button',{name:'Batalkan invoice supplier',exact:true});await ui.expect(cancel).toBeEnabled();await cancel.click()
+   await ui.expect.poll(()=>fixture('read_invoice',f).invoices.find(d=>d.number.endsWith('-'+n))?.status,{timeout:20000}).toBe('REVERSED')
+   await ui.expect(panel.getByRole('button',{name:'Muat ulang invoice',exact:true})).toBeEnabled()
+   verify(n===2?50:0,n===2?60:100,n===2?110:100,2)
+  }
+  return {status:'PASS',mobile,real_ui_auth_rpc_database:true,staged_invoice_qty:[4,6],staged_ap_gl:[50,95],staged_grni:[60,0],staged_material_value:[110,95],reverse_value:[110,100],stock_locations_always:[6,4],invoice_count_after_replay:1,invoice_count_after_two_documents:2,recovery_identical_request:mobile?true:null,browser_timezone:mobile?'America/Los_Angeles':'Asia/Jakarta',screenshot:`P09_INVOICE_${mobile?'MOBILE':'DESKTOP'}.png`}
+ } finally {await user.context.close()}
+}
+export async function cases(ui,today){return [['P09_BROWSER_RECEIPT_DESKTOP',()=>receipt(ui,today,false)],['P09_BROWSER_LOST_REPLY_MOBILE',()=>receipt(ui,today,true)],['P09_BROWSER_TRANSFER_DESKTOP',()=>transfer(ui,today,false)],['P09_BROWSER_TRANSFER_LOST_REPLY_MOBILE',()=>transfer(ui,today,true)],['P09_BROWSER_INVOICE_DESKTOP',()=>supplierInvoice(ui,today,false)],['P09_BROWSER_INVOICE_LOST_REPLY_MOBILE',()=>supplierInvoice(ui,today,true)]]}

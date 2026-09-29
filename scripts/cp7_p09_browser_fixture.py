@@ -1,20 +1,24 @@
 """Only disposable master setup and native read-back; UI creates/posts receipts."""
-from datetime import date
+from datetime import date,timedelta
 from urllib.parse import urlparse
 import json,os,sys
 import psycopg
 import cp7_procurement_cases as cases
 import cp7_material_cases as material
+import cp7_invoice_cases as invoice
 
 def main():
     target=os.environ['AUDITOR_BROWSER_DB_URL'];url=urlparse(target)
     assert url.hostname in ('127.0.0.1','localhost') and url.path=='/cp6_auditor_browser','DISPOSABLE_BROWSER_ONLY'
     payload=json.loads(sys.argv[2])
     with psycopg.connect(target) as conn,conn.cursor() as cur:
-        if sys.argv[1] in ('create','create_transfer'):
-            f=(material.fixture if sys.argv[1]=='create_transfer' else cases.fixture)(cur,date.fromisoformat(payload['today']))
+        if sys.argv[1] in ('create','create_transfer','create_invoice'):
+            f=(material.fixture if sys.argv[1] in ('create_transfer','create_invoice') else cases.fixture)(cur,date.fromisoformat(payload['today']))
             f['material_code'],f['unit']=cur.execute('select material_sku,unit_code from erp.materials where id=%s',(f['material'],)).fetchone()
             f['supplier_name']=cur.execute('select supplier_name from erp.suppliers where id=%s',(f['payload']['supplier_id'],)).fetchone()[0]
+            if sys.argv[1]=='create_invoice':
+                d,_=material.draft(cur,f,at=cases.aa.at(f['day'],11).isoformat());material.post(cur,d)
+                f['invoice_received_day']=str(f['day']+timedelta(days=2))
             conn.commit();out=f
         elif sys.argv[1]=='read':
             h=cur.execute('select id,status,row_version,physical_at from erp.material_purchase_headers where purchase_number=%s',(payload['tag'],)).fetchone()
@@ -23,6 +27,14 @@ def main():
             if h:
                 ap,grni=cur.execute('select erp.material_purchase_final_ap_total(%s),erp.material_purchase_grni_total(%s)',(h[0],h[0])).fetchone()
                 out['document']=dict(id=str(h[0]),status=h[1],version=str(h[2]),physical_at=h[3].isoformat(),ap=str(ap),grni=str(grni))
+            conn.rollback()
+        elif sys.argv[1]=='read_invoice':
+            purchase=payload['receipt']['purchase_id']
+            doc_ap,grni,qty,unit=invoice.amounts(cur,payload)
+            out=dict(document_ap=str(doc_ap),grni=str(grni),qty=str(qty),material_value=str(qty*unit),
+              balances={str(loc):str(q) for loc,q in cur.execute('select location_id,sum(qty_signed) from erp.material_stock_movements where material_id=%s group by location_id',(payload['material'],)).fetchall()},
+              invoices=[dict(id=str(i),number=n,status=st,received_at=at.isoformat(),line_qty=str(q),net_amount=str(v)) for i,n,st,at,q,v in cur.execute('select h.id,h.invoice_number,h.status,h.received_at,sum(l.qty_invoiced),sum(l.net_amount) from erp.material_supplier_invoices h join erp.material_supplier_invoice_lines l on l.invoice_id=h.id join erp.material_purchase_items i on i.id=l.purchase_item_id where i.purchase_id=%s group by h.id order by h.invoice_number',(purchase,)).fetchall()],
+              ap_gl=str(cur.execute("select coalesce(sum(jl.credit-jl.debit),0) from erp.journal_lines jl join erp.journal_entries j on j.id=jl.journal_entry_id join erp.accounting_account_mappings a on a.account_id=jl.account_id where a.mapping_key='AP_SUPPLIER' and j.source_id in(select h.id from erp.material_supplier_invoices h join erp.material_supplier_invoice_lines l on l.invoice_id=h.id join erp.material_purchase_items i on i.id=l.purchase_item_id where i.purchase_id=%s)",(purchase,)).fetchone()[0]))
             conn.rollback()
         elif sys.argv[1]=='read_transfer':
             h=cur.execute('select id,status,row_version,physical_at from erp.material_transfers where transfer_number=%s',(payload['tag']+'-UI-TRANSFER',)).fetchone()
