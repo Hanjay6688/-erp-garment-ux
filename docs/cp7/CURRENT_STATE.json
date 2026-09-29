@@ -56,7 +56,7 @@
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
-  "last_writer_checkpoint": "docs/cp7/P12_PAYROLL_HANDOFF.md",
+  "last_writer_checkpoint": "docs/cp7/P12_SOURCE_HANDOFF.md",
   "family_status": {
     "F01_P00_P02": "WRITER_T1_BOUNDED_FOUNDATION_PASS_INDEPENDENT_PENDING",
     "F02_P03_P04": "WRITER_REPAIR_VERIFIED_53_CASES_INDEPENDENT_HOLD",
@@ -123,5 +123,15 @@
     "roster_verification": "docs/cp7/evidence/p12-attendance/ROSTER_VERIFICATION.json",
     "source_handoff": "docs/cp7/P12_SOURCE_HANDOFF.md",
     "attendance_write_candidate": "75_PASS_1_FIXTURE_INCOMPLETE_CONNECTED_80_CASES_PENDING"
+  },
+  "connected_attendance_candidate": {
+    "source_commit": "cb7ffc933ed20e0f7b249b38264920829f84c98f",
+    "source_tree": "f0516b17ef91e22f38e1d20347e08659f5806a6f",
+    "run_id": 36601315289,
+    "declared_cases": 80,
+    "status": "RUNNING_NOT_QUALIFIED",
+    "local_tests_pass": 93,
+    "independent_acceptance": false,
+    "production_go": false
   }
 }
