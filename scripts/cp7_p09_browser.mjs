@@ -49,6 +49,7 @@ async function receipt(ui,today,mobile) {
   if(Number(read.qty)!==10||read.movement_count!==1||Number(read.document.ap)!==0||Number(read.document.grni)!==100||read.contexts!==0)throw Error('Receipt stock/value/context read-back mismatch '+JSON.stringify(read))
   if(mobile&&(!lost||JSON.stringify(firstRequest)!==JSON.stringify(replayedRequest)))throw Error('Recovery did not reuse the identical request')
   await ui.expect.poll(()=>p.locator('.cproc').evaluate(el=>{const b=el.getBoundingClientRect();return b.left>=0&&b.right<=innerWidth+1&&document.documentElement.scrollWidth<=innerWidth+1})).toBe(true)
+  await p.evaluate(()=>window.scrollTo(0,0))
   mkdirSync('cp6-proof/t3',{recursive:true});await p.screenshot({path:`cp6-proof/t3/P09_${mobile?'MOBILE':'DESKTOP'}.png`,fullPage:true})
   return {status:'PASS',mobile,real_ui_auth_rpc_database:true,qty:read.qty,stock_movements:1,grni:read.document.grni,final_ap:read.document.ap,recovery_identical_request:mobile?true:null,browser_timezone:mobile?'America/Los_Angeles':'Asia/Jakarta',screenshot:`P09_${mobile?'MOBILE':'DESKTOP'}.png`}
  } finally {await user.context.close()}

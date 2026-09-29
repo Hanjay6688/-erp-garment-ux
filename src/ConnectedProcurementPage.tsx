@@ -121,7 +121,9 @@ function ProcurementWorkspace() {
   return <section className="cproc">
     <header className="panel cproc-heading"><div><div className="eyebrow">GUDANG · PENERIMAAN BARANG</div><h1>Pembelian & penerimaan</h1><p>Catat surat jalan, periksa roll atau jumlah barang, lalu sahkan penerimaan ke gudang.</p></div>
       <div className="cproc-inline"><button type="button" disabled={mutation.busy || loading} onClick={() => void load()}>Muat ulang</button><button className="primary-btn" type="button" disabled={locked || !data?.capabilities.create} onClick={() => setDraft(blank())}>Penerimaan baru</button></div></header>
-    <ProductionRecoveryNotice recovery={mutation} onReconcile={() => reconcile(handlers)} className="panel"/>
+    <ProductionRecoveryNotice recovery={{ ...mutation, notice: mutation.notice ? 'Data penerimaan sudah diperbarui.' : '',
+      ...(mutation.pending && !mutation.corruptedEnvelope ? { error: 'Hasil pencatatan belum diketahui. Periksa kembali hasil transaksi; data kiriman sebelumnya tetap disimpan.', blockReason: '' } : {}) }}
+      onReconcile={() => reconcile(handlers)} className="panel"/>
     {error ? <p className="panel" role="alert">{error}</p> : null}
     <form className="panel cproc-search" onSubmit={e => { e.preventDefault(); requested.current = { ...requested.current, q: query.trim(), status, offset: 0 }; void load() }}>
       <label>Cari surat jalan atau supplier<input aria-label="Cari penerimaan" value={query} maxLength={120} onChange={e => setQuery(e.target.value)}/></label>

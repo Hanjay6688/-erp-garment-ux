@@ -1,6 +1,6 @@
 # P09 — procurement/materials connected (in progress)
 
-Family F03 is active. This first increment is a **receipt bridge under native verification**, not full P09 or family acceptance. No hosted writes; `production_go=false`.
+Family F03 is active. The receipt increment is **writer-verified in a disposable database and real connected browser**, not full P09 or family acceptance. No hosted writes; `production_go=false`.
 
 ## Contract and authorization
 
@@ -16,11 +16,11 @@ Material receipts retain accepted CP6 behavior: absent fabric price uses its eff
 
 `cp7_procurement_cases.py`: public draft has zero stock; post 10 × 10 produces stock10, GRNI100/AP0; exact 1.123456 × 3.000001 preserves stock and receipt3.370369/AP3.37; request replay versus changed payload, stale revision, redaction/current grants/revocations, operations benchmark, paged 105 rows, inactive options, invalid roll/transport and atomic rejection. Three committed races: same request, competing posts, and permission revocation during a real row lock wait. Real Auth/PostgREST draft/post/replay/ops-redaction/revocation. Fixture smoke is counted separately.
 
-Workflow `cp7-p09-procurement.yml` rebuilds the accepted 30-file CP6 package in disposable clones, installs the explicit development bundle, verifies principal ownership/ACLs, runs cases and restores CP6. Results are pending, not inferred from local Python syntax checks.
+Workflow `cp7-p09-procurement.yml` rebuilds the accepted 30-file CP6 package in disposable clones, installs the explicit development bundle, verifies principal ownership/ACLs, runs cases and restores CP6. The source-bound receipt result is PASS, recorded below; this does not close full P09.
 
 ## Remaining P09/F03 work
 
-- Connected receipt browser with authoritative reload and persisted uncertain-request recovery.
+- Receipt connected browser is qualified below; material/transfer/issue/invoice journeys remain open.
 - Warehouse/material/roll drilldown, transfer/issue/adjustment, reversals, location and historical-prefix cases; server search must cover complete sources.
 - Late invoice, source return, valuation propagation and same-counterparty supplier credit integration with P13.
 - P10 FG ledger, P11 sale/return/payment including R10, P12 attendance/payroll/Nota, P13 finance/HPP/close.
@@ -48,3 +48,19 @@ The connected runtime routes to `ConnectedProcurementPage`; demo retains its ori
 The next native workflow adds two real Auth/browser → RPC → database cases: desktop receipt, and mobile lost committed response followed by reload/reconcile with the identical UUID/payload. Native read-back asserts stock10 in one movement, GRNI100/AP0 and exact WIB physical time even when the mobile browser uses America/Los_Angeles. No connected browser result is claimed until it passes.
 
 This receipt increment accepts quantities in the material's base UOM; it does not convert Yard/Metre. Existing alternative purchase-UOM snapshots can be read, but their drafts are not offered for editing in this bounded form. Full UOM selection and accessory conversions remain required before P09 acceptance. Invoice/due/line/roll metadata and original physical timestamp are preserved when editing supported drafts. P09 still includes the warehouse/transfer/issue/reversal/late-invoice/source-return work listed above.
+
+## Receipt qualification — 29 September 2026
+
+Source `6b7148c6510c3321a65300984d8bdcdfd09e28fe`, [run 36518831592](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36518831592): **9 native + 3 committed races + 1 real HTTP + 2 real browser = 15 PASS**, plus one repeated smoke. CP6 restore and advisor gate PASS. Full report/hash receipt: `evidence/p09-procurement/CP7_P09_RECEIPT.json.gz` and `RECEIPT_VERIFICATION.json`. Earlier pending statements above describe run history and are superseded for this receipt scope only.
+
+Both desktop and mobile prove real UI/Auth/RPC/database posting. Mobile deliberately loses a committed response, reloads and reconciles the same UUID/payload; stock remains 10 in exactly one movement, GRNI100/AP0. Physical WIB time is preserved even in a Los Angeles browser timezone. The final application gate passed 645 tests in 61 files, build/security ownership, CodeQL and 6 shell browser cases. Screenshots are preserved; visual inspection found dark-theme contrast issues for controls, selected cards and totals, which are being fixed in the next increment.
+
+This is writer evidence, not independent acceptance, and not a family checkpoint. **F03 and P09 remain open**, `production_go=false`.
+
+## Material/roll continuation — native qualification started
+
+New `scripts/cp7-src/materials` reads posted physical movements, never `material_rolls.cached_qty` (drafts already have that cache). Fabric roll/location pages are complete server pages, quantities and versions stay exact strings, units have separate totals, and ledger running balances include the entire chronological prefix before pagination. Value requires `finance.hpp.view`; current material moving average and restated movement snapshots are labeled separately. It is not AS_KNOWN history.
+
+Transfer SAVE/POST/REVERSE call accepted writers. Admission uses a separate private transaction/actor context and `warehouse.material.view` + existing sensitive `warehouse.stock.adjust`; the original OWNER/ADMIN restriction for transfer reversal remains. This conservative existing permission mapping must be independently reviewed. The write principal has no business DML, only the three accepted writers and minimal material/roll identity columns. Current access is checked again after waits/replay.
+
+Declared next proof: draft-roll cache is not stock; 10 at source becomes 6+4 with total value100 and transfer value net0; paged running prefix; inverse pairs; invalid backdate, inactive locations/materials, wrong roll, consumed destination reversal, exact payload, complete 105 roll pages, separate unit totals, money redaction, custom-role/current permission checks; concurrent 7+7 claims against10; revoke during actual row wait; real Auth HTTP. These material results are **pending**. The receipt browser suite is rerun because the shared guard now recognizes the additional private transfer context. Material connected browser/UI is the following increment.

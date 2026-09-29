@@ -34,6 +34,10 @@ begin
   and ((c.action='SAVE_DRAFT' and c.permission_key='warehouse.procurement.create')
     or(c.action='POST' and c.permission_key='warehouse.procurement.post'))
   and erp.has_permission('warehouse.procurement.view') and erp.has_permission(c.permission_key)) then return;end if;
+ if exists(select 1 from cp7_material.execution_context c where c.backend_pid=pg_backend_pid()
+  and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'
+  and c.action in('SAVE_TRANSFER','POST_TRANSFER','REVERSE_TRANSFER') and c.permission_key='warehouse.stock.adjust'
+  and erp.has_permission('warehouse.material.view') and erp.has_permission(c.permission_key)) then return;end if;
  v_app_role:=erp.current_app_role();
  if coalesce(v_app_role,'') not in('OWNER','ADMIN','STAFF') then raise exception 'Internal ERP access required';end if;
 end $function$;

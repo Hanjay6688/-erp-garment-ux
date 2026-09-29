@@ -1,0 +1,92 @@
+{
+  "status": "WRITER_PASS_BOUNDED_RECEIPT_NATIVE_HTTP_BROWSER",
+  "independent_acceptance": false,
+  "production_go": false,
+  "tested_source": "6b7148c6510c3321a65300984d8bdcdfd09e28fe",
+  "tested_tree": "8c2bc1394bea8eef1c7032176b0fd71a07b8a584",
+  "bundle_sha256": "44a8715e7c6e37386ab208ac0cd3eef6761bbc404bee774b32bf5e8bf820dd9c",
+  "run": 36518831592,
+  "job": 109247047891,
+  "artifact_id": 11012057901,
+  "zip_sha256": "0b7c82cd0db3ddae60a2edc0c099749a2e113c2106f8266e0096dcf255329aab",
+  "report_sha256": "54f2d2c2764256d80d9198b5bb2abe3fde24277f6f9695f19cad547c57378afc",
+  "report_gz_sha256": "d393aa5ecb340ad58daa0c77c061f2984ea51b5e3ef747da3e8458b1696b5399",
+  "counts": {
+    "smoke": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 9
+    },
+    "races": {
+      "PASS": 3
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "qualified_cases_excluding_repeated_smoke": 15,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "source_hashes": {
+    ".github/workflows/cp7-p09-procurement.yml": "e4cffec5b144065541374bf4b55116a389b0ea887b51e76fc0dc4f6cbe07f9ec",
+    "scripts/cp7-src/identity/bootstrap.sql": "29ec0cc24ba7784300eb480a27cc635428b80d9cfdefa3b242a2ac8c83a937c4",
+    "scripts/cp7-src/identity/command.sql": "847c82b25b2c87b0cfbddd3e91ac91b07f025d411d3faffa44f05ea31df7e3af",
+    "scripts/cp7-src/identity/history.sql": "e78b35242bc95e46b38ce3bfe2d535e796d698e265f7601a88b5bd7b5d2b0c6b",
+    "scripts/cp7-src/identity/workspace.sql": "417335fe50095bd903c7bb305b25ae4cbfef9b17986883190a661eeefb99165e",
+    "scripts/cp7-src/procurement/accepted-deltas.sql": "31821849a0ceff5ae847e268ae96b1516558dfe772c1e66ce5fad2af9a89d6e8",
+    "scripts/cp7-src/procurement/bootstrap.sql": "595aee83f4c692fdbe19ba1664b03b85c74f67f5d73bdd3079380a57b2574ad6",
+    "scripts/cp7-src/procurement/command.sql": "483687b06b70c1f44e01a5f749f213efbd57aab64a1306e6470911671a886fb9",
+    "scripts/cp7-src/procurement/ownership.sql": "33d62e4260562cab4cefbdd27c5294628e6969cc3b623405bea606273d7627d6",
+    "scripts/cp7-src/procurement/read.sql": "546bdaa1fee69bfc6be39baf4aabe07fc3e45de3d7d01eadec46f252ce09af2a",
+    "scripts/cp7-src/snapshot/bootstrap.sql": "64ebe8090b7ca588f234bc98c5a4c57be34dd071631d41b6b7b30f3fefe1b916",
+    "scripts/cp7-src/snapshot/capture_probe.sql": "b10b77ffe46290fabaff90f5d2609ccb56255c2b65c018c327442d207f7e6647",
+    "scripts/cp7-src/snapshot/facades.sql": "ba8b2b1ebc8134ee3efe7da6d47dd1cce5a8304f4df5565b044bd2a004186fa8",
+    "scripts/cp7-src/snapshot/sources.sql": "d53f5428e04c9d5f2bf598691c84b53b488b01131a0591f9b71fa0a07678604d",
+    "scripts/cp7-src/wip/bootstrap.sql": "f13d218d6ef6c38bea1968081368cdf253538c79d36b67a51e61d126927c2769",
+    "scripts/cp7-src/wip/bs.sql": "13dd87527775ea2c423318632209be42f796f5e39c685ffddc66638af0fa7506",
+    "scripts/cp7-src/wip/facade.sql": "26c6b1c2294e5f7e4e9829a3be37a0e5389e9888c4d56be1e4b37d4d4b4cef2b",
+    "scripts/cp7-src/wip/graph.sql": "3a6d3af1fdf5f1d0c262639652ec491a447e4abba5315463253f733f0623b9d9",
+    "scripts/cp7-src/wip/matching.sql": "6eba1327d2d94d197f665aa3336a6637cb34f3224ba18cccf36bd8a4d42b804f",
+    "scripts/cp7-src/wip/normalize.sql": "308e00866d250a5c09a2d754da948ebc675fb72b4188474ea660c1d000c8396c",
+    "scripts/cp7-src/wip/other-normalize.sql": "eb9f687c558b4379d612c97a67f248aae5367397a4874abc4a8939be39e5b3b2",
+    "scripts/cp7-src/wip/other-source.sql": "444758c2f3bbe0ba833ab4e3213159217dac806eaf0f54ee76f28454c53850d3",
+    "scripts/cp7-src/wip/ownership.sql": "9aa81ca89c1ec90f6fab58633ea23428455ab48ef07dcb9cc1c62a4d739bce65",
+    "scripts/cp7-src/wip/production.sql": "52fd1a97d8213437f84c7ec14c8426a5044c45806ea8c2c3bf3c95d45541744c",
+    "scripts/cp7-src/wip/rewash.sql": "0868d8cbdc46fd6a0da67cf06c05b0ccd08e3854f10b588d92bdb7ae36bae8bc",
+    "scripts/cp7-src/wip/source.sql": "bea6ae5422d9921f1db2b5b98f809cba8e99138f45f690a5c82bd4981899c4fd",
+    "scripts/cp7-src/wip/timing.sql": "cf61bae66086edd7a34e3456e5bad9d644cf42ced4cf2a2bedee4f89f1c9ebc9",
+    "scripts/cp7-src/wip/yield.sql": "56ebb415524603e86f34492b7eb186b95a58e9b4984c45d6809ede198c84d59c",
+    "scripts/cp7_p09_browser.mjs": "cc0522c207abeec5fa6361477c03f010d9d08bff2959c1165c2a9498769c6c4e",
+    "scripts/cp7_p09_browser_fixture.py": "a244207eb325bf4c5b3d12d94319d6681c2caac72adcf7856bea01c06c21dd2b",
+    "scripts/cp7_p09_procurement_probe.py": "0d332b929216e0ed51de4882d3ddff4e0b49f96ed353b4157f932b9cb3247597",
+    "scripts/cp7_procurement_bundle.py": "45b01f5c0c8b70b9809071205ad4cb4f83c2ab7957742531a5b8b2b179a1fd42",
+    "scripts/cp7_procurement_cases.py": "460b4541154ba2950425c5fbaa1c0872f941cfc4646a9810841802ce72e9f3d1",
+    "src/ConnectedProcurementPage.dom.test.tsx": "d22dc60b66c1ea25e952e71698a42b96f4cab31261bfd5c8b45b5e8606eb6b53",
+    "src/ConnectedProcurementPage.tsx": "7c026b05a93687b7eed977c4e300aa0dece7abb985bffd17e199e33ac4d488d7",
+    "src/procurement-connected.css": "34034ce4024b71f61285e17a8787c975b97395e2e6d2781beeb1870ad647bdab",
+    "src/procurementContract.ts": "9966e21587a958062a2b7506f1ca3e5f3a5ecf0b07cd67841f9192c07d665fa9"
+  },
+  "application": {
+    "runs": [
+      36518836107,
+      36518831553
+    ],
+    "status": "SUCCESS",
+    "unit_tests": 645,
+    "unit_files": 61,
+    "shell_browser": 6,
+    "codeql": "SUCCESS"
+  },
+  "limits": [
+    "Receipt draft/post and live read only; not full P09/F03",
+    "Real browser uses disposable real Auth/PostgREST database, never hosted production",
+    "Base UOM only in bounded form; alternative UOM editing and selection still open",
+    "Material ledger/transfer/issue/reversal/late invoice/source return remain open",
+    "Screenshot inspection found low-contrast controls/selection in dark theme; visual follow-up in next increment",
+    "Independent acceptance and integrated CP7 release remain pending"
+  ]
+}

@@ -35,7 +35,7 @@
     "P02": "BOUNDED_ACTOR_CAPTURE_T1_PASS_16_CASES_INDEPENDENT_PENDING",
     "P03": "BOUNDED_POLICY_NATIVE_PASS_15_CASES_INDEPENDENT_PENDING",
     "P04": "BOUNDED_ATOMIC_WIP_NATIVE_PASS_39_CASES_PLUS_SMOKE_INDEPENDENT_PENDING",
-    "P09": "RECEIPT_BRIDGE_12_NATIVE_RACE_HTTP_PASS_ONE_ZONE_FIXTURE_RETEST_CONNECTED_BROWSER_IN_PROGRESS"
+    "P09": "BOUNDED_RECEIPT_15_NATIVE_RACE_HTTP_BROWSER_PASS_MATERIAL_LEDGER_TRANSFER_IN_PROGRESS"
   },
   "inherited_scope": {
     "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
@@ -50,7 +50,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Implement P09 authorized procurement read/write bridge and connected receipt flow with actual stock/AP/HPP proof; continue F03 P10-P13. F01/F02 independent review pending.",
+  "next_action": "Continue P09 material/roll ledger, transfer, issue/reversal/late invoice/source return; then F03 P10-P13. F01/F02 independent review pending.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -63,11 +63,12 @@
     "F05_P14_P17": "PLANNED",
     "F06_P18_P21": "PLANNED"
   },
-  "latest_tested_source": "17e85404c9c5f088875099d7875be6342ca6b266",
+  "latest_tested_source": "6b7148c6510c3321a65300984d8bdcdfd09e28fe",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
   "p04_cutting_verification_receipt": "docs/cp7/evidence/p04-cutting/VERIFICATION.json",
   "latest_p04_tested_source": "17e85404c9c5f088875099d7875be6342ca6b266",
   "p04_production_verification_receipt": "docs/cp7/evidence/p04-production/VERIFICATION.json",
-  "p09_entry": "docs/cp7/P09_PROCUREMENT_HANDOFF.md"
+  "p09_entry": "docs/cp7/P09_PROCUREMENT_HANDOFF.md",
+  "p09_receipt_verification": "docs/cp7/evidence/p09-procurement/RECEIPT_VERIFICATION.json"
 }
