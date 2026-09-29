@@ -75,7 +75,8 @@ def verify(cur,with_review=False,with_settlement=False,with_attendance=False,wit
             assert not cur.execute("select has_function_privilege(%s,'cp7_attendance.apply_command(text,jsonb,uuid,text)','EXECUTE')",(who,)).fetchone()[0]
     return dict(result,cp7_p12_bundle_sha256=hashlib.sha256((attendance.bundle() if with_attendance else settlement.bundle() if with_settlement else review.bundle() if with_review else bundle.bundle()).encode()).hexdigest())
 
-def run(with_review=False,with_settlement=False,with_attendance=False,with_roster=False,with_attendance_write=False):
+def run(with_review=False,with_settlement=False,with_attendance=False,with_roster=False,with_attendance_write=False,with_opening=False):
+    with_attendance_write=with_attendance_write or with_opening
     with_roster=with_roster or with_attendance_write
     with_attendance=with_attendance or with_roster
     with_settlement=with_settlement or with_attendance
@@ -118,6 +119,10 @@ def run(with_review=False,with_settlement=False,with_attendance=False,with_roste
     if with_attendance_write:
         report.update(label='CP7_P12_ATTENDANCE_WRITE',scope=report['scope']+'_WITH_NATIVE_ATTENDANCE_COMMANDS_AND_BROWSER_SOURCE_TO_PAYROLL_INVERSE')
         out=OUT.with_name('CP7_P12_ATTENDANCE_WRITE.json')
+    if with_opening:
+        import cp7_opening_payroll_cases as opening_cases
+        report.update(label='CP7_P12_OPENING_PAYROLL',scope=report['scope']+'_WITH_ACCEPTED_CP6_OPENING_IMPORT_ALLOCATION_PAYROLL_AND_INVERSE',expected_case_count=90)
+        out=OUT.with_name('CP7_P12_OPENING_PAYROLL.json')
     installed=False
     try:
         with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
@@ -201,6 +206,11 @@ def run(with_review=False,with_settlement=False,with_attendance=False,with_roste
             report['attendance_write_races']=modes.run_races(attendance_write_cases,verifier,'cp7_p12_attendance_write')
             report['attendance_write_http']=modes.run_http(attendance_write_cases,verifier,'cp7_p12_attendance_write')
             report['attendance_write_browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_p12_attendance_write_browser.mjs',verifier,'cp7_p12_attendance_write')
+        if with_opening:
+            report['opening_payroll']=native.strict_group('CP7_P12_OPENING_PAYROLL',opening_cases.cases,verifier)
+            report['opening_payroll_races']=modes.run_races(opening_cases,verifier,'cp7_p12_opening_payroll')
+            report['opening_payroll_http']=modes.run_http(opening_cases,verifier,'cp7_p12_opening_payroll')
+            report['opening_payroll_browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_p12_opening_browser.mjs',verifier,'cp7_p12_opening_payroll')
     except Exception as e:report.update(error=str(e),traceback=traceback.format_exc())
     finally:
         if installed:
@@ -213,12 +223,16 @@ def run(with_review=False,with_settlement=False,with_attendance=False,with_roste
             report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta']
             report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or (d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and (f.get('metadata') or {}).get('schema') in ('cp7_attendance','cp7_payroll','cp7_fg','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice') for f in d.get('added',[])))
         group_keys=('native','http','notes','note_races','note_http','admission_regression','browser')+(('payroll_review','payroll_review_http','payroll_review_browser') if with_review else ())+(('settlement','settlement_races','settlement_http','settlement_browser') if with_settlement else ())+(('attendance_read','attendance_read_http','attendance_read_browser') if with_attendance else ())+(('roster','roster_races','roster_http','roster_browser') if with_roster else ())+(('attendance_write','attendance_write_races','attendance_write_http','attendance_write_browser') if with_attendance_write else ())
+        if with_opening:group_keys+=('opening_payroll','opening_payroll_races','opening_payroll_http','opening_payroll_browser')
         groups=[report.get(k,{}) for k in group_keys]
         report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and all(r.get('status') in ('PASS','RUN_COMPLETE') and set(r.get('counts',{}))=={'PASS'} and r['counts']['PASS']>0 and r.get('database_remaining',0)==0 for r in groups) else 'INCOMPLETE'
+        if with_opening:
+            report['observed_case_count']=sum(sum(r.get('counts',{}).values()) for r in groups)
+            if report['observed_case_count']!=report['expected_case_count']:report['status']='INCOMPLETE'
         out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,indent=2,default=str)+'\n');print(json.dumps({k:report.get(k) for k in ('label','status','source_sha256','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)
     return dict(status=report['status'],production_go=False,independent_acceptance=False)
 
 if __name__=='__main__':
-    assert sys.argv[1:] in ([],['--payroll-review'],['--settlement'],['--attendance-review'],['--roster'],['--attendance-write']),'UNKNOWN_P12_PROBE_ARGUMENT'
-    package._writer_runtime=lambda browser_mode=False:run(with_review='--payroll-review' in sys.argv,with_settlement='--settlement' in sys.argv,with_attendance='--attendance-review' in sys.argv,with_roster='--roster' in sys.argv,with_attendance_write='--attendance-write' in sys.argv)
+    assert sys.argv[1:] in ([],['--payroll-review'],['--settlement'],['--attendance-review'],['--roster'],['--attendance-write'],['--opening-payroll']),'UNKNOWN_P12_PROBE_ARGUMENT'
+    package._writer_runtime=lambda browser_mode=False:run(with_review='--payroll-review' in sys.argv,with_settlement='--settlement' in sys.argv,with_attendance='--attendance-review' in sys.argv,with_roster='--roster' in sys.argv,with_attendance_write='--attendance-write' in sys.argv,with_opening='--opening-payroll' in sys.argv)
     package.run('install')

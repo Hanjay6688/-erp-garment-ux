@@ -22,7 +22,26 @@ def main():
     with psycopg.connect(target) as conn,conn.cursor() as cur:
         had=cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]
         if not had:cur.execute('grant usage on schema erp to authenticated')
-        if op=='create_attendance_write':
+        if op=='create_opening_source':
+            import cp7_opening_payroll_cases as opening
+            s=opening.s; today=date.fromisoformat(p['today']); f=n.source.repair(cur,today)
+            label='Mandor Saldo '+uuid.uuid4().hex[:8]
+            cur.execute('update erp.contractors set contractor_name=%s where id=%s',(label,f['contractor']))
+            n.source.ax.post(cur,n.source.ax.repair_payload(f,1)); bank=s.cash(cur)
+            code,coa=cur.execute('select cash_account_code,coa_account_id::text from erp.cash_accounts where id=%s',(bank,)).fetchone()
+            cutover=today-timedelta(days=10)
+            opening.bb.boundary.historical.prior.set_open_period(cur,cutover-timedelta(days=1))
+            out=dict(f,label=label,today=str(today),cash=bank,bank_code=code,bank_coa=coa,
+                cutover=str(cutover),batch_code='P12UI'+uuid.uuid4().hex[:12],import_rows=opening.rows(cur,f,today),
+                physical=s.physical(cur),labor=s.acct(cur,'LABOR_COST'),payable=s.acct(cur,'CONTRACTOR_PAYABLE'),receivable=s.acct(cur,'CONTRACTOR_RECEIVABLE'))
+            assert cur.execute('select count(*) from erp.payroll_settlements where contractor_id=%s',(f['contractor'],)).fetchone()[0]==0
+        elif op=='read_opening_pipeline':
+            import cp7_opening_payroll_cases as opening
+            f=dict(p,**opening.sources(cur,p['batch'])); out=opening.state(cur,f)
+            out.update(balances=f['balances'],entitlement=f['entitlement'],
+                opening_journals=cur.execute("select id::text,status from erp.journal_entries where source_type='OPENING_BALANCE' order by id").fetchall())
+            if p.get('payroll'):out['document']=opening.s.doc(cur,p['payroll'])
+        elif op=='create_attendance_write':
             import cp7_attendance_write_cases as a
             import cp7_settlement_cases as s
             today=date.fromisoformat(p['today']);f=n.source.repair(cur,today);label='Mandor Sumber '+uuid.uuid4().hex[:8]

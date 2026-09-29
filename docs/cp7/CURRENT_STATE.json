@@ -52,7 +52,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Independent retest of the qualified80-case source; continue opening advances/payables/carry and remaining F03 obligations. E05 partial cash remains open.",
+  "next_action": "Execute the 90-case opening-source/payroll candidate; retain the qualified80-case predecessor. Continue E05 and remaining F03 before authorized F04 takeover.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -122,7 +122,8 @@
     "roster_verification": "docs/cp7/evidence/p12-attendance/ROSTER_VERIFICATION.json",
     "source_handoff": "docs/cp7/P12_SOURCE_HANDOFF.md",
     "attendance_write_candidate": "ALL_80_CASES_PASS_BOUNDED_WRITER_QUALIFICATION",
-    "attendance_write_verification": "docs/cp7/evidence/p12-attendance/WRITE_RUN17_RECEIPT.json"
+    "attendance_write_verification": "docs/cp7/evidence/p12-attendance/WRITE_RUN17_RECEIPT.json",
+    "opening_payroll_candidate": "docs/cp7/P12_OPENING_PAYROLL_HANDOFF.md"
   },
   "connected_attendance_candidate": {
     "source_commit": "5082fbec159095c3452c14c6ad500839f28a166b",
@@ -141,5 +142,6 @@
       "INCOMPLETE": 0,
       "NOT_RUN": 0
     }
-  }
+  },
+  "p09_count_feedback_verification": "docs/cp7/evidence/p09-procurement/COUNT_FEEDBACK_VERIFICATION.json"
 }
