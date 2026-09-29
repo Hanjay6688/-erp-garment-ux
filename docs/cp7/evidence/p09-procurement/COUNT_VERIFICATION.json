@@ -1,0 +1,64 @@
+{
+  "source_head": "4fae1a0067f7058fb7eaf2b4eaf527028716e8d9",
+  "source_tree": "b3bd39364aa615dd63ba36a26d5c8be40dbbf69b",
+  "run_id": 36540541805,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36540541805",
+  "job_id": 109314616895,
+  "artifact_id": 11019734484,
+  "archive_sha256": "d9f3d6cb79f9a42f704c4e168bcf87e61ec14a8cc5e2769fd11c6cf8f003bd5f",
+  "report": "CP7_P09_COUNT.json.gz",
+  "report_sha256": "f0a24163756a54f68b99a33bf447563f9c6b6e095c010ba3f2ef86206fda49f0",
+  "report_gzip_sha256": "4a1e67b5d9b7fa5245d0ca378c3544cd3778b589469dcf6847b3b836ce69f4b6",
+  "bundle_sha256": "bb481dc94a097f5347626536aef74f5e994fc3c6b07af05e77e9641cd27dff0b",
+  "status": "PASS",
+  "counts": {
+    "PASS": 109
+  },
+  "smokes_separate": 3,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "browser_auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "app_runs": [
+    36540547005,
+    36540541677
+  ],
+  "unchanged_family_workflows": [
+    36540541666,
+    36540541727,
+    36540541750
+  ],
+  "production_go": false,
+  "independent_acceptance": false,
+  "limits": [
+    "One complete physical-count input per browser document; multi-input editor and zero-history material/location selection remain follow-up.",
+    "P09/F03 remain open; mixed receipt invoice and return writes are not covered by this source.",
+    "FG adjustments and R10 remain P10/P11."
+  ],
+  "screenshots": {
+    "P09_COUNT_DESKTOP.png": "fd7fcb6f4cc43d3d288d5f70a030cacebb77b731fc8728aa360e9ff0f455691a",
+    "P09_COUNT_MOBILE.png": "b9b7b59c14c7095f88d10287546c1163542bfbebb8b70015cb403f4b2d31c8c2"
+  },
+  "visual_review": "Desktop and mobile screenshots inspected: complete count document, physical quantity, native delta, restated value, review and inverse controls remain readable; browser overflow assertions pass.",
+  "source_files_sha256": {
+    "scripts/cp7-src/materials/counts.sql": "69b1e0eefe3e987085552cc69e4b6416ea23dba1283a3ba0c8f98d273ccc6673",
+    "scripts/cp7-src/materials/count-read.sql": "30db37a9b13a9c8117c5d788424e772f105bc17aab274cdd071c24058e24bdd3",
+    "scripts/cp7_material_count_cases.py": "e4b0e6806366088f2703c2344aabbe205825c1f5ff833956b8a178c5b2e13efc",
+    "scripts/cp7_p09_browser.mjs": "9931aa234f687386914390481d020078ded3e4e89aeba965af1752269f027619",
+    "src/ConnectedMaterialCountPage.tsx": "a841efbe88b89c77aa38a6766fbc397e4106e7a27f267ea57ee68ff8820e9f8e",
+    "src/materialCountContract.ts": "b16d2c170e29eb990c09db0abc77f166e6147c7f87b86fddd81b0a6dab4dda0b"
+  }
+}

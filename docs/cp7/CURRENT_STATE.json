@@ -35,7 +35,7 @@
     "P02": "BOUNDED_ACTOR_CAPTURE_T1_PASS_16_CASES_INDEPENDENT_PENDING",
     "P03": "BOUNDED_POLICY_NATIVE_PASS_15_CASES_INDEPENDENT_PENDING",
     "P04": "BOUNDED_ATOMIC_WIP_NATIVE_PASS_39_CASES_PLUS_SMOKE_INDEPENDENT_PENDING",
-    "P09": "BOUNDED_93_PASS_COUNT_108_PASS_1_FIXTURE_INCOMPLETE_EDIT_RETEST_PENDING"
+    "P09": "BOUNDED_109_PASS_COUNTS_QUALIFIED_MIXED_DOCUMENTS_IN_PROGRESS"
   },
   "inherited_scope": {
     "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
@@ -50,7 +50,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Qualify physical material counts, complete remaining P09 workflows, and continue F03 P10-P13.",
+  "next_action": "Complete remaining P09 mixed-receipt invoice/return workflows and physical-count UI scope, then continue F03 P10-P13.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -63,7 +63,7 @@
     "F05_P14_P17": "PLANNED",
     "F06_P18_P21": "PLANNED"
   },
-  "latest_tested_source": "b81a5f607404075929fe74e0dac5608f5fbfe9e4",
+  "latest_tested_source": "4fae1a0067f7058fb7eaf2b4eaf527028716e8d9",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
   "p04_cutting_verification_receipt": "docs/cp7/evidence/p04-cutting/VERIFICATION.json",
@@ -79,5 +79,6 @@
   "p09_reversal_diagnostic": "docs/cp7/evidence/p09-procurement/REVERSAL_RUN_2.json",
   "p09_uom_and_reversal_verification": "docs/cp7/evidence/p09-procurement/UOM_REVERSE_VERIFICATION.json",
   "p09_unrolled_verification": "docs/cp7/evidence/p09-procurement/UNROLLED_VERIFICATION.json",
-  "p09_count_diagnostic": "docs/cp7/evidence/p09-procurement/COUNT_RUN_2.json"
+  "p09_count_diagnostic": "docs/cp7/evidence/p09-procurement/COUNT_RUN_2.json",
+  "p09_count_verification": "docs/cp7/evidence/p09-procurement/COUNT_VERIFICATION.json"
 }

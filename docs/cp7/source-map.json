@@ -921,7 +921,7 @@
         "src/PurchaseInvoicePanel.tsx"
       ],
       "verification": "docs/cp7/evidence/p09-procurement/UNROLLED_VERIFICATION.json",
-      "writer_proof": "93_NATIVE_RACE_HTTP_BROWSER_CROSSFLOW_PASS_PLUS_3_SMOKES",
+      "writer_proof": "109_NATIVE_RACE_HTTP_BROWSER_CROSSFLOW_PASS_PLUS_3_SMOKES",
       "independent_acceptance": false,
       "invoice_extension": "Qualified bounded source receipt invoice FINALIZE/REVERSE; legacy mixed-receipt reversal remains outside connected action.",
       "source_return_extension": {
@@ -963,7 +963,7 @@
         "verification": "docs/cp7/evidence/p09-procurement/UNROLLED_VERIFICATION.json"
       },
       "physical_count_extension": {
-        "status": "108_PASS_1_FIXTURE_INCOMPLETE_DRAFT_EDIT_RETEST_PENDING",
+        "status": "16_NATIVE_RACE_HTTP_BROWSER_CASES_PASS_WITH_ALL_PRIOR_93",
         "modules": [
           "scripts/cp7-src/materials/counts.sql",
           "scripts/cp7-src/materials/count-read.sql",
@@ -972,7 +972,8 @@
         ],
         "authority": "Accepted material adjustment SAVE/POST/REVERSE writers. Server derives signed delta from physical count and dated posted ledger; current basis and native document signature rechecked after real material-row waits.",
         "limits": "Browser creates and edits one complete counted stock position per document; larger or externally changed source bindings remain readable without silently dropping inputs. Multi-input editing and zero-history material selection remain follow-up; FG adjustments remain P10.",
-        "handoff": "docs/cp7/P09_MATERIAL_COUNT_HANDOFF.md"
+        "handoff": "docs/cp7/P09_MATERIAL_COUNT_HANDOFF.md",
+        "verification": "docs/cp7/evidence/p09-procurement/COUNT_VERIFICATION.json"
       }
     }
   }

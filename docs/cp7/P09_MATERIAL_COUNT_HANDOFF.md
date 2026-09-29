@@ -1,6 +1,6 @@
-# P09 material physical counts — candidate for qualification
+# P09 material physical counts — bounded writer qualification
 
-29 September 2026. F03/P09 remains open. This increment is a writer candidate; native and connected-browser results are pending. It does not close P09, F03, independent acceptance, R10, or production (`production_go=false`). The prior procurement and all-material transfer source `b81a5f607404075929fe74e0dac5608f5fbfe9e4` passed93 cases plus three smokes; its receipt is `UNROLLED_VERIFICATION.json`. The physical-count candidate remains outside that full qualification; the diagnostic sequence below identifies each tested source.
+29 September 2026. F03/P09 remains open. The latest count source `4fae1a0067f7058fb7eaf2b4eaf527028716e8d9` passes109 native/race/HTTP/browser cases plus three separate smokes, including all93 prior P09 cases. It does not close P09, F03, independent acceptance, R10, or production (`production_go=false`). The prior procurement and all-material transfer source `b81a5f607404075929fe74e0dac5608f5fbfe9e4` passed93 cases plus three smokes; its receipt is `UNROLLED_VERIFICATION.json`. `COUNT_VERIFICATION.json` identifies the qualified source, native run, app runs, report/archive hashes and screenshots; earlier failed attempts remain preserved below.
 
 ## Existing rule and authority
 
@@ -37,3 +37,9 @@ Corrections rename the SQL alias, compare an absolute epoch in the private docum
 Run36538868285 on `e527f8ca7d678b5f12ddc17332f1631f487cd9b3` produced **108 PASS /1 INCOMPLETE plus three smokes**. Both count browsers, two count races, real count Auth/HTTP, valuation/reversal examples, and all93 prior cases pass. Both app workflows, CP6 restoration, advisor gate and exact Auth cleanup pass. `COUNT_RUN_2` retains the full report and hashes. The remaining access case stopped while creating its second fixture role because both used the same active display name; the correction makes test-role names unique without changing native constraints.
 
 The next candidate also qualifies editing a one-input count draft in desktop and mobile browsers before POST. It must retain the same document, exact physical timestamp and untouched ledger while advancing the native version. Native read assertions check operational edit cost redaction, positive-cost authorization, external-edit refusal and a source with a hidden zero-difference input. Local72 targeted DOM/recovery cases passed; native results for this continuation remain pending. P09/F03 remain open.
+
+## Qualified result
+
+[Run36540541805](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36540541805) on `4fae1a0067f7058fb7eaf2b4eaf527028716e8d9` passes **109/109 cases plus three separate smokes**. All16 count cases, including both draft-edit browsers and the corrected access fixture, pass. Both app workflows and the automatically triggered P02/P03/P04 native workflows pass. Accepted CP6 restoration, advisor gate, and Auth counts0→0 pass. Desktop and mobile count screenshots were visually inspected. The bundle hash is `bb481dc94a097f5347626536aef74f5e994fc3c6b07af05e77e9641cd27dff0b`.
+
+This is writer qualification of the bounded increment. The UI limits above, remaining P09 invoice/return workflows, F03, independent acceptance and production gates remain open.
