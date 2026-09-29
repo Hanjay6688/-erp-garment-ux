@@ -1,0 +1,11 @@
+{
+  "product_commit": "ee8699829bc53799e5f840bb5490059e456fa81a",
+  "checkpoint": "e3ddcec94c4db2b6fe299cdadc82f50d57781bfc",
+  "latest_observed": "f41e6eb1dd7fc44d8cd60a1b02ff3998e14f499a",
+  "later_scope": "P10 excluded",
+  "files": {
+    "audits/cp7_f01_f02_p09_20260929/original_f02_probe.py": "43ac48d8ec4dffdffa94722348a503a345771094d1f33219c72a4d70431c29d1",
+    "audits/cp7_f01_f02_p09_20260929/probe.py": "3e0ba27494937236f3b49bf4f422a4d238dc0b601cb44b43e03d49f17219c418",
+    "audits/cp7_f01_f02_p09_20260929/runner.py": "40d4a59b63e9e24f259ce50f5cd1bcbb9b5b4c4c5cbae828b03ad46610909c63"
+  }
+}
