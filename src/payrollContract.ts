@@ -39,7 +39,7 @@ export function parsePayrollRead(v:unknown,section:PayrollSection):PayrollRead{
    const l=closed(row,lineKeys[section]);if(!uuid(l.id)||!Object.values(l).every(x=>nullable(text,x))||!decimal(l.amount))fail()
    if(Object.entries(l).some(([k,x])=>k.endsWith('_id')&&!nullable(uuid,x)))fail()
    if(section==='WORK'&&(!text(l.component_name)||!text(l.component_code)||!['PRODUCTION','REWORK','FG_REPAIR'].includes(String(l.source_type))||!uuid(l.component_id)||!uuid(l.source_id)||!whole(l.qty)||!decimal(l.rate)||cents(l.rate)*BigInt(l.qty)!==cents(l.amount)))fail()
-   if(section==='ATTENDANCE'&&(!date(l.date)||!decimal(l.paid_fraction,4)||!decimal(l.daily_rate)))fail()
+   if(section==='ATTENDANCE'&&(!nullable(date,l.date)||!decimal(l.paid_fraction,4)||!decimal(l.daily_rate)))fail()
    if(section==='REIMBURSEMENTS'&&!nullable(v=>decimal(v,6),l.opening_carry_qty))fail()
   }
  }

@@ -16,7 +16,7 @@ import cp6_t3_package_run as package
 from cp6_t3_aligned_install import advisors,advisor_delta
 OUT=bundle.ROOT/'cp6-proof/t3/CP7_P12_NOTA.json'
 
-def verify(cur,with_review=False):
+def verify(cur,with_review=False,with_settlement=False):
     result=p10.verify(cur)
     rules={
       'access_now':('cp7_payroll_read',False,'s'),'source_lines':('cp7_payroll_read',False,'s'),'source_cards':('cp7_payroll_read',False,'s'),'source_workspace':('cp7_payroll_read',False,'s'),
@@ -26,26 +26,37 @@ def verify(cur,with_review=False):
     if with_review:
         import cp7_settlement_read_bundle as review
         rules.update(review.RULES)
+    if with_settlement:
+        import cp7_settlement_bundle as settlement
+        rules.update(settlement.RULES)
     got=cur.execute("select p.proname,pg_get_userbyid(p.proowner),p.prosecdef,p.provolatile::text,p.proconfig from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_payroll'").fetchall()
     assert {v[0] for v in got}==set(rules)
     for name,owner,secdef,vol,config in got:assert (owner,secdef,vol)==rules[name] and config==['search_path=""'],(name,owner,secdef,vol,config)
     public_rules=[('erp_cp7_get_nota_sources_v1','cp7_payroll_read','s'),('erp_cp7_get_nota_workspace_v1','cp7_payroll_read','s'),('erp_cp7_save_nota_v1','cp7_nota_write','v')]
     if with_review:public_rules.append(('erp_cp7_get_payroll_workspace_v1','cp7_payroll_read','s'))
+    if with_settlement:public_rules.append(('erp_cp7_save_payroll_v1','cp7_payroll_write','v'))
     for name,owner,vol in public_rules:
         assert cur.execute("select pg_get_userbyid(p.proowner),p.prosecdef,p.provolatile::text,p.proconfig from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname=%s",(name,)).fetchone()==(owner,True,vol,['search_path=""'])
-    return dict(result,cp7_p12_bundle_sha256=hashlib.sha256((review.bundle() if with_review else bundle.bundle()).encode()).hexdigest())
+    return dict(result,cp7_p12_bundle_sha256=hashlib.sha256((settlement.bundle() if with_settlement else review.bundle() if with_review else bundle.bundle()).encode()).hexdigest())
 
-def run(with_review=False):
-    verifier=partial(verify,with_review=with_review)
+def run(with_review=False,with_settlement=False):
+    with_review=with_review or with_settlement
+    verifier=partial(verify,with_review=with_review,with_settlement=with_settlement)
     runtime=bundle
     if with_review:
         import cp7_settlement_read_bundle as runtime
         import cp7_settlement_read_cases as review_cases
+    if with_settlement:
+        import cp7_settlement_bundle as runtime
+        import cp7_settlement_cases as settlement_cases
     report=dict(label='CP7_P12_NOTA_COMPOSER',status='INCOMPLETE',production_go=False,independent_acceptance=False,scope='NATIVE_SOURCE_SELECTED_CARD_COMPOSITION_ALLOCATION_AND_BROWSER_NO_PAYROLL_SETTLEMENT_UI',source_sha256=hashlib.sha256(runtime.bundle().encode()).hexdigest())
     out=OUT
     if with_review:
         report.update(label='CP7_P12_NOTA_AND_PAYROLL_REVIEW',scope=report['scope']+'_WITH_FINANCE_PAYROLL_READ_AND_REVIEW_BROWSER',nota_bundle_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest())
         out=OUT.with_name('CP7_P12_PAYROLL_REVIEW.json')
+    if with_settlement:
+        report.update(label='CP7_P12_NATIVE_SETTLEMENT',scope='NOTA_FINANCE_REVIEW_BROWSER_AND_NATIVE_PREPARE_APPROVE_FULL_PAY_CANCEL_REVERSE_NO_SETTLEMENT_WRITER_UI')
+        out=OUT.with_name('CP7_P12_SETTLEMENT.json')
     installed=False
     try:
         with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
@@ -53,7 +64,12 @@ def run(with_review=False):
             originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)
             internal_before=cur.execute("select pg_get_functiondef('erp.require_internal()'::regprocedure)").fetchone()[0]
             cur.execute(fg_bundle.extension(),prepare=False);cur.execute(source_bundle.extension(),prepare=False);cur.execute(bundle.extension(),prepare=False)
-            if with_review:cur.execute(runtime.extension(),prepare=False)
+            if with_review:
+                import cp7_settlement_read_bundle as read_bundle
+                cur.execute(read_bundle.extension(),prepare=False)
+            if with_settlement:
+                originals['erp.require_owner_admin()']=cur.execute("select pg_get_functiondef('erp.require_owner_admin()'::regprocedure)").fetchone()[0]
+                cur.execute(runtime.extension(),prepare=False)
             after=p09.functions(cur)
             grants=('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)','erp.bf_commercial_sku_at_v1(uuid,timestamptz)','erp.bd_lot_laundry_unknown_v1(uuid)','erp.get_hpp_completeness(uuid)')
             # regprocedure prints timestamp with time zone with empty search_path.
@@ -63,19 +79,29 @@ def run(with_review=False):
                 key=str(cur.execute('select %s::regprocedure::text',(signature,)).fetchone()[0]);grants.setdefault(key,set()).add(('cp7_fg_write','EXECUTE',False))
             for signature in ('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)'):
                 key=str(cur.execute('select %s::regprocedure::text',(signature,)).fetchone()[0]);grants.setdefault(key,set()).add(('cp7_payroll_read','EXECUTE',False))
-            for who in ('cp7_nota_write','cp7_payroll_header'):
+            for who in ('cp7_nota_write','cp7_payroll_header')+(('cp7_payroll_write',) if with_settlement else ()):
                 for signature in ('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)'):
                     key=str(cur.execute('select %s::regprocedure::text',(signature,)).fetchone()[0]);grants.setdefault(key,set()).add((who,'EXECUTE',False))
             key=str(cur.execute("select 'erp.merge_eligible_work_into_payroll_v2(uuid,jsonb,uuid,bigint)'::regprocedure::text").fetchone()[0]);grants.setdefault(key,set()).add(('cp7_nota_write','EXECUTE',False))
             cur.execute("select set_config('search_path',%s,true)",(path,))
             for signature,old in pre.items():
                 new=after[signature];expected_definition=hashlib.md5(bundle.patched_internal(internal_before).encode()).hexdigest() if signature=='erp.require_internal()' else old['definition']
+                if with_settlement and signature=='erp.require_internal()':expected_definition=hashlib.md5(runtime.patched_internal(bundle.patched_internal(internal_before)).encode()).hexdigest()
+                if with_settlement and signature=='erp.require_owner_admin()':expected_definition=hashlib.md5(runtime.patched_owner(originals[signature]).encode()).hexdigest()
                 assert new['definition']==expected_definition and new['owner']==old['owner'],('P12_PREDECESSOR_CHANGED',signature)
                 expected={tuple(x) for x in old['acl'] or []}|grants.get(signature,set())
                 assert {tuple(x) for x in new['acl'] or []}==expected,('P12_UNDECLARED_ACL_DELTA',signature)
             p09.INSTALLED_FUNCTIONS=after;report['source_declared_execute_grants']={k:sorted(v) for k,v in grants.items()}
             internal_after=cur.execute("select pg_get_functiondef('erp.require_internal()'::regprocedure)").fetchone()[0]
-            assert internal_after==bundle.patched_internal(internal_before),'P12_EXACT_ADMISSION_DELTA'
+            expected_internal=bundle.patched_internal(internal_before)
+            if with_settlement:expected_internal=runtime.patched_internal(expected_internal)
+            assert internal_after==expected_internal,'P12_EXACT_ADMISSION_DELTA'
+            if with_settlement:
+                actual_owner=cur.execute("select pg_get_functiondef('erp.require_owner_admin()'::regprocedure)").fetchone()[0]
+                assert actual_owner==runtime.patched_owner(originals['erp.require_owner_admin()'])
+                derived=cur.execute("select pg_get_functiondef('cp7_payroll.rebuild_nonwork(uuid)'::regprocedure)").fetchone()[0]
+                assert derived==runtime.derive_nonwork(runtime.accepted('populate_payroll_draft'))
+                report['settlement_deltas']=dict(owner_before_sha256=hashlib.sha256(originals['erp.require_owner_admin()'].encode()).hexdigest(),owner_after_sha256=hashlib.sha256(actual_owner.encode()).hexdigest(),nonwork_derived_sha256=hashlib.sha256(derived.encode()).hexdigest(),selected_work_removal_insertion_only_removed=True)
             report['nota_admission_delta']={k:hashlib.sha256(v.encode()).hexdigest() for k,v in [('before',internal_before),('after',internal_after)]}
             conn.commit();installed=True;verifier(cur);conn.rollback()
         report['advisors_with_cp7']=advisors(package.boundary.PG)
@@ -90,24 +116,28 @@ def run(with_review=False):
             report['payroll_review']=native.strict_group('CP7_P12_PAYROLL_REVIEW',review_cases.cases,verifier)
             report['payroll_review_http']=modes.run_http(review_cases,verifier,'cp7_p12_payroll_review')
             report['payroll_review_browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_p12_payroll_browser.mjs',verifier,'cp7_p12_payroll_review')
+        if with_settlement:
+            report['settlement']=native.strict_group('CP7_P12_SETTLEMENT',settlement_cases.cases,verifier)
+            report['settlement_races']=modes.run_races(settlement_cases,verifier,'cp7_p12_settlement')
+            report['settlement_http']=modes.run_http(settlement_cases,verifier,'cp7_p12_settlement')
     except Exception as e:report.update(error=str(e),traceback=traceback.format_exc())
     finally:
         if installed:
             with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
                 for definition in originals.values():cur.execute(definition,prepare=False)
-                for role in ('cp7_nota_write','cp7_payroll_header','cp7_payroll_read','cp7_fg_write','cp7_fg_read','cp7_return_write','cp7_return_read','cp7_invoice_write','cp7_invoice_read','cp7_material_write','cp7_material_read','cp7_procure_write','cp7_procure_read','cp7_policy','cp7_capture'):
+                for role in (('cp7_payroll_write',) if with_settlement else ())+('cp7_nota_write','cp7_payroll_header','cp7_payroll_read','cp7_fg_write','cp7_fg_read','cp7_return_write','cp7_return_read','cp7_invoice_write','cp7_invoice_read','cp7_material_write','cp7_material_read','cp7_procure_write','cp7_procure_read','cp7_policy','cp7_capture'):
                     cur.execute('drop owned by '+role+' cascade;drop role '+role,prepare=False)
                 conn.commit();report['cp6_restored']=package.boundary.snapshot(cur)==before and native.public_state(cur)==public_before
                 conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
             report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta']
             report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or (d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and (f.get('metadata') or {}).get('schema') in ('cp7_payroll','cp7_fg','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice') for f in d.get('added',[])))
-        group_keys=('native','http','notes','note_races','note_http','admission_regression','browser')+(('payroll_review','payroll_review_http','payroll_review_browser') if with_review else ())
+        group_keys=('native','http','notes','note_races','note_http','admission_regression','browser')+(('payroll_review','payroll_review_http','payroll_review_browser') if with_review else ())+(('settlement','settlement_races','settlement_http') if with_settlement else ())
         groups=[report.get(k,{}) for k in group_keys]
         report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and all(r.get('status') in ('PASS','RUN_COMPLETE') and set(r.get('counts',{}))=={'PASS'} and r['counts']['PASS']>0 and r.get('database_remaining',0)==0 for r in groups) else 'INCOMPLETE'
         out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,indent=2,default=str)+'\n');print(json.dumps({k:report.get(k) for k in ('label','status','source_sha256','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)
     return dict(status=report['status'],production_go=False,independent_acceptance=False)
 
 if __name__=='__main__':
-    assert sys.argv[1:] in ([],['--payroll-review']),'UNKNOWN_P12_PROBE_ARGUMENT'
-    package._writer_runtime=lambda browser_mode=False:run(with_review='--payroll-review' in sys.argv)
+    assert sys.argv[1:] in ([],['--payroll-review'],['--settlement']),'UNKNOWN_P12_PROBE_ARGUMENT'
+    package._writer_runtime=lambda browser_mode=False:run(with_review='--payroll-review' in sys.argv,with_settlement='--settlement' in sys.argv)
     package.run('install')

@@ -1,0 +1,55 @@
+{
+  "source": "5da1fb6106c7c72058ebd73a782a5155f59c258d",
+  "tree": "8dd8de9e2ca3bf5478904a577f9fd6a0ba7350b4",
+  "run_id": 36583328093,
+  "job_id": 109456956047,
+  "artifact_id": 11040173529,
+  "archive_sha256": "990b30bdd42f9e7121293ebb0bd1316da94bf2c4a2fc5634a64f0c3485f06c8a",
+  "bundle_sha256": "fc69401690073b5b427b4986cf475c38a20d7db6d1ab40f8a2e7b440ddc4f014",
+  "status": "PASS",
+  "counts": {
+    "native": {
+      "PASS": 5
+    },
+    "http": {
+      "PASS": 1
+    },
+    "notes": {
+      "PASS": 7
+    },
+    "note_races": {
+      "PASS": 3
+    },
+    "note_http": {
+      "PASS": 1
+    },
+    "admission_regression": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    },
+    "payroll_review": {
+      "PASS": 4
+    },
+    "payroll_review_http": {
+      "PASS": 1
+    },
+    "payroll_review_browser": {
+      "PASS": 2
+    }
+  },
+  "total_pass": 27,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "independent_acceptance": false,
+  "production_go": false,
+  "local_dom_contract_pass": 12,
+  "scope": "25 prior Nota/finance read cases plus2 finance-view-only actual-browser review flows. Native Nota fixture setup and native cancellation controls are explicit; approval/payment UI is not claimed.",
+  "visual_review": "Actual desktop and mobile finance screenshots inspected; totals, five detail tabs and source Nota legible; no horizontal overflow.",
+  "files_sha256": {
+    "CP7_P12_PAYROLL_UI.json.gz": "3d10b00f5eb4e400e6917394159bb852a710fecf62ac6afcb6bc68f596200dad",
+    "P12_PAYROLL_REVIEW_DESKTOP.png": "dbc3f5bf7cbe85e80b5ab9b17fa654a2c4745fc2de0930664efb538dd1c37849",
+    "P12_PAYROLL_REVIEW_MOBILE.png": "829d5fa6b1d5193fa9c04d4439d34d030ebcc3ab6bacf331bb85bd6c531a9c26"
+  }
+}

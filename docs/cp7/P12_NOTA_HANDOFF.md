@@ -1,6 +1,6 @@
 # P10 Nota → P12 payroll — bounded writer checkpoint, 29 September 2026
 
-**Selected-card Nota and finance payroll reader: 25/25 PASS on the follow-up below. Independent acceptance pending. F03 and full P12 remain OPEN. production_go=false.**
+**Selected-card Nota and finance payroll reader: 27/27 PASS on the latest follow-up below. Independent acceptance pending. F03 and full P12 remain OPEN. production_go=false.**
 
 Qualified source: `3d7ef09cc67426fda5c333ee6b963a587fc31c7e` (tree `db90eb5b83186ad632dab654dd35d200b0cce78c`). [Run 36579321113](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36579321113), job 109443017719, artifact 11039022192. Archive SHA256 `9329b2cc91d8a9a57a7b39d84f99c5a2443461e00104c7c0537c6d4c37bca48a`. Native Nota bundle SHA256 `f4cc89bc15d5d4231bd13f7791be90a4dd74b4197c397932018678172faaceee`. Receipt and full report: [NOTA_VERIFICATION.json](evidence/p12-nota/NOTA_VERIFICATION.json), [CP7_P12_NOTA.json.gz](evidence/p12-nota/CP7_P12_NOTA.json.gz).
 
@@ -42,7 +42,7 @@ Follow-up source `2da6bea030b6ee208da2a7d517404907ca4f59f4`, [run36580957254](ht
 
 Finance reader qualification covers native payroll headers, complete paged work/attendance/reimbursement/deduction/source-note history, finance-only access without operational permission, current revocation, canonical times, no read mutations and reversed historical amounts. An external child edit with unchanged header version changes the review token and visibly flags inconsistent totals; it is not silently recalculated.
 
-Next UI candidate routes Payroll & Kasbon in DISPOSABLE_TEST to this reader, with complete native totals, five detail tabs, source-note trace, current finance permission and stale-read retirement. Seven local financial DOM/contract tests pass, alongside the five Nota tests. Two new actual-browser review cases are predeclared, for **27 total**. These two cases have not yet run. Approval/payment and attendance/advance writers are still open.
+Next UI candidate routes Payroll & Kasbon in DISPOSABLE_TEST to this reader, with complete native totals, five detail tabs, source-note trace, current finance permission and stale-read retirement. Seven local financial DOM/contract tests pass, alongside the five Nota tests. Two new actual-browser review cases are predeclared, for **27 total**. Both browser cases now pass on `5da1fb6106c7c72058ebd73a782a5155f59c258d`, [run36583328093](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36583328093), **27/27 PASS**. Full archive, cleanup/restoration and both finance screenshots inspected; [PAYROLL_UI_VERIFICATION.json](evidence/p12-nota/PAYROLL_UI_VERIFICATION.json). Approval/payment writer qualification is the next candidate; its explicit scope is in [P12_PAYROLL_HANDOFF.md](P12_PAYROLL_HANDOFF.md).
 
 Next: preserve selected work when attaching attendance/accessory/advance sources; native APPROVED cost once; payment and inverse lifecycle; opening/carry balances; connected finance/attendance browser and E05. Native post_payroll_payment currently settles the full net amount; E05 partial payment remains a real integration obligation, not a silently claimed feature. P11/R10 and P13 remain open. P09 larger return/count/issue cases and full-family combined release gates also remain open.
 

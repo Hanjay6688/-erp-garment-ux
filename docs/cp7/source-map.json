@@ -1027,7 +1027,7 @@
     "consumer": "src/ConnectedNotaPage.tsx",
     "native_probe": "scripts/cp7_p12_nota_probe.py",
     "browser_probe": "scripts/cp7_p12_browser.mjs",
-    "status": "NOTA_FINANCE_READ_25_PASS_UI_CANDIDATE",
+    "status": "FINANCE_REVIEW_27_PASS_NATIVE_SETTLEMENT_CANDIDATE",
     "hosted_boundary_preserved": true,
     "production_go": false,
     "verification": "docs/cp7/evidence/p12-nota/NOTA_VERIFICATION.json",
@@ -1035,6 +1035,10 @@
     "finance_reader": "scripts/cp7-src/payroll/settlement-read.sql",
     "finance_consumer": "src/ConnectedPayrollPage.tsx",
     "finance_browser_probe": "scripts/cp7_p12_payroll_browser.mjs",
-    "finance_read_verification": "docs/cp7/evidence/p12-nota/PAYROLL_READ_VERIFICATION.json"
+    "finance_read_verification": "docs/cp7/evidence/p12-nota/PAYROLL_READ_VERIFICATION.json",
+    "finance_ui_verification": "docs/cp7/evidence/p12-nota/PAYROLL_UI_VERIFICATION.json",
+    "settlement_bundle": "scripts/cp7_settlement_bundle.py",
+    "settlement_cases": "scripts/cp7_settlement_cases.py",
+    "settlement_handoff": "docs/cp7/P12_PAYROLL_HANDOFF.md"
   }
 }
