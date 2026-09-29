@@ -34,10 +34,15 @@ def cases(cur,today):
   return dict(status='PASS',invoice='30.01',partial='10.01',remaining='20.00',full_cash='30.01',inverse_each_original_payment=True,cash_AR_gl_neutral_after_both_inverse=True,stock_stays7=True,immutable_posting_and_reversal_facts=2)
  def replay():
   f=fixture(cur,today);p,v=payment_payload(cur,f);key=uuid.uuid4();r=cmd.command(cur,'PAYMENT',p,v,key);assert cmd.command(cur,'PAYMENT',p,v,key)==r
-  inv=inverse(cur,f,r['payment_id']);assert inv['payment_status']=='REVERSED' and cmd.command(cur,'PAYMENT',p,v,key)==r
+  inverse_p,inverse_v=cmd.review(cur,f);inverse_p['payment_id']=r['payment_id'];inverse_key=uuid.uuid4()
+  inv=cmd.command(cur,'PAYMENT_REVERSE',inverse_p,inverse_v,inverse_key);assert inv['payment_status']=='REVERSED' and cmd.command(cur,'PAYMENT',p,v,key)==r
   bad=dict(p,amount='31');auth.refused(cur,lambda:cmd.command(cur,'PAYMENT',bad,v,key),'CP7_SALES_REQUEST_CHANGED')
   assert cur.execute('select count(*) from erp.sales_payments where sale_id=%s',(f['sale'],)).fetchone()[0]==1
-  return dict(status='PASS',one_payment_after_same_UUID=True,original_committed_outcome_after_inverse=True,changed_amount_refused=True)
+  subject,role=auth.custom_actor(cur)
+  for permission in ('finance.ar.view','sales.payment.view','sales.payment.reverse'):cur.execute('insert into erp.app_role_permissions(role_id,permission_key) values(%s,%s)',(role,permission))
+  cur.execute('update erp.app_users set role_id=%s where auth_user_id=%s',(role,auth.base.OPERATOR_AUTH))
+  auth.refused(cur,lambda:cmd.command(cur,'PAYMENT_REVERSE',inverse_p,inverse_v,inverse_key),'CP7_SALES_OWNER_ADMIN_REQUIRED')
+  return dict(status='PASS',one_payment_after_same_UUID=True,original_committed_outcome_after_inverse=True,changed_amount_refused=True,current_native_role_required_before_cached_inverse=True)
  def fields():
   f=fixture(cur,today);p,v=payment_payload(cur,f);before=b.boundary.snapshot(cur)
   for change in (dict(amount='1.001'),dict(amount=30),dict(amount='0'),dict(cash_account_id=None),dict(payment_method='OPENING_ADVANCE'),dict(unit_hpp='0'),dict(notes=3)):
@@ -79,7 +84,7 @@ def cases(cur,today):
   assert cash(cur,f,subject)['cash_accounts']['total']=='0';p,v=payment_payload(cur,f);key=uuid.uuid4();auth.refused(cur,lambda:cmd.command(cur,'PAYMENT',p,v,key,subject),'CP7_SALES_WRITE_DENIED')
   cur.execute("insert into erp.app_role_permissions(role_id,permission_key) values(%s,'sales.payment.post')",(role,));r=cmd.command(cur,'PAYMENT',p,v,key,subject);assert r['status']=='PARTIAL_PAID'
   assert cmd.command(cur,'PAYMENT',p,v,key,subject)==r
-  cur.execute("insert into erp.app_role_permissions(role_id,permission_key) values(%s,'sales.payment.reverse')",(role,));auth.refused(cur,lambda:inverse(cur,f,r['payment_id'],subject),'OWNER or ADMIN access required')
+  cur.execute("insert into erp.app_role_permissions(role_id,permission_key) values(%s,'sales.payment.reverse')",(role,));auth.refused(cur,lambda:inverse(cur,f,r['payment_id'],subject),'CP7_SALES_OWNER_ADMIN_REQUIRED')
   cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='sales.payment.view'",(role,));auth.refused(cur,lambda:cmd.command(cur,'PAYMENT',p,v,key,subject),'CP7_SALES_WRITE_DENIED');auth.refused(cur,lambda:cash(cur,f,subject),'CP7_SALES_CASH_DENIED')
   assert cur.execute('select count(*) from cp7_sales.command_context').fetchone()[0]==0
   return dict(status='PASS',custom_role_can_record_only_with_all_current_permissions=True,current_view_required_before_cached_outcome=True,native_OWNER_ADMIN_inverse_restriction_preserved=True)

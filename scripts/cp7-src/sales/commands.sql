@@ -19,7 +19,9 @@ begin
   or(p_action in('PAYMENT','PAYMENT_REVERSE') and not erp.has_permission('sales.payment.view'))
   or(p_action='PAYMENT' and not erp.has_permission('sales.payment.post'))
  then raise exception using errcode='42501',message='CP7_SALES_WRITE_DENIED';end if;
- a:=erp.get_my_access_v1();return a;
+ a:=erp.get_my_access_v1();
+ if p_action='PAYMENT_REVERSE' and coalesce(a->'profile'->>'role_code','') not in('OWNER','ADMIN') then raise exception using errcode='42501',message='CP7_SALES_OWNER_ADMIN_REQUIRED';end if;
+ return a;
 end $$;
 
 create function cp7_sales.apply_command(p_action text,p_payload jsonb,p_request uuid,p_expected text) returns jsonb

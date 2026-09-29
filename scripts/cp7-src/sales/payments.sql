@@ -11,7 +11,7 @@ begin
  if jsonb_typeof(p) is distinct from 'object' or not p ?& allowed or exists(select 1 from jsonb_object_keys(p) x where not x=any(allowed)) then raise exception 'CP7_SALES_PAYMENT_FIELDS';end if;
  foreach k in array allowed loop
   if k in('notes','reference_number') then
-   if jsonb_typeof(p->k) not in('string','null') or length(p->>k)>case when k='notes' then 2000 else 100 end then raise exception 'CP7_SALES_PAYMENT_FIELDS';end if;
+   if jsonb_typeof(p->k) not in('string','null') or length(p->>k)>(case when k='notes' then 2000 else 100 end) then raise exception 'CP7_SALES_PAYMENT_FIELDS';end if;
   elsif jsonb_typeof(p->k) is distinct from 'string' then raise exception 'CP7_SALES_PAYMENT_FIELDS';end if;
  end loop;
  if (p->>'sale_id')!~*'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'

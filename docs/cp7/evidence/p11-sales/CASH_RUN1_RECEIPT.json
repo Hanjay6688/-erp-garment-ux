@@ -1,0 +1,57 @@
+{
+  "status": "INSTALLATION_INCOMPLETE",
+  "source_commit": "2bbfba51886729a86eabb61fcdd8a94158df8b7b",
+  "source_tree": "02f2868e95501397f2409087b900b5c7fd031a22",
+  "run_id": 36627239210,
+  "job_id": 109607261055,
+  "artifact_id": 11061257938,
+  "artifact_bytes": 1625927,
+  "artifact_sha256": "72a51ea739a033dfdfa45fe67146f626d93648ba9e7346d59e0e044b3f056c6e",
+  "report_sha256": "0784f9de68d8a0a9cb82c28fdd3114ef2b5adcb24b5d2d0ea73dfdd9957cbaec",
+  "report_gzip_sha256": "7ec8eefd70ccf6805cd271314b3c0a1ae7b89f198bd05b87ce641d7e5068a1b8",
+  "source_bundle_sha256": "62af341294b83d240deb4ca2cc2d1536361b953186f6d7a475aef5d9ab0a24e8",
+  "declared_cases": 47,
+  "observed_cases": 0,
+  "case_disposition": {
+    "PASS": 0,
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 47
+  },
+  "classification_note": "All47 planned cases NOT_RUN because extension creation failed; installation itself INCOMPLETE. No manufactured per-case execution result.",
+  "error": "syntax error at end of input\nLINE 311: ...ring','null') or length(p->>k)>case when k='notes' then 2000...\n                                                               ^",
+  "cp6_restore_probe_reached": false,
+  "advisor_gate_probe_reached": false,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "2bbfba51886729a86eabb61fcdd8a94158df8b7b",
+    "product_ref": "2bbfba51886729a86eabb61fcdd8a94158df8b7b",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36627239210",
+    "run_attempt": "1",
+    "workflow": "CP7 P11 Sales",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "2bbfba51886729a86eabb61fcdd8a94158df8b7b",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": false,
+  "fix": "Parenthesize CASE expression inside PL/pgSQL IF condition. Also require current native OWNER/ADMIN role before cached inverse outcomes; replay test covers lost native-role authority.",
+  "independent_acceptance": false,
+  "production_go": false
+}

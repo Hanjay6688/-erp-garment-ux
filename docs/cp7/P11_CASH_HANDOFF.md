@@ -1,5 +1,9 @@
 # P11 ordinary customer cash receipt and inverse candidate
 
+## Installation run1 and repair
+
+Source `2bbfba51886729a86eabb61fcdd8a94158df8b7b`, [run36627239210](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36627239210), stopped while creating the payment validator: the CASE expression inside an IF condition needed parentheses. **0 cases executed; all47 remain NOT_RUN.** Extension installation was INCOMPLETE; its transaction did not commit. The CP7 restore/advisor probes were not reached and are not claimed. Original report and installer gate are preserved in [CASH_RUN1_RECEIPT.json](evidence/p11-sales/CASH_RUN1_RECEIPT.json). The syntax is corrected. The repair also enforces native OWNER/ADMIN authority before a cached payment-inverse outcome; the replay case now removes that native role after success and requires refusal. Native business functions are unchanged. Same47-case rerun pending.
+
 Implemented on the33-case qualified draft source. **47 cases declared; native/HTTP/browser result pending.** CP6 CLOSED_CONTRACT_SCOPE; P11/R10/F03 remain OPEN. This is writer evidence, not independent acceptance. `production_go=false`.
 
 `public.erp_cp7_get_sales_cash_v1` returns complete bounded payment history and active bank/cash options, bound to the exact selected invoice revision and full review token. Current invoice.view, payment.view and AR authority are required. Bank options additionally require payment.create/post. Both pages have native totals and explicit continuation. Original/reversed receipts remain visible; operational invoice readers receive no payment token or money.
