@@ -10,22 +10,41 @@ import cp6_auditor_runner as native
 import cp6_t3_package_run as package
 from cp6_t3_aligned_install import advisors,advisor_delta
 OUT=Path(__file__).resolve().parents[1]/'cp6-proof/t3/CP7_P09_PROCUREMENT.json'
+INSTALLED_FUNCTIONS=None
+
+def functions(cur):
+    path=cur.execute('show search_path').fetchone()[0]
+    cur.execute("select set_config('search_path','',true)")
+    try:return dict(cur.execute("select p.oid::regprocedure::text,md5(pg_get_functiondef(p.oid)||coalesce(p.proacl::text,'')) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where p.prokind='f' and (n.nspname in ('erp','public') or n.nspname like 'cp7_%') order by 1").fetchall())
+    finally:cur.execute("select set_config('search_path',%s,true)",(path,))
 
 def verify(cur):
-    value=wip.verify(cur)
+    # Accepted CP6 and F02 verification ran before the declared extension. Once
+    # it is installed, all function definitions/ACLs must match the captured
+    # installation, including the two explicitly replaced predecessor guards.
+    assert INSTALLED_FUNCTIONS is not None and functions(cur)==INSTALLED_FUNCTIONS,'P09_INSTALLED_FUNCTION_OR_ACL_CHANGED'
     assert cur.execute("select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_procurement' and (p.prosecdef or pg_get_userbyid(p.proowner)<>case when p.proname='command' then 'cp7_procure_write' else 'cp7_procure_read' end or p.proconfig is distinct from array['search_path=\"\"'])").fetchone()[0]==0
     for name,role in [('erp_cp7_get_procurement_v1','cp7_procure_read'),('erp_cp7_get_procurement_options_v1','cp7_procure_read'),('erp_cp7_save_procurement_v1','cp7_procure_write')]:
         assert cur.execute("select p.prosecdef and pg_get_userbyid(p.proowner)=%s and p.proconfig=array['search_path=\"\"'] from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname=%s",(role,name)).fetchone()==(True,)
-    return dict(value,cp7_p09_bundle_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest())
+    return dict(stage='CP7_F02_PLUS_DECLARED_P09',cp7_p09_bundle_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest())
 
 def run():
+    global INSTALLED_FUNCTIONS
     report=dict(label='CP7_P09_RECEIPT_BRIDGE',status='INCOMPLETE',production_go=False,independent_acceptance=False,
       scope='BOUNDED_RECEIPT_DRAFT_POST_LIVE_READ_NO_BROWSER_YET',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest())
     installed=False
     try:
         with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
             wip.policy.bf.verified(cur);before=package.boundary.snapshot(cur);public_before=native.public_state(cur);conn.rollback()
-            cur.execute(bundle.bundle(),prepare=False);conn.commit();installed=True;verify(cur);conn.rollback()
+            originals={s:cur.execute('select pg_get_functiondef(%s::regprocedure)',(s,)).fetchone()[0] for s in bundle.REPLACED}
+            cur.execute(bundle.cp7_wip_bundle.bundle(),prepare=False);report['accepted_and_f02_verified']=wip.verify(cur)
+            pre_functions=functions(cur)
+            cur.execute(bundle.extension(),prepare=False)
+            INSTALLED_FUNCTIONS=functions(cur)
+            changed={s for s,v in pre_functions.items() if INSTALLED_FUNCTIONS.get(s)!=v}
+            assert changed==set(bundle.REPLACED),('P09_UNDECLARED_PREDECESSOR_CHANGE',changed)
+            report['replaced_functions']={s:dict(before_sha256=hashlib.sha256(originals[s].encode()).hexdigest(),after_sha256=hashlib.sha256(cur.execute('select pg_get_functiondef(%s::regprocedure)',(s,)).fetchone()[0].encode()).hexdigest()) for s in bundle.REPLACED}
+            conn.commit();installed=True;verify(cur);conn.rollback()
         report['advisors_with_cp7']=advisors(package.boundary.PG)
         report['smoke']=native.strict_group('CP7_P09_SMOKE',cases.smoke,verify)
         assert report['smoke']['status']=='PASS','P09_SMOKE_INCOMPLETE'
@@ -36,12 +55,13 @@ def run():
     finally:
         if installed:
             with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
+                for definition in originals.values():cur.execute(definition,prepare=False)
                 cur.execute('drop owned by cp7_procure_write cascade;drop role cp7_procure_write;drop owned by cp7_procure_read cascade;drop role cp7_procure_read;drop owned by cp7_policy cascade;drop role cp7_policy;drop owned by cp7_capture cascade;drop role cp7_capture',prepare=False);conn.commit()
                 report['cp6_restored']=package.boundary.snapshot(cur)==before and native.public_state(cur)==public_before
                 conn.rollback();wip.policy.bf.verified(cur);conn.rollback()
             report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}))
             d=report['advisor_delta'];report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or (d['status']=='REVIEW_REQUIRED' and all(
-             f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and (f.get('metadata') or {}).get('schema') in ('cp7_private','cp7_identity','cp7_wip') for f in d.get('added',[])))
+             f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and (f.get('metadata') or {}).get('schema') in ('cp7_private','cp7_identity','cp7_wip','cp7_procurement') for f in d.get('added',[])))
         groups=[report.get(k,{}) for k in ('smoke','native','races','http')]
         report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and all(r.get('status') in ('PASS','RUN_COMPLETE') and set(r.get('counts',{}))=={'PASS'} and r['counts']['PASS']>0 and r.get('database_remaining',0)==0 for r in groups) else 'INCOMPLETE'
         OUT.parent.mkdir(parents=True,exist_ok=True);OUT.write_text(json.dumps(report,indent=2,default=str)+'\n')

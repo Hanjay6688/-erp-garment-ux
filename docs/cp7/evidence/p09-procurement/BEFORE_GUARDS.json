@@ -1,0 +1,53 @@
+{
+  "status": "WRITER_INCOMPLETE_PRODUCT_FINDINGS",
+  "source": "a10c3154b3d9a454dc5deb852a795b090cddd724",
+  "tree": "42d11f1e411ba4af74be1b2b0c55751b9dc99cda",
+  "run": 36516767000,
+  "job": 109240700041,
+  "artifact_id": 11010934118,
+  "zip_sha256": "68b55fefd1a3930cd74cc800da211ef01a4c9d5b710c4cf584d9fbb2dae67a21",
+  "report_sha256": "093dba9f7badd3f64290fed01511138a9c298c247b6a02ae3d1b7c321b1f2c26",
+  "gz_sha256": "7c1e881941cfdebb5301a520f6c4b2d32e4c39ef094fb47422acc09b8fea9bad",
+  "bundle_sha256": "97ec3fa00307592fa4247c6e62490c516c6f2185a3e4752fd1ca8dc66ef36c6e",
+  "counts": {
+    "smoke": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 4,
+      "INCOMPLETE": 4
+    },
+    "races": {
+      "PASS": 2,
+      "INCOMPLETE": 1
+    },
+    "http": {
+      "PASS": 1
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "adjudication": [
+    {
+      "type": "P09_INTEGRATION_DEFECT",
+      "affected": [
+        "P09_OPS_BENCHMARK",
+        "P09_PERMISSION_PRINCIPALS",
+        "P09_RACE_REVOKE_WAIT"
+      ],
+      "cause": "New granular custom role passes facade permissions but legacy internal guard rejects its custom role code before posting. Lock race did not reach the lock.",
+      "fix": "Private actor/transaction-bound procurement context recognized only for accepted receipt writers; no caller GUC bypass or broad role allowlist."
+    },
+    {
+      "type": "PREDECESSOR_PRODUCT_DEFECT_EXPOSED_IN_P09",
+      "affected": [
+        "P09_COMPLETE_PAGES_OPTIONS",
+        "P09_INVALID_ATOMIC"
+      ],
+      "cause": "Location trigger reads OLD.location_id on erp.locations, which has OLD.id; ordinary location updates fail.",
+      "fix": "Explicit CP7 extension delta uses OLD.id and retains zone identity/nonempty stock guards; add negative regression controls."
+    }
+  ],
+  "independent_acceptance": false,
+  "production_go": false
+}

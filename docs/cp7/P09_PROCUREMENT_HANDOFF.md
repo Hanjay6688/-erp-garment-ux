@@ -27,3 +27,12 @@ Workflow `cp7-p09-procurement.yml` rebuilds the accepted 30-file CP6 package in 
 - Full E01/E24/E14/E12, family independent audit and P18–P21 remain open.
 
 F02 carry: review failed-wash with unknown vendor pricing separately; ordinary deferred laundry UNKNOWN was qualified. Do not introduce SKU-specific laundry prices.
+
+## First native run: two concrete findings
+
+Source `a10c3154b3d9a454dc5deb852a795b090cddd724`, run `36516767000`: smoke, four native, two race and one real HTTP PASS; four native and one race INCOMPLETE. Full original report and adjudication are in `evidence/p09-procurement/BEFORE_GUARDS*`. Restore/advisors passed.
+
+1. **P09 integration defect:** custom permission roles pass the new facade but fail the accepted internal role-code guard. The revoke race consequently never reached its row lock. The fix adds a private transaction/actor-bound execution context for SAVE_DRAFT/POST; the common guard recognizes only its exact permission/action pair. No caller-controlled setting grants admission. Context disappears before success or rolls back with a failure.
+2. **Predecessor product defect exposed by P09:** the existing location trigger refers to `OLD.location_id` on `erp.locations`, where the column is `id`. Ordinary updates fail. An explicit CP7 delta corrects this reference and qualifies zone type/delete/nonempty-stock negative controls. This finding does not revoke the already accepted CP6 contract milestone; its affected continuation must pass before P09 closes.
+
+`accepted-deltas.sql` refuses unless both predecessor definitions match their accepted SHA256. Original CP6 files are unchanged. The runner verifies accepted CP6/F02 before extension, checks that exactly the two declared predecessor functions changed, pins every installed function/ACL for all cases, and restores the two originals before the final CP6 boundary comparison. This is a product extension plus rollback proof, not a patched test oracle. The next native result remains pending.

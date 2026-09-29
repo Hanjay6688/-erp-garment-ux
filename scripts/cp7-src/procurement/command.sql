@@ -36,18 +36,21 @@ begin
    end loop;
   end loop;
   if price and a->'can_value'<>'true'::jsonb then raise exception using errcode='42501',message='CP7_PROCUREMENT_VALUE_DENIED';end if;
+  insert into cp7_procurement.execution_context values(pg_backend_pid(),txid_current(),auth.uid(),p_action,'warehouse.procurement.create');
   r:=erp.save_material_purchase_draft_v2(p_payload,p_request,expected);
  else
   if a->'can_post'<>'true'::jsonb then raise exception using errcode='42501',message='CP7_PROCUREMENT_POST_DENIED';end if;
   perform cp7_procurement.fields(p_payload,array['purchase_id','change_reason'],array['purchase_id','change_reason']);
   if exists(select 1 from jsonb_each(p_payload) e where jsonb_typeof(e.value)<>'string') then raise exception 'CP7_PROCUREMENT_FIELDS';end if;
   if expected is null then raise exception 'CP7_PROCUREMENT_VERSION';end if;
+  insert into cp7_procurement.execution_context values(pg_backend_pid(),txid_current(),auth.uid(),p_action,'warehouse.procurement.post');
   r:=erp.post_material_purchase_v2((p_payload->>'purchase_id')::uuid,p_request,expected,p_payload->>'change_reason');
  end if;
  -- A revocation while an existing business writer waited rolls back the entire
  -- call. A cached outcome is checked against current access as well.
  z:=cp7_procurement.access_now();
  if z<>a then raise exception using errcode='42501',message='CP7_PROCUREMENT_ACCESS_CHANGED';end if;
+ delete from cp7_procurement.execution_context where backend_pid=pg_backend_pid() and transaction_id=txid_current();
  return jsonb_build_object('contract_version','cp7.procurement-outcome.v1','kind','COMMITTED_OUTCOME',
   'action',p_action,'request_id',p_request,'purchase_id',r->'purchase_id','status',r->'status','row_version',r->>'row_version');
 end $$;

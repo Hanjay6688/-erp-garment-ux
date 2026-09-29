@@ -4,13 +4,23 @@ create role cp7_procure_read nologin noinherit nosuperuser nocreatedb nocreatero
 create role cp7_procure_write nologin noinherit nosuperuser nocreatedb nocreaterole noreplication;
 create schema cp7_procurement authorization cp7_procure_read;
 revoke all on schema cp7_procurement from public,anon,authenticated,service_role;
-grant usage on schema cp7_procurement to cp7_procure_write;
+grant usage,create on schema cp7_procurement to cp7_procure_write;
 grant usage on schema erp,auth to cp7_procure_read,cp7_procure_write;
 grant execute on function auth.uid(),auth.jwt(),erp.get_my_access_v1(),erp.has_permission(text) to cp7_procure_read,cp7_procure_write;
 grant select on erp.material_purchase_headers,erp.material_purchase_items,erp.material_rolls,
  erp.materials,erp.suppliers,erp.locations,erp.material_stock_movements to cp7_procure_read;
 grant execute on function erp.save_material_purchase_draft_v2(jsonb,uuid,bigint),
  erp.post_material_purchase_v2(uuid,uuid,bigint,text) to cp7_procure_write;
+create table cp7_procurement.execution_context(
+ backend_pid integer not null,transaction_id bigint not null,actor uuid not null,
+ action text not null check(action in ('SAVE_DRAFT','POST')),
+ permission_key text not null,primary key(backend_pid,transaction_id),
+ check((action='SAVE_DRAFT' and permission_key='warehouse.procurement.create')
+    or(action='POST' and permission_key='warehouse.procurement.post'))
+);
+alter table cp7_procurement.execution_context owner to cp7_procure_write;
+alter table cp7_procurement.execution_context enable row level security;
+revoke all on cp7_procurement.execution_context from public,anon,authenticated,service_role,cp7_capture,cp7_procure_read;
 
 create function cp7_procurement.access_now() returns jsonb
 language plpgsql stable security invoker set search_path='' as $$

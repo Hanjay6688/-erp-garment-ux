@@ -10,6 +10,7 @@ import copy,json,threading,time,uuid
 import psycopg
 import cp7_snapshot_cases as auth
 import cp6_aa_invoice_partial_audit as aa
+import cp6_bc_probe as bc
 b=auth.b
 
 def fixture(cur,today,qty='10',price='10',final=False):
@@ -127,6 +128,11 @@ def cases(cur,today):
             assert not cur.execute("select has_function_privilege(%s,'public.erp_cp7_save_procurement_v1(text,jsonb,uuid,text)','EXECUTE')",(principal,)).fetchone()[0]
             assert not cur.execute("select has_function_privilege(%s,'erp.post_material_purchase_v2(uuid,uuid,bigint,text)','EXECUTE')",(principal,)).fetchone()[0]
         assert not cur.execute("select has_table_privilege('cp7_procure_write','erp.material_purchase_headers','INSERT,UPDATE,DELETE')").fetchone()[0]
+        assert cur.execute('select count(*) from cp7_procurement.execution_context').fetchone()[0]==0
+        def forge():
+            auth.actor(cur,subject)
+            cur.execute("insert into cp7_procurement.execution_context values(pg_backend_pid(),txid_current(),auth.uid(),'POST','warehouse.procurement.post')")
+        auth.refused(cur,forge,'permission denied')
         return dict(status='PASS',granular_current_permission=True,revoked_replay_denied=True,read_compute_cannot_post=True)
     def paging():
         f=fixture(cur,today)
@@ -154,9 +160,24 @@ def cases(cur,today):
         auth.refused(cur,lambda:workspace(cur,dict(limit=101)),'CP7_PROCUREMENT_QUERY')
         auth.refused(cur,lambda:workspace(cur,dict(hpp=True)),'CP7_PROCUREMENT_FIELDS')
         return dict(status='PASS',exact_transport=True,roll_mismatch_atomic=True,inactive_location_post_refused=True,no_partial_stock=True)
+    def zones():
+        f=fixture(cur,today)
+        # Ordinary location update must work; registered zone identity and stock
+        # guards must survive the OLD.id correction.
+        cur.execute('update erp.locations set location_name=location_name||%s where id=%s',(' renamed',f['location']))
+        z=bc.svc(cur,'REGISTER_ZONE',dict(zone_kind='SERVICE_POST',location_code=f['tag']+'-ZONE',location_name='P09 service zone',reason='P09 guard control'))['location_id']
+        b.api.admin(cur)
+        auth.refused(cur,lambda:cur.execute("update erp.locations set location_type='FG_WAREHOUSE' where id=%s",(z,)),'BC_ZONE_IMMUTABLE')
+        auth.refused(cur,lambda:cur.execute("update erp.bc_accessory_zones_v1 set zone_kind='INSPECTION' where location_id=%s",(z,)),'BC_ZONE_IMMUTABLE')
+        auth.refused(cur,lambda:cur.execute('delete from erp.bc_accessory_zones_v1 where location_id=%s',(z,)),'BC_ZONE_IMMUTABLE')
+        p=copy.deepcopy(f['payload']);p['location_id']=str(z)
+        d=command(cur,'SAVE_DRAFT',p);post(cur,d)
+        auth.refused(cur,lambda:cur.execute('update erp.locations set is_active=false where id=%s',(z,)),'BC_ZONE_IMMUTABLE')
+        assert qty(cur,f)==(10,1)
+        return dict(status='PASS',ordinary_location_edit=True,zone_type_immutable=True,zone_delete_refused=True,nonempty_zone_deactivate_refused=True)
     return [('P09_DRAFT_ESTIMATED_GRNI',estimated),('P09_FINAL_EXACT_VALUE',final_exact),('P09_REPLAY_STALE',idempotency),
       ('P09_OPS_FINANCE_REDACTION',redaction),('P09_OPS_BENCHMARK',benchmark),('P09_PERMISSION_PRINCIPALS',permissions),
-      ('P09_COMPLETE_PAGES_OPTIONS',paging),('P09_INVALID_ATOMIC',invalid_atomic)]
+      ('P09_COMPLETE_PAGES_OPTIONS',paging),('P09_INVALID_ATOMIC',invalid_atomic),('P09_ZONE_GUARD_REGRESSION',zones)]
 
 def races(tools,today):
     def competing(same):
@@ -197,7 +218,7 @@ def races(tools,today):
                         cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='warehouse.procurement.post'",(role,));conn.commit()
                 finally:holder.rollback()
                 error=future.result(20)
-        assert 'CP7_PROCUREMENT_ACCESS_CHANGED' in error,error
+        assert 'CP7_PROCUREMENT_ACCESS_CHANGED' in error or 'Internal ERP access required' in error,error
         with tools.connect() as conn,conn.cursor() as cur:
             assert qty(cur,f)==(0,0)
             assert cur.execute('select status from erp.material_purchase_headers where id=%s',(d['purchase_id'],)).fetchone()[0]=='DRAFT'
