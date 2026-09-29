@@ -1,0 +1,94 @@
+{
+  "status": "PASS",
+  "source_commit": "9861692f79764860c6241234dc280a1a956a2a10",
+  "source_tree": "0bbf7f31a97eb7c315f8d19f871bc65bd7d32225",
+  "run_id": 36639703448,
+  "job_id": 109648821811,
+  "artifact_id": 11066710739,
+  "artifact_bytes": 6470432,
+  "artifact_sha256": "0df571aa4e7ddfc7780def0c581a389ba8d678379b55fefa247363a65e611f63",
+  "report_sha256": "cc7ad8026484fbadc8e73741ac3df9bb09c57ac65ea51c97b06ec05759a6f070",
+  "report_gzip_sha256": "c579c9785c6af63dcd5d9cad8c1870eef7e3b060cb1ada0335cc4856ed023552",
+  "source_bundle_sha256": "5396b3f08b7f51004017987c0c5fafd36a27b22c3613f66e1ea0929eb534af5e",
+  "counts": {
+    "PASS": 25,
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0
+  },
+  "observed_case_count": 25,
+  "expected_cases": 25,
+  "groups": {
+    "native": {
+      "PASS": 8
+    },
+    "races": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    },
+    "period_native": {
+      "PASS": 8
+    },
+    "period_races": {
+      "PASS": 2
+    },
+    "period_http": {
+      "PASS": 1
+    },
+    "period_browser": {
+      "PASS": 2
+    }
+  },
+  "nonpassing_cases": {},
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "9861692f79764860c6241234dc280a1a956a2a10",
+    "product_ref": "9861692f79764860c6241234dc280a1a956a2a10",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36639703448",
+    "run_attempt": "1",
+    "workflow": "CP7 P13 Period control",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "9861692f79764860c6241234dc280a1a956a2a10",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": true,
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false,
+  "visual_scope": "Desktop1440 and mobile390 inspected in full and mobile control crop. No horizontal overflow; close/archive/read/reopen and lost-response recovery pass. The reason textarea is a white browser default and the confirmation checkbox has inherited full-width styling. A scoped dark textarea and existing cproc-check style are now a pending presentation correction; functional25 remains qualified on this exact source.",
+  "screenshots": {
+    "P13_PERIOD_DESKTOP.png": {
+      "sha256": "75f20ffeb60b336c03205ed92d844b95a063455bf1c35d637423e5b826a27bee",
+      "bytes": 1360064
+    },
+    "P13_PERIOD_MOBILE.png": {
+      "sha256": "84128f3387e2d57800ffd068cea8e868c9ace9ef42314806aabf3495e5427ba7",
+      "bytes": 1081835
+    }
+  }
+}

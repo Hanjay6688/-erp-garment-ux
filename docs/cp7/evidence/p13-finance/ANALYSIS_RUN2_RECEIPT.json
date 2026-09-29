@@ -1,0 +1,122 @@
+{
+  "status": "INCOMPLETE",
+  "source_commit": "9861692f79764860c6241234dc280a1a956a2a10",
+  "source_tree": "0bbf7f31a97eb7c315f8d19f871bc65bd7d32225",
+  "run_id": 36639703356,
+  "job_id": 109648821753,
+  "artifact_id": 11066910380,
+  "artifact_bytes": 4080763,
+  "artifact_sha256": "55663284e9e7f3b96ab1486e00192e5af199ec652ab9acb05b5da0a455b5422c",
+  "report_sha256": "1552a53b4fa6e4782b9163e77286a32a218ca336e455c0bc0b3a04bd789a356a",
+  "report_gzip_sha256": "122bf5bff5ce8a98bc08d9349cd6e8bbc63de33e533daec44abd012329eb5382",
+  "source_bundle_sha256": "5396b3f08b7f51004017987c0c5fafd36a27b22c3613f66e1ea0929eb534af5e",
+  "counts": {
+    "PASS": 15,
+    "FAIL": 0,
+    "INCOMPLETE": 7,
+    "NOT_RUN": 2
+  },
+  "observed_case_count": 22,
+  "expected_cases": 24,
+  "groups": {
+    "native": {
+      "PASS": 8
+    },
+    "races": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    },
+    "analysis_native": {
+      "PASS": 3,
+      "INCOMPLETE": 5
+    },
+    "analysis_races": {
+      "INCOMPLETE": 1
+    },
+    "analysis_http": {
+      "INCOMPLETE": 1
+    },
+    "analysis_browser": {
+      "NOT_RUN": 2
+    }
+  },
+  "nonpassing_cases": {
+    "P13_ANALYSIS_O14": {
+      "status": "INCOMPLETE",
+      "error": ""
+    },
+    "P13_ANALYSIS_INVERSE_DATES": {
+      "status": "INCOMPLETE",
+      "error": ""
+    },
+    "P13_ANALYSIS_PAGES_COA_SCOPE": {
+      "status": "INCOMPLETE",
+      "error": ""
+    },
+    "P13_ANALYSIS_DATES_QUERY": {
+      "status": "INCOMPLETE",
+      "error": ""
+    },
+    "P13_ANALYSIS_EXACT_LARGE": {
+      "status": "INCOMPLETE",
+      "error": ""
+    },
+    "P13_ANALYSIS_CONCURRENT_CASH": {
+      "status": "INCOMPLETE",
+      "error": ""
+    },
+    "P13_ANALYSIS_HTTP": {
+      "status": "INCOMPLETE",
+      "error": ""
+    },
+    "P13_ANALYSIS_BROWSER_DESKTOP": {
+      "status": "NOT_RUN",
+      "error": "Browser cases never created: native source preparation was refused before the browser cases list was returned."
+    },
+    "P13_ANALYSIS_BROWSER_MOBILE": {
+      "status": "NOT_RUN",
+      "error": "Browser cases never created: native source preparation was refused before the browser cases list was returned."
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "9861692f79764860c6241234dc280a1a956a2a10",
+    "product_ref": "9861692f79764860c6241234dc280a1a956a2a10",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36639703356",
+    "run_attempt": "1",
+    "workflow": "CP7 P13 Finance Analysis",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "9861692f79764860c6241234dc280a1a956a2a10",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false,
+  "diagnosis": "Same15 PASS,7 INCOMPLETE and2 NOT_RUN. Journal permission is no longer the failing guard: disposable fixture preparation now rejects the actual supabase_admin connection because its new assertion allowed only postgres. The runtime uses supabase_admin for its isolated database, and the unchanged accepted native guard already explicitly admits both database administrators. Restrict the fixture assertion to those two actual administrator names, preserve actual OWNER claims, and add no grant. Business oracles remain unchanged."
+}

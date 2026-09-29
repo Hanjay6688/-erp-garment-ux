@@ -252,7 +252,7 @@
     "verification": "docs/cp7/evidence/p09-procurement/UNMOVED_QUALIFIED_RECEIPT.json"
   },
   "p13_period_candidate": {
-    "status": "RUN3_23_PASS_2_BROWSER_INCOMPLETE_REASON_LABEL_RETEST_PENDING",
+    "status": "WRITER_BOUNDED_25_PASS",
     "handoff": "docs/cp7/P13_PERIOD_HANDOFF.md",
     "expected_cases": 25,
     "retained_report_cases": 12,
@@ -260,12 +260,13 @@
     "local_period_cases": 6,
     "independent_acceptance": false,
     "production_go": false,
-    "diagnostic": "docs/cp7/evidence/p13-finance/ANALYSIS_PERIOD_REGRESSION_RECEIPT.json",
-    "source_commit": "e2b3529fcd4725829fe4dbbbaf049152fca69c25",
-    "source_tree": "d32545b246d511a3c166e827cb963b919c51b9e9"
+    "source_commit": "9861692f79764860c6241234dc280a1a956a2a10",
+    "source_tree": "0bbf7f31a97eb7c315f8d19f871bc65bd7d32225",
+    "verification": "docs/cp7/evidence/p13-finance/PERIOD_QUALIFIED_RECEIPT.json",
+    "run_id": 36639703448
   },
   "p13_analysis_candidate": {
-    "status": "RUN1_15_PASS_7_INCOMPLETE_2_NOT_RUN_FIXTURE_RETEST_PENDING",
+    "status": "RUN2_15_PASS_7_INCOMPLETE_2_NOT_RUN_FIXTURE_ADMIN_RETEST_PENDING",
     "handoff": "docs/cp7/P13_ANALYSIS_HANDOFF.md",
     "expected_cases": 24,
     "retained_report_cases": 12,
@@ -273,8 +274,8 @@
     "local_analysis_cases": 8,
     "independent_acceptance": false,
     "production_go": false,
-    "source_commit": "e2b3529fcd4725829fe4dbbbaf049152fca69c25",
-    "source_tree": "d32545b246d511a3c166e827cb963b919c51b9e9",
-    "diagnostic": "docs/cp7/evidence/p13-finance/ANALYSIS_RUN1_RECEIPT.json"
+    "source_commit": "9861692f79764860c6241234dc280a1a956a2a10",
+    "source_tree": "0bbf7f31a97eb7c315f8d19f871bc65bd7d32225",
+    "diagnostic": "docs/cp7/evidence/p13-finance/ANALYSIS_RUN2_RECEIPT.json"
   }
 }

@@ -16,7 +16,7 @@ def fixture_journal_call(cur,sql,args):
  # real OWNER claims required by the unchanged native business guard. No grant
  # is added; all report/HTTP/browser calls still use their actual app identity.
  auth.actor(cur);b.api.admin(cur)
- assert cur.execute('select current_user').fetchone()[0]=='postgres'
+ assert cur.execute('select current_user').fetchone()[0] in ('postgres','supabase_admin')
  return cur.execute(sql,args).fetchone()[0]
 def journal(cur,day,lines,label='P13_ANALYSIS_FIXTURE'):
  return fixture_journal_call(cur,'select erp.post_journal(%s,%s,%s,%s,%s)',(label,uuid.uuid4(),day,'P13 source through accepted native journal',json.dumps(lines)))

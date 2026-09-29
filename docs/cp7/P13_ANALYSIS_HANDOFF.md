@@ -1,5 +1,9 @@
 # P13 recorded comparison and cash ledger — candidate
 
+## Second run: same15 PASS /7 INCOMPLETE /2 NOT_RUN
+
+[Run36639703356](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36639703356) on `9861692f79764860c6241234dc280a1a956a2a10` retains the same counts. The preparation helper now stops at its own overly narrow postgres assertion: the isolated runtime actually connects as supabase_admin. Both names are already admitted by the unchanged native guard. The fixture now accepts exactly those administrator identities, keeps OWNER claims and adds no app/reader grant. [Original result and diagnosis](evidence/p13-finance/ANALYSIS_RUN2_RECEIPT.json). No new cash correctness or browser claim is made before retest.
+
 ## First native result retained; source-preparation repair
 
 [Run36638747375](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36638747375), source `e2b3529fcd4725829fe4dbbbaf049152fca69c25`, tree `d32545b246d511a3c166e827cb963b919c51b9e9`: **15 PASS /0 FAIL /7 INCOMPLETE /2 NOT_RUN**. The twelve original report cases, O13 native comparison, zero-baseline and reader access cases pass. Seven cash cases stop during preparation because the internal native journal primitive is intentionally not granted to authenticated users. Both analysis browser cases never start; they are explicitly NOT_RUN, not silently omitted from24. Restoration/advisor/Auth/database cleanup gates pass. [Unchanged original report and receipt](evidence/p13-finance/ANALYSIS_RUN1_RECEIPT.json).

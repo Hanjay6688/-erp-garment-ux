@@ -1,4 +1,10 @@
-# P13 reviewed period control — candidate
+# P13 reviewed period control — bounded writer qualification
+
+## Qualified:25 PASS on9861692
+
+[Run36639703448](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36639703448), source `9861692f79764860c6241234dc280a1a956a2a10`, tree `0bbf7f31a97eb7c315f8d19f871bc65bd7d32225`: **25 PASS /0 FAIL /0 INCOMPLETE /0 NOT_RUN**. Both real browser journeys now close, read the immutable archive and reopen; mobile recovers the same lost-CLOSE request after reload without another archive. Native8, races2, HTTP1 and the retained report12 all pass. CP6 restoration, advisors, Auth/database cleanup and package gates pass. [Receipt and retained report](evidence/p13-finance/PERIOD_QUALIFIED_RECEIPT.json). [Same-source combined22](evidence/p13-finance/PERIOD_QUALIFIED_COMBINED_RECEIPT.json) also passes.
+
+Actual desktop1440/mobile390 screenshots were inspected, including the mobile controls. Layout stays within the viewport. Review found browser-default styling on the reason textarea and an oversized confirmation checkbox; a scoped textarea style and the existing checkbox class are now corrected for the next screenshot run. This visual correction does not erase the source-bound functional qualification. P13/F03 remain OPEN and independent_acceptance/production_go remain false. Earlier attempts below are historical, superseded by this25-case result.
 
 ## Third run and same-source regression:23 PASS /2 INCOMPLETE
 

@@ -1,0 +1,77 @@
+{
+  "status": "PASS",
+  "source_commit": "9861692f79764860c6241234dc280a1a956a2a10",
+  "source_tree": "0bbf7f31a97eb7c315f8d19f871bc65bd7d32225",
+  "run_id": 36639703446,
+  "job_id": 109648821804,
+  "artifact_id": 11066062618,
+  "artifact_bytes": 6377522,
+  "artifact_sha256": "1f1e47bb08de1fd0c66bb09d25b17fefd59dc494235375e455e1f85150effa98",
+  "report_sha256": "0ba9f9e75e6589056beefe2b375632c88cb3c5b02ed9c8c0126256acf1b7c58a",
+  "report_gzip_sha256": "015e6f36bf0bc716669129e67eef934f9f9c52ed25ae0e88735a932a81b8771d",
+  "source_bundle_sha256": "6a0b07a807b8c7959d889baef25290494e785ca4c6ef7412fb6d47d8b6688adf",
+  "counts": {
+    "PASS": 22,
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0
+  },
+  "observed_case_count": 22,
+  "expected_cases": 22,
+  "groups": {
+    "native": {
+      "PASS": 10
+    },
+    "races": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 4
+    },
+    "sales_browser": {
+      "PASS": 2
+    },
+    "opening_payroll_browser": {
+      "PASS": 2
+    },
+    "finance_browser": {
+      "PASS": 2
+    }
+  },
+  "nonpassing_cases": {},
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "9861692f79764860c6241234dc280a1a956a2a10",
+    "product_ref": "9861692f79764860c6241234dc280a1a956a2a10",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36639703446",
+    "run_attempt": "1",
+    "workflow": "CP7 F03 Combined Stack",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "9861692f79764860c6241234dc280a1a956a2a10",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false
+}
