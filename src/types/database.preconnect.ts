@@ -25,6 +25,7 @@ export type PreconnectDatabase = {
     }
     Functions: {
       erp_cp7_save_payroll_v1: { Args: { p_action: string; p_payload: Json; p_request: string; p_expected: string }; Returns: Json }
+      erp_cp7_get_finance_report_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_sales_returns_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_sales_cash_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_sales_form_v1: { Args: { p_query: Json }; Returns: Json }

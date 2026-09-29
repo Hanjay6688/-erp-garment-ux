@@ -38,7 +38,8 @@
     "P09": "BOUNDED_125_PASS_MULTI_INPUT_COUNTS_AND_COMBINED_INVOICES_REMAINING_SCOPE_OPEN",
     "P10": "FG_BOOK_34_PASS_NOTA_COMPOSITION_QUALIFIED_SCOPE_OPEN",
     "P12": "BOUNDED_ATTENDANCE_SOURCE_TO_PAYROLL_80_PASS_REMAINING_SCOPE_OPEN",
-    "P11": "RETURN64_RUN2_ALIAS_FAILURE_AND_AUTH_CLEANUP_REFUSE_ACCEPTANCE"
+    "P11": "RETURN64_RUN2_ALIAS_FAILURE_AND_AUTH_CLEANUP_REFUSE_ACCEPTANCE",
+    "P13": "BOUNDED_REPORT_ARCHIVE_READER_CANDIDATE_PENDING"
   },
   "inherited_scope": {
     "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
@@ -53,7 +54,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Qualify the P11 return SQL alias and failed-route cleanup repair with the same64 cases; complete P13 report reader proof. F03 OPEN, E05 contract, remaining P09, combined family installation and independent acceptance outstanding.",
+  "next_action": "Qualify P11 return64 repaired alias/cleanup and P13 report/archive reader12 on their exact sources, then continue outstanding F03 finance/settlement/combined integration before F04 takeover.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -208,5 +209,15 @@
       "r10_browser_cases": 2,
       "r10_browser_status": "WRITER_SOURCE_LIFECYCLE_PASS_INDEPENDENT_PENDING"
     }
+  },
+  "p13_entry": {
+    "status": "DATED_REPORT_ARCHIVE_READER_CANDIDATE_NATIVE_PENDING",
+    "handoff": "docs/cp7/P13_FINANCE_HANDOFF.md",
+    "qualifier": "scripts/cp7_p13_finance_probe.py",
+    "expected_cases": 12,
+    "financial_writes_connected": false,
+    "same_candidate_full_family_qualified": false,
+    "independent_acceptance": false,
+    "production_go": false
   }
 }
