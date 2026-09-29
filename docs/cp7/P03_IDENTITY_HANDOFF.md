@@ -1,6 +1,8 @@
 # P03 — identity and production status
 
-Status: CONTRACT_PREPARED; implementation and native execution NOT_RUN. This starts family 2 while the first family's final evidence is being preserved. The policy command described here is a proposed CP7 command, not an already connected operator feature.
+Status: WRITER_NATIVE_PASS for production policy and captured/current identity. Full F02 remains IN_PROGRESS; operator UI and canonical WIP source integration are not yet connected. Evidence: [verification receipt](evidence/p03-policy/VERIFICATION.json).
+
+Tested backend `c56c3bb9b84a8d24e8dbe7a3b22bbd98b4d39111`: [run 36509688817](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36509688817), 10 native + 4 transaction races + 1 real Auth/HTTP case, plus fixture smoke. CP6 restored and advisor gate passed. App source-ownership fix `93fa65c2220da62e1b98a77e069b4b04af2816b6`: [app/build/browser/security/CodeQL run 36510654525](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36510654525) passed. This is writer evidence, not independent acceptance.
 
 ## Existing authorities and exact scope
 
@@ -28,3 +30,11 @@ Status: CONTRACT_PREPARED; implementation and native execution NOT_RUN. This sta
 | Read/compute principal invokes policy writer | Permission denied, including with a broad user JWT |
 
 The P03/P04 canonical lineage graph and O15 conservation remain required work in family 2. P03 status proof alone cannot close O17's target/gap/start-new arithmetic, which must also be exercised through the planning engine. No production connection, independent acceptance or CP7 closure is claimed here.
+
+## Additional executed controls
+
+- Immutable source run preserves original SKU B and 6 PCS while the explicit current restatement reports SKU A. Other actors cannot read the run.
+- Price-only version changes set `commercial_version_changed=true` and `group_changed=false`; policy remains applicable when its reviewed member set is unchanged.
+- A real Auth session can read capture/current identity labels. Revoked/inactive users cannot replay the policy command.
+- Transport decoder refuses unknown fields (including financial extras), missing/duplicate/overlapping members and a partial or wrong-request committed outcome. Exact revision strings survive values above JavaScript safe integer. Decoder currently lives in `contracts/cp7`, is typechecked/tested, and is not shipped through an unused browser import.
+- Earlier setup-only failures and their corrections are recorded in the receipt; none was counted as a passing product test.

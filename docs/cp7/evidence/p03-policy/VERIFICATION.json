@@ -1,0 +1,75 @@
+{
+  "status": "WRITER_NATIVE_PASS",
+  "independent_acceptance": false,
+  "production_go": false,
+  "tested_source": "c56c3bb9b84a8d24e8dbe7a3b22bbd98b4d39111",
+  "tested_tree": "55974516adc866e5bdb8a52b7808c64ae3bf2667",
+  "bundle_sha256": "3950c19cd413a719471ee88a03a1c3308ff13b76ddcbd47c672c052099da64c7",
+  "run": 36509688817,
+  "job": 109218856601,
+  "artifact": {
+    "id": 11009006689,
+    "zip_sha256": "ad31de4bff1539772f0cbef215a8e112baf8949fc3e69c43c454d5d8c2b2f718",
+    "report_sha256": "426b9047c335a64b334698ec0c3cdcf61867d38a36b96353eb8cd35703bbc8ea",
+    "report_gz_sha256": "b8b9bf762b7674d6457047bd3df2121677cdb43aa1b026432bb983be13e0442b"
+  },
+  "cases": {
+    "native": {
+      "PASS": 10
+    },
+    "races": {
+      "PASS": 4
+    },
+    "http": {
+      "PASS": 1
+    }
+  },
+  "fixture_smoke": {
+    "PASS": 1
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "source_hashes": {
+    "scripts/cp7_p03_identity_probe.py": "1dc4ee47d907f9f06c994cdbca3fce0f8fc1c38226c8b19009f6486262867a98",
+    "scripts/cp7_identity_bundle.py": "b4154345b729f3c3506c9c8046cf5db0d37cf066ff997a637cda0714a02031c6",
+    "scripts/cp7_identity_cases.py": "f3e71a95c91169c8007cbbc1e1729f795573a9c6b260d1bea55f453f8932011c",
+    ".github/workflows/cp7-p03-identity.yml": "305b9a7e9179027392d9f55e8f7213646606fdcafe8b58aa6405170a77753f43",
+    "scripts/cp7-src/identity/bootstrap.sql": "29ec0cc24ba7784300eb480a27cc635428b80d9cfdefa3b242a2ac8c83a937c4",
+    "scripts/cp7-src/identity/command.sql": "847c82b25b2c87b0cfbddd3e91ac91b07f025d411d3faffa44f05ea31df7e3af",
+    "scripts/cp7-src/identity/history.sql": "e78b35242bc95e46b38ce3bfe2d535e796d698e265f7601a88b5bd7b5d2b0c6b",
+    "scripts/cp7-src/identity/workspace.sql": "417335fe50095bd903c7bb305b25ae4cbfef9b17986883190a661eeefb99165e"
+  },
+  "application": {
+    "tested_source": "93fa65c2220da62e1b98a77e069b4b04af2816b6",
+    "run": 36510654525,
+    "status": "SUCCESS",
+    "previous_failure": {
+      "run": 36509691846,
+      "reason": "UNCONSUMED_BROWSER_CONTRACT",
+      "fix": "Transport contracts moved outside browser entrypoint; dedicated build typecheck; source gate unchanged"
+    }
+  },
+  "limitations": [
+    "No production connection",
+    "Canonical WIP graph and source adapter continue in P04",
+    "O17 planning arithmetic remains a downstream integration gate",
+    "F02 family not yet complete"
+  ],
+  "setup_failures": [
+    {
+      "run": 36507254159,
+      "reason": "Fixture before seeded runner",
+      "fix": "Seeded strict group smoke"
+    },
+    {
+      "run": 36507692343,
+      "reason": "Fixture exactly at rolling five-minute boundary",
+      "fix": "Four-minute fixture inside unchanged rule"
+    },
+    {
+      "run": 36508120127,
+      "reason": "Mixed factory color identities",
+      "fix": "One coherent builder with explicit identity assertions; product guards unchanged"
+    }
+  ]
+}
