@@ -1,0 +1,9 @@
+# Supplemental X06 oracle — after peer disclosure
+
+The user supplied PR34/run36525980112 after the main F02 audit had completed. This follow-up is explicitly informed by that disclosure; it does not become an independently discovered finding. Peer raw logs already show `INCOMPATIBLE/COLOR_MISMATCH` followed by `FEASIBLE` with a forged positive label. A green peer workflow means its reproduction assertion succeeded, not that the product rejected the edge.
+
+Frozen product remains 17e85404c9c5f088875099d7875be6342ca6b266. The owner registry assigns X06 to P04 and requires incompatible positive edges to be rejected. Writer documents that the authoritative source/target join remains P06/P07; consequently this is an OPEN integration acceptance gate, not evidence of a reachable operational exploit. The kernel's capacity/yield checks on legitimately matched edges remain independently useful.
+
+New independent reproduction uses 17 PCS and exact 2/3 yield (11 GOOD), required FACT color constraints, size XS, and target references with different revisions. RED→RED must match and allocate. RED→BLUE must be incompatible. An edge labelled INCOMPATIBLE must refuse. Copying a positive label to the RED→BLUE edge must not qualify the complete matching→allocation gate. A second control uses missing required proof (NEEDS_CHECK), which likewise cannot be treated as authoritative matching. Quantity/yield and exact edge identities are held constant so a capacity failure cannot disguise missing binding.
+
+Run unchanged bootstrap/graph/matching/yield SQL on disposable PostgreSQL 17.6, with byte pins to the frozen candidate. This is kernel-only execution, not a reinstallation of the full ERP or a new HTTP/Auth proof. Full-package private ACL/REST denial, business restoration and 74-case evidence remain in the earlier audit. No product edits, hosted writes or writer messages.

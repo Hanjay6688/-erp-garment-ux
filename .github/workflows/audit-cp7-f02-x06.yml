@@ -1,0 +1,48 @@
+name: Independent CP7 F02 X06 binding cross-check
+'on':
+  push:
+    branches: ['audit/cp7-f02-independent-20260929']
+    paths: ['audits/cp7_f02_20260929/x06_probe.py', 'audits/cp7_f02_20260929/X06_ORACLE.md', '.github/workflows/audit-cp7-f02-x06.yml']
+permissions:
+  contents: read
+concurrency:
+  group: audit-cp7-f02-x06-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  kernel:
+    name: Independent private matching-to-allocation reproduction
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:17.6
+        env:
+          POSTGRES_PASSWORD: disposable-only
+          POSTGRES_DB: audit_x06
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Verify frozen product and install test driver
+        run: |
+          set -euo pipefail
+          test -z "$(git diff 5dd3b781ceef161afe59739d9e74a72e049d6a30 -- scripts src supabase contracts package.json package-lock.json tests)"
+          python -m pip install --quiet 'psycopg[binary]==3.2.10'
+      - name: Reproduce binding gate and positive controls
+        env:
+          PGURL: postgresql://postgres:disposable-only@127.0.0.1:5432/audit_x06
+        run: python audits/cp7_f02_20260929/x06_probe.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: audit-cp7-f02-x06-repro
+          path: cp6-proof/t3/CP7_F02_X06_REPRO.json
+          if-no-files-found: error
+          retention-days: 30
