@@ -21,7 +21,10 @@ async function recost(ui,today,mobile){
   const after=fixture('read',f);assert.deepEqual(after.stock,before.stock);assert.deepEqual(after.report.filing,f.original);assert.deepEqual(after.report.snapshot.financial_position,f.position);assert.equal(Number(after.attempts)-Number(before.attempts),1);assert.equal(after.report.snapshot.data_confidence.status,'READY');assert.equal(after.report.snapshot.data_confidence.changed_since_filing,true)
   await ui.expect.poll(()=>panel.evaluate(el=>{const r=el.getBoundingClientRect();return r.left>=0&&r.right<=innerWidth+1&&document.documentElement.scrollWidth<=innerWidth+1})).toBe(true)
   mkdirSync('cp6-proof/t3',{recursive:true});await p.evaluate(()=>scrollTo(0,0));await p.screenshot({path:`cp6-proof/t3/P13_RECOST_${suffix}.png`,fullPage:true})
-  await p.route('**/rest/v1/rpc/erp_cp7_get_recost_queue_v1',route=>route.abort('failed'));await panel.getByRole('button',{name:'Muat ulang antrean HPP',exact:true}).click();await ui.expect(panel.getByRole('alert')).toBeVisible();await ui.expect(action).toHaveCount(0)
+  await p.route('**/rest/v1/rpc/erp_cp7_get_recost_queue_v1',route=>route.abort('failed'));await panel.getByRole('button',{name:'Muat ulang antrean HPP',exact:true}).click()
+  // The recovery notice may also announce its stale workspace. Require the
+  // actual failed network-read alert, without assuming there is only one alert.
+  await ui.expect(panel.getByRole('alert').filter({hasText:'Layanan UAT belum dapat dihubungi'})).toBeVisible();await ui.expect(action).toHaveCount(0)
   return {status:'PASS',mobile,actual_browser_native_recost:true,native_cost85_to90_FG51_to54_COGS34_to36:true,physical_movements_and_closed_day_GL_unchanged:true,original_filing_immutable:true,exact_lost_request_replay:mobile?true:null,one_native_queue_attempt:true,failed_queue_read_retires_actions:true,screenshot:`P13_RECOST_${suffix}.png`}
  }catch(e){mkdirSync('cp6-proof/t3',{recursive:true});writeFileSync(`cp6-proof/t3/P13_RECOST_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),stack:e.stack,text:await panel.innerText().catch(()=>''),native:fixture('read',f)},null,2));throw e}
  finally{await user.context.close()}

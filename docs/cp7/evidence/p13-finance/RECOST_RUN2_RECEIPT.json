@@ -1,0 +1,90 @@
+{
+  "status": "INCOMPLETE",
+  "source_commit": "c8f1ba56e328ced7293647e314ab5cbb58ea7db1",
+  "source_tree": "95bb422bf22092bcfdd98beef44b0ce4eb65ec5f",
+  "run_id": 36642251641,
+  "job_id": 109656981966,
+  "artifact_id": 11067540417,
+  "artifact_bytes": 4591392,
+  "artifact_sha256": "67a44525df9278b06b348d34029bea8a7526e026d49384d281aeb8966e6ac1b9",
+  "report_sha256": "f7d619f195bdd7f5a5e2e92f0e2c82afa6c6ce6ba1d9e11561efb74acc43e682",
+  "report_gzip_sha256": "9cd77cefc6a5c2359f37fed1f5b6c7f3ba6760c8f05a46bd75f7faa1667a66f2",
+  "source_bundle_sha256": "0a9b3d0333c2829aa1607684510ccb11f8eebb6d9e55f9c2e7b08150584cb33f",
+  "counts": {
+    "PASS": 24,
+    "FAIL": 0,
+    "INCOMPLETE": 1,
+    "NOT_RUN": 0
+  },
+  "observed_case_count": 25,
+  "expected_cases": 25,
+  "groups": {
+    "native": {
+      "PASS": 8
+    },
+    "races": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    },
+    "recost_native": {
+      "PASS": 8
+    },
+    "recost_races": {
+      "PASS": 2
+    },
+    "recost_http": {
+      "PASS": 1
+    },
+    "recost_browser": {
+      "INCOMPLETE": 1,
+      "PASS": 1
+    }
+  },
+  "nonpassing_cases": {
+    "P13_RECOST_BROWSER_DESKTOP": {
+      "status": "INCOMPLETE",
+      "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByRole('region', { name: 'Antrean hitung ulang HPP', exact: true }).getByRole('alert')\nExpected: visible\nError: strict mode violation: getByRole('region', { name: 'Antrean hitung ulang HPP', exact: true }).getByRole('alert') resolved to 2 elements:\n    1) <div class=\"\" role=\"alert\">\u2026</div> aka getByRole('alert').filter({ hasText: 'Data belum dimuat ulang.' })\n    2) <p role=\"alert\">Layanan UAT belum dapat dihubungi. Coba lagi sete\u2026</p> aka getByText('Layanan UAT belum dapat')\n\nCall log:\n  - Expect \"to.be.visible\" with timeout 5000ms\n  - waiting for getByRole('region', { name: 'Antrean hitung ulang HPP', exact: true }).getByRole('alert')\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toBeVisible (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at recost (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p13_recost_browser.mjs:24:217)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3"
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "c8f1ba56e328ced7293647e314ab5cbb58ea7db1",
+    "product_ref": "3668749aebc9136b20162fc0c70a1774deb4bd82",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36642251641",
+    "run_attempt": "1",
+    "workflow": "CP7 P13 HPP recost",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "c8f1ba56e328ced7293647e314ab5cbb58ea7db1",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false,
+  "diagnosis": "All native/race/Auth cases and the mobile lost-response recovery pass. Desktop completes recost and every money/stock/archive assertion, then the failed-refresh assertion uses a strict generic alert locator. It can match both the shared stale-workspace alert and the network-read alert. Pin that assertion to the actual network-read message while retaining the required action removal; do not remove either legitimate alert or count the interrupted case as passed."
+}

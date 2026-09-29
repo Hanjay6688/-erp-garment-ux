@@ -1,4 +1,10 @@
-# P13 recorded comparison and cash ledger — candidate
+# P13 recorded comparison and cash ledger — bounded writer qualification
+
+## Current qualification:24 PASS
+
+Source `c8f1ba56e328ced7293647e314ab5cbb58ea7db1`, tree `95bb422bf22092bcfdd98beef44b0ce4eb65ec5f`, [run36642251622](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36642251622): **24 PASS /0 FAIL /0 INCOMPLETE /0 NOT_RUN**. All12 retained report/archive cases and12 new analysis cases ran. Both real desktop/mobile browser journeys now prove native comparison20%, margin change−3 percentage points, debit1300/credit1200/net cash100, source-journal visibility, read-only equality and failed-refresh removal of old money. The16MiB fixture limit preserves complete source equality.
+
+[Verified original report and receipt](evidence/p13-finance/ANALYSIS_QUALIFIED_RECEIPT.json) binds the GitHub artifact hash, exact git tree and independently rebuilt bundle bytes. CP6 restoration, advisors, accepted installation/backup recovery, primary untouched and Auth/database cleanup all pass. Actual desktop/mobile screenshots are retained and inspected: values/controls fit horizontally, both periods' blocked-readiness explanations remain visible, and the full mobile report is vertically long. No compact-page or all-costs-final claim is made. This closes this bounded writer qualifier, not P13/F03 or independent acceptance. Prior failures below remain historical evidence.
 
 ## Third run:22 PASS /2 browser INCOMPLETE
 

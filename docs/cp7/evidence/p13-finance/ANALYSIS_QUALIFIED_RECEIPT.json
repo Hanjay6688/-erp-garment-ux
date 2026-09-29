@@ -1,0 +1,96 @@
+{
+  "status": "PASS",
+  "source_commit": "c8f1ba56e328ced7293647e314ab5cbb58ea7db1",
+  "source_tree": "95bb422bf22092bcfdd98beef44b0ce4eb65ec5f",
+  "run_id": 36642251622,
+  "job_id": 109656983640,
+  "artifact_id": 11067262231,
+  "artifact_bytes": 8486067,
+  "artifact_sha256": "8f927ddec626f2e0b6db053d680df1ff162148925a2952395ea14c0fbce7cf39",
+  "report_sha256": "f74cb4929921e848f05b37a1759c2ef4ac29fc83280599d686bed271451c299f",
+  "report_gzip_sha256": "38bbd6f649a58a2e763e230821fea11ad06f2ef4b593daf3d21ca39bcf078fce",
+  "source_bundle_sha256": "0a9b3d0333c2829aa1607684510ccb11f8eebb6d9e55f9c2e7b08150584cb33f",
+  "counts": {
+    "PASS": 24,
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0
+  },
+  "observed_case_count": 24,
+  "expected_cases": 24,
+  "groups": {
+    "native": {
+      "PASS": 8
+    },
+    "races": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    },
+    "analysis_native": {
+      "PASS": 8
+    },
+    "analysis_races": {
+      "PASS": 1
+    },
+    "analysis_http": {
+      "PASS": 1
+    },
+    "analysis_browser": {
+      "PASS": 2
+    }
+  },
+  "nonpassing_cases": {},
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "c8f1ba56e328ced7293647e314ab5cbb58ea7db1",
+    "product_ref": "3668749aebc9136b20162fc0c70a1774deb4bd82",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36642251622",
+    "run_attempt": "1",
+    "workflow": "CP7 P13 Finance Analysis",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "c8f1ba56e328ced7293647e314ab5cbb58ea7db1",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": {
+    "source": "Actual run36642251622 artifact screenshots, inspected as full-page overview and readable source crops",
+    "result": "Desktop comparison columns and mobile stacked controls/amounts/source rows fit the viewport.20% growth, -3 percentage points and cash100/1300/1200 remain distinct. Both BLOCKED readiness explanations are visible. The complete mobile report is long vertically; this is functional/responsive acceptance, not a compact-page claim."
+  },
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false,
+  "screenshots": {
+    "P13_ANALYSIS_DESKTOP.png": {
+      "sha256": "016451e6f124e7b17b58892b160aab1ad21db719b9fc7c188966c61cbc0325c8",
+      "bytes": 2551420
+    },
+    "P13_ANALYSIS_MOBILE.png": {
+      "sha256": "70680bb5229af88e00a171d36dd1d476c5449ef3da64ce93c956686bbf450ab7",
+      "bytes": 1965768
+    }
+  }
+}

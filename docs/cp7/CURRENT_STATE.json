@@ -54,7 +54,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Qualify recost25 and analysis24 after fixture-only repairs, retain original failures and exact source evidence, inspect actual screenshots. Period25 and combined22 pass on3668749. Continue unambiguous remaining F03 contract; E05 remains a documented decision boundary. F04 follows F03 completion.",
+  "next_action": "Finish recost25 browser qualifier after precise alert selection and microsecond DTO repair. Analysis24, period25 and selected combined22 retain their source-bound PASS receipts. Continue unambiguous remaining F03 contract and E01; E05 remains a documented decision boundary. F04 follows F03 completion.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -268,7 +268,7 @@
     "latest_regression": "docs/cp7/evidence/p13-finance/PERIOD_RECOST_REGRESSION_RECEIPT.json"
   },
   "p13_analysis_candidate": {
-    "status": "RUN3_22_PASS_2_BROWSER_INCOMPLETE_BUFFER_RETEST_PENDING",
+    "status": "WRITER_BOUNDED_24_PASS",
     "handoff": "docs/cp7/P13_ANALYSIS_HANDOFF.md",
     "expected_cases": 24,
     "retained_report_cases": 12,
@@ -276,13 +276,15 @@
     "local_analysis_cases": 8,
     "independent_acceptance": false,
     "production_go": false,
-    "source_commit": "41a112b0332fa1ab992bf91bb02efdeca75e3d1c",
-    "source_tree": "8980326dc359a9d3db95f343eb0dd61ff5ede1c9",
+    "source_commit": "c8f1ba56e328ced7293647e314ab5cbb58ea7db1",
+    "source_tree": "95bb422bf22092bcfdd98beef44b0ce4eb65ec5f",
     "diagnostic": "docs/cp7/evidence/p13-finance/ANALYSIS_RUN3_RECEIPT.json",
-    "latest_regression": "docs/cp7/evidence/p13-finance/ANALYSIS_RECOST_REGRESSION_RECEIPT.json"
+    "latest_regression": "docs/cp7/evidence/p13-finance/ANALYSIS_RECOST_REGRESSION_RECEIPT.json",
+    "run_id": 36642251622,
+    "verification": "docs/cp7/evidence/p13-finance/ANALYSIS_QUALIFIED_RECEIPT.json"
   },
   "p13_recost_candidate": {
-    "status": "RUN1_21_PASS_4_FIXTURE_INCOMPLETE_RETEST_PENDING",
+    "status": "RUN2_24_PASS_1_BROWSER_SELECTOR_INCOMPLETE_RETEST_PENDING",
     "handoff": "docs/cp7/P13_RECOST_HANDOFF.md",
     "expected_cases": 25,
     "retained_report_cases": 12,
@@ -290,9 +292,10 @@
     "local_recost_cases": 6,
     "independent_acceptance": false,
     "production_go": false,
-    "source_commit": "3668749aebc9136b20162fc0c70a1774deb4bd82",
-    "source_tree": "d594e7865a2c8ad76a102437f7800baf583c98e4",
-    "run_id": 36641034282,
-    "diagnostic": "docs/cp7/evidence/p13-finance/RECOST_RUN1_RECEIPT.json"
+    "source_commit": "c8f1ba56e328ced7293647e314ab5cbb58ea7db1",
+    "source_tree": "95bb422bf22092bcfdd98beef44b0ce4eb65ec5f",
+    "run_id": 36642251641,
+    "diagnostic": "docs/cp7/evidence/p13-finance/RECOST_RUN2_RECEIPT.json",
+    "precision_repair": "docs/cp7/evidence/p13-finance/RECOST_MICROSECOND_LOCAL_RECEIPT.json"
   }
 }
