@@ -29,8 +29,11 @@ def cases(cur,today):
         item=read(cur,d['adjustment_id'])['detail']['items'][0];assert Decimal(item['valuation']['unit_cost'])==10 and Decimal(item['valuation']['value'])==delta*10,item
         k=uuid.uuid4();reverted=action(cur,'REVERSE',posted,k);assert action(cur,'REVERSE',posted,k)==reverted
         assert qty(cur,f)==[10,0,10] and accounts(cur)==initial
-        assert cur.execute("select count(*) from erp.fg_stock_movements m join erp.fg_adjustment_items i on i.id=m.source_id where i.adjustment_id=%s and m.source_type='FG_ADJUSTMENT_ITEM'",(d['adjustment_id'],)).fetchone()[0]==2
-        return dict(status='PASS',signed_correction=delta,stock=10+delta,value=delta*10,inverse_stock=10,inverse_all_accounts=True,one_inverse_pair=True)
+        pairs=cur.execute("""select m.qty_signed,rv.qty_signed,m.product_id=rv.product_id and m.lot_id=rv.lot_id and m.location_id=rv.location_id and m.quality_grade=rv.quality_grade and rv.physical_at>=m.physical_at
+          from erp.fg_stock_movements m join erp.fg_adjustment_items i on i.id=m.source_id left join erp.fg_stock_movements rv on rv.reversal_of_id=m.id
+          where i.adjustment_id=%s and m.source_type='FG_ADJUSTMENT_ITEM'""",(d['adjustment_id'],)).fetchall()
+        assert pairs==[(delta,-delta,True)],pairs
+        return dict(status='PASS',signed_correction=delta,stock=10+delta,value=delta*10,inverse_stock=10,inverse_all_accounts=True,one_inverse_pair=True,accepted_reversal_time_retained=True)
     def multi():
         f=fg.fixture(cur,today);g=fg.fixture(cur,today);p=payload(cur,f);p['items']+=payload(cur,g,'3')['items'];d=command(cur,'SAVE',p)
         detail=read(cur,d['adjustment_id'])['detail'];assert len(detail['items'])==2 and detail['line_count']=='2' and detail['editable']
@@ -58,7 +61,7 @@ def cases(cur,today):
         f=fg.fixture(cur,today);d,p=draft(cur,f)
         # Ordinary accepted native edit outside this companion binding.
         p['id']=d['adjustment_id'];p['items'][0]['qty_signed']='-3'
-        b.chain.production.rpc(cur,'erp.save_fg_adjustment_draft_v2',p,uuid.uuid4(),int(d['row_version']))
+        b.chain.production.owner(cur);cur.execute('select erp.save_fg_adjustment_draft_v2(%s,%s,%s)',(json.dumps(p),uuid.uuid4(),int(d['row_version'])));b.api.admin(cur)
         d['row_version']=str(cur.execute('select row_version from erp.fg_adjustments where id=%s',(d['adjustment_id'],)).fetchone()[0])
         before=b.boundary.snapshot(cur);auth.refused(cur,lambda:action(cur,'POST',d),'CP7_FG_ADJUST_DRAFT_CHANGED_REVIEW_AGAIN');assert b.boundary.snapshot(cur)==before
         assert not read(cur,d['adjustment_id'])['detail']['editable']
@@ -95,12 +98,16 @@ def races(tools,today):
         with tools.connect() as conn,conn.cursor() as cur:assert qty(cur,f)==[3,0,3]
         return dict(status='PASS',competing_native_corrections_one_post=True,physical_available=3,loser_atomic=True)
     def revoke():
-        with tools.connect() as conn,conn.cursor() as cur:f=fg.fixture(cur,today);d,_=draft(cur,f);conn.commit()
+        with tools.connect() as conn,conn.cursor() as cur:
+            f=fg.fixture(cur,today);d,_=draft(cur,f);subject=str(uuid.uuid4());role=cur.execute("select id from erp.app_roles where role_code='ADMIN'").fetchone()[0]
+            cur.execute("insert into erp.app_users(id,auth_user_id,full_name,role,role_id,is_active) values(%s,%s,'P10 revoked operator','ADMIN',%s,true)",(uuid.uuid4(),subject,role))
+            for key in ('warehouse.fg.view','warehouse.stock.adjust'):cur.execute('insert into erp.app_role_permissions(role_id,permission_key) values(%s,%s) on conflict do nothing',(role,key))
+            conn.commit()
         with tools.connect() as holder,holder.cursor() as h:
             h.execute("select pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0))")
             def send():
                 with tools.connect() as conn,conn.cursor() as cur:
-                    try:action(cur,'POST',d);conn.commit();return 'UNEXPECTED_SUCCESS'
+                    try:action(cur,'POST',d,subject=subject);conn.commit();return 'UNEXPECTED_SUCCESS'
                     except psycopg.Error as e:conn.rollback();return str(e).splitlines()[0]
             with ThreadPoolExecutor(max_workers=1) as pool:
                 future=pool.submit(send);blocked=False;deadline=time.monotonic()+8
@@ -110,7 +117,7 @@ def races(tools,today):
                             c.execute('select pg_stat_clear_snapshot()');blocked=c.execute("select exists(select 1 from pg_stat_activity where datname=current_database() and wait_event_type='Lock' and pid<>pg_backend_pid())").fetchone()[0]
                             if blocked:break
                             time.sleep(.03)
-                        assert blocked,'EXPECTED_REAL_FG_WAIT';c.execute('update erp.app_users set is_active=false where auth_user_id=%s',(base.OPERATOR_AUTH,))
+                        assert blocked,'EXPECTED_REAL_FG_WAIT';c.execute('update erp.app_users set is_active=false where auth_user_id=%s',(subject,))
                 finally:holder.rollback()
                 result=future.result(30)
         assert 'ACCESS' in result or 'OWNER or ADMIN' in result,result
@@ -125,7 +132,9 @@ def http_cases(http,today):
         owner=http.login('OWNER','p10-adjust-owner');ops=http.login('ADMIN','p10-adjust-ops')
         with http.connect() as conn,conn.cursor() as cur:
             f=fg.fixture(cur,today);p=payload(cur,f);role=cur.execute("select id from erp.app_roles where role_code='ADMIN'").fetchone()[0]
-            cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.hpp.view'",(role,));conn.commit()
+            cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.hpp.view'",(role,))
+            for key in ('warehouse.fg.view','warehouse.stock.adjust'):cur.execute('insert into erp.app_role_permissions(role_id,permission_key) values(%s,%s) on conflict do nothing',(role,key))
+            conn.commit()
         args=dict(p_action='SAVE',p_payload=p,p_request=str(uuid.uuid4()),p_expected=None);r=ops.rpc('erp_cp7_save_fg_adjustment_v1',args);assert r['status']==200,r;d=r['body']
         w=ops.rpc('erp_cp7_get_fg_adjustments_v1',dict(p_query=dict(adjustment_id=d['adjustment_id'])));assert w['status']==200 and 'valuation' not in json.dumps(w['body']),w
         args=dict(p_action='POST',p_payload=dict(adjustment_id=d['adjustment_id'],change_reason='HTTP exact correction'),p_request=str(uuid.uuid4()),p_expected=d['row_version'])

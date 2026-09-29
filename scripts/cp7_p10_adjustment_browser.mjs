@@ -21,7 +21,8 @@ async function correction(ui,today,mobile){
   await p.getByRole('button',{name:'Simpan draft FG',exact:true}).click();await ui.expect(panel.locator('.cfga-detail')).toContainText(f.number)
   let actual=fixture('read_adjust',f);if(actual.document?.status!=='DRAFT'||actual.qty[0]!==10||actual.second_qty[0]!==10)throw Error('Draft changed physical stock')
   const edit=p.getByRole('button',{name:'Edit draft FG',exact:true});await ui.expect(edit).toBeEnabled();await edit.click()
-  await p.getByLabel(mobile?'Perubahan FG 1':'Perubahan FG 2',{exact:true}).fill(mobile?'-3':'1')
+  // Native draft item UUID order may change; identify the actual source lot/SKU.
+  await panel.locator('form .cproc-item').filter({hasText:mobile?f.sku:f.second.sku}).getByRole('textbox').fill(mobile?'-3':'1')
   await p.getByRole('button',{name:'Simpan draft FG',exact:true}).click();await ui.expect(edit).toBeEnabled()
   const post=p.getByRole('button',{name:'Sahkan koreksi FG',exact:true});await ui.expect(post).toBeDisabled()
   await p.getByLabel('Jumlah, lot, ukuran, dan alasan sudah saya periksa.',{exact:true}).check();await ui.expect(post).toBeEnabled()

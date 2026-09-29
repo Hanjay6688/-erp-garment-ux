@@ -1,0 +1,53 @@
+{
+  "status": "INCOMPLETE",
+  "counts": {
+    "PASS": 17,
+    "INCOMPLETE": 6
+  },
+  "tested_source": "7e2aedd5a2cdad4461355637bdf4f09c83ed609c",
+  "tested_tree": "886344ab9a95df822c8d4b5cf7a999d09b68e9b7",
+  "run_id": 36563203792,
+  "job_id": 109388776167,
+  "artifact_id": 11031535036,
+  "archive_sha256": "977434d784da94fbae1cff00706529c9004bcf1db1d1d70b8092e6c9df47c57a",
+  "source_bundle_sha256": "4860f9b97c8bf9a185beaa16dffe423acc56ce6b6124ba0dafecc62d46335a70",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "failures": {
+    "P10_ADJUST_NEGATIVE_VALUE": {
+      "status": "INCOMPLETE",
+      "error": "",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 112, in strict_group\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_fg_adjustment_cases.py\", line 82, in <lambda>\n    return [('P10_ADJUST_'+k,fn) for k,fn in [('NEGATIVE_VALUE',lambda:lifecycle(-2)),('POSITIVE_VALUE',lambda:lifecycle(2)),('MULTI_EDIT_VERSION',multi),('REPLAY_DELETE',replay),('FORGED_ATOMIC',forged),('EXTERNAL_DRAFT',external),('DEFERRED_UNKNOWN',unknown),('AUTH_PRIVATE',access)]]\n                                                                       ^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_fg_adjustment_cases.py\", line 32, in lifecycle\n    assert cur.execute(\"select count(*) from erp.fg_stock_movements m join erp.fg_adjustment_items i on i.id=m.source_id where i.adjustment_id=%s and m.source_type='FG_ADJUSTMENT_ITEM'\",(d['adjustment_id'],)).fetchone()[0]==2\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+    },
+    "P10_ADJUST_POSITIVE_VALUE": {
+      "status": "INCOMPLETE",
+      "error": "",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 112, in strict_group\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_fg_adjustment_cases.py\", line 82, in <lambda>\n    return [('P10_ADJUST_'+k,fn) for k,fn in [('NEGATIVE_VALUE',lambda:lifecycle(-2)),('POSITIVE_VALUE',lambda:lifecycle(2)),('MULTI_EDIT_VERSION',multi),('REPLAY_DELETE',replay),('FORGED_ATOMIC',forged),('EXTERNAL_DRAFT',external),('DEFERRED_UNKNOWN',unknown),('AUTH_PRIVATE',access)]]\n                                                                                                               ^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_fg_adjustment_cases.py\", line 32, in lifecycle\n    assert cur.execute(\"select count(*) from erp.fg_stock_movements m join erp.fg_adjustment_items i on i.id=m.source_id where i.adjustment_id=%s and m.source_type='FG_ADJUSTMENT_ITEM'\",(d['adjustment_id'],)).fetchone()[0]==2\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+    },
+    "P10_ADJUST_EXTERNAL_DRAFT": {
+      "status": "INCOMPLETE",
+      "error": "AA_AUDIT_UNKNOWN_RPC",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 112, in strict_group\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_fg_adjustment_cases.py\", line 61, in external\n    b.chain.production.rpc(cur,'erp.save_fg_adjustment_draft_v2',p,uuid.uuid4(),int(d['row_version']))\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_aa_invoice_partial_audit.py\", line 65, in rpc\n    raise AssertionError('AA_AUDIT_UNKNOWN_RPC')\nAssertionError: AA_AUDIT_UNKNOWN_RPC\n"
+    },
+    "P10_ADJUST_HTTP": {
+      "status": "INCOMPLETE",
+      "error": "{'status': 403, 'body': {'code': '42501', 'details': None, 'hint': None, 'message': 'CP7_FG_ADJUST_DENIED'}}",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 139, in strict_rows\n    row=run_one(i,key,operation)\n        ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 302, in <lambda>\n    report['cases'],refusal=strict_rows('AUDITOR_HTTP_'+phase.upper(),planned,lambda i,key,operation:operation(),HTTP_DB,('authenticator',))\n                                                                                                     ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_fg_adjustment_cases.py\", line 129, in flow\n    args=dict(p_action='SAVE',p_payload=p,p_request=str(uuid.uuid4()),p_expected=None);r=ops.rpc('erp_cp7_save_fg_adjustment_v1',args);assert r['status']==200,r;d=r['body']\n                                                                                                                                              ^^^^^^^^^^^^^^^^\nAssertionError: {'status': 403, 'body': {'code': '42501', 'details': None, 'hint': None, 'message': 'CP7_FG_ADJUST_DENIED'}}\n"
+    },
+    "P10_ADJUST_BROWSER_DESKTOP": {
+      "status": "INCOMPLETE",
+      "error": "Error: FG correction native stock mismatch {\"qty\":[11,0,11],\"second_qty\":[12,0,12],\"document\":{\"id\":\"9a628553-b6ff-4a37-a971-feeb400ddb47\",\"status\":\"POSTED\",\"version\":\"3\"},\"accounts\":[[\"00295850-33a0-41c3-805d-04e7bc8efdbb\",\"-430.00\"],[\"20a7533b-5578-4799-9973-90ab000e9e43\",\"350.00\"],[\"370746aa-abe3-418b-b912-b8a63c9ffcc1\",\"80.00\"],[\"377d37ea-56a9-4ebc-853a-0158a78bb4ff\",\"160.00\"],[\"5f27ccb9-107f-4d19-a52c-e7eef8e9d69b\",\"-1759.00\"],[\"86ddff01-e556-4777-ad30-1943f3200224\",\"-160.00\"],[\"9ce89e21-9a21-40e5-859d-237b89d5a767\",\"1759.00\"]]}\n    at correction (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p10_adjustment_browser.mjs:33:114)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3",
+      "traceback": null
+    }
+  },
+  "classification": "TEST_FIXTURE_DEFECTS_PENDING_CORRECTED_REPLAY",
+  "corrections": [
+    "Inverse follows reversal_of_id and FG_MOVEMENT_REVERSAL with accepted current reversal time; original stock/value/account oracles unchanged",
+    "External edit calls the accepted native function directly under native owner, without extending the unrelated AA RPC allowlist",
+    "Revocation uses a separately authorized ADMIN so the last active OWNER protection stays intact",
+    "HTTP ADMIN explicitly receives stock-adjust permission; default role denies the action as designed",
+    "Browser edit identifies the actual source SKU/lot instead of assuming the UUID-sorted second line retained input order"
+  ],
+  "separate_product_delta": "FG ledger book_order accepts signed exact integers: accepted native move-to-position can legitimately produce negative presentation ranks. Does not affect chronology or quantities.",
+  "production_go": false
+}

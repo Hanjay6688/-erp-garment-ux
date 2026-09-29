@@ -91,9 +91,9 @@ def cases(cur,today):
         assert l['page']['rows'] and all(m['physical_balance']=='10' and m['available_balance']=='6' for m in l['page']['rows']),l
         from_at=(ax.r1.now(cur)-timedelta(minutes=20)).isoformat();l=ledger(cur,f,**{'from':from_at})
         assert len(l['page']['rows'])==1 and l['page']['rows'][0]['physical_balance']=='10' and l['balances']['physical_qty']=='10',l
-        cur.execute('update erp.fg_stock_movements set book_order=book_order+1000000 where lot_id=%s',(f['lot'],))
+        cur.execute('update erp.fg_stock_movements set book_order=-1000000000+book_order where lot_id=%s',(f['lot'],))
         assert ledger(cur,f)['balances']==l['balances']
-        return dict(status='PASS',search_and_date_do_not_reset_prefix=True,presentation_book_order_not_stock_order=True,administrative_book_order_control=True)
+        return dict(status='PASS',search_and_date_do_not_reset_prefix=True,presentation_book_order_not_stock_order=True,administrative_book_order_control=True,signed_presentation_rank_preserved=True)
     return [('P10_FG_'+k,fn) for k,fn in [('NATIVE_SOURCE',actual),('RESERVE_CANCEL_POST',reservations),('INVERSE_ZERO',zero_and_reverse),('DEFERRED_UNKNOWN',unknown),('AUTH_PRIVATE',access),('FULL_PAGES',pages),('FILTERED_PREFIX',prefix_filters)]]
 
 def http_cases(http,today):
