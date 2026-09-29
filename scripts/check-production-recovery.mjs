@@ -82,3 +82,7 @@ for (const token of ["useProductionMutation('FINANCE_PERIOD')", 'beginRead()', '
   assert.ok(period.includes(token), `Period recovery omits ${token}`)
 }
 assert.doesNotMatch(period, /p_request:\s*(?:globalThis\.)?crypto\.randomUUID/)
+
+const recost = read('src/RecostQueuePanel.tsx')
+assert.match(recost, /useProductionMutation\('HPP_RECOST'\)/)
+assert.match(recost, /parseRecostOutcome/)

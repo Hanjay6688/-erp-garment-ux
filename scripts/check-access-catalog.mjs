@@ -107,7 +107,9 @@ assert.equal(pageMap.get('pocket-fabric'), 'warehouse.stock.adjust')
 assert.equal(navMap.get('Impor data awal'), 'settings.erp.view')
 assert.equal(pageMap.get('admin-import'), 'settings.erp.view')
 const cp6SensitiveActions = new Set(['reverseFinalSku'])
-const cp5SensitiveActionCount = [...actionMap.keys()].filter((action) => !cp6SensitiveActions.has(action)).length
+const cp7SensitiveActions = new Set(['recalculateHpp'])
+assert.equal(actionMap.get('recalculateHpp'), 'finance.hpp.manage')
+const cp5SensitiveActionCount = [...actionMap.keys()].filter((action) => !cp6SensitiveActions.has(action) && !cp7SensitiveActions.has(action)).length
 assert.equal(evidence.counts.sensitive_actions, cp5SensitiveActionCount)
 assert.equal(actionMap.get('reverseFinalSku'), 'production.final_sku.reverse')
 assert.ok(rpcBoundaries.has('src/ConnectedPocketFabricPage.tsx:erp_get_pocket_fabric_workspace_v1'))
@@ -138,6 +140,8 @@ assert.ok(rpcBoundaries.has('src/LaundrySkuHistory.tsx:erp_get_laundry_history_v
 assert.ok(rpcBoundaries.has('src/SalesDraftPanel.tsx:erp_cp7_get_sales_form_v1'))
 assert.ok(rpcBoundaries.has('src/SalesPaymentPanel.tsx:erp_cp7_get_sales_cash_v1'))
 assert.ok(rpcBoundaries.has('src/SalesReturnPanel.tsx:erp_cp7_get_sales_returns_v1'))
+const cp7RecostBoundaries = ['erp_cp7_get_recost_queue_v1','erp_cp7_process_recost_v1']
+for (const name of cp7RecostBoundaries) assert.ok(rpcBoundaries.has(`src/RecostQueuePanel.tsx:${name}`))
 const cp7PeriodBoundaries = ['erp_cp7_get_period_control_v1','erp_cp7_save_period_control_v1']
 for (const name of cp7PeriodBoundaries) assert.ok(rpcBoundaries.has(`src/FinancePeriodPanel.tsx:${name}`))
 const cp7FinanceBoundaries = ['src/ConnectedFinanceReportPage.tsx:erp_cp7_get_finance_report_v1','src/FinanceAnalysisPanel.tsx:erp_cp7_get_finance_analysis_v1']
@@ -168,7 +172,7 @@ const cp7InvoiceBoundaries = ['erp_cp7_get_invoice_sources_v1','erp_cp7_get_purc
 for (const name of cp7InvoiceBoundaries) assert.ok(rpcBoundaries.has(`src/PurchaseInvoicePanel.tsx:${name}`))
 const cp7ReturnBoundaries = ['erp_cp7_get_supplier_returns_v1','erp_cp7_save_supplier_return_v1','erp_cp7_get_procurement_options_v1']
 for (const name of cp7ReturnBoundaries) assert.ok(rpcBoundaries.has(`src/SupplierReturnPanel.tsx:${name}`))
-assert.equal(rpcBoundaries.size, evidence.counts.browser_rpc_boundaries + 3 + cp7FinanceBoundaries.length + cp7PeriodBoundaries.length + cp7SalesBoundaries.length + cp7AttendanceBoundaries.length + cp7PayrollBoundaries.length + cp7NotaBoundaries.length + cp7FgBookBoundaries.length + cp7FgAdjustmentBoundaries.length + cp7FgBoundaries.length + cp7CountBoundaries.length + cp7CountSourceBoundaries.length + cp7ReturnBoundaries.length + cp7InvoiceBoundaries.length + 19 + beRpcBoundaries.length + bfRpcBoundaries.length + cp7ProcurementBoundaries.length + cp7MaterialBoundaries.length)
+assert.equal(rpcBoundaries.size, evidence.counts.browser_rpc_boundaries + 3 + cp7RecostBoundaries.length + cp7FinanceBoundaries.length + cp7PeriodBoundaries.length + cp7SalesBoundaries.length + cp7AttendanceBoundaries.length + cp7PayrollBoundaries.length + cp7NotaBoundaries.length + cp7FgBookBoundaries.length + cp7FgAdjustmentBoundaries.length + cp7FgBoundaries.length + cp7CountBoundaries.length + cp7CountSourceBoundaries.length + cp7ReturnBoundaries.length + cp7InvoiceBoundaries.length + 19 + beRpcBoundaries.length + bfRpcBoundaries.length + cp7ProcurementBoundaries.length + cp7MaterialBoundaries.length)
 assert.ok(rpcBoundaries.has('src/ConnectedInitialImportPage.tsx:erp_get_initial_import_workspace_v1'))
 assert.ok(rpcBoundaries.has('src/ConnectedInitialImportPage.tsx:erp_save_initial_import_action_v1'))
 assert.ok(rpcBoundaries.has('src/useLaundryQcWorkspace.ts:erp_get_laundry_qc_workspace_v1'))

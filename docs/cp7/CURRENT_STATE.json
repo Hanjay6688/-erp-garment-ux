@@ -277,5 +277,15 @@
     "source_commit": "9861692f79764860c6241234dc280a1a956a2a10",
     "source_tree": "0bbf7f31a97eb7c315f8d19f871bc65bd7d32225",
     "diagnostic": "docs/cp7/evidence/p13-finance/ANALYSIS_RUN2_RECEIPT.json"
+  },
+  "p13_recost_candidate": {
+    "status": "CANDIDATE_NATIVE_25_PENDING",
+    "handoff": "docs/cp7/P13_RECOST_HANDOFF.md",
+    "expected_cases": 25,
+    "retained_report_cases": 12,
+    "new_recost_cases": 13,
+    "local_recost_cases": 6,
+    "independent_acceptance": false,
+    "production_go": false
   }
 }

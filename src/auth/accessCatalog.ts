@@ -125,6 +125,7 @@ export const SENSITIVE_ACTION_PERMISSION = Object.freeze({
   reverseInvoice: 'sales.invoice.reverse',
   approvePayroll: 'finance.payroll.approve',
   payPayroll: 'finance.payroll.pay',
+  recalculateHpp: 'finance.hpp.manage',
   editMasterPrice: 'master.price.edit_draft',
   exportAudit: 'settings.audit.export',
 })

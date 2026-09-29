@@ -1,11 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from './auth/AuthProvider'
+import { SENSITIVE_ACTION_PERMISSION } from './auth/accessCatalog'
 import { isConnectedRuntime } from './config/runtime'
 import { getUatSupabaseClient } from './lib/supabase'
 import { normalizeClientError } from './lib/clientError'
 import { useProductionMutation } from './useProductionMutation'
 import { cp6WibPhysicalTimeToIso, formatCp6WibDateTime } from './cp6BusinessTime'
 import { parseSkuHpp, skuMoney, type SkuHppWorkspace } from './skuHpp'
+import RecostQueuePanel from './RecostQueuePanel'
+import './procurement-connected.css'
 import './initial-import.css'
 import './sku.css'
 
@@ -15,7 +18,7 @@ export default function ConnectedSkuHppPage() {
   return <Workspace key={`${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`}/>
 }
 function Workspace() {
-  const { runtime } = useAuth()
+  const { runtime, identity } = useAuth()
   if (!isConnectedRuntime(runtime)) throw new Error('ERP belum tersambung.')
   const client = useMemo(() => getUatSupabaseClient(runtime), [runtime])
   const { beginRead, finishRead, isReadCurrent, blockReason } = useProductionMutation('SKU')
@@ -27,12 +30,13 @@ function Workspace() {
     setBusy(true); setData(null); setError('')
     try {
       const result = await client.rpc('erp_get_sku_hpp_v1', { p_filters: { query: f.query, page: f.page, ...(f.at ? { at: f.at } : {}) } })
-      if (s !== sequence.current || !isReadCurrent(ticket)) return
+      if (s !== sequence.current || !isReadCurrent(ticket)) return false
       if (result.error) throw result.error
       const w = parseSkuHpp(result.data)
       if (w.page !== f.page || (f.at && Date.parse(w.at) !== Date.parse(f.at))) throw new Error('Tanggal atau halaman laporan tidak cocok.')
-      setData(w); finishRead(ticket)
-    } catch (e) { if (s === sequence.current && isReadCurrent(ticket)) setError(normalizeClientError(e).message) }
+      if (!finishRead(ticket)) return false
+      setData(w); return true
+    } catch (e) { if (s === sequence.current && isReadCurrent(ticket)) setError(normalizeClientError(e).message); return false }
     finally { if (s === sequence.current) setBusy(false) }
   }, [client, beginRead, finishRead, isReadCurrent])
   useEffect(() => { void load(); return () => { ++sequence.current } }, [load])
@@ -46,6 +50,7 @@ function Workspace() {
     </form>
     {(error || blockReason) && <p role="alert">{error || blockReason}</p>}
     {busy && <p role="status">Memuat stok dan biaya…</p>}
+    <RecostQueuePanel client={client} canManage={identity.status==='AUTHORIZED'&&identity.permissions.includes(SENSITIVE_ACTION_PERMISSION.recalculateHpp)&&['OWNER','ADMIN','STAFF'].includes(identity.profile.role)} onChanged={load}/>
     {data && <><p>Posisi {formatCp6WibDateTime(data.at)}. Biaya memakai versi yang sudah tercatat pada waktu itu; status kelengkapan diperiksa saat ini.</p>
       <div className="panel"><table><thead><tr><th>SKU</th><th>Stok PCS</th><th>Nilai stok</th><th>HPP / PCS</th><th>Status biaya</th></tr></thead><tbody>{data.groups.map(g => <tr key={g.group_key}><td><button onClick={() => setSelected(g.group_key)}>{g.brand_name} · {g.sku}</button></td><td>{g.qty}</td><td>{skuMoney(g.value)}</td><td>{skuMoney(g.hpp_per_pcs)}</td><td>{g.provisional ? 'Belum lengkap' : 'Tercatat'}</td></tr>)}</tbody></table>
       {data.groups.length === 0 && <p>Tidak ada stok SKU yang cocok.</p>}

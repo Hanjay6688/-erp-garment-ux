@@ -4,6 +4,7 @@ import psycopg
 import cp7_finance_bundle as bundle
 import cp7_finance_cases as cases
 import cp7_period_bundle as periods
+import cp7_recost_bundle as recost
 import cp7_p11_sales_probe as sales
 import cp7_p09_procurement_probe as p09
 import cp6_auditor_modes as modes
@@ -18,26 +19,29 @@ def verify(cur):
  for name,owner,secdef,vol,config in got:assert (owner,secdef,vol,config)==('cp7_finance_read',False,'i' if name=='exact_numbers' else 's',['search_path=""']+(['TimeZone=UTC'] if name in('workspace','analysis') else [])),(name,owner,secdef,vol,config)
  assert cur.execute("select pg_get_userbyid(proowner),prosecdef,provolatile::text,proconfig from pg_proc where oid='public.erp_cp7_get_finance_report_v1(jsonb)'::regprocedure").fetchone()==('cp7_finance_read',True,'s',['search_path=""'])
  assert cur.execute("select pg_get_userbyid(proowner),prosecdef,provolatile::text,proconfig from pg_proc where oid='public.erp_cp7_get_finance_analysis_v1(jsonb)'::regprocedure").fetchone()==('cp7_finance_read',True,'s',['search_path=""'])
- periods.verify(cur)
- return dict(result,cp7_p13_bundle_sha256=hashlib.sha256(periods.bundle().encode()).hexdigest())
+ periods.verify(cur);recost.verify(cur)
+ return dict(result,cp7_p13_bundle_sha256=hashlib.sha256(recost.bundle().encode()).hexdigest())
 
-def run(include_period=False,include_analysis=False):
+def run(include_period=False,include_analysis=False,include_recost=False):
  import cp7_period_cases
  import cp7_finance_analysis_cases
- assert not(include_period and include_analysis),'Separate declared period and analysis qualifiers'
+ import cp7_recost_cases
+ assert sum((include_period,include_analysis,include_recost))<=1,'Separate declared qualifiers'
  out=OUT if not include_period else bundle.ROOT/'cp6-proof/t3/CP7_P13_PERIOD_CONTROL.json'
  if include_analysis:out=bundle.ROOT/'cp6-proof/t3/CP7_P13_FINANCE_ANALYSIS.json'
- expected=25 if include_period else 24 if include_analysis else 12
- report=dict(label='CP7_P13_FINANCE_READ',status='INCOMPLETE',production_go=False,independent_acceptance=False,scope='OWNER_ADMIN_NATIVE_DATED_FINANCIAL_SOURCE_PREFLIGHT_IMMUTABLE_FILINGS_READER_ONLY',source_sha256=hashlib.sha256(periods.bundle().encode()).hexdigest(),expected_case_count=expected);installed=False
+ if include_recost:out=bundle.ROOT/'cp6-proof/t3/CP7_P13_RECOST.json'
+ expected=25 if include_period or include_recost else 24 if include_analysis else 12
+ report=dict(label='CP7_P13_FINANCE_READ',status='INCOMPLETE',production_go=False,independent_acceptance=False,scope='OWNER_ADMIN_NATIVE_DATED_FINANCIAL_SOURCE_PREFLIGHT_IMMUTABLE_FILINGS_READER_ONLY',source_sha256=hashlib.sha256(recost.bundle().encode()).hexdigest(),expected_case_count=expected);installed=False
  if include_period:report.update(label='CP7_P13_PERIOD_CONTROL',scope='NATIVE_REPORT_ARCHIVE_AND_REVIEWED_CLOSE_REOPEN_WITH_EXACT_REPLAY')
  if include_analysis:report.update(label='CP7_P13_FINANCE_ANALYSIS',scope='NATIVE_REPORT_ARCHIVE_COMPARISON_O13_AND_CASH_LEDGER_O14_READ_ONLY')
+ if include_recost:report.update(label='CP7_P13_RECOST',scope='ACCEPTED_NATIVE_RECOST_BOUNDED_COMMAND_AND_QUEUE_STATUS_WITH_EXACT_REPLAY')
  try:
   with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
    p09.wip.policy.bf.verified(cur);before=package.boundary.snapshot(cur);public_before=native.public_state(cur);conn.rollback();originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)
    internal_before=cur.execute("select pg_get_functiondef('erp.require_internal()'::regprocedure)").fetchone()[0]
-   cur.execute(bundle.cp7_sales_bundle.extension()+'\n'+bundle.extension()+'\n'+periods.extension(),prepare=False);after=p09.functions(cur)
+   cur.execute(bundle.cp7_sales_bundle.extension()+'\n'+bundle.extension()+'\n'+periods.extension()+'\n'+recost.extension(),prepare=False);after=p09.functions(cur)
    path=cur.execute('show search_path').fetchone()[0];cur.execute("select set_config('search_path','',true)");grants={}
-   for signatures,principal in [(bundle.cp7_sales_bundle.GRANTS,'cp7_sales_read'),(bundle.GRANTS,'cp7_finance_read'),(periods.READ_GRANTS,'cp7_period_read'),(periods.WRITE_GRANTS,'cp7_period_write'),(('auth.uid()',),'cp7_sales_write')]:
+   for signatures,principal in [(bundle.cp7_sales_bundle.GRANTS,'cp7_sales_read'),(bundle.GRANTS,'cp7_finance_read'),(periods.READ_GRANTS,'cp7_period_read'),(periods.WRITE_GRANTS,'cp7_period_write'),(recost.READ_GRANTS,'cp7_recost_read'),(recost.WRITE_GRANTS,'cp7_recost_write'),(('auth.uid()',),'cp7_sales_write')]:
     for signature in signatures:
      key=str(cur.execute('select %s::regprocedure::text',(signature,)).fetchone()[0]);grants.setdefault(key,set()).add((principal,'EXECUTE',False))
    cur.execute("select set_config('search_path',%s,true)",(path,))
@@ -62,17 +66,23 @@ def run(include_period=False,include_analysis=False):
    report['analysis_races']=modes.run_races(cp7_finance_analysis_cases,verify,'cp7_p13_analysis')
    report['analysis_http']=modes.run_http(cp7_finance_analysis_cases,verify,'cp7_p13_analysis')
    report['analysis_browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_p13_analysis_browser.mjs',verify,'cp7_p13_analysis')
+  if include_recost:
+   report['recost_native']=native.strict_group('CP7_P13_RECOST_NATIVE',cp7_recost_cases.cases,verify)
+   report['recost_races']=modes.run_races(cp7_recost_cases,verify,'cp7_p13_recost')
+   report['recost_http']=modes.run_http(cp7_recost_cases,verify,'cp7_p13_recost')
+   report['recost_browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_p13_recost_browser.mjs',verify,'cp7_p13_recost')
  except Exception as e:report.update(error=str(e),traceback=traceback.format_exc())
  finally:
   if installed:
    with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
     for definition in originals.values():cur.execute(definition,prepare=False)
-    for role in ('cp7_period_write','cp7_period_read','cp7_finance_read','cp7_sales_write','cp7_sales_read','cp7_return_write','cp7_return_read','cp7_invoice_write','cp7_invoice_read','cp7_material_write','cp7_material_read','cp7_procure_write','cp7_procure_read','cp7_policy','cp7_capture'):cur.execute('drop owned by '+role+' cascade;drop role '+role,prepare=False)
+    for role in ('cp7_recost_write','cp7_recost_read','cp7_period_write','cp7_period_read','cp7_finance_read','cp7_sales_write','cp7_sales_read','cp7_return_write','cp7_return_read','cp7_invoice_write','cp7_invoice_read','cp7_material_write','cp7_material_read','cp7_procure_write','cp7_procure_read','cp7_policy','cp7_capture'):cur.execute('drop owned by '+role+' cascade;drop role '+role,prepare=False)
     conn.commit();report['cp6_restored']=package.boundary.snapshot(cur)==before and native.public_state(cur)==public_before;conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
-   report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta'];report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or(d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and(f.get('metadata')or{}).get('schema')in('cp7_period','cp7_sales','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice')for f in d.get('added',[])))
+   report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta'];report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or(d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and(f.get('metadata')or{}).get('schema')in('cp7_recost','cp7_period','cp7_sales','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice')for f in d.get('added',[])))
   group_names=['native','races','http','browser']
   if include_period:group_names+=['period_native','period_races','period_http','period_browser']
   if include_analysis:group_names+=['analysis_native','analysis_races','analysis_http','analysis_browser']
+  if include_recost:group_names+=['recost_native','recost_races','recost_http','recost_browser']
   groups=[report.get(k,{})for k in group_names];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==expected and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
   out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,indent=2,default=str)+'\n');print(json.dumps({k:report.get(k)for k in('label','status','source_sha256','observed_case_count','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)
  return dict(status=report['status'],production_go=False,independent_acceptance=False)

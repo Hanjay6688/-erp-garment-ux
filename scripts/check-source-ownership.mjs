@@ -95,6 +95,8 @@ assert.deepEqual([...rpcOwnership].sort(), [
   'src/SalesReturnPanel.tsx:erp_cp7_get_sales_returns_v1',
   'src/ConnectedFinanceReportPage.tsx:erp_cp7_get_finance_report_v1',
   'src/FinanceAnalysisPanel.tsx:erp_cp7_get_finance_analysis_v1',
+  'src/RecostQueuePanel.tsx:erp_cp7_get_recost_queue_v1',
+  'src/RecostQueuePanel.tsx:erp_cp7_process_recost_v1',
   'src/FinancePeriodPanel.tsx:erp_cp7_get_period_control_v1',
   'src/FinancePeriodPanel.tsx:erp_cp7_save_period_control_v1',
   'src/ConnectedSalesPage.tsx:erp_cp7_get_sales_v1',
