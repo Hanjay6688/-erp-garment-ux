@@ -174,9 +174,11 @@ def races(tools,today):
 
 def http_cases(http,today):
     def flow():
-        user=http.login('STAFF','p12-payroll-custom')
+        user=http.login('ADMIN','p12-payroll-custom')
         with http.connect() as conn,conn.cursor() as cur:
-            f=review.fixture(cur,today);bank=cash(cur);_,role=source.procurement.custom(cur,PERMS);cur.execute('update erp.app_users set role_id=%s where auth_user_id=%s',(role,user.auth_user_id));conn.commit()
+            f=review.fixture(cur,today);bank=cash(cur);_,role=source.procurement.custom(cur,PERMS);cur.execute("update erp.app_users set role='STAFF',role_id=%s where auth_user_id=%s",(role,user.auth_user_id));conn.commit()
+            actual=cur.execute('select r.role_code from erp.app_users u join erp.app_roles r on r.id=u.role_id where u.auth_user_id=%s',(user.auth_user_id,)).fetchone()[0]
+            assert actual not in ('OWNER','ADMIN') and actual.startswith('P02_'),actual
         def read():
             r=user.rpc('erp_cp7_get_payroll_workspace_v1',dict(p_section='PAYROLLS',p_query=dict(id=f['payroll'])));assert r['status']==200,r;return r['body']['page']['rows'][0]
         for action in ('PREPARE','APPROVE','PAY'):

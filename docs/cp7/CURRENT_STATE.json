@@ -37,7 +37,7 @@
     "P04": "F02_REPAIR_53_PASS_PLUS_SMOKE_INDEPENDENT_HOLD_X06_PUBLIC_JOIN_OPEN",
     "P09": "BOUNDED_121_PASS_COUNTS_AND_COMBINED_INVOICES_QUALIFIED_REMAINING_SCOPE_OPEN",
     "P10": "FG_BOOK_34_PASS_NOTA_TRANSACTIONS_20_PASS_VISUAL_FOLLOWUP",
-    "P12": "NOTA_FINANCE_UI_27_PASS_NATIVE_SETTLEMENT_CANDIDATE"
+    "P12": "NOTA_FINANCE_UI_27_PASS_SETTLEMENT_UI_42_CASE_CANDIDATE"
   },
   "inherited_scope": {
     "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
@@ -52,7 +52,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Qualify native selected-work payroll preparation/approval/full payment/cancellation/reversal (39 combined cases); connect writer UI and continue attendance/advance sources.",
+  "next_action": "Qualify corrected native payroll adapter and connected approval/full payment/cancellation/recovery UI (42 combined cases); continue ordinary attendance/advance sources.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -95,7 +95,7 @@
   "p12_entry": {
     "source_verification": "docs/cp7/evidence/p12-nota/SOURCE_VERIFICATION.json",
     "notes": "docs/cp7/P12_NOTA_ENTRY.md",
-    "status": "FINANCE_REVIEW_27_PASS_NATIVE_SETTLEMENT_39_CASE_PENDING",
+    "status": "FINANCE_REVIEW_27_PASS_SETTLEMENT_RUN7_INCOMPLETE_UI_42_CASE_PENDING",
     "scope": "P10_NOTA_P12_SELECTED_COMPONENT_HANDOFF",
     "remaining": [
       "payroll_approval_payment_reversal",
@@ -109,6 +109,7 @@
     "handoff": "docs/cp7/P12_NOTA_HANDOFF.md",
     "finance_read_verification": "docs/cp7/evidence/p12-nota/PAYROLL_READ_VERIFICATION.json",
     "finance_ui_verification": "docs/cp7/evidence/p12-nota/PAYROLL_UI_VERIFICATION.json",
-    "settlement_handoff": "docs/cp7/P12_PAYROLL_HANDOFF.md"
+    "settlement_handoff": "docs/cp7/P12_PAYROLL_HANDOFF.md",
+    "settlement_diagnostic": "docs/cp7/evidence/p12-nota/SETTLEMENT_RUN7_RECEIPT.json"
   }
 }

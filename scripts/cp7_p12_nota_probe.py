@@ -29,6 +29,13 @@ def verify(cur,with_review=False,with_settlement=False):
     if with_settlement:
         import cp7_settlement_bundle as settlement
         rules.update(settlement.RULES)
+        for signature in ('cp7_payroll.settlement_access(text)','cp7_payroll.settlement_token(uuid)','cp7_payroll.settlement_document(uuid)'):
+            assert cur.execute("select has_function_privilege('postgres',%s,'EXECUTE')",(signature,)).fetchone()[0],('P12_NATIVE_ADAPTER_EXECUTE',signature)
+        for table in ('cp7_payroll.settlement_context','cp7_payroll.notes'):
+            assert cur.execute("select has_table_privilege('postgres',%s,'SELECT')",(table,)).fetchone()[0],('P12_NATIVE_ADAPTER_SELECT',table)
+        for who in ('anon','authenticated','service_role','cp7_capture','cp7_payroll_read','cp7_nota_write','cp7_payroll_header'):
+            assert not cur.execute("select has_table_privilege(%s,'cp7_payroll.settlement_context','SELECT,INSERT,UPDATE,DELETE')",(who,)).fetchone()[0],('P12_PRIVATE_CONTEXT',who)
+            assert not cur.execute("select has_function_privilege(%s,'cp7_payroll.apply_settlement(text,jsonb,text)','EXECUTE')",(who,)).fetchone()[0],('P12_PRIVATE_ADAPTER',who)
     got=cur.execute("select p.proname,pg_get_userbyid(p.proowner),p.prosecdef,p.provolatile::text,p.proconfig from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_payroll'").fetchall()
     assert {v[0] for v in got}==set(rules)
     for name,owner,secdef,vol,config in got:assert (owner,secdef,vol)==rules[name] and config==['search_path=""'],(name,owner,secdef,vol,config)
@@ -55,7 +62,7 @@ def run(with_review=False,with_settlement=False):
         report.update(label='CP7_P12_NOTA_AND_PAYROLL_REVIEW',scope=report['scope']+'_WITH_FINANCE_PAYROLL_READ_AND_REVIEW_BROWSER',nota_bundle_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest())
         out=OUT.with_name('CP7_P12_PAYROLL_REVIEW.json')
     if with_settlement:
-        report.update(label='CP7_P12_NATIVE_SETTLEMENT',scope='NOTA_FINANCE_REVIEW_BROWSER_AND_NATIVE_PREPARE_APPROVE_FULL_PAY_CANCEL_REVERSE_NO_SETTLEMENT_WRITER_UI')
+        report.update(label='CP7_P12_NATIVE_SETTLEMENT',scope='NOTA_FINANCE_REVIEW_AND_NATIVE_BROWSER_PREPARE_APPROVE_FULL_PAY_CANCEL_REVERSE_WITH_EXACT_LOST_REPLY_RECOVERY')
         out=OUT.with_name('CP7_P12_SETTLEMENT.json')
     installed=False
     try:
@@ -120,6 +127,7 @@ def run(with_review=False,with_settlement=False):
             report['settlement']=native.strict_group('CP7_P12_SETTLEMENT',settlement_cases.cases,verifier)
             report['settlement_races']=modes.run_races(settlement_cases,verifier,'cp7_p12_settlement')
             report['settlement_http']=modes.run_http(settlement_cases,verifier,'cp7_p12_settlement')
+            report['settlement_browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_p12_settlement_browser.mjs',verifier,'cp7_p12_settlement')
     except Exception as e:report.update(error=str(e),traceback=traceback.format_exc())
     finally:
         if installed:
@@ -131,7 +139,7 @@ def run(with_review=False,with_settlement=False):
                 conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
             report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta']
             report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or (d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and (f.get('metadata') or {}).get('schema') in ('cp7_payroll','cp7_fg','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice') for f in d.get('added',[])))
-        group_keys=('native','http','notes','note_races','note_http','admission_regression','browser')+(('payroll_review','payroll_review_http','payroll_review_browser') if with_review else ())+(('settlement','settlement_races','settlement_http') if with_settlement else ())
+        group_keys=('native','http','notes','note_races','note_http','admission_regression','browser')+(('payroll_review','payroll_review_http','payroll_review_browser') if with_review else ())+(('settlement','settlement_races','settlement_http','settlement_browser') if with_settlement else ())
         groups=[report.get(k,{}) for k in group_keys]
         report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and all(r.get('status') in ('PASS','RUN_COMPLETE') and set(r.get('counts',{}))=={'PASS'} and r['counts']['PASS']>0 and r.get('database_remaining',0)==0 for r in groups) else 'INCOMPLETE'
         out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,indent=2,default=str)+'\n');print(json.dumps({k:report.get(k) for k in ('label','status','source_sha256','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)

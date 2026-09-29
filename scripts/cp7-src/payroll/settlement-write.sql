@@ -143,5 +143,10 @@ alter function cp7_payroll.settlement_meaning(uuid) owner to postgres;
 alter function cp7_payroll.apply_settlement(text,jsonb,text) owner to postgres;
 revoke all on function cp7_payroll.settlement_access(text),cp7_payroll.require_settlement_context(uuid),cp7_payroll.settlement_meaning(uuid),cp7_payroll.apply_settlement(text,jsonb,text),cp7_payroll.settlement_command(text,jsonb,uuid,text) from public,anon,authenticated,service_role,cp7_capture,cp7_nota_write,cp7_payroll_header;
 grant execute on function cp7_payroll.settlement_access(text),cp7_payroll.apply_settlement(text,jsonb,text) to cp7_payroll_write;
+-- Supabase's postgres role is not necessarily a superuser. Give the native
+-- adapter only its private read/execute dependencies, never a client capability.
+grant usage on schema cp7_payroll to postgres;
+grant select on cp7_payroll.settlement_context,cp7_payroll.notes to postgres;
+grant execute on function cp7_payroll.settlement_access(text),cp7_payroll.settlement_token(uuid),cp7_payroll.settlement_document(uuid) to postgres;
 revoke all on function public.erp_cp7_save_payroll_v1(text,jsonb,uuid,text) from public,anon,authenticated,service_role,cp7_capture;
 grant execute on function public.erp_cp7_save_payroll_v1(text,jsonb,uuid,text) to authenticated;

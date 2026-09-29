@@ -1,9 +1,12 @@
+import type {Json} from './types/database.preconnect'
 import type {MaterialPage} from './materialContract'
 import {parseNotaWorkspace,type NotaDocument} from './notaContract'
-export type PayrollSection='PAYROLLS'|'WORK'|'ATTENDANCE'|'REIMBURSEMENTS'|'DEDUCTIONS'|'NOTES'
+export type PayrollSection='PAYROLLS'|'WORK'|'ATTENDANCE'|'REIMBURSEMENTS'|'DEDUCTIONS'|'NOTES'|'CASH_ACCOUNTS'
 export type PayrollHeader={id:string;payroll_number:string;contractor_id:string;contractor_name:string;attendance_required:boolean;period_start:string;period_end:string;status:string;row_version:string;review_token:string;notes:string|null;labor_total:string;attendance_total:string;reimburse_total:string;deduction_total:string;manual_adjustment:string;net_payable:string;payment_cash_account_id:string|null;payment_cash_account_name:string|null;payment_date:string;settled_at:string|null;created_at:string;updated_at:string;totals_match_items:boolean;counts:{work:string;attendance:string;reimbursements:string;deductions:string;notes:string}}
+export type PayrollCash={id:string;code:string;name:string;kind:string}
+export type PayrollAction='PREPARE'|'APPROVE'|'PAY'|'CANCEL'|'REVERSE'
 export type PayrollLine=Record<string,string|null>
-export type PayrollRead={contract_version:'cp7.payroll-workspace.v1';section:PayrollSection;read_at:string;capabilities:{approve:boolean;pay:boolean};document:PayrollHeader|null;page:MaterialPage<PayrollHeader|PayrollLine|NotaDocument>}
+export type PayrollRead={contract_version:'cp7.payroll-workspace.v1';section:PayrollSection;read_at:string;capabilities:{approve:boolean;pay:boolean};document:PayrollHeader|null;page:MaterialPage<PayrollHeader|PayrollLine|NotaDocument|PayrollCash>}
 const fail=():never=>{throw Error('Rincian payroll belum lengkap atau sudah berubah. Muat ulang payroll.')}
 const text=(v:unknown):v is string=>typeof v==='string'
 const uuid=(v:unknown)=>text(v)&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v)
@@ -29,7 +32,11 @@ export function parsePayrollRead(v:unknown,section:PayrollSection):PayrollRead{
  if(r.contract_version!=='cp7.payroll-workspace.v1'||r.section!==section||!time(r.read_at)||typeof cap.approve!=='boolean'||typeof cap.pay!=='boolean'||!Array.isArray(p.rows)||!whole(p.total)||!Number.isSafeInteger(p.offset)||Number(p.offset)<0||!Number.isSafeInteger(p.limit)||Number(p.limit)<1||Number(p.limit)>100||p.rows.length>Number(p.limit))return fail()
  const end=BigInt(Number(p.offset))+BigInt(p.rows.length),total=BigInt(p.total)
  if(p.rows.length&&end>total||end<total&&p.next_offset===null||p.next_offset!==null&&(p.next_offset!==Number(p.offset)+p.rows.length||!p.rows.length||end>=total))fail()
- if(section==='PAYROLLS'){if(r.document!==null)fail();p.rows.forEach(header)}else{
+ if(section==='PAYROLLS'||section==='CASH_ACCOUNTS'){
+  if(r.document!==null)fail()
+  if(section==='PAYROLLS')p.rows.forEach(header)
+  else for(const row of p.rows){const c=closed(row,['id','code','name','kind']);if(!uuid(c.id)||!['code','name','kind'].every(k=>text(c[k])))fail()}
+ }else{
   const h=header(r.document);if(h.counts[section.toLowerCase() as keyof PayrollHeader['counts']]!==p.total)fail()
   if(section==='NOTES'){
    const notes=parseNotaWorkspace({contract_version:'cp7.nota-workspace.v1',section:'NOTES',read_at:r.read_at,financial_captured:true,can_post:false,page:p},'NOTES')
@@ -45,4 +52,11 @@ export function parsePayrollRead(v:unknown,section:PayrollSection):PayrollRead{
  }
  if(new Set(p.rows.map(x=>obj(x).id)).size!==p.rows.length)fail()
  return r as unknown as PayrollRead
+}
+
+export function parsePayrollOutcome(v:unknown,request:string,action:string,payload:Json){
+ const r=closed(v,['contract_version','kind','action','request_id','payroll_id','status','row_version','review_token']),p=obj(payload),d=obj(p.document)
+ const statuses:Record<string,string>={PREPARE:'CALCULATED',APPROVE:'APPROVED',PAY:'PAID',CANCEL:'REVERSED',REVERSE:'REVERSED'}
+ if(r.contract_version!=='cp7.payroll-outcome.v1'||r.kind!=='COMMITTED_OUTCOME'||r.action!==action||r.request_id!==request||!statuses[action]||r.status!==statuses[action]||!uuid(r.payroll_id)||r.payroll_id!==d.id||!whole(r.row_version)||r.row_version==='0'||!text(r.review_token)||!/^[a-f0-9]{32}$/.test(r.review_token))fail()
+ return r as {payroll_id:string;status:string;row_version:string;review_token:string}
 }

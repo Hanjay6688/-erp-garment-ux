@@ -135,7 +135,7 @@ for (const boundary of bfRpcBoundaries) assert.ok(rpcBoundaries.has(boundary), `
 assert.ok(rpcBoundaries.has('src/ConnectedSupplierCreditPage.tsx:erp_get_supplier_credit_v1'))
 assert.ok(rpcBoundaries.has('src/ConnectedSupplierCreditPage.tsx:erp_save_supplier_credit_v1'))
 assert.ok(rpcBoundaries.has('src/LaundrySkuHistory.tsx:erp_get_laundry_history_v1'))
-const cp7PayrollBoundaries = ['erp_cp7_get_payroll_workspace_v1']
+const cp7PayrollBoundaries = ['erp_cp7_get_payroll_workspace_v1','erp_cp7_save_payroll_v1']
 for (const name of cp7PayrollBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedPayrollPage.tsx:${name}`))
 const cp7NotaBoundaries = ['erp_cp7_get_nota_workspace_v1','erp_cp7_save_nota_v1']
 for (const name of cp7NotaBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedNotaPage.tsx:${name}`))

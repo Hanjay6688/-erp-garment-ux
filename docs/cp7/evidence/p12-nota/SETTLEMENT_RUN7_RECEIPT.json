@@ -1,0 +1,57 @@
+{
+  "status": "INCOMPLETE",
+  "source_commit": "2c6a82fb8c7c4108f43468103c901a117021018d",
+  "source_tree": "91bf5fc64d3d106ad1304cb3da7b74a4ec1c3303",
+  "run_id": 36585427713,
+  "job_id": 109464326927,
+  "artifact_id": 11042245740,
+  "archive_sha256": "db93b1f87ab51c9d5797975edf142524ea4ed67f7b07a654b9417d555566ac93",
+  "source_sha256": "7330be83829fd1d6121324662ae6f14de022802b395e7e669674d6cefd4767c7",
+  "report_sha256": "093d6ac9e80e04f95b9fee86fb2fd11f9c6dc7fc1eb70169cc31fb8572e5b4e6",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "groups": {
+    "native": {
+      "PASS": 5
+    },
+    "http": {
+      "PASS": 1
+    },
+    "notes": {
+      "PASS": 7
+    },
+    "note_races": {
+      "PASS": 3
+    },
+    "note_http": {
+      "PASS": 1
+    },
+    "admission_regression": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    },
+    "payroll_review": {
+      "PASS": 4
+    },
+    "payroll_review_http": {
+      "PASS": 1
+    },
+    "payroll_review_browser": {
+      "PASS": 2
+    },
+    "settlement": {
+      "INCOMPLETE": 7
+    },
+    "settlement_races": {
+      "INCOMPLETE": 4
+    },
+    "settlement_http": {
+      "INCOMPLETE": 1
+    }
+  },
+  "claimed_settlement_success": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

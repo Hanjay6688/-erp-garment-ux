@@ -2,7 +2,11 @@
 
 Finance review is qualified on `5da1fb6106c7c72058ebd73a782a5155f59c258d`: **27/27 PASS**, including desktop/mobile finance-view-only UI, complete native totals and source Nota trace. Full receipt: [PAYROLL_UI_VERIFICATION.json](evidence/p12-nota/PAYROLL_UI_VERIFICATION.json); [run36583328093](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36583328093). This remains writer evidence, independent acceptance pending. Full P12/F03 OPEN; production_go=false.
 
-## Native lifecycle candidate — result pending
+## Lifecycle and connected writer candidate — result pending
+
+Run7 on `2c6a82fb8c7c4108f43468103c901a117021018d`, [run36585427713](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36585427713), retained **27 PASS**, with all **12 new settlement cases INCOMPLETE**. The postgres-owned adapter lacked private dependency EXECUTE/SELECT grants; HTTP setup requested a nonexistent STAFF role. Lock cases consequently never reached their intended wait. CP6 restoration and advisor gate passed. The full failed report and receipt are retained under `evidence/p12-nota/SETTLEMENT_RUN7_*`. No settlement case from that run is claimed qualified.
+
+The correction explicitly grants postgres its private context/Nota reads and access/token/document function execution. A verifier requires this dependency closure and continues to forbid client/read/operational access to the context and adapter. Real Auth starts from an existing role, then binds to a generated custom role with legacy STAFF and checks the current role before sending commands. Business assertions and money oracles stay intact.
 
 The candidate exposes PREPARE, APPROVE, PAY, CANCEL and REVERSE through one public exact-version/review-token/request-UUID command. The command principal has no ERP table DML. A private transaction/actor/document/action context permits a narrowly scoped postgres-owned adapter. Existing finance permissions are applied: view always; approve for preparation/approval/unpaid cancellation; pay for full settlement; both approve and pay for reversing a paid payroll, because native reversal reverses cost approval and payment together.
 
@@ -22,8 +26,12 @@ Retain27 qualified Nota/source/finance reader/browser cases, and add12:
 - Four real concurrency cases: same payment UUID, competing payment/cancellation, authority revoked during an actual payroll lock wait, and new attendance posted during an approval lock wait.
 - One real Auth/HTTP custom-role preparation/approval/payment/replay, anonymous refusal and deactivated replay refusal.
 
-Expected total39. These candidate cases are **not yet claimed PASS**. Native financial controls used by these cases do not imply connected settlement writer UI.
+The connected frontend now uses the shared durable transaction envelope for all five actions; exact bigint versions remain strings. Approval, payment and either cancellation require an explicit review and reason. Payment selects an active bank/cash account and a WIB date, with the amount fixed to native net. Paid reversal explicitly cancels both approval and payment. Pending requests survive reload with the same UUID, action, review token, date, account and version. Failed/stale reads retire visible financial facts. Existing view-only capability checks remain.
+
+Add three actual browser cases: desktop preparation/approval/full payment/paid reversal, mobile committed-payment lost reply followed by reload and exact replay, and approved unpaid cancellation. Ordinary native fixtures create the prior Nota and posted attendance; the settlement actions themselves must all run through the UI. Fixed oracle: work6000 + attendance100 = net6100; approval accrual100 exactly once; payment6100 exactly once; each inverse neutralizes the new GL delta, releases the two source cards and keeps the original Nota history. Stock/HPP facts must remain exact.
+
+Expected total **42**. The 15 settlement cases are **not yet claimed PASS**. Local compiler and79 DOM/recovery tests pass; runtime ownership,81 public RPC boundaries and46 stylesheets pass. This local evidence does not substitute for native/browser results.
 
 ## Remaining P12/family obligations
 
-Connect the qualified settlement command to explicit frontend review/recovery; connect attendance/roster/rate and opening cash advance/payable/carry source editing and their ordinary browser proofs; finish E05 including its partial-payment obligation. Current native payment is full net, not a partial cash payment feature. Keep P11/R10 and P13, broader P09 continuations, independent family acceptance and combined release/install/recovery gates open. Existing business decisions and CP6 closure remain intact.
+Qualify the candidate settlement command and explicit frontend review/recovery; connect attendance/roster/rate and opening cash advance/payable/carry source editing and their ordinary browser proofs; finish E05 including its partial-payment obligation. Current native payment is full net, not a partial cash payment feature. Keep P11/R10 and P13, broader P09 continuations, independent family acceptance and combined release/install/recovery gates open. Existing business decisions and CP6 closure remain intact.

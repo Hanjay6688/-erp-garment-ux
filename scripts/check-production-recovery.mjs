@@ -64,3 +64,9 @@ for (const token of ["useProductionMutation('MATERIAL_COUNT')", 'beginRead()', '
   assert.ok(materialCount.includes(token), `Material count recovery omits ${token}`)
 }
 assert.doesNotMatch(materialCount, /p_request:\s*(?:globalThis\.)?crypto\.randomUUID/)
+
+const payroll = read('src/ConnectedPayrollPage.tsx')
+for (const token of ["useProductionMutation('PAYROLL')", 'beginRead()', 'finishRead(ticket)', 'p_request:e.id', 'p_expected:p.expected_version', 'parsePayrollOutcome', 'reload:load']) {
+  assert.ok(payroll.includes(token), `Payroll recovery omits ${token}`)
+}
+assert.doesNotMatch(payroll, /p_request:\s*(?:globalThis\.)?crypto\.randomUUID/)
