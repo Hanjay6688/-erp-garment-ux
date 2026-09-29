@@ -1,5 +1,9 @@
 # P13 dated financial report and immutable archive reader
 
+## Same-source P09 regression retained
+
+[Run36632119401](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36632119401) on the qualified report source `51ad4f3670ccc9d0132ec3670dae7c65393b79bc` retained **125 PASS plus3 separate smokes**, including20 connected browser cases. All source/restoration/advisor/Auth/database and backup gates pass. [Source-bound receipt](evidence/p13-finance/P09_REGRESSION_VERIFICATION.json). This is a regression result, not125 new P13 cases or a new visual-review claim.
+
 ## Writer-qualified12-case source
 
 Source `51ad4f3670ccc9d0132ec3670dae7c65393b79bc`, tree `71b36211ff9462409297ef07bac2091a73c2fd47`; [run36632119448](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36632119448): **12 PASS /0 FAIL /0 INCOMPLETE /0 NOT_RUN** (8 native,1 concurrency,1 Auth/API,2 connected browser). Exact source bundle hash was recomputed and matched. CP6 restoration, advisor, Auth/database cleanup, primary unchanged and backup/restore all pass. [Receipt and preserved report](evidence/p13-finance/REPORT_VERIFICATION.json).
@@ -33,4 +37,4 @@ The two browser cases share one prepared committed native source/archive; each r
 
 This increment installs on the explicit P09/P11 development stack. It is not yet a combined P09–P13 installation and does not prove P12 guard compatibility. Existing HPP source views, recost commands, financial writers, real close/reopen UI, exports and their complete packet obligations remain separate. E05 partial settlement still requires its accepted contract to be recovered/confirmed; no cash-installment policy is invented here. R10/P11 has its own64-case source qualification. F03 cannot close from this12-case reader proof alone; full integration, installation/restoration and auditor acceptance remain open before F04 takeover.
 
-Original frozen packet/source references: `framework-v2/work_packets.json`, P00 native catalogue, accepted CP6 AW/BA report/close semantics. No framework or CP6 acceptance hash is rewritten.
+Original frozen packet/source references: `framework-v2/registries/work_packets.json`, P00 native catalogue, accepted CP6 AW/BA report/close semantics. No framework or CP6 acceptance hash is rewritten.

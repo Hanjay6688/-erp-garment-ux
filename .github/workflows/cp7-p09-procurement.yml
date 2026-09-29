@@ -24,6 +24,7 @@ name: CP7 P09 Procurement
     - scripts/cp7_p09_browser_fixture.py
     - src/ConnectedMaterialsPage.tsx
     - src/ConnectedMaterialCountPage.tsx
+    - src/MaterialCountSourcePicker.tsx
     - src/materialCountContract.ts
     - src/materialContract.ts
     - src/materials-connected.css

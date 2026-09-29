@@ -46,6 +46,15 @@ def main():
                 item['material_code'],item['unit'],item['material_name']=cur.execute('select material_sku,unit_code,material_name from erp.materials where id=%s',(item['material'],)).fetchone()
             f['location_name']=cur.execute('select location_name from erp.locations where id=%s',(f['location'],)).fetchone()[0]
             f['other']=g;f['count_day']=str(f['day']+timedelta(days=2));f['ledger_before']=reversal.net_ledger(cur);out=f;conn.commit()
+        elif sys.argv[1]=='create_count_unmoved':
+            f=counts.unmoved_fixture(cur,date.fromisoformat(payload['today']),'ACCESSORY' if payload['mobile'] else 'FABRIC')
+            f['count_day']=str(f['day']+timedelta(days=2));f['ledger_before']=reversal.net_ledger(cur);out=f;conn.commit()
+        elif sys.argv[1]=='read_count_unmoved':
+            h=cur.execute('select id,status from erp.material_adjustments where adjustment_number=%s',(payload['tag']+'-COUNT-UI',)).fetchone()
+            out=dict(qty=str(counts.position_qty(cur,payload)),source_qty=str(counts.position_qty(cur,payload,payload['source_location'])),ledger=reversal.net_ledger(cur),document=None,
+                movements=cur.execute('select count(*) from erp.material_stock_movements where material_id=%s and location_id=%s',(payload['material'],payload['location'])).fetchone()[0])
+            if h:out['document']=counts.read(cur,str(h[0]))['detail']
+            conn.rollback()
         elif sys.argv[1]=='create_count':
             f=(unrolled.fixture if payload['mobile'] else material.fixture)(cur,date.fromisoformat(payload['today']))
             f['material_code'],f['unit'],f['material_name']=cur.execute('select material_sku,unit_code,material_name from erp.materials where id=%s',(f['material'],)).fetchone()

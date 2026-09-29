@@ -38,7 +38,7 @@
     "P09": "BOUNDED_125_PASS_MULTI_INPUT_COUNTS_AND_COMBINED_INVOICES_REMAINING_SCOPE_OPEN",
     "P10": "FG_BOOK_34_PASS_NOTA_COMPOSITION_QUALIFIED_SCOPE_OPEN",
     "P12": "BOUNDED_ATTENDANCE_SOURCE_TO_PAYROLL_80_PASS_REMAINING_SCOPE_OPEN",
-    "P11": "RETURN64_RUN3_63_PASS_1_INCOMPLETE_FINAL_NATIVE_CAP_RETEST_PENDING",
+    "P11": "WRITER_RETURN64_PASS_R10_BROWSER_SOURCE_LIFECYCLE_PASS_INDEPENDENT_PENDING",
     "P13": "BOUNDED_REPORT_ARCHIVE_READER_12_PASS_FINANCIAL_WRITERS_AND_FULL_SCOPE_OPEN"
   },
   "inherited_scope": {
@@ -197,7 +197,7 @@
       "verification": "docs/cp7/evidence/p11-sales/RETURN_RUN1_RECEIPT.json"
     },
     "return_candidate": {
-      "status": "RUN3_63_PASS_1_INCOMPLETE_NATIVE_REFUSAL_TEXT_REPAIR_PENDING",
+      "status": "WRITER_BOUNDED_64_PASS",
       "expected_cases": 64,
       "local_source_cases": 28,
       "shared_recovery_cases": 30,
@@ -207,7 +207,10 @@
       "production_go": false,
       "diagnostic": "docs/cp7/evidence/p11-sales/RETURN_RUN3_RECEIPT.json",
       "r10_browser_cases": 2,
-      "r10_browser_status": "WRITER_SOURCE_LIFECYCLE_PASS_INDEPENDENT_PENDING"
+      "r10_browser_status": "WRITER_SOURCE_LIFECYCLE_PASS_INDEPENDENT_PENDING",
+      "source_commit": "e808453079f44876d576cecbc5fce9a7aba389ee",
+      "source_tree": "83d276edcd21ffd2c9ea81ca0d023eb8d7d0b9a0",
+      "verification": "docs/cp7/evidence/p11-sales/RETURN_VERIFICATION.json"
     }
   },
   "p13_entry": {
@@ -224,11 +227,24 @@
     "verification": "docs/cp7/evidence/p13-finance/REPORT_VERIFICATION.json"
   },
   "f03_combined_candidate": {
-    "status": "CANDIDATE_NATIVE_22_CASES_PENDING",
+    "status": "WRITER_BOUNDED_COMBINED_22_PASS_FULL_FAMILY_OPEN",
     "handoff": "docs/cp7/F03_COMBINED_STACK_HANDOFF.md",
     "qualifier": "scripts/cp7_f03_probe.py",
     "expected_cases": 22,
     "full_family_acceptance": false,
+    "independent_acceptance": false,
+    "production_go": false,
+    "source_commit": "e808453079f44876d576cecbc5fce9a7aba389ee",
+    "source_tree": "83d276edcd21ffd2c9ea81ca0d023eb8d7d0b9a0",
+    "verification": "docs/cp7/evidence/f03-combined/COMBINED_VERIFICATION.json"
+  },
+  "p09_unmoved_count_candidate": {
+    "status": "CANDIDATE_NATIVE_132_PLUS_3_SMOKES_PENDING",
+    "handoff": "docs/cp7/P09_MATERIAL_COUNT_HANDOFF.md",
+    "expected_cases": 132,
+    "separate_smokes": 3,
+    "new_cases": 7,
+    "local_count_and_source_cases": 18,
     "independent_acceptance": false,
     "production_go": false
   }

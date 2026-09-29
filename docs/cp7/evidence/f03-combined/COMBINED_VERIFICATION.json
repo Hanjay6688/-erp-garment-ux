@@ -1,0 +1,88 @@
+{
+  "status": "PASS",
+  "source_commit": "e808453079f44876d576cecbc5fce9a7aba389ee",
+  "source_tree": "83d276edcd21ffd2c9ea81ca0d023eb8d7d0b9a0",
+  "run_id": 36632965073,
+  "job_id": 109626492233,
+  "artifact_id": 11064160532,
+  "artifact_bytes": 5719581,
+  "artifact_sha256": "48060aa4bf4068aa2baaf672bb13cdff334be71414df3c7b624c954b949ae947",
+  "report_sha256": "937e1b2d09c2d73eae64216493b9fcd12202efbc5480a9ca1f9df0017871d420",
+  "report_gzip_sha256": "654a9875c12722d0ccd4abb64e8db8adf1dae5936720df5a15ac154574656e33",
+  "source_bundle_sha256": "7461e9a47c69840f618d16c51a0f141b1360d5a709311fc7212ad6d7a05cdee1",
+  "counts": {
+    "PASS": 22,
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0
+  },
+  "separate_smokes": 0,
+  "groups": {
+    "native": {
+      "PASS": 10
+    },
+    "races": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 4
+    },
+    "sales_browser": {
+      "PASS": 2
+    },
+    "opening_payroll_browser": {
+      "PASS": 2
+    },
+    "finance_browser": {
+      "PASS": 2
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "e808453079f44876d576cecbc5fce9a7aba389ee",
+    "product_ref": "51ad4f3670ccc9d0132ec3670dae7c65393b79bc",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36632965073",
+    "run_attempt": "1",
+    "workflow": "CP7 F03 Combined Stack",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "e808453079f44876d576cecbc5fce9a7aba389ee",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "screenshots": {
+    "P11_RETURN_DESKTOP.png": "0a04cbc6e000c574ca6992f88ecd8fb12d2976a11407d05b04f5f37c7bfa41dc",
+    "P11_RETURN_MOBILE.png": "825a0c6ec2f893dd856d6b6fda42d87c1f045c8e2794c0fd94d0ef2ce7bcf410",
+    "P12_OPENING_DESKTOP.png": "5dc5065c9da2eb6e1f586d8d69de710799b7b185657e49fcacf2d65ce0e51286",
+    "P12_OPENING_MOBILE.png": "ab3a83d24823e3c988191ea9f7f7f2ceb3b60c8d52b5f022ada53b66241f98cc",
+    "P13_REPORT_DESKTOP.png": "19c7a57d2fb54972746ecbc4988af4895fb551050b2bdf2e0caf81898c755220",
+    "P13_REPORT_MOBILE.png": "7ed4387f19054939ef46b80b0a82b69c3b67c0f86e0df599bbad8513403eeee8"
+  },
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false,
+  "visual_review": {
+    "performed": true,
+    "scope": "Actual retained source screenshots inspected; readable date/source/money and horizontally fitting panels. Mobile forms/reports remain vertically long; reload may show all invoice results. No review of other screens is inferred."
+  },
+  "source_identity_limit": "Installer product_ref is51ad4f3 because its path list omits scripts. Actual github_sha/tool_head e808453 and recomputed exact bundle hash identify the executed source.",
+  "scope": "Exact full development stack installed in each test copy; selected10 native/2 races/4 Auth/6 browser regression plus cross-component cash AR stock COGS expense and original-filing proof. Not the union of all historic component cases."
+}

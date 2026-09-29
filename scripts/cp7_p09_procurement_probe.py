@@ -37,7 +37,7 @@ def verify(cur):
     assert INSTALLED_FUNCTIONS is not None and functions(cur)==INSTALLED_FUNCTIONS,'P09_INSTALLED_FUNCTION_OR_ACL_CHANGED'
     assert cur.execute("select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_procurement' and (p.prosecdef is distinct from (p.proname in('reverse_receipt_locked','validate_uom_lines')) or pg_get_userbyid(p.proowner)<>case when p.proname='reverse_receipt_locked' then 'postgres' when p.proname in('command','reverse_request','save_draft_request') then 'cp7_procure_write' else 'cp7_procure_read' end or p.proconfig is distinct from array['search_path=\"\"'])").fetchone()[0]==0
     for name,role in [('erp_cp7_get_procurement_v1','cp7_procure_read'),('erp_cp7_get_procurement_options_v1','cp7_procure_read'),('erp_cp7_get_procurement_uom_v1','cp7_procure_read'),('erp_cp7_save_procurement_v1','cp7_procure_write'),
-      ('erp_cp7_preview_material_count_v1','cp7_material_read'),('erp_cp7_get_material_counts_v1','cp7_material_read'),('erp_cp7_save_material_count_v1','cp7_material_write'),
+      ('erp_cp7_preview_material_count_v1','cp7_material_read'),('erp_cp7_get_material_counts_v1','cp7_material_read'),('erp_cp7_get_material_count_options_v1','cp7_material_read'),('erp_cp7_save_material_count_v1','cp7_material_write'),
       ('erp_cp7_get_materials_v1','cp7_material_read'),('erp_cp7_get_material_ledger_v1','cp7_material_read'),
       ('erp_cp7_get_material_transfers_v1','cp7_material_read'),('erp_cp7_get_material_locations_v1','cp7_material_read'),('erp_cp7_save_materials_v1','cp7_material_write'),
       ('erp_cp7_get_invoice_sources_v1','cp7_invoice_read'),('erp_cp7_get_purchase_invoices_v1','cp7_invoice_read'),('erp_cp7_save_purchase_invoice_v1','cp7_invoice_write'),
@@ -77,6 +77,7 @@ def install(cur):
 def run():
     global INSTALLED_FUNCTIONS
     report=dict(label='CP7_P09_RECEIPT_BRIDGE',status='INCOMPLETE',production_go=False,independent_acceptance=False,
+      expected_case_count=132,expected_smoke_count=3,
       scope='BOUNDED_RECEIPT_MATERIAL_TRANSFER_COUNT_INVOICE_RETURN_AND_RECEIPT_INVERSE_CONNECTED',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest())
     installed=False
     try:
@@ -129,9 +130,13 @@ def run():
             d=report['advisor_delta'];report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or (d['status']=='REVIEW_REQUIRED' and all(
              f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and (f.get('metadata') or {}).get('schema') in ('cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice') for f in d.get('added',[])))
         groups=[report.get(k,{}) for k in ('smoke','native','races','http','browser','material_smoke','material','material_races','material_http','material_crossflow','material_count','material_count_races','material_count_http','invoice','invoice_races','invoice_http','combined_invoice','combined_invoice_races','combined_invoice_http','return_smoke','returns','return_races','return_http','receipt_reversal','receipt_reversal_races','receipt_reversal_http','uom','uom_races','uom_http')]
-        report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and all(r.get('status') in ('PASS','RUN_COMPLETE') and set(r.get('counts',{}))=={'PASS'} and r['counts']['PASS']>0 and r.get('database_remaining',0)==0 for r in groups) else 'INCOMPLETE'
+        smoke_groups=[report.get(k,{}) for k in ('smoke','material_smoke','return_smoke')]
+        report['observed_smoke_count']=sum(sum(g.get('counts',{}).values()) for g in smoke_groups)
+        report['observed_case_count']=sum(sum(g.get('counts',{}).values()) for g in groups)-report['observed_smoke_count']
+        complete_count=report['observed_case_count']==report['expected_case_count'] and report['observed_smoke_count']==report['expected_smoke_count']
+        report['status']='PASS' if complete_count and not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and all(r.get('status') in ('PASS','RUN_COMPLETE') and set(r.get('counts',{}))=={'PASS'} and r['counts']['PASS']>0 and r.get('database_remaining',0)==0 for r in groups) else 'INCOMPLETE'
         OUT.parent.mkdir(parents=True,exist_ok=True);OUT.write_text(json.dumps(report,indent=2,default=str)+'\n')
-        print(json.dumps({k:report.get(k) for k in ('label','status','source_sha256','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)
+        print(json.dumps({k:report.get(k) for k in ('label','status','source_sha256','observed_case_count','observed_smoke_count','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)
     return dict(status=report['status'],production_go=False,independent_acceptance=False)
 
 if __name__=='__main__':

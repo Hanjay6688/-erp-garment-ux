@@ -269,7 +269,7 @@ async function purchaseUom(ui,today,mobile){
   return {status:'PASS',mobile,unit,purchase_quantity:quantity,price_per_purchase_unit:price,base_stock:stock,value,real_ui_auth_rpc_database:true,draft_edit_preserves_entered_units:true,recovery_identical_request:mobile?true:null,screenshot:`P09_UOM_${mobile?'MOBILE':'DESKTOP'}.png`}
  }finally{await user.context.close()}
 }
-export async function cases(ui,today){return [['P09_BROWSER_RECEIPT_DESKTOP',()=>receipt(ui,today,false)],['P09_BROWSER_LOST_REPLY_MOBILE',()=>receipt(ui,today,true)],['P09_BROWSER_TRANSFER_DESKTOP',()=>transfer(ui,today,false)],['P09_BROWSER_TRANSFER_LOST_REPLY_MOBILE',()=>transfer(ui,today,true)],['P09_BROWSER_INVOICE_DESKTOP',()=>supplierInvoice(ui,today,false)],['P09_BROWSER_INVOICE_LOST_REPLY_MOBILE',()=>supplierInvoice(ui,today,true)],['P09_BROWSER_RETURN_CREDIT_DESKTOP',()=>supplierReturn(ui,today,false)],['P09_BROWSER_RETURN_CREDIT_LOST_REPLY_MOBILE',()=>supplierReturn(ui,today,true)],['P09_BROWSER_RECEIPT_REVERSE_DESKTOP',()=>receiptReversal(ui,today,false)],['P09_BROWSER_RECEIPT_REVERSE_LOST_REPLY_MOBILE',()=>receiptReversal(ui,today,true)],['P09_BROWSER_UOM_DESKTOP',()=>purchaseUom(ui,today,false)],['P09_BROWSER_UOM_LOST_DRAFT_REPLY_MOBILE',()=>purchaseUom(ui,today,true)],['P09_BROWSER_ACCESSORY_TRANSFER_DESKTOP',()=>transfer(ui,today,false,'ACCESSORY')],['P09_BROWSER_OTHER_TRANSFER_MOBILE',()=>transfer(ui,today,true,'OTHER')],['P09_BROWSER_COUNT_DESKTOP',()=>materialCount(ui,today,false)],['P09_BROWSER_COUNT_LOST_REPLY_MOBILE',()=>materialCount(ui,today,true)],['P09_BROWSER_COMBINED_INVOICE_DESKTOP',()=>combinedInvoice(ui,today,false)],['P09_BROWSER_COMBINED_INVOICE_LOST_REPLY_MOBILE',()=>combinedInvoice(ui,today,true)],['P09_BROWSER_COUNT_MULTI_DESKTOP',()=>materialCountMulti(ui,today,false)],['P09_BROWSER_COUNT_MULTI_MOBILE_RECOVERY',()=>materialCountMulti(ui,today,true)]]}
+export async function cases(ui,today){return [['P09_BROWSER_RECEIPT_DESKTOP',()=>receipt(ui,today,false)],['P09_BROWSER_LOST_REPLY_MOBILE',()=>receipt(ui,today,true)],['P09_BROWSER_TRANSFER_DESKTOP',()=>transfer(ui,today,false)],['P09_BROWSER_TRANSFER_LOST_REPLY_MOBILE',()=>transfer(ui,today,true)],['P09_BROWSER_INVOICE_DESKTOP',()=>supplierInvoice(ui,today,false)],['P09_BROWSER_INVOICE_LOST_REPLY_MOBILE',()=>supplierInvoice(ui,today,true)],['P09_BROWSER_RETURN_CREDIT_DESKTOP',()=>supplierReturn(ui,today,false)],['P09_BROWSER_RETURN_CREDIT_LOST_REPLY_MOBILE',()=>supplierReturn(ui,today,true)],['P09_BROWSER_RECEIPT_REVERSE_DESKTOP',()=>receiptReversal(ui,today,false)],['P09_BROWSER_RECEIPT_REVERSE_LOST_REPLY_MOBILE',()=>receiptReversal(ui,today,true)],['P09_BROWSER_UOM_DESKTOP',()=>purchaseUom(ui,today,false)],['P09_BROWSER_UOM_LOST_DRAFT_REPLY_MOBILE',()=>purchaseUom(ui,today,true)],['P09_BROWSER_ACCESSORY_TRANSFER_DESKTOP',()=>transfer(ui,today,false,'ACCESSORY')],['P09_BROWSER_OTHER_TRANSFER_MOBILE',()=>transfer(ui,today,true,'OTHER')],['P09_BROWSER_COUNT_DESKTOP',()=>materialCount(ui,today,false)],['P09_BROWSER_COUNT_LOST_REPLY_MOBILE',()=>materialCount(ui,today,true)],['P09_BROWSER_COMBINED_INVOICE_DESKTOP',()=>combinedInvoice(ui,today,false)],['P09_BROWSER_COMBINED_INVOICE_LOST_REPLY_MOBILE',()=>combinedInvoice(ui,today,true)],['P09_BROWSER_COUNT_MULTI_DESKTOP',()=>materialCountMulti(ui,today,false)],['P09_BROWSER_COUNT_MULTI_MOBILE_RECOVERY',()=>materialCountMulti(ui,today,true)],['P09_BROWSER_COUNT_UNMOVED_DESKTOP',()=>materialCountUnmoved(ui,today,false)],['P09_BROWSER_COUNT_UNMOVED_MOBILE_RECOVERY',()=>materialCountUnmoved(ui,today,true)]]}
 
 async function materialCount(ui,today,mobile){
  const f=fixture('create_count',{today,mobile}),user=await ui.login('OWNER',{label:'cp7-material-count-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'})
@@ -391,5 +391,48 @@ async function materialCountMulti(ui,today,mobile){
   await p.getByLabel('Saya sudah memeriksa jumlah dan alasan tindakan ini.',{exact:true}).check();await p.getByRole('button',{name:'Batalkan hitung fisik',exact:true}).click()
   await ui.expect.poll(()=>fixture('read_count',f).document?.status).toBe('REVERSED');actual=fixture('read_count',f);assert.equal(Number(actual.qty),10);assert.equal(Number(actual.other_qty),10);assert.deepEqual(actual.ledger,f.ledger_before)
   return {status:'PASS',mobile,ordinary_multi_input_browser_save_edit_post_reverse:true,zero_difference_input_preserved:true,native_movement_count:1,physical_inputs:2,edited_quantity:mobile?'13':'7',original_document_time_retained:true,price_preserved:mobile,exact_lost_save_reply:mobile?true:null,final_stock_and_all_accounts_restored:true,screenshot:`P09_COUNT_MULTI_${mobile?'MOBILE':'DESKTOP'}.png`}
+ }finally{await user.context.close()}
+}
+
+async function materialCountUnmoved(ui,today,mobile){
+ const f=fixture('create_count_unmoved',{today,mobile}),user=await ui.login('OWNER',{label:'cp7-count-unmoved-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'})
+ try{
+  const p=user.page;await openPage(ui,p,'count');let initial=fixture('read_count_unmoved',f)
+  assert.equal(initial.qty,'0');assert.equal(initial.movements,0)
+  await p.getByRole('button',{name:'Pilih bahan di luar daftar saldo',exact:true}).click()
+  const picker=p.getByRole('region',{name:'Pilih bahan terdaftar',exact:true})
+  await picker.getByLabel('Cari gudang pemeriksaan',{exact:true}).fill(f.location_name);await picker.getByRole('button',{name:'Cari gudang pemeriksaan',exact:true}).click()
+  const warehouse=picker.locator('.cproc-receipt').filter({hasText:f.location_name});await ui.expect(warehouse).toHaveCount(1);await warehouse.click()
+  await picker.getByLabel('Cari bahan atau roll terdaftar',{exact:true}).fill(f.material_code);await picker.getByRole('button',{name:'Cari barang terdaftar',exact:true}).click()
+  const choice=picker.locator('.cmat-roll').filter({hasText:f.material_code});await ui.expect(choice).toHaveCount(1);await ui.expect(choice).toContainText('Saldo diperiksa saat pratinjau.');await ui.expect(choice).not.toContainText('Rp')
+  await choice.getByRole('button',{name:'Tambahkan '+(f.roll?f.tag+'-R':f.material_name),exact:true}).click()
+  const form=p.locator('.cmat-count-form');await ui.expect(form).toContainText(f.location_name)
+  await ui.expect(p.getByLabel('Jumlah fisik bahan',{exact:true})).toHaveValue('')
+  await p.getByLabel('Nomor hitung fisik',{exact:true}).fill(f.tag+'-COUNT-UI');await p.getByLabel('Waktu hitung WIB',{exact:true}).fill(f.count_day+'T10:00')
+  await p.getByLabel('Alasan hitung fisik',{exact:true}).selectOption('FOUND');await p.getByLabel('Catatan hitung fisik',{exact:true}).fill('Barang ditemukan; nomor roll dan harga diperiksa bersama petugas')
+  await p.getByLabel('Jumlah fisik bahan',{exact:true}).fill('3');await p.getByRole('button',{name:'Periksa selisih',exact:true}).click()
+  await ui.expect(form).toContainText('Saldo pada waktu hitung 0');await ui.expect(p.getByLabel('Harga satuan hasil hitung',{exact:true})).toHaveValue('')
+  await ui.expect(p.getByRole('button',{name:'Simpan draft hitung fisik',exact:true})).toBeDisabled()
+  await p.getByLabel('Harga satuan hasil hitung',{exact:true}).fill('10')
+  // A failed identity refresh retires those choices without erasing this reviewed input.
+  const lookup='**/rest/v1/rpc/erp_cp7_get_material_count_options_v1'
+  await p.route(lookup,route=>route.fulfill({status:503,contentType:'application/json',body:JSON.stringify({message:'Identity lookup temporarily unavailable'})}))
+  await picker.getByRole('button',{name:'Cari barang terdaftar',exact:true}).click();await ui.expect(picker.getByRole('alert')).toBeVisible();await ui.expect(picker.locator('.cmat-roll')).toHaveCount(0)
+  await ui.expect(p.getByLabel('Jumlah fisik bahan',{exact:true})).toHaveValue('3');await ui.expect(p.getByLabel('Harga satuan hasil hitung',{exact:true})).toHaveValue('10');await p.unroute(lookup)
+  await p.getByRole('button',{name:'Simpan draft hitung fisik',exact:true}).click();const detail=p.locator('.cmat-count-detail');await ui.expect(detail).toContainText('Draft belum mengubah stok.')
+  let read=fixture('read_count_unmoved',f);assert.equal(read.qty,'0');assert.equal(read.movements,0);assert.deepEqual(read.ledger,f.ledger_before)
+  const review=p.getByLabel('Saya sudah memeriksa jumlah dan alasan tindakan ini.',{exact:true});await review.check()
+  let lost=false,first=null,replay=null
+  if(mobile)await p.route('**/rest/v1/rpc/erp_cp7_save_material_count_v1',async route=>{const body=route.request().postDataJSON();if(body.p_action==='POST'&&!lost){first=body;const response=await route.fetch();if(response.status()!==200){await route.fulfill({response});return}lost=true;await route.abort('failed')}else{if(body.p_action==='POST')replay=body;await route.continue()}})
+  await p.getByRole('button',{name:'Sahkan hitung fisik',exact:true}).click();await ui.expect.poll(()=>fixture('read_count_unmoved',f).document?.status,{timeout:20000}).toBe('POSTED')
+  if(mobile){await ui.expect(p.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeVisible();await p.reload();await openPage(ui,p,'count');await p.getByRole('button',{name:'Reconcile transaksi',exact:true}).click();await ui.expect(p.getByRole('button',{name:'Reconcile transaksi',exact:true})).toHaveCount(0);assert.ok(lost);assert.deepEqual(replay,first)}
+  await ui.expect(detail).toContainText('Penyesuaian stok sudah disahkan.');read=fixture('read_count_unmoved',f)
+  assert.equal(Number(read.qty),3);assert.equal(read.movements,1);assert.equal(Number(read.document.items[0].valuation.restated_value),30)
+  assert.equal(Date.parse(read.document.physical_at),Date.parse(f.count_day+'T10:00:00+07:00'))
+  await ui.expect.poll(()=>detail.evaluate(el=>{const b=el.getBoundingClientRect();return b.left>=0&&b.right<=innerWidth+1&&document.documentElement.scrollWidth<=innerWidth+1})).toBe(true)
+  await p.evaluate(()=>window.scrollTo(0,0));mkdirSync('cp6-proof/t3',{recursive:true});await p.screenshot({path:`cp6-proof/t3/P09_COUNT_UNMOVED_${mobile?'MOBILE':'DESKTOP'}.png`,fullPage:true})
+  await review.check();await p.getByRole('button',{name:'Batalkan hitung fisik',exact:true}).click();await ui.expect(detail).toContainText('Penyesuaian sudah dibatalkan dengan mutasi pembalik.')
+  read=fixture('read_count_unmoved',f);assert.equal(Number(read.qty),0);assert.equal(Number(read.source_qty),Number(f.source_qty));assert.equal(read.movements,2);assert.deepEqual(read.ledger,f.ledger_before)
+  return {status:'PASS',mobile,real_browser_registered_identity_without_prior_position_movement:true,brand_new_material:mobile,quantity_and_cost_not_prefilled:true,native_preview_zero:true,explicit_found3_cost10_value30:true,failed_lookup_retires_choices_preserves_form:true,lost_post_response_identical:mobile?true:null,inverse_restores_empty_position_original_warehouse_and_every_GL_account:true,screenshot:`P09_COUNT_UNMOVED_${mobile?'MOBILE':'DESKTOP'}.png`}
  }finally{await user.context.close()}
 }

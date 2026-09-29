@@ -5,6 +5,9 @@ name: CP7 F03 Combined Stack
     - cp7/integration
     paths:
     - scripts/cp7_f03_*
+    - scripts/cp7-src/**
+    - scripts/cp7_*bundle.py
+    - src/**
     - .github/workflows/cp7-f03-combined.yml
 permissions:
   contents: read

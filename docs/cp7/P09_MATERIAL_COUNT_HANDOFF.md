@@ -1,5 +1,13 @@
 # P09 material physical counts — bounded writer qualification
 
+## Registered identities without prior stock movements — candidate
+
+The count editor can explicitly choose an ordinary active warehouse and registered material/roll even if that position never had a movement. `erp_cp7_get_material_count_options_v1` returns identity only, with complete pages and the current material-view/stock-adjust permission check. It supplies no quantity, price, cached roll balance or fabricated movement date. Fabric still requires an actual registered roll. Other material types have no roll. Inactive materials/warehouses and service zones are excluded/refused.
+
+The operator enters physical quantity, requests the dated native preview and supplies an authorized explicit price for a positive difference. There is no automatic zero-price fallback. The existing server prefix token, current authorization, native SAVE/POST/REVERSE and lost-response recovery remain authoritative. A selected form keeps its warehouse; duplicates/capacity are prevented. Late warehouse/search replies and failed identity refreshes retire the choices while preserving entered count data.
+
+Local TypeScript/source/access checks and18 focused count/chooser DOM/contract cases pass. Predeclared native qualification now requires **132 cases plus3 separate smokes** (the prior125 +4 native cases +1 real Auth case +2 connected browser cases). Additions cover a registered fabric roll without stock at the target warehouse, a brand-new accessory without any stock movement, explicit quantity3/cost10/value30 and full inverse, an intervening real transfer that invalidates the empty prefix, complete source paging/access/exclusions, and desktop/mobile source selection→preview→SAVE→POST→REVERSE. Mobile includes exact lost-POST replay. Native/browser results are pending; no new transaction or visual success is inferred from local checks.
+
 30 September 2026 WIB: **multi-input count qualified125 PASS +3 separate smokes**, including20 connected browser cases, on `a2643533457925213f90d56ab9646ccd0fae8a5c` (tree`47a0c9f852a4250fbc30e510739b6c2d2cc3cc90`). [Run36619561999](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36619561999), [complete receipt and hashes](evidence/p09-procurement/MULTI_COUNT_VERIFICATION.json). This supersedes the pending multi-input qualification below; earlier single-input limits are historical. Both new responsive screenshots were inspected and retained. CP6 restoration, advisors, Auth/database cleanup and both app workflows pass. P09/F03 and independent acceptance remain OPEN.
 
 ## Multi-input continuation — candidate, 30 September 2026 WIB

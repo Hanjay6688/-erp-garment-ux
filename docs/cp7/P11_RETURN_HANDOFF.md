@@ -1,5 +1,11 @@
 # P11 physical return and full invoice inverse — writer candidate
 
+## Qualified64 on final declared source
+
+Source `e808453079f44876d576cecbc5fce9a7aba389ee`, tree `83d276edcd21ffd2c9ea81ca0d023eb8d7d0b9a0`; [run36632964965](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36632964965): **64 PASS /0 FAIL /0 INCOMPLETE /0 NOT_RUN**. All10 browser cases include real desktop Grade A and mobile Grade B sale→return→cash→full inverse, with identical lost-response replay. Exact source bundle hash recomputed; CP6 restoration, advisor, Auth/database cleanup, primary unchanged and backup/restore pass. The corrected first native over-allocation refusal now passes without changing the business oracle or product. Earlier failed runs remain retained.
+
+[Receipt and original report](evidence/p11-sales/RETURN_VERIFICATION.json). Both R10 screenshots from this exact source were inspected and retained: horizontal fit is intact, but mobile return/recovery screens remain vertically long. This closes the declared writer64 checkpoint, not independent R10 acceptance or all ERP release gates. The old47 cash/source cases are contained in64, not added to it.
+
 ## Run3:63 PASS, single native refusal-message mismatch
 
 Source `f8bc18ae2bacd00c2a6dd12f487bb4790f19ba57`, tree `57507be0e9b041e256efd58bf040f291a491c57d`; [run36631707785](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36631707785): **63 PASS /0 FAIL /1 INCOMPLETE /0 NOT_RUN**. All10 browser cases, all races, HTTP, cash and other return cases pass. CP6 restoration, advisor, Auth/database cleanup, primary-unchanged and backup/restore pass. [Retained original result](evidence/p11-sales/RETURN_RUN3_RECEIPT.json).

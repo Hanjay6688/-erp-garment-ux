@@ -7,6 +7,9 @@ export type CountItem = { id:string; material_id:string; material_sku:string; ma
 export type CountEditItem = Pick<CountItem,'material_id'|'material_sku'|'material_name'|'unit_code'|'roll_id'|'roll_number'|'notes'> & {physical_qty:string;input_unit_cost?:string|null}
 export type CountDetail = CountRow & {items:CountItem[];edit:{physical_qty:string;input_unit_cost?:string|null}|{items:CountEditItem[]}|null}
 export type CountWorkspace = {contract_version:'cp7.material-counts.v1';read_at:string;financial_captured:boolean;capabilities:{adjust:boolean;reverse:boolean};page:MaterialPage<CountRow>;detail:CountDetail|null}
+export type CountChoice = Pick<CountPreviewLine,'material_id'|'material_sku'|'material_name'|'unit_code'|'roll_id'|'roll_number'> & {material_type:string}
+export type CountIdentity = Omit<CountChoice,'material_type'> & {location_id:string;location_name:string}
+export type CountOptions = {contract_version:'cp7.material-count-options.v1';selection_basis:'REGISTERED_IDENTITY_NOT_STOCK';read_at:string;location_id:string;location_name:string;query:string;page:MaterialPage<CountChoice>}
 const fail=():never=>{throw Error('Data hitung fisik belum lengkap. Muat ulang sebelum melanjutkan.')}
 const text=(v:unknown):v is string=>typeof v==='string'
 const nullable=(v:unknown)=>v===null||text(v)
@@ -16,6 +19,21 @@ const at=(v:unknown)=>text(v)&&Number.isFinite(Date.parse(v))
 const whole=(v:unknown):v is string=>text(v)&&/^(0|[1-9][0-9]{0,18})$/.test(v)
 const version=(v:unknown)=>whole(v)&&v!=='0'
 const closed=(v:unknown,keys:string[])=>{const o=materialObject(v);if(keys.some(k=>!(k in o))||Object.keys(o).some(k=>!keys.includes(k)))fail();return o}
+export function parseCountOptions(v:unknown,expected:{location_id:string;q:string;offset:number;limit:number}):CountOptions {
+ const w=closed(v,['contract_version','selection_basis','read_at','location_id','location_name','query','page'])
+ if(w.contract_version!=='cp7.material-count-options.v1'||w.selection_basis!=='REGISTERED_IDENTITY_NOT_STOCK'||!at(w.read_at)||!id(w.location_id)||w.location_id!==expected.location_id||!text(w.location_name)||w.query!==expected.q)fail()
+ const p=closed(w.page,['rows','total','offset','limit','next_offset'])
+ if(!Array.isArray(p.rows)||!whole(p.total)||p.offset!==expected.offset||p.limit!==expected.limit||!Number.isSafeInteger(p.offset)||Number(p.offset)<0||!Number.isSafeInteger(p.limit)||Number(p.limit)<1||Number(p.limit)>100||p.rows.length>Number(p.limit))fail()
+ const rows=p.rows as unknown[],end=BigInt(expected.offset)+BigInt(rows.length),total=BigInt(String(p.total))
+ if(rows.length&&end>total||end<total&&p.next_offset===null||p.next_offset!==null&&(p.next_offset!==expected.offset+rows.length||!rows.length||end>=total))fail()
+ const keys=rows.map(value=>{
+  const r=closed(value,['material_id','material_sku','material_name','material_type','unit_code','roll_id','roll_number'])
+  if(!id(r.material_id)||![r.material_sku,r.material_name,r.material_type,r.unit_code].every(x=>text(x)&&x.length>0)||r.material_type==='FABRIC'&&(!id(r.roll_id)||!text(r.roll_number)||!r.roll_number)||r.material_type!=='FABRIC'&&(r.roll_id!==null||r.roll_number!==null))fail()
+  return `${r.material_id}:${r.roll_id}`
+ })
+ if(new Set(keys).size!==keys.length)fail()
+ return w as unknown as CountOptions
+}
 export function countNonzero(v:string){return /[1-9]/.test(v)}
 export function countPositive(v:string){return !v.startsWith('-')&&countNonzero(v)}
 export function parseCountPreview(v:unknown):CountPreview {

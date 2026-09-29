@@ -1,6 +1,12 @@
 # F03 combined development installation — bounded writer candidate
 
-F03 remains OPEN. CP6 CLOSED_CONTRACT_SCOPE; independent_acceptance=false; production_go=false. This integration checkpoint does not replace full packet scope or independent audit. Candidate native proof is pending.
+## Exact combined stack qualified22
+
+Source `e808453079f44876d576cecbc5fce9a7aba389ee`, tree `83d276edcd21ffd2c9ea81ca0d023eb8d7d0b9a0`; [run36632965073](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36632965073): **22 PASS /0 FAIL /0 INCOMPLETE /0 NOT_RUN**. All declared10 native,2 race,4 real Auth and6 connected-browser cases ran. Cross-ledger cash−6030, AR30, FG−30, revenue60, COGS30, expense5 and net profit25 matched. Full inverse restored every GL account, report amounts, opening balances and carry. Original filing remained unchanged after correction.
+
+[Receipt and original report](evidence/f03-combined/COMBINED_VERIFICATION.json). The source bundle was rebuilt from this exact git commit and matches the report. CP6 restoration, advisor, Auth/database cleanup, primary unchanged and backup/restore all pass. All6 source screenshots were inspected and retained; panels fit horizontally, while mobile histories/financial rows are vertically long. These are selected integration tests and writer evidence, not full-family or independent acceptance.
+
+F03 remains OPEN. CP6 CLOSED_CONTRACT_SCOPE; independent_acceptance=false; production_go=false. This integration checkpoint does not replace full packet scope or independent audit. The bounded22-case composition is writer-qualified below; full F03 remains open.
 
 ## Why a combined installer is needed
 

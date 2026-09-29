@@ -10,7 +10,7 @@ import cp7_invoice_cases as invoice
 receipt,auth,b,aa=material.receipt,material.auth,material.b,material.aa
 
 def rpc(cur,name,args,subject=None):
-    assert name in ('erp_cp7_preview_material_count_v1','erp_cp7_get_material_counts_v1','erp_cp7_save_material_count_v1')
+    assert name in ('erp_cp7_preview_material_count_v1','erp_cp7_get_material_counts_v1','erp_cp7_get_material_count_options_v1','erp_cp7_save_material_count_v1')
     auth.actor(cur,subject);r=cur.execute('select public.'+name+'('+','.join(['%s']*len(args))+')',args).fetchone()[0];b.api.admin(cur);return r
 
 def command(cur,action,payload,version=None,key=None,subject=None):
@@ -29,6 +29,22 @@ def action(cur,name,d,key=None,subject=None):return command(cur,name,dict(adjust
 def read(cur,ident=None,subject=None,**query):return rpc(cur,'erp_cp7_get_material_counts_v1',[json.dumps(dict(adjustment_id=ident,**query))],subject)
 def qty(cur,f):return material.balances(cur,f)[f['location']]
 def ledger(cur):return cur.execute("select account_id,sum(debit-credit) from erp.journal_lines group by account_id having sum(debit-credit)<>0 order by account_id").fetchall()
+
+def options(cur,f,subject=None,**query):
+    return rpc(cur,'erp_cp7_get_material_count_options_v1',[json.dumps(dict(location_id=f['location'],**query))],subject)
+
+def unmoved_fixture(cur,today,kind):
+    if kind=='FABRIC':
+        f=material.fixture(cur,today);f['source_location']=f['location'];f['location']=f['destination'];f['source_qty']='10'
+    else:
+        f=receipt.fixture(cur,today);master=receipt.bc.fixture(cur,today,purchase=False,zones=False)
+        f['material']=master['material'];f['roll']=None;f['source_location']=f['location'];f['source_qty']='0'
+    f['material_code'],f['unit'],f['material_name']=cur.execute('select material_sku,unit_code,material_name from erp.materials where id=%s',(f['material'],)).fetchone()
+    f['location_name']=cur.execute('select location_name from erp.locations where id=%s',(f['location'],)).fetchone()[0]
+    return f
+
+def position_qty(cur,f,location=None):
+    return cur.execute('select coalesce(sum(qty_signed),0) from erp.material_stock_movements where material_id=%s and roll_id is not distinct from %s::uuid and location_id=%s',(f['material'],f['roll'],location or f['location'])).fetchone()[0]
 
 def multi_fixture(cur,today):
     f=raw.fixture(cur,today);other=raw.fixture(cur,today)
@@ -149,10 +165,54 @@ def cases(cur,today):
         p=payload(cur,f);p['items'].append(dict(material_id=g['material'],roll_id=None,physical_qty='12',input_unit_cost='10'));d=command(cur,'SAVE',reviewed_items(cur,p))
         assert read(cur,d['adjustment_id'],subject=ops)['detail']['edit'] is None
         return dict(status='PASS',operational_complete_inputs_without_money=True,priced_multi_input_edit_requires_value_authority=True)
+    def unmoved(kind):
+        f=unmoved_fixture(cur,today,kind);initial=ledger(cur)
+        assert position_qty(cur,f)==0 and not cur.execute('select 1 from erp.material_stock_movements where material_id=%s and location_id=%s',(f['material'],f['location'])).fetchone()
+        ops,_=receipt.custom(cur,material.PERMS);choice=options(cur,f,subject=ops,q=f['material_code'])
+        assert choice['selection_basis']=='REGISTERED_IDENTITY_NOT_STOCK' and choice['page']['total']=='1'
+        row=choice['page']['rows'][0];assert row['material_id']==f['material'] and row['roll_id']==f['roll']
+        assert set(row)=={'material_id','material_sku','material_name','material_type','unit_code','roll_id','roll_number'}
+        before=b.boundary.snapshot(cur);unpriced=payload(cur,f,'3')
+        assert Decimal(preview(cur,scope(f,'3'))['items'][0]['system_qty'])==0
+        auth.refused(cur,lambda:command(cur,'SAVE',unpriced),'CP7_COUNT_POSITIVE_COST_REQUIRED')
+        priced=payload(cur,f,'3','10');auth.refused(cur,lambda:command(cur,'SAVE',priced,subject=ops),'CP7_COUNT_COST_DENIED')
+        assert b.boundary.snapshot(cur)==before
+        d=command(cur,'SAVE',priced);assert position_qty(cur,f)==0
+        posted=action(cur,'POST',d);assert position_qty(cur,f)==3
+        detail=read(cur,d['adjustment_id'])['detail'];assert Decimal(detail['items'][0]['valuation']['restated_value'])==30
+        action(cur,'REVERSE',posted);assert position_qty(cur,f)==0 and position_qty(cur,f,f['source_location'])==Decimal(f['source_qty']) and ledger(cur)==initial
+        return dict(status='PASS',kind=kind,registered_identity_without_quantity_or_cost=True,zero_history_at_position=True,brand_new_material_without_any_movement=kind!='FABRIC',native_preview=0,physical_quantity=3,explicit_unit_cost=10,posted_value=30,inverse_all_accounts_and_other_warehouse_unchanged=True)
+    def unmoved_stale():
+        f=unmoved_fixture(cur,today,'FABRIC');initial=ledger(cur);d,p=draft(cur,f,'3','10')
+        transfer,_=material.draft(cur,f,'1',source=f['source_location'],dest=f['location']);transfer=material.post(cur,transfer)
+        before=b.boundary.snapshot(cur);auth.refused(cur,lambda:action(cur,'POST',d),'CP7_COUNT_STOCK_CHANGED_REVIEW_AGAIN');assert b.boundary.snapshot(cur)==before and position_qty(cur,f)==1
+        p=payload(cur,f,'3','10');p['id']=d['adjustment_id'];edited=command(cur,'SAVE',p,d['row_version']);posted=action(cur,'POST',edited);assert position_qty(cur,f)==3
+        assert Decimal(read(cur,d['adjustment_id'])['detail']['items'][0]['valuation']['restated_value'])==20
+        action(cur,'REVERSE',posted);material.reverse(cur,transfer)
+        assert position_qty(cur,f)==0 and position_qty(cur,f,f['source_location'])==10 and ledger(cur)==initial
+        return dict(status='PASS',empty_basis_retired_when_real_transfer_arrives=True,reviewed_basis=1,physical_quantity=3,delta=2,full_inverse_restores_all_accounts_and_positions=True)
+    def options_scope():
+        fs=[unmoved_fixture(cur,today,'ACCESSORY') for _ in range(3)];f=fs[0];prefix='COUNTCHOICE-'+uuid.uuid4().hex[:10]
+        for n,x in enumerate(fs):cur.execute('update erp.materials set material_sku=%s where id=%s',(prefix+str(n),x['material']))
+        before=b.boundary.snapshot(cur);seen=[]
+        for offset in range(3):
+            page=options(cur,f,q=prefix,offset=offset,limit=1)['page'];assert page['total']=='3' and page['next_offset']==(offset+1 if offset<2 else None);seen.append(page['rows'][0]['material_id'])
+        assert len(set(seen))==3 and b.boundary.snapshot(cur)==before
+        view,_=receipt.custom(cur,('warehouse.material.view',));auth.refused(cur,lambda:options(cur,f,subject=view),'CP7_MATERIAL_ADJUST_DENIED')
+        for bad in (dict(qty='0'),dict(offset=-1),dict(limit=101),dict(q=None)):
+            auth.refused(cur,lambda:options(cur,f,**bad),'CP7_COUNT_OPTIONS_QUERY')
+        cur.execute('update erp.materials set is_active=false where id=%s',(fs[1]['material'],));assert options(cur,f,q=prefix)['page']['total']=='2'
+        cur.execute('update erp.locations set is_active=false where id=%s',(f['location'],));auth.refused(cur,lambda:options(cur,f),'CP7_COUNT_ORDINARY_WAREHOUSE_REQUIRED')
+        zone=receipt.bc.svc(cur,'REGISTER_ZONE',dict(zone_kind='SERVICE_POST',location_code=prefix+'-ZONE',location_name='Count choices service',reason='Count source scope proof'))['location_id'];b.api.admin(cur)
+        auth.refused(cur,lambda:options(cur,dict(f,location=str(zone))),'CP7_COUNT_ORDINARY_WAREHOUSE_REQUIRED')
+        for principal in ('authenticated','anon','service_role','cp7_capture'):
+            assert not cur.execute("select has_function_privilege(%s,'cp7_material.count_options(jsonb)','EXECUTE')",(principal,)).fetchone()[0]
+        return dict(status='PASS',complete_pages=3,identity_only_read_has_no_effects=True,permissions_inactive_warehouse_material_service_and_invalid_queries_enforced=True,private_function_unreachable=True)
     return [('P09_COUNT_FABRIC',lambda:lifecycle('FABRIC')),('P09_COUNT_ACCESSORY',lambda:lifecycle('ACCESSORY')),('P09_COUNT_POSITIVE',positive),
       ('P09_COUNT_STALE_BASIS',stale_basis),('P09_COUNT_FORGED_ATOMIC',forged),('P09_COUNT_NATIVE_EDIT',changed_native),('P09_COUNT_REPLAY_DELETE',replay_delete),
       ('P09_COUNT_ACCESS',access),('P09_COUNT_SCOPE',scope_guard),('P09_COUNT_HISTORICAL',prefix),('P09_COUNT_COMPLETE_PAGES',pages),
-      ('P09_COUNT_MULTI_EDIT_INVERSE',multi_cycle),('P09_COUNT_MULTI_ACCESS',multi_access)]
+      ('P09_COUNT_MULTI_EDIT_INVERSE',multi_cycle),('P09_COUNT_MULTI_ACCESS',multi_access),
+      ('P09_COUNT_UNMOVED_FABRIC',lambda:unmoved('FABRIC')),('P09_COUNT_UNMOVED_ACCESSORY',lambda:unmoved('ACCESSORY')),('P09_COUNT_UNMOVED_STALE',unmoved_stale),('P09_COUNT_OPTIONS_SCOPE',options_scope)]
 
 def races(tools,today):
     def compete():
@@ -207,4 +267,21 @@ def http_cases(http,today):
             assert qty(cur,f)==8;cur.execute('update erp.app_users set is_active=false where auth_user_id=%s',(owner.auth_user_id,));conn.commit()
         assert owner.rpc('erp_cp7_save_material_count_v1',args)['status']==403
         return dict(status='PASS',real_auth_http_count=True,one_effect=True,current_access_before_cache=True,ops_money_redaction=True)
-    return [('P09_COUNT_HTTP',flow)]
+    def identities():
+        owner=http.login('OWNER','p09-count-options-owner');ops=http.login('ADMIN','p09-count-options-ops')
+        with http.connect() as conn,conn.cursor() as cur:
+            f=unmoved_fixture(cur,today,'ACCESSORY');role=cur.execute("select id from erp.app_roles where role_code='ADMIN'").fetchone()[0]
+            cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.hpp.view'",(role,));before=ledger(cur);conn.commit()
+        args=dict(p_query=dict(location_id=f['location'],q=f['material_code']))
+        result=ops.rpc('erp_cp7_get_material_count_options_v1',args);assert result['status']==200,result
+        row=result['body']['page']['rows'][0];assert row['material_id']==f['material'] and set(row)=={'material_id','material_sku','material_name','material_type','unit_code','roll_id','roll_number'}
+        assert http.anon_rpc('erp_cp7_get_material_count_options_v1',args)['status'] in(401,403,404)
+        with http.connect() as conn,conn.cursor() as cur:
+            cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='warehouse.stock.adjust'",(role,));conn.commit()
+        assert ops.rpc('erp_cp7_get_material_count_options_v1',args)['status']==403
+        with http.connect() as conn,conn.cursor() as cur:
+            assert position_qty(cur,f)==0 and ledger(cur)==before
+            cur.execute('update erp.app_users set is_active=false where auth_user_id=%s',(owner.auth_user_id,));conn.commit()
+        assert owner.rpc('erp_cp7_get_material_count_options_v1',args)['status']==403
+        return dict(status='PASS',real_auth_unmoved_identity_without_financial_authority=True,no_fabricated_qty_or_cost=True,anonymous_deactivated_and_current_permission_revocation_refused=True,ledger_unchanged=True)
+    return [('P09_COUNT_HTTP',flow),('P09_COUNT_OPTIONS_HTTP',identities)]

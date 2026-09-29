@@ -115,6 +115,8 @@ assert.deepEqual([...rpcOwnership].sort(), [
   'src/ConnectedFgStockPage.tsx:erp_cp7_get_fg_ledger_v1',
   'src/ConnectedMaterialCountPage.tsx:erp_cp7_get_materials_v1',
   'src/ConnectedMaterialCountPage.tsx:erp_cp7_get_material_counts_v1',
+  'src/MaterialCountSourcePicker.tsx:erp_cp7_get_material_count_options_v1',
+  'src/MaterialCountSourcePicker.tsx:erp_cp7_get_material_locations_v1',
   'src/ConnectedMaterialCountPage.tsx:erp_cp7_preview_material_count_v1',
   'src/ConnectedMaterialCountPage.tsx:erp_cp7_save_material_count_v1',
   'src/SupplierReturnPanel.tsx:erp_cp7_get_supplier_returns_v1',

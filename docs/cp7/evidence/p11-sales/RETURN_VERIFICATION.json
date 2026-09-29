@@ -1,0 +1,111 @@
+{
+  "status": "PASS",
+  "source_commit": "e808453079f44876d576cecbc5fce9a7aba389ee",
+  "source_tree": "83d276edcd21ffd2c9ea81ca0d023eb8d7d0b9a0",
+  "run_id": 36632964965,
+  "job_id": 109626491870,
+  "artifact_id": 11063387073,
+  "artifact_bytes": 8243892,
+  "artifact_sha256": "eab146261e42ea2e5709d4188feaee72c7f6c34c90df0e4d46d03a9380ad2667",
+  "report_sha256": "a42a84f2cdb43cca6cd38c04434c9c6e9eb95f1a1f67fa86ac337258b68bcd92",
+  "report_gzip_sha256": "9828a492ff9cfae3bd82757e2cc036ecbd08c539125ab2bcd0df9ca04b0f9bfa",
+  "source_bundle_sha256": "b54191c9490bb02b15ce6a76069c6cd19ef7e21a16e6ed3feeef5d5463d017ea",
+  "counts": {
+    "PASS": 64,
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0
+  },
+  "separate_smokes": 0,
+  "groups": {
+    "native": {
+      "PASS": 8
+    },
+    "http": {
+      "PASS": 1
+    },
+    "commands": {
+      "PASS": 6
+    },
+    "command_races": {
+      "PASS": 2
+    },
+    "command_http": {
+      "PASS": 1
+    },
+    "drafts": {
+      "PASS": 7
+    },
+    "draft_races": {
+      "PASS": 1
+    },
+    "draft_http": {
+      "PASS": 1
+    },
+    "payments": {
+      "PASS": 8
+    },
+    "payment_races": {
+      "PASS": 3
+    },
+    "payment_http": {
+      "PASS": 1
+    },
+    "returns": {
+      "PASS": 11
+    },
+    "return_races": {
+      "PASS": 3
+    },
+    "return_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 10
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "e808453079f44876d576cecbc5fce9a7aba389ee",
+    "product_ref": "51ad4f3670ccc9d0132ec3670dae7c65393b79bc",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36632964965",
+    "run_attempt": "1",
+    "workflow": "CP7 P11 Sales",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "e808453079f44876d576cecbc5fce9a7aba389ee",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "screenshots": {
+    "P11_RETURN_DESKTOP.png": "cdf8f0350782f31f9478cf2a9f184bb5b7152b80efc4ef7280086dba9d4c5cc1",
+    "P11_RETURN_MOBILE.png": "c1be54856cfcd195e62fca1174fff249bbcf1d6080b461c909340c7df6935d04"
+  },
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false,
+  "visual_review": {
+    "performed": true,
+    "scope": "Actual retained source screenshots inspected; readable date/source/money and horizontally fitting panels. Mobile forms/reports remain vertically long; reload may show all invoice results. No review of other screens is inferred."
+  },
+  "source_identity_limit": "Installer product_ref is51ad4f3 because its path list omits scripts. Actual github_sha/tool_head e808453 and recomputed exact bundle hash identify the executed source.",
+  "scope": "Complete declared P11 reader/create/edit/post/cancel/cash/return/inverse64 including10 browser cases and two actual R10 A/B source-to-cash inverses. Original47 cash/source cases are a subset, never additional."
+}

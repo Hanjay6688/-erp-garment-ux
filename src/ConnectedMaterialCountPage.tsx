@@ -6,6 +6,7 @@ import { normalizeClientError } from './lib/clientError'
 import { cp6WibDateTimeInput, cp6WibPhysicalTimeToIso, formatCp6WibDateTime } from './cp6BusinessTime'
 import { useProductionMutation, type ProductionMutationHandlers } from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
+import MaterialCountSourcePicker from './MaterialCountSourcePicker'
 import { formatReceiptDecimal as numberText, receiptDecimal } from './procurementContract'
 import { materialObject, parseMaterials, type MaterialBalance, type MaterialsWorkspace } from './materialContract'
 import { parseCountPreview, parseCounts, parseCountOutcome, countPositive, countNonzero, type CountPreview, type CountWorkspace } from './materialCountContract'
@@ -40,6 +41,7 @@ function CountPage(){
  const [stock,setStock]=useState<MaterialsWorkspace|null>(null),[documents,setDocuments]=useState<CountWorkspace|null>(null),[search,setSearch]=useState(''),[docSearch,setDocSearch]=useState('')
  const [form,setForm]=useState<Form|null>(null),[preview,setPreview]=useState<{key:string;value:CountPreview}|null>(null),[loading,setLoading]=useState(false),[error,setError]=useState('')
  const [reason,setReason]=useState('Jumlah fisik sudah dihitung ulang'),[reviewed,setReviewed]=useState(false)
+ const [showRegistered,setShowRegistered]=useState(false)
  const request=useRef({q:'',offset:0,docQ:'',docOffset:0,selected:null as string|null}),sequence=useRef(0)
  const load=useCallback(async()=>{
   const q={...request.current},s=++sequence.current,ticket=beginRead();setLoading(true);setError('');setPreview(null);setReviewed(false)
@@ -100,6 +102,8 @@ function CountPage(){
    </article>})}
    {stock?<div className="cproc-pagination"><span>Total {stock.page.total}</span><button disabled={loading||mutation.busy||!stock.page.offset} onClick={()=>{request.current.offset=Math.max(0,stock.page.offset-25);void load()}}>Bahan sebelumnya</button><button disabled={loading||mutation.busy||stock.page.next_offset===null} onClick={()=>{request.current.offset=stock.page.next_offset??0;void load()}}>Bahan berikutnya</button></div>:null}
   </section>
+  <button disabled={locked||stale} aria-expanded={showRegistered} onClick={()=>setShowRegistered(v=>!v)}>{showRegistered?'Tutup pilihan bahan terdaftar':'Pilih bahan di luar daftar saldo'}</button>
+  {showRegistered?<MaterialCountSourcePicker client={client} location={first?{id:first.location_id,name:first.location_name}:undefined} selected={form?.lines.map(l=>sourceKey(l.source))??[]} disabled={locked||stale} onSelect={selectSource}/>:null}
   {form?<form className="panel cmat-count-form" onSubmit={e=>{e.preventDefault();if(payload&&!locked&&!stale)void write('SAVE',payload,form.version)}}>
    <div className="cproc-heading"><div><h2>Hitung fisik {form.lines.length===1?(first?.roll_number??first?.material_name):`${form.lines.length} barang`}</h2><p>{first?.location_name} · satu dokumen pemeriksaan</p></div><button type="button" disabled={mutation.busy} onClick={()=>{setForm(null);setPreview(null)}}>Tutup formulir</button></div>
    {stale?<p role="alert">Draft berubah. Tutup formulir lalu buka kembali dengan data terbaru.</p>:null}

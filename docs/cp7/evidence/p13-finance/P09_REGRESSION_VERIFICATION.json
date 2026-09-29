@@ -1,0 +1,148 @@
+{
+  "status": "PASS",
+  "source_commit": "51ad4f3670ccc9d0132ec3670dae7c65393b79bc",
+  "source_tree": "71b36211ff9462409297ef07bac2091a73c2fd47",
+  "run_id": 36632119401,
+  "job_id": 109623665911,
+  "artifact_id": 11063286479,
+  "artifact_bytes": 17056396,
+  "artifact_sha256": "29b524872f53152a1b7fb7bc9f3cd18cc92b0db24cb7b077b47682ed57d76602",
+  "report_sha256": "0e7a04967524a1609be7cfa4a98057f2000ecdda9bd1f95c8cc6bb553bf99474",
+  "report_gzip_sha256": "219d9fd5f9e4c02bc63adbf94340c624caf903c0784760d4cf050baa92135bc0",
+  "source_bundle_sha256": "b7ad3e127c84de7ee49bc2de024a188a458b8ee5f5ade76b86b4f7b842c1d8e9",
+  "counts": {
+    "PASS": 125,
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0
+  },
+  "separate_smokes": 3,
+  "groups": {
+    "smoke": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 9
+    },
+    "races": {
+      "PASS": 3
+    },
+    "http": {
+      "PASS": 1
+    },
+    "material_smoke": {
+      "PASS": 1
+    },
+    "material": {
+      "PASS": 13
+    },
+    "material_crossflow": {
+      "PASS": 2
+    },
+    "material_races": {
+      "PASS": 3
+    },
+    "material_http": {
+      "PASS": 1
+    },
+    "material_count": {
+      "PASS": 13
+    },
+    "material_count_races": {
+      "PASS": 2
+    },
+    "material_count_http": {
+      "PASS": 1
+    },
+    "invoice": {
+      "PASS": 9
+    },
+    "invoice_races": {
+      "PASS": 3
+    },
+    "invoice_http": {
+      "PASS": 1
+    },
+    "combined_invoice": {
+      "PASS": 6
+    },
+    "combined_invoice_races": {
+      "PASS": 3
+    },
+    "combined_invoice_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 20
+    },
+    "return_smoke": {
+      "PASS": 1
+    },
+    "returns": {
+      "PASS": 10
+    },
+    "return_races": {
+      "PASS": 3
+    },
+    "return_http": {
+      "PASS": 1
+    },
+    "receipt_reversal": {
+      "PASS": 7
+    },
+    "receipt_reversal_races": {
+      "PASS": 3
+    },
+    "receipt_reversal_http": {
+      "PASS": 1
+    },
+    "uom": {
+      "PASS": 6
+    },
+    "uom_races": {
+      "PASS": 2
+    },
+    "uom_http": {
+      "PASS": 1
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "51ad4f3670ccc9d0132ec3670dae7c65393b79bc",
+    "product_ref": "51ad4f3670ccc9d0132ec3670dae7c65393b79bc",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36632119401",
+    "run_attempt": "1",
+    "workflow": "CP7 P09 Procurement",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "51ad4f3670ccc9d0132ec3670dae7c65393b79bc",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "screenshots": {},
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false,
+  "visual_review": {
+    "performed": false,
+    "scope": "Regression result only; no new visual claim."
+  }
+}

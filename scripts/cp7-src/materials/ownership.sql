@@ -19,9 +19,11 @@ alter function cp7_material.count_preview(jsonb) owner to cp7_material_read;
 alter function cp7_material.count_signature(uuid) owner to cp7_material_read;
 alter function cp7_material.count_header(erp.material_adjustments) owner to cp7_material_read;
 alter function cp7_material.count_workspace(jsonb) owner to cp7_material_read;
+alter function cp7_material.count_options(jsonb) owner to cp7_material_read;
 alter function cp7_material.count_command(text,jsonb,uuid,text) owner to cp7_material_write;
 alter function public.erp_cp7_preview_material_count_v1(jsonb) owner to cp7_material_read;
 alter function public.erp_cp7_get_material_counts_v1(jsonb) owner to cp7_material_read;
+alter function public.erp_cp7_get_material_count_options_v1(jsonb) owner to cp7_material_read;
 alter function public.erp_cp7_save_material_count_v1(text,jsonb,uuid,text) owner to cp7_material_write;
 revoke create on schema public,cp7_material from cp7_material_read,cp7_material_write;
 revoke all on all functions in schema cp7_material from public,anon,authenticated,service_role,cp7_capture;
@@ -36,3 +38,5 @@ grant execute on function public.erp_cp7_get_materials_v1(jsonb),public.erp_cp7_
 grant execute on function cp7_material.count_lines(uuid,timestamptz,jsonb,boolean,uuid),cp7_material.count_signature(uuid) to cp7_material_write;
 revoke all on function public.erp_cp7_preview_material_count_v1(jsonb),public.erp_cp7_get_material_counts_v1(jsonb),public.erp_cp7_save_material_count_v1(text,jsonb,uuid,text) from public,anon,authenticated,service_role,cp7_capture;
 grant execute on function public.erp_cp7_preview_material_count_v1(jsonb),public.erp_cp7_get_material_counts_v1(jsonb),public.erp_cp7_save_material_count_v1(text,jsonb,uuid,text) to authenticated;
+revoke all on function public.erp_cp7_get_material_count_options_v1(jsonb) from public,anon,authenticated,service_role,cp7_capture;
+grant execute on function public.erp_cp7_get_material_count_options_v1(jsonb) to authenticated;
