@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest'
-import { parsePolicyOutcome, parsePolicyWorkspace, preparePolicyIntent, type AvailableSku } from '../../src/cp7/production-status/contract'
+import { parsePolicyOutcome, parsePolicyWorkspace, preparePolicyIntent, type AvailableSku } from '../../contracts/cp7/production-policy'
 const id = (n: number) => `00000000-0000-4000-8000-${String(n).padStart(12, '0')}`
 const at = '2026-09-29T08:00:00.123456+07:00'
 const item = (n = 1): AvailableSku => ({ status: 'AVAILABLE', sku_id: id(n), sku: `SKU-${n}`, brand_id: id(20),

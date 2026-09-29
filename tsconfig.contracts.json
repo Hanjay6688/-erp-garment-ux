@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": { "lib": ["ES2022", "DOM"] },
+  "include": ["contracts/cp7/**/*.ts"]
+}

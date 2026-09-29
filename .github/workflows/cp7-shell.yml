@@ -4,7 +4,7 @@ on:
     branches: ['cp7/**']
   pull_request:
     branches: [claude/new-session-deapao]
-    paths: ['src/cp7/**', 'tests/cp7/**', 'tests/browser/cp7-shell.spec.ts', 'playwright.cp7.config.ts', '.github/workflows/cp7-shell.yml']
+    paths: ['src/cp7/**', 'contracts/cp7/**', 'tsconfig*.json', 'tests/cp7/**', 'tests/browser/cp7-shell.spec.ts', 'playwright.cp7.config.ts', '.github/workflows/cp7-shell.yml']
 permissions:
   contents: read
 concurrency:
