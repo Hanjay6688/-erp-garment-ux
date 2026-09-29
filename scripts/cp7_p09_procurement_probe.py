@@ -48,6 +48,32 @@ def verify(cur):
     assert cur.execute("select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_supplier_return' and (p.prosecdef is distinct from (p.proname in('validate_source','assert_document','validate_post')) or pg_get_userbyid(p.proowner)<>case when p.proname='command' then 'cp7_return_write' else 'cp7_return_read' end or p.proconfig is distinct from array['search_path=\"\"'])").fetchone()[0]==0
     return dict(stage='CP7_F02_PLUS_DECLARED_P09' ,cp7_p09_bundle_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest())
 
+def install(cur):
+    """Install and verify the declared P09 extension for family qualification."""
+    global INSTALLED_FUNCTIONS
+    report={}
+    originals={s:cur.execute('select pg_get_functiondef(%s::regprocedure)',(s,)).fetchone()[0] for s in bundle.REPLACED}
+    cur.execute(bundle.cp7_wip_bundle.bundle(),prepare=False);report['accepted_and_f02_verified']=wip.verify(cur)
+    pre_functions=functions(cur)
+    cur.execute(bundle.extension(),prepare=False)
+    INSTALLED_FUNCTIONS=functions(cur)
+    changed={s for s,v in pre_functions.items() if INSTALLED_FUNCTIONS.get(s,{}).get('definition')!=v['definition']}
+    assert changed==set(bundle.REPLACED),('P09_UNDECLARED_PREDECESSOR_CHANGE',changed)
+    grants={s:{(r,'EXECUTE',False) for r in ('cp7_procure_read','cp7_procure_write','cp7_material_read','cp7_material_write','cp7_invoice_read','cp7_invoice_write','cp7_return_read','cp7_return_write')} for s in ('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)')}
+    grants.update({s:{('cp7_procure_write','EXECUTE',False)} for s in ('erp.save_material_purchase_draft_v2(jsonb,uuid,bigint)','erp.post_material_purchase_v2(uuid,uuid,bigint,text)')})
+    grants.update({s:{('cp7_material_write','EXECUTE',False)} for s in ('erp.save_material_transfer_draft_v2(jsonb,uuid,bigint)','erp.post_material_transfer_v2(uuid,uuid,bigint,text)','erp.reverse_material_transfer_v2(uuid,text,uuid,bigint)','erp.save_material_adjustment_draft_v2(jsonb,uuid,bigint)','erp.post_material_adjustment_v2(uuid,uuid,bigint,text)','erp.reverse_material_adjustment_v2(uuid,text,uuid,bigint)')})
+    grants.update({s:{('cp7_invoice_read','EXECUTE',False)} for s in ('erp.material_purchase_invoice_capacity(uuid)','erp.material_purchase_posted_invoice_qty(uuid)')})
+    grants.update({s:{('cp7_invoice_write','EXECUTE',False)} for s in ('erp.finalize_material_purchase_invoice_v2(jsonb,uuid,bigint)','erp.reverse_material_supplier_invoice_v2(uuid,text,uuid,bigint)','erp.save_material_supplier_invoice_draft_v2(jsonb,uuid,bigint)','erp.post_material_supplier_invoice_v2(uuid,uuid,bigint,text)')})
+    grants.update({s:{('cp7_return_write','EXECUTE',False)} for s in ('erp.save_material_supplier_return_draft_v2(jsonb,uuid,bigint)','erp.post_material_supplier_return_v2(uuid,uuid,bigint,text)','erp.reverse_material_supplier_return_v2(uuid,text,uuid,bigint)')})
+    for signature,old in pre_functions.items():
+        new=INSTALLED_FUNCTIONS[signature]
+        assert new['owner']==old['owner'],('P09_PREDECESSOR_OWNER_CHANGED',signature)
+        old_acl={tuple(x) for x in old['acl'] or []};new_acl={tuple(x) for x in new['acl'] or []}
+        assert new_acl==old_acl|grants.get(signature,set()),('P09_UNDECLARED_ACL_DELTA',signature,new_acl-old_acl,old_acl-new_acl)
+    report['declared_execute_grants']={s:sorted(rows) for s,rows in grants.items()}
+    report['replaced_functions']={s:dict(before_sha256=hashlib.sha256(originals[s].encode()).hexdigest(),after_sha256=hashlib.sha256(cur.execute('select pg_get_functiondef(%s::regprocedure)',(s,)).fetchone()[0].encode()).hexdigest()) for s in bundle.REPLACED}
+    return originals,report
+
 def run():
     global INSTALLED_FUNCTIONS
     report=dict(label='CP7_P09_RECEIPT_BRIDGE',status='INCOMPLETE',production_go=False,independent_acceptance=False,
@@ -56,26 +82,7 @@ def run():
     try:
         with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
             wip.policy.bf.verified(cur);before=package.boundary.snapshot(cur);public_before=native.public_state(cur);conn.rollback()
-            originals={s:cur.execute('select pg_get_functiondef(%s::regprocedure)',(s,)).fetchone()[0] for s in bundle.REPLACED}
-            cur.execute(bundle.cp7_wip_bundle.bundle(),prepare=False);report['accepted_and_f02_verified']=wip.verify(cur)
-            pre_functions=functions(cur)
-            cur.execute(bundle.extension(),prepare=False)
-            INSTALLED_FUNCTIONS=functions(cur)
-            changed={s for s,v in pre_functions.items() if INSTALLED_FUNCTIONS.get(s,{}).get('definition')!=v['definition']}
-            assert changed==set(bundle.REPLACED),('P09_UNDECLARED_PREDECESSOR_CHANGE',changed)
-            grants={s:{(r,'EXECUTE',False) for r in ('cp7_procure_read','cp7_procure_write','cp7_material_read','cp7_material_write','cp7_invoice_read','cp7_invoice_write','cp7_return_read','cp7_return_write')} for s in ('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)')}
-            grants.update({s:{('cp7_procure_write','EXECUTE',False)} for s in ('erp.save_material_purchase_draft_v2(jsonb,uuid,bigint)','erp.post_material_purchase_v2(uuid,uuid,bigint,text)')})
-            grants.update({s:{('cp7_material_write','EXECUTE',False)} for s in ('erp.save_material_transfer_draft_v2(jsonb,uuid,bigint)','erp.post_material_transfer_v2(uuid,uuid,bigint,text)','erp.reverse_material_transfer_v2(uuid,text,uuid,bigint)','erp.save_material_adjustment_draft_v2(jsonb,uuid,bigint)','erp.post_material_adjustment_v2(uuid,uuid,bigint,text)','erp.reverse_material_adjustment_v2(uuid,text,uuid,bigint)')})
-            grants.update({s:{('cp7_invoice_read','EXECUTE',False)} for s in ('erp.material_purchase_invoice_capacity(uuid)','erp.material_purchase_posted_invoice_qty(uuid)')})
-            grants.update({s:{('cp7_invoice_write','EXECUTE',False)} for s in ('erp.finalize_material_purchase_invoice_v2(jsonb,uuid,bigint)','erp.reverse_material_supplier_invoice_v2(uuid,text,uuid,bigint)','erp.save_material_supplier_invoice_draft_v2(jsonb,uuid,bigint)','erp.post_material_supplier_invoice_v2(uuid,uuid,bigint,text)')})
-            grants.update({s:{('cp7_return_write','EXECUTE',False)} for s in ('erp.save_material_supplier_return_draft_v2(jsonb,uuid,bigint)','erp.post_material_supplier_return_v2(uuid,uuid,bigint,text)','erp.reverse_material_supplier_return_v2(uuid,text,uuid,bigint)')})
-            for signature,old in pre_functions.items():
-                new=INSTALLED_FUNCTIONS[signature]
-                assert new['owner']==old['owner'],('P09_PREDECESSOR_OWNER_CHANGED',signature)
-                old_acl={tuple(x) for x in old['acl'] or []};new_acl={tuple(x) for x in new['acl'] or []}
-                assert new_acl==old_acl|grants.get(signature,set()),('P09_UNDECLARED_ACL_DELTA',signature,new_acl-old_acl,old_acl-new_acl)
-            report['declared_execute_grants']={s:sorted(rows) for s,rows in grants.items()}
-            report['replaced_functions']={s:dict(before_sha256=hashlib.sha256(originals[s].encode()).hexdigest(),after_sha256=hashlib.sha256(cur.execute('select pg_get_functiondef(%s::regprocedure)',(s,)).fetchone()[0].encode()).hexdigest()) for s in bundle.REPLACED}
+            originals,installation=install(cur);report.update(installation)
             conn.commit();installed=True;verify(cur);conn.rollback()
         report['advisors_with_cp7']=advisors(package.boundary.PG)
         report['smoke']=native.strict_group('CP7_P09_SMOKE',cases.smoke,verify)

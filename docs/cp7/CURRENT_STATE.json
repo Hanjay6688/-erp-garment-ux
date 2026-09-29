@@ -36,7 +36,7 @@
     "P03": "BOUNDED_POLICY_NATIVE_PASS_15_CASES_INDEPENDENT_PENDING",
     "P04": "F02_REPAIR_53_PASS_PLUS_SMOKE_INDEPENDENT_HOLD_X06_PUBLIC_JOIN_OPEN",
     "P09": "BOUNDED_121_PASS_COUNTS_AND_COMBINED_INVOICES_QUALIFIED_REMAINING_SCOPE_OPEN",
-    "P10": "LOCAL_PREPARATION_NOT_QUALIFIED"
+    "P10": "FG_SUMMARY_AND_CARD_CANDIDATE_NATIVE_BROWSER_PENDING"
   },
   "inherited_scope": {
     "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
@@ -51,7 +51,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Forward the qualified F02 repair checkpoint for independent retest; continue P10 FG summary/card integration and remaining F03 P09-P13 scope.",
+  "next_action": "Qualify P10 FG summary/card through native lifecycle, Auth/HTTP and connected browsers; finish P10 remaining operations toward P11/R10 while independent F02 retest is pending.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -86,5 +86,6 @@
   "f02_independent_handoff": "https://github.com/Hanjay6688/-erp-garment-ux/blob/09990020355fb7329fbc7b8710692bf1357d2401/audits/cp7_f02_20260929/HANDOFF.md",
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "p09_combined_invoice_verification": "docs/cp7/evidence/p09-procurement/COMBINED_INVOICE_VERIFICATION.json",
-  "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json"
+  "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
+  "p10_entry": "docs/cp7/P10_FG_HANDOFF.md"
 }

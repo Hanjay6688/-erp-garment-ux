@@ -62,6 +62,7 @@ const ConnectedWipStatusPage = lazy(() => import('./ConnectedWipStatusPage'))
 const ConnectedBsResolutionPage = lazy(() => import('./ConnectedBsResolutionPage'))
 const ConnectedLaundryPage = lazy(() => import('./ConnectedLaundryPage'))
 const ConnectedQcFinalPage = lazy(() => import('./ConnectedQcFinalPage'))
+const ConnectedFgStockPage = lazy(() => import('./ConnectedFgStockPage'))
 const ConnectedFgHandoffBoundary = lazy(() => import('./ConnectedFgHandoffBoundary'))
 const Cp7Shell = lazy(() => import('./cp7/Cp7Shell'))
 
@@ -618,7 +619,8 @@ function ErpApp() {
         />}
         {isSalesView(page) && <Suspense fallback={<WorkspaceFallback label="Penjualan"/>}><SalesPages view={page} onNavigate={(next)=>setPage(next)} /></Suspense>}
         {isFinanceView(page) && <Suspense fallback={<WorkspaceFallback label="Keuangan"/>}>{page === 'finance-ap' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedSupplierCreditPage onLaundry={()=>setPage('laundry')}/> : <FinancePages view={page} onNavigate={(next)=>setPage(next)} onSalesPayment={()=>setPage('sales-payments')} onAttendance={()=>setPage('operations-attendance')} />}</Suspense>}
-        {page === 'stock-card' && <StockCard />}
+        {page === 'stock-card' && (runtime.mode === 'DEMO_SIMULATION' ? <StockCard /> : <Suspense fallback={<WorkspaceFallback label="Kartu stok FG"/>}><ConnectedFgStockPage purpose="CARD"/></Suspense>)}
+        {page === 'fg-summary' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Barang jadi"/>}><ConnectedFgStockPage/></Suspense>}
         {page === 'movements-vivo' && <Movements bookName="Vivo" bookBrands={vivoBookBrands} setBookBrands={setVivoBookBrands} movements={movements} setMovements={setMovements} />}
         {page === 'movements-widie' && <Movements bookName="Widie" bookBrands={widieBookBrands} setBookBrands={setWidieBookBrands} movements={movements} setMovements={setMovements} />}
         {page === 'procurement' && (runtime.mode === 'DEMO_SIMULATION' ? <ProcurementPage /> : <Suspense fallback={<WorkspaceFallback label="Penerimaan"/>}><ConnectedProcurementPage/></Suspense>)}
@@ -626,7 +628,7 @@ function ErpApp() {
         {page === 'accessories' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Aksesori"/>}><ConnectedAccessoryServicePage/></Suspense>}
         {page === 'stock-adjustment' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Hitung fisik"/>}><ConnectedMaterialCountPage/></Suspense>}
         {page === 'materials-rolls' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Bahan & Roll"/>}><ConnectedMaterialsPage/></Suspense>}
-        {(page === 'warehouse-dashboard' || (page === 'materials-rolls' && runtime.mode === 'DEMO_SIMULATION') || (page === 'accessories' && runtime.mode === 'DEMO_SIMULATION') || page === 'fg-summary' || (page === 'stock-adjustment' && runtime.mode === 'DEMO_SIMULATION') || (page === 'brand-conversion' && runtime.mode === 'DEMO_SIMULATION')) && <Suspense fallback={<WorkspaceFallback label="Gudang"/>}><WarehousePages view={page} onNavigate={(next)=>setPage(next)} /></Suspense>}
+        {(page === 'warehouse-dashboard' || (page === 'materials-rolls' && runtime.mode === 'DEMO_SIMULATION') || (page === 'accessories' && runtime.mode === 'DEMO_SIMULATION') || (page === 'fg-summary' && runtime.mode === 'DEMO_SIMULATION') || (page === 'stock-adjustment' && runtime.mode === 'DEMO_SIMULATION') || (page === 'brand-conversion' && runtime.mode === 'DEMO_SIMULATION')) && <Suspense fallback={<WorkspaceFallback label="Gudang"/>}><WarehousePages view={page} onNavigate={(next)=>setPage(next)} /></Suspense>}
         {page === 'cutting-roll' && runtime.cuttingMode === 'CONNECTED' && <Suspense fallback={<WorkspaceFallback label="Buat Potongan connected"/>}><ConnectedCuttingPage/></Suspense>}
         {page === 'cutting-roll' && runtime.cuttingMode === 'SIMULATION' && <CuttingRollPage />}
         {page === 'mandor-wip' && runtime.distributionMode === 'CONNECTED' && <Suspense fallback={<WorkspaceFallback label="Bagi Potongan connected"/>}><ConnectedPickupPage/></Suspense>}

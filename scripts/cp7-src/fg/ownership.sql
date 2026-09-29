@@ -1,0 +1,11 @@
+alter function cp7_fg.access_now(text) owner to cp7_fg_read;
+alter function cp7_fg.lot_value(uuid,numeric) owner to cp7_fg_read;
+alter function cp7_fg.positions(text,boolean) owner to cp7_fg_read;
+alter function cp7_fg.workspace(jsonb) owner to cp7_fg_read;
+alter function cp7_fg.ledger_rows(uuid,uuid,uuid,text) owner to cp7_fg_read;
+alter function cp7_fg.ledger(jsonb) owner to cp7_fg_read;
+alter function public.erp_cp7_get_fg_v1(jsonb) owner to cp7_fg_read;
+alter function public.erp_cp7_get_fg_ledger_v1(jsonb) owner to cp7_fg_read;
+revoke all on all functions in schema cp7_fg from public,anon,authenticated,service_role;
+revoke all on function public.erp_cp7_get_fg_v1(jsonb),public.erp_cp7_get_fg_ledger_v1(jsonb) from public,anon,service_role;
+grant execute on function public.erp_cp7_get_fg_v1(jsonb),public.erp_cp7_get_fg_ledger_v1(jsonb) to authenticated;
