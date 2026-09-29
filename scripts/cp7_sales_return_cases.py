@@ -55,7 +55,7 @@ def cases(cur,today):
  def capacity():
   f=fixture(cur,today,True);assert len(f['allocations'])==2 and all(a['allocated_qty']=='2' for a in f['allocations']);p,v=payload(cur,f,qty='2',refund='40');p['items']*=2;before=b.boundary.snapshot(cur)
   auth.refused(cur,lambda:cmd.command(cur,'RETURN',p,v),'CP7_SALES_RETURN_DUPLICATE_ALLOCATION');assert b.boundary.snapshot(cur)==before
-  p,v=payload(cur,f,qty='3',refund='60');auth.refused(cur,lambda:cmd.command(cur,'RETURN',p,v),'AH_RETURN_EXCEEDS_ORIGINAL_ALLOCATION');assert b.boundary.snapshot(cur)==before
+  p,v=payload(cur,f,qty='3',refund='60');auth.refused(cur,lambda:cmd.command(cur,'RETURN',p,v),'Return qty 3 exceeds qty 2 sold from this lot allocation');assert b.boundary.snapshot(cur)==before
   a=returned(cur,f,qty='2',refund='40');p,v=payload(cur,f,qty='1',refund='20');before=b.boundary.snapshot(cur);auth.refused(cur,lambda:cmd.command(cur,'RETURN',p,v),'AH_RETURN_EXCEEDS_ORIGINAL_ALLOCATION');assert b.boundary.snapshot(cur)==before
   assert read(cur,f)['page']['rows'][0]['allocation_id']==f['allocations'][1]['allocation_id'];returned(cur,f,qty='2',refund='40',allocation=f['allocations'][1]['allocation_id']);assert read(cur,f)['page']['total']=='0' and source.read(cur,f)['detail']['status']=='PAID'
   return dict(status='PASS',same_product_lot_has_two_independent_allocations=True,duplicate_same_document_line_refused_before_effect=True,prior_documents_share_selected_cap=True,other_allocation_remains_eligible=True,full_return_net_zero=True)

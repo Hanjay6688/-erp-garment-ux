@@ -1,0 +1,109 @@
+{
+  "status": "INCOMPLETE",
+  "source_commit": "f8bc18ae2bacd00c2a6dd12f487bb4790f19ba57",
+  "source_tree": "57507be0e9b041e256efd58bf040f291a491c57d",
+  "run_id": 36631707785,
+  "job_id": 109622287899,
+  "artifact_id": 11063265672,
+  "artifact_bytes": 8208947,
+  "artifact_sha256": "473fcbd6d2701cf51d0375b7fd4a0b2521424bbb3e55f34146e69c4736e3530c",
+  "report_sha256": "4da40bc132234201ee40c33530de0c71f73bb1e8c236cc8ceae9b0df01f964a1",
+  "report_gzip_sha256": "bf9036e19b9992f817c3fbf8e6e7a0e4e602c5f60429bbe386ddbcd0fcb39014",
+  "source_bundle_sha256": "b54191c9490bb02b15ce6a76069c6cd19ef7e21a16e6ed3feeef5d5463d017ea",
+  "counts": {
+    "PASS": 63,
+    "FAIL": 0,
+    "INCOMPLETE": 1,
+    "NOT_RUN": 0
+  },
+  "groups": {
+    "native": {
+      "PASS": 8
+    },
+    "http": {
+      "PASS": 1
+    },
+    "commands": {
+      "PASS": 6
+    },
+    "command_races": {
+      "PASS": 2
+    },
+    "command_http": {
+      "PASS": 1
+    },
+    "drafts": {
+      "PASS": 7
+    },
+    "draft_races": {
+      "PASS": 1
+    },
+    "draft_http": {
+      "PASS": 1
+    },
+    "payments": {
+      "PASS": 8
+    },
+    "payment_races": {
+      "PASS": 3
+    },
+    "payment_http": {
+      "PASS": 1
+    },
+    "returns": {
+      "PASS": 10,
+      "INCOMPLETE": 1
+    },
+    "return_races": {
+      "PASS": 3
+    },
+    "return_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 10
+    }
+  },
+  "nonpassing_cases": {
+    "P11_RETURN_ALLOCATION_CAP": {
+      "status": "INCOMPLETE",
+      "error": "('AH_RETURN_EXCEEDS_ORIGINAL_ALLOCATION', 'Return qty 3 exceeds qty 2 sold from this lot allocation')"
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "f8bc18ae2bacd00c2a6dd12f487bb4790f19ba57",
+    "product_ref": "4dc25d5701ea2c24e50b332fc0f10c4fea8efe06",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36631707785",
+    "run_attempt": "1",
+    "workflow": "CP7 P11 Sales",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "f8bc18ae2bacd00c2a6dd12f487bb4790f19ba57",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": false,
+  "diagnosis": "Single-line qty3 against original allocation2 correctly refused in accepted normalize_sales_return_item trigger with Return qty 3 exceeds qty 2 sold from this lot allocation. Test incorrectly expected the later post_sales_return aggregate AH_RETURN_EXCEEDS_ORIGINAL_ALLOCATION guard. Change only that single-line expected error; preserve prior-return AH limit, all boundary/no-effect and second-allocation continuation assertions. All ten browser flows, including both R10 complete inverses, pass and Auth cleanup is restored. No new product change from this repair.",
+  "independent_acceptance": false,
+  "production_go": false,
+  "source_identity_limit": "Installer product_ref omits scripts and still names4dc25d5; actual tool_head/github_sha f8bc18a includes the SQL-alias/harness repair. Report bundle hash binds the executed sales stack; never identify4dc as the repaired source."
+}

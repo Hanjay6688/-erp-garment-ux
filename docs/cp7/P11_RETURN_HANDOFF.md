@@ -1,5 +1,11 @@
 # P11 physical return and full invoice inverse — writer candidate
 
+## Run3:63 PASS, single native refusal-message mismatch
+
+Source `f8bc18ae2bacd00c2a6dd12f487bb4790f19ba57`, tree `57507be0e9b041e256efd58bf040f291a491c57d`; [run36631707785](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36631707785): **63 PASS /0 FAIL /1 INCOMPLETE /0 NOT_RUN**. All10 browser cases, all races, HTTP, cash and other return cases pass. CP6 restoration, advisor, Auth/database cleanup, primary-unchanged and backup/restore pass. [Retained original result](evidence/p11-sales/RETURN_RUN3_RECEIPT.json).
+
+One direct over-allocation test expected the later posting guard but the accepted item normalizer already refused qty3 against allocation2 (`Return qty 3 exceeds qty 2 sold from this lot allocation`). The test is corrected to that exact first guard; the atomic-boundary assertion, separate prior-document aggregate cap and remaining independent allocation checks stay unchanged. No product change or new visual-review claim. Final64 rerun still required; writer acceptance remains pending.
+
 ## Run2: validator alias and failed-browser cleanup repair
 
 Source `4dc25d5701ea2c24e50b332fc0f10c4fea8efe06`, tree `10b213074ca7e13ae89da4fc593f8d0a19f346c6`; [run36630711725](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36630711725): **47 PASS /0 FAIL /16 INCOMPLETE /1 NOT_RUN** of64, reconstructed from recorded outcomes and the predeclared browser list. The raw report's54 count omits browser outcomes because its host exited before finalization. [Original report and receipt](evidence/p11-sales/RETURN_RUN2_RECEIPT.json) preserve this discrepancy.

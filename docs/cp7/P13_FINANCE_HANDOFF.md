@@ -1,6 +1,12 @@
 # P13 dated financial report and immutable archive reader
 
-CP6 remains CLOSED_CONTRACT_SCOPE. P13/F03 OPEN; independent_acceptance=false; production_go=false. This is a bounded writer candidate, not a completed close/recost/finance packet. Native qualification is pending; local DOM checks do not substitute for ledger or browser proof.
+## Writer-qualified12-case source
+
+Source `51ad4f3670ccc9d0132ec3670dae7c65393b79bc`, tree `71b36211ff9462409297ef07bac2091a73c2fd47`; [run36632119448](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36632119448): **12 PASS /0 FAIL /0 INCOMPLETE /0 NOT_RUN** (8 native,1 concurrency,1 Auth/API,2 connected browser). Exact source bundle hash was recomputed and matched. CP6 restoration, advisor, Auth/database cleanup, primary unchanged and backup/restore all pass. [Receipt and preserved report](evidence/p13-finance/REPORT_VERIFICATION.json).
+
+Verified amounts include the native sale/return/cash lifecycle, full inverse and exact large invoice `9007199254741009.99`. Actual native close archives remain byte-equivalent in the source projection after a late correction, including under a different caller timezone; the corrected READY report retains its change marker. Desktop/mobile screenshots were inspected and retained. No horizontal overflow was observed; mobile reports/archives are vertically long and native GRNI information still contains its raw decimal text. Local build and8 focused DOM/contract tests pass. These are writer results; no close/recost writer, full-family or independent acceptance is inferred.
+
+CP6 remains CLOSED_CONTRACT_SCOPE. P13/F03 OPEN; independent_acceptance=false; production_go=false. This is a bounded writer candidate, not a completed close/recost/finance packet. The bounded reader is writer-qualified as below; full P13 remains open.
 
 ## Accepted source and implemented boundary
 

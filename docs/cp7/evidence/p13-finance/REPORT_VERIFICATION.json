@@ -1,0 +1,78 @@
+{
+  "status": "PASS",
+  "source_commit": "51ad4f3670ccc9d0132ec3670dae7c65393b79bc",
+  "source_tree": "71b36211ff9462409297ef07bac2091a73c2fd47",
+  "run_id": 36632119448,
+  "job_id": 109623665650,
+  "artifact_id": 11063920179,
+  "artifact_bytes": 3411066,
+  "artifact_sha256": "5af39972eab8d37675dbc9b8371f2a7c26a5df2b1470c18ffb9353792e043ffa",
+  "report_sha256": "7feb4252b87ab8270857f1973f942ee411c2b0e0fb170671ee634b289767ab2d",
+  "report_gzip_sha256": "723d60cf58ca5bc4f10d76cecd031a432ea13ef2b1a8bfe2a80f331acd2f5a11",
+  "source_bundle_sha256": "6f92ab30e0f9c377c988d72f854fd3e7f57a8e5905305506548e783a0c947a35",
+  "counts": {
+    "PASS": 12,
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0
+  },
+  "groups": {
+    "native": {
+      "PASS": 8
+    },
+    "races": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "51ad4f3670ccc9d0132ec3670dae7c65393b79bc",
+    "product_ref": "51ad4f3670ccc9d0132ec3670dae7c65393b79bc",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36632119448",
+    "run_attempt": "1",
+    "workflow": "CP7 P13 Finance",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "51ad4f3670ccc9d0132ec3670dae7c65393b79bc",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": {
+    "desktop": true,
+    "mobile": true,
+    "limits": "Actual two source screenshots inspected. Dates, corrected-report marker, basis, current supplier exposure, preflight and original signed GL archive are visible. Panels fit horizontally; mobile financial/archive rows form a long vertical page. Native GRNI information retains its raw decimal text. This is no claim about untested close/recost writer UI."
+  },
+  "screenshots": {
+    "P13_REPORT_DESKTOP.png": "d62545cf6a2cb8ef6d082ccb114e671511d689fd3e86fa39ed5ebede04bfa3b6",
+    "P13_REPORT_MOBILE.png": "c7d5db7e05a341cc3a1a054ef987f2f48fe35c2e5e23a9459d2b37c3334a67e7"
+  },
+  "scope": "BOUNDED_DATED_NATIVE_REPORT_PREFLIGHT_AND_IMMUTABLE_FILED_GL_READER",
+  "financial_write_qualification": false,
+  "full_F03_qualification": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
