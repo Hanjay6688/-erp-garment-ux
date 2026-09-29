@@ -1,0 +1,14 @@
+{
+  "status": "INCOMPLETE_REWASH_QC_DECLARATION",
+  "source": "1d5d5971300b952c25892eec65780f77309193de",
+  "run": 36514086766,
+  "job": 109232404781,
+  "bundle_sha256": "5ad8a0b5e241ceca89fb9c7c1718ad57b969b6c88d50aa4fd0e78efa69f3974d",
+  "counts": {"kernel": {"PASS": 14}, "smoke": {"PASS": 1}, "source": {"PASS": 8, "INCOMPLETE": 1}, "races": {"PASS": 2}, "http": {"PASS": 1}},
+  "error": "PARTIAL_SELECTION conflicts with authoritative ready-for-QC remainder 0 after atomic posting",
+  "correction": "The rewash fixture consumes all 20 returned ready pieces; declare ALL_READY. The ordinary O15 partial QC retains PARTIAL_SELECTION. No posting guard or quantity oracle changed.",
+  "claim_custody": "PASS: 100 input, 75 WIP, 15 FG, 5 BS, 5 withheld; rejected 2 PCS claim returns to outstanding WIP, old snapshot unchanged",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "retest": "PENDING"
+}

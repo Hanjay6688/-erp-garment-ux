@@ -5,10 +5,10 @@ grant select on erp.cutting_pickups,erp.cutting_distribution_batches,erp.cutting
  erp.laundry_receipts,erp.laundry_receipt_lines,erp.laundry_receipt_batch_size_lines,
  erp.qc_inspections,erp.qc_inspection_items,erp.bs_cases,erp.rework_orders,
  erp.laundry_failed_wash_attempts,erp.laundry_failed_wash_batch_size_lines,erp.laundry_redispatch_participant_events,erp.bs_resolutions,
- erp.sewing_terminal_events,erp.laundry_claims to cp7_capture;
-create function cp7_wip.capture_cutting_sources(p_groups uuid[]) returns jsonb
+ erp.sewing_terminal_events,erp.laundry_claims,erp.bs_case_hold_events,erp.fg_unsourced_receipts_v1 to cp7_capture;
+create function cp7_wip.capture_cutting_sources(p_groups uuid[],p_at timestamptz) returns jsonb
 language sql stable security invoker set search_path='' set timezone='Asia/Jakarta' as $$
-with clock as materialized(select clock_timestamp() at),
+with clock as materialized(select p_at at),
 groups as materialized(
  select g.id,g.po_id,g.row_version::text revision,g.status,g.pattern_id,g.pattern_revision_snapshot,
  g.cut_at,g.picked_up_at,g.material_issue_posted,po.model_id
@@ -81,6 +81,16 @@ resolutions as materialized(
  from erp.bs_resolutions r join bs b on b.id=r.bs_case_id cross join clock c
  where r.physical_at<=c.at order by r.physical_at,r.id limit 2001
 ),
+holds as materialized(
+ select h.id,h.bs_case_id,h.action,h.resulting_status,h.physical_at,h.created_at
+ from erp.bs_case_hold_events h join bs b on b.id=h.bs_case_id cross join clock c
+ where h.physical_at<=c.at order by h.id limit 2001
+),
+bs_fg as materialized(
+ select x.id,x.bs_case_id,x.bs_resolution_id,x.qty_pcs::text qty_pcs,x.status,x.lot_id,x.quality_grade,x.physical_at
+ from erp.fg_unsourced_receipts_v1 x join bs b on b.id=x.bs_case_id cross join clock c
+ where x.physical_at<=c.at order by x.id limit 2001
+),
 failed as materialized(
  select a.id,a.receipt_line_id,a.delivery_id,a.custody_outcome,a.qty_attempted_pcs::text qty_pcs
  from erp.laundry_failed_wash_attempts a join receipts r on r.id=a.receipt_line_id order by a.id limit 2001
@@ -117,6 +127,8 @@ source as (select jsonb_build_object(
  'bs',coalesce((select jsonb_agg(to_jsonb(x) order by id) from bs x),'[]'::jsonb),
  'reworks',coalesce((select jsonb_agg(to_jsonb(x) order by id) from reworks x),'[]'::jsonb),
  'resolutions',coalesce((select jsonb_agg(to_jsonb(x) order by id) from resolutions x),'[]'::jsonb),
+ 'holds',coalesce((select jsonb_agg(to_jsonb(x) order by id) from holds x),'[]'::jsonb),
+ 'bs_fg',coalesce((select jsonb_agg(to_jsonb(x) order by id) from bs_fg x),'[]'::jsonb),
  'failed',coalesce((select jsonb_agg(to_jsonb(x) order by id) from failed x),'[]'::jsonb),
  'failed_sizes',coalesce((select jsonb_agg(to_jsonb(x) order by id) from failed_sizes x),'[]'::jsonb),
  'redispatch',coalesce((select jsonb_agg(to_jsonb(x) order by id) from redispatch x),'[]'::jsonb),
@@ -127,4 +139,8 @@ select jsonb_build_object('contract_version','cp7.cutting-facts.v1','knowledge_m
  'status',case when jsonb_array_length(facts->'groups')=cardinality(p_groups)
   and not exists(select 1 from jsonb_each(facts) where key<>'groups' and jsonb_array_length(value)>2000) then 'COMPLETE' else 'INCOMPLETE' end)
 from source
+$$;
+create function cp7_wip.capture_cutting_sources(p_groups uuid[]) returns jsonb
+language sql stable security invoker set search_path='' as $$
+ select cp7_wip.capture_cutting_sources(p_groups,clock_timestamp())
 $$;

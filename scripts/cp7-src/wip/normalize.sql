@@ -149,23 +149,14 @@ begin
   end if;
   if not exists(select 1 from jsonb_array_elements(g->'nodes') n where n->>'key'=src and n->>'pool_key'=pool) then
    return jsonb_build_object('status','CONFLICT','reason','BS_SOURCE_LINEAGE_MISMATCH','source_id',b->'id');end if;
-  bsnodes:=bsnodes||jsonb_build_object(b->>'id',jsonb_build_object('pool',pool,'node',src));
+  -- Several laundry cases may share a size-level receipt node. Give each case
+  -- its own slice before HOLD/rework; never hold the whole shared receipt twice.
+  dst:='BSCASE:'||(b->>'id');
+  g:=cp7_wip.transition(g,pool,src,dst,'BS',(b->>'qty_pcs')::numeric,cp7_wip.ref('erp.bs_cases',b->>'id',b->>'revision'));
+  bsnodes:=bsnodes||jsonb_build_object(b->>'id',jsonb_build_object('pool',pool,'node',dst));
  end loop;
- for rw in select value from jsonb_array_elements(f->'reworks') where value->>'status'<>'CANCELLED' order by value->>'physical_sent_at',value->>'id' loop
-  b:=bsnodes->(rw->>'bs_case_id');
-  if b is null then return jsonb_build_object('status','UNKNOWN','reason','REWORK_BS_SOURCE_UNPROVEN','source_id',rw->'id');end if;
-  pool:=b->>'pool';src:=b->>'node';dst:='REWORK:'||(rw->>'id');ref:=cp7_wip.ref('erp.rework_orders',rw->>'id',rw->>'revision');
-  g:=cp7_wip.transition(g,pool,src,dst,'REWORK',(rw->>'sent_pcs')::numeric,ref);
-  -- SAVE_REWORK records cumulative returns but posts no FG. The full source
-  -- remains WIP until the authoritative completion is posted. No ETA inferred.
-  if rw->>'status'='COMPLETED' and rw->'completion_posted'<>'true'::jsonb then
-   return jsonb_build_object('status','UNKNOWN','reason','REWORK_COMPLETION_NOT_POSTED','source_id',rw->'id');end if;
-  if rw->>'status'='COMPLETED' and (rw->>'completed_at')::timestamptz<=scope_at then
-   if (rw->>'good_pcs')::numeric+(rw->>'bs_pcs')::numeric<>(rw->>'sent_pcs')::numeric then return jsonb_build_object('status','CONFLICT','reason','REWORK_COMPLETION_MISMATCH','source_id',rw->'id');end if;
-   g:=cp7_wip.transition(g,pool,dst,'FGREWORK:'||(rw->>'id'),'FG',(rw->>'good_pcs')::numeric,ref);
-   g:=cp7_wip.transition(g,pool,dst,src,'BS',(rw->>'bs_pcs')::numeric,ref);
-  end if;
- end loop;
+ g:=cp7_wip.settle_bs(g,f,bsnodes,scope_at);
+ if g ? 'status' then return g;end if;
  result:=cp7_wip.reconcile(g);
  return result||jsonb_build_object('graph',g,'source_basis','CUTTING_GROUP_EXACT_SIZE_SHARED_POOL',
   'fg_basis','PRODUCTION_DISPOSITION_NOT_CURRENT_ON_HAND','sewing_detail','SUBSTAGE_NOT_ALLOCATABLE_FROM_GROUP_EVENTS',

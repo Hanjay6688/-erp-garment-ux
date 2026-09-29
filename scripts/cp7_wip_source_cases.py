@@ -22,9 +22,9 @@ def fixture(cur,today,finish=True):
     if finish:qc(cur,f,15,5,14)
     return f
 
-def qc(cur,f,good,bs,hour):
+def qc(cur,f,good,bs,hour,mode='PARTIAL_SELECTION'):
     return b.chain.laundry_action(cur,'POST_FINAL_SKU',dict(cutting_group_id=f['group'],destination_location_id=base.LOCATION,
-      physical_at=b.chain.production.at(f['day'],hour).isoformat(),reason='P04 partial QC physical transition',good_qty_pcs=good,completion_mode='PARTIAL_SELECTION',
+      physical_at=b.chain.production.at(f['day'],hour).isoformat(),reason='P04 QC physical transition',good_qty_pcs=good,completion_mode=mode,
       lines=[dict(final_product_id=f['product'],qty_good_pcs=good,qty_bs_pcs=bs,source_laundry_receipt_line_id=f['receipt_line'],source_laundry_receipt_batch_size_line_id=f['receipt_size'])]),base.group_version(cur,f['group']))
 
 def capture(cur,groups,key=None,subject=None):
@@ -132,7 +132,7 @@ def cases(cur,today):
         rec=b.chain.laundry_action(cur,'POST_RECEIPT',dict(delivery_id=second,wash_process_id=f['process'],physical_at=b.chain.production.at(f['day'],16).isoformat(),
           reason='Twenty physical pieces returned once',lines=[dict(delivery_batch_size_line_id=second_size,qty_good_received=20,qty_bs_laundry=0,bs_product_id=None)]),base.delivery_version(cur,second))
         b.api.admin(cur);f['receipt_line']=b.receipt_line(cur,rec['receipt_id']);f['receipt_size']=b.one(cur,'select id::text from erp.laundry_receipt_batch_size_lines where receipt_line_id=%s',f['receipt_line'])
-        f['product']=b.sized_product(cur,base.SIZE,'P04-REWASH-'+uuid.uuid4().hex[:8]);qc(cur,f,20,0,17)
+        f['product']=b.sized_product(cur,base.SIZE,'P04-REWASH-'+uuid.uuid4().hex[:8]);qc(cur,f,20,0,17,mode='ALL_READY')
         final=capture(cur,[f['group']]);assert [total(final['result'],k+'_pcs') for k in ('input','wip','fg','bs')]==[100,80,20,0],final
         # A duplicated participant interval cannot publish a plausible aggregate.
         b.api.admin(cur);facts=cur.execute('select facts from cp7_wip.runs where id=%s',(final['run_id'],)).fetchone()[0]
@@ -160,12 +160,27 @@ def cases(cur,today):
         unknown=cur.execute('select cp7_wip.normalize_cutting(%s::jsonb)',(json.dumps(facts),)).fetchone()[0]
         assert unknown['status']=='UNKNOWN' and unknown['reason']=='CLAIM_EXACT_SIZE_OR_SOURCE_UNPROVEN'
         return dict(status='PASS',ordinary_missing_and_stuck=True,held=5,rejection_refreshed_not_rewritten=True,hidden_header_source_not_guessed=True)
+    def bs_disposition():
+        f=fixture(cur,today);b.api.admin(cur)
+        case=b.one(cur,'select id::text from erp.bs_cases where cutting_group_id=%s and qc_item_id is not null',f['group'])
+        def action(kind,**payload):
+            return b.chain.bs_action(cur,kind,dict(payload,change_reason='P04 BS custody lifecycle'),b.chain.version(cur,'bs_cases',case))
+        action('HOLD_BS',bs_case_id=case,physical_at=b.chain.production.at(f['day'],15).isoformat())
+        held=capture(cur,[f['group']]);assert [total(held['result'],k+'_pcs') for k in ('input','wip','fg','bs','withheld','exited')]==[100,80,15,0,5,0],held
+        action('RELEASE_HOLD',bs_case_id=case,physical_at=b.chain.production.at(f['day'],16).isoformat())
+        released=capture(cur,[f['group']]);assert total(released['result'],'bs_pcs')==5 and total(released['result'],'withheld_pcs')==0,released
+        disposed=action('DISPOSE_BS',bs_case_id=case,resolution_type='SCRAP',qty_pcs=2,physical_at=b.chain.production.at(f['day'],17).isoformat())
+        scrap=capture(cur,[f['group']]);assert [total(scrap['result'],k+'_pcs') for k in ('input','wip','fg','bs','withheld','exited')]==[100,80,15,3,0,2],scrap
+        action('REVERSE_DISPOSITION',resolution_id=disposed['result']['bs_resolution_id'])
+        restored=capture(cur,[f['group']]);assert total(restored['result'],'bs_pcs')==5 and total(restored['result'],'exited_pcs')==0,restored
+        assert read(cur,scrap['run_id'])['source_state']=='ARCHIVED_STALE' and read(cur,held['run_id'])['result']==held['result']
+        return dict(status='PASS',ordinary_hold_release_scrap_reverse=True,held=5,scrap_exit=2,restored_bs=5,no_extra_good=True,old_results_immutable=True)
     def multi_scope():
         f=fixture(cur,today);other=b.two_size_fixture(cur,b.case_day(today),'P04-OTHER',q1=6,q2=4)
         r=capture(cur,[other['group'],f['group']]);assert [total(r['result'],k+'_pcs') for k in ('input','wip','fg','bs')]==[110,90,15,5]
         assert len(r['result']['totals'])==4 and len({x['pool_key'] for x in r['result']['totals']})==4
         return dict(status='PASS',one_capture_multiple_groups=True,input=110,wip=90,fg=15,bs=5)
-    return [('P04_SOURCE_'+name,fn) for name,fn in [('O15_ACTUAL_POSTING',actual),('IMMUTABLE_QC_REPLAY',immutable),('AUTH_NO_MONEY',access),('MALFORMED_NO_PARTIAL',malformed),('CONFLICT_PROPAGATES',conflict),('MULTI_GROUP_ONE_CAPTURE',multi_scope),('REWORK_PARTIAL_COMPLETION',rework_lifecycle),('REWASH_RETURN_REDISPATCH',rewash_lifecycle),('CLAIM_CUSTODY',claims)]]
+    return [('P04_SOURCE_'+name,fn) for name,fn in [('O15_ACTUAL_POSTING',actual),('IMMUTABLE_QC_REPLAY',immutable),('AUTH_NO_MONEY',access),('MALFORMED_NO_PARTIAL',malformed),('CONFLICT_PROPAGATES',conflict),('MULTI_GROUP_ONE_CAPTURE',multi_scope),('REWORK_PARTIAL_COMPLETION',rework_lifecycle),('REWASH_RETURN_REDISPATCH',rewash_lifecycle),('CLAIM_CUSTODY',claims),('BS_HOLD_DISPOSITION',bs_disposition)]]
 
 def http_cases(http,today):
     def auth():
