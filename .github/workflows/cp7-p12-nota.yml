@@ -9,6 +9,10 @@ name: CP7 P12 Nota and payroll review
     - scripts/cp7_nota_cases.py
     - scripts/cp7_settlement_read_bundle.py
     - scripts/cp7_settlement_read_cases.py
+    - scripts/cp7_p12_payroll_browser.mjs
+    - src/ConnectedPayrollPage.tsx
+    - src/payrollContract.ts
+    - src/payroll-connected.css
     - scripts/cp7_p12_browser.mjs
     - scripts/cp7_p12_browser_fixture.py
     - src/ConnectedNotaPage.tsx

@@ -1,0 +1,52 @@
+{
+  "source": "2da6bea030b6ee208da2a7d517404907ca4f59f4",
+  "tree": "b7e50b5df4a033a32f225a71d471b9ca72d71470",
+  "run_id": 36580957254,
+  "job_id": 109448692320,
+  "artifact_id": 11039757475,
+  "archive_sha256": "82efaed8662b25704f0dad096d65c812203ba4ac3fc63dd7b3a9d9068f35237f",
+  "bundle_sha256": "fc69401690073b5b427b4986cf475c38a20d7db6d1ab40f8a2e7b440ddc4f014",
+  "nota_bundle_sha256": "f4cc89bc15d5d4231bd13f7791be90a4dd74b4197c397932018678172faaceee",
+  "status": "PASS",
+  "counts": {
+    "native": {
+      "PASS": 5
+    },
+    "http": {
+      "PASS": 1
+    },
+    "notes": {
+      "PASS": 7
+    },
+    "note_races": {
+      "PASS": 3
+    },
+    "note_http": {
+      "PASS": 1
+    },
+    "admission_regression": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    },
+    "payroll_review": {
+      "PASS": 4
+    },
+    "payroll_review_http": {
+      "PASS": 1
+    }
+  },
+  "total_pass": 25,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "independent_acceptance": false,
+  "production_go": false,
+  "visual_review": "Both actual screenshots inspected: dark card surfaces, readable component/total text, historical PCS label and plain recovery wording. Browser contrast gate >=4.5 passed.",
+  "scope": "20 Nota cases plus4 finance payroll native-read cases and1 finance real Auth/HTTP case. No finance payroll UI, approval/payment/attendance/advance writer proof in this run.",
+  "files_sha256": {
+    "CP7_P12_PAYROLL_REVIEW.json.gz": "86f296b741389a2cdd4a6cf7b71767597fb0d44ee534cc26b625e77fbe266831",
+    "P12_NOTA_REVIEW_DESKTOP.png": "372c69a80ffd92c8cc310e48a48c6b8f2e06b0235b09feaad04e430108f4acbf",
+    "P12_NOTA_REVIEW_MOBILE.png": "8cac0841caec0703e654ee8b0d8ab64e35cdddca0737e66fb4d0df61b341efb6"
+  }
+}

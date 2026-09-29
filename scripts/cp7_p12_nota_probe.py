@@ -44,7 +44,7 @@ def run(with_review=False):
     report=dict(label='CP7_P12_NOTA_COMPOSER',status='INCOMPLETE',production_go=False,independent_acceptance=False,scope='NATIVE_SOURCE_SELECTED_CARD_COMPOSITION_ALLOCATION_AND_BROWSER_NO_PAYROLL_SETTLEMENT_UI',source_sha256=hashlib.sha256(runtime.bundle().encode()).hexdigest())
     out=OUT
     if with_review:
-        report.update(label='CP7_P12_NOTA_AND_PAYROLL_REVIEW',scope=report['scope']+'_WITH_FINANCE_PAYROLL_READ',nota_bundle_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest())
+        report.update(label='CP7_P12_NOTA_AND_PAYROLL_REVIEW',scope=report['scope']+'_WITH_FINANCE_PAYROLL_READ_AND_REVIEW_BROWSER',nota_bundle_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest())
         out=OUT.with_name('CP7_P12_PAYROLL_REVIEW.json')
     installed=False
     try:
@@ -89,6 +89,7 @@ def run(with_review=False):
         if with_review:
             report['payroll_review']=native.strict_group('CP7_P12_PAYROLL_REVIEW',review_cases.cases,verifier)
             report['payroll_review_http']=modes.run_http(review_cases,verifier,'cp7_p12_payroll_review')
+            report['payroll_review_browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_p12_payroll_browser.mjs',verifier,'cp7_p12_payroll_review')
     except Exception as e:report.update(error=str(e),traceback=traceback.format_exc())
     finally:
         if installed:
@@ -100,7 +101,7 @@ def run(with_review=False):
                 conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
             report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta']
             report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or (d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and (f.get('metadata') or {}).get('schema') in ('cp7_payroll','cp7_fg','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice') for f in d.get('added',[])))
-        group_keys=('native','http','notes','note_races','note_http','admission_regression','browser')+(('payroll_review','payroll_review_http') if with_review else ())
+        group_keys=('native','http','notes','note_races','note_http','admission_regression','browser')+(('payroll_review','payroll_review_http','payroll_review_browser') if with_review else ())
         groups=[report.get(k,{}) for k in group_keys]
         report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and all(r.get('status') in ('PASS','RUN_COMPLETE') and set(r.get('counts',{}))=={'PASS'} and r['counts']['PASS']>0 and r.get('database_remaining',0)==0 for r in groups) else 'INCOMPLETE'
         out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,indent=2,default=str)+'\n');print(json.dumps({k:report.get(k) for k in ('label','status','source_sha256','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)

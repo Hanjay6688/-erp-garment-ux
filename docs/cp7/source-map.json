@@ -1027,11 +1027,14 @@
     "consumer": "src/ConnectedNotaPage.tsx",
     "native_probe": "scripts/cp7_p12_nota_probe.py",
     "browser_probe": "scripts/cp7_p12_browser.mjs",
-    "status": "NOTA_20_PASS_VISUAL_AND_FINANCE_READ_CANDIDATE",
+    "status": "NOTA_FINANCE_READ_25_PASS_UI_CANDIDATE",
     "hosted_boundary_preserved": true,
     "production_go": false,
     "verification": "docs/cp7/evidence/p12-nota/NOTA_VERIFICATION.json",
     "handoff": "docs/cp7/P12_NOTA_HANDOFF.md",
-    "finance_reader": "scripts/cp7-src/payroll/settlement-read.sql"
+    "finance_reader": "scripts/cp7-src/payroll/settlement-read.sql",
+    "finance_consumer": "src/ConnectedPayrollPage.tsx",
+    "finance_browser_probe": "scripts/cp7_p12_payroll_browser.mjs",
+    "finance_read_verification": "docs/cp7/evidence/p12-nota/PAYROLL_READ_VERIFICATION.json"
   }
 }

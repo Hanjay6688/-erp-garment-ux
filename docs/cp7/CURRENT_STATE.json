@@ -37,7 +37,7 @@
     "P04": "F02_REPAIR_53_PASS_PLUS_SMOKE_INDEPENDENT_HOLD_X06_PUBLIC_JOIN_OPEN",
     "P09": "BOUNDED_121_PASS_COUNTS_AND_COMBINED_INVOICES_QUALIFIED_REMAINING_SCOPE_OPEN",
     "P10": "FG_BOOK_34_PASS_NOTA_TRANSACTIONS_20_PASS_VISUAL_FOLLOWUP",
-    "P12": "NOTA_20_PASS_FINANCE_REVIEW_CANDIDATE_SETTLEMENT_OPEN"
+    "P12": "NOTA_AND_FINANCE_READ_25_PASS_PAYROLL_UI_CANDIDATE_SETTLEMENT_OPEN"
   },
   "inherited_scope": {
     "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
@@ -52,7 +52,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Qualify Nota contrast and five finance review cases, then connect payroll preparation/approval/payment/attendance/advance and finish remaining F03.",
+  "next_action": "Qualify connected finance payroll review (27 combined cases); continue selected-source attendance/advance preparation and native approval/payment/inverse lifecycle.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -95,10 +95,10 @@
   "p12_entry": {
     "source_verification": "docs/cp7/evidence/p12-nota/SOURCE_VERIFICATION.json",
     "notes": "docs/cp7/P12_NOTA_ENTRY.md",
-    "status": "NOTA_20_PASS_VISUAL_AND_FINANCE_REVIEW_RERUN",
+    "status": "NOTA_FINANCE_READER_25_PASS_UI_BROWSER_PENDING",
     "scope": "P10_NOTA_P12_SELECTED_COMPONENT_HANDOFF",
     "remaining": [
-      "composer_and_browser_qualification",
+      "finance_review_browser_qualification",
       "payroll_approval_payment_reversal",
       "attendance_and_advances",
       "full_E05_family_crossflow",
@@ -107,6 +107,7 @@
     ],
     "diagnostic": "docs/cp7/evidence/p12-nota/NOTA_RUN_3.json",
     "verification": "docs/cp7/evidence/p12-nota/NOTA_VERIFICATION.json",
-    "handoff": "docs/cp7/P12_NOTA_HANDOFF.md"
+    "handoff": "docs/cp7/P12_NOTA_HANDOFF.md",
+    "finance_read_verification": "docs/cp7/evidence/p12-nota/PAYROLL_READ_VERIFICATION.json"
   }
 }

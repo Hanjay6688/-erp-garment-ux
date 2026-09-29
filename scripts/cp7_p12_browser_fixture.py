@@ -12,13 +12,16 @@ def main():
     with psycopg.connect(target) as conn,conn.cursor() as cur:
         had=cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]
         if not had:cur.execute('grant usage on schema erp to authenticated')
-        if op=='create':
+        if op in ('create','create_payroll_review'):
             f=n.source.repair(cur,date.fromisoformat(p['today']));label='Mandor Nota '+uuid.uuid4().hex[:8]
             cur.execute('update erp.contractors set contractor_name=%s where id=%s',(label,f['contractor']))
             n.source.ax.post(cur,n.source.ax.repair_payload(f,1));out=dict(f,label=label,facts=n.facts(cur))
-            if p.get('ops'):
+            if op=='create_payroll_review':
+                note=n.command(cur,'SAVE',n.payload(cur,f,date.fromisoformat(p['today'])));note=n.act(cur,'POST',note)
+                out.update(note=note['note_id'],payroll=note['payroll_id'])
+            if p.get('ops') or op=='create_payroll_review':
                 role=cur.execute("select id from erp.app_roles where role_code='ADMIN'").fetchone()[0];cur.execute('delete from erp.app_role_permissions where role_id=%s',(role,))
-                for perm in ('production.fg_handoff.view','production.fg_handoff.post'):cur.execute('insert into erp.app_role_permissions(role_id,permission_key) values(%s,%s)',(role,perm))
+                for perm in (('finance.payroll.view',) if op=='create_payroll_review' else ('production.fg_handoff.view','production.fg_handoff.post')):cur.execute('insert into erp.app_role_permissions(role_id,permission_key) values(%s,%s)',(role,perm))
         elif op=='read':
             rows=cur.execute('select id::text,status,posted_payroll_id::text,row_version::text from cp7_payroll.notes where contractor_id=%s order by created_at,id',(p['contractor'],)).fetchall()
             payroll=cur.execute('select id::text,status,labor_total::text,net_payable::text,settled_at from erp.payroll_settlements where contractor_id=%s',(p['contractor'],)).fetchall()
