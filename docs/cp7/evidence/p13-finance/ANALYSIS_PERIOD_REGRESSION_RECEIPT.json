@@ -1,0 +1,93 @@
+{
+  "status": "INCOMPLETE",
+  "source_commit": "e2b3529fcd4725829fe4dbbbaf049152fca69c25",
+  "source_tree": "d32545b246d511a3c166e827cb963b919c51b9e9",
+  "run_id": 36638747297,
+  "job_id": 109645704620,
+  "artifact_id": 11065469451,
+  "artifact_bytes": 5412042,
+  "artifact_sha256": "9b092c3dc921767b60fba3af124d47eca29f84b0a51e0f3eb8642d0e2169958b",
+  "report_sha256": "388733484e2dbdf76b4a8318df6fe9c90b2e96aa18cc7c6f5285866406d03116",
+  "report_gzip_sha256": "5e1de0f32a1d37074ba7f5648dc5b4e308b2de5e6f1fea762595123b4916314a",
+  "source_bundle_sha256": "5396b3f08b7f51004017987c0c5fafd36a27b22c3613f66e1ea0929eb534af5e",
+  "counts": {
+    "PASS": 23,
+    "FAIL": 0,
+    "INCOMPLETE": 2,
+    "NOT_RUN": 0
+  },
+  "observed_case_count": 25,
+  "expected_cases": 25,
+  "groups": {
+    "native": {
+      "PASS": 8
+    },
+    "races": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    },
+    "period_native": {
+      "PASS": 8
+    },
+    "period_races": {
+      "PASS": 2
+    },
+    "period_http": {
+      "PASS": 1
+    },
+    "period_browser": {
+      "INCOMPLETE": 2
+    }
+  },
+  "nonpassing_cases": {
+    "P13_PERIOD_BROWSER_DESKTOP": {
+      "status": "INCOMPLETE",
+      "error": "locator.fill: Timeout 20000ms exceeded.\nCall log:\n  - waiting for getByRole('region', { name: 'Kelola periode pembukuan', exact: true }).getByLabel('Alasan perubahan periode', { exact: true })\n\n    at period (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p13_period_browser.mjs:38:67)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3"
+    },
+    "P13_PERIOD_BROWSER_MOBILE_RECOVERY": {
+      "status": "INCOMPLETE",
+      "error": "Error: expect(locator).toBeEnabled() failed\n\nLocator:  getByRole('region', { name: 'Kelola periode pembukuan', exact: true }).getByRole('button', { name: 'Tutup buku dan simpan arsip', exact: true })\nExpected: enabled\nReceived: disabled\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.be.enabled\" with timeout 5000ms\n  - waiting for getByRole('region', { name: 'Kelola periode pembukuan', exact: true }).getByRole('button', { name: 'Tutup buku dan simpan arsip', exact: true })\n    14 \u00d7 locator resolved to <button disabled class=\"primary-btn\">Tutup buku dan simpan arsip</button>\n       - unexpected value \"disabled\"\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toBeEnabled (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at period (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p13_period_browser.mjs:25:112)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3"
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "e2b3529fcd4725829fe4dbbbaf049152fca69c25",
+    "product_ref": "e2b3529fcd4725829fe4dbbbaf049152fca69c25",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36638747297",
+    "run_attempt": "1",
+    "workflow": "CP7 P13 Period control",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "e2b3529fcd4725829fe4dbbbaf049152fca69c25",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false,
+  "diagnosis": "The action selector repair passed. Desktop closes and reads its archive, then cannot find the exact wrapping label for the already populated reason textarea when reopening. The full failure page shows REOPEN and the chosen cutoff, with the textarea present. Give the textarea an explicit accessible name; keep the exact browser oracle. Desktop stops before reopening, leaving mobile correctly unable to close that same date. No screenshot acceptance is claimed until both complete."
+}

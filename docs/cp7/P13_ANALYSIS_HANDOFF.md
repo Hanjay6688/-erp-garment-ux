@@ -1,5 +1,11 @@
 # P13 recorded comparison and cash ledger — candidate
 
+## First native result retained; source-preparation repair
+
+[Run36638747375](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36638747375), source `e2b3529fcd4725829fe4dbbbaf049152fca69c25`, tree `d32545b246d511a3c166e827cb963b919c51b9e9`: **15 PASS /0 FAIL /7 INCOMPLETE /2 NOT_RUN**. The twelve original report cases, O13 native comparison, zero-baseline and reader access cases pass. Seven cash cases stop during preparation because the internal native journal primitive is intentionally not granted to authenticated users. Both analysis browser cases never start; they are explicitly NOT_RUN, not silently omitted from24. Restoration/advisor/Auth/database cleanup gates pass. [Unchanged original report and receipt](evidence/p13-finance/ANALYSIS_RUN1_RECEIPT.json).
+
+The repair invokes the unchanged internal journal/reversal only for disposable fixture preparation as database owner, retaining actual OWNER claims; no application or financial-reader grant is widened. Actual report/HTTP/browser access remains under the real app role. This creates no cash-transfer writer. All business assertions remain in place. The same-source [standalone report12](evidence/p13-finance/ANALYSIS_REPORT_REGRESSION_RECEIPT.json) and [combined22](evidence/p13-finance/ANALYSIS_COMBINED_REGRESSION_RECEIPT.json) pass; [period25](evidence/p13-finance/ANALYSIS_PERIOD_REGRESSION_RECEIPT.json) remains23 PASS/2 INCOMPLETE for the separately recorded browser-label defect.
+
 CP6 CLOSED_CONTRACT_SCOPE; P13/F03 OPEN. independent_acceptance=false and production_go=false. This is writer development proof, not independent acceptance or a cash-transfer writer.
 
 The connected Laporan & Tutup Buku route now opens an explicit comparison and cash section. The operator chooses an earlier non-overlapping baseline. One stable, read-only RPC reads both unchanged native owner reports and the dated cash ledger in one PostgreSQL statement snapshot. Both native readiness results remain present; recorded profit is never presented as final while costs are unresolved. The UI labels current recorded knowledge, not an as-known historical reconstruction.

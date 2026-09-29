@@ -1,5 +1,9 @@
 # P13 reviewed period control — candidate
 
+## Third run and same-source regression:23 PASS /2 INCOMPLETE
+
+[Run36638500257](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36638500257) on `d7efc72d31455e0dbf59e5716ecd85dbef6d88b5` and [run36638747297](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36638747297) on `e2b3529fcd4725829fe4dbbbaf049152fca69c25` both have **23 PASS /0 FAIL /2 INCOMPLETE /0 NOT_RUN**. The action selector now works. Desktop reaches REOPEN and chooses the earlier cutoff, then its populated reason textarea no longer has the exact wrapping-label name. The textarea now has an explicit accessible name, preserving the exact browser check. Desktop stops before reopening, so mobile still correctly refuses the already closed date. Retest remains necessary; no visual acceptance is claimed. [Original run3 receipt](evidence/p13-finance/PERIOD_RUN3_RECEIPT.json); [same-source analysis regression](evidence/p13-finance/ANALYSIS_PERIOD_REGRESSION_RECEIPT.json).
+
 ## Second run:23 PASS, browser accessible-name repair pending
 
 Source `d1a8a84bce5bf5cf25c716ec2fbe2dc783724b36`, tree `2687fa0bb4f7f38b6c97ae85547e654e249a7820`; [run36637495738](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36637495738): **23 PASS /0 FAIL /2 INCOMPLETE /0 NOT_RUN**. All8 period-native cases, both real lock races (including revocation during the wait) and the Auth/HTTP close/replay case pass. READY→READY late-cost changes retire old reviews; immutable filings and old-request replay after reopening pass. [Original result](evidence/p13-finance/PERIOD_RUN2_RECEIPT.json).

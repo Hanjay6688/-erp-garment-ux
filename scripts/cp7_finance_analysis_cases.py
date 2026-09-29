@@ -10,8 +10,16 @@ b,auth,source,cmd=finance.b,finance.auth,finance.source,finance.cmd
 def query(day,**kw):return dict({'from':str(day),'to':str(day),'as_of':str(day),'compare_from':str(day-timedelta(days=1)),'compare_to':str(day-timedelta(days=1))},**kw)
 def read(cur,q,subject=None):
  auth.actor(cur,subject);r=cur.execute('select public.erp_cp7_get_finance_analysis_v1(%s)',(json.dumps(q),)).fetchone()[0];b.api.admin(cur);return r
+def fixture_journal_call(cur,sql,args):
+ # Internal journal primitives are deliberately not executable by app roles.
+ # Only disposable source preparation uses the database owner, retaining the
+ # real OWNER claims required by the unchanged native business guard. No grant
+ # is added; all report/HTTP/browser calls still use their actual app identity.
+ auth.actor(cur);b.api.admin(cur)
+ assert cur.execute('select current_user').fetchone()[0]=='postgres'
+ return cur.execute(sql,args).fetchone()[0]
 def journal(cur,day,lines,label='P13_ANALYSIS_FIXTURE'):
- return source.native(cur,'select erp.post_journal(%s,%s,%s,%s,%s)',(label,uuid.uuid4(),day,'P13 source through accepted native journal',json.dumps(lines)))
+ return fixture_journal_call(cur,'select erp.post_journal(%s,%s,%s,%s,%s)',(label,uuid.uuid4(),day,'P13 source through accepted native journal',json.dumps(lines)))
 def dated_sale(cur,day,price,cost):
  product,_=source.fg.ax.owner_only_model_product(cur,effective_from=day-timedelta(days=10))
  found=source.fg.ax.post(cur,dict(source_kind='FOUND_AT_OPNAME',product_id=product,location_id=source.fg.base.LOCATION,qty_pcs=1,physical_at=receipt.aa.at(day,8).isoformat(),reason='P13 dated found stock',owner_unit_value=cost,owner_value_reason='P13 explicit source cost'))
@@ -54,7 +62,7 @@ def cases(cur,today):
   return dict(status='PASS',O14_internal_transfer1000_net0_customer_receipt300_supplier_payment200=True,cash_net100=True,gross_cash_debits1300_credits1200_explicit_not_external_revenue=True,unpaid_invoice_not_cash=True)
  def inverse():
   f=cash_fixture(cur,today);before=read(cur,f['query']);source.native(cur,'select erp.reverse_sales_payment(%s,%s)',(f['payment'],'P13 exact payment inverse'))
-  source.bc.internal(cur,'reverse_supplier_payment',f['supplier_payment'],'P13 supplier inverse');b.api.admin(cur);source.native(cur,'select erp.reverse_journal(%s,%s)',(f['transfer'],'P13 internal transfer inverse'))
+  source.bc.internal(cur,'reverse_supplier_payment',f['supplier_payment'],'P13 supplier inverse');b.api.admin(cur);fixture_journal_call(cur,'select erp.reverse_journal(%s,%s)',(f['transfer'],'P13 internal transfer inverse'))
   current=read(cur,query(today));assert current['cash']['reconciled']
   assert D(current['cash']['net_change'])==-100 and D(read(cur,f['query'])['cash']['net_change'])==D(before['cash']['net_change'])
   assert all(x['reversal_of_id'] for x in current['cash']['entries']['rows'])

@@ -35,14 +35,14 @@
     "P02": "BOUNDED_ACTOR_CAPTURE_T1_PASS_16_CASES_INDEPENDENT_PENDING",
     "P03": "BOUNDED_POLICY_NATIVE_PASS_15_CASES_INDEPENDENT_PENDING",
     "P04": "F02_REPAIR_53_PASS_PLUS_SMOKE_INDEPENDENT_HOLD_X06_PUBLIC_JOIN_OPEN",
-    "P09": "BOUNDED_125_PASS_MULTI_INPUT_COUNTS_AND_COMBINED_INVOICES_REMAINING_SCOPE_OPEN",
+    "P09": "WRITER_BOUNDED_132_PASS_PLUS_3_SMOKES_REMAINING_SCOPE_OPEN",
     "P10": "FG_BOOK_34_PASS_NOTA_COMPOSITION_QUALIFIED_SCOPE_OPEN",
     "P12": "BOUNDED_ATTENDANCE_SOURCE_TO_PAYROLL_80_PASS_REMAINING_SCOPE_OPEN",
     "P11": "WRITER_RETURN64_PASS_R10_BROWSER_SOURCE_LIFECYCLE_PASS_INDEPENDENT_PENDING",
     "P13": "BOUNDED_REPORT_ARCHIVE_READER_12_PASS_FINANCIAL_WRITERS_AND_FULL_SCOPE_OPEN"
   },
   "inherited_scope": {
-    "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
+    "R10": "WRITER_SOURCE_BROWSER_PASS_ON_e8084530_INDEPENDENT_ACCEPTANCE_OPEN",
     "CP7_DELTA_01": "CLOSED",
     "conversion_history": "CLOSED_ACCEPTED",
     "E14": "P02 bounded actor/Auth family passed; full browser/cross-scope charter remains open",
@@ -54,15 +54,15 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Qualify P11 final64 native cap refusal correction and explicit F03 combined stack22. P13 bounded report/archive reader12 PASS retained. Finish remaining P09/E05/P13 and whole-family obligations before F04 takeover.",
+  "next_action": "Finish native period25 and comparison/cash24 qualifiers, retain exact source evidence and inspect screenshots. P09 132 plus3 smokes, P11 64 and selected combined22 are already writer-qualified within receipts. Continue remaining unambiguous F03 contract; E05 remains an explicit decision boundary. F04 follows F03 completion.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
-  "last_writer_checkpoint": "docs/cp7/P12_SOURCE_HANDOFF.md",
+  "last_writer_checkpoint": "docs/cp7/F03_REMAINING_CONTRACT.md",
   "family_status": {
     "F01_P00_P02": "WRITER_T1_BOUNDED_FOUNDATION_PASS_INDEPENDENT_PENDING",
     "F02_P03_P04": "WRITER_REPAIR_VERIFIED_53_CASES_INDEPENDENT_HOLD",
-    "F03_P09_P13": "IN_PROGRESS_P10_NOTA_P12",
+    "F03_P09_P13": "IN_PROGRESS_P13_AND_REMAINING_FAMILY_CONTRACT",
     "F04_P05_P08": "PLANNED",
     "F05_P14_P17": "PLANNED",
     "F06_P18_P21": "PLANNED"
@@ -252,7 +252,7 @@
     "verification": "docs/cp7/evidence/p09-procurement/UNMOVED_QUALIFIED_RECEIPT.json"
   },
   "p13_period_candidate": {
-    "status": "RUN2_23_PASS_2_BROWSER_INCOMPLETE_ACCESSIBLE_NAME_RETEST_PENDING",
+    "status": "RUN3_23_PASS_2_BROWSER_INCOMPLETE_REASON_LABEL_RETEST_PENDING",
     "handoff": "docs/cp7/P13_PERIOD_HANDOFF.md",
     "expected_cases": 25,
     "retained_report_cases": 12,
@@ -260,18 +260,21 @@
     "local_period_cases": 6,
     "independent_acceptance": false,
     "production_go": false,
-    "diagnostic": "docs/cp7/evidence/p13-finance/PERIOD_RUN2_RECEIPT.json",
-    "source_commit": "d1a8a84bce5bf5cf25c716ec2fbe2dc783724b36",
-    "source_tree": "2687fa0bb4f7f38b6c97ae85547e654e249a7820"
+    "diagnostic": "docs/cp7/evidence/p13-finance/ANALYSIS_PERIOD_REGRESSION_RECEIPT.json",
+    "source_commit": "e2b3529fcd4725829fe4dbbbaf049152fca69c25",
+    "source_tree": "d32545b246d511a3c166e827cb963b919c51b9e9"
   },
   "p13_analysis_candidate": {
-    "status": "CANDIDATE_NATIVE_24_PENDING",
+    "status": "RUN1_15_PASS_7_INCOMPLETE_2_NOT_RUN_FIXTURE_RETEST_PENDING",
     "handoff": "docs/cp7/P13_ANALYSIS_HANDOFF.md",
     "expected_cases": 24,
     "retained_report_cases": 12,
     "new_analysis_cases": 12,
     "local_analysis_cases": 8,
     "independent_acceptance": false,
-    "production_go": false
+    "production_go": false,
+    "source_commit": "e2b3529fcd4725829fe4dbbbaf049152fca69c25",
+    "source_tree": "d32545b246d511a3c166e827cb963b919c51b9e9",
+    "diagnostic": "docs/cp7/evidence/p13-finance/ANALYSIS_RUN1_RECEIPT.json"
   }
 }

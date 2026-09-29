@@ -1,0 +1,71 @@
+{
+  "status": "PASS",
+  "source_commit": "e2b3529fcd4725829fe4dbbbaf049152fca69c25",
+  "source_tree": "d32545b246d511a3c166e827cb963b919c51b9e9",
+  "run_id": 36638747356,
+  "job_id": 109645704718,
+  "artifact_id": 11065846363,
+  "artifact_bytes": 4077565,
+  "artifact_sha256": "0a6b7a2a8d9ca432920fa1404006633b12497957cbc62be9ffea1c59e0f40772",
+  "report_sha256": "9343e183637016a3ec9f9d2f1c4d2f0e5fcc090524ee5ae00b4c73d443ef6b2b",
+  "report_gzip_sha256": "7893c44420ea61a7d24fbf7c530726a45f2e5e6b8753b3b6a31d65d158db961a",
+  "source_bundle_sha256": "5396b3f08b7f51004017987c0c5fafd36a27b22c3613f66e1ea0929eb534af5e",
+  "counts": {
+    "PASS": 12,
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0
+  },
+  "observed_case_count": 12,
+  "expected_cases": 12,
+  "groups": {
+    "native": {
+      "PASS": 8
+    },
+    "races": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "nonpassing_cases": {},
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "e2b3529fcd4725829fe4dbbbaf049152fca69c25",
+    "product_ref": "e2b3529fcd4725829fe4dbbbaf049152fca69c25",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36638747356",
+    "run_attempt": "1",
+    "workflow": "CP7 P13 Finance",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "e2b3529fcd4725829fe4dbbbaf049152fca69c25",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false
+}

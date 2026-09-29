@@ -2,7 +2,7 @@
 
 Family F03 is active. The receipt increment is **writer-verified in a disposable database and real connected browser**, not full P09 or family acceptance. No hosted writes; `production_go=false`.
 
-Latest qualified source: **`a499f39d5e9df6893ed5705ac79bc70e177487ba`**, **121 cases PASS plus three separate smokes**, including physical counts and complete combined supplier invoices. [Run 36542669052](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36542669052); source/hash receipt: `evidence/p09-procurement/COMBINED_INVOICE_VERIFICATION.json`. This qualification supersedes candidate wording in the historical sections below for those increments only. F02 now has a separate independent HOLD: see `F02_FIX_HANDOFF.md`.
+Latest qualified source: **`09efc955080e4d985a7e48cd16d9268a6556bef9`**, **132 cases PASS plus three separate smokes**, including multi-input and registered zero-history physical counts. [Run36636028564](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36636028564); [source/hash receipt](evidence/p09-procurement/UNMOVED_QUALIFIED_RECEIPT.json). This supersedes candidate wording below for those increments only. Combined invoices and all retained predecessor cases are included, not added. F02 still has a separate independent HOLD: see `F02_FIX_HANDOFF.md`.
 
 ## Contract and authorization
 
@@ -23,9 +23,9 @@ Workflow `cp7-p09-procurement.yml` rebuilds the accepted 30-file CP6 package in 
 ## Remaining P09/F03 work
 
 - Receipt/material/transfer/invoice/source-return, receipt reversal, UOM, unrolled materials and physical-count increments are qualified below.
-- Remaining material-issue workflows and full P09 coverage remain open; physical counts still need multi-input and zero-history selection.
+- Remaining material-issue workflows and full P09 coverage remain open. Multi-input and zero-history physical-count selection are writer-qualified in the latest132-case source.
 - Mixed-receipt supplier return writes and the paid-source return carry remain explicit gaps for full P09/P13 review. Combined invoice documents are qualified.
-- P10 FG ledger, P11 sale/return/payment including R10, P12 attendance/payroll/Nota, P13 finance/HPP/close.
+- Other packets now have bounded qualifications; see [current remaining family contract](F03_REMAINING_CONTRACT.md) rather than treating the historical next steps below as unimplemented.
 - Full E01/E24/E14/E12, family independent audit and P18–P21 remain open.
 
 F02 carry: review failed-wash with unknown vendor pricing separately; ordinary deferred laundry UNKNOWN was qualified. Do not introduce SKU-specific laundry prices.

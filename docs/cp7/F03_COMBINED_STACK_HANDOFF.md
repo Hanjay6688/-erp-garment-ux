@@ -1,5 +1,7 @@
 # F03 combined development installation — bounded writer candidate
 
+The period extension now adds two private principals (24 total), preserving the original22-role checkpoint below as history. Latest retained same-stack selected regression:22 PASS on `d1a8a84bce5bf5cf25c716ec2fbe2dc783724b36`, [receipt](evidence/p13-finance/PERIOD_COMBINED_REPAIRED_RECEIPT.json). Period writes and comparison/cash are qualified separately; this selected regression does not substitute for their pending results. [Current family contract and next work](F03_REMAINING_CONTRACT.md).
+
 ## Exact combined stack qualified22
 
 Source `e808453079f44876d576cecbc5fce9a7aba389ee`, tree `83d276edcd21ffd2c9ea81ca0d023eb8d7d0b9a0`; [run36632965073](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36632965073): **22 PASS /0 FAIL /0 INCOMPLETE /0 NOT_RUN**. All declared10 native,2 race,4 real Auth and6 connected-browser cases ran. Cross-ledger cash−6030, AR30, FG−30, revenue60, COGS30, expense5 and net profit25 matched. Full inverse restored every GL account, report amounts, opening balances and carry. Original filing remained unchanged after correction.
