@@ -76,3 +76,9 @@ for (const token of ["useProductionMutation('SALES')", 'beginRead()', 'finishRea
   assert.ok(sales.includes(token), `Sales recovery omits ${token}`)
 }
 assert.doesNotMatch(sales, /p_request:\s*(?:globalThis\.)?crypto\.randomUUID/)
+
+const period = read('src/FinancePeriodPanel.tsx')
+for (const token of ["useProductionMutation('FINANCE_PERIOD')", 'beginRead()', 'finishRead(ticket)', 'p_request:e.id', 'p_payload:e.payload', 'parsePeriodOutcome']) {
+  assert.ok(period.includes(token), `Period recovery omits ${token}`)
+}
+assert.doesNotMatch(period, /p_request:\s*(?:globalThis\.)?crypto\.randomUUID/)

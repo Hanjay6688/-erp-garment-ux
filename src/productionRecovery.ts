@@ -1,12 +1,13 @@
 import type { Json } from './types/database.preconnect'
 
-export const productionDomains = ['SALES', 'ROSTER', 'PAYROLL', 'FG_NOTA', 'FG_BOOK', 'FG_ADJUSTMENT', 'MATERIAL_COUNT', 'SUPPLIER_RETURN', 'PURCHASE_INVOICE', 'MATERIALS', 'PROCUREMENT', 'SUPPLIER_CREDIT', 'SKU', 'BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT', 'POCKET_FABRIC', 'ACCESSORY_ISSUE', 'ACCESSORY_SERVICE', 'LAUNDRY_BD', 'PRODUCT_CONVERSION'] as const
+export const productionDomains = ['FINANCE_PERIOD', 'SALES', 'ROSTER', 'PAYROLL', 'FG_NOTA', 'FG_BOOK', 'FG_ADJUSTMENT', 'MATERIAL_COUNT', 'SUPPLIER_RETURN', 'PURCHASE_INVOICE', 'MATERIALS', 'PROCUREMENT', 'SUPPLIER_CREDIT', 'SKU', 'BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT', 'POCKET_FABRIC', 'ACCESSORY_ISSUE', 'ACCESSORY_SERVICE', 'LAUNDRY_BD', 'PRODUCT_CONVERSION'] as const
 export type ProductionDomain = typeof productionDomains[number]
 export type ProductionEnvelope = {
   action: string; payload: Json; expectedVersion: number | null
   fingerprint: string; id: string; createdAt: string
 }
 export const domainLabels: Record<ProductionDomain, string> = {
+  FINANCE_PERIOD: 'Tutup buku',
   SALES: 'Penjualan & Invoice',
   ROSTER: 'Absensi, pekerja & tarif',
   PAYROLL: 'Payroll & Kasbon',
@@ -25,6 +26,7 @@ export const domainLabels: Record<ProductionDomain, string> = {
   PICKUP: 'Bagi Potongan', WIP: 'Status WIP', INITIAL_IMPORT: 'Impor data awal',
 }
 const actions: Record<ProductionDomain, readonly string[]> = {
+  FINANCE_PERIOD: ['CLOSE', 'REOPEN'],
   SALES: ['CREATE', 'EDIT', 'POST', 'CANCEL', 'PAYMENT', 'PAYMENT_REVERSE', 'RETURN', 'RETURN_REVERSE', 'SALE_REVERSE'],
   ROSTER: ['CREATE_WORKER', 'UPDATE_WORKER', 'SET_RATE', 'SAVE_ATTENDANCE', 'POST_ATTENDANCE', 'REVERSE_ATTENDANCE'],
   PAYROLL: ['PREPARE', 'APPROVE', 'PAY', 'CANCEL', 'REVERSE'],

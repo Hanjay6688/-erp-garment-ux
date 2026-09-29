@@ -6,6 +6,7 @@ import {normalizeClientError} from './lib/clientError'
 import {cp6WibDateTimeInput,formatCp6WibDateTime} from './cp6BusinessTime'
 import {formatReceiptDecimal as numberText} from './procurementContract'
 import {financeDate,parseFinanceReport,type FinanceReport,type FinanceDates} from './financeReportContract'
+import FinancePeriodPanel from './FinancePeriodPanel'
 import './procurement-connected.css'
 const money=(n:string)=>`Rp${numberText(n)}`
 const positionLabels={assets:'Aset',cash:'Kas dan bank',customer_ar:'Piutang pelanggan',material_inventory:'Persediaan bahan',wip_inventory:'Barang dalam proses',fg_inventory:'Persediaan barang jadi',liabilities:'Kewajiban',supplier_final_ap:'Utang supplier final',grni_estimated_liability:'Estimasi barang belum ditagih',recorded_equity:'Modal tercatat',current_earnings:'Laba/rugi berjalan',liabilities_plus_equity:'Kewajiban dan modal',balance_difference:'Selisih neraca'} as const
@@ -24,8 +25,8 @@ function Workspace(){
  const query=useRef<FinanceDates&{filing_id:string|null;offset:number}>({from:today.slice(0,7)+'-01',to:today,as_of:today,filing_id:null,offset:0}),seq=useRef(0)
  const load=useCallback(async()=>{
   const ticket=++seq.current,selected={...query.current};setData(null);setError('');setBusy(true)
-  try{const r=await client.rpc('erp_cp7_get_finance_report_v1',{p_query:{...selected,limit:25}});if(ticket!==seq.current)return;if(r.error)throw r.error;setData(parseFinanceReport(r.data,selected,selected.filing_id,selected.offset,canPreflight))}
-  catch(e){if(ticket===seq.current)setError(normalizeClientError(e).message)}finally{if(ticket===seq.current)setBusy(false)}
+  try{const r=await client.rpc('erp_cp7_get_finance_report_v1',{p_query:{...selected,limit:25}});if(ticket!==seq.current)return false;if(r.error)throw r.error;setData(parseFinanceReport(r.data,selected,selected.filing_id,selected.offset,canPreflight));return true}
+  catch(e){if(ticket===seq.current)setError(normalizeClientError(e).message);return false}finally{if(ticket===seq.current)setBusy(false)}
  },[client,canPreflight])
  useEffect(()=>{void load();return()=>{++seq.current}},[load])
  const submit=()=>{if(![from,to,asOf].every(financeDate)||from>to||to>asOf||asOf>today){setData(null);setError('Pilih tanggal mulai ≤ akhir ≤ posisi laporan, sampai hari ini.');return}query.current={from,to,as_of:asOf,filing_id:null,offset:0};void load()}
@@ -37,6 +38,7 @@ function Workspace(){
    <label>Periode dari<input type="date" aria-label="Periode laporan dari" value={from} max={today} onChange={e=>setFrom(e.target.value)}/></label><label>Periode sampai<input type="date" aria-label="Periode laporan sampai" value={to} max={today} onChange={e=>setTo(e.target.value)}/></label><label>Posisi saldo pada<input type="date" aria-label="Posisi laporan pada" value={asOf} max={today} onChange={e=>setAsOf(e.target.value)}/></label><button disabled={busy}>Tampilkan laporan</button>
   </form>
   {error?<p className="panel" role="alert">{error}</p>:null}{busy?<p role="status">Memuat laporan dan pemeriksaan tanggal…</p>:null}
+  {canPreflight?<FinancePeriodPanel client={client} onChanged={load}/>:null}
   {data&&d&&c?<>
    <section className="panel" aria-label="Basis dan kesiapan laporan"><h2>{statusLabel[c.status]}</h2><p>Periode {d.basis.period_from}–{d.basis.period_to}; posisi saldo {d.basis.balance_sheet_as_of}. Dibaca {formatCp6WibDateTime(data.captured_at)}.</p><p>Angka memakai informasi yang sudah tercatat saat laporan dibaca. Ini bukan rekonstruksi informasi yang diketahui pada masa lalu.</p><p>{c.status==='READY'?'Estimasi yang masih tercatat tetap ditampilkan pada informasi di bawah.':'Biaya dan laba di bawah masih berupa nilai tercatat; jangan dianggap final selama penghalangnya belum selesai.'}</p><p>Penghalang kritis/kebijakan: {c.critical_issue_count} · antrean hitung ulang: {c.pending_cost_recalc_count} · peringatan: {c.warning_issue_count}.</p>
     {c.filing?<p>Penutupan terbaru yang mencakup tanggal ini: {c.filing.closed_through}, disimpan {formatCp6WibDateTime(c.filing.filed_at)}. {c.changed_since_filing?'Ada perubahan setelah arsip penutupan; arsip asli tetap.':'Belum ada perubahan yang ditandai mesin sejak arsip tersebut.'}</p>:<p>Belum ada arsip penutupan yang mencakup tanggal ini.</p>}

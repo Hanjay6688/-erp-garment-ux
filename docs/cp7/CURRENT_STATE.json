@@ -247,5 +247,15 @@
     "local_count_and_source_cases": 18,
     "independent_acceptance": false,
     "production_go": false
+  },
+  "p13_period_candidate": {
+    "status": "CANDIDATE_NATIVE_25_PENDING",
+    "handoff": "docs/cp7/P13_PERIOD_HANDOFF.md",
+    "expected_cases": 25,
+    "retained_report_cases": 12,
+    "new_period_cases": 13,
+    "local_period_cases": 6,
+    "independent_acceptance": false,
+    "production_go": false
   }
 }
