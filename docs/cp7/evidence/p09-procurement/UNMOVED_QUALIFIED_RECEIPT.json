@@ -1,0 +1,151 @@
+{
+  "status": "PASS",
+  "source_commit": "09efc955080e4d985a7e48cd16d9268a6556bef9",
+  "source_tree": "91d9973a7a1ddf8a2442ff50c702b0950f1dd09e",
+  "run_id": 36636028564,
+  "job_id": 109636743892,
+  "artifact_id": 11064637548,
+  "artifact_bytes": 19702481,
+  "artifact_sha256": "645ca4755ef95d60bcbcf74d873927fdb25ecdee8ac6583b09cc8deddc1ec0ac",
+  "report_sha256": "e1a35be94816731511fc3548df58e45d10cf41968234ef4000ba3b1b416959bd",
+  "report_gzip_sha256": "9b5257476e086e2cb2212fdf82e765ef6bd9ec96c323bf5b06515b7345d2ab42",
+  "source_bundle_sha256": "3e4b94844a3a9560550a494e887d63640c33c2f762d6efa9e50b92499a7d7011",
+  "counts": {
+    "PASS": 132,
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0
+  },
+  "separate_smokes": 3,
+  "groups": {
+    "smoke": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 9
+    },
+    "races": {
+      "PASS": 3
+    },
+    "http": {
+      "PASS": 1
+    },
+    "material_smoke": {
+      "PASS": 1
+    },
+    "material": {
+      "PASS": 13
+    },
+    "material_crossflow": {
+      "PASS": 2
+    },
+    "material_races": {
+      "PASS": 3
+    },
+    "material_http": {
+      "PASS": 1
+    },
+    "material_count": {
+      "PASS": 17
+    },
+    "material_count_races": {
+      "PASS": 2
+    },
+    "material_count_http": {
+      "PASS": 2
+    },
+    "invoice": {
+      "PASS": 9
+    },
+    "invoice_races": {
+      "PASS": 3
+    },
+    "invoice_http": {
+      "PASS": 1
+    },
+    "combined_invoice": {
+      "PASS": 6
+    },
+    "combined_invoice_races": {
+      "PASS": 3
+    },
+    "combined_invoice_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 22
+    },
+    "return_smoke": {
+      "PASS": 1
+    },
+    "returns": {
+      "PASS": 10
+    },
+    "return_races": {
+      "PASS": 3
+    },
+    "return_http": {
+      "PASS": 1
+    },
+    "receipt_reversal": {
+      "PASS": 7
+    },
+    "receipt_reversal_races": {
+      "PASS": 3
+    },
+    "receipt_reversal_http": {
+      "PASS": 1
+    },
+    "uom": {
+      "PASS": 6
+    },
+    "uom_races": {
+      "PASS": 2
+    },
+    "uom_http": {
+      "PASS": 1
+    }
+  },
+  "nonpassing_cases": {},
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "09efc955080e4d985a7e48cd16d9268a6556bef9",
+    "product_ref": "7ddeca846551cd30d957b57484a11dc21f08d116",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36636028564",
+    "run_attempt": "1",
+    "workflow": "CP7 P09 Procurement",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "09efc955080e4d985a7e48cd16d9268a6556bef9",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": true,
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false,
+  "supersedes_failed_run": 36634722548,
+  "visual_scope": "Viewed actual full desktop/mobile screenshots and native-resolution detail crops. Source lookup failure retires choices while preserving count. Selected count quantity3/value30 and confirmation are readable with no horizontal overflow. The25-row source page produces long vertical scrolling; no claim of complete UX acceptance.",
+  "screenshots": {
+    "P09_COUNT_UNMOVED_DESKTOP.png": "a4fc2b5eab5127f23794080933f0196b66194614d4abae72ae3d301447e518c2",
+    "P09_COUNT_UNMOVED_MOBILE.png": "993be2d33232a6c47295c77f9b7226fb0672eba522eeaa085098f5e9bfaaa2b4"
+  }
+}

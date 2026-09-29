@@ -239,23 +239,29 @@
     "verification": "docs/cp7/evidence/f03-combined/COMBINED_VERIFICATION.json"
   },
   "p09_unmoved_count_candidate": {
-    "status": "CANDIDATE_NATIVE_132_PLUS_3_SMOKES_PENDING",
+    "status": "WRITER_BOUNDED_132_PASS_PLUS_3_SMOKES",
     "handoff": "docs/cp7/P09_MATERIAL_COUNT_HANDOFF.md",
     "expected_cases": 132,
     "separate_smokes": 3,
     "new_cases": 7,
     "local_count_and_source_cases": 18,
     "independent_acceptance": false,
-    "production_go": false
+    "production_go": false,
+    "source_commit": "09efc955080e4d985a7e48cd16d9268a6556bef9",
+    "source_tree": "91d9973a7a1ddf8a2442ff50c702b0950f1dd09e",
+    "verification": "docs/cp7/evidence/p09-procurement/UNMOVED_QUALIFIED_RECEIPT.json"
   },
   "p13_period_candidate": {
-    "status": "CANDIDATE_NATIVE_25_PENDING",
+    "status": "RUN1_14_PASS_11_INCOMPLETE_REPAIR_RETEST_PENDING",
     "handoff": "docs/cp7/P13_PERIOD_HANDOFF.md",
     "expected_cases": 25,
     "retained_report_cases": 12,
     "new_period_cases": 13,
     "local_period_cases": 6,
     "independent_acceptance": false,
-    "production_go": false
+    "production_go": false,
+    "diagnostic": "docs/cp7/evidence/p13-finance/PERIOD_RUN1_RECEIPT.json",
+    "source_commit": "f7bddaf68815b61818a48b8be2cce00af168036d",
+    "source_tree": "20317680323f2dbc30f472e358122c65129601a2"
   }
 }

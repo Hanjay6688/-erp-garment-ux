@@ -110,5 +110,8 @@ alter function public.erp_cp7_save_period_control_v1(text,jsonb,uuid) owner to c
 revoke create on schema public,cp7_period from cp7_period_read,cp7_period_write;
 revoke all on all functions in schema cp7_period from public,anon,authenticated,service_role,cp7_capture;
 grant execute on function cp7_period.access_now(),cp7_period.workspace(date),cp7_period.lock_current() to cp7_period_write;
+-- Supabase postgres is not a superuser. The narrowly scoped lock helper must
+-- explicitly be able to run the same current-user check before/after its wait.
+grant execute on function cp7_period.access_now() to postgres;
 revoke all on function public.erp_cp7_get_period_control_v1(date),public.erp_cp7_save_period_control_v1(text,jsonb,uuid) from public,anon,authenticated,service_role,cp7_capture;
 grant execute on function public.erp_cp7_get_period_control_v1(date),public.erp_cp7_save_period_control_v1(text,jsonb,uuid) to authenticated;

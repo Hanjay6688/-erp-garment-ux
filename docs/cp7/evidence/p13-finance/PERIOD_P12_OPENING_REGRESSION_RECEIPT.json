@@ -1,0 +1,70 @@
+{
+  "status": "PASS",
+  "source_commit": "f7bddaf68815b61818a48b8be2cce00af168036d",
+  "source_tree": "20317680323f2dbc30f472e358122c65129601a2",
+  "run_id": 36636265216,
+  "job_id": 109637534778,
+  "artifact_id": 11065510459,
+  "artifact_bytes": 2351049,
+  "artifact_sha256": "07cad619b56838d0bcbb575274cebce1cbec26abc852f4b1b4a859e96ebe0b87",
+  "report_sha256": "83946dc904b56d82547f34ba30e9a0ab6bcc9c9f782ada10eea3b7b1514f3339",
+  "report_gzip_sha256": "2698a8ef1b9c649b9a03b158eb3ab02615ac127077e9816f93f0b6ba3114f3be",
+  "source_bundle_sha256": "c12004efa601c713dd324a09aded6d9face0bba3f51752cdcf59774647b1ffee",
+  "counts": {
+    "PASS": 10,
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0
+  },
+  "separate_smokes": 0,
+  "groups": {
+    "opening_payroll": {
+      "PASS": 5
+    },
+    "opening_payroll_races": {
+      "PASS": 2
+    },
+    "opening_payroll_http": {
+      "PASS": 1
+    },
+    "opening_payroll_browser": {
+      "PASS": 2
+    }
+  },
+  "nonpassing_cases": {},
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "f7bddaf68815b61818a48b8be2cce00af168036d",
+    "product_ref": "f7bddaf68815b61818a48b8be2cce00af168036d",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36636265216",
+    "run_attempt": "1",
+    "workflow": "CP7 P12 Nota and payroll lifecycle",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "f7bddaf68815b61818a48b8be2cce00af168036d",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false
+}

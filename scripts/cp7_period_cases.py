@@ -44,11 +44,14 @@ def cases(cur,today):
   bad=dict(p,reason='Changed replay intent');auth.refused(cur,lambda:command(cur,'CLOSE',bad,key),'CP7_PERIOD_REQUEST_CHANGED');assert b.boundary.snapshot(cur)==before
   return dict(status='PASS',same_UUID_one_filing=True,old_commit_replay_after_reopen_is_metadata_not_reclose=True,changed_payload_refused=True)
  def stale():
-  f,day,initial=ready(cur,today);p=intent(initial);command(cur,'CLOSE',p);command(cur,'REOPEN',intent(read(cur,day),'REOPEN',initial['control']['closed_through']))
+  f,day,initial=ready(cur,today);old_intent=intent(initial);late(cur,f,True);changed=read(cur,day)
+  assert changed['preflight']['status']=='READY' and changed['review_token']!=initial['review_token']
+  before=b.boundary.snapshot(cur);auth.refused(cur,lambda:command(cur,'CLOSE',old_intent),'CP7_PERIOD_REVIEW_CHANGED');assert b.boundary.snapshot(cur)==before
+  initial=changed;p=intent(initial);command(cur,'CLOSE',p);command(cur,'REOPEN',intent(read(cur,day),'REOPEN',initial['control']['closed_through']))
   current=read(cur,day);assert current['control']['closed_through']==initial['control']['closed_through'] and current['review_token']!=initial['review_token']
   before=b.boundary.snapshot(cur);auth.refused(cur,lambda:command(cur,'CLOSE',p),'CP7_PERIOD_REVIEW_CHANGED');assert b.boundary.snapshot(cur)==before
   r=command(cur,'CLOSE',intent(current));before=b.boundary.snapshot(cur);auth.refused(cur,lambda:command(cur,'CLOSE',intent(read(cur,day))),'CLOSE_ALREADY_CLOSED');assert b.boundary.snapshot(cur)==before
-  return dict(status='PASS',same_cutoff_after_control_change_retires_old_review=True,already_closed_cannot_file_twice=True,fresh_review_continues=True)
+  return dict(status='PASS',READY_financial_change_retires_old_review=True,same_cutoff_after_control_change_retires_old_review=True,already_closed_cannot_file_twice=True,fresh_review_continues=True)
  def blocked():
   f,day,initial=ready(cur,today);late(cur,f);current=read(cur,day);assert current['preflight']['status']!='READY',current
   before=b.boundary.snapshot(cur);auth.refused(cur,lambda:command(cur,'CLOSE',intent(current)),'CLOSE_BLOCKED');assert b.boundary.snapshot(cur)==before
@@ -105,6 +108,10 @@ def races(tools,today):
  def revoke():
   with tools.connect()as conn,conn.cursor()as cur:
    f,day,state=ready(cur,today);before=len(filings(cur));subject,_=receipt.custom(cur,('finance.reports.view','finance.period_close.manage'));role=cur.execute("select id from erp.app_roles where role_code='ADMIN'").fetchone()[0]
+   # Native ADMIN admits the lifecycle but does not receive close management
+   # in the seed. Grant this disposable fixture explicitly before revoking it.
+   for permission in ('finance.reports.view','finance.period_close.manage'):
+    cur.execute('insert into erp.app_role_permissions(role_id,permission_key) values(%s,%s) on conflict do nothing',(role,permission))
    cur.execute('update erp.app_users set role_id=%s where auth_user_id=%s',(role,subject));state=read(cur,day,subject);conn.commit()
   with tools.connect()as holder,holder.cursor()as h:
    h.execute('select singleton_id from erp.accounting_period_control where singleton_id=1 for update')
@@ -119,9 +126,11 @@ def races(tools,today):
       blocked=c.execute("select exists(select 1 from pg_stat_activity where datname=current_database() and wait_event_type='Lock' and query like 'select public.erp_cp7_save_period_control_v1%')").fetchone()[0]
      if blocked:break
      time.sleep(.05)
-    assert blocked,'Native period lock wait not observed'
-    with tools.connect()as other,other.cursor()as c:c.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.period_close.manage'",(role,));other.commit()
-    holder.rollback();result=future.result(30)
+    try:
+     assert blocked,'Native period lock wait not observed'
+     with tools.connect()as other,other.cursor()as c:c.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.period_close.manage'",(role,));other.commit()
+    finally:holder.rollback()
+    result=future.result(30)
   assert 'CP7_PERIOD_ACCESS_DENIED'in result,result
   with tools.connect()as conn,conn.cursor()as cur:assert len(filings(cur))==before
   return dict(status='PASS',revocation_during_observed_control_lock_wait_refused=True,no_filing=True)

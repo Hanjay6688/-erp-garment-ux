@@ -1,5 +1,13 @@
 # P13 reviewed period control — candidate
 
+## First native result and concrete repair
+
+Source `f7bddaf68815b61818a48b8be2cce00af168036d`, tree `20317680323f2dbc30f472e358122c65129601a2`; [run36636265333](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36636265333): **14 PASS /0 FAIL /11 INCOMPLETE /0 NOT_RUN**. [Original report and diagnosis](evidence/p13-finance/PERIOD_RUN1_RECEIPT.json). Authorized period commands failed because Supabase postgres, the private native-lock helper owner, lacked EXECUTE on the shared current-user access check. No successful period write is claimed from this run. CP6 restoration, advisors and all Auth/database cleanup pass.
+
+Repair grants only that private check to its lock helper owner; public/custom-role/native lifecycle boundaries remain intact. The revoke-race explicitly grants the disposable ADMIN both report and close permissions before testing removal during an observed lock wait. It always releases its test-held lock. The READY→READY stale-review case now also introduces an actual native late-cost change before checking refusal. New friendly client messages cover stale review, incompatible review date, missing closed period and changed replay intent.
+
+The standalone report regression had12/12 case PASS but aggregate INCOMPLETE: its numeric target was overwritten by the predecessor-function definition hash. The variable is corrected; the [original aggregate failure stays retained](evidence/p13-finance/PERIOD_REPORT_RUN1_RECEIPT.json). Retest25 and12 remain pending. Same-source [F03 combined22](evidence/p13-finance/PERIOD_COMBINED_REGRESSION_RECEIPT.json) and [P12 opening→payroll10](evidence/p13-finance/PERIOD_P12_OPENING_REGRESSION_RECEIPT.json) pass all cases and restoration/cleanup gates; they do not substitute for period-write tests. No new period screenshot acceptance is claimed.
+
 CP6 remains CLOSED_CONTRACT_SCOPE. P13/F03 OPEN; independent_acceptance=false; production_go=false. Local6 period DOM/contract,8 retained financial-report and30 shared-recovery tests pass (44 total), along with TypeScript, build and source/access checks. Native/browser qualification is pending. The prior12-case dated-report proof and F03 combined22 proof retain their own source receipts.
 
 The real Laporan & Tutup Buku route adds explicit CLOSE and REOPEN through the unchanged accepted native functions. Close takes its readiness from the accepted engine. Reopening changes the period boundary while preserving every prior filing. The user chooses the cutoff (or explicitly opens all closed periods), gives a reason and confirms the review. Current report and period-close permissions plus the accepted OWNER/ADMIN boundary are required.

@@ -37,7 +37,7 @@ def run(include_period=False):
      key=str(cur.execute('select %s::regprocedure::text',(signature,)).fetchone()[0]);grants.setdefault(key,set()).add((principal,'EXECUTE',False))
    cur.execute("select set_config('search_path',%s,true)",(path,))
    for sig,old in pre.items():
-    new=after[sig];expected=hashlib.md5(bundle.cp7_sales_bundle.patched_internal(internal_before).encode()).hexdigest() if sig=='erp.require_internal()' else old['definition'];assert new['definition']==expected and new['owner']==old['owner'],('P13_PREDECESSOR_CHANGED',sig)
+    new=after[sig];expected_definition=hashlib.md5(bundle.cp7_sales_bundle.patched_internal(internal_before).encode()).hexdigest() if sig=='erp.require_internal()' else old['definition'];assert new['definition']==expected_definition and new['owner']==old['owner'],('P13_PREDECESSOR_CHANGED',sig)
     assert {tuple(x)for x in new['acl']or[]}=={tuple(x)for x in old['acl']or[]}|grants.get(sig,set()),('P13_UNDECLARED_ACL_DELTA',sig)
    p09.INSTALLED_FUNCTIONS=after;report['declared_execute_grants']={k:sorted(v)for k,v in grants.items()};report['P13_native_report_close_functions_unchanged']=True
    conn.commit();installed=True;verify(cur);conn.rollback()

@@ -69,6 +69,16 @@ export function normalizeClientError(error: unknown): ClientAppError {
     return new ClientAppError('VERSION_CONFLICT', 'Data berubah di perangkat lain. Muat ulang sebelum menyimpan.')
   }
 
+  const periodMessages: Record<string,string> = {
+    cp7_period_review_changed: 'Periode, kesiapan, atau saldo berubah sejak diperiksa. Periksa ulang sebelum melanjutkan.',
+    cp7_period_not_closed: 'Belum ada periode tertutup yang dapat dibuka kembali.',
+    cp7_period_close_review_date: 'Tanggal penutupan harus sama dengan tanggal yang sudah diperiksa.',
+    cp7_period_request_changed: 'Permintaan pemulihan berubah. Periksa status transaksi sebelum membuat tindakan baru.',
+  }
+  for (const [key,message] of Object.entries(periodMessages)) {
+    if (rawMessage.includes(key)) return new ClientAppError('REJECTED',message)
+  }
+
   const notaMessages: Record<string,string> = {
     cp7_nota_source_changed: 'Hak kerja sumber berubah. Muat ulang dan pilih kembali kartu sebelum menyimpan.',
     cp7_nota_payroll_target_changed: 'Payroll tujuan berubah. Muat ulang dan periksa kembali draft nota.',

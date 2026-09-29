@@ -12,5 +12,7 @@ def verify(cur):
     actual=cur.execute("select p.proname,pg_get_userbyid(p.proowner),p.prosecdef,p.provolatile::text,p.proconfig from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_period'").fetchall()
     assert {r[0]for r in actual}==set(expected)
     for name,*metadata in actual:assert tuple(metadata)==expected[name],(name,metadata)
+    # The native-lock owner is deliberately not a superuser in Supabase.
+    assert cur.execute("select has_function_privilege('postgres','cp7_period.access_now()','EXECUTE')").fetchone()[0]
     for sig,owner,vol in [('public.erp_cp7_get_period_control_v1(date)','cp7_period_read','s'),('public.erp_cp7_save_period_control_v1(text,jsonb,uuid)','cp7_period_write','v')]:
         assert cur.execute('select pg_get_userbyid(proowner),prosecdef,provolatile::text,proconfig from pg_proc where oid=%s::regprocedure',(sig,)).fetchone()==(owner,True,vol,['search_path=""'])

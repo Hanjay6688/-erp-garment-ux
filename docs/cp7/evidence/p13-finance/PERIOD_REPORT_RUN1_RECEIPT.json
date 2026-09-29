@@ -1,0 +1,71 @@
+{
+  "status": "INCOMPLETE",
+  "source_commit": "f7bddaf68815b61818a48b8be2cce00af168036d",
+  "source_tree": "20317680323f2dbc30f472e358122c65129601a2",
+  "run_id": 36636265064,
+  "job_id": 109637534372,
+  "artifact_id": 11064737789,
+  "artifact_bytes": 4007696,
+  "artifact_sha256": "a8a2156ae464eaa13324a7449b8677b4ac3283f13e792b13579c0cb7efff8f9f",
+  "report_sha256": "3ce3d1586b03a419ebbfcc46404f205ad6125029c73d61e33987f23d992c9683",
+  "report_gzip_sha256": "5d25ca03c042629808bfdea3568374d4484f6d65d6fecdda3cef94f82c1e7f86",
+  "source_bundle_sha256": "4b7ec8346460637b9445f83f420a9a3d1c5d7309cdda6f791f2fc66a190e7a98",
+  "counts": {
+    "PASS": 12,
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0
+  },
+  "separate_smokes": 0,
+  "groups": {
+    "native": {
+      "PASS": 8
+    },
+    "races": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "nonpassing_cases": {},
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "f7bddaf68815b61818a48b8be2cce00af168036d",
+    "product_ref": "f7bddaf68815b61818a48b8be2cce00af168036d",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36636265064",
+    "run_attempt": "1",
+    "workflow": "CP7 P13 Finance",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "f7bddaf68815b61818a48b8be2cce00af168036d",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false,
+  "diagnosis": "All12 actual report cases pass, but original status remains INCOMPLETE and writer gate false: the verifier overwrote numeric expected case count with expected predecessor definition hash. Repair variable shadowing then rerun; do not relabel the original result PASS."
+}

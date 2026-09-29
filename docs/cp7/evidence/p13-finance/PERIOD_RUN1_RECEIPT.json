@@ -1,0 +1,129 @@
+{
+  "status": "INCOMPLETE",
+  "source_commit": "f7bddaf68815b61818a48b8be2cce00af168036d",
+  "source_tree": "20317680323f2dbc30f472e358122c65129601a2",
+  "run_id": 36636265333,
+  "job_id": 109637536641,
+  "artifact_id": 11064292525,
+  "artifact_bytes": 4018095,
+  "artifact_sha256": "6d99a118d6d01e102a7036efa1cf1b100167d2419caf5facb14d82bc09dca597",
+  "report_sha256": "d628e83d7a6730d510e4dbafb59582b5e16f9403d6da4876ec25c8605924fc3d",
+  "report_gzip_sha256": "9c288a96ee615b72cff326d21dd34ac39bf4cec2568478fb6caff7b6fbf05a03",
+  "source_bundle_sha256": "4b7ec8346460637b9445f83f420a9a3d1c5d7309cdda6f791f2fc66a190e7a98",
+  "counts": {
+    "PASS": 14,
+    "FAIL": 0,
+    "INCOMPLETE": 11,
+    "NOT_RUN": 0
+  },
+  "separate_smokes": 0,
+  "groups": {
+    "native": {
+      "PASS": 8
+    },
+    "races": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    },
+    "period_native": {
+      "INCOMPLETE": 6,
+      "PASS": 2
+    },
+    "period_races": {
+      "INCOMPLETE": 2
+    },
+    "period_http": {
+      "INCOMPLETE": 1
+    },
+    "period_browser": {
+      "INCOMPLETE": 2
+    }
+  },
+  "nonpassing_cases": {
+    "P13_PERIOD_CLOSE_REOPEN": {
+      "status": "INCOMPLETE",
+      "error": "permission denied for function access_now\nCONTEXT:  SQL statement \"SELECT cp7_period.access_now()\"\nPL/pgSQL function cp7_period.lock_current() line 3 at PERFORM\nSQL statement \"SELECT cp7_period.lock_current()\"\nPL/pgSQL function cp7_period.command(text,jsonb,uuid) line 23 at PERFORM\nSQL function \"erp_cp7_save_period_control_v1\" statement 1"
+    },
+    "P13_PERIOD_REPLAY": {
+      "status": "INCOMPLETE",
+      "error": "permission denied for function access_now\nCONTEXT:  SQL statement \"SELECT cp7_period.access_now()\"\nPL/pgSQL function cp7_period.lock_current() line 3 at PERFORM\nSQL statement \"SELECT cp7_period.lock_current()\"\nPL/pgSQL function cp7_period.command(text,jsonb,uuid) line 23 at PERFORM\nSQL function \"erp_cp7_save_period_control_v1\" statement 1"
+    },
+    "P13_PERIOD_STALE": {
+      "status": "INCOMPLETE",
+      "error": "permission denied for function access_now\nCONTEXT:  SQL statement \"SELECT cp7_period.access_now()\"\nPL/pgSQL function cp7_period.lock_current() line 3 at PERFORM\nSQL statement \"SELECT cp7_period.lock_current()\"\nPL/pgSQL function cp7_period.command(text,jsonb,uuid) line 23 at PERFORM\nSQL function \"erp_cp7_save_period_control_v1\" statement 1"
+    },
+    "P13_PERIOD_BLOCKED": {
+      "status": "INCOMPLETE",
+      "error": "('CLOSE_BLOCKED', 'permission denied for function access_now')"
+    },
+    "P13_PERIOD_INVALID": {
+      "status": "INCOMPLETE",
+      "error": "('sebelum hari ini', 'permission denied for function access_now')"
+    },
+    "P13_PERIOD_LATE_ARCHIVE": {
+      "status": "INCOMPLETE",
+      "error": "permission denied for function access_now\nCONTEXT:  SQL statement \"SELECT cp7_period.access_now()\"\nPL/pgSQL function cp7_period.lock_current() line 3 at PERFORM\nSQL statement \"SELECT cp7_period.lock_current()\"\nPL/pgSQL function cp7_period.command(text,jsonb,uuid) line 23 at PERFORM\nSQL function \"erp_cp7_save_period_control_v1\" statement 1"
+    },
+    "P13_PERIOD_RACE_CLOSE": {
+      "status": "INCOMPLETE",
+      "error": "['permission denied for function access_now', 'permission denied for function access_now']"
+    },
+    "P13_PERIOD_RACE_REVOKE": {
+      "status": "INCOMPLETE",
+      "error": "CP7_PERIOD_ACCESS_DENIED\nCONTEXT:  PL/pgSQL function cp7_period.access_now() line 6 at RAISE\nSQL statement \"SELECT cp7_period.access_now()\"\nPL/pgSQL function cp7_period.workspace(date) line 4 at PERFORM\nSQL function \"erp_cp7_get_period_control_v1\" statement 1"
+    },
+    "P13_PERIOD_HTTP": {
+      "status": "INCOMPLETE",
+      "error": "{'status': 403, 'body': {'code': '42501', 'details': None, 'hint': None, 'message': 'permission denied for function access_now'}}"
+    },
+    "P13_PERIOD_BROWSER_DESKTOP": {
+      "status": "INCOMPLETE",
+      "error": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: \"2026-09-28\"\nReceived: \"2026-09-26\"\n\nCall Log:\n- Timeout 20000ms exceeded while waiting on the predicate\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toBe (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at period (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p13_period_browser.mjs:26:93)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3"
+    },
+    "P13_PERIOD_BROWSER_MOBILE_RECOVERY": {
+      "status": "INCOMPLETE",
+      "error": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: \"2026-09-28\"\nReceived: \"2026-09-26\"\n\nCall Log:\n- Timeout 20000ms exceeded while waiting on the predicate\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toBe (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at period (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p13_period_browser.mjs:26:93)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3"
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "f7bddaf68815b61818a48b8be2cce00af168036d",
+    "product_ref": "f7bddaf68815b61818a48b8be2cce00af168036d",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36636265333",
+    "run_attempt": "1",
+    "workflow": "CP7 P13 Period control",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "f7bddaf68815b61818a48b8be2cce00af168036d",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false,
+  "diagnosis": "Product defect: postgres-owned control-lock helper lacked explicit EXECUTE on cp7_period.access_now; Supabase postgres is not a superuser. Authorized close/reopen refused before writing. Separately the revoke-race ADMIN fixture lacks seeded close-management permission. Aggregate expected count was also shadowed by a function-definition hash. Fix these without altering native close/reopen or accepted business policy. All failures preserved; all cleanup/restoration gates pass."
+}

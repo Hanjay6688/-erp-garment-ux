@@ -1,5 +1,11 @@
 # P09 material physical counts — bounded writer qualification
 
+## Registered zero-history counts qualified:132 PASS plus3 smokes
+
+Source `09efc955080e4d985a7e48cd16d9268a6556bef9`, tree `91d9973a7a1ddf8a2442ff50c702b0950f1dd09e`; [run36636028564](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36636028564): **132 PASS /0 FAIL /0 INCOMPLETE /0 NOT_RUN**, plus3 separate smokes. All22 connected browser cases pass. This closes the zero-history source-selection candidate below, including registered fabric in an empty warehouse and a brand-new accessory, blank initial quantity/cost, native preview0, explicit quantity3/cost10/value30, exact mobile lost-POST recovery and full stock/GL inverse. The repaired isolated Auth role passes current permission and revocation checks. CP6 restoration, advisors, Auth/database cleanup, primary and backup gates all pass. [Receipt, exact bundle/artifact hashes and retained report](evidence/p09-procurement/UNMOVED_QUALIFIED_RECEIPT.json).
+
+Both actual screenshots and detail crops were inspected: controls and values fit horizontally at desktop/mobile sizes. The25-row source list still creates long vertical scrolling. The first131/1 result remains unchanged below. P09/F03 overall and independent acceptance stay OPEN; production_go=false.
+
 ## First zero-history run:131 PASS, isolated HTTP fixture repair pending
 
 Source `7ddeca846551cd30d957b57484a11dc21f08d116`, tree `00f66b357a68c937ef371371d5a669ecd9bd1de8`; [run36634722548](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36634722548): **131 PASS /0 FAIL /1 INCOMPLETE /0 NOT_RUN plus3 separate smokes**. All4 new native cases and both new browser journeys pass, including explicit zero-history quantity/value, inverse and identical mobile lost-POST replay. CP6 restoration, advisor, Auth/database cleanup and primary/backup gates pass. Writer gate remains false until132 passes. [Unaltered report and diagnosis](evidence/p09-procurement/UNMOVED_RUN1_RECEIPT.json).
