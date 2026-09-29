@@ -38,7 +38,7 @@
     "P09": "BOUNDED_125_PASS_MULTI_INPUT_COUNTS_AND_COMBINED_INVOICES_REMAINING_SCOPE_OPEN",
     "P10": "FG_BOOK_34_PASS_NOTA_COMPOSITION_QUALIFIED_SCOPE_OPEN",
     "P12": "BOUNDED_ATTENDANCE_SOURCE_TO_PAYROLL_80_PASS_REMAINING_SCOPE_OPEN",
-    "P11": "READER_10_PASS_1_INCOMPLETE_REPAIRED_DRAFT_TRANSITIONS_22_CASE_CANDIDATE_PENDING"
+    "P11": "BOUNDED_READER_AND_POST_CANCEL_22_PASS_FULL_R10_OPEN"
   },
   "inherited_scope": {
     "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
@@ -53,7 +53,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Continue P11/R10 connected sales and P13 finance; opening payroll10 and multi-count125+3 are writer-qualified. E05 partial mechanism/proof and remaining P09/F03 obligations remain open. F04 takeover follows F03 completion.",
+  "next_action": "Connect P11 draft creation/edit then physical return/payment/refund and P13. P11 read/post/cancel22, P12 opening10 and P09 multi-count125+3 are bounded writer evidence. E05 mechanism, remaining P09/F03 and independent acceptance remain open; F04 takeover follows completed F03.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -171,7 +171,9 @@
     "scope": "READ_AND_REVIEWED_POST_CANCEL_PARTIAL_R10",
     "expected_cases": 22,
     "local_cases": 9,
-    "status": "IMPLEMENTED_NATIVE_BROWSER_PENDING",
-    "reader_run1_diagnostic": "docs/cp7/evidence/p11-sales/READ_RUN1_RECEIPT.json"
+    "status": "WRITER_BOUNDED_22_PASS",
+    "reader_run1_diagnostic": "docs/cp7/evidence/p11-sales/READ_RUN1_RECEIPT.json",
+    "source_commit": "6d3b019df6054b2cc77c6ab5bd44f7164494cee9",
+    "verification": "docs/cp7/evidence/p11-sales/TRANSITIONS_VERIFICATION.json"
   }
 }

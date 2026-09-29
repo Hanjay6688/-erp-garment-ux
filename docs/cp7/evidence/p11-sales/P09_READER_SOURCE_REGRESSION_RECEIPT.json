@@ -1,0 +1,145 @@
+{
+  "status": "PASS",
+  "source_commit": "a130b329c1b2c73ec4bc1a4a590c23907a97d5dd",
+  "run_id": 36622292894,
+  "job_id": 109590449121,
+  "artifact_id": 11058633026,
+  "artifact_bytes": 17035302,
+  "artifact_sha256": "499da6ce2c499b5f9d6a9dc84c3a697c3ffb2ba916ef85e8adb43db283e24f7f",
+  "report_sha256": "653717ee503830ae3fe4d59386f0f8bf04bec29a9e5a8680191637e1847c83e4",
+  "report_gzip_sha256": "8b4351dc149d164a1a8349ab8362903848ff04d29a4e082f58dbb7057295f865",
+  "source_bundle_sha256": "b7ad3e127c84de7ee49bc2de024a188a458b8ee5f5ade76b86b4f7b842c1d8e9",
+  "counts": {
+    "PASS": 125,
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0
+  },
+  "separate_smokes": {
+    "PASS": 3
+  },
+  "groups": {
+    "smoke": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 9
+    },
+    "races": {
+      "PASS": 3
+    },
+    "http": {
+      "PASS": 1
+    },
+    "material_smoke": {
+      "PASS": 1
+    },
+    "material": {
+      "PASS": 13
+    },
+    "material_crossflow": {
+      "PASS": 2
+    },
+    "material_races": {
+      "PASS": 3
+    },
+    "material_http": {
+      "PASS": 1
+    },
+    "material_count": {
+      "PASS": 13
+    },
+    "material_count_races": {
+      "PASS": 2
+    },
+    "material_count_http": {
+      "PASS": 1
+    },
+    "invoice": {
+      "PASS": 9
+    },
+    "invoice_races": {
+      "PASS": 3
+    },
+    "invoice_http": {
+      "PASS": 1
+    },
+    "combined_invoice": {
+      "PASS": 6
+    },
+    "combined_invoice_races": {
+      "PASS": 3
+    },
+    "combined_invoice_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 20
+    },
+    "return_smoke": {
+      "PASS": 1
+    },
+    "returns": {
+      "PASS": 10
+    },
+    "return_races": {
+      "PASS": 3
+    },
+    "return_http": {
+      "PASS": 1
+    },
+    "receipt_reversal": {
+      "PASS": 7
+    },
+    "receipt_reversal_races": {
+      "PASS": 3
+    },
+    "receipt_reversal_http": {
+      "PASS": 1
+    },
+    "uom": {
+      "PASS": 6
+    },
+    "uom_races": {
+      "PASS": 2
+    },
+    "uom_http": {
+      "PASS": 1
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "a130b329c1b2c73ec4bc1a4a590c23907a97d5dd",
+    "product_ref": "a130b329c1b2c73ec4bc1a4a590c23907a97d5dd",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36622292894",
+    "run_attempt": "1",
+    "workflow": "CP7 P09 Procurement",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "a130b329c1b2c73ec4bc1a4a590c23907a97d5dd",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "new_visual_review": false,
+  "scope": "Repeated unchanged P09 bundle; does not prove P11. Prior visual proof remains in P09 multi-count handoff.",
+  "independent_acceptance": false,
+  "production_go": false
+}

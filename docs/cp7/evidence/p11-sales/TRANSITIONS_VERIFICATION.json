@@ -1,0 +1,175 @@
+{
+  "schema_version": "cp7.writer-verification.v1",
+  "status": "WRITER_BOUNDED_22_PASS",
+  "source_commit": "6d3b019df6054b2cc77c6ab5bd44f7164494cee9",
+  "source_tree": "b8f0a1cf025b79a1bb3a2e91357cbbd783ce0ec2",
+  "run_id": 36623475713,
+  "job_id": 109594435646,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36623475713",
+  "artifact_id": 11059298300,
+  "artifact_bytes": 3062562,
+  "artifact_sha256": "b5ac3a39cb43a1aba8dff27ed464041a7f57c7a7ad76fda430f9b59d955ff203",
+  "report_sha256": "ffd9d35110a54019f02c2d742d9328605ce6b465af09db5647fff3bf10eeccbd",
+  "report_gzip_sha256": "5903027e7558221ef8f3344765375acae85d7067535d0eb3aee0ca6b77a5d863",
+  "source_bundle_sha256": "99938037f2d6a5ac5026381815db42c7360bde0535c1aff6e04dcb176f375847",
+  "counts": {
+    "PASS": 22,
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0
+  },
+  "groups": {
+    "native": {
+      "counts": {
+        "PASS": 8
+      },
+      "status": "PASS"
+    },
+    "http": {
+      "counts": {
+        "PASS": 1
+      },
+      "status": "RUN_COMPLETE",
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "cleanup_failures": false
+    },
+    "commands": {
+      "counts": {
+        "PASS": 6
+      },
+      "status": "PASS"
+    },
+    "command_races": {
+      "counts": {
+        "PASS": 2
+      },
+      "status": "RUN_COMPLETE",
+      "database_remaining": 0
+    },
+    "command_http": {
+      "counts": {
+        "PASS": 1
+      },
+      "status": "RUN_COMPLETE",
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "cleanup_failures": false
+    },
+    "browser": {
+      "counts": {
+        "PASS": 4
+      },
+      "status": "RUN_COMPLETE",
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "cleanup_failures": false,
+      "auth_cleanup_failures": []
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "6d3b019df6054b2cc77c6ab5bd44f7164494cee9",
+    "product_ref": "6d3b019df6054b2cc77c6ab5bd44f7164494cee9",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36623475713",
+    "run_attempt": "1",
+    "workflow": "CP7 P11 Sales",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "6d3b019df6054b2cc77c6ab5bd44f7164494cee9",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "app_workflows": [
+    36623482711,
+    36623475667
+  ],
+  "both_app_workflows_pass": true,
+  "visual_review": {
+    "read_desktop": true,
+    "read_mobile_operations": true,
+    "command_desktop": true,
+    "command_mobile_recovery": true,
+    "limits": "Bounded final states inspected. Mobile recovery restores selected detail with reset search/all-document list. No full UX/family acceptance claimed."
+  },
+  "screenshots": {
+    "P11_READ_DESKTOP.png": "640c494b07eaa2a64bb30b6eabbdef3cff76f01e3fea364e08faf72dc7be3f72",
+    "P11_READ_MOBILE.png": "ad6bcdba896d14507c8eefc554846cdc1825b707599e51a00f1a2f9b644f8b1c",
+    "P11_COMMAND_DESKTOP.png": "4a46f1cb77904dd1c8a9aefc54300e818835971b295a3a5d872b93caa620b036",
+    "P11_COMMAND_MOBILE.png": "c90af57046a76ff6557f0f599169e6b79506440c9b47eb80ccb011e58a3d0f1e"
+  },
+  "local_dom_tests": 9,
+  "shared_recovery_tests": 30,
+  "independent_acceptance": false,
+  "production_go": false,
+  "remaining_scope": [
+    "Browser draft creation/edit",
+    "Browser physical return and cash/payment/refund",
+    "GradeB eligibility",
+    "Full R10/P11",
+    "P13",
+    "E05 partial mechanism and proof",
+    "Remaining P09",
+    "Full F03 independent acceptance/release"
+  ]
+}
