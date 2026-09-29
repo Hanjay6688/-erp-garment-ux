@@ -1,0 +1,30 @@
+{
+  "status": "INCOMPLETE",
+  "production_go": false,
+  "independent_acceptance": false,
+  "source_commit": "14ed2c5968a7cbf851d5cbdbd8476eb4bbff3a92",
+  "source_tree": "f566946786bb0fa460107dfdb555a4ab1dfee8f7",
+  "native_bundle_sha256": "6cc24ff093edc17d5e9863729920926719bdbf07855816e991b5a97085389587",
+  "run_id": 36567736978,
+  "job_id": 109403752277,
+  "artifact_id": 11032787898,
+  "archive_sha256": "b6e4a6e6847badcd051e6e19fe2e5afb18abd4dbbc22485a7a34b7e590c38755",
+  "counts": {
+    "PASS": 32,
+    "INCOMPLETE": 2
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "failures": {
+    "P10_BOOK_FILTER_PREFIX_PAGES": "Prefix/filter checks passed before pagination assertion; fixture contained one brand. Add an actual second master row before asserting a next page.",
+    "P10_BOOK_BROWSER_DESKTOP_DRAG": "Native movement order unchanged after browser drag; keyboard/mobile path passed. Candidate correction stores drag source synchronously in a ref, awaiting live retest."
+  },
+  "preserved_passes": [
+    "Official stock/HPP/all movement facts/journal data unchanged by native move and reset",
+    "Concurrent reorder one winner and one stale refusal",
+    "Revocation under global book lock",
+    "Current Auth HTTP and exact replay",
+    "Mobile buttons, reset and lost committed response recovery",
+    "All 23 prior FG source/adjustment cases"
+  ]
+}

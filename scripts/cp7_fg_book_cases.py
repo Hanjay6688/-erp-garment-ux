@@ -58,12 +58,14 @@ def cases(cur,today):
         selected=read(cur,f,brand_ids=[f['brand']],customer_ids=[f['customer']],movement_types=['SALE'],**{'from':(fg.ax.r1.now(cur)-timedelta(minutes=20)).isoformat()})
         assert selected['page']['total']=='1' and selected['page']['rows'][0]['book_physical_before']=='15',selected
         assert read(cur,f,brand_ids=[str(uuid.uuid4())])['page']['total']=='0'
+        # Actual seeded masters: the ordinary stock fixture may have only one brand.
+        cur.execute('insert into erp.brands(brand_code,brand_name) values(%s,%s)',('BOOK-'+uuid.uuid4().hex[:12],'Book pagination control'))
         page=options(cur,'BRAND',off=0,n=1);assert len(page['page']['rows'])==1 and page['page']['next_offset']==1
         next_page=options(cur,'BRAND',off=1,n=1);assert next_page['page']['total']==page['page']['total'] and page['page']['rows'][0]['id']!=next_page['page']['rows'][0]['id']
         customer=options(cur,'CUSTOMER');assert customer['kind']=='CUSTOMER'
         auth.refused(cur,lambda:read(cur,f,brand_ids='forged'),'CP7_FG_BOOK_FILTER')
         auth.refused(cur,lambda:read(cur,f,limit=101),'CP7_FG_BOOK_QUERY')
-        return dict(status='PASS',all_filters_and_page_applied_after_complete_prefix=True,sale_only_beginning=15,ending=11,option_pagination=True)
+        return dict(status='PASS',all_filters_and_page_applied_after_complete_prefix=True,sale_only_beginning=15,ending=11,option_pagination=True,second_brand_master_fixture=True)
     def reservation():
         f=fg.fixture(cur,today);d=fg.draft(cur,f);w=read(cur,f);r=w['page']['rows'][-1]
         assert [r['physical_delta'],r['reservation_delta'],r['available_delta'],r['book_physical_after'],r['book_reserved_after'],r['book_available_after']]==['0','4','-4','10','4','6']

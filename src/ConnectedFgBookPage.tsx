@@ -27,14 +27,15 @@ function Workspace({bookName}:{bookName:'Vivo'|'Widie'}){
  const mutation=useProductionMutation('FG_BOOK'),{beginRead,finishRead,isReadCurrent,run,reconcile}=mutation
  const [data,setData]=useState<FgBook|null>(null),[error,setError]=useState(''),[loading,setLoading]=useState(false)
  const [filters,setFilters]=useState<Filters>(emptyFilters),[search,setSearch]=useState(''),[from,setFrom]=useState(''),[to,setTo]=useState('')
- const [drag,setDrag]=useState<string|null>(null),[over,setOver]=useState<string|null>(null),[resetReview,setResetReview]=useState(false)
+ const drag=useRef<string|null>(null)
+ const [over,setOver]=useState<string|null>(null),[resetReview,setResetReview]=useState(false)
  const request=useRef({initialized:false,q:'',from:null as string|null,to:null as string|null,filters:emptyFilters(),offset:0}),sequence=useRef(0)
  const options=useCallback(async(kind:BookFilterKind,q:string,offset:number)=>{
   const r=await client.rpc('erp_cp7_get_fg_book_options_v1',{p_kind:kind,p_q:q,p_offset:offset,p_limit:25});if(r.error)throw r.error
   const v=parseFgBookOptions(r.data,kind);if(v.page.offset!==offset)throw Error('Halaman pilihan berubah. Cari ulang.');return v
  },[client])
  const load=useCallback(async()=>{
-  const s=++sequence.current,ticket=beginRead();setData(null);setError('');setLoading(true);setDrag(null);setOver(null);setResetReview(false)
+  const s=++sequence.current,ticket=beginRead();setData(null);setError('');setLoading(true);drag.current=null;setOver(null);setResetReview(false)
   try{
    if(!request.current.initialized){
     const v=await options('BRAND',bookName,0);if(s!==sequence.current||!isReadCurrent(ticket))return false
@@ -54,7 +55,7 @@ function Workspace({bookName}:{bookName:'Vivo'|'Widie'}){
  const handlers:ProductionMutationHandlers={
   send:e=>client.rpc('erp_cp7_save_fg_book_v1',{p_action:e.action,p_payload:e.payload,p_request:e.id}),
   validate:(v,e)=>{parseFgBookOutcome(v,e.id,e.action,e.payload)},
-  retire:()=>{setData(null);setDrag(null);setOver(null);setResetReview(false)},reload:load,
+  retire:()=>{setData(null);drag.current=null;setOver(null);setResetReview(false)},reload:load,
  }
  const locked=loading||mutation.writerLocked,canOrder=data?.can_order===true
  const move=(source:string,target:string,placement:'BEFORE'|'AFTER')=>{
@@ -78,9 +79,9 @@ function Workspace({bookName}:{bookName:'Vivo'|'Widie'}){
    {canOrder?<p className="cfgb-caption">Tarik kartu ke atas atau bawah kartu tujuan, atau gunakan tombol pindah. Urutan tersimpan untuk seluruh buku FG.</p>:null}
    {!data.page.rows.length?<div className="panel">Tidak ada mutasi yang cocok.</div>:null}
    <div className="cfgb-cards">{data.page.rows.map((r,i)=><article className={`panel cfgb-card${over===r.id?' cfgb-drop':''}`} key={r.id} data-movement-id={r.id} draggable={canOrder&&!locked}
-    onDragStart={e=>{if(locked||!canOrder){e.preventDefault();return}e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',r.id);setDrag(r.id)}} onDragEnd={()=>{setDrag(null);setOver(null)}}
-    onDragOver={e=>{if(drag&&drag!==r.id&&canOrder&&!locked){e.preventDefault();e.dataTransfer.dropEffect='move';setOver(r.id)}}} onDragLeave={()=>setOver(null)}
-    onDrop={e=>{e.preventDefault();const source=drag,rect=e.currentTarget.getBoundingClientRect();setDrag(null);setOver(null);if(source)move(source,r.id,e.clientY<rect.top+rect.height/2?'BEFORE':'AFTER')}}>
+    onDragStart={e=>{if(locked||!canOrder){e.preventDefault();return}e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',r.id);drag.current=r.id}} onDragEnd={()=>{drag.current=null;setOver(null)}}
+    onDragOver={e=>{if(drag.current&&drag.current!==r.id&&canOrder&&!locked){e.preventDefault();e.dataTransfer.dropEffect='move';setOver(r.id)}}} onDragLeave={()=>setOver(null)}
+    onDrop={e=>{e.preventDefault();const source=drag.current,rect=e.currentTarget.getBoundingClientRect();drag.current=null;setOver(null);if(source)move(source,r.id,e.clientY<rect.top+rect.height/2?'BEFORE':'AFTER')}}>
     <header><div><span className="cfgb-brand">{r.brand_name}</span><h3>{label(r)}</h3><p>{r.product_name}</p></div><div className="cfgb-date"><strong>{movementLabels[r.movement_type]??r.movement_type.replaceAll('_',' ')}</strong><time>{formatCp6WibDateTime(r.physical_at)}</time></div></header>
     <div className="cfgb-destination"><span>{r.customer_name??'Tanpa toko'}</span><small>{r.location_name} · {r.quality_grade.replaceAll('_',' ')}</small></div>
     <dl className="cfgb-balances">{([['book_physical_before','Awal buku'],['physical_delta','Perubahan fisik'],['book_physical_after','Akhir buku']] as const).map(([key,title])=><div key={key}><dt>{title}</dt><dd>{numberText(r[key])}<small> PCS</small></dd><span>{bookDozens(r[key])}</span></div>)}</dl>
