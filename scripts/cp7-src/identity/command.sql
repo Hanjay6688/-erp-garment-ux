@@ -88,17 +88,20 @@ end $$;
 
 create function public.erp_cp7_get_production_policy_v1(p_skus uuid[]) returns jsonb
 language sql volatile security definer set search_path='' as $$select cp7_identity.workspace(p_skus)$$;
+create function public.erp_cp7_get_source_identity_v1(p_run uuid) returns jsonb
+language sql volatile security definer set search_path='' as $$select cp7_identity.source_identity(p_run)$$;
 create function public.erp_cp7_set_production_policy_v1(p_changes jsonb,p_request uuid) returns jsonb
 language sql volatile security definer set search_path='' as $$select cp7_identity.apply_policy(p_changes,p_request)$$;
 grant create on schema public to cp7_capture,cp7_policy;
 alter function public.erp_cp7_get_production_policy_v1(uuid[]) owner to cp7_capture;
+alter function public.erp_cp7_get_source_identity_v1(uuid) owner to cp7_capture;
 alter function public.erp_cp7_set_production_policy_v1(jsonb,uuid) owner to cp7_policy;
 revoke create on schema public from cp7_capture,cp7_policy;
 revoke all on all functions in schema cp7_identity from public,anon,authenticated,service_role,cp7_capture,cp7_policy;
 grant execute on function cp7_identity.access_now(boolean),cp7_identity.membership(uuid,timestamptz),
- cp7_identity.workspace_data(uuid[],timestamptz),cp7_identity.workspace(uuid[]) to cp7_capture;
+ cp7_identity.workspace_data(uuid[],timestamptz),cp7_identity.workspace(uuid[]),cp7_identity.source_identity(uuid) to cp7_capture;
 grant execute on function cp7_identity.access_now(boolean),cp7_identity.membership(uuid,timestamptz),
  cp7_identity.apply_policy(jsonb,uuid) to cp7_policy;
-revoke all on function public.erp_cp7_get_production_policy_v1(uuid[]),public.erp_cp7_set_production_policy_v1(jsonb,uuid)
+revoke all on function public.erp_cp7_get_production_policy_v1(uuid[]),public.erp_cp7_get_source_identity_v1(uuid),public.erp_cp7_set_production_policy_v1(jsonb,uuid)
  from public,anon,authenticated,service_role,cp7_capture;
-grant execute on function public.erp_cp7_get_production_policy_v1(uuid[]),public.erp_cp7_set_production_policy_v1(jsonb,uuid) to authenticated;
+grant execute on function public.erp_cp7_get_production_policy_v1(uuid[]),public.erp_cp7_get_source_identity_v1(uuid),public.erp_cp7_set_production_policy_v1(jsonb,uuid) to authenticated;

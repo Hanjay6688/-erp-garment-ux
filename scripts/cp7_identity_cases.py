@@ -8,14 +8,30 @@ import cp6_bf_probe as bf
 b=p02.b
 
 def fixture(cur,today):
-    f=p02.fixture(cur,today)
-    more=bf.products(cur,('XS','L','34'),tag='P03-'+uuid.uuid4().hex[:8])
-    roots=[f['root']]+[r for r,_ in more]
-    at=cur.execute("select clock_timestamp()-interval '4 minutes'").fetchone()[0]
+    # One typed source builder: all four physical roots share brand/model/color.
+    rows=bf.products(cur,('31','XS','L','34'),tag='P03-'+uuid.uuid4().hex[:8])
+    roots=[r for r,_ in rows];root,size=rows[0]
+    check=cur.execute("select count(*),count(distinct size_id),count(distinct (brand_id,model_id,color_name)),bool_and(id=identity_root_id) from erp.products where id=any(%s::uuid[])",(roots,)).fetchone()
+    assert check==(4,4,1,True),('P03_FIXTURE_IDENTITY_MISMATCH',check)
+    now=cur.execute('select clock_timestamp()').fetchone()[0];at=now-timedelta(minutes=4)
     groups=[bf.group(cur,roots[:3],at,settings=dict(price=None,bom=None,work_rates=[],laundry_rates=[])),
             bf.group(cur,roots[3:],at,settings=dict(price=None,bom=None,work_rates=[],laundry_rates=[]))]
     bf.save(cur,groups,at)
-    return dict(f,roots=roots,groups=groups,skus=[g['id'] for g in groups])
+    customer=p02.base.create_customer(cur,'P03-'+uuid.uuid4().hex[:8])
+    lot,sale,movement=[str(uuid.uuid4()) for _ in range(3)]
+    # Administrative nonempty stock/sale fixture, not normal posting acceptance.
+    cur.execute('set local session_replication_role=replica')
+    cur.execute("insert into erp.fg_lots(id,lot_number,product_id,initial_qty_pcs,cached_qty_pcs,produced_at,lot_origin) values(%s,%s,%s,9,9,%s,'OTHER')",
+        (lot,'P03-'+lot,root,now-timedelta(minutes=3)))
+    cur.execute("""insert into erp.fg_stock_movements(id,product_id,lot_id,location_id,quality_grade,movement_type,
+     qty_signed,unit_hpp_snapshot,source_type,source_id,physical_at,system_created_at)
+     values(%s,%s,%s,%s,'GRADE_A','ADJUSTMENT',9,12.5,'P03_FIXTURE',%s,%s,%s)""",
+        (movement,root,lot,p02.base.LOCATION,uuid.uuid4(),now-timedelta(minutes=3),now-timedelta(minutes=2)))
+    cur.execute("insert into erp.sales_headers(id,sale_number,customer_id,sale_date,status,source_location_id,created_at) values(%s,%s,%s,%s,'DRAFT',%s,%s)",
+        (sale,'P03-'+sale,customer,now-timedelta(minutes=2),p02.base.LOCATION,now-timedelta(minutes=2)))
+    cur.execute('insert into erp.sales_items(sale_id,product_id,qty_pcs,unit_price_snapshot) values(%s,%s,2,10000)',(sale,root))
+    cur.execute('set local session_replication_role=origin')
+    return dict(root=root,size=size,lot=lot,sale=sale,movement=movement,roots=roots,groups=groups,skus=[g['id'] for g in groups])
 
 def get(cur,skus,subject=None):
     p02.actor(cur,subject)
@@ -25,6 +41,11 @@ def get(cur,skus,subject=None):
 def apply(cur,changes,key=None,subject=None):
     p02.actor(cur,subject)
     value=cur.execute('select public.erp_cp7_set_production_policy_v1(%s::jsonb,%s)',(json.dumps(changes,default=str),key or uuid.uuid4())).fetchone()[0]
+    b.api.admin(cur);return value
+
+def identity(cur,run,subject=None):
+    p02.actor(cur,subject)
+    value=cur.execute('select public.erp_cp7_get_source_identity_v1(%s)',(run,)).fetchone()[0]
     b.api.admin(cur);return value
 
 def proposal(row,state='STOPPED',review=None):
@@ -85,6 +106,24 @@ def cases(cur,today):
         apply(cur,[a]);p=row(get(cur,f['skus']),a['sku_id'])['policy']
         assert p['state']=='PAUSED' and p['review_due']
         return dict(status='PASS',past_review_never_reactivates=True)
+    def historical_identity():
+        f=fixture(cur,today);root=f['roots'][3]
+        cur.execute('set local session_replication_role=replica')
+        cur.execute('insert into erp.sales_items(sale_id,product_id,qty_pcs,unit_price_snapshot) values(%s,%s,6,1)',(f['sale'],root))
+        cur.execute('set local session_replication_role=origin')
+        captured=p02.create(cur,root);before=p02.stored(cur,captured['run_id'])
+        first=identity(cur,captured['run_id']);assert not first['membership_changed']
+        move(cur,f);after=identity(cur,captured['run_id'])
+        assert after['original']==first['original'] and after['membership_changed']
+        assert after['original']['commercial'][0]['sku_id']==f['skus'][1]
+        assert after['current_restatement']['commercial'][0]['sku_id']==f['skus'][0]
+        assert after['original']['basis']=='AT_CAPTURE' and after['current_restatement']['basis']=='CURRENT_RESTATED'
+        assert p02.stored(cur,captured['run_id'])==before
+        assert sum(int(r['qty_pcs']) for r in p02.read(cur,captured['run_id'],'sales_lines')['page']['rows'])==6
+        assert 'lot_cost' not in json.dumps(after) and 'snapshot_hash' not in after
+        subject,_=p02.custom_actor(cur)
+        p02.refused(cur,lambda:identity(cur,captured['run_id'],subject),'CP7_RUN_UNAVAILABLE')
+        return dict(status='PASS',original_membership_preserved=True,current_restatement_labeled=True,pcs_conserved=6,cross_actor_denied=True)
     def price_only():
         f=fixture(cur,today);a=proposal(row(get(cur,f['skus']),f['skus'][0]));apply(cur,[a])
         at=cur.execute('select clock_timestamp()').fetchone()[0];g=f['groups'][0]
@@ -141,7 +180,8 @@ def cases(cur,today):
         return dict(status='PASS',malformed_and_duplicate_refused=True,no_partial_rows=True)
     return [('P03_STATUS_DOMAIN_BOUNDARY',status_boundary),('P03_REPLAY_CONFLICT',replay),('P03_BULK_ATOMIC_STALE',atomic),
             ('P03_MEMBERSHIP_REVIEW',membership),('P03_PAST_REVIEW_PAUSED',past_review),('P03_PRIVILEGES_REVOKE',privileges),('P03_MALFORMED_NO_PARTIAL',malformed),
-            ('P03_PRICE_REVISION_POLICY_STABLE',price_only),('P03_FUTURE_MEMBERSHIP_REVIEW',future_members)]
+            ('P03_PRICE_REVISION_POLICY_STABLE',price_only),('P03_FUTURE_MEMBERSHIP_REVIEW',future_members),
+            ('P03_HISTORICAL_IDENTITY_CONSERVATION',historical_identity)]
 
 def races(tools,today):
     def competing():
