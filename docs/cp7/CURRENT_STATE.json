@@ -252,7 +252,7 @@
     "verification": "docs/cp7/evidence/p09-procurement/UNMOVED_QUALIFIED_RECEIPT.json"
   },
   "p13_period_candidate": {
-    "status": "RUN1_14_PASS_11_INCOMPLETE_REPAIR_RETEST_PENDING",
+    "status": "RUN2_23_PASS_2_BROWSER_INCOMPLETE_ACCESSIBLE_NAME_RETEST_PENDING",
     "handoff": "docs/cp7/P13_PERIOD_HANDOFF.md",
     "expected_cases": 25,
     "retained_report_cases": 12,
@@ -260,8 +260,8 @@
     "local_period_cases": 6,
     "independent_acceptance": false,
     "production_go": false,
-    "diagnostic": "docs/cp7/evidence/p13-finance/PERIOD_RUN1_RECEIPT.json",
-    "source_commit": "f7bddaf68815b61818a48b8be2cce00af168036d",
-    "source_tree": "20317680323f2dbc30f472e358122c65129601a2"
+    "diagnostic": "docs/cp7/evidence/p13-finance/PERIOD_RUN2_RECEIPT.json",
+    "source_commit": "d1a8a84bce5bf5cf25c716ec2fbe2dc783724b36",
+    "source_tree": "2687fa0bb4f7f38b6c97ae85547e654e249a7820"
   }
 }

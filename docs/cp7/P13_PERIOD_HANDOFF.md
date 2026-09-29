@@ -1,5 +1,11 @@
 # P13 reviewed period control — candidate
 
+## Second run:23 PASS, browser accessible-name repair pending
+
+Source `d1a8a84bce5bf5cf25c716ec2fbe2dc783724b36`, tree `2687fa0bb4f7f38b6c97ae85547e654e249a7820`; [run36637495738](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36637495738): **23 PASS /0 FAIL /2 INCOMPLETE /0 NOT_RUN**. All8 period-native cases, both real lock races (including revocation during the wait) and the Auth/HTTP close/replay case pass. READY→READY late-cost changes retire old reviews; immutable filings and old-request replay after reopening pass. [Original result](evidence/p13-finance/PERIOD_RUN2_RECEIPT.json).
+
+The desktop browser actually closes and reads the new archive, but its exact label lookup cannot identify the action select: the wrapping label includes option text. The select now receives explicit `aria-label="Tindakan periode"`; the exact browser assertion is retained. Desktop stops before reopen, so the shared-source mobile test correctly refuses to close an already closed date. Both remain incomplete until full retest. Restoration, advisor and Auth/database cleanup pass. [Standalone report12](evidence/p13-finance/PERIOD_REPORT_REPAIRED_RECEIPT.json) and [combined F03 22](evidence/p13-finance/PERIOD_COMBINED_REPAIRED_RECEIPT.json) pass with the corrected aggregate gate. No period visual acceptance is claimed.
+
 ## First native result and concrete repair
 
 Source `f7bddaf68815b61818a48b8be2cce00af168036d`, tree `20317680323f2dbc30f472e358122c65129601a2`; [run36636265333](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36636265333): **14 PASS /0 FAIL /11 INCOMPLETE /0 NOT_RUN**. [Original report and diagnosis](evidence/p13-finance/PERIOD_RUN1_RECEIPT.json). Authorized period commands failed because Supabase postgres, the private native-lock helper owner, lacked EXECUTE on the shared current-user access check. No successful period write is claimed from this run. CP6 restoration, advisors and all Auth/database cleanup pass.

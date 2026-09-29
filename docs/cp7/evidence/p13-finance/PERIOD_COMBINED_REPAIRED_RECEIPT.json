@@ -1,0 +1,75 @@
+{
+  "status": "PASS",
+  "source_commit": "d1a8a84bce5bf5cf25c716ec2fbe2dc783724b36",
+  "source_tree": "2687fa0bb4f7f38b6c97ae85547e654e249a7820",
+  "run_id": 36637495680,
+  "job_id": 109641596616,
+  "artifact_id": 11064853338,
+  "artifact_bytes": 6347407,
+  "artifact_sha256": "2d86cd19d3d597cb79296b3b8b10e060564a8ffa0e5646b9a2a0f3c4898f0b7a",
+  "report_sha256": "baf03ba40e098ae5438de5352e7996b1f830ec7d2d76d885c658e1a3bd2438bc",
+  "report_gzip_sha256": "9c5ece29ecef801339f56804b0281c73423e7a72c5fbed8fe9be9f66b5b691fe",
+  "source_bundle_sha256": "2c5d0e641afc56f665e4571ebf92a205725413cddcf924b5a318504e47209b75",
+  "counts": {
+    "PASS": 22,
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0
+  },
+  "groups": {
+    "native": {
+      "PASS": 10
+    },
+    "races": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 4
+    },
+    "sales_browser": {
+      "PASS": 2
+    },
+    "opening_payroll_browser": {
+      "PASS": 2
+    },
+    "finance_browser": {
+      "PASS": 2
+    }
+  },
+  "nonpassing_cases": {},
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "d1a8a84bce5bf5cf25c716ec2fbe2dc783724b36",
+    "product_ref": "d1a8a84bce5bf5cf25c716ec2fbe2dc783724b36",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36637495680",
+    "run_attempt": "1",
+    "workflow": "CP7 F03 Combined Stack",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "d1a8a84bce5bf5cf25c716ec2fbe2dc783724b36",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false
+}

@@ -1,0 +1,91 @@
+{
+  "status": "INCOMPLETE",
+  "source_commit": "d1a8a84bce5bf5cf25c716ec2fbe2dc783724b36",
+  "source_tree": "2687fa0bb4f7f38b6c97ae85547e654e249a7820",
+  "run_id": 36637495738,
+  "job_id": 109641597253,
+  "artifact_id": 11064219556,
+  "artifact_bytes": 5257479,
+  "artifact_sha256": "db7e1e9e8a2ce1738f3709eb1a4689efffdc99d0007cf34a29656a4e4459dbab",
+  "report_sha256": "7b55386d1197a3ba4d586cbca6d2a820c5bfe2bc73436d77a4e5d15d7d977b87",
+  "report_gzip_sha256": "70aec2fb8c1ac418eae845e268426d5dd268895aa7e959acb8478b665b5b0dab",
+  "source_bundle_sha256": "1fffca0c32d8d97bf3e2b4b2e1378b1b9159176f764aea953bc398369ea28792",
+  "counts": {
+    "PASS": 23,
+    "FAIL": 0,
+    "INCOMPLETE": 2,
+    "NOT_RUN": 0
+  },
+  "groups": {
+    "native": {
+      "PASS": 8
+    },
+    "races": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    },
+    "period_native": {
+      "PASS": 8
+    },
+    "period_races": {
+      "PASS": 2
+    },
+    "period_http": {
+      "PASS": 1
+    },
+    "period_browser": {
+      "INCOMPLETE": 2
+    }
+  },
+  "nonpassing_cases": {
+    "P13_PERIOD_BROWSER_DESKTOP": {
+      "status": "INCOMPLETE",
+      "error": "Error: expect(locator).toBeEnabled() failed\n\nLocator: getByRole('region', { name: 'Kelola periode pembukuan', exact: true }).getByLabel('Tindakan periode', { exact: true })\nExpected: enabled\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"to.be.enabled\" with timeout 5000ms\n  - waiting for getByRole('region', { name: 'Kelola periode pembukuan', exact: true }).getByLabel('Tindakan periode', { exact: true })\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toBeEnabled (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at period (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p13_period_browser.mjs:34:152)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3"
+    },
+    "P13_PERIOD_BROWSER_MOBILE_RECOVERY": {
+      "status": "INCOMPLETE",
+      "error": "Error: expect(locator).toBeEnabled() failed\n\nLocator:  getByRole('region', { name: 'Kelola periode pembukuan', exact: true }).getByRole('button', { name: 'Tutup buku dan simpan arsip', exact: true })\nExpected: enabled\nReceived: disabled\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.be.enabled\" with timeout 5000ms\n  - waiting for getByRole('region', { name: 'Kelola periode pembukuan', exact: true }).getByRole('button', { name: 'Tutup buku dan simpan arsip', exact: true })\n    14 \u00d7 locator resolved to <button disabled class=\"primary-btn\">Tutup buku dan simpan arsip</button>\n       - unexpected value \"disabled\"\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toBeEnabled (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at period (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p13_period_browser.mjs:25:112)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3"
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "d1a8a84bce5bf5cf25c716ec2fbe2dc783724b36",
+    "product_ref": "d1a8a84bce5bf5cf25c716ec2fbe2dc783724b36",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36637495738",
+    "run_attempt": "1",
+    "workflow": "CP7 P13 Period control",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "d1a8a84bce5bf5cf25c716ec2fbe2dc783724b36",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false,
+  "diagnosis": "All8 native period cases,2 races and1 Auth case now pass. Desktop really closes and reads the filing, then exact getByLabel cannot find the action select because its wrapping label includes option text. The captured page has the control and no access error. Give the select an explicit accessible name Tindakan periode, preserving the exact test. Desktop fails before reopening, so mobile correctly refuses to close that already closed date. Neither browser case is relabeled PASS; both must complete again."
+}
