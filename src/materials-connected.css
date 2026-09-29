@@ -1,0 +1,13 @@
+.cmat-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
+.cmat-tabs button[aria-pressed="true"] { background: #293f5b; border-color: #819adc; color: #fff; }
+.cmat-totals { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+.cmat-totals article { display: grid; gap: 10px; }
+.cmat-totals strong { font-size: 30px; font-variant-numeric: tabular-nums; }
+.cmat-roll { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; border-top: 1px solid #354159; padding: 18px 0; overflow-wrap: anywhere; }
+.cmat-roll small { display: block; }
+.cmat-roll .cproc-inline, .cmat-value { grid-column: 1 / -1; }
+.cmat-quantity { text-align: right; font-variant-numeric: tabular-nums; }
+.cmat .cmat-check { display: flex; align-items: center; gap: 10px; line-height: 1.5; }
+.cmat .cmat-check input { width: 20px; min-height: 20px; flex: 0 0 auto; accent-color: #879aff; }
+.cmat-ledger { overflow-wrap: anywhere; }
+@media (max-width: 480px) { .cmat-roll { grid-template-columns: 1fr; } .cmat-quantity { text-align: left; } }

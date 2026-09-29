@@ -41,3 +41,9 @@ for (const token of ["useProductionMutation('PROCUREMENT')", 'beginRead()', 'fin
 }
 assert.doesNotMatch(procurement, /p_request:\s*(?:globalThis\.)?crypto\.randomUUID/)
 console.log('Production recovery ownership passed: shared envelope, lock and stale-read generation including procurement exact version transport.')
+
+const materials = read('src/ConnectedMaterialsPage.tsx')
+for (const token of ["useProductionMutation('MATERIALS')", 'beginRead()', 'finishRead(ticket)', 'p_request:envelope.id', 'p_expected:p.expected_version', 'parseMaterialOutcome', 'reload:load']) {
+  assert.ok(materials.includes(token), `Material recovery omits ${token}`)
+}
+assert.doesNotMatch(materials, /p_request:\s*(?:globalThis\.)?crypto\.randomUUID/)

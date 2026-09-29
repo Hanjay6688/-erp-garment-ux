@@ -132,11 +132,13 @@ def cases(cur,today):
             if off is None:break
         assert len(seen)==len(set(seen))==105
         assert len(stock(cur,f,q='R104')['page']['rows'])==1
-        g=receipt.fixture(cur,today,qty='2');cur.execute("update erp.materials set unit_code='M' where id=%s",(g['material'],))
+        original_unit=cur.execute('select unit_code from erp.materials where id=%s',(f['material'],)).fetchone()[0]
+        other_unit=cur.execute("select unit_code from erp.uom_definitions where dimension='LENGTH' and is_active and unit_code<>%s order by unit_code limit 1",(original_unit,)).fetchone()[0]
+        g=receipt.fixture(cur,today,qty='2');cur.execute('update erp.materials set unit_code=%s where id=%s',(other_unit,g['material']))
         # Master setup only; both units acquire stock through ordinary posting.
         p=receipt.command(cur,'SAVE_DRAFT',g['payload']);receipt.post(cur,p)
         allrows=rpc(cur,'erp_cp7_get_materials_v1',[json.dumps(dict(q='Z isolated cp7-p09 material'))])
-        units={x['unit_code'] for x in allrows['totals_by_unit']};assert 'M' in units and 'yd' in units,units
+        units={x['unit_code'] for x in allrows['totals_by_unit']};assert other_unit in units and original_unit in units,units
         return dict(status='PASS',complete_server_pages=105,last_page_search=True,units_not_summed_together=True)
     def principals():
         f=fixture(cur,today);subject,role=receipt.custom(cur,['warehouse.material.view']);d,p=draft(cur,f)

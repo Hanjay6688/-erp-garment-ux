@@ -10,8 +10,6 @@ grant select on erp.materials,erp.material_rolls,erp.material_stock_movements,er
  erp.bc_accessory_zones_v1,erp.material_purchase_headers,erp.material_purchase_items,erp.material_transfers,erp.material_transfer_items to cp7_material_read;
 grant execute on function erp.save_material_transfer_draft_v2(jsonb,uuid,bigint),erp.post_material_transfer_v2(uuid,uuid,bigint,text),
  erp.reverse_material_transfer_v2(uuid,text,uuid,bigint) to cp7_material_write;
-grant select(id,material_type) on erp.materials to cp7_material_write;
-grant select(id,material_id) on erp.material_rolls to cp7_material_write;
 create table cp7_material.execution_context(
  backend_pid integer not null,transaction_id bigint not null,actor uuid not null,
  action text not null check(action in('SAVE_TRANSFER','POST_TRANSFER','REVERSE_TRANSFER')),
@@ -36,9 +34,12 @@ begin
 end $$;
 
 create function cp7_material.validate_lines(p_lines jsonb) returns void
-language plpgsql stable security invoker set search_path='' as $$
+language plpgsql stable security definer set search_path='' as $$
 declare line jsonb;
 begin
+ -- Narrow read authority, not a BYPASSRLS writer. Only the private command
+ -- principal can execute this validator; recheck the caller's view grant.
+ perform cp7_material.access_now();
  if jsonb_typeof(p_lines) is distinct from 'array' or jsonb_array_length(p_lines) not between 1 and 100 then raise exception 'CP7_MATERIAL_LINES';end if;
  for line in select value from jsonb_array_elements(p_lines) loop
   if jsonb_typeof(line) is distinct from 'object' or not line ?& array['material_id','roll_id','qty']

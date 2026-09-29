@@ -15,6 +15,9 @@ name: CP7 P09 Procurement
     - scripts/cp7_procurement_cases.py
     - scripts/cp7_p09_browser.mjs
     - scripts/cp7_p09_browser_fixture.py
+    - src/ConnectedMaterialsPage.tsx
+    - src/materialContract.ts
+    - src/materials-connected.css
     - src/ConnectedProcurementPage.tsx
     - src/procurementContract.ts
     - src/procurement-connected.css

@@ -34,7 +34,7 @@ def verify(cur):
       ('erp_cp7_get_materials_v1','cp7_material_read'),('erp_cp7_get_material_ledger_v1','cp7_material_read'),
       ('erp_cp7_get_material_transfers_v1','cp7_material_read'),('erp_cp7_get_material_locations_v1','cp7_material_read'),('erp_cp7_save_materials_v1','cp7_material_write')]:
         assert cur.execute("select p.prosecdef and pg_get_userbyid(p.proowner)=%s and p.proconfig=array['search_path=\"\"'] from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname=%s",(role,name)).fetchone()==(True,)
-    assert cur.execute("select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_material' and (p.prosecdef or pg_get_userbyid(p.proowner)<>case when p.proname='command' then 'cp7_material_write' else 'cp7_material_read' end or p.proconfig is distinct from array['search_path=\"\"'])").fetchone()[0]==0
+    assert cur.execute("select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_material' and (p.prosecdef is distinct from (p.proname='validate_lines') or pg_get_userbyid(p.proowner)<>case when p.proname='command' then 'cp7_material_write' else 'cp7_material_read' end or p.proconfig is distinct from array['search_path=\"\"'])").fetchone()[0]==0
     return dict(stage='CP7_F02_PLUS_DECLARED_P09',cp7_p09_bundle_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest())
 
 def run():

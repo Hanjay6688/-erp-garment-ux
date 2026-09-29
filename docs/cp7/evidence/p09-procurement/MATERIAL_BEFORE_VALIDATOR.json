@@ -1,0 +1,42 @@
+{
+  "source": "d11713592fc73e616aa1247a00e00718625b2530",
+  "run": 36520512754,
+  "job": 109252102295,
+  "diagnosis": "Private invoker validator hit predecessor table RLS current_app_role; first material smoke refused without stock effects. Correct with private read-owned definer validator/current access check, no business SELECT or DML on command principal.",
+  "results": [
+    {
+      "group": "CP7_P09_MATERIAL_SMOKE",
+      "case": "P09_MATERIAL_SMOKE",
+      "status": "INCOMPLETE",
+      "error": "permission denied for function current_app_role\nCONTEXT:  SQL expression \"not exists(select 1 from erp.materials m join erp.material_rolls r on r.material_id=m.id\n   where m.id=(line->>'material_id')::uuid and r.id=(line->>'roll_id')::uuid and m.material_type='FABRIC')\"\nPL/pgSQL function cp7_material.validate_lines(jsonb) line 9 at IF\nSQL statement \"SELECT cp7_material.validate_lines(p_payload->'items')\"\nPL/pgSQL function cp7_material.command(text,jsonb,uuid,text) line 17 at PERFORM\nSQL function \"erp_cp7_save_materials_v1\" statement 1",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 112, in strict_group\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_material_cases.py\", line 55, in run\n    d,p=draft(cur,f);post(cur,d);assert balances(cur,f)=={f['location']:6,f['destination']:4}\n        ^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_material_cases.py\", line 40, in draft\n    d=command(cur,'SAVE_TRANSFER',p,subject=subject);return d,p\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_material_cases.py\", line 24, in command\n    return rpc(cur,'erp_cp7_save_materials_v1',[action,json.dumps(payload,default=str),key or uuid.uuid4(),version],subject)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_material_cases.py\", line 14, in rpc\n    r=cur.execute('select public.'+name+'('+placeholders+')',args).fetchone()[0]\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: permission denied for function current_app_role\nCONTEXT:  SQL expression \"not exists(select 1 from erp.materials m join erp.material_rolls r on r.material_id=m.id\n   where m.id=(line->>'material_id')::uuid and r.id=(line->>'roll_id')::uuid and m.material_type='FABRIC')\"\nPL/pgSQL function cp7_material.validate_lines(jsonb) line 9 at IF\nSQL statement \"SELECT cp7_material.validate_lines(p_payload->'items')\"\nPL/pgSQL function cp7_material.command(text,jsonb,uuid,text) line 17 at PERFORM\nSQL function \"erp_cp7_save_materials_v1\" statement 1\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "CP7_P09_MATERIAL_SMOKE",
+      "planned": [
+        "P09_MATERIAL_SMOKE"
+      ],
+      "final": {
+        "P09_MATERIAL_SMOKE": "INCOMPLETE"
+      },
+      "missing": [],
+      "status": "INCOMPLETE"
+    },
+    {
+      "label": "CP7_P09_RECEIPT_BRIDGE",
+      "status": "INCOMPLETE",
+      "source_sha256": "e636562eb836135ea5e16b845758672154c582b21c63658e159e3756811eb41d",
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "error": "P09_MATERIAL_SMOKE_INCOMPLETE",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_p09_procurement_probe.py\", line 73, in run\n    assert report['material_smoke']['status']=='PASS','P09_MATERIAL_SMOKE_INCOMPLETE'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: P09_MATERIAL_SMOKE_INCOMPLETE\n"
+    }
+  ]
+}
