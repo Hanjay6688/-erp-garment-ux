@@ -7,6 +7,7 @@ import { cp6WibDateTimeInput, cp6WibPhysicalTimeToIso, formatCp6WibDateTime } fr
 import { useProductionMutation, type ProductionMutationHandlers } from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import PurchaseInvoicePanel from './PurchaseInvoicePanel'
+import SupplierReturnPanel from './SupplierReturnPanel'
 import { formatReceiptDecimal as numberText, parseProcurementOptions, parseProcurementOutcome, parseProcurementWorkspace, procurementObject, receiptDecimal, receiptEditableInBaseUnits, type OptionKind, type ProcurementOption, type ProcurementOptions, type ProcurementWorkspace, type ReceiptDetail } from './procurementContract'
 import type { Json } from './types/database.preconnect'
 import './procurement-connected.css'
@@ -163,6 +164,7 @@ function ProcurementWorkspace() {
       {current.finance ? <div className="cproc-total"><span>Nilai pada penerimaan</span><strong>Rp{numberText(current.finance.receipt_value)}</strong><small>Jumlah utang mengikuti invoice dan penyelesaian supplier.</small></div> : null}
       {current.status === 'DRAFT' ? <div className="cproc-review"><h3>Periksa sebelum menerima</h3><p>Pastikan supplier, gudang, waktu, bahan dan jumlah roll sudah sesuai barang datang.</p>{valueAccess && data?.capabilities.create && receiptEditableInBaseUnits(current) ? <button type="button" disabled={locked} onClick={() => setDraft(fromDetail(current))}>Perbaiki draft</button> : null}<label>Catatan pemeriksaan<input aria-label="Catatan pemeriksaan penerimaan" disabled={locked} value={postReason} onChange={e => setPostReason(e.target.value)}/></label><button className="primary-btn" type="button" disabled={locked || Boolean(draft) || !data?.capabilities.post || !postReason.trim()} onClick={() => void write('POST', { purchase_id: current.id, change_reason: postReason.trim() }, current.row_version)}>Sahkan penerimaan ke gudang</button></div> : null}
     </> : <><h2>Periksa dokumen</h2><p>Pilih surat jalan untuk melihat barang, rincian roll dan status penerimaannya.</p></>}</aside></div>
-    <PurchaseInvoicePanel purchaseId={current?.id ?? null} receiptRevision={current?.row_version ?? null} onReceiptUpdated={async purchaseId => { requested.current.purchase_id = purchaseId; return load() }}/>
+    <PurchaseInvoicePanel purchaseId={current?.id ?? null} receiptRevision={`${current?.row_version ?? ''}:${data?.read_at ?? ''}`} onReceiptUpdated={async purchaseId => { requested.current.purchase_id = purchaseId; return load() }}/>
+    <SupplierReturnPanel purchaseId={current?.id ?? null} receiptRevision={`${current?.row_version ?? ''}:${data?.read_at ?? ''}`} onReceiptUpdated={async purchaseId => { requested.current.purchase_id = purchaseId; return load() }}/>
   </section>
 }

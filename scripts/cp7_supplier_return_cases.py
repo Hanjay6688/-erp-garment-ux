@@ -120,9 +120,13 @@ def cases(cur,today):
             p=payload(f);p['items'][0][field]=val
             auth.refused(cur,lambda p=p:command(cur,'SAVE',p),'CP7_RETURN_')
         assert b.boundary.snapshot(cur)==before and read(cur,f)['page']['total']=='0'
-        d,p=save(cur,f);cur.execute('update erp.locations set is_active=false where id=%s',(f['location'],))
+        # An occupied warehouse cannot legitimately be deactivated. Use an
+        # empty active warehouse, save a draft there, then deactivate it through
+        # the ordinary master update; preserve the accepted stock guard.
+        empty=str(uuid.uuid4());cur.execute("insert into erp.locations(id,location_code,location_name,location_type,is_active) values(%s,%s,'Empty return location','RAW_MATERIAL_WAREHOUSE',true)",(empty,f['tag']+'-EMPTY'))
+        d,p=save(cur,f,location=empty);cur.execute('update erp.locations set is_active=false where id=%s',(empty,))
         auth.refused(cur,lambda:post(cur,f,d),'CP7_RETURN_ACTIVE_WAREHOUSE_REQUIRED')
-        cur.execute('update erp.locations set is_active=true where id=%s',(f['location'],));cur.execute('update erp.materials set is_active=false where id=%s',(f['material'],))
+        d,p=save(cur,f);cur.execute('update erp.materials set is_active=false where id=%s',(f['material'],))
         auth.refused(cur,lambda:post(cur,f,d),'CP7_RETURN_ACTIVE_MATERIAL_REQUIRED');assert amounts(cur,f)==(0,100,10,10)
         return dict(status='PASS',foreign_source_and_fabric_roll_refused=True,caller_credit_price_forbidden=True,exact_string_transport=True,inactive_post_atomic=True)
     def historical():

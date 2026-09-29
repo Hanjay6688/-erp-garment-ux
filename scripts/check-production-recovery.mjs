@@ -53,3 +53,8 @@ for (const token of ["useProductionMutation('PURCHASE_INVOICE')", 'beginRead()',
   assert.ok(invoices.includes(token), `Invoice recovery omits ${token}`)
 }
 assert.doesNotMatch(invoices, /p_request:\s*(?:globalThis\.)?crypto\.randomUUID/)
+
+const supplierReturns = read('src/SupplierReturnPanel.tsx')
+for (const token of ["useProductionMutation('SUPPLIER_RETURN')", 'beginRead()', 'finishRead(ticket)', 'p_request:e.id', 'p_expected:p.expected_version', 'parseSupplierReturnOutcome']) {
+  assert.ok(supplierReturns.includes(token), `Supplier return recovery boundary missing ${token}`)
+}

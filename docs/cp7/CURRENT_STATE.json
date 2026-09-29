@@ -35,7 +35,7 @@
     "P02": "BOUNDED_ACTOR_CAPTURE_T1_PASS_16_CASES_INDEPENDENT_PENDING",
     "P03": "BOUNDED_POLICY_NATIVE_PASS_15_CASES_INDEPENDENT_PENDING",
     "P04": "BOUNDED_ATOMIC_WIP_NATIVE_PASS_39_CASES_PLUS_SMOKE_INDEPENDENT_PENDING",
-    "P09": "RECEIPT_MATERIAL_31_PASS_INVOICE_NATIVE_13_PASS_BROWSER_INVERSE_ORACLE_RETEST_SOURCE_RETURN_NATIVE_PENDING"
+    "P09": "BOUNDED_RECEIPT_MATERIAL_INVOICE_46_PASS_SOURCE_RETURN_13_OF_14_PASS_CONNECTED_RETEST_PENDING"
   },
   "inherited_scope": {
     "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
@@ -50,7 +50,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Continue P09 connected supplier invoices, source return, receipt reversal and remaining issue/adjustment/UOM scope; then F03 P10\u2013P13. F01/F02 independent review pending.",
+  "next_action": "Complete connected source-return qualification and remaining receipt reversal, issue/adjustment/UOM scope, then F03 P10-P13. F01/F02 independent review pending.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -63,7 +63,7 @@
     "F05_P14_P17": "PLANNED",
     "F06_P18_P21": "PLANNED"
   },
-  "latest_tested_source": "08f5c813431e1af3c3b80c0a3035c55bdfc9b58d",
+  "latest_tested_source": "e21f0b94c3d25a787b83470a28b557aa7a88326a",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
   "p04_cutting_verification_receipt": "docs/cp7/evidence/p04-cutting/VERIFICATION.json",
@@ -72,5 +72,7 @@
   "p09_entry": "docs/cp7/P09_PROCUREMENT_HANDOFF.md",
   "p09_receipt_verification": "docs/cp7/evidence/p09-procurement/RECEIPT_VERIFICATION.json",
   "p09_material_verification": "docs/cp7/evidence/p09-procurement/MATERIAL_VERIFICATION.json",
-  "p09_invoice_diagnostic": "docs/cp7/evidence/p09-procurement/INVOICE_RUN_3.json"
+  "p09_invoice_diagnostic": "docs/cp7/evidence/p09-procurement/INVOICE_RUN_3.json",
+  "p09_invoice_verification": "docs/cp7/evidence/p09-procurement/INVOICE_VERIFICATION.json",
+  "p09_return_diagnostic": "docs/cp7/evidence/p09-procurement/RETURN_RUN_1.json"
 }

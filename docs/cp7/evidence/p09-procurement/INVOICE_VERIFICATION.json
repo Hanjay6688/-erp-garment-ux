@@ -1,0 +1,84 @@
+{
+  "source_head": "e21f0b94c3d25a787b83470a28b557aa7a88326a",
+  "source_tree": "8e8ed6fdd6317e07699062a5ac5a7f909e6b86fa",
+  "run_id": 36527195996,
+  "job_id": 109272731709,
+  "artifact_id": 11015541187,
+  "archive_sha256": "93baf5781c081c24b785f76a909fee24a840b8b0aa5370efdcc7c77389c3520d",
+  "report_sha256": "ab2cba04c0856b5b1be983f7f3245cfa034571584a9e2ce646dd175b3e46b7cf",
+  "report_gzip_sha256": "8934279bae05dc770d70b839b809c676d9c6a842f13f578ef939a85155b6fe49",
+  "report": "RETURN_RUN_1.json.gz",
+  "bundle_sha256": "2c4d2f0187450b529e044861a46f69e9c90a8e258496d39e55d69f0380ca3fac",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "status": "PASS_WRITER_BOUNDED_RECEIPT_MATERIAL_TRANSFER_INVOICE",
+  "whole_workflow_status": "INCOMPLETE_SEPARATE_RETURN_FIXTURE",
+  "counts": {
+    "native": {
+      "PASS": 9
+    },
+    "races": {
+      "PASS": 3
+    },
+    "http": {
+      "PASS": 1
+    },
+    "material": {
+      "PASS": 9
+    },
+    "material_races": {
+      "PASS": 2
+    },
+    "material_http": {
+      "PASS": 1
+    },
+    "material_crossflow": {
+      "PASS": 2
+    },
+    "invoice": {
+      "PASS": 9
+    },
+    "invoice_races": {
+      "PASS": 3
+    },
+    "invoice_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 6
+    }
+  },
+  "cases": 46,
+  "smokes_separate": 2,
+  "sources": {
+    "src/PurchaseInvoicePanel.tsx": "7ab700fa4e284f3e9c61ac731cda86a8cdda1cb1086dbc84bbd32a423b53892d",
+    "src/purchaseInvoiceContract.ts": "f47afe2b5c37b5bf3031142bd977cda3d4df390313efbac3d52492bea5c6068b",
+    "src/ConnectedProcurementPage.tsx": "b2c6fab56babdb97143788c3f779eac989c605c5b33e4050bed77de29b1e4725",
+    "src/procurementContract.ts": "a1fb28235c34b1b5036a0fcf2650f3c3dd213946651ba0c0b5939e347f237164",
+    "scripts/cp7_invoice_cases.py": "a6b2e46346b211c0934b8b43f30d9ecfeb161ba37ab4eff5fdf7f183fc810bb1",
+    "scripts/cp7_p09_browser.mjs": "60d1dd3f7b0fb665c507a44eb11a5cc166c0ee6026d3d8df795967310e010437",
+    "scripts/cp7_p09_browser_fixture.py": "cb4184202d5a80febe1c315da40a1316aa7d25e474a6d17edf62a43a77f34831",
+    "scripts/cp7_p09_procurement_probe.py": "5ca9200ce32b904e13fe0c01c5d39b723c7159afa758c1548bf5ca6d700e8461",
+    "scripts/cp7_procurement_bundle.py": "4470181c3456b8f9d6cc0427c8dd2b61c210266eb3be33ddc12601ef8f7e0d78",
+    "scripts/cp7-src/invoices/bootstrap.sql": "925179e5830af57ae0af6fbd924b3c1339a6e13f313f37e93cfa6a88f9083bfe",
+    "scripts/cp7-src/invoices/ownership.sql": "b19e329d3e7dfa56668b4fe0c87c16d8c4efcc8b46c566f8c7113031eaafccef",
+    "scripts/cp7-src/invoices/read.sql": "e73fe809b20a73acb37c406dbac333698d291e77b88b226bd0ecad177115499b",
+    "scripts/cp7-src/invoices/command.sql": "8cb77b25728aef470865513b4579486ea5d7cc289f1a52d1557141bfd8898c1e"
+  },
+  "screenshots": {
+    "P09_INVOICE_DESKTOP.png": "bedfb2aec2e6d7a414490a1d1b849fe02119527479fab3f52862cc24acc0d461",
+    "P09_INVOICE_MOBILE.png": "71c3fcdfb4150f7db8c12bd2cacf784dfae73892fc2f3cf6eb45be91011e23e2"
+  },
+  "app_runs": [
+    36527200232,
+    36527195981
+  ],
+  "limitations": [
+    "Independent acceptance pending; P09/F03 still open.",
+    "Legacy multi-receipt invoice readable but reversal outside bounded connected action.",
+    "Source-return native run separate and incomplete in its inactive-location fixture.",
+    "Remaining receipt reversal, UOM and issue/adjustment work still open."
+  ]
+}

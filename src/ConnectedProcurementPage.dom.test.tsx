@@ -7,6 +7,7 @@ import { parseProcurementWorkspace, receiptDecimal } from './procurementContract
 import { recoveryIdentity } from '../tests/fixtures/productionRecovery'
 import { readProductionRecovery } from './productionRecovery'
 import { invoiceWorkspaceFixture } from '../tests/fixtures/purchaseInvoices'
+import { supplierReturnsFixture } from '../tests/fixtures/supplierReturns'
 const state = vi.hoisted(() => ({ auth: null as unknown }))
 const client = vi.hoisted(() => ({ rpc: vi.fn() }))
 vi.mock('./auth/AuthProvider', () => ({ useAuth: () => state.auth }))
@@ -40,6 +41,7 @@ function server(finance=true) {
       return {data:w,error:null}
     }
     if(name==='erp_cp7_get_procurement_options_v1')return {data:{contract_version:'cp7.procurement-options.v1',kind:args.p_kind,rows:[],total:'0',offset:0,limit:25,next_offset:null},error:null}
+    if(name==='erp_cp7_get_supplier_returns_v1')return {data:supplierReturnsFixture(null,finance),error:null}
     if(name==='erp_cp7_get_purchase_invoices_v1')return {data:{...invoiceWorkspaceFixture(false),purchase_status:s.posted?'POSTED':'DRAFT'},error:null}
     if(name!=='erp_cp7_save_procurement_v1')throw Error('Unexpected RPC '+name)
     const key=String(args.p_request)
@@ -52,7 +54,7 @@ describe('connected procurement recovery and financial boundary',()=>{
     server();await mount();await click('SJ-TEST');expect(container.textContent).toContain('Belum menambah stok gudang')
     await click('Sahkan penerimaan ke gudang')
     expect(writes()).toHaveLength(1);expect(writes()[0][1].p_expected).toBe('9007199254740993')
-    expect(container.textContent).toContain('Penerimaan sudah tercatat');expect(container.querySelector('.cproc-review')).toBeNull()
+    expect(container.textContent).toContain('Penerimaan sudah tercatat');expect(container.querySelector('.cproc-detail .cproc-review')).toBeNull()
     expect(readProductionRecovery('disposable:actor-1').pending.PROCUREMENT).toBeUndefined()
   })
   it('reuses the persisted UUID and exact payload after a lost reply and remount',async()=>{
@@ -63,7 +65,7 @@ describe('connected procurement recovery and financial boundary',()=>{
   })
   it('retires the committed form when reload fails and refuses another post',async()=>{
     const s=server();await mount();await click('SJ-TEST');const old=button('Sahkan penerimaan');s.failReload=true;await click('Sahkan penerimaan')
-    expect(container.textContent).toContain('Aksi sudah tersimpan');expect(container.querySelector('.cproc-review')).toBeNull()
+    expect(container.textContent).toContain('Aksi sudah tersimpan');expect(container.querySelector('.cproc-detail .cproc-review')).toBeNull()
     await act(async()=>old.click());expect(writes()).toHaveLength(1)
     s.failReload=false;await click('Muat ulang');expect(container.textContent).toContain('Penerimaan sudah tercatat')
   })

@@ -160,4 +160,59 @@ async function supplierInvoice(ui,today,mobile) {
   return {status:'PASS',mobile,real_ui_auth_rpc_database:true,staged_invoice_qty:[4,6],staged_ap_gl:[50,95],staged_grni:[60,0],staged_material_value:[110,95],reverse_value:[110,100],stock_locations_always:[6,4],invoice_count_after_replay:1,invoice_count_after_two_documents:2,recovery_identical_request:mobile?true:null,browser_timezone:mobile?'America/Los_Angeles':'Asia/Jakarta',screenshot:`P09_INVOICE_${mobile?'MOBILE':'DESKTOP'}.png`}
  } finally {await user.context.close()}
 }
-export async function cases(ui,today){return [['P09_BROWSER_RECEIPT_DESKTOP',()=>receipt(ui,today,false)],['P09_BROWSER_LOST_REPLY_MOBILE',()=>receipt(ui,today,true)],['P09_BROWSER_TRANSFER_DESKTOP',()=>transfer(ui,today,false)],['P09_BROWSER_TRANSFER_LOST_REPLY_MOBILE',()=>transfer(ui,today,true)],['P09_BROWSER_INVOICE_DESKTOP',()=>supplierInvoice(ui,today,false)],['P09_BROWSER_INVOICE_LOST_REPLY_MOBILE',()=>supplierInvoice(ui,today,true)]]}
+async function supplierReturn(ui,today,mobile) {
+ const f=fixture('create_return',{today}),user=await ui.login('OWNER',{label:'cp7-return-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'})
+ try {
+  const p=user.page,panel=p.locator('.cproc-returns')
+  async function selectReceipt(){await openPage(ui,p);await p.getByLabel('Cari penerimaan',{exact:true}).fill(f.tag);await p.getByRole('button',{name:'Cari penerimaan',exact:true}).click();const r=p.locator('.cproc-receipt').filter({hasText:f.tag}).filter({hasNotText:'-UI-RETURN'});await ui.expect(r).toHaveCount(1);await ui.expect(r).toBeEnabled();await r.click();await ui.expect(panel).toContainText('Sumber '+f.tag)}
+  await selectReceipt()
+  await panel.getByLabel('Cari gudang retur',{exact:true}).fill(f.tag+'-TO');await panel.getByRole('button',{name:'Cari gudang retur',exact:true}).click()
+  const warehouse=panel.getByLabel('Gudang pengirim retur',{exact:true});await ui.expect(warehouse.locator(`option[value="${f.destination}"]`)).toBeAttached();await ui.expect(warehouse).toBeEnabled();await warehouse.selectOption(f.destination)
+  const create=panel.getByRole('button',{name:'Buat retur supplier',exact:true});await ui.expect(create).toBeEnabled();await create.click()
+  await panel.getByLabel('Nomor retur supplier',{exact:true}).fill(f.tag+'-UI-RETURN')
+  await panel.getByLabel('Waktu retur supplier WIB',{exact:true}).fill(f.return_day+'T16:00')
+  await panel.getByLabel('Roll retur 1',{exact:true}).selectOption(f.roll)
+  await panel.getByLabel('Jumlah retur 1',{exact:true}).fill('2')
+  await panel.getByRole('button',{name:'Simpan draft retur',exact:true}).click()
+  await ui.expect(panel.locator('.cproc-return-detail')).toContainText('Draft retur')
+  let before=fixture('read_return',f);if(Number(before.qty)!==10||Number(before.source_ap)!==100||Number(before.target_ap)!==100||before.document.movement_count!==0)throw Error('Return draft changed stock/AP')
+  const inspect=panel.getByRole('button',{name:'Tinjau pengiriman retur',exact:true});await ui.expect(inspect).toBeEnabled();await inspect.click()
+  const post=panel.getByRole('button',{name:'Sahkan pengiriman retur',exact:true});await ui.expect(post).toBeDisabled();await panel.getByLabel('Retur sudah diperiksa',{exact:true}).check();await ui.expect(post).toBeEnabled()
+  let lost=false,first=null,replay=null
+  if(mobile)await p.route('**/rest/v1/rpc/erp_cp7_save_supplier_return_v1',async route=>{const body=route.request().postDataJSON();if(body.p_action==='POST'&&!lost){first=body;const r=await route.fetch();if(r.status()!==200)throw Error('Expected committed supplier return before lost reply');lost=true;await route.abort('failed')}else{if(body.p_action==='POST'&&replay===null)replay=body;await route.continue()}})
+  await post.click();await ui.expect.poll(()=>fixture('read_return',f).document?.status,{timeout:20000}).toBe('POSTED')
+  if(mobile){await ui.expect(panel.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeVisible();await p.reload();await openPage(ui,p);await panel.getByRole('button',{name:'Reconcile transaksi',exact:true}).click();await ui.expect(panel.getByRole('button',{name:'Reconcile transaksi',exact:true})).toHaveCount(0);await ui.expect(panel).toContainText('Data retur supplier sudah diperbarui.');if(!lost||JSON.stringify(first)!==JSON.stringify(replay))throw Error('Return recovery did not reuse the exact request')}
+  await ui.expect(panel.locator('.cproc-return-detail')).toContainText('Retur sudah dikirim');await ui.expect(panel.getByRole('button',{name:'Muat ulang retur',exact:true})).toBeEnabled()
+  await ui.expect(panel.getByLabel('Gudang pengirim retur',{exact:true})).toHaveValue(f.destination)
+  const posted=fixture('read_return',f)
+  if(Number(posted.qty)!==8||Number(posted.material_value)!==80||Number(posted.source_ap)!==80||Number(posted.target_ap)!==100||Number(posted.ap_gl)!==Number(f.ap_before)-20||Number(posted.balances[f.location])!==6||Number(posted.balances[f.destination])!==2||posted.document.movement_count!==1||Number(posted.document.credit)!==20||posted.contexts!==0)throw Error('Return native conservation mismatch '+JSON.stringify(posted))
+  if(Date.parse(posted.document.physical_at)!==Date.parse(f.return_day+'T16:00:00+07:00'))throw Error('Return WIB time changed')
+  await ui.expect.poll(()=>panel.evaluate(el=>{const b=el.getBoundingClientRect();return b.left>=0&&b.right<=innerWidth+1&&document.documentElement.scrollWidth<=innerWidth+1})).toBe(true)
+  await p.evaluate(()=>window.scrollTo(0,0));await p.screenshot({path:`cp6-proof/t3/P09_RETURN_${mobile?'MOBILE':'DESKTOP'}.png`,fullPage:true})
+  const menu=p.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click()
+  const creditLink=p.getByRole('button',{name:'• Hutang Supplier & Vendor',exact:true});if(!await creditLink.isVisible())await p.locator('.sidebar .nav-main').filter({hasText:'Keuangan'}).click();await creditLink.click()
+  await ui.expect(p.getByRole('heading',{name:'Utang & kredit retur supplier',exact:true})).toBeVisible()
+  const supplier=p.getByLabel('Supplier kredit',{exact:true});await ui.expect(supplier.locator(`option[value="${f.payload.supplier_id}"]`)).toBeAttached();await ui.expect(supplier).toBeEnabled();await supplier.selectOption(f.payload.supplier_id)
+  async function allocate(amount,sourceAp,targetAp){
+   const edit=p.getByRole('button',{name:'Atur alokasi '+f.tag+'-UI-RETURN',exact:true});await ui.expect(edit).toBeEnabled();await edit.click()
+   await p.getByLabel('Kredit untuk '+f.target_tag,{exact:true}).fill(amount)
+   await p.getByLabel('Alasan pengalihan kredit',{exact:true}).fill(amount?'Supplier menyetujui pemotongan pembelian berikutnya':'Kredit dikembalikan ke pembelian asal')
+   await p.getByLabel('Saya sudah memeriksa pembelian asal, tujuan, dan nominal kredit.',{exact:true}).check()
+   await p.getByRole('button',{name:'Simpan alokasi kredit',exact:true}).click()
+   await ui.expect.poll(()=>Number(fixture('read_return',f).target_ap),{timeout:20000}).toBe(targetAp)
+   await ui.expect(edit).toBeEnabled()
+   const r=fixture('read_return',f)
+   if(Number(r.source_ap)!==sourceAp||Number(r.target_ap)!==targetAp||r.ap_gl!==posted.ap_gl||JSON.stringify(r.movements)!==JSON.stringify(posted.movements))throw Error('Portable credit changed total AP/stock/cost '+JSON.stringify(r))
+  }
+  await allocate('20',100,80);await allocate('',80,100)
+  await selectReceipt();const card=panel.locator('.cproc-receipt').filter({hasText:f.tag+'-UI-RETURN'});await ui.expect(card).toBeEnabled();await card.click()
+  await panel.getByRole('button',{name:'Tinjau pembatalan retur',exact:true}).click()
+  await panel.getByLabel('Alasan tindakan retur',{exact:true}).fill('Barang kembali setelah alokasi kredit dipulihkan')
+  await panel.getByLabel('Retur sudah diperiksa',{exact:true}).check();await panel.getByRole('button',{name:'Batalkan retur supplier',exact:true}).click()
+  await ui.expect(panel.locator('.cproc-return-detail')).toContainText('Retur dibatalkan')
+  const reversed=fixture('read_return',f)
+  if(Number(reversed.qty)!==10||Number(reversed.material_value)!==100||Number(reversed.source_ap)!==100||Number(reversed.target_ap)!==100||Number(reversed.ap_gl)!==Number(f.ap_before)||Number(reversed.balances[f.location])!==6||Number(reversed.balances[f.destination])!==4||reversed.document.movement_count!==2)throw Error('Return inverse native mismatch '+JSON.stringify(reversed))
+  return {status:'PASS',mobile,real_ui_auth_rpc_database:true,source_stock_before:[6,4],source_stock_returned:[6,2],source_ap:80,credit_shifted:[100,80],credit_restored:[80,100],allocation_stock_cost_ap_unchanged:true,return_inverse_stock:[6,4],return_inverse_ap:[100,100],recovery_identical_request:mobile?true:null,browser_timezone:mobile?'America/Los_Angeles':'Asia/Jakarta',screenshot:`P09_RETURN_${mobile?'MOBILE':'DESKTOP'}.png`}
+ }finally{await user.context.close()}
+}
+export async function cases(ui,today){return [['P09_BROWSER_RECEIPT_DESKTOP',()=>receipt(ui,today,false)],['P09_BROWSER_LOST_REPLY_MOBILE',()=>receipt(ui,today,true)],['P09_BROWSER_TRANSFER_DESKTOP',()=>transfer(ui,today,false)],['P09_BROWSER_TRANSFER_LOST_REPLY_MOBILE',()=>transfer(ui,today,true)],['P09_BROWSER_INVOICE_DESKTOP',()=>supplierInvoice(ui,today,false)],['P09_BROWSER_INVOICE_LOST_REPLY_MOBILE',()=>supplierInvoice(ui,today,true)],['P09_BROWSER_RETURN_CREDIT_DESKTOP',()=>supplierReturn(ui,today,false)],['P09_BROWSER_RETURN_CREDIT_LOST_REPLY_MOBILE',()=>supplierReturn(ui,today,true)]]}

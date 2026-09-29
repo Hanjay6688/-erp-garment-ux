@@ -22,6 +22,8 @@ name: CP7 P09 Procurement
     - src/ConnectedMaterialsPage.tsx
     - src/materialContract.ts
     - src/materials-connected.css
+    - src/SupplierReturnPanel.tsx
+    - src/supplierReturnContract.ts
     - src/PurchaseInvoicePanel.tsx
     - src/purchaseInvoiceContract.ts
     - src/ConnectedProcurementPage.tsx

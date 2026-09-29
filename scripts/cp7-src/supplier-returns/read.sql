@@ -29,6 +29,7 @@ begin
  a:=cp7_supplier_return.access_now();
  if p_purchase is null or p_offset is null or p_offset not between 0 and 1000000 or p_limit is null or p_limit not between 1 and 25 then raise exception 'CP7_RETURN_QUERY';end if;
  select * into h from erp.material_purchase_headers where id=p_purchase;if not found then raise exception 'CP7_RETURN_RECEIPT_NOT_FOUND';end if;
+ p_location:=coalesce(p_location,h.location_id);
  if p_location is not null then
   select jsonb_build_object('id',l.id,'name',l.location_name,'available',l.is_active and l.location_type='RAW_MATERIAL_WAREHOUSE' and not exists(select 1 from erp.bc_accessory_zones_v1 z where z.location_id=l.id)) into selected_location from erp.locations l where l.id=p_location;
   if selected_location is null then raise exception 'CP7_RETURN_LOCATION_NOT_FOUND';end if;

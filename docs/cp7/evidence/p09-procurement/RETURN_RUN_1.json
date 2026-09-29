@@ -1,0 +1,77 @@
+{
+  "source_head": "e21f0b94c3d25a787b83470a28b557aa7a88326a",
+  "source_tree": "8e8ed6fdd6317e07699062a5ac5a7f909e6b86fa",
+  "run_id": 36527195996,
+  "job_id": 109272731709,
+  "artifact_id": 11015541187,
+  "archive_sha256": "93baf5781c081c24b785f76a909fee24a840b8b0aa5370efdcc7c77389c3520d",
+  "report_sha256": "ab2cba04c0856b5b1be983f7f3245cfa034571584a9e2ce646dd175b3e46b7cf",
+  "report_gzip_sha256": "8934279bae05dc770d70b839b809c676d9c6a842f13f578ef939a85155b6fe49",
+  "report": "RETURN_RUN_1.json.gz",
+  "bundle_sha256": "2c4d2f0187450b529e044861a46f69e9c90a8e258496d39e55d69f0380ca3fac",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "status": "INCOMPLETE",
+  "counts": {
+    "smoke": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 9
+    },
+    "races": {
+      "PASS": 3
+    },
+    "http": {
+      "PASS": 1
+    },
+    "material_smoke": {
+      "PASS": 1
+    },
+    "material": {
+      "PASS": 9
+    },
+    "material_crossflow": {
+      "PASS": 2
+    },
+    "material_races": {
+      "PASS": 2
+    },
+    "material_http": {
+      "PASS": 1
+    },
+    "invoice": {
+      "PASS": 9
+    },
+    "invoice_races": {
+      "PASS": 3
+    },
+    "invoice_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 6
+    },
+    "return_smoke": {
+      "PASS": 1
+    },
+    "returns": {
+      "PASS": 9,
+      "INCOMPLETE": 1
+    },
+    "return_races": {
+      "PASS": 3
+    },
+    "return_http": {
+      "PASS": 1
+    }
+  },
+  "total_cases": {
+    "PASS": 59,
+    "INCOMPLETE": 1
+  },
+  "smokes_separate": 3,
+  "diagnosis": "Native location guard correctly prevents deactivation with stock. Use an ordinary empty-warehouse fixture; no guard is weakened."
+}
