@@ -1,0 +1,113 @@
+{
+  "status": "INCOMPLETE",
+  "source_commit": "882c32facbe62bcb59aa415111470b1b77ac782c",
+  "source_tree": "1b29094ae69abc41d6e2883307a741fa12346fb5",
+  "run_id": 36628056046,
+  "job_id": 109610004818,
+  "artifact_id": 11061014650,
+  "artifact_bytes": 6234792,
+  "artifact_sha256": "d15c5096cd30b239408b7cf42728e4c0f502963175d03d4be6e7a4a2195edb6a",
+  "report_sha256": "d88db5eb3057b02dd6b170b51839d3d676f3b7944d02a564e84b018662521e05",
+  "report_gzip_sha256": "b1e6493e810ca8d322a19f4da3c2448b900b7216bf355121bd66d00f9ea07b90",
+  "counts": {
+    "PASS": 44,
+    "FAIL": 0,
+    "INCOMPLETE": 3,
+    "NOT_RUN": 0
+  },
+  "source_bundle_sha256": "505baee007558753c190682653b65ca2d3c4e385d89560295afcabbd0cb83268",
+  "groups": {
+    "native": {
+      "PASS": 8
+    },
+    "http": {
+      "PASS": 1
+    },
+    "commands": {
+      "PASS": 6
+    },
+    "command_races": {
+      "PASS": 2
+    },
+    "command_http": {
+      "PASS": 1
+    },
+    "drafts": {
+      "PASS": 7
+    },
+    "draft_races": {
+      "PASS": 1
+    },
+    "draft_http": {
+      "PASS": 1
+    },
+    "payments": {
+      "PASS": 7,
+      "INCOMPLETE": 1
+    },
+    "payment_races": {
+      "PASS": 3
+    },
+    "payment_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 6,
+      "INCOMPLETE": 2
+    }
+  },
+  "nonpassing_cases": {
+    "P11_PAYMENT_REPLAY": {
+      "status": "INCOMPLETE",
+      "error": "LAST_ACTIVE_OWNER_PROTECTED\nCONTEXT:  PL/pgSQL function erp.guard_last_active_owner() line 27 at RAISE"
+    },
+    "P11_PAYMENT_BROWSER_DESKTOP": {
+      "status": "INCOMPLETE",
+      "error": "Error: expect(locator).toContainText(expected) failed\n\nLocator: locator('.csales').getByRole('region', { name: 'Pembayaran invoice' })\nExpected substring: \"Total 2 pembayaran\"\nError: strict mode violation: locator('.csales').getByRole('region', { name: 'Pembayaran invoice' }) resolved to 2 elements:\n    1) <section class=\"panel\" aria-label=\"Pembayaran invoice\">\u2026</section> aka getByRole('region', { name: 'Pembayaran invoice', exact: true })\n    2) <section aria-label=\"Riwayat pembayaran invoice\">\u2026</section> aka getByRole('region', { name: 'Riwayat pembayaran invoice' })\n\nCall log:\n  - Expect \"to.have.text\" with timeout 5000ms\n  - waiting for locator('.csales').getByRole('region', { name: 'Pembayaran invoice' })\n    - locator resolved to <section class=\"panel\" aria-label=\"Pembayaran invoice\">\u2026</section>\n    - unexpected value \"Pembayaran P11-a8ab48719834CP6 E P11-a8ab48719834 customer \u00b7 sisa Rp0Tutup pembayaran invoiceMuat ulang pembayaran\"\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toContainText (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at lifecycle (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p11_payments_browser.mjs:29:106)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3"
+    },
+    "P11_PAYMENT_BROWSER_MOBILE_RECOVERY": {
+      "status": "INCOMPLETE",
+      "error": "Error: expect(locator).toContainText(expected) failed\n\nLocator: locator('.csales').getByRole('region', { name: 'Pembayaran invoice' })\nExpected substring: \"Total 2 pembayaran\"\nError: strict mode violation: locator('.csales').getByRole('region', { name: 'Pembayaran invoice' }) resolved to 2 elements:\n    1) <section class=\"panel\" aria-label=\"Pembayaran invoice\">\u2026</section> aka getByRole('region', { name: 'Pembayaran invoice', exact: true })\n    2) <section aria-label=\"Riwayat pembayaran invoice\">\u2026</section> aka getByRole('region', { name: 'Riwayat pembayaran invoice' })\n\nCall log:\n  - Expect \"to.have.text\" with timeout 5000ms\n  - waiting for locator('.csales').getByRole('region', { name: 'Pembayaran invoice' })\n    - locator resolved to <section class=\"panel\" aria-label=\"Pembayaran invoice\">\u2026</section>\n    - unexpected value \"Pembayaran P11-ac49dbaf2763CP6 E P11-ac49dbaf2763 customer \u00b7 sisa Rp0Tutup pembayaran invoiceMuat ulang pembayaran\"\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toContainText (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at lifecycle (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p11_payments_browser.mjs:29:106)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3"
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_database_cleanup": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "882c32facbe62bcb59aa415111470b1b77ac782c",
+    "product_ref": "2bbfba51886729a86eabb61fcdd8a94158df8b7b",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36628056046",
+    "run_attempt": "1",
+    "workflow": "CP7 P11 Sales",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "882c32facbe62bcb59aa415111470b1b77ac782c",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "visual_review": false,
+  "diagnosis": {
+    "P11_PAYMENT_REPLAY": "The fixture attempted to demote the only active OWNER. LAST_ACTIVE_OWNER_PROTECTED correctly stopped setup. Add a second active owner administrative fixture before changing the original actor; preserve and test cached-outcome current-role refusal.",
+    "P11_PAYMENT_BROWSER_DESKTOP": "The non-exact accessible region locator matches both Pembayaran invoice and Riwayat pembayaran invoice after source load. Bind the parent by exact accessible name; both actual cash postings preceded this failure, but inverse completion remains unproven.",
+    "P11_PAYMENT_BROWSER_MOBILE_RECOVERY": "Same ambiguous parent region locator as desktop. Use exact:true and rerun all effects/recovery/inverses."
+  },
+  "source_identity_note": "product_ref is the last src/supabase change 2bbfba5; actual tool_head/github_sha 882c32f contains SQL adapter and test changes. The bundle hash binds the installed SQL.",
+  "independent_acceptance": false,
+  "production_go": false
+}

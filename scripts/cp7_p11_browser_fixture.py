@@ -7,6 +7,7 @@ import cp7_sales_cases as cases
 import cp7_sales_command_cases as commands
 import cp7_sales_draft_cases as drafts
 import cp7_sales_payment_cases as payments
+import cp7_sales_return_cases as returns
 
 def main():
  target=os.environ['AUDITOR_BROWSER_DB_URL'];url=urlparse(target)
@@ -19,6 +20,11 @@ def main():
    out=cases.fixture(cur,date.fromisoformat(p['today']))
    if p.get('ops'):
     role=cur.execute("select id from erp.app_roles where role_code='ADMIN'").fetchone()[0];cur.execute('delete from erp.app_role_permissions where role_id=%s',(role,));cur.execute("insert into erp.app_role_permissions(role_id,permission_key) values(%s,'sales.invoice.view')",(role,))
+  elif op=='create_return_source':
+   out=drafts.fixture(cur,date.fromisoformat(p['today']),10);out['destination_name']='P11R10 destination '+out['tag'];out['destination']=returns.location(cur,out['destination_name']);out['bank']=str(cases.bc.bank_account(cur,'P11R10'+__import__('uuid').uuid4().hex[:8]));out['bank_code']=cur.execute('select cash_account_code from erp.cash_accounts where id=%s',(out['bank'],)).fetchone()[0];out['cash_coa']=payments.bank_account(cur,out);out['mapping']={k:commands.mapping(cur,k) for k in ('AR_CUSTOMER','SALES_REVENUE','FG_INVENTORY','COGS')}
+  elif op=='read_return':
+   found=cur.execute('select id::text from erp.sales_headers where sale_number=%s',(p['tag'],)).fetchone();f=dict(p,sale=found[0]) if found else None
+   out=dict(document=cases.read(cur,f)['detail'] if f else None,returns=returns.read(cur,f,'RETURNS') if f else None,cash=payments.cash(cur,f) if f else None,available=commands.available(cur,p),positions=[dict(location=l,grade=g,qty=n) for (l,g),n in sorted(returns.positions(cur,p).items())],accounts={key:str(value) for key,value in commands.accounts(cur).items()})
   elif op=='create_payment_source':
    out=cases.fixture(cur,date.fromisoformat(p['today']),qty=3,price='10.01',discount='0.02');out['bank']=str(cases.bc.bank_account(cur,'P11CASH'+__import__('uuid').uuid4().hex[:8]));out['bank_code']=cur.execute('select cash_account_code from erp.cash_accounts where id=%s',(out['bank'],)).fetchone()[0];out['cash_coa']=payments.bank_account(cur,out);out['ar_coa']=commands.mapping(cur,'AR_CUSTOMER')
   elif op=='read_payment':

@@ -9,7 +9,7 @@ async function open(ui,p){
  await ui.expect(p.locator('.csales').getByRole('heading',{name:'Penjualan & Invoice',exact:true})).toBeVisible()
 }
 async function lifecycle(ui,today,mobile){
- const f=fixture('create_payment_source',{today}),user=await ui.login('OWNER',{label:'p11-cash-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'}),p=user.page,ws=p.locator('.csales'),detail=ws.getByRole('complementary',{name:'Rincian invoice'}),panel=ws.getByRole('region',{name:'Pembayaran invoice'}),form=panel.getByRole('form',{name:'Catat pembayaran pelanggan'})
+ const f=fixture('create_payment_source',{today}),user=await ui.login('OWNER',{label:'p11-cash-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'}),p=user.page,ws=p.locator('.csales'),detail=ws.getByRole('complementary',{name:'Rincian invoice'}),panel=ws.getByRole('region',{name:'Pembayaran invoice',exact:true}),form=panel.getByRole('form',{name:'Catat pembayaran pelanggan'})
  const money=(n)=>{const raw=String(n),negative=raw.startsWith('-'),[a,b='']=raw.replace(/^-/,'').split('.');assert.match(b.slice(2),/^0*$/);return (BigInt(a)*100n+BigInt(b.slice(0,2).padEnd(2,'0')))*(negative?-1n:1n)},delta=(a,b)=>Object.fromEntries([...new Set([...Object.keys(a),...Object.keys(b)])].map(k=>[k,money(b[k]??'0')-money(a[k]??'0')]).filter(([,v])=>v!==0n))
  try{
   await open(ui,p);await ws.getByLabel('Cari invoice',{exact:true}).fill(f.tag);await ws.getByRole('button',{name:'Cari invoice',exact:true}).click();await ui.expect(ws.locator('.cproc-receipt')).toHaveCount(1);await ws.locator('.cproc-receipt').click()

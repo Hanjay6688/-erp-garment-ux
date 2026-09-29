@@ -186,12 +186,22 @@
       "verification": "docs/cp7/evidence/p11-sales/DRAFT_VERIFICATION.json"
     },
     "cash_candidate": {
-      "status": "RUN1_INSTALL_INCOMPLETE_47_NOT_RUN_REPAIR_PENDING",
+      "status": "RUN2_44_PASS_3_INCOMPLETE_HARNESS_REPAIR_PENDING",
       "expected_cases": 47,
       "local_source_cases": 21,
       "shared_recovery_cases": 30,
       "handoff": "docs/cp7/P11_CASH_HANDOFF.md",
-      "diagnostic": "docs/cp7/evidence/p11-sales/CASH_RUN1_RECEIPT.json"
+      "diagnostic": "docs/cp7/evidence/p11-sales/CASH_RUN2_RECEIPT.json"
+    },
+    "return_candidate": {
+      "status": "CANDIDATE_64_CASES_NATIVE_BROWSER_PENDING",
+      "expected_cases": 64,
+      "local_source_cases": 28,
+      "shared_recovery_cases": 30,
+      "handoff": "docs/cp7/P11_RETURN_HANDOFF.md",
+      "scope": "ORIGINAL_ALLOCATION_GRADE_A_B_HOLD_FULL_BROWSER_SALE_RETURN_CASH_INVERSE",
+      "independent_acceptance": false,
+      "production_go": false
     }
   }
 }

@@ -3,7 +3,7 @@ create role cp7_sales_write nologin noinherit nosuperuser nocreatedb nocreaterol
 grant usage on schema cp7_sales,auth to cp7_sales_write;
 grant execute on function auth.uid() to cp7_sales_write;
 create table cp7_sales.requests(actor uuid not null,request_id uuid not null,action text not null,payload jsonb not null,expected_version text,response jsonb,primary key(actor,request_id));
-create table cp7_sales.command_context(backend_pid integer not null,transaction_id bigint not null,actor uuid not null,sale_id uuid,action text not null check(action in('CREATE','EDIT','POST','CANCEL','PAYMENT','PAYMENT_REVERSE')),primary key(backend_pid,transaction_id));
+create table cp7_sales.command_context(backend_pid integer not null,transaction_id bigint not null,actor uuid not null,sale_id uuid,action text not null check(action in('CREATE','EDIT','POST','CANCEL','PAYMENT','PAYMENT_REVERSE','RETURN','RETURN_REVERSE','SALE_REVERSE')),primary key(backend_pid,transaction_id));
 alter table cp7_sales.requests owner to cp7_sales_write;
 alter table cp7_sales.command_context owner to cp7_sales_write;
 alter table cp7_sales.requests enable row level security;
@@ -14,19 +14,21 @@ create function cp7_sales.command_access(p_action text) returns jsonb
 language plpgsql stable security definer set search_path='' as $$
 declare a jsonb;
 begin
- if not cp7_sales.access_now() or p_action is null or p_action not in('CREATE','EDIT','POST','CANCEL','PAYMENT','PAYMENT_REVERSE')
-  or not erp.has_permission(case when p_action='POST' then 'sales.invoice.post' when p_action='CREATE' then 'sales.invoice.create' when p_action='PAYMENT' then 'sales.payment.create' when p_action='PAYMENT_REVERSE' then 'sales.payment.reverse' else 'sales.invoice.edit_draft' end)
+ if not cp7_sales.access_now() or p_action is null or p_action not in('CREATE','EDIT','POST','CANCEL','PAYMENT','PAYMENT_REVERSE','RETURN','RETURN_REVERSE','SALE_REVERSE')
+  or not erp.has_permission(case when p_action='POST' then 'sales.invoice.post' when p_action='CREATE' then 'sales.invoice.create' when p_action='PAYMENT' then 'sales.payment.create' when p_action='PAYMENT_REVERSE' then 'sales.payment.reverse' when p_action='RETURN' then 'sales.return.create' when p_action='RETURN_REVERSE' then 'sales.return.reverse' when p_action='SALE_REVERSE' then 'sales.invoice.reverse' else 'sales.invoice.edit_draft' end)
   or(p_action in('PAYMENT','PAYMENT_REVERSE') and not erp.has_permission('sales.payment.view'))
   or(p_action='PAYMENT' and not erp.has_permission('sales.payment.post'))
+  or(p_action in('RETURN','RETURN_REVERSE') and not erp.has_permission('sales.return.view'))
+  or(p_action='RETURN' and not erp.has_permission('sales.return.post'))
  then raise exception using errcode='42501',message='CP7_SALES_WRITE_DENIED';end if;
  a:=erp.get_my_access_v1();
- if p_action='PAYMENT_REVERSE' and coalesce(a->'profile'->>'role_code','') not in('OWNER','ADMIN') then raise exception using errcode='42501',message='CP7_SALES_OWNER_ADMIN_REQUIRED';end if;
+ if p_action in('PAYMENT_REVERSE','RETURN_REVERSE','SALE_REVERSE') and coalesce(a->'profile'->>'role_code','') not in('OWNER','ADMIN') then raise exception using errcode='42501',message='CP7_SALES_OWNER_ADMIN_REQUIRED';end if;
  return a;
 end $$;
 
 create function cp7_sales.apply_command(p_action text,p_payload jsonb,p_request uuid,p_expected text) returns jsonb
 language plpgsql volatile security definer set search_path='' as $$
-declare a jsonb;h erp.sales_headers;r jsonb;ident uuid:=(p_payload->>'sale_id')::uuid;native_request uuid;payment_id uuid;payment erp.sales_payments;
+declare a jsonb;h erp.sales_headers;r jsonb;ident uuid:=(p_payload->>'sale_id')::uuid;native_request uuid;payment_id uuid;payment erp.sales_payments;return_id uuid;returned erp.sales_returns;line jsonb;allocation record;
 begin
  a:=cp7_sales.command_access(p_action);
  if not exists(select 1 from cp7_sales.command_context where backend_pid=pg_backend_pid() and transaction_id=txid_current() and actor=auth.uid() and sale_id is not distinct from ident and action=p_action)
@@ -37,7 +39,8 @@ begin
  if p_action<>'CREATE' then
  -- Native cash functions lock payment before invoice. Preserve that order
  -- while the shared FG lock serializes ordinary invoice/return adapters.
- if p_action in('PAYMENT','PAYMENT_REVERSE') then perform 1 from erp.sales_payments where sale_id=ident order by id for update;end if;
+ if p_action in('PAYMENT','PAYMENT_REVERSE','RETURN','RETURN_REVERSE','SALE_REVERSE') then perform 1 from erp.sales_payments where sale_id=ident order by id for update;end if;
+ if p_action in('RETURN','RETURN_REVERSE','SALE_REVERSE') then perform 1 from erp.sales_returns where sale_id=ident order by id for update;end if;
  select * into h from erp.sales_headers where id=ident for update;
  if h.id is null then raise exception 'CP7_SALES_NOT_FOUND';end if;
  perform 1 from erp.sales_items where sale_id=ident order by id for update;
@@ -45,7 +48,7 @@ begin
  if cp7_sales.command_access(p_action) is distinct from a then raise exception using errcode='42501',message='CP7_SALES_ACCESS_CHANGED';end if;
  if h.row_version::text is distinct from p_expected or cp7_sales.review_token(ident) is distinct from p_payload->>'review_token' then raise exception 'CP7_SALES_REVIEW_CHANGED';end if;
  if p_action in('EDIT','POST','CANCEL') and h.status<>'DRAFT' then raise exception 'CP7_SALES_DRAFT_ONLY';end if;
- if p_action in('PAYMENT','PAYMENT_REVERSE') and h.status not in('POSTED','PARTIAL_PAID','PAID') then raise exception 'CP7_SALES_ACTIVE_ONLY';end if;
+ if p_action in('PAYMENT','PAYMENT_REVERSE','RETURN','RETURN_REVERSE','SALE_REVERSE') and h.status not in('POSTED','PARTIAL_PAID','PAID') then raise exception 'CP7_SALES_ACTIVE_ONLY';end if;
  end if;
  if cp7_sales.command_access(p_action) is distinct from a then raise exception using errcode='42501',message='CP7_SALES_ACCESS_CHANGED';end if;
  perform set_config('app.change_reason',btrim(p_payload->>'change_reason'),true);
@@ -70,12 +73,36 @@ begin
   payment_id:=(p_payload->>'payment_id')::uuid;select * into payment from erp.sales_payments where id=payment_id;
   if payment.id is null or payment.sale_id<>ident or payment.status<>'POSTED' then raise exception 'CP7_SALES_PAYMENT_SOURCE_CHANGED';end if;
   perform erp.reverse_sales_payment(payment_id,btrim(p_payload->>'change_reason'));
+ elsif p_action='RETURN' then
+  if(p_payload->>'physical_at')::timestamptz>statement_timestamp() then raise exception 'CP7_SALES_RETURN_FUTURE_DATE';end if;
+  perform 1 from erp.locations where id in(select (value->>'location_id')::uuid from jsonb_array_elements(p_payload->'items')) order by id for share;
+  if cp7_sales.command_access(p_action) is distinct from a then raise exception using errcode='42501',message='CP7_SALES_ACCESS_CHANGED';end if;
+  insert into erp.sales_returns(return_number,sale_id,customer_id,physical_at,notes,status,created_by)
+  values(btrim(p_payload->>'return_number'),ident,h.customer_id,(p_payload->>'physical_at')::timestamptz,p_payload->>'notes','DRAFT',erp.current_app_user_id()) returning id into return_id;
+  for line in select value from jsonb_array_elements(p_payload->'items') loop
+   select a.id,a.lot_id,i.product_id into allocation from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id where a.id=(line->>'allocation_id')::uuid and i.sale_id=ident;
+   if not found then raise exception 'CP7_SALES_RETURN_ALLOCATION_CHANGED';end if;
+   insert into erp.sales_return_items(return_id,sale_stock_allocation_id,product_id,lot_id,location_id,qty_pcs,quality_grade,refund_amount,notes)
+   values(return_id,allocation.id,allocation.product_id,allocation.lot_id,(line->>'location_id')::uuid,(line->>'qty_pcs')::integer,line->>'quality_grade',(line->>'refund_amount')::numeric,line->>'notes');
+  end loop;
+  perform erp.post_sales_return(return_id);
+ elsif p_action='RETURN_REVERSE' then
+  return_id:=(p_payload->>'return_id')::uuid;select * into returned from erp.sales_returns where id=return_id;
+  if returned.id is null or returned.sale_id<>ident or returned.status<>'POSTED' then raise exception 'CP7_SALES_RETURN_SOURCE_CHANGED';end if;
+  perform erp.reverse_sales_return(return_id,btrim(p_payload->>'change_reason'));
+ elsif p_action='SALE_REVERSE' then
+  perform erp.reverse_sale(ident,btrim(p_payload->>'change_reason'));
+  select jsonb_build_object('status',status,'row_version',row_version::text) into r from erp.sales_headers where id=ident;
  elsif p_action='POST' then r:=erp.post_sale_v2(ident,native_request,p_expected::bigint);
  else r:=erp.cancel_sale_draft_v2(ident,btrim(p_payload->>'change_reason'),native_request,p_expected::bigint);end if;
  if cp7_sales.command_access(p_action) is distinct from a then raise exception using errcode='42501',message='CP7_SALES_ACCESS_CHANGED';end if;
  if p_action in('PAYMENT','PAYMENT_REVERSE') then
   select * into h from erp.sales_headers where id=ident;select * into payment from erp.sales_payments where id=payment_id;
   return jsonb_build_object('sale_id',ident,'status',h.status,'row_version',h.row_version::text,'payment_id',payment.id,'payment_status',payment.status);
+ end if;
+ if p_action in('RETURN','RETURN_REVERSE') then
+  select * into h from erp.sales_headers where id=ident;select * into returned from erp.sales_returns where id=return_id;
+  return jsonb_build_object('sale_id',ident,'status',h.status,'row_version',h.row_version::text,'return_id',returned.id,'return_status',returned.status);
  end if;
  return jsonb_build_object('sale_id',ident,'status',r->'status','row_version',r->>'row_version');
 end $$;
@@ -91,6 +118,8 @@ begin
   perform cp7_sales.validate_draft(p_payload,p_action='EDIT');
  elsif p_action in('PAYMENT','PAYMENT_REVERSE') then
   perform cp7_sales.validate_payment(p_payload,p_action='PAYMENT_REVERSE');
+ elsif p_action in('RETURN','RETURN_REVERSE') then
+  perform cp7_sales.validate_return(p_payload,p_action='RETURN_REVERSE');
  else
   if jsonb_typeof(p_payload) is distinct from 'object' or not p_payload ?& array['sale_id','review_token','change_reason']
    or exists(select 1 from jsonb_each(p_payload) e where e.key not in('sale_id','review_token','change_reason') or jsonb_typeof(e.value)<>'string')

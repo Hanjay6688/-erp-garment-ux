@@ -92,6 +92,7 @@ assert.deepEqual(dataReads, [], 'Browser code must not read ERP tables/views dir
 assert.deepEqual([...rpcOwnership].sort(), [
   'src/SalesDraftPanel.tsx:erp_cp7_get_sales_form_v1',
   'src/SalesPaymentPanel.tsx:erp_cp7_get_sales_cash_v1',
+  'src/SalesReturnPanel.tsx:erp_cp7_get_sales_returns_v1',
   'src/ConnectedSalesPage.tsx:erp_cp7_get_sales_v1',
   'src/ConnectedSalesPage.tsx:erp_cp7_save_sale_v1',
   'src/ConnectedPayrollPage.tsx:erp_cp7_get_payroll_workspace_v1',

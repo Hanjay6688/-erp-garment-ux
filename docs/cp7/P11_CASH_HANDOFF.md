@@ -1,5 +1,11 @@
 # P11 ordinary customer cash receipt and inverse candidate
 
+## Cash run2: 44 PASS /3 INCOMPLETE; harness repair pending
+
+Source `882c32facbe62bcb59aa415111470b1b77ac782c`, tree `1b29094ae69abc41d6e2883307a741fa12346fb5`, [run36628056046](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36628056046). The 47 declared cases were all observed: **44 PASS /0 FAIL /3 INCOMPLETE /0 NOT_RUN**. Native exact cents, cash/AR-only effects, both native inverses, three cash races and real Auth/HTTP passed. CP6 restoration, advisor, Auth/database cleanup and accepted-package backup/restore passed; writer gate remains false. Diagnostic report and original errors: [CASH_RUN2_RECEIPT.json](evidence/p11-sales/CASH_RUN2_RECEIPT.json).
+
+One replay-authority test could not finish setup because it tried to demote the last active OWNER; the invariant correctly refused. The fixture now creates another active owner before changing the original actor. Both cash browser cases reached the paid state, then hit an ambiguous region locator matching parent and history; use the exact parent accessible name. Neither failed browser case is counted as proof of complete inverse. No new visual-review claim. The next declared64-case return suite includes all47 cash cases plus17 return cases, with these harness repairs. It must independently qualify its own source; earlier green increments remain separately bound.
+
 ## Installation run1 and repair
 
 Source `2bbfba51886729a86eabb61fcdd8a94158df8b7b`, [run36627239210](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36627239210), stopped while creating the payment validator: the CASE expression inside an IF condition needed parentheses. **0 cases executed; all47 remain NOT_RUN.** Extension installation was INCOMPLETE; its transaction did not commit. The CP7 restore/advisor probes were not reached and are not claimed. Original report and installer gate are preserved in [CASH_RUN1_RECEIPT.json](evidence/p11-sales/CASH_RUN1_RECEIPT.json). The syntax is corrected. The repair also enforces native OWNER/ADMIN authority before a cached payment-inverse outcome; the replay case now removes that native role after success and requires refusal. Native business functions are unchanged. Same47-case rerun pending.

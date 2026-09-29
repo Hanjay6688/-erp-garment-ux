@@ -7,7 +7,7 @@ GRANTS=('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(t
 ANCHOR=' v_app_role:=erp.current_app_role();'
 ADMISSION=""" if exists(select 1 from cp7_sales.command_context c where c.backend_pid=pg_backend_pid()
   and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'
-  and c.action in('CREATE','EDIT','POST','CANCEL','PAYMENT','PAYMENT_REVERSE')
+  and c.action in('CREATE','EDIT','POST','CANCEL','PAYMENT','PAYMENT_REVERSE','RETURN','RETURN_REVERSE','SALE_REVERSE')
   and cp7_sales.command_access(c.action) is not null) then return;end if;
 """
 def patched_internal(definition):
@@ -22,5 +22,5 @@ def admission():
  old_definition:=pg_get_functiondef('erp.require_internal()'::regprocedure);
  execute replace(old_definition,$anchor$"""+ANCHOR+"""$anchor$,$delta$"""+ADMISSION+ANCHOR+"""$delta$);
 end $patch$;"""
-def extension():return '\n'.join((ROOT/'scripts/cp7-src/sales'/p).read_text() for p in ('read.sql','drafts.sql','commands.sql','form.sql','payments.sql'))+'\n'+admission()
+def extension():return '\n'.join((ROOT/'scripts/cp7-src/sales'/p).read_text() for p in ('read.sql','drafts.sql','commands.sql','form.sql','payments.sql','returns.sql'))+'\n'+admission()
 def bundle():return cp7_procurement_bundle.bundle()+'\n'+extension()

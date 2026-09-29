@@ -40,6 +40,9 @@ def cases(cur,today):
   assert cur.execute('select count(*) from erp.sales_payments where sale_id=%s',(f['sale'],)).fetchone()[0]==1
   subject,role=auth.custom_actor(cur)
   for permission in ('finance.ar.view','sales.payment.view','sales.payment.reverse'):cur.execute('insert into erp.app_role_permissions(role_id,permission_key) values(%s,%s)',(role,permission))
+  # Preserve the real last-owner invariant while changing the original actor's
+  # current authority. This is an isolated administrative identity fixture.
+  cur.execute("insert into erp.app_users(id,auth_user_id,full_name,role,role_id,is_active) select %s,%s,'P11 second owner fixture',role,role_id,true from erp.app_users where auth_user_id=%s",(uuid.uuid4(),uuid.uuid4(),auth.base.OPERATOR_AUTH))
   cur.execute('update erp.app_users set role_id=%s where auth_user_id=%s',(role,auth.base.OPERATOR_AUTH))
   auth.refused(cur,lambda:cmd.command(cur,'PAYMENT_REVERSE',inverse_p,inverse_v,inverse_key),'CP7_SALES_OWNER_ADMIN_REQUIRED')
   return dict(status='PASS',one_payment_after_same_UUID=True,original_committed_outcome_after_inverse=True,changed_amount_refused=True,current_native_role_required_before_cached_inverse=True)

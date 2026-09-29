@@ -1,4 +1,4 @@
-"""P11 bounded source/UI reader qualification; R10 connected writes remain open."""
+"""P11 source, cash and physical return writer qualification; family acceptance remains open."""
 from pathlib import Path
 import hashlib,json,traceback
 import psycopg
@@ -7,6 +7,7 @@ import cp7_sales_cases as cases
 import cp7_sales_command_cases as commands
 import cp7_sales_draft_cases as drafts
 import cp7_sales_payment_cases as payments
+import cp7_sales_return_cases as returns
 import cp7_p09_procurement_probe as p09
 import cp6_auditor_modes as modes
 import cp6_auditor_runner as native
@@ -17,17 +18,17 @@ OUT=bundle.ROOT/'cp6-proof/t3/CP7_P11_SALES_READ.json'
 def verify(cur):
  result=p09.verify(cur)
  got=cur.execute("select p.proname,pg_get_userbyid(p.proowner),p.prosecdef,p.provolatile::text,p.proconfig from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_sales'").fetchall()
- expected={n:('cp7_sales_read',False,'s') for n in ('access_now','header','workspace','review_token','form_options','cash_workspace')}
- expected['validate_draft']=('cp7_sales_read',False,'i');expected['validate_payment']=('cp7_sales_read',False,'i')
+ expected={n:('cp7_sales_read',False,'s') for n in ('access_now','header','workspace','review_token','form_options','cash_workspace','return_workspace')}
+ expected['validate_draft']=('cp7_sales_read',False,'i');expected['validate_payment']=('cp7_sales_read',False,'i');expected['validate_return']=('cp7_sales_read',False,'i')
  expected.update(command_access=('cp7_sales_read',True,'s'),apply_command=('postgres',True,'v'),command=('cp7_sales_write',False,'v'))
  assert {x[0] for x in got}==set(expected)
  for name,owner,secdef,vol,config in got:assert (owner,secdef,vol)==expected[name] and config==['search_path=""'],name
- for sig,who,vol in [('public.erp_cp7_get_sales_v1(jsonb)','cp7_sales_read','s'),('public.erp_cp7_save_sale_v1(text,jsonb,uuid,text)','cp7_sales_write','v'),('public.erp_cp7_get_sales_form_v1(jsonb)','cp7_sales_read','s'),('public.erp_cp7_get_sales_cash_v1(jsonb)','cp7_sales_read','s')]:
+ for sig,who,vol in [('public.erp_cp7_get_sales_v1(jsonb)','cp7_sales_read','s'),('public.erp_cp7_save_sale_v1(text,jsonb,uuid,text)','cp7_sales_write','v'),('public.erp_cp7_get_sales_form_v1(jsonb)','cp7_sales_read','s'),('public.erp_cp7_get_sales_cash_v1(jsonb)','cp7_sales_read','s'),('public.erp_cp7_get_sales_returns_v1(jsonb)','cp7_sales_read','s')]:
   assert cur.execute('select pg_get_userbyid(proowner),prosecdef,provolatile::text,proconfig from pg_proc where oid=%s::regprocedure',(sig,)).fetchone()==(who,True,vol,['search_path=""'])
  return dict(result,cp7_p11_bundle_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest())
 
 def run():
- report=dict(label='CP7_P11_SALES_READ',status='INCOMPLETE',production_go=False,independent_acceptance=False,scope='INVOICE_READER_SOURCE_CREATE_EDIT_POST_CANCEL_CASH_INVERSE_BROWSER_R10_RETURN_OPEN',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),expected_case_count=47)
+ report=dict(label='CP7_P11_SALES_READ',status='INCOMPLETE',production_go=False,independent_acceptance=False,scope='INVOICE_SOURCE_CREATE_EDIT_POST_CANCEL_CASH_RETURN_GRADE_A_B_HOLD_FULL_INVERSE_R10_WRITER_BROWSER',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),expected_case_count=64)
  installed=False
  try:
   with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
@@ -44,7 +45,7 @@ def run():
     assert new['definition']==expected and new['owner']==old['owner'],('P11_PREDECESSOR_CHANGED',sig)
     assert {tuple(x) for x in new['acl'] or []}=={tuple(x) for x in old['acl'] or []}|grants.get(sig,set()),('P11_UNDECLARED_ACL_DELTA',sig)
    p09.INSTALLED_FUNCTIONS=after;report['sales_declared_execute_grants']={k:sorted(v) for k,v in grants.items()}
-   report['sales_declared_guard_delta']=dict(signature='erp.require_internal()',before_sha256=hashlib.sha256(internal_before.encode()).hexdigest(),after_sha256=hashlib.sha256(bundle.patched_internal(internal_before).encode()).hexdigest(),scope='PRIVATE_ACTOR_TRANSACTION_REVIEWED_SALES_AND_CASH_CONTEXT_ONLY')
+   report['sales_declared_guard_delta']=dict(signature='erp.require_internal()',before_sha256=hashlib.sha256(internal_before.encode()).hexdigest(),after_sha256=hashlib.sha256(bundle.patched_internal(internal_before).encode()).hexdigest(),scope='PRIVATE_ACTOR_TRANSACTION_REVIEWED_SALES_CASH_RETURN_CONTEXT_ONLY')
    conn.commit();installed=True;verify(cur);conn.rollback()
   report['advisors_with_cp7']=advisors(package.boundary.PG)
   report['native']=native.strict_group('CP7_P11_READ_NATIVE',cases.cases,verify)
@@ -58,6 +59,9 @@ def run():
   report['payments']=native.strict_group('CP7_P11_PAYMENT_NATIVE',payments.cases,verify)
   report['payment_races']=modes.run_races(payments,verify,'cp7_p11_payments')
   report['payment_http']=modes.run_http(payments,verify,'cp7_p11_payments')
+  report['returns']=native.strict_group('CP7_P11_RETURN_NATIVE',returns.cases,verify)
+  report['return_races']=modes.run_races(returns,verify,'cp7_p11_returns')
+  report['return_http']=modes.run_http(returns,verify,'cp7_p11_returns')
   report['browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_p11_sales_browser.mjs',verify,'cp7_p11_read')
  except Exception as e:report.update(error=str(e),traceback=traceback.format_exc())
  finally:
@@ -69,8 +73,8 @@ def run():
     conn.commit();report['cp6_restored']=package.boundary.snapshot(cur)==before and native.public_state(cur)==public_before;conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
    report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta']
    report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or (d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and (f.get('metadata') or {}).get('schema') in ('cp7_sales','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice') for f in d.get('added',[])))
-  groups=[report.get(k,{}) for k in ('native','http','commands','command_races','command_http','drafts','draft_races','draft_http','payments','payment_races','payment_http','browser')];report['observed_case_count']=sum(sum(g.get('counts',{}).values()) for g in groups)
-  report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==47 and all(g.get('status') in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
+  groups=[report.get(k,{}) for k in ('native','http','commands','command_races','command_http','drafts','draft_races','draft_http','payments','payment_races','payment_http','returns','return_races','return_http','browser')];report['observed_case_count']=sum(sum(g.get('counts',{}).values()) for g in groups)
+  report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==64 and all(g.get('status') in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
   OUT.parent.mkdir(parents=True,exist_ok=True);OUT.write_text(json.dumps(report,indent=2,default=str)+'\n');print(json.dumps({k:report.get(k) for k in ('label','status','source_sha256','observed_case_count','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)
  return dict(status=report['status'],production_go=False,independent_acceptance=False)
 

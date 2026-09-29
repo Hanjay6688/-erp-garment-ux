@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import {cases as commandCases} from './cp7_p11_commands_browser.mjs'
 import {cases as draftCases} from './cp7_p11_drafts_browser.mjs'
 import {cases as paymentCases} from './cp7_p11_payments_browser.mjs'
+import {cases as returnCases} from './cp7_p11_returns_browser.mjs'
 import {execFileSync} from 'node:child_process'
 import {mkdirSync,writeFileSync} from 'node:fs'
 const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_p11_browser_fixture.py',op,JSON.stringify(p)],{cwd:'../writer',encoding:'utf8'}).trim())
@@ -33,4 +34,4 @@ async function invoice(ui,today,mobile){
  }catch(e){mkdirSync('cp6-proof/t3',{recursive:true});writeFileSync(`cp6-proof/t3/P11_READ_${mobile?'MOBILE':'DESKTOP'}_FAILURE.json`,JSON.stringify({error:String(e),stack:e.stack,text:await ws.innerText().catch(()=>''),source:fixture('read',f)},null,2));await p.screenshot({path:`cp6-proof/t3/P11_READ_${mobile?'MOBILE':'DESKTOP'}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}
  finally{await user.context.close()}
 }
-export async function cases(ui,today){return [['P11_READ_BROWSER_DESKTOP',()=>invoice(ui,today,false)],['P11_READ_BROWSER_MOBILE_OPERATIONS',()=>invoice(ui,today,true)],...await commandCases(ui,today),...await draftCases(ui,today),...await paymentCases(ui,today)]}
+export async function cases(ui,today){return [['P11_READ_BROWSER_DESKTOP',()=>invoice(ui,today,false)],['P11_READ_BROWSER_MOBILE_OPERATIONS',()=>invoice(ui,today,true)],...await commandCases(ui,today),...await draftCases(ui,today),...await paymentCases(ui,today),...await returnCases(ui,today)]}
