@@ -1,6 +1,6 @@
 # P02 — actor facade and immutable source runs
 
-Status: implementation prepared; native family execution PENDING. This is a development bundle on the accepted CP6 base. It is not a release migration or an operator UI connection.
+Status: writer family PASS at `48c6f8aa75c0c244edba40ce351cc62d6b6ab98e`, run [36504434048](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36504434048): 9 native, 3 concurrency and 2 real Auth/HTTP cases. CP6 restoration and advisor gate passed. Requalification is pending for the following completeness-label clarification and failure-path fixture cleanup. This is a development bundle on the accepted CP6 base. It is not independent acceptance, a release migration or an operator UI connection.
 
 First run `36504059754` at `479d916`: native 5 PASS / 2 INCOMPLETE, races 2 PASS / 1 INCOMPLETE, real Auth/HTTP 2 PASS; CP6 restoration and advisor gate passed. Three incomplete cases share a FIXTURE_DEFECT: lowercase hex in a synthetic role code violates the existing uppercase role constraint. The fixture is corrected before requalification; no product rule or expected refusal is weakened.
 

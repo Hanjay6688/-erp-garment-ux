@@ -58,13 +58,15 @@ create function cp7_private.project(p jsonb, money boolean) returns jsonb
 language sql immutable security invoker set search_path='' as $$
  with v as (select case when money then p->'sources' else (p->'sources')-'lot_cost' end s,
                    case when money then p->'counts' else (p->'counts')-'lot_cost' end c)
- select (p-'sources'-'counts'-'snapshot_hash')||jsonb_build_object('sources',s,'counts',c,
+ select (p-'sources'-'counts'-'snapshot_hash'-'snapshot')||jsonb_build_object('sources',s,'counts',c,
+  'snapshot',(p->'snapshot')||jsonb_build_object('completeness_proven_only_for',
+    case when money then 'SOURCE_CAPTURE_SIX_DOMAINS' else 'SOURCE_CAPTURE_FIVE_OPERATIONAL_DOMAINS' end),
   'snapshot_hash',encode(extensions.digest(convert_to(s::text,'UTF8'),'sha256'),'hex')) from v
 $$;
 
 create function cp7_private.dependencies(p jsonb) returns jsonb
 language sql immutable security invoker set search_path='' as $$
- select jsonb_build_object('semantics','cp7.source-probe.v1','scope','SIX_DOMAINS_ONLY',
+ select jsonb_build_object('semantics','cp7.source-probe.v1','scope','CAPTURED_DOMAINS_ONLY',
   'domains',jsonb_object_agg(key,encode(extensions.digest(convert_to(value::text,'UTF8'),'sha256'),'hex')))
  from jsonb_each(p->'sources')
 $$;

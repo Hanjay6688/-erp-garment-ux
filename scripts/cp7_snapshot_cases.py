@@ -109,6 +109,7 @@ def cases(cur,today):
         f=fixture(cur,today);subject,role=custom_actor(cur)
         r=create(cur,f['root'],subject=subject);p=stored(cur,r['run_id'])
         assert 'lot_cost' not in p['sources'] and 'lot_cost' not in r['counts']
+        assert r['snapshot']['completeness_proven_only_for']=='SOURCE_CAPTURE_FIVE_OPERATIONAL_DOMAINS'
         refused(cur,lambda:read(cur,r['run_id'],'lot_cost',subject=subject),'CP7_FINANCIAL_ACCESS_DENIED')
         cur.execute("insert into erp.app_role_permissions(role_id,permission_key) values(%s,'finance.hpp.view')",(role,))
         refused(cur,lambda:read(cur,r['run_id'],'lot_cost',subject=subject),'CP7_FINANCIAL_NOT_CAPTURED')
@@ -228,16 +229,20 @@ def races(tools,today):
                     except psycopg.Error as e:conn.rollback();return str(e).splitlines()[0]
             with ThreadPoolExecutor(max_workers=1) as pool:
                 future=pool.submit(waiting);deadline=time.monotonic()+10;blocked=False
-                with tools.connect(autocommit=True) as inspect,inspect.cursor() as c:
-                    while time.monotonic()<deadline:
-                        c.execute('select pg_stat_clear_snapshot()')
-                        blocked=c.execute("select exists(select 1 from pg_stat_activity where datname=current_database() and wait_event='advisory' and pid<>pg_backend_pid())").fetchone()[0]
-                        if blocked:break
-                        time.sleep(.03)
-                assert blocked,'CAPTURE_NOT_WAITING_ON_REAL_REQUEST_LOCK'
-                with tools.connect() as revoke,revoke.cursor() as c:
-                    c.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='sales.invoice.view'",(role,));revoke.commit()
-                holder.commit();error=future.result(timeout=15)
+                try:
+                    with tools.connect(autocommit=True) as inspect,inspect.cursor() as c:
+                        while time.monotonic()<deadline:
+                            c.execute('select pg_stat_clear_snapshot()')
+                            blocked=c.execute("select exists(select 1 from pg_stat_activity where datname=current_database() and wait_event='advisory' and pid<>pg_backend_pid())").fetchone()[0]
+                            if blocked:break
+                            time.sleep(.03)
+                    assert blocked,'CAPTURE_NOT_WAITING_ON_REAL_REQUEST_LOCK'
+                    with tools.connect() as revoke,revoke.cursor() as c:
+                        c.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='sales.invoice.view'",(role,));revoke.commit()
+                finally:
+                    # Release the real request lock even when fixture setup fails.
+                    holder.rollback()
+                error=future.result(timeout=15)
         assert 'CP7_ACCESS_DENIED' in error or 'CP7_ACCESS_CHANGED' in error,error
         with tools.connect() as conn,conn.cursor() as cur:
             assert cur.execute('select count(*) from cp7_private.analysis_runs').fetchone()[0]==0
