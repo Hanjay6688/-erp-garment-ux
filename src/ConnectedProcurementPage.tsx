@@ -91,6 +91,7 @@ function ProcurementWorkspace() {
   const mutation = useProductionMutation('PROCUREMENT'), { beginRead, finishRead, isReadCurrent, run, reconcile } = mutation
   const [data, setData] = useState<ProcurementWorkspace | null>(null), [loading, setLoading] = useState(false), [error, setError] = useState('')
   const [query, setQuery] = useState(''), [status, setStatus] = useState('ALL'), [draft, setDraft] = useState<Draft | null>(null), [postReason, setPostReason] = useState('Penerimaan barang telah diperiksa')
+  const [reverseReview, setReverseReview] = useState<{ id: string; version: string; readAt: string; reason: string; checked: boolean } | null>(null)
   const requested = useRef({ q: '', status: 'ALL', offset: 0, purchase_id: null as string | null }), sequence = useRef(0)
   const load = useCallback(async () => {
     const s = ++sequence.current, ticket = beginRead(), filters = { ...requested.current }
@@ -112,17 +113,18 @@ function ProcurementWorkspace() {
       return client.rpc('erp_cp7_save_procurement_v1', { p_action: envelope.action, p_payload: p.document as Json, p_request: envelope.id, p_expected: p.expected_version as string | null })
     },
     validate: (r, e) => { parseProcurementOutcome(r, e.id, e.action, procurementObject(e.payload).document as Json) },
-    retire: (r, e) => { const result = parseProcurementOutcome(r, e.id, e.action, procurementObject(e.payload).document as Json); requested.current.purchase_id = result.purchase_id; setDraft(null) },
+    retire: (r, e) => { const result = parseProcurementOutcome(r, e.id, e.action, procurementObject(e.payload).document as Json); requested.current.purchase_id = result.purchase_id; setDraft(null); setReverseReview(null) },
     reload: load,
   }
   const locked = mutation.writerLocked || loading, current = data?.detail
   const staleDraft = Boolean(draft?.id && (!current || current.id !== draft.id || current.row_version !== draft.version))
+  const staleReverse = Boolean(reverseReview && (!current || current.id !== reverseReview.id || current.row_version !== reverseReview.version || data?.read_at !== reverseReview.readAt || current.status !== 'POSTED'))
   const payload = draft ? document(draft, valueAccess) : null
   const changeLine = (key: string, fn: (l: Line) => Line) => setDraft(d => d ? { ...d, lines: d.lines.map(l => l.key === key ? fn(l) : l) } : d)
   const write = (action: string, doc: Json, version: string | null) => run(action, { document: doc, expected_version: version }, null, handlers)
   return <section className="cproc">
     <header className="panel cproc-heading"><div><div className="eyebrow">GUDANG · PENERIMAAN BARANG</div><h1>Pembelian & penerimaan</h1><p>Catat surat jalan, periksa roll atau jumlah barang, lalu sahkan penerimaan ke gudang.</p></div>
-      <div className="cproc-inline"><button type="button" disabled={mutation.busy || loading} onClick={() => void load()}>Muat ulang</button><button className="primary-btn" type="button" disabled={locked || !data?.capabilities.create} onClick={() => setDraft(blank())}>Penerimaan baru</button></div></header>
+      <div className="cproc-inline"><button type="button" disabled={mutation.busy || loading} onClick={() => void load()}>Muat ulang</button><button className="primary-btn" type="button" disabled={locked || !data?.capabilities.create} onClick={() => { setReverseReview(null); setDraft(blank()) }}>Penerimaan baru</button></div></header>
     <ProductionRecoveryNotice recovery={{ ...mutation, notice: mutation.notice ? 'Data penerimaan sudah diperbarui.' : '',
       ...(mutation.pending && !mutation.corruptedEnvelope ? { error: 'Hasil pencatatan belum diketahui. Periksa kembali hasil transaksi; data kiriman sebelumnya tetap disimpan.', blockReason: '' } : {}) }}
       onReconcile={() => reconcile(handlers)} className="panel"/>
@@ -163,6 +165,15 @@ function ProcurementWorkspace() {
         {i.rolls.length ? <details><summary>{i.rolls.length} roll</summary><ul>{i.rolls.map(r => <li key={r.id}>{r.roll_number} · {numberText(r.receipt_qty)} {i.unit_code}</li>)}</ul></details> : null}</article>)}
       {current.finance ? <div className="cproc-total"><span>Nilai pada penerimaan</span><strong>Rp{numberText(current.finance.receipt_value)}</strong><small>Jumlah utang mengikuti invoice dan penyelesaian supplier.</small></div> : null}
       {current.status === 'DRAFT' ? <div className="cproc-review"><h3>Periksa sebelum menerima</h3><p>Pastikan supplier, gudang, waktu, bahan dan jumlah roll sudah sesuai barang datang.</p>{valueAccess && data?.capabilities.create && receiptEditableInBaseUnits(current) ? <button type="button" disabled={locked} onClick={() => setDraft(fromDetail(current))}>Perbaiki draft</button> : null}<label>Catatan pemeriksaan<input aria-label="Catatan pemeriksaan penerimaan" disabled={locked} value={postReason} onChange={e => setPostReason(e.target.value)}/></label><button className="primary-btn" type="button" disabled={locked || Boolean(draft) || !data?.capabilities.post || !postReason.trim()} onClick={() => void write('POST', { purchase_id: current.id, change_reason: postReason.trim() }, current.row_version)}>Sahkan penerimaan ke gudang</button></div> : null}
+      {current.status === 'POSTED' && data?.capabilities.reverse ? <div className="cproc-review"><h3>Pembatalan penerimaan</h3><p>Invoice, pembayaran, retur aktif, dan pemakaian barang yang masih terkait harus diselesaikan sebelum penerimaan dapat dibatalkan. Riwayat dokumen tetap disimpan.</p>
+        {!reverseReview ? <button type="button" disabled={locked || Boolean(draft)} onClick={() => setReverseReview({ id: current.id, version: current.row_version, readAt: data.read_at, reason: '', checked: false })}>Tinjau pembatalan penerimaan</button> : <>
+          {staleReverse ? <p role="alert">Data penerimaan telah dimuat ulang atau berubah. Tutup pemeriksaan ini, lalu periksa kembali dokumen terbaru.</p> : null}
+          <fieldset disabled={locked || staleReverse}><label>Alasan pembatalan<input aria-label="Alasan pembatalan penerimaan" value={reverseReview.reason} onChange={e => setReverseReview({ ...reverseReview, reason: e.target.value, checked: false })}/></label>
+          <label><input type="checkbox" aria-label="Pembatalan penerimaan sudah diperiksa" checked={reverseReview.checked} onChange={e => setReverseReview({ ...reverseReview, checked: e.target.checked })}/>Saya sudah memeriksa dokumen dan barang yang akan dibatalkan.</label>
+          <button type="button" disabled={!reverseReview.reason.trim() || !reverseReview.checked} onClick={() => { if (!locked && !staleReverse && reverseReview.checked && reverseReview.reason.trim()) void write('REVERSE', { purchase_id: reverseReview.id, change_reason: reverseReview.reason.trim() }, reverseReview.version) }}>Batalkan penerimaan</button></fieldset>
+          <button type="button" disabled={mutation.busy} onClick={() => setReverseReview(null)}>Tutup pemeriksaan pembatalan</button>
+        </>}
+      </div> : null}
     </> : <><h2>Periksa dokumen</h2><p>Pilih surat jalan untuk melihat barang, rincian roll dan status penerimaannya.</p></>}</aside></div>
     <PurchaseInvoicePanel purchaseId={current?.id ?? null} receiptRevision={`${current?.row_version ?? ''}:${data?.read_at ?? ''}`} onReceiptUpdated={async purchaseId => { requested.current.purchase_id = purchaseId; return load() }}/>
     <SupplierReturnPanel purchaseId={current?.id ?? null} receiptRevision={`${current?.row_version ?? ''}:${data?.read_at ?? ''}`} onReceiptUpdated={async purchaseId => { requested.current.purchase_id = purchaseId; return load() }}/>

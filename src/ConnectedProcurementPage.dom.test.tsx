@@ -3,7 +3,7 @@ import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { beforeEach, afterEach, describe, expect, it, vi } from 'vitest'
 import ConnectedProcurementPage from './ConnectedProcurementPage'
-import { parseProcurementWorkspace, receiptDecimal } from './procurementContract'
+import { parseProcurementOutcome, parseProcurementWorkspace, receiptDecimal } from './procurementContract'
 import { recoveryIdentity } from '../tests/fixtures/productionRecovery'
 import { readProductionRecovery } from './productionRecovery'
 import { invoiceWorkspaceFixture } from '../tests/fixtures/purchaseInvoices'
@@ -16,7 +16,7 @@ const id = '11111111-1111-4111-8111-111111111111', doc = '22222222-2222-4222-822
 function workspace(finance = true, posted = false) {
   const row = { id: doc, purchase_number: 'SJ-TEST', supplier_id: id, supplier_name: 'Supplier A', location_id: id, location_name: 'Gudang kain', physical_at: '2026-09-26T03:00:00+00:00', status: posted ? 'POSTED' : 'DRAFT', row_version: posted ? '9007199254740994' : '9007199254740993', notes: null, line_count: 1,
     ...(finance ? { finance: { supplier_invoice_number: null, due_date: null, payment_status: 'UNPAID', receipt_value: '100.000000', basis: 'RECEIPT_PRICE_NOT_CURRENT_PAYABLE' } } : {}) }
-  return { contract_version: 'cp7.procurement-workspace.v1', kind: 'LIVE_WORKSPACE', read_at: '2026-09-29T03:00:00Z', capabilities: { create: true, post: true, view_value: finance }, page: { rows: [row], total: '1', offset: 0, limit: 25, next_offset: null }, detail: null as unknown,
+  return { contract_version: 'cp7.procurement-workspace.v1', kind: 'LIVE_WORKSPACE', read_at: '2026-09-29T03:00:00Z', capabilities: { create: true, post: true, reverse: finance, view_value: finance }, page: { rows: [row], total: '1', offset: 0, limit: 25, next_offset: null }, detail: null as unknown,
     makeDetail: () => ({ ...row, stock_effect: posted ? 'POSTED_RECEIPT' : 'NOT_POSTED', quantity_basis: 'RECEIPT_DOCUMENT_NOT_CURRENT_ON_HAND', items: [{ id, material_id: id, material_sku: 'K-1', material_name: 'Denim', material_type: 'FABRIC', unit_code: 'YD', qty: '10.000000', purchase_qty_entered: null, purchase_uom_code: null, purchase_uom_factor: null, lot_number: null, notes: null, rolls: [{ id, roll_number: 'ROLL-1', receipt_qty: '10.000000', notes: null }], ...(finance ? { finance: { unit_price: '10.000000', line_total: '100.000000', price_state: 'ESTIMATED', price_source: 'MANUAL_ESTIMATE', invoice_match_state: 'UNMATCHED', benchmark_price_version_id: null } } : {}) }] }) }
 }
 let root: Root, container: HTMLDivElement
@@ -33,11 +33,13 @@ function button(text:string) { const b=[...container.querySelectorAll('button')]
 async function click(text:string) { await act(async()=>button(text).click());await flush() }
 const writes=()=>client.rpc.mock.calls.filter(([name])=>name==='erp_cp7_save_procurement_v1')
 function server(finance=true) {
-  const s={lose:false,failReload:false,posted:false,effects:0,wrong:false};const cache=new Map<string,unknown>()
+  const s={lose:false,failReload:false,posted:false,reversed:false,effects:0,wrong:false,readAt:'2026-09-29T03:00:00Z'};const cache=new Map<string,unknown>()
   client.rpc.mockImplementation(async(name:string,args:Record<string,unknown>)=>{
     if(name==='erp_cp7_get_procurement_v1') {
       if(s.failReload&&s.posted)return {data:null,error:{message:'Read unavailable'}}
       const { makeDetail,...w }=workspace(finance,s.posted); if((args.p_query as Record<string,unknown>).purchase_id)w.detail=makeDetail()
+      w.read_at=s.readAt
+      if(s.reversed){w.page.rows[0].status='REVERSED';w.page.rows[0].row_version='9007199254740995';if(w.detail)Object.assign(w.detail,{status:'REVERSED',stock_effect:'REVERSED_RECEIPT',row_version:'9007199254740995'})}
       return {data:w,error:null}
     }
     if(name==='erp_cp7_get_procurement_options_v1')return {data:{contract_version:'cp7.procurement-options.v1',kind:args.p_kind,rows:[],total:'0',offset:0,limit:25,next_offset:null},error:null}
@@ -45,16 +47,40 @@ function server(finance=true) {
     if(name==='erp_cp7_get_purchase_invoices_v1')return {data:{...invoiceWorkspaceFixture(false),purchase_status:s.posted?'POSTED':'DRAFT'},error:null}
     if(name!=='erp_cp7_save_procurement_v1')throw Error('Unexpected RPC '+name)
     const key=String(args.p_request)
-    if(!cache.has(key)){s.effects++;s.posted=args.p_action==='POST';cache.set(key,{contract_version:'cp7.procurement-outcome.v1',kind:'COMMITTED_OUTCOME',action:args.p_action,request_id:key,purchase_id:doc,status:s.posted?'POSTED':'DRAFT',row_version:'9007199254740994'})}
+    if(!cache.has(key)){s.effects++;s.reversed=args.p_action==='REVERSE';s.posted=args.p_action!=='SAVE_DRAFT';cache.set(key,{contract_version:'cp7.procurement-outcome.v1',kind:'COMMITTED_OUTCOME',action:args.p_action,request_id:key,purchase_id:doc,status:s.reversed?'REVERSED':s.posted?'POSTED':'DRAFT',row_version:s.reversed?'9007199254740995':'9007199254740994'})}
     return s.lose?{data:null,error:{status:503,message:'Lost reply'}}:{data:s.wrong?{ok:true}:cache.get(key),error:null}
   });return s
 }
 describe('connected procurement recovery and financial boundary',()=>{
+  async function reviewReverse(){
+    await click('Tinjau pembatalan penerimaan')
+    const input=container.querySelector<HTMLInputElement>('[aria-label="Alasan pembatalan penerimaan"]')!
+    await act(async()=>{Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')!.set!.call(input,'Penerimaan tercatat ganda');input.dispatchEvent(new Event('input',{bubbles:true}))});await flush()
+    expect(button('Batalkan penerimaan').disabled).toBe(true)
+    await act(async()=>container.querySelector<HTMLInputElement>('[aria-label="Pembatalan penerimaan sudah diperiksa"]')!.click());await flush()
+  }
+  for(const lost of [false,true])it(`reverses the reviewed exact revision with ${lost?'persisted recovery after lost reply':'explicit confirmation'}`,async()=>{
+    const s=server();s.posted=true;await mount();await click('SJ-TEST');await reviewReverse();s.lose=lost;await click('Batalkan penerimaan')
+    const first=structuredClone(writes()[0][1]);expect(first).toMatchObject({p_action:'REVERSE',p_expected:'9007199254740994',p_payload:{purchase_id:doc,change_reason:'Penerimaan tercatat ganda'}})
+    if(lost){expect(readProductionRecovery('disposable:actor-1').pending.PROCUREMENT?.id).toBe(first.p_request);await act(async()=>root.unmount());root=createRoot(container);s.lose=false;await mount();await click('Reconcile');expect(writes()[1][1]).toEqual(first)}
+    expect(s.effects).toBe(1);expect(container.querySelector('.cproc-detail')?.textContent).toContain('Penerimaan sudah dibatalkan');expect(readProductionRecovery('disposable:actor-1').pending.PROCUREMENT).toBeUndefined()
+  })
+  it('invalidates a reversal review after a fresh read and retires it before a failed committed reload',async()=>{
+    const s=server();s.posted=true;await mount();await click('SJ-TEST');await reviewReverse();s.readAt='2026-09-29T03:00:01Z';await click('Muat ulang')
+    expect(container.textContent).toContain('Data penerimaan telah dimuat ulang');expect(container.querySelector('fieldset:disabled')).not.toBeNull();await click('Batalkan penerimaan');expect(writes()).toHaveLength(0)
+    await click('Tutup pemeriksaan pembatalan');await reviewReverse();s.failReload=true;await click('Batalkan penerimaan')
+    expect(writes()).toHaveLength(1);expect(container.querySelector('[aria-label="Pembatalan penerimaan sudah diperiksa"]')).toBeNull();expect(container.textContent).toContain('Aksi sudah tersimpan')
+  })
+  it('requires reversal identity and status and rejects unknown action outcomes',()=>{
+    const request='44444444-4444-4444-8444-444444444444',p={purchase_id:doc},r={contract_version:'cp7.procurement-outcome.v1',kind:'COMMITTED_OUTCOME',action:'REVERSE',request_id:request,purchase_id:doc,status:'REVERSED',row_version:'9007199254740995'}
+    expect(()=>parseProcurementOutcome(r,request,'REVERSE',p)).not.toThrow()
+    for(const bad of [{...r,purchase_id:id},{...r,status:'POSTED'},{...r,action:'OTHER',status:'POSTED'}])expect(()=>parseProcurementOutcome(bad,request,String(bad.action),p)).toThrow()
+  })
   it('posts the exact reviewed revision then reloads the receipt rather than inventing stock',async()=>{
     server();await mount();await click('SJ-TEST');expect(container.textContent).toContain('Belum menambah stok gudang')
     await click('Sahkan penerimaan ke gudang')
     expect(writes()).toHaveLength(1);expect(writes()[0][1].p_expected).toBe('9007199254740993')
-    expect(container.textContent).toContain('Penerimaan sudah tercatat');expect(container.querySelector('.cproc-detail .cproc-review')).toBeNull()
+    expect(container.textContent).toContain('Penerimaan sudah tercatat');expect(container.querySelector('[aria-label="Catatan pemeriksaan penerimaan"]')).toBeNull()
     expect(readProductionRecovery('disposable:actor-1').pending.PROCUREMENT).toBeUndefined()
   })
   it('reuses the persisted UUID and exact payload after a lost reply and remount',async()=>{

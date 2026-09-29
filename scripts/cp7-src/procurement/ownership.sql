@@ -12,12 +12,14 @@ alter function cp7_procurement.decimal(jsonb,boolean) owner to cp7_procure_read;
 alter function cp7_procurement.header(erp.material_purchase_headers,boolean) owner to cp7_procure_read;
 alter function cp7_procurement.workspace(jsonb) owner to cp7_procure_read;
 alter function cp7_procurement.options(text,text,integer,integer) owner to cp7_procure_read;
+alter function cp7_procurement.reverse_request(jsonb,uuid,text) owner to cp7_procure_write;
 alter function cp7_procurement.command(text,jsonb,uuid,text) owner to cp7_procure_write;
 alter function public.erp_cp7_get_procurement_v1(jsonb) owner to cp7_procure_read;
 alter function public.erp_cp7_get_procurement_options_v1(text,text,integer,integer) owner to cp7_procure_read;
 alter function public.erp_cp7_save_procurement_v1(text,jsonb,uuid,text) owner to cp7_procure_write;
 revoke create on schema public,cp7_procurement from cp7_procure_read,cp7_procure_write;
 revoke all on all functions in schema cp7_procurement from public,anon,authenticated,service_role,cp7_capture;
+grant execute on function cp7_procurement.reverse_receipt_locked(uuid,bigint,text) to cp7_procure_write;
 grant execute on function cp7_procurement.access_now(),cp7_procurement.fields(jsonb,text[],text[]),cp7_procurement.decimal(jsonb,boolean) to cp7_procure_write;
 revoke all on function public.erp_cp7_get_procurement_v1(jsonb),public.erp_cp7_get_procurement_options_v1(text,text,integer,integer),public.erp_cp7_save_procurement_v1(text,jsonb,uuid,text)
  from public,anon,authenticated,service_role,cp7_capture;

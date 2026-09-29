@@ -54,7 +54,7 @@ begin
    'quantity_basis','RECEIPT_DOCUMENT_NOT_CURRENT_ON_HAND');
  end if;
  return jsonb_build_object('contract_version','cp7.procurement-workspace.v1','kind','LIVE_WORKSPACE','read_at',statement_timestamp(),
-  'capabilities',jsonb_build_object('create',a->'can_create','post',a->'can_post','view_value',a->'can_value'),
+  'capabilities',jsonb_build_object('create',a->'can_create','post',a->'can_post','reverse',(a->>'can_reverse')::boolean and a->'profile'->>'role_code' in('OWNER','ADMIN'),'view_value',a->'can_value'),
   'page',jsonb_build_object('rows',outrows,'total',total::text,'offset',off,'limit',n,
    'next_offset',case when off+jsonb_array_length(outrows)<total then off+jsonb_array_length(outrows) else null end),
   'detail',detail);

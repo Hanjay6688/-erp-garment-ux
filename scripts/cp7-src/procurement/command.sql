@@ -1,14 +1,14 @@
--- Narrow initial writer: draft and post route through accepted CP6 functions.
--- Reverse/invoice/transfer are separate P09/P13 increments, not fake actions.
+-- Draft/post and locked receipt inverse route through accepted CP6 writers.
 create function cp7_procurement.command(p_action text,p_payload jsonb,p_request uuid,p_expected text) returns jsonb
 language plpgsql volatile security invoker set search_path='' as $$
 declare a jsonb;z jsonb;r jsonb;line jsonb;roll jsonb;expected bigint;price boolean:=false;roll_count integer:=0;
 begin
  if current_setting('transaction_isolation')<>'read committed' then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
  a:=cp7_procurement.access_now();
- if p_request is null or p_action not in ('SAVE_DRAFT','POST') or p_action is null then raise exception 'CP7_PROCUREMENT_ACTION';end if;
+ if p_request is null or p_action not in ('SAVE_DRAFT','POST','REVERSE') or p_action is null then raise exception 'CP7_PROCUREMENT_ACTION';end if;
  if p_expected is not null and p_expected!~'^[1-9][0-9]{0,18}$' then raise exception 'CP7_PROCUREMENT_VERSION';end if;
  expected:=p_expected::bigint;
+ if p_action='REVERSE' then return cp7_procurement.reverse_request(p_payload,p_request,p_expected);end if;
  if p_action='SAVE_DRAFT' then
   if a->'can_create'<>'true'::jsonb then raise exception using errcode='42501',message='CP7_PROCUREMENT_CREATE_DENIED';end if;
   perform cp7_procurement.fields(p_payload,array['id','purchase_number','supplier_id','location_id','physical_at','change_reason','notes','supplier_invoice_number','due_date','lines'],

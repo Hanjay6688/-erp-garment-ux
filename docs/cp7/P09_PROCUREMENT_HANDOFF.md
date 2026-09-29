@@ -2,6 +2,8 @@
 
 Family F03 is active. The receipt increment is **writer-verified in a disposable database and real connected browser**, not full P09 or family acceptance. No hosted writes; `production_go=false`.
 
+Latest qualified source: **`9d4afb23c2da4157d8c46d28b4c43ae9189d67b4`**, 62 cases PASS plus three smokes. The receipt reversal extension described at the end is a newer candidate, not included in that qualification.
+
 ## Contract and authorization
 
 Explicit modules in `scripts/cp7-src/procurement`, bundled after the qualified P02–P04 modules. Separate NOLOGIN read and command principals; analysis compute never receives business writers. Public RPCs expose live receipt list/detail, paged active master options, and SAVE_DRAFT/POST through accepted CP6 writers. Commands preserve request identity, exact bigint version strings, existing locking/idempotency and current authorization after writer waits/replay. PostgreSQL remains authoritative for stock, cost and journals.
@@ -20,9 +22,9 @@ Workflow `cp7-p09-procurement.yml` rebuilds the accepted 30-file CP6 package in 
 
 ## Remaining P09/F03 work
 
-- Receipt connected browser is qualified below; material/transfer/issue/invoice journeys remain open.
-- Warehouse/material/roll drilldown, transfer/issue/adjustment, reversals, location and historical-prefix cases; server search must cover complete sources.
-- Late invoice, source return, valuation propagation and same-counterparty supplier credit integration with P13.
+- Receipt/material/transfer/invoice/source-return connected increments are qualified below. Receipt reversal is the next candidate.
+- Accessory purchase UOM, material issue/adjustment and full P09 coverage remain open; server search must cover complete sources.
+- Legacy mixed-receipt invoice/return writes and the paid-source return carry remain explicit gaps for full P09/P13 review.
 - P10 FG ledger, P11 sale/return/payment including R10, P12 attendance/payroll/Nota, P13 finance/HPP/close.
 - Full E01/E24/E14/E12, family independent audit and P18–P21 remain open.
 
@@ -128,3 +130,17 @@ Return qualification:13/14 PASS (native9 of10, three races, one HTTP), plus a sm
 `SupplierReturnPanel` and strict `supplierReturnContract` now connect to procurement. Source receipt, explicit warehouse, complete source lines/rolls, exact quantities, draft review, POST and inverse review use the shared SUPPLIER_RETURN recovery fence. Callers cannot provide credit prices. Financial snapshots are omitted for operational access; DRAFT relief remains unknown, not zero. Failed read-back retires committed forms and locks new work. Persisted outer context retains the physical source warehouse across a lost-response reload without changing the native business payload. Parent receipt identity and refresh revision also refresh invoice capacity and return state.
 
 Local65/65 targeted DOM/recovery tests and TypeScript/source/access/CSS gates PASS. Two new real desktop/mobile scenarios follow actual UI receipt selection → returned goods from transferred stock6+4→6+2 → same-supplier credit allocation `[80,100]→[100,80]→[80,100]` through the existing credit UI → return inverse6+4 and AP100/100. Mobile loses a committed POST response and must replay the same UUID/payload with the original warehouse. Physical movement/cost snapshots and total AP must not change during credit moves. These new browser results and the corrected native fixture are pending. **P09/F03 remain open**, independent acceptance pending, `production_go=false`.
+
+## Source-return qualification — 29 September 2026
+
+Source **`9d4afb23c2da4157d8c46d28b4c43ae9189d67b4`**, [run36529621072](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36529621072): **62/62 PASS plus three separate smokes**, complete workflow PASS, CP6 restore and advisor gate PASS. `RETURN_VERIFICATION.json` pins the full `CP7_P09_RETURNS.json.gz`, source tree, SQL bundle and inspected desktop/mobile screenshots. Both actual UI credit-allocation flows and the mobile committed-response recovery passed. No independent acceptance is inferred from this writer execution.
+
+The preceding run `6c4bb4e`, run36528661258, reached 60PASS/2INCOMPLETE: both new browser flows restored stock6+4, value100 and AP100/100, but the fixture counted only the original return-item source ID. Native inverses use `reversal_of_id`. The fixture now follows that lineage; the expected count remains exactly two. Full failed report and diagnosis remain in `RETURN_RUN_2*`. Product code and the qualified SQL bundle were unchanged by that fixture correction. The older pending statements above are retained as run history.
+
+## Receipt reversal candidate — native result pending
+
+`procurement/reversal.sql` extends the existing public receipt command with REVERSE. The accepted `erp.reverse_material_purchase` has neither an expected-version nor request-identity entrypoint. A private postgres-owned SECURITY DEFINER adapter therefore locks the receipt, checks exact version and POSTED status, rechecks current real authorization after the row wait, and calls that accepted writer. It has an empty search path and grants EXECUTE only to the command role; the command role still has no business SELECT/DML. This narrow ownership exception is explicit and tested, not an implicit expansion of the read principal. The accepted inverse body and its payment/invoice/return/cost-correction and historical-stock guards remain unchanged.
+
+A private actor/request table binds payload and exact version before caching. Replay checks current authorization before returning its historical outcome. New request IDs cannot silently reverse an already reversed receipt. Permission is `warehouse.procurement.reverse` plus the inherited OWNER/ADMIN requirement; money projection is independent. UI review requires reason and explicit confirmation, pins receipt ID/version/read time, invalidates after refresh, retires before read-back and uses the existing shared recovery fence.
+
+The candidate adds seven native cases, three committed races, one real Auth/HTTP case and two real browser inverses, including lost committed response on mobile. Oracles retain original receipt quantities, require one physical inverse, compare all account net balances, and exercise dependency rejection and real-wait permission revocation. Local60/60 targeted DOM/recovery tests, TypeScript and source/access/CSS gates passed. These tests do not substitute for the pending PostgreSQL/browser execution. Full P09/F03 and production release remain open.

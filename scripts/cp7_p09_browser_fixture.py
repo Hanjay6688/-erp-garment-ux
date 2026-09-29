@@ -7,6 +7,7 @@ import cp7_procurement_cases as cases
 import cp7_material_cases as material
 import cp7_invoice_cases as invoice
 import cp7_supplier_return_cases as returns
+import cp7_receipt_reversal_cases as reversal
 
 def main():
     target=os.environ['AUDITOR_BROWSER_DB_URL'];url=urlparse(target)
@@ -28,6 +29,16 @@ def main():
                 f.update(target=g['receipt']['purchase_id'],target_tag=g['tag'],return_day=str(f['day']+timedelta(days=2)))
                 f['ap_before']=str(cur.execute("select coalesce(sum(credit_total-debit_total),0) from erp.account_daily_balances where account_id=erp.account_id('AP_SUPPLIER')").fetchone()[0])
             conn.commit();out=f
+        elif sys.argv[1]=='create_reverse':
+            before=reversal.net_ledger(cur)
+            out=invoice.fixture(cur,date.fromisoformat(payload['today']),final=payload['final'])
+            out['ledger_before']=before;conn.commit()
+        elif sys.argv[1]=='read_reverse':
+            h=cur.execute('select status,row_version from erp.material_purchase_headers where id=%s',(payload['receipt']['purchase_id'],)).fetchone()
+            qty,count=cases.qty(cur,payload)
+            out=dict(status=h[0],version=str(h[1]),qty=str(qty),movement_count=count,ledger=reversal.net_ledger(cur),
+              inverse_count=cur.execute('select count(*) from erp.material_stock_movements where material_id=%s and reversal_of_id is not null',(payload['material'],)).fetchone()[0])
+            conn.rollback()
         elif sys.argv[1]=='read':
             h=cur.execute('select id,status,row_version,physical_at from erp.material_purchase_headers where purchase_number=%s',(payload['tag'],)).fetchone()
             qty,count=cases.qty(cur,payload)

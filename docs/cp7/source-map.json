@@ -897,7 +897,7 @@
       "Historical AS_KNOWN where reconstructible, global scale, full lifecycle and integrated release P18-P21"
     ],
     "p09": {
-      "tested_source": "e21f0b94c3d25a787b83470a28b557aa7a88326a",
+      "tested_source": "9d4afb23c2da4157d8c46d28b4c43ae9189d67b4",
       "modules": [
         "scripts/cp7-src/procurement",
         "scripts/cp7-src/materials",
@@ -920,8 +920,8 @@
         "src/ConnectedMaterialsPage.tsx",
         "src/PurchaseInvoicePanel.tsx"
       ],
-      "verification": "docs/cp7/evidence/p09-procurement/INVOICE_VERIFICATION.json",
-      "writer_proof": "46_NATIVE_RACE_HTTP_BROWSER_CROSSFLOW_PASS_PLUS_2_SMOKES",
+      "verification": "docs/cp7/evidence/p09-procurement/RETURN_VERIFICATION.json",
+      "writer_proof": "62_NATIVE_RACE_HTTP_BROWSER_CROSSFLOW_PASS_PLUS_3_SMOKES",
       "independent_acceptance": false,
       "invoice_extension": "Qualified bounded source receipt invoice FINALIZE/REVERSE; legacy mixed-receipt reversal remains outside connected action.",
       "source_return_extension": {
@@ -935,8 +935,14 @@
           "public.erp_cp7_get_supplier_returns_v1",
           "public.erp_cp7_save_supplier_return_v1"
         ],
-        "status": "NATIVE_13_OF_14_PASS_EMPTY_LOCATION_FIXTURE_CORRECTED_CONNECTED_BROWSER_PENDING",
-        "diagnostic": "docs/cp7/evidence/p09-procurement/RETURN_RUN_1.json"
+        "status": "NATIVE_14_AND_CONNECTED_BROWSER_2_PASS_PORTABLE_CREDIT_AND_LOST_REPLY",
+        "diagnostic": "docs/cp7/evidence/p09-procurement/RETURN_RUN_2.json",
+        "verification": "docs/cp7/evidence/p09-procurement/RETURN_VERIFICATION.json"
+      },
+      "receipt_reversal_extension": {
+        "module": "scripts/cp7-src/procurement/reversal.sql",
+        "status": "CANDIDATE_NATIVE_RETEST_PENDING",
+        "private_principal_exception": "postgres-owned SECURITY DEFINER receipt lock/version adapter; empty search_path, real current authorization, only accepted reverse_material_purchase writer; EXECUTE only cp7_procure_write. No business table SELECT/DML grants to command principal."
       }
     }
   }

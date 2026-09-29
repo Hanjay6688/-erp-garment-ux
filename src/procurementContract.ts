@@ -7,7 +7,7 @@ type ReceiptFinance = { supplier_invoice_number: string | null; due_date: string
 export type ReceiptRow = { id: string; purchase_number: string; supplier_id: string | null; supplier_name: string | null; location_id: string | null; location_name: string | null; physical_at: string; status: 'DRAFT' | 'POSTED' | 'REVERSED'; row_version: string; notes: string | null; line_count: number; finance?: ReceiptFinance }
 export type ReceiptItem = { id: string; material_id: string; material_sku: string; material_name: string; material_type: string; unit_code: string; qty: string; purchase_qty_entered: string | null; purchase_uom_code: string | null; purchase_uom_factor: string | null; lot_number: string | null; notes: string | null; rolls: { id: string; roll_number: string; receipt_qty: string; notes: string | null }[]; finance?: { unit_price: string; line_total: string; price_state: 'ESTIMATED' | 'PARTIAL' | 'FINAL'; price_source: string; invoice_match_state: string; benchmark_price_version_id: string | null } }
 export type ReceiptDetail = ReceiptRow & { items: ReceiptItem[]; stock_effect: 'NOT_POSTED' | 'POSTED_RECEIPT' | 'REVERSED_RECEIPT'; quantity_basis: 'RECEIPT_DOCUMENT_NOT_CURRENT_ON_HAND' }
-export type ProcurementWorkspace = { contract_version: 'cp7.procurement-workspace.v1'; kind: 'LIVE_WORKSPACE'; read_at: string; capabilities: { create: boolean; post: boolean; view_value: boolean }; page: { rows: ReceiptRow[]; total: string; offset: number; limit: number; next_offset: number | null }; detail: ReceiptDetail | null }
+export type ProcurementWorkspace = { contract_version: 'cp7.procurement-workspace.v1'; kind: 'LIVE_WORKSPACE'; read_at: string; capabilities: { create: boolean; post: boolean; reverse: boolean; view_value: boolean }; page: { rows: ReceiptRow[]; total: string; offset: number; limit: number; next_offset: number | null }; detail: ReceiptDetail | null }
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 const decimal = /^(0|[1-9][0-9]{0,23})(\.[0-9]{1,6})?$/
 const integer = /^(0|[1-9][0-9]{0,18})$/
@@ -44,7 +44,7 @@ function row(v: unknown, allowValue: boolean, detail = false) {
 }
 export function parseProcurementWorkspace(v: unknown, allowValue: boolean): ProcurementWorkspace {
   const w = closed(v,['contract_version','kind','read_at','capabilities','page','detail'])
-  const c = closed(w.capabilities,['create','post','view_value'])
+  const c = closed(w.capabilities,['create','post','reverse','view_value'])
   if (w.contract_version !== 'cp7.procurement-workspace.v1' || w.kind !== 'LIVE_WORKSPACE' || !instant(w.read_at) || Object.values(c).some(v => typeof v !== 'boolean') || c.view_value !== allowValue) fail()
   const p = closed(w.page,['rows','total','offset','limit','next_offset']); if (!Array.isArray(p.rows)) return fail()
   page(p,p.rows); const ids = p.rows.map(r => row(r,allowValue).id); if (new Set(ids).size !== ids.length) fail()
@@ -84,8 +84,9 @@ export function parseProcurementOptions(v: unknown, kind: OptionKind): Procureme
 }
 export function parseProcurementOutcome(v: unknown, request: string, action: string, document: Json) {
   const r = closed(v,['contract_version','kind','action','request_id','purchase_id','status','row_version']), p = procurementObject(document)
-  if (r.contract_version !== 'cp7.procurement-outcome.v1' || r.kind !== 'COMMITTED_OUTCOME' || r.action !== action || r.request_id !== request || !isId(r.purchase_id) || !isString(r.row_version) || !version.test(r.row_version) || r.status !== (action === 'SAVE_DRAFT' ? 'DRAFT' : 'POSTED') || action === 'POST' && r.purchase_id !== p.purchase_id || action === 'SAVE_DRAFT' && p.id && r.purchase_id !== p.id) fail()
-  return r as { purchase_id: string; row_version: string; status: 'DRAFT' | 'POSTED' }
+  const expectedStatus = ({ SAVE_DRAFT: 'DRAFT', POST: 'POSTED', REVERSE: 'REVERSED' } as Record<string,string>)[action]
+  if (!expectedStatus || r.contract_version !== 'cp7.procurement-outcome.v1' || r.kind !== 'COMMITTED_OUTCOME' || r.action !== action || r.request_id !== request || !isId(r.purchase_id) || !isString(r.row_version) || !version.test(r.row_version) || r.status !== expectedStatus || action !== 'SAVE_DRAFT' && r.purchase_id !== p.purchase_id || action === 'SAVE_DRAFT' && p.id && r.purchase_id !== p.id) fail()
+  return r as { purchase_id: string; row_version: string; status: 'DRAFT' | 'POSTED' | 'REVERSED' }
 }
 export function receiptDecimal(raw: string, positive = false) {
   const v = raw.trim().replace(',', '.')

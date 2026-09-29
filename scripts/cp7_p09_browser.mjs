@@ -215,4 +215,27 @@ async function supplierReturn(ui,today,mobile) {
   return {status:'PASS',mobile,real_ui_auth_rpc_database:true,source_stock_before:[6,4],source_stock_returned:[6,2],source_ap:80,credit_shifted:[100,80],credit_restored:[80,100],allocation_stock_cost_ap_unchanged:true,return_inverse_stock:[6,4],return_inverse_ap:[100,100],recovery_identical_request:mobile?true:null,browser_timezone:mobile?'America/Los_Angeles':'Asia/Jakarta',screenshot:`P09_RETURN_${mobile?'MOBILE':'DESKTOP'}.png`}
  }finally{await user.context.close()}
 }
-export async function cases(ui,today){return [['P09_BROWSER_RECEIPT_DESKTOP',()=>receipt(ui,today,false)],['P09_BROWSER_LOST_REPLY_MOBILE',()=>receipt(ui,today,true)],['P09_BROWSER_TRANSFER_DESKTOP',()=>transfer(ui,today,false)],['P09_BROWSER_TRANSFER_LOST_REPLY_MOBILE',()=>transfer(ui,today,true)],['P09_BROWSER_INVOICE_DESKTOP',()=>supplierInvoice(ui,today,false)],['P09_BROWSER_INVOICE_LOST_REPLY_MOBILE',()=>supplierInvoice(ui,today,true)],['P09_BROWSER_RETURN_CREDIT_DESKTOP',()=>supplierReturn(ui,today,false)],['P09_BROWSER_RETURN_CREDIT_LOST_REPLY_MOBILE',()=>supplierReturn(ui,today,true)]]}
+async function receiptReversal(ui,today,mobile){
+ const f=fixture('create_reverse',{today,final:mobile}),user=await ui.login('OWNER',{label:'cp7-p09-reverse-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'})
+ try{
+  const p=user.page;await openPage(ui,p)
+  await p.getByLabel('Cari penerimaan',{exact:true}).fill(f.tag);await p.getByRole('button',{name:'Cari penerimaan',exact:true}).click()
+  const card=p.locator('.cproc-history .cproc-receipt').filter({hasText:f.tag});await ui.expect(card).toBeEnabled();await card.click()
+  const detail=p.locator('.cproc-detail');await ui.expect(detail).toContainText('Penerimaan sudah tercatat')
+  await p.getByRole('button',{name:'Tinjau pembatalan penerimaan',exact:true}).click()
+  const submit=p.getByRole('button',{name:'Batalkan penerimaan',exact:true});await ui.expect(submit).toBeDisabled()
+  await p.getByLabel('Alasan pembatalan penerimaan',{exact:true}).fill('Penerimaan tercatat ganda setelah pemeriksaan gudang')
+  await ui.expect(submit).toBeDisabled();await p.getByLabel('Pembatalan penerimaan sudah diperiksa',{exact:true}).check();await ui.expect(submit).toBeEnabled()
+  let lost=false,first=null,replay=null
+  if(mobile)await p.route('**/rest/v1/rpc/erp_cp7_save_procurement_v1',async route=>{const body=route.request().postDataJSON();if(body.p_action==='REVERSE'&&!lost){first=body;const response=await route.fetch();if(response.status()!==200)throw Error('Expected committed receipt inverse');lost=true;await route.abort('failed')}else{if(body.p_action==='REVERSE')replay=body;await route.continue()}})
+  await submit.click();await ui.expect.poll(()=>fixture('read_reverse',f).status,{timeout:20000}).toBe('REVERSED')
+  if(mobile){await ui.expect(p.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeVisible();await p.reload();await openPage(ui,p);await p.getByRole('button',{name:'Reconcile transaksi',exact:true}).click();await ui.expect(p.getByRole('button',{name:'Reconcile transaksi',exact:true})).toHaveCount(0);if(!lost||JSON.stringify(first)!==JSON.stringify(replay))throw Error('Receipt inverse changed request on recovery')}
+  await ui.expect(detail).toContainText('Penerimaan sudah dibatalkan');await ui.expect(p.getByRole('button',{name:'Batalkan penerimaan',exact:true})).toHaveCount(0)
+  const r=fixture('read_reverse',f)
+  if(Number(r.qty)!==0||r.movement_count!==2||r.inverse_count!==1||JSON.stringify(r.ledger)!==JSON.stringify(f.ledger_before))throw Error('Receipt inverse stock/journal mismatch '+JSON.stringify(r))
+  await ui.expect.poll(()=>detail.evaluate(el=>{const b=el.getBoundingClientRect();return b.left>=0&&b.right<=innerWidth+1&&document.documentElement.scrollWidth<=innerWidth+1})).toBe(true)
+  await p.evaluate(()=>window.scrollTo(0,0));await p.screenshot({path:`cp6-proof/t3/P09_RECEIPT_REVERSE_${mobile?'MOBILE':'DESKTOP'}.png`,fullPage:true})
+  return {status:'PASS',mobile,direct_final:mobile,real_ui_auth_rpc_database:true,one_inverse:true,remaining_stock:0,all_account_balances_restored:true,recovery_identical_request:mobile?true:null,screenshot:`P09_RECEIPT_REVERSE_${mobile?'MOBILE':'DESKTOP'}.png`}
+ }finally{await user.context.close()}
+}
+export async function cases(ui,today){return [['P09_BROWSER_RECEIPT_DESKTOP',()=>receipt(ui,today,false)],['P09_BROWSER_LOST_REPLY_MOBILE',()=>receipt(ui,today,true)],['P09_BROWSER_TRANSFER_DESKTOP',()=>transfer(ui,today,false)],['P09_BROWSER_TRANSFER_LOST_REPLY_MOBILE',()=>transfer(ui,today,true)],['P09_BROWSER_INVOICE_DESKTOP',()=>supplierInvoice(ui,today,false)],['P09_BROWSER_INVOICE_LOST_REPLY_MOBILE',()=>supplierInvoice(ui,today,true)],['P09_BROWSER_RETURN_CREDIT_DESKTOP',()=>supplierReturn(ui,today,false)],['P09_BROWSER_RETURN_CREDIT_LOST_REPLY_MOBILE',()=>supplierReturn(ui,today,true)],['P09_BROWSER_RECEIPT_REVERSE_DESKTOP',()=>receiptReversal(ui,today,false)],['P09_BROWSER_RECEIPT_REVERSE_LOST_REPLY_MOBILE',()=>receiptReversal(ui,today,true)]]}

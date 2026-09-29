@@ -1,0 +1,90 @@
+{
+  "source_head": "9d4afb23c2da4157d8c46d28b4c43ae9189d67b4",
+  "source_tree": "3ab442185bb3826229d465059a488dfea40b2903",
+  "run_id": 36529621072,
+  "job_id": 109280131042,
+  "artifact_id": 11015568411,
+  "archive_sha256": "2799bd0f3d991209929330238a078ca3031e20a9b2844d4e4b6929d00d099808",
+  "report_sha256": "5b98f9eb2aa8c19d6e317af21747c28f551e43c0eec48df0deee51d1a1a3f389",
+  "report_gzip_sha256": "5bbe9f12ed7b3b471f321b7808bbcb720821167be81748e0aaa8b197a0922b02",
+  "report": "CP7_P09_RETURNS.json.gz",
+  "bundle_sha256": "d81674efefa6395baa2ccfc5db094dfa60ebdeab835c4d97ab4268aba300bde7",
+  "screenshots": {
+    "P09_RETURN_DESKTOP.png": "8e5884c33060e99c6372b5c5a70b347036b1b803e9bfda2f37d86bf559fb35a2",
+    "P09_RETURN_MOBILE.png": "a68b12d89a154bdb57834655625a74dbdb6244270005777b980faa6e9b4fed0d"
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "status": "PASS",
+  "scope": "BOUNDED_RECEIPT_MATERIAL_TRANSFER_INVOICE_SOURCE_RETURN_AND_PORTABLE_CREDIT",
+  "counts": {
+    "smoke": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 9
+    },
+    "races": {
+      "PASS": 3
+    },
+    "http": {
+      "PASS": 1
+    },
+    "material_smoke": {
+      "PASS": 1
+    },
+    "material": {
+      "PASS": 9
+    },
+    "material_crossflow": {
+      "PASS": 2
+    },
+    "material_races": {
+      "PASS": 2
+    },
+    "material_http": {
+      "PASS": 1
+    },
+    "invoice": {
+      "PASS": 9
+    },
+    "invoice_races": {
+      "PASS": 3
+    },
+    "invoice_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 8
+    },
+    "return_smoke": {
+      "PASS": 1
+    },
+    "returns": {
+      "PASS": 10
+    },
+    "return_races": {
+      "PASS": 3
+    },
+    "return_http": {
+      "PASS": 1
+    }
+  },
+  "total_cases": {
+    "PASS": 62
+  },
+  "smokes_separate": 3,
+  "app_runs": [
+    36529625669,
+    36529621106
+  ],
+  "limitations": [
+    "Receipt reversal candidate remains unqualified.",
+    "Accessory UOM, issue/adjustment and remaining full P09/F03 scope remain open.",
+    "Legacy mixed-receipt invoice/return writes are outside the current bounded source-receipt UI.",
+    "Return against already-paid source is a CP6 carry for P13, not claimed supported.",
+    "Independent family acceptance pending."
+  ]
+}
