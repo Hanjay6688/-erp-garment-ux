@@ -52,7 +52,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Connect ordinary attendance/roster/rate sources and qualify historical/current access/recovery; finish same-source P09 regression retry and remaining P12 advances/carry.",
+  "next_action": "Qualify dated attendance reader (49 combined cases), connect roster/attendance UI and existing authorized source writers; complete same-source P09 regression retry.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -114,6 +114,7 @@
     "settlement_diagnostic": "docs/cp7/evidence/p12-nota/SETTLEMENT_RUN7_RECEIPT.json",
     "settlement_verification": "docs/cp7/evidence/p12-nota/SETTLEMENT_VERIFICATION.json",
     "attendance_entry": "docs/cp7/P12_ATTENDANCE_ENTRY.md",
-    "p09_regression_retry": "RUN_36587580149_ATTEMPT_2_PENDING"
+    "p09_regression_retry": "RUN_36587580149_ATTEMPT_2_PENDING",
+    "attendance_candidate": "DATED_READER_7_NEW_CASES_PENDING_49_COMBINED"
   }
 }

@@ -1043,6 +1043,10 @@
     "settlement_browser_probe": "scripts/cp7_p12_settlement_browser.mjs",
     "settlement_diagnostic": "docs/cp7/evidence/p12-nota/SETTLEMENT_RUN7_RECEIPT.json",
     "settlement_verification": "docs/cp7/evidence/p12-nota/SETTLEMENT_VERIFICATION.json",
-    "attendance_entry": "docs/cp7/P12_ATTENDANCE_ENTRY.md"
+    "attendance_entry": "docs/cp7/P12_ATTENDANCE_ENTRY.md",
+    "attendance_reader": "scripts/cp7-src/payroll/attendance-read.sql",
+    "attendance_bundle": "scripts/cp7_attendance_read_bundle.py",
+    "attendance_cases": "scripts/cp7_attendance_read_cases.py",
+    "attendance_status": "CANDIDATE_7_CASES_PENDING"
   }
 }
