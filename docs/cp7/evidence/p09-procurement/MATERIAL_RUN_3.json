@@ -1,0 +1,47 @@
+{
+  "status": "INCOMPLETE",
+  "source_head": "cfb7f277229fc74085ccc92cb7e3aa06db6f8962",
+  "source_tree": "f0fa3e6156d7b79477ffc7a687b531171e00a693",
+  "run_id": 36522030330,
+  "job_id": 109256783561,
+  "artifact_id": 11013572422,
+  "archive_sha256": "643d55d76530ea18505e99205c5a6e614cba01078940b334ef07c276dc12619d",
+  "report_sha256": "481ade8e876e4267e55e5919eefd8ee9cedc25763696e9640f8484eaa8bcf377",
+  "report_gzip_sha256": "3ee65f1f5246c018b51c3ea1cab184f177c772549607027923955b127d5f2dbc",
+  "bundle_sha256": "372133cdb5255ecf388393a91afb2efb3a6c3210f634f8bdf55c9956383d2665",
+  "counts": {
+    "smoke": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 9
+    },
+    "races": {
+      "PASS": 3
+    },
+    "http": {
+      "PASS": 1
+    },
+    "material_smoke": {
+      "PASS": 1
+    },
+    "material": {
+      "PASS": 9
+    },
+    "material_crossflow": {
+      "INCOMPLETE": 2
+    },
+    "material_races": {
+      "PASS": 2
+    },
+    "material_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 4
+    }
+  },
+  "reason": "Both new crossflows stopped at fixture qualification: the predecessor oracle predates mandatory AW attendance/payroll readiness. Complete disposable seed attendance and payroll through ordinary APIs before its baseline, and approve new sewing work after posting. Preserve READY, monetary, closed-report, replay, and rollback assertions; assert readiness setup does not change material/WIP/FG/COGS/AP/GRNI ledger amounts.",
+  "production_go": false,
+  "independent_acceptance": false
+}

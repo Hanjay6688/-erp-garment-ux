@@ -223,8 +223,24 @@ def crossflow_cases(cur,today):
     # Fixture wiring only: the existing independent money oracle is unchanged.
     # Receipt + transfer are now created through the actual CP7 public boundary.
     import cp6_final_crossflow_review as oracle
+    import cp6_aw_probe as readiness
     def journey(closed):
-        original=oracle.production.estimated_receipt;observed={}
+        original=oracle.production.estimated_receipt;original_production=oracle.production_with_wages;observed={}
+        # The predecessor oracle predates AW's mandatory attendance/payroll
+        # readiness. Complete the disposable seed through its ordinary APIs,
+        # before its baseline and after the new sewing work is posted. Do not
+        # bypass readiness, edit posted facts, or alter the monetary oracle.
+        def ready_production(c,day):
+            b.api.admin(c);aa.prior.set_open_period(c,day-timedelta(days=4))
+            before=readiness.quiet_seed(c,day-timedelta(days=3),day)
+            assert not before['refused'],before
+            f=original_production(c,day)
+            amounts=oracle.production.ledger(c)
+            after=readiness.quiet_seed(c,day-timedelta(days=3),day)
+            assert not after['refused'],after
+            assert oracle.production.ledger(c)==amounts,'P09_READINESS_FIXTURE_CHANGED_STOCK_HPP_AP'
+            observed['readiness_setup']=dict(before_baseline=before,after_work=after)
+            return f
         def receipt_at_destination(c,day):
             f=fixture(c,day)
             d,_=draft(c,f,qty='10',at=aa.at(f['day'],11).isoformat());d=post(c,d)
@@ -234,8 +250,11 @@ def crossflow_cases(cur,today):
             observed.update(f=f,transfer=d)
             return result
         oracle.production.estimated_receipt=receipt_at_destination
+        oracle.production_with_wages=ready_production
         try:result=oracle.case(cur,today,'UTC' if closed else 'Asia/Jakarta',7 if closed else 4,closed)
-        finally:oracle.production.estimated_receipt=original
+        finally:
+            oracle.production.estimated_receipt=original
+            oracle.production_with_wages=original_production
         assert result['status']=='CONTROL_PASS',result
         b.api.admin(cur);f=observed['f'];d=observed['transfer'];assert balances(cur,f)=={f['location']:0,f['destination']:0}
         pairs=cur.execute("select sum(qty_signed),sum(qty_signed*unit_cost_snapshot),count(*) from erp.material_stock_movements where source_type='MATERIAL_TRANSFER' and source_id=%s",(d['transfer_id'],)).fetchone()
@@ -244,6 +263,6 @@ def crossflow_cases(cur,today):
         return dict(status='PASS',public_receipt_transfer=True,ordinary_cutting_sewing_laundry_partial_fg_sale=True,
           staged_invoice_quantities=[7,3] if closed else [4,6],final_material_value=110 if closed else 95,
           source_material_on_hand=0,transfer_net_qty=0,transfer_net_value=0,closed_receipt_day=closed,
-          old_report_preserved=closed,observations=result['observations'],
+          old_report_preserved=closed,observations=result['observations'],readiness_setup=observed['readiness_setup'],
           limit='Native existing final-invoice/production/sale boundaries; connected invoice and sale UI still P09/P11/P13 obligations')
     return [('P09_TRANSFER_PRODUCTION_LATE_INVOICE',lambda:journey(False)),('P09_TRANSFER_CLOSED_DAY_LATE_INVOICE',lambda:journey(True))]
