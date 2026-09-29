@@ -897,7 +897,7 @@
       "Historical AS_KNOWN where reconstructible, global scale, full lifecycle and integrated release P18-P21"
     ],
     "p09": {
-      "tested_source": "b81a5f607404075929fe74e0dac5608f5fbfe9e4",
+      "tested_source": "a499f39d5e9df6893ed5705ac79bc70e177487ba",
       "modules": [
         "scripts/cp7-src/procurement",
         "scripts/cp7-src/materials",
@@ -913,17 +913,18 @@
         "public.erp_cp7_get_material_locations_v1",
         "public.erp_cp7_save_materials_v1",
         "public.erp_cp7_get_purchase_invoices_v1",
-        "public.erp_cp7_save_purchase_invoice_v1"
+        "public.erp_cp7_save_purchase_invoice_v1",
+        "public.erp_cp7_get_invoice_sources_v1"
       ],
       "consumer": [
         "src/ConnectedProcurementPage.tsx",
         "src/ConnectedMaterialsPage.tsx",
         "src/PurchaseInvoicePanel.tsx"
       ],
-      "verification": "docs/cp7/evidence/p09-procurement/UNROLLED_VERIFICATION.json",
-      "writer_proof": "109_NATIVE_RACE_HTTP_BROWSER_CROSSFLOW_PASS_PLUS_3_SMOKES",
+      "verification": "docs/cp7/evidence/p09-procurement/COMBINED_INVOICE_VERIFICATION.json",
+      "writer_proof": "121_NATIVE_RACE_HTTP_BROWSER_CROSSFLOW_PASS_PLUS_3_SMOKES",
       "independent_acceptance": false,
-      "invoice_extension": "Qualified bounded source receipt invoice FINALIZE/REVERSE; legacy mixed-receipt reversal remains outside connected action.",
+      "invoice_extension": "Qualified complete same-supplier multi-receipt invoice SAVE/EDIT/DELETE/POST/REVERSE plus compatible single-receipt protocol.",
       "source_return_extension": {
         "modules": [
           "scripts/cp7-src/supplier-returns"
@@ -976,11 +977,22 @@
         "verification": "docs/cp7/evidence/p09-procurement/COUNT_VERIFICATION.json"
       },
       "combined_invoice_extension": {
-        "status": "CANDIDATE_NATIVE_BROWSER_PENDING",
+        "status": "12_NATIVE_RACE_HTTP_BROWSER_PASS_WITH_PRIOR_109",
         "handoff": "docs/cp7/P09_COMBINED_INVOICE_HANDOFF.md",
         "authority": "Accepted supplier invoice draft/post/inverse writers. Private request cache and read-owned complete source validators; no new ERP business DML or money engine.",
-        "scope": "Same supplier, complete bounded invoice document across posted receipts; current access before replay and after waits; full browser draft edit and complete inverse review."
+        "scope": "Same supplier, complete bounded invoice document across posted receipts; current access before replay and after waits; full browser draft edit and complete inverse review.",
+        "verification": "docs/cp7/evidence/p09-procurement/COMBINED_INVOICE_VERIFICATION.json"
       }
     }
+  },
+  "f02_independent_acceptance": {
+    "status": "HOLD",
+    "handoff": "docs/cp7/F02_FIX_HANDOFF.md",
+    "source": "09990020355fb7329fbc7b8710692bf1357d2401",
+    "findings": [
+      "F02-01 reversed BS active projection",
+      "F02-02/X06 matching binding"
+    ],
+    "fix": "CANDIDATE_NATIVE_PENDING"
   }
 }

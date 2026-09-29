@@ -2,7 +2,7 @@
 
 Family F03 is active. The receipt increment is **writer-verified in a disposable database and real connected browser**, not full P09 or family acceptance. No hosted writes; `production_go=false`.
 
-Latest qualified source: **`b81a5f607404075929fe74e0dac5608f5fbfe9e4`**, 93 cases PASS plus three smokes. The physical-count extension at `4003d16` is a newer candidate, not included in that qualification.
+Latest qualified source: **`a499f39d5e9df6893ed5705ac79bc70e177487ba`**, **121 cases PASS plus three separate smokes**, including physical counts and complete combined supplier invoices. [Run 36542669052](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36542669052); source/hash receipt: `evidence/p09-procurement/COMBINED_INVOICE_VERIFICATION.json`. This qualification supersedes candidate wording in the historical sections below for those increments only. F02 now has a separate independent HOLD: see `F02_FIX_HANDOFF.md`.
 
 ## Contract and authorization
 
@@ -22,9 +22,9 @@ Workflow `cp7-p09-procurement.yml` rebuilds the accepted 30-file CP6 package in 
 
 ## Remaining P09/F03 work
 
-- Receipt/material/transfer/invoice/source-return connected increments are qualified below. Receipt reversal is the next candidate.
-- Accessory purchase UOM, material issue/adjustment and full P09 coverage remain open; server search must cover complete sources.
-- Legacy mixed-receipt invoice/return writes and the paid-source return carry remain explicit gaps for full P09/P13 review.
+- Receipt/material/transfer/invoice/source-return, receipt reversal, UOM, unrolled materials and physical-count increments are qualified below.
+- Remaining material-issue workflows and full P09 coverage remain open; physical counts still need multi-input and zero-history selection.
+- Mixed-receipt supplier return writes and the paid-source return carry remain explicit gaps for full P09/P13 review. Combined invoice documents are qualified.
 - P10 FG ledger, P11 sale/return/payment including R10, P12 attendance/payroll/Nota, P13 finance/HPP/close.
 - Full E01/E24/E14/E12, family independent audit and P18–P21 remain open.
 

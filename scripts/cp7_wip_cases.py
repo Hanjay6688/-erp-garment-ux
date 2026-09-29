@@ -37,6 +37,17 @@ def check(cur,fn,code):return p02.refused(cur,fn,code)
 def total(r,key):return sum(int(x[key]) for x in r['totals'])
 def quantities(r):return {x['key']:int(x['remaining_pcs']) for x in r['positions']}
 
+def bind_compatible_fixture(positions,allocation):
+    """Explicit empty-constraint fixture for capacity tests, never production facts."""
+    nodes={n['key']:n for n in positions['positions']};sources={};targets={}
+    for e in allocation['edges']:
+        n=nodes[e['position_key']]
+        sources[n['key']]=dict(key=n['key'],quality='COMPLETE',size_id=n['size_id'],confirmed_target=None,constraints=[],refs=deepcopy(n['refs']))
+        targets[e['target_key']]=dict(key=e['target_key'],size_id=e['size_id'],constraints=[],refs=refs('target:'+e['target_key']))
+        e['refs']=deepcopy(sources[n['key']]['refs'])+deepcopy(targets[e['target_key']]['refs'])
+    allocation['matching']=dict(snapshot_id=positions['snapshot_id'],sources=list(sources.values()),targets=list(targets.values()))
+    return allocation
+
 def cases(cur,today):
     def o15():
         r=call(cur,'reconcile',graph())
@@ -105,8 +116,8 @@ def cases(cur,today):
         r=call(cur,'yield',r,[dict(position_key='A-sew',eligible_input_pcs='20',numerator='1',denominator='1',basis='ASSUMED',assumption_id='test-full-yield',refs=refs('yield-100pct'))])
         def edge(k,target,q):return dict(key=k,position_key='A-sew',target_key=target,size_id='31',input_pcs=str(q),projected_good_pcs=str(q),match='CANDIDATE_MATCH',refs=refs(k))
         a=dict(scenario_id='S1',scope_id='ALL-A-B',complete_scope=True,edges=[edge('1','brand-A',15),edge('2','brand-B',10)])
-        result=call(cur,'allocate',r,a);assert result['status']=='INFEASIBLE' and result['violations'][0]['excess_pcs']=='5'
-        a['edges']=[edge('1','brand-A',20)];assert call(cur,'allocate',r,a)['status']=='FEASIBLE'
+        bind_compatible_fixture(r,a);result=call(cur,'allocate',r,a);assert result['status']=='INFEASIBLE' and result['violations'][0]['excess_pcs']=='5'
+        a['edges']=[edge('1','brand-A',20)];bind_compatible_fixture(r,a);assert call(cur,'allocate',r,a)['status']=='FEASIBLE'
         b=deepcopy(a);b['scenario_id']='alternative';assert call(cur,'allocate',r,b)['status']=='FEASIBLE'
         a['complete_scope']=False;assert call(cur,'allocate',r,a)['status']=='UNKNOWN'
         a['filter']='brand-A';check(cur,lambda:call(cur,'allocate',r,a),'CP7_WIP_FIELDS')
@@ -119,7 +130,7 @@ def cases(cur,today):
         r=call(cur,'yield',physical,[policy]);projection=r['positions'][0]['projection']
         assert projection['eligible_input_pcs']=='100' and projection['projected_good_pcs']=='90' and projection['expected_loss_pcs']=='10' and projection['not_actual_bs']
         edge=dict(key='X08',position_key='A-sew',target_key='A',size_id='31',input_pcs='100',projected_good_pcs='90',match='CANDIDATE_MATCH',refs=refs('X08'))
-        a=dict(scenario_id='yield90',scope_id='ALL',complete_scope=True,edges=[edge])
+        a=bind_compatible_fixture(r,dict(scenario_id='yield90',scope_id='ALL',complete_scope=True,edges=[edge]))
         assert call(cur,'allocate',physical,a)['status']=='UNKNOWN'
         assert call(cur,'allocate',r,a)['status']=='FEASIBLE'
         edge['projected_good_pcs']='91';assert call(cur,'allocate',r,a)['status']=='INFEASIBLE'
@@ -136,7 +147,7 @@ def cases(cur,today):
         r=call(cur,'yield',call(cur,'reconcile',g),[dict(position_key=k,eligible_input_pcs='50',numerator='1',denominator='1',basis='ASSUMED',assumption_id='X06-100pct',refs=refs('X06')) for k in ['S1','S2']])
         def e(key,source,target):return dict(key=key,position_key=source,target_key=target,size_id='31',input_pcs='30',projected_good_pcs='30',match='CANDIDATE_MATCH',refs=refs(key))
         a=dict(scenario_id='X06',scope_id='GLOBAL',complete_scope=True,edges=[e('1','S1','A'),e('2','S2','B')])
-        first=call(cur,'allocate',r,a);a['edges']=[e('1','S2','A'),e('2','S1','B')];second=call(cur,'allocate',r,a)
+        bind_compatible_fixture(r,a);first=call(cur,'allocate',r,a);a['edges']=[e('1','S2','A'),e('2','S1','B')];bind_compatible_fixture(r,a);second=call(cur,'allocate',r,a)
         assert first['status']==second['status']=='FEASIBLE' and first['edges']!=second['edges']
         a['edges'][0]['match']='INCOMPATIBLE';check(cur,lambda:call(cur,'allocate',r,a),'CP7_WIP_INELIGIBLE_ALLOCATION')
         return dict(status='PASS',oracle='X06',same_totals_distinct_edges=True,incompatible_positive_edge_refused=True)
@@ -144,9 +155,9 @@ def cases(cur,today):
         g=graph();g['pools']=g['pools'][:1];g['nodes']=g['nodes'][:1];g['events']=g['events'][:1]
         r=call(cur,'yield',call(cur,'reconcile',g),[dict(position_key='A-sew',eligible_input_pcs='60',numerator='1',denominator='1',basis='ASSUMED',assumption_id='O04-100pct',refs=refs('O04'))])
         def e(key,target,qty):return dict(key=key,position_key='A-sew',target_key=target,size_id='31',input_pcs=str(qty),projected_good_pcs=str(qty),match='CANDIDATE_MATCH',refs=refs(key))
-        a=dict(scenario_id='O04',scope_id='ALL-A-B',complete_scope=True,edges=[e('A','A',42),e('B','B',18)])
+        a=bind_compatible_fixture(r,dict(scenario_id='O04',scope_id='ALL-A-B',complete_scope=True,edges=[e('A','A',42),e('B','B',18)]))
         assert call(cur,'allocate',r,a)['status']=='FEASIBLE'
-        a['edges'][1]=e('B','B',30);over=call(cur,'allocate',r,a);assert over['status']=='INFEASIBLE' and any(v['excess_pcs']=='12' for v in over['violations'])
+        a['edges'][1]=e('B','B',30);bind_compatible_fixture(r,a);over=call(cur,'allocate',r,a);assert over['status']=='INFEASIBLE' and any(v['excess_pcs']=='12' for v in over['violations'])
         return dict(status='PASS',oracle='O04_SOURCE_CAPACITY_ONLY',source=60,allocated_a=42,allocated_b=18,requested_b=30,uncovered_b=12,dated_netting_owned_by_P06=True)
     def timing():
         work=[dict(stage='QC',remaining_minutes='90',basis='CONFIRMED_PLAN',assumption_id=None,calendar_version='QC-calendar-v1',

@@ -137,6 +137,21 @@ begin
  end loop;
  -- Cases identify original BS; resolutions/rework returns do not add cut input.
  for b in select value from jsonb_array_elements(f->'bs') order by value->>'physical_at',value->>'id' loop
+  -- Ordinary source reversal retains the cancelled case as history. Keep it
+  -- in the captured dependency set, but do not recreate its physical slice.
+  -- A cancellation may only suppress a linked source that was also reversed.
+  if b->>'status'='CANCELLED' then
+   if b->'qc_item_id'<>'null'::jsonb then
+    if not exists(select 1 from jsonb_array_elements(f->'qc') source_qc where source_qc->>'id'=b->>'qc_item_id'
+      and source_qc->>'group_id'=b->>'group_id' and source_qc->>'status'='REVERSED') then
+     return jsonb_build_object('status','CONFLICT','reason','CANCELLED_BS_SOURCE_UNPROVEN','source_id',b->'id');end if;
+   elsif b->'receipt_line_id'<>'null'::jsonb then
+    if not exists(select 1 from jsonb_array_elements(f->'receipts') source_receipt where source_receipt->>'id'=b->>'receipt_line_id'
+      and source_receipt->>'group_id'=b->>'group_id' and source_receipt->>'status'='REVERSED') then
+     return jsonb_build_object('status','CONFLICT','reason','CANCELLED_BS_SOURCE_UNPROVEN','source_id',b->'id');end if;
+   else return jsonb_build_object('status','UNKNOWN','reason','CANCELLED_BS_SOURCE_UNPROVEN','source_id',b->'id');end if;
+   continue;
+  end if;
   sz:=b->>'size_id';
   if sz is null then select count(distinct value->>'size_id'),min(value->>'size_id') into cnt,sz from jsonb_array_elements(f->'yields') where value->>'group_id'=b->>'group_id';
    if cnt<>1 then return jsonb_build_object('status','UNKNOWN','reason','BS_EXACT_SIZE_UNPROVEN','source_id',b->'id');end if;end if;

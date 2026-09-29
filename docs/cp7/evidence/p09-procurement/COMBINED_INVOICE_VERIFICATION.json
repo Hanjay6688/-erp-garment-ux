@@ -1,0 +1,55 @@
+{
+  "source_head": "a499f39d5e9df6893ed5705ac79bc70e177487ba",
+  "source_tree": "08f777f2b7ffe5398701f5c624dcf6391e3f9d2e",
+  "run_id": 36542669052,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36542669052",
+  "job_id": 109321547450,
+  "artifact_id": 11021306600,
+  "archive_sha256": "2a95e811b374a885779a678e3dd6f1d1c65082cd858d291beab236724137c56c",
+  "report": "CP7_P09_COMBINED_INVOICE.json.gz",
+  "report_sha256": "d1eac8288d0a0a123f10b524686c925d3251e64b2f559bc18dc293bcb890431f",
+  "report_gzip_sha256": "ac87a0ef8d4340689f8c9e86cefe13831c19bf7da50b4078cd0e798f3b56fa4e",
+  "bundle_sha256": "bb5be96b28bf9d78f3d41c3dec8999742ace69add0e8a597b347057c96319555",
+  "status": "PASS",
+  "counts": {
+    "PASS": 121
+  },
+  "smokes_separate": 3,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "browser_auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "app_runs": [
+    36542676364,
+    36542669042
+  ],
+  "production_go": false,
+  "independent_acceptance": false,
+  "limits": [
+    "Complete combined invoice documents bounded to100 lines with paged same-supplier receipt selection.",
+    "Mixed-receipt supplier returns, physical-count multi-input/zero-history UI and remaining P09 issue journeys remain open.",
+    "P10-P13 and R10 remain open."
+  ],
+  "screenshots": {
+    "P09_COMBINED_INVOICE_DESKTOP.png": "9356326d9d5712bc8fd0101179e193d18782c5b0cfda6e241b15b00cb0684475",
+    "P09_COMBINED_INVOICE_MOBILE.png": "f8a49410ffb51310a91ce7dbad021ef8463f0e45eab1638a8ea78b9ba6dda21d"
+  },
+  "visual_review": {
+    "desktop": "Complete two receipt sources and correct invoice total95 visible.",
+    "mobile": "Two sources and total95 visible; long receipt page after reload, no horizontal overflow in browser assertions.",
+    "inspected": true
+  }
+}

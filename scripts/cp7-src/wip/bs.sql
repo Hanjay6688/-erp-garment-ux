@@ -47,7 +47,9 @@ begin
  end loop;
  positions:=cp7_wip.reconcile(g);
  if positions->>'status'<>'COMPLETE' then return positions;end if;
- for b in select value from jsonb_array_elements(f->'bs') loop
+ -- A source reversal retires the case, including its historical hold state.
+ -- Active children above still require an active physical case node.
+ for b in select value from jsonb_array_elements(f->'bs') where value->>'status'<>'CANCELLED' loop
   select value into held from jsonb_array_elements(f->'holds') where value->>'bs_case_id'=b->>'id'
    order by (value->>'physical_at')::timestamptz desc,(value->>'created_at')::timestamptz desc,value->>'id' desc limit 1;
   if (b->>'status'='ON_HOLD') is distinct from coalesce(held->>'action'='HOLD',false) then

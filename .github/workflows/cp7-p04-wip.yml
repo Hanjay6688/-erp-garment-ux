@@ -10,6 +10,8 @@ name: CP7 P04 WIP kernels
     - scripts/cp7_wip_cases.py
     - scripts/cp7_wip_source_cases.py
     - scripts/cp7_wip_production_cases.py
+    - scripts/cp7_f02_audit_replay.py
+    - scripts/cp7_f02_regression_cases.py
     - scripts/cp7-src/identity/**
     - scripts/cp7-src/snapshot/**
     - scripts/cp7_snapshot_bundle.py

@@ -1,6 +1,6 @@
-# P09 complete supplier invoice documents — candidate
+# P09 complete supplier invoice documents — writer qualification
 
-29 September 2026. Qualified P09 source remains `4fae1a0067f7058fb7eaf2b4eaf527028716e8d9` (109 cases plus three smokes), with proof checkpoint `32a21db5dc47356c2e73f2966a17d5c49f3f188f`. This continuation is a candidate, not a passed native qualification. P09/F03 and independent acceptance remain open; `production_go=false`.
+29 September 2026. Qualified source **`a499f39d5e9df6893ed5705ac79bc70e177487ba`**, tree `08f777f2b7ffe5398701f5c624dcf6391e3f9d2e`: **121/121 cases PASS plus three separate smokes**. [Native/connected browser run 36542669052](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36542669052), artifact `11021306600`; application gates `36542676364` and `36542669042` succeeded. P09/F03 and independent acceptance remain open; `production_go=false`.
 
 ## Behavior and native authority
 
@@ -14,9 +14,9 @@ A read-owned validator requires complete source IDs, the anchor receipt, and one
 
 The connected editor preserves every original line and line note, invoice identity, exact version and full received timestamp when its displayed minute is unchanged. Confirmation resets after edits and refreshes. Each complete document is bounded to100 lines; receipt choices are paged by supplier. The shared PURCHASE_INVOICE recovery fence binds actor, tab, original UUID, exact payload and version. Committed controls retire before current receipt/invoice reload.
 
-## Qualification to run
+## Source-bound qualification
 
-Six native cases cover the two-receipt lifecycle and inverse, draft edit/replay/delete, wrong supplier/numeric/duplicate/partial review refusal, complete paged sources, access before cached outcomes and private-principal isolation, and direct-final/overcapacity atomicity. Three races cover same UUID, competing capacity, and revocation while blocked on a real receipt row. One real Auth/HTTP case and desktop/mobile connected browsers complete the12 additional cases. The combined target is121 plus three separate smokes; a target is not a pass claim.
+Six native cases cover the two-receipt lifecycle and inverse, draft edit/replay/delete, wrong supplier/numeric/duplicate/partial review refusal, complete paged sources, access before cached outcomes and private-principal isolation, and direct-final/overcapacity atomicity. Three races cover same UUID, competing capacity, and revocation while blocked on a real receipt row. One real Auth/HTTP case and desktop/mobile connected browsers complete the12 additional cases. All12 additional cases passed, preserving all109 prior cases in the same run. CP6 restore, advisor gate, and Auth cleanup (zero users/sessions before and after) passed. Full report `evidence/p09-procurement/CP7_P09_COMBINED_INVOICE.json.gz`; hashes and run bindings in `COMBINED_INVOICE_VERIFICATION.json`. Desktop/mobile screenshots were visually inspected; both show both receipt sources and the correct95 invoice total.
 
 The fixed money oracle is4 units at12.5 on receipt A and6 at7.5 on receipt B: AP50/45, GRNI60/40, stock value110/85, quantity10 each. A second invoice closes the remaining6/4 units at10. Reversing both must restore every account and both receipts. Browsers edit the draft first; mobile deliberately loses a committed POST response and must recover the identical UUID/payload without duplication.
 

@@ -6,6 +6,8 @@ import cp7_wip_bundle as bundle
 import cp7_wip_cases as cases
 import cp7_wip_source_cases as source_cases
 import cp7_wip_production_cases as production_cases
+import cp7_f02_audit_replay as audit_replay
+import cp7_f02_regression_cases as regressions
 import cp6_auditor_modes as modes
 import cp7_p03_identity_probe as policy
 import cp6_auditor_runner as native
@@ -34,6 +36,9 @@ def run():
         report['production']=native.strict_group('CP7_P04_PRODUCTION_NATIVE',production_cases.cases,verify)
         report['production_races']=modes.run_races(production_cases,verify,'cp7_p04_production')
         report['production_http']=modes.run_http(production_cases,verify,'cp7_p04_production')
+        report['audit_replay']=native.strict_group('CP7_F02_AUDITOR_REPLAY',audit_replay.cases,verify)
+        report['regressions']=native.strict_group('CP7_F02_REGRESSIONS',regressions.cases,verify)
+        report['regression_http']=modes.run_http(regressions,verify,'cp7_f02_fixed')
     except Exception as e:report.update(error=str(e),traceback=traceback.format_exc())
     finally:
         if installed:
@@ -44,7 +49,7 @@ def run():
             report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}))
             d=report['advisor_delta'];report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or (d['status']=='REVIEW_REQUIRED' and all(
              f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and (f.get('metadata') or {}).get('schema') in ('cp7_private','cp7_identity','cp7_wip') for f in d.get('added',[])))
-        groups=[report.get(k,{}) for k in ('native','source_smoke','source','races','http','production','production_races','production_http')]
+        groups=[report.get(k,{}) for k in ('native','source_smoke','source','races','http','production','production_races','production_http','audit_replay','regressions','regression_http')]
         report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and all(r.get('status') in ('PASS','RUN_COMPLETE') and set(r.get('counts',{}))=={'PASS'} and r['counts']['PASS']>0 and r.get('database_remaining',0)==0 for r in groups) else 'INCOMPLETE'
         OUT.parent.mkdir(parents=True,exist_ok=True);OUT.write_text(json.dumps(report,indent=2,default=str)+'\n')
         print(json.dumps({k:report.get(k) for k in ('label','status','source_sha256','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)
