@@ -2,7 +2,7 @@
 
 Family F03 is active. The receipt increment is **writer-verified in a disposable database and real connected browser**, not full P09 or family acceptance. No hosted writes; `production_go=false`.
 
-Latest qualified source: **`2809b8641d0729c0e90cacbe6ac0a0fe275d5852`**, 86 cases PASS plus three smokes. The non-roll material extension described at the end is a newer candidate, not included in that qualification.
+Latest qualified source: **`b81a5f607404075929fe74e0dac5608f5fbfe9e4`**, 93 cases PASS plus three smokes. The physical-count extension at `4003d16` is a newer candidate, not included in that qualification.
 
 ## Contract and authorization
 
@@ -180,3 +180,7 @@ Run36535794632 at `0d1f7c0` retained all79 native/race/HTTP passes but had four 
 ## Physical-count continuation — candidate pending
 
 `P09_MATERIAL_COUNT_HANDOFF.md` records the new connected stock-count boundary, inherited frontend physical-input rule, exact server-derived delta, source-token/native-document recheck after native locks, isolated recovery, current authorization, and16 declared new cases. Local45 targeted cases pass; PostgreSQL/browser qualification is pending. The candidate adds no business-table grants to the command principal and keeps native adjustment writers authoritative. Full P09/F03 remains open.
+
+## Non-roll stock/transfer qualification — 29 September 2026
+
+Source **`b81a5f607404075929fe74e0dac5608f5fbfe9e4`**, [run36536787794](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36536787794): **93/93 PASS plus three separate smokes**. All native/race/Auth/HTTP/browser cases, CP6 restoration, advisor gate and both app workflows passed. `UNROLLED_VERIFICATION.json` pins source/tree/bundle, the complete report and two additional desktop/mobile images. Auth counts returned exactly to baseline. Both images were inspected: readable cards, separate locations and quantities, no horizontal overflow. Prior incomplete runs remain preserved above; the seven new cases and all86 prior cases are now qualified on this source. The physical-count candidate at4003d16 and full P09/F03 remain open.

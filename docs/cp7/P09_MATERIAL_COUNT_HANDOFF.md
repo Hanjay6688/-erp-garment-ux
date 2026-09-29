@@ -1,6 +1,6 @@
 # P09 material physical counts — candidate for qualification
 
-29 September 2026. F03/P09 remains open. This increment is a writer candidate; native and connected-browser results are pending. It does not close P09, F03, independent acceptance, R10, or production (`production_go=false`). The latest fully qualified procurement source remains `2809b8641d0729c0e90cacbe6ac0a0fe275d5852` until a later verification receipt explicitly supersedes it.
+29 September 2026. F03/P09 remains open. This increment is a writer candidate; native and connected-browser results are pending. It does not close P09, F03, independent acceptance, R10, or production (`production_go=false`). The prior procurement and all-material transfer source `b81a5f607404075929fe74e0dac5608f5fbfe9e4` passed93 cases plus three smokes; its receipt is `UNROLLED_VERIFICATION.json`. This physical-count candidate is source `4003d16f6375bcaaff70d7c403578b00ef83ecd3` and remains outside that qualification.
 
 ## Existing rule and authority
 

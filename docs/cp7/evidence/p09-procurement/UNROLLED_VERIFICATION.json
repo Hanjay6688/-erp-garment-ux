@@ -1,0 +1,123 @@
+{
+  "source_head": "b81a5f607404075929fe74e0dac5608f5fbfe9e4",
+  "source_tree": "149df944047f0f34acd89f9425dd64f02ceb650e",
+  "run_id": 36536787794,
+  "job_id": 109302559850,
+  "artifact_id": 11018289900,
+  "archive_sha256": "b692e20bbf7c6844a2b62b0f5fe77fad48c04df3a25898678865a8779ba9438f",
+  "report_sha256": "13ec6ce44f73bf1c1d30468deddfd5e620217caf8ff02fb1e5517eca180d704b",
+  "report_gzip_sha256": "4622949f7aebe1056f353ebb00d6846d86b9304adb7765aa8433f34cf4ca450f",
+  "report": "CP7_P09_UNROLLED.json.gz",
+  "bundle_sha256": "bc913730324779ed92aa59eef79712e92b008d43033e78f874df61931f8bda73",
+  "counts": {
+    "smoke": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 9
+    },
+    "races": {
+      "PASS": 3
+    },
+    "http": {
+      "PASS": 1
+    },
+    "material_smoke": {
+      "PASS": 1
+    },
+    "material": {
+      "PASS": 13
+    },
+    "material_crossflow": {
+      "PASS": 2
+    },
+    "material_races": {
+      "PASS": 3
+    },
+    "material_http": {
+      "PASS": 1
+    },
+    "invoice": {
+      "PASS": 9
+    },
+    "invoice_races": {
+      "PASS": 3
+    },
+    "invoice_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 14
+    },
+    "return_smoke": {
+      "PASS": 1
+    },
+    "returns": {
+      "PASS": 10
+    },
+    "return_races": {
+      "PASS": 3
+    },
+    "return_http": {
+      "PASS": 1
+    },
+    "receipt_reversal": {
+      "PASS": 7
+    },
+    "receipt_reversal_races": {
+      "PASS": 3
+    },
+    "receipt_reversal_http": {
+      "PASS": 1
+    },
+    "uom": {
+      "PASS": 6
+    },
+    "uom_races": {
+      "PASS": 2
+    },
+    "uom_http": {
+      "PASS": 1
+    }
+  },
+  "total_cases": {
+    "PASS": 93
+  },
+  "smokes_separate": 3,
+  "screenshots": {
+    "P09_MATERIAL_ACCESSORY_DESKTOP.png": "961c1fbdda3db5d567aaeec387dd27f3f0ffc1282039edaadbf83535ae419145",
+    "P09_MATERIAL_OTHER_MOBILE.png": "33c1f4f41eb2f8114c5b70cf36cc3f98b4e64df5cd182ec5388b48919fd89732"
+  },
+  "status": "PASS",
+  "scope": "BOUNDED_RECEIPT_ALL_MATERIAL_TRANSFER_INVOICE_RETURN_RECEIPT_INVERSE_AND_ACCESSORY_UOM",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "browser_auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "app_runs": [
+    36536794269,
+    36536787754
+  ],
+  "production_go": false,
+  "independent_acceptance": false,
+  "limitations": [
+    "Physical-count extension at4003d16 is a newer unqualified candidate.",
+    "Material issue coverage and full P09/F03 remain open.",
+    "Mixed-receipt invoice/return writes remain outside the bounded source-receipt form.",
+    "Paid-source returns remain an explicit P13 carry.",
+    "Independent family acceptance and integrated release/restore remain pending."
+  ]
+}

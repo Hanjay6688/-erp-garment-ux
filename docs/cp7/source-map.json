@@ -897,7 +897,7 @@
       "Historical AS_KNOWN where reconstructible, global scale, full lifecycle and integrated release P18-P21"
     ],
     "p09": {
-      "tested_source": "2809b8641d0729c0e90cacbe6ac0a0fe275d5852",
+      "tested_source": "b81a5f607404075929fe74e0dac5608f5fbfe9e4",
       "modules": [
         "scripts/cp7-src/procurement",
         "scripts/cp7-src/materials",
@@ -920,8 +920,8 @@
         "src/ConnectedMaterialsPage.tsx",
         "src/PurchaseInvoicePanel.tsx"
       ],
-      "verification": "docs/cp7/evidence/p09-procurement/UOM_REVERSE_VERIFICATION.json",
-      "writer_proof": "86_NATIVE_RACE_HTTP_BROWSER_CROSSFLOW_PASS_PLUS_3_SMOKES",
+      "verification": "docs/cp7/evidence/p09-procurement/UNROLLED_VERIFICATION.json",
+      "writer_proof": "93_NATIVE_RACE_HTTP_BROWSER_CROSSFLOW_PASS_PLUS_3_SMOKES",
       "independent_acceptance": false,
       "invoice_extension": "Qualified bounded source receipt invoice FINALIZE/REVERSE; legacy mixed-receipt reversal remains outside connected action.",
       "source_return_extension": {
@@ -957,9 +957,10 @@
         "verification": "docs/cp7/evidence/p09-procurement/UOM_REVERSE_VERIFICATION.json"
       },
       "unrolled_material_extension": {
-        "status": "CANDIDATE_NATIVE_AND_BROWSER_PENDING",
+        "status": "7_NATIVE_RACE_BROWSER_CASES_PASS_WITH_ALL_PRIOR_86",
         "scope": "ACCESSORY/OTHER and existing raw material types with null roll; ordinary warehouse transfers only. Service-zone movement retains its service workflow.",
-        "notes": "Read labels advance to LIVE_MATERIAL_LEDGER. Private actor/request cache precedes mutable master validation. No command principal business SELECT/DML."
+        "notes": "Read labels advance to LIVE_MATERIAL_LEDGER. Private actor/request cache precedes mutable master validation. No command principal business SELECT/DML.",
+        "verification": "docs/cp7/evidence/p09-procurement/UNROLLED_VERIFICATION.json"
       },
       "physical_count_extension": {
         "status": "CANDIDATE_NATIVE_BROWSER_PENDING",
