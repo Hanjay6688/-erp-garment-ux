@@ -153,6 +153,26 @@ def cases(cur,today):
         refused(cur,lambda:create(cur,f['root']),'CP7_SOURCE_INCOMPLETE')
         assert cur.execute('select count(*) from cp7_private.analysis_runs').fetchone()[0]==0
         return dict(status='PASS',source_rows=501,partial_run_rows=0)
+    def complete_pages():
+        profiles=[]
+        for count in (1,101,500):
+            f=fixture(cur,today);b.api.admin(cur);cur.execute('set local session_replication_role=replica')
+            cur.execute('insert into erp.sales_items(sale_id,product_id,qty_pcs,unit_price_snapshot) select %s,%s,1,1 from generate_series(1,%s)',(f['sale'],f['root'],count-1))
+            cur.execute('set local session_replication_role=origin')
+            before=b.boundary.snapshot(cur);started=time.perf_counter();r=create(cur,f['root'])
+            capture_ms=round((time.perf_counter()-started)*1000,3);rows=[];cursor=None;pages=0
+            while True:
+                page=read(cur,r['run_id'],'sales_lines',cursor)
+                assert page['run_id']==r['run_id'] and page['projection_hash']==r['projection_hash']
+                assert page['page']['total']==count and page['source_state']=='CURRENT'
+                rows.extend(page['page']['rows']);pages+=1;cursor=page['page']['next_cursor']
+                assert pages<=5
+                if cursor is None:break
+            assert len(rows)==len({row['source_key'] for row in rows})==count
+            assert sum(int(row['qty_pcs']) for row in rows)==count+1
+            assert b.boundary.snapshot(cur)==before
+            profiles.append(dict(rows=count,pages=pages,pcs=count+1,capture_ms=capture_ms))
+        return dict(status='PASS',profiles=profiles,all_pages_complete=True,business_boundary_unchanged=True)
     def immutable():
         f=fixture(cur,today);r=create(cur,f['root'])
         refused(cur,lambda:cur.execute('update cp7_private.analysis_runs set root_id=%s where id=%s',(f['root'],r['run_id'])),'CP7_RUN_IMMUTABLE')
@@ -195,7 +215,8 @@ def cases(cur,today):
     return [('P02_CAPTURE_FACTS_BOUNDARY',snapshot),('P02_REPLAY_STALE_REQUEST_CONFLICT',replay),
         ('P02_SERVER_PROJECTION_REVOKE',projection),('P02_ACTOR_SCOPE',auth),
         ('P02_IMMUTABLE_CURSOR',pagination),('P02_INCOMPLETE_REFUSED',incomplete),('P02_COMPUTE_PRIVILEGES_IMMUTABLE',immutable),
-        ('P02_INSERT_BACKDATE_DELETE_STATUS',source_changes),('P02_FINANCE_DEPENDENCY_NO_OPS_LEAK',financial_change)]
+        ('P02_INSERT_BACKDATE_DELETE_STATUS',source_changes),('P02_FINANCE_DEPENDENCY_NO_OPS_LEAK',financial_change),
+        ('P02_COMPLETE_PAGE_PROFILES',complete_pages)]
 
 def races(tools,today):
     def coherent():
@@ -258,7 +279,40 @@ def races(tools,today):
         assert ids[0]==ids[1],ids
         with tools.connect() as conn,conn.cursor() as cur:assert cur.execute('select count(*) from cp7_private.analysis_runs').fetchone()[0]==1
         return dict(status='PASS',same_run=True,persisted_runs=1)
-    return [('P02_CONCURRENT_COHERENCE',coherent),('P02_REVOCATION_DURING_CAPTURE',revoked),('P02_CONCURRENT_REQUEST_REPLAY',duplicate)]
+    def cutoff_after_wait():
+        with tools.connect() as conn,conn.cursor() as cur:f=fixture(cur,today);conn.commit()
+        key=str(uuid.uuid4());created=None
+        with tools.connect() as holder,holder.cursor() as h:
+            h.execute("select pg_advisory_xact_lock(hashtextextended('CP7_CAPTURE:'||%s||':'||%s,0))",(base.OPERATOR_AUTH,key))
+            def waiting():
+                with tools.connect() as conn,conn.cursor() as cur:
+                    r=create(cur,f['root'],key);conn.commit();return r['run_id']
+            with ThreadPoolExecutor(max_workers=1) as pool:
+                future=pool.submit(waiting);deadline=time.monotonic()+10;blocked=False
+                try:
+                    with tools.connect(autocommit=True) as inspect,inspect.cursor() as c:
+                        while time.monotonic()<deadline:
+                            c.execute('select pg_stat_clear_snapshot()')
+                            blocked=c.execute("select exists(select 1 from pg_stat_activity where datname=current_database() and wait_event='advisory' and pid<>pg_backend_pid())").fetchone()[0]
+                            if blocked:break
+                            time.sleep(.03)
+                    assert blocked,'CAPTURE_NOT_WAITING_ON_REAL_REQUEST_LOCK'
+                    with tools.connect() as change,change.cursor() as c:
+                        c.execute('set local session_replication_role=replica');sale=str(uuid.uuid4())
+                        created=c.execute("""insert into erp.sales_headers(id,sale_number,customer_id,sale_date,status,source_location_id,created_at)
+                         select %s,%s,customer_id,clock_timestamp(),'DRAFT',source_location_id,clock_timestamp()
+                         from erp.sales_headers where id=%s returning created_at""",(sale,'P02-WAIT-'+sale,f['sale'])).fetchone()[0]
+                        c.execute('insert into erp.sales_items(sale_id,product_id,qty_pcs,unit_price_snapshot) values(%s,%s,3,1)',(sale,f['root']))
+                        c.execute('set local session_replication_role=origin');change.commit()
+                finally:holder.rollback()
+                run=future.result(timeout=15)
+        with tools.connect() as conn,conn.cursor() as cur:
+            p=stored(cur,run)
+            assert sorted(int(row['qty_pcs']) for row in p['sources']['sales_lines'])==[2,3],dict(expected=[2,3],actual=p['sources']['sales_lines'],cutoff=p['snapshot'],committed_created_at=created)
+            assert cur.execute("select (payload->'snapshot'->>'known_as_of')::timestamptz >= %s from cp7_private.analysis_runs where id=%s",(created,run)).fetchone()[0]
+        return dict(status='PASS',capture_includes_commit_before_lock_release=True,captured_quantities=[2,3])
+    return [('P02_CONCURRENT_COHERENCE',coherent),('P02_REVOCATION_DURING_CAPTURE',revoked),('P02_CONCURRENT_REQUEST_REPLAY',duplicate),
+        ('P02_CAPTURE_CLOCK_AFTER_WAIT',cutoff_after_wait)]
 
 def http_cases(http,today):
     def flow():
