@@ -1,0 +1,213 @@
+{
+  "verdict": "ACCEPT_FAMILY1_P00_P02_BOUNDED",
+  "date": "2026-09-29",
+  "product_sha": "735056db3b42cc7fc3999149b42e2cadac7b42b2",
+  "checkpoint_sha": "88543e40320330e0cd95eae0bd54267f5f22d834",
+  "source_bundle_sha256": "bfe90effa5af89941a02669b05ed855f54cb2c76ae8433e7cd01ae3b5f5bc9c4",
+  "independence": "Independent oracle/probes and execution; writer evidence was read and separately cross-checked. Not blind.",
+  "own_probes": 15,
+  "writer_probes_rerun": 16,
+  "final_case_results": {
+    "AUD_F01_REVOKED_FINANCE_NO_SIDE_CHANNEL": {
+      "mode": "native",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "AUD_F01_OPS_NO_FINANCE_EXECUTION": {
+      "mode": "native",
+      "status": "PASS",
+      "run": 36513500787,
+      "prior_status": "INCOMPLETE",
+      "resolution": "AUDITOR_METHOD_CORRECTED_PRODUCT_BYTES_UNCHANGED"
+    },
+    "AUD_F01_ZERO_AND_EXACT_DECIMALS": {
+      "mode": "native",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "AUD_F01_EMPTY_CURSOR_MALFORMED": {
+      "mode": "native",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "AUD_F01_EXACT_PAGE_BOUNDARY": {
+      "mode": "native",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "AUD_F01_LOT_COST_CAP_ISOLATION": {
+      "mode": "native",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "AUD_F01_STOCK_CAP": {
+      "mode": "native",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "AUD_F01_ARCHIVE_SOURCE_UNAVAILABLE": {
+      "mode": "native",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "AUD_F01_FULL_EFFECTIVE_ACL": {
+      "mode": "native",
+      "status": "PASS",
+      "run": 36513500787,
+      "prior_status": "INCOMPLETE",
+      "resolution": "AUDITOR_METHOD_CORRECTED_PRODUCT_BYTES_UNCHANGED"
+    },
+    "AUD_F01_EACH_PERMISSION_REPLAY": {
+      "mode": "native",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "WRITER_RERUN_P02_CAPTURE_FACTS_BOUNDARY": {
+      "mode": "native",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "WRITER_RERUN_P02_REPLAY_STALE_REQUEST_CONFLICT": {
+      "mode": "native",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "WRITER_RERUN_P02_SERVER_PROJECTION_REVOKE": {
+      "mode": "native",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "WRITER_RERUN_P02_ACTOR_SCOPE": {
+      "mode": "native",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "WRITER_RERUN_P02_IMMUTABLE_CURSOR": {
+      "mode": "native",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "WRITER_RERUN_P02_INCOMPLETE_REFUSED": {
+      "mode": "native",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "WRITER_RERUN_P02_COMPUTE_PRIVILEGES_IMMUTABLE": {
+      "mode": "native",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "WRITER_RERUN_P02_INSERT_BACKDATE_DELETE_STATUS": {
+      "mode": "native",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "WRITER_RERUN_P02_FINANCE_DEPENDENCY_NO_OPS_LEAK": {
+      "mode": "native",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "WRITER_RERUN_P02_COMPLETE_PAGE_PROFILES": {
+      "mode": "native",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "AUD_F01_FINANCE_REVOKED_WHILE_WAITING": {
+      "mode": "races",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "AUD_F01_EXISTING_REPLAY_REVOKED_WHILE_WAITING": {
+      "mode": "races",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "AUD_F01_STALE_ISOLATION": {
+      "mode": "races",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "WRITER_RERUN_P02_CONCURRENT_COHERENCE": {
+      "mode": "races",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "WRITER_RERUN_P02_REVOCATION_DURING_CAPTURE": {
+      "mode": "races",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "WRITER_RERUN_P02_CONCURRENT_REQUEST_REPLAY": {
+      "mode": "races",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "WRITER_RERUN_P02_CAPTURE_CLOCK_AFTER_WAIT": {
+      "mode": "races",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "AUD_F01_DIRECT_PRIVATE_REST": {
+      "mode": "http",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "AUD_F01_HTTP_EACH_PERMISSION_REVOKED": {
+      "mode": "http",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "WRITER_RERUN_P02_HTTP_REAL_AUTH_REPLAY_REVOKE": {
+      "mode": "http",
+      "status": "PASS",
+      "run": 36512993335
+    },
+    "WRITER_RERUN_P02_HTTP_OPERATIONS_REDACTION": {
+      "mode": "http",
+      "status": "PASS",
+      "run": 36512993335
+    }
+  },
+  "p00_recapture": {
+    "status": "PASS",
+    "functions": 1009,
+    "relations": 409,
+    "triggers": 531,
+    "matching_function_definitions": true,
+    "write_refusal": "25006"
+  },
+  "application": {
+    "provenance": "AUDITOR_RERUN_EXISTING_SUITE",
+    "run": 36512993335,
+    "job": 109229043810,
+    "unit_dom": 633,
+    "shell_browser": 6,
+    "security": "PASS",
+    "build": "PASS",
+    "framework_hashes": 48
+  },
+  "product_findings": [],
+  "initial_harness_corrections": [
+    "Grant revocation was not a function-execution detector; use transaction-local counters plus a positive financial control.",
+    "PUBLIC invoker-only trigger functions were not directly callable mutators; prove direct-call denial and absence of business-write/trigger privileges."
+  ],
+  "preserved_initial_status": "INCOMPLETE",
+  "package_files": 30,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "production_go": false,
+  "cp6_scope": "REMAINS_CLOSED_AS_ACCEPTED",
+  "limits": [
+    "One physical root/exact size, CURRENT, five operational domains plus authorized lot_cost.",
+    "At most 500 facts per domain, 100 per page; cutting remains UNBOUND_CANDIDATE.",
+    "No connected R10 UI, WIP/forecast/shared capacity acceptance, report/export/apply/ACK or arbitrary AS_KNOWN/RESTATED.",
+    "Administrative source fixtures are not proof of normal posting workflows or valid BD FREE policy.",
+    "CP7 rollout and later-family regression/release gates remain required."
+  ]
+}

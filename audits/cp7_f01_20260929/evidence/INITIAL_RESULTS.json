@@ -1,0 +1,947 @@
+{
+  "label": "CP7_P02_FACADE_FAMILY",
+  "status": "INCOMPLETE",
+  "production_go": false,
+  "independent_acceptance": false,
+  "scope": "ONE_ROOT_SIX_SOURCE_DOMAINS_CURRENT_ONLY",
+  "source_sha256": "bfe90effa5af89941a02669b05ed855f54cb2c76ae8433e7cd01ae3b5f5bc9c4",
+  "native": {
+    "status": "INCOMPLETE",
+    "cases": {
+      "AUD_F01_REVOKED_FINANCE_NO_SIDE_CHANNEL": {
+        "status": "PASS",
+        "revoked_finance_archive_redacted": true,
+        "cost_only_change_has_no_visible_signal": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      },
+      "AUD_F01_OPS_NO_FINANCE_EXECUTION": {
+        "status": "INCOMPLETE",
+        "error": "permission denied for function get_hpp_completeness\nCONTEXT:  SQL function \"capture_sources\" statement 1\nSQL statement \"with facts as materialized (\n   select cp7_private.project(cp7_private.capture_sources(p_root,money),money) p\n  ) insert into cp7_private.analysis_runs(actor,request_id,root_id,financial_captured,captured_at,access_at_capture,payload,dependencies)\n   select auth.uid(),p_request,p_root,money,(p->'snapshot'->>'generated_at')::timestamptz,a,p,cp7_private.dependencies(p)\n   from facts where p->>'status'='COMPLETE'\n   returning *\"\nPL/pgSQL function cp7_private.capture_run(uuid,uuid) line 16 at SQL statement\nSQL function \"erp_cp7_capture_snapshot_v1\" statement 1",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 112, in strict_group\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/audits/cp7_f01_20260929/probe.py\", line 40, in cost_reader_denied\n    r=w.create(cur,f['root'],subject=subject)\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_snapshot_cases.py\", line 20, in create\n    value=cur.execute('select public.erp_cp7_capture_snapshot_v1(%s,%s)',(root,key or uuid.uuid4())).fetchone()[0]\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: permission denied for function get_hpp_completeness\nCONTEXT:  SQL function \"capture_sources\" statement 1\nSQL statement \"with facts as materialized (\n   select cp7_private.project(cp7_private.capture_sources(p_root,money),money) p\n  ) insert into cp7_private.analysis_runs(actor,request_id,root_id,financial_captured,captured_at,access_at_capture,payload,dependencies)\n   select auth.uid(),p_request,p_root,money,(p->'snapshot'->>'generated_at')::timestamptz,a,p,cp7_private.dependencies(p)\n   from facts where p->>'status'='COMPLETE'\n   returning *\"\nPL/pgSQL function cp7_private.capture_run(uuid,uuid) line 16 at SQL statement\nSQL function \"erp_cp7_capture_snapshot_v1\" statement 1\n",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      },
+      "AUD_F01_ZERO_AND_EXACT_DECIMALS": {
+        "status": "PASS",
+        "exact_values": [
+          {
+            "unit": "IDR",
+            "state": "KNOWN",
+            "value": "0.000000"
+          },
+          {
+            "unit": "IDR",
+            "state": "KNOWN",
+            "value": "21474836.480001"
+          },
+          {
+            "unit": "IDR",
+            "state": "KNOWN",
+            "value": "999999999.123456"
+          }
+        ],
+        "zero_distinct_from_unknown": true,
+        "scope": "source facts; not BD FREE policy acceptance",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      },
+      "AUD_F01_EMPTY_CURSOR_MALFORMED": {
+        "status": "PASS",
+        "empty_domain_complete": true,
+        "invalid_parameters_refused": 13,
+        "end_cursor_empty": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      },
+      "AUD_F01_EXACT_PAGE_BOUNDARY": {
+        "status": "PASS",
+        "rows": 100,
+        "pcs": 299,
+        "no_unnecessary_next_page": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      },
+      "AUD_F01_LOT_COST_CAP_ISOLATION": {
+        "status": "PASS",
+        "financial_rows": 501,
+        "financial_capture_refused": true,
+        "operations_not_influenced_by_financial_limit": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      },
+      "AUD_F01_STOCK_CAP": {
+        "status": "PASS",
+        "stock_rows": 501,
+        "no_partial_run": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      },
+      "AUD_F01_ARCHIVE_SOURCE_UNAVAILABLE": {
+        "status": "PASS",
+        "unavailable_live_root_does_not_rewrite_archive": true,
+        "fresh_capture_refused": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      },
+      "AUD_F01_FULL_EFFECTIVE_ACL": {
+        "status": "INCOMPLETE",
+        "error": "['erp.guard_attendance_period_lifecycle()', 'erp.guard_attendance_period_overlap()', 'erp.guard_attendance_record_period_and_dates()', 'erp.guard_stock_explainability_immutable()', 'erp.guard_stock_policy_version()', 'erp.guard_worker_daily_rate_cache()', 'erp.guard_worker_daily_rate_version()', 'erp.guard_worker_employment_period()']",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 112, in strict_group\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/audits/cp7_f01_20260929/probe.py\", line 113, in privileges\n    assert not unexpected,unexpected\n           ^^^^^^^^^^^^^^\nAssertionError: ['erp.guard_attendance_period_lifecycle()', 'erp.guard_attendance_period_overlap()', 'erp.guard_attendance_record_period_and_dates()', 'erp.guard_stock_explainability_immutable()', 'erp.guard_stock_policy_version()', 'erp.guard_worker_daily_rate_cache()', 'erp.guard_worker_daily_rate_version()', 'erp.guard_worker_employment_period()']\n",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      },
+      "AUD_F01_EACH_PERMISSION_REPLAY": {
+        "status": "PASS",
+        "required_permissions_individually_enforced": [
+          "master.product.view",
+          "production.wip.view",
+          "warehouse.stock.view",
+          "sales.invoice.view"
+        ],
+        "inactive_user_and_null_actor_denied": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      },
+      "WRITER_RERUN_P02_CAPTURE_FACTS_BOUNDARY": {
+        "status": "PASS",
+        "pair": [
+          9,
+          2
+        ],
+        "cutting": [
+          6,
+          7
+        ],
+        "cost": "UNKNOWN",
+        "business_boundary_unchanged": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      },
+      "WRITER_RERUN_P02_REPLAY_STALE_REQUEST_CONFLICT": {
+        "status": "PASS",
+        "replay_stable": true,
+        "stale_after_atomic_correction": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      },
+      "WRITER_RERUN_P02_SERVER_PROJECTION_REVOKE": {
+        "status": "PASS",
+        "server_redaction": true,
+        "grant_requires_new_capture": true,
+        "revoke_denied": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      },
+      "WRITER_RERUN_P02_ACTOR_SCOPE": {
+        "status": "PASS",
+        "unmapped_denied": true,
+        "service_role_denied": true,
+        "other_actor_denied": true,
+        "inactive_role_denied": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      },
+      "WRITER_RERUN_P02_IMMUTABLE_CURSOR": {
+        "status": "PASS",
+        "immutable_page_values": [
+          2,
+          3
+        ],
+        "cursor_bound_to_run_domain": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      },
+      "WRITER_RERUN_P02_INCOMPLETE_REFUSED": {
+        "status": "PASS",
+        "source_rows": 501,
+        "partial_run_rows": 0,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      },
+      "WRITER_RERUN_P02_COMPUTE_PRIVILEGES_IMMUTABLE": {
+        "status": "PASS",
+        "immutable": true,
+        "compute_mutator_denied": true,
+        "private_data_api_denied": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      },
+      "WRITER_RERUN_P02_INSERT_BACKDATE_DELETE_STATUS": {
+        "status": "PASS",
+        "changes_detected": [
+          "INSERT_BACKDATED",
+          "DELETE",
+          "STATUS"
+        ],
+        "archive_unchanged": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      },
+      "WRITER_RERUN_P02_FINANCE_DEPENDENCY_NO_OPS_LEAK": {
+        "status": "PASS",
+        "financial_change_hidden_from_operations": true,
+        "financial_stale": true,
+        "known_exact_cost": {
+          "unit": "IDR",
+          "state": "KNOWN",
+          "value": "99.010000"
+        },
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      },
+      "WRITER_RERUN_P02_COMPLETE_PAGE_PROFILES": {
+        "status": "PASS",
+        "profiles": [
+          {
+            "rows": 1,
+            "pages": 1,
+            "pcs": 2,
+            "capture_ms": 25.545
+          },
+          {
+            "rows": 101,
+            "pages": 2,
+            "pcs": 102,
+            "capture_ms": 33.582
+          },
+          {
+            "rows": 500,
+            "pages": 5,
+            "pcs": 501,
+            "capture_ms": 65.216
+          }
+        ],
+        "all_pages_complete": true,
+        "business_boundary_unchanged": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "production_go": false,
+    "independent_acceptance": false,
+    "runner": "cp6_auditor_runner.strict_group",
+    "planned_case_ids": [
+      "AUD_F01_REVOKED_FINANCE_NO_SIDE_CHANNEL",
+      "AUD_F01_OPS_NO_FINANCE_EXECUTION",
+      "AUD_F01_ZERO_AND_EXACT_DECIMALS",
+      "AUD_F01_EMPTY_CURSOR_MALFORMED",
+      "AUD_F01_EXACT_PAGE_BOUNDARY",
+      "AUD_F01_LOT_COST_CAP_ISOLATION",
+      "AUD_F01_STOCK_CAP",
+      "AUD_F01_ARCHIVE_SOURCE_UNAVAILABLE",
+      "AUD_F01_FULL_EFFECTIVE_ACL",
+      "AUD_F01_EACH_PERMISSION_REPLAY",
+      "WRITER_RERUN_P02_CAPTURE_FACTS_BOUNDARY",
+      "WRITER_RERUN_P02_REPLAY_STALE_REQUEST_CONFLICT",
+      "WRITER_RERUN_P02_SERVER_PROJECTION_REVOKE",
+      "WRITER_RERUN_P02_ACTOR_SCOPE",
+      "WRITER_RERUN_P02_IMMUTABLE_CURSOR",
+      "WRITER_RERUN_P02_INCOMPLETE_REFUSED",
+      "WRITER_RERUN_P02_COMPUTE_PRIVILEGES_IMMUTABLE",
+      "WRITER_RERUN_P02_INSERT_BACKDATE_DELETE_STATUS",
+      "WRITER_RERUN_P02_FINANCE_DEPENDENCY_NO_OPS_LEAK",
+      "WRITER_RERUN_P02_COMPLETE_PAGE_PROFILES"
+    ],
+    "session_at_start": {
+      "advisory": [
+        [
+          "36667162",
+          "2014860829",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "166583883",
+          "2669507776",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "208747142",
+          "2233598984",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "353316832",
+          "1189993822",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "458972123",
+          "379339506",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "524727427",
+          "334673770",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "693903571",
+          "2866437828",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "694838183",
+          "1813013584",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "883016342",
+          "2349415612",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "938103959",
+          "442513174",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1224802527",
+          "1169422021",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1261625026",
+          "2905790439",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1273295348",
+          "3338780787",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1356899435",
+          "852029277",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1366875395",
+          "841090236",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1367901004",
+          "443200556",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1452589418",
+          "2318283490",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1659939102",
+          "2638083243",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1706224961",
+          "574969052",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1716759566",
+          "3805362301",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1849364187",
+          "2816188665",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2074150533",
+          "2301418854",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2102851753",
+          "2107942368",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2121098030",
+          "4279459386",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2357363968",
+          "2446996845",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2362748437",
+          "1193658865",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2416927398",
+          "1878906677",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2710724889",
+          "349601549",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2734145821",
+          "2415067759",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2835761249",
+          "4093664552",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2852939915",
+          "2555118205",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2881721593",
+          "3219662216",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "3068959875",
+          "835027079",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "3210233209",
+          "3470476653",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "3428095272",
+          "2505725820",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "3539759205",
+          "1516969370",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "3568397971",
+          "514652479",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "3613867789",
+          "3350003211",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "3788117337",
+          "502267553",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "3929457793",
+          "2155514118",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "4056783207",
+          "1845058424",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "4112193311",
+          "2513108349",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "4146714525",
+          "2979339049",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "4229748276",
+          "2825527482",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "4243054506",
+          "1293088334",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "4269567997",
+          "896485724",
+          1,
+          "ExclusiveLock"
+        ]
+      ],
+      "sessions": []
+    },
+    "complete_boundary_restored": true,
+    "final": {
+      "AUD_F01_REVOKED_FINANCE_NO_SIDE_CHANNEL": "PASS",
+      "AUD_F01_OPS_NO_FINANCE_EXECUTION": "INCOMPLETE",
+      "AUD_F01_ZERO_AND_EXACT_DECIMALS": "PASS",
+      "AUD_F01_EMPTY_CURSOR_MALFORMED": "PASS",
+      "AUD_F01_EXACT_PAGE_BOUNDARY": "PASS",
+      "AUD_F01_LOT_COST_CAP_ISOLATION": "PASS",
+      "AUD_F01_STOCK_CAP": "PASS",
+      "AUD_F01_ARCHIVE_SOURCE_UNAVAILABLE": "PASS",
+      "AUD_F01_FULL_EFFECTIVE_ACL": "INCOMPLETE",
+      "AUD_F01_EACH_PERMISSION_REPLAY": "PASS",
+      "WRITER_RERUN_P02_CAPTURE_FACTS_BOUNDARY": "PASS",
+      "WRITER_RERUN_P02_REPLAY_STALE_REQUEST_CONFLICT": "PASS",
+      "WRITER_RERUN_P02_SERVER_PROJECTION_REVOKE": "PASS",
+      "WRITER_RERUN_P02_ACTOR_SCOPE": "PASS",
+      "WRITER_RERUN_P02_IMMUTABLE_CURSOR": "PASS",
+      "WRITER_RERUN_P02_INCOMPLETE_REFUSED": "PASS",
+      "WRITER_RERUN_P02_COMPUTE_PRIVILEGES_IMMUTABLE": "PASS",
+      "WRITER_RERUN_P02_INSERT_BACKDATE_DELETE_STATUS": "PASS",
+      "WRITER_RERUN_P02_FINANCE_DEPENDENCY_NO_OPS_LEAK": "PASS",
+      "WRITER_RERUN_P02_COMPLETE_PAGE_PROFILES": "PASS"
+    },
+    "counts": {
+      "PASS": 18,
+      "INCOMPLETE": 2
+    },
+    "missing": []
+  },
+  "races": {
+    "status": "RUN_COMPLETE",
+    "label": "AUDITOR_SCENARIO",
+    "database": "cp6_auditor_race",
+    "copy_per_race": true,
+    "test_only_usage_grant": true,
+    "races": {
+      "AUD_F01_FINANCE_REVOKED_WHILE_WAITING": {
+        "status": "PASS",
+        "existing_replay": false,
+        "finance_only_revocation": true,
+        "result": "CP7_ACCESS_CHANGED",
+        "persisted_runs": 0,
+        "session_leaks": []
+      },
+      "AUD_F01_EXISTING_REPLAY_REVOKED_WHILE_WAITING": {
+        "status": "PASS",
+        "existing_replay": true,
+        "finance_only_revocation": false,
+        "result": "CP7_ACCESS_DENIED",
+        "persisted_runs": 1,
+        "session_leaks": []
+      },
+      "AUD_F01_STALE_ISOLATION": {
+        "status": "PASS",
+        "refused_isolation_levels": [
+          "repeatable read",
+          "serializable"
+        ],
+        "session_leaks": []
+      },
+      "WRITER_RERUN_P02_CONCURRENT_COHERENCE": {
+        "status": "PASS",
+        "captures": 12,
+        "committed_updates": 30,
+        "captures_while_writer_active": 12,
+        "observed_pairs": [
+          [
+            9,
+            2
+          ],
+          [
+            12,
+            5
+          ]
+        ],
+        "session_leaks": []
+      },
+      "WRITER_RERUN_P02_REVOCATION_DURING_CAPTURE": {
+        "status": "PASS",
+        "revoked_while_capture_waited": true,
+        "refusal": "CP7_ACCESS_DENIED",
+        "partial_run_rows": 0,
+        "session_leaks": []
+      },
+      "WRITER_RERUN_P02_CONCURRENT_REQUEST_REPLAY": {
+        "status": "PASS",
+        "same_run": true,
+        "persisted_runs": 1,
+        "session_leaks": []
+      },
+      "WRITER_RERUN_P02_CAPTURE_CLOCK_AFTER_WAIT": {
+        "status": "PASS",
+        "capture_includes_commit_before_lock_release": true,
+        "captured_quantities": [
+          2,
+          3
+        ],
+        "session_leaks": []
+      }
+    },
+    "production_go": false,
+    "independent_acceptance": false,
+    "release_evidence": false,
+    "planned_race_ids": [
+      "AUD_F01_FINANCE_REVOKED_WHILE_WAITING",
+      "AUD_F01_EXISTING_REPLAY_REVOKED_WHILE_WAITING",
+      "AUD_F01_STALE_ISOLATION",
+      "WRITER_RERUN_P02_CONCURRENT_COHERENCE",
+      "WRITER_RERUN_P02_REVOCATION_DURING_CAPTURE",
+      "WRITER_RERUN_P02_CONCURRENT_REQUEST_REPLAY",
+      "WRITER_RERUN_P02_CAPTURE_CLOCK_AFTER_WAIT"
+    ],
+    "database_remaining": 0,
+    "counts": {
+      "PASS": 7
+    }
+  },
+  "http": {
+    "status": "RUN_COMPLETE",
+    "label": "AUDITOR_SCENARIO",
+    "database": "cp6_auditor_http",
+    "real_auth": true,
+    "jwt_signed_by_runtime": false,
+    "test_only_usage_grant": false,
+    "cases": {
+      "AUD_F01_DIRECT_PRIVATE_REST": {
+        "status": "PASS",
+        "direct_private_rest_attempts": [
+          {
+            "actor": "anonymous",
+            "path": "/analysis_runs?select=*",
+            "profile": null,
+            "status": 404
+          },
+          {
+            "actor": "anonymous",
+            "path": "/analysis_runs?select=*",
+            "profile": "cp7_private",
+            "status": 406
+          },
+          {
+            "actor": "anonymous",
+            "path": "/rpc/access_now",
+            "profile": null,
+            "status": 404
+          },
+          {
+            "actor": "anonymous",
+            "path": "/rpc/capture_sources",
+            "profile": "cp7_private",
+            "status": 406
+          },
+          {
+            "actor": "authenticated",
+            "path": "/analysis_runs?select=*",
+            "profile": null,
+            "status": 404
+          },
+          {
+            "actor": "authenticated",
+            "path": "/analysis_runs?select=*",
+            "profile": "cp7_private",
+            "status": 406
+          },
+          {
+            "actor": "authenticated",
+            "path": "/rpc/access_now",
+            "profile": null,
+            "status": 404
+          },
+          {
+            "actor": "authenticated",
+            "path": "/rpc/capture_sources",
+            "profile": "cp7_private",
+            "status": 406
+          }
+        ],
+        "session_leaks": []
+      },
+      "AUD_F01_HTTP_EACH_PERMISSION_REVOKED": {
+        "status": "PASS",
+        "same_real_auth_token": true,
+        "revocations": [
+          {
+            "permission": "master.product.view",
+            "replay": 403,
+            "page": 403
+          },
+          {
+            "permission": "production.wip.view",
+            "replay": 403,
+            "page": 403
+          },
+          {
+            "permission": "warehouse.stock.view",
+            "replay": 403,
+            "page": 403
+          },
+          {
+            "permission": "sales.invoice.view",
+            "replay": 403,
+            "page": 403
+          }
+        ],
+        "restored_permission_replay_same_run": true,
+        "session_leaks": []
+      },
+      "WRITER_RERUN_P02_HTTP_REAL_AUTH_REPLAY_REVOKE": {
+        "status": "PASS",
+        "real_auth": true,
+        "owner_capture_cost": true,
+        "other_actor_denied": true,
+        "anonymous_denied": true,
+        "same_token_revoked": true,
+        "business_boundary_unchanged": true,
+        "session_leaks": []
+      },
+      "WRITER_RERUN_P02_HTTP_OPERATIONS_REDACTION": {
+        "status": "PASS",
+        "real_auth": true,
+        "financial_domain_absent": true,
+        "financial_read_denied": true,
+        "session_leaks": []
+      }
+    },
+    "production_go": false,
+    "independent_acceptance": false,
+    "release_evidence": false,
+    "planned_case_ids": [
+      "AUD_F01_DIRECT_PRIVATE_REST",
+      "AUD_F01_HTTP_EACH_PERMISSION_REVOKED",
+      "WRITER_RERUN_P02_HTTP_REAL_AUTH_REPLAY_REVOKE",
+      "WRITER_RERUN_P02_HTTP_OPERATIONS_REDACTION"
+    ],
+    "cleanup": {
+      "users_created": 5,
+      "cleanup_failures": [],
+      "rest_remaining": false
+    },
+    "cleanup_failures": false,
+    "database_remaining": 0,
+    "auth_counts": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "counts": {
+      "PASS": 4
+    }
+  },
+  "cp6_restored": true,
+  "advisor_delta": {
+    "status": "REVIEW_REQUIRED",
+    "before": 216,
+    "after": 217,
+    "added": [
+      {
+        "name": "rls_enabled_no_policy",
+        "title": "RLS Enabled No Policy",
+        "level": "INFO",
+        "facing": "EXTERNAL",
+        "categories": [
+          "SECURITY"
+        ],
+        "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+        "detail": "Table `cp7_private.analysis_runs` has RLS enabled, but no policies exist",
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+        "metadata": {
+          "name": "analysis_runs",
+          "type": "table",
+          "schema": "cp7_private"
+        },
+        "cache_key": "rls_enabled_no_policy_cp7_private_analysis_runs"
+      }
+    ],
+    "removed": []
+  },
+  "advisor_gate": true,
+  "artifact": {
+    "id": 11010262239,
+    "run": 36512993335,
+    "zip_sha256": "18bcde7fcecc2f7fec59670e0fd3b2e07e366806f70c9e565c857033663ca5da",
+    "raw_files": {
+      "INITIAL_CP7_F01_INDEPENDENT.json.gz": {
+        "raw_sha256": "cc85cff8b50ce8d4b929b76f59af6eff95ec282ca1fcda6408deb7447bc35d72",
+        "gzip_sha256": "5f19ff942b353966f34ee23311c4055532454bb1d51f903c721d484d279ac2bf"
+      },
+      "INITIAL_T3_PACKAGE_INSTALL.json.gz": {
+        "raw_sha256": "f5d5c5a6d453baad18e6dd1ba0c3a47da3a1ac33e1693b545d49946191d4c91f",
+        "gzip_sha256": "7dc3c9db3a68b48a1c0998096320d06751b412805ca959bb90445c0d59c2c85c"
+      },
+      "INITIAL_T3_PACKAGE_FILES_INSTALL.json.gz": {
+        "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+      },
+      "INITIAL_T3_BACKUP_RESTORE_DRILL.json.gz": {
+        "raw_sha256": "85886c552a271e94e3e4ee1c2f6169c61e3b11336c328deada43f95d70110c31",
+        "gzip_sha256": "6e49fa2519f65213422e694e76e4129bbcc1a36d8b1246752f284714c0844ce0"
+      }
+    }
+  },
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "primary_unchanged": true,
+  "package_files_count": 30
+}

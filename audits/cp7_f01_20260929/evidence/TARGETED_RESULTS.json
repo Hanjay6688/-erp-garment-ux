@@ -1,0 +1,450 @@
+{
+  "label": "AUD_F01_TARGETED_FOLLOWUP",
+  "status": "PASS",
+  "production_go": false,
+  "preceding_run": 36512993335,
+  "source_sha256": "bfe90effa5af89941a02669b05ed855f54cb2c76ae8433e7cd01ae3b5f5bc9c4",
+  "native": {
+    "status": "PASS",
+    "cases": {
+      "AUD_F01_OPS_NO_FINANCE_EXECUTION": {
+        "status": "PASS",
+        "operations_does_not_execute_finance_helpers": true,
+        "operations_does_not_read_cost_rows": true,
+        "stats_before": [
+          {
+            "bd_lot_laundry_unknown_v1": 0,
+            "get_hpp_completeness": 0
+          },
+          {
+            "fg_lots": 0,
+            "hpp_versions": 0
+          }
+        ],
+        "stats_after_operations": [
+          {
+            "bd_lot_laundry_unknown_v1": 0,
+            "get_hpp_completeness": 0
+          },
+          {
+            "fg_lots": 0,
+            "hpp_versions": 0
+          }
+        ],
+        "stats_finance_positive_control": [
+          {
+            "bd_lot_laundry_unknown_v1": 2,
+            "get_hpp_completeness": 0
+          },
+          {
+            "fg_lots": 8,
+            "hpp_versions": 2
+          }
+        ],
+        "missing_source_privilege_fails_closed": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      },
+      "AUD_F01_FULL_EFFECTIVE_ACL": {
+        "status": "PASS",
+        "business_write_grants": [],
+        "allowed_functions": [
+          "erp_cp7_capture_snapshot_v1(uuid,uuid)",
+          "erp_cp7_read_snapshot_v1(uuid,text,text,integer)",
+          "erp.bd_lot_laundry_unknown_v1(uuid)",
+          "erp.get_hpp_completeness(uuid)",
+          "erp.get_my_access_v1()",
+          "erp.has_permission(text)"
+        ],
+        "trigger_functions_direct_call_denied": [
+          "erp.guard_attendance_period_lifecycle()",
+          "erp.guard_attendance_period_overlap()",
+          "erp.guard_attendance_record_period_and_dates()",
+          "erp.guard_stock_explainability_immutable()",
+          "erp.guard_stock_policy_version()",
+          "erp.guard_worker_daily_rate_cache()",
+          "erp.guard_worker_daily_rate_version()",
+          "erp.guard_worker_employment_period()"
+        ],
+        "private_helper_grants": [],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "production_go": false,
+    "independent_acceptance": false,
+    "runner": "cp6_auditor_runner.strict_group",
+    "planned_case_ids": [
+      "AUD_F01_OPS_NO_FINANCE_EXECUTION",
+      "AUD_F01_FULL_EFFECTIVE_ACL"
+    ],
+    "session_at_start": {
+      "advisory": [
+        [
+          "36667162",
+          "2014860829",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "40009100",
+          "3514157841",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "166583883",
+          "2669507776",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "221742437",
+          "3690422364",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "318054576",
+          "3365540342",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "407001595",
+          "3604055472",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "524727427",
+          "334673770",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "693903571",
+          "2866437828",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "769421155",
+          "1407696736",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "796199640",
+          "3236342960",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "938103959",
+          "442513174",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1261015409",
+          "636500314",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1261625026",
+          "2905790439",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1273295348",
+          "3338780787",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1356899435",
+          "852029277",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1366875395",
+          "841090236",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1367901004",
+          "443200556",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1487345135",
+          "3535100977",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1659939102",
+          "2638083243",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1706224961",
+          "574969052",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1773097115",
+          "132471865",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1849364187",
+          "2816188665",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1999874398",
+          "3501215441",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2074150533",
+          "2301418854",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2121098030",
+          "4279459386",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2145019700",
+          "1031108582",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2362748437",
+          "1193658865",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2416927398",
+          "1878906677",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2710724889",
+          "349601549",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2734145821",
+          "2415067759",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2796401247",
+          "582455213",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2852939915",
+          "2555118205",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2881721593",
+          "3219662216",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "3068959875",
+          "835027079",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "3210233209",
+          "3470476653",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "3297290199",
+          "524853412",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "3428095272",
+          "2505725820",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "3432107152",
+          "3220991488",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "3568397971",
+          "514652479",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "3613867789",
+          "3350003211",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "3788117337",
+          "502267553",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "4056783207",
+          "1845058424",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "4146714525",
+          "2979339049",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "4197415180",
+          "2312781944",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "4229748276",
+          "2825527482",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "4269567997",
+          "896485724",
+          1,
+          "ExclusiveLock"
+        ]
+      ],
+      "sessions": []
+    },
+    "complete_boundary_restored": true,
+    "final": {
+      "AUD_F01_OPS_NO_FINANCE_EXECUTION": "PASS",
+      "AUD_F01_FULL_EFFECTIVE_ACL": "PASS"
+    },
+    "counts": {
+      "PASS": 2
+    },
+    "missing": []
+  },
+  "cp6_restored": true,
+  "advisor_delta": {
+    "status": "REVIEW_REQUIRED",
+    "before": 216,
+    "after": 217,
+    "added": [
+      {
+        "name": "rls_enabled_no_policy",
+        "title": "RLS Enabled No Policy",
+        "level": "INFO",
+        "facing": "EXTERNAL",
+        "categories": [
+          "SECURITY"
+        ],
+        "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+        "detail": "Table `cp7_private.analysis_runs` has RLS enabled, but no policies exist",
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+        "metadata": {
+          "name": "analysis_runs",
+          "type": "table",
+          "schema": "cp7_private"
+        },
+        "cache_key": "rls_enabled_no_policy_cp7_private_analysis_runs"
+      }
+    ],
+    "removed": []
+  },
+  "advisor_gate": true,
+  "p00_recapture": {
+    "status": "PASS",
+    "functions": 1009,
+    "relations": 409,
+    "triggers": 531,
+    "matching_function_definitions": true,
+    "write_refusal": "25006"
+  },
+  "artifact": {
+    "id": 11009579247,
+    "run": 36513500787,
+    "zip_sha256": "7145d29ae5df1b0d5b07cc19237ab1d6a3cd44a7bef9b36ed51ee6276e12acc8",
+    "raw_files": {
+      "TARGETED_CP7_F01_TARGETED.json.gz": {
+        "raw_sha256": "0e6fdf712d9dd518779831aea59a08f3cbb69198f2d2a0c67a7578444fd02a8d",
+        "gzip_sha256": "57872c4c290cb809d05acfc9f992f2caeb46788be352033a051a89f21a20c04d"
+      },
+      "TARGETED_T3_PACKAGE_INSTALL.json.gz": {
+        "raw_sha256": "c49f12fdcfa286f1c034edcb7d0fde0efbb5655ce56da6e5a303e79f14048733",
+        "gzip_sha256": "4146b99d98321b6fa5fc3d3144907669150afb62929fabccabf55b738eabaeb9"
+      },
+      "TARGETED_T3_PACKAGE_FILES_INSTALL.json.gz": {
+        "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+      },
+      "TARGETED_T3_BACKUP_RESTORE_DRILL.json.gz": {
+        "raw_sha256": "513f2a5045ac601e0e6e414432d88026e6d8fcee1ed65d72434377eed01b93b4",
+        "gzip_sha256": "d9b837c4805434ae38e975c2e6ea89d274ad8be43de51844c473a1d4deff4e00"
+      }
+    }
+  },
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "package_files_count": 30
+}

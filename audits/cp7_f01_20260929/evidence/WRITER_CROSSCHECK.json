@@ -1,0 +1,63 @@
+{
+  "provenance": "READ_ONLY_WRITER_CROSS_CHECK_NOT_NEW_AUDITOR_CASES",
+  "source_head": "735056db3b42cc7fc3999149b42e2cadac7b42b2",
+  "source_tree": "a1d59c31b67deb0ba3c815784d9d5d8b6bcd191e",
+  "native_run": 36505788525,
+  "native_job": 109206817936,
+  "writer_cases": {
+    "native": 10,
+    "races": 4,
+    "real_auth_http": 2
+  },
+  "native_result": "PASS",
+  "application_run": 36505793360,
+  "application_job": 109206831643,
+  "unit_dom": 633,
+  "browser_shell": 6,
+  "security": "PASS",
+  "build": "PASS",
+  "codeql": {
+    "actions": {
+      "job": 109206831852,
+      "result": "COMPLETE_ZERO_FINDINGS"
+    },
+    "javascript_typescript": {
+      "job": 109206832049,
+      "result": "COMPLETE_ZERO_FINDINGS"
+    }
+  },
+  "source_file_pins": {
+    "scripts/cp7-src/snapshot/bootstrap.sql": "64ebe8090b7ca588f234bc98c5a4c57be34dd071631d41b6b7b30f3fefe1b916",
+    "scripts/cp7-src/snapshot/sources.sql": "d53f5428e04c9d5f2bf598691c84b53b488b01131a0591f9b71fa0a07678604d",
+    "scripts/cp7-src/snapshot/facades.sql": "ba8b2b1ebc8134ee3efe7da6d47dd1cce5a8304f4df5565b044bd2a004186fa8",
+    "scripts/cp7_snapshot_bundle.py": "bd72247cfaf74c88b2af954dc1ae4052962c6becdf9e34e302550142b76a9b49",
+    "scripts/cp7_snapshot_cases.py": "c8ea05c06f200c4b4052e9e98abdd454057630b8f5935c32ed8e8e8fb3bf7d07",
+    "scripts/cp7_p02_facade_probe.py": "9e90c8e0e2518f264022c7dec11cb1fd33b710afd634795f578ba454bbf54b7c",
+    ".github/workflows/cp7-p02-facade.yml": "f4056f3646990c922002088d97c95183c3e0aca5206d2b0f71c178f11f37d944"
+  },
+  "raw_proof_sha256": "2924fd7cba72d3bf382ace0659a29d1fdafa9b29cc915b9412ee05bd4a39d4e8",
+  "raw_proof_gzip_sha256": "4ee91f1fa1f94c141cceaa9d297e80efbb489ed81772f4ab00a0f63370978def",
+  "source_bundle_sha256": "bfe90effa5af89941a02669b05ed855f54cb2c76ae8433e7cd01ae3b5f5bc9c4",
+  "writer_clock_defect": {
+    "before_run": 36505409042,
+    "before_source": "bb37cd2d01e96c68b3dad0dd58646a4579207e48",
+    "before_actual": [
+      2
+    ],
+    "expected": [
+      2,
+      3
+    ],
+    "current_actual": [
+      2,
+      3
+    ],
+    "adjudication": "PREVIOUS_PRODUCT_DEFECT_FIXED_AT_FROZEN_CANDIDATE"
+  },
+  "limits": [
+    "Writer results are cross-check only; independent execution is recorded separately.",
+    "CodeQL was read from writer jobs, not rerun by this audit.",
+    "Six browser tests exercise the shell, not R10 connected sales/returns."
+  ],
+  "production_go": false
+}
