@@ -1,0 +1,48 @@
+{
+  "source_head": "4003d16f6375bcaaff70d7c403578b00ef83ecd3",
+  "source_tree": "40a00c3b94c3bd5161756f11fa04482e30662b92",
+  "run_id": 36537511255,
+  "job_id": 109304850222,
+  "artifact_id": 11019890174,
+  "archive_sha256": "b9c50aac7b9485147800f95741630e85af3593af29061515fc3fd926a9dff609",
+  "report": "COUNT_RUN_1.json.gz",
+  "report_sha256": "7a8ea701041ff843c371687ff1bb4cd2e7f516fd1e6ca81662032b979bcadf98",
+  "report_gzip_sha256": "f793de297ef3429a262b2a16d39ceda810625719de01e4b917f782f40eb19196",
+  "bundle_sha256": "1f87e80f68863994d8370331481c154071e42e3e76f4ae66019e37163bbe9bab",
+  "status": "INCOMPLETE",
+  "observed_counts": {
+    "PASS": 97,
+    "INCOMPLETE": 12
+  },
+  "smokes_separate": 3,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "browser_auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "app_runs": [
+    36537518151,
+    36537511162
+  ],
+  "production_go": false,
+  "independent_acceptance": false,
+  "findings": [
+    "count_workspace used h both as PL/pgSQL header variable and SQL alias, preventing history reads and therefore browser stock rendering. Rename the SQL alias.",
+    "FOUND is not an accepted material-adjustment reason enum. Map the existing human choice to accepted COUNT_CORRECTION and preserve its meaning in notes; do not relax the native constraint.",
+    "Native document signature encoded timestamptz with the session offset. Equivalent instants could fail comparison after a timezone change or on another connection. Use epoch in the private signature and explicitly test posting from another timezone."
+  ],
+  "unchanged_prior_qualified_cases": 93,
+  "changes_to_native_business_engine": false
+}

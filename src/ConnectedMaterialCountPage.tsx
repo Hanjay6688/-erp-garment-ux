@@ -59,7 +59,7 @@ function CountPage(){
  const scopeKey=JSON.stringify(scope),scopeCurrent=useRef(scopeKey);scopeCurrent.current=scopeKey
  const checked=preview?.key===scopeKey?preview.value:null,line=checked?.items[0],positive=line?countPositive(line.qty_signed):false,cost=form?receiptDecimal(form.cost):null
  const payload:Json|null=form&&scope&&line&&countNonzero(line.qty_signed)&&(!positive||finance&&cost!==null)&&form.number.trim()&&form.note.trim()?{
-  adjustment_number:form.number.trim(),location_id:form.source.location_id,physical_at:at,reason_code:form.reason,change_reason:form.note.trim(),notes:form.note.trim(),
+  adjustment_number:form.number.trim(),location_id:form.source.location_id,physical_at:at,reason_code:form.reason==='FOUND'?'COUNT_CORRECTION':form.reason,change_reason:form.note.trim(),notes:(form.reason==='FOUND'?'Barang ditemukan. ':'')+form.note.trim(),
   items:[{material_id:line.material_id,roll_id:line.roll_id,physical_qty:qty,basis_token:line.basis_token,...(positive?{input_unit_cost:cost}:{})}],
  }:null
  const inspect=async()=>{

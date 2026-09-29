@@ -16,9 +16,9 @@ begin
   or(p_query ? 'offset' and (jsonb_typeof(p_query->'offset')<>'number' or (p_query->>'offset')!~'^[0-9]{1,7}$')) then raise exception 'CP7_COUNT_QUERY';end if;
  q:=btrim(coalesce(p_query->>'q',''));n:=coalesce((p_query->>'limit')::integer,25);off:=coalesce((p_query->>'offset')::integer,0);chosen:=(p_query->>'adjustment_id')::uuid;
  if length(q)>120 or n not between 1 and 100 or off not between 0 and 1000000 then raise exception 'CP7_COUNT_QUERY';end if;
- select count(*) into total from erp.material_adjustments h where q='' or strpos(lower(h.adjustment_number),lower(q))>0;
+ select count(*) into total from erp.material_adjustments doc where q='' or strpos(lower(doc.adjustment_number),lower(q))>0;
  select coalesce(jsonb_agg(cp7_material.count_header(x) order by x.physical_at desc,x.id),'[]') into rows
- from (select * from erp.material_adjustments h where q='' or strpos(lower(h.adjustment_number),lower(q))>0 order by physical_at desc,id limit n offset off) x;
+ from (select * from erp.material_adjustments doc where q='' or strpos(lower(doc.adjustment_number),lower(q))>0 order by physical_at desc,id limit n offset off) x;
  if chosen is not null then
   select * into h from erp.material_adjustments where id=chosen;
   if not found then raise exception 'CP7_COUNT_NOT_FOUND';end if;

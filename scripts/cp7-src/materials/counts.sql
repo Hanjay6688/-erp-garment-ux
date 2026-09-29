@@ -64,7 +64,7 @@ language sql stable security definer set search_path='' as $$select cp7_material
 
 create function cp7_material.count_signature(p_id uuid) returns jsonb
 language sql stable security definer set search_path='' as $$
- select jsonb_build_object('number',h.adjustment_number,'location',h.location_id,'at',h.physical_at,'reason',h.reason_code,'notes',h.notes,
+ select jsonb_build_object('number',h.adjustment_number,'location',h.location_id,'at_epoch',extract(epoch from h.physical_at),'reason',h.reason_code,'notes',h.notes,
   'items',(select jsonb_agg(jsonb_build_array(i.material_id,i.roll_id,i.qty_signed,i.input_unit_cost,i.notes) order by i.material_id,i.roll_id nulls first,i.id)
    from erp.material_adjustment_items i where i.adjustment_id=h.id)) from erp.material_adjustments h where h.id=p_id
 $$;
@@ -88,7 +88,7 @@ begin
  if p_action='SAVE' then
   if not p_payload ?& array['adjustment_number','location_id','physical_at','reason_code','change_reason','items']
    or exists(select 1 from jsonb_each(p_payload) e where e.key not in('id','adjustment_number','location_id','physical_at','reason_code','change_reason','items','notes') or (e.key<>'items' and jsonb_typeof(e.value) not in('string','null')))
-   or p_payload->>'reason_code' not in('LOSS','DAMAGE','FOUND','COUNT_CORRECTION') then raise exception 'CP7_COUNT_FIELDS';end if;
+   or p_payload->>'reason_code' not in('LOSS','DAMAGE','COUNT_CORRECTION') then raise exception 'CP7_COUNT_FIELDS';end if;
   ident:=(p_payload->>'id')::uuid;
   if ident is not null then
    perform 1 from cp7_material.count_documents where adjustment_id=ident for update;

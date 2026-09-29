@@ -21,7 +21,7 @@ def preview(cur,p,subject=None):return rpc(cur,'erp_cp7_preview_material_count_v
 def payload(cur,f,qty='8',cost=None,at=None):
     p=scope(f,qty,at);r=preview(cur,p);p['items'][0]['basis_token']=r['items'][0]['basis_token']
     if cost is not None:p['items'][0]['input_unit_cost']=cost
-    return dict(**p,adjustment_number=f['tag']+'-COUNT-'+uuid.uuid4().hex[:5],reason_code='FOUND' if cost else 'COUNT_CORRECTION',change_reason='P09 physical count after second check',notes='Actual count proof')
+    return dict(**p,adjustment_number=f['tag']+'-COUNT-'+uuid.uuid4().hex[:5],reason_code='COUNT_CORRECTION',change_reason='P09 physical count after second check',notes='Actual count proof')
 def draft(cur,f,qty='8',cost=None,at=None):
     p=payload(cur,f,qty,cost,at);return command(cur,'SAVE',p),p
 
@@ -35,12 +35,12 @@ def cases(cur,today):
         f=material.fixture(cur,today) if kind=='FABRIC' else raw.fixture(cur,today)
         f['item']=str(cur.execute('select id from erp.material_purchase_items where purchase_id=%s',(f['receipt']['purchase_id'],)).fetchone()[0]);initial=ledger(cur);d,p=draft(cur,f);assert qty(cur,f)==10
         r=read(cur,d['adjustment_id']);assert r['detail']['managed_count'] and Decimal(r['detail']['items'][0]['physical_qty'])==8 and Decimal(r['detail']['items'][0]['qty_signed'])==-2
-        posted=action(cur,'POST',d);assert qty(cur,f)==8
+        aa.zone(cur,'America/Los_Angeles');posted=action(cur,'POST',d);assert qty(cur,f)==8
         inv=invoice.finalize(cur,f,'10','12.5');assert invoice.amounts(cur,f)==(125,0,8,Decimal('12.5'))
         item=read(cur,d['adjustment_id'])['detail']['items'][0];assert Decimal(item['valuation']['restated_value'])==-25
         invoice.reverse(cur,f,inv['invoice_id']);assert invoice.amounts(cur,f)==(0,100,8,10)
         reverted=action(cur,'REVERSE',posted);assert reverted['status']=='REVERSED' and qty(cur,f)==10 and ledger(cur)==initial
-        return dict(status='PASS',kind=kind,physical_count=8,server_delta=-2,late_invoice_inventory=100,late_invoice_adjustment=-25,invoice_and_count_inverse_restore_all_accounts=True)
+        return dict(status='PASS',kind=kind,physical_count=8,server_delta=-2,session_timezone_preserves_source_identity=True,late_invoice_inventory=100,late_invoice_adjustment=-25,invoice_and_count_inverse_restore_all_accounts=True)
     def positive():
         f=raw.fixture(cur,today);initial=ledger(cur);d,p=draft(cur,f,'12','10');posted=action(cur,'POST',d)
         assert qty(cur,f)==12 and Decimal(read(cur,d['adjustment_id'])['detail']['items'][0]['valuation']['restated_value'])==20
