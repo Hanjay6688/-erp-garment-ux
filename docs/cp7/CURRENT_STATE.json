@@ -50,7 +50,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Qualify receipt reversal candidate; complete accessory UOM, issue/adjustment and full P09 scope, then F03 P10-P13. F01/F02 independent review pending.",
+  "next_action": "Retest receipt inverse private-helper ACL correction; accessory UOM in progress, then issue/adjustment and remaining P09/F03 scope.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -75,5 +75,6 @@
   "p09_invoice_diagnostic": "docs/cp7/evidence/p09-procurement/INVOICE_RUN_3.json",
   "p09_invoice_verification": "docs/cp7/evidence/p09-procurement/INVOICE_VERIFICATION.json",
   "p09_return_diagnostic": "docs/cp7/evidence/p09-procurement/RETURN_RUN_2.json",
-  "p09_return_verification": "docs/cp7/evidence/p09-procurement/RETURN_VERIFICATION.json"
+  "p09_return_verification": "docs/cp7/evidence/p09-procurement/RETURN_VERIFICATION.json",
+  "p09_reversal_diagnostic": "docs/cp7/evidence/p09-procurement/REVERSAL_RUN_1.json"
 }

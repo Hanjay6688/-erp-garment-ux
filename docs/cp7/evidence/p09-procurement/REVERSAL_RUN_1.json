@@ -1,0 +1,107 @@
+{
+  "source_head": "236eeb82b9cd8b76d862e30f36283db6d0bed44b",
+  "source_tree": "8b765e464dadbb4139b1f6c7537115938cf1316b",
+  "run_id": 36530602918,
+  "job_id": 109283204696,
+  "artifact_id": 11015909259,
+  "archive_sha256": "fb329a286b627ca6ee75e40811448d93a3102d64d4473b3b9c066037da2a1a77",
+  "report_sha256": "8cad949c01579bc8a4e96b04d13c9c3d60ceaaf880fee8e2769d656ab5a959bc",
+  "report_gzip_sha256": "d21cade24b8dd54cd45fbf2c53fe9abf0c282af92a40de404beee51528b205d6",
+  "report": "REVERSAL_RUN_1.json.gz",
+  "bundle_sha256": "2c9cd15416923b18d1de72a5afe5a067bf2116512f71651712eb15cbebe503ee",
+  "counts": {
+    "smoke": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 9
+    },
+    "races": {
+      "PASS": 3
+    },
+    "http": {
+      "PASS": 1
+    },
+    "material_smoke": {
+      "PASS": 1
+    },
+    "material": {
+      "PASS": 9
+    },
+    "material_crossflow": {
+      "PASS": 2
+    },
+    "material_races": {
+      "PASS": 2
+    },
+    "material_http": {
+      "PASS": 1
+    },
+    "invoice": {
+      "PASS": 9
+    },
+    "invoice_races": {
+      "PASS": 3
+    },
+    "invoice_http": {
+      "PASS": 1
+    },
+    "return_smoke": {
+      "PASS": 1
+    },
+    "returns": {
+      "PASS": 10
+    },
+    "return_races": {
+      "PASS": 3
+    },
+    "return_http": {
+      "PASS": 1
+    },
+    "receipt_reversal": {
+      "INCOMPLETE": 7
+    },
+    "receipt_reversal_races": {
+      "INCOMPLETE": 3
+    },
+    "receipt_reversal_http": {
+      "INCOMPLETE": 1
+    },
+    "browser": {
+      "PASS": 8,
+      "INCOMPLETE": 1
+    }
+  },
+  "total_cases": {
+    "PASS": 62,
+    "INCOMPLETE": 12,
+    "MISSING": 1
+  },
+  "smokes_separate": 3,
+  "status": "INCOMPLETE",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "diagnosis": "New private postgres-owned reversal adapter lacks EXECUTE on cp7_procurement.access_now. Supabase postgres is not assumed superuser. Grant only this helper to that adapter owner, preserving all public and business-table restrictions. All 62 prior cases passed. The mobile reversal browser is missing because its intercepted non-200 response stopped that scenario; it is not a PASS.",
+  "missing_browser_cases": [
+    "P09_BROWSER_RECEIPT_REVERSE_LOST_REPLY_MOBILE"
+  ],
+  "browser_cleanup": {
+    "restored": false,
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      10,
+      10,
+      20,
+      20
+    ],
+    "database_remaining": 0,
+    "note": "The unhandled route failure interrupted browser user cleanup. These are temporary users in the deleted disposable database, not production users. Retest must also restore Auth counts."
+  }
+}

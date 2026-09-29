@@ -20,6 +20,9 @@ alter function public.erp_cp7_save_procurement_v1(text,jsonb,uuid,text) owner to
 revoke create on schema public,cp7_procurement from cp7_procure_read,cp7_procure_write;
 revoke all on all functions in schema cp7_procurement from public,anon,authenticated,service_role,cp7_capture;
 grant execute on function cp7_procurement.reverse_receipt_locked(uuid,bigint,text) to cp7_procure_write;
+-- Supabase's postgres owner is not assumed to be a superuser. The private
+-- locked adapter needs this one helper explicitly, without any public grant.
+grant execute on function cp7_procurement.access_now() to postgres;
 grant execute on function cp7_procurement.access_now(),cp7_procurement.fields(jsonb,text[],text[]),cp7_procurement.decimal(jsonb,boolean) to cp7_procure_write;
 revoke all on function public.erp_cp7_get_procurement_v1(jsonb),public.erp_cp7_get_procurement_options_v1(text,text,integer,integer),public.erp_cp7_save_procurement_v1(text,jsonb,uuid,text)
  from public,anon,authenticated,service_role,cp7_capture;
