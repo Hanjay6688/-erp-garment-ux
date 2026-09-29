@@ -1,0 +1,130 @@
+{
+  "status": "INCOMPLETE",
+  "source_commit": "a130b329c1b2c73ec4bc1a4a590c23907a97d5dd",
+  "source_tree": "060f6caf3a844adb1ba95df8709393c480970196",
+  "run_id": 36622292726,
+  "job_id": 109590448029,
+  "artifact_id": 11059361611,
+  "artifact_bytes": 2038136,
+  "artifact_sha256": "f8603281a895546d351d3322fd01d90d2a9b82393f82bece981f43cfc5f86046",
+  "report_sha256": "a8f9a81d06018113f4a56be22aeae147c68b1f750cf83f397446e57683490704",
+  "report_gzip_sha256": "10e2a820be6f5f1a7003c752bd567f76cf59f60fbdb9afa0fdd995cea45504c5",
+  "source_bundle_sha256": "63974f89e15f7519a632d40cfdeb2a8cf32a3be9961b6e76efef76996ca3f0e9",
+  "counts": {
+    "PASS": 10,
+    "FAIL": 0,
+    "INCOMPLETE": 1,
+    "NOT_RUN": 0
+  },
+  "groups": {
+    "native": {
+      "counts": {
+        "PASS": 8
+      },
+      "status": "PASS"
+    },
+    "http": {
+      "counts": {
+        "PASS": 1
+      },
+      "status": "RUN_COMPLETE",
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "cleanup_failures": false
+    },
+    "browser": {
+      "counts": {
+        "PASS": 1,
+        "INCOMPLETE": 1
+      },
+      "status": "INCOMPLETE",
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "cleanup_failures": false,
+      "auth_cleanup_failures": []
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "accepted_package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "a130b329c1b2c73ec4bc1a4a590c23907a97d5dd",
+    "product_ref": "a130b329c1b2c73ec4bc1a4a590c23907a97d5dd",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36622292726",
+    "run_attempt": "1",
+    "workflow": "CP7 P11 Sales reader",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "a130b329c1b2c73ec4bc1a4a590c23907a97d5dd",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "failure": {
+    "status": "INCOMPLETE",
+    "error": "Error: Command failed: python ../auditor/scripts/cp7_p11_browser_fixture.py create {\"today\":\"2026-09-30\",\"ops\":true}\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_p11_browser_fixture.py\", line 29, in <module>\n    if __name__=='__main__':main()\n                            ^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_p11_browser_fixture.py\", line 18, in main\n    role=cur.execute(\"select id from erp.app_roles where role_code='ADMIN'\").fetchone()[0];cur.execute('delete from erp.app_role_permissions where role_id=%s',(role,));cur.execute(\"insert into erp.app_role_permissions(role_id,permission_key) values(%s,'sales.invoice.view')\",(role,))\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: permission denied for table app_roles\nHINT:  Grant the required privileges to the current role with: GRANT SELECT ON erp.app_roles TO authenticated;\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p11_sales_browser.mjs:4:34)\n    at invoice (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p11_sales_browser.mjs:6:14)\n    at file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p11_sales_browser.mjs:33:146\n    at main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:19)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3"
+  },
+  "diagnosis": "Mobile fixture remained authenticated after native save; its test-role setup correctly refused app_roles access. Reset test fixture to administrator before role setup; no client or product grant added.",
+  "visual_review": {
+    "desktop": true,
+    "mobile": false
+  },
+  "independent_acceptance": false,
+  "production_go": false,
+  "desktop_screenshot_sha256": "26295b86805ecc4f84197394b535dde05f8a8d75cf73b4b0a2647518cbd1cb4b",
+  "app_workflows": [
+    {
+      "run_id": 36622305498,
+      "job_id": 109590492635,
+      "status": "FAILURE"
+    },
+    {
+      "run_id": 36622292331,
+      "job_id": 109590447041,
+      "status": "FAILURE"
+    }
+  ],
+  "app_gate_failure": "check-access-catalog expected86 registered RPC boundaries, observed87 after P11 reader registration. Add explicit Sales RPC ownership and include its count; frozen CP5 evidence remains unchanged."
+}

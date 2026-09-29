@@ -70,3 +70,9 @@ for (const token of ["useProductionMutation('PAYROLL')", 'beginRead()', 'finishR
   assert.ok(payroll.includes(token), `Payroll recovery omits ${token}`)
 }
 assert.doesNotMatch(payroll, /p_request:\s*(?:globalThis\.)?crypto\.randomUUID/)
+
+const sales = read('src/ConnectedSalesPage.tsx')
+for (const token of ["useProductionMutation('SALES')", 'beginRead()', 'finishRead(ticket)', 'p_request:e.id', 'p_expected:p.expected_version', 'parseSalesOutcome', 'reload:load']) {
+  assert.ok(sales.includes(token), `Sales recovery omits ${token}`)
+}
+assert.doesNotMatch(sales, /p_request:\s*(?:globalThis\.)?crypto\.randomUUID/)

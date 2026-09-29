@@ -4,6 +4,7 @@ from urllib.parse import urlparse
 import json,os,sys
 import psycopg
 import cp7_sales_cases as cases
+import cp7_sales_command_cases as commands
 
 def main():
  target=os.environ['AUDITOR_BROWSER_DB_URL'];url=urlparse(target)
@@ -19,7 +20,7 @@ def main():
   elif op=='progress':
    cases.fg.post_sale(cur,p['draft']);cases.payment(cur,p,date.fromisoformat(p['today']),'30');cases.returned(cur,p);out={'ok':True}
   elif op=='read':
-   out=dict(document=cases.read(cur,p)['detail'],movements=cur.execute('select count(*),sum(qty_signed) from erp.fg_stock_movements where lot_id=%s',(p['lot'],)).fetchone(),gl=[[str(x) for x in row] for row in cases.gl(cur)])
+   out=dict(document=cases.read(cur,p)['detail'],movements=cur.execute('select count(*),sum(qty_signed) from erp.fg_stock_movements where lot_id=%s',(p['lot'],)).fetchone(),gl=[[str(x) for x in row] for row in cases.gl(cur)],available=commands.available(cur,p),accounts={key:str(value) for key,value in commands.accounts(cur).items()})
   else:raise ValueError('Unknown fixture operation')
   cases.b.api.admin(cur)
   if not had:cur.execute('revoke usage on schema erp from authenticated')

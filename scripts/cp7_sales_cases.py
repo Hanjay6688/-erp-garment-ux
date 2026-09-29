@@ -12,6 +12,7 @@ def fixture(cur,today,qty=4,price='20',discount='0',stock=10,tag=None):
  f['sale_at']=(fg.ax.r1.now(cur)-timedelta(minutes=10)).isoformat()
  d=b.chain.production.rpc(cur,'erp.save_sale_draft_v2',dict(sale_number=f['tag'],customer_id=f['customer'],source_location_id=f['location'],sale_date=f['sale_at'],reason='P11 native source document',items=[dict(product_id=f['product'],qty_pcs=qty,unit_price_snapshot=price,discount_amount=discount)]),uuid.uuid4(),None)
  f['sale']=d['sale_id'];f['draft']=d
+ b.api.admin(cur)
  return f
 
 def read(cur,f=None,subject=None,**query):

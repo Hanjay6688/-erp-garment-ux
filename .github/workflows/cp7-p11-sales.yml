@@ -1,4 +1,4 @@
-name: CP7 P11 Sales reader
+name: CP7 P11 Sales
 'on':
   push:
     branches:
@@ -7,6 +7,7 @@ name: CP7 P11 Sales reader
     - scripts/cp7-src/sales/**
     - scripts/cp7_sales_bundle.py
     - scripts/cp7_sales_cases.py
+    - scripts/cp7_sales_command_cases.py
     - scripts/cp7_p11_*
     - src/ConnectedSalesPage*
     - src/salesReadContract.ts
@@ -19,7 +20,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   phase:
-    name: P11 native invoice source and connected reader
+    name: P11 native invoice reader and draft transitions
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:

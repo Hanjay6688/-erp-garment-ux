@@ -6,7 +6,7 @@ revoke all on schema cp7_sales from public,anon,authenticated,service_role,cp7_c
 grant usage on schema erp,auth to cp7_sales_read;
 grant execute on function auth.uid(),auth.jwt(),erp.get_my_access_v1(),erp.has_permission(text),erp.bf_commercial_sku_at_v1(uuid,timestamptz) to cp7_sales_read;
 grant select on erp.sales_headers,erp.sales_items,erp.customers,erp.locations,erp.products,erp.sizes,erp.brands,
- erp.sales_returns,erp.sales_return_items,erp.sales_payments,erp.fg_stock_movements to cp7_sales_read;
+ erp.sales_returns,erp.sales_return_items,erp.sales_payments,erp.fg_stock_movements,erp.sale_stock_allocations to cp7_sales_read;
 
 create function cp7_sales.access_now() returns boolean
 language plpgsql stable security invoker set search_path='' as $$
@@ -17,6 +17,15 @@ begin
  if a->'allowed' is distinct from 'true'::jsonb or not erp.has_permission('sales.invoice.view') then raise exception using errcode='42501',message='CP7_SALES_ACCESS_DENIED';end if;
  return erp.has_permission('finance.ar.view');
 end $$;
+
+create function cp7_sales.review_token(p_id uuid) returns text
+language sql stable security invoker set search_path='' as $$
+ select md5(jsonb_build_object('header',to_jsonb(h),
+  'items',(select coalesce(jsonb_agg(to_jsonb(i) order by i.id),'[]') from erp.sales_items i where i.sale_id=h.id),
+  'allocations',(select coalesce(jsonb_agg(to_jsonb(a) order by a.id),'[]') from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id where i.sale_id=h.id),
+  'reservations',(select coalesce(jsonb_agg(to_jsonb(m) order by m.id),'[]') from erp.fg_stock_movements m join erp.sales_items i on i.id=m.source_id and m.source_type='SALE_ITEM' where i.sale_id=h.id))::text)
+ from erp.sales_headers h where h.id=p_id
+$$;
 
 create function cp7_sales.header(h erp.sales_headers,p_financial boolean) returns jsonb
 language sql stable security invoker set search_path='' as $$
@@ -67,7 +76,7 @@ begin
    ||case when financial then jsonb_build_object('financial',jsonb_build_object('unit_price',i.unit_price_snapshot::text,'discount',i.discount_amount::text,'line_total',i.line_total::text)) else '{}'::jsonb end order by i.id),'[]')
   into items from erp.sales_items i join erp.products p on p.id=i.product_id join erp.sizes s on s.id=p.size_id join erp.brands b on b.id=p.brand_id where i.sale_id=h.id;
   if jsonb_array_length(items)<>(select count(*) from erp.sales_items where sale_id=h.id) then raise exception 'CP7_SALES_INCOMPLETE_ITEMS';end if;
-  detail:=cp7_sales.header(h,financial)||jsonb_build_object('items',items);
+  detail:=cp7_sales.header(h,financial)||jsonb_build_object('items',items)||case when financial then jsonb_build_object('review_token',cp7_sales.review_token(h.id)) else '{}'::jsonb end;
  end if;
  return jsonb_build_object('contract_version','cp7.sales-workspace.v1','read_at',statement_timestamp(),'financial_captured',financial,'read_only',true,
   'page',jsonb_build_object('rows',rows,'total',total::text,'offset',off,'limit',n,'next_offset',case when off+jsonb_array_length(rows)<total then off+jsonb_array_length(rows) else null end),'detail',detail);
@@ -75,6 +84,7 @@ end $$;
 create function public.erp_cp7_get_sales_v1(p_query jsonb) returns jsonb
 language sql stable security definer set search_path='' as $$select cp7_sales.workspace(p_query)$$;
 alter function cp7_sales.access_now() owner to cp7_sales_read;
+alter function cp7_sales.review_token(uuid) owner to cp7_sales_read;
 alter function cp7_sales.header(erp.sales_headers,boolean) owner to cp7_sales_read;
 alter function cp7_sales.workspace(jsonb) owner to cp7_sales_read;
 grant create on schema public to cp7_sales_read;

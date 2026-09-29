@@ -4,6 +4,7 @@ import hashlib,json,traceback
 import psycopg
 import cp7_sales_bundle as bundle
 import cp7_sales_cases as cases
+import cp7_sales_command_cases as commands
 import cp7_p09_procurement_probe as p09
 import cp6_auditor_modes as modes
 import cp6_auditor_runner as native
@@ -14,13 +15,16 @@ OUT=bundle.ROOT/'cp6-proof/t3/CP7_P11_SALES_READ.json'
 def verify(cur):
  result=p09.verify(cur)
  got=cur.execute("select p.proname,pg_get_userbyid(p.proowner),p.prosecdef,p.provolatile::text,p.proconfig from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_sales'").fetchall()
- assert {x[0] for x in got}=={'access_now','header','workspace'}
- for name,owner,secdef,vol,config in got:assert (owner,secdef,vol,config)==('cp7_sales_read',False,'s',['search_path=""']),name
- assert cur.execute("select pg_get_userbyid(proowner),prosecdef,provolatile::text,proconfig from pg_proc where oid='public.erp_cp7_get_sales_v1(jsonb)'::regprocedure").fetchone()==('cp7_sales_read',True,'s',['search_path=""'])
+ expected={n:('cp7_sales_read',False,'s') for n in ('access_now','header','workspace','review_token')}
+ expected.update(command_access=('cp7_sales_read',True,'s'),apply_command=('postgres',True,'v'),command=('cp7_sales_write',False,'v'))
+ assert {x[0] for x in got}==set(expected)
+ for name,owner,secdef,vol,config in got:assert (owner,secdef,vol)==expected[name] and config==['search_path=""'],name
+ for sig,who,vol in [('public.erp_cp7_get_sales_v1(jsonb)','cp7_sales_read','s'),('public.erp_cp7_save_sale_v1(text,jsonb,uuid,text)','cp7_sales_write','v')]:
+  assert cur.execute('select pg_get_userbyid(proowner),prosecdef,provolatile::text,proconfig from pg_proc where oid=%s::regprocedure',(sig,)).fetchone()==(who,True,vol,['search_path=""'])
  return dict(result,cp7_p11_bundle_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest())
 
 def run():
- report=dict(label='CP7_P11_SALES_READ',status='INCOMPLETE',production_go=False,independent_acceptance=False,scope='INVOICE_READER_NATIVE_LIFECYCLE_CONTROLS_AND_READ_ONLY_BROWSER_NOT_R10_WRITES',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),expected_case_count=11)
+ report=dict(label='CP7_P11_SALES_READ',status='INCOMPLETE',production_go=False,independent_acceptance=False,scope='INVOICE_READER_REVIEWED_NATIVE_POST_CANCEL_BROWSER_PARTIAL_R10',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),expected_case_count=22)
  installed=False
  try:
   with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
@@ -29,6 +33,7 @@ def run():
    cur.execute(bundle.extension(),prepare=False);after=p09.functions(cur)
    path=cur.execute('show search_path').fetchone()[0];cur.execute("select set_config('search_path','',true)")
    grants={str(cur.execute('select %s::regprocedure::text',(s,)).fetchone()[0]):{('cp7_sales_read','EXECUTE',False)} for s in bundle.GRANTS}
+   uid=str(cur.execute("select 'auth.uid()'::regprocedure::text").fetchone()[0]);grants[uid].add(('cp7_sales_write','EXECUTE',False))
    cur.execute("select set_config('search_path',%s,true)",(path,))
    for sig,old in pre.items():
     new=after[sig];assert new['definition']==old['definition'] and new['owner']==old['owner'],('P11_PREDECESSOR_CHANGED',sig)
@@ -38,19 +43,22 @@ def run():
   report['advisors_with_cp7']=advisors(package.boundary.PG)
   report['native']=native.strict_group('CP7_P11_READ_NATIVE',cases.cases,verify)
   report['http']=modes.run_http(cases,verify,'cp7_p11_read')
+  report['commands']=native.strict_group('CP7_P11_COMMAND_NATIVE',commands.cases,verify)
+  report['command_races']=modes.run_races(commands,verify,'cp7_p11_commands')
+  report['command_http']=modes.run_http(commands,verify,'cp7_p11_commands')
   report['browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_p11_sales_browser.mjs',verify,'cp7_p11_read')
  except Exception as e:report.update(error=str(e),traceback=traceback.format_exc())
  finally:
   if installed:
    with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
     for definition in originals.values():cur.execute(definition,prepare=False)
-    for role in ('cp7_sales_read','cp7_return_write','cp7_return_read','cp7_invoice_write','cp7_invoice_read','cp7_material_write','cp7_material_read','cp7_procure_write','cp7_procure_read','cp7_policy','cp7_capture'):
+    for role in ('cp7_sales_write','cp7_sales_read','cp7_return_write','cp7_return_read','cp7_invoice_write','cp7_invoice_read','cp7_material_write','cp7_material_read','cp7_procure_write','cp7_procure_read','cp7_policy','cp7_capture'):
      cur.execute('drop owned by '+role+' cascade;drop role '+role,prepare=False)
     conn.commit();report['cp6_restored']=package.boundary.snapshot(cur)==before and native.public_state(cur)==public_before;conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
    report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta']
    report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or (d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and (f.get('metadata') or {}).get('schema') in ('cp7_sales','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice') for f in d.get('added',[])))
-  groups=[report.get(k,{}) for k in ('native','http','browser')];report['observed_case_count']=sum(sum(g.get('counts',{}).values()) for g in groups)
-  report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==11 and all(g.get('status') in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
+  groups=[report.get(k,{}) for k in ('native','http','commands','command_races','command_http','browser')];report['observed_case_count']=sum(sum(g.get('counts',{}).values()) for g in groups)
+  report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==22 and all(g.get('status') in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
   OUT.parent.mkdir(parents=True,exist_ok=True);OUT.write_text(json.dumps(report,indent=2,default=str)+'\n');print(json.dumps({k:report.get(k) for k in ('label','status','source_sha256','observed_case_count','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)
  return dict(status=report['status'],production_go=False,independent_acceptance=False)
 

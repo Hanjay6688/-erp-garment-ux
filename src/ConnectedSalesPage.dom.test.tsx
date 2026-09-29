@@ -3,7 +3,7 @@ import {act} from 'react'
 import {createRoot,type Root} from 'react-dom/client'
 import {afterEach,beforeEach,describe,expect,it,vi} from 'vitest'
 import ConnectedSalesPage from './ConnectedSalesPage'
-import {parseSalesRead} from './salesReadContract'
+import {parseSalesRead,parseSalesOutcome} from './salesReadContract'
 import {recoveryIdentity} from '../tests/fixtures/productionRecovery'
 const state=vi.hoisted(()=>({auth:null as unknown}))
 const client=vi.hoisted(()=>({rpc:vi.fn()}))
@@ -13,11 +13,11 @@ const id='11111111-1111-4111-8111-111111111111',line='22222222-2222-4222-8222-22
 function data(finance=true,selected=false){
  const financial={basis:'CURRENT_NATIVE_DOCUMENT',state:'ACTIVE_RECEIVABLE',gross_total:'80.00',return_total:'20.00',net_total:'60.00',paid_total:'30.00',open_balance:'30.00'}
  const row={id,number:'INV-1',customer_id:id,customer_name:'Toko satu',location_id:id,location_name:'Gudang FG',physical_at:'2026-09-29T03:00:00Z',due_date:'2026-10-29',status:'PARTIAL_PAID',row_version:'9007199254740993',notes:null,line_count:'1',qty_pcs:'4',reserved_qty:'0',returned_qty:'1',...(finance?{financial}: {})}
- return {contract_version:'cp7.sales-workspace.v1',read_at:'2026-09-29T05:00:00Z',financial_captured:finance,read_only:true,page:{rows:[row],total:'1',offset:0,limit:25,next_offset:null},detail:selected?{...row,items:[{id:line,product_id:id,product_sku:'PHYSICAL',commercial_sku:'HISTORICAL',product_name:'Celana',size_code:'32',brand_name:'Vivo',qty_pcs:'4',notes:null,...(finance?{financial:{unit_price:'20.00',discount:'0.00',line_total:'80.00'}}:{})}]}:null}
+ return {contract_version:'cp7.sales-workspace.v1',read_at:'2026-09-29T05:00:00Z',financial_captured:finance,read_only:true,page:{rows:[row],total:'1',offset:0,limit:25,next_offset:null},detail:selected?{...row,...(finance?{review_token:'a'.repeat(32)}:{}),items:[{id:line,product_id:id,product_sku:'PHYSICAL',commercial_sku:'HISTORICAL',product_name:'Celana',size_code:'32',brand_name:'Vivo',qty_pcs:'4',notes:null,...(finance?{financial:{unit_price:'20.00',discount:'0.00',line_total:'80.00'}}:{})}]}:null}
 }
 let root:Root,container:HTMLDivElement
-beforeEach(()=>{Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true});client.rpc.mockReset();const a=structuredClone(recoveryIdentity);a.identity.permissions.push('sales.invoice.view','finance.ar.view');state.auth=a;container=document.createElement('div');document.body.append(container);root=createRoot(container)})
-afterEach(async()=>{await act(async()=>root.unmount());container.remove()})
+beforeEach(()=>{Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true});localStorage.clear();Object.defineProperty(navigator,'locks',{configurable:true,value:{request:async(_n:string,_o:unknown,fn:(l:unknown)=>Promise<unknown>)=>fn({})}});client.rpc.mockReset();const a=structuredClone(recoveryIdentity);a.identity.permissions.push('sales.invoice.view','finance.ar.view');state.auth=a;container=document.createElement('div');document.body.append(container);root=createRoot(container)})
+afterEach(async()=>{await act(async()=>root.unmount());container.remove();localStorage.clear();Reflect.deleteProperty(navigator,'locks')})
 const flush=async()=>act(async()=>{await new Promise(r=>setTimeout(r,0))})
 async function mount(){await act(async()=>root.render(<ConnectedSalesPage/>));await flush()}
 async function click(button:HTMLButtonElement){await act(async()=>button.click());await flush()}
@@ -34,12 +34,44 @@ describe('P11 invoice source boundary',()=>{
  })
  it('does not label a draft total as posted AR',()=>{const x=data(true,true);for(const r of [x.page.rows[0],x.detail!]){r.status='DRAFT';r.financial!.state='DRAFT_PREVIEW';r.financial!.open_balance=null as unknown as string}expect(parseSalesRead(x,true).detail?.financial?.open_balance).toBeNull()})
  it('renders real fields then clears source and money after failed refresh',async()=>{
-  let fail=false;client.rpc.mockImplementation(async(_name,args)=>fail?{data:null,error:{message:'Read unavailable'}}:{data:data(true,!!args.p_query.sale_id),error:null});await mount();await click(container.querySelector<HTMLButtonElement>('.cproc-receipt')!);expect(container.textContent).toContain('HISTORICAL');expect(container.textContent).toContain('Sisa pembayaran Rp30');fail=true;await click(reload());expect(container.querySelector('[role="alert"]')?.textContent).toContain('Read unavailable');expect(container.textContent).not.toContain('Rp');expect(container.textContent).not.toContain('INV-1')
+  let fail=false;client.rpc.mockImplementation(async(_name,args)=>fail?{data:null,error:{message:'Read unavailable'}}:{data:data(true,!!args.p_query.sale_id),error:null});await mount();await click(container.querySelector<HTMLButtonElement>('.cproc-receipt')!);expect(container.textContent).toContain('HISTORICAL');expect(container.textContent).toContain('Sisa pembayaran Rp30');fail=true;await click(reload());expect(container.textContent).toContain('Read unavailable');expect(container.textContent).not.toContain('Rp');expect(container.textContent).not.toContain('INV-1')
  })
  it('never sends or renders a write and hides finance for operations',async()=>{
   const a=structuredClone(recoveryIdentity);a.identity.permissions.push('sales.invoice.view');state.auth=a;client.rpc.mockImplementation(async(_name,args)=>({data:data(false,!!args.p_query.sale_id),error:null}));await mount();await click(container.querySelector<HTMLButtonElement>('.cproc-receipt')!);expect(container.textContent).toContain('HISTORICAL');expect(container.textContent).not.toContain('Rp');expect(new Set(client.rpc.mock.calls.map(x=>x[0]))).toEqual(new Set(['erp_cp7_get_sales_v1']))
  })
  it('ignores an old pending response after current authority remounts',async()=>{
   let finish!:(r:unknown)=>void;client.rpc.mockImplementationOnce(()=>new Promise(resolve=>{finish=resolve}));await mount();const a=structuredClone(recoveryIdentity);a.identity.permissions.push('sales.invoice.view');state.auth=a;client.rpc.mockResolvedValue({data:data(false),error:null});await act(async()=>root.render(<ConnectedSalesPage/>));await flush();await act(async()=>finish({data:data(true,true),error:null}));await flush();expect(container.textContent).not.toContain('Rp');expect(container.querySelector('[role="alert"]')).toBeNull()
+ })
+})
+
+function draftData(selected=false,state='DRAFT'){
+ const x=data(true,selected)
+ for(const r of [x.page.rows[0],...(x.detail?[x.detail]:[])]){r.status=state;r.reserved_qty=state==='DRAFT'?'4':'0';r.returned_qty='0';Object.assign(r.financial!,{state:state==='DRAFT'?'DRAFT_PREVIEW':state==='POSTED'?'ACTIVE_RECEIVABLE':'INACTIVE_DOCUMENT',return_total:'0.00',paid_total:'0.00',net_total:'80.00',open_balance:state==='POSTED'?'80.00':null})}
+ return x
+}
+const button=(label:string)=>[...container.querySelectorAll('button')].find(x=>x.textContent===label)!
+function allowCommands(){const a=structuredClone(recoveryIdentity);a.identity.permissions.push('sales.invoice.view','finance.ar.view','sales.invoice.post','sales.invoice.edit_draft');state.auth=a}
+describe('P11 reviewed native draft commands',()=>{
+ it('requires review and binds POST to exact invoice, bigint revision and token',async()=>{
+  allowCommands();let state='DRAFT';client.rpc.mockImplementation(async(name,args)=>{
+   if(name==='erp_cp7_get_sales_v1')return {data:draftData(!!args.p_query.sale_id,state),error:null}
+   state='POSTED';return {data:{contract_version:'cp7.sales-outcome.v1',kind:'COMMITTED_OUTCOME',action:args.p_action,request_id:args.p_request,sale_id:id,status:state,row_version:'9007199254740994'},error:null}
+  });await mount();await click(container.querySelector<HTMLButtonElement>('.cproc-receipt')!);expect(button('Sahkan invoice').disabled).toBe(true)
+  await act(async()=>container.querySelector<HTMLInputElement>('[aria-label="Invoice sudah diperiksa"]')!.click());await click(button('Sahkan invoice'))
+  const sent=client.rpc.mock.calls.find(([n])=>n==='erp_cp7_save_sale_v1')![1]
+  expect(sent.p_expected).toBe('9007199254740993');expect(sent.p_payload).toEqual({sale_id:id,review_token:'a'.repeat(32),change_reason:'Invoice dan barang sudah diperiksa'});expect(container.textContent).toContain('Sisa pembayaran Rp80');expect(button('Sahkan invoice')).toBeUndefined()
+ })
+ it('retains and reconciles the identical request after a lost commit reply and remount',async()=>{
+  allowCommands();let lost=false,state='DRAFT';client.rpc.mockImplementation(async(name,args)=>{
+   if(name==='erp_cp7_get_sales_v1')return {data:draftData(!!args.p_query.sale_id,state),error:null}
+   state='CANCELLED';if(!lost){lost=true;throw Error('Reply lost after commit')}
+   return {data:{contract_version:'cp7.sales-outcome.v1',kind:'COMMITTED_OUTCOME',action:args.p_action,request_id:args.p_request,sale_id:id,status:state,row_version:'9007199254740994'},error:null}
+  });await mount();await click(container.querySelector<HTMLButtonElement>('.cproc-receipt')!);await act(async()=>container.querySelector<HTMLInputElement>('[aria-label="Invoice sudah diperiksa"]')!.click());await click(button('Batalkan draft invoice'))
+  expect(button('Reconcile transaksi')).toBeDefined();await act(async()=>root.unmount());root=createRoot(container);await mount();await click(button('Reconcile transaksi'))
+  const sends=client.rpc.mock.calls.filter(([n])=>n==='erp_cp7_save_sale_v1');expect(sends).toHaveLength(2);expect(sends[1][1]).toEqual(sends[0][1]);expect(button('Reconcile transaksi')).toBeUndefined();expect(container.textContent).toContain('Draft dibatalkan')
+ })
+ it('rejects a success receipt for a different document or wrong transition',()=>{
+  const r={contract_version:'cp7.sales-outcome.v1',kind:'COMMITTED_OUTCOME',action:'POST',request_id:id,sale_id:id,status:'POSTED',row_version:'9007199254740994'}
+  expect(parseSalesOutcome(r,id,'POST',id).row_version).toBe('9007199254740994');expect(()=>parseSalesOutcome(r,id,'POST',line)).toThrow();expect(()=>parseSalesOutcome({...r,status:'CANCELLED'},id,'POST',id)).toThrow()
  })
 })
