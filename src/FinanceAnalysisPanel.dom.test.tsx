@@ -1,0 +1,27 @@
+// @vitest-environment jsdom
+import {act} from 'react'
+import {createRoot,type Root} from 'react-dom/client'
+import {afterEach,beforeEach,describe,expect,it,vi} from 'vitest'
+import FinanceAnalysisPanel from './FinanceAnalysisPanel'
+import {parseFinanceAnalysis} from './financeAnalysisContract'
+import {financeAnalysisFixture} from '../tests/fixtures/financeAnalysis'
+import type {getUatSupabaseClient} from './lib/supabase'
+const dates={from:'2026-09-28',to:'2026-09-28',as_of:'2026-09-28',compare_from:'2026-09-27',compare_to:'2026-09-27'}
+const rpc=vi.fn(),client={rpc} as unknown as ReturnType<typeof getUatSupabaseClient>
+let root:Root,container:HTMLDivElement
+beforeEach(()=>{Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true});rpc.mockReset();rpc.mockImplementation((_name,{p_query})=>Promise.resolve({data:financeAnalysisFixture(p_query,p_query.offset),error:null}));container=document.createElement('div');document.body.append(container);root=createRoot(container)})
+afterEach(async()=>{await act(async()=>root.unmount());container.remove()})
+const flush=async()=>act(async()=>{await new Promise(r=>setTimeout(r,0))})
+async function click(label:string){await act(async()=>[...container.querySelectorAll('button')].find(b=>b.textContent===label)!.click());await flush()}
+async function mount(){await act(async()=>root.render(<FinanceAnalysisPanel client={client} dates={dates}/>));await click('Buka perbandingan & arus kas')}
+async function fill(label:string,value:string){await act(async()=>{const e=container.querySelector<HTMLInputElement>(`[aria-label="${label}"]`)!;Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')!.set!.call(e,value);e.dispatchEvent(new Event('input',{bubbles:true}))});await flush()}
+describe('P13 recorded comparison and native cash source boundaries',()=>{
+ it('keeps growth percent, margin points and internal-transfer net as separate values',()=>{const r=parseFinanceAnalysis(financeAnalysisFixture(dates),dates);expect(r.comparison.revenue_growth_pct).toBe('20.0000');expect(r.comparison.gross_margin_change_pp).toBe('-3.0000');expect(r.cash.entries.rows[0].net).toBe('0.00');expect(r.cash.net_change).toBe('100.00')})
+ it('requires unavailable ratios when the baseline is zero',()=>{const r=financeAnalysisFixture(dates);Object.assign(r.comparison.baseline.performance,{sales_revenue_gl:'0'});expect(()=>parseFinanceAnalysis(r,dates)).toThrow();r.comparison.revenue_growth_pct=null;r.comparison.gross_margin_change_pp=null;expect(parseFinanceAnalysis(r,dates).comparison.revenue_growth_pct).toBeNull()})
+ it('refuses numeric money, false reconciliation and missing source pages',()=>{const a=financeAnalysisFixture(dates);Object.assign(a.cash,{net_change:100});expect(()=>parseFinanceAnalysis(a,dates)).toThrow();const b=financeAnalysisFixture(dates);b.cash.closing='1101';expect(()=>parseFinanceAnalysis(b,dates)).toThrow();const c=financeAnalysisFixture(dates);c.cash.entries.total='4';expect(()=>parseFinanceAnalysis(c,dates)).toThrow();const e=financeAnalysisFixture(dates);e.cash.entries.rows[0].net='1000';expect(()=>parseFinanceAnalysis(e,dates)).toThrow()})
+ it('binds both native report periods and dates of cash source entries',()=>{const r=financeAnalysisFixture(dates);r.comparison.baseline.basis.balance_sheet_as_of=dates.as_of;expect(()=>parseFinanceAnalysis(r,dates)).toThrow();const q=financeAnalysisFixture(dates);q.cash.entries.rows[0].transaction_date='2026-09-29';expect(()=>parseFinanceAnalysis(q,dates)).toThrow()})
+ it('renders recorded values, point changes and cash semantics without a mutation',async()=>{await mount();expect(rpc).not.toHaveBeenCalled();await click('Periksa perbandingan & kas');expect(container.textContent).toContain('20%');expect(container.textContent).toContain('-3 poin persentase');expect(container.textContent).toContain('Perubahan kas bersihRp100');expect(container.textContent).toContain('Penerimaan kas tidak otomatis menjadi penjualan');expect(container.textContent).toContain('biaya yang belum lengkap belum boleh dianggap final');expect(rpc.mock.calls[0][0]).toBe('erp_cp7_get_finance_analysis_v1')})
+ it('retires source money after a failed refresh and keeps explicit comparison dates',async()=>{await mount();await click('Periksa perbandingan & kas');rpc.mockResolvedValue({data:null,error:{message:'Sumber kas belum tersedia'}});await click('Periksa perbandingan & kas');expect(container.textContent).not.toContain('Rp');expect(container.textContent).toContain('Sumber kas belum tersedia');expect(container.querySelector<HTMLInputElement>('[aria-label="Periode pembanding dari"]')?.value).toBe(dates.compare_from)})
+ it('ignores an earlier date response after the comparison is changed',async()=>{let resolveOld:((v:unknown)=>void)|null=null;rpc.mockImplementationOnce(()=>new Promise(r=>{resolveOld=r}));await mount();await click('Periksa perbandingan & kas');await fill('Periode pembanding dari','2026-09-26');await act(async()=>resolveOld!({data:financeAnalysisFixture(dates),error:null}));await flush();expect(container.textContent).not.toContain('Rp');expect(container.querySelector<HTMLInputElement>('[aria-label="Periode pembanding dari"]')?.value).toBe('2026-09-26')})
+ it('rejects overlapping comparison before sending any request',async()=>{await mount();await fill('Periode pembanding sampai',dates.from);await click('Periksa perbandingan & kas');expect(rpc).not.toHaveBeenCalled();expect(container.textContent).toContain('rentang pembanding sebelum periode')})
+})

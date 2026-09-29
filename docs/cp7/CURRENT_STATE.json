@@ -263,5 +263,15 @@
     "diagnostic": "docs/cp7/evidence/p13-finance/PERIOD_RUN2_RECEIPT.json",
     "source_commit": "d1a8a84bce5bf5cf25c716ec2fbe2dc783724b36",
     "source_tree": "2687fa0bb4f7f38b6c97ae85547e654e249a7820"
+  },
+  "p13_analysis_candidate": {
+    "status": "CANDIDATE_NATIVE_24_PENDING",
+    "handoff": "docs/cp7/P13_ANALYSIS_HANDOFF.md",
+    "expected_cases": 24,
+    "retained_report_cases": 12,
+    "new_analysis_cases": 12,
+    "local_analysis_cases": 8,
+    "independent_acceptance": false,
+    "production_go": false
   }
 }
