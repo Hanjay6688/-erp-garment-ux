@@ -23,7 +23,7 @@ begin
   'document_net_amount',(select sum(net_amount)::text from erp.material_supplier_invoice_lines where invoice_id=ih.id),
   'single_receipt',not exists(select 1 from erp.material_supplier_invoice_lines l join erp.material_purchase_items i on i.id=l.purchase_item_id where l.invoice_id=ih.id and i.purchase_id<>p_purchase),
   'lines',coalesce((select jsonb_agg(jsonb_build_object('id',l.id,'purchase_item_id',l.purchase_item_id,'purchase_id',i.purchase_id,'purchase_number',ph.purchase_number,
-    'material_name',m.material_name,'unit_code',m.unit_code,'qty',l.qty_invoiced::text,'unit_price',l.unit_price::text,'discount',l.discount_amount::text,'net_amount',l.net_amount::text) order by l.id)
+    'material_name',m.material_name,'unit_code',m.unit_code,'qty',l.qty_invoiced::text,'unit_price',l.unit_price::text,'discount',l.discount_amount::text,'net_amount',l.net_amount::text,'notes',l.notes) order by l.id)
     from erp.material_supplier_invoice_lines l join erp.material_purchase_items i on i.id=l.purchase_item_id join erp.material_purchase_headers ph on ph.id=i.purchase_id join erp.materials m on m.id=i.material_id where l.invoice_id=ih.id),'[]'::jsonb)) order by ih.received_at desc,ih.id),'[]'::jsonb)
  into docs from (select x.* from erp.material_supplier_invoices x where exists(select 1 from erp.material_supplier_invoice_lines l join erp.material_purchase_items i on i.id=l.purchase_item_id where l.invoice_id=x.id and i.purchase_id=p_purchase)
   order by x.received_at desc,x.id limit p_limit offset p_offset) ih;

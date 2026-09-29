@@ -268,7 +268,7 @@ async function purchaseUom(ui,today,mobile){
   return {status:'PASS',mobile,unit,purchase_quantity:quantity,price_per_purchase_unit:price,base_stock:stock,value,real_ui_auth_rpc_database:true,draft_edit_preserves_entered_units:true,recovery_identical_request:mobile?true:null,screenshot:`P09_UOM_${mobile?'MOBILE':'DESKTOP'}.png`}
  }finally{await user.context.close()}
 }
-export async function cases(ui,today){return [['P09_BROWSER_RECEIPT_DESKTOP',()=>receipt(ui,today,false)],['P09_BROWSER_LOST_REPLY_MOBILE',()=>receipt(ui,today,true)],['P09_BROWSER_TRANSFER_DESKTOP',()=>transfer(ui,today,false)],['P09_BROWSER_TRANSFER_LOST_REPLY_MOBILE',()=>transfer(ui,today,true)],['P09_BROWSER_INVOICE_DESKTOP',()=>supplierInvoice(ui,today,false)],['P09_BROWSER_INVOICE_LOST_REPLY_MOBILE',()=>supplierInvoice(ui,today,true)],['P09_BROWSER_RETURN_CREDIT_DESKTOP',()=>supplierReturn(ui,today,false)],['P09_BROWSER_RETURN_CREDIT_LOST_REPLY_MOBILE',()=>supplierReturn(ui,today,true)],['P09_BROWSER_RECEIPT_REVERSE_DESKTOP',()=>receiptReversal(ui,today,false)],['P09_BROWSER_RECEIPT_REVERSE_LOST_REPLY_MOBILE',()=>receiptReversal(ui,today,true)],['P09_BROWSER_UOM_DESKTOP',()=>purchaseUom(ui,today,false)],['P09_BROWSER_UOM_LOST_DRAFT_REPLY_MOBILE',()=>purchaseUom(ui,today,true)],['P09_BROWSER_ACCESSORY_TRANSFER_DESKTOP',()=>transfer(ui,today,false,'ACCESSORY')],['P09_BROWSER_OTHER_TRANSFER_MOBILE',()=>transfer(ui,today,true,'OTHER')],['P09_BROWSER_COUNT_DESKTOP',()=>materialCount(ui,today,false)],['P09_BROWSER_COUNT_LOST_REPLY_MOBILE',()=>materialCount(ui,today,true)]]}
+export async function cases(ui,today){return [['P09_BROWSER_RECEIPT_DESKTOP',()=>receipt(ui,today,false)],['P09_BROWSER_LOST_REPLY_MOBILE',()=>receipt(ui,today,true)],['P09_BROWSER_TRANSFER_DESKTOP',()=>transfer(ui,today,false)],['P09_BROWSER_TRANSFER_LOST_REPLY_MOBILE',()=>transfer(ui,today,true)],['P09_BROWSER_INVOICE_DESKTOP',()=>supplierInvoice(ui,today,false)],['P09_BROWSER_INVOICE_LOST_REPLY_MOBILE',()=>supplierInvoice(ui,today,true)],['P09_BROWSER_RETURN_CREDIT_DESKTOP',()=>supplierReturn(ui,today,false)],['P09_BROWSER_RETURN_CREDIT_LOST_REPLY_MOBILE',()=>supplierReturn(ui,today,true)],['P09_BROWSER_RECEIPT_REVERSE_DESKTOP',()=>receiptReversal(ui,today,false)],['P09_BROWSER_RECEIPT_REVERSE_LOST_REPLY_MOBILE',()=>receiptReversal(ui,today,true)],['P09_BROWSER_UOM_DESKTOP',()=>purchaseUom(ui,today,false)],['P09_BROWSER_UOM_LOST_DRAFT_REPLY_MOBILE',()=>purchaseUom(ui,today,true)],['P09_BROWSER_ACCESSORY_TRANSFER_DESKTOP',()=>transfer(ui,today,false,'ACCESSORY')],['P09_BROWSER_OTHER_TRANSFER_MOBILE',()=>transfer(ui,today,true,'OTHER')],['P09_BROWSER_COUNT_DESKTOP',()=>materialCount(ui,today,false)],['P09_BROWSER_COUNT_LOST_REPLY_MOBILE',()=>materialCount(ui,today,true)],['P09_BROWSER_COMBINED_INVOICE_DESKTOP',()=>combinedInvoice(ui,today,false)],['P09_BROWSER_COMBINED_INVOICE_LOST_REPLY_MOBILE',()=>combinedInvoice(ui,today,true)]]}
 
 async function materialCount(ui,today,mobile){
  const f=fixture('create_count',{today,mobile}),user=await ui.login('OWNER',{label:'cp7-material-count-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'})
@@ -308,5 +308,42 @@ async function materialCount(ui,today,mobile){
   await review.check();await p.getByRole('button',{name:'Batalkan hitung fisik',exact:true}).click();await ui.expect(detail).toContainText('Penyesuaian sudah dibatalkan dengan mutasi pembalik.')
   read=fixture('read_count',f);if(Number(read.qty)!==10||read.movements!==3||JSON.stringify(read.ledger)!==JSON.stringify(f.ledger_before))throw Error('Count inverse failed to restore stock/accounts')
   return {status:'PASS',mobile,real_ui_auth_rpc_database:true,physical_input:true,draft_edit_preserves_id_time_and_quantity:true,server_delta:mobile?2:-2,posted_stock:mobile?12:8,posted_value_delta:mobile?20:-20,restored_stock:10,all_accounts_restored:true,recovery_identical_request:mobile?true:null,screenshot:`P09_COUNT_${mobile?'MOBILE':'DESKTOP'}.png`}
+ }finally{await user.context.close()}
+}
+async function combinedInvoice(ui,today,mobile){
+ const f=fixture('create_combined_invoice',{today}),user=await ui.login('OWNER',{label:'cp7-combined-invoice-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'})
+ try{
+  const p=user.page,panel=p.locator('.cproc-invoices'),number=f.tag+'-UI-COMBINED'
+  await openPage(ui,p);await p.getByLabel('Cari penerimaan',{exact:true}).fill(f.tag);await p.getByRole('button',{name:'Cari penerimaan',exact:true}).click()
+  const receipt=p.locator('.cproc-receipt').filter({hasText:f.tag});await ui.expect(receipt).toHaveCount(1);await ui.expect(receipt).toBeEnabled();await receipt.click()
+  await ui.expect(panel).toContainText('Penerimaan '+f.tag);await panel.getByRole('button',{name:'Gabungkan penerimaan dalam invoice',exact:true}).click()
+  await panel.getByLabel('Nomor invoice supplier',{exact:true}).fill(number);await panel.getByLabel('Tanggal invoice supplier',{exact:true}).fill(f.day)
+  await panel.getByLabel('Waktu invoice diterima WIB',{exact:true}).fill(f.invoice_day+'T15:00');await panel.getByLabel('Jatuh tempo invoice supplier',{exact:true}).fill(f.invoice_day)
+  await panel.getByLabel('Cari penerimaan invoice',{exact:true}).fill(f.other.tag);await panel.getByRole('button',{name:'Cari penerimaan invoice',exact:true}).click()
+  const add=panel.getByRole('button',{name:'Tambahkan '+f.other.tag,exact:true});await ui.expect(add).toBeEnabled();await add.click()
+  await panel.getByLabel('Jumlah invoice 1',{exact:true}).fill('4');await panel.getByLabel('Harga invoice 1',{exact:true}).fill('12.5')
+  await panel.getByLabel('Jumlah invoice 2',{exact:true}).fill('6');await panel.getByLabel('Harga invoice 2',{exact:true}).fill('7.5')
+  await panel.getByLabel('Invoice sudah diperiksa',{exact:true}).check();await panel.getByRole('button',{name:'Simpan draft invoice',exact:true}).click()
+  await ui.expect(panel).toContainText('Draft invoice');let read=fixture('read_combined_invoice',f),original=read.documents[0]
+  if(read.documents.length!==1||original.line_count!=='2'||JSON.stringify(read.ledger)!==JSON.stringify(f.ledger_before)||read.receipts.some(r=>Number(r.ap)!==0||Number(r.value)!==100))throw Error('Combined invoice draft changed money or lost a source')
+  await panel.getByRole('button',{name:'Edit draft '+number,exact:true}).click();await panel.getByLabel('Catatan invoice supplier',{exact:true}).fill('Dua surat jalan diperiksa; catatan draft diperbaiki')
+  await panel.getByLabel('Invoice sudah diperiksa',{exact:true}).check();await panel.getByRole('button',{name:'Simpan draft invoice',exact:true}).click()
+  await ui.expect(panel.locator('.cproc-editor')).toHaveCount(0);read=fixture('read_combined_invoice',f)
+  if(read.documents[0].id!==original.id||BigInt(read.documents[0].row_version)<=BigInt(original.row_version)||read.documents[0].received_at!==original.received_at||read.documents[0].lines.some(l=>!l.purchase_id)||JSON.stringify(read.ledger)!==JSON.stringify(f.ledger_before))throw Error('Combined draft edit changed identity/time/money')
+  let lost=false,first=null,replay=null
+  if(mobile)await p.route('**/rest/v1/rpc/erp_cp7_save_purchase_invoice_v1',async route=>{const body=route.request().postDataJSON();if(body.p_action==='POST_DOCUMENT'&&!lost){first=body;const r=await route.fetch();if(r.status()!==200){await route.fulfill({response:r});return}lost=true;await route.abort('failed')}else{if(body.p_action==='POST_DOCUMENT')replay=body;await route.continue()}})
+  await panel.getByRole('button',{name:'Tinjau pengesahan '+number,exact:true}).click();await panel.getByLabel('Alasan pembatalan invoice',{exact:true}).fill('Semua penerimaan dan harga sudah dicocokkan')
+  await panel.getByLabel('Konfirmasi pengesahan invoice',{exact:true}).check();await panel.getByRole('button',{name:'Sahkan draft invoice supplier',exact:true}).click()
+  if(mobile){await ui.expect(panel.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeVisible();await p.reload();await openPage(ui,p);await panel.getByRole('button',{name:'Reconcile transaksi',exact:true}).click();await ui.expect(panel.getByRole('button',{name:'Reconcile transaksi',exact:true})).toHaveCount(0);if(!lost||JSON.stringify(first)!==JSON.stringify(replay))throw Error('Combined invoice recovery changed request')}
+  await ui.expect(panel).toContainText('Invoice disahkan');await ui.expect(panel).toContainText('Nilai dokumen Rp95')
+  read=fixture('read_combined_invoice',f)
+  for(const [i,r] of read.receipts.entries())if(Number(r.ap)!==[50,45][i]||Number(r.grni)!==[60,40][i]||Number(r.qty)!==10||Number(r.value)!==[110,85][i])throw Error('Combined invoice recognition mismatch')
+  if(read.documents.length!==1||read.documents[0].lines.length!==2)throw Error('Combined invoice replay duplicated or truncated document')
+  await ui.expect.poll(()=>panel.evaluate(el=>{const b=el.getBoundingClientRect();return b.left>=0&&b.right<=innerWidth+1&&document.documentElement.scrollWidth<=innerWidth+1})).toBe(true)
+  await p.evaluate(()=>window.scrollTo(0,0));await p.screenshot({path:`cp6-proof/t3/P09_COMBINED_INVOICE_${mobile?'MOBILE':'DESKTOP'}.png`,fullPage:true})
+  await panel.getByRole('button',{name:'Tinjau pembatalan '+number,exact:true}).click();await panel.getByLabel('Alasan pembatalan invoice',{exact:true}).fill('Invoice gabungan diganti oleh supplier')
+  await panel.getByLabel('Konfirmasi pembatalan invoice',{exact:true}).check();await panel.getByRole('button',{name:'Batalkan invoice supplier',exact:true}).click();await ui.expect(panel).toContainText('Invoice dibatalkan')
+  read=fixture('read_combined_invoice',f);if(JSON.stringify(read.ledger)!==JSON.stringify(f.ledger_before)||read.receipts.some(r=>Number(r.ap)!==0||Number(r.grni)!==100||Number(r.qty)!==10||Number(r.value)!==100))throw Error('Combined invoice inverse did not restore both receipts/accounts')
+  return {status:'PASS',mobile,real_ui_auth_rpc_database:true,complete_receipts:2,draft_edit_preserves_id_time_money:true,ap:[50,45],grni:[60,40],stock_values:[110,85],all_accounts_restored:true,recovery_identical_request:mobile?true:null,screenshot:`P09_COMBINED_INVOICE_${mobile?'MOBILE':'DESKTOP'}.png`}
  }finally{await user.context.close()}
 }

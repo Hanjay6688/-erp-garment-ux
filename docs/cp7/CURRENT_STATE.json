@@ -50,7 +50,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Complete remaining P09 mixed-receipt invoice/return workflows and physical-count UI scope, then continue F03 P10-P13.",
+  "next_action": "Qualify complete multi-receipt supplier invoice documents, then finish remaining P09 return/count/issue scope and continue F03 P10-P13.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -80,5 +80,6 @@
   "p09_uom_and_reversal_verification": "docs/cp7/evidence/p09-procurement/UOM_REVERSE_VERIFICATION.json",
   "p09_unrolled_verification": "docs/cp7/evidence/p09-procurement/UNROLLED_VERIFICATION.json",
   "p09_count_diagnostic": "docs/cp7/evidence/p09-procurement/COUNT_RUN_2.json",
-  "p09_count_verification": "docs/cp7/evidence/p09-procurement/COUNT_VERIFICATION.json"
+  "p09_count_verification": "docs/cp7/evidence/p09-procurement/COUNT_VERIFICATION.json",
+  "p09_combined_invoice_candidate": "docs/cp7/P09_COMBINED_INVOICE_HANDOFF.md"
 }

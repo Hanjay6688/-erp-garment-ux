@@ -11,6 +11,7 @@ name: CP7 P09 Procurement
     - scripts/cp7-src/supplier-returns/**
     - scripts/cp7_supplier_return_cases.py
     - scripts/cp7_invoice_cases.py
+    - scripts/cp7_invoice_document_cases.py
     - scripts/cp7_material_cases.py
     - scripts/cp7_material_unrolled_cases.py
     - scripts/cp7_material_count_cases.py

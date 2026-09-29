@@ -974,6 +974,12 @@
         "limits": "Browser creates and edits one complete counted stock position per document; larger or externally changed source bindings remain readable without silently dropping inputs. Multi-input editing and zero-history material selection remain follow-up; FG adjustments remain P10.",
         "handoff": "docs/cp7/P09_MATERIAL_COUNT_HANDOFF.md",
         "verification": "docs/cp7/evidence/p09-procurement/COUNT_VERIFICATION.json"
+      },
+      "combined_invoice_extension": {
+        "status": "CANDIDATE_NATIVE_BROWSER_PENDING",
+        "handoff": "docs/cp7/P09_COMBINED_INVOICE_HANDOFF.md",
+        "authority": "Accepted supplier invoice draft/post/inverse writers. Private request cache and read-owned complete source validators; no new ERP business DML or money engine.",
+        "scope": "Same supplier, complete bounded invoice document across posted receipts; current access before replay and after waits; full browser draft edit and complete inverse review."
       }
     }
   }

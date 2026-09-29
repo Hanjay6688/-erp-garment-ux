@@ -3,7 +3,7 @@ import {act} from 'react'
 import {createRoot,type Root} from 'react-dom/client'
 import {afterEach,beforeEach,describe,expect,it,vi} from 'vitest'
 import PurchaseInvoicePanel from './PurchaseInvoicePanel'
-import {parsePurchaseInvoices,parsePurchaseInvoiceOutcome} from './purchaseInvoiceContract'
+import {parsePurchaseInvoices,parsePurchaseInvoiceOutcome,parseInvoiceSources} from './purchaseInvoiceContract'
 import {readProductionRecovery} from './productionRecovery'
 import {recoveryIdentity} from '../tests/fixtures/productionRecovery'
 import {invoiceWorkspaceFixture,invoiceReceiptId as purchase,invoiceId as invoice} from '../tests/fixtures/purchaseInvoices'
@@ -36,4 +36,31 @@ describe('purchase invoice connected boundary',()=>{
  it('refuses truncated or mislabeled documents and a success for another receipt',()=>{const w=invoiceWorkspaceFixture(true);expect(()=>parsePurchaseInvoices(w,purchase)).not.toThrow();expect(()=>parsePurchaseInvoices({...w,receipt_line_count:'2'},purchase)).toThrow();expect(()=>parsePurchaseInvoices({...w,page:{...w.page,total:'2'}},purchase)).toThrow();const changed=structuredClone(w);changed.page.rows[0].line_count='2';expect(()=>parsePurchaseInvoices(changed,purchase)).toThrow();expect(()=>parsePurchaseInvoices({...w,basis:'CURRENT_AP_OUTSTANDING'},purchase)).toThrow();expect(()=>parsePurchaseInvoiceOutcome({contract_version:'cp7.purchase-invoice-outcome.v1',kind:'COMMITTED_OUTCOME',action:'FINALIZE',request_id:invoice,purchase_id:invoice,invoice_id:invoice,version_subject:'RECEIPT',row_version:'1',status:'POSTED'},invoice,'FINALIZE',{purchase_id:purchase})).toThrow()})
  it('does not request or paint invoice money without finance access',async()=>{server();const a=state.auth as typeof recoveryIdentity;a.identity.permissions=a.identity.permissions.filter(p=>p!=='finance.ap.view');await mount();expect(container.textContent).toBe('');expect(client.rpc).not.toHaveBeenCalled()})
  it('invalidates confirmation when quantity or price changes and locks if parent receipt refresh fails',async()=>{const s=server();await mount(purchase,async()=>!s.parentFail);await draft();await input('Harga invoice 1','13');expect(button('Sahkan invoice supplier').disabled).toBe(true);await check('Invoice sudah diperiksa');s.parentFail=true;await click('Sahkan invoice supplier');expect(container.textContent).toContain('Aksi sudah tersimpan');expect(container.textContent).not.toContain('Catat invoice supplier');expect(writes()).toHaveLength(1)})
+ it('binds every reviewed receipt to a combined draft and posts its exact invoice version',async()=>{
+  const other='44444444-4444-4444-8444-444444444444',item='55555555-5555-4555-8555-555555555555',base=invoiceWorkspaceFixture(false)
+  const source={contract_version:'cp7.invoice-sources.v1',read_at:base.read_at,purchase_id:purchase,supplier_id:base.supplier_id,page:{rows:[{id:other,number:'SJ-SECOND',physical_at:base.read_at,row_version:'9007199254740998',line_count:'1',lines:[{...base.receipt_lines[0],id:item}]}],total:'1',offset:0,limit:10,next_offset:null}}
+  let document:Record<string,unknown>|null=null
+  client.rpc.mockImplementation(async(name:string,args:Record<string,unknown>)=>{
+   if(name==='erp_cp7_get_invoice_sources_v1')return {data:source,error:null}
+   if(name==='erp_cp7_get_purchase_invoices_v1')return {data:{...base,page:{...base.page,rows:document?[document]:[],total:document?'1':'0'}},error:null}
+   const posting=args.p_action==='POST_DOCUMENT'
+   document={...invoiceWorkspaceFixture(true).page.rows[0],status:posting?'POSTED':'DRAFT',row_version:posting?'9007199254741000':'9007199254740999',number:'INV-COMBINED',line_count:'2',single_receipt:false,document_net_amount:'95',lines:[{...invoiceWorkspaceFixture(true).page.rows[0].lines[0],notes:'First'},{...invoiceWorkspaceFixture(true).page.rows[0].lines[0],id:item,purchase_item_id:item,purchase_id:other,purchase_number:'SJ-SECOND',qty:'6',unit_price:'7.5',net_amount:'45',notes:'Second'}]}
+   return {data:{contract_version:'cp7.purchase-invoice-outcome.v1',kind:'COMMITTED_OUTCOME',action:args.p_action,request_id:args.p_request,purchase_id:purchase,invoice_id:invoice,version_subject:'INVOICE',row_version:document.row_version,status:document.status},error:null}
+  })
+  await mount();await click('Gabungkan penerimaan dalam invoice');await input('Nomor invoice supplier','INV-COMBINED');await input('Cari penerimaan invoice','SJ-SECOND');await click('Cari penerimaan invoice');await click('Tambahkan SJ-SECOND')
+  await input('Jumlah invoice 1','4');await input('Harga invoice 1','12.5');await input('Jumlah invoice 2','6');await input('Harga invoice 2','7.5');await check('Invoice sudah diperiksa');await click('Simpan draft invoice')
+  expect(writes()[0][1]).toMatchObject({p_action:'SAVE_DOCUMENT',p_expected:null,p_payload:{purchase_id:purchase,supplier_id:base.supplier_id,lines:[{qty_invoiced:'4',unit_price:'12.5'},{purchase_item_id:item,qty_invoiced:'6',unit_price:'7.5'}]}})
+  await click('Tinjau pengesahan INV-COMBINED');await input('Alasan pembatalan invoice','Kedua surat jalan diperiksa');await check('Konfirmasi pengesahan invoice');await click('Sahkan draft invoice supplier')
+  expect(writes()[1][1]).toMatchObject({p_action:'POST_DOCUMENT',p_expected:'9007199254740999',p_payload:{reviewed_purchase_ids:[purchase,other]}})
+  expect(container.textContent).toContain('Invoice disahkan')
+  expect(()=>parseInvoiceSources({...source,supplier_id:other},purchase,base.supplier_id)).toThrow()
+  expect(()=>parseInvoiceSources({...source,page:{...source.page,rows:[{...source.page.rows[0],line_count:'2'}]}},purchase,base.supplier_id)).toThrow()
+ })
+ it('preserves complete draft lines, line notes and microseconds when editing',async()=>{
+  const base=invoiceWorkspaceFixture(true),d={...base.page.rows[0],status:'DRAFT',received_at:'2026-09-28T08:00:03.123456Z',notes:'Header note',lines:[{...base.page.rows[0].lines[0],notes:'Source line note'}]}
+  client.rpc.mockImplementation(async(name:string)=>name==='erp_cp7_get_purchase_invoices_v1'?{data:{...base,page:{...base.page,rows:[d]}},error:null}:{data:null,error:{status:503,message:'Lost committed reply'}})
+  await mount();await click('Edit draft INV-TEST');await input('Catatan invoice supplier','Header note edited');await check('Invoice sudah diperiksa');await click('Simpan draft invoice')
+  expect(writes()[0][1]).toMatchObject({p_action:'SAVE_DOCUMENT',p_expected:'9007199254740994',p_payload:{id:invoice,received_at:d.received_at,notes:'Header note edited',lines:[{notes:'Source line note',qty_invoiced:'4.000000',unit_price:'12.500000'}]}})
+  const original=structuredClone(writes()[0][1]);await click('Reconcile transaksi');expect(writes()[1][1]).toEqual(original)
+ })
 })

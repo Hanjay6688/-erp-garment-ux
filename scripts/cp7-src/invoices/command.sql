@@ -2,6 +2,9 @@ create function cp7_invoice.command(p_action text,p_payload jsonb,p_request uuid
 language plpgsql volatile security invoker set search_path='' as $$
 declare a jsonb;z jsonb;r jsonb;l jsonb;expected bigint;pid uuid;
 begin
+ if p_action in('SAVE_DOCUMENT','POST_DOCUMENT','DELETE_DOCUMENT','REVERSE_DOCUMENT') then
+  return cp7_invoice.document_command(p_action,p_payload,p_request,p_expected);
+ end if;
  if current_setting('transaction_isolation')<>'read committed' then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
  a:=cp7_invoice.access_now();
  if p_action is null or p_action not in('FINALIZE','REVERSE') or p_request is null then raise exception 'CP7_INVOICE_ACTION';end if;

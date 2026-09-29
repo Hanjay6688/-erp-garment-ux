@@ -32,6 +32,14 @@ def main():
                 f.update(target=g['receipt']['purchase_id'],target_tag=g['tag'],return_day=str(f['day']+timedelta(days=2)))
                 f['ap_before']=str(cur.execute("select coalesce(sum(credit_total-debit_total),0) from erp.account_daily_balances where account_id=erp.account_id('AP_SUPPLIER')").fetchone()[0])
             conn.commit();out=f
+        elif sys.argv[1]=='create_combined_invoice':
+            f,g=invoice.fixture(cur,date.fromisoformat(payload['today'])),invoice.fixture(cur,date.fromisoformat(payload['today']))
+            f['other']=g;f['invoice_day']=str(f['day']+timedelta(days=2));f['ledger_before']=reversal.net_ledger(cur);conn.commit();out=f
+        elif sys.argv[1]=='read_combined_invoice':
+            rows=[]
+            for source in (payload,payload['other']):
+                ap,grni,qty,cost=invoice.amounts(cur,source);rows.append(dict(ap=str(ap),grni=str(grni),qty=str(qty),value=str(qty*cost)))
+            out=dict(receipts=rows,documents=invoice.read(cur,payload['receipt']['purchase_id'])['page']['rows'],ledger=reversal.net_ledger(cur));conn.rollback()
         elif sys.argv[1]=='create_count':
             f=(unrolled.fixture if payload['mobile'] else material.fixture)(cur,date.fromisoformat(payload['today']))
             f['material_code'],f['unit'],f['material_name']=cur.execute('select material_sku,unit_code,material_name from erp.materials where id=%s',(f['material'],)).fetchone()
