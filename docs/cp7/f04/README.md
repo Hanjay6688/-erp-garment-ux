@@ -13,8 +13,10 @@ to live ERP transactions. The base and ownership assignment are in ASSIGNMENT.md
 | P06 | `allocate`, `material`, `capacity`, `feasibility` | Global greedy allocation with P04 matching re-evaluated, shared source/yield/capacity limits, material consumption evidence, dated work-centre capacity, explicit batch rounding, STOP retains unmet need. |
 | P07-A | `cp7_models.predict`, `score` | Eight deterministic NUMERIC kernels with independent numeric examples; MAE, signed bias, horizon total error, MASE/RMSSE with explicit undefined denominators. |
 | P07-B | `window`, `promotion`, `evaluate` | Knowledge-aware rolling origins, fixed pre-registered configurations, complete paired folds, baseline/promotion guards, untouched outer holdout reported after selection. |
+| P06/M07 | `cp7_baseline.dependencies` | Version/hash/completeness changes mark the captured result stale; missing evidence stays unknown; no live authorization claim. |
+| P07/M08 | `cp7_models.compare_plan` | Frozen plan/version versus attributed additive PCS outcomes; partial/full correction, as-known/restated cutoffs and explicit unknowns. |
 
-Twenty functions include five private validation helpers. All are invoker-only,
+Twenty-two functions include five private validation helpers. All are invoker-only,
 owned by `cp7_capture`; PUBLIC/anon/authenticated/service_role have no direct
 schema/function access. No new tables, operational writes, public RPCs,
 SECURITY DEFINER functions, dynamic SQL, migrations, credentials, scheduled jobs,
@@ -62,6 +64,9 @@ Rules needed by the source adapter:
   constraints. The greedy allocator is deterministic, not a global optimum claim.
 - Empirical statistical target samples must be total demand over the exact
   `L + R` horizon. This kernel does not fit/calibrate a predictive distribution.
+
+The additional M07/M08 input semantics, correction normalization and limits are
+documented in `CONTINUATION.md`. The executable examples remain synthetic.
 
 ## Model behavior
 
@@ -140,7 +145,8 @@ shell-browser checks and CodeQL (JS/TS and Actions). Workflow bytes are unchange
 | Authoritative CP6/F03 sales, stock, material, calendar capture | **OPEN**, integrator/source owners; no fabricated reader. |
 | F01/F02 independent acceptance and X06 stale/Auth/race composition | **OPEN** at pinned base; kernel tests do not close them. |
 | Real Supabase target-major/schema/Auth/browser integration | **OPEN**; disposable SQL tests do not substitute for it. |
-| Resource composition, realistic full-volume M07 performance | **OPEN**; no factory throughput/SLA claim from tiny fixtures. |
+| M07 integrated calendar/ETA/capacity invalidation | **OPEN**; private vector comparison does not qualify the composed runtime. |
+| Resource composition, realistic full-volume performance | **OPEN**, separate ADR/P02/P07 gate; no factory throughput/SLA claim from tiny fixtures. |
 | Background event/cron invalidation, persisted model registry and explanations UI | **OPEN**, canonical orchestration/shared wiring; no scheduler claimed. |
 | P08 transaction apply and P10 prerequisites | **EXCLUDED / WAIT**. |
 | Independent audit and production GO | **NOT GRANTED** by writer evidence. |

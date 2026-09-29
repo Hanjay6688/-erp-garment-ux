@@ -34,7 +34,7 @@ matching cases relevant to these packets. A kernel PASS closes only the tested
 numeric boundary; native source/Auth/browser/integrated cases keep their own
 open statuses. Family-wide or independent acceptance is not claimed here.
 
-State: PRIVATE_KERNEL_WRITER_PROOF. 91 local synthetic
+State: PRIVATE_KERNEL_WRITER_PROOF. 138 local synthetic
 kernel/ACL cases passed before submission, alongside the existing 716 Vitest
 tests, static security checks, build and 48-file contract receipt. Native CI
 and final source-bound evidence are recorded separately in this directory.

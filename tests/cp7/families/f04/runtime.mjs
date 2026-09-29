@@ -17,8 +17,10 @@ export const sourceFiles = [
   'scripts/cp7-src/baseline/feasibility.sql',
   'scripts/cp7-src/baseline/allocation.sql',
   'scripts/cp7-src/baseline/capacity.sql',
+  'scripts/cp7-src/baseline/dependencies.sql',
   'scripts/cp7-src/models/kernels.sql',
   'scripts/cp7-src/models/evaluation.sql',
+  'scripts/cp7-src/models/comparison.sql',
   'scripts/cp7-src/models/ownership.sql',
 ];
 export const digest = value => createHash('sha256').update(value).digest('hex');

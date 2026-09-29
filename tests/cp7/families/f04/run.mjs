@@ -4,6 +4,7 @@ import { execFileSync } from 'node:child_process';
 import { performance } from 'node:perf_hooks';
 import { openRuntime, jsonArg, textArg, sourceHashes, digest } from './runtime.mjs';
 import * as f from './fixtures.mjs';
+import { continuation } from './continuation.mjs';
 
 const db = await openRuntime();
 const cases = [], failures = [];
@@ -126,9 +127,10 @@ try {
   await rejected('X15.validation-cannot-overlap-holdout', () => { const v = f.evaluation();v.folds[2].origin = f.date(10);return sql('cp7_models.evaluate', v); }, 'FOLD_LEAKAGE');
   await rejected('M03.future-registered-config-rejected', () => { const v = f.evaluation();v.challengers[0].registered_at = f.at(4);return sql('cp7_models.evaluate', v); }, 'CONFIG_AFTER_VALIDATION');
   await rejected('M02.conflicting-observation-revision', () => { const v = f.evaluation();v.series.push({ ...v.series[0], value: '999' });return sql('cp7_models.evaluate', v); }, 'REVISION_CONFLICT');
+  await continuation({ run, rejected, equal, sql });
   await run('SEC.no-definer-or-operational-execute', async () => {
     const r = await db.query("select count(*)::int as functions, count(*) filter(where p.prosecdef)::int as definers, count(*) filter(where has_function_privilege('anon',p.oid,'EXECUTE') or has_function_privilege('authenticated',p.oid,'EXECUTE') or has_function_privilege('service_role',p.oid,'EXECUTE'))::int as exposed from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname in ('cp7_demand','cp7_baseline','cp7_models')");
-    return equal(r[0], { functions: 20, definers: 0, exposed: 0 });
+    return equal(r[0], { functions: 22, definers: 0, exposed: 0 });
   });
   for (const role of ['anon', 'authenticated', 'service_role']) {
     await run(`SEC.${role}-direct-call-denied`, async () => {
@@ -138,7 +140,7 @@ try {
     });
   }
   await run('SEC.capture-owner-can-compute-without-ledger-write', async () => {
-    try { await db.execute(`set role cp7_capture;select cp7_baseline.target(${jsonArg(f.target())});`); }
+    try { await db.execute(`set role cp7_capture;select cp7_baseline.target(${jsonArg(f.target())});select cp7_baseline.dependencies(${jsonArg(f.dependencies())});select cp7_models.compare_plan(${jsonArg(f.comparison())});`); }
     finally { await db.execute('reset role;'); }
     return equal((await db.query("select amount::text as amount from public.f04_ledger_canary where id=1"))[0].amount, '12345.67');
   });
@@ -147,6 +149,7 @@ const receipt = {
   schema: 'cp7.f04.writer-kernel-receipt.v1', source_head: execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(),
   runtime: db.flavor, version: db.version, source_hashes: sourceHashes,
   fixture_hash: digest(readFileSync('tests/cp7/families/f04/fixtures.mjs')), case_hash: digest(readFileSync('tests/cp7/families/f04/run.mjs')),
+  additional_case_hashes: { 'tests/cp7/families/f04/continuation.mjs': digest(readFileSync('tests/cp7/families/f04/continuation.mjs')) },
   oracle_hash: digest(readFileSync('docs/cp7/framework-v2/04_BUKTI_DAN_ORACLE.md')), passed: cases.filter(c => c.status === 'PASS').length,
   failures, cases, cleanup, qualification: 'WRITER_PRIVATE_KERNEL_PROOF_ONLY',
   not_proven: ['CP6/F03 authoritative capture', 'real Supabase Auth/RLS composition', 'browser flows', 'X06 stale/race boundary', 'P08 apply', 'independent F04 acceptance', 'real-business predictive accuracy'],

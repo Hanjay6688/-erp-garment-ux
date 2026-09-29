@@ -54,3 +54,16 @@ export const evaluation = () => ({
   baseline: model('mean-v1', 'MEAN'), challengers: [model('naive-v1', 'NAIVE')],
   folds: [3, 5, 7].map(day => ({ id: `origin-${day}`, origin: date(day), horizon: '1' })), holdout: { origin: date(10), horizon: '1' }, policy: policy(), refs: refs('frozen-dataset'),
 });
+export const dependencies = () => {
+  const vector = ['calendar', 'lead-time', 'yield', 'capacity'].map(domain => ({ domain, revision: 'v1', completeness: 'COMPLETE', fact_count: 4, source_hash: 'a'.repeat(64) }));
+  return { ...envelope('cp7.dependency-check-input.v1'), captured_at: at(1), checked_at: at(10), required_domains: vector.map(x => x.domain), expected: vector, current: clone(vector), refs: refs('dependency-capture') };
+};
+export const outcome = (event_key, quantity, overrides = {}) => ({
+  event_key, scope_id: 'complete-scope-1', plan_id: 'plan-1', plan_version: 1, target_key: 'SKU-M', size_id: 'M', metric_id: 'good-completed-pcs.v1',
+  kind: 'POST', reverses_event_key: null, quantity_pcs: quantity === null ? null : String(quantity), effective_at: at(3), known_at: at(3), refs: refs(event_key), ...overrides,
+});
+export const comparison = () => ({
+  ...envelope('cp7.plan-comparison-input.v1'), assessment_at: at(10), known_as_of: at(20), effective_through: at(10), knowledge_mode: 'AS_KNOWN', capture_complete: true, history_reconstructible: true,
+  plan: { plan_id: 'plan-1', plan_version: 1, snapshot_id: 'original-plan-capture', scope_id: 'complete-scope-1', created_at: at(1), known_as_of: at(1), target_key: 'SKU-M', size_id: 'M', metric_id: 'good-completed-pcs.v1', period_start: at(2), period_end: at(10), planned: { state: 'KNOWN', value: '12', unit: 'PCS', refs: refs('frozen-planned-quantity') }, refs: refs('frozen-plan-1-v1') },
+  events: [outcome('partial-a', 8), outcome('partial-b', 4, { effective_at: at(5), known_at: at(5) }), outcome('correction-a', 2, { kind: 'REVERSAL', reverses_event_key: 'partial-a', effective_at: at(3), known_at: at(7) })], refs: refs('actual-capture'),
+});

@@ -3,14 +3,19 @@
 Contribution: [draft PR #36](https://github.com/Hanjay6688/-erp-garment-ux/pull/36)
 on `cp7/f04-planning-20260929`, targeting `cp7/integration`.
 
-Computation source head: `b4d6fb134fce8b068a24b6c1996943d21a164431`.
-Source tree: `888ded65e292c46f2c78d7b45716f69d83199620`.
+Prior verified computation head: `b4d6fb134fce8b068a24b6c1996943d21a164431`.
+Prior source tree: `888ded65e292c46f2c78d7b45716f69d83199620`.
 Pinned integration base: `5da1fb6106c7c72058ebd73a782a5155f59c258d`.
-Subsequent evidence-only commits do not qualify different computation bytes.
+
+The current continuation adds two functions and 47 M07/M08 cases (138 total).
+See `CONTINUATION.md` for exact scope. Local WASM, all 716 Vitest tests, static
+security, build and the 48-file contract lock passed for these additions.
+Native continuation proof is pending the source push; the 91-case receipts below
+remain historical evidence and do not qualify the new computation bytes.
 
 ## Writer delivery
 
-P05/P06/P07 have private, executable SQL kernels and 91 synthetic assertions.
+P05/P06/P07 have private, executable SQL kernels and 138 synthetic assertions.
 The work is independently reviewable without modifying F03, the shared DTOs,
 CURRENT_STATE, source/migration manifests, UI, or workflows. All 48 frozen
 framework files remain byte-identical.
@@ -28,7 +33,7 @@ The matching dependency is pinned P04, with these SHA-256 digests:
 | `scripts/cp7-src/wip/matching.sql` | `b3fc0e9307f0d87ca80b7935412210b4eba7f38d9568c6d68dfa6355d97d8c4f` |
 | `scripts/cp7-src/wip/timing.sql` | `cf61bae66086edd7a34e3456e5bad9d644cf42ced4cf2a2bedee4f89f1c9ebc9` |
 
-## Proof scope
+## Prior checkpoint proof scope (91 cases)
 
 Verified run: [36590548037](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36590548037),
 all jobs successful on the source head above. Native PostgreSQL **16.15** passed
@@ -37,8 +42,8 @@ security, build/client secret scan and the 48-file contract receipt passed.
 Downloaded CodeQL SARIF for JS/TS and Actions has zero results and successful
 invocations. SQL correctness is covered by native fixtures, not CodeQL.
 
-`NATIVE_KERNEL_RECEIPT.json` is the unmodified file downloaded from the CI
-artifact, SHA-bound to every current SQL source/dependency and fixture. The
+`NATIVE_KERNEL_RECEIPT.json` is the unmodified file downloaded from the prior CI
+artifact, SHA-bound to that checkpoint's SQL source/dependency and fixture. The
 local `LOCAL_WASM_RECEIPT.json` is separately labelled. `CODEQL_RECEIPT.json`
 records inspected SARIF/archive digests. `VERIFICATION.json` records source tree,
 workflow/job/step outcomes, artifact identity and remaining gates.
@@ -73,7 +78,8 @@ then stable ID, independently of input-array order.
    under the integrator's ownership; this contribution does not create a release.
 4. Compose snapshot/version invalidation and Auth/stale/race checks, then replay
    X06, target Supabase schema/roles, actual source lifecycle and conservation.
-5. Compose multi-resource calendars/routes and run realistic-volume M07 checks.
+5. Compose multi-resource calendars/routes and qualify M07 invalidation. Separately
+   run realistic-volume performance checks under the ADR/P02/P07 gate.
    Kernel fixture timing is not a factory-scale performance qualification.
 6. Keep the model result as a reviewed recommendation. Every model activation is
    currently `REVIEW_REQUIRED`; there is no registry write or autonomous trigger.
