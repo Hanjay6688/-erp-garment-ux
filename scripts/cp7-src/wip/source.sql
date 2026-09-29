@@ -4,7 +4,7 @@ grant select on erp.cutting_pickups,erp.cutting_distribution_batches,erp.cutting
  erp.laundry_deliveries,erp.laundry_delivery_lines,erp.laundry_delivery_batch_size_lines,
  erp.laundry_receipts,erp.laundry_receipt_lines,erp.laundry_receipt_batch_size_lines,
  erp.qc_inspections,erp.qc_inspection_items,erp.bs_cases,erp.rework_orders,
- erp.laundry_failed_wash_attempts,erp.laundry_redispatch_participant_events,erp.bs_resolutions,
+ erp.laundry_failed_wash_attempts,erp.laundry_failed_wash_batch_size_lines,erp.laundry_redispatch_participant_events,erp.bs_resolutions,
  erp.sewing_terminal_events,erp.laundry_claims to cp7_capture;
 create function cp7_wip.capture_cutting_sources(p_groups uuid[]) returns jsonb
 language sql stable security invoker set search_path='' set timezone='Asia/Jakarta' as $$
@@ -85,9 +85,13 @@ failed as materialized(
  select a.id,a.receipt_line_id,a.delivery_id,a.custody_outcome,a.qty_attempted_pcs::text qty_pcs
  from erp.laundry_failed_wash_attempts a join receipts r on r.id=a.receipt_line_id order by a.id limit 2001
 ),
+failed_sizes as materialized(
+ select x.id,x.attempt_id,x.delivery_batch_size_line_id delivery_size_id,x.size_id,x.qty_attempted_pcs::text qty_pcs
+ from erp.laundry_failed_wash_batch_size_lines x join failed a on a.id=x.attempt_id order by x.id limit 2001
+),
 redispatch as materialized(
  select e.id,e.event_type,e.source_delivery_batch_size_line_id source_id,e.successor_delivery_batch_size_line_id successor_id,
- e.qty_pcs::text qty_pcs,e.releases_allocation_event_id,e.released_delivery_id
+ e.qty_pcs::text qty_pcs,e.source_offset_pcs,e.successor_offset_pcs,e.releases_allocation_event_id,e.released_delivery_id
  from erp.laundry_redispatch_participant_events e where e.source_delivery_batch_size_line_id in (select id from delivery_sizes)
   or e.successor_delivery_batch_size_line_id in (select id from delivery_sizes) order by e.created_at,e.id limit 2001
 ),
@@ -113,6 +117,7 @@ source as (select jsonb_build_object(
  'reworks',coalesce((select jsonb_agg(to_jsonb(x) order by id) from reworks x),'[]'::jsonb),
  'resolutions',coalesce((select jsonb_agg(to_jsonb(x) order by id) from resolutions x),'[]'::jsonb),
  'failed',coalesce((select jsonb_agg(to_jsonb(x) order by id) from failed x),'[]'::jsonb),
+ 'failed_sizes',coalesce((select jsonb_agg(to_jsonb(x) order by id) from failed_sizes x),'[]'::jsonb),
  'redispatch',coalesce((select jsonb_agg(to_jsonb(x) order by id) from redispatch x),'[]'::jsonb),
  'claims',coalesce((select jsonb_agg(to_jsonb(x) order by id) from claims x),'[]'::jsonb),
  'sewing',coalesce((select jsonb_agg(to_jsonb(x) order by id) from sewing x),'[]'::jsonb)) facts)

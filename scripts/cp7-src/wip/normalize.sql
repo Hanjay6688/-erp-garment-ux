@@ -33,14 +33,13 @@ begin
  if exists(select 1 from jsonb_array_elements(f->'groups') where value->'material_issue_posted'<>'true'::jsonb) then
   return jsonb_build_object('status','UNKNOWN','reason','CUTTING_NOT_POSTED');
  end if;
- -- Exceptional custody needs its own range normalization; do not publish an
- -- ordinary-delivery balance when returned/reused participants exist.
+ -- Claimed custody is withheld until its physical-source reconciliation is qualified.
  if exists(select 1 from jsonb_array_elements(f->'claims') where value->>'claim_type' in ('MISSING','STUCK'))
     or exists(select 1 from jsonb_array_elements(f->'receipts') where (value->>'missing_pcs')::numeric+(value->>'stuck_pcs')::numeric>0) then
   return jsonb_build_object('status','UNKNOWN','reason','MISSING_STUCK_CUSTODY_REQUIRES_RECONCILIATION');
  end if;
- if jsonb_array_length(f->'failed')>0 or jsonb_array_length(f->'redispatch')>0 then
-  return jsonb_build_object('status','UNKNOWN','reason','REWASH_PARTICIPANTS_REQUIRE_NORMALIZATION');
+ if not cp7_wip.redispatch_valid(f) then
+  return jsonb_build_object('status','CONFLICT','reason','REDISPATCH_RANGE_LINEAGE_CONFLICT');
  end if;
  g:=jsonb_build_object('contract_version','cp7.wip-graph.v1','snapshot_id',capture->>'captured_at','complete',true,'pools','[]'::jsonb,'nodes','[]'::jsonb,'events','[]'::jsonb);
  for y in select value->>'group_id' group_id,value->>'size_id' size_id,sum((value->>'qty_pcs')::numeric) qty
@@ -78,6 +77,14 @@ begin
   end loop;
  end loop;
  for r in select value from jsonb_array_elements(f->'receipts') where value->>'status'='POSTED' order by value->>'physical_at',value->>'id' loop
+  if exists(select 1 from jsonb_array_elements(f->'failed') attempt_entry where attempt_entry->>'receipt_line_id'=r->>'id') then
+   if (r->>'good_pcs')::numeric+(r->>'bs_pcs')::numeric+(r->>'missing_pcs')::numeric+(r->>'stuck_pcs')::numeric<>0 then
+    return jsonb_build_object('status','CONFLICT','reason','FAILED_ATTEMPT_IS_NOT_PHYSICAL_RECEIPT','source_id',r->'id');end if;
+   -- Retry remains in the existing delivery. Full unprocessed returns have a
+   -- REVERSED delivery, so the original resource remains in the shared PRE pool.
+   -- Multiple failed invoices and redispatches never manufacture extra input.
+   continue;
+  end if;
   select count(*),coalesce(sum((value->>'good_pcs')::numeric+(value->>'bs_pcs')::numeric),0) into cnt,qty
    from jsonb_array_elements(f->'receipt_sizes') where value->>'receipt_line_id'=r->>'id';
   if cnt=0 then
@@ -155,5 +162,7 @@ begin
  return result||jsonb_build_object('graph',g,'source_basis','CUTTING_GROUP_EXACT_SIZE_SHARED_POOL',
   'fg_basis','PRODUCTION_DISPOSITION_NOT_CURRENT_ON_HAND','sewing_detail','SUBSTAGE_NOT_ALLOCATABLE_FROM_GROUP_EVENTS',
   'scope','SELECTED_CUTTING_GROUPS_ONLY_NO_OPENING_OR_NON_PO',
-  'partial_rework_basis','REPORTED_RETURN_REMAINS_WIP_UNTIL_COMPLETION_POSTED');
+  'partial_rework_basis','REPORTED_RETURN_REMAINS_WIP_UNTIL_COMPLETION_POSTED',
+  'rewash_review_required',exists(select 1 from jsonb_array_elements(f->'failed') attempt_entry join jsonb_array_elements(f->'receipts') receipt_entry on receipt_entry->>'id'=attempt_entry->>'receipt_line_id' where receipt_entry->>'status'='POSTED'),
+  'rewash_basis','RETRY_REMAINS_IN_DELIVERY_RETURN_UNPROCESSED_REUSES_ORIGINAL_POOL');
 end $$;

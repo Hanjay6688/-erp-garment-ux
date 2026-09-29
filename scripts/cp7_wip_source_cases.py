@@ -48,8 +48,14 @@ def cases(cur,today):
         assert result['status']=='COMPLETE',r
         assert [total(result,k+'_pcs') for k in ('input','wip','fg','bs')]==[100,80,15,5]
         assert r['source_state']=='UNCHANGED' and before==b.boundary.snapshot(cur)
-        assert cur.execute('select actual_cost from erp.laundry_receipt_lines where id=%s',(f['receipt_line'],)).fetchone()[0] is None
-        return dict(status='PASS',ordinary_cut_pickup_sewing_laundry_qc=True,input=100,wip=80,fg=15,bs=5,unknown_cost_does_not_block_quantity=True,business_boundary_unchanged=True)
+        # Accepted CP6 storage accumulates known cost separately from the UNKNOWN
+        # business state; internal numeric 0 is not a tariff or a complete quote.
+        unknown=cur.execute('select erp.bd_delivery_line_price_unknown_v1(delivery_line_id) from erp.laundry_receipt_lines where id=%s',(f['receipt_line'],)).fetchone()[0]
+        assert unknown is True
+        raw_cost=cur.execute('select actual_cost from erp.laundry_receipt_lines where id=%s',(f['receipt_line'],)).fetchone()[0]
+        money_run=p02.create(cur,f['product']);money=p02.read(cur,money_run['run_id'],'lot_cost')
+        assert money['page']['rows'] and all(x['valuation']['state']=='UNKNOWN' for x in money['page']['rows']),money
+        return dict(status='PASS',ordinary_cut_pickup_sewing_laundry_qc=True,input=100,wip=80,fg=15,bs=5,unknown_cost_does_not_block_quantity=True,canonical_price_unknown=unknown,public_valuation='UNKNOWN',internal_known_cost=str(raw_cost),business_boundary_unchanged=True)
     def immutable():
         f=fixture(cur,today);key=uuid.uuid4();r=capture(cur,[f['group']],key)
         qc(cur,f,5,0,15)
@@ -101,12 +107,42 @@ def cases(cur,today):
           return_fg_location_id=base.LOCATION,change_reason='Three GOOD and two BS final'),b.chain.version(cur,'rework_orders',rid))
         complete=capture(cur,[f['group']]);assert [total(complete['result'],k+'_pcs') for k in ('input','wip','fg','bs')]==[100,80,18,2]
         return dict(status='PASS',ordinary_rework_start_partial_complete=True,partial_good_not_fg=True,final=[100,80,18,2])
+    def rewash_lifecycle():
+        f=b.two_size_fixture(cur,b.case_day(today),'P04-REWASH',q1=60,q2=40)
+        def send(qty,hour):
+            payload=dict(distribution_batch_id=f['batch'],vendor_id=f['vendor'],wash_process_id=f['process'],target_dyeing_color='P04-REWASH',
+              physical_at=b.chain.production.at(f['day'],hour).isoformat(),reason='Same source redispatch',lines=[dict(size_id=base.SIZE,qty_sent_pcs=qty)])
+            result=b.bd(cur,'POST_PRICED_DELIVERY',dict(delivery=payload,expected_version=str(base.group_version(cur,f['group'])),pricing=dict(deferred=True)))
+            b.api.admin(cur);delivery=result['delivery_id']
+            size=b.one(cur,'select s.id::text from erp.laundry_delivery_batch_size_lines s join erp.laundry_delivery_lines l on l.id=s.delivery_line_id where l.delivery_id=%s',delivery)
+            return delivery,size
+        first,first_size=send(40,11)
+        b.chain.laundry_action(cur,'POST_FAILED_WASH',dict(delivery_id=first,wash_process_id=f['process'],custody_outcome='RETURN_UNPROCESSED',
+          physical_at=b.chain.production.at(f['day'],12).isoformat(),reason='All forty returned unprocessed',lines=[dict(delivery_batch_size_line_id=first_size,qty_attempted_pcs=40)]),base.delivery_version(cur,first))
+        back=capture(cur,[f['group']]);assert total(back['result'],'wip_pcs')==100 and back['result']['rewash_review_required'],back
+        second,second_size=send(20,13)
+        for hour in (14,15):
+            b.chain.laundry_action(cur,'POST_FAILED_WASH',dict(delivery_id=second,wash_process_id=f['process'],custody_outcome='RETRY_AT_VENDOR',
+              physical_at=b.chain.production.at(f['day'],hour).isoformat(),reason='Repeated attempt is same five pieces',lines=[dict(delivery_batch_size_line_id=second_size,qty_attempted_pcs=5)]),base.delivery_version(cur,second))
+        waiting=capture(cur,[f['group']]);assert total(waiting['result'],'wip_pcs')==100,waiting
+        rec=b.chain.laundry_action(cur,'POST_RECEIPT',dict(delivery_id=second,wash_process_id=f['process'],physical_at=b.chain.production.at(f['day'],16).isoformat(),
+          reason='Twenty physical pieces returned once',lines=[dict(delivery_batch_size_line_id=second_size,qty_good_received=20,qty_bs_laundry=0,bs_product_id=None)]),base.delivery_version(cur,second))
+        b.api.admin(cur);f['receipt_line']=b.receipt_line(cur,rec['receipt_id']);f['receipt_size']=b.one(cur,'select id::text from erp.laundry_receipt_batch_size_lines where receipt_line_id=%s',f['receipt_line'])
+        f['product']=b.sized_product(cur,base.SIZE,'P04-REWASH-'+uuid.uuid4().hex[:8]);qc(cur,f,20,0,17)
+        final=capture(cur,[f['group']]);assert [total(final['result'],k+'_pcs') for k in ('input','wip','fg','bs')]==[100,80,20,0],final
+        # A duplicated participant interval cannot publish a plausible aggregate.
+        b.api.admin(cur);facts=cur.execute('select facts from cp7_wip.runs where id=%s',(final['run_id'],)).fetchone()[0]
+        alloc=next(x for x in facts['facts']['redispatch'] if x['event_type']=='ALLOCATE');clone=dict(alloc,id=str(uuid.uuid4()))
+        facts['facts']['redispatch'].append(clone)
+        blocked=cur.execute('select cp7_wip.normalize_cutting(%s::jsonb)',(json.dumps(facts),)).fetchone()[0]
+        assert blocked['status']=='CONFLICT' and blocked['reason']=='REDISPATCH_RANGE_LINEAGE_CONFLICT'
+        return dict(status='PASS',ordinary_return_redispatch_and_retries=True,final=[100,80,20,0],same_source_not_new_input=True,overlapping_participant_interval_denied=True)
     def multi_scope():
         f=fixture(cur,today);other=b.two_size_fixture(cur,b.case_day(today),'P04-OTHER',q1=6,q2=4)
         r=capture(cur,[other['group'],f['group']]);assert [total(r['result'],k+'_pcs') for k in ('input','wip','fg','bs')]==[110,90,15,5]
         assert len(r['result']['totals'])==4 and len({x['pool_key'] for x in r['result']['totals']})==4
         return dict(status='PASS',one_capture_multiple_groups=True,input=110,wip=90,fg=15,bs=5)
-    return [('P04_SOURCE_'+name,fn) for name,fn in [('O15_ACTUAL_POSTING',actual),('IMMUTABLE_QC_REPLAY',immutable),('AUTH_NO_MONEY',access),('MALFORMED_NO_PARTIAL',malformed),('CONFLICT_PROPAGATES',conflict),('MULTI_GROUP_ONE_CAPTURE',multi_scope),('REWORK_PARTIAL_COMPLETION',rework_lifecycle)]]
+    return [('P04_SOURCE_'+name,fn) for name,fn in [('O15_ACTUAL_POSTING',actual),('IMMUTABLE_QC_REPLAY',immutable),('AUTH_NO_MONEY',access),('MALFORMED_NO_PARTIAL',malformed),('CONFLICT_PROPAGATES',conflict),('MULTI_GROUP_ONE_CAPTURE',multi_scope),('REWORK_PARTIAL_COMPLETION',rework_lifecycle),('REWASH_RETURN_REDISPATCH',rewash_lifecycle)]]
 
 def http_cases(http,today):
     def auth():

@@ -10,6 +10,7 @@ revoke all on all functions in schema cp7_wip from public,anon,authenticated,ser
 alter function cp7_wip.capture_cutting_sources(uuid[]) owner to cp7_capture;
 alter function cp7_wip.transition(jsonb,text,text,text,text,numeric,jsonb) owner to cp7_capture;
 alter function cp7_wip.ref(text,text,text) owner to cp7_capture;
+alter function cp7_wip.redispatch_valid(jsonb) owner to cp7_capture;
 alter function cp7_wip.normalize_cutting(jsonb) owner to cp7_capture;
 alter function cp7_wip.serve(uuid) owner to cp7_capture;
 alter function cp7_wip.capture(uuid[],uuid) owner to cp7_capture;

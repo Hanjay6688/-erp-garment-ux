@@ -1,0 +1,31 @@
+{
+  "status": "INCOMPLETE_TEST_ORACLE_CONTRACT_MISMATCH",
+  "source": "eb713ceb28312034aa40db8923bbab2b5b888582",
+  "run": 36512824584,
+  "job": 109228530336,
+  "bundle_sha256": "ceccc44f080ecee2e1839543447a5a733fdc032c16e33d8fd8b5b582430f2ac0",
+  "counts": {
+    "kernel": {
+      "PASS": 14
+    },
+    "smoke": {
+      "PASS": 1
+    },
+    "source": {
+      "PASS": 6,
+      "INCOMPLETE": 1
+    },
+    "races": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 1
+    }
+  },
+  "failed_assertion": "actual_cost IS NULL",
+  "authoritative_contract": "erp.bd_delivery_line_price_unknown_v1 AND public lot valuation UNKNOWN",
+  "correction": "Assert accepted unknown-price predicate and P02 public UNKNOWN projection; preserve 100/80/15/5 quantity oracle",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "retest": "PENDING"
+}
