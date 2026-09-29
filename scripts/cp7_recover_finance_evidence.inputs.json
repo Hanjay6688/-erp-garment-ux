@@ -1,0 +1,170 @@
+[
+  {
+    "key": "recostQualified",
+    "file": "CP7_P13_RECOST.json",
+    "stem": "RECOST_QUALIFIED",
+    "job_id": 109659815201,
+    "total": 25,
+    "passes": 25,
+    "module": "cp7_recost_bundle",
+    "artifact": {
+      "id": 11067651517,
+      "name": "cp7-p13-recost",
+      "size_in_bytes": 4586306,
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11067651517",
+      "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11067651517/zip",
+      "expired": false,
+      "created_at": "2026-09-29T23:09:06Z",
+      "expires_at": "2026-10-29T23:09:04Z",
+      "updated_at": "2026-09-29T23:09:06Z",
+      "digest": "sha256:0e366d96df4dfa6313e9976faf18bb32c18d3bf3ba13a0a3ffa8055616f2b5a3",
+      "workflow_run": {
+        "id": 36643127078,
+        "repository_id": 1348063690,
+        "head_repository_id": 1348063690,
+        "head_branch": "cp7/integration",
+        "head_sha": "55cb59dd914052f2c5a72dc535960c0aac00d65d"
+      }
+    }
+  },
+  {
+    "key": "analysisFinal",
+    "file": "CP7_P13_FINANCE_ANALYSIS.json",
+    "stem": "ANALYSIS_FINAL_REGRESSION",
+    "job_id": 109659815449,
+    "total": 24,
+    "passes": 24,
+    "module": "cp7_recost_bundle",
+    "artifact": {
+      "id": 11067541899,
+      "name": "cp7-p13-analysis",
+      "size_in_bytes": 8481672,
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11067541899",
+      "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11067541899/zip",
+      "expired": false,
+      "created_at": "2026-09-29T23:08:46Z",
+      "expires_at": "2026-10-29T23:08:44Z",
+      "updated_at": "2026-09-29T23:08:46Z",
+      "digest": "sha256:51938662b183e215dded038bd7732a83b3a61ebbf5d8e13db65ec6909fbd39d0",
+      "workflow_run": {
+        "id": 36643127097,
+        "repository_id": 1348063690,
+        "head_repository_id": 1348063690,
+        "head_branch": "cp7/integration",
+        "head_sha": "55cb59dd914052f2c5a72dc535960c0aac00d65d"
+      }
+    }
+  },
+  {
+    "key": "periodFinalQualified",
+    "file": "CP7_P13_PERIOD_CONTROL.json",
+    "stem": "PERIOD_FINAL_REGRESSION",
+    "job_id": 109659815714,
+    "total": 25,
+    "passes": 25,
+    "module": "cp7_recost_bundle",
+    "artifact": {
+      "id": 11067895378,
+      "name": "cp7-p13-period",
+      "size_in_bytes": 6461613,
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11067895378",
+      "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11067895378/zip",
+      "expired": false,
+      "created_at": "2026-09-29T23:09:08Z",
+      "expires_at": "2026-10-29T23:09:06Z",
+      "updated_at": "2026-09-29T23:09:08Z",
+      "digest": "sha256:e0c673383722c3e506f8eed0eb0b470d09b32db3910b2d40f89542c3e2e38aee",
+      "workflow_run": {
+        "id": 36643127110,
+        "repository_id": 1348063690,
+        "head_repository_id": 1348063690,
+        "head_branch": "cp7/integration",
+        "head_sha": "55cb59dd914052f2c5a72dc535960c0aac00d65d"
+      }
+    }
+  },
+  {
+    "key": "reportFinalQualified",
+    "file": "CP7_P13_FINANCE_READ.json",
+    "stem": "REPORT_FINAL_REGRESSION",
+    "job_id": 109659815762,
+    "total": 12,
+    "passes": 12,
+    "module": "cp7_recost_bundle",
+    "artifact": {
+      "id": 11068095051,
+      "name": "cp7-p13-finance",
+      "size_in_bytes": 4071097,
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11068095051",
+      "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11068095051/zip",
+      "expired": false,
+      "created_at": "2026-09-29T23:08:02Z",
+      "expires_at": "2026-10-29T23:08:00Z",
+      "updated_at": "2026-09-29T23:08:02Z",
+      "digest": "sha256:62a8e6e9d2a7a465ef55290143b50f9e036065423cc2d774dcdeff049f9d5488",
+      "workflow_run": {
+        "id": 36643127137,
+        "repository_id": 1348063690,
+        "head_repository_id": 1348063690,
+        "head_branch": "cp7/integration",
+        "head_sha": "55cb59dd914052f2c5a72dc535960c0aac00d65d"
+      }
+    }
+  },
+  {
+    "key": "combinedMicro",
+    "file": "CP7_F03_COMBINED_STACK.json",
+    "stem": "RECOST_MICROSECOND_COMBINED",
+    "job_id": 109658549095,
+    "total": 22,
+    "passes": 22,
+    "module": "cp7_f03_bundle",
+    "artifact": {
+      "id": 11067422965,
+      "name": "cp7-f03-combined",
+      "size_in_bytes": 6381092,
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11067422965",
+      "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11067422965/zip",
+      "expired": false,
+      "created_at": "2026-09-29T23:05:06Z",
+      "expires_at": "2026-10-29T23:05:05Z",
+      "updated_at": "2026-09-29T23:05:06Z",
+      "digest": "sha256:68bca2332da5502f5ae873755960f9fdb8f592848d2ee22d5a0553df6277eac0",
+      "workflow_run": {
+        "id": 36642733490,
+        "repository_id": 1348063690,
+        "head_repository_id": 1348063690,
+        "head_branch": "cp7/integration",
+        "head_sha": "23f795aac1b3b619108c93e525dd5d609c5908d5"
+      }
+    }
+  },
+  {
+    "key": "recostMicro",
+    "file": "CP7_P13_RECOST.json",
+    "stem": "RECOST_MICROSECOND_RUN",
+    "job_id": 109658544138,
+    "total": 25,
+    "passes": 24,
+    "module": "cp7_recost_bundle",
+    "artifact": {
+      "id": 11067203566,
+      "name": "cp7-p13-recost",
+      "size_in_bytes": 4587629,
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11067203566",
+      "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11067203566/zip",
+      "expired": false,
+      "created_at": "2026-09-29T23:07:08Z",
+      "expires_at": "2026-10-29T23:07:06Z",
+      "updated_at": "2026-09-29T23:07:08Z",
+      "digest": "sha256:04291ad281986403fd91a83bc68e10959eabba5203216238bf3f2572f794baf7",
+      "workflow_run": {
+        "id": 36642733489,
+        "repository_id": 1348063690,
+        "head_repository_id": 1348063690,
+        "head_branch": "cp7/integration",
+        "head_sha": "23f795aac1b3b619108c93e525dd5d609c5908d5"
+      }
+    }
+  }
+]
