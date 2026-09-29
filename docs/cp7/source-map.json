@@ -999,7 +999,7 @@
     "remaining": "Independent retest and P06/P07 authoritative source/target/policy composition plus planner Auth/HTTP."
   },
   "p10_candidate": {
-    "status": "FG_SOURCE_CARD_ADJUSTMENT_23_PASS_BOOK_NOTA_OPEN",
+    "status": "FG_SOURCE_CARD_ADJUSTMENT_BOOK_34_PASS_NOTA_OPEN",
     "handoff": "docs/cp7/P10_FG_HANDOFF.md",
     "modules": [
       "scripts/cp7-src/fg"
@@ -1009,11 +1009,15 @@
       "public.erp_cp7_get_fg_v1",
       "public.erp_cp7_get_fg_ledger_v1",
       "public.erp_cp7_get_fg_adjustments_v1",
-      "public.erp_cp7_save_fg_adjustment_v1"
+      "public.erp_cp7_save_fg_adjustment_v1",
+      "public.erp_cp7_get_fg_book_v1",
+      "public.erp_cp7_get_fg_book_options_v1",
+      "public.erp_cp7_save_fg_book_v1"
     ],
-    "authority": "Posted FG ledger with separate physical/reserved/available; accepted BF identity and HPP readers; no new stock writer.",
-    "tested_source": "fa75d47de5b8fa010071b35d551018b064d64d60",
-    "verification": "docs/cp7/evidence/p10-fg/ADJUSTMENT_VERIFICATION.json",
-    "correction_consumer": "src/ConnectedFgAdjustmentPage.tsx"
+    "authority": "Posted FG ledger with separate physical/reserved/available; accepted BF identity and HPP readers; no new stock writer. Global book order uses accepted presentation-only native move/reset; official chronology is unchanged.",
+    "tested_source": "eadc0b95552a5116ffdcd657a2b0f07630f61364",
+    "verification": "docs/cp7/evidence/p10-fg/BOOK_VERIFICATION.json",
+    "correction_consumer": "src/ConnectedFgAdjustmentPage.tsx",
+    "book_consumer": "src/ConnectedFgBookPage.tsx"
   }
 }

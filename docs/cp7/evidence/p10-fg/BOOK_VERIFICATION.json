@@ -1,0 +1,54 @@
+{
+  "status": "PASS",
+  "production_go": false,
+  "independent_acceptance": false,
+  "source_commit": "eadc0b95552a5116ffdcd657a2b0f07630f61364",
+  "source_tree": "bbbda970f25bfcbf82b257a39bdf0b984fb3868f",
+  "native_bundle_sha256": "6cc24ff093edc17d5e9863729920926719bdbf07855816e991b5a97085389587",
+  "run_id": 36569919586,
+  "job_id": 109411065917,
+  "artifact_id": 11033063335,
+  "archive_sha256": "aac47d251db08f5da6b76d597ab051df15b35fca72951707bea811f634e1308c",
+  "counts": {
+    "PASS": 34
+  },
+  "breakdown": {
+    "native": 21,
+    "races": 4,
+    "http": 3,
+    "browser": 6
+  },
+  "local_dom_pass": 13,
+  "app_runs": [
+    36569925988,
+    36569919868
+  ],
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "visual_review": "Desktop drag shows book -4,6,11 while official sale balance is11; mobile buttons/recovery/reset and no overflow verified. Dark-theme quantity contrast fixed. Both current screenshots visually inspected.",
+  "p09_regression": {
+    "source_commit": "14ed2c5968a7cbf851d5cbdbd8476eb4bbff3a92",
+    "run_id": 36567737003,
+    "job_id": 109403752820,
+    "artifact_id": 11033120998,
+    "archive_sha256": "3dc1eaaaa59578b561b7e83f87ce9798ace5a378e70599e2b31a014ae27bfeb0",
+    "pass_cases": 121,
+    "separate_smokes": 3,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "reuse_reason": "Later changes are FG book UI/drag diagnostics and fixture-only brand setup. P09 backend, installer, materials/invoice/return/count consumers and contracts are unchanged."
+  },
+  "limits": [
+    "F03 incomplete; P10 Nota handoff and P12 composer/payroll still open",
+    "P11/R10 connected sale/return/payment remains open; book sale commands are fixtures",
+    "No independent acceptance or production GO",
+    "Global order is shared presentation; brand selections are page filters, not new shared brand membership",
+    "No AS_KNOWN or production-scale global-book performance claim"
+  ],
+  "files_sha256": {
+    "CP7_P10_BOOK.json.gz": "fe0cb2ba373d051741ee54d9219e8e2b69a16f7f3227683b7d09dbd7df5e0529",
+    "BOOK_P09_REGRESSION.json.gz": "586c1e47309edfa67d27da28a8e16afdebb50a89a9cda692fa97a71b1fb403e2",
+    "P10_BOOK_DESKTOP.png": "453eb7da2cc51059ea7cdb1d92fad34fa787f8e0bf086633986d4df4e5ed6dc5",
+    "P10_BOOK_MOBILE.png": "e673325bc8cd31c9600b7d9b8d7ec5a73aa9f062b72679f163dbad6e55abd40a"
+  }
+}
