@@ -1,0 +1,147 @@
+"""Actual CP6 posting -> CP7 immutable cutting graph. No administrative stock setup."""
+from concurrent.futures import ThreadPoolExecutor
+import json,uuid,threading,time
+import psycopg
+import cp6_bf_probe as bf
+import cp7_snapshot_cases as p02
+from cp7_wip_cases import total
+b=bf.b;base=b.chain.base
+
+def fixture(cur,today,finish=True):
+    f=b.two_size_fixture(cur,b.case_day(today),'P04-ORIGIN',q1=60,q2=40)
+    b.api.admin(cur);product=b.sized_product(cur,base.SIZE,'P04-'+uuid.uuid4().hex[:8])
+    payload=dict(distribution_batch_id=f['batch'],vendor_id=f['vendor'],wash_process_id=f['process'],target_dyeing_color='P04',
+        physical_at=f['send'].isoformat(),reason='P04 actual 100 PCS provenance',lines=[dict(size_id=base.SIZE,qty_sent_pcs=40)])
+    sent=b.bd(cur,'POST_PRICED_DELIVERY',dict(delivery=payload,expected_version=str(base.group_version(cur,f['group'])),pricing=dict(deferred=True)))
+    delivery=sent['delivery_id'];b.api.admin(cur)
+    ds=b.one(cur,'select s.id::text from erp.laundry_delivery_batch_size_lines s join erp.laundry_delivery_lines l on l.id=s.delivery_line_id where l.delivery_id=%s',delivery)
+    rec=b.chain.laundry_action(cur,'POST_RECEIPT',dict(delivery_id=delivery,wash_process_id=f['process'],physical_at=b.chain.production.at(f['day'],13).isoformat(),reason='P04 30 returned from 40 sent',
+        lines=[dict(delivery_batch_size_line_id=ds,qty_good_received=30,qty_bs_laundry=0,bs_product_id=None)]),base.delivery_version(cur,delivery))
+    b.api.admin(cur);line=b.receipt_line(cur,rec['receipt_id']);rs=b.one(cur,'select id::text from erp.laundry_receipt_batch_size_lines where receipt_line_id=%s',line)
+    f.update(product=product,delivery=delivery,receipt=rec['receipt_id'],receipt_line=line,receipt_size=rs)
+    if finish:qc(cur,f,15,5,14)
+    return f
+
+def qc(cur,f,good,bs,hour):
+    return b.chain.laundry_action(cur,'POST_FINAL_SKU',dict(cutting_group_id=f['group'],destination_location_id=base.LOCATION,
+      physical_at=b.chain.production.at(f['day'],hour).isoformat(),reason='P04 partial QC physical transition',good_qty_pcs=good,completion_mode='PARTIAL_SELECTION',
+      lines=[dict(final_product_id=f['product'],qty_good_pcs=good,qty_bs_pcs=bs,source_laundry_receipt_line_id=f['receipt_line'],source_laundry_receipt_batch_size_line_id=f['receipt_size'])]),base.group_version(cur,f['group']))
+
+def capture(cur,groups,key=None,subject=None):
+    p02.actor(cur,subject)
+    value=cur.execute('select public.erp_cp7_capture_cutting_wip_v1(%s::uuid[],%s)',(groups,key or uuid.uuid4())).fetchone()[0]
+    b.api.admin(cur);return value
+
+def read(cur,run,subject=None):
+    p02.actor(cur,subject);value=cur.execute('select public.erp_cp7_read_cutting_wip_v1(%s)',(run,)).fetchone()[0];b.api.admin(cur);return value
+
+def smoke(cur,today):
+    def qualify():
+        f=fixture(cur,today);r=capture(cur,[f['group']]);assert r['result']['status']=='COMPLETE',r
+        assert [total(r['result'],k+'_pcs') for k in ('input','wip','fg','bs')]==[100,80,15,5],r
+        return dict(status='PASS',actual_posting_fixture_qualified=True,expected_actual=[100,80,15,5])
+    return [('P04_SOURCE_FIXTURE_SMOKE',qualify)]
+
+def cases(cur,today):
+    def actual():
+        f=fixture(cur,today);before=b.boundary.snapshot(cur);r=capture(cur,[f['group']]);result=r['result']
+        assert result['status']=='COMPLETE',r
+        assert [total(result,k+'_pcs') for k in ('input','wip','fg','bs')]==[100,80,15,5]
+        assert r['source_state']=='UNCHANGED' and before==b.boundary.snapshot(cur)
+        assert cur.execute('select actual_cost from erp.laundry_receipt_lines where id=%s',(f['receipt_line'],)).fetchone()[0] is None
+        return dict(status='PASS',ordinary_cut_pickup_sewing_laundry_qc=True,input=100,wip=80,fg=15,bs=5,unknown_cost_does_not_block_quantity=True,business_boundary_unchanged=True)
+    def immutable():
+        f=fixture(cur,today);key=uuid.uuid4();r=capture(cur,[f['group']],key)
+        qc(cur,f,5,0,15)
+        archive=read(cur,r['run_id']);assert archive['source_state']=='ARCHIVED_STALE' and archive['result']==r['result']
+        assert capture(cur,[f['group']],key)['run_id']==r['run_id']
+        new=capture(cur,[f['group']]);assert [total(new['result'],k+'_pcs') for k in ('input','wip','fg','bs')]==[100,75,20,5]
+        p02.refused(cur,lambda:capture(cur,[uuid.uuid4()],key),'CP7_WIP_REQUEST_REUSED')
+        p02.refused(cur,lambda:cur.execute('update cp7_wip.runs set result=%s::jsonb where id=%s',('{}',r['run_id'])),'CP7_RUN_IMMUTABLE')
+        return dict(status='PASS',ordinary_later_qc_marks_stale=True,archive_and_replay_immutable=True,new_capture=[100,75,20,5])
+    def access():
+        f=fixture(cur,today);subject,role=p02.custom_actor(cur);r=capture(cur,[f['group']],subject=subject)
+        p02.refused(cur,lambda:read(cur,r['run_id']),'CP7_WIP_RUN_UNAVAILABLE')
+        cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='production.wip.view'",(role,))
+        p02.refused(cur,lambda:read(cur,r['run_id'],subject),'CP7_ACCESS_DENIED')
+        p02.refused(cur,lambda:capture(cur,[f['group']],r['request_id'],subject),'CP7_ACCESS_DENIED')
+        # All transport facts are operational; no nested tariff/HPP or financial aggregate.
+        def keys(v):
+            if isinstance(v,dict):
+                for k,x in v.items():yield k;yield from keys(x)
+            elif isinstance(v,list):
+                for x in v:yield from keys(x)
+        assert not set(keys(r))&{'actual_cost','unit_hpp_snapshot','amount','rate','margin','compensation_amount','lot_cost'}
+        return dict(status='PASS',other_actor_and_revoked_replay_denied=True,no_financial_fields=True)
+    def malformed():
+        f=fixture(cur,today)
+        for groups in ([],[f['group'],f['group']],[None]):p02.refused(cur,lambda:capture(cur,groups),'CP7_WIP_SCOPE')
+        p02.refused(cur,lambda:capture(cur,[uuid.uuid4()]),'CP7_WIP_SOURCE_INCOMPLETE')
+        assert cur.execute('select count(*) from cp7_wip.runs').fetchone()[0]==0
+        return dict(status='PASS',no_partial_run=True,unknown_group_not_empty_supply=True)
+    def conflict():
+        f=fixture(cur,today);b.api.admin(cur);cur.execute('set local session_replication_role=replica')
+        cur.execute('update erp.laundry_receipt_lines set qty_good_received=29 where id=%s',(f['receipt_line'],));cur.execute('set local session_replication_role=origin')
+        r=capture(cur,[f['group']]);assert r['capture_complete'] and r['result']['status']=='CONFLICT' and r['result']['reason']=='RECEIPT_SIZE_TOTAL_MISMATCH',r
+        assert 'totals' not in r['result']
+        return dict(status='PASS',administrative_conflict_fixture=True,capture_not_mislabeled_as_analysis_complete=True,no_zero_balance_fallback=True)
+    def multi_scope():
+        f=fixture(cur,today);other=b.two_size_fixture(cur,b.case_day(today),'P04-OTHER',q1=6,q2=4)
+        r=capture(cur,[other['group'],f['group']]);assert [total(r['result'],k+'_pcs') for k in ('input','wip','fg','bs')]==[110,90,15,5]
+        assert len(r['result']['totals'])==4 and len({x['pool_key'] for x in r['result']['totals']})==4
+        return dict(status='PASS',one_capture_multiple_groups=True,input=110,wip=90,fg=15,bs=5)
+    return [('P04_SOURCE_'+name,fn) for name,fn in [('O15_ACTUAL_POSTING',actual),('IMMUTABLE_QC_REPLAY',immutable),('AUTH_NO_MONEY',access),('MALFORMED_NO_PARTIAL',malformed),('CONFLICT_PROPAGATES',conflict),('MULTI_GROUP_ONE_CAPTURE',multi_scope)]]
+
+def http_cases(http,today):
+    def auth():
+        owner=http.login('OWNER','p04-owner');other=http.login('OWNER','p04-other')
+        with http.connect() as conn,conn.cursor() as cur:f=fixture(cur,today);conn.commit()
+        args=dict(p_groups=[f['group']],p_request=str(uuid.uuid4()))
+        r=owner.rpc('erp_cp7_capture_cutting_wip_v1',args);assert r['status']==200 and r['body']['result']['status']=='COMPLETE',r
+        run=r['body']['run_id'];assert total(r['body']['result'],'wip_pcs')==80
+        assert owner.rpc('erp_cp7_capture_cutting_wip_v1',args)['body']['run_id']==run
+        assert other.rpc('erp_cp7_read_cutting_wip_v1',dict(p_run=run))['status']==403
+        assert http.anon_rpc('erp_cp7_read_cutting_wip_v1',dict(p_run=run))['status'] in (401,403,404)
+        with http.connect() as conn,conn.cursor() as cur:cur.execute('update erp.app_users set is_active=false where auth_user_id=%s',(owner.auth_user_id,));conn.commit()
+        assert owner.rpc('erp_cp7_capture_cutting_wip_v1',args)['status']==403
+        return dict(status='PASS',real_auth=True,ordinary_posting_result=[100,80,15,5],same_token_revoked=True,other_actor_denied=True)
+    return [('P04_HTTP_CUTTING_RUN_AUTH',auth)]
+
+def races(tools,today):
+    def duplicate():
+        with tools.connect() as conn,conn.cursor() as cur:f=fixture(cur,today);conn.commit()
+        key=uuid.uuid4();start=threading.Barrier(2)
+        def run():
+            with tools.connect() as conn,conn.cursor() as cur:start.wait(timeout=5);r=capture(cur,[f['group']],key);conn.commit();return r['run_id']
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            a=pool.submit(run);c=pool.submit(run);ids=[a.result(timeout=20),c.result(timeout=20)]
+        assert ids[0]==ids[1]
+        with tools.connect() as conn,conn.cursor() as cur:assert cur.execute('select count(*) from cp7_wip.runs').fetchone()[0]==1
+        return dict(status='PASS',one_immutable_run=True)
+    def coherent():
+        with tools.connect() as conn,conn.cursor() as cur:f=fixture(cur,today);conn.commit()
+        active=threading.Event();done=threading.Event();values=[];overlap=0
+        def writer():
+            with tools.connect() as conn,conn.cursor() as cur:
+                active.set()
+                # Atomic administrative correction to two coupled source fields;
+                # this probes MVCC only, not permission to edit posted facts.
+                for i in range(20):
+                    n=29 if i%2==0 else 30
+                    cur.execute('set local session_replication_role=replica')
+                    cur.execute('update erp.laundry_receipt_lines set qty_good_received=%s where id=%s',(n,f['receipt_line']))
+                    cur.execute('update erp.laundry_receipt_batch_size_lines set qty_good_received=%s where id=%s',(n,f['receipt_size']))
+                    cur.execute('set local session_replication_role=origin');conn.commit();time.sleep(.02)
+            done.set()
+        with ThreadPoolExecutor(max_workers=1) as pool:
+            w=pool.submit(writer);assert active.wait(5)
+            with tools.connect() as conn,conn.cursor() as cur:
+                for _ in range(12):
+                    r=capture(cur,[f['group']]);v=cur.execute('select facts from cp7_wip.runs where id=%s',(r['run_id'],)).fetchone()[0]['facts'];conn.commit()
+                    values.append((int(v['receipts'][0]['good_pcs']),int(v['receipt_sizes'][0]['good_pcs'])))
+                    assert r['result']['status']=='COMPLETE',r
+                    if not done.is_set():overlap+=1
+            w.result(timeout=20)
+        assert set(values)<={(29,29),(30,30)} and overlap>0,(values,overlap)
+        return dict(status='PASS',paired_sources_one_snapshot=True,captures=12,overlap=overlap,observed_pairs=sorted(set(values)))
+    return [('P04_RACE_DUPLICATE',duplicate),('P04_RACE_SOURCE_COHERENCE',coherent)]
