@@ -171,10 +171,15 @@ def cases(cur,today):
         auth.refused(cur,lambda:cur.execute("update erp.bc_accessory_zones_v1 set zone_kind='INSPECTION' where location_id=%s",(z,)),'BC_ZONE_IMMUTABLE')
         auth.refused(cur,lambda:cur.execute('delete from erp.bc_accessory_zones_v1 where location_id=%s',(z,)),'BC_ZONE_IMMUTABLE')
         p=copy.deepcopy(f['payload']);p['location_id']=str(z)
-        d=command(cur,'SAVE_DRAFT',p);post(cur,d)
+        d=command(cur,'SAVE_DRAFT',p)
+        auth.refused(cur,lambda:post(cur,d),'BC_ZONE_ACCESSORY_ONLY')
+        assert qty(cur,f)==(0,0)
+        accessory=bc.fixture(cur,today,zones=False);accessory['SERVICE_POST']=z
+        bc.fill(cur,accessory,10,today-timedelta(days=1));b.api.admin(cur)
         auth.refused(cur,lambda:cur.execute('update erp.locations set is_active=false where id=%s',(z,)),'BC_ZONE_IMMUTABLE')
-        assert qty(cur,f)==(10,1)
-        return dict(status='PASS',ordinary_location_edit=True,zone_type_immutable=True,zone_delete_refused=True,nonempty_zone_deactivate_refused=True)
+        assert cur.execute('select sum(qty_signed) from erp.material_stock_movements where location_id=%s and material_id=%s',(z,accessory['material'])).fetchone()[0]==10
+        assert all(r['id']!=str(z) for r in options(cur,'LOCATION',f['tag'])['rows'])
+        return dict(status='PASS',ordinary_location_edit=True,zone_type_immutable=True,zone_delete_refused=True,fabric_zone_refused=True,ordinary_accessory_fill=10,nonempty_zone_deactivate_refused=True)
     return [('P09_DRAFT_ESTIMATED_GRNI',estimated),('P09_FINAL_EXACT_VALUE',final_exact),('P09_REPLAY_STALE',idempotency),
       ('P09_OPS_FINANCE_REDACTION',redaction),('P09_OPS_BENCHMARK',benchmark),('P09_PERMISSION_PRINCIPALS',permissions),
       ('P09_COMPLETE_PAGES_OPTIONS',paging),('P09_INVALID_ATOMIC',invalid_atomic),('P09_ZONE_GUARD_REGRESSION',zones)]

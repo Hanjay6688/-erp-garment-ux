@@ -40,6 +40,7 @@ begin
   if rolled>2000 then raise exception 'CP7_PROCUREMENT_DOCUMENT_TOO_LARGE';end if;
   select coalesce(jsonb_agg(jsonb_build_object('id',i.id,'material_id',i.material_id,'material_sku',m.material_sku,
    'material_name',m.material_name,'material_type',m.material_type,'unit_code',m.unit_code,'qty',i.qty::text,
+   'purchase_qty_entered',i.purchase_qty_entered::text,'purchase_uom_code',i.purchase_uom_code,'purchase_uom_factor',i.purchase_uom_factor_snapshot::text,
    'lot_number',i.lot_number,'notes',i.notes,
    'rolls',coalesce((select jsonb_agg(jsonb_build_object('id',r.id,'roll_number',r.roll_number,
      'receipt_qty',r.original_qty::text,'notes',r.notes) order by r.roll_number,r.id)
@@ -78,9 +79,9 @@ begin
   from (select * from erp.suppliers s where s.is_active and (q='' or strpos(lower(s.supplier_code||' '||s.supplier_name),q)>0)
    order by s.supplier_code,s.id limit p_limit offset p_offset) s;
  else
-  select count(*) into total from erp.locations l where l.is_active and l.location_type='RAW_MATERIAL_WAREHOUSE' and (q='' or strpos(lower(l.location_code||' '||l.location_name),q)>0);
+  select count(*) into total from erp.locations l where l.is_active and l.location_type='RAW_MATERIAL_WAREHOUSE' and not exists(select 1 from erp.bc_accessory_zones_v1 z where z.location_id=l.id) and (q='' or strpos(lower(l.location_code||' '||l.location_name),q)>0);
   select coalesce(jsonb_agg(jsonb_build_object('id',l.id,'code',l.location_code,'name',l.location_name) order by l.location_code,l.id),'[]'::jsonb) into rows
-  from (select * from erp.locations l where l.is_active and l.location_type='RAW_MATERIAL_WAREHOUSE' and (q='' or strpos(lower(l.location_code||' '||l.location_name),q)>0)
+  from (select * from erp.locations l where l.is_active and l.location_type='RAW_MATERIAL_WAREHOUSE' and not exists(select 1 from erp.bc_accessory_zones_v1 z where z.location_id=l.id) and (q='' or strpos(lower(l.location_code||' '||l.location_name),q)>0)
    order by l.location_code,l.id limit p_limit offset p_offset) l;
  end if;
  return jsonb_build_object('contract_version','cp7.procurement-options.v1','kind',p_kind,'rows',rows,'total',total::text,

@@ -8,7 +8,7 @@ grant usage,create on schema cp7_procurement to cp7_procure_write;
 grant usage on schema erp,auth to cp7_procure_read,cp7_procure_write;
 grant execute on function auth.uid(),auth.jwt(),erp.get_my_access_v1(),erp.has_permission(text) to cp7_procure_read,cp7_procure_write;
 grant select on erp.material_purchase_headers,erp.material_purchase_items,erp.material_rolls,
- erp.materials,erp.suppliers,erp.locations,erp.material_stock_movements to cp7_procure_read;
+ erp.materials,erp.suppliers,erp.locations,erp.material_stock_movements,erp.bc_accessory_zones_v1 to cp7_procure_read;
 grant execute on function erp.save_material_purchase_draft_v2(jsonb,uuid,bigint),
  erp.post_material_purchase_v2(uuid,uuid,bigint,text) to cp7_procure_write;
 create table cp7_procurement.execution_context(

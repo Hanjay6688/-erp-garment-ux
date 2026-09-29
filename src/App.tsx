@@ -52,6 +52,7 @@ const FgNotaPage = lazy(() => import('./FgNotaPage'))
 const AccessControlPage = lazy(() => import('./AccessControlPage'))
 const ConnectedInitialImportPage = lazy(() => import('./ConnectedInitialImportPage'))
 const ConnectedPocketFabricPage = lazy(() => import('./ConnectedPocketFabricPage'))
+const ConnectedProcurementPage = lazy(() => import('./ConnectedProcurementPage'))
 const PatternPage = lazy(() => import('./PatternPage'))
 const ConnectedCuttingPage = lazy(() => import('./ConnectedCuttingPage'))
 const ConnectedPickupPage = lazy(() => import('./ConnectedPickupPage'))
@@ -618,7 +619,7 @@ function ErpApp() {
         {page === 'stock-card' && <StockCard />}
         {page === 'movements-vivo' && <Movements bookName="Vivo" bookBrands={vivoBookBrands} setBookBrands={setVivoBookBrands} movements={movements} setMovements={setMovements} />}
         {page === 'movements-widie' && <Movements bookName="Widie" bookBrands={widieBookBrands} setBookBrands={setWidieBookBrands} movements={movements} setMovements={setMovements} />}
-        {page === 'procurement' && <ProcurementPage />}
+        {page === 'procurement' && (runtime.mode === 'DEMO_SIMULATION' ? <ProcurementPage /> : <Suspense fallback={<WorkspaceFallback label="Penerimaan"/>}><ConnectedProcurementPage/></Suspense>)}
         {page === 'brand-conversion' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Ganti Merek"/>}><ConnectedProductConversionPage/></Suspense>}
         {page === 'accessories' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Aksesori"/>}><ConnectedAccessoryServicePage/></Suspense>}
         {(page === 'warehouse-dashboard' || page === 'materials-rolls' || (page === 'accessories' && runtime.mode === 'DEMO_SIMULATION') || page === 'fg-summary' || page === 'stock-adjustment' || (page === 'brand-conversion' && runtime.mode === 'DEMO_SIMULATION')) && <Suspense fallback={<WorkspaceFallback label="Gudang"/>}><WarehousePages view={page} onNavigate={(next)=>setPage(next)} /></Suspense>}

@@ -135,7 +135,9 @@ for (const boundary of bfRpcBoundaries) assert.ok(rpcBoundaries.has(boundary), `
 assert.ok(rpcBoundaries.has('src/ConnectedSupplierCreditPage.tsx:erp_get_supplier_credit_v1'))
 assert.ok(rpcBoundaries.has('src/ConnectedSupplierCreditPage.tsx:erp_save_supplier_credit_v1'))
 assert.ok(rpcBoundaries.has('src/LaundrySkuHistory.tsx:erp_get_laundry_history_v1'))
-assert.equal(rpcBoundaries.size, evidence.counts.browser_rpc_boundaries + 19 + beRpcBoundaries.length + bfRpcBoundaries.length)
+const cp7ProcurementBoundaries = ['erp_cp7_get_procurement_v1','erp_cp7_get_procurement_options_v1','erp_cp7_save_procurement_v1']
+for (const name of cp7ProcurementBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedProcurementPage.tsx:${name}`))
+assert.equal(rpcBoundaries.size, evidence.counts.browser_rpc_boundaries + 19 + beRpcBoundaries.length + bfRpcBoundaries.length + cp7ProcurementBoundaries.length)
 assert.ok(rpcBoundaries.has('src/ConnectedInitialImportPage.tsx:erp_get_initial_import_workspace_v1'))
 assert.ok(rpcBoundaries.has('src/ConnectedInitialImportPage.tsx:erp_save_initial_import_action_v1'))
 assert.ok(rpcBoundaries.has('src/useLaundryQcWorkspace.ts:erp_get_laundry_qc_workspace_v1'))

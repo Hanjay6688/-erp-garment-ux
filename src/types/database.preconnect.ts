@@ -24,6 +24,9 @@ export type PreconnectDatabase = {
       }
     }
     Functions: {
+      erp_cp7_get_procurement_v1: { Args: { p_query: Json }; Returns: Json }
+      erp_cp7_get_procurement_options_v1: { Args: { p_kind: string; p_q: string; p_offset: number; p_limit: number }; Returns: Json }
+      erp_cp7_save_procurement_v1: { Args: { p_action: string; p_payload: Json; p_request: string; p_expected: string | null }; Returns: Json }
       erp_get_sku_workspace_v1: { Args: { p_filters?: Json }; Returns: Json }
       erp_get_sku_hpp_v1: { Args: { p_filters?: Json }; Returns: Json }
       erp_save_sku_action_v1: { Args: { p_action: string; p_payload: Json; p_client_request_id: string }; Returns: Json }

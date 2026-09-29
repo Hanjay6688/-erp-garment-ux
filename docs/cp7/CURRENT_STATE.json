@@ -34,7 +34,8 @@
     "P01": "CONTRACT_READY_WITH_DOWNSTREAM_ENGINE_ORACLES_OPEN",
     "P02": "BOUNDED_ACTOR_CAPTURE_T1_PASS_16_CASES_INDEPENDENT_PENDING",
     "P03": "BOUNDED_POLICY_NATIVE_PASS_15_CASES_INDEPENDENT_PENDING",
-    "P04": "BOUNDED_ATOMIC_WIP_NATIVE_PASS_39_CASES_PLUS_SMOKE_INDEPENDENT_PENDING"
+    "P04": "BOUNDED_ATOMIC_WIP_NATIVE_PASS_39_CASES_PLUS_SMOKE_INDEPENDENT_PENDING",
+    "P09": "RECEIPT_BRIDGE_12_NATIVE_RACE_HTTP_PASS_ONE_ZONE_FIXTURE_RETEST_CONNECTED_BROWSER_IN_PROGRESS"
   },
   "inherited_scope": {
     "R10": "OPEN_CP7_P11_CONNECTED_SALES_AND_RETURN_BROWSER",
@@ -67,5 +68,6 @@
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
   "p04_cutting_verification_receipt": "docs/cp7/evidence/p04-cutting/VERIFICATION.json",
   "latest_p04_tested_source": "17e85404c9c5f088875099d7875be6342ca6b266",
-  "p04_production_verification_receipt": "docs/cp7/evidence/p04-production/VERIFICATION.json"
+  "p04_production_verification_receipt": "docs/cp7/evidence/p04-production/VERIFICATION.json",
+  "p09_entry": "docs/cp7/P09_PROCUREMENT_HANDOFF.md"
 }

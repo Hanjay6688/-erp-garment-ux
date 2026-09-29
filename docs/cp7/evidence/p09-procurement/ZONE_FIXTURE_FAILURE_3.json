@@ -1,0 +1,24 @@
+{
+  "status": "WRITER_INCOMPLETE_FIXTURE",
+  "source": "922c2226ff7c014c45a26fa17e4145904d7d9922",
+  "tree": "2c703fbf795bfdc5726adda29cc67b5fc1a806dc",
+  "run": 36518111631,
+  "job": 109244842093,
+  "bundle_sha256": "1b756f99d6c0de67bdeed3713ce76317f4adf138ac7dac6342457bb3a32a40b2",
+  "passed": {
+    "smoke": 1,
+    "native": 8,
+    "races": 3,
+    "http": 1
+  },
+  "incomplete": [
+    "P09_ZONE_GUARD_REGRESSION"
+  ],
+  "error": "BC_ZONE_ACCESSORY_ONLY",
+  "adjudication": "Fixture attempted a fabric receipt in an accessory-only service zone while trying to test nonempty-location deactivation. The existing material-type guard correctly refused before the target assertion.",
+  "fix": "Retain this refusal as a negative control; fill the service zone through the ordinary accepted accessory FILL_POST flow, then assert nonempty-zone deactivation refusal. Do not relax the guard. Exclude service/inspection/damaged zones from receipt location options.",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "independent_acceptance": false,
+  "production_go": false
+}

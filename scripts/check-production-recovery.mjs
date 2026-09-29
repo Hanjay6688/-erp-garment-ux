@@ -35,4 +35,9 @@ for (const [path, domain] of [
 for (const path of ['src/ConnectedCuttingPage.tsx', 'src/ConnectedPickupPage.tsx', 'src/ConnectedBsResolutionPage.tsx']) {
   assert.doesNotMatch(read(path), /event\.target\.value\.replace\(/, `${path} silently rewrites numeric input`)
 }
-console.log('Production recovery ownership passed: eight connected writer domains, exact envelope, shared lock and stale-read generation.')
+const procurement = read('src/ConnectedProcurementPage.tsx')
+for (const token of ["useProductionMutation('PROCUREMENT')", 'beginRead()', 'finishRead(ticket)', 'p_request: envelope.id', 'p_expected: p.expected_version', 'parseProcurementOutcome', 'reload: load']) {
+  assert.ok(procurement.includes(token), `Procurement recovery omits ${token}`)
+}
+assert.doesNotMatch(procurement, /p_request:\s*(?:globalThis\.)?crypto\.randomUUID/)
+console.log('Production recovery ownership passed: shared envelope, lock and stale-read generation including procurement exact version transport.')

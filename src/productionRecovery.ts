@@ -1,12 +1,13 @@
 import type { Json } from './types/database.preconnect'
 
-export const productionDomains = ['SUPPLIER_CREDIT', 'SKU', 'BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT', 'POCKET_FABRIC', 'ACCESSORY_ISSUE', 'ACCESSORY_SERVICE', 'LAUNDRY_BD', 'PRODUCT_CONVERSION'] as const
+export const productionDomains = ['PROCUREMENT', 'SUPPLIER_CREDIT', 'SKU', 'BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT', 'POCKET_FABRIC', 'ACCESSORY_ISSUE', 'ACCESSORY_SERVICE', 'LAUNDRY_BD', 'PRODUCT_CONVERSION'] as const
 export type ProductionDomain = typeof productionDomains[number]
 export type ProductionEnvelope = {
   action: string; payload: Json; expectedVersion: number | null
   fingerprint: string; id: string; createdAt: string
 }
 export const domainLabels: Record<ProductionDomain, string> = {
+  PROCUREMENT: 'Pembelian & Penerimaan',
   SUPPLIER_CREDIT: 'Kredit retur supplier',
   SKU: 'Produk & SKU',
   PRODUCT_CONVERSION: 'Ganti Merek / SKU', ACCESSORY_ISSUE: 'Nota Ambil Aksesori', ACCESSORY_SERVICE: 'Pemakaian & Pengembalian Aksesori', LAUNDRY_BD: 'Harga & Tagihan Laundry',
@@ -14,6 +15,7 @@ export const domainLabels: Record<ProductionDomain, string> = {
   PICKUP: 'Bagi Potongan', WIP: 'Status WIP', INITIAL_IMPORT: 'Impor data awal',
 }
 const actions: Record<ProductionDomain, readonly string[]> = {
+  PROCUREMENT: ['SAVE_DRAFT', 'POST'],
   SUPPLIER_CREDIT: ['ALLOCATE'],
   SKU: ['SAVE_GROUPS', 'BIND_WAVE'],
   PRODUCT_CONVERSION: ['POST', 'REVERSE', 'POST_USAGE', 'SAVE_REWORK', 'SAVE_REDYE', 'SET_REDYE_PRICE'],
