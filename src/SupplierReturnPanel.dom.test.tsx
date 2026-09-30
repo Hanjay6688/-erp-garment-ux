@@ -3,7 +3,7 @@ import {act} from 'react'
 import {createRoot,type Root} from 'react-dom/client'
 import {afterEach,beforeEach,describe,expect,it,vi} from 'vitest'
 import SupplierReturnPanel from './SupplierReturnPanel'
-import {parseSupplierReturns,parseSupplierReturnOutcome} from './supplierReturnContract'
+import {parseSupplierReturns,parseSupplierReturnOutcome,parseSupplierReturnSources} from './supplierReturnContract'
 import {readProductionRecovery} from './productionRecovery'
 import {recoveryIdentity} from '../tests/fixtures/productionRecovery'
 import {supplierReturnsFixture,returnPurchaseId as purchase,returnSourceId as source,returnId as ret} from '../tests/fixtures/supplierReturns'
@@ -39,4 +39,56 @@ describe('supplier return connected boundary',()=>{
  it('keeps money out of operational data while allowing physical source selection',async()=>{const a=state.auth as typeof recoveryIdentity;a.identity.permissions=a.identity.permissions.filter(p=>p!=='finance.ap.view');server(false);await mount();await draft();expect(container.textContent).not.toContain('Rp');const w=supplierReturnsFixture('DRAFT',false);expect(()=>parseSupplierReturns(w,purchase,false)).not.toThrow();expect(()=>parseSupplierReturns({...w,page:{...w.page,rows:supplierReturnsFixture('DRAFT',true).page.rows}},purchase,false)).toThrow()})
  it('refuses incomplete pages and source lines, and preserves exact timestamp/notes on draft correction',async()=>{const w=supplierReturnsFixture('DRAFT');expect(()=>parseSupplierReturns({...w,source_line_count:'2'},purchase,true)).toThrow();expect(()=>parseSupplierReturns({...w,page:{...w.page,total:'2'}},purchase,true)).toThrow();const s=server();s.status='DRAFT';await mount();await act(async()=>container.querySelector<HTMLButtonElement>('.cproc-receipt')!.click());await flush();await click('Perbaiki draft retur');await input('Alasan retur supplier','Koreksi alasan saja');await click('Simpan draft retur');expect(writes()[0][1]).toMatchObject({p_expected:'9007199254740993',p_payload:{id:ret,physical_at:'2026-09-28T09:00:27.123Z',items:[{notes:'Barang rusak supplier'}]}})})
  it('does not allow another write when the parent source cannot be refreshed',async()=>{server();await mount(purchase,async()=>false);await draft();expect(container.textContent).toContain('Aksi sudah tersimpan');expect(container.textContent).not.toContain('Buat retur supplier');expect(writes()).toHaveLength(1)})
+})
+
+const secondPurchase='33333333-3333-4333-8333-333333333333',secondSource='55555555-5555-4555-8555-555555555555',secondLine='66666666-6666-4666-8666-666666666666'
+function sourcePage(){return {contract_version:'cp7.return-sources.v1',read_at:'2026-09-30T01:00:00Z',purchase_id:purchase,supplier_id:source,page:{rows:[{id:secondPurchase,number:'SJ-SECOND',physical_at:'2026-09-28T09:00:00Z',row_version:'9007199254740993'}],total:'1',offset:0,limit:25,next_offset:null}}}
+function combinedServer(){
+ const state={status:null as 'DRAFT'|'POSTED'|'REVERSED'|null,lose:false,invalidSource:false,effects:0},cache=new Map<string,unknown>()
+ client.rpc.mockImplementation(async(name:string,args:Record<string,unknown>)=>{
+  if(name==='erp_cp7_get_procurement_options_v1')return {data:{contract_version:'cp7.procurement-options.v1',kind:'LOCATION',rows:[{id:source,code:'W-1',name:'Gudang A'}],total:'1',offset:0,limit:25,next_offset:null},error:null}
+  if(name==='erp_cp7_get_supplier_return_sources_v1')return {data:sourcePage(),error:null}
+  if(name==='erp_cp7_get_supplier_returns_v1'){
+   const w=supplierReturnsFixture(state.status),second=args.p_purchase===secondPurchase
+   if(second){w.purchase_id=secondPurchase;w.purchase_number='SJ-SECOND';w.source_lines[0]={...w.source_lines[0],id:secondSource,material_id:secondSource,rolls:[{...w.source_lines[0].rolls[0],id:secondSource,number:'ROLL-2'}]}}
+   if(state.invalidSource&&second)w.source_line_count='2'
+   for(const d of w.page.rows){d.single_receipt=false;d.line_count='2';d.lines.push({...d.lines[0],id:secondLine,purchase_id:secondPurchase,purchase_item_id:secondSource,purchase_number:'SJ-SECOND',material_id:secondSource,roll_id:secondSource,roll_number:'ROLL-2',qty:'3.000000'})}
+   return {data:w,error:null}
+  }
+  if(name==='erp_cp7_save_supplier_return_v1'){
+   const key=String(args.p_request)
+   if(!cache.has(key)){state.status=args.p_action==='SAVE_DOCUMENT'?'DRAFT':args.p_action==='POST_DOCUMENT'?'POSTED':'REVERSED';state.effects++;cache.set(key,{contract_version:'cp7.supplier-return-outcome.v1',kind:'COMMITTED_OUTCOME',action:args.p_action,request_id:key,purchase_id:purchase,return_id:ret,row_version:state.status==='DRAFT'?'9007199254740993':state.status==='POSTED'?'9007199254740994':'9007199254740995',status:state.status})}
+   return state.lose?{data:null,error:{status:503,message:'Lost committed reply'}}:{data:cache.get(key),error:null}
+  }
+  throw Error('Unexpected '+name)
+ });return state
+}
+async function chooseSecond(){await click('Tambah penerimaan lain');await act(async()=>container.querySelector<HTMLButtonElement>('[aria-label="Pilih penerimaan retur gabungan"] .cproc-receipt')!.click());await flush()}
+async function combinedDraft(){await click('Buat retur supplier');await input('Nomor retur supplier','RET-COMBINED');await select('Roll retur 1',source);await input('Jumlah retur 1','2');await chooseSecond();await select('Roll retur 2',secondSource);await input('Jumlah retur 2','3');await click('Simpan draft retur')}
+describe('complete supplier return documents',()=>{
+ it('selects same-supplier receipts and edits every source without silently dropping a leg',async()=>{
+  combinedServer();await mount();await combinedDraft();const saved=writes()[0][1]
+  expect(saved).toMatchObject({p_action:'SAVE_DOCUMENT',p_expected:null,p_payload:{items:[{purchase_item_id:source,qty:'2'},{purchase_item_id:secondSource,qty:'3'}]}})
+  expect(JSON.stringify(saved)).not.toContain('credit_unit_price');expect(container.textContent).toContain('Retur gabungan')
+  await click('Perbaiki draft retur');expect(container.querySelector<HTMLInputElement>('[aria-label="Jumlah retur 2"]')?.value).toBe('3.000000')
+  await input('Alasan retur supplier','Semua penerimaan diperiksa');await click('Simpan draft retur')
+  expect(writes()[1][1]).toMatchObject({p_action:'SAVE_DOCUMENT',p_expected:'9007199254740993',p_payload:{id:ret,physical_at:'2026-09-28T09:00:27.123Z',items:[{purchase_item_id:source},{purchase_item_id:secondSource}]}})
+ })
+ it('reconciles a complete committed return and reverses only the reviewed full source set',async()=>{
+  const s=combinedServer();await mount();await combinedDraft();await review();s.lose=true;await click('Sahkan pengiriman retur')
+  const sent=structuredClone(writes()[1][1]);expect(sent).toMatchObject({p_action:'POST_DOCUMENT',p_expected:'9007199254740993',p_payload:{reviewed_purchase_ids:[purchase,secondPurchase]}})
+  await act(async()=>root.unmount());root=createRoot(container);s.lose=false;await mount(null);await click('Reconcile transaksi')
+  expect(writes()[2][1]).toEqual(sent);expect(s.effects).toBe(2);expect(readProductionRecovery('disposable:actor-1').pending.SUPPLIER_RETURN).toBeUndefined()
+  await click('Tinjau pembatalan retur');await input('Alasan tindakan retur','Seluruh barang kembali');await check();await click('Batalkan retur supplier')
+  expect(writes()[3][1]).toMatchObject({p_action:'REVERSE_DOCUMENT',p_expected:'9007199254740994',p_payload:{reviewed_purchase_ids:[purchase,secondPurchase]}})
+ })
+ it('preserves the entered first leg when another source is incomplete and cannot submit it as loaded',async()=>{
+  const s=combinedServer();s.invalidSource=true;await mount();await click('Buat retur supplier');await input('Nomor retur supplier','RET-PRESERVED');await input('Jumlah retur 1','2');await chooseSecond()
+  expect(container.textContent).toContain('Data retur supplier belum lengkap');expect(container.querySelector<HTMLInputElement>('[aria-label="Nomor retur supplier"]')?.value).toBe('RET-PRESERVED')
+  expect(container.querySelector('[aria-label="Jumlah retur 2"]')).toBeNull();expect(writes()).toHaveLength(0)
+ })
+ it('refuses incomplete, wrong-supplier and money-bearing source pages',()=>{
+  const p=sourcePage();expect(parseSupplierReturnSources(p,purchase,source,0).page.rows).toHaveLength(1)
+  for(const v of [{...p,supplier_id:secondSource},{...p,page:{...p.page,total:'2'}},{...p,page:{...p.page,rows:[{...p.page.rows[0],amount:'20'}]}}])expect(()=>parseSupplierReturnSources(v,purchase,source,0)).toThrow()
+ })
 })

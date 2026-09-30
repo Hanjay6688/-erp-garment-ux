@@ -124,6 +124,7 @@ assert.deepEqual([...rpcOwnership].sort(), [
   'src/MaterialCountSourcePicker.tsx:erp_cp7_get_material_locations_v1',
   'src/ConnectedMaterialCountPage.tsx:erp_cp7_preview_material_count_v1',
   'src/ConnectedMaterialCountPage.tsx:erp_cp7_save_material_count_v1',
+  'src/SupplierReturnPanel.tsx:erp_cp7_get_supplier_return_sources_v1',
   'src/SupplierReturnPanel.tsx:erp_cp7_get_supplier_returns_v1',
   'src/SupplierReturnPanel.tsx:erp_cp7_save_supplier_return_v1',
   'src/SupplierReturnPanel.tsx:erp_cp7_get_procurement_options_v1',

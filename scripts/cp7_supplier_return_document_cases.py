@@ -1,6 +1,7 @@
 """Complete source-return documents: native money, stock and portable credit."""
 from concurrent.futures import ThreadPoolExecutor
 from decimal import Decimal as D
+from datetime import timedelta
 import copy,json,threading,time,uuid
 import psycopg
 import cp7_supplier_return_cases as source
@@ -64,15 +65,22 @@ def cases(cur,today):
         for reviewed in ([f['receipt']['purchase_id']],[g['receipt']['purchase_id']],[f['receipt']['purchase_id']]*2):
             auth.refused(cur,lambda:source.command(cur,'POST_DOCUMENT',dict(intent(f,g,d),reviewed_purchase_ids=reviewed),d['row_version']),'CP7_RETURN_COMPLETE_DOCUMENT_REQUIRED')
         assert b.boundary.snapshot(cur)==before
-        p.update(id=d['return_id']);p['items'][1]['qty']='11';d=save(cur,p,d['row_version']);before=b.boundary.snapshot(cur)
-        # Native stock/source capacity refusal must roll back both source legs.
+        p.update(id=d['return_id']);p['items'][1]['qty']='11'
+        auth.refused(cur,lambda:save(cur,p,d['row_version']),'Supplier return exceeds quantity from source purchase item')
+        assert b.boundary.snapshot(cur)==before
+        # The second source loses warehouse stock through a lawful transfer
+        # after the draft was reviewed. Native POST must roll back both legs.
+        transfer,_=material.draft(cur,g,'8',source=f['location'],dest=g['location'],at=source.aa.at(f['day']+timedelta(days=1),11).isoformat())
+        material.post(cur,transfer);before=b.boundary.snapshot(cur)
         try:
             cur.execute('savepoint return_over');act(cur,'POST',f,g,d)
         except psycopg.Error as e:
             message=e.diag.message_primary;cur.execute('rollback to savepoint return_over');b.api.admin(cur)
         else:raise AssertionError('OVER_CAPACITY_RETURN_ACCEPTED')
+        cur.execute('release savepoint return_over')
         assert b.boundary.snapshot(cur)==before and source.amounts(cur,f)==(100,0,10,10) and source.amounts(cur,g)==(200,0,10,20)
-        return dict(status='PASS',price_foreign_roll_inexact_qty_wrong_supplier_refused=True,omitted_duplicate_and_wrong_anchor_review_refused=True,second_source_overcapacity_atomic=True,native_refusal=message)
+        assert material.balances(cur,g)[f['location']]==2
+        return dict(status='PASS',draft_over_source_quantity_refused=True,price_foreign_roll_inexact_qty_wrong_supplier_refused=True,omitted_duplicate_and_wrong_anchor_review_refused=True,second_source_overcapacity_atomic=True,native_refusal=message)
     def replay():
         f,g=fixture(cur,today);p=payload(f,g);key=uuid.uuid4();d=save(cur,p,key=key)
         changed=copy.deepcopy(p);changed.update(id=d['return_id'],reason='Current complete draft');edit=save(cur,changed,d['row_version'])

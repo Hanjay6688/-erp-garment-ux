@@ -42,6 +42,18 @@ export function parseSupplierReturns(value:unknown,purchase:string,finance:boole
 }
 export function parseSupplierReturnOutcome(v:unknown,request:string,action:string,document:Json){
  const r=closed(v,['contract_version','kind','action','request_id','purchase_id','return_id','row_version','status']),p=procurementObject(document)
- if(!['SAVE','POST','REVERSE'].includes(action)||r.contract_version!=='cp7.supplier-return-outcome.v1'||r.kind!=='COMMITTED_OUTCOME'||r.action!==action||r.request_id!==request||!id(r.purchase_id)||r.purchase_id!==p.purchase_id||!id(r.return_id)||!version(r.row_version)||r.status!==({SAVE:'DRAFT',POST:'POSTED',REVERSE:'REVERSED'} as Record<string,string>)[action]||(action==='SAVE'?p.id&&p.id!==r.return_id:p.return_id!==r.return_id))fail()
+ const base=action.replace(/_DOCUMENT$/,'')
+ if(!['SAVE','POST','REVERSE','SAVE_DOCUMENT','POST_DOCUMENT','REVERSE_DOCUMENT'].includes(action)||r.contract_version!=='cp7.supplier-return-outcome.v1'||r.kind!=='COMMITTED_OUTCOME'||r.action!==action||r.request_id!==request||!id(r.purchase_id)||r.purchase_id!==p.purchase_id||!id(r.return_id)||!version(r.row_version)||r.status!==({SAVE:'DRAFT',POST:'POSTED',REVERSE:'REVERSED'} as Record<string,string>)[base]||(base==='SAVE'?p.id&&p.id!==r.return_id:p.return_id!==r.return_id))fail()
  return r as {purchase_id:string;return_id:string;row_version:string;status:SupplierReturn['status']}
+}
+
+export type SupplierReturnSources={contract_version:'cp7.return-sources.v1';read_at:string;purchase_id:string;supplier_id:string;page:{rows:{id:string;number:string;physical_at:string;row_version:string}[];total:string;offset:number;limit:number;next_offset:number|null}}
+export function parseSupplierReturnSources(value:unknown,purchase:string,supplier:string,offset:number):SupplierReturnSources{
+ const w=closed(value,['contract_version','read_at','purchase_id','supplier_id','page']),p=closed(w.page,['rows','total','offset','limit','next_offset'])
+ if(w.contract_version!=='cp7.return-sources.v1'||w.purchase_id!==purchase||!id(w.purchase_id)||w.supplier_id!==supplier||!id(w.supplier_id)||!instant(w.read_at)||!Array.isArray(p.rows)||!count(p.total)||p.offset!==offset||!Number.isSafeInteger(p.limit)||Number(p.limit)<1||Number(p.limit)>25)return fail()
+ const left=BigInt(p.total)>BigInt(offset)?BigInt(p.total)-BigInt(offset):0n
+ if(p.rows.length!==Number(left>BigInt(Number(p.limit))?BigInt(Number(p.limit)):left)||p.next_offset!==(BigInt(offset+p.rows.length)<BigInt(p.total)?offset+p.rows.length:null))fail()
+ const ids=new Set<string>()
+ for(const value of p.rows){const r=closed(value,['id','number','physical_at','row_version']);if(!id(r.id)||ids.has(r.id)||!text(r.number)||!instant(r.physical_at)||!version(r.row_version))fail();ids.add(r.id)}
+ return w as unknown as SupplierReturnSources
 }
