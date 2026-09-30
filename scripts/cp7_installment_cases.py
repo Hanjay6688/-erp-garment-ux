@@ -12,6 +12,7 @@ import cp7_settlement_cases as legacy
 import cp7_misc_cases as physical
 import cp7_installment_bundle as bundle
 import cp7_opening_payroll_cases as opening
+import cp7_wip_source_cases as wip_source
 auth,b=legacy.auth,legacy.b
 
 
@@ -42,7 +43,7 @@ def act(cur,f,action='PAY',amount='600.00',payment=None,key=None,subject=None):
     return command(cur,action,intent(doc,action,f,amount,payment),doc['row_version'],key,subject)
 
 
-def fixture(cur,today,attendance=True,manual='1000.00',deduction=False):
+def fixture(cur,today,attendance=True,manual='1000.00',deduction=False,deduction_amount='200.00'):
     b.api.admin(cur);day=today-timedelta(days=1)
     physical.source.receipt.aa.prior.set_open_period(cur,day-timedelta(days=3))
     tag='E05-'+uuid.uuid4().hex[:12]
@@ -56,14 +57,15 @@ def fixture(cur,today,attendance=True,manual='1000.00',deduction=False):
     item=None
     if deduction:
         fx=legacy.bc.fixture(cur,day,zones=False)
-        _,item=legacy.bc.note(cur,fx,1,'200.00',day,contractor=contractor)
+        _,item=legacy.bc.note(cur,fx,1,deduction_amount,day,contractor=contractor)
     legacy.act(cur,'PREPARE',legacy.doc(cur,pid))
     before_approval=legacy.gl(cur,contractor)
     legacy.act(cur,'APPROVE',legacy.doc(cur,pid))
     bank=legacy.cash(cur)
     cash=cur.execute('select cp7_installment.cash(%s)',(bank,)).fetchone()[0]
     approved=legacy.doc(cur,pid)
-    assert approved['net_payable']==('800.00'if deduction else '1000.00'if attendance else manual),approved
+    expected=(D('1000.00')if attendance else D(manual))-(D(deduction_amount)if deduction else D(0))
+    assert D(approved['net_payable'])==expected,approved
     return dict(tag=tag,payroll=pid,contractor=contractor,cash=cash,payment_date=str(day),today=str(today),approved=approved,item=item,
                 before_approval={k:str(v)for k,v in before_approval.items()},approved_gl={k:str(v)for k,v in legacy.gl(cur,contractor).items()},physical=physical.stock_cost(cur))
 
@@ -202,8 +204,57 @@ def cases(cur,today):
         act(cur,ef,'REVERSE_PAYROLL');assert_balance(cur,ef,'0',None,'REVERSED');after=opening.state(cur,f);opening.assert_remaining(after,65,20,30,4)
         assert legacy.change(before['gl'],after['gl'])=={}and after['physical']==before['physical']
         return dict(status='PASS',native_opening_payable85_advance30_carry2x2_50_net6060_cash3000_plus3060=True,source_reservations_until_final_and_expense5_once=True,individual_inverse_reopens_native_opening_balances=True,whole_inverse_restores_source_cash_and_cost=True)
+    def zero_net():
+        f=fixture(cur,today,deduction=True,deduction_amount='1000.00')
+        cost=legacy.journal(cur,f['payroll'],'PAYROLL_ATTENDANCE_ACCRUAL')
+        assert cost==(2,D(1000),D(1000));assert_balance(cur,f,'0','0')
+        before=b.boundary.snapshot(cur)
+        auth.refused(cur,lambda:act(cur,f,amount='1.00'),'CP7_INSTALLMENT_APPROVED_POSITIVE_PAYROLL_ONLY')
+        assert b.boundary.snapshot(cur)==before
+        assert cur.execute('select count(*)from cp7_installment.accounts where payroll_id=%s',(f['payroll'],)).fetchone()[0]==0
+        legacy.act(cur,'PAY',legacy.doc(cur,f['payroll']),payment_date=f['payment_date'],cash_account_id=f['cash']['id'])
+        assert_balance(cur,f,'0','0','PAID')
+        assert legacy.journal(cur,f['payroll'],'PAYROLL_PAYMENT')==(0,D(0),D(0))
+        assert legacy.journal(cur,f['payroll'],'PAYROLL_MATERIAL_DEDUCTION')==(2,D(1000),D(1000))
+        assert legacy.journal(cur,f['payroll'],'PAYROLL_ATTENDANCE_ACCRUAL')==cost
+        assert cur.execute('select payroll_status from erp.contractor_material_issue_items where id=%s',(f['item'],)).fetchone()[0]=='SETTLED'
+        assert read(cur,f['payroll'])['payments']['total']=='0'
+        return dict(status='PASS',native_attendance1000_material1000_net0_cash_refused_atomically=True,native_zero_cash_final_settles_material_once_without_fake_installment=True,approved_cost1000_unchanged=True)
+    def active_hpp():
+        f=fixture(cur,today);day=today-timedelta(days=1)
+        legacy.native(cur,'select public.erp_set_contractor_hpp_policy_v1(%s::jsonb,%s,null)',(json.dumps(dict(contractor_id=f['contractor'],effective_from=str(day),is_special=False,attendance_required=True,reason='E05 explicit normal Mandor attendance HPP policy')),uuid.uuid4()))
+        # Existing source fixture posts real receipt/cutting/pickup/completion/
+        # sewing through the unchanged native lifecycle. No HPP status is seeded.
+        production=wip_source.b.chain.production;old=production.CONTRACTOR
+        try:
+            production.CONTRACTOR=f['contractor']
+            sewn=wip_source.b.two_size_fixture(cur,today+timedelta(days=1),'E05-ACTIVE-HPP',q1=6,q2=4)
+        finally:production.CONTRACTOR=old
+        assert sewn['day']==day
+        native_hpp=lambda sql,args:physical.source.fixture_journal_call(cur,sql,args)
+        preview=native_hpp('select erp.preview_attendance_hpp_pool_v1(%s,%s)',(day,day))
+        assert(D(str(preview['numerator_amount'])),int(preview['denominator_qty']))==(D(1000),10),preview
+        pool=native_hpp('select erp.create_attendance_hpp_pool_v1(%s::jsonb,%s)',(json.dumps(dict(period_start=str(day),period_end=str(day),reason='E05 native immutable sewn10 attendance1000 allocation')),uuid.uuid4()))
+        pool=native_hpp('select erp.activate_attendance_hpp_pool_v1(%s,%s,%s,%s)',(pool['pool_id'],'E05 activate native attendance HPP',uuid.uuid4(),pool['row_version']))
+        assert pool['status']=='ACTIVE'
+        f['physical']=physical.stock_cost(cur)
+        def hpp_facts():
+            return {t:cur.execute('select md5(coalesce(jsonb_agg(to_jsonb(t)order by to_jsonb(t)::text),\'[]\')::text)from erp.'+t+' t').fetchone()[0]for t in('attendance_hpp_pools','attendance_hpp_pool_sources','attendance_hpp_pool_allocations')}
+        hpp=hpp_facts();cost=legacy.journal(cur,f['payroll'],'PAYROLL_ATTENDANCE_ACCRUAL')
+        first=act(cur,f);act(cur,f,amount='400.00');assert_balance(cur,f,'1000','0','PAID')
+        act(cur,f,'REVERSE_PAYMENT',payment=first['payment_id']);assert_balance(cur,f,'400','600')
+        assert hpp_facts()==hpp and legacy.journal(cur,f['payroll'],'PAYROLL_ATTENDANCE_ACCRUAL')==cost
+        before=b.boundary.snapshot(cur)
+        auth.refused(cur,lambda:act(cur,f,'REVERSE_PAYROLL'),'PAYROLL_CONSUMED_BY_ACTIVE_HPP_POOL')
+        assert b.boundary.snapshot(cur)==before and hpp_facts()==hpp
+        cancelled=native_hpp('select erp.cancel_attendance_hpp_pool_v1(%s,%s,%s,%s)',(pool['pool_id'],'E05 owning HPP cancellation before payroll inverse',uuid.uuid4(),pool['row_version']))
+        assert cancelled['status']=='CANCELLED'
+        f['physical']=physical.stock_cost(cur)
+        act(cur,f,'REVERSE_PAYROLL');assert_balance(cur,f,'0',None,'REVERSED')
+        assert legacy.change({k:D(v)for k,v in f['before_approval'].items()},legacy.gl(cur,f['contractor']))=={}
+        return dict(status='PASS',native_attendance1000_sewn10_ACTIVE_pool=True,individual_cash_inverse_preserves_HPP_pool_and_cost=True,whole_payroll_inverse_refused_before_any_cash_while_pool_active=True,native_pool_cancellation_then_whole_inverse_restores_cash_and_cost=True)
     names=[('FIXED_1000_600_400_INVERSE',lifecycle),('DEDUCTION_RESERVATION',deductions),('WHOLE_PARTIAL_INVERSE',lambda:whole(True)),('WHOLE_PAID_INVERSE',lambda:whole(False)),('EXACT_LARGE_CENTS',large),('AMOUNT_CAP',amounts),('CLOSED_FIELDS',fields),('REPLAY',replay),('STALE_REVIEW',stale),('CURRENT_CASH',cash_source),('CURRENT_ACCESS_PRIVATE',access),('LEGACY_BYPASS',legacy_bypass),('IMMUTABLE_APPROVED_SOURCE',immutable),('NATIVE_DATES_TZ',dates),('COMPLETE_30_PAGES',pages),('LEGACY_FULL_HISTORY',legacy_history),('INACTIVE_NOT_PAYABLE',zero)]
-    return [('E05_'+name,fn)for name,fn in names]+[('E05_OPENING_ADVANCE_CARRY_INSTALLMENTS',opening_sources)]
+    return [('E05_'+name,fn)for name,fn in names]+[('E05_OPENING_ADVANCE_CARRY_INSTALLMENTS',opening_sources),('E05_ZERO_NET_NO_CASH',zero_net),('E05_ACTIVE_HPP_CASH_CORRECTION',active_hpp)]
 
 
 def races(tools,today):
