@@ -44,7 +44,14 @@ async function flow(ui,today,mobile){
     assert.equal(saved.documents.length,1);assert.equal(saved.documents[0].lines.length,2)
     assert.equal(saved.documents[0].single_receipt,false)
     await panel.getByRole('button',{name:'Perbaiki draft retur',exact:true}).click()
-    await ui.expect(panel.getByLabel('Jumlah retur 2',{exact:true})).toHaveValue('3.000000')
+    // Native document order is by stored line identity, not entry ordinal.
+    const expectedQty=new Map([[f.first.item,'2.000000'],[f.second.item,'3.000000']])
+    assert.deepEqual(new Map(saved.documents[0].lines.map(l=>[l.purchase_item_id,l.qty])),expectedQty)
+    for(let i=1;i<=2;i++){
+      const item=await panel.getByLabel('Barang retur '+i,{exact:true}).inputValue()
+      assert.ok(expectedQty.has(item))
+      await ui.expect(panel.getByLabel('Jumlah retur '+i,{exact:true})).toHaveValue(expectedQty.get(item))
+    }
     await panel.getByLabel('Alasan retur supplier',{exact:true}).fill('Dua penerimaan supplier diperiksa; kedua sumber ikut dikembalikan')
     await panel.getByRole('button',{name:'Simpan draft retur',exact:true}).click()
     await ui.expect(panel.locator('.cproc-return-detail')).toContainText('kedua sumber ikut dikembalikan')
