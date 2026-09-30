@@ -1,0 +1,64 @@
+{
+  "status": "WRITER_FIXTURE_SHELL_VERIFIED",
+  "tested_source": "373a8d64e7f459fe47d142e4bd6a42456462793f",
+  "fixture": "docs/cp7/contracts/analysis.example.json",
+  "fixture_sha256": "db63c2f81aae10c059954a1f63f6a0b4e86e3bcdda1ed7a0b98cc2396ca75daa",
+  "native_postgres_required": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "connected_operational_data": false,
+  "f05_unit_cases": 20,
+  "all_unit": {
+    "numTotalTests": 829,
+    "numPassedTests": 829,
+    "numFailedTests": 0,
+    "success": true
+  },
+  "browser": {
+    "startTime": "2026-09-30T06:39:14.681Z",
+    "duration": 10968.230000000001,
+    "expected": 14,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "browser_engine": "Chromium Headless Shell 141.0.7390.37 / Playwright 1.62.1",
+  "viewports": {
+    "desktop": [
+      1440,
+      1000
+    ],
+    "mobile": [
+      412,
+      915
+    ]
+  },
+  "checks": {
+    "main_build": "PASS",
+    "f05_typescript": "PASS",
+    "f05_build": "PASS",
+    "security_static_ownership": "PASS",
+    "main_secret_scan": "PASS",
+    "f05_secret_scan": "PASS"
+  },
+  "clipboard_popup_test_boundary": "Success, rejection and blocked-popup paths use browser-injected stubs. Real system clipboard and authenticated ChatGPT not exercised.",
+  "visual_review": [
+    "mobile Panel produksi",
+    "desktop Tanya AI",
+    "initial empty state"
+  ],
+  "raw_receipts": {
+    "browser-results.json.gz": "6302dfa4e3ac60b338a80830143d5384b0bb53d2cd826fed39d4deaf8edc9cd6",
+    "unit-results.json.gz": "eaf09e9a593f022e79c49b04688300652cd561c8215b51d75ded8cbc971caa7b"
+  },
+  "screenshots": {
+    "mobile-Reminder.png": "fe327a00f69bbc10c7a12c63a35987c34efa3d33fed81a2d49f25c243413e085",
+    "mobile-Business-Report.png": "243dc9a40e9acb5ae517930765ef923b011f3675e88eacaa24b59f4dd98fa080",
+    "desktop-Business-Report.png": "9e3ed2d3f90605a1d58ed3244a1fa2380a91b572313a01f0771c8e7df08eb4a0",
+    "desktop-Tanya-AI.png": "985ec3bcb0280e48ec1cb1fa86d48aeda2b6a444378f1c05d9f8628155e2a95f",
+    "mobile-Panel-produksi.png": "65a858a528d0ae3370e37abb2a3549f51cd0c3d88236a72a709fc9e7eb143fdd",
+    "mobile-Tanya-AI.png": "de1e1cc236eff800961655d0feec1afacec19dc63e8a9dbee438aa349e90a2fe",
+    "desktop-Panel-produksi.png": "aa998f20394b6a2bc86d95bbee360a47a19e2e4e717b8e73087953f1e02ff41c",
+    "desktop-Reminder.png": "36c2c81a0969488253720964834eb0d0a20cb61f428af6423ea0a92383bc321a"
+  }
+}
