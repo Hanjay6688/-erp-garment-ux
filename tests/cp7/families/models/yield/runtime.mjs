@@ -12,7 +12,11 @@ export async function openYieldRuntime({ demoPreview = false } = {}) {
     if (process.env.CI && !demoPreview) throw new Error('CI requires native disposable PostgreSQL, not a WASM override.')
     const { PGlite } = await import(pathToFileURL(resolve(process.env.F04_YIELD_PGLITE_MODULE)).href)
     const db = new PGlite(); await db.waitReady
-    execute = sql => db.exec(sql); query = async sql => (await db.query(sql)).rows
+    execute = sql => db.exec(sql)
+    query = async (sql,role=null) => {
+      if(role)await db.exec(`set role ${role}`)
+      try { return (await db.query(sql)).rows } finally { if(role)await db.exec('reset role') }
+    }
     close = () => db.close(); runtime = 'PGLITE_LOCAL_NOT_AUTH_PROOF'
   } else {
     if (process.getuid?.() === 0) throw new Error('Native test requires a non-root process; local WASM override must be explicit.')
@@ -27,8 +31,12 @@ export async function openYieldRuntime({ demoPreview = false } = {}) {
     try {
       command('initdb',['-D',data,'-U','cp7_yield_test','--auth-local=trust','--auth-host=reject','--no-locale','--encoding=UTF8'])
       command('pg_ctl',['-D',data,'-l',join(temp,'postgres.log'),'-o',`-k ${temp} -c listen_addresses='' -c max_connections=10`,'-w','start']); started=true
-      const psql = sql => command('psql',['-X','-q','-A','-t','-v','ON_ERROR_STOP=1','-h',temp,'-U','cp7_yield_test','-d','postgres','-c',sql]).trim()
-      execute = async sql => { psql(sql) }; query = async sql => JSON.parse(psql(`select coalesce(json_agg(q),'[]'::json) from (${sql}) q`))
+      // Feed large history requests through stdin, not an argv element (E2BIG).
+      const psql = sql => execFileSync(join(bin,'psql'),['-X','-q','-A','-t','-v','ON_ERROR_STOP=1','-h',temp,'-U','cp7_yield_test','-d','postgres','-f','-'],
+        {input:sql,encoding:'utf8',env,timeout:60000,maxBuffer:16*1024*1024}).trim()
+      execute = async sql => { psql(sql) }
+      // SET ROLE and its query must share the same native connection.
+      query = async (sql,role=null) => JSON.parse(psql(`${role?`set role ${role};`:''}select coalesce(json_agg(q),'[]'::json) from (${sql}) q;`))
       runtime = 'NATIVE_POSTGRES_DISPOSABLE_KERNEL_ONLY'
     } catch(error) { await close(); throw error }
   }
@@ -39,6 +47,10 @@ export async function openYieldRuntime({ demoPreview = false } = {}) {
     await execute(`begin; ${readFileSync(sourceFile,'utf8')} commit;`)
     return { runtime, execute, query, close,
       review: async request => (await query(`select cp7_yield.review(${literal(request)}) as result`))[0].result,
+      reviewAs: async (role,request) => {
+        if(!['anon','authenticated','service_role'].includes(role))throw new Error('Unknown test role')
+        return (await query(`select cp7_yield.review(${literal(request)}) as result`,role))[0].result
+      },
       version: (await query('select version() as version'))[0].version }
   } catch(error) { await close(); throw error }
 }

@@ -42,7 +42,7 @@ try {
  await test('null-history-state-rejected',async()=>{const req=request();req.history[0].state=null;await assert.rejects(db.review(req),/YIELD_HISTORY_REVISION/)})
  await test('history-limit-rejected',async()=>{const req=request();req.history=Array.from({length:1001},()=>clone(req.history[0]));await assert.rejects(db.review(req),/YIELD_REQUEST/)})
  await test('exact-large-pcs',async()=>{const h=demoHistory().slice(0,24);for(const row of h)row.input.observedCutPcs='9007199254740993';await ready(request(input(),h),['9007199254740993','9007199254740993'])})
- for(const role of ['anon','authenticated','service_role']) await test(`private-acl-${role}`,async()=>{await db.execute(`set role ${role}`);try{await assert.rejects(db.review(request()),/permission denied/)}finally{await db.execute('reset role')}})
+ for(const role of ['anon','authenticated','service_role']) await test(`private-acl-${role}`,async()=>await assert.rejects(db.reviewAs(role,request()),/permission denied/))
  await test('invoker-empty-search-path-owner',async()=>{const rows=await db.query("select p.prosecdef,p.proconfig,pg_get_userbyid(p.proowner) as owner from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_yield'");assert.equal(rows.length,6);assert.ok(rows.every(r=>!r.prosecdef&&r.owner==='cp7_capture'&&r.proconfig.includes('search_path=""')))})
  await test('ledger-unchanged',async()=>assert.equal((await db.query('select amount::text as amount from public.yield_ledger_canary'))[0].amount,'12345.67'))
 } finally {await db.close()}
