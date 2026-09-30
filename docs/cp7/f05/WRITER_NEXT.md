@@ -1,5 +1,7 @@
 # F05 — mulai di sini untuk writer utama
 
+**Update analyzer 30 September:** mulai dari [handoff F04](../f04/YIELD_ANALYZER_HANDOFF.md) dan receipt `../f04/yield-v1/VERIFICATION.json`. Branch lanjutan `cp7/f04-f05-yield-analyzer-20260930`: F04/P07 memiliki SQL pembanding dan satu kontrak; F05/P14 konsumsi hasil melalui backend demo. Lebar tetap opsional. Checkpoint di bawah adalah riwayat cangkang sebelum mesin ini dibangun; jumlah tes dan label “producer belum dibangun” di checkpoint lama bukan status patch baru. Reader ERP/model terkalibrasi tetap belum tersedia.
+
 Checkpoint owner 30 September 2026. Cabang `cp7/f05-consumers-shell-20260930`, draft [PR #37](https://github.com/Hanjay6688/-erp-garment-ux/pull/37), source teruji `ec8e27890319ef898f0bb8b06028daa12a9d2f08`. Status **cangkang fixture teruji**; integrasi transaksi dan penerimaan independen belum ditutup.
 
 ## Tugas pertama, tanpa membaca ulang seluruh CP7
@@ -26,7 +28,7 @@ Framework `work_packets.json` tetap acuan dependency; kata v1 historis di input 
 | P15 | Template Indonesia deterministik dari satu proyeksi; arsip/revisi/export sesi | Reader periode P13; persistence/publish/history server berizin; koreksi terhubung ke arsip immutable | P13/P14; keuangan UNKNOWN/pending tidak menjadi margin READY |
 | P16 | Attention NEW/ACK/SNOOZED/DONE terpisah dari condition; manual sesi; queue WA simulasi dedupe | Facade reminder existing, condition observation lengkap, lifecycle/policy/persistensi server; trigger dan outbox dengan fencing | P15; incomplete != sehat, DONE != masalah beres. WA nyata tetap gate CP7C |
 | P17 | Pertanyaan, serialized prompt, copy/open dengan manual fallback | Snapshot server yang sudah disaring izin, scope/truncation metadata, integration Auth/browser | P14; V1 tidak menambah API AI/key/chat otomatis/writeback |
-| Analyzer potong | Lebar opsional dan kosong; mix berulang; range/status/reasoning dari port privat; unknown ditahan | Mapping input roll asli, keluarga bahan/pola/komposisi/unit; producer pembanding/model dan kontrak disepakati; kartu inline form asli | Range saat ini sintetis. Tidak memasang model atau schema F03/F04 lewat consumer |
+| Analyzer potong | Lebar opsional dan kosong; mix berulang; range/status/reasoning dari port privat; unknown ditahan | Mapping input roll asli, keluarga bahan/pola/komposisi/unit; kernel baseline F04 sudah tersedia, reader/policy dan model lanjutan perlu disepakati; kartu inline form asli | Range saat ini sintetis. Mesin/schema privat milik F04; consumer tidak memasang schema operasional |
 
 Kartu analyzer saat ini memakai roll contoh yang terpisah dari draft Buat/Bagi. Tidak ada auto-trigger pada SAVE operasional. Integrasi berikutnya boleh mengevaluasi saat input relevan berubah/hasil potong lengkap, dengan debouncing/cancellation dan tanpa menghambat save; trigger final mengikuti lifecycle form asli yang diverifikasi integrator. Tidak ada jaminan cukup data setelah satu tahun.
 
@@ -39,7 +41,7 @@ Root preview: `tests/cp7/browser/planner/f05-preview/`.
 | `F05App.tsx` | Composition root menerima `readPort?: AnalysisReadPort` serta `yieldReadPort?: YieldReadPort`. Runtime tetap DEMO_SIMULATION; mengganti prop tidak membuka mode operasional. |
 | `ProductionPanel.tsx` | P14; meneruskan yieldReadPort ke kartu. Tidak menambah kalkulator di JSX. |
 | `CuttingYieldAnalyzer.tsx` | Render hasil dan input contoh. Guard/context serta identity pembaca membatalkan hasil lama; isi/hapus lebar juga membatalkan hasil. |
-| `cuttingYieldContract.ts` | Proposal PRIVAT `f05.cutting-yield-preview.v1`, menerima SYNTHETIC_ONLY. Bukan schema RPC produksi; jangan melabeli data asli sebagai synthetic untuk melewati guard. |
+| `cuttingYieldContract.ts` | Compatibility re-export kontrak PRIVAT F04 `f04.cutting-yield-preview.v1`, menerima SYNTHETIC_ONLY. Bukan schema RPC produksi; jangan melabeli data asli sebagai synthetic untuk melewati guard. |
 | `cuttingYieldFixtures.ts` | Hanya contoh UI; angka tidak diambil sebagai normal usaha. `mix`/`example` pada signature port adalah kontrol harness, bukan request produksi. |
 | `model.ts` | Period withholding, arsip immutable sesi, attention/queue simulasi dan serialisasi pertanyaan. |
 | `../../../families/reports/preview/BusinessReport.tsx` | P15; jangan mengganti tanggal fixture lalu menganggap angka sebagai hasil periode lain. |
@@ -104,14 +106,14 @@ F05_BROWSER_EXECUTABLE=/path/to/headless_shell node tests/cp7/browser/planner/f0
 | Semua-30 belum punya dukungan atau data historis bias/drift | Unknown atau estimasi eksploratif sesuai policy; tidak memberi kepastian normal tanpa bukti |
 | Clipboard ditolak / popup diblokir / payload besar | Fallback manual; tidak mengklaim copy/sent; metadata dan unknown tidak dipotong diam-diam |
 
-Bukti fixture saat ini tidak menutup skenario koneksi asli di atas. Native SQL tidak dijalankan untuk tambahan F05 ini karena tidak ada SQL/DB reader/mutator baru.
+Bukti fixture saat ini tidak menutup skenario koneksi asli di atas. Kalimat checkpoint ec8 tentang tidak adanya SQL berlaku untuk cangkang lama. Patch analyzer PR38 sekarang mempunyai 48 kasus SQL native; reader/Auth operasional tetap belum diuji.
 
 ## Batas penulisan dan berhenti
 
-Writer F05 hanya menulis packet-owned paths dan `docs/cp7/f05/`. Integrator memegang App/main/routes, runtime, auth/access catalog, shared DTO/schema, source/migration/CI manifests dan CURRENT_STATE. F03/F04 tetap tidak disentuh oleh sesi F05 ini. Jangan memperluas SYNTHETIC_ONLY menjadi koneksi nyata tanpa kontrak/server reader yang disepakati, jangan men-deploy atau membuka transport untuk menutup checklist cangkang.
+Writer F05 hanya menulis packet-owned paths dan `docs/cp7/f05/`. Integrator memegang App/main/routes, runtime, auth/access catalog, shared DTO/schema, source/migration/CI manifests dan CURRENT_STATE. F03 tetap tidak disentuh. Mesin/kontrak analyzer berada di F04/P07 pada PR38; writer consumer F05 tidak membuat rumus atau mesin kedua. Jangan memperluas SYNTHETIC_ONLY menjadi koneksi nyata tanpa kontrak/server reader yang disepakati, jangan men-deploy atau membuka transport untuk menutup checklist cangkang.
 
 Jika head F05 bergerak tak dikenal atau writer utama sudah mengubah berkas yang sama, hentikan push; bandingkan delta secara read-only dan serahkan checkpoint. Jika upstream yang diperlukan belum lengkap, lanjutkan pekerjaan consumer yang independen dan tandai dependency tersebut; jangan pura-pura accepted.
 
 ## Prompt singkat untuk sesi writer berikutnya
 
-> Lanjutkan ERP CP7 dari integrasi terbaru; baca `docs/cp7/f05/WRITER_NEXT.md` dan draft PR37. F05 adalah cangkang fixture P14–P17 dengan analyzer cutting berlebar opsional, source ec8e27890319ef898f0bb8b06028daa12a9d2f08. Verifikasi hash/receipt dan jalankan verify-f05 sebelum mengubahnya. Jangan tulis ulang cangkang atau riset. Satu integrator memegang berkas bersama; writer lain tetap di berkas terpisah. Cari irisan reader/route P14 yang dependency-nya sudah terbukti, lanjutkan ke consumer satu run yang sama, lalu buktikan Auth/dirty form/unknown/stale tanpa kalkulator kedua. Jangan aktifkan apply/publish/WA sebelum dependency dan native/public gates terkait lolos. Lebar kosong tidak menghalangi save atau penilaian yang didukung data; missing width tidak boleh diimputasi. Model/range asli belum terlatih; all-30 belum didukung bukan izin mengarang. Laporkan source/tree, tes nyata, dependency yang belum siap dan langkah persis berikutnya; production_go tetap false.
+> Lanjutkan ERP CP7; fetch integrasi terbaru dan PR37/PR38. Baca `docs/cp7/f04/YIELD_ANALYZER_HANDOFF.md` lebih dahulu, lalu WRITER_NEXT F05. Source analyzer teruji ddfb9d7a030457d712c666e3b6d5517a77fa3671. F04/P07 memiliki SATU SQL exact-cohort engine dan kontrak privat; F05/P14 menampilkan response. Preview sudah memanggil backend disposable → SQL dari history sintetis, tanpa fallback rentang test double. 48 kasus SQL native, 51 unit F05, 20 browser dedicated, 861 unit repo dan kedua CodeQL lolos; cek source hashes/receipt. Jangan tulis ulang mesin atau riset. Reader asli/family/unit/slice/mix lineage, shared DTO/policy bisnis dan holdout kalibrasi masih menunggu integrator/upstream. Exact cohort tidak menebak campuran/length/width baru. Lebar null tetap boleh; save cutting tidak bergantung pada analyzer. Native ACL privat bukan bukti Auth/RLS operasional. Hook form asli tetap gate integrasi. Satu integrator memegang berkas bersama; F03 jangan disentuh. Cari irisan reader yang dependency-nya terbukti, sambungkan satu run/scope, uji dirty form/unknown/stale/izin dan snapshot lineage. Jangan aktifkan apply/publish/WA atau menyebut angka uji sebagai patokan pabrik. Laporkan source/tree, bukti, dependency dan langkah berikutnya.

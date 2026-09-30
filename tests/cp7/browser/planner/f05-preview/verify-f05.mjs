@@ -7,6 +7,7 @@ import { spawnSync } from 'node:child_process'
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../../../../..')
 const preview = 'tests/cp7/browser/planner/f05-preview'
 const owned = [preview, 'tests/cp7/browser/ai-v1/preview', 'tests/cp7/families/reports/preview', 'tests/cp7/families/reminder/preview']
+const analyzer = ['scripts/cp7-src/models', 'tests/cp7/families/models/yield']
 const args = process.argv.slice(2)
 if (args.includes('--help')) {
   console.log('Usage: node tests/cp7/browser/planner/f05-preview/verify-f05.mjs [--browser]\nFast: TypeScript, F05 unit tests, preview build and secret scan. --browser adds desktop/mobile stories. No install, deployment, hosted data or external delivery.')
@@ -17,9 +18,9 @@ const browser = args.includes('--browser')
 const output = resolve(root, 'test-results/f05-continuation')
 mkdirSync(output, { recursive: true })
 const hash = path => createHash('sha256').update(readFileSync(path)).digest('hex')
-const filesUnder = path => readdirSync(path, { withFileTypes: true }).flatMap(entry => entry.isDirectory() ? filesUnder(resolve(path, entry.name)) : entry.isFile() && /\.(?:tsx?|mjs|css|html|json)$/.test(entry.name) ? [resolve(path, entry.name)] : [])
+const filesUnder = path => readdirSync(path, { withFileTypes: true }).flatMap(entry => entry.isDirectory() ? filesUnder(resolve(path, entry.name)) : entry.isFile() && /\.(?:tsx?|mjs|css|html|json|sql)$/.test(entry.name) ? [resolve(path, entry.name)] : [])
 const dependencies = ['package.json', 'package-lock.json', 'tsconfig.app.json', 'tsconfig.json', 'src/vite-env.d.ts', 'src/config/runtime.ts', 'src/cp7/workspace.ts', 'src/cp7/contract.ts', 'src/cp7/fixture.ts', 'src/cp7/reasons.json', 'docs/cp7/contracts/analysis.example.json', 'scripts/build-preflight.mjs', 'scripts/scan-client-artifacts.mjs']
-const sourcePaths = [...new Set([...owned.flatMap(path => filesUnder(resolve(root, path))), ...dependencies.map(path => resolve(root, path))])].sort()
+const sourcePaths = [...new Set([...owned.concat(analyzer).flatMap(path => filesUnder(resolve(root, path))), ...dependencies.concat('tests/cp7/families/models/yield.test.ts').map(path => resolve(root, path))])].sort()
 const sourceHashes = () => Object.fromEntries(sourcePaths.map(path => [relative(root, path).replaceAll('\\', '/'), hash(path)]))
 const before = sourceHashes()
 const git = (...args) => spawnSync('git', args, { cwd: root, encoding: 'utf8' })
@@ -32,6 +33,7 @@ rmSync(unitFile, { force: true })
 rmSync(resolve(output, 'browser-results.json'), { force: true })
 if (browser) rmSync(browserFile, { force: true })
 const steps = [
+  ['f04_yield_kernel', ['tests/cp7/families/models/yield/run.mjs']],
   ['typescript', ['node_modules/typescript/bin/tsc', '-p', `${preview}/tsconfig.json`]],
   ['unit', ['node_modules/vitest/vitest.mjs', 'run', ...owned, '--reporter=default', '--reporter=json', `--outputFile=${unitFile}`]],
   ['preview_build', ['node_modules/vite/bin/vite.js', 'build', '--config', `${preview}/vite.config.mjs`]],
@@ -44,9 +46,18 @@ try {
     if (failed) { receipt.stages.push({ name, status: 'NOT_RUN' }); continue }
     console.log(`\nF05: ${name}`)
     const startedAt = new Date().toISOString()
-    const result = spawnSync(process.execPath, command, { cwd: root, stdio: 'inherit', env: { ...process.env, CI: '1' } })
+    const environment={...process.env,CI:'1'}
+    // Local WASM proof is labelled explicitly; native CI can never use it.
+    if(name==='f04_yield_kernel' && process.env.F04_YIELD_PGLITE_MODULE && !process.env.CI)delete environment.CI
+    if(name==='f04_yield_kernel')environment.F04_YIELD_RECEIPT_PATH=resolve(output,'yield-kernel.json')
+    const result = spawnSync(process.execPath, command, { cwd: root, stdio: 'inherit', env: environment })
     failed = result.status !== 0 || Boolean(result.error)
     receipt.stages.push({ name, status: failed ? 'FAIL' : 'PASS', exit_code: result.status, signal: result.signal, started_at: startedAt, completed_at: new Date().toISOString(), ...(result.error ? { error: result.error.message } : {}) })
+    if(name==='f04_yield_kernel' && !failed) {
+      const kernel=JSON.parse(readFileSync(resolve(output,'yield-kernel.json'),'utf8'))
+      receipt.yield_kernel={passed:kernel.passed,failures:kernel.failures,runtime:kernel.runtime,version:kernel.version}
+      if(kernel.failures.length || kernel.passed<40)throw new Error('Yield kernel proof failed or incomplete.')
+    }
     if (name === 'unit' && !failed) {
       const unit = JSON.parse(readFileSync(unitFile, 'utf8'))
       receipt.unit = Object.fromEntries(['numTotalTests', 'numPassedTests', 'numFailedTests', 'success'].map(key => [key, unit[key]]))

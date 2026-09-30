@@ -1,0 +1,127 @@
+{
+  "version": "f05.continuation-checks.v1",
+  "run_id": "2823e7c1-86ee-4579-a525-2905232df95f",
+  "started_at": "2026-09-30T12:55:36.729Z",
+  "git_head": "25975fcd4a401d41471f65ff22345d9d1c7c559e",
+  "tracked_changes": false,
+  "source_sha256": {
+    "docs/cp7/contracts/analysis.example.json": "db63c2f81aae10c059954a1f63f6a0b4e86e3bcdda1ed7a0b98cc2396ca75daa",
+    "package-lock.json": "3f52c1eb326b53129977e78e7c95b14e0d0bebd8c8229e0cab96e88c85d88195",
+    "package.json": "188026b2d570d1f5ebcc1e1f5a7a950ae0327c326da7a0e6ce8e22f8b99c4d20",
+    "scripts/build-preflight.mjs": "5d7b10fa241075ff8a4f3e6d5b438f2be26d1acd54b27fd76c67c38f79138c2f",
+    "scripts/cp7-src/models/cutting-yield.sql": "c7ff77cea0303401a96490c09c8b46c1eb10a50a3d57cd4f762f0d31be9cc7bf",
+    "scripts/cp7-src/models/cuttingYieldContract.ts": "d5ef4faee13a9ce0e0170d04f7fc96962e3e16a7c0cb3666ed0fc397196c8879",
+    "scripts/scan-client-artifacts.mjs": "2865b2e634a6e2104aeea63c7b88e08646305c9dab9898b9c6a281564a1c2250",
+    "src/config/runtime.ts": "ad630ef3e3708a35ad2aabd05a3acc5306ae0d164b2eb15c70e1eaee192675a8",
+    "src/cp7/contract.ts": "16a320a188d1fafe3912c33ac6e07de26bda2a506654f05e20a57195ed846ddf",
+    "src/cp7/fixture.ts": "380681e083291326a1bfe71603f9dbc05071a3b55616d6dfe6fdc50ed01585f0",
+    "src/cp7/reasons.json": "55741fc4be42afe73a3b942b4af7f1839c53197599f0a605c63ec7db0533e551",
+    "src/cp7/workspace.ts": "3dc3272128be0da2de9ca16d9e247d40c0b94c4999d36e8c08c097b6694d957a",
+    "src/vite-env.d.ts": "05d3658a3aeab527c23be224b05dd64abca8b6bf7994904000d03c6b7142f637",
+    "tests/cp7/browser/ai-v1/preview/AiPanel.tsx": "652c983bae71751ba30783e759782d87ac3719af24e63b5d6185f1665c62fbac",
+    "tests/cp7/browser/planner/f05-preview/Common.tsx": "e6ca43be39138bd746000df0bc828d0eb8271eb37b951c4d0c9a78b7d2b80e42",
+    "tests/cp7/browser/planner/f05-preview/CuttingYieldAnalyzer.test.tsx": "add1ea619a5216c064728b75480bdf63f3dac37e5287dd1dbde2887cca3c58ba",
+    "tests/cp7/browser/planner/f05-preview/CuttingYieldAnalyzer.tsx": "da448e3e1142aa62c7bc0bfce0cf68f5a2bda6462938e5eaab06637e9475e8e6",
+    "tests/cp7/browser/planner/f05-preview/F05App.test.tsx": "e5af62937d481e656dcb96e736c9b66d55ee07eebaf0b1a1ba79163cded6f311",
+    "tests/cp7/browser/planner/f05-preview/F05App.tsx": "4f6edd5992d1f50720c7db8f02ed7fb0152ee3267fd48713ccf3ca3a8e371715",
+    "tests/cp7/browser/planner/f05-preview/ProductionPanel.tsx": "4bc45858ad369a2deb24269248fa2127b2f6aa459014b2cccaa6da6f15c664f5",
+    "tests/cp7/browser/planner/f05-preview/cuttingYield.test.ts": "985b1201940ec1781b86e9e03bb8c73b22538fdb960cab3f37431d7735333f69",
+    "tests/cp7/browser/planner/f05-preview/cuttingYieldContract.ts": "ae5aca6913543dd99335ac6f030447b2cad8f81f907a5d993a2f574fa481c06d",
+    "tests/cp7/browser/planner/f05-preview/cuttingYieldFixtures.ts": "32f7c33adec447594013b5fece1eafc499e7ec2efbcd9b11c0a92eca1809442e",
+    "tests/cp7/browser/planner/f05-preview/f05.browser.ts": "14e8f8f9dae2aca2f1ba8b8de7f442c0d90852597f8842b299bee2736d3e1e82",
+    "tests/cp7/browser/planner/f05-preview/f05.css": "dfb5b4a3c0943666d5ecca7e5980d18ae75287c649897c168143c6e299158fe9",
+    "tests/cp7/browser/planner/f05-preview/index.html": "be99f1f132dc561cda56cc36a8caadf336d6470e7b2aadc088cbcc5dc9c6f39c",
+    "tests/cp7/browser/planner/f05-preview/main.tsx": "dfac323b1ce929075ff2b0580a4016e4c2a589912c2ba1c1c3ec81c1bbb2a9e3",
+    "tests/cp7/browser/planner/f05-preview/model.test.ts": "e2729a0d6f7ff8f7fa67d10c1ae03676c83e61da2a2b4f9e8886c939a3cea886",
+    "tests/cp7/browser/planner/f05-preview/model.ts": "59191119506304035f2943762dc78e7e50b8fd4f51681265cbe3ef757e89b7a6",
+    "tests/cp7/browser/planner/f05-preview/playwright.config.mjs": "5ddfec527b0bfd83a79e23d533513d0c3e2760c52e85b90202ead515a4d49add",
+    "tests/cp7/browser/planner/f05-preview/tsconfig.json": "5a8c48e00814aac99177552aab174c2af57677f8ec4332baa0aa7acd782d8e80",
+    "tests/cp7/browser/planner/f05-preview/verify-f05.mjs": "8dd9b375af6b6e5b88cdd7bb9165cb9da91397b1204fe4bb1dfeb9019bbb0f95",
+    "tests/cp7/browser/planner/f05-preview/vite.config.mjs": "4972bfa596822ec92632ab2bae770d8a54ca59e73f74e434496e333009aaa64a",
+    "tests/cp7/browser/planner/f05-preview/yieldHttpPort.test.ts": "8834ba2cdb976e3909c765dbafc622d58831828486373b4f5eb66db1efbff81d",
+    "tests/cp7/browser/planner/f05-preview/yieldHttpPort.ts": "906a6c8d42fa25eb4e7ba91a5e79bf75ef595f2430c3ee8e2b845cd2ea3625bc",
+    "tests/cp7/browser/planner/f05-preview/yieldServer.mjs": "330d5ae08b5fa7d208054370b7a21e4abf60ed8cdbf9e0f1258b87607c3848c5",
+    "tests/cp7/families/models/yield.test.ts": "c957033e01dafa9f4a980c2f8e2494dbab00708dde24d0beaf0690b86eb7445f",
+    "tests/cp7/families/models/yield/consumerFixtures.ts": "21dcb4b8f39aebef5d0a19d1983e85b98a7050923cb3c5273a981ce1c55f1ee7",
+    "tests/cp7/families/models/yield/history.mjs": "19c977848ba93c89368f5e12955b796d0ad442b748fc7cc19e184c29a8525d18",
+    "tests/cp7/families/models/yield/run.mjs": "0816c2535f96a928fe483e4c0718970ee86ebd3f359d91f778067bba81ba0575",
+    "tests/cp7/families/models/yield/runtime.mjs": "abc47873c163de2617007e52bcc17efbdf4a6e6a4dd955a4fb597a3ec7bb6ab4",
+    "tests/cp7/families/reminder/preview/ReminderPanel.tsx": "c5690337879fe4047c463532f5b342b7311f11d79f3f1e347b587a07b5b97bd0",
+    "tests/cp7/families/reports/preview/BusinessReport.tsx": "bd3aade5c3702ecb81fd40e974c4d1bb4f9884a62963a9eb0beb463cfb41b8b8",
+    "tsconfig.app.json": "ec45293782914673548ce66cf2727e7192a6a0f80d8650d9fe40aa895caf0b55",
+    "tsconfig.json": "d85a225ae3aac2e8df18ec4dd8ac39c4bcf45a7c0c6bc06ab51e0a686c0cc48a"
+  },
+  "browser_requested": true,
+  "status": "PASS",
+  "stages": [
+    {
+      "name": "f04_yield_kernel",
+      "status": "PASS",
+      "exit_code": 0,
+      "signal": null,
+      "started_at": "2026-09-30T12:55:36.730Z",
+      "completed_at": "2026-09-30T12:55:41.804Z"
+    },
+    {
+      "name": "typescript",
+      "status": "PASS",
+      "exit_code": 0,
+      "signal": null,
+      "started_at": "2026-09-30T12:55:41.804Z",
+      "completed_at": "2026-09-30T12:55:42.020Z"
+    },
+    {
+      "name": "unit",
+      "status": "PASS",
+      "exit_code": 0,
+      "signal": null,
+      "started_at": "2026-09-30T12:55:42.020Z",
+      "completed_at": "2026-09-30T12:55:43.604Z"
+    },
+    {
+      "name": "preview_build",
+      "status": "PASS",
+      "exit_code": 0,
+      "signal": null,
+      "started_at": "2026-09-30T12:55:43.605Z",
+      "completed_at": "2026-09-30T12:55:43.941Z"
+    },
+    {
+      "name": "preview_secret_scan",
+      "status": "PASS",
+      "exit_code": 0,
+      "signal": null,
+      "started_at": "2026-09-30T12:55:43.941Z",
+      "completed_at": "2026-09-30T12:55:43.997Z"
+    },
+    {
+      "name": "browser",
+      "status": "PASS",
+      "exit_code": 0,
+      "signal": null,
+      "started_at": "2026-09-30T12:55:43.998Z",
+      "completed_at": "2026-09-30T12:56:06.720Z"
+    }
+  ],
+  "yield_kernel": {
+    "passed": 48,
+    "failures": [],
+    "runtime": "PGLITE_LOCAL_NOT_AUTH_PROOF",
+    "version": "PostgreSQL 18.3 (PGlite 0.5.8) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit"
+  },
+  "unit": {
+    "numTotalTests": 51,
+    "numPassedTests": 51,
+    "numFailedTests": 0,
+    "success": true
+  },
+  "browser": {
+    "startTime": "2026-09-30T12:55:44.461Z",
+    "duration": 22246.716,
+    "expected": 20,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "completed_at": "2026-09-30T12:56:06.723Z"
+}
