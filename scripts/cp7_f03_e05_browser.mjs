@@ -4,6 +4,7 @@ import{mkdirSync,writeFileSync}from 'node:fs'
 const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_f03_e05_browser_fixture.py',op],{input:JSON.stringify(p),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
 const save=r=>r.url().endsWith('/rpc/erp_cp7_save_payroll_installment_v1')
 async function navigate(page,name='• Payroll & Kasbon'){
+ await page.locator('.sidebar .nav-main').filter({hasText:'Keuangan'}).waitFor({state:'attached'})
  const menu=page.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click()
  const link=page.getByRole('button',{name,exact:true});if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Keuangan'}).click();await link.click()
 }

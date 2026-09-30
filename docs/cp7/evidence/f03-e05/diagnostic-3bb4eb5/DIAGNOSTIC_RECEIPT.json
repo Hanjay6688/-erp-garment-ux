@@ -1,0 +1,43 @@
+{
+  "advisor_gate": true,
+  "artifact_bytes": 5042050,
+  "artifact_id": 11120591920,
+  "artifact_sha256": "6e35cc8615c13f3ce7e2e793845a987f21c1f9caf666b50a9f1690a872544740",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 1,
+    "NOT_RUN": 0,
+    "PASS": 23
+  },
+  "cp6_restored": true,
+  "diagnosis": [
+    "All18 native,3 real races,1 actual Auth/HTTP and desktop browser pass. Native cost1000, same-payroll600+400 and individual inverse qualify at this source.",
+    "Mobile actual committed600 reply loss and current ADMIN revoke403 pass before navigation stops: after reload the script checks the menu before App has attached, then tries the closed offscreen sidebar. Wait for the native application sidebar to attach before selecting mobile menu. No product permission or economic behavior is relaxed."
+  ],
+  "expected": 24,
+  "groups": {
+    "browser": {
+      "INCOMPLETE": 1,
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 18
+    },
+    "races": {
+      "PASS": 3
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 110055556419,
+  "observed": 24,
+  "production_go": false,
+  "retained_reports_sha256": "288be28a741dfc61b4f1dd5b8256797ebdf4c7d2d39e02c8696ce02c559f0d14",
+  "run_id": 36764624676,
+  "source_bundle_sha256": "eb86b6300f1ebf8e429edef2f4dfb0dc80ec24978c8809de53e7f2e3e7a729e5",
+  "source_commit": "3bb4eb545760648359808cf05c3adf9cf7e71ac4",
+  "source_tree": "7979265d218a77a772946d376f934bd64c021ce0",
+  "status": "INCOMPLETE"
+}
