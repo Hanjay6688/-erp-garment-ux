@@ -65,7 +65,7 @@ def filings(cur):
 
 def payload(f, price):
     return dict(purchase_id=f['purchase'], supplier_invoice_number='E06-'+uuid.uuid4().hex,
-                invoice_date=str(f['invoice_day']), received_at=e01.prod.at(f['invoice_day'], 15).isoformat(),
+                invoice_date=str(f.get('document_day',f['day'])), received_at=e01.prod.at(f['invoice_day'], 15).isoformat(),
                 due_date=str(f['invoice_day']+timedelta(days=30)), reason='E06 December receipt, actual March supplier invoice',
                 lines=[dict(purchase_item_id=f['item'], qty_invoiced='100', final_unit_price=str(price))])
 
@@ -85,8 +85,9 @@ def confidence(cur, f):
     return dict(queue=[r[0] for r in queued], status=preflight['status'], own_blockers=own)
 
 
-def journey(cur, today, price, zone):
+def journey(cur, today, price, zone, prior_economic=True):
     f, review = fixture(cur, today)
+    f['document_day'] = f['day'] if prior_economic else f['invoice_day']
     closed = period.command(cur, 'CLOSE', period.intent(review))
     ident = closed['filing_id']
     old = finance.read(cur, f['cutoff'], filing_id=ident)
@@ -94,6 +95,7 @@ def journey(cur, today, price, zone):
     physical = facts(cur, f)
     ledger = e01.cmd.accounts(cur)
     raw_before = cur.execute('select cached_stock_qty,moving_average_cost from erp.materials where id=%s', (f['material'],)).fetchone()
+    previous_journals = [str(r[0]) for r in cur.execute('select id from erp.journal_entries').fetchall()]
     previous_events = [str(r[0]) for r in cur.execute('select id from erp.po_hpp_gl_events where po_id=%s',(f['po'],)).fetchall()]
     known_before = cur.execute('select clock_timestamp()').fetchone()[0]
     cur.execute('select set_config(\'TimeZone\',%s,true)', (zone,))
@@ -109,7 +111,12 @@ def journey(cur, today, price, zone):
     assert current['snapshot']['financial_position'] == old['snapshot']['financial_position']
     assert current['snapshot']['performance'] == old['snapshot']['performance']
     assert current['snapshot']['data_confidence']['status'] == 'READY'
-    assert current['snapshot']['data_confidence']['changed_since_filing'], current['snapshot']['data_confidence']
+    journal_dates=cur.execute("select id,source_type,economic_date,transaction_date,posting_at from erp.journal_entries where id<>all(%s::uuid[]) and status in('POSTED','REVERSED') order by id",(previous_journals,)).fetchall()
+    assert any(j[2]<=f['cutoff'] and j[3]>f['cutoff'] for j in journal_dates) is prior_economic, ('E06_ECONOMIC_JOURNALS',journal_dates)
+    marked = current['snapshot']['data_confidence']['changed_since_filing']
+    # C0 D01 3.4 / accepted BA W9 is an economic-date marker, not a
+    # generic 'any later document' flag. Retain March-dated control separately.
+    assert marked is prior_economic, ('E06_ECONOMIC_PERIOD_MARKER', prior_economic, current['snapshot']['data_confidence'])
     change = D(price)-10
     expected = dict(hpp=D(900)+60*change, fg=D(600)+40*change, cogs=D(300)+20*change)
     assert values(cur, f) == expected, ('E06_COST_WORKSHEET', values(cur, f), expected)
@@ -120,7 +127,7 @@ def journey(cur, today, price, zone):
     expected_gl = {e01.cmd.mapping(cur,k):v for k,v in expected_gl.items() if v}
     assert e01.cmd.delta(ledger, e01.cmd.accounts(cur)) == expected_gl, ('E06_GL', e01.cmd.delta(ledger,e01.cmd.accounts(cur)), expected_gl)
     dates = cur.execute('select invoice_date,received_at,created_at,posted_at from erp.material_supplier_invoices where id=%s', (result['invoice_id'],)).fetchone()
-    assert dates[0] == f['invoice_day'] and dates[1] == e01.prod.at(f['invoice_day'],15)
+    assert dates[0] == f['document_day'] and dates[1] == e01.prod.at(f['invoice_day'],15)
     # created_at may use the transaction start; posted_at is always bounded
     # by the actual transaction, never backdated to the supplier's paper.
     tx_start = cur.execute('select transaction_timestamp()').fetchone()[0]
@@ -137,7 +144,7 @@ def journey(cur, today, price, zone):
     assert invoice.amounts(cur, f) == (0,1000,*raw_before)
     assert e01.cmd.accounts(cur) == ledger and facts(cur,f) == physical
     assert finance.read(cur, f['cutoff'], filing_id=ident)['filing'] == old['filing']
-    return dict(status='PASS', fixture='E01_60_GOOD_ESTIMATED_RECEIPT_20_SOLD', receipt=str(f['day']), production=str(f['production_day']), invoice=str(f['invoice_day']), known_at_actual=[str(known_before),str(known_after)], invoice_dates=list(map(str,dates)), caller_zone=zone, expected_costs=expected, after_invoice=after_invoice, processed=processed, closed_day_GL_and_filing_immutable=True, exact_replay_and_inverse=True, physical_source_facts_unchanged=True, no_invented_March_knowledge=True, actual_browser_case=False)
+    return dict(status='PASS', fixture='E01_60_GOOD_ESTIMATED_RECEIPT_20_SOLD', receipt=str(f['day']), production=str(f['production_day']), invoice_document=str(f['document_day']), invoice_received=str(f['invoice_day']), prior_economic=prior_economic, changed_since_filing=marked, known_at_actual=[str(known_before),str(known_after)], invoice_dates=list(map(str,dates)), caller_zone=zone, journal_dates=[list(map(str,j)) for j in journal_dates], expected_costs=expected, after_invoice=after_invoice, processed=processed, closed_day_GL_and_filing_immutable=True, exact_replay_and_inverse=True, physical_source_facts_unchanged=True, no_invented_March_knowledge=True, actual_browser_case=False)
 
 
 def pending(cur, today):
@@ -165,6 +172,7 @@ def pending(cur, today):
 def cases(cur,today):
     return [('F03_E06_YEAR_END_INCREASE_UTC',lambda:journey(cur,today,'11','UTC')),
             ('F03_E06_YEAR_END_ZERO_DELTA_LA',lambda:journey(cur,today,'10','America/Los_Angeles')),
+            ('F03_E06_MARCH_ECONOMIC_CONTROL',lambda:journey(cur,today,'11','Asia/Jakarta',False)),
             ('F03_E06_YEAR_END_PENDING_CLOSE',lambda:pending(cur,today))]
 
 
