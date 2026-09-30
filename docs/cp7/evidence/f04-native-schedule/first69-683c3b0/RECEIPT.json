@@ -1,0 +1,31 @@
+{
+  "status": "FIRST69_67_PASS2_HTTP_FIXTURE_INCOMPLETE",
+  "source_commit": "683c3b0539a58bd6e68f3b0254864e7de0c2968e",
+  "source_tree": "7ebe9c089ffc34b530c210b1f4d33a01bf4de1f9",
+  "source_sql_sha256": "8029f295b4fc527112861e661cc35242107d59542b12b0fa63b378dee78a5c40",
+  "run_id": 36788027056,
+  "job_id": 110134015699,
+  "artifact_id": 11130448915,
+  "artifact_sha256": "c059d3ed83dabb22d2d4692cdbe63767ae4fe47a7f166fef9c663e7c3d45f6e5",
+  "counts": {
+    "native": {
+      "PASS": 50
+    },
+    "races": {
+      "PASS": 10
+    },
+    "http": {
+      "PASS": 3,
+      "INCOMPLETE": 2
+    },
+    "browser": {
+      "PASS": 4
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "diagnostic": "Native HTTP cases share one real database: prior supply case retains an opening job; expected free capacity must include every captured job, and existing source-bound plan becomes SOURCE_CHANGED after a new Native origin. Native50/races10/browser4 passed.",
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false
+}

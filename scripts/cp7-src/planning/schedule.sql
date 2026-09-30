@@ -84,8 +84,13 @@ begin
   k:=cp7_wip.key(selected->'position_key');
   if seen?k then raise exception 'CP7_SCHEDULE_DUPLICATE_POSITION';end if;seen:=seen||jsonb_build_object(k,true);
   p:=(select value from jsonb_array_elements(wip->'positions')where value->>'key'=k);
-  if p is null or p->'eligible_company_wip'<>'true'::jsonb or cp7_wip.pcs(p->'remaining_pcs')=0 then
+  if p is null or cp7_schedule_native.route(p->>'stage')is null or cp7_wip.pcs(p->'remaining_pcs')=0 then
    raise exception 'CP7_SCHEDULE_NATIVE_POSITION';end if;
+  -- Customer work consumes the selected shared centre but can never become
+  -- company supply or receive a company target/yield assumption.
+  if p->'eligible_company_wip'<>'true'::jsonb and(selected->'target_key'<>'null'::jsonb
+   or selected->'yield_numerator'<>'null'::jsonb or selected->'yield_denominator'<>'null'::jsonb)then
+   raise exception 'CP7_SCHEDULE_CUSTOMER_WORK_ONLY';end if;
   qty:=cp7_wip.pcs(selected->'eligible_input_pcs');
   if qty>cp7_wip.pcs(p->'remaining_pcs')then raise exception 'CP7_SCHEDULE_NATIVE_QUANTITY';end if;
   if(selected->'yield_numerator'='null'::jsonb)is distinct from(selected->'yield_denominator'='null'::jsonb)then

@@ -932,17 +932,17 @@
     "assignment": "Explicit owner takeover in this conversation; recheck canonical ref immediately before every fast-forward; stop on unexpected movement; no force push",
     "branch": "cp7/integration",
     "enforcement": "Owner explicitly confirmed previous writer stopped; successor writes canonical cp7/integration. Ref recheck before fast-forward protects unrelated concurrent changes.",
-    "last_observed_upstream": "3921f53b4de17820424b64c06af425c5a9a24f15",
+    "last_observed_upstream": "683c3b0539a58bd6e68f3b0254864e7de0c2968e",
     "previous_writer_status": "STOPPED_OWNER_CONFIRMED_20260930",
     "writer": "Hansen-authorized successor to Writer Finisher CP6, F03 takeover30Sep2026"
   },
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "version": "cp7.integration-entry.v1",
   "f04_native_schedule": {
-    "status": "IMPLEMENTED_NATIVE69_DECLARED_PENDING",
-    "source_sql_sha256": "8029f295b4fc527112861e661cc35242107d59542b12b0fa63b378dee78a5c40",
+    "status": "NATIVE69_67_PASS2_HTTP_FIXTURE_INCOMPLETE_NATIVE70_DECLARED_PENDING",
+    "source_sql_sha256": "b038ce9f4ca9deee24971e5660448d8be56ac4fd4bc4d5e0e55bbe126944d789",
     "predeclared": {
-      "native": 50,
+      "native": 51,
       "races": 10,
       "http": 5,
       "retained_browser": 4
@@ -954,6 +954,8 @@
     "new_operational_UI": false,
     "full_family_acceptance": false,
     "independent_acceptance": false,
-    "production_go": false
+    "production_go": false,
+    "first_receipt": "docs/cp7/evidence/f04-native-schedule/first69-683c3b0/RECEIPT.json",
+    "customer_work": "Customer remaining work consumes selected shared capacity; company supply stays excluded"
   }
 }

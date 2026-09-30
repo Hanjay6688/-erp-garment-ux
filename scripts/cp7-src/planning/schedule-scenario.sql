@@ -35,10 +35,12 @@ begin
  cfg:=plan->'config';ready:=(c->>'captured_at')::timestamptz;cursor_at:=ready;
  through_at:=cp7_demand.instant(cfg->'through_at');
  plans_refs:=jsonb_build_array(jsonb_build_object('kind','PLANNING_SCHEDULE','id',plan->>'plan_id','revision',plan->>'revision'));
- -- ALL positive company positions matter to the shared queue. Missing or partial
+ -- ALL positive working positions matter to the shared queue, including customer
+ -- work. Ownership excludes supply, never an existing job from shared load.
+ -- Missing or partial
  -- remaining work is unknown load, not a free slot for some other SKU.
  for p in select value from jsonb_array_elements(wip->'positions')
-  where value->'eligible_company_wip'='true'::jsonb and cp7_wip.pcs(value->'remaining_pcs')>0 loop
+  where cp7_schedule_native.route(value->>'stage')is not null and cp7_wip.pcs(value->'remaining_pcs')>0 loop
   selected:=(select value from jsonb_array_elements(cfg->'positions')where value->>'position_key'=p->>'key');
   if selected is null or cp7_wip.pcs(selected->'eligible_input_pcs')<>cp7_wip.pcs(p->'remaining_pcs')then
    queue_known:=false;
@@ -48,7 +50,7 @@ begin
    select load+coalesce(sum(cp7_wip.pcs(value->'remaining_minutes')),0)into load
     from jsonb_array_elements(selected->'remaining_steps');
   end if;
-  if selected is not null and selected->'yield_numerator'<>'null'::jsonb then
+  if p->'eligible_company_wip'='true'::jsonb and selected is not null and selected->'yield_numerator'<>'null'::jsonb then
    yield_inputs:=yield_inputs||jsonb_build_array(jsonb_build_object('position_key',p->>'key',
     'eligible_input_pcs',selected->'eligible_input_pcs','numerator',selected->'yield_numerator',
     'denominator',selected->'yield_denominator','basis','ASSUMED','assumption_id',plan->>'plan_id',
@@ -88,7 +90,7 @@ begin
    'reason','CAPTURED_REMAINING_WORK_EXCEEDS_SELECTED_CALENDAR');end if;
  end if;
  for p in select value from jsonb_array_elements(wip->'positions')
-  where value->'eligible_company_wip'='true'::jsonb and cp7_wip.pcs(value->'remaining_pcs')>0 order by value->>'key'loop
+  where cp7_schedule_native.route(value->>'stage')is not null and cp7_wip.pcs(value->'remaining_pcs')>0 order by value->>'key'loop
   selected:=(select value from jsonb_array_elements(cfg->'positions')where value->>'position_key'=p->>'key');refs:=(p->'refs')||plans_refs;
   if not queue_known or not other_load_placed or through_at<=ready then
    eta:=jsonb_build_object('status','UNKNOWN','eta',null,'on_time',null,'reason',

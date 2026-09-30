@@ -38,12 +38,13 @@ def payload(cur,r,revision='0'):
  facts=cur.execute('select facts from cp7_supply_native.runs where id=%s',(r['run_id'],)).fetchone()[0]
  positions=[]
  for p in r['wip']['positions']:
-  if not p['eligible_company_wip']or int(p['remaining_pcs'])==0:continue
+  if int(p['remaining_pcs'])==0:continue
   model=cur.execute('select cp7_schedule_native.position_model(%s,%s)',(json.dumps(facts),json.dumps(p))).fetchone()[0]
   target=next((x for x in facts['facts']['products']if x['model_id']==model and x['size_id']==p['size_id']),None)
   stages=cur.execute('select cp7_schedule_native.route(%s)',(p['stage'],)).fetchone()[0]
-  positions.append(dict(position_key=p['key'],target_key=target['root_id']+':'+target['size_id']if target else None,
-   eligible_input_pcs=p['remaining_pcs'],yield_numerator='9',yield_denominator='10',
+  if stages is None:continue
+  positions.append(dict(position_key=p['key'],target_key=target['root_id']+':'+target['size_id']if target and p['eligible_company_wip']else None,
+   eligible_input_pcs=p['remaining_pcs'],yield_numerator='9'if p['eligible_company_wip']else None,yield_denominator='10'if p['eligible_company_wip']else None,
    remaining_steps=[dict(stage=s,remaining_minutes=str({'SEWING':15,'LAUNDRY':20,'QC':10,'REWORK':15,'REWASH':20}[s]))for s in stages]))
  return dict(source_run=r['run_id'],source_hash=r['source_hash'],expected_revision=revision,
   reason='Explicit reviewed selected work/yield scenario on native source; no production posting',
@@ -137,7 +138,24 @@ def cases(cur,today):
   cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='production.wip.view'",(role,))
   auth.refused(cur,lambda:read(cur,s['run_id'],subject),'CP7_ACCESS_DENIED')
   return dict(status='PASS',current_master_write_permission_before_cached_UUID_and_current_four_domain_read=True)
- added=[('UNREVIEWED',absent),('UUID_METADATA',metadata),('STRICT_SOURCE_ROUTE',strict),('SOURCE_STALE',source_stale),('REVISION_STALE',revision),('YIELD7',yield7),('REMAINING45_CAPACITY37',remaining),('NULL_LOAD',missing_load),('OTHER_LOAD_PLACEMENT',placed_load),('SHARED_QUEUE',shared),('PRIVATE_CAPABILITIES',private),('CURRENT_AUTH',authority)]
+ def customer_work():
+  opening(cur,today);f=opening(cur,today)
+  customer=auth.base.create_customer(cur,'P06-customer-work-'+uuid.uuid4().hex[:8])
+  # Administrative ownership source fixture after ordinary import: qualifies
+  # read/queue semantics, not a public customer-production posting workflow.
+  cur.execute('set local session_replication_role=replica')
+  cur.execute('update erp.opening_balance_items set customer_id=%s where id=%s',(customer,f['item']))
+  cur.execute('set local session_replication_role=origin')
+  r=supply.capture(cur,today);p=payload(cur,r);assert len(p['config']['positions'])==2
+  only_company=deepcopy(p);only_company['config']['positions']=[x for x in only_company['config']['positions']if x['yield_numerator']is not None]
+  save(cur,only_company);s=capture(cur,today);assert s['capacity']['status']=='UNKNOWN'
+  p['expected_revision']='1';save(cur,p);s=capture(cur,today)
+  assert s['capacity']['capacity_pcs']=='15'and len(s['etas'])==2,s
+  owned=[x for x in s['wip']['positions']if x['eligible_company_wip']];assert len(owned)==1 and owned[0]['projection']['projected_good_pcs']=='7'
+  bad=deepcopy(p);bad['expected_revision']='2';x=next(x for x in bad['config']['positions']if x['yield_numerator']is None);x['yield_numerator']='1';x['yield_denominator']='1'
+  auth.refused(cur,lambda:save(cur,bad),'CP7_SCHEDULE_CUSTOMER_WORK_ONLY')
+  return dict(status='PASS',administrative_native_ownership_source_fixture=True,customer8_consumes45_minutes_shared_capacity15_never_company_good=True)
+ added=[('UNREVIEWED',absent),('UUID_METADATA',metadata),('STRICT_SOURCE_ROUTE',strict),('SOURCE_STALE',source_stale),('REVISION_STALE',revision),('YIELD7',yield7),('REMAINING45_CAPACITY37',remaining),('NULL_LOAD',missing_load),('OTHER_LOAD_PLACEMENT',placed_load),('SHARED_QUEUE',shared),('PRIVATE_CAPABILITIES',private),('CURRENT_AUTH',authority),('CUSTOMER_WORK_ONLY',customer_work)]
  return supply.cases(cur,today)+[('P06_SCHEDULE_NATIVE_'+n,f)for n,f in added]
 
 def races(tools,today):
@@ -187,7 +205,8 @@ def http_cases(http,today):
   with http.connect()as conn,conn.cursor()as cur:p=payload(cur,r['body']);conn.rollback()
   args=dict(p_payload=p,p_request=str(uuid.uuid4()));s=owner.rpc('erp_cp7_save_production_schedule_v1',args);assert s['status']==200,s
   assert owner.rpc('erp_cp7_save_production_schedule_v1',args)['body']==s['body']
-  sc=owner.rpc('erp_cp7_capture_planning_scenario_v1',dict(p_query=q,p_request=str(uuid.uuid4())));assert sc['status']==200 and sc['body']['capacity']['capacity_pcs']=='37',sc
+  expected=(120-sum(int(x['remaining_minutes'])for pos in p['config']['positions']for x in pos['remaining_steps']))//2
+  sc=owner.rpc('erp_cp7_capture_planning_scenario_v1',dict(p_query=q,p_request=str(uuid.uuid4())));assert sc['status']==200 and sc['body']['capacity']['capacity_pcs']==str(expected),sc
   read_args=dict(p_run=sc['body']['run_id']);assert other.rpc('erp_cp7_read_planning_scenario_v1',read_args)['status']==403
   assert http.anon_rpc('erp_cp7_read_planning_scenario_v1',read_args)['status']in(401,403)
   with http.connect()as conn,conn.cursor()as cur:cur.execute('update erp.app_users set is_active=false where auth_user_id=%s',(owner.auth_user_id,));conn.commit()
@@ -195,9 +214,12 @@ def http_cases(http,today):
   return dict(status='PASS',real_Auth_metadata_and_native_scenario_actor_immutable_current403=True)
  def reader():
   owner=http.login('OWNER','p06-schedule-unreviewed-owner')
-  with http.connect()as conn,conn.cursor()as cur:opening(cur,today);conn.commit()
+  with http.connect()as conn,conn.cursor()as cur:
+   had_plan=cur.execute('select exists(select 1 from cp7_schedule_native.plans)').fetchone()[0]
+   opening(cur,today);conn.commit()
   a=dict(p_query=baseline.history.query(today),p_request=str(uuid.uuid4()));r=owner.rpc('erp_cp7_capture_planning_scenario_v1',a)
-  assert r['status']==200 and r['body']['schedule_state']=='UNREVIEWED'and r['body']['capacity']['capacity_pcs']is None,r
+  expected='SOURCE_CHANGED'if had_plan else 'UNREVIEWED'
+  assert r['status']==200 and r['body']['schedule_state']==expected and r['body']['capacity']['capacity_pcs']is None,r
   assert owner.rpc('erp_cp7_capture_planning_scenario_v1',a)['body']['run_id']==r['body']['run_id']
   with http.connect()as conn,conn.cursor()as cur:cur.execute('update erp.app_users set is_active=false where auth_user_id=%s',(owner.auth_user_id,));conn.commit()
   assert owner.rpc('erp_cp7_capture_planning_scenario_v1',a)['status']==403
