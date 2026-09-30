@@ -72,5 +72,10 @@
 .f05-empty { background:white; border:1px dashed #c7d3ca; border-radius:12px; padding:55px 28px; margin:25px 0; text-align:center; }
 .f05-empty p { color:var(--muted); max-width:65ch; margin:0 auto; }
 .f05-footer { color:var(--muted); font-size:10px; padding:22px 0; border-top:1px solid var(--line); margin-top:35px; }
+.f05-yield { background:#eef3ef; border:1px solid #ccd9d0; border-radius:10px; padding:18px 22px; margin:20px 0; font-size:12px; overflow-wrap:anywhere; }
+.f05-yield .f05-section-heading { margin-bottom:10px; flex-wrap:wrap; }
+.f05-yield .f05-grid { margin-bottom:8px; }
+.f05-yield summary { cursor:pointer; color:var(--accent); margin:8px 0; }
+.f05-yield ul { padding-left:20px; }
 @media(max-width:1100px) { .cp7-f05 { grid-template-columns:200px minmax(0,1fr); } .f05-main { padding:25px; } .f05-section-heading { display:block; } .f05-section-heading label { margin-top:15px; } .f05-period { grid-template-columns:1fr 1fr; } }
 @media(max-width:700px) { .cp7-f05 { display:block; } .f05-sidebar { padding:18px; } .f05-brand { margin:0 0 15px; font-size:16px; } .f05-brand-icon { font-size:20px; } .f05-nav-caption,.f05-sidebar-footer,.f05-sidebar nav small { display:none; } .f05-sidebar nav { display:grid; grid-template-columns:1fr 1fr; gap:6px; } .f05-sidebar nav button { padding:9px; font-size:12px; } .f05-main { padding:22px 18px; } .f05-topbar { flex-wrap:wrap; gap:5px; } .cp7-f05 h1 { font-size:26px; } .cp7-f05 h2 { font-size:22px; } .f05-grid,.f05-context { grid-template-columns:1fr; } .f05-context { gap:10px; } .f05-card { padding:18px; } .f05-facts { gap:12px; } .f05-fact dd { font-size:16px; } .f05-controls { gap:10px; } .f05-controls label { flex-basis:100%; } .f05-period { grid-template-columns:1fr; } }

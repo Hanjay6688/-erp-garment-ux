@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { formatFact, reasonLabel, targetLabel } from '../../../../../src/cp7/workspace'
 import type { PreviewContext } from './model'
 import { Fact, Empty } from './Common'
+import { CuttingYieldAnalyzer } from './CuttingYieldAnalyzer'
 
 export function ProductionPanel({ view, stale }: PreviewContext) {
   const [filter, setFilter] = useState('')
@@ -28,5 +29,6 @@ export function ProductionPanel({ view, stale }: PreviewContext) {
       <label>Status produksi<select disabled value={detail.production_state}><option>{detail.production_state}</option></select></label><p className="f05-note">Perubahan status dan penerapan produksi menunggu command bridge P08/P11.</p><button disabled>Terapkan rencana</button>
     </article> : null}
     <article className="f05-card"><span className="f05-kicker">FORM UJI · BELUM DISIMPAN</span><h3>Panel bersama Buat / Bagi</h3><div className="f05-actions"><button aria-pressed={entry === 'Buat'} onClick={() => setEntry('Buat')}>Buat Potongan</button><button aria-pressed={entry === 'Bagi'} onClick={() => setEntry('Bagi')}>Bagi Potongan</button></div><div className="f05-grid"><label>Jumlah draft {entry}<input value={quantity} inputMode="numeric" onChange={event => setQuantity(event.target.value)} /></label><label>Catatan draft<input value={note} onChange={event => setNote(event.target.value)} /></label></div><p className="f05-note">Draft lokal {quantity || note ? 'sudah diubah' : 'kosong'}. Membuka panel tidak menimpa isian.</p><button onClick={() => setPanelOpen(open => !open)}>{panelOpen ? 'Tutup panel bersama' : 'Buka panel bersama'}</button>{panelOpen ? <div className="f05-source"><h4>Rekomendasi dari run yang sama</h4>{view.actions.map(action => <p key={action.key}>{reasonLabel(action.primary_reason)} · {action.display_priority.basis.join('; ')}</p>)}<p>{stale ? 'Snapshot kedaluwarsa. Tinjau ulang sebelum menerapkan.' : 'Cangkang panel. Tidak ada draft transaksi yang dikirim.'}</p></div> : null}<button disabled>Simpan transaksi</button></article>
+    <CuttingYieldAnalyzer view={view} stale={stale} />
   </>
 }
