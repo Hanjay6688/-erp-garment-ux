@@ -1,0 +1,126 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 1635031,
+  "artifact_id": 11074007190,
+  "artifact_sha256": "3a61c1bc833a89c57047441dcf2fc3b8c69b7b3f31bf8014e67def520d6314ab",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 1,
+    "NOT_RUN": 0,
+    "PASS": 4
+  },
+  "cp6_restored": true,
+  "expected_case_count": 5,
+  "full_family_acceptance": false,
+  "groups": {
+    "native": {
+      "INCOMPLETE": 1,
+      "PASS": 3
+    },
+    "races": {
+      "PASS": 1
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109713487513,
+  "nonpassing_cases": {
+    "native:F03_E06_MARCH_ECONOMIC_CONTROL": {
+      "error": "('E06_OPEN_DAY_HPP', [(datetime.date(2026, 3, 31), Decimal('40.000000'), Decimal('20.000000'))], datetime.date(2026, 9, 30))",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_lock_keys": [],
+        "advisory_locks": 0,
+        "other_sessions": []
+      },
+      "status": "INCOMPLETE",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 112, in strict_group\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e06_cases.py\", line 175, in <lambda>\n    ('F03_E06_MARCH_ECONOMIC_CONTROL',lambda:journey(cur,today,'11','Asia/Jakarta',False)),\n                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e06_cases.py\", line 139, in journey\n    assert events and all(r[0] == today for r in events), ('E06_OPEN_DAY_HPP', events, today)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ('E06_OPEN_DAY_HPP', [(datetime.date(2026, 3, 31), Decimal('40.000000'), Decimal('20.000000'))], datetime.date(2026, 9, 30))\n"
+    }
+  },
+  "observed_case_count": 5,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385612,
+      "sha256": "65a4df695f9df881ee8ef8c335140006ed9383526b1a0992f75347a264c5fcec"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385612,
+      "sha256": "65a4df695f9df881ee8ef8c335140006ed9383526b1a0992f75347a264c5fcec"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "8721824e4c393a4fba9bc1c2b20d821991577876f6f650b07313e40b01a1d811"
+    },
+    "CP7_F03_E06.json": {
+      "bytes": 264206,
+      "sha256": "56cd41943096644ca7c27c6bd7b6164ed3f9e681038e76254c761f9686cc96ba"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "2b61c5617cbdc144b70a6219597462f4812ebcc2fcd4fe69f5ec72aca00fc376"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360424,
+      "sha256": "6c792ae9bb427b851983ff3b58039b87cf5bf6c8ffeb1561e3e240bb537acbe9"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "production_go": false,
+  "report_sha256": "56cd41943096644ca7c27c6bd7b6164ed3f9e681038e76254c761f9686cc96ba",
+  "retained_reports_gzip_sha256": "73c0dc2658d1c0c485c371e19584d192f264d8a2be6442db8c3553cefd20fbc0",
+  "run_id": 36660344730,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "77c5373b93ddc682dc97d1bc58300dba5fdd189d",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36660344730",
+    "tool_head": "77c5373b93ddc682dc97d1bc58300dba5fdd189d",
+    "workflow": "CP7 F03 E06 Year-end Late Invoice"
+  },
+  "source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+  "source_commit": "77c5373b93ddc682dc97d1bc58300dba5fdd189d",
+  "source_tree": "14260c9c438dd729bd5fe5a870cf5524b02adf10",
+  "status": "INCOMPLETE",
+  "visual_review_performed": false
+}

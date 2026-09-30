@@ -136,7 +136,8 @@ def journey(cur, today, price, zone, prior_economic=True):
     assert dates[2].date() > f['invoice_day'] and dates[3].date() > f['invoice_day']
     events = cur.execute('select effective_date,fg_delta,cogs_delta from erp.po_hpp_gl_events where po_id=%s and id<>all(%s::uuid[])', (f['po'],previous_events)).fetchall()
     if change:
-        assert events and all(r[0] == today for r in events), ('E06_OPEN_DAY_HPP', events, today)
+        booking_day=today if prior_economic else f['document_day']
+        assert events and all(r[0] == booking_day for r in events), ('E06_ACCOUNTING_DAY_HPP', events, booking_day)
         assert sum(r[1] for r in events)==40*change and sum(r[2] for r in events)==20*change
     invoice.reverse(cur, f, result['invoice_id'])
     recost.command(cur)
