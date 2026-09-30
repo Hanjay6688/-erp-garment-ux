@@ -5,6 +5,8 @@ from functools import partial
 import psycopg
 import cp7_payroll_bundle as source_bundle
 import cp7_nota_bundle as bundle
+import cp7_misc_bundle as misc_bundle
+import cp7_installment_bundle as installment_bundle
 import cp7_nota_cases as notes
 import cp7_fg_bundle as fg_bundle
 import cp7_p10_fg_probe as p10
@@ -29,6 +31,12 @@ def verify(cur,with_review=False,with_settlement=False,with_attendance=False,wit
     if with_settlement:
         import cp7_settlement_bundle as settlement
         rules.update(settlement.RULES)
+        # The current connected payroll screen reads the actual cash ledger
+        # before exposing a settlement action, including legacy full payments.
+        # Install and verify that dependency rather than allowing an unavailable
+        # payment source to be treated as an unmanaged/zero-cash payroll.
+        misc_bundle.verify(cur)
+        installment_bundle.verify(cur)
         for signature in ('cp7_payroll.settlement_access(text)','cp7_payroll.settlement_token(uuid)','cp7_payroll.settlement_document(uuid)'):
             assert cur.execute("select has_function_privilege('postgres',%s,'EXECUTE')",(signature,)).fetchone()[0],('P12_NATIVE_ADAPTER_EXECUTE',signature)
         for table in ('cp7_payroll.settlement_context','cp7_payroll.notes'):
@@ -73,7 +81,9 @@ def verify(cur,with_review=False,with_settlement=False,with_attendance=False,wit
             for table in ('command_context','command_requests'):
                 assert not cur.execute("select has_table_privilege(%s,%s,'SELECT,INSERT,UPDATE,DELETE')",(who,'cp7_attendance.'+table)).fetchone()[0]
             assert not cur.execute("select has_function_privilege(%s,'cp7_attendance.apply_command(text,jsonb,uuid,text)','EXECUTE')",(who,)).fetchone()[0]
-    return dict(result,cp7_p12_bundle_sha256=hashlib.sha256((attendance.bundle() if with_attendance else settlement.bundle() if with_settlement else review.bundle() if with_review else bundle.bundle()).encode()).hexdigest())
+    source_sql=attendance.bundle() if with_attendance else settlement.bundle() if with_settlement else review.bundle() if with_review else bundle.bundle()
+    if with_settlement:source_sql+='\n'+misc_bundle.extension()+'\n'+installment_bundle.extension()
+    return dict(result,cp7_p12_bundle_sha256=hashlib.sha256(source_sql.encode()).hexdigest())
 
 def run(with_review=False,with_settlement=False,with_attendance=False,with_roster=False,with_attendance_write=False,with_opening=False,opening_only=False):
     with_opening=with_opening or opening_only
@@ -103,6 +113,7 @@ def run(with_review=False,with_settlement=False,with_attendance=False,with_roste
         import cp7_attendance_write_bundle as attendance_write
         import cp7_attendance_write_cases as attendance_write_cases
         source_sql=attendance_write.bundle()
+    if with_settlement:source_sql+='\n'+misc_bundle.extension()+'\n'+installment_bundle.extension()
     report=dict(label='CP7_P12_NOTA_COMPOSER',status='INCOMPLETE',production_go=False,independent_acceptance=False,scope='NATIVE_SOURCE_SELECTED_CARD_COMPOSITION_ALLOCATION_AND_BROWSER_NO_PAYROLL_SETTLEMENT_UI',source_sha256=hashlib.sha256(source_sql.encode()).hexdigest())
     out=OUT
     if with_review:
@@ -141,6 +152,9 @@ def run(with_review=False,with_settlement=False,with_attendance=False,with_roste
             if with_attendance:cur.execute(attendance.extension(),prepare=False)
             if with_roster:cur.execute(roster.extension(),prepare=False)
             if with_attendance_write:cur.execute(attendance_write.extension(),prepare=False)
+            if with_settlement:
+                cur.execute(misc_bundle.extension(),prepare=False)
+                cur.execute(installment_bundle.extension(),prepare=False)
             after=p09.functions(cur)
             grants=('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)','erp.bf_commercial_sku_at_v1(uuid,timestamptz)','erp.bd_lot_laundry_unknown_v1(uuid)','erp.get_hpp_completeness(uuid)')
             # regprocedure prints timestamp with time zone with empty search_path.
@@ -154,6 +168,10 @@ def run(with_review=False,with_settlement=False,with_attendance=False,with_roste
                 for signature in ('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)'):
                     key=str(cur.execute('select %s::regprocedure::text',(signature,)).fetchone()[0]);grants.setdefault(key,set()).add((who,'EXECUTE',False))
             key=str(cur.execute("select 'erp.merge_eligible_work_into_payroll_v2(uuid,jsonb,uuid,bigint)'::regprocedure::text").fetchone()[0]);grants.setdefault(key,set()).add(('cp7_nota_write','EXECUTE',False))
+            if with_settlement:
+                for role,signatures in (('cp7_misc_read',misc_bundle.READ_GRANTS),('cp7_misc_write',misc_bundle.WRITE_GRANTS),('cp7_installment_read',installment_bundle.READ_GRANTS),('cp7_installment_write',installment_bundle.WRITE_GRANTS)):
+                    for signature in signatures:
+                        key=str(cur.execute('select %s::regprocedure::text',(signature,)).fetchone()[0]);grants.setdefault(key,set()).add((role,'EXECUTE',False))
             cur.execute("select set_config('search_path',%s,true)",(path,))
             for signature,old in pre.items():
                 new=after[signature];expected_definition=hashlib.md5(bundle.patched_internal(internal_before).encode()).hexdigest() if signature=='erp.require_internal()' else old['definition']
@@ -219,7 +237,7 @@ def run(with_review=False,with_settlement=False,with_attendance=False,with_roste
         if installed:
             with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
                 for definition in originals.values():cur.execute(definition,prepare=False)
-                for role in (('cp7_attendance_write',) if with_attendance_write else ())+(('cp7_roster_write',) if with_roster else ())+(('cp7_attendance_read',) if with_attendance else ())+(('cp7_payroll_write',) if with_settlement else ())+('cp7_nota_write','cp7_payroll_header','cp7_payroll_read','cp7_fg_write','cp7_fg_read','cp7_return_write','cp7_return_read','cp7_invoice_write','cp7_invoice_read','cp7_material_write','cp7_material_read','cp7_procure_write','cp7_procure_read','cp7_policy','cp7_capture'):
+                for role in (('cp7_installment_write','cp7_installment_read','cp7_misc_write','cp7_misc_read') if with_settlement else ())+(('cp7_attendance_write',) if with_attendance_write else ())+(('cp7_roster_write',) if with_roster else ())+(('cp7_attendance_read',) if with_attendance else ())+(('cp7_payroll_write',) if with_settlement else ())+('cp7_nota_write','cp7_payroll_header','cp7_payroll_read','cp7_fg_write','cp7_fg_read','cp7_return_write','cp7_return_read','cp7_invoice_write','cp7_invoice_read','cp7_material_write','cp7_material_read','cp7_procure_write','cp7_procure_read','cp7_policy','cp7_capture'):
                     cur.execute('drop owned by '+role+' cascade;drop role '+role,prepare=False)
                 conn.commit();report['cp6_restored']=package.boundary.snapshot(cur)==before and native.public_state(cur)==public_before
                 conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()

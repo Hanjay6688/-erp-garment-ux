@@ -191,6 +191,7 @@
     "visual_review": true
   },
   "f03_e05_installments": {
+    "artifact_id": 11119377632,
     "changed_files_sha256": {
       ".github/workflows/cp7-f03-e05.yml": "5e9151c0c939083f466e1d20b8f3a37427263a22a2db8258cd194fc88d07560e",
       "docs/cp7/F03_E05_INSTALLMENTS_HANDOFF.md": "f88206ecd45483db87a829da16102612fdeab6d7b259ac394462878cacea7a4d",
@@ -199,17 +200,18 @@
       "scripts/cp7-src/payroll/installments.sql": "5293cf0eb4d0fcaf64a6ba74cae4138232570989f30b70aec643e9aae1a7eca7",
       "scripts/cp7_f03_bundle.py": "63ceab6972035629c5bee3c13bae1d84d1c02278ba7ab56ef04913c42b6c8f9a",
       "scripts/cp7_f03_cash_probe.py": "41a96edaa3fedff945101f3113e6f245b74b5a56d90b122050fbf6a2f214efb1",
-      "scripts/cp7_f03_e05_browser.mjs": "581a9289cfca728a98811aee3940da98e13efe0bf51e40638291b13e8a2b3b1a",
-      "scripts/cp7_f03_e05_browser_fixture.py": "6f03d9d8c24569a596df90e510e2cc9d774c1ac2455b825e8a7d9fa9d3a4d084",
+      "scripts/cp7_f03_e05_browser.mjs": "06bd8f2473a728347e3668777ad8a23f4b881645464061e7cf8565cbb46825d2",
+      "scripts/cp7_f03_e05_browser_fixture.py": "70dc56ba6dd85070bdd6f11868ef5d73c59daa6bac3837542956c97e6778ecec",
       "scripts/cp7_f03_e05_probe.py": "c5c47a4e01224dfe8a6bbf9245419bfc67cbd2c02d57681fc3bcc4c37a5a1b8d",
       "scripts/cp7_f03_misc_probe.py": "89191449b34245c0b06702879384bad5eb99414ddad42f5978f44aa4ca12db33",
       "scripts/cp7_f03_probe.py": "4c05d4bcb63d519c0ea63f040542665dbf81007bb1262ee96991fce01dfc0205",
       "scripts/cp7_installment_bundle.py": "b3c96e3f19c7f941ae8689ad0bbb5294c54bee469ed8310a0696f11b029823cb",
-      "scripts/cp7_installment_cases.py": "9a12e3125ac08e77c4e5f41cb73119ddeabd5407196fe268a94a61080d5efc5d",
-      "src/ConnectedPayrollPage.dom.test.tsx": "207272ea8d31ce247155469b35f0b9b2f8688ee808f88ccc82fa794b1b0b5a31",
+      "scripts/cp7_installment_cases.py": "d9c0a75a88f44744462b0a1469e91645523c93126bdf7f23c8f3b2eb3b4f3b7e",
+      "scripts/cp7_p12_nota_probe.py": "abd19ccff6de61ae33fd68efd640b518da82f81c49ea1487716c85f4f9055b1a",
+      "src/ConnectedPayrollPage.dom.test.tsx": "41117688702e56d4ae206a8d3bd6072756ceb76b0efa2fdd613c5946a473cc27",
       "src/ConnectedPayrollPage.tsx": "72f5cd0f3ff577598568e8d1fe0c986750f91d55856e122ca9a37f0df671f072",
       "src/PayrollInstallmentPanel.dom.test.tsx": "cf6c5cfe1bbd7b04937f4ce39c04a807da2bdccd4c7ffb8ffd8b18f4bf3d328e",
-      "src/PayrollInstallmentPanel.tsx": "a3466b091943c238311b5de9e98298d09da6a2a3e59716005ecc5bc17ddb76a5",
+      "src/PayrollInstallmentPanel.tsx": "a2596def051ee2b48749d55393170b77d8df45a98a143995f447c7988eeb2575",
       "src/payrollInstallmentContract.test.ts": "2ff41384f8322fe2ef96e8f6f8c7f0b2511b23ad0117e0d712471705bd22f3cd",
       "src/payrollInstallmentContract.ts": "5a7229e50b735cd62aa3783de26c2c4fff663516093f9f7c431cdbc49a760f39",
       "src/productionRecovery.ts": "002d2e63456b42d16f8610a062306e484389f664c84917737966876e751d93f9",
@@ -226,7 +228,12 @@
     "full_family_acceptance": false,
     "handoff": "docs/cp7/F03_E05_INSTALLMENTS_HANDOFF.md",
     "independent_acceptance": false,
-    "job_id": 110041272685,
+    "job_id": 110046374785,
+    "latest_actual_counts": {
+      "INCOMPLETE": 3,
+      "PASS": 21
+    },
+    "latest_diagnostic": "docs/cp7/evidence/f03-e05/diagnostic-d306743/DIAGNOSTIC_RECEIPT.json",
     "parent_source_commit": "37b5dcd72a13d476f7c666a7dee662085372a9b4",
     "production_go": false,
     "qualifier": "scripts/cp7_f03_e05_probe.py",
@@ -235,13 +242,18 @@
       "Normalize complete cash fingerprint under UTC before WIB payment apply",
       "Unique native source UUID for every installment, including final/replacement"
     ],
-    "run_id": 36760423767,
-    "source_bundle_sha256": "4200320c9ae06c49fa9cf5e3bb572c002a74d6c18eaae468fdca1ef7bf69be5a",
-    "source_commit": "6013d4f439295871d8fd3d4e1124cc52e65ee5fa",
-    "source_tree": "a584f572ad0df317df31b942383d34bcb5e942df",
-    "status": "ACTUAL24_FIRST4_PASS20_INCOMPLETE_TWO_NATIVE_REPAIRS_READY",
-    "unit_pass": 896,
-    "verification": "docs/cp7/evidence/f03-e05/LOCAL_RECEIPT.json"
+    "run_id": 36761922541,
+    "source_bundle_sha256": "eb86b6300f1ebf8e429edef2f4dfb0dc80ec24978c8809de53e7f2e3e7a729e5",
+    "source_commit": "d306743674d20186f58dd242d741dace57cf8802",
+    "source_tree": "7126716926a45b7e00fb4ffb4be42ac19b271625",
+    "standalone_P12_dependency_repair": {
+      "diagnostic": "docs/cp7/evidence/p12-opening-payroll/diagnostic-6013d4f/DIAGNOSTIC_RECEIPT.json",
+      "source": "scripts/cp7_p12_nota_probe.py",
+      "status": "DECLARED_STRICT_DEPENDENCY_INSTALL_AND_TEARDOWN_RETEST_PENDING"
+    },
+    "status": "ACTUAL21_PASS3_INCOMPLETE_PARENT_LOCK_AND_P12_INSTALL_REPAIRS_LOCAL897",
+    "unit_pass": 897,
+    "verification": "docs/cp7/evidence/f03-e05/parent-lock-repair/LOCAL_RECEIPT.json"
   },
   "f03_e06": {
     "counts": {

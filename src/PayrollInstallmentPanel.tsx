@@ -45,7 +45,10 @@ export default function PayrollInstallmentPanel({parentReady,payrollId,readRevis
  const write=()=>{
   if(!h||!action||locked||!review||reason.trim().length<5)return
   const document:Json={payroll_id:h.payroll_id,review_token:h.review_token,change_reason:reason.trim(),...(action==='PAY'?{amount,payment_date:date,cash_account_id:bank?.id??null,cash_review_token:bank?.review_token??null}:action==='REVERSE_PAYMENT'?{payment_id:chosenPayment?.id??null}:{})},version=h.row_version,chosen=action
-  setAction(null);retire();onRetire();void run(chosen,{document,expected_version:version},null,handlers)
+  // Retire the displayed source now. The durable-envelope event retires the
+  // parent after the shared lock is acquired; retiring it earlier invalidates
+  // this writer's reviewed read before the asynchronous lock callback runs.
+  setAction(null);retire();void run(chosen,{document,expected_version:version},null,handlers)
  }
  const canPay=Boolean(h&&h.native_status==='APPROVED'&&h.remaining_amount&&validInstallmentAmount(h.remaining_amount,h.remaining_amount)&&pay)
  const canSubmit=Boolean(h&&action&&review&&reason.trim().length>=5&&(action!=='PAY'||bank&&h.remaining_amount&&validInstallmentAmount(amount,h.remaining_amount)&&date&&date<=cp6WibDateTimeInput().slice(0,10)))

@@ -6,6 +6,7 @@ import ConnectedPayrollPage from './ConnectedPayrollPage'
 import {readProductionRecovery} from './productionRecovery'
 import {parsePayrollRead,parsePayrollOutcome,type PayrollHeader} from './payrollContract'
 import {recoveryIdentity} from '../tests/fixtures/productionRecovery'
+import {installmentRead,installmentPayment,paymentId} from '../tests/fixtures/payrollInstallments'
 const state=vi.hoisted(()=>({auth:null as unknown}))
 const client=vi.hoisted(()=>({rpc:vi.fn()}))
 vi.mock('./auth/AuthProvider',()=>({useAuth:()=>state.auth}))
@@ -66,6 +67,27 @@ function writerServer(initialStatus='CALCULATED',lostPay=false){
  })
 }
 describe('payroll controlled financial actions',()=>{
+ it('keeps the reviewed installment writer valid until an asynchronous shared lock persists its envelope, then recovers on the full payroll page',async()=>{
+  const a=structuredClone(recoveryIdentity);a.identity.permissions=['finance.payroll.view','finance.payroll.approve','finance.payroll.pay'];state.auth=a
+  let current={...h,status:'APPROVED',labor_total:'1000.00',net_payable:'1000.00',counts:{...h.counts,work:'1'}},paid=false,effects=0,grant:(()=>Promise<void>)|null=null
+  const cashSource=()=>{const r=installmentRead(paid?'600.00':'0.00',paid?[installmentPayment()]:[]);r.document={...r.document,payroll_number:current.payroll_number,contractor_name:current.contractor_name,row_version:current.row_version,source_review_token:current.review_token,review_token:paid?'c'.repeat(32):'a'.repeat(32)};return r}
+  const cached=new Map<string,unknown>()
+  client.rpc.mockImplementation(async(name,p)=>{
+   if(name==='erp_cp7_get_payroll_installments_v1')return{data:cashSource(),error:null}
+   if(name==='erp_cp7_get_payroll_workspace_v1'){const r=payload(p.p_section,current,p.p_section==='PAYROLLS'?[current]:[{...line,rate:'1000.00',amount:'1000.00'}]);r.capabilities={approve:true,pay:true};return{data:r,error:null}}
+   if(name!=='erp_cp7_save_payroll_installment_v1')throw Error('Unexpected payroll writer '+name)
+   if(cached.has(p.p_request))return{data:cached.get(p.p_request),error:null}
+   effects++;paid=true;current={...current,row_version:(BigInt(current.row_version)+1n).toString(),review_token:'b'.repeat(32)}
+   const d=cashSource().document,r={contract_version:'cp7.payroll-installment-outcome.v1',kind:'COMMITTED_OUTCOME',action:p.p_action,request_id:p.p_request,request_payload:p.p_payload,expected_version:p.p_expected,payroll_id:id,payment_id:paymentId,native_status:d.native_status,payment_state:d.payment_state,row_version:d.row_version,review_token:d.review_token};cached.set(p.p_request,r)
+   return{data:null,error:{status:503,message:'Committed reply lost'}}
+  })
+  Object.defineProperty(navigator,'locks',{configurable:true,value:{request:(_n:string,_o:unknown,fn:(l:unknown)=>Promise<unknown>)=>new Promise(resolve=>{grant=async()=>{resolve(await fn({}))}})}})
+  await mount();await click('Mandor exact');await click('Bayar gaji');await input('Jumlah pembayaran gaji','600.00');await input('Tanggal cicilan gaji','2026-09-29');await click('CASH · Kas native');await input('Alasan pembayaran gaji','Jumlah rekening dan tanggal telah diperiksa');await act(async()=>(container.querySelector('[aria-label="Pembayaran gaji sudah diperiksa"]')as HTMLInputElement).click());await flush();await click('Catat pembayaran gaji')
+  expect(grant).not.toBeNull();expect(effects).toBe(0);expect(container.textContent).not.toContain('Rp')
+  await act(async()=>grant!());await flush();expect(effects).toBe(1);expect(container.textContent).toContain('Status pembayaran gaji belum pasti');expect(container.textContent).not.toContain('Rp');const original=client.rpc.mock.calls.find(([n])=>n==='erp_cp7_save_payroll_installment_v1')![1]
+  await act(async()=>root.unmount());root=createRoot(container);await mount();await click('Periksa status pembayaran gaji');await act(async()=>grant!());await flush()
+  const writes=client.rpc.mock.calls.filter(([n])=>n==='erp_cp7_save_payroll_installment_v1');expect(writes).toHaveLength(2);expect(writes[1][1]).toEqual(original);expect(effects).toBe(1);expect(container.textContent).toContain('Sisa gajiRp400');expect(container.textContent).toContain('Sudah dibayarRp600');expect(container.textContent).not.toContain('Lunasi payroll');expect(readProductionRecovery('disposable:actor-1').pending).toEqual({})
+ })
  it('requires explicit approval review and sends the exact large header version and child token',async()=>{writerServer();await mount();await click('Mandor exact');await click('Setujui payroll');const commit=[...container.querySelectorAll('button')].find(b=>b.textContent==='Setujui payroll sekarang')!;expect(commit.disabled).toBe(true);await reviewed();expect(commit.disabled).toBe(false);await click('Setujui payroll sekarang');const call=client.rpc.mock.calls.find(([name])=>name==='erp_cp7_save_payroll_v1')![1];expect(call.p_action).toBe('APPROVE');expect(call.p_expected).toBe('9007199254740993');expect(call.p_payload).toEqual({id,review_token:h.review_token,change_reason:'Rincian dan dokumen sumber telah diperiksa'});expect(container.textContent).toContain('Disetujui');expect(readProductionRecovery('disposable:actor-1').pending).toEqual({})})
  it('recovers a committed payment after remount with the identical UUID, date, cash account and exact version',async()=>{writerServer('APPROVED',true);await mount();await click('Mandor exact');await click('Lunasi payroll');await click('Cari akun pembayaran');await click('KAS-TEST');await input('Tanggal pembayaran payroll','2026-01-01');await reviewed();await click('Lunasi payroll sekarang');const before=readProductionRecovery('disposable:actor-1').pending.PAYROLL;expect(before?.action).toBe('PAY');expect(container.textContent).toContain('Status transaksi payroll belum pasti');await act(async()=>root.unmount());root=createRoot(container);await mount();await click('Periksa status payroll');const calls=client.rpc.mock.calls.filter(([name])=>name==='erp_cp7_save_payroll_v1');expect(calls).toHaveLength(2);expect(calls[0][1]).toEqual(calls[1][1]);expect(calls[1][1].p_expected).toBe('9007199254740993');expect(calls[1][1].p_payload.payment_date).toBe('2026-01-01');expect(calls[1][1].p_payload.cash_account_id).toBe(other);expect(container.textContent).toContain('Jumlah dilunasi');expect(readProductionRecovery('disposable:actor-1').pending).toEqual({})})
  it('refuses an unrelated document or action even when a server response claims success',()=>{const p={document:{id},expected_version:'9007199254740993'},r={contract_version:'cp7.payroll-outcome.v1',kind:'COMMITTED_OUTCOME',action:'PAY',request_id:id,payroll_id:other,status:'PAID',row_version:'9007199254740994',review_token:'b'.repeat(32)};expect(()=>parsePayrollOutcome(r,id,'PAY',p)).toThrow();expect(()=>parsePayrollOutcome({...r,payroll_id:id},other,'PAY',p)).toThrow();expect(()=>parsePayrollOutcome({...r,payroll_id:id},id,'APPROVE',p)).toThrow();expect(()=>parsePayrollOutcome({...r,payroll_id:id,status:'APPROVED'},id,'PAY',p)).toThrow()})

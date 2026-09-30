@@ -1,0 +1,45 @@
+{
+  "advisor_gate": true,
+  "artifact_bytes": 2296880,
+  "artifact_id": 11119377632,
+  "artifact_sha256": "812dc299a4fe05294aeab8cb28be2fc007f72a3adf95c2abd3a788f049b2bc85",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 3,
+    "NOT_RUN": 0,
+    "PASS": 21
+  },
+  "cp6_restored": true,
+  "diagnosis": [
+    "Native17, all3 actual races and actual Auth/HTTP pass. Original600/final400/individual inverse/replacement and cost once qualify within this source; whole24 remains incomplete.",
+    "Opening test fixture read raw misc cash under its legacy caller timezone rather than the current installment cash option; now uses the exact UTC installment adapter.",
+    "Actual desktop UI retired the parent before an asynchronous Web Lock acquired, invalidating its own reviewed source before send. No HTTP/request/economic effect occurred. Delay parent retirement until durable envelope persistence; a full-parent delayed-lock/lost-reply/remount regression now passes.",
+    "Mobile ADMIN fixture had no native payroll.pay authority; positive permission fixture now explicitly grants it in the disposable database and restores the observed original permission after the real403/replay journey. Product permissions remain unchanged."
+  ],
+  "expected": 24,
+  "groups": {
+    "browser": {
+      "INCOMPLETE": 2
+    },
+    "http": {
+      "PASS": 1
+    },
+    "native": {
+      "INCOMPLETE": 1,
+      "PASS": 17
+    },
+    "races": {
+      "PASS": 3
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 110046374785,
+  "observed": 24,
+  "production_go": false,
+  "retained_reports_sha256": "07c32b1b869af945939ed52c271df921e9c2132919d086524b5a5f3f34411a85",
+  "run_id": 36761922541,
+  "source_bundle_sha256": "eb86b6300f1ebf8e429edef2f4dfb0dc80ec24978c8809de53e7f2e3e7a729e5",
+  "source_commit": "d306743674d20186f58dd242d741dace57cf8802",
+  "source_tree": "7126716926a45b7e00fb4ffb4be42ac19b271625",
+  "status": "INCOMPLETE"
+}

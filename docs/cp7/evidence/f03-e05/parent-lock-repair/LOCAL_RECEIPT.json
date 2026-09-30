@@ -1,0 +1,25 @@
+{
+  "affected_pass": 33,
+  "browser_syntax_exit": 0,
+  "build_exit": 0,
+  "changed_source_sha256": {
+    "scripts/cp7_f03_e05_browser.mjs": "06bd8f2473a728347e3668777ad8a23f4b881645464061e7cf8565cbb46825d2",
+    "scripts/cp7_f03_e05_browser_fixture.py": "70dc56ba6dd85070bdd6f11868ef5d73c59daa6bac3837542956c97e6778ecec",
+    "scripts/cp7_installment_cases.py": "d9c0a75a88f44744462b0a1469e91645523c93126bdf7f23c8f3b2eb3b4f3b7e",
+    "scripts/cp7_p12_nota_probe.py": "abd19ccff6de61ae33fd68efd640b518da82f81c49ea1487716c85f4f9055b1a",
+    "src/ConnectedPayrollPage.dom.test.tsx": "41117688702e56d4ae206a8d3bd6072756ceb76b0efa2fdd613c5946a473cc27",
+    "src/PayrollInstallmentPanel.tsx": "a2596def051ee2b48749d55393170b77d8df45a98a143995f447c7988eeb2575"
+  },
+  "independent_acceptance": false,
+  "parent": "d306743674d20186f58dd242d741dace57cf8802",
+  "production_go": false,
+  "python_syntax_exit": 0,
+  "retained_reports_sha256": "f82e7b8a3c314a672666ce72c60f2038acf6e425d6ad05cdb67ae26de6b87065",
+  "retained_runner_diagnostic": "The first unscoped Vitest invocation collected5 Playwright suites and exited1 with all897 assertions passed. Canonical npm test excludes tests/browser and passes897/897 with no failed suites. Both original outputs retained.",
+  "security_exit": 0,
+  "source_bundle_sha256": "eb86b6300f1ebf8e429edef2f4dfb0dc80ec24978c8809de53e7f2e3e7a729e5",
+  "status": "LOCAL_PASS_ACTUAL24_AND_P12_10_RETEST_PENDING",
+  "unit_failed": 0,
+  "unit_pass": 897,
+  "unit_total": 897
+}

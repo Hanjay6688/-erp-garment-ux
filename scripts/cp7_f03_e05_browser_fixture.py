@@ -15,7 +15,15 @@ def main():
         had=cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]
         acl=cur.execute("select nspacl::text from pg_namespace where nspname='erp'").fetchone()[0]
         if not had:cur.execute('grant usage on schema erp to authenticated')
-        if op=='prepare':out=cases.fixture(cur,date.fromisoformat(p['today']))
+        if op=='prepare':
+            out=cases.fixture(cur,date.fromisoformat(p['today']))
+            if p.get('mobile'):
+                # Declare the positive authority fixture explicitly. ADMIN's
+                # accepted baseline need not include payroll.pay; a viewer is
+                # not silently treated as a payer by the UI or server.
+                role=cur.execute("select id from erp.app_roles where role_code='ADMIN'").fetchone()[0]
+                out['admin_pay_original']=cur.execute("select exists(select 1 from erp.app_role_permissions where role_id=%s and permission_key='finance.payroll.pay')",(role,)).fetchone()[0]
+                cur.execute("insert into erp.app_role_permissions(role_id,permission_key)values(%s,'finance.payroll.pay')on conflict do nothing",(role,))
         elif op=='state':
             f=p['fixture'];r=cases.read(cur,f['payroll']);d=r['document'];paid=D(d['paid_amount'])
             assert D(d['approved_net'])==D('1000.00')
@@ -28,7 +36,7 @@ def main():
                      requests=[dict(request_id=str(i),action=a,payload=pl,response=re)for i,a,pl,re in requests])
         elif op in('revoke','restore'):
             role=cur.execute("select id from erp.app_roles where role_code='ADMIN'").fetchone()[0]
-            if op=='revoke':cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.payroll.pay'",(role,))
+            if op=='revoke' or (op=='restore'and p.get('original')is False):cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.payroll.pay'",(role,))
             else:cur.execute("insert into erp.app_role_permissions(role_id,permission_key)values(%s,'finance.payroll.pay')on conflict do nothing",(role,))
             out=dict(status='PASS',current_ADMIN_pay_permission=op=='restore')
         else:raise ValueError('Unknown E05 browser fixture operation')

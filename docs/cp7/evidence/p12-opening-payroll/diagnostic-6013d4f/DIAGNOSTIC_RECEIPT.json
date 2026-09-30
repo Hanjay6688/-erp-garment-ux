@@ -1,0 +1,39 @@
+{
+  "advisor_gate": true,
+  "artifact_bytes": 2210836,
+  "artifact_id": 11118292241,
+  "artifact_sha256": "c2c8da1aae292cd73f63294519c68fb434bd237e11e5af2fc0d1877201a3f4de",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 2,
+    "NOT_RUN": 0,
+    "PASS": 8
+  },
+  "cp6_restored": true,
+  "diagnosis": "The standalone P12 installer omitted the new cash-source dependency used by the current connected payroll page. Its native5/race2/Auth1 pass; both actual browsers retain failure. Installation now explicitly declares the misc and installment extensions, strict ownership/ACL validation and complete teardown. No client fallback from unavailable payment source to legacy/zero is allowed.",
+  "expected": 10,
+  "groups": {
+    "opening_payroll": {
+      "PASS": 5
+    },
+    "opening_payroll_browser": {
+      "INCOMPLETE": 2
+    },
+    "opening_payroll_http": {
+      "PASS": 1
+    },
+    "opening_payroll_races": {
+      "PASS": 2
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 110041274542,
+  "observed": 10,
+  "production_go": false,
+  "retained_reports_sha256": "97bbad1bedff7568c400d29e6528c5b4d2a1723969aca4c821fc26476853a63e",
+  "run_id": 36760423878,
+  "source_bundle_sha256": "53319304d15d79ea842cf58da0a98d40ceccfbbeef4b5771b0d1af6872006d77",
+  "source_commit": "6013d4f439295871d8fd3d4e1124cc52e65ee5fa",
+  "source_tree": "a584f572ad0df317df31b942383d34bcb5e942df",
+  "status": "INCOMPLETE"
+}

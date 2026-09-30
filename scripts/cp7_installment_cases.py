@@ -61,7 +61,7 @@ def fixture(cur,today,attendance=True,manual='1000.00',deduction=False):
     before_approval=legacy.gl(cur,contractor)
     legacy.act(cur,'APPROVE',legacy.doc(cur,pid))
     bank=legacy.cash(cur)
-    cash=cur.execute('select cp7_misc.cash(%s)',(bank,)).fetchone()[0]
+    cash=cur.execute('select cp7_installment.cash(%s)',(bank,)).fetchone()[0]
     approved=legacy.doc(cur,pid)
     assert approved['net_payable']==('800.00'if deduction else '1000.00'if attendance else manual),approved
     return dict(tag=tag,payroll=pid,contractor=contractor,cash=cash,payment_date=str(day),today=str(today),approved=approved,item=item,
@@ -191,7 +191,7 @@ def cases(cur,today):
         f=opening.fixture(cur,today);pid=f['payroll'];before=opening.state(cur,f);opening.all_sources(cur,f)
         legacy.act(cur,'PREPARE',legacy.doc(cur,pid));legacy.act(cur,'APPROVE',legacy.doc(cur,pid));native=legacy.doc(cur,pid)
         assert native['net_payable']=='6060.00'
-        cash=cur.execute('select cp7_misc.cash(%s)',(f['cash'],)).fetchone()[0]
+        cash=cur.execute('select cp7_installment.cash(%s)',(f['cash'],)).fetchone()[0]
         ef=dict(f,cash=cash,payment_date=str(today),approved=native,approved_gl={k:str(v)for k,v in legacy.gl(cur,f['contractor']).items()},physical=physical.stock_cost(cur))
         first=act(cur,ef,amount='3000.00');assert_balance(cur,ef,'3000','3060');opening.assert_remaining(opening.state(cur,f),65,20,30,2)
         assert legacy.journal(cur,pid,'PAYROLL_CASH_ADVANCE_DEDUCTION')==(0,D(0),D(0))
