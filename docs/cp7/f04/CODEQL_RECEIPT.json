@@ -1,0 +1,45 @@
+{
+  "source_head": "b4d6fb134fce8b068a24b6c1996943d21a164431",
+  "workflow_run_id": 36590548037,
+  "qualification": "STATIC_JS_TS_ACTIONS_ONLY_NOT_SQL_OR_AUTH_PROOF",
+  "artifacts": [
+    {
+      "artifact_id": 11044095713,
+      "language": "actions",
+      "zip_sha256": "f7ec8b45d47e160889ae74db27534b914d587a737d51c94395277163253ace15",
+      "sarif": [
+        {
+          "name": "actions.sarif",
+          "sha256": "4e97f9ba68c3ef3fafe21474fe5c9dacc417154b5af8fe159a226b4c3367ec52",
+          "runs": [
+            {
+              "tool": "CodeQL",
+              "version": "2.27.0",
+              "result_count": 0,
+              "successful_invocations": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "artifact_id": 11043752355,
+      "language": "javascript-typescript",
+      "zip_sha256": "5c9e4b6ba01ea138b3cbfb744871f9a72dd21ea7197ad37127e554098f0d4e99",
+      "sarif": [
+        {
+          "name": "javascript.sarif",
+          "sha256": "d2a8a75dabd9ac7705240dd479732f2fadc4ca7af364fe9420cd67ff4ca398cb",
+          "runs": [
+            {
+              "tool": "CodeQL",
+              "version": "2.27.0",
+              "result_count": 0,
+              "successful_invocations": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

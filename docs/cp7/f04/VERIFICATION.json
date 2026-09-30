@@ -1,0 +1,223 @@
+{
+  "schema": "cp7.f04.writer-handoff-receipt.v1",
+  "qualification": "PRIVATE_KERNEL_WRITER_PASS_INTEGRATION_AND_INDEPENDENT_ACCEPTANCE_OPEN",
+  "source_head": "b4d6fb134fce8b068a24b6c1996943d21a164431",
+  "source_tree": "888ded65e292c46f2c78d7b45716f69d83199620",
+  "integration_base": "5da1fb6106c7c72058ebd73a782a5155f59c258d",
+  "pull_request": "https://github.com/Hanjay6688/-erp-garment-ux/pull/36",
+  "ci": {
+    "run_id": 36590548037,
+    "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36590548037",
+    "head_sha": "b4d6fb134fce8b068a24b6c1996943d21a164431",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "id": 109482193546,
+        "name": "CP7 CodeQL actions",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Set up job",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+            "conclusion": "success"
+          },
+          {
+            "name": "Reject CodeQL findings or incomplete runs",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 109482193957,
+        "name": "CP7 CodeQL javascript-typescript",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Set up job",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+            "conclusion": "success"
+          },
+          {
+            "name": "Reject CodeQL findings or incomplete runs",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 109482194165,
+        "name": "shell",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Set up job",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npm ci",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run python3 scripts/cp7_contract_receipt.py",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npm test",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npm run test:security",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npm run build",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npx --no-install playwright install --with-deps chromium",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npx --no-install playwright test --config playwright.cp7.config.ts",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "conclusion": "success"
+          }
+        ]
+      }
+    ],
+    "verified_log_excerpt": [
+      "2026-09-29T15:29:38.3027481Z   \"original_files_verified\": 48,",
+      "2026-09-29T15:30:02.6008164Z F04 91 cases: NATIVE_POSTGRES_DISPOSABLE_KERNEL_ONLY; PostgreSQL 16.15 (Ubuntu 16.15-1.pgdg24.04+2) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit",
+      "2026-09-29T15:30:02.6055926Z  Test Files  71 passed (71)",
+      "2026-09-29T15:30:02.6057602Z       Tests  716 passed (716)",
+      "2026-09-29T15:30:07.4884893Z Backend ownership v3 passed: 55 inherited + 15 Cutting Bridge + 24 CP5 backend/proof entries; 89 effective unique files, 66 CP5 source files byte-bound, zero unowned.",
+      "2026-09-29T15:30:13.7048103Z Client artifact secret scan passed: /home/runner/work/-erp-garment-ux/-erp-garment-ux/dist",
+      "2026-09-29T15:31:03.3339991Z   6 passed (9.5s)"
+    ]
+  },
+  "artifacts": [
+    {
+      "id": 11044095713,
+      "name": "cp7-codeql-actions",
+      "digest": "sha256:f7ec8b45d47e160889ae74db27534b914d587a737d51c94395277163253ace15",
+      "source_head": "b4d6fb134fce8b068a24b6c1996943d21a164431"
+    },
+    {
+      "id": 11043752355,
+      "name": "cp7-codeql-javascript-typescript",
+      "digest": "sha256:5c9e4b6ba01ea138b3cbfb744871f9a72dd21ea7197ad37127e554098f0d4e99",
+      "source_head": "b4d6fb134fce8b068a24b6c1996943d21a164431"
+    },
+    {
+      "id": 11043712175,
+      "name": "cp7-shell-proof",
+      "digest": "sha256:ba31729895eb30e2bde49902bfc4579152f2eb262a875c1afe82b479b2934647",
+      "source_head": "b4d6fb134fce8b068a24b6c1996943d21a164431"
+    }
+  ],
+  "checks": {
+    "private_native_fixture_cases": 91,
+    "vitest_tests": 716,
+    "existing_shell_browser_tests": 6,
+    "original_framework_files_byte_preserved": 48,
+    "static_security": "PASS",
+    "build_and_client_secret_scan": "PASS",
+    "codeql_js_ts_and_actions": "ZERO_RESULTS_SUCCESSFUL_INVOCATIONS"
+  },
+  "runtime_limit": "Native PostgreSQL 16.15 plus local PGlite PostgreSQL 18.3; target Supabase PostgreSQL 17/schema/Auth composition still OPEN.",
+  "open_gates": [
+    "F01/F02 independent acceptance",
+    "CP6/F03 authoritative capture and private input mapping",
+    "X06 composed authorization/stale/race boundary",
+    "target Supabase PostgreSQL schema/Auth integration",
+    "multi-resource routing and full-volume M07 qualification",
+    "scheduler/model registry/public/UI integration",
+    "P08/P10 prerequisites",
+    "independent F04 audit and production GO"
+  ],
+  "production_go": false
+}
