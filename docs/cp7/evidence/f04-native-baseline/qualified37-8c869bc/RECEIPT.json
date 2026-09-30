@@ -1,0 +1,65 @@
+{
+  "status": "WRITER_QUALIFIED_NATIVE37_PASS_VISUALLY_REVIEWED",
+  "source_commit": "8c869bca628c01835183d3439732c1d6ed758e57",
+  "source_tree": "fc2dc393c81c51e73fa6fc3194e56415d83253f7",
+  "sql_sha256": "cab99281f2afb45a19387993101194efb8319c273723befa56390cd2ba1ccb0b",
+  "run_id": 36782848959,
+  "job_id": 110117107963,
+  "artifact_id": 11128822606,
+  "artifact_sha256": "3c0919d31c71a43878a19727a48d38d6e7f13b20d84cb692cf392614df15fc2f",
+  "counts": {
+    "native": {
+      "PASS": 26
+    },
+    "races": {
+      "PASS": 5
+    },
+    "http": {
+      "PASS": 2
+    },
+    "browser": {
+      "PASS": 4
+    }
+  },
+  "observed": 37,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "exact_predecessor_definitions_owners": true,
+  "visual_review": {
+    "originals": 18,
+    "scope": "ALL_P05_AND_P06_DESKTOP_AND_MOBILE_CAPTURES",
+    "findings": [
+      "Current100/24/76 and posted76/0/76 preserved without double subtraction.",
+      "Stale100 immutable after rule20; new target200.",
+      "Profile reply loss retains exact UUID; original warehouse text preserved.",
+      "Mobile available76 visible; labels and controls fit390px.",
+      "Current403 retires target, history, parent stock and HPP.",
+      "Selected assumptions remain labelled; final production gap unknown with no authoritative WIP/ETA/calendar/capacity."
+    ]
+  },
+  "screenshots": {
+    "P05_CURRENT_DESKTOP.png": "df19b3d9cdc056f27cce5ee1997e029f4eac7c08f378ec3d66053376f8a43679",
+    "P05_CURRENT_MOBILE.png": "6dcb9f9a1ca9d55969418cfa446b4ad3eca57ed18c62e62cfdaea1bd617f4ce5",
+    "P05_POSTED_DESKTOP.png": "af20c75547d8b54a2f33f50e66570f8ce8d21da6ea7f8062d1dfd3dbc86a845b",
+    "P05_POSTED_MOBILE.png": "d195c5853014688b43b5b6dff8b5097a46f60d1ca658ee05062b9d9501786b59",
+    "P05_REVOKED_MOBILE.png": "495ce0ae50b08418b842831951b3fe015bd1d11cc12c5d98c047c3aaa5fd6f5e",
+    "P05_STALE_DESKTOP.png": "949a9cd44fa7d4757697fc20c750f3b9c7787b0c3035b087b9cba7665c4365a2",
+    "P05_STALE_MOBILE.png": "93c6a56884315260ea2cee8a65e7fca9c1b32d28183c9af99bc010970ebbd4c8",
+    "P05_UNCERTAIN_DESKTOP.png": "3a0de3261f83e0f41972be901cf91b39efda94ad9ffb6fe46d18cb5765f0adf2",
+    "P05_UNCERTAIN_MOBILE.png": "6e76d4e2c1a1f40141c0391b108881c69f96d38f658c041d00707b83a45d5d18",
+    "P06_MOBILE_TARGET_DETAILS.png": "5570804298b9e45d1074303d19b4dd2783f1e6777ce7feccd29af3c55179a8ed",
+    "P06_REVOKED_MOBILE.png": "26b72a080c4dc1236b45091897899b8c942795c93509f6bc77f61c7353ae852d",
+    "P06_STALE100_DESKTOP.png": "f30dce0fb274ba1cc3e9dccc9577fd4f5a0f10e26d6825ded6bb16612891c6e2",
+    "P06_STALE100_MOBILE.png": "13024150c39a7605ccc60bf38d14dceeb1ecf679bfdf96f18a6e2c5f799bd399",
+    "P06_TARGET100_DESKTOP.png": "aefa96af3c5c7a659eda2a69aad5739b363bb711d3067ef36f5705ec09b61fa1",
+    "P06_TARGET100_MOBILE.png": "377eb38f4bcb26e686369ea2f726bf31e10fc77984731579960ea882f3c21bf9",
+    "P06_TARGET200_DESKTOP.png": "24a282214513a16fefc6e66d491dec058fa34fecac35991980ba29f673f2d731",
+    "P06_TARGET200_MOBILE.png": "42de872fe060273ecde76627d227f272e617f2e41ebd936a92371ed42976ec87",
+    "P06_UNCERTAIN_PROFILE_DESKTOP.png": "a71ac8837c5e702f2a85b07d028797ec2cd9cab466b139afdd430a424e974d94",
+    "P06_UNCERTAIN_PROFILE_MOBILE.png": "fa3284bc55a7f9c2bc5cc4d661a5f067a92756a9bf79c6e63e93bf732976fc5e"
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "remaining": "Authoritative global WIP, matching, yield, calendars, capacity, allocation; model evaluation; P08; full analysis.v2 consumers; P18-P21."
+}

@@ -489,14 +489,55 @@
     "job_id": 110110592793,
     "local_affected_pass": 37,
     "local_canonical_pass": 1001,
+    "native_artifact": 11128822606,
+    "native_counts": {
+      "browser": {
+        "PASS": 4
+      },
+      "http": {
+        "PASS": 2
+      },
+      "native": {
+        "PASS": 26
+      },
+      "races": {
+        "PASS": 5
+      }
+    },
+    "native_job": 110117107963,
+    "native_observed": 37,
+    "native_receipt": "docs/cp7/evidence/f04-native-baseline/qualified37-8c869bc/RECEIPT.json",
+    "native_run": 36782848959,
     "observed_pass": 33,
     "production_go": false,
     "qualifier": "scripts/cp7_f04_baseline_probe.py",
     "run_id": 36780897648,
-    "source_commit": "4cb627a31fd9d6d62a711e3021c04a7a71c313b6",
-    "source_tree": "c671c3130dd80ef8312cad6e342c4aa697f5a078",
-    "status": "NATIVE_BACKEND33_PASS_BROWSER0_START_PORT_REFUSAL_CONSUMER1001_LOCAL_PASS_NATIVE37_PREDECLARED_PENDING",
-    "verification": "docs/cp7/evidence/f04-native-baseline/second33-port-4cb627a/RECEIPT.json"
+    "source_commit": "8c869bca628c01835183d3439732c1d6ed758e57",
+    "source_tree": "fc2dc393c81c51e73fa6fc3194e56415d83253f7",
+    "status": "WRITER_NATIVE37_PASS_VISUALLY_REVIEWED_FULL_SUPPLY_SCOPE_OPEN",
+    "verification": "docs/cp7/evidence/f04-native-baseline/second33-port-4cb627a/RECEIPT.json",
+    "visual_review": true
+  },
+  "f04_native_supply": {
+    "actual_declared": 53,
+    "composer": "scripts/cp7_supply_bundle.py",
+    "full_family_acceptance": false,
+    "global_scope_client_selectable": false,
+    "groups": {
+      "browser": 4,
+      "http": 3,
+      "native": 38,
+      "races": 8
+    },
+    "independent_acceptance": false,
+    "local_receipt": "docs/cp7/evidence/f04-native-supply/local/LOCAL_RECEIPT.json",
+    "one_clock": true,
+    "one_graph": true,
+    "production_go": false,
+    "qualifier": "scripts/cp7_f04_supply_probe.py",
+    "source_batches_normalized_individually": false,
+    "source_scope": "GLOBAL_CURRENT_PHYSICAL_ROOTS_AND_NATIVE_POSTED_PRODUCTION_ORIGINS",
+    "status": "GLOBAL_NATIVE_SOURCE_WRITTEN_LOCAL7_TRANSLATION_PASS_ACTUAL53_PENDING"
   },
   "f04_takeover_reference": {
     "branch": "cp7/f04-planning-20260929",
@@ -530,7 +571,7 @@
     "F01_P00_P02": "WRITER_T1_BOUNDED_FOUNDATION_PASS_INDEPENDENT_PENDING",
     "F02_P03_P04": "WRITER_REPAIR_VERIFIED_53_CASES_INDEPENDENT_HOLD",
     "F03_P09_P13": "IN_PROGRESS_P13_AND_REMAINING_FAMILY_CONTRACT",
-    "F04_P05_P08": "PINNED_KERNELS_IMPORTED_NATIVE_P05_17_PROOF_PARENT_REPAIR_PENDING_P06_TARGET_WRITTEN",
+    "F04_P05_P08": "NATIVE_P05_HISTORY_AND_P06_PROFILE_TARGET37_PASS_GLOBAL_SUPPLY_MODELS_APPLY_OPEN",
     "F05_P14_P17": "SEPARATE_FIXTURE_CONSUMER_PROPOSAL_PREPARED_UNINTEGRATED",
     "F06_P18_P21": "PLANNED"
   },
@@ -587,7 +628,7 @@
   "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
   "latest_tested_scope": "Native financial readers12 PASS onf31b7a7: native3, realAuthHTTP1, browser8; package/restore/advisors/Auth cleanup and AR visual evidence retained. Counts overlap prior6/8/10.",
   "latest_tested_source": "f31b7a70e9f6330f7922fcbb2e8527320f4c5df2",
-  "next_action": "Qualify native P06 profile/target consumer37 on source-bound candidate, then authoritative WIP/calendar/capacity/global allocation, P08, full F05 consumers and P18-P21.",
+  "next_action": "Compose one-clock global native WIP with target source, then authoritative matching/yield/calendar/capacity/allocation, model evaluation, P08, full F05 consumers and P18-P21.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -863,7 +904,7 @@
     "assignment": "Explicit owner takeover in this conversation; recheck canonical ref immediately before every fast-forward; stop on unexpected movement; no force push",
     "branch": "cp7/integration",
     "enforcement": "Owner explicitly confirmed previous writer stopped; successor writes canonical cp7/integration. Ref recheck before fast-forward protects unrelated concurrent changes.",
-    "last_observed_upstream": "4c3185add1db2bb44a76d53f02751a287d98ca43",
+    "last_observed_upstream": "8c869bca628c01835183d3439732c1d6ed758e57",
     "previous_writer_status": "STOPPED_OWNER_CONFIRMED_20260930",
     "writer": "Hansen-authorized successor to Writer Finisher CP6, F03 takeover30Sep2026"
   },

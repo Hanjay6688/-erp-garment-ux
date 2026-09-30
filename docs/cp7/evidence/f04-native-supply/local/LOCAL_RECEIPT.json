@@ -1,0 +1,44 @@
+{
+  "status": "PGLITE_SOURCE_TRANSLATION7_PASS_NOT_NATIVE_AUTH",
+  "runtime": "PGLITE_NATIVE_COLUMN_STANDIN_NOT_AUTH",
+  "cases": [
+    {
+      "id": "SQL_PARSE_NATIVE_COLUMNS",
+      "status": "PASS"
+    },
+    {
+      "id": "DRAFT_SUBTRACTED_ONCE_100_24_76",
+      "status": "PASS"
+    },
+    {
+      "id": "POSTED_NOT_SUBTRACTED_AGAIN_76",
+      "status": "PASS"
+    },
+    {
+      "id": "SELECTED_MANUAL_TARGET100_NATIVE76_WIP_UNKNOWN_APPLY_FALSE",
+      "status": "PASS"
+    },
+    {
+      "id": "GLOBAL_EMPTY_NATIVE_COLUMN_SOURCE_ONE_CLOCK_NO_FREE_FUTURE_GOOD",
+      "status": "PASS"
+    },
+    {
+      "id": "GLOBAL56_SOURCE_BATCHES_ONE_GRAPH448_WIP_NOT_FG",
+      "status": "PASS"
+    },
+    {
+      "id": "CUSTOMER8_EXCLUDED_COMPANY440_PRIOR_EMPTY_IMMUTABLE",
+      "status": "PASS"
+    }
+  ],
+  "preserved_failures": [
+    "Missing fg_lots column stand-in in first local installation.",
+    "One identical instant serialized two ways; producer repaired to canonical server UTC formatter."
+  ],
+  "source_sql_sha256": "d36feeb7729a174cfcc2a23f6d8bb0c3d35bae44645d90517d92ed73dc342a08",
+  "native_case_count": 0,
+  "actual_declared": 53,
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false
+}
