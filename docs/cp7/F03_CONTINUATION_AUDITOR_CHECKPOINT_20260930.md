@@ -73,3 +73,11 @@ F03 stays OPEN for its remaining contract and independent family review. CP6 sta
 ## Current implementation after the qualified checkpoint
 
 [Connected Kas & Bank reader](F03_CASH_READER_HANDOFF.md) replaces disposable cash demo values with the unchanged dated native projection. New cash7 plus retained analysis/report16 local tests pass. Its separately declared6-case native/Auth/browser qualification remains pending; no prior qualified run is relabeled proof of this new route. SQL bundle and native money/stock/HPP behavior remain unchanged.
+
+## Successor reconciliation of the interrupted handoff
+
+The pending statement immediately above is historical. The stdin retest on3c825db completed: [cash6 receipt](evidence/f03-cash/QUALIFIED_RECEIPT.json), run36691431985/job109809313667, **native3/AuthHTTP1/browser2 PASS**, with exact33-source25+8 pages,137.50 net cash and failure/403 retirement. All installation, unchanged-primary, backup restore, advisor, CP6 restoration and Auth/database cleanup gates pass. The original reports and six visually inspected lossless captures are retained with hashes.
+
+[Same-head combined22](evidence/f03-combined/cash-route-regression/QUALIFIED_RECEIPT.json), run36691431972/job109809313834, separately passes10 native/2 race/4 HTTP/6 browser; it overlaps the previous22-case suite. Product/source parity is c618f840 with unchanged combined SQL fbc874b1. Neither count is promoted to full-family or independent acceptance.
+
+Hansen assigned this successor to take over Writer Finisher CP6 and continue F03, after first learning the complete ERP context. [Takeover/context receipt](F03_WRITER_TAKEOVER_20260930.md) records authoritative rules, the observed remote head, prior-writer UNKNOWN status, separated F04/F05 branches and concrete remaining work. CP6 remains CLOSED_CONTRACT_SCOPE; F03 OPEN; independent_acceptance=false; production_go=false.

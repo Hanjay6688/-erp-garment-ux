@@ -1,0 +1,225 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 6280441,
+  "artifact_id": 11085772495,
+  "artifact_sha256": "de0dd3569e7d905211ae0417a61f9fe461ad8b445eec47e4e222fbb83d368afd",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0,
+    "PASS": 6
+  },
+  "cp6_restored": true,
+  "expected_case_count": 6,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 3
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109809313667,
+  "observed_case_count": 6,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CASH_BUILD.txt": {
+      "bytes": 9976,
+      "sha256": "cf3bc1dc9e857b8d9219b9aaf72f223a54f1d4663d6322dec8d96d73ab26ccf3"
+    },
+    "CASH_LOCAL_TESTS.txt": {
+      "bytes": 752,
+      "sha256": "a98503c32279d945645570843594190724cfe17de4c3fa565aeb082d35ed52b0"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385615,
+      "sha256": "b5a0df5ddf27b5bdbfdc7d2296d54f3027f94e9ac0469a07eecd4778e30ff9f6"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385615,
+      "sha256": "b5a0df5ddf27b5bdbfdc7d2296d54f3027f94e9ac0469a07eecd4778e30ff9f6"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "04ba9fed809bfe8bae16c9f30f049c857971d27b95fbf2aafbba9f6935126354"
+    },
+    "CP7_F03_CASH.json": {
+      "bytes": 260735,
+      "sha256": "ce72b936be3b73826968e3398073dcad6c79fae3d575e6f8aa773a7571f2e4af"
+    },
+    "F03_CASH_PAGE1_DESKTOP.png": {
+      "bytes": 2095114,
+      "sha256": "febd7d20a80f9d52a31b398f2a477a2dd4cfb23409ceae917b8595bce12cebba"
+    },
+    "F03_CASH_PAGE1_MOBILE.png": {
+      "bytes": 1061340,
+      "sha256": "7bde97fa324c6e782432642be1cde4d097c95066b8279787e3369c610ad9a0b4"
+    },
+    "F03_CASH_PAGE2_DESKTOP.png": {
+      "bytes": 774355,
+      "sha256": "0baf752f39566d4e881b98ac7d6f2ecff659f5704e5b7d03f4e19fc8b3ac7ca4"
+    },
+    "F03_CASH_PAGE2_MOBILE.png": {
+      "bytes": 509953,
+      "sha256": "83c9a38ee4e50e0921458253b7306209ea59f245d05834440a1729279aa1b044"
+    },
+    "F03_CASH_RETIRED_DESKTOP.png": {
+      "bytes": 206494,
+      "sha256": "31385089321e580f2dde131f2901fc2cce2b5719f1e677a712915d7d9273fc5d"
+    },
+    "F03_CASH_RETIRED_MOBILE.png": {
+      "bytes": 72173,
+      "sha256": "6c32ba927b6cfc0d35bd2b655eaced10fe840e2d1ba993cb6913a81705d59db7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "a85bc214b39f0a8ad4d9e772340694bd1620878d5d50b19f367b702385dff73d"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360413,
+      "sha256": "418422700512c86684ec082777fecdf28adc225ac092a92f3be6484e1ba69740"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "product_commit": "c618f8402e7a89a5aa25993225831cd57f68b663",
+  "production_go": false,
+  "report_sha256": "ce72b936be3b73826968e3398073dcad6c79fae3d575e6f8aa773a7571f2e4af",
+  "retained_reports_gzip_sha256": "700a5f18ee1dd90bc94c20fdaf9cb70d28633ec88321d22f5e112002ee0cbd9c",
+  "run_id": 36691431985,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "3c825db217d3a495ba263cf47d1d10d05b8a8392",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "c618f8402e7a89a5aa25993225831cd57f68b663",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36691431985",
+    "tool_head": "3c825db217d3a495ba263cf47d1d10d05b8a8392",
+    "workflow": "CP7 F03 Connected Cash Reader"
+  },
+  "source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+  "source_commit": "3c825db217d3a495ba263cf47d1d10d05b8a8392",
+  "source_tree": "f0ab6fcf1dbccf9bf2b4891f2247e3a73688a933",
+  "status": "PASS",
+  "verification_origin": "Inherited writer execution recovered and checked by the authorized successor; no fresh or independent execution claimed.",
+  "visual_review": {
+    "captures": [
+      {
+        "RGBA_sha256": "8cefafaf566879ecb5f4c9a24d08c121a57835a3c6000bf57d81d92e16dc72d9",
+        "height": 4847,
+        "original": "F03_CASH_PAGE1_DESKTOP.png",
+        "original_sha256": "febd7d20a80f9d52a31b398f2a477a2dd4cfb23409ceae917b8595bce12cebba",
+        "pixel_identical": true,
+        "retained": "docs/cp7/evidence/f03-cash/visual/F03_CASH_PAGE1_DESKTOP.webp",
+        "retained_bytes": 1841992,
+        "retained_sha256": "1af1f07661310acaed980757ff71230c407a9b6efd91131d0cec5e74b4ab3627",
+        "width": 1440
+      },
+      {
+        "RGBA_sha256": "abf4f3d0ad2869646c870d83effc02640d1881d3e44c335235e84feec528935b",
+        "height": 6609,
+        "original": "F03_CASH_PAGE1_MOBILE.png",
+        "original_sha256": "7bde97fa324c6e782432642be1cde4d097c95066b8279787e3369c610ad9a0b4",
+        "pixel_identical": true,
+        "retained": "docs/cp7/evidence/f03-cash/visual/F03_CASH_PAGE1_MOBILE.webp",
+        "retained_bytes": 1067928,
+        "retained_sha256": "50d577f708a0add9d59c51c3593756a374876043464ee18aa4201eec87fd40e1",
+        "width": 390
+      },
+      {
+        "RGBA_sha256": "a0d506a496597c8021329738786d85fc2eaeb892635a96f23d40e01973ec708d",
+        "height": 2272,
+        "original": "F03_CASH_PAGE2_DESKTOP.png",
+        "original_sha256": "0baf752f39566d4e881b98ac7d6f2ecff659f5704e5b7d03f4e19fc8b3ac7ca4",
+        "pixel_identical": true,
+        "retained": "docs/cp7/evidence/f03-cash/visual/F03_CASH_PAGE2_DESKTOP.webp",
+        "retained_bytes": 619804,
+        "retained_sha256": "15207f5a687bbe2154ee562f5bfed7c45d6199c935c887d9133b1323d55d327a",
+        "width": 1440
+      },
+      {
+        "RGBA_sha256": "bd0c96f6437e8e3ffe6cb1170a62eef0c01ee44af3fe7a966910d6eaf9db0029",
+        "height": 3182,
+        "original": "F03_CASH_PAGE2_MOBILE.png",
+        "original_sha256": "83c9a38ee4e50e0921458253b7306209ea59f245d05834440a1729279aa1b044",
+        "pixel_identical": true,
+        "retained": "docs/cp7/evidence/f03-cash/visual/F03_CASH_PAGE2_MOBILE.webp",
+        "retained_bytes": 483096,
+        "retained_sha256": "656e1a41d26664461843bb5f2886677e2ba3e43df1715b043f096f0bf4542263",
+        "width": 390
+      },
+      {
+        "RGBA_sha256": "848a03f44a75de060b835997b17beb36f0fe143a7472e4e1c32d5ca456facc51",
+        "height": 1000,
+        "original": "F03_CASH_RETIRED_DESKTOP.png",
+        "original_sha256": "31385089321e580f2dde131f2901fc2cce2b5719f1e677a712915d7d9273fc5d",
+        "pixel_identical": true,
+        "retained": "docs/cp7/evidence/f03-cash/visual/F03_CASH_RETIRED_DESKTOP.webp",
+        "retained_bytes": 136950,
+        "retained_sha256": "26083753bef3e33e00e6e72ea1d01dca0b11b0c408e56a7bdb3b6a70f59e0820",
+        "width": 1440
+      },
+      {
+        "RGBA_sha256": "aa6c76261a492f23a71f80783f0f508cda2794f4e593f40aea70e91f35a5deb3",
+        "height": 844,
+        "original": "F03_CASH_RETIRED_MOBILE.png",
+        "original_sha256": "6c32ba927b6cfc0d35bd2b655eaced10fe840e2d1ba993cb6913a81705d59db7",
+        "pixel_identical": true,
+        "retained": "docs/cp7/evidence/f03-cash/visual/F03_CASH_RETIRED_MOBILE.webp",
+        "retained_bytes": 57534,
+        "retained_sha256": "45ffa001b75e0fa890607dfb78b78861e6111e4edd2c0184abcd37442ea43ee9",
+        "width": 390
+      }
+    ],
+    "observations": [
+      "Both 25+8 pages retain full debit1337.50, credit1200.00, delta137.50, prior1000.00 and after1137.50; reconciliation0.00.",
+      "Desktop failed network read leaves dates and removes all prior cash amounts and journal rows.",
+      "Mobile actual403 removes all prior amounts/rows and shows the human-facing denial.",
+      "No horizontal clipping observed in the inspected desktop/mobile boundaries. Mobile is emulated, not a physical-device claim."
+    ],
+    "scope": "All six actual desktop/mobile captures inspected at their header and pagination/retired boundary, with full-page overview. Complete row identity/money comparison belongs to the executed native/HTTP/browser assertions."
+  },
+  "visual_review_performed": true
+}
