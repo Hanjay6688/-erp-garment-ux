@@ -3,6 +3,7 @@ import {execFileSync} from 'node:child_process'
 import {mkdirSync,writeFileSync} from 'node:fs'
 import {reportDateCases} from './cp7_f03_report_dates_browser.mjs'
 import {financeOverviewCases} from './cp7_f03_finance_overview_browser.mjs'
+import {receivableCases} from './cp7_f03_receivables_browser.mjs'
 
 // Preserve both complete native pages without Linux's per-argument128KiB cap.
 // stdin transports the full JSON; the16MiB output cap still refuses truncation.
@@ -67,5 +68,5 @@ async function journey(ui,f,mobile){
 }
 export async function cases(ui,today){
  const f=fixture('prepare',{today})
- return [['F03_CASH_BROWSER_DESKTOP',()=>journey(ui,f,false)],['F03_CASH_BROWSER_MOBILE_CURRENT_AUTH',()=>journey(ui,f,true)],...reportDateCases(ui,f),...financeOverviewCases(ui,f)]
+ return [['F03_CASH_BROWSER_DESKTOP',()=>journey(ui,f,false)],['F03_CASH_BROWSER_MOBILE_CURRENT_AUTH',()=>journey(ui,f,true)],...reportDateCases(ui,f),...financeOverviewCases(ui,f),...receivableCases(ui,f)]
 }

@@ -1,0 +1,231 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 12601757,
+  "artifact_id": 11099850078,
+  "artifact_sha256": "18c1a6454a2328ae998552d25f0d7b10c4fcb78d26cc579dad5a03fa4379b09b",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0,
+    "PASS": 10
+  },
+  "cp6_restored": true,
+  "expected_case_count": 10,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "PASS": 6
+    },
+    "http": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 3
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109903158021,
+  "observed_case_count": 10,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CASH_BUILD.txt": {
+      "bytes": 10148,
+      "sha256": "de5a57815676c69f017e9669e9dead91c6b3481d8dd01de0d6fdfca5dc0d6deb"
+    },
+    "CASH_LOCAL_TESTS.txt": {
+      "bytes": 989,
+      "sha256": "89d72420747b66070d4449a28cbcc9645c29b0a2aa3c3b417a7767c3222c82cf"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385610,
+      "sha256": "a31445e1d44b65ecf27e76767a00a11bc025557702ab703edf84e2ea59ea25fc"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385610,
+      "sha256": "a31445e1d44b65ecf27e76767a00a11bc025557702ab703edf84e2ea59ea25fc"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "9a0746a9027e25d73d4b8ad710f4ed4c89420282d0d2fb810fddb1876c1c010d"
+    },
+    "CP7_F03_CASH.json": {
+      "bytes": 263669,
+      "sha256": "46c4e8d16418ff3236f549e2da2ab39a1b1005b92d1e46100d40235ce11c3247"
+    },
+    "F03_CASH_PAGE1_DESKTOP.png": {
+      "bytes": 2092061,
+      "sha256": "8d27273ca35f63002ba5053caea6b02507db59c419ab52a1f6d592c80786f276"
+    },
+    "F03_CASH_PAGE1_MOBILE.png": {
+      "bytes": 1059770,
+      "sha256": "555bd601fdc1b67f67b85aab0a76067c13b52de5f896e989929c7ef4ab20aaf1"
+    },
+    "F03_CASH_PAGE2_DESKTOP.png": {
+      "bytes": 772864,
+      "sha256": "cdad61f93f2a54434a70863d4688e66a6a0056f43725689bd03fecd1e2ee1f05"
+    },
+    "F03_CASH_PAGE2_MOBILE.png": {
+      "bytes": 510326,
+      "sha256": "fc27fb3add3c5838acfef2c5b98a00a64c51efc0069425e34175927690fc9147"
+    },
+    "F03_CASH_RETIRED_DESKTOP.png": {
+      "bytes": 206494,
+      "sha256": "31385089321e580f2dde131f2901fc2cce2b5719f1e677a712915d7d9273fc5d"
+    },
+    "F03_CASH_RETIRED_MOBILE.png": {
+      "bytes": 72173,
+      "sha256": "6c32ba927b6cfc0d35bd2b655eaced10fe840e2d1ba993cb6913a81705d59db7"
+    },
+    "F03_FINANCE_OVERVIEW_RETIRED_DESKTOP.png": {
+      "bytes": 258618,
+      "sha256": "768ffd88eac659f3fa2760c75d8f7741dbe110d1f5023d544618b86afd4a2a3e"
+    },
+    "F03_FINANCE_OVERVIEW_RETIRED_MOBILE.png": {
+      "bytes": 131327,
+      "sha256": "6b83e0c1d660b34da4d999d30bfdc6c443da96beae93fda7824a38e352d39197"
+    },
+    "F03_FINANCE_OVERVIEW_SOURCE_DESKTOP.png": {
+      "bytes": 1080799,
+      "sha256": "8343445d3f1ab5b253bb214fc8b4daac807171b2f1f1b5efd61fb07312e59728"
+    },
+    "F03_FINANCE_OVERVIEW_SOURCE_MOBILE.png": {
+      "bytes": 773363,
+      "sha256": "5092c0170dd2b85dafa657eb0e0e7c55a79377a005924ac37cce95f5f75b5571"
+    },
+    "F03_REPORT_DATE_RETIRED_DESKTOP.png": {
+      "bytes": 701114,
+      "sha256": "f7807d834e8d576f59ad11696a921f170dc5b0d2c2f680f0bf480dd9fa5e507a"
+    },
+    "F03_REPORT_DATE_RETIRED_MOBILE.png": {
+      "bytes": 464121,
+      "sha256": "6be87c83eaa060d921a78062ac5e22df472aa70fe8aefde9c4e601b99acbffa8"
+    },
+    "F03_REPORT_DATE_SOURCE_DESKTOP.png": {
+      "bytes": 1759074,
+      "sha256": "bae53bc95183c7d639ecd30a0a5ceada550643fd35d658431e2e5f9299e6de4d"
+    },
+    "F03_REPORT_DATE_SOURCE_MOBILE.png": {
+      "bytes": 1291400,
+      "sha256": "4d820ab2f6b2d4a8b7d25f21ada11e2b33051da34cddf0fc315227b3539a24d6"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "856bf37f779920706cb326fd7b0a3dde57aa865c1a1861d4e0b08b676d20764a"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360423,
+      "sha256": "781aa8dba1e52997aa98691e483ee43f4fd3a9ae928543265b565c5b5186e2d6"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "product_commit": "cd7e0e30e3414d62360146f051a20f20827adb95",
+  "production_go": false,
+  "report_sha256": "46c4e8d16418ff3236f549e2da2ab39a1b1005b92d1e46100d40235ce11c3247",
+  "retained_reports_gzip_sha256": "af4e1d42d9ecd4210d6c7705c0f895e5f738df1ad8d4fc4d0593b14c7d6341e2",
+  "run_id": 36720228920,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "cd7e0e30e3414d62360146f051a20f20827adb95",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "cd7e0e30e3414d62360146f051a20f20827adb95",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36720228920",
+    "tool_head": "cd7e0e30e3414d62360146f051a20f20827adb95",
+    "workflow": "CP7 F03 Cash and Native Finance Readers"
+  },
+  "source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+  "source_commit": "cd7e0e30e3414d62360146f051a20f20827adb95",
+  "source_tree": "241fbb99594fbce4fee829d47cbd71919a1c80a5",
+  "status": "PASS",
+  "verification_origin": "Actual authorized successor product execution oncd7e0e3; complete native/HTTP/browser groups and package/cleanup checked. No independent/whole-family acceptance.",
+  "visual_review": {
+    "captures": [
+      {
+        "RGBA_sha256": "932f8623c732d1d173c6d7e66916e17f79ef19db443909e7046f045be7504a25",
+        "height": 1000,
+        "original": "F03_FINANCE_OVERVIEW_RETIRED_DESKTOP.png",
+        "original_sha256": "768ffd88eac659f3fa2760c75d8f7741dbe110d1f5023d544618b86afd4a2a3e",
+        "pixel_identical": true,
+        "retained": "docs/cp7/evidence/f03-finance-overview/native/visual/F03_FINANCE_OVERVIEW_RETIRED_DESKTOP.webp",
+        "retained_sha256": "67534164774961ed2aeca21eb8222b9a7e15b2fe8ae8bdb1b9b5cb061671a7c2",
+        "width": 1440
+      },
+      {
+        "RGBA_sha256": "f68112e20b810022d511adcc94c82ce3e580cf894493c901550cf432bc402010",
+        "height": 851,
+        "original": "F03_FINANCE_OVERVIEW_RETIRED_MOBILE.png",
+        "original_sha256": "6b83e0c1d660b34da4d999d30bfdc6c443da96beae93fda7824a38e352d39197",
+        "pixel_identical": true,
+        "retained": "docs/cp7/evidence/f03-finance-overview/native/visual/F03_FINANCE_OVERVIEW_RETIRED_MOBILE.webp",
+        "retained_sha256": "e82aa3271fa4bdf92de732c47724a0934961f09225434bb70e99d141f3d01314",
+        "width": 390
+      },
+      {
+        "RGBA_sha256": "2ad1e5f8c029de22be1bc81678c8d77e4a62f71d47aa1592515274df3d4c8588",
+        "height": 3036,
+        "original": "F03_FINANCE_OVERVIEW_SOURCE_DESKTOP.png",
+        "original_sha256": "8343445d3f1ab5b253bb214fc8b4daac807171b2f1f1b5efd61fb07312e59728",
+        "pixel_identical": true,
+        "retained": "docs/cp7/evidence/f03-finance-overview/native/visual/F03_FINANCE_OVERVIEW_SOURCE_DESKTOP.webp",
+        "retained_sha256": "cfe85aa6c6ad8d64413d66591a11e0d8372a0b8338829814f93cb731d512e004",
+        "width": 1440
+      },
+      {
+        "RGBA_sha256": "14f8a4af3ccb205a6f965afcee1e9678abad57a203b1d0ab545fee9f231a76b1",
+        "height": 4777,
+        "original": "F03_FINANCE_OVERVIEW_SOURCE_MOBILE.png",
+        "original_sha256": "5092c0170dd2b85dafa657eb0e0e7c55a79377a005924ac37cce95f5f75b5571",
+        "pixel_identical": true,
+        "retained": "docs/cp7/evidence/f03-finance-overview/native/visual/F03_FINANCE_OVERVIEW_SOURCE_MOBILE.webp",
+        "retained_sha256": "ad2677ce8765c45e4c6be72b96c7154bf8bfcb4c33638ff418f00a5e1b710110",
+        "width": 390
+      }
+    ],
+    "observations": [
+      "Native inherited8 blockers remain BLOCKED with provisional notice; no fabricated READY.",
+      "Rendered book cash1137.50, AR1900, assets4996.50, liabilities1759, sales1200, COGS912, gross profit288, native other income912 and net profit1200 are visible; native source assertions verify all12.",
+      "Desktop failed native read and mobile invalid-date held200 display no old financial cards; input dates remain visible.",
+      "No clipping observed in inspected desktop/mobile layouts. Mobile is browser emulation, not a physical-device claim."
+    ],
+    "scope": "Four actual native overview captures viewed: source desktop/mobile full-page layout and failed-refresh/late-response retirement screens. All12 exact metric/native-row comparisons belong to executed assertions; no full-family visual coverage."
+  },
+  "visual_review_performed": true
+}

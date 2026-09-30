@@ -56,11 +56,11 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Qualify actual native Ringkasan Keuangan desktop/mobile on the new candidate: existing cash/report-date8 plus overview2, total10 declared. Full local828, targeted41, security and build pass. Continue F03 outstanding source/cost/finance work; no repeated old-writer discovery.",
+  "next_action": "Qualify native Piutang Pelanggan current invoice source route on the new candidate: existing cash/report/overview10 plus AR desktop/mobile2, total12. Local837, affected50, security/build pass. Continue remaining F03 contract and retain policy boundaries.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
-  "last_writer_checkpoint": "docs/cp7/F03_FINANCE_OVERVIEW_HANDOFF.md",
+  "last_writer_checkpoint": "docs/cp7/F03_RECEIVABLES_HANDOFF.md",
   "family_status": {
     "F01_P00_P02": "WRITER_T1_BOUNDED_FOUNDATION_PASS_INDEPENDENT_PENDING",
     "F02_P03_P04": "WRITER_REPAIR_VERIFIED_53_CASES_INDEPENDENT_HOLD",
@@ -69,7 +69,7 @@
     "F05_P14_P17": "SEPARATE_FIXTURE_CONSUMER_PROPOSAL_PREPARED_UNINTEGRATED",
     "F06_P18_P21": "PLANNED"
   },
-  "latest_tested_source": "0f25d862cc8ad22d74799e46cbae12264ca9b8e4",
+  "latest_tested_source": "cd7e0e30e3414d62360146f051a20f20827adb95",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
   "p04_cutting_verification_receipt": "docs/cp7/evidence/p04-cutting/VERIFICATION.json",
@@ -311,7 +311,7 @@
     "precision_repair": "docs/cp7/evidence/p13-finance/RECOST_MICROSECOND_LOCAL_RECEIPT.json",
     "verification": "docs/cp7/evidence/p13-finance/RECOST_QUALIFIED_RECEIPT.json"
   },
-  "latest_tested_scope": "Cash/report-date8 PASS: native3, realAuthHTTP1, desktop/mobile browser4; separate overlapping combined22 run36716904038 PASS, artifact review pending. No whole-family or independent acceptance.",
+  "latest_tested_scope": "Native financial readers10 PASS: native3, realAuthHTTP1, browsers6; cash/report-date and native overview source-bound, all gates/cleanup retained. Counts overlap earlier6/8; not whole-family or independent acceptance.",
   "f03_e01": {
     "status": "WRITER_QUALIFIED_4_PASS_REPORT_READY",
     "handoff": "docs/cp7/F03_E01_HANDOFF.md",
@@ -617,13 +617,32 @@
     "native_receipt": "docs/cp7/evidence/f03-report-dates/native/QUALIFIED_RECEIPT.json"
   },
   "finance_overview_candidate": {
-    "status": "LOCAL_828_PASS_DECLARED_NATIVE10_PENDING",
+    "status": "NATIVE_HTTP_BROWSER10_PASS_SOURCE_cd7e0e3",
     "handoff": "docs/cp7/F03_FINANCE_OVERVIEW_HANDOFF.md",
     "local_receipt": "docs/cp7/evidence/f03-finance-overview/LOCAL_RECEIPT.json",
     "local_full_suite_pass": 828,
     "local_affected_cases_pass": 41,
     "actual_declared_cases": 10,
     "source": "EXISTING_NATIVE_FINANCE_REPORT_V1",
+    "sql_bundle_changed": false,
+    "full_family_acceptance": false,
+    "independent_acceptance": false,
+    "production_go": false,
+    "qualified_run": 36720228920,
+    "qualified_job": 109903158021,
+    "qualified_artifact": 11099850078,
+    "native_receipt": "docs/cp7/evidence/f03-finance-overview/native/QUALIFIED_RECEIPT.json",
+    "actual_cases_pass": 10,
+    "visual_review": true
+  },
+  "receivables_candidate": {
+    "status": "LOCAL_837_PASS_DECLARED_NATIVE12_PENDING",
+    "handoff": "docs/cp7/F03_RECEIVABLES_HANDOFF.md",
+    "local_receipt": "docs/cp7/evidence/f03-receivables/LOCAL_RECEIPT.json",
+    "local_full_suite_pass": 837,
+    "local_affected_cases_pass": 50,
+    "actual_declared_cases": 12,
+    "source": "EXISTING_P11_CURRENT_NATIVE_DOCUMENT_INVOICE_READER",
     "sql_bundle_changed": false,
     "full_family_acceptance": false,
     "independent_acceptance": false,

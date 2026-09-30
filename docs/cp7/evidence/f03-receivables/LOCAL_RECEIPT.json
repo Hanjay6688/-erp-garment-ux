@@ -1,0 +1,38 @@
+{
+  "affected_suite": {
+    "FAIL": 0,
+    "PASS": 50
+  },
+  "build": true,
+  "component": {
+    "FAIL": 0,
+    "PASS": 9
+  },
+  "full_family_acceptance": false,
+  "full_suite": {
+    "FAIL": 0,
+    "PASS": 837
+  },
+  "independent_acceptance": false,
+  "native_cases_declared": 12,
+  "native_pass_claim": false,
+  "parent_source": "cd7e0e30e3414d62360146f051a20f20827adb95",
+  "production_go": false,
+  "reports_gzip_sha256": "4e133b26eebb2f343178288fb282d2c2f7ebef7f5c7b2ed3d13396008164cda9",
+  "security": true,
+  "source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+  "source_file_sha256": {
+    ".github/workflows/cp7-f03-cash.yml": "05ae211f976f5896a68df0cea04679a2bd228d5930bff7e4c84cdb147b613207",
+    "scripts/check-access-catalog.mjs": "0dcb574a64323fdf0767899a18a84e5c071dbbd6a17505a2348905a47e1e8f3d",
+    "scripts/check-source-ownership.mjs": "30d30b1090d00efec1b960b8d21fb4f25b96a4f672ae1a95a079924b9514bb02",
+    "scripts/cp7_f03_cash_browser.mjs": "b31bd66d20d815aae29677261fe11c08dbb4ebd7231afb9ba964053ab90a6258",
+    "scripts/cp7_f03_cash_browser_fixture.py": "08c033f98281f8d9ae89c4d947d1a0b68da17dd4f7b66a794285d8a9931b0d36",
+    "scripts/cp7_f03_cash_probe.py": "93c7d16161db9a22ba2b2a3b1c9b5458a2a6c883b92f01f23f5a62c29d2a6a9f",
+    "scripts/cp7_f03_receivables_browser.mjs": "f2a67ca018f1a26616e4158d63dea1bdc3322ba2398051fcbc70e84f14d427a6",
+    "src/App.tsx": "6d8895f27430d5704cf496e73e72ec59a0b8f04e8b920b610d2fd7166a405e3d",
+    "src/ConnectedReceivablesPage.dom.test.tsx": "458f6b584aead2ad4e1d16565b32c18a44345e6d41ce31d7224a2715d9c8ea0f",
+    "src/ConnectedReceivablesPage.tsx": "21fb7c4f3cde03a51c7bf41eb19d4ac6371fc53d65ce12b3389ed4e3dc0dfdff"
+  },
+  "sql_bundle_changed": false,
+  "status": "LOCAL_PASS_NATIVE_PENDING"
+}

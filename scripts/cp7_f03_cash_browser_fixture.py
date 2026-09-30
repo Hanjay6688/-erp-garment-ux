@@ -1,7 +1,7 @@
 """Actual disposable native cash sources; no hosted runtime target allowed."""
 from datetime import date
 from urllib.parse import urlparse
-import json,os,sys
+import hashlib,json,os,sys
 import psycopg
 import cp7_f03_cash_cases as cases
 
@@ -14,7 +14,7 @@ def main():
         acl=cur.execute("select nspacl::text from pg_namespace where nspname='erp'").fetchone()[0]
         if not had:cur.execute('grant usage on schema erp to authenticated')
         if op=='prepare':
-            f=cases.fixture(cur,date.fromisoformat(p['today']));out=dict(query=f['query'],expected=cases.pages(cur,f),transfer=str(f['transfer']),before=f['before'])
+            f=cases.fixture(cur,date.fromisoformat(p['today']));out=dict(query=f['query'],expected=cases.pages(cur,f),transfer=str(f['transfer']),before=f['before'],sale_id=str(f['current']['sale']),invoice_query=f['current']['tag'])
         elif op=='read':out=dict(pages=[cases.analysis.read(cur,dict(p['query'],offset=offset,limit=25)) for offset in (0,25)])
         elif op in ('report-read','report-verify'):
             q=p['dates']
@@ -23,6 +23,17 @@ def main():
                 actual=dict(p['report']);expected=dict(native);actual.pop('captured_at');expected.pop('captured_at');assert actual==expected
                 out=dict(status='PASS',complete_finance_report_matches_native=True)
             else:out=dict(report=native)
+        elif op in ('sales-read','sales-verify'):
+            q=dict(q='',status=None,sale_id=None,offset=0,limit=25);q.update(p['query'])
+            cases.analysis.auth.actor(cur)
+            native=cur.execute('select public.erp_cp7_get_sales_v1(%s)',(json.dumps(q),)).fetchone()[0]
+            cases.b.api.admin(cur)
+            if op=='sales-verify':
+                actual=dict(p['report']);expected=dict(native);actual.pop('read_at');expected.pop('read_at');assert actual==expected
+                out=dict(status='PASS',complete_sales_report_matches_native=True)
+            else:out=dict(report=native)
+        elif op=='sales-state':
+            out=dict(sha256=hashlib.sha256(json.dumps(cases.b.boundary.snapshot(cur),sort_keys=True,default=str).encode()).hexdigest())
         elif op=='verify-pages':
             # Exact native response comparison includes every journal/source,
             # signed cent, economic/accounting date and linked inverse identity.
