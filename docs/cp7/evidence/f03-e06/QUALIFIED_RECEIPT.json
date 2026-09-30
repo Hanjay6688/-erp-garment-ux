@@ -1,0 +1,112 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 1635230,
+  "artifact_id": 11074665471,
+  "artifact_sha256": "2cc05c6adab7cc3c89db9bb931d2801dda05db15bdf513f0f59dcc2243bf7508",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0,
+    "PASS": 5
+  },
+  "cp6_restored": true,
+  "expected_case_count": 5,
+  "full_family_acceptance": false,
+  "groups": {
+    "native": {
+      "PASS": 4
+    },
+    "races": {
+      "PASS": 1
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109714900481,
+  "nonpassing_cases": {},
+  "observed_case_count": 5,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385618,
+      "sha256": "3b29b6f878af8d698c0a21b31848e87c6edbff0d7db96f709549f6c55f2c71bd"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385618,
+      "sha256": "3b29b6f878af8d698c0a21b31848e87c6edbff0d7db96f709549f6c55f2c71bd"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "e57b57dc8082023d0c9e8938d49de28ec569ec84fd51009cfd530c846e815be5"
+    },
+    "CP7_F03_E06.json": {
+      "bytes": 265931,
+      "sha256": "fe49f78bdbd7c14248b07a501d6b50406c2b62130789e4ce69f1ee952bb9d956"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "c9eb32152f477963263f545e5691e22b142d3af7e4bbf07d5b9928c3ef51601e"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360417,
+      "sha256": "b017a1d92f8769f4056aa5b3a6b463660b0bd20a4a6848f7685aa9ff00f3a131"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "production_go": false,
+  "report_sha256": "fe49f78bdbd7c14248b07a501d6b50406c2b62130789e4ce69f1ee952bb9d956",
+  "retained_reports_gzip_sha256": "14b65ea62fd7f17bff8786f539f1c97a8692ea9c6a325a442c5b49fa98e24ca7",
+  "run_id": 36660802859,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "ca38bfbd1e8cc630e7d93ed2b7d70f64715143c2",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36660802859",
+    "tool_head": "ca38bfbd1e8cc630e7d93ed2b7d70f64715143c2",
+    "workflow": "CP7 F03 E06 Year-end Late Invoice"
+  },
+  "source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+  "source_commit": "ca38bfbd1e8cc630e7d93ed2b7d70f64715143c2",
+  "source_tree": "48add9c82b25e231d55aa6068790194d293324ea",
+  "status": "PASS",
+  "visual_review_performed": false
+}

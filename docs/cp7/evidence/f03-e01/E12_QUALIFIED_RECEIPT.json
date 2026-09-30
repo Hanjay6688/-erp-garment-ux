@@ -1,0 +1,170 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 4429528,
+  "artifact_id": 11073794292,
+  "artifact_sha256": "135cb568e8b60a132da7849006409280a846eff870f2ebb4db29c96abfad7f08",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0,
+    "PASS": 4
+  },
+  "cp6_restored": true,
+  "expected_case_count": 4,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 1
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109714047290,
+  "nonpassing_cases": {},
+  "observed_case_count": 4,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385614,
+      "sha256": "9db2548dc6d9c8e6777345c324f07ea573c0bbe1c641443279e9eedf68f08696"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385614,
+      "sha256": "9db2548dc6d9c8e6777345c324f07ea573c0bbe1c641443279e9eedf68f08696"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "c63728da229742748cc75c46617fbfe8c34ee2864e413eb87baf61ffa0c514c3"
+    },
+    "CP7_F03_E01.json": {
+      "bytes": 285761,
+      "sha256": "02dba78114f00946693584a3afcf05e9838b83d4462d54d3a5a95f65bd5a7b26"
+    },
+    "E01_REPORT_DESKTOP.png": {
+      "bytes": 1152720,
+      "sha256": "1d6603e5fadf4e5a60db7d2fa5e0b9dcdbe6727a50b09a19c887e45a2aa9fe45"
+    },
+    "E01_REPORT_MOBILE.png": {
+      "bytes": 805878,
+      "sha256": "1fa54f788c18fd7a3d241d6c7fa8fe3456a5140671403b811ba46de8e7876178"
+    },
+    "E01_SALE_RETURN_DESKTOP.png": {
+      "bytes": 503988,
+      "sha256": "f86db0ecd352299d92325b0d386b35ba87452000e09fed631aa722b23c43f567"
+    },
+    "E01_SALE_RETURN_MOBILE.png": {
+      "bytes": 381091,
+      "sha256": "5157fddd2ca23d0262668c4033cf4e4fbce88f61f8b9e2d8f7e937340884f02c"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "a7315fec7257e5371a39dc1ec511d518ec9962dbdcb4eb25a65759a5d8c77d5e"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360410,
+      "sha256": "989b539b5bd0508e96aa27901d2372a53442f2c79839371768d7d7c2cc1492ed"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "production_go": false,
+  "report_sha256": "02dba78114f00946693584a3afcf05e9838b83d4462d54d3a5a95f65bd5a7b26",
+  "retained_reports_gzip_sha256": "de774ea7cbbb09a4cf9eda90f4127c1dc68e8590ee5887327021ad72191bf086",
+  "retained_screenshots": [
+    {
+      "height": 3563,
+      "lossless_pixel_equivalent": true,
+      "original_name": "E01_REPORT_DESKTOP.png",
+      "original_sha256": "1d6603e5fadf4e5a60db7d2fa5e0b9dcdbe6727a50b09a19c887e45a2aa9fe45",
+      "path": "docs/cp7/evidence/f03-e01/E12_E01_REPORT_DESKTOP.webp",
+      "sha256": "3b71059d230151660e21879a0c1e1d9acf1ae782c65c731b46bb1d9f9aea6adb",
+      "width": 1440
+    },
+    {
+      "height": 5543,
+      "lossless_pixel_equivalent": true,
+      "original_name": "E01_REPORT_MOBILE.png",
+      "original_sha256": "1fa54f788c18fd7a3d241d6c7fa8fe3456a5140671403b811ba46de8e7876178",
+      "path": "docs/cp7/evidence/f03-e01/E12_E01_REPORT_MOBILE.webp",
+      "sha256": "0293ca22c609ca016a2af9599924a474de9e1f93f276aba17cb5bc4990120d01",
+      "width": 390
+    },
+    {
+      "height": 1626,
+      "lossless_pixel_equivalent": true,
+      "original_name": "E01_SALE_RETURN_DESKTOP.png",
+      "original_sha256": "f86db0ecd352299d92325b0d386b35ba87452000e09fed631aa722b23c43f567",
+      "path": "docs/cp7/evidence/f03-e01/E12_E01_SALE_RETURN_DESKTOP.webp",
+      "sha256": "515e3814f6404c5b98775a8a41735787301e29771b06e425e541b5560c9a1a4b",
+      "width": 1440
+    },
+    {
+      "height": 2316,
+      "lossless_pixel_equivalent": true,
+      "original_name": "E01_SALE_RETURN_MOBILE.png",
+      "original_sha256": "5157fddd2ca23d0262668c4033cf4e4fbce88f61f8b9e2d8f7e937340884f02c",
+      "path": "docs/cp7/evidence/f03-e01/E12_E01_SALE_RETURN_MOBILE.webp",
+      "sha256": "100c53ec6933a952e1136ecd415a4cfdd858e957f8b96900beb9998bb492d7a4",
+      "width": 390
+    }
+  ],
+  "run_id": 36660530418,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "9ac03af38a59e97f3ca70f5b1fa3de0631f89083",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36660530418",
+    "tool_head": "9ac03af38a59e97f3ca70f5b1fa3de0631f89083",
+    "workflow": "CP7 F03 E01 Source Journey"
+  },
+  "source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+  "source_commit": "9ac03af38a59e97f3ca70f5b1fa3de0631f89083",
+  "source_tree": "f9f0a4f90ba24bf216d7688b9096cd48f8000f87",
+  "status": "PASS",
+  "visual_review_performed": true,
+  "visual_review_scope": "Four full-page desktop/mobile sale-return and finance report captures. Readable controls and amounts, no horizontal clipping seen. Mobile report includes both persisted desktop/mobile fixtures, so global totals double their separate fixture totals. This is not a claim about every viewport or peer-tab screenshot."
+}

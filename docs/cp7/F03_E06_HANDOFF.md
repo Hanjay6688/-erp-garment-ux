@@ -1,6 +1,6 @@
 # F03 E06 — year-end physical source and three-month late invoice
 
-Status: native execution pending. CP6 remains CLOSED_CONTRACT_SCOPE; F03 remains OPEN; production_go=false and independent_acceptance=false. This is writer qualification, not an independent audit.
+Status: selected five-case native/race qualification PASS. CP6 remains CLOSED_CONTRACT_SCOPE; F03 remains OPEN; production_go=false and independent_acceptance=false. This is writer qualification, not an independent audit.
 
 ## Locked oracle
 
@@ -33,3 +33,11 @@ Actual pending-close and the real invoice-versus-close lock race pass. Both invo
 Economic-date rerun:source`77c5373b93ddc682dc97d1bc58300dba5fdd189d`, run36660344730/job109713487513:4 PASS/1 INCOMPLETE. [Receipt](evidence/f03-e06/ECONOMIC_DATE_RECEIPT.json). Both December-economic invoice cases now fully pass: exact price11/HPP960/FG640/COGS320 and zero-delta10/HPP900/FG600/COGS300, timestamps, one-effect replay, invoice inverse, unchanged source facts and immutable filing. Pending-close and the real close race also pass.
 
 The added March-economic control reaches its correct values and marker but its accounting-date assertion still incorrectly reused the closed-December case's current-day expectation. Native AY/AZ date rules preserve31 March when that economic period is open; only a closed economic date redirects recognition to the current open business day. The corrected assertion fixes these two explicit expected dates before rerun and retains the same monetary oracle. No product code/date policy changes. The E06 workflow now omits npm/Chromium installation because this declared qualifier has only native/race cases; database installation, source/ACL checks, restore and cleanup gates are retained.
+
+## Qualified native/race result
+
+Source `ca38bfbd1e8cc630e7d93ed2b7d70f64715143c2`, [run36660802859](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36660802859), job109714900481: **5 PASS /0 FAIL /0 INCOMPLETE /0 NOT_RUN**, comprising four native cases and one actual two-connection race. [Receipt](evidence/f03-e06/QUALIFIED_RECEIPT.json), [complete original JSON reports](evidence/f03-e06/QUALIFIED.json.gz). Bundle `fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61`.
+
+Both price11 and equal-price10 December-economic invoices, the March-economic control, actual pending-close/reopen and invoice-during-observed-close-wait fully pass. Exact HPP960/900, FG640/600, COGS320/300, AP1100/1000, GRNI0, replay/inverse, physical dates, immutable filing and economic-date marker rules are qualified in the stated fixture. A stale close review is refused after the competing invoice commits; fresh review can file once.
+
+CP6 restoration, advisor gate, accepted package installation, backup restore, unchanged primary and database cleanup all pass. No Auth users are introduced by these native/race cases. Both earlier oracle failures remain retained and are not relabeled product bugs. No browser, whole E06 charter, whole-family or independent acceptance is inferred.
