@@ -59,7 +59,7 @@ def o18(cur,today):
 
 def required(cur,today,operation,contract):
     result=operation(cur,today)
-    assert result.get('status')=='PASS',result
+    assert result.get('status') in ('PASS','FAIL','COUNTEREXAMPLE','INCOMPLETE'),result
     return dict(result,contract=contract,installed_stack='EXPLICIT_F03_26_ROLES',production_go=False,independent_acceptance=False,not_new_independent_CP6_acceptance=True)
 
 

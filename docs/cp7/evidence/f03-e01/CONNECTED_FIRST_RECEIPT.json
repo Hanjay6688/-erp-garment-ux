@@ -1,0 +1,142 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 1634619,
+  "artifact_id": 11072020601,
+  "artifact_sha256": "1360b44b1e63eb295f624c2444f9056c32efd3fd3e5091fcf12fa168abe0c435",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 4,
+    "NOT_RUN": 0,
+    "PASS": 0
+  },
+  "cp6_restored": true,
+  "expected_case_count": 4,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "INCOMPLETE": 2
+    },
+    "http": {
+      "INCOMPLETE": 1
+    },
+    "native": {
+      "INCOMPLETE": 1
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109694216142,
+  "nonpassing_cases": {
+    "browser:F03_E01_BROWSER_DESKTOP": {
+      "error": "Error: Command failed: python ../auditor/scripts/cp7_f03_e01_browser_fixture.py prepare {\"today\":\"2026-09-30\"}\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_f03_e01_browser_fixture.py\", line 41, in <module>\n    if __name__ == '__main__': main()\n                               ^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_f03_e01_browser_fixture.py\", line 20, in main\n    out = cases.production(cur, date.fromisoformat(p['today']))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e01_cases.py\", line 87, in production\n    native(cur, 'select erp.ensure_po_work_component_snapshots(%s,%s)', (po, when(9, 30)))\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e01_cases.py\", line 25, in native\n    value = cur.execute(sql, args).fetchone()[0]\n            ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: permission denied for function ensure_po_work_component_snapshots\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e01_browser.mjs:5:39)\n    at journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e01_browser.mjs:29:11)\n    at file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e01_browser.mjs:146:42\n    at main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:19)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3",
+      "status": "INCOMPLETE"
+    },
+    "browser:F03_E01_BROWSER_MOBILE_LOST_RETURN": {
+      "error": "Error: Command failed: python ../auditor/scripts/cp7_f03_e01_browser_fixture.py prepare {\"today\":\"2026-09-30\"}\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_f03_e01_browser_fixture.py\", line 41, in <module>\n    if __name__ == '__main__': main()\n                               ^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_f03_e01_browser_fixture.py\", line 20, in main\n    out = cases.production(cur, date.fromisoformat(p['today']))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e01_cases.py\", line 87, in production\n    native(cur, 'select erp.ensure_po_work_component_snapshots(%s,%s)', (po, when(9, 30)))\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e01_cases.py\", line 25, in native\n    value = cur.execute(sql, args).fetchone()[0]\n            ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: permission denied for function ensure_po_work_component_snapshots\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e01_browser.mjs:5:39)\n    at journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e01_browser.mjs:29:11)\n    at file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e01_browser.mjs:146:109\n    at main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:19)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3",
+      "status": "INCOMPLETE"
+    },
+    "http:F03_E01_HTTP_60_TO_CASH_RETURN": {
+      "error": "permission denied for function ensure_po_work_component_snapshots",
+      "session_leaks": [],
+      "status": "INCOMPLETE",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 139, in strict_rows\n    row=run_one(i,key,operation)\n        ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 302, in <lambda>\n    report['cases'],refusal=strict_rows('AUDITOR_HTTP_'+phase.upper(),planned,lambda i,key,operation:operation(),HTTP_DB,('authenticator',))\n                                                                                                     ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e01_cases.py\", line 199, in flow\n    f = production(cur, today)\n        ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e01_cases.py\", line 87, in production\n    native(cur, 'select erp.ensure_po_work_component_snapshots(%s,%s)', (po, when(9, 30)))\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e01_cases.py\", line 25, in native\n    value = cur.execute(sql, args).fetchone()[0]\n            ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: permission denied for function ensure_po_work_component_snapshots\n"
+    },
+    "native:F03_E01_NATIVE_60_TO_CASH_RETURN": {
+      "error": "permission denied for function ensure_po_work_component_snapshots",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_lock_keys": [],
+        "advisory_locks": 0,
+        "other_sessions": []
+      },
+      "status": "INCOMPLETE",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 112, in strict_group\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e01_cases.py\", line 192, in <lambda>\n    return [('F03_E01_NATIVE_60_TO_CASH_RETURN', lambda:journey(cur, today))]\n                                                        ^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e01_cases.py\", line 159, in journey\n    f = production(cur, today)\n        ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e01_cases.py\", line 87, in production\n    native(cur, 'select erp.ensure_po_work_component_snapshots(%s,%s)', (po, when(9, 30)))\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e01_cases.py\", line 25, in native\n    value = cur.execute(sql, args).fetchone()[0]\n            ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: permission denied for function ensure_po_work_component_snapshots\n"
+    }
+  },
+  "observed_case_count": 4,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385621,
+      "sha256": "33810df6208dc15beb5cf6e1448735f0370413842f39f4958ad73a72f2eafaeb"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385621,
+      "sha256": "33810df6208dc15beb5cf6e1448735f0370413842f39f4958ad73a72f2eafaeb"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "d313c0490dd6c86af315d1c454017987ca7be686786b42b0492bb207eff73cbd"
+    },
+    "CP7_F03_E01.json": {
+      "bytes": 264977,
+      "sha256": "a2c49eea7ffcc0f51268e216c801b5101ed4055ebd9b2fc4946758e147787335"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "2fdf527c600f278bf42c86d7b5e1ada6258caa2086b2c8fc9b6c7e1fc1f91b87"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360417,
+      "sha256": "809b187aec341bd8bc620699b349876f350f895d4a324f2bf9d2516b0038621e"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "production_go": false,
+  "report_sha256": "a2c49eea7ffcc0f51268e216c801b5101ed4055ebd9b2fc4946758e147787335",
+  "retained_reports_gzip_sha256": "f99ec9fd06d373aeb92adbd1c9097277fa897520bb7a1a71bc2aa861a72f1740",
+  "run_id": 36653998973,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "01739294afa774f309c9d65d28d4e2dcd01175f1",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "23f795aac1b3b619108c93e525dd5d609c5908d5",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36653998973",
+    "tool_head": "01739294afa774f309c9d65d28d4e2dcd01175f1",
+    "workflow": "CP7 F03 E01 Source Journey"
+  },
+  "source_bundle_sha256": "d999ab45ebe40001e7a30ba46e0e10a18b950cc19531555716060d62cdd1759e",
+  "source_commit": "01739294afa774f309c9d65d28d4e2dcd01175f1",
+  "source_tree": "1b3e7a6c9835806438ac9ad35b7cce97ff784d30",
+  "status": "INCOMPLETE",
+  "visual_review_performed": false
+}

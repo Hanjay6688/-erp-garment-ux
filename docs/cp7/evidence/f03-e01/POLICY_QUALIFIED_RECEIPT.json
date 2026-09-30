@@ -1,0 +1,141 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 5675622,
+  "artifact_id": 11071164516,
+  "artifact_sha256": "fdd72edb3ff453f0fc81d965c252dca0957ff034d46457b696974a471a3d8b98",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0,
+    "PASS": 4
+  },
+  "cp6_restored": true,
+  "expected_case_count": 4,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 1
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109695336002,
+  "nonpassing_cases": {},
+  "observed_case_count": 4,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385617,
+      "sha256": "7c5b3b5def03d7e8cc551f87f56ca525d65f40d6834db4e3420289c7d4c52335"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385617,
+      "sha256": "7c5b3b5def03d7e8cc551f87f56ca525d65f40d6834db4e3420289c7d4c52335"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "4d167c2400ab23c4bbb99285e2aa7ded69c335540a7f14f376548b619160cb9d"
+    },
+    "CP7_F03_E01.json": {
+      "bytes": 315814,
+      "sha256": "ee8faee444c87f47128c5156c2a5b5e2fae33f60cfb4d3645f6ee4514c2a515b"
+    },
+    "E01_REPORT_DESKTOP.png": {
+      "bytes": 1835864,
+      "sha256": "de753bb1ab76e8ecc379ee06505732b64bf2858501877c23b3aa1e693a256162"
+    },
+    "E01_REPORT_MOBILE.png": {
+      "bytes": 1410155,
+      "sha256": "037addf57857cff1b8faa832aa3ddc3188b4275b58293b9baad5e4e0c30d0ea1"
+    },
+    "E01_SALE_RETURN_DESKTOP.png": {
+      "bytes": 501262,
+      "sha256": "7d5070eef321dbc9c81b8c0a345c0a9a4047954c10b83014af7216db42b65be1"
+    },
+    "E01_SALE_RETURN_MOBILE.png": {
+      "bytes": 378433,
+      "sha256": "0fae18fc3ddb9d28d6a0e444570f94a4c7ed6fb3054bcbd574b616e321e7ce40"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "dd0407de678f27d2968bdb155c8cceec7a44e761a3fa8da586b753dc8dc93aaa"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360410,
+      "sha256": "6415968ba9e9d4085e7e6685a4a529bca1161b4c329235c5bb927995fefd3d0f"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "production_go": false,
+  "report_sha256": "ee8faee444c87f47128c5156c2a5b5e2fae33f60cfb4d3645f6ee4514c2a515b",
+  "retained_reports_gzip_sha256": "d445a9af06f054fe58f0a5e3afe5bfe3bf7c67ec781c2e3f021d6244520d3ef1",
+  "run_id": 36654365874,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "9f040b8bb0352ee2a94c473e1b9cca6fe41beec7",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "23f795aac1b3b619108c93e525dd5d609c5908d5",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36654365874",
+    "tool_head": "9f040b8bb0352ee2a94c473e1b9cca6fe41beec7",
+    "workflow": "CP7 F03 E01 Source Journey"
+  },
+  "source_bundle_sha256": "d999ab45ebe40001e7a30ba46e0e10a18b950cc19531555716060d62cdd1759e",
+  "source_commit": "9f040b8bb0352ee2a94c473e1b9cca6fe41beec7",
+  "source_tree": "07bce31ddec2cd800b4d5c4fe063496f8e73b963",
+  "status": "PASS",
+  "visual_review": {
+    "production_browser_entry_reviewed": false,
+    "result": "Sale/return amounts are visible and controls fit desktop/mobile. Report correctly displays BLOCKED, including fixture-own 120 unallocated labor and other seed obligations. Long mobile report remains vertically scrollable. This does not qualify READY or book closure.",
+    "screenshots": [
+      "E01_SALE_RETURN_DESKTOP.png",
+      "E01_SALE_RETURN_MOBILE.png",
+      "E01_REPORT_DESKTOP.png",
+      "E01_REPORT_MOBILE.png"
+    ]
+  },
+  "visual_review_performed": true
+}
