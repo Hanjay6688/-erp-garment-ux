@@ -1,0 +1,40 @@
+{
+  "advisor_gate": true,
+  "artifact_id": 11123741925,
+  "artifact_sha256": "b01c9cc335a53f72d28db67e205cd52dc1e9d77a5dd4ce74eb94c1d9d50e0340",
+  "cp6_restored": true,
+  "expected": 26,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 20
+    },
+    "races": {
+      "PASS": 3
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 110076471191,
+  "observed": 26,
+  "primary_unchanged": true,
+  "production_go": false,
+  "retained_reports_sha256": "d8fdd4f8095fbb70f510b3fe3eac5de2486d2ce97a298dc53377eefd649eea98",
+  "run_id": 36770827713,
+  "source_bundle_sha256": "eb86b6300f1ebf8e429edef2f4dfb0dc80ec24978c8809de53e7f2e3e7a729e5",
+  "source_commit": "3e9ceb74fa42b4ec0f0bd031c552411577834acc",
+  "source_tree": "d470a9d8b353579edfb3e8aa339ca0309d8b1679",
+  "status": "PASS",
+  "visual_inspection": {
+    "horizontal_clipping": "NONE",
+    "obsolete_refresh_failed_message": "ABSENT_AFTER_CURRENT_PARTIAL_FINAL_INVERSE",
+    "pending_money": "RETIRED_DESKTOP_MOBILE",
+    "retained_originals": "GitHub artifact11123741925; lossless copies to be checkpointed separately",
+    "source_bound_captures_seen": 10
+  }
+}

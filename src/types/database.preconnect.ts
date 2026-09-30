@@ -24,6 +24,8 @@ export type PreconnectDatabase = {
       }
     }
     Functions: {
+      erp_cp7_capture_demand_history_v1: { Args: { p_query: Json; p_request: string }; Returns: Json }
+      erp_cp7_read_demand_history_v1: { Args: { p_run: string }; Returns: Json }
       erp_cp7_get_payroll_installments_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_save_payroll_installment_v1: { Args: { p_action: string; p_payload: Json; p_request: string; p_expected: string }; Returns: Json }
       erp_cp7_save_payroll_v1: { Args: { p_action: string; p_payload: Json; p_request: string; p_expected: string }; Returns: Json }

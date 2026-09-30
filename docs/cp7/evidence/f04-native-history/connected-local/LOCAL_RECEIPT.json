@@ -1,0 +1,35 @@
+{
+  "affected_unit": {
+    "FAIL": 0,
+    "PASS": 31
+  },
+  "build": "PASS",
+  "independent_acceptance": false,
+  "parent_source": "f03134a50e84ab55552a374b2d75779bd41ea87c",
+  "production_go": false,
+  "qualification": "LOCAL_CLIENT_WIRE_AND_DOM_NOT_NATIVE_PROOF",
+  "reports_sha256": "c90f8978d7466ed3c3c77392657e235663b43739a937bbbd571c0801316d8d67",
+  "security": "PASS",
+  "source_sha256": {
+    ".github/workflows/cp7-f04-history.yml": "ebc8899f1a1128cb03e016e27346ba27b7da25d09c0a70670a31bd961e9d8f2d",
+    "docs/cp7/CURRENT_STATE.json": "19292ac35c6b31773c435b3ab349db9f6d49bd62570487c0a1f5e97932e41fcd",
+    "scripts/check-access-catalog.mjs": "9c4298dad3b31fd29624886bdcf55cf44e666f74c9950ac1cb3b082134e4da2b",
+    "scripts/check-source-ownership.mjs": "dd98cd7f67c9a42ef2527e56a9284edfcfcb3b8ea00c16fabd0a59301b769365",
+    "scripts/cp7_f04_history_browser.mjs": "10c18bc76146e4918fda69cabc0a3e60eb031c17aa381f46e6d51ea6542620a7",
+    "scripts/cp7_f04_history_browser_fixture.py": "7209a7e5de2de3fc4192e0196242959e3a391c07c4ebe5730b8e9ab1aa7ae09c",
+    "scripts/cp7_f04_history_probe.py": "b758176d735d15cb1dfcd4817aee403e3a12e2b881c34342d7151e79d2b89ddf",
+    "src/ConnectedFgStockPage.tsx": "4e9e6eb5c3aa88fceb5cbefdc480c24a0bb0ecf543720322584283545f82f511",
+    "src/NativeDemandHistoryPanel.dom.test.tsx": "1e54db175ac82445abc7deebea04543bde7f55f7f7e36b88798a0faf220116b0",
+    "src/NativeDemandHistoryPanel.tsx": "a785ce0c1a60f7ff1274f60a6ab371b46658fb961c3eaf9978605d77327b8731",
+    "src/native-demand-history.css": "ca5913e739b1349c81da79a25f48cb9fd740c5d2b8e50d4ce6652ce03ed46af8",
+    "src/nativeDemandHistory.test.ts": "432fb2a4a48295bdb1c0f42ed4ee95d91a22339d8bb1c9e9f2001c66e9303db6",
+    "src/nativeDemandHistory.ts": "86ec22e6012ae72f3dfd874a8bd5ce0c0da2f07fd3808e926a44724a02bafc76",
+    "src/types/database.preconnect.ts": "59b098a593a9bf30d0707cb26e52fdf10ab60a3c48352403b1129b9e033446ef",
+    "tests/fixtures/nativeDemandHistory.ts": "b0471d3b882c5eb0ab1c45a08e84c8d7cfe894adbdfe8a248cbaba2c43859a72"
+  },
+  "status": "LOCAL975_PASS_ACTUAL17_PENDING",
+  "unit": {
+    "FAIL": 0,
+    "PASS": 975
+  }
+}

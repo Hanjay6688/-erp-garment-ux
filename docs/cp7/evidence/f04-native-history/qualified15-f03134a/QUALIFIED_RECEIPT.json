@@ -1,0 +1,30 @@
+{
+  "advisor_gate": true,
+  "artifact_id": 11123807887,
+  "artifact_sha256": "c784ed592953b63cb23d27888b19216f06e5492b622f8dc65f1f3c8563d017c2",
+  "cp6_restored": true,
+  "expected": 15,
+  "full_family_acceptance": false,
+  "groups": {
+    "http": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 12
+    },
+    "races": {
+      "PASS": 2
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 110079756358,
+  "observed": 15,
+  "primary_unchanged": true,
+  "production_go": false,
+  "retained_reports_sha256": "bbae66af01cf8bad2142f198c558facbdf808e4f2ef179911a48a974acdb5aa1",
+  "run_id": 36771793497,
+  "source_bundle_sha256": "0d6bdb473cb5c6ece772e0433de55923ef1c6e9b77b63fdcb8ad624f1e6062b9",
+  "source_commit": "f03134a50e84ab55552a374b2d75779bd41ea87c",
+  "source_tree": "614691bb2a8f35c7e7e2361a3254111e38fb29a2",
+  "status": "PASS"
+}

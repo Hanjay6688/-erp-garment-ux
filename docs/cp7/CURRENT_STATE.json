@@ -71,7 +71,7 @@
     "owner": "Hansen",
     "production_go": false,
     "source": "Current conversation: approved1000, pay600, remaining400 on the same payroll, then400; owner: ok setuju, lanjutin sisanya ya cp7 sampe beres",
-    "status": "IMPLEMENTED_NATIVE24_PASS_EXTENDED26_REPAIR_REPEAT_PENDING"
+    "status": "IMPLEMENTED_WRITER_NATIVE_AUTH_BROWSER26_PASS"
   },
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
@@ -191,7 +191,7 @@
     "visual_review": true
   },
   "f03_e05_installments": {
-    "artifact_id": 11122932071,
+    "artifact_id": 11123741925,
     "changed_files_sha256": {
       ".github/workflows/cp7-f03-e05.yml": "5e9151c0c939083f466e1d20b8f3a37427263a22a2db8258cd194fc88d07560e",
       "docs/cp7/F03_E05_INSTALLMENTS_HANDOFF.md": "f88206ecd45483db87a829da16102612fdeab6d7b259ac394462878cacea7a4d",
@@ -228,10 +228,9 @@
     "full_family_acceptance": false,
     "handoff": "docs/cp7/F03_E05_INSTALLMENTS_HANDOFF.md",
     "independent_acceptance": false,
-    "job_id": 110066781335,
+    "job_id": 110076471191,
     "latest_actual_counts": {
-      "INCOMPLETE": 1,
-      "PASS": 25
+      "PASS": 26
     },
     "latest_diagnostic": "docs/cp7/evidence/f03-e05/diagnostic-b006ce1/DIAGNOSTIC_RECEIPT.json",
     "parent_source_commit": "37b5dcd72a13d476f7c666a7dee662085372a9b4",
@@ -243,18 +242,19 @@
       "Normalize complete cash fingerprint under UTC before WIB payment apply",
       "Unique native source UUID for every installment, including final/replacement"
     ],
-    "run_id": 36767956930,
+    "run_id": 36770827713,
     "source_bundle_sha256": "eb86b6300f1ebf8e429edef2f4dfb0dc80ec24978c8809de53e7f2e3e7a729e5",
-    "source_commit": "b006ce1bb2ae62d88d986bf28a1f076024cfe78c",
-    "source_tree": "9f84d638832d94e57c0967f7a272d225b07d3318",
+    "source_commit": "3e9ceb74fa42b4ec0f0bd031c552411577834acc",
+    "source_tree": "d470a9d8b353579edfb3e8aa339ca0309d8b1679",
     "standalone_P12_dependency_repair": {
       "diagnostic": "docs/cp7/evidence/p12-opening-payroll/diagnostic-6013d4f/DIAGNOSTIC_RECEIPT.json",
       "source": "scripts/cp7_p12_nota_probe.py",
       "status": "DECLARED_STRICT_DEPENDENCY_INSTALL_AND_TEARDOWN_RETEST_PENDING"
     },
-    "status": "ACTUAL24_PASS_NATIVE26_25PASS1INCOMPLETE_FRESH_READ_HAPPY_PATH_REPAIR_PENDING_REPEAT",
+    "status": "WRITER_NATIVE_AUTH_BROWSER26_PASS_FRESH_READ_REPAIRED",
     "unit_pass": 949,
-    "verification": "docs/cp7/evidence/f03-e05/fresh-read-repair/LOCAL_RECEIPT.json"
+    "verification": "docs/cp7/evidence/f03-e05/qualified26-3e9ceb7/QUALIFIED_RECEIPT.json",
+    "visual_review": true
   },
   "f03_e06": {
     "counts": {
@@ -445,16 +445,25 @@
     "visual_review": true
   },
   "f04_integration": {
-    "declared_actual_cases": 15,
+    "connected_consumer": "src/NativeDemandHistoryPanel.tsx",
+    "declared_actual_cases": 17,
     "handoff": "docs/cp7/f04/NATIVE_INTEGRATION.md",
     "independent_acceptance": false,
+    "job_id": 110079756358,
     "kernel_head": "f6162a9e",
     "kernel_source": "08487236b3305727eb4c470ca896e271a911bdaa",
+    "local_full_unit_pass": 975,
     "local_kernel_cases_pass": 138,
     "native_qualifier": "scripts/cp7_f04_history_probe.py",
     "production_go": false,
-    "status": "PINNED_KERNELS_IMPORTED_NATIVE_P05_SOURCE_WRITTEN_ACTUAL15_PENDING",
-    "verification": "docs/cp7/evidence/f04-native-history/local-source/LOCAL_RECEIPT.json"
+    "qualified_counts": {
+      "PASS": 15
+    },
+    "run_id": 36771793497,
+    "source_commit": "f03134a50e84ab55552a374b2d75779bd41ea87c",
+    "source_tree": "614691bb2a8f35c7e7e2361a3254111e38fb29a2",
+    "status": "NATIVE_SOURCE15_PASS_CONNECTED_BROWSER17_DECLARED_LOCAL975_PASS",
+    "verification": "docs/cp7/evidence/f04-native-history/qualified15-f03134a/QUALIFIED_RECEIPT.json"
   },
   "f04_takeover_reference": {
     "branch": "cp7/f04-planning-20260929",
@@ -471,7 +480,7 @@
     "producer_mapping": "P05 native history separate contract; full cp7.analysis.v2 compiler pending",
     "production_go": false,
     "source": "ec8e27890319ef898f0bb8b06028daa12a9d2f08",
-    "status": "PINNED_CONSUMER_CONTINUATION_IMPORTED_LOCAL47_PASS_NATIVE_CONSUMER_PENDING",
+    "status": "PINNED47_PASS_NATIVE_HISTORY_CONSUMER_WRITTEN_ACTUAL17_PENDING",
     "verification": "test-results/f05-continuation/checks.json"
   },
   "f05_takeover_reference": {

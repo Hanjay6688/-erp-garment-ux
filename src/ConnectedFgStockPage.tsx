@@ -9,13 +9,14 @@ import { formatReceiptDecimal as numberText } from './procurementContract'
 import { fgPositionKey, parseFgWorkspace, parseFgLedger, type FgPurpose, type FgPosition, type FgWorkspace, type FgLedger } from './fgContract'
 import './procurement-connected.css'
 import './fg-connected.css'
+import NativeDemandHistoryPanel from './NativeDemandHistoryPanel'
 
 const permission:Record<FgPurpose,string>={SUMMARY:'warehouse.fg.view',CARD:'warehouse.stock.view',MOVEMENTS:'warehouse.movement.view'}
 const labels:Record<string,string>={QC_GOOD:'Hasil QC',SALE_RESERVE:'Dicadangkan untuk penjualan',SALE:'Penjualan',REVERSAL:'Pembatalan',SALES_RETURN:'Retur penjualan',OPENING:'Saldo awal',REWORK_IN:'Hasil rework',TRANSFER_IN:'Masuk gudang',TRANSFER_OUT:'Keluar gudang'}
 export default function ConnectedFgStockPage({purpose='SUMMARY'}:{purpose?:FgPurpose}){
   const {runtime,identity}=useAuth()
   if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED'||!identity.permissions.includes(permission[purpose]))return <section className="panel" role="alert">Hak melihat stok barang jadi belum diberikan.</section>
-  return <Workspace purpose={purpose} key={`${purpose}:${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`}/>
+  return <><NativeDemandHistoryPanel/><Workspace purpose={purpose} key={`${purpose}:${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`}/></>
 }
 function Workspace({purpose}:{purpose:FgPurpose}){
   const {runtime,identity}=useAuth()
