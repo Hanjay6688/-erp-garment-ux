@@ -237,10 +237,10 @@
     "source_commit": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
     "source_tree": "a0b9866cec57dec977082c344586025431693e1d",
     "verification": "docs/cp7/evidence/f03-combined/RETURN_UI_QUALIFIED_RECEIPT.json",
-    "latest_regression": "docs/cp7/evidence/f03-combined/REDYE_FIXTURE_REGRESSION_RECEIPT.json",
+    "latest_regression": "docs/cp7/evidence/f03-combined/CAPACITY_QUALIFIED_REGRESSION_RECEIPT.json",
     "run_id": 36657403229,
-    "latest_regression_source": "2649451888ec9be0f35d5e643ccf476ab309a162",
-    "latest_regression_run": 36684295409,
+    "latest_regression_source": "17050a4ae68a6f92144ff0cf9907070774328893",
+    "latest_regression_run": 36687135844,
     "latest_regression_counts": {
       "PASS": 22,
       "FAIL": 0,
@@ -462,7 +462,7 @@
       "NOT_RUN": 0
     },
     "diagnostic": "docs/cp7/evidence/f03-x04/DIAGNOSTIC_RECEIPT.json",
-    "remaining": "Selected six-native/one-HTTP continuation qualified without product changes. New redye/browser seams and independent whole-X04 review remain open.",
+    "remaining": "Selected six-native/one-HTTP continuation qualified without product changes; separate paid-redye native2/HTTP1/browser2 now passes5 on76ad8708. Whole X04/family and independent review remain open.",
     "diagnostic_source": "5434bffaccc86c1c248b99de46ea6d4202f3dcff",
     "diagnostic_run": 36662043158,
     "diagnostic_job": 109718709487,
@@ -473,7 +473,7 @@
     "visual_review": false
   },
   "f03_x04_redye": {
-    "status": "3_PASS_2_INCOMPLETE_BROWSER_COMPARATOR_CORRECTED_RERUN_PENDING",
+    "status": "WRITER_BOUNDED_5_PASS",
     "expected_case_count": 5,
     "groups": {
       "native": 2,
@@ -485,28 +485,29 @@
     "full_family_acceptance": false,
     "independent_acceptance": false,
     "production_go": false,
-    "visual_review": false,
-    "source": "025879c4643b70857f1c710a9d6224932341dcbd",
-    "source_tree": "b005c1c3c761af04a7a2ebae4a6596765c11d9a3",
-    "run_id": 36685872511,
-    "job_id": 109791490113,
+    "visual_review": true,
+    "source": "76ad87081780f5a62634b9a772112351eb2a2fbb",
+    "source_tree": "31defc6e452681b8ed0f06c7e857ae953edadc51",
+    "run_id": 36686648838,
+    "job_id": 109793941340,
     "counts": {
-      "PASS": 3,
+      "PASS": 5,
       "FAIL": 0,
-      "INCOMPLETE": 2,
+      "INCOMPLETE": 0,
       "NOT_RUN": 0
     },
     "diagnostic": "docs/cp7/evidence/f03-redye/UI_FORMAT_RECEIPT.json",
-    "remaining": "Both native money/source continuations and actual Auth/HTTP pass. Browser price writes and native cost200 checks succeed; the next UI assertion incorrectly expected Rp200 instead of the existing Rp 200,00. Corrected exact cost-cell assertion and same25-row native/browser card bounds preserve money/source/microseconds. Five-case rerun pending.",
+    "remaining": "Selected native2/AuthHTTP1/browser2 paid-redye source version, late vendor price, invoice/sold variance/inverse and CP7 projection seam qualified. All four source-bound full-page FG/report captures inspected and retained pixel-identically. Whole upstream HPP, whole X04/family and independent acceptance are not claimed.",
     "first_diagnostic": "docs/cp7/evidence/f03-redye/FIRST_RECEIPT.json",
     "prior_diagnostics": [
       "docs/cp7/evidence/f03-redye/FIRST_RECEIPT.json",
       "docs/cp7/evidence/f03-redye/SAME_DAY_RECEIPT.json",
       "docs/cp7/evidence/f03-redye/IDENTITY_RECEIPT.json"
-    ]
+    ],
+    "verification": "docs/cp7/evidence/f03-redye/QUALIFIED_RECEIPT.json"
   },
   "f03_capacity": {
-    "status": "4_PASS_1_INCOMPLETE_ACCESS_ASSERTION_CORRECTED_RERUN_PENDING",
+    "status": "WRITER_BOUNDED_5_PASS",
     "expected_case_count": 5,
     "groups": {
       "native": 2,
@@ -521,18 +522,19 @@
     "full_family_acceptance": false,
     "independent_acceptance": false,
     "production_go": false,
-    "visual_review": false,
-    "source": "c76a7a5279f4f9e3aafcbfa629d8f760acb2f1a2",
-    "source_tree": "cce2893eb2b460f40c646097ee15134b218e5b06",
-    "run_id": 36686209312,
-    "job_id": 109792557270,
+    "visual_review": true,
+    "source": "17050a4ae68a6f92144ff0cf9907070774328893",
+    "source_tree": "f40f42297a1521bee4a7fe69087ee78876d7c50d",
+    "run_id": 36687135842,
+    "job_id": 109795468019,
     "counts": {
-      "PASS": 4,
+      "PASS": 5,
       "FAIL": 0,
-      "INCOMPLETE": 1,
+      "INCOMPLETE": 0,
       "NOT_RUN": 0
     },
     "diagnostic": "docs/cp7/evidence/f03-capacity/FIRST_RECEIPT.json",
-    "remaining": "Complete native30-lot/public invoice27/post/inverse, real Auth/HTTP, desktop invoice browser and mobile operations browser pass. The second native test correctly encounters earlier CP7_SALES_ACCESS_DENIED rather than its incorrectly expected WRITE_DENIED. Corrected test proves both read/finance admission and separate POST right; full five-case rerun pending."
+    "remaining": "Selected30-lot/full-page-to-public-invoice27, exact POST/inverse/account/report, operational two-page/card redaction and current authority seam qualified. Five actual captures inspected and retained pixel-identically. Full E20/E14/O07 planner/P10-P11/family acceptance remains open.",
+    "verification": "docs/cp7/evidence/f03-capacity/QUALIFIED_RECEIPT.json"
   }
 }

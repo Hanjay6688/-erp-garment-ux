@@ -1,0 +1,187 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 5641762,
+  "artifact_id": 11084580942,
+  "artifact_sha256": "f82787904ba2c29e8cb060f1ce585f99a06cd513b70c1342aeb54b06d01c9e2b",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0,
+    "PASS": 5
+  },
+  "cp6_restored": true,
+  "expected_case_count": 5,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 2
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109793941340,
+  "nonpassing_cases": {},
+  "observed_case_count": 5,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385619,
+      "sha256": "3a7c5df4b542570b497f259c63269140d47b648d5fe8fbd4a8d5fe521d17359a"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385619,
+      "sha256": "3a7c5df4b542570b497f259c63269140d47b648d5fe8fbd4a8d5fe521d17359a"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "4e51664c13ab9e93b2525af47aa32cb8c472fc78dfab63188b94681c9c9b9a5a"
+    },
+    "CP7_F03_REDYE.json": {
+      "bytes": 306952,
+      "sha256": "31333d947fea5f4da3866e61bc3e9769961f167b857c8ac30d311c9ae69fa836"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "452b9d2adb2b5f50233375e6c325d5a7ef81c7b186590a6417867578c646664c"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360419,
+      "sha256": "a62d06fe72b5e126b9de23d9957b9df32c9fbd2e82e2bd00ac21b576e83d70fb"
+    },
+    "X04_REDYE_FG_DESKTOP.png": {
+      "bytes": 558190,
+      "sha256": "0dba7fef6120193061975f7ffed99fcda04d022e5079437aa1a41cb472e55a91"
+    },
+    "X04_REDYE_FG_MOBILE.png": {
+      "bytes": 396035,
+      "sha256": "6b7588631dd22caff5d601e3cbd4b9530e587f4fb91f5057de71c05c909b7a99"
+    },
+    "X04_REDYE_REPORT_DESKTOP.png": {
+      "bytes": 1800159,
+      "sha256": "d5a0a20f80b6e1c060675109f56c2880c6700dbe36f289c30dcac47186a78fe1"
+    },
+    "X04_REDYE_REPORT_MOBILE.png": {
+      "bytes": 1324987,
+      "sha256": "60da9a189a5b066177b03a503a7de57deb4213ca8606d92323dc02eb1c4cd17f"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "production_go": false,
+  "report_sha256": "31333d947fea5f4da3866e61bc3e9769961f167b857c8ac30d311c9ae69fa836",
+  "retained_reports_gzip_sha256": "cc0eb02b3cbda37aa318951780884ea7c60a03153455c6685df03c046ef0a209",
+  "run_id": 36686648838,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "76ad87081780f5a62634b9a772112351eb2a2fbb",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36686648838",
+    "tool_head": "76ad87081780f5a62634b9a772112351eb2a2fbb",
+    "workflow": "CP7 F03 X04 Paid Redye Continuation"
+  },
+  "source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+  "source_commit": "76ad87081780f5a62634b9a772112351eb2a2fbb",
+  "source_tree": "31defc6e452681b8ed0f06c7e857ae953edadc51",
+  "status": "PASS",
+  "visual_review": {
+    "captures": [
+      {
+        "RGBA_sha256": "8245636082e582a431dba3fc4576fb7fbdb601690110ab8d1920ebd13e529f88",
+        "height": 1339,
+        "original": "X04_REDYE_FG_DESKTOP.png",
+        "original_sha256": "0dba7fef6120193061975f7ffed99fcda04d022e5079437aa1a41cb472e55a91",
+        "pixel_identical": true,
+        "retained": "docs/cp7/evidence/f03-redye/visual/X04_REDYE_FG_DESKTOP.webp",
+        "retained_bytes": 438374,
+        "retained_sha256": "10a8e03c534425e82a8f6c2de65db674672765fef1ecfac77bd0bb756d9175fa",
+        "width": 1440
+      },
+      {
+        "RGBA_sha256": "6ef835757d2f103214efc92a5bd4c5a1c7c4b76b8d6f59502cf965ec8658e960",
+        "height": 2195,
+        "original": "X04_REDYE_FG_MOBILE.png",
+        "original_sha256": "6b7588631dd22caff5d601e3cbd4b9530e587f4fb91f5057de71c05c909b7a99",
+        "pixel_identical": true,
+        "retained": "docs/cp7/evidence/f03-redye/visual/X04_REDYE_FG_MOBILE.webp",
+        "retained_bytes": 329634,
+        "retained_sha256": "b0746ec46fbc14092eb083c751be656fc653fabe46514d436f10eb05665a0ce6",
+        "width": 390
+      },
+      {
+        "RGBA_sha256": "b373cf486b572824ed1a85a87c31ad4672ed630e92bcbc4c4173e0cb42649dc9",
+        "height": 5098,
+        "original": "X04_REDYE_REPORT_DESKTOP.png",
+        "original_sha256": "d5a0a20f80b6e1c060675109f56c2880c6700dbe36f289c30dcac47186a78fe1",
+        "pixel_identical": true,
+        "retained": "docs/cp7/evidence/f03-redye/visual/X04_REDYE_REPORT_DESKTOP.webp",
+        "retained_bytes": 1515468,
+        "retained_sha256": "d8ec3f1a4df4ba55117899a23de92144be364174a99421d4795c7d57f3ebaf5f",
+        "width": 1440
+      },
+      {
+        "RGBA_sha256": "5191b8253b50f472f28aa66694201cb3239c8f8bd80e9aa2c566e0f5a2589d66",
+        "height": 8047,
+        "original": "X04_REDYE_REPORT_MOBILE.png",
+        "original_sha256": "60da9a189a5b066177b03a503a7de57deb4213ca8606d92323dc02eb1c4cd17f",
+        "pixel_identical": true,
+        "retained": "docs/cp7/evidence/f03-redye/visual/X04_REDYE_REPORT_MOBILE.webp",
+        "retained_bytes": 1161462,
+        "retained_sha256": "d7176134d150b85681bdb7d2f51a718ab3322c70222fc57cbec44b678b7c17d4",
+        "width": 390
+      }
+    ],
+    "observations": [
+      "Stock4/reserved0/available4 shown; current group differs from the original movement group.",
+      "Whole HPP stays visibly incomplete although paid redye price200 is resolved.",
+      "Dated financial report remains blocked by original attendance/payroll obligations; no READY/full-HPP claim.",
+      "Mobile report includes both source fixtures from the same browser host, with native-matched global FG1541.44 versus desktop770.72.",
+      "No horizontal page clipping observed; original viewport overflow assertions pass."
+    ],
+    "scope": "Four source-bound full-page FG/report captures, with readable report-region crops inspected; desktop1440/mobile390. No intermediate-form or whole-ERP review."
+  },
+  "visual_review_performed": true
+}

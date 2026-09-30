@@ -14,13 +14,16 @@
 | E01 READY source plus E12 same-context second-tab recovery | `9ac03af38a59e97f3ca70f5b1fa3de0631f89083` | 1 / 0 / 1 / 2 | **4 PASS**, [handoff](F03_E01_HANDOFF.md), [receipt](evidence/f03-e01/E12_QUALIFIED_RECEIPT.json), run36660530418 |
 | E06 selected year-end invoice and close contention | `ca38bfbd1e8cc630e7d93ed2b7d70f64715143c2` | 4 / 1 / 0 / 0 | **5 PASS**, [handoff](F03_E06_HANDOFF.md), [receipt](evidence/f03-e06/QUALIFIED_RECEIPT.json), run36660802859 |
 | X04 selected vendor FREE/WAIVED, PO/rework/group-version and late-invoice return | `8f2d81c0198a1c451314811d074f7c88a9cf793a` | 6 / 0 / 1 / 0 | **7 PASS**, [handoff](F03_X04_HANDOFF.md), [receipt](evidence/f03-x04/QUALIFIED_RECEIPT.json), run36662520866 |
+| X04 selected paid-redye group/source, price/invoice/inverse and CP7 browser | `76ad87081780f5a62634b9a772112351eb2a2fbb` | 2 /0 /1 /2 | **5 PASS**, [handoff](F03_X04_REDYE_HANDOFF.md), [receipt](evidence/f03-redye/QUALIFIED_RECEIPT.json), run36686648838 |
+| E20/E14 complete FG pages → invoice capacity and current access | `17050a4ae68a6f92144ff0cf9907070774328893` | 2 /0 /1 /2 | **5 PASS**, [handoff](F03_CAPACITY_HANDOFF.md), [receipt](evidence/f03-capacity/QUALIFIED_RECEIPT.json), run36687135842 |
+| Latest selected combined regression after both additions | Same `17050a4...` | 10 /2 /4 /6 | **22 PASS**, [receipt](evidence/f03-combined/CAPACITY_QUALIFIED_REGRESSION_RECEIPT.json), run36687135844 |
 | Existing P09 regression | `a28ad225eff755cd63a2eb1e1f06de6ae0c14150` | Breakdown retained in receipt | **132 PASS plus3 separate smokes**, [receipt](evidence/p09-return-documents/P09_REGRESSION_RECEIPT.json), run36657403318 |
 | Selected combined F03 regression | Same `a28ad225...` | 10 / 2 / 4 / 6 | **22 PASS**, [receipt](evidence/f03-combined/RETURN_UI_QUALIFIED_RECEIPT.json), run36657403229 |
 | P13 report/period regression | Same `a28ad225...` | 16 / 3 / 2 / 4 | **25 PASS**, [receipt](evidence/p09-return-documents/PERIOD_REGRESSION_RECEIPT.json), run36657403499 |
 
 Do not sum these overlapping suites into a single family count. All qualified rows retain0 FAIL/INCOMPLETE/NOT_RUN in their own scope. Each receipt binds source tree, SQL bundle, complete original artifact hash, original report hash, compressed JSON reports and restoration/cleanup gates. All rows pass CP6 restoration, advisor, installation/backup restoration, unchanged primary and Auth/database cleanup. Browser uses real Auth/public RPCs on disposable PostgreSQL17; these are not mocked API outcomes.
 
-Product implementation is `a28ad225...`. A direct git comparison from that source through `8f2d81c0...` shows no changes in `src`, `scripts/cp7-src`, CP7 bundle builders or Supabase product paths; intervening commits add qualification, test-fixture corrections and evidence. The combined SQL bundle for new returns/E24 is `fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61`. The earlier E03 qualification used its separately recorded predecessor bundle, so it is not relabeled a new source run.
+Product implementation is `a28ad225...`. A direct git comparison from that source through `17050a4...` shows no changes in `src`, `scripts/cp7-src`, CP7 bundle builders or Supabase product paths; intervening commits add qualification, test-fixture corrections and evidence. The combined SQL bundle for new returns/E24 is `fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61`. The earlier E03 qualification used its separately recorded predecessor bundle, so it is not relabeled a new source run.
 
 ## What changed and what to examine
 
@@ -54,3 +57,15 @@ E06 retains both initial fixture-oracle errors before the five-case qualificatio
 [Combined regression on2649451](evidence/f03-combined/REDYE_FIXTURE_REGRESSION_RECEIPT.json), run36684295409/job109786478634, verifies22/22 PASS with all installation/restoration/advisor/cleanup gates. It is a separately bound rerun of the existing selected22, not22 additional cases or a paid-redye run. No fresh visual-review claim is made for its six browser captures.
 
 [Five paid-redye continuations](F03_X04_REDYE_HANDOFF.md) remain INCOMPLETE due to source-setup errors: old master date, stale BOM/different physical colour, then overlong generated size code. Original artifacts and complete compressed reports remain retained. The latest setup correction preserves all native guards and fixed200/40/30/10/240 amounts; full runtime qualification is pending. Main X04 seven-case qualification remains unchanged.
+
+## Qualified continuation after source-setup corrections
+
+Paid redye5/5 on76ad8708 and complete FG capacity/access5/5 on17050a4 now have full source-bound reports, original artifact/report hashes, all installation/admission/restoration/advisor/cleanup gates and nine inspected full-page captures retained losslessly with exact pixel hashes. The earlier pending statements above describe their historical diagnostic stage; both selected seams are now writer-qualified. Product source remains a28ad225, and a complete GitHub compare through17050a4 shows no product-path changes.
+
+The paid-redye worksheet proves UNKNOWN survives later SKU/vendor changes, first vendor price50 gives cost200, and invoice240 after sale1 adds FG30/COGS10/AP240 before exact invoice inverse. Whole HPP is still visibly incomplete from upstream sources; the report honestly retains original attendance/payroll blockers. Mobile global report includes both browser-host source fixtures. This is not full-HPP/READY or whole X04 acceptance.
+
+The capacity worksheet proves all30 one-piece lots across25+5 pages supply public invoice27: draft30/27/3, POST3/0/3, COGS270/FG30/AR540, native/public inverse back to30/value300 and original accounts. Actual desktop UI creates/posts the invoice; mobile reads stock/card without money, then actual403 clears stale positions/card. The native access case proves both invoice read/finance admission and separate POST permission. This is not future planner O07 or scale acceptance.
+
+Selected combined22/22 on the same17050a4 remains a separate overlapping regression. Native10, real races2, AuthHTTP4 and browser6 all pass; complete receipt is linked in the table, without a fresh regression visual-review claim. All original redye source setup/currency-page comparison failures and the capacity earlier-access refusal assertion remain retained.
+
+F03 stays OPEN for its remaining contract and independent family review. CP6 stays CLOSED_CONTRACT_SCOPE; independent_acceptance=false; production_go=false. Existing E05 partial-settlement and eligible paid-return/refund business boundaries remain concrete in the linked contract ledger.

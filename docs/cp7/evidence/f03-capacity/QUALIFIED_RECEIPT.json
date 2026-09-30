@@ -1,0 +1,202 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 3941621,
+  "artifact_id": 11084421246,
+  "artifact_sha256": "ae6024c6c0ccd46277d8b136d19ab62533556745fecabbfaa9d103b67c6fe1ab",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0,
+    "PASS": 5
+  },
+  "cp6_restored": true,
+  "expected_case_count": 5,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 2
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109795468019,
+  "nonpassing_cases": {},
+  "observed_case_count": 5,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385613,
+      "sha256": "21233c68c1c329d765fe2fbd479fa9deb78ae7eb68a187e9fe737a586a144065"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385613,
+      "sha256": "21233c68c1c329d765fe2fbd479fa9deb78ae7eb68a187e9fe737a586a144065"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "be0219630c87b782466eacc68cc531dd8dc6784c8f814cd83b8cfc9106d4a8cc"
+    },
+    "CP7_F03_CAPACITY.json": {
+      "bytes": 261945,
+      "sha256": "e5c2256cc0cb75c81a79644459923587667e2a8a560bc2b7ffa51f62867317a5"
+    },
+    "E20_E14_REVOKED_OPERATIONS_MOBILE.png": {
+      "bytes": 110835,
+      "sha256": "3ec4ca41c37824c337b7fa1e34ce557a2f83df630748ba93d43c2f623657a806"
+    },
+    "E20_E14_SOURCE_OPERATIONS_MOBILE.png": {
+      "bytes": 525490,
+      "sha256": "12a509a32337b1d30deb1e2fa85e2bded8c9ab327c061f2e4f4e0ec4f8504fd5"
+    },
+    "E20_INVOICE_OWNER_DESKTOP.png": {
+      "bytes": 501967,
+      "sha256": "5b3c83f6d35e317b2e179b3a4e214cf63f2534cf1e6603af7bd44258d92034c5"
+    },
+    "E20_POSTED_STOCK_OWNER_DESKTOP.png": {
+      "bytes": 552872,
+      "sha256": "0488cddc754d5bc4a92de3bdb8547aba7f10258234e9e71c5f7920719288c0f1"
+    },
+    "E20_SOURCE_OWNER_DESKTOP.png": {
+      "bytes": 666781,
+      "sha256": "a13fb3766a446d51abeda02b8ac98d738e7d0eb1cdfccd614677c6f38beabe79"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "02183555be15600c072b12a935786ddbb40dc17b3b78f954e2437f3ee5154b14"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360423,
+      "sha256": "995af09666527b0934b99963790870373816940a96ba6ff012574c2c70d5403a"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "production_go": false,
+  "report_sha256": "e5c2256cc0cb75c81a79644459923587667e2a8a560bc2b7ffa51f62867317a5",
+  "retained_reports_gzip_sha256": "3fee26c97679ee51319d51c981fd361749d28093ec508dfa18d8bf319cff0769",
+  "run_id": 36687135842,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "17050a4ae68a6f92144ff0cf9907070774328893",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36687135842",
+    "tool_head": "17050a4ae68a6f92144ff0cf9907070774328893",
+    "workflow": "CP7 F03 E20 E14 Complete Stock Capacity"
+  },
+  "source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+  "source_commit": "17050a4ae68a6f92144ff0cf9907070774328893",
+  "source_tree": "f40f42297a1521bee4a7fe69087ee78876d7c50d",
+  "status": "PASS",
+  "visual_review": {
+    "captures": [
+      {
+        "RGBA_sha256": "fc417c18401fa227acfa99b3086c502cfbde4da35d2770d7d6837da54df11326",
+        "height": 844,
+        "original": "E20_E14_REVOKED_OPERATIONS_MOBILE.png",
+        "original_sha256": "3ec4ca41c37824c337b7fa1e34ce557a2f83df630748ba93d43c2f623657a806",
+        "pixel_identical": true,
+        "retained": "docs/cp7/evidence/f03-capacity/visual/E20_E14_REVOKED_OPERATIONS_MOBILE.webp",
+        "retained_bytes": 87174,
+        "retained_sha256": "e4d6dda34a814d47bfb77eb81bce61297a2c5b165615359279ff155860eea1cd",
+        "width": 390
+      },
+      {
+        "RGBA_sha256": "0fe76c5fe74a55223a35004ba08a2ba702f351947e35cb61ced67cc91f85c741",
+        "height": 3178,
+        "original": "E20_E14_SOURCE_OPERATIONS_MOBILE.png",
+        "original_sha256": "12a509a32337b1d30deb1e2fa85e2bded8c9ab327c061f2e4f4e0ec4f8504fd5",
+        "pixel_identical": true,
+        "retained": "docs/cp7/evidence/f03-capacity/visual/E20_E14_SOURCE_OPERATIONS_MOBILE.webp",
+        "retained_bytes": 431290,
+        "retained_sha256": "41e20e396e7e628f088c4ba7a5a4bd45f0d50fb614a93e47cdc8e1cca9d51189",
+        "width": 390
+      },
+      {
+        "RGBA_sha256": "b5b725c7c577793e9e79cb9cae453149c41929a61a5276c76e30bb9cab55a14c",
+        "height": 1626,
+        "original": "E20_INVOICE_OWNER_DESKTOP.png",
+        "original_sha256": "5b3c83f6d35e317b2e179b3a4e214cf63f2534cf1e6603af7bd44258d92034c5",
+        "pixel_identical": true,
+        "retained": "docs/cp7/evidence/f03-capacity/visual/E20_INVOICE_OWNER_DESKTOP.webp",
+        "retained_bytes": 371360,
+        "retained_sha256": "09930dc5a206ff2c1074bd1ab1caeac607b1a969878cc43b5f0d76ec7c8db4b1",
+        "width": 1440
+      },
+      {
+        "RGBA_sha256": "4e039e273a7e60f7fdadd368385d2f7418dac32bd220fff02facfeaf6abdc2f5",
+        "height": 1743,
+        "original": "E20_POSTED_STOCK_OWNER_DESKTOP.png",
+        "original_sha256": "0488cddc754d5bc4a92de3bdb8547aba7f10258234e9e71c5f7920719288c0f1",
+        "pixel_identical": true,
+        "retained": "docs/cp7/evidence/f03-capacity/visual/E20_POSTED_STOCK_OWNER_DESKTOP.webp",
+        "retained_bytes": 407040,
+        "retained_sha256": "deedc69b4de31a8f5149b8393d99231dd4859145ae0eb1348628efbc4056613a",
+        "width": 1440
+      },
+      {
+        "RGBA_sha256": "27c91563b961e70a08a060ce1945e24cd4721f94a18cdf3192796c6a4c348987",
+        "height": 2354,
+        "original": "E20_SOURCE_OWNER_DESKTOP.png",
+        "original_sha256": "a13fb3766a446d51abeda02b8ac98d738e7d0eb1cdfccd614677c6f38beabe79",
+        "pixel_identical": true,
+        "retained": "docs/cp7/evidence/f03-capacity/visual/E20_SOURCE_OWNER_DESKTOP.webp",
+        "retained_bytes": 500036,
+        "retained_sha256": "cbbd52580e91e25e6ca7c22880bfe6e713015f98becfb0f8894571dd55838450",
+        "width": 1440
+      }
+    ],
+    "observations": [
+      "Second page shows5 positions while whole totals stay30; payload proof covers all25+5 distinct lots.",
+      "Posted desktop invoice27 leaves AR540; refreshed stock shows physical3/reserved0/available3, each remaining one-piece lot at10.",
+      "Mobile operations stock/card contain no money; actual403 removes all old positions and card.",
+      "Human-facing denial: Akun tidak memiliki izin untuk operasi ini. No native error code shown.",
+      "No horizontal clipping observed; native/HTTP fixed worksheet and browser viewport assertions pass."
+    ],
+    "scope": "Five source-bound actual full-page desktop source/invoice/posted-stock and mobile operations source/card/denial captures inspected. No first25-position capture or every intermediate form/viewport review."
+  },
+  "visual_review_performed": true
+}
