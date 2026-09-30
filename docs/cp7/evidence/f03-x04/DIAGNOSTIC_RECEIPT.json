@@ -1,0 +1,132 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 1643767,
+  "artifact_id": 11074757358,
+  "artifact_sha256": "f6005214b8650d454367f40194ea86bb839369132e93b1cb8af55f2b77ef8aad",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 2,
+    "NOT_RUN": 0,
+    "PASS": 5
+  },
+  "cp6_restored": true,
+  "expected_case_count": 7,
+  "full_family_acceptance": false,
+  "groups": {
+    "http": {
+      "INCOMPLETE": 1
+    },
+    "native": {
+      "INCOMPLETE": 1,
+      "PASS": 5
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109718709487,
+  "nonpassing_cases": {
+    "http:F03_X04_HTTP_PINNED_PO_FG_REPORT": {
+      "error": "{'code': 'X04_HTTP_CARD_COMPARISON', 'differences': [{'path': '.rows.0.physical_at', 'expected': '2026-09-30T09:57:10.936403+07:00', 'actual': '2026-09-30T02:57:10.936403+00:00'}, {'path': '.rows.0.recorded_at', 'expected': '2026-09-30T09:58:41.36677+07:00', 'actual': '2026-09-30T02:58:41.36677+00:00'}]}",
+      "session_leaks": [],
+      "status": "INCOMPLETE",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 139, in strict_rows\n    row=run_one(i,key,operation)\n        ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 302, in <lambda>\n    report['cases'],refusal=strict_rows('AUDITOR_HTTP_'+phase.upper(),planned,lambda i,key,operation:operation(),HTTP_DB,('authenticator',))\n                                                                                                     ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_x04_cases.py\", line 167, in pin\n    assert response['body']['page']==observation['card']['page'], dict(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: {'code': 'X04_HTTP_CARD_COMPARISON', 'differences': [{'path': '.rows.0.physical_at', 'expected': '2026-09-30T09:57:10.936403+07:00', 'actual': '2026-09-30T02:57:10.936403+00:00'}, {'path': '.rows.0.recorded_at', 'expected': '2026-09-30T09:58:41.36677+07:00', 'actual': '2026-09-30T02:58:41.36677+00:00'}]}\n"
+    },
+    "native:F03_X04_PO_PIN_MISMATCH_REFUSED": {
+      "error": "{'code': 'X04_OLD_CARD_COMPARISON', 'differences': [{'path': '.0.physical_at', 'expected': '2026-09-30T09:56:48.688149+07:00', 'actual': '2026-09-30T02:56:48.688149+00:00'}, {'path': '.0.recorded_at', 'expected': '2026-09-30T09:58:30.871302+07:00', 'actual': '2026-09-30T02:58:30.871302+00:00'}], 'hpp_completeness': {'po_id': '39e1bd38-7fe2-4830-ae84-fd973457f26f', 'po_number': 'BD2-PO-39e1bd38-7fe2-4830-ae84-fd973457f26f', 'po_status': 'QC', 'hpp_per_pcs': 25.17, 'is_adjusted': False, 'latest_hpp_at': '2026-09-30T02:58:30.849016+00:00', 'qty_basis_pcs': 16, 'display_status': 'SEMENTARA', 'pending_reasons': ['PRODUKSI_BELUM_FINISHED', 'BIAYA_LAUNDRY_MASIH_ESTIMASI/BELUM_FINAL', 'HPP_ENGINE_MASIH_ESTIMATED'], 'current_hpp_total': 402.72, 'engine_cost_state': 'ESTIMATED', 'pending_reason_count': 3}}",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_lock_keys": [],
+        "advisory_locks": 0,
+        "other_sessions": []
+      },
+      "status": "INCOMPLETE",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 112, in strict_group\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_x04_cases.py\", line 143, in <lambda>\n    return [('F03_X04_'+name, lambda operation=op: continuation(cur, today, operation))\n                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_x04_cases.py\", line 119, in continuation\n    result = operation(cur, today)\n             ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_x04_cases.py\", line 138, in <lambda>\n    ('PO_PIN_MISMATCH_REFUSED', lambda c, d: pinned_po(c, d, True)),\n                                             ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_x04_cases.py\", line 107, in pinned_po\n    assert after['page']['rows']==before['page']['rows'], dict(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: {'code': 'X04_OLD_CARD_COMPARISON', 'differences': [{'path': '.0.physical_at', 'expected': '2026-09-30T09:56:48.688149+07:00', 'actual': '2026-09-30T02:56:48.688149+00:00'}, {'path': '.0.recorded_at', 'expected': '2026-09-30T09:58:30.871302+07:00', 'actual': '2026-09-30T02:58:30.871302+00:00'}], 'hpp_completeness': {'po_id': '39e1bd38-7fe2-4830-ae84-fd973457f26f', 'po_number': 'BD2-PO-39e1bd38-7fe2-4830-ae84-fd973457f26f', 'po_status': 'QC', 'hpp_per_pcs': 25.17, 'is_adjusted': False, 'latest_hpp_at': '2026-09-30T02:58:30.849016+00:00', 'qty_basis_pcs': 16, 'display_status': 'SEMENTARA', 'pending_reasons': ['PRODUKSI_BELUM_FINISHED', 'BIAYA_LAUNDRY_MASIH_ESTIMASI/BELUM_FINAL', 'HPP_ENGINE_MASIH_ESTIMATED'], 'current_hpp_total': 402.72, 'engine_cost_state': 'ESTIMATED', 'pending_reason_count': 3}}\n"
+    }
+  },
+  "observed_case_count": 7,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385605,
+      "sha256": "a0f903d81d48e7a96d35e7d48f7356a439cc0bf3313463467ce4e0ceabb25b53"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385605,
+      "sha256": "a0f903d81d48e7a96d35e7d48f7356a439cc0bf3313463467ce4e0ceabb25b53"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "15fa97565dc3822d0dbcfdea19e55b0d79777647c2bba8c43511e22b89122395"
+    },
+    "CP7_F03_X04.json": {
+      "bytes": 363575,
+      "sha256": "0089bc0ed92d65a2ba529043f1917012c182450ae572817b38eb4df40f4a0bb9"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10525,
+      "sha256": "249212045810304338182d660bd1578039813ce513ade89c5cdcdf7433b28e7c"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360418,
+      "sha256": "f530fbd589a98077af44c4e181f7e19bc0f3690e15cd71910c5c87e7e71194ba"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "production_go": false,
+  "report_sha256": "0089bc0ed92d65a2ba529043f1917012c182450ae572817b38eb4df40f4a0bb9",
+  "retained_reports_gzip_sha256": "2c1c87a83e0dc478f1f51054df302fce8af220729c415b4e73ec586c0a4a2439",
+  "run_id": 36662043158,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "5434bffaccc86c1c248b99de46ea6d4202f3dcff",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36662043158",
+    "tool_head": "5434bffaccc86c1c248b99de46ea6d4202f3dcff",
+    "workflow": "CP7 F03 X04 Source Versions"
+  },
+  "source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+  "source_commit": "5434bffaccc86c1c248b99de46ea6d4202f3dcff",
+  "source_tree": "3fd62eb71db0c20566c495f13044b8fbb3b72b58",
+  "status": "INCOMPLETE",
+  "visual_review_performed": false
+}
