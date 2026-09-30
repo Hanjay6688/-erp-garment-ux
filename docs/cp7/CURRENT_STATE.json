@@ -465,7 +465,7 @@
     "visual_review": false
   },
   "f03_x04_redye": {
-    "status": "DECLARED_5_EXECUTIONS_PENDING",
+    "status": "5_INCOMPLETE_SAME_DAY_SOURCE_FIXTURE_CORRECTED_RERUN_PENDING",
     "expected_case_count": 5,
     "groups": {
       "native": 2,
@@ -477,6 +477,18 @@
     "full_family_acceptance": false,
     "independent_acceptance": false,
     "production_go": false,
-    "visual_review": false
+    "visual_review": false,
+    "source": "4609705b99613d20bf264f39dcc347740b4cac13",
+    "source_tree": "8285cd8877f31181d736a183c882c0bcd6aea140",
+    "run_id": 36683521244,
+    "job_id": 109784060633,
+    "counts": {
+      "PASS": 0,
+      "FAIL": 0,
+      "INCOMPLETE": 5,
+      "NOT_RUN": 0
+    },
+    "diagnostic": "docs/cp7/evidence/f03-redye/FIRST_RECEIPT.json",
+    "remaining": "New SKU masters lawfully refuse the old AV fixture day (BF_HISTORY). Corrected fixture uses the already qualified same-day combined production clock; it preserves master guards and all monetary expectations. Five-case rerun pending."
   }
 }

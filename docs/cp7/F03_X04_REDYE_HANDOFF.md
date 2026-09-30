@@ -2,7 +2,7 @@
 
 **Five executions declared; qualification pending.** CP6 CLOSED_CONTRACT_SCOPE, F03 OPEN, independent_acceptance=false, production_go=false. The earlier [seven-case X04 continuation](F03_X04_HANDOFF.md) remains writer-qualified on `8f2d81c0`; it is not relabeled a run of these new cases.
 
-The fixed source is the accepted BE native route: actual sewing/laundry/QC BS, a separate paid redye attempt, four GOOD returned and an atomic conversion to the chosen physical product. Its commercial membership is set before conversion, then lawfully moved after all original stock facts. Group settings contain no SKU laundry tariff. A later vendor tariff99 is for later service attempts.
+The fixed source uses the accepted native production/laundry/QC and BE paid-redye routes: actual sewing/laundry/QC BS, a separate paid redye attempt, four GOOD returned and an atomic conversion to the chosen physical product. Its commercial membership is set before conversion, then lawfully moved after all original stock facts. Group settings contain no SKU laundry tariff. A later vendor tariff99 is for later service attempts.
 
 ## Exact worksheet and declared scope
 
@@ -16,3 +16,9 @@ The FG card explicitly restates valuation from information currently known. Ther
 The qualifier retains the installed26-role combined stack, pinned PostgreSQL17, exact predecessor definition/owner/ACL admission, advisor, CP6 restoration, installation/backup restoration, unchanged primary and Auth/database cleanup. The UI source is unchanged. Four FG/report screenshots are requested across desktop/mobile; visual review is pending until actual captures are downloaded and inspected.
 
 Files: `scripts/cp7_f03_redye_cases.py`, `scripts/cp7_f03_redye_probe.py`, `scripts/cp7_f03_redye_browser_fixture.py`, `scripts/cp7_f03_redye_browser.mjs`, `.github/workflows/cp7-f03-redye.yml`. Full X04/F03 acceptance and independent review remain open.
+
+## First run — lawful history refusal, corrected source fixture pending
+
+Source `4609705b99613d20bf264f39dcc347740b4cac13`, tree `8285cd8877f31181d736a183c882c0bcd6aea140`, [run36683521244](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36683521244), job109784060633: **0 PASS /0 FAIL /5 INCOMPLETE /0 NOT_RUN**. [Original receipt](evidence/f03-redye/FIRST_RECEIPT.json) retains the complete compressed reports and ZIP digest `5def2ffe797b58ed3bf79c8985dba0e0862390d1139dd6e105c492388f57b9f7`. Restoration, advisor, install/backup restoration, unchanged primary and cleanup pass; writer-runtime qualification remains false. No actual price/stock/report journey or visual capture qualified in this run.
+
+The old AV source fixture was several days old. Creating a new SKU master for that day lawfully raises `BF_HISTORY`; the fixture was invalid. The corrected fixture uses the already qualified same-day BF combined production clock: unequal sizes5/8/3/4 through actual work/laundry/QC, four BS on the fourth physical size, original sewing earned before BS, then four pieces in a separate BE paid-redye attempt. The target uses that same physical size; its group is created before its first conversion. All physical times precede now, and later regroup follows all original movements. No master history/date guard, vendor-price authority, source ledger or monetary worksheet is changed. The complete five-case rerun is pending.

@@ -9,28 +9,32 @@ import json
 import uuid
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal as D
-import cp6_av_probe as av
 import cp6_be_probe as be
 import cp6_bf_probe as bf
+import cp6_bf_combined_probe as combined
 import cp7_f03_x04_cases as x04
 
 b, chain = be.bdp, be.chain
 
 
 def fixture(cur, today, known=False):
-    # Same native source journey as accepted BE redye_fixture, with target
-    # membership established before its actual conversion, not backfilled.
-    f = av.rework_ready(cur, today-timedelta(days=1))
-    b.api.admin(cur)
-    chain.bs_action(cur, 'SAVE_REWORK', dict(id=f['order'], action='CANCEL',
-        change_reason='X04 paid service replaces the unbound fixture order'),
-        chain.version(cur, 'rework_orders', f['order']))
+    # Use the already qualified same-day source clock. A new SKU master cannot
+    # be backdated to the old AV fixture's work day. All price/version guards
+    # remain in force; the target group precedes its first actual conversion.
+    f = combined.fixture(cur,today,True)
+    washed=combined.wash(cur,f,range(4),11)
+    combined.finish(cur,f,[washed],range(4),13,bs={3:4})
+    bs=b.one(cur,"select id::text from erp.bs_cases where po_id=%s and product_id=%s and status='OPEN'",f['po'],f['roots'][3])
+    chain.bs_action(cur,'CLASSIFY_BS',dict(bs_case_id=bs,cause_source='UNKNOWN',
+        components=[dict(work_component_id=combined.prod.COMPONENT,completed_before_bs_qty=4)],
+        change_reason='X04 original sewing earned before the paid redye'),chain.version(cur,'bs_cases',bs))
+    f.update(bs=bs,product=f['roots'][3])
     b.api.admin(cur)
     process = b.one(cur, """insert into erp.wash_processes(process_code,process_name)
         values(%s,'X04 real paid redye') returning id::text""", 'X04-'+uuid.uuid4().hex[:10])
-    target = b.sized_product(cur, chain.base.SIZE, 'X04-DYE-'+uuid.uuid4().hex[:8])
+    target = b.sized_product(cur, f['size_ids'][3], 'X04-DYE-'+uuid.uuid4().hex[:8])
     anchor = bf.products(cur, ('ANCHOR',))[0][0]
-    start = chain.production.at(f['day'], 13, 30)
+    start = f['when'](13,15)
     initial = bf.group(cur, [target], start, settings=dict(price='185000.00',
         bom=None, work_rates=[], laundry_rates=[]))
     successor = bf.group(cur, [anchor], start, settings=dict(price='999999.00',
@@ -43,7 +47,7 @@ def fixture(cur, today, known=False):
     number = 'X04-DYE-'+uuid.uuid4().hex[:12]
     order = dict(rework_number=number,bs_case_id=str(f['bs']),destination_type='LAUNDRY',
         contractor_id=None,vendor_id=chain.base.VENDOR,qty_sent=4,
-        physical_sent_at=b.iso(chain.production.at(f['day'],14)),status='IN_PROGRESS',
+        physical_sent_at=b.iso(f['when'](14)),status='IN_PROGRESS',
         return_fg_location_id=chain.base.LOCATION,accessory_bom_version_id=bom,
         accessory_bom_item_ids=[],components=[])
     made = be.be(cur,'SAVE_REDYE',dict(order=order,target_product_id=target,
@@ -51,7 +55,7 @@ def fixture(cur, today, known=False):
         reason='X04 actual paid service has its original economic source'))
     rid = made['rework_id']
     chain.bs_action(cur,'COMPLETE_REWORK',dict(rework_order_id=rid,qty_good=4,qty_bs=0,
-        completed_at=b.iso(chain.production.at(f['day'],16)),return_fg_location_id=chain.base.LOCATION,
+        completed_at=b.iso(f['when'](16)),return_fg_location_id=chain.base.LOCATION,
         change_reason='X04 four pieces actually returned'),chain.version(cur,'rework_orders',rid))
     dest = b.one(cur,"""select a.destination_lot_id::text from erp.be_conversion_sources_v1 s
         join erp.product_conversion_allocations a on a.conversion_id=s.conversion_id
@@ -155,7 +159,7 @@ def unknown(cur,today):
 
 def invoice_inverse(cur,today):
     f=fixture(cur,today,True)
-    sale=b.sell(cur,f,f['target'],1,17)
+    sale=combined.sale(cur,dict(f,roots=[f['target']]),0,1,17)
     allocation=cur.execute('select to_jsonb(a) from erp.sale_stock_allocations a where sale_item_id in(select id from erp.sales_items where sale_id=%s)',(sale,)).fetchall()
     before=regroup(cur,f)
     assert before['rate']==50 and before['cost']==200 and before['qty']==3

@@ -1,0 +1,154 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 1635106,
+  "artifact_id": 11083295887,
+  "artifact_sha256": "5def2ffe797b58ed3bf79c8985dba0e0862390d1139dd6e105c492388f57b9f7",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 5,
+    "NOT_RUN": 0,
+    "PASS": 0
+  },
+  "cp6_restored": true,
+  "expected_case_count": 5,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "INCOMPLETE": 2
+    },
+    "http": {
+      "INCOMPLETE": 1
+    },
+    "native": {
+      "INCOMPLETE": 2
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109784060633,
+  "nonpassing_cases": {
+    "browser:F03_X04_REDYE_BROWSER_DESKTOP": {
+      "error": "Error: Command failed: python ../auditor/scripts/cp7_f03_redye_browser_fixture.py prepare {\"today\":\"2026-09-30\"}\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_f03_redye_browser_fixture.py\", line 43, in <module>\n    if __name__=='__main__':main()\n                            ^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_f03_redye_browser_fixture.py\", line 20, in main\n    out=cases.fixture(cur,date.fromisoformat(p['today']))\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_cases.py\", line 38, in fixture\n    saved = bf.save(cur, [initial, successor], start)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bf_probe.py\", line 55, in save\n    return call(cur,'SAVE_GROUPS',dict(effective_from=at.isoformat(),reason='BF synthetic owner scenario',groups=groups),key)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bf_probe.py\", line 34, in call\n    result=cur.execute('select public.erp_save_sku_action_v1(%s,%s::jsonb,%s)',\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: BF_HISTORY: master baru hanya mulai sekarang atau mendatang\nCONTEXT:  PL/pgSQL function erp.bf_save_groups_v1(jsonb,uuid) line 8 at RAISE\nPL/pgSQL function erp.save_sku_action_v1(text,jsonb,uuid) line 17 at assignment\nSQL function \"erp_save_sku_action_v1\" statement 1\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_browser.mjs:5:34)\n    at flow (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_browser.mjs:15:11)\n    at file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_browser.mjs:82:84\n    at main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:19)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3",
+      "status": "INCOMPLETE"
+    },
+    "browser:F03_X04_REDYE_BROWSER_MOBILE": {
+      "error": "Error: Command failed: python ../auditor/scripts/cp7_f03_redye_browser_fixture.py prepare {\"today\":\"2026-09-30\"}\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_f03_redye_browser_fixture.py\", line 43, in <module>\n    if __name__=='__main__':main()\n                            ^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_f03_redye_browser_fixture.py\", line 20, in main\n    out=cases.fixture(cur,date.fromisoformat(p['today']))\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_cases.py\", line 38, in fixture\n    saved = bf.save(cur, [initial, successor], start)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bf_probe.py\", line 55, in save\n    return call(cur,'SAVE_GROUPS',dict(effective_from=at.isoformat(),reason='BF synthetic owner scenario',groups=groups),key)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bf_probe.py\", line 34, in call\n    result=cur.execute('select public.erp_save_sku_action_v1(%s,%s::jsonb,%s)',\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: BF_HISTORY: master baru hanya mulai sekarang atau mendatang\nCONTEXT:  PL/pgSQL function erp.bf_save_groups_v1(jsonb,uuid) line 8 at RAISE\nPL/pgSQL function erp.save_sku_action_v1(text,jsonb,uuid) line 17 at assignment\nSQL function \"erp_save_sku_action_v1\" statement 1\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_browser.mjs:5:34)\n    at flow (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_browser.mjs:15:11)\n    at file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_browser.mjs:82:142\n    at main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:19)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3",
+      "status": "INCOMPLETE"
+    },
+    "http:F03_X04_REDYE_HTTP_AUTH_SOURCE_PRICE_AND_CP7": {
+      "error": "BF_HISTORY: master baru hanya mulai sekarang atau mendatang\nCONTEXT:  PL/pgSQL function erp.bf_save_groups_v1(jsonb,uuid) line 8 at RAISE\nPL/pgSQL function erp.save_sku_action_v1(text,jsonb,uuid) line 17 at assignment\nSQL function \"erp_save_sku_action_v1\" statement 1",
+      "session_leaks": [],
+      "status": "INCOMPLETE",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 139, in strict_rows\n    row=run_one(i,key,operation)\n        ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 302, in <lambda>\n    report['cases'],refusal=strict_rows('AUDITOR_HTTP_'+phase.upper(),planned,lambda i,key,operation:operation(),HTTP_DB,('authenticator',))\n                                                                                                     ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_cases.py\", line 206, in price\n    f=fixture(cur,today);before=regroup(cur,f)\n      ^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_cases.py\", line 38, in fixture\n    saved = bf.save(cur, [initial, successor], start)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bf_probe.py\", line 55, in save\n    return call(cur,'SAVE_GROUPS',dict(effective_from=at.isoformat(),reason='BF synthetic owner scenario',groups=groups),key)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bf_probe.py\", line 34, in call\n    result=cur.execute('select public.erp_save_sku_action_v1(%s,%s::jsonb,%s)',\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: BF_HISTORY: master baru hanya mulai sekarang atau mendatang\nCONTEXT:  PL/pgSQL function erp.bf_save_groups_v1(jsonb,uuid) line 8 at RAISE\nPL/pgSQL function erp.save_sku_action_v1(text,jsonb,uuid) line 17 at assignment\nSQL function \"erp_save_sku_action_v1\" statement 1\n"
+    },
+    "native:F03_X04_REDYE_GROUP_INVOICE_SOLD_INVERSE": {
+      "error": "BF_HISTORY: master baru hanya mulai sekarang atau mendatang\nCONTEXT:  PL/pgSQL function erp.bf_save_groups_v1(jsonb,uuid) line 8 at RAISE\nPL/pgSQL assignment \"result:=case a when 'SAVE_GROUPS' then erp.bf_save_groups_v1(p_payload,p_client_request_id) else erp.bf_bind_wave_v1(p_payload,p_client_request_id) end\"\nPL/pgSQL function erp.save_sku_action_v1(text,jsonb,uuid) line 17 at assignment\nSQL function \"erp_save_sku_action_v1\" statement 1",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_lock_keys": [],
+        "advisory_locks": 0,
+        "other_sessions": []
+      },
+      "status": "INCOMPLETE",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 112, in strict_group\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_cases.py\", line 197, in <lambda>\n    ('F03_X04_REDYE_GROUP_INVOICE_SOLD_INVERSE',lambda:x04.continuation(cur,today,invoice_inverse))]\n                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_x04_cases.py\", line 146, in continuation\n    result = operation(cur, today)\n             ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_cases.py\", line 157, in invoice_inverse\n    f=fixture(cur,today,True)\n      ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_cases.py\", line 38, in fixture\n    saved = bf.save(cur, [initial, successor], start)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bf_probe.py\", line 55, in save\n    return call(cur,'SAVE_GROUPS',dict(effective_from=at.isoformat(),reason='BF synthetic owner scenario',groups=groups),key)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bf_probe.py\", line 34, in call\n    result=cur.execute('select public.erp_save_sku_action_v1(%s,%s::jsonb,%s)',\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: BF_HISTORY: master baru hanya mulai sekarang atau mendatang\nCONTEXT:  PL/pgSQL function erp.bf_save_groups_v1(jsonb,uuid) line 8 at RAISE\nPL/pgSQL assignment \"result:=case a when 'SAVE_GROUPS' then erp.bf_save_groups_v1(p_payload,p_client_request_id) else erp.bf_bind_wave_v1(p_payload,p_client_request_id) end\"\nPL/pgSQL function erp.save_sku_action_v1(text,jsonb,uuid) line 17 at assignment\nSQL function \"erp_save_sku_action_v1\" statement 1\n"
+    },
+    "native:F03_X04_REDYE_UNKNOWN_GROUP_FIRST_PRICE": {
+      "error": "BF_HISTORY: master baru hanya mulai sekarang atau mendatang\nCONTEXT:  PL/pgSQL function erp.bf_save_groups_v1(jsonb,uuid) line 8 at RAISE\nPL/pgSQL function erp.save_sku_action_v1(text,jsonb,uuid) line 17 at assignment\nSQL function \"erp_save_sku_action_v1\" statement 1",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_lock_keys": [],
+        "advisory_locks": 0,
+        "other_sessions": []
+      },
+      "status": "INCOMPLETE",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 112, in strict_group\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_cases.py\", line 196, in <lambda>\n    return [('F03_X04_REDYE_UNKNOWN_GROUP_FIRST_PRICE',lambda:x04.continuation(cur,today,unknown)),\n                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_x04_cases.py\", line 146, in continuation\n    result = operation(cur, today)\n             ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_cases.py\", line 138, in unknown\n    f=fixture(cur,today)\n      ^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_cases.py\", line 38, in fixture\n    saved = bf.save(cur, [initial, successor], start)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bf_probe.py\", line 55, in save\n    return call(cur,'SAVE_GROUPS',dict(effective_from=at.isoformat(),reason='BF synthetic owner scenario',groups=groups),key)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bf_probe.py\", line 34, in call\n    result=cur.execute('select public.erp_save_sku_action_v1(%s,%s::jsonb,%s)',\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: BF_HISTORY: master baru hanya mulai sekarang atau mendatang\nCONTEXT:  PL/pgSQL function erp.bf_save_groups_v1(jsonb,uuid) line 8 at RAISE\nPL/pgSQL function erp.save_sku_action_v1(text,jsonb,uuid) line 17 at assignment\nSQL function \"erp_save_sku_action_v1\" statement 1\n"
+    }
+  },
+  "observed_case_count": 5,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385605,
+      "sha256": "d26fb9c3b96e061d26a4768d9e5cb8c2baa3fdc6eedeca785123f41eb77ed191"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385605,
+      "sha256": "d26fb9c3b96e061d26a4768d9e5cb8c2baa3fdc6eedeca785123f41eb77ed191"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "edf56ec79b117a9932242c9b12eba3e0fb407a2d4394a38f0acefd630179dc87"
+    },
+    "CP7_F03_REDYE.json": {
+      "bytes": 271620,
+      "sha256": "6a3396324ffc6a4bbd3d67e939e2420b905287be3b125d4ea7d401cd60b1ba7a"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "15e18eeb8d1a22c584124471528dcfc85eaa45d3606284bee086f6ac711a5f42"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360426,
+      "sha256": "f121d4eb35ade22b5233420267cff71a38574b8c771a4f3cf7960f9af71e4bf9"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "production_go": false,
+  "report_sha256": "6a3396324ffc6a4bbd3d67e939e2420b905287be3b125d4ea7d401cd60b1ba7a",
+  "retained_reports_gzip_sha256": "b0c680035ecb8dc623fa7b23b4aa08b6baaf8c5cc030e14a48870b47c1eac54d",
+  "run_id": 36683521244,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "4609705b99613d20bf264f39dcc347740b4cac13",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36683521244",
+    "tool_head": "4609705b99613d20bf264f39dcc347740b4cac13",
+    "workflow": "CP7 F03 X04 Paid Redye Continuation"
+  },
+  "source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+  "source_commit": "4609705b99613d20bf264f39dcc347740b4cac13",
+  "source_tree": "8285cd8877f31181d736a183c882c0bcd6aea140",
+  "status": "INCOMPLETE",
+  "visual_review_performed": false
+}
