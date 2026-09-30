@@ -11,7 +11,7 @@ d9c7cc004a9c264a221de03a93d4b38efca39388c4927f3c1c89e69e53241dfd  docs/cp7/f04/y
 c3e1f3a1cc4c278f3df1a8ed2e50c71a01c9343a16551789d71fc72fe4304f95  docs/cp7/f04/yield-v1/evidence/browser-results.json.gz
 d73ce260379a030e70506245855f1d5c705e13d7d346d8b7873416a15428bd0a  docs/cp7/f04/yield-v1/evidence/unit-results.json.gz
 925afe2115a6c4a4e08e0633442c5eda51ab6603b9a1b64b697e96d1c5bf2324  docs/cp7/f05/HANDOFF.md
-4edbbd8ec3769382226b45c7098cc4724af0469d017baae273635f7603fc022d  docs/cp7/f05/WRITER_NEXT.md
+afdd03e989646fdc74fb9030ea9e5ee5859b75aa9400d17925fbda97e7a91a73  docs/cp7/f05/WRITER_NEXT.md
 1489a0c174275b1418e3f3ca93e2de64764bcdea52413afb9cc4afda02e3eda5  docs/cp7/f05/YIELD_ANALYZER.md
 c7ff77cea0303401a96490c09c8b46c1eb10a50a3d57cd4f762f0d31be9cc7bf  scripts/cp7-src/models/cutting-yield.sql
 d5ef4faee13a9ce0e0170d04f7fc96962e3e16a7c0cb3666ed0fc397196c8879  scripts/cp7-src/models/cuttingYieldContract.ts
