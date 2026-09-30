@@ -27,3 +27,14 @@ it('does not accept a delayed response for a previous mix', async () => {
   await click(); await mix('jumbo'); await act(async () => resolve(supplied)); expect(host.querySelector('[data-yield-range]')).toBeNull()
 })
 it('stale snapshot blocks fixture reads and ranges', async () => { await mount(undefined, true); await click(); expect(host.querySelector('button')!.disabled).toBe(true); expect(host.querySelector('[data-yield-range]')).toBeNull() })
+it.each(['completed', 'pending'])('withholds the %s result when the analyzer reader is replaced', async state => {
+  let resolve!: (review: YieldReview) => void; let supplied!: YieldReview
+  const old: YieldReadPort = async (...args) => { supplied = await readYieldFixture(...args); return state === 'completed' ? supplied : new Promise(done => { resolve = done }) }
+  await mount(old); await click()
+  if (state === 'completed') expect(host.querySelector('[data-yield-range]')).not.toBeNull()
+  const next: YieldReadPort = async (...args) => ({ ...await readYieldFixture(...args), modelVersion: 'fixture-replacement-reader' })
+  await mount(next)
+  if (state === 'pending') await act(async () => resolve(supplied))
+  expect(host.querySelector('[data-yield-range]')).toBeNull()
+  await click(); expect(host.textContent).toContain('fixture-replacement-reader')
+})

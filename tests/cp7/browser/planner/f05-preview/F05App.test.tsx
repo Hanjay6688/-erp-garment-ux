@@ -4,6 +4,7 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import F05App from './F05App'
 import { createAnalysisReadPort, type AnalysisReadPort } from '../../../../../src/cp7/workspace'
+import { readYieldFixture } from './cuttingYieldFixtures'
 
 let host: HTMLDivElement; let root: Root
 beforeEach(() => {
@@ -60,4 +61,39 @@ it('does not show a late clipboard success after scope removal', async () => {
   let resolve!: () => void; Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: () => new Promise<void>(done => { resolve = done }) } })
   await mount(); await select('Data contoh', 'FRAMEWORK'); await click('Salin prompt'); await select('Hak akses contoh', 'DENIED'); await act(async () => resolve())
   expect(host.textContent).not.toContain('Prompt berhasil disalin')
+})
+it('supplies the analyzer read port from the workspace entry', async () => {
+  const read = vi.fn(readYieldFixture)
+  await act(async () => root.render(<F05App runtimeMode="DEMO_SIMULATION" yieldReadPort={read} />))
+  await select('Data contoh', 'FRAMEWORK'); expect(read).not.toHaveBeenCalled()
+  await click('Muat contoh analyzer'); expect(read).toHaveBeenCalledOnce()
+  expect(read.mock.calls[0][0].usableWidthCm).toBeNull()
+  expect(host.textContent).toContain('80–120 PCS')
+})
+it.each(['actor', 'epoch'])('purges previous session data when %s changes at the same visible role', async change => {
+  const fixture = await createAnalysisReadPort('DEMO_SIMULATION').read('FRAMEWORK')
+  const read = vi.fn().mockResolvedValue(fixture)
+  await mount({ read }); await select('Data contoh', 'FRAMEWORK')
+  await click('Buat arsip contoh'); await click('Antrekan simulasi'); await click('Muat contoh analyzer')
+  expect(host.textContent).toContain('local-report-1'); expect(host.querySelector('[data-yield-range]')).not.toBeNull()
+  const next = structuredClone(fixture)
+  if (!next.analysis) throw new Error('Fixture expected')
+  if (change === 'actor') next.analysis.scope.actor_scope_id = 'fixture-actor-new'
+  else next.analysis.versions.access_epoch = 'fixture-epoch-new'
+  read.mockResolvedValue(next); await click('Muat ulang contoh')
+  expect(host.textContent).not.toContain('local-report-1'); expect(host.textContent).toContain('Antrean simulasi (0)')
+  expect(host.querySelector('[data-yield-range]')).toBeNull()
+})
+it('withholds the old snapshot and delayed response when the analysis reader is replaced', async () => {
+  const fixture = await createAnalysisReadPort('DEMO_SIMULATION').read('FRAMEWORK')
+  let resolve!: (value: typeof fixture) => void
+  const old = { read: vi.fn().mockResolvedValue(fixture) }
+  await mount(old); await select('Data contoh', 'FRAMEWORK'); await click('Buat arsip contoh')
+  old.read.mockImplementation(() => new Promise(done => { resolve = done }))
+  await select('Data contoh', 'FRAMEWORK', false)
+  const next = { read: vi.fn().mockResolvedValue({ kind: 'ERROR', analysis: null, message: 'replacement error' }) }
+  await mount(next); await act(async () => resolve(fixture))
+  expect(host.querySelector('[data-fact-state]')).toBeNull(); expect(host.textContent).not.toContain('local-report-1')
+  expect(next.read).not.toHaveBeenCalled()
+  await click('Muat ulang contoh'); expect(host.textContent).toContain('replacement error')
 })

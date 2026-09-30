@@ -8,7 +8,7 @@ export function CuttingYieldAnalyzer({ view, stale, read = readYieldFixture }: P
   const [mix, setMix] = useState<MixChoice>('small')
   const [example, setExample] = useState<YieldExample>('NORMAL')
   const [widthInput, setWidthInput] = useState('')
-  const [result, setResult] = useState<{ key: string; value: YieldReview } | null>(null)
+  const [result, setResult] = useState<{ key: string; port: YieldReadPort; value: YieldReview } | null>(null)
   const [busy, setBusy] = useState(false)
   const [message, setMessage] = useState('Belum ada analisis hasil potong. Pilih contoh secara eksplisit.')
   const sequence = useRef(0)
@@ -18,15 +18,15 @@ export function CuttingYieldAnalyzer({ view, stale, read = readYieldFixture }: P
   const analysis = view.analysis!
   const context = { runId: analysis.run_id, actorScope: analysis.scope.actor_scope_id, accessEpoch: analysis.versions.access_epoch }
   const key = JSON.stringify([yieldInputKey(input), context, example, stale])
-  useEffect(() => { sequence.current += 1; setBusy(false); return () => { sequence.current += 1 } }, [key])
+  useEffect(() => { sequence.current += 1; setBusy(false); return () => { sequence.current += 1 } }, [key, read])
   async function load() {
     if (stale || widthInvalid) return
     const id = ++sequence.current; setBusy(true); setResult(null); setMessage('Membaca contoh analyzer…')
-    try { const value = guardYieldReview(await read(input, context, mix, example), input, context); if (sequence.current === id) { setResult({ key, value }); setMessage('Contoh hasil dimuat. Tidak membaca riwayat ERP.') } }
+    try { const value = guardYieldReview(await read(input, context, mix, example), input, context); if (sequence.current === id) { setResult({ key, port: read, value }); setMessage('Contoh hasil dimuat. Tidak membaca riwayat ERP.') } }
     catch { if (sequence.current === id) setMessage('Hasil analyzer gagal atau konteks tidak cocok. Rentang ditahan.') }
     finally { if (sequence.current === id) setBusy(false) }
   }
-  const visible = !stale && !busy && result?.key === key ? result.value : null
+  const visible = !stale && !busy && result?.key === key && result.port === read ? result.value : null
   const title = visible?.status === 'READY' ? { NORMAL: 'Normal · dalam rentang contoh', LOW: 'Abnormal rendah · perlu diperiksa', HIGH: 'Kelebihan · perlu diperiksa' }[visible.assessment] : stale ? 'Snapshot berubah · hasil ditahan' : 'Belum dapat dinilai'
   function change() { setResult(null); setMessage('Input berubah. Rentang dan penilaian lama ditahan sampai dibaca ulang.') }
   return <aside className="f05-yield" aria-label="Analyzer hasil potong"><div className="f05-section-heading"><div><span className="f05-kicker">ANALYZER PER ROLL · DATA CONTOH</span><h4>Wajar nggak hasil potongnya?</h4></div><span className="f05-badge">Cangkang · belum belajar data ERP</span></div>
