@@ -6,7 +6,7 @@
   "accepted_product_commit": "434b18215f57dd7a361ca621341488d3c31e9703",
   "accepted_tree": "20f23f598334b52b6ee5fed8acc356d499a43705",
   "active_contract_ledger": "docs/cp7/F03_REMAINING_CONTRACT.md",
-  "active_family": "F03_P09_P13",
+  "active_family": "F03_REMAINING_AND_F04_NATIVE_P05_P06_INTEGRATION",
   "cash_connected_reader": {
     "cash_writer": false,
     "first_counts": {
@@ -449,21 +449,41 @@
     "declared_actual_cases": 17,
     "handoff": "docs/cp7/f04/NATIVE_INTEGRATION.md",
     "independent_acceptance": false,
-    "job_id": 110079756358,
+    "job_id": 110087905313,
     "kernel_head": "f6162a9e",
     "kernel_source": "08487236b3305727eb4c470ca896e271a911bdaa",
-    "local_full_unit_pass": 975,
+    "local_affected_tests_pass": 33,
+    "local_full_unit_pass": 977,
     "local_kernel_cases_pass": 138,
     "native_qualifier": "scripts/cp7_f04_history_probe.py",
     "production_go": false,
     "qualified_counts": {
-      "PASS": 15
+      "PASS": 17
     },
-    "run_id": 36771793497,
-    "source_commit": "f03134a50e84ab55552a374b2d75779bd41ea87c",
-    "source_tree": "614691bb2a8f35c7e7e2361a3254111e38fb29a2",
-    "status": "NATIVE_SOURCE15_PASS_CONNECTED_BROWSER17_DECLARED_LOCAL975_PASS",
-    "verification": "docs/cp7/evidence/f04-native-history/qualified15-f03134a/QUALIFIED_RECEIPT.json"
+    "run_id": 36774205204,
+    "source_commit": "97514845e937c44cf44cb3a0c029bf1e997946a8",
+    "source_tree": "df0560b6302abc59d37407dadffcb0abfdd07e4b",
+    "status": "NATIVE17_AUTOMATED_PASS_VISUAL_PARENT_DEFECTS_REPAIRED_STRONGER17_PENDING",
+    "verification": "docs/cp7/evidence/f04-native-history/qualified17-9751484/QUALIFIED_RECEIPT.json",
+    "visual_review": false
+  },
+  "f04_native_baseline": {
+    "WIP_matching_ETA_calendar_capacity": "UNKNOWN_NOT_CAPTURED",
+    "apply_enabled": false,
+    "composer": "scripts/cp7_baseline_bundle.py",
+    "expected_actual_cases": 35,
+    "expected_groups": {
+      "browser": 2,
+      "http": 2,
+      "native": 26,
+      "races": 5
+    },
+    "final_gap": null,
+    "full_family_acceptance": false,
+    "independent_acceptance": false,
+    "production_go": false,
+    "qualifier": "scripts/cp7_f04_baseline_probe.py",
+    "status": "WRITTEN_LOCAL_STANDIN4_PASS_NATIVE35_PREDECLARED_PENDING"
   },
   "f04_takeover_reference": {
     "branch": "cp7/f04-planning-20260929",
@@ -472,7 +492,7 @@
     "independent_acceptance": false,
     "pr": 36,
     "reported_kernel_source": "08487236b3305727eb4c470ca896e271a911bdaa",
-    "status": "HANDOFF_READ_TAKEOVER_AFTER_F03_COMPLETE_RECHECK_HEAD_FIRST"
+    "status": "BYTE_VERIFIED_SOURCE08487236_IMPORTED_NATIVE_HISTORY17_WRITER_PROOF_PARENT_REPAIR_PENDING"
   },
   "f05_integration": {
     "independent_acceptance": false,
@@ -480,7 +500,7 @@
     "producer_mapping": "P05 native history separate contract; full cp7.analysis.v2 compiler pending",
     "production_go": false,
     "source": "ec8e27890319ef898f0bb8b06028daa12a9d2f08",
-    "status": "PINNED47_PASS_NATIVE_HISTORY_CONSUMER_WRITTEN_ACTUAL17_PENDING",
+    "status": "PINNED47_PASS_NATIVE_HISTORY_CONSUMER17_AUTOMATED_PASS_FULL_ANALYSIS_V2_COMPILER_PENDING",
     "verification": "test-results/f05-continuation/checks.json"
   },
   "f05_takeover_reference": {
@@ -497,7 +517,7 @@
     "F01_P00_P02": "WRITER_T1_BOUNDED_FOUNDATION_PASS_INDEPENDENT_PENDING",
     "F02_P03_P04": "WRITER_REPAIR_VERIFIED_53_CASES_INDEPENDENT_HOLD",
     "F03_P09_P13": "IN_PROGRESS_P13_AND_REMAINING_FAMILY_CONTRACT",
-    "F04_P05_P08": "SEPARATE_KERNEL_PROPOSAL_PREPARED_UNINTEGRATED",
+    "F04_P05_P08": "PINNED_KERNELS_IMPORTED_NATIVE_P05_17_PROOF_PARENT_REPAIR_PENDING_P06_TARGET_WRITTEN",
     "F05_P14_P17": "SEPARATE_FIXTURE_CONSUMER_PROPOSAL_PREPARED_UNINTEGRATED",
     "F06_P18_P21": "PLANNED"
   },
@@ -550,11 +570,11 @@
     "source_bundle_sha256": "04289ce0fe6d268844217a66437d0e7d08a4c51a7ce5725624f9990f4337fb79",
     "status": "LOCAL_845_PASS_DECLARED_NATIVE21_PENDING"
   },
-  "last_writer_checkpoint": "docs/cp7/F03_E05_INSTALLMENTS_HANDOFF.md",
+  "last_writer_checkpoint": "docs/cp7/f04/NATIVE_INTEGRATION.md",
   "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
   "latest_tested_scope": "Native financial readers12 PASS onf31b7a7: native3, realAuthHTTP1, browser8; package/restore/advisors/Auth cleanup and AR visual evidence retained. Counts overlap prior6/8/10.",
   "latest_tested_source": "f31b7a70e9f6330f7922fcbb2e8527320f4c5df2",
-  "next_action": "Qualify owner-approved immutable same-payroll cash installments in actual database, Auth, locks and browser; repair specific failures, then complete the remaining CP7 operations and integrate planning/consumers.",
+  "next_action": "Run stronger native P05 consumer17 and native P06 profile/target35 qualification; retain original defects, repair actual failures, then implement authoritative P06/P07 WIP/calendar/capacity/global allocation, P08 and full F05 consumers and P18-P21.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",

@@ -1,0 +1,52 @@
+{
+  "advisor_gate": true,
+  "all_nine_original_captures_visually_inspected": true,
+  "artifact_id": 11124916456,
+  "artifact_sha256": "b9aff292a2a0168054fa1d309d9b3aa2f4114c73770b3c5da6d5a6b9da0b5d12",
+  "cp6_restored": true,
+  "expected": 17,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 12
+    },
+    "races": {
+      "PASS": 2
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 110087905313,
+  "observed": 17,
+  "production_go": false,
+  "repair": "Current successor source retires both parent position/totals during native source read, refetches submitted stock scope and keeps dirty search; mobile cards expose76 at16px; one WIB suffix. Repeat actual17 required.",
+  "reports_sha256": "8c35edea1482b8244272f726aa87d3c29e41e415b9ddbc8d102b4b7afc66e2e3",
+  "run_id": 36774205204,
+  "screenshots_sha256": {
+    "P05_CURRENT_DESKTOP.png": "6a85a03e04276545cdf1b70e48c42885b506eef23611b8010e0072ec2af883e4",
+    "P05_CURRENT_MOBILE.png": "2b37c62816d387255d4cb5afe51cfbf272e707fdb2f23bd7bb4962f1af2da4f7",
+    "P05_POSTED_DESKTOP.png": "6fce41e5e993cc33e96410f431ab837d770d62ecbaa8a04845c5ff871be5f411",
+    "P05_POSTED_MOBILE.png": "99bb00c68c0f7ec882d67bc8b1cfc5eb3767d28b4386069375775a2546c12062",
+    "P05_REVOKED_MOBILE.png": "65f133023827da275cf33106c5c8ff4b34e0410a6a31996b64310afb2925768c",
+    "P05_STALE_DESKTOP.png": "7ad71891166a5befe546f1749cd5919bc12b686f2419806d18d0883d82718bd8",
+    "P05_STALE_MOBILE.png": "e5077f1c3494a3fdd111d0f1cecad4eb2e9957cef8bcc5f475f894d6ffddcaaf",
+    "P05_UNCERTAIN_DESKTOP.png": "2237e6bfaa8f60a7112c7e65aae5dd66a88cfeb35d85b5e708626086cc2e312f",
+    "P05_UNCERTAIN_MOBILE.png": "742ca21aa03e9c0af19b1068e6a14c3d688167550a317e8f61e0c2d429ef27ff"
+  },
+  "source_bundle_sha256": "0d6bdb473cb5c6ece772e0433de55923ef1c6e9b77b63fdcb8ad624f1e6062b9",
+  "source_commit": "97514845e937c44cf44cb3a0c029bf1e997946a8",
+  "source_tree": "df0560b6302abc59d37407dadffcb0abfdd07e4b",
+  "status": "PASS",
+  "visual_defects": [
+    "Parent FG current facts remain at draft100/reserved24 after native post; archive panel correctly stale and recapture76, parent needs fresh read.",
+    "Global table stylesheet makes text too small; mobile available76 hidden by horizontal scroll.",
+    "Datetime formatter already supplies WIB; panel duplicates WIB.",
+    "After actual Auth deactivation403 the analysis cleared but parent stock positions, totals and HPP money remained visible; fresh parent authority read is required."
+  ],
+  "visual_review_status": "DEFECTS_FOUND_DESPITE_AUTOMATED17_PASS"
+}

@@ -1,1 +1,27 @@
-.native-demand{padding:20px;margin-bottom:18px}.native-demand header{margin:18px 0}.native-demand h2{margin:7px 0}.native-demand p{line-height:1.6}.native-demand form{display:flex;gap:12px;align-items:end;flex-wrap:wrap;margin:16px 0}.native-demand label{display:grid;gap:6px;max-width:420px;margin:10px 0}.native-demand input,.native-demand select{min-height:42px;border:1px solid #d4dce7;border-radius:8px;padding:8px 10px;color:#17243c;background:white}.native-demand button{padding:10px 14px;border:1px solid #c6d2e2;border-radius:8px;background:#f3f6fb;color:#19314e;font-weight:650;cursor:pointer}.native-demand button:disabled{opacity:.55;cursor:default}.native-demand-current{color:#1e664a}.native-demand-stale{color:#875011}.native-demand td small{display:block;white-space:normal;max-width:280px;color:#5d6d81;margin-top:4px}.native-demand td,.native-demand th{padding:12px;vertical-align:top;text-align:left;white-space:nowrap}.native-demand table{min-width:870px;width:100%;border-collapse:collapse}.native-demand tr{border-bottom:1px solid #e4eaf2}.native-demand .responsive-table{overflow:auto}@media(max-width:600px){.native-demand{padding:14px}.native-demand form{display:grid;grid-template-columns:1fr}.native-demand label{max-width:none;width:100%}.native-demand input,.native-demand select{min-width:0;width:100%;box-sizing:border-box}}
+.native-demand{padding:20px;margin-bottom:18px;font-size:14px;min-width:0}
+.native-demand header{margin:18px 0}.native-demand h2{margin:7px 0}.native-demand p{line-height:1.6}
+.native-demand form{display:flex;gap:12px;align-items:end;flex-wrap:wrap;margin:16px 0}
+.native-demand label{display:grid;gap:6px;max-width:420px;margin:10px 0}
+.native-demand input,.native-demand select{min-height:42px;border:1px solid var(--line,#d4dce7);border-radius:8px;padding:8px 10px;color:var(--text,#17243c);background:var(--panel-2,white);font:inherit}
+.native-demand button{padding:10px 14px;border:1px solid var(--line,#c6d2e2);border-radius:8px;background:var(--panel-2,#f3f6fb);color:var(--text,#19314e);font:inherit;font-weight:650;cursor:pointer}
+.native-demand button:disabled{opacity:.55;cursor:default}
+.native-demand-current{color:var(--green,#1e664a)}.native-demand-stale{color:var(--amber,#875011)}
+.native-demand td small{display:block;white-space:normal;color:var(--muted,#5d6d81);margin-top:6px;font-size:13px;line-height:1.5}
+.native-demand .responsive-table td,.native-demand .responsive-table th{padding:12px;vertical-align:top;text-align:left;white-space:normal;font-size:14px;letter-spacing:normal;text-transform:none}
+.native-demand .responsive-table td{color:var(--soft,#24364c);font-variant-numeric:tabular-nums}
+.native-demand .responsive-table th{color:var(--muted,#5d6d81)}
+.native-demand .responsive-table table{min-width:800px;width:100%;border-collapse:collapse}
+.native-demand .responsive-table .native-demand-available{font-weight:700;color:var(--green,#1e664a)}
+.native-demand tr{border-bottom:1px solid var(--line,#e4eaf2)}.native-demand .responsive-table{overflow:auto}
+@media(max-width:700px){
+ .native-demand{padding:14px}.native-demand form{display:grid;grid-template-columns:1fr}
+ .native-demand label{max-width:none;width:100%}.native-demand input,.native-demand select{min-width:0;width:100%;box-sizing:border-box}
+ .native-demand .responsive-table{overflow:visible}.native-demand .responsive-table table{min-width:0;display:block}
+ .native-demand thead{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+ .native-demand tbody{display:block}.native-demand tbody tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:16px 0}
+ .native-demand .responsive-table td{border:0;padding:8px;font-size:16px;overflow-wrap:anywhere}
+ .native-demand td[data-label]::before{content:attr(data-label);display:block;margin-bottom:6px;font-size:12px;font-weight:500;color:var(--muted,#5d6d81)}
+ .native-demand .native-demand-product,.native-demand .native-demand-history{grid-column:1/-1}
+ .native-demand .responsive-table .native-demand-product{padding-top:0;font-size:16px}
+ .native-demand .native-demand-available{background:rgba(103,215,171,.08);border-radius:8px}
+}

@@ -1,0 +1,30 @@
+{
+  "baseline_bundle_sha256": "49e0acdbbd44cef46a81cf7698532dc53cb8b8176f947b943b12828f3e87decb",
+  "canonical_fail": 0,
+  "canonical_pass": 977,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "local_kernel_runtime": "PGLITE_WASM_LOCAL_NOT_NATIVE_AUTH_PROOF",
+  "native_baseline_expected": 35,
+  "native_history_repeat_expected": 17,
+  "original_failed_run_retained": "One local F04 kernel test refused absent native runtime; rerun explicitly selected local PGlite without changing that test or claiming native proof.",
+  "parent_affected33": true,
+  "production_go": false,
+  "reports_sha256": "389999cfb834af8ab7e2cf68c6a6139ba812149c3cb83a317f093aa9e9f670ce",
+  "source_sha256": {
+    ".github/workflows/cp7-f04-baseline.yml": "9c518e71a05e79a5057706430ef418fcc1623ae7a9426839d05ded625dafba01",
+    "scripts/cp7-src/planning/baseline-source.sql": "aa8b37dd914c12ea85684aabf80c0e36de2f14e1496b5c75448501a453601f52",
+    "scripts/cp7-src/planning/profile.sql": "fe75d36c432e6faf7256b3b0f27dd44e7938e9df59aba199947eea318d59786d",
+    "scripts/cp7_baseline_bundle.py": "b4d7838750c6298a52ccc618c91525e9f85a4a692b5764730a156bbe69cf845d",
+    "scripts/cp7_f04_baseline_probe.py": "b32193ccd4ee6419cf99d9409e5ea189f6ff3d916a1171442337b4cabf0435fa",
+    "scripts/cp7_f04_history_browser.mjs": "1f7427d6b989b2e1368309df51958c4511b36bbbaf8ef46e6c852e6ccb26c59e",
+    "scripts/cp7_planning_baseline_cases.py": "5bd9b2fc1af6bc69f2c3c34c91eada4d1c6f169eaa68a856eaa92c0fff7d6492",
+    "src/ConnectedFgStockPage.dom.test.tsx": "8191071f551e80de24582c6cd327bd0c696513230233a86ceb8b6ad1c226ed63",
+    "src/ConnectedFgStockPage.tsx": "a568cd6cd08cf22b95e6268b81ead2b21d492be4e503e035d71819ec104a53ba",
+    "src/NativeDemandHistoryPanel.tsx": "1129c1653cdc1cffac42c2fd7672d22796a2cc305beab041a6a47ed368eb09e8",
+    "src/native-demand-history.css": "e37f620a555b7f241a8db62712aa5df038eeb4f4620aeae42d7b7e5e98bd2ded"
+  },
+  "source_translation_cases": 4,
+  "source_translation_runtime": "PGLITE_NATIVE_COLUMN_STANDIN_NOT_AUTH",
+  "status": "LOCAL_TESTS_BUILD_SECURITY_PASS_ACTUAL_PENDING"
+}

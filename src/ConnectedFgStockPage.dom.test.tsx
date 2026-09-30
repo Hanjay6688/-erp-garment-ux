@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import ConnectedFgStockPage from './ConnectedFgStockPage'
 import { parseFgWorkspace, parseFgLedger } from './fgContract'
 import { recoveryIdentity } from '../tests/fixtures/productionRecovery'
+import { demandWire } from '../tests/fixtures/nativeDemandHistory'
 const state=vi.hoisted(()=>({auth:null as unknown}))
 const client=vi.hoisted(()=>({rpc:vi.fn()}))
 vi.mock('./auth/AuthProvider',()=>({useAuth:()=>state.auth}))
@@ -16,7 +17,7 @@ function stock(finance=true){return {contract_version:'cp7.fg-workspace.v1',purp
 function ledger(finance=true){return {contract_version:'cp7.fg-ledger.v1',purpose:'CARD',read_at:at,knowledge:'CURRENT',financial_captured:finance,position,balances:totals,balance_basis:'COMPLETE_CHRONOLOGICAL_PREFIX_BEFORE_SEARCH_AND_PAGE',page:page([{id,physical_at:at,recorded_at:at,movement_type:'SALE_RESERVE',source_type:'SALE_ITEM',source_id:id,reversal_of_id:null,customer_name:'Toko A',notes:null,book_order:'9007199254740993',commercial_sku_at_transaction:'OLD-LUNA',qty_signed:'-4',reservation_delta:'4',physical_delta:'0',available_balance:'6',reserved_balance:'4',physical_balance:'10',...(finance?{valuation:{state:'UNKNOWN',unit_cost:null,basis:'CURRENT_RESTATED_MOVEMENT_SNAPSHOT'}}:{})}])}}
 let root:Root,container:HTMLDivElement
 beforeEach(()=>{Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true});localStorage.clear();client.rpc.mockReset();const a=structuredClone(recoveryIdentity);a.identity.permissions.push('warehouse.fg.view','warehouse.stock.view','finance.hpp.view');state.auth=a;Object.defineProperty(navigator,'locks',{configurable:true,value:{request:async(_n:string,_o:unknown,fn:(l:unknown)=>Promise<unknown>)=>fn({})}});container=document.createElement('div');document.body.append(container);root=createRoot(container)})
-afterEach(async()=>{await act(async()=>root.unmount());container.remove();localStorage.clear();Reflect.deleteProperty(navigator,'locks');vi.restoreAllMocks()})
+afterEach(async()=>{await act(async()=>root.unmount());container.remove();localStorage.clear();Reflect.deleteProperty(navigator,'locks');vi.useRealTimers();vi.restoreAllMocks()})
 async function flush(){await act(async()=>{await new Promise(r=>setTimeout(r,0))})}
 async function mount(){await act(async()=>root.render(<ConnectedFgStockPage/>));await flush()}
 async function click(label:string){const b=[...container.querySelectorAll('button')].find(x=>x.textContent===label);if(!b)throw Error(label);await act(async()=>b.click());await flush()}
@@ -27,4 +28,24 @@ describe('FG current stock and complete ledger boundary',()=>{
   it('rejects monetary fields in operations responses and displays no hidden amount',async()=>{const a=state.auth as typeof recoveryIdentity;a.identity.permissions=a.identity.permissions.filter(p=>p!=='finance.hpp.view');server(false);await mount();expect(container.textContent).not.toContain('Rp');expect(()=>parseFgWorkspace(stock(true),false,'SUMMARY')).toThrow();const wrong=ledger(false);Object.assign(wrong.page.rows[0] as object,{recorded_unit_hpp:'100'});expect(()=>parseFgLedger(wrong,false,'CARD')).toThrow()})
   it('refuses partial pages and inconsistent reservation totals while keeping large quantities exact',()=>{const w=stock();expect(()=>parseFgWorkspace({...w,page:{...w.page,total:'2'}},true,'SUMMARY')).toThrow();expect(()=>parseFgWorkspace({...w,totals:{...totals,physical_qty:'11'}},true,'SUMMARY')).toThrow();const big={physical_qty:'9007199254740993',reserved_qty:'1',available_qty:'9007199254740992',quality:'KNOWN'};expect(parseFgWorkspace({...w,totals:big},true,'SUMMARY').totals.physical_qty).toBe('9007199254740993');const l=ledger();Object.assign(l.page.rows[0] as object,{book_order:'-9007199254740993'});expect(parseFgLedger(l,true,'CARD').page.rows[0].book_order).toBe('-9007199254740993');expect(parseFgLedger(l,true,'CARD').page.rows[0].physical_balance).toBe('10');expect(()=>parseFgLedger({...l,knowledge:'AS_KNOWN'},true,'CARD')).toThrow()})
   it('clears old stock after a denied reload',async()=>{server();await mount();client.rpc.mockResolvedValue({data:null,error:{status:403,message:'Hak akses berubah'}});await click('Muat ulang stok');expect(container.textContent).not.toContain('LOT-01');expect(container.querySelector('[role="alert"]')).toBeTruthy()})
+  it('retires parent stock during an analysis read and refreshes it without losing dirty search',async()=>{
+    const a=state.auth as typeof recoveryIdentity;Object.assign(a.runtime,{mode:'DISPOSABLE_TEST',projectRef:'cp6-disposable'});a.identity.permissions.push('master.product.view','production.wip.view','sales.invoice.view')
+    vi.useFakeTimers({toFake:['Date']});vi.setSystemTime(new Date('2026-09-30T12:00:00Z'));server();await mount()
+    const input=container.querySelector<HTMLInputElement>('[aria-label="Cari barang jadi"]')!
+    await act(async()=>{Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')!.set!.call(input,'isian belum dicari');input.dispatchEvent(new Event('input',{bubbles:true}))})
+    let release:(x:unknown)=>void=()=>{};const fresh=stock();fresh.totals={physical_qty:'6',reserved_qty:'0',available_qty:'6',quality:'KNOWN'};Object.assign(fresh.page.rows[0]as object,fresh.totals)
+    client.rpc.mockImplementation((name:string)=>name==='erp_cp7_capture_demand_history_v1'?new Promise(r=>release=r):Promise.resolve({data:fresh,error:null}))
+    await click('Data permintaan & stok');await click('Muat data permintaan');expect(container.querySelector('.cfg-totals')).toBeNull();expect(container.querySelector('.cfg-position')).toBeNull()
+    const args=client.rpc.mock.calls.find(([name])=>name==='erp_cp7_capture_demand_history_v1')![1]
+    await act(async()=>release({data:demandWire(args.p_request),error:null}));await flush()
+    expect(input.value).toBe('isian belum dicari');expect(container.querySelector('.cfg-totals')?.textContent).toContain('6 PCS');expect(container.querySelector('.cfg-position')?.textContent).not.toContain('10')
+    expect(client.rpc.mock.calls.filter(([name])=>name==='erp_cp7_get_fg_v1')).toHaveLength(2)
+  })
+  it('retires both analysis and parent facts when current access is denied',async()=>{
+    const a=state.auth as typeof recoveryIdentity;Object.assign(a.runtime,{mode:'DISPOSABLE_TEST',projectRef:'cp6-disposable'});a.identity.permissions.push('master.product.view','production.wip.view','sales.invoice.view')
+    vi.useFakeTimers({toFake:['Date']});vi.setSystemTime(new Date('2026-09-30T12:00:00Z'));client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>({data:name==='erp_cp7_capture_demand_history_v1'?demandWire(args.p_request):stock(),error:null}));await mount();await click('Data permintaan & stok');await click('Muat data permintaan')
+    expect(container.querySelector('table')).toBeTruthy();expect(container.querySelector('.cfg-totals')).toBeTruthy()
+    client.rpc.mockResolvedValue({data:null,error:{status:403,message:'Hak akses berubah'}});await click('Periksa sumber arsip')
+    expect(container.querySelector('table')).toBeNull();expect(container.querySelector('.cfg-totals')).toBeNull();expect(container.querySelector('.cfg-position')).toBeNull();expect(container.querySelector('[role="alert"]')).toBeTruthy()
+  })
 })

@@ -16,7 +16,7 @@ const labels:Record<string,string>={QC_GOOD:'Hasil QC',SALE_RESERVE:'Dicadangkan
 export default function ConnectedFgStockPage({purpose='SUMMARY'}:{purpose?:FgPurpose}){
   const {runtime,identity}=useAuth()
   if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED'||!identity.permissions.includes(permission[purpose]))return <section className="panel" role="alert">Hak melihat stok barang jadi belum diberikan.</section>
-  return <><NativeDemandHistoryPanel/><Workspace purpose={purpose} key={`${purpose}:${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`}/></>
+  return <Workspace purpose={purpose} key={`${purpose}:${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`}/>
 }
 function Workspace({purpose}:{purpose:FgPurpose}){
   const {runtime,identity}=useAuth()
@@ -43,9 +43,11 @@ function Workspace({purpose}:{purpose:FgPurpose}){
     finally{if(s===sequence.current)setBusy(false)}
   },[client,finance,purpose,cardPurpose,beginRead,finishRead,isReadCurrent])
   useEffect(()=>{void load();return()=>{++sequence.current}},[load])
+  const retireSource=useCallback(()=>{++sequence.current;setData(null);setLedger(null);setBusy(true);setError('')},[])
+  const refreshSource=useCallback(()=>{void load()},[load])
   const open=(p:FgPosition)=>{requested.current.position=p;requested.current.movementOffset=0;requested.current.movementQ='';setMovementSearch('');void load()}
   const title=purpose==='SUMMARY'?'Barang jadi':purpose==='CARD'?'Kartu stok barang jadi':'Mutasi barang jadi'
-  return <section className="cproc cfg"><header className="panel cproc-heading"><div><div className="eyebrow">GUDANG · BARANG JADI</div><h1>{title}</h1><p>Stok per ukuran, lot, grade, dan gudang. Cadangan penjualan ditampilkan terpisah.</p></div><button disabled={busy} onClick={()=>void load()}>Muat ulang stok</button></header>
+  return <><NativeDemandHistoryPanel onSourceReadStart={retireSource} onSourceReadEnd={refreshSource}/><section className="cproc cfg"><header className="panel cproc-heading"><div><div className="eyebrow">GUDANG · BARANG JADI</div><h1>{title}</h1><p>Stok per ukuran, lot, grade, dan gudang. Cadangan penjualan ditampilkan terpisah.</p></div><button disabled={busy} onClick={()=>void load()}>Muat ulang stok</button></header>
     {(error||blockReason)?<p className="panel" role="alert">{error||blockReason}</p>:null}
     <form className="panel cproc-search" onSubmit={e=>{e.preventDefault();requested.current={q:search.trim(),zero,offset:0,position:null,movementQ:'',movementOffset:0};void load()}}><label>Cari SKU, ukuran, lot, atau gudang<input aria-label="Cari barang jadi" maxLength={120} value={search} onChange={e=>setSearch(e.target.value)}/></label><label className="cfg-check"><input type="checkbox" checked={zero} onChange={e=>setZero(e.target.checked)}/>Sertakan stok habis</label><button disabled={busy}>Cari stok</button></form>
     {busy?<p role="status">Memuat stok barang jadi…</p>:null}
@@ -62,5 +64,5 @@ function Workspace({purpose}:{purpose:FgPurpose}){
         {!ledger.page.rows.length?<p>Tidak ada mutasi yang cocok.</p>:null}{ledger.page.rows.map(m=><article className="cfg-movement" key={m.id}><header><strong>{labels[m.movement_type]??m.movement_type.replaceAll('_',' ')}</strong><time>{formatCp6WibDateTime(m.physical_at)}</time></header><p>{m.commercial_sku_at_transaction}{m.customer_name?` · ${m.customer_name}`:''}</p><dl><div><dt>Perubahan fisik</dt><dd>{numberText(m.physical_delta)}</dd></div><div><dt>Saldo fisik</dt><dd>{numberText(m.physical_balance)}</dd></div><div><dt>Tersedia</dt><dd>{numberText(m.available_balance)}</dd></div></dl><small>Perubahan cadangan {numberText(m.reservation_delta)} · saldo cadangan {numberText(m.reserved_balance)}</small>{m.notes?<p>{m.notes}</p>:null}{m.reversal_of_id?<small>Pembalik transaksi sebelumnya</small>:null}{m.valuation?<p>{m.valuation.state==='KNOWN'?`HPP tercatat Rp${numberText(m.valuation.unit_cost!)} / PCS`:'Biaya belum lengkap'}</p>:null}<details><summary>Referensi pencatatan</summary><small>{m.source_type} · {m.source_id??'Tanpa dokumen'}</small><small>Dicatat {formatCp6WibDateTime(m.recorded_at)}</small></details></article>)}
         <div className="cproc-pagination"><span>Total {ledger.page.total} mutasi</span><button disabled={busy||!ledger.page.offset} onClick={()=>{requested.current.movementOffset=Math.max(0,ledger.page.offset-25);void load()}}>Mutasi sebelumnya</button><button disabled={busy||ledger.page.next_offset===null} onClick={()=>{requested.current.movementOffset=ledger.page.next_offset??0;void load()}}>Mutasi berikutnya</button></div>{finance?<small>Biaya memakai perhitungan terkini yang sudah tercatat.</small>:null}
       </>:<p>Pilih posisi barang untuk melihat mutasi, reservasi, dan pembatalannya.</p>}</aside></div></>:null}
-  </section>
+  </section></>
 }
