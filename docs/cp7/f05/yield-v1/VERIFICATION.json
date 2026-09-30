@@ -1,0 +1,70 @@
+{
+  "status": "WRITER_FIXTURE_SHELL_VERIFIED",
+  "tested_source": "3849278b4b582ce988733278e7fe6ebf04224034",
+  "production_go": false,
+  "independent_acceptance": false,
+  "connected_operational_data": false,
+  "trained_yield_model": false,
+  "source_contract": "PRIVATE_F05_PROPOSAL_SYNTHETIC_ONLY",
+  "width_required": false,
+  "width_empty_default": true,
+  "missing_width_imputed": false,
+  "f05_unit_cases": 40,
+  "all_unit": {
+    "numTotalTests": 849,
+    "numPassedTests": 849,
+    "numFailedTests": 0,
+    "success": true
+  },
+  "browser": {
+    "startTime": "2026-09-30T07:53:00.798Z",
+    "duration": 17207.852,
+    "expected": 18,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "browser_engine": "Chromium Headless Shell 141.0.7390.37 / Playwright 1.62.1",
+  "viewports": {
+    "desktop": [
+      1440,
+      1000
+    ],
+    "mobile": [
+      412,
+      915
+    ]
+  },
+  "checks": {
+    "main_build": "PASS",
+    "f05_typescript": "PASS",
+    "f05_build": "PASS",
+    "security_static_ownership": "PASS",
+    "main_secret_scan": "PASS",
+    "f05_secret_scan": "PASS"
+  },
+  "new_stories": [
+    "width empty produces a supplied fixture interval; setting/removing width invalidates the prior result",
+    "different repeated-size composition remains distinct; unsupported all-30 gets no interval",
+    "low/high/short-roll/narrow-batch examples show findings and inspections without attributing theft",
+    "stale/incomplete/unsupported/error states withhold ranges; old requests cannot overwrite new input"
+  ],
+  "raw_receipts": {
+    "unit-results.json.gz": "ce39d1cc4edc53165fb20da8264fad4afc6e3b88d6e90d5bcc4aaf5cac80acde",
+    "browser-results.json.gz": "31fec417e687dfa8fc0acb857e66d59afa6a52e23c395de8e8408c3c3cdf13be"
+  },
+  "screenshots": {
+    "desktop-analyzer-width-optional.png": "da1b049599786eadb43f8163977b53117e79c698dfdcd2fc63b61d198764fdb2",
+    "mobile-analyzer-width-optional.png": "0252707991f6b48cbe910a619bed7ce1f6796d73ef275fecb450a9962423223a"
+  },
+  "visual_review": [
+    "mobile analyzer with optional width empty; fixture interval and unknown-width reasoning visible"
+  ],
+  "clipboard_popup_test_boundary": "Success/rejection/blocked-popup paths use injected browser stubs. Real OS clipboard and authenticated ChatGPT not exercised.",
+  "ci_boundary": "Existing shared workflow runs unit/security/main build/S0 browser/CodeQL. Dedicated F05 preview build and 18 browser cases were run locally; no shared workflow edits.",
+  "limitations": [
+    "No F03/F04/schema/reader/route mutations. Actual per-roll form integration and data-trained producer remain pending.",
+    "Synthetic intervals are predefined UI cases; neither calibrated factory norms nor a forecast accuracy claim.",
+    "Width missing allows comparison when producer support is sufficient; causality and physical dimensions cannot be inferred from absent/possibly inaccurate input."
+  ]
+}

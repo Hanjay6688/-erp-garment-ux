@@ -1,0 +1,29 @@
+{
+  "base": "8f2d81c0198a1c451314811d074f7c88a9cf793a",
+  "parent_checkpoint": "3dce075ff7c5ec3a7f4b793b69acf99820da402e",
+  "tested_source": "3849278b4b582ce988733278e7fe6ebf04224034",
+  "source_tree": "e48c2a94e6b866d1327bf6bf8326bdedf023f146",
+  "sha256": {
+    "tests/cp7/browser/ai-v1/preview/AiPanel.tsx": "652c983bae71751ba30783e759782d87ac3719af24e63b5d6185f1665c62fbac",
+    "tests/cp7/browser/planner/f05-preview/Common.tsx": "e6ca43be39138bd746000df0bc828d0eb8271eb37b951c4d0c9a78b7d2b80e42",
+    "tests/cp7/browser/planner/f05-preview/CuttingYieldAnalyzer.test.tsx": "03370f68b3b56eb1f9cd44964d6cda0b2248582396abfe9855239c53371a2aa9",
+    "tests/cp7/browser/planner/f05-preview/CuttingYieldAnalyzer.tsx": "5ab0bb6a93a8ed696c7c0a83d249568952bc7e09b94eff5f928544fbdd9f34c0",
+    "tests/cp7/browser/planner/f05-preview/F05App.test.tsx": "a4b1e53d8c19491675b1abf06b2c0219d7d9bade6dd023b7d0c50bbc59a53d05",
+    "tests/cp7/browser/planner/f05-preview/F05App.tsx": "2b81fa05fc1adf31972a77119c18ec4ea21a6f2befc40772cc20228b2572fc93",
+    "tests/cp7/browser/planner/f05-preview/ProductionPanel.tsx": "22ba0d57d223abfbe2d820e0f4e464d3c7acf5da57c16f25bab244f5e858f978",
+    "tests/cp7/browser/planner/f05-preview/cuttingYield.test.ts": "985b1201940ec1781b86e9e03bb8c73b22538fdb960cab3f37431d7735333f69",
+    "tests/cp7/browser/planner/f05-preview/cuttingYieldContract.ts": "ca16d07af2c666983b52bc4e9c6946b8f494052feecb681e714b922bb52382d7",
+    "tests/cp7/browser/planner/f05-preview/cuttingYieldFixtures.ts": "2cf9e24d0d2d64547323e9ad2252c0229f6b38bb0a938e2e717d467d5741fc4e",
+    "tests/cp7/browser/planner/f05-preview/f05.browser.ts": "f659360f6368e4cd34d7702199f768c6f2afabbef6d9d9b9b74cf562f3d72598",
+    "tests/cp7/browser/planner/f05-preview/f05.css": "dfb5b4a3c0943666d5ecca7e5980d18ae75287c649897c168143c6e299158fe9",
+    "tests/cp7/browser/planner/f05-preview/index.html": "be99f1f132dc561cda56cc36a8caadf336d6470e7b2aadc088cbcc5dc9c6f39c",
+    "tests/cp7/browser/planner/f05-preview/main.tsx": "27ee028dfcc14c0d2319efc5828e6f8372c3cc5bbc0e991ce06d512d5a725738",
+    "tests/cp7/browser/planner/f05-preview/model.test.ts": "e2729a0d6f7ff8f7fa67d10c1ae03676c83e61da2a2b4f9e8886c939a3cea886",
+    "tests/cp7/browser/planner/f05-preview/model.ts": "59191119506304035f2943762dc78e7e50b8fd4f51681265cbe3ef757e89b7a6",
+    "tests/cp7/browser/planner/f05-preview/playwright.config.mjs": "ccf59f4da16f0c65b71ab6eac8af0f6a31b6e0490f57c834dfada4fdfcc5c491",
+    "tests/cp7/browser/planner/f05-preview/tsconfig.json": "5a8c48e00814aac99177552aab174c2af57677f8ec4332baa0aa7acd782d8e80",
+    "tests/cp7/browser/planner/f05-preview/vite.config.mjs": "73b48c68280fe89409a64d01b54e4c43513ebae8c006b53726467199e82648df",
+    "tests/cp7/families/reminder/preview/ReminderPanel.tsx": "c5690337879fe4047c463532f5b342b7311f11d79f3f1e347b587a07b5b97bd0",
+    "tests/cp7/families/reports/preview/BusinessReport.tsx": "bd3aade5c3702ecb81fd40e974c4d1bb4f9884a62963a9eb0beb463cfb41b8b8"
+  }
+}
