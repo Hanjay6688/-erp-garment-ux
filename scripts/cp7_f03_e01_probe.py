@@ -17,7 +17,7 @@ def verify(cur):
  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
 
 def run():
- report=dict(label='CP7_F03_E01',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope='FROZEN_E01_60_GOOD_PRODUCTION_THROUGH_CASH_AND_RETURN_NATIVE_FIRST',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),expected_case_count=1);installed=False
+ report=dict(label='CP7_F03_E01',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope='FROZEN_E01_NATIVE_PRODUCTION_PLUS_NATIVE_HTTP_BROWSER_SALES_CASH_RETURN_REPORT',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),expected_case_count=4);installed=False
  try:
   with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
    p09.wip.policy.bf.verified(cur);before=package.boundary.snapshot(cur);public_before=native.public_state(cur);conn.rollback();originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)
@@ -40,6 +40,8 @@ def run():
    conn.commit();installed=True;verify(cur);conn.rollback()
   report['advisors_with_cp7']=advisors(package.boundary.PG)
   report['native']=native.strict_group('CP7_F03_E01',cases.cases,verify)
+  report['http']=modes.run_http(cases,verify,'cp7_f03_e01')
+  report['browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_f03_e01_browser.mjs',verify,'cp7_f03_e01_browser')
  except Exception as e:report.update(error=str(e),traceback=traceback.format_exc())
  finally:
   if installed:
@@ -48,7 +50,7 @@ def run():
     for role in bundle.ROLES:cur.execute('drop owned by '+role+' cascade;drop role '+role,prepare=False)
     conn.commit();report['cp6_restored']=package.boundary.snapshot(cur)==before and native.public_state(cur)==public_before;conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
    report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta'];report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or(d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and(f.get('metadata')or{}).get('schema')in('cp7_recost','cp7_period','cp7_sales','cp7_payroll','cp7_attendance','cp7_fg','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice')for f in d.get('added',[])))
-  groups=[report.get(k,{})for k in('native',)];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==1 and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
+  groups=[report.get(k,{})for k in('native','http','browser')];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==4 and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
   OUT.parent.mkdir(parents=True,exist_ok=True);OUT.write_text(json.dumps(report,indent=2,default=str)+'\n');print(json.dumps({k:report.get(k)for k in('label','status','source_sha256','observed_case_count','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)
  return dict(status=report['status'],production_go=False,independent_acceptance=False,full_family_acceptance=False)
 if __name__=='__main__':

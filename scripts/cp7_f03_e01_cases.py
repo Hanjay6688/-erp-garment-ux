@@ -190,3 +190,51 @@ def journey(cur, today):
 
 def cases(cur, today):
     return [('F03_E01_NATIVE_60_TO_CASH_RETURN', lambda:journey(cur, today))]
+
+
+def http_cases(http, today):
+    def flow():
+        owner = http.login('OWNER', 'e01-owner')
+        with http.connect() as conn, conn.cursor() as cur:
+            f = production(cur, today)
+            before = cmd.accounts(cur)
+            report_before = finance.read(cur, today)
+            conn.commit()
+        def send(action, payload, version=None, key=None):
+            args = dict(p_action=action, p_payload=payload, p_request=str(key or uuid.uuid4()), p_expected=version)
+            result = owner.rpc('erp_cp7_save_sale_v1', args)
+            assert result['status'] == 200, ('E01_HTTP_COMMAND', action, result)
+            return result['body'], args
+        created, _ = send('CREATE', drafts.payload(f, '20', '25'))
+        f['sale'] = created['sale_id']
+        with http.connect() as conn, conn.cursor() as cur:
+            assert physical(cur, f) == 40 and cmd.accounts(cur) == before
+            payload, version = cmd.review(cur, f)
+        send('POST', payload, version)
+        with http.connect() as conn, conn.cursor() as cur:
+            assert physical(cur, f) == 40
+            expect_delta(cur, f, before, 500, 500, -300, 300)
+            payload, version = payments.payment_payload(cur, f, '200')
+        send('PAYMENT', payload, version)
+        with http.connect() as conn, conn.cursor() as cur:
+            expect_delta(cur, f, before, 300, 500, -300, 300, 200)
+            f['allocations'] = returns.read(cur, f)['page']['rows']
+            payload, version = returns.payload(cur, f, qty='5', refund='125')
+        args = dict(p_action='RETURN', p_payload=payload, p_request=str(uuid.uuid4()), p_expected=version)
+        assert http.anon_rpc('erp_cp7_save_sale_v1', args)['status'] in (401, 403)
+        returned = owner.rpc('erp_cp7_save_sale_v1', args)
+        assert returned['status'] == 200, returned
+        replayed = owner.rpc('erp_cp7_save_sale_v1', args)
+        assert replayed['status'] == 200 and replayed['body'] == returned['body']
+        with http.connect() as conn, conn.cursor() as cur:
+            assert physical(cur, f) == 45
+            expect_delta(cur, f, before, 175, 375, -225, 225, 200)
+            report_after = finance.read(cur, today)
+            for section, name, expected in [('financial_position','cash',200),('financial_position','customer_ar',175),('financial_position','fg_inventory',-225),('performance','sales_revenue_gl',375),('performance','cogs_gl',225),('performance','gross_profit',150)]:
+                assert finance.change(report_before, report_after, section, name) == expected
+            assert returns.read(cur, f, 'RETURNS')['page']['total'] == '1'
+            cur.execute('update erp.app_users set is_active=false where auth_user_id=%s', (owner.auth_user_id,))
+            conn.commit()
+        assert owner.rpc('erp_cp7_save_sale_v1', args)['status'] == 403
+        return dict(status='PASS',journey='E01',real_Auth_HTTP_sale_create_post_payment_return=True,source_production_native_qualified=True,stock45_value675_revenue375_COGS225_AR175_cash200_gross150=True,same_request_one_return=True,current_actor_revoked_replay_denied=True,anonymous_denied=True,full_family_acceptance=False)
+    return [('F03_E01_HTTP_60_TO_CASH_RETURN', flow)]
