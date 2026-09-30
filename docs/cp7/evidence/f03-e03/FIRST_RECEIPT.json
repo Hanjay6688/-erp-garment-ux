@@ -1,0 +1,142 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 1634949,
+  "artifact_id": 11072291566,
+  "artifact_sha256": "2f2d9a350883bcd106b0504584a913ceb86d4ef86e04e024f67401684d97256d",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 4,
+    "NOT_RUN": 0,
+    "PASS": 0
+  },
+  "cp6_restored": true,
+  "expected_case_count": 4,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "INCOMPLETE": 2
+    },
+    "http": {
+      "INCOMPLETE": 1
+    },
+    "native": {
+      "INCOMPLETE": 1
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109699760754,
+  "nonpassing_cases": {
+    "browser:F03_E03_BROWSER_DESKTOP": {
+      "error": "Error: Command failed: python ../auditor/scripts/cp7_f03_e03_browser_fixture.py prepare {\"today\":\"2026-09-30\"}\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_f03_e03_browser_fixture.py\", line 37, in <module>\n    if __name__ == '__main__':main()\n                              ^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_f03_e03_browser_fixture.py\", line 21, in main\n    out = cases.fixture(cur,date.fromisoformat(p['today']))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e03_cases.py\", line 27, in fixture\n    receipt = e01.procurement.command(cur, 'SAVE_DRAFT', dict(purchase_number=acc['code']+'-FINAL', supplier_id=acc['supplier'], location_id=acc['main'], physical_at=bc.local_at(today-timedelta(days=3), 9), change_reason='E03 ten service buttons at two, final supplier price', lines=[dict(material_id=acc['material'], qty='10', unit_price='2', price_state='FINAL', price_source='SUPPLIER_INVOICE')]))\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_procurement_cases.py\", line 29, in command\n    r=cur.execute('select public.erp_cp7_save_procurement_v1(%s,%s::jsonb,%s,%s)',\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InvalidParameterValue: CP7_PROCUREMENT_FIELDS\nCONTEXT:  PL/pgSQL function cp7_procurement.fields(jsonb,text[],text[]) line 4 at RAISE\nSQL statement \"SELECT cp7_procurement.fields(line,array['material_id','qty','unit_price','price_state','price_source','rolls','lot_number','notes','purchase_qty_entered','purchase_uom_code','purchase_price_per_uom_snapshot'],array['material_id','price_state','price_source','rolls'])\"\nPL/pgSQL function cp7_procurement.command(text,jsonb,uuid,text) line 19 at PERFORM\nSQL function \"erp_cp7_save_procurement_v1\" statement 1\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e03_browser.mjs:5:34)\n    at flow (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e03_browser.mjs:19:11)\n    at file:///home",
+      "status": "INCOMPLETE"
+    },
+    "browser:F03_E03_BROWSER_MOBILE_LOST_SERVICE": {
+      "error": "Error: Command failed: python ../auditor/scripts/cp7_f03_e03_browser_fixture.py prepare {\"today\":\"2026-09-30\"}\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_f03_e03_browser_fixture.py\", line 37, in <module>\n    if __name__ == '__main__':main()\n                              ^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_f03_e03_browser_fixture.py\", line 21, in main\n    out = cases.fixture(cur,date.fromisoformat(p['today']))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e03_cases.py\", line 27, in fixture\n    receipt = e01.procurement.command(cur, 'SAVE_DRAFT', dict(purchase_number=acc['code']+'-FINAL', supplier_id=acc['supplier'], location_id=acc['main'], physical_at=bc.local_at(today-timedelta(days=3), 9), change_reason='E03 ten service buttons at two, final supplier price', lines=[dict(material_id=acc['material'], qty='10', unit_price='2', price_state='FINAL', price_source='SUPPLIER_INVOICE')]))\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_procurement_cases.py\", line 29, in command\n    r=cur.execute('select public.erp_cp7_save_procurement_v1(%s,%s::jsonb,%s,%s)',\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InvalidParameterValue: CP7_PROCUREMENT_FIELDS\nCONTEXT:  PL/pgSQL function cp7_procurement.fields(jsonb,text[],text[]) line 4 at RAISE\nSQL statement \"SELECT cp7_procurement.fields(line,array['material_id','qty','unit_price','price_state','price_source','rolls','lot_number','notes','purchase_qty_entered','purchase_uom_code','purchase_price_per_uom_snapshot'],array['material_id','price_state','price_source','rolls'])\"\nPL/pgSQL function cp7_procurement.command(text,jsonb,uuid,text) line 19 at PERFORM\nSQL function \"erp_cp7_save_procurement_v1\" statement 1\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e03_browser.mjs:5:34)\n    at flow (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e03_browser.mjs:19:11)\n    at file:///home",
+      "status": "INCOMPLETE"
+    },
+    "http:F03_E03_HTTP_CUSTODY_SERVICE": {
+      "error": "CP7_PROCUREMENT_FIELDS\nCONTEXT:  PL/pgSQL function cp7_procurement.fields(jsonb,text[],text[]) line 4 at RAISE\nSQL statement \"SELECT cp7_procurement.fields(line,array['material_id','qty','unit_price','price_state','price_source','rolls','lot_number','notes','purchase_qty_entered','purchase_uom_code','purchase_price_per_uom_snapshot'],array['material_id','price_state','price_source','rolls'])\"\nPL/pgSQL function cp7_procurement.command(text,jsonb,uuid,text) line 19 at PERFORM\nSQL function \"erp_cp7_save_procurement_v1\" statement 1",
+      "session_leaks": [],
+      "status": "INCOMPLETE",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 139, in strict_rows\n    row=run_one(i,key,operation)\n        ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 302, in <lambda>\n    report['cases'],refusal=strict_rows('AUDITOR_HTTP_'+phase.upper(),planned,lambda i,key,operation:operation(),HTTP_DB,('authenticator',))\n                                                                                                     ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e03_cases.py\", line 125, in run\n    f = fixture(cur, today); before = observe(cur, f)\n        ^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e03_cases.py\", line 27, in fixture\n    receipt = e01.procurement.command(cur, 'SAVE_DRAFT', dict(purchase_number=acc['code']+'-FINAL', supplier_id=acc['supplier'], location_id=acc['main'], physical_at=bc.local_at(today-timedelta(days=3), 9), change_reason='E03 ten service buttons at two, final supplier price', lines=[dict(material_id=acc['material'], qty='10', unit_price='2', price_state='FINAL', price_source='SUPPLIER_INVOICE')]))\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_procurement_cases.py\", line 29, in command\n    r=cur.execute('select public.erp_cp7_save_procurement_v1(%s,%s::jsonb,%s,%s)',\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InvalidParameterValue: CP7_PROCUREMENT_FIELDS\nCONTEXT:  PL/pgSQL function cp7_procurement.fields(jsonb,text[],text[]) line 4 at RAISE\nSQL statement \"SELECT cp7_procurement.fields(line,array['material_id','qty','unit_price','price_state','price_source','rolls','lot_number','notes','purchase_qty_entered','purchase_uom_code','purchase_price_per_uom_snapshot'],array['material_id','price_state','price_source','rolls'])\"\nPL/pgSQL function cp7_procurement.command(text,jsonb,uuid,text) line 19 at PERFORM\nSQL function \"erp_cp7_save_procurement_v1\" statement 1\n"
+    },
+    "native:F03_E03_NATIVE_CUSTODY_SERVICE_INVERSE": {
+      "error": "CP7_PROCUREMENT_FIELDS\nCONTEXT:  PL/pgSQL function cp7_procurement.fields(jsonb,text[],text[]) line 4 at RAISE\nSQL statement \"SELECT cp7_procurement.fields(line,array['material_id','qty','unit_price','price_state','price_source','rolls','lot_number','notes','purchase_qty_entered','purchase_uom_code','purchase_price_per_uom_snapshot'],array['material_id','price_state','price_source','rolls'])\"\nPL/pgSQL function cp7_procurement.command(text,jsonb,uuid,text) line 19 at PERFORM\nSQL function \"erp_cp7_save_procurement_v1\" statement 1",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_lock_keys": [],
+        "advisory_locks": 0,
+        "other_sessions": []
+      },
+      "status": "INCOMPLETE",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 112, in strict_group\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e03_cases.py\", line 115, in <lambda>\n    return [('F03_E03_NATIVE_CUSTODY_SERVICE_INVERSE', lambda:flow(cur, today))]\n                                                              ^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e03_cases.py\", line 81, in flow\n    f = fixture(cur, today)\n        ^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e03_cases.py\", line 27, in fixture\n    receipt = e01.procurement.command(cur, 'SAVE_DRAFT', dict(purchase_number=acc['code']+'-FINAL', supplier_id=acc['supplier'], location_id=acc['main'], physical_at=bc.local_at(today-timedelta(days=3), 9), change_reason='E03 ten service buttons at two, final supplier price', lines=[dict(material_id=acc['material'], qty='10', unit_price='2', price_state='FINAL', price_source='SUPPLIER_INVOICE')]))\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_procurement_cases.py\", line 29, in command\n    r=cur.execute('select public.erp_cp7_save_procurement_v1(%s,%s::jsonb,%s,%s)',\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InvalidParameterValue: CP7_PROCUREMENT_FIELDS\nCONTEXT:  PL/pgSQL function cp7_procurement.fields(jsonb,text[],text[]) line 4 at RAISE\nSQL statement \"SELECT cp7_procurement.fields(line,array['material_id','qty','unit_price','price_state','price_source','rolls','lot_number','notes','purchase_qty_entered','purchase_uom_code','purchase_price_per_uom_snapshot'],array['material_id','price_state','price_source','rolls'])\"\nPL/pgSQL function cp7_procurement.command(text,jsonb,uuid,text) line 19 at PERFORM\nSQL function \"erp_cp7_save_procurement_v1\" statement 1\n"
+    }
+  },
+  "observed_case_count": 4,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385620,
+      "sha256": "4ad63f383f777e167005a9f2c89345e1bd26b9dfcd865831a2459847fe8084d5"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385620,
+      "sha256": "4ad63f383f777e167005a9f2c89345e1bd26b9dfcd865831a2459847fe8084d5"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "a49f996b32e4c2d66806638ecbdccb588270e3f750ff059b02ec03d880d78eb6"
+    },
+    "CP7_F03_E03.json": {
+      "bytes": 270354,
+      "sha256": "8a4ac9a232d701377397cd3ed88b0d3dcec1e42d99ec3345420ecbbc88fd557c"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "afbf74cbf532c956c465ed6e4c5694350dfe470d759c31502df5c1ca280163c7"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360419,
+      "sha256": "a3bee3fb993ff462b752c850c0b1956da76aeaa8ede40cd8d190cd330bc7349f"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "production_go": false,
+  "report_sha256": "8a4ac9a232d701377397cd3ed88b0d3dcec1e42d99ec3345420ecbbc88fd557c",
+  "retained_reports_gzip_sha256": "223641c4c89478489c832f8b896a4abd12911087047bc87baf5eea11ed2a487e",
+  "run_id": 36655801222,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "0c35e18723d8aba2f55dbf5231e30d93c5afd453",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "23f795aac1b3b619108c93e525dd5d609c5908d5",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36655801222",
+    "tool_head": "0c35e18723d8aba2f55dbf5231e30d93c5afd453",
+    "workflow": "CP7 F03 E03 Customer Service"
+  },
+  "source_bundle_sha256": "d999ab45ebe40001e7a30ba46e0e10a18b950cc19531555716060d62cdd1759e",
+  "source_commit": "0c35e18723d8aba2f55dbf5231e30d93c5afd453",
+  "source_tree": "fb4ea4365396590a9873ab7df5b388b4318be1fe",
+  "status": "INCOMPLETE",
+  "visual_review_performed": false
+}

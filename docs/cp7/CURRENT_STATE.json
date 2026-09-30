@@ -340,12 +340,31 @@
     "production_go": false
   },
   "f03_e03": {
-    "status": "SELECTED_CUSTODY_SERVICE_RUNNING",
-    "source": "0c35e18723d8aba2f55dbf5231e30d93c5afd453",
-    "run_id": 36655801222,
+    "status": "SELECTED_CUSTODY_SERVICE_WRITER_4_PASS",
+    "source": "18c508deffc42415249c9bb2875bcadcbfc71554",
+    "run_id": 36656705461,
     "handoff": "docs/cp7/F03_E03_HANDOFF.md",
     "cash_refund_execution_claim": false,
     "full_E03_acceptance": false,
+    "independent_acceptance": false,
+    "production_go": false,
+    "verification": "docs/cp7/evidence/f03-e03/QUALIFIED_RECEIPT.json",
+    "counts": {
+      "PASS": 4,
+      "FAIL": 0,
+      "INCOMPLETE": 0,
+      "NOT_RUN": 0
+    },
+    "report_readiness": "READY",
+    "visual_review": true
+  },
+  "p09_combined_return_candidate": {
+    "status": "NATIVE_9_PASS_1_FIXTURE_INCOMPLETE_UI_QUALIFICATION_RUNNING",
+    "source": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+    "run_id": 36657403278,
+    "expected_case_count": 12,
+    "handoff": "docs/cp7/P09_COMBINED_RETURN_HANDOFF.md",
+    "first_diagnostic": "docs/cp7/evidence/p09-return-documents/FIRST_RECEIPT.json",
     "independent_acceptance": false,
     "production_go": false
   }

@@ -1,0 +1,142 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 1951279,
+  "artifact_id": 11073145163,
+  "artifact_sha256": "bf9d2534630b7fab36aaedee59294ddc7239d7997700a0c666e929b26cf2bf65",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 2,
+    "NOT_RUN": 0,
+    "PASS": 2
+  },
+  "cp6_restored": true,
+  "expected_case_count": 4,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "PASS": 2
+    },
+    "http": {
+      "INCOMPLETE": 1
+    },
+    "native": {
+      "INCOMPLETE": 1
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109701024397,
+  "nonpassing_cases": {
+    "http:F03_E03_HTTP_CUSTODY_SERVICE": {
+      "error": "{'status': 400, 'body': {'code': 'P0001', 'details': None, 'hint': None, 'message': 'BC_DATE_INVALID: physical_at memakai tanggal dan jam WIB (YYYY-MM-DDTHH:MM:SS+07:00)'}}",
+      "session_leaks": [],
+      "status": "INCOMPLETE",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 139, in strict_rows\n    row=run_one(i,key,operation)\n        ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 302, in <lambda>\n    report['cases'],refusal=strict_rows('AUDITOR_HTTP_'+phase.upper(),planned,lambda i,key,operation:operation(),HTTP_DB,('authenticator',))\n                                                                                                     ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e03_cases.py\", line 136, in run\n    entered,_ = send('CUSTOMER_GARMENT_IN',incoming(f))\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e03_cases.py\", line 133, in send\n    assert r['status'] == 200, r\n           ^^^^^^^^^^^^^^^^^^\nAssertionError: {'status': 400, 'body': {'code': 'P0001', 'details': None, 'hint': None, 'message': 'BC_DATE_INVALID: physical_at memakai tanggal dan jam WIB (YYYY-MM-DDTHH:MM:SS+07:00)'}}\n"
+    },
+    "native:F03_E03_NATIVE_CUSTODY_SERVICE_INVERSE": {
+      "error": "BC_DATE_INVALID: physical_at memakai tanggal dan jam WIB (YYYY-MM-DDTHH:MM:SS+07:00)\nCONTEXT:  PL/pgSQL function erp.bc_parse_at_v1(text,text) line 5 at RAISE\nPL/pgSQL function erp.bc_customer_garment_v1(text,jsonb,uuid) line 13 at assignment\nPL/pgSQL function erp.save_accessory_service_action_v1(text,jsonb,uuid) line 26 at assignment\nSQL function \"erp_save_accessory_service_action_v1\" statement 1",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_lock_keys": [],
+        "advisory_locks": 0,
+        "other_sessions": []
+      },
+      "status": "INCOMPLETE",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 112, in strict_group\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e03_cases.py\", line 115, in <lambda>\n    return [('F03_E03_NATIVE_CUSTODY_SERVICE_INVERSE', lambda:flow(cur, today))]\n                                                              ^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e03_cases.py\", line 84, in flow\n    entered = bc.svc(cur, 'CUSTOMER_GARMENT_IN', payload, key)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bc_probe.py\", line 120, in svc\n    result=cur.execute('select public.erp_save_accessory_service_action_v1(%s,%s::jsonb,%s)',\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: BC_DATE_INVALID: physical_at memakai tanggal dan jam WIB (YYYY-MM-DDTHH:MM:SS+07:00)\nCONTEXT:  PL/pgSQL function erp.bc_parse_at_v1(text,text) line 5 at RAISE\nPL/pgSQL function erp.bc_customer_garment_v1(text,jsonb,uuid) line 13 at assignment\nPL/pgSQL function erp.save_accessory_service_action_v1(text,jsonb,uuid) line 26 at assignment\nSQL function \"erp_save_accessory_service_action_v1\" statement 1\n"
+    }
+  },
+  "observed_case_count": 4,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385622,
+      "sha256": "846a4958edcf9fa9390aedd8fb97402d5dc902904c1f57e43ec25914693ed6d7"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385622,
+      "sha256": "846a4958edcf9fa9390aedd8fb97402d5dc902904c1f57e43ec25914693ed6d7"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "48a90ff468a6e4c4e94f04c80a529adab6a1e854aa952bdcd1bc7970c431946f"
+    },
+    "CP7_F03_E03.json": {
+      "bytes": 263391,
+      "sha256": "8d0a21944c857fc1d82ce9a71c8a8a2045a786323ee211a8943cf311d9aee694"
+    },
+    "E03_CUSTOMER_CUSTODY_DESKTOP.png": {
+      "bytes": 206886,
+      "sha256": "9fa490d01b4fe543ebaf0a42df82daf7f788262b894ee2ff5508969ee498a83c"
+    },
+    "E03_CUSTOMER_CUSTODY_MOBILE.png": {
+      "bytes": 117963,
+      "sha256": "75fe174320fdfa44eba4245d9ba2fcd9639565714e42a217237410d84e6d6180"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "028d13dde7b4a6d88ef7e8f0fd43104f2bd5b5ba6f5046d4d062f3945d52da03"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360419,
+      "sha256": "e89651b7cf1d0ba1c4da3b51c3762b117780f0140bdc2b356355a5d94f300ef6"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "production_go": false,
+  "report_sha256": "8d0a21944c857fc1d82ce9a71c8a8a2045a786323ee211a8943cf311d9aee694",
+  "retained_reports_gzip_sha256": "0a13a0c4888d0344a5ac73d47dd539b253f5bae57d1319993f618632805b9d00",
+  "run_id": 36656215331,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "73cc0f93930e78376fd7f2b9d5413f134f7a6acd",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "23f795aac1b3b619108c93e525dd5d609c5908d5",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36656215331",
+    "tool_head": "73cc0f93930e78376fd7f2b9d5413f134f7a6acd",
+    "workflow": "CP7 F03 E03 Customer Service"
+  },
+  "source_bundle_sha256": "d999ab45ebe40001e7a30ba46e0e10a18b950cc19531555716060d62cdd1759e",
+  "source_commit": "73cc0f93930e78376fd7f2b9d5413f134f7a6acd",
+  "source_tree": "6c0879112e4e444613e134e522b1f3eb5065b501",
+  "status": "INCOMPLETE",
+  "visual_review_performed": false
+}

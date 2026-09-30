@@ -1,0 +1,129 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 1635086,
+  "artifact_id": 11072187932,
+  "artifact_sha256": "6d5f072ce8e610d9d43419426a36a5988ec8688c38e33786be4215a34eb9db3c",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 1,
+    "NOT_RUN": 0,
+    "PASS": 9
+  },
+  "cp6_restored": true,
+  "expected_case_count": 10,
+  "full_family_acceptance": false,
+  "groups": {
+    "http": {
+      "PASS": 1
+    },
+    "native": {
+      "INCOMPLETE": 1,
+      "PASS": 5
+    },
+    "races": {
+      "PASS": 3
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109702672861,
+  "nonpassing_cases": {
+    "native:P09_COMBINED_RETURN_ATOMIC": {
+      "error": "Supplier return exceeds quantity from source purchase item. Purchased 10.000000, prior returned 0.000000, current draft incl line 11.000000\nCONTEXT:  PL/pgSQL function validate_supplier_return_source() line 43 at RAISE\nSQL statement \"insert into erp.material_supplier_return_items(\n      id,return_id,material_id,roll_id,qty,notes,purchase_item_id\n    ) values(\n      coalesce(nullif(v_line->>'id','')::uuid,gen_random_uuid()),v_id,\n      (v_line->>'material_id')::uuid,nullif(v_line->>'roll_id','')::uuid,\n      (v_line->>'qty')::numeric,nullif(btrim(v_line->>'notes'),''),\n      nullif(v_line->>'purchase_item_id','')::uuid\n    )\"\nPL/pgSQL function save_material_supplier_return_draft_v2(jsonb,uuid,bigint) line 54 at SQL statement\nPL/pgSQL function cp7_supplier_return.document_command(text,jsonb,uuid,text) line 33 at assignment\nSQL expression \"cp7_supplier_return.document_command(p_action,p_payload,p_request,p_expected)\"\nPL/pgSQL function cp7_supplier_return.command(text,jsonb,uuid,text) line 4 at RETURN\nSQL function \"erp_cp7_save_supplier_return_v1\" statement 1",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_lock_keys": [],
+        "advisory_locks": 0,
+        "other_sessions": []
+      },
+      "status": "INCOMPLETE",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 112, in strict_group\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_supplier_return_document_cases.py\", line 67, in atomic\n    p.update(id=d['return_id']);p['items'][1]['qty']='11';d=save(cur,p,d['row_version']);before=b.boundary.snapshot(cur)\n                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_supplier_return_document_cases.py\", line 22, in save\n    def save(cur,p,version=None,key=None,subject=None):return source.command(cur,'SAVE_DOCUMENT',p,version,key,subject)\n                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_supplier_return_cases.py\", line 21, in command\n    r=cur.execute('select public.erp_cp7_save_supplier_return_v1(%s,%s::jsonb,%s,%s)',(action,json.dumps(payload,default=str),key or uuid.uuid4(),version)).fetchone()[0]\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: Supplier return exceeds quantity from source purchase item. Purchased 10.000000, prior returned 0.000000, current draft incl line 11.000000\nCONTEXT:  PL/pgSQL function validate_supplier_return_source() line 43 at RAISE\nSQL statement \"insert into erp.material_supplier_return_items(\n      id,return_id,material_id,roll_id,qty,notes,purchase_item_id\n    ) values(\n      coalesce(nullif(v_line->>'id','')::uuid,gen_random_uuid()),v_id,\n      (v_line->>'material_id')::uuid,nullif(v_line->>'roll_id','')::uuid,\n      (v_line->>'qty')::numeric,nullif(btrim(v_line->>'notes'),''),\n      nullif(v_line->>'purchase_item_id','')::uuid\n    )\"\nPL/pgSQL function save_material_supplier_return_draft_v2(jsonb,uuid,bigint) line 54 at SQL statement\nPL/pgSQL function cp7_supplier_return.document_command(text,jsonb,uuid,text) line 33 at assignment\nSQL expression \"cp7_supplier_return.document_command(p_action,p_payload,p_request,p_expected)\"\nPL/pgSQL function cp7_supplier_return.command(text,jsonb,uuid,text) line 4 at RETURN\nSQL function \"erp_cp7_save_supplier_return_v1\" statement 1\n"
+    }
+  },
+  "observed_case_count": 10,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385610,
+      "sha256": "3353f042b050c9a26839952d213de28dd8d526785ee4a6a5416f7ab7635e95ed"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385610,
+      "sha256": "3353f042b050c9a26839952d213de28dd8d526785ee4a6a5416f7ab7635e95ed"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "27d1519b4abb1eec9e00f9d40834c186384ab5e2f6e0044785efeee96d6f0732"
+    },
+    "CP7_F03_RETURN_DOCUMENTS.json": {
+      "bytes": 265254,
+      "sha256": "dce07e8f7b6ee20d21760eb976e78188e8cbaf9aa7e54b4d6c350e910fabca08"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "9c2b382683dd8717e4a56544566b4b4fa16076a44fbe4911b6b3a86281d9b487"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360424,
+      "sha256": "bfc2e571e76810ba8e9e624bde1d3919e6a384870fcf529584000c1eb01c77dd"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "production_go": false,
+  "report_sha256": "dce07e8f7b6ee20d21760eb976e78188e8cbaf9aa7e54b4d6c350e910fabca08",
+  "retained_reports_gzip_sha256": "ab8c9380d0206c0e4b20277392d43f8cbde9a9d01b5cbdd02b686ac3c6f4dfd1",
+  "run_id": 36656767734,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "05c1e2551844c34a8906285eeb12c50c23c5b0a1",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "23f795aac1b3b619108c93e525dd5d609c5908d5",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36656767734",
+    "tool_head": "05c1e2551844c34a8906285eeb12c50c23c5b0a1",
+    "workflow": "CP7 F03 Combined Supplier Returns"
+  },
+  "source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+  "source_commit": "05c1e2551844c34a8906285eeb12c50c23c5b0a1",
+  "source_tree": "d8c30d22f23ce87bd5b044b0394430b45c750e8c",
+  "status": "INCOMPLETE",
+  "visual_review_performed": false
+}

@@ -1,0 +1,146 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 1950823,
+  "artifact_id": 11072468938,
+  "artifact_sha256": "9fcd8b5bf2b451ce2407a9a7b3cdf0e004b8786e72a76d76689a26bbcafc7e58",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0,
+    "PASS": 4
+  },
+  "cp6_restored": true,
+  "expected_case_count": 4,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 1
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109702482208,
+  "nonpassing_cases": {},
+  "observed_case_count": 4,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385605,
+      "sha256": "2ff0da0e83d9c1c33d0ea3fd26dd20786476c9ef940550af7dbc1ba5f2de29df"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385605,
+      "sha256": "2ff0da0e83d9c1c33d0ea3fd26dd20786476c9ef940550af7dbc1ba5f2de29df"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "b1ac7916ce017af32d73b0d3f7264c9c272a5a38628a2b16f6f508cbbe605bd1"
+    },
+    "CP7_F03_E03.json": {
+      "bytes": 268526,
+      "sha256": "a014259c154c995d0ea77435b9be21665525824ec8dbf61ddfd8a0f98d042863"
+    },
+    "E03_CUSTOMER_CUSTODY_DESKTOP.png": {
+      "bytes": 205957,
+      "sha256": "70bbfe68ed883ec705d70b5f4c53464747ad90d254de0701aa57a0c7a7978150"
+    },
+    "E03_CUSTOMER_CUSTODY_MOBILE.png": {
+      "bytes": 118354,
+      "sha256": "273700a263e9262f0976effac7509e0631beeef6d3073fa576ecb4eb9558d67c"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "b5ceb9ddceb560d6b8a4354d5508b51b26a94dff8c1d5af386130161a4de81b5"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360412,
+      "sha256": "2780c3ee96edd134ee8ce0f8c667dbd292c81e1bf36b036fa68095a5c33cfd3c"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "production_go": false,
+  "report_sha256": "a014259c154c995d0ea77435b9be21665525824ec8dbf61ddfd8a0f98d042863",
+  "retained_reports_gzip_sha256": "9d275a666238910e1ee9fd1eb546ecf0240672b0329ada7a94c62c129dbd81f4",
+  "run_id": 36656705461,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "18c508deffc42415249c9bb2875bcadcbfc71554",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "23f795aac1b3b619108c93e525dd5d609c5908d5",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36656705461",
+    "tool_head": "18c508deffc42415249c9bb2875bcadcbfc71554",
+    "workflow": "CP7 F03 E03 Customer Service"
+  },
+  "source_bundle_sha256": "d999ab45ebe40001e7a30ba46e0e10a18b950cc19531555716060d62cdd1759e",
+  "source_commit": "18c508deffc42415249c9bb2875bcadcbfc71554",
+  "source_tree": "858dc9c329d110b0ed99774992f474abb00dea3f",
+  "status": "PASS",
+  "visual_review": {
+    "notes": "Desktop and mobile screenshots inspected; customer custody shown returned. Mobile retains horizontal scrolling inside tabular sections; no document-wide overflow. This is the final custody view, not visual proof of every intermediate form.",
+    "screens": {
+      "E03_CUSTOMER_CUSTODY_DESKTOP.png": {
+        "height": 1119,
+        "original_sha256": "70bbfe68ed883ec705d70b5f4c53464747ad90d254de0701aa57a0c7a7978150",
+        "pixel_identical": true,
+        "retained_bytes": 168238,
+        "retained_file": "E03_CUSTOMER_CUSTODY_DESKTOP.webp",
+        "retained_sha256": "17ca9c13879d38959622e8991fbcde7ff3a46dca2f237ce188019dd37d3a7566",
+        "width": 1440
+      },
+      "E03_CUSTOMER_CUSTODY_MOBILE.png": {
+        "height": 1322,
+        "original_sha256": "273700a263e9262f0976effac7509e0631beeef6d3073fa576ecb4eb9558d67c",
+        "pixel_identical": true,
+        "retained_bytes": 69044,
+        "retained_file": "E03_CUSTOMER_CUSTODY_MOBILE.webp",
+        "retained_sha256": "11a463a08b58475c484127660d510f9356f4ec15ea5056fc1c7dfa3c960dcde4",
+        "width": 390
+      }
+    }
+  },
+  "visual_review_performed": true
+}

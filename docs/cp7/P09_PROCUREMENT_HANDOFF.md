@@ -24,7 +24,7 @@ Workflow `cp7-p09-procurement.yml` rebuilds the accepted 30-file CP6 package in 
 
 - Receipt/material/transfer/invoice/source-return, receipt reversal, UOM, unrolled materials and physical-count increments are qualified below.
 - Remaining material-issue workflows and full P09 coverage remain open. Multi-input and zero-history physical-count selection are writer-qualified in the latest132-case source.
-- Mixed-receipt supplier return writes and the paid-source return carry remain explicit gaps for full P09/P13 review. Combined invoice documents are qualified.
+- [Mixed-receipt supplier return writes](P09_COMBINED_RETURN_HANDOFF.md) are now implemented; full native/browser qualification is underway. Paid-source return carry remains a distinct P09/P13 boundary. Combined invoice documents are qualified.
 - Other packets now have bounded qualifications; see [current remaining family contract](F03_REMAINING_CONTRACT.md) rather than treating the historical next steps below as unimplemented.
 - Full E01/E24/E14/E12, family independent audit and P18–P21 remain open.
 

@@ -31,3 +31,8 @@ The tests are selected risk-based regression plus a new cross-component money/re
 ## Explicit remaining work
 
 P09 source/continuation coverage, E05 partial settlement contract/proof, remaining P13 financial writers and full integration/scale obligations remain open. Period-close UI is qualified separately; analysis and recost keep their own current handoff status. Existing qualified component handoffs retain their original source SHAs. A PASS here would prove this declared development-stack composition within22 cases; it would not close F03, accept F02 planner gates, authorize production or satisfy P18–P21. F04 takeover remains after the F03 completion boundary the owner requested.
+
+
+## Retur multi-sumber — regression record30 September
+
+Source05c1e25/run36656767683: native/race/HTTP16 PASS;6 browser NOT_RUN because host START could not bind loopback54328 (EADDRINUSE), before any browser user/case. The overall22-case result remains INCOMPLETE. [Original reports and receipt](evidence/f03-combined/RETURN_BACKEND_PORT_CONFLICT_RECEIPT.json) preserve this infrastructure failure; CP6 restoration/advisor/backup restoration and cleanup pass. Fresh sourcea28ad22 regression is running; do not replace the earlier accepted bounded22 result with an invented PASS for this run.

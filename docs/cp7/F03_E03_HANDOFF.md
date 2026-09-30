@@ -2,7 +2,7 @@
 
 F03 OPEN; CP6 CLOSED_CONTRACT_SCOPE; production_go=false; independent_acceptance=false. This is a selected E03 branch, not complete cash-refund or full E03 acceptance.
 
-Source `0c35e18723d8aba2f55dbf5231e30d93c5afd453`, tree `fb4ea4365396590a9873ab7df5b388b4318be1fe`, [run36655801222](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36655801222): PENDING. One native, one Auth/HTTP and desktop/mobile browser execution are planned against the explicit26-role F03 stack.
+Qualified source **`18c508deffc42415249c9bb2875bcadcbfc71554`**, [run36656705461](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36656705461), job109702482208: **4 PASS, 0 FAIL, 0 INCOMPLETE, 0 NOT_RUN**. One native, one real Auth/HTTP and desktop/mobile browser execution pass against the explicit26-role F03 stack. [Source/tree/artifact receipt](evidence/f03-e03/QUALIFIED_RECEIPT.json); [all original JSON reports](evidence/f03-e03/QUALIFIED.json.gz). This is writer qualification, not an independent audit.
 
 The source is the lawful E01 production/Nota/payroll worksheet: sell20, collect200 and accept5 company GOOD returns, leaving company FG45/value675, AR175 and cash200. One **different** garment among the customer's remaining15 enters custody. It remains customer-owned while two separately received company accessories (10 PCS at2, final invoice basis) are consumed, costing4. The existing owner policy chooses a dedicated disposable service-expense account. The garment returns to its owner; there must be no company FG/HPP, extra sales return, customer AR/refundable credit or contractor entitlement created by custody.
 
@@ -10,4 +10,8 @@ Expected service delta is material inventory−4/service expense+4; accessories1
 
 Browser actions cover custody-in, actual accessory consumption and custody-out. Production/sale/partial return are native fixture setup. The original invoice reference is retained in the existing service reference field; this is not claimed to be a new structural invoice-allocation link. No customer-service quality-grade write is invented. No cash refund is executed because this unpaid-invoice source has no legitimate refundable customer-credit right. A separate eligible-credit/refund and returned-BS contract remains visible rather than converted into an artificial company FG or cash entitlement.
 
-Results, cleanup/restoration and screenshots will be retained after the run; no PASS or visual review is claimed yet.
+The exact expense4/accessory10→8 outcome, ownership separation, native dependency-order inverse, current-access refusals and mobile same-UUID recovery all pass. The reporting reader is READY. CP6 restoration, advisor gate, accepted-package installation/backup restoration, unchanged primary and Auth/database cleanup all pass. READY is the scoped report condition, not period closure or family acceptance.
+
+Desktop1440×1119 and mobile390×1322 screenshots were inspected and retained as lossless, pixel-identical WebP files. The receipt binds original PNG and retained hashes/dimensions. The returned-custody state is visible; mobile tables retain horizontal scrolling within the panel. This is review of the final custody screen, not every intermediate form.
+
+Retained first results are not hidden: source0c35e18/run36655801222 was4 INCOMPLETE because the fixture omitted mandatory rolls=[]; source73cc0f9/run36656215331 had2 browser PASS/2 native-HTTP INCOMPLETE because the fixture timestamp did not use the accepted exact-second WIB format. QUALIFIED uses the native timestamp contract without relaxing the product parser or changing the money oracle. FIRST and SOURCE_CORRECTED reports/receipts remain alongside the qualified result.

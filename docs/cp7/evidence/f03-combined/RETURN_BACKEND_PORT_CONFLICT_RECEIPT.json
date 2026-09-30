@@ -1,0 +1,119 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 1635476,
+  "artifact_id": 11072778436,
+  "artifact_sha256": "e8788ce9dfdff8469a9523c7ce21e10d545943bded9dff6763b65d1a2a6dfaba",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 6,
+    "PASS": 16
+  },
+  "cp6_restored": true,
+  "expected_case_count": 22,
+  "full_family_acceptance": false,
+  "groups": {
+    "finance_browser": {},
+    "http": {
+      "PASS": 4
+    },
+    "native": {
+      "PASS": 10
+    },
+    "opening_payroll_browser": {},
+    "races": {
+      "PASS": 2
+    },
+    "sales_browser": {}
+  },
+  "incomplete_reason": "Browser host START failed with EADDRINUSE on loopback127.0.0.1:54328; zero browser users/cases. Native/race/HTTP16 PASS, six browser NOT_RUN. FullCP6 restoration, advisor, backup restore and cleanup remain PASS. Not a proven product transaction failure; fresh candidate regression pending.",
+  "independent_acceptance": false,
+  "job_id": 109702672714,
+  "nonpassing_cases": {},
+  "observed_case_count": 16,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385614,
+      "sha256": "55b4de3cb4298ee559d810b5c17d6097d6d7f88b286d9a3f81802751f536ceeb"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385614,
+      "sha256": "55b4de3cb4298ee559d810b5c17d6097d6d7f88b286d9a3f81802751f536ceeb"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "30519d1c40593fec2e3eaca7cd2dacf0a7e95be64fb2ecacba61725d947d8a23"
+    },
+    "CP7_F03_COMBINED_STACK.json": {
+      "bytes": 269716,
+      "sha256": "15d84a61c9d8ef3279ee4cbaa27be1d82736c254661a53314e3c3ca37630f442"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "148f78ac842d015168bb7978b66ab20115da5a2e341fee9f5295970e7a293a31"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360413,
+      "sha256": "601644f1fa4043681179a8f02810153f765eadbcf4a08c33a9e30c504070b81d"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "production_go": false,
+  "report_sha256": "15d84a61c9d8ef3279ee4cbaa27be1d82736c254661a53314e3c3ca37630f442",
+  "retained_reports_gzip_sha256": "ac26986152d89bd2876fa80c6d353c45413ec320d08d5ab2ed12615213a6c9ea",
+  "run_id": 36656767683,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "05c1e2551844c34a8906285eeb12c50c23c5b0a1",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "23f795aac1b3b619108c93e525dd5d609c5908d5",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36656767683",
+    "tool_head": "05c1e2551844c34a8906285eeb12c50c23c5b0a1",
+    "workflow": "CP7 F03 Combined Stack"
+  },
+  "source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+  "source_commit": "05c1e2551844c34a8906285eeb12c50c23c5b0a1",
+  "source_tree": "d8c30d22f23ce87bd5b044b0394430b45c750e8c",
+  "status": "INCOMPLETE",
+  "visual_review_performed": false
+}
