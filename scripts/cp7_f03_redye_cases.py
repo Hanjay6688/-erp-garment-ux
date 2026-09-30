@@ -32,8 +32,11 @@ def fixture(cur, today, known=False):
     b.api.admin(cur)
     process = b.one(cur, """insert into erp.wash_processes(process_code,process_name)
         values(%s,'X04 real paid redye') returning id::text""", 'X04-'+uuid.uuid4().hex[:10])
-    target = b.sized_product(cur, f['size_ids'][3], 'X04-DYE-'+uuid.uuid4().hex[:8])
-    anchor = bf.products(cur, ('ANCHOR',))[0][0]
+    identity = 'X04-DYE-'+uuid.uuid4().hex[:8]
+    target = b.sized_product(cur, f['size_ids'][3], identity)
+    anchor = bf.products(cur, ('ANCHOR',), tag=identity)[0][0]
+    identities = cur.execute('select brand_id,model_id,color_name from erp.products where id=any(%s::uuid[])',([target,anchor],)).fetchall()
+    assert len(identities)==2 and identities[0]==identities[1], 'X04_TARGET_GROUP_PHYSICAL_IDENTITY'
     start = f['when'](13,15)
     initial = bf.group(cur, [target], start, settings=dict(price='185000.00',
         bom=None, work_rates=[], laundry_rates=[]))
@@ -43,7 +46,10 @@ def fixture(cur, today, known=False):
     if known:
         b.process_rate(cur, dict(vendor=chain.base.VENDOR,process=process,start=start), '50.00')
     b.api.admin(cur)
-    bom = b.one(cur, 'select id::text from erp.accessory_bom_versions where product_id=%s and is_active', f['product'])
+    # Rework reviews the PO commitment at the actual service time, rather than
+    # an arbitrary active master row which can predate the BF shared recipe.
+    bom = b.one(cur, 'select erp.resolve_rework_accessory_bom_v1(%s,%s)::text', f['bs'], f['when'](14))
+    assert bom is not None, 'X04_EFFECTIVE_REWORK_BOM_REQUIRED'
     number = 'X04-DYE-'+uuid.uuid4().hex[:12]
     order = dict(rework_number=number,bs_case_id=str(f['bs']),destination_type='LAUNDRY',
         contractor_id=None,vendor_id=chain.base.VENDOR,qty_sent=4,

@@ -465,7 +465,7 @@
     "visual_review": false
   },
   "f03_x04_redye": {
-    "status": "5_INCOMPLETE_SAME_DAY_SOURCE_FIXTURE_CORRECTED_RERUN_PENDING",
+    "status": "5_INCOMPLETE_BOM_AND_GROUP_FIXTURE_CORRECTED_RERUN_PENDING",
     "expected_case_count": 5,
     "groups": {
       "native": 2,
@@ -478,17 +478,18 @@
     "independent_acceptance": false,
     "production_go": false,
     "visual_review": false,
-    "source": "4609705b99613d20bf264f39dcc347740b4cac13",
-    "source_tree": "8285cd8877f31181d736a183c882c0bcd6aea140",
-    "run_id": 36683521244,
-    "job_id": 109784060633,
+    "source": "2649451888ec9be0f35d5e643ccf476ab309a162",
+    "source_tree": "60bbfca689a94cecb37d44e927fce5e70a539021",
+    "run_id": 36684295374,
+    "job_id": 109786478569,
     "counts": {
       "PASS": 0,
       "FAIL": 0,
       "INCOMPLETE": 5,
       "NOT_RUN": 0
     },
-    "diagnostic": "docs/cp7/evidence/f03-redye/FIRST_RECEIPT.json",
-    "remaining": "New SKU masters lawfully refuse the old AV fixture day (BF_HISTORY). Corrected fixture uses the already qualified same-day combined production clock; it preserves master guards and all monetary expectations. Five-case rerun pending."
+    "diagnostic": "docs/cp7/evidence/f03-redye/SAME_DAY_RECEIPT.json",
+    "remaining": "Same-day qualifier lawfully refused a stale master BOM; one browser fixture also attempted a group with different physical colours. The fixture now selects the actual service-time PO BOM and two sizes of the same brand/model/colour. No guard or monetary worksheet changed. Five-case rerun pending.",
+    "first_diagnostic": "docs/cp7/evidence/f03-redye/FIRST_RECEIPT.json"
   }
 }
