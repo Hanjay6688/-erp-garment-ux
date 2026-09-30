@@ -18,7 +18,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   phase:
-    name: X04 source versions, immutable filing and close race
+    name: X04 source versions through FG cards and financial reports
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:

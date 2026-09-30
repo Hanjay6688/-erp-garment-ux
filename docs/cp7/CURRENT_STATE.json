@@ -54,11 +54,11 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Continue the exact E01 lawful source-to-cash/return oracle and remaining unambiguous F03 material, customer-owned, transitive-cost, date and recovery contracts. P13 controls have scoped writer qualification. E05 still requires the explicit partial-settlement contract. F03 and independent acceptance remain OPEN; F04 has not started.",
+  "next_action": "Resolve two X04 card comparisons with explicit field-level before/after evidence, keep fixed source quantities/costs, and retain the rerun. E01/E03/E24, E06 and same-context E12 have separate scoped writer evidence. Continue remaining F03 contract; E05 meaning and ordinary paid-source return/refund mechanisms remain unresolved. F04 has not started.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
-  "last_writer_checkpoint": "docs/cp7/F03_P13_AUDITOR_CHECKPOINT.md",
+  "last_writer_checkpoint": "docs/cp7/F03_CONTINUATION_AUDITOR_CHECKPOINT_20260930.md",
   "family_status": {
     "F01_P00_P02": "WRITER_T1_BOUNDED_FOUNDATION_PASS_INDEPENDENT_PENDING",
     "F02_P03_P04": "WRITER_REPAIR_VERIFIED_53_CASES_INDEPENDENT_HOLD",
@@ -67,7 +67,7 @@
     "F05_P14_P17": "PLANNED",
     "F06_P18_P21": "PLANNED"
   },
-  "latest_tested_source": "55cb59dd914052f2c5a72dc535960c0aac00d65d",
+  "latest_tested_source": "bfe9590b8625485667acfc22773a084266f71167",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
   "p04_cutting_verification_receipt": "docs/cp7/evidence/p04-cutting/VERIFICATION.json",
@@ -266,7 +266,7 @@
     "source_tree": "4f47389d983f37fbb54450fae670c61e84433fdb",
     "verification": "docs/cp7/evidence/p13-finance/PERIOD_FINAL_REGRESSION_RECEIPT.json",
     "run_id": 36643127110,
-    "latest_regression": "docs/cp7/evidence/p13-finance/PERIOD_FINAL_REGRESSION_RECEIPT.json"
+    "latest_regression": "docs/cp7/evidence/p09-return-documents/PERIOD_REGRESSION_RECEIPT.json"
   },
   "p13_analysis_candidate": {
     "status": "WRITER_BOUNDED_24_PASS",
@@ -300,7 +300,7 @@
     "precision_repair": "docs/cp7/evidence/p13-finance/RECOST_MICROSECOND_LOCAL_RECEIPT.json",
     "verification": "docs/cp7/evidence/p13-finance/RECOST_QUALIFIED_RECEIPT.json"
   },
-  "latest_tested_scope": "P13_REPORT12_ANALYSIS24_PERIOD25_RECOST25_SEPARATE_OVERLAPPING_SUITES",
+  "latest_tested_scope": "X04 first7 cases:5 PASS/2 INCOMPLETE; separate E06 five PASS and E12/E01 four PASS remain bound to their earlier receipts",
   "f03_e01": {
     "status": "WRITER_QUALIFIED_4_PASS_REPORT_READY",
     "handoff": "docs/cp7/F03_E01_HANDOFF.md",
@@ -395,5 +395,65 @@
     },
     "visual_review": true
   },
-  "f03_continuation_checkpoint": "docs/cp7/F03_CONTINUATION_AUDITOR_CHECKPOINT_20260930.md"
+  "f03_continuation_checkpoint": "docs/cp7/F03_CONTINUATION_AUDITOR_CHECKPOINT_20260930.md",
+  "active_contract_ledger": "docs/cp7/F03_REMAINING_CONTRACT.md",
+  "f03_e06": {
+    "status": "SELECTED_WRITER_PASS",
+    "source": "ca38bfbd1e8cc630e7d93ed2b7d70f64715143c2",
+    "tree": "48add9c82b25e231d55aa6068790194d293324ea",
+    "run_id": 36660802859,
+    "counts": {
+      "FAIL": 0,
+      "INCOMPLETE": 0,
+      "NOT_RUN": 0,
+      "PASS": 5
+    },
+    "verification": "docs/cp7/evidence/f03-e06/QUALIFIED_RECEIPT.json",
+    "handoff": "docs/cp7/F03_E06_HANDOFF.md",
+    "source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+    "visual_review": false,
+    "full_family_acceptance": false,
+    "independent_acceptance": false,
+    "production_go": false,
+    "scope": "Four year-end/date/pending-close native cases and one actual invoice/close race. No browser."
+  },
+  "f03_e12_same_context": {
+    "status": "SELECTED_WRITER_PASS",
+    "source": "9ac03af38a59e97f3ca70f5b1fa3de0631f89083",
+    "tree": "f9f0a4f90ba24bf216d7688b9096cd48f8000f87",
+    "run_id": 36660530418,
+    "counts": {
+      "FAIL": 0,
+      "INCOMPLETE": 0,
+      "NOT_RUN": 0,
+      "PASS": 4
+    },
+    "verification": "docs/cp7/evidence/f03-e01/E12_QUALIFIED_RECEIPT.json",
+    "handoff": "docs/cp7/F03_E01_HANDOFF.md",
+    "source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+    "visual_review": true,
+    "full_family_acceptance": false,
+    "independent_acceptance": false,
+    "production_go": false,
+    "scope": "Existing E01 four executions; mobile includes actual second tab sharing Auth/localStorage. Zero peer write RPCs, same envelope, one effect. Not all E12 routes/devices."
+  },
+  "f03_x04": {
+    "status": "FIRST_5_PASS_2_INCOMPLETE_DIAGNOSTIC_FOLLOWUP",
+    "source": "bfe9590b8625485667acfc22773a084266f71167",
+    "run_id": 36661532962,
+    "job_id": 109717171120,
+    "expected_case_count": 7,
+    "handoff": "docs/cp7/F03_X04_HANDOFF.md",
+    "full_family_acceptance": false,
+    "independent_acceptance": false,
+    "production_go": false,
+    "counts": {
+      "PASS": 5,
+      "FAIL": 0,
+      "INCOMPLETE": 2,
+      "NOT_RUN": 0
+    },
+    "diagnostic": "docs/cp7/evidence/f03-x04/FIRST_RECEIPT.json",
+    "remaining": "Exact field-level native-card and Auth/HTTP comparison diagnosis; no product change or new bug conclusion yet."
+  }
 }

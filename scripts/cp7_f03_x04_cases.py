@@ -14,6 +14,16 @@ import cp7_finance_cases as finance
 b = combined.b
 
 
+def differences(expected, actual, path=''):
+    if isinstance(expected, dict) and isinstance(actual, dict):
+        return [d for key in sorted(set(expected)|set(actual))
+                for d in differences(expected.get(key), actual.get(key), path+'.'+key)]
+    if isinstance(expected, list) and isinstance(actual, list) and len(expected)==len(actual):
+        return [d for i, (left, right) in enumerate(zip(expected, actual))
+                for d in differences(left, right, path+'.'+str(i))]
+    return [] if expected==actual else [dict(path=path, expected=expected, actual=actual)]
+
+
 def reports(cur, today):
     snapshot = finance.read(cur, today, **{'from': str(today-timedelta(days=14))})['snapshot']
     position, performance = snapshot['financial_position'], snapshot['performance']
@@ -94,7 +104,9 @@ def pinned_po(cur, today, mismatch=False):
     assert [combined.stock(cur, lot) for lot in combined.lots(cur, f) if lot] == expected
     for product, lot, before in zip(f['roots'][:3], old_lots, cards):
         after = fg.ledger(cur, dict(product=product, lot=lot, location=combined.base.LOCATION))
-        assert after['page']['rows']==before['page']['rows'], 'X04_CP7_OLD_CARD_REWRITTEN'
+        assert after['page']['rows']==before['page']['rows'], dict(
+            code='X04_OLD_CARD_COMPARISON', differences=differences(before['page']['rows'], after['page']['rows']),
+            hpp_completeness=b.one(cur, 'select to_jsonb(x) from erp.get_hpp_completeness(%s) x', f['po']))
         assert after['balances']==before['balances']
     return dict(status='PASS',recipe_mismatch=mismatch,physical=expected,
                 original_cards_and_values_immutable=True,
@@ -152,8 +164,10 @@ def http_cases(http, today):
                          location_id=observation['location'], quality_grade=observation['grade'], limit=100)
             response = owner.rpc('erp_cp7_get_fg_ledger_v1', dict(p_query=query))
             assert response['status']==200, response
-            assert response['body']['page']==observation['card']['page']
-            assert response['body']['balances']==observation['card']['balances']
+            assert response['body']['page']==observation['card']['page'], dict(
+                code='X04_HTTP_CARD_COMPARISON', differences=differences(observation['card']['page'], response['body']['page']))
+            assert response['body']['balances']==observation['card']['balances'], dict(
+                code='X04_HTTP_BALANCE_COMPARISON', differences=differences(observation['card']['balances'], response['body']['balances']))
         query = finance.query(today, **{'from': str(today-timedelta(days=14))})
         response = owner.rpc('erp_cp7_get_finance_report_v1', dict(p_query=query))
         assert response['status']==200, response

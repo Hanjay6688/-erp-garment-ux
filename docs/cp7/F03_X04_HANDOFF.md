@@ -21,3 +21,9 @@ Every native execution additionally reads CP7 FG/card positions for each actual 
 This selected continuation has six native cases and one real Auth/HTTP case. There is no new browser/visual claim or new redye scenario. Whole X04/family acceptance and independent review remain open. The test-only workflow keeps pinned PostgreSQL17 installation, exact guard/owner/ACL admission, advisor, CP6 restoration, backup restore, unchanged primary and Auth/database cleanup. It does not install unused browser dependencies.
 
 Files: `scripts/cp7_f03_x04_cases.py`, `scripts/cp7_f03_x04_probe.py`, `.github/workflows/cp7-f03-x04.yml`.
+
+## First result — retained without a premature product diagnosis
+
+Source `bfe9590b8625485667acfc22773a084266f71167`, [run36661532962](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36661532962), job109717171120: **5 PASS /2 INCOMPLETE /0 FAIL /0 NOT_RUN**. [Original receipt](evidence/f03-x04/FIRST_RECEIPT.json) and compressed reports retain both incomplete assertions. CP6 restoration, advisor, accepted package/backup restore, primary and Auth/database cleanup pass; writer-runtime gate remains false.
+
+Vendor FREE/WAIVED, compatible PO pin, both contractor rework paths and the moved-range/pending-invoice/return continuation pass. The incompatible recipe correctly refuses; old source lot values and quantities remain exact, but the test's whole CP7 card-row comparison fails. The HTTP compatible-source case also reaches HTTP200 and fails its native/HTTP page comparison. The original assertions did not retain changed fields. Follow-up instrumentation prints the exact before/after field differences and native HPP completeness while keeping both assertions. This is not yet proof that historical stock/cost facts changed, and no product code has been altered.

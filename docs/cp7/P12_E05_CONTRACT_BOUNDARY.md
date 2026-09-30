@@ -12,4 +12,15 @@ Current implemented behavior is concrete: `cp7_payroll` settlement calls the acc
 
 Before any payment-schema change, bind the intended partial-settlement mechanism to an existing explicit owner/native contract and define its accounting, remainder, reservation, date, replay and inverse oracle. Do not synthesize split cash by rewriting an APPROVED document, reversing/reposting cash journals or changing transaction dates. Continue the unambiguous connected P09/P11/P12/P13 work; keep E05 unresolved until its precise mechanism and complete proof are established.
 
+## Concrete decision fixture — proposed, not an accepted policy or result
+
+An approved payroll has net1000 and the business wants to hand over cash600 now. The two interpretations produce different records:
+
+| Interpretation | Record after cash600 | Remaining400 |
+|---|---|---|
+| Cash installments on that approved document | Original approved net1000 stays immutable; cumulative cash600; an unpaid balance400 remains against that same document | Later payment settles that same payroll. Exact timing of advance/deduction consumption, cancellation and inverse must be declared before implementation. |
+| Select fewer earned components before approval | A different selected-source payroll of net600 is approved and paid in full; an already-approved1000 is not silently reduced | Unselected entitlements remain available for a later payroll. Existing selected-card support is evidence for this source selection only. |
+
+Both must preserve original earned quantities/rates, recognize each cost once and retain every cash/source allocation. This table makes the unresolved choice reviewable; it does not authorize either new financial mechanism or alter existing payrolls. The independent auditor must receive the selected contract with a fixed money/stock/replay/inverse oracle.
+
 CP6 remains CLOSED_CONTRACT_SCOPE. P12/F03 remain OPEN. `independent_acceptance=false`; `production_go=false`.

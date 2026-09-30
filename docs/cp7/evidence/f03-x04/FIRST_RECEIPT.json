@@ -1,0 +1,132 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 1643433,
+  "artifact_id": 11074901145,
+  "artifact_sha256": "de8d5f96f44a4c718fc19a5e20fc76e9185a120611c0c4fc0c3371ae234a50d1",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 2,
+    "NOT_RUN": 0,
+    "PASS": 5
+  },
+  "cp6_restored": true,
+  "expected_case_count": 7,
+  "full_family_acceptance": false,
+  "groups": {
+    "http": {
+      "INCOMPLETE": 1
+    },
+    "native": {
+      "INCOMPLETE": 1,
+      "PASS": 5
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109717171120,
+  "nonpassing_cases": {
+    "http:F03_X04_HTTP_PINNED_PO_FG_REPORT": {
+      "error": "",
+      "session_leaks": [],
+      "status": "INCOMPLETE",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 139, in strict_rows\n    row=run_one(i,key,operation)\n        ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 302, in <lambda>\n    report['cases'],refusal=strict_rows('AUDITOR_HTTP_'+phase.upper(),planned,lambda i,key,operation:operation(),HTTP_DB,('authenticator',))\n                                                                                                     ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_x04_cases.py\", line 155, in pin\n    assert response['body']['page']==observation['card']['page']\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+    },
+    "native:F03_X04_PO_PIN_MISMATCH_REFUSED": {
+      "error": "X04_CP7_OLD_CARD_REWRITTEN",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_lock_keys": [],
+        "advisory_locks": 0,
+        "other_sessions": []
+      },
+      "status": "INCOMPLETE",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 112, in strict_group\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_x04_cases.py\", line 131, in <lambda>\n    return [('F03_X04_'+name, lambda operation=op: continuation(cur, today, operation))\n                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_x04_cases.py\", line 107, in continuation\n    result = operation(cur, today)\n             ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_x04_cases.py\", line 126, in <lambda>\n    ('PO_PIN_MISMATCH_REFUSED', lambda c, d: pinned_po(c, d, True)),\n                                             ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_x04_cases.py\", line 97, in pinned_po\n    assert after['page']['rows']==before['page']['rows'], 'X04_CP7_OLD_CARD_REWRITTEN'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: X04_CP7_OLD_CARD_REWRITTEN\n"
+    }
+  },
+  "observed_case_count": 7,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385618,
+      "sha256": "c67873ae104a9c5ddf6efbb1c447579c5de02227b74c5de1fdd515edfb2706fa"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385618,
+      "sha256": "c67873ae104a9c5ddf6efbb1c447579c5de02227b74c5de1fdd515edfb2706fa"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "5bb1b52953a5d44a4ff6715158da5acd0c5296dbf3da33b5ccc6fc3a451e85e0"
+    },
+    "CP7_F03_X04.json": {
+      "bytes": 361426,
+      "sha256": "f33bb78c3cbcce764d997f0b2c448058e0e0884f1c35a685dc91f53ad46092ea"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "b582e1c05a17ba32d2975e9307ca09ac14b1c7723e32afb5d92c60f788988266"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360418,
+      "sha256": "d30d42cb919c3e0e28d5ad3086a9b227a113421511e2ffdd7168890120890306"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "production_go": false,
+  "report_sha256": "f33bb78c3cbcce764d997f0b2c448058e0e0884f1c35a685dc91f53ad46092ea",
+  "retained_reports_gzip_sha256": "6899e0d2b6abb9eb8e782c1ea91b2af6a61dfa23098f910969c042f45325fe7b",
+  "run_id": 36661532962,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "bfe9590b8625485667acfc22773a084266f71167",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36661532962",
+    "tool_head": "bfe9590b8625485667acfc22773a084266f71167",
+    "workflow": "CP7 F03 X04 Source Versions"
+  },
+  "source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+  "source_commit": "bfe9590b8625485667acfc22773a084266f71167",
+  "source_tree": "b9dab39d69d4563334a5280788a98bcb666441ea",
+  "status": "INCOMPLETE",
+  "visual_review_performed": false
+}
