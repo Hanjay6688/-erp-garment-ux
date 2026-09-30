@@ -24,22 +24,25 @@ function Workspace(){
  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),canPreflight=identity.permissions.includes('finance.period_close.manage'),today=cp6WibDateTimeInput().slice(0,10)
  const [from,setFrom]=useState(today.slice(0,7)+'-01'),[to,setTo]=useState(today),[asOf,setAsOf]=useState(today),[data,setData]=useState<FinanceReport|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState('')
  const query=useRef<FinanceDates&{filing_id:string|null;offset:number}>({from:today.slice(0,7)+'-01',to:today,as_of:today,filing_id:null,offset:0}),seq=useRef(0)
+ const entered=useRef<FinanceDates>({from,to,as_of:asOf});entered.current={from,to,as_of:asOf}
  const load=useCallback(async()=>{
   const ticket=++seq.current,selected={...query.current};setData(null);setError('');setBusy(true)
   try{const r=await client.rpc('erp_cp7_get_finance_report_v1',{p_query:{...selected,limit:25}});if(ticket!==seq.current)return false;if(r.error)throw r.error;setData(parseFinanceReport(r.data,selected,selected.filing_id,selected.offset,canPreflight));return true}
   catch(e){if(ticket===seq.current)setError(normalizeClientError(e).message);return false}finally{if(ticket===seq.current)setBusy(false)}
  },[client,canPreflight])
  useEffect(()=>{void load();return()=>{++seq.current}},[load])
- const submit=()=>{if(![from,to,asOf].every(financeDate)||from>to||to>asOf||asOf>today){setData(null);setError('Pilih tanggal mulai ≤ akhir ≤ posisi laporan, sampai hari ini.');return}query.current={from,to,as_of:asOf,filing_id:null,offset:0};void load()}
+ const retire=()=>{++seq.current;setData(null);setBusy(false);setError('')}
+ const submit=async()=>{const d={...entered.current};retire();if(![d.from,d.to,d.as_of].every(financeDate)||d.from>d.to||d.to>d.as_of||d.as_of>today){setError('Pilih tanggal mulai ≤ akhir ≤ posisi laporan, sampai hari ini.');return false}query.current={...d,filing_id:null,offset:0};return load()}
+ const refresh=()=>{const d=entered.current;return d.from===query.current.from&&d.to===query.current.to&&d.as_of===query.current.as_of?load():submit()}
  const chooseFiling=(f:FinanceReport['filings']['rows'][number])=>{const end=f.closed_through,start=end.slice(0,7)+'-01';setFrom(start);setTo(end);setAsOf(end);query.current={...query.current,from:start,to:end,as_of:end,filing_id:f.id};void load()}
  const d=data?.snapshot,c=d?.data_confidence,filing=data?.filing
  return <section className="cproc cfinance-report">
-  <header className="panel cproc-heading"><div><div className="eyebrow">KEUANGAN</div><h1>Laporan & Tutup Buku</h1><p>Periksa angka menurut tanggal pembukuan, kelengkapan biaya, dan arsip penutupan.</p></div><button disabled={busy} onClick={()=>void load()}>Muat ulang laporan</button></header>
+  <header className="panel cproc-heading"><div><div className="eyebrow">KEUANGAN</div><h1>Laporan & Tutup Buku</h1><p>Periksa angka menurut tanggal pembukuan, kelengkapan biaya, dan arsip penutupan.</p></div><button disabled={busy} onClick={()=>void refresh()}>Muat ulang laporan</button></header>
   <form className="panel cproc-grid" aria-label="Tanggal laporan keuangan" onSubmit={e=>{e.preventDefault();submit()}}>
-   <label>Periode dari<input type="date" aria-label="Periode laporan dari" value={from} max={today} onChange={e=>setFrom(e.target.value)}/></label><label>Periode sampai<input type="date" aria-label="Periode laporan sampai" value={to} max={today} onChange={e=>setTo(e.target.value)}/></label><label>Posisi saldo pada<input type="date" aria-label="Posisi laporan pada" value={asOf} max={today} onChange={e=>setAsOf(e.target.value)}/></label><button disabled={busy}>Tampilkan laporan</button>
+   <label>Periode dari<input type="date" aria-label="Periode laporan dari" value={from} max={today} onChange={e=>{retire();setFrom(e.target.value)}}/></label><label>Periode sampai<input type="date" aria-label="Periode laporan sampai" value={to} max={today} onChange={e=>{retire();setTo(e.target.value)}}/></label><label>Posisi saldo pada<input type="date" aria-label="Posisi laporan pada" value={asOf} max={today} onChange={e=>{retire();setAsOf(e.target.value)}}/></label><button disabled={busy}>Tampilkan laporan</button>
   </form>
   {error?<p className="panel" role="alert">{error}</p>:null}{busy?<p role="status">Memuat laporan dan pemeriksaan tanggal…</p>:null}
-  {canPreflight?<FinancePeriodPanel client={client} onChanged={load}/>:null}
+  {canPreflight?<FinancePeriodPanel client={client} onChanged={refresh}/>:null}
   {data&&d&&c?<>
    <section className="panel" aria-label="Basis dan kesiapan laporan"><h2>{statusLabel[c.status]}</h2><p>Periode {d.basis.period_from}–{d.basis.period_to}; posisi saldo {d.basis.balance_sheet_as_of}. Dibaca {formatCp6WibDateTime(data.captured_at)}.</p><p>Angka memakai informasi yang sudah tercatat saat laporan dibaca. Ini bukan rekonstruksi informasi yang diketahui pada masa lalu.</p><p>{c.status==='READY'?'Estimasi yang masih tercatat tetap ditampilkan pada informasi di bawah.':'Biaya dan laba di bawah masih berupa nilai tercatat; jangan dianggap final selama penghalangnya belum selesai.'}</p><p>Penghalang kritis/kebijakan: {c.critical_issue_count} · antrean hitung ulang: {c.pending_cost_recalc_count} · peringatan: {c.warning_issue_count}.</p>
     {c.filing?<p>Penutupan terbaru yang mencakup tanggal ini: {c.filing.closed_through}, disimpan {formatCp6WibDateTime(c.filing.filed_at)}. {c.changed_since_filing?'Ada perubahan setelah arsip penutupan; arsip asli tetap.':'Belum ada perubahan yang ditandai mesin sejak arsip tersebut.'}</p>:<p>Belum ada arsip penutupan yang mencakup tanggal ini.</p>}

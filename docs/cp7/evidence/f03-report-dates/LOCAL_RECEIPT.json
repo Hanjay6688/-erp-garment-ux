@@ -1,0 +1,69 @@
+{
+  "affected_local_cases": {
+    "ConnectedCashLedgerPage.dom.test.tsx": 7,
+    "ConnectedFinanceReportPage.dom.test.tsx": 13,
+    "FinanceAnalysisPanel.dom.test.tsx": 8,
+    "FinancePeriodPanel.dom.test.tsx": 6
+  },
+  "affected_local_count": 34,
+  "after_full_suite": {
+    "FAIL": 0,
+    "PASS": 821,
+    "total": 821
+  },
+  "before_component_sha256": "427dab0487d839429fe4340c9d4cf1b3a807a7ce55bbb0e265b1ed2a2055065e",
+  "before_product_ref": "48ae339b6b9bb2f2f26e568e7edeaf99e93928f4",
+  "build": true,
+  "client_secret_scan": true,
+  "counterexample": {
+    "FAIL": 4,
+    "PASS": 8,
+    "total": 12
+  },
+  "declared_actual_cases": 8,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "interrupted_local_check": {
+    "reason": "First sandboxed security run stopped waiting in its unmodified bash -n subprocess; same complete command passed in the working runtime after full predecessor history was fetched. No source guard changed.",
+    "status": "INCOMPLETE_TOOL_BLOCKER"
+  },
+  "original_files": {
+    "before": {
+      "bytes": 6653,
+      "sha256": "d2237bbd98cf99e4b974f08a16a5a260b3ef5d7012c3a6a65a4342949fa90538"
+    },
+    "build": {
+      "bytes": 10320,
+      "sha256": "f122e05ac2251407981b50a94dacb9b56701651a951bd72127148d4499c33cb5"
+    },
+    "interrupted_security": {
+      "bytes": 3785,
+      "sha256": "519db9b75cbc004de5282ee4b78c31d6e34d805141cad06dca6f9a91040d99a1"
+    },
+    "security": {
+      "bytes": 12142,
+      "sha256": "533d5b7b86874010fea2d29a81aafc5492d2fafb417c729135b481227d2f2502"
+    },
+    "unit": {
+      "bytes": 306760,
+      "sha256": "61c13cb099f5a16981a6d37c343cb63f67d23846733529a92a04dfe376f2f214"
+    }
+  },
+  "production_go": false,
+  "retained_reports_gzip_sha256": "f0c99d0261a12b13959fc4276e1f882734733a4654854d2085b5bcfceb5ce8fe",
+  "security": true,
+  "source_access_css_ownership": true,
+  "source_files_sha256": {
+    ".github/workflows/cp7-f03-cash.yml": "8804bfb92b4c2697850fd5bc06edd2d6abd0fc133ce4db529d801ade8dee6bdf",
+    "scripts/cp7_f03_cash_browser.mjs": "896e96a15063cd8f7872fe501e4431c1e76b1ad2db87591b61220771b7d14f67",
+    "scripts/cp7_f03_cash_browser_fixture.py": "ec934d0a26d9aede9d4eeb00cb1512a1fe9f7ae97fae63ddffe4923c29e67a63",
+    "scripts/cp7_f03_cash_probe.py": "238817aa7720300ca0b33d1dc0325b89123d348586b04158b896f4abdc0185c7",
+    "scripts/cp7_f03_report_dates_browser.mjs": "b41098586af7c28cda6e0fb3e145918cb1509d4202b2fdb160290373eacb926f",
+    "src/ConnectedFinanceReportPage.dom.test.tsx": "e35acfc7897493dd7b48b45d14c8e14daabb056f7d4f76b183e1d920d4d6e804",
+    "src/ConnectedFinanceReportPage.tsx": "19a9b02f4f771431519ad3f1897d0b2c7610d4487f5c49ee9dc824235b0eaefa"
+  },
+  "sql_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+  "sql_changed": false,
+  "status": "LOCAL_PASS_NATIVE_BROWSER_PENDING",
+  "syntax": true
+}

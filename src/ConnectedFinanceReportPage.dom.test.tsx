@@ -6,12 +6,13 @@ import ConnectedFinanceReportPage from './ConnectedFinanceReportPage'
 import {parseFinanceReport,type FinanceDates} from './financeReportContract'
 import {financeReportFixture,filingId} from '../tests/fixtures/financeReport'
 import {recoveryIdentity} from '../tests/fixtures/productionRecovery'
-const mock=vi.hoisted(()=>({auth:null as unknown,rpc:vi.fn()}))
+const mock=vi.hoisted(()=>({auth:null as unknown,rpc:vi.fn(),periodRefresh:null as null|(()=>Promise<boolean>)}))
 vi.mock('./auth/AuthProvider',()=>({useAuth:()=>mock.auth}))
 vi.mock('./lib/supabase',()=>({getUatSupabaseClient:()=>mock}))
+vi.mock('./FinancePeriodPanel',()=>({default:({onChanged}:{onChanged:()=>Promise<boolean>})=>{mock.periodRefresh=onChanged;return null}}))
 const dates={from:'2026-09-01',to:'2026-09-28',as_of:'2026-09-28'}
 let root:Root,container:HTMLDivElement
-beforeEach(()=>{Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true});mock.rpc.mockReset();const auth=structuredClone(recoveryIdentity);auth.identity.permissions.push('finance.reports.view');mock.auth=auth;container=document.createElement('div');document.body.append(container);root=createRoot(container);mock.rpc.mockImplementation((_rpc,{p_query})=>Promise.resolve({data:financeReportFixture(p_query,p_query.filing_id),error:null}))})
+beforeEach(()=>{Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true});mock.rpc.mockReset();mock.periodRefresh=null;const auth=structuredClone(recoveryIdentity);auth.identity.permissions.push('finance.reports.view');mock.auth=auth;container=document.createElement('div');document.body.append(container);root=createRoot(container);mock.rpc.mockImplementation((_rpc,{p_query})=>Promise.resolve({data:financeReportFixture(p_query,p_query.filing_id),error:null}))})
 afterEach(async()=>{await act(async()=>root.unmount());container.remove()})
 const flush=async()=>act(async()=>{await new Promise(r=>setTimeout(r,0))})
 async function mount(){await act(async()=>root.render(<ConnectedFinanceReportPage/>));await flush()}
@@ -35,6 +36,60 @@ describe('P13 exact dated financial source and immutable filing',()=>{
  it('renders exact financial values and labels current knowledge and supplier exposure',async()=>{await mount();expect(container.textContent).toContain('Rp9.007.199.254.740.993,01');expect(container.textContent).toContain('Rp-7,02');expect(container.textContent).toContain('Margin kotor: Belum dapat dihitung');expect(container.textContent).toContain('kondisi operasional sekarang');expect(container.textContent).toContain('bukan rekonstruksi informasi');expect(container.querySelector('[aria-label="Pemeriksaan tutup buku"]')).toBeNull()})
  it('reads a selected native filing without any close or journal mutation RPC',async()=>{await mount();await click(container.querySelector<HTMLElement>('[aria-label="Arsip penutupan keuangan"] .cproc-receipt')!);expect(container.querySelector('[aria-label="Saldo asli saat penutupan"]')?.textContent).toContain('Rp-9.007.199.254.740.993,01');expect(mock.rpc.mock.calls.every(([rpc])=>rpc==='erp_cp7_get_finance_report_v1')).toBe(true);expect(mock.rpc.mock.calls.at(-1)?.[1].p_query.filing_id).toBe(filingId)})
  it('retires sensitive financial facts on failed refresh while preserving selected dates',async()=>{await mount();await fill('Periode laporan dari',dates.from);await fill('Periode laporan sampai',dates.to);await fill('Posisi laporan pada',dates.as_of);await click(button('Tampilkan laporan'));mock.rpc.mockResolvedValue({data:null,error:{message:'Sumber laporan tidak tersedia'}});await click(button('Muat ulang laporan'));expect(container.querySelector('[aria-label="Posisi keuangan tercatat"]')).toBeNull();expect(container.textContent).not.toContain('9.007.199.254.740.993');expect(container.textContent).toContain('Sumber laporan tidak tersedia');expect(container.querySelector<HTMLInputElement>('[aria-label="Posisi laporan pada"]')?.value).toBe(dates.as_of)})
+ it('retires all old amounts immediately on each date edit and waits for an explicit read',async()=>{
+  await mount()
+  for(const [label,value]of [['Periode laporan dari','2026-08-31'],['Periode laporan sampai','2026-09-01'],['Posisi laporan pada','2026-09-01']]){
+   expect(container.textContent).toContain('Rp9.007.199.254.740.993,01')
+   const count=mock.rpc.mock.calls.length
+   await fill(label,value)
+   expect(container.querySelector('[aria-label="Posisi keuangan tercatat"]')).toBeNull()
+   expect(container.querySelector('[aria-label="Kinerja keuangan tercatat"]')).toBeNull()
+   expect(container.textContent).not.toContain('Rp')
+   expect(mock.rpc.mock.calls).toHaveLength(count)
+   await click(button('Tampilkan laporan'))
+  }
+ })
+ it('rejects an old pending report after a date edit and loads the entered dates on refresh',async()=>{
+  let resolveOld:((v:unknown)=>void)|null=null,oldDates:FinanceDates|null=null
+  mock.rpc.mockImplementationOnce((_rpc,{p_query})=>{oldDates=p_query;return new Promise(r=>{resolveOld=r})})
+  await mount();await fill('Periode laporan dari','2026-08-31')
+  await act(async()=>resolveOld!({data:financeReportFixture(oldDates!),error:null}));await flush()
+  expect(container.textContent).not.toContain('Rp')
+  expect(button('Muat ulang laporan').disabled).toBe(false)
+  await click(button('Muat ulang laporan'))
+  expect(mock.rpc.mock.calls.at(-1)?.[1].p_query.from).toBe('2026-08-31')
+  expect(container.textContent).toContain('Periode 2026-08-31–')
+ })
+ it('cannot repaint an old response after invalid-date submission',async()=>{
+  let resolveOld:((v:unknown)=>void)|null=null,oldDates:FinanceDates|null=null
+  mock.rpc.mockImplementationOnce((_rpc,{p_query})=>{oldDates=p_query;return new Promise(r=>{resolveOld=r})})
+  await mount();await fill('Posisi laporan pada','2026-08-31')
+  await act(async()=>container.querySelector<HTMLFormElement>('[aria-label="Tanggal laporan keuangan"]')!.dispatchEvent(new Event('submit',{bubbles:true,cancelable:true})))
+  await act(async()=>resolveOld!({data:financeReportFixture(oldDates!),error:null}));await flush()
+  expect(container.textContent).toContain('Pilih tanggal mulai')
+  expect(container.textContent).not.toContain('Rp')
+  expect(mock.rpc).toHaveBeenCalledTimes(1)
+ })
+ it('retires the selected original filing on a date edit and keeps it on an unchanged refresh',async()=>{
+  await mount();await click(container.querySelector<HTMLElement>('[aria-label="Arsip penutupan keuangan"] .cproc-receipt')!)
+  await click(button('Muat ulang laporan'))
+  expect(mock.rpc.mock.calls.at(-1)?.[1].p_query.filing_id).toBe(filingId)
+  expect(container.querySelector('[aria-label="Saldo asli saat penutupan"]')).not.toBeNull()
+  await fill('Periode laporan dari','2026-08-31')
+  expect(container.querySelector('[aria-label="Saldo asli saat penutupan"]')).toBeNull()
+  await click(button('Muat ulang laporan'))
+  expect(mock.rpc.mock.calls.at(-1)?.[1].p_query.filing_id).toBeNull()
+  expect(container.querySelector('[aria-label="Saldo asli saat penutupan"]')).toBeNull()
+ })
+ it('a period post-commit callback captured before date edits refreshes the latest entered range',async()=>{
+  const auth=mock.auth as typeof recoveryIdentity;auth.identity.permissions.push('finance.period_close.manage')
+  mock.rpc.mockImplementation((_rpc,{p_query})=>Promise.resolve({data:financeReportFixture(p_query,p_query.filing_id,true),error:null}))
+  await mount();const captured=mock.periodRefresh!
+  await fill('Periode laporan dari','2026-08-31')
+  await act(async()=>{expect(await captured()).toBe(true)})
+  expect(mock.rpc.mock.calls.at(-1)?.[1].p_query.from).toBe('2026-08-31')
+  expect(container.textContent).toContain('Periode 2026-08-31–')
+ })
  it('retires an old actor response when identity changes during a read',async()=>{let resolveOld:((v:unknown)=>void)|null=null,oldDates:FinanceDates|null=null;mock.rpc.mockImplementationOnce((_rpc,{p_query})=>{oldDates=p_query;return new Promise(r=>{resolveOld=r})});await mount();const auth=structuredClone(mock.auth) as typeof recoveryIdentity;auth.identity.profile.id='actor-2';mock.auth=auth;mock.rpc.mockImplementation((_rpc,{p_query})=>{const r=financeReportFixture(p_query);r.snapshot.financial_position.assets='123.45';return Promise.resolve({data:r,error:null})});await mount();expect(container.querySelector('[aria-label="Posisi keuangan tercatat"]')?.textContent).toContain('Rp123,45');await act(async()=>resolveOld!({data:financeReportFixture(oldDates!),error:null}));await flush();expect(container.querySelector('[aria-label="Posisi keuangan tercatat"]')?.textContent).toContain('Rp123,45');expect(container.textContent).not.toContain('9.007.199.254.740.993')})
  it('requires current report access and preserves the native owner report role restriction',async()=>{const auth=mock.auth as typeof recoveryIdentity;auth.identity.permissions=[];await mount();expect(container.textContent).toContain('Hak melihat laporan');expect(mock.rpc).not.toHaveBeenCalled();auth.identity.permissions=['finance.reports.view'];auth.identity.profile.role='STAFF';await mount();expect(container.textContent).toContain('Owner atau Admin');expect(mock.rpc).not.toHaveBeenCalled()})
 })

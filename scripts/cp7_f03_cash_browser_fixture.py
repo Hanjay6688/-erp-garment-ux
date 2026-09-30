@@ -16,6 +16,13 @@ def main():
         if op=='prepare':
             f=cases.fixture(cur,date.fromisoformat(p['today']));out=dict(query=f['query'],expected=cases.pages(cur,f),transfer=str(f['transfer']),before=f['before'])
         elif op=='read':out=dict(pages=[cases.analysis.read(cur,dict(p['query'],offset=offset,limit=25)) for offset in (0,25)])
+        elif op in ('report-read','report-verify'):
+            q=p['dates']
+            native=cases.analysis.finance.read(cur,date.fromisoformat(q['as_of']),**{'from':q['from'],'to':q['to'],'filing_id':None,'offset':0,'limit':25})
+            if op=='report-verify':
+                actual=dict(p['report']);expected=dict(native);actual.pop('captured_at');expected.pop('captured_at');assert actual==expected
+                out=dict(status='PASS',complete_finance_report_matches_native=True)
+            else:out=dict(report=native)
         elif op=='verify-pages':
             # Exact native response comparison includes every journal/source,
             # signed cent, economic/accounting date and linked inverse identity.
