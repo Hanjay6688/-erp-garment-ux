@@ -1,10 +1,11 @@
-import {useEffect,useMemo,useRef,useState}from'react'
+import {useCallback,useEffect,useMemo,useRef,useState}from'react'
 import {useAuth} from './auth/AuthProvider'
 import {getUatSupabaseClient} from './lib/supabase'
 import {normalizeClientError} from './lib/clientError'
 import {formatReceiptDecimal as numberText} from './procurementContract'
 import {formatCp6WibDateTime} from './cp6BusinessTime'
-import {parseNativeDemandHistory,yesterdayWib,readNativeDemandRequest,persistNativeDemandRequest,clearNativeDemandRequest,nativeDemandRequestKey,type NativeDemandHistory,type NativeDemandQuery} from './nativeDemandHistory'
+import {parseNativeDemandHistory,yesterdayWib,readNativeDemandRequest,persistNativeDemandRequest,clearNativeDemandRequest,nativeDemandRequestKey,type NativeDemandHistory,type NativeDemandQuery,type NativeDemandRow} from './nativeDemandHistory'
+import NativePlanningProfilePanel from './NativePlanningProfilePanel'
 import './native-demand-history.css'
 const required=['master.product.view','production.wip.view','warehouse.stock.view','sales.invoice.view']
 type SourceReadProps={onSourceReadStart?:()=>void;onSourceReadEnd?:()=>void}
@@ -20,6 +21,10 @@ function Workspace({onSourceReadStart,onSourceReadEnd}:SourceReadProps){
  const[recovery,setRecovery]=useState(()=>readNativeDemandRequest(scope))
  const[open,setOpen]=useState(Boolean(recovery.pending||recovery.error)),[from,setFrom]=useState(recovery.pending?.q.from_date??yesterdayWib()),[through,setThrough]=useState(recovery.pending?.q.through_date??yesterdayWib()),[basis,setBasis]=useState<'AS_SOLD'|'RESTATED'>(recovery.pending?.q.group_mode??'AS_SOLD')
  const[data,setData]=useState<NativeDemandHistory|null>(null),[error,setError]=useState(''),[busy,setBusy]=useState(false),[search,setSearch]=useState('')
+ const[selected,setSelected]=useState<{product:NativeDemandRow;query:NativeDemandQuery}|null>(null)
+ const planningReadStart=useCallback(()=>{setData(null);onSourceReadStart?.()},[onSourceReadStart])
+ const planningReadEnd=useCallback(()=>{onSourceReadEnd?.()},[onSourceReadEnd])
+ const closePlanning=useCallback(()=>setSelected(null),[])
  useEffect(()=>()=>{++sequence.current},[])
  useEffect(()=>{const listener=(e:StorageEvent)=>{if(e.key===null||e.key===nativeDemandRequestKey(scope)){++sequence.current;setBusy(false);setData(null);setRecovery(readNativeDemandRequest(scope));onSourceReadStart?.();onSourceReadEnd?.()}};addEventListener('storage',listener);return()=>removeEventListener('storage',listener)},[scope,onSourceReadStart,onSourceReadEnd])
  const load=async(retry=false)=>{
@@ -42,7 +47,7 @@ function Workspace({onSourceReadStart,onSourceReadEnd}:SourceReadProps){
    const parsed=parseNativeDemandHistory(r.data);if(parsed.runId!==run)throw Error('Arsip server berubah.');setData(parsed)
   }catch(e){if(n===sequence.current)setError(normalizeClientError(e).message)}finally{if(n===sequence.current){setBusy(false);onSourceReadEnd?.()}}
  }
- const clear=()=>{++sequence.current;setData(null);setBusy(false);setError('');if(busy)onSourceReadEnd?.()}
+ const clear=()=>{++sequence.current;setData(null);setSelected(null);setBusy(false);setError('');if(busy)onSourceReadEnd?.()}
  const rows=data?.rows.filter(r=>`${r.sku} ${r.productName}`.toLowerCase().includes(search.toLowerCase()))??[]
  return <section className="panel native-demand" aria-label="Data permintaan ERP"><button type="button" aria-expanded={open} onClick={()=>{if(open)clear();setOpen(!open)}}>{open?'Tutup data permintaan':'Data permintaan & stok'}</button>
   {open?<><header><div className="eyebrow">PERENCANAAN · DATA ERP</div><h2>Permintaan dan stok</h2><p>Penjualan tercatat, retur, dan pesanan terbuka memakai sumber yang sama. Periode hanya mencakup hari yang sudah selesai.</p></header>
@@ -50,9 +55,10 @@ function Workspace({onSourceReadStart,onSourceReadEnd}:SourceReadProps){
    {busy?<p role="status">Memeriksa sumber ERP…</p>:null}{error||recovery.error?<div role="alert"><p>{error||recovery.error}</p></div>:null}
    {recovery.pending?<div role="status"><p>Permintaan sebelumnya belum dipastikan. Periksa permintaan yang sama sebelum membuat analisis baru.</p><button disabled={busy} onClick={()=>void load(true)}>Ulangi permintaan yang sama</button></div>:null}
    {data?<><p className={data.state==='UNCHANGED'?'native-demand-current':'native-demand-stale'}>{data.state==='UNCHANGED'?'Sumber sesuai saat diperiksa.':'Arsip lama: sumber ERP sudah berubah. Muat analisis baru.'} Diambil {formatCp6WibDateTime(data.capturedAt)}.</p><button disabled={busy} onClick={()=>void check()}>Periksa sumber arsip</button><label>Cari pada seluruh hasil<input aria-label="Cari data permintaan" value={search} onChange={e=>setSearch(e.target.value)}/></label><p>{rows.length} dari {data.rows.length} produk. Periode {data.from} sampai {data.through}; stok tersedia adalah posisi saat data diambil.</p>
-    <div className="responsive-table"><table><thead><tr><th scope="col">Produk</th><th scope="col">Penjualan tercatat</th><th scope="col">Retur</th><th scope="col">Stok fisik</th><th scope="col">Pesanan terbuka</th><th scope="col">Tersedia</th><th scope="col">Riwayat stok</th></tr></thead><tbody>{rows.map(r=><tr key={r.targetKey}><td className="native-demand-product"><strong>{r.sku}</strong><small>{r.productName}{r.active?'':' · Tidak aktif'}</small></td><td data-label="Penjualan tercatat">{numberText(r.gross)} PCS</td><td data-label="Retur">{numberText(r.returns)} PCS</td><td data-label="Stok fisik">{numberText(r.physical)} PCS</td><td data-label="Pesanan terbuka">{numberText(r.reserved)} PCS</td><td data-label="Tersedia" className="native-demand-available">{numberText(r.available)} PCS</td><td data-label="Riwayat stok" className="native-demand-history">{r.unknownDays>0?`${r.unknownDays} hari belum diketahui`:r.stockoutDays>0?`${r.stockoutDays} hari stok habis`:`${r.availableDays} hari tersedia`}</td></tr>)}</tbody></table></div>
+    <div className="responsive-table"><table><thead><tr><th scope="col">Produk</th><th scope="col">Penjualan tercatat</th><th scope="col">Retur</th><th scope="col">Stok fisik</th><th scope="col">Pesanan terbuka</th><th scope="col">Tersedia</th><th scope="col">Riwayat stok</th><th scope="col">Aturan</th></tr></thead><tbody>{rows.map(r=><tr key={r.targetKey}><td className="native-demand-product"><strong>{r.sku}</strong><small>{r.productName}{r.active?'':' · Tidak aktif'}</small></td><td data-label="Penjualan tercatat">{numberText(r.gross)} PCS</td><td data-label="Retur">{numberText(r.returns)} PCS</td><td data-label="Stok fisik">{numberText(r.physical)} PCS</td><td data-label="Pesanan terbuka">{numberText(r.reserved)} PCS</td><td data-label="Tersedia" className="native-demand-available">{numberText(r.available)} PCS</td><td data-label="Riwayat stok" className="native-demand-history">{r.unknownDays>0?`${r.unknownDays} hari belum diketahui`:r.stockoutDays>0?`${r.stockoutDays} hari stok habis`:`${r.availableDays} hari tersedia`}</td><td data-label="Aturan"><button disabled={busy} onClick={()=>setSelected({product:r,query:{from_date:data.from,through_date:data.through,group_mode:data.basis}})}>Atur target {r.sku}</button></td></tr>)}</tbody></table></div>
     {!rows.length?<p>Hasil pencarian kosong.</p>:null}<p>Riwayat stok yang belum diketahui tidak dianggap nol. Saran jumlah produksi menunggu bukti permintaan, waktu proses, dan kapasitas yang memadai.</p>
    </>:null}
+   {selected?<NativePlanningProfilePanel product={selected.product} query={selected.query} onSourceReadStart={planningReadStart} onSourceReadEnd={planningReadEnd} onClose={closePlanning}/>:null}
   </>:null}
  </section>
 }

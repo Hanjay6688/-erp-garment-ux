@@ -25,7 +25,7 @@ function Workspace({purpose}:{purpose:FgPurpose}){
   const {beginRead,finishRead,isReadCurrent,blockReason}=useProductionMutation('SKU')
   const [data,setData]=useState<FgWorkspace|null>(null),[ledger,setLedger]=useState<FgLedger|null>(null),[error,setError]=useState(''),[busy,setBusy]=useState(false)
   const [search,setSearch]=useState(''),[zero,setZero]=useState(false),[movementSearch,setMovementSearch]=useState('')
-  const requested=useRef({q:'',zero:false,offset:0,position:null as FgPosition|null,movementQ:'',movementOffset:0}),sequence=useRef(0)
+  const requested=useRef({q:'',zero:false,offset:0,position:null as FgPosition|null,movementQ:'',movementOffset:0}),sequence=useRef(0),alive=useRef(false)
   const cardPurpose=purpose==='MOVEMENTS'?'MOVEMENTS':'CARD'
   const load=useCallback(async()=>{
     const f={...requested.current},s=++sequence.current,ticket=beginRead();setBusy(true);setData(null);setLedger(null);setError('')
@@ -42,9 +42,9 @@ function Workspace({purpose}:{purpose:FgPurpose}){
     }catch(e){if(s===sequence.current&&isReadCurrent(ticket))setError(normalizeClientError(e).message)}
     finally{if(s===sequence.current)setBusy(false)}
   },[client,finance,purpose,cardPurpose,beginRead,finishRead,isReadCurrent])
-  useEffect(()=>{void load();return()=>{++sequence.current}},[load])
+  useEffect(()=>{alive.current=true;void load();return()=>{alive.current=false;++sequence.current}},[load])
   const retireSource=useCallback(()=>{++sequence.current;setData(null);setLedger(null);setBusy(true);setError('')},[])
-  const refreshSource=useCallback(()=>{void load()},[load])
+  const refreshSource=useCallback(()=>{if(alive.current)void load()},[load])
   const open=(p:FgPosition)=>{requested.current.position=p;requested.current.movementOffset=0;requested.current.movementQ='';setMovementSearch('');void load()}
   const title=purpose==='SUMMARY'?'Barang jadi':purpose==='CARD'?'Kartu stok barang jadi':'Mutasi barang jadi'
   return <><NativeDemandHistoryPanel onSourceReadStart={retireSource} onSourceReadEnd={refreshSource}/><section className="cproc cfg"><header className="panel cproc-heading"><div><div className="eyebrow">GUDANG · BARANG JADI</div><h1>{title}</h1><p>Stok per ukuran, lot, grade, dan gudang. Cadangan penjualan ditampilkan terpisah.</p></div><button disabled={busy} onClick={()=>void load()}>Muat ulang stok</button></header>

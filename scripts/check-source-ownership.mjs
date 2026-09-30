@@ -90,6 +90,10 @@ for (const file of sourceFiles.filter((candidate) => !isTestSource(candidate) &&
 assert.deepEqual(dataReads, [], 'Browser code must not read ERP tables/views directly')
 
 assert.deepEqual([...rpcOwnership].sort(), [
+  'src/NativePlanningProfilePanel.tsx:erp_cp7_get_planning_profiles_v1',
+  'src/NativePlanningProfilePanel.tsx:erp_cp7_save_planning_profile_v1',
+  'src/NativePlanningProfilePanel.tsx:erp_cp7_capture_baseline_v1',
+  'src/NativePlanningProfilePanel.tsx:erp_cp7_read_baseline_v1',
   'src/NativeDemandHistoryPanel.tsx:erp_cp7_capture_demand_history_v1',
   'src/NativeDemandHistoryPanel.tsx:erp_cp7_read_demand_history_v1',
   'src/SalesDraftPanel.tsx:erp_cp7_get_sales_form_v1',

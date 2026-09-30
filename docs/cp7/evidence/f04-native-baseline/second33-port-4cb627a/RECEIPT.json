@@ -1,0 +1,36 @@
+{
+  "actual_browser_cases": 0,
+  "actual_browser_users": 0,
+  "advisor_gate": true,
+  "artifact_id": 11127971434,
+  "artifact_sha256": "07f68cec15b42f043514729abbcbc759a7db77aa522c5c6b768a1cb21a09674a",
+  "browser_error": "Error: listen EADDRINUSE: address already in use 127.0.0.1:54328\n    at Server.setupListenHandle [as _listen2] (node:net:1941:16)\n    at listenInCluster (node:net:1998:12)\n    at node:net:2207:7\n    at process.processTicksAndRejections (node:internal/process/task_queues:89:21)",
+  "browser_failed_stage": "INCOMPLETE",
+  "cp6_restored": true,
+  "expected": 35,
+  "failure_kind": "BROWSER_START_EADDRINUSE_127_0_0_1_54328_BEFORE_ANY_BROWSER_CASE",
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": null,
+    "http": {
+      "PASS": 2
+    },
+    "native": {
+      "PASS": 26
+    },
+    "races": {
+      "PASS": 5
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 110110592793,
+  "native_and_race_and_HTTP33_pass": true,
+  "observed": 33,
+  "production_go": false,
+  "reports_sha256": "8b407cc6c4359af1c4ec13a89bb1cfc9e3796e7685934dab3b4173deddb3499f",
+  "run_id": 36780897648,
+  "source_bundle_sha256": "cab99281f2afb45a19387993101194efb8319c273723befa56390cd2ba1ccb0b",
+  "source_commit": "4cb627a31fd9d6d62a711e3021c04a7a71c313b6",
+  "source_tree": "c671c3130dd80ef8312cad6e342c4aa697f5a078",
+  "status": "INCOMPLETE"
+}

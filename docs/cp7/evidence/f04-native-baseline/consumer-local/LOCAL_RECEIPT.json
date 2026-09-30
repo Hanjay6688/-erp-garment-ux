@@ -1,0 +1,41 @@
+{
+  "affected_pass": 37,
+  "bundle_sha256": "cab99281f2afb45a19387993101194efb8319c273723befa56390cd2ba1ccb0b",
+  "canonical_pass": 1001,
+  "expected_actual_cases": 37,
+  "expected_groups": {
+    "browser": 4,
+    "http": 2,
+    "native": 26,
+    "races": 5
+  },
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "local_kernel_runtime": "PGLITE_WASM_LOCAL_NOT_NATIVE_AUTH_PROOF",
+  "original_diagnostics_retained": [
+    "16 client-storage tests initially had no jsdom environment; corrected test declaration.",
+    "New DOM suite first failed import because multiple vi.hoisted declarations shared one statement; split declarations.",
+    "Types first refused unknown arrays; explicit validated local arrays introduced.",
+    "Types refused generic mock constructor callbacks; callable Mock types used."
+  ],
+  "production_go": false,
+  "reports_sha256": "a0510602d7061e248394b3d70689cac2d26b590fbcdd4567e8cff2f99000d317",
+  "source_sha256": {
+    ".github/workflows/cp7-f04-baseline.yml": "47ca41b7e7d0e0f0d2f49975f62f23ccf187f4bb9d0f60759f66809311ab0503",
+    "scripts/check-access-catalog.mjs": "f439a1dc01e687256a72160c922a781a8c30ae15fbc27df95e3b330e392d3b92",
+    "scripts/check-source-ownership.mjs": "c9ba06e61c8212fbfb43b3893c0a5b9e73c83742bf599105babb29b41e7d1c63",
+    "scripts/cp7_f04_baseline_browser.mjs": "f583cbd128d5487b9f03c9d3a437a492e514d3e55f8064f1856d720e78d8c144",
+    "scripts/cp7_f04_baseline_browser_fixture.py": "562ca6eee10c69fed3d133684358cf299fef3a427a3d2353db951d5310c9db8f",
+    "scripts/cp7_f04_baseline_probe.py": "161494983427f02644b4d30c5f7e4c457aa3c7ecd6e73a2dae8f5c31b7b4c73b",
+    "src/ConnectedFgStockPage.tsx": "3a6ea6217c2303b93201ef84f844b290a5be08e8a972f0073941d223f7e26a8c",
+    "src/NativeDemandHistoryPanel.tsx": "3bbe828992a5d160956685479a7912a56135f217c7b432811ca8c82ce3ec8bf7",
+    "src/NativePlanningProfilePanel.dom.test.tsx": "9bc6a71c73d1ec3a440f83242c059637027cc30a5e2f4b7eda6edfca0bf2d439",
+    "src/NativePlanningProfilePanel.tsx": "9b81a79899c052cff40e5eaedcabd33229cb875fdbdb49b4b3ce7ecf9705f3e3",
+    "src/native-planning-profile.css": "134ca749d05d78e9ab81fcc9233e9a46da8fce6f7c0a61bef539c273379d9e23",
+    "src/nativePlanningProfile.test.ts": "238c84ef6a89f164bac885399fda0f8182cd41d37cf844c9592656c0ae4c7d51",
+    "src/nativePlanningProfile.ts": "d22174e8b6f6a18e0521911021b330e22215ffb0d681dabd2444f04b2dce993b",
+    "src/types/database.preconnect.ts": "95761409932e2af4e2176f29c3528c59e4134ed3df92dd47f0a26368db0633f9",
+    "tests/fixtures/nativePlanningProfile.ts": "59c8c422faf2e64fda93a6393caa1bb7aa4f3980ccd9480babfd6b1875d0ee37"
+  },
+  "status": "LOCAL1001_AFFECTED37_BUILD_SECURITY_PASS_ACTUAL37_PENDING"
+}

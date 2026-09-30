@@ -471,9 +471,10 @@
     "WIP_matching_ETA_calendar_capacity": "UNKNOWN_NOT_CAPTURED",
     "apply_enabled": false,
     "composer": "scripts/cp7_baseline_bundle.py",
-    "expected_actual_cases": 35,
+    "consumer": "src/NativePlanningProfilePanel.tsx",
+    "expected_actual_cases": 37,
     "expected_groups": {
-      "browser": 2,
+      "browser": 4,
       "http": 2,
       "native": 26,
       "races": 5
@@ -485,9 +486,17 @@
     "first_source": "83f3fa7bc0adf1d24138b8be9252912f0380d672",
     "full_family_acceptance": false,
     "independent_acceptance": false,
+    "job_id": 110110592793,
+    "local_affected_pass": 37,
+    "local_canonical_pass": 1001,
+    "observed_pass": 33,
     "production_go": false,
     "qualifier": "scripts/cp7_f04_baseline_probe.py",
-    "status": "FIRST_INSTALL_GUARD_REFUSED0_CASES_EXPLICIT_PRIVATE_HELPER_GRANTS_REPAIRED_NATIVE35_REPEAT_PENDING"
+    "run_id": 36780897648,
+    "source_commit": "4cb627a31fd9d6d62a711e3021c04a7a71c313b6",
+    "source_tree": "c671c3130dd80ef8312cad6e342c4aa697f5a078",
+    "status": "NATIVE_BACKEND33_PASS_BROWSER0_START_PORT_REFUSAL_CONSUMER1001_LOCAL_PASS_NATIVE37_PREDECLARED_PENDING",
+    "verification": "docs/cp7/evidence/f04-native-baseline/second33-port-4cb627a/RECEIPT.json"
   },
   "f04_takeover_reference": {
     "branch": "cp7/f04-planning-20260929",
@@ -578,7 +587,7 @@
   "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
   "latest_tested_scope": "Native financial readers12 PASS onf31b7a7: native3, realAuthHTTP1, browser8; package/restore/advisors/Auth cleanup and AR visual evidence retained. Counts overlap prior6/8/10.",
   "latest_tested_source": "f31b7a70e9f6330f7922fcbb2e8527320f4c5df2",
-  "next_action": "Qualify repaired native P06 profile/target35, connect its desktop/mobile consumer and durable recovery, then authoritative WIP/calendar/capacity/global allocation, P08, full F05 and P18-P21.",
+  "next_action": "Qualify native P06 profile/target consumer37 on source-bound candidate, then authoritative WIP/calendar/capacity/global allocation, P08, full F05 consumers and P18-P21.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",

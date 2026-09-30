@@ -12,6 +12,9 @@ name: CP7 F04 Native Profile and Baseline Targets
     - scripts/cp7-src/demand/**
     - scripts/cp7-src/baseline/**
     - scripts/cp7-src/models/**
+    - src/NativePlanningProfilePanel*
+    - src/nativePlanningProfile*
+    - src/native-planning-profile.css
     - src/NativeDemandHistoryPanel*
     - src/nativeDemandHistory*
     - src/native-demand-history.css
