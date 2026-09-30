@@ -14,6 +14,9 @@ import cp7_sales_draft_cases as drafts
 import cp7_sales_return_cases as returns
 import cp7_finance_cases as finance
 import cp7_wip_source_cases as wip
+import cp7_nota_cases as nota
+import cp7_settlement_cases as settlement
+import cp6_aw_probe as attendance
 import cp6_bd_probe as laundry
 
 b, prod, base = laundry, laundry.chain.production, laundry.chain.base
@@ -35,6 +38,40 @@ def step(name, **values):
 
 def physical(cur, f):
     return int(cur.execute('select coalesce(sum(m.qty_signed),0) from erp.fg_stock_movements m join erp.fg_lots l on l.id=m.lot_id where l.po_id=%s', (f['po'],)).fetchone()[0])
+
+
+def ready_report(cur, today):
+    report = finance.read(cur, today)
+    assert report['snapshot']['data_confidence']['status'] == 'READY', ('E01_REPORT_NOT_READY', report['snapshot']['data_confidence'])
+    return report
+
+
+def payroll_source(cur, f, today):
+    """Allocate actual work cards and accessory rights without paying wages."""
+    cards = nota.read(cur, 'SOURCES', contractor_id=f['contractor'])['page']['rows']
+    assert cards and sum(D(c['remaining_amount']) for c in cards) == 120, ('E01_NOTA_SOURCE', cards)
+    before = nota.facts(cur)
+    note = nota.command(cur, 'SAVE', dict(contractor_id=f['contractor'], note_date=str(today), period_start=str(f['production_day']), period_end=str(today), cards=[dict(card_key=c['card_key'], source_token=c['source_token']) for c in cards], notes='E01 actual sewing rights, no wage payment'))
+    note = nota.act(cur, 'POST', note)
+    pid = note['payroll_id']
+    settlement.act(cur, 'PREPARE', settlement.doc(cur, pid))
+    reviewed = settlement.doc(cur, pid)
+    assert reviewed['labor_total'] == '120.00' and reviewed['attendance_total'] == '0.00' and reviewed['net_payable'] == '180.00', ('E01_PAYROLL_TOTAL', reviewed)
+    reimbursement = cur.execute("select coalesce(sum(amount),0) from erp.payroll_reimbursements where payroll_id=%s and source_type='ACCESSORY_BOM'", (pid,)).fetchone()[0]
+    assert reimbursement == 60, ('E01_ACCESSORY_PAYROLL_RIGHT', reimbursement)
+    key = uuid.uuid4()
+    approved = settlement.act(cur, 'APPROVE', reviewed, key)
+    assert approved['status'] == 'APPROVED' and settlement.act(cur, 'APPROVE', reviewed, key) == approved
+    assert nota.facts(cur) == before, 'E01_NOTA_MUST_NOT_REACCRUE_COST_OR_PAY_CASH'
+    assert nota.read(cur, 'SOURCES', contractor_id=f['contractor'])['page']['total'] == '0'
+    f.update(note=note['note_id'], payroll=pid)
+    f['trace'].append(step('NOTA_PAYROLL', note=f['note'], payroll=pid, labor=120, accessory_reimbursement=60, approved_unpaid=180, same_request_once=True, stock_hpp_journals_unchanged=True))
+    # Foundation obligations are completed through their accepted writers in
+    # this disposable fixture. They are not deleted, hidden or disabled.
+    f['seed_completion'] = attendance.quiet_seed(cur, f['day'], today, exclude=(f['contractor'],))
+    assert not f['seed_completion']['refused'], ('E01_SEED_COMPLETION', f['seed_completion'])
+    report = ready_report(cur, today)
+    f['trace'].append(step('REPORT_READY', confidence=report['snapshot']['data_confidence'], seed_completion=f['seed_completion']))
 
 
 def production(cur, today):
@@ -138,10 +175,13 @@ def production(cur, today):
     lots = cur.execute('select l.id::text,l.initial_qty_pcs,h.hpp_per_pcs,h.total_cost from erp.fg_lots l join erp.v_current_hpp h on h.lot_id=l.id where l.po_id=%s order by l.produced_at,l.id', (po,)).fetchall()
     assert sorted(q for _, q, _, _ in lots) == [10, 20, 30] and all(rate == 15 and total == qty*15 for _, qty, rate, total in lots), ('E01_LOT_COSTS', lots)
     f['lots'] = [l for l, _, _, _ in lots]
+    components = dict(cur.execute('select c.component_type,sum(c.total_cost) from erp.hpp_version_components c join erp.v_current_hpp h on h.hpp_version_id=c.hpp_version_id join erp.fg_lots l on l.id=h.lot_id where l.po_id=%s group by c.component_type having sum(c.total_cost)<>0', (po,)).fetchall())
+    assert components == dict(MATERIAL=D(600), LABOR=D(120), ACCESSORY=D(60), LAUNDRY=D(120)), ('E01_CURRENT_HPP_COMPONENTS', components)
     w = wip.capture(cur, [f['group']])['result']
     assert w['status'] == 'COMPLETE' and [wip.total(w, k+'_pcs') for k in ('input', 'wip', 'fg', 'bs')] == [60, 0, 60, 0], ('E01_PHYSICAL_CONSERVATION', w)
     assert laundry.wip(cur, po) == 0 and D(laundry.ap(cur, vendor)) == 120
-    f['trace'].append(step('FINAL_FG', fg=60, value=900, hpp=15, wip=0, raw=600, sewing=120, accessory=60, laundry=120, hpp_completeness=hpp))
+    f['trace'].append(step('FINAL_FG', fg=60, value=900, hpp=15, wip=0, raw=600, sewing=120, accessory=60, laundry=120, current_hpp_components=components, hpp_completeness=hpp))
+    payroll_source(cur, f, today)
     f['customer'] = str(base.create_customer(cur, tag))
     f['sale_at'] = (source.fg.ax.r1.now(cur)-timedelta(minutes=5)).isoformat()
     f['bank'] = str(source.bc.bank_account(cur, tag+'BANK'))
@@ -161,7 +201,7 @@ def expect_delta(cur, f, before, ar, revenue, fg, cogs, cash=0):
 def journey(cur, today):
     f = production(cur, today)
     before = cmd.accounts(cur)
-    report_before = finance.read(cur, today)
+    report_before = ready_report(cur, today)
     created = drafts.create(cur, f, drafts.payload(f, '20', '25'))
     assert physical(cur, f) == 40 and cmd.accounts(cur) == before
     f['trace'].append(step('DRAFT_SALE', available=40, no_gl=True))
@@ -182,13 +222,13 @@ def journey(cur, today):
     expect_delta(cur, f, before, 175, 375, -225, 225, 200)
     boundary = b.boundary.snapshot(cur)
     assert cmd.command(cur, 'RETURN', payload, version, key) == returned and b.boundary.snapshot(cur) == boundary
-    report_after = finance.read(cur, today)
+    report_after = ready_report(cur, today)
     for section, name, expected in [('financial_position', 'cash', 200), ('financial_position', 'customer_ar', 175), ('financial_position', 'fg_inventory', -225), ('performance', 'sales_revenue_gl', 375), ('performance', 'cogs_gl', 225), ('performance', 'gross_profit', 150)]:
         assert finance.change(report_before, report_after, section, name) == expected, ('E01_REPORT', section, name, report_after)
     detail = source.read(cur, f)['detail']
     assert detail['financial']['net_total'] == '375.00' and detail['financial']['paid_total'] == '200.00' and detail['financial']['open_balance'] == '175.00'
     f['trace'].append(step('RETURN_AND_REPORT', fg=45, fg_value=675, cogs=225, revenue=375, ar=175, cash=200, gross_profit=150, replay_no_second_effect=True))
-    return dict(status='PASS',journey='E01',execution='NATIVE_PUBLIC_CP7_COMMANDS_AND_ACCEPTED_CP6_PRODUCTION',checkpoints=f['trace'],source_ids={k:f[k] for k in ('po','purchase','group','laundry_invoice','sale')},payment=pay,returned=returned,report_confidence=report_after['snapshot']['data_confidence'],full_browser_journey=False,full_family_acceptance=False)
+    return dict(status='PASS',journey='E01',execution='NATIVE_PUBLIC_CP7_COMMANDS_AND_ACCEPTED_CP6_PRODUCTION',checkpoints=f['trace'],source_ids={k:f[k] for k in ('po','purchase','group','laundry_invoice','note','payroll','sale')},payment=pay,returned=returned,report_confidence=report_after['snapshot']['data_confidence'],full_browser_journey=False,full_family_acceptance=False)
 
 
 def cases(cur, today):
@@ -209,7 +249,7 @@ def http_cases(http, today):
             if not had: cur.execute('revoke usage on schema erp from authenticated')
             assert cur.execute("select nspacl::text from pg_namespace where nspname='erp'").fetchone()[0] == acl
             before = cmd.accounts(cur)
-            report_before = finance.read(cur, today)
+            report_before = ready_report(cur, today)
             conn.commit()
         def send(action, payload, version=None, key=None):
             args = dict(p_action=action, p_payload=payload, p_request=str(key or uuid.uuid4()), p_expected=version)
@@ -240,12 +280,12 @@ def http_cases(http, today):
         with http.connect() as conn, conn.cursor() as cur:
             assert physical(cur, f) == 45
             expect_delta(cur, f, before, 175, 375, -225, 225, 200)
-            report_after = finance.read(cur, today)
+            report_after = ready_report(cur, today)
             for section, name, expected in [('financial_position','cash',200),('financial_position','customer_ar',175),('financial_position','fg_inventory',-225),('performance','sales_revenue_gl',375),('performance','cogs_gl',225),('performance','gross_profit',150)]:
                 assert finance.change(report_before, report_after, section, name) == expected
             assert returns.read(cur, f, 'RETURNS')['page']['total'] == '1'
             cur.execute('update erp.app_users set is_active=false where auth_user_id=%s', (owner.auth_user_id,))
             conn.commit()
         assert owner.rpc('erp_cp7_save_sale_v1', args)['status'] == 403
-        return dict(status='PASS',journey='E01',real_Auth_HTTP_sale_create_post_payment_return=True,source_production_native_qualified=True,stock45_value675_revenue375_COGS225_AR175_cash200_gross150=True,same_request_one_return=True,current_actor_revoked_replay_denied=True,anonymous_denied=True,full_family_acceptance=False)
+        return dict(status='PASS',journey='E01',real_Auth_HTTP_sale_create_post_payment_return=True,source_production_native_qualified=True,checkpoints=f['trace'],report_confidence=report_after['snapshot']['data_confidence'],stock45_value675_revenue375_COGS225_AR175_cash200_gross150=True,same_request_one_return=True,current_actor_revoked_replay_denied=True,anonymous_denied=True,full_family_acceptance=False)
     return [('F03_E01_HTTP_60_TO_CASH_RETURN', flow)]

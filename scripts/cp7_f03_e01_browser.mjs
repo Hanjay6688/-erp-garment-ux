@@ -40,6 +40,7 @@ async function journey(ui,today,mobile) {
   }
   try {
     assert.equal(before.available,60); assert.equal(cents(before.fg_value),90000n)
+    assert.equal(before.report.snapshot.data_confidence.status,'READY')
     await open(ui,p)
     await ws.getByRole('button',{name:'Buat invoice',exact:true}).click()
     const draft=ws.getByRole('form',{name:'Draft invoice'})
@@ -112,6 +113,7 @@ async function journey(ui,today,mobile) {
     }
     await ui.expect(ret).toHaveCount(0); await ui.expect(detail).toContainText('Sisa pembayaran Rp175')
     const returned=fixture('read',f)
+    assert.equal(returned.report.snapshot.data_confidence.status,'READY')
     assert.equal(returned.available,45); assert.equal(cents(returned.fg_value),67500n)
     assert.equal(returned.returns.page.total,'1'); assert.equal(returned.cash.payments.total,'1')
     ledger(f,before,returned,{ar:175,revenue:375,fg:-225,cogs:225,cash:200})
