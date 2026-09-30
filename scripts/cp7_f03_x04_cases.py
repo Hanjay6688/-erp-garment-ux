@@ -4,7 +4,7 @@ The existing independent-worksheet amounts remain fixed. No SKU laundry price
 is introduced, and a legal free laundry service does not make estimated cloth
 or another missing HPP component final. Fixtures are disposable only.
 """
-from datetime import timedelta
+from datetime import datetime, timedelta, timezone
 from decimal import Decimal as D
 import cp6_bd_revision_cases as revision
 import cp6_bf_combined_probe as combined
@@ -22,6 +22,24 @@ def differences(expected, actual, path=''):
         return [d for i, (left, right) in enumerate(zip(expected, actual))
                 for d in differences(left, right, path+'.'+str(i))]
     return [] if expected==actual else [dict(path=path, expected=expected, actual=actual)]
+
+
+
+def canonical_card(value):
+    """Compare exact instants across WIB/UTC without rounding microseconds."""
+    if isinstance(value, list):
+        return [canonical_card(child) for child in value]
+    if isinstance(value, dict):
+        result = {}
+        for key, child in value.items():
+            if key in ('physical_at', 'recorded_at') and child is not None:
+                parsed = datetime.fromisoformat(child)
+                assert parsed.utcoffset() is not None, ('X04_NAIVE_TIMESTAMP', key, child)
+                result[key] = parsed.astimezone(timezone.utc).isoformat(timespec='microseconds')
+            else:
+                result[key] = canonical_card(child)
+        return result
+    return value
 
 
 def reports(cur, today):
@@ -77,6 +95,12 @@ def projections(cur, positions):
 
 
 def pinned_po(cur, today, mismatch=False):
+    # A timezone spelling is equivalent; a one-microsecond or money change is not.
+    wib = dict(physical_at='2026-09-30T09:00:00.123456+07:00', amount='1.00')
+    utc = dict(physical_at='2026-09-30T02:00:00.123456+00:00', amount='1.00')
+    assert canonical_card(wib)==canonical_card(utc)
+    assert canonical_card(wib)!=canonical_card(dict(utc, physical_at='2026-09-30T02:00:00.123457+00:00'))
+    assert canonical_card(wib)!=canonical_card(dict(utc, amount='1.01'))
     f = combined.fixture(cur, today, True)
     wash = combined.wash(cur, f, range(4), 11)
     combined.finish(cur, f, [wash], range(3), 13, partial=True)
@@ -102,14 +126,17 @@ def pinned_po(cur, today, mismatch=False):
         expected = [5, 8, 3, 4]
     assert [b.lot_value(cur, lot) for lot in old_lots]==old_values
     assert [combined.stock(cur, lot) for lot in combined.lots(cur, f) if lot] == expected
+    serialization_differences = []
     for product, lot, before in zip(f['roots'][:3], old_lots, cards):
         after = fg.ledger(cur, dict(product=product, lot=lot, location=combined.base.LOCATION))
-        assert after['page']['rows']==before['page']['rows'], dict(
+        serialization_differences.extend(differences(before['page']['rows'], after['page']['rows']))
+        assert canonical_card(after['page']['rows'])==canonical_card(before['page']['rows']), dict(
             code='X04_OLD_CARD_COMPARISON', differences=differences(before['page']['rows'], after['page']['rows']),
             hpp_completeness=b.one(cur, 'select to_jsonb(x) from erp.get_hpp_completeness(%s) x', f['po']))
         assert after['balances']==before['balances']
     return dict(status='PASS',recipe_mismatch=mismatch,physical=expected,
                 original_cards_and_values_immutable=True,
+                exact_instant_comparison=True, serialization_differences=serialization_differences,
                 original_pin_and_work_basis=True if not mismatch else 'REFUSED_BEFORE_NEW_LOT')
 
 
@@ -159,12 +186,14 @@ def http_cases(http, today):
             assert cur.execute("select nspacl::text from pg_namespace where nspname='erp'").fetchone()[0]==acl
             report = finance.read(cur, today, **{'from': str(today-timedelta(days=14))})
             conn.commit()
+        serialization_differences = []
         for observation in source['cp7_fg_and_cards']:
             query = dict(product_id=observation['product'], lot_id=observation['lot'],
                          location_id=observation['location'], quality_grade=observation['grade'], limit=100)
             response = owner.rpc('erp_cp7_get_fg_ledger_v1', dict(p_query=query))
             assert response['status']==200, response
-            assert response['body']['page']==observation['card']['page'], dict(
+            serialization_differences.extend(differences(observation['card']['page'], response['body']['page']))
+            assert canonical_card(response['body']['page'])==canonical_card(observation['card']['page']), dict(
                 code='X04_HTTP_CARD_COMPARISON', differences=differences(observation['card']['page'], response['body']['page']))
             assert response['body']['balances']==observation['card']['balances'], dict(
                 code='X04_HTTP_BALANCE_COMPARISON', differences=differences(observation['card']['balances'], response['body']['balances']))
@@ -175,5 +204,6 @@ def http_cases(http, today):
             assert response['body']['snapshot'][section]==report['snapshot'][section]
         assert http.anon_rpc('erp_cp7_get_finance_report_v1', dict(p_query=query))['status'] in (401,403)
         return dict(status='PASS', real_Auth_HTTP=True, native_source=source,
-                    no_legacy_schema_grant_during_HTTP=True, product_and_report_readers_agree=True)
+                    no_legacy_schema_grant_during_HTTP=True, product_and_report_readers_agree=True,
+                    exact_instant_comparison=True, serialization_differences=serialization_differences)
     return [('F03_X04_HTTP_PINNED_PO_FG_REPORT', pin)]

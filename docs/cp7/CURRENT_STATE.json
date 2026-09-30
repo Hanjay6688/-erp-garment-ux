@@ -54,7 +54,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Resolve two X04 card comparisons with explicit field-level before/after evidence, keep fixed source quantities/costs, and retain the rerun. E01/E03/E24, E06 and same-context E12 have separate scoped writer evidence. Continue remaining F03 contract; E05 meaning and ordinary paid-source return/refund mechanisms remain unresolved. F04 has not started.",
+  "next_action": "Finish X04 seven-case rerun with exact-instant comparisons; retain both prior incomplete results and complete artifact receipts. Continue remaining F03 contract without reopening separately qualified E01/E03/E24/E06/E12 increments. E05 and ordinary paid-source credit/refund mechanisms remain unresolved; F04 has not started.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -438,7 +438,7 @@
     "scope": "Existing E01 four executions; mobile includes actual second tab sharing Auth/localStorage. Zero peer write RPCs, same envelope, one effect. Not all E12 routes/devices."
   },
   "f03_x04": {
-    "status": "FIRST_5_PASS_2_INCOMPLETE_DIAGNOSTIC_FOLLOWUP",
+    "status": "5_PASS_2_INCOMPLETE_TIMEZONE_FIXTURE_CORRECTED_RERUN_PENDING",
     "source": "bfe9590b8625485667acfc22773a084266f71167",
     "run_id": 36661532962,
     "job_id": 109717171120,
@@ -454,6 +454,9 @@
       "NOT_RUN": 0
     },
     "diagnostic": "docs/cp7/evidence/f03-x04/FIRST_RECEIPT.json",
-    "remaining": "Exact field-level native-card and Auth/HTTP comparison diagnosis; no product change or new bug conclusion yet."
+    "remaining": "Field-level diagnostics show only WIB/UTC spelling of identical instants. Rerun compares microsecond-precise instants and preserves all other fields. No product change.",
+    "diagnostic_source": "5434bffaccc86c1c248b99de46ea6d4202f3dcff",
+    "diagnostic_run": 36662043158,
+    "diagnostic_job": 109718709487
   }
 }

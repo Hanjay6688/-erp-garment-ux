@@ -27,3 +27,12 @@ Files: `scripts/cp7_f03_x04_cases.py`, `scripts/cp7_f03_x04_probe.py`, `.github/
 Source `bfe9590b8625485667acfc22773a084266f71167`, [run36661532962](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36661532962), job109717171120: **5 PASS /2 INCOMPLETE /0 FAIL /0 NOT_RUN**. [Original receipt](evidence/f03-x04/FIRST_RECEIPT.json) and compressed reports retain both incomplete assertions. CP6 restoration, advisor, accepted package/backup restore, primary and Auth/database cleanup pass; writer-runtime gate remains false.
 
 Vendor FREE/WAIVED, compatible PO pin, both contractor rework paths and the moved-range/pending-invoice/return continuation pass. The incompatible recipe correctly refuses; old source lot values and quantities remain exact, but the test's whole CP7 card-row comparison fails. The HTTP compatible-source case also reaches HTTP200 and fails its native/HTTP page comparison. The original assertions did not retain changed fields. Follow-up instrumentation prints the exact before/after field differences and native HPP completeness while keeping both assertions. This is not yet proof that historical stock/cost facts changed, and no product code has been altered.
+
+
+## Diagnostic result and exact-time comparison correction
+
+Source `5434bffaccc86c1c248b99de46ea6d4202f3dcff`, [run36662043158](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36662043158), job109718709487: again5 PASS/2 INCOMPLETE. Artifact11074757358 has GitHub digest`f6005214b8650d454367f40194ea86bb839369132e93b1cb8af55f2b77ef8aad`. Full compressed retention follows in the evidence checkpoint.
+
+The detailed failures show only equivalent timezone spellings in `physical_at` and `recorded_at`:09:56:48.688149+07 equals02:56:48.688149+00; the HTTP comparison has the same WIB/UTC difference. The inherited refusal boundary snapshot calls `cp6_ao_ap_inventory.data`, which sets the caller's timezone to UTC. These results do not establish rewritten stock/cost facts.
+
+The corrected test compares those two fields as timezone-aware exact instants. It retains six microsecond digits, compares all other fields unchanged, and contains controls that reject a one-microsecond change and a changed money amount. Raw serialization differences remain in the result. No product timestamps, SQL, permissions, tariffs, costs or quantities change. The complete seven-case rerun must qualify this correction before PASS is recorded.
