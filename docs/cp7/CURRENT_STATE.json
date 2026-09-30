@@ -932,14 +932,14 @@
     "assignment": "Explicit owner takeover in this conversation; recheck canonical ref immediately before every fast-forward; stop on unexpected movement; no force push",
     "branch": "cp7/integration",
     "enforcement": "Owner explicitly confirmed previous writer stopped; successor writes canonical cp7/integration. Ref recheck before fast-forward protects unrelated concurrent changes.",
-    "last_observed_upstream": "683c3b0539a58bd6e68f3b0254864e7de0c2968e",
+    "last_observed_upstream": "9b34633c1407f6055fb2fda7836b88a811315744",
     "previous_writer_status": "STOPPED_OWNER_CONFIRMED_20260930",
     "writer": "Hansen-authorized successor to Writer Finisher CP6, F03 takeover30Sep2026"
   },
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "version": "cp7.integration-entry.v1",
   "f04_native_schedule": {
-    "status": "SECOND_NATIVE70_69_PASS1_FIXTURE_NAME_INCOMPLETE_RETEST_PENDING",
+    "status": "QUALIFIED_NATIVE70_PASS_NEW_GUIDANCE_UI_REQUAL_PENDING",
     "source_sql_sha256": "b038ce9f4ca9deee24971e5660448d8be56ac4fd4bc4d5e0e55bbe126944d789",
     "predeclared": {
       "native": 51,
@@ -951,32 +951,47 @@
     "local_standin_cases": 12,
     "local_runtime": "PGLITE_NATIVE_COLUMN_STANDIN_NOT_AUTH",
     "role_count": 31,
-    "new_operational_UI": false,
+    "new_operational_UI": true,
     "full_family_acceptance": false,
     "independent_acceptance": false,
     "production_go": false,
     "first_receipt": "docs/cp7/evidence/f04-native-schedule/first69-683c3b0/RECEIPT.json",
     "customer_work": "Customer remaining work consumes selected shared capacity; company supply stays excluded",
-    "second_receipt": "docs/cp7/evidence/f04-native-schedule/second70-0c33c00/RECEIPT.json"
+    "second_receipt": "docs/cp7/evidence/f04-native-schedule/second70-0c33c00/RECEIPT.json",
+    "qualified_receipt": "docs/cp7/evidence/f04-native-schedule/qualified70-9b34633/RECEIPT.json"
   },
   "f04_native_netting": {
-    "status": "IMPLEMENTED_NATIVE80_DECLARED_PENDING",
-    "source_sql_sha256": "957eea9c7ba743793082fdb2c55331b6d7a528e99242e436fe002a5a2bd793f7",
+    "status": "FIRST_NATIVE80_79_PASS1_HTTP_FIXTURE_INCOMPLETE_NATIVE_UI82_RETEST_PENDING",
+    "source_sql_sha256": "52573affdc8a5c94e9250c97e7304987353117fc8fa6725a2fc0ec205a6741b1",
     "predeclared": {
       "native": 59,
       "races": 11,
       "http": 6,
-      "retained_browser": 4
+      "browser": 6
     },
     "local_standin_cases": 15,
     "role_count": 31,
     "native_matching": "Source-bound opening product/BS identity, exact root/model/size; missing critical cut brand/color remains NEEDS_CHECK",
-    "new_operational_UI": false,
+    "new_operational_UI": true,
     "material_feasibility": "UNKNOWN",
     "adaptive_model_promotion": "PENDING_NATIVE_COMPOSER",
     "apply_enabled": false,
     "full_family_acceptance": false,
     "independent_acceptance": false,
-    "production_go": false
+    "production_go": false,
+    "first_receipt": "docs/cp7/evidence/f04-native-netting/first80-9b34633/RECEIPT.json"
+  },
+  "f04_native_ui_candidate": {
+    "status": "IMPLEMENTED_CLIENT_RECEIVER57_DOM20_BUILD_SECURITY_PASS_NATIVE_BROWSER_PENDING",
+    "consumer": "src/NativeProductionPlanningPanel.tsx",
+    "boundaries": 6,
+    "current_auth": "FOUR_NATIVE_OPS_AND_CURRENT_MASTER_MANAGE_FOR_METADATA",
+    "unknown_inputs": "NO_DEFAULT_YIELD_TIMES_OTHER_LOAD_OR_UNIT_TIME",
+    "recovery": "ACTOR_PROJECT_SCOPED_EXACT_UUID_PAYLOAD_QUERY_BEFORE_SEND",
+    "dirty_source": "FORM_REMAINS_BOUND_TO_ORIGINAL_REVISION_HASH_UNTIL_EXPLICIT_ADOPTION",
+    "production_go": false,
+    "full_family_acceptance": false,
+    "independent_acceptance": false,
+    "local_full_suite_pass": 1028
   }
 }

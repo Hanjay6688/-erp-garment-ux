@@ -1,0 +1,32 @@
+{
+  "status": "FIRST80_79_PASS1_HTTP_FIXTURE_INCOMPLETE",
+  "source_commit": "9b34633c1407f6055fb2fda7836b88a811315744",
+  "source_tree": "fa27357846d5c925bb041dba137d114bb172868e",
+  "source_sql_sha256": "957eea9c7ba743793082fdb2c55331b6d7a528e99242e436fe002a5a2bd793f7",
+  "run_id": 36790396312,
+  "job_id": 110141673610,
+  "artifact_id": 11132137148,
+  "artifact_sha256": "f2a062ac23dc7916818289768e6601ab79e20392d0e76abaabdacf74db7e8591",
+  "reports_sha256": "05966beb230b5122fc4a36bfcf5aa86fbb14d06f6cf3283a4286f80922824b23",
+  "counts": {
+    "native": {
+      "PASS": 59
+    },
+    "races": {
+      "PASS": 11
+    },
+    "http": {
+      "PASS": 5,
+      "INCOMPLETE": 1
+    },
+    "browser": {
+      "PASS": 4
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "diagnostic": "The sixth HTTP fixture called the unprefixed predecessor opening importer in the same Native HTTP database as five prior fixtures. Native duplicate BB brand name guard correctly rejected it before netting. Use schedule.opening which uniquely prefixes native Master names; all59 Native,11 races,5 HTTP and4 retained browser cases already PASS.",
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false
+}

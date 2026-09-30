@@ -121,7 +121,7 @@ def races(tools,today):
 def http_cases(http,today):
  def flow():
   owner=http.login('OWNER','p06-netting-owner');other=http.login('OWNER','p06-netting-other')
-  with http.connect()as conn,conn.cursor()as cur:production.opening(cur,today);conn.commit()
+  with http.connect()as conn,conn.cursor()as cur:schedule.opening(cur,today);conn.commit()
   a=dict(p_query=baseline.history.query(today),p_request=str(uuid.uuid4()));r=owner.rpc('erp_cp7_capture_netting_v1',a);assert r['status']==200,r
   assert r['body']['apply_enabled']is False and owner.rpc('erp_cp7_capture_netting_v1',a)['body']['run_id']==r['body']['run_id']
   args=dict(p_run=r['body']['run_id']);assert other.rpc('erp_cp7_read_netting_v1',args)['status']==403

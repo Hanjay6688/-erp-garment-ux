@@ -11,6 +11,7 @@ describe('authoritative demand wire boundaries',()=>{
   expect(()=>parseNativeDemandHistory(w)).toThrow()
  })
  it('preserves exact PCS above JavaScript safe integer',()=>{const w=demandWire();w.current_stock[0].availability.physical_fg_pcs='9007199254741017';w.current_stock[0].availability.available_fg_pcs='9007199254740993';w.current_stock[0].native_available_pcs='9007199254740993';expect(parseNativeDemandHistory(w).rows[0].available).toBe('9007199254740993')})
+ it('preserves negative available stock when native reservations exceed physical on hand',()=>{const w=demandWire();w.current_stock[0].availability.reserved_pcs='124';w.current_stock[0].availability.available_fg_pcs='-24';w.current_stock[0].native_available_pcs='-24';expect(parseNativeDemandHistory(w).rows[0].available).toBe('-24');w.current_stock[0].availability.physical_fg_pcs='-100';expect(()=>parseNativeDemandHistory(w)).toThrow()})
  it('uses WIB yesterday across midnight and caller timezone',()=>{expect(yesterdayWib(new Date('2026-09-30T17:01:00Z'))).toBe('2026-09-30');expect(yesterdayWib(new Date('2026-09-30T16:59:00Z'))).toBe('2026-09-29')})
 })
 describe('same native capture survives reply loss',()=>{

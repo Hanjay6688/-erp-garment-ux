@@ -13,3 +13,5 @@ First actual69 (source683c3b0/run36788027056) has67 PASS and2 incomplete HTTP fi
 
 
 Second actual70 (source0c33c00/run36789378502) has69 PASS and1 incomplete customer-source setup; all original50 Native,10 races,5 real-Auth HTTP and4 retained browser controls now pass. The new customer's fixture label, including the Native CP6-E- prefix, exceeded VARCHAR30 before the source operation. Shorten that fixture code only and retain the original error; schedule SQL remains b038ce9f.
+
+Third actual70 at9b34633/run36790396244 passes all51 Native,10 races,5 actual-Auth HTTP and4 retained P05/P06 browser cases. Source b038ce9f is unchanged from the prior schedule implementation. Original69 and second70 failed fixtures remain retained. New form guidance is bound to the original actor-owned supply capture, including original quantities/routes and current-source/revision checks; old source does not silently rebind an unfinished form. Selected opening/non-PO destinations now additionally respect the native original product root. A new connected production planning consumer and real desktop/mobile journeys are pending qualification against the changed source.

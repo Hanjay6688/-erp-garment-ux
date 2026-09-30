@@ -1,0 +1,10 @@
+{
+  "status": "LOCAL1028_PASS_BUILD_SECURITY_PASS_RECEIVER57_DOM20_PASS",
+  "classification": "LOCAL_CLIENT_AND_PGLITE_NOT_NATIVE_AUTH",
+  "full_suite_tests": 1028,
+  "full_suite_sha256": "2cf05c17713f315197d50d1d77929b28a2e08bc8741287da39446b668f3676a1",
+  "source_sql_sha256": "52573affdc8a5c94e9250c97e7304987353117fc8fa6725a2fc0ec205a6741b1",
+  "boundary_count": 120,
+  "production_go": false,
+  "independent_acceptance": false
+}

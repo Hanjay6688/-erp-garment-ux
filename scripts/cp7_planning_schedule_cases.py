@@ -81,6 +81,8 @@ def cases(cur,today):
   f=opening(cur,today);r=supply.capture(cur,today);p=payload(cur,r);save(cur,p);s=capture(cur,today)
   production.b.bbp.complete(cur,f,f['cutover']+timedelta(days=2),3)
   w=get(cur,r['run_id']);assert w['source_state']=='ARCHIVED_STALE'and w['plan_state']=='SOURCE_CHANGED'
+  assert w['source_hash']==r['source_hash']and w['captured_at']==r['captured_at']and w['position_requirements'][0]['remaining_pcs']=='8'
+  fresh=supply.capture(cur,today);assert get(cur,fresh['run_id'])['position_requirements'][0]['remaining_pcs']=='5'
   bad=deepcopy(p);bad['expected_revision']='1';auth.refused(cur,lambda:save(cur,bad),'CP7_SCHEDULE_SOURCE_CHANGED')
   assert read(cur,s['run_id'])['source_state']=='ARCHIVED_STALE'and capture(cur,today)['schedule_state']=='SOURCE_CHANGED'
   return dict(status='PASS',real_native_completed3_invalidates_old_work_and_source_bound_save=True)

@@ -131,12 +131,36 @@ $$;
 create function cp7_schedule_native.workspace(p_run uuid)returns jsonb
 language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
 declare a jsonb;r cp7_supply_native.runs%rowtype;c jsonb;hash text;plan jsonb;outcome jsonb;
+ p jsonb;bound_id text;bound_root text;model text;choices jsonb;requirements jsonb:='[]';
 begin
  if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
  a:=cp7_schedule_native.access_now(false);select *into r from cp7_supply_native.runs where id=p_run and actor=(a->>'actor')::uuid;
  if r.id is null then raise exception using errcode='42501',message='CP7_SUPPLY_RUN_UNAVAILABLE';end if;
  c:=cp7_supply_native.source();hash:=cp7_supply_native.fingerprint(c);plan:=cp7_schedule_native.source_at((c->>'captured_at')::timestamptz);
+ -- Form guidance belongs to the immutable source being reviewed. A fresh
+ -- source check must not silently rebind quantities or an unfinished form.
+ for p in select value from jsonb_array_elements(r.result->'wip'->'positions')
+  where cp7_schedule_native.route(value->>'stage')is not null and cp7_wip.pcs(value->'remaining_pcs')>0
+  order by value->>'key'loop
+  bound_id:=case split_part(p->>'pool_key',':',1)
+   when 'OPEN'then(select x->>'product_id'from jsonb_array_elements(r.facts->'production_sources'->'facts'->'other'->'origins')x
+    where x->>'id'=split_part(p->>'pool_key',':',2))
+   when 'NONPO'then(select x->>'product_id'from jsonb_array_elements(r.facts->'production_sources'->'facts'->'other'->'bs')x
+    where x->>'id'=split_part(p->>'pool_key',':',2))else null end;
+  select coalesce(x.identity_root_id,x.id)::text into bound_root from erp.products x
+   where x.id::text=bound_id and x.created_at<=(r.facts->>'captured_at')::timestamptz;
+  model:=cp7_schedule_native.position_model(r.facts,p);
+  select coalesce(jsonb_agg(jsonb_build_object('target_key',(x->>'root_id')||':'||(x->>'size_id'),
+   'product_version_id',x->'id','sku',x->'sku','product_name',x->'product_name')order by x->>'root_id'),'[]')into choices
+   from jsonb_array_elements(r.facts->'facts'->'products')x
+   where p->'eligible_company_wip'='true'::jsonb and x->>'size_id'=p->>'size_id'and x->>'model_id'=model
+    and(bound_root is null or x->>'root_id'=bound_root);
+  requirements:=requirements||jsonb_build_array(jsonb_build_object('position_key',p->'key','pool_key',p->'pool_key',
+   'stage',p->'stage','size_id',p->'size_id','ownership',p->'ownership','eligible_company_wip',p->'eligible_company_wip',
+   'remaining_pcs',p->'remaining_pcs','remaining_route',cp7_schedule_native.route(p->>'stage'),'target_candidates',choices));
+ end loop;
  outcome:=jsonb_build_object('contract_version','cp7.planning-schedule.v1','source_run',p_run,'current_source_hash',hash,
+  'source_hash',r.dependency_hash,'captured_at',cp7_planning.utc(r.captured_at),'position_requirements',requirements,
   'source_state',case when hash=r.dependency_hash then 'UNCHANGED'else 'ARCHIVED_STALE'end,
   'plan',plan,'revision',coalesce(plan->>'revision','0'),
   'plan_state',case when plan='null'::jsonb then 'UNREVIEWED'when plan->>'source_hash'=hash then 'SELECTED_ASSUMPTIONS'else 'SOURCE_CHANGED'end,
@@ -149,6 +173,7 @@ create function cp7_schedule_native.save(p_payload jsonb,p_request uuid)returns 
 language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
 declare a jsonb;old cp7_schedule_native.commands%rowtype;run cp7_supply_native.runs%rowtype;
  p cp7_schedule_native.plans%rowtype;c jsonb;wip jsonb;hash text;revision bigint;expected bigint;reason text;config jsonb;outcome jsonb;
+ selected jsonb;position jsonb;bound_id text;bound_root text;
 begin
  if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
  a:=cp7_schedule_native.access_now(true);if p_request is null then raise exception 'CP7_SCHEDULE_REQUEST_REQUIRED';end if;
@@ -173,6 +198,20 @@ begin
  c:=cp7_supply_native.source();hash:=cp7_supply_native.fingerprint(c);
  if hash<>run.dependency_hash or hash<>p_payload->>'source_hash'then raise exception 'CP7_SCHEDULE_SOURCE_CHANGED';end if;
  wip:=cp7_wip.normalize_production(c->'production_sources');config:=cp7_schedule_native.validate(p_payload->'config',c,wip);
+ -- A selected destination is metadata, never authority to move a physically
+ -- bound opening/non-PO source to a different product root with the same model.
+ for selected in select value from jsonb_array_elements(config->'positions')where value->'target_key'<>'null'::jsonb loop
+  position:=(select value from jsonb_array_elements(wip->'positions')where value->>'key'=selected->>'position_key');
+  bound_id:=case split_part(position->>'pool_key',':',1)
+   when 'OPEN'then(select x->>'product_id'from jsonb_array_elements(c->'production_sources'->'facts'->'other'->'origins')x
+    where x->>'id'=split_part(position->>'pool_key',':',2))
+   when 'NONPO'then(select x->>'product_id'from jsonb_array_elements(c->'production_sources'->'facts'->'other'->'bs')x
+    where x->>'id'=split_part(position->>'pool_key',':',2))else null end;
+  select coalesce(x.identity_root_id,x.id)::text into bound_root from erp.products x
+   where x.id::text=bound_id and x.created_at<=(c->>'captured_at')::timestamptz;
+  if bound_root is not null and selected->>'target_key'<>bound_root||':'||(position->>'size_id')then
+   raise exception 'CP7_SCHEDULE_NATIVE_TARGET_BOUND';end if;
+ end loop;
  reason:=btrim(p_payload->>'reason');if jsonb_typeof(p_payload->'reason')is distinct from 'string'or reason is null or length(reason)not between 1 and 1000 then
   raise exception 'CP7_SCHEDULE_REASON';end if;
  insert into cp7_schedule_native.plans(revision,source_run,source_hash,config,reason,actor,request_id)
