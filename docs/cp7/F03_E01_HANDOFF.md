@@ -46,3 +46,10 @@ The disposable foundation's other obligations are completed using existing nativ
 All four original screenshots were inspected. Retained images are lossless and pixel-identical to their originals, with hashes in the receipt: [desktop sale/return](evidence/f03-e01/READY_E01_SALE_RETURN_DESKTOP.webp), [mobile sale/return](evidence/f03-e01/READY_E01_SALE_RETURN_MOBILE.webp), [desktop READY report](evidence/f03-e01/READY_E01_REPORT_DESKTOP.webp), [mobile READY report](evidence/f03-e01/READY_E01_REPORT_MOBILE.webp). Mobile report includes both browser fixtures: revenue750/COGS450/gross300; the test checks the second source's exact375/225/150 delta. READY does not mean the period was closed; no closing/archive action is claimed.
 
 No product source paths (`src`, `scripts/cp7-src`, `supabase`) have changed since55cb59d. E03 customer service, remaining packet exits and independent acceptance continue separately; F03 remains OPEN. [Active E03 work](F03_E03_HANDOFF.md).
+
+
+## E12 second-tab continuation — execution pending
+
+The existing mobile E01 journey now also opens a second real tab in the same authenticated browser context on the same partially paid invoice before the return. The first tab commits its return and loses the response. The second tab must observe recovery, disable another return/payment, permit a read showingAR175 without clearing the pending envelope, and retain the original return UUID and document. Reload/reconciliation in the first tab must return that same outcome. A fresh read then restores the second tab's controls, with zero write RPCs from the second tab and still exactly one return/FG45/value675.
+
+This extends the existing mobile case; it does not add invented case counts. The four-case E01 native/HTTP/desktop/mobile suite must qualify the updated source. Earlier four-PASS proof remains valid in its earlier scope. No two-tab result is claimed until the new run is inspected. Other-device/localStorage-isolated clients still rely on server source/version/capacity controls and are not covered by this browser-context assertion.

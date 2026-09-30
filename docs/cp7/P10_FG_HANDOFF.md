@@ -37,7 +37,7 @@ The P10 runner installs the current CP7 stack using the same P09 install verifie
 
 ## Remaining scope
 
-Full P10 still needs its wider family acceptance oracles and exact source-handoff integration review. P12 now implements the native source/card/Nota and opening→payroll continuations; their separate proofs are linked in [the current family ledger](F03_REMAINING_CONTRACT.md). FG adjustments and global movement-book interactions are qualified within the bounded scope. P11 owns connected sale/return/payment and R10; P13 owns full financial/HPP/close integration. P09 multi-input/zero-history counts are now writer-qualified; mixed-receipt returns, paid-source return carry and remaining issue continuations stay open. F02 independent acceptance remains HOLD pending auditor retest and its public planner composition obligation.
+Full P10 still needs its wider family acceptance oracles and exact source-handoff integration review. P12 now implements the native source/card/Nota and opening→payroll continuations; their separate proofs are linked in [the current family ledger](F03_REMAINING_CONTRACT.md). FG adjustments and global movement-book interactions are qualified within the bounded scope. P11 owns connected sale/return/payment and R10; P13 owns full financial/HPP/close integration. P09 multi-input/zero-history counts and [complete multi-receipt returns](P09_COMBINED_RETURN_HANDOFF.md) are now writer-qualified. [Selected receipt/transfer-to-accessory-note and service-return/late-invoice](F03_E24_ISSUE_HANDOFF.md) also pass; paid-source return carry and the remaining issue contract stay open. F02 independent acceptance remains HOLD pending auditor retest and its public planner composition obligation.
 
 
 ## FG correction scope (now qualified)

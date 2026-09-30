@@ -38,6 +38,8 @@ async function journey(ui,today,mobile) {
     await ui.expect(row).toHaveCount(1); await row.click()
     await ui.expect(detail.getByRole('heading',{name:f.tag,exact:true})).toBeVisible()
   }
+  let peer=null,peerWrites=0
+  const peerErrors=[]
   try {
     assert.equal(before.available,60); assert.equal(cents(before.fg_value),90000n)
     assert.equal(before.report.snapshot.data_confidence.status,'READY')
@@ -94,6 +96,21 @@ async function journey(ui,today,mobile) {
     await retForm.getByLabel('Grade retur 1',{exact:true}).selectOption('GRADE_A')
     await retForm.getByLabel('Catatan barang retur 1',{exact:true}).fill('Lima GOOD dari alokasi asli')
     await retForm.getByLabel('Retur pelanggan sudah diperiksa',{exact:true}).check()
+    if(mobile) {
+      // A second real tab shares this authenticated session and recovery
+      // storage. It reads the same invoice before the first tab commits.
+      peer=await user.context.newPage(); peer.setDefaultTimeout(20000)
+      peer.on('pageerror',e=>peerErrors.push(e.message))
+      peer.on('request',r=>{if(r.url().endsWith('/rest/v1/rpc/erp_cp7_save_sale_v1')) peerWrites++})
+      await peer.goto(ui.origin); await open(ui,peer,'Retur Penjualan')
+      const other=peer.locator('.csales')
+      await other.getByLabel('Cari invoice',{exact:true}).fill(f.tag)
+      await other.getByRole('button',{name:'Cari invoice',exact:true}).click()
+      const row=other.getByRole('region',{name:'Daftar invoice'}).locator('.cproc-receipt')
+      await ui.expect(row).toHaveCount(1); await row.click()
+      await ui.expect(other.getByRole('button',{name:'Retur fisik invoice',exact:true})).toBeEnabled()
+      await ui.expect(other.getByRole('complementary',{name:'Rincian invoice'})).toContainText('Sisa pembayaran Rp300')
+    }
     let lost=false,first=null,replay=null
     if(mobile) await p.route('**/rest/v1/rpc/erp_cp7_save_sale_v1',async route=>{
       const body=route.request().postDataJSON()
@@ -106,10 +123,26 @@ async function journey(ui,today,mobile) {
     await retForm.getByRole('button',{name:'Catat retur pelanggan',exact:true}).click()
     if(mobile) {
       await ui.expect(ws.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeVisible()
+      const other=peer.locator('.csales')
+      await ui.expect(other.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeVisible()
+      await ui.expect(other.getByRole('button',{name:'Retur fisik invoice',exact:true})).toBeDisabled()
+      await ui.expect(other.getByRole('button',{name:'Pembayaran invoice',exact:true})).toBeDisabled()
+      // Unrelated reads remain possible; they cannot silently clear the
+      // ambiguous mutation or turn its new UUID into a second return.
+      await other.getByRole('button',{name:'Muat ulang invoice',exact:true}).click()
+      await ui.expect(other.getByRole('complementary',{name:'Rincian invoice'})).toContainText('Sisa pembayaran Rp175')
+      await ui.expect(other.getByRole('button',{name:'Retur fisik invoice',exact:true})).toBeDisabled()
+      const pending=await peer.evaluate(()=>Object.entries(localStorage).filter(([k])=>k.startsWith('erp.production.SALES.pending-mutation.v1:')).map(([,v])=>JSON.parse(v)))
+      assert.equal(pending.length,1); assert.equal(pending[0].id,first.p_request)
+      assert.equal(pending[0].action,'RETURN'); assert.deepEqual(pending[0].payload.document,first.p_payload)
       await p.reload(); await open(ui,p,'Retur Penjualan')
       await ws.getByRole('button',{name:'Reconcile transaksi',exact:true}).click()
       await ui.expect(ws.getByRole('button',{name:'Reconcile transaksi',exact:true})).toHaveCount(0)
       assert.ok(lost); assert.deepEqual(replay,first)
+      await ui.expect(other.getByRole('button',{name:'Reconcile transaksi',exact:true})).toHaveCount(0)
+      await other.getByRole('button',{name:'Muat ulang invoice',exact:true}).click()
+      await ui.expect(other.getByRole('button',{name:'Retur fisik invoice',exact:true})).toBeEnabled()
+      assert.equal(peerWrites,0); assert.deepEqual(peerErrors,[])
     }
     await ui.expect(ret).toHaveCount(0); await ui.expect(detail).toContainText('Sisa pembayaran Rp175')
     const returned=fixture('read',f)
@@ -135,14 +168,14 @@ async function journey(ui,today,mobile) {
     await p.evaluate(()=>window.scrollTo(0,0))
     await p.screenshot({path:`cp6-proof/t3/E01_REPORT_${suffix}.png`,fullPage:true})
     assert.deepEqual(fixture('read',f).accounts,returned.accounts)
-    return {status:'PASS',journey:'E01',mobile,production_source_native_qualified:true,production_checkpoints:f.trace,browser_create_post_pay_return_report:true,fg:45,fg_value:'675',cash:'200',AR:'175',revenue:'375',COGS:'225',gross_profit:'150',lost_return_response_exact_UUID_replay:mobile?true:null,one_return:true,report_read_only:true,report_confidence:returned.report.snapshot.data_confidence,production_browser_write_claim:false,full_family_acceptance:false,screenshots:[`E01_SALE_RETURN_${suffix}.png`,`E01_REPORT_${suffix}.png`]}
+    return {status:'PASS',journey:'E01',mobile,production_source_native_qualified:true,production_checkpoints:f.trace,browser_create_post_pay_return_report:true,fg:45,fg_value:'675',cash:'200',AR:'175',revenue:'375',COGS:'225',gross_profit:'150',lost_return_response_exact_UUID_replay:mobile?true:null,E12_second_authenticated_tab_same_invoice_fenced:mobile?true:null,E12_read_allowed_without_clearing_pending:mobile?true:null,E12_peer_write_requests:mobile?peerWrites:null,one_return:true,report_read_only:true,report_confidence:returned.report.snapshot.data_confidence,production_browser_write_claim:false,full_family_acceptance:false,screenshots:[`E01_SALE_RETURN_${suffix}.png`,`E01_REPORT_${suffix}.png`]}
   } catch(e) {
     let observed; try {observed=fixture('read',f)} catch(x) {observed={error:String(x)}}
     mkdirSync('cp6-proof/t3',{recursive:true})
     writeFileSync(`cp6-proof/t3/E01_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),stack:e.stack,text:await p.locator('body').innerText().catch(()=>''),source:observed},null,2))
     await p.screenshot({path:`cp6-proof/t3/E01_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{})
     throw e
-  } finally {await user.context.close()}
+  } finally {if(peer) await peer.close().catch(()=>{}); await user.context.close()}
 }
 export async function cases(ui,today) {
   return [['F03_E01_BROWSER_DESKTOP',()=>journey(ui,today,false)],['F03_E01_BROWSER_MOBILE_LOST_RETURN',()=>journey(ui,today,true)]]
