@@ -1,0 +1,35 @@
+{
+  "status": "INCOMPLETE51_PASS2_INCOMPLETE",
+  "source_commit": "ad246c52cdec1df71249f974acd967e639f8851d",
+  "source_tree": "5e84edb55682a5d13a6e44bfb6bad482f6aad5b1",
+  "source_sql_sha256": "33391e4da46dd3c31fb7dad49a42fa7e6346b449ebfe0cec3a9c30ec44dd111c",
+  "run_id": 36785204836,
+  "job_id": 110124848124,
+  "artifact_id": 11129174173,
+  "artifact_sha256": "2dc8c6213700b80089a927062d6806dfc449231b48212de4a55b72ec5cb548b5",
+  "observed": 53,
+  "counts": {
+    "native": {
+      "PASS": 36,
+      "INCOMPLETE": 2
+    },
+    "races": {
+      "PASS": 8
+    },
+    "http": {
+      "PASS": 3
+    },
+    "browser": {
+      "PASS": 4
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "diagnostics": [
+    "UNSOURCED_BS fixture includes a real native stocked-production origin, which a global source must capture; original selected-scope5-only assertion is retained.",
+    "GLOBAL56 ordinary import master names reused BB brand despite unique brand codes; native unique brand-name constraint correctly refused the second fixture."
+  ],
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false
+}

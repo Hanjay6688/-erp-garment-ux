@@ -55,16 +55,32 @@ def cases(cur,today):
   return dict(status='PASS',native_claim_recovery_writeoff_not_free_good=True)
  def unsourced():
   f=production.ax.stocked_product(cur,today);at=production.ax.r1.now(cur)
+  # This factory posts real cutting/laundry/QC10 before creating the found BS.
+  # A global capture must retain that original production, unlike selected P04.
+  b.api.admin(cur);cut_qty=cur.execute('select sum(y.qty_pcs)from erp.cutting_roll_yields y join erp.cutting_group_rolls r on r.id=y.cutting_group_roll_id where r.cutting_group_id=%s',(f['group'],)).fetchone()[0]
+  assert cut_qty>=10
   case=production.ax.manual_bs(cur,f['product'],'OUT_OF_NOWHERE',5,at-timedelta(minutes=15))['result']['bs_case_id']
-  first=capture(cur,today);assert vector(first)==[5,0,0,5,0,0]and first['production_scope']['unsourced_bs']==[case]
+  first=capture(cur,today);expected=[int(cut_qty)+5,int(cut_qty)-10,10,5,0,0]
+  assert vector(first)==expected and first['production_scope']['unsourced_bs']==[str(case)],(vector(first),expected,first['production_scope'])
+  assert first['production_scope']['cutting_groups']==[str(f['group'])]
   out=production.ax.post(cur,dict(source_kind='GOOD_FROM_UNSOURCED_BS',bs_case_id=case,location_id=production.base.LOCATION,
    qty_pcs=3,physical_at=(at-timedelta(minutes=5)).isoformat(),reason='P06 native global unsourced recovery'))
-  assert vector(capture(cur,today))==[5,0,3,2,0,0]
+  assert vector(capture(cur,today))==[int(cut_qty)+5,int(cut_qty)-10,13,2,0,0]
   production.ax.reverse(cur,out['receipt_id'],'P06 retain original BS lineage')
-  assert vector(capture(cur,today))==[5,0,0,5,0,0]
-  return dict(status='PASS',native_unsourced_original5_good3_then_inverse_not_duplicate_supply=True)
+  assert vector(capture(cur,today))==expected
+  return dict(status='PASS',native_unsourced_original5_good3_then_inverse_not_duplicate_supply=True,native_stocked_production_retained=True,independent_native_cut_yield=int(cut_qty),expected_initial_global=expected)
  def global56():
-  fs=[production.opening(cur,today)for _ in range(56)]
+  fs=[]
+  for _ in range(56):
+   rows=production.b.bbp.production_rows()
+   # Native master names are unique as well as codes. Keep every fixture an
+   # ordinary public import, and make its visible names unique before upload.
+   for payloads in rows.values():
+    for payload in payloads:
+     for field,value in list(payload.items()):
+      if field.endswith('_name')and isinstance(value,str):payload[field]='{C} '+value
+   f=production.b.bbp.production_post(cur,today,rows)
+   f['item']=production.b.bbp.source_of(cur,f)['opening_item_id'];fs.append(f)
   r=capture(cur,today);assert len(r['production_scope']['opening_items'])==56
   assert set(r['production_scope']['opening_items'])=={f['item']for f in fs}
   assert vector(r)==[448,448,0,0,0,0]and len(r['wip']['totals'])==56

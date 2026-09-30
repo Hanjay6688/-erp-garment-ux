@@ -521,6 +521,14 @@
   "f04_native_supply": {
     "actual_declared": 53,
     "composer": "scripts/cp7_supply_bundle.py",
+    "first_counts": {
+      "INCOMPLETE": 2,
+      "PASS": 51
+    },
+    "first_job": 110124848124,
+    "first_receipt": "docs/cp7/evidence/f04-native-supply/first53-ad246c5/RECEIPT.json",
+    "first_run": 36785204836,
+    "first_source": "ad246c52cdec1df71249f974acd967e639f8851d",
     "full_family_acceptance": false,
     "global_scope_client_selectable": false,
     "groups": {
@@ -537,7 +545,7 @@
     "qualifier": "scripts/cp7_f04_supply_probe.py",
     "source_batches_normalized_individually": false,
     "source_scope": "GLOBAL_CURRENT_PHYSICAL_ROOTS_AND_NATIVE_POSTED_PRODUCTION_ORIGINS",
-    "status": "GLOBAL_NATIVE_SOURCE_WRITTEN_LOCAL7_TRANSLATION_PASS_ACTUAL53_PENDING"
+    "status": "FIRST53_OBSERVED51_PASS2_FIXTURE_INCOMPLETE_REPAIR_RETEST_PENDING"
   },
   "f04_takeover_reference": {
     "branch": "cp7/f04-planning-20260929",
