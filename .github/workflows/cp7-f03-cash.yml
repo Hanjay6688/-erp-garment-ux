@@ -8,6 +8,8 @@ name: CP7 F03 Cash and Native Finance Readers
     - scripts/cp7_f03_report_dates_*
     - scripts/cp7_f03_finance_overview_*
     - scripts/cp7_f03_receivables_*
+    - scripts/cp7_f03_journal_*
+    - scripts/cp7_journal_*
     - scripts/cp7-src/**
     - scripts/cp7_*bundle.py
     - src/**
@@ -20,7 +22,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   phase:
-    name: Native cash, report dates and finance overview
+    name: Native financial readers and complete journal sources
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:
@@ -113,7 +115,7 @@ jobs:
         set -euo pipefail
         mkdir -p cp6-proof/t3
         npm run build 2>&1 | tee cp6-proof/t3/CASH_BUILD.txt
-        npx vitest run src/ConnectedCashLedgerPage.dom.test.tsx src/FinanceAnalysisPanel.dom.test.tsx src/ConnectedFinanceReportPage.dom.test.tsx src/FinancePeriodPanel.dom.test.tsx src/ConnectedFinanceOverviewPage.dom.test.tsx src/ConnectedReceivablesPage.dom.test.tsx --exclude 'tests/browser/**' 2>&1 | tee cp6-proof/t3/CASH_LOCAL_TESTS.txt
+        npx vitest run src/ConnectedCashLedgerPage.dom.test.tsx src/FinanceAnalysisPanel.dom.test.tsx src/ConnectedFinanceReportPage.dom.test.tsx src/FinancePeriodPanel.dom.test.tsx src/ConnectedFinanceOverviewPage.dom.test.tsx src/ConnectedReceivablesPage.dom.test.tsx src/ConnectedJournalPage.dom.test.tsx --exclude 'tests/browser/**' 2>&1 | tee cp6-proof/t3/CASH_LOCAL_TESTS.txt
     - name: Install pinned Supabase CLI
       uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
       with:

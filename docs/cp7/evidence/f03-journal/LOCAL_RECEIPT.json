@@ -1,0 +1,49 @@
+{
+  "affected_suite": {
+    "FAIL": 0,
+    "PASS": 58
+  },
+  "build": true,
+  "component": {
+    "FAIL": 0,
+    "PASS": 8
+  },
+  "financial_writer": false,
+  "full_family_acceptance": false,
+  "full_suite": {
+    "FAIL": 0,
+    "PASS": 845
+  },
+  "independent_acceptance": false,
+  "native_cases_declared": 21,
+  "native_guard_changed": false,
+  "native_pass_claim": false,
+  "new_private_role": "cp7_journal_read",
+  "parent_source": "f31b7a70e9f6330f7922fcbb2e8527320f4c5df2",
+  "previous_source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+  "production_go": false,
+  "reports_gzip_sha256": "b333d1d2bd7deb117456bcc843a92d57887f8fb7bb2cf5430ab2d9eda107893d",
+  "role_count": 27,
+  "security": true,
+  "source_bundle_sha256": "04289ce0fe6d268844217a66437d0e7d08a4c51a7ce5725624f9990f4337fb79",
+  "source_file_sha256": {
+    ".github/workflows/cp7-f03-cash.yml": "3839bf5ed8026c16e0f4229bfeebcf1975a4ddeb52daa1fc3d9ba5dbab7eebcc",
+    "scripts/check-access-catalog.mjs": "92866918fd7970b3c26ec852aca91bb4f42833a95d8a67a97acd7262c76b6ebf",
+    "scripts/check-source-ownership.mjs": "b1d2f62916f5087f8d53275a96227c84b92f7ad41ca752a074f211a2026ac717",
+    "scripts/cp7-src/finance/journal.sql": "15ee5f258468b83dbb2d6fdd250dcbcec8616871f99468ff72d0076897a7562e",
+    "scripts/cp7_f03_bundle.py": "157e770f2c38d304e424ab494190b9927c9313f4068cc6b5721f482b7dc05246",
+    "scripts/cp7_f03_cash_browser.mjs": "5c03680fe12468c682d6787bfef8228f30f26e7836a8c63e24c53ae8b7b2a34d",
+    "scripts/cp7_f03_cash_browser_fixture.py": "59c69d5e58efa1c103e43b424d0fdf7af918a0d042eb09a49b57a0116e39fff6",
+    "scripts/cp7_f03_cash_probe.py": "d5858503e3509b52075edcb8e29af3f80e8d55ca218ab3767981b59bd4867a9a",
+    "scripts/cp7_f03_journal_browser.mjs": "fda4a5f98ea14ca5cc4df5924c23b28e5a266f127ca19e56b669d5109aff8e1a",
+    "scripts/cp7_f03_probe.py": "038530fb667d6a69d34b68bb13f85a976abdcc1b9f46b2ff63424a4c8c2a370f",
+    "scripts/cp7_journal_bundle.py": "f2416fa13992ac0559bda9ed9ad426883bb15af68c43bb5a140fe6c1a7dc97a7",
+    "scripts/cp7_journal_cases.py": "939d1def2f2ea6b9c90b89b9a60ac62dbac7d1405d75ab5503fda82fb19c1bfb",
+    "src/App.tsx": "1d2c97ffa8ff35190251e35c171314b9822bb96243a5d26fd037c2bbd605b913",
+    "src/ConnectedJournalPage.dom.test.tsx": "6f762e91f0222bb8c648eb1209bf8e4d61978b3c704d798b95446cba68218ad1",
+    "src/ConnectedJournalPage.tsx": "7e09eeab36ab520ef962278d2084aaa4e4a2cc1ad22d9fd0667bd54190b96fdf",
+    "src/journalReadContract.ts": "7cea0983190cc0e3cd740a35be5bc7a63dcc1a65c34ff52699885a1ab3809b6a",
+    "src/types/database.preconnect.ts": "08c80cc883545aad77d1c7ffc7a22ddd0d7cecedeaf273dac3a25887e2a32c83"
+  },
+  "status": "LOCAL_PASS_NATIVE_PENDING"
+}

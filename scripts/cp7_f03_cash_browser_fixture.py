@@ -4,6 +4,7 @@ from urllib.parse import urlparse
 import hashlib,json,os,sys
 import psycopg
 import cp7_f03_cash_cases as cases
+import cp7_journal_cases as journals
 
 def main():
     target=os.environ['AUDITOR_BROWSER_DB_URL'];url=urlparse(target)
@@ -32,6 +33,14 @@ def main():
                 actual=dict(p['report']);expected=dict(native);actual.pop('read_at');expected.pop('read_at');assert actual==expected
                 out=dict(status='PASS',complete_sales_report_matches_native=True)
             else:out=dict(report=native)
+        elif op=='journal-prepare':out=journals.fixture(cur,date.fromisoformat(p['today']))
+        elif op in ('journal-read','journal-verify'):
+            native=journals.read(cur,p['query'])
+            if op=='journal-verify':journals.compare(p['report'],native);out=dict(status='PASS',complete_journal_source_matches_native=True)
+            else:out=dict(report=native)
+        elif op=='journal-revoke':
+            role=cur.execute("select id from erp.app_roles where role_code='ADMIN'").fetchone()[0]
+            cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.journal.view'",(role,));out=dict(status='PASS',journal_permission_revoked=True)
         elif op=='sales-state':
             out=dict(sha256=hashlib.sha256(json.dumps(cases.b.boundary.snapshot(cur),sort_keys=True,default=str).encode()).hexdigest())
         elif op=='verify-pages':
