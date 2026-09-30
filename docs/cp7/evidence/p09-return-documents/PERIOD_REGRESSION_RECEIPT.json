@@ -1,0 +1,147 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 6458882,
+  "artifact_id": 11072783083,
+  "artifact_sha256": "e595b93c919071f007221af3025c59b7ccdf4da558e6db7c252cf36ad980fbbf",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0,
+    "PASS": 25
+  },
+  "cp6_restored": true,
+  "expected_case_count": 25,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 8
+    },
+    "period_browser": {
+      "PASS": 2
+    },
+    "period_http": {
+      "PASS": 1
+    },
+    "period_native": {
+      "PASS": 8
+    },
+    "period_races": {
+      "PASS": 2
+    },
+    "races": {
+      "PASS": 1
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109704600093,
+  "nonpassing_cases": {},
+  "observed_case_count": 25,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385602,
+      "sha256": "7205f6a88ceb7ddfdb0b3066d5e16e7a5afa877f584a32838c84ce14ae679a3f"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385602,
+      "sha256": "7205f6a88ceb7ddfdb0b3066d5e16e7a5afa877f584a32838c84ce14ae679a3f"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "087236e80de29bca015d10ecebf6e522f736166126249db276594d9cf8124ed2"
+    },
+    "CP7_P13_PERIOD_CONTROL.json": {
+      "bytes": 254334,
+      "sha256": "3d19fe3d4696ac9ea4a99fab95118872a503c94293cc73ec6265c4405eeab4f8"
+    },
+    "P13_PERIOD_DESKTOP.png": {
+      "bytes": 1357812,
+      "sha256": "204aa951ee1938d15c171a59436e1fdd31f767e75eec4308d4f8b95c4a3aa2db"
+    },
+    "P13_PERIOD_MOBILE.png": {
+      "bytes": 1079733,
+      "sha256": "af3febaedca3728c85905ed30ce4d83a6417c196c5987cc1018729ac05deec49"
+    },
+    "P13_REPORT_DESKTOP.png": {
+      "bytes": 1436796,
+      "sha256": "c86146f870658169a69ee571cd25f0dd9770d0e0d172582e5ec671f91b0e05ae"
+    },
+    "P13_REPORT_MOBILE.png": {
+      "bytes": 1058100,
+      "sha256": "4077deba396075c38586021c9dbde6d504a572a2b86f37778987139947be4bc9"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "2545ca31625beb7955e7223059a750832edfaea54fd45ae87a1254462c1b424b"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360369,
+      "sha256": "938a53169f86661a20f19f8e931050571110070a71644fd60eeeca6268955755"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "production_go": false,
+  "report_sha256": "3d19fe3d4696ac9ea4a99fab95118872a503c94293cc73ec6265c4405eeab4f8",
+  "retained_reports_gzip_sha256": "d6f49dc84114483e36ce705651d24172a42654c2e000145d3dbb955e826e2778",
+  "run_id": 36657403499,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36657403499",
+    "tool_head": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+    "workflow": "CP7 P13 Period control"
+  },
+  "smoke_counts": {},
+  "source_bundle_sha256": "24b92ddbcc78aed59f22ce5ba6b60a595c103a1a11cd396183bca30ced152a40",
+  "source_commit": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+  "source_tree": "a0b9866cec57dec977082c344586025431693e1d",
+  "status": "PASS",
+  "visual_review_performed": false
+}

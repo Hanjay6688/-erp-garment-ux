@@ -234,11 +234,11 @@
     "full_family_acceptance": false,
     "independent_acceptance": false,
     "production_go": false,
-    "source_commit": "23f795aac1b3b619108c93e525dd5d609c5908d5",
-    "source_tree": "3d271804db41e7afa8eb37586632b51a4fcccc1a",
-    "verification": "docs/cp7/evidence/p13-finance/RECOST_MICROSECOND_COMBINED_RECEIPT.json",
-    "latest_regression": "docs/cp7/evidence/p13-finance/RECOST_MICROSECOND_COMBINED_RECEIPT.json",
-    "run_id": 36642733490
+    "source_commit": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+    "source_tree": "a0b9866cec57dec977082c344586025431693e1d",
+    "verification": "docs/cp7/evidence/f03-combined/RETURN_UI_QUALIFIED_RECEIPT.json",
+    "latest_regression": "docs/cp7/evidence/f03-combined/RETURN_UI_QUALIFIED_RECEIPT.json",
+    "run_id": 36657403229
   },
   "p09_unmoved_count_candidate": {
     "status": "WRITER_BOUNDED_132_PASS_PLUS_3_SMOKES",
@@ -359,13 +359,41 @@
     "visual_review": true
   },
   "p09_combined_return_candidate": {
-    "status": "NATIVE_9_PASS_1_FIXTURE_INCOMPLETE_UI_QUALIFICATION_RUNNING",
-    "source": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
-    "run_id": 36657403278,
+    "status": "WRITER_BOUNDED_12_PASS",
+    "source": "e118bebfaff5501ee821c63f4205498f99b908a4",
+    "run_id": 36658193540,
     "expected_case_count": 12,
     "handoff": "docs/cp7/P09_COMBINED_RETURN_HANDOFF.md",
     "first_diagnostic": "docs/cp7/evidence/p09-return-documents/FIRST_RECEIPT.json",
     "independent_acceptance": false,
-    "production_go": false
-  }
+    "production_go": false,
+    "verification": "docs/cp7/evidence/p09-return-documents/QUALIFIED_RECEIPT.json",
+    "counts": {
+      "PASS": 12,
+      "FAIL": 0,
+      "INCOMPLETE": 0,
+      "NOT_RUN": 0
+    },
+    "visual_review": true,
+    "product_source": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+    "p09_regression": "docs/cp7/evidence/p09-return-documents/P09_REGRESSION_RECEIPT.json"
+  },
+  "f03_e24_issue": {
+    "status": "WRITER_SELECTED_4_PASS",
+    "source": "06ba28b0c2dbed426e676d37989296a5f6b6af79",
+    "run_id": 36658126203,
+    "expected_case_count": 4,
+    "handoff": "docs/cp7/F03_E24_ISSUE_HANDOFF.md",
+    "independent_acceptance": false,
+    "production_go": false,
+    "verification": "docs/cp7/evidence/f03-e24-issue/QUALIFIED_RECEIPT.json",
+    "counts": {
+      "PASS": 4,
+      "FAIL": 0,
+      "INCOMPLETE": 0,
+      "NOT_RUN": 0
+    },
+    "visual_review": true
+  },
+  "f03_continuation_checkpoint": "docs/cp7/F03_CONTINUATION_AUDITOR_CHECKPOINT_20260930.md"
 }

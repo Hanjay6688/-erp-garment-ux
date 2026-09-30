@@ -1,0 +1,143 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 3631403,
+  "artifact_id": 11073207477,
+  "artifact_sha256": "e5e34a3b6faf918d0fec1cb70536a26f3111449f4e102902a6ce33d6cfba7995",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 2,
+    "NOT_RUN": 0,
+    "PASS": 10
+  },
+  "cp6_restored": true,
+  "expected_case_count": 12,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "INCOMPLETE": 2
+    },
+    "http": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 6
+    },
+    "races": {
+      "PASS": 3
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109705607397,
+  "nonpassing_cases": {
+    "browser:P09_COMBINED_RETURN_BROWSER_DESKTOP": {
+      "error": "Error: expect(locator).toHaveValue(expected) failed\n\nLocator:  getByRole('region', { name: 'Retur supplier', exact: true }).getByLabel('Jumlah retur 2', { exact: true })\nExpected: \"3.000000\"\nReceived: \"2.000000\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.have.value\" with timeout 5000ms\n  - waiting for getByRole('region', { name: 'Retur supplier', exact: true }).getByLabel('Jumlah retur 2', { exact: true })\n    13 \u00d7 locator resolved to <input required=\"\" value=\"2.000000\" inputmode=\"decimal\" aria-label=\"Jumlah retur 2\"/>\n       - unexpected value \"2.000000\"\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toHaveValue (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at flow (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_return_documents_browser.mjs:47:70)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3",
+      "status": "INCOMPLETE"
+    },
+    "browser:P09_COMBINED_RETURN_BROWSER_MOBILE_RECOVERY": {
+      "error": "Error: expect(locator).toHaveValue(expected) failed\n\nLocator:  getByRole('region', { name: 'Retur supplier', exact: true }).getByLabel('Jumlah retur 2', { exact: true })\nExpected: \"3.000000\"\nReceived: \"2.000000\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.have.value\" with timeout 5000ms\n  - waiting for getByRole('region', { name: 'Retur supplier', exact: true }).getByLabel('Jumlah retur 2', { exact: true })\n    13 \u00d7 locator resolved to <input required=\"\" value=\"2.000000\" inputmode=\"decimal\" aria-label=\"Jumlah retur 2\"/>\n       - unexpected value \"2.000000\"\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toHaveValue (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at flow (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_return_documents_browser.mjs:47:70)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3",
+      "status": "INCOMPLETE"
+    }
+  },
+  "observed_case_count": 12,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385618,
+      "sha256": "941261b6ca1259d4ae0e683b98d10bd5a7ecfb367c1474646be66bc84c73da19"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385618,
+      "sha256": "941261b6ca1259d4ae0e683b98d10bd5a7ecfb367c1474646be66bc84c73da19"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "4a3f7471afd7dab21c1ae885773597d536005d2fad8aa2ce8b7500774a84b1f0"
+    },
+    "CP7_F03_RETURN_DOCUMENTS.json": {
+      "bytes": 266200,
+      "sha256": "760f3c7eb2d672860c0005263d768be77580c88dc6ee3f77a6830b4c96d52234"
+    },
+    "P09_COMBINED_RETURN_DESKTOP_FAILURE.json": {
+      "bytes": 6480,
+      "sha256": "3a2c417f0ce680844d236cfdc9e4f657cfe332a0e7eb452fee804b93970abf3b"
+    },
+    "P09_COMBINED_RETURN_DESKTOP_FAILURE.png": {
+      "bytes": 1226576,
+      "sha256": "a3d97d2f0d050aa705a28593018790fa5030bac467753b9e3c82091f003465f2"
+    },
+    "P09_COMBINED_RETURN_MOBILE_FAILURE.json": {
+      "bytes": 6453,
+      "sha256": "95d6a278e94b3d57de22b6f1aa8b4806d505643f63c6d5bf9b455bc3f4d4c918"
+    },
+    "P09_COMBINED_RETURN_MOBILE_FAILURE.png": {
+      "bytes": 810318,
+      "sha256": "66b36d87046366b885b037eead7060c47d30e4be9554ddcb65941034fa90fce4"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "d3d6be738f547ba86ab66c721f5f1aed5a4f9ec39a686a2c77ec1fa0710244e1"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360424,
+      "sha256": "65072e17f7e0d67e2d6fb9cac7464f09204f1d979f5c33a823f5d41d777f06ae"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "production_go": false,
+  "report_sha256": "760f3c7eb2d672860c0005263d768be77580c88dc6ee3f77a6830b4c96d52234",
+  "retained_reports_gzip_sha256": "c807270eaca513982b612718dfd50f86c0531f3ab821e2a5da97c6234baba63b",
+  "run_id": 36657740283,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "6754ca6a8198dc18c0ebe96fb7ee600ed69618ee",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36657740283",
+    "tool_head": "6754ca6a8198dc18c0ebe96fb7ee600ed69618ee",
+    "workflow": "CP7 F03 Combined Supplier Returns"
+  },
+  "source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+  "source_commit": "6754ca6a8198dc18c0ebe96fb7ee600ed69618ee",
+  "source_tree": "efd14102f6a4e45e632224b30a076afb663b0703",
+  "status": "INCOMPLETE",
+  "visual_review_performed": false
+}

@@ -1,0 +1,143 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 3222088,
+  "artifact_id": 11073038595,
+  "artifact_sha256": "130115a9fdbf51e283e63fb70c3eb98ee53cb8beec28f3e3c338d8790733475a",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 2,
+    "NOT_RUN": 0,
+    "PASS": 10
+  },
+  "cp6_restored": true,
+  "expected_case_count": 12,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "INCOMPLETE": 2
+    },
+    "http": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 6
+    },
+    "races": {
+      "PASS": 3
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109704599684,
+  "nonpassing_cases": {
+    "browser:P09_COMBINED_RETURN_BROWSER_DESKTOP": {
+      "error": "locator.fill: Error: Malformed value\nCall log:\n  - waiting for getByRole('region', { name: 'Retur supplier', exact: true }).getByLabel('Waktu retur supplier WIB', { exact: true })\n    - locator resolved to <input required=\"\" type=\"datetime-local\" value=\"2026-09-30T08:58\" aria-label=\"Waktu retur supplier WIB\"/>\n    - fill(\"2026-09-29T16:00:00\")\n  - attempting fill action\n    - waiting for element to be visible, enabled and editable\n\n    at flow (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_return_documents_browser.mjs:30:69)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3",
+      "status": "INCOMPLETE"
+    },
+    "browser:P09_COMBINED_RETURN_BROWSER_MOBILE_RECOVERY": {
+      "error": "locator.fill: Error: Malformed value\nCall log:\n  - waiting for getByRole('region', { name: 'Retur supplier', exact: true }).getByLabel('Waktu retur supplier WIB', { exact: true })\n    - locator resolved to <input required=\"\" type=\"datetime-local\" value=\"2026-09-30T08:58\" aria-label=\"Waktu retur supplier WIB\"/>\n    - fill(\"2026-09-29T16:00:00\")\n  - attempting fill action\n    - waiting for element to be visible, enabled and editable\n\n    at flow (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_return_documents_browser.mjs:30:69)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3",
+      "status": "INCOMPLETE"
+    }
+  },
+  "observed_case_count": 12,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385610,
+      "sha256": "4ba3d0e04feea2ae7542ae08784e97b3602be0d8abeef7a3a4253d35e95d1008"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385610,
+      "sha256": "4ba3d0e04feea2ae7542ae08784e97b3602be0d8abeef7a3a4253d35e95d1008"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "c68ccab6d79400c68096e818a6125db542a984b56ba6917bd2488cd85e291f42"
+    },
+    "CP7_F03_RETURN_DOCUMENTS.json": {
+      "bytes": 265071,
+      "sha256": "e241493551c4267f4e074b2553d7875f73ea697d71f3750aab3b85a00f0f9b7f"
+    },
+    "P09_COMBINED_RETURN_DESKTOP_FAILURE.json": {
+      "bytes": 4691,
+      "sha256": "d033a5551467e8f5b18ea4d45a4ced15f531b062e0cb137ebb7116d9745c762a"
+    },
+    "P09_COMBINED_RETURN_DESKTOP_FAILURE.png": {
+      "bytes": 968172,
+      "sha256": "619c0a87ef53418b9d0288dba58141ef10c9c252e81d31f59e23a6bacbe5484e"
+    },
+    "P09_COMBINED_RETURN_MOBILE_FAILURE.json": {
+      "bytes": 4664,
+      "sha256": "0f79be06c849c304af8b0dbde6f3f8ef73ceb932c3d57cd7e4c8a756319766e2"
+    },
+    "P09_COMBINED_RETURN_MOBILE_FAILURE.png": {
+      "bytes": 644663,
+      "sha256": "569f098ce32e283f807ed7b31fd92c4f619f10a6917c5faf8b7526a7b7ce069d"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "9cfcad7cc66badeb8be50637c940d94209f71f7a1f22419db914a35794cf5d0c"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360424,
+      "sha256": "9ac1b1795b1c8f4ae9badf213e4094e05ac2915128b4bc3d17d52bba808364ad"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "production_go": false,
+  "report_sha256": "e241493551c4267f4e074b2553d7875f73ea697d71f3750aab3b85a00f0f9b7f",
+  "retained_reports_gzip_sha256": "577ccaf184b1ce4b4bfd5e2b3f66f130079f0393a693f82666e9ec6b151a4488",
+  "run_id": 36657403278,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36657403278",
+    "tool_head": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+    "workflow": "CP7 F03 Combined Supplier Returns"
+  },
+  "source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+  "source_commit": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+  "source_tree": "a0b9866cec57dec977082c344586025431693e1d",
+  "status": "INCOMPLETE",
+  "visual_review_performed": false
+}

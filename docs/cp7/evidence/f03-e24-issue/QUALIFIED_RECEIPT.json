@@ -1,0 +1,143 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 2014028,
+  "artifact_id": 11073740084,
+  "artifact_sha256": "48b9276567be17ac08ba483d7ada5c9997db8a7d9714499901441c76b03d37f3",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0,
+    "PASS": 4
+  },
+  "cp6_restored": true,
+  "expected_case_count": 4,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "PASS": 2
+    },
+    "native": {
+      "PASS": 2
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109706750301,
+  "nonpassing_cases": {},
+  "observed_case_count": 4,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385614,
+      "sha256": "c466673d6f3d78bb2d3f9481e023bf227aa24e8e9211ec5260a37e469f96ebf5"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385614,
+      "sha256": "c466673d6f3d78bb2d3f9481e023bf227aa24e8e9211ec5260a37e469f96ebf5"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "60fcb0868dfe4916c9cd17666cb33e9846c1eeeeb5ee627c3e488c171c20316e"
+    },
+    "CP7_F03_E24_ISSUE.json": {
+      "bytes": 258664,
+      "sha256": "5454fd868f616df80b08a690ebcc9a266af311269357a41afc167b9a89c839b6"
+    },
+    "E24_NOTE_DESKTOP.png": {
+      "bytes": 243967,
+      "sha256": "fd63a96362fee9ccd8c3c7b0646ff01e20c18d4f713f0f3fb6a05991d773e64b"
+    },
+    "E24_NOTE_MOBILE.png": {
+      "bytes": 146303,
+      "sha256": "b4c8a3a8dadab0bc8d24f5cee825ff6bfe27710cff012cd9e28f04f1dee92581"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "1f87d0f304e5305beb9165eb4ba105522aea507c53d6767682ae4296fb71820d"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360410,
+      "sha256": "a84b9ce3c35f4ba2f828d034674ff81761939746abc4a351b7b23ea63bddbdf9"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "production_go": false,
+  "report_sha256": "5454fd868f616df80b08a690ebcc9a266af311269357a41afc167b9a89c839b6",
+  "retained_reports_gzip_sha256": "07083ff894d99066c1b0e621c39ec5cfc2e08510cd7ff88efb23bff2c5ff692b",
+  "run_id": 36658126203,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "06ba28b0c2dbed426e676d37989296a5f6b6af79",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36658126203",
+    "tool_head": "06ba28b0c2dbed426e676d37989296a5f6b6af79",
+    "workflow": "CP7 F03 E24 Material Issue"
+  },
+  "source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+  "source_commit": "06ba28b0c2dbed426e676d37989296a5f6b6af79",
+  "source_tree": "fda0e403bf4db5f4bf7782c64bce9de89210d880",
+  "status": "PASS",
+  "visual_review": {
+    "notes": "Both full-page screenshots inspected. Posted source identities, quantities, totals and inverse controls are visible; no document-wide horizontal overflow. Fixed shell/header is captured at the current scroll offset in these full-page images; this is a capture limitation, not a claim that the entire page was visually reviewed in every viewport. Mobile note tables scroll horizontally within their panels.",
+    "screens": {
+      "E24_NOTE_DESKTOP.png": {
+        "bytes": 194670,
+        "height": 1240,
+        "original_sha256": "fd63a96362fee9ccd8c3c7b0646ff01e20c18d4f713f0f3fb6a05991d773e64b",
+        "pixel_identical": true,
+        "retained_file": "E24_NOTE_DESKTOP.webp",
+        "retained_sha256": "690f3f837a47d9358d6dafefc8b723026fc6a45838912bf66dc9ae90344e2898",
+        "width": 1440
+      },
+      "E24_NOTE_MOBILE.png": {
+        "bytes": 76906,
+        "height": 1920,
+        "original_sha256": "b4c8a3a8dadab0bc8d24f5cee825ff6bfe27710cff012cd9e28f04f1dee92581",
+        "pixel_identical": true,
+        "retained_file": "E24_NOTE_MOBILE.webp",
+        "retained_sha256": "ea634501f4cfa455dcef9ced05e2798098a3ba6b41fbc92146a8b544b453cedd",
+        "width": 390
+      }
+    }
+  },
+  "visual_review_performed": true
+}
