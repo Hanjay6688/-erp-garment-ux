@@ -4,7 +4,9 @@ import cp7_planning_bundle as predecessor
 ROOT=predecessor.ROOT
 FILES=('planning/profile.sql','planning/baseline-source.sql')
 ROLES=predecessor.ROLES
-GRANTS=predecessor.GRANTS
+GRANTS={principal:tuple(signatures)for principal,signatures in predecessor.GRANTS.items()}
+# These are explicit, pure private helper capabilities; never ERP writer EXEC.
+GRANTS['cp7_policy']=GRANTS.get('cp7_policy',())+('cp7_wip.fields(jsonb,text[])','cp7_demand.decimal(jsonb)')
 def extension():return '\n'.join((ROOT/'scripts/cp7-src'/p).read_text()for p in FILES)
 def bundle():return predecessor.bundle()+'\n'+extension()
 def verify(cur):

@@ -63,7 +63,7 @@ def cases(cur,today):
   return dict(status='PASS',wrong_native_version_and_unknown_root_refused=True)
  def malformed():
   f=history.fixture(cur,today);p=payload(cur,f);before=b.boundary.snapshot(cur)
-  invalid=[('mean_mode','DEFAULT'),('daily_pcs',10),('daily_pcs',None),('daily_pcs','-1'),('minimum_available_days','0'),('minimum_available_days','1.2'),('lead_days',True),('review_days','3661')]
+  invalid=[('mean_mode','DEFAULT'),('daily_pcs',10),('daily_pcs',None),('daily_pcs','-1'),('minimum_available_days','0'),('minimum_available_days','1.2'),('minimum_available_days','20.0'),('lead_days',True),('review_days','3661')]
   for field,value in invalid:
    bad=deepcopy(p);bad['config'][field]=value;auth.refused(cur,lambda bad=bad:save(cur,bad),'CP7_')
   bad=deepcopy(p);bad['config']['lead_days']='0';bad['config']['review_days']='0';auth.refused(cur,lambda:save(cur,bad),'CP7_PROFILE_HORIZON')

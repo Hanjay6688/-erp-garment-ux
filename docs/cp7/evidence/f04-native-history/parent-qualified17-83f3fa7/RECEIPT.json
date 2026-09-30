@@ -1,0 +1,52 @@
+{
+  "advisor_gate": true,
+  "all_nine_original_captures_visually_inspected": true,
+  "artifact_id": 11126677986,
+  "artifact_sha256": "53c895507bc7d3710d6d0a5e2a4bfb748c01940704ffe52724a82d57a624742b",
+  "cp6_restored": true,
+  "error": null,
+  "expected": 17,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 12
+    },
+    "races": {
+      "PASS": 2
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 110103079036,
+  "mobile_available76_without_horizontal_scroll": true,
+  "observed": 17,
+  "old_parent_FG_and_HPP_retired_during_held_source_check_and_current403": true,
+  "parent_draft100_reserved24_available76": true,
+  "parent_post76_reserved0_available76": true,
+  "production_go": false,
+  "reports_sha256": "10f66ce5bcf6cf862d2d8ba0ea3aa0c0483ba87f2250b24e8d10066626244ec0",
+  "run_id": 36778715054,
+  "screenshots_sha256": {
+    "P05_CURRENT_DESKTOP.png": "5517fea72fbb3370a40705362bdb5733ca3629518b223545bb96d658abe457d0",
+    "P05_CURRENT_MOBILE.png": "c7c612667444eda1e25b73e74a35d07450504d3c1b17f15867a00862a3d8e137",
+    "P05_POSTED_DESKTOP.png": "f1f1706c703dcba7fadbdb471c3925be82e0ef346f6bb4d3eafff0d07604328b",
+    "P05_POSTED_MOBILE.png": "f50d1a70ce2d01ae718c0ff6a9742b5e41b2e89f69dfca2768a5102a39806f2e",
+    "P05_REVOKED_MOBILE.png": "495ce0ae50b08418b842831951b3fe015bd1d11cc12c5d98c047c3aaa5fd6f5e",
+    "P05_STALE_DESKTOP.png": "76a5842a3c947696bc49bcc85718f8230b4164600975a4cb1161e338b90197c9",
+    "P05_STALE_MOBILE.png": "e0e9e1fc669da5e2874a1e297a18ba7658f9f5a869d7d8a55fea05c6b3bb0342",
+    "P05_UNCERTAIN_DESKTOP.png": "dbb4b9a088356ca6d3833bf3713803c0c73f15b912bb04b79db9d1165563ba71",
+    "P05_UNCERTAIN_MOBILE.png": "a740a16c6f3d9cf723b4bfc555b2460e032a5352f2f64b5d38d690fd54820912"
+  },
+  "single_WIB_suffix": true,
+  "source_bundle_sha256": "0d6bdb473cb5c6ece772e0433de55923ef1c6e9b77b63fdcb8ad624f1e6062b9",
+  "source_commit": "83f3fa7bc0adf1d24138b8be9252912f0380d672",
+  "source_tree": "881c33a8a894af1f2aaa9361921e6823ae2c95f3",
+  "status": "PASS",
+  "submitted_filter_and_dirty_search_preserved": true,
+  "visual_review": true
+}

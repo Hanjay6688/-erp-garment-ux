@@ -96,6 +96,8 @@ begin
  mode:=config->>'mean_mode';
  if mode is null or mode not in('OWN_AVAILABLE_HISTORY','SELECTED_MANUAL')or jsonb_typeof(p_payload->'reason')is distinct from 'string'or reason is null
   or length(reason)not between 1 and 1000 then raise exception 'CP7_PROFILE_CONFIG';end if;
+ if jsonb_typeof(config->'minimum_available_days')is distinct from 'string'
+  or config->>'minimum_available_days'!~'^[1-9][0-9]{0,3}$'then raise exception 'CP7_PROFILE_MINIMUM_DAYS';end if;
  minimum:=cp7_demand.decimal(config->'minimum_available_days');
  if minimum<>trunc(minimum)or minimum not between 1 and 3660 then raise exception 'CP7_PROFILE_MINIMUM_DAYS';end if;
  if mode='SELECTED_MANUAL'then perform cp7_demand.decimal(config->'daily_pcs');
