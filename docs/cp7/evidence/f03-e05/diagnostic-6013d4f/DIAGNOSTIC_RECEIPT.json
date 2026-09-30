@@ -1,0 +1,45 @@
+{
+  "advisor_gate": true,
+  "artifact_bytes": 2299270,
+  "artifact_id": 11119475002,
+  "artifact_sha256": "7c12476fae87fd47834e14e71323356d33b26f0edcdb224167db79cedbb20839",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 20,
+    "NOT_RUN": 0,
+    "PASS": 4
+  },
+  "cp6_restored": true,
+  "diagnosis": [
+    "Cash option native timestamps fingerprinted differently in UTC read and WIB apply; normalized private cash adapter required.",
+    "Final native cash posting reused the payroll source identity; replacing an earlier reversed installment collided with the still-posted former final payment. Every installment needs its own native source UUID.",
+    "Actual browser/HTTP/race failures retained; no claim of Native24 qualification from local896."
+  ],
+  "expected": 24,
+  "groups": {
+    "browser": {
+      "INCOMPLETE": 2
+    },
+    "http": {
+      "INCOMPLETE": 1
+    },
+    "native": {
+      "INCOMPLETE": 14,
+      "PASS": 4
+    },
+    "races": {
+      "INCOMPLETE": 3
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 110041272685,
+  "observed": 24,
+  "original_report_sha256": "d0e10ada209802fd113b76f4235ae29d98c9d6c1dca7666d01848ff332e91bfa",
+  "production_go": false,
+  "retained_reports_sha256": "e1403d5653a797211d1f95fc039cfde80834ef8ea25d087c33e14bc8420a1650",
+  "run_id": 36760423767,
+  "source_bundle_sha256": "367793040490ccb593005536bd12728fd9bdf22205c2c5850329c0dac52dd5a5",
+  "source_commit": "6013d4f439295871d8fd3d4e1124cc52e65ee5fa",
+  "source_tree": "a584f572ad0df317df31b942383d34bcb5e942df",
+  "status": "INCOMPLETE"
+}

@@ -56,6 +56,14 @@ begin
  return a;
 end $$;
 
+-- The reviewed cash fingerprint includes native timestamptz fields. Keep its
+-- rendering fixed across the UTC reader and the WIB payment transaction.
+-- This adapter leaves the accepted miscellaneous-finance helper unchanged.
+create function cp7_installment.cash(p_id uuid) returns jsonb
+language sql stable security definer set search_path='' set TimeZone='UTC' as $$
+ select cp7_misc.cash(p_id)
+$$;
+
 create function cp7_installment.meaning(p_id uuid) returns jsonb
 language sql stable security definer set search_path='' set TimeZone='UTC' as $$
  select jsonb_build_object('header',to_jsonb(p)-array['status','payment_date','payment_cash_account_id','settled_at','updated_at','row_version'],
@@ -168,7 +176,7 @@ begin
   for r in select p.*,c.cash_account_code,c.cash_account_name from cp7_installment.payments p join erp.cash_accounts c on c.id=p.cash_account_id where p.payroll_id=p_id order by p.payment_date,p.created_at,p.id loop
    select * into orig from erp.journal_entries where id=r.journal_id;
    if orig.id is null or orig.reversal_of_id is not null
-    or not((orig.source_type='PAYROLL_INSTALLMENT'and orig.source_id=r.id)or(orig.source_type='PAYROLL_PAYMENT'and orig.source_id=p_id))
+    or not(orig.source_type='PAYROLL_INSTALLMENT'and orig.source_id=r.id)
     or orig.economic_date is distinct from r.payment_date
     or(select count(*)from erp.journal_lines where journal_entry_id=orig.id)<>2
     or not exists(select 1 from erp.journal_lines where journal_entry_id=orig.id and account_id=a.payable_account_id and contractor_id=h.contractor_id and debit=r.amount and credit=0)
@@ -202,7 +210,7 @@ begin
   where(j.source_id=p_id and j.source_type like 'PAYROLL_%')or j.id in(select p.journal_id from cp7_installment.payments p where p.payroll_id=p_id union select p.reversal_journal_id from cp7_installment.payments p where p.payroll_id=p_id);
  select coalesce(jsonb_agg(to_jsonb(l)order by l.id),'[]')into lines from erp.journal_lines l where l.journal_entry_id in(select(x->>'id')::uuid from jsonb_array_elements(journals)x);
  fingerprint:=jsonb_build_object('header',to_jsonb(h),'native_payroll_review',cp7_payroll.settlement_token(p_id),'approved_account',to_jsonb(a),'meaning',cp7_installment.meaning(p_id),'payments',rows,'journals',journals,'lines',lines,
-  'cash_sources',coalesce((select jsonb_agg(cp7_misc.cash(p.cash_account_id)order by p.id)from cp7_installment.payments p where p.payroll_id=p_id),'[]'),
+  'cash_sources',coalesce((select jsonb_agg(cp7_installment.cash(p.cash_account_id)order by p.id)from cp7_installment.payments p where p.payroll_id=p_id),'[]'),
   'payable_mapping',coalesce((select jsonb_agg(to_jsonb(m)order by m.mapping_key)from erp.accounting_account_mappings m where m.mapping_key='CONTRACTOR_PAYABLE'),'[]'));
  return jsonb_build_object('payroll_id',h.id,'payroll_number',h.payroll_number,'contractor_id',h.contractor_id,'contractor_name',(select contractor_name from erp.contractors where id=h.contractor_id),
   'native_status',h.status,'payment_state',state,'managed',a.payroll_id is not null,'approved_net',h.net_payable::text,'paid_amount',paid::text,
@@ -224,7 +232,7 @@ begin
  if off not between 0 and 1000000 or coff not between 0 and 1000000 or length(q)>120 then raise exception 'CP7_INSTALLMENT_QUERY';end if;
  d:=cp7_installment.source(id);pt:=jsonb_array_length(d->'payments');
  select coalesce(jsonb_agg(value order by ordinal),'[]')into payments from(select value,ordinal from jsonb_array_elements(d->'payments')with ordinality a(value,ordinal)order by ordinal limit 25 offset off)s;
- with eligible as materialized(select cp7_misc.cash(c.id)value from erp.cash_accounts c),all_rows as materialized(select value from eligible where value->'eligible'='true'::jsonb and(q=''or strpos(lower(concat_ws(' ',value->>'code',value->>'name')),lower(q))>0)),slice as(select value from all_rows order by value->>'code',value->>'id'limit 25 offset coff)
+ with eligible as materialized(select cp7_installment.cash(c.id)value from erp.cash_accounts c),all_rows as materialized(select value from eligible where value->'eligible'='true'::jsonb and(q=''or strpos(lower(concat_ws(' ',value->>'code',value->>'name')),lower(q))>0)),slice as(select value from all_rows order by value->>'code',value->>'id'limit 25 offset coff)
  select(select count(*)from all_rows),coalesce((select jsonb_agg(value order by value->>'code',value->>'id')from slice),'[]')into ct,cash;
  return jsonb_build_object('contract_version','cp7.payroll-installment-read.v1','captured_at',statement_timestamp(),'document',d-'payments',
   'payments',jsonb_build_object('rows',payments,'total',pt::text,'offset',off,'limit',25,'next_offset',case when off+jsonb_array_length(payments)<pt then off+jsonb_array_length(payments)end),
@@ -281,7 +289,7 @@ begin
  insert into cp7_payroll.settlement_context values(pg_backend_pid(),txid_current(),auth.uid(),ident,native_action);
  if p_action='PAY'then
   if h.status<>'APPROVED'or h.net_payable<=0 then raise exception 'CP7_INSTALLMENT_APPROVED_POSITIVE_PAYROLL_ONLY';end if;
-  cash:=cp7_misc.cash((p->>'cash_account_id')::uuid);
+  cash:=cp7_installment.cash((p->>'cash_account_id')::uuid);
   if cash is null or cash->'eligible'is distinct from 'true'::jsonb or cash->>'review_token'is distinct from p->>'cash_review_token'then raise exception 'CP7_INSTALLMENT_CASH_SOURCE_CHANGED';end if;
   amount:=(p->>'amount')::numeric;
   begin pay_date:=(p->>'payment_date')::date;exception when datetime_field_overflow or invalid_datetime_format then raise exception 'CP7_INSTALLMENT_PAYMENT_DATE';end;
@@ -299,7 +307,7 @@ begin
   update cp7_installment.command_context set native_payment_id=payment_id where backend_pid=pg_backend_pid()and transaction_id=txid_current();
   if amount=remaining then
    perform cp7_installment.final_payment(ident,amount);
-   select id into journal_id from erp.journal_entries where source_type='PAYROLL_PAYMENT'and source_id=ident and status='POSTED';
+   select id into journal_id from erp.journal_entries where source_type='PAYROLL_INSTALLMENT'and source_id=payment_id and status='POSTED';
   else
    perform cp7_installment.check_payment(ident,amount);
    journal_id:=erp.post_journal('PAYROLL_INSTALLMENT',payment_id,pay_date,'Cicilan payroll '||h.payroll_number,jsonb_build_array(

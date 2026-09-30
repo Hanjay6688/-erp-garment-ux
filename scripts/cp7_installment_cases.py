@@ -161,7 +161,12 @@ def cases(cur,today):
         f=fixture(cur,today);act(cur,f);before=read(cur,f['payroll']);rows=[]
         for tz in ('UTC','Asia/Jakarta','America/Los_Angeles'):
             cur.execute("select set_config('TimeZone',%s,true)",(tz,));r=read(cur,f['payroll']);r.pop('captured_at');rows.append(r)
+            cash=cur.execute('select cp7_installment.cash(%s)',(f['cash']['id'],)).fetchone()[0]
+            assert cash==f['cash'],(tz,cash,f['cash'])
         assert rows[0]==rows[1]==rows[2];cur.execute("set local timezone='UTC'")
+        # The payment applies under WIB although these review tokens were read
+        # under UTC. It must use the same actual native cash/source facts.
+        act(cur,f,amount='400.00');assert_balance(cur,f,'1000','0','PAID')
         assert before['payments']['rows'][0]['economic_date']==f['payment_date']
         return dict(status='PASS',physical_and_accounting_native_dates_and_complete_review_caller_timezone_independent=True)
     def pages():

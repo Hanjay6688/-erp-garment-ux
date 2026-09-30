@@ -1,0 +1,150 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 6372111,
+  "artifact_id": 11115915060,
+  "artifact_sha256": "b946bd07e5f5459a628dec5461653dd52d20507a3efe9c441fcac1b4bb6712f6",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "combined_roles": 29,
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0,
+    "PASS": 22
+  },
+  "cp6_restored": true,
+  "expected_case_count": 22,
+  "full_family_acceptance": false,
+  "groups": {
+    "finance_browser": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 4
+    },
+    "native": {
+      "PASS": 10
+    },
+    "opening_payroll_browser": {
+      "PASS": 2
+    },
+    "races": {
+      "PASS": 2
+    },
+    "sales_browser": {
+      "PASS": 2
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 110011753064,
+  "observed_case_count": 22,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385616,
+      "sha256": "49d767c01388d05e152454443b5553cf5bc78effd579e9a892280e6d9c4deb69"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385616,
+      "sha256": "49d767c01388d05e152454443b5553cf5bc78effd579e9a892280e6d9c4deb69"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "a8b76eaba12a78996133223104f5911c5156093303f6df423a46a73726d0d924"
+    },
+    "CP7_F03_COMBINED_STACK.json": {
+      "bytes": 273264,
+      "sha256": "0b1f659ad4e1f890e314d4065fa9aac44623c7f4a07c443ce4233f7e4ad658ea"
+    },
+    "P11_RETURN_DESKTOP.png": {
+      "bytes": 950517,
+      "sha256": "83dd837fde53275d7a51a128d2995301777a029782f0feced68246581832e8b2"
+    },
+    "P11_RETURN_MOBILE.png": {
+      "bytes": 678605,
+      "sha256": "6f786c5c1aea05b0ab2d9b908f91e856512a093fadc902807d5d7f07273c95a1"
+    },
+    "P12_OPENING_DESKTOP.png": {
+      "bytes": 434531,
+      "sha256": "719b7922243a9d30ddc454be81c0cfa218b342bf3335d2d64852d2b0806b306b"
+    },
+    "P12_OPENING_MOBILE.png": {
+      "bytes": 292929,
+      "sha256": "bebfa6c24673b47bb25a783926c307e0164d2e86fba1c0e159b6bd01f693c728"
+    },
+    "P13_REPORT_DESKTOP.png": {
+      "bytes": 1434185,
+      "sha256": "ca4e2a65f6986b08b43ebbe2f447c4023861cddd11db5c3523ead64ef19f6518"
+    },
+    "P13_REPORT_MOBILE.png": {
+      "bytes": 1055096,
+      "sha256": "b11437158b5002cd8b3054b894da4f8361b2677a125f67c83887e3b32cea92ed"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "f9bbd590b6b30577834ff759be5cca922185869c52ca8d7543e1761aad138694"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360406,
+      "sha256": "9b36f7d8c2889a14b91761584e3124dd20c51a8ad69f23cc38ef0d4ff8dc9d31"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "product_commit": "37b5dcd72a13d476f7c666a7dee662085372a9b4",
+  "production_go": false,
+  "report_sha256": "0b1f659ad4e1f890e314d4065fa9aac44623c7f4a07c443ce4233f7e4ad658ea",
+  "retained_reports_gzip_sha256": "7bcba9758cc6f68f0e3d6a1d690aacdbef1e47bc9d0fbff9c770f5633673056b",
+  "run_id": 36751719699,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "37b5dcd72a13d476f7c666a7dee662085372a9b4",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "37b5dcd72a13d476f7c666a7dee662085372a9b4",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36751719699",
+    "tool_head": "37b5dcd72a13d476f7c666a7dee662085372a9b4",
+    "workflow": "CP7 F03 Combined Stack"
+  },
+  "source_bundle_sha256": "4b03967b02612c87fc7c6e88211690f9854f78b41020a29a41f75895473c529a",
+  "source_commit": "37b5dcd72a13d476f7c666a7dee662085372a9b4",
+  "source_tree": "bb5346bb736a003fa19da23ab28578f2b947c526",
+  "status": "PASS",
+  "verification_origin": "Actual disposable CI execution of the authorized successor source, retained and checked by that same writer; not independent acceptance.",
+  "visual_review_performed": false
+}

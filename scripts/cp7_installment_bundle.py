@@ -27,8 +27,15 @@ def derive_payment():
     final = replace_once(final, '  perform erp.require_internal();',
                          '  perform cp7_installment.require_context(p_payroll_id);\n'
                          '  perform erp.require_internal();')
-    # Change only the cash journal amount. Approved net and all non-cash source
-    # settlements are still the unchanged native formula and lifecycle.
+    # Give every cash installment its own native source identity, including the
+    # final installment. Reusing PAYROLL_PAYMENT/payroll_id would prevent a
+    # replacement after an earlier installment is reversed while the old final
+    # installment remains posted. Approved net and all non-cash settlement
+    # formulas and source lifecycles remain unchanged.
+    final = replace_once(final, "erp.post_journal('PAYROLL_PAYMENT',p.id,p.payment_date",
+                         "erp.post_journal('PAYROLL_INSTALLMENT',(select c.native_payment_id "
+                         "from cp7_installment.command_context c where c.backend_pid=pg_backend_pid() "
+                         "and c.transaction_id=txid_current() and c.actor=auth.uid()),p.payment_date")
     for old, new in [('\'debit\',p.net_payable,\'credit\',0', "'debit',p_cash_amount,'credit',0"),
                      ("'debit',0,'credit',p.net_payable", "'debit',0,'credit',p_cash_amount")]:
         final = replace_once(final, old, new)
@@ -95,6 +102,7 @@ def extension():
 def verify(cur):
     expected = {
         'access_now': ('cp7_installment_read', True, 's', ['search_path=""']),
+        'cash': ('cp7_installment_read', True, 's', ['search_path=""', 'TimeZone=UTC']),
         'meaning': ('cp7_installment_read', True, 's', ['search_path=""', 'TimeZone=UTC']),
         'require_context': ('cp7_installment_read', True, 's', ['search_path=""']),
         'guard_header': ('cp7_installment_read', True, 'v', ['search_path=""']),
