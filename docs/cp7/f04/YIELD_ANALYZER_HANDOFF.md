@@ -1,6 +1,10 @@
 # Cutting-yield analyzer — satu mesin F04, consumer F05
 
-Instruksi owner 30 September 2026: bereskan analyzer, hilangkan pembagian yang membingungkan, buat kemajuan nyata tanpa mengarang angka pabrik. Patch ada pada cabang `cp7/f04-f05-yield-analyzer-20260930`, berbasis head F05 `29f07b486e54b165f807a473370afbb01c155631`. F03, entry/kontrak bersama, manifest, CI dan framework beku tidak diubah.
+Instruksi owner 30 September 2026: bereskan analyzer, hilangkan pembagian yang membingungkan, buat kemajuan nyata tanpa mengarang angka pabrik. Patch [PR #38](https://github.com/Hanjay6688/-erp-garment-ux/pull/38) ada pada cabang `cp7/f04-f05-yield-analyzer-20260930`, berbasis head F05 `29f07b486e54b165f807a473370afbb01c155631`. F03, entry/kontrak bersama, manifest, CI dan framework beku tidak diubah.
+
+Source kode terverifikasi: `ddfb9d7a030457d712c666e3b6d5517a77fa3671`. Bukti: [VERIFICATION.json](yield-v1/VERIFICATION.json), [SOURCE_MANIFEST.json](yield-v1/SOURCE_MANIFEST.json), dan paket [YIELD_WRITER_HANDOFF.zip](yield-v1/YIELD_WRITER_HANDOFF.zip). 48 kasus PostgreSQL native 16.15, 51 unit F05, 20 browser dedicated, 861 unit repo serta 6 browser utama lolos. CI shell dan kedua CodeQL sukses. Local WASM tetap dibedakan dari native dalam receipt.
+
+CI pertama pada source sebelumnya gagal karena request besar melewati batas argv (`E2BIG`); runtime sekarang mengirim SQL lewat stdin. Uji ACL juga diperbaiki supaya SET ROLE dan query berada pada koneksi yang sama. Kegagalan awal dipertahankan pada bukti, tidak dihapus.
 
 ## Kepemilikan tunggal
 

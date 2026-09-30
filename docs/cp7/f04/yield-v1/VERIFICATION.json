@@ -1,0 +1,129 @@
+{
+  "version": "f04.yield-verification.v1",
+  "status": "WRITER_VERIFIED_SYNTHETIC_HISTORY_BASELINE",
+  "source_commit": "ddfb9d7a030457d712c666e3b6d5517a77fa3671",
+  "source_tree": "320c1eadee26cb8921f1ea8deb87ab61cd802aee",
+  "local_tested_commit": "25975fcd4a401d41471f65ff22345d9d1c7c559e",
+  "source_binding": "EXACT_GIT_TREE_AND_EACH_SOURCE_SHA256_MATCH",
+  "branch": "cp7/f04-f05-yield-analyzer-20260930",
+  "pr": "https://github.com/Hanjay6688/-erp-garment-ux/pull/38",
+  "base_pr": 37,
+  "kernel": {
+    "native": {
+      "passed": 48,
+      "version": "PostgreSQL 16.15 (Ubuntu 16.15-1.pgdg24.04+2) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit",
+      "artifact_id": 11097291120,
+      "artifact_zip_sha256": "278153eddc0bfa95be3d6af447ead3bb17750d1cf0721b029cb9be1394ba2154",
+      "receipt": "evidence/NATIVE_KERNEL.json"
+    },
+    "local": {
+      "passed": 48,
+      "failures": [],
+      "runtime": "PGLITE_LOCAL_NOT_AUTH_PROOF",
+      "version": "PostgreSQL 18.3 (PGlite 0.5.8) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit"
+    }
+  },
+  "f05_units": {
+    "numTotalTests": 51,
+    "numPassedTests": 51,
+    "numFailedTests": 0,
+    "success": true
+  },
+  "dedicated_browser": {
+    "startTime": "2026-09-30T12:55:44.461Z",
+    "duration": 22246.716,
+    "expected": 20,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "s0_browser": {
+    "startTime": "2026-09-30T12:57:39.911Z",
+    "duration": 8514.66,
+    "expected": 6,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "native_ci": {
+    "run_id": 36718063636,
+    "head_sha": "ddfb9d7a030457d712c666e3b6d5517a77fa3671",
+    "unit_passed": 861,
+    "shell": "success",
+    "codeql": "SUCCESS_BOTH_LANGUAGES_ZERO_FINDINGS_COMPLETE_INVOCATIONS_GATED",
+    "jobs_receipt": "evidence/SOURCE_CI_JOBS.json"
+  },
+  "local_stages": [
+    {
+      "name": "f04_yield_kernel",
+      "status": "PASS",
+      "exit_code": 0,
+      "signal": null,
+      "started_at": "2026-09-30T12:55:36.730Z",
+      "completed_at": "2026-09-30T12:55:41.804Z"
+    },
+    {
+      "name": "typescript",
+      "status": "PASS",
+      "exit_code": 0,
+      "signal": null,
+      "started_at": "2026-09-30T12:55:41.804Z",
+      "completed_at": "2026-09-30T12:55:42.020Z"
+    },
+    {
+      "name": "unit",
+      "status": "PASS",
+      "exit_code": 0,
+      "signal": null,
+      "started_at": "2026-09-30T12:55:42.020Z",
+      "completed_at": "2026-09-30T12:55:43.604Z"
+    },
+    {
+      "name": "preview_build",
+      "status": "PASS",
+      "exit_code": 0,
+      "signal": null,
+      "started_at": "2026-09-30T12:55:43.605Z",
+      "completed_at": "2026-09-30T12:55:43.941Z"
+    },
+    {
+      "name": "preview_secret_scan",
+      "status": "PASS",
+      "exit_code": 0,
+      "signal": null,
+      "started_at": "2026-09-30T12:55:43.941Z",
+      "completed_at": "2026-09-30T12:55:43.997Z"
+    },
+    {
+      "name": "browser",
+      "status": "PASS",
+      "exit_code": 0,
+      "signal": null,
+      "started_at": "2026-09-30T12:55:43.998Z",
+      "completed_at": "2026-09-30T12:56:06.720Z"
+    }
+  ],
+  "first_native_failure": {
+    "source": "96534e31a46fb2e006abec2a42f9b448c358c331",
+    "run_id": 36717522952,
+    "cause": "E2BIG: large SQL request in argv; fixed by stdin. ACL query/SET ROLE also bound to same native session.",
+    "preserved": "evidence/FIRST_NATIVE_FAILURE.json"
+  },
+  "merge_observation": {
+    "integration_sha": "fbec9e1ff2b3ad9763a2c230ced50e91add8ac52",
+    "merge_tree": "1533ec15cce4d81e0d925b2a0332f9a27bbf576e",
+    "status": "NO_CONFLICT_READ_ONLY_NOT_INTEGRATION_TEST",
+    "f04_branch_sha": "f6162a9e6f4257d4cab7181c227e7af31d415a07",
+    "f04_merge_tree": "65e12c390b2cf0e8522626c4bec1de8e4a62075a"
+  },
+  "limits": [
+    "SYNTHETIC_ONLY",
+    "EXACT_COHORT_NO_EXTRAPOLATION",
+    "EMPIRICAL_REFERENCE_NOT_CALIBRATED_PREDICTION",
+    "NO_REAL_READER_OR_FACTORY_TRAINED_MODEL",
+    "NO_OPERATIONAL_TRIGGER_OR_SAVE_DEPENDENCY",
+    "NO_HOSTED_AUTH_RPC_MIGRATION_ACTIVATION",
+    "F03_AND_FROZEN_FRAMEWORK_UNTOUCHED",
+    "INDEPENDENT_ACCEPTANCE_OPEN"
+  ]
+}

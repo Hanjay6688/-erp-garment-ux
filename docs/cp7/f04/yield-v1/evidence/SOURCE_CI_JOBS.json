@@ -1,0 +1,361 @@
+{
+  "total_count": 3,
+  "jobs": [
+    {
+      "id": 109895844712,
+      "run_id": 36718063636,
+      "workflow_name": "CP7 Shell S0",
+      "head_branch": "cp7/f04-f05-yield-analyzer-20260930",
+      "run_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/runs/36718063636",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOUFnRys8AAAAZlk2DaA",
+      "head_sha": "ddfb9d7a030457d712c666e3b6d5517a77fa3671",
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/jobs/109895844712",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36718063636/job/109895844712",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-09-30T12:56:13Z",
+      "started_at": "2026-09-30T12:56:15Z",
+      "completed_at": "2026-09-30T12:59:36Z",
+      "name": "CP7 CodeQL javascript-typescript",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-09-30T12:56:16Z",
+          "completed_at": "2026-09-30T12:56:18Z"
+        },
+        {
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-09-30T12:56:18Z",
+          "completed_at": "2026-09-30T12:56:22Z"
+        },
+        {
+          "name": "Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-09-30T12:56:22Z",
+          "completed_at": "2026-09-30T12:57:20Z"
+        },
+        {
+          "name": "Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-09-30T12:57:20Z",
+          "completed_at": "2026-09-30T12:59:16Z"
+        },
+        {
+          "name": "Reject CodeQL findings or incomplete runs",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-09-30T12:59:16Z",
+          "completed_at": "2026-09-30T12:59:16Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-09-30T12:59:16Z",
+          "completed_at": "2026-09-30T12:59:17Z"
+        },
+        {
+          "name": "Post Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-09-30T12:59:17Z",
+          "completed_at": "2026-09-30T12:59:18Z"
+        },
+        {
+          "name": "Post Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-09-30T12:59:18Z",
+          "completed_at": "2026-09-30T12:59:33Z"
+        },
+        {
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-09-30T12:59:33Z",
+          "completed_at": "2026-09-30T12:59:33Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-09-30T12:59:33Z",
+          "completed_at": "2026-09-30T12:59:33Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/check-runs/109895844712",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000005762,
+      "runner_name": "GitHub Actions 1000005762",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 109895844916,
+      "run_id": 36718063636,
+      "workflow_name": "CP7 Shell S0",
+      "head_branch": "cp7/f04-f05-yield-analyzer-20260930",
+      "run_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/runs/36718063636",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOUFnRys8AAAAZlk2ENA",
+      "head_sha": "ddfb9d7a030457d712c666e3b6d5517a77fa3671",
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/jobs/109895844916",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36718063636/job/109895844916",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-09-30T12:56:13Z",
+      "started_at": "2026-09-30T12:56:15Z",
+      "completed_at": "2026-09-30T12:58:39Z",
+      "name": "CP7 CodeQL actions",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-09-30T12:56:16Z",
+          "completed_at": "2026-09-30T12:56:18Z"
+        },
+        {
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-09-30T12:56:18Z",
+          "completed_at": "2026-09-30T12:56:21Z"
+        },
+        {
+          "name": "Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-09-30T12:56:21Z",
+          "completed_at": "2026-09-30T12:57:21Z"
+        },
+        {
+          "name": "Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-09-30T12:57:21Z",
+          "completed_at": "2026-09-30T12:58:20Z"
+        },
+        {
+          "name": "Reject CodeQL findings or incomplete runs",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-09-30T12:58:20Z",
+          "completed_at": "2026-09-30T12:58:20Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-09-30T12:58:20Z",
+          "completed_at": "2026-09-30T12:58:21Z"
+        },
+        {
+          "name": "Post Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-09-30T12:58:21Z",
+          "completed_at": "2026-09-30T12:58:22Z"
+        },
+        {
+          "name": "Post Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-09-30T12:58:22Z",
+          "completed_at": "2026-09-30T12:58:37Z"
+        },
+        {
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-09-30T12:58:37Z",
+          "completed_at": "2026-09-30T12:58:37Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-09-30T12:58:37Z",
+          "completed_at": "2026-09-30T12:58:37Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/check-runs/109895844916",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000005761,
+      "runner_name": "GitHub Actions 1000005761",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 109895845011,
+      "run_id": 36718063636,
+      "workflow_name": "CP7 Shell S0",
+      "head_branch": "cp7/f04-f05-yield-analyzer-20260930",
+      "run_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/runs/36718063636",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOUFnRys8AAAAZlk2Ekw",
+      "head_sha": "ddfb9d7a030457d712c666e3b6d5517a77fa3671",
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/jobs/109895845011",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36718063636/job/109895845011",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-09-30T12:56:13Z",
+      "started_at": "2026-09-30T12:56:15Z",
+      "completed_at": "2026-09-30T12:57:51Z",
+      "name": "shell",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-09-30T12:56:15Z",
+          "completed_at": "2026-09-30T12:56:17Z"
+        },
+        {
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-09-30T12:56:17Z",
+          "completed_at": "2026-09-30T12:56:22Z"
+        },
+        {
+          "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-09-30T12:56:22Z",
+          "completed_at": "2026-09-30T12:56:24Z"
+        },
+        {
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-09-30T12:56:24Z",
+          "completed_at": "2026-09-30T12:56:31Z"
+        },
+        {
+          "name": "Run python3 scripts/cp7_contract_receipt.py",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-09-30T12:56:31Z",
+          "completed_at": "2026-09-30T12:56:32Z"
+        },
+        {
+          "name": "Run npm test",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-09-30T12:56:32Z",
+          "completed_at": "2026-09-30T12:56:59Z"
+        },
+        {
+          "name": "Run npm run test:security",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-09-30T12:56:59Z",
+          "completed_at": "2026-09-30T12:57:05Z"
+        },
+        {
+          "name": "Run npm run build",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-09-30T12:57:05Z",
+          "completed_at": "2026-09-30T12:57:11Z"
+        },
+        {
+          "name": "Run npx --no-install playwright install --with-deps chromium",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-09-30T12:57:11Z",
+          "completed_at": "2026-09-30T12:57:39Z"
+        },
+        {
+          "name": "Run npx --no-install playwright test --config playwright.cp7.config.ts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-09-30T12:57:39Z",
+          "completed_at": "2026-09-30T12:57:48Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-09-30T12:57:48Z",
+          "completed_at": "2026-09-30T12:57:49Z"
+        },
+        {
+          "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-09-30T12:57:49Z",
+          "completed_at": "2026-09-30T12:57:49Z"
+        },
+        {
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 22,
+          "started_at": "2026-09-30T12:57:49Z",
+          "completed_at": "2026-09-30T12:57:50Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 23,
+          "started_at": "2026-09-30T12:57:50Z",
+          "completed_at": "2026-09-30T12:57:50Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/check-runs/109895845011",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000005760,
+      "runner_name": "GitHub Actions 1000005760",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ]
+}

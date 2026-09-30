@@ -1,0 +1,407 @@
+{
+  "contract": "f04.yield-kernel-proof.v1",
+  "runtime": "NATIVE_POSTGRES_DISPOSABLE_KERNEL_ONLY",
+  "version": "PostgreSQL 16.15 (Ubuntu 16.15-1.pgdg24.04+2) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit",
+  "source_sha256": {
+    "scripts/cp7-src/models/cutting-yield.sql": "c7ff77cea0303401a96490c09c8b46c1eb10a50a3d57cd4f762f0d31be9cc7bf",
+    "tests/cp7/families/models/yield/runtime.mjs": "9ca925942686b34c0bfc68154a67e5627e0de1a4c18fc0e2d1884700f535727f",
+    "tests/cp7/families/models/yield/history.mjs": "19c977848ba93c89368f5e12955b796d0ad442b748fc7cc19e184c29a8525d18",
+    "tests/cp7/families/models/yield/run.mjs": "cc6aa64177467943aa94f022b52346e5c8d364ce5de5b1f6e42efd997531ead6"
+  },
+  "passed": 15,
+  "failures": [
+    {
+      "id": "width-blank-actual-cohort",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "width-known-only-exact",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "width-narrow-exact",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "mixed-multiplicity-changes-cohort",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "jumbo-separate",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "short-length-has-own-history",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "no-linear-length-extrapolation",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "unseen-all30-abstains",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "unseen-width-abstains",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "marker-null-not-imputed",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "pcs-missing-not-zero",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "slots-order-not-multiplicity",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "numeric-equivalent-length-width",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "classification-79",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "classification-80",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "classification-120",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "classification-121",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "classification-0",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "actual-not-a-model-feature",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "duplicate-source-counts-once",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "conflicting-same-revision-rejected",
+      "status": "FAIL",
+      "reason": "The input did not match the regular expression /YIELD_CONFLICTING_REVISION/. Input:\n\n'Error: spawnSync /usr/lib/postgresql/16/bin/psql E2BIG'\n"
+    },
+    {
+      "id": "current-roll-excluded",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "cross-scope-excluded",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "materialId-separate",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "patternRevision-separate",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "mill-separate",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "bad-policy-rejected",
+      "status": "FAIL",
+      "reason": "The input did not match the regular expression /YIELD_POLICY/. Input:\n\n'Error: spawnSync /usr/lib/postgresql/16/bin/psql E2BIG'\n"
+    },
+    {
+      "id": "bad-future-date-rejected",
+      "status": "FAIL",
+      "reason": "The input did not match the regular expression /YIELD_HISTORY_DATE/. Input:\n\n'Error: spawnSync /usr/lib/postgresql/16/bin/psql E2BIG'\n"
+    },
+    {
+      "id": "null-history-state-rejected",
+      "status": "FAIL",
+      "reason": "The input did not match the regular expression /YIELD_HISTORY_REVISION/. Input:\n\n'Error: spawnSync /usr/lib/postgresql/16/bin/psql E2BIG'\n"
+    },
+    {
+      "id": "history-limit-rejected",
+      "status": "FAIL",
+      "reason": "The input did not match the regular expression /YIELD_REQUEST/. Input:\n\n'Error: spawnSync /usr/lib/postgresql/16/bin/psql E2BIG'\n"
+    },
+    {
+      "id": "private-acl-anon",
+      "status": "FAIL",
+      "reason": "The input did not match the regular expression /permission denied/. Input:\n\n'Error: spawnSync /usr/lib/postgresql/16/bin/psql E2BIG'\n"
+    },
+    {
+      "id": "private-acl-authenticated",
+      "status": "FAIL",
+      "reason": "The input did not match the regular expression /permission denied/. Input:\n\n'Error: spawnSync /usr/lib/postgresql/16/bin/psql E2BIG'\n"
+    },
+    {
+      "id": "private-acl-service_role",
+      "status": "FAIL",
+      "reason": "The input did not match the regular expression /permission denied/. Input:\n\n'Error: spawnSync /usr/lib/postgresql/16/bin/psql E2BIG'\n"
+    }
+  ],
+  "cases": [
+    {
+      "id": "width-blank-actual-cohort",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "width-known-only-exact",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "width-narrow-exact",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "mixed-multiplicity-changes-cohort",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "jumbo-separate",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "short-length-has-own-history",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "no-linear-length-extrapolation",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "unseen-all30-abstains",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "unseen-width-abstains",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "marker-null-not-imputed",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "pcs-missing-not-zero",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "not-enough-peers",
+      "status": "PASS"
+    },
+    {
+      "id": "slots-order-not-multiplicity",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "numeric-equivalent-length-width",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "classification-79",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "classification-80",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "classification-120",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "classification-121",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "classification-0",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "actual-not-a-model-feature",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "duplicate-source-counts-once",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "conflicting-same-revision-rejected",
+      "status": "FAIL",
+      "reason": "The input did not match the regular expression /YIELD_CONFLICTING_REVISION/. Input:\n\n'Error: spawnSync /usr/lib/postgresql/16/bin/psql E2BIG'\n"
+    },
+    {
+      "id": "latest-revision-wins",
+      "status": "PASS"
+    },
+    {
+      "id": "void-latest-does-not-resurrect",
+      "status": "PASS"
+    },
+    {
+      "id": "late-revision-as-known-cutoff",
+      "status": "PASS"
+    },
+    {
+      "id": "current-roll-excluded",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "cross-scope-excluded",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "future-and-pre-window-excluded",
+      "status": "PASS"
+    },
+    {
+      "id": "incomplete-history-excluded",
+      "status": "PASS"
+    },
+    {
+      "id": "materialId-separate",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "patternRevision-separate",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "mill-separate",
+      "status": "FAIL",
+      "reason": "spawnSync /usr/lib/postgresql/16/bin/psql E2BIG"
+    },
+    {
+      "id": "bad-length-0",
+      "status": "PASS"
+    },
+    {
+      "id": "bad-length-NaN",
+      "status": "PASS"
+    },
+    {
+      "id": "bad-length--1",
+      "status": "PASS"
+    },
+    {
+      "id": "bad-length-1e2",
+      "status": "PASS"
+    },
+    {
+      "id": "bad-length-01",
+      "status": "PASS"
+    },
+    {
+      "id": "bad-length-null",
+      "status": "PASS"
+    },
+    {
+      "id": "bad-policy-rejected",
+      "status": "FAIL",
+      "reason": "The input did not match the regular expression /YIELD_POLICY/. Input:\n\n'Error: spawnSync /usr/lib/postgresql/16/bin/psql E2BIG'\n"
+    },
+    {
+      "id": "bad-future-date-rejected",
+      "status": "FAIL",
+      "reason": "The input did not match the regular expression /YIELD_HISTORY_DATE/. Input:\n\n'Error: spawnSync /usr/lib/postgresql/16/bin/psql E2BIG'\n"
+    },
+    {
+      "id": "null-history-state-rejected",
+      "status": "FAIL",
+      "reason": "The input did not match the regular expression /YIELD_HISTORY_REVISION/. Input:\n\n'Error: spawnSync /usr/lib/postgresql/16/bin/psql E2BIG'\n"
+    },
+    {
+      "id": "history-limit-rejected",
+      "status": "FAIL",
+      "reason": "The input did not match the regular expression /YIELD_REQUEST/. Input:\n\n'Error: spawnSync /usr/lib/postgresql/16/bin/psql E2BIG'\n"
+    },
+    {
+      "id": "exact-large-pcs",
+      "status": "PASS"
+    },
+    {
+      "id": "private-acl-anon",
+      "status": "FAIL",
+      "reason": "The input did not match the regular expression /permission denied/. Input:\n\n'Error: spawnSync /usr/lib/postgresql/16/bin/psql E2BIG'\n"
+    },
+    {
+      "id": "private-acl-authenticated",
+      "status": "FAIL",
+      "reason": "The input did not match the regular expression /permission denied/. Input:\n\n'Error: spawnSync /usr/lib/postgresql/16/bin/psql E2BIG'\n"
+    },
+    {
+      "id": "private-acl-service_role",
+      "status": "FAIL",
+      "reason": "The input did not match the regular expression /permission denied/. Input:\n\n'Error: spawnSync /usr/lib/postgresql/16/bin/psql E2BIG'\n"
+    },
+    {
+      "id": "invoker-empty-search-path-owner",
+      "status": "PASS"
+    },
+    {
+      "id": "ledger-unchanged",
+      "status": "PASS"
+    }
+  ],
+  "cleanup": "CLOSED_DISPOSABLE_RUNTIME"
+}

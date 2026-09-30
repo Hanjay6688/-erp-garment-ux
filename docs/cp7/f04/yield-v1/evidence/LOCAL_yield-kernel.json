@@ -1,0 +1,208 @@
+{
+  "contract": "f04.yield-kernel-proof.v1",
+  "runtime": "PGLITE_LOCAL_NOT_AUTH_PROOF",
+  "version": "PostgreSQL 18.3 (PGlite 0.5.8) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+  "source_sha256": {
+    "scripts/cp7-src/models/cutting-yield.sql": "c7ff77cea0303401a96490c09c8b46c1eb10a50a3d57cd4f762f0d31be9cc7bf",
+    "tests/cp7/families/models/yield/runtime.mjs": "abc47873c163de2617007e52bcc17efbdf4a6e6a4dd955a4fb597a3ec7bb6ab4",
+    "tests/cp7/families/models/yield/history.mjs": "19c977848ba93c89368f5e12955b796d0ad442b748fc7cc19e184c29a8525d18",
+    "tests/cp7/families/models/yield/run.mjs": "0816c2535f96a928fe483e4c0718970ee86ebd3f359d91f778067bba81ba0575"
+  },
+  "passed": 48,
+  "failures": [],
+  "cases": [
+    {
+      "id": "width-blank-actual-cohort",
+      "status": "PASS"
+    },
+    {
+      "id": "width-known-only-exact",
+      "status": "PASS"
+    },
+    {
+      "id": "width-narrow-exact",
+      "status": "PASS"
+    },
+    {
+      "id": "mixed-multiplicity-changes-cohort",
+      "status": "PASS"
+    },
+    {
+      "id": "jumbo-separate",
+      "status": "PASS"
+    },
+    {
+      "id": "short-length-has-own-history",
+      "status": "PASS"
+    },
+    {
+      "id": "no-linear-length-extrapolation",
+      "status": "PASS"
+    },
+    {
+      "id": "unseen-all30-abstains",
+      "status": "PASS"
+    },
+    {
+      "id": "unseen-width-abstains",
+      "status": "PASS"
+    },
+    {
+      "id": "marker-null-not-imputed",
+      "status": "PASS"
+    },
+    {
+      "id": "pcs-missing-not-zero",
+      "status": "PASS"
+    },
+    {
+      "id": "not-enough-peers",
+      "status": "PASS"
+    },
+    {
+      "id": "slots-order-not-multiplicity",
+      "status": "PASS"
+    },
+    {
+      "id": "numeric-equivalent-length-width",
+      "status": "PASS"
+    },
+    {
+      "id": "classification-79",
+      "status": "PASS"
+    },
+    {
+      "id": "classification-80",
+      "status": "PASS"
+    },
+    {
+      "id": "classification-120",
+      "status": "PASS"
+    },
+    {
+      "id": "classification-121",
+      "status": "PASS"
+    },
+    {
+      "id": "classification-0",
+      "status": "PASS"
+    },
+    {
+      "id": "actual-not-a-model-feature",
+      "status": "PASS"
+    },
+    {
+      "id": "duplicate-source-counts-once",
+      "status": "PASS"
+    },
+    {
+      "id": "conflicting-same-revision-rejected",
+      "status": "PASS"
+    },
+    {
+      "id": "latest-revision-wins",
+      "status": "PASS"
+    },
+    {
+      "id": "void-latest-does-not-resurrect",
+      "status": "PASS"
+    },
+    {
+      "id": "late-revision-as-known-cutoff",
+      "status": "PASS"
+    },
+    {
+      "id": "current-roll-excluded",
+      "status": "PASS"
+    },
+    {
+      "id": "cross-scope-excluded",
+      "status": "PASS"
+    },
+    {
+      "id": "future-and-pre-window-excluded",
+      "status": "PASS"
+    },
+    {
+      "id": "incomplete-history-excluded",
+      "status": "PASS"
+    },
+    {
+      "id": "materialId-separate",
+      "status": "PASS"
+    },
+    {
+      "id": "patternRevision-separate",
+      "status": "PASS"
+    },
+    {
+      "id": "mill-separate",
+      "status": "PASS"
+    },
+    {
+      "id": "bad-length-0",
+      "status": "PASS"
+    },
+    {
+      "id": "bad-length-NaN",
+      "status": "PASS"
+    },
+    {
+      "id": "bad-length--1",
+      "status": "PASS"
+    },
+    {
+      "id": "bad-length-1e2",
+      "status": "PASS"
+    },
+    {
+      "id": "bad-length-01",
+      "status": "PASS"
+    },
+    {
+      "id": "bad-length-null",
+      "status": "PASS"
+    },
+    {
+      "id": "bad-policy-rejected",
+      "status": "PASS"
+    },
+    {
+      "id": "bad-future-date-rejected",
+      "status": "PASS"
+    },
+    {
+      "id": "null-history-state-rejected",
+      "status": "PASS"
+    },
+    {
+      "id": "history-limit-rejected",
+      "status": "PASS"
+    },
+    {
+      "id": "exact-large-pcs",
+      "status": "PASS"
+    },
+    {
+      "id": "private-acl-anon",
+      "status": "PASS"
+    },
+    {
+      "id": "private-acl-authenticated",
+      "status": "PASS"
+    },
+    {
+      "id": "private-acl-service_role",
+      "status": "PASS"
+    },
+    {
+      "id": "invoker-empty-search-path-owner",
+      "status": "PASS"
+    },
+    {
+      "id": "ledger-unchanged",
+      "status": "PASS"
+    }
+  ],
+  "cleanup": "CLOSED_DISPOSABLE_RUNTIME"
+}
