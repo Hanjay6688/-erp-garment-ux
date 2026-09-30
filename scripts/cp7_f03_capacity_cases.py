@@ -136,7 +136,13 @@ def cases(cur, today):
         pages=page_pair(cur,f,subject)
         for page in pages: no_money(page)
         payload,version=cmd.review(cur,f)
+        auth.refused(cur,lambda:cmd.command(cur,'POST',payload,version,subject=subject),'CP7_SALES_ACCESS_DENIED')
+        # A stock-only actor is refused at invoice read/finance admission.
+        # Even after gaining that admission, POST needs its separate right.
+        for key in ('sales.invoice.view','finance.ar.view'):
+            cur.execute('insert into erp.app_role_permissions(role_id,permission_key) values(%s,%s)',(role,key))
         auth.refused(cur,lambda:cmd.command(cur,'POST',payload,version,subject=subject),'CP7_SALES_WRITE_DENIED')
+        cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key in('sales.invoice.view','finance.ar.view')",(role,))
         assert observe(cur,f)['accounts']==before['accounts'] and observe(cur,f)['qty']==[30,27,3]
         cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='warehouse.fg.view'",(role,))
         auth.refused(cur,lambda:fg.workspace(cur,f,subject,offset=25),'CP7_FG_ACCESS_DENIED')

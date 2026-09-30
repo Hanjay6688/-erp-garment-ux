@@ -1,0 +1,149 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 3946709,
+  "artifact_id": 11083877715,
+  "artifact_sha256": "8387fe525a48d78fc10b13437c6eafa01b160bfb306b6ab47d7eee10bcdb1351",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 1,
+    "NOT_RUN": 0,
+    "PASS": 4
+  },
+  "cp6_restored": true,
+  "expected_case_count": 5,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 1
+    },
+    "native": {
+      "INCOMPLETE": 1,
+      "PASS": 1
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109792557270,
+  "nonpassing_cases": {
+    "native:F03_E14_OPERATIONS_BOTH_PAGES_CARD_AND_WRITE": {
+      "error": "('CP7_SALES_WRITE_DENIED', 'CP7_SALES_ACCESS_DENIED')",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_lock_keys": [],
+        "advisory_locks": 0,
+        "other_sessions": []
+      },
+      "status": "INCOMPLETE",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_snapshot_cases.py\", line 30, in refused\n    try:op()\n        ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_capacity_cases.py\", line 139, in <lambda>\n    auth.refused(cur,lambda:cmd.command(cur,'POST',payload,version,subject=subject),'CP7_SALES_WRITE_DENIED')\n                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_sales_command_cases.py\", line 9, in command\n    auth.actor(cur,subject);r=cur.execute('select public.erp_cp7_save_sale_v1(%s,%s,%s,%s)',(action,json.dumps(payload),key or uuid.uuid4(),version)).fetchone()[0];b.api.admin(cur);return r\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: CP7_SALES_ACCESS_DENIED\nCONTEXT:  PL/pgSQL function cp7_sales.access_now() line 6 at RAISE\nPL/pgSQL function cp7_sales.command_access(text) line 4 at IF\nPL/pgSQL function cp7_sales.command(text,jsonb,uuid,text) line 5 at assignment\nSQL function \"erp_cp7_save_sale_v1\" statement 1\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 112, in strict_group\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_capacity_cases.py\", line 139, in access\n    auth.refused(cur,lambda:cmd.command(cur,'POST',payload,version,subject=subject),'CP7_SALES_WRITE_DENIED')\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_snapshot_cases.py\", line 34, in refused\n    assert ok,(code,detail)\n           ^^\nAssertionError: ('CP7_SALES_WRITE_DENIED', 'CP7_SALES_ACCESS_DENIED')\n"
+    }
+  },
+  "observed_case_count": 5,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385624,
+      "sha256": "23427c660372d770dcfffd88197e3a6ca5e56e14d7d7f31be1784ee5b13a5799"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385624,
+      "sha256": "23427c660372d770dcfffd88197e3a6ca5e56e14d7d7f31be1784ee5b13a5799"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "7e9fe762ac54187971b86ae7f1468f039169a127269d8b926faa2a8830543d28"
+    },
+    "CP7_F03_CAPACITY.json": {
+      "bytes": 263994,
+      "sha256": "95bde5050ec5f50cea8b1615ab961f9bb0fd1d21826dac90149dfab03e99bcfa"
+    },
+    "E20_E14_REVOKED_OPERATIONS_MOBILE.png": {
+      "bytes": 110933,
+      "sha256": "333239bcd9daae8fe2152c68749b1a8de4dbe558e3a14c10ccd2ff95a065d5bd"
+    },
+    "E20_E14_SOURCE_OPERATIONS_MOBILE.png": {
+      "bytes": 527395,
+      "sha256": "2922d381af07fd7e376e8eafae56a233f97d22be81504558cdcb816693eb1df0"
+    },
+    "E20_INVOICE_OWNER_DESKTOP.png": {
+      "bytes": 501930,
+      "sha256": "4b3def5da8b0397571ee389568dbd5910237d8db9bdf80fa4e7dc15518abed4d"
+    },
+    "E20_POSTED_STOCK_OWNER_DESKTOP.png": {
+      "bytes": 554138,
+      "sha256": "5e5527022e6f0a1f0c7ffd97c03b82b1eab55ce018d7e0cc2657c83f1f19bdfa"
+    },
+    "E20_SOURCE_OWNER_DESKTOP.png": {
+      "bytes": 668446,
+      "sha256": "9e46b6054d8f31c89a7a5ad2ae71682816c9f359c917a91b257241a6649a81d1"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "b2212359beec41a896fe6b58172ee2145ee94e412f3d8fec794ef99a5a53991a"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360430,
+      "sha256": "465a7fd1d8422d30650bb003fcc003279dfd34b22b39b5db2332d7213f1eaabf"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "production_go": false,
+  "report_sha256": "95bde5050ec5f50cea8b1615ab961f9bb0fd1d21826dac90149dfab03e99bcfa",
+  "retained_reports_gzip_sha256": "4c1bbf4b933115f3f9b9c58ff72598ebf926be5c926a2530a4841a7ea45e2aaa",
+  "run_id": 36686209312,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "c76a7a5279f4f9e3aafcbfa629d8f760acb2f1a2",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36686209312",
+    "tool_head": "c76a7a5279f4f9e3aafcbfa629d8f760acb2f1a2",
+    "workflow": "CP7 F03 E20 E14 Complete Stock Capacity"
+  },
+  "source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+  "source_commit": "c76a7a5279f4f9e3aafcbfa629d8f760acb2f1a2",
+  "source_tree": "cce2893eb2b460f40c646097ee15134b218e5b06",
+  "status": "INCOMPLETE",
+  "visual_review_performed": false
+}

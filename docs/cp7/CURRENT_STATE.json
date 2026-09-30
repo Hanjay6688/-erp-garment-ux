@@ -506,7 +506,7 @@
     ]
   },
   "f03_capacity": {
-    "status": "DECLARED_5_RUNTIME_PENDING",
+    "status": "4_PASS_1_INCOMPLETE_ACCESS_ASSERTION_CORRECTED_RERUN_PENDING",
     "expected_case_count": 5,
     "groups": {
       "native": 2,
@@ -521,6 +521,18 @@
     "full_family_acceptance": false,
     "independent_acceptance": false,
     "production_go": false,
-    "visual_review": false
+    "visual_review": false,
+    "source": "c76a7a5279f4f9e3aafcbfa629d8f760acb2f1a2",
+    "source_tree": "cce2893eb2b460f40c646097ee15134b218e5b06",
+    "run_id": 36686209312,
+    "job_id": 109792557270,
+    "counts": {
+      "PASS": 4,
+      "FAIL": 0,
+      "INCOMPLETE": 1,
+      "NOT_RUN": 0
+    },
+    "diagnostic": "docs/cp7/evidence/f03-capacity/FIRST_RECEIPT.json",
+    "remaining": "Complete native30-lot/public invoice27/post/inverse, real Auth/HTTP, desktop invoice browser and mobile operations browser pass. The second native test correctly encounters earlier CP7_SALES_ACCESS_DENIED rather than its incorrectly expected WRITE_DENIED. Corrected test proves both read/finance admission and separate POST right; full five-case rerun pending."
   }
 }
