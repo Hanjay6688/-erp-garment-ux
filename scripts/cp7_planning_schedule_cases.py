@@ -140,7 +140,7 @@ def cases(cur,today):
   return dict(status='PASS',current_master_write_permission_before_cached_UUID_and_current_four_domain_read=True)
  def customer_work():
   opening(cur,today);f=opening(cur,today)
-  customer=auth.base.create_customer(cur,'P06-customer-work-'+uuid.uuid4().hex[:8])
+  customer=auth.base.create_customer(cur,'P06CW-'+uuid.uuid4().hex[:6])
   # Administrative ownership source fixture after ordinary import: qualifies
   # read/queue semantics, not a public customer-production posting workflow.
   cur.execute('set local session_replication_role=replica')

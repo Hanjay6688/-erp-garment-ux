@@ -1,0 +1,8 @@
+{
+  "status": "LOCAL15_PASS",
+  "runtime": "PGLITE_NATIVE_COLUMN_STANDIN_NOT_AUTH",
+  "source_sql_sha256": "957eea9c7ba743793082fdb2c55331b6d7a528e99242e436fe002a5a2bd793f7",
+  "reports_gzip_sha256": "e6f4d5c0f89bd85e93998dc1d012a1e15601ceae825e686f52b2a92454b3d893",
+  "native_auth_cases": 0,
+  "production_go": false
+}

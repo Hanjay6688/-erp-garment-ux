@@ -939,7 +939,7 @@
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "version": "cp7.integration-entry.v1",
   "f04_native_schedule": {
-    "status": "NATIVE69_67_PASS2_HTTP_FIXTURE_INCOMPLETE_NATIVE70_DECLARED_PENDING",
+    "status": "SECOND_NATIVE70_69_PASS1_FIXTURE_NAME_INCOMPLETE_RETEST_PENDING",
     "source_sql_sha256": "b038ce9f4ca9deee24971e5660448d8be56ac4fd4bc4d5e0e55bbe126944d789",
     "predeclared": {
       "native": 51,
@@ -956,6 +956,27 @@
     "independent_acceptance": false,
     "production_go": false,
     "first_receipt": "docs/cp7/evidence/f04-native-schedule/first69-683c3b0/RECEIPT.json",
-    "customer_work": "Customer remaining work consumes selected shared capacity; company supply stays excluded"
+    "customer_work": "Customer remaining work consumes selected shared capacity; company supply stays excluded",
+    "second_receipt": "docs/cp7/evidence/f04-native-schedule/second70-0c33c00/RECEIPT.json"
+  },
+  "f04_native_netting": {
+    "status": "IMPLEMENTED_NATIVE80_DECLARED_PENDING",
+    "source_sql_sha256": "957eea9c7ba743793082fdb2c55331b6d7a528e99242e436fe002a5a2bd793f7",
+    "predeclared": {
+      "native": 59,
+      "races": 11,
+      "http": 6,
+      "retained_browser": 4
+    },
+    "local_standin_cases": 15,
+    "role_count": 31,
+    "native_matching": "Source-bound opening product/BS identity, exact root/model/size; missing critical cut brand/color remains NEEDS_CHECK",
+    "new_operational_UI": false,
+    "material_feasibility": "UNKNOWN",
+    "adaptive_model_promotion": "PENDING_NATIVE_COMPOSER",
+    "apply_enabled": false,
+    "full_family_acceptance": false,
+    "independent_acceptance": false,
+    "production_go": false
   }
 }

@@ -10,3 +10,6 @@ Native69 is declared before execution:50 Native,10 races,5 real-Auth HTTP and4 r
 
 
 First actual69 (source683c3b0/run36788027056) has67 PASS and2 incomplete HTTP fixture assertions. The Native50, races10 and retained browser4 passed. HTTP controls share a Native database; the global source correctly retained a prior job, reducing free capacity, and a prior saved plan correctly became SOURCE_CHANGED when a new origin appeared. Repairs bind both expected results to independent Native existing-work/plan state rather than assuming fresh databases. Original reports are retained. Native70 now adds an explicitly labelled administrative ownership-source fixture: customer remaining work participates in the shared queue and capacity, but cannot receive company target/yield or projected company Good. Selected metadata supports work-only review for that customer source.
+
+
+Second actual70 (source0c33c00/run36789378502) has69 PASS and1 incomplete customer-source setup; all original50 Native,10 races,5 real-Auth HTTP and4 retained browser controls now pass. The new customer's fixture label, including the Native CP6-E- prefix, exceeded VARCHAR30 before the source operation. Shorten that fixture code only and retain the original error; schedule SQL remains b038ce9f.

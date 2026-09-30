@@ -1,0 +1,31 @@
+{
+  "status": "SECOND70_69_PASS1_CUSTOMER_NAME_FIXTURE_INCOMPLETE",
+  "source_commit": "0c33c0072ddd71801d6e473472263d285dffe328",
+  "source_tree": "1ff1b8a7d22eb75077cb3c05833f37d332c51884",
+  "source_sql_sha256": "b038ce9f4ca9deee24971e5660448d8be56ac4fd4bc4d5e0e55bbe126944d789",
+  "run_id": 36789378502,
+  "job_id": 110138384878,
+  "artifact_id": 11131071696,
+  "artifact_sha256": "e5d72f6bac7cd024d968075db803ebe9a48be546954b6c1ae6bf015c91c1dd82",
+  "counts": {
+    "native": {
+      "PASS": 50,
+      "INCOMPLETE": 1
+    },
+    "races": {
+      "PASS": 10
+    },
+    "http": {
+      "PASS": 5
+    },
+    "browser": {
+      "PASS": 4
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "diagnostic": "The administrative customer-work source fixture failed before capture because CP6-E- plus its customer code label exceeds the native VARCHAR30. Shorter fixture code only; selected queue SQL unchanged. All50 original Native,10 races,5 actual HTTP and4 retained browser controls pass.",
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false
+}
