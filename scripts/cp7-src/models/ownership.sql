@@ -1,0 +1,24 @@
+-- Last file in the transaction. No operational role may call private kernels.
+alter function cp7_demand.decimal(jsonb) owner to cp7_capture;
+alter function cp7_demand.day(jsonb) owner to cp7_capture;
+alter function cp7_demand.instant(jsonb) owner to cp7_capture;
+alter function cp7_demand.items(jsonb,integer) owner to cp7_capture;
+alter function cp7_demand.context(jsonb,text) owner to cp7_capture;
+alter function cp7_demand.history(jsonb) owner to cp7_capture;
+alter function cp7_demand.availability(jsonb) owner to cp7_capture;
+alter function cp7_demand.estimate(jsonb) owner to cp7_capture;
+alter function cp7_baseline.target(jsonb) owner to cp7_capture;
+alter function cp7_baseline.net(jsonb) owner to cp7_capture;
+alter function cp7_baseline.timeline(jsonb) owner to cp7_capture;
+alter function cp7_baseline.feasibility(jsonb) owner to cp7_capture;
+alter function cp7_baseline.material(jsonb) owner to cp7_capture;
+alter function cp7_baseline.allocate(jsonb) owner to cp7_capture;
+alter function cp7_baseline.capacity(jsonb) owner to cp7_capture;
+alter function cp7_baseline.dependencies(jsonb) owner to cp7_capture;
+alter function cp7_models.predict(text,jsonb,jsonb,integer) owner to cp7_capture;
+alter function cp7_models.score(jsonb,jsonb,jsonb,integer) owner to cp7_capture;
+alter function cp7_models.window(jsonb,date,date,timestamptz) owner to cp7_capture;
+alter function cp7_models.promotion(jsonb,jsonb,jsonb) owner to cp7_capture;
+alter function cp7_models.evaluate(jsonb) owner to cp7_capture;
+alter function cp7_models.compare_plan(jsonb) owner to cp7_capture;
+revoke all on all functions in schema cp7_demand,cp7_baseline,cp7_models from public,anon,authenticated,service_role;

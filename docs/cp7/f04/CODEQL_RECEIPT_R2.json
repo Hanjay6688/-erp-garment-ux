@@ -1,0 +1,46 @@
+{
+  "schema": "cp7.f04.codeql-receipt.v1",
+  "source_head": "08487236b3305727eb4c470ca896e271a911bdaa",
+  "workflow_run": 36599092652,
+  "artifacts": [
+    {
+      "name": "cp7-codeql-actions",
+      "id": 11047957632,
+      "zip_sha256": "7cd90d242f89a24fac774d1bc5ac298991b12de4138f56f0fbe71b814b3aa707",
+      "sarif": [
+        {
+          "name": "actions.sarif",
+          "sha256": "ea216b03333d3819ef949db63231373d3fc1da39d65ed3ff91df7f01406d08cd",
+          "runs": [
+            {
+              "tool": "CodeQL",
+              "version": "2.27.0",
+              "results": 0,
+              "execution_successful": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cp7-codeql-javascript-typescript",
+      "id": 11048396731,
+      "zip_sha256": "47b50b36bc3526afab7b2ee55da02ed145876d673511b71f035b5f1c915c2807",
+      "sarif": [
+        {
+          "name": "javascript.sarif",
+          "sha256": "02340fac2b10d5513f246271a43199e68c033bc808530e7caef92fc2cee55780",
+          "runs": [
+            {
+              "tool": "CodeQL",
+              "version": "2.27.0",
+              "results": 0,
+              "execution_successful": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "sql_analysis": "NOT_COVERED_BY_CODEQL; native PostgreSQL fixture proof is separate"
+}

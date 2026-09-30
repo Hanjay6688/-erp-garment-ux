@@ -444,6 +444,18 @@
     "verification": "docs/cp7/evidence/f03-redye/QUALIFIED_RECEIPT.json",
     "visual_review": true
   },
+  "f04_integration": {
+    "declared_actual_cases": 15,
+    "handoff": "docs/cp7/f04/NATIVE_INTEGRATION.md",
+    "independent_acceptance": false,
+    "kernel_head": "f6162a9e",
+    "kernel_source": "08487236b3305727eb4c470ca896e271a911bdaa",
+    "local_kernel_cases_pass": 138,
+    "native_qualifier": "scripts/cp7_f04_history_probe.py",
+    "production_go": false,
+    "status": "PINNED_KERNELS_IMPORTED_NATIVE_P05_SOURCE_WRITTEN_ACTUAL15_PENDING",
+    "verification": "docs/cp7/evidence/f04-native-history/local-source/LOCAL_RECEIPT.json"
+  },
   "f04_takeover_reference": {
     "branch": "cp7/f04-planning-20260929",
     "handoff": "docs/cp7/f04/HANDOFF.md",
@@ -452,6 +464,15 @@
     "pr": 36,
     "reported_kernel_source": "08487236b3305727eb4c470ca896e271a911bdaa",
     "status": "HANDOFF_READ_TAKEOVER_AFTER_F03_COMPLETE_RECHECK_HEAD_FIRST"
+  },
+  "f05_integration": {
+    "independent_acceptance": false,
+    "local_unit_cases_pass": 47,
+    "producer_mapping": "P05 native history separate contract; full cp7.analysis.v2 compiler pending",
+    "production_go": false,
+    "source": "ec8e27890319ef898f0bb8b06028daa12a9d2f08",
+    "status": "PINNED_CONSUMER_CONTINUATION_IMPORTED_LOCAL47_PASS_NATIVE_CONSUMER_PENDING",
+    "verification": "test-results/f05-continuation/checks.json"
   },
   "f05_takeover_reference": {
     "branch": "cp7/f05-consumers-shell-20260930",

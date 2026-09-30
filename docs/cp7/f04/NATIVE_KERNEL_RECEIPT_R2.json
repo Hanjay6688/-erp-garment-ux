@@ -1,0 +1,2277 @@
+{
+  "schema": "cp7.f04.writer-kernel-receipt.v1",
+  "source_head": "08487236b3305727eb4c470ca896e271a911bdaa",
+  "runtime": "NATIVE_POSTGRES_DISPOSABLE_KERNEL_ONLY",
+  "version": "PostgreSQL 16.15 (Ubuntu 16.15-1.pgdg24.04+2) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit",
+  "source_hashes": {
+    "scripts/cp7-src/wip/bootstrap.sql": "f13d218d6ef6c38bea1968081368cdf253538c79d36b67a51e61d126927c2769",
+    "scripts/cp7-src/wip/matching.sql": "b3fc0e9307f0d87ca80b7935412210b4eba7f38d9568c6d68dfa6355d97d8c4f",
+    "scripts/cp7-src/wip/timing.sql": "cf61bae66086edd7a34e3456e5bad9d644cf42ced4cf2a2bedee4f89f1c9ebc9",
+    "scripts/cp7-src/demand/bootstrap.sql": "9ce00d27b69656d385df150dacfa155571c5cfa9fb818181746838d0c9fc1455",
+    "scripts/cp7-src/demand/history.sql": "6862fe29fdc15e2d5c2c5242b9cf07685c73fd3fa3d78988cb632e8bd2c4ceb2",
+    "scripts/cp7-src/demand/estimate.sql": "78c6ec232f092145599ac49178045a184eef80192bf061d719cde92adbb62733",
+    "scripts/cp7-src/baseline/target.sql": "23282ab144059f6369a8f1bf59e19e33619ffa4c6b726a059347a43ec6484543",
+    "scripts/cp7-src/baseline/timeline.sql": "b7af786fdfc2e9ab92b4c3d83a9ab25370c93dbf425addb25b95e14a50ab6e1b",
+    "scripts/cp7-src/baseline/feasibility.sql": "f8b0237e8d237516e5d7651b9a2dec384283c1378de6851e4ca06b414eb09353",
+    "scripts/cp7-src/baseline/allocation.sql": "97fc739b04ee6f32f047a267e7cac104afd63d1ea3c8266a16c2e9d9fb1cbbc7",
+    "scripts/cp7-src/baseline/capacity.sql": "794a58d33fc7b799d52170ea99414532d6ede5437f64ea4c386b331e894f56f2",
+    "scripts/cp7-src/baseline/dependencies.sql": "05f9331da67c0c37abc47e6344fe23d2890c6dd4bf8350d46aff02beaa2f016a",
+    "scripts/cp7-src/models/kernels.sql": "8a89beb489c5750038d2924fc99c860cffa4daef31e7288f24859d0de0fb17f4",
+    "scripts/cp7-src/models/evaluation.sql": "85cc1dd5beae311c7e7f66e7b94d75ed68c8572a00bb629d60d04d62e681b074",
+    "scripts/cp7-src/models/comparison.sql": "7c0464ba40e36854b7972b30eba21f5d3de61b27d908bd81bfbda423157f115a",
+    "scripts/cp7-src/models/ownership.sql": "0bdcec9e12968101b58c05ca651c719502d938c80eaed7a90b3bab1e152a6cca"
+  },
+  "fixture_hash": "7ac5b3e57ed9e48a6f9c9e4a8b488e918e6c2e710be030b14461e33a2b8929bd",
+  "case_hash": "816126e416f8e6c4582e28169df96c5fe67a2bcc514b027d70008972d7cc83af",
+  "additional_case_hashes": {
+    "tests/cp7/families/f04/continuation.mjs": "27ff4f532e1c29f4643cedbcb88ad0ef0a2515a818a20d10ca48021a0254cbc3"
+  },
+  "oracle_hash": "0e53dfdf0cfce0d7f5c47509065908c4cc7f331fc919a309e0ab558063567f55",
+  "passed": 138,
+  "failures": [],
+  "cases": [
+    {
+      "id": "O06.draft-once",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "100",
+          "24",
+          "76",
+          "56"
+        ],
+        "actual": [
+          "100",
+          "24",
+          "76",
+          "56"
+        ]
+      },
+      "elapsed_ms": 17
+    },
+    {
+      "id": "O06.posted-ledger-not-double-subtracted",
+      "status": "PASS",
+      "evidence": {
+        "expected": "56",
+        "actual": "56"
+      },
+      "elapsed_ms": 17
+    },
+    {
+      "id": "O06.cancelled-draft-released",
+      "status": "PASS",
+      "evidence": {
+        "expected": "80",
+        "actual": "80"
+      },
+      "elapsed_ms": 22
+    },
+    {
+      "id": "O06.conflicting-draft-rejected",
+      "status": "PASS",
+      "evidence": {
+        "expected": "DRAFT_CONFLICT",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 22
+    },
+    {
+      "id": "O11.stockout-is-not-zero-demand",
+      "status": "PASS",
+      "evidence": {
+        "expected": "ASSUMED_AVAILABLE_DAYS_REPRESENTATIVE",
+        "actual": "ASSUMED_AVAILABLE_DAYS_REPRESENTATIVE"
+      },
+      "elapsed_ms": 56
+    },
+    {
+      "id": "O12.valid-zero-and-missing-distinct",
+      "status": "PASS",
+      "evidence": {
+        "expected": 3.3333333333333335,
+        "actual": "3.3333333333333333",
+        "tolerance": 1e-9
+      },
+      "elapsed_ms": 20
+    },
+    {
+      "id": "P05.lifecycle-return-preserves-gross",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "24",
+          "0",
+          "5"
+        ],
+        "actual": [
+          "24",
+          "0",
+          "5"
+        ]
+      },
+      "elapsed_ms": 20
+    },
+    {
+      "id": "M03.later-known-backdate-excluded",
+      "status": "PASS",
+      "evidence": {
+        "expected": "6",
+        "actual": "6"
+      },
+      "elapsed_ms": 18
+    },
+    {
+      "id": "X02.as-sold-restated-conserve-size",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "old-group",
+          "new-group",
+          "M",
+          "6"
+        ],
+        "actual": [
+          "old-group",
+          "new-group",
+          "M",
+          "6"
+        ]
+      },
+      "elapsed_ms": 39
+    },
+    {
+      "id": "P05.unknown-history-no-invented-zero-mean",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          null,
+          null,
+          28
+        ],
+        "actual": [
+          null,
+          null,
+          28
+        ]
+      },
+      "elapsed_ms": 18
+    },
+    {
+      "id": "P05.conflicting-revision",
+      "status": "PASS",
+      "evidence": {
+        "expected": "REVISION_CONFLICT",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 20
+    },
+    {
+      "id": "P05.physical-size-mismatch",
+      "status": "PASS",
+      "evidence": {
+        "expected": "TARGET_SIZE",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 19
+    },
+    {
+      "id": "P05.partial-day-denominator-refused",
+      "status": "PASS",
+      "evidence": {
+        "expected": "COMPLETE_DAYS",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 13
+    },
+    {
+      "id": "E01.own-history-explicit-assumption",
+      "status": "PASS",
+      "evidence": {
+        "expected": 4,
+        "actual": "4.000000000000",
+        "tolerance": 1e-9
+      },
+      "elapsed_ms": 15
+    },
+    {
+      "id": "E01.no-history-no-default-batch",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "UNKNOWN",
+          null
+        ],
+        "actual": [
+          "UNKNOWN",
+          null
+        ]
+      },
+      "elapsed_ms": 13
+    },
+    {
+      "id": "E01.reviewed-same-size-analog",
+      "status": "PASS",
+      "evidence": {
+        "expected": 1.5,
+        "actual": "1.500000000000",
+        "tolerance": 1e-9
+      },
+      "elapsed_ms": 14
+    },
+    {
+      "id": "E01.unreviewed-analog-not-promoted",
+      "status": "PASS",
+      "evidence": {
+        "expected": "UNKNOWN",
+        "actual": "UNKNOWN"
+      },
+      "elapsed_ms": 13
+    },
+    {
+      "id": "E01.manual-must-be-selected",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "SELECTED_MANUAL_ASSUMPTION",
+          "2"
+        ],
+        "actual": [
+          "SELECTED_MANUAL_ASSUMPTION",
+          "2"
+        ]
+      },
+      "elapsed_ms": 26
+    },
+    {
+      "id": "O01.base-and-conditional-gap",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "18",
+          "8",
+          "18"
+        ],
+        "actual": [
+          "18",
+          "8",
+          "18"
+        ]
+      },
+      "elapsed_ms": 15
+    },
+    {
+      "id": "O02.days-target-buffer-separated",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "10",
+          "40",
+          "8",
+          "48"
+        ],
+        "actual": [
+          "10",
+          "40",
+          "8",
+          "48"
+        ]
+      },
+      "elapsed_ms": 15
+    },
+    {
+      "id": "O02.dated-balances",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          14,
+          10,
+          18,
+          14,
+          10,
+          16,
+          20,
+          16,
+          12,
+          8
+        ],
+        "actual": [
+          14,
+          10,
+          18,
+          14,
+          10,
+          16,
+          20,
+          16,
+          12,
+          8
+        ]
+      },
+      "elapsed_ms": 19
+    },
+    {
+      "id": "O03.late-arrival-retains-early-gap",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "2026-01-05T16:00:00Z",
+          "2"
+        ],
+        "actual": [
+          "2026-01-05T16:00:00Z",
+          "2"
+        ]
+      },
+      "elapsed_ms": 17
+    },
+    {
+      "id": "O05.candidate-is-conditional-scenario",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "30",
+          "0"
+        ],
+        "actual": [
+          "30",
+          "0"
+        ]
+      },
+      "elapsed_ms": 14
+    },
+    {
+      "id": "O07.size-gap-not-hidden-by-group-surplus",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "0",
+          "15"
+        ],
+        "actual": [
+          "0",
+          "15"
+        ]
+      },
+      "elapsed_ms": 25
+    },
+    {
+      "id": "O08.batch-rounding-extra-visible",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "12",
+          "4",
+          "12"
+        ],
+        "actual": [
+          "12",
+          "4",
+          "12"
+        ]
+      },
+      "elapsed_ms": 12
+    },
+    {
+      "id": "O09.remaining-material",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "40",
+          "20"
+        ],
+        "actual": [
+          "40",
+          "20"
+        ]
+      },
+      "elapsed_ms": 13
+    },
+    {
+      "id": "O09.issue-does-not-prove-installed",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "UNKNOWN",
+          null,
+          null
+        ],
+        "actual": [
+          "UNKNOWN",
+          null,
+          null
+        ]
+      },
+      "elapsed_ms": 12
+    },
+    {
+      "id": "O10.need-vs-feasible",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "100",
+          "60",
+          "40"
+        ],
+        "actual": [
+          "100",
+          "60",
+          "40"
+        ]
+      },
+      "elapsed_ms": 12
+    },
+    {
+      "id": "O17.stop-keeps-gap",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "70",
+          "0",
+          "70"
+        ],
+        "actual": [
+          "70",
+          "0",
+          "70"
+        ]
+      },
+      "elapsed_ms": 13
+    },
+    {
+      "id": "O19.unknown-fg-not-zero",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "UNKNOWN",
+          null
+        ],
+        "actual": [
+          "UNKNOWN",
+          null
+        ]
+      },
+      "elapsed_ms": 14
+    },
+    {
+      "id": "P06.unknown-capacity-does-not-create-throughput",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "UNKNOWN",
+          "100",
+          null
+        ],
+        "actual": [
+          "UNKNOWN",
+          "100",
+          null
+        ]
+      },
+      "elapsed_ms": 12
+    },
+    {
+      "id": "P06.calendar-capacity-minus-existing-load",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          360,
+          "60"
+        ],
+        "actual": [
+          360,
+          "60"
+        ]
+      },
+      "elapsed_ms": 15
+    },
+    {
+      "id": "P06.unknown-unit-time-not-invented",
+      "status": "PASS",
+      "evidence": {
+        "expected": null,
+        "actual": null
+      },
+      "elapsed_ms": 14
+    },
+    {
+      "id": "P06.overbooked-window-no-negative-capacity",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "0",
+          20
+        ],
+        "actual": [
+          "0",
+          20
+        ]
+      },
+      "elapsed_ms": 14
+    },
+    {
+      "id": "P06.overlapping-shifts-not-double-counted",
+      "status": "PASS",
+      "evidence": {
+        "expected": "WINDOW_OVERLAP",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 14
+    },
+    {
+      "id": "P06.fractional-instants-ordered-by-time",
+      "status": "PASS",
+      "evidence": {
+        "expected": "3",
+        "actual": "3"
+      },
+      "elapsed_ms": 14
+    },
+    {
+      "id": "P06.batch-does-not-fit-capacity",
+      "status": "PASS",
+      "evidence": {
+        "expected": "0",
+        "actual": "0"
+      },
+      "elapsed_ms": 12
+    },
+    {
+      "id": "M06.aggregate-horizon-quantile",
+      "status": "PASS",
+      "evidence": {
+        "expected": "30",
+        "actual": "30"
+      },
+      "elapsed_ms": 12
+    },
+    {
+      "id": "M06.double-buffer-refused",
+      "status": "PASS",
+      "evidence": {
+        "expected": "DOUBLE_BUFFER",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 11
+    },
+    {
+      "id": "P06.source-duplicate-not-counted-twice",
+      "status": "PASS",
+      "evidence": {
+        "expected": "18",
+        "actual": "18"
+      },
+      "elapsed_ms": 14
+    },
+    {
+      "id": "P06.same-physical-source-in-two-kinds",
+      "status": "PASS",
+      "evidence": {
+        "expected": "PHYSICAL_SOURCE_CONFLICT",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 14
+    },
+    {
+      "id": "P06.late-supply-excluded-from-deadline",
+      "status": "PASS",
+      "evidence": {
+        "expected": "30",
+        "actual": "30"
+      },
+      "elapsed_ms": 14
+    },
+    {
+      "id": "P06.unknown-eta-review",
+      "status": "PASS",
+      "evidence": {
+        "expected": "UNKNOWN",
+        "actual": "UNKNOWN"
+      },
+      "elapsed_ms": 14
+    },
+    {
+      "id": "X10.backlog-and-lost-sales",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "0",
+          "5",
+          "5",
+          "5"
+        ],
+        "actual": [
+          "0",
+          "5",
+          "5",
+          "5"
+        ]
+      },
+      "elapsed_ms": 29
+    },
+    {
+      "id": "X11.unknown-event-preserved",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "UNKNOWN",
+          null,
+          null
+        ],
+        "actual": [
+          "UNKNOWN",
+          null,
+          null
+        ]
+      },
+      "elapsed_ms": 17
+    },
+    {
+      "id": "X12.same-day-order-changes-gap",
+      "status": "PASS",
+      "evidence": {
+        "expected": null,
+        "actual": null
+      },
+      "elapsed_ms": 15
+    },
+    {
+      "id": "X12.ambiguous-timestamp-order-refused",
+      "status": "PASS",
+      "evidence": {
+        "expected": "INTRADAY_ORDER",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 14
+    },
+    {
+      "id": "O04.global-source-cap-60",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          [
+            "42",
+            "0"
+          ],
+          [
+            "18",
+            "12"
+          ]
+        ],
+        "actual": [
+          [
+            "42",
+            "0"
+          ],
+          [
+            "18",
+            "12"
+          ]
+        ]
+      },
+      "elapsed_ms": 23
+    },
+    {
+      "id": "O16.shared-capacity-cap-36",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          [
+            "30",
+            "0"
+          ],
+          [
+            "6",
+            "24"
+          ]
+        ],
+        "actual": [
+          [
+            "30",
+            "0"
+          ],
+          [
+            "6",
+            "24"
+          ]
+        ]
+      },
+      "elapsed_ms": 23
+    },
+    {
+      "id": "P06.filter-is-not-new-allocation-scope",
+      "status": "PASS",
+      "evidence": {
+        "expected": "UNKNOWN",
+        "actual": "UNKNOWN"
+      },
+      "elapsed_ms": 12
+    },
+    {
+      "id": "P06.match-recomputed-from-physical-facts",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "42",
+          "0"
+        ],
+        "actual": [
+          "42",
+          "0"
+        ]
+      },
+      "elapsed_ms": 22
+    },
+    {
+      "id": "P06.required-material-mismatch",
+      "status": "PASS",
+      "evidence": {
+        "expected": [],
+        "actual": []
+      },
+      "elapsed_ms": 21
+    },
+    {
+      "id": "P06.unknown-time-target-review-queue",
+      "status": "PASS",
+      "evidence": {
+        "expected": "B",
+        "actual": "B"
+      },
+      "elapsed_ms": 22
+    },
+    {
+      "id": "P06.yield-exact-rational-rounding",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          [
+            "10",
+            "7"
+          ]
+        ],
+        "actual": [
+          [
+            "10",
+            "7"
+          ]
+        ]
+      },
+      "elapsed_ms": 22
+    },
+    {
+      "id": "P06.snapshot-mismatch",
+      "status": "PASS",
+      "evidence": {
+        "expected": "MATCH_SNAPSHOT",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 13
+    },
+    {
+      "id": "X13.mean-oracle",
+      "status": "PASS",
+      "evidence": {
+        "expected": 4,
+        "actual": "4.000000000000",
+        "tolerance": 1e-9
+      },
+      "elapsed_ms": 12
+    },
+    {
+      "id": "X13.naive-oracle",
+      "status": "PASS",
+      "evidence": {
+        "expected": 6,
+        "actual": "6.000000000000",
+        "tolerance": 1e-9
+      },
+      "elapsed_ms": 12
+    },
+    {
+      "id": "X13.moving-mean-oracle",
+      "status": "PASS",
+      "evidence": {
+        "expected": 5,
+        "actual": "5.000000000000",
+        "tolerance": 1e-9
+      },
+      "elapsed_ms": 11
+    },
+    {
+      "id": "X13.ses-oracle",
+      "status": "PASS",
+      "evidence": {
+        "expected": 22.5,
+        "actual": "22.500000000000",
+        "tolerance": 1e-9
+      },
+      "elapsed_ms": 12
+    },
+    {
+      "id": "X13.damped-holt-oracle",
+      "status": "PASS",
+      "evidence": {
+        "expected": 14.248,
+        "actual": "14.248000000000",
+        "tolerance": 1e-9
+      },
+      "elapsed_ms": 12
+    },
+    {
+      "id": "X13.seasonal-naive-oracle",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          3,
+          4,
+          3
+        ],
+        "actual": [
+          3,
+          4,
+          3
+        ]
+      },
+      "elapsed_ms": 12
+    },
+    {
+      "id": "X13.sba-oracle",
+      "status": "PASS",
+      "evidence": {
+        "expected": 1.5,
+        "actual": "1.500000000000",
+        "tolerance": 1e-9
+      },
+      "elapsed_ms": 12
+    },
+    {
+      "id": "X13.tsb-real-zero-decay",
+      "status": "PASS",
+      "evidence": {
+        "expected": 1,
+        "actual": "1.000000000000",
+        "tolerance": 1e-9
+      },
+      "elapsed_ms": 12
+    },
+    {
+      "id": "M01.censored-period-not-zero",
+      "status": "PASS",
+      "evidence": {
+        "expected": "INELIGIBLE",
+        "actual": "INELIGIBLE"
+      },
+      "elapsed_ms": 10
+    },
+    {
+      "id": "M01.short-history-fallback-reason",
+      "status": "PASS",
+      "evidence": {
+        "expected": "WINDOW_HISTORY_SHORT",
+        "actual": "WINDOW_HISTORY_SHORT"
+      },
+      "elapsed_ms": 11
+    },
+    {
+      "id": "M05.insufficient-season-cycles",
+      "status": "PASS",
+      "evidence": {
+        "expected": "FEWER_THAN_TWO_COMPLETE_SEASONS",
+        "actual": "FEWER_THAN_TWO_COMPLETE_SEASONS"
+      },
+      "elapsed_ms": 11
+    },
+    {
+      "id": "M02.invalid-smoothing-parameter",
+      "status": "PASS",
+      "evidence": {
+        "expected": "MODEL_ALPHA",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 12
+    },
+    {
+      "id": "M02.non-finite-value",
+      "status": "PASS",
+      "evidence": {
+        "expected": "F04_DECIMAL",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 11
+    },
+    {
+      "id": "M02.negative-demand",
+      "status": "PASS",
+      "evidence": {
+        "expected": "F04_DECIMAL",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 10
+    },
+    {
+      "id": "M02.nonnegative-damped-output",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          0
+        ],
+        "actual": [
+          0
+        ]
+      },
+      "elapsed_ms": 12
+    },
+    {
+      "id": "O20.zero-scaled-denominator-is-NA",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          0,
+          null,
+          null,
+          "NA_ZERO_DENOMINATOR"
+        ],
+        "actual": [
+          0,
+          null,
+          null,
+          "NA_ZERO_DENOMINATOR"
+        ]
+      },
+      "elapsed_ms": 12
+    },
+    {
+      "id": "P07.metric-sign-and-horizon-total",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          1,
+          -1,
+          2
+        ],
+        "actual": [
+          1,
+          -1,
+          2
+        ]
+      },
+      "elapsed_ms": 11
+    },
+    {
+      "id": "X14.three-fold-challenger-wins",
+      "status": "PASS",
+      "evidence": {
+        "expected": true,
+        "actual": true
+      },
+      "elapsed_ms": 35
+    },
+    {
+      "id": "M05.tie-keeps-baseline",
+      "status": "PASS",
+      "evidence": {
+        "expected": false,
+        "actual": false
+      },
+      "elapsed_ms": 12
+    },
+    {
+      "id": "P07.insufficient-folds-refuses-promotion",
+      "status": "PASS",
+      "evidence": {
+        "expected": false,
+        "actual": false
+      },
+      "elapsed_ms": 12
+    },
+    {
+      "id": "P07.bias-guard",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "BIAS_GUARD_FAILED"
+        ],
+        "actual": [
+          "BIAS_GUARD_FAILED"
+        ]
+      },
+      "elapsed_ms": 11
+    },
+    {
+      "id": "P07.tail-guard",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "TAIL_GUARD_FAILED"
+        ],
+        "actual": [
+          "TAIL_GUARD_FAILED"
+        ]
+      },
+      "elapsed_ms": 12
+    },
+    {
+      "id": "P07.null-bias-cannot-bypass-promotion-guard",
+      "status": "PASS",
+      "evidence": {
+        "expected": "MODEL_METRIC",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 12
+    },
+    {
+      "id": "P07.rolling-evaluation-real-kernels",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "naive-v1",
+          false
+        ],
+        "actual": [
+          "naive-v1",
+          false
+        ]
+      },
+      "elapsed_ms": 31
+    },
+    {
+      "id": "M05.winning-challenger-tie-prefers-simpler",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "naive-v1",
+          "naive-v1"
+        ],
+        "actual": [
+          "naive-v1",
+          "naive-v1"
+        ]
+      },
+      "elapsed_ms": 68
+    },
+    {
+      "id": "X15.holdout-perturbation-does-not-select",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          5.5,
+          10
+        ],
+        "actual": [
+          5.5,
+          10
+        ]
+      },
+      "elapsed_ms": 59
+    },
+    {
+      "id": "M03.training-respects-knowledge-cutoff",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "1",
+          "1",
+          "1"
+        ],
+        "actual": [
+          "1",
+          "1",
+          "1"
+        ]
+      },
+      "elapsed_ms": 30
+    },
+    {
+      "id": "M01.unknown-training-retains-baseline-honestly",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "mean-v1",
+          "0",
+          null,
+          null
+        ],
+        "actual": [
+          "mean-v1",
+          "0",
+          null,
+          null
+        ]
+      },
+      "elapsed_ms": 26
+    },
+    {
+      "id": "X15.validation-cannot-overlap-holdout",
+      "status": "PASS",
+      "evidence": {
+        "expected": "FOLD_LEAKAGE",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 17
+    },
+    {
+      "id": "M03.future-registered-config-rejected",
+      "status": "PASS",
+      "evidence": {
+        "expected": "CONFIG_AFTER_VALIDATION",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 24
+    },
+    {
+      "id": "M02.conflicting-observation-revision",
+      "status": "PASS",
+      "evidence": {
+        "expected": "REVISION_CONFLICT",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 16
+    },
+    {
+      "id": "M07.same-vector-later-clock-is-current",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "CURRENT",
+          true,
+          false,
+          false
+        ],
+        "actual": [
+          "CURRENT",
+          true,
+          false,
+          false
+        ]
+      },
+      "elapsed_ms": 15
+    },
+    {
+      "id": "M07.calendar-revision-invalidates",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "STALE",
+          true,
+          [
+            "REVISION_CHANGED"
+          ]
+        ],
+        "actual": [
+          "STALE",
+          true,
+          [
+            "REVISION_CHANGED"
+          ]
+        ]
+      },
+      "elapsed_ms": 15
+    },
+    {
+      "id": "M07.lead-time-revision-invalidates",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "STALE",
+          true,
+          [
+            "REVISION_CHANGED"
+          ]
+        ],
+        "actual": [
+          "STALE",
+          true,
+          [
+            "REVISION_CHANGED"
+          ]
+        ]
+      },
+      "elapsed_ms": 15
+    },
+    {
+      "id": "M07.yield-revision-invalidates",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "STALE",
+          true,
+          [
+            "REVISION_CHANGED"
+          ]
+        ],
+        "actual": [
+          "STALE",
+          true,
+          [
+            "REVISION_CHANGED"
+          ]
+        ]
+      },
+      "elapsed_ms": 15
+    },
+    {
+      "id": "M07.capacity-revision-invalidates",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "STALE",
+          true,
+          [
+            "REVISION_CHANGED"
+          ]
+        ],
+        "actual": [
+          "STALE",
+          true,
+          [
+            "REVISION_CHANGED"
+          ]
+        ]
+      },
+      "elapsed_ms": 14
+    },
+    {
+      "id": "M07.same-count-backdate-hash-invalidates",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "STALE",
+          [
+            "SOURCE_HASH_CHANGED"
+          ]
+        ],
+        "actual": [
+          "STALE",
+          [
+            "SOURCE_HASH_CHANGED"
+          ]
+        ]
+      },
+      "elapsed_ms": 15
+    },
+    {
+      "id": "M07.deletion-retains-authoritative-vector",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "STALE",
+          [
+            "REVISION_CHANGED",
+            "SOURCE_HASH_CHANGED",
+            "FACT_COUNT_CHANGED"
+          ]
+        ],
+        "actual": [
+          "STALE",
+          [
+            "REVISION_CHANGED",
+            "SOURCE_HASH_CHANGED",
+            "FACT_COUNT_CHANGED"
+          ]
+        ]
+      },
+      "elapsed_ms": 15
+    },
+    {
+      "id": "M07.missing-current-is-not-proof-of-deletion",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "UNKNOWN",
+          null,
+          false
+        ],
+        "actual": [
+          "UNKNOWN",
+          null,
+          false
+        ]
+      },
+      "elapsed_ms": 14
+    },
+    {
+      "id": "M07.required-domain-missing-from-both",
+      "status": "PASS",
+      "evidence": {
+        "expected": "UNKNOWN",
+        "actual": "UNKNOWN"
+      },
+      "elapsed_ms": 14
+    },
+    {
+      "id": "M07.same-partial-vector-not-current",
+      "status": "PASS",
+      "evidence": {
+        "expected": "UNKNOWN",
+        "actual": "UNKNOWN"
+      },
+      "elapsed_ms": 15
+    },
+    {
+      "id": "M07.changed-plus-incomplete-retains-both-findings",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "STALE",
+          false,
+          false
+        ],
+        "actual": [
+          "STALE",
+          false,
+          false
+        ]
+      },
+      "elapsed_ms": 15
+    },
+    {
+      "id": "M07.additional-dependency-invalidates",
+      "status": "PASS",
+      "evidence": {
+        "expected": "STALE",
+        "actual": "STALE"
+      },
+      "elapsed_ms": 15
+    },
+    {
+      "id": "M07.vector-order-does-not-change-checks",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          {
+            "domain": "calendar",
+            "current": {
+              "domain": "calendar",
+              "revision": "v1",
+              "fact_count": 4,
+              "source_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "completeness": "COMPLETE"
+            },
+            "reasons": [],
+            "expected": {
+              "domain": "calendar",
+              "revision": "v1",
+              "fact_count": 4,
+              "source_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "completeness": "COMPLETE"
+            }
+          },
+          {
+            "domain": "capacity",
+            "current": {
+              "domain": "capacity",
+              "revision": "v1",
+              "fact_count": 4,
+              "source_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "completeness": "COMPLETE"
+            },
+            "reasons": [],
+            "expected": {
+              "domain": "capacity",
+              "revision": "v1",
+              "fact_count": 4,
+              "source_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "completeness": "COMPLETE"
+            }
+          },
+          {
+            "domain": "lead-time",
+            "current": {
+              "domain": "lead-time",
+              "revision": "v1",
+              "fact_count": 4,
+              "source_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "completeness": "COMPLETE"
+            },
+            "reasons": [],
+            "expected": {
+              "domain": "lead-time",
+              "revision": "v1",
+              "fact_count": 4,
+              "source_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "completeness": "COMPLETE"
+            }
+          },
+          {
+            "domain": "yield",
+            "current": {
+              "domain": "yield",
+              "revision": "v1",
+              "fact_count": 4,
+              "source_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "completeness": "COMPLETE"
+            },
+            "reasons": [],
+            "expected": {
+              "domain": "yield",
+              "revision": "v1",
+              "fact_count": 4,
+              "source_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "completeness": "COMPLETE"
+            }
+          }
+        ],
+        "actual": [
+          {
+            "domain": "calendar",
+            "current": {
+              "domain": "calendar",
+              "revision": "v1",
+              "fact_count": 4,
+              "source_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "completeness": "COMPLETE"
+            },
+            "reasons": [],
+            "expected": {
+              "domain": "calendar",
+              "revision": "v1",
+              "fact_count": 4,
+              "source_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "completeness": "COMPLETE"
+            }
+          },
+          {
+            "domain": "capacity",
+            "current": {
+              "domain": "capacity",
+              "revision": "v1",
+              "fact_count": 4,
+              "source_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "completeness": "COMPLETE"
+            },
+            "reasons": [],
+            "expected": {
+              "domain": "capacity",
+              "revision": "v1",
+              "fact_count": 4,
+              "source_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "completeness": "COMPLETE"
+            }
+          },
+          {
+            "domain": "lead-time",
+            "current": {
+              "domain": "lead-time",
+              "revision": "v1",
+              "fact_count": 4,
+              "source_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "completeness": "COMPLETE"
+            },
+            "reasons": [],
+            "expected": {
+              "domain": "lead-time",
+              "revision": "v1",
+              "fact_count": 4,
+              "source_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "completeness": "COMPLETE"
+            }
+          },
+          {
+            "domain": "yield",
+            "current": {
+              "domain": "yield",
+              "revision": "v1",
+              "fact_count": 4,
+              "source_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "completeness": "COMPLETE"
+            },
+            "reasons": [],
+            "expected": {
+              "domain": "yield",
+              "revision": "v1",
+              "fact_count": 4,
+              "source_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "completeness": "COMPLETE"
+            }
+          }
+        ]
+      },
+      "elapsed_ms": 30
+    },
+    {
+      "id": "M07.duplicate-domain-refused",
+      "status": "PASS",
+      "evidence": {
+        "expected": "DUPLICATE_DOMAIN",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 14
+    },
+    {
+      "id": "M07.empty-required-manifest-refused",
+      "status": "PASS",
+      "evidence": {
+        "expected": "REQUIRED_DOMAINS",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 13
+    },
+    {
+      "id": "M07.timestamp-cannot-substitute-for-hash",
+      "status": "PASS",
+      "evidence": {
+        "expected": "DEPENDENCY_HASH",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 14
+    },
+    {
+      "id": "M08.partial-completion-minus-linked-correction",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          1,
+          "12",
+          "10",
+          "-2",
+          "2",
+          3
+        ],
+        "actual": [
+          1,
+          "12",
+          "10",
+          "-2",
+          "2",
+          3
+        ]
+      },
+      "elapsed_ms": 19
+    },
+    {
+      "id": "M08.progress-is-not-final-plan-miss",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "8",
+          "PERIOD_IN_PROGRESS",
+          null,
+          "4",
+          "NOT_INFERRED_FROM_OUTCOME"
+        ],
+        "actual": [
+          "8",
+          "PERIOD_IN_PROGRESS",
+          null,
+          "4",
+          "NOT_INFERRED_FROM_OUTCOME"
+        ]
+      },
+      "elapsed_ms": 18
+    },
+    {
+      "id": "M08.late-entry-does-not-rewrite-as-known",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          {
+            "plan_id": "plan-1",
+            "plan_version": 1,
+            "snapshot_id": "original-plan-capture",
+            "scope_id": "complete-scope-1",
+            "created_at": "2026-01-01T10:00:00Z",
+            "known_as_of": "2026-01-01T10:00:00Z",
+            "target_key": "SKU-M",
+            "size_id": "M",
+            "metric_id": "good-completed-pcs.v1",
+            "period_start": "2026-01-02T10:00:00Z",
+            "period_end": "2026-01-10T10:00:00Z",
+            "planned": {
+              "state": "KNOWN",
+              "value": "12",
+              "unit": "PCS",
+              "refs": [
+                {
+                  "kind": "SYNTHETIC_FIXTURE",
+                  "id": "frozen-planned-quantity",
+                  "revision": "1"
+                }
+              ]
+            },
+            "refs": [
+              {
+                "kind": "SYNTHETIC_FIXTURE",
+                "id": "frozen-plan-1-v1",
+                "revision": "1"
+              }
+            ]
+          },
+          0
+        ],
+        "actual": [
+          {
+            "refs": [
+              {
+                "id": "frozen-plan-1-v1",
+                "kind": "SYNTHETIC_FIXTURE",
+                "revision": "1"
+              }
+            ],
+            "plan_id": "plan-1",
+            "planned": {
+              "refs": [
+                {
+                  "id": "frozen-planned-quantity",
+                  "kind": "SYNTHETIC_FIXTURE",
+                  "revision": "1"
+                }
+              ],
+              "unit": "PCS",
+              "state": "KNOWN",
+              "value": "12"
+            },
+            "size_id": "M",
+            "scope_id": "complete-scope-1",
+            "metric_id": "good-completed-pcs.v1",
+            "created_at": "2026-01-01T10:00:00Z",
+            "period_end": "2026-01-10T10:00:00Z",
+            "target_key": "SKU-M",
+            "known_as_of": "2026-01-01T10:00:00Z",
+            "snapshot_id": "original-plan-capture",
+            "period_start": "2026-01-02T10:00:00Z",
+            "plan_version": 1
+          },
+          0
+        ]
+      },
+      "elapsed_ms": 37
+    },
+    {
+      "id": "M08.restated-late-entry-preserves-original-plan",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "13",
+          "1",
+          1,
+          "2026-01-20T10:00:00Z",
+          "NOT_INFERRED_FROM_OUTCOME"
+        ],
+        "actual": [
+          "13",
+          "1",
+          1,
+          "2026-01-20T10:00:00Z",
+          "NOT_INFERRED_FROM_OUTCOME"
+        ]
+      },
+      "elapsed_ms": 18
+    },
+    {
+      "id": "M08.late-reversal-only-in-restated-view",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "12",
+          "10",
+          1
+        ],
+        "actual": [
+          "12",
+          "10",
+          1
+        ]
+      },
+      "elapsed_ms": 35
+    },
+    {
+      "id": "M08.complete-reversal-can-prove-zero",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "KNOWN",
+          "0",
+          "-12"
+        ],
+        "actual": [
+          "KNOWN",
+          "0",
+          "-12"
+        ]
+      },
+      "elapsed_ms": 18
+    },
+    {
+      "id": "M08.multiple-partial-reversals-net-once",
+      "status": "PASS",
+      "evidence": {
+        "expected": "7",
+        "actual": "7"
+      },
+      "elapsed_ms": 19
+    },
+    {
+      "id": "M08.exact-duplicate-effect-counted-once",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "10",
+          3
+        ],
+        "actual": [
+          "10",
+          3
+        ]
+      },
+      "elapsed_ms": 19
+    },
+    {
+      "id": "M08.incomplete-capture-is-not-known-zero",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "UNKNOWN",
+          "CAPTURE_INCOMPLETE",
+          null
+        ],
+        "actual": [
+          "UNKNOWN",
+          "CAPTURE_INCOMPLETE",
+          null
+        ]
+      },
+      "elapsed_ms": 16
+    },
+    {
+      "id": "M08.complete-empty-capture-is-observed-zero",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "KNOWN",
+          "0",
+          "-12"
+        ],
+        "actual": [
+          "KNOWN",
+          "0",
+          "-12"
+        ]
+      },
+      "elapsed_ms": 16
+    },
+    {
+      "id": "M08.historical-capture-must-be-reconstructible",
+      "status": "PASS",
+      "evidence": {
+        "expected": "10",
+        "actual": "10"
+      },
+      "elapsed_ms": 35
+    },
+    {
+      "id": "M08.unknown-effect-quantity-is-not-zero",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "UNKNOWN",
+          "12",
+          null
+        ],
+        "actual": [
+          "UNKNOWN",
+          "12",
+          null
+        ]
+      },
+      "elapsed_ms": 18
+    },
+    {
+      "id": "M08.assumption-remains-visible-in-comparison",
+      "status": "PASS",
+      "evidence": {
+        "expected": {
+          "state": "ASSUMED",
+          "value": "12",
+          "unit": "PCS",
+          "refs": [
+            {
+              "kind": "SYNTHETIC_FIXTURE",
+              "id": "frozen-planned-quantity",
+              "revision": "1"
+            }
+          ],
+          "assumption_ids": [
+            "owner-scenario-1"
+          ]
+        },
+        "actual": {
+          "refs": [
+            {
+              "id": "frozen-planned-quantity",
+              "kind": "SYNTHETIC_FIXTURE",
+              "revision": "1"
+            }
+          ],
+          "unit": "PCS",
+          "state": "ASSUMED",
+          "value": "12",
+          "assumption_ids": [
+            "owner-scenario-1"
+          ]
+        }
+      },
+      "elapsed_ms": 18
+    },
+    {
+      "id": "M08.unknown-plan-is-not-retrofitted-from-actual",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          "UNKNOWN",
+          "10",
+          null,
+          null
+        ],
+        "actual": [
+          "UNKNOWN",
+          "10",
+          null,
+          null
+        ]
+      },
+      "elapsed_ms": 17
+    },
+    {
+      "id": "M08.period-end-exclusive-and-future-knowledge-excluded",
+      "status": "PASS",
+      "evidence": {
+        "expected": "10",
+        "actual": "10"
+      },
+      "elapsed_ms": 18
+    },
+    {
+      "id": "M08.event-order-does-not-change-result",
+      "status": "PASS",
+      "evidence": {
+        "expected": [
+          {
+            "actual": {
+              "refs": [
+                {
+                  "id": "actual-capture",
+                  "kind": "SYNTHETIC_FIXTURE",
+                  "revision": "1"
+                },
+                {
+                  "id": "correction-a",
+                  "kind": "SYNTHETIC_FIXTURE",
+                  "revision": "1"
+                },
+                {
+                  "id": "partial-a",
+                  "kind": "SYNTHETIC_FIXTURE",
+                  "revision": "1"
+                },
+                {
+                  "id": "partial-b",
+                  "kind": "SYNTHETIC_FIXTURE",
+                  "revision": "1"
+                }
+              ],
+              "unit": "PCS",
+              "state": "KNOWN",
+              "value": "10"
+            },
+            "plan_id": "plan-1",
+            "planned": {
+              "refs": [
+                {
+                  "id": "frozen-planned-quantity",
+                  "kind": "SYNTHETIC_FIXTURE",
+                  "revision": "1"
+                }
+              ],
+              "unit": "PCS",
+              "state": "KNOWN",
+              "value": "12"
+            },
+            "metric_id": "good-completed-pcs.v1",
+            "plan_version": 1,
+            "interpretation": "Outcome using only knowledge available at the assessment cutoff; original plan is unchanged.",
+            "knowledge_mode": "AS_KNOWN"
+          },
+          [
+            {
+              "kind": "REVERSAL",
+              "refs": [
+                {
+                  "id": "correction-a",
+                  "kind": "SYNTHETIC_FIXTURE",
+                  "revision": "1"
+                }
+              ],
+              "plan_id": "plan-1",
+              "size_id": "M",
+              "known_at": "2026-01-07T10:00:00Z",
+              "scope_id": "complete-scope-1",
+              "event_key": "correction-a",
+              "metric_id": "good-completed-pcs.v1",
+              "target_key": "SKU-M",
+              "effective_at": "2026-01-03T10:00:00Z",
+              "plan_version": 1,
+              "quantity_pcs": "2",
+              "reverses_event_key": "partial-a"
+            },
+            {
+              "kind": "POST",
+              "refs": [
+                {
+                  "id": "partial-a",
+                  "kind": "SYNTHETIC_FIXTURE",
+                  "revision": "1"
+                }
+              ],
+              "plan_id": "plan-1",
+              "size_id": "M",
+              "known_at": "2026-01-03T10:00:00Z",
+              "scope_id": "complete-scope-1",
+              "event_key": "partial-a",
+              "metric_id": "good-completed-pcs.v1",
+              "target_key": "SKU-M",
+              "effective_at": "2026-01-03T10:00:00Z",
+              "plan_version": 1,
+              "quantity_pcs": "8",
+              "reverses_event_key": null
+            },
+            {
+              "kind": "POST",
+              "refs": [
+                {
+                  "id": "partial-b",
+                  "kind": "SYNTHETIC_FIXTURE",
+                  "revision": "1"
+                }
+              ],
+              "plan_id": "plan-1",
+              "size_id": "M",
+              "known_at": "2026-01-05T10:00:00Z",
+              "scope_id": "complete-scope-1",
+              "event_key": "partial-b",
+              "metric_id": "good-completed-pcs.v1",
+              "target_key": "SKU-M",
+              "effective_at": "2026-01-05T10:00:00Z",
+              "plan_version": 1,
+              "quantity_pcs": "4",
+              "reverses_event_key": null
+            }
+          ]
+        ],
+        "actual": [
+          {
+            "actual": {
+              "refs": [
+                {
+                  "id": "actual-capture",
+                  "kind": "SYNTHETIC_FIXTURE",
+                  "revision": "1"
+                },
+                {
+                  "id": "correction-a",
+                  "kind": "SYNTHETIC_FIXTURE",
+                  "revision": "1"
+                },
+                {
+                  "id": "partial-a",
+                  "kind": "SYNTHETIC_FIXTURE",
+                  "revision": "1"
+                },
+                {
+                  "id": "partial-b",
+                  "kind": "SYNTHETIC_FIXTURE",
+                  "revision": "1"
+                }
+              ],
+              "unit": "PCS",
+              "state": "KNOWN",
+              "value": "10"
+            },
+            "plan_id": "plan-1",
+            "planned": {
+              "refs": [
+                {
+                  "id": "frozen-planned-quantity",
+                  "kind": "SYNTHETIC_FIXTURE",
+                  "revision": "1"
+                }
+              ],
+              "unit": "PCS",
+              "state": "KNOWN",
+              "value": "12"
+            },
+            "metric_id": "good-completed-pcs.v1",
+            "plan_version": 1,
+            "interpretation": "Outcome using only knowledge available at the assessment cutoff; original plan is unchanged.",
+            "knowledge_mode": "AS_KNOWN"
+          },
+          [
+            {
+              "kind": "REVERSAL",
+              "refs": [
+                {
+                  "id": "correction-a",
+                  "kind": "SYNTHETIC_FIXTURE",
+                  "revision": "1"
+                }
+              ],
+              "plan_id": "plan-1",
+              "size_id": "M",
+              "known_at": "2026-01-07T10:00:00Z",
+              "scope_id": "complete-scope-1",
+              "event_key": "correction-a",
+              "metric_id": "good-completed-pcs.v1",
+              "target_key": "SKU-M",
+              "effective_at": "2026-01-03T10:00:00Z",
+              "plan_version": 1,
+              "quantity_pcs": "2",
+              "reverses_event_key": "partial-a"
+            },
+            {
+              "kind": "POST",
+              "refs": [
+                {
+                  "id": "partial-a",
+                  "kind": "SYNTHETIC_FIXTURE",
+                  "revision": "1"
+                }
+              ],
+              "plan_id": "plan-1",
+              "size_id": "M",
+              "known_at": "2026-01-03T10:00:00Z",
+              "scope_id": "complete-scope-1",
+              "event_key": "partial-a",
+              "metric_id": "good-completed-pcs.v1",
+              "target_key": "SKU-M",
+              "effective_at": "2026-01-03T10:00:00Z",
+              "plan_version": 1,
+              "quantity_pcs": "8",
+              "reverses_event_key": null
+            },
+            {
+              "kind": "POST",
+              "refs": [
+                {
+                  "id": "partial-b",
+                  "kind": "SYNTHETIC_FIXTURE",
+                  "revision": "1"
+                }
+              ],
+              "plan_id": "plan-1",
+              "size_id": "M",
+              "known_at": "2026-01-05T10:00:00Z",
+              "scope_id": "complete-scope-1",
+              "event_key": "partial-b",
+              "metric_id": "good-completed-pcs.v1",
+              "target_key": "SKU-M",
+              "effective_at": "2026-01-05T10:00:00Z",
+              "plan_version": 1,
+              "quantity_pcs": "4",
+              "reverses_event_key": null
+            }
+          ]
+        ]
+      },
+      "elapsed_ms": 35
+    },
+    {
+      "id": "M08.over-reversal-refused",
+      "status": "PASS",
+      "evidence": {
+        "expected": "OVER_REVERSAL",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 16
+    },
+    {
+      "id": "M08.sum-of-reversals-cannot-exceed-original",
+      "status": "PASS",
+      "evidence": {
+        "expected": "OVER_REVERSAL",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 16
+    },
+    {
+      "id": "M08.orphan-reversal-refused-for-complete-capture",
+      "status": "PASS",
+      "evidence": {
+        "expected": "ORPHAN_REVERSAL",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 15
+    },
+    {
+      "id": "M08.orphan-in-incomplete-capture-remains-unknown",
+      "status": "PASS",
+      "evidence": {
+        "expected": "UNKNOWN",
+        "actual": "UNKNOWN"
+      },
+      "elapsed_ms": 17
+    },
+    {
+      "id": "M08.reversal-cannot-correct-another-reversal",
+      "status": "PASS",
+      "evidence": {
+        "expected": "REVERSAL_LINK",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 16
+    },
+    {
+      "id": "M08.correction-cannot-change-effective-period",
+      "status": "PASS",
+      "evidence": {
+        "expected": "REVERSAL_LINK",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 15
+    },
+    {
+      "id": "M08.conflicting-event-identity-refused",
+      "status": "PASS",
+      "evidence": {
+        "expected": "EVENT_CONFLICT",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 15
+    },
+    {
+      "id": "M08.wrong-plan_version-refused",
+      "status": "PASS",
+      "evidence": {
+        "expected": "ATTRIBUTION",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 14
+    },
+    {
+      "id": "M08.wrong-plan_id-refused",
+      "status": "PASS",
+      "evidence": {
+        "expected": "ATTRIBUTION",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 14
+    },
+    {
+      "id": "M08.wrong-size_id-refused",
+      "status": "PASS",
+      "evidence": {
+        "expected": "ATTRIBUTION",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 13
+    },
+    {
+      "id": "M08.wrong-target_key-refused",
+      "status": "PASS",
+      "evidence": {
+        "expected": "ATTRIBUTION",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 13
+    },
+    {
+      "id": "M08.wrong-scope_id-refused",
+      "status": "PASS",
+      "evidence": {
+        "expected": "ATTRIBUTION",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 14
+    },
+    {
+      "id": "M08.wrong-metric_id-refused",
+      "status": "PASS",
+      "evidence": {
+        "expected": "ATTRIBUTION",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 14
+    },
+    {
+      "id": "M08.future-fact-in-original-plan-refused",
+      "status": "PASS",
+      "evidence": {
+        "expected": "PERIOD_OR_ORIGIN",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 14
+    },
+    {
+      "id": "M08.capture-cannot-predate-assessment",
+      "status": "PASS",
+      "evidence": {
+        "expected": "CUTOFF_ORDER",
+        "actual": "REJECTED_AS_EXPECTED"
+      },
+      "elapsed_ms": 13
+    },
+    {
+      "id": "SEC.no-definer-or-operational-execute",
+      "status": "PASS",
+      "evidence": {
+        "expected": {
+          "functions": 22,
+          "definers": 0,
+          "exposed": 0
+        },
+        "actual": {
+          "functions": 22,
+          "definers": 0,
+          "exposed": 0
+        }
+      },
+      "elapsed_ms": 11
+    },
+    {
+      "id": "SEC.anon-direct-call-denied",
+      "status": "PASS",
+      "evidence": {
+        "expected": "PERMISSION_DENIED",
+        "actual": "PERMISSION_DENIED"
+      },
+      "elapsed_ms": 17
+    },
+    {
+      "id": "SEC.authenticated-direct-call-denied",
+      "status": "PASS",
+      "evidence": {
+        "expected": "PERMISSION_DENIED",
+        "actual": "PERMISSION_DENIED"
+      },
+      "elapsed_ms": 17
+    },
+    {
+      "id": "SEC.service_role-direct-call-denied",
+      "status": "PASS",
+      "evidence": {
+        "expected": "PERMISSION_DENIED",
+        "actual": "PERMISSION_DENIED"
+      },
+      "elapsed_ms": 17
+    },
+    {
+      "id": "SEC.capture-owner-can-compute-without-ledger-write",
+      "status": "PASS",
+      "evidence": {
+        "expected": "12345.67",
+        "actual": "12345.67"
+      },
+      "elapsed_ms": 40
+    }
+  ],
+  "cleanup": "CLOSED_DISPOSABLE_RUNTIME",
+  "qualification": "WRITER_PRIVATE_KERNEL_PROOF_ONLY",
+  "not_proven": [
+    "CP6/F03 authoritative capture",
+    "real Supabase Auth/RLS composition",
+    "browser flows",
+    "X06 stale/race boundary",
+    "P08 apply",
+    "independent F04 acceptance",
+    "real-business predictive accuracy"
+  ]
+}

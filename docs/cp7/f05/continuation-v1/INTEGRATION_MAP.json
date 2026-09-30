@@ -1,0 +1,136 @@
+{
+  "version": "f05.integration-handoff.v1",
+  "tested_source": "ec8e27890319ef898f0bb8b06028daa12a9d2f08",
+  "observed_integration_head": "3c825db217d3a495ba263cf47d1d10d05b8a8392",
+  "observed_f04_branch_head": "f6162a9e6f4257d4cab7181c227e7af31d415a07",
+  "status": "WRITER_FIXTURE_SHELL_ONLY",
+  "production_go": false,
+  "canonical_status_rule": "Read latest CURRENT_STATE at integration; do not infer acceptance from existence of a parallel branch.",
+  "composition_root": "tests/cp7/browser/planner/f05-preview/F05App.tsx",
+  "ports": [
+    {
+      "name": "analysis_read",
+      "signature": "AnalysisReadPort.read(ExampleMode): Promise<ShellState>",
+      "current": "DEMO_ONLY",
+      "references": [
+        "src/cp7/workspace.ts",
+        "src/cp7/contract.ts"
+      ],
+      "next": "Authorized complete operational AnalysisResult and strict server/RPC validation; preserve run/scope/scenario and explicit unknown; no automatic fixture fallback."
+    },
+    {
+      "name": "yield_read",
+      "signature": "YieldReadPort(input, context, mix, example): Promise<YieldReview>",
+      "current": "PRIVATE_SYNTHETIC_ONLY_TEST_PORT",
+      "references": [
+        "tests/cp7/browser/planner/f05-preview/cuttingYieldContract.ts",
+        "docs/cp7/f05/YIELD_ANALYZER.md"
+      ],
+      "next": "Agree actual DTO/roll input and producer mapping with integrator. Mix/example selectors are harness controls, not production fields. Do not mark real data SYNTHETIC_ONLY."
+    }
+  ],
+  "packets": [
+    {
+      "id": "P14",
+      "framework_depends_on": [
+        "P08",
+        "P11"
+      ],
+      "reusable": [
+        "priority/reason/source views",
+        "dirty-form preview",
+        "width-optional analyzer view"
+      ],
+      "not_connected": [
+        "Stok/Planner/Buat/Bagi routes",
+        "actual dirty form",
+        "source links",
+        "production status command",
+        "apply bridge"
+      ],
+      "first_read_slice": "Same complete authorized run projected to P14; keep apply disabled until latest-state/idempotency/domain lock/native-public proof."
+    },
+    {
+      "id": "P15",
+      "framework_depends_on": [
+        "P13",
+        "P14"
+      ],
+      "reusable": [
+        "deterministic Indonesian report",
+        "period withholding",
+        "immutable local archives/revisions/export"
+      ],
+      "not_connected": [
+        "period finance reader",
+        "server publish/history/revision"
+      ],
+      "first_read_slice": "Match period/known-as-of/effective-as-of and financial readiness; archive corrections append a linked revision."
+    },
+    {
+      "id": "P16",
+      "framework_depends_on": [
+        "P15"
+      ],
+      "reusable": [
+        "manual session reminders",
+        "attention versus condition",
+        "deduplicated local queue"
+      ],
+      "not_connected": [
+        "existing reminder facade",
+        "complete production/material/ARAP observations",
+        "server attention/policy/scheduler/outbox"
+      ],
+      "first_read_slice": "Use authoritative source conditions and episode identity; ACK/DONE must not resolve source. Live WA remains CP7C."
+    },
+    {
+      "id": "P17",
+      "framework_depends_on": [
+        "P14"
+      ],
+      "reusable": [
+        "authorized fixture prompt",
+        "copy/open/manual fallback"
+      ],
+      "not_connected": [
+        "server authorized snapshot",
+        "real Auth access/truncation envelope"
+      ],
+      "first_read_slice": "Copy exact authorized analysis with explicit unknown and source metadata; no paid/external AI API or writeback."
+    }
+  ],
+  "mandatory_owner_decisions": {
+    "width_required": false,
+    "width_default": null,
+    "width_imputation": "FORBIDDEN_SILENT_NOMINAL_OR_ZERO",
+    "width_later": "Invalidate prior review and refetch; saving real cutting must remain independent.",
+    "new_mix": "Withhold if support/generalization is not validated. Same endpoints do not mean same composition.",
+    "low_yield_reason": "Flag discrepancy plus evidence/inspection; no attribution to theft/BS/narrow fabric without independent proof.",
+    "data_year": "Not a sufficiency or accuracy guarantee."
+  },
+  "state_lifecycle": {
+    "access_scope_or_epoch_change": "Purge workspace session data",
+    "reader_replacement": "Withhold old result immediately; fence old async response; new explicit load",
+    "same_scope_stale_snapshot": "Keep filed local archives; withhold new publication/queue/analyzer",
+    "reload": "All preview session-only state is lost"
+  },
+  "ownership": {
+    "f05": "Packet-owned preview/test paths and docs/cp7/f05",
+    "integrator_only": [
+      "App/main/routes/runtime",
+      "auth/access catalog",
+      "shared DTO/schema",
+      "source/migration/CI manifests",
+      "CURRENT_STATE"
+    ],
+    "unchanged": [
+      "F03",
+      "F04",
+      "SQL/hosted data",
+      "48 frozen framework files"
+    ]
+  },
+  "verification_entry": "node tests/cp7/browser/planner/f05-preview/verify-f05.mjs [--browser]",
+  "verification_boundary": "Local fixture writer proof, no native/Auth integration acceptance or production authorization."
+}

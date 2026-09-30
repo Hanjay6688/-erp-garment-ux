@@ -1,0 +1,24 @@
+{
+  "F04_private_kernel_cases_local": 138,
+  "F05_typescript_build_secret": "PASS",
+  "F05_unit_cases_local": 47,
+  "declared_actual_Auth_HTTP": 1,
+  "declared_actual_races": 2,
+  "declared_native": 12,
+  "independent_acceptance": false,
+  "production_go": false,
+  "reports_sha256": "103c1b97244ae04440d5f2f90dae8f2f46a4c9d4d8191b8e73afe2f0ad0e914c",
+  "runtime": "PGLITE_NATIVE_COLUMN_STANDIN_NOT_AUTH",
+  "source_sha256": {
+    ".github/workflows/cp7-f04-history.yml": "bc92484858839305c3498d7dc345084e5afceb296af4076b459c8a3abe4a0f80",
+    "scripts/cp7-src/planning/bootstrap.sql": "81e6e636f174529e124d6d352a7072dda1b005e0466dbf0751133c1a4df237ce",
+    "scripts/cp7-src/planning/history-source.sql": "70810a01dbe70a20bbdcba793c7f19838319266f9f188890b08c648a139ebc13",
+    "scripts/cp7-src/planning/history.sql": "4ce409e79fa21085f60909f1908fa6a34935ca3db156377d7e0cacbd0c2f27a2",
+    "scripts/cp7-src/planning/ownership.sql": "7ae0eae27c7fd64ed62230a8889a9df09b6e7998a0dd4795b25af610c808df55",
+    "scripts/cp7_f04_history_probe.py": "a4c885c8868f3418e58087ee0329fb61a689b709389c6c60750eedc2f9ce6b75",
+    "scripts/cp7_planning_bundle.py": "bf04c582dc76b76674843236487dffe3fbf4fb209c5acaa6695c067d32c2a550",
+    "scripts/cp7_planning_history_cases.py": "d422aff4cb38b3ca89b858a9e416bf1575655ed1c2b1492eb67a7e866b6a34e9"
+  },
+  "source_translation_cases": 4,
+  "status": "LOCAL_SOURCE_PARSE_AND_PINNED_CONTINUATIONS_PASS_NATIVE15_PENDING"
+}

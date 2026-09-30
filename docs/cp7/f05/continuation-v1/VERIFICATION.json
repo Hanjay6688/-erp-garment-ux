@@ -1,0 +1,75 @@
+{
+  "status": "WRITER_FIXTURE_SHELL_VERIFIED",
+  "tested_source": "ec8e27890319ef898f0bb8b06028daa12a9d2f08",
+  "source_tree": "b2edcc647fab76a36e3bdfb2558467810c6c2308",
+  "production_go": false,
+  "independent_acceptance": false,
+  "connected_operational_data": false,
+  "trained_yield_model": false,
+  "f05_unit": {
+    "numTotalTests": 47,
+    "numPassedTests": 47,
+    "numFailedTests": 0,
+    "success": true
+  },
+  "browser": {
+    "startTime": "2026-09-30T09:56:09.158Z",
+    "duration": 15238.238000000001,
+    "expected": 18,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "checks": {
+    "typescript": "PASS",
+    "unit": "PASS",
+    "preview_build": "PASS",
+    "preview_secret_scan": "PASS",
+    "browser": "PASS"
+  },
+  "new_tests": [
+    "composition root forwards explicit analyzer reader; no implicit call",
+    "actor-scope change clears local archives/queue/review at same visible role",
+    "access-epoch change clears local archives/queue/review",
+    "analysis reader replacement fences delayed result and withholds snapshot",
+    "switching away and back to old analysis reader does not resurrect snapshot",
+    "analyzer reader replacement invalidates completed/pending result, including switching back before new load"
+  ],
+  "runner": "tests/cp7/browser/planner/f05-preview/verify-f05.mjs --browser",
+  "browser_engine": "Chromium Headless Shell 141.0.7390.37 / Playwright 1.62.1",
+  "viewports": {
+    "desktop": [
+      1440,
+      1000
+    ],
+    "mobile": [
+      412,
+      915
+    ]
+  },
+  "fresh_preview_server": true,
+  "browser_external_erp_requests": "ZERO_IN_NETWORK_BOUNDARY_STORY",
+  "working_tree_boundary": "Receipt records tracked_changes=true because HANDOFF.md was being drafted. Every captured source/dependency hash equals the tested commit blob and remains unchanged after tests; no source was dirty.",
+  "first_attempt": {
+    "source": "adb5fc864a44c3fcdd465d388119a0f0cbec13cb",
+    "status": "FAIL_BROWSER_SERVER_START_EXIT_127",
+    "cause": "Playwright webServer default cwd was config directory while command paths expected repo root; prior manual server hid this. Fixed cwd and node command, then verified automatic server start.",
+    "receipt": "evidence/FIRST_CHECKS.json"
+  },
+  "full_repo_unit_local": "NOT_RUN_THIS_CHECKPOINT; existing CI runs all repo units/security/main build/S0 browser/CodeQL.",
+  "native_sql": "NOT_RUN_NO_SQL_READER_OR_MUTATOR_CHANGE",
+  "clipboard_popup_boundary": "Injected browser stubs exercise success/rejection/blocked-popup; real OS clipboard and authenticated ChatGPT not exercised.",
+  "raw_receipts": {
+    "FINAL_CHECKS.json": "b4837e5d322b5b34e2b84dcd2e97c1e5a84287df40188c9440968bbc09450b1a",
+    "FIRST_CHECKS.json": "c0fbef5ac4af7acd43bfe4477dc70078949f58a9f0aaaadb4b3f16e18ab68b43",
+    "browser-results.json.gz": "584f6667e007cd540a325e46bda4cd08144f80f847439ce5e4d61c5b4b58a524",
+    "unit-results.json.gz": "a5485c5894eecbb66371a7f6d9f770934bc4b63f4c15cc89509f685c2a2ed5b7"
+  },
+  "limitations": [
+    "Private ports remain demo/synthetic only; production DTO/authorized reader integration pending.",
+    "Range is predefined fixture, not a trained or calibrated factory model.",
+    "Reminder/report/queue remain session-only; WA/scheduler/publish/apply unchanged and inactive.",
+    "No F03/F04, shared framework/entry/auth/manifest/CI/database changes.",
+    "New browser screenshots are automatic; no new visual-design acceptance claimed."
+  ]
+}

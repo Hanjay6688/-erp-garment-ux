@@ -1,0 +1,253 @@
+{
+  "schema": "cp7.f04.continuation-receipt.v1",
+  "qualification": "PRIVATE_KERNEL_WRITER_PASS_INTEGRATION_AND_INDEPENDENT_ACCEPTANCE_OPEN",
+  "source_head": "08487236b3305727eb4c470ca896e271a911bdaa",
+  "source_tree": "2dacfb397a3b1ed51929ddc2618ed589b31d1442",
+  "integration_base": "5da1fb6106c7c72058ebd73a782a5155f59c258d",
+  "pull_request": "https://github.com/Hanjay6688/-erp-garment-ux/pull/36",
+  "scope": "F04 P05-P07 only; no F03 or shared-file edits",
+  "new_functions": [
+    "cp7_baseline.dependencies(jsonb)",
+    "cp7_models.compare_plan(jsonb)"
+  ],
+  "ci": {
+    "run_id": 36599092652,
+    "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36599092652",
+    "head_sha": "08487236b3305727eb4c470ca896e271a911bdaa",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "id": 109511517089,
+        "name": "CP7 CodeQL javascript-typescript",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Set up job",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+            "conclusion": "success"
+          },
+          {
+            "name": "Reject CodeQL findings or incomplete runs",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 109511517156,
+        "name": "CP7 CodeQL actions",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Set up job",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+            "conclusion": "success"
+          },
+          {
+            "name": "Reject CodeQL findings or incomplete runs",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 109511518342,
+        "name": "shell",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Set up job",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npm ci",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run python3 scripts/cp7_contract_receipt.py",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npm test",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npm run test:security",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npm run build",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npx --no-install playwright install --with-deps chromium",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npx --no-install playwright test --config playwright.cp7.config.ts",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "conclusion": "success"
+          }
+        ]
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "id": 11048396731,
+      "name": "cp7-codeql-javascript-typescript",
+      "size_bytes": 105800,
+      "digest": "sha256:47b50b36bc3526afab7b2ee55da02ed145876d673511b71f035b5f1c915c2807",
+      "archive_digest_verified": true
+    },
+    {
+      "id": 11047957632,
+      "name": "cp7-codeql-actions",
+      "size_bytes": 39170,
+      "digest": "sha256:7cd90d242f89a24fac774d1bc5ac298991b12de4138f56f0fbe71b814b3aa707",
+      "archive_digest_verified": true
+    },
+    {
+      "id": 11047477861,
+      "name": "cp7-shell-proof",
+      "size_bytes": 491434,
+      "digest": "sha256:dbc508cfb034c3c208b5136efd426979bc13298b48eba34f8f7b63eac9dc2a4b",
+      "archive_digest_verified": true
+    }
+  ],
+  "proof": {
+    "native_kernel_receipt": "NATIVE_KERNEL_RECEIPT_R2.json",
+    "native_runtime": "PostgreSQL 16.15",
+    "native_cases": 138,
+    "new_synthetic_cases": 47,
+    "local_receipt": "LOCAL_WASM_RECEIPT_R2.json",
+    "local_runtime": "PGlite 0.5.8 / PostgreSQL 18.3 WASM",
+    "vitest": 716,
+    "inherited_shell_browser": 6,
+    "static_security": "PASS",
+    "build_and_client_secret_scan": "PASS",
+    "original_framework_hashes": 48,
+    "codeql_receipt": "CODEQL_RECEIPT_R2.json",
+    "codeql_languages": [
+      "javascript-typescript",
+      "actions"
+    ],
+    "codeql_findings": 0,
+    "codeql_sql_coverage": false
+  },
+  "covered_boundaries": [
+    "M07 supplied dependency vector equality, change and missing/incomplete evidence",
+    "M08 frozen plan/version and physical metric attribution",
+    "M08 partial/full linked correction, duplicate identity and over-reversal rejection",
+    "M08 AS_KNOWN versus RESTATED cutoffs with no inferred causal verdict"
+  ],
+  "unchanged": [
+    "F03 files and branch",
+    "CP6 and shared contracts/manifests/workflows/UI",
+    "Original 48 framework files",
+    "Prior b4d6fb1 checkpoint proof files"
+  ],
+  "remaining_gates": [
+    "Authoritative source capture and exact metric/correction normalization",
+    "Real plan persistence and lifecycle attribution",
+    "Integrated M07 ETA/calendar/capacity invalidation and multi-resource constraints",
+    "X06 current authorization/stale/race transaction boundary",
+    "Realistic small/medium/large performance (separate ADR/P02/P07 gate)",
+    "Target Supabase PostgreSQL 17/schema/Auth/browser integration",
+    "P08 apply and P10 prerequisites",
+    "Independent F04 acceptance and production approval"
+  ],
+  "prior_receipts": {
+    "source_head": "b4d6fb134fce8b068a24b6c1996943d21a164431",
+    "native": "NATIVE_KERNEL_RECEIPT.json",
+    "local": "LOCAL_WASM_RECEIPT.json",
+    "verification": "VERIFICATION.json",
+    "note": "Historical 91-case proof; its reference to full-volume M07 was imprecise. M07 is version/calendar/ETA/capacity validity; performance remains a separate gate."
+  },
+  "production_go": false,
+  "operational_writes": false,
+  "hosted_sql_installation": false
+}

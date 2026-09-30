@@ -1,0 +1,25 @@
+import { useState } from 'react'
+import { archiveReport, fixtureDate, periodAvailability, type Archive, type Period, type PreviewContext } from '../../../browser/planner/f05-preview/model'
+import { downloadText, Fact, Empty } from '../../../browser/planner/f05-preview/Common'
+
+export function BusinessReport(context: PreviewContext) {
+  const [draft, setDraft] = useState<Period>({ kind: 'daily', start: fixtureDate, end: fixtureDate })
+  const [period, setPeriod] = useState(draft)
+  const [archives, setArchives] = useState<readonly Archive[]>([])
+  const [revisionOf, setRevisionOf] = useState<string | null>(null)
+  const [selected, setSelected] = useState<string | null>(null)
+  const [message, setMessage] = useState('')
+  const unavailable = periodAvailability(period)
+  const archive = archives.find(item => item.id === selected)
+  const { view, stale } = context
+  function publishLocal() {
+    try { const record = archiveReport(context, period, archives, revisionOf); setArchives(items => [...items, record]); setSelected(record.id); setRevisionOf(null); setMessage('Arsip contoh dibuat dalam sesi ini. Belum diterbitkan ke server.') }
+    catch (error) { setMessage(error instanceof Error ? error.message : 'Arsip belum siap.') }
+  }
+  return <><div className="f05-section-heading"><div><span className="f05-kicker">P15 · BUSINESS REPORT</span><h2>Angka yang sama, konteks yang lengkap.</h2><p>Narasi Indonesia memakai template deterministik.</p></div><span className="f05-badge">Tanpa LLM</span></div>
+    <article className="f05-card"><div className="f05-period"><label>Jenis periode<select value={draft.kind} onChange={event => setDraft({ ...draft, kind: event.target.value as Period['kind'] })}><option value="daily">Harian</option><option value="weekly">Mingguan</option><option value="custom">Kustom</option></select></label><label>Tanggal awal<input type="date" value={draft.start} onChange={event => setDraft({ ...draft, start: event.target.value })} /></label><label>Tanggal akhir<input type="date" value={draft.end} onChange={event => setDraft({ ...draft, end: event.target.value })} /></label><button onClick={() => { setPeriod({ ...draft }); setMessage(''); setRevisionOf(null) }}>Terapkan periode</button></div><p className="f05-note">Fixture tersedia untuk snapshot 30 September 2026 saja. Metrik memiliki periode sendiri yang ditampilkan di bawah.</p></article>
+    {unavailable ? <Empty title="Laporan periode ditahan" text={unavailable} /> : <><article className="f05-card"><span className="f05-kicker">NARASI CONTOH · {period.start}</span><h3>Briefing produksi</h3><div className="f05-prose">{view.report.split('\n\n').map((paragraph, index) => <p key={index}>{paragraph}</p>)}</div></article><article className="f05-card"><h3>Rumus & kesiapan metrik</h3>{view.analysis!.metrics.length === 0 ? <p>Keuangan tidak ditampilkan pada hak contoh ini.</p> : view.analysis!.metrics.map(metric => <div className="f05-source" key={metric.metric_id}><h4>{metric.metric_id} · {metric.readiness}</h4><p className="f05-mono">{metric.formula_ref}</p><p>{metric.period_start} → {metric.period_end} · {metric.knowledge_mode} · {metric.scope_key}</p><dl className="f05-facts"><Fact label="Hasil dari mesin" fact={metric.value} />{metric.operands.map((operand, index) => <Fact key={index} label={`Operand ${index + 1}`} fact={operand} />)}</dl></div>)}</article><div className="f05-actions"><button disabled={stale} onClick={publishLocal}>{revisionOf ? 'Buat revisi contoh' : 'Buat arsip contoh'}</button><button onClick={() => downloadText(view.report, 'cp7-report-CONTOH.txt')}>Ekspor teks contoh</button><button disabled>Terbitkan ke server</button></div></>}
+    <p role="status">{message}</p><article className="f05-card"><span className="f05-kicker">ARSIP SESI · HILANG SAAT RELOAD / GANTI HAK</span><h3>Riwayat contoh</h3>{archives.length === 0 ? <p>Belum ada arsip contoh.</p> : <div className="f05-actions">{archives.map(item => <button key={item.id} onClick={() => setSelected(item.id)} aria-pressed={item.id === selected}>{item.id}{item.revisionOf ? ` · revisi ${item.revisionOf}` : ''}</button>)}</div>}
+    {archive ? <div className="f05-source"><h4>{archive.id}</h4><p>Run: {archive.runId} · {archive.period.start} → {archive.period.end}</p><details><summary>Identitas arsip</summary><p>Snapshot {archive.snapshotId} · hash {archive.sourceHash}</p><p>Engine {archive.engineVersion} · policy {archive.policyVersion} · akses {archive.accessEpoch}</p></details>{stale || archive.runId !== view.analysis!.run_id || archive.sourceHash !== view.analysis!.snapshot.source_hash ? <p className="f05-alert">Snapshot arsip lama; isi tetap utuh. Tidak dibangun ulang otomatis.</p> : null}<textarea readOnly aria-label="Isi arsip contoh" rows={10} value={archive.text} /><div className="f05-actions"><button onClick={() => downloadText(archive.text, `${archive.id}-CONTOH.txt`)}>Ekspor arsip ini</button><button disabled={stale || Boolean(unavailable)} onClick={() => { setRevisionOf(archive.id); setMessage('Revisi baru disiapkan. Arsip asal tetap utuh.') }}>Siapkan revisi terpisah</button></div></div> : null}</article>
+  </>
+}
