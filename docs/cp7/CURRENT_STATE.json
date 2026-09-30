@@ -54,7 +54,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Continue remaining unambiguous F03 contracts, starting with X04 redye source versions and actual CP7 browser projection. Seven-case X04 qualification and both prior incomplete runs are retained. Preserve separately qualified E01/E03/E24/E06/E12 increments. E05 and ordinary paid-source credit/refund mechanisms remain unresolved; F04 has not started.",
+  "next_action": "Qualify the separate five-case X04 paid-redye source-version continuation through native, real Auth/HTTP and desktop/mobile CP7 stock/finance. Preserve the separately qualified X04 seven-case result and both prior incomplete runs. Continue remaining unambiguous F03 scope; E05 and ordinary paid-source credit/refund mechanisms remain unresolved. F04 has not started.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -462,6 +462,21 @@
     "verification": "docs/cp7/evidence/f03-x04/QUALIFIED_RECEIPT.json",
     "first_diagnostic": "docs/cp7/evidence/f03-x04/FIRST_RECEIPT.json",
     "product_source": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+    "visual_review": false
+  },
+  "f03_x04_redye": {
+    "status": "DECLARED_5_EXECUTIONS_PENDING",
+    "expected_case_count": 5,
+    "groups": {
+      "native": 2,
+      "http": 1,
+      "browser": 2
+    },
+    "handoff": "docs/cp7/F03_X04_REDYE_HANDOFF.md",
+    "qualifier": "scripts/cp7_f03_redye_probe.py",
+    "full_family_acceptance": false,
+    "independent_acceptance": false,
+    "production_go": false,
     "visual_review": false
   }
 }
