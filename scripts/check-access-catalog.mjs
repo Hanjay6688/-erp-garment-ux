@@ -150,6 +150,8 @@ const cp7SalesBoundaries = ['erp_cp7_get_sales_v1','erp_cp7_save_sale_v1']
 for (const name of cp7SalesBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedSalesPage.tsx:${name}`))
 const cp7PayrollBoundaries = ['erp_cp7_get_payroll_workspace_v1','erp_cp7_save_payroll_v1']
 for (const name of cp7PayrollBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedPayrollPage.tsx:${name}`))
+const cp7InstallmentBoundaries = ['erp_cp7_get_payroll_installments_v1','erp_cp7_save_payroll_installment_v1']
+for (const name of cp7InstallmentBoundaries) assert.ok(rpcBoundaries.has(`src/PayrollInstallmentPanel.tsx:${name}`))
 const cp7AttendanceBoundaries = ['erp_cp7_get_attendance_workspace_v1','erp_cp7_save_roster_v1','erp_cp7_get_attendance_entry_v1','erp_cp7_preview_attendance_v1','erp_cp7_save_attendance_v1']
 for (const name of cp7AttendanceBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedAttendancePage.tsx:${name}`))
 const cp7NotaBoundaries = ['erp_cp7_get_nota_workspace_v1','erp_cp7_save_nota_v1']
@@ -175,7 +177,7 @@ for (const name of cp7ReturnBoundaries) assert.ok(rpcBoundaries.has(`src/Supplie
 const cp7FinanceOverviewBoundaries = ['src/ConnectedFinanceOverviewPage.tsx:erp_cp7_get_finance_report_v1','src/ConnectedReceivablesPage.tsx:erp_cp7_get_sales_v1','src/ConnectedJournalPage.tsx:erp_cp7_get_journal_book_v1']
 cp7FinanceOverviewBoundaries.push('src/MiscFinancePanel.tsx:erp_cp7_get_misc_finance_v1','src/MiscFinancePanel.tsx:erp_cp7_save_misc_finance_v1')
 for (const name of cp7FinanceOverviewBoundaries) assert.ok(rpcBoundaries.has(name))
-assert.equal(rpcBoundaries.size, evidence.counts.browser_rpc_boundaries + 3 + cp7RecostBoundaries.length + cp7FinanceBoundaries.length + cp7PeriodBoundaries.length + cp7SalesBoundaries.length + cp7AttendanceBoundaries.length + cp7PayrollBoundaries.length + cp7NotaBoundaries.length + cp7FgBookBoundaries.length + cp7FgAdjustmentBoundaries.length + cp7FgBoundaries.length + cp7CountBoundaries.length + cp7CountSourceBoundaries.length + cp7ReturnBoundaries.length + cp7InvoiceBoundaries.length + 19 + beRpcBoundaries.length + bfRpcBoundaries.length + cp7ProcurementBoundaries.length + cp7MaterialBoundaries.length + cp7FinanceOverviewBoundaries.length)
+assert.equal(rpcBoundaries.size, evidence.counts.browser_rpc_boundaries + 3 + cp7RecostBoundaries.length + cp7FinanceBoundaries.length + cp7PeriodBoundaries.length + cp7SalesBoundaries.length + cp7AttendanceBoundaries.length + cp7PayrollBoundaries.length + cp7InstallmentBoundaries.length + cp7NotaBoundaries.length + cp7FgBookBoundaries.length + cp7FgAdjustmentBoundaries.length + cp7FgBoundaries.length + cp7CountBoundaries.length + cp7CountSourceBoundaries.length + cp7ReturnBoundaries.length + cp7InvoiceBoundaries.length + 19 + beRpcBoundaries.length + bfRpcBoundaries.length + cp7ProcurementBoundaries.length + cp7MaterialBoundaries.length + cp7FinanceOverviewBoundaries.length)
 assert.ok(rpcBoundaries.has('src/ConnectedInitialImportPage.tsx:erp_get_initial_import_workspace_v1'))
 assert.ok(rpcBoundaries.has('src/ConnectedInitialImportPage.tsx:erp_save_initial_import_action_v1'))
 assert.ok(rpcBoundaries.has('src/useLaundryQcWorkspace.ts:erp_get_laundry_qc_workspace_v1'))

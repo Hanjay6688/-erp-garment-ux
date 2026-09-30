@@ -10,6 +10,7 @@ import cp7_period_bundle as period
 import cp7_recost_bundle as recost
 import cp7_journal_bundle as journal
 import cp7_misc_bundle as misc
+import cp7_installment_bundle as installment
 ROOT=finance.ROOT
 
 def attendance_internal_body():
@@ -28,12 +29,13 @@ def sales_after_attendance():
 
 def extension():
  prefix=procurement.bundle();full=attendance.bundle();assert full.startswith(prefix+'\n')
- return full[len(prefix)+1:]+'\n'+sales_after_attendance()+'\n'+finance.extension()+'\n'+period.extension()+'\n'+recost.extension()+'\n'+journal.extension()+'\n'+misc.extension()
+ return full[len(prefix)+1:]+'\n'+sales_after_attendance()+'\n'+finance.extension()+'\n'+period.extension()+'\n'+recost.extension()+'\n'+journal.extension()+'\n'+misc.extension()+'\n'+installment.extension()
 def bundle():return procurement.bundle()+'\n'+extension()
 def patched_internal(definition):return sales.patched_internal(attendance.patched_internal(settlement.patched_internal(nota.patched_internal(definition))))
 
 ROLES=('cp7_recost_write','cp7_recost_read','cp7_period_write','cp7_period_read','cp7_finance_read','cp7_sales_write','cp7_sales_read','cp7_attendance_write','cp7_roster_write','cp7_attendance_read','cp7_payroll_write','cp7_nota_write','cp7_payroll_header','cp7_payroll_read','cp7_fg_write','cp7_fg_read','cp7_return_write','cp7_return_read','cp7_invoice_write','cp7_invoice_read','cp7_material_write','cp7_material_read','cp7_procure_write','cp7_procure_read','cp7_policy','cp7_capture')
 ROLES=('cp7_misc_write','cp7_misc_read','cp7_journal_read',)+ROLES
+ROLES=('cp7_installment_write','cp7_installment_read',)+ROLES
 BASE_GRANTS=('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)')
 GRANTS={role:BASE_GRANTS for role in ('cp7_fg_read','cp7_fg_write','cp7_payroll_read','cp7_nota_write','cp7_payroll_header','cp7_payroll_write','cp7_attendance_read','cp7_roster_write','cp7_attendance_write')}
 GRANTS['cp7_fg_read']+=('erp.bf_commercial_sku_at_v1(uuid,timestamptz)','erp.bd_lot_laundry_unknown_v1(uuid)','erp.get_hpp_completeness(uuid)')
@@ -46,3 +48,4 @@ GRANTS.update(cp7_period_read=period.READ_GRANTS,cp7_period_write=period.WRITE_G
 GRANTS.update(cp7_recost_read=recost.READ_GRANTS,cp7_recost_write=recost.WRITE_GRANTS)
 GRANTS['cp7_journal_read']=journal.GRANTS
 GRANTS.update(cp7_misc_read=misc.READ_GRANTS,cp7_misc_write=misc.WRITE_GRANTS)
+GRANTS.update(cp7_installment_read=installment.READ_GRANTS,cp7_installment_write=installment.WRITE_GRANTS)

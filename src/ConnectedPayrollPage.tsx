@@ -8,6 +8,9 @@ import {cp6WibDateTimeInput,formatCp6WibDateTime} from './cp6BusinessTime'
 import {parsePayrollRead,parsePayrollOutcome,type PayrollAction,type PayrollCash,type PayrollHeader,type PayrollLine,type PayrollRead,type PayrollSection} from './payrollContract'
 import {useProductionMutation,type ProductionMutationHandlers} from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
+import PayrollInstallmentPanel from './PayrollInstallmentPanel'
+import type {InstallmentDocument} from './payrollInstallmentContract'
+import {financialRecoveryBlocked,useFinancialRecoveryGate} from './useFinancialRecoveryGate'
 import type {Json} from './types/database.preconnect'
 import type {NotaDocument} from './notaContract'
 import './procurement-connected.css'
@@ -25,52 +28,63 @@ function Workspace(){
  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),[data,setData]=useState<PayrollRead|null>(null),[detail,setDetail]=useState<PayrollRead|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState(''),[q,setQ]=useState(''),[status,setStatus]=useState('')
  const mutation=useProductionMutation('PAYROLL'),{beginRead,finishRead,isReadCurrent,run,reconcile}=mutation
  const [action,setAction]=useState<PayrollAction|null>(null)
+ const [selectedId,setSelectedId]=useState<string|null>(null),[readRevision,setReadRevision]=useState(0),[paymentSource,setPaymentSource]=useState<InstallmentDocument|null>(null)
  const seq=useRef(0),requested=useRef({q:'',status:'',offset:0,id:null as string|null,section:'WORK' as PayrollSection,detailOffset:0})
+ const retire=useCallback(()=>{++seq.current;setData(null);setDetail(null);setBusy(false);setAction(null);setPaymentSource(null)},[])
+ const blocked=useFinancialRecoveryGate(mutation.scope,retire)
+ const onPaymentSource=useCallback((d:InstallmentDocument|null)=>setPaymentSource(d),[])
+ const onPaymentTarget=useCallback((id:string)=>{requested.current.id=id;requested.current.detailOffset=0;setSelectedId(id)},[])
  const approve=identity.permissions.includes('finance.payroll.approve'),pay=identity.permissions.includes('finance.payroll.pay')
  const load=useCallback(async()=>{
+  if(financialRecoveryBlocked(mutation.scope)){retire();setBusy(false);return false}
+  setReadRevision(v=>v+1);setPaymentSource(null)
   const f={...requested.current},s=++seq.current,ticket=beginRead();setAction(null);setBusy(true);setData(null);setDetail(null);setError('')
   try{
    const results=await Promise.allSettled([client.rpc('erp_cp7_get_payroll_workspace_v1',{p_section:'PAYROLLS',p_query:{q:f.q,status:f.status||null,limit:25,offset:f.offset}}),...(f.id?[client.rpc('erp_cp7_get_payroll_workspace_v1',{p_section:f.section,p_query:{id:f.id,limit:25,offset:f.detailOffset}})]:[])])
-   if(s!==seq.current||!isReadCurrent(ticket))return false
+   if(s!==seq.current||!isReadCurrent(ticket)||financialRecoveryBlocked(mutation.scope))return false
    const rows=results.map(r=>{if(r.status==='rejected')throw r.reason;if(r.value.error)throw r.value.error;return r.value.data}),list=parsePayrollRead(rows[0],'PAYROLLS'),d=f.id?parsePayrollRead(rows[1],f.section):null
    if(list.page.offset!==f.offset||list.page.limit!==25||list.capabilities.approve!==approve||list.capabilities.pay!==pay||d&&(d.document?.id!==f.id||d.page.offset!==f.detailOffset||d.page.limit!==25||d.capabilities.approve!==approve||d.capabilities.pay!==pay))throw Error('Pilihan payroll atau hak akses berubah. Muat ulang payroll.')
    const inList=(list.page.rows as PayrollHeader[]).find(p=>p.id===f.id)
    if(d&&inList&&inList.review_token!==d.document?.review_token)throw Error('Payroll berubah saat dibaca. Muat ulang untuk memeriksa rincian terbaru.')
-   setData(list);setDetail(d);return finishRead(ticket)
+   if(!finishRead(ticket))return false
+   setData(list);setDetail(d);return true
   }catch(e){if(s===seq.current&&isReadCurrent(ticket))setError(normalizeClientError(e).message);return false}finally{if(s===seq.current)setBusy(false)}
- },[client,approve,pay,beginRead,finishRead,isReadCurrent])
+ },[client,approve,pay,beginRead,finishRead,isReadCurrent,mutation.scope,retire])
  useEffect(()=>{void load();return()=>{++seq.current}},[load])
- const h=detail?.document,locked=busy||mutation.writerLocked
+ const rawHeader=blocked?null:detail?.document,paymentReady=!selectedId||Boolean(rawHeader&&paymentSource?.payroll_id===rawHeader.id&&paymentSource.row_version===rawHeader.row_version&&paymentSource.source_review_token===rawHeader.review_token)
+ const h=paymentReady?rawHeader:null,locked=busy||mutation.writerLocked
+ const legacyPayment=Boolean(h&&paymentSource?.payroll_id===h.id&&paymentSource.row_version===h.row_version&&!paymentSource.managed)
  const handlers:ProductionMutationHandlers={
   send:e=>{const p=e.payload as {document:Json;expected_version:string};return client.rpc('erp_cp7_save_payroll_v1',{p_action:e.action,p_payload:p.document,p_request:e.id,p_expected:p.expected_version})},
   validate:(v,e)=>{parsePayrollOutcome(v,e.id,e.action,e.payload)},
-  retire:(v,e)=>{const r=parsePayrollOutcome(v,e.id,e.action,e.payload);requested.current.id=r.payroll_id;requested.current.detailOffset=0;setAction(null);setData(null);setDetail(null)},reload:load,
+  retire:(v,e)=>{const r=parsePayrollOutcome(v,e.id,e.action,e.payload);onPaymentTarget(r.payroll_id);retire()},reload:load,
  }
  const write=(chosen:PayrollAction,document:Json)=>{if(!h||locked)return;const version=h.row_version;setAction(null);setData(null);setDetail(null);void run(chosen,{document,expected_version:version},null,handlers)}
  const cashRead=useCallback(async(q:string,offset:number)=>{const r=await client.rpc('erp_cp7_get_payroll_workspace_v1',{p_section:'CASH_ACCOUNTS',p_query:{q,offset,limit:25}});if(r.error)throw r.error;const w=parsePayrollRead(r.data,'CASH_ACCOUNTS');if(w.page.offset!==offset||w.page.limit!==25||w.capabilities.approve!==approve||w.capabilities.pay!==pay)throw Error('Pilihan akun atau hak pembayaran berubah. Muat ulang payroll.');return w},[client,approve,pay])
  return <section className="cproc cpay"><header className="panel cproc-heading"><div><div className="eyebrow">KEUANGAN · MANDOR</div><h1>Payroll & Kasbon</h1><p>Periksa upah, absensi, tambahan, dan potongan mandor beserta nota asalnya.</p></div><button disabled={busy||mutation.busy} onClick={()=>void load()}>Muat ulang payroll</button></header>
   <ProductionRecoveryNotice recovery={mutation} onReconcile={()=>reconcile(handlers)} className="panel" noticeText="Payroll tersimpan. Data terbaru sudah dimuat." messageText={mutation.pending&&!mutation.corruptedEnvelope?'Status transaksi payroll belum pasti. Periksa status transaksi untuk melanjutkan.':mutation.error.includes('CP7_PAYROLL_PREPARE_REQUIRED')?'Dokumen sumber atau jumlah berubah. Hitung sumber, periksa rincian terbaru, lalu setujui kembali.':mutation.error.includes('CP7_PAYROLL_REVIEW_CHANGED')?'Payroll berubah. Periksa kembali rincian yang baru dimuat.':undefined} reconcileLabel="Periksa status payroll"/>
   {error?<p className="panel" role="alert">{error}</p>:null}
-  <form className="panel cproc-search" onSubmit={e=>{e.preventDefault();requested.current={...requested.current,q:q.trim(),status,offset:0,id:null,detailOffset:0};void load()}}><label>Cari mandor atau payroll<input aria-label="Cari payroll" maxLength={120} value={q} onChange={e=>setQ(e.target.value)}/></label><label>Status payroll<select aria-label="Status payroll" value={status} onChange={e=>setStatus(e.target.value)}><option value="">Semua status</option>{Object.entries(statuses).map(([key,label])=><option value={key} key={key}>{label}</option>)}</select></label><button disabled={busy||mutation.busy}>Cari payroll</button></form>
+  <form className="panel cproc-search" onSubmit={e=>{e.preventDefault();requested.current={...requested.current,q:q.trim(),status,offset:0,id:null,detailOffset:0};setSelectedId(null);void load()}}><label>Cari mandor atau payroll<input aria-label="Cari payroll" maxLength={120} value={q} onChange={e=>setQ(e.target.value)}/></label><label>Status payroll<select aria-label="Status payroll" value={status} onChange={e=>setStatus(e.target.value)}><option value="">Semua status</option>{Object.entries(statuses).map(([key,label])=><option value={key} key={key}>{label}</option>)}</select></label><button disabled={busy||mutation.busy}>Cari payroll</button></form>
   {busy?<p role="status">Memuat payroll…</p>:null}
-  <div className="cpay-layout"><section className="panel"><h2>Daftar payroll</h2>{data?.page.rows.map(v=>{const p=v as PayrollHeader;return <button className="cproc-receipt" key={p.id} aria-pressed={h?.id===p.id} disabled={busy||mutation.busy} onClick={()=>{requested.current.id=p.id;requested.current.detailOffset=0;void load()}}><span><strong>{p.contractor_name}</strong><small>{p.period_start} sampai {p.period_end}</small><small>{p.payroll_number}</small></span><span>{statuses[p.status]}<strong className="cpay-amount">{money(p.net_payable)}</strong></span></button>})}{data&&!data.page.rows.length?<p>Tidak ada payroll yang cocok.</p>:null}{data?<Pager label="Payroll" page={data.page} busy={busy||mutation.busy} change={offset=>{requested.current.offset=offset;void load()}}/>:null}</section>
+  <div className="cpay-layout"><section className="panel"><h2>Daftar payroll</h2>{!blocked&&paymentReady&&data?.page.rows.map(v=>{const p=v as PayrollHeader;return <button className="cproc-receipt" key={p.id} aria-pressed={h?.id===p.id} disabled={busy||mutation.busy} onClick={()=>{requested.current.id=p.id;requested.current.detailOffset=0;setSelectedId(p.id);void load()}}><span><strong>{p.contractor_name}</strong><small>{p.period_start} sampai {p.period_end}</small><small>{p.payroll_number}</small></span><span>{statuses[p.status]}<strong className="cpay-amount">{money(p.net_payable)}</strong></span></button>})}{data&&!data.page.rows.length?<p>Tidak ada payroll yang cocok.</p>:null}{data?<Pager label="Payroll" page={data.page} busy={busy||mutation.busy} change={offset=>{requested.current.offset=offset;void load()}}/>:null}</section>
    <section className="panel cpay-detail" aria-label="Rincian payroll"><h2>{h?.contractor_name??'Pilih payroll'}</h2>{h&&detail?<><p className="cpay-reference">{h.payroll_number}</p><p>{h.period_start} sampai {h.period_end} · <strong>{statuses[h.status]}</strong></p>
     {!h.totals_match_items?<p role="alert">Total belum sesuai rincian. Payroll perlu dihitung ulang sebelum disetujui.</p>:null}
     {h.status==='REVERSED'?<p>Payroll dibatalkan. Rincian berikut adalah riwayat payroll tersebut.</p>:null}
     <dl className="cpay-totals">{([['labor_total','Upah pekerjaan'],['attendance_total','Absensi'],['reimburse_total','Tambahan'],['deduction_total','Potongan'],['manual_adjustment','Penyesuaian']] as const).map(([key,label])=><div key={key}><dt>{label}</dt><dd>{money(h[key])}</dd></div>)}<div className="cpay-net"><dt>{h.status==='PAID'?'Jumlah dilunasi':h.status==='REVERSED'?'Jumlah pada dokumen batal':'Bersih payroll'}</dt><dd>{money(h.net_payable)}</dd></div></dl>
-    {h.status==='PAID'?<p>Pembayaran {h.payment_date} · {h.payment_cash_account_name??'Tanpa pengeluaran tunai'}{h.settled_at?` · Dicatat ${formatCp6WibDateTime(h.settled_at)}`:''}</p>:null}
+    {h.status==='PAID'&&legacyPayment?<p>Pembayaran {h.payment_date} · {h.payment_cash_account_name??'Tanpa pengeluaran tunai'}{h.settled_at?` · Dicatat ${formatCp6WibDateTime(h.settled_at)}`:''}</p>:null}
     {h.notes?<p className="cpay-reference">{h.notes}</p>:null}
     <div className="cpay-actions">
      {approve&&['DRAFT','CALCULATED','REVIEW'].includes(h.status)?<><button disabled={locked} onClick={()=>write('PREPARE',{id:h.id,review_token:h.review_token,change_reason:'Perbarui perhitungan dari dokumen sumber'})}>Hitung sumber</button><button className="primary-btn" disabled={locked||!h.totals_match_items||h.status==='DRAFT'} onClick={()=>setAction('APPROVE')}>Setujui payroll</button></>:null}
-     {pay&&h.status==='APPROVED'?<button className="primary-btn" disabled={locked||!h.totals_match_items} onClick={()=>setAction('PAY')}>Lunasi payroll</button>:null}
-     {approve&&['DRAFT','CALCULATED','REVIEW','APPROVED'].includes(h.status)?<button disabled={locked} onClick={()=>setAction('CANCEL')}>Batalkan payroll</button>:null}
-     {approve&&pay&&h.status==='PAID'?<button disabled={locked} onClick={()=>setAction('REVERSE')}>Koreksi payroll lunas</button>:null}
+     {pay&&legacyPayment&&h.status==='APPROVED'?<button className="primary-btn" disabled={locked||!h.totals_match_items} onClick={()=>setAction('PAY')}>Lunasi payroll</button>:null}
+     {approve&&['DRAFT','CALCULATED','REVIEW','APPROVED'].includes(h.status)&&(h.status!=='APPROVED'||legacyPayment)?<button disabled={locked} onClick={()=>setAction('CANCEL')}>Batalkan payroll</button>:null}
+     {approve&&pay&&legacyPayment&&h.status==='PAID'?<button disabled={locked} onClick={()=>setAction('REVERSE')}>Koreksi payroll lunas</button>:null}
     </div>
     {action?<ActionForm key={`${h.id}:${h.review_token}:${action}`} action={action} payroll={h} disabled={locked} cashRead={cashRead} cancel={()=>setAction(null)} submit={document=>write(action,document)}/>:null}
 
     <div className="cpay-tabs" role="group" aria-label="Jenis rincian payroll">{sections.map(([key,label])=><button key={key} aria-pressed={detail.section===key} disabled={busy||mutation.busy} onClick={()=>{requested.current.section=key;requested.current.detailOffset=0;void load()}}>{label} <small>{h.counts[key.toLowerCase() as keyof PayrollHeader['counts']]}</small></button>)}</div>
     <div className="cpay-lines">{detail.page.rows.map(v=>detail.section==='NOTES'?<Note key={v.id} value={v as NotaDocument}/>:<Line key={v.id} section={detail.section} value={v as PayrollLine}/>)}{!detail.page.rows.length?<p>Belum ada rincian dalam bagian ini.</p>:null}</div><Pager label="Rincian" page={detail.page} busy={busy||mutation.busy} change={offset=>{requested.current.detailOffset=offset;void load()}}/>
    </>:<p>Pilih mandor dan periode untuk menelusuri perhitungan serta nota sumber.</p>}</section></div>
+  <PayrollInstallmentPanel parentReady={Boolean(data&&(!selectedId||detail)&&!busy&&!blocked)}payrollId={selectedId}readRevision={readRevision}onRetire={retire}onReload={load}onTarget={onPaymentTarget}onSource={onPaymentSource}/>
  </section>
 }
 function Pager({label,page,busy,change}:{label:string;page:{total:string;offset:number;next_offset:number|null};busy:boolean;change:(n:number)=>void}){return <div className="cproc-pagination"><span>Total {page.total}</span><button disabled={busy||!page.offset} onClick={()=>change(Math.max(0,page.offset-25))}>{label} sebelumnya</button><button disabled={busy||page.next_offset===null} onClick={()=>change(page.next_offset??0)}>{label} berikutnya</button></div>}
