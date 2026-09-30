@@ -1,0 +1,31 @@
+{
+  "label": "CP7_F04_NATIVE_NETTING_QUALIFIED82",
+  "source_commit": "ed0fef81a0548044a668de0f9a8359015c6fab7e",
+  "source_tree": "0d0d1c1606ff2ec5fc3955d780410b87c42e2953",
+  "sql_sha256": "52573affdc8a5c94e9250c97e7304987353117fc8fa6725a2fc0ec205a6741b1",
+  "workflow_run": 36792305414,
+  "workflow_job": 110147791143,
+  "artifact_id": 11132521656,
+  "artifact_zip_bytes": 22889326,
+  "artifact_zip_sha256": "1e43bd398a9ab8e82de7bb18c8b6ee15081e679a6bd1168ed1d0218315627210",
+  "original_reports_gzip_sha256": "cc3e5036e83147c865b3ef5752a9cbf515ecf0cb49852a07c0914de82cb57f29",
+  "expected": 82,
+  "observed": 82,
+  "counts": {
+    "native": 59,
+    "races": 11,
+    "http": 6,
+    "browser": 6
+  },
+  "all_cases_pass": true,
+  "cp6_restored": true,
+  "unchanged_predecessor_guards": true,
+  "advisor_gate": true,
+  "auth_and_database_restored": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "scope": "GLOBAL_NATIVE_TARGET_WIP_SELECTED_WORK_YIELD_NATIVE_PRODUCT_BOUND_MATCHING_DATED_NETTING_SHARED_EXISTING_SUPPLY_MATERIAL_APPLY_UNKNOWN",
+  "original_failures_retained": "../first80-9b34633/ORIGINAL_REPORTS.json.gz",
+  "screenshots_review": "INSPECTED_10_NEW_DESKTOP_MOBILE_SOURCE_REVIEW_NETTING_ARCHIVE_CURRENT_403_VIEWS"
+}
