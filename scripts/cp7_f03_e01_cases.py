@@ -123,6 +123,9 @@ def production(cur, today):
     f['qc'].append(qc([(0, 10), (1, 30)], 16))
     assert physical(cur, f) == 60
     f['trace'].append(step('LAUNDRY_QC', laundry_legs=[30, 30], qc=[20, 40], fg=60))
+    # Disposable worksheet: only GOOD exists and invoice equals the vendor
+    # quote. Declare the accepted policy; never bypass its pending gate.
+    laundry.invoice_policies(cur, billable=('GOOD',), mode='PRODUCT_COST', after='REFUSE')
     invoice, _ = laundry.invoice(cur, wash, [dict(line=r['line'], qty=30, amount='60.00') for r in receipts], '120.00')
     b.api.admin(cur)
     f['laundry_invoice'] = invoice['invoice_id']

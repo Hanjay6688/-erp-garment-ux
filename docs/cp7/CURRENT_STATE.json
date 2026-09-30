@@ -300,5 +300,15 @@
     "precision_repair": "docs/cp7/evidence/p13-finance/RECOST_MICROSECOND_LOCAL_RECEIPT.json",
     "verification": "docs/cp7/evidence/p13-finance/RECOST_QUALIFIED_RECEIPT.json"
   },
-  "latest_tested_scope": "P13_REPORT12_ANALYSIS24_PERIOD25_RECOST25_SEPARATE_OVERLAPPING_SUITES"
+  "latest_tested_scope": "P13_REPORT12_ANALYSIS24_PERIOD25_RECOST25_SEPARATE_OVERLAPPING_SUITES",
+  "f03_e01": {
+    "status": "IN_PROGRESS_SOURCE_FIXTURE_AND_CONNECTED_PROOF",
+    "handoff": "docs/cp7/F03_E01_HANDOFF.md",
+    "frozen_oracle": "60 GOOD/value900/HPP15; sale20x25/cash200/return5; FG45/value675/revenue375/COGS225/AR175/cash200/gross150",
+    "first_native_run": 36653759262,
+    "first_native_result": "INCOMPLETE_PRIVATE_WORK_SNAPSHOT_FIXTURE_CALL",
+    "followup_source": "9aad2a21de0c3e4ff81d6ebdb0ce2b93193671c3",
+    "independent_acceptance": false,
+    "production_go": false
+  }
 }
