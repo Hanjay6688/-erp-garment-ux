@@ -1,10 +1,11 @@
 {
+  "actual_diagnostic": "docs/cp7/evidence/f03-misc/diagnostic-0782b7b/DIAGNOSTIC_RECEIPT.json",
   "build": "PASS",
   "changed_source": {
     ".github/workflows/cp7-f03-misc.yml": "c21218cdf00fd261f0dd97f57ebf4fe702feb0077e2fc3042525419f37ad9351",
     "scripts/check-access-catalog.mjs": "edf0d237cb70b7288544722216bc4e7a2ea72753582f466a0085bdc864761e02",
     "scripts/check-source-ownership.mjs": "d7356ba1929c490d81a0639e8073f988f0306ba4cb5cee5922ed7757720c9964",
-    "scripts/cp7-src/finance/misc.sql": "406432ff8e15e7b0e6736db61b2e9465218282ff94f70e67d5e00fb7a6621b78",
+    "scripts/cp7-src/finance/misc.sql": "0eb11cc9e21ab914e708c698b3494e65f67b72ba561c5eb47d62d970030fb9a0",
     "scripts/cp7_f03_bundle.py": "5d7de7363e8bee8e6ac2c2c10759756a4b7bd043eadb7beec833d3d6c1c08a2f",
     "scripts/cp7_f03_cash_probe.py": "9dfacae964c4c5bb840738d0baacda81eba6427cf7b9db872b5e79267c3dcb9e",
     "scripts/cp7_f03_misc_browser.mjs": "2c8536500c80c5bcadba993b729a0cb1dafe9972afeca3acef83eab6bb8efb9e",
@@ -12,7 +13,7 @@
     "scripts/cp7_f03_misc_probe.py": "81c04ab56d24c97cef61aa239addb300d2a3572be4b1f86c46a323b5d0d0448b",
     "scripts/cp7_f03_probe.py": "676dc543f4dc0f36408c8eabf41bdf019c0d0db26e3907d6dc3ef8a803dee841",
     "scripts/cp7_misc_bundle.py": "53e39940aa7b4ffcd7e5cc076cfa9f812c81202eea11e86efd4a6bdb350eb557",
-    "scripts/cp7_misc_cases.py": "69c2003d0c11f55e3f5d1801473e7f1188fb44253610a4c9d6737830786c0645",
+    "scripts/cp7_misc_cases.py": "126a83c017c59383a4a46cc02de432bb2e527a04d1b476374e22ca314c23c11d",
     "src/ConnectedJournalPage.tsx": "f547a1eb3a412ec439bff5b443ac50a678b92666fe836600b74734d0e68c1b88",
     "src/MiscFinancePanel.dom.test.tsx": "b5fb64c4c47f8ea83959d94ad8a7ff5e50d2b92eaa34456b05a9b0bd78884700",
     "src/MiscFinancePanel.tsx": "a84990adfacf3c5aa0537b8afd40a3883c42252ffe623c5d33ba12f577538b99",
@@ -29,6 +30,8 @@
     "PASS": 857
   },
   "independent_acceptance": false,
+  "local_test_execution_source": "0782b7b57f889c1abaaeca327bd7bc0c70b49ce6",
+  "local_test_reuse": "Frontend unchanged after857 PASS; backend-only repair requires new actual14-case qualification.",
   "native_execution": "PENDING",
   "native_expected": {
     "browser": 2,
@@ -43,6 +46,6 @@
   "production_go": false,
   "python_and_browser_syntax": "PASS",
   "security": "PASS",
-  "source_bundle_sha256": "2c0b70492a6e00a928c65f8effae4ea8a6876cfe180e50bd2717fcc5d66ef888",
+  "source_bundle_sha256": "4b03967b02612c87fc7c6e88211690f9854f78b41020a29a41f75895473c529a",
   "status": "LOCAL_PASS_NATIVE_PENDING"
 }

@@ -166,7 +166,8 @@ begin
    if t.status<>'DRAFT'then raise exception 'CP7_MISC_DRAFT_ONLY';end if;
    update erp.misc_finance_transactions set transaction_number=btrim(p->>'transaction_number'),transaction_type=p->>'transaction_type',category_id=cat,physical_at=physical,amount=(p->>'amount')::numeric,cash_account_id=bank,counterparty_name=p->>'counterparty_name',reference_number=p->>'reference_number',notes=p->>'notes',updated_at=clock_timestamp()where id=ident;
   end if;
-  insert into erp.audit_logs(entity_type,entity_id,action,changed_by,change_reason)values('misc_finance_transactions',ident,case when t.id is null then 'CREATE'else 'UPDATE'end,erp.current_app_user_id(),btrim(p->>'change_reason'));
+  -- Native trg_audit_misc_finance_transactions records INSERT/UPDATE with the
+  -- app.change_reason already set above. Do not duplicate it with a new action.
  elsif p_action='POST'then
   if t.status<>'DRAFT'then raise exception 'CP7_MISC_DRAFT_ONLY';end if;
   if t.physical_at>statement_timestamp()then raise exception 'CP7_MISC_FUTURE_DATE';end if;

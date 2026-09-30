@@ -34,6 +34,7 @@ def cases(cur,today):
     def draft():
         f=fixture(cur,today);money='9007199254740993.01';p=save_payload(f,amount=money);before_cash=cash_balance(cur,f['cash']['id']);r=command(cur,'SAVE',p);d=r['document']
         assert d==native_document(cur,r['transaction_id'])and d['amount']==money and d['status']=='DRAFT'and d['journals']==[]
+        assert cur.execute("select count(*)from erp.audit_logs where entity_type='misc_finance_transactions'and entity_id=%s and action='INSERT'and change_reason=%s",(d['id'],p['change_reason'])).fetchone()[0]==1
         p.update(transaction_id=d['id'],review_token=d['review_token'],amount='12.34',notes='Corrected reviewed draft');changed=command(cur,'SAVE',p)
         assert changed['document']['amount']=='12.34'and changed['document']['review_token']!=d['review_token']and cash_balance(cur,f['cash']['id'])==before_cash and stock_cost(cur)==f['stock_cost']
         return dict(status='PASS',actual_native_draft_create_edit_exact_large_money=True,no_draft_cash_journal_or_physical_cost_effect=True)
@@ -63,10 +64,14 @@ def cases(cur,today):
         auth.refused(cur,lambda:command(cur,'SAVE',p,expected='1'),'CP7_MISC_COMMAND_FIELDS');assert b.boundary.snapshot(cur)==before
         return dict(status='PASS',closed_decimal_uuid_date_fields_and_no_invented_revision=True,atomic_refusals=True)
     def protected():
-        f=fixture(cur,today);category=f['categories']['OTHER_INCOME']['id'];cur.execute("update erp.misc_finance_categories set default_account_id=erp.account_id('SALES_REVENUE')where id=%s",(category,));f['categories']['OTHER_INCOME']=cur.execute('select cp7_misc.category(%s)',(category,)).fetchone()[0];p=save_payload(f,'OTHER_INCOME');before=b.boundary.snapshot(cur)
-        auth.refused(cur,lambda:command(cur,'SAVE',p),'CP7_MISC_SOURCE_UNAVAILABLE');assert b.boundary.snapshot(cur)==before
-        assert all(c['id']!=category for c in read(cur)['categories']['rows'])
-        return dict(status='PASS',actual_core_sales_mapping_refused_and_not_selectable=True,no_misc_route_for_core_stock_HPP_AP_AR_workflows=True)
+        f=fixture(cur,today);category=f['categories']['OTHER_INCOME']['id'];before=b.boundary.snapshot(cur)
+        # The accepted native master trigger refuses the unsafe category itself.
+        # Keep that guard active; an unlawful fixture is not an allowed setup.
+        auth.refused(cur,lambda:cur.execute("update erp.misc_finance_categories set default_account_id=erp.account_id('SALES_REVENUE')where id=%s",(category,)),'reserved for a core ERP workflow');assert b.boundary.snapshot(cur)==before
+        core=str(cur.execute("select erp.account_id('SALES_REVENUE')").fetchone()[0]);assert not cur.execute('select exists(select 1 from erp.misc_finance_categories where id=%s)',(core,)).fetchone()[0]
+        p=save_payload(f,'OTHER_INCOME');p['category_id']=core;auth.refused(cur,lambda:command(cur,'SAVE',p),'CP7_MISC_SOURCE_UNAVAILABLE');assert b.boundary.snapshot(cur)==before
+        assert all(c['account_id']!=core for c in read(cur)['categories']['rows'])
+        return dict(status='PASS',actual_native_master_guard_refuses_core_sales_category=True,facade_refuses_raw_core_account_instead_of_category=True,no_misc_route_for_core_stock_HPP_AP_AR_workflows=True)
     def replay():
         f=fixture(cur,today);key=uuid.uuid4();p=save_payload(f);saved=command(cur,'SAVE',p,key);before=b.boundary.snapshot(cur);assert command(cur,'SAVE',p,key)==saved and b.boundary.snapshot(cur)==before
         auth.refused(cur,lambda:command(cur,'SAVE',dict(p,amount='22.22'),key),'CP7_MISC_REQUEST_CHANGED');assert b.boundary.snapshot(cur)==before

@@ -692,9 +692,9 @@
     "production_go": false
   },
   "f03_misc_finance": {
-    "status": "LOCAL_857_PASS_NATIVE_14_PENDING",
+    "status": "NATIVE_FIRST14_INCOMPLETE_BACKEND_REPAIR_PENDING_REPEAT14",
     "parent_source_commit": "b66515d0f3c878930e92346e1823193ad471cb66",
-    "source_bundle_sha256": "2c0b70492a6e00a928c65f8effae4ea8a6876cfe180e50bd2717fcc5d66ef888",
+    "source_bundle_sha256": "4b03967b02612c87fc7c6e88211690f9854f78b41020a29a41f75895473c529a",
     "combined_roles": 29,
     "qualifier": "scripts/cp7_f03_misc_probe.py",
     "handoff": "docs/cp7/F03_MISC_FINANCE_HANDOFF.md",
@@ -702,6 +702,7 @@
     "native_expected_total": 14,
     "full_family_acceptance": false,
     "independent_acceptance": false,
-    "production_go": false
+    "production_go": false,
+    "diagnostic": "docs/cp7/evidence/f03-misc/diagnostic-0782b7b/DIAGNOSTIC_RECEIPT.json"
   }
 }

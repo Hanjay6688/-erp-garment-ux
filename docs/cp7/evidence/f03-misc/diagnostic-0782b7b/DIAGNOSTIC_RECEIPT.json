@@ -1,0 +1,107 @@
+{
+  "advisor_gate": true,
+  "artifact_bytes": 2217804,
+  "artifact_id": 11109965747,
+  "artifact_sha256": "968467194d0eaa872dae29e58175d81279890e6e4ca6ba97621e5672bad4438f",
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "cp6_restored": true,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "INCOMPLETE": 2
+    },
+    "http": {
+      "INCOMPLETE": 1
+    },
+    "native": {
+      "INCOMPLETE": 7,
+      "PASS": 2
+    },
+    "races": {
+      "INCOMPLETE": 2
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109967990804,
+  "observed_case_count": 14,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CASH_BUILD.txt": {
+      "bytes": 10578,
+      "sha256": "84d85f5d6f029f392553ebba7700c1432286ffbf4f929ea113112616d5140bb7"
+    },
+    "CASH_LOCAL_TESTS.txt": {
+      "bytes": 1445,
+      "sha256": "049362458b307d46f4d7430085003708eb23eb74f8570c637eff4c7cd3b54666"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385615,
+      "sha256": "4cf047831913c74db03186bd6ff19712685a510458f0345af84cf23c269bc87d"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385615,
+      "sha256": "4cf047831913c74db03186bd6ff19712685a510458f0345af84cf23c269bc87d"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "83e64ab0ec07a29c8aeaee40b7b2a6b0bbfae4c388c0694c12490b0bc37ab50c"
+    },
+    "CP7_F03_MISC_FINANCE.json": {
+      "bytes": 291208,
+      "sha256": "8c8b491d0a1c601f179a409eed651e936424d272e2495dbf3ef8c8f5d23ce5e3"
+    },
+    "F03_MISC_DESKTOP_FAILURE.json": {
+      "bytes": 988,
+      "sha256": "05e0969409e5ea3cbb402cdbbfca3a2af04a06eefdfb00ff2ef708fa681e5273"
+    },
+    "F03_MISC_DESKTOP_FAILURE.png": {
+      "bytes": 381600,
+      "sha256": "ca31da8aca7957847883e5cd4ca99754fbc977444d0c77ace829eac2c87bb549"
+    },
+    "F03_MISC_MOBILE_FAILURE.json": {
+      "bytes": 988,
+      "sha256": "05e0969409e5ea3cbb402cdbbfca3a2af04a06eefdfb00ff2ef708fa681e5273"
+    },
+    "F03_MISC_MOBILE_FAILURE.png": {
+      "bytes": 202715,
+      "sha256": "b5e11bb522540e69543d4425001d264e0213d09000dd00dae91f7e44a8532d12"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "795faa152c696d47530e0171e74160c972f2f7ed1ab22e51b7769bce1ee0d18b"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360418,
+      "sha256": "0872a29295b6181e78b8214b2dc006e2cd11c3a4d868f2820913c7e7b9501bb8"
+    }
+  },
+  "primary_unchanged": true,
+  "production_go": false,
+  "retained_reports_sha256": "0c86e7fd8c9223bdbaab8c5be53cd07247456a8175d81a7a7e03ebea7aad5d7f",
+  "root_causes": [
+    "New adapter duplicated native INSERT/UPDATE audit with unsupported CREATE action. Native audit trigger already supplies the required record/reason. Remove duplicate; keep accepted audit constraint/trigger unchanged.",
+    "Protected-category fixture tried an unlawful master update rejected by the unchanged native guard. Assert that guard refusal, then assert public facade refusal of a raw core account ID. No trigger/constraint bypass."
+  ],
+  "run_id": 36738976013,
+  "source_bundle_sha256": "2c0b70492a6e00a928c65f8effae4ea8a6876cfe180e50bd2717fcc5d66ef888",
+  "source_commit": "0782b7b57f889c1abaaeca327bd7bc0c70b49ce6",
+  "source_tree": "30f9ff7810ec5a6239db8632681cd7b559ffe594",
+  "status": "INCOMPLETE_REPAIRED_CANDIDATE_PENDING"
+}
