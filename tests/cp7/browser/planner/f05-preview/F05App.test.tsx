@@ -12,7 +12,7 @@ beforeEach(() => {
   host = document.createElement('div'); document.body.append(host); root = createRoot(host)
 })
 afterEach(async () => { await act(async () => root.unmount()); host.remove(); vi.restoreAllMocks() })
-async function mount(readPort?: AnalysisReadPort) { await act(async () => root.render(<F05App runtimeMode="DEMO_SIMULATION" readPort={readPort} />)) }
+async function mount(readPort?: AnalysisReadPort) { await act(async () => root.render(<F05App runtimeMode="DEMO_SIMULATION" readPort={readPort} yieldReadPort={readYieldFixture} />)) }
 async function select(label: string, value: string, wait = true) {
   const input = [...host.querySelectorAll('label')].find(item => item.textContent?.startsWith(label))!.querySelector('select')!
   await act(async () => { input.value = value; input.dispatchEvent(new Event('change', { bubbles: true })) })

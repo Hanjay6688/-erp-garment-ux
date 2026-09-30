@@ -1,5 +1,7 @@
 # F05 P14–P17 — cangkang consumer teruji dengan fixture
 
+**Update terkini:** [handoff analyzer F04](../f04/YIELD_ANALYZER_HANDOFF.md) adalah acuan implementasi baru. Mesin dan kontrak F04/P07 kini menghitung rentang referensi dari history uji; F05/P14 menampilkan hasil lewat backend demo. Receipt baru ada di `../f04/yield-v1/VERIFICATION.json`. Checkpoint di bawah tetap disimpan sebagai sejarah source masing-masing.
+
 Status: **WRITER_FIXTURE_SHELL_VERIFIED**. Integrasi operasional, penerimaan auditor, dan production GO masih terbuka.
 
 Sumber checkpoint awal: `373a8d64e7f459fe47d142e4bd6a42456462793f`, dari integrasi `8f2d81c0198a1c451314811d074f7c88a9cf793a`. Cabang: `cp7/f05-consumers-shell-20260930`. Hash setiap sumber ada di [SOURCE_MANIFEST.json](SOURCE_MANIFEST.json); hasil dan batas pembuktian ada di [VERIFICATION.json](VERIFICATION.json).

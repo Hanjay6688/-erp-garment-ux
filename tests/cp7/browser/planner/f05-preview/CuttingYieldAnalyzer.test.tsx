@@ -10,7 +10,7 @@ import type { YieldReview } from './cuttingYieldContract'
 let host: HTMLDivElement; let root: Root
 beforeEach(() => { ;(globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT: boolean }).IS_REACT_ACT_ENVIRONMENT = true; host = document.createElement('div'); document.body.append(host); root = createRoot(host) })
 afterEach(async () => { await act(async () => root.unmount()); host.remove() })
-async function mount(read?: YieldReadPort, stale = false) { const view = projectShell(await createAnalysisReadPort('DEMO_SIMULATION').read('FRAMEWORK'), 'OWNER'); await act(async () => root.render(<CuttingYieldAnalyzer view={view} stale={stale} read={read} />)) }
+async function mount(read: YieldReadPort = readYieldFixture, stale = false) { const view = projectShell(await createAnalysisReadPort('DEMO_SIMULATION').read('FRAMEWORK'), 'OWNER'); await act(async () => root.render(<CuttingYieldAnalyzer view={view} stale={stale} read={read} />)) }
 async function click() { await act(async () => host.querySelector<HTMLButtonElement>('button')!.click()) }
 async function mix(value: string) { await act(async () => { const select = host.querySelector('select')!; select.value = value; select.dispatchEvent(new Event('change', { bubbles: true })) }) }
 it('starts with width blank and can load a comparison without it', async () => {

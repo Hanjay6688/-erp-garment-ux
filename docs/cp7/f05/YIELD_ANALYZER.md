@@ -1,8 +1,10 @@
-# Analyzer hasil potong — usulan producer dan cangkang F05
+# Analyzer hasil potong — F04 menghitung, F05 menampilkan
 
 Instruksi owner 30 September 2026: keluarga bahan menjadi basis; kombinasi ukuran harus dibedakan; **lebar opsional, kosong tetap boleh dianalisis dan tidak menjadi syarat menyimpan potongan**. Hasil rendah menjadi tanda cek lapangan dengan reasoning. Tidak menyimpulkan kehilangan, kecurangan atau BS sebagai penyebab tanpa bukti.
 
-Implementasi saat ini adalah kartu consumer pada pratinjau P14, kontrak privat dan fixture. Model pembelajar dari transaksi belum dibangun/terhubung. Kontrak shared dan writer F03/F04 tidak diubah. Angka fixture bukan range pabrik dan tidak diambil dari benchmark pakar.
+**Satu analyzer, bukan dua mesin.** F04/P07 kini memiliki kernel SQL pembanding riwayat exact cohort beserta kontrak/guard; F05/P14 hanya memanggil port dan menampilkan hasil. Jalur preview memakai backend disposable dan riwayat sintetis. Detail implementasi, batas hitung, policy demo dan tugas writer berikutnya ada pada [handoff F04](../f04/YIELD_ANALYZER_HANDOFF.md).
+
+Belum ada reader transaksi asli atau model campuran terlatih. Rentang preview dihitung dari observasi uji, bukan patokan usaha atau benchmark pakar. Pembahasan model umum di bawah adalah rancangan lanjutan; tidak semua kemampuan itu sudah ada dalam kernel v1.
 
 ## Bahasa bayi
 
@@ -10,8 +12,8 @@ Mesin bertanya: **“Bahan ini, pola ini, meter segini, dengan campuran ini bias
 
 1. Kelompokkan bahan menurut identitas yang benar: merek/pabrik/varian dan revisi spesifikasi. Riwayat perilaku/susut bahan menjadi basis awal, bukan asumsi bahwa semua batch selamanya identik.
 2. Ingat campuran, bukan cuma ukuran terkecil–terbesar. `28×2 + 29×2 + 30×2`, `28×1 + 29×3 + 30×2` dan `30×6` berbeda. Campuran yang berubah bisa mengubah susunan marker dan pemakaian bahan.
-3. Cari kejadian sebanding atau model campuran yang telah lolos pengujian. Jumlah PCS dan meter per ukuran bukan rata-rata seragam. Model bisa belajar pengaruh porsi ukuran dan interaksi campuran/lebar, bila riwayat memiliki variasi yang cukup.
-4. Beri **rentang hasil kejadian baru**, lalu bandingkan dengan hasil potong yang sudah lengkap. Sebelum hasil lengkap, hanya perkiraan yang boleh tampil; isian kosong bukan nol.
+3. Kernel v1 mencari kejadian dengan komposisi dan panjang sama. Model campuran yang generalisasi ke rasio baru masih menunggu data dan pengujian. Jumlah PCS dan meter per ukuran bukan rata-rata seragam. Model bisa belajar pengaruh porsi ukuran dan interaksi campuran/lebar, bila riwayat memiliki variasi yang cukup.
+4. Kernel v1 memberi **rentang referensi empiris historis**, lalu membandingkan dengan hasil potong lengkap. Interval prediksi kejadian baru yang terkalibrasi belum tersedia. Sebelum hasil lengkap, hanya perkiraan yang boleh tampil; isian kosong bukan nol.
 5. Kalau campuran baru belum didukung data/model, bilang “belum dapat dinilai”. Satu tahun kalender tidak otomatis berarti cukup kejadian sebanding.
 
 Jika semua histori selalu 2:2:2, pengaruh ukuran 28/29/30 secara terpisah belum dapat dipastikan. Mesin tidak boleh pura-pura tahu konsumsi 30 semua hanya dari rata-rata campuran tersebut. Diperlukan histori campuran yang bervariasi atau informasi geometri pola/marker yang sah. Susunan slot yang bertukar urutan tidak otomatis menjadi campuran baru; marker/layout yang berbeda tetap dapat mempengaruhi yield.
@@ -41,7 +43,7 @@ Tanpa lebar, range empiris mengandung variasi lebar yang tidak diobservasi serta
 
 Contoh panjang 100 M di catatan versus 80 M diukur serta contoh range 80–120 PCS pada kartu adalah **kasus tampilan sintetis**, bukan kesimpulan usaha. Meter terpakai lebih rendah saja tidak membuktikan roll pendek; bisa ada sisa. `qty_reported_remaining` yang dihitung dari keluar − terpakai juga bukan bukti sisa fisik yang diukur independen. Input yang sengaja dipalsukan tidak dapat dibuktikan palsu hanya dari input yang sama; perlu pemeriksaan fisik/referensi independen saat ada tanda selisih.
 
-## Producer yang dibutuhkan setelah data tersedia
+## Integrasi reader dan model lanjutan setelah data tersedia
 
 - Satu observasi per slice roll/kejadian cutting yang selesai, dengan hasil per ukuran dan revision lineage. Draft, replay, pembagian pickup, completion berikutnya, serta koreksi/reversal tidak menjadi observasi ganda. Simpan waktu fisik, waktu diketahui, source/hash/model/policy/access versions.
 - Gunakan komposisi marker/rencana yang diketahui sebelum hasil, bila tersedia. Hasil per ukuran sesudah potong tidak otomatis membuktikan rasio gambar yang direncanakan. Jangan memakai label “normal” atau hasil batch saat ini sebagai training input untuk meramal dirinya sendiri.

@@ -1,5 +1,7 @@
 # F05 — mulai di sini untuk writer utama
 
+**Update analyzer 30 September:** mulai dari [handoff F04](../f04/YIELD_ANALYZER_HANDOFF.md) dan receipt `../f04/yield-v1/VERIFICATION.json`. Branch lanjutan `cp7/f04-f05-yield-analyzer-20260930`: F04/P07 memiliki SQL pembanding dan satu kontrak; F05/P14 konsumsi hasil melalui backend demo. Lebar tetap opsional. Checkpoint di bawah adalah riwayat cangkang sebelum mesin ini dibangun; jumlah tes dan label “producer belum dibangun” di checkpoint lama bukan status patch baru. Reader ERP/model terkalibrasi tetap belum tersedia.
+
 Checkpoint owner 30 September 2026. Cabang `cp7/f05-consumers-shell-20260930`, draft [PR #37](https://github.com/Hanjay6688/-erp-garment-ux/pull/37), source teruji `ec8e27890319ef898f0bb8b06028daa12a9d2f08`. Status **cangkang fixture teruji**; integrasi transaksi dan penerimaan independen belum ditutup.
 
 ## Tugas pertama, tanpa membaca ulang seluruh CP7
@@ -26,7 +28,7 @@ Framework `work_packets.json` tetap acuan dependency; kata v1 historis di input 
 | P15 | Template Indonesia deterministik dari satu proyeksi; arsip/revisi/export sesi | Reader periode P13; persistence/publish/history server berizin; koreksi terhubung ke arsip immutable | P13/P14; keuangan UNKNOWN/pending tidak menjadi margin READY |
 | P16 | Attention NEW/ACK/SNOOZED/DONE terpisah dari condition; manual sesi; queue WA simulasi dedupe | Facade reminder existing, condition observation lengkap, lifecycle/policy/persistensi server; trigger dan outbox dengan fencing | P15; incomplete != sehat, DONE != masalah beres. WA nyata tetap gate CP7C |
 | P17 | Pertanyaan, serialized prompt, copy/open dengan manual fallback | Snapshot server yang sudah disaring izin, scope/truncation metadata, integration Auth/browser | P14; V1 tidak menambah API AI/key/chat otomatis/writeback |
-| Analyzer potong | Lebar opsional dan kosong; mix berulang; range/status/reasoning dari port privat; unknown ditahan | Mapping input roll asli, keluarga bahan/pola/komposisi/unit; producer pembanding/model dan kontrak disepakati; kartu inline form asli | Range saat ini sintetis. Tidak memasang model atau schema F03/F04 lewat consumer |
+| Analyzer potong | Lebar opsional dan kosong; mix berulang; range/status/reasoning dari port privat; unknown ditahan | Mapping input roll asli, keluarga bahan/pola/komposisi/unit; kernel baseline F04 sudah tersedia, reader/policy dan model lanjutan perlu disepakati; kartu inline form asli | Range saat ini sintetis. Mesin/schema privat milik F04; consumer tidak memasang schema operasional |
 
 Kartu analyzer saat ini memakai roll contoh yang terpisah dari draft Buat/Bagi. Tidak ada auto-trigger pada SAVE operasional. Integrasi berikutnya boleh mengevaluasi saat input relevan berubah/hasil potong lengkap, dengan debouncing/cancellation dan tanpa menghambat save; trigger final mengikuti lifecycle form asli yang diverifikasi integrator. Tidak ada jaminan cukup data setelah satu tahun.
 
@@ -39,7 +41,7 @@ Root preview: `tests/cp7/browser/planner/f05-preview/`.
 | `F05App.tsx` | Composition root menerima `readPort?: AnalysisReadPort` serta `yieldReadPort?: YieldReadPort`. Runtime tetap DEMO_SIMULATION; mengganti prop tidak membuka mode operasional. |
 | `ProductionPanel.tsx` | P14; meneruskan yieldReadPort ke kartu. Tidak menambah kalkulator di JSX. |
 | `CuttingYieldAnalyzer.tsx` | Render hasil dan input contoh. Guard/context serta identity pembaca membatalkan hasil lama; isi/hapus lebar juga membatalkan hasil. |
-| `cuttingYieldContract.ts` | Proposal PRIVAT `f05.cutting-yield-preview.v1`, menerima SYNTHETIC_ONLY. Bukan schema RPC produksi; jangan melabeli data asli sebagai synthetic untuk melewati guard. |
+| `cuttingYieldContract.ts` | Compatibility re-export kontrak PRIVAT F04 `f04.cutting-yield-preview.v1`, menerima SYNTHETIC_ONLY. Bukan schema RPC produksi; jangan melabeli data asli sebagai synthetic untuk melewati guard. |
 | `cuttingYieldFixtures.ts` | Hanya contoh UI; angka tidak diambil sebagai normal usaha. `mix`/`example` pada signature port adalah kontrol harness, bukan request produksi. |
 | `model.ts` | Period withholding, arsip immutable sesi, attention/queue simulasi dan serialisasi pertanyaan. |
 | `../../../families/reports/preview/BusinessReport.tsx` | P15; jangan mengganti tanggal fixture lalu menganggap angka sebagai hasil periode lain. |
