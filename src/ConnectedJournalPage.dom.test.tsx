@@ -69,4 +69,16 @@ describe('complete native journal source',()=>{
   await mount();mock.rpc.mockResolvedValueOnce({data:null,error:{message:'Hak jurnal dicabut'}});await click(button('Muat ulang jurnal'));expect(container.textContent).toContain('Hak jurnal dicabut');expect(container.textContent).not.toContain('Rp')
   const auth=mock.auth as typeof recoveryIdentity,count=mock.rpc.mock.calls.length;auth.identity.permissions=[];await mount();expect(container.textContent).toContain('Hak melihat jurnal');auth.identity.permissions=['finance.journal.view'];auth.identity.profile.role='STAFF';await mount();expect(container.textContent).toContain('Owner atau Admin');expect(mock.rpc.mock.calls).toHaveLength(count)
  })
+ it('a failed transaction-panel read retires the parent book and its late in-flight result',async()=>{
+  await import('./MiscFinancePanel')
+  window.localStorage.clear();(mock.auth as typeof recoveryIdentity).identity.permissions.push('finance.cash.view')
+  mock.rpc.mockImplementation((name,{p_query})=>Promise.resolve(name==='erp_cp7_get_journal_book_v1'?{data:fixture(p_query),error:null}:{data:null,error:{message:'Hak kas dicabut'}}))
+  await mount();expect(container.textContent).toContain('Rp10,01')
+  await click(button('Buka pendapatan dan biaya lain'));await flush();expect(container.textContent).toContain('Hak kas dicabut');expect(container.textContent).not.toContain('Rp')
+  let resolveOld:((v:unknown)=>void)|null=null,old:Query|null=null
+  mock.rpc.mockImplementationOnce((_name,{p_query})=>{old=p_query;return new Promise(resolve=>{resolveOld=resolve})})
+  await click(button('Muat ulang jurnal'));await click(button('Muat ulang transaksi lain'))
+  await act(async()=>resolveOld!({data:fixture(old!),error:null}));await flush()
+  expect(container.textContent).toContain('Hak kas dicabut');expect(container.textContent).not.toContain('Rp');expect(container.querySelectorAll('[data-journal-id]')).toHaveLength(0)
+ })
 })

@@ -73,7 +73,7 @@ it('rejects numeric money, missing or contradictory native journals, duplicate s
 it('saves an explicitly reviewed exact large draft with native category/cash tokens and no invented revision', async () => {
   const s = server(); await mount(); await prepare('9007199254740993.01'); expect(button('Simpan draft transaksi lain').disabled).toBe(false); await click('Simpan draft transaksi lain')
   expect(writes()[0][1]).toMatchObject({ p_action: 'SAVE', p_expected: null, p_payload: { amount: '9007199254740993.01', physical_at: '2020-01-02T08:00:00.000Z', category_review_token: category.review_token, cash_review_token: cash.review_token, transaction_id: null, review_token: null } })
-  expect(s.doc?.journals).toHaveLength(0); expect(container.textContent).toContain('Rp9.007.199.254.740.993,01'); expect(onChanged).toHaveBeenCalledOnce(); expect(onRetire).toHaveBeenCalledOnce()
+  expect(s.doc?.journals).toHaveLength(0); expect(container.textContent).toContain('Rp9.007.199.254.740.993,01'); expect(onChanged).toHaveBeenCalledOnce(); expect(onRetire).toHaveBeenCalled()
 })
 it('posts only a fresh reviewed draft and displays both original and linked dated inverse after reversal', async () => {
   const s = server(doc()); await mount(); await act(async () => container.querySelector<HTMLElement>('[data-misc-id]')!.click()); await flush()
@@ -90,6 +90,11 @@ it('keeps a committed POST with lost reply in durable recovery and remount repla
   const s = server(doc()); await mount(); await act(async () => container.querySelector<HTMLElement>('[data-misc-id]')!.click()); await flush(); await prepareAction(); s.lost = true; await click('Posting transaksi lain')
   const original = structuredClone(writes()[0][1]); expect(readProductionRecovery('disposable:actor-1').pending.FINANCE_MISC?.id).toBe(original.p_request); expect(container.querySelectorAll('[data-misc-id]')).toHaveLength(0)
   await act(async () => root.unmount()); root = createRoot(container); s.lost = false; await mount(); await click('Reconcile transaksi'); expect(writes()[1][1]).toEqual(original); expect(s.effects).toBe(1); expect(readProductionRecovery('disposable:actor-1').pending).toEqual({}); expect(container.querySelectorAll('[data-misc-journal-id]')).toHaveLength(1)
+})
+it('an amount-only draft edit preserves the native timestamp seconds and microseconds', async () => {
+  const original = doc(); original.physical_at = '2020-01-02T08:00:59.123456+00:00'; server(original); await mount(); await act(async () => container.querySelector<HTMLElement>('[data-misc-id]')!.click()); await flush(); await click('Ubah draft transaksi lain')
+  await fill('Nominal transaksi lain', '22.22'); await fill('Alasan simpan transaksi lain', 'Nominal diperbaiki waktu sumber tetap'); await check('Draft transaksi lain sudah diperiksa'); await click('Simpan draft transaksi lain')
+  expect(writes()[0][1].p_payload.physical_at).toBe(original.physical_at)
 })
 it('a foreign pending transaction freezes the financial source and prevents a new misc writer', async () => {
   server(doc()); await mount(); const input = { action: 'POST', payload: { sale_id: id }, expectedVersion: 1 }, envelope = { ...input, fingerprint: JSON.stringify(input), id: originalId, createdAt: '2026-09-30T03:00:00Z' }

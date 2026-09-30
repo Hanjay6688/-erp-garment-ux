@@ -29,6 +29,7 @@ function Workspace({ client, onChanged, onRetire }: Props) {
   const [at, setAt] = useState(() => cp6WibDateTimeInput()), [amount, setAmount] = useState(''), [counterparty, setCounterparty] = useState(''), [reference, setReference] = useState(''), [notes, setNotes] = useState('')
   const [reason, setReason] = useState(''), [reviewed, setReviewed] = useState(false), [actionReason, setActionReason] = useState(''), [actionReviewed, setActionReviewed] = useState(false)
   const load = useCallback(async () => {
+    onRetire()
     const scope = { ...query.current }, ticket = beginRead()
     setData(null); setBusy(true); setError(''); setReviewed(false); setActionReviewed(false)
     try {
@@ -43,7 +44,7 @@ function Workspace({ client, onChanged, onRetire }: Props) {
       return true
     } catch (e) { if (isReadCurrent(ticket)) setError(normalizeClientError(e).message); return false }
     finally { if (isReadCurrent(ticket)) setBusy(false) }
-  }, [client, beginRead, finishRead, isReadCurrent])
+  }, [client, beginRead, finishRead, isReadCurrent, onRetire])
   useEffect(() => { void load() }, [load])
   const pendingBlocked = Boolean(mutation.pending) || mutation.externalMutationBlocked || mutation.corruptedEnvelope
   useEffect(() => { if (pendingBlocked) { beginRead(); setData(null); setReviewed(false); setActionReviewed(false); setBusy(false) } }, [pendingBlocked, beginRead])
@@ -59,7 +60,9 @@ function Workspace({ client, onChanged, onRetire }: Props) {
     reload: async () => { const native = await load(); const book = await onChanged(); return native && book },
   }
   const locked = busy || mutation.writerLocked, detail = data?.detail
-  const physical = cp6WibPhysicalTimeToIso(at), exact = miscAmount(amount)
+  // An unchanged minute display must not silently truncate an existing native
+  // timestamp's seconds/microseconds when the operator edits another field.
+  const physical = editing && detail?.id === editing && at === cp6WibDateTimeInput(detail.physical_at) ? detail.physical_at : cp6WibPhysicalTimeToIso(at), exact = miscAmount(amount)
   const amountValid = exact !== null && miscCents(exact) > 0n
   const valid = !locked && reviewed && number.trim().length > 0 && number.trim().length <= 60 && physical !== null && Date.parse(physical) <= Date.now() && amountValid && category?.eligible && category.type === type && bank?.eligible && reason.trim().length >= 5 && reason.trim().length <= 1000 && (!editing || detail?.id === editing && detail.status === 'DRAFT')
   const save = () => {

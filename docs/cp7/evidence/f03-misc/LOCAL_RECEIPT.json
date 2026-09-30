@@ -1,5 +1,9 @@
 {
   "actual_diagnostic": "docs/cp7/evidence/f03-misc/diagnostic-0782b7b/DIAGNOSTIC_RECEIPT.json",
+  "affected_panel_and_journal": {
+    "FAIL": 0,
+    "PASS": 22
+  },
   "build": "PASS",
   "changed_source": {
     ".github/workflows/cp7-f03-misc.yml": "c21218cdf00fd261f0dd97f57ebf4fe702feb0077e2fc3042525419f37ad9351",
@@ -8,15 +12,16 @@
     "scripts/cp7-src/finance/misc.sql": "0eb11cc9e21ab914e708c698b3494e65f67b72ba561c5eb47d62d970030fb9a0",
     "scripts/cp7_f03_bundle.py": "5d7de7363e8bee8e6ac2c2c10759756a4b7bd043eadb7beec833d3d6c1c08a2f",
     "scripts/cp7_f03_cash_probe.py": "9dfacae964c4c5bb840738d0baacda81eba6427cf7b9db872b5e79267c3dcb9e",
-    "scripts/cp7_f03_misc_browser.mjs": "2c8536500c80c5bcadba993b729a0cb1dafe9972afeca3acef83eab6bb8efb9e",
+    "scripts/cp7_f03_misc_browser.mjs": "f77f3325d7e6790b50ae56fc7604ff9692773211e97eff891a222e8ffaab18d2",
     "scripts/cp7_f03_misc_browser_fixture.py": "6391d768ae138856c46a9e616b62c8a0fbfd789c195dc25a1bf316df340010b5",
     "scripts/cp7_f03_misc_probe.py": "81c04ab56d24c97cef61aa239addb300d2a3572be4b1f86c46a323b5d0d0448b",
     "scripts/cp7_f03_probe.py": "676dc543f4dc0f36408c8eabf41bdf019c0d0db26e3907d6dc3ef8a803dee841",
     "scripts/cp7_misc_bundle.py": "53e39940aa7b4ffcd7e5cc076cfa9f812c81202eea11e86efd4a6bdb350eb557",
     "scripts/cp7_misc_cases.py": "126a83c017c59383a4a46cc02de432bb2e527a04d1b476374e22ca314c23c11d",
+    "src/ConnectedJournalPage.dom.test.tsx": "e87546364f5944e0e2d705e14b0f74627a407bb78db89ca63f14c3ce7c623945",
     "src/ConnectedJournalPage.tsx": "f547a1eb3a412ec439bff5b443ac50a678b92666fe836600b74734d0e68c1b88",
-    "src/MiscFinancePanel.dom.test.tsx": "b5fb64c4c47f8ea83959d94ad8a7ff5e50d2b92eaa34456b05a9b0bd78884700",
-    "src/MiscFinancePanel.tsx": "a84990adfacf3c5aa0537b8afd40a3883c42252ffe623c5d33ba12f577538b99",
+    "src/MiscFinancePanel.dom.test.tsx": "54b673195bceca7300bbaac0505c411dbf9a371335e8ddf53c00cffd020aee57",
+    "src/MiscFinancePanel.tsx": "bf1532971dc3983de78b2c65195a89cfe2ec3ed8972a1d832e82b3bb30023bb9",
     "src/miscFinanceContract.ts": "c2e88fb9e219bec8c9fc6ce2a7b9f5ad57ca6bfa38b1355e46af1b9705e87aa1",
     "src/productionRecovery.ts": "98541ac04d7fd082ddf438927ecafcf20ad47150344cc8a1566f81ef6b2ec8d6",
     "src/types/database.preconnect.ts": "8d36ebf9811d04ad3ad409b1179cc73b67776acbe6fba48f013d538874832648"
@@ -27,12 +32,12 @@
   "full_unit": {
     "FAIL": 0,
     "INCOMPLETE": 0,
-    "PASS": 857
+    "PASS": 859
   },
   "independent_acceptance": false,
-  "local_test_execution_source": "0782b7b57f889c1abaaeca327bd7bc0c70b49ce6",
-  "local_test_reuse": "Frontend unchanged after857 PASS; backend-only repair requires new actual14-case qualification.",
-  "native_execution": "PENDING",
+  "local_test_execution_source": "EXACT_CHANGED_SOURCE_SHA256_BELOW_ON398_WORKTREE",
+  "local_test_reuse": "No reuse for new frontend: full859, affected22, build and security rerun after timestamp and parent-book retirement repairs.",
+  "native_execution": "14_PASS_ON398_WITH_PARENT_BOOK_RETIREMENT_GAP_IDENTIFIED; STRICTER_NEW_FRONTEND_REPEAT_PENDING",
   "native_expected": {
     "browser": 2,
     "http": 1,
@@ -40,12 +45,13 @@
     "races": 2
   },
   "native_expected_total": 14,
-  "new_misc_unit_cases": 12,
-  "original_reports_sha256": "a826a580c006e11460f7a1f9f1cc2470ba1dea7b59bf7db8d32228b3db079e03",
-  "parent_source_commit": "b66515d0f3c878930e92346e1823193ad471cb66",
+  "native_previous_qualification": "docs/cp7/evidence/f03-misc/native-398f737/QUALIFIED_RECEIPT.json",
+  "new_misc_unit_cases": 13,
+  "original_reports_sha256": "60a7af7990786f82bd7cc2002180d4c8703043e7c8aa077e8f89847034215549",
+  "parent_source_commit": "398f737b1e815d88757edcd209ad4f16c95d6b74",
   "production_go": false,
   "python_and_browser_syntax": "PASS",
   "security": "PASS",
   "source_bundle_sha256": "4b03967b02612c87fc7c6e88211690f9854f78b41020a29a41f75895473c529a",
-  "status": "LOCAL_PASS_NATIVE_PENDING"
+  "status": "LOCAL859_PASS_NATIVE14_REPEAT_PENDING"
 }
