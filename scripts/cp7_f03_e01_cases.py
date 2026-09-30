@@ -84,7 +84,7 @@ def production(cur, today):
     pickup = prod.rpc(cur, 'public.erp_save_cutting_pickup_v1', dict(pick_p, id=pickup['pickup_id'], action='POST'), expected_version=int(pickup['row_version']))
     b.api.admin(cur)
     f['batch'] = str(cur.execute('select id from erp.cutting_distribution_batches where pickup_id=%s', (pickup['pickup_id'],)).fetchone()[0])
-    native(cur, 'select erp.ensure_po_work_component_snapshots(%s,%s)', (po, when(9, 30)))
+    native(cur, 'select erp.ensure_po_work_component_snapshots_v2(%s,%s,%s)', (po, when(9, 30), uuid.uuid4()))
     snapshots = cur.execute('select id,work_component_id,rate_per_pcs_snapshot,source_bom_version_id,source_contractor_rate_id from erp.po_work_component_snapshots where po_id=%s', (po,)).fetchall()
     assert len(snapshots) == 1 and snapshots[0][2] == 2 and snapshots[0][3] == work_bom and snapshots[0][4] is not None, ('E01_LAWFUL_WORK_RATE', snapshots)
     completion_ids = []
@@ -196,7 +196,15 @@ def http_cases(http, today):
     def flow():
         owner = http.login('OWNER', 'e01-owner')
         with http.connect() as conn, conn.cursor() as cur:
+            # Legacy work DRAFT inserts are fixture setup only. Restore this
+            # schema grant before any real Auth/HTTP call is made.
+            had = cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]
+            acl = cur.execute("select nspacl::text from pg_namespace where nspname='erp'").fetchone()[0]
+            if not had: cur.execute('grant usage on schema erp to authenticated')
             f = production(cur, today)
+            b.api.admin(cur)
+            if not had: cur.execute('revoke usage on schema erp from authenticated')
+            assert cur.execute("select nspacl::text from pg_namespace where nspname='erp'").fetchone()[0] == acl
             before = cmd.accounts(cur)
             report_before = finance.read(cur, today)
             conn.commit()
