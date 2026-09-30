@@ -23,7 +23,10 @@ def main():
         elif op=='verify-price':
             out=cases.assert_first_price(cur,p,p['before'])
         elif op=='verify-card':
-            expected=cases.observe(cur,p)['card'];actual=p['card']
+            actual=p['card']
+            assert actual['page']['offset']==0 and actual['page']['limit']==25
+            assert actual['page']['next_offset'] is None
+            expected=cases.x04.fg.ledger(cur,cases.position(p),offset=0,limit=25)
             assert cases.x04.canonical_card(actual['page'])==cases.x04.canonical_card(expected['page'])
             assert actual['balances']==expected['balances'] and actual['position']==expected['position']
             out=dict(status='PASS',exact_native_public_reader_card_match=True)

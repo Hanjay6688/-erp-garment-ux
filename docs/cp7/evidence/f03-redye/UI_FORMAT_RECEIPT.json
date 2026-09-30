@@ -1,0 +1,140 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 2512371,
+  "artifact_id": 11083639006,
+  "artifact_sha256": "e9ae67ae32d59b3f8bf601f0a3b60fc39238c6f8528d50e737c14c3c18dfdfc4",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 2,
+    "NOT_RUN": 0,
+    "PASS": 3
+  },
+  "cp6_restored": true,
+  "expected_case_count": 5,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "INCOMPLETE": 2
+    },
+    "http": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 2
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109791490113,
+  "nonpassing_cases": {
+    "browser:F03_X04_REDYE_BROWSER_DESKTOP": {
+      "error": "Error: expect(locator).toContainText(expected) failed\n\nLocator: getByRole('region', { name: 'Jasa celup ulang', exact: true }).getByRole('row').filter({ hasText: 'X04-DYE-4ccdffe0340b' })\nExpected substring: \"Rp200\"\nReceived string:    \"X04-DYE-4ccdffe0340b · X04 real paid redyeCOMPLETED4 GOOD · 0 BSRp 50,00Rp 200,00\"\nTimeout: 5000ms\n\nCall log:\n  - Expect \"to.have.text\" with timeout 5000ms\n  - waiting for getByRole('region', { name: 'Jasa celup ulang', exact: true }).getByRole('row').filter({ hasText: 'X04-DYE-4ccdffe0340b' })\n    13 × locator resolved to <tr>…</tr>\n       - unexpected value \"X04-DYE-4ccdffe0340b · X04 real paid redyeCOMPLETED4 GOOD · 0 BSRp 50,00Rp 200,00\"\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toContainText (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at flow (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_browser.mjs:36:30)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3",
+      "status": "INCOMPLETE"
+    },
+    "browser:F03_X04_REDYE_BROWSER_MOBILE": {
+      "error": "Error: expect(locator).toContainText(expected) failed\n\nLocator: getByRole('region', { name: 'Jasa celup ulang', exact: true }).getByRole('row').filter({ hasText: 'X04-DYE-56e45973133f' })\nExpected substring: \"Rp200\"\nReceived string:    \"X04-DYE-56e45973133f · X04 real paid redyeCOMPLETED4 GOOD · 0 BSRp 50,00Rp 200,00\"\nTimeout: 5000ms\n\nCall log:\n  - Expect \"to.have.text\" with timeout 5000ms\n  - waiting for getByRole('region', { name: 'Jasa celup ulang', exact: true }).getByRole('row').filter({ hasText: 'X04-DYE-56e45973133f' })\n    13 × locator resolved to <tr>…</tr>\n       - unexpected value \"X04-DYE-56e45973133f · X04 real paid redyeCOMPLETED4 GOOD · 0 BSRp 50,00Rp 200,00\"\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toContainText (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at flow (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_browser.mjs:36:30)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3",
+      "status": "INCOMPLETE"
+    }
+  },
+  "observed_case_count": 5,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385606,
+      "sha256": "bf32a4ab98059bcaa6c83e23c0c90aa55c7fcb0a7bd8cd5db37142546f7697b3"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385606,
+      "sha256": "bf32a4ab98059bcaa6c83e23c0c90aa55c7fcb0a7bd8cd5db37142546f7697b3"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "ad0d4695ad8be5e8244272988e798a1fcc2be7e78c1383a24485314a4df3b380"
+    },
+    "CP7_F03_REDYE.json": {
+      "bytes": 308748,
+      "sha256": "4df77e12c60b7bc553eaece89ed3d90ebbc3ef369180c4c1c6d2cacdd1625425"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "59b6e66dbf90635787030c1731388796dd9b4476bbb24037abfb20f40c71983f"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360426,
+      "sha256": "02bd079c5e7906ff28c102e49dbaeb2b47445593a25a7be86cf83fda2028f6e6"
+    },
+    "X04_REDYE_DESKTOP_FAILURE.json": {
+      "bytes": 5756,
+      "sha256": "6f9826440367fcee067dfbac0a6cdc63d40e1c11bf1bf5369da34fa2d6aae6f7"
+    },
+    "X04_REDYE_DESKTOP_FAILURE.png": {
+      "bytes": 542658,
+      "sha256": "12fe07bc5c9f6a8f3dfdc5ab57442458ad9cf7e5c67542b46dcc042c8fe5d8ba"
+    },
+    "X04_REDYE_MOBILE_FAILURE.json": {
+      "bytes": 5791,
+      "sha256": "0b72b2b0b5011374eeac894546ec6c5d18a4219059a8ece410834a2912aff3a5"
+    },
+    "X04_REDYE_MOBILE_FAILURE.png": {
+      "bytes": 347571,
+      "sha256": "1e629c4e1657a42a84d8a945da48b70242690b741bd062bd8c14e2c4fe9c2e55"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "production_go": false,
+  "report_sha256": "4df77e12c60b7bc553eaece89ed3d90ebbc3ef369180c4c1c6d2cacdd1625425",
+  "retained_reports_gzip_sha256": "7304e23d5b628e64b12aa8219d00137e743ad200c23ded706a8318c7343d5747",
+  "run_id": 36685872511,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "025879c4643b70857f1c710a9d6224932341dcbd",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36685872511",
+    "tool_head": "025879c4643b70857f1c710a9d6224932341dcbd",
+    "workflow": "CP7 F03 X04 Paid Redye Continuation"
+  },
+  "source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+  "source_commit": "025879c4643b70857f1c710a9d6224932341dcbd",
+  "source_tree": "b005c1c3c761af04a7a2ebae4a6596765c11d9a3",
+  "status": "INCOMPLETE",
+  "visual_review_performed": false
+}

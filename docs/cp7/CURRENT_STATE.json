@@ -473,7 +473,7 @@
     "visual_review": false
   },
   "f03_x04_redye": {
-    "status": "5_INCOMPLETE_SIZE_CODE_FIXTURE_CORRECTED_RERUN_PENDING",
+    "status": "3_PASS_2_INCOMPLETE_BROWSER_COMPARATOR_CORRECTED_RERUN_PENDING",
     "expected_case_count": 5,
     "groups": {
       "native": 2,
@@ -486,22 +486,23 @@
     "independent_acceptance": false,
     "production_go": false,
     "visual_review": false,
-    "source": "c01aac6645c50024ef659ca7a993a766b371cc7d",
-    "source_tree": "fd0d58feb4d15be07d8d89a24feaee92c71b6943",
-    "run_id": 36684992006,
-    "job_id": 109788681386,
+    "source": "025879c4643b70857f1c710a9d6224932341dcbd",
+    "source_tree": "b005c1c3c761af04a7a2ebae4a6596765c11d9a3",
+    "run_id": 36685872511,
+    "job_id": 109791490113,
     "counts": {
-      "PASS": 0,
+      "PASS": 3,
       "FAIL": 0,
-      "INCOMPLETE": 5,
+      "INCOMPLETE": 2,
       "NOT_RUN": 0
     },
-    "diagnostic": "docs/cp7/evidence/f03-redye/IDENTITY_RECEIPT.json",
-    "remaining": "Shared target/anchor identity exceeded the20-character size_code column with ANCHOR suffix. The suffix is now A (18 characters total). All source guards and monetary expectations remain unchanged; complete five-case rerun pending.",
+    "diagnostic": "docs/cp7/evidence/f03-redye/UI_FORMAT_RECEIPT.json",
+    "remaining": "Both native money/source continuations and actual Auth/HTTP pass. Browser price writes and native cost200 checks succeed; the next UI assertion incorrectly expected Rp200 instead of the existing Rp 200,00. Corrected exact cost-cell assertion and same25-row native/browser card bounds preserve money/source/microseconds. Five-case rerun pending.",
     "first_diagnostic": "docs/cp7/evidence/f03-redye/FIRST_RECEIPT.json",
     "prior_diagnostics": [
       "docs/cp7/evidence/f03-redye/FIRST_RECEIPT.json",
-      "docs/cp7/evidence/f03-redye/SAME_DAY_RECEIPT.json"
+      "docs/cp7/evidence/f03-redye/SAME_DAY_RECEIPT.json",
+      "docs/cp7/evidence/f03-redye/IDENTITY_RECEIPT.json"
     ]
   },
   "f03_capacity": {

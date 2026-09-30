@@ -33,7 +33,7 @@ async function flow(ui,today,mobile){
     const response=await posted;assert.equal(response.status(),200)
     await ui.expect.poll(()=>fixture('read',f).cost).toBe('200.00')
     const after=fixture('verify-price',f)
-    await ui.expect(service).toContainText('Rp200')
+    await ui.expect(service.getByRole('cell').last()).toHaveText(/^Rp\s+200,00$/)
     await open(ui,p,'Kartu Stok FG','Gudang')
     const ws=p.locator('.cfg')
     await ui.expect(ws.getByRole('heading',{name:'Kartu stok barang jadi',exact:true})).toBeVisible()
