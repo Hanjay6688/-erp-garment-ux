@@ -1,0 +1,95 @@
+{
+  "version": "f05.continuation-checks.v1",
+  "run_id": "293de33f-a6b2-4edf-a183-e1b72c724c94",
+  "started_at": "2026-09-30T09:45:24.209Z",
+  "git_head": "adb5fc864a44c3fcdd465d388119a0f0cbec13cb",
+  "tracked_changes": false,
+  "source_sha256": {
+    "docs/cp7/contracts/analysis.example.json": "db63c2f81aae10c059954a1f63f6a0b4e86e3bcdda1ed7a0b98cc2396ca75daa",
+    "package-lock.json": "3f52c1eb326b53129977e78e7c95b14e0d0bebd8c8229e0cab96e88c85d88195",
+    "package.json": "188026b2d570d1f5ebcc1e1f5a7a950ae0327c326da7a0e6ce8e22f8b99c4d20",
+    "scripts/build-preflight.mjs": "5d7b10fa241075ff8a4f3e6d5b438f2be26d1acd54b27fd76c67c38f79138c2f",
+    "scripts/scan-client-artifacts.mjs": "2865b2e634a6e2104aeea63c7b88e08646305c9dab9898b9c6a281564a1c2250",
+    "src/config/runtime.ts": "ad630ef3e3708a35ad2aabd05a3acc5306ae0d164b2eb15c70e1eaee192675a8",
+    "src/cp7/contract.ts": "16a320a188d1fafe3912c33ac6e07de26bda2a506654f05e20a57195ed846ddf",
+    "src/cp7/fixture.ts": "380681e083291326a1bfe71603f9dbc05071a3b55616d6dfe6fdc50ed01585f0",
+    "src/cp7/reasons.json": "55741fc4be42afe73a3b942b4af7f1839c53197599f0a605c63ec7db0533e551",
+    "src/cp7/workspace.ts": "3dc3272128be0da2de9ca16d9e247d40c0b94c4999d36e8c08c097b6694d957a",
+    "src/vite-env.d.ts": "05d3658a3aeab527c23be224b05dd64abca8b6bf7994904000d03c6b7142f637",
+    "tests/cp7/browser/ai-v1/preview/AiPanel.tsx": "652c983bae71751ba30783e759782d87ac3719af24e63b5d6185f1665c62fbac",
+    "tests/cp7/browser/planner/f05-preview/Common.tsx": "e6ca43be39138bd746000df0bc828d0eb8271eb37b951c4d0c9a78b7d2b80e42",
+    "tests/cp7/browser/planner/f05-preview/CuttingYieldAnalyzer.test.tsx": "1362448a329ad553ac232ee56358667f38e69200ad11a87c4e56d9561635ec49",
+    "tests/cp7/browser/planner/f05-preview/CuttingYieldAnalyzer.tsx": "52c422167638d7ad123146144a2bbaa7707074cdcbbee81dc73e822ff978c579",
+    "tests/cp7/browser/planner/f05-preview/F05App.test.tsx": "ab74a2e2e7ed14660907458227b3765c2c1eb83c51c2fc6eec3f5721a938631d",
+    "tests/cp7/browser/planner/f05-preview/F05App.tsx": "109ce058a8d41fe7d479c6587017672aee501234aad4a4ca0e48cc6d696ee523",
+    "tests/cp7/browser/planner/f05-preview/ProductionPanel.tsx": "4bc45858ad369a2deb24269248fa2127b2f6aa459014b2cccaa6da6f15c664f5",
+    "tests/cp7/browser/planner/f05-preview/cuttingYield.test.ts": "985b1201940ec1781b86e9e03bb8c73b22538fdb960cab3f37431d7735333f69",
+    "tests/cp7/browser/planner/f05-preview/cuttingYieldContract.ts": "ca16d07af2c666983b52bc4e9c6946b8f494052feecb681e714b922bb52382d7",
+    "tests/cp7/browser/planner/f05-preview/cuttingYieldFixtures.ts": "2cf9e24d0d2d64547323e9ad2252c0229f6b38bb0a938e2e717d467d5741fc4e",
+    "tests/cp7/browser/planner/f05-preview/f05.browser.ts": "f659360f6368e4cd34d7702199f768c6f2afabbef6d9d9b9b74cf562f3d72598",
+    "tests/cp7/browser/planner/f05-preview/f05.css": "dfb5b4a3c0943666d5ecca7e5980d18ae75287c649897c168143c6e299158fe9",
+    "tests/cp7/browser/planner/f05-preview/index.html": "be99f1f132dc561cda56cc36a8caadf336d6470e7b2aadc088cbcc5dc9c6f39c",
+    "tests/cp7/browser/planner/f05-preview/main.tsx": "27ee028dfcc14c0d2319efc5828e6f8372c3cc5bbc0e991ce06d512d5a725738",
+    "tests/cp7/browser/planner/f05-preview/model.test.ts": "e2729a0d6f7ff8f7fa67d10c1ae03676c83e61da2a2b4f9e8886c939a3cea886",
+    "tests/cp7/browser/planner/f05-preview/model.ts": "59191119506304035f2943762dc78e7e50b8fd4f51681265cbe3ef757e89b7a6",
+    "tests/cp7/browser/planner/f05-preview/playwright.config.mjs": "ccf59f4da16f0c65b71ab6eac8af0f6a31b6e0490f57c834dfada4fdfcc5c491",
+    "tests/cp7/browser/planner/f05-preview/tsconfig.json": "5a8c48e00814aac99177552aab174c2af57677f8ec4332baa0aa7acd782d8e80",
+    "tests/cp7/browser/planner/f05-preview/verify-f05.mjs": "84272d944576b7fcc28dafacc2e5cb95ca6f8405be099380466c45c2ebdd6896",
+    "tests/cp7/browser/planner/f05-preview/vite.config.mjs": "73b48c68280fe89409a64d01b54e4c43513ebae8c006b53726467199e82648df",
+    "tests/cp7/families/reminder/preview/ReminderPanel.tsx": "c5690337879fe4047c463532f5b342b7311f11d79f3f1e347b587a07b5b97bd0",
+    "tests/cp7/families/reports/preview/BusinessReport.tsx": "bd3aade5c3702ecb81fd40e974c4d1bb4f9884a62963a9eb0beb463cfb41b8b8",
+    "tsconfig.app.json": "ec45293782914673548ce66cf2727e7192a6a0f80d8650d9fe40aa895caf0b55",
+    "tsconfig.json": "d85a225ae3aac2e8df18ec4dd8ac39c4bcf45a7c0c6bc06ab51e0a686c0cc48a"
+  },
+  "browser_requested": true,
+  "status": "FAIL",
+  "stages": [
+    {
+      "name": "typescript",
+      "status": "PASS",
+      "exit_code": 0,
+      "signal": null,
+      "started_at": "2026-09-30T09:45:24.213Z",
+      "completed_at": "2026-09-30T09:45:24.466Z"
+    },
+    {
+      "name": "unit",
+      "status": "PASS",
+      "exit_code": 0,
+      "signal": null,
+      "started_at": "2026-09-30T09:45:24.466Z",
+      "completed_at": "2026-09-30T09:45:26.123Z"
+    },
+    {
+      "name": "preview_build",
+      "status": "PASS",
+      "exit_code": 0,
+      "signal": null,
+      "started_at": "2026-09-30T09:45:26.124Z",
+      "completed_at": "2026-09-30T09:45:26.440Z"
+    },
+    {
+      "name": "preview_secret_scan",
+      "status": "PASS",
+      "exit_code": 0,
+      "signal": null,
+      "started_at": "2026-09-30T09:45:26.440Z",
+      "completed_at": "2026-09-30T09:45:26.483Z"
+    },
+    {
+      "name": "browser",
+      "status": "FAIL",
+      "exit_code": 1,
+      "signal": null,
+      "started_at": "2026-09-30T09:45:26.483Z",
+      "completed_at": "2026-09-30T09:45:27.054Z"
+    }
+  ],
+  "unit": {
+    "numTotalTests": 46,
+    "numPassedTests": 46,
+    "numFailedTests": 0,
+    "success": true
+  },
+  "completed_at": "2026-09-30T09:45:27.056Z"
+}
