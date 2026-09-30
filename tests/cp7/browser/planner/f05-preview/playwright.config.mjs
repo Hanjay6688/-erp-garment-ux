@@ -11,6 +11,6 @@ export default defineConfig({
     { name: 'desktop', use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 1000 } } },
     { name: 'mobile', use: { ...devices['Pixel 7'], viewport: { width: 412, height: 915 } } },
   ],
-  webServer: { command: 'node_modules/.bin/vite preview --config tests/cp7/browser/planner/f05-preview/vite.config.mjs --host 127.0.0.1 --port 4195 --strictPort',
+  webServer: { cwd: process.cwd(), command: 'node node_modules/vite/bin/vite.js preview --config tests/cp7/browser/planner/f05-preview/vite.config.mjs --host 127.0.0.1 --port 4195 --strictPort',
     url: 'http://127.0.0.1:4195/tests/cp7/browser/planner/f05-preview/index.html', reuseExistingServer: !process.env.CI, timeout: 30000 },
 })
