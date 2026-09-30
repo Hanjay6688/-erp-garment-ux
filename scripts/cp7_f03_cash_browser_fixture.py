@@ -8,7 +8,7 @@ import cp7_f03_cash_cases as cases
 def main():
     target=os.environ['AUDITOR_BROWSER_DB_URL'];url=urlparse(target)
     assert url.hostname in ('localhost','127.0.0.1') and url.path=='/cp6_auditor_browser','DISPOSABLE_BROWSER_ONLY'
-    op,p=sys.argv[1],json.loads(sys.argv[2])
+    op,p=sys.argv[1],json.load(sys.stdin)
     with psycopg.connect(target) as conn,conn.cursor() as cur:
         had=cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]
         acl=cur.execute("select nspacl::text from pg_namespace where nspname='erp'").fetchone()[0]

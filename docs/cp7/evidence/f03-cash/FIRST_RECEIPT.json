@@ -1,0 +1,156 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 6021255,
+  "artifact_id": 11085622725,
+  "artifact_sha256": "023804eba950e9329c5599182a47f05bb31de3d633980325601079a043341b5c",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 2,
+    "NOT_RUN": 0,
+    "PASS": 4
+  },
+  "cp6_restored": true,
+  "expected_case_count": 6,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "INCOMPLETE": 2
+    },
+    "http": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 3
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109806177247,
+  "nonpassing_cases": {
+    "browser:F03_CASH_BROWSER_DESKTOP": {
+      "error": "Error: spawnSync python E2BIG\n    at Object.spawnSync (node:internal/child_process:1120:20)\n    at spawnSync (node:child_process:902:24)\n    at execFileSync (node:child_process:945:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_cash_browser.mjs:5:47)\n    at journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_cash_browser.mjs:36:16)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3",
+      "status": "INCOMPLETE"
+    },
+    "browser:F03_CASH_BROWSER_MOBILE_CURRENT_AUTH": {
+      "error": "Error: spawnSync python E2BIG\n    at Object.spawnSync (node:internal/child_process:1120:20)\n    at spawnSync (node:child_process:902:24)\n    at execFileSync (node:child_process:945:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_cash_browser.mjs:5:47)\n    at journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_cash_browser.mjs:36:16)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3",
+      "status": "INCOMPLETE"
+    }
+  },
+  "observed_case_count": 6,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CASH_BUILD.txt": {
+      "bytes": 9976,
+      "sha256": "50a274142bb35fce35e14a5d2c4e9bf2e66760214e07f70b3594086a8873be80"
+    },
+    "CASH_LOCAL_TESTS.txt": {
+      "bytes": 752,
+      "sha256": "59cbd18b1daac9e8ddda855bc21b0445646b5beb73c1c3559b907925bea39028"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385602,
+      "sha256": "b714dd8418db06f59692b736c3a484a0c289176b371f3f801e7a3c343f503759"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385602,
+      "sha256": "b714dd8418db06f59692b736c3a484a0c289176b371f3f801e7a3c343f503759"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "ae360ae60d5663bccac0293d1a04a559271a1cf4d9d7de78f5e393e8562a5a2e"
+    },
+    "CP7_F03_CASH.json": {
+      "bytes": 260752,
+      "sha256": "37b98ac9d309412b7c635aad4b68f77d8e29bed8d441c59a603c7b08e40c6e5d"
+    },
+    "F03_CASH_DESKTOP_FAILURE.json": {
+      "bytes": 98647,
+      "sha256": "fcbee16939d790c8f05d42bae99a9d745ee33968616fde713820f5103b8fde7c"
+    },
+    "F03_CASH_DESKTOP_FAILURE.png": {
+      "bytes": 774410,
+      "sha256": "2bc825d8326b6739706e9bc81bfaaf5cc9bebc30cf335e65cf3b1da65ad4905d"
+    },
+    "F03_CASH_MOBILE_FAILURE.json": {
+      "bytes": 98647,
+      "sha256": "c684e5aad79431b85c46976ed95f00934735c866c22f3b70735d1761e56cafbe"
+    },
+    "F03_CASH_MOBILE_FAILURE.png": {
+      "bytes": 510635,
+      "sha256": "8a706648f6a508327b982e9aaa836aad19e3877bb085c0ea7ade2ee0877ace63"
+    },
+    "F03_CASH_PAGE1_DESKTOP.png": {
+      "bytes": 2093869,
+      "sha256": "b46eca439cc20f953e7736c4f5c914d3c241c1a9fbe965656f925705c024f5e4"
+    },
+    "F03_CASH_PAGE1_MOBILE.png": {
+      "bytes": 1055976,
+      "sha256": "8efb7465958e0adcbc111d008cde8e2688a26db989add93c631df861096347c2"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "9a8bb06352014521c18cbd3b310007d26f36d9417033742a26e1706f1a58f4c4"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360420,
+      "sha256": "68a7ccd9f2907bd8ad0bec798a6515f3dea1a2b6cf6efff6946e0de7d2d640ea"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "production_go": false,
+  "report_sha256": "37b98ac9d309412b7c635aad4b68f77d8e29bed8d441c59a603c7b08e40c6e5d",
+  "retained_reports_gzip_sha256": "d22e28a160c5783631aeddb44ddb06c19a382b27867c8bcf8da0281eb664c5c9",
+  "run_id": 36690460505,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "c618f8402e7a89a5aa25993225831cd57f68b663",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "c618f8402e7a89a5aa25993225831cd57f68b663",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36690460505",
+    "tool_head": "c618f8402e7a89a5aa25993225831cd57f68b663",
+    "workflow": "CP7 F03 Connected Cash Reader"
+  },
+  "source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+  "source_commit": "c618f8402e7a89a5aa25993225831cd57f68b663",
+  "source_tree": "6ef1e940f57999ce0f7e2099eb78feae50989b30",
+  "status": "INCOMPLETE",
+  "visual_review_performed": false
+}

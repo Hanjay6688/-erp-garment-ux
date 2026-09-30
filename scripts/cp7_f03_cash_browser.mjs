@@ -2,7 +2,9 @@ import assert from 'node:assert/strict'
 import {execFileSync} from 'node:child_process'
 import {mkdirSync,writeFileSync} from 'node:fs'
 
-const fixture=(operation,payload)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_f03_cash_browser_fixture.py',operation,JSON.stringify(payload)],{cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
+// Preserve both complete native pages without Linux's per-argument128KiB cap.
+// stdin transports the full JSON; the16MiB output cap still refuses truncation.
+const fixture=(operation,payload)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_f03_cash_browser_fixture.py',operation],{input:JSON.stringify(payload),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
 async function screen(ui,page,name){
  mkdirSync('cp6-proof/t3',{recursive:true})
  await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true)

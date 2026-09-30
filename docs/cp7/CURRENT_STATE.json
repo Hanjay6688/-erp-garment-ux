@@ -54,7 +54,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Qualify the new connected Kas & Bank reader through6 declared native/real-Auth-HTTP/desktop-mobile cases. Redye5 on76ad8708, stock capacity/access5 and separate combined22 on17050a4 are qualified and retained in checkpoint1fe8387. Preserve their source identities. Continue remaining unambiguous F03 contracts; E05 and ordinary paid-source credit/refund policies remain unresolved. F04 has not started.",
+  "next_action": "Retest cash6 after full report-to-fixture stdin correction. Native/HTTP4 on c618f84 pass; two browser comparisons stopped at OS E2BIG with all reports retained. No product/native SQL change. Earlier redye5/capacity5/combined22 remain qualified separately; F03/business-policy/independent boundaries remain OPEN.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -538,12 +538,21 @@
     "verification": "docs/cp7/evidence/f03-capacity/QUALIFIED_RECEIPT.json"
   },
   "cash_connected_reader": {
-    "status": "IMPLEMENTED_LOCAL_86_PASS_NATIVE_BROWSER_PENDING",
+    "status": "LOCAL_86_PASS_NATIVE_HTTP_4_PASS_BROWSER2_INCOMPLETE_STDIN_FIX_RETEST_PENDING",
     "handoff": "docs/cp7/F03_CASH_READER_HANDOFF.md",
     "sql_bundle_changed": false,
     "cash_writer": false,
     "required_native_http_browser_cases": 6,
     "independent_acceptance": false,
-    "production_go": false
+    "production_go": false,
+    "first_source": "c618f8402e7a89a5aa25993225831cd57f68b663",
+    "first_run": 36690460505,
+    "first_counts": {
+      "PASS": 4,
+      "FAIL": 0,
+      "INCOMPLETE": 2,
+      "NOT_RUN": 0
+    },
+    "first_receipt": "docs/cp7/evidence/f03-cash/FIRST_RECEIPT.json"
   }
 }
