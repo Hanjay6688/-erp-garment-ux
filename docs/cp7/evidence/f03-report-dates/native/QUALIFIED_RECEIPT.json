@@ -1,0 +1,164 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 10390154,
+  "artifact_id": 11097116663,
+  "artifact_sha256": "f653fd143f985b52125d7912ddca2be88cdde628603ef14f140d6fe3007b92be",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0,
+    "PASS": 8
+  },
+  "cp6_restored": true,
+  "expected_case_count": 8,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "PASS": 4
+    },
+    "http": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 3
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109891942453,
+  "observed_case_count": 8,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CASH_BUILD.txt": {
+      "bytes": 9976,
+      "sha256": "39d4e33ac54ec221ecc93bb089a07d007278b652b9385a9ac7724588c1f2d86a"
+    },
+    "CASH_LOCAL_TESTS.txt": {
+      "bytes": 866,
+      "sha256": "0e650dfda7de97af13786a980053c35ae74a5a289f27da19a5b31a0d9093d5f9"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385608,
+      "sha256": "9b6e2ffea7680b70f246e06ff84ae4bb95aebba7cb5f3c8bbf2dd630aa0e5020"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385608,
+      "sha256": "9b6e2ffea7680b70f246e06ff84ae4bb95aebba7cb5f3c8bbf2dd630aa0e5020"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "efdbcdd96aafa74e8c9bac24dd924dd37b6afbc6126a46a3f7c4095591e45c6d"
+    },
+    "CP7_F03_CASH.json": {
+      "bytes": 262127,
+      "sha256": "b1f79e2648b36ef9693bed10445f7e707966958ede2c13ffe33c8bde1326f56e"
+    },
+    "F03_CASH_PAGE1_DESKTOP.png": {
+      "bytes": 2088676,
+      "sha256": "5b3a005936f3e02790a3c212f850b9de94e45878162a980b6b4c2c3f49448cd8"
+    },
+    "F03_CASH_PAGE1_MOBILE.png": {
+      "bytes": 1056194,
+      "sha256": "bff82c5a7a9d64373609537d25206b6e29fc4485cb6f11dac1b9d29cfd1b8acc"
+    },
+    "F03_CASH_PAGE2_DESKTOP.png": {
+      "bytes": 773487,
+      "sha256": "eebecbd9ac1f632b8aad93d1cf07bdef6a2b1b7cb46534e27a034575d5a2d9c1"
+    },
+    "F03_CASH_PAGE2_MOBILE.png": {
+      "bytes": 509530,
+      "sha256": "3c03f226dd325bd90203df09e48ccf1fa6a9fb1b5322a9fb3067c3826d02bab4"
+    },
+    "F03_CASH_RETIRED_DESKTOP.png": {
+      "bytes": 206494,
+      "sha256": "31385089321e580f2dde131f2901fc2cce2b5719f1e677a712915d7d9273fc5d"
+    },
+    "F03_CASH_RETIRED_MOBILE.png": {
+      "bytes": 72173,
+      "sha256": "6c32ba927b6cfc0d35bd2b655eaced10fe840e2d1ba993cb6913a81705d59db7"
+    },
+    "F03_REPORT_DATE_RETIRED_DESKTOP.png": {
+      "bytes": 701508,
+      "sha256": "1c6053334cd9bc15805a924a206227cc2fd2830b9edf2868010a402318f17c60"
+    },
+    "F03_REPORT_DATE_RETIRED_MOBILE.png": {
+      "bytes": 464462,
+      "sha256": "40875dffced81d45b9ef9ffa582a1cb35941390f2f6f50218df49b546a926dd8"
+    },
+    "F03_REPORT_DATE_SOURCE_DESKTOP.png": {
+      "bytes": 1759090,
+      "sha256": "ab4a2c286112b7acce81e1b58d165548debd5097a1ab227e7f244145d1b95c72"
+    },
+    "F03_REPORT_DATE_SOURCE_MOBILE.png": {
+      "bytes": 1291961,
+      "sha256": "ff0a531dd142f92500a396e50e0d62309fdbdf0389550f69f3e66118a828084d"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "72f2c58ca6f584ccf0b2ada8202be293d8319cbaa23586f403cc327d3d7a7747"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360422,
+      "sha256": "5ed15184b8870bed576f9bee853b3959e7ed9f9ff7b8ec48f2d5677448aac5f5"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "product_commit": "0f25d862cc8ad22d74799e46cbae12264ca9b8e4",
+  "production_go": false,
+  "report_sha256": "b1f79e2648b36ef9693bed10445f7e707966958ede2c13ffe33c8bde1326f56e",
+  "retained_reports_gzip_sha256": "14fddececd983b28c209b6c147321a422faa0657fa780e48c796b6f8dfa6249b",
+  "run_id": 36716904088,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "0f25d862cc8ad22d74799e46cbae12264ca9b8e4",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "0f25d862cc8ad22d74799e46cbae12264ca9b8e4",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36716904088",
+    "tool_head": "0f25d862cc8ad22d74799e46cbae12264ca9b8e4",
+    "workflow": "CP7 F03 Cash and Report Date Authority"
+  },
+  "source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+  "source_commit": "0f25d862cc8ad22d74799e46cbae12264ca9b8e4",
+  "source_tree": "16d405685c661a3a092772a09a4af90bb962f750",
+  "status": "PASS",
+  "verification_origin": "Authorized successor actual product execution on0f25d86; exact source/group/package/cleanup checked, no independent or whole-family acceptance.",
+  "visual_review_performed": false
+}

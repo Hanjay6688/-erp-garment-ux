@@ -1,0 +1,37 @@
+{
+  "affected_suite": {
+    "FAIL": 0,
+    "PASS": 41
+  },
+  "build": true,
+  "final_component": {
+    "FAIL": 0,
+    "PASS": 7
+  },
+  "full_family_acceptance": false,
+  "full_suite": {
+    "FAIL": 0,
+    "PASS": 828
+  },
+  "independent_acceptance": false,
+  "native_cases_declared": 10,
+  "native_pass_claim": false,
+  "parent_source": "0f25d862cc8ad22d74799e46cbae12264ca9b8e4",
+  "production_go": false,
+  "reports_gzip_sha256": "437b338e6a56a2f1658c5ec534761246657f775456d4d5b98ccc28fcd7d4ce00",
+  "security": true,
+  "source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+  "source_file_sha256": {
+    ".github/workflows/cp7-f03-cash.yml": "e74ba616efce0fa752fdd634347a104559a29af373bf1fc3cc669c718a8a9e41",
+    "scripts/check-access-catalog.mjs": "dfbc8ccf87e3ba69b139d076166c79ee91f8d0cee88e6f4a22cb0c798844f581",
+    "scripts/check-source-ownership.mjs": "7f6573279ebf0a99bb0548d8a38c31bb3309d84a10b02c48d75d86bf8787f209",
+    "scripts/cp7_f03_cash_browser.mjs": "71eab8871eebb7c4f57fa3dd40edd054414f55b5db548328a687d602aa68daa0",
+    "scripts/cp7_f03_cash_probe.py": "f380705820fe9dbdcae1d921728c76d3a22974bfe4eec60939394f3683ddd241",
+    "scripts/cp7_f03_finance_overview_browser.mjs": "0dabf70d449f51225b90b31cbd8b2b03b4adc088600bfaa7ca1720b8399fed4e",
+    "src/App.tsx": "14b9735aa67fcdceccc5a62dbaaa1af6393154f122f16e8fbb1971b37f1c72df",
+    "src/ConnectedFinanceOverviewPage.dom.test.tsx": "7e3521556678b2d8b3515db2e0763971ab602f8d7edaad2c61358383cfbdefc6",
+    "src/ConnectedFinanceOverviewPage.tsx": "9a47db683c804f5a56bde72aa58c8b7ff548f90a1b1ae1fea56289fcfa860945"
+  },
+  "sql_bundle_changed": false,
+  "status": "LOCAL_PASS_NATIVE_PENDING"
+}
