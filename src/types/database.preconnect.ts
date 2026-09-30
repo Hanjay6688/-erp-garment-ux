@@ -30,6 +30,10 @@ export type PreconnectDatabase = {
       erp_cp7_read_baseline_v1: { Args: { p_run: string }; Returns: Json }
       erp_cp7_capture_production_supply_v1: { Args: { p_query: Json; p_request: string }; Returns: Json }
       erp_cp7_read_production_supply_v1: { Args: { p_run: string }; Returns: Json }
+      erp_cp7_get_production_schedule_v1: { Args: { p_run: string }; Returns: Json }
+      erp_cp7_save_production_schedule_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
+      erp_cp7_capture_planning_scenario_v1: { Args: { p_query: Json; p_request: string }; Returns: Json }
+      erp_cp7_read_planning_scenario_v1: { Args: { p_run: string }; Returns: Json }
       erp_cp7_capture_demand_history_v1: { Args: { p_query: Json; p_request: string }; Returns: Json }
       erp_cp7_read_demand_history_v1: { Args: { p_run: string }; Returns: Json }
       erp_cp7_get_payroll_installments_v1: { Args: { p_query: Json }; Returns: Json }

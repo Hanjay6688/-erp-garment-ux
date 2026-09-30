@@ -1,0 +1,36 @@
+{
+  "status": "WRITER53_PASS",
+  "source_commit": "3921f53b4de17820424b64c06af425c5a9a24f15",
+  "source_tree": "30f1341fbf56e4c2a0b9908f178a50c091cb4d2f",
+  "source_sql_sha256": "33391e4da46dd3c31fb7dad49a42fa7e6346b449ebfe0cec3a9c30ec44dd111c",
+  "run_id": 36786545350,
+  "job_id": 110129193862,
+  "artifact_id": 11130835455,
+  "artifact_sha256": "ef5ee657aa4e3abf3fb13e5913248a89dfa8f819587938c95d86e99d8097eb3a",
+  "reports_gzip_sha256": "c40c7ca11c909847680440a64d8d0c6b5046dd264207036fd4da687b0cbddee0",
+  "observed": 53,
+  "counts": {
+    "native": {
+      "PASS": 38
+    },
+    "races": {
+      "PASS": 8
+    },
+    "http": {
+      "PASS": 3
+    },
+    "browser": {
+      "PASS": 4
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "exact_predecessor_guards_owners_ACL": true,
+  "retained_browser4_from_qualified_P05_P06": true,
+  "new_supply_UI": false,
+  "first51_pass2_incomplete_retained": "../first53-ad246c5/RECEIPT.json",
+  "source_adapter_unchanged_between_attempts": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false
+}

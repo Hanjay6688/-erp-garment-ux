@@ -545,7 +545,27 @@
     "qualifier": "scripts/cp7_f04_supply_probe.py",
     "source_batches_normalized_individually": false,
     "source_scope": "GLOBAL_CURRENT_PHYSICAL_ROOTS_AND_NATIVE_POSTED_PRODUCTION_ORIGINS",
-    "status": "FIRST53_OBSERVED51_PASS2_FIXTURE_INCOMPLETE_REPAIR_RETEST_PENDING"
+    "status": "WRITER_NATIVE53_PASS_GLOBAL_SOURCE_CONSERVED_NO_NATIVE_BUSINESS_WRITE",
+    "qualified_source": "3921f53b4de17820424b64c06af425c5a9a24f15",
+    "qualified_run": 36786545350,
+    "qualified_job": 110129193862,
+    "qualified_artifact": 11130835455,
+    "qualified_receipt": "docs/cp7/evidence/f04-native-supply/qualified53-3921f53/RECEIPT.json",
+    "counts": {
+      "native": {
+        "PASS": 38
+      },
+      "races": {
+        "PASS": 8
+      },
+      "http": {
+        "PASS": 3
+      },
+      "browser": {
+        "PASS": 4
+      }
+    },
+    "yield_calendar_capacity_allocation": "AUTHORITATIVE_SELECTED_METADATA_COMPOSER_IN_PROGRESS"
   },
   "f04_takeover_reference": {
     "branch": "cp7/f04-planning-20260929",
@@ -579,7 +599,7 @@
     "F01_P00_P02": "WRITER_T1_BOUNDED_FOUNDATION_PASS_INDEPENDENT_PENDING",
     "F02_P03_P04": "WRITER_REPAIR_VERIFIED_53_CASES_INDEPENDENT_HOLD",
     "F03_P09_P13": "IN_PROGRESS_P13_AND_REMAINING_FAMILY_CONTRACT",
-    "F04_P05_P08": "NATIVE_P05_HISTORY_AND_P06_PROFILE_TARGET37_PASS_GLOBAL_SUPPLY_MODELS_APPLY_OPEN",
+    "F04_P05_P08": "NATIVE_TARGET37_AND_GLOBAL_SOURCE53_PASS_WORK_CALENDAR_MATCHING_MODELS_APPLY_OPEN",
     "F05_P14_P17": "SEPARATE_FIXTURE_CONSUMER_PROPOSAL_PREPARED_UNINTEGRATED",
     "F06_P18_P21": "PLANNED"
   },
@@ -912,10 +932,28 @@
     "assignment": "Explicit owner takeover in this conversation; recheck canonical ref immediately before every fast-forward; stop on unexpected movement; no force push",
     "branch": "cp7/integration",
     "enforcement": "Owner explicitly confirmed previous writer stopped; successor writes canonical cp7/integration. Ref recheck before fast-forward protects unrelated concurrent changes.",
-    "last_observed_upstream": "8c869bca628c01835183d3439732c1d6ed758e57",
+    "last_observed_upstream": "3921f53b4de17820424b64c06af425c5a9a24f15",
     "previous_writer_status": "STOPPED_OWNER_CONFIRMED_20260930",
     "writer": "Hansen-authorized successor to Writer Finisher CP6, F03 takeover30Sep2026"
   },
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
-  "version": "cp7.integration-entry.v1"
+  "version": "cp7.integration-entry.v1",
+  "f04_native_schedule": {
+    "status": "IMPLEMENTED_NATIVE69_DECLARED_PENDING",
+    "source_sql_sha256": "8029f295b4fc527112861e661cc35242107d59542b12b0fa63b378dee78a5c40",
+    "predeclared": {
+      "native": 50,
+      "races": 10,
+      "http": 5,
+      "retained_browser": 4
+    },
+    "selected_basis": "SELECTED_ASSUMPTIONS",
+    "local_standin_cases": 12,
+    "local_runtime": "PGLITE_NATIVE_COLUMN_STANDIN_NOT_AUTH",
+    "role_count": 31,
+    "new_operational_UI": false,
+    "full_family_acceptance": false,
+    "independent_acceptance": false,
+    "production_go": false
+  }
 }
