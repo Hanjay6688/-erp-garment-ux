@@ -3,7 +3,7 @@ import {execFileSync} from 'node:child_process'
 import {mkdirSync,writeFileSync} from 'node:fs'
 
 const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_f03_return_documents_browser_fixture.py',op,JSON.stringify(p)],{cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim().split('\n').at(-1))
-const wib=iso=>new Date(new Date(iso).getTime()+7*60*60*1000).toISOString().slice(0,19)
+const wib=iso=>new Date(new Date(iso).getTime()+7*60*60*1000).toISOString().slice(0,16)
 async function open(ui,p){
   await ui.expect(p.locator('.sidebar .nav-main').filter({hasText:'Gudang'})).toBeAttached()
   const menu=p.getByRole('button',{name:'Buka menu',exact:true})
