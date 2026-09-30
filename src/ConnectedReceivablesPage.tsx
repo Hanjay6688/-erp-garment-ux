@@ -6,6 +6,7 @@ import {normalizeClientError} from './lib/clientError'
 import {formatCp6WibDateTime} from './cp6BusinessTime'
 import {formatReceiptDecimal} from './procurementContract'
 import {parseSalesRead,salesStatuses,type SalesRead,type SalesStatus} from './salesReadContract'
+import {financialRecoveryBlocked,financialRecoveryMessage,useFinancialRecoveryGate} from './useFinancialRecoveryGate'
 import './procurement-connected.css'
 
 const labels:Record<SalesStatus,string>={DRAFT:'Draft · belum menjadi piutang',POSTED:'Belum lunas',PARTIAL_PAID:'Dibayar sebagian',PAID:'Lunas',CANCELLED:'Draft dibatalkan',REVERSED:'Penjualan dibatalkan'}
@@ -21,18 +22,20 @@ function Workspace(){
  const {runtime,identity}=useAuth();if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED')throw Error('Sesi piutang belum siap.')
  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),seq=useRef(0),selected=useRef<Query>({q:'',status:'',offset:0,sale_id:null})
  const [q,setQ]=useState(''),[status,setStatus]=useState(''),[data,setData]=useState<SalesRead|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState('')
- const retire=()=>{++seq.current;setData(null);setBusy(false);setError('')}
+ const retire=useCallback(()=>{++seq.current;setData(null);setBusy(false);setError('')},[])
+ const recoveryScope=`${runtime.projectRef}:${identity.profile.id}`,recoveryBlocked=useFinancialRecoveryGate(recoveryScope,retire)
  const load=useCallback(async(query:Query)=>{
   const ticket=++seq.current;setData(null);setBusy(true);setError('')
   try{
+   if(financialRecoveryBlocked(recoveryScope))return
    const result=await client.rpc('erp_cp7_get_sales_v1',{p_query:{...query,status:query.status||null,limit:25}})
-   if(ticket!==seq.current)return
+   if(ticket!==seq.current||financialRecoveryBlocked(recoveryScope))return
    if(result.error)throw result.error
    const read=parseSalesRead(result.data,true)
    if(read.page.offset!==query.offset||read.page.limit!==25||(read.detail?.id??null)!==query.sale_id||query.status&&read.page.rows.some(r=>r.status!==query.status))throw Error('Pilihan sumber piutang berubah. Muat ulang piutang.')
    setData(read)
   }catch(e){if(ticket===seq.current)setError(normalizeClientError(e).message)}finally{if(ticket===seq.current)setBusy(false)}
- },[client])
+ },[client,recoveryScope])
  useEffect(()=>{void load(selected.current);return()=>{++seq.current}},[load])
  const submit=()=>{retire();selected.current={q:q.trim(),status,offset:0,sale_id:null};void load(selected.current)}
  const choose=(sale_id:string)=>{selected.current={...selected.current,sale_id};void load(selected.current)}
@@ -44,7 +47,8 @@ function Workspace(){
    <label>Status invoice<select aria-label="Status sumber piutang" value={status} onChange={e=>{retire();setStatus(e.target.value)}}><option value="">Semua dokumen</option>{salesStatuses.map(s=><option value={s} key={s}>{labels[s]}</option>)}</select></label><button disabled={busy}>Cari piutang</button>
   </form>
   {busy?<p role="status">Membaca invoice dan sisa pembayaran…</p>:null}{error?<p className="panel" role="alert">{error}</p>:null}
-  {data?<>
+  {recoveryBlocked?<p className="panel" role="alert">{financialRecoveryMessage}</p>:null}
+  {!recoveryBlocked&&data?<>
    <section className="panel" aria-label="Basis sumber piutang"><p>Kondisi dokumen sekarang, dibaca {formatCp6WibDateTime(data.read_at)}. Pembayaran dan retur memakai status tercatat saat dibaca; ini bukan saldo historis pada tanggal tertentu.</p><p>Daftar ini berisi sumber invoice. Saldo awal dan penyesuaian buku yang tidak berasal dari invoice diperiksa melalui laporan keuangan. Nilai di setiap invoice tetap milik invoice tersebut, tanpa menutup tagihan pelanggan lain secara otomatis.</p></section>
    <div className="cproc-layout"><section className="panel" aria-label="Daftar sumber piutang"><h2>Invoice pelanggan</h2>
     {data.page.rows.length===0?<p>Tidak ada invoice sesuai pencarian.</p>:null}

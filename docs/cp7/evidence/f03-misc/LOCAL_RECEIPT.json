@@ -4,7 +4,18 @@
     "FAIL": 0,
     "PASS": 22
   },
+  "browser_syntax_pass": true,
   "build": "PASS",
+  "build_pass": true,
+  "changed_files_sha256": {
+    "scripts/cp7_f03_misc_browser.mjs": "ac0ba2fa5201c37aacbbd885c3c038f279c8208e887a6b205d87d27f9b65972f",
+    "src/ConnectedCashLedgerPage.tsx": "3b3ab2654407e10fff02dfe6079dd92f61c33fca3dcb1cc808c0a396e6555009",
+    "src/ConnectedFinanceOverviewPage.tsx": "5360ceb91d3fa64b091d6227d83a74606dc0b272977ceb8bdbb954c2090fe7bf",
+    "src/ConnectedFinanceReportPage.tsx": "0e273b4a382d4413227980674d6b97ced56cfa040f7a56ef7aed0f2c3f3e3de1",
+    "src/ConnectedReceivablesPage.tsx": "70df053da278d3d508e43e0d51fcd9c76de29a1a854172e3716eadc7b419d133",
+    "src/FinancialRecoveryPages.dom.test.tsx": "86d1bdf00d57ad5157cdb17757d3ce5f10db976125dac75d101c2b5b567f25d0",
+    "src/useFinancialRecoveryGate.ts": "e0cbd7ec80f157948e42e02bf40bcea279c31f33ab04cd7698d9ba4c4680a18d"
+  },
   "changed_source": {
     ".github/workflows/cp7-f03-misc.yml": "c21218cdf00fd261f0dd97f57ebf4fe702feb0077e2fc3042525419f37ad9351",
     "scripts/check-access-catalog.mjs": "edf0d237cb70b7288544722216bc4e7a2ea72753582f466a0085bdc864761e02",
@@ -27,6 +38,7 @@
     "src/types/database.preconnect.ts": "8d36ebf9811d04ad3ad409b1179cc73b67776acbe6fba48f013d538874832648"
   },
   "combined_roles": 29,
+  "financial_recovery_new_unit_pass": 16,
   "first_unit_failure": "Fixture helper named document shadowed the DOM global; repaired and all12 pass. No product guard changed.",
   "full_family_acceptance": false,
   "full_unit": {
@@ -34,6 +46,7 @@
     "INCOMPLETE": 0,
     "PASS": 859
   },
+  "full_unit_pass": 875,
   "independent_acceptance": false,
   "local_test_execution_source": "EXACT_CHANGED_SOURCE_SHA256_BELOW_ON398_WORKTREE",
   "local_test_reuse": "No reuse for new frontend: full859, affected22, build and security rerun after timestamp and parent-book retirement repairs.",
@@ -48,10 +61,11 @@
   "native_previous_qualification": "docs/cp7/evidence/f03-misc/native-398f737/QUALIFIED_RECEIPT.json",
   "new_misc_unit_cases": 13,
   "original_reports_sha256": "60a7af7990786f82bd7cc2002180d4c8703043e7c8aa077e8f89847034215549",
-  "parent_source_commit": "398f737b1e815d88757edcd209ad4f16c95d6b74",
+  "parent_source_commit": "4c3185add1db2bb44a76d53f02751a287d98ca43",
   "production_go": false,
   "python_and_browser_syntax": "PASS",
   "security": "PASS",
+  "security_pass": true,
   "source_bundle_sha256": "4b03967b02612c87fc7c6e88211690f9854f78b41020a29a41f75895473c529a",
-  "status": "LOCAL859_PASS_NATIVE14_REPEAT_PENDING"
+  "status": "LOCAL875_PASS_NATIVE4C14_PASS_NEW_CROSS_ROUTE_ACTUAL_PENDING"
 }

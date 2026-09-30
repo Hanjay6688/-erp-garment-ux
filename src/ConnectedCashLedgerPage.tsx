@@ -7,6 +7,7 @@ import {cp6WibDateTimeInput,formatCp6WibDateTime} from './cp6BusinessTime'
 import {formatReceiptDecimal as numberText} from './procurementContract'
 import {financeDate} from './financeReportContract'
 import {parseFinanceAnalysis,type AnalysisDates,type FinanceAnalysis} from './financeAnalysisContract'
+import {financialRecoveryBlocked,financialRecoveryMessage,useFinancialRecoveryGate} from './useFinancialRecoveryGate'
 import './procurement-connected.css'
 
 const money=(value:string)=>'Rp'+numberText(value)
@@ -29,16 +30,18 @@ function Workspace(){
  const [from,setFrom]=useState(today.slice(0,7)+'-01'),[to,setTo]=useState(today),[data,setData]=useState<FinanceAnalysis|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState('')
  const seq=useRef(0),selected=useRef(queryFor(today.slice(0,7)+'-01',today))
  useEffect(()=>()=>{++seq.current},[])
- const retire=()=>{++seq.current;setData(null);setBusy(false);setError('')}
+ const retire=useCallback(()=>{++seq.current;setData(null);setBusy(false);setError('')},[])
+ const recoveryScope=`${runtime.projectRef}:${identity.profile.id}`,recoveryBlocked=useFinancialRecoveryGate(recoveryScope,retire)
  const load=useCallback(async(query:AnalysisDates,offset=0)=>{
   const ticket=++seq.current;setData(null);setError('');setBusy(true)
   try{
+   if(financialRecoveryBlocked(recoveryScope))return
    const response=await client.rpc('erp_cp7_get_finance_analysis_v1',{p_query:{...query,offset,limit:25}})
-   if(ticket!==seq.current)return
+   if(ticket!==seq.current||financialRecoveryBlocked(recoveryScope))return
    if(response.error)throw response.error
    setData(parseFinanceAnalysis(response.data,query,offset))
   }catch(e){if(ticket===seq.current)setError(normalizeClientError(e).message)}finally{if(ticket===seq.current)setBusy(false)}
- },[client])
+ },[client,recoveryScope])
  useEffect(()=>{void load(selected.current)},[load])
  const submit=()=>{
   retire()
@@ -58,7 +61,8 @@ function Workspace(){
    </form>
    {busy?<p role="status">Membaca saldo dan sumber jurnal kas…</p>:null}
    {error?<p role="alert">{error}</p>:null}
-   {data&&cash&&page?<>
+   {recoveryBlocked?<p role="alert">{financialRecoveryMessage}</p>:null}
+   {!recoveryBlocked&&data&&cash&&page?<>
     <p>Periode {data.dates.from}–{data.dates.to}. Informasi yang tercatat sekarang; bukan rekonstruksi pengetahuan masa lalu. Dibaca {formatCp6WibDateTime(data.captured_at)}.</p>
     <section className="cproc-grid" aria-label="Saldo dan perubahan kas">{Object.entries(metrics).map(([key,label])=><div className="cproc-total" key={key}><span>{label}</span><strong>{money(cash[key as keyof typeof metrics])}</strong></div>)}</section>
     <p>{cash.reconciled?'Saldo dan jurnal kas cocok.':'Saldo dan jurnal kas belum cocok. Periksa sumber sebelum memakai hasil.'}</p>

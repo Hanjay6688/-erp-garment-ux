@@ -3,6 +3,10 @@ import {execFileSync} from 'node:child_process'
 import {mkdirSync,writeFileSync} from 'node:fs'
 const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_f03_misc_browser_fixture.py',op],{input:JSON.stringify(p),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
 const rpc=r=>r.url().endsWith('/rpc/erp_cp7_save_misc_finance_v1')
+async function financeRoute(page,name){
+ const menu=page.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click()
+ const link=page.getByRole('button',{name,exact:true});if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Keuangan'}).click();await link.click()
+}
 async function navigate(ui,page){
  const menu=page.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click()
  const link=page.getByRole('button',{name:'• Jurnal & Transaksi Lain',exact:true});if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Keuangan'}).click();await link.click()
@@ -28,6 +32,11 @@ async function journey(ui,today,mobile){
    assert.equal(state().document.status,'POSTED');assert.equal(state().cash_delta,'-12.34');assert.equal(state().requests.filter(r=>r.action==='POST').length,1)
    assert.ok(!(await page.getByRole('main',{name:'Jurnal keuangan dari buku'}).innerText()).includes('Rp'));const old=await page.evaluate(()=>Object.entries(localStorage).filter(([k])=>k.startsWith('erp.production.FINANCE_MISC.pending-mutation.v1:')));assert.equal(old.length,1);assert.equal(JSON.parse(old[0][1]).id,lost.envelope.p_request)
    await capture(ui,page,`F03_MISC_UNCERTAIN_${suffix}.png`);screenshots.push(`F03_MISC_UNCERTAIN_${suffix}.png`)
+   for(const [name,label,scope]of [['• Kas & Bank','CASH','Kas dan bank dari jurnal'],['• Ringkasan Keuangan','OVERVIEW','Ringkasan keuangan dari buku'],['• Piutang Pelanggan','AR','Piutang pelanggan dari invoice'],['• Laporan & Tutup Buku','REPORT',null]]){
+    const reads=[];const listener=r=>{if(['/rpc/erp_cp7_get_finance_analysis_v1','/rpc/erp_cp7_get_finance_report_v1','/rpc/erp_cp7_get_sales_v1'].some(end=>r.url().endsWith(end)))reads.push(r.url())};page.on('request',listener)
+    await financeRoute(page,name);const region=scope?page.getByRole('main',{name:scope,exact:true}):page.locator('.cfinance-report');await ui.expect(region).toContainText('Ada transaksi yang belum dipastikan');assert.ok(!(await region.innerText()).includes('Rp'));await ui.expect(region.locator('[data-journal-id],[data-sale-id]')).toHaveCount(0);assert.equal(reads.length,0);page.off('request',listener)
+    await capture(ui,page,`F03_MISC_PENDING_${label}_${suffix}.png`);screenshots.push(`F03_MISC_PENDING_${label}_${suffix}.png`);assert.equal(state().requests.filter(r=>r.action==='POST').length,1)
+   }
    await page.reload();await navigate(ui,page);await ui.expect(ws.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeEnabled();response=page.waitForResponse(r=>rpc(r)&&r.request().postDataJSON()?.p_request===lost.envelope.p_request);await ws.getByRole('button',{name:'Reconcile transaksi',exact:true}).click();result=await response;assert.equal(result.status(),200);assert.deepEqual(result.request().postDataJSON(),lost.envelope);assert.deepEqual(await result.json(),lost.body)
   }else{response=page.waitForResponse(r=>rpc(r)&&r.request().postDataJSON()?.p_action==='POST');await ws.getByRole('button',{name:'Posting transaksi lain',exact:true}).click();result=await response;assert.equal(result.status(),200)}
   await ui.expect(ws.locator('[data-misc-journal-id]')).toHaveCount(1);let native=state();assert.equal(native.document.status,'POSTED');assert.equal(native.cash_delta,'-12.34');assert.equal(native.requests.filter(r=>r.action==='POST').length,1)
@@ -42,7 +51,7 @@ async function journey(ui,today,mobile){
   else{await page.route('**/rest/v1/rpc/erp_cp7_get_misc_finance_v1',route=>route.abort('failed'));await ws.getByRole('button',{name:'Muat ulang transaksi lain',exact:true}).click()}
   await ui.expect(ws.locator('[data-misc-id]')).toHaveCount(0);await ui.expect(ws.locator('[data-misc-journal-id]')).toHaveCount(0);await ui.expect(page.locator('[data-journal-id]')).toHaveCount(0);await ui.expect(page.locator('[data-journal-line-id]')).toHaveCount(0);assert.ok(!(await page.getByRole('main',{name:'Jurnal keuangan dari buku'}).innerText()).includes('Rp'));assert.deepEqual(state().document,before)
   await capture(ui,page,`F03_MISC_RETIRED_${suffix}.png`);screenshots.push(`F03_MISC_RETIRED_${suffix}.png`)
-  return {status:'PASS',mobile,actual_Auth_native_draft_post_inverse:true,native_cash_delta_minus12_34_then_zero:true,all_source_and_linked_journal_dates_preserved:true,no_stock_HPP_effect:true,one_post_effect:true,lost_actual_committed_HTTP200_recovered_same_UUID_after_reload:!mobile,current_ADMIN_permission403_or_failed_read_retires_all_money:true,retires_misc_panel_and_parent_book:true,actual_revocation:mobile,screenshots}
+  return {status:'PASS',mobile,actual_Auth_native_draft_post_inverse:true,native_cash_delta_minus12_34_then_zero:true,all_source_and_linked_journal_dates_preserved:true,no_stock_HPP_effect:true,one_post_effect:true,lost_actual_committed_HTTP200_recovered_same_UUID_after_reload:!mobile,uncertain_cash_overview_AR_report_routes_no_financial_reads_or_facts:!mobile,current_ADMIN_permission403_or_failed_read_retires_all_money:true,retires_misc_panel_and_parent_book:true,actual_revocation:mobile,screenshots}
  }catch(e){writeFileSync(`cp6-proof/t3/F03_MISC_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),stack:e.stack,text:await ws.innerText().catch(()=>''),native:ident?state():null},null,2));await page.screenshot({path:`cp6-proof/t3/F03_MISC_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}
  finally{await user.context.close()}
 }

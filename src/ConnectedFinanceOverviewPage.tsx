@@ -7,6 +7,7 @@ import {cp6WibDateTimeInput,formatCp6WibDateTime} from './cp6BusinessTime'
 import {formatReceiptDecimal} from './procurementContract'
 import {financeDate,parseFinanceReport,type FinanceDates,type FinanceReport} from './financeReportContract'
 import type {FinanceView} from './FinancePages'
+import {financialRecoveryBlocked,financialRecoveryMessage,useFinancialRecoveryGate} from './useFinancialRecoveryGate'
 import './procurement-connected.css'
 
 type Props={onNavigate:(view:FinanceView)=>void}
@@ -44,17 +45,19 @@ function Workspace({onNavigate}:Props){
  const [from,setFrom]=useState(today.slice(0,7)+'-01'),[to,setTo]=useState(today),[asOf,setAsOf]=useState(today)
  const [data,setData]=useState<FinanceReport|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState('')
  const selected=useRef<FinanceDates>({from:today.slice(0,7)+'-01',to:today,as_of:today}),seq=useRef(0)
+ const retire=useCallback(()=>{++seq.current;setData(null);setBusy(false);setError('')},[])
+ const recoveryScope=`${runtime.projectRef}:${identity.profile.id}`,recoveryBlocked=useFinancialRecoveryGate(recoveryScope,retire)
  const load=useCallback(async(dates:FinanceDates)=>{
   const ticket=++seq.current;setData(null);setError('');setBusy(true)
   try{
+   if(financialRecoveryBlocked(recoveryScope))return
    const result=await client.rpc('erp_cp7_get_finance_report_v1',{p_query:{...dates,filing_id:null,offset:0,limit:25}})
-   if(ticket!==seq.current)return
+   if(ticket!==seq.current||financialRecoveryBlocked(recoveryScope))return
    if(result.error)throw result.error
    setData(parseFinanceReport(result.data,dates,null,0,canPreflight))
   }catch(e){if(ticket===seq.current)setError(normalizeClientError(e).message)}finally{if(ticket===seq.current)setBusy(false)}
- },[client,canPreflight])
+ },[client,canPreflight,recoveryScope])
  useEffect(()=>{void load(selected.current);return()=>{++seq.current}},[load])
- const retire=()=>{++seq.current;setData(null);setBusy(false);setError('')}
  const submit=()=>{
   retire()
   const dates={from,to,as_of:asOf}
@@ -73,7 +76,8 @@ function Workspace({onNavigate}:Props){
   </form>
   {busy?<p role="status">Membaca saldo dan kesiapan laporan…</p>:null}
   {error?<p className="panel" role="alert">{error}</p>:null}
-  {data&&snapshot&&confidence?<>
+  {recoveryBlocked?<p className="panel" role="alert">{financialRecoveryMessage}</p>:null}
+  {!recoveryBlocked&&data&&snapshot&&confidence?<>
    <section className="panel" aria-label="Basis dan kesiapan ringkasan"><h2>{statusLabel[confidence.status]}</h2>
     <p>Periode {snapshot.basis.period_from}–{snapshot.basis.period_to}; posisi saldo {snapshot.basis.balance_sheet_as_of}. Dibaca {formatCp6WibDateTime(data.captured_at)}.</p>
     <p>Angka memakai informasi yang tercatat sekarang; bukan rekonstruksi pengetahuan masa lalu.</p>
