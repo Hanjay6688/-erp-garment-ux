@@ -3,7 +3,7 @@
 Customer custody does not grant company stock or refundable customer credit.
 This deliberately does not claim a cash refund for an unpaid invoice.
 """
-from datetime import timedelta
+from datetime import timedelta, timezone
 from decimal import Decimal as D
 import json
 import uuid
@@ -40,7 +40,8 @@ def fixture(cur, today):
     p['physical_at'] = (now-timedelta(minutes=30)).isoformat()
     e01.cmd.command(cur, 'RETURN', p, v)
     assert e01.physical(cur, f) == 45 and e01.source.read(cur, f)['detail']['financial']['open_balance'] == '175.00'
-    f.update(service_in_at=(now-timedelta(minutes=20)).isoformat(), service_use_at=(now-timedelta(minutes=15)).isoformat(), service_out_at=(now-timedelta(minutes=10)).isoformat())
+    service_at = lambda minutes:(now-timedelta(minutes=minutes)).astimezone(timezone(timedelta(hours=7))).isoformat(timespec='seconds')
+    f.update(service_in_at=service_at(20), service_use_at=service_at(15), service_out_at=service_at(10))
     # One of the fifteen garments still owned by this customer enters custody.
     # The five company returns above are a different physical quantity.
     f['service_reference'] = 'Invoice '+f['sale']+'; one of 15 retained customer-owned garments'
