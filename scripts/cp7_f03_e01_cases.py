@@ -74,21 +74,21 @@ def payroll_source(cur, f, today):
     f['trace'].append(step('REPORT_READY', confidence=report['snapshot']['data_confidence'], seed_completion=f['seed_completion']))
 
 
-def production(cur, today):
+def production(cur, today, *, receipt_final=True):
     """100 raw x10; consume60; sew30+30 x2; wash30+30 x2; QC20+40.
 
     Accessory60 is the accepted BOM_STANDARD/Mandor reimbursement path: one
     accessory per GOOD at1, owed to the contractor, not a second raw issue.
     """
-    f = procurement.fixture(cur, today, qty='100', price='10', final=True)
+    f = procurement.fixture(cur, today, qty='100', price='10', final=receipt_final)
     f['trace'] = []
     received = procurement.command(cur, 'SAVE_DRAFT', f['payload'])
     posted = procurement.post(cur, received)
     f['purchase'] = posted['purchase_id']
     f['roll'] = str(cur.execute('select r.id from erp.material_rolls r join erp.material_purchase_items i on i.id=r.purchase_item_id where i.purchase_id=%s', (f['purchase'],)).fetchone()[0])
     assert procurement.qty(cur, f)[0] == 100
-    assert cur.execute('select erp.material_purchase_final_ap_total(%s),erp.material_purchase_grni_total(%s)', (f['purchase'], f['purchase'])).fetchone() == (D(1000), D(0))
-    f['trace'].append(step('RECEIPT', raw_qty=100, raw_value=1000, supplier_ap=1000))
+    assert cur.execute('select erp.material_purchase_final_ap_total(%s),erp.material_purchase_grni_total(%s)', (f['purchase'], f['purchase'])).fetchone() == ((D(1000), D(0)) if receipt_final else (D(0), D(1000)))
+    f['trace'].append(step('RECEIPT', raw_qty=100, raw_value=1000, supplier_ap=1000 if receipt_final else 0, grni=0 if receipt_final else 1000))
     day = f['day'] + timedelta(days=1)
     when = lambda hour, minute=0: prod.at(day, hour, minute)
     tag = 'E01-' + uuid.uuid4().hex[:12]
