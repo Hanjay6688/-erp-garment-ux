@@ -2,6 +2,7 @@ create function cp7_supplier_return.command(p_action text,p_payload jsonb,p_requ
 language plpgsql volatile security invoker set search_path='' as $$
 declare a jsonb;z jsonb;r jsonb;pid uuid;expected bigint;permission_key text;capability text;cached cp7_supplier_return.requests;
 begin
+ if p_action in('SAVE_DOCUMENT','POST_DOCUMENT','REVERSE_DOCUMENT') then return cp7_supplier_return.document_command(p_action,p_payload,p_request,p_expected);end if;
  if current_setting('transaction_isolation')<>'read committed' then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
  a:=cp7_supplier_return.access_now();
  if p_action is null or p_action not in('SAVE','POST','REVERSE') or p_request is null then raise exception 'CP7_RETURN_ACTION';end if;
