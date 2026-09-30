@@ -302,7 +302,7 @@
   },
   "latest_tested_scope": "P13_REPORT12_ANALYSIS24_PERIOD25_RECOST25_SEPARATE_OVERLAPPING_SUITES",
   "f03_e01": {
-    "status": "BOUNDED_4_PASS_READY_CONTINUATION_RUNNING",
+    "status": "WRITER_QUALIFIED_4_PASS_REPORT_READY",
     "handoff": "docs/cp7/F03_E01_HANDOFF.md",
     "frozen_oracle": "60 GOOD/value900/HPP15; sale20x25/cash200/return5; FG45/value675/revenue375/COGS225/AR175/cash200/gross150",
     "first_native_run": 36653759262,
@@ -310,18 +310,18 @@
     "followup_source": "d828c2e1337a7f9f7b20d811b5be2baa17ac2b09",
     "independent_acceptance": false,
     "production_go": false,
-    "qualified_source": "9f040b8bb0352ee2a94c473e1b9cca6fe41beec7",
-    "qualified_run": 36654365874,
+    "qualified_source": "d828c2e1337a7f9f7b20d811b5be2baa17ac2b09",
+    "qualified_run": 36655185497,
     "qualified_counts": {
       "PASS": 4,
       "FAIL": 0,
       "INCOMPLETE": 0,
       "NOT_RUN": 0
     },
-    "readiness_limit": "Own labor120 not allocated to payroll plus foundation obligations: BLOCKED; monetary/HPP/return assertions pass.",
+    "readiness_limit": "Resolved in scoped worksheet: actual Nota/payroll approved unpaid180; foundation obligations completed via native writers; READY before and after sale/return.",
     "followup_run": 36655185497,
-    "followup_status": "PENDING",
-    "visual_review": "Four first-qualification screenshots inspected; no READY claim."
+    "followup_status": "PASS",
+    "visual_review": "All four source-bound screenshots inspected and retained losslessly; mobile global report contains two fixtures."
   },
   "f03_cost_continuation": {
     "status": "SELECTED_4_WRITER_PASS",
@@ -336,6 +336,16 @@
     "handoff": "docs/cp7/F03_COST_CONTINUATION_HANDOFF.md",
     "scope": "O18 exact report, E07 selected receipt/pocket/sale/return/conversion, E04 sold-child invoice/recovery",
     "full_family_acceptance": false,
+    "independent_acceptance": false,
+    "production_go": false
+  },
+  "f03_e03": {
+    "status": "SELECTED_CUSTODY_SERVICE_RUNNING",
+    "source": "0c35e18723d8aba2f55dbf5231e30d93c5afd453",
+    "run_id": 36655801222,
+    "handoff": "docs/cp7/F03_E03_HANDOFF.md",
+    "cash_refund_execution_claim": false,
+    "full_E03_acceptance": false,
     "independent_acceptance": false,
     "production_go": false
   }

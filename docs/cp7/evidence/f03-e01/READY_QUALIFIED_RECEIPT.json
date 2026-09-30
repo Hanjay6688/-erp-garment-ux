@@ -1,0 +1,178 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 4423569,
+  "artifact_id": 11072930291,
+  "artifact_sha256": "abd5217151d23a0bb37f951eafee18b09d15e32964d40e1c7880929fe8d048b3",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0,
+    "PASS": 4
+  },
+  "cp6_restored": true,
+  "expected_case_count": 4,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 1
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109697895093,
+  "nonpassing_cases": {},
+  "observed_case_count": 4,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385602,
+      "sha256": "dd8c419de7bd675753c89d3e328440868f7c62c15eb74f817fe5276cd9e1885a"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385602,
+      "sha256": "dd8c419de7bd675753c89d3e328440868f7c62c15eb74f817fe5276cd9e1885a"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "b0d4c9fa368430f389175b4a740e667b62cd6a5247f35d39b48e4d02c7db70f3"
+    },
+    "CP7_F03_E01.json": {
+      "bytes": 285338,
+      "sha256": "037d770c57a8cdf52ef901a831bae1ea4a96fd62dac432db884f6ffb80760b8d"
+    },
+    "E01_REPORT_DESKTOP.png": {
+      "bytes": 1152652,
+      "sha256": "06aeab58d7447e6c0c5bea1181c4f5da78a32f8385f0263af5c9286602e75a83"
+    },
+    "E01_REPORT_MOBILE.png": {
+      "bytes": 805877,
+      "sha256": "925ad42bf4a5378dff5a1773eb67f183e9bf922868d8e768d5363c4c792a0e42"
+    },
+    "E01_SALE_RETURN_DESKTOP.png": {
+      "bytes": 499536,
+      "sha256": "913a7be32e5b22476b0ab9434eda866ac7b468d17d39f3a35716f678623fe31a"
+    },
+    "E01_SALE_RETURN_MOBILE.png": {
+      "bytes": 379535,
+      "sha256": "e852ba364f5eb01d0663cfc05efc1f78f4208f20b96dbe8af708263af62348d6"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "6d8d51a88efd1d8f1b987ccb69ebb8daf99565fa0ae183bb26240fa665452ae2"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360410,
+      "sha256": "fb62a424c7e2cecb4b17712403a34c88d3be8fe3f7e48822435ec8256ec58b33"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "production_go": false,
+  "report_sha256": "037d770c57a8cdf52ef901a831bae1ea4a96fd62dac432db884f6ffb80760b8d",
+  "retained_reports_gzip_sha256": "f45c880aca3088e8589c19202e163f7cf3e5608a142c44bc11a9b32684a896f3",
+  "retained_screenshots": [
+    {
+      "bytes": 894934,
+      "height": 3563,
+      "original_file": "E01_REPORT_DESKTOP.png",
+      "original_sha256": "06aeab58d7447e6c0c5bea1181c4f5da78a32f8385f0263af5c9286602e75a83",
+      "pixel_identical": true,
+      "retained_file": "READY_E01_REPORT_DESKTOP.webp",
+      "retained_sha256": "da75e26db8c04ab8a0bbcc607f55601b9768f2946aa388e39ca4d8b4ec644a9f",
+      "width": 1440
+    },
+    {
+      "bytes": 310084,
+      "height": 2316,
+      "original_file": "E01_SALE_RETURN_MOBILE.png",
+      "original_sha256": "e852ba364f5eb01d0663cfc05efc1f78f4208f20b96dbe8af708263af62348d6",
+      "pixel_identical": true,
+      "retained_file": "READY_E01_SALE_RETURN_MOBILE.webp",
+      "retained_sha256": "4ed627c760ea488c9e5179fa1a9a947a81d5640738c6a63b488d2d98a239f6dc",
+      "width": 390
+    },
+    {
+      "bytes": 368724,
+      "height": 1626,
+      "original_file": "E01_SALE_RETURN_DESKTOP.png",
+      "original_sha256": "913a7be32e5b22476b0ab9434eda866ac7b468d17d39f3a35716f678623fe31a",
+      "pixel_identical": true,
+      "retained_file": "READY_E01_SALE_RETURN_DESKTOP.webp",
+      "retained_sha256": "99ae713b860d34f5c3a4afafbb7aaf3052575306b66ee5e42d3cb19bf1e8c554",
+      "width": 1440
+    },
+    {
+      "bytes": 642580,
+      "height": 5543,
+      "original_file": "E01_REPORT_MOBILE.png",
+      "original_sha256": "925ad42bf4a5378dff5a1773eb67f183e9bf922868d8e768d5363c4c792a0e42",
+      "pixel_identical": true,
+      "retained_file": "READY_E01_REPORT_MOBILE.webp",
+      "retained_sha256": "7e360c8a31107334b0ce7479ac70a258dc99083db873c10635ead204c1edb564",
+      "width": 390
+    }
+  ],
+  "run_id": 36655185497,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "d828c2e1337a7f9f7b20d811b5be2baa17ac2b09",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "23f795aac1b3b619108c93e525dd5d609c5908d5",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36655185497",
+    "tool_head": "d828c2e1337a7f9f7b20d811b5be2baa17ac2b09",
+    "workflow": "CP7 F03 E01 Source Journey"
+  },
+  "source_bundle_sha256": "d999ab45ebe40001e7a30ba46e0e10a18b950cc19531555716060d62cdd1759e",
+  "source_commit": "d828c2e1337a7f9f7b20d811b5be2baa17ac2b09",
+  "source_tree": "aa9e7548ebedae5b09f06e172cde9afa71bc9048",
+  "status": "PASS",
+  "visual_review": {
+    "production_entry_UI_claim": false,
+    "result": "Inspected all four original desktop/mobile screenshots. Sale detail shows net375/payment200/AR175/return5; READY report has zero blockers/queue/warnings. Mobile report contains both desktop and mobile fixtures (revenue750/COGS450/gross300), while source-specific deltas are independently asserted. Layout fits viewport; report uses long vertical scroll.",
+    "retained_images": "Lossless WebP, decoded RGBA pixel-identical to original PNG; hashes and dimensions retained."
+  },
+  "visual_review_performed": true
+}
