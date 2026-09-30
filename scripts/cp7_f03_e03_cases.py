@@ -24,7 +24,7 @@ def protected(cur):
 
 def fixture(cur, today):
     acc = bc.fixture(cur, today, purchase=False, zones=True)
-    receipt = e01.procurement.command(cur, 'SAVE_DRAFT', dict(purchase_number=acc['code']+'-FINAL', supplier_id=acc['supplier'], location_id=acc['main'], physical_at=bc.local_at(today-timedelta(days=3), 9), change_reason='E03 ten service buttons at two, final supplier price', lines=[dict(material_id=acc['material'], qty='10', unit_price='2', price_state='FINAL', price_source='SUPPLIER_INVOICE')]))
+    receipt = e01.procurement.command(cur, 'SAVE_DRAFT', dict(purchase_number=acc['code']+'-FINAL', supplier_id=acc['supplier'], location_id=acc['main'], physical_at=bc.local_at(today-timedelta(days=3), 9), change_reason='E03 ten service buttons at two, final supplier price', lines=[dict(material_id=acc['material'], qty='10', unit_price='2', price_state='FINAL', price_source='SUPPLIER_INVOICE', rolls=[])]))
     e01.procurement.post(cur, receipt)
     expense = str(cur.execute("insert into erp.chart_accounts(account_code,account_name,account_type,report_group,normal_balance,is_postable,is_active) values(%s,'E03 customer service expense','EXPENSE','OPERATING_EXPENSES','DEBIT',true,true) returning id", (acc['code']+'EXP',)).fetchone()[0])
     bc.policy(cur, 'ACC_DEC04', dict(CUSTOMER_SERVICE_account_id=expense))
