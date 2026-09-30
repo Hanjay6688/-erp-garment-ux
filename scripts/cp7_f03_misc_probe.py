@@ -2,8 +2,7 @@
 import hashlib,json,traceback
 import psycopg
 import cp7_f03_bundle as bundle
-import cp7_f03_cash_cases as cases
-import cp7_journal_cases as journals
+import cp7_misc_cases as misc_cases
 import cp7_p12_nota_probe as payroll
 import cp7_p13_finance_probe as finance
 import cp7_p09_procurement_probe as p09
@@ -11,14 +10,14 @@ import cp6_auditor_modes as modes
 import cp6_auditor_runner as native
 import cp6_t3_package_run as package
 from cp6_t3_aligned_install import advisors,advisor_delta
-OUT=bundle.ROOT/'cp6-proof/t3/CP7_F03_CASH.json'
+OUT=bundle.ROOT/'cp6-proof/t3/CP7_F03_MISC_FINANCE.json'
 
 def verify(cur):
  payroll.verify(cur,True,True,True,True,True);finance.verify(cur);bundle.journal.verify(cur);bundle.misc.verify(cur)
  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
 
 def run():
- report=dict(label='CP7_F03_CASH',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope='CONNECTED_CASH_REPORT_DATES_OVERVIEW_RECEIVABLES_AND_COMPLETE_JOURNAL_SOURCE_READ_ONLY',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),expected_case_count=21);installed=False
+ report=dict(label='CP7_F03_MISC_FINANCE',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope='REVIEWED_NATIVE_MISC_LIFECYCLE_WITH_EXACT_REPLAY_CURRENT_AUTH_AND_LOST_REPLY_RECOVERY',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),expected_case_count=14);installed=False
  try:
   with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
    p09.wip.policy.bf.verified(cur);before=package.boundary.snapshot(cur);public_before=native.public_state(cur);conn.rollback();originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)
@@ -40,11 +39,10 @@ def run():
    p09.INSTALLED_FUNCTIONS=after;report['combined_declared_execute_grants']={k:sorted(v)for k,v in grants.items()};report['exact_guard_sha256']={k:hashlib.sha256(v.encode()).hexdigest()for k,v in expected_definitions.items()};report['all_other_predecessor_definitions_and_owners_unchanged']=True
    conn.commit();installed=True;verify(cur);conn.rollback()
   report['advisors_with_cp7']=advisors(package.boundary.PG)
-  report['native']=native.strict_group('CP7_F03_CASH',cases.cases,verify)
-  report['http']=modes.run_http(cases,verify,'cp7_f03_cash')
-  report['journal_native']=native.strict_group('CP7_F03_JOURNAL',journals.cases,verify)
-  report['journal_http']=modes.run_http(journals,verify,'cp7_f03_journal')
-  report['browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_f03_cash_browser.mjs',verify,'cp7_f03_cash_browser')
+  report['native']=native.strict_group('CP7_F03_MISC',misc_cases.cases,verify)
+  report['races']=modes.run_races(misc_cases,verify,'cp7_f03_misc')
+  report['http']=modes.run_http(misc_cases,verify,'cp7_f03_misc')
+  report['browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_f03_misc_browser.mjs',verify,'cp7_f03_misc_browser')
  except Exception as e:report.update(error=str(e),traceback=traceback.format_exc())
  finally:
   if installed:
@@ -53,7 +51,7 @@ def run():
     for role in bundle.ROLES:cur.execute('drop owned by '+role+' cascade;drop role '+role,prepare=False)
     conn.commit();report['cp6_restored']=package.boundary.snapshot(cur)==before and native.public_state(cur)==public_before;conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
    report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta'];report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or(d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and(f.get('metadata')or{}).get('schema')in('cp7_recost','cp7_period','cp7_sales','cp7_payroll','cp7_attendance','cp7_fg','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice')for f in d.get('added',[])))
-  groups=[report.get(k,{})for k in('native','http','journal_native','journal_http','browser')];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==21 and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
+  groups=[report.get(k,{})for k in('native','races','http','browser')];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==14 and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
   OUT.parent.mkdir(parents=True,exist_ok=True);OUT.write_text(json.dumps(report,indent=2,default=str)+'\n');print(json.dumps({k:report.get(k)for k in('label','status','source_sha256','observed_case_count','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)
  return dict(status=report['status'],production_go=False,independent_acceptance=False,full_family_acceptance=False)
 if __name__=='__main__':

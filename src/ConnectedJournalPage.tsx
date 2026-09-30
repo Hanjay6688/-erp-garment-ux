@@ -1,4 +1,4 @@
-import {useCallback,useEffect,useMemo,useRef,useState} from 'react'
+import {lazy,Suspense,useCallback,useEffect,useMemo,useRef,useState} from 'react'
 import {useAuth} from './auth/AuthProvider'
 import {isConnectedRuntime} from './config/runtime'
 import {getUatSupabaseClient} from './lib/supabase'
@@ -7,7 +7,9 @@ import {cp6WibDateTimeInput,formatCp6WibDateTime} from './cp6BusinessTime'
 import {formatReceiptDecimal} from './procurementContract'
 import {financeDate} from './financeReportContract'
 import {parseJournalRead,type JournalDates,type JournalRead} from './journalReadContract'
+import {hasProductionPending,observeProductionRecovery,readProductionRecovery} from './productionRecovery'
 import './procurement-connected.css'
+const MiscFinancePanel=lazy(()=>import('./MiscFinancePanel'))
 const money=(v:string)=>'Rp'+formatReceiptDecimal(v)
 type Query=JournalDates&{offset:number;journal_id:string|null}
 export default function ConnectedJournalPage(){
@@ -20,19 +22,28 @@ function Workspace(){
  const {runtime,identity}=useAuth();if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED')throw Error('Sesi jurnal belum siap.')
  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),today=cp6WibDateTimeInput().slice(0,10)
  const [from,setFrom]=useState(today.slice(0,7)+'-01'),[to,setTo]=useState(today),[q,setQ]=useState(''),[data,setData]=useState<JournalRead|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState('')
+ const [miscOpen,setMiscOpen]=useState(false),[recoveryBlocked,setRecoveryBlocked]=useState(false)
  const seq=useRef(0),selected=useRef<Query>({from:today.slice(0,7)+'-01',to:today,q:'',offset:0,journal_id:null})
+ const entered=useRef({from,to,q});entered.current={from,to,q}
+ const recoveryScope=`${runtime.projectRef}:${identity.profile.id}`
  const retire=()=>{++seq.current;setData(null);setBusy(false);setError('')}
+ const retireBook=useCallback(()=>{++seq.current;setData(null);setBusy(false);setError('')},[])
+ useEffect(()=>{const changed=()=>{const current=readProductionRecovery(recoveryScope),blocked=current.corrupted||hasProductionPending(current);setRecoveryBlocked(blocked);if(blocked)retireBook()};changed();return observeProductionRecovery(recoveryScope,changed)},[recoveryScope,retireBook])
  const load=useCallback(async(query:Query)=>{
   const ticket=++seq.current;setData(null);setBusy(true);setError('')
-  try{const result=await client.rpc('erp_cp7_get_journal_book_v1',{p_query:{...query,limit:25}});if(ticket!==seq.current)return;if(result.error)throw result.error;setData(parseJournalRead(result.data,query,query.offset,query.journal_id))}
-  catch(e){if(ticket===seq.current)setError(normalizeClientError(e).message)}finally{if(ticket===seq.current)setBusy(false)}
- },[client])
+  try{const recovery=readProductionRecovery(recoveryScope);if(recovery.corrupted||hasProductionPending(recovery)){setRecoveryBlocked(true);return false}const result=await client.rpc('erp_cp7_get_journal_book_v1',{p_query:{...query,limit:25}});if(ticket!==seq.current)return false;if(result.error)throw result.error;setData(parseJournalRead(result.data,query,query.offset,query.journal_id));return true}
+  catch(e){if(ticket===seq.current)setError(normalizeClientError(e).message);return false}finally{if(ticket===seq.current)setBusy(false)}
+ },[client,recoveryScope])
  useEffect(()=>{void load(selected.current);return()=>{++seq.current}},[load])
  const submit=()=>{retire();if(!financeDate(from)||!financeDate(to)||from>to||to>today){setError('Pilih periode pembukuan yang sah sampai hari ini.');return}selected.current={from,to,q:q.trim(),offset:0,journal_id:null};void load(selected.current)}
  const refresh=()=>{const s=selected.current;if(s.from===from&&s.to===to&&s.q===q.trim())void load(s);else submit()}
+ const afterMisc=useCallback(()=>{const f=entered.current,last=selected.current;retireBook();if(!financeDate(f.from)||!financeDate(f.to)||f.from>f.to||f.to>cp6WibDateTimeInput().slice(0,10)){setError('Pilih periode pembukuan yang sah sampai hari ini.');return Promise.resolve(false)}if(last.from!==f.from||last.to!==f.to||last.q!==f.q.trim())selected.current={from:f.from,to:f.to,q:f.q.trim(),offset:0,journal_id:null};return load(selected.current)},[load,retireBook])
  const detail=data?.detail
  return <main className="cproc cjournal" aria-label="Jurnal keuangan dari buku">
   <header className="panel cproc-heading"><div><div className="eyebrow">KEUANGAN</div><h1>Jurnal Keuangan</h1><p>Periksa pembukuan dan akun yang berasal dari transaksi ERP.</p></div><button disabled={busy} onClick={refresh}>Muat ulang jurnal</button></header>
+  {identity.permissions.includes('finance.cash.view')?<button aria-expanded={miscOpen} onClick={()=>setMiscOpen(true)}>Buka pendapatan dan biaya lain</button>:null}
+  {miscOpen?<Suspense fallback={<p role="status">Membuka transaksi lain…</p>}><MiscFinancePanel client={client} onChanged={afterMisc} onRetire={retireBook}/></Suspense>:null}
+  {recoveryBlocked?<p role="alert">Transaksi terkait belum dipastikan atau jejak recovery perlu diperiksa. Selesaikan Reconcile transaksi sebelum memuat ulang jurnal.</p>:null}
   <form className="panel cproc-grid" aria-label="Periode dan sumber jurnal" onSubmit={e=>{e.preventDefault();submit()}}>
    <label>Periode dari<input type="date" aria-label="Periode jurnal dari" value={from} max={today} onChange={e=>{retire();setFrom(e.target.value)}}/></label><label>Periode sampai<input type="date" aria-label="Periode jurnal sampai" value={to} max={today} onChange={e=>{retire();setTo(e.target.value)}}/></label><label>Nomor atau sumber<input aria-label="Cari sumber jurnal" maxLength={120} value={q} onChange={e=>{retire();setQ(e.target.value)}}/></label><button disabled={busy}>Tampilkan jurnal</button>
   </form>

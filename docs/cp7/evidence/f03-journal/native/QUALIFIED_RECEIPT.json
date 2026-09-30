@@ -1,0 +1,303 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 17045066,
+  "artifact_id": 11103459653,
+  "artifact_sha256": "dcef536875dec14a6e330b77125eb2f9bf339311d71cee25fc99db53f5e8a1c8",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0,
+    "PASS": 21
+  },
+  "cp6_restored": true,
+  "expected_case_count": 21,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "PASS": 10
+    },
+    "http": {
+      "PASS": 1
+    },
+    "journal_http": {
+      "PASS": 1
+    },
+    "journal_native": {
+      "PASS": 6
+    },
+    "native": {
+      "PASS": 3
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109931431900,
+  "observed_case_count": 21,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CASH_BUILD.txt": {
+      "bytes": 10406,
+      "sha256": "3a65943549be3b7de6800e16240825d605ee0b1261d86606cb12d6ae8573426e"
+    },
+    "CASH_LOCAL_TESTS.txt": {
+      "bytes": 1223,
+      "sha256": "17a4e7c2abfd41977cdd5f5d39257690db5c1d5db943b5bcc6caf04e668fa7a5"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385615,
+      "sha256": "9b3d04abdf18a883581137b174c0132621b20d737f046ef63e7d06793b8c5b45"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385615,
+      "sha256": "9b3d04abdf18a883581137b174c0132621b20d737f046ef63e7d06793b8c5b45"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "c1215331a911e9720078173262a11bdb2ba1c0531c785bf3f491385f04bdc4a9"
+    },
+    "CP7_F03_CASH.json": {
+      "bytes": 277189,
+      "sha256": "6a74447d9b044692505eeaafb355af53f954ee7b9afdb4d72a9cac1d2b436ffd"
+    },
+    "F03_CASH_PAGE1_DESKTOP.png": {
+      "bytes": 2087119,
+      "sha256": "15c941fae54e7d422e63c3bdd77459d31cc916a087b66e93f11b9815d6b30551"
+    },
+    "F03_CASH_PAGE1_MOBILE.png": {
+      "bytes": 1058385,
+      "sha256": "6b9cb09106f6e4f97c0f72e56b591a61c79d93e41de7fad642abc743286f95b9"
+    },
+    "F03_CASH_PAGE2_DESKTOP.png": {
+      "bytes": 773282,
+      "sha256": "a224ab26e81d5ebb0e560b48f2425856cdb2797190d9dae361a7a368fc0a3b2a"
+    },
+    "F03_CASH_PAGE2_MOBILE.png": {
+      "bytes": 511984,
+      "sha256": "f69bebfd01ef027a65ce8a7e905e2b469fa175cae7e2931dd8886502b59bce5f"
+    },
+    "F03_CASH_RETIRED_DESKTOP.png": {
+      "bytes": 206494,
+      "sha256": "31385089321e580f2dde131f2901fc2cce2b5719f1e677a712915d7d9273fc5d"
+    },
+    "F03_CASH_RETIRED_MOBILE.png": {
+      "bytes": 72173,
+      "sha256": "6c32ba927b6cfc0d35bd2b655eaced10fe840e2d1ba993cb6913a81705d59db7"
+    },
+    "F03_FINANCE_OVERVIEW_RETIRED_DESKTOP.png": {
+      "bytes": 258618,
+      "sha256": "768ffd88eac659f3fa2760c75d8f7741dbe110d1f5023d544618b86afd4a2a3e"
+    },
+    "F03_FINANCE_OVERVIEW_RETIRED_MOBILE.png": {
+      "bytes": 131327,
+      "sha256": "6b83e0c1d660b34da4d999d30bfdc6c443da96beae93fda7824a38e352d39197"
+    },
+    "F03_FINANCE_OVERVIEW_SOURCE_DESKTOP.png": {
+      "bytes": 1080865,
+      "sha256": "fe1ecf69692563a25e3ba472633417aec030052ed7d5223105be9ee3186566d2"
+    },
+    "F03_FINANCE_OVERVIEW_SOURCE_MOBILE.png": {
+      "bytes": 772867,
+      "sha256": "6360a0d92ebffc3460b4501fafce0278a265af53f0a55e306eb800f6f12301f1"
+    },
+    "F03_JOURNAL_DETAIL_DESKTOP.png": {
+      "bytes": 617383,
+      "sha256": "f2ce20072f781fb86994823ec2cbb5def65054ad0e708811944a75e287d8f795"
+    },
+    "F03_JOURNAL_DETAIL_MOBILE.png": {
+      "bytes": 471335,
+      "sha256": "fe356864cc55bb21f9e62fb7a41521841efc9e6501a2076cc381361f2913d0bc"
+    },
+    "F03_JOURNAL_PAGE1_DESKTOP.png": {
+      "bytes": 972094,
+      "sha256": "4232ea3c51170d84ac75c4eed473c1dfaf667f5833d7bbd958187797be704084"
+    },
+    "F03_JOURNAL_PAGE1_MOBILE.png": {
+      "bytes": 744812,
+      "sha256": "c08aa905d19695c41cc09ce17f5698932c7d4641fb1349b486aeb0038094d369"
+    },
+    "F03_JOURNAL_RETIRED_DESKTOP.png": {
+      "bytes": 253016,
+      "sha256": "bd3ec6ff733cfd3421a6bc92fc3b5590971cb34664b192fc9731c4d59c497efd"
+    },
+    "F03_JOURNAL_RETIRED_MOBILE.png": {
+      "bytes": 117763,
+      "sha256": "4980b5bac88334e5d33caf19242e2e598a314a1f49d33d17af9984d85d1aa9b9"
+    },
+    "F03_RECEIVABLES_RETIRED_DESKTOP.png": {
+      "bytes": 245449,
+      "sha256": "be58b8fe7af4bc9afc6e9cea8ee9ff70b28fb1698d6d07ed781f7488b8853351"
+    },
+    "F03_RECEIVABLES_RETIRED_MOBILE.png": {
+      "bytes": 266705,
+      "sha256": "7b7c2f301c47cef2dc3fee28de2424717011b3e210452736c89b3cb3c60ddb8f"
+    },
+    "F03_RECEIVABLES_SOURCE_DESKTOP.png": {
+      "bytes": 495935,
+      "sha256": "4b5def92fbe382134536cc7dbbb3736dd4e2952334961d2bd51991444b313bb8"
+    },
+    "F03_RECEIVABLES_SOURCE_MOBILE.png": {
+      "bytes": 343865,
+      "sha256": "aee367080d84e5c62ac37c1fcdbf6cb53c66aa45d129ed4589634eeaa1abcd7e"
+    },
+    "F03_REPORT_DATE_RETIRED_DESKTOP.png": {
+      "bytes": 701454,
+      "sha256": "5414f81d9f6303e46301efe76c5e0e5b2513ccea333586f831a8f1b5ed007c2c"
+    },
+    "F03_REPORT_DATE_RETIRED_MOBILE.png": {
+      "bytes": 464442,
+      "sha256": "6cab0898ec276abc3f775ad942b87aaaf0203ff7b37afe02fe8463508aa367d6"
+    },
+    "F03_REPORT_DATE_SOURCE_DESKTOP.png": {
+      "bytes": 1759233,
+      "sha256": "003f091f128fc97d4907a891905974c82e2574c410416473ebcace7a90ae1a1e"
+    },
+    "F03_REPORT_DATE_SOURCE_MOBILE.png": {
+      "bytes": 1291875,
+      "sha256": "eea9a0db39cc9e37fd86d42d301a5d4a4a2038b2d9ad89e4e763f52b57413e94"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "7dc82b317d9c1b5150bf467fa4755264393551f0521ec346755aa986ece0ddde"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360423,
+      "sha256": "12909d44c229b93503947864a9a1f2dc084c6042b5015ec8e81f7ebfdd5863a2"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "product_commit": "b66515d0f3c878930e92346e1823193ad471cb66",
+  "production_go": false,
+  "report_sha256": "6a74447d9b044692505eeaafb355af53f954ee7b9afdb4d72a9cac1d2b436ffd",
+  "retained_reports_gzip_sha256": "e10819beeeac143ef6570b9cdbb5e1bdf2758e8c0e13fa7b503149d5e2d267ff",
+  "run_id": 36728472439,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "b66515d0f3c878930e92346e1823193ad471cb66",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "b66515d0f3c878930e92346e1823193ad471cb66",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36728472439",
+    "tool_head": "b66515d0f3c878930e92346e1823193ad471cb66",
+    "workflow": "CP7 F03 Cash and Native Finance Readers"
+  },
+  "source_bundle_sha256": "04289ce0fe6d268844217a66437d0e7d08a4c51a7ce5725624f9990f4337fb79",
+  "source_commit": "b66515d0f3c878930e92346e1823193ad471cb66",
+  "source_tree": "849971449f974063dfa491c5668dc73db6dc5fdc",
+  "status": "PASS",
+  "verification_origin": "Actual native PostgreSQL, Auth/HTTP and browser execution on this successor implementation; no independent acceptance claimed.",
+  "visual_review": {
+    "captures": [
+      {
+        "RGBA_sha256": "2b4a3ee1c0e87e3a584a0bbd5d305b60ae615b2d4e469d8719bdf4d1969bbce5",
+        "height": 1495,
+        "original": "F03_JOURNAL_DETAIL_DESKTOP.png",
+        "original_sha256": "f2ce20072f781fb86994823ec2cbb5def65054ad0e708811944a75e287d8f795",
+        "pixel_identical": true,
+        "retained": "docs/cp7/evidence/f03-journal/native/visual/F03_JOURNAL_DETAIL_DESKTOP.webp",
+        "retained_bytes": 490414,
+        "retained_sha256": "1fedc7f5ca84ff7aa72922944fa71afa195583d75a3afeff93c76f47d897d779",
+        "width": 1440
+      },
+      {
+        "RGBA_sha256": "f405a2a3b4e75ab29d62a6439bb009cc64bf08bb969c9a1fbe65cc2b9e87c28a",
+        "height": 2636,
+        "original": "F03_JOURNAL_DETAIL_MOBILE.png",
+        "original_sha256": "fe356864cc55bb21f9e62fb7a41521841efc9e6501a2076cc381361f2913d0bc",
+        "pixel_identical": true,
+        "retained": "docs/cp7/evidence/f03-journal/native/visual/F03_JOURNAL_DETAIL_MOBILE.webp",
+        "retained_bytes": 385852,
+        "retained_sha256": "b8763523ce34302ea1dbf77204b98652c415e90195fce0f4820ab453ffb327e2",
+        "width": 390
+      },
+      {
+        "RGBA_sha256": "20714397ad3f6d237bd7942ed5521bf33636c7e52702a67d7b218e54a480e767",
+        "height": 3167,
+        "original": "F03_JOURNAL_PAGE1_DESKTOP.png",
+        "original_sha256": "4232ea3c51170d84ac75c4eed473c1dfaf667f5833d7bbd958187797be704084",
+        "pixel_identical": true,
+        "retained": "docs/cp7/evidence/f03-journal/native/visual/F03_JOURNAL_PAGE1_DESKTOP.webp",
+        "retained_bytes": 803736,
+        "retained_sha256": "cf30f5b1da256a7deec4b985bac21ac085bd8bda76fbdd9cab5a384f01b98803",
+        "width": 1440
+      },
+      {
+        "RGBA_sha256": "e5b2a75f67be21a917798c9231f8c25251ae218bf422f607f98a1db3993d1246",
+        "height": 5035,
+        "original": "F03_JOURNAL_PAGE1_MOBILE.png",
+        "original_sha256": "c08aa905d19695c41cc09ce17f5698932c7d4641fb1349b486aeb0038094d369",
+        "pixel_identical": true,
+        "retained": "docs/cp7/evidence/f03-journal/native/visual/F03_JOURNAL_PAGE1_MOBILE.webp",
+        "retained_bytes": 658910,
+        "retained_sha256": "4c13ea9380f5a57cf402debc279e0c7c50bd22215e55914dd40e6b5c9175c4a3",
+        "width": 390
+      },
+      {
+        "RGBA_sha256": "8f22465a3dbc6f77ecb724cd1394764530d017a494378575704600400d0095fe",
+        "height": 1000,
+        "original": "F03_JOURNAL_RETIRED_DESKTOP.png",
+        "original_sha256": "bd3ec6ff733cfd3421a6bc92fc3b5590971cb34664b192fc9731c4d59c497efd",
+        "pixel_identical": true,
+        "retained": "docs/cp7/evidence/f03-journal/native/visual/F03_JOURNAL_RETIRED_DESKTOP.webp",
+        "retained_bytes": 174498,
+        "retained_sha256": "111105e71bfdd5c2ee319b747b2db625d504050d63e773a88ea51e03e2d030ce",
+        "width": 1440
+      },
+      {
+        "RGBA_sha256": "80a9060bad5c44a89e6d7a28019e3c98bd4ed230deb5cd567e6af3f931213de1",
+        "height": 844,
+        "original": "F03_JOURNAL_RETIRED_MOBILE.png",
+        "original_sha256": "4980b5bac88334e5d33caf19242e2e598a314a1f49d33d17af9984d85d1aa9b9",
+        "pixel_identical": true,
+        "retained": "docs/cp7/evidence/f03-journal/native/visual/F03_JOURNAL_RETIRED_MOBILE.webp",
+        "retained_bytes": 90826,
+        "retained_sha256": "9db68d50ee04d1fbadceffd0c302ecaca3c539c024acf2386af9fbced2471d92",
+        "width": 390
+      }
+    ],
+    "observations": [
+      "Both actual desktop/mobile page1 displays full30 journal and60 account-line counts and debit/credit37.50 across pages25+5.",
+      "Selected page2 detail shows both actual native Cash and Opening Equity account lines at debit/credit1.25 with native source ID and dated headers.",
+      "Desktop network failure and actual mobile ADMIN current permission403 clear all prior financial totals, headers and detail lines.",
+      "No horizontal clipping observed. Mobile is emulated, not a physical-device claim."
+    ],
+    "scope": "All six actual journal desktop/mobile page1, page2 detail and retired captures inspected in full. Complete source IDs and exact money comparison belong to the executed native/HTTP/browser assertions."
+  },
+  "visual_review_performed": true
+}

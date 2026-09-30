@@ -1,0 +1,48 @@
+{
+  "build": "PASS",
+  "changed_source": {
+    ".github/workflows/cp7-f03-misc.yml": "c21218cdf00fd261f0dd97f57ebf4fe702feb0077e2fc3042525419f37ad9351",
+    "scripts/check-access-catalog.mjs": "edf0d237cb70b7288544722216bc4e7a2ea72753582f466a0085bdc864761e02",
+    "scripts/check-source-ownership.mjs": "d7356ba1929c490d81a0639e8073f988f0306ba4cb5cee5922ed7757720c9964",
+    "scripts/cp7-src/finance/misc.sql": "406432ff8e15e7b0e6736db61b2e9465218282ff94f70e67d5e00fb7a6621b78",
+    "scripts/cp7_f03_bundle.py": "5d7de7363e8bee8e6ac2c2c10759756a4b7bd043eadb7beec833d3d6c1c08a2f",
+    "scripts/cp7_f03_cash_probe.py": "9dfacae964c4c5bb840738d0baacda81eba6427cf7b9db872b5e79267c3dcb9e",
+    "scripts/cp7_f03_misc_browser.mjs": "2c8536500c80c5bcadba993b729a0cb1dafe9972afeca3acef83eab6bb8efb9e",
+    "scripts/cp7_f03_misc_browser_fixture.py": "6391d768ae138856c46a9e616b62c8a0fbfd789c195dc25a1bf316df340010b5",
+    "scripts/cp7_f03_misc_probe.py": "81c04ab56d24c97cef61aa239addb300d2a3572be4b1f86c46a323b5d0d0448b",
+    "scripts/cp7_f03_probe.py": "676dc543f4dc0f36408c8eabf41bdf019c0d0db26e3907d6dc3ef8a803dee841",
+    "scripts/cp7_misc_bundle.py": "53e39940aa7b4ffcd7e5cc076cfa9f812c81202eea11e86efd4a6bdb350eb557",
+    "scripts/cp7_misc_cases.py": "69c2003d0c11f55e3f5d1801473e7f1188fb44253610a4c9d6737830786c0645",
+    "src/ConnectedJournalPage.tsx": "f547a1eb3a412ec439bff5b443ac50a678b92666fe836600b74734d0e68c1b88",
+    "src/MiscFinancePanel.dom.test.tsx": "b5fb64c4c47f8ea83959d94ad8a7ff5e50d2b92eaa34456b05a9b0bd78884700",
+    "src/MiscFinancePanel.tsx": "a84990adfacf3c5aa0537b8afd40a3883c42252ffe623c5d33ba12f577538b99",
+    "src/miscFinanceContract.ts": "c2e88fb9e219bec8c9fc6ce2a7b9f5ad57ca6bfa38b1355e46af1b9705e87aa1",
+    "src/productionRecovery.ts": "98541ac04d7fd082ddf438927ecafcf20ad47150344cc8a1566f81ef6b2ec8d6",
+    "src/types/database.preconnect.ts": "8d36ebf9811d04ad3ad409b1179cc73b67776acbe6fba48f013d538874832648"
+  },
+  "combined_roles": 29,
+  "first_unit_failure": "Fixture helper named document shadowed the DOM global; repaired and all12 pass. No product guard changed.",
+  "full_family_acceptance": false,
+  "full_unit": {
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "PASS": 857
+  },
+  "independent_acceptance": false,
+  "native_execution": "PENDING",
+  "native_expected": {
+    "browser": 2,
+    "http": 1,
+    "native": 9,
+    "races": 2
+  },
+  "native_expected_total": 14,
+  "new_misc_unit_cases": 12,
+  "original_reports_sha256": "a826a580c006e11460f7a1f9f1cc2470ba1dea7b59bf7db8d32228b3db079e03",
+  "parent_source_commit": "b66515d0f3c878930e92346e1823193ad471cb66",
+  "production_go": false,
+  "python_and_browser_syntax": "PASS",
+  "security": "PASS",
+  "source_bundle_sha256": "2c0b70492a6e00a928c65f8effae4ea8a6876cfe180e50bd2717fcc5d66ef888",
+  "status": "LOCAL_PASS_NATIVE_PENDING"
+}
