@@ -144,7 +144,7 @@ const cp7RecostBoundaries = ['erp_cp7_get_recost_queue_v1','erp_cp7_process_reco
 for (const name of cp7RecostBoundaries) assert.ok(rpcBoundaries.has(`src/RecostQueuePanel.tsx:${name}`))
 const cp7PeriodBoundaries = ['erp_cp7_get_period_control_v1','erp_cp7_save_period_control_v1']
 for (const name of cp7PeriodBoundaries) assert.ok(rpcBoundaries.has(`src/FinancePeriodPanel.tsx:${name}`))
-const cp7FinanceBoundaries = ['src/ConnectedFinanceReportPage.tsx:erp_cp7_get_finance_report_v1','src/FinanceAnalysisPanel.tsx:erp_cp7_get_finance_analysis_v1']
+const cp7FinanceBoundaries = ['src/ConnectedFinanceReportPage.tsx:erp_cp7_get_finance_report_v1','src/FinanceAnalysisPanel.tsx:erp_cp7_get_finance_analysis_v1','src/ConnectedCashLedgerPage.tsx:erp_cp7_get_finance_analysis_v1']
 for (const boundary of cp7FinanceBoundaries) assert.ok(rpcBoundaries.has(boundary))
 const cp7SalesBoundaries = ['erp_cp7_get_sales_v1','erp_cp7_save_sale_v1']
 for (const name of cp7SalesBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedSalesPage.tsx:${name}`))

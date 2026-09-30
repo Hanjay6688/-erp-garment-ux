@@ -38,6 +38,7 @@
 .cproc-item li { padding: 3px; font-size: 13px; }
 .cproc-total { display: grid; gap: 5px; border: 1px solid #335d59; border-radius: 12px; background: #16302f; padding: 18px; color: #e0f1e9; }
 .cproc-total strong { font-size: 24px; color: #8be0ba; }
+.cproc.ccash .cproc-total strong { overflow-wrap: anywhere; }
 .cproc-review { display: grid; gap: 12px; padding-top: 22px; }
 .cproc-pagination { padding-top: 20px; font-size: 12px; }
 @media (max-width: 1000px) { .cproc-layout { grid-template-columns: 1fr; } }

@@ -50,13 +50,13 @@ Local42 DOM/recovery tests, TypeScript and source/access ownership gates passed 
 
 Earlier [E01 READY source journey](F03_E01_HANDOFF.md), [selected O18/E04/E07 cost continuations](F03_COST_CONTINUATION_HANDOFF.md) and [P13 checkpoint](F03_P13_AUDITOR_CHECKPOINT.md) remain valid in their declared scopes. F02's independent HOLD is separate. F04 takeover remains after the agreed F03 completion boundary, not after merely green workflows.
 
-E06 retains both initial fixture-oracle errors before the five-case qualification. E12 retains its too-early peer-read assertion before the four-case qualification; the corrected observer waits for actual committed HTTP200 before abort/read. Product source and monetary expectations did not change. [X04 selected native/HTTP source-version continuation](F03_X04_HANDOFF.md) now passes7 on `8f2d81c0`. Both prior5-PASS/2-INCOMPLETE results remain retained: diagnostics identify equivalent WIB/UTC timestamp spellings, and the qualified comparator preserves microseconds and all non-time fields. No new X04 redye/browser or visual review is claimed; those seams and independent review remain open.
+E06 retains both initial fixture-oracle errors before the five-case qualification. E12 retains its too-early peer-read assertion before the four-case qualification; the corrected observer waits for actual committed HTTP200 before abort/read. Product source and monetary expectations did not change. [X04 selected native/HTTP source-version continuation](F03_X04_HANDOFF.md) now passes7 on `8f2d81c0`. Both prior5-PASS/2-INCOMPLETE results remain retained: diagnostics identify equivalent WIB/UTC timestamp spellings, and the qualified comparator preserves microseconds and all non-time fields. That seven-case run had no redye/browser or visual claim; the separately qualified paid-redye five-case source and inspected captures are recorded below. Whole X04 and independent review remain open.
 
 ## Continuing source checks
 
 [Combined regression on2649451](evidence/f03-combined/REDYE_FIXTURE_REGRESSION_RECEIPT.json), run36684295409/job109786478634, verifies22/22 PASS with all installation/restoration/advisor/cleanup gates. It is a separately bound rerun of the existing selected22, not22 additional cases or a paid-redye run. No fresh visual-review claim is made for its six browser captures.
 
-[Five paid-redye continuations](F03_X04_REDYE_HANDOFF.md) remain INCOMPLETE due to source-setup errors: old master date, stale BOM/different physical colour, then overlong generated size code. Original artifacts and complete compressed reports remain retained. The latest setup correction preserves all native guards and fixed200/40/30/10/240 amounts; full runtime qualification is pending. Main X04 seven-case qualification remains unchanged.
+Historical setup stage for the [five paid-redye continuations](F03_X04_REDYE_HANDOFF.md) retained INCOMPLETE results due to source-setup errors: old master date, stale BOM/different physical colour, then overlong generated size code. Original artifacts and complete compressed reports remain retained. Those corrections preserved all native guards and fixed200/40/30/10/240 amounts; subsequent qualification5/5 on76ad8708 is recorded below. Main X04 seven-case qualification remains unchanged.
 
 ## Qualified continuation after source-setup corrections
 
@@ -69,3 +69,7 @@ The capacity worksheet proves all30 one-piece lots across25+5 pages supply publi
 Selected combined22/22 on the same17050a4 remains a separate overlapping regression. Native10, real races2, AuthHTTP4 and browser6 all pass; complete receipt is linked in the table, without a fresh regression visual-review claim. All original redye source setup/currency-page comparison failures and the capacity earlier-access refusal assertion remain retained.
 
 F03 stays OPEN for its remaining contract and independent family review. CP6 stays CLOSED_CONTRACT_SCOPE; independent_acceptance=false; production_go=false. Existing E05 partial-settlement and eligible paid-return/refund business boundaries remain concrete in the linked contract ledger.
+
+## Current implementation after the qualified checkpoint
+
+[Connected Kas & Bank reader](F03_CASH_READER_HANDOFF.md) replaces disposable cash demo values with the unchanged dated native projection. New cash7 plus retained analysis/report16 local tests pass. Its separately declared6-case native/Auth/browser qualification remains pending; no prior qualified run is relabeled proof of this new route. SQL bundle and native money/stock/HPP behavior remain unchanged.

@@ -1,0 +1,16 @@
+{
+  "label": "FIRST_CASH_LOCAL_UI_TESTS",
+  "stage": "LOCAL_WRITER_UNCOMMITTED_SOURCE",
+  "observed_result": "FAIL",
+  "counts": {"PASS":22,"FAIL":1},
+  "groups": {"new_cash_dom":{"PASS":6,"FAIL":1},"retained_analysis_and_report_dom":{"PASS":16}},
+  "failed_case": "ignores a completed earlier read after the user changes the period",
+  "expected": "period actually changes; pending response is retired; no old Rp values",
+  "actual": "the test filled 2026-09-01, equal to the initial default from date, so React correctly received no changed-input event and accepted the still-current response",
+  "classification": "FIXTURE_USED_UNCHANGED_DATE_NOT_PRODUCT_STALE_READ_DEFECT",
+  "test_repair": "derive a genuinely different previous date from the original request; preserve late-response and no-money assertions",
+  "product_guard_or_money_change": false,
+  "native_or_browser_execution_claim": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

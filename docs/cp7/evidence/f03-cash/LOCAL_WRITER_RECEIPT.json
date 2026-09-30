@@ -1,0 +1,39 @@
+{
+  "label": "F03_CASH_LOCAL_WRITER",
+  "stage": "UNCOMMITTED_SOURCE_BOUND_BY_FILE_HASHES",
+  "result": "PASS",
+  "counts": {
+    "PASS": 86,
+    "FAIL": 0,
+    "NOT_RUN": 0
+  },
+  "groups": {
+    "cash_dom": 7,
+    "retained_analysis_and_report_dom": 16,
+    "shared_recovery": 63
+  },
+  "source_files_sha256": {
+    "src/ConnectedCashLedgerPage.tsx": "a7b026630cc1b8b1fb60919b736471ffe7615e9f6e57db8834558fac24d25833",
+    "src/ConnectedCashLedgerPage.dom.test.tsx": "d3a6de0e8fcbf99d484fcfb444989c8c2dbc209a9abb016929e88de1d47e6a88",
+    "src/App.tsx": "80ba3f77798319adf56dfb4c826ec649e9cb72548f55aaad822b6a3f3069276a",
+    "src/procurement-connected.css": "be7a8203fd543ed38959d7c76a1ace9d27692c95200e64bd12ab962f9697b2ae",
+    "scripts/check-source-ownership.mjs": "435f04e00f99ec0c1433595c5546ec879823f6b207b05a5c39000b9b4723937e",
+    "scripts/check-access-catalog.mjs": "d48111fd1f95f875a0b706d9a39251f8ee959c7f200d1ae7330bbf99eabcc5be",
+    "scripts/cp7_f03_cash_probe.py": "51f7b437ec842364765a16ee5279985e6a96afb3810d2b9b9cf56c94810fe9f2",
+    "scripts/cp7_f03_cash_cases.py": "3908c71cd8541263d94fe43ff179fe79a1c455a302fb4e6f45d624b83fa48a56",
+    "scripts/cp7_f03_cash_browser_fixture.py": "3d08d64a4e65bb8aa6fa984248ef44379d7c66f8dca56ac63469cb63186dc580",
+    "scripts/cp7_f03_cash_browser.mjs": "a9ca21ba92dc3bf2ebc75555e555a1f64ccedf81db8638600ef66ffbba7fa22a",
+    ".github/workflows/cp7-f03-cash.yml": "b725f2e0fe6ed6dd0ca73bca7428b252022d24d87456d7b7c0cc814d349756bc"
+  },
+  "report_gzip_sha256": "eb79b042ab3b20fa17248e5bcc9c184d01e4771575d10f9f11abd3df036bc8fb",
+  "original_vitest_report_sha256": "4a01700944fbe9287170ba0b25e1480c0cf426ea3da524710ae668c8585ea0c4",
+  "original_build_log_sha256": "212141a280a7c479afb99d73fa4b0ddd4f12520dd1aa486c63aaa215102530d1",
+  "build_typecheck_source_access_css_secret_scan": "PASS",
+  "react_review": "Lazy route; date/identity request-generation retirement; labeled controls; full closed decimal/page DTO; no business write or direct-table read",
+  "native_http_browser_cases": {
+    "expected": 6,
+    "result": "PENDING"
+  },
+  "independent_acceptance": false,
+  "production_go": false
+}

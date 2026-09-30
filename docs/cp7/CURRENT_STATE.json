@@ -54,7 +54,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "next_action": "Qualify the separate five-case X04 paid-redye source-version continuation through native, real Auth/HTTP and desktop/mobile CP7 stock/finance. Preserve the separately qualified X04 seven-case result and both prior incomplete runs. Continue remaining unambiguous F03 scope; E05 and ordinary paid-source credit/refund mechanisms remain unresolved. F04 has not started.",
+  "next_action": "Qualify the new connected Kas & Bank reader through6 declared native/real-Auth-HTTP/desktop-mobile cases. Redye5 on76ad8708, stock capacity/access5 and separate combined22 on17050a4 are qualified and retained in checkpoint1fe8387. Preserve their source identities. Continue remaining unambiguous F03 contracts; E05 and ordinary paid-source credit/refund policies remain unresolved. F04 has not started.",
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "family_plan": "docs/cp7/FAMILY_PLAN.md",
   "active_family": "F03_P09_P13",
@@ -67,7 +67,7 @@
     "F05_P14_P17": "PLANNED",
     "F06_P18_P21": "PLANNED"
   },
-  "latest_tested_source": "bfe9590b8625485667acfc22773a084266f71167",
+  "latest_tested_source": "17050a4ae68a6f92144ff0cf9907070774328893",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
   "p04_cutting_verification_receipt": "docs/cp7/evidence/p04-cutting/VERIFICATION.json",
@@ -536,5 +536,14 @@
     "diagnostic": "docs/cp7/evidence/f03-capacity/FIRST_RECEIPT.json",
     "remaining": "Selected30-lot/full-page-to-public-invoice27, exact POST/inverse/account/report, operational two-page/card redaction and current authority seam qualified. Five actual captures inspected and retained pixel-identically. Full E20/E14/O07 planner/P10-P11/family acceptance remains open.",
     "verification": "docs/cp7/evidence/f03-capacity/QUALIFIED_RECEIPT.json"
+  },
+  "cash_connected_reader": {
+    "status": "IMPLEMENTED_LOCAL_86_PASS_NATIVE_BROWSER_PENDING",
+    "handoff": "docs/cp7/F03_CASH_READER_HANDOFF.md",
+    "sql_bundle_changed": false,
+    "cash_writer": false,
+    "required_native_http_browser_cases": 6,
+    "independent_acceptance": false,
+    "production_go": false
   }
 }
