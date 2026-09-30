@@ -1,0 +1,154 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 1634670,
+  "artifact_id": 11083622385,
+  "artifact_sha256": "557d858d73a8faa42469c8202d82eae63a8a1a3fd8a993ffb7cac53ce7775221",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 5,
+    "NOT_RUN": 0,
+    "PASS": 0
+  },
+  "cp6_restored": true,
+  "expected_case_count": 5,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "INCOMPLETE": 2
+    },
+    "http": {
+      "INCOMPLETE": 1
+    },
+    "native": {
+      "INCOMPLETE": 2
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109788681386,
+  "nonpassing_cases": {
+    "browser:F03_X04_REDYE_BROWSER_DESKTOP": {
+      "error": "Error: Command failed: python ../auditor/scripts/cp7_f03_redye_browser_fixture.py prepare {\"today\":\"2026-09-30\"}\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_f03_redye_browser_fixture.py\", line 43, in <module>\n    if __name__=='__main__':main()\n                            ^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_f03_redye_browser_fixture.py\", line 20, in main\n    out=cases.fixture(cur,date.fromisoformat(p['today']))\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_cases.py\", line 37, in fixture\n    anchor = bf.products(cur, ('ANCHOR',), tag=identity)[0][0]\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bf_probe.py\", line 42, in products\n    cur.execute('insert into erp.sizes(id,size_code,sort_order,is_active) values(%s,%s,%s,true)',(sid,tag+'-'+label,100+i))\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.StringDataRightTruncation: value too long for type character varying(20)\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_browser.mjs:5:34)\n    at flow (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_browser.mjs:15:11)\n    at file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_browser.mjs:82:84\n    at main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:19)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3",
+      "status": "INCOMPLETE"
+    },
+    "browser:F03_X04_REDYE_BROWSER_MOBILE": {
+      "error": "Error: Command failed: python ../auditor/scripts/cp7_f03_redye_browser_fixture.py prepare {\"today\":\"2026-09-30\"}\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_f03_redye_browser_fixture.py\", line 43, in <module>\n    if __name__=='__main__':main()\n                            ^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_f03_redye_browser_fixture.py\", line 20, in main\n    out=cases.fixture(cur,date.fromisoformat(p['today']))\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_cases.py\", line 37, in fixture\n    anchor = bf.products(cur, ('ANCHOR',), tag=identity)[0][0]\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bf_probe.py\", line 42, in products\n    cur.execute('insert into erp.sizes(id,size_code,sort_order,is_active) values(%s,%s,%s,true)',(sid,tag+'-'+label,100+i))\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.StringDataRightTruncation: value too long for type character varying(20)\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_browser.mjs:5:34)\n    at flow (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_browser.mjs:15:11)\n    at file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_browser.mjs:82:142\n    at main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:19)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3",
+      "status": "INCOMPLETE"
+    },
+    "http:F03_X04_REDYE_HTTP_AUTH_SOURCE_PRICE_AND_CP7": {
+      "error": "value too long for type character varying(20)",
+      "session_leaks": [],
+      "status": "INCOMPLETE",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 139, in strict_rows\n    row=run_one(i,key,operation)\n        ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 302, in <lambda>\n    report['cases'],refusal=strict_rows('AUDITOR_HTTP_'+phase.upper(),planned,lambda i,key,operation:operation(),HTTP_DB,('authenticator',))\n                                                                                                     ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_cases.py\", line 216, in price\n    f=fixture(cur,today);before=regroup(cur,f)\n      ^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_cases.py\", line 37, in fixture\n    anchor = bf.products(cur, ('ANCHOR',), tag=identity)[0][0]\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bf_probe.py\", line 42, in products\n    cur.execute('insert into erp.sizes(id,size_code,sort_order,is_active) values(%s,%s,%s,true)',(sid,tag+'-'+label,100+i))\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.StringDataRightTruncation: value too long for type character varying(20)\n"
+    },
+    "native:F03_X04_REDYE_GROUP_INVOICE_SOLD_INVERSE": {
+      "error": "value too long for type character varying(20)",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_lock_keys": [],
+        "advisory_locks": 0,
+        "other_sessions": []
+      },
+      "status": "INCOMPLETE",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 112, in strict_group\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_cases.py\", line 207, in <lambda>\n    ('F03_X04_REDYE_GROUP_INVOICE_SOLD_INVERSE',lambda:x04.continuation(cur,today,invoice_inverse))]\n                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_x04_cases.py\", line 146, in continuation\n    result = operation(cur, today)\n             ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_cases.py\", line 167, in invoice_inverse\n    f=fixture(cur,today,True)\n      ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_cases.py\", line 37, in fixture\n    anchor = bf.products(cur, ('ANCHOR',), tag=identity)[0][0]\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bf_probe.py\", line 42, in products\n    cur.execute('insert into erp.sizes(id,size_code,sort_order,is_active) values(%s,%s,%s,true)',(sid,tag+'-'+label,100+i))\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.StringDataRightTruncation: value too long for type character varying(20)\n"
+    },
+    "native:F03_X04_REDYE_UNKNOWN_GROUP_FIRST_PRICE": {
+      "error": "value too long for type character varying(20)",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_lock_keys": [],
+        "advisory_locks": 0,
+        "other_sessions": []
+      },
+      "status": "INCOMPLETE",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 112, in strict_group\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_cases.py\", line 206, in <lambda>\n    return [('F03_X04_REDYE_UNKNOWN_GROUP_FIRST_PRICE',lambda:x04.continuation(cur,today,unknown)),\n                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_x04_cases.py\", line 146, in continuation\n    result = operation(cur, today)\n             ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_cases.py\", line 148, in unknown\n    f=fixture(cur,today)\n      ^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_redye_cases.py\", line 37, in fixture\n    anchor = bf.products(cur, ('ANCHOR',), tag=identity)[0][0]\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bf_probe.py\", line 42, in products\n    cur.execute('insert into erp.sizes(id,size_code,sort_order,is_active) values(%s,%s,%s,true)',(sid,tag+'-'+label,100+i))\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.StringDataRightTruncation: value too long for type character varying(20)\n"
+    }
+  },
+  "observed_case_count": 5,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385607,
+      "sha256": "9b2c734228723476297e28e10a52855439350e9393320afaaf1f010accdab162"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385607,
+      "sha256": "9b2c734228723476297e28e10a52855439350e9393320afaaf1f010accdab162"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "9001fee408e2a67f4017cdc37eeb0409d807fc72a0faf81a9a48ee3a09c2b732"
+    },
+    "CP7_F03_REDYE.json": {
+      "bytes": 267574,
+      "sha256": "7791ebf00f0239952f906fd8f03be1cb1c96f8db0544d25ab8afd5e9d985c0a4"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "9d68503776eee4ae5eb98c1d591499cbfdb2717b42d9bd08e95bc581ee7bee65"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360426,
+      "sha256": "c8a54bac63444639c80ba4fb278f939c89e89826dfe12871cde4c3fb604e1f4b"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "production_go": false,
+  "report_sha256": "7791ebf00f0239952f906fd8f03be1cb1c96f8db0544d25ab8afd5e9d985c0a4",
+  "retained_reports_gzip_sha256": "44e2a53c99716b5f4f84cd25803623ecd151dc39f1a26abd0a0eebec2900b296",
+  "run_id": 36684992006,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "c01aac6645c50024ef659ca7a993a766b371cc7d",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36684992006",
+    "tool_head": "c01aac6645c50024ef659ca7a993a766b371cc7d",
+    "workflow": "CP7 F03 X04 Paid Redye Continuation"
+  },
+  "source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+  "source_commit": "c01aac6645c50024ef659ca7a993a766b371cc7d",
+  "source_tree": "fd0d58feb4d15be07d8d89a24feaee92c71b6943",
+  "status": "INCOMPLETE",
+  "visual_review_performed": false
+}

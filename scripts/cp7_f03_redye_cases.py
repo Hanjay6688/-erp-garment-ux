@@ -34,7 +34,7 @@ def fixture(cur, today, known=False):
         values(%s,'X04 real paid redye') returning id::text""", 'X04-'+uuid.uuid4().hex[:10])
     identity = 'X04-DYE-'+uuid.uuid4().hex[:8]
     target = b.sized_product(cur, f['size_ids'][3], identity)
-    anchor = bf.products(cur, ('ANCHOR',), tag=identity)[0][0]
+    anchor = bf.products(cur, ('A',), tag=identity)[0][0]
     identities = cur.execute('select brand_id,model_id,color_name from erp.products where id=any(%s::uuid[])',([target,anchor],)).fetchall()
     assert len(identities)==2 and identities[0]==identities[1], 'X04_TARGET_GROUP_PHYSICAL_IDENTITY'
     start = f['when'](13,15)

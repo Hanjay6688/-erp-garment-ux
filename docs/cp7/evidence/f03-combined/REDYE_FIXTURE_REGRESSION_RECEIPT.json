@@ -1,0 +1,141 @@
+{
+  "advisor_gate": true,
+  "artifact_bytes": 6380120,
+  "artifact_id": 11082913905,
+  "artifact_sha256": "d9a3b754feb6d2b8c736a8e57ebcb58a1d38d0b96d812bb88206b82affeb4ce9",
+  "auth_database_cleanup": true,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 0,
+    "NOT_RUN": 0,
+    "PASS": 22
+  },
+  "cp6_restored": true,
+  "full_family_acceptance": false,
+  "groups": {
+    "finance_browser": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 4
+    },
+    "native": {
+      "PASS": 10
+    },
+    "opening_payroll_browser": {
+      "PASS": 2
+    },
+    "races": {
+      "PASS": 2
+    },
+    "sales_browser": {
+      "PASS": 2
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109786478634,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385620,
+      "sha256": "d1b7273fa2510d2873d4baab7a8d7dabbd4deeb1d20e7e92f434086ea6bb8b1e"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385620,
+      "sha256": "d1b7273fa2510d2873d4baab7a8d7dabbd4deeb1d20e7e92f434086ea6bb8b1e"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "c90176003663d1c1106aa732878dd1f34eb2952b221c186f13e4016891eb4a58"
+    },
+    "CP7_F03_COMBINED_STACK.json": {
+      "bytes": 272571,
+      "sha256": "b7c1c65d30ea993c336e5df7f7606d82977fb37ba952647152db5685d80be07a"
+    },
+    "P11_RETURN_DESKTOP.png": {
+      "bytes": 952474,
+      "sha256": "1a3b76f5d4f97fce7881f623324d5b5c18df3bcb2ab29cd563078b5b2e7ae82f"
+    },
+    "P11_RETURN_MOBILE.png": {
+      "bytes": 679858,
+      "sha256": "745fc3da3f50aa4c36724df3a698787772d6dcab892db2ad0f50a8cf32372a67"
+    },
+    "P12_OPENING_DESKTOP.png": {
+      "bytes": 435241,
+      "sha256": "5016b9957748e26ab592947b6ee7fa3dbd267ee6259397e9e8bbd3cc7e037f61"
+    },
+    "P12_OPENING_MOBILE.png": {
+      "bytes": 293057,
+      "sha256": "88f99ae06c1d5315fbb793b2d87c0ca230ea424bf1b0e47c3f2e62b995b504f1"
+    },
+    "P13_REPORT_DESKTOP.png": {
+      "bytes": 1436522,
+      "sha256": "5b273ed105b00a606103941e84106fed204bd926a7d41bf8997cf5e04ff56573"
+    },
+    "P13_REPORT_MOBILE.png": {
+      "bytes": 1057165,
+      "sha256": "5debff5e31ff03fce0e7b3b77537603728f9a9cd274010cc0d92c333e6807757"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "7e6e7881a862fa9b48f92f6d84170d7f125313a018e555d0d05f246aaaa787ed"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360406,
+      "sha256": "d5ef35a1224cd5b062d4b0496d5c6e798586be4ed7bb377cd22b7a5537b4646d"
+    }
+  },
+  "package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "production_go": false,
+  "report_sha256": "b7c1c65d30ea993c336e5df7f7606d82977fb37ba952647152db5685d80be07a",
+  "retained_reports_gzip_sha256": "cf0acaee73f60390c27ba88182a06828925a4ef97c31b8e1e43eba3745c18e13",
+  "run_id": 36684295409,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "2649451888ec9be0f35d5e643ccf476ab309a162",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36684295409",
+    "tool_head": "2649451888ec9be0f35d5e643ccf476ab309a162",
+    "workflow": "CP7 F03 Combined Stack"
+  },
+  "source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+  "source_commit": "2649451888ec9be0f35d5e643ccf476ab309a162",
+  "source_tree": "60bbfca689a94cecb37d44e927fce5e70a539021",
+  "status": "PASS",
+  "visual_review_performed": false
+}
