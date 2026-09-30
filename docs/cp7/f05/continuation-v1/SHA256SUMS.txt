@@ -1,0 +1,9 @@
+8960284820b33c44cc56d9de8a0f12054f9228cdd959f61ca9a09fea29be981b  docs/cp7/f05/WRITER_NEXT.md
+14517240735015afa5cf9a3072c20e3b1cff7f511b367adce23955c41ce5267a  docs/cp7/f05/YIELD_ANALYZER.md
+f28ea5ef3b5a32421ea8b9d0b3ee314ab97354ce646bd5ddfbdf927b5cde0531  docs/cp7/f05/continuation-v1/INTEGRATION_MAP.json
+1aec4b28a57886a018539111d27042ad63a4a6c89e2ae06697ac1412f6687b8f  docs/cp7/f05/continuation-v1/SOURCE_MANIFEST.json
+4a5637ce36b9303b5e3fe2c7ee82e0e5bc35ece9a6c0aea3e96eefbb8165b8fb  docs/cp7/f05/continuation-v1/VERIFICATION.json
+b4837e5d322b5b34e2b84dcd2e97c1e5a84287df40188c9440968bbc09450b1a  docs/cp7/f05/continuation-v1/evidence/FINAL_CHECKS.json
+c0fbef5ac4af7acd43bfe4477dc70078949f58a9f0aaaadb4b3f16e18ab68b43  docs/cp7/f05/continuation-v1/evidence/FIRST_CHECKS.json
+584f6667e007cd540a325e46bda4cd08144f80f847439ce5e4d61c5b4b58a524  docs/cp7/f05/continuation-v1/evidence/browser-results.json.gz
+a5485c5894eecbb66371a7f6d9f770934bc4b63f4c15cc89509f685c2a2ed5b7  docs/cp7/f05/continuation-v1/evidence/unit-results.json.gz

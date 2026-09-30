@@ -4,9 +4,17 @@ Status: **WRITER_FIXTURE_SHELL_VERIFIED**. Integrasi operasional, penerimaan aud
 
 Sumber checkpoint awal: `373a8d64e7f459fe47d142e4bd6a42456462793f`, dari integrasi `8f2d81c0198a1c451314811d074f7c88a9cf793a`. Cabang: `cp7/f05-consumers-shell-20260930`. Hash setiap sumber ada di [SOURCE_MANIFEST.json](SOURCE_MANIFEST.json); hasil dan batas pembuktian ada di [VERIFICATION.json](VERIFICATION.json).
 
-## Checkpoint terbaru — analyzer hasil potong, lebar opsional
+## Checkpoint lanjutan writer — colokan reader dan verifikasi terarah
 
-Sumber terbaru teruji: `3849278b4b582ce988733278e7fe6ebf04224034`. Proposal/logic dan batas data ada di [YIELD_ANALYZER.md](YIELD_ANALYZER.md); hash sumber serta receipt terbaru ada di [yield-v1/SOURCE_MANIFEST.json](yield-v1/SOURCE_MANIFEST.json) dan [yield-v1/VERIFICATION.json](yield-v1/VERIFICATION.json). Manifest, receipt dan angka pengujian bagian “Bukti” di bawah tetap merupakan checkpoint awal.
+Mulai sesi berikutnya dari [WRITER_NEXT.md](WRITER_NEXT.md), bukan menebak dari checkpoint lama. Source terbaru: `ec8e27890319ef898f0bb8b06028daa12a9d2f08`. Peta integrasi ada di [continuation-v1/INTEGRATION_MAP.json](continuation-v1/INTEGRATION_MAP.json); receipt source ini ada di [continuation-v1/VERIFICATION.json](continuation-v1/VERIFICATION.json).
+
+Composition root kini meneruskan `yieldReadPort` ke kartu analyzer. Pergantian pembaca menahan hasil terdahulu dan response tertunda; pergantian actor scope/access epoch membuang state sesi. Runner `verify-f05.mjs` menjalankan TypeScript, unit F05, build dan secret scan; `--browser` menambah cerita desktop/HP dan memulai preview sendiri dari root repo. Kegagalan browser pertama karena cwd server tersimpan pada `continuation-v1/evidence/FIRST_CHECKS.json`; bukan bug angka atau SQL. Receipt final membedakan PASS dengan kegagalan awal.
+
+Checkpoint sebelum bagian ini adalah riwayat sumber masing-masing. Producer asli, DTO bersama, route/hak akses, form cutting asli, persistence report/reminder dan delivery tetap menunggu integrator/dependency; colokan test tidak membuka runtime operasional.
+
+## Checkpoint sebelumnya — analyzer hasil potong, lebar opsional
+
+Sumber checkpoint analyzer: `3849278b4b582ce988733278e7fe6ebf04224034`. Proposal/logic dan batas data ada di [YIELD_ANALYZER.md](YIELD_ANALYZER.md); hash sumber serta receipt terbaru ada di [yield-v1/SOURCE_MANIFEST.json](yield-v1/SOURCE_MANIFEST.json) dan [yield-v1/VERIFICATION.json](yield-v1/VERIFICATION.json). Manifest, receipt dan angka pengujian bagian “Bukti” di bawah tetap merupakan checkpoint awal.
 
 Kartu P14 baru menerima rentang/status/penjelasan dari port privat dengan fixture sintetis. Lebar kosong dari awal, tidak diwajibkan dan tidak diimputasi; isi/hapus lebar membatalkan hasil lama. Campuran berulang dipertahankan; semua-30 tidak mengambil rentang campuran 28–30. Contoh rendah/tinggi/panjang kurang/lebar sempit menampilkan bukti yang diketahui serta pemeriksaan, tanpa memastikan penyebab kehilangan/BS.
 
