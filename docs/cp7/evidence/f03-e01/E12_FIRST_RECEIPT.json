@@ -1,0 +1,137 @@
+{
+  "accepted_package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "advisor_gate": true,
+  "artifact_bytes": 3982264,
+  "artifact_id": 11073374479,
+  "artifact_sha256": "1e3ef720ededabe8eed26afc5a14277f88e6712e4813f663636453fe93eff9bf",
+  "auth_database_cleanup": true,
+  "auth_users_after": 0,
+  "auth_users_before": 0,
+  "backup_restore": "RESTORED_SAME_MEANING",
+  "counts": {
+    "FAIL": 0,
+    "INCOMPLETE": 1,
+    "NOT_RUN": 0,
+    "PASS": 3
+  },
+  "cp6_restored": true,
+  "expected_case_count": 4,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "INCOMPLETE": 1,
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 1
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 109712672875,
+  "nonpassing_cases": {
+    "browser:F03_E01_BROWSER_MOBILE_LOST_RETURN": {
+      "error": "Error: expect(locator).toContainText(expected) failed\n\nLocator: locator('.csales').getByRole('complementary', { name: 'Rincian invoice' })\nExpected substring: \"Sisa pembayaran Rp175\"\nReceived string:    \"Dibayar sebagianE01-01c862095eabCP6 E E01-01c862095eab customer \u00b7 E01-01c862095eab FG30 Sep 2026, 09.28 WIB20 PCS dalam invoice \u00b7 0 PCS masih dipesan \u00b7 0 PCS sudah diretur.Bruto Rp500Retur Rp0 \u00b7 bersih Rp500Pembayaran tercatat Rp200Sisa pembayaran Rp300Pembayaran invoiceRetur fisik invoiceE01-01c862095eab \u00b7 CP6-RACE-SE01-01c862095eab \u00b7 CP6 Race Brand \u00b7 20 PCSRp25 per PCS \u00b7 potongan Rp0 \u00b7 jumlah Rp500SKU fisik E01-01c862095eab. Kelompok invoice mengikuti tanggal transaksi.Koreksi penjualanPembatalan membalik penjualan, piutang, stok, dan HPP. Batalkan pembayaran dan retur aktif terlebih dahulu.Alasan koreksiInvoice dan alasan pembatalan sudah saya periksa.Batalkan penjualan tercatat\"\nTimeout: 5000ms\n\nCall log:\n  - Expect \"to.have.text\" with timeout 5000ms\n  - waiting for locator('.csales').getByRole('complementary', { name: 'Rincian invoice' })\n    - locator resolved to <aside class=\"panel\" aria-label=\"Rincian invoice\">\u2026</aside>\n    - unexpected value \"Rincian invoicePilih invoice untuk memeriksa barang dan pembayaran yang tercatat.\"\n    13 \u00d7 locator resolved to <aside class=\"panel\" aria-label=\"Rincian invoice\">\u2026</aside>\n       - unexpected value \"Dibayar sebagianE01-01c862095eabCP6 E E01-01c862095eab customer \u00b7 E01-01c862095eab FG30 Sep 2026, 09.28 WIB20 PCS dalam invoice \u00b7 0 PCS masih dipesan \u00b7 0 PCS sudah diretur.Bruto Rp500Retur Rp0 \u00b7 bersih Rp500Pembayaran tercatat Rp200Sisa pembayaran Rp300Pembayaran invoiceRetur fisik invoiceE01-01c862095eab \u00b7 CP6-RACE-SE01-01c862095eab \u00b7 CP6 Race Brand \u00b7 20 PCSRp25 per PCS \u00b7 potongan Rp0 \u00b7 jumlah Rp500SKU fisik E01-01c862095eab. Kelompok invoice mengikuti tanggal transaksi.Koreksi penjualanPembatalan membalik penjualan, piutang, stok, dan HPP. Batalkan pembayaran dan retur aktif terlebih dahulu.Alasan koreksiInvoice dan alasan pembatalan sudah saya periksa.Batalkan penjualan tercatat\"\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toContainText (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_e01_browser.mjs:133:82)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3",
+      "status": "INCOMPLETE"
+    }
+  },
+  "observed_case_count": 4,
+  "original_files": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385607,
+      "sha256": "29981ccf7f20ebdb109e2e7204f6b100c602d2124ed5e26ccd500daac496d914"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385607,
+      "sha256": "29981ccf7f20ebdb109e2e7204f6b100c602d2124ed5e26ccd500daac496d914"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "2fa3b4101ce8cae626989b23bfea0aaa5faf4232e6d0540f19c4a55b5e575d9b"
+    },
+    "CP7_F03_E01.json": {
+      "bytes": 284296,
+      "sha256": "9c9baae3316c7b9a6603e0a81d8a684b0e2484b67c301d4b3a4486e9f4f5a892"
+    },
+    "E01_MOBILE_FAILURE.json": {
+      "bytes": 17285,
+      "sha256": "1a0fabce31301af469c8aab69d3bd291bcf4c3af8909eb0f95b8c2cb25e9545b"
+    },
+    "E01_MOBILE_FAILURE.png": {
+      "bytes": 729565,
+      "sha256": "b2040b0908cef3e86d25bdeb957d6a8ef6c2a3b54f38a5881f88795370a92526"
+    },
+    "E01_REPORT_DESKTOP.png": {
+      "bytes": 1152713,
+      "sha256": "3d55b31e4cfa0a3f8ca3024e8845ad5b80d2d6c7e4be75dd1bdc7d41ca9038a5"
+    },
+    "E01_SALE_RETURN_DESKTOP.png": {
+      "bytes": 503090,
+      "sha256": "01a92d5b1cbbd1be3734908a7f7051c3f2481693376458cedcab037128b00a9b"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "5365e23b83ae7eaa31f0e477fd18bd4a18d5327252f9d80c9b37276c9641c912"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360417,
+      "sha256": "ae3930e6b8ee0e9f923e9ed6cf8c36458d168dc29a41c719e5c06cef32efd19a"
+    }
+  },
+  "package_install": "ALL_FILES_INSTALLED",
+  "primary_unchanged": true,
+  "production_go": false,
+  "report_sha256": "9c9baae3316c7b9a6603e0a81d8a684b0e2484b67c301d4b3a4486e9f4f5a892",
+  "retained_reports_gzip_sha256": "30ff4e96357135bfdc74bf8fb388102cd6864f066c033ff25bc3add3043bb807",
+  "run_id": 36660077991,
+  "run_identity": {
+    "event": "push",
+    "github_sha": "c485b392e3b050ab562b000926e38c1c99955600",
+    "job": "phase",
+    "label": "T3_PREP",
+    "mode": "install",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "product_ref": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+    "production_go": false,
+    "release_evidence": false,
+    "run_attempt": "1",
+    "run_id": "36660077991",
+    "tool_head": "c485b392e3b050ab562b000926e38c1c99955600",
+    "workflow": "CP7 F03 E01 Source Journey"
+  },
+  "source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+  "source_commit": "c485b392e3b050ab562b000926e38c1c99955600",
+  "source_tree": "34cc19c4caaf7c1ae83154304d7adbfbbc927a48",
+  "status": "INCOMPLETE",
+  "visual_review_performed": false
+}

@@ -127,6 +127,10 @@ async function journey(ui,today,mobile) {
       await ui.expect(other.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeVisible()
       await ui.expect(other.getByRole('button',{name:'Retur fisik invoice',exact:true})).toBeDisabled()
       await ui.expect(other.getByRole('button',{name:'Pembayaran invoice',exact:true})).toBeDisabled()
+      // Recovery is visible as soon as the envelope is persisted, including
+      // while the RPC still runs. Only read the committed amount after the
+      // intercepted real server response has confirmed COMMIT.
+      await ui.expect.poll(()=>lost,{timeout:20000}).toBe(true)
       // Unrelated reads remain possible; they cannot silently clear the
       // ambiguous mutation or turn its new UUID into a second return.
       await other.getByRole('button',{name:'Muat ulang invoice',exact:true}).click()
