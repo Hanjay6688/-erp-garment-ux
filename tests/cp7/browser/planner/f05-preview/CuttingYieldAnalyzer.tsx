@@ -18,7 +18,7 @@ export function CuttingYieldAnalyzer({ view, stale, read = readYieldFixture }: P
   const analysis = view.analysis!
   const context = { runId: analysis.run_id, actorScope: analysis.scope.actor_scope_id, accessEpoch: analysis.versions.access_epoch }
   const key = JSON.stringify([yieldInputKey(input), context, example, stale])
-  useEffect(() => { sequence.current += 1; setBusy(false); return () => { sequence.current += 1 } }, [key, read])
+  useEffect(() => { sequence.current += 1; setResult(null); setBusy(false); return () => { sequence.current += 1 } }, [key, read])
   async function load() {
     if (stale || widthInvalid) return
     const id = ++sequence.current; setBusy(true); setResult(null); setMessage('Membaca contoh analyzer…')

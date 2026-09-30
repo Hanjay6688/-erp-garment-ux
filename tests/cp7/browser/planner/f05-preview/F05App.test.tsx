@@ -97,3 +97,10 @@ it('withholds the old snapshot and delayed response when the analysis reader is 
   expect(next.read).not.toHaveBeenCalled()
   await click('Muat ulang contoh'); expect(host.textContent).toContain('replacement error')
 })
+it('does not resurrect a snapshot when switching back to an earlier reader without a new load', async () => {
+  const original = createAnalysisReadPort('DEMO_SIMULATION')
+  await mount(original); await select('Data contoh', 'FRAMEWORK'); expect(host.querySelector('[data-fact-state]')).not.toBeNull()
+  await mount(createAnalysisReadPort('DEMO_SIMULATION')); await mount(original)
+  expect(host.querySelector('[data-fact-state]')).toBeNull()
+  await click('Muat ulang contoh'); expect(host.querySelector('[data-fact-state]')).not.toBeNull()
+})

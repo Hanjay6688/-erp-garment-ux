@@ -32,7 +32,7 @@ function Preview({ readPort, yieldReadPort }: { readPort: AnalysisReadPort; yiel
   const state = snapshot.port === readPort ? snapshot.state : initialState
   const [loading, setLoading] = useState(false)
   const request = useRef(0)
-  useEffect(() => { request.current += 1; setLoading(false); return () => { request.current += 1 } }, [readPort])
+  useEffect(() => { request.current += 1; setSnapshot({ port: readPort, state: initialState }); setLoading(false); return () => { request.current += 1 } }, [readPort])
   async function load(next: ExampleMode) {
     const id = ++request.current; setMode(next); setLoading(true)
     try { const result = await readPort.read(next); if (request.current === id) setSnapshot({ port: readPort, state: result }) }

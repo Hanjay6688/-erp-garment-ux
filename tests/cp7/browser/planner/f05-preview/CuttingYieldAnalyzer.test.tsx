@@ -36,5 +36,7 @@ it.each(['completed', 'pending'])('withholds the %s result when the analyzer rea
   await mount(next)
   if (state === 'pending') await act(async () => resolve(supplied))
   expect(host.querySelector('[data-yield-range]')).toBeNull()
+  await mount(old); expect(host.querySelector('[data-yield-range]')).toBeNull()
+  await mount(next)
   await click(); expect(host.textContent).toContain('fixture-replacement-reader')
 })
