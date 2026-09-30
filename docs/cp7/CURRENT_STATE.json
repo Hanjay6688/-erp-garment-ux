@@ -503,5 +503,23 @@
       "docs/cp7/evidence/f03-redye/FIRST_RECEIPT.json",
       "docs/cp7/evidence/f03-redye/SAME_DAY_RECEIPT.json"
     ]
+  },
+  "f03_capacity": {
+    "status": "DECLARED_5_RUNTIME_PENDING",
+    "expected_case_count": 5,
+    "groups": {
+      "native": 2,
+      "http": 1,
+      "browser": 2
+    },
+    "handoff": "docs/cp7/F03_CAPACITY_HANDOFF.md",
+    "qualifier": "scripts/cp7_f03_capacity_probe.py",
+    "product_source": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
+    "source_bundle_sha256": "fbc874b151086dd38d5149062cb5b9a2d11d63714d1f199b43d67f989884dc61",
+    "worksheet": "30 one-piece lots@10; pages25+5; draft27=[30,27,3]; post=[3,0,3], FG30/COGS270/AR540; inverse30/value300",
+    "full_family_acceptance": false,
+    "independent_acceptance": false,
+    "production_go": false,
+    "visual_review": false
   }
 }
