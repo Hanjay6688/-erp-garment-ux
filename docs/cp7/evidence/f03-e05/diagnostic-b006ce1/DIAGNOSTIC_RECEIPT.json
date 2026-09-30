@@ -1,0 +1,38 @@
+{
+  "advisor_gate": true,
+  "artifact_id": 11122932071,
+  "artifact_sha256": "0ef02e08b002f2aa2aeab85bf7e5343126692b26ac5b9b8a53e5ed270321cc82",
+  "cp6_restored": true,
+  "diagnosis": [
+    "New native zero-net case passes: attendance1000/material1000/net0 refuses cash atomically; unchanged native final settles noncash without a payment journal.",
+    "Active HPP case creates and activates a real native attendance1000/sewn10 pool; cash600+400 and individual inverse preserve pool/cost, and whole reversal refuses with the expected native dependency code. A combined complete-boundary/HPP hash assertion then fails before native pool cancellation.",
+    "The complete-boundary inventory explicitly sets caller timezone UTC; previous HPP hashes used the prior caller timezone. The HPP oracle now normalizes UTC and restores caller timezone, with separate explicit boundary and HPP differences retained on any repeat failure. No product guard is relaxed.",
+    "Visual inspection of qualified24 desktop reveals an obsolete refresh-failed message after a newer valid source read superseded an older request. Shared mutation UI now admits recovery only via a completed current-session/current-signature read; failing/stale reads remain locked. Four meaningful race/failure regressions pass, and actual browser oracle now requires the erroneous warning to clear."
+  ],
+  "expected": 26,
+  "groups": {
+    "browser": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 1
+    },
+    "native": {
+      "INCOMPLETE": 1,
+      "PASS": 19
+    },
+    "races": {
+      "PASS": 3
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 110066781335,
+  "observed": 26,
+  "production_go": false,
+  "retained_reports_sha256": "9136bfeedf52f4d6fc6c8fef399dea9129229cb15183e5fe5e4cd55bbf0e89b3",
+  "run_id": 36767956930,
+  "source_bundle_sha256": "eb86b6300f1ebf8e429edef2f4dfb0dc80ec24978c8809de53e7f2e3e7a729e5",
+  "source_commit": "b006ce1bb2ae62d88d986bf28a1f076024cfe78c",
+  "source_tree": "9f84d638832d94e57c0967f7a272d225b07d3318",
+  "status": "INCOMPLETE"
+}

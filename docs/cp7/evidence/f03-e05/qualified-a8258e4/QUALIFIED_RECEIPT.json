@@ -1,0 +1,151 @@
+{
+  "advisor_gate": true,
+  "artifact_id": 11122470190,
+  "artifact_sha256": "912ad64e17c7250fa767ba4bb0a54bccd053f08d43e81c97e953892443a2cf59",
+  "cp6_restored": true,
+  "expected": 24,
+  "full_family_acceptance": false,
+  "groups": {
+    "browser": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 18
+    },
+    "races": {
+      "PASS": 3
+    }
+  },
+  "independent_acceptance": false,
+  "job_id": 110059649690,
+  "observed": 24,
+  "production_go": false,
+  "retained_reports_sha256": "a4e9eddba192dadad15e6c433860561b17650f01a40f68a139b59fbaae67680c",
+  "run_id": 36765836675,
+  "source_bundle_sha256": "eb86b6300f1ebf8e429edef2f4dfb0dc80ec24978c8809de53e7f2e3e7a729e5",
+  "source_commit": "a8258e4cc42a4f4d07a95e7430723acb77f2c1dc",
+  "source_tree": "f8e6337b1a19789081188a72b4c400f9e1095590",
+  "status": "PASS",
+  "visual": [
+    {
+      "dimensions": [
+        1440,
+        2242
+      ],
+      "file": "docs/cp7/evidence/f03-e05/qualified-a8258e4/visual/E05_INVERSED_DESKTOP.webp",
+      "original_sha256": "f0328a617522cc5c22afb322b1c90ac40dd3e7a3391bf03cf5ffda644d439396",
+      "pixel_identical": true,
+      "retained_sha256": "e292f5a186903daa73d256ece361b8e20da4c9d4adb042ce5cecd53629955f46",
+      "visually_inspected": true
+    },
+    {
+      "dimensions": [
+        390,
+        3435
+      ],
+      "file": "docs/cp7/evidence/f03-e05/qualified-a8258e4/visual/E05_INVERSED_MOBILE.webp",
+      "original_sha256": "b1bca9dd492b4e1400c341a43be121eaad451862d4e74866b2bb7e26bee3b812",
+      "pixel_identical": true,
+      "retained_sha256": "1bc68f71627ba586df70f416514db96268a013e4b85893acb7a9bbdcf8e1a698",
+      "visually_inspected": true
+    },
+    {
+      "dimensions": [
+        1440,
+        2251
+      ],
+      "file": "docs/cp7/evidence/f03-e05/qualified-a8258e4/visual/E05_PAID_DESKTOP.webp",
+      "original_sha256": "45c7bed72a12fefc584833ce3ec9dafb89bc21d7e27bf8119a6006109e15e951",
+      "pixel_identical": true,
+      "retained_sha256": "159f5d8fa25cdf046e3c008432f66218c4423ebace7e6c78a700367071246f01",
+      "visually_inspected": true
+    },
+    {
+      "dimensions": [
+        390,
+        3431
+      ],
+      "file": "docs/cp7/evidence/f03-e05/qualified-a8258e4/visual/E05_PAID_MOBILE.webp",
+      "original_sha256": "b9e9d81a5cd5b0a2bed616396a3e93ef02ab541073f6e4a0cf40a498528f0980",
+      "pixel_identical": true,
+      "retained_sha256": "fa67f0d2caf6e2a3b8bc6998b361f358c1a2d6dbeb9159e1118ec745cd6b527e",
+      "visually_inspected": true
+    },
+    {
+      "dimensions": [
+        1440,
+        2079
+      ],
+      "file": "docs/cp7/evidence/f03-e05/qualified-a8258e4/visual/E05_PARTIAL_DESKTOP.webp",
+      "original_sha256": "89ada5d548d0742406ff5d5bc28fb395c6656d11953c020d6bea3cdce03090d6",
+      "pixel_identical": true,
+      "retained_sha256": "bbcf34d0263080b6990382a92ce1017bf3b6b6a9b6278dcef170bb0864bccafd",
+      "visually_inspected": true
+    },
+    {
+      "dimensions": [
+        390,
+        3231
+      ],
+      "file": "docs/cp7/evidence/f03-e05/qualified-a8258e4/visual/E05_PARTIAL_MOBILE.webp",
+      "original_sha256": "2cb24fa6990d4ddecf5935d93d59c0815768643228685d9619b781f45422572b",
+      "pixel_identical": true,
+      "retained_sha256": "cce7b4f1897619a518b129ade181b77bd42c02ad9ccd7455148bccbc709558ca",
+      "visually_inspected": true
+    },
+    {
+      "dimensions": [
+        1440,
+        1000
+      ],
+      "file": "docs/cp7/evidence/f03-e05/qualified-a8258e4/visual/E05_PENDING_CASH_DESKTOP.webp",
+      "original_sha256": "e86bce8657caa933caa8ed9cb62aadcffeb924923893dd90da986b7dc07031ee",
+      "pixel_identical": true,
+      "retained_sha256": "22af2150d26068baa3960ea1e63d3bee806e52e01d8b5a7d4995c0c16ab5145f",
+      "visually_inspected": true
+    },
+    {
+      "dimensions": [
+        390,
+        1252
+      ],
+      "file": "docs/cp7/evidence/f03-e05/qualified-a8258e4/visual/E05_REVOKED_REPLAY_MOBILE.webp",
+      "original_sha256": "99b0b78ac1664e3db28b5753053d67884b10ee5a40fcfbeee3e0ec7a53e11f3c",
+      "pixel_identical": true,
+      "retained_sha256": "0176a10b023c953339776f301291259a7c6139cc14e4c75c44039a95c739a098",
+      "visually_inspected": true
+    },
+    {
+      "dimensions": [
+        1440,
+        1000
+      ],
+      "file": "docs/cp7/evidence/f03-e05/qualified-a8258e4/visual/E05_UNCERTAIN_DESKTOP.webp",
+      "original_sha256": "17ddd95e0fe35e6f2cfa8570c362184e669d539e2026c253f853d4d9482cfd82",
+      "pixel_identical": true,
+      "retained_sha256": "617dfb502ba4bba543f2347f0639d82f9d6108e67d662a42f2fea95377e68149",
+      "visually_inspected": true
+    },
+    {
+      "dimensions": [
+        390,
+        1252
+      ],
+      "file": "docs/cp7/evidence/f03-e05/qualified-a8258e4/visual/E05_UNCERTAIN_MOBILE.webp",
+      "original_sha256": "99b0b78ac1664e3db28b5753053d67884b10ee5a40fcfbeee3e0ec7a53e11f3c",
+      "pixel_identical": true,
+      "retained_sha256": "0176a10b023c953339776f301291259a7c6139cc14e4c75c44039a95c739a098",
+      "visually_inspected": true
+    }
+  ],
+  "visual_review": {
+    "captures_inspected": 10,
+    "defect": "Obsolete post-commit refresh-failed banner remains alongside actually fresh source facts on partial/paid/inverse captures; stronger browser oracle and shared current-read race repair are pending repeat.",
+    "mobile_clipping": false,
+    "money_and_native_dates": "CORRECT_WITHIN_DECLARED24",
+    "pending_related_cash_and_payroll_facts": "RETIRED"
+  }
+}

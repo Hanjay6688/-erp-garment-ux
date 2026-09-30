@@ -10,6 +10,7 @@ import {
 } from './productionRecovery'
 
 type ReadTicket = { sequence: number; scope: string; signature: string | null; session: object }
+const committedRefreshError='Aksi sudah tersimpan, tetapi refresh authoritative gagal. Jangan ulangi aksi; seluruh writer terkunci sampai Refetch berhasil.'
 export type ProductionMutationHandlers = {
   send: (envelope: ProductionEnvelope) => PromiseLike<{ data: unknown; error: unknown }>
   validate: (data: unknown, envelope: ProductionEnvelope) => void
@@ -79,6 +80,7 @@ export function useProductionMutation(domain: ProductionDomain) {
     readySignature.current = fresh ? current.signature : null
     readScope.current = ticket.scope
     setReady(fresh)
+    if(fresh)setError(current=>current===committedRefreshError?'':current)
     return fresh
   }, [scope, isReadCurrent])
 
@@ -156,10 +158,18 @@ export function useProductionMutation(domain: ProductionDomain) {
           synchronize(); setError('Server committed, tetapi envelope lokal belum bisa dibersihkan. Form lama tetap mati dan writer terkunci.'); return false
         }
         setObserved(readProductionRecovery(scope))
-        const refreshed = await handlers.reload()
+        const requestedRefresh = await handlers.reload()
         if (!mountedRef.current || sessionRef.current !== session) return false
+        // A parent refresh may schedule a newer child read and supersede the
+        // explicit reload request. Only an actually completed current read,
+        // bound to this actor/session and the cleared recovery signature, can
+        // recover that cancelled request. A failed read never supplies proof.
+        const recovered=readProductionRecovery(scope)
+        const refreshed=requestedRefresh||(readyRef.current&&readScope.current===scope
+          &&readySignature.current!==null&&readySignature.current===recovered.signature
+          &&!recovered.corrupted&&!hasProductionPending(recovered))
         if (refreshed) setNotice(input ? 'Workspace authoritative sudah dimuat ulang.' : 'Transaksi sudah direconcile dengan UUID lama; workspace authoritative dimuat ulang.')
-        else setError('Aksi sudah tersimpan, tetapi refresh authoritative gagal. Jangan ulangi aksi; seluruh writer terkunci sampai Refetch berhasil.')
+        else setError(committedRefreshError)
         return refreshed
       })
     } catch (failure) {

@@ -239,14 +239,23 @@ def cases(cur,today):
         assert pool['status']=='ACTIVE'
         f['physical']=physical.stock_cost(cur)
         def hpp_facts():
-            return {t:cur.execute('select md5(coalesce(jsonb_agg(to_jsonb(t)order by to_jsonb(t)::text),\'[]\')::text)from erp.'+t+' t').fetchone()[0]for t in('attendance_hpp_pools','attendance_hpp_pool_sources','attendance_hpp_pool_allocations')}
+            # The complete-boundary inventory explicitly leaves the session in
+            # UTC. Compare physical native HPP rows in UTC on both sides too;
+            # caller timezone must not change their timestamptz JSON spelling.
+            zone=cur.execute('show timezone').fetchone()[0]
+            try:
+                cur.execute("select set_config('TimeZone','UTC',true)")
+                return {t:cur.execute('select md5(coalesce(jsonb_agg(to_jsonb(t)order by to_jsonb(t)::text),\'[]\')::text)from erp.'+t+' t').fetchone()[0]for t in('attendance_hpp_pools','attendance_hpp_pool_sources','attendance_hpp_pool_allocations')}
+            finally:cur.execute("select set_config('TimeZone',%s,true)",(zone,))
         hpp=hpp_facts();cost=legacy.journal(cur,f['payroll'],'PAYROLL_ATTENDANCE_ACCRUAL')
         first=act(cur,f);act(cur,f,amount='400.00');assert_balance(cur,f,'1000','0','PAID')
         act(cur,f,'REVERSE_PAYMENT',payment=first['payment_id']);assert_balance(cur,f,'400','600')
         assert hpp_facts()==hpp and legacy.journal(cur,f['payroll'],'PAYROLL_ATTENDANCE_ACCRUAL')==cost
         before=b.boundary.snapshot(cur)
         auth.refused(cur,lambda:act(cur,f,'REVERSE_PAYROLL'),'PAYROLL_CONSUMED_BY_ACTIVE_HPP_POOL')
-        assert b.boundary.snapshot(cur)==before and hpp_facts()==hpp
+        after=b.boundary.snapshot(cur);after_hpp=hpp_facts()
+        assert after==before,dict(boundary_changed={k:dict(before=before[k],after=after[k])for k in before if before[k]!=after[k]})
+        assert after_hpp==hpp,dict(hpp_before=hpp,hpp_after=after_hpp)
         cancelled=native_hpp('select erp.cancel_attendance_hpp_pool_v1(%s,%s,%s,%s)',(pool['pool_id'],'E05 owning HPP cancellation before payroll inverse',uuid.uuid4(),pool['row_version']))
         assert cancelled['status']=='CANCELLED'
         f['physical']=physical.stock_cost(cur)

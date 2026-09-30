@@ -71,7 +71,7 @@
     "owner": "Hansen",
     "production_go": false,
     "source": "Current conversation: approved1000, pay600, remaining400 on the same payroll, then400; owner: ok setuju, lanjutin sisanya ya cp7 sampe beres",
-    "status": "IMPLEMENTED_LOCAL896_PASS_ACTUAL24_PENDING"
+    "status": "IMPLEMENTED_NATIVE24_PASS_EXTENDED26_REPAIR_REPEAT_PENDING"
   },
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
@@ -191,7 +191,7 @@
     "visual_review": true
   },
   "f03_e05_installments": {
-    "artifact_id": 11119377632,
+    "artifact_id": 11122932071,
     "changed_files_sha256": {
       ".github/workflows/cp7-f03-e05.yml": "5e9151c0c939083f466e1d20b8f3a37427263a22a2db8258cd194fc88d07560e",
       "docs/cp7/F03_E05_INSTALLMENTS_HANDOFF.md": "f88206ecd45483db87a829da16102612fdeab6d7b259ac394462878cacea7a4d",
@@ -219,7 +219,7 @@
       "tests/fixtures/payrollInstallments.ts": "9bd78c28fe545d2fdbab4c6c36e1e52e8299355b5c5a53edb752c1421b49fb5a"
     },
     "combined_roles": 31,
-    "expected_actual_cases": 24,
+    "expected_actual_cases": 26,
     "first_actual_counts": {
       "INCOMPLETE": 20,
       "PASS": 4
@@ -228,32 +228,33 @@
     "full_family_acceptance": false,
     "handoff": "docs/cp7/F03_E05_INSTALLMENTS_HANDOFF.md",
     "independent_acceptance": false,
-    "job_id": 110046374785,
+    "job_id": 110066781335,
     "latest_actual_counts": {
-      "INCOMPLETE": 3,
-      "PASS": 21
+      "INCOMPLETE": 1,
+      "PASS": 25
     },
-    "latest_diagnostic": "docs/cp7/evidence/f03-e05/diagnostic-d306743/DIAGNOSTIC_RECEIPT.json",
+    "latest_diagnostic": "docs/cp7/evidence/f03-e05/diagnostic-b006ce1/DIAGNOSTIC_RECEIPT.json",
     "parent_source_commit": "37b5dcd72a13d476f7c666a7dee662085372a9b4",
     "production_go": false,
+    "qualified24": "docs/cp7/evidence/f03-e05/qualified-a8258e4/QUALIFIED_RECEIPT.json",
     "qualifier": "scripts/cp7_f03_e05_probe.py",
-    "relevant_unit_pass": 62,
+    "relevant_unit_pass": 75,
     "repairs": [
       "Normalize complete cash fingerprint under UTC before WIB payment apply",
       "Unique native source UUID for every installment, including final/replacement"
     ],
-    "run_id": 36761922541,
+    "run_id": 36767956930,
     "source_bundle_sha256": "eb86b6300f1ebf8e429edef2f4dfb0dc80ec24978c8809de53e7f2e3e7a729e5",
-    "source_commit": "d306743674d20186f58dd242d741dace57cf8802",
-    "source_tree": "7126716926a45b7e00fb4ffb4be42ac19b271625",
+    "source_commit": "b006ce1bb2ae62d88d986bf28a1f076024cfe78c",
+    "source_tree": "9f84d638832d94e57c0967f7a272d225b07d3318",
     "standalone_P12_dependency_repair": {
       "diagnostic": "docs/cp7/evidence/p12-opening-payroll/diagnostic-6013d4f/DIAGNOSTIC_RECEIPT.json",
       "source": "scripts/cp7_p12_nota_probe.py",
       "status": "DECLARED_STRICT_DEPENDENCY_INSTALL_AND_TEARDOWN_RETEST_PENDING"
     },
-    "status": "ACTUAL21_PASS3_INCOMPLETE_PARENT_LOCK_AND_P12_INSTALL_REPAIRS_LOCAL897",
-    "unit_pass": 897,
-    "verification": "docs/cp7/evidence/f03-e05/parent-lock-repair/LOCAL_RECEIPT.json"
+    "status": "ACTUAL24_PASS_NATIVE26_25PASS1INCOMPLETE_FRESH_READ_HAPPY_PATH_REPAIR_PENDING_REPEAT",
+    "unit_pass": 949,
+    "verification": "docs/cp7/evidence/f03-e05/fresh-read-repair/LOCAL_RECEIPT.json"
   },
   "f03_e06": {
     "counts": {
