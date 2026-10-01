@@ -1,0 +1,211 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> erp-garment-ux@0.1.2 test
+> vitest run --exclude 'tests/browser/**' --reporter=dot
+
+
+ RUN  v4.1.11 /workspace/scratch/eeb89eca3f58/erp-f03-audit
+
+·································································································································································stderr | src/useLaundryQcWorkspace.dom.test.tsx > useLaundryQcWorkspace durable mutation envelope > refuses a second mounted writer while the global cross-tab envelope is in flight
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+··············································································································································································································································································································································stderr | tests/cp7/browser/planner/f05-preview/F05App.test.tsx > withholds all values and children in PARTIAL
+An update to Preview inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to Preview inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+············································································································································································································································································································································································································································································································································································································································file:///workspace/scratch/eeb89eca3f58/erp-f03-audit/tests/cp7/families/f04/runtime.mjs:49
+    if (!bin || process.getuid?.() === 0) throw new Error('F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.');
+                                                ^
+
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+    at openRuntime (file:///workspace/scratch/eeb89eca3f58/erp-f03-audit/tests/cp7/families/f04/runtime.mjs:49:49)
+    at file:///workspace/scratch/eeb89eca3f58/erp-f03-audit/tests/cp7/families/f04/run.mjs:9:18
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.19.0
+x·········································
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/cp7/families/f04.test.ts > F04 private SQL kernels pass independent numeric fixtures in a disposable runtime
+Error: Command failed: /opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node tests/cp7/families/f04/run.mjs
+file:///workspace/scratch/eeb89eca3f58/erp-f03-audit/tests/cp7/families/f04/runtime.mjs:49
+    if (!bin || process.getuid?.() === 0) throw new Error('F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.');
+                                                ^
+
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+    at openRuntime (file:///workspace/scratch/eeb89eca3f58/erp-f03-audit/tests/cp7/families/f04/runtime.mjs:49:49)
+    at file:///workspace/scratch/eeb89eca3f58/erp-f03-audit/tests/cp7/families/f04/run.mjs:9:18
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.19.0
+
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:49:49
+ ❯ tests/cp7/families/f04/run.mjs:9:18
+ ❯ tests/cp7/families/f04.test.ts:11:18
+      9|   const proofDirectory = resolve('test-results/cp7-shell-proof')
+     10|   mkdirSync(proofDirectory, { recursive: true })
+     11|   const output = execFileSync(process.execPath, ['tests/cp7/families/f…
+       |                  ^
+     12|     encoding: 'utf8', timeout: 180_000, maxBuffer: 16 * 1024 * 1024,
+     13|     env: { ...process.env, F04_RECEIPT_PATH: resolve(proofDirectory, '…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 115 passed (116)
+      Tests  1 failed | 1156 passed (1157)
+   Start at  22:06:36
+   Duration  30.05s (transform 18.13s, setup 0ms, import 38.58s, tests 66.38s, environment 51.85s)
+

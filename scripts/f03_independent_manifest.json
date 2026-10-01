@@ -1,0 +1,15 @@
+{
+  "candidate": "eb6b8682e97e94c95f89d431ab81974c54ddcbaf",
+  "f03_bundle_sha256": "6df48df8bbf7113636ce504b2f1f894b43a6444f803ba71a0007c18b32f6907c",
+  "qualification_scope": "AUDITOR_OWN_EXPECTATIONS_NATIVE_RACE_AUTH_BROWSER_WITH_RETAINED_LAWFUL_SETUP_AND_INSTALLER",
+  "spec": {
+    "expected_case_executions": 23,
+    "expected_smoke_executions": 0,
+    "groups": [
+      {"key":"independent_native","kind":"native","module":"f03_independent_cases","entry":"cases","retained_probe":"f03_independent_cases.py","smoke":false,"expected_executions":14},
+      {"key":"independent_races","kind":"races","module":"f03_independent_cases","entry":"races","retained_probe":"f03_independent_cases.py","smoke":false,"expected_executions":4},
+      {"key":"independent_http","kind":"http","module":"f03_independent_cases","entry":"http_cases","retained_probe":"f03_independent_cases.py","smoke":false,"expected_executions":3},
+      {"key":"independent_browser","kind":"browser","module":"scripts/f03_independent_browser.mjs","retained_probe":"f03_independent_browser_fixture.py","smoke":false,"expected_executions":2}
+    ]
+  }
+}

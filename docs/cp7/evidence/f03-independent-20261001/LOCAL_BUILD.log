@@ -1,0 +1,153 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> erp-garment-ux@0.1.2 prebuild
+> node scripts/build-preflight.mjs && npm run check:source && npm run check:access && npm run check:css
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> erp-garment-ux@0.1.2 check:source
+> node scripts/check-source-ownership.mjs
+
+Source ownership passed: 225 runtime files, 138 owned RPC boundaries, no orphan or direct table access.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> erp-garment-ux@0.1.2 check:access
+> node scripts/check-access-catalog.mjs
+
+Production recovery ownership passed: shared envelope, lock and stale-read generation including procurement exact version transport.
+Access ownership passed: frozen CP4.5/CP5 proofs intact; current code owns 111 backend permissions, 48 nav labels, 48 routes, 21 sensitive actions, and 138 browser RPC boundaries.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> erp-garment-ux@0.1.2 check:css
+> node scripts/check-css-ownership.mjs
+
+CSS ownership passed: 52 stylesheets have no unowned selector branches.
+
+> erp-garment-ux@0.1.2 build
+> tsc -b && vite build
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 2092 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                           0.75 kB │ gzip:   0.39 kB
+dist/assets/sku-CYu1jqt_.css                              0.50 kB │ gzip:   0.26 kB
+dist/assets/ConnectedSupplierCreditPage-BEUnCdFG.css      0.70 kB │ gzip:   0.32 kB
+dist/assets/materials-connected-Dzi-fxKC.css              0.93 kB │ gzip:   0.46 kB
+dist/assets/ConnectedPatternFilter-w-4EzV43.css           1.16 kB │ gzip:   0.43 kB
+dist/assets/fg-connected-CITgdvmo.css                     1.77 kB │ gzip:   0.62 kB
+dist/assets/EnterpriseSelect-cODt8RhO.css                 1.87 kB │ gzip:   0.79 kB
+dist/assets/ConnectedPayrollPage-DIclIxXN.css             2.12 kB │ gzip:   0.76 kB
+dist/assets/ConnectedAttendancePage-CwpQ7IN5.css          2.52 kB │ gzip:   0.89 kB
+dist/assets/initial-import-Dngug-3a.css                   2.79 kB │ gzip:   0.89 kB
+dist/assets/ConnectedFgHandoffBoundary-BBKMUN3J.css       3.51 kB │ gzip:   1.14 kB
+dist/assets/ConnectedFgBookPage-IfYveeUR.css              3.64 kB │ gzip:   1.13 kB
+dist/assets/procurement-connected-DDwWAxod.css            4.44 kB │ gzip:   1.36 kB
+dist/assets/PatternPage--75JHRsA.css                      6.11 kB │ gzip:   1.64 kB
+dist/assets/ConnectedCuttingPage-CNK9Lwsn.css             6.28 kB │ gzip:   1.79 kB
+dist/assets/ConnectedWipStatusPage-DidjrQBu.css           6.81 kB │ gzip:   1.73 kB
+dist/assets/ConnectedPickupPage-_W8oSOpn.css              7.12 kB │ gzip:   1.92 kB
+dist/assets/FinancePages-BZ0Yfe68.css                     8.41 kB │ gzip:   2.17 kB
+dist/assets/Cp7Shell-BcZmlDQ1.css                         9.49 kB │ gzip:   2.72 kB
+dist/assets/ConnectedFgStockPage-CQ3ReoK2.css             9.51 kB │ gzip:   2.15 kB
+dist/assets/AccessControlPage-C-YtxgJI.css               10.99 kB │ gzip:   2.73 kB
+dist/assets/connected-laundry-qc-Btv867mJ.css            14.46 kB │ gzip:   3.05 kB
+dist/assets/MaterialMasterPages-CFen8Io6.css             15.12 kB │ gzip:   3.17 kB
+dist/assets/ContractorIssuePage-CL0o427a.css             16.82 kB │ gzip:   3.73 kB
+dist/assets/ConnectedBsResolutionPage-CEoCZN9A.css       17.51 kB │ gzip:   4.10 kB
+dist/assets/InventoryControlPages-C8PjKoGq.css           25.13 kB │ gzip:   5.38 kB
+dist/assets/MasterDataPages-DUikzU16.css                 25.95 kB │ gzip:   4.89 kB
+dist/assets/QcFinalPage-BYu_9nI_.css                     27.14 kB │ gzip:   5.33 kB
+dist/assets/HppPage-DUd01woj.css                         30.35 kB │ gzip:   6.40 kB
+dist/assets/OperationsAdminPages-B7dRh6FU.css            34.07 kB │ gzip:   6.66 kB
+dist/assets/BsReworkPage-CaJOfTSa.css                    35.46 kB │ gzip:   7.04 kB
+dist/assets/business-pages-DumtkhJM.css                  40.13 kB │ gzip:   7.65 kB
+dist/assets/WarehousePages-r9jjETz1.css                  42.88 kB │ gzip:   8.15 kB
+dist/assets/index-CpbbjZIy.css                          282.96 kB │ gzip:  49.06 kB
+dist/assets/regularWorkEntitlement-C9gvxdQo.js            0.43 kB │ gzip:   0.28 kB
+dist/assets/ProductionRecoveryNotice-D3NHYZuJ.js          0.53 kB │ gzip:   0.34 kB
+dist/assets/useFinancialRecoveryGate--e0JXBbh.js          0.60 kB │ gzip:   0.39 kB
+dist/assets/quantityInput-Co1xYysF.js                     0.62 kB │ gzip:   0.40 kB
+dist/assets/rolldown-runtime-hePW80VL.js                  0.71 kB │ gzip:   0.42 kB
+dist/assets/cp6BusinessTime-CK9ydtBh.js                   0.85 kB │ gzip:   0.50 kB
+dist/assets/EnterpriseSelect-Y28zu6VC.js                  1.22 kB │ gzip:   0.61 kB
+dist/assets/ConnectedStockAdjustmentPage-sBYRcqjo.js      1.71 kB │ gzip:   0.80 kB
+dist/assets/skuHpp-B8xfH20N.js                            1.73 kB │ gzip:   0.82 kB
+dist/assets/ConnectedPatternFilter-BSSDYy8b.js            1.75 kB │ gzip:   0.98 kB
+dist/assets/requestEnvelope-CRrgk43k.js                   2.12 kB │ gzip:   1.02 kB
+dist/assets/supplierCredit-BcxtIhGk.js                    2.27 kB │ gzip:   0.96 kB
+dist/assets/skuMaster-By4Z0Ynj.js                         2.64 kB │ gzip:   1.13 kB
+dist/assets/financeAnalysisContract-ur8VJ0bA.js           3.52 kB │ gzip:   1.66 kB
+dist/assets/productConversion-YeyevzP3.js                 3.61 kB │ gzip:   1.42 kB
+dist/assets/fg-connected-RZ4DJES8.js                      4.64 kB │ gzip:   1.77 kB
+dist/assets/Cp6PolicyReadiness-qq_kVLvn.js                5.45 kB │ gzip:   2.45 kB
+dist/assets/notaContract-DBStpnnF.js                      5.53 kB │ gzip:   2.07 kB
+dist/assets/useProductionMutation-DXk43upZ.js             5.56 kB │ gzip:   2.36 kB
+dist/assets/initialProduction-BveNuQFZ.js                 5.67 kB │ gzip:   1.93 kB
+dist/assets/materials-connected-CrhCVayx.js               5.73 kB │ gzip:   2.16 kB
+dist/assets/ConnectedCashLedgerPage-CmkwCqOY.js           5.85 kB │ gzip:   2.46 kB
+dist/assets/procurementContract-C85Bcnmw.js               6.33 kB │ gzip:   2.40 kB
+dist/assets/salesReadContract-BsweBmB6.js                 6.70 kB │ gzip:   2.59 kB
+dist/assets/productionRecovery-DVxa9uGk.js                6.77 kB │ gzip:   2.75 kB
+dist/assets/ConnectedReceivablesPage-BPg1PNFj.js          7.49 kB │ gzip:   2.70 kB
+dist/assets/financeReportContract-BNCvvgjR.js             7.87 kB │ gzip:   2.96 kB
+dist/assets/ConnectedSupplierCreditPage-C50jBmsV.js       7.96 kB │ gzip:   3.04 kB
+dist/assets/ConnectedFinanceOverviewPage-BHBWce-T.js      8.53 kB │ gzip:   3.23 kB
+dist/assets/workspace-Crr7JXJn.js                         8.92 kB │ gzip:   4.08 kB
+dist/assets/WipBatchControlLayer-D_GXyzGJ.js              9.01 kB │ gzip:   2.84 kB
+dist/assets/PatternPage-DsIrY5zS.js                       9.68 kB │ gzip:   3.50 kB
+dist/assets/cuttingPersistence-CGq0xRRu.js               10.41 kB │ gzip:   2.59 kB
+dist/assets/ConnectedSkuHppPage-CBSxVY7Z.js              12.90 kB │ gzip:   4.92 kB
+dist/assets/ConnectedProductConversionPage-jyB2FHJI.js   12.94 kB │ gzip:   4.10 kB
+dist/assets/ConnectedJournalPage-BZZj5nup.js             13.39 kB │ gzip:   4.69 kB
+dist/assets/accessoryService-xqG0pa-N.js                 14.03 kB │ gzip:   4.80 kB
+dist/assets/ConnectedPickupPage-BXvaINQ8.js              15.14 kB │ gzip:   5.20 kB
+dist/assets/ConnectedSkuMasterPage-NVNBDCjb.js           15.30 kB │ gzip:   4.76 kB
+dist/assets/ConnectedWipStatusPage-BW2AB_Sn.js           15.86 kB │ gzip:   5.20 kB
+dist/assets/ConnectedFgBookPage-DEMKFdH3.js              15.86 kB │ gzip:   5.48 kB
+dist/assets/ConnectedFgAdjustmentPage-D__bZjtL.js        16.16 kB │ gzip:   5.37 kB
+dist/assets/AccessControlPage-CvZuxLos.js                16.61 kB │ gzip:   5.31 kB
+dist/assets/ConnectedMaterialsPage-GTg8RmsC.js           17.77 kB │ gzip:   5.31 kB
+dist/assets/ConnectedFgHandoffBoundary-ByiyDWgJ.js       18.58 kB │ gzip:   6.06 kB
+dist/assets/ContractorIssuePage-CwTnN_11.js              19.41 kB │ gzip:   5.44 kB
+dist/assets/FgNotaPage-DFocptJk.js                       19.51 kB │ gzip:   5.45 kB
+dist/assets/ConnectedQcFinalPage-Dz790OOu.js             20.03 kB │ gzip:   6.61 kB
+dist/assets/MiscFinancePanel-DLnuWGZY.js                 20.51 kB │ gzip:   6.29 kB
+dist/assets/ConnectedAccessoryIssuePage-CWbNw9fi.js      20.90 kB │ gzip:   6.61 kB
+dist/assets/QcFinalPage-zfKyPZ-G.js                      22.93 kB │ gzip:   6.63 kB
+dist/assets/fixture-BmfXW1xT.js                          23.45 kB │ gzip:   3.06 kB
+dist/assets/Cp7Shell-Ds7dDKuJ.js                         23.49 kB │ gzip:   7.57 kB
+dist/assets/ConnectedFinanceReportPage-CDNquV-k.js       23.79 kB │ gzip:   7.35 kB
+dist/assets/ConnectedPocketFabricPage-DEDGaxYT.js        24.65 kB │ gzip:   6.90 kB
+dist/assets/ConnectedCuttingPage-DYflpGsX.js             25.85 kB │ gzip:   8.13 kB
+dist/assets/Cp6Kpi-pfQ3k_ot.js                           26.43 kB │ gzip:   7.49 kB
+dist/assets/InventoryControlPages-CuCSBo49.js            27.81 kB │ gzip:   7.31 kB
+dist/assets/HppPage-CWFlznNz.js                          28.29 kB │ gzip:   7.95 kB
+dist/assets/ConnectedMaterialCountPage-CMGm1f4a.js       29.29 kB │ gzip:   8.56 kB
+dist/assets/ConnectedLaundryPage-CP8XdT3q.js             36.06 kB │ gzip:   9.69 kB
+dist/assets/ConnectedPayrollPage-Cwieog9h.js             37.39 kB │ gzip:  10.71 kB
+dist/assets/ConnectedAttendancePage-t1DNpBTI.js          40.76 kB │ gzip:  11.25 kB
+dist/assets/BsReworkPage-Cl19OSu_.js                     41.53 kB │ gzip:  11.32 kB
+dist/assets/ConnectedAccessoryServicePage-YTGeQq6O.js    42.99 kB │ gzip:  10.50 kB
+dist/assets/MaterialMasterPages-MGPX5paH.js              45.09 kB │ gzip:   9.73 kB
+dist/assets/MasterDataPages-CzBjXTq9.js                  45.28 kB │ gzip:  12.13 kB
+dist/assets/ConnectedSalesPage-DE_ZTPzW.js               46.80 kB │ gzip:  11.53 kB
+dist/assets/SalesPages-CImo6Uj1.js                       49.39 kB │ gzip:  11.56 kB
+dist/assets/WarehousePages-DCi1DSrj.js                   57.37 kB │ gzip:  14.46 kB
+dist/assets/ConnectedBsResolutionPage-TJe53iSX.js        62.59 kB │ gzip:  16.02 kB
+dist/assets/OperationsAdminPages-CnNkdu3m.js             63.90 kB │ gzip:  16.56 kB
+dist/assets/LaundryBdPanel-D5zKX3L2.js                   73.91 kB │ gzip:  19.57 kB
+dist/assets/ConnectedProcurementPage-CgB7_LG2.js         74.80 kB │ gzip:  17.47 kB
+dist/assets/FinancePages-DNgBQxio.js                     91.04 kB │ gzip:  20.43 kB
+dist/assets/ConnectedInitialImportPage-278Dlw0H.js      100.05 kB │ gzip:  23.83 kB
+dist/assets/index-B89kssPU.js                           222.75 kB │ gzip:  58.72 kB
+dist/assets/ConnectedFgStockPage-7l0YOjz0.js            256.27 kB │ gzip:  52.01 kB
+dist/assets/vendor-CaaZTwoF.js                          425.20 kB │ gzip: 122.24 kB
+
+✓ built in 929ms
+
+> erp-garment-ux@0.1.2 postbuild
+> node scripts/scan-client-artifacts.mjs dist
+
+Client artifact secret scan passed: /workspace/scratch/eeb89eca3f58/erp-f03-audit/dist

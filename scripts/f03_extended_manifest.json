@@ -1,0 +1,172 @@
+{
+  "candidate": "eb6b8682e97e94c95f89d431ab81974c54ddcbaf",
+  "f03_bundle_sha256": "6df48df8bbf7113636ce504b2f1f894b43a6444f803ba71a0007c18b32f6907c",
+  "qualification_scope": "RETAINED_WRITER_EXTENDED_JOURNEYS_REEXECUTED_BY_AUDITOR_NOT_OWN_ORACLES",
+  "buckets": {
+    "economic": {
+      "expected_case_executions": 32,
+      "expected_smoke_executions": 0,
+      "groups": [
+        {
+          "key": "cp7_f03_e01_cases",
+          "kind": "native",
+          "module": "cp7_f03_e01_cases",
+          "entry": "cases",
+          "retained_probe": "cp7_f03_e01_cases.py",
+          "smoke": false,
+          "expected_executions": 1
+        },
+        {
+          "key": "cp7_f03_cost_continuation_cases",
+          "kind": "native",
+          "module": "cp7_f03_cost_continuation_cases",
+          "entry": "cases",
+          "retained_probe": "cp7_f03_cost_continuation_cases.py",
+          "smoke": false,
+          "expected_executions": 4
+        },
+        {
+          "key": "cp7_f03_e06_cases",
+          "kind": "native",
+          "module": "cp7_f03_e06_cases",
+          "entry": "cases",
+          "retained_probe": "cp7_f03_e06_cases.py",
+          "smoke": false,
+          "expected_executions": 4
+        },
+        {
+          "key": "cp7_f03_x04_cases",
+          "kind": "native",
+          "module": "cp7_f03_x04_cases",
+          "entry": "cases",
+          "retained_probe": "cp7_f03_x04_cases.py",
+          "smoke": false,
+          "expected_executions": 6
+        },
+        {
+          "key": "cp7_f03_redye_cases",
+          "kind": "native",
+          "module": "cp7_f03_redye_cases",
+          "entry": "cases",
+          "retained_probe": "cp7_f03_redye_cases.py",
+          "smoke": false,
+          "expected_executions": 2
+        },
+        {
+          "key": "cp7_f03_e24_issue_cases",
+          "kind": "native",
+          "module": "cp7_f03_e24_issue_cases",
+          "entry": "cases",
+          "retained_probe": "cp7_f03_e24_issue_cases.py",
+          "smoke": false,
+          "expected_executions": 2
+        },
+        {
+          "key": "cp7_f03_capacity_cases",
+          "kind": "native",
+          "module": "cp7_f03_capacity_cases",
+          "entry": "cases",
+          "retained_probe": "cp7_f03_capacity_cases.py",
+          "smoke": false,
+          "expected_executions": 2
+        },
+        {
+          "key": "cp7_f03_e01_cases_http",
+          "kind": "http",
+          "module": "cp7_f03_e01_cases",
+          "entry": "http_cases",
+          "retained_probe": "cp7_f03_e01_cases.py",
+          "smoke": false,
+          "expected_executions": 1
+        },
+        {
+          "key": "cp7_f03_x04_cases_http",
+          "kind": "http",
+          "module": "cp7_f03_x04_cases",
+          "entry": "http_cases",
+          "retained_probe": "cp7_f03_x04_cases.py",
+          "smoke": false,
+          "expected_executions": 1
+        },
+        {
+          "key": "cp7_f03_redye_cases_http",
+          "kind": "http",
+          "module": "cp7_f03_redye_cases",
+          "entry": "http_cases",
+          "retained_probe": "cp7_f03_redye_cases.py",
+          "smoke": false,
+          "expected_executions": 1
+        },
+        {
+          "key": "cp7_f03_capacity_cases_http",
+          "kind": "http",
+          "module": "cp7_f03_capacity_cases",
+          "entry": "http_cases",
+          "retained_probe": "cp7_f03_capacity_cases.py",
+          "smoke": false,
+          "expected_executions": 1
+        },
+        {
+          "key": "year_end_race",
+          "kind": "races",
+          "module": "cp7_f03_e06_cases",
+          "entry": "races",
+          "retained_probe": "cp7_f03_e06_cases.py",
+          "smoke": false,
+          "expected_executions": 1
+        },
+        {
+          "key": "supplier_current_authority",
+          "kind": "races",
+          "module": "cp7_supplier_credit_authority_cases",
+          "entry": "races",
+          "retained_probe": "cp7_supplier_credit_authority_cases.py",
+          "smoke": false,
+          "expected_executions": 6
+        }
+      ]
+    },
+    "journeys": {
+      "expected_case_executions": 8,
+      "expected_smoke_executions": 0,
+      "groups": [
+        {
+          "key": "cp7_f03_e01_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_f03_e01_browser.mjs",
+          "entry": "cases",
+          "retained_probe": "cp7_f03_e01_browser.mjs",
+          "smoke": false,
+          "expected_executions": 2
+        },
+        {
+          "key": "cp7_f03_redye_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_f03_redye_browser.mjs",
+          "entry": "cases",
+          "retained_probe": "cp7_f03_redye_browser.mjs",
+          "smoke": false,
+          "expected_executions": 2
+        },
+        {
+          "key": "cp7_f03_e24_issue_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_f03_e24_issue_browser.mjs",
+          "entry": "cases",
+          "retained_probe": "cp7_f03_e24_issue_browser.mjs",
+          "smoke": false,
+          "expected_executions": 2
+        },
+        {
+          "key": "cp7_f03_capacity_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_f03_capacity_browser.mjs",
+          "entry": "cases",
+          "retained_probe": "cp7_f03_capacity_browser.mjs",
+          "smoke": false,
+          "expected_executions": 2
+        }
+      ]
+    }
+  }
+}
