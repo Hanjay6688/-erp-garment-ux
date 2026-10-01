@@ -1,6 +1,6 @@
 {
   "schema": "cp7-f03-full-native-manifest-v1",
-  "qualification_scope": "Actual Native current-authority refusal after observed advisory/source/target waits on the identical full F03 stack; not independent acceptance.",
+  "qualification_scope": "Six actual Native lock waits against current authority: cached/fresh request, source, target, accounting row and inactive actor; exact CP7 admission repair, original five counterexamples retained. Native fixture claims are distinct from real Auth/HTTP.",
   "buckets": {
     "supplier_authority": {
       "expected_case_executions": 6,
