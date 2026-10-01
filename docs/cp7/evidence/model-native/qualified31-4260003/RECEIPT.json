@@ -1,0 +1,52 @@
+{
+  "status": "PASS",
+  "tested_source": "42600034a09bf7f8663f7fab632cb3e7c2369922",
+  "run_id": 36836112231,
+  "job_id": 110283800635,
+  "source_sha256": "7c259666d5cc84033bb9897dc65ab77f31c53105994783d52b0aff29d9d2762b",
+  "expected_cases": 31,
+  "observed_cases": 31,
+  "counts": {
+    "native": {
+      "PASS": 21
+    },
+    "races": {
+      "PASS": 4
+    },
+    "http": {
+      "PASS": 2
+    },
+    "browser": {
+      "PASS": 4
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "archive": {
+    "artifact_id": 11149631789,
+    "sha256": "a921ac67314b3e970d8ccfada4ad232dcd239a7ab5e8f564ab372cc590f1938d",
+    "bytes": 10969934,
+    "durable_file_id": "file_00000000acc082089937344f654f4723"
+  },
+  "original_reports": {
+    "gzip_sha256": "0d12fdb6cd075ac17fae4bec00136e477f6ad70a7bad793291053f58fc49e236",
+    "json_sha256": "d12b6c4abf73f2db132b6c7aef23b09a1d761d74f1b7d0e813112e8f884e4893"
+  },
+  "evidence_split": {
+    "retained_Native_history": 12,
+    "new_actual_Native_model_adapter": 6,
+    "synthetic_installed_private_kernel": 3,
+    "real_races": 4,
+    "real_Auth_HTTP": 2,
+    "desktop_mobile_browser": 4
+  },
+  "no_backdated_Native_knowledge": true,
+  "no_automatic_model_activation": true,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "production_go": false,
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "backup_drill": "RESTORED_SAME_MEANING"
+}

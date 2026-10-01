@@ -1,6 +1,6 @@
 # Native P07 model evaluation
 
-Implemented candidate; Native31 qualification is pending. This is not independent acceptance, full F04 acceptance or production go.
+Native31 writer qualification passes on42600034a09bf7f8663f7fab632cb3e7c2369922 (run36836112231). This is not independent acceptance, full F04 acceptance or production go.
 
 The public producer admits only an own immutable Native demand-history run, a real captured target and an explicitly selected horizon. It never accepts observations, predictions, model parameters, policy, actor or completeness from the browser. Current Ops permissions are checked before and after the actual request lock and before returning either a cached result or archive. Two public RPCs delegate to the existing no-login capture principal; private registry, evaluations and kernels remain unavailable to anonymous, authenticated and service roles.
 
@@ -21,6 +21,6 @@ The UI is reachable from the actual Native demand table. It starts with a blank 
 
 The positive rolling, SES and known-later numerical vectors are private-kernel oracles. They do not establish that current ERP data has sufficient historical snapshots for a public challenger recommendation. The public Native fixture must honestly retain its baseline because the registry was not known before its historic folds. No Native snapshot, product creation timestamp or registry timestamp is backdated to manufacture that proof.
 
-Local verification:26 focused parser/UI tests pass; TypeScript/Vite build and security checks pass. Native PostgreSQL and real Auth evidence must come from the declared workflow. Native164 on parent d244216 already passes105 database,21 races,14 HTTP and24 browser with clean Auth and exact CP6 restoration. It is retained separately and must not be called a test of this new candidate.
+Local verification:26 focused parser/UI tests, TypeScript/Vite build and security checks pass. The declared Native31 workflow passes all31 cases with exact restoration, clean Auth and successful backup drill; original reports and the explicit Native/synthetic split are retained in evidence/model-native/qualified31-4260003/RECEIPT.json. The integrated Native164 also passes on the same4260003 source (run36836112178):105 database,21 races,14 HTTP and24 browser, zero console errors, unchanged primary state and exact CP6 restoration. Its separate receipt is evidence/f05-native-history/qualified164-model-integrated-4260003/RECEIPT.json. These overlapping runs cannot be added together as full-family acceptance.
 
 P08 material/recipe feasibility, operational draft/apply, the Native plan-versus-actual bridge, F03 remaining combined journeys and F05 report/rule-domain completion remain separate work. The frozen48-file framework and accepted Supabase migration/release bytes are unchanged.

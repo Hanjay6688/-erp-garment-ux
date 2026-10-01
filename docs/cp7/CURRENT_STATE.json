@@ -1186,10 +1186,10 @@
     "native_qualified": true,
     "independent_acceptance": false,
     "production_go": false,
-    "tested_source": "d244216bde00d083b1d8161dcb009bf2d535f75a",
-    "run": 36830010838,
-    "job": 110264223017,
-    "receipt": "docs/cp7/evidence/f05-native-history/qualified164-d244216/RECEIPT.json",
+    "tested_source": "42600034a09bf7f8663f7fab632cb3e7c2369922",
+    "run": 36836112178,
+    "job": 110283799503,
+    "receipt": "docs/cp7/evidence/f05-native-history/qualified164-model-integrated-4260003/RECEIPT.json",
     "primary_unchanged": true,
     "auth_users_before": 0,
     "auth_users_after": 0,
@@ -1205,25 +1205,34 @@
     "production_go": false
   },
   "f04_native_models": {
-    "status": "IMPLEMENTED_NATIVE31_PENDING",
-    "parent_source": "d244216bde00d083b1d8161dcb009bf2d535f75a",
-    "expected_counts": {
-      "database": 21,
+    "status": "NATIVE31_WRITER_PASS_NO_AUTO_ACTIVATION",
+    "tested_source": "42600034a09bf7f8663f7fab632cb3e7c2369922",
+    "run_id": 36836112231,
+    "receipt": "docs/cp7/evidence/model-native/qualified31-4260003/RECEIPT.json",
+    "split": {
+      "actual_Native_adapter": 6,
+      "retained_Native_history": 12,
+      "synthetic_installed_kernel": 3,
       "races": 4,
-      "http": 2,
+      "HTTP": 2,
       "browser": 4
     },
-    "database_evidence_split": {
-      "retained_native_history_controls": 12,
-      "new_native_adapter_controls": 6,
-      "explicit_synthetic_private_kernel_oracles": 3
-    },
-    "knowledge_basis": "ACTUAL_IMMUTABLE_NATIVE_CAPTURE_TIMES",
-    "registry": "PROSPECTIVE_NO_BACKDATING",
-    "selection": "THREE_PAIRED_FIXED_HORIZON_FOLDS_OUTER_HOLDOUT_NOT_USED_FOR_SELECTION",
-    "automatic_activation": false,
-    "apply_allowed": false,
-    "production_go": false,
-    "notes": "docs/cp7/f04/NATIVE_MODELS.md"
+    "full_family_acceptance": false,
+    "production_go": false
+  },
+  "f04_native_plan_bridge": {
+    "status": "IMPLEMENTED_NATIVE_PENDING",
+    "scope": "OWN_NATIVE_DRAFT_AND_ATOMIC_LINKED_INTENT_NO_STOCK_RESERVATION_OR_PHYSICAL_POSTING",
+    "whole_P08_acceptance": false,
+    "material_recipe_binding": "STILL_OPEN",
+    "declared_cases": 22,
+    "focused_parser_dom_tests": 18,
+    "production_go": false
+  },
+  "execution_priority": {
+    "owner_instruction": "2026-10-01: finish F03 before remaining F04/F05",
+    "active_family": "F03_P09_P13_TRANSACTIONS",
+    "preserved_plan_candidate": "NATIVE22_PENDING",
+    "next": "Resolve remaining F03 transactional contracts and qualify integrated source"
   }
 }

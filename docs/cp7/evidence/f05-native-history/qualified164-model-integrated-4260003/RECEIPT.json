@@ -1,0 +1,47 @@
+{
+  "status": "PASS",
+  "tested_source": "42600034a09bf7f8663f7fab632cb3e7c2369922",
+  "run_id": 36836112178,
+  "job_id": 110283799503,
+  "source_sha256": "1409a67398253080ec0d9b0a1c336db50015a9c69eba72d74d75ebdf3258ef18",
+  "counts": {
+    "native": {
+      "PASS": 105
+    },
+    "races": {
+      "PASS": 21
+    },
+    "http": {
+      "PASS": 14
+    },
+    "browser": {
+      "PASS": 24
+    }
+  },
+  "observed_cases": 164,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "browser_console_errors": 0,
+  "browser_auth_remaining": 0,
+  "browser_cleanup_failures": false,
+  "primary_unchanged": true,
+  "backup_restore_drill": "RESTORED_SAME_MEANING",
+  "archive": {
+    "artifact_id": 11150916682,
+    "bytes": 170542450,
+    "sha256": "720a921bba440920e016e9a7c59f67525e14334c76312c9e91d07dd7c2db3406",
+    "durable_file_id": "file_00000000cc9082118ca20f2746b0c4cb"
+  },
+  "original_reports": {
+    "gzip_sha256": "23b2fc9c3302b836bdc9bd4d95d9c95aceeeeb1cf743a529d1a69510c8fccd75",
+    "json_sha256": "8b471e86668a4563351cf5c76a8375d7bf9ce4ebee8b4f37393a0816b3f6a586"
+  },
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "production_go": false
+}

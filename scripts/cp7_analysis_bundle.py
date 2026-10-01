@@ -2,13 +2,15 @@
 import hashlib
 import cp7_netting_bundle as predecessor
 ROOT=predecessor.ROOT
-FILES=('planning/analysis.sql','planning/analysis-finance.sql','planning/analysis-archive.sql')
-ROLES=predecessor.ROLES
-GRANTS=predecessor.GRANTS
+FILES=('planning/analysis.sql','planning/analysis-finance.sql','planning/analysis-archive.sql','plan-native/bootstrap.sql','plan-native/source.sql','plan-native/preflight.sql','plan-native/read.sql','plan-native/commands.sql','plan-native/ownership.sql')
+ROLES=('cp7_plan_writer',)+predecessor.ROLES
+GRANTS={**predecessor.GRANTS,'cp7_plan_writer':('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)','public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint)')}
 def extension():return '\n'.join((ROOT/'scripts/cp7-src'/p).read_text()for p in FILES)
 def bundle():return predecessor.bundle()+'\n'+extension()
 def verify(cur):
  predecessor.verify(cur)
+ from cp7_plan_bundle import verify as verify_plan
+ verify_plan(cur)
  expected={'source':'s','fingerprint':'i','fact':'i','build_operational':'i','build':'i','financial_source':'s','serve':'v','capture':'v','archives':'v'}
  rows=cur.execute("select p.oid::regprocedure::text,p.proname,pg_get_userbyid(p.proowner),p.prosecdef,p.proconfig,p.provolatile from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_analysis_native'").fetchall()
  assert len(rows)==len(expected)+1,rows # source() and source(jsonb)
