@@ -4,7 +4,6 @@ import json,os
 import psycopg
 import cp6_readiness_owner_install as installer
 import cp6_t3_package_run as runtime
-import cp6_bf_probe as bf
 
 OUT=Path(__file__).resolve().parents[1]/'cp6-proof/t3'
 TARGET='postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback'
@@ -68,7 +67,7 @@ def main():
             assert conn.execute('select rolsuper from pg_roles where rolname=current_user').fetchone()[0] is False
             conn.execute('alter database cp6_rollback with allow_connections true')
         with psycopg.connect(TARGET) as conn,conn.cursor() as cur:
-            result=bf.verified(cur);conn.rollback()
+            result=installer.owner_verified(cur);conn.rollback()
         report['native_stage']=result['stage'];assert result['stage']=='BE_PLUS_BF_T1'
         report['cases']['OWNER_REOPEN_AND_EXACT_NATIVE_BF_VERIFY']='PASS'
         again=run('ALREADY_INSTALLED')

@@ -106,6 +106,27 @@ def approval(profile,window,backup,mode):
     checked=datetime.fromisoformat(record['verified_at'])
     if checked.tzinfo is None or not 0<= (datetime.now(timezone.utc)-checked).total_seconds()<=3600:raise Refused('BACKUP_VERIFICATION_NOT_FRESH')
 
+def owner_verified(cur):
+    """Keep every Native catalog/body/RLS/coverage check with the actual owner.
+
+    The existing probe's q()/one() reset a superuser fixture session before
+    reading. A real postgres owner cannot perform that fixture reset. Replace
+    only the Python fixture reset, for this metadata call, with an assertion
+    that the unchanged current/session user is postgres. No SQL grant, role,
+    guard, business function or expected body is changed or skipped.
+    """
+    import cp6_bf_probe as native
+    fixture_api=native.be.bdp.api
+    previous=fixture_api.admin
+    def keep_owner(cursor):
+        if cursor.execute('select current_user,session_user').fetchone()!=('postgres','postgres'):
+            raise Refused('NATIVE_OWNER_IDENTITY_CHANGED')
+    keep_owner(cur)
+    try:
+        fixture_api.admin=keep_owner
+        return native.verified(cur)
+    finally:fixture_api.admin=previous
+
 def run(target,control,*,profile,report_path,mode=FULL,apply=False,window=None,backup=None,certificate=None,drain_seconds=15):
     report=dict(label='CP6_OWNER_MAINTENANCE',status='INCOMPLETE',profile=profile,mode='APPLY' if apply else 'READ_ONLY_PLAN',
       install_mode=mode,manifest_sha256=FULL_SHA if mode==FULL else MANIFEST_SHA,release_manifest_sha256=MANIFEST_SHA,
@@ -155,11 +176,10 @@ def run(target,control,*,profile,report_path,mode=FULL,apply=False,window=None,b
         # the receipt to exact Native bodies/RLS and a catalog/config snapshot
         # before closing that session; a new target login is then impossible
         # until the separately reviewed admission reopen.
-        import cp6_bf_probe as native
         import cp6_g01_fingerprint as fingerprint
         with work.transaction(),work.cursor() as cur:
             cur.execute('set transaction read only')
-            result=native.verified(cur)
+            result=owner_verified(cur)
             cur.execute(fingerprint.SUMMARY);snapshot=cur.fetchone()[0]
         report.update(native_stage_verified=result['stage'],native_sql_sha256=result['bf_sql_sha256'],
           installed_catalog_sha256=hashlib.sha256(json.dumps(snapshot,sort_keys=True,separators=(',',':')).encode()).hexdigest())
