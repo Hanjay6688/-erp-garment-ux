@@ -33,6 +33,7 @@ def run():
   source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=bundle.ROOT,text=True).strip(),
   source_tree=subprocess.check_output(['git','rev-parse','HEAD^{tree}'],cwd=bundle.ROOT,text=True).strip(),
   manifest_sha256=hashlib.sha256(MANIFEST.read_bytes()).hexdigest(),
+  retained_probe_sha256={p:hashlib.sha256((bundle.ROOT/'scripts'/p).read_bytes()).hexdigest()for p in sorted({g['retained_probe']for g in spec['groups']})},
   scope=manifest['qualification_scope'],expected_case_count=spec['expected_case_executions'],
   expected_smoke_count=spec['expected_smoke_executions'],predeclared_groups=spec['groups'],
   private_role_count=len(bundle.ROLES),groups={});installed=False
