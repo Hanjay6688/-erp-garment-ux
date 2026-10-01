@@ -1,8 +1,17 @@
 """Native owner-report reuse and current financial authority on saved analysis."""
 from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime
 import json,time,uuid
 import psycopg
 import cp7_finance_cases as finance
+
+def admin_actor(cur,parent):
+ subject,_=parent.auth.custom_actor(cur)
+ role=cur.execute("select id from erp.app_roles where role_code='ADMIN'").fetchone()[0]
+ cur.execute('update erp.app_users set role_id=%s where auth_user_id=%s',(role,subject))
+ for permission in ('master.product.view','production.wip.view','warehouse.stock.view','sales.invoice.view','finance.reports.view','finance.period_close.manage'):
+  cur.execute('insert into erp.app_role_permissions(role_id,permission_key)values(%s,%s)on conflict do nothing',(role,permission))
+ return subject,role
 
 def cases(cur,today,parent):
  auth,b=parent.auth,parent.b
@@ -11,7 +20,7 @@ def cases(cur,today,parent):
   f=e['financial_source'];assert f is not None
   auth.actor(cur);native=cur.execute('select public.erp_cp7_get_finance_report_v1(%s)',(json.dumps(f['dates']),)).fetchone()[0];b.api.admin(cur)
   assert f['report']['snapshot']==native['snapshot']and f['report']['close_preflight']==native['close_preflight']
-  assert f['report']['captured_at']==e['analysis']['snapshot']['effective_as_of']
+  assert datetime.fromisoformat(f['report']['captured_at'])==datetime.fromisoformat(e['analysis']['snapshot']['effective_as_of'])
   assert cur.execute('select encode(pg_catalog.sha256(convert_to(jsonb_build_object(\'report\',%s::jsonb-\'captured_at\',\'book_signature\',%s::text)::text,\'UTF8\')),\'hex\')',(json.dumps(f['report']),f['book_signature'])).fetchone()[0]==f['source_hash']
   assert b.boundary.snapshot(cur)==before
   return dict(status='PASS',accepted_native_owner_report_identical_no_second_money_or_HPP_engine=True,one_source_clock=True,no_business_DML=True)
@@ -22,16 +31,15 @@ def cases(cur,today,parent):
   assert e['financial_source']is None and not any(m['value']['unit']=='IDR'for m in e['analysis']['metrics'])
   return dict(status='PASS',custom_four_Ops_plus_report_permission_still_preserves_native_owner_admin_boundary=True,no_financial_operands_or_facts=True)
  def current_rights(preflight=False):
-  parent.setup(cur,today);key=uuid.uuid4();e=parent.capture(cur,today,key);assert e['financial_source']is not None
+  parent.setup(cur,today);subject,role=admin_actor(cur,parent);key=uuid.uuid4();e=parent.capture(cur,today,key,subject);assert e['financial_source']is not None
   if preflight:assert e['financial_source']['report']['close_preflight']is not None
-  role=cur.execute('select role_id from erp.app_users where auth_user_id=%s',(auth.base.OPERATOR_AUTH,)).fetchone()[0]
   permission='finance.period_close.manage'if preflight else'finance.reports.view'
   cur.execute('delete from erp.app_role_permissions where role_id=%s and permission_key=%s',(role,permission))
   # Operational access remains sufficient for a fresh operational-only run;
   # neither the cached UUID nor its original protected archive may leak money.
-  auth.refused(cur,lambda:parent.capture(cur,today,key),'CP7_ANALYSIS_FINANCE_ACCESS_DENIED')
-  auth.refused(cur,lambda:parent.read(cur,e['run_id']),'CP7_ANALYSIS_FINANCE_ACCESS_DENIED')
-  fresh=parent.capture(cur,today);parent.checked(fresh)
+  auth.refused(cur,lambda:parent.capture(cur,today,key,subject),'CP7_ANALYSIS_FINANCE_ACCESS_DENIED')
+  auth.refused(cur,lambda:parent.read(cur,e['run_id'],subject),'CP7_ANALYSIS_FINANCE_ACCESS_DENIED')
+  fresh=parent.capture(cur,today,subject=subject);parent.checked(fresh)
   if preflight:assert fresh['financial_source']['report']['close_preflight']is None
   else:assert fresh['financial_source']is None
   return dict(status='PASS',revoked_permission=permission,four_operational_permissions_retained=True,current_financial_authority_before_cached_UUID_and_original_read=True)
@@ -51,15 +59,14 @@ def cases(cur,today,parent):
 
 def races(tools,today,parent):
  def revoke_waiting():
-  subject=parent.auth.base.OPERATOR_AUTH;key=uuid.uuid4()
+  key=uuid.uuid4()
   with tools.connect()as conn,conn.cursor()as cur:
-   parent.setup(cur,today);e=parent.capture(cur,today,key);assert e['financial_source']is not None
-   role=cur.execute('select role_id from erp.app_users where auth_user_id=%s',(subject,)).fetchone()[0];conn.commit()
+   parent.setup(cur,today);subject,role=admin_actor(cur,parent);e=parent.capture(cur,today,key,subject);assert e['financial_source']is not None;conn.commit()
   with tools.connect()as holder,holder.cursor()as h:
    h.execute("select pg_advisory_xact_lock(hashtextextended('CP7:ANALYSIS:'||%s||':'||%s,0))",(subject,str(key)))
    def send():
     with tools.connect()as conn,conn.cursor()as cur:
-     try:r=parent.capture(cur,today,key);conn.commit();return r
+     try:r=parent.capture(cur,today,key,subject);conn.commit();return r
      except psycopg.Error as ex:conn.rollback();return str(ex)
    with ThreadPoolExecutor(max_workers=1)as pool:
     job=pool.submit(send);waiting=False;deadline=time.monotonic()+8
@@ -79,7 +86,7 @@ def races(tools,today,parent):
 
 def http_cases(http,today,parent):
  def current_finance():
-  owner=http.login('OWNER','p15-analysis-financial-owner')
+  owner=http.login('ADMIN','p15-analysis-financial-admin')
   with http.connect()as conn,conn.cursor()as c:parent.setup(c,today);conn.commit()
   args=dict(p_query=parent.previous.baseline.history.query(today),p_request=str(uuid.uuid4()));e=owner.rpc('erp_cp7_capture_analysis_v1',args);assert e['status']==200,e;parent.checked(e['body']);assert e['body']['financial_source']is not None
   with http.connect()as conn,conn.cursor()as c:

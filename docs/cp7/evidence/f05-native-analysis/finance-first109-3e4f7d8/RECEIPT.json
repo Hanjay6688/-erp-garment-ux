@@ -1,0 +1,61 @@
+{
+  "source_commit": "3e4f7d8c700c6df13cbe2a580e6fe43f7f996174",
+  "source_tree": "79a3c5f8a55b2b3b6057c779c86fae7d8ed03fa9",
+  "compiled_sql_sha256": "d0d81fb64f3558bd3332ef3c15cd8e538b3dc3bfffebca64074b322c022cd35a",
+  "workflow_run": 36797875282,
+  "workflow_job": 110165362549,
+  "artifact_id": 11135016738,
+  "zip_bytes": 28408587,
+  "zip_sha256": "6abe7358ebc24c254d736303edfc978ca38f0ffffab8f62c6d7b64e32fa4b9cb",
+  "original_reports_gzip_sha256": "3a275c398443e8818fe00acc2fe70356d281848ef555f4c91b6a51a7c4161b7c",
+  "status": "INCOMPLETE",
+  "expected": 109,
+  "observed": 109,
+  "counts": {
+    "native": {
+      "PASS": 75,
+      "INCOMPLETE": 3
+    },
+    "races": {
+      "PASS": 14,
+      "INCOMPLETE": 1
+    },
+    "http": {
+      "PASS": 7,
+      "INCOMPLETE": 1
+    },
+    "browser": {
+      "PASS": 6,
+      "INCOMPLETE": 2
+    }
+  },
+  "failures": {
+    "native": {
+      "P15_NATIVE_ANALYSIS_FINANCE_SAME_SOURCE": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 112, in strict_group\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_analysis_finance_cases.py\", line 14, in same_source\n    assert f['report']['captured_at']==e['analysis']['snapshot']['effective_as_of']\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "P15_NATIVE_ANALYSIS_FINANCE_CURRENT_REPORT_AUTH": "PROTECTED_OWNER_ROLE_CANNOT_BE_CHANGED\nCONTEXT:  PL/pgSQL function erp.guard_protected_role() line 15 at RAISE",
+      "P15_NATIVE_ANALYSIS_FINANCE_CURRENT_PREFLIGHT_AUTH": "PROTECTED_OWNER_ROLE_CANNOT_BE_CHANGED\nCONTEXT:  PL/pgSQL function erp.guard_protected_role() line 15 at RAISE"
+    },
+    "races": {
+      "P15_ANALYSIS_FINANCE_LOCK_CURRENT_AUTH": "PROTECTED_OWNER_ROLE_CANNOT_BE_CHANGED\nCONTEXT:  PL/pgSQL function erp.guard_protected_role() line 15 at RAISE"
+    },
+    "http": {
+      "P15_ANALYSIS_FINANCE_HTTP_CURRENT_AUTH": "PROTECTED_OWNER_ROLE_CANNOT_BE_CHANGED\nCONTEXT:  PL/pgSQL function erp.guard_protected_role() line 15 at RAISE"
+    },
+    "browser": {
+      "P14_BROWSER_DESKTOP_SHARED_ANALYSIS": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert.ok(report.includes('Keuangan, HPP'))\n\n    at journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_browser.mjs:19:236)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3",
+      "P14_BROWSER_MOBILE_SHARED_ANALYSIS": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert.ok(report.includes('Keuangan, HPP'))\n\n    at journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_browser.mjs:19:236)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3"
+    }
+  },
+  "restore": true,
+  "advisor_gate": true,
+  "other_predecessor_guards_unchanged": true,
+  "all_case_boundaries_and_zero_leaks_checked": true,
+  "notes": [
+    "Native protected Owner permission guard correctly refused fixture attempts. Successor uses actual ADMIN role for removable report/preflight permissions; Owner guard unchanged.",
+    "Capture clock assertion compared two timestamp strings with equivalent instants but different offset formatting; successor compares aware instants.",
+    "Browser expected the previous financial-domain-absent label. Successor verifies actual included Native report status, recorded HPP, hash and complete prompt source.",
+    "No qualification claimed from this INCOMPLETE run."
+  ],
+  "production_go": false,
+  "full_family_acceptance": false
+}
