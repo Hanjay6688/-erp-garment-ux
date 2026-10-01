@@ -32,6 +32,11 @@ def source_hashes():
 def verify(cur):
  from cp7_model_bundle import verify as verify_models
  verify_models(cur)
+ # Both metadata originals must keep their actual before-row UPDATE/DELETE
+ # fence. RLS/ACL checks alone would miss a disabled immutability trigger.
+ for relation,trigger in (('cp7_model_native.registry','model_registry_immutable'),
+                          ('cp7_model_native.runs','model_run_immutable')):
+  assert cur.execute("select tgtype,tgenabled,tgfoid='cp7_private.immutable_run()'::regprocedure,tgnargs from pg_trigger where tgrelid=%s::regclass and tgname=%s and not tgisinternal",(relation,trigger)).fetchone()==(27,'O',True,0),(relation,trigger)
  for name in KERNEL_FILES+ADAPTER_FILES:
   assert (ROOT/'scripts/cp7-src'/name).is_file(),name
  # Adapters and kernels remain private invoker routines. The only public
