@@ -1,10 +1,10 @@
 # F03 continuation boundary — current implementation and remaining contracts
 
-This ledger replaces obsolete “next” wording in historical packet narratives; it does not change any frozen framework file or mark a family accepted. CP6 is CLOSED_CONTRACT_SCOPE. F03 is OPEN, independent_acceptance=false and production_go=false. F04 takeover follows completion of this family's agreed boundary.
+This ledger replaces obsolete “next” wording in historical packet narratives; it does not change any frozen framework file or mark a family accepted. CP6 is CLOSED_CONTRACT_SCOPE. F03 writer implementation is QUALIFIED_READY_FOR_INDEPENDENT_AUDIT; independent_acceptance=false and production_go=false. F04 continuation is active. The current source-bound exit is [the1Oct writer handoff](F03_WRITER_HANDOFF_20261001.md). The packet narratives below preserve historical checkpoints; their former pending labels do not override that current exit.
 
 **Keuangan (termasuk laporan), stok dan HPP adalah raja. Reliable data adalah dewa.**
 
-## Bounded results available to the next auditor
+## Historical checkpoints retained for the next auditor
 
 | Packet | Implemented and source-bound writer proof | Remaining acceptance work |
 |---|---|---|

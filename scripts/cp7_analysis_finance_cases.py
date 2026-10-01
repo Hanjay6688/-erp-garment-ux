@@ -1,6 +1,8 @@
 """Native owner-report reuse and current financial authority on saved analysis."""
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
+from copy import deepcopy
+from decimal import Decimal
 import json,time,uuid
 import psycopg
 import cp7_finance_cases as finance
@@ -19,11 +21,31 @@ def cases(cur,today,parent):
   parent.setup(cur,today);before=b.boundary.snapshot(cur);e=parent.capture(cur,today);parent.checked(e)
   f=e['financial_source'];assert f is not None
   auth.actor(cur);native=cur.execute('select public.erp_cp7_get_finance_report_v1(%s)',(json.dumps(f['dates']),)).fetchone()[0];b.api.admin(cur)
-  assert f['report']['snapshot']==native['snapshot']and f['report']['close_preflight']==native['close_preflight']
+  fingerprint=lambda report,book:cur.execute('select cp7_analysis_native.financial_fingerprint(%s::jsonb,%s)',(json.dumps(report),book)).fetchone()[0]
+  assert fingerprint(native,f['book_signature'])==f['source_hash']
+  for section in('performance','financial_position','basis'):
+   assert f['report']['snapshot'][section]==native['snapshot'][section]
   assert datetime.fromisoformat(f['report']['captured_at'])==datetime.fromisoformat(e['analysis']['snapshot']['effective_as_of'])
-  assert cur.execute('select encode(pg_catalog.sha256(convert_to(jsonb_build_object(\'report\',%s::jsonb-\'captured_at\',\'book_signature\',%s::text)::text,\'UTF8\')),\'hex\')',(json.dumps(f['report']),f['book_signature'])).fetchone()[0]==f['source_hash']
+  # A pure perturbation of the actual Native report proves set-order stability,
+  # not another Native event. Keep every raw archived member and duplicate.
+  permuted=deepcopy(f['report']);checks=permuted['snapshot']['data_confidence']
+  for key in('failed_checks','blockers'):
+   if isinstance(checks.get(key),list):checks[key].reverse()
+  if isinstance(permuted['close_preflight'],dict):
+   for key in('blockers','info'):
+    if isinstance(permuted['close_preflight'].get(key),list):permuted['close_preflight'][key].reverse()
+  permuted['captured_at']='2000-01-01T00:00:00+00:00'
+  assert fingerprint(permuted,f['book_signature'])==f['source_hash']
+  changed=deepcopy(permuted);changed['snapshot']['financial_position']['cash']=str(Decimal(changed['snapshot']['financial_position']['cash'])+1)
+  assert fingerprint(changed,f['book_signature'])!=f['source_hash']
+  if checks.get('failed_checks'):
+   duplicated=deepcopy(permuted);duplicated['snapshot']['data_confidence']['failed_checks'].append(deepcopy(checks['failed_checks'][0]))
+   assert fingerprint(duplicated,f['book_signature'])!=f['source_hash']
+   changed=deepcopy(permuted);changed['snapshot']['data_confidence']['failed_checks'][0]['details']='Changed Native check meaning'
+   assert fingerprint(changed,f['book_signature'])!=f['source_hash']
+  assert fingerprint(permuted,'changed-book-provenance')!=f['source_hash']
   assert b.boundary.snapshot(cur)==before
-  return dict(status='PASS',accepted_native_owner_report_identical_no_second_money_or_HPP_engine=True,one_source_clock=True,no_business_DML=True)
+  return dict(status='PASS',accepted_native_owner_report_identical_no_second_money_or_HPP_engine=True,one_source_clock=True,no_business_DML=True,unordered_Native_checks_multiset_hash_stable=True,actual_report_pure_permutation_not_Native_event=True,money_check_content_duplicate_and_book_provenance_changes_detected=True)
  def ops_redaction():
   parent.setup(cur,today);subject,role=auth.custom_actor(cur)
   cur.execute("insert into erp.app_role_permissions(role_id,permission_key)values(%s,'finance.reports.view')",(role,))

@@ -1,0 +1,45 @@
+{
+  "source": "e63fc18b4e1b4c47f26cf4de6daed5b324f9490b",
+  "tree": "a1eade33748bd6ddab26272df6daeaecdca3608c",
+  "run": 36869047004,
+  "job": 110391793936,
+  "artifact": 11166311917,
+  "file_id": "file_0000000090ac8211a2521f67944d4593",
+  "folder": "f03-planner-seams/qualified2-e63fc18",
+  "report": "CP7_F03_NATIVE_PLANNER_SEAMS.json",
+  "archive_bytes": 1633832,
+  "archive_sha256": "6d8a518e65ba4f4579240a70fe61c4204eb2b49c19791b44c21a6a30c39d0594",
+  "source_bundle_sha256": "ee509f7b3b2d6815d6810dd488cc17dca62312ad9b9b8e295917001a5b110e25",
+  "status": "PASS",
+  "observed_case_count": 2,
+  "groups": {
+    "native": {
+      "PASS": 2
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "original_member_hashes": {
+    "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+    "CP7_F03_NATIVE_PLANNER_SEAMS.json": "941ea11744570a8a3ca42c090fd463d2aab4153929602ce955119871b80eb85e",
+    "T3_BACKUP_RESTORE_DRILL.json": "3725028b45b9f71220f952394534d0084e3e031b20ac6c8cd81905e933788564",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "T3_PACKAGE_INSTALL.json": "4a20fe15abbd492382fbc188bf23d79c089243d34512e00fa2d65b86869d33f3"
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING"
+}

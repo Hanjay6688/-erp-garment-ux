@@ -83,10 +83,11 @@
     "status": "IMPLEMENTED_WRITER_NATIVE_AUTH_BROWSER26_PASS"
   },
   "execution_priority": {
-    "active_family": "F03_P09_P13_TRANSACTIONS",
-    "next": "Resolve remaining F03 transactional contracts and qualify integrated source",
+    "active_family": "F04_P05_P08_PLANNING",
+    "f03_writer_status": "QUALIFIED_READY_FOR_INDEPENDENT_AUDIT",
+    "next": "Qualify repaired Native22 and complete material, reviewed-model and plan-versus-actual integration",
     "owner_instruction": "2026-10-01: finish F03 before remaining F04/F05",
-    "preserved_plan_candidate": "NATIVE22_PENDING"
+    "preserved_plan_candidate": "NATIVE22_REAL_SQL_PREFLIGHT_REPAIR_RUNNING"
   },
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
@@ -452,11 +453,17 @@
   "f03_planner_contract_seams": {
     "expected_case_executions": 2,
     "independent_acceptance": false,
+    "job": 110391793936,
+    "observed_case_executions": 2,
     "production_go": false,
     "provider": "scripts/cp7_f03_planner_seam_cases.py",
     "qualifier": "scripts/cp7_f03_planner_seam_probe.py",
+    "receipt": "docs/cp7/evidence/f03-planner-seams/qualified2-e63fc18/RECEIPT.json",
+    "run": 36869047004,
     "selected_future_demand_is_explicit_assumption": true,
-    "status": "O06_O07_ACTUAL_NATIVE_ORACLES_WRITTEN_RUN_PENDING"
+    "source": "e63fc18b4e1b4c47f26cf4de6daed5b324f9490b",
+    "status": "WRITER_QUALIFIED_NATIVE_O06_O07_2_PASS",
+    "tree": "a1eade33748bd6ddab26272df6daeaecdca3608c"
   },
   "f03_supplier_credit": {
     "Native_expected": {
@@ -499,6 +506,19 @@
     "source": "Current conversation: take over Writer Finisher CP6, learn full ERP rules before continuation; F04/F05 made while F03 stalled",
     "unpushed_sessions_observable": false,
     "verified_other_F03_writer": false
+  },
+  "f03_writer_exit": {
+    "composed_planner_regression_run": 36869047034,
+    "counts_are_overlapping_executions_not_unique_oracles": true,
+    "current_authority_run": 36861170397,
+    "full_transaction_run": 36861170597,
+    "full_transaction_source": "37c103e548bf3ee944f5334f2b0565ba72e0fc19",
+    "handoff": "docs/cp7/F03_WRITER_HANDOFF_20261001.md",
+    "independent_acceptance": false,
+    "literal_planner_run": 36869047004,
+    "literal_planner_source": "e63fc18b4e1b4c47f26cf4de6daed5b324f9490b",
+    "production_go": false,
+    "status": "QUALIFIED_READY_FOR_INDEPENDENT_AUDIT"
   },
   "f03_x04": {
     "counts": {
@@ -676,10 +696,14 @@
     "declared_cases": 22,
     "first_runtime": "docs/cp7/evidence/plan-native/first22-4fe51cb/RECEIPT.json",
     "focused_parser_dom_tests": 18,
+    "latest_before_receipt": "docs/cp7/evidence/plan-native/preflight-before22-4b4871a/RECEIPT.json",
     "material_recipe_binding": "STILL_OPEN",
+    "product_bug": "Ambiguous NOT and JSON containment parsed as boolean -> unknown; exact reviewed-assumption equality retained",
     "production_go": false,
+    "repair_run": 36872366454,
+    "repair_source": "1a6196d389d18ecd6107c08fc3d59bec31e6cfb5",
     "scope": "OWN_NATIVE_DRAFT_AND_ATOMIC_LINKED_INTENT_NO_STOCK_RESERVATION_OR_PHYSICAL_POSTING",
-    "status": "IMPLEMENTED_NATIVE_PENDING",
+    "status": "NATIVE22_REPAIR_REAL_JSON_CONTAINMENT_PRECEDENCE_REPEAT_RUNNING",
     "whole_P08_acceptance": false
   },
   "f04_native_schedule": {
@@ -841,13 +865,13 @@
     "candidate_scope": "Reuse accepted Native owner financial report under current Native Owner/Admin and report/preflight rights; immutable financial archives, complete dated book provenance, no second money engine",
     "declared_native_budget": 118,
     "full_family_acceptance": false,
-    "latest_receipt": "docs/cp7/evidence/f05-native-archives/qualified118-11a4352/RECEIPT.json",
+    "latest_receipt": "docs/cp7/evidence/f05-native-history/qualified118-current-admission-ae74c41/RECEIPT.json",
     "local_receipt": "docs/cp7/evidence/f05-native-analysis/finance-local/RECEIPT.json",
     "local_tests": 1076,
-    "native_status": "NATIVE118_PASS_CURRENT_AUTH_ORIGINAL_FINANCE_AND_ARCHIVES_ALL_THREE_RESTORE_COMPONENTS",
+    "native_status": "NATIVE118_PASS_CURRENT_F03_ADMISSION_AND_ALL_EXACT_RESTORATION_GATES",
     "original_receipt": "docs/cp7/evidence/f05-native-analysis/first102-c6c825f/RECEIPT.json",
     "qualified_scope": "Operational compiler and four shared consumers; Native102 first attempt101PASS/1 setup guard refusal, retained as INCOMPLETE",
-    "tested_source": "11a4352a84dc8edbc18ccda670c94b519aaaf693"
+    "tested_source": "ae74c4118d3d42ceec3b3865faad4cc2292ac8a9"
   },
   "f05_native_archives": {
     "consumer": "src/NativeAnalysisPanel.tsx",
@@ -863,24 +887,24 @@
     "tested_source": "11a4352a84dc8edbc18ccda670c94b519aaaf693"
   },
   "f05_native_attention": {
-    "business_episode_reconciliation": false,
+    "business_episode_reconciliation": true,
     "consumer": "src/NativeAnalysisPanel.tsx",
     "external_delivery": false,
     "full_family_acceptance": false,
-    "latest_receipt": "docs/cp7/evidence/f05-native-receivables/qualified137-ba532d3/RECEIPT.json",
+    "latest_receipt": "docs/cp7/evidence/f05-native-history/attention-before164-ae74c41/RECEIPT.json",
     "local_tests": 1084,
     "native_predeclared": {
-      "browser": 14,
-      "http": 11,
-      "native": 95,
-      "races": 17,
-      "total": 137
+      "browser": 24,
+      "http": 14,
+      "native": 105,
+      "races": 21,
+      "total": 164
     },
     "production_go": false,
     "receipt": "docs/cp7/evidence/f05-native-attention/local/RECEIPT.json",
     "scope": "Actor-bound review attention on one immutable analysis; delegated unchanged Native own-user manual reminder writers",
-    "status": "QUALIFIED_BOUNDED_NATIVE137_ALL_PASS_CURRENT_AR_AND_DURABLE_ATTENTION",
-    "tested_source": "ba532d3c9a5b49a87a554d02cd7c97ac6c67298c"
+    "status": "NATIVE164_163_PASS_ONE_BROWSER_SOURCE_STABILITY_INCOMPLETE_REPAIR_WRITTEN",
+    "tested_source": "ae74c4118d3d42ceec3b3865faad4cc2292ac8a9"
   },
   "f05_native_episode_history": {
     "build_source": "0981de990e1cb9b936a05b10856baf0139291fde",
@@ -1284,7 +1308,7 @@
     "missing_declaration": "cp7_plan_writer EXECUTE cp7_private.immutable_run()",
     "originals": "docs/cp7/evidence/f05-native-history/acl-declaration-before-37c103e",
     "sql_permissions_changed": false,
-    "status": "EXISTING_PRIVATE_IMMUTABILITY_TRIGGER_GRANT_NOW_DECLARED_REPEAT_PENDING"
+    "status": "EXISTING_GRANT_DECLARED_AND_NATIVE118_QUALIFIED_NATIVE22_REACHED_PRODUCT_SQL_BUG"
   },
   "production_go": false,
   "receivables_candidate": {

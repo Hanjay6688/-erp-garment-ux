@@ -1,5 +1,26 @@
 -- Protected bridge to the accepted Native owner report. This is a reader, not
 -- another money/HPP calculator. Financial operands never enter an Ops-only run.
+-- These Native collections are sets of checks, not chronological events. The
+-- accepted report sorts failed_checks by family/code only, leaving ties free to
+-- exchange positions. Canonicalize only those collections for the dependency
+-- hash; preserve every member, duplicate, field and the raw archived report.
+create function cp7_analysis_native.financial_fingerprint(p_report jsonb,p_book text)returns text
+language plpgsql immutable security invoker set search_path=''set TimeZone='UTC'as $$
+declare body jsonb:=p_report-'captured_at';path text[];items jsonb;
+begin
+ for path in select column1 from(values
+  (array['snapshot','data_confidence','failed_checks']),
+  (array['snapshot','data_confidence','blockers']),
+  (array['close_preflight','blockers']),(array['close_preflight','info']))paths loop
+  if jsonb_typeof(body#>path)='array'then
+   select coalesce(jsonb_agg(value order by value::text collate "C"),'[]'::jsonb)into items
+    from jsonb_array_elements(body#>path);
+   body:=jsonb_set(body,path,items,false);
+  end if;
+ end loop;
+ return encode(pg_catalog.sha256(convert_to(jsonb_build_object('report',body,'book_signature',p_book)::text,'UTF8')),'hex');
+end $$;
+
 create function cp7_analysis_native.financial_source(q jsonb,p_at timestamptz)returns jsonb
 language plpgsql stable security definer set search_path=''set TimeZone='UTC'as $$
 declare dates jsonb;report jsonb;signature text;book_signature text;
@@ -17,15 +38,18 @@ begin
   union all select 'cash:'||a.id::text,to_jsonb(a)from erp.cash_accounts a)
  select encode(pg_catalog.sha256(convert_to(coalesce(string_agg(key||':'||encode(pg_catalog.sha256(convert_to(fact::text,'UTF8')),'hex'),E'\n'order by key),''),'UTF8')),'hex')into book_signature from parts;
  -- A wall clock is provenance, not a changing financial fact. Keep the shared
- -- capture clock on the saved report and hash its entire remaining Native body.
- signature:=encode(pg_catalog.sha256(convert_to(jsonb_build_object('report',report-'captured_at','book_signature',book_signature)::text,'UTF8')),'hex');
+ -- capture clock on the saved report. Every remaining Native fact participates
+ -- in the hash, with unordered check collections compared as complete multisets.
+ signature:=cp7_analysis_native.financial_fingerprint(report,book_signature);
  report:=jsonb_set(report,'{captured_at}',to_jsonb(p_at));
  return jsonb_build_object('contract_version','cp7.native-analysis-finance.v1',
   'dates',dates,'book_signature',book_signature,'source_hash',signature,'report',report);
 end $$;
 grant usage,create on schema cp7_analysis_native to cp7_finance_read;
+alter function cp7_analysis_native.financial_fingerprint(jsonb,text)owner to cp7_finance_read;
 alter function cp7_analysis_native.financial_source(jsonb,timestamptz)owner to cp7_finance_read;
 revoke create on schema cp7_analysis_native from cp7_finance_read;
+revoke all on function cp7_analysis_native.financial_fingerprint(jsonb,text)from public,anon,authenticated,service_role,cp7_capture;
 revoke all on function cp7_analysis_native.financial_source(jsonb,timestamptz)from public,anon,authenticated,service_role;
 grant execute on function cp7_analysis_native.financial_source(jsonb,timestamptz)to cp7_capture;
 

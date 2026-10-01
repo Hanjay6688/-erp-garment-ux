@@ -1,6 +1,6 @@
 # Bounded Native cutting draft checkpoint
 
-Implemented; Native22 qualification is pending. The owner has directed that remaining F03 transactions be completed before further F04/F05 scope. This checkpoint preserves completed work without claiming full P08, F04, independent acceptance or production go.
+Implemented; Native22 qualification is under repair. F03 writer exit is now qualified and the authorized remaining F04 work is active. This checkpoint does not claim full P08, F04, independent acceptance or production go.
 
 The bridge saves an immutable own planning revision bound to an actual Native Original, exact product root/size, source hash and reviewed assumptions. It reads actual eligible PO, current pattern revision, warehouse and roll lifecycle/ledger availability. Operator-selected roll composition is explicitly a draft estimate: it does not establish an installed material recipe, reservation or future physical production.
 
@@ -22,3 +22,5 @@ The separate18 local parser/DOM tests use expressly synthetic fixtures and the r
 Open P08 work includes complete material recipe binding and broader plan-versus-actual lifecycle. Frozen framework files and accepted Supabase migration/release bytes remain unchanged.
 
 The first full executed22 atae74c41/run36865609732 stopped every case during fixture preparation: the clean accepted baseline has no unused Native fabric. Exact ACL/install, restoration, primary and backup gates passed, but no plan behavior is qualified from that run. Original reports are retained in evidence/plan-native/first-executed22-ae74c41. The fixture now uses the actual P09 receipt SAVE/POST to create ten units of real fabric at its own source location before capturing analysis dependencies. No stock movement, cost or planner DTO is seeded. Repeat the same22 controls; product SQL is unchanged.
+
+The second executed22 at4b4871a/run36867812906 reached a real product preflight defect: NOT with unparenthesized JSON operators was parsed as boolean -> unknown. Every case is retained INCOMPLETE, not rewritten. [Original reports](../evidence/plan-native/preflight-before22-4b4871a/RECEIPT.json) preserve the actual error and clean restore/backup/Auth gates. Source1a6196d parenthesizes each exact bidirectional assumption containment test, retaining duplicate/type checks. Its22-case repeat36872366454 is running. Accepted Native SQL is unchanged.
