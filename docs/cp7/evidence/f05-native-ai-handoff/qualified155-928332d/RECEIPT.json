@@ -1,0 +1,148 @@
+{
+  "status": "NATIVE155_PASS_LOG_INSPECTED_ORIGINAL_ARCHIVE_RETAINED",
+  "source_commit": "928332db2aafa2317271eeed22430719a57bd5b9",
+  "source_tree": "11f3b440534a1b955cb01cd39a1e3662f1688a8b",
+  "run_id": 36814071634,
+  "job_id": 110215202362,
+  "artifact_id": 11141076740,
+  "artifact_file_id": "file_000000000f888207afbcb83dd7e815ef",
+  "archive_bytes": 138502324,
+  "archive_sha256": "833cdecb6c70193aef9809b1191863f4feb4b8c317d70ef182a442ed26ac1347",
+  "source_sql_sha256": "6f349f70eebd4e5d367d436ee3d815fddf6f8d1af5112a73c2a0c205dfa60f4a",
+  "expected_cases": 155,
+  "observed_cases": 155,
+  "groups": {
+    "CP7_F05_ATTENTION": {
+      "PASS": 103
+    },
+    "AUDITOR_RACES_CP7_F05_ATTENTION": {
+      "PASS": 19
+    },
+    "AUDITOR_HTTP_CP7_F05_ATTENTION": {
+      "PASS": 13
+    },
+    "AUDITOR_BROWSER_CP7_F05_ATTENTION_BROWSER": {
+      "PASS": 20
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "original_five_report_verification": "PENDING_NEXT_EXACT_ARCHIVE_RECEIPT",
+  "previous155_failure_diagnostic": {
+    "original155": {
+      "status": "INCOMPLETE",
+      "expected_case_count": 155,
+      "observed_case_count": 155,
+      "source_sha256": "6f349f70eebd4e5d367d436ee3d815fddf6f8d1af5112a73c2a0c205dfa60f4a",
+      "cp6_restored": true,
+      "restore_components": {
+        "erp_platform_auth_schema_acl": true,
+        "public_catalog_and_rows": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "advisor_gate": true,
+      "native_public_catalog_comparison": {
+        "policy": "ALL_ORIGINAL_FIELDS_AND_FUNCTION_SIGNATURE_HASH_PAIRS_EXACT_SORTED",
+        "dropped_fields": [],
+        "physical_order_only_changes": [],
+        "snapshots_checked": 208
+      },
+      "groups": {
+        "native": {
+          "PASS": 103
+        },
+        "races": {
+          "PASS": 19
+        },
+        "http": {
+          "PASS": 13
+        },
+        "browser": {
+          "PASS": 18,
+          "INCOMPLETE": 2
+        }
+      }
+    },
+    "P17_HANDOFF_DESKTOP_FAILURE.json": {
+      "message_hits": [
+        "Salinan otomatis terlalu besar"
+      ],
+      "panel_utf8_bytes": 1035173,
+      "original_analysis_utf8_bytes": 983172,
+      "original_finance_utf8_bytes": 16646,
+      "last_source_state": "UNCHANGED",
+      "same_original_analysis": true,
+      "same_original_finance": true
+    },
+    "P17_HANDOFF_MOBILE_FAILURE.json": {
+      "message_hits": [
+        "Salinan otomatis terlalu besar"
+      ],
+      "panel_utf8_bytes": 1077519,
+      "original_analysis_utf8_bytes": 1024558,
+      "original_finance_utf8_bytes": 16646,
+      "last_source_state": "UNCHANGED",
+      "same_original_analysis": true,
+      "same_original_finance": true
+    }
+  },
+  "P17_cases": [
+    {
+      "group": "AUDITOR_BROWSER_CP7_F05_ATTENTION_BROWSER",
+      "case": "P17_BROWSER_DESKTOP_NATIVE_HANDOFF",
+      "status": "PASS",
+      "actual_Auth_Native_original_before_every_copy_or_open": true,
+      "actual_browser_clipboard_complete_UTF8_scope_hash_finance_and_question": true,
+      "initial_copy_mode": "MANUAL_UTF8_BOUND",
+      "initial_prompt_utf8_bytes": 1034140,
+      "controlled_clipboard_denial_visited_count": 0,
+      "complete_manual_byte_bound_visited_count": 6,
+      "controlled_popup_branches_only_static_data_free_URL_no_provider_contact": true,
+      "held_actual_Native_read_scope_invalidation_closes_blank_and_retires_source": true,
+      "actual_source_change_keeps_archived_Original_no_handoff": true,
+      "current403_closes_blank_retires_parent_FG_HPP_and_all_prepared_source": true,
+      "own_question_stock_search_retained_no_fact_cache": true,
+      "explicit_capture_count": 6,
+      "legitimate_clock_archives": 0,
+      "no_implicit_capture_business_write_or_delivery": true,
+      "screenshots": [
+        "P17_COPIED_DESKTOP.png",
+        "P17_MANUAL_BLOCKED_DESKTOP.png",
+        "P17_STALE_DESKTOP.png",
+        "P17_RECOVERED_DESKTOP.png"
+      ]
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_F05_ATTENTION_BROWSER",
+      "case": "P17_BROWSER_MOBILE_NATIVE_HANDOFF",
+      "status": "PASS",
+      "actual_Auth_Native_original_before_every_copy_or_open": true,
+      "actual_browser_clipboard_complete_UTF8_scope_hash_finance_and_question": true,
+      "initial_copy_mode": "MANUAL_UTF8_BOUND",
+      "initial_prompt_utf8_bytes": 1076486,
+      "controlled_clipboard_denial_visited_count": 0,
+      "complete_manual_byte_bound_visited_count": 6,
+      "controlled_popup_branches_only_static_data_free_URL_no_provider_contact": true,
+      "held_actual_Native_read_scope_invalidation_closes_blank_and_retires_source": true,
+      "actual_source_change_keeps_archived_Original_no_handoff": true,
+      "current403_closes_blank_retires_parent_FG_HPP_and_all_prepared_source": true,
+      "own_question_stock_search_retained_no_fact_cache": true,
+      "explicit_capture_count": 6,
+      "legitimate_clock_archives": 0,
+      "no_implicit_capture_business_write_or_delivery": true,
+      "screenshots": [
+        "P17_COPIED_MOBILE.png",
+        "P17_MANUAL_BLOCKED_MOBILE.png",
+        "P17_STALE_MOBILE.png",
+        "P17_RECOVERED_MOBILE.png"
+      ]
+    }
+  ],
+  "claim_limit": "Actual complete manual UTF8 copy above bound, controlled static popup branches; controlled clipboard-denial path not visited by these oversized Native sources. No external provider contacted.",
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

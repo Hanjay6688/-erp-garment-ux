@@ -2,7 +2,7 @@
 import hashlib
 import cp7_analysis_bundle as predecessor
 ROOT=predecessor.ROOT
-FILES=('reminders/attention.sql','reminders/receivable-source.sql','reminders/payable-source.sql','reminders/obligation-episodes.sql')
+FILES=('reminders/attention.sql','reminders/receivable-source.sql','reminders/payable-source.sql','reminders/obligation-episodes.sql','reminders/obligation-history.sql')
 ROLES=('cp7_payable_read',*predecessor.ROLES,'cp7_reminder')
 GRANTS={k:set(v)for k,v in predecessor.GRANTS.items()}
 GRANTS['cp7_reminder']={
@@ -18,7 +18,7 @@ def extension():return '\n'.join((ROOT/'scripts/cp7-src'/p).read_text()for p in 
 def bundle():return predecessor.bundle()+'\n'+extension()
 def verify(cur):
  predecessor.verify(cur)
- expected={'immutable_request':'v','guard_attention':'v','exact_numbers':'i','access_now':'v','workspace':'v','command':'v','manual_source':'v','request_status':'v','receivable_source':'s','receivable_conditions':'v','payable_exact_numbers':'i','payable_source':'s','payable_conditions':'v','guard_obligation_episode':'v','obligation_access':'v','obligation_evaluate':'v'}
+ expected={'immutable_request':'v','guard_attention':'v','exact_numbers':'i','access_now':'v','workspace':'v','command':'v','manual_source':'v','request_status':'v','receivable_source':'s','receivable_conditions':'v','payable_exact_numbers':'i','payable_source':'s','payable_conditions':'v','guard_obligation_episode':'v','obligation_access':'v','obligation_evaluate':'v','obligation_history':'v'}
  rows=cur.execute("select p.oid::regprocedure::text,p.proname,pg_get_userbyid(p.proowner),p.prosecdef,p.proconfig,p.provolatile from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_reminder_native'").fetchall()
  assert len(rows)==len(expected),rows
  for sig,name,owner,definer,config,volatility in rows:
@@ -33,7 +33,7 @@ def verify(cur):
  assert cur.execute("select has_table_privilege('cp7_reminder','erp.manual_reminders','SELECT')").fetchone()[0]
  reads=cur.execute("select n.nspname||'.'||c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp'and c.relkind in('r','p','v')and has_table_privilege('cp7_reminder',c.oid,'SELECT')order by 1").fetchall()
  assert reads==[('erp.manual_reminders',)],reads
- for sig in('public.erp_cp7_get_analysis_attention_v1(uuid)','public.erp_cp7_save_analysis_attention_v1(jsonb,uuid)','public.erp_cp7_get_analysis_attention_request_v1(jsonb,uuid)','public.erp_cp7_get_analysis_receivable_conditions_v1(uuid)','public.erp_cp7_get_analysis_payable_conditions_v1(uuid)','public.erp_cp7_evaluate_obligation_episodes_v1(jsonb,uuid)','public.erp_cp7_get_obligation_episode_request_v1(jsonb,uuid)'):
+ for sig in('public.erp_cp7_get_analysis_attention_v1(uuid)','public.erp_cp7_save_analysis_attention_v1(jsonb,uuid)','public.erp_cp7_get_analysis_attention_request_v1(jsonb,uuid)','public.erp_cp7_get_analysis_receivable_conditions_v1(uuid)','public.erp_cp7_get_analysis_payable_conditions_v1(uuid)','public.erp_cp7_evaluate_obligation_episodes_v1(jsonb,uuid)','public.erp_cp7_get_obligation_episode_request_v1(jsonb,uuid)','public.erp_cp7_get_obligation_episode_history_v1(jsonb)'):
   assert cur.execute('select pg_get_userbyid(proowner),prosecdef,proconfig from pg_proc where oid=%s::regprocedure',(sig,)).fetchone()==('cp7_reminder',True,['search_path=\"\"'])
   assert cur.execute('select has_function_privilege(\'authenticated\',%s,\'EXECUTE\')',(sig,)).fetchone()[0]
   for who in('anon','service_role'):assert not cur.execute('select has_function_privilege(%s,%s,\'EXECUTE\')',(who,sig)).fetchone()[0]
