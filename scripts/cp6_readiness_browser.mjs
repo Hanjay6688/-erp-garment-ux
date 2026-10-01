@@ -66,6 +66,10 @@ async function readiness(ui,mobile) {
     await screenshot('accessory-decision')
     await open(p,ui,'Keuangan','HPP & Rekalkulasi')
     await ui.expect(p.getByLabel('Catatan pembulatan biaya')).toContainText('tidak ada batas selisih sen per PO')
+    await ui.expect(p.getByRole('button',{name:'Tampilkan',exact:true})).toBeEnabled({timeout:20000})
+    await ui.expect(p.locator('p').filter({hasText:/^Posisi .*Biaya memakai versi/})).toBeVisible({timeout:20000})
+    await ui.expect(p.getByRole('alert')).toHaveCount(0)
+    checks.finance_native_report_loaded=true
     await screenshot('hpp-rounding')
     checks.finance_rounding_visible=true
     if(mobile)checks.mobile_width=await p.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+1)

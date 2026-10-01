@@ -11,10 +11,11 @@ import cp6_bf_probe as bf
 OUT=Path(__file__).resolve().parents[1]/'cp6-proof/t3'
 TARGET='postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback'
 PRIMARY='postgresql://postgres:postgres@127.0.0.1:54322/postgres'
-ADMIN='postgresql://postgres:postgres@127.0.0.1:54322/template1'
+ADMIN=os.environ['CP6_ADMISSION_CONTROL_PGURL']
 
 def main():
     assert os.environ.get('CP6_AR_CONFIRM')=='cp6_rollback' and os.environ.get('CP6_DATABASE_CONTAINER')=='supabase_db_cp5-local'
+    installer.core._validate_connections(TARGET,ADMIN)
     OUT.mkdir(parents=True,exist_ok=True);password=secrets.token_hex(32);print('::add-mask::'+password,flush=True)
     control=f'postgresql://cp6_readiness_owner:{quote(password)}@127.0.0.1:54322/template1'
     print('::add-mask::'+control,flush=True)
@@ -29,8 +30,9 @@ def main():
         return result
     try:
         plan=run('READ_ONLY_PLAN')
-        assert plan['status']=='READ_ONLY_PLAN_COMPLETE' and plan['capability']['control_is_superuser'] is False and not plan['admission_closed'],plan
+        assert plan['status']=='READ_ONLY_PLAN_COMPLETE' and plan['capability']['control_is_superuser'] is False and plan['capability']['work_is_superuser'] is False and not plan['admission_closed'],plan
         report['cases']['READ_ONLY_OWNER_PLAN']='PASS'
+        report['capability']=plan['capability']
         # Validate a wrong database and a non-owner without DDL or file install.
         wrong=installer.run(TARGET.replace('/cp6_rollback','/postgres'),control,profile='DISPOSABLE',report_path=OUT/'OWNER_WRONG_ENDPOINT.json')
         assert wrong['error_code']=='ENDPOINT_NOT_ALLOWED' and not wrong['admission_closed'],wrong

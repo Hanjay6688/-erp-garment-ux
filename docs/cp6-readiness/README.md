@@ -6,7 +6,7 @@ Arahan owner 1 Oktober 2026: bereskan enam risiko dari auditor sebelum membahas 
 
 | Risiko auditor | Perbaikan pada cabang ini | Batas penerimaan |
 |---|---|---|
-| Belum dipasang di hosted | Preflight baca saja, identitas paket, driver pemilik database tanpa controller superuser, serta runbook maintenance dan pemulihan | CI menguji controller tanpa superuser; privilege DDL akun kerja hosted dan pemasangan pertama masih perlu dibuktikan di jendela yang disetujui |
+| Belum dipasang di hosted | Preflight baca saja, identitas paket, driver pemilik database serta runbook maintenance dan pemulihan; CI mewajibkan controller dan akun kerja bukan superuser | Baseline, privilege dan pemasangan hosted pertama tetap perlu dibuktikan di jendela yang disetujui |
 | Sen W8 menumpuk per PO | Catatan di HPP per SKU dan oracle baru tujuh dokumen, koreksi langsung serta invoice terlambat | Keputusan T3=A tetap berlaku; tidak dibuat batas sen per PO |
 | Tes BF masih memakai tarif SKU | Semua entrypoint `cp6_bf_free_*` memakai tarif Native vendor, SKU menyimpan `laundry_rates: []` | Receipt dan verdict lama tetap historis; tidak diganti label PASS |
 | UI belum dilihat langsung | Pemeriksaan browser dengan Auth/PostgREST asli, desktop dan ponsel, screenshot pengaturan dan pembulatan | Kesesuaian tampilan terhadap demo memerlukan demo acuan. Pemeriksaan ini tidak mengklaim seluruh UI sama dengan demo |

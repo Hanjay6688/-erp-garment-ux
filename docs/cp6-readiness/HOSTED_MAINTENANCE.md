@@ -22,7 +22,7 @@ python scripts/cp6_readiness_owner_install.py --report /path/to/CP6_OWNER_PLAN.j
 
 Mode bawaan hanya membaca metadata. Periksa status `READ_ONLY_PLAN_COMPLETE`, identitas cluster yang sama, kepemilikan sasaran, kemampuan melihat sesi, dan 30 hash paket. Ia tidak menutup admission atau memasang SQL. Dependency Python mengikuti CI (`psycopg[binary]==3.2.10`).
 
-Uji CI jalur baru memakai pemilik/controller **tanpa superuser**, sedangkan akun kerja `postgres` di CI tetap superuser. Batas ini dicatat dalam receipt kemampuan. Keberhasilan controller di CI belum membuktikan seluruh privilege DDL akun kerja hosted; pemasangan pertama tetap sebuah gate tersendiri. Receipt CI terbaru harus lulus sebelum operator memakai jalur ini.
+Uji CI jalur baru wajib membuktikan pemilik/controller dan akun kerja `postgres` **keduanya tanpa superuser**, lalu memasang 30 berkas dengan seluruh guard asli. Akun admin CI hanya dipakai menyiapkan dan membersihkan fixture kepemilikan salinan sekali pakai, tidak menjalankan driver pemasangan. Kemampuan kedua akun dicatat dalam receipt. Keberhasilan CI masih belum membuktikan baseline, koneksi direct dan privilege aktual hosted; pemasangan pertama tetap sebuah gate tersendiri. Receipt CI terbaru harus lulus sebelum operator memakai jalur ini.
 
 Rujukan kemampuan: [ALTER DATABASE PostgreSQL 17](https://www.postgresql.org/docs/17/sql-alterdatabase.html), [role postgres Supabase](https://supabase.com/docs/guides/database/postgres/roles-superuser), [koneksi direct dan sertifikat](https://supabase.com/docs/guides/database/connecting-to-postgres).
 
