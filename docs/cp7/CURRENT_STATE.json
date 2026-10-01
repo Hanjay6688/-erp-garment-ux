@@ -1641,7 +1641,7 @@
     "visual_review": "ACTUAL_MOBILE_ORIGINAL_INSPECTED_BOTH_BROWSER_CONTRAST_PASS_INDEPENDENT_DEMO_OPEN"
   },
   "f04_native_material_requirements": {
-    "status": "NATIVE152_146_PASS_6_INCOMPLETE_EXPLICIT_CONSENT_REVIEW_FIXTURE_REPAIR_PENDING_SAME152_198",
+    "status": "NATIVE152_146_PASS_6_INCOMPLETE_EXPLICIT_CURRENT_SCHEDULE_SOURCE_REBIND_PENDING_SAME152_198",
     "core_source": "057d15de92cc4abad4b59704720c9a668db13414",
     "composer": "scripts/cp7-src/planning/material-requirements.sql",
     "consumer": "src/NativeMaterialNeedsView.tsx",
@@ -1713,6 +1713,7 @@
       }
     },
     "first198_original": "docs/cp7/evidence/f04-native-material/first198-shared-master-40ec442/RECEIPT.json",
-    "fixture_review_fix": "Preserve already KNOWN/ACTIVE choice; explicit Native review of current successor commercial version; no future/backdated review"
+    "fixture_review_fix": "Retain entire selected work config; actual current public supply capture + existing public schedule CAS after economic master changes; no policy reactivation",
+    "superseded_inference": "70851106 consent version change was incorrect; retained Native Original shows ACTIVE production and selected targets"
   }
 }
