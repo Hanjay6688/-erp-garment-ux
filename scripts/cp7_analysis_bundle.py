@@ -2,16 +2,18 @@
 import hashlib
 import cp7_netting_bundle as predecessor
 ROOT=predecessor.ROOT
-FILES=('planning/analysis.sql','planning/analysis-finance.sql','planning/analysis-archive.sql','planning/report-publication.sql','plan-native/bootstrap.sql','plan-native/source.sql','plan-native/preflight.sql','plan-native/read.sql','plan-native/commands.sql','plan-native/actual.sql','plan-native/ownership.sql')
+FILES=('planning/material-requirements.sql','planning/analysis.sql','planning/analysis-finance.sql','planning/analysis-archive.sql','planning/report-publication.sql','plan-native/bootstrap.sql','plan-native/source.sql','plan-native/preflight.sql','plan-native/read.sql','plan-native/commands.sql','plan-native/actual.sql','plan-native/ownership.sql')
 ROLES=('cp7_plan_writer',)+predecessor.ROLES
 GRANTS={**predecessor.GRANTS,'cp7_plan_writer':('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)','cp7_private.immutable_run()','public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint)')}
+MATERIAL_TABLES=('erp.accessory_bom_versions','erp.accessory_bom_items','erp.accessory_categories')
+TABLE_GRANTS={'cp7_capture':{name:'SELECT'for name in MATERIAL_TABLES}}
 def extension():return '\n'.join((ROOT/'scripts/cp7-src'/p).read_text()for p in FILES)
 def bundle():return predecessor.bundle()+'\n'+extension()
 def verify(cur):
  predecessor.verify(cur)
  from cp7_plan_bundle import verify as verify_plan
  verify_plan(cur)
- expected={'source':'s','fingerprint':'i','fact':'i','build_operational':'i','build':'i','financial_source':'s','financial_fingerprint':'i','serve':'v','capture':'v','archives':'v','report_fact':'i','report_render':'i','report_document':'v','report_command':'v','report_index':'v','report_compare':'v'}
+ expected={'material_source':'s','material_needs':'i','source':'s','fingerprint':'i','fact':'i','build_operational':'i','build':'i','financial_source':'s','financial_fingerprint':'i','serve':'v','capture':'v','archives':'v','report_fact':'i','report_render':'i','report_document':'v','report_command':'v','report_index':'v','report_compare':'v'}
  rows=cur.execute("select p.oid::regprocedure::text,p.proname,pg_get_userbyid(p.proowner),p.prosecdef,p.proconfig,p.provolatile from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_analysis_native'").fetchall()
  assert len(rows)==len(expected)+1,rows # source() and source(jsonb)
  for sig,name,owner,definer,config,volatility in rows:
@@ -25,6 +27,8 @@ def verify(cur):
   assert not cur.execute("select has_schema_privilege(%s,'cp7_analysis_native','USAGE')or has_table_privilege(%s,'cp7_analysis_native.runs','SELECT,INSERT,UPDATE,DELETE')",(who,who)).fetchone()[0]
  assert cur.execute("select relrowsecurity from pg_class where oid='cp7_analysis_native.runs'::regclass").fetchone()[0]
  assert cur.execute("select count(*)from pg_policy where polrelid='cp7_analysis_native.runs'::regclass and pg_get_expr(polqual,polrelid)='false'and pg_get_expr(polwithcheck,polrelid)='false'").fetchone()[0]==1
+ for table in MATERIAL_TABLES:
+  assert cur.execute("select has_table_privilege('cp7_capture',%s,'SELECT')and not has_table_privilege('cp7_capture',%s,'INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER')",(table,table)).fetchone()[0]
  for table in('publications','report_requests'):
   sig='cp7_analysis_native.'+table
   assert cur.execute('select pg_get_userbyid(relowner),relrowsecurity from pg_class where oid=%s::regclass',(sig,)).fetchone()==('cp7_capture',True)

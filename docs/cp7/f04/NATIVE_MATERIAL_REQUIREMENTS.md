@@ -1,0 +1,11 @@
+# Native material requirement candidate
+
+The two private compiler functions capture the current Native accessory BOM for each exact physical product root, from Native versions, items and category base units at the shared capture clock. Only three declared SELECT grants are added to the existing capture role. No Native writer, price, HPP calculation, ledger or stock DML is added.
+
+The captured selected version and all relevant master operands participate in the source hash. Raw capture time stays in the Original; the hash excludes only that clock, while effective-version changes still change the selection. A later Native BOM successor archives the original requirement rather than changing its saved quantities.
+
+A missing BOM is UNKNOWN. An explicitly stored empty BOM proves zero accessory requirement only; fabric/capacity remain unproved. A nonempty BOM projects the Native quantity per good FG against the existing conditional new-start gap, with the existing plan/profile assumptions retained. Installed, eligible allocated unused and additional external remain UNKNOWN without their actual evidence. Contractor issue, FG count, PO BOM commitment, cost snapshot, unallocated warehouse stock and category valuation do not supply that evidence. Category identity is not physical substitutability.
+
+The byte-frozen analysis.v2 contract stays unchanged. This checkpoint is an unqualified source candidate on the material topic branch; shared UI, receipt guards and the Native qualifier are being completed before integration.
+
+Predeclared extension:8 database cases,1 real current-authority race,1 actual Auth/HTTP flow and2 desktop/mobile journeys. The previous140 and186 cases stay; the complete proposed budgets become152 and198. O09 installed60/unused20 and O10 need100/material60 are explicitly synthetic trusted-kernel contract oracles, not claims that ERP has a Native installed60 event. Actual Native cases cover missing/empty BOM, assumed gross93*2=186, an effective-dated successor producing279, issue80 remaining UNKNOWN, private read-only access and effective-clock transitions. Native Original/restoration, backup, advisor, Auth cleanup and visual gates remain mandatory. Full recipe/eligible allocation/material feasibility and reviewed model integration remain open.

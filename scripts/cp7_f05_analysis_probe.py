@@ -57,7 +57,7 @@ def run(attention=False):
    for signature,definition in expected_definitions.items():assert cur.execute('select pg_get_functiondef(%s::regprocedure)',(signature,)).fetchone()[0]==definition,('F03_EXACT_ADMISSION_DELTA',signature)
    assert cur.execute("select pg_get_functiondef('cp7_payroll.rebuild_nonwork(uuid)'::regprocedure)").fetchone()[0]==f03.settlement.derive_nonwork(f03.settlement.accepted('populate_payroll_draft'))
    p09.INSTALLED_FUNCTIONS=after;report['combined_declared_execute_grants']={k:sorted(v)for k,v in grants.items()};report['exact_guard_sha256']={k:hashlib.sha256(v.encode()).hexdigest()for k,v in expected_definitions.items()};report['all_other_predecessor_definitions_and_owners_unchanged']=True
-   if attention:report['combined_declared_table_grants']=candidate.TABLE_GRANTS
+   report['combined_declared_table_grants']=candidate.TABLE_GRANTS
    conn.commit();installed=True;checker(cur);conn.rollback()
   report['advisors_with_cp7']=advisors(package.boundary.PG)
   with exact_public_catalog(native)as catalog_audit:

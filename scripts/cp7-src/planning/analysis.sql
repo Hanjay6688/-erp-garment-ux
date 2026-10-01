@@ -1,7 +1,6 @@
 -- One authoritative compiler into the frozen analysis.v2 contract. Operational
 -- quantities come from the Native composed result, never a client calculator.
-create schema cp7_analysis_native authorization cp7_capture;
-revoke all on schema cp7_analysis_native from public,anon,authenticated,service_role;
+-- The material-requirements module creates the private compiler schema.
 
 create function cp7_analysis_native.source()returns jsonb
 language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
@@ -11,12 +10,14 @@ language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
   from pg_proc p join pg_namespace n on n.oid=p.pronamespace
   where n.nspname in('cp7_planning','cp7_profile','cp7_supply_native','cp7_schedule_native','cp7_netting_native','cp7_analysis_native','cp7_wip','cp7_demand','cp7_baseline','cp7_models','cp7_finance')
    or p.oid='erp.get_owner_financial_snapshot_v2(date,date,date)'::regprocedure)
- select c||jsonb_build_object('analysis_engine_signature',signature)from native cross join engine
+ select c||jsonb_build_object('analysis_engine_signature',signature,
+  'material_source',cp7_analysis_native.material_source(c->'facts'->'products',(c->>'captured_at')::timestamptz))from native cross join engine
 $$;
 create function cp7_analysis_native.fingerprint(c jsonb)returns text
 language sql immutable security invoker set search_path=''set TimeZone='UTC'as $$
  select encode(extensions.digest(convert_to(jsonb_build_object('source',cp7_netting_native.fingerprint(c),
-  'engine',c->'analysis_engine_signature','financial_source',c->'financial_source'->'source_hash')::text,'UTF8'),'sha256'),'hex')
+  'engine',c->'analysis_engine_signature','financial_source',c->'financial_source'->'source_hash',
+  'material_source',(c->'material_source')-'captured_at')::text,'UTF8'),'sha256'),'hex')
 $$;
 create function cp7_analysis_native.fact(value text,unit text,refs jsonb,assumptions jsonb default '[]')returns jsonb
 language sql immutable security invoker set search_path=''set TimeZone='UTC'as $$
@@ -93,10 +94,7 @@ begin
    'selection_reason','Native available-history/manual fallback; no backtest promotion without earlier-known training evidence',
    'validation_fold_ids','[]'::jsonb,'scores','[]'::jsonb));
   end if;
-  materials:=materials||jsonb_build_array(jsonb_build_object('target_key',r->'target_key','material_key',null,
-   'gross',cp7_analysis_native.fact(null,'MATERIAL_BASE_UNIT',refs),'installed_proven',cp7_analysis_native.fact(null,'MATERIAL_BASE_UNIT',refs),
-   'unused_allocated_proven',cp7_analysis_native.fact(null,'MATERIAL_BASE_UNIT',refs),'additional_external',cp7_analysis_native.fact(null,'MATERIAL_BASE_UNIT',refs),
-   'reason','Bahan dan konsumsi untuk produksi baru belum dibuktikan; issue bukan pemasangan'));
+  materials:=materials||cp7_analysis_native.material_needs(c,r,row_aids);
   metrics:=metrics||jsonb_build_array(jsonb_build_object('metric_id','AVAILABLE_FG_PCS:'||(r->>'target_key'),'version','native-availability-1',
    'value',cp7_analysis_native.fact(r->>'available_fg_pcs','PCS',refs),'formula_ref','NATIVE_PHYSICAL_MINUS_ACTIVE_DRAFT_RESERVATIONS_ONCE',
    'operands',jsonb_build_array(cp7_analysis_native.fact(stock->'availability'->>'physical_fg_pcs','PCS',stock->'refs'),
@@ -156,7 +154,8 @@ begin
  end loop;
  for k,part in select key,value from jsonb_each(jsonb_build_object('native_operational',c->'facts','native_production',c->'production_sources'->'facts',
   'native_matching',c->'matching_products','planning_profiles',c->'profiles','production_policy',c->'production_policies'->'rows',
-  'selected_schedule',c->'schedule','dated_capacity_clock',c->'planning_time_bucket','analysis_engine',c->'analysis_engine_signature'))loop
+  'selected_schedule',c->'schedule','dated_capacity_clock',c->'planning_time_bucket','analysis_engine',c->'analysis_engine_signature',
+  'native_material_requirements',(c->'material_source')-'captured_at'))loop
   part_hash:=encode(extensions.digest(convert_to(part::text,'UTF8'),'sha256'),'hex');
   if k in('native_operational','native_production')then
    with recursive objects(value)as(select part union all
@@ -246,6 +245,8 @@ begin
  return cp7_analysis_native.serve(r.id);
 end $$;
 alter function cp7_analysis_native.source()owner to cp7_capture;
+alter function cp7_analysis_native.material_source(jsonb,timestamptz)owner to cp7_capture;
+alter function cp7_analysis_native.material_needs(jsonb,jsonb,jsonb)owner to cp7_capture;
 alter function cp7_analysis_native.fingerprint(jsonb)owner to cp7_capture;
 alter function cp7_analysis_native.fact(text,text,jsonb,jsonb)owner to cp7_capture;
 alter function cp7_analysis_native.build(jsonb,jsonb,uuid,jsonb)owner to cp7_capture;

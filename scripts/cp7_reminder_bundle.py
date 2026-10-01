@@ -13,7 +13,7 @@ GRANTS['cp7_reminder']={
  'public.erp_cancel_my_reminder_v1(uuid,text,uuid,bigint)','public.erp_cp7_get_sales_v1(jsonb)'}
 GRANTS['cp7_payable_read']={'auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)','public.erp_get_supplier_credit_v1(jsonb)','erp.material_purchase_final_ap_total(uuid)','erp.material_purchase_grni_total(uuid)','erp.material_purchase_total_liability(uuid)','erp.material_purchase_invoice_capacity(uuid)','erp.material_purchase_posted_invoice_qty(uuid)'}
 AP_TABLES=('erp.v_material_purchase_liability_status','erp.material_purchase_headers','erp.material_purchase_items','erp.suppliers','erp.supplier_payments','erp.material_supplier_invoices','erp.material_supplier_invoice_lines')
-TABLE_GRANTS={'cp7_reminder':{'erp.manual_reminders':'SELECT'},'cp7_payable_read':{name:'SELECT'for name in AP_TABLES}}
+TABLE_GRANTS={**predecessor.TABLE_GRANTS,'cp7_reminder':{'erp.manual_reminders':'SELECT'},'cp7_payable_read':{name:'SELECT'for name in AP_TABLES}}
 def extension():return '\n'.join((ROOT/'scripts/cp7-src'/p).read_text()for p in FILES)
 def bundle():return predecessor.bundle()+'\n'+extension()
 def verify(cur):
