@@ -1,0 +1,68 @@
+{
+  "schema": "cp7-native-qualification-receipt-v1",
+  "status": "WRITER_QUALIFIED_10_PASS",
+  "source_commit": "49aee0d31e7fcc8b59d35728f1030ce4fb9fcd55",
+  "source_bundle_sha256": "eb86b6300f1ebf8e429edef2f4dfb0dc80ec24978c8809de53e7f2e3e7a729e5",
+  "run_id": 36851010755,
+  "job_id": 110332395762,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36851010755",
+  "counts": {
+    "PASS": 10,
+    "INCOMPLETE": 0,
+    "FAIL": 0
+  },
+  "predeclared_groups": {
+    "native": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    },
+    "refund_native": {
+      "PASS": 2
+    },
+    "refund_races": {
+      "PASS": 1
+    },
+    "refund_http": {
+      "PASS": 1
+    },
+    "refund_browser": {
+      "PASS": 2
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "backup_restore_checks": {
+    "restore_errors_only_pg_cron": true,
+    "catalog_explained": true,
+    "data_identical": true,
+    "engine_answer_present": true,
+    "engine_equal": true
+  },
+  "known_ignored_pg_cron_restore_errors": 19,
+  "all_actual_Auth_restored": true,
+  "console_errors": 0,
+  "cleanup_failures": false,
+  "current_paid_sale_guard_unchanged": true,
+  "scope": "EXISTING_NATIVE_LEGACY_SALE_RETURN_AND_IMPORTED_SOURCE_CREDIT_REFUND_PLUS_RETAINED_CUSTOMER_CUSTODY_SERVICE",
+  "archive": {
+    "artifact_id": 11155448876,
+    "name": "cp7-f03-e03",
+    "bytes": 3619735,
+    "sha256": "e279756926fbfc2d07656a3ebc6834fcf3af24dd8320ebc017612b7cd4f2ace7",
+    "file_id": "file_000000006aec8207945d9e63b6085ffb"
+  },
+  "first_failures_retained": [
+    "first10-e49c584/RECEIPT.json",
+    "second10-8981a45/RECEIPT.json"
+  ],
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

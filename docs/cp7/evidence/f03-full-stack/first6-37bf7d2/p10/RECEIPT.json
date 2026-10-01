@@ -1,0 +1,46 @@
+{
+  "schema": "cp7-full-stack-qualification-receipt-v1",
+  "status": "WRITER_QUALIFIED_ON_ONE_FULL_F03_STACK",
+  "bucket": "p10",
+  "source_commit": "37bf7d236e9e2803ff8be4bc61929e2ffec0c3c5",
+  "source_tree": "68b52dfdc84a28f243e3cc4bd3007815752698a6",
+  "source_bundle_sha256": "eb86b6300f1ebf8e429edef2f4dfb0dc80ec24978c8809de53e7f2e3e7a729e5",
+  "manifest_sha256": "3ee5c39459c8ccbd714f7af96494191446556bf4bb63767f1f36674685bf1451",
+  "run_id": 36850513509,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36850513509",
+  "private_roles": 31,
+  "expected_case_executions": 34,
+  "actual_case_executions": 34,
+  "separate_smoke_executions": 0,
+  "predeclared_group_count": 9,
+  "all_groups_complete": true,
+  "counts": {
+    "PASS": 34
+  },
+  "console_errors": 0,
+  "auth_restored": true,
+  "cleanup_failures": false,
+  "cp6_restored": true,
+  "primary_unchanged": true,
+  "advisor_gate": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "backup_restore_checks": {
+    "restore_errors_only_pg_cron": true,
+    "catalog_explained": true,
+    "data_identical": true,
+    "engine_answer_present": true,
+    "engine_equal": true
+  },
+  "backup_restore_ignored_pg_cron_errors": 19,
+  "archive": {
+    "artifact_id": 11156175191,
+    "name": "cp7-f03-full-p10",
+    "size_bytes": 5247867,
+    "sha256": "fe28ee9f568632da5344cad64fe7ce8f4867a22da6ad70061532078a10650d3f",
+    "file_id": "file_0000000071e88211bd7e32aa03a678e7"
+  },
+  "unique_independent_oracle_total_claim": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

@@ -216,15 +216,20 @@
       "native": 3,
       "races": 1
     },
+    "first_and_second_failures_retained": true,
     "first_receipt": "docs/cp7/evidence/f03-e03-refund/first10-e49c584/RECEIPT.json",
     "full_E03_acceptance": false,
     "full_family_acceptance": false,
     "import_retirement_tests": 28,
     "local_focused_tests": 78,
     "production_go": false,
+    "qualified_job": 110332395762,
+    "qualified_receipt": "docs/cp7/evidence/f03-e03-refund/qualified10-49aee0d/RECEIPT.json",
+    "qualified_run": 36851010755,
+    "qualified_source": "49aee0d31e7fcc8b59d35728f1030ce4fb9fcd55",
     "scope": "Existing lawful old-sale and imported customer-credit refund lifecycle on the exact combined F03 stack",
     "security": "PASS",
-    "status": "FIRST_NATIVE10_RETAINED_7_PASS_3_FIXTURE_INCOMPLETE_REPAIRED_REPEAT_RUNNING"
+    "status": "WRITER_QUALIFIED_NATIVE10_AT_49AEE0D_CURRENT_SOURCE_REPEAT_REQUIRED_AFTER_READ_RETIREMENT_REPAIR"
   },
   "f03_e05_installments": {
     "artifact_id": 11123741925,
@@ -356,7 +361,8 @@
       "p10": 34,
       "p11": 64,
       "p12": 90,
-      "p13": 50
+      "p13": 50,
+      "supplier_credit": 5
     },
     "full_family_acceptance": false,
     "handoff": "docs/cp7/F03_FULL_STACK_QUALIFICATION.md",
@@ -365,8 +371,11 @@
     "priority": "F03_BEFORE_REMAINING_F04_F05",
     "private_role_count": 31,
     "production_go": false,
+    "receipts": "docs/cp7/evidence/f03-full-stack/first6-37bf7d2",
+    "retained_run": 36850513509,
+    "retained_source": "37bf7d236e9e2803ff8be4bc61929e2ffec0c3c5",
     "separate_p09_smokes": 3,
-    "status": "CANDIDATE_PREPARED_ACTUAL_SAME_STACK_REPEAT_PENDING",
+    "status": "FIRST_FULL_STACK_FIVE_COMPONENT_BUCKETS_PASS_CASH_TIMING_ORACLE_REPAIRED_RETEST_PENDING",
     "unique_oracle_total_claim": false,
     "workflow": ".github/workflows/cp7-f03-full.yml"
   },
@@ -429,6 +438,26 @@
     "status": "WRITER_QUALIFIED14_PARENT_AND_CROSS_ROUTE_RECOVERY",
     "verification": "docs/cp7/evidence/f03-misc/native-37b5dcd/QUALIFIED_RECEIPT.json",
     "visual_review": true
+  },
+  "f03_supplier_credit": {
+    "Native_expected": {
+      "browser": 2,
+      "database": 1,
+      "http": 1,
+      "races": 1
+    },
+    "accepted_money_stock_HPP_native_functions_changed": false,
+    "after_focused_tests": 73,
+    "before": {
+      "FAIL": 5,
+      "PASS": 1
+    },
+    "frontend_receipt": "docs/cp7/evidence/f03-supplier-credit/frontend/RECEIPT.json",
+    "full_family_acceptance": false,
+    "handoff": "docs/cp7/F03_SUPPLIER_CREDIT_CONTINUATION.md",
+    "independent_acceptance": false,
+    "production_go": false,
+    "status": "FRONTEND_CONFIRMED_COUNTEREXAMPLES_REPAIRED_NATIVE5_REPEAT_PENDING"
   },
   "f03_takeover": {
     "handoff": "docs/cp7/F03_WRITER_TAKEOVER_20260930.md",

@@ -293,8 +293,9 @@ function ImportWorkspace() {
       if (failure) throw failure
       const parsed = parseInitialImportWorkspace(data)
       if ((parsed.batch?.id ?? null) !== requested) throw new Error('Respons tidak sesuai batch yang dipilih.')
+      if (!finishRead(ticket)) return false
       setWorkspace(parsed)
-      return finishRead(ticket)
+      return true
     } catch (failure) {
       if (sequence === loadSequence.current && isReadCurrent(ticket)) setError(normalizeClientError(failure).message)
       return false

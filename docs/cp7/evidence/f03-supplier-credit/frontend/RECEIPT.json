@@ -1,0 +1,29 @@
+{
+  "schema": "cp7-frontend-counterexample-receipt-v1",
+  "classification": "PRODUCT_DEFECT_REPAIRED_NATIVE_REPEAT_PENDING",
+  "source_before": "49aee0d31e7fcc8b59d35728f1030ce4fb9fcd55",
+  "fixture_type": "EXPLICIT_SYNTHETIC_DTO_WITH_REAL_PRODUCTION_RECOVERY_HOOK",
+  "before": {
+    "FAIL": 5,
+    "PASS": 1
+  },
+  "after_focused": {
+    "PASS": 73,
+    "FAIL": 0
+  },
+  "build": "PASS",
+  "security": "PASS",
+  "Native_or_independent_qualification_claim": false,
+  "defects": [
+    "Signed Native remaining could crash the supplier page through null plus BigInt.",
+    "Shared recovery and uncertain replies retained factual names and amounts or let a held response repaint.",
+    "Denied refresh destroyed the selected operator continuation instead of retaining opaque identities and fields."
+  ],
+  "changed_product_files": [
+    "src/ConnectedSupplierCreditPage.tsx",
+    "src/supplierCredit.ts",
+    "src/ConnectedInitialImportPage.tsx"
+  ],
+  "unchanged_accepted_database_package": true,
+  "production_go": false
+}

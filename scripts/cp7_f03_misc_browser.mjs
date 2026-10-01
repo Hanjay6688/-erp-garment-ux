@@ -28,7 +28,11 @@ async function journey(ui,today,mobile){
    await page.route('**/rest/v1/rpc/erp_cp7_save_misc_finance_v1',async route=>{
     if(route.request().postDataJSON()?.p_action==='POST'&&!lost){const native=await route.fetch();assert.equal(native.status(),200);lost={envelope:route.request().postDataJSON(),body:await native.json()};await route.abort('failed')}else await route.continue()
    })
-   await ws.getByRole('button',{name:'Posting transaksi lain',exact:true}).click();await ui.expect(ws.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeAttached()
+   await ws.getByRole('button',{name:'Posting transaksi lain',exact:true}).click()
+   // The durable envelope exists before dispatch. Its notice can paint while
+   // Native POST is still running: wait for this intercepted commit itself.
+   await ui.expect.poll(()=>lost!==null).toBe(true)
+   await ui.expect(ws.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeEnabled()
    assert.equal(state().document.status,'POSTED');assert.equal(state().cash_delta,'-12.34');assert.equal(state().requests.filter(r=>r.action==='POST').length,1)
    assert.ok(!(await page.getByRole('main',{name:'Jurnal keuangan dari buku'}).innerText()).includes('Rp'));const old=await page.evaluate(()=>Object.entries(localStorage).filter(([k])=>k.startsWith('erp.production.FINANCE_MISC.pending-mutation.v1:')));assert.equal(old.length,1);assert.equal(JSON.parse(old[0][1]).id,lost.envelope.p_request)
    await capture(ui,page,`F03_MISC_UNCERTAIN_${suffix}.png`);screenshots.push(`F03_MISC_UNCERTAIN_${suffix}.png`)

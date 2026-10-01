@@ -929,6 +929,44 @@
           "retained_probe": "cp7_f03_e05_probe.py"
         }
       ]
+    },
+    "supplier_credit": {
+      "expected_case_executions": 5,
+      "expected_smoke_executions": 0,
+      "groups": [
+        {
+          "key": "native",
+          "kind": "native",
+          "module": "cp7_f03_supplier_credit_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_f03_supplier_credit_cases.py"
+        },
+        {
+          "key": "races",
+          "kind": "races",
+          "module": "cp7_f03_supplier_credit_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_f03_supplier_credit_cases.py"
+        },
+        {
+          "key": "http",
+          "kind": "http",
+          "module": "cp7_f03_supplier_credit_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_f03_supplier_credit_cases.py"
+        },
+        {
+          "key": "browser",
+          "kind": "browser",
+          "module": "scripts/cp7_f03_supplier_credit_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_f03_supplier_credit_cases.py"
+        }
+      ]
     }
   }
 }
