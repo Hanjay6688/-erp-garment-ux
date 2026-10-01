@@ -1,0 +1,73 @@
+{
+  "source": "1a6196d389d18ecd6107c08fc3d59bec31e6cfb5",
+  "tree": "1986bf7a66f226560508999b659e9dc6547e57a0",
+  "run": 36872366454,
+  "job": 110403091076,
+  "artifact": 11167372646,
+  "file_id": "file_00000000c38c82068a95478e0dd55132",
+  "folder": "plan-native/authority-before22-1a6196d",
+  "report": "CP7_F04_NATIVE_PLANS.json",
+  "archive_bytes": 7715453,
+  "archive_sha256": "5f17476acde382ee1eb6216d6fc5d7edb2fa018e9d3d8965655fda3bd0cedd6a",
+  "source_bundle_sha256": "51a1536b9c4b1d2670d4bf3f69a0eef74e517c46f074160ec4a5f4f3a351bce6",
+  "status": "INCOMPLETE",
+  "observed_case_count": 22,
+  "groups": {
+    "native": {
+      "PASS": 14
+    },
+    "races": {
+      "PASS": 4,
+      "INCOMPLETE": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "original_member_hashes": {
+    "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+    "CP7_F04_NATIVE_PLANS.json": "25ca9ff3d3f6487ed543c2ab16df2c5758a986c9f39194adaf7bc3d1ff0c4c5d",
+    "T3_BACKUP_RESTORE_DRILL.json": "26fde70706279df5a270971c265644253669496fc581680b99957b9eaf20c3b2",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "T3_PACKAGE_INSTALL.json": "ca8cfd01deae2885df7615c748b4cdcc8b1f58ee02156890b628c3a7fd3de5de"
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "console_errors": 0,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "auth_cleanup_failures": [],
+  "database_remaining": 0
+}

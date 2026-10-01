@@ -696,14 +696,22 @@
     "declared_cases": 22,
     "first_runtime": "docs/cp7/evidence/plan-native/first22-4fe51cb/RECEIPT.json",
     "focused_parser_dom_tests": 18,
-    "latest_before_receipt": "docs/cp7/evidence/plan-native/preflight-before22-4b4871a/RECEIPT.json",
+    "latest_before_receipt": "docs/cp7/evidence/plan-native/authority-before22-1a6196d/RECEIPT.json",
+    "latest_counts": {
+      "browser": 2,
+      "http": 1,
+      "incomplete": 1,
+      "native": 14,
+      "races": 4
+    },
     "material_recipe_binding": "STILL_OPEN",
     "product_bug": "Ambiguous NOT and JSON containment parsed as boolean -> unknown; exact reviewed-assumption equality retained",
+    "product_sql_fix_proved": true,
     "production_go": false,
     "repair_run": 36872366454,
     "repair_source": "1a6196d389d18ecd6107c08fc3d59bec31e6cfb5",
     "scope": "OWN_NATIVE_DRAFT_AND_ATOMIC_LINKED_INTENT_NO_STOCK_RESERVATION_OR_PHYSICAL_POSTING",
-    "status": "NATIVE22_REPAIR_REAL_JSON_CONTAINMENT_PRECEDENCE_REPEAT_RUNNING",
+    "status": "NATIVE22_21_PASS_ONE_EXACT_REFUSAL_ORACLE_REPAIR_REPEAT_PENDING",
     "whole_P08_acceptance": false
   },
   "f04_native_schedule": {
