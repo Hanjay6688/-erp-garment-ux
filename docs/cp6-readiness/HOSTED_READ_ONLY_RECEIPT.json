@@ -1,0 +1,57 @@
+{
+  "label": "CP6_HOSTED_READ_ONLY_PREFLIGHT",
+  "executed_sql": "scripts/cp6_readiness_hosted_preflight.sql",
+  "transaction_read_only": true,
+  "data_mutations": 0,
+  "maintenance_started": false,
+  "production_go": false,
+  "projects": [
+    {
+      "project_id": "siimvrusnzxexizpyoib",
+      "name": "ERP Enteng",
+      "observation": {
+        "objects": {
+          "sku_hpp": false,
+          "app_ledger": true,
+          "sku_versions": false,
+          "laundry_policies": false,
+          "laundry_workspace": false,
+          "accessory_policies": false,
+          "accessory_workspace": false
+        },
+        "database": "postgres",
+        "checked_at": "2026-10-01T05:01:42.574174+00:00",
+        "production_go": false,
+        "postgres_version": "17.6",
+        "maintenance_started": false,
+        "other_client_sessions": 3,
+        "transaction_read_only": "on",
+        "other_open_transactions": 0
+      }
+    },
+    {
+      "project_id": "vlxdhpkjeevubjxexnfo",
+      "name": "ERP-Garment",
+      "observation": {
+        "objects": {
+          "sku_hpp": false,
+          "app_ledger": true,
+          "sku_versions": false,
+          "laundry_policies": false,
+          "laundry_workspace": false,
+          "accessory_policies": false,
+          "accessory_workspace": false
+        },
+        "database": "postgres",
+        "checked_at": "2026-10-01T05:01:41.92788+00:00",
+        "production_go": false,
+        "postgres_version": "17.6",
+        "maintenance_started": false,
+        "other_client_sessions": 3,
+        "transaction_read_only": "on",
+        "other_open_transactions": 0
+      }
+    }
+  ],
+  "interpretation": "BC/BD/BF policy and SKU objects are absent on both hosted projects; the absence is not an empty configured installation. Existing client sessions have not been drained."
+}

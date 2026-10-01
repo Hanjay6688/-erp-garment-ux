@@ -5,6 +5,8 @@ import { getUatSupabaseClient } from './lib/supabase'
 import { normalizeClientError } from './lib/clientError'
 import { useProductionMutation, type ProductionMutationHandlers } from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
+import Cp6PolicyReadiness from './Cp6PolicyReadiness'
+import { ownerChoice, POLICY_EFFECT, policyStatus, policyValueText } from './cp6Readiness'
 import { ACCESSORY_POLICY_KEYS, ACTION_LABEL, POLICY_LABEL, PURPOSE_LABEL, SERVICE_ACTIONS, displayQty, displayRupiah, moneyText, normalizeMoney,
   parseAccessoryServiceWorkspace, policyValue, validateServiceResult, wholePcs, wibTimestamp,
   type AccessoryPolicyKey, type AccessoryServiceWorkspace, type Purpose, type ServiceAction, type ServiceLot, type ZoneKind } from './accessoryService'
@@ -87,6 +89,7 @@ function ServiceWorkspace() {
     <nav className="panel initial-import-toolbar" aria-label="Bagian aksesori">{TABS.map(([key, label]) =>
       <button key={key} type="button" aria-pressed={tab === key} onClick={() => setTab(key)}>{label}</button>)}</nav>
     {!data ? <p role="status">{loading ? 'Memuat data aksesori…' : 'Data aksesori belum terbaca.'}</p> : <>
+      <Cp6PolicyReadiness policies={data.policies}/>
       {tab === 'stock' && <section className="panel initial-import-table" aria-label="Stok aksesori">
         <form className="initial-import-toolbar" onSubmit={e => { e.preventDefault(); refresh({ query: query.trim(), page: 1 }) }}>
           <label>Cari aksesori atau lokasi<input aria-label="Cari stok aksesori" maxLength={120} value={query} onChange={e => setQuery(e.target.value)}/></label>
@@ -402,11 +405,15 @@ function Settings({ data, locked, send }: { data: AccessoryServiceWorkspace; loc
   const submit = (operation: 'SET' | 'CLEAR') => send('SET_POLICY', { policy_key: key.replace('-', '_'), operation, expected_version: policy.version, reason: reason.trim(),
     ...(operation === 'SET' && typeof value !== 'string' ? { value } : {}) })
   return <section className="panel initial-import-advances" aria-label="Kebijakan aksesori">
-    <h2>Kebijakan aksesori</h2><p>Setiap kebijakan menunggu nilai dari owner. Selama menunggu, transaksi yang memerlukannya ditolak; tidak ada nilai bawaan.</p>
+    <h2>Kebijakan aksesori</h2><p>Keputusan owner dan isian yang berlaku di aplikasi ditampilkan terpisah. Transaksi yang membutuhkan pengaturan tetap menunggu sampai nilainya diterapkan.</p>
     <div className="initial-import-table"><table><thead><tr><th>Kebijakan</th><th>Status</th><th>Versi</th><th>Isi</th></tr></thead><tbody>{data.policies.map(p =>
-      <tr key={p.key}><td>{p.key} · {POLICY_LABEL[p.key]}</td><td>{p.status === 'SET' ? 'Ditetapkan' : 'Menunggu keputusan owner'}</td><td>{p.version}</td>
-        <td>{p.value === null ? (p.status === 'SET' ? 'Hanya terlihat owner/admin' : '—') : <code>{JSON.stringify(p.value)}</code>}</td></tr>)}</tbody></table></div>
+      <tr key={p.key}><td>{p.key} · {POLICY_LABEL[p.key]}</td><td>{policyStatus(p)}</td><td>{p.version}</td>
+        <td>{policyValueText(p, [...(data.accounts ?? []), ...(data.categories ?? [])])}</td></tr>)}</tbody></table></div>
     {data.is_admin ? <>
+      <p>{policy.status === 'SET' ? 'Nilai yang berlaku terlihat pada tabel. Perubahan memakai pilihan baru di bawah.' : POLICY_EFFECT[key]}</p>
+      {policy.status !== 'SET' && ownerChoice(key) && <button type="button" disabled={locked} onClick={() => {
+        setFields(ownerChoice(key)!.fields); setReason(`Terapkan keputusan owner 26 Sep 2026 untuk ${key}`)
+      }}>Isi sesuai keputusan owner</button>}
       <label>Kebijakan<select aria-label="Kebijakan yang diubah" disabled={locked} value={key} onChange={e => { setKey(e.target.value as AccessoryPolicyKey); setFields({}) }}>
         {ACCESSORY_POLICY_KEYS.map(k => <option key={k} value={k}>{k} · {POLICY_LABEL[k]}</option>)}</select></label>
       <div className="initial-import-toolbar">

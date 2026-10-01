@@ -1,0 +1,14 @@
+{
+  "label": "CP6_OWNER_CONTROLLER_FIRST_ATTEMPT",
+  "source_commit": "9cb2a611aacccfa1863c7b80d3aaf4e42a435e85",
+  "run_id": 36819365895,
+  "job_id": 110231378150,
+  "status": "INCOMPLETE",
+  "failure_stage": "Disposable fixture setup, before installer.run",
+  "sqlstate": "42501",
+  "reason": "postgres cannot transfer database ownership to the new test role without SET ROLE membership. Use the existing disposable admin connection only for fixture setup and cleanup.",
+  "installer_executed": false,
+  "hosted_executed": false,
+  "production_go": false,
+  "correction": "Driver still uses the limited database-owner controller and non-superuser postgres work connection. No package bytes or SQL guards changed."
+}

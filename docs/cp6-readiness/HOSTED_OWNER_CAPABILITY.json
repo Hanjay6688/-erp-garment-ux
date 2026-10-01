@@ -1,0 +1,23 @@
+{
+  "label": "CP6_HOSTED_OWNER_CAPABILITIES_READ_ONLY",
+  "project_ref": "siimvrusnzxexizpyoib",
+  "hosted_install_executed": false,
+  "data_mutations": 0,
+  "maintenance_started": false,
+  "production_go": false,
+  "maintenance_capability": {
+    "checked_at": "2026-10-01T05:04:11.173432+00:00",
+    "control_database_exists": true,
+    "maintenance_role_exists": false,
+    "current_role_owns_target": true,
+    "current_role_is_superuser": false,
+    "target_allows_connections": true
+  },
+  "owner_capabilities": {
+    "inherited_monitor_role": true,
+    "read_all_session_stats": true,
+    "connect_control_database": true,
+    "execute_cluster_identity": true
+  },
+  "interpretation": "Metadata supports qualifying an owner controller; it does not prove a direct template1 connection, full hosted DDL privileges or first hosted installation."
+}

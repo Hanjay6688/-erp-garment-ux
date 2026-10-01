@@ -1,0 +1,18 @@
+{
+  "label": "CP6_OWNER_FULL_PATH_FIRST_ATTEMPT",
+  "source_commit": "1526cfa8a1ff7f225108fa451f687121328cbc78",
+  "run_id": 36820660796,
+  "job_id": 110235321158,
+  "status": "INCOMPLETE",
+  "cases_PASS": 7,
+  "control_is_superuser": false,
+  "work_is_superuser": false,
+  "files_installed_PASS": 58,
+  "failed_stage": "Post-install Native metadata verification",
+  "sqlstate": "42501",
+  "admission_left_closed_on_failure": true,
+  "hosted_executed": false,
+  "production_go": false,
+  "reason": "Existing probe q()/one() call api.admin(), a superuser fixture-session reset. It cannot be used by the real non-superuser postgres owner.",
+  "correction": "Keep all Native verifier checks and replace only the Python fixture reset during metadata verification with an assertion of unchanged postgres current/session identity. SQL and privileges remain unchanged."
+}

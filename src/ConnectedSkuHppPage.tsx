@@ -43,6 +43,7 @@ function Workspace() {
   const active = data?.groups.find(g => g.group_key === selected) ?? data?.groups[0]
   return <section className="initial-import sku-workspace">
     <header className="panel"><h1>HPP per SKU</h1><p>Nilai sisa stok seluruh ukuran ÷ jumlah PCS tersisa. Penjualan tetap memakai biaya lot asal.</p></header>
+    <aside className="panel" aria-label="Catatan pembulatan biaya"><p>Biaya memakai harga rata-rata berjalan dan pembulatan per dokumen. Sen dari beberapa dokumen bisa terkumpul pada satu PO; tidak ada batas selisih sen per PO. Ini mengikuti keputusan owner. Total nilai harus tetap sesuai dokumen, tanggal, dan jejak transaksinya; nilai stok yang habis harus nol.</p></aside>
     <form className="panel initial-import-toolbar" onSubmit={e => { e.preventDefault(); const at = date ? cp6WibPhysicalTimeToIso(date) : ''; if (at === null) { setError('Tanggal WIB tidak valid.'); return } filters.current = { query: query.trim(), at, page: 1 }; void load() }}>
       <label>Cari SKU atau merek<input value={query} onChange={e => setQuery(e.target.value)} maxLength={120}/></label>
       <label>Posisi pada waktu WIB<input type="datetime-local" value={date} onChange={e => setDate(e.target.value)}/></label>

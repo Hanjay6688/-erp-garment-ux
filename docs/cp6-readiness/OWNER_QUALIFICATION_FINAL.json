@@ -1,0 +1,35 @@
+{
+  "label": "CP6_OWNER_CONTROLLER_DISPOSABLE",
+  "status": "PASS",
+  "hosted_executed": false,
+  "production_go": false,
+  "cases": {
+    "READ_ONLY_OWNER_PLAN": "PASS",
+    "V2620_REFUSES_SUFFIX_WITHOUT_AB_BEFORE_ADMISSION_CHANGE": "PASS",
+    "WRONG_ENDPOINT_REFUSED_BEFORE_CONNECTION": "PASS",
+    "NONOWNER_REFUSED_BEFORE_ADMISSION_CHANGE": "PASS",
+    "G01_CATALOG_DRIFT_REFUSED_BEFORE_ADMISSION_CHANGE": "PASS",
+    "COMPETING_MAINTENANCE_REFUSED_WITHOUT_ADMISSION_CHANGE": "PASS",
+    "BUSY_REFUSES_WITHOUT_KILL_OR_INSTALL_AND_REOPENS": "PASS",
+    "ALL_58_PINNED_FILES_WITH_NONSUPERUSER_OWNER_AND_WORK": "PASS",
+    "OWNER_REOPEN_AND_EXACT_NATIVE_BF_VERIFY": "PASS",
+    "ALREADY_INSTALLED_REFUSED_BEFORE_ADMISSION_CHANGE": "PASS"
+  },
+  "capability": {
+    "same_cluster": true,
+    "target_database": "cp6_rollback",
+    "control_database": "template1",
+    "control_owns_target": true,
+    "control_is_superuser": false,
+    "work_is_superuser": false,
+    "required_baseline": "v2.6.20",
+    "baseline_present": true,
+    "baseline_differ": [],
+    "already_applied_target_keys": [],
+    "other_sessions": 0
+  },
+  "install_file_count": 58,
+  "manifest_sha256": "8368df52bdf6d026620dd8d301d8c48b16ccb25c04f5c230df83d97d9c8432e5",
+  "native_stage": "BE_PLUS_BF_T1",
+  "primary_unchanged": true
+}
