@@ -5,6 +5,12 @@ name: CP7 F03 Supplier Current Authority
     - cp7/integration
     paths:
     - scripts/cp7_supplier_credit_authority_*
+    - scripts/cp7_supplier_credit_guard.py
+    - scripts/cp7_procurement_bundle.py
+    - scripts/cp7_p09_procurement_probe.py
+    - scripts/cp7-src/procurement/supplier-credit-authority.sql
+    - scripts/cp7_f03_full_manifest.json
+    - scripts/cp7_f03_full_probe.py
     - .github/workflows/cp7-supplier-credit-authority.yml
 permissions:
   contents: read
