@@ -17,8 +17,10 @@ const instant=(v:unknown):v is string=>text(v)&&/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:
 const hash=(v:unknown)=>text(v)&&/^[0-9a-f]{64}$/.test(v)
 const integer=(v:unknown):v is string=>text(v)&&/^(0|[1-9][0-9]{0,18})$/.test(v)
 const version=(v:unknown)=>integer(v)&&BigInt(v)>0n&&BigInt(v)<=9223372036854775807n
-const decimal=(v:unknown):v is string=>text(v)&&/^-?(0|[1-9][0-9]{0,23})(?:\.[0-9]{1,6})?$/.test(v)
-const units=(s:string)=>{const negative=s.startsWith('-'),[whole,fraction='']=(negative?s.slice(1):s).split('.'),n=BigInt(whole)*1000000n+BigInt(fraction.padEnd(6,'0'));return negative?-n:n}
+// Native quantity × unit-price products retain twelve fractional places.
+// Preserve that source precision; no rounding or another money calculation.
+const decimal=(v:unknown):v is string=>text(v)&&/^-?(0|[1-9][0-9]{0,23})(?:\.[0-9]{1,12})?$/.test(v)
+const units=(s:string)=>{const negative=s.startsWith('-'),[whole,fraction='']=(negative?s.slice(1):s).split('.'),n=BigInt(whole)*1000000000000n+BigInt(fraction.padEnd(12,'0'));return negative?-n:n}
 function fail():never{throw Error('Sumber utang bahan pemasok belum lengkap atau tidak sesuai hak akses saat ini.')}
 function closed(v:unknown,keys:string[]):Record<string,unknown>{if(!v||typeof v!=='object'||Array.isArray(v)||Object.keys(v).sort().join('|')!==[...keys].sort().join('|'))return fail();return v as Record<string,unknown>}
 const liabilityKeys=['purchase_id','purchase_number','supplier_id','supplier_code','supplier_name','physical_at','status','payment_status','receipt_estimate_amount','final_ap_amount','grni_estimated_amount','total_liability_amount','paid_amount','final_ap_outstanding','liability_state','active_invoice_numbers','earliest_due_date','unfinalized_days','row_version','created_at','updated_at','search_text']

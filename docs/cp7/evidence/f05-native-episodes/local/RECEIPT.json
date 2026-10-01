@@ -1,0 +1,56 @@
+{
+  "status": "LOCAL1092_PASS_NATIVE153_PENDING",
+  "source_parent_commit": "b5fec64e8a445e964bbe53b9b4e824f24cf36e0f",
+  "source_bundle_sha256": "6f349f70eebd4e5d367d436ee3d815fddf6f8d1af5112a73c2a0c205dfa60f4a",
+  "tests": {
+    "passed": 1092,
+    "failed": 0,
+    "suites": 229
+  },
+  "targeted": {
+    "passed": 33,
+    "files": 3
+  },
+  "build_typecheck_secret_scan": "PASS",
+  "security_access_source_ownership_backend_checks": "PASS",
+  "pglite": {
+    "status": "PASS",
+    "cases": 21,
+    "classification": "PGLITE_NATIVE_COLUMN_SCHEMA_METADATA_STANDIN_NOT_NATIVE_AUTH_OR_FINANCIAL_PROOF"
+  },
+  "source_ownership": {
+    "runtime_files": 218,
+    "rpc_contracts": 130,
+    "css_contracts": 51
+  },
+  "native_predeclared": {
+    "native": 103,
+    "races": 19,
+    "http": 13,
+    "browser": 18,
+    "total": 153
+  },
+  "native_status": "UNEXECUTED_SUCCESSOR153",
+  "prior_actual144_receipt": "docs/cp7/evidence/f05-native-payables/first144-b5fec64/RECEIPT.json",
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "production_go": false,
+  "logs": {
+    "tests.json": {
+      "sha256": "22913c3ec4932b1cd08e5181309ead0a61c01e76e064b5176ecca2c709d60e1b",
+      "archive": "tests.json.gz"
+    },
+    "build.log": {
+      "sha256": "98fa32131751ad26dfdaa438baa5b93217ea9be1e67ac3d53aa5b0cace308914",
+      "archive": "build.log.gz"
+    },
+    "security.log": {
+      "sha256": "1a07d96b49933aad08222d3e050c12fdf254e652ddb8c4696568685b9870863a",
+      "archive": "security.log.gz"
+    },
+    "pglite.log": {
+      "sha256": "dd9a02aad914d9d34311c9f86d8e0b06682f9fb8e0ede9b31be650226c7d543e",
+      "archive": "pglite.log.gz"
+    }
+  }
+}

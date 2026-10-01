@@ -656,7 +656,7 @@
   "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
   "latest_tested_scope": "Native financial readers12 PASS onf31b7a7: native3, realAuthHTTP1, browser8; package/restore/advisors/Auth cleanup and AR visual evidence retained. Counts overlap prior6/8/10.",
   "latest_tested_source": "f31b7a70e9f6330f7922fcbb2e8527320f4c5df2",
-  "next_action": "Execute and review Native144 current material AP, signed return credit and retained137; repair concrete failures, then continue full P16 business episode reconciliation and remaining authoritative material/model/apply/P17/F06 work without whole-family self-acceptance.",
+  "next_action": "Execute/review Native153 exact successor, fix every actual failure and retain original144; continue P17 full current-authority handoff and remaining authoritative material/model/apply/other P16 rules/F06 without whole-family self-acceptance.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -1062,19 +1062,38 @@
     "local_tests": 1084
   },
   "f05_native_payables": {
-    "status": "LOCAL1084_PASS_PGLITE19_STANDIN_NATIVE144_PENDING",
+    "status": "FIRST_NATIVE144_141PASS_THREE_FAILURES_RETAINED_SUCCESSOR153_PENDING",
     "scope": "Current complete accepted BF signed material-purchase balance, accepted Native liability and invoice coverage, recorded due only; excludes opening AP/payroll/other obligations",
     "consumer": "src/NativeAnalysisPanel.tsx",
     "contract": "docs/cp7/f05/NATIVE_PAYABLE_CONDITIONS.md",
     "receipt": "docs/cp7/evidence/f05-native-payables/local/RECEIPT.json",
     "native_predeclared": {
-      "native": 99,
-      "races": 17,
-      "http": 12,
-      "browser": 16,
-      "total": 144
+      "native": 103,
+      "races": 19,
+      "http": 13,
+      "browser": 18,
+      "total": 153
     },
     "business_episode_reconciliation": false,
+    "full_family_acceptance": false,
+    "independent_acceptance": false,
+    "production_go": false,
+    "local_tests": 1092,
+    "latest_receipt": "docs/cp7/evidence/f05-native-payables/first144-b5fec64/RECEIPT.json"
+  },
+  "f05_native_episodes": {
+    "status": "LOCAL1092_PASS_PGLITE21_STANDIN_NATIVE153_PENDING",
+    "scope": "Explicit complete Native AR/material-AP observation metadata, shared business identity, lawful resolution/linked recurrence, partial UNKNOWN and stable recovery; no other rules/delivery closure",
+    "contract": "docs/cp7/f05/NATIVE_OBLIGATION_EPISODES.md",
+    "receipt": "docs/cp7/evidence/f05-native-episodes/local/RECEIPT.json",
+    "native_predeclared": {
+      "native": 103,
+      "races": 19,
+      "http": 13,
+      "browser": 18,
+      "total": 153
+    },
+    "local_tests": 1092,
     "full_family_acceptance": false,
     "independent_acceptance": false,
     "production_go": false

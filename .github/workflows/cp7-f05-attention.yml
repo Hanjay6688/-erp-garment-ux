@@ -9,6 +9,11 @@ name: CP7 F05 Native Durable Attention
     - scripts/cp7_f05_receivable_*
     - scripts/cp7_f05_payable_*
     - scripts/cp7_payable_condition_cases.py
+    - scripts/cp7_obligation_episode_cases.py
+    - scripts/cp7_f05_episode_browser.mjs
+    - src/nativeObligationEpisodes*
+    - src/NativeObligationObservationView.tsx
+    - tests/fixtures/nativeObligationEpisodes*
     - src/nativePayableConditions*
     - tests/fixtures/nativePayableConditions*
     - src/supplierCredit*

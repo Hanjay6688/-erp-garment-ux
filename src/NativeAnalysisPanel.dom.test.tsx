@@ -2,6 +2,8 @@
 import {act} from 'react'
 import {createRoot,type Root} from 'react-dom/client'
 import {beforeEach,afterEach,it,expect,vi,type Mock} from 'vitest'
+import {nativeEpisodeFixture}from'../tests/fixtures/nativeObligationEpisodes'
+import {obligationRequestKey}from'./nativeObligationEpisodes'
 import NativeAnalysisPanel from './NativeAnalysisPanel'
 import {recoveryIdentity} from '../tests/fixtures/productionRecovery'
 import fixture from '../tests/fixtures/nativeAnalysisStandin.json'
@@ -148,4 +150,16 @@ it('keeps dirty own-user schedule fields across a denied read and converts the e
  client.rpc.mockImplementation(async(name:string)=>({data:name==='erp_cp7_read_analysis_v1'?wire(id):attentionFixture(wire(id)),error:null}));const archive=container.querySelector<HTMLButtonElement>('[aria-label="Buka arsip analisis 1"]')!;await act(async()=>archive.click());await click('Muat perhatian tersimpan')
  const title=[...container.querySelectorAll('label')].find(l=>l.textContent==='Judul pengingat')!.querySelector('input')!;expect(title.value).toBe('Cek bahan besok')
  client.rpc.mockRejectedValue(Error('preserve intent'));await click('Simpan jadwal pengingat ERP');expect(readAttentionRequest(scope).pending?.payload.details).toEqual({title:'Cek bahan besok',note:'',priority:'NORMAL',due_at:'2026-10-05T01:30:00.000Z'})
+})
+
+it('retires every source before episode writes and recovers a lost reply with the same fact-free UUID intent',async()=>{
+ const auth=state.auth as typeof recoveryIdentity;auth.identity.profile.role='STAFF';auth.identity.permissions.push('finance.ar.view')
+ let captureId='';client.rpc.mockImplementation(async(_n:string,args:{p_request:string})=>{captureId=args.p_request;return{data:wire(captureId),error:null}});await render();await click('Ambil analisis ERP terbaru');await click('Tanya AI');await fill('Pertanyaan riwayat tetap milik operator');await click('Pengingat')
+ let finish!:(v:unknown)=>void;client.rpc.mockImplementation(()=>new Promise(resolve=>{finish=resolve}));await click('Catat pemeriksaan piutang ERP');expect(container.querySelector('.native-analysis-result')).toBeNull();expect(start).toHaveBeenCalled();const request=JSON.parse(localStorage.getItem(obligationRequestKey(scope))!);expect(Object.keys(request.payload).sort()).toEqual(['domain','run_id']);expect(JSON.stringify(request)).not.toContain('remaining');expect(JSON.stringify(request)).not.toContain('financial_source')
+ await act(async()=>finish({data:null,error:{message:'Reply lost after Native monitoring commit'}}));expect(container.textContent).toContain('Hasil pemeriksaan tagihan belum dipastikan.');expect(localStorage.getItem(obligationRequestKey(scope))).toBeTruthy()
+ client.rpc.mockResolvedValue({data:nativeEpisodeFixture(request.id,wire(captureId)),error:null});await click('Periksa hasil pemeriksaan tagihan');expect(client.rpc.mock.calls.at(-1)).toEqual(['erp_cp7_get_obligation_episode_request_v1',{p_payload:request.payload,p_request:request.id}]);expect(localStorage.getItem(obligationRequestKey(scope))).toBeNull();expect(container.textContent).toContain('Masalah masih terbuka');expect(container.textContent).toContain('Periksa sumber ERP untuk saldo terbaru.');await click('Tanya AI');expect((container.querySelector('[aria-label="Pertanyaan analisis ERP"]')as HTMLTextAreaElement).value).toBe('Pertanyaan riwayat tetap milik operator')
+})
+it('episode403 retains only intent and dirty question; a current-authority absent seal retires the old request without new facts',async()=>{
+ const auth=state.auth as typeof recoveryIdentity;auth.identity.profile.role='STAFF';auth.identity.permissions.push('finance.ar.view')
+ let captureId='';client.rpc.mockImplementation(async(_n:string,args:{p_request:string})=>{captureId=args.p_request;return{data:wire(captureId),error:null}});await render();await click('Ambil analisis ERP terbaru');await click('Tanya AI');await fill('Pertanyaan setelah pemeriksaan ditolak');await click('Pengingat');client.rpc.mockResolvedValue({data:null,error:{code:'42501',message:'CP7_OBLIGATION_ACCESS_DENIED'}});await click('Catat pemeriksaan piutang ERP');expect(container.querySelector('.native-analysis-result')).toBeNull();expect(clipboard).not.toHaveBeenCalled();const request=JSON.parse(localStorage.getItem(obligationRequestKey(scope))!);const absent=nativeEpisodeFixture(request.id,wire(captureId));Object.assign(absent.result,{status:'NOT_COMMITTED',source_status:'NOT_EVALUATED',source_hash:null,as_of:null,source_read_at:null,source_total:null,observed_at:null,rows:[]});client.rpc.mockResolvedValue({data:absent,error:null});await click('Periksa hasil pemeriksaan tagihan');expect(localStorage.getItem(obligationRequestKey(scope))).toBeNull();expect(container.textContent).toContain('Server memastikan pemeriksaan ini belum tersimpan.');await click('Tanya AI');expect((container.querySelector('[aria-label="Pertanyaan analisis ERP"]')as HTMLTextAreaElement).value).toBe('Pertanyaan setelah pemeriksaan ditolak')
 })

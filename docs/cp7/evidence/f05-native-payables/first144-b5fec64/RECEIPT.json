@@ -1,0 +1,77 @@
+{
+  "status": "INCOMPLETE_ORIGINAL144_141PASS_THREE_FAILURES_RETAINED",
+  "source_commit": "b5fec64e8a445e964bbe53b9b4e824f24cf36e0f",
+  "source_tree": "bd8d3b350fc479b0ac2a1f926830aedbe8cf9279",
+  "source_bundle_sha256": "f2d0c0b295c99d947a61cea9892243f8a5cdb547c21ecbff4685f16b49826cf7",
+  "run_id": 36807821142,
+  "job_id": 110196003762,
+  "artifact_id": 11138363878,
+  "zip_bytes": 84506377,
+  "zip_sha256": "7e939d71e3a3a2e7a7696b3a28f016983c9a84efa05356f3c0744538ddae79f3",
+  "expected_case_count": 144,
+  "observed_case_count": 144,
+  "counts": {
+    "native": {
+      "PASS": 98,
+      "INCOMPLETE": 1
+    },
+    "races": {
+      "PASS": 17
+    },
+    "http": {
+      "PASS": 12
+    },
+    "browser": {
+      "PASS": 14,
+      "INCOMPLETE": 2
+    }
+  },
+  "case_failures": {
+    "native": {
+      "P16_NATIVE_AP_CONDITION_SIGNED_RETURN_CREDIT": {
+        "status": "INCOMPLETE",
+        "error": "Supplier return would make payment 100.00 exceed projected final AP 60.000000000000. Reverse/correct supplier payment first.\nCONTEXT:  PL/pgSQL function post_material_supplier_return(uuid) line 86 at RAISE\nSQL statement \"SELECT erp.post_material_supplier_return(h.id)\"\nPL/pgSQL function post_material_supplier_return_v2(uuid,uuid,bigint,text) line 14 at PERFORM\nPL/pgSQL function cp7_supplier_return.command(text,jsonb,uuid,text) line 31 at assignment\nSQL function \"erp_cp7_save_supplier_return_v1\" statement 1",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 112, in strict_group\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_payable_condition_cases.py\", line 38, in credit\n    d,p=returned.save(cur,f,'4');returned.post(cur,f,d);before=b.boundary.snapshot(cur);r=row(checked(get(cur,original['run_id']),original),f['receipt']['purchase_id'])\n                                 ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_supplier_return_cases.py\", line 47, in post\n    return command(cur,'POST',dict(purchase_id=f['receipt']['purchase_id'],return_id=d['return_id'],change_reason='Physical return checked'),d['row_version'],key,subject)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_supplier_return_cases.py\", line 21, in command\n    r=cur.execute('select public.erp_cp7_save_supplier_return_v1(%s,%s::jsonb,%s,%s)',(action,json.dumps(payload,default=str),key or uuid.uuid4(),version)).fetchone()[0]\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: Supplier return would make payment 100.00 exceed projected final AP 60.000000000000. Reverse/correct supplier payment first.\nCONTEXT:  PL/pgSQL function post_material_supplier_return(uuid) line 86 at RAISE\nSQL statement \"SELECT erp.post_material_supplier_return(h.id)\"\nPL/pgSQL function post_material_supplier_return_v2(uuid,uuid,bigint,text) line 14 at PERFORM\nPL/pgSQL function cp7_supplier_return.command(text,jsonb,uuid,text) line 31 at assignment\nSQL function \"erp_cp7_save_supplier_return_v1\" statement 1\n",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "races": {},
+    "http": {},
+    "browser": {
+      "P16_BROWSER_DESKTOP_CURRENT_NATIVE_MATERIAL_AP": {
+        "status": "INCOMPLETE",
+        "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByRole('region', { name: 'Analisis ERP bersama', exact: true }).getByRole('region', { name: 'Sumber utang bahan pemasok terkini', exact: true }).getByRole('navigation', { name: 'Halaman utang bahan pemasok', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"to.be.visible\" with timeout 5000ms\n  - waiting for getByRole('region', { name: 'Analisis ERP bersama', exact: true }).getByRole('region', { name: 'Sumber utang bahan pemasok terkini', exact: true }).getByRole('navigation', { name: 'Halaman utang bahan pemasok', exact: true })\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toBeVisible (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at read (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_payable_browser.mjs:12:778)\n    at async journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_payable_browser.mjs:15:462)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3"
+      },
+      "P16_BROWSER_MOBILE_CURRENT_NATIVE_MATERIAL_AP": {
+        "status": "INCOMPLETE",
+        "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByRole('region', { name: 'Analisis ERP bersama', exact: true }).getByRole('region', { name: 'Sumber utang bahan pemasok terkini', exact: true }).getByRole('navigation', { name: 'Halaman utang bahan pemasok', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"to.be.visible\" with timeout 5000ms\n  - waiting for getByRole('region', { name: 'Analisis ERP bersama', exact: true }).getByRole('region', { name: 'Sumber utang bahan pemasok terkini', exact: true }).getByRole('navigation', { name: 'Halaman utang bahan pemasok', exact: true })\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toBeVisible (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at read (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_payable_browser.mjs:12:778)\n    at async journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_payable_browser.mjs:15:462)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3"
+      }
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "all_other_predecessor_definitions_and_owners_unchanged": true,
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "original_reports_archive": "original-reports-and-browser-failures.json.gz",
+  "original_reports_archive_sha256": "b8778bf29a13a20240a360843b8ded07b5b9adb58bc7c7d4e7543bb0e54d8347",
+  "diagnosis": {
+    "native_return": "Unchanged Native writer explicitly refuses paid100 return projected final60; candidate negative40 financial fixture was unlawful. Successor asserts refusal/no changes, then actual payment inverse and lawful return60. Signed negative receiver remains a receiver-only compatibility test, not actual lawful Native return proof.",
+    "browser": "Native RPC200 succeeded but closed receiver rejected source; Native products retain up to12 fractional places, candidate receiver accepted only6. Successor preserves12 exactly; confirmation awaits actual browser rerun and full source response will be retained on failure."
+  },
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "production_go": false
+}

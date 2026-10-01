@@ -34,11 +34,17 @@ def cases(cur,today):
   inverse(cur,final);r=row(checked(get(cur,original['run_id']),original),ident);assert r['balance']['remaining']=='300.00'and not r['condition']['business_resolved']
   return dict(status='PASS',actual_Native_estimated_GRNI500_final_balance0_still_pending=True,actual_final_invoice500_paid200_remaining300_overdue=True,unchanged_BF_signed_purchase_balance_copied_without_second_AP_engine=True,Native_final300_settlement_and_inverse_reopens300=True,original_finance_immutable_and_source_read_only=True)
  def credit():
-  parent.setup(cur,today);f=invoice.fixture(cur,today,qty='10',price='10',final=True);payment(cur,f,today,'100');original=parent.capture(cur,today)
-  d,p=returned.save(cur,f,'4');returned.post(cur,f,d);before=b.boundary.snapshot(cur);r=row(checked(get(cur,original['run_id']),original),f['receipt']['purchase_id'])
-  assert r['balance']==native_balance(cur,f)and r['balance']['remaining']=='-40.00'and r['condition']['state']=='CREDIT_REVIEW'and not r['condition']['business_resolved']
+  parent.setup(cur,today);f=invoice.fixture(cur,today,qty='10',price='10',final=True);paid=payment(cur,f,today,'100');original=parent.capture(cur,today)
+  d,p=returned.save(cur,f,'4');before=b.boundary.snapshot(cur)
+  auth.refused(cur,lambda:returned.post(cur,f,d),'Reverse/correct supplier payment first')
   assert b.boundary.snapshot(cur)==before
-  return dict(status='PASS',actual_Native_final100_paid100_return_credit40_preserves_negative40=True,zero_clamped_liability_view_never_hides_BF_signed_credit=True,no_invented_refund_carry_policy_or_business_closure=True)
+  r=row(checked(get(cur,original['run_id']),original),f['receipt']['purchase_id']);assert r['balance']==native_balance(cur,f)and r['balance']['remaining']=='0.00'
+  # Respect the unchanged Native overpayment guard: reverse the real payment
+  # before posting this return. Do not manufacture a negative paid-AP source.
+  inverse(cur,paid);returned.post(cur,f,d);before=b.boundary.snapshot(cur);r=row(checked(get(cur,original['run_id']),original),f['receipt']['purchase_id'])
+  assert r['balance']==native_balance(cur,f)and r['balance']['final_ap']=='60.00'and r['balance']['paid']=='0.00'and r['balance']['remaining']=='60.00'and not r['condition']['business_resolved']
+  assert b.boundary.snapshot(cur)==before
+  return dict(status='PASS',actual_paid100_return_projected60_refused_by_unchanged_Native_guard=True,actual_payment_inverse_then_return_final60_remaining60=True,signed_negative_receiver_is_standin_only_not_claimed_as_lawful_Native_return=True,no_invented_refund_carry_policy_or_business_closure=True)
  def authority():
   original,e,subject=ar.attention.prepared(cur,today,True);role=cur.execute('select role_id from erp.app_users where auth_user_id=%s',(subject,)).fetchone()[0]
   cur.execute("insert into erp.app_role_permissions(role_id,permission_key)values(%s,'finance.ap.view')on conflict do nothing",(role,));assert checked(get(cur,original['run_id'],subject),original)['actor_scope_id']==subject

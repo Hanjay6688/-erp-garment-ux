@@ -97,6 +97,8 @@ assert.deepEqual([...rpcOwnership].sort(), [
   'src/NativeAnalysisPanel.tsx:erp_cp7_get_analysis_attention_request_v1',
   'src/NativeAnalysisPanel.tsx:erp_cp7_get_analysis_receivable_conditions_v1',
   'src/NativeAnalysisPanel.tsx:erp_cp7_get_analysis_payable_conditions_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_evaluate_obligation_episodes_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_get_obligation_episode_request_v1',
   'src/NativeAnalysisPanel.tsx:erp_cp7_list_analysis_archives_v1',
   'src/NativeProductionPlanningPanel.tsx:erp_cp7_capture_production_supply_v1',
   'src/NativeProductionPlanningPanel.tsx:erp_cp7_read_production_supply_v1',
