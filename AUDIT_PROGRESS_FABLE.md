@@ -122,3 +122,9 @@
 - Rerun bukti penulis lewat `cp6-auditor-scenario.yml` (after, head 10a8347): combined+bf_browser 36808112738; free+free_browser 36808120840;
   vendor+vendor_browser 36808128920; bf_modes+supplier_browser 36808136834.
 - Oracle BF yang dikutip penulis dari owner (28 Sep 14:59 WIB: tarif laundry dari vendor; SKU final opsional) = UNVERIFIED_OWNER_DECISION sampai owner konfirmasi.
+
+## 2026-10-01 ~03:45Z — putaran 14 selesai: BF lolos; CP6 selesai dari sisi auditor Fable
+- xaudit_14_bf 36808105014: 4/4 PASS (range move tanpa jejak fisik; sku_at kontinu; HPP kekal; Σ AP kekal + penolakan negatif/over).
+- Rerun penulis: combined 154/154, vendor 133/133, bf_modes+supplier 67/67; free_modes 116 PASS + 9 INCOMPLETE = skenario basi
+  (BF_LAUNDRY_VENDOR_AUTHORITY; aturan owner 28 Sep/R16 ditegakkan produk; jalur FREE/WAIVED sah lulus di master vendor BD) → SUPERSEDED_BY_OWNER_RULE.
+- Laporan: out/fable_r14_results.md. JSON per kasus di audit/runs_fable/r14/. Berikutnya: CP7 (menunggu arahan owner).

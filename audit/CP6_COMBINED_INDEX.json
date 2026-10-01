@@ -1654,7 +1654,8 @@
   "F3/D08 session permission (in progress)",
   "D11 policy values",
   "GBD-03 old laundry claim representation",
-  "UI direction (demo host allow-list or screenshots)"
+  "UI direction (demo host allow-list or screenshots)",
+  "Confirm to auditor the 28 Sep 14:59 WIB BF rule (laundry rate = vendor; final SKU optional; LAU-DEC05 off)"
  ],
  "auditor_verification_queue": [],
  "fable_round13_closure_verification": {
@@ -1700,5 +1701,22 @@
    "CP7"
   ],
   "label": "INDEPENDENT_NATIVE_RERUN"
+ },
+ "fable_round14_cp6_finisher_bf": {
+  "date": "2026-10-01",
+  "candidate_head": "10a834712e515af86c6d8baa89bbe40cff9793e3",
+  "product_ref": "434b182",
+  "own_scenario": "audit/scenarios/round14_fable/xaudit_14_bf.py",
+  "own_run": 36808105014,
+  "own_result": "4/4 PASS",
+  "writer_reruns": {
+   "combined": 36808112738,
+   "vendor": 36808128920,
+   "bf_modes_supplier_browser": 36808136834,
+   "free_modes_stale": 36808120840
+  },
+  "nonpass": "cp6_bf_free_modes 9 INCOMPLETE = SUPERSEDED_BY_OWNER_RULE (BF_LAUNDRY_VENDOR_AUTHORITY)",
+  "report": "out/fable_r14_results.md",
+  "verdict": "BF accepted on Fable oracles; CP6 complete from Fable side; production_go=false"
  }
 }
