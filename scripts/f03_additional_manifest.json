@@ -1,0 +1,58 @@
+{
+  "candidate": "eb6b8682e97e94c95f89d431ab81974c54ddcbaf",
+  "f03_bundle_sha256": "6df48df8bbf7113636ce504b2f1f894b43a6444f803ba71a0007c18b32f6907c",
+  "qualification_scope": "RETAINED_MULTI_RECEIPT_RETURN_AND_CROSS_FAMILY_CONTEXT_CHECKS_REEXECUTED_BY_AUDITOR",
+  "buckets": {
+    "additional": {
+      "expected_case_executions": 14,
+      "expected_smoke_executions": 0,
+      "groups": [
+        {
+          "key": "combined_core",
+          "kind": "native",
+          "module": "f03_additional_cases",
+          "expected_executions": 2,
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_f03_cases.py"
+        },
+        {
+          "key": "return_document_native",
+          "kind": "native",
+          "module": "cp7_supplier_return_document_cases",
+          "expected_executions": 6,
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_f03_return_documents_probe.py"
+        },
+        {
+          "key": "return_document_races",
+          "kind": "races",
+          "module": "cp7_supplier_return_document_cases",
+          "expected_executions": 3,
+          "entry": "races",
+          "smoke": false,
+          "retained_probe": "cp7_f03_return_documents_probe.py"
+        },
+        {
+          "key": "return_document_http",
+          "kind": "http",
+          "module": "cp7_supplier_return_document_cases",
+          "expected_executions": 1,
+          "entry": "http_cases",
+          "smoke": false,
+          "retained_probe": "cp7_f03_return_documents_probe.py"
+        },
+        {
+          "key": "return_document_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_f03_return_documents_browser.mjs",
+          "expected_executions": 2,
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_f03_return_documents_probe.py"
+        }
+      ]
+    }
+  }
+}
