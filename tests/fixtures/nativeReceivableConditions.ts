@@ -1,0 +1,7 @@
+import fixture from './nativeAnalysisStandin.json'
+import type {SalesHeader} from '../../src/salesReadContract'
+export function nativeReceivableFixture(analysis:unknown=fixture){
+ const row:SalesHeader={id:'00000000-0000-4000-8000-000000000201',number:'AR-SUMBER-1',customer_id:'00000000-0000-4000-8000-000000000202',customer_name:'Pelanggan sumber ERP',location_id:null,location_name:null,physical_at:'2026-09-29T01:00:00Z',due_date:'2026-09-30',status:'PARTIAL_PAID',row_version:'9007199254740993',notes:null,payment_terms:null,line_count:'1',qty_pcs:'20',reserved_qty:'0',returned_qty:'0',financial:{basis:'CURRENT_NATIVE_DOCUMENT',state:'ACTIVE_RECEIVABLE',gross_total:'500.00',return_total:'0.00',net_total:'500.00',paid_total:'200.00',open_balance:'300.00'}}
+ const read='2026-10-01T00:00:00+00:00'
+ return{contract_version:'cp7.native-ar-conditions.v1',actor_scope_id:fixture.analysis.scope.actor_scope_id,analysis:structuredClone(analysis),source:{contract_version:'cp7.native-ar-source.v1',basis:'ACCEPTED_P11_CURRENT_NATIVE_DOCUMENT',as_of:'2026-10-01',read_at:read,source_hash:'a'.repeat(64),page_complete:true,total:'1',pages:[{contract_version:'cp7.sales-workspace.v1',read_at:read,financial_captured:true,read_only:true,page:{rows:[row],total:'1',offset:0,limit:25,next_offset:null as number|null},detail:null}],conditions:[{key:'AR:'+row.id,source_id:row.id,source_revision:row.row_version,native_source_hash:'b'.repeat(64),state:'OVERDUE',business_resolved:false}]}}
+}

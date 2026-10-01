@@ -1,0 +1,152 @@
+{
+  "status": "QUALIFIED_BOUNDED_NATIVE_ORIGINAL_ARCHIVES",
+  "original_overall_status": "PASS",
+  "source_commit": "11a4352a84dc8edbc18ccda670c94b519aaaf693",
+  "source_tree": "e72a5c68d75481101192c61eb3a0305f5b5e9d7d",
+  "source_bundle_sha256": "d941c10e201938ff3899da111ca4beb49fd0e49511737547a1996f93f229ba1f",
+  "run_id": 36802641229,
+  "job_id": 110180158785,
+  "artifact_id": 11135783967,
+  "zip_bytes": 42032535,
+  "zip_sha256": "104cebd19419deddb697e9923fdcc1931d68f8359d1cc7f36be66213e9c7509d",
+  "original_reports": 5,
+  "original_reports_archive": "original-reports.json.gz",
+  "original_reports_archive_sha256": "851b7dfe0569edb044283b77a16724015b931a65960928e7694d4b57abf4d48f",
+  "expected_case_count": 118,
+  "observed_case_count": 118,
+  "counts": {
+    "native": {
+      "PASS": 84
+    },
+    "races": {
+      "PASS": 15
+    },
+    "http": {
+      "PASS": 9
+    },
+    "browser": {
+      "PASS": 10
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "all_other_predecessor_definitions_and_owners_unchanged": true,
+  "exact_guard_sha256": {
+    "erp.require_internal()": "f14474739742a19474ac20aa9f82a6fd5b2d2ef4755f8030af3325bcfd601e12",
+    "erp.require_owner_admin()": "a041048af3c9e5790d3c5639d932c7157759ab155a4332772792bb5f664176e0"
+  },
+  "case_failures": {
+    "native": {},
+    "races": {},
+    "http": {},
+    "browser": {}
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "group_cleanup": {
+    "races": {
+      "database_remaining": 0,
+      "auth_counts": null,
+      "cleanup": null,
+      "console_errors": null,
+      "host_exit": null
+    },
+    "http": {
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "cleanup": {
+        "users_created": 14,
+        "cleanup_failures": [],
+        "rest_remaining": false
+      },
+      "console_errors": null,
+      "host_exit": null
+    },
+    "browser": {
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "cleanup": {
+        "users_created": 0,
+        "cleanup_failures": [],
+        "rest_remaining": false
+      },
+      "console_errors": 0,
+      "host_exit": 0
+    }
+  },
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "production_go": false,
+  "visual_review": {
+    "status": "EIGHT_ORIGINAL_ARCHIVE_SCREENSHOTS_REVIEWED",
+    "scope": "Desktop1440/mobile390 server index, original reopen, source-changed archive and current403; readable wrapped controls, bounded scrollable report, parent money/stock/HPP absent after403 and own search retained.",
+    "screenshots": {
+      "P15_SERVER_ARCHIVE_DESKTOP.png": {
+        "sha256": "61bb36d5f728059456da327513dc2b18a50e9a6b7808c33b929cd39208412f34",
+        "bytes": 1294933
+      },
+      "P15_SERVER_ARCHIVE_MOBILE.png": {
+        "sha256": "76af08d0465f1163a1fd2d4f2a58304a555b055cbcfd78fa1b603b2aa6457de5",
+        "bytes": 705966
+      },
+      "P15_SERVER_INDEX_DESKTOP.png": {
+        "sha256": "9fcfe78b1386b8db85e5e7979b940888a9ea06c5e2c8017faa4720a0b66f3161",
+        "bytes": 584290
+      },
+      "P15_SERVER_INDEX_MOBILE.png": {
+        "sha256": "123f4cfe8703ea5b9fcbddef50b4c2cf51b717d54bba66d66ecc536374552fbb",
+        "bytes": 314735
+      },
+      "P15_SERVER_REOPEN_DESKTOP.png": {
+        "sha256": "0ca67c64594e6fd34f58efee47ae5e4a2d83da17d52b6a5de18e534bf786e674",
+        "bytes": 1291210
+      },
+      "P15_SERVER_REOPEN_MOBILE.png": {
+        "sha256": "eb89e8b03427b49b7d7392c2ffe6f7b204d1d5dc1b3d33b7d809352aed942e7d",
+        "bytes": 708224
+      },
+      "P15_SERVER_REVOKED_DESKTOP.png": {
+        "sha256": "73b61453d1ff19885f7294651f68fb9207d68486d1dd8d97fc9e979f92af3bce",
+        "bytes": 522526
+      },
+      "P15_SERVER_REVOKED_MOBILE.png": {
+        "sha256": "24914b4986d7c3c8fd5f4867551b51195c434c5b2bca98c7de19dc38a7e23a99",
+        "bytes": 288650
+      }
+    }
+  }
+}

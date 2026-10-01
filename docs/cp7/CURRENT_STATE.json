@@ -656,7 +656,7 @@
   "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
   "latest_tested_scope": "Native financial readers12 PASS onf31b7a7: native3, realAuthHTTP1, browser8; package/restore/advisors/Auth cleanup and AR visual evidence retained. Counts overlap prior6/8/10.",
   "latest_tested_source": "f31b7a70e9f6330f7922fcbb2e8527320f4c5df2",
-  "next_action": "Execute and inspect Native118 durable original archives and Native131 original-review/own-task continuation; fix every concrete Native source-state failure, then continue authoritative material/apply/model/episode and F06 work without claiming whole acceptance.",
+  "next_action": "Execute and review Native137 current AR and durable attention, repair every concrete Native failure; continue Native AP due/business episode reconciliation, authoritative material/apply/model and F06 without whole-family self-acceptance.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -998,44 +998,63 @@
   },
   "f05_native_analysis": {
     "qualified_scope": "Operational compiler and four shared consumers; Native102 first attempt101PASS/1 setup guard refusal, retained as INCOMPLETE",
-    "tested_source": "3986887a9b85a735fa610e635b7502f1a8e3a802",
+    "tested_source": "11a4352a84dc8edbc18ccda670c94b519aaaf693",
     "original_receipt": "docs/cp7/evidence/f05-native-analysis/first102-c6c825f/RECEIPT.json",
     "candidate_scope": "Reuse accepted Native owner financial report under current Native Owner/Admin and report/preflight rights; immutable financial archives, complete dated book provenance, no second money engine",
-    "local_tests": 1069,
+    "local_tests": 1076,
     "declared_native_budget": 118,
-    "native_status": "THIRD109_ALL_FUNCTIONAL_AND_RESTORE_PASS_PROBE_COUNT_SHADOW_INCOMPLETE_SUCCESSOR_NATIVE118_PENDING",
+    "native_status": "NATIVE118_PASS_CURRENT_AUTH_ORIGINAL_FINANCE_AND_ARCHIVES_ALL_THREE_RESTORE_COMPONENTS",
     "local_receipt": "docs/cp7/evidence/f05-native-analysis/finance-local/RECEIPT.json",
     "full_family_acceptance": false,
-    "latest_receipt": "docs/cp7/evidence/f05-native-analysis/finance-third109-3986887/RECEIPT.json"
+    "latest_receipt": "docs/cp7/evidence/f05-native-archives/qualified118-11a4352/RECEIPT.json"
   },
   "f05_native_attention": {
-    "status": "FIRST122_119_PASS_3_INCOMPLETE_SOURCE_STATE_NATIVE_CUSTOM_ROLE_AND_CATALOG_ORDER_DIAGNOSTICS_SUCCESSOR131_PENDING",
+    "status": "NATIVE131_129PASS_TWO_DISABLED_STAFF_FIXTURE_SETUP_FAILURES_SUCCESSOR137_PENDING",
     "scope": "Actor-bound review attention on one immutable analysis; delegated unchanged Native own-user manual reminder writers",
     "consumer": "src/NativeAnalysisPanel.tsx",
-    "local_tests": 1069,
+    "local_tests": 1076,
     "native_predeclared": {
-      "native": 92,
+      "native": 95,
       "races": 17,
-      "http": 10,
-      "browser": 12,
-      "total": 131
+      "http": 11,
+      "browser": 14,
+      "total": 137
     },
     "receipt": "docs/cp7/evidence/f05-native-attention/local/RECEIPT.json",
     "business_episode_reconciliation": false,
     "external_delivery": false,
     "full_family_acceptance": false,
     "production_go": false,
-    "latest_receipt": "docs/cp7/evidence/f05-native-attention/first122-3986887/RECEIPT.json"
+    "latest_receipt": "docs/cp7/evidence/f05-native-attention/second131-11a4352/RECEIPT.json"
   },
   "f05_native_archives": {
-    "status": "LOCAL_IMPLEMENTED_NATIVE118_131_PENDING",
+    "status": "QUALIFIED_BOUNDED_NATIVE118_ALL_PASS",
     "scope": "Current actor original pointers with capability-filtered keyset pages; Native current-auth original read on open; no local/server-index fact cache",
     "consumer": "src/NativeAnalysisPanel.tsx",
     "contract": "docs/cp7/f05/NATIVE_ARCHIVES.md",
     "full_family_acceptance": false,
     "independent_acceptance": false,
     "production_go": false,
-    "local_tests": 1069,
-    "local_receipt": "docs/cp7/evidence/f05-native-archives/local/RECEIPT.json"
+    "local_tests": 1076,
+    "local_receipt": "docs/cp7/evidence/f05-native-archives/local/RECEIPT.json",
+    "tested_source": "11a4352a84dc8edbc18ccda670c94b519aaaf693",
+    "latest_receipt": "docs/cp7/evidence/f05-native-archives/qualified118-11a4352/RECEIPT.json"
+  },
+  "f05_native_receivables": {
+    "status": "LOCAL1076_PASS_PGLITE18_STANDIN_NATIVE137_PENDING",
+    "scope": "Current complete accepted P11 Native AR documents/actual balance/due observation, separate immutable Original and saved review; no other money engine or business episode closure",
+    "consumer": "src/NativeAnalysisPanel.tsx",
+    "contract": "docs/cp7/f05/NATIVE_RECEIVABLE_CONDITIONS.md",
+    "receipt": "docs/cp7/evidence/f05-native-receivables/local/RECEIPT.json",
+    "native_predeclared": {
+      "native": 95,
+      "races": 17,
+      "http": 11,
+      "browser": 14,
+      "total": 137
+    },
+    "full_family_acceptance": false,
+    "independent_acceptance": false,
+    "production_go": false
   }
 }

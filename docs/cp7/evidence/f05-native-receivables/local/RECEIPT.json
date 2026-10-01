@@ -1,0 +1,31 @@
+{
+  "status": "LOCAL1076_PASS_PGLITE18_STANDIN_NATIVE137_PENDING",
+  "tests": {
+    "PASS": 1076,
+    "FAIL": 0,
+    "NOT_RUN": 0,
+    "suites": 225
+  },
+  "targeted_receiver_and_DOM": 24,
+  "build_typecheck_client_secret_scan": true,
+  "security_source_access_css": true,
+  "runtime_files": 215,
+  "owned_rpc_boundaries": 127,
+  "css_files": 51,
+  "source_bundle_sha256": "34d6c2e518782a0d8e295a8a8e71fe84923f25c8894d09f4a94adbec43dc07e3",
+  "pglite": {
+    "cases": 18,
+    "status": "PASS",
+    "scope": "NATIVE_COLUMNS_AND_METADATA_STANDIN_NOT_AUTH_NATIVE_SALES_MANUAL_WRITERS"
+  },
+  "native_predeclared": {
+    "native": 95,
+    "races": 17,
+    "http": 11,
+    "browser": 14,
+    "total": 137
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false
+}

@@ -25,6 +25,9 @@ def prepared(cur,today,custom=False):
   # Delegate to the real Native STAFF policy. A custom four-Ops role is not
   # admitted by Native personal reminders; never broaden that Native guard.
   role=cur.execute("select id from erp.app_roles where role_code='STAFF'").fetchone()[0]
+  # Native ships the legacy STAFF role disabled. Activate only this disposable
+  # fixture control, exactly as the accepted CP6 internal-role control does.
+  cur.execute('update erp.app_roles set is_active=true where id=%s',(role,))
   cur.execute("update erp.app_users set role_id=%s where auth_user_id=%s",(role,subject))
   for permission in auth.PERMS:cur.execute('insert into erp.app_role_permissions(role_id,permission_key)values(%s,%s)on conflict do nothing',(role,permission))
  original=parent.capture(cur,today,subject=subject);return original,get(cur,original['run_id'],subject),subject

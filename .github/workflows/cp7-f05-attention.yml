@@ -6,6 +6,10 @@ name: CP7 F05 Native Durable Attention
     paths:
     - scripts/cp7_f05_attention_*
     - scripts/cp7_attention_*
+    - scripts/cp7_f05_receivable_*
+    - scripts/cp7_receivable_condition_cases.py
+    - src/nativeReceivableConditions*
+    - tests/fixtures/nativeReceivableConditions*
     - scripts/cp7_reminder_bundle.py
     - scripts/cp7-src/reminders/**
     - scripts/cp7_f05_analysis_*
