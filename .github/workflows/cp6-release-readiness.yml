@@ -80,7 +80,7 @@ jobs:
         # in the T3 capture job) on a fresh hosted-faithful clone at AB. capture: derive the
         # pins again and compare them with the committed ones (determinism).
         - key: owner
-          label: Pinned package with a non-superuser database-owner controller (disposable only)
+          label: Hosted v2.6.20 to BF, 58 frozen files with non-superuser owner and work accounts (disposable only)
           proof: t3
         - key: install
           label: Hosted-faithful baseline to AB, committed 30-file package AC..BF, writer runtime, advisors, restore drill (T3_PREP)
@@ -222,7 +222,11 @@ jobs:
           > "$CP6_AC_WRITER_ARTIFACT"
         mkdir -p ../auditor/cp6-proof/t3
         status=0
-        PYTHONPATH=scripts python ../auditor/scripts/cp6_t3_aligned_chain.py ../auditor/cp6-proof/t3/ALIGNED_CHAIN.json --stop-after-ab || status=$?
+        if [ '${{ matrix.key }}' = owner ]; then
+          PYTHONPATH=../auditor/scripts:scripts python ../auditor/scripts/cp6_readiness_owner_aligned.py || status=$?
+        else
+          PYTHONPATH=scripts python ../auditor/scripts/cp6_t3_aligned_chain.py ../auditor/cp6-proof/t3/ALIGNED_CHAIN.json --stop-after-ab || status=$?
+        fi
         python - <<'PY'
         import json
         d=json.load(open('../auditor/cp6-proof/t3/ALIGNED_CHAIN.json'))

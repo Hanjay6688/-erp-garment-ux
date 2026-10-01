@@ -1,0 +1,29 @@
+{
+  "label": "CP6_OWNER_CONTROLLER_SECOND_ATTEMPT",
+  "source_commit": "3a980ce60f5325eadf363dfedc764b20ba8decf6",
+  "run_id": 36819777696,
+  "job_id": 110232641803,
+  "status": "INCOMPLETE",
+  "cases_PASS": 5,
+  "control_is_superuser": false,
+  "work_is_superuser": false,
+  "installed_file_keys": [
+    "AC",
+    "AD",
+    "AE",
+    "AF",
+    "AG",
+    "AH",
+    "AI",
+    "AJ",
+    "AK",
+    "AL",
+    "AM"
+  ],
+  "failed_file_key": "AN",
+  "sqlstate": "42501",
+  "admission_left_closed_on_failure": true,
+  "hosted_executed": false,
+  "production_go": false,
+  "interpretation": "The fixture changed the database owner away from postgres while postgres installed SQL. That differs from hosted, where both work and control use the owning postgres role. The next qualification restores that actual identity; no SQL guard or grant is weakened."
+}

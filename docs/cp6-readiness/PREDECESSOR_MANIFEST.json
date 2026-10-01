@@ -1,0 +1,262 @@
+{
+  "label": "CP6_FROZEN_V2620_TO_AB",
+  "frozen_workflow_commit": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+  "frozen_workflow_sha256": "5ba14137aca8992f92f32357d2b0a3c15a1ca40a988b3ec79754dde7a6eb8302",
+  "baseline_version": "v2.6.20",
+  "successor_version": "v2.6.20ab",
+  "files": [
+    {
+      "key": "A",
+      "file": "supabase/migrations/20260905110913_erp_v2_6_20a_cp6_audit_reliability_closure.sql",
+      "sha256": "03e0dcaaafecb9107d08d0c44e55b719fbaed63cd8881872423a0e9457a429cd",
+      "stamp": "20260905110913",
+      "name": "erp_v2_6_20a_cp6_audit_reliability_closure",
+      "ledger_omit_final_newline": true,
+      "step_name": "Apply v2.6.20a audit reliability closure once and reject replay"
+    },
+    {
+      "key": "B",
+      "file": "supabase/migrations/20260905170334_erp_v2_6_20b_cp6_reaudit_reliability_closure.sql",
+      "sha256": "67c2b8eeb4a473c20a6ac312b863ef8f3b7eccf2a6d8805e921b3996e9eca406",
+      "stamp": "20260905170334",
+      "name": "erp_v2_6_20b_cp6_reaudit_reliability_closure",
+      "ledger_omit_final_newline": true,
+      "step_name": "Apply v2.6.20b re-audit reliability closure once and reject replay"
+    },
+    {
+      "key": "C",
+      "file": "supabase/migrations/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.sql",
+      "sha256": "b90cd6c4aa535eb97226d001fdfb5a5bfed783be28ef38dc7c121a7020368aba",
+      "stamp": "20260907190000",
+      "name": "erp_v2_6_20c_cp6_deep_business_reliability",
+      "ledger_omit_final_newline": true,
+      "step_name": "Apply v2.6.20c deep-business reliability repair once and reject replay"
+    },
+    {
+      "key": "D",
+      "file": "supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql",
+      "sha256": "eab866385d3a462aea5815dc5069d5d7a774f7aa88c43d983c665469f4469465",
+      "stamp": "20260908160000",
+      "name": "erp_v2_6_20d_cp6_reaudit_business_closure",
+      "ledger_omit_final_newline": true,
+      "step_name": "Apply v2.6.20d independent re-audit business closure once and reject replay"
+    },
+    {
+      "key": "E",
+      "file": "supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql",
+      "sha256": "7937cde99aa9d77e5e3d987a803fd9c11f9a4aedc61e16fdd8307849c4fe3ad2",
+      "stamp": "20260909113933",
+      "name": "erp_v2_6_20e_cp6_counterexample_closure",
+      "ledger_omit_final_newline": true,
+      "step_name": "Apply v2.6.20e C01-C06 counterexample closure before final-runtime tests"
+    },
+    {
+      "key": "F",
+      "file": "supabase/migrations/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.sql",
+      "sha256": "48f0431ca57abc99906d3f578b53ef59f9072fef3fc3e11c0b50a5c3a581279c",
+      "stamp": "20260909174713",
+      "name": "erp_v2_6_20f_cp6_final_runtime_reliability",
+      "ledger_omit_final_newline": true,
+      "step_name": "Apply v2.6.20f A01-A04 final-runtime reliability closure once and reject replay"
+    },
+    {
+      "key": "G",
+      "file": "supabase/migrations/20260910031103_erp_v2_6_20g_cp6_independent_audit_closure.sql",
+      "sha256": "645623b047e6c762cf078507450d260d712427ccd0b2c314113de856c4aff726",
+      "stamp": "20260910031103",
+      "name": "erp_v2_6_20g_cp6_independent_audit_closure",
+      "ledger_omit_final_newline": false,
+      "step_name": "Apply v2.6.20g independent N01-N03 closure before all final-runtime evidence"
+    },
+    {
+      "key": "H",
+      "file": "supabase/migrations/20260910061516_erp_v2_6_20h_cp6_expanded_audit_closure.sql",
+      "sha256": "e16dbb655164595be273c03582d35c9ac33593136bd418fdd87156e592f292b8",
+      "stamp": "20260910061516",
+      "name": "erp_v2_6_20h_cp6_expanded_audit_closure",
+      "ledger_omit_final_newline": false,
+      "step_name": "Apply v2.6.20h expanded R01-R03 closure before all final-runtime evidence"
+    },
+    {
+      "key": "I",
+      "file": "supabase/migrations/20260910100051_erp_v2_6_20i_cp6_h2_audit_closure.sql",
+      "sha256": "01db1c8f2d59485c1c42567ec2d1318de156397483b1d0afd30a16b27450b683",
+      "stamp": "20260910100051",
+      "name": "erp_v2_6_20i_cp6_h2_audit_closure",
+      "ledger_omit_final_newline": false,
+      "step_name": "Apply v2.6.20i H2 audit closure before every final-runtime proof"
+    },
+    {
+      "key": "J",
+      "file": "supabase/migrations/20260910170556_erp_v2_6_20j_cp6_payment_fact_closure.sql",
+      "sha256": "663cb98b2c432ce8518f922dcd7ecbaeb61d07bfb929ac49111a00ded29cad74",
+      "stamp": "20260910170556",
+      "name": "erp_v2_6_20j_cp6_payment_fact_closure",
+      "ledger_omit_final_newline": false,
+      "step_name": "Apply v2.6.20j immutable payment facts before every final-runtime proof"
+    },
+    {
+      "key": "K",
+      "file": "supabase/migrations/20260911023222_erp_v2_6_20k_cp6_payment_date_conservation.sql",
+      "sha256": "567ede242847e7f0a428e673f896d61886f4cbb23e8bb55becf06c34a358b880",
+      "stamp": "20260911023222",
+      "name": "erp_v2_6_20k_cp6_payment_date_conservation",
+      "ledger_omit_final_newline": false,
+      "step_name": "Apply v2.6.20k payment date conservation before every final-runtime proof"
+    },
+    {
+      "key": "L",
+      "file": "supabase/migrations/20260911070622_erp_v2_6_20l_cp6_exact_ledger_conservation.sql",
+      "sha256": "f46e70911e9e582fa9b7dd742c9a94d455662fa52eac256afd86f590f4d4b815",
+      "stamp": "20260911070622",
+      "name": "erp_v2_6_20l_cp6_exact_ledger_conservation",
+      "ledger_omit_final_newline": false,
+      "step_name": "Apply v2.6.20l exact ledger conservation before every final-runtime proof"
+    },
+    {
+      "key": "M",
+      "file": "supabase/migrations/20260911092622_erp_v2_6_20m_cp6_subledger_exact_cent_closure.sql",
+      "sha256": "c5404de584a4734fb235f5253f10fb10a1d13f01f3f993b99150a422008e2268",
+      "stamp": "20260911092622",
+      "name": "erp_v2_6_20m_cp6_subledger_exact_cent_closure",
+      "ledger_omit_final_newline": false,
+      "step_name": "Apply v2.6.20m exact supplier and opening subledger closure before every final-runtime proof"
+    },
+    {
+      "key": "N",
+      "file": "supabase/migrations/20260911124328_erp_v2_6_20n_cp6_supplier_cent_lifecycle.sql",
+      "sha256": "4b351432f4ddd8781f42c3c194b78fc575257e3a5fd60753e310c9928590b21e",
+      "stamp": "20260911124328",
+      "name": "erp_v2_6_20n_cp6_supplier_cent_lifecycle",
+      "ledger_omit_final_newline": false,
+      "step_name": "Apply v2.6.20n cumulative supplier cent lifecycle before every final-runtime proof"
+    },
+    {
+      "key": "O",
+      "file": "supabase/migrations/20260911165255_erp_v2_6_20o_cp6_supplier_return_document_allocation.sql",
+      "sha256": "9399b7b8d397165d76e0a87dfcb2bf5efeae82f7930bd8ce3449a004c7ed734b",
+      "stamp": "20260911165255",
+      "name": "erp_v2_6_20o_cp6_supplier_return_document_allocation",
+      "ledger_omit_final_newline": false,
+      "step_name": "Apply v2.6.20o cumulative supplier return document allocation before every final-runtime proof"
+    },
+    {
+      "key": "P",
+      "file": "supabase/migrations/20260912051922_erp_v2_6_20p_cp6_supplier_return_match_state.sql",
+      "sha256": "109a991d12643ff1c056fd984cea3b3a26bc9fe9d9d716f62c84c4bcb053c138",
+      "stamp": "20260912051922",
+      "name": "erp_v2_6_20p_cp6_supplier_return_match_state",
+      "ledger_omit_final_newline": false,
+      "step_name": "Apply v2.6.20p supplier return match state and report scope before every final-runtime proof"
+    },
+    {
+      "key": "Q",
+      "file": "supabase/migrations/20260912084719_erp_v2_6_20q_cp6_supplier_invoice_exact_quantity.sql",
+      "sha256": "26faa6601494521d46813ecef194eb1c33ea7c9f71b98c3ef13ee90f869b5188",
+      "stamp": "20260912084719",
+      "name": "erp_v2_6_20q_cp6_supplier_invoice_exact_quantity",
+      "ledger_omit_final_newline": false,
+      "step_name": "Apply v2.6.20q exact supplier invoice quantity and completion state before every final-runtime proof"
+    },
+    {
+      "key": "R",
+      "file": "supabase/migrations/20260912114635_erp_v2_6_20r_cp6_receipt_invoice_dependency.sql",
+      "sha256": "0c5551ef49da417310e0bcf8c8aa9d655f551ff66ca6e7ca79679ffd331f788b",
+      "stamp": "20260912114635",
+      "name": "erp_v2_6_20r_cp6_receipt_invoice_dependency",
+      "ledger_omit_final_newline": false,
+      "step_name": "Apply v2.6.20r receipt invoice dependency and source state before every final-runtime proof"
+    },
+    {
+      "key": "S",
+      "file": "supabase/migrations/20260912132445_erp_v2_6_20s_cp6_supplier_payment_business_date.sql",
+      "sha256": "c9e35612100f0e387a7fdb80fda382ea1212df0cf5200ebceeaf67df9f77cf1f",
+      "stamp": "20260912132445",
+      "name": "erp_v2_6_20s_cp6_supplier_payment_business_date",
+      "ledger_omit_final_newline": false,
+      "step_name": "Apply v2.6.20s supplier payment canonical business date before every final-runtime proof"
+    },
+    {
+      "key": "T",
+      "file": "supabase/migrations/20260912171034_erp_v2_6_20t_cp6_material_adjustment_revaluation.sql",
+      "sha256": "e888fa66bd40abda0ba1152662df9d0855193325dcf1c8491d47b522cdd00add",
+      "stamp": "20260912171034",
+      "name": "erp_v2_6_20t_cp6_material_adjustment_revaluation",
+      "ledger_omit_final_newline": false,
+      "step_name": "Apply v2.6.20t material adjustment document cents and canonical accounting day before every final-runtime proof"
+    },
+    {
+      "key": "U",
+      "file": "supabase/migrations/20260913070000_erp_v2_6_20u_cp6_canonical_business_date.sql",
+      "sha256": "972b5189a065e078590c0742f67722684eb14a1d0df21f5fb1ebd42bf7f3bbaa",
+      "stamp": "20260913070000",
+      "name": "erp_v2_6_20u_cp6_canonical_business_date",
+      "ledger_omit_final_newline": false,
+      "step_name": "Apply v2.6.20u canonical material, reversal and owner-report business dates before every final-runtime proof"
+    },
+    {
+      "key": "V",
+      "file": "supabase/migrations/20260913135850_erp_v2_6_20v_cp6_misc_finance_business_date.sql",
+      "sha256": "3bd29c1280e09bd8d36e8303c4e5e4cfdd2be951c3f852c8ce38fe170ab3648d",
+      "stamp": "20260913135850",
+      "name": "erp_v2_6_20v_cp6_misc_finance_business_date",
+      "ledger_omit_final_newline": false,
+      "step_name": "Apply v2.6.20v canonical miscellaneous cash business dates before every final-runtime proof"
+    },
+    {
+      "key": "W",
+      "file": "supabase/migrations/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.sql",
+      "sha256": "ed858948f60990578ceeb9cbc94a3748b928fae0dcf32a8474079cd7ce31fe08",
+      "stamp": "20260913173840",
+      "name": "erp_v2_6_20w_cp6_scrap_business_date",
+      "ledger_omit_final_newline": false,
+      "step_name": "Apply v2.6.20w canonical paid scrap business dates before every final-runtime proof"
+    },
+    {
+      "key": "X",
+      "file": "supabase/migrations/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.sql",
+      "sha256": "53af147202671e5919a49080ed135ab9896399867bbb71065ef2da57f6543117",
+      "stamp": "20260913202948",
+      "name": "erp_v2_6_20x_cp6_internal_role_fail_closed",
+      "ledger_omit_final_newline": false,
+      "step_name": "Apply v2.6.20x fail-closed internal role before every final-runtime proof"
+    },
+    {
+      "key": "Y",
+      "file": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "sha256": "99bd8ca086464c4473f32f9c249f8bd308719f3b931930b091b876b554e28fed",
+      "stamp": "20260914043146",
+      "name": "erp_v2_6_20y_cp6_cash_business_dates",
+      "ledger_omit_final_newline": false,
+      "step_name": "Apply v2.6.20y canonical cash dates before every final-runtime proof"
+    },
+    {
+      "key": "Z",
+      "file": "supabase/migrations/20260914085912_erp_v2_6_20z_cp6_accounting_close_business_date.sql",
+      "sha256": "4811f4ea21b35aac10da02da96bdec34505c619d3daa0b53f64fe22205a2f4a3",
+      "stamp": "20260914085912",
+      "name": "erp_v2_6_20z_cp6_accounting_close_business_date",
+      "ledger_omit_final_newline": false,
+      "step_name": "Apply Z canonical accounting-close day before every final-runtime proof"
+    },
+    {
+      "key": "AA",
+      "file": "supabase/migrations/20260914163608_erp_v2_6_20aa_cp6_material_cost_business_day.sql",
+      "sha256": "2ada33f0d04da6589b92646652a482290ef614e500c6abb026011823f6ebcfc7",
+      "stamp": "20260914163608",
+      "name": "erp_v2_6_20aa_cp6_material_cost_business_day",
+      "ledger_omit_final_newline": false,
+      "step_name": "Apply AA canonical material cost days before every final-runtime proof"
+    },
+    {
+      "key": "AB",
+      "file": "supabase/migrations/20260914190500_erp_v2_6_20ab_cp6_operational_business_clock.sql",
+      "sha256": "7b31f000b3ca89f4bc776d93f3211f39dce5adbc73445291b9c0e0268f2d7fe3",
+      "stamp": "20260914190500",
+      "name": "erp_v2_6_20ab_cp6_operational_business_clock",
+      "ledger_omit_final_newline": false,
+      "step_name": "Apply AB statement-time Jakarta business dates before every final-runtime proof"
+    }
+  ],
+  "production_go": false
+}
