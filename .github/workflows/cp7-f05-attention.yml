@@ -11,6 +11,8 @@ name: CP7 F05 Native Durable Attention
     - scripts/cp7_payable_condition_cases.py
     - scripts/cp7_obligation_episode_cases.py
     - scripts/cp7_f05_episode_browser.mjs
+    - scripts/cp7_f05_ai_browser.mjs
+    - scripts/cp7_catalog_state.py
     - src/nativeObligationEpisodes*
     - src/NativeObligationObservationView.tsx
     - tests/fixtures/nativeObligationEpisodes*

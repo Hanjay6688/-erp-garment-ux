@@ -14,6 +14,7 @@ import cp7_p09_procurement_probe as p09
 import cp6_auditor_modes as modes
 import cp6_auditor_runner as native
 import cp6_t3_package_run as package
+from cp7_catalog_state import canonical_public_state,exact_public_catalog
 from cp6_t3_aligned_install import advisors,advisor_delta
 OUT=bundle.ROOT/'cp6-proof/t3/CP7_F05_NATIVE_ANALYSIS.json'
 def public_state(cur):
@@ -22,7 +23,7 @@ def public_state(cur):
  # order after ACL updates. Sort every original [signature,definition_hash]
  # pair without deleting a field/member or changing the frozen case runner.
  state=native.public_state(cur)
- return state|{'functions':sorted(state['functions'])}
+ return canonical_public_state(state)
 
 def verify(cur):
  bundle.verify(cur)
@@ -35,7 +36,7 @@ def run(attention=False):
   import cp7_reminder_bundle as candidate
   import cp7_obligation_episode_cases as case_provider
   def checker(cur):verify(cur);candidate.verify(cur)
-  extra=candidate.extension();expected=153;out=OUT.with_name('CP7_F05_NATIVE_ATTENTION.json');phase='cp7_f05_attention';browser_script='cp7_f05_attention_browser.mjs'
+  extra=candidate.extension();expected=155;out=OUT.with_name('CP7_F05_NATIVE_ATTENTION.json');phase='cp7_f05_attention';browser_script='cp7_f05_attention_browser.mjs'
  report=dict(label='CP7_F05_NATIVE_ATTENTION'if attention else'CP7_F05_NATIVE_ANALYSIS',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope='DURABLE_ORIGINAL_REVIEW_ATTENTION_NATIVE_AR_MATERIAL_AP_SOURCE_EPISODES_NO_OTHER_DOMAIN_OR_DELIVERY_CLOSURE'if attention else'FROZEN_ANALYSIS_V2_ONE_NATIVE_OPERATIONAL_COMPILER_ACCEPTED_OWNER_FINANCE_REUSE_MATERIAL_APPLY_UNKNOWN',source_sha256=hashlib.sha256(candidate.bundle().encode()).hexdigest(),expected_case_count=expected);installed=False
  try:
   with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
@@ -59,7 +60,9 @@ def run(attention=False):
    if attention:report['combined_declared_table_grants']=candidate.TABLE_GRANTS
    conn.commit();installed=True;checker(cur);conn.rollback()
   report['advisors_with_cp7']=advisors(package.boundary.PG)
-  report['native']=native.strict_group('CP7_F05_ATTENTION'if attention else'CP7_F05_ANALYSIS',case_provider.cases,checker)
+  with exact_public_catalog(native)as catalog_audit:
+   report['native']=native.strict_group('CP7_F05_ATTENTION'if attention else'CP7_F05_ANALYSIS',case_provider.cases,checker)
+  report['native_public_catalog_comparison']=catalog_audit
   report['races']=modes.run_races(case_provider,checker,phase)
   report['http']=modes.run_http(case_provider,checker,phase)
   # Keep port ownership evidence before opening the native browser host.

@@ -1,0 +1,51 @@
+{
+  "status": "LOCAL1098_PASS_NATIVE155_NOT_YET_EXECUTED",
+  "tests": 1098,
+  "suites": 229,
+  "failed": 0,
+  "build": "PASS",
+  "client_secret_scan": "PASS",
+  "security": "PASS",
+  "targeted_tests": 36,
+  "catalog_adapter_standin_tests": 4,
+  "actual_Auth_qualification": false,
+  "source_native_bundle_unchanged": true,
+  "full_source_and_UTF8_scope_hashes": true,
+  "manual_copy_fallback_no_truncation": true,
+  "current_auth_before_copy_and_provider_URL": true,
+  "blank_popup_opener_retired": true,
+  "scope_invalidation_and403_retire_prepared_text": true,
+  "native_predeclared": {
+    "native": 103,
+    "races": 19,
+    "http": 13,
+    "browser": 20,
+    "total": 155
+  },
+  "browser_failure_controls": "Controlled clipboard denial and popup object branches; actual Native/Auth read and actual first clipboard success. No provider contacted.",
+  "files": {
+    "LOCAL_TESTS.json": {
+      "sha256": "f8ff0e893955c82da9e4d03a577eabac371ff6e576782f55462f8bcb754b289f",
+      "bytes": 400314,
+      "compressed_path": "docs/cp7/evidence/f05-native-ai-handoff/local/LOCAL_TESTS.json.gz"
+    },
+    "BUILD.log": {
+      "sha256": "262e2426fed04adc7cb0993cae124bb96110632244920593f2d547db255fc280",
+      "bytes": 11266,
+      "compressed_path": "docs/cp7/evidence/f05-native-ai-handoff/local/BUILD.log.gz"
+    },
+    "SECURITY.log": {
+      "sha256": "1a07d96b49933aad08222d3e050c12fdf254e652ddb8c4696568685b9870863a",
+      "bytes": 12142,
+      "compressed_path": "docs/cp7/evidence/f05-native-ai-handoff/local/SECURITY.log.gz"
+    },
+    "TARGETED36.log": {
+      "sha256": "fcfa45a2e4982eb2ebb066217eaa5e7b12312fc099f1db76f50dbd867e05a909",
+      "bytes": 323,
+      "compressed_path": "docs/cp7/evidence/f05-native-ai-handoff/local/TARGETED36.log.gz"
+    }
+  },
+  "production_go": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false
+}

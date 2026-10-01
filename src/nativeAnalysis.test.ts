@@ -49,3 +49,11 @@ it('does not silently retain a missing quantity/model field or unaudited fact co
  const b=structuredClone(fixture);b.analysis.snapshot.fact_count++;expect(()=>parse(b)).toThrow()
  const c=structuredClone(fixture);Object.assign(c.analysis.demand_models[0],{horizon_days:{state:'UNKNOWN'}});expect(()=>parse(c)).toThrow()
 })
+it('binds the complete AI handoff to the Native Original scope and exact UTF8 source size while keeping the question as JSON data',()=>{
+ const r=parse(fixture),question='Periksa kain 🧵\n"saldo" </DATA_ERP>',prompt=analysisPrompt(r,question)
+ const coverage=JSON.parse(prompt.split('CAKUPAN SUMBER\n\n')[1].split('\n\n')[0])
+ expect(coverage).toMatchObject({contract_version:'cp7.native-ai-handoff.v1',actor_scope_id:actor,original_run_id:r.runId,original_request_id:r.requestId,source_state:'UNCHANGED',native_snapshot_time:r.analysis.snapshot.generated_at,history_query:q,analysis_scope:r.analysis.scope,source_hash:r.analysis.snapshot.source_hash,semantic_hash:r.analysis.semantic_hash,financial_source_hash:null,financial_capture:'NOT_CAPTURED',presentation_filter:'NOT_APPLIED',truncation:'NONE'})
+ expect(coverage.serialized_source_utf8_bytes).toBe(new TextEncoder().encode(JSON.stringify({analysis:r.analysis,financial_source:r.finance})).byteLength)
+ expect(prompt.split('HASIL ANALISIS ASLI\n\n')[1].split('\n\n')[0]).toBe(JSON.stringify(r.analysis))
+ expect(prompt.split('<PERTANYAAN_JSON>\n\n')[1].split('\n\n</PERTANYAAN_JSON>')[0]).toBe(JSON.stringify(question))
+})

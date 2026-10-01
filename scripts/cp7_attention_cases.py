@@ -4,7 +4,7 @@ These cases prove saved review metadata and own-user tasks. They do not assert
 business episode reconciliation, AR/AP due truth, delivery or family acceptance.
 """
 from concurrent.futures import ThreadPoolExecutor
-from datetime import timedelta
+from datetime import datetime,timedelta
 import json,threading,time,uuid
 import psycopg
 import cp7_analysis_cases as parent
@@ -53,14 +53,23 @@ def cases(cur,today):
   old=row_for(e,p)['manual']['id'];e=schedule(cur,e,today);assert e['rows'][0]['manual']['id']!=old and e['rows'][0]['manual']['status']=='OPEN'
   assert cur.execute('select status from erp.manual_reminders where id=%s',(old,)).fetchone()[0]=='CANCELLED'
   assert e['analysis']['analysis']==original['analysis']
+  crossed_minute=False
   if e['analysis']['source_state']!='UNCHANGED':
    fresh=parent.capture(cur,today);oldfacts=cur.execute('select facts from cp7_analysis_native.runs where id=%s',(original['run_id'],)).fetchone()[0];newfacts=cur.execute('select facts from cp7_analysis_native.runs where id=%s',(fresh['run_id'],)).fetchone()[0]
    def diff(a,b,path=''):
     if a==b:return[]
     if isinstance(a,dict)and isinstance(b,dict):return[x for k in sorted(set(a)|set(b))for x in diff(a.get(k),b.get(k),path+'/'+k)]
     return[dict(path=path,before=a,after=b)]
-   raise AssertionError(json.dumps(dict(code='P16_NATIVE_TASK_SOURCE_UNEXPECTED_CHANGE',old_hash=original['analysis']['snapshot']['source_hash'],new_hash=fresh['analysis']['snapshot']['source_hash'],difference=diff(oldfacts,newfacts)),default=str))
-  return dict(status='PASS',unchanged_native_create_done_reopen_edit_cancel_new_lifecycle=True,Native_original_cancelled_task_retained=True,manual_tasks_never_change_stock_money_HPP_source=True)
+   changes=diff(oldfacts,newfacts);paths={d['path']for d in changes}
+   # Native planning includes a real minute bucket. A lifecycle crossing that
+   # boundary legitimately archives the Original; never relabel it UNCHANGED,
+   # remove the bucket from the source hash, or permit a business-field change.
+   clocks={'/captured_at','/financial_source/report/captured_at','/production_policies/generated_at','/production_sources/captured_at','/planning_time_bucket'}
+   oldclock=datetime.fromisoformat(oldfacts['captured_at'].replace('Z','+00:00'));newclock=datetime.fromisoformat(newfacts['captured_at'].replace('Z','+00:00'))
+   crossed_minute=paths<=clocks and '/planning_time_bucket'in paths and newclock>oldclock and datetime.fromisoformat(oldfacts['planning_time_bucket'].replace('Z','+00:00'))==oldclock.replace(second=0,microsecond=0)and datetime.fromisoformat(newfacts['planning_time_bucket'].replace('Z','+00:00'))==newclock.replace(second=0,microsecond=0)
+   if not crossed_minute:raise AssertionError(json.dumps(dict(code='P16_NATIVE_TASK_SOURCE_UNEXPECTED_CHANGE',old_hash=original['analysis']['snapshot']['source_hash'],new_hash=fresh['analysis']['snapshot']['source_hash'],difference=changes),default=str))
+   assert e['analysis']['source_state']=='ARCHIVED_STALE'and e['analysis']['financial_source']==original['financial_source']
+  return dict(status='PASS',unchanged_native_create_done_reopen_edit_cancel_new_lifecycle=True,Native_original_cancelled_task_retained=True,manual_tasks_never_change_stock_money_HPP_source=True,actual_planning_minute_crossed=crossed_minute,legitimate_clock_staleness_retained_without_relabel=True)
  def replay():
   original,e,subject=prepared(cur,today);p=intent(e);key=uuid.uuid4();saved=command(cur,p,key);again=command(cur,p,key);assert saved['request_result']==again['request_result']and row_for(again,p)['attention']['revision']=='1'
   auth.refused(cur,lambda:command(cur,dict(p,action='DONE'),key),'CP7_REMINDER_REQUEST_CHANGED')

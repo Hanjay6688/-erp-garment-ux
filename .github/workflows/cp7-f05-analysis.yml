@@ -5,6 +5,7 @@ name: CP7 F05 Native Frozen Analysis
     - cp7/integration
     paths:
     - scripts/cp7_f05_analysis_*
+    - scripts/cp7_catalog_state.py
     - scripts/cp7_analysis_*
     - src/NativeAnalysis*
     - src/nativeAnalysis*

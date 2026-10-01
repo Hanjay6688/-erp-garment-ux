@@ -1062,7 +1062,7 @@
     "local_tests": 1084
   },
   "f05_native_payables": {
-    "status": "FIRST_NATIVE144_141PASS_THREE_FAILURES_RETAINED_SUCCESSOR153_PENDING",
+    "status": "FUNCTIONAL_NATIVE153_PASS_OVERALL_INCOMPLETE_TWO_INHERITED_CASE_FAILURES_SUCCESSOR155_READY",
     "scope": "Current complete accepted BF signed material-purchase balance, accepted Native liability and invoice coverage, recorded due only; excludes opening AP/payroll/other obligations",
     "consumer": "src/NativeAnalysisPanel.tsx",
     "contract": "docs/cp7/f05/NATIVE_PAYABLE_CONDITIONS.md",
@@ -1071,18 +1071,19 @@
       "native": 103,
       "races": 19,
       "http": 13,
-      "browser": 18,
-      "total": 153
+      "browser": 20,
+      "total": 155
     },
     "business_episode_reconciliation": false,
     "full_family_acceptance": false,
     "independent_acceptance": false,
     "production_go": false,
-    "local_tests": 1092,
-    "latest_receipt": "docs/cp7/evidence/f05-native-payables/first144-b5fec64/RECEIPT.json"
+    "local_tests": 1098,
+    "latest_receipt": "docs/cp7/evidence/f05-native-episodes/first153-574553f/RECEIPT.json",
+    "tested_source": "574553ff2e812cf8e8414c02067381b8b7f20f33"
   },
   "f05_native_episodes": {
-    "status": "LOCAL1092_PASS_PGLITE21_STANDIN_NATIVE153_PENDING",
+    "status": "FUNCTIONAL_NATIVE153_PASS_OVERALL_INCOMPLETE_TWO_INHERITED_CASE_FAILURES_SUCCESSOR155_READY",
     "scope": "Explicit complete Native AR/material-AP observation metadata, shared business identity, lawful resolution/linked recurrence, partial UNKNOWN and stable recovery; no other rules/delivery closure",
     "contract": "docs/cp7/f05/NATIVE_OBLIGATION_EPISODES.md",
     "receipt": "docs/cp7/evidence/f05-native-episodes/local/RECEIPT.json",
@@ -1090,10 +1091,31 @@
       "native": 103,
       "races": 19,
       "http": 13,
-      "browser": 18,
-      "total": 153
+      "browser": 20,
+      "total": 155
     },
-    "local_tests": 1092,
+    "local_tests": 1098,
+    "full_family_acceptance": false,
+    "independent_acceptance": false,
+    "production_go": false,
+    "tested_source": "574553ff2e812cf8e8414c02067381b8b7f20f33",
+    "latest_receipt": "docs/cp7/evidence/f05-native-episodes/first153-574553f/RECEIPT.json"
+  },
+  "f05_native_ai_handoff": {
+    "status": "LOCAL1098_PASS_NATIVE155_READY",
+    "scope": "Complete Native Original, exact UTF8 metadata, manual fallback, current Auth before copy/open, static provider URL and failure retirement; manual user paste only",
+    "consumer": "src/NativeAnalysisPanel.tsx",
+    "contract": "docs/cp7/f05/NATIVE_AI_HANDOFF.md",
+    "receipt": "docs/cp7/evidence/f05-native-ai-handoff/local/RECEIPT.json",
+    "local_tests": 1098,
+    "native_predeclared": {
+      "native": 103,
+      "races": 19,
+      "http": 13,
+      "browser": 20,
+      "total": 155
+    },
+    "provider_contact": false,
     "full_family_acceptance": false,
     "independent_acceptance": false,
     "production_go": false

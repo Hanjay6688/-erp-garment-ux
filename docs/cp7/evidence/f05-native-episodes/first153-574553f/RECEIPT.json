@@ -1,0 +1,429 @@
+{
+  "status": "INCOMPLETE_ORIGINAL153_151PASS_TWO_CASE_FAILURES_RETAINED",
+  "source": "574553ff2e812cf8e8414c02067381b8b7f20f33",
+  "tree": "6fe506b9cb5c3ee5ac963200daca557ae5064ca4",
+  "run_id": 36810225219,
+  "job_id": 110203426325,
+  "artifact_id": 11139805135,
+  "artifact_file_id": "file_00000000971482088489d1d8f381d785",
+  "artifact_bytes": 128905988,
+  "artifact_sha256": "ee27c72c507abb74dee197713eddf2624f8f5bb7622f79e9545d26e065896483",
+  "source_sql_sha256": "6f349f70eebd4e5d367d436ee3d815fddf6f8d1af5112a73c2a0c205dfa60f4a",
+  "expected": 153,
+  "observed": 153,
+  "counts": {
+    "native": {
+      "PASS": 101,
+      "INCOMPLETE": 2
+    },
+    "races": {
+      "PASS": 19
+    },
+    "http": {
+      "PASS": 13
+    },
+    "browser": {
+      "PASS": 18
+    }
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "native_group_complete_boundary_restored": false,
+  "original_reports": {
+    "ALIGNED_CHAIN.json": {
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "bytes": 17286,
+      "original_preserved": true,
+      "compressed_path": "docs/cp7/evidence/f05-native-episodes/first153-574553f/ALIGNED_CHAIN.json.gz"
+    },
+    "CP7_F05_NATIVE_ATTENTION.json": {
+      "sha256": "935acb240970dbd7a2b68c1d22bf10907e449a50dd20c88ed213a1104323137b",
+      "bytes": 342685,
+      "original_preserved": true,
+      "compressed_path": "docs/cp7/evidence/f05-native-episodes/first153-574553f/CP7_F05_NATIVE_ATTENTION.json.gz"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "sha256": "7a9775e3162bae5ef940a513863a8e188634168cd78a974a2b611295edef2a27",
+      "bytes": 10524,
+      "original_preserved": true,
+      "compressed_path": "docs/cp7/evidence/f05-native-episodes/first153-574553f/T3_BACKUP_RESTORE_DRILL.json.gz"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "bytes": 1806,
+      "original_preserved": true,
+      "compressed_path": "docs/cp7/evidence/f05-native-episodes/first153-574553f/T3_PACKAGE_FILES_INSTALL.json.gz"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "sha256": "7803cf600683833b9df7a6746e451a7406f5543dde3cdc5b51a9a04c844be661",
+      "bytes": 360423,
+      "original_preserved": true,
+      "compressed_path": "docs/cp7/evidence/f05-native-episodes/first153-574553f/T3_PACKAGE_INSTALL.json.gz"
+    }
+  },
+  "original_failures": {
+    "P05_NATIVE_PRIVATE_CAPS": {
+      "status": "INCOMPLETE",
+      "private_metadata_immutable": true,
+      "native_read_principal_no_business_DML_or_writer_EXEC": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": false,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    "P16_NATIVE_ATTENTION_NATIVE_TASK_LIFECYCLE": {
+      "status": "INCOMPLETE",
+      "error": "{\"code\": \"P16_NATIVE_TASK_SOURCE_UNEXPECTED_CHANGE\", \"old_hash\": \"9aa7a44b4a74ffe4ab472e575fca29212d4a570b2641bb2919854d96f9c76a1e\", \"new_hash\": \"f0751c11dd5a2d8095787ad06f15ac35949d2b1039b6f77c63cffaa64d72e56a\", \"difference\": [{\"path\": \"/captured_at\", \"before\": \"2026-10-01T03:26:57.943433Z\", \"after\": \"2026-10-01T03:27:01.460341Z\"}, {\"path\": \"/financial_source/report/captured_at\", \"before\": \"2026-10-01T03:26:57.943433+00:00\", \"after\": \"2026-10-01T03:27:01.460341+00:00\"}, {\"path\": \"/planning_time_bucket\", \"before\": \"2026-10-01T03:26:00.000000Z\", \"after\": \"2026-10-01T03:27:00.000000Z\"}, {\"path\": \"/production_policies/generated_at\", \"before\": \"2026-10-01T03:26:57.943433+00:00\", \"after\": \"2026-10-01T03:27:01.460341+00:00\"}, {\"path\": \"/production_sources/captured_at\", \"before\": \"2026-10-01T03:26:57.943433Z\", \"after\": \"2026-10-01T03:27:01.460341Z\"}]}",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 112, in strict_group\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_attention_cases.py\", line 62, in lifecycle\n    raise AssertionError(json.dumps(dict(code='P16_NATIVE_TASK_SOURCE_UNEXPECTED_CHANGE',old_hash=original['analysis']['snapshot']['source_hash'],new_hash=fresh['analysis']['snapshot']['source_hash'],difference=diff(oldfacts,newfacts)),default=str))\nAssertionError: {\"code\": \"P16_NATIVE_TASK_SOURCE_UNEXPECTED_CHANGE\", \"old_hash\": \"9aa7a44b4a74ffe4ab472e575fca29212d4a570b2641bb2919854d96f9c76a1e\", \"new_hash\": \"f0751c11dd5a2d8095787ad06f15ac35949d2b1039b6f77c63cffaa64d72e56a\", \"difference\": [{\"path\": \"/captured_at\", \"before\": \"2026-10-01T03:26:57.943433Z\", \"after\": \"2026-10-01T03:27:01.460341Z\"}, {\"path\": \"/financial_source/report/captured_at\", \"before\": \"2026-10-01T03:26:57.943433+00:00\", \"after\": \"2026-10-01T03:27:01.460341+00:00\"}, {\"path\": \"/planning_time_bucket\", \"before\": \"2026-10-01T03:26:00.000000Z\", \"after\": \"2026-10-01T03:27:00.000000Z\"}, {\"path\": \"/production_policies/generated_at\", \"before\": \"2026-10-01T03:26:57.943433+00:00\", \"after\": \"2026-10-01T03:27:01.460341+00:00\"}, {\"path\": \"/production_sources/captured_at\", \"before\": \"2026-10-01T03:26:57.943433Z\", \"after\": \"2026-10-01T03:27:01.460341Z\"}]}\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    }
+  },
+  "interpretation": {
+    "private_caps": "Frozen public_state function pair aggregate has constant ORDER BY 1; exact pair-order canonicalization and audit are implemented for successor. Actual first-run order-only explanation remains an inference until successor audit.",
+    "task_lifecycle": "Original diagnostic has only four Native capture clocks and a legitimate planning_time_bucket minute advance. Successor keeps ARCHIVED_STALE and requires every other fact unchanged; Native source hashing remains unchanged.",
+    "AP": "All actual AP source cases, lawful paid-return refusal/reversal, AP Auth HTTP and both AP browser journeys pass; overall qualification stays INCOMPLETE.",
+    "episodes": "All four episode Native cases, two real races, actual Auth HTTP and both browser journeys pass; overall qualification stays INCOMPLETE."
+  },
+  "visual": [
+    {
+      "original": "P16_AP_INVERSE_DESKTOP.png",
+      "original_sha256": "25782d9f252d882aaaf26e0e695121903571969fb7593c430881381f6a8c3e8b",
+      "original_bytes": 3937613,
+      "original_size": [
+        1440,
+        11308
+      ],
+      "original_location": "verified artifact ZIP",
+      "focus": "docs/cp7/evidence/f05-native-episodes/first153-574553f/visual/focus-P16_AP_INVERSE_DESKTOP.webp",
+      "crop": [
+        310,
+        500,
+        1390,
+        2100
+      ],
+      "manual_review": "PENDING"
+    },
+    {
+      "original": "P16_AP_INVERSE_MOBILE.png",
+      "original_sha256": "0f30dcdee77ed5fba0cc719579380d1cf7e5bd447e42e222f5851eddbd0b7e4c",
+      "original_bytes": 1756477,
+      "original_size": [
+        390,
+        14329
+      ],
+      "original_location": "verified artifact ZIP",
+      "focus": "docs/cp7/evidence/f05-native-episodes/first153-574553f/visual/focus-P16_AP_INVERSE_MOBILE.webp",
+      "crop": [
+        0,
+        850,
+        390,
+        2800
+      ],
+      "manual_review": "PENDING"
+    },
+    {
+      "original": "P16_AP_OPEN_MOBILE.png",
+      "original_sha256": "0f30dcdee77ed5fba0cc719579380d1cf7e5bd447e42e222f5851eddbd0b7e4c",
+      "original_bytes": 1756477,
+      "original_size": [
+        390,
+        14329
+      ],
+      "original_location": "verified artifact ZIP",
+      "focus": "docs/cp7/evidence/f05-native-episodes/first153-574553f/visual/focus-P16_AP_OPEN_MOBILE.webp",
+      "crop": [
+        0,
+        850,
+        390,
+        2800
+      ],
+      "manual_review": "PENDING"
+    },
+    {
+      "original": "P16_AP_OPEN_DESKTOP.png",
+      "original_sha256": "25782d9f252d882aaaf26e0e695121903571969fb7593c430881381f6a8c3e8b",
+      "original_bytes": 3937613,
+      "original_size": [
+        1440,
+        11308
+      ],
+      "original_location": "verified artifact ZIP",
+      "focus": "docs/cp7/evidence/f05-native-episodes/first153-574553f/visual/focus-P16_AP_OPEN_DESKTOP.webp",
+      "crop": [
+        310,
+        500,
+        1390,
+        2100
+      ],
+      "manual_review": "PENDING"
+    },
+    {
+      "original": "P16_AP_PENDING_DESKTOP.png",
+      "original_sha256": "1cc1eece5c3abcf01c81a5e9da4a45a5f3bcafbd539ae5b88bdc9e7b3b420830",
+      "original_bytes": 3719166,
+      "original_size": [
+        1440,
+        11339
+      ],
+      "original_location": "verified artifact ZIP",
+      "focus": "docs/cp7/evidence/f05-native-episodes/first153-574553f/visual/focus-P16_AP_PENDING_DESKTOP.webp",
+      "crop": [
+        310,
+        500,
+        1390,
+        2100
+      ],
+      "manual_review": "PENDING"
+    },
+    {
+      "original": "P16_AP_PENDING_MOBILE.png",
+      "original_sha256": "64b891fa594f6f36676622026c3ae4829b98e6935d68aa442a0c94f5871c361d",
+      "original_bytes": 1785209,
+      "original_size": [
+        390,
+        14398
+      ],
+      "original_location": "verified artifact ZIP",
+      "focus": "docs/cp7/evidence/f05-native-episodes/first153-574553f/visual/focus-P16_AP_PENDING_MOBILE.webp",
+      "crop": [
+        0,
+        850,
+        390,
+        2800
+      ],
+      "manual_review": "PENDING"
+    },
+    {
+      "original": "P16_AP_REVOKED_DESKTOP.png",
+      "original_sha256": "81ff62f360e6d10c3b83cf4dda5f42d941304274809996fc77b9717dc5d6cbcc",
+      "original_bytes": 503604,
+      "original_size": [
+        1440,
+        1299
+      ],
+      "original_location": "verified artifact ZIP",
+      "focus": "docs/cp7/evidence/f05-native-episodes/first153-574553f/visual/focus-P16_AP_REVOKED_DESKTOP.webp",
+      "crop": [
+        0,
+        0,
+        1440,
+        1299
+      ],
+      "manual_review": "PENDING"
+    },
+    {
+      "original": "P16_AP_REVOKED_MOBILE.png",
+      "original_sha256": "3c0bd620264eed719d155fd2658241642b76e3aad60ef74401320aec264ee0a3",
+      "original_bytes": 277558,
+      "original_size": [
+        390,
+        1744
+      ],
+      "original_location": "verified artifact ZIP",
+      "focus": "docs/cp7/evidence/f05-native-episodes/first153-574553f/visual/focus-P16_AP_REVOKED_MOBILE.webp",
+      "crop": [
+        0,
+        0,
+        390,
+        1744
+      ],
+      "manual_review": "PENDING"
+    },
+    {
+      "original": "P16_AP_SETTLED_DESKTOP.png",
+      "original_sha256": "a39fec3e513dcce8bf78695905c2dd7cfed5ca2f4e85586fd79c275bde1e9f7b",
+      "original_bytes": 3936997,
+      "original_size": [
+        1440,
+        11308
+      ],
+      "original_location": "verified artifact ZIP",
+      "focus": "docs/cp7/evidence/f05-native-episodes/first153-574553f/visual/focus-P16_AP_SETTLED_DESKTOP.webp",
+      "crop": [
+        310,
+        500,
+        1390,
+        2100
+      ],
+      "manual_review": "PENDING"
+    },
+    {
+      "original": "P16_AP_SETTLED_MOBILE.png",
+      "original_sha256": "2811ffb7550d162bcf8259be08db7a2000c2b9df074543eb23d2d0239d5fe110",
+      "original_bytes": 1755966,
+      "original_size": [
+        390,
+        14329
+      ],
+      "original_location": "verified artifact ZIP",
+      "focus": "docs/cp7/evidence/f05-native-episodes/first153-574553f/visual/focus-P16_AP_SETTLED_MOBILE.webp",
+      "crop": [
+        0,
+        850,
+        390,
+        2800
+      ],
+      "manual_review": "PENDING"
+    },
+    {
+      "original": "P16_EP_OPEN_DESKTOP.png",
+      "original_sha256": "2309a5e9ecbd9919da7c59265561eee6aa55b4499d92d5fa18c79fd031c436ff",
+      "original_bytes": 4555348,
+      "original_size": [
+        1440,
+        13818
+      ],
+      "original_location": "verified artifact ZIP",
+      "focus": "docs/cp7/evidence/f05-native-episodes/first153-574553f/visual/focus-P16_EP_OPEN_DESKTOP.webp",
+      "crop": [
+        310,
+        500,
+        1390,
+        2100
+      ],
+      "manual_review": "PENDING"
+    },
+    {
+      "original": "P16_EP_OPEN_MOBILE.png",
+      "original_sha256": "2142cddf011db5f5175f303a2cefa3a0057145940c9b334257cbc7351efeb1d6",
+      "original_bytes": 2782306,
+      "original_size": [
+        390,
+        18008
+      ],
+      "original_location": "verified artifact ZIP",
+      "focus": "docs/cp7/evidence/f05-native-episodes/first153-574553f/visual/focus-P16_EP_OPEN_MOBILE.webp",
+      "crop": [
+        0,
+        850,
+        390,
+        2800
+      ],
+      "manual_review": "PENDING"
+    },
+    {
+      "original": "P16_EP_REOPENED_DESKTOP.png",
+      "original_sha256": "4c18c31bd2d9cca31fb430b1cbda7f515227088fd381bded6c4544e81166998a",
+      "original_bytes": 4464802,
+      "original_size": [
+        1440,
+        13850
+      ],
+      "original_location": "verified artifact ZIP",
+      "focus": "docs/cp7/evidence/f05-native-episodes/first153-574553f/visual/focus-P16_EP_REOPENED_DESKTOP.webp",
+      "crop": [
+        310,
+        500,
+        1390,
+        2100
+      ],
+      "manual_review": "PENDING"
+    },
+    {
+      "original": "P16_EP_RESOLVED_DESKTOP.png",
+      "original_sha256": "5037144bfca6edfcd001123d2224c0e147784fe3dc3aae8fdf526ffffa693ce7",
+      "original_bytes": 4556959,
+      "original_size": [
+        1440,
+        13818
+      ],
+      "original_location": "verified artifact ZIP",
+      "focus": "docs/cp7/evidence/f05-native-episodes/first153-574553f/visual/focus-P16_EP_RESOLVED_DESKTOP.webp",
+      "crop": [
+        310,
+        500,
+        1390,
+        2100
+      ],
+      "manual_review": "PENDING"
+    },
+    {
+      "original": "P16_EP_REOPENED_MOBILE.png",
+      "original_sha256": "7f770610f855360f909cbe0043a4a9a3038ca4398548b4066ca885d7dbe5ef83",
+      "original_bytes": 2780245,
+      "original_size": [
+        390,
+        18059
+      ],
+      "original_location": "verified artifact ZIP",
+      "focus": "docs/cp7/evidence/f05-native-episodes/first153-574553f/visual/focus-P16_EP_REOPENED_MOBILE.webp",
+      "crop": [
+        0,
+        850,
+        390,
+        2800
+      ],
+      "manual_review": "PENDING"
+    },
+    {
+      "original": "P16_EP_RESOLVED_MOBILE.png",
+      "original_sha256": "c504c24c741ef7d2dc63aad73915d96e246ae71eace5b867355483f4b77f663a",
+      "original_bytes": 2784147,
+      "original_size": [
+        390,
+        18008
+      ],
+      "original_location": "verified artifact ZIP",
+      "focus": "docs/cp7/evidence/f05-native-episodes/first153-574553f/visual/focus-P16_EP_RESOLVED_MOBILE.webp",
+      "crop": [
+        0,
+        850,
+        390,
+        2800
+      ],
+      "manual_review": "PENDING"
+    },
+    {
+      "original": "P16_EP_REVOKED_DESKTOP.png",
+      "original_sha256": "01cbd509e0d1165e1052366f8b6c687037ad65ea1035fc7c27249aa3f3141976",
+      "original_bytes": 534383,
+      "original_size": [
+        1440,
+        1368
+      ],
+      "original_location": "verified artifact ZIP",
+      "focus": "docs/cp7/evidence/f05-native-episodes/first153-574553f/visual/focus-P16_EP_REVOKED_DESKTOP.webp",
+      "crop": [
+        0,
+        0,
+        1440,
+        1368
+      ],
+      "manual_review": "PENDING"
+    },
+    {
+      "original": "P16_EP_REVOKED_MOBILE.png",
+      "original_sha256": "4241a49fd52a9675b7556d4d149d7e8de04ceaaa07687ee5cbc33229a9dca220",
+      "original_bytes": 296252,
+      "original_size": [
+        390,
+        1870
+      ],
+      "original_location": "verified artifact ZIP",
+      "focus": "docs/cp7/evidence/f05-native-episodes/first153-574553f/visual/focus-P16_EP_REVOKED_MOBILE.webp",
+      "crop": [
+        0,
+        0,
+        390,
+        1870
+      ],
+      "manual_review": "PENDING"
+    }
+  ],
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
