@@ -31,13 +31,13 @@ def verify(cur):
  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
 
 def run(attention=False):
- candidate=bundle;case_provider=history_cases;checker=verify;extra='';expected=118;out=OUT;phase='cp7_f05_analysis';browser_script='cp7_f05_analysis_browser.mjs'
+ candidate=bundle;case_provider=history_cases;checker=verify;extra='';expected=140;out=OUT;phase='cp7_f05_analysis';browser_script='cp7_f05_analysis_browser.mjs'
  if attention:
   import cp7_reminder_bundle as candidate
   import cp7_obligation_history_cases as case_provider
   def checker(cur):verify(cur);candidate.verify(cur)
-  extra=candidate.extension();expected=164;out=OUT.with_name('CP7_F05_NATIVE_ATTENTION.json');phase='cp7_f05_attention';browser_script='cp7_f05_attention_browser.mjs'
- report=dict(label='CP7_F05_NATIVE_ATTENTION'if attention else'CP7_F05_NATIVE_ANALYSIS',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope='DURABLE_ORIGINAL_REVIEW_ATTENTION_NATIVE_AR_MATERIAL_AP_SOURCE_EPISODES_NO_OTHER_DOMAIN_OR_DELIVERY_CLOSURE'if attention else'FROZEN_ANALYSIS_V2_ONE_NATIVE_OPERATIONAL_COMPILER_ACCEPTED_OWNER_FINANCE_REUSE_MATERIAL_APPLY_UNKNOWN',source_sha256=hashlib.sha256(candidate.bundle().encode()).hexdigest(),expected_case_count=expected);installed=False
+  extra=candidate.extension();expected=186;out=OUT.with_name('CP7_F05_NATIVE_ATTENTION.json');phase='cp7_f05_attention';browser_script='cp7_f05_attention_browser.mjs'
+ report=dict(label='CP7_F05_NATIVE_ATTENTION'if attention else'CP7_F05_NATIVE_ANALYSIS',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope='IMMUTABLE_NATIVE_PUBLICATION_REVISION_COMPARISON_AND_DURABLE_ATTENTION_AR_MATERIAL_AP_OTHER_DOMAINS_DELIVERY_OPEN'if attention else'FROZEN_ANALYSIS_V2_NATIVE_PUBLICATION_REVISION_PERIOD_COMPARISON_ACCEPTED_OWNER_FINANCE_REUSE_MATERIAL_APPLY_UNKNOWN',source_sha256=hashlib.sha256(candidate.bundle().encode()).hexdigest(),expected_case_count=expected);installed=False
  try:
   with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
    p09.wip.policy.bf.verified(cur);before=package.boundary.snapshot(cur);public_before=public_state(cur);accepted_functions_before=p09.functions(cur);conn.rollback();originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)

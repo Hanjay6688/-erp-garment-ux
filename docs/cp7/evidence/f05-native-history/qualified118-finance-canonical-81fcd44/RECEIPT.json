@@ -1,0 +1,72 @@
+{
+  "source": "81fcd4477efcd9f2c46f5a395c118a11d5868707",
+  "tree": "0eccef4c6fcd3906eb3b51b823d43bfaa82a00ac",
+  "run": 36874234916,
+  "job": 110409439172,
+  "artifact": 11169476803,
+  "file_id": "file_000000001b688211a365e67dbee12963",
+  "folder": "f05-native-history/qualified118-finance-canonical-81fcd44",
+  "report": "CP7_F05_NATIVE_ANALYSIS.json",
+  "archive_bytes": 42636296,
+  "archive_sha256": "0409827c3fb9b3f4797e19567b6380d8c4a9821174141457bda4942132279970",
+  "source_bundle_sha256": "169df122a693b407a4c243072a8f501f64ba66ea83c29f0e9e73ba3a0becfae8",
+  "status": "PASS",
+  "observed_case_count": 118,
+  "groups": {
+    "native": {
+      "PASS": 84
+    },
+    "races": {
+      "PASS": 15
+    },
+    "http": {
+      "PASS": 9
+    },
+    "browser": {
+      "PASS": 10
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "original_member_hashes": {
+    "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+    "CP7_F05_NATIVE_ANALYSIS.json": "d8b00f2bb3cd94c216bb746552e9baf8bffbafb5b63ab22820cc25c5d432dd4b",
+    "T3_BACKUP_RESTORE_DRILL.json": "c77c7d2cb03d0948c85e92a82d518f53f03a6be1c76fdf15d8b44e16ad8cbb91",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "T3_PACKAGE_INSTALL.json": "cdb026ad4ee1626f35456c0adb87d53b4c7fc6434cbd36d4bd7b05302cc4ead9"
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "console_errors": 0,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "auth_cleanup_failures": [],
+  "database_remaining": 0
+}

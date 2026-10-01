@@ -3,6 +3,7 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from copy import deepcopy
 from decimal import Decimal
+from pathlib import Path
 import json,time,uuid
 import psycopg
 import cp7_finance_cases as finance
@@ -44,8 +45,27 @@ def cases(cur,today,parent):
    changed=deepcopy(permuted);changed['snapshot']['data_confidence']['failed_checks'][0]['details']='Changed Native check meaning'
    assert fingerprint(changed,f['book_signature'])!=f['source_hash']
   assert fingerprint(permuted,'changed-book-provenance')!=f['source_hash']
-  assert b.boundary.snapshot(cur)==before
-  return dict(status='PASS',accepted_native_owner_report_identical_no_second_money_or_HPP_engine=True,one_source_clock=True,no_business_DML=True,unordered_Native_checks_multiset_hash_stable=True,actual_report_pure_permutation_not_Native_event=True,money_check_content_duplicate_and_book_provenance_changes_detected=True)
+  # Same business state must survive physical SQL plan changes. These are
+  # session-only reader perturbations, not a Native event or a fixture fact.
+  reads=0
+  try:
+   for plan in('force_custom_plan','force_generic_plan'):
+    cur.execute("select set_config('plan_cache_mode',%s,true)",(plan,))
+    for scan in('on','off'):
+     cur.execute("select set_config('enable_seqscan',%s,true)",(scan,))
+     for aggregate in('on','off'):
+      cur.execute("select set_config('enable_hashagg',%s,true)",(aggregate,))
+      for _ in range(5):
+       current=parent.read(cur,e['run_id']);reads+=1
+       assert current['source_state']=='UNCHANGED'and current['analysis']==e['analysis']and current['financial_source']==e['financial_source'],('P14_FINANCIAL_READER_SOURCE_UNSTABLE',plan,scan,aggregate,reads,current['source_state'])
+  except Exception:
+   from cp7_plan_native_cases import source_diagnostic
+   diagnostic=source_diagnostic(cur,e['run_id']);path=Path(__file__).resolve().parents[1]/'cp6-proof/t3/P14_FINANCIAL_STABILITY_SOURCE_DIAGNOSTIC.json';path.parent.mkdir(parents=True,exist_ok=True);path.write_text(json.dumps(dict(plan=plan,scan=scan,aggregate=aggregate,reads=reads,source=diagnostic),indent=2,default=str)+'\n')
+   raise
+  finally:
+   for name,value in(('plan_cache_mode','auto'),('enable_seqscan','on'),('enable_hashagg','on')):cur.execute('select set_config(%s,%s,true)',(name,value))
+  assert reads==40 and b.boundary.snapshot(cur)==before
+  return dict(status='PASS',actual_Owner_financial_Original_40_public_reads_under_different_SQL_plans=True,accepted_native_owner_report_identical_no_second_money_or_HPP_engine=True,one_source_clock=True,no_business_DML=True,unordered_Native_checks_multiset_hash_stable=True,actual_report_pure_permutation_not_Native_event=True,money_check_content_duplicate_and_book_provenance_changes_detected=True)
  def ops_redaction():
   parent.setup(cur,today);subject,role=auth.custom_actor(cur)
   cur.execute("insert into erp.app_role_permissions(role_id,permission_key)values(%s,'finance.reports.view')",(role,))

@@ -1,0 +1,74 @@
+{
+  "source": "a8b7f3a055a1fee51af1387d44ff1f1a6ab9593d",
+  "tree": "0dc20ef7db7522994c037a3e3d240061ac837a49",
+  "run": 36882124808,
+  "job": 110436243727,
+  "artifact": 11173898327,
+  "file_id": "file_00000000804c8207b13fd5a83f6a8d22",
+  "folder": "f05-native-history/qualified164-source-stability-a8b7f3a",
+  "report": "CP7_F05_NATIVE_ATTENTION.json",
+  "archive_bytes": 171673539,
+  "archive_sha256": "83956d8208057d1df0cc43e002f752af5519eea8440463da03c5becfed36da22",
+  "source_bundle_sha256": "b69695f11e0e4a0a15152b57438aaeba46c1d1f29f700404e1d9eb0c207228a2",
+  "status": "PASS",
+  "observed_case_count": 164,
+  "groups": {
+    "native": {
+      "PASS": 105
+    },
+    "races": {
+      "PASS": 21
+    },
+    "http": {
+      "PASS": 14
+    },
+    "browser": {
+      "PASS": 24
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "original_member_hashes": {
+    "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+    "CP7_F05_NATIVE_ATTENTION.json": "b93f4390ffd6b6bb23524695410b413909e8f096344e31e3d5800d87a184c02f",
+    "CP7_NATIVE155_HANDOFF_DIAGNOSTIC.json": "e8b61f251d8ac2e4442cee2d17e69fc40f7c44e7a547b0107e8a47be5a895c40",
+    "T3_BACKUP_RESTORE_DRILL.json": "006c566e14becb5de1e7c34c75e2d9aada918c835bab37b651ef34ba496c64cb",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "T3_PACKAGE_INSTALL.json": "ef272cadeb6217c6c7755aea6bc642359cfedfae2038d18bc7e8563207431c9f",
+    "retained-native155-928332d/RECEIPT.json": "f4501c91a666ca35d54d8dfc1db17113d55ab01928c8cbe8df7fcf7c5f92d2aa"
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "console_errors": 0,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "auth_cleanup_failures": [],
+  "database_remaining": 0
+}

@@ -6,7 +6,7 @@
   "accepted_product_commit": "434b18215f57dd7a361ca621341488d3c31e9703",
   "accepted_tree": "20f23f598334b52b6ee5fed8acc356d499a43705",
   "active_contract_ledger": "docs/cp7/F03_REMAINING_CONTRACT.md",
-  "active_family": "CP7_F03_F04_F05_CONTINUATION",
+  "active_family": "F04_F05_REMAINING_CONTRACTS",
   "cash_connected_reader": {
     "cash_writer": false,
     "first_counts": {
@@ -713,8 +713,29 @@
     "repair_run": 36872366454,
     "repair_source": "1a6196d389d18ecd6107c08fc3d59bec31e6cfb5",
     "scope": "OWN_NATIVE_DRAFT_AND_ATOMIC_LINKED_INTENT_NO_STOCK_RESERVATION_OR_PHYSICAL_POSTING",
-    "status": "NATIVE22_21_PASS_SOURCE_STABILITY_INCOMPLETE_DIAGNOSTIC_REPEAT",
-    "whole_P08_acceptance": false
+    "status": "QUALIFIED_BOUNDED_NATIVE22_ALL_PASS",
+    "whole_P08_acceptance": false,
+    "qualified_source": "a8b7f3a055a1fee51af1387d44ff1f1a6ab9593d",
+    "qualified_tree": "0dc20ef7db7522994c037a3e3d240061ac837a49",
+    "qualified_run": 36882124872,
+    "qualified_job": 110436243572,
+    "qualified_counts": {
+      "native": {
+        "PASS": 14
+      },
+      "races": {
+        "PASS": 5
+      },
+      "http": {
+        "PASS": 1
+      },
+      "browser": {
+        "PASS": 2
+      }
+    },
+    "qualified_originals": "docs/cp7/evidence/plan-native/qualified22-a8b7f3a",
+    "independent_acceptance": false,
+    "full_family_acceptance": false
   },
   "f04_native_schedule": {
     "customer_work": "Customer remaining work consumes selected shared capacity; company supply stays excluded",
@@ -881,7 +902,12 @@
     "native_status": "NATIVE118_PASS_CURRENT_F03_ADMISSION_AND_ALL_EXACT_RESTORATION_GATES",
     "original_receipt": "docs/cp7/evidence/f05-native-analysis/first102-c6c825f/RECEIPT.json",
     "qualified_scope": "Operational compiler and four shared consumers; Native102 first attempt101PASS/1 setup guard refusal, retained as INCOMPLETE",
-    "tested_source": "ae74c4118d3d42ceec3b3865faad4cc2292ac8a9"
+    "tested_source": "ae74c4118d3d42ceec3b3865faad4cc2292ac8a9",
+    "qualified_source": "81fcd4477efcd9f2c46f5a395c118a11d5868707",
+    "qualified_run": 36874234916,
+    "qualified_job": 110409439172,
+    "qualified_originals": "docs/cp7/evidence/f05-native-history/qualified118-finance-canonical-81fcd44",
+    "financial_fingerprint_multiset_oracles": "PASS_NATIVE"
   },
   "f05_native_archives": {
     "consumer": "src/NativeAnalysisPanel.tsx",
@@ -913,8 +939,28 @@
     "production_go": false,
     "receipt": "docs/cp7/evidence/f05-native-attention/local/RECEIPT.json",
     "scope": "Actor-bound review attention on one immutable analysis; delegated unchanged Native own-user manual reminder writers",
-    "status": "NATIVE164_163_PASS_SOURCE_STABILITY_STILL_INCOMPLETE_PROTECTED_DIAGNOSTIC_REPEAT",
-    "tested_source": "81fcd4477efcd9f2c46f5a395c118a11d5868707"
+    "status": "QUALIFIED_BOUNDED_NATIVE164_ALL_PASS",
+    "tested_source": "81fcd4477efcd9f2c46f5a395c118a11d5868707",
+    "qualified_source": "a8b7f3a055a1fee51af1387d44ff1f1a6ab9593d",
+    "qualified_tree": "0dc20ef7db7522994c037a3e3d240061ac837a49",
+    "qualified_run": 36882124808,
+    "qualified_job": 110436243727,
+    "qualified_counts": {
+      "native": {
+        "PASS": 105
+      },
+      "races": {
+        "PASS": 21
+      },
+      "http": {
+        "PASS": 14
+      },
+      "browser": {
+        "PASS": 24
+      }
+    },
+    "qualified_originals": "docs/cp7/evidence/f05-native-history/qualified164-source-stability-a8b7f3a",
+    "independent_acceptance": false
   },
   "f05_native_episode_history": {
     "build_source": "0981de990e1cb9b936a05b10856baf0139291fde",
@@ -1080,9 +1126,9 @@
   },
   "last_writer_checkpoint": "docs/cp7/ACTIVE_CONTINUATION.md",
   "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
-  "latest_tested_scope": "Native financial readers12 PASS onf31b7a7: native3, realAuthHTTP1, browser8; package/restore/advisors/Auth cleanup and AR visual evidence retained. Counts overlap prior6/8/10.",
-  "latest_tested_source": "f31b7a70e9f6330f7922fcbb2e8527320f4c5df2",
-  "next_action": "Qualify exact supplier admission repair under six actual request/source/target/accounting waits and the full F03 stack, close current E03 time-input fixture, then finish F03 charter mapping before remaining F04/F05.",
+  "latest_tested_scope": "Bounded Native plan22 and attention164 all PASS at a8b7f3a, every restore/cleanup/Auth/advisor/primary/backup gate retained. Native118 finance canonicalization separately PASS at81fcd44. These counts overlap and do not close full F04/F05.",
+  "latest_tested_source": "a8b7f3a055a1fee51af1387d44ff1f1a6ab9593d",
+  "next_action": "Qualify immutable publication/revision/period-comparison Native140/186, capture any actual reader plan nondeterminism, then finish F04 material/model/plan-actual and remaining F05 contracts before one complete integration candidate.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -1380,5 +1426,26 @@
     "writer": "Hansen-authorized successor to Writer Finisher CP6, F03 takeover30Sep2026"
   },
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
-  "version": "cp7.integration-entry.v1"
+  "version": "cp7.integration-entry.v1",
+  "f05_native_publications": {
+    "status": "IMPLEMENTED_CANDIDATE_NATIVE140_186_PENDING",
+    "parent_source": "a8b7f3a055a1fee51af1387d44ff1f1a6ab9593d",
+    "source_functions_owned": "cp7_analysis_native",
+    "native_business_DML": false,
+    "case_budget": {
+      "database": 14,
+      "actual_races": 4,
+      "Auth_HTTP": 2,
+      "browser": 2,
+      "total_new": 22,
+      "analysis": 140,
+      "attention": 186
+    },
+    "source_stability_assertion": "40 public Owner/finance Original reads under eight SQL planning configurations, no acceptance of SourceChanged",
+    "local_test_classification": "STAND_IN_UI_PARSER_NOT_NATIVE",
+    "remaining": "Exact candidate Native140/186 install/DB/races/HTTP/browser/restoration and visual inspection; full F04 dependencies and other F05 obligations/rules remain open",
+    "independent_acceptance": false,
+    "full_family_acceptance": false,
+    "production_go": false
+  }
 }

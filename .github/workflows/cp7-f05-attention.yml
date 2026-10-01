@@ -26,6 +26,7 @@ name: CP7 F05 Native Durable Attention
     - tests/fixtures/nativeReceivableConditions*
     - scripts/cp7_reminder_bundle.py
     - scripts/cp7-src/reminders/**
+    - scripts/cp7_f05_publication_*
     - scripts/cp7_f05_analysis_*
     - scripts/cp7_analysis_*
     - src/NativeAnalysis*
