@@ -656,7 +656,7 @@
   "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
   "latest_tested_scope": "Native financial readers12 PASS onf31b7a7: native3, realAuthHTTP1, browser8; package/restore/advisors/Auth cleanup and AR visual evidence retained. Counts overlap prior6/8/10.",
   "latest_tested_source": "f31b7a70e9f6330f7922fcbb2e8527320f4c5df2",
-  "next_action": "Qualify history UI/native161 and retain exact qualified155 originals; resolve every actual failure. Continue authoritative material/model/apply, report lifecycle, remaining P16 domains/rules and F06. All whole families remain OPEN; no independent or production acceptance.",
+  "next_action": "Finish exact Native161 diagnostic/evidence and Native163 successor, verify compile/security/browser failures. Continue authoritative material/model/apply, report lifecycle, other P16 obligations/rules and F06 without whole-family self-acceptance.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -1102,28 +1102,29 @@
     "latest_receipt": "docs/cp7/evidence/f05-native-ai-handoff/qualified155-928332d/RECEIPT.json"
   },
   "f05_native_ai_handoff": {
-    "status": "NATIVE155_PASS_ON_928332D_ORIGINAL_ARCHIVE_RETAINED_HISTORY_SUCCESSOR161_PENDING",
+    "status": "NATIVE155_PASS_SMALL_FULL_SCOPE_AUTOMATIC_AND_DENIED_CLIPBOARD_CASES_SUCCESSOR163_PENDING",
     "scope": "Complete Native Original, exact UTF8 metadata, manual fallback, current Auth before copy/open, static provider URL and failure retirement; manual user paste only",
     "consumer": "src/NativeAnalysisPanel.tsx",
     "contract": "docs/cp7/f05/NATIVE_AI_HANDOFF.md",
     "receipt": "docs/cp7/evidence/f05-native-ai-handoff/local/RECEIPT.json",
     "local_tests": 1098,
     "native_predeclared": {
-      "native": 103,
-      "races": 19,
-      "http": 13,
-      "browser": 20,
-      "total": 155
+      "native": 105,
+      "races": 20,
+      "http": 14,
+      "browser": 24,
+      "total": 163
     },
     "provider_contact": false,
     "full_family_acceptance": false,
     "independent_acceptance": false,
     "production_go": false,
     "latest_receipt": "docs/cp7/evidence/f05-native-ai-handoff/qualified155-928332d/RECEIPT.json",
-    "tested_source": "928332db2aafa2317271eeed22430719a57bd5b9"
+    "tested_source": "928332db2aafa2317271eeed22430719a57bd5b9",
+    "added_cases": "Two independent full-source Native P17 desktop/mobile journeys before cumulative browser fixtures. Automatic mode and an actually visited controlled clipboard denial are required, never inferred from oversized manual-only cases."
   },
   "f05_native_episode_history": {
-    "status": "SOURCE_UI_NATIVE161_CANDIDATE_NOT_YET_QUALIFIED",
+    "status": "UNIT1106_SECURITY_PASS_BUILD_TYPE_CORRECTION_NATIVE163_PENDING",
     "scope": "Complete saved Native AR/material-AP episode history authorized by fresh own Original/current complete Native source; fixed keyset anchor; no ERP/monitoring write or new ERP grants",
     "consumer": "src/NativeAnalysisPanel.tsx",
     "contract": "docs/cp7/f05/NATIVE_OBLIGATION_HISTORY.md",
@@ -1131,15 +1132,19 @@
       "native": 105,
       "races": 20,
       "http": 14,
-      "browser": 22,
-      "total": 161
+      "browser": 24,
+      "total": 163
     },
-    "local_compile_and_tests": "PENDING_CI_WORKSPACE_UNRESPONSIVE",
-    "native_qualification": "PENDING_SUCCESSOR161",
+    "local_compile_and_tests": "CI_UNIT_SECURITY_PASS_BUILD_SUCCESSOR_PENDING",
+    "native_qualification": "PENDING_SUCCESSOR163",
     "prior_ui_draft_commit": "8d51e786b138a287fbd5435fe5a7b71efc558f24",
     "prior_backend_draft_commit": "b2cca64be588ae90e2285bf1f6886553bc128053",
     "full_family_acceptance": false,
     "independent_acceptance": false,
-    "production_go": false
+    "production_go": false,
+    "unit_tests": 1106,
+    "unit_source": "582169d2b8602b64ede92a10e5a41806dea8b4bd",
+    "security_source": "582169d2b8602b64ede92a10e5a41806dea8b4bd",
+    "first_build_error": "One Date.parse argument in history row closure narrowed to unknown; corrected by capturing the already validated readAt stamp as a local const."
   }
 }

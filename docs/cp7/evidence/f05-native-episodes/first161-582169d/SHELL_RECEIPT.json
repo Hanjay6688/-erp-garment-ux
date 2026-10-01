@@ -1,0 +1,21 @@
+{
+  "source": "582169d2b8602b64ede92a10e5a41806dea8b4bd",
+  "run_id": 36815837432,
+  "job_id": 110220568829,
+  "unit_cases": 1106,
+  "unit_status": "PASS",
+  "security_status": "PASS",
+  "source_ownership": {
+    "runtime_files": 218,
+    "rpc_boundaries": 131,
+    "orphan_or_direct_table_access": false
+  },
+  "css_stylesheets": 51,
+  "build_status": "INCOMPLETE",
+  "build_error": "src/nativeObligationEpisodes.ts(74,273) TS2345: Argument of type unknown is not assignable to parameter of type string.",
+  "native161": "PENDING_ORIGINAL_RUN_NOT_YET_REVIEWED",
+  "successor": "Capture the validated readAt stamp outside the row-map closure; keep all original shape/time checks. Add two complete-source Native automatic clipboard journeys.",
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
