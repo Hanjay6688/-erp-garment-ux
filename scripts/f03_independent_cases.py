@@ -56,7 +56,7 @@ def refuse(cur, operation, pattern, sqlstate=None):
         b.api.admin(cur)
         cur.execute('release savepoint independent_refusal')
     assert error is not None, ('EXPECTED_BUSINESS_REFUSAL', pattern)
-    assert error['sqlstate'] in ('P0001', '42501', '22023'), error
+    assert error['sqlstate'] in ((sqlstate,) if sqlstate else ('P0001', '42501', '22023')), error
     assert re.search(pattern, error['message'], re.I), error
     if sqlstate:
         assert error['sqlstate'] == sqlstate, error
@@ -278,8 +278,13 @@ def cases(cur, today):
         r = finance.read(cur, today)
         assert r['snapshot']['basis']['balance_sheet_as_of'] == str(today)
         assert b.boundary.snapshot(cur) == baseline
-        for q in ({'as_known':'2020-01-01'}, {'as_of':'2026-02-30'}, {'offset':-1}, {'limit':'25'}):
+        for q in ({'as_known':'2020-01-01'}, {'offset':-1}, {'limit':'25'}):
             refuse(cur, lambda:finance.read(cur, today, **q), 'CP7_FINANCE_QUERY')
+        # PostgreSQL rejects an impossible calendar day at the native date cast.
+        # Demand that exact error, rather than misclassifying safe rejection as
+        # a product failure or accepting an unrelated execution/setup error.
+        refuse(cur, lambda:finance.read(cur, today, as_of='2026-02-30'),
+               r'date/time field value out of range: "2026-02-30"', '22008')
         assert b.boundary.snapshot(cur) == baseline
         return dict(status='PASS', report_does_not_write=True, invalid_dates_and_unsupported_history_refused=True)
 

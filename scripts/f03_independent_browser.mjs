@@ -37,7 +37,7 @@ async function journey(ui,today,mobile){
    if(body.p_action==='PAYMENT'&&!lost){
     captured=body
     const response=await route.fetch();assert.equal(response.status(),200)
-    lost=true;await route.abort('failed')
+    await route.abort('failed');lost=true
    }else{if(body.p_action==='PAYMENT'&&replayed===null)replayed=body;await route.continue()}
   })
   await detail.getByRole('button',{name:'Pembayaran invoice',exact:true}).click()
@@ -52,6 +52,9 @@ async function journey(ui,today,mobile){
   await form.getByLabel('Pembayaran pelanggan sudah diperiksa',{exact:true}).check()
   await form.getByRole('button',{name:'Catat pembayaran pelanggan',exact:true}).click()
   await ui.expect(ws.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeVisible()
+  // Pending UI is visible while the request is still in flight. Synchronize
+  // on our completed real-response loss before inspecting committed facts.
+  await ui.expect.poll(()=>lost,{timeout:20000}).toBe(true)
   assert.ok(lost)
   const committed=fixture('read',f)
   assert.equal(committed.document.financial.open_balance,'136.40')
