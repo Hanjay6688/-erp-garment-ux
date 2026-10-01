@@ -73,10 +73,11 @@ def cases(cur,today,parent):
  def unknown():
   parent.setup(cur,today);e=parent.capture(cur,today);one=command(cur,parent,payload(e))['document'];c=compare(cur,parent,one['id'],one['id']);unknown=[r for r in c['rows']if r['before']['value']['state']=='UNKNOWN']
   assert unknown and all(r['difference']['state']=='UNKNOWN'and'value'not in r['difference']for r in unknown)
-  assert'Belum diketahui'in one['body']and all(r['difference']['value']=='0'for r in c['rows']if r['difference']['state']!='UNKNOWN')
+  assert'Belum diketahui'in one['body']
+  assert all(Decimal(r['difference']['value'])==Decimal('0')for r in c['rows']if r['difference']['state']!='UNKNOWN')
   return dict(status='PASS',actual_Native_blocked_valuation_unknown_even_same_report_not_zero=True,actual_known_self_comparison_exact_zero=True)
  def periods():
-  parent.setup(cur,today);left=parent.previous.baseline.history.query(today);left.update(from_date=str(today-timedelta(days=6)),through_date=str(today-timedelta(days=3)));right={**left,'from_date':str(today-timedelta(days=2)),'through_date':str(today)}
+  parent.setup(cur,today);left=parent.previous.baseline.history.query(today);left.update(from_date=str(today-timedelta(days=6)),through_date=str(today-timedelta(days=3)));right={**left,'from_date':str(today-timedelta(days=2)),'through_date':str(today-timedelta(days=1))}
   e1=parent.capture(cur,today,q=left);one=command(cur,parent,payload(e1))['document'];e2=parent.capture(cur,today,q=right);two=command(cur,parent,payload(e2))['document'];c=compare(cur,parent,one['id'],two['id'])
   assert c['before']['period_query']==left and c['after']['period_query']==right
   for r in c['rows']:

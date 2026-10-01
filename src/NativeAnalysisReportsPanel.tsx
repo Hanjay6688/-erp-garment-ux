@@ -47,7 +47,7 @@ function Reports(props:Props&{projectRef:string;profileId:string;actor:string}){
  const save=()=>{try{
   props.requireClear();const held=readReportRequest(scope);if(held.error||held.pending)throw Error(held.error??'Pastikan hasil laporan tersimpan terlebih dahulu.')
   const a=props.context;if(!a||a.state!=='UNCHANGED')throw Error('Ambil dan tinjau analisis terbaru sebelum menyimpan laporan.');if(!reviewed||!title.trim()||!reason.trim())throw Error('Isi judul dan alasan, lalu konfirmasi peninjauan laporan.')
-  if(revisionBase&&(revisionBase.kind!==kind||JSON.stringify(revisionBase.query)!==JSON.stringify(a.query)))throw Error('Revisi harus memakai jenis dan periode seri yang sama. Pilih laporan baru untuk periode lain.')
+  if(revisionBase&&(revisionBase.kind!==kind||(['from_date','through_date','group_mode'] as const).some(field=>revisionBase.query[field]!==a.query[field])))throw Error('Revisi harus memakai jenis dan periode seri yang sama. Pilih laporan baru untuk periode lain.')
   void publishRequest({id:crypto.randomUUID(),query:a.query,payload:{run_id:a.runId,source_hash:a.analysis.snapshot.source_hash,semantic_hash:a.analysis.semantic_hash,kind,series_id:revisionBase?.seriesId??null,expected_revision:revisionBase?.revision??null,title,reason,explicit_review:true}})
  }catch(e){setError(normalizeClientError(e).message)}}
  const retry=(lookup:boolean)=>{try{props.requireClear();const held=readReportRequest(scope);setRecovery(held);if(!held.pending)throw Error(held.error??'Permintaan laporan tersimpan tidak tersedia.');void publishRequest(held.pending,lookup)}catch(e){setError(normalizeClientError(e).message)}}

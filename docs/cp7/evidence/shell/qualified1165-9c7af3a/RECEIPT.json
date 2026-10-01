@@ -1,0 +1,31 @@
+{
+  "source": "9c7af3a24fe4f420088b6f1ec1e36a335d0393eb",
+  "tree": "9f9f03551e60455b2d03376e68b65b32ad1e38ff",
+  "run": 36893142908,
+  "jobs": [
+    {
+      "id": 110473447127,
+      "name": "shell",
+      "status": "completed",
+      "conclusion": "success",
+      "test_files": 118,
+      "tests": 1165,
+      "browser_checks": 6
+    },
+    {
+      "id": 110473446821,
+      "name": "CP7 CodeQL javascript-typescript",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 110473447508,
+      "name": "CP7 CodeQL actions",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "production_go": false,
+  "independent_acceptance": false,
+  "evidence_type": "Actual GitHub Actions jobs and original job log, fetched through authenticated repository connector"
+}
