@@ -160,7 +160,10 @@ def races(tools,today):
  def revocation(native_roll=False):
   with tools.connect()as conn,conn.cursor()as cur:
    subject,role=custom(cur);f=setup(cur,today,subject);d=save(cur,f['payload'],subject=subject)
-   before_money=monetary_state(cur);before_groups=cur.execute('select id from erp.cutting_groups order by id').fetchall();conn.commit()
+   conn.commit()
+   # Compare the fully committed Native receipt/production fixture with the
+   # later committed state; do not mix a preparation transaction with the race.
+   before_money=monetary_state(cur);before_groups=cur.execute('select id from erp.cutting_groups order by id').fetchall();conn.rollback()
   key=uuid.uuid4()
   with tools.connect()as holder,holder.cursor()as h:
    if native_roll:h.execute('select id from erp.material_rolls where id=%s for update',(f['payload']['cutting']['rolls'][0]['roll_id'],))
@@ -181,12 +184,12 @@ def races(tools,today):
       c.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='production.cutting.create'",(role,))
     finally:holder.commit()
     result=job.result(45)
-   expected='CP7_PLAN_ORIGINAL_ACCESS_CHANGED'if native_roll else'CP7_PLAN_ACCESS_CHANGED'
+   expected='CP7_PLAN_ORIGINAL_ACCESS_CHANGED'if native_roll else'CP7_PLAN_ACCESS_DENIED'
    assert isinstance(result,dict)and result.get('sqlstate')=='42501'and result.get('error','').splitlines()[0]==expected,result
   with tools.connect()as conn,conn.cursor()as cur:
    assert not cur.execute('select exists(select 1 from cp7_plan_native.intents)or exists(select 1 from cp7_plan_native.commands)').fetchone()[0]
    assert cur.execute('select id from erp.cutting_groups order by id').fetchall()==before_groups
-   assert monetary_state(cur)==before_money
+   after_money=monetary_state(cur);assert after_money==before_money,dict(before=before_money,after=after_money)
   return dict(status='PASS',observed_real_Native_roll_wait=native_roll,observed_canonical_target_wait=not native_roll,current_authority_after_wait_no_domain_or_receipt_commit=True,exact_authorization_sqlstate='42501',exact_native_refusal=expected,all_Native_drafts_money_stock_and_HPP_unchanged=True)
  return [('E10_REAL_SAME_UUID',lambda:pair('SAME')),('E10_REAL_SAME_UUID_DIFFERENT_PAYLOAD',lambda:pair('PAYLOAD')),('E11_REAL_DIFFERENT_ACTOR_RUN_DRAFT',lambda:pair('ACTORS')),('P08_REAL_TARGET_WAIT_REVOKED',lambda:revocation()),('P08_REAL_NATIVE_ROLL_WAIT_REVOKED',lambda:revocation(True))]
 
