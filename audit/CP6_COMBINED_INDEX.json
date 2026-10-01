@@ -1651,17 +1651,54 @@
  "open_for_owner": [
   "D11 policy values (after writer table)",
   "GBD-03 old laundry claim representation (after writer options)",
-  "F3/D08 session permission (in progress)"
+  "F3/D08 session permission (in progress)",
+  "D11 policy values",
+  "GBD-03 old laundry claim representation",
+  "UI direction (demo host allow-list or screenshots)"
  ],
- "auditor_verification_queue": [
-  "D07 retest + negative control",
-  "D09 ACC-C12 tests",
-  "D10 T24 adjusted",
-  "F3/D08 diff + browser",
-  "L8 guard substitution",
-  "rollback comparator BC+BD",
-  "GBD-01/02 own fixtures",
-  "STALE_F2 conditional in BC probe",
-  "BD round on 2aee623"
- ]
+ "auditor_verification_queue": [],
+ "fable_round13_closure_verification": {
+  "date": "2026-10-01",
+  "candidate_head": "10a834712e515af86c6d8baa89bbe40cff9793e3",
+  "product_ref": "434b182",
+  "verdict": "CP6 CLOSED claim VERIFIED for contract scope on product 434b182; production_go=false",
+  "report": "out/fable_r13_results.md",
+  "progress": "AUDIT_PROGRESS_FABLE.md",
+  "runs_dir": "audit/runs_fable/r13/",
+  "gates": {
+   "t2": 36802914343,
+   "t3_30": 36802922323,
+   "rollback": 36802929871,
+   "codeql": 36802937437
+  },
+  "regression_runs": {
+   "xa1": 36802945018,
+   "xa2": 36802952298,
+   "xa7": 36802959475,
+   "xa8": 36802968654,
+   "xa9": 36802978021,
+   "open_1": 36802987554,
+   "c0": 36802996229,
+   "xaudit_12_f1f2": 36803005576,
+   "xaudit_12_f4": 36803013529
+  },
+  "d07_controls": 36803212344,
+  "pinned_probes": {
+   "bd": 36803064486,
+   "bc": 36803602974,
+   "bc_rev1_tool_defect": 36803064370,
+   "be": 36803064466
+  },
+  "writer_modes_via_auditor_runtime": {
+   "bc": 36803221110,
+   "bd": 36803230431,
+   "be": 36803238529
+  },
+  "not_tested_by_fable": [
+   "F3/D08 browser (source review only)",
+   "BF",
+   "CP7"
+  ],
+  "label": "INDEPENDENT_NATIVE_RERUN"
+ }
 }

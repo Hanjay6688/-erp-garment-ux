@@ -97,3 +97,16 @@
 - Pinned probe workflows (audit branch be23433): BC (PLAN + 5 FAB) 36803064370 · BD (PLAN 34 incl. D09/D10 cases) 36803064486 · BE (PLAN 13) 36803064466.
 - Own D07 negative controls `round13_fable/xaudit_13_d07.py` (sha cee58a1d…): run 36803212344. Writer modes+browser reruns on auditor runtime: BC 36803221110 · BD 36803230431 · BE 36803238529.
 - Cross-check read: replacement auditor's acceptance = disclosed retest of BF conversion history + CP7 delta + 30-file package install; D07/D09/F3 relied on writer runs (36463334464 etc.), not re-run.
+
+## 2026-10-01 ~02:30Z — putaran 13 selesai: klaim "CP6 CLOSED" auditor pengganti DIVERIFIKASI pada 10a8347 (produk 434b182)
+- Gerbang: T2 36802914343, T3(30) 36802922323, rollback 36802929871, CodeQL 36802937437 — semua success.
+- Regresi Fable (after): xa1 6/6, xa2 7/7, xa7 14/14, xa8 14+2 CE beku, xa9 5/5, open_1 15/15, C0 26+1 INCOMPLETE (cacat skenario, sejak r12),
+  f1f2 9 PASS + BC_ABSENT FAIL (penjaga) → **F2 diam di semua 5 jalur (D07 af00dd1 bekerja)**, F1 PASS; f4 5/5.
+- Kontrol D07 (xaudit_13_d07, run 36803212344): SILENT_ON_EXACT PASS; NEG_STATE_TAMPER PASS (+1 saat tamper, 0 setelah rollback);
+  NEG_FACT_TAMPER INCOMPLETE — tabel fakta append-only (42501 MATERIAL_ADJUSTMENT_REVALUATION_FACT_APPEND_ONLY). Bukan cacat.
+- Probe pin (workflow + ref auditor): BD 36803064486 after 41/41; BC 36803602974 before = PLAN, after 50/50 (45 penulis + 5 FAB);
+  BE 36803064466 rev1 before gagal PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE sebelum kasus apa pun (balapan sesi saat install AS) →
+  rerun tunggal: before 16 NO_ROUTE, after 16/16 PASS. BC rev1 36803064370 gagal karena cacat alat auditor (re-pin sha), dibangun ulang 96bd871.
+- Mode penulis via runtime auditor: BC 18/18, BD 20/20, BE 17/17.
+- Laporan: out/fable_r13_results.md (FINAL). Semua JSON per kasus di audit/runs_fable/r13/.
+- Tidak diuji Fable: F3 hanya tinjauan sumber; BF/CP7 di luar lingkup gerbang CP6 Fable. Terbuka owner: D11 nilai kebijakan, GBD-03, arah UI.

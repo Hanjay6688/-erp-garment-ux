@@ -1,6 +1,6 @@
 # Fable — Putaran 13: verifikasi klaim "CP6 CLOSED" (auditor pengganti, 29 Sep)
 
-Tanggal: 2026-10-01 (UTC). Status dokumen: **DRAFT — 5 run masih berjalan** (lihat §4). Tidak ada relabel; run gagal dicatat apa adanya.
+Tanggal: 2026-10-01 (UTC). Status dokumen: **FINAL** (semua run selesai dan dibaca per kasus). Tidak ada relabel; run gagal dicatat apa adanya.
 
 ## 0. Apa yang diuji dan kenapa
 
@@ -61,9 +61,9 @@ Oracle tetap: M/P/A, C0 §1–8, C6 rev4, dan keputusan owner di `OWNER_DECISION
 
 | Keluarga | Run | before | after | Catatan |
 |---|---|---|---|---|
-| BD | 36803064486 | success | success, 41/41 PASS | `bd_after.json` |
-| BE | 36803064466 | **failure** (rev1) → rerun job gagal dijadwalkan | success | rev1 `before` jatuh **sebelum satu kasus pun jalan**: `install_at → install_as → aq.change('install')` ditolak paket AS: `PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE` (penjaga "DB harus tertutup & kosong sesi"). Rantai pasang yang sama lolos di BD before/after dan BE after → **balapan sesi sisa saat pemasangan, bukan produk**. Satu rerun (jatah tunggal) dipakai. |
-| BC | 36803064370 (rev1) **failure – cacat alat auditor** (re-pin mengganti semua sha 40-hex termasuk `supabase/setup-cli@…`); dibangun ulang `96bd871` → run 36803602974 | _berjalan_ | _berjalan_ | |
+| BD | 36803064486 | success | success, **41/41 PASS** (termasuk `D09:ACC_C12_SOURCE_IDENTITY`, `D10:VARIANCE_BY_BILLING_SOURCE`) | `bd_after.json` |
+| BE | 36803064466 | **failure** (rev1) → rerun job gagal: **success, 16 NO_ROUTE** (mismatch {}) | success: **16/16 PASS** (mismatch {}) | rev1 `before` jatuh **sebelum satu kasus pun jalan**: `install_at → install_as → aq.change('install')` ditolak paket AS: `PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE` (penjaga "DB harus tertutup & kosong sesi"). Rantai pasang yang sama lolos di BD before/after dan BE after → **balapan sesi sisa saat pemasangan, bukan produk**. Satu rerun (jatah tunggal) dipakai. |
+| BC | 36803064370 (rev1) **failure – cacat alat auditor** (re-pin mengganti semua sha 40-hex termasuk `supabase/setup-cli@…`); dibangun ulang `96bd871` → run 36803602974 | success: 9 PASS + 38 NO_ROUTE + 3 COUNTEREXAMPLE (persis PLAN pra-BC, `expectation_mismatch` {}) | success: **50/50 PASS** (45 PLAN penulis + 5 kasus FAB Fable: fill-sebelum-terima ditolak, use>post ditolak, bentuk qty tak sah ditolak, reverse ganda ditolak, sidik jari badan v265/v255) | `bcpin_before.json`, `bcpin_after.json` |
 
 Mode balapan + HTTP + browser penulis (`cp6_{bc,bd,be}_modes.py` + `.mjs`) dijalankan ulang oleh auditor lewat `cp6-auditor-scenario.yml` (fase after) — INDEPENDENT_NATIVE_RERUN atas skenario penulis:
 
@@ -73,6 +73,34 @@ Mode balapan + HTTP + browser penulis (`cp6_{bc,bd,be}_modes.py` + `.mjs`) dijal
 | BD | 36803230431 | **20/20 PASS** (9 races, 3 HTTP, 8 browser) |
 | BE | 36803238529 | **17/17 PASS** (9 races, 2 HTTP, 6 browser) |
 
-## 5. Putusan sementara
+## 5. Putusan Fable atas klaim "CP6 CLOSED"
 
-_Diisi setelah §4 selesai._
+**Klaim auditor pengganti (29 Sep) TERVERIFIKASI untuk lingkup kontrak CP6 pada produk `434b182` (head alat `10a8347`)**, dengan catatan di bawah.
+`production_go` tetap **false** (bukan wewenang auditor; paket belum dipasang ke hosted).
+
+Yang kini berdiri di atas bukti **Fable sendiri** (bukan lagi hanya run penulis):
+
+1. Empat gerbang (T2, T3 30-berkas, rollback, CodeQL) hijau pada head yang sama.
+2. Sembilan skenario regresi Fable identik dengan putaran 12; tidak ada hasil beku yang berubah atau direlabel.
+3. F1, F2 (via D07), F4: terperbaiki dan dikonfirmasi natively. Alarm D07 hidup (kontrol negatif +1), dan tabel fakta recost terbukti append-only.
+4. D09/D10 (BD 41/41), BC 50/50 (termasuk 5 kasus Fable), BE 16/16 — PLAN penulis dijalankan pada workflow dan ref auditor yang dipin, bukan run penulis.
+5. Mode balapan/HTTP/browser penulis BC/BD/BE: 55/55 lewat runtime auditor.
+
+Yang **tidak** diuji Fable di putaran ini (dinyatakan apa adanya):
+
+- F3/D08: hanya tinjauan sumber (regex kanonik di 10a8347); tidak ada uji browser khusus. Risiko rendah (validasi format, bukan keamanan akses — per owner D08).
+- BF (rentang SKU komersial, kredit vendor, riwayat konversi) dan CP7: di luar lingkup gerbang kontrak CP6 yang Fable pegang; hanya tercakup oleh gerbang T3 (job "AU and BF browser flows" success) dan oleh retest auditor pengganti. Tidak ada skenario Fable untuk BF.
+- D11 (nilai kebijakan) dan GBD-03 (representasi klaim laundry lama): masih **terbuka di sisi owner**, bukan cacat produk.
+
+Hasil non-PASS yang dibiarkan apa adanya (tidak satu pun cacat produk baru):
+
+| Hasil | Klasifikasi |
+|---|---|
+| xa8 2 COUNTEREXAMPLE (W8 tiga nota) | beku; owner T3 = A |
+| C0 1 INCOMPLETE (`permission denied for schema erp`) | cacat skenario auditor, sejak r12 |
+| f1f2 `BC_ABSENT` FAIL | penjaga, sesuai desain |
+| d07 `D07_NEG_FACT_TAMPER` INCOMPLETE | fakta append-only; kontrol tak bisa dijalankan |
+| BE pin rev1 `before` failure | balapan sesi saat pemasangan AS; rerun tunggal lolos |
+| BC pin rev1 failure | cacat alat auditor (re-pin sha); dibangun ulang |
+
+Label: semua baris §1, §2, §4 = INDEPENDENT_NATIVE_RERUN; F3 = INDEPENDENT_SOURCE_REVIEW; D07–D11/UI-01 = OWNER_CONFIRMED_TO_AUDITOR (tertulis di `OWNER_DECISIONS_CP6_DRAFT.md`).
