@@ -39,18 +39,17 @@ def observe(cur,today,root,expected_stock,projected):
 def size_sources(cur,today):
  # Two roots share one brand/model/color and one real commercial SKU. Give them
  # distinct Native size identities before any stock exists.
- root_s,_=sales.fg.ax.owner_only_model_product(cur,effective_from=today-timedelta(days=10))
- b.api.admin(cur);root_l=str(uuid.uuid4());tag='O07-'+uuid.uuid4().hex[:10];sizes=[]
- model=cur.execute('select model_id from erp.products where id=%s',(root_s,)).fetchone()[0]
+ b.api.admin(cur);root_s=str(uuid.uuid4());root_l=str(uuid.uuid4());model=str(uuid.uuid4());tag='O07-'+uuid.uuid4().hex[:10];sizes=[]
+ cur.execute('insert into erp.product_models(id,model_code,model_name,is_active)values(%s,%s,%s,true)',(model,tag,'O07 new shared Native model'))
  for i,label in enumerate(('S','L')):
   sid=str(uuid.uuid4());sizes.append(sid)
   cur.execute('insert into erp.sizes(id,size_code,sort_order,is_active)values(%s,%s,%s,true)',(sid,tag+'-'+label,200+i))
   cur.execute('insert into erp.product_model_sizes(model_id,size_id,sort_order)values(%s,%s,%s)',(model,sid,200+i))
- cur.execute('update erp.products set size_id=%s where id=%s',(sizes[0],root_s))
- cur.execute("""insert into erp.products(id,sku,model_id,brand_id,color_name,size_id,product_name,identity_root_id,effective_from,is_active,is_portal_visible)
-  select %s,%s,model_id,brand_id,color_name,%s,'O07 Native L',%s,effective_from,true,true from erp.products where id=%s""",
-  (root_l,tag+'-L',sizes[1],root_l,root_s))
- cur.execute("insert into erp.accessory_bom_versions(product_id,version_label,effective_from,is_active,notes)values(%s,'O07-EMPTY','2026-01-01',true,'Explicit empty BOM')",(root_l,))
+ for root,sid,label in zip((root_s,root_l),sizes,('S','L')):
+  cur.execute("""insert into erp.products(id,sku,model_id,brand_id,color_name,size_id,product_name,identity_root_id,effective_from,is_active,is_portal_visible)
+   select %s,%s,%s,brand_id,'O07-SHARED',%s,%s,%s,%s,true,true from erp.products where id=%s""",
+   (root,tag+'-'+label,model,sid,'O07 Native '+label,root,today-timedelta(days=10),sales.fg.ax.chain.base.BASE_PRODUCT))
+  cur.execute("insert into erp.accessory_bom_versions(product_id,version_label,effective_from,is_active,notes)values(%s,'O07-EMPTY','2026-01-01',true,'Explicit empty BOM')",(root,))
  at=history.receipt.aa.at(today-timedelta(days=1),6)
  group=netting.bf.group(cur,[root_s,root_l],at,settings=dict(price=None,bom=None,work_rates=[],laundry_rates=[]))
  netting.bf.save(cur,[group],at)
