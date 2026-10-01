@@ -16,7 +16,8 @@ KERNEL_FILES=(
  'models/kernels.sql','models/evaluation.sql','models/comparison.sql',
  'models/ownership.sql',
 )
-ADAPTER_FILES=('planning/bootstrap.sql','planning/history-source.sql','planning/history.sql','planning/ownership.sql')
+ADAPTER_FILES=('planning/bootstrap.sql','planning/history-source.sql','planning/history.sql','planning/ownership.sql',
+ 'model-native/bootstrap.sql','model-native/source.sql','model-native/evaluation.sql','model-native/ownership.sql')
 ROLES=predecessor.ROLES
 GRANTS=predecessor.GRANTS
 
@@ -29,6 +30,8 @@ def source_hashes():
  return {name:hashlib.sha256((ROOT/'scripts/cp7-src'/name).read_bytes()).hexdigest()for name in KERNEL_FILES+ADAPTER_FILES}
 
 def verify(cur):
+ from cp7_model_bundle import verify as verify_models
+ verify_models(cur)
  for name in KERNEL_FILES+ADAPTER_FILES:
   assert (ROOT/'scripts/cp7-src'/name).is_file(),name
  # Adapters and kernels remain private invoker routines. The only public

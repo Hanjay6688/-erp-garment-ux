@@ -1,0 +1,54 @@
+{
+  "status": "WRITER_QUALIFIED_BOUNDED_NATIVE164",
+  "source": "d244216bde00d083b1d8161dcb009bf2d535f75a",
+  "tree": "f3b17826647ea41586f0d4ae8a84bce6534d1b5f",
+  "run": 36830010838,
+  "job": 110264223017,
+  "artifact_id": 11146304972,
+  "archive_file_id": "file_00000000a87c82119505676aa449ca2d",
+  "archive_sha256": "e394ecbf4675440afab8e16d743083b4cffa1ffa30feefdcb866eebe44f56bd8",
+  "original_reports_gzip_sha256": "125248901db1ede29be485c8429a28999be7016a9cfba20a3e217602e8e6b08c",
+  "original_reports_json_sha256": "c455809c59eb69d64594c373c6426b09783fb59c7c868c7b9bb9d6ef42b1e226",
+  "source_bundle_sha256": "0e863c70d52f8a50b02732ca728e7c6ea02888f1ef59dbdaba8b8998d43f1099",
+  "counts": {
+    "native": {
+      "PASS": 105
+    },
+    "races": {
+      "PASS": 21
+    },
+    "http": {
+      "PASS": 14
+    },
+    "browser": {
+      "PASS": 24
+    }
+  },
+  "observed": 164,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "remaining_scope": [
+    "Native models/material/planning apply",
+    "report publish/revision lifecycle",
+    "other obligation domains/rule policies",
+    "complete F03 combined case coverage and F06 scaling/independent audit"
+  ]
+}

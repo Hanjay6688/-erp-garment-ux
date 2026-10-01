@@ -1,0 +1,12 @@
+alter function cp7_model_native.query(jsonb)owner to cp7_capture;
+alter function cp7_model_native.dataset(jsonb,uuid)owner to cp7_capture;
+alter function cp7_model_native.build(jsonb)owner to cp7_capture;
+alter function cp7_model_native.serve(uuid)owner to cp7_capture;
+alter function cp7_model_native.capture(jsonb,uuid)owner to cp7_capture;
+revoke all on all functions in schema cp7_model_native from public,anon,authenticated,service_role;
+grant create on schema public to cp7_capture;
+alter function public.erp_cp7_capture_model_evaluation_v1(jsonb,uuid)owner to cp7_capture;
+alter function public.erp_cp7_read_model_evaluation_v1(uuid)owner to cp7_capture;
+revoke create on schema public from cp7_capture;
+revoke all on function public.erp_cp7_capture_model_evaluation_v1(jsonb,uuid),public.erp_cp7_read_model_evaluation_v1(uuid)from public,anon,authenticated,service_role;
+grant execute on function public.erp_cp7_capture_model_evaluation_v1(jsonb,uuid),public.erp_cp7_read_model_evaluation_v1(uuid)to authenticated;

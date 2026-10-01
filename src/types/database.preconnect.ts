@@ -47,6 +47,8 @@ export type PreconnectDatabase = {
       erp_cp7_get_obligation_episode_request_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_get_obligation_episode_history_v1: { Args: { p_payload: Json }; Returns: Json }
       erp_cp7_read_netting_v1: { Args: { p_run: string }; Returns: Json }
+      erp_cp7_capture_model_evaluation_v1: { Args: { p_query: Json; p_request: string }; Returns: Json }
+      erp_cp7_read_model_evaluation_v1: { Args: { p_run: string }; Returns: Json }
       erp_cp7_capture_demand_history_v1: { Args: { p_query: Json; p_request: string }; Returns: Json }
       erp_cp7_read_demand_history_v1: { Args: { p_run: string }; Returns: Json }
       erp_cp7_get_payroll_installments_v1: { Args: { p_query: Json }; Returns: Json }

@@ -1,0 +1,14 @@
+// @vitest-environment jsdom
+import {beforeEach,it,expect,vi} from 'vitest'
+import {modelQuery,modelWire} from '../tests/fixtures/nativeModelEvaluation'
+import {parseNativeModelEvaluation,parseModelQuery,readModelRequest,persistModelRequest,clearModelRequest,modelRequestKey} from './nativeModelEvaluation'
+const id='55555555-5555-4555-8555-555555555555'
+beforeEach(()=>{localStorage.clear();vi.restoreAllMocks()})
+it('retains unknown demand without inventing a forecast or zero error score',()=>{const r=parseNativeModelEvaluation(modelWire(id),modelQuery,'auth-user-1');expect(r.mean).toBeNull();expect(r.forecasts).toBeNull();expect(r.scores).toEqual([]);expect(r.reason).toBe('REGISTRY_NOT_KNOWN_BEFORE_VALIDATION')})
+it.each(['actor_scope_id','target_key','history_run_id','horizon_days','registry_id','knowledge_basis'])('rejects a substituted %s',key=>{const v={...modelWire(id),[key]:'forged'};expect(()=>parseNativeModelEvaluation(v,modelQuery,'auth-user-1')).toThrow()})
+it.each(['automatic_activation','apply_allowed','production_go'])('rejects unowned activation flag %s',key=>{expect(()=>parseNativeModelEvaluation({...modelWire(id),[key]:true},modelQuery,'auth-user-1')).toThrow()})
+it('rejects unevaluated challenger selection, forecasts and missing unknown values',()=>{for(const v of [{...modelWire(id),selection_status:'CHALLENGER_RECOMMENDED'},{...modelWire(id),forecast:{status:'ELIGIBLE',forecasts:['999']}},{...modelWire(id),fallback_daily_mean:undefined}])expect(()=>parseNativeModelEvaluation(v,modelQuery,'auth-user-1')).toThrow()})
+it('rejects closed-query injection and horizons outside the declared range',()=>{for(const q of [{...modelQuery,series:[]},{...modelQuery,actor:'forged'},{...modelQuery,horizon_days:'0'},{...modelQuery,horizon_days:'91'},{...modelQuery,horizon_days:'1.5'}])expect(()=>parseModelQuery(q)).toThrow()})
+it('stores the exact pending command without storing data, scores or facts',()=>{const r={id,q:modelQuery};persistModelRequest('actor',r);expect(readModelRequest('actor').pending).toEqual(r);expect(Object.keys(JSON.parse(localStorage.getItem(modelRequestKey('actor'))!)).sort()).toEqual(['id','q']);expect(()=>persistModelRequest('actor',r)).toThrow();clearModelRequest('actor',id);expect(localStorage.length).toBe(0)})
+it('keeps corrupt or foreign pending metadata and refuses destructive clearing',()=>{localStorage.setItem(modelRequestKey('actor'),'broken');expect(readModelRequest('actor').error).toBeTruthy();expect(()=>persistModelRequest('actor',{id,q:modelQuery})).toThrow();expect(()=>clearModelRequest('actor',id)).toThrow();expect(localStorage.getItem(modelRequestKey('actor'))).toBe('broken')})
+it('fails before sending if local persistence did not retain the pending UUID',()=>{vi.spyOn(Storage.prototype,'setItem').mockImplementation(()=>{});expect(()=>persistModelRequest('actor',{id,q:modelQuery})).toThrow()})
