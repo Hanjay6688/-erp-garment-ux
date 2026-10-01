@@ -1,0 +1,22 @@
+name: CP6 Readiness Shell
+'on':
+  push:
+    branches: [cp6/release-readiness]
+    paths: [src/**, scripts/cp6_readiness_*, scripts/cp6_bf_free*, .github/workflows/cp6-readiness-shell.yml]
+  workflow_dispatch: null
+permissions:
+  contents: read
+jobs:
+  shell:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22', cache: npm}
+      - run: npm ci
+      - run: npm test
+      - run: npm run test:security
+      - run: npm run build
+      - run: python scripts/cp6_readiness_source.py

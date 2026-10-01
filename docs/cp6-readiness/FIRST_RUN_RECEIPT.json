@@ -1,0 +1,61 @@
+{
+  "label": "CP6_READINESS_FIRST_RUN",
+  "source_commit": "c387f1b3eda0e108e92b98e8a8368d63283f3b0b",
+  "accepted_cp6_base": "10a834712e515af86c6d8baa89bbe40cff9793e3",
+  "native_run_id": 36817969996,
+  "shell_run_id": 36817969995,
+  "overall_qualification": "INCOMPLETE",
+  "sql_bytes_unchanged": true,
+  "hosted_install_executed": false,
+  "production_go": false,
+  "install": {
+    "job_id": 110227090966,
+    "conclusion": "failure",
+    "native": {
+      "PASS": 104
+    },
+    "races": {
+      "PASS": 26
+    },
+    "http": {
+      "PASS": 8,
+      "INCOMPLETE": 1
+    },
+    "failure_case": "VENDOR_FREE_HTTP:CURRENT_AUTH_REPLAY_INVALID_ATOMIC",
+    "failure_reason": "Fixture login requested nonexistent STAFF role; corrected to existing GUDANG role in next source.",
+    "package_files_installed": 30,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true
+  },
+  "browser": {
+    "job_id": 110227091475,
+    "conclusion": "success",
+    "current_cases_PASS": 31,
+    "au_cases_PASS": 10,
+    "console_errors": 0,
+    "primary_unchanged": true,
+    "remaining_database_fixtures": 0,
+    "auth_before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "auth_after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "artifact_id": 11142581844,
+    "archive_sha256": "08270a95af206b4589ac576665c1ef946f11d2cfff4a8b6e65816da5c4e761e4"
+  },
+  "shell": {
+    "conclusion": "success",
+    "tests_PASS": 583,
+    "security_checks": "PASS",
+    "build": "PASS"
+  },
+  "interpretation": "The successful browser result does not convert the incomplete install-runtime job into an accepted run. A new source-bound qualification is required."
+}

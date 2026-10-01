@@ -8,6 +8,8 @@ import { getUatSupabaseClient } from './lib/supabase'
 import { normalizeClientError } from './lib/clientError'
 import { useProductionMutation, type ProductionMutationHandlers } from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
+import Cp6PolicyReadiness from './Cp6PolicyReadiness'
+import { invoicePolicyMessage, ownerChoice, POLICY_EFFECT, policyStatus, policyValueText } from './cp6Readiness'
 import LaundrySkuHistory, { type LaundryHistoryItem } from './LaundrySkuHistory'
 import { BD_RATE_LABEL, BD_RATE_STATUSES, CATEGORY_LABEL, CHARGE_KIND_LABEL, LAU_POLICY_KEYS, LAU_POLICY_LABEL, mergeLaundryBdPage, moneyInput, normalizeMoney, parseLaundryBdWorkspace, policyValue, rupiah,
   signedMoneyInput, validateBdResult, wholePcs, wibTimestamp, type BdInvoice, type BdPageKind, type BdPayables, type Category, type LaundryBdWorkspace, type LauPolicyKey } from './laundryBd'
@@ -89,6 +91,8 @@ export default function LaundryBdPanel({ laundry, onPosted }: { laundry: Laundry
       <label>Vendor<select aria-label="Vendor harga laundry" value={vendorId} disabled={locked} onChange={e => chooseVendor(e.target.value)}>
         <option value="">Semua vendor</option>{data?.vendors.map(v => <option key={v.id} value={v.id}>{v.code} · {v.name}{v.bd_priced ? ' · harga BD' : ''}</option>)}</select></label></nav>
     {!data ? <p role="status">{loading ? 'Memuat harga laundry…' : 'Harga laundry belum terbaca.'}</p> : <>
+      <Cp6PolicyReadiness policies={data.policies}/>
+      {section === 'invoices' && invoicePolicyMessage(data.policies) && <p role="status" className="initial-import-message">{invoicePolicyMessage(data.policies)}</p>}
       {section === 'policies' && <Policies data={data} locked={locked} send={send}/>}
       {section === 'master' && (vendor ? <Master key={vendor.id} data={data} vendor={vendor.id} locked={locked} send={send}/> : <p>Pilih vendor untuk melihat dan mengubah harganya.</p>)}
       {section === 'send' && (!laundry ? <p role="status">Data Laundry (batch siap kirim) belum terbaca; kirim dengan harga terkunci sampai halaman Laundry terbaca.</p>
@@ -120,11 +124,15 @@ function Policies({ data, locked, send }: { data: LaundryBdWorkspace; locked: bo
     <option value="">Pilih…</option>{options.map(([v, l]) => <option key={v} value={v}>{l}</option>)}</select></label>
   return <section className="initial-import-table" aria-label="Kebijakan laundry">
     <table><thead><tr><th>Kebijakan</th><th>Status</th><th>Nilai</th><th>Versi</th><th>Diubah</th></tr></thead><tbody>{data.policies.map(p =>
-      <tr key={p.key}><td>{p.key} · {LAU_POLICY_LABEL[p.key]}</td><td>{p.status === 'SET' ? 'Ditetapkan' : 'Menunggu keputusan owner (ditolak aman)'}</td>
-        <td>{p.value ? JSON.stringify(p.value) : '—'}</td><td>{p.version}</td><td>{p.set_at} · {p.reason}</td></tr>)}</tbody></table>
+      <tr key={p.key}><td>{p.key} · {LAU_POLICY_LABEL[p.key]}</td><td>{policyStatus(p)}</td>
+        <td>{policyValueText(p, data.accounts ?? [])}</td><td>{p.version}</td><td>{p.set_at} · {p.reason}</td></tr>)}</tbody></table>
     {data.is_owner ? <div className="initial-import-toolbar">
       <label>Kebijakan<select aria-label="Kebijakan yang diubah" value={key} disabled={locked} onChange={e => { setKey(e.target.value as LauPolicyKey); setF({}); setPick({}) }}>
         {LAU_POLICY_KEYS.map(k => <option key={k} value={k}>{k} · {LAU_POLICY_LABEL[k]}</option>)}</select></label>
+      <p>{policy.status === 'SET' ? 'Nilai yang berlaku terlihat pada tabel. Perubahan memakai pilihan baru di bawah.' : POLICY_EFFECT[key]}</p>
+      {policy.status !== 'SET' && ownerChoice(key) && <button type="button" disabled={locked} onClick={() => {
+        const choice = ownerChoice(key)!; setF(choice.fields); setPick(choice.picks); setReason(`Terapkan keputusan owner 26 Sep 2026 untuk ${key}`)
+      }}>Isi sesuai keputusan owner</button>}
       {key === 'LAU-DEC01' && [check('BATCH', 'Borongan per batch'), check('MINIMUM', 'Minimum charge')]}
       {key === 'LAU-DEC02' && [check('GOOD', 'Hasil baik'), check('BS', 'BS laundry'), check('FAILED_ATTEMPT', 'Cuci gagal')]}
       {key === 'LAU-DEC03' && [select('discount', 'Diskon', [['ALLOWED', 'Boleh'], ['REFUSED', 'Ditolak']]), select('extra', 'Tambahan', [['ALLOWED', 'Boleh'], ['REFUSED', 'Ditolak']]),
