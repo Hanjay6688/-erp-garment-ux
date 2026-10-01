@@ -6,6 +6,8 @@ import NativeAnalysisPanel from './NativeAnalysisPanel'
 import {recoveryIdentity} from '../tests/fixtures/productionRecovery'
 import fixture from '../tests/fixtures/nativeAnalysisStandin.json'
 import {analysisFinanceFixture} from '../tests/fixtures/nativeAnalysisFinance'
+import {attentionFixture} from '../tests/fixtures/nativeAttention'
+import {readAttentionRequest} from './nativeAnalysisAttention'
 import {readNativeDemandRequest} from './nativeDemandHistory'
 import {analysisArchiveKey} from './nativeAnalysisArchive'
 import type {NativeDemandQuery} from './nativeDemandHistory'
@@ -67,4 +69,30 @@ it('retires financial and operational analysis on report-only403 and on a permis
  await render();await click('Ambil analisis ERP terbaru');await click('Laporan');expect(container.textContent).toContain('Rp9.007.199.254.740.993,01')
  client.rpc.mockResolvedValue({data:null,error:{code:'42501',message:'CP7_ANALYSIS_FINANCE_ACCESS_DENIED'}});await click('Periksa sumber analisis');expect(container.querySelector('.native-analysis-result')).toBeNull();expect(container.textContent).not.toContain('Rp');expect(clipboard).not.toHaveBeenCalled()
  auth.identity.permissions=auth.identity.permissions.filter(p=>p!=='finance.reports.view');await render();expect(container.querySelector('.native-analysis')).toBeTruthy();expect(container.querySelector('.native-analysis-result')).toBeNull();expect(container.textContent).not.toContain('Rp')
+})
+it('persists the attention intent before send and recovers its lost reply after remount with original query and UUID',async()=>{
+ let captureId='';client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>{if(name==='erp_cp7_capture_analysis_v1'){captureId=args.p_request;return{data:wire(captureId),error:null}}return{data:attentionFixture(wire(captureId)),error:null}})
+ await render();await click('Ambil analisis ERP terbaru');await click('Pengingat');expect(container.textContent).toContain('Belum dimuat');await click('Muat perhatian tersimpan')
+ client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>{expect(name).toBe('erp_cp7_save_analysis_attention_v1');expect(readAttentionRequest(scope).pending?.id).toBe(args.p_request);throw Error('lost reply')})
+ await click('Sudah dibaca');const sent=client.rpc.mock.calls.at(-1)!;expect(readAttentionRequest(scope).pending).toBeTruthy();expect(container.querySelector('.native-analysis-result')).toBeNull()
+ await act(async()=>root.unmount());root=createRoot(container);await render({...q,group_mode:'RESTATED'})
+ client.rpc.mockImplementation(async(_name:string,args:{p_request:string;p_payload:{action_key:string}})=>{const v=attentionFixture(wire(captureId));const row=v.rows.find(r=>r.action_key===args.p_payload.action_key)!;row.attention={state:'ACK',resume_at:null,resume_due:false,revision:'1',updated_at:v.read_at};return{data:{...v,request_result:{request_id:args.p_request,run_id:fixture.run_id,action_key:args.p_payload.action_key,revision:'1',status:'COMMITTED'}},error:null}})
+ await click('Ulangi perhatian yang sama');expect(client.rpc.mock.calls.at(-1)).toEqual(sent);expect(readAttentionRequest(scope).pending).toBeNull();expect(container.textContent).toContain('Sudah dibaca');expect(container.textContent).toContain('masih perlu diperiksa')
+})
+it('keeps an unknown attention outcome after403 and retires it only after the server seals NOT_COMMITTED',async()=>{
+ let id='';client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>{if(name==='erp_cp7_capture_analysis_v1'){id=args.p_request;return{data:wire(id),error:null}}return{data:attentionFixture(wire(id)),error:null}})
+ await render();await click('Ambil analisis ERP terbaru');await click('Pengingat');await click('Muat perhatian tersimpan');client.rpc.mockRejectedValue(Error('network lost'));await click('Selesai ditinjau');const held=readAttentionRequest(scope).pending!
+ client.rpc.mockResolvedValue({data:null,error:{code:'42501',message:'CP7_REMINDER_ACCESS_DENIED'}});await click('Periksa hasil perhatian tersimpan');expect(readAttentionRequest(scope).pending).toEqual(held);expect(container.querySelector('.native-analysis-result')).toBeNull()
+ client.rpc.mockResolvedValue({data:{...attentionFixture(wire(id)),request_result:{request_id:held.id,run_id:fixture.run_id,action_key:held.payload.action_key,revision:null,status:'NOT_COMMITTED'}},error:null});await click('Periksa hasil perhatian tersimpan')
+ expect(client.rpc.mock.calls.at(-1)).toEqual(['erp_cp7_get_analysis_attention_request_v1',{p_payload:held.payload,p_request:held.id}]);expect(readAttentionRequest(scope).pending).toBeNull();expect(container.textContent).toContain('Server memastikan permintaan ini belum tersimpan');expect(container.textContent).not.toContain('Tugas ditandai selesai')
+})
+it('keeps dirty own-user schedule fields across a denied read and converts the entered time in WIB',async()=>{
+ let id='';client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>{if(name==='erp_cp7_capture_analysis_v1'){id=args.p_request;return{data:wire(id),error:null}}if(name==='erp_cp7_read_analysis_v1')return{data:wire(id),error:null};return{data:attentionFixture(wire(id)),error:null}})
+ await render();await click('Ambil analisis ERP terbaru');await click('Pengingat');await click('Muat perhatian tersimpan')
+ const fillInput=async(text:string,value:string)=>{const label=[...container.querySelectorAll('label')].find(l=>l.textContent===text)!,input=label.querySelector('input')!;await act(async()=>{Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')!.set!.call(input,value);input.dispatchEvent(new Event('input',{bubbles:true}))})}
+ await fillInput('Judul pengingat','Cek bahan besok');await fillInput('Waktu pengingat · WIB','2026-10-05T08:30')
+ client.rpc.mockResolvedValue({data:null,error:{code:'42501',message:'CP7_ACCESS_DENIED'}});await click('Periksa sumber analisis');expect(container.querySelector('.native-analysis-result')).toBeNull()
+ client.rpc.mockImplementation(async(name:string)=>({data:name==='erp_cp7_read_analysis_v1'?wire(id):attentionFixture(wire(id)),error:null}));const archive=container.querySelector<HTMLButtonElement>('[aria-label="Buka arsip analisis 1"]')!;await act(async()=>archive.click());await click('Muat perhatian tersimpan')
+ const title=[...container.querySelectorAll('label')].find(l=>l.textContent==='Judul pengingat')!.querySelector('input')!;expect(title.value).toBe('Cek bahan besok')
+ client.rpc.mockRejectedValue(Error('preserve intent'));await click('Simpan jadwal pengingat ERP');expect(readAttentionRequest(scope).pending?.payload.details).toEqual({title:'Cek bahan besok',note:'',priority:'NORMAL',due_at:'2026-10-05T01:30:00.000Z'})
 })

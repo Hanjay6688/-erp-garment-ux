@@ -932,7 +932,7 @@
     "assignment": "Explicit owner takeover in this conversation; recheck canonical ref immediately before every fast-forward; stop on unexpected movement; no force push",
     "branch": "cp7/integration",
     "enforcement": "Owner explicitly confirmed previous writer stopped; successor writes canonical cp7/integration. Ref recheck before fast-forward protects unrelated concurrent changes.",
-    "last_observed_upstream": "9b34633c1407f6055fb2fda7836b88a811315744",
+    "last_observed_upstream": "3ac8ea94b9e2f79dd647f9eec2e779cdb250505f",
     "previous_writer_status": "STOPPED_OWNER_CONFIRMED_20260930",
     "writer": "Hansen-authorized successor to Writer Finisher CP6, F03 takeover30Sep2026"
   },
@@ -998,13 +998,32 @@
   },
   "f05_native_analysis": {
     "qualified_scope": "Operational compiler and four shared consumers; Native102 first attempt101PASS/1 setup guard refusal, retained as INCOMPLETE",
-    "tested_source": "c6c825fc19a6e04b7054a4b2c12c318d22630b06",
+    "tested_source": "3ac8ea94b9e2f79dd647f9eec2e779cdb250505f",
     "original_receipt": "docs/cp7/evidence/f05-native-analysis/first102-c6c825f/RECEIPT.json",
     "candidate_scope": "Reuse accepted Native owner financial report under current Native Owner/Admin and report/preflight rights; immutable financial archives, complete dated book provenance, no second money engine",
     "local_tests": 1053,
     "declared_native_budget": 109,
-    "native_status": "PENDING",
+    "native_status": "SECOND_NATIVE109_ALL_FUNCTIONAL_PASS_PACKAGE_RESTORE_FALSE_INCOMPLETE",
     "local_receipt": "docs/cp7/evidence/f05-native-analysis/finance-local/RECEIPT.json",
-    "full_family_acceptance": false
+    "full_family_acceptance": false,
+    "latest_receipt": "docs/cp7/evidence/f05-native-analysis/finance-second109-3ac8ea9/RECEIPT.json"
+  },
+  "f05_native_attention": {
+    "status": "LOCAL_CLIENT_BUILD_SECURITY_PASS_NATIVE122_PENDING",
+    "scope": "Actor-bound review attention on one immutable analysis; delegated unchanged Native own-user manual reminder writers",
+    "consumer": "src/NativeAnalysisPanel.tsx",
+    "local_tests": 1060,
+    "native_predeclared": {
+      "native": 86,
+      "races": 17,
+      "http": 9,
+      "browser": 10,
+      "total": 122
+    },
+    "receipt": "docs/cp7/evidence/f05-native-attention/local/RECEIPT.json",
+    "business_episode_reconciliation": false,
+    "external_delivery": false,
+    "full_family_acceptance": false,
+    "production_go": false
   }
 }

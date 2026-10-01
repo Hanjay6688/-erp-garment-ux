@@ -1,0 +1,39 @@
+{
+  "source_commit": "3ac8ea94b9e2f79dd647f9eec2e779cdb250505f",
+  "source_tree": "51e2c2bf967a881c41b74962d30e4c26cdeb0654",
+  "compiled_sql_sha256": "d0d81fb64f3558bd3332ef3c15cd8e538b3dc3bfffebca64074b322c022cd35a",
+  "workflow_run": 36799705061,
+  "workflow_job": 110171065009,
+  "artifact_id": 11135650031,
+  "zip_bytes": 35433280,
+  "zip_sha256": "b7661c1557dfc0a1e0990e479c22554d582d1a3622a42c97f133c7217ea9aaec",
+  "original_reports_gzip_sha256": "a4d1634d59b8581ec623f91010e8eb65cd520899e393f0b4dec3badd8ada7ba1",
+  "status": "INCOMPLETE",
+  "expected": 109,
+  "observed": 109,
+  "counts": {
+    "native": {
+      "PASS": 78
+    },
+    "races": {
+      "PASS": 15
+    },
+    "http": {
+      "PASS": 8
+    },
+    "browser": {
+      "PASS": 8
+    }
+  },
+  "all_case_boundaries_and_zero_leaks_checked": true,
+  "restore": false,
+  "advisor_gate": true,
+  "other_predecessor_guards_unchanged": true,
+  "production_go": false,
+  "full_family_acceptance": false,
+  "notes": [
+    "All109 declared functional cases pass; package CP6 restore is false, so this run remains INCOMPLETE.",
+    "Native protected Owner role is unchanged. Actual ADMIN report/preflight revocation, real lock-wait revocation and real Auth current403 all pass.",
+    "Next source records the exact ERP/platform/Auth/schema-ACL and public-catalog restore differences. No restore guard weakened."
+  ]
+}

@@ -92,6 +92,9 @@ assert.deepEqual(dataReads, [], 'Browser code must not read ERP tables/views dir
 assert.deepEqual([...rpcOwnership].sort(), [
   'src/NativeAnalysisPanel.tsx:erp_cp7_capture_analysis_v1',
   'src/NativeAnalysisPanel.tsx:erp_cp7_read_analysis_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_get_analysis_attention_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_save_analysis_attention_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_get_analysis_attention_request_v1',
   'src/NativeProductionPlanningPanel.tsx:erp_cp7_capture_production_supply_v1',
   'src/NativeProductionPlanningPanel.tsx:erp_cp7_read_production_supply_v1',
   'src/NativeProductionPlanningPanel.tsx:erp_cp7_get_production_schedule_v1',

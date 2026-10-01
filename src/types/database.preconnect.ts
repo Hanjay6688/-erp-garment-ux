@@ -37,6 +37,9 @@ export type PreconnectDatabase = {
       erp_cp7_capture_netting_v1: { Args: { p_query: Json; p_request: string }; Returns: Json }
       erp_cp7_capture_analysis_v1: { Args: { p_query: Json; p_request: string }; Returns: Json }
       erp_cp7_read_analysis_v1: { Args: { p_run: string }; Returns: Json }
+      erp_cp7_get_analysis_attention_v1: { Args: { p_run: string }; Returns: Json }
+      erp_cp7_save_analysis_attention_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
+      erp_cp7_get_analysis_attention_request_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_read_netting_v1: { Args: { p_run: string }; Returns: Json }
       erp_cp7_capture_demand_history_v1: { Args: { p_query: Json; p_request: string }; Returns: Json }
       erp_cp7_read_demand_history_v1: { Args: { p_run: string }; Returns: Json }

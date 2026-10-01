@@ -1,0 +1,40 @@
+{
+  "status": "LOCAL_CLIENT_BUILD_SECURITY_PASS_NATIVE122_PENDING",
+  "local_full_tests_pass": 1060,
+  "local_full_tests_fail": 0,
+  "targeted_receiver_DOM_tests_pass": 17,
+  "typecheck_build_client_secret_scan": true,
+  "security_and_source_access_css_checks": true,
+  "standin_runtime": "PGLITE_NATIVE_COLUMN_STANDIN_NOT_AUTH",
+  "standin_cases": 16,
+  "new_standin_case": "ACK metadata and immutable sealed absent intent blocks delayed original command",
+  "Native_predeclared_budget": {
+    "native": 86,
+    "races": 17,
+    "http": 9,
+    "browser": 10,
+    "total": 122
+  },
+  "native_business_source": false,
+  "Native_Auth_and_manual_writer_qualified": false,
+  "compiled_attention_sql_sha256": "819fdf1724f62a39f4f8801a61115a87ab96075fd79d8b586e80178496bbea41",
+  "file_sha256": {
+    "scripts/cp7-src/reminders/attention.sql": "819fdf1724f62a39f4f8801a61115a87ab96075fd79d8b586e80178496bbea41",
+    "scripts/cp7_reminder_bundle.py": "a47a553ce57ff476cf83c8ea8f4d14e6844f4949247b8a2b2b714fcfc090bf4d",
+    "scripts/cp7_attention_cases.py": "52c30cc2962d1b44817b39d365cc59dc2ea564a86e502843434a435552b1a96c",
+    "scripts/cp7_f05_attention_browser.mjs": "2c009edddf7f5213955def19387beb1fa60b0df9fc44aed8c999cf8f8658c1e6",
+    "scripts/cp7_f05_attention_probe.py": "a8a54c4bde646d7f5ec2066086122b2c9e357388d76bce37d47ea821a5f74929",
+    "scripts/cp7_f05_analysis_probe.py": "4d1778d518e6844cdc2c5d316dfe358ad76db9723d60096717ee18f35c266313",
+    "src/nativeAnalysisAttention.ts": "dc5678fbbf1aad9f6325198bf47530a5ba7b7a9b990e136f1eaea44cfd16333d",
+    "src/NativeAnalysisPanel.tsx": "de4dd5866e9915ff749eb4a21d921a8e86f15e27d75c5fa7c001ebc6b373890c",
+    "src/NativeAnalysisPanel.dom.test.tsx": "0654c68bf7676c8c0f3a1a2ba21846db50a68c12b2542875e07b7c5acc7047f2",
+    "src/nativeAnalysisAttention.test.ts": "9934dfb7842e68ba74c15264ab4f617bee9151d1e17251ceaa3db96bacb948a3",
+    "tests/fixtures/nativeAttention.ts": "d770e777f9c4fe984c5d8a6ea8ad2e5c3baf5519ca4b2faa7ac8f8ccd20e9faf",
+    ".github/workflows/cp7-f05-attention.yml": "996318099eab0e12c767a26318604439291c33e065909ff03ef2283aa6fd2d5f"
+  },
+  "business_episode_reconciliation": false,
+  "external_delivery": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "production_go": false
+}
