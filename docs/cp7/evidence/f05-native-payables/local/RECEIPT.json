@@ -1,0 +1,44 @@
+{
+  "status": "LOCAL1084_PASS_NATIVE144_PENDING",
+  "source_parent_commit": "ba532d3c9a5b49a87a554d02cd7c97ac6c67298c",
+  "source_bundle_sha256": "f2d0c0b295c99d947a61cea9892243f8a5cdb547c21ecbff4685f16b49826cf7",
+  "tests": {
+    "passed": 1084,
+    "failed": 0,
+    "suites": 227
+  },
+  "targeted_client_dom_supplier_credit": {
+    "passed": 30,
+    "files": 3
+  },
+  "build_typecheck_secret_scan": "PASS",
+  "security_access_source_ownership_backend_checks": "PASS",
+  "pglite": {
+    "status": "PASS",
+    "cases": 19,
+    "classification": "PGLITE_NATIVE_COLUMN_STANDIN_NOT_AUTH_OR_FINANCIAL_QUALIFICATION"
+  },
+  "source_ownership": {
+    "runtime_files": 216,
+    "rpc_contracts": 128,
+    "css_contracts": 51
+  },
+  "native_predeclared": {
+    "native": 99,
+    "races": 17,
+    "http": 12,
+    "browser": 16,
+    "total": 144
+  },
+  "native_status": "PENDING_UNEXECUTED_SUCCESSOR144",
+  "runtime_logs": {
+    "all_tests": "277cea4e77c2bef9c7d93ea2e60be372ac6d9886fc4786e2d708e793d6241699",
+    "build": "6c748992af8b6d44f352e8890c4c39af97bd422c5811035893143c92843b20c3",
+    "security": "b1099d759d87a6e8b5904cb968ab79daaac3d8e648af40959e3fe3cce363a4f1",
+    "pglite": "40587ce68686b0054a4695a1489bb40453e2d28446f307c9f8d152a73f93e703",
+    "targeted": "bb1cd4e844be2ea420605df228042cbc9cdc1b886f7df43f099124124b1e4de5"
+  },
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "production_go": false
+}

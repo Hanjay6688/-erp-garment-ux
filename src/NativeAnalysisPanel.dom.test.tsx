@@ -8,6 +8,7 @@ import fixture from '../tests/fixtures/nativeAnalysisStandin.json'
 import {analysisFinanceFixture} from '../tests/fixtures/nativeAnalysisFinance'
 import {attentionFixture} from '../tests/fixtures/nativeAttention'
 import {nativeReceivableFixture} from '../tests/fixtures/nativeReceivableConditions'
+import {nativePayableFixture} from '../tests/fixtures/nativePayableConditions'
 import {readAttentionRequest} from './nativeAnalysisAttention'
 import {readNativeDemandRequest} from './nativeDemandHistory'
 import {analysisArchiveKey} from './nativeAnalysisArchive'
@@ -99,6 +100,15 @@ it('pages all complete AR documents locally without another read, capture, or hi
   s.conditions=rows.map(r=>({...structuredClone(c),key:'AR:'+r.id,source_id:r.id}));return{data:e,error:null}
  });await render();await click('Ambil analisis ERP terbaru');await click('Pengingat');await click('Periksa piutang pelanggan dari ERP');expect(container.querySelectorAll('[aria-label^="Piutang AR-PAGE-"]')).toHaveLength(25);expect(container.textContent).toContain('26 invoice.');expect(container.querySelector('[aria-label="Piutang AR-PAGE-26"]')).toBeNull()
  await click('Piutang berikutnya');expect(container.querySelectorAll('[aria-label^="Piutang AR-PAGE-"]')).toHaveLength(1);expect(container.querySelector('[aria-label="Piutang AR-PAGE-26"]')).toBeTruthy();expect(container.textContent).toContain('Halaman 2 dari 2');await click('Piutang sebelumnya');expect(container.querySelectorAll('[aria-label^="Piutang AR-PAGE-"]')).toHaveLength(25);expect(client.rpc).toHaveBeenCalledTimes(2)
+})
+it('loads Native supplier AP explicitly, retires both AR and AP during a held read and AP-only403, and preserves operator fields',async()=>{
+ const a=state.auth as typeof recoveryIdentity;a.identity.permissions.push('finance.ar.view','finance.ap.view');let id=''
+ client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>{if(name==='erp_cp7_capture_analysis_v1'){id=args.p_request;return{data:wire(id),error:null}}return{data:nativeReceivableFixture(wire(id)),error:null}})
+ await render();await click('Ambil analisis ERP terbaru');await click('Tanya AI');await fill('Pertanyaan utang tetap milik operator');await click('Pengingat');expect(client.rpc).toHaveBeenCalledTimes(1);expect(container.textContent).toContain('Sumber utang bahan belum dimuat.')
+ await click('Periksa piutang pelanggan dari ERP');expect(container.textContent).toContain('Sisa tagihan Rp300')
+ let resolve!:(value:unknown)=>void;client.rpc.mockImplementation(()=>new Promise(r=>{resolve=r}));await click('Periksa utang bahan pemasok dari ERP');expect(container.querySelector('.native-analysis-result')).toBeNull();expect(container.textContent).not.toContain('Sisa tagihan Rp300');expect(client.rpc.mock.calls.at(-1)).toEqual(['erp_cp7_get_analysis_payable_conditions_v1',{p_run:fixture.run_id}]);await act(async()=>resolve({data:nativePayableFixture(wire(id)),error:null}));expect(container.textContent).toContain('Saldo tagihan final Rp300');expect(container.textContent).toContain('Sudah lewat jatuh tempo');expect(localStorage.getItem(analysisArchiveKey(scope))).not.toContain('300.00')
+ client.rpc.mockResolvedValue({data:null,error:{code:'42501',message:'CP7_REMINDER_AP_ACCESS_DENIED'}});await click('Periksa utang bahan pemasok dari ERP');expect(container.querySelector('.native-analysis-result')).toBeNull();expect(container.textContent).not.toContain('Saldo tagihan final Rp300');expect(clipboard).not.toHaveBeenCalled()
+ client.rpc.mockResolvedValue({data:wire(id),error:null});await act(async()=>container.querySelector<HTMLButtonElement>('[aria-label="Buka arsip analisis 1"]')!.click());await click('Tanya AI');expect((container.querySelector('[aria-label="Pertanyaan analisis ERP"]')as HTMLTextAreaElement).value).toBe('Pertanyaan utang tetap milik operator')
 })
 it('shows the exact financial source under current report rights and stores only an archive pointer',async()=>{
  const auth=state.auth as typeof recoveryIdentity;auth.identity.permissions.push('finance.reports.view')

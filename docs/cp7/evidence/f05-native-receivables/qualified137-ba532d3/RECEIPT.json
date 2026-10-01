@@ -1,0 +1,248 @@
+{
+  "status": "QUALIFIED_BOUNDED_NATIVE_CURRENT_AR_AND_DURABLE_ATTENTION",
+  "original_overall_status": "PASS",
+  "source_commit": "ba532d3c9a5b49a87a554d02cd7c97ac6c67298c",
+  "source_tree": "94532670531db0dc1dccdb13b4144df4b665e7f9",
+  "source_bundle_sha256": "34d6c2e518782a0d8e295a8a8e71fe84923f25c8894d09f4a94adbec43dc07e3",
+  "run_id": 36805159108,
+  "job_id": 110187747419,
+  "artifact_id": 11137940925,
+  "zip_bytes": 81941241,
+  "zip_sha256": "6b5ffaaf7a17ac0f7a8c6b46c07e96aec310c3e660b9e627f2dc3389ad4d3d36",
+  "original_reports": 5,
+  "original_reports_archive": "original-reports.json.gz",
+  "original_reports_archive_sha256": "4c4dd6bb1149495d144303113612f69e59a9e3c469c8b4e86af34a90b38e1f7d",
+  "expected_case_count": 137,
+  "observed_case_count": 137,
+  "counts": {
+    "native": {
+      "PASS": 95
+    },
+    "races": {
+      "PASS": 17
+    },
+    "http": {
+      "PASS": 11
+    },
+    "browser": {
+      "PASS": 14
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "all_other_predecessor_definitions_and_owners_unchanged": true,
+  "exact_guard_sha256": {
+    "erp.require_internal()": "f14474739742a19474ac20aa9f82a6fd5b2d2ef4755f8030af3325bcfd601e12",
+    "erp.require_owner_admin()": "a041048af3c9e5790d3c5639d932c7157759ab155a4332772792bb5f664176e0"
+  },
+  "case_failures": {
+    "native": {},
+    "races": {},
+    "http": {},
+    "browser": {}
+  },
+  "all_native_boundaries_public_schema_and_session_cleanup_verified": true,
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "group_cleanup": {
+    "races": {
+      "database_remaining": 0,
+      "auth_counts": null,
+      "cleanup": null,
+      "console_errors": null,
+      "host_exit": null,
+      "session_leaks": null
+    },
+    "http": {
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "cleanup": {
+        "users_created": 17,
+        "cleanup_failures": [],
+        "rest_remaining": false
+      },
+      "console_errors": null,
+      "host_exit": null,
+      "session_leaks": null
+    },
+    "browser": {
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "cleanup": {
+        "users_created": 0,
+        "cleanup_failures": [],
+        "rest_remaining": false
+      },
+      "console_errors": 0,
+      "host_exit": 0,
+      "session_leaks": []
+    }
+  },
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "production_go": false,
+  "visual_review": {
+    "status": "EIGHT_AR_ORIGINALS_AND_FOUR_ATTENTION_CROPS_REVIEWED",
+    "scope": "Focused crops from all eight desktop1440/mobile390 AR OPEN/SETTLED/INVERSE/REVOKED originals: actual300, zero after payment,300 after inverse, readable wrapped controls and current403 source retirement with own stock search retained. Four attention crops show recovered UNREAD, review DONE with unresolved business, snoozed exact WIB and403 parent retirement. These are ba532d3 screenshots, not successor AP proof. Complete long-page originals retained for AR; arbitrary below-crop content is not claimed manually reviewed. Automated Native financial values and auth come from original reports.",
+    "screenshots": {
+      "P16_AR_INVERSE_DESKTOP.png": {
+        "sha256": "a44814621f56f271e5eca590214277d0583a2905a37c8c9de8321f73b99e8d7c",
+        "bytes": 3656906,
+        "dimensions": [
+          1440,
+          10094
+        ]
+      },
+      "P16_AR_INVERSE_MOBILE.png": {
+        "sha256": "d5bd675f741fb3719d409a54b879e1ac8e0d30660dbf3d835b9338f3333df64f",
+        "bytes": 1760119,
+        "dimensions": [
+          390,
+          13989
+        ]
+      },
+      "P16_AR_OPEN_DESKTOP.png": {
+        "sha256": "ba08b8e9fbeb6f09de9294793704bda0bd635cda6a2bdd81e5464e3b5628918e",
+        "bytes": 3666716,
+        "dimensions": [
+          1440,
+          10094
+        ]
+      },
+      "P16_AR_OPEN_MOBILE.png": {
+        "sha256": "dcf8a222abec91a8bc64c16143d8cfa663980d01d60837598f5f5a4d025f12de",
+        "bytes": 1759944,
+        "dimensions": [
+          390,
+          13989
+        ]
+      },
+      "P16_AR_REVOKED_DESKTOP.png": {
+        "sha256": "96c05e895939c47fe4e9be4935842144df442a234bfb59876d6e25d2086b6ef1",
+        "bytes": 503186,
+        "dimensions": [
+          1440,
+          1299
+        ]
+      },
+      "P16_AR_REVOKED_MOBILE.png": {
+        "sha256": "ea20f731729c4f69bbd861a9f7b5b2f777245ad9e255d183eb49f3796b78a280",
+        "bytes": 277325,
+        "dimensions": [
+          390,
+          1744
+        ]
+      },
+      "P16_AR_SETTLED_DESKTOP.png": {
+        "sha256": "2ff50936119bca11af3d4a3ddba29ec570964c6c67252050e93617201af3c401",
+        "bytes": 3655671,
+        "dimensions": [
+          1440,
+          10094
+        ]
+      },
+      "P16_AR_SETTLED_MOBILE.png": {
+        "sha256": "136a691807d5197680986754a024c3644d101ed1d5338eb02c6b4717e29c3249",
+        "bytes": 1761784,
+        "dimensions": [
+          390,
+          13970
+        ]
+      },
+      "P16_RECOVERED_MOBILE_focused.png": {
+        "sha256": "47f475592b454b727598b1cfc3b8456c15c8ccc3fbf6557ff12413035c967e60",
+        "bytes": 215322,
+        "dimensions": [
+          390,
+          1500
+        ],
+        "crop_box": [
+          0,
+          1000,
+          390,
+          2500
+        ],
+        "original_sha256": "baded2b32daf3a716b5ba3df9b052736833d2820bf7810b7ee2716a1c96b8209"
+      },
+      "P16_DONE_REVIEW_DESKTOP_focused.png": {
+        "sha256": "1c56d42257bfe9d52f7eaf1f3a7c15e5eab78fde32f8e25d92c36a3ee29e5077",
+        "bytes": 564940,
+        "dimensions": [
+          1140,
+          1300
+        ],
+        "crop_box": [
+          300,
+          700,
+          1440,
+          2000
+        ],
+        "original_sha256": "1971954a95d9acbdac19de222e51c864b247edfc7d03011603a1a71fbf2921ad"
+      },
+      "P16_SNOOZED_MOBILE_focused.png": {
+        "sha256": "b03fa32c7a2e5c0980629e851045cda978c88ef150c0c9785c8f783bd5a77ca5",
+        "bytes": 224638,
+        "dimensions": [
+          390,
+          1500
+        ],
+        "crop_box": [
+          0,
+          1000,
+          390,
+          2500
+        ],
+        "original_sha256": "061be6f5bed2fe17487df487da0565e1691f29c8162c33a493357b041b0e55af"
+      },
+      "P16_REVOKED_MOBILE_focused.png": {
+        "sha256": "78be03dd208cc3923de7ffb7e65289c4926eb05d2e50ce1c829de2bfcbc775d0",
+        "bytes": 122373,
+        "dimensions": [
+          390,
+          744
+        ],
+        "crop_box": [
+          0,
+          1000,
+          390,
+          1744
+        ],
+        "original_sha256": "ae4dda912b59f9491d19e6778be28ad6b30b0801ac70b6a8589fc465af69aea7"
+      }
+    }
+  }
+}

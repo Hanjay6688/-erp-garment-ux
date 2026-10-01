@@ -33,9 +33,9 @@ def run(attention=False):
  candidate=bundle;case_provider=history_cases;checker=verify;extra='';expected=118;out=OUT;phase='cp7_f05_analysis';browser_script='cp7_f05_analysis_browser.mjs'
  if attention:
   import cp7_reminder_bundle as candidate
-  import cp7_receivable_condition_cases as case_provider
+  import cp7_payable_condition_cases as case_provider
   def checker(cur):verify(cur);candidate.verify(cur)
-  extra=candidate.extension();expected=137;out=OUT.with_name('CP7_F05_NATIVE_ATTENTION.json');phase='cp7_f05_attention';browser_script='cp7_f05_attention_browser.mjs'
+  extra=candidate.extension();expected=144;out=OUT.with_name('CP7_F05_NATIVE_ATTENTION.json');phase='cp7_f05_attention';browser_script='cp7_f05_attention_browser.mjs'
  report=dict(label='CP7_F05_NATIVE_ATTENTION'if attention else'CP7_F05_NATIVE_ANALYSIS',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope='DURABLE_ORIGINAL_REVIEW_ATTENTION_DELEGATED_NATIVE_OWN_TASKS_NO_EPISODE_CLOSURE_DELIVERY'if attention else'FROZEN_ANALYSIS_V2_ONE_NATIVE_OPERATIONAL_COMPILER_ACCEPTED_OWNER_FINANCE_REUSE_MATERIAL_APPLY_UNKNOWN',source_sha256=hashlib.sha256(candidate.bundle().encode()).hexdigest(),expected_case_count=expected);installed=False
  try:
   with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
