@@ -42,8 +42,8 @@ def run(contract_seam=False):
    cur.execute("select set_config('search_path',%s,true)",(path,))
    expected_definitions={'erp.require_internal()':f03.patched_internal(internal_before),'erp.require_owner_admin()':f03.settlement.patched_owner(originals['erp.require_owner_admin()'])}
    for sig,old in pre.items():
-    new=after[sig];expected=hashlib.md5(expected_definitions[sig].encode()).hexdigest() if sig in expected_definitions else old['definition']
-    assert new['definition']==expected and new['owner']==old['owner'],('F03_UNDECLARED_PREDECESSOR_CHANGE',sig)
+    new=after[sig];expected_definition_hash=hashlib.md5(expected_definitions[sig].encode()).hexdigest() if sig in expected_definitions else old['definition']
+    assert new['definition']==expected_definition_hash and new['owner']==old['owner'],('F03_UNDECLARED_PREDECESSOR_CHANGE',sig)
     assert {tuple(x)for x in new['acl']or[]}=={tuple(x)for x in old['acl']or[]}|grants.get(sig,set()),('F03_UNDECLARED_ACL_DELTA',sig)
    for signature,definition in expected_definitions.items():assert cur.execute('select pg_get_functiondef(%s::regprocedure)',(signature,)).fetchone()[0]==definition,('F03_EXACT_ADMISSION_DELTA',signature)
    assert cur.execute("select pg_get_functiondef('cp7_payroll.rebuild_nonwork(uuid)'::regprocedure)").fetchone()[0]==f03.settlement.derive_nonwork(f03.settlement.accepted('populate_payroll_draft'))
