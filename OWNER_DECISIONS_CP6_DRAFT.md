@@ -228,3 +228,16 @@ Pembacaan auditor:
 - **D11 (13 nilai kebijakan):** writer menyusun tabel operasional; nilai tetap PENDING sampai owner memilih; audit lanjut dengan konfigurasi uji yang dicatat per run.
 - **UI-01:** halaman BC/BD (dan berikutnya) harus mengikuti tampilan dan interaksi demo Cloudflare; diam bukan persetujuan; dikerjakan belakangan sesuai urutan owner.
 - **D08:** tetap; status "izin sesi terbuka" hanya dicatat setelah benar-benar terjadi (belum). **T6:** operator, salinan yang diizinkan.
+
+## Koreksi auditor Fable (2026-10-01) — tiga hal yang salah saya sebut "masih terbuka"
+Kesalahan auditor, bukan owner: jawaban ini sudah dicatat writer pada 26 Sep di `docs/cp6-d11-kebijakan-dan-gbd03.md` (§3–§4) dan `docs/cp6-au-r1-handoff.md` §34; saya tidak membawanya ke register.
+- **GBD-03 = opsi 1** (potongan yang diklaim tetap di WIP sebagai tahanan; utang vendor berkurang pada bulan klaim diselesaikan, akun lawan OTHER_EXPENSE). Owner 26 Sep: "opsi satu tapi bisa pindah akun gak?…" — dijawab writer: bisa, tanggal penyelesaian klaim membawa bulannya sendiri.
+- **D11 (13 kebijakan)**: diputuskan owner no. 4 ACC-DEC05 `CREDIT_THEN_CARRY`/`USABLE`; no. 6 ACC-DEC07 `approval: NONE` (sementara); no. 11 LAU-DEC04 `ALLOW_PENDING`; no. 12 LAU-DEC05 **tidak diaktifkan** (keputusan, bukan pertanyaan terbuka); no. 13 LAU-DEC06 `PRODUCT_COST` + `CORRECTION_DOCUMENT`. Delapan sisanya bukan keputusan bisnis yang tertunda, melainkan **isian owner di aplikasi** (pilih akun/kategori/satuan vendor): no. 1, 2, 3, 5, 7, 8, 9, 10. Rekomendasi auditor untuk isian itu di `audit/CP6_COMBINED_INDEX.json` → `fable_recommendations_app_settings`.
+- **UI-01**: sudah dijawab owner 26 Sep: halaman BC/BD dan berikutnya mengikuti tampilan demo Cloudflare, **dikerjakan belakangan sesuai urutan owner**. Bukan item terbuka; penjadwalannya milik owner.
+
+## D13 — Sumber tarif laundry dan peran SKU — OWNER_CONFIRMED_TO_AUDITOR, 2026-10-01
+Teks owner, apa adanya:
+> tarif dari vendor, tidak ikut sku, sku hanya untuk browse biaya kalo udah pernah. misal biaya segini jenis cucian ini hasilnya sku XXX. next time bisa browse dari SKU sebagai data historis itu rule terbaru gw
+
+Arti: (1) tarif laundry selalu dari vendor/proses/paket/komponen yang dipilih; tidak ada tarif per SKU (menegaskan LAU-DEC05 tidak aktif dan koreksi 28 Sep 14:59 WIB). (2) SKU hanya menyimpan riwayat: "cucian jenis ini, biaya segini, hasilnya SKU X", untuk dilihat lagi lain kali sebagai data historis, bukan sumber tarif.
+Keadaan produk pada 10a8347: (1) ditegakkan — `BF_LAUNDRY_VENDOR_AUTHORITY: harga laundry diatur pada vendor; riwayat SKU hanya referensi pemilihan` (paket BF baris 414–415), kasus `VENDOR:AUTHORITY_WITH_LEGACY_SKU_OVERRIDE` PASS di run auditor 36808128920; (2) ada — pembaca `public.erp_get_laundry_history_v1` (`scripts/cp6_bf_objects_laundry_history.sql`: "usual service selections and past observed amounts; no rate resolver calls this reader; the next dispatch always resolves a fresh vendor version"), kasus `PR30:D03_HISTORICAL_WORKSPACE` PASS. Label uji: INDEPENDENT_NATIVE_RERUN atas skenario penulis. Skenario penulis `cp6_bf_free_modes.py` (SKU-01, tarif FREE/WAIVED di master SKU) bertentangan dengan D13 dan kini ditolak produk → SUPERSEDED_BY_OWNER_RULE.

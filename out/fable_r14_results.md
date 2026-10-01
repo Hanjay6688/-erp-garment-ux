@@ -2,6 +2,7 @@
 
 Tanggal: 2026-10-01 (UTC). Status: **FINAL**. Kandidat: head alat `10a8347`, produk `434b182` (pin r13 tetap). Fase `after` memasang AN..BE lalu BF
 (`INSTALL_BF=True`, badan dev sha d5e66d22…; badan paket rilis BF memuat badan dev itu utuh kecuali satu baris deskripsi ledger — INDEPENDENT_SOURCE_REVIEW).
+Oracle laundry: **D13** (owner ke auditor, 1 Okt): tarif dari vendor, bukan SKU; SKU hanya riwayat biaya untuk dilihat lagi.
 
 ## 1. Skenario Fable `audit/scenarios/round14_fable/xaudit_14_bf.py` (sha 83813915…) — run 36808105014 — INDEPENDENT_NATIVE_RERUN
 
@@ -16,26 +17,24 @@ Tanggal: 2026-10-01 (UTC). Status: **FINAL**. Kandidat: head alat `10a8347`, pro
 
 | Paket | Run | Hasil | Catatan |
 |---|---|---|---|
-| `cp6_bf_combined_modes.py` + `cp6_bf_browser.mjs` | 36808112738 | **154/154 PASS** (97 native, 26 balapan, 8 HTTP, 23 browser) | termasuk probe final independen, riwayat konversi (R10), R03–R14, vendor, supplier |
-| `cp6_bf_vendor_modes.py` + `cp6_bf_vendor_browser.mjs` | 36808128920 | **133/133 PASS** (76/22/8/27) | `VENDOR:AUTHORITY_WITH_LEGACY_SKU_OVERRIDE` PASS: tarif dari vendor walau ada override SKU lama |
+| `cp6_bf_combined_modes.py` + `cp6_bf_browser.mjs` | 36808112738 | **154/154 PASS** (97 native, 26 balapan, 8 HTTP, 23 browser) | probe final independen, riwayat konversi (R10), R03–R14, vendor, supplier |
+| `cp6_bf_vendor_modes.py` + `cp6_bf_vendor_browser.mjs` | 36808128920 | **133/133 PASS** (76/22/8/27) | `VENDOR:AUTHORITY_WITH_LEGACY_SKU_OVERRIDE` PASS = D13(1); `PR30:D03_HISTORICAL_WORKSPACE` PASS = D13(2) |
 | `cp6_bf_modes.py` + `cp6_bf_supplier_browser.mjs` | 36808136834 | **67/67 PASS** (38/20/7/2) | |
 | `cp6_bf_free_modes.py` + `cp6_bf_free_browser.mjs` | 36808120840 | 116 PASS + **9 INCOMPLETE** | lihat §3 |
 
-## 3. Satu hasil non-PASS: skenario penulis yang **kedaluwarsa oleh aturan owner**, bukan cacat produk
+## 3. Satu hasil non-PASS: skenario penulis yang kedaluwarsa oleh aturan owner (D13), bukan cacat produk
 
-9 kasus `SKU01:*` / `SKU01_RACE:*` / `SKU01_HTTP:*` / `SKU01_BROWSER:*` INCOMPLETE. Semua jatuh pada satu penolakan produk:
-`BF_LAUNDRY_VENDOR_AUTHORITY: harga laundry diatur pada vendor; riwayat SKU hanya referensi pemilihan` (paket rilis BF baris 414–415: setiap
-`laundry_rates` pada master SKU ditolak). Dua kasus browser menunggu tombol "Tambah tarif laundry" yang memang sudah tidak ada di halaman Produk & SKU.
+9 kasus `SKU01:*` / `SKU01_RACE:*` / `SKU01_HTTP:*` / `SKU01_BROWSER:*` INCOMPLETE pada satu penolakan produk:
+`BF_LAUNDRY_VENDOR_AUTHORITY: harga laundry diatur pada vendor; riwayat SKU hanya referensi pemilihan` (paket BF baris 414–415: setiap `laundry_rates`
+pada master SKU ditolak). Dua kasus browser menunggu tombol "Tambah tarif laundry" yang memang sudah tidak ada di halaman Produk & SKU.
+Skenario SKU-01 ditulis saat BF masih memasang tarif FREE/WAIVED di master SKU (sebelum koreksi owner 28 Sep → R16). Produk kini menegakkan D13.
+Jalur FREE/WAIVED yang sah ada di master vendor BD dan **lulus**: `BF_REG_BD:REV:OWN02_FREE_WAIVED_LEGAL_PATH`, `BD_REV_BROWSER:FREE_MASTER_THEN_PHYSICAL_DESKTOP`,
+`…WAIVED_MASTER_THEN_PHYSICAL_MOBILE`. Klasifikasi: **SUPERSEDED_BY_OWNER_RULE**. Untuk penulis: tandai `cp6_bf_free_modes.py`/`cp6_bf_free_browser.mjs`
+historis atau tulis ulang SKU-01 di tingkat vendor; jangan "memperbaiki" produk agar skenario lama lulus.
 
-Pembacaan: skenario SKU-01 ditulis ketika BF masih memasang tarif laundry FREE/WAIVED di master SKU (sebelum koreksi owner 28 Sep 14:59 WIB → R16).
-Produk sekarang **menegakkan aturan owner** (tarif laundry = vendor; LAU-DEC05 tidak aktif). Jalur FREE/WAIVED yang sah kini ada di master vendor BD dan
-**lulus** di run lain: `BF_REG_BD:REV:OWN02_FREE_WAIVED_LEGAL_PATH`, `BD_REV_BROWSER:FREE_MASTER_THEN_PHYSICAL_DESKTOP`, `…WAIVED_MASTER_THEN_PHYSICAL_MOBILE`.
-Klasifikasi: **SUPERSEDED_BY_OWNER_RULE** (skenario penulis basi). Untuk penulis: tandai `cp6_bf_free_modes.py` / `cp6_bf_free_browser.mjs` sebagai
-historis atau tulis ulang SKU-01 di tingkat vendor; jangan pernah "memperbaiki" produk agar skenario lama lulus.
+## 4. Putusan putaran 14 dan penutupan CP6 dari sisi Fable
 
-## 4. Putusan putaran 14
-
-- BF (rentang SKU komersial, kredit supplier portabel, riwayat konversi) **lolos** oracle Fable sendiri (4/4) dan rerun bukti penulis (354/354 pada tiga paket yang masih berlaku).
+- BF lolos oracle Fable (4/4) dan rerun bukti penulis (354/354 pada tiga paket yang berlaku). D13 ditegakkan produk dan riwayat SKU tersedia.
 - F3/D08: tinjauan sumber cukup (`/i` kanonik di dua berkas).
-- Dengan ini tidak ada lagi bagian lingkup CP6 yang hanya bersandar pada run penulis. **CP6: selesai dari sisi auditor Fable.** `production_go` tetap false (keputusan owner).
-- Oracle BF dari owner 28 Sep (tarif laundry = vendor; SKU final opsional; pindah range tak sentuh fisik) masih UNVERIFIED_OWNER_DECISION sampai owner konfirmasi ke auditor; produk sudah berperilaku sesuai kutipan itu.
+- Register keputusan dikoreksi: GBD-03 = opsi 1, D11 lima diputuskan + delapan isian aplikasi, UI-01 dijadwalkan owner. Tidak ada pertanyaan bisnis CP6 yang terbuka.
+- **CP6 selesai dari sisi auditor Fable.** Yang tersisa hanya tindakan owner: isi 8 pengaturan di aplikasi (rekomendasi di indeks) dan keputusan `production_go` (tetap false sampai owner bilang go). Siap lanjut CP7.

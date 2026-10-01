@@ -128,3 +128,10 @@
 - Rerun penulis: combined 154/154, vendor 133/133, bf_modes+supplier 67/67; free_modes 116 PASS + 9 INCOMPLETE = skenario basi
   (BF_LAUNDRY_VENDOR_AUTHORITY; aturan owner 28 Sep/R16 ditegakkan produk; jalur FREE/WAIVED sah lulus di master vendor BD) → SUPERSEDED_BY_OWNER_RULE.
 - Laporan: out/fable_r14_results.md. JSON per kasus di audit/runs_fable/r14/. Berikutnya: CP7 (menunggu arahan owner).
+
+## 2026-10-01 ~03:50Z — putaran 14 selesai: BF lolos; register dikoreksi; D13 dicatat; CP6 selesai dari sisi auditor Fable
+- xaudit_14_bf 36808105014: 4/4 PASS. Rerun penulis: combined 154/154, vendor 133/133, bf_modes+supplier 67/67; free_modes 116 PASS + 9 INCOMPLETE =
+  SUPERSEDED_BY_OWNER_RULE (BF_LAUNDRY_VENDOR_AUTHORITY). Laporan out/fable_r14_results.md; JSON di audit/runs_fable/r14/.
+- Kesalahan auditor dikoreksi: GBD-03 (opsi 1), D11 (5 diputuskan, 8 isian aplikasi), UI-01 (dijadwalkan owner) sudah dijawab 26 Sep — bukan item terbuka.
+- D13 (owner → auditor, 1 Okt): tarif laundry dari vendor; SKU hanya riwayat biaya. Produk sesuai (BF_LAUNDRY_VENDOR_AUTHORITY; erp_get_laundry_history_v1).
+- Berikutnya: CP7 atas arahan owner.
