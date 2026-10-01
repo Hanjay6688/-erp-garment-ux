@@ -22,7 +22,8 @@ begin
  select coalesce(jsonb_agg(x->'id'order by x->>'id'),'[]'::jsonb)into assumptions from jsonb_array_elements(s->'analysis'->'assumptions')x;
  if exists(select 1 from jsonb_array_elements(p->'reviewed_assumption_ids')x where jsonb_typeof(x)<>'string')
   or(select count(distinct value)from jsonb_array_elements(p->'reviewed_assumption_ids'))<>jsonb_array_length(p->'reviewed_assumption_ids')
-  or not p->'reviewed_assumption_ids'@>assumptions or not assumptions@>p->'reviewed_assumption_ids'then raise exception 'CP7_PLAN_ASSUMPTIONS_NOT_REVIEWED';end if;
+  or not ((p->'reviewed_assumption_ids')@>assumptions)
+  or not (assumptions@>(p->'reviewed_assumption_ids'))then raise exception 'CP7_PLAN_ASSUMPTIONS_NOT_REVIEWED';end if;
  cut:=p->'cutting';perform cp7_plan_native.fields(cut,array['po_id','pattern_id','source_location_id','cut_at','notes','size_slots','rolls']);
  select *into po from erp.production_orders where id=(cut->>'po_id')::uuid;
  select *into pattern from erp.production_patterns where id=(cut->>'pattern_id')::uuid;
