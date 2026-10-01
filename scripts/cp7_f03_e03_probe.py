@@ -3,6 +3,7 @@ import hashlib,json,traceback
 import psycopg
 import cp7_f03_bundle as bundle
 import cp7_f03_e03_cases as cases
+import cp7_f03_refund_cases as refunds
 import cp7_p12_nota_probe as payroll
 import cp7_p13_finance_probe as finance
 import cp7_p09_procurement_probe as p09
@@ -13,11 +14,11 @@ from cp6_t3_aligned_install import advisors,advisor_delta
 OUT=bundle.ROOT/'cp6-proof/t3/CP7_F03_E03.json'
 
 def verify(cur):
- payroll.verify(cur,True,True,True,True,True);finance.verify(cur)
+ payroll.verify(cur,True,True,True,True,True);finance.verify(cur);bundle.journal.verify(cur);bundle.misc.verify(cur);bundle.installment.verify(cur)
  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
 
 def run():
- report=dict(label='CP7_F03_E03',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope='E03_SELECTED_CUSTOMER_CUSTODY_ACCESSORY_SERVICE_AFTER_COMPANY_RETURN_NO_CASH_REFUND_CLAIM',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),expected_case_count=4);installed=False
+ report=dict(label='CP7_F03_E03',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope='E03_COMPANY_RETURN_CUSTOMER_SERVICE_AND_DISTINCT_LAWFUL_OLD_SALE_CREDIT_REFUND',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),expected_case_count=10);installed=False
  try:
   with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
    p09.wip.policy.bf.verified(cur);before=package.boundary.snapshot(cur);public_before=native.public_state(cur);conn.rollback();originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)
@@ -40,6 +41,10 @@ def run():
    conn.commit();installed=True;verify(cur);conn.rollback()
   report['advisors_with_cp7']=advisors(package.boundary.PG)
   report['native']=native.strict_group('CP7_F03_E03',cases.cases,verify)
+  report['refund_native']=native.strict_group('CP7_F03_E03_REFUND',refunds.cases,verify)
+  report['refund_races']=modes.run_races(refunds,verify,'cp7_f03_e03_refund')
+  report['refund_http']=modes.run_http(refunds,verify,'cp7_f03_e03_refund')
+  report['refund_browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_f03_refund_browser.mjs',verify,'cp7_f03_e03_refund_browser')
   report['http']=modes.run_http(cases,verify,'cp7_f03_e03')
   report['browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_f03_e03_browser.mjs',verify,'cp7_f03_e03_browser')
  except Exception as e:report.update(error=str(e),traceback=traceback.format_exc())
@@ -50,7 +55,7 @@ def run():
     for role in bundle.ROLES:cur.execute('drop owned by '+role+' cascade;drop role '+role,prepare=False)
     conn.commit();report['cp6_restored']=package.boundary.snapshot(cur)==before and native.public_state(cur)==public_before;conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
    report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta'];report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or(d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and(f.get('metadata')or{}).get('schema')in('cp7_recost','cp7_period','cp7_sales','cp7_payroll','cp7_attendance','cp7_fg','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice')for f in d.get('added',[])))
-  groups=[report.get(k,{})for k in('native','http','browser')];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==4 and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
+  groups=[report.get(k,{})for k in('native','http','browser','refund_native','refund_races','refund_http','refund_browser')];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==10 and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
   OUT.parent.mkdir(parents=True,exist_ok=True);OUT.write_text(json.dumps(report,indent=2,default=str)+'\n');print(json.dumps({k:report.get(k)for k in('label','status','source_sha256','observed_case_count','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)
  return dict(status=report['status'],production_go=False,independent_acceptance=False,full_family_acceptance=False)
 if __name__=='__main__':

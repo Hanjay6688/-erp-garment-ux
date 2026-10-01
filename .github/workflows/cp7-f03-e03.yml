@@ -5,6 +5,9 @@ name: CP7 F03 E03 Customer Service
     - cp7/integration
     paths:
     - scripts/cp7_f03_e03_*
+    - scripts/cp7_f03_refund_*
+    - src/ConnectedInitialImportPage*
+    - src/InitialImportContinuations*
     - scripts/cp7-src/**
     - scripts/cp7_*bundle.py
     - src/**

@@ -55,6 +55,25 @@ async function csv() {
 }
 const writes=()=>client.rpc.mock.calls.filter(([name])=>name==='erp_save_initial_import_action_v1')
 describe('connected CSV import',()=>{
+ it('retires imported balances before a current access-denied refresh and preserves the pending request evidence',async()=>{
+  const s=server();s.status='POSTED';s.cash_advances=[advance()];await mount()
+  expect(container.textContent).toContain('Rp 9007199254740993,01')
+  client.rpc.mockResolvedValueOnce({data:null,error:{code:'42501',message:'CURRENT_IMPORT_ACCESS_DENIED',status:403}})
+  await click('Muat ulang')
+  expect(container.textContent).not.toContain('Rp 9007199254740993,01')
+  expect(container.querySelector('[aria-label="Uang muka awal mandor"]')).toBeNull()
+  expect(container.querySelector('[role=alert]')).toBeTruthy()
+  expect(readProductionRecovery('disposable:actor-1').pending).toEqual({})
+ })
+ it('retires a held import response when shared recovery changes instead of painting stale balances',async()=>{
+  const s=server();s.status='POSTED';s.cash_advances=[advance()];await mount()
+  let release:(v:unknown)=>void=()=>{};const held={recent:[{id,batch_code:'AWAL',status:s.status}],batch:{id,code:'AWAL',status:s.status,cutover_at:'2026-09-20T00:00:00+07:00',revision:rev(s.version),rows:s.rows,cash_advances:s.cash_advances,advance_payrolls:[],prepayments:[],prepayment_cash_accounts:[],production_sources:[]}}
+  client.rpc.mockImplementationOnce(()=>new Promise(r=>release=r));await click('Muat ulang')
+  expect(container.textContent).not.toContain('Rp 9007199254740993,01')
+  await act(async()=>window.dispatchEvent(new StorageEvent('storage',{key:null})))
+  await act(async()=>release({data:held,error:null}));await flush()
+  expect(container.textContent).not.toContain('Rp 9007199254740993,01')
+ })
  it('uploads actual file bytes, edits before saving and finalizes only after server validation',async()=>{
   const s=server();await mount();await csv();expect(writes()).toHaveLength(0)
   await change(container.querySelector('input[aria-label="Nama pelanggan, baris 2"]')!,'Toko terbaru')
@@ -106,7 +125,7 @@ describe('connected CSV import',()=>{
   await change(container.querySelector('input[aria-label="Nominal alokasi kasbon"]')!,'12.75')
   s.lose=true;await click('Simpan alokasi kasbon');const original=structuredClone(writes()[0][1])
   expect(readProductionRecovery('disposable:actor-1').pending.INITIAL_IMPORT?.action).toBe('ALLOCATE_CASH_ADVANCE')
-  expect(button('Simpan alokasi kasbon').disabled).toBe(true)
+  expect(container.textContent).not.toContain('Rp 9007199254740993,01')
   await act(async()=>root.unmount());root=createRoot(container);s.lose=false
   await act(async()=>root.render(<ConnectedInitialImportPage/>));await flush();await click('Reconcile')
   expect(writes()[1][1]).toEqual(original);expect(s.effects).toBe(1)
@@ -144,7 +163,7 @@ describe('connected CSV import',()=>{
   await change(container.querySelector('input[aria-label="Tanggal uang muka"]')!,'2026-09-21')
   await change(container.querySelector('input[aria-label="Alasan uang muka"]')!,'Apply advance')
   s.lose=true;await click('Pakai untuk tagihan');const original=structuredClone(writes()[0][1])
-  expect(button('Pakai untuk tagihan').disabled).toBe(true)
+  expect(container.textContent).not.toContain('Rp 9007199254740993,01')
   await act(async()=>root.unmount());root=createRoot(container);s.lose=false
   await act(async()=>root.render(<ConnectedInitialImportPage/>));await flush();await click('Reconcile')
   expect(writes()[1][1]).toEqual(original);expect(s.effects).toBe(1)
@@ -187,7 +206,7 @@ describe('opening WIP continuation',()=>{
   await change(container.querySelector('input[aria-label="Hasil WIP baik"]')!,'4');s.lose=true;await click('Sahkan hasil WIP awal')
   const sent=writes()[0][1];expect(sent.p_action).toBe('WIP_OUTPUT');expect(sent.p_payload).toMatchObject({opening_item_id:rowId,expected_remaining:'5',qty_pcs:'4',product_sku:'SKU-M',brand_code:'BRAND-B',location_code:'FG-01',date:'2026-09-21',operation:'COMPLETE'})
   expect(readProductionRecovery('disposable:actor-1').pending.INITIAL_IMPORT?.id).toBe(sent.p_client_request_id)
-  expect(button('Sahkan hasil WIP awal').disabled).toBe(true)
+  expect(container.textContent).not.toContain('Sisa 5 pcs')
   s.lose=false;await click('Reconcile');expect(writes()[1][1]).toEqual(sent);expect(s.effects).toBe(1)
  })
  it.each(['cash_advances','advance_payrolls','prepayments','prepayment_cash_accounts','production_sources'])('refuses a batch whose %s collection is missing instead of reading none',field=>{

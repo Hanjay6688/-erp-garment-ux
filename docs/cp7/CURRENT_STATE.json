@@ -1227,12 +1227,31 @@
     "material_recipe_binding": "STILL_OPEN",
     "declared_cases": 22,
     "focused_parser_dom_tests": 18,
-    "production_go": false
+    "production_go": false,
+    "first_runtime": "docs/cp7/evidence/plan-native/first22-4fe51cb/RECEIPT.json"
   },
   "execution_priority": {
     "owner_instruction": "2026-10-01: finish F03 before remaining F04/F05",
     "active_family": "F03_P09_P13_TRANSACTIONS",
     "preserved_plan_candidate": "NATIVE22_PENDING",
     "next": "Resolve remaining F03 transactional contracts and qualify integrated source"
+  },
+  "f03_e03_source_refund": {
+    "status": "IMPLEMENTED_RUNTIME10_PENDING",
+    "scope": "Existing lawful old-sale and imported customer-credit refund lifecycle on the exact combined F03 stack",
+    "declared_groups": {
+      "native": 3,
+      "races": 1,
+      "HTTP": 2,
+      "browser": 4
+    },
+    "local_focused_tests": 78,
+    "import_retirement_tests": 28,
+    "build": "PASS",
+    "security": "PASS",
+    "current_paid_sale_overpayment_policy": "UNCHANGED_REFUSAL",
+    "full_E03_acceptance": false,
+    "full_family_acceptance": false,
+    "production_go": false
   }
 }

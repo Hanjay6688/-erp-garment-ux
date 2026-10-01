@@ -7,6 +7,7 @@ import { normalizeClientError } from './lib/clientError'
 import { initialImportCatalog, initialImportTemplate, readInitialImportFile, type InitialImportEntity, type InitialImportRow } from './initialImport'
 import { useProductionMutation, type ProductionMutationHandlers } from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
+import { observeProductionRecovery } from './productionRecovery'
 import type { Json } from './types/database.preconnect'
 import './initial-import.css'
 import { CLAIM_STATE_LABEL, CLAIM_TYPE_LABEL, parseInitialProductionSources, type InitialProductionSource } from './initialProduction'
@@ -118,7 +119,7 @@ export function parseInitialImportWorkspace(value: unknown): Workspace {
   return { recent, batch: { id:b.id, code:b.code, status:b.status, cutover_at:b.cutover_at, revision:b.revision, rows, cash_advances, advance_payrolls, prepayments, prepayment_cash_accounts, production_sources:parseInitialProductionSources(b.production_sources, true), bb:parseInitialImportBB(b), bc:parseInitialImportBC(b), bd:parseInitialImportBD(b) } }
 }
 
-function ProductionBalances({ batch, locked, manage }: { batch: Batch; locked: boolean; manage: (payload: Record<string, Json>) => void }) {
+function ProductionBalances({ batch, locked, manage }: { batch: Pick<Batch, 'production_sources' | 'prepayments' | 'prepayment_cash_accounts'>; locked: boolean; manage: (payload: Record<string, Json>) => void }) {
   const [selectedId, setSelectedId] = useState(''), [qty, setQty] = useState(''), [sku, setSku] = useState(''), [brand, setBrand] = useState('')
   const [location, setLocation] = useState(''), [date, setDate] = useState(''), [reason, setReason] = useState('')
   const [mode, setMode] = useState<'COMPLETE' | 'SPLIT_BS'>('COMPLETE'), [mandor, setMandor] = useState('')
@@ -189,7 +190,7 @@ function LaundryClaims({ source, locked, send }: { source: InitialProductionSour
   </div>
 }
 
-function CashAdvanceBalances({ batch, locked, allocate }: { batch: Batch; locked: boolean; allocate: (payload: Record<string, Json>) => void }) {
+function CashAdvanceBalances({ batch, locked, allocate }: { batch: Pick<Batch, 'cash_advances' | 'advance_payrolls'>; locked: boolean; allocate: (payload: Record<string, Json>) => void }) {
   const [selectedId, setSelectedId] = useState(''), [payrollId, setPayrollId] = useState(''), [amount, setAmount] = useState('')
   const selected = batch.cash_advances.find(a => a.balance_id === selectedId) ?? batch.cash_advances[0]
   const payrolls = batch.advance_payrolls.filter(p => p.contractor_id === selected?.contractor_id)
@@ -207,7 +208,7 @@ function CashAdvanceBalances({ batch, locked, allocate }: { batch: Batch; locked
   </section>
 }
 
-function PrepaymentBalances({ batch, locked, manage }: { batch: Batch; locked: boolean; manage: (payload: Record<string, Json>) => void }) {
+function PrepaymentBalances({ batch, locked, manage }: { batch: Pick<Batch, 'prepayments' | 'prepayment_cash_accounts'>; locked: boolean; manage: (payload: Record<string, Json>) => void }) {
   const [selectedId, setSelectedId] = useState(''), [targetId, setTargetId] = useState(''), [cashId, setCashId] = useState('')
   const [operation, setOperation] = useState('APPLY'), [amount, setAmount] = useState(''), [date, setDate] = useState(''), [reason, setReason] = useState('')
   const selected = batch.prepayments.find(a => a.id === selectedId) ?? batch.prepayments[0]
@@ -269,6 +270,11 @@ function ImportWorkspace() {
   const editorRevision = useRef<string | null>(null)
   const readFileSequence = useRef(0)
   const loadSequence = useRef(0)
+  useEffect(() => observeProductionRecovery(mutation.scope, () => {
+    ++loadSequence.current
+    setWorkspace(null)
+    setLoading(false)
+  }), [mutation.scope])
   const batch = workspace?.batch ?? null
   const spec = initialImportCatalog[entity]
   const fields = Object.entries(spec.fields)
@@ -280,17 +286,17 @@ function ImportWorkspace() {
   const load = useCallback(async () => {
     const sequence = ++loadSequence.current
     const ticket = beginRead(), requested = batchId.current
-    setLoading(true); setError('')
+    setWorkspace(null); setLoading(true); setError('')
     try {
       const { data, error: failure } = await client.rpc('erp_get_initial_import_workspace_v1', { p_batch_id: requested })
-      if (!isReadCurrent(ticket) || requested !== batchId.current) return false
+      if (sequence !== loadSequence.current || !isReadCurrent(ticket) || requested !== batchId.current) return false
       if (failure) throw failure
       const parsed = parseInitialImportWorkspace(data)
       if ((parsed.batch?.id ?? null) !== requested) throw new Error('Respons tidak sesuai batch yang dipilih.')
       setWorkspace(parsed)
       return finishRead(ticket)
     } catch (failure) {
-      if (isReadCurrent(ticket)) setError(normalizeClientError(failure).message)
+      if (sequence === loadSequence.current && isReadCurrent(ticket)) setError(normalizeClientError(failure).message)
       return false
     } finally { if (sequence === loadSequence.current) setLoading(false) }
   }, [client, beginRead, finishRead, isReadCurrent])
@@ -328,6 +334,11 @@ function ImportWorkspace() {
     setTimeout(() => URL.revokeObjectURL(url), 1000)
   }
   const errors = batch?.rows.filter((row) => row.errors.length) ?? []
+  // Keep operator-entered continuation fields mounted while source arrays
+  // retire. Empty choices are a rendering state, never an authoritative zero.
+  const continuationKey = batchId.current ?? 'new-batch'
+  const continuationFacts = posted && batch ? batch : {cash_advances:[],advance_payrolls:[],prepayments:[],prepayment_cash_accounts:[],production_sources:[]}
+  const continuationBb: InitialImportBB = posted && batch?.bb ? batch.bb : {opening_balances:[],opening_payable_payrolls:[],legacy_documents:0,customer_credits:[],sale_return_rights:[],fg_locations:[],purchase_commitments:[],payroll_entitlements:[],entitlement_payrolls:[],opening_reworks:[],open_sales_drafts:[]}
   return <section className="initial-import">
     <header className="panel initial-import-heading"><div><div className="eyebrow">PENGATURAN ERP</div><h1>Impor data awal</h1><p>Unggah tabel dari Excel, periksa isinya, lalu sahkan setelah semuanya cocok.</p></div><button type="button" disabled={mutation.busy || reading || Boolean(editor)} onClick={() => void load()}><RefreshCw size={16}/> Muat ulang</button></header>
     <ProductionRecoveryNotice recovery={mutation} onReconcile={() => reconcile(handlers)} className="initial-import-message"/>
@@ -338,16 +349,16 @@ function ImportWorkspace() {
       {!batch && <><label>Kode batch<input value={code} disabled={locked} maxLength={60} onChange={(event) => setCode(event.target.value)} placeholder="SALDO-AWAL-2026"/></label><label>Tanggal saldo awal<input type="date" value={date} disabled={locked} onChange={(event) => setDate(event.target.value)}/></label><button type="button" disabled={locked || !date || !code.trim()} onClick={() => void act('CREATE', { batch_code: code.trim(), cutover_date: date })}>Buat draft</button></>}
       {batch && <div><strong>{batch.code}</strong><p>{new Intl.DateTimeFormat('id-ID', { dateStyle: 'long', timeZone: 'Asia/Jakarta' }).format(new Date(batch.cutover_at))} · {posted ? 'Sudah disahkan' : 'Draft'} · {batch.rows.length} baris</p></div>}
     </div>
+    <CashAdvanceBalances key={`advance-${continuationKey}`} batch={continuationFacts} locked={locked} allocate={payload => { void act('ALLOCATE_CASH_ADVANCE', payload) }}/>
+    <PrepaymentBalances key={`prepayment-${continuationKey}`} batch={continuationFacts} locked={locked} manage={payload => { void act('PREPAYMENT', payload) }}/>
+    <ProductionBalances key={`production-${continuationKey}`} batch={continuationFacts} locked={locked} manage={payload => { void act('WIP_OUTPUT', payload) }}/>
+    <OpeningBalancesPanel key={`oss-${continuationKey}`} bb={continuationBb} cashAccounts={continuationFacts.prepayment_cash_accounts} locked={locked} manage={(action, payload) => { void act(action, payload) }}/>
+    <CustomerCreditsPanel key={`credit-${continuationKey}`} bb={continuationBb} cashAccounts={continuationFacts.prepayment_cash_accounts} locked={locked} manage={(action, payload) => { void act(action, payload) }}/>
+    <ReturnRightsPanel key={`return-${continuationKey}`} bb={continuationBb} locked={locked} manage={(action, payload) => { void act(action, payload) }}/>
+    <PurchaseCommitmentsPanel key={`po-${continuationKey}`} bb={continuationBb} locked={locked} manage={(action, payload) => { void act(action, payload) }}/>
+    <PayrollEntitlementsPanel key={`y02-${continuationKey}`} bb={continuationBb} locked={locked} manage={(action, payload) => { void act(action, payload) }}/>
     {batch && <>
-      {posted && batch.cash_advances.length > 0 && <CashAdvanceBalances key={batch.id} batch={batch} locked={locked} allocate={payload => { void act('ALLOCATE_CASH_ADVANCE', payload) }}/>} 
-      {posted && batch.prepayments.length > 0 && <PrepaymentBalances key={batch.id} batch={batch} locked={locked} manage={payload => { void act('PREPAYMENT', payload) }}/>} 
-      {posted && batch.production_sources.length > 0 && <ProductionBalances key={batch.id} batch={batch} locked={locked} manage={payload => { void act('WIP_OUTPUT', payload) }}/>}
       {posted && batch.bb && <>
-        <OpeningBalancesPanel key={`oss-${batch.id}`} bb={batch.bb} cashAccounts={batch.prepayment_cash_accounts} locked={locked} manage={(action, payload) => { void act(action, payload) }}/>
-        <CustomerCreditsPanel key={`credit-${batch.id}`} bb={batch.bb} cashAccounts={batch.prepayment_cash_accounts} locked={locked} manage={(action, payload) => { void act(action, payload) }}/>
-        <ReturnRightsPanel key={`return-${batch.id}`} bb={batch.bb} locked={locked} manage={(action, payload) => { void act(action, payload) }}/>
-        <PurchaseCommitmentsPanel key={`po-${batch.id}`} bb={batch.bb} locked={locked} manage={(action, payload) => { void act(action, payload) }}/>
-        {batch.bb.payroll_entitlements.length > 0 && <PayrollEntitlementsPanel key={`y02-${batch.id}`} bb={batch.bb} locked={locked} manage={(action, payload) => { void act(action, payload) }}/>}
         <OpeningReworksPanel bb={batch.bb}/>
         <OpenSalesDraftsPanel bb={batch.bb}/>
         {batch.bc && (batch.bc.accessory_note_lines.length > 0 || batch.bc.accessory_custody.length > 0) && <OpeningAccessoriesPanel bc={batch.bc}/>}

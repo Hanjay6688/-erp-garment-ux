@@ -1,0 +1,13 @@
+{
+  "status": "NOT_EVALUATED_MISSING_PINNED_RUNTIME_DEPENDENCY",
+  "tested_source": "4fe51cb298d4d00bbd9dbcc35ce280b752cfa1c2",
+  "run_id": 36844149961,
+  "job_id": 110310130680,
+  "declared_cases": 22,
+  "Native_cases_evaluated": false,
+  "failure": "ModuleNotFoundError: jsonschema during probe import, before Native qualification",
+  "fix": "Install the same jsonschema4.25.1 pin already declared by the analysis runtime",
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "production_go": false
+}
