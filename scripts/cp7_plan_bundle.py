@@ -24,6 +24,8 @@ def verify(cur):
   sig='cp7_plan_native.'+table
   assert cur.execute('select relrowsecurity from pg_class where oid=%s::regclass',(sig,)).fetchone()[0]
   assert cur.execute("select count(*)from pg_policy where polrelid=%s::regclass and pg_get_expr(polqual,polrelid)='false'and pg_get_expr(polwithcheck,polrelid)='false'",(sig,)).fetchone()[0]==1
+  triggers=cur.execute("select tgtype,tgenabled,tgfoid='cp7_private.immutable_run()'::regprocedure,tgnargs from pg_trigger where tgrelid=%s::regclass and not tgisinternal",(sig,)).fetchall()
+  assert triggers==[(27,'O',True,0)],(sig,triggers)
   for who in('anon','authenticated','service_role'):assert not cur.execute('select has_table_privilege(%s,%s,\'SELECT,INSERT,UPDATE,DELETE\')',(who,sig)).fetchone()[0]
  for table in('erp.material_rolls','erp.material_stock_movements','erp.cutting_groups','erp.production_orders'):
   assert not cur.execute("select has_table_privilege('cp7_plan_writer',%s,'INSERT,UPDATE,DELETE')",(table,)).fetchone()[0]
