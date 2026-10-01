@@ -1422,7 +1422,7 @@
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "version": "cp7.integration-entry.v1",
   "f05_native_publications": {
-    "status": "NATIVE140_QUALIFIED_CLOCK_REPAIR_NATIVE186_PENDING",
+    "status": "NATIVE140_QUALIFIED_CLOCK186_INCOMPLETE185_BROWSER_FORMAT_REPAIRED",
     "parent_source": "a8b7f3a055a1fee51af1387d44ff1f1a6ab9593d",
     "source_functions_owned": "cp7_analysis_native",
     "native_business_DML": false,
@@ -1521,10 +1521,27 @@
     "older186_first_original": "docs/cp7/evidence/f05-native-publication/candidate186-failure-9c7af3a/RECEIPT.json",
     "older186_second_original": "docs/cp7/evidence/f05-native-publication/clock-before186-52bbfa3/RECEIPT.json",
     "clock_186_run": 36907458388,
-    "clock_186_job": 110521467038
+    "clock_186_job": 110521467038,
+    "clock_186_counts": {
+      "database": {
+        "PASS": 119
+      },
+      "races": {
+        "PASS": 25
+      },
+      "Auth_HTTP": {
+        "PASS": 16
+      },
+      "browser": {
+        "PASS": 25,
+        "INCOMPLETE": 1
+      }
+    },
+    "clock_186_original": "docs/cp7/evidence/f05-native-publication/clock186-browser-failure-77ea697/RECEIPT.json",
+    "browser_format_repair": "Canonical zero-second datetime-local value matches existing E03 helper; same exact instant and fixed186 cases"
   },
   "f04_native_plan_actual": {
-    "status": "IMPLEMENTED_LOCAL50_PENDING_NATIVE35",
+    "status": "NATIVE35_FIRST_INCOMPLETE30_FIXTURE_REPAIRED_RERUN_REQUIRED",
     "case_budget": {
       "database": 22,
       "actual_races": 7,
@@ -1533,7 +1550,7 @@
       "total": 35
     },
     "source_basis": "EXISTING_CONSERVED_NATIVE_WIP_GRAPH_ONE_LINKED_IMMUTABLE_INTENT_EXACT_SIZE_PHYSICAL_ROOT",
-    "quantity_fixture": "ACTUAL_NATIVE_CUT2_PARTIAL_PICKUP_SEWING_LAUNDRY_RECEIPT_QC1_EXPECT_WIP1_FG1",
+    "quantity_fixture": "ACTUAL_NATIVE_CUT2_PICKUP2_RECONCILED_IN_TWO_BATCHES_PARTIAL_SEWING_LAUNDRY_RECEIPT_QC1_EXPECT_WIP1_FG1",
     "new_native_business_DML": false,
     "new_financial_formula": false,
     "current_authority": "Own immutable plan and protected Original; four Ops, cutting view and current finance/preflight before and after one MVCC capture",
@@ -1541,6 +1558,28 @@
     "full_family_acceptance": false,
     "independent_acceptance": false,
     "production_go": false,
-    "remaining": "Fixed Native35 DB/races/Auth/browser/installation/restoration; full material recipe and model integration"
+    "remaining": "Fixed Native35 DB/races/Auth/browser/installation/restoration; full material recipe and model integration",
+    "first_source": "50c4e46a9a9388d4644414a68df5d0e59f00671f",
+    "first_tree": "b20486ef43fbb1cec9515ec8fad8fb5b60016618",
+    "first_run": 36912512176,
+    "first_job": 110538386908,
+    "first_counts": {
+      "database": {
+        "PASS": 19,
+        "INCOMPLETE": 3
+      },
+      "races": {
+        "PASS": 7
+      },
+      "Auth_HTTP": {
+        "PASS": 2
+      },
+      "browser": {
+        "PASS": 2,
+        "INCOMPLETE": 2
+      }
+    },
+    "first_original": "docs/cp7/evidence/plan-native/actual35-fixture-failure-50c4e46/RECEIPT.json",
+    "fixture_repair": "Return to existing administrative preparation before private table/corruption work; reconcile Native pickup2 into two batches, finish1; no Native definition or SELECT grant change"
   }
 }

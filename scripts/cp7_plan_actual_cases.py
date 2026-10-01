@@ -17,11 +17,16 @@ def complete_one(cur,f,product=None):
  prod,base=b.chain.production,b.chain.base;po=f['payload']['cutting']['po_id'];group=f['group']
  now=cur.execute('select clock_timestamp()').fetchone()[0]
  when=lambda minute:(now-timedelta(minutes=minute)).isoformat()
+ b.api.admin(cur)
  yield_id=cur.execute('select y.id from erp.cutting_roll_yields y join erp.cutting_group_rolls r on r.id=y.cutting_group_roll_id where r.cutting_group_id=%s',(group,)).fetchone()[0]
- payload=dict(action='SAVE_DRAFT',cutting_group_id=group,contractor_id=prod.CONTRACTOR,picked_up_at=when(50),allocation_mode='ROLL',expected_group_version=int(base.group_version(cur,group)),change_reason='P08 actual pickup one of two',batches=[dict(batch_no=1,allocations=[dict(cutting_roll_yield_id=str(yield_id),qty_pcs=1)])])
+ # Native POST requires every source yield to be distributed exactly once.
+ # Pick up both pieces into separate batches; finish only batch one. The
+ # second piece remains conserved pre-laundry WIP, not a fabricated partial
+ # pickup or an invented precise sewing substage.
+ payload=dict(action='SAVE_DRAFT',cutting_group_id=group,contractor_id=prod.CONTRACTOR,picked_up_at=when(50),allocation_mode='ROLL',expected_group_version=int(base.group_version(cur,group)),change_reason='P08 actual pickup two; finish one',batches=[dict(batch_no=i,allocations=[dict(cutting_roll_yield_id=str(yield_id),qty_pcs=1)])for i in(1,2)])
  pickup=prod.rpc(cur,'public.erp_save_cutting_pickup_v1',payload)
  prod.rpc(cur,'public.erp_save_cutting_pickup_v1',dict(payload,id=pickup['pickup_id'],action='POST'),expected_version=int(pickup['row_version']))
- b.api.admin(cur);batch=cur.execute('select id from erp.cutting_distribution_batches where pickup_id=%s',(pickup['pickup_id'],)).fetchone()[0]
+ b.api.admin(cur);batch=cur.execute('select id from erp.cutting_distribution_batches where pickup_id=%s and batch_no=1',(pickup['pickup_id'],)).fetchone()[0]
  snapshot,completion=uuid.uuid4(),uuid.uuid4()
  cur.execute('insert into erp.po_work_component_snapshots(id,po_id,work_component_id,sequence_no,rate_per_pcs_snapshot,committed_at)values(%s,%s,%s,1,0,%s)',(snapshot,po,prod.COMPONENT,when(45)))
  b.chain.peer.ordinary(cur)
@@ -55,7 +60,7 @@ def cases(cur,today):
   complete_one(cur,f,product);before=b.boundary.snapshot(cur);r=read(cur,f['draft']['draft_id']);assert vector(r)==[2,1,1,0,0,0,0 if other_root else 1,1 if other_root else 0],r
   assert r['remaining_to_plan_pcs']['value']==('2'if other_root else'1')and b.boundary.snapshot(cur)==before
   assert any(x['stage']=='SEWING_UNRESOLVED'and x['remaining_pcs']=='1'for x in r['actual']['positions'])
-  return dict(status='PASS',actual_partial_pickup_sewing_laundry_receipt_QC_one=True,original_two_equals_WIP_one_plus_FG_one=True,other_physical_root_excluded_from_plan=other_root,group_sewing_substage_not_invented=True,all_money_stock_HPP_and_Native_state_unchanged_by_read=True)
+  return dict(status='PASS',Native_pickup_exactly_reconciles_both_source_pieces=True,actual_partial_sewing_laundry_receipt_QC_one=True,original_two_equals_WIP_one_plus_FG_one=True,other_physical_root_excluded_from_plan=other_root,group_sewing_substage_not_invented=True,all_money_stock_HPP_and_Native_state_unchanged_by_read=True)
  def deleted():
   f=prepared(cur,today);p=dict(f['payload']['cutting'],id=f['group'],action='DELETE',change_reason='P08 Native unposted removal')
   b.chain.production.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',p,expected_version=int(b.chain.base.group_version(cur,f['group'])))
@@ -78,6 +83,7 @@ def cases(cur,today):
   return dict(status='PASS',operational_comparison_cannot_launder_protected_Original_after_finance_authority_loss=True)
  def outside_clock():
   f=prepared(cur,today);post(cur,f)
+  b.api.admin(cur)
   cur.execute('set local session_replication_role=replica')
   try:cur.execute("update erp.cutting_groups set cut_at=clock_timestamp()+interval '1 day'where id=%s",(f['group'],))
   finally:cur.execute('set local session_replication_role=origin')

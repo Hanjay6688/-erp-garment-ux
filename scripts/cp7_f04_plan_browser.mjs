@@ -4,7 +4,7 @@ import{mkdirSync,writeFileSync}from'node:fs'
 const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_f04_plan_browser_fixture.py',op],{input:JSON.stringify(p),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
 async function navigate(page){await page.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).waitFor({state:'attached'});const menu=page.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click();const link=page.getByRole('button',{name:'• Ringkasan Barang Jadi',exact:true});if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).click();await link.click()}
 async function response(page,name,action){const[request]=await Promise.all([page.waitForRequest(r=>r.method()==='POST'&&r.url().endsWith('/rpc/'+name)),action()]);const result=await request.response();assert.ok(result,'The new Native request must receive its own response');return result}
-function wib(t){return new Date(Date.parse(t)+7*3600000).toISOString().slice(0,19)}
+function wib(t){return new Date(Date.parse(t)+7*3600000).toISOString().slice(0,19).replace(/:00$/,'')}
 async function journey(ui,today,mobile,actualCheck=false){
  const user=await ui.login('OWNER',{label:'p08-native-plan-'+mobile,mobile,timezoneId:'America/Los_Angeles'}),page=user.page,suffix=(mobile?'MOBILE':'DESKTOP')+(actualCheck?'_ACTUAL':''),shots=[]
  const f=fixture('prepare',{today,actor:user.user.id,actual_check:actualCheck}),state=()=>fixture('state',{actor:user.user.id}),history=page.getByRole('region',{name:'Data permintaan ERP',exact:true}),analysis=page.getByRole('region',{name:'Analisis ERP bersama',exact:true}),panel=page.getByRole('region',{name:'Rencana Potongan ERP',exact:true})

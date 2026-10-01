@@ -1,0 +1,75 @@
+{
+  "source": "77ea69777dff92805857422e57f4fab63ff20883",
+  "tree": "3aad889bc530f26116687a1e2d411fb09294626e",
+  "run": 36907458388,
+  "job": 110521467038,
+  "artifact": 11188355607,
+  "file_id": "file_00000000fbb882079bafd84fbe3731fb",
+  "folder": "f05-native-publication/clock186-browser-failure-77ea697",
+  "report": "CP7_F05_NATIVE_ATTENTION.json",
+  "archive_bytes": 189158891,
+  "archive_sha256": "d543b1653791c4ad254ee335a8e36ecfcf1b011b3966a6d9c7dc1b2267adb3e7",
+  "source_bundle_sha256": "d21b2cbf11c510f3874d51d054f498fc456a41bb002e10116810adf4821afaf9",
+  "status": "INCOMPLETE",
+  "observed_case_count": 186,
+  "groups": {
+    "native": {
+      "PASS": 119
+    },
+    "races": {
+      "PASS": 25
+    },
+    "http": {
+      "PASS": 16
+    },
+    "browser": {
+      "PASS": 25,
+      "INCOMPLETE": 1
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "console_errors": 0,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "auth_cleanup_failures": [],
+  "database_remaining": 0,
+  "original_member_hashes": {
+    "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+    "CP7_F05_NATIVE_ATTENTION.json": "0fcf6da05a075c3fd7c6515b1d9a0735ebbb7e9c4b9e6bd382597eefbdb334e3",
+    "CP7_NATIVE155_HANDOFF_DIAGNOSTIC.json": "e8b61f251d8ac2e4442cee2d17e69fc40f7c44e7a547b0107e8a47be5a895c40",
+    "P06_NETTING_DESKTOP_FAILURE.json": "60d3c716ac71c948e85d7b9973d051196421a938d1ce6a03023985c1fd455cb0",
+    "T3_BACKUP_RESTORE_DRILL.json": "17d396ee2b0648b6801b48c5d245bdc5314ac4ac1fd1a1aa8becab2ac107115d",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "T3_PACKAGE_INSTALL.json": "e77edb10f10626cd8b10804b00d65b04a2d84c5f5e69daa5575b0cd70c2af834"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

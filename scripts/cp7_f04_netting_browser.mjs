@@ -3,7 +3,9 @@ import {execFileSync} from 'node:child_process'
 import {mkdirSync,writeFileSync} from 'node:fs'
 import {cases as previousCases} from './cp7_f04_baseline_browser.mjs'
 const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_f04_netting_browser_fixture.py',op],{input:JSON.stringify(p),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
-const wib=x=>new Date(Date.parse(x)+7*3600000).toISOString().slice(0,19)
+// Chromium normalizes zero seconds out of datetime-local. Playwright's fill
+// requires that canonical value; retain every nonzero second unchanged.
+const wib=x=>new Date(Date.parse(x)+7*3600000).toISOString().slice(0,19).replace(/:00$/,'')
 async function navigate(page){await page.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).waitFor({state:'attached'});const menu=page.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click();const link=page.getByRole('button',{name:'• Ringkasan Barang Jadi',exact:true});if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).click();await link.click()}
 async function screen(ui,page,name){await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);await page.screenshot({path:'cp6-proof/t3/'+name,fullPage:true})}
 async function journey(ui,today,mobile){
