@@ -1,0 +1,72 @@
+{
+  "source": "77ea69777dff92805857422e57f4fab63ff20883",
+  "tree": "3aad889bc530f26116687a1e2d411fb09294626e",
+  "run": 36907458287,
+  "job": 110521463075,
+  "artifact": 11186396056,
+  "file_id": "file_00000000653c82078066d1506ed7a4a0",
+  "folder": "f05-native-publication/qualified140-clock-77ea697",
+  "report": "CP7_F05_NATIVE_ANALYSIS.json",
+  "archive_bytes": 60682232,
+  "archive_sha256": "413759b3f7de4a4689e57a327219cd1d31de7a2f7acefabc1d40e359438e4686",
+  "source_bundle_sha256": "63497c115846c810cd3c66c51fe62cd56c2f51ee0e06be14c0af8a106240c7e6",
+  "status": "PASS",
+  "observed_case_count": 140,
+  "groups": {
+    "native": {
+      "PASS": 98
+    },
+    "races": {
+      "PASS": 19
+    },
+    "http": {
+      "PASS": 11
+    },
+    "browser": {
+      "PASS": 12
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "console_errors": 0,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "auth_cleanup_failures": [],
+  "database_remaining": 0,
+  "original_member_hashes": {
+    "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+    "CP7_F05_NATIVE_ANALYSIS.json": "0a4040736edf4fb9612294292eed0faebe67e631e5b3cfecae56815eb2d718b6",
+    "T3_BACKUP_RESTORE_DRILL.json": "77483f49d41799a8cf440a6ac38c6d068e98cb47969fd6160c07af0afdd2268a",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "T3_PACKAGE_INSTALL.json": "e057f69bea3281bdfd657f9efa6f934da6dda64f64a6b0df688e33ffa9098e8c"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

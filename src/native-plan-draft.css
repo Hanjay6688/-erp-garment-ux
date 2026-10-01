@@ -7,3 +7,7 @@
 .native-plan-controls nav, .native-plan-controls nav span { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
 .native-plan-result { overflow-wrap: anywhere; margin: .75rem 0; padding: .7rem; background: var(--surface-muted, #f6f8fb); border-radius: .4rem; }
 .native-plan-recovery { overflow-wrap: anywhere; padding: .7rem; border: 1px solid #bc7916; }
+.native-plan-result dl > div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .35rem 1rem; margin: .5rem 0; }
+.native-plan-result dd { margin: 0; }
+.native-plan-result table { width: 100%; min-width: 0; table-layout: fixed; }
+.native-plan-result th, .native-plan-result td { white-space: normal; overflow-wrap: anywhere; vertical-align: top; }

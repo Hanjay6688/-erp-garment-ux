@@ -35,13 +35,18 @@ def custom(cur):
   cur.execute('insert into erp.app_role_permissions(role_id,permission_key)values(%s,%s)',(role,permission))
  return subject,role
 
-def setup(cur,today,subject=None):
+def setup(cur,today,subject=None,new_plan_po=False):
  f=previous.production.cut.fixture(cur,today)
  # A clean accepted database need not contain unused fabric. Create its source
  # through the real receipt SAVE/POST before freezing the analysis dependencies;
  # never inject movements or assume that the production fixture left fabric.
  fabric=receipt.fixture(cur,today,qty='10',price='10')
  receipt.post(cur,receipt.command(cur,'SAVE_DRAFT',fabric['payload']))
+ if new_plan_po:
+  # Master only, before freezing dependencies. A new two-piece plan must not
+  # reuse the predecessor PO whose hundred pieces have already been sewn.
+  po=str(uuid.uuid4());start=cur.execute('select clock_timestamp()').fetchone()[0]-timedelta(hours=2)
+  cur.execute("insert into erp.production_orders(id,po_number,model_id,target_qty_pcs,status,current_stage,physical_start_at,notes)values(%s,%s,%s,2,'CUTTING','CUTTING',%s,'P08 explicit plan actual master fixture')",(po,'0000-P08-ACTUAL-'+po,f['model'],start))
  root=str(f['product']);previous.select_profiles(cur,root,True)
  supply=previous.supply.capture(cur,today);p=schedule.payload(cur,supply,str(cur.execute('select coalesce(max(revision),0)from cp7_schedule_native.plans').fetchone()[0]))
  load=sum(int(step['remaining_minutes'])for pos in p['config']['positions']for step in pos['remaining_steps'])
@@ -57,6 +62,8 @@ def setup(cur,today,subject=None):
   reason='P08 explicit selected exact-size draft composition; no installed-material or reservation claim',reviewed_assumption_ids=[x['id']for x in o['assumptions']],
   cutting=dict(po_id=o['orders'][0]['id'],pattern_id=o['patterns'][0]['id'],source_location_id=loc,cut_at=cur.execute('select clock_timestamp()').fetchone()[0].isoformat(),notes='P08 unposted reviewed planning intent',
    size_slots=[dict(slot_no='1',size_id=o['size_id'],drawing_no='1')],rolls=[dict(roll_id=roll['id'],qty_issued='1',qty_consumed='0.5',qty_reported_remaining='0.5',yields=[dict(slot_no='1',qty_pcs='2')])]))
+ if new_plan_po:
+  payload['cutting']['po_id']=po;payload['cutting']['cut_at']=(cur.execute('select clock_timestamp()').fetchone()[0]-timedelta(hours=1)).isoformat()
  return dict(fixture=f,root=root,original=original,query=q,options=o,payload=payload)
 
 def cases(cur,today):
@@ -149,7 +156,8 @@ def cases(cur,today):
   f=setup(cur,today);d=save(cur,f['payload']);auth.refused(cur,lambda:cur.execute('delete from cp7_plan_native.drafts where id=%s',(d['draft_id'],)),'CP7_RUN_IMMUTABLE')
   assert not cur.execute("select has_function_privilege('cp7_capture','public.erp_cp7_apply_plan_action_v1(jsonb,uuid)','EXECUTE')or has_function_privilege('cp7_capture','public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint)','EXECUTE')").fetchone()[0]
   return dict(status='PASS',immutable_draft_and_read_compute_principal_cannot_call_mutators=True)
- return list(zip(['P08_METADATA','P08_SAVE_REPLAY','P08_VERSION','P08_PREVIEW_READONLY','P08_NATIVE_APPLY','P08_APPLY_REPLAY','E09_PLAN_STALE','P08_CURRENT_AUTH','P08_FOREIGN','P08_CLOSED','P08_NATIVE_IDENTITIES','O10_PLAN_QUANTITY','P08_ATOMIC_RECEIPT_FAILURE','E22_PLAN_COMPUTE_SEPARATION'],[metadata,replay_save,revision,readonly_preview,native_apply,apply_replay,stale,current,foreign,strict,identities,quantity,atomic_fault,frozen]))
+ from cp7_plan_actual_cases import cases as actual_cases
+ return list(zip(['P08_METADATA','P08_SAVE_REPLAY','P08_VERSION','P08_PREVIEW_READONLY','P08_NATIVE_APPLY','P08_APPLY_REPLAY','E09_PLAN_STALE','P08_CURRENT_AUTH','P08_FOREIGN','P08_CLOSED','P08_NATIVE_IDENTITIES','O10_PLAN_QUANTITY','P08_ATOMIC_RECEIPT_FAILURE','E22_PLAN_COMPUTE_SEPARATION'],[metadata,replay_save,revision,readonly_preview,native_apply,apply_replay,stale,current,foreign,strict,identities,quantity,atomic_fault,frozen]))+actual_cases(cur,today)
 
 def races(tools,today):
  def prepared(two=False):
@@ -208,7 +216,8 @@ def races(tools,today):
    assert cur.execute('select id from erp.cutting_groups order by id').fetchall()==before_groups
    after_money=monetary_state(cur);assert after_money==before_money,dict(before=before_money,after=after_money)
   return dict(status='PASS',observed_real_Native_roll_wait=native_roll,observed_canonical_target_wait=not native_roll,current_authority_after_wait_no_domain_or_receipt_commit=True,exact_authorization_sqlstate='42501',exact_native_refusal=expected,all_Native_drafts_money_stock_and_HPP_unchanged=True)
- return [('E10_REAL_SAME_UUID',lambda:pair('SAME')),('E10_REAL_SAME_UUID_DIFFERENT_PAYLOAD',lambda:pair('PAYLOAD')),('E11_REAL_DIFFERENT_ACTOR_RUN_DRAFT',lambda:pair('ACTORS')),('P08_REAL_TARGET_WAIT_REVOKED',lambda:revocation()),('P08_REAL_NATIVE_ROLL_WAIT_REVOKED',lambda:revocation(True))]
+ from cp7_plan_actual_cases import races as actual_races
+ return [('E10_REAL_SAME_UUID',lambda:pair('SAME')),('E10_REAL_SAME_UUID_DIFFERENT_PAYLOAD',lambda:pair('PAYLOAD')),('E11_REAL_DIFFERENT_ACTOR_RUN_DRAFT',lambda:pair('ACTORS')),('P08_REAL_TARGET_WAIT_REVOKED',lambda:revocation()),('P08_REAL_NATIVE_ROLL_WAIT_REVOKED',lambda:revocation(True))]+actual_races(tools,today)
 
 def http_cases(http,today):
  def public_chain():
@@ -223,4 +232,5 @@ def http_cases(http,today):
   with http.connect()as conn,conn.cursor()as cur:cur.execute('update erp.app_users set is_active=false where auth_user_id=%s',(owner.auth_user_id,));conn.commit()
   assert owner.rpc('erp_cp7_apply_plan_action_v1',args)['status']==403 and owner.rpc('erp_cp7_read_plan_draft_v1',dict(p_draft=saved['draft_id']))['status']==403
   return dict(status='PASS',actual_Auth_HTTP_Native_draft_preview_apply_replay_foreign_anonymous_and_current_deactivation_denied=True)
- return [('P08_REAL_AUTH_HTTP',public_chain)]
+ from cp7_plan_actual_cases import http_cases as actual_http
+ return [('P08_REAL_AUTH_HTTP',public_chain)]+actual_http(http,today)

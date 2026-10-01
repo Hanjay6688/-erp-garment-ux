@@ -31,8 +31,8 @@ def verify(cur):
  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
 
 def run():
- candidate=bundle;case_provider=history_cases;checker=verify;extra='';expected=22;out=OUT;phase='cp7_f04_plan';browser_script='cp7_f04_plan_browser.mjs'
- report=dict(label='CP7_F04_NATIVE_PLANS',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope='EXPLICIT_NATIVE_CUTTING_DRAFT_ATOMIC_INTENT_NO_POST_NO_RESERVATION_CROSS_ACTOR_RUN_TARGET_CONFLICT',source_sha256=hashlib.sha256(candidate.bundle().encode()).hexdigest(),expected_case_count=expected);installed=False
+ candidate=bundle;case_provider=history_cases;checker=verify;extra='';expected=35;out=OUT;phase='cp7_f04_plan';browser_script='cp7_f04_plan_browser.mjs'
+ report=dict(label='CP7_F04_NATIVE_PLANS',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope='NATIVE_DRAFT_INTENT_AND_LINKED_EXACT_SIZE_PHYSICAL_PLAN_ACTUAL_LIFECYCLE_CURRENT_AUTH_MVCC_NO_RESERVATION',source_sha256=hashlib.sha256(candidate.bundle().encode()).hexdigest(),expected_case_count=expected);installed=False
  try:
   with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
    p09.wip.policy.bf.verified(cur);before=package.boundary.snapshot(cur);public_before=public_state(cur);accepted_functions_before=p09.functions(cur);conn.rollback();originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)

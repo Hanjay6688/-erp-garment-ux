@@ -1,0 +1,79 @@
+{
+  "source": "9c7af3a24fe4f420088b6f1ec1e36a335d0393eb",
+  "tree": "9f9f03551e60455b2d03376e68b65b32ad1e38ff",
+  "run": 36893136883,
+  "job": 110473422113,
+  "artifact": 11180412599,
+  "file_id": "file_0000000033608207a68d4956c2625274",
+  "folder": "f05-native-publication/candidate186-failure-9c7af3a",
+  "report": "CP7_F05_NATIVE_ATTENTION.json",
+  "archive_bytes": 179402605,
+  "archive_sha256": "40b3bf6b1f565c2db7e643a2a624d4ec52401e449c7540566ff05de6eec1b57a",
+  "source_bundle_sha256": "ed3e358a9da55fd0fe0de3d1d06d13c7a220a2617b6006693799c439429e59a8",
+  "status": "INCOMPLETE",
+  "observed_case_count": 186,
+  "groups": {
+    "native": {
+      "PASS": 117,
+      "INCOMPLETE": 2
+    },
+    "races": {
+      "PASS": 25
+    },
+    "http": {
+      "PASS": 16
+    },
+    "browser": {
+      "PASS": 23,
+      "INCOMPLETE": 3
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "console_errors": 0,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "auth_cleanup_failures": [],
+  "database_remaining": 0,
+  "original_member_hashes": {
+    "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+    "CP7_F05_NATIVE_ATTENTION.json": "fffc3f74e1a47a9ae22a079fe498b1ff1ba5206a523f36a134afbdffa53db7f9",
+    "CP7_NATIVE155_HANDOFF_DIAGNOSTIC.json": "e8b61f251d8ac2e4442cee2d17e69fc40f7c44e7a547b0107e8a47be5a895c40",
+    "P15_PUBLICATION_DESKTOP_FAILURE.json": "a06ab9d120b8b452843dc7ff71e48b362eefecdfe41410fe57f6c092e35d1002",
+    "P15_PUBLICATION_MOBILE_FAILURE.json": "ceb921caac02663e5fc1fe5c6a1d4cfc2963e842f42da7115a372d5d6f119f1e",
+    "P16_ATTENTION_DESKTOP_FAILURE.json": "06c873523852286021692ce17e777ca969d07cbedac9516f6a607ae86a0a0f40",
+    "T3_BACKUP_RESTORE_DRILL.json": "4d344b3a5c485e58b3274ee78de63ebfadbd23cbeb8e210c9912a33baa8b15ae",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "T3_PACKAGE_INSTALL.json": "e689be516b12b10394262a93640266bff7b39152fd6271af43d0f3f8fff399c4",
+    "retained-native155-928332d/RECEIPT.json": "f4501c91a666ca35d54d8dfc1db17113d55ab01928c8cbe8df7fcf7c5f92d2aa"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

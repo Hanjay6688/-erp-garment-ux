@@ -1,4 +1,6 @@
 alter function cp7_plan_native.analysis_source(uuid)owner to cp7_capture;
+alter function cp7_plan_native.actual_source(uuid,uuid,text)owner to cp7_capture;
+alter function cp7_plan_native.actual(uuid)owner to cp7_plan_writer;
 alter function cp7_plan_native.access_now(text)owner to cp7_plan_writer;
 alter function cp7_plan_native.fields(jsonb,text[])owner to cp7_plan_writer;
 alter function cp7_plan_native.decimal(jsonb,boolean)owner to cp7_plan_writer;
@@ -10,6 +12,7 @@ alter function cp7_plan_native.read(uuid)owner to cp7_plan_writer;
 alter function cp7_plan_native.apply(jsonb,uuid)owner to cp7_plan_writer;
 revoke all on all functions in schema cp7_plan_native from public,anon,authenticated,service_role;
 grant execute on function cp7_plan_native.analysis_source(uuid)to cp7_plan_writer;
+grant execute on function cp7_plan_native.actual_source(uuid,uuid,text)to cp7_plan_writer;
 create function public.erp_cp7_save_plan_draft_v1(p_payload jsonb,p_request uuid)returns jsonb language sql volatile security definer set search_path=''as $$select cp7_plan_native.save(p_payload,p_request)$$;
 create function public.erp_cp7_preview_plan_action_v1(p_draft uuid)returns jsonb language sql volatile security definer set search_path=''as $$select cp7_plan_native.preview(p_draft)$$;
 create function public.erp_cp7_apply_plan_action_v1(p_payload jsonb,p_request uuid)returns jsonb language sql volatile security definer set search_path=''as $$select cp7_plan_native.apply(p_payload,p_request)$$;
@@ -29,3 +32,10 @@ alter function public.erp_cp7_read_plan_draft_v1(uuid)owner to cp7_plan_writer;
 revoke create on schema public from cp7_plan_writer;
 revoke all on function public.erp_cp7_get_plan_options_v1(jsonb),public.erp_cp7_read_plan_draft_v1(uuid)from public,anon,authenticated,service_role,cp7_capture;
 grant execute on function public.erp_cp7_get_plan_options_v1(jsonb),public.erp_cp7_read_plan_draft_v1(uuid)to authenticated;
+
+grant create on schema public to cp7_plan_writer;
+create function public.erp_cp7_read_plan_actual_v1(p_draft uuid)returns jsonb language sql volatile security definer set search_path=''as $$select cp7_plan_native.actual(p_draft)$$;
+alter function public.erp_cp7_read_plan_actual_v1(uuid)owner to cp7_plan_writer;
+revoke create on schema public from cp7_plan_writer;
+revoke all on function public.erp_cp7_read_plan_actual_v1(uuid)from public,anon,authenticated,service_role,cp7_capture;
+grant execute on function public.erp_cp7_read_plan_actual_v1(uuid)to authenticated;

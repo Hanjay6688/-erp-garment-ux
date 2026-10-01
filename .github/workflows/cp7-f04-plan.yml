@@ -16,6 +16,7 @@ name: CP7 F04 Native Planning Draft Bridge
     - scripts/cp7-src/plan-native/**
     - src/NativePlanDraftPanel*
     - src/nativePlanDraft*
+    - src/nativePlanActual*
     - scripts/cp7-src/planning/**
     - scripts/cp7-src/demand/**
     - scripts/cp7-src/baseline/**

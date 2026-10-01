@@ -152,7 +152,7 @@ const cp7PayrollBoundaries = ['erp_cp7_get_payroll_workspace_v1','erp_cp7_save_p
 for (const name of cp7PayrollBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedPayrollPage.tsx:${name}`))
 const cp7InstallmentBoundaries = ['erp_cp7_get_payroll_installments_v1','erp_cp7_save_payroll_installment_v1']
 for (const name of cp7InstallmentBoundaries) assert.ok(rpcBoundaries.has(`src/PayrollInstallmentPanel.tsx:${name}`))
-const cp7PlanBoundaries=['erp_cp7_get_plan_options_v1','erp_cp7_save_plan_draft_v1','erp_cp7_preview_plan_action_v1','erp_cp7_apply_plan_action_v1','erp_cp7_read_plan_draft_v1']
+const cp7PlanBoundaries=['erp_cp7_get_plan_options_v1','erp_cp7_save_plan_draft_v1','erp_cp7_preview_plan_action_v1','erp_cp7_apply_plan_action_v1','erp_cp7_read_plan_draft_v1','erp_cp7_read_plan_actual_v1']
 const cp7PlanningBoundaries=['erp_cp7_get_planning_profiles_v1','erp_cp7_save_planning_profile_v1','erp_cp7_capture_baseline_v1','erp_cp7_read_baseline_v1']
 for(const name of cp7PlanBoundaries) assert.ok(rpcBoundaries.has(`src/NativePlanDraftPanel.tsx:${name}`))
 for(const name of cp7PlanningBoundaries) assert.ok(rpcBoundaries.has(`src/NativePlanningProfilePanel.tsx:${name}`))
