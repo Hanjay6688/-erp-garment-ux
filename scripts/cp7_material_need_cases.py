@@ -6,6 +6,7 @@ from copy import deepcopy
 import json,time,uuid
 import psycopg
 import cp7_f03_e24_issue_cases as issue
+import cp6_bf_probe as native_master
 
 def master(cur,today,parent):
  f=issue.bc.fixture(cur,today,purchase=False,zones=False);parent.b.api.admin(cur)
@@ -17,11 +18,19 @@ def close_current(cur,root,parent,at):
  cur.execute('update erp.accessory_bom_versions set effective_to=%s where product_id=%s and is_active and effective_from<%s and(effective_to is null or effective_to>%s)',(at,root,at,at))
 
 def bom(cur,root,parent,category=None,qty='2',at=None):
- parent.b.api.admin(cur);at=at or cur.execute('select clock_timestamp()').fetchone()[0];close_current(cur,root,parent,at)
- ident=uuid.uuid4();cur.execute("insert into erp.accessory_bom_versions(id,product_id,version_label,effective_from,notes)values(%s,%s,'CP7 material source',%s,'Explicit disposable master; no installation fact')",(ident,root,at));item=None
- if category is not None:
-  item=uuid.uuid4();cur.execute('insert into erp.accessory_bom_items(id,bom_version_id,category_id,qty_per_good_fg_base,reimbursement_rate,reimbursement_uom_code)values(%s,%s,%s,%s,0,%s)',(item,ident,category['category_id'],qty,category['unit']))
- return dict(id=str(ident),item_id=str(item)if item else None,at=at)
+ parent.b.api.admin(cur);at=at or cur.execute('select clock_timestamp()').fetchone()[0]
+ existing=cur.execute('select s.id::text,s.sku,s.revision,v.id::text,v.settings from erp.bf_sku_members_v1 m join erp.bf_sku_versions_v1 v on v.id=m.version_id join erp.bf_skus_v1 s on s.id=v.sku_id where m.product_root=%s and v.effective_to is null',(root,)).fetchone()
+ roots=[root];settings=dict(price=None,bom=None,work_rates=[],laundry_rates=[])
+ if existing:
+  roots=[r[0]for r in cur.execute('select product_root::text from erp.bf_sku_members_v1 where version_id=%s order by product_root',(existing[3],))];settings=deepcopy(existing[4])
+ # Keep the complete commercial membership and every other selected setting.
+ # Only the unchanged Native shared-master command may create economic rows.
+ settings['bom']=[]if category is None else[dict(category_id=category['category_id'],qty_per_good_fg_base=qty,hpp_method='BOM_STANDARD',hpp_standard_rate='1',hpp_uom_code=category['unit'],reimbursement_rate='0',reimbursement_uom_code=category['unit'])]
+ g=native_master.group(cur,roots,at,sku=existing[1]if existing else None,gid=existing[0]if existing else None,revision=existing[2]if existing else 0,settings=settings)
+ saved=native_master.save(cur,[g],at);version_id=saved['groups'][0]['version_id'];parent.b.api.admin(cur)
+ ident=cur.execute('select bom_version_id::text from erp.bf_sku_members_v1 where version_id=%s and product_root=%s',(version_id,root)).fetchone()[0];assert ident is not None
+ item=cur.execute('select id::text from erp.accessory_bom_items where bom_version_id=%s',(ident,)).fetchone()
+ return dict(id=ident,item_id=item[0]if item else None,at=at,Native_shared_master_version=version_id)
 
 def prepared(cur,today,parent,subject=None,empty=False):
  f,root,_,_=parent.setup(cur,today);category=None if empty else master(cur,today,parent);version=bom(cur,root,parent,category)
@@ -84,7 +93,10 @@ def cases(cur,today,parent):
   return dict(status='PASS',fixture_kind='SYNTHETIC_CONTRACT_ORACLE',needed100_feasible60_unresolved40=True,unknown_not_zero_STOP_not_hide_gap=True)
  def clock_private():
   f=prepared(cur,today,parent);current=cur.execute('select facts from cp7_analysis_native.runs where id=%s',(f['original']['run_id'],)).fetchone()[0];at=cur.execute('select clock_timestamp()').fetchone()[0]
-  bom(cur,f['root'],parent,f['category'],qty='3',at=at+timedelta(hours=1));source=lambda t:cur.execute('select cp7_analysis_native.material_source(%s::jsonb,%s)',(json.dumps(current['facts']['products']),t)).fetchone()[0]
+  bom(cur,f['root'],parent,f['category'],qty='3',at=at+timedelta(hours=1));at=cur.execute('select clock_timestamp()').fetchone()[0]
+  # Both counter-clocks are after the real master was created: do not mistake
+  # newly known future-version facts for a pure capture-clock change.
+  source=lambda t:cur.execute('select cp7_analysis_native.material_source(%s::jsonb,%s)',(json.dumps(current['facts']['products']),t)).fetchone()[0]
   before=source(at);same=source(at+timedelta(minutes=1));after=source(at+timedelta(hours=1,seconds=1))
   assert {k:v for k,v in before.items()if k!='captured_at'}=={k:v for k,v in same.items()if k!='captured_at'}and before['selected']!=after['selected']
   for who in('anon','authenticated','service_role'):

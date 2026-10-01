@@ -1,0 +1,81 @@
+{
+  "run": 36924127440,
+  "job": 110577119316,
+  "artifact": 11193328437,
+  "file_id": "file_00000000732c82078ed5bd9b08960446",
+  "folder": "plan-native/qualified35-readable-40ec442",
+  "report": "CP7_F04_NATIVE_PLANS.json",
+  "archive_bytes": 19001043,
+  "archive_sha256": "357f43b9ca16ab712cfb4e243d57c632a6b69beee82306480e1414b9553149ad",
+  "source": "40ec442314dfc135706e53b0858c4f2cd10cc3ae",
+  "tree": "8923d8aee7d76b5ea58bb0f75811faa1aaeed24b",
+  "source_bundle_sha256": "725aeeaa0065f3bba84a2872123e8bf2cbf55cf9f547a38ef7da4f65c02ee328",
+  "status": "PASS",
+  "observed_case_count": 35,
+  "groups": {
+    "native": {
+      "PASS": 22
+    },
+    "races": {
+      "PASS": 7
+    },
+    "http": {
+      "PASS": 2
+    },
+    "browser": {
+      "PASS": 4
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "console_errors": 0,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "auth_cleanup_failures": [],
+  "database_remaining": 0,
+  "original_member_hashes": {
+    "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+    "CP7_F04_NATIVE_PLANS.json": "0a9a2d30fcd6c4ae7d57fd8c0cda7a0cd59ea20ca9a3d0d86be76764d755e77e",
+    "T3_BACKUP_RESTORE_DRILL.json": "f505182538e20464bb0c62528fe01b14b68ba3d1164788eccc2fa36fc5478bbe",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "T3_PACKAGE_INSTALL.json": "278374b4a8fd478b3ee15c86f53559aab8d30fd59607f5d07c1a95e8d1e000fa"
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "writer_visual_review": {
+    "status": "PASS_MOBILE_ACTUAL_ORIGINAL_INSPECTED_AND_BOTH_NATIVE_BROWSER_CONTRAST_GATES",
+    "physical_values": "input2/WIP1/FG1/remaining1",
+    "independent_demo_alignment": false
+  },
+  "screenshot_member_hashes": {
+    "P08_ACTUAL_PARTIAL_QC_DESKTOP_ACTUAL.png": "0e8d7073f516ba8e561f34b4c53ee15411029b233b611d8523dcec8b8836e672",
+    "P08_ACTUAL_PARTIAL_QC_MOBILE_ACTUAL.png": "7f204df29b59ba55f600f721a3e0140cf97b93adc5a3e795c77f35404525aa31"
+  }
+}

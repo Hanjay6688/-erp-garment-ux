@@ -1563,7 +1563,7 @@
     "qualified186_original": "docs/cp7/evidence/f05-native-publication/qualified186-97b0f46/RECEIPT.json"
   },
   "f04_native_plan_actual": {
-    "status": "NATIVE35_RUNTIME_PASS_WRITER_VISUAL_READABILITY_FIX_SUCCESSOR_PENDING",
+    "status": "NATIVE35_COMPOSED_RUNTIME_AND_READABILITY_PASS_WRITER_VISUAL_VERIFIED",
     "case_budget": {
       "database": 22,
       "actual_races": 7,
@@ -1625,10 +1625,10 @@
     },
     "second_fixture_repair": "ALL_READY closes the current returned-one-piece QC pool, not the whole linked two-piece group; WIP1/FG1 expected unchanged",
     "second_original_status": "RETAINED_EXACT",
-    "qualified_source": "b4a25340673345640d2c71989d66040f1ff1d9c9",
-    "qualified_tree": "6efe445762e43a2bbe858717f7c64c8d404443e7",
-    "qualified_run": 36918257875,
-    "qualified_job": 110557545879,
+    "qualified_source": "40ec442314dfc135706e53b0858c4f2cd10cc3ae",
+    "qualified_tree": "8923d8aee7d76b5ea58bb0f75811faa1aaeed24b",
+    "qualified_run": 36924127440,
+    "qualified_job": 110577119316,
     "qualified_counts": {
       "database": 22,
       "races": 7,
@@ -1636,12 +1636,12 @@
       "browser": 4,
       "total": 35
     },
-    "qualified_original": "docs/cp7/evidence/plan-native/qualified35-actual-b4a2534/RECEIPT.json",
+    "qualified_original": "docs/cp7/evidence/plan-native/qualified35-readable-40ec442/RECEIPT.json",
     "second_original": "docs/cp7/evidence/plan-native/actual35-qc-fixture-failure-97b0f46/RECEIPT.json",
-    "visual_review": "LOW_CONTRAST_NATIVE_RESULT_FOUND_TOKEN_REPAIR_AND_SAME35_BROWSER_CONTRAST_RETEST_REQUIRED"
+    "visual_review": "ACTUAL_MOBILE_ORIGINAL_INSPECTED_BOTH_BROWSER_CONTRAST_PASS_INDEPENDENT_DEMO_OPEN"
   },
   "f04_native_material_requirements": {
-    "status": "COMPLETE_SOURCE_UI_QUALIFIER_CANDIDATE_NATIVE152198_PENDING",
+    "status": "FIRST152_INCOMPLETE143_NATIVE_SHARED_MASTER_FIXTURE_REPAIRED_SAME152198_RERUN_REQUIRED",
     "core_source": "057d15de92cc4abad4b59704720c9a668db13414",
     "composer": "scripts/cp7-src/planning/material-requirements.sql",
     "consumer": "src/NativeMaterialNeedsView.tsx",
@@ -1666,6 +1666,30 @@
     "remaining": "Actual152198 and35; full fabric recipe, verified installed/eligible allocated sources, material feasibility and reviewed model integration",
     "production_go": false,
     "full_family_acceptance": false,
-    "independent_acceptance": false
+    "independent_acceptance": false,
+    "first_source": "40ec442314dfc135706e53b0858c4f2cd10cc3ae",
+    "first_tree": "8923d8aee7d76b5ea58bb0f75811faa1aaeed24b",
+    "first_run": 36924127497,
+    "first_job": 110577119817,
+    "first_counts": {
+      "database": {
+        "PASS": 101,
+        "INCOMPLETE": 5
+      },
+      "races": {
+        "PASS": 19,
+        "INCOMPLETE": 1
+      },
+      "Auth_HTTP": {
+        "PASS": 11,
+        "INCOMPLETE": 1
+      },
+      "browser": {
+        "PASS": 12,
+        "INCOMPLETE": 2
+      }
+    },
+    "first_original": "docs/cp7/evidence/f04-native-material/first152-shared-master-40ec442/RECEIPT.json",
+    "repair": "Fixture uses unchanged Native SAVE_GROUPS with all membership/non-BOM settings retained; actual generated BOM IDs; pure clock comparison after master knowledge; product/guard/grants/budgets unchanged"
   }
 }

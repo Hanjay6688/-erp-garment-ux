@@ -1,0 +1,76 @@
+{
+  "run": 36924127497,
+  "job": 110577119817,
+  "artifact": 11193523931,
+  "file_id": "file_00000000f3548207889622d770546e3d",
+  "folder": "f04-native-material/first152-shared-master-40ec442",
+  "report": "CP7_F05_NATIVE_ANALYSIS.json",
+  "archive_bytes": 61747392,
+  "archive_sha256": "a1c8856ea7b7cef1a04aea89fbacf3cecdb68485dad3333ec5aa2647b0d6ba87",
+  "source": "40ec442314dfc135706e53b0858c4f2cd10cc3ae",
+  "tree": "8923d8aee7d76b5ea58bb0f75811faa1aaeed24b",
+  "source_bundle_sha256": "725aeeaa0065f3bba84a2872123e8bf2cbf55cf9f547a38ef7da4f65c02ee328",
+  "status": "INCOMPLETE",
+  "observed_case_count": 152,
+  "groups": {
+    "native": {
+      "PASS": 101,
+      "INCOMPLETE": 5
+    },
+    "races": {
+      "PASS": 19,
+      "INCOMPLETE": 1
+    },
+    "http": {
+      "PASS": 11,
+      "INCOMPLETE": 1
+    },
+    "browser": {
+      "PASS": 12,
+      "INCOMPLETE": 2
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "console_errors": 0,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "auth_cleanup_failures": [],
+  "database_remaining": 0,
+  "original_member_hashes": {
+    "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+    "CP7_F05_NATIVE_ANALYSIS.json": "ff34ac54903f08cf4951dc90ae38857e883980f873a288f2e0a7b5126bf86bed",
+    "T3_BACKUP_RESTORE_DRILL.json": "2db2b4650b6a558500bb817b761ce5c41b40af5055a8b00567c079615cfff955",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "T3_PACKAGE_INSTALL.json": "f30fc8fbe67ea94b42d163fc3866820fff93f6b28fce48c6d576daeb4a0a34bb"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}
