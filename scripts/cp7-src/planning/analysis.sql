@@ -212,7 +212,10 @@ begin
  a:=cp7_schedule_native.access_now(false);select *into r from cp7_analysis_native.runs where id=p_run and actor=(a->>'actor')::uuid;
  if r.id is null then raise exception using errcode='42501',message='CP7_ANALYSIS_RUN_UNAVAILABLE';end if;
  c:=cp7_analysis_native.source();outcome:=jsonb_build_object('contract_version','cp7.native-analysis-run.v1','run_id',r.id,'request_id',r.request_id,
-  'analysis',r.result,'source_state',case when cp7_analysis_native.fingerprint(c)=r.dependency_hash then 'UNCHANGED'else 'ARCHIVED_STALE'end,
+  'analysis',r.result,'product_labels',coalesce((select jsonb_agg(jsonb_build_object('target_key',x->>'root_id'||':'||(x->>'size_id'),
+   'sku',coalesce(x->'commercial'->0->>'sku',x->>'sku'),'product_name',x->>'product_name')order by x->>'root_id')
+   from jsonb_array_elements(r.facts->'facts'->'products')x),'[]'::jsonb),
+  'source_state',case when cp7_analysis_native.fingerprint(c)=r.dependency_hash then 'UNCHANGED'else 'ARCHIVED_STALE'end,
   'query',r.query,'apply_enabled',false,'production_go',false);
  if cp7_schedule_native.access_now(false)is distinct from a then raise exception using errcode='42501',message='CP7_ANALYSIS_ACCESS_CHANGED';end if;
  return outcome;

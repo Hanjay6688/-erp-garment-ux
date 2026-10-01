@@ -1,0 +1,36 @@
+{
+  "label": "CP7_F05_NATIVE_ANALYSIS_FIRST100",
+  "source_commit": "208c3339430feedf039656bcf767f68f8a8f43f9",
+  "source_tree": "f7351595f66f9a1ed8c82d6218db8791292ff40f",
+  "sql_sha256": "da06e1e12edfc0b5a6f1f29bc146b0f40bbfcb44bd2892c3222b0e59de7d3628",
+  "workflow_run": 36793628962,
+  "workflow_job": 110151940184,
+  "artifact_id": 11132439285,
+  "artifact_zip_bytes": 23146675,
+  "artifact_zip_sha256": "9e89ea1b2fff36e600890b2a9ad954fe6748090bf0980d26e8156d091bd8ad31",
+  "original_reports_gzip_sha256": "b9da6fde97b316158e359ac87eb4b6b4da47f643672751ce402e302e009f9b80",
+  "status": "INCOMPLETE",
+  "expected": 100,
+  "observed": 100,
+  "counts": {
+    "native": {
+      "PASS": 71,
+      "INCOMPLETE": 2
+    },
+    "races": {
+      "PASS": 14
+    },
+    "http": {
+      "PASS": 6,
+      "INCOMPLETE": 1
+    },
+    "browser": {
+      "PASS": 6
+    }
+  },
+  "full_family_acceptance": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "cp6_restored": true,
+  "advisor_gate": true
+}

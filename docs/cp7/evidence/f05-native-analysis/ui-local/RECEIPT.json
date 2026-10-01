@@ -1,0 +1,20 @@
+{
+  "label": "CP7_NATIVE_ANALYSIS_LOCAL_RECEIVER_AND_UI",
+  "classification": "LOCAL_NOT_REAL_AUTH_OR_FULL_FAMILY_ACCEPTANCE",
+  "baseline_commit": "208c3339430feedf039656bcf767f68f8a8f43f9",
+  "full_vitest_pass": 1045,
+  "new_receiver_tests": 8,
+  "new_consumer_dom_tests": 8,
+  "artifact_build_and_secret_scan": "PASS",
+  "source_access_css_ownership": "PASS",
+  "static_security": "PASS",
+  "schema_copy_byte_exact": true,
+  "frozen_schema_sha256": "c6e38f059d992c5916b7a799c153ad5a6cc4858dc8ffd6085bb8e5356ebc72a1",
+  "standin_native_column_shape_only": true,
+  "archive_pointers_only_no_facts_cache": true,
+  "real_auth_browser_qualification": "DECLARED_102_PENDING",
+  "financial_material_apply_unknown": true,
+  "production_go": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false
+}

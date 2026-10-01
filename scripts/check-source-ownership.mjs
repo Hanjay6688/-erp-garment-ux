@@ -90,6 +90,8 @@ for (const file of sourceFiles.filter((candidate) => !isTestSource(candidate) &&
 assert.deepEqual(dataReads, [], 'Browser code must not read ERP tables/views directly')
 
 assert.deepEqual([...rpcOwnership].sort(), [
+  'src/NativeAnalysisPanel.tsx:erp_cp7_capture_analysis_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_read_analysis_v1',
   'src/NativeProductionPlanningPanel.tsx:erp_cp7_capture_production_supply_v1',
   'src/NativeProductionPlanningPanel.tsx:erp_cp7_read_production_supply_v1',
   'src/NativeProductionPlanningPanel.tsx:erp_cp7_get_production_schedule_v1',

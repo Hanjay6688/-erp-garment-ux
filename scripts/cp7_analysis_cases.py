@@ -6,6 +6,7 @@ import json,sys,threading,time,uuid
 import psycopg
 from jsonschema import Draft7Validator,FormatChecker
 import cp7_planning_netting_cases as previous
+import cp7_fg_adjustment_cases as adjustments
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'docs/cp7/framework-v2/verification'))
 from semantic_contract import validate_semantics
 SCHEMA=json.loads((Path(__file__).resolve().parents[1]/'docs/cp7/framework-v2/contracts/analysis.schema.json').read_text())
@@ -30,6 +31,7 @@ def checked(envelope):
 def recommendation(x,root):return next(r for r in x['recommendations']if r['target']['product_id']==root)
 def setup(cur,today,review=True):
  f,root,s,p=previous.setup(cur,today,True)
+ p['expected_revision']=str(cur.execute('select coalesce(max(revision),0)from cp7_schedule_native.plans').fetchone()[0])
  if review:schedule.save(cur,p)
  return f,root,s,p
 
@@ -91,13 +93,22 @@ def cases(cur,today):
   assert any(r['target_key'].split(':')[0]==root and r['first_gap_at']for r in x['timeline'])
   return dict(status='PASS',late7_not_deducted_from_earlier_gap100=True)
  def available_signed():
-  h=previous.baseline.history;f=h.fixture(cur,today,qty=24,stock=10);previous.select_profiles(cur,f['product'],True);x=checked(capture(cur,today));r=recommendation(x,f['product'])
+  # The unchanged Native sale writer rightly refuses reserving more than
+  # available FG. Reserve against100, then record the real physical discrepancy
+  # through the unchanged Native FG count-correction command, never table DML.
+  h=previous.baseline.history;f=h.fixture(cur,today,qty=24,stock=100)
+  d=adjustments.command(cur,'SAVE',adjustments.payload(cur,f,'-90'));adjustments.action(cur,'POST',d)
+  previous.select_profiles(cur,f['product'],True);x=checked(capture(cur,today));r=recommendation(x,f['product'])
   assert r['actual_fg']['value']=='10'
   metric=next(m for m in x['metrics']if m['scope_key']==r['target']['key']);assert metric['value']['value']=='-14'
   assert [o['value']for o in metric['operands']]==['10','24']
   return dict(status='PASS',native_physical10_reserved24_signed_available_minus14_separate_once=True)
  def paused():
   f,root,s,p=setup(cur,today);source=cur.execute('select cp7_baseline_native.source()').fetchone()[0];product=next(r for r in source['facts']['products']if r['root_id']==root);sku=product['commercial'][0]['sku_id'];w=previous.policies.get(cur,[sku]);previous.policies.apply(cur,[previous.policies.proposal(w['rows'][0],'PAUSED')])
+  # Policy is a real source dependency. Review the unchanged remaining-work
+  # assumptions against the new Native policy source instead of reusing a
+  # schedule whose source hash was invalidated by the pause command.
+  current=previous.supply.capture(cur,today);revision=str(cur.execute('select max(revision)from cp7_schedule_native.plans').fetchone()[0]);review=schedule.payload(cur,current,revision);review['config']=p['config'];schedule.save(cur,review)
   x=checked(capture(cur,today));r=recommendation(x,root);assert r['production_state']=='PAUSED'and r['suggested_new']['value']==r['feasible_new']['value']=='0'
   assert r['q_base']['value']=='93'and r['unresolved_qty']['value']=='93'
   return dict(status='PASS',paused_keeps_shortage93_and_starts_zero=True)
