@@ -1,0 +1,47 @@
+{
+  "status": "ORIGINAL_NATIVE155_153PASS_TWO_P17_BROWSER_FAILURES_RETAINED_UNQUALIFIED",
+  "source": "abbaf4f869259ab76fc842fb09ee607f77682177",
+  "tree": "18344a3e8c4bf0f9196a153d860dc6d5fc692f18",
+  "run_id": 36811910029,
+  "job_id": 110208601799,
+  "artifact_id": 11139828865,
+  "artifact_bytes": 132000390,
+  "artifact_sha256": "ed3ec21ec77056086a61c8b242a914d86beadfa31ee4d4864cc81bbe1f3933c0",
+  "source_sql_sha256": "6f349f70eebd4e5d367d436ee3d815fddf6f8d1af5112a73c2a0c205dfa60f4a",
+  "expected": 155,
+  "observed": 155,
+  "counts": {
+    "native": {
+      "PASS": 103
+    },
+    "races": {
+      "PASS": 19
+    },
+    "http": {
+      "PASS": 13
+    },
+    "browser": {
+      "PASS": 18,
+      "INCOMPLETE": 2
+    }
+  },
+  "predecessor_failures_now_PASS": [
+    "P05_NATIVE_PRIVATE_CAPS",
+    "P16_NATIVE_ATTENTION_NATIVE_TASK_LIFECYCLE"
+  ],
+  "incomplete_cases": [
+    "P17_BROWSER_DESKTOP_NATIVE_HANDOFF",
+    "P17_BROWSER_MOBILE_NATIVE_HANDOFF"
+  ],
+  "original_error": "Both new browser cases reach the complete manual textarea after a Native200 read but cannot find the automatic-copy success message. Native payload size/focus/clipboard rejection remains unproven until the retained original failure JSON is inspected.",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "primary_Auth_before": 0,
+  "primary_Auth_after": 0,
+  "original_reports_location": "unchanged original workflow artifact ZIP; forensic step predeclares exact byte/hash verification and original report summary without relabeling",
+  "visual_review": "Not yet performed for155; first153 focused visuals retain their separate review status.",
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

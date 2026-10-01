@@ -1062,7 +1062,7 @@
     "local_tests": 1084
   },
   "f05_native_payables": {
-    "status": "FUNCTIONAL_NATIVE153_PASS_OVERALL_INCOMPLETE_TWO_INHERITED_CASE_FAILURES_SUCCESSOR155_READY",
+    "status": "FUNCTIONAL_NATIVE155_PASS_OVERALL_INCOMPLETE_TWO_P17_BROWSER_FAILURES",
     "scope": "Current complete accepted BF signed material-purchase balance, accepted Native liability and invoice coverage, recorded due only; excludes opening AP/payroll/other obligations",
     "consumer": "src/NativeAnalysisPanel.tsx",
     "contract": "docs/cp7/f05/NATIVE_PAYABLE_CONDITIONS.md",
@@ -1079,11 +1079,11 @@
     "independent_acceptance": false,
     "production_go": false,
     "local_tests": 1098,
-    "latest_receipt": "docs/cp7/evidence/f05-native-episodes/first153-574553f/RECEIPT.json",
-    "tested_source": "574553ff2e812cf8e8414c02067381b8b7f20f33"
+    "latest_receipt": "docs/cp7/evidence/f05-native-ai-handoff/first155-abbaf4f/RECEIPT.json",
+    "tested_source": "abbaf4f869259ab76fc842fb09ee607f77682177"
   },
   "f05_native_episodes": {
-    "status": "FUNCTIONAL_NATIVE153_PASS_OVERALL_INCOMPLETE_TWO_INHERITED_CASE_FAILURES_SUCCESSOR155_READY",
+    "status": "FUNCTIONAL_NATIVE155_PASS_OVERALL_INCOMPLETE_TWO_P17_BROWSER_FAILURES",
     "scope": "Explicit complete Native AR/material-AP observation metadata, shared business identity, lawful resolution/linked recurrence, partial UNKNOWN and stable recovery; no other rules/delivery closure",
     "contract": "docs/cp7/f05/NATIVE_OBLIGATION_EPISODES.md",
     "receipt": "docs/cp7/evidence/f05-native-episodes/local/RECEIPT.json",
@@ -1098,11 +1098,11 @@
     "full_family_acceptance": false,
     "independent_acceptance": false,
     "production_go": false,
-    "tested_source": "574553ff2e812cf8e8414c02067381b8b7f20f33",
-    "latest_receipt": "docs/cp7/evidence/f05-native-episodes/first153-574553f/RECEIPT.json"
+    "tested_source": "abbaf4f869259ab76fc842fb09ee607f77682177",
+    "latest_receipt": "docs/cp7/evidence/f05-native-ai-handoff/first155-abbaf4f/RECEIPT.json"
   },
   "f05_native_ai_handoff": {
-    "status": "LOCAL1098_PASS_NATIVE155_READY",
+    "status": "LOCAL1098_ON_ABBAF4F_PASS_NATIVE155_153PASS_TWO_BROWSER_FAILURES_SUCCESSOR155_READY",
     "scope": "Complete Native Original, exact UTF8 metadata, manual fallback, current Auth before copy/open, static provider URL and failure retirement; manual user paste only",
     "consumer": "src/NativeAnalysisPanel.tsx",
     "contract": "docs/cp7/f05/NATIVE_AI_HANDOFF.md",
@@ -1118,6 +1118,8 @@
     "provider_contact": false,
     "full_family_acceptance": false,
     "independent_acceptance": false,
-    "production_go": false
+    "production_go": false,
+    "latest_receipt": "docs/cp7/evidence/f05-native-ai-handoff/first155-abbaf4f/RECEIPT.json",
+    "tested_source": "abbaf4f869259ab76fc842fb09ee607f77682177"
   }
 }
