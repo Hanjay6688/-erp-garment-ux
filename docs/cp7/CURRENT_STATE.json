@@ -1124,7 +1124,7 @@
     "added_cases": "Two independent full-source Native P17 desktop/mobile journeys before cumulative browser fixtures. Automatic mode and an actually visited controlled clipboard denial are required, never inferred from oversized manual-only cases."
   },
   "f05_native_episode_history": {
-    "status": "UNIT1106_SECURITY_PASS_BUILD_TYPE_CORRECTION_NATIVE163_PENDING",
+    "status": "UNIT1106_SECURITY_BUILD_PASS_NATIVE163_RETRY_AFTER_HARNESS_PATH_FIX",
     "scope": "Complete saved Native AR/material-AP episode history authorized by fresh own Original/current complete Native source; fixed keyset anchor; no ERP/monitoring write or new ERP grants",
     "consumer": "src/NativeAnalysisPanel.tsx",
     "contract": "docs/cp7/f05/NATIVE_OBLIGATION_HISTORY.md",
@@ -1135,7 +1135,7 @@
       "browser": 24,
       "total": 163
     },
-    "local_compile_and_tests": "CI_UNIT_SECURITY_PASS_BUILD_SUCCESSOR_PENDING",
+    "local_compile_and_tests": "CI1106_AND_SECURITY_BUILD_SHELL_BROWSER_PASS_ON_0981DE9",
     "native_qualification": "PENDING_SUCCESSOR163",
     "prior_ui_draft_commit": "8d51e786b138a287fbd5435fe5a7b71efc558f24",
     "prior_backend_draft_commit": "b2cca64be588ae90e2285bf1f6886553bc128053",
@@ -1145,6 +1145,17 @@
     "unit_tests": 1106,
     "unit_source": "582169d2b8602b64ede92a10e5a41806dea8b4bd",
     "security_source": "582169d2b8602b64ede92a10e5a41806dea8b4bd",
-    "first_build_error": "One Date.parse argument in history row closure narrowed to unknown; corrected by capturing the already validated readAt stamp as a local const."
+    "first_build_error": "One Date.parse argument in history row closure narrowed to unknown; corrected by capturing the already validated readAt stamp as a local const.",
+    "build_source": "0981de990e1cb9b936a05b10856baf0139291fde",
+    "first_native161": {
+      "source": "582169d2b8602b64ede92a10e5a41806dea8b4bd",
+      "run_id": 36815837521,
+      "job_id": 110220569047,
+      "status": "NOT_EVALUATED_PREQUALIFICATION_RETAINED_REPORT_HELPER_PATH_ERROR",
+      "artifact_id": 11140639910,
+      "artifact_bytes": 1606520,
+      "artifact_sha256": "166e8ae548dcf8651c5bbc9dd8d7cab2a0cb1dbd92130c37d640649ccf80e7b4",
+      "fix": "Source scripts belong to auditor checkout; run scripts/cp7_native155_retained_receipt.py from auditor, rather than the frozen writer product checkout."
+    }
   }
 }

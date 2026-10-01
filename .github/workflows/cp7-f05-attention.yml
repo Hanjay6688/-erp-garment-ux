@@ -267,7 +267,7 @@ jobs:
         GH_TOKEN: ${{ github.token }}
       run: |
         gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11141076740/zip > "$RUNNER_TEMP/cp7-native155-qualified.zip"
-        python ../writer/scripts/cp7_native155_retained_receipt.py "$RUNNER_TEMP/cp7-native155-qualified.zip" cp6-proof/t3/retained-native155-928332d
+        python scripts/cp7_native155_retained_receipt.py "$RUNNER_TEMP/cp7-native155-qualified.zip" cp6-proof/t3/retained-native155-928332d
     - name: Install accepted package and qualify the frozen Native analysis compiler
       working-directory: writer
       run: python '../auditor/scripts/cp7_f05_attention_probe.py'

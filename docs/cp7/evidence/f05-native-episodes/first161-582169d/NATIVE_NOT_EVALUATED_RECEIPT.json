@@ -1,0 +1,10 @@
+{
+  "source": "582169d2b8602b64ede92a10e5a41806dea8b4bd",
+  "run_id": 36815837521,
+  "job_id": 110220569047,
+  "status": "NOT_EVALUATED_PREQUALIFICATION_RETAINED_REPORT_HELPER_PATH_ERROR",
+  "artifact_id": 11140639910,
+  "artifact_bytes": 1606520,
+  "artifact_sha256": "166e8ae548dcf8651c5bbc9dd8d7cab2a0cb1dbd92130c37d640649ccf80e7b4",
+  "fix": "Source scripts belong to auditor checkout; run scripts/cp7_native155_retained_receipt.py from auditor, rather than the frozen writer product checkout."
+}
