@@ -25,3 +25,20 @@ established product findings:
 
 Both corrections must pass a new complete execution before acceptance. Preserve
 the initial receipt and final receipt together; do not relabel the first run green.
+
+## Retained browser transport preflight
+
+Run36911723469/job110535730417 (`7a7d4c7`) completed only2/8 planned
+browser cases. E01, redye and E24 browser hosts refused to start with
+`EADDRINUSE 127.0.0.1:54328`; the capacity group later ran2/2 PASS. This
+does not establish a failure of the unexecuted business journeys. The exact
+owner of the earlier occupied port was not captured, so no specific process is
+blamed. Artifact11189611359 SHA256:
+`9ae659298add628809e6967238a10db4c978b3f77ad61c423bc036bdf921a81b`.
+
+A separate eight-case recheck reserves4176/54328/54329 against ephemeral-port
+allocation before services start on the disposable CI runner. It then requires
+those loopback listener ports to be free before installation/probing. It does
+not terminate unknown processes, alter any product file, weaken cleanup, or
+change the retained business cases. The initial INCOMPLETE receipt remains
+preserved; a successful retry is required and reported separately.
