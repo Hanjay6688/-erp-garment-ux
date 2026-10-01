@@ -1,0 +1,79 @@
+{
+  "source": "310ab77b77eba604b560e67cbb2ab1a64959c1f4",
+  "tree": "c82302d6125dad3b8e180b5dca6f4cc2dccae2e9",
+  "run": 36936014181,
+  "job": 110616343455,
+  "artifact": 11199661493,
+  "file_id": "file_000000008d308207b9abfdbab368de0f",
+  "archive_bytes": 214191463,
+  "archive_sha256": "1274445a9e19eaabc7de0d426dcd057d641ea57ba85c85c102fb3ff3e1e69f59",
+  "source_bundle_sha256": "008e790a465c2796c804f889fd21a0122aeae20549e1459329352148655e8556",
+  "status": "INCOMPLETE",
+  "observed_case_count": 218,
+  "expected_case_count": 218,
+  "groups": {
+    "native": {
+      "PASS": 130,
+      "INCOMPLETE": 9
+    },
+    "races": {
+      "PASS": 27,
+      "INCOMPLETE": 2
+    },
+    "http": {
+      "PASS": 17,
+      "INCOMPLETE": 3
+    },
+    "browser": {
+      "PASS": 28,
+      "INCOMPLETE": 2
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "console_errors": 0,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "auth_cleanup_failures": [],
+  "database_remaining": 0,
+  "original_member_hashes": {
+    "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+    "CP7_F05_NATIVE_ATTENTION.json": "c1df81cb6f90e9e67375e364f47f9571d27d16de860e4008de741145eaccf0f1",
+    "CP7_NATIVE155_HANDOFF_DIAGNOSTIC.json": "e8b61f251d8ac2e4442cee2d17e69fc40f7c44e7a547b0107e8a47be5a895c40",
+    "P16_POLICY_DESKTOP_FAILURE.json": "dc6b1317387da39882592e3c2a92a4cc428afa7790d9a886ab4c3e144edde1fe",
+    "P16_POLICY_MOBILE_FAILURE.json": "46814bf0bd834a8797e15bf560f32553aec395ec6c353a63c027a826221b72af",
+    "T3_BACKUP_RESTORE_DRILL.json": "0693d5cff5e6d7b781ace2c85b1baf25f28c0e4dad0b547a42dd9a040c55901a",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "T3_PACKAGE_INSTALL.json": "e2e5b5be1801ad4a3329c70db987257fa70a6cf3579f9d1fdfcc9cf3622e9709"
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false
+}

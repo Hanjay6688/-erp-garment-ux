@@ -1781,5 +1781,29 @@
     "first_original": "docs/cp7/evidence/f05-native-policy/first218-syntax-2544e4c/RECEIPT.json",
     "first_observed_case_count": 0,
     "sql_repair": "Parenthesize nested CASE inside PLpgSQL IF; no timing semantics or grants change"
+  },
+  "material_native_152_qualification": {
+    "source": "310ab77b77eba604b560e67cbb2ab1a64959c1f4",
+    "run": 36936014656,
+    "status": "PASS",
+    "counts": {
+      "database": 106,
+      "races": 20,
+      "http": 12,
+      "browser": 14
+    },
+    "scope": "Native accessory BOM gross; installation and allocated unused remain UNKNOWN; full F04 open",
+    "receipt": "docs/cp7/evidence/f05-native-publication/qualified152-310ab77/RECEIPT.json"
+  },
+  "policy_native_218_repair": {
+    "source": "310ab77b77eba604b560e67cbb2ab1a64959c1f4",
+    "run": 36936014181,
+    "status": "INCOMPLETE",
+    "pass_count": 202,
+    "incomplete_count": 16,
+    "cause": "extensions schema permission on policy-workspace SHA-256",
+    "repair": "same bytes and SHA-256 using pg_catalog.sha256 without new grants",
+    "qualification": "RERUN_REQUIRED",
+    "receipt": "docs/cp7/evidence/f05-native-policy/first218-runtime-310ab77/RECEIPT.json"
   }
 }

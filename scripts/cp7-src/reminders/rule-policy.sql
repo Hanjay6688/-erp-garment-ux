@@ -84,7 +84,7 @@ begin
  if again->'access'is distinct from a->'access'then raise exception using errcode='42501',message='CP7_RULE_POLICY_ACCESS_CHANGED';end if;
  return jsonb_build_object('contract_version','cp7.native-rule-policy-workspace.v1','actor_scope_id',auth.uid(),
   'analysis',again->'analysis','allowed_rules',allowed,'rows',rows,'page_complete',true,'total',jsonb_array_length(rows)::text,
-  'source_hash',encode(extensions.digest(convert_to(rows::text,'UTF8'),'sha256'),'hex'),
+  'source_hash',encode(pg_catalog.sha256(convert_to(rows::text,'UTF8')),'hex'),
   'read_at',clock_timestamp(),'manage_allowed',a->'access'->'profile'->>'role_code'in('OWNER','ADMIN')and erp.has_permission('master.product.manage'),
   'missing_policy','UNCONFIGURED_NOT_ZERO_NOT_DISABLED','external_delivery_enabled',false);
 end $$;
