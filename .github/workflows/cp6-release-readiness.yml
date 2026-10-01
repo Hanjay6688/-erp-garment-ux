@@ -79,6 +79,9 @@ jobs:
         # install: the committed package (supabase/release/cp6-t3, 24 files, pins captured
         # in the T3 capture job) on a fresh hosted-faithful clone at AB. capture: derive the
         # pins again and compare them with the committed ones (determinism).
+        - key: owner
+          label: Pinned package with a non-superuser database-owner controller (disposable only)
+          proof: t3
         - key: install
           label: Hosted-faithful baseline to AB, committed 30-file package AC..BF, writer runtime, advisors, restore drill (T3_PREP)
           proof: t3
@@ -261,7 +264,12 @@ jobs:
         set -euo pipefail
         npm ci
         npx playwright install --with-deps chromium
+    - name: Qualify database-owner maintenance control
+      if: matrix.key == 'owner'
+      working-directory: auditor
+      run: python scripts/cp6_readiness_owner_test.py
     - name: ${{ matrix.label }}
+      if: matrix.key != 'owner'
       working-directory: writer
       run: python '../auditor/scripts/cp6_t3_package_run.py' '${{ matrix.key }}'
     - name: Remove disposable database

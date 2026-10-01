@@ -10,15 +10,31 @@ Target historis paket: **ERP Enteng (`siimvrusnzxexizpyoib`)**, baseline G-01 ya
 4. Jalankan `scripts/cp6_readiness_hosted_preflight.sql` melalui koneksi yang benar. Periksa versi Postgres, ledger dan katalog terhadap predecessor AB, kapsul historis dan ACL yang dipin paket. Bila beda, berhenti; jangan melemahkan guard atau menyesuaikan pin berdasarkan tebakan.
 5. Pastikan tersedia akses pemulihan di luar database sasaran. Ketersediaan backup hosted atau PITR bukan dianggap bukti backup telah dipulihkan.
 
+## Jalur pemilik database dan pemeriksaan kemampuan
+
+Pemeriksaan hosted baca saja menemukan akun yang dipakai bukan superuser, memiliki database sasaran, dapat terhubung ke `template1`, membaca semua sesi, dan membaca identitas cluster. Role superuser maintenance milik CI tidak tersedia di hosted. Applier lama menolak selain database CI; tidak boleh disebut pemasang hosted yang siap pakai.
+
+Jalur baru adalah `scripts/cp6_readiness_owner_install.py`. Ia memakai koneksi kerja `postgres` ke database `postgres` dan koneksi pemilik `postgres` ke `template1`, pada **endpoint direct ERP Enteng yang sama**, port 5432. Tidak ada role baru yang dibuat di hosted. Sertifikat server wajib diverifikasi dengan `verify-full`; pooler ditolak. Simpan koneksi dan sertifikat melalui environment operator, tanpa menaruh password dalam dokumen atau log:
+
+```sh
+python scripts/cp6_readiness_owner_install.py --report /path/to/CP6_OWNER_PLAN.json
+```
+
+Mode bawaan hanya membaca metadata. Periksa status `READ_ONLY_PLAN_COMPLETE`, identitas cluster yang sama, kepemilikan sasaran, kemampuan melihat sesi, dan 30 hash paket. Ia tidak menutup admission atau memasang SQL. Dependency Python mengikuti CI (`psycopg[binary]==3.2.10`).
+
+Uji CI jalur baru memakai pemilik/controller **tanpa superuser**, sedangkan akun kerja `postgres` di CI tetap superuser. Batas ini dicatat dalam receipt kemampuan. Keberhasilan controller di CI belum membuktikan seluruh privilege DDL akun kerja hosted; pemasangan pertama tetap sebuah gate tersendiri. Receipt CI terbaru harus lulus sebelum operator memakai jalur ini.
+
+Rujukan kemampuan: [ALTER DATABASE PostgreSQL 17](https://www.postgresql.org/docs/17/sql-alterdatabase.html), [role postgres Supabase](https://supabase.com/docs/guides/database/postgres/roles-superuser), [koneksi direct dan sertifikat](https://supabase.com/docs/guides/database/connecting-to-postgres).
+
 ## Dalam jendela yang disetujui
 
-1. Aktifkan maintenance aplikasi dan hentikan writer, integrasi, scheduler serta koneksi layanan ke sasaran. Tutup admission memakai mekanisme maintenance yang sudah dimiliki paket. Kosongkan sesi lain dan transaksi terbuka; pastikan tidak segera tersambung kembali. Jangan menyamakan maintenance aplikasi dengan admission database yang tertutup.
-2. Ambil backup konsisten **sebelum** pemasangan, record katalog/ACL/ledger, hash isi dan jumlah baris sumber. Pulihkan backup ke lingkungan terpisah; periksa hasil dan pembacaan mesin. Jika tidak bisa memulihkan atau perbedaannya tidak terjelaskan, berhenti sebelum memasang.
-3. Jalankan **applier maintenance CP6 yang sudah diuji**, mengikuti manifest 30 berkas. Jangan memakai apply_migration biasa atau editor SQL yang melewati closed admission. Record PASS/refusal tiap berkas, ledger, pin katalog dan kapsul. Bila ada refusal, hentikan; jangan lompat berkas.
-4. Setelah schema terpasang dan sebelum admission transaksi umum dibuka, owner login melalui akses maintenance terkontrol. Baca versi pengaturan saat itu dan simpan nilai yang disetujui lewat RPC Native, dengan expected version, alasan dan request ID. Simpan receipt pengaturan. Jangan menyalin akun/angka fixture CI atau mengisi tabel policy secara langsung.
+1. Aktifkan maintenance aplikasi dan hentikan writer, integrasi, scheduler serta koneksi layanan ke sasaran. Biarkan koneksi operator tersedia untuk backup dan pemeriksaan awal. Jangan menyamakan maintenance aplikasi dengan admission database yang tertutup.
+2. Ambil backup konsisten **sebelum** pemasangan, record katalog/ACL/ledger, hash isi dan jumlah baris sumber. Pulihkan backup ke lingkungan terpisah; periksa hasil dan pembacaan mesin. Receipt backup harus menyebut `project_ref: siimvrusnzxexizpyoib`, `database: postgres`, `restore_verified: true`, `manifest_sha256: 40795c3fce619c5795b427e9aa31836777b687f82eba4ab5654264d57564879f`, dan `verified_at` dengan zona waktu. Driver menolak receipt lebih tua dari satu jam. Jangan membuat receipt sukses bila pemulihan belum dilakukan.
+3. Isi `CP6_APPROVED_MAINTENANCE_WINDOW` dengan referensi persetujuan dan `CP6_VERIFIED_BACKUP_RECEIPT` dengan path receipt yang diperiksa. Jalankan driver dengan `--apply`. Ia mengambil lock maintenance tanpa menunggu lock yang sibuk, menutup admission satu kali untuk keseluruhan paket, dan menunggu sesi lain berhenti alami. Bila sesi masih ada setelah batas tunggu, ia menolak tanpa memasang berkas atau membunuh sesi, lalu mengembalikan admission. Setiap SQL dan ledger disimpan dalam satu transaksi per berkas. Seluruh guard asli tetap berlaku. Bila satu berkas sudah dicoba dan proses gagal, admission tetap tertutup untuk pemeriksaan; jangan lompat berkas atau menjalankan ulang secara buta.
+4. Keberhasilan pemasangan adalah `ALL_FILES_INSTALLED`, 30 receipt berkas PASS, dan admission **tetap tertutup**. Periksa receipt serta katalog/ledger melalui jalur maintenance. Setelah pemeriksaan disetujui pelaksana, buka admission dari koneksi pemilik di `template1` dengan `ALTER DATABASE postgres WITH ALLOW_CONNECTIONS true;`, sementara maintenance aplikasi dan penghentian writer umum tetap berlaku. Ini memungkinkan login owner, bukan go produksi. Baca versi pengaturan dan simpan nilai yang disetujui lewat RPC Native, dengan expected version, alasan dan request ID. Simpan receipt pengaturan. Jangan menyalin akun/angka fixture CI atau mengisi tabel policy secara langsung.
 5. Jalankan canary yang telah disepakati: tarif vendor, satu kiriman/penerimaan ukuran nyata, satu invoice, satu kredit retur bila fitur digunakan, serta pembacaan HPP/utang/jejak dokumen. Canary menyebut sumber dan tanggalnya; setiap kebalikan memakai alur dokumen Native, tanpa delete/update data manual. Bila memakai data nyata, gunakan transaksi dan dokumen bisnis yang memang disetujui owner.
 6. Bandingkan advisor sebelum/sesudah. Kelas INFO `rls_enabled_no_policy` pada tabel privat ERP hanya boleh diterima sesuai keputusan historis dan ACL/fasadnya; temuan baru lain harus dijelaskan atau menjadi HOLD. Periksa akses lintas peran, ledger, uang, stok, HPP dan hash data historis.
-7. Buka admission dan aplikasi hanya setelah semua gate disetujui pelaksana dan owner. Pantau transaksi pertama dan pesan pengaturan yang belum siap; simpan hasil sebagai **pemasangan hosted pertama**, tidak digabung dengan receipt CI.
+7. Buka aplikasi dan writer umum hanya setelah semua gate disetujui pelaksana dan owner. Pantau transaksi pertama dan pesan pengaturan yang belum siap; simpan hasil sebagai **pemasangan hosted pertama**, tidak digabung dengan receipt CI. Driver tidak memberi go produksi otomatis.
 
 ## Bila harus berhenti atau pulih
 

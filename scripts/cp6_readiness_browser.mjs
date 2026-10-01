@@ -12,6 +12,10 @@ async function readiness(ui,mobile) {
   const user=await ui.login('OWNER',{label:'cp6-readiness-'+mobile,mobile}),p=user.page
   const dir=resolve('cp6-proof/t3/readiness-ui');mkdirSync(dir,{recursive:true})
   const prefix=mobile?'mobile':'desktop',checks={}
+  const screenshot=async name=>{
+    await p.evaluate(()=>window.scrollTo(0,0))
+    await p.screenshot({path:resolve(dir,prefix+'-'+name+'.png'),fullPage:true})
+  }
   const version=(kind,key)=>ui.sql(`select version from erp.${kind}_policy_settings_v1 where policy_key='${key}'`)
   const apply=async(kind,key,value)=>{
     const r=await user.rpc(kind==='bd'?'erp_save_laundry_bd_action_v1':'erp_save_accessory_service_action_v1',{
@@ -28,7 +32,7 @@ async function readiness(ui,mobile) {
     await ui.expect(p.getByRole('row').filter({hasText:'LAU-DEC06'})).toContainText('Keputusan owner belum diterapkan')
     await p.getByRole('button',{name:'Invoice vendor',exact:true}).click()
     await ui.expect(p.getByText(/^Posting invoice laundry belum siap/)).toBeVisible()
-    await p.screenshot({path:resolve(dir,prefix+'-laundry-pending.png'),fullPage:true})
+    await screenshot('laundry-pending')
     checks.pending_explained_before_post=true
     await p.getByRole('button',{name:'Kebijakan owner',exact:true}).click()
     await p.getByLabel('Kebijakan yang diubah',{exact:true}).selectOption('LAU-DEC06')
@@ -51,7 +55,7 @@ async function readiness(ui,mobile) {
     await p.getByRole('button',{name:'Invoice vendor',exact:true}).click()
     await ui.expect(p.getByText(/^Posting invoice laundry belum siap/)).toHaveCount(0)
     checks.both_applied_remove_warning=true
-    await p.screenshot({path:resolve(dir,prefix+'-laundry-ready.png'),fullPage:true})
+    await screenshot('laundry-ready')
     await open(p,ui,'Gudang','Aksesori');await p.getByRole('button',{name:'Kebijakan & area',exact:true}).click()
     await ui.expect(p.getByRole('row').filter({hasText:'ACC-DEC07'})).toContainText('Keputusan owner belum diterapkan')
     await p.getByLabel('Kebijakan yang diubah',{exact:true}).selectOption('ACC-DEC07')
@@ -59,10 +63,10 @@ async function readiness(ui,mobile) {
     await p.getByRole('button',{name:'Isi sesuai keputusan owner',exact:true}).click()
     await ui.expect(p.getByLabel('Persetujuan owner biaya aksesori',{exact:true})).toHaveValue('NONE')
     checks.approval_none_is_not_zero=version('bc','ACC_DEC07')===accessoryBefore
-    await p.screenshot({path:resolve(dir,prefix+'-accessory-decision.png'),fullPage:true})
+    await screenshot('accessory-decision')
     await open(p,ui,'Keuangan','HPP & Rekalkulasi')
     await ui.expect(p.getByLabel('Catatan pembulatan biaya')).toContainText('tidak ada batas selisih sen per PO')
-    await p.screenshot({path:resolve(dir,prefix+'-hpp-rounding.png'),fullPage:true})
+    await screenshot('hpp-rounding')
     checks.finance_rounding_visible=true
     if(mobile)checks.mobile_width=await p.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+1)
     return {status:Object.values(checks).every(Boolean)?'PASS':'FAIL',checks,mobile,screenshots:4}

@@ -6,7 +6,7 @@ Arahan owner 1 Oktober 2026: bereskan enam risiko dari auditor sebelum membahas 
 
 | Risiko auditor | Perbaikan pada cabang ini | Batas penerimaan |
 |---|---|---|
-| Belum dipasang di hosted | Preflight baca saja, identitas paket, dan runbook maintenance serta pemulihan disiapkan | Uji pada hosted baru bisa dilakukan di jendela yang disetujui. Uji CI tidak disebut pemasangan hosted |
+| Belum dipasang di hosted | Preflight baca saja, identitas paket, driver pemilik database tanpa controller superuser, serta runbook maintenance dan pemulihan | CI menguji controller tanpa superuser; privilege DDL akun kerja hosted dan pemasangan pertama masih perlu dibuktikan di jendela yang disetujui |
 | Sen W8 menumpuk per PO | Catatan di HPP per SKU dan oracle baru tujuh dokumen, koreksi langsung serta invoice terlambat | Keputusan T3=A tetap berlaku; tidak dibuat batas sen per PO |
 | Tes BF masih memakai tarif SKU | Semua entrypoint `cp6_bf_free_*` memakai tarif Native vendor, SKU menyimpan `laundry_rates: []` | Receipt dan verdict lama tetap historis; tidak diganti label PASS |
 | UI belum dilihat langsung | Pemeriksaan browser dengan Auth/PostgREST asli, desktop dan ponsel, screenshot pengaturan dan pembulatan | Kesesuaian tampilan terhadap demo memerlukan demo acuan. Pemeriksaan ini tidak mengklaim seluruh UI sama dengan demo |
@@ -47,6 +47,8 @@ Contoh oracle baru: tujuh nota masing-masing `10.006` dibulatkan menjadi `10.01`
 
 ## Bukti dan status
 
-Receipt baru berada di folder ini setelah run selesai. Workflow Native bernama “CP6 Release Readiness (Native package and UI)” memasang paket yang byte-nya sama pada salinan sekali pakai, lalu menjalankan kasus baru bersama regresi lama, race, Auth HTTP, browser, pemeriksaan advisor dan backup/restore. Workflow Shell memeriksa tes, batas kepemilikan, keamanan dan build.
+Receipt baru berada di folder ini setelah run selesai. Workflow Native bernama “CP6 Release Readiness (Native package and UI)” memasang paket yang byte-nya sama pada salinan sekali pakai, lalu menjalankan kasus baru bersama regresi lama, race, Auth HTTP, browser, pemeriksaan advisor dan backup/restore. Job tambahan menguji kontrol admission dengan pemilik tanpa superuser: baca saja, sasaran salah, bukan pemilik, lock maintenance sibuk, sesi belum kosong, pemasangan 30 berkas, dan pembukaan kembali yang ditinjau. Workflow Shell memeriksa tes, batas kepemilikan, keamanan dan build.
+
+Run pertama `36817969996` pada source `c387f1b3eda0e108e92b98e8a8368d63283f3b0b` menghasilkan 104 kasus Native PASS, 26 race PASS, dan 8 HTTP PASS; satu fixture HTTP memakai role yang tidak ada sehingga status akhir pemasangan **INCOMPLETE**, bukan diterima. Fixture diperbaiki menjadi role GUDANG yang tersedia. Job browser pada run itu lulus 31 kasus saat ini ditambah 10 kasus AU, dengan nol kesalahan console dan data/Auth bersih kembali. Shell run `36817969995` lulus 583 tes, pemeriksaan keamanan, dan build. Receipt run gagal tetap dipertahankan; run perbaikan harus lulus pada source yang tercatat sendiri.
 
 Lolos kontrak CP6 tetap terpisah dari **go produksi**. Tidak ada maintenance, pemasangan hosted, merge utama, atau nilai pengaturan nyata yang dilakukan oleh cabang ini.

@@ -29,7 +29,7 @@ def vendor_http_cases(http,today):
         with http.connect() as conn,conn.cursor() as cur:
             with _fixture_usage(cur):f=free.master_fixture(cur,True)
             conn.commit()
-        owner=http.login('OWNER','vendor-free-owner');staff=http.login('STAFF','vendor-free-staff')
+        owner=http.login('OWNER','vendor-free-owner');staff=http.login('GUDANG','vendor-free-warehouse')
         component=f['rates'][0]['ref_id'];at=f['now']-timedelta(minutes=2)
         payload=dict(component_id=component,rate_status='FREE',rate_per_pcs='0.00',effective_from=at.isoformat(),reason='Real Auth explicit vendor FREE version')
         args=dict(p_action='SAVE_COMPONENT_RATE',p_payload=payload,p_client_request_id=str(uuid.uuid4()))
