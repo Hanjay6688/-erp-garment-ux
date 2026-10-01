@@ -1805,5 +1805,20 @@
     "repair": "same bytes and SHA-256 using pg_catalog.sha256 without new grants",
     "qualification": "RERUN_REQUIRED",
     "receipt": "docs/cp7/evidence/f05-native-policy/first218-runtime-310ab77/RECEIPT.json"
+  },
+  "f05_policy_http_cumulative_repair": {
+    "source": "aaee5a0fdb8df5a2609d0824b1d3e80e2c223274",
+    "run": 36940540624,
+    "job": 110630750558,
+    "counts": {
+      "PASS": 216,
+      "INCOMPLETE": 2
+    },
+    "receipt": "docs/cp7/evidence/f05-native-policy/second216-http-cumulative-aaee5a0/RECEIPT.json",
+    "product_sql_changed": false,
+    "required_native_cases": 218,
+    "status": "ACTUAL_HTTP_CUMULATIVE_FIXTURE_REPAIR_NATIVE_RETEST_REQUIRED",
+    "production_go": false,
+    "independent_acceptance": false
   }
 }

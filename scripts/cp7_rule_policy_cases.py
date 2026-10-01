@@ -173,8 +173,11 @@ def http_cases(http,today):
  def authority():
   owner=http.login('OWNER','p16-policy-revoke');foreign=http.login('OWNER','p16-policy-foreign')
   with http.connect()as conn,conn.cursor()as cur:parent.setup(cur,today);conn.commit()
-  got=owner.rpc('erp_cp7_capture_analysis_v1',dict(p_query=parent.previous.baseline.history.query(today),p_request=str(uuid.uuid4())));assert got['status']==200;original=got['body'];p=intent(original,c=ready());args=dict(p_payload=p,p_request=str(uuid.uuid4()))
-  assert owner.rpc('erp_cp7_save_reminder_policy_v1',args)['status']==200
+  got=owner.rpc('erp_cp7_capture_analysis_v1',dict(p_query=parent.previous.baseline.history.query(today),p_request=str(uuid.uuid4())));assert got['status']==200;original=got['body']
+  current=owner.rpc('erp_cp7_get_reminder_policy_v1',dict(p_run=original['run_id']));assert current['status']==200,current
+  revision=next((r['revision']for r in current['body']['rows']if r['rule_id']=='PRODUCTION_GAP'and r['scope_kind']=='GLOBAL'),'0')
+  p=intent(original,revision=revision,c=ready());args=dict(p_payload=p,p_request=str(uuid.uuid4()))
+  saved=owner.rpc('erp_cp7_save_reminder_policy_v1',args);assert saved['status']==200,saved
   assert foreign.rpc('erp_cp7_get_reminder_policy_v1',dict(p_run=original['run_id']))['status']==403
   with http.connect()as conn,conn.cursor()as cur:cur.execute('update erp.app_users set is_active=false where auth_user_id=%s',(owner.auth_user_id,));conn.commit()
   for name,payload in[('erp_cp7_get_reminder_policy_v1',dict(p_run=original['run_id'])),('erp_cp7_save_reminder_policy_v1',args),('erp_cp7_get_reminder_policy_request_v1',args)]:assert owner.rpc(name,payload)['status']==403
@@ -183,8 +186,10 @@ def http_cases(http,today):
   owner=http.login('OWNER','p16-policy-absence')
   with http.connect()as conn,conn.cursor()as cur:parent.setup(cur,today);conn.commit()
   original=owner.rpc('erp_cp7_capture_analysis_v1',dict(p_query=parent.previous.baseline.history.query(today),p_request=str(uuid.uuid4())));assert original['status']==200
-  p=intent(original['body']);args=dict(p_payload=p,p_request=str(uuid.uuid4()));sealed=owner.rpc('erp_cp7_get_reminder_policy_request_v1',args);late=owner.rpc('erp_cp7_save_reminder_policy_v1',args)
-  assert sealed['status']==late['status']==200 and sealed['body']['request_result']==late['body']['request_result']and sealed['body']['request_result']['status']=='NOT_COMMITTED'and late['body']['rows']==[]
+  current=owner.rpc('erp_cp7_get_reminder_policy_v1',dict(p_run=original['body']['run_id']));assert current['status']==200,current
+  revision=next((r['revision']for r in current['body']['rows']if r['rule_id']=='PRODUCTION_GAP'and r['scope_kind']=='GLOBAL'),'0')
+  p=intent(original['body'],revision=revision);args=dict(p_payload=p,p_request=str(uuid.uuid4()));sealed=owner.rpc('erp_cp7_get_reminder_policy_request_v1',args);late=owner.rpc('erp_cp7_save_reminder_policy_v1',args)
+  assert sealed['status']==late['status']==200 and sealed['body']['request_result']==late['body']['request_result']and sealed['body']['request_result']['status']=='NOT_COMMITTED'and late['body']['rows']==current['body']['rows']
   assert http.anon_rpc('erp_cp7_get_reminder_policy_v1',dict(p_run=original['body']['run_id']))['status']in(401,403)
   return dict(status='PASS',actual_Auth_sealed_absent_intent_late_write_does_not_save_and_anon_denied=True)
  return previous.http_cases(http,today)+[('P16_POLICY_HTTP_LIFECYCLE',actual),('P16_POLICY_HTTP_CURRENT_AUTH',authority),('P16_POLICY_HTTP_SEALED_ABSENT',absent)]
