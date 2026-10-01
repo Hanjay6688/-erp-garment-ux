@@ -1,0 +1,246 @@
+{
+  "label": "CP6_READINESS_FINAL_VERIFICATION",
+  "status": "PASS_FOR_REPAIRS_AND_DISPOSABLE_QUALIFICATION",
+  "verified_date_utc": "2026-10-01",
+  "tested_source": {
+    "head": "07f949dfcf3bfea2f96df6173ed82331d379150c",
+    "tree": "2b9be213fbbe8086abdc1486023ae98c7b6e8399",
+    "accepted_cp6_base": "10a834712e515af86c6d8baa89bbe40cff9793e3",
+    "cp7_changes_included": false,
+    "sql_bytes_unchanged": true,
+    "accepted_release_file_count": 30
+  },
+  "scope": {
+    "hosted_ddl_executed": false,
+    "hosted_settings_saved": false,
+    "hosted_admission_changed": false,
+    "production_go": false,
+    "independent_auditor_acceptance": false,
+    "demo_visual_comparison_complete": false,
+    "cp7_closed": false
+  },
+  "workflows": {
+    "native": {
+      "id": 36821348197,
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36821348197",
+      "conclusion": "success",
+      "jobs": {
+        "install": {
+          "id": 110237386207,
+          "conclusion": "success"
+        },
+        "browser": {
+          "id": 110237385850,
+          "conclusion": "success"
+        },
+        "owner": {
+          "id": 110237386132,
+          "conclusion": "success"
+        }
+      }
+    },
+    "shell": {
+      "id": 36821348177,
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36821348177",
+      "conclusion": "success",
+      "job_id": 110237385291,
+      "unit_tests_pass": 583,
+      "test_files_pass": 54,
+      "security_checks": "PASS",
+      "build": "PASS"
+    }
+  },
+  "runtime": {
+    "counts": {
+      "native": {
+        "PASS": 104
+      },
+      "races": {
+        "PASS": 26
+      },
+      "http": {
+        "PASS": 9
+      }
+    },
+    "gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "primary_unchanged": true,
+    "auth_users_before": 0,
+    "auth_users_after": 0,
+    "http_cleanup": {
+      "users_created": 18,
+      "cleanup_failures": [],
+      "rest_remaining": false
+    },
+    "http_auth_counts": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    }
+  },
+  "browser": {
+    "counts": {
+      "PASS": 31
+    },
+    "gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "writer_runtime": true
+    },
+    "primary_unchanged": true,
+    "auth_users_before": 0,
+    "auth_users_after": 0,
+    "console_errors": 0,
+    "database_remaining": 0,
+    "auth_counts": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "visually_inspected_screenshots": 8,
+    "reviewer_role": "successor writer",
+    "comparison_to_demo": false
+  },
+  "full_owner_install": {
+    "status": "PASS",
+    "qualification_case_count": 10,
+    "install_mode": "FULL_FROM_V2620",
+    "predecessor_files": 28,
+    "accepted_release_files": 30,
+    "total_files": 58,
+    "required_baseline": "v2.6.20",
+    "control_is_superuser": false,
+    "work_is_superuser": false,
+    "native_stage": "BE_PLUS_BF_T1",
+    "manifest_sha256": "8368df52bdf6d026620dd8d301d8c48b16ccb25c04f5c230df83d97d9c8432e5",
+    "primary_unchanged": true,
+    "receipt": "OWNER_QUALIFICATION_FINAL.json"
+  },
+  "backup_restore": {
+    "status": "RESTORED_SAME_MEANING",
+    "checks": {
+      "restore_errors_only_pg_cron": true,
+      "catalog_explained": true,
+      "data_identical": true,
+      "engine_answer_present": true,
+      "engine_equal": true
+    },
+    "data": {
+      "tables": 407,
+      "rows": 1860,
+      "schemas": [
+        "_realtime",
+        "auth",
+        "erp",
+        "realtime",
+        "storage",
+        "supabase_functions",
+        "supabase_migrations",
+        "vault"
+      ],
+      "differ": {}
+    },
+    "restore_exit": 1,
+    "error_count": 19,
+    "explained_pg_cron_errors": 19,
+    "unexplained_errors": [],
+    "source_cron_jobs": 0,
+    "hosted_restore_proven": false
+  },
+  "security_advisors": {
+    "status": "REVIEW_REQUIRED",
+    "before": 73,
+    "after": 216,
+    "added_count": 143,
+    "added_severity_counts": {
+      "INFO": 143
+    },
+    "package_gate_pass": true,
+    "all_advisors_clean": false,
+    "hosted_comparison_pending": true
+  },
+  "settings": {
+    "owner_inputs_requiring_real_values_or_confirmation": [
+      "ACC-DEC01",
+      "ACC-DEC03",
+      "ACC-DEC04",
+      "ACC-DEC06",
+      "ERP-DEC02",
+      "LAU-DEC01",
+      "LAU-DEC02",
+      "LAU-DEC03"
+    ],
+    "existing_owner_decisions_prefill_only": [
+      "ACC-DEC05",
+      "ACC-DEC07",
+      "LAU-DEC04",
+      "LAU-DEC06"
+    ],
+    "intentionally_off": [
+      "LAU-DEC05"
+    ],
+    "live_values_not_invented": true
+  },
+  "artifacts": [
+    {
+      "id": 11143992579,
+      "name": "cp6-release-readiness-install",
+      "sha256": "6f8d5be75aed8271c3cdc285c48d7ab2b35a6c9f1525ba926d3dc6ac9f6c5e05",
+      "size_bytes": 1623368,
+      "tested_head": "07f949dfcf3bfea2f96df6173ed82331d379150c",
+      "downloaded_and_digest_verified": true,
+      "file_id": "file_000000005748821192178e05401ed289"
+    },
+    {
+      "id": 11143867072,
+      "name": "cp6-release-readiness-owner",
+      "sha256": "0f967c8ed9da771850997847f9b48320cf673b8d9fd4970255ec28d8cdfc1aca",
+      "size_bytes": 879578,
+      "tested_head": "07f949dfcf3bfea2f96df6173ed82331d379150c",
+      "downloaded_and_digest_verified": true,
+      "file_id": "file_00000000c21882119c289ff1eff43e4c"
+    },
+    {
+      "id": 11143817842,
+      "name": "cp6-release-readiness-browser",
+      "sha256": "ca6ef67be1c665e641b72e008d99ce1eb06efc4ef5a604219a09c56c2bf9c2b0",
+      "size_bytes": 3919836,
+      "tested_head": "07f949dfcf3bfea2f96df6173ed82331d379150c",
+      "downloaded_and_digest_verified": true,
+      "file_id": "file_00000000e00c82078639e77bb7ceeaa3"
+    }
+  ],
+  "remaining_before_production": [
+    "Owner confirms eight account/category/vendor settings; do not invent real values.",
+    "Approve and execute first hosted maintenance window after a freshly verified restore receipt and read-only baseline check.",
+    "Apply settings using Native owner RPC while application maintenance remains active; verify canaries and hosted advisor comparison.",
+    "Compare UI to the agreed demo and obtain independent reviewer acceptance.",
+    "Production go remains a separate owner decision."
+  ],
+  "evidence_note": "Earlier failed runs remain historical. The documentation addendum does not change the runtime source qualified at 07f949d. Writer qualification is not independent auditor acceptance."
+}

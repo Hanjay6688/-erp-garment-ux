@@ -1,0 +1,70 @@
+{
+  "label": "CP6_READINESS_VISUAL_REVIEW",
+  "tested_source": "07f949dfcf3bfea2f96df6173ed82331d379150c",
+  "reviewer_role": "successor writer",
+  "independent_auditor_acceptance": false,
+  "demo_comparison_complete": false,
+  "actual_auth_and_postgrest": true,
+  "hpp_report_loaded_before_capture": true,
+  "scope": [
+    "laundry prerequisite missing/ready",
+    "accessory policy owner decision",
+    "loaded SKU HPP rounding explanation",
+    "desktop and mobile"
+  ],
+  "observations": [
+    "Header appears at top; page body does not overflow mobile viewport.",
+    "Missing settings and effects are visible before posting.",
+    "Both laundry prerequisites must be saved before posting warning disappears.",
+    "Existing SET values retain precedence; owner decision buttons prefill without saving.",
+    "HPP report is loaded and W8 per-document rounding note is visible.",
+    "Wide mobile tables remain scrollable inside their panels."
+  ],
+  "limits": [
+    "No complete demo comparison.",
+    "Existing full-product layout and unrelated controls were not redesigned.",
+    "These screenshots come from a disposable database, not hosted production."
+  ],
+  "screenshots": [
+    {
+      "artifact_path": "readiness-ui/desktop-accessory-decision.png",
+      "sha256": "3b0e9528229904222fc461eb49e0fbd8088bc0c52eff7e2ecb91b79a7d5143c1",
+      "visually_inspected": true
+    },
+    {
+      "artifact_path": "readiness-ui/desktop-hpp-rounding.png",
+      "sha256": "cc61a0e5d67c11fa692f539609ea4665d6aa77ab45c127e76569942b91175610",
+      "visually_inspected": true
+    },
+    {
+      "artifact_path": "readiness-ui/desktop-laundry-pending.png",
+      "sha256": "c6d2abe9cf399b229a6664fb76dbd9e7aa233c81d88ab4fc99b70d8dbfacba2f",
+      "visually_inspected": true
+    },
+    {
+      "artifact_path": "readiness-ui/desktop-laundry-ready.png",
+      "sha256": "897138a9a87980b48b57c53dcb8ef40560894c9faf1bb808274c22f3d8a8ecc7",
+      "visually_inspected": true
+    },
+    {
+      "artifact_path": "readiness-ui/mobile-accessory-decision.png",
+      "sha256": "15a4e87c7ebdb06d9de41e5e9f55edb9e07af73649b6876070cbcbe6feef6354",
+      "visually_inspected": true
+    },
+    {
+      "artifact_path": "readiness-ui/mobile-hpp-rounding.png",
+      "sha256": "30fdab55f17b2ce79a81e9848c3c747e89ffbe66b7ad809d0be858fcce638b45",
+      "visually_inspected": true
+    },
+    {
+      "artifact_path": "readiness-ui/mobile-laundry-pending.png",
+      "sha256": "2493019bfc36ccccb627f4dacd571c423f13f4515a2050e50414ec59824fe9ca",
+      "visually_inspected": true
+    },
+    {
+      "artifact_path": "readiness-ui/mobile-laundry-ready.png",
+      "sha256": "e93a4ffaa4f3f411cbc9d349b78066c56b15bf2d188991ebca728f2a0d1c9f4a",
+      "visually_inspected": true
+    }
+  ]
+}
