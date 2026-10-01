@@ -89,3 +89,11 @@
 - Writer branch: 72 commits since 08065a3 (BE, BF = commercial ranges/vendor credit/conversion history; release package 30 files; writer takeover doc 28 Sep). Handoff doc stops at §34 (BD);
   BE/BF have separate handoff docs. Writer moved to CP7 (branches cp7/*, PRs #31–#38, cp7/integration active 1 Oct). `main` unchanged (557005e, 22 Sep).
 - NOT yet verified by Fable: BD/BE/BF audits, the CP6 closure claim, D07 retest, D09 ACC-C12 tests, F3/D08 fix verification, D11 values, GBD-03. Fable's own last frozen state remains r12 (BC).
+
+## 2026-10-01 ~02:00Z — round 13 (owner chose option a): verify the CP6 closure claim on candidate 10a8347 (product 434b182)
+- Identity: src + supabase/release + supabase/migrations identical 434b182..10a8347; runtime core (runner/modes/au_r1) unchanged since 95353aa; driver reviewed at 10a8347 (installs BD/BE, phases pre_bd/pre_be, writer push config only on push events).
+- Dispatched: gates T2 36802914343 · T3(30) 36802922323 · rollback 36802929871 · CodeQL 36802937437; regression after-phase (AC..BF): xa1 36802945018 · xa2 36802952298 ·
+  xa7 36802959475 · xa8 36802968654 · xa9 36802978021 · open_1 36802987554 · C0 36802996229 · xaudit_12_f1f2 36803005576 (D07: F2 rows expected silent) · xaudit_12_f4 36803013529.
+- Pinned probe workflows (audit branch be23433): BC (PLAN + 5 FAB) 36803064370 · BD (PLAN 34 incl. D09/D10 cases) 36803064486 · BE (PLAN 13) 36803064466.
+- Own D07 negative controls `round13_fable/xaudit_13_d07.py` (sha cee58a1d…): run 36803212344. Writer modes+browser reruns on auditor runtime: BC 36803221110 · BD 36803230431 · BE 36803238529.
+- Cross-check read: replacement auditor's acceptance = disclosed retest of BF conversion history + CP7 delta + 30-file package install; D07/D09/F3 relied on writer runs (36463334464 etc.), not re-run.
