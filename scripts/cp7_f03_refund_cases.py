@@ -49,6 +49,11 @@ def assert_refund(cur,f,amount):
  assert now['credits'][0]['origin']=='RETURN',now
  return now
 
+def assert_owner_refusal(result):
+ # The immutable accepted owner/admin guard raises its Native P0001.
+ # Require that exact authority failure, never accept an arbitrary 400.
+ assert result['status']==400 and result['body']['code']=='P0001' and result['body']['message']=='OWNER or ADMIN access required',result
+
 def cases(cur,today):
  def legacy():
   result=bb.return_right(cur,today,'LEGACY');assert result['status']=='PASS',result
@@ -104,14 +109,14 @@ def http_cases(http,today):
   with http.connect()as conn,conn.cursor()as cur:p=refund_payload(cur,f,first['body']['credit_id']);conn.commit()
   args=dict(p_action='CUSTOMER_CREDIT',p_payload=p,p_client_request_id=str(uuid.uuid4()))
   assert http.anon_rpc('erp_save_initial_import_action_v1',args)['status']in(401,403)
-  assert warehouse.rpc('erp_save_initial_import_action_v1',args)['status']==403
+  assert_owner_refusal(warehouse.rpc('erp_save_initial_import_action_v1',args))
   one=owner.rpc('erp_save_initial_import_action_v1',args);assert one['status']==200,one
   assert owner.rpc('erp_save_initial_import_action_v1',args)['body']==one['body']
   with http.connect()as conn,conn.cursor()as cur:
    state=assert_refund(cur,f,'10.00');assert state['refund_events']==1
    cur.execute('update erp.app_users set is_active=false where auth_user_id=%s',(owner.auth_user_id,));conn.commit()
-  assert owner.rpc('erp_save_initial_import_action_v1',args)['status']==403
-  assert owner.rpc('erp_get_initial_import_workspace_v1',dict(p_batch_id=f['batch']))['status']==403
+  assert_owner_refusal(owner.rpc('erp_save_initial_import_action_v1',args))
+  assert_owner_refusal(owner.rpc('erp_get_initial_import_workspace_v1',dict(p_batch_id=f['batch'])))
   return dict(status='PASS',actual_Auth_HTTP=True,lawful_source_return3_credit30_refund10_remaining20_bank90=True,
    exact_UUID_replay_once=True,anonymous_warehouse_current_deactivation_denied=True,real_non_financial_GUDANG_authority_refused=True,current_authority_before_cached_refund=True)
  return [('F03_E03_REAL_HTTP_SOURCE_REFUND',source_refund)]

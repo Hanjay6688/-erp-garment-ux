@@ -3,6 +3,7 @@ import {execFileSync} from 'node:child_process'
 import {mkdirSync,writeFileSync} from 'node:fs'
 const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_f03_refund_browser_fixture.py',op],{cwd:'../writer',input:JSON.stringify(p),encoding:'utf8',maxBuffer:8*1024*1024}).trim().split('\n').at(-1))
 async function open(ui,p,batch=null){
+ await ui.expect(p.locator('.sidebar .nav-main').filter({hasText:'Pengaturan & Audit'})).toBeAttached({timeout:20000})
  const menu=p.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click()
  const link=p.getByRole('button',{name:'• Impor data awal',exact:true})
  if(!await link.isVisible())await p.locator('.sidebar .nav-main').filter({hasText:'Pengaturan & Audit'}).click()
@@ -63,13 +64,14 @@ async function flow(ui,today,mobile){
   await panel.getByLabel('Alasan kredit',{exact:true}).fill('Catatan operator sendiri tetap disimpan')
   fixture('deactivate',{actor:user.user.id})
   const request=p.waitForRequest(r=>r.url().includes('/rest/v1/rpc/erp_get_initial_import_workspace_v1'))
-  await p.getByRole('button',{name:'Muat ulang',exact:true}).click();const ownRequest=await request;const response=await ownRequest.response();assert.equal(response.status(),403)
+  await p.getByRole('button',{name:'Muat ulang',exact:true}).click();const ownRequest=await request;const response=await ownRequest.response();assert.equal(response.status(),400)
+  const refusal=await response.json();assert.equal(refusal.code,'P0001');assert.equal(refusal.message,'OWNER or ADMIN access required')
   await ui.expect(panel).toBeHidden();await ui.expect(returns).toBeHidden();await ui.expect(p.getByText(f.code,{exact:true})).toBeHidden()
-  assert.equal(fixture('read',f).refund_events,1);await screenshot('CURRENT403_FACTS_RETIRED')
+  assert.equal(fixture('read',f).refund_events,1);await screenshot('CURRENT_AUTHORITY_REFUSAL_FACTS_RETIRED')
   fixture('restore',{actor:user.user.id});await p.getByRole('button',{name:'Muat ulang',exact:true}).click();await ui.expect(panel).toBeVisible()
   await ui.expect(panel.getByLabel('Alasan kredit',{exact:true})).toHaveValue('Catatan operator sendiri tetap disimpan')
   await ui.expect.poll(()=>p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true)
-  return{status:'PASS',mobile,lawful_paid_old_sale_provenance:true,physical_return3_credit30:true,actual_cash_refund10_remaining20_bank90:true,current_paid_native_sale_policy_unchanged:true,exact_lost_committed_UUID_payload_replay_once:true,current403_source_facts_retired_operator_reason_preserved:true,screenshots:files,full_family_acceptance:false,independent_acceptance:false,production_go:false}
+  return{status:'PASS',mobile,lawful_paid_old_sale_provenance:true,physical_return3_credit30:true,actual_cash_refund10_remaining20_bank90:true,current_paid_native_sale_policy_unchanged:true,exact_lost_committed_UUID_payload_replay_once:true,exact_native_owner_admin_authority_refusal:true,current_refusal_source_facts_retired_operator_reason_preserved:true,screenshots:files,full_family_acceptance:false,independent_acceptance:false,production_go:false}
  }catch(e){mkdirSync('cp6-proof/t3',{recursive:true});writeFileSync(`cp6-proof/t3/F03_E03_REFUND_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),stack:e.stack,text:(await p.locator('body').innerText().catch(()=>'' )).slice(0,16000)},null,2));await p.screenshot({path:`cp6-proof/t3/F03_E03_REFUND_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}
  finally{fixture('restore',{actor:user.user.id});await user.context.close()}
 }
