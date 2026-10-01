@@ -113,5 +113,5 @@ def http_cases(http,today):
   assert owner.rpc('erp_save_initial_import_action_v1',args)['status']==403
   assert owner.rpc('erp_get_initial_import_workspace_v1',dict(p_batch_id=f['batch']))['status']==403
   return dict(status='PASS',actual_Auth_HTTP=True,lawful_source_return3_credit30_refund10_remaining20_bank90=True,
-   exact_UUID_replay_once=True,anonymous_warehouse_current_deactivation_denied=True,current_authority_before_cached_refund=True)
+   exact_UUID_replay_once=True,anonymous_warehouse_current_deactivation_denied=True,real_non_financial_GUDANG_authority_refused=True,current_authority_before_cached_refund=True)
  return [('F03_E03_REAL_HTTP_SOURCE_REFUND',source_refund)]
