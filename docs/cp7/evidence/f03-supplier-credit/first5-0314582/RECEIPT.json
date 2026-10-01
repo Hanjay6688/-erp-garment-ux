@@ -1,0 +1,31 @@
+{
+  "schema": "cp7-full-stack-qualification-receipt-v1",
+  "classification": "FIXTURE_DEFECT_PROTECTED_OWNER_REVOKE_RETAINED",
+  "status": "INCOMPLETE",
+  "source_commit": "0314582bc2abeb1faa3bf125d4aee22d43ee4b0d",
+  "source_tree": "9b78d845193d3d9cbb9d785e0dd1be2625fd12ee",
+  "source_bundle_sha256": "eb86b6300f1ebf8e429edef2f4dfb0dc80ec24978c8809de53e7f2e3e7a729e5",
+  "run_id": 36853984716,
+  "job_id": 110341993160,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36853984716",
+  "bucket": "supplier_credit",
+  "counts": {
+    "PASS": 3,
+    "INCOMPLETE": 2
+  },
+  "expected_case_executions": 5,
+  "actual_case_executions": 5,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "passed_controls": [
+    "Native paid-target reallocation and original-source restoration",
+    "Actual source contention",
+    "Real Auth/HTTP permission before cached replay"
+  ],
+  "browser_incomplete_reason": "Both browsers completed paid-source allocation, exact committed-UUID reconciliation and original-source restoration, then the fixture tried to revoke protected OWNER finance.ap.view. Native rejected PROTECTED_OWNER_ROLE_CANNOT_BE_CHANGED. This is an intentional accepted product safeguard.",
+  "repair": "Use an authorized ADMIN browser actor and assert the disposable role is ADMIN before permission revocation. Keep OWNER protection unchanged.",
+  "protected_role_or_native_function_changes": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

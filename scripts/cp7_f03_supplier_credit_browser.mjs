@@ -10,7 +10,7 @@ async function open(ui,p){
  await ui.expect(p.getByRole('button',{name:'Muat ulang kredit supplier',exact:true})).toBeEnabled()
 }
 async function flow(ui,today,mobile){
- const f=fixture('prepare',{today}),user=await ui.login('OWNER',{label:'f03-paid-supplier-credit-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'}),p=user.page,suffix=mobile?'MOBILE':'DESKTOP',files=[]
+ const f=fixture('prepare',{today}),user=await ui.login('ADMIN',{label:'f03-paid-supplier-credit-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'}),p=user.page,suffix=mobile?'MOBILE':'DESKTOP',files=[]
  let revoked=null,sent=null,replay=null,committed=false,routeError=null
  const state=()=>fixture('read',f),ws=p.locator('.supplier-credit')
  const capture=async name=>{const file=`F03_SUPPLIER_CREDIT_${suffix}_${name}.png`;mkdirSync('cp6-proof/t3',{recursive:true});await p.screenshot({path:'cp6-proof/t3/'+file,fullPage:true});files.push(file)}

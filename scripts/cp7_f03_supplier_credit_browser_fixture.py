@@ -17,8 +17,9 @@ def main():
   elif op=='read':out=cases.observe(cur,p)
   elif op=='revoke':
    role=cases.credit.one(cur,'select role_id from erp.app_users where auth_user_id=%s',p['actor'])
+   assert cases.credit.one(cur,'select role_code from erp.app_roles where id=%s',role)=='ADMIN','Only the disposable ADMIN permission may be revoked; OWNER remains protected'
    rows=cur.execute("select role_id::text,permission_key,granted_by::text,granted_at from erp.app_role_permissions where role_id=%s and permission_key='finance.ap.view'",(role,)).fetchall()
-   assert rows,'Expected the real current owner finance permission before revocation'
+   assert rows,'Expected the real current ADMIN finance permission before revocation'
    cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.ap.view'",(role,));out=dict(rows=rows)
   elif op=='restore':
    cur.executemany('insert into erp.app_role_permissions(role_id,permission_key,granted_by,granted_at)values(%s,%s,%s,%s)',p['rows']);out=dict(status='RESTORED')
