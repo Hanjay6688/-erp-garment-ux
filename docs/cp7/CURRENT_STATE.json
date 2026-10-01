@@ -693,10 +693,12 @@
     "status": "FIRST_NATIVE80_79_PASS1_HTTP_FIXTURE_INCOMPLETE_NATIVE_UI82_RETEST_PENDING"
   },
   "f04_native_plan_bridge": {
+    "actual_complete_rollback_proved": true,
+    "actual_races_qualified": 5,
     "declared_cases": 22,
     "first_runtime": "docs/cp7/evidence/plan-native/first22-4fe51cb/RECEIPT.json",
     "focused_parser_dom_tests": 18,
-    "latest_before_receipt": "docs/cp7/evidence/plan-native/authority-before22-1a6196d/RECEIPT.json",
+    "latest_before_receipt": "docs/cp7/evidence/plan-native/source-stability-before22-eb6b868/RECEIPT.json",
     "latest_counts": {
       "browser": 2,
       "http": 1,
@@ -711,7 +713,7 @@
     "repair_run": 36872366454,
     "repair_source": "1a6196d389d18ecd6107c08fc3d59bec31e6cfb5",
     "scope": "OWN_NATIVE_DRAFT_AND_ATOMIC_LINKED_INTENT_NO_STOCK_RESERVATION_OR_PHYSICAL_POSTING",
-    "status": "NATIVE22_21_PASS_ONE_EXACT_REFUSAL_ORACLE_REPAIR_REPEAT_PENDING",
+    "status": "NATIVE22_21_PASS_SOURCE_STABILITY_INCOMPLETE_DIAGNOSTIC_REPEAT",
     "whole_P08_acceptance": false
   },
   "f04_native_schedule": {
@@ -899,7 +901,7 @@
     "consumer": "src/NativeAnalysisPanel.tsx",
     "external_delivery": false,
     "full_family_acceptance": false,
-    "latest_receipt": "docs/cp7/evidence/f05-native-history/attention-before164-ae74c41/RECEIPT.json",
+    "latest_receipt": "docs/cp7/evidence/f05-native-history/source-stability-before164-81fcd44/RECEIPT.json",
     "local_tests": 1084,
     "native_predeclared": {
       "browser": 24,
@@ -911,8 +913,8 @@
     "production_go": false,
     "receipt": "docs/cp7/evidence/f05-native-attention/local/RECEIPT.json",
     "scope": "Actor-bound review attention on one immutable analysis; delegated unchanged Native own-user manual reminder writers",
-    "status": "NATIVE164_163_PASS_ONE_BROWSER_SOURCE_STABILITY_INCOMPLETE_REPAIR_WRITTEN",
-    "tested_source": "ae74c4118d3d42ceec3b3865faad4cc2292ac8a9"
+    "status": "NATIVE164_163_PASS_SOURCE_STABILITY_STILL_INCOMPLETE_PROTECTED_DIAGNOSTIC_REPEAT",
+    "tested_source": "81fcd4477efcd9f2c46f5a395c118a11d5868707"
   },
   "f05_native_episode_history": {
     "build_source": "0981de990e1cb9b936a05b10856baf0139291fde",

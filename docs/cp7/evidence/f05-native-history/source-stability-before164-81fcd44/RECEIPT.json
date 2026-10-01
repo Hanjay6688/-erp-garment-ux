@@ -1,0 +1,76 @@
+{
+  "source": "81fcd4477efcd9f2c46f5a395c118a11d5868707",
+  "tree": "0eccef4c6fcd3906eb3b51b823d43bfaa82a00ac",
+  "run": 36874234676,
+  "job": 110409436462,
+  "artifact": 11169894115,
+  "file_id": "file_00000000a52082119478aa6534adde65",
+  "folder": "f05-native-history/source-stability-before164-81fcd44",
+  "report": "CP7_F05_NATIVE_ATTENTION.json",
+  "archive_bytes": 168449666,
+  "archive_sha256": "f330d5471312a538da5a91673cee1f79af7de0627bb6ba4c5c3ff4e4f194d4ed",
+  "source_bundle_sha256": "b69695f11e0e4a0a15152b57438aaeba46c1d1f29f700404e1d9eb0c207228a2",
+  "status": "INCOMPLETE",
+  "observed_case_count": 164,
+  "groups": {
+    "native": {
+      "PASS": 105
+    },
+    "races": {
+      "PASS": 21
+    },
+    "http": {
+      "PASS": 14
+    },
+    "browser": {
+      "PASS": 23,
+      "INCOMPLETE": 1
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "original_member_hashes": {
+    "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+    "CP7_F05_NATIVE_ATTENTION.json": "34dc8b28c461323d50c8fb779ba941324d23ce53a0d603d6e319c1607b23652f",
+    "CP7_NATIVE155_HANDOFF_DIAGNOSTIC.json": "e8b61f251d8ac2e4442cee2d17e69fc40f7c44e7a547b0107e8a47be5a895c40",
+    "P16_ATTENTION_MOBILE_FAILURE.json": "a6c63a40f51a3a77476615a51cd0609d43d244d3904876ad7cb9a8bf60e41e41",
+    "T3_BACKUP_RESTORE_DRILL.json": "c87751ea2df63ead84bb40dcec6632863b0b93676291ef27a4d8719d1c56a7f3",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "T3_PACKAGE_INSTALL.json": "3c768abe4c3a9de650374c2ae751d57340d067155bb247fcd850ee947e4e9ea2",
+    "retained-native155-928332d/RECEIPT.json": "f4501c91a666ca35d54d8dfc1db17113d55ab01928c8cbe8df7fcf7c5f92d2aa"
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "console_errors": 0,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "auth_cleanup_failures": [],
+  "database_remaining": 0
+}

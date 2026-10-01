@@ -20,6 +20,15 @@ def monetary_state(cur):
  for table in('material_stock_movements','fg_stock_movements','journal_entries','journal_lines','materials'):
   values[table]=cur.execute('select md5(coalesce(jsonb_agg(to_jsonb(x)order by id),\'[]\'::jsonb)::text)from erp.'+table+' x').fetchone()[0]
  return values
+def source_diagnostic(cur,run):
+ stored=cur.execute('select actor,query,facts,dependency_hash from cp7_analysis_native.runs where id=%s',(run,)).fetchone()
+ assert stored is not None
+ analysis.read(cur,run,str(stored[0]))
+ cur.execute('set local role cp7_capture')
+ current=cur.execute('select cp7_analysis_native.source(%s::jsonb)',(json.dumps(stored[1]),)).fetchone()[0]
+ current_hash=cur.execute('select cp7_analysis_native.fingerprint(%s::jsonb)',(json.dumps(current),)).fetchone()[0]
+ b.api.admin(cur)
+ return dict(stored_hash=stored[3],current_hash=current_hash,stored=stored[2],current=current)
 def custom(cur):
  subject,role=auth.custom_actor(cur)
  for permission in('production.cutting.view','production.cutting.create','production.cutting.edit_draft'):
@@ -101,13 +110,21 @@ def cases(cur,today):
   return dict(status='PASS',foreign_Original_draft_and_application_denied=True)
  def strict():
   f=setup(cur,today);before=b.boundary.snapshot(cur)
-  for extra in('quantity_override','complete_scope','reservation','production_confirmed'):
-   auth.refused(cur,lambda extra=extra:save(cur,{**f['payload'],extra:True}),'CP7_PLAN_FIELDS')
-  bad=copy.deepcopy(f['payload']);bad['cutting']['action']='POST';auth.refused(cur,lambda:save(cur,bad),'CP7_PLAN_FIELDS')
-  bad=copy.deepcopy(f['payload']);bad['reviewed_assumption_ids']=[];auth.refused(cur,lambda:save(cur,bad),'CP7_PLAN_ASSUMPTIONS_NOT_REVIEWED')
-  bad=copy.deepcopy(f['payload']);bad['cutting']['rolls'][0]['qty_reported_remaining']='0';auth.refused(cur,lambda:save(cur,bad),'CP7_PLAN_NATIVE_MATERIAL_RECONCILIATION')
+  try:
+   for extra in('quantity_override','complete_scope','reservation','production_confirmed'):
+    auth.refused(cur,lambda extra=extra:save(cur,{**f['payload'],extra:True}),'CP7_PLAN_FIELDS')
+   bad=copy.deepcopy(f['payload']);bad['cutting']['action']='POST';auth.refused(cur,lambda:save(cur,bad),'CP7_PLAN_FIELDS')
+   bad=copy.deepcopy(f['payload']);bad['reviewed_assumption_ids']=[];auth.refused(cur,lambda:save(cur,bad),'CP7_PLAN_ASSUMPTIONS_NOT_REVIEWED')
+   bad=copy.deepcopy(f['payload']);bad['cutting']['rolls'][0]['qty_reported_remaining']='0';auth.refused(cur,lambda:save(cur,bad),'CP7_PLAN_NATIVE_MATERIAL_RECONCILIATION')
+   for _ in range(40):
+    observed=analysis.read(cur,f['original']['run_id'])
+    assert observed['source_state']=='UNCHANGED',('READ_ONLY_SOURCE_CHANGED',observed['source_state'])
+  except Exception:
+   from pathlib import Path
+   path=Path('cp6-proof/t3/P08_CLOSED_SOURCE_DIAGNOSTIC.json');path.parent.mkdir(parents=True,exist_ok=True)
+   path.write_text(json.dumps(source_diagnostic(cur,f['original']['run_id']),indent=2,default=str)+'\n');raise
   assert b.boundary.snapshot(cur)==before and not cur.execute('select exists(select 1 from cp7_plan_native.drafts)').fetchone()[0]
-  return dict(status='PASS',closed_operator_review_exact_units_and_no_public_POST_override=True)
+  return dict(status='PASS',closed_operator_review_exact_units_and_no_public_POST_override=True,read_only_Original_stability_reads=40)
  def identities():
   f=setup(cur,today);before=b.boundary.snapshot(cur)
   bad=copy.deepcopy(f['payload']);bad['cutting']['size_slots'][0]['size_id']=str(uuid.uuid4());auth.refused(cur,lambda:save(cur,bad),'CP7_PLAN_NATIVE_EXACT_SIZE')
