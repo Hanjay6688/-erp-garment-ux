@@ -1,0 +1,21 @@
+{
+  "schema": "cp7-f03-full-native-manifest-v1",
+  "qualification_scope": "Actual Native current-authority refusal after observed advisory/source/target waits on the identical full F03 stack; not independent acceptance.",
+  "buckets": {
+    "supplier_authority": {
+      "expected_case_executions": 5,
+      "expected_smoke_executions": 0,
+      "groups": [
+        {
+          "key": "races",
+          "kind": "races",
+          "module": "cp7_supplier_credit_authority_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_supplier_credit_authority_cases.py",
+          "expected_executions": 5
+        }
+      ]
+    }
+  }
+}
