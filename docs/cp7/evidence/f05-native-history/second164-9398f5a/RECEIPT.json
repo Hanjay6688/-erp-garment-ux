@@ -1,0 +1,48 @@
+{
+  "status": "INCOMPLETE",
+  "source": "9398f5ad396b086dec328c1a39a10a9df27b065e",
+  "tree": "787aeeb7f7445757a315492bf0c8957df9a04e9c",
+  "run": 36826607266,
+  "job": 110253578247,
+  "artifact_id": 11147060221,
+  "archive_file_id": "file_00000000fe3c8211ae79fa0ba3533090",
+  "archive_sha256": "ec9ee9de870978ae9940db4fa80e8553017de03b81d1244057bb19c5d044cf1e",
+  "counts": {
+    "native": {
+      "PASS": 105
+    },
+    "races": {
+      "PASS": 21
+    },
+    "http": {
+      "PASS": 14
+    },
+    "browser": {
+      "PASS": 22,
+      "INCOMPLETE": 2
+    }
+  },
+  "observed": 164,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "browser_console_errors": 0,
+  "auth_cleanup_failures": [],
+  "failures": [
+    {
+      "case": "P17_BROWSER_MOBILE_NATIVE_HANDOFF",
+      "error": "Timeout waiting for read_analysis response",
+      "confirmed_cause": "Capture itself returned ARCHIVED_STALE at a real minute boundary; the correctly disabled copy control was clicked by the fixture."
+    },
+    {
+      "case": "P16_BROWSER_MOBILE_NATIVE_SAVED_EPISODE_HISTORY",
+      "error": "Parent stock200 !=403",
+      "confirmed_cause": "The history request itself denied403 and UI retired facts. The parent wait matched a delayed200 from a preceding request. Bind assertions to newly started POST request objects."
+    }
+  ],
+  "no_case_relabeled": true,
+  "independent_acceptance": false,
+  "production_go": false
+}

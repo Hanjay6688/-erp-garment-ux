@@ -8,12 +8,16 @@ async function journey(ui,today,mobile,automaticRequired=false){
  let original=null,lastRead=null,explicitCaptures=0,clockArchives=0,initialCopyMode='AUTOMATIC',controlledDenialCount=0,byteBoundCount=0
  const state=()=>fixture('state',{actor:user.user.id}),manual=()=>panel.getByLabel('Salinan manual pertanyaan dan sumber ERP',{exact:true}),question='P17 periksa saldo 🧵 "asli" dan jangan mengarang HPP',readRpc='**/rest/v1/rpc/erp_cp7_read_analysis_v1'
  const shot=async name=>{await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);await page.screenshot({path:'cp6-proof/t3/'+name,fullPage:true});shots.push(name)}
- const checked=async action=>{const before=state();const[r]=await Promise.all([page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_read_analysis_v1')),action()]);assert.equal(r.status(),200);lastRead=await r.json();assert.deepEqual(lastRead.analysis,original.analysis);assert.deepEqual(lastRead.financial_source,original.financial_source);assert.deepEqual(state(),before);return lastRead}
+ const checked=async action=>{const before=state();const[request]=await Promise.all([page.waitForRequest(r=>r.method()==='POST'&&r.url().endsWith('/rpc/erp_cp7_read_analysis_v1')),action()]);const r=await request.response();assert.ok(r,'The current Native read must have its own response');assert.equal(r.status(),200);lastRead=await r.json();assert.deepEqual(lastRead.analysis,original.analysis);assert.deepEqual(lastRead.financial_source,original.financial_source);assert.deepEqual(state(),before);return lastRead}
  const prepare=async denied=>{
   // A real minute boundary may archive the Original. The operator explicitly
   // captures again; the handoff itself must never silently recapture/recalculate.
   for(let attempt=0;attempt<3;attempt++){
    const before=state(),response=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_capture_analysis_v1'));await panel.getByRole('button',{name:'Ambil analisis ERP terbaru',exact:true}).click();const r=await response;assert.equal(r.status(),200);original=await r.json();explicitCaptures++;assert.equal(state().analysis_count,before.analysis_count+1);assert.deepEqual(state().business,before.business)
+   // Native capture itself can cross the minute boundary before its final
+   // current-source read. The correctly disabled handoff must not be clicked.
+   if(original.source_state==='ARCHIVED_STALE'){clockArchives++;await ui.expect(manual()).toHaveCount(0);await ui.expect(panel).toContainText('Arsip lama: sumber berubah.');continue}
+   assert.equal(original.source_state,'UNCHANGED')
    await panel.getByRole('tab',{name:'Tanya AI',exact:true}).click();await panel.getByLabel('Pertanyaan analisis ERP',{exact:true}).fill(question)
    const e=await checked(()=>panel.getByRole('button',{name:'Periksa & salin pertanyaan untuk AI',exact:true}).click())
    if(e.source_state==='ARCHIVED_STALE'){clockArchives++;await ui.expect(manual()).toHaveCount(0);continue}

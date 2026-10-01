@@ -1,0 +1,23 @@
+{
+  "status": "INDEPENDENT_CP6_READINESS_ACCEPTED_WRITER_ONLY",
+  "audit_commit": "bfb38c54ef89f058a44ce41bc0edb1462e97e6d9",
+  "audit_report": "https://github.com/Hanjay6688/-erp-garment-ux/blob/bfb38c54ef89f058a44ce41bc0edb1462e97e6d9/out/fable_r15_pr39_review.md",
+  "audited_source": "f378b9e0e5b939134d80396e01ccfce883a95a52",
+  "reruns": [
+    36824954256,
+    36824956958
+  ],
+  "rerun_statuses_verified": "BOTH_SUCCESS_ON_EXACT_AUDITED_SOURCE",
+  "pr39_merge": "e43e0ed4bab5ba9a803100e57ddfd7cd2647c631",
+  "cp7_merge": "ef792a76cc64c3266bfc99d80f9a63f8054518b1",
+  "merge_parent_cp7": "9398f5ad396b086dec328c1a39a10a9df27b065e",
+  "accepted_supabase_bytes_changed": false,
+  "merge_checks": {
+    "focused_tests": 37,
+    "security": "PASS",
+    "build": "PASS"
+  },
+  "hosted_install": "DEFERRED_UNTIL_CP7",
+  "main_changed": false,
+  "production_go": false
+}
