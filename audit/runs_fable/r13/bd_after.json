@@ -1,0 +1,5175 @@
+[
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "erp_functions": 534,
+  "new_public_readers": 1,
+  "objects": 692,
+  "production_go": false
+ },
+ {
+  "run_identity": {
+   "label": "T1_FAMILY",
+   "tool_head": "10a834712e515af86c6d8baa89bbe40cff9793e3",
+   "product_ref": "434b18215f57dd7a361ca621341488d3c31e9703",
+   "product_paths": [
+    "supabase/migrations",
+    "supabase/dev",
+    "supabase/release",
+    "supabase/rollbacks",
+    "src"
+   ],
+   "run_id": "36803064486",
+   "run_attempt": "1",
+   "workflow": "Fable CP6 Round 13 BD T1 Independent Rerun (writer PLAN) on closure candidate head 10a8347 (product 434b182)",
+   "job": "phase",
+   "event": "push",
+   "github_sha": "be234330fa8a297a89b528299c93bcc31da36bbf",
+   "release_evidence": false,
+   "production_go": false,
+   "phase": "after"
+  }
+ },
+ {
+  "bd_probe_setup": {
+   "au_install": "PASS",
+   "av_install": "PASS",
+   "bc_install": {
+    "stage": "AV_PLUS_AW_AX_AY_AZ_BA_BB_BC_T1",
+    "label": "T1_FAMILY",
+    "functions": 11,
+    "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+    "replaced_by_later_family": [
+     "erp.close_accounting_through(date,text)",
+     "erp.get_owner_financial_snapshot_v2(date,date,date)"
+    ],
+    "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+    "av_coverage": {
+     "registry": {
+      "erp.fg_lots.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "produced_at of every lot except GOOD returned by rework"
+      },
+      "erp.bs_cases.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+      },
+      "erp.sales_items.product_id": {
+       "class": "SALES",
+       "reason": "Sale of existing stock"
+      },
+      "erp.journal_lines.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "Journal dimension"
+      },
+      "erp.fg_stock_movements.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Movement of an existing lot"
+      },
+      "erp.sales_return_items.product_id": {
+       "class": "SALES",
+       "reason": "Return of sold stock"
+      },
+      "erp.bb_wip_bs_splits_v1.product_id": {
+       "class": "DERIVED",
+       "reason": "Provenance of an opening WIP BS split; the stock fact is its bs_cases row (NEW_STOCK_FACT at its physical_at)"
+      },
+      "erp.fg_adjustment_items.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Adjusts an existing lot"
+      },
+      "erp.fg_inventory_balances.product_id": {
+       "class": "DERIVED",
+       "reason": "Balance cache keyed by product/location/grade"
+      },
+      "erp.opening_balance_items.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+      },
+      "erp.stock_policy_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated stock policy"
+      },
+      "erp.accessory_bom_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated accessory BOM; no stock instant"
+      },
+      "erp.bc_customer_custody_v1.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "A customer-owned garment in service (ACC-C10); never company stock, no stock fact"
+      },
+      "erp.product_conversions.to_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+      },
+      "erp.product_price_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated price"
+      },
+      "erp.product_conversions.from_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion source, validated as EXISTING_STOCK"
+      },
+      "erp.qc_inspection_items.final_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "QC input; the facts are fg_lots and bs_cases"
+      },
+      "erp.fg_accessory_cost_snapshots.product_id": {
+       "class": "DERIVED",
+       "reason": "Cost snapshot of an FG lot"
+      },
+      "erp.bb_open_sales_draft_lines_v1.product_id": {
+       "class": "DERIVED",
+       "reason": "Provenance of a sales draft open at cutover; the sale is its native sales_items line (reservation of existing stock)"
+      },
+      "erp.po_accessory_bom_commitments.product_id": {
+       "class": "MASTER",
+       "reason": "PO accessory BOM commitment"
+      },
+      "erp.stock_explainability_snapshots.product_id": {
+       "class": "REPORT",
+       "reason": "Stock explanation snapshot"
+      },
+      "erp.bb_opening_sale_return_rights_v1.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Return right of an old invoice; the stock fact is the RETURN lot in fg_lots, validated as NEW_STOCK at receipt"
+      },
+      "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "HPP to GL synchronisation event"
+      },
+      "erp.bb_opening_sale_return_receipts_v1.product_id": {
+       "class": "DERIVED",
+       "reason": "Provenance of a return receipt; the stock fact is its fg_lots lot"
+      },
+      "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Laundry receipt input; the BS fact is bs_cases"
+      },
+      "erp.product_identity_mutation_context_v1.product_id": {
+       "class": "AUTHORIZATION",
+       "reason": "Private one-use identity edit context"
+      },
+      "erp.laundry_receipt_bs_product_allocations.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+      },
+      "erp.initial_import_wip_output_identity_v1.output_product_id": {
+       "class": "DERIVED",
+       "reason": "Provenance of an opening WIP output; the stock fact is its fg_lots lot"
+      },
+      "erp.initial_import_wip_output_identity_v1.opening_product_id": {
+       "class": "DERIVED",
+       "reason": "Provenance of an opening WIP output: the product filled in on its opening item"
+      },
+      "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+       "class": "DERIVED",
+       "reason": "Accounting entitlement of an FG lot"
+      }
+     },
+     "references": 30,
+     "new_stock_fact_tables": [
+      "bs_cases",
+      "fg_lots"
+     ]
+    },
+    "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+    "catalog": {
+     "revaluation_movement_indexes": [],
+     "accessory_total_hpp_cost": [
+      "s",
+      "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+     ]
+    },
+    "az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9",
+    "az_replaced_by_later_family": [
+     "erp.complete_initial_import_wip_v1(jsonb)",
+     "erp.sync_material_cost_revaluation(uuid)"
+    ],
+    "ba_sql_sha256": "3359a42fe93c35da481d164e5e6d70e79da41559621a65736418bfc8f32d93a7",
+    "ba_functions": [
+     "erp.post_opening_balance(uuid)",
+     "erp.complete_initial_import_wip_v1(jsonb)",
+     "erp.manage_initial_prepayment_v1(jsonb)",
+     "erp.sync_material_cost_revaluation(uuid)",
+     "erp.close_accounting_through(date,text)",
+     "erp.assert_new_stock_cutoff_coverage_v1()",
+     "erp.get_bs_resolution_workspace_v1(text,text,uuid,text,integer,integer)",
+     "erp.get_initial_import_workspace_v1(uuid)",
+     "erp.get_owner_financial_snapshot_v2(date,date,date)",
+     "erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)",
+     "erp.initial_prepayment_dated_floor_v1(uuid,date)"
+    ],
+    "ba_replaced_by_later_family": [
+     "erp.assert_new_stock_cutoff_coverage_v1()",
+     "erp.complete_initial_import_wip_v1(jsonb)",
+     "erp.get_initial_import_workspace_v1(uuid)",
+     "erp.sync_material_cost_revaluation(uuid)"
+    ],
+    "bb_sql_sha256": "a423268697f9290d7278bd98a364f9207562769c277d036ccf1c31902bbdf142",
+    "bb_functions": [
+     "erp.post_opening_subledger_settlement(uuid)",
+     "erp.post_opening_financial_correction(uuid,numeric,text,date)",
+     "erp.reverse_opening_financial_correction(uuid,text)",
+     "erp.approve_payroll(uuid)",
+     "erp.post_payroll_payment(uuid)",
+     "erp.reverse_paid_payroll(uuid,text)",
+     "erp.initial_import_revision_v1(uuid)",
+     "erp.get_initial_import_workspace_v1(uuid)",
+     "erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)",
+     "erp._validate_migration_batch_base(uuid)",
+     "erp.finalize_migration_batch(uuid)",
+     "erp.save_initial_import_action_v1(text,jsonb,uuid)",
+     "erp.run_v267_financial_truth_checks()",
+     "erp.assert_new_stock_cutoff_coverage_v1()",
+     "erp.material_purchase_posted_invoice_qty(uuid)",
+     "erp.material_purchase_current_unit_cost(uuid)",
+     "erp.refresh_material_purchase_item_match_state(uuid)",
+     "erp.sync_material_purchase_grni_on_status()",
+     "erp.check_initial_import_receipt_v1(uuid,uuid)",
+     "erp.apply_initial_import_receipts_v1(uuid)",
+     "erp.complete_initial_import_wip_v1(jsonb)",
+     "erp.validate_initial_import_production_v1(uuid)",
+     "erp.initial_import_lot_cost_v1(uuid)",
+     "erp.initial_import_production_rows_v1(uuid)",
+     "erp.sync_initial_import_bs_disposition_v1()",
+     "erp.guard_initial_import_po_completion_v1()",
+     "erp.recost_initial_import_origins_v1(uuid)",
+     "erp.run_v268_financial_report_checks()",
+     "erp.guard_work_completion_posting_consistency()",
+     "erp.post_work_completion(uuid)",
+     "erp.bb_business_today_v1",
+     "erp.bb_physical_at_v1",
+     "erp.bb_parse_amount_v1",
+     "erp.bb_parse_date_v1",
+     "erp.bb_opening_balance_context_v1",
+     "erp.bb_opening_balance_reserved_v1",
+     "erp.bb_opening_balance_dated_floor_v1",
+     "erp.bb_assert_opening_balance_floor_v1",
+     "erp.bb_opening_credit_lines_v1",
+     "erp.bb_opening_credit_account_v1",
+     "erp.bb_customer_credit_state_v1",
+     "erp.bb_customer_credit_dated_floor_v1",
+     "erp.bb_check_credit_account_v1",
+     "erp.bb_party_of_v1",
+     "erp.bb_check_import_row_v1",
+     "erp.bb_validate_financial_imports_v1",
+     "erp.bb_apply_financial_imports_v1",
+     "erp.bb_guard_legacy_document_identity_v1",
+     "erp.bb_guard_opening_payable_reimbursement_v1",
+     "erp.bb_guard_opening_balance_reserved_v1",
+     "erp.bb_check_opening_payable_payroll_v1",
+     "erp.bb_set_opening_payable_payroll_v1",
+     "erp.bb_manage_opening_settlement_v1",
+     "erp.bb_manage_customer_credit_v1",
+     "erp.bb_manage_opening_sale_return_v1",
+     "erp.bb_financial_workspace_v1",
+     "erp.bb_financial_revision_part_v1",
+     "erp.bb_guard_receipt_invoiced_part_v1",
+     "erp.bb_receipt_invoiced_qty_v1",
+     "erp.bb_receipt_opening_unit_cost_v1",
+     "erp.bb_receipt_row_invoiced_part_v1",
+     "erp.bb_commitment_line_remaining_v1",
+     "erp.bb_guard_commitment_draft_v1",
+     "erp.bb_check_purchase_import_row_v1",
+     "erp.bb_validate_purchase_imports_v1",
+     "erp.bb_open_commitment_draft_v1",
+     "erp.bb_apply_purchase_imports_v1",
+     "erp.bb_manage_purchase_commitment_v1",
+     "erp.bb_purchase_workspace_v1",
+     "erp.bb_purchase_revision_part_v1",
+     "erp.bb_entitlement_carry_used_v1",
+     "erp.bb_guard_opening_carry_reimbursement_v1",
+     "erp.bb_check_labour_import_row_v1",
+     "erp.bb_labour_row_amount_v1",
+     "erp.bb_validate_labour_imports_v1",
+     "erp.bb_apply_labour_imports_v1",
+     "erp.bb_manage_payroll_entitlement_v1",
+     "erp.bb_labour_workspace_v1",
+     "erp.bb_labour_revision_part_v1",
+     "erp.bb_guard_wip_history_v1",
+     "erp.bb_guard_append_only_v1",
+     "erp.bb_wip_active_pickup_v1",
+     "erp.bb_wip_stage_v1",
+     "erp.bb_wip_holder_v1",
+     "erp.bb_wip_split_active_qty_v1",
+     "erp.bb_wip_split_net_asof_v1",
+     "erp.bb_wip_split_days_v1",
+     "erp.bb_wip_min_output_at_v1",
+     "erp.bb_assert_wip_ready_v1",
+     "erp.bb_po_contractor_used_v1",
+     "erp.bb_manage_opening_wip_v1",
+     "erp.bb_split_opening_wip_bs_v1",
+     "erp.bb_sync_split_bs_value_v1",
+     "erp.bb_sync_split_bs_disposition_v1",
+     "erp.bb_sync_item_split_values_v1",
+     "erp.bb_po_open_split_bs_v1",
+     "erp.bb_wip_row_part_v1",
+     "erp.bb_opening_work_source_v1",
+     "erp.bb_check_opening_work_v1",
+     "erp.bb_check_cutting_wip_row_v1",
+     "erp.bb_parse_count_v1",
+     "erp.bb_check_rework_import_row_v1",
+     "erp.bb_validate_production_imports_v1",
+     "erp.bb_apply_production_imports_v1",
+     "erp.bb_production_workspace_v1",
+     "erp.bb_production_revision_part_v1",
+     "erp.bb_guard_open_sales_draft_v1",
+     "erp.bb_check_sales_import_row_v1",
+     "erp.bb_validate_sales_imports_v1",
+     "erp.bb_apply_sales_imports_v1",
+     "erp.bb_sales_workspace_v1"
+    ],
+    "bb_replaced_by_later_family": [
+     "erp._validate_migration_batch_base(uuid)",
+     "erp.approve_payroll(uuid)",
+     "erp.assert_new_stock_cutoff_coverage_v1()",
+     "erp.bb_financial_workspace_v1",
+     "erp.bb_opening_credit_account_v1",
+     "erp.bb_opening_credit_lines_v1",
+     "erp.finalize_migration_batch(uuid)",
+     "erp.get_initial_import_workspace_v1(uuid)",
+     "erp.initial_import_revision_v1(uuid)",
+     "erp.save_initial_import_action_v1(text,jsonb,uuid)",
+     "erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)"
+    ],
+    "bc_sql_sha256": "f72f72d38ed8d44cd24002e94733f55473760244686296a3970961d7aa4a9ec7",
+    "bc_functions": [
+     "erp.post_material_adjustment(uuid)",
+     "erp._cp6_material_adjustment_revaluation_state(uuid)",
+     "erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)",
+     "erp.sync_material_cost_revaluation(uuid)",
+     "erp.populate_payroll_draft(uuid)",
+     "erp.validate_material_kasbon_deduction()",
+     "erp.refresh_contractor_issue_payroll_status(uuid)",
+     "erp.run_integrity_checks()",
+     "erp.approve_payroll(uuid)",
+     "erp.save_accessory_issue_action_v1(text,jsonb,uuid)",
+     "erp.get_accessory_issue_workspace_v1(jsonb)",
+     "erp.bb_opening_credit_lines_v1(uuid)",
+     "erp.bb_opening_credit_account_v1(uuid)",
+     "erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)",
+     "erp._validate_migration_batch_base(uuid)",
+     "erp.finalize_migration_batch(uuid)",
+     "erp.save_initial_import_action_v1(text,jsonb,uuid)",
+     "erp.get_initial_import_workspace_v1(uuid)",
+     "erp.initial_import_revision_v1(uuid)",
+     "erp.assert_new_stock_cutoff_coverage_v1()",
+     "erp.run_v265_gudang_write_integrity_checks()",
+     "erp.bb_financial_workspace_v1(uuid)",
+     "erp.bc_enter_context_v1",
+     "erp.bc_leave_context_v1",
+     "erp.bc_in_context_v1",
+     "erp.bc_zone_kind_v1",
+     "erp.bc_policy_v1",
+     "erp.bc_policy_version_v1",
+     "erp.bc_require_policy_v1",
+     "erp.bc_policy_account_v1",
+     "erp.bc_check_policy_value_v1",
+     "erp.bc_set_policy_v1",
+     "erp.bc_register_zone_v1",
+     "erp.bc_guard_zone_movement_v1",
+     "erp.bc_guard_zone_location_v1",
+     "erp.bc_parse_at_v1",
+     "erp.bc_parse_qty_v1",
+     "erp.bc_accessory_v1",
+     "erp.bc_location_v1",
+     "erp.bc_stock_at_v1",
+     "erp.bc_require_value_approval_v1",
+     "erp.bc_text_v1",
+     "erp.bc_uuid_v1",
+     "erp.bc_new_document_v1",
+     "erp.bc_link_v1",
+     "erp.bc_post_transfer_v1",
+     "erp.bc_post_adjustment_v1",
+     "erp.bc_adjustment_account_v1",
+     "erp.bc_adjustment_value_v1",
+     "erp.bc_lines_v1",
+     "erp.bc_lot_state_v1",
+     "erp.bc_lot_state_text_v1",
+     "erp.bc_lock_lot_v1",
+     "erp.bc_move_post_v1",
+     "erp.bc_internal_use_v1",
+     "erp.bc_receive_return_v1",
+     "erp.bc_inspect_v1",
+     "erp.bc_value_custody_v1",
+     "erp.bc_close_custody_v1",
+     "erp.bc_dispose_stock_v1",
+     "erp.bc_customer_garment_v1",
+     "erp.bc_count_post_v1",
+     "erp.bc_resolve_variance_v1",
+     "erp.bc_note_item_share_v1",
+     "erp.bc_note_item_adjustment_v1",
+     "erp.bc_note_item_collectible_v1",
+     "erp.bc_note_item_allocated_v1",
+     "erp.bc_note_return_issue_movement_v1",
+     "erp.bc_carry_remaining_v1",
+     "erp.bc_credit_note_return_v1",
+     "erp.bc_opening_note_credit_lines_v1",
+     "erp.bc_carry_next_payroll_v1",
+     "erp.bc_allocate_carry_v1",
+     "erp.bc_guard_carry_reimbursement_v1",
+     "erp.bc_round_note_v1",
+     "erp.bc_free_basis_v1",
+     "erp.bc_guard_note_reversal_v1",
+     "erp.bc_guard_note_credit_settlement_v1",
+     "erp.bc_check_import_row_v1",
+     "erp.bc_validate_imports_v1",
+     "erp.bc_apply_imports_v1",
+     "erp.bc_import_workspace_v1",
+     "erp.bc_import_revision_part_v1",
+     "erp.bc_reverse_v1",
+     "erp.save_accessory_service_action_v1",
+     "erp.bc_bucket_label_v1",
+     "erp.get_accessory_service_workspace_v1",
+     "public.erp_save_accessory_service_action_v1",
+     "public.erp_get_accessory_service_workspace_v1"
+    ]
+   },
+   "bd_install": {
+    "stage": "AV_PLUS_AW_AX_AY_AZ_BA_BB_BC_BD_T1",
+    "label": "T1_FAMILY",
+    "functions": 9,
+    "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+    "replaced_by_later_family": [
+     "erp.close_accounting_through(date,text)",
+     "erp.get_owner_financial_snapshot_v2(date,date,date)",
+     "erp.period_blockers_v1(date,date)",
+     "erp.set_laundry_rate_owner_estimate_v1(uuid,numeric,text)"
+    ],
+    "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+    "av_coverage": {
+     "registry": {
+      "erp.fg_lots.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "produced_at of every lot except GOOD returned by rework"
+      },
+      "erp.bs_cases.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+      },
+      "erp.sales_items.product_id": {
+       "class": "SALES",
+       "reason": "Sale of existing stock"
+      },
+      "erp.journal_lines.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "Journal dimension"
+      },
+      "erp.fg_stock_movements.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Movement of an existing lot"
+      },
+      "erp.sales_return_items.product_id": {
+       "class": "SALES",
+       "reason": "Return of sold stock"
+      },
+      "erp.bb_wip_bs_splits_v1.product_id": {
+       "class": "DERIVED",
+       "reason": "Provenance of an opening WIP BS split; the stock fact is its bs_cases row (NEW_STOCK_FACT at its physical_at)"
+      },
+      "erp.fg_adjustment_items.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Adjusts an existing lot"
+      },
+      "erp.fg_inventory_balances.product_id": {
+       "class": "DERIVED",
+       "reason": "Balance cache keyed by product/location/grade"
+      },
+      "erp.opening_balance_items.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+      },
+      "erp.stock_policy_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated stock policy"
+      },
+      "erp.accessory_bom_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated accessory BOM; no stock instant"
+      },
+      "erp.bc_customer_custody_v1.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "A customer-owned garment in service (ACC-C10); never company stock, no stock fact"
+      },
+      "erp.product_conversions.to_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+      },
+      "erp.product_price_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated price"
+      },
+      "erp.product_conversions.from_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion source, validated as EXISTING_STOCK"
+      },
+      "erp.qc_inspection_items.final_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "QC input; the facts are fg_lots and bs_cases"
+      },
+      "erp.fg_accessory_cost_snapshots.product_id": {
+       "class": "DERIVED",
+       "reason": "Cost snapshot of an FG lot"
+      },
+      "erp.bb_open_sales_draft_lines_v1.product_id": {
+       "class": "DERIVED",
+       "reason": "Provenance of a sales draft open at cutover; the sale is its native sales_items line (reservation of existing stock)"
+      },
+      "erp.po_accessory_bom_commitments.product_id": {
+       "class": "MASTER",
+       "reason": "PO accessory BOM commitment"
+      },
+      "erp.stock_explainability_snapshots.product_id": {
+       "class": "REPORT",
+       "reason": "Stock explanation snapshot"
+      },
+      "erp.bb_opening_sale_return_rights_v1.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Return right of an old invoice; the stock fact is the RETURN lot in fg_lots, validated as NEW_STOCK at receipt"
+      },
+      "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "HPP to GL synchronisation event"
+      },
+      "erp.bb_opening_sale_return_receipts_v1.product_id": {
+       "class": "DERIVED",
+       "reason": "Provenance of a return receipt; the stock fact is its fg_lots lot"
+      },
+      "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Laundry receipt input; the BS fact is bs_cases"
+      },
+      "erp.product_identity_mutation_context_v1.product_id": {
+       "class": "AUTHORIZATION",
+       "reason": "Private one-use identity edit context"
+      },
+      "erp.laundry_receipt_bs_product_allocations.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+      },
+      "erp.initial_import_wip_output_identity_v1.output_product_id": {
+       "class": "DERIVED",
+       "reason": "Provenance of an opening WIP output; the stock fact is its fg_lots lot"
+      },
+      "erp.initial_import_wip_output_identity_v1.opening_product_id": {
+       "class": "DERIVED",
+       "reason": "Provenance of an opening WIP output: the product filled in on its opening item"
+      },
+      "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+       "class": "DERIVED",
+       "reason": "Accounting entitlement of an FG lot"
+      }
+     },
+     "references": 30,
+     "new_stock_fact_tables": [
+      "bs_cases",
+      "fg_lots"
+     ]
+    },
+    "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+    "catalog": {
+     "revaluation_movement_indexes": [],
+     "accessory_total_hpp_cost": [
+      "s",
+      "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+     ]
+    },
+    "az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9",
+    "az_replaced_by_later_family": [
+     "erp.complete_initial_import_wip_v1(jsonb)",
+     "erp.sync_material_cost_revaluation(uuid)"
+    ],
+    "ba_sql_sha256": "3359a42fe93c35da481d164e5e6d70e79da41559621a65736418bfc8f32d93a7",
+    "ba_functions": [
+     "erp.post_opening_balance(uuid)",
+     "erp.complete_initial_import_wip_v1(jsonb)",
+     "erp.manage_initial_prepayment_v1(jsonb)",
+     "erp.sync_material_cost_revaluation(uuid)",
+     "erp.close_accounting_through(date,text)",
+     "erp.assert_new_stock_cutoff_coverage_v1()",
+     "erp.get_bs_resolution_workspace_v1(text,text,uuid,text,integer,integer)",
+     "erp.get_initial_import_workspace_v1(uuid)",
+     "erp.get_owner_financial_snapshot_v2(date,date,date)",
+     "erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)",
+     "erp.initial_prepayment_dated_floor_v1(uuid,date)"
+    ],
+    "ba_replaced_by_later_family": [
+     "erp.assert_new_stock_cutoff_coverage_v1()",
+     "erp.complete_initial_import_wip_v1(jsonb)",
+     "erp.get_initial_import_workspace_v1(uuid)",
+     "erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)",
+     "erp.sync_material_cost_revaluation(uuid)"
+    ],
+    "bb_sql_sha256": "a423268697f9290d7278bd98a364f9207562769c277d036ccf1c31902bbdf142",
+    "bb_functions": [
+     "erp.post_opening_subledger_settlement(uuid)",
+     "erp.post_opening_financial_correction(uuid,numeric,text,date)",
+     "erp.reverse_opening_financial_correction(uuid,text)",
+     "erp.approve_payroll(uuid)",
+     "erp.post_payroll_payment(uuid)",
+     "erp.reverse_paid_payroll(uuid,text)",
+     "erp.initial_import_revision_v1(uuid)",
+     "erp.get_initial_import_workspace_v1(uuid)",
+     "erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)",
+     "erp._validate_migration_batch_base(uuid)",
+     "erp.finalize_migration_batch(uuid)",
+     "erp.save_initial_import_action_v1(text,jsonb,uuid)",
+     "erp.run_v267_financial_truth_checks()",
+     "erp.assert_new_stock_cutoff_coverage_v1()",
+     "erp.material_purchase_posted_invoice_qty(uuid)",
+     "erp.material_purchase_current_unit_cost(uuid)",
+     "erp.refresh_material_purchase_item_match_state(uuid)",
+     "erp.sync_material_purchase_grni_on_status()",
+     "erp.check_initial_import_receipt_v1(uuid,uuid)",
+     "erp.apply_initial_import_receipts_v1(uuid)",
+     "erp.complete_initial_import_wip_v1(jsonb)",
+     "erp.validate_initial_import_production_v1(uuid)",
+     "erp.initial_import_lot_cost_v1(uuid)",
+     "erp.initial_import_production_rows_v1(uuid)",
+     "erp.sync_initial_import_bs_disposition_v1()",
+     "erp.guard_initial_import_po_completion_v1()",
+     "erp.recost_initial_import_origins_v1(uuid)",
+     "erp.run_v268_financial_report_checks()",
+     "erp.guard_work_completion_posting_consistency()",
+     "erp.post_work_completion(uuid)",
+     "erp.bb_business_today_v1",
+     "erp.bb_physical_at_v1",
+     "erp.bb_parse_amount_v1",
+     "erp.bb_parse_date_v1",
+     "erp.bb_opening_balance_context_v1",
+     "erp.bb_opening_balance_reserved_v1",
+     "erp.bb_opening_balance_dated_floor_v1",
+     "erp.bb_assert_opening_balance_floor_v1",
+     "erp.bb_opening_credit_lines_v1",
+     "erp.bb_opening_credit_account_v1",
+     "erp.bb_customer_credit_state_v1",
+     "erp.bb_customer_credit_dated_floor_v1",
+     "erp.bb_check_credit_account_v1",
+     "erp.bb_party_of_v1",
+     "erp.bb_check_import_row_v1",
+     "erp.bb_validate_financial_imports_v1",
+     "erp.bb_apply_financial_imports_v1",
+     "erp.bb_guard_legacy_document_identity_v1",
+     "erp.bb_guard_opening_payable_reimbursement_v1",
+     "erp.bb_guard_opening_balance_reserved_v1",
+     "erp.bb_check_opening_payable_payroll_v1",
+     "erp.bb_set_opening_payable_payroll_v1",
+     "erp.bb_manage_opening_settlement_v1",
+     "erp.bb_manage_customer_credit_v1",
+     "erp.bb_manage_opening_sale_return_v1",
+     "erp.bb_financial_workspace_v1",
+     "erp.bb_financial_revision_part_v1",
+     "erp.bb_guard_receipt_invoiced_part_v1",
+     "erp.bb_receipt_invoiced_qty_v1",
+     "erp.bb_receipt_opening_unit_cost_v1",
+     "erp.bb_receipt_row_invoiced_part_v1",
+     "erp.bb_commitment_line_remaining_v1",
+     "erp.bb_guard_commitment_draft_v1",
+     "erp.bb_check_purchase_import_row_v1",
+     "erp.bb_validate_purchase_imports_v1",
+     "erp.bb_open_commitment_draft_v1",
+     "erp.bb_apply_purchase_imports_v1",
+     "erp.bb_manage_purchase_commitment_v1",
+     "erp.bb_purchase_workspace_v1",
+     "erp.bb_purchase_revision_part_v1",
+     "erp.bb_entitlement_carry_used_v1",
+     "erp.bb_guard_opening_carry_reimbursement_v1",
+     "erp.bb_check_labour_import_row_v1",
+     "erp.bb_labour_row_amount_v1",
+     "erp.bb_validate_labour_imports_v1",
+     "erp.bb_apply_labour_imports_v1",
+     "erp.bb_manage_payroll_entitlement_v1",
+     "erp.bb_labour_workspace_v1",
+     "erp.bb_labour_revision_part_v1",
+     "erp.bb_guard_wip_history_v1",
+     "erp.bb_guard_append_only_v1",
+     "erp.bb_wip_active_pickup_v1",
+     "erp.bb_wip_stage_v1",
+     "erp.bb_wip_holder_v1",
+     "erp.bb_wip_split_active_qty_v1",
+     "erp.bb_wip_split_net_asof_v1",
+     "erp.bb_wip_split_days_v1",
+     "erp.bb_wip_min_output_at_v1",
+     "erp.bb_assert_wip_ready_v1",
+     "erp.bb_po_contractor_used_v1",
+     "erp.bb_manage_opening_wip_v1",
+     "erp.bb_split_opening_wip_bs_v1",
+     "erp.bb_sync_split_bs_value_v1",
+     "erp.bb_sync_split_bs_disposition_v1",
+     "erp.bb_sync_item_split_values_v1",
+     "erp.bb_po_open_split_bs_v1",
+     "erp.bb_wip_row_part_v1",
+     "erp.bb_opening_work_source_v1",
+     "erp.bb_check_opening_work_v1",
+     "erp.bb_check_cutting_wip_row_v1",
+     "erp.bb_parse_count_v1",
+     "erp.bb_check_rework_import_row_v1",
+     "erp.bb_validate_production_imports_v1",
+     "erp.bb_apply_production_imports_v1",
+     "erp.bb_production_workspace_v1",
+     "erp.bb_production_revision_part_v1",
+     "erp.bb_guard_open_sales_draft_v1",
+     "erp.bb_check_sales_import_row_v1",
+     "erp.bb_validate_sales_imports_v1",
+     "erp.bb_apply_sales_imports_v1",
+     "erp.bb_sales_workspace_v1"
+    ],
+    "bb_replaced_by_later_family": [
+     "erp._validate_migration_batch_base(uuid)",
+     "erp.approve_payroll(uuid)",
+     "erp.assert_new_stock_cutoff_coverage_v1()",
+     "erp.bb_financial_workspace_v1",
+     "erp.bb_opening_credit_account_v1",
+     "erp.bb_opening_credit_lines_v1",
+     "erp.complete_initial_import_wip_v1(jsonb)",
+     "erp.finalize_migration_batch(uuid)",
+     "erp.get_initial_import_workspace_v1(uuid)",
+     "erp.guard_initial_import_po_completion_v1()",
+     "erp.initial_import_production_rows_v1(uuid)",
+     "erp.initial_import_revision_v1(uuid)",
+     "erp.run_v268_financial_report_checks()",
+     "erp.save_initial_import_action_v1(text,jsonb,uuid)",
+     "erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)"
+    ],
+    "bc_sql_sha256": "f72f72d38ed8d44cd24002e94733f55473760244686296a3970961d7aa4a9ec7",
+    "bc_functions": [
+     "erp.post_material_adjustment(uuid)",
+     "erp._cp6_material_adjustment_revaluation_state(uuid)",
+     "erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)",
+     "erp.sync_material_cost_revaluation(uuid)",
+     "erp.populate_payroll_draft(uuid)",
+     "erp.validate_material_kasbon_deduction()",
+     "erp.refresh_contractor_issue_payroll_status(uuid)",
+     "erp.run_integrity_checks()",
+     "erp.approve_payroll(uuid)",
+     "erp.save_accessory_issue_action_v1(text,jsonb,uuid)",
+     "erp.get_accessory_issue_workspace_v1(jsonb)",
+     "erp.bb_opening_credit_lines_v1(uuid)",
+     "erp.bb_opening_credit_account_v1(uuid)",
+     "erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)",
+     "erp._validate_migration_batch_base(uuid)",
+     "erp.finalize_migration_batch(uuid)",
+     "erp.save_initial_import_action_v1(text,jsonb,uuid)",
+     "erp.get_initial_import_workspace_v1(uuid)",
+     "erp.initial_import_revision_v1(uuid)",
+     "erp.assert_new_stock_cutoff_coverage_v1()",
+     "erp.run_v265_gudang_write_integrity_checks()",
+     "erp.bb_financial_workspace_v1(uuid)",
+     "erp.bc_enter_context_v1",
+     "erp.bc_leave_context_v1",
+     "erp.bc_in_context_v1",
+     "erp.bc_zone_kind_v1",
+     "erp.bc_policy_v1",
+     "erp.bc_policy_version_v1",
+     "erp.bc_require_policy_v1",
+     "erp.bc_policy_account_v1",
+     "erp.bc_check_policy_value_v1",
+     "erp.bc_set_policy_v1",
+     "erp.bc_register_zone_v1",
+     "erp.bc_guard_zone_movement_v1",
+     "erp.bc_guard_zone_location_v1",
+     "erp.bc_parse_at_v1",
+     "erp.bc_parse_qty_v1",
+     "erp.bc_accessory_v1",
+     "erp.bc_location_v1",
+     "erp.bc_stock_at_v1",
+     "erp.bc_require_value_approval_v1",
+     "erp.bc_text_v1",
+     "erp.bc_uuid_v1",
+     "erp.bc_new_document_v1",
+     "erp.bc_link_v1",
+     "erp.bc_post_transfer_v1",
+     "erp.bc_post_adjustment_v1",
+     "erp.bc_adjustment_account_v1",
+     "erp.bc_adjustment_value_v1",
+     "erp.bc_lines_v1",
+     "erp.bc_lot_state_v1",
+     "erp.bc_lot_state_text_v1",
+     "erp.bc_lock_lot_v1",
+     "erp.bc_move_post_v1",
+     "erp.bc_internal_use_v1",
+     "erp.bc_receive_return_v1",
+     "erp.bc_inspect_v1",
+     "erp.bc_value_custody_v1",
+     "erp.bc_close_custody_v1",
+     "erp.bc_dispose_stock_v1",
+     "erp.bc_customer_garment_v1",
+     "erp.bc_count_post_v1",
+     "erp.bc_resolve_variance_v1",
+     "erp.bc_note_item_share_v1",
+     "erp.bc_note_item_adjustment_v1",
+     "erp.bc_note_item_collectible_v1",
+     "erp.bc_note_item_allocated_v1",
+     "erp.bc_note_return_issue_movement_v1",
+     "erp.bc_carry_remaining_v1",
+     "erp.bc_credit_note_return_v1",
+     "erp.bc_opening_note_credit_lines_v1",
+     "erp.bc_carry_next_payroll_v1",
+     "erp.bc_allocate_carry_v1",
+     "erp.bc_guard_carry_reimbursement_v1",
+     "erp.bc_round_note_v1",
+     "erp.bc_free_basis_v1",
+     "erp.bc_guard_note_reversal_v1",
+     "erp.bc_guard_note_credit_settlement_v1",
+     "erp.bc_check_import_row_v1",
+     "erp.bc_validate_imports_v1",
+     "erp.bc_apply_imports_v1",
+     "erp.bc_import_workspace_v1",
+     "erp.bc_import_revision_part_v1",
+     "erp.bc_reverse_v1",
+     "erp.save_accessory_service_action_v1",
+     "erp.bc_bucket_label_v1",
+     "erp.get_accessory_service_workspace_v1",
+     "public.erp_save_accessory_service_action_v1",
+     "public.erp_get_accessory_service_workspace_v1"
+    ],
+    "bc_replaced_by_later_family": [
+     "erp._validate_migration_batch_base(uuid)",
+     "erp.bb_opening_credit_account_v1(uuid)",
+     "erp.bb_opening_credit_lines_v1(uuid)",
+     "erp.bc_apply_imports_v1",
+     "erp.bc_check_import_row_v1",
+     "erp.finalize_migration_batch(uuid)",
+     "erp.get_initial_import_workspace_v1(uuid)",
+     "erp.initial_import_revision_v1(uuid)",
+     "erp.save_initial_import_action_v1(text,jsonb,uuid)",
+     "erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)"
+    ],
+    "bd_sql_sha256": "f480f8dd7dc2620e19994e328b971ef159ba81dca1b8272ae42b59e0d370f947",
+    "bd_functions": [
+     "erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)",
+     "erp.post_laundry_delivery(uuid)",
+     "erp.desired_laundry_accrual(uuid)",
+     "erp.rebuild_po_hpp(uuid,text)",
+     "erp.period_blockers_v1(date,date)",
+     "erp.set_laundry_rate_owner_estimate_v1(uuid,numeric,text)",
+     "erp.validate_laundry_receipt_line()",
+     "erp.cp6_lot_failed_wash_cost_v2620e(uuid)",
+     "erp.guard_cp6_vendor_invoice_receipt_on_post_v2620()",
+     "erp.post_sale(uuid)",
+     "erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)",
+     "erp._validate_migration_batch_base(uuid)",
+     "erp.finalize_migration_batch(uuid)",
+     "erp.save_initial_import_action_v1(text,jsonb,uuid)",
+     "erp.get_initial_import_workspace_v1(uuid)",
+     "erp.initial_import_revision_v1(uuid)",
+     "erp.complete_initial_import_wip_v1(jsonb)",
+     "erp.initial_import_production_rows_v1(uuid)",
+     "erp.guard_initial_import_po_completion_v1()",
+     "erp.get_wip_control_v1(text,uuid,text,text)",
+     "erp.run_v255_material_cost_integrity_checks()",
+     "erp.bc_check_import_row_v1(uuid,uuid)",
+     "erp.bc_apply_imports_v1(uuid)",
+     "erp.bb_opening_credit_lines_v1(uuid)",
+     "erp.bb_opening_credit_account_v1(uuid)",
+     "erp.run_v268_financial_report_checks()",
+     "erp.bd_context_v1",
+     "erp.bd_policy_v1",
+     "erp.bd_policy_version_v1",
+     "erp.bd_require_policy_v1",
+     "erp.bd_policy_account_v1",
+     "erp.bd_check_policy_value_v1",
+     "erp.bd_set_policy_v1",
+     "erp.bd_uuid_v1",
+     "erp.bd_amount_v1",
+     "erp.bd_qty_v1",
+     "erp.bd_at_v1",
+     "erp.bd_assert_version_start_v1",
+     "erp.bd_close_open_version_v1",
+     "erp.bd_process_rate_at_v1",
+     "erp.bd_component_rate_at_v1",
+     "erp.bd_package_rate_at_v1",
+     "erp.bd_scoped_rate_at_v1",
+     "erp.bd_save_master_v1",
+     "erp.bd_split_amount_v1",
+     "erp.bd_split_money_v1",
+     "erp.bd_vendor_needs_pricing_v1",
+     "erp.bd_compute_pricing_v1",
+     "erp.bd_component_charge_v1",
+     "erp.bd_attach_delivery_pricing_v1",
+     "erp.bd_refresh_size_estimates_v1",
+     "erp.bd_line_complete_v1",
+     "erp.bd_uncosted_estimate_v1",
+     "erp.bd_allocate_receipt_v1",
+     "erp.bd_set_charge_price_v1",
+     "erp.bd_resync_delivery_v1",
+     "erp.bd_opening_claim_recovered_v1",
+     "erp.bd_opening_claim_held_qty_v1",
+     "erp.bd_opening_claim_lost_qty_v1",
+     "erp.bd_opening_claim_held_asof_v1",
+     "erp.bd_opening_claim_days_v1",
+     "erp.bd_opening_wip_floor_v1",
+     "erp.bd_wip_row_part_v1",
+     "erp.bd_check_import_row_v1",
+     "erp.bd_validate_imports_v1",
+     "erp.bd_apply_imports_v1",
+     "erp.bd_manage_opening_claim_v1",
+     "erp.bd_set_opening_estimate_v1",
+     "erp.bd_import_workspace_v1",
+     "erp.bd_import_revision_part_v1",
+     "erp.bd_invoice_capacity_v1",
+     "erp.bd_invoice_pieces_v1",
+     "erp.bd_invoice_billed_v1",
+     "erp.bd_released_estimate_v1",
+     "erp.bd_product_variance_v1",
+     "erp.bd_receipt_invoiced_v1",
+     "erp.bd_opening_billed_v1",
+     "erp.bd_opening_released_v1",
+     "erp.bd_opening_invoiced_v1",
+     "erp.bd_guard_invoiced_receipt_v1",
+     "erp.bd_invoice_lines_json_v1",
+     "erp.bd_invoice_json_v1",
+     "erp.bd_save_invoice_draft_v1",
+     "erp.bd_check_correction_sources_v1",
+     "erp.bd_cancel_invoice_draft_v1",
+     "erp.bd_post_invoice_v1",
+     "erp.bd_invoice_resync_v1",
+     "erp.bd_reverse_invoice_v1",
+     "erp.bd_delivery_line_price_unknown_v1",
+     "erp.bd_lot_laundry_unknown_v1",
+     "erp.bd_assert_sale_laundry_known_v1",
+     "erp.bd_pending_cost_json_v1",
+     "erp.bd_custody_source_identity_v1",
+     "erp.bd_claim_credit_applied_v1",
+     "erp.bd_claim_credit_source_v1",
+     "erp.bd_claim_credit_opening_lines_v1",
+     "erp.bd_vendor_invoice_paid_v1",
+     "erp.bd_apply_claim_credit_v1",
+     "erp.bd_apply_vendor_credit_v1",
+     "erp.bd_pay_vendor_document_v1",
+     "erp.bd_reverse_vendor_settlement_v1",
+     "erp.bd_vendor_payables_v1",
+     "erp.bd_guard_claim_credit_in_use_v1",
+     "erp.bd_post_priced_delivery_v1",
+     "erp.bd_priced_line_json_v1",
+     "erp.save_laundry_bd_action_v1",
+     "erp.bd_invoice_page_v1",
+     "erp.bd_receipt_page_v1",
+     "erp.get_laundry_bd_workspace_v1",
+     "public.erp_save_laundry_bd_action_v1",
+     "public.erp_get_laundry_bd_workspace_v1"
+    ]
+   }
+  }
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "POLICY:LAU_DEC_SETTINGS_OWNER_VERSIONED_PENDING",
+  "refusals": [
+   {
+    "code": "BD_OWNER_ONLY",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_OWNER_ONLY: pengaturan kebijakan laundry hanya dapat diubah owner"
+    },
+    "result": null,
+    "ok": true
+   },
+   {
+    "code": "BD_POLICY_VALUE",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_POLICY_VALUE: LAU-DEC01 units berisi BATCH dan/atau MINIMUM (per PCS selalu berlaku)"
+    },
+    "result": null,
+    "ok": true
+   },
+   {
+    "code": "BD_POLICY_VALUE",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_POLICY_VALUE: LAU-DEC05 fallback BASE_RATE atau REFUSE"
+    },
+    "result": null,
+    "ok": true
+   },
+   {
+    "code": "BD_POLICY_VALUE",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_POLICY_VALUE: variance_account_id harus akun aktif yang dapat diposting berjenis EXPENSE"
+    },
+    "result": null,
+    "ok": true
+   },
+   {
+    "code": "STALE_VERSION",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "STALE_VERSION: pengaturan LAU_DEC01 berubah; muat ulang"
+    },
+    "result": null,
+    "ok": true
+   }
+  ],
+  "checks": {
+   "all_pending": true,
+   "admin_refused": true,
+   "bad_value_refused": true,
+   "set": true,
+   "stale_refused": true,
+   "cleared": true,
+   "events": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "T02:PACKAGE_ONE_CHARGE_PHYSICAL_QTY",
+  "state": {
+   "line": "028d1193-e3cd-4703-8e69-dfd0a7a256f6",
+   "qty": 10,
+   "rate": "12000.00",
+   "status": "ESTIMATED",
+   "known": "120000.00",
+   "complete": true,
+   "mode": "PACKAGE",
+   "charges": 1,
+   "lines": 1
+  },
+  "accrual": {
+   "desired": "120000.00",
+   "booked": "120000.00"
+  },
+  "refusal": {
+   "code": "BD_PRICING_REQUIRED",
+   "refusal": {
+    "sqlstate": "P0001",
+    "message": "BD_PRICING_REQUIRED: vendor ini memakai harga paket/komponen/borongan/minimum/tarif khusus; kirim lewat tab Harga & tagihan di halaman Laundry (Kirim dengan harga)"
+   },
+   "result": null,
+   "ok": true
+  },
+  "checks": {
+   "plain_refused": true,
+   "qty_10": true,
+   "total": true,
+   "rate": true,
+   "one_charge": true,
+   "accrual": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "T03:COMPONENT_SUM_SAME_PIECES",
+  "state": {
+   "line": "af795bc5-de42-4ea2-bc3d-d0dd1938c735",
+   "qty": 10,
+   "rate": "7000.00",
+   "status": "ESTIMATED",
+   "known": "70000.00",
+   "complete": true,
+   "mode": "COMPONENTS",
+   "charges": 3,
+   "lines": 1
+  },
+  "checks": {
+   "duplicate_refused": true,
+   "qty_10": true,
+   "total": true,
+   "charges": true,
+   "accrual": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "T04:FOUR_COMPONENTS",
+  "state": {
+   "line": "cd4d0e4a-a06b-42ae-8d2d-1bbed747f89f",
+   "qty": 10,
+   "rate": "12000.00",
+   "status": "ESTIMATED",
+   "known": "120000.00",
+   "complete": true,
+   "mode": "COMPONENTS",
+   "charges": 4,
+   "lines": 1
+  },
+  "checks": {
+   "duplicate_refused": true,
+   "qty_10": true,
+   "total": true,
+   "charges": true,
+   "accrual": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "T05:PARTIAL_COMPONENT_COVERAGE",
+  "state": {
+   "line": "79633bb6-03db-42a1-ad5c-5d885dadf33b",
+   "qty": 10,
+   "rate": "5400.00",
+   "status": "ESTIMATED",
+   "known": "54000.00",
+   "complete": true,
+   "mode": "COMPONENTS",
+   "charges": 2,
+   "lines": 1
+  },
+  "checks": {
+   "over_refused": true,
+   "qty_10": true,
+   "total": true,
+   "coverage": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "T06:PACKAGE_EXTRA_ONCE",
+  "state": {
+   "line": "d42e4853-d239-4406-89e9-d882ad15c936",
+   "qty": 10,
+   "rate": "7000.00",
+   "status": "ESTIMATED",
+   "known": "70000.00",
+   "complete": true,
+   "mode": "PACKAGE",
+   "charges": 2,
+   "lines": 1
+  },
+  "checks": {
+   "same_refused": true,
+   "pending_refused": true,
+   "total": true,
+   "charges": true,
+   "versions": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "T07:VERSION_AFTER_POSTED_DELIVERY",
+  "first": {
+   "line": "752fb26d-e684-4303-a3e4-092a0095c4c1",
+   "qty": 6,
+   "rate": "5000.00",
+   "status": "ESTIMATED",
+   "known": "30000.00",
+   "complete": true,
+   "mode": "COMPONENTS",
+   "charges": 1,
+   "lines": 1
+  },
+  "second": {
+   "line": "4ca59b98-e9ac-4c07-830b-afbe9a573475",
+   "qty": 4,
+   "rate": "6000.00",
+   "status": "ESTIMATED",
+   "known": "24000.00",
+   "complete": true,
+   "mode": "COMPONENTS",
+   "charges": 1,
+   "lines": 1
+  },
+  "receipt_cost": "30000.00",
+  "checks": {
+   "early_refused": true,
+   "first_kept": true,
+   "second_v2": true,
+   "receipt_first_estimate": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "T08:BAD_NOMINAL_REFUSED",
+  "refusals": [],
+  "checks": {
+   "bad_refused": true,
+   "unknown_with_value": true,
+   "overlap": true,
+   "one_row": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "T12:UNKNOWN_COMPONENT_KNOWN_SUBTOTAL",
+  "states": [
+   {
+    "line": "49b9f35a-5b06-41c2-a3a5-223742f087eb",
+    "qty": 10,
+    "rate": null,
+    "status": "PENDING",
+    "known": "50000.00",
+    "complete": false,
+    "mode": "COMPONENTS",
+    "charges": 2,
+    "lines": 1
+   },
+   {
+    "line": "49b9f35a-5b06-41c2-a3a5-223742f087eb",
+    "qty": 10,
+    "rate": "6000.00",
+    "status": "ESTIMATED",
+    "known": "60000.00",
+    "complete": true,
+    "mode": "COMPONENTS",
+    "charges": 2,
+    "lines": 1
+   }
+  ],
+  "accruals": [
+   {
+    "desired": "50000.00",
+    "booked": "50000.00"
+   },
+   {
+    "desired": "50000.00",
+    "booked": "50000.00"
+   },
+   {
+    "desired": "60000.00",
+    "booked": "60000.00"
+   }
+  ],
+  "blockers": [
+   [
+    "LAUNDRY_PRICE_UNKNOWN"
+   ],
+   [
+    "BD_LAUNDRY_COMPONENT_PRICE_UNKNOWN"
+   ],
+   []
+  ],
+  "denied": {
+   "needle": "",
+   "refusal": {
+    "sqlstate": "P0001",
+    "message": "OWNER or ADMIN access required"
+   },
+   "result": null,
+   "ok": true
+  },
+  "checks": {
+   "physical": true,
+   "known_part": true,
+   "rate_null": true,
+   "accrued_known": true,
+   "blocked_out": true,
+   "flat_estimate_refused": true,
+   "receipt_known_part": true,
+   "blocked_back": true,
+   "denied": true,
+   "zero_refused": true,
+   "set": true,
+   "again_refused": true,
+   "complete": true,
+   "receipt_full": true,
+   "accrual_full": true,
+   "unblocked": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "T13:NO_VERSION_IS_ERROR",
+  "refusal": {
+   "code": "BD_COMPONENT_RATE_NOT_EXACT",
+   "refusal": {
+    "sqlstate": "P0001",
+    "message": "BD_COMPONENT_RATE_NOT_EXACT: tepat satu versi harga komponen harus berlaku pada waktu kirim; ditemukan 0 (tidak ada versi = galat, bukan harga belum diketahui)"
+   },
+   "result": null,
+   "ok": true
+  },
+  "checks": {
+   "refused": true,
+   "nothing": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "T15:BD_RECEIPT_PROCESS_CHANGED",
+  "refusal": {
+   "code": "BD_PROCESS_CHANGED",
+   "refusal": {
+    "sqlstate": "P0001",
+    "message": "BD_PROCESS_CHANGED: kiriman dengan harga paket/komponen/borongan hanya diterima dengan proses yang dihargai saat kirim"
+   },
+   "result": null,
+   "ok": true
+  },
+  "checks": {
+   "refused": true,
+   "nothing": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "T20:LUMP_SUM_SPLIT_RECEIPTS",
+  "costs": [
+   "30.00",
+   "30.00",
+   "40.01"
+  ],
+  "state": {
+   "line": "9424259c-ea3f-48d5-9f00-97216c84a389",
+   "qty": 10,
+   "rate": "10.00",
+   "status": "ESTIMATED",
+   "known": "100.01",
+   "complete": true,
+   "mode": "BATCH",
+   "charges": 1,
+   "lines": 1
+  },
+  "accrual": {
+   "desired": "100.01",
+   "booked": "100.01"
+  },
+  "refusals": [
+   {
+    "code": "BD_POLICY_PENDING",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_POLICY_PENDING: satuan borongan per batch menunggu keputusan owner (LAU-DEC01); langkah ini belum dapat dijalankan"
+    },
+    "result": null,
+    "ok": true
+   },
+   {
+    "needle": "requires non-null key lump_sum",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "batch pricing requires non-null key lump_sum"
+    },
+    "result": null,
+    "ok": true
+   }
+  ],
+  "checks": {
+   "pending_refused": true,
+   "no_lump_refused": true,
+   "batch": true,
+   "split": true,
+   "uncosted_zero": true,
+   "accrual": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "DEC01:MINIMUM_CHARGE_TOPUP",
+  "state": {
+   "line": "04140a54-59cf-4e58-80fb-899349748d62",
+   "qty": 10,
+   "rate": "10000.00",
+   "status": "ESTIMATED",
+   "known": "100000.00",
+   "complete": true,
+   "mode": "COMPONENTS",
+   "charges": 2,
+   "lines": 1
+  },
+  "charges": [
+   [
+    "COMPONENT",
+    "70000.00"
+   ],
+   [
+    "MINIMUM_TOPUP",
+    "30000.00"
+   ]
+  ],
+  "checks": {
+   "pending_refused": true,
+   "unknown_refused": true,
+   "total": true,
+   "topup": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "T24:SCOPED_SIZE_RATE",
+  "state": {
+   "line": "ef41dc82-0e2b-48bd-9910-1d54930ae86e",
+   "qty": 10,
+   "rate": "8000.00",
+   "status": "ESTIMATED",
+   "known": "80000.00",
+   "complete": true,
+   "mode": "SCOPED",
+   "charges": 1,
+   "lines": 1
+  },
+  "mixed": {
+   "qty": 10,
+   "mode": "SCOPED",
+   "unit": "PCS",
+   "sizes": [
+    {
+     "qty": 6,
+     "size_id": "c8c10000-0000-4000-8000-000000000002"
+    },
+    {
+     "qty": 4,
+     "size_id": "9fbe1d12-50bd-4219-8884-43766356b435"
+    }
+   ],
+   "charges": [
+    {
+     "kind": "SCOPED_RATE",
+     "label": "Tarif khusus MODEL_SIZE",
+     "amount": "48000.00",
+     "ref_id": "ac7a6893-9fdb-4ccc-ac44-aa2970a47194",
+     "shares": [
+      {
+       "amount": "48000.00",
+       "size_id": "c8c10000-0000-4000-8000-000000000002"
+      }
+     ],
+     "unit_rate": "8000.00",
+     "version_id": "ac7a6893-9fdb-4ccc-ac44-aa2970a47194",
+     "covered_qty": 6,
+     "rate_status": "KNOWN"
+    },
+    {
+     "kind": "RATE",
+     "label": "Tarif dasar vendor/proses",
+     "amount": "20000.00",
+     "ref_id": null,
+     "shares": [
+      {
+       "amount": "20000.00",
+       "size_id": "9fbe1d12-50bd-4219-8884-43766356b435"
+      }
+     ],
+     "unit_rate": "5000.00",
+     "version_id": null,
+     "covered_qty": 4,
+     "rate_status": "KNOWN"
+    }
+   ],
+   "avg_rate": "6800.00",
+   "complete": true,
+   "vendor_id": "ea219395-ddc2-459e-b7b5-f7d3e2116a0a",
+   "total_known": "68000.00",
+   "policy_versions": {
+    "LAU_DEC05": 3
+   }
+  },
+  "checks": {
+   "pending_refused": true,
+   "plain_refused": true,
+   "refuse_without_rate": true,
+   "mixed": true,
+   "posted": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "T24:MULTI_SIZE_LOT_HPP",
+  "estimates": {
+   "c8c10000-0000-4000-8000-000000000002": "48000.00",
+   "fa0de091-3d30-4131-9c01-58ddf0a6e8db": "20000.00"
+  },
+  "allocations": {
+   "c8c10000-0000-4000-8000-000000000002": "48000.00",
+   "fa0de091-3d30-4131-9c01-58ddf0a6e8db": "20000.00"
+  },
+  "lot_values": [
+   "48060.000000",
+   "20040.000000"
+  ],
+  "after_invoice": [
+   "49260.000000",
+   "20840.000000"
+  ],
+  "per_piece": [
+   "8010.000000",
+   "5010.000000"
+  ],
+  "other_per_piece": [
+   "10.000000",
+   "10.000000"
+  ],
+  "checks": {
+   "estimates": true,
+   "allocations": true,
+   "receipt_line_cost": true,
+   "two_lots": true,
+   "per_size_laundry": true,
+   "other_costs_equal_per_piece": true,
+   "variance_by_pieces": true,
+   "nothing_left_in_wip": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "D10:VARIANCE_BY_BILLING_SOURCE",
+  "lot_values": [
+   "30060.000000",
+   "20040.000000"
+  ],
+  "after_invoice": [
+   "32060.000000",
+   "20040.000000"
+  ],
+  "checks": {
+   "two_billing_sources": true,
+   "variance_stays_with_its_source": true,
+   "nothing_left_in_wip": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "T32:REPLAY_ACCESS_GRANTS",
+  "grants": [
+   false,
+   false,
+   false
+  ],
+  "denied": {
+   "needle": "",
+   "refusal": {
+    "sqlstate": "P0001",
+    "message": "OWNER or ADMIN access required"
+   },
+   "result": null,
+   "ok": true
+  },
+  "checks": {
+   "replayed": true,
+   "reused_refused": true,
+   "one_row": true,
+   "denied": true,
+   "grants": true,
+   "workspace": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "T16:INVOICE_ABOVE_ESTIMATE_PRODUCT_COST",
+  "before": {
+   "accrual": {
+    "desired": "70000.00",
+    "booked": "70000.00"
+   },
+   "ap": "0",
+   "wip": "70100.00"
+  },
+  "after": {
+   "accrual": {
+    "desired": "0.00",
+    "booked": "0.00"
+   },
+   "ap": "75000.00",
+   "wip": "75100.00"
+  },
+  "line": {
+   "id": "44dc5b57-f7be-4d31-9002-04b990a53a5f",
+   "qty": 10,
+   "note": null,
+   "po_id": "2be8e88d-4cd8-4344-b00d-82203902e44b",
+   "amount": "75000.00",
+   "line_no": 1,
+   "category": "GOOD",
+   "variance": "5000.00",
+   "line_kind": "BILL",
+   "net_amount": "75000.00",
+   "discount_share": "0.00",
+   "rounding_share": "0.00",
+   "receipt_line_id": "0cc4b3f8-9d2c-4807-a482-b9334a139e0a",
+   "completes_source": true,
+   "product_variance": "5000.00",
+   "released_estimate": "70000.00",
+   "opening_uninvoiced_id": null
+  },
+  "truth_changed": {},
+  "checks": {
+   "draft_saved": true,
+   "pending_refused": true,
+   "accrued_before": true,
+   "accrual_replaced": true,
+   "ap": true,
+   "variance_in_wip": true,
+   "line": true,
+   "payable": true,
+   "truth_checks_quiet": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "T17:PARTIAL_NM_CAPACITY",
+  "released": [
+   [
+    3,
+    "21000.00",
+    false
+   ],
+   [
+    4,
+    "28000.00",
+    true
+   ],
+   [
+    3,
+    "21000.00",
+    true
+   ]
+  ],
+  "accruals": [
+   {
+    "desired": "21000.00",
+    "booked": "21000.00"
+   },
+   {
+    "desired": "0.00",
+    "booked": "0.00"
+   }
+  ],
+  "checks": {
+   "mid_accrual": true,
+   "over_refused": true,
+   "again_refused": true,
+   "released": true,
+   "end_accrual": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "T21:DISCOUNT_TAX_ROUNDING",
+  "line": {
+   "id": "ec8b30a9-fb16-4dae-9d59-9979e5881ffa",
+   "qty": 10,
+   "note": null,
+   "po_id": "a0254085-2ea3-43db-99dd-00b6c9b14218",
+   "amount": "70000.00",
+   "line_no": 1,
+   "category": "GOOD",
+   "variance": "-1000.40",
+   "line_kind": "BILL",
+   "net_amount": "68999.60",
+   "discount_share": "1000.00",
+   "rounding_share": "-0.40",
+   "receipt_line_id": "a59adae1-0f89-4ebb-856c-452e3c8732b1",
+   "completes_source": true,
+   "product_variance": "-1000.40",
+   "released_estimate": "70000.00",
+   "opening_uninvoiced_id": null
+  },
+  "checks": {
+   "pending_refused": true,
+   "discount_refused": true,
+   "mismatch_refused": true,
+   "ap": true,
+   "tax": true,
+   "line": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "DEC06:VARIANCE_ACCOUNT",
+  "line": {
+   "id": "ce16c984-0d29-4f76-bd1b-1cf93f2e40b4",
+   "qty": 10,
+   "note": null,
+   "po_id": "d21c84f2-e9cd-455e-9edb-7faac75ca4d4",
+   "amount": "75000.00",
+   "line_no": 1,
+   "category": "GOOD",
+   "variance": "5000.00",
+   "line_kind": "BILL",
+   "net_amount": "75000.00",
+   "discount_share": "0.00",
+   "rounding_share": "0.00",
+   "receipt_line_id": "cc04e519-a05d-4c2b-b33c-cd13a4e5595b",
+   "completes_source": true,
+   "product_variance": "0.00",
+   "released_estimate": "70000.00",
+   "opening_uninvoiced_id": null
+  },
+  "checks": {
+   "variance_account": true,
+   "wip_unchanged": true,
+   "no_product_variance": true,
+   "mode": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "T23:REVERSE_PAY_CORRECT",
+  "back": {
+   "accrual": "{'desired': '70000.00', 'booked': '70000.00'}",
+   "ap": "0.00",
+   "vi": "REVERSED"
+  },
+  "checks": {
+   "receipt_locked": true,
+   "reversed": true,
+   "accrual_back": true,
+   "ap_back": true,
+   "replaced": true,
+   "paid_refused": true,
+   "correction_refused": true,
+   "correction": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "DEC02:BILLABLE_CATEGORIES_ACCESS",
+  "refusals": [
+   {
+    "code": "BD_CATEGORY_NOT_BILLABLE",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_CATEGORY_NOT_BILLABLE: LAU-DEC02 tidak menetapkan GOOD sebagai qty yang ditagih"
+    },
+    "result": null,
+    "ok": true
+   },
+   {
+    "code": "BD_INVOICE_VENDOR",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_INVOICE_VENDOR: baris penerimaan milik vendor lain"
+    },
+    "result": null,
+    "ok": true
+   },
+   {
+    "needle": "",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "OWNER or ADMIN access required"
+    },
+    "result": null,
+    "ok": true
+   }
+  ],
+  "checks": {
+   "category_refused": true,
+   "draft_kept": true,
+   "foreign_refused": true,
+   "denied": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "T22:VARIANCE_TO_FG_AND_COGS",
+  "lot_values": [
+   "70100.000000",
+   "75100.000000"
+  ],
+  "delta": {
+   "WIP": "0.00",
+   "FG_INVENTORY": "3000.00",
+   "COGS": "2000.00"
+  },
+  "truth_changed": {},
+  "checks": {
+   "lot_up_5000": true,
+   "no_wip_left": true,
+   "fg_and_cogs": true,
+   "cogs_share": true,
+   "fg_share": true,
+   "truth_checks_quiet": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "DEC04:SALE_UNKNOWN_LAUNDRY_PRICE",
+  "blocked": [
+   "BD_LAUNDRY_COMPONENT_PRICE_UNKNOWN"
+  ],
+  "lot_values": [
+   "50100.000000",
+   "60100.000000"
+  ],
+  "delta": {
+   "FG_INVENTORY": "8000.00",
+   "COGS": "2000.00"
+  },
+  "views": {
+   "before": {
+    "goods": [
+     {
+      "sku": "CP6-E-BD-b1620d88",
+      "lot_id": "41e29338-fec1-4df9-8559-e4a6796e3e2e",
+      "qty_now": 8,
+      "qty_sold": 2,
+      "hpp_state": "NOT_FINAL",
+      "po_number": "AA-INV-PO-ea47aaf7-c800-4256-9de2-f2abd6698ac4",
+      "lot_number": "FGP-260928-0F9582D0AD864E87BCE955E894AC39D2-CP6EBDb1620d88-6e0ff8a2",
+      "product_name": "CP6 E BD-b1620d88",
+      "hpp_per_pcs_so_far": "5010.00"
+     }
+    ],
+    "sales": [
+     {
+      "id": "f20963dd-c587-4405-a68a-bedc58b62c89",
+      "qty": 2,
+      "sku": "CP6-E-BD-b1620d88",
+      "sale_id": "9806c8ed-46e7-402c-bff8-a20fca735786",
+      "hpp_state": "NOT_FINAL",
+      "sale_date": "2026-09-28",
+      "lot_number": "FGP-260928-0F9582D0AD864E87BCE955E894AC39D2-CP6EBDb1620d88-6e0ff8a2",
+      "recorded_at": "2026-10-01T08:55:57",
+      "sale_number": "BD-SALE-eeba7c1a1f",
+      "product_name": "CP6 E BD-b1620d88",
+      "policy_version": "3",
+      "unit_hpp_at_sale": "5010.00"
+     }
+    ]
+   },
+   "after": {
+    "goods": [],
+    "sales": [
+     {
+      "id": "f20963dd-c587-4405-a68a-bedc58b62c89",
+      "qty": 2,
+      "sku": "CP6-E-BD-b1620d88",
+      "sale_id": "9806c8ed-46e7-402c-bff8-a20fca735786",
+      "hpp_state": "RECOSTED",
+      "sale_date": "2026-09-28",
+      "lot_number": "FGP-260928-0F9582D0AD864E87BCE955E894AC39D2-CP6EBDb1620d88-6e0ff8a2",
+      "recorded_at": "2026-10-01T08:55:57",
+      "sale_number": "BD-SALE-eeba7c1a1f",
+      "product_name": "CP6 E BD-b1620d88",
+      "policy_version": "3",
+      "unit_hpp_at_sale": "5010.00"
+     }
+    ]
+   }
+  },
+  "refusals": [
+   {
+    "code": "BD_SALE_LAUNDRY_PRICE_UNKNOWN",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_SALE_LAUNDRY_PRICE_UNKNOWN: barang yang dijual masih punya harga laundry yang belum diketahui; isi harganya dulu atau owner mengizinkan lewat LAU-DEC04"
+    },
+    "result": null,
+    "ok": true
+   },
+   {
+    "code": "BD_SALE_LAUNDRY_PRICE_UNKNOWN",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_SALE_LAUNDRY_PRICE_UNKNOWN: barang yang dijual masih punya harga laundry yang belum diketahui; isi harganya dulu atau owner mengizinkan lewat LAU-DEC04"
+    },
+    "result": null,
+    "ok": true
+   }
+  ],
+  "checks": {
+   "pending_refused": true,
+   "refuse_refused": true,
+   "nothing_posted": true,
+   "allowed_but_close_blocked": true,
+   "known_part_only_not_final": true,
+   "sale_marked_not_final": true,
+   "price_set_recosts": true,
+   "close_clears_after_costing": true,
+   "sale_recosted_history_kept": true,
+   "known_then_sold": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "W05:OPENING_CUSTODY_CLAIM_SEPARATE",
+  "imported": {
+   "WIP": "40.00",
+   "OPENING_EQUITY": "-40.00"
+  },
+  "closed": {
+   "WIP": "-5.00",
+   "OTHER_EXPENSE": "5.00"
+  },
+  "source": {
+   "bb": {
+    "pickup": null,
+    "splits": [],
+    "split_qty_pcs": 0
+   },
+   "bd": {
+    "claims": [
+     {
+      "lost": 0,
+      "state": "OPEN",
+      "events": [],
+      "origin": "IMPORT",
+      "claim_id": "852fb5fe-ff75-434a-af14-96910a71cc54",
+      "recovered": 0,
+      "claim_date": "2026-09-18",
+      "claim_type": "MISSING",
+      "qty_claimed": 1,
+      "row_version": "1",
+      "vendor_code": "BW6cf4a0f7dac4",
+      "claim_number": "BW6cf4a0f7dac4-KL1",
+      "dispatch_number": "KRM-LAMA-7"
+     }
+    ],
+    "held_qty_pcs": 1,
+    "lost_qty_pcs": 0
+   },
+   "po_id": "7a63f71f-bc4b-4187-9695-07495419b618",
+   "stage": "LAUNDRY",
+   "outputs": [],
+   "qty_pcs": 8,
+   "batch_id": "e31e161f-8f1a-4411-87f8-b55f8b709e65",
+   "po_number": "BW6cf4a0f7dac4",
+   "size_code": "BW6cf4a0f7dac4",
+   "bs_case_id": null,
+   "product_id": "09dfb88a-1541-4e50-82c5-34bd8a926934",
+   "source_key": "WIP",
+   "vendor_name": "BB laundry W",
+   "balance_type": "WIP",
+   "cutover_date": "2026-09-20",
+   "current_stage": "LAUNDRY",
+   "location_code": null,
+   "current_amount": "40.00",
+   "contractor_name": null,
+   "opening_item_id": "a87f73e9-571c-4f14-b6ae-f6655bb13f4d",
+   "original_amount": "40.00",
+   "completed_qty_pcs": 0,
+   "remaining_qty_pcs": 7,
+   "accessory_cost_included": true
+  },
+  "refusals": [
+   {
+    "needle": "tidak melebihi sisa WIP",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "qty_pcs: jumlah harus bulat positif dan tidak melebihi sisa WIP"
+    },
+    "result": null,
+    "ok": true
+   },
+   {
+    "needle": "WIP/BS saldo awal yang belum selesai",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "PO masih memiliki WIP/BS saldo awal yang belum selesai"
+    },
+    "result": null,
+    "ok": true
+   }
+  ],
+  "checks": {
+   "import_wip_only": true,
+   "separate_states": true,
+   "provenance": true,
+   "claimed_not_goods": true,
+   "completed_seven": true,
+   "wip_status_active_while_claimed": true,
+   "finish_waits_for_claim": true,
+   "write_off_no_journal": true,
+   "resolved": true,
+   "lost_value_once": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "W05:CLAIM_CONTINUATIONS",
+  "settled": {
+   "AP_VENDOR": "3.00",
+   "OTHER_EXPENSE": "-3.00"
+  },
+  "leaked": [],
+  "compensation_listed": [
+   "3.00"
+  ],
+  "refusals": [
+   {
+    "code": "BD_W05_CLAIM_EXCEEDS_REMAINING",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_W05_CLAIM_EXCEEDS_REMAINING: pada 2026-09-30 atau sesudahnya hanya 7 pcs tersisa di vendor; potongan yang sudah selesai, dipisah BS, atau diklaim tidak dapat diklaim lagi"
+    },
+    "result": null,
+    "ok": true
+   },
+   {
+    "code": "BD_W05_DUPLICATE_CLAIM",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_W05_DUPLICATE_CLAIM: nomor klaim sudah dipakai"
+    },
+    "result": null,
+    "ok": true
+   },
+   {
+    "code": "BD_W05_IMPORTED_CLAIM",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_W05_IMPORTED_CLAIM: klaim dari impor tidak dibatalkan; catat potongan yang kembali (RECOVER_CLAIM)"
+    },
+    "result": null,
+    "ok": true
+   },
+   {
+    "code": "BA_WIP_OUTPUT_EXCEEDS_DATED_REMAINING",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BA_WIP_OUTPUT_EXCEEDS_DATED_REMAINING: pada 2026-09-30 atau sesudahnya hanya 6 pcs tersisa di tahap sumber; hasil bertanggal lebih awal tidak boleh memakai potongan yang baru kembali kemudian"
+    },
+    "result": null,
+    "ok": true
+   },
+   {
+    "code": "BD_W05_RECOVERED_IN_USE",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_W05_RECOVERED_IN_USE: potongan yang kembali sudah dipakai (selesai atau dipisah BS); batalkan hasilnya dulu"
+    },
+    "result": null,
+    "ok": true
+   },
+   {
+    "code": "BD_W05_RECOVER_EXCEEDS_CLAIM",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_W05_RECOVER_EXCEEDS_CLAIM: yang kembali melebihi sisa klaim 1"
+    },
+    "result": null,
+    "ok": true
+   },
+   {
+    "code": "BD_W05_COMPENSATION_EXCEEDS_PAYABLE",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_W05_COMPENSATION_EXCEEDS_PAYABLE: kompensasi 60.00 melebihi hutang vendor laundry 50.00; penagihan tunai perlu alur piutang terpisah"
+    },
+    "result": null,
+    "ok": true
+   },
+   {
+    "code": "BD_W05_CLAIM_RESOLVED",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_W05_CLAIM_RESOLVED: klaim sudah diselesaikan"
+    },
+    "result": null,
+    "ok": true
+   }
+  ],
+  "checks": {
+   "recovered_to_wip": true,
+   "later_claim_unheld_only": true,
+   "number_once": true,
+   "later_claim_holds": true,
+   "imported_not_cancelled": true,
+   "later_cancelled": true,
+   "held_until_cancelled": true,
+   "recovery_in_use": true,
+   "recover_capacity": true,
+   "compensation_capped": true,
+   "compensation_once": true,
+   "resolved_once": true,
+   "inverse": true,
+   "production_reads_without_amounts": true,
+   "compensation_on_import_workspace": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "W05:IMPORT_REFUSALS",
+  "claims": "[\"BD_W05_CLAIM_EXCEEDS_SOURCE: klaim 13 PCS melebihi 8 PCS WIP di vendor\"] | [\"BD_W05_CLAIM_EXCEEDS_SOURCE: klaim 13 PCS melebihi 8 PCS WIP di vendor\"] | [\"BD_W05_VENDOR_MISMATCH: vendor klaim berbeda dengan vendor pemegang WIP\"] | [\"BD_W05_CLAIM_AFTER_CUTOVER: klaim yang diimpor adalah klaim sebelum atau pada tanggal saldo awal; klaim sesudahnya dicatat lewat lanjutan WIP\"] | [\"BD_W05_SOURCE_REQUIRED: source_key harus menunjuk WIP saldo awal tahap LAUNDRY yang valid di impor ini\"] | [\"BD_W05_DUPLICATE_CLAIM: nomor klaim sudah dipakai\"] | [\"BD_W05_DUPLICATE_CLAIM: nomor klaim sudah dipakai\"]",
+  "uninvoiced": "[\"BD_W05_DUPLICATE_RECEIPT: dokumen penerimaan dan kategori ini sudah diimpor\"] | [\"BD_W05_DUPLICATE_RECEIPT: dokumen penerimaan dan kategori ini sudah diimpor\"] | [\"BB_AMOUNT_INVALID: estimated_amount harus lebih dari nol dan dalam batas penyimpanan\"] | [\"receipt_date: penerimaan belum ditagih terjadi sebelum atau pada tanggal saldo awal\"]",
+  "sewing": "[\"BD_W05_SOURCE_REQUIRED: source_key harus menunjuk WIP saldo awal tahap LAUNDRY yang valid di impor ini\"]",
+  "checks": {
+   "exceeds_source": true,
+   "vendor": true,
+   "after_cutover": true,
+   "no_source": true,
+   "duplicate": true,
+   "not_laundry": true,
+   "receipt_twice": true,
+   "zero_estimate": true,
+   "receipt_after_cutover": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "W05:UNINVOICED_ACCRUAL_INVOICE",
+  "lines": [
+   {
+    "id": "7b32844d-31fa-450a-9a04-58e11153e9e7",
+    "qty": 6,
+    "note": null,
+    "po_id": null,
+    "amount": "42000.00",
+    "line_no": 1,
+    "category": "GOOD",
+    "variance": "0.00",
+    "line_kind": "BILL",
+    "net_amount": "42000.00",
+    "discount_share": "0.00",
+    "rounding_share": "0.00",
+    "receipt_line_id": null,
+    "completes_source": false,
+    "product_variance": "0.00",
+    "released_estimate": "42000.00",
+    "opening_uninvoiced_id": "c28ba4af-c097-4f1f-a149-f82817f0a01a"
+   },
+   {
+    "id": "9eaac4cd-94e6-40c7-9503-2230bf097b68",
+    "qty": 4,
+    "note": null,
+    "po_id": null,
+    "amount": "30000.00",
+    "line_no": 1,
+    "category": "GOOD",
+    "variance": "2000.00",
+    "line_kind": "BILL",
+    "net_amount": "30000.00",
+    "discount_share": "0.00",
+    "rounding_share": "0.00",
+    "receipt_line_id": null,
+    "completes_source": true,
+    "product_variance": "0.00",
+    "released_estimate": "28000.00",
+    "opening_uninvoiced_id": "c28ba4af-c097-4f1f-a149-f82817f0a01a"
+   }
+  ],
+  "imported": {
+   "OPENING_EQUITY": "70000.00",
+   "ACCRUED_MANUFACTURING": "-70000.00"
+  },
+  "billed": {
+   "AP_VENDOR": "-8000.00",
+   "ACCRUED_MANUFACTURING": "8000.00"
+  },
+  "refusals": [
+   {
+    "code": "BD_INVOICE_CAPACITY",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_INVOICE_CAPACITY: 6 GOOD sudah ditagih dari 10 yang tersedia pada penerimaan saldo awal ini; diminta 5"
+    },
+    "result": null,
+    "ok": true
+   },
+   {
+    "code": "BD_OPENING_VARIANCE_NEEDS_ACCOUNT",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_OPENING_VARIANCE_NEEDS_ACCOUNT: selisih 2000.00 pada penerimaan laundry saldo awal bukan biaya produk PO; LAU-DEC06 harus memakai akun selisih (VARIANCE_ACCOUNT)"
+    },
+    "result": null,
+    "ok": true
+   },
+   {
+    "code": "BD_INVOICE_CATEGORY",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_INVOICE_CATEGORY: penerimaan saldo awal ini berkategori FAILED_ATTEMPT"
+    },
+    "result": null,
+    "ok": true
+   },
+   {
+    "needle": "",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "OWNER or ADMIN access required"
+    },
+    "result": null,
+    "ok": true
+   }
+  ],
+  "checks": {
+   "import_accrual_only": true,
+   "states": true,
+   "unknown_blocks_close": true,
+   "partial_release": true,
+   "capacity": true,
+   "variance_needs_account": true,
+   "residual_release": true,
+   "category": true,
+   "estimate_owner_only": true,
+   "estimate_accrual": true,
+   "billed_releases": true,
+   "inverse": true,
+   "end": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "D07:RECOST_ALARM_DOCUMENT_LEVEL",
+  "paths": {
+   "CONTROL": {
+    "alarm": 0,
+    "books": {
+     "obligation": true,
+     "material_within_a_cent": true
+    },
+    "books_exact": true
+   },
+   "ADJUST_10.005": {
+    "alarm": 0,
+    "books": {
+     "obligation": true,
+     "material_within_a_cent": true
+    },
+    "books_exact": true
+   },
+   "ADJUST_2.10": {
+    "alarm": 0,
+    "books": {
+     "obligation": true,
+     "material_within_a_cent": true
+    },
+    "books_exact": true
+   },
+   "STACKED_3": {
+    "alarm": 0,
+    "books": {
+     "obligation": true,
+     "material_within_a_cent": true,
+     "wip": true,
+     "material_used_up": true
+    },
+    "books_exact": true
+   },
+   "STACKED_10": {
+    "alarm": 0,
+    "books": {
+     "obligation": true,
+     "material_within_a_cent": true,
+     "wip": true,
+     "material_used_up": true
+    },
+    "books_exact": true
+   }
+  },
+  "controls": {
+   "state_off_by_1.00": 1,
+   "state_removed": 2,
+   "fact_off_by_1.00": 1,
+   "facts_removed": 2
+  },
+  "checks": {
+   "books_exact_on_all_paths": true,
+   "silent_on_exact_books": true,
+   "negative_controls_ring": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "D09:ACC_C12_SOURCE_IDENTITY",
+  "pending": {
+   "posted": "9.000000",
+   "after_refusals": "11.000000",
+   "final": "17.000000"
+  },
+  "sources": [
+   [
+    "LOT:bcce85095e7f-lot",
+    "PENDING_VALUE"
+   ],
+   [
+    "SHEET:bcce85095e7f-lh#1",
+    "PENDING_VALUE"
+   ],
+   [
+    "SHEET:bcce85095e7f-lh#2",
+    "PENDING_VALUE"
+   ]
+  ],
+  "refusals": {
+   "missing": {
+    "result": "REFUSED",
+    "message": "('BB_FIXTURE_REFUSED', {'action': 'VALIDATE', 'status': 'DRAFT', 'batch_id': 'd964615d-6f35-4353-98ca-946ba9c12918', 'revision': 'd2fd44a17e99908357652a34c37156d116f9a741f2d0ca6f666b09bdc7b31da9', 'error_rows': 1, 'request_id': '9ea8d05c-4985-46b3-a9d5-4d375c639dc7', 'total_rows': 8, 'valid_rows': 7}, [('OPENING_ACCESSORY_CUSTODY', '[\"BC_C12_SOURCE_REQUIRED: item pending wajib rujukan sumber, sala",
+    "ok": true
+   },
+   "both": {
+    "result": "REFUSED",
+    "message": "('BB_FIXTURE_REFUSED', {'action': 'VALIDATE', 'status': 'DRAFT', 'batch_id': 'd09d80d9-42de-48bb-b34b-695c8a5bcde1', 'revision': '9fd6a9b09f3797fa83e4428dc72fd9da2a532eb941a2f77e756c977d8e1bd2ea', 'error_rows': 1, 'request_id': '46e2bd9c-9e83-44c3-8fec-f64ff97dbd00', 'total_rows': 8, 'valid_rows': 7}, [('OPENING_ACCESSORY_CUSTODY', '[\"BC_C12_SOURCE_REQUIRED: item pending wajib rujukan sumber, sala",
+    "ok": true
+   },
+   "half": {
+    "result": "REFUSED",
+    "message": "('BB_FIXTURE_REFUSED', {'action': 'VALIDATE', 'status': 'DRAFT', 'batch_id': '383d3254-b47f-4270-a154-4d7e93a7c281', 'revision': '736378aae73675d60a7d261cc28b6f07c2042106c4059f63c3a1eb433f5a6605', 'error_rows': 1, 'request_id': 'd362d970-1006-4b71-b963-d5b7af8df42b', 'total_rows': 8, 'valid_rows': 7}, [('OPENING_ACCESSORY_CUSTODY', '[\"BC_C12_SOURCE_REQUIRED: item pending wajib rujukan sumber, sala",
+    "ok": true
+   },
+   "same_line": {
+    "result": "REFUSED",
+    "message": "('BB_FIXTURE_REFUSED', {'action': 'VALIDATE', 'status': 'DRAFT', 'batch_id': '6c542ab6-f816-4632-89fb-cf300f4afa9a', 'revision': '4369a1bf41f0d1672061a620e8549d3bdcffcda8779a172e2ec4f75da8a46475', 'error_rows': 1, 'request_id': 'd975ea27-b37e-49c0-9c53-164e09dab2b3', 'total_rows': 8, 'valid_rows': 7}, [('OPENING_ACCESSORY_CUSTODY', '[\"BC_C12_SAME_SOURCE: rujukan sumber SHEET:bcce85095e7f-lh#1 suda",
+    "ok": true
+   },
+   "same_lot": {
+    "result": "REFUSED",
+    "message": "('BB_FIXTURE_REFUSED', {'action': 'VALIDATE', 'status': 'DRAFT', 'batch_id': '81ed4b35-6aa7-4c0c-bc5e-e6e3b9f8e2e9', 'revision': 'a8160de58363e6f6740a711de2a52d46a1b241d9f7d67c03357555a3c3a39034', 'error_rows': 1, 'request_id': '49617933-69f4-4570-bae0-7d6ef20412e8', 'total_rows': 8, 'valid_rows': 7}, [('OPENING_ACCESSORY_CUSTODY', '[\"BC_C12_SAME_SOURCE: rujukan sumber LOT:bcce85095e7f-lot sudah d",
+    "ok": true
+   },
+   "twice": {
+    "result": "REFUSED",
+    "message": "('BB_FIXTURE_REFUSED', {'action': 'VALIDATE', 'status': 'DRAFT', 'batch_id': 'fd98ee15-c5dc-49f8-ac90-ec72ea76b572', 'revision': 'b546e480c0ec66e657643f2f7faddf827b82bc36ce95f65dc9ea058e2b75cbb7', 'error_rows': 2, 'request_id': '8f02c2a4-c3cd-4cf6-be4f-5e1d2a0ef1ce', 'total_rows': 9, 'valid_rows': 7}, [('OPENING_ACCESSORY_CUSTODY', '[\"BC_C12_SAME_SOURCE: rujukan sumber SHEET:bcce85095e7f-lh#7 suda",
+    "ok": true
+   },
+   "replay_row": {
+    "result": "REFUSED",
+    "message": "('BB_FIXTURE_REFUSED', {'action': 'VALIDATE', 'status': 'DRAFT', 'batch_id': '07425651-a914-4c4d-b96c-897c1209f860', 'revision': '3ae5d4133033850454cce4873c79038f5fb7950e96169a212dbf85f9261d24b7', 'error_rows': 1, 'request_id': '10095c50-8bc4-4fee-a525-c46717bd3abb', 'total_rows': 8, 'valid_rows': 7}, [('OPENING_ACCESSORY_CUSTODY', '[\"BC_C03_DUPLICATE: custody_key sudah dipakai; satu barang fisik ",
+    "ok": true
+   }
+  },
+  "replay_request": {
+   "first": "POSTED",
+   "replayed": "POSTED",
+   "pending_before": "11.000000",
+   "pending_after": "11.000000",
+   "journals_unchanged": true
+  },
+  "checks": {
+   "no_source_refused": true,
+   "both_forms_refused": true,
+   "half_sheet_refused": true,
+   "posted_once": true,
+   "same_goods_new_key_refused": true,
+   "same_source_twice_in_batch_refused": true,
+   "replay_same_key_no_change": true,
+   "different_goods_accepted": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "D12:CLAIM_CREDIT_DAILY_OLDER_INVOICE",
+  "dates": {
+   "invoice": "2026-06-20",
+   "reject": "2026-07-20",
+   "approved": "2026-09-30"
+  },
+  "history": {
+   "ap": "10000000.00",
+   "lines": 2,
+   "sha": "9ab40b12a342d36de14e62b4c417cfc7afff61fe4b2837beb966564e8ea475c5"
+  },
+  "truth_before": {
+   "V2620C_VENDOR_PAYMENT_EXACT_STATUS_MISMATCH": 0,
+   "V2620Y_VENDOR_PAYMENT_BUSINESS_DATE": 0,
+   "V2620L_NEGATIVE_VENDOR_AP": 0,
+   "V2620M_OPENING_SUBLEDGER_STATE": 0,
+   "V2620M_PAYMENT_SOURCE_JOURNAL_MISMATCH": 0,
+   "V2620Y_OPENING_SETTLEMENT_BUSINESS_DATE": 0
+  },
+  "truth_after": {
+   "V2620C_VENDOR_PAYMENT_EXACT_STATUS_MISMATCH": 0,
+   "V2620Y_VENDOR_PAYMENT_BUSINESS_DATE": 0,
+   "V2620L_NEGATIVE_VENDOR_AP": 0,
+   "V2620M_OPENING_SUBLEDGER_STATE": 0,
+   "V2620M_PAYMENT_SOURCE_JOURNAL_MISMATCH": 0,
+   "V2620Y_OPENING_SETTLEMENT_BUSINESS_DATE": 0
+  },
+  "screen": {
+   "document": {
+    "id": "523e66a6-9365-4058-86a4-cfa967a48438",
+    "date": "2026-06-20",
+    "kind": "VENDOR_INVOICE",
+    "total": "10000000.00",
+    "number": "INV-JUN-218bc0",
+    "status": "PAID",
+    "corrects": null,
+    "paid_cash": "8000000.00",
+    "remaining": "0.00",
+    "settlements": [
+     {
+      "id": "40b255ce-d340-4d7d-bc00-495f8a6e393d",
+      "date": "2026-09-30",
+      "amount": "2000000.00",
+      "method": "CLAIM_CREDIT",
+      "number": "KK-40B255CED3404D7D",
+      "status": "POSTED",
+      "reference": "KL-JUL-5491ca"
+     },
+     {
+      "id": "97ff73c4-0663-4baf-a6f9-2f55ea9814ca",
+      "date": "2026-09-30",
+      "amount": "8000000.00",
+      "method": "CASH",
+      "number": "VP-97FF73C406634BAF",
+      "status": "POSTED",
+      "reference": null
+     }
+    ],
+    "claim_credit": "2000000.00",
+    "correction_credit": "0.00"
+   },
+   "ledger": {
+    "matches": true,
+    "ap_balance": "0.00",
+    "credit_available": "0.00",
+    "documents_remaining": "0.00"
+   },
+   "credits": [
+    {
+     "id": "d1bb02cf-f7a8-4867-a3af-f65ca208a5c8",
+     "kind": "DAILY_CLAIM",
+     "active": true,
+     "amount": "2000000.00",
+     "number": "KL-JUL-5491ca",
+     "applied": "2000000.00",
+     "available": "0.00",
+     "vendor_id": "20de5804-50ce-4433-beb8-1c4474432fb8",
+     "approved_date": "2026-09-30"
+    }
+   ]
+  },
+  "applied": {
+   "action": "APPLY_CLAIM_CREDIT",
+   "amount": "2000000.00",
+   "status": "SAVED",
+   "remaining": "8000000.00",
+   "target_id": "523e66a6-9365-4058-86a4-cfa967a48438",
+   "request_id": "40b255ce-d340-4d7d-bc00-495f8a6e393d",
+   "credit_left": "0.00",
+   "target_kind": "VENDOR_INVOICE",
+   "application_id": "40b255ce-d340-4d7d-bc00-495f8a6e393d",
+   "document_number": "INV-JUN-218bc0"
+  },
+  "paid": {
+   "action": "PAY_VENDOR_DOCUMENT",
+   "amount": "8000000.00",
+   "status": "SAVED",
+   "remaining": "0.00",
+   "target_id": "523e66a6-9365-4058-86a4-cfa967a48438",
+   "payment_id": "97ff73c4-0663-4baf-a6f9-2f55ea9814ca",
+   "request_id": "97ff73c4-0663-4baf-a6f9-2f55ea9814ca",
+   "target_kind": "VENDOR_INVOICE",
+   "document_number": "INV-JUN-218bc0"
+  },
+  "refusals": [
+   {
+    "code": "BD_CLAIM_CREDIT_EXCEEDS_AVAILABLE",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_CLAIM_CREDIT_EXCEEDS_AVAILABLE: kredit klaim KL-JUL-5491ca tersisa 0.00, sudah terpakai 2000000.00, diminta 1.00"
+    },
+    "result": null,
+    "ok": true
+   },
+   {
+    "needle": "still unpaid",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "Vendor invoice must be posted and still unpaid"
+    },
+    "result": null,
+    "ok": true
+   },
+   {
+    "code": "BD_CLAIM_CREDIT_IN_USE",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_CLAIM_CREDIT_IN_USE: kredit klaim KL-JUL-5491ca sudah dipakai untuk melunasi tagihan; batalkan pemakaiannya dulu"
+    },
+    "result": null,
+    "ok": true
+   }
+  ],
+  "checks": {
+   "reject_after_invoice": true,
+   "approval_lowers_payable": true,
+   "phantom_before_use": true,
+   "replay_once": true,
+   "invoice_paid": true,
+   "screen_ledger_agree": true,
+   "credit_once": true,
+   "no_overpay": true,
+   "claim_locked": true,
+   "reversal_frees_credit": true,
+   "reapplied": true,
+   "june_unchanged": true,
+   "truth_checks_quiet": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "D12:CLAIM_CREDIT_OPENING_OLDER_PAYABLE",
+  "history": {
+   "ap": "10000000.00",
+   "lines": 1,
+   "sha": "aed36311a01eae6e7472da0ebcf55d244a823d1b5c36824c364fc435cccd153c"
+  },
+  "truth_before": {
+   "V2620C_VENDOR_PAYMENT_EXACT_STATUS_MISMATCH": 0,
+   "V2620Y_VENDOR_PAYMENT_BUSINESS_DATE": 0,
+   "V2620L_NEGATIVE_VENDOR_AP": 0,
+   "V2620M_OPENING_SUBLEDGER_STATE": 0,
+   "V2620M_PAYMENT_SOURCE_JOURNAL_MISMATCH": 0,
+   "V2620Y_OPENING_SETTLEMENT_BUSINESS_DATE": 0
+  },
+  "truth_after": {
+   "V2620C_VENDOR_PAYMENT_EXACT_STATUS_MISMATCH": 0,
+   "V2620Y_VENDOR_PAYMENT_BUSINESS_DATE": 0,
+   "V2620L_NEGATIVE_VENDOR_AP": 0,
+   "V2620M_OPENING_SUBLEDGER_STATE": 0,
+   "V2620M_PAYMENT_SOURCE_JOURNAL_MISMATCH": 0,
+   "V2620Y_OPENING_SETTLEMENT_BUSINESS_DATE": 0
+  },
+  "screen": {
+   "document": {
+    "id": "ec45b8e8-908a-456a-9ad3-875b4b384c86",
+    "date": "2026-08-21",
+    "kind": "OPENING_PAYABLE",
+    "total": "10000000.00",
+    "number": "INV-LAMA-BW2f0ab7428441",
+    "status": "SETTLED",
+    "corrects": null,
+    "paid_cash": "8000000.00",
+    "remaining": "0.00",
+    "settlements": [
+     {
+      "id": "06aa5239-489c-4220-98c1-a8bca3989cee",
+      "date": "2026-09-30",
+      "amount": "2000000.00",
+      "method": "CLAIM_CREDIT",
+      "number": "OSS-KK-06AA5239489C",
+      "status": "POSTED",
+      "reference": "BW2f0ab7428441-KL1 #06AA5239"
+     },
+     {
+      "id": "8c09d2d1-0991-4849-b384-9f956b428ba4",
+      "date": "2026-09-30",
+      "amount": "8000000.00",
+      "method": "CASH",
+      "number": "OSS-8C09D2D109914849",
+      "status": "POSTED",
+      "reference": null
+     }
+    ],
+    "claim_credit": "2000000.00",
+    "correction_credit": "0.00"
+   },
+   "ledger": {
+    "matches": true,
+    "ap_balance": "0.00",
+    "credit_available": "0.00",
+    "documents_remaining": "0.00"
+   },
+   "credits": [
+    {
+     "id": "fe3eadd1-005b-46d4-b342-64f0fc2586e3",
+     "kind": "OPENING_CLAIM",
+     "active": true,
+     "amount": "2000000.00",
+     "number": "BW2f0ab7428441-KL1",
+     "applied": "2000000.00",
+     "available": "0.00",
+     "vendor_id": "df38a74c-9ead-4a77-ad86-9eb5546e7b25",
+     "approved_date": "2026-09-30"
+    }
+   ]
+  },
+  "refusals": [
+   {
+    "code": "BD_CLAIM_CREDIT_EXCEEDS_AVAILABLE",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_CLAIM_CREDIT_EXCEEDS_AVAILABLE: kredit klaim BW2f0ab7428441-KL1 tersisa 0.00, sudah terpakai 2000000.00, diminta 1.00"
+    },
+    "result": null,
+    "ok": true
+   },
+   {
+    "code": "BD_CLAIM_CREDIT_IN_USE",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_CLAIM_CREDIT_IN_USE: kredit klaim ini sudah dipakai untuk melunasi tagihan; batalkan pemakaiannya dulu"
+    },
+    "result": null,
+    "ok": true
+   }
+  ],
+  "checks": {
+   "invoice_older_than_reject": true,
+   "phantom_before_use": true,
+   "payable_settled": true,
+   "screen_ledger_agree": true,
+   "credit_once": true,
+   "claim_locked": true,
+   "cutover_unchanged": true,
+   "truth_checks_quiet": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "DEC06:CORRECTION_DOCUMENT_UP_AND_DOWN",
+  "deltas": {
+   "up": {
+    "WIP": "0.00",
+    "FG_INVENTORY": "1200.00",
+    "COGS": "800.00"
+   },
+   "down": {
+    "WIP": "0.00",
+    "FG_INVENTORY": "-900.00",
+    "COGS": "-600.00"
+   },
+   "lot": [
+    "70100.000000",
+    "72100.000000",
+    "70600.000000"
+   ]
+  },
+  "truth_changed": {},
+  "screen": {
+   "ledger": {
+    "matches": true,
+    "ap_balance": "0.00",
+    "credit_available": "0.00",
+    "documents_remaining": "0.00"
+   },
+   "up": {
+    "id": "0a0a811a-193c-4fb1-8d62-5d42afed5176",
+    "date": "2026-09-30",
+    "kind": "VENDOR_INVOICE",
+    "total": "2000.00",
+    "number": "KOR-NAIK-53ff3a",
+    "status": "PAID",
+    "corrects": "INV-A-5dd43b",
+    "paid_cash": "500.00",
+    "remaining": "0.00",
+    "settlements": [
+     {
+      "id": "32eb1906-06f6-4484-a73c-04b3889a6976",
+      "date": "2026-09-30",
+      "amount": "1500.00",
+      "method": "CORRECTION_CREDIT",
+      "number": "KR-32EB190606F64484",
+      "status": "POSTED",
+      "reference": "KOR-TURUN-ce08ee"
+     },
+     {
+      "id": "5ce02c10-09b8-4152-bcca-c6559aae7b39",
+      "date": "2026-09-30",
+      "amount": "500.00",
+      "method": "CASH",
+      "number": "VP-5CE02C1009B84152",
+      "status": "POSTED",
+      "reference": null
+     }
+    ],
+    "claim_credit": "0.00",
+    "correction_credit": "1500.00"
+   }
+  },
+  "refusals": [
+   {
+    "code": "BD_CORRECTION_SEPARATE_DOCUMENT",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_CORRECTION_SEPARATE_DOCUMENT: koreksi dibuat sebagai dokumen koreksi tersendiri yang tertaut ke invoice asal; pisahkan dari baris tagih"
+    },
+    "result": null,
+    "ok": true
+   },
+   {
+    "code": "BD_CORRECTION_EXCEEDS_PAYABLE",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_CORRECTION_EXCEEDS_PAYABLE: koreksi turun 3000.00 melebihi utang ke vendor ini saat ini 2000.00; kelebihan bayar ke vendor perlu alur piutang vendor tersendiri"
+    },
+    "result": null,
+    "ok": true
+   },
+   {
+    "code": "BD_CORRECTION_BELOW_ZERO",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_CORRECTION_BELOW_ZERO: koreksi membuat biaya tertagih sumber ini negatif (-8000.00)"
+    },
+    "result": null,
+    "ok": true
+   },
+   {
+    "code": "BD_CLAIM_CREDIT_EXCEEDS_AVAILABLE",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_CLAIM_CREDIT_EXCEEDS_AVAILABLE: kredit koreksi KOR-TURUN-ce08ee tersisa 0.00, sudah terpakai 1500.00, diminta 1.00"
+    },
+    "result": null,
+    "ok": true
+   },
+   {
+    "code": "BD_CLAIM_CREDIT_IN_USE",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_CLAIM_CREDIT_IN_USE: kredit koreksi KOR-TURUN-ce08ee sudah dipakai untuk melunasi tagihan; batalkan pemakaiannya dulu"
+    },
+    "result": null,
+    "ok": true
+   }
+  ],
+  "checks": {
+   "linked": true,
+   "separate_document": true,
+   "up_new_payable": true,
+   "up_product_cost": true,
+   "down_needs_payable": true,
+   "down_not_below_zero": true,
+   "down_lowers_payable": true,
+   "down_product_cost": true,
+   "down_credit_listed": true,
+   "credit_settles_up": true,
+   "ledger_agrees": true,
+   "credit_once": true,
+   "used_correction_locked": true,
+   "origin_untouched": true,
+   "history_unchanged": true,
+   "truth_checks_quiet": true,
+   "conservation_check_still_rings": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "DEC06:CORRECTION_DOWN_SETTLES_ORIGIN_THEN_OLDER",
+  "truth_changed": {},
+  "screens": {
+   "after_down": {
+    "matches": true,
+    "ap_balance": "9998000.00",
+    "credit_available": "2000.00",
+    "documents_remaining": "10000000.00"
+   },
+   "after_apply": {
+    "matches": true,
+    "ap_balance": "9998000.00",
+    "credit_available": "0.00",
+    "documents_remaining": "9998000.00"
+   },
+   "final": {
+    "matches": true,
+    "ap_balance": "10001000.00",
+    "credit_available": "0.00",
+    "documents_remaining": "10001000.00"
+   }
+  },
+  "refusals": [
+   {
+    "code": "BD_CLAIM_CREDIT_IN_USE",
+    "refusal": {
+     "sqlstate": "P0001",
+     "message": "BD_CLAIM_CREDIT_IN_USE: kredit koreksi KOR-B-03e896 sudah dipakai untuk melunasi tagihan; batalkan pemakaiannya dulu"
+    },
+    "result": null,
+    "ok": true
+   }
+  ],
+  "checks": {
+   "settles_origin_first": true,
+   "rest_is_credit": true,
+   "older_opening_payable": true,
+   "payable_math": true,
+   "used_correction_locked": true,
+   "applications_reversed": true,
+   "reversal_restores": true,
+   "cutover_unchanged": true,
+   "truth_checks_quiet": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "REV:X01_EXPLICIT_SIZE_COVERAGE_AND_RESPONSE",
+  "estimates": [
+   [
+    "c8c10000-0000-4000-8000-000000000002",
+    "30247.63",
+    true
+   ],
+   [
+    "00fcfcc5-00ef-4d6b-9a84-caacf93d3159",
+    "29321.09",
+    true
+   ]
+  ],
+  "finish_shares": [
+   [
+    "c8c10000-0000-4000-8000-000000000002",
+    0,
+    "0.00"
+   ],
+   [
+    "00fcfcc5-00ef-4d6b-9a84-caacf93d3159",
+    5,
+    "3394.55"
+   ]
+  ],
+  "receipt_totals": {
+   "00fcfcc5-00ef-4d6b-9a84-caacf93d3159": "29321.09",
+   "c8c10000-0000-4000-8000-000000000002": "30247.63"
+  },
+  "lot_costs": {
+   "00fcfcc5-00ef-4d6b-9a84-caacf93d3159": "29367.243846",
+   "c8c10000-0000-4000-8000-000000000002": "30301.476154"
+  },
+  "response": 59568.72,
+  "checks": {
+   "ambiguous_refused": true,
+   "foreign_refused": true,
+   "response_exact": true,
+   "unrelated_size_complete": true,
+   "finish_only_recipient": true,
+   "partial_receipts_conserve": true,
+   "lot_laundry_conserved": true,
+   "total_cost_conserved": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "REV:X01_UNKNOWN_COMPLETION_PRESERVES_COVERAGE",
+  "estimates": [
+   [
+    "c8c10000-0000-4000-8000-000000000002",
+    "30247.63",
+    true
+   ],
+   [
+    "7ef7d73c-46bf-4a56-8090-f5df81bd5932",
+    "25926.54",
+    false
+   ]
+  ],
+  "finish_shares": [
+   [
+    "c8c10000-0000-4000-8000-000000000002",
+    0,
+    "0.00"
+   ],
+   [
+    "7ef7d73c-46bf-4a56-8090-f5df81bd5932",
+    5,
+    "3394.55"
+   ]
+  ],
+  "receipt_totals": {
+   "7ef7d73c-46bf-4a56-8090-f5df81bd5932": "29321.09",
+   "c8c10000-0000-4000-8000-000000000002": "30247.63"
+  },
+  "lot_costs": {
+   "7ef7d73c-46bf-4a56-8090-f5df81bd5932": "29367.243846",
+   "c8c10000-0000-4000-8000-000000000002": "30301.476154"
+  },
+  "response": null,
+  "checks": {
+   "ambiguous_refused": true,
+   "foreign_refused": true,
+   "response_exact": true,
+   "unrelated_size_complete": true,
+   "finish_only_recipient": true,
+   "partial_receipts_conserve": true,
+   "lot_laundry_conserved": true,
+   "total_cost_conserved": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "REV:OWN02_FREE_WAIVED_LEGAL_PATH",
+  "evidence": [
+   {
+    "status": "FREE",
+    "charge": {
+     "id": "861d5e00-8fb9-4c99-b57d-d488d1abe3cc",
+     "kind": "COMPONENT",
+     "label": "FREE",
+     "amount": "0.00",
+     "ref_id": "1119d28c-13a9-43c1-85d3-4ce24bd448cb",
+     "line_no": 1,
+     "coverage": [
+      {
+       "qty": 10,
+       "size_id": "c8c10000-0000-4000-8000-000000000002"
+      }
+     ],
+     "unit_rate": "0.00",
+     "covered_qty": 10,
+     "rate_status": "FREE",
+     "price_reason": "Owner agreed FREE",
+     "included_components": null
+    },
+    "lot_value": "100.000000",
+    "checks": {
+     "nonzero": {
+      "code": "BD_FREE_REQUIRES_ZERO",
+      "refusal": {
+       "sqlstate": "P0001",
+       "message": "BD_FREE_REQUIRES_ZERO: FREE/WAIVED wajib nominal eksplisit 0.00 dan alasan"
+      },
+      "result": null,
+      "ok": true
+     },
+     "reason": {
+      "needle": "",
+      "refusal": {
+       "sqlstate": "P0001",
+       "message": "BD_REASON_REQUIRED: alasan wajib diisi, maksimal 1000 karakter"
+      },
+      "result": null,
+      "ok": true
+     },
+     "known_zero": {
+      "code": "BD_AMOUNT_INVALID",
+      "refusal": {
+       "sqlstate": "P0001",
+       "message": "BD_AMOUNT_INVALID: rate_per_pcs harus lebih dari 0"
+      },
+      "result": null,
+      "ok": true
+     },
+     "role": {
+      "needle": "",
+      "refusal": {
+       "sqlstate": "P0001",
+       "message": "OWNER or ADMIN access required"
+      },
+      "result": null,
+      "ok": true
+     }
+    }
+   },
+   {
+    "status": "WAIVED",
+    "charge": {
+     "id": "e9edc51a-ad19-41c1-a578-4dbdcf05b22e",
+     "kind": "COMPONENT",
+     "label": "WAIVED",
+     "amount": "0.00",
+     "ref_id": "fcfac8ed-7195-4082-807f-4d3ddcfd65e0",
+     "line_no": 1,
+     "coverage": [
+      {
+       "qty": 10,
+       "size_id": "c8c10000-0000-4000-8000-000000000002"
+      }
+     ],
+     "unit_rate": "0.00",
+     "covered_qty": 10,
+     "rate_status": "WAIVED",
+     "price_reason": "Owner agreed WAIVED",
+     "included_components": null
+    },
+    "lot_value": "100.000000",
+    "checks": {
+     "nonzero": {
+      "code": "BD_FREE_REQUIRES_ZERO",
+      "refusal": {
+       "sqlstate": "P0001",
+       "message": "BD_FREE_REQUIRES_ZERO: FREE/WAIVED wajib nominal eksplisit 0.00 dan alasan"
+      },
+      "result": null,
+      "ok": true
+     },
+     "reason": {
+      "needle": "",
+      "refusal": {
+       "sqlstate": "P0001",
+       "message": "BD_REASON_REQUIRED: alasan wajib diisi, maksimal 1000 karakter"
+      },
+      "result": null,
+      "ok": true
+     },
+     "known_zero": {
+      "code": "BD_AMOUNT_INVALID",
+      "refusal": {
+       "sqlstate": "P0001",
+       "message": "BD_AMOUNT_INVALID: rate_per_pcs harus lebih dari 0"
+      },
+      "result": null,
+      "ok": true
+     },
+     "role": {
+      "needle": "",
+      "refusal": {
+       "sqlstate": "P0001",
+       "message": "OWNER or ADMIN access required"
+      },
+      "result": null,
+      "ok": true
+     }
+    }
+   }
+  ],
+  "completion": {
+   "action": "SET_CHARGE_PRICE",
+   "amount": "0.00",
+   "status": "SAVED",
+   "complete": true,
+   "request_id": "c6435d67-a3c2-4341-8013-64fd48de156a",
+   "total_known": "0.00",
+   "charge_line_id": "5ae7a6ba-efda-4b34-8f6f-781960055ea1"
+  },
+  "checks": {
+   "FREE": true,
+   "WAIVED": true,
+   "unknown_to_waived": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "REV:X02_MONEY_OVER_INT32",
+  "amounts": [
+   [
+    "28123456.78",
+    "0.70",
+    "28123456.08"
+   ],
+   [
+    "21474836.48",
+    "0.53",
+    "21474835.95"
+   ]
+  ],
+  "ap": "120671421.76",
+  "expected_ap": "120671421.76",
+  "checks": {
+   "split_upper_bound": true,
+   "21474836.47": true,
+   "21474836.48": true,
+   "28123456.78": true,
+   "discount_exact": true,
+   "ap_exact": true,
+   "balanced": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "REV:X03_AUTH_BEFORE_REPLAY",
+  "fresh": {
+   "needle": "",
+   "refusal": {
+    "sqlstate": "42501",
+    "message": "PERMISSION_DENIED: finance.hpp.manage"
+   },
+   "result": null,
+   "ok": true
+  },
+  "cached": {
+   "needle": "",
+   "refusal": {
+    "sqlstate": "42501",
+    "message": "PERMISSION_DENIED: finance.hpp.manage"
+   },
+   "result": null,
+   "ok": true
+  },
+  "inactive": {
+   "needle": "",
+   "refusal": {
+    "sqlstate": "P0001",
+    "message": "BD_AUTH_REQUIRED: login ERP diperlukan"
+   },
+   "result": null,
+   "ok": true
+  },
+  "checks": {
+   "authorized_replay": true,
+   "revoke_fresh": true,
+   "revoke_replay": true,
+   "inactive": true,
+   "hidden": true,
+   "restored": true,
+   "one_effect": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "BD_CASES_AFTER",
+  "case": "REV:X05_PAGES_55_INVOICES_201_SOURCES",
+  "counts": [
+   55,
+   201
+  ],
+  "first_page": {
+   "as_of": "2026-10-01T01:56:19.308807Z",
+   "invoice_next": "cd2877ae-1141-4d03-bcf2-4f7fa9de77bc",
+   "receipt_next": "ff3f2f21-1294-453e-906a-3e4535f046bd"
+  },
+  "last_page": {
+   "as_of": "2026-10-01T01:56:19.308807Z",
+   "invoice_next": null,
+   "receipt_next": null
+  },
+  "checks": {
+   "first_limits": true,
+   "remaining": true,
+   "no_lost_or_duplicate_invoices": true,
+   "no_lost_or_duplicate_sources": true,
+   "new_insert_excluded": true,
+   "end": true,
+   "invalid_cursor": true
+  },
+  "failed": [],
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "bd_workspace_parse": {
+   "status": "PASS",
+   "files": 232,
+   "kinds": {
+    "bd": 14,
+    "import": 205,
+    "laundry": 13
+   },
+   "non_rfc_files": 13,
+   "refused": [],
+   "error": null,
+   "exit": 0
+  }
+ },
+ {
+  "bd_probe_phase": "after",
+  "status": "REVIEW_COMPLETE",
+  "label": "T1_FAMILY",
+  "phase": "after",
+  "production_go": false,
+  "independent_acceptance": false,
+  "release_evidence": false,
+  "planned": {
+   "POLICY:LAU_DEC_SETTINGS_OWNER_VERSIONED_PENDING": [
+    "PASS"
+   ],
+   "T02:PACKAGE_ONE_CHARGE_PHYSICAL_QTY": [
+    "PASS"
+   ],
+   "T03:COMPONENT_SUM_SAME_PIECES": [
+    "PASS"
+   ],
+   "T04:FOUR_COMPONENTS": [
+    "PASS"
+   ],
+   "T05:PARTIAL_COMPONENT_COVERAGE": [
+    "PASS"
+   ],
+   "T06:PACKAGE_EXTRA_ONCE": [
+    "PASS"
+   ],
+   "T07:VERSION_AFTER_POSTED_DELIVERY": [
+    "PASS"
+   ],
+   "T08:BAD_NOMINAL_REFUSED": [
+    "PASS"
+   ],
+   "T12:UNKNOWN_COMPONENT_KNOWN_SUBTOTAL": [
+    "PASS"
+   ],
+   "T13:NO_VERSION_IS_ERROR": [
+    "PASS"
+   ],
+   "T15:BD_RECEIPT_PROCESS_CHANGED": [
+    "PASS"
+   ],
+   "T20:LUMP_SUM_SPLIT_RECEIPTS": [
+    "PASS"
+   ],
+   "DEC01:MINIMUM_CHARGE_TOPUP": [
+    "PASS"
+   ],
+   "T24:SCOPED_SIZE_RATE": [
+    "PASS"
+   ],
+   "T24:MULTI_SIZE_LOT_HPP": [
+    "PASS"
+   ],
+   "D10:VARIANCE_BY_BILLING_SOURCE": [
+    "PASS"
+   ],
+   "T32:REPLAY_ACCESS_GRANTS": [
+    "PASS"
+   ],
+   "T16:INVOICE_ABOVE_ESTIMATE_PRODUCT_COST": [
+    "PASS"
+   ],
+   "T17:PARTIAL_NM_CAPACITY": [
+    "PASS"
+   ],
+   "T21:DISCOUNT_TAX_ROUNDING": [
+    "PASS"
+   ],
+   "DEC06:VARIANCE_ACCOUNT": [
+    "PASS"
+   ],
+   "T23:REVERSE_PAY_CORRECT": [
+    "PASS"
+   ],
+   "DEC02:BILLABLE_CATEGORIES_ACCESS": [
+    "PASS"
+   ],
+   "T22:VARIANCE_TO_FG_AND_COGS": [
+    "PASS"
+   ],
+   "DEC04:SALE_UNKNOWN_LAUNDRY_PRICE": [
+    "PASS"
+   ],
+   "W05:OPENING_CUSTODY_CLAIM_SEPARATE": [
+    "PASS"
+   ],
+   "W05:CLAIM_CONTINUATIONS": [
+    "PASS"
+   ],
+   "W05:IMPORT_REFUSALS": [
+    "PASS"
+   ],
+   "W05:UNINVOICED_ACCRUAL_INVOICE": [
+    "PASS"
+   ],
+   "D07:RECOST_ALARM_DOCUMENT_LEVEL": [
+    "PASS"
+   ],
+   "D09:ACC_C12_SOURCE_IDENTITY": [
+    "PASS"
+   ],
+   "D12:CLAIM_CREDIT_DAILY_OLDER_INVOICE": [
+    "PASS"
+   ],
+   "D12:CLAIM_CREDIT_OPENING_OLDER_PAYABLE": [
+    "PASS"
+   ],
+   "DEC06:CORRECTION_DOCUMENT_UP_AND_DOWN": [
+    "PASS"
+   ],
+   "DEC06:CORRECTION_DOWN_SETTLES_ORIGIN_THEN_OLDER": [
+    "PASS"
+   ],
+   "REV:X01_EXPLICIT_SIZE_COVERAGE_AND_RESPONSE": [
+    "PASS"
+   ],
+   "REV:X01_UNKNOWN_COMPLETION_PRESERVES_COVERAGE": [
+    "PASS"
+   ],
+   "REV:OWN02_FREE_WAIVED_LEGAL_PATH": [
+    "PASS"
+   ],
+   "REV:X02_MONEY_OVER_INT32": [
+    "PASS"
+   ],
+   "REV:X03_AUTH_BEFORE_REPLAY": [
+    "PASS"
+   ],
+   "REV:X05_PAGES_55_INVOICES_201_SOURCES": [
+    "PASS"
+   ]
+  },
+  "run_identity": {
+   "label": "T1_FAMILY",
+   "tool_head": "10a834712e515af86c6d8baa89bbe40cff9793e3",
+   "product_ref": "434b18215f57dd7a361ca621341488d3c31e9703",
+   "product_paths": [
+    "supabase/migrations",
+    "supabase/dev",
+    "supabase/release",
+    "supabase/rollbacks",
+    "src"
+   ],
+   "run_id": "36803064486",
+   "run_attempt": "1",
+   "workflow": "Fable CP6 Round 13 BD T1 Independent Rerun (writer PLAN) on closure candidate head 10a8347 (product 434b182)",
+   "job": "phase",
+   "event": "push",
+   "github_sha": "be234330fa8a297a89b528299c93bcc31da36bbf",
+   "release_evidence": false,
+   "production_go": false,
+   "phase": "after"
+  },
+  "au_install": "PASS",
+  "av_install": "PASS",
+  "aw_install": {
+   "stage": "AV_PLUS_AW_T1",
+   "label": "T1_FAMILY",
+   "functions": 13,
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32"
+  },
+  "ax_install": {
+   "stage": "AV_PLUS_AW_PLUS_AX_T1",
+   "label": "T1_FAMILY",
+   "functions": 13,
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+   "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+   "av_coverage": {
+    "registry": {
+     "erp.fg_lots.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "produced_at of every lot except GOOD returned by rework"
+     },
+     "erp.bs_cases.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+     },
+     "erp.sales_items.product_id": {
+      "class": "SALES",
+      "reason": "Sale of existing stock"
+     },
+     "erp.journal_lines.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "Journal dimension"
+     },
+     "erp.fg_stock_movements.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Movement of an existing lot"
+     },
+     "erp.sales_return_items.product_id": {
+      "class": "SALES",
+      "reason": "Return of sold stock"
+     },
+     "erp.fg_adjustment_items.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Adjusts an existing lot"
+     },
+     "erp.fg_inventory_balances.product_id": {
+      "class": "DERIVED",
+      "reason": "Balance cache keyed by product/location/grade"
+     },
+     "erp.opening_balance_items.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+     },
+     "erp.stock_policy_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated stock policy"
+     },
+     "erp.accessory_bom_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated accessory BOM; no stock instant"
+     },
+     "erp.product_conversions.to_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+     },
+     "erp.product_price_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated price"
+     },
+     "erp.product_conversions.from_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion source, validated as EXISTING_STOCK"
+     },
+     "erp.qc_inspection_items.final_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "QC input; the facts are fg_lots and bs_cases"
+     },
+     "erp.fg_accessory_cost_snapshots.product_id": {
+      "class": "DERIVED",
+      "reason": "Cost snapshot of an FG lot"
+     },
+     "erp.po_accessory_bom_commitments.product_id": {
+      "class": "MASTER",
+      "reason": "PO accessory BOM commitment"
+     },
+     "erp.stock_explainability_snapshots.product_id": {
+      "class": "REPORT",
+      "reason": "Stock explanation snapshot"
+     },
+     "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "HPP to GL synchronisation event"
+     },
+     "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Laundry receipt input; the BS fact is bs_cases"
+     },
+     "erp.product_identity_mutation_context_v1.product_id": {
+      "class": "AUTHORIZATION",
+      "reason": "Private one-use identity edit context"
+     },
+     "erp.laundry_receipt_bs_product_allocations.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+     },
+     "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+      "class": "DERIVED",
+      "reason": "Accounting entitlement of an FG lot"
+     }
+    },
+    "references": 23,
+    "new_stock_fact_tables": [
+     "bs_cases",
+     "fg_lots"
+    ]
+   }
+  },
+  "ay_install": {
+   "stage": "AV_PLUS_AW_AX_AY_T1",
+   "label": "T1_FAMILY",
+   "functions": 13,
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+   "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+   "av_coverage": {
+    "registry": {
+     "erp.fg_lots.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "produced_at of every lot except GOOD returned by rework"
+     },
+     "erp.bs_cases.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+     },
+     "erp.sales_items.product_id": {
+      "class": "SALES",
+      "reason": "Sale of existing stock"
+     },
+     "erp.journal_lines.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "Journal dimension"
+     },
+     "erp.fg_stock_movements.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Movement of an existing lot"
+     },
+     "erp.sales_return_items.product_id": {
+      "class": "SALES",
+      "reason": "Return of sold stock"
+     },
+     "erp.fg_adjustment_items.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Adjusts an existing lot"
+     },
+     "erp.fg_inventory_balances.product_id": {
+      "class": "DERIVED",
+      "reason": "Balance cache keyed by product/location/grade"
+     },
+     "erp.opening_balance_items.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+     },
+     "erp.stock_policy_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated stock policy"
+     },
+     "erp.accessory_bom_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated accessory BOM; no stock instant"
+     },
+     "erp.product_conversions.to_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+     },
+     "erp.product_price_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated price"
+     },
+     "erp.product_conversions.from_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion source, validated as EXISTING_STOCK"
+     },
+     "erp.qc_inspection_items.final_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "QC input; the facts are fg_lots and bs_cases"
+     },
+     "erp.fg_accessory_cost_snapshots.product_id": {
+      "class": "DERIVED",
+      "reason": "Cost snapshot of an FG lot"
+     },
+     "erp.po_accessory_bom_commitments.product_id": {
+      "class": "MASTER",
+      "reason": "PO accessory BOM commitment"
+     },
+     "erp.stock_explainability_snapshots.product_id": {
+      "class": "REPORT",
+      "reason": "Stock explanation snapshot"
+     },
+     "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "HPP to GL synchronisation event"
+     },
+     "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Laundry receipt input; the BS fact is bs_cases"
+     },
+     "erp.product_identity_mutation_context_v1.product_id": {
+      "class": "AUTHORIZATION",
+      "reason": "Private one-use identity edit context"
+     },
+     "erp.laundry_receipt_bs_product_allocations.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+     },
+     "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+      "class": "DERIVED",
+      "reason": "Accounting entitlement of an FG lot"
+     }
+    },
+    "references": 23,
+    "new_stock_fact_tables": [
+     "bs_cases",
+     "fg_lots"
+    ]
+   },
+   "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+   "catalog": {
+    "revaluation_movement_indexes": [],
+    "accessory_total_hpp_cost": [
+     "s",
+     "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+    ]
+   }
+  },
+  "az_install": {
+   "stage": "AV_PLUS_AW_AX_AY_AZ_T1",
+   "label": "T1_FAMILY",
+   "functions": 13,
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+   "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+   "av_coverage": {
+    "registry": {
+     "erp.fg_lots.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "produced_at of every lot except GOOD returned by rework"
+     },
+     "erp.bs_cases.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+     },
+     "erp.sales_items.product_id": {
+      "class": "SALES",
+      "reason": "Sale of existing stock"
+     },
+     "erp.journal_lines.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "Journal dimension"
+     },
+     "erp.fg_stock_movements.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Movement of an existing lot"
+     },
+     "erp.sales_return_items.product_id": {
+      "class": "SALES",
+      "reason": "Return of sold stock"
+     },
+     "erp.fg_adjustment_items.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Adjusts an existing lot"
+     },
+     "erp.fg_inventory_balances.product_id": {
+      "class": "DERIVED",
+      "reason": "Balance cache keyed by product/location/grade"
+     },
+     "erp.opening_balance_items.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+     },
+     "erp.stock_policy_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated stock policy"
+     },
+     "erp.accessory_bom_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated accessory BOM; no stock instant"
+     },
+     "erp.product_conversions.to_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+     },
+     "erp.product_price_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated price"
+     },
+     "erp.product_conversions.from_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion source, validated as EXISTING_STOCK"
+     },
+     "erp.qc_inspection_items.final_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "QC input; the facts are fg_lots and bs_cases"
+     },
+     "erp.fg_accessory_cost_snapshots.product_id": {
+      "class": "DERIVED",
+      "reason": "Cost snapshot of an FG lot"
+     },
+     "erp.po_accessory_bom_commitments.product_id": {
+      "class": "MASTER",
+      "reason": "PO accessory BOM commitment"
+     },
+     "erp.stock_explainability_snapshots.product_id": {
+      "class": "REPORT",
+      "reason": "Stock explanation snapshot"
+     },
+     "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "HPP to GL synchronisation event"
+     },
+     "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Laundry receipt input; the BS fact is bs_cases"
+     },
+     "erp.product_identity_mutation_context_v1.product_id": {
+      "class": "AUTHORIZATION",
+      "reason": "Private one-use identity edit context"
+     },
+     "erp.laundry_receipt_bs_product_allocations.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+     },
+     "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+      "class": "DERIVED",
+      "reason": "Accounting entitlement of an FG lot"
+     }
+    },
+    "references": 23,
+    "new_stock_fact_tables": [
+     "bs_cases",
+     "fg_lots"
+    ]
+   },
+   "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+   "catalog": {
+    "revaluation_movement_indexes": [],
+    "accessory_total_hpp_cost": [
+     "s",
+     "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+    ]
+   },
+   "az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9"
+  },
+  "ba_install": {
+   "stage": "AV_PLUS_AW_AX_AY_AZ_BA_T1",
+   "label": "T1_FAMILY",
+   "functions": 11,
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+   "replaced_by_later_family": [
+    "erp.close_accounting_through(date,text)",
+    "erp.get_owner_financial_snapshot_v2(date,date,date)"
+   ],
+   "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+   "av_coverage": {
+    "registry": {
+     "erp.fg_lots.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "produced_at of every lot except GOOD returned by rework"
+     },
+     "erp.bs_cases.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+     },
+     "erp.sales_items.product_id": {
+      "class": "SALES",
+      "reason": "Sale of existing stock"
+     },
+     "erp.journal_lines.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "Journal dimension"
+     },
+     "erp.fg_stock_movements.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Movement of an existing lot"
+     },
+     "erp.sales_return_items.product_id": {
+      "class": "SALES",
+      "reason": "Return of sold stock"
+     },
+     "erp.fg_adjustment_items.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Adjusts an existing lot"
+     },
+     "erp.fg_inventory_balances.product_id": {
+      "class": "DERIVED",
+      "reason": "Balance cache keyed by product/location/grade"
+     },
+     "erp.opening_balance_items.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+     },
+     "erp.stock_policy_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated stock policy"
+     },
+     "erp.accessory_bom_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated accessory BOM; no stock instant"
+     },
+     "erp.product_conversions.to_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+     },
+     "erp.product_price_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated price"
+     },
+     "erp.product_conversions.from_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion source, validated as EXISTING_STOCK"
+     },
+     "erp.qc_inspection_items.final_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "QC input; the facts are fg_lots and bs_cases"
+     },
+     "erp.fg_accessory_cost_snapshots.product_id": {
+      "class": "DERIVED",
+      "reason": "Cost snapshot of an FG lot"
+     },
+     "erp.po_accessory_bom_commitments.product_id": {
+      "class": "MASTER",
+      "reason": "PO accessory BOM commitment"
+     },
+     "erp.stock_explainability_snapshots.product_id": {
+      "class": "REPORT",
+      "reason": "Stock explanation snapshot"
+     },
+     "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "HPP to GL synchronisation event"
+     },
+     "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Laundry receipt input; the BS fact is bs_cases"
+     },
+     "erp.product_identity_mutation_context_v1.product_id": {
+      "class": "AUTHORIZATION",
+      "reason": "Private one-use identity edit context"
+     },
+     "erp.laundry_receipt_bs_product_allocations.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+     },
+     "erp.initial_import_wip_output_identity_v1.output_product_id": {
+      "class": "DERIVED",
+      "reason": "Provenance of an opening WIP output; the stock fact is its fg_lots lot"
+     },
+     "erp.initial_import_wip_output_identity_v1.opening_product_id": {
+      "class": "DERIVED",
+      "reason": "Provenance of an opening WIP output: the product filled in on its opening item"
+     },
+     "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+      "class": "DERIVED",
+      "reason": "Accounting entitlement of an FG lot"
+     }
+    },
+    "references": 25,
+    "new_stock_fact_tables": [
+     "bs_cases",
+     "fg_lots"
+    ]
+   },
+   "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+   "catalog": {
+    "revaluation_movement_indexes": [],
+    "accessory_total_hpp_cost": [
+     "s",
+     "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+    ]
+   },
+   "az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9",
+   "az_replaced_by_later_family": [
+    "erp.complete_initial_import_wip_v1(jsonb)",
+    "erp.sync_material_cost_revaluation(uuid)"
+   ],
+   "ba_sql_sha256": "3359a42fe93c35da481d164e5e6d70e79da41559621a65736418bfc8f32d93a7",
+   "ba_functions": [
+    "erp.post_opening_balance(uuid)",
+    "erp.complete_initial_import_wip_v1(jsonb)",
+    "erp.manage_initial_prepayment_v1(jsonb)",
+    "erp.sync_material_cost_revaluation(uuid)",
+    "erp.close_accounting_through(date,text)",
+    "erp.assert_new_stock_cutoff_coverage_v1()",
+    "erp.get_bs_resolution_workspace_v1(text,text,uuid,text,integer,integer)",
+    "erp.get_initial_import_workspace_v1(uuid)",
+    "erp.get_owner_financial_snapshot_v2(date,date,date)",
+    "erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)",
+    "erp.initial_prepayment_dated_floor_v1(uuid,date)"
+   ]
+  },
+  "bb_install": {
+   "stage": "AV_PLUS_AW_AX_AY_AZ_BA_BB_T1",
+   "label": "T1_FAMILY",
+   "functions": 11,
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+   "replaced_by_later_family": [
+    "erp.close_accounting_through(date,text)",
+    "erp.get_owner_financial_snapshot_v2(date,date,date)"
+   ],
+   "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+   "av_coverage": {
+    "registry": {
+     "erp.fg_lots.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "produced_at of every lot except GOOD returned by rework"
+     },
+     "erp.bs_cases.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+     },
+     "erp.sales_items.product_id": {
+      "class": "SALES",
+      "reason": "Sale of existing stock"
+     },
+     "erp.journal_lines.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "Journal dimension"
+     },
+     "erp.fg_stock_movements.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Movement of an existing lot"
+     },
+     "erp.sales_return_items.product_id": {
+      "class": "SALES",
+      "reason": "Return of sold stock"
+     },
+     "erp.bb_wip_bs_splits_v1.product_id": {
+      "class": "DERIVED",
+      "reason": "Provenance of an opening WIP BS split; the stock fact is its bs_cases row (NEW_STOCK_FACT at its physical_at)"
+     },
+     "erp.fg_adjustment_items.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Adjusts an existing lot"
+     },
+     "erp.fg_inventory_balances.product_id": {
+      "class": "DERIVED",
+      "reason": "Balance cache keyed by product/location/grade"
+     },
+     "erp.opening_balance_items.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+     },
+     "erp.stock_policy_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated stock policy"
+     },
+     "erp.accessory_bom_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated accessory BOM; no stock instant"
+     },
+     "erp.product_conversions.to_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+     },
+     "erp.product_price_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated price"
+     },
+     "erp.product_conversions.from_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion source, validated as EXISTING_STOCK"
+     },
+     "erp.qc_inspection_items.final_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "QC input; the facts are fg_lots and bs_cases"
+     },
+     "erp.fg_accessory_cost_snapshots.product_id": {
+      "class": "DERIVED",
+      "reason": "Cost snapshot of an FG lot"
+     },
+     "erp.bb_open_sales_draft_lines_v1.product_id": {
+      "class": "DERIVED",
+      "reason": "Provenance of a sales draft open at cutover; the sale is its native sales_items line (reservation of existing stock)"
+     },
+     "erp.po_accessory_bom_commitments.product_id": {
+      "class": "MASTER",
+      "reason": "PO accessory BOM commitment"
+     },
+     "erp.stock_explainability_snapshots.product_id": {
+      "class": "REPORT",
+      "reason": "Stock explanation snapshot"
+     },
+     "erp.bb_opening_sale_return_rights_v1.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Return right of an old invoice; the stock fact is the RETURN lot in fg_lots, validated as NEW_STOCK at receipt"
+     },
+     "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "HPP to GL synchronisation event"
+     },
+     "erp.bb_opening_sale_return_receipts_v1.product_id": {
+      "class": "DERIVED",
+      "reason": "Provenance of a return receipt; the stock fact is its fg_lots lot"
+     },
+     "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Laundry receipt input; the BS fact is bs_cases"
+     },
+     "erp.product_identity_mutation_context_v1.product_id": {
+      "class": "AUTHORIZATION",
+      "reason": "Private one-use identity edit context"
+     },
+     "erp.laundry_receipt_bs_product_allocations.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+     },
+     "erp.initial_import_wip_output_identity_v1.output_product_id": {
+      "class": "DERIVED",
+      "reason": "Provenance of an opening WIP output; the stock fact is its fg_lots lot"
+     },
+     "erp.initial_import_wip_output_identity_v1.opening_product_id": {
+      "class": "DERIVED",
+      "reason": "Provenance of an opening WIP output: the product filled in on its opening item"
+     },
+     "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+      "class": "DERIVED",
+      "reason": "Accounting entitlement of an FG lot"
+     }
+    },
+    "references": 29,
+    "new_stock_fact_tables": [
+     "bs_cases",
+     "fg_lots"
+    ]
+   },
+   "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+   "catalog": {
+    "revaluation_movement_indexes": [],
+    "accessory_total_hpp_cost": [
+     "s",
+     "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+    ]
+   },
+   "az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9",
+   "az_replaced_by_later_family": [
+    "erp.complete_initial_import_wip_v1(jsonb)",
+    "erp.sync_material_cost_revaluation(uuid)"
+   ],
+   "ba_sql_sha256": "3359a42fe93c35da481d164e5e6d70e79da41559621a65736418bfc8f32d93a7",
+   "ba_functions": [
+    "erp.post_opening_balance(uuid)",
+    "erp.complete_initial_import_wip_v1(jsonb)",
+    "erp.manage_initial_prepayment_v1(jsonb)",
+    "erp.sync_material_cost_revaluation(uuid)",
+    "erp.close_accounting_through(date,text)",
+    "erp.assert_new_stock_cutoff_coverage_v1()",
+    "erp.get_bs_resolution_workspace_v1(text,text,uuid,text,integer,integer)",
+    "erp.get_initial_import_workspace_v1(uuid)",
+    "erp.get_owner_financial_snapshot_v2(date,date,date)",
+    "erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)",
+    "erp.initial_prepayment_dated_floor_v1(uuid,date)"
+   ],
+   "ba_replaced_by_later_family": [
+    "erp.assert_new_stock_cutoff_coverage_v1()",
+    "erp.complete_initial_import_wip_v1(jsonb)",
+    "erp.get_initial_import_workspace_v1(uuid)"
+   ],
+   "bb_sql_sha256": "a423268697f9290d7278bd98a364f9207562769c277d036ccf1c31902bbdf142",
+   "bb_functions": [
+    "erp.post_opening_subledger_settlement(uuid)",
+    "erp.post_opening_financial_correction(uuid,numeric,text,date)",
+    "erp.reverse_opening_financial_correction(uuid,text)",
+    "erp.approve_payroll(uuid)",
+    "erp.post_payroll_payment(uuid)",
+    "erp.reverse_paid_payroll(uuid,text)",
+    "erp.initial_import_revision_v1(uuid)",
+    "erp.get_initial_import_workspace_v1(uuid)",
+    "erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)",
+    "erp._validate_migration_batch_base(uuid)",
+    "erp.finalize_migration_batch(uuid)",
+    "erp.save_initial_import_action_v1(text,jsonb,uuid)",
+    "erp.run_v267_financial_truth_checks()",
+    "erp.assert_new_stock_cutoff_coverage_v1()",
+    "erp.material_purchase_posted_invoice_qty(uuid)",
+    "erp.material_purchase_current_unit_cost(uuid)",
+    "erp.refresh_material_purchase_item_match_state(uuid)",
+    "erp.sync_material_purchase_grni_on_status()",
+    "erp.check_initial_import_receipt_v1(uuid,uuid)",
+    "erp.apply_initial_import_receipts_v1(uuid)",
+    "erp.complete_initial_import_wip_v1(jsonb)",
+    "erp.validate_initial_import_production_v1(uuid)",
+    "erp.initial_import_lot_cost_v1(uuid)",
+    "erp.initial_import_production_rows_v1(uuid)",
+    "erp.sync_initial_import_bs_disposition_v1()",
+    "erp.guard_initial_import_po_completion_v1()",
+    "erp.recost_initial_import_origins_v1(uuid)",
+    "erp.run_v268_financial_report_checks()",
+    "erp.guard_work_completion_posting_consistency()",
+    "erp.post_work_completion(uuid)",
+    "erp.bb_business_today_v1",
+    "erp.bb_physical_at_v1",
+    "erp.bb_parse_amount_v1",
+    "erp.bb_parse_date_v1",
+    "erp.bb_opening_balance_context_v1",
+    "erp.bb_opening_balance_reserved_v1",
+    "erp.bb_opening_balance_dated_floor_v1",
+    "erp.bb_assert_opening_balance_floor_v1",
+    "erp.bb_opening_credit_lines_v1",
+    "erp.bb_opening_credit_account_v1",
+    "erp.bb_customer_credit_state_v1",
+    "erp.bb_customer_credit_dated_floor_v1",
+    "erp.bb_check_credit_account_v1",
+    "erp.bb_party_of_v1",
+    "erp.bb_check_import_row_v1",
+    "erp.bb_validate_financial_imports_v1",
+    "erp.bb_apply_financial_imports_v1",
+    "erp.bb_guard_legacy_document_identity_v1",
+    "erp.bb_guard_opening_payable_reimbursement_v1",
+    "erp.bb_guard_opening_balance_reserved_v1",
+    "erp.bb_check_opening_payable_payroll_v1",
+    "erp.bb_set_opening_payable_payroll_v1",
+    "erp.bb_manage_opening_settlement_v1",
+    "erp.bb_manage_customer_credit_v1",
+    "erp.bb_manage_opening_sale_return_v1",
+    "erp.bb_financial_workspace_v1",
+    "erp.bb_financial_revision_part_v1",
+    "erp.bb_guard_receipt_invoiced_part_v1",
+    "erp.bb_receipt_invoiced_qty_v1",
+    "erp.bb_receipt_opening_unit_cost_v1",
+    "erp.bb_receipt_row_invoiced_part_v1",
+    "erp.bb_commitment_line_remaining_v1",
+    "erp.bb_guard_commitment_draft_v1",
+    "erp.bb_check_purchase_import_row_v1",
+    "erp.bb_validate_purchase_imports_v1",
+    "erp.bb_open_commitment_draft_v1",
+    "erp.bb_apply_purchase_imports_v1",
+    "erp.bb_manage_purchase_commitment_v1",
+    "erp.bb_purchase_workspace_v1",
+    "erp.bb_purchase_revision_part_v1",
+    "erp.bb_entitlement_carry_used_v1",
+    "erp.bb_guard_opening_carry_reimbursement_v1",
+    "erp.bb_check_labour_import_row_v1",
+    "erp.bb_labour_row_amount_v1",
+    "erp.bb_validate_labour_imports_v1",
+    "erp.bb_apply_labour_imports_v1",
+    "erp.bb_manage_payroll_entitlement_v1",
+    "erp.bb_labour_workspace_v1",
+    "erp.bb_labour_revision_part_v1",
+    "erp.bb_guard_wip_history_v1",
+    "erp.bb_guard_append_only_v1",
+    "erp.bb_wip_active_pickup_v1",
+    "erp.bb_wip_stage_v1",
+    "erp.bb_wip_holder_v1",
+    "erp.bb_wip_split_active_qty_v1",
+    "erp.bb_wip_split_net_asof_v1",
+    "erp.bb_wip_split_days_v1",
+    "erp.bb_wip_min_output_at_v1",
+    "erp.bb_assert_wip_ready_v1",
+    "erp.bb_po_contractor_used_v1",
+    "erp.bb_manage_opening_wip_v1",
+    "erp.bb_split_opening_wip_bs_v1",
+    "erp.bb_sync_split_bs_value_v1",
+    "erp.bb_sync_split_bs_disposition_v1",
+    "erp.bb_sync_item_split_values_v1",
+    "erp.bb_po_open_split_bs_v1",
+    "erp.bb_wip_row_part_v1",
+    "erp.bb_opening_work_source_v1",
+    "erp.bb_check_opening_work_v1",
+    "erp.bb_check_cutting_wip_row_v1",
+    "erp.bb_parse_count_v1",
+    "erp.bb_check_rework_import_row_v1",
+    "erp.bb_validate_production_imports_v1",
+    "erp.bb_apply_production_imports_v1",
+    "erp.bb_production_workspace_v1",
+    "erp.bb_production_revision_part_v1",
+    "erp.bb_guard_open_sales_draft_v1",
+    "erp.bb_check_sales_import_row_v1",
+    "erp.bb_validate_sales_imports_v1",
+    "erp.bb_apply_sales_imports_v1",
+    "erp.bb_sales_workspace_v1"
+   ]
+  },
+  "bc_install": {
+   "stage": "AV_PLUS_AW_AX_AY_AZ_BA_BB_BC_T1",
+   "label": "T1_FAMILY",
+   "functions": 11,
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+   "replaced_by_later_family": [
+    "erp.close_accounting_through(date,text)",
+    "erp.get_owner_financial_snapshot_v2(date,date,date)"
+   ],
+   "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+   "av_coverage": {
+    "registry": {
+     "erp.fg_lots.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "produced_at of every lot except GOOD returned by rework"
+     },
+     "erp.bs_cases.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+     },
+     "erp.sales_items.product_id": {
+      "class": "SALES",
+      "reason": "Sale of existing stock"
+     },
+     "erp.journal_lines.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "Journal dimension"
+     },
+     "erp.fg_stock_movements.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Movement of an existing lot"
+     },
+     "erp.sales_return_items.product_id": {
+      "class": "SALES",
+      "reason": "Return of sold stock"
+     },
+     "erp.bb_wip_bs_splits_v1.product_id": {
+      "class": "DERIVED",
+      "reason": "Provenance of an opening WIP BS split; the stock fact is its bs_cases row (NEW_STOCK_FACT at its physical_at)"
+     },
+     "erp.fg_adjustment_items.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Adjusts an existing lot"
+     },
+     "erp.fg_inventory_balances.product_id": {
+      "class": "DERIVED",
+      "reason": "Balance cache keyed by product/location/grade"
+     },
+     "erp.opening_balance_items.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+     },
+     "erp.stock_policy_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated stock policy"
+     },
+     "erp.accessory_bom_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated accessory BOM; no stock instant"
+     },
+     "erp.bc_customer_custody_v1.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "A customer-owned garment in service (ACC-C10); never company stock, no stock fact"
+     },
+     "erp.product_conversions.to_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+     },
+     "erp.product_price_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated price"
+     },
+     "erp.product_conversions.from_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion source, validated as EXISTING_STOCK"
+     },
+     "erp.qc_inspection_items.final_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "QC input; the facts are fg_lots and bs_cases"
+     },
+     "erp.fg_accessory_cost_snapshots.product_id": {
+      "class": "DERIVED",
+      "reason": "Cost snapshot of an FG lot"
+     },
+     "erp.bb_open_sales_draft_lines_v1.product_id": {
+      "class": "DERIVED",
+      "reason": "Provenance of a sales draft open at cutover; the sale is its native sales_items line (reservation of existing stock)"
+     },
+     "erp.po_accessory_bom_commitments.product_id": {
+      "class": "MASTER",
+      "reason": "PO accessory BOM commitment"
+     },
+     "erp.stock_explainability_snapshots.product_id": {
+      "class": "REPORT",
+      "reason": "Stock explanation snapshot"
+     },
+     "erp.bb_opening_sale_return_rights_v1.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Return right of an old invoice; the stock fact is the RETURN lot in fg_lots, validated as NEW_STOCK at receipt"
+     },
+     "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "HPP to GL synchronisation event"
+     },
+     "erp.bb_opening_sale_return_receipts_v1.product_id": {
+      "class": "DERIVED",
+      "reason": "Provenance of a return receipt; the stock fact is its fg_lots lot"
+     },
+     "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Laundry receipt input; the BS fact is bs_cases"
+     },
+     "erp.product_identity_mutation_context_v1.product_id": {
+      "class": "AUTHORIZATION",
+      "reason": "Private one-use identity edit context"
+     },
+     "erp.laundry_receipt_bs_product_allocations.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+     },
+     "erp.initial_import_wip_output_identity_v1.output_product_id": {
+      "class": "DERIVED",
+      "reason": "Provenance of an opening WIP output; the stock fact is its fg_lots lot"
+     },
+     "erp.initial_import_wip_output_identity_v1.opening_product_id": {
+      "class": "DERIVED",
+      "reason": "Provenance of an opening WIP output: the product filled in on its opening item"
+     },
+     "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+      "class": "DERIVED",
+      "reason": "Accounting entitlement of an FG lot"
+     }
+    },
+    "references": 30,
+    "new_stock_fact_tables": [
+     "bs_cases",
+     "fg_lots"
+    ]
+   },
+   "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+   "catalog": {
+    "revaluation_movement_indexes": [],
+    "accessory_total_hpp_cost": [
+     "s",
+     "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+    ]
+   },
+   "az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9",
+   "az_replaced_by_later_family": [
+    "erp.complete_initial_import_wip_v1(jsonb)",
+    "erp.sync_material_cost_revaluation(uuid)"
+   ],
+   "ba_sql_sha256": "3359a42fe93c35da481d164e5e6d70e79da41559621a65736418bfc8f32d93a7",
+   "ba_functions": [
+    "erp.post_opening_balance(uuid)",
+    "erp.complete_initial_import_wip_v1(jsonb)",
+    "erp.manage_initial_prepayment_v1(jsonb)",
+    "erp.sync_material_cost_revaluation(uuid)",
+    "erp.close_accounting_through(date,text)",
+    "erp.assert_new_stock_cutoff_coverage_v1()",
+    "erp.get_bs_resolution_workspace_v1(text,text,uuid,text,integer,integer)",
+    "erp.get_initial_import_workspace_v1(uuid)",
+    "erp.get_owner_financial_snapshot_v2(date,date,date)",
+    "erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)",
+    "erp.initial_prepayment_dated_floor_v1(uuid,date)"
+   ],
+   "ba_replaced_by_later_family": [
+    "erp.assert_new_stock_cutoff_coverage_v1()",
+    "erp.complete_initial_import_wip_v1(jsonb)",
+    "erp.get_initial_import_workspace_v1(uuid)",
+    "erp.sync_material_cost_revaluation(uuid)"
+   ],
+   "bb_sql_sha256": "a423268697f9290d7278bd98a364f9207562769c277d036ccf1c31902bbdf142",
+   "bb_functions": [
+    "erp.post_opening_subledger_settlement(uuid)",
+    "erp.post_opening_financial_correction(uuid,numeric,text,date)",
+    "erp.reverse_opening_financial_correction(uuid,text)",
+    "erp.approve_payroll(uuid)",
+    "erp.post_payroll_payment(uuid)",
+    "erp.reverse_paid_payroll(uuid,text)",
+    "erp.initial_import_revision_v1(uuid)",
+    "erp.get_initial_import_workspace_v1(uuid)",
+    "erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)",
+    "erp._validate_migration_batch_base(uuid)",
+    "erp.finalize_migration_batch(uuid)",
+    "erp.save_initial_import_action_v1(text,jsonb,uuid)",
+    "erp.run_v267_financial_truth_checks()",
+    "erp.assert_new_stock_cutoff_coverage_v1()",
+    "erp.material_purchase_posted_invoice_qty(uuid)",
+    "erp.material_purchase_current_unit_cost(uuid)",
+    "erp.refresh_material_purchase_item_match_state(uuid)",
+    "erp.sync_material_purchase_grni_on_status()",
+    "erp.check_initial_import_receipt_v1(uuid,uuid)",
+    "erp.apply_initial_import_receipts_v1(uuid)",
+    "erp.complete_initial_import_wip_v1(jsonb)",
+    "erp.validate_initial_import_production_v1(uuid)",
+    "erp.initial_import_lot_cost_v1(uuid)",
+    "erp.initial_import_production_rows_v1(uuid)",
+    "erp.sync_initial_import_bs_disposition_v1()",
+    "erp.guard_initial_import_po_completion_v1()",
+    "erp.recost_initial_import_origins_v1(uuid)",
+    "erp.run_v268_financial_report_checks()",
+    "erp.guard_work_completion_posting_consistency()",
+    "erp.post_work_completion(uuid)",
+    "erp.bb_business_today_v1",
+    "erp.bb_physical_at_v1",
+    "erp.bb_parse_amount_v1",
+    "erp.bb_parse_date_v1",
+    "erp.bb_opening_balance_context_v1",
+    "erp.bb_opening_balance_reserved_v1",
+    "erp.bb_opening_balance_dated_floor_v1",
+    "erp.bb_assert_opening_balance_floor_v1",
+    "erp.bb_opening_credit_lines_v1",
+    "erp.bb_opening_credit_account_v1",
+    "erp.bb_customer_credit_state_v1",
+    "erp.bb_customer_credit_dated_floor_v1",
+    "erp.bb_check_credit_account_v1",
+    "erp.bb_party_of_v1",
+    "erp.bb_check_import_row_v1",
+    "erp.bb_validate_financial_imports_v1",
+    "erp.bb_apply_financial_imports_v1",
+    "erp.bb_guard_legacy_document_identity_v1",
+    "erp.bb_guard_opening_payable_reimbursement_v1",
+    "erp.bb_guard_opening_balance_reserved_v1",
+    "erp.bb_check_opening_payable_payroll_v1",
+    "erp.bb_set_opening_payable_payroll_v1",
+    "erp.bb_manage_opening_settlement_v1",
+    "erp.bb_manage_customer_credit_v1",
+    "erp.bb_manage_opening_sale_return_v1",
+    "erp.bb_financial_workspace_v1",
+    "erp.bb_financial_revision_part_v1",
+    "erp.bb_guard_receipt_invoiced_part_v1",
+    "erp.bb_receipt_invoiced_qty_v1",
+    "erp.bb_receipt_opening_unit_cost_v1",
+    "erp.bb_receipt_row_invoiced_part_v1",
+    "erp.bb_commitment_line_remaining_v1",
+    "erp.bb_guard_commitment_draft_v1",
+    "erp.bb_check_purchase_import_row_v1",
+    "erp.bb_validate_purchase_imports_v1",
+    "erp.bb_open_commitment_draft_v1",
+    "erp.bb_apply_purchase_imports_v1",
+    "erp.bb_manage_purchase_commitment_v1",
+    "erp.bb_purchase_workspace_v1",
+    "erp.bb_purchase_revision_part_v1",
+    "erp.bb_entitlement_carry_used_v1",
+    "erp.bb_guard_opening_carry_reimbursement_v1",
+    "erp.bb_check_labour_import_row_v1",
+    "erp.bb_labour_row_amount_v1",
+    "erp.bb_validate_labour_imports_v1",
+    "erp.bb_apply_labour_imports_v1",
+    "erp.bb_manage_payroll_entitlement_v1",
+    "erp.bb_labour_workspace_v1",
+    "erp.bb_labour_revision_part_v1",
+    "erp.bb_guard_wip_history_v1",
+    "erp.bb_guard_append_only_v1",
+    "erp.bb_wip_active_pickup_v1",
+    "erp.bb_wip_stage_v1",
+    "erp.bb_wip_holder_v1",
+    "erp.bb_wip_split_active_qty_v1",
+    "erp.bb_wip_split_net_asof_v1",
+    "erp.bb_wip_split_days_v1",
+    "erp.bb_wip_min_output_at_v1",
+    "erp.bb_assert_wip_ready_v1",
+    "erp.bb_po_contractor_used_v1",
+    "erp.bb_manage_opening_wip_v1",
+    "erp.bb_split_opening_wip_bs_v1",
+    "erp.bb_sync_split_bs_value_v1",
+    "erp.bb_sync_split_bs_disposition_v1",
+    "erp.bb_sync_item_split_values_v1",
+    "erp.bb_po_open_split_bs_v1",
+    "erp.bb_wip_row_part_v1",
+    "erp.bb_opening_work_source_v1",
+    "erp.bb_check_opening_work_v1",
+    "erp.bb_check_cutting_wip_row_v1",
+    "erp.bb_parse_count_v1",
+    "erp.bb_check_rework_import_row_v1",
+    "erp.bb_validate_production_imports_v1",
+    "erp.bb_apply_production_imports_v1",
+    "erp.bb_production_workspace_v1",
+    "erp.bb_production_revision_part_v1",
+    "erp.bb_guard_open_sales_draft_v1",
+    "erp.bb_check_sales_import_row_v1",
+    "erp.bb_validate_sales_imports_v1",
+    "erp.bb_apply_sales_imports_v1",
+    "erp.bb_sales_workspace_v1"
+   ],
+   "bb_replaced_by_later_family": [
+    "erp._validate_migration_batch_base(uuid)",
+    "erp.approve_payroll(uuid)",
+    "erp.assert_new_stock_cutoff_coverage_v1()",
+    "erp.bb_financial_workspace_v1",
+    "erp.bb_opening_credit_account_v1",
+    "erp.bb_opening_credit_lines_v1",
+    "erp.finalize_migration_batch(uuid)",
+    "erp.get_initial_import_workspace_v1(uuid)",
+    "erp.initial_import_revision_v1(uuid)",
+    "erp.save_initial_import_action_v1(text,jsonb,uuid)",
+    "erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)"
+   ],
+   "bc_sql_sha256": "f72f72d38ed8d44cd24002e94733f55473760244686296a3970961d7aa4a9ec7",
+   "bc_functions": [
+    "erp.post_material_adjustment(uuid)",
+    "erp._cp6_material_adjustment_revaluation_state(uuid)",
+    "erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)",
+    "erp.sync_material_cost_revaluation(uuid)",
+    "erp.populate_payroll_draft(uuid)",
+    "erp.validate_material_kasbon_deduction()",
+    "erp.refresh_contractor_issue_payroll_status(uuid)",
+    "erp.run_integrity_checks()",
+    "erp.approve_payroll(uuid)",
+    "erp.save_accessory_issue_action_v1(text,jsonb,uuid)",
+    "erp.get_accessory_issue_workspace_v1(jsonb)",
+    "erp.bb_opening_credit_lines_v1(uuid)",
+    "erp.bb_opening_credit_account_v1(uuid)",
+    "erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)",
+    "erp._validate_migration_batch_base(uuid)",
+    "erp.finalize_migration_batch(uuid)",
+    "erp.save_initial_import_action_v1(text,jsonb,uuid)",
+    "erp.get_initial_import_workspace_v1(uuid)",
+    "erp.initial_import_revision_v1(uuid)",
+    "erp.assert_new_stock_cutoff_coverage_v1()",
+    "erp.run_v265_gudang_write_integrity_checks()",
+    "erp.bb_financial_workspace_v1(uuid)",
+    "erp.bc_enter_context_v1",
+    "erp.bc_leave_context_v1",
+    "erp.bc_in_context_v1",
+    "erp.bc_zone_kind_v1",
+    "erp.bc_policy_v1",
+    "erp.bc_policy_version_v1",
+    "erp.bc_require_policy_v1",
+    "erp.bc_policy_account_v1",
+    "erp.bc_check_policy_value_v1",
+    "erp.bc_set_policy_v1",
+    "erp.bc_register_zone_v1",
+    "erp.bc_guard_zone_movement_v1",
+    "erp.bc_guard_zone_location_v1",
+    "erp.bc_parse_at_v1",
+    "erp.bc_parse_qty_v1",
+    "erp.bc_accessory_v1",
+    "erp.bc_location_v1",
+    "erp.bc_stock_at_v1",
+    "erp.bc_require_value_approval_v1",
+    "erp.bc_text_v1",
+    "erp.bc_uuid_v1",
+    "erp.bc_new_document_v1",
+    "erp.bc_link_v1",
+    "erp.bc_post_transfer_v1",
+    "erp.bc_post_adjustment_v1",
+    "erp.bc_adjustment_account_v1",
+    "erp.bc_adjustment_value_v1",
+    "erp.bc_lines_v1",
+    "erp.bc_lot_state_v1",
+    "erp.bc_lot_state_text_v1",
+    "erp.bc_lock_lot_v1",
+    "erp.bc_move_post_v1",
+    "erp.bc_internal_use_v1",
+    "erp.bc_receive_return_v1",
+    "erp.bc_inspect_v1",
+    "erp.bc_value_custody_v1",
+    "erp.bc_close_custody_v1",
+    "erp.bc_dispose_stock_v1",
+    "erp.bc_customer_garment_v1",
+    "erp.bc_count_post_v1",
+    "erp.bc_resolve_variance_v1",
+    "erp.bc_note_item_share_v1",
+    "erp.bc_note_item_adjustment_v1",
+    "erp.bc_note_item_collectible_v1",
+    "erp.bc_note_item_allocated_v1",
+    "erp.bc_note_return_issue_movement_v1",
+    "erp.bc_carry_remaining_v1",
+    "erp.bc_credit_note_return_v1",
+    "erp.bc_opening_note_credit_lines_v1",
+    "erp.bc_carry_next_payroll_v1",
+    "erp.bc_allocate_carry_v1",
+    "erp.bc_guard_carry_reimbursement_v1",
+    "erp.bc_round_note_v1",
+    "erp.bc_free_basis_v1",
+    "erp.bc_guard_note_reversal_v1",
+    "erp.bc_guard_note_credit_settlement_v1",
+    "erp.bc_check_import_row_v1",
+    "erp.bc_validate_imports_v1",
+    "erp.bc_apply_imports_v1",
+    "erp.bc_import_workspace_v1",
+    "erp.bc_import_revision_part_v1",
+    "erp.bc_reverse_v1",
+    "erp.save_accessory_service_action_v1",
+    "erp.bc_bucket_label_v1",
+    "erp.get_accessory_service_workspace_v1",
+    "public.erp_save_accessory_service_action_v1",
+    "public.erp_get_accessory_service_workspace_v1"
+   ]
+  },
+  "bd_install": {
+   "stage": "AV_PLUS_AW_AX_AY_AZ_BA_BB_BC_BD_T1",
+   "label": "T1_FAMILY",
+   "functions": 9,
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+   "replaced_by_later_family": [
+    "erp.close_accounting_through(date,text)",
+    "erp.get_owner_financial_snapshot_v2(date,date,date)",
+    "erp.period_blockers_v1(date,date)",
+    "erp.set_laundry_rate_owner_estimate_v1(uuid,numeric,text)"
+   ],
+   "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+   "av_coverage": {
+    "registry": {
+     "erp.fg_lots.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "produced_at of every lot except GOOD returned by rework"
+     },
+     "erp.bs_cases.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+     },
+     "erp.sales_items.product_id": {
+      "class": "SALES",
+      "reason": "Sale of existing stock"
+     },
+     "erp.journal_lines.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "Journal dimension"
+     },
+     "erp.fg_stock_movements.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Movement of an existing lot"
+     },
+     "erp.sales_return_items.product_id": {
+      "class": "SALES",
+      "reason": "Return of sold stock"
+     },
+     "erp.bb_wip_bs_splits_v1.product_id": {
+      "class": "DERIVED",
+      "reason": "Provenance of an opening WIP BS split; the stock fact is its bs_cases row (NEW_STOCK_FACT at its physical_at)"
+     },
+     "erp.fg_adjustment_items.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Adjusts an existing lot"
+     },
+     "erp.fg_inventory_balances.product_id": {
+      "class": "DERIVED",
+      "reason": "Balance cache keyed by product/location/grade"
+     },
+     "erp.opening_balance_items.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+     },
+     "erp.stock_policy_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated stock policy"
+     },
+     "erp.accessory_bom_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated accessory BOM; no stock instant"
+     },
+     "erp.bc_customer_custody_v1.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "A customer-owned garment in service (ACC-C10); never company stock, no stock fact"
+     },
+     "erp.product_conversions.to_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+     },
+     "erp.product_price_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated price"
+     },
+     "erp.product_conversions.from_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion source, validated as EXISTING_STOCK"
+     },
+     "erp.qc_inspection_items.final_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "QC input; the facts are fg_lots and bs_cases"
+     },
+     "erp.fg_accessory_cost_snapshots.product_id": {
+      "class": "DERIVED",
+      "reason": "Cost snapshot of an FG lot"
+     },
+     "erp.bb_open_sales_draft_lines_v1.product_id": {
+      "class": "DERIVED",
+      "reason": "Provenance of a sales draft open at cutover; the sale is its native sales_items line (reservation of existing stock)"
+     },
+     "erp.po_accessory_bom_commitments.product_id": {
+      "class": "MASTER",
+      "reason": "PO accessory BOM commitment"
+     },
+     "erp.stock_explainability_snapshots.product_id": {
+      "class": "REPORT",
+      "reason": "Stock explanation snapshot"
+     },
+     "erp.bb_opening_sale_return_rights_v1.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Return right of an old invoice; the stock fact is the RETURN lot in fg_lots, validated as NEW_STOCK at receipt"
+     },
+     "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "HPP to GL synchronisation event"
+     },
+     "erp.bb_opening_sale_return_receipts_v1.product_id": {
+      "class": "DERIVED",
+      "reason": "Provenance of a return receipt; the stock fact is its fg_lots lot"
+     },
+     "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Laundry receipt input; the BS fact is bs_cases"
+     },
+     "erp.product_identity_mutation_context_v1.product_id": {
+      "class": "AUTHORIZATION",
+      "reason": "Private one-use identity edit context"
+     },
+     "erp.laundry_receipt_bs_product_allocations.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+     },
+     "erp.initial_import_wip_output_identity_v1.output_product_id": {
+      "class": "DERIVED",
+      "reason": "Provenance of an opening WIP output; the stock fact is its fg_lots lot"
+     },
+     "erp.initial_import_wip_output_identity_v1.opening_product_id": {
+      "class": "DERIVED",
+      "reason": "Provenance of an opening WIP output: the product filled in on its opening item"
+     },
+     "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+      "class": "DERIVED",
+      "reason": "Accounting entitlement of an FG lot"
+     }
+    },
+    "references": 30,
+    "new_stock_fact_tables": [
+     "bs_cases",
+     "fg_lots"
+    ]
+   },
+   "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+   "catalog": {
+    "revaluation_movement_indexes": [],
+    "accessory_total_hpp_cost": [
+     "s",
+     "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+    ]
+   },
+   "az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9",
+   "az_replaced_by_later_family": [
+    "erp.complete_initial_import_wip_v1(jsonb)",
+    "erp.sync_material_cost_revaluation(uuid)"
+   ],
+   "ba_sql_sha256": "3359a42fe93c35da481d164e5e6d70e79da41559621a65736418bfc8f32d93a7",
+   "ba_functions": [
+    "erp.post_opening_balance(uuid)",
+    "erp.complete_initial_import_wip_v1(jsonb)",
+    "erp.manage_initial_prepayment_v1(jsonb)",
+    "erp.sync_material_cost_revaluation(uuid)",
+    "erp.close_accounting_through(date,text)",
+    "erp.assert_new_stock_cutoff_coverage_v1()",
+    "erp.get_bs_resolution_workspace_v1(text,text,uuid,text,integer,integer)",
+    "erp.get_initial_import_workspace_v1(uuid)",
+    "erp.get_owner_financial_snapshot_v2(date,date,date)",
+    "erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)",
+    "erp.initial_prepayment_dated_floor_v1(uuid,date)"
+   ],
+   "ba_replaced_by_later_family": [
+    "erp.assert_new_stock_cutoff_coverage_v1()",
+    "erp.complete_initial_import_wip_v1(jsonb)",
+    "erp.get_initial_import_workspace_v1(uuid)",
+    "erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)",
+    "erp.sync_material_cost_revaluation(uuid)"
+   ],
+   "bb_sql_sha256": "a423268697f9290d7278bd98a364f9207562769c277d036ccf1c31902bbdf142",
+   "bb_functions": [
+    "erp.post_opening_subledger_settlement(uuid)",
+    "erp.post_opening_financial_correction(uuid,numeric,text,date)",
+    "erp.reverse_opening_financial_correction(uuid,text)",
+    "erp.approve_payroll(uuid)",
+    "erp.post_payroll_payment(uuid)",
+    "erp.reverse_paid_payroll(uuid,text)",
+    "erp.initial_import_revision_v1(uuid)",
+    "erp.get_initial_import_workspace_v1(uuid)",
+    "erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)",
+    "erp._validate_migration_batch_base(uuid)",
+    "erp.finalize_migration_batch(uuid)",
+    "erp.save_initial_import_action_v1(text,jsonb,uuid)",
+    "erp.run_v267_financial_truth_checks()",
+    "erp.assert_new_stock_cutoff_coverage_v1()",
+    "erp.material_purchase_posted_invoice_qty(uuid)",
+    "erp.material_purchase_current_unit_cost(uuid)",
+    "erp.refresh_material_purchase_item_match_state(uuid)",
+    "erp.sync_material_purchase_grni_on_status()",
+    "erp.check_initial_import_receipt_v1(uuid,uuid)",
+    "erp.apply_initial_import_receipts_v1(uuid)",
+    "erp.complete_initial_import_wip_v1(jsonb)",
+    "erp.validate_initial_import_production_v1(uuid)",
+    "erp.initial_import_lot_cost_v1(uuid)",
+    "erp.initial_import_production_rows_v1(uuid)",
+    "erp.sync_initial_import_bs_disposition_v1()",
+    "erp.guard_initial_import_po_completion_v1()",
+    "erp.recost_initial_import_origins_v1(uuid)",
+    "erp.run_v268_financial_report_checks()",
+    "erp.guard_work_completion_posting_consistency()",
+    "erp.post_work_completion(uuid)",
+    "erp.bb_business_today_v1",
+    "erp.bb_physical_at_v1",
+    "erp.bb_parse_amount_v1",
+    "erp.bb_parse_date_v1",
+    "erp.bb_opening_balance_context_v1",
+    "erp.bb_opening_balance_reserved_v1",
+    "erp.bb_opening_balance_dated_floor_v1",
+    "erp.bb_assert_opening_balance_floor_v1",
+    "erp.bb_opening_credit_lines_v1",
+    "erp.bb_opening_credit_account_v1",
+    "erp.bb_customer_credit_state_v1",
+    "erp.bb_customer_credit_dated_floor_v1",
+    "erp.bb_check_credit_account_v1",
+    "erp.bb_party_of_v1",
+    "erp.bb_check_import_row_v1",
+    "erp.bb_validate_financial_imports_v1",
+    "erp.bb_apply_financial_imports_v1",
+    "erp.bb_guard_legacy_document_identity_v1",
+    "erp.bb_guard_opening_payable_reimbursement_v1",
+    "erp.bb_guard_opening_balance_reserved_v1",
+    "erp.bb_check_opening_payable_payroll_v1",
+    "erp.bb_set_opening_payable_payroll_v1",
+    "erp.bb_manage_opening_settlement_v1",
+    "erp.bb_manage_customer_credit_v1",
+    "erp.bb_manage_opening_sale_return_v1",
+    "erp.bb_financial_workspace_v1",
+    "erp.bb_financial_revision_part_v1",
+    "erp.bb_guard_receipt_invoiced_part_v1",
+    "erp.bb_receipt_invoiced_qty_v1",
+    "erp.bb_receipt_opening_unit_cost_v1",
+    "erp.bb_receipt_row_invoiced_part_v1",
+    "erp.bb_commitment_line_remaining_v1",
+    "erp.bb_guard_commitment_draft_v1",
+    "erp.bb_check_purchase_import_row_v1",
+    "erp.bb_validate_purchase_imports_v1",
+    "erp.bb_open_commitment_draft_v1",
+    "erp.bb_apply_purchase_imports_v1",
+    "erp.bb_manage_purchase_commitment_v1",
+    "erp.bb_purchase_workspace_v1",
+    "erp.bb_purchase_revision_part_v1",
+    "erp.bb_entitlement_carry_used_v1",
+    "erp.bb_guard_opening_carry_reimbursement_v1",
+    "erp.bb_check_labour_import_row_v1",
+    "erp.bb_labour_row_amount_v1",
+    "erp.bb_validate_labour_imports_v1",
+    "erp.bb_apply_labour_imports_v1",
+    "erp.bb_manage_payroll_entitlement_v1",
+    "erp.bb_labour_workspace_v1",
+    "erp.bb_labour_revision_part_v1",
+    "erp.bb_guard_wip_history_v1",
+    "erp.bb_guard_append_only_v1",
+    "erp.bb_wip_active_pickup_v1",
+    "erp.bb_wip_stage_v1",
+    "erp.bb_wip_holder_v1",
+    "erp.bb_wip_split_active_qty_v1",
+    "erp.bb_wip_split_net_asof_v1",
+    "erp.bb_wip_split_days_v1",
+    "erp.bb_wip_min_output_at_v1",
+    "erp.bb_assert_wip_ready_v1",
+    "erp.bb_po_contractor_used_v1",
+    "erp.bb_manage_opening_wip_v1",
+    "erp.bb_split_opening_wip_bs_v1",
+    "erp.bb_sync_split_bs_value_v1",
+    "erp.bb_sync_split_bs_disposition_v1",
+    "erp.bb_sync_item_split_values_v1",
+    "erp.bb_po_open_split_bs_v1",
+    "erp.bb_wip_row_part_v1",
+    "erp.bb_opening_work_source_v1",
+    "erp.bb_check_opening_work_v1",
+    "erp.bb_check_cutting_wip_row_v1",
+    "erp.bb_parse_count_v1",
+    "erp.bb_check_rework_import_row_v1",
+    "erp.bb_validate_production_imports_v1",
+    "erp.bb_apply_production_imports_v1",
+    "erp.bb_production_workspace_v1",
+    "erp.bb_production_revision_part_v1",
+    "erp.bb_guard_open_sales_draft_v1",
+    "erp.bb_check_sales_import_row_v1",
+    "erp.bb_validate_sales_imports_v1",
+    "erp.bb_apply_sales_imports_v1",
+    "erp.bb_sales_workspace_v1"
+   ],
+   "bb_replaced_by_later_family": [
+    "erp._validate_migration_batch_base(uuid)",
+    "erp.approve_payroll(uuid)",
+    "erp.assert_new_stock_cutoff_coverage_v1()",
+    "erp.bb_financial_workspace_v1",
+    "erp.bb_opening_credit_account_v1",
+    "erp.bb_opening_credit_lines_v1",
+    "erp.complete_initial_import_wip_v1(jsonb)",
+    "erp.finalize_migration_batch(uuid)",
+    "erp.get_initial_import_workspace_v1(uuid)",
+    "erp.guard_initial_import_po_completion_v1()",
+    "erp.initial_import_production_rows_v1(uuid)",
+    "erp.initial_import_revision_v1(uuid)",
+    "erp.run_v268_financial_report_checks()",
+    "erp.save_initial_import_action_v1(text,jsonb,uuid)",
+    "erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)"
+   ],
+   "bc_sql_sha256": "f72f72d38ed8d44cd24002e94733f55473760244686296a3970961d7aa4a9ec7",
+   "bc_functions": [
+    "erp.post_material_adjustment(uuid)",
+    "erp._cp6_material_adjustment_revaluation_state(uuid)",
+    "erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)",
+    "erp.sync_material_cost_revaluation(uuid)",
+    "erp.populate_payroll_draft(uuid)",
+    "erp.validate_material_kasbon_deduction()",
+    "erp.refresh_contractor_issue_payroll_status(uuid)",
+    "erp.run_integrity_checks()",
+    "erp.approve_payroll(uuid)",
+    "erp.save_accessory_issue_action_v1(text,jsonb,uuid)",
+    "erp.get_accessory_issue_workspace_v1(jsonb)",
+    "erp.bb_opening_credit_lines_v1(uuid)",
+    "erp.bb_opening_credit_account_v1(uuid)",
+    "erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)",
+    "erp._validate_migration_batch_base(uuid)",
+    "erp.finalize_migration_batch(uuid)",
+    "erp.save_initial_import_action_v1(text,jsonb,uuid)",
+    "erp.get_initial_import_workspace_v1(uuid)",
+    "erp.initial_import_revision_v1(uuid)",
+    "erp.assert_new_stock_cutoff_coverage_v1()",
+    "erp.run_v265_gudang_write_integrity_checks()",
+    "erp.bb_financial_workspace_v1(uuid)",
+    "erp.bc_enter_context_v1",
+    "erp.bc_leave_context_v1",
+    "erp.bc_in_context_v1",
+    "erp.bc_zone_kind_v1",
+    "erp.bc_policy_v1",
+    "erp.bc_policy_version_v1",
+    "erp.bc_require_policy_v1",
+    "erp.bc_policy_account_v1",
+    "erp.bc_check_policy_value_v1",
+    "erp.bc_set_policy_v1",
+    "erp.bc_register_zone_v1",
+    "erp.bc_guard_zone_movement_v1",
+    "erp.bc_guard_zone_location_v1",
+    "erp.bc_parse_at_v1",
+    "erp.bc_parse_qty_v1",
+    "erp.bc_accessory_v1",
+    "erp.bc_location_v1",
+    "erp.bc_stock_at_v1",
+    "erp.bc_require_value_approval_v1",
+    "erp.bc_text_v1",
+    "erp.bc_uuid_v1",
+    "erp.bc_new_document_v1",
+    "erp.bc_link_v1",
+    "erp.bc_post_transfer_v1",
+    "erp.bc_post_adjustment_v1",
+    "erp.bc_adjustment_account_v1",
+    "erp.bc_adjustment_value_v1",
+    "erp.bc_lines_v1",
+    "erp.bc_lot_state_v1",
+    "erp.bc_lot_state_text_v1",
+    "erp.bc_lock_lot_v1",
+    "erp.bc_move_post_v1",
+    "erp.bc_internal_use_v1",
+    "erp.bc_receive_return_v1",
+    "erp.bc_inspect_v1",
+    "erp.bc_value_custody_v1",
+    "erp.bc_close_custody_v1",
+    "erp.bc_dispose_stock_v1",
+    "erp.bc_customer_garment_v1",
+    "erp.bc_count_post_v1",
+    "erp.bc_resolve_variance_v1",
+    "erp.bc_note_item_share_v1",
+    "erp.bc_note_item_adjustment_v1",
+    "erp.bc_note_item_collectible_v1",
+    "erp.bc_note_item_allocated_v1",
+    "erp.bc_note_return_issue_movement_v1",
+    "erp.bc_carry_remaining_v1",
+    "erp.bc_credit_note_return_v1",
+    "erp.bc_opening_note_credit_lines_v1",
+    "erp.bc_carry_next_payroll_v1",
+    "erp.bc_allocate_carry_v1",
+    "erp.bc_guard_carry_reimbursement_v1",
+    "erp.bc_round_note_v1",
+    "erp.bc_free_basis_v1",
+    "erp.bc_guard_note_reversal_v1",
+    "erp.bc_guard_note_credit_settlement_v1",
+    "erp.bc_check_import_row_v1",
+    "erp.bc_validate_imports_v1",
+    "erp.bc_apply_imports_v1",
+    "erp.bc_import_workspace_v1",
+    "erp.bc_import_revision_part_v1",
+    "erp.bc_reverse_v1",
+    "erp.save_accessory_service_action_v1",
+    "erp.bc_bucket_label_v1",
+    "erp.get_accessory_service_workspace_v1",
+    "public.erp_save_accessory_service_action_v1",
+    "public.erp_get_accessory_service_workspace_v1"
+   ],
+   "bc_replaced_by_later_family": [
+    "erp._validate_migration_batch_base(uuid)",
+    "erp.bb_opening_credit_account_v1(uuid)",
+    "erp.bb_opening_credit_lines_v1(uuid)",
+    "erp.bc_apply_imports_v1",
+    "erp.bc_check_import_row_v1",
+    "erp.finalize_migration_batch(uuid)",
+    "erp.get_initial_import_workspace_v1(uuid)",
+    "erp.initial_import_revision_v1(uuid)",
+    "erp.save_initial_import_action_v1(text,jsonb,uuid)",
+    "erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)"
+   ],
+   "bd_sql_sha256": "f480f8dd7dc2620e19994e328b971ef159ba81dca1b8272ae42b59e0d370f947",
+   "bd_functions": [
+    "erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)",
+    "erp.post_laundry_delivery(uuid)",
+    "erp.desired_laundry_accrual(uuid)",
+    "erp.rebuild_po_hpp(uuid,text)",
+    "erp.period_blockers_v1(date,date)",
+    "erp.set_laundry_rate_owner_estimate_v1(uuid,numeric,text)",
+    "erp.validate_laundry_receipt_line()",
+    "erp.cp6_lot_failed_wash_cost_v2620e(uuid)",
+    "erp.guard_cp6_vendor_invoice_receipt_on_post_v2620()",
+    "erp.post_sale(uuid)",
+    "erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)",
+    "erp._validate_migration_batch_base(uuid)",
+    "erp.finalize_migration_batch(uuid)",
+    "erp.save_initial_import_action_v1(text,jsonb,uuid)",
+    "erp.get_initial_import_workspace_v1(uuid)",
+    "erp.initial_import_revision_v1(uuid)",
+    "erp.complete_initial_import_wip_v1(jsonb)",
+    "erp.initial_import_production_rows_v1(uuid)",
+    "erp.guard_initial_import_po_completion_v1()",
+    "erp.get_wip_control_v1(text,uuid,text,text)",
+    "erp.run_v255_material_cost_integrity_checks()",
+    "erp.bc_check_import_row_v1(uuid,uuid)",
+    "erp.bc_apply_imports_v1(uuid)",
+    "erp.bb_opening_credit_lines_v1(uuid)",
+    "erp.bb_opening_credit_account_v1(uuid)",
+    "erp.run_v268_financial_report_checks()",
+    "erp.bd_context_v1",
+    "erp.bd_policy_v1",
+    "erp.bd_policy_version_v1",
+    "erp.bd_require_policy_v1",
+    "erp.bd_policy_account_v1",
+    "erp.bd_check_policy_value_v1",
+    "erp.bd_set_policy_v1",
+    "erp.bd_uuid_v1",
+    "erp.bd_amount_v1",
+    "erp.bd_qty_v1",
+    "erp.bd_at_v1",
+    "erp.bd_assert_version_start_v1",
+    "erp.bd_close_open_version_v1",
+    "erp.bd_process_rate_at_v1",
+    "erp.bd_component_rate_at_v1",
+    "erp.bd_package_rate_at_v1",
+    "erp.bd_scoped_rate_at_v1",
+    "erp.bd_save_master_v1",
+    "erp.bd_split_amount_v1",
+    "erp.bd_split_money_v1",
+    "erp.bd_vendor_needs_pricing_v1",
+    "erp.bd_compute_pricing_v1",
+    "erp.bd_component_charge_v1",
+    "erp.bd_attach_delivery_pricing_v1",
+    "erp.bd_refresh_size_estimates_v1",
+    "erp.bd_line_complete_v1",
+    "erp.bd_uncosted_estimate_v1",
+    "erp.bd_allocate_receipt_v1",
+    "erp.bd_set_charge_price_v1",
+    "erp.bd_resync_delivery_v1",
+    "erp.bd_opening_claim_recovered_v1",
+    "erp.bd_opening_claim_held_qty_v1",
+    "erp.bd_opening_claim_lost_qty_v1",
+    "erp.bd_opening_claim_held_asof_v1",
+    "erp.bd_opening_claim_days_v1",
+    "erp.bd_opening_wip_floor_v1",
+    "erp.bd_wip_row_part_v1",
+    "erp.bd_check_import_row_v1",
+    "erp.bd_validate_imports_v1",
+    "erp.bd_apply_imports_v1",
+    "erp.bd_manage_opening_claim_v1",
+    "erp.bd_set_opening_estimate_v1",
+    "erp.bd_import_workspace_v1",
+    "erp.bd_import_revision_part_v1",
+    "erp.bd_invoice_capacity_v1",
+    "erp.bd_invoice_pieces_v1",
+    "erp.bd_invoice_billed_v1",
+    "erp.bd_released_estimate_v1",
+    "erp.bd_product_variance_v1",
+    "erp.bd_receipt_invoiced_v1",
+    "erp.bd_opening_billed_v1",
+    "erp.bd_opening_released_v1",
+    "erp.bd_opening_invoiced_v1",
+    "erp.bd_guard_invoiced_receipt_v1",
+    "erp.bd_invoice_lines_json_v1",
+    "erp.bd_invoice_json_v1",
+    "erp.bd_save_invoice_draft_v1",
+    "erp.bd_check_correction_sources_v1",
+    "erp.bd_cancel_invoice_draft_v1",
+    "erp.bd_post_invoice_v1",
+    "erp.bd_invoice_resync_v1",
+    "erp.bd_reverse_invoice_v1",
+    "erp.bd_delivery_line_price_unknown_v1",
+    "erp.bd_lot_laundry_unknown_v1",
+    "erp.bd_assert_sale_laundry_known_v1",
+    "erp.bd_pending_cost_json_v1",
+    "erp.bd_custody_source_identity_v1",
+    "erp.bd_claim_credit_applied_v1",
+    "erp.bd_claim_credit_source_v1",
+    "erp.bd_claim_credit_opening_lines_v1",
+    "erp.bd_vendor_invoice_paid_v1",
+    "erp.bd_apply_claim_credit_v1",
+    "erp.bd_apply_vendor_credit_v1",
+    "erp.bd_pay_vendor_document_v1",
+    "erp.bd_reverse_vendor_settlement_v1",
+    "erp.bd_vendor_payables_v1",
+    "erp.bd_guard_claim_credit_in_use_v1",
+    "erp.bd_post_priced_delivery_v1",
+    "erp.bd_priced_line_json_v1",
+    "erp.save_laundry_bd_action_v1",
+    "erp.bd_invoice_page_v1",
+    "erp.bd_receipt_page_v1",
+    "erp.get_laundry_bd_workspace_v1",
+    "public.erp_save_laundry_bd_action_v1",
+    "public.erp_get_laundry_bd_workspace_v1"
+   ]
+  },
+  "bd_cases": {
+   "status": "PASS",
+   "counts": {
+    "PASS": 41
+   }
+  },
+  "workspace_parse": {
+   "status": "PASS",
+   "files": 232,
+   "kinds": {
+    "bd": 14,
+    "import": 205,
+    "laundry": 13
+   },
+   "non_rfc_files": 13,
+   "refused": [],
+   "error": null,
+   "exit": 0
+  },
+  "final": {
+   "POLICY:LAU_DEC_SETTINGS_OWNER_VERSIONED_PENDING": "PASS",
+   "T02:PACKAGE_ONE_CHARGE_PHYSICAL_QTY": "PASS",
+   "T03:COMPONENT_SUM_SAME_PIECES": "PASS",
+   "T04:FOUR_COMPONENTS": "PASS",
+   "T05:PARTIAL_COMPONENT_COVERAGE": "PASS",
+   "T06:PACKAGE_EXTRA_ONCE": "PASS",
+   "T07:VERSION_AFTER_POSTED_DELIVERY": "PASS",
+   "T08:BAD_NOMINAL_REFUSED": "PASS",
+   "T12:UNKNOWN_COMPONENT_KNOWN_SUBTOTAL": "PASS",
+   "T13:NO_VERSION_IS_ERROR": "PASS",
+   "T15:BD_RECEIPT_PROCESS_CHANGED": "PASS",
+   "T20:LUMP_SUM_SPLIT_RECEIPTS": "PASS",
+   "DEC01:MINIMUM_CHARGE_TOPUP": "PASS",
+   "T24:SCOPED_SIZE_RATE": "PASS",
+   "T24:MULTI_SIZE_LOT_HPP": "PASS",
+   "D10:VARIANCE_BY_BILLING_SOURCE": "PASS",
+   "T32:REPLAY_ACCESS_GRANTS": "PASS",
+   "T16:INVOICE_ABOVE_ESTIMATE_PRODUCT_COST": "PASS",
+   "T17:PARTIAL_NM_CAPACITY": "PASS",
+   "T21:DISCOUNT_TAX_ROUNDING": "PASS",
+   "DEC06:VARIANCE_ACCOUNT": "PASS",
+   "T23:REVERSE_PAY_CORRECT": "PASS",
+   "DEC02:BILLABLE_CATEGORIES_ACCESS": "PASS",
+   "T22:VARIANCE_TO_FG_AND_COGS": "PASS",
+   "DEC04:SALE_UNKNOWN_LAUNDRY_PRICE": "PASS",
+   "W05:OPENING_CUSTODY_CLAIM_SEPARATE": "PASS",
+   "W05:CLAIM_CONTINUATIONS": "PASS",
+   "W05:IMPORT_REFUSALS": "PASS",
+   "W05:UNINVOICED_ACCRUAL_INVOICE": "PASS",
+   "D07:RECOST_ALARM_DOCUMENT_LEVEL": "PASS",
+   "D09:ACC_C12_SOURCE_IDENTITY": "PASS",
+   "D12:CLAIM_CREDIT_DAILY_OLDER_INVOICE": "PASS",
+   "D12:CLAIM_CREDIT_OPENING_OLDER_PAYABLE": "PASS",
+   "DEC06:CORRECTION_DOCUMENT_UP_AND_DOWN": "PASS",
+   "DEC06:CORRECTION_DOWN_SETTLES_ORIGIN_THEN_OLDER": "PASS",
+   "REV:X01_EXPLICIT_SIZE_COVERAGE_AND_RESPONSE": "PASS",
+   "REV:X01_UNKNOWN_COMPLETION_PRESERVES_COVERAGE": "PASS",
+   "REV:OWN02_FREE_WAIVED_LEGAL_PATH": "PASS",
+   "REV:X02_MONEY_OVER_INT32": "PASS",
+   "REV:X03_AUTH_BEFORE_REPLAY": "PASS",
+   "REV:X05_PAGES_55_INVOICES_201_SOURCES": "PASS"
+  },
+  "expectation_mismatch": {},
+  "primary_unchanged": true,
+  "clone_remaining": 0
+ }
+]

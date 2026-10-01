@@ -1,4 +1,4 @@
-name: Fable CP6 Round 13 BC T1 Independent Rerun (writer PLAN + Fable 5 cases) on closure candidate head 10a8347 (product 434b182)
+name: Fable CP6 Round 13 BC T1 Independent Rerun (writer PLAN + Fable 5 cases, wrapper rev2) on closure candidate head 10a8347 (product 434b182)
 'on':
   push:
     branches:
@@ -41,8 +41,8 @@ jobs:
       CP6_AI_CONFIRM: postgres
       CP6_AH_INDEPENDENT_CONFIRM: postgres
       CP6_AI_INDEPENDENT_CONFIRM: postgres
-      CP6_AUDIT_HARNESS_HEAD: 10a834712e515af86c6d8baa89bbe40cff9793e3
-      CP6_AF_HARNESS_HEAD: 10a834712e515af86c6d8baa89bbe40cff9793e3
+      CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+      CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
       CP6_DATABASE_CONTAINER: supabase_db_cp5-local
       CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
       CP6_AR_CONFIRM: cp6_rollback
@@ -52,7 +52,7 @@ jobs:
       with:
         path: writer
         fetch-depth: 0
-        ref: 10a834712e515af86c6d8baa89bbe40cff9793e3
+        ref: ca7f09556397801c50a2277bdb65b1bf019f9a05
     - uses: actions/checkout@v4
       with:
         path: auditor
@@ -62,22 +62,22 @@ jobs:
       with:
         path: harness
         fetch-depth: 0
-        ref: 10a834712e515af86c6d8baa89bbe40cff9793e3
+        ref: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
     - uses: actions/checkout@v4
       with:
         path: candidate
         fetch-depth: 0
-        ref: 10a834712e515af86c6d8baa89bbe40cff9793e3
+        ref: 25fa4736329e5148dfdb3572bc169952cba23251
     - uses: actions/checkout@v4
       with:
         path: base
         fetch-depth: 0
-        ref: 10a834712e515af86c6d8baa89bbe40cff9793e3
+        ref: 1bdca3766f7c9800d68295ff5122798060b8a05d
     - uses: actions/checkout@v4
       with:
         path: review
         fetch-depth: 0
-    - name: Assert frozen BC tool head (product 27e1a05 verified by the auditor before pinning)
+    - name: Assert frozen BC tool head (product 434b182 verified by the auditor before pinning)
       run: test "$(git -C auditor rev-parse HEAD)" = 10a834712e515af86c6d8baa89bbe40cff9793e3
     - uses: actions/setup-python@v5
       with:
@@ -115,7 +115,7 @@ jobs:
         test -x /usr/lib/postgresql/17/bin/psql
         echo '/usr/lib/postgresql/17/bin' >> "$GITHUB_PATH"
     - name: Install pinned Supabase CLI
-      uses: supabase/setup-cli@10a834712e515af86c6d8baa89bbe40cff9793e3
+      uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
       with:
         version: 2.116.0
     - name: Record proposed source and prepare isolated proof paths
@@ -130,8 +130,8 @@ jobs:
       shell: bash
       run: |
         set -euo pipefail
-        test "$(git rev-parse HEAD)" = 10a834712e515af86c6d8baa89bbe40cff9793e3
-        test "$(git rev-parse HEAD^{tree})" = 10a834712e515af86c6d8baa89bbe40cff9793e3
+        test "$(git rev-parse HEAD)" = 1bdca3766f7c9800d68295ff5122798060b8a05d
+        test "$(git rev-parse HEAD^{tree})" = 334629c626257b8b713826f491cdf62385d5299b
         test -z "$(git status --porcelain)"
         supabase --help >/dev/null
         supabase init --help >/dev/null
@@ -159,7 +159,7 @@ jobs:
     - name: Restore exact AC runtime
       working-directory: base
       env:
-        GITHUB_SHA: 10a834712e515af86c6d8baa89bbe40cff9793e3
+        GITHUB_SHA: 1bdca3766f7c9800d68295ff5122798060b8a05d
         GH_TOKEN: ${{ github.token }}
       shell: bash
       run: |
@@ -260,7 +260,7 @@ jobs:
         with psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:
          cur.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',(r.STAMP,r.NAME,[r.MIGRATION.read_text()]))
          objects=r.verified_successor(cur);assert len(objects)==690
-         Path('cp6-proof/writer-ai/AI_INSTALLED_RUNTIME.json').write_text(json.dumps(dict(status='PASS',head='10a834712e515af86c6d8baa89bbe40cff9793e3',objects=objects,production_go=False),indent=2)+'\n')
+         Path('cp6-proof/writer-ai/AI_INSTALLED_RUNTIME.json').write_text(json.dumps(dict(status='PASS',head='25fa4736329e5148dfdb3572bc169952cba23251',objects=objects,production_go=False),indent=2)+'\n')
         PYINSTALL
     - name: Install AJ successor with all 690 runtime objects pinned
       working-directory: candidate

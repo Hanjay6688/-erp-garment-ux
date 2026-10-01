@@ -1,0 +1,100 @@
+[
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "erp_functions": 534,
+  "new_public_readers": 1,
+  "objects": 692,
+  "production_go": false
+ },
+ {
+  "run_identity": {
+   "label": "T1_FAMILY",
+   "tool_head": "10a834712e515af86c6d8baa89bbe40cff9793e3",
+   "product_ref": "434b18215f57dd7a361ca621341488d3c31e9703",
+   "product_paths": [
+    "supabase/migrations",
+    "supabase/dev",
+    "supabase/release",
+    "supabase/rollbacks",
+    "src"
+   ],
+   "run_id": "36803064466",
+   "run_attempt": "1",
+   "workflow": "Fable CP6 Round 13 BE T1 Independent Rerun (writer PLAN) on closure candidate head 10a8347 (product 434b182)",
+   "job": "phase",
+   "event": "push",
+   "github_sha": "be234330fa8a297a89b528299c93bcc31da36bbf",
+   "release_evidence": false,
+   "production_go": false,
+   "phase": "before"
+  }
+ },
+ {
+  "be_probe_phase": "before",
+  "status": "INCOMPLETE",
+  "label": "T1_FAMILY",
+  "phase": "before",
+  "production_go": false,
+  "independent_acceptance": false,
+  "release_evidence": false,
+  "run_identity": {
+   "label": "T1_FAMILY",
+   "tool_head": "10a834712e515af86c6d8baa89bbe40cff9793e3",
+   "product_ref": "434b18215f57dd7a361ca621341488d3c31e9703",
+   "product_paths": [
+    "supabase/migrations",
+    "supabase/dev",
+    "supabase/release",
+    "supabase/rollbacks",
+    "src"
+   ],
+   "run_id": "36803064466",
+   "run_attempt": "1",
+   "workflow": "Fable CP6 Round 13 BE T1 Independent Rerun (writer PLAN) on closure candidate head 10a8347 (product 434b182)",
+   "job": "phase",
+   "event": "push",
+   "github_sha": "be234330fa8a297a89b528299c93bcc31da36bbf",
+   "release_evidence": false,
+   "production_go": false,
+   "phase": "before"
+  },
+  "error": "PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE\nCONTEXT:  PL/pgSQL function inline_code_block line 6 at RAISE",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp6_be_probe.py\", line 257, in run\n    r1.writer.install_at();control=os.environ['CP6_ADMISSION_CONTROL_PGURL'];bbp=bdp.bbp\n    ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_au_trial.py\", line 59, in install_at\n    peer_trial.install_as()\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_at_trial.py\", line 57, in install_as\n    aq.change('install',PG,os.environ['CP6_ADMISSION_CONTROL_PGURL'])\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_aq_runtime.py\", line 53, in change\n    cur.execute(prior.sql_body(path.read_text()),prepare=False)\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE\nCONTEXT:  PL/pgSQL function inline_code_block line 6 at RAISE\n",
+  "primary_unchanged": true,
+  "clone_remaining": 0
+ }
+]
