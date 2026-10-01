@@ -16,6 +16,13 @@ import cp6_auditor_runner as native
 import cp6_t3_package_run as package
 from cp6_t3_aligned_install import advisors,advisor_delta
 OUT=bundle.ROOT/'cp6-proof/t3/CP7_F05_NATIVE_ANALYSIS.json'
+def public_state(cur):
+ # The accepted harness aggregates functions ORDER BY 1, a constant inside
+ # jsonb_agg. PostgreSQL may return unchanged pg_proc members in another physical
+ # order after ACL updates. Sort every original [signature,definition_hash]
+ # pair without deleting a field/member or changing the frozen case runner.
+ state=native.public_state(cur)
+ return state|{'functions':sorted(state['functions'])}
 
 def verify(cur):
  bundle.verify(cur)
@@ -23,16 +30,16 @@ def verify(cur):
  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
 
 def run(attention=False):
- candidate=bundle;case_provider=history_cases;checker=verify;extra='';expected=109;out=OUT;phase='cp7_f05_analysis';browser_script='cp7_f05_analysis_browser.mjs'
+ candidate=bundle;case_provider=history_cases;checker=verify;extra='';expected=118;out=OUT;phase='cp7_f05_analysis';browser_script='cp7_f05_analysis_browser.mjs'
  if attention:
   import cp7_reminder_bundle as candidate
   import cp7_attention_cases as case_provider
   def checker(cur):verify(cur);candidate.verify(cur)
-  extra=candidate.extension();expected=122;out=OUT.with_name('CP7_F05_NATIVE_ATTENTION.json');phase='cp7_f05_attention';browser_script='cp7_f05_attention_browser.mjs'
+  extra=candidate.extension();expected=131;out=OUT.with_name('CP7_F05_NATIVE_ATTENTION.json');phase='cp7_f05_attention';browser_script='cp7_f05_attention_browser.mjs'
  report=dict(label='CP7_F05_NATIVE_ATTENTION'if attention else'CP7_F05_NATIVE_ANALYSIS',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope='DURABLE_ORIGINAL_REVIEW_ATTENTION_DELEGATED_NATIVE_OWN_TASKS_NO_EPISODE_CLOSURE_DELIVERY'if attention else'FROZEN_ANALYSIS_V2_ONE_NATIVE_OPERATIONAL_COMPILER_ACCEPTED_OWNER_FINANCE_REUSE_MATERIAL_APPLY_UNKNOWN',source_sha256=hashlib.sha256(candidate.bundle().encode()).hexdigest(),expected_case_count=expected);installed=False
  try:
   with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
-   p09.wip.policy.bf.verified(cur);before=package.boundary.snapshot(cur);public_before=native.public_state(cur);conn.rollback();originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)
+   p09.wip.policy.bf.verified(cur);before=package.boundary.snapshot(cur);public_before=public_state(cur);accepted_functions_before=p09.functions(cur);conn.rollback();originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)
    internal_before=cur.execute("select pg_get_functiondef('erp.require_internal()'::regprocedure)").fetchone()[0]
    originals['erp.require_owner_admin()']=cur.execute("select pg_get_functiondef('erp.require_owner_admin()'::regprocedure)").fetchone()[0]
    cur.execute(f03.extension()+'\n'+planning.extension()+'\n'+baseline.extension()+'\n'+supply.extension()+'\n'+schedule.extension()+'\n'+bundle.predecessor.extension()+'\n'+bundle.extension()+'\n'+extra,prepare=False);after=p09.functions(cur)
@@ -43,8 +50,8 @@ def run(attention=False):
    cur.execute("select set_config('search_path',%s,true)",(path,))
    expected_definitions={'erp.require_internal()':f03.patched_internal(internal_before),'erp.require_owner_admin()':f03.settlement.patched_owner(originals['erp.require_owner_admin()'])}
    for sig,old in pre.items():
-    new=after[sig];expected=hashlib.md5(expected_definitions[sig].encode()).hexdigest() if sig in expected_definitions else old['definition']
-    assert new['definition']==expected and new['owner']==old['owner'],('F03_UNDECLARED_PREDECESSOR_CHANGE',sig)
+    new=after[sig];expected_definition_hash=hashlib.md5(expected_definitions[sig].encode()).hexdigest() if sig in expected_definitions else old['definition']
+    assert new['definition']==expected_definition_hash and new['owner']==old['owner'],('F03_UNDECLARED_PREDECESSOR_CHANGE',sig)
     assert {tuple(x)for x in new['acl']or[]}=={tuple(x)for x in old['acl']or[]}|grants.get(sig,set()),('F03_UNDECLARED_ACL_DELTA',sig)
    for signature,definition in expected_definitions.items():assert cur.execute('select pg_get_functiondef(%s::regprocedure)',(signature,)).fetchone()[0]==definition,('F03_EXACT_ADMISSION_DELTA',signature)
    assert cur.execute("select pg_get_functiondef('cp7_payroll.rebuild_nonwork(uuid)'::regprocedure)").fetchone()[0]==f03.settlement.derive_nonwork(f03.settlement.accepted('populate_payroll_draft'))
@@ -65,10 +72,12 @@ def run(attention=False):
    with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
     for definition in originals.values():cur.execute(definition,prepare=False)
     for role in candidate.ROLES:cur.execute('drop owned by '+role+' cascade;drop role '+role,prepare=False)
-    conn.commit();restored_boundary=package.boundary.snapshot(cur);restored_public=native.public_state(cur)
-    report['restore_components']=dict(erp_platform_auth_schema_acl=restored_boundary==before,public_catalog_and_rows=restored_public==public_before)
+    conn.commit();restored_boundary=package.boundary.snapshot(cur);restored_public=public_state(cur)
+    restored_functions=p09.functions(cur)
+    report['restore_components']=dict(erp_platform_auth_schema_acl=restored_boundary==before,public_catalog_and_rows=restored_public==public_before,erp_public_auth_function_definitions_owners_acls=restored_functions==accepted_functions_before)
     if restored_boundary!=before:report['restore_boundary_difference']=dict(before=before,after=restored_boundary)
     if restored_public!=public_before:report['restore_public_difference']=dict(before=public_before,after=restored_public)
+    if restored_functions!=accepted_functions_before:report['restore_function_difference']=dict(before=accepted_functions_before,after=restored_functions)
     report['cp6_restored']=all(report['restore_components'].values());conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
    report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta'];report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or(d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and(f.get('metadata')or{}).get('schema')in('cp7_recost','cp7_period','cp7_sales','cp7_payroll','cp7_attendance','cp7_fg','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice')for f in d.get('added',[])))
   groups=[report.get(k,{})for k in('native','races','http','browser')];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==expected and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'

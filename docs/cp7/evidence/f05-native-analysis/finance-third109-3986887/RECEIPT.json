@@ -1,0 +1,52 @@
+{
+  "status": "COUNT_VARIABLE_SHADOW_BUG_ALL_FUNCTIONAL_AND_RESTORE_PASS_OVERALL_INCOMPLETE",
+  "original_overall_status": "INCOMPLETE",
+  "source_commit": "3986887a9b85a735fa610e635b7502f1a8e3a802",
+  "source_tree": "745ac894a549f1ed0777bbeba8f65529a8d28d67",
+  "source_bundle_sha256": "d0d81fb64f3558bd3332ef3c15cd8e538b3dc3bfffebca64074b322c022cd35a",
+  "run_id": 36800926210,
+  "job_id": 110174846413,
+  "artifact_id": 11135647802,
+  "zip_bytes": 36331893,
+  "zip_sha256": "b4b94ac8b1b3f4c277cd80e8002a62b1071e6bea326383a8543137677252816a",
+  "original_reports": 5,
+  "original_reports_archive": "original-reports.json.gz",
+  "original_reports_archive_sha256": "810fde7e4df2185605ac055adbfb3eaa04f9c6e654dcadefc19292714b2f44a2",
+  "expected_case_count": 109,
+  "observed_case_count": 109,
+  "counts": {
+    "native": {
+      "PASS": 78
+    },
+    "races": {
+      "PASS": 15
+    },
+    "http": {
+      "PASS": 8
+    },
+    "browser": {
+      "PASS": 8
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true
+  },
+  "advisor_gate": true,
+  "all_other_predecessor_definitions_and_owners_unchanged": true,
+  "exact_guard_sha256": {
+    "erp.require_internal()": "f14474739742a19474ac20aa9f82a6fd5b2d2ef4755f8030af3325bcfd601e12",
+    "erp.require_owner_admin()": "a041048af3c9e5790d3c5639d932c7157759ab155a4332772792bb5f664176e0"
+  },
+  "case_failures": {
+    "native": {},
+    "races": {},
+    "http": {},
+    "browser": {}
+  },
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "production_go": false,
+  "diagnosis": "Expected numeric case count was overwritten by predecessor function definition hash; repaired successor still requires declared Native rerun."
+}

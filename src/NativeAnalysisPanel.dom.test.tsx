@@ -17,6 +17,7 @@ vi.mock('./auth/AuthProvider',()=>({useAuth:()=>state.auth}));vi.mock('./lib/sup
 let root:Root,container:HTMLDivElement,start:Mock<()=>void>,end:Mock<()=>void>,close:Mock<()=>void>,clipboard:Mock
 const q=fixture.query as NativeDemandQuery,scope='analysis:cp6-disposable:actor-1'
 function wire(requestId:string){return{...structuredClone(fixture),request_id:requestId}}
+function serverArchive(requestId=fixture.request_id){return{contract_version:'cp7.native-analysis-archives.v1',actor_scope_id:fixture.analysis.scope.actor_scope_id,rows:[{runId:fixture.run_id,requestId,query:structuredClone(q),capturedAt:fixture.analysis.snapshot.generated_at,sourceHash:fixture.analysis.snapshot.source_hash,semanticHash:fixture.analysis.semantic_hash}],total_visible:'1',next_before_run:null,page_complete:true,read_at:'2026-10-01T00:00:00+00:00'}}
 beforeEach(()=>{Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true});client.rpc.mockReset();localStorage.clear();const a=structuredClone(recoveryIdentity);Object.assign(a.runtime,{mode:'DISPOSABLE_TEST',projectRef:'cp6-disposable'});Object.assign(a.identity.profile,{authUserId:fixture.analysis.scope.actor_scope_id});a.identity.permissions.push('master.product.view','production.wip.view','warehouse.stock.view','sales.invoice.view');state.auth=a;container=document.createElement('div');document.body.append(container);root=createRoot(container);start=vi.fn();end=vi.fn();close=vi.fn();clipboard=vi.fn().mockResolvedValue(undefined);Object.defineProperty(navigator,'clipboard',{value:{writeText:clipboard},configurable:true})})
 afterEach(async()=>{await act(async()=>root.unmount());container.remove();localStorage.clear();vi.restoreAllMocks()})
 async function render(query=q){await act(async()=>root.render(<NativeAnalysisPanel query={query} onSourceReadStart={start} onSourceReadEnd={end} onClose={close}/>))}
@@ -56,6 +57,28 @@ it('reopens an immutable archive under fresh server authorization after remount 
 })
 it('preserves a corrupt archive index and unresolved successful capture for same-UUID recovery instead of overwriting evidence',async()=>{
  localStorage.setItem(analysisArchiveKey(scope),'broken index');client.rpc.mockImplementation(async(_n:string,args:{p_request:string})=>({data:wire(args.p_request),error:null}));await render();await click('Ambil analisis ERP terbaru');expect(localStorage.getItem(analysisArchiveKey(scope))).toBe('broken index');expect(readNativeDemandRequest(scope).pending).toBeTruthy();expect(container.querySelector('.native-analysis-result')).toBeNull()
+})
+it('opens durable server archives from an empty browser using the original query and fresh authorization',async()=>{
+ client.rpc.mockResolvedValue({data:serverArchive(),error:null});await render({...q,group_mode:'RESTATED'});expect(localStorage.length).toBe(0);expect(client.rpc).not.toHaveBeenCalled()
+ await click('Muat arsip laporan dari server');expect(client.rpc.mock.calls.at(-1)).toEqual(['erp_cp7_list_analysis_archives_v1',{p_query:{before_run:null,limit:25}}]);expect(container.querySelector('.native-analysis-result')).toBeNull();expect(localStorage.length).toBe(0)
+ client.rpc.mockResolvedValue({data:{...wire(fixture.request_id),source_state:'ARCHIVED_STALE'},error:null});await act(async()=>container.querySelector<HTMLButtonElement>('[aria-label="Buka arsip server 1"]')!.click())
+ expect(client.rpc.mock.calls.at(-1)).toEqual(['erp_cp7_read_analysis_v1',{p_run:fixture.run_id}]);expect(container.textContent).toContain('Arsip lama: sumber berubah.');expect(localStorage.length).toBe(0);expect(clipboard).not.toHaveBeenCalled()
+})
+it('retires displayed analysis during server archive listing and keeps it retired after a current403',async()=>{
+ client.rpc.mockImplementation(async(_name:string,args:{p_request:string})=>({data:wire(args.p_request),error:null}));await render();await click('Ambil analisis ERP terbaru');await click('Tanya AI');await fill('Pertanyaan operator dipertahankan')
+ let finish!:(v:unknown)=>void;client.rpc.mockImplementation(()=>new Promise(r=>{finish=r}));await click('Muat arsip laporan dari server');expect(container.querySelector('.native-analysis-result')).toBeNull();expect(start).toHaveBeenCalledTimes(2)
+ await act(async()=>finish({data:null,error:{code:'42501',message:'CP7_ACCESS_DENIED'}}));expect(container.querySelector('[aria-label="Buka arsip server 1"]')).toBeNull();expect(container.querySelector('.native-analysis-result')).toBeNull()
+ const requestId=JSON.parse(localStorage.getItem(analysisArchiveKey(scope))!)[0].requestId;client.rpc.mockResolvedValue({data:serverArchive(requestId),error:null});await click('Muat arsip laporan dari server');client.rpc.mockResolvedValue({data:wire(requestId),error:null});await act(async()=>container.querySelector<HTMLButtonElement>('[aria-label="Buka arsip server 1"]')!.click());await click('Tanya AI');expect((container.querySelector('[aria-label="Pertanyaan analisis ERP"]')as HTMLTextAreaElement).value).toBe('Pertanyaan operator dipertahankan')
+})
+it('rejects another actor archive list and ignores a delayed list after unmount',async()=>{
+ client.rpc.mockResolvedValue({data:{...serverArchive(),actor_scope_id:'00000000-0000-4000-8000-000000000001'},error:null});await render();await click('Muat arsip laporan dari server');expect(container.querySelector('[aria-label="Buka arsip server 1"]')).toBeNull();expect(container.querySelector('[role=alert]')).toBeTruthy()
+ let finish!:(v:unknown)=>void;client.rpc.mockImplementation(()=>new Promise(r=>{finish=r}));await click('Muat arsip laporan dari server');await act(async()=>root.unmount());root=createRoot(container);await render();await act(async()=>finish({data:serverArchive(),error:null}));expect(container.querySelector('[aria-label="Buka arsip server 1"]')).toBeNull();expect(container.querySelector('.native-analysis-result')).toBeNull()
+})
+it('preserves the Native internal-role boundary for saved attention while keeping four-Ops analysis available',async()=>{
+ const a=state.auth as typeof recoveryIdentity;state.auth={...a,identity:{...a.identity,profile:{...a.identity.profile,role:'CUSTOM_OPS'}}}
+ client.rpc.mockImplementation(async(_name:string,args:{p_request:string})=>({data:wire(args.p_request),error:null}));await render();await click('Ambil analisis ERP terbaru');await click('Pengingat')
+ expect(container.textContent).toContain('Perhatian tersimpan dan pengingat pribadi tersedia untuk pemilik, admin, atau staf ERP.')
+ const button=[...container.querySelectorAll('button')].find(b=>b.textContent==='Muat perhatian tersimpan')!;expect(button.disabled).toBe(true);expect(client.rpc).toHaveBeenCalledTimes(1);expect(container.querySelector('.native-analysis-result')).toBeTruthy()
 })
 it('shows the exact financial source under current report rights and stores only an archive pointer',async()=>{
  const auth=state.auth as typeof recoveryIdentity;auth.identity.permissions.push('finance.reports.view')

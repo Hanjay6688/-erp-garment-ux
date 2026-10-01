@@ -4,6 +4,7 @@ from datetime import timedelta
 from pathlib import Path
 import json,sys,threading,time,uuid
 import cp7_analysis_finance_cases as financial_cases
+import cp7_analysis_archive_cases as archive_cases
 import psycopg
 from jsonschema import Draft7Validator,FormatChecker
 import cp7_planning_netting_cases as previous
@@ -142,7 +143,7 @@ def cases(cur,today):
   assert recommendation(x,root)['feasible_new']['state']=='UNKNOWN'
   return dict(status='PASS',unreviewed_other_load_not_free_time_material_not_zero_feasible=True)
  declared=[('FROZEN_NATIVE',frozen),('UNKNOWN_WORK',unreviewed),('MISSING_POLICY',policy_missing),('REPLAY',replay),('CHANGED_QUERY',changed),('SOURCE_CHANGE',source_change),('ACTOR_SCOPE',actor_scope),('CURRENT_REVOKE',revoke),('IMMUTABLE',immutable),('LATE_SUPPLY',late),('SIGNED_AVAILABLE',available_signed),('PAUSED',paused),('ENGINE_CHANGE',engine_change),('UNKNOWN_CAPACITY',capacity_unknown)]
- return previous.cases(cur,today)+[('P14_NATIVE_ANALYSIS_'+n,f)for n,f in declared]+financial_cases.cases(cur,today,sys.modules[__name__])
+ return previous.cases(cur,today)+[('P14_NATIVE_ANALYSIS_'+n,f)for n,f in declared]+financial_cases.cases(cur,today,sys.modules[__name__])+archive_cases.cases(cur,today,sys.modules[__name__])
 
 def races(tools,today):
  def same_uuid():
@@ -199,4 +200,4 @@ def http_cases(http,today):
   with http.connect()as conn,conn.cursor()as cur:cur.execute('update erp.app_users set is_active=false where auth_user_id=%s',(owner.auth_user_id,));conn.commit()
   assert owner.rpc('erp_cp7_capture_analysis_v1',args)['status']==403 and owner.rpc('erp_cp7_read_analysis_v1',a)['status']==403
   return dict(status='PASS',real_Auth_PostgREST_frozen_analysis_UUID_current403_and_actor_scope=True)
- return previous.http_cases(http,today)+[('P14_ANALYSIS_HTTP_AUTH',flow)]+financial_cases.http_cases(http,today,sys.modules[__name__])
+ return previous.http_cases(http,today)+[('P14_ANALYSIS_HTTP_AUTH',flow)]+financial_cases.http_cases(http,today,sys.modules[__name__])+archive_cases.http_cases(http,today,sys.modules[__name__])

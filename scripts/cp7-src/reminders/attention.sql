@@ -83,6 +83,7 @@ begin
  if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
  if auth.uid()is null or coalesce(auth.jwt()->>'role','')<>'authenticated'then raise exception using errcode='42501',message='CP7_REMINDER_ACCESS_DENIED';end if;
  a:=erp.get_my_access_v1();if a->'allowed'is distinct from 'true'::jsonb then raise exception using errcode='42501',message='CP7_REMINDER_ACCESS_DENIED';end if;
+ if coalesce(a->'profile'->>'role_code','')not in('OWNER','ADMIN','STAFF')then raise exception using errcode='42501',message='CP7_REMINDER_INTERNAL_ROLE_REQUIRED';end if;
  foreach k in array array['master.product.view','production.wip.view','warehouse.stock.view','sales.invoice.view']loop
   if not erp.has_permission(k)then raise exception using errcode='42501',message='CP7_REMINDER_ACCESS_DENIED';end if;
  end loop;

@@ -1,0 +1,41 @@
+{
+  "status": "LOCAL_1069_PASS_BUILD_SECURITY_PGLITE_STANDIN17_NATIVE118_131_PENDING",
+  "local_tests": {
+    "PASS": 1069,
+    "FAIL": 0,
+    "NOT_RUN": 0,
+    "suites": 224
+  },
+  "targeted_archive_receiver_and_DOM_cases": 22,
+  "build_typecheck_client_secret_scan": true,
+  "security_source_access_css": true,
+  "runtime_files": 214,
+  "owned_rpc_boundaries": 126,
+  "css_files": 51,
+  "pglite": {
+    "status": "PASS",
+    "cases": 17,
+    "scope": "NATIVE_COLUMN_STRUCTURAL_AND_METADATA_STANDIN_NOT_AUTH_MANUAL_WRITERS"
+  },
+  "analysis_bundle_sha256": "d941c10e201938ff3899da111ca4beb49fd0e49511737547a1996f93f229ba1f",
+  "attention_bundle_sha256": "3d640b617132155b56b3cba8cdfb11f284edb46a606ad9b0e9b8158362e05ef2",
+  "declared_native": {
+    "analysis": {
+      "native": 84,
+      "races": 15,
+      "http": 9,
+      "browser": 10,
+      "total": 118
+    },
+    "attention": {
+      "native": 92,
+      "races": 17,
+      "http": 10,
+      "browser": 12,
+      "total": 131
+    }
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false
+}

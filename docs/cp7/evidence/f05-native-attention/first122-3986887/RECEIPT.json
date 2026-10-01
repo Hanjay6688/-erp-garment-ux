@@ -1,0 +1,87 @@
+{
+  "status": "119_PASS_3_INCOMPLETE_NATIVE_SOURCE_STATE_AND_CUSTOM_ROLE_GUARDS_PUBLIC_FUNCTION_ORDER_DIFFERENCE",
+  "original_overall_status": "INCOMPLETE",
+  "source_commit": "3986887a9b85a735fa610e635b7502f1a8e3a802",
+  "source_tree": "745ac894a549f1ed0777bbeba8f65529a8d28d67",
+  "source_bundle_sha256": "422dff45428e706441ebd8bd0bf00c994f3a0c8c0d431ab8707a2af6ec167c25",
+  "run_id": 36800926316,
+  "job_id": 110174843330,
+  "artifact_id": 11135997746,
+  "zip_bytes": 56967416,
+  "zip_sha256": "649a5113d3236b3617b8ab8de3c13c4b962656f8ccc4e46fe7a8259c237a68ed",
+  "original_reports": 5,
+  "original_reports_archive": "original-reports.json.gz",
+  "original_reports_archive_sha256": "60387d9704d1d53d0591a2b85b3b6bdbea29971c16bd76fca093f631310608e9",
+  "expected_case_count": 122,
+  "observed_case_count": 122,
+  "counts": {
+    "native": {
+      "PASS": 84,
+      "INCOMPLETE": 2
+    },
+    "races": {
+      "PASS": 16,
+      "INCOMPLETE": 1
+    },
+    "http": {
+      "PASS": 9
+    },
+    "browser": {
+      "PASS": 10
+    }
+  },
+  "cp6_restored": false,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": false
+  },
+  "advisor_gate": true,
+  "all_other_predecessor_definitions_and_owners_unchanged": true,
+  "exact_guard_sha256": {
+    "erp.require_internal()": "f14474739742a19474ac20aa9f82a6fd5b2d2ef4755f8030af3325bcfd601e12",
+    "erp.require_owner_admin()": "a041048af3c9e5790d3c5639d932c7157759ab155a4332772792bb5f664176e0"
+  },
+  "case_failures": {
+    "native": {
+      "P16_NATIVE_ATTENTION_NATIVE_TASK_LIFECYCLE": {
+        "status": "INCOMPLETE",
+        "error": "",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 112, in strict_group\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_attention_cases.py\", line 46, in lifecycle\n    assert e['analysis']['analysis']==original['analysis']and e['analysis']['source_state']=='UNCHANGED'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+      },
+      "P16_NATIVE_ATTENTION_CURRENT_ACTOR_AUTH": {
+        "status": "INCOMPLETE",
+        "error": "Internal ERP access required\nCONTEXT:  PL/pgSQL function erp.require_internal() line 57 at RAISE\nSQL statement \"SELECT erp.require_internal()\"\nPL/pgSQL function require_manual_reminder_actor() line 6 at PERFORM\nPL/pgSQL function list_my_reminders_v1(text,integer) line 3 during statement block local variable initialization\nSQL function \"erp_list_my_reminders_v1\" statement 1\nSQL statement \"SELECT public.erp_list_my_reminders_v1('ALL',1)\"\nPL/pgSQL function cp7_reminder_native.manual_source(uuid) line 7 at PERFORM\nPL/pgSQL function cp7_reminder_native.workspace(uuid) line 4 at assignment\nSQL function \"erp_cp7_get_analysis_attention_v1\" statement 1",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 112, in strict_group\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_attention_cases.py\", line 62, in ownership\n    original,e,subject=prepared(cur,today,True);p=intent(e);key=uuid.uuid4();saved=command(cur,p,key,subject);assert saved['request_result']['status']=='COMMITTED'\n                       ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_attention_cases.py\", line 24, in prepared\n    original=parent.capture(cur,today,subject=subject);return original,get(cur,original['run_id'],subject),subject\n                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_attention_cases.py\", line 14, in get\n    def get(cur,run,subject=None):return rpc(cur,'erp_cp7_get_analysis_attention_v1',(run,),subject)\n                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_attention_cases.py\", line 13, in rpc\n    def rpc(cur,name,args,subject=None):return parent.schedule.rpc(cur,name,args,subject)\n                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_planning_schedule_cases.py\", line 27, in rpc\n    r=cur.execute('select public.'+name+'('+placeholders+')',args).fetchone()[0]\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: Internal ERP access required\nCONTEXT:  PL/pgSQL function erp.require_internal() line 57 at RAISE\nSQL statement \"SELECT erp.require_internal()\"\nPL/pgSQL function require_manual_reminder_actor() line 6 at PERFORM\nPL/pgSQL function list_my_reminders_v1(text,integer) line 3 during statement block local variable initialization\nSQL function \"erp_list_my_reminders_v1\" statement 1\nSQL statement \"SELECT public.erp_list_my_reminders_v1('ALL',1)\"\nPL/pgSQL function cp7_reminder_native.manual_source(uuid) line 7 at PERFORM\nPL/pgSQL function cp7_reminder_native.workspace(uuid) line 4 at assignment\nSQL function \"erp_cp7_get_analysis_attention_v1\" statement 1\n"
+      }
+    },
+    "races": {
+      "P16_ATTENTION_RACE_CURRENT_AUTH": {
+        "status": "INCOMPLETE",
+        "error": "Internal ERP access required\nCONTEXT:  PL/pgSQL function erp.require_internal() line 57 at RAISE\nSQL statement \"SELECT erp.require_internal()\"\nPL/pgSQL function require_manual_reminder_actor() line 6 at PERFORM\nPL/pgSQL function list_my_reminders_v1(text,integer) line 3 during statement block local variable initialization\nSQL function \"erp_list_my_reminders_v1\" statement 1\nSQL statement \"SELECT public.erp_list_my_reminders_v1('ALL',1)\"\nPL/pgSQL function cp7_reminder_native.manual_source(uuid) line 7 at PERFORM\nPL/pgSQL function cp7_reminder_native.workspace(uuid) line 4 at assignment\nSQL function \"erp_cp7_get_analysis_attention_v1\" statement 1",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 139, in strict_rows\n    row=run_one(i,key,operation)\n        ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 170, in run_one\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_attention_cases.py\", line 100, in revoke\n    with tools.connect()as conn,conn.cursor()as cur:original,e,subject=prepared(cur,today,True);role=cur.execute('select role_id from erp.app_users where auth_user_id=%s',(subject,)).fetchone()[0];p=intent(e);key=uuid.uuid4();conn.commit()\n                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_attention_cases.py\", line 24, in prepared\n    original=parent.capture(cur,today,subject=subject);return original,get(cur,original['run_id'],subject),subject\n                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_attention_cases.py\", line 14, in get\n    def get(cur,run,subject=None):return rpc(cur,'erp_cp7_get_analysis_attention_v1',(run,),subject)\n                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_attention_cases.py\", line 13, in rpc\n    def rpc(cur,name,args,subject=None):return parent.schedule.rpc(cur,name,args,subject)\n                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_planning_schedule_cases.py\", line 27, in rpc\n    r=cur.execute('select public.'+name+'('+placeholders+')',args).fetchone()[0]\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: Internal ERP access required\nCONTEXT:  PL/pgSQL function erp.require_internal() line 57 at RAISE\nSQL statement \"SELECT erp.require_internal()\"\nPL/pgSQL function require_manual_reminder_actor() line 6 at PERFORM\nPL/pgSQL function list_my_reminders_v1(text,integer) line 3 during statement block local variable initialization\nSQL function \"erp_list_my_reminders_v1\" statement 1\nSQL statement \"SELECT public.erp_list_my_reminders_v1('ALL',1)\"\nPL/pgSQL function cp7_reminder_native.manual_source(uuid) line 7 at PERFORM\nPL/pgSQL function cp7_reminder_native.workspace(uuid) line 4 at assignment\nSQL function \"erp_cp7_get_analysis_attention_v1\" statement 1\n"
+      }
+    },
+    "http": {},
+    "browser": {}
+  },
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "production_go": false,
+  "public_function_restoration_diagnostic": {
+    "before_count": 69,
+    "after_count": 69,
+    "all_signature_definition_pairs_identical": true,
+    "only_array_order_differs": true,
+    "accepted_case_runner_unchanged": true
+  },
+  "visual_inspection": {
+    "kind": "FIVE_THUMBNAIL_CONTACT_SHEET_ONLY_NOT_FULL_VISUAL_QUALIFICATION",
+    "screenshots": [
+      "P16_RECOVERED_MOBILE.png",
+      "P16_DONE_REVIEW_MOBILE.png",
+      "P16_SNOOZED_MOBILE.png",
+      "P16_RECOVERED_DESKTOP.png",
+      "P16_SNOOZED_DESKTOP.png"
+    ]
+  }
+}

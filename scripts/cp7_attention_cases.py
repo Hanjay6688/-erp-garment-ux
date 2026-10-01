@@ -21,6 +21,12 @@ def intent(e,action='ACK',row=None,**details):
 def row_for(e,p):return next(r for r in e['rows']if r['action_key']==p['action_key'])
 def prepared(cur,today,custom=False):
  parent.setup(cur,today);subject=auth.custom_actor(cur)[0]if custom else None
+ if custom:
+  # Delegate to the real Native STAFF policy. A custom four-Ops role is not
+  # admitted by Native personal reminders; never broaden that Native guard.
+  role=cur.execute("select id from erp.app_roles where role_code='STAFF'").fetchone()[0]
+  cur.execute("update erp.app_users set role_id=%s where auth_user_id=%s",(role,subject))
+  for permission in auth.PERMS:cur.execute('insert into erp.app_role_permissions(role_id,permission_key)values(%s,%s)on conflict do nothing',(role,permission))
  original=parent.capture(cur,today,subject=subject);return original,get(cur,original['run_id'],subject),subject
 def manual_save(cur,p,version=None,subject=None):return rpc(cur,'erp_save_my_reminder_v1',(json.dumps(p),uuid.uuid4(),version),subject)
 def schedule(cur,e,today,subject=None):return command(cur,intent(e,'SCHEDULE',title='Periksa bahan sumber asli',note='Ditinjau operator',due_at=(today+timedelta(days=2)).isoformat()+'T08:30:00+07:00',priority='NORMAL'),subject=subject)
@@ -43,7 +49,14 @@ def cases(cur,today):
   p=intent(e,'CANCEL_SCHEDULE',reason='Operator mengubah jadwal');e=command(cur,p);assert row_for(e,p)['manual']['status']=='CANCELLED'and row_for(e,p)['attention']['state']=='SNOOZED'
   old=row_for(e,p)['manual']['id'];e=schedule(cur,e,today);assert e['rows'][0]['manual']['id']!=old and e['rows'][0]['manual']['status']=='OPEN'
   assert cur.execute('select status from erp.manual_reminders where id=%s',(old,)).fetchone()[0]=='CANCELLED'
-  assert e['analysis']['analysis']==original['analysis']and e['analysis']['source_state']=='UNCHANGED'
+  assert e['analysis']['analysis']==original['analysis']
+  if e['analysis']['source_state']!='UNCHANGED':
+   fresh=parent.capture(cur,today);oldfacts=cur.execute('select facts from cp7_analysis_native.runs where id=%s',(original['run_id'],)).fetchone()[0];newfacts=cur.execute('select facts from cp7_analysis_native.runs where id=%s',(fresh['run_id'],)).fetchone()[0]
+   def diff(a,b,path=''):
+    if a==b:return[]
+    if isinstance(a,dict)and isinstance(b,dict):return[x for k in sorted(set(a)|set(b))for x in diff(a.get(k),b.get(k),path+'/'+k)]
+    return[dict(path=path,before=a,after=b)]
+   raise AssertionError(json.dumps(dict(code='P16_NATIVE_TASK_SOURCE_UNEXPECTED_CHANGE',old_hash=original['analysis']['snapshot']['source_hash'],new_hash=fresh['analysis']['snapshot']['source_hash'],difference=diff(oldfacts,newfacts)),default=str))
   return dict(status='PASS',unchanged_native_create_done_reopen_edit_cancel_new_lifecycle=True,Native_original_cancelled_task_retained=True,manual_tasks_never_change_stock_money_HPP_source=True)
  def replay():
   original,e,subject=prepared(cur,today);p=intent(e);key=uuid.uuid4();saved=command(cur,p,key);again=command(cur,p,key);assert saved['request_result']==again['request_result']and row_for(again,p)['attention']['revision']=='1'
@@ -60,11 +73,13 @@ def cases(cur,today):
   return dict(status='PASS',serialized_absent_resolution_creates_immutable_negative_fence=True,late_original_same_UUID_cannot_create_task=True,no_business_DML=True)
  def ownership():
   original,e,subject=prepared(cur,today,True);p=intent(e);key=uuid.uuid4();saved=command(cur,p,key,subject);assert saved['request_result']['status']=='COMMITTED'
+  custom,_=auth.custom_actor(cur);unsupported=parent.capture(cur,today,subject=custom)
+  auth.refused(cur,lambda:get(cur,unsupported['run_id'],custom),'CP7_REMINDER_INTERNAL_ROLE_REQUIRED')
   auth.refused(cur,lambda:get(cur,original['run_id']),'CP7_ANALYSIS_RUN_UNAVAILABLE')
   auth.refused(cur,lambda:resolve(cur,p,key),'CP7_ANALYSIS_RUN_UNAVAILABLE')
   role=cur.execute('select role_id from erp.app_users where auth_user_id=%s',(subject,)).fetchone()[0];cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='production.wip.view'",(role,))
   for fn in(lambda:get(cur,original['run_id'],subject),lambda:command(cur,p,key,subject),lambda:resolve(cur,p,key,subject)):auth.refused(cur,fn,'CP7_REMINDER_ACCESS_DENIED')
-  return dict(status='PASS',current_native_actor_and_permission_before_rows_cached_UUID_and_resolution=True,another_user_cannot_read_or_replay_original=True)
+  return dict(status='PASS',actual_Native_STAFF_current_actor_and_permission_before_rows_cached_UUID_and_resolution=True,another_user_cannot_read_or_replay_original=True,custom_four_Ops_role_not_broadened_to_Native_personal_tasks=True)
  def native_version():
   original,e,subject=prepared(cur,today);e=schedule(cur,e,today);p=intent(e,'DONE');old=e['rows'][0]['manual'];changed=manual_save(cur,dict(id=old['id'],title='Edited in Native management',note=old['note'],due_at=old['due_at'],priority=old['priority'],module=old['module']),int(old['row_version']))
   auth.refused(cur,lambda:command(cur,p),'CP7_REMINDER_NATIVE_STALE_REVISION')
