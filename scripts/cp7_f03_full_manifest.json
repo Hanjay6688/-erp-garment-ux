@@ -1,6 +1,6 @@
 {
   "schema": "cp7-f03-full-native-manifest-v1",
-  "qualification_scope": "ALL_RETAINED_COMPONENT_CONTROLS_ON_ONE_FULL_31_ROLE_F03_STACK",
+  "qualification_scope": "ALL_RETAINED_COMPONENT_CONTROLS_ON_ONE_FULL_31_ROLE_F03_STACK_WITH_HASH_PINNED_SUPPLIER_CURRENT_AUTHORITY",
   "unique_oracle_total_claim": false,
   "full_family_acceptance": false,
   "independent_acceptance": false,
