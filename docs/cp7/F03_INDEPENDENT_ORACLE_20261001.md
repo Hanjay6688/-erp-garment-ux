@@ -23,3 +23,20 @@ F03 covers P09 procurement, P10 FG, P11 sales/return/payment, P12 attendance/pay
 Independently authored native/race/HTTP/browser probes are recorded separately from reruns of retained writer suites. Every case records fixture, expected/actual, source/runtime and cleanup. Test counts are executions, not unique business requirements. A failed assertion is triaged and reproduced before a writer defect is raised. Existing cured findings stay closed unless the frozen candidate actually reproduces them.
 
 Acceptance requires no confirmed material F03 defect and transparent disposition of mandatory coverage. `production_go` remains false. This document is committed before independent probe execution; later additions preserve the original worksheet and explain corrections to the audit fixture.
+
+
+## Additional executable oracle, before database execution
+
+The23 independent executions are declared in `scripts/f03_independent_manifest.json`:14 native,4 concurrent-session,3 real Auth/REST and2 connected browser. Shared source builders create lawful disposable data; expected amounts and downstream assertions are auditor-owned. The shared strict runner only supplies installation, real transports and cleanup. Retained suites are separate cross-checks.
+
+- N01 uses the existing lawful60-PCS/value900 production source, then independently sells17 at31.17 less0.23, receives cash173.29 and returns3 for93.42. Expected sale529.66, final revenue436.24, COGS210, profit226.24, AR262.95, cash173.29, FG46/value690. Payment/return/sale inverses restore60PCS and the complete baseline ledger.
+- N02/B01/B02 use7PCS at37.13 less0.06 =259.85. Cash123.45 leaves136.40; another136.40 settles. Stock stays3 after posting. Browser drops a real committed response and must replay the identical envelope, retaining one payment and retiring facts after a failed refresh.
+- N03 separates returned Grade B2 and HOLD1 with credits74.22+37.11, leaving AR148.52. N04 preserves the existing paid-return refusal, with no invented refund policy.
+- N05/N06 test one-cent changed replay and current revoked authority. N07 traverses13 invoices over5+5+3 pages.
+- N08 receipt1.234567 at17.000001 has six-decimal value20.987640 and AP20.99. N09 receipt3 at22000000.01 has AP66000000.03 and one physical receipt after replay.
+- N10 correction minus3 at cost10 reverses exactly. N11 approved payroll1000 is paid333.33+333.33+333.34; reversing the first payment leaves666.67 paid and333.33 outstanding without reaccrual or stock/HPP changes. N12 checks stale intent and one-cent overpayment.
+- N13 checks operational redaction with positive OWNER controls; N14 checks report reads are non-mutating and invalid dates/unsupported history are refused.
+- R01/R02 compete identical/distinct payment requests for200.01 against259.85, requiring exactly one payment and AR59.84. R03 identifies the actual waiting backend by a unique application name, revokes its payment permission while its cached request row is locked, then requires42501 and unchanged committed state after revocation. R04 competes700.01 payroll payments against1000, requiring one effect and299.99 remaining.
+- H01/H03 use actual Auth tokens for post/partial-pay/replay and current deactivation denial. H02 sends private schema profile headers through real PostgREST and requires406/PGRST106; an invented public RPC would not count as this proof.
+
+All fixtures are synthetic. These cases are NOT_RUN until their source-bound CI receipts exist. Failure triage must distinguish fixture/setup errors from product counterexamples without changing the business oracle to match output.
