@@ -81,3 +81,11 @@
   Paste final §2.3 rewritten. Writer status read: BD near-final (28-file T3, T2 covers BD, D07 done in af00dd1, T3 red on af00dd1 pending re-capture), UI gallery ffb5076.
 - 26 Sep: owner directions D09 (ACC-C12 option a), D10 (invoice variance split), D11 (policy table), UI-01 recorded verbatim; §32.9 synced (owner vs auditor items);
   combined paste WRITER_HANDOFF_R12B_PASTE_20260926.md (GPT reply + Fable additions + decisions). BD head 2aee623 with §32 = auditable; BD round pending quota.
+
+## 2026-10-01 — Fable back after quota gap (27 Sep → 1 Oct): survey only, nothing verified yet
+- Replacement auditor did NOT use this shared branch; its work is on `audit/bd-independent-20260927`, `audit/bd-be-retest-20260928`, `audit/bd-be-sku-delta-handoff-20260928`,
+  `audit/cp6-final-independent-20260928`, `audit/cp6-cp7-acceptance-20260929` (branched from the writer branch, folders `audits/…`). On 29 Sep it declared
+  "CP6 CLOSED — independently accepted for contract scope; R10 OPEN on CP7; production_go=false" (candidate fab23e7, product/package 434b182, 30-file package incl. BE+BF).
+- Writer branch: 72 commits since 08065a3 (BE, BF = commercial ranges/vendor credit/conversion history; release package 30 files; writer takeover doc 28 Sep). Handoff doc stops at §34 (BD);
+  BE/BF have separate handoff docs. Writer moved to CP7 (branches cp7/*, PRs #31–#38, cp7/integration active 1 Oct). `main` unchanged (557005e, 22 Sep).
+- NOT yet verified by Fable: BD/BE/BF audits, the CP6 closure claim, D07 retest, D09 ACC-C12 tests, F3/D08 fix verification, D11 values, GBD-03. Fable's own last frozen state remains r12 (BC).
