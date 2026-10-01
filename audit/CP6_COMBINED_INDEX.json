@@ -1724,5 +1724,28 @@
   "LAU-DEC01": "leave empty unless a vendor bills per batch or minimum charge (per-PCS always works)",
   "LAU-DEC02": "GOOD + BS; add FAILED_ATTEMPT only if a vendor contract bills failed washes (ALL laundry invoices blocked while empty)",
   "LAU-DEC03": "discount ALLOWED, extras REFUSED, rounding LAST_LINE, tax account empty unless vendors charge tax (blocks discounted/taxed invoices while empty)"
+ },
+ "fable_round15_pr39_review": {
+  "date": "2026-10-01",
+  "pr": "https://github.com/Hanjay6688/-erp-garment-ux/pull/39",
+  "head": "f378b9e0e5b939134d80396e01ccfce883a95a52",
+  "base": "10a834712e515af86c6d8baa89bbe40cff9793e3",
+  "db_package_unchanged": true,
+  "predecessor_manifest_hashes_verified": "28/28",
+  "runs": {
+   "readiness": 36824954256,
+   "combined_free": 36824956958
+  },
+  "results": {
+   "owner_install_58": "10/10",
+   "native": 104,
+   "races": 26,
+   "http": 9,
+   "browser": 31,
+   "combined_via_auditor_runtime": 166
+  },
+  "unverified": "hosted baseline v2.6.20 (writer read-only preflight; auditor denied hosted read)",
+  "report": "out/fable_r15_pr39_review.md",
+  "verdict": "PR 39 fit to merge into writer branch; production_go still false pending owner inputs, verified backup, maintenance window, hosted advisor comparison, UI-vs-demo"
  }
 }

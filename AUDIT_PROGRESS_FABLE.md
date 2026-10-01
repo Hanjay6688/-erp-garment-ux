@@ -135,3 +135,10 @@
 - Kesalahan auditor dikoreksi: GBD-03 (opsi 1), D11 (5 diputuskan, 8 isian aplikasi), UI-01 (dijadwalkan owner) sudah dijawab 26 Sep — bukan item terbuka.
 - D13 (owner → auditor, 1 Okt): tarif laundry dari vendor; SKU hanya riwayat biaya. Produk sesuai (BF_LAUNDRY_VENDOR_AUTHORITY; erp_get_laundry_history_v1).
 - Berikutnya: CP7 atas arahan owner.
+
+## 2026-10-01 ~07:20Z — putaran 15: PR 39 (cp6/release-readiness f378b9e) ditinjau dan dijalankan ulang
+- Sumber: paket DB identik 10a8347; 28 pendahulu 28/28 hash cocok; BF free ditulis ulang di vendor (D13); UI hanya penjelasan/prefill; preflight hosted baca saja.
+- Run ulang saya di cabang PR: readiness 36824954256 (owner 58 berkas 10/10; native 104 / races 26 / HTTP 9; browser 31, 0 console error);
+  auditor-scenario 36824956958 combined+free browser 166/166. Identik dengan klaim penulis.
+- Tidak bisa verifikasi "hosted masih v2.6.20" dari sesi ini (baca proyek hosted ditolak) → REUSED_WRITER_EVIDENCE.
+- Laporan: out/fable_r15_pr39_review.md. Putusan: PR 39 layak merge ke cabang penulis; go produksi tetap menunggu isian owner, backup pulih, jendela maintenance, advisor hosted, UI vs demo.
