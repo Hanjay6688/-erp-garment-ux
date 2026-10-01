@@ -1,0 +1,38 @@
+{
+  "source": "ae74c4118d3d42ceec3b3865faad4cc2292ac8a9",
+  "tree": "a68cad3151c12701061be0e4d893cdb978a9ef14",
+  "run": 36865609732,
+  "job": 110380233158,
+  "artifact": 11164152023,
+  "file_id": "file_00000000d4b4820796ee8ca8e982057a",
+  "folder": "plan-native/first-executed22-ae74c41",
+  "report": "CP7_F04_NATIVE_PLANS.json",
+  "archive_bytes": 1637111,
+  "archive_sha256": "e9fe1dc325d7db163b9b91ff0e47a6d0813c1d7d082af21e13fb8b7f56b0fe1c",
+  "status": "INCOMPLETE",
+  "groups": {
+    "native": {
+      "INCOMPLETE": 14
+    },
+    "races": {
+      "INCOMPLETE": 5
+    },
+    "http": {
+      "INCOMPLETE": 1
+    },
+    "browser": {
+      "INCOMPLETE": 2
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "original_member_hashes": {
+    "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+    "CP7_F04_NATIVE_PLANS.json": "e761ff4ac520e6d84f6631c1891ba47dbf2806475e70ab722a99751280c604a3",
+    "T3_BACKUP_RESTORE_DRILL.json": "72c96af14fba472cfe02331b990f784dd6680d536edef045bf5dd9253bb41fb8",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "T3_PACKAGE_INSTALL.json": "f22d9ecee30c49e3151001b277f869aaeb90b1c72486a09fa6e684e7d502a439"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

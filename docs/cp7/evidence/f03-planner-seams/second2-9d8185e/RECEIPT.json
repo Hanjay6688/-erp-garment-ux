@@ -1,0 +1,30 @@
+{
+  "source": "9d8185e0b59621ffe585e5fbefd85cf932d76eea",
+  "tree": "61503b94df795bddb99bb81b180d8deae8f05a87",
+  "run": 36866514703,
+  "job": 110383214850,
+  "artifact": 11164677105,
+  "file_id": "file_0000000006d482078f9091cd7c9707a5",
+  "folder": "f03-planner-seams/second2-9d8185e",
+  "report": "CP7_F03_NATIVE_PLANNER_SEAMS.json",
+  "archive_bytes": 1634633,
+  "archive_sha256": "0b32770dd6a1d5b8adff946c58712dd5f9e74d3450c05cd4aca634c96910d5ff",
+  "status": "INCOMPLETE",
+  "groups": {
+    "native": {
+      "PASS": 1,
+      "INCOMPLETE": 1
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "original_member_hashes": {
+    "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+    "CP7_F03_NATIVE_PLANNER_SEAMS.json": "4ed5512c6549c2777a61148c0cab3ed69d7b137cdb4f7213ccca5e10e06686af",
+    "T3_BACKUP_RESTORE_DRILL.json": "ddf41a4feeeee41cac97d3a682466756aa75502823cb42941964e6f08dc2e057",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "T3_PACKAGE_INSTALL.json": "c133aa2ffa357d3a6c874d4ff72a1970e70aa8da52c04aec40ea8176f2012d89"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

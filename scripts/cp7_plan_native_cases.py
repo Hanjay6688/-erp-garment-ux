@@ -5,6 +5,7 @@ from decimal import Decimal as D
 from concurrent.futures import ThreadPoolExecutor
 import psycopg
 import cp7_analysis_cases as analysis
+import cp7_procurement_cases as receipt
 previous=analysis.previous;schedule=previous.schedule;auth=previous.auth;b=previous.b
 
 def rpc(cur,name,args,subject=None):return schedule.rpc(cur,name,args,subject)
@@ -26,14 +27,20 @@ def custom(cur):
  return subject,role
 
 def setup(cur,today,subject=None):
- f=previous.production.cut.fixture(cur,today);root=str(f['product']);previous.select_profiles(cur,root,True)
+ f=previous.production.cut.fixture(cur,today)
+ # A clean accepted database need not contain unused fabric. Create its source
+ # through the real receipt SAVE/POST before freezing the analysis dependencies;
+ # never inject movements or assume that the production fixture left fabric.
+ fabric=receipt.fixture(cur,today,qty='10',price='10')
+ receipt.post(cur,receipt.command(cur,'SAVE_DRAFT',fabric['payload']))
+ root=str(f['product']);previous.select_profiles(cur,root,True)
  supply=previous.supply.capture(cur,today);p=schedule.payload(cur,supply,str(cur.execute('select coalesce(max(revision),0)from cp7_schedule_native.plans').fetchone()[0]))
  load=sum(int(step['remaining_minutes'])for pos in p['config']['positions']for step in pos['remaining_steps'])
  start=cur.execute('select clock_timestamp()').fetchone()[0].replace(microsecond=0)+timedelta(hours=1)
  p['config']['windows']=[dict(key='p08-whole-retained-queue',starts_at=schedule.stamp(start),ends_at=schedule.stamp(start+timedelta(minutes=load+120)),other_load_minutes='0')]
  p['config']['through_at']=schedule.stamp(start+timedelta(minutes=load+180));schedule.save(cur,p)
  original=analysis.capture(cur,today,subject=subject);target=analysis.recommendation(original['analysis'],root)['target']['key']
- loc=str(cur.execute("select l.id from erp.locations l where l.is_active and l.location_type='RAW_MATERIAL_WAREHOUSE'and exists(select 1 from erp.material_rolls r join erp.material_stock_movements m on m.roll_id=r.id join erp.materials t on t.id=r.material_id where m.location_id=l.id and r.status in('AVAILABLE','HALF_USED')and t.is_active and t.material_type='FABRIC'group by r.id having sum(m.qty_signed)>=1)order by l.id limit 1").fetchone()[0])
+ loc=fabric['location']
  q=dict(run_id=original['run_id'],target_key=target,location_id=loc,po_query='',roll_query='',po_offset='0',roll_offset='0',pattern_offset='0',limit='50');o=options(cur,q,subject)
  assert o['orders']and o['patterns']and o['rolls']and D(o['needed_pcs'])>=2 and D(o['capacity_pcs'])>=2,o
  roll=next(x for x in o['rolls']if D(x['available'])>=1)

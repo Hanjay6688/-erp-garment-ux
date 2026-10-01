@@ -50,7 +50,10 @@ def size_sources(cur,today):
    select %s,%s,%s,brand_id,'O07-SHARED',%s,%s,%s,%s,true,true from erp.products where id=%s""",
    (root,tag+'-'+label,model,sid,'O07 Native '+label,root,today-timedelta(days=10),sales.fg.ax.chain.base.BASE_PRODUCT))
   cur.execute("insert into erp.accessory_bom_versions(product_id,version_label,effective_from,is_active,notes)values(%s,'O07-EMPTY','2026-01-01',true,'Explicit empty BOM')",(root,))
- at=history.receipt.aa.at(today-timedelta(days=1),6)
+ # A new commercial grouping starts at actual creation, never yesterday.
+ # Physical stock is a separate Native past event; the current scenario uses
+ # today's membership without rewriting the historical grouping.
+ at=cur.execute('select clock_timestamp()').fetchone()[0]
  group=netting.bf.group(cur,[root_s,root_l],at,settings=dict(price=None,bom=None,work_rates=[],laundry_rates=[]))
  netting.bf.save(cur,[group],at)
  for root,qty in((root_s,25),(root_l,5)):
