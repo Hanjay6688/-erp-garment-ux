@@ -82,13 +82,7 @@
     "source": "Current conversation: approved1000, pay600, remaining400 on the same payroll, then400; owner: ok setuju, lanjutin sisanya ya cp7 sampe beres",
     "status": "IMPLEMENTED_WRITER_NATIVE_AUTH_BROWSER26_PASS"
   },
-  "execution_priority": {
-    "active_family": "F04_P05_P08_PLANNING",
-    "f03_writer_status": "QUALIFIED_READY_FOR_INDEPENDENT_AUDIT",
-    "next": "Retest exact same140/186 publication budget; continue material, reviewed-model and plan-versus-actual integration",
-    "owner_instruction": "2026-10-01: finish F03 before remaining F04/F05",
-    "preserved_plan_candidate": "WRITER_NATIVE22_QUALIFIED_AT_a8b7f3a"
-  },
+  "execution_priority": "F03 writer exit preserved; finish F04 and F05 with actual Native, current authority, exact restoration and retained Originals",
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
   "f02_independent_handoff": "https://github.com/Hanjay6688/-erp-garment-ux/blob/09990020355fb7329fbc7b8710692bf1357d2401/audits/cp7_f02_20260929/HANDOFF.md",
@@ -1128,7 +1122,7 @@
   "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
   "latest_tested_scope": "Bounded Native plan22 and attention164 all PASS at a8b7f3a, every restore/cleanup/Auth/advisor/primary/backup gate retained. Native118 finance canonicalization separately PASS at81fcd44. These counts overlap and do not close full F04/F05.",
   "latest_tested_source": "a8b7f3a055a1fee51af1387d44ff1f1a6ab9593d",
-  "next_action": "Retest Native140/186 publication repairs with fixed case counts, preserve original failures, then complete F04 material/model/plan-actual and remaining F05 contracts before full integration.",
+  "next_action": "Qualify repaired Native140/186 clock dependency, restore and qualify the F04 Native plan/actual implementation, then remaining material/model and F05 obligation contracts",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -1428,7 +1422,7 @@
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "version": "cp7.integration-entry.v1",
   "f05_native_publications": {
-    "status": "NATIVE140_INCOMPLETE_136_PASS4_INCOMPLETE_FIX_READY_NATIVE186_RUNNING",
+    "status": "NATIVE140_186_CLOCK_CAUSE_PROVED_REPAIR_READY_PENDING_QUALIFICATION",
     "parent_source": "a8b7f3a055a1fee51af1387d44ff1f1a6ab9593d",
     "source_functions_owned": "cp7_analysis_native",
     "native_business_DML": false,
@@ -1443,7 +1437,7 @@
     },
     "source_stability_assertion": "40 public Owner/finance Original reads under eight SQL planning configurations, no acceptance of SourceChanged",
     "local_test_classification": "STAND_IN_UI_PARSER_NOT_NATIVE",
-    "remaining": "Exact candidate Native140/186 install/DB/races/HTTP/browser/restoration and visual inspection; full F04 dependencies and other F05 obligations/rules remain open",
+    "remaining": "Exact repaired Native140/186 qualification and all remaining F04/F05 contracts; no full family or independent acceptance",
     "independent_acceptance": false,
     "full_family_acceptance": false,
     "production_go": false,
@@ -1468,8 +1462,49 @@
         "INCOMPLETE": 2
       }
     },
-    "financial_40_reads_actual": "PASS_UNCHANGED_ALL_40",
+    "financial_40_reads_actual": "FIRST_9c7_PASS_SECOND_52b_INCOMPLETE_AT_READ36",
     "repair": "Compare exact three period values instead of JSON member order; keep UNKNOWN assertion and compare known zero numerically; second period ends yesterday because ongoing-day history is forbidden",
-    "local_repair_tests": 51
+    "local_repair_tests": 51,
+    "repair_source": "52bbfa33cd802ab039863ef8584fc93f47130f28",
+    "repair_tree": "c73af7d49a219309dacdba2861cf45d740f67e9b",
+    "second_run": 36896940557,
+    "second_job": 110486177234,
+    "second_counts": {
+      "database": {
+        "PASS": 97,
+        "INCOMPLETE": 1
+      },
+      "races": {
+        "PASS": 19
+      },
+      "HTTP": {
+        "PASS": 11
+      },
+      "browser": {
+        "PASS": 11,
+        "INCOMPLETE": 1
+      }
+    },
+    "second_original": "docs/cp7/evidence/f05-native-publication/clock-before140-52bbfa3/RECEIPT.json",
+    "second186_run": 36896940483,
+    "second186_job": 110486178014,
+    "second186_counts": {
+      "database": {
+        "PASS": 118,
+        "INCOMPLETE": 1
+      },
+      "races": {
+        "PASS": 25
+      },
+      "HTTP": {
+        "PASS": 16
+      },
+      "browser": {
+        "PASS": 26
+      }
+    },
+    "clock_cause": "Actual protected stored/current pair differs only at five clock fields; unconditional minute hash changes before first usable work window",
+    "clock_repair": "Retain full raw source and schedule; hash WIB business day, usable minute frontier and horizon-expiry state",
+    "clock_counterfixtures": "Pure clock changes to actual captured Native source; future stability plus active-window/day/horizon guards; all forty live reads still require UNCHANGED"
   }
 }

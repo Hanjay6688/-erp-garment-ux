@@ -1,0 +1,49 @@
+{
+  "source": "52bbfa33cd802ab039863ef8584fc93f47130f28",
+  "tree": "c73af7d49a219309dacdba2861cf45d740f67e9b",
+  "run": 36896940557,
+  "job": 110486177234,
+  "artifact": 11181820129,
+  "file_id": "file_0000000010688207954ef2d72f0d75ca",
+  "folder": "f05-native-publication/clock-before140-52bbfa3",
+  "report": "CP7_F05_NATIVE_ANALYSIS.json",
+  "archive_bytes": 60144773,
+  "archive_sha256": "a8ce145f8175bbf595e0a3fc43a708b52f560dfd152f3cf5c9393cc4c7261891",
+  "source_bundle_sha256": "9469a518a14edefc7f2702761511ac97382bd2aa236010ec61f5dbdf79a9439f",
+  "status": "INCOMPLETE",
+  "observed_case_count": 140,
+  "groups": {
+    "native": {
+      "PASS": 97,
+      "INCOMPLETE": 1
+    },
+    "races": {
+      "PASS": 19
+    },
+    "http": {
+      "PASS": 11
+    },
+    "browser": {
+      "PASS": 11,
+      "INCOMPLETE": 1
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "original_member_hashes": {
+    "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+    "CP7_F05_NATIVE_ANALYSIS.json": "9fdb1aea31cc1217e0fa2e1f9c34778f73353a9d732afaaa4d8daa69d012d71b",
+    "P14_FINANCIAL_STABILITY_SOURCE_DIAGNOSTIC.json": "93d55dbcd8157713c73efabe02fc58697a8dfd60dd7fa663bfdac0191147e763",
+    "P15_PUBLICATION_MOBILE_FAILURE.json": "a7ae13bf2d5df0f89565b406ad9eda5d866ea6bff6c5ac2ff61b3fb20db4cc31",
+    "T3_BACKUP_RESTORE_DRILL.json": "9040d0f58b490d23068dc7ff6850cc9ef37be41ead31d0b3b038e115775ba5d3",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "T3_PACKAGE_INSTALL.json": "251851d7436150d5bfbab4cbd01f904d9dbde307f5eb434417f5e424d95e5215"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

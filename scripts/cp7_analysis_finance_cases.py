@@ -1,6 +1,6 @@
 """Native owner-report reuse and current financial authority on saved analysis."""
 from concurrent.futures import ThreadPoolExecutor
-from datetime import datetime
+from datetime import datetime,timedelta
 from copy import deepcopy
 from decimal import Decimal
 from pathlib import Path
@@ -65,7 +65,25 @@ def cases(cur,today,parent):
   finally:
    for name,value in(('plan_cache_mode','auto'),('enable_seqscan','on'),('enable_hashagg','on')):cur.execute('select set_config(%s,%s,true)',(name,value))
   assert reads==40 and b.boundary.snapshot(cur)==before
-  return dict(status='PASS',actual_Owner_financial_Original_40_public_reads_under_different_SQL_plans=True,accepted_native_owner_report_identical_no_second_money_or_HPP_engine=True,one_source_clock=True,no_business_DML=True,unordered_Native_checks_multiset_hash_stable=True,actual_report_pure_permutation_not_Native_event=True,money_check_content_duplicate_and_book_provenance_changes_detected=True)
+  # Pure clock counterfixtures on the actual stored Native source. They do
+  # not manufacture Native production events or alter the forty live reads.
+  from zoneinfo import ZoneInfo
+  c=cur.execute('select facts from cp7_analysis_native.runs where id=%s',(e['run_id'],)).fetchone()[0]
+  schedule_hash=lambda source:cur.execute('select cp7_schedule_native.fingerprint(%s::jsonb)',(json.dumps(source),)).fetchone()[0]
+  captured=datetime.fromisoformat(c['captured_at']);windows=c['schedule']['config']['windows']
+  start=datetime.fromisoformat(min(windows,key=lambda w:datetime.fromisoformat(w['starts_at']))['starts_at'])
+  assert start>captured+timedelta(minutes=2),'P14_FUTURE_CALENDAR_CONTROL_REQUIRED'
+  def at(instant):
+   changed=deepcopy(c);changed['captured_at']=instant.isoformat();changed['planning_time_bucket']=instant.replace(second=0,microsecond=0).isoformat();return changed
+  later=captured+timedelta(minutes=1)
+  if captured.astimezone(ZoneInfo('Asia/Jakarta')).date()==later.astimezone(ZoneInfo('Asia/Jakarta')).date():
+   assert schedule_hash(at(later))==schedule_hash(c),'FUTURE_WINDOW_FALSE_CLOCK_EXPIRY'
+  else:assert schedule_hash(at(later))!=schedule_hash(c),'BUSINESS_DAY_EXPIRY_LOST'
+  assert schedule_hash(at(start+timedelta(minutes=1)))!=schedule_hash(at(start+timedelta(minutes=2))),'ACTIVE_WINDOW_CLOCK_GUARD_LOST'
+  assert schedule_hash(at(captured+timedelta(days=1)))!=schedule_hash(c),'BUSINESS_DAY_CLOCK_GUARD_LOST'
+  horizon=datetime.fromisoformat(c['schedule']['config']['through_at'])
+  assert schedule_hash(at(horizon-timedelta(seconds=1)))!=schedule_hash(at(horizon+timedelta(seconds=1))),'HORIZON_CLOCK_GUARD_LOST'
+  return dict(status='PASS',actual_Owner_financial_Original_40_public_reads_under_different_SQL_plans=True,accepted_native_owner_report_identical_no_second_money_or_HPP_engine=True,one_source_clock=True,no_business_DML=True,unordered_Native_checks_multiset_hash_stable=True,actual_report_pure_permutation_not_Native_event=True,money_check_content_duplicate_and_book_provenance_changes_detected=True,pure_actual_Native_clock_counterfixtures_not_business_events=True,future_window_clock_stable_active_window_business_day_and_horizon_expire=True)
  def ops_redaction():
   parent.setup(cur,today);subject,role=auth.custom_actor(cur)
   cur.execute("insert into erp.app_role_permissions(role_id,permission_key)values(%s,'finance.reports.view')",(role,))

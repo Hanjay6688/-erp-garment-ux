@@ -9,8 +9,22 @@ $$;
 
 create function cp7_schedule_native.fingerprint(c jsonb)returns text
 language sql immutable security invoker set search_path=''set TimeZone='UTC'as $$
+ -- Retain the raw capture clock in the Original. Only usable planning time
+ -- belongs in the dependency hash: a minute before a future window cannot
+ -- consume capacity. Active windows, the horizon and the business day can.
+ with clock as(select(c->>'captured_at')::timestamptz at),
+ windows as(select cp7_demand.instant(value->'starts_at') starts_at,
+  cp7_demand.instant(value->'ends_at') ends_at
+  from jsonb_array_elements(coalesce(c#>'{schedule,config,windows}','[]'::jsonb))),
+ frontier as(select min(greatest(w.starts_at,date_trunc('minute',clock.at))) next_at
+  from clock cross join windows w where w.ends_at>clock.at)
  select encode(extensions.digest(convert_to(jsonb_build_object('native_source',cp7_supply_native.fingerprint(c),
-  'schedule',c->'schedule','planning_time_bucket',c->'planning_time_bucket')::text,'UTF8'),'sha256'),'hex')
+  'schedule',c->'schedule','planning_clock',jsonb_build_object(
+   'business_day',(clock.at at time zone 'Asia/Jakarta')::date,
+   'next_usable_frontier',frontier.next_at,
+   'horizon_expired',case when c#>'{schedule,config,through_at}'is null then null
+    else cp7_demand.instant(c#>'{schedule,config,through_at}')<=clock.at end))::text,'UTF8'),'sha256'),'hex')
+ from clock cross join frontier
 $$;
 
 create function cp7_schedule_native.build(c jsonb,q jsonb)returns jsonb
