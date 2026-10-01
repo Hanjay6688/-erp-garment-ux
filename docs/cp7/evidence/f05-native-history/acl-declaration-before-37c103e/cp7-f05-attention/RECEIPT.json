@@ -1,0 +1,42 @@
+{
+  "run": 36861170599,
+  "id": 11161559900,
+  "name": "cp7-f05-attention",
+  "size_in_bytes": 1670782,
+  "file_id": "file_0000000094408206ad8dfcad5216cc7e",
+  "source_commit": "37c103e548bf3ee944f5334f2b0565ba72e0fc19",
+  "source_tree": "a155a3ccfe11284e0476713605712393347717a2",
+  "archive_sha256": "797a84c928f1729cad9dff6a245886aad11359b28f22e5dc54ea087c785703d7",
+  "original_members": {
+    "ALIGNED_CHAIN.json": {
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "bytes": 17286
+    },
+    "CP7_F05_NATIVE_ATTENTION.json": {
+      "sha256": "85cea35c82b9937ff27d3a406545254e126f8ee9987e600d583dd555b2d26154",
+      "bytes": 30589
+    },
+    "CP7_NATIVE155_HANDOFF_DIAGNOSTIC.json": {
+      "sha256": "e8b61f251d8ac2e4442cee2d17e69fc40f7c44e7a547b0107e8a47be5a895c40",
+      "bytes": 1585
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "sha256": "0fe340f643bfe9ebde5f276d39408221d20fd01b6c6c827289a22d9c6ba6ac7c",
+      "bytes": 10524
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "bytes": 1806
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "sha256": "74578e394dc19bc166af3f681424d07ae97c4ebb2cdc2f2997f36b3f9ea2c9ce",
+      "bytes": 360423
+    },
+    "retained-native155-928332d/RECEIPT.json": {
+      "sha256": "f4501c91a666ca35d54d8dfc1db17113d55ab01928c8cbe8df7fcf7c5f92d2aa",
+      "bytes": 2619
+    }
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

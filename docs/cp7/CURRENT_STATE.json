@@ -355,7 +355,8 @@
     "visual_review": true
   },
   "f03_full_component_qualification": {
-    "current_repeat_required_after_authority_guard": true,
+    "bundle_sha256": "6df48df8bbf7113636ce504b2f1f894b43a6444f803ba71a0007c18b32f6907c",
+    "current_repeat_required_after_authority_guard": false,
     "declared_case_executions": {
       "cash_installments": 61,
       "customer_refund": 10,
@@ -369,19 +370,22 @@
     "full_family_acceptance": false,
     "handoff": "docs/cp7/F03_FULL_STACK_QUALIFICATION.md",
     "independent_acceptance": false,
-    "latest_receipts": "docs/cp7/evidence/f03-full-stack/qualification8-5536d0d",
-    "latest_run": 36855629461,
-    "latest_source": "5536d0deec52d33dc6becbdd6d92087a4678a6ba",
+    "latest_receipts": "docs/cp7/evidence/f03-full-stack/qualified8-37c103e",
+    "latest_run": 36861170597,
+    "latest_source": "37c103e548bf3ee944f5334f2b0565ba72e0fc19",
+    "latest_tree": "a155a3ccfe11284e0476713605712393347717a2",
     "manifest": "scripts/cp7_f03_full_manifest.json",
     "per_group_expected_counts_pinned": true,
     "priority": "F03_BEFORE_REMAINING_F04_F05",
     "private_role_count": 31,
     "production_go": false,
+    "raw_pair_order_only_differences_retained": true,
     "receipts": "docs/cp7/evidence/f03-full-stack/first6-37bf7d2",
+    "restore_all_original_definitions_owners_grants_members_and_row_hashes": true,
     "retained_run": 36850513509,
     "retained_source": "37bf7d236e9e2803ff8be4bc61929e2ffec0c3c5",
     "separate_p09_smokes": 3,
-    "status": "SEVEN_OF_EIGHT_CURRENT_STACK_BUCKETS_PASS_AT_5536_CUSTOMER_BROWSER_FIXTURE_INCOMPLETE",
+    "status": "ALL_EIGHT_EXACT_SOURCE_NATIVE_STACK_BUCKETS_WRITER_PASS_AT_37C103E",
     "unique_oracle_total_claim": false,
     "workflow": ".github/workflows/cp7-f03-full.yml"
   },
@@ -445,6 +449,15 @@
     "verification": "docs/cp7/evidence/f03-misc/native-37b5dcd/QUALIFIED_RECEIPT.json",
     "visual_review": true
   },
+  "f03_planner_contract_seams": {
+    "expected_case_executions": 2,
+    "independent_acceptance": false,
+    "production_go": false,
+    "provider": "scripts/cp7_f03_planner_seam_cases.py",
+    "qualifier": "scripts/cp7_f03_planner_seam_probe.py",
+    "selected_future_demand_is_explicit_assumption": true,
+    "status": "O06_O07_ACTUAL_NATIVE_ORACLES_WRITTEN_RUN_PENDING"
+  },
   "f03_supplier_credit": {
     "Native_expected": {
       "browser": 2,
@@ -452,24 +465,30 @@
       "http": 1,
       "races": 1
     },
-    "accepted_money_stock_HPP_native_functions_changed": false,
-    "actual_wait_authority_receipt": "docs/cp7/evidence/f03-supplier-credit/authority-before5-d4096ca/RECEIPT.json",
-    "actual_wait_authority_status": "FIVE_CONFIRMED_NATIVE_COUNTEREXAMPLES_AT_D4096CA_REPAIR_WRITTEN_REPEAT_PENDING",
-    "after_focused_tests": 73,
+    "accepted_release_files_byte_unchanged": true,
+    "actual_wait_authority_job": 110365457465,
+    "actual_wait_authority_receipt": "docs/cp7/evidence/f03-supplier-credit/authority-qualified6-37c103e/RECEIPT.json",
+    "actual_wait_authority_run": 36861170397,
+    "actual_wait_authority_status": "FIVE_ORIGINAL_CONFIRMED_NATIVE_FAILURES_REPAIRED_SIX_REAL_AFTER_WAIT_REFUSALS_PASS",
+    "after_focused_tests": 74,
     "before": {
       "FAIL": 5,
       "PASS": 1
     },
+    "cp7_explicit_native_admission_deltas": [
+      "public.erp_save_supplier_credit_v1(jsonb,uuid)",
+      "erp.bf_supplier_credit_allocate_v1(jsonb,uuid)"
+    ],
     "frontend_receipt": "docs/cp7/evidence/f03-supplier-credit/frontend/RECEIPT.json",
     "full_family_acceptance": false,
     "handoff": "docs/cp7/F03_SUPPLIER_CREDIT_CONTINUATION.md",
     "independent_acceptance": false,
-    "native5_job": 110347325874,
-    "native5_receipt": "docs/cp7/evidence/f03-full-stack/qualification8-5536d0d/supplier_credit/RECEIPT.json",
-    "native5_run": 36855629461,
-    "native5_status": "WRITER_QUALIFIED_FIVE_AT_5536",
+    "native5_job": 110365458311,
+    "native5_receipt": "docs/cp7/evidence/f03-full-stack/qualified8-37c103e/supplier_credit/RECEIPT.json",
+    "native5_run": 36861170597,
+    "native5_status": "WRITER_QUALIFIED_FIVE_AT_37C103E",
     "production_go": false,
-    "status": "FRONTEND_CONFIRMED_COUNTEREXAMPLES_REPAIRED_NATIVE5_REPEAT_PENDING"
+    "status": "ACTUAL_NATIVE5_AND_CURRENT_AUTHORITY6_QUALIFIED_AT_37C103E"
   },
   "f03_takeover": {
     "handoff": "docs/cp7/F03_WRITER_TAKEOVER_20260930.md",
@@ -1257,6 +1276,15 @@
     "P15": "READ_ONLY_REPORT_HANDOFF_SERVER_ARCHIVES_VERIFIED_PUBLISH_REVISION_OPEN",
     "P16": "NATIVE_ATTENTION_AR_MATERIAL_AP_EPISODES_HISTORY_VERIFIED_OTHER_DOMAINS_RULE_POLICY_OPEN",
     "P17": "NATIVE_COMPLETE_UTF8_AI_COPY_MANUAL_RECOVERY_WRITER_VERIFIED"
+  },
+  "planning_analysis_acl_qualification_repair": {
+    "expected_native_analysis_cases": 118,
+    "expected_native_attention_cases": 164,
+    "expected_native_plan_cases": 22,
+    "missing_declaration": "cp7_plan_writer EXECUTE cp7_private.immutable_run()",
+    "originals": "docs/cp7/evidence/f05-native-history/acl-declaration-before-37c103e",
+    "sql_permissions_changed": false,
+    "status": "EXISTING_PRIVATE_IMMUTABILITY_TRIGGER_GRANT_NOW_DECLARED_REPEAT_PENDING"
   },
   "production_go": false,
   "receivables_candidate": {

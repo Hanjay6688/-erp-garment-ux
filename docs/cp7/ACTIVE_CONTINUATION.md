@@ -2,6 +2,10 @@
 
 Owner direction:finish F03–F05 completely, preserve all ERP rules and evidence, and defer hosted installation until CP7. **Data dewa; uang, stok dan HPP raja.** Sole writer continues on `cp7/integration`; independent acceptance belongs to the auditor.
 
+Current checkpoint (1Oct): every full F03 stack bucket passes on exact source37c103e/treea155a3c, run36861170597. Separate current-authority6 also passes at that source, run36861170397. Original JSON reports, immutable archives and exact restoration diagnostics are retained. F03 awaits the two literal O06/O07 Native planner oracles now written before remaining F04/F05 implementation. Independent and whole-family acceptance remain false.
+
+Native22/118/164 repeat with the existing private immutability-trigger grant now explicitly declared in plan/analysis bundles. The new118/164 runs stopped before executing any case because this declaration was missing. Existing SQL permissions are unchanged; original reports remain retained.
+
 CP6 readiness is independently accepted in Fable commit bfb38c54ef89f058a44ce41bc0edb1462e97e6d9. Exact-source independent reruns36824954256 and36824956958 both succeed. PR39 is merged only into the writer branch at e43e0ed, and the accepted readiness changes are merged into CP7 at ef792a7. All accepted database files retain their bytes. Hosted installation, owner settings, maintenance, advisor comparison and demo alignment remain deferred.
 
 The Native163 interruption is repaired. Original failed receipts remain unchanged. Native164 at d244216bde00d083b1d8161dcb009bf2d535f75a passes105 database,21 real races,14 AuthHTTP and24 desktop/mobile browser controls. All24 browser accounts are removed, console errors are zero, primary state is unchanged, CP6 restores exactly and the backup/restore drill passes. This proves the bounded current Original/finance/attention/manual-task/AR/material-AP episode/history/AI handoff scope. It does not close the whole F05 family.

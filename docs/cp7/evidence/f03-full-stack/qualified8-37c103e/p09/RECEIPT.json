@@ -1,0 +1,520 @@
+{
+  "artifact_id": 11162020786,
+  "name": "cp7-f03-full-p09",
+  "size_bytes": 19623098,
+  "bucket": "p09",
+  "file_id": "file_00000000d54082079f5c46424b8c7f69",
+  "job_id": 110365457881,
+  "source_commit": "37c103e548bf3ee944f5334f2b0565ba72e0fc19",
+  "source_tree": "a155a3ccfe11284e0476713605712393347717a2",
+  "run_id": 36861170597,
+  "job_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36861170597/job/110365457881",
+  "artifact_zip_sha256": "88dfcc67e960e2f8596291c436a9eb508a03dd4d7eef28622cfbba0a93d7f832",
+  "original_report_members": [
+    {
+      "path": "ALIGNED_CHAIN.json",
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "bytes": 17286
+    },
+    {
+      "path": "CP7_F03_FULL_P09.json",
+      "sha256": "9da296de6952d208dda6fa87dbf7d8f3adfa0989473cceb2d377e758b5f6021f",
+      "bytes": 481675
+    },
+    {
+      "path": "T3_BACKUP_RESTORE_DRILL.json",
+      "sha256": "100085561128338f8371c1c3f13b630701a648264d1b89b82c3adf1fa1fe5a04",
+      "bytes": 10524
+    },
+    {
+      "path": "T3_PACKAGE_FILES_INSTALL.json",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "bytes": 1806
+    },
+    {
+      "path": "T3_PACKAGE_INSTALL.json",
+      "sha256": "084d2592f0177d803b6d249910009bfd2f638de834e86feaa86a03f68f26c7b8",
+      "bytes": 360416
+    }
+  ],
+  "report_status": "PASS",
+  "source_bundle_sha256": "6df48df8bbf7113636ce504b2f1f894b43a6444f803ba71a0007c18b32f6907c",
+  "manifest_sha256": "e634906f2fe963b88593c5d75bf0b0b8bb3456f117491392579a4803f46e4796",
+  "observed_case_count": 132,
+  "expected_case_count": 132,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "restore_raw_public_equal": true,
+  "restore_raw_public_difference_is_only_pair_order": null,
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "note": "Original JSON members retained verbatim as JSON values. Original ZIP is pinned by immutable artifact id, authorized file id, byte count and SHA256; case counts overlap other execution suites.",
+  "schema": "cp7-f03-full-component-source-receipt-v1",
+  "component_status": "PASS",
+  "expected_case_executions": 132,
+  "observed_case_executions": 132,
+  "observed_smokes": 3,
+  "groups": {
+    "browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 22
+      },
+      "console_errors": 0,
+      "auth_counts": {
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": []
+    },
+    "combined_invoice": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 6
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "combined_invoice_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "combined_invoice_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 3
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": 0,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "invoice": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 9
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "invoice_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "invoice_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 3
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": 0,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "material": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 13
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "material_count": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 17
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "material_count_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "material_count_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": 0,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "material_crossflow": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 2
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "material_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "material_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 3
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": 0,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "material_smoke": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "native": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 9
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 3
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": 0,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "receipt_reversal": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 7
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "receipt_reversal_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "receipt_reversal_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 3
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": 0,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "return_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "return_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 3
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": 0,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "return_smoke": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "returns": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 10
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "smoke": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "uom": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 6
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "uom_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "uom_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": 0,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "known_pg_cron_restore_errors": 19,
+  "package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  }
+}

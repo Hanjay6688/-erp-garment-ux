@@ -4,7 +4,7 @@ import cp7_analysis_bundle as predecessor
 ROOT=predecessor.ROOT
 FILES=('plan-native/bootstrap.sql','plan-native/source.sql','plan-native/preflight.sql','plan-native/read.sql','plan-native/commands.sql','plan-native/ownership.sql')
 ROLES=predecessor.ROLES
-GRANTS={**predecessor.GRANTS,'cp7_plan_writer':('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)','public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint)')}
+GRANTS={**predecessor.GRANTS,'cp7_plan_writer':('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)','cp7_private.immutable_run()','public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint)')}
 def extension():return '\n'.join((ROOT/'scripts/cp7-src'/p).read_text()for p in FILES)
 def bundle():return predecessor.bundle() # The analysis bundle owns this extension.
 def verify(cur):

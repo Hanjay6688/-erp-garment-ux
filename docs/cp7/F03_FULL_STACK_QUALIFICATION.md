@@ -31,3 +31,13 @@ The repaired source-refund Native10 is a separate current run. Its first executi
 The second full eight-bucket qualification at5536d0d, run36855629461, retains seven successful complete buckets: P09 132+3, P10 34, P11 64, P12 90, P13 50, cash/installments61 and paid supplier credit5. Customer custody/refund retains9 PASS/one browser fixture INCOMPLETE: Chromium normalizes a zero-second datetime-local input to its minute representation; passing the longer exact-zero string triggers Malformed value. The corrected helper uses the equivalent canonical minute form only for zero seconds, preserving nonzero Native seconds. Originals and exact archive hashes are retained under qualification8-5536d0d.
 
 The separate exact-worker authority audit then confirmed five real Native supplier-credit counterexamples. The new candidate declares and verifies two narrowly generated admission deltas while retaining every accepted release file, function owner and grant. The same31-role stack and all restored definitions remain required. See F03_SUPPLIER_CREDIT_CONTINUATION.md. Full current-source repetition remains mandatory; earlier seven successes do not qualify the new admission repair.
+
+## Exact integrated current qualification at37c103e
+
+Run36861170597 qualifies all eight declared buckets on treea155a3ccfe11284e0476713605712393347717a2 and bundle6df48df8bbf7113636ce504b2f1f894b43a6444f803ba71a0007c18b32f6907c. P09:132 plus3 smokes; P10:34; P11:64; P12:90; P13:50; cash/installments:61; supplier credit:5; customer refund:10. These are source-bound overlapping executions, not a unique-oracle total. Original reports and component receipts: evidence/f03-full-stack/qualified8-37c103e.
+
+Every Native, real race, AuthHTTP and desktop/mobile browser group meets its exact count. Console errors and cleanup leftovers are zero. Original definitions, owners, ACLs, public catalog members and row hashes, platform/Auth/schema boundary and primary state restore. Customer-refund/P10/P13 raw public function order changed only; every original pair is identical, with raw observations retained. No financial, ACL or data difference is ignored.
+
+Separate actual supplier-current-authority6 also passes at37c103e, run36861170397. The original five financial counterexamples and six after-repair refusal oracles remain preserved. Accepted release bytes remain unchanged; CP7 explicitly changes only declared Native admission checks after request/source/target/journal waits. Native money/stock/HPP algorithms remain unchanged.
+
+Frozen O06/O07 still requires its literal actual Native planner repeat. Its two oracles now reuse the existing engine with explicit selected future-demand scenarios; independent and whole-family acceptance and production go remain false.

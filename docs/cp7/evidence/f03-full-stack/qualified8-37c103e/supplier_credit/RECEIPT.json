@@ -1,0 +1,147 @@
+{
+  "artifact_id": 11163155158,
+  "name": "cp7-f03-full-supplier_credit",
+  "size_bytes": 3078570,
+  "bucket": "supplier_credit",
+  "file_id": "file_00000000fda88207aca8d16a8db25ffa",
+  "job_id": 110365458311,
+  "source_commit": "37c103e548bf3ee944f5334f2b0565ba72e0fc19",
+  "source_tree": "a155a3ccfe11284e0476713605712393347717a2",
+  "run_id": 36861170597,
+  "job_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36861170597/job/110365458311",
+  "artifact_zip_sha256": "ba5bc953bc9c4445d2078a806eee6ec2fdfcbbf9d07b5fbeb8be0a0326f8a6d1",
+  "original_report_members": [
+    {
+      "path": "ALIGNED_CHAIN.json",
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "bytes": 17286
+    },
+    {
+      "path": "CP7_F03_FULL_SUPPLIER_CREDIT.json",
+      "sha256": "537259316348ebcd2579b5c1d2c2d1d8c406d4dd6d102423a18ad3150a40bc5e",
+      "bytes": 268959
+    },
+    {
+      "path": "T3_BACKUP_RESTORE_DRILL.json",
+      "sha256": "1972a1bb4b0dd1e51e40d0f9ec9824dce8183b8d73a07a67b0b3a49a7853917b",
+      "bytes": 10524
+    },
+    {
+      "path": "T3_PACKAGE_FILES_INSTALL.json",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "bytes": 1806
+    },
+    {
+      "path": "T3_PACKAGE_INSTALL.json",
+      "sha256": "084d2592f0177d803b6d249910009bfd2f638de834e86feaa86a03f68f26c7b8",
+      "bytes": 360416
+    }
+  ],
+  "report_status": "PASS",
+  "source_bundle_sha256": "6df48df8bbf7113636ce504b2f1f894b43a6444f803ba71a0007c18b32f6907c",
+  "manifest_sha256": "e634906f2fe963b88593c5d75bf0b0b8bb3456f117491392579a4803f46e4796",
+  "observed_case_count": 5,
+  "expected_case_count": 5,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "restore_raw_public_equal": true,
+  "restore_raw_public_difference_is_only_pair_order": null,
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "note": "Original JSON members retained verbatim as JSON values. Original ZIP is pinned by immutable artifact id, authorized file id, byte count and SHA256; case counts overlap other execution suites.",
+  "schema": "cp7-f03-full-component-source-receipt-v1",
+  "component_status": "PASS",
+  "expected_case_executions": 5,
+  "observed_case_executions": 5,
+  "observed_smokes": 0,
+  "groups": {
+    "browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "console_errors": 0,
+      "auth_counts": {
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": []
+    },
+    "http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "native": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": 0,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "known_pg_cron_restore_errors": 19,
+  "package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  }
+}

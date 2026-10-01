@@ -1,0 +1,230 @@
+{
+  "artifact_id": 11162401103,
+  "name": "cp7-f03-full-p10",
+  "size_bytes": 5238804,
+  "bucket": "p10",
+  "file_id": "file_0000000092b0820786bac9e599bc2d3d",
+  "job_id": 110365458272,
+  "source_commit": "37c103e548bf3ee944f5334f2b0565ba72e0fc19",
+  "source_tree": "a155a3ccfe11284e0476713605712393347717a2",
+  "run_id": 36861170597,
+  "job_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36861170597/job/110365458272",
+  "artifact_zip_sha256": "4cea2998734c6217c0dacf102d73ebf084f6da1ec1a02d915c3fe72843f40e5c",
+  "original_report_members": [
+    {
+      "path": "ALIGNED_CHAIN.json",
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "bytes": 17286
+    },
+    {
+      "path": "CP7_F03_FULL_P10.json",
+      "sha256": "680bdae7925e55f6dd840ff15faceb15ae3fde23f930af729f228f1256374461",
+      "bytes": 315394
+    },
+    {
+      "path": "T3_BACKUP_RESTORE_DRILL.json",
+      "sha256": "70e74dcfcb08bd8249b0d40cc789daf6605fafe8325e561cb7b1e35e3caad844",
+      "bytes": 10524
+    },
+    {
+      "path": "T3_PACKAGE_INSTALL.json",
+      "sha256": "084d2592f0177d803b6d249910009bfd2f638de834e86feaa86a03f68f26c7b8",
+      "bytes": 360416
+    },
+    {
+      "path": "T3_PACKAGE_FILES_INSTALL.json",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "bytes": 1806
+    }
+  ],
+  "report_status": "PASS",
+  "source_bundle_sha256": "6df48df8bbf7113636ce504b2f1f894b43a6444f803ba71a0007c18b32f6907c",
+  "manifest_sha256": "e634906f2fe963b88593c5d75bf0b0b8bb3456f117491392579a4803f46e4796",
+  "observed_case_count": 34,
+  "expected_case_count": 34,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "restore_raw_public_equal": false,
+  "restore_raw_public_difference_is_only_pair_order": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "note": "Original JSON members retained verbatim as JSON values. Original ZIP is pinned by immutable artifact id, authorized file id, byte count and SHA256; case counts overlap other execution suites.",
+  "schema": "cp7-f03-full-component-source-receipt-v1",
+  "component_status": "PASS",
+  "expected_case_executions": 34,
+  "observed_case_executions": 34,
+  "observed_smokes": 0,
+  "groups": {
+    "adjustment_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "adjustment_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": 0,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "adjustments": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 8
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "book": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 6
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "book_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "book_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": 0,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 6
+      },
+      "console_errors": 0,
+      "auth_counts": {
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": []
+    },
+    "http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "native": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 7
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "known_pg_cron_restore_errors": 19,
+  "package_gate": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  }
+}
