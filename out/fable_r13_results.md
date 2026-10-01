@@ -65,7 +65,13 @@ Oracle tetap: M/P/A, C0 §1–8, C6 rev4, dan keputusan owner di `OWNER_DECISION
 | BE | 36803064466 | **failure** (rev1) → rerun job gagal dijadwalkan | success | rev1 `before` jatuh **sebelum satu kasus pun jalan**: `install_at → install_as → aq.change('install')` ditolak paket AS: `PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE` (penjaga "DB harus tertutup & kosong sesi"). Rantai pasang yang sama lolos di BD before/after dan BE after → **balapan sesi sisa saat pemasangan, bukan produk**. Satu rerun (jatah tunggal) dipakai. |
 | BC | 36803064370 (rev1) **failure – cacat alat auditor** (re-pin mengganti semua sha 40-hex termasuk `supabase/setup-cli@…`); dibangun ulang `96bd871` → run 36803602974 | _berjalan_ | _berjalan_ | |
 
-Mode balapan + browser penulis (`cp6_{bc,bd,be}_modes.py` + `.mjs`) dijalankan ulang oleh auditor: BC 36803221110, BD 36803230431, BE 36803238529 — _berjalan_.
+Mode balapan + HTTP + browser penulis (`cp6_{bc,bd,be}_modes.py` + `.mjs`) dijalankan ulang oleh auditor lewat `cp6-auditor-scenario.yml` (fase after) — INDEPENDENT_NATIVE_RERUN atas skenario penulis:
+
+| Keluarga | Run | Hasil |
+|---|---|---|
+| BC | 36803221110 | **18/18 PASS** (11 races, 2 HTTP, 5 browser) |
+| BD | 36803230431 | **20/20 PASS** (9 races, 3 HTTP, 8 browser) |
+| BE | 36803238529 | **17/17 PASS** (9 races, 2 HTTP, 6 browser) |
 
 ## 5. Putusan sementara
 
