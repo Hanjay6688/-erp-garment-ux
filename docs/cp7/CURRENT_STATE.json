@@ -1641,7 +1641,7 @@
     "visual_review": "ACTUAL_MOBILE_ORIGINAL_INSPECTED_BOTH_BROWSER_CONTRAST_PASS_INDEPENDENT_DEMO_OPEN"
   },
   "f04_native_material_requirements": {
-    "status": "NATIVE152_146_PASS_6_INCOMPLETE_EXPLICIT_CURRENT_SCHEDULE_SOURCE_REBIND_PENDING_SAME152_198",
+    "status": "NATIVE151_152_FULL_DB_RACE_BROWSER_PASS_HTTP_UNKNOWN_SELECTED_WINDOW_REPAIR_PENDING",
     "core_source": "057d15de92cc4abad4b59704720c9a668db13414",
     "composer": "scripts/cp7-src/planning/material-requirements.sql",
     "consumer": "src/NativeMaterialNeedsView.tsx",
@@ -1714,10 +1714,31 @@
     },
     "first198_original": "docs/cp7/evidence/f04-native-material/first198-shared-master-40ec442/RECEIPT.json",
     "fixture_review_fix": "Retain entire selected work config; actual current public supply capture + existing public schedule CAS after economic master changes; no policy reactivation",
-    "superseded_inference": "70851106 consent version change was incorrect; retained Native Original shows ACTIVE production and selected targets"
+    "superseded_inference": "70851106 consent version change was incorrect; retained Native Original shows ACTIVE production and selected targets",
+    "third_source": "1fbd6a4c860a0dd1dab77ef953003c0d34a20ade",
+    "third_run": 36931657387,
+    "third_job": 110602119798,
+    "third_original": "docs/cp7/evidence/f04-native-material/third151-http-window-1fbd6a4/RECEIPT.json",
+    "third_counts": {
+      "native": {
+        "PASS": 106
+      },
+      "races": {
+        "PASS": 20
+      },
+      "http": {
+        "PASS": 11,
+        "INCOMPLETE": 1
+      },
+      "browser": {
+        "PASS": 14
+      }
+    },
+    "second198_original": "docs/cp7/evidence/f04-native-material/second198-stale-schedule-00fb091/RECEIPT.json",
+    "fixture_work_window": "Explicit fixture load+120 minutes; horizon load+180; preserve quantity/yield/routes/unit time; do not treat UNKNOWN workload as zero"
   },
   "f05_native_rule_policy": {
-    "status": "SOURCE_AND_UI_CANDIDATE_NATIVE218_PREDECLARED_NOT_YET_QUALIFIED",
+    "status": "FIRST_NATIVE218_INSTALL_SYNTAX_FAILURE_ZERO_OBSERVED_REPAIRED_PENDING_FULL218",
     "contract": "cp7.native-rule-policy-workspace.v1",
     "policy_rules": [
       "PRODUCTION_GAP",
@@ -1754,6 +1775,11 @@
     "independent_acceptance": false,
     "full_family_acceptance": false,
     "production_go": false,
-    "remaining": "Native218 proof; condition producers and complete obligation domains; local-sink binding/fencing/suppression"
+    "remaining": "Native218 proof; condition producers and complete obligation domains; local-sink binding/fencing/suppression",
+    "first_run": 36932796043,
+    "first_job": 110605953095,
+    "first_original": "docs/cp7/evidence/f05-native-policy/first218-syntax-2544e4c/RECEIPT.json",
+    "first_observed_case_count": 0,
+    "sql_repair": "Parenthesize nested CASE inside PLpgSQL IF; no timing semantics or grants change"
   }
 }

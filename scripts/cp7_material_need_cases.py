@@ -39,8 +39,18 @@ def review_schedule(cur,today,parent):
  # the current Native source and public schedule CAS, never by editing a hash.
  parent.b.api.admin(cur);plan=cur.execute('select revision,config from cp7_schedule_native.plans order by revision desc limit 1').fetchone();assert plan is not None
  current=parent.previous.supply.capture(cur,today)
+ selected=deepcopy(plan[1])
+ # The real HTTP suite accumulates additional Native WIP fixtures. The same
+ # explicitly selected work minutes need a sufficiently long selected fixture
+ # window; never replace unknown ETA by an assumed zero-minute workload.
+ # Browser preparation already selects this load+120/load+180 window.
+ assert len(selected['windows'])==1 and all(step['remaining_minutes']is not None for position in selected['positions']for step in position['remaining_steps'])
+ load=sum(int(step['remaining_minutes'])for position in selected['positions']for step in position['remaining_steps'])
+ start=parent.schedule.datetime.fromisoformat(selected['windows'][0]['starts_at'].replace('Z','+00:00'))
+ end=parent.schedule.datetime.fromisoformat(selected['windows'][0]['ends_at'].replace('Z','+00:00'));through=parent.schedule.datetime.fromisoformat(selected['through_at'].replace('Z','+00:00'))
+ selected['windows'][0]['ends_at']=parent.schedule.stamp(max(end,start+timedelta(minutes=load+120)));selected['through_at']=parent.schedule.stamp(max(through,start+timedelta(minutes=load+180)))
  p=dict(source_run=current['run_id'],source_hash=current['source_hash'],expected_revision=str(plan[0]),
-  reason='P06 explicit fixture review: retain selected work assumptions against the new Native shared master source',config=deepcopy(plan[1]))
+  reason='P06 explicit fixture review: retain selected work quantities/yield/routes and provide load+120/load+180 selected time on current Native shared master source',config=selected)
  parent.schedule.save(cur,p)
 
 def prepared(cur,today,parent,subject=None,empty=False):
@@ -153,7 +163,9 @@ def http_cases(http,today,parent):
  def actual():
   owner=http.login('OWNER','p06-material-owner');other=http.login('OWNER','p06-material-foreign')
   with http.connect()as conn,conn.cursor()as cur:f=prepared(cur,today,parent,owner.auth_user_id);conn.commit()
-  args=dict(p_run=f['original']['run_id']);r=owner.rpc('erp_cp7_read_analysis_v1',args);assert r['status']==200;r=r['body'];parent.checked(r);m=rows(r,f['root'])[0];assert D(m['gross']['value'])==186;unknown_installation(m)
+  args=dict(p_run=f['original']['run_id']);r=owner.rpc('erp_cp7_read_analysis_v1',args);assert r['status']==200;r=r['body'];parent.checked(r);m=rows(r,f['root'])[0]
+  if m['gross']['state']!='ASSUMED':raise AssertionError(json.dumps(dict(code='P06_MATERIAL_HTTP_EXPLICIT_WORK_REVIEW_REQUIRED',root=f['root'],gross=m['gross'],recommendation=parent.recommendation(r['analysis'],f['root']),quality=r['analysis']['quality'],source_state=r['source_state']),default=str))
+  assert D(m['gross']['value'])==186;unknown_installation(m)
   assert other.rpc('erp_cp7_read_analysis_v1',args)['status']==403 and http.anon_rpc('erp_cp7_read_analysis_v1',args)['status']in(401,403)
   with http.connect()as conn,conn.cursor()as cur:cur.execute('update erp.app_users set is_active=false where auth_user_id=%s',(owner.auth_user_id,));conn.commit()
   assert owner.rpc('erp_cp7_read_analysis_v1',args)['status']==403

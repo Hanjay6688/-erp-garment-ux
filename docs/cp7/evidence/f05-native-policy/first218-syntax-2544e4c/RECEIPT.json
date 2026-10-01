@@ -1,0 +1,49 @@
+{
+  "run": 36932796043,
+  "job": 110605953095,
+  "artifact": 11197235936,
+  "file_id": "file_000000007bf88207be63db62254278ca",
+  "folder": "f05-native-policy/first218-syntax-2544e4c",
+  "report": "CP7_F05_NATIVE_ATTENTION.json",
+  "archive_bytes": 1670848,
+  "archive_sha256": "9b74beddb85b5c9e7d6c7674e4e7d0b3cb2bc70b6c4b157c3d9514548e2ab8b3",
+  "source": "2544e4cdec34bf15d1281660f4a641a1d81c7d55",
+  "tree": "19e3b01abdee0701afb3ef3fab88b6f3c464cbab",
+  "source_bundle_sha256": "0364c73178433ff559a772dea4a7c1f4ec8d6436f7ede4a5d9208aef3b36ff21",
+  "status": "INCOMPLETE",
+  "observed_case_count": 0,
+  "expected_case_count": 218,
+  "groups": {
+    "native": null,
+    "races": null,
+    "http": null,
+    "browser": null
+  },
+  "cp6_restored": null,
+  "restore_components": null,
+  "advisor_gate": null,
+  "error": "syntax error at end of input\nLINE 8140:     if case when starts<ends then next_minute>=starts and ne...\n                                       ^",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "console_errors": null,
+  "auth_counts": null,
+  "auth_cleanup_failures": [],
+  "database_remaining": null,
+  "original_member_hashes": {
+    "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+    "CP7_F05_NATIVE_ATTENTION.json": "7fc4d35729bfd6827625827f970b4df60f97741fdf24ada1b5797d0ea4dbddbc",
+    "CP7_NATIVE155_HANDOFF_DIAGNOSTIC.json": "e8b61f251d8ac2e4442cee2d17e69fc40f7c44e7a547b0107e8a47be5a895c40",
+    "T3_BACKUP_RESTORE_DRILL.json": "5051afc6ce9e82c927b3d2965c67114b92f3caf8979448adff671270c23a9b1d",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "T3_PACKAGE_INSTALL.json": "5199faab3741c85cc816589fffb4959773bb28d7e3cdc4e51c1de7936f11a667"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

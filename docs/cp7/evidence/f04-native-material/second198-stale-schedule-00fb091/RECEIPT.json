@@ -1,0 +1,78 @@
+{
+  "run": 36927911722,
+  "job": 110589698023,
+  "artifact": 11196855368,
+  "file_id": "file_0000000032c4820781f0e3cbd7564e62",
+  "folder": "f04-native-material/second198-stale-schedule-00fb091",
+  "report": "CP7_F05_NATIVE_ATTENTION.json",
+  "archive_bytes": 204190326,
+  "archive_sha256": "028a7aceefd2a073132962c01acdb1d67a8e19de3c5adad949c1ebd5fa03da4e",
+  "source": "00fb091d9dfc4a3daa88fe5da0e5e21e3dfdab13",
+  "tree": "d7afb89270063872e6537e20f7dbdc941540e7e7",
+  "source_bundle_sha256": "f613413a6315375a31db81e801418223c1f846a4d0dd672a82e1424cdbcc9f4c",
+  "status": "INCOMPLETE",
+  "observed_case_count": 198,
+  "groups": {
+    "native": {
+      "PASS": 124,
+      "INCOMPLETE": 3
+    },
+    "races": {
+      "PASS": 26
+    },
+    "http": {
+      "PASS": 16,
+      "INCOMPLETE": 1
+    },
+    "browser": {
+      "PASS": 26,
+      "INCOMPLETE": 2
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "console_errors": 0,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "auth_cleanup_failures": false,
+  "database_remaining": 0,
+  "original_member_hashes": {
+    "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+    "CP7_F05_NATIVE_ATTENTION.json": "b5a1e18742f8cef6a630702763ccf9b7c6c06fd13d1904d7da846550a1594fa8",
+    "CP7_NATIVE155_HANDOFF_DIAGNOSTIC.json": "e8b61f251d8ac2e4442cee2d17e69fc40f7c44e7a547b0107e8a47be5a895c40",
+    "P06_MATERIAL_DESKTOP_FAILURE.json": "6d492c189fe84fa27e5b6bd70df6475f25a2e219943eae5ccd1726c4c01bd05c",
+    "P06_MATERIAL_MOBILE_FAILURE.json": "ca796a53dec5242288aefff915dd3a65bfc10153bee9b1b35d043d59b85e79e5",
+    "T3_BACKUP_RESTORE_DRILL.json": "292470755f0991d4822587b484811767272d91f80151bb7bc1681069affaf3a2",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "T3_PACKAGE_INSTALL.json": "d68de18558f6af54dcc9ddde26154cac72e5068a6b8d23b5e05e8417c3ec4b68"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

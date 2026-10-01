@@ -130,7 +130,7 @@ begin
    -- the first usable local preview instant, not a second unusable wake-up.
    if quiet->'enabled'='true'::jsonb and next_at is not null then
     next_local:=next_at at time zone'Asia/Jakarta';next_minute:=to_char(next_local,'HH24:MI');
-    if case when starts<ends then next_minute>=starts and next_minute<ends else next_minute>=starts or next_minute<ends end then
+    if (case when starts<ends then next_minute>=starts and next_minute<ends else next_minute>=starts or next_minute<ends end) then
      next_at:=((next_local::date+ends::time)+case when starts>ends and next_minute>=starts then interval'1 day'else interval'0 day'end)at time zone'Asia/Jakarta';
     end if;
    end if;
