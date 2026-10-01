@@ -3,6 +3,8 @@ import { resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 const { cases: supplier } = await import(pathToFileURL(resolve('scripts/cp6_bf_supplier_browser.mjs')).href)
 const { cases: regression } = await import(pathToFileURL(resolve('scripts/cp6_bf_browser.mjs')).href)
+const { cases: readiness } = await import(pathToFileURL(resolve('scripts/cp6_readiness_browser.mjs')).href)
+const { freeMaster } = await import(pathToFileURL(resolve('scripts/cp6_bf_free_browser.mjs')).href)
 const fixture = (op, payload) => JSON.parse(execFileSync('python', ['../auditor/scripts/cp6_bd_revision_fixture.py', op, JSON.stringify(payload)], { cwd: '../writer', encoding: 'utf8' }).trim())
 async function deferred(ui, today, mobile) {
  const f=fixture('create',{kind:'components',today}),user=await ui.login('OWNER',{label:'vendor-deferred-'+mobile,mobile})
@@ -34,5 +36,8 @@ async function deferred(ui, today, mobile) {
  }finally{await user.context.close()}
 }
 export async function cases(ui,today){return [
+ ...await readiness(ui,today),
+ ['VENDOR_FREE_BROWSER:DESKTOP_SAVE_RELOAD',()=>freeMaster(ui,false)],
+ ['VENDOR_FREE_BROWSER:MOBILE_SAVE_RELOAD',()=>freeMaster(ui,true)],
  ['VENDOR_BROWSER:EMPTY_DETAILS_DESKTOP',()=>deferred(ui,today,false)],
  ['VENDOR_BROWSER:EMPTY_DETAILS_MOBILE',()=>deferred(ui,today,true)],...await supplier(ui,today),...await regression(ui,today)]}

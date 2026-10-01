@@ -3,11 +3,13 @@ import cp6_bf_combined_probe as p
 import cp6_bf_vendor_modes as regression
 import cp6_independent_final_probe as independent
 import cp6_bf_conversion_history_probe as history
+import cp6_bf_free_modes as current_free
+import cp6_readiness_oracles as readiness
 INSTALL_BF=True
 
 
 def cases(cur,today):
-    return independent.cases(cur,today)+[
+    return readiness.cases(cur,today)+current_free.free_cases(cur,today)+independent.cases(cur,today)+[
         ('CONVERSION_HISTORY:TARGET_BACKDATE_EQUAL_AND_LATER_MOVE',lambda:history.history(cur,today)),
         ('CONVERSION_HISTORY:SOURCE_BACKDATE_EQUAL_AND_LATER_MOVE',lambda:history.history(cur,today,True)),
         ('CONVERSION_HISTORY:REVERSED_DOCUMENT_REMAINS_IMMUTABLE',lambda:history.history(cur,today,reversed_=True)),
@@ -32,4 +34,4 @@ def cases(cur,today):
 def races(tools,today):
     return [('CONVERSION_HISTORY_RACE:'+first+('_COMMIT' if commit else '_ABORT'),lambda first=first,commit=commit:history.race(tools,today,first,commit))
             for first in ('CONVERSION','MOVE') for commit in (True,False)]+regression.races(tools,today)
-http_cases=regression.http_cases
+def http_cases(http,today):return current_free.vendor_http_cases(http,today)+regression.http_cases(http,today)

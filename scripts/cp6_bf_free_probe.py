@@ -1,7 +1,7 @@
-"""SKU-01 writer regressions. Real posting in disposable copies; not independent closure.
+"""Current vendor-price regressions. Disposable transactions; not independent closure.
 
 The production fixture buys/consumes fabric worth 100.00 through ordinary APIs.
-Independent oracle: 16 PCS (5/8/3), work 127.19 => 2035.04, laundry zero;
+Arithmetic oracle: 16 PCS (5/8/3), work 127.19 => 2035.04, laundry zero;
 including that explicitly known fabric, HPP is 2135.04 (667.20/1067.52/400.32).
 This does not pretend to reproduce the auditor's zero-fabric prerequisite.
 """
@@ -22,9 +22,13 @@ def master_fixture(cur,all_statuses=False):
     rates=[]
     for status in statuses:
         component=b.bd(cur,'SAVE_COMPONENT',dict(vendor_id=vendor,component_code=status,component_name='SKU '+status,is_active=True,reason='Synthetic free SKU master prerequisite'))['component_id']
-        rates.append(dict(vendor_id=vendor,kind='COMPONENT',ref_id=component,rate_status=status,
-                          rate=None if status=='UNKNOWN' else '101.23' if status=='KNOWN' else '0.00',reason='Owner agreed '+status))
-    settings=dict(price='185000.00',bom=[],work_rates=[dict(contractor_id=None,work_component_id=b.chain.production.COMPONENT,rate='127.19')],laundry_rates=rates)
+        rate=dict(vendor_id=vendor,kind='COMPONENT',ref_id=component,rate_status=status,
+                  rate=None if status=='UNKNOWN' else '101.23' if status=='KNOWN' else '0.00',reason='Disposable vendor fixture '+status)
+        payload=dict(component_id=component,rate_status=status,effective_from=at.isoformat(),reason=rate['reason'])
+        if status!='UNKNOWN':payload['rate_per_pcs']=rate['rate']
+        b.bd(cur,'SAVE_COMPONENT_RATE',payload)
+        rates.append(rate)
+    settings=dict(price='185000.00',bom=[],work_rates=[dict(contractor_id=None,work_component_id=b.chain.production.COMPONENT,rate='127.19')],laundry_rates=[])
     g=bf.group(cur,[p for p,_ in rows],at,settings=settings)
     return dict(rows=rows,now=now,at=at,g=g,vendor=vendor,process=process,rates=rates)
 
@@ -34,23 +38,25 @@ def master_statuses(cur,today):
     first=bf.save(cur,[f['g']],f['at'],key);again=bf.save(cur,[f['g']],f['at'],key)
     vid=first['groups'][0]['version_id']
     settings=one(cur,'select settings from erp.bf_sku_versions_v1 where id=%s',vid)
-    return b.verdict(dict(all_four_statuses=settings['laundry_rates']==f['rates'],
+    native=cur.execute('select c.id::text,r.rate_status,r.rate_per_pcs,r.reason from erp.bd_laundry_components_v1 c join erp.bd_laundry_component_rates_v1 r on r.component_id=c.id where c.vendor_id=%s order by c.component_code',(f['vendor'],)).fetchall()
+    expected=sorted([(r['ref_id'],r['rate_status'],None if r['rate'] is None else b.D(r['rate']),r['reason']) for r in f['rates']],key=lambda r:r[1])
+    return b.verdict(dict(all_four_vendor_statuses=native==expected,sku_has_no_laundry_authority=settings['laundry_rates']==[],
         one_shared_version=one(cur,'select count(*) from erp.bf_sku_members_v1 where version_id=%s',vid)==3,
         replay=again['replayed'] and again['groups']==first['groups'],
-        once=one(cur,'select revision from erp.bf_skus_v1 where id=%s',f['g']['id'])==1),rates=settings['laundry_rates'])
+        once=one(cur,'select revision from erp.bf_skus_v1 where id=%s',f['g']['id'])==1),vendor_rates=native)
 
 
 def invalid_rates():
     return [
-      ('FREE_MISSING_REASON',dict(rate_status='FREE',rate='0.00',reason=None),'BF_FREE_REASON'),
-      ('FREE_BLANK_REASON',dict(rate_status='FREE',rate='0.00',reason='   '),'BF_FREE_REASON'),
-      ('WAIVED_MISSING_REASON',dict(rate_status='WAIVED',rate='0.00',reason=None),'BF_FREE_REASON'),
-      ('WAIVED_BLANK_REASON',dict(rate_status='WAIVED',rate='0.00',reason='   '),'BF_FREE_REASON'),
-      ('FREE_NONZERO',dict(rate_status='FREE',rate='0.01'),'BF_FREE_REASON'),
-      ('WAIVED_NONZERO',dict(rate_status='WAIVED',rate='0.01'),'BF_FREE_REASON'),
-      ('KNOWN_ZERO',dict(rate_status='KNOWN',rate='0.00'),'BD_AMOUNT_INVALID'),
-      ('NEGATIVE',dict(rate_status='FREE',rate='-0.01'),'BD_AMOUNT_INVALID'),
-      ('UNKNOWN_NUMERIC',dict(rate_status='UNKNOWN',rate='0.00'),'BF_UNKNOWN_RATE'),
+      ('FREE_MISSING_REASON',dict(rate_status='FREE',rate_per_pcs='0.00',reason=None),'BD_REASON_REQUIRED'),
+      ('FREE_BLANK_REASON',dict(rate_status='FREE',rate_per_pcs='0.00',reason='   '),'BD_REASON_REQUIRED'),
+      ('WAIVED_MISSING_REASON',dict(rate_status='WAIVED',rate_per_pcs='0.00',reason=None),'BD_REASON_REQUIRED'),
+      ('WAIVED_BLANK_REASON',dict(rate_status='WAIVED',rate_per_pcs='0.00',reason='   '),'BD_REASON_REQUIRED'),
+      ('FREE_NONZERO',dict(rate_status='FREE',rate_per_pcs='0.01'),'BD_FREE_REQUIRES_ZERO'),
+      ('WAIVED_NONZERO',dict(rate_status='WAIVED',rate_per_pcs='0.01'),'BD_FREE_REQUIRES_ZERO'),
+      ('KNOWN_ZERO',dict(rate_status='KNOWN',rate_per_pcs='0.00'),'BD_AMOUNT_INVALID'),
+      ('NEGATIVE',dict(rate_status='FREE',rate_per_pcs='-0.01'),'BD_AMOUNT_INVALID'),
+      ('UNKNOWN_NUMERIC',dict(rate_status='UNKNOWN',rate_per_pcs='0.00'),'BD_RATE_STATUS'),
     ]
 
 
@@ -62,15 +68,18 @@ def atomic_rejections(cur,today):
         return [one(cur,'select revision from erp.bf_skus_v1 where id=%s',g['id']),
             one(cur,'select count(*) from erp.bf_requests_v1'),
             one(cur,'select count(*) from erp.bf_sku_versions_v1'),
+            one(cur,'select count(*) from erp.bd_requests_v1'),
+            cur.execute('select id::text,rate_status,rate_per_pcs,effective_from,effective_to,reason from erp.bd_laundry_component_rates_v1 order by id').fetchall(),
             [one(cur,'select erp.resolve_product_price_at(%s,%s)',p,f['now']) for p,_ in f['rows']]]
     before=state();checks={};evidence=[]
     for label,patch,code in invalid_rates():
-        bad=copy.deepcopy(update);bad['settings']['laundry_rates'][0].update(patch)
-        result=b.refused(cur,lambda:bf.save(cur,[bad],at),code)
+        bad=dict(component_id=f['rates'][0]['ref_id'],effective_from=at.isoformat(),reason='Rejected vendor rate fixture',**{k:v for k,v in patch.items() if k!='reason'})
+        if 'reason' in patch:bad['reason']=patch['reason']
+        result=b.refused(cur,lambda:b.bd(cur,'SAVE_COMPONENT_RATE',bad),code)
         checks[label]=result['ok'] and state()==before;evidence.append(dict(case=label,result=result))
-    bad=copy.deepcopy(update);bad['settings']['laundry_rates'][0].update(kind='PROCESS',ref_id=f['process'])
-    result=b.refused(cur,lambda:bf.save(cur,[bad],at),'BF_COMPONENT_MODE_REQUIRED')
-    checks['PROCESS_FREE_REFUSED']=result['ok'] and state()==before
+    bad=copy.deepcopy(update);bad['settings']['laundry_rates']=[copy.deepcopy(f['rates'][0])]
+    result=b.refused(cur,lambda:bf.save(cur,[bad],at),'BF_LAUNDRY_VENDOR_AUTHORITY')
+    checks['SKU_OVERRIDE_REFUSED']=result['ok'] and state()==before
     return b.verdict(checks,evidence=evidence)
 
 
@@ -111,8 +120,10 @@ def free_production(cur,today):
     physical=[one(cur,'select sum(qty_signed) from erp.fg_stock_movements where lot_id=%s',l) for l in lots]
     charges=cur.execute('select c.ref_id::text,c.rate_status,c.unit_rate,c.amount,c.price_reason,c.bf_sku_version_id::text from erp.bd_laundry_charge_lines_v1 c join erp.laundry_delivery_lines l on l.id=c.delivery_line_id where l.delivery_id=%s order by c.line_no',(delivery,)).fetchall()
     shares=cur.execute('select s.size_id::text,x.covered_qty,x.amount from erp.bd_laundry_charge_shares_v1 x join erp.bd_laundry_charge_lines_v1 c on c.id=x.charge_line_id join erp.laundry_delivery_batch_size_lines s on s.id=x.delivery_batch_size_line_id where c.ref_id=%s',(f['rates'][1]['ref_id'],)).fetchall()
-    before=costs();changed=copy.deepcopy(g['settings'])
-    for rate in changed['laundry_rates']:rate.update(rate_status='KNOWN',rate='913.27',reason='Later paid master must not rewrite free history')
+    before=costs()
+    for rate in f['rates']:
+        b.bd(cur,'SAVE_COMPONENT_RATE',dict(component_id=rate['ref_id'],rate_status='KNOWN',rate_per_pcs='913.27',effective_from=clock(15).isoformat(),reason='Later paid vendor rate must not rewrite free shipment'))
+    changed=copy.deepcopy(g['settings']);changed['price']='190000.00'
     g2=bf.group(cur,[p for p,_ in rows],clock(15),sku=g['sku'],gid=g['id'],revision=1,settings=changed);bf.save(cur,[g2],clock(15))
     prod.owner(cur);report=one(cur,'select public.erp_get_sku_hpp_v1(%s::jsonb)',json.dumps(dict(query=g['sku'])));b.api.admin(cur)
     hpp=report['groups'][0];state=b.line_state(cur,delivery)
@@ -121,7 +132,7 @@ def free_production(cur,today):
         hpp_exact=before==list(map(b.D,['667.20','1067.52','400.32'])) and sum(before)==b.D('2135.04'),
         known_zero_complete=state['complete'] and b.D(state['known'])==0 and sent['estimated_cost']==0,
         no_laundry_payable=b.D(b.ap(cur,f['vendor']))==0 and b.D(b.accrual(cur,fx['po'])['desired'])==0,
-        provenance=charges==[(r['ref_id'],r['rate_status'],0,0,r['reason'],vid) for r in f['rates']],
+        provenance=charges==[(r['ref_id'],r['rate_status'],0,0,r['reason'],None) for r in f['rates']],
         waived_only_three_middle=dict((s,(q,a)) for s,q,a in shares)=={sizes[0]:(0,0),sizes[1]:(3,0),sizes[2]:(0,0)},
         shipment_replay=again['replayed'] and again['delivery_id']==delivery,
         later_paid_master_keeps_old_costs=costs()==before,
