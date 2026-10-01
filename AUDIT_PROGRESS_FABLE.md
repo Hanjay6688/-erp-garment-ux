@@ -110,3 +110,15 @@
 - Mode penulis via runtime auditor: BC 18/18, BD 20/20, BE 17/17.
 - Laporan: out/fable_r13_results.md (FINAL). Semua JSON per kasus di audit/runs_fable/r13/.
 - Tidak diuji Fable: F3 hanya tinjauan sumber; BF/CP7 di luar lingkup gerbang CP6 Fable. Terbuka owner: D11 nilai kebijakan, GBD-03, arah UI.
+
+## 2026-10-01 ~02:56Z — putaran 14 (finisher CP6) dispatched: BF dengan oracle sendiri + rerun bukti BF penulis di runtime auditor
+- Owner: "uji aja yang lu rasa perlu buat finisher cp6, abis tu lanjut cp7". Celah yang saya pilih: BF (belum pernah saya sentuh), F3 (tinjauan sumber saja).
+- Sumber: badan BF paket rilis `20260928134500_erp_v2_6_20bf…sql` memuat badan dev `supabase/dev/cp6_bf_t1_family.sql` (sha d5e66d22…)
+  utuh kecuali satu baris deskripsi ledger (288279/288316 karakter cocok) — INDEPENDENT_SOURCE_REVIEW. Driver fase `after` memasang BF dari berkas dev
+  (`INSTALL_BF=True`), jadi run di bawah menguji badan yang sama dengan paket.
+- F3/D08: `src/accessoryIssue.ts:20` dan `src/laundryQcModel.ts:124` = regex UUID kanonik dengan flag `/i` (huruf besar diterima). Tidak ada uji browser; cukup.
+- Skenario sendiri `audit/scenarios/round14_fable/xaudit_14_bf.py` (sha 83813915…): RANGE_MOVE_WRITES_NO_PHYSICAL, SKU_AT_TIMELINE_NO_GAP,
+  HPP_VALUE_CONSERVED_ACROSS_GROUPING, SUPPLIER_CREDIT_AP_CONSERVED → run 36808105014.
+- Rerun bukti penulis lewat `cp6-auditor-scenario.yml` (after, head 10a8347): combined+bf_browser 36808112738; free+free_browser 36808120840;
+  vendor+vendor_browser 36808128920; bf_modes+supplier_browser 36808136834.
+- Oracle BF yang dikutip penulis dari owner (28 Sep 14:59 WIB: tarif laundry dari vendor; SKU final opsional) = UNVERIFIED_OWNER_DECISION sampai owner konfirmasi.
