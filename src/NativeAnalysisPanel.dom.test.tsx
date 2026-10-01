@@ -5,6 +5,7 @@ import {beforeEach,afterEach,it,expect,vi,type Mock} from 'vitest'
 import NativeAnalysisPanel from './NativeAnalysisPanel'
 import {recoveryIdentity} from '../tests/fixtures/productionRecovery'
 import fixture from '../tests/fixtures/nativeAnalysisStandin.json'
+import {analysisFinanceFixture} from '../tests/fixtures/nativeAnalysisFinance'
 import {readNativeDemandRequest} from './nativeDemandHistory'
 import {analysisArchiveKey} from './nativeAnalysisArchive'
 import type {NativeDemandQuery} from './nativeDemandHistory'
@@ -53,4 +54,17 @@ it('reopens an immutable archive under fresh server authorization after remount 
 })
 it('preserves a corrupt archive index and unresolved successful capture for same-UUID recovery instead of overwriting evidence',async()=>{
  localStorage.setItem(analysisArchiveKey(scope),'broken index');client.rpc.mockImplementation(async(_n:string,args:{p_request:string})=>({data:wire(args.p_request),error:null}));await render();await click('Ambil analisis ERP terbaru');expect(localStorage.getItem(analysisArchiveKey(scope))).toBe('broken index');expect(readNativeDemandRequest(scope).pending).toBeTruthy();expect(container.querySelector('.native-analysis-result')).toBeNull()
+})
+it('shows the exact financial source under current report rights and stores only an archive pointer',async()=>{
+ const auth=state.auth as typeof recoveryIdentity;auth.identity.permissions.push('finance.reports.view')
+ client.rpc.mockImplementation(async(_n:string,args:{p_request:string})=>({data:{...analysisFinanceFixture(),request_id:args.p_request},error:null}))
+ await render();await click('Ambil analisis ERP terbaru');await click('Laporan');expect(container.textContent).toContain('Rp9.007.199.254.740.993,01');expect(container.textContent).toContain('Rp-7,02')
+ await click('Tanya AI');expect(container.textContent).toContain('SUMBER KEUANGAN ERP ASLI');const stored=localStorage.getItem(analysisArchiveKey(scope))!;expect(stored).not.toContain('9007199254740993');expect(stored).not.toContain('financial_source');expect(stored).not.toContain('report')
+})
+it('retires financial and operational analysis on report-only403 and on a permissions remount while keeping four Ops rights',async()=>{
+ const auth=state.auth as typeof recoveryIdentity;auth.identity.permissions.push('finance.reports.view')
+ client.rpc.mockImplementation(async(_n:string,args:{p_request:string})=>({data:{...analysisFinanceFixture(),request_id:args.p_request},error:null}))
+ await render();await click('Ambil analisis ERP terbaru');await click('Laporan');expect(container.textContent).toContain('Rp9.007.199.254.740.993,01')
+ client.rpc.mockResolvedValue({data:null,error:{code:'42501',message:'CP7_ANALYSIS_FINANCE_ACCESS_DENIED'}});await click('Periksa sumber analisis');expect(container.querySelector('.native-analysis-result')).toBeNull();expect(container.textContent).not.toContain('Rp');expect(clipboard).not.toHaveBeenCalled()
+ auth.identity.permissions=auth.identity.permissions.filter(p=>p!=='finance.reports.view');await render();expect(container.querySelector('.native-analysis')).toBeTruthy();expect(container.querySelector('.native-analysis-result')).toBeNull();expect(container.textContent).not.toContain('Rp')
 })

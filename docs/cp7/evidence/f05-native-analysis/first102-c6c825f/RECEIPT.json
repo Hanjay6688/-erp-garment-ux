@@ -1,0 +1,50 @@
+{
+  "source_commit": "c6c825fc19a6e04b7054a4b2c12c318d22630b06",
+  "source_tree": "76626827300c143af6f24c5872ca717f87f02e44",
+  "compiled_sql_sha256": "164a6255952cdf9f58a1ea1070d9355e4567950ed53e715cfca6f6df95267f59",
+  "workflow_run": 36795603653,
+  "workflow_job": 110158210836,
+  "artifact_id": 11133094537,
+  "zip_bytes": 35402850,
+  "zip_sha256": "e732fb6187d9b8a6b75af48bd6e3862ef807643366328ef1ee852c5e581e7166",
+  "original_reports_gzip_sha256": "da275491003db9da5676c4b0364e6f5e8b0d9c830f5fca5029ff9d45030f7977",
+  "status": "INCOMPLETE",
+  "expected": 102,
+  "observed": 102,
+  "counts": {
+    "native": {
+      "PASS": 72,
+      "INCOMPLETE": 1
+    },
+    "races": {
+      "PASS": 14
+    },
+    "http": {
+      "PASS": 7
+    },
+    "browser": {
+      "PASS": 8
+    }
+  },
+  "failures": {
+    "native": {
+      "P14_NATIVE_ANALYSIS_SIGNED_AVAILABLE": "Finished goods stock cannot become negative\nCONTEXT:  PL/pgSQL function post_fg_movement(uuid,uuid,uuid,text,text,integer,numeric,uuid,text,uuid,timestamp with time zone,text,boolean) line 31 at RAISE\nSQL statement \"SELECT erp.post_fg_movement(r.product_id,r.lot_id,h.location_id,r.quality_grade,'ADJUSTMENT',r.qty_signed,v_hpp,null,'FG_ADJUSTMENT_ITEM',r.id,h.physical_at,h.reason||coalesce(' - '||r.notes,''),false)\"\nPL/pgSQL function post_fg_adjustment(uuid) line 59 at PERFORM\nSQL statement \"SELECT erp.post_fg_adjustment(h.id)\"\nPL/pgSQL function post_fg_adjustment_v2(uuid,uuid,bigint,text) line 18 at PERFORM\nPL/pgSQL function cp7_fg.adjust_command(text,jsonb,uuid,text) line 35 at assignment\nSQL function \"erp_cp7_save_fg_adjustment_v1\" statement 1"
+    },
+    "races": {},
+    "http": {},
+    "browser": {}
+  },
+  "restore": true,
+  "advisor_gate": true,
+  "other_predecessor_guards_unchanged": true,
+  "all_case_boundaries_and_zero_leaks_checked": true,
+  "desktop_mobile_actual_f05_screenshots_reviewed": 14,
+  "notes": [
+    "Native current stock guard refused a correction exceeding unreserved available stock. No fabricated negative stock or weakened guard.",
+    "All 8 actual browser journeys passed. F05 operational UI, shared frozen result, lost-reply recovery, immutable reopening and current403 were reviewed.",
+    "14 new screenshots were reviewed; unstyled white question textarea found and corrected in the next source.",
+    "Financial/material/apply not qualified by this operational102 source."
+  ],
+  "production_go": false,
+  "full_family_acceptance": false
+}

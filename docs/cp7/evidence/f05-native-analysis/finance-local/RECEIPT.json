@@ -1,0 +1,40 @@
+{
+  "status": "LOCAL_WRITER_CHECKS_PASS_NATIVE109_PENDING",
+  "parent_commit": "c6c825fc19a6e04b7054a4b2c12c318d22630b06",
+  "source_sql_sha256": "d0d81fb64f3558bd3332ef3c15cd8e538b3dc3bfffebca64074b322c022cd35a",
+  "frozen_schema_sha256": "c6e38f059d992c5916b7a799c153ad5a6cc4858dc8ffd6085bb8e5356ebc72a1",
+  "local_tests": {
+    "total": 1053,
+    "passed": 1053,
+    "failed": 0,
+    "pending": 0
+  },
+  "build_typecheck_vite_secret_scan": "PASS",
+  "source_access_css_ownership": "PASS",
+  "security_predecessor_and_build_canaries": "PASS",
+  "pglite_native_column_standin": "15_PASS_NOT_NATIVE_AUTH",
+  "native_declared_budget": {
+    "native": 78,
+    "races": 15,
+    "http": 8,
+    "browser": 8,
+    "total": 109
+  },
+  "native_qualification": "PENDING",
+  "production_go": false,
+  "full_family_acceptance": false,
+  "source_files": {
+    "scripts/cp7-src/planning/analysis.sql": "54c8bce3d71623946740200b853386548580eed4d42af266a3c36d4f4ba57792",
+    "scripts/cp7-src/planning/analysis-finance.sql": "573607dd017360f90b3398bd1c32c7d957cf16472fb1c9088ae59f851f7a61de",
+    "scripts/cp7_analysis_bundle.py": "73bc763fb0d94fd44201a29b5a0d0cb0f7dcf025421af0ca928e461a1693c78c",
+    "scripts/cp7_analysis_cases.py": "399338f8b302d17b5b4ffaacdd9eec4a19b10383642600374b88f9df4133add5",
+    "scripts/cp7_analysis_finance_cases.py": "a78b21ebe72d887d8a6e530c300ffd67b1221a03614bf36451d757e888cd0dde",
+    "scripts/cp7_f05_analysis_probe.py": "660d7dcd06d6c8c5d17a050601afb49622d3fb3cb4f6c8dbb27d6ae4e237d6a9",
+    "src/nativeAnalysis.ts": "399dae53842387391c5d344fca10a23ad543d59e1f22aefafd96a546a512cefb",
+    "src/NativeAnalysisPanel.tsx": "1dd208f61981767f834adc3196ca73e04bca387e1b39d3c59d112e1fc6304712",
+    "src/native-analysis.css": "2ee9a4120c84cec14bb829a0929e7d808d99a7eb7f4134d6347f92aa0826f173",
+    "src/nativeAnalysisFinance.test.ts": "90e72e0e0308dc9ef666c01227a9d20c2fd59e19a2726f4338810258a695a414",
+    "src/NativeAnalysisPanel.dom.test.tsx": "5f7db60960b5af14297bb75285e15c6b91dcb6f7eb048dcd8e0686421fa79589",
+    "tests/fixtures/nativeAnalysisFinance.ts": "deae601090df8c7768ed10f53a07266ab41d33b42f21b9ae5908e2de0ef1e59d"
+  }
+}

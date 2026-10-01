@@ -9,13 +9,14 @@ language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
  engine as(select encode(extensions.digest(convert_to(string_agg(
   p.oid::regprocedure::text||':'||pg_get_functiondef(p.oid),E'\n'order by p.oid::regprocedure::text),'UTF8'),'sha256'),'hex')signature
   from pg_proc p join pg_namespace n on n.oid=p.pronamespace
-  where n.nspname in('cp7_planning','cp7_profile','cp7_supply_native','cp7_schedule_native','cp7_netting_native','cp7_analysis_native','cp7_wip','cp7_demand','cp7_baseline','cp7_models'))
+  where n.nspname in('cp7_planning','cp7_profile','cp7_supply_native','cp7_schedule_native','cp7_netting_native','cp7_analysis_native','cp7_wip','cp7_demand','cp7_baseline','cp7_models','cp7_finance')
+   or p.oid='erp.get_owner_financial_snapshot_v2(date,date,date)'::regprocedure)
  select c||jsonb_build_object('analysis_engine_signature',signature)from native cross join engine
 $$;
 create function cp7_analysis_native.fingerprint(c jsonb)returns text
 language sql immutable security invoker set search_path=''set TimeZone='UTC'as $$
  select encode(extensions.digest(convert_to(jsonb_build_object('source',cp7_netting_native.fingerprint(c),
-  'engine',c->'analysis_engine_signature')::text,'UTF8'),'sha256'),'hex')
+  'engine',c->'analysis_engine_signature','financial_source',c->'financial_source'->'source_hash')::text,'UTF8'),'sha256'),'hex')
 $$;
 create function cp7_analysis_native.fact(value text,unit text,refs jsonb,assumptions jsonb default '[]')returns jsonb
 language sql immutable security invoker set search_path=''set TimeZone='UTC'as $$
@@ -211,12 +212,20 @@ begin
  if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
  a:=cp7_schedule_native.access_now(false);select *into r from cp7_analysis_native.runs where id=p_run and actor=(a->>'actor')::uuid;
  if r.id is null then raise exception using errcode='42501',message='CP7_ANALYSIS_RUN_UNAVAILABLE';end if;
- c:=cp7_analysis_native.source();outcome:=jsonb_build_object('contract_version','cp7.native-analysis-run.v1','run_id',r.id,'request_id',r.request_id,
+ c:=cp7_analysis_native.source(r.query);
+ if r.facts->'financial_source' is not null and r.facts->'financial_source'<>'null'::jsonb and coalesce(c->'financial_source','null')='null'::jsonb then
+  raise exception using errcode='42501',message='CP7_ANALYSIS_FINANCE_ACCESS_DENIED';
+ end if;
+ if coalesce(r.facts->'financial_source'->'report'->'close_preflight','null')<>'null'::jsonb
+  and coalesce(c->'financial_source'->'report'->'close_preflight','null')='null'::jsonb then
+  raise exception using errcode='42501',message='CP7_ANALYSIS_FINANCE_ACCESS_DENIED';
+ end if;
+ outcome:=jsonb_build_object('contract_version','cp7.native-analysis-run.v1','run_id',r.id,'request_id',r.request_id,
   'analysis',r.result,'product_labels',coalesce((select jsonb_agg(jsonb_build_object('target_key',x->>'root_id'||':'||(x->>'size_id'),
    'sku',coalesce(x->'commercial'->0->>'sku',x->>'sku'),'product_name',x->>'product_name')order by x->>'root_id')
    from jsonb_array_elements(r.facts->'facts'->'products')x),'[]'::jsonb),
   'source_state',case when cp7_analysis_native.fingerprint(c)=r.dependency_hash then 'UNCHANGED'else 'ARCHIVED_STALE'end,
-  'query',r.query,'apply_enabled',false,'production_go',false);
+  'query',r.query,'financial_source',r.facts->'financial_source','apply_enabled',false,'production_go',false);
  if cp7_schedule_native.access_now(false)is distinct from a then raise exception using errcode='42501',message='CP7_ANALYSIS_ACCESS_CHANGED';end if;
  return outcome;
 end $$;
@@ -230,7 +239,7 @@ begin
  if cp7_schedule_native.access_now(false)is distinct from a then raise exception using errcode='42501',message='CP7_ANALYSIS_ACCESS_CHANGED';end if;
  select *into r from cp7_analysis_native.runs where actor=(a->>'actor')::uuid and request_id=p_request;
  if found then if r.query<>q then raise exception 'CP7_ANALYSIS_REQUEST_CHANGED';end if;return cp7_analysis_native.serve(r.id);end if;
- with source as materialized(select cp7_analysis_native.source()c),calculated as materialized(select c,cp7_analysis_native.build(c,q,run_id,a)result from source)
+ with source as materialized(select cp7_analysis_native.source(q)c),calculated as materialized(select c,cp7_analysis_native.build(c,q,run_id,a)result from source)
  insert into cp7_analysis_native.runs(id,actor,request_id,query,captured_at,access_at_capture,facts,result,dependency_hash)
  select run_id,(a->>'actor')::uuid,p_request,q,(c->>'captured_at')::timestamptz,a,c,result,cp7_analysis_native.fingerprint(c)from calculated returning *into r;
  if cp7_schedule_native.access_now(false)is distinct from a then raise exception using errcode='42501',message='CP7_ANALYSIS_ACCESS_CHANGED';end if;

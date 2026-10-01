@@ -3,6 +3,7 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta
 from pathlib import Path
 import json,sys,threading,time,uuid
+import cp7_analysis_finance_cases as financial_cases
 import psycopg
 from jsonschema import Draft7Validator,FormatChecker
 import cp7_planning_netting_cases as previous
@@ -20,7 +21,23 @@ def checked(envelope):
  assert envelope['contract_version']=='cp7.native-analysis-run.v1'and not envelope['apply_enabled']and not envelope['production_go']
  x=envelope['analysis'];VALIDATOR.validate(x);assert not validate_semantics(x),validate_semantics(x)
  assert x['run_id']==envelope['run_id']and'fixture_kind'not in x and x['snapshot']['capture_complete']
- assert x['financial_readiness']=='BLOCKED'and x['quality']['financial']=='UNKNOWN'
+ financial=envelope.get('financial_source')
+ if financial is None:
+  assert x['financial_readiness']=='BLOCKED'and x['quality']['financial']=='UNKNOWN'
+  assert not any(m['value']['unit']=='IDR'for m in x['metrics'])
+ else:
+  f=financial['report']['snapshot'];status=f['data_confidence']['status']
+  assert financial['contract_version']=='cp7.native-analysis-finance.v1'
+  assert x['financial_readiness']==dict(READY='READY',RECALC_PENDING='LIMITED',BLOCKED='BLOCKED')[status]
+  assert x['quality']['financial']==('COMPLETE'if status=='READY'else'PARTIAL')
+  for section in('performance','financial_position'):
+   for key,value in f[section].items():
+    if not isinstance(value,str)or key in('gross_margin_pct','net_margin_pct'):continue
+    metric=next(m for m in x['metrics']if m['metric_id']=='NATIVE_FINANCE:'+section+':'+key)
+    assert metric['operands'][0]['value']==value and metric['operands'][0]['unit']=='IDR'
+    recorded=section=='performance'and key not in('gross_profit','net_profit')or section=='financial_position'and key in('cash','customer_ar','supplier_final_ap','grni_estimated_liability')
+    if status=='READY'or recorded:assert metric['value']['state']=='KNOWN'and metric['value']['value']==value
+    else:assert metric['value']['state']=='UNKNOWN'and'value'not in metric['value']
  def visit(v):
   if isinstance(v,list):
    for a in v:visit(a)
@@ -93,16 +110,18 @@ def cases(cur,today):
   assert any(r['target_key'].split(':')[0]==root and r['first_gap_at']for r in x['timeline'])
   return dict(status='PASS',late7_not_deducted_from_earlier_gap100=True)
  def available_signed():
-  # The unchanged Native sale writer rightly refuses reserving more than
-  # available FG. Reserve against100, then record the real physical discrepancy
-  # through the unchanged Native FG count-correction command, never table DML.
+  # Current Native writers also forbid a count correction that would overdraw
+  # reserved stock. Exercise that actual guard and its atomicity; do not claim
+  # a legacy 10-minus24 example was constructible through this Native lifecycle.
   h=previous.baseline.history;f=h.fixture(cur,today,qty=24,stock=100)
-  d=adjustments.command(cur,'SAVE',adjustments.payload(cur,f,'-90'));adjustments.action(cur,'POST',d)
+  d=adjustments.command(cur,'SAVE',adjustments.payload(cur,f,'-90'));before=b.boundary.snapshot(cur)
+  auth.refused(cur,lambda:adjustments.action(cur,'POST',d),'Finished goods stock cannot become negative')
+  assert b.boundary.snapshot(cur)==before
   previous.select_profiles(cur,f['product'],True);x=checked(capture(cur,today));r=recommendation(x,f['product'])
-  assert r['actual_fg']['value']=='10'
-  metric=next(m for m in x['metrics']if m['scope_key']==r['target']['key']);assert metric['value']['value']=='-14'
-  assert [o['value']for o in metric['operands']]==['10','24']
-  return dict(status='PASS',native_physical10_reserved24_signed_available_minus14_separate_once=True)
+  assert r['actual_fg']['value']=='100'
+  metric=next(m for m in x['metrics']if m['scope_key']==r['target']['key']);assert metric['value']['value']=='76'
+  assert [o['value']for o in metric['operands']]==['100','24']
+  return dict(status='PASS',native_overreservation_count_correction_refused_atomically=True,native_physical100_reserved24_available76_once=True,negative_available_lifecycle_not_native_constructible=True)
  def paused():
   f,root,s,p=setup(cur,today);source=cur.execute('select cp7_baseline_native.source()').fetchone()[0];product=next(r for r in source['facts']['products']if r['root_id']==root);sku=product['commercial'][0]['sku_id'];w=previous.policies.get(cur,[sku]);previous.policies.apply(cur,[previous.policies.proposal(w['rows'][0],'PAUSED')])
   # Policy is a real source dependency. Review the unchanged remaining-work
@@ -123,7 +142,7 @@ def cases(cur,today):
   assert recommendation(x,root)['feasible_new']['state']=='UNKNOWN'
   return dict(status='PASS',unreviewed_other_load_not_free_time_material_not_zero_feasible=True)
  declared=[('FROZEN_NATIVE',frozen),('UNKNOWN_WORK',unreviewed),('MISSING_POLICY',policy_missing),('REPLAY',replay),('CHANGED_QUERY',changed),('SOURCE_CHANGE',source_change),('ACTOR_SCOPE',actor_scope),('CURRENT_REVOKE',revoke),('IMMUTABLE',immutable),('LATE_SUPPLY',late),('SIGNED_AVAILABLE',available_signed),('PAUSED',paused),('ENGINE_CHANGE',engine_change),('UNKNOWN_CAPACITY',capacity_unknown)]
- return previous.cases(cur,today)+[('P14_NATIVE_ANALYSIS_'+n,f)for n,f in declared]
+ return previous.cases(cur,today)+[('P14_NATIVE_ANALYSIS_'+n,f)for n,f in declared]+financial_cases.cases(cur,today,sys.modules[__name__])
 
 def races(tools,today):
  def same_uuid():
@@ -168,7 +187,7 @@ def races(tools,today):
     result=job.result(30)
   assert isinstance(result,str)and'CP7_ACCESS_DENIED'in result,result
   return dict(status='PASS',current_permission_revoked_during_observed_cached_capture_lock_refused=True)
- return previous.races(tools,today)+[('P14_ANALYSIS_RACE_UUID',same_uuid),('P14_ANALYSIS_RACE_QUERY',changed_query),('P14_ANALYSIS_RACE_CURRENT_AUTH',revoke_waiting)]
+ return previous.races(tools,today)+[('P14_ANALYSIS_RACE_UUID',same_uuid),('P14_ANALYSIS_RACE_QUERY',changed_query),('P14_ANALYSIS_RACE_CURRENT_AUTH',revoke_waiting)]+financial_cases.races(tools,today,sys.modules[__name__])
 
 def http_cases(http,today):
  def flow():
@@ -180,4 +199,4 @@ def http_cases(http,today):
   with http.connect()as conn,conn.cursor()as cur:cur.execute('update erp.app_users set is_active=false where auth_user_id=%s',(owner.auth_user_id,));conn.commit()
   assert owner.rpc('erp_cp7_capture_analysis_v1',args)['status']==403 and owner.rpc('erp_cp7_read_analysis_v1',a)['status']==403
   return dict(status='PASS',real_Auth_PostgREST_frozen_analysis_UUID_current403_and_actor_scope=True)
- return previous.http_cases(http,today)+[('P14_ANALYSIS_HTTP_AUTH',flow)]
+ return previous.http_cases(http,today)+[('P14_ANALYSIS_HTTP_AUTH',flow)]+financial_cases.http_cases(http,today,sys.modules[__name__])
