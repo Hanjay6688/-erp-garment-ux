@@ -1580,7 +1580,7 @@
     "full_family_acceptance": false,
     "independent_acceptance": false,
     "production_go": false,
-    "remaining": "Successor35 readability and composed BOM regression; remaining full material/source feasibility and reviewed model integration",
+    "remaining": "Full material/source feasibility, reviewed model integration and full P08 lifecycle; composed Native35/readability qualified at40ec442",
     "first_source": "50c4e46a9a9388d4644414a68df5d0e59f00671f",
     "first_tree": "b20486ef43fbb1cec9515ec8fad8fb5b60016618",
     "first_run": 36912512176,
@@ -1641,7 +1641,7 @@
     "visual_review": "ACTUAL_MOBILE_ORIGINAL_INSPECTED_BOTH_BROWSER_CONTRAST_PASS_INDEPENDENT_DEMO_OPEN"
   },
   "f04_native_material_requirements": {
-    "status": "FIRST152_INCOMPLETE143_NATIVE_SHARED_MASTER_FIXTURE_REPAIRED_SAME152198_RERUN_REQUIRED",
+    "status": "NATIVE152_146_PASS_6_INCOMPLETE_EXPLICIT_CONSENT_REVIEW_FIXTURE_REPAIR_PENDING_SAME152_198",
     "core_source": "057d15de92cc4abad4b59704720c9a668db13414",
     "composer": "scripts/cp7-src/planning/material-requirements.sql",
     "consumer": "src/NativeMaterialNeedsView.tsx",
@@ -1690,6 +1690,29 @@
       }
     },
     "first_original": "docs/cp7/evidence/f04-native-material/first152-shared-master-40ec442/RECEIPT.json",
-    "repair": "Fixture uses unchanged Native SAVE_GROUPS with all membership/non-BOM settings retained; actual generated BOM IDs; pure clock comparison after master knowledge; product/guard/grants/budgets unchanged"
+    "repair": "Fixture uses unchanged Native SAVE_GROUPS with all membership/non-BOM settings retained; actual generated BOM IDs; pure clock comparison after master knowledge; product/guard/grants/budgets unchanged",
+    "second_source": "00fb091d9dfc4a3daa88fe5da0e5e21e3dfdab13",
+    "second_original": "docs/cp7/evidence/f04-native-material/second152-membership-review-00fb091/RECEIPT.json",
+    "second_run": 36927911298,
+    "second_job": 110589695488,
+    "second_counts": {
+      "native": {
+        "PASS": 103,
+        "INCOMPLETE": 3
+      },
+      "races": {
+        "PASS": 20
+      },
+      "http": {
+        "PASS": 11,
+        "INCOMPLETE": 1
+      },
+      "browser": {
+        "PASS": 12,
+        "INCOMPLETE": 2
+      }
+    },
+    "first198_original": "docs/cp7/evidence/f04-native-material/first198-shared-master-40ec442/RECEIPT.json",
+    "fixture_review_fix": "Preserve already KNOWN/ACTIVE choice; explicit Native review of current successor commercial version; no future/backdated review"
   }
 }

@@ -7,6 +7,7 @@ import json,time,uuid
 import psycopg
 import cp7_f03_e24_issue_cases as issue
 import cp6_bf_probe as native_master
+import cp7_identity_cases as production_policies
 
 def master(cur,today,parent):
  f=issue.bc.fixture(cur,today,purchase=False,zones=False);parent.b.api.admin(cur)
@@ -20,6 +21,10 @@ def close_current(cur,root,parent,at):
 def bom(cur,root,parent,category=None,qty='2',at=None):
  parent.b.api.admin(cur);at=at or cur.execute('select clock_timestamp()').fetchone()[0]
  existing=cur.execute('select s.id::text,s.sku,s.revision,v.id::text,v.settings from erp.bf_sku_members_v1 m join erp.bf_sku_versions_v1 v on v.id=m.version_id join erp.bf_skus_v1 s on s.id=v.sku_id where m.product_root=%s and v.effective_to is null',(root,)).fetchone()
+ reviewed=None
+ if existing:
+  reviewed=production_policies.row(production_policies.get(cur,[existing[0]]),existing[0])
+  assert reviewed['policy']['quality']=='KNOWN'and reviewed['policy']['state']=='ACTIVE','P06_FIXTURE_REQUIRES_ALREADY_REVIEWED_ACTIVE_POLICY'
  roots=[root];settings=dict(price=None,bom=None,work_rates=[],laundry_rates=[])
  if existing:
   roots=[r[0]for r in cur.execute('select product_root::text from erp.bf_sku_members_v1 where version_id=%s order by product_root',(existing[3],))];settings=deepcopy(existing[4])
@@ -28,6 +33,17 @@ def bom(cur,root,parent,category=None,qty='2',at=None):
  settings['bom']=[]if category is None else[dict(category_id=category['category_id'],qty_per_good_fg_base=qty,hpp_method='BOM_STANDARD',hpp_standard_rate='1',hpp_uom_code=category['unit'],reimbursement_rate='0',reimbursement_uom_code=category['unit'])]
  g=native_master.group(cur,roots,at,sku=existing[1]if existing else None,gid=existing[0]if existing else None,revision=existing[2]if existing else 0,settings=settings)
  saved=native_master.save(cur,[g],at);version_id=saved['groups'][0]['version_id'];parent.b.api.admin(cur)
+ # Native production consent binds the commercial membership *version*, not
+ # only its physical roots. A lawful new shared recipe invalidates that old
+ # consent even when all roots are retained. Explicitly review this disposable
+ # fixture's already selected ACTIVE intent against the new current version.
+ # A future master is not current and must not receive an early/backdated review.
+ if reviewed and at<=cur.execute('select clock_timestamp()').fetchone()[0]:
+  current=production_policies.row(production_policies.get(cur,[existing[0]]),existing[0])
+  assert current['commercial_version_id']==version_id and current['policy']['quality']=='MEMBERSHIP_CHANGED'
+  change=production_policies.proposal(current,reviewed['policy']['state']);change['reason']='P06 explicit fixture review of the new Native shared recipe; retain prior ACTIVE choice'
+  production_policies.apply(cur,[change])
+  checked=production_policies.row(production_policies.get(cur,[existing[0]]),existing[0]);assert checked['policy']['quality']=='KNOWN'and checked['policy']['state']=='ACTIVE'
  ident=cur.execute('select bom_version_id::text from erp.bf_sku_members_v1 where version_id=%s and product_root=%s',(version_id,root)).fetchone()[0];assert ident is not None
  item=cur.execute('select id::text from erp.accessory_bom_items where bom_version_id=%s',(ident,)).fetchone()
  return dict(id=ident,item_id=item[0]if item else None,at=at,Native_shared_master_version=version_id)

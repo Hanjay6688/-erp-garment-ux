@@ -1,0 +1,77 @@
+{
+  "run": 36924127472,
+  "job": 110577118316,
+  "artifact": 11194666816,
+  "file_id": "file_0000000079688207878971370f5b9c0d",
+  "folder": "f04-native-material/first198-shared-master-40ec442",
+  "report": "CP7_F05_NATIVE_ATTENTION.json",
+  "archive_bytes": 195752903,
+  "archive_sha256": "ac230a656169423acafa8f5735c49715a6130f7cf43ab2ebad98553db2c1d147",
+  "source": "40ec442314dfc135706e53b0858c4f2cd10cc3ae",
+  "tree": "8923d8aee7d76b5ea58bb0f75811faa1aaeed24b",
+  "source_bundle_sha256": "f613413a6315375a31db81e801418223c1f846a4d0dd672a82e1424cdbcc9f4c",
+  "status": "INCOMPLETE",
+  "observed_case_count": 198,
+  "groups": {
+    "native": {
+      "PASS": 122,
+      "INCOMPLETE": 5
+    },
+    "races": {
+      "PASS": 25,
+      "INCOMPLETE": 1
+    },
+    "http": {
+      "PASS": 16,
+      "INCOMPLETE": 1
+    },
+    "browser": {
+      "PASS": 26,
+      "INCOMPLETE": 2
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "console_errors": 0,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "auth_cleanup_failures": false,
+  "database_remaining": 0,
+  "original_member_hashes": {
+    "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+    "CP7_F05_NATIVE_ATTENTION.json": "095adefe18c7bb71fbedaafa8bcbd1c6fa6ec074044405903141a76212e99ed2",
+    "CP7_NATIVE155_HANDOFF_DIAGNOSTIC.json": "e8b61f251d8ac2e4442cee2d17e69fc40f7c44e7a547b0107e8a47be5a895c40",
+    "T3_BACKUP_RESTORE_DRILL.json": "d9757d10e06dc9a332f6aa68cb118b21da8b1a73e672cc1ea2ff9b6efb516b8b",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "T3_PACKAGE_INSTALL.json": "8544d5ed00156ff965d8ab8c4716dca8fa03f682cec3fb0e88d8780e4738df0e"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}
