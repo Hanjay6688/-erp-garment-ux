@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        bucket: [p09, p10, p11, p12, p13, cash_installments, supplier_credit]
+        bucket: [p09, p10, p11, p12, p13, cash_installments, supplier_credit, customer_refund]
     env:
       CP7_F03_BUCKET: ${{ matrix.bucket }}
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres

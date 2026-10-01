@@ -357,6 +357,7 @@
   "f03_full_component_qualification": {
     "declared_case_executions": {
       "cash_installments": 61,
+      "customer_refund": 10,
       "p09": 132,
       "p10": 34,
       "p11": 64,
@@ -368,6 +369,7 @@
     "handoff": "docs/cp7/F03_FULL_STACK_QUALIFICATION.md",
     "independent_acceptance": false,
     "manifest": "scripts/cp7_f03_full_manifest.json",
+    "per_group_expected_counts_pinned": true,
     "priority": "F03_BEFORE_REMAINING_F04_F05",
     "private_role_count": 31,
     "production_go": false,

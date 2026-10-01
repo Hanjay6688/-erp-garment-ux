@@ -16,7 +16,8 @@
           "module": "cp7_procurement_cases",
           "entry": "smoke",
           "smoke": true,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "native",
@@ -24,7 +25,8 @@
           "module": "cp7_procurement_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 9
         },
         {
           "key": "races",
@@ -32,7 +34,8 @@
           "module": "cp7_procurement_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 3
         },
         {
           "key": "http",
@@ -40,7 +43,8 @@
           "module": "cp7_procurement_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "material_smoke",
@@ -48,7 +52,8 @@
           "module": "cp7_material_cases",
           "entry": "smoke",
           "smoke": true,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "material",
@@ -56,7 +61,8 @@
           "module": "cp7_material_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 13
         },
         {
           "key": "material_crossflow",
@@ -64,7 +70,8 @@
           "module": "cp7_material_cases",
           "entry": "crossflow_cases",
           "smoke": false,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 2
         },
         {
           "key": "material_races",
@@ -72,7 +79,8 @@
           "module": "cp7_material_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 3
         },
         {
           "key": "material_http",
@@ -80,7 +88,8 @@
           "module": "cp7_material_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "material_count",
@@ -88,7 +97,8 @@
           "module": "cp7_material_count_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 17
         },
         {
           "key": "material_count_races",
@@ -96,7 +106,8 @@
           "module": "cp7_material_count_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 2
         },
         {
           "key": "material_count_http",
@@ -104,7 +115,8 @@
           "module": "cp7_material_count_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 2
         },
         {
           "key": "invoice",
@@ -112,7 +124,8 @@
           "module": "cp7_invoice_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 9
         },
         {
           "key": "invoice_races",
@@ -120,7 +133,8 @@
           "module": "cp7_invoice_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 3
         },
         {
           "key": "invoice_http",
@@ -128,7 +142,8 @@
           "module": "cp7_invoice_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "combined_invoice",
@@ -136,7 +151,8 @@
           "module": "cp7_invoice_document_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 6
         },
         {
           "key": "combined_invoice_races",
@@ -144,7 +160,8 @@
           "module": "cp7_invoice_document_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 3
         },
         {
           "key": "combined_invoice_http",
@@ -152,7 +169,8 @@
           "module": "cp7_invoice_document_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "browser",
@@ -160,7 +178,8 @@
           "module": "scripts/cp7_p09_browser.mjs",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 22
         },
         {
           "key": "return_smoke",
@@ -168,7 +187,8 @@
           "module": "cp7_supplier_return_cases",
           "entry": "smoke",
           "smoke": true,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "returns",
@@ -176,7 +196,8 @@
           "module": "cp7_supplier_return_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 10
         },
         {
           "key": "return_races",
@@ -184,7 +205,8 @@
           "module": "cp7_supplier_return_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 3
         },
         {
           "key": "return_http",
@@ -192,7 +214,8 @@
           "module": "cp7_supplier_return_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "receipt_reversal",
@@ -200,7 +223,8 @@
           "module": "cp7_receipt_reversal_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 7
         },
         {
           "key": "receipt_reversal_races",
@@ -208,7 +232,8 @@
           "module": "cp7_receipt_reversal_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 3
         },
         {
           "key": "receipt_reversal_http",
@@ -216,7 +241,8 @@
           "module": "cp7_receipt_reversal_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "uom",
@@ -224,7 +250,8 @@
           "module": "cp7_procurement_uom_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 6
         },
         {
           "key": "uom_races",
@@ -232,7 +259,8 @@
           "module": "cp7_procurement_uom_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 2
         },
         {
           "key": "uom_http",
@@ -240,7 +268,8 @@
           "module": "cp7_procurement_uom_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p09_procurement_probe.py"
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 1
         }
       ]
     },
@@ -254,7 +283,8 @@
           "module": "cp7_fg_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p10_fg_probe.py"
+          "retained_probe": "cp7_p10_fg_probe.py",
+          "expected_executions": 7
         },
         {
           "key": "http",
@@ -262,7 +292,8 @@
           "module": "cp7_fg_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p10_fg_probe.py"
+          "retained_probe": "cp7_p10_fg_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "adjustments",
@@ -270,7 +301,8 @@
           "module": "cp7_fg_adjustment_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p10_fg_probe.py"
+          "retained_probe": "cp7_p10_fg_probe.py",
+          "expected_executions": 8
         },
         {
           "key": "adjustment_races",
@@ -278,7 +310,8 @@
           "module": "cp7_fg_adjustment_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p10_fg_probe.py"
+          "retained_probe": "cp7_p10_fg_probe.py",
+          "expected_executions": 2
         },
         {
           "key": "adjustment_http",
@@ -286,7 +319,8 @@
           "module": "cp7_fg_adjustment_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p10_fg_probe.py"
+          "retained_probe": "cp7_p10_fg_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "book",
@@ -294,7 +328,8 @@
           "module": "cp7_fg_book_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p10_fg_probe.py"
+          "retained_probe": "cp7_p10_fg_probe.py",
+          "expected_executions": 6
         },
         {
           "key": "book_races",
@@ -302,7 +337,8 @@
           "module": "cp7_fg_book_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p10_fg_probe.py"
+          "retained_probe": "cp7_p10_fg_probe.py",
+          "expected_executions": 2
         },
         {
           "key": "book_http",
@@ -310,7 +346,8 @@
           "module": "cp7_fg_book_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p10_fg_probe.py"
+          "retained_probe": "cp7_p10_fg_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "browser",
@@ -318,7 +355,8 @@
           "module": "scripts/cp7_p10_browser.mjs",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p10_fg_probe.py"
+          "retained_probe": "cp7_p10_fg_probe.py",
+          "expected_executions": 6
         }
       ]
     },
@@ -332,7 +370,8 @@
           "module": "cp7_sales_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p11_sales_probe.py"
+          "retained_probe": "cp7_p11_sales_probe.py",
+          "expected_executions": 8
         },
         {
           "key": "http",
@@ -340,7 +379,8 @@
           "module": "cp7_sales_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p11_sales_probe.py"
+          "retained_probe": "cp7_p11_sales_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "commands",
@@ -348,7 +388,8 @@
           "module": "cp7_sales_command_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p11_sales_probe.py"
+          "retained_probe": "cp7_p11_sales_probe.py",
+          "expected_executions": 6
         },
         {
           "key": "command_races",
@@ -356,7 +397,8 @@
           "module": "cp7_sales_command_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p11_sales_probe.py"
+          "retained_probe": "cp7_p11_sales_probe.py",
+          "expected_executions": 2
         },
         {
           "key": "command_http",
@@ -364,7 +406,8 @@
           "module": "cp7_sales_command_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p11_sales_probe.py"
+          "retained_probe": "cp7_p11_sales_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "drafts",
@@ -372,7 +415,8 @@
           "module": "cp7_sales_draft_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p11_sales_probe.py"
+          "retained_probe": "cp7_p11_sales_probe.py",
+          "expected_executions": 7
         },
         {
           "key": "draft_races",
@@ -380,7 +424,8 @@
           "module": "cp7_sales_draft_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p11_sales_probe.py"
+          "retained_probe": "cp7_p11_sales_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "draft_http",
@@ -388,7 +433,8 @@
           "module": "cp7_sales_draft_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p11_sales_probe.py"
+          "retained_probe": "cp7_p11_sales_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "payments",
@@ -396,7 +442,8 @@
           "module": "cp7_sales_payment_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p11_sales_probe.py"
+          "retained_probe": "cp7_p11_sales_probe.py",
+          "expected_executions": 8
         },
         {
           "key": "payment_races",
@@ -404,7 +451,8 @@
           "module": "cp7_sales_payment_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p11_sales_probe.py"
+          "retained_probe": "cp7_p11_sales_probe.py",
+          "expected_executions": 3
         },
         {
           "key": "payment_http",
@@ -412,7 +460,8 @@
           "module": "cp7_sales_payment_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p11_sales_probe.py"
+          "retained_probe": "cp7_p11_sales_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "returns",
@@ -420,7 +469,8 @@
           "module": "cp7_sales_return_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p11_sales_probe.py"
+          "retained_probe": "cp7_p11_sales_probe.py",
+          "expected_executions": 11
         },
         {
           "key": "return_races",
@@ -428,7 +478,8 @@
           "module": "cp7_sales_return_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p11_sales_probe.py"
+          "retained_probe": "cp7_p11_sales_probe.py",
+          "expected_executions": 3
         },
         {
           "key": "return_http",
@@ -436,7 +487,8 @@
           "module": "cp7_sales_return_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p11_sales_probe.py"
+          "retained_probe": "cp7_p11_sales_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "browser",
@@ -444,7 +496,8 @@
           "module": "scripts/cp7_p11_sales_browser.mjs",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p11_sales_probe.py"
+          "retained_probe": "cp7_p11_sales_probe.py",
+          "expected_executions": 10
         }
       ]
     },
@@ -458,7 +511,8 @@
           "module": "cp7_nota_source_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 5
         },
         {
           "key": "http",
@@ -466,7 +520,8 @@
           "module": "cp7_nota_source_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "notes",
@@ -474,7 +529,8 @@
           "module": "cp7_nota_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 7
         },
         {
           "key": "note_races",
@@ -482,7 +538,8 @@
           "module": "cp7_nota_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 3
         },
         {
           "key": "note_http",
@@ -490,7 +547,8 @@
           "module": "cp7_nota_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "admission_regression",
@@ -498,7 +556,8 @@
           "module": "cp7_procurement_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "browser",
@@ -506,7 +565,8 @@
           "module": "scripts/cp7_p12_browser.mjs",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 2
         },
         {
           "key": "payroll_review",
@@ -514,7 +574,8 @@
           "module": "cp7_settlement_read_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 4
         },
         {
           "key": "payroll_review_http",
@@ -522,7 +583,8 @@
           "module": "cp7_settlement_read_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "payroll_review_browser",
@@ -530,7 +592,8 @@
           "module": "scripts/cp7_p12_payroll_browser.mjs",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 2
         },
         {
           "key": "settlement",
@@ -538,7 +601,8 @@
           "module": "cp7_settlement_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 7
         },
         {
           "key": "settlement_races",
@@ -546,7 +610,8 @@
           "module": "cp7_settlement_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 4
         },
         {
           "key": "settlement_http",
@@ -554,7 +619,8 @@
           "module": "cp7_settlement_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "settlement_browser",
@@ -562,7 +628,8 @@
           "module": "scripts/cp7_p12_settlement_browser.mjs",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 3
         },
         {
           "key": "attendance_read",
@@ -570,7 +637,8 @@
           "module": "cp7_attendance_read_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 6
         },
         {
           "key": "attendance_read_http",
@@ -578,7 +646,8 @@
           "module": "cp7_attendance_read_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "attendance_read_browser",
@@ -586,7 +655,8 @@
           "module": "scripts/cp7_p12_attendance_browser.mjs",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 2
         },
         {
           "key": "roster",
@@ -594,7 +664,8 @@
           "module": "cp7_roster_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 6
         },
         {
           "key": "roster_races",
@@ -602,7 +673,8 @@
           "module": "cp7_roster_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 3
         },
         {
           "key": "roster_http",
@@ -610,7 +682,8 @@
           "module": "cp7_roster_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "roster_browser",
@@ -618,7 +691,8 @@
           "module": "scripts/cp7_p12_roster_browser.mjs",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 2
         },
         {
           "key": "attendance_write",
@@ -626,7 +700,8 @@
           "module": "cp7_attendance_write_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 10
         },
         {
           "key": "attendance_write_races",
@@ -634,7 +709,8 @@
           "module": "cp7_attendance_write_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 4
         },
         {
           "key": "attendance_write_http",
@@ -642,7 +718,8 @@
           "module": "cp7_attendance_write_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "attendance_write_browser",
@@ -650,7 +727,8 @@
           "module": "scripts/cp7_p12_attendance_write_browser.mjs",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 2
         },
         {
           "key": "opening_payroll",
@@ -658,7 +736,8 @@
           "module": "cp7_opening_payroll_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 5
         },
         {
           "key": "opening_payroll_races",
@@ -666,7 +745,8 @@
           "module": "cp7_opening_payroll_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 2
         },
         {
           "key": "opening_payroll_http",
@@ -674,7 +754,8 @@
           "module": "cp7_opening_payroll_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "opening_payroll_browser",
@@ -682,7 +763,8 @@
           "module": "scripts/cp7_p12_opening_browser.mjs",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p12_nota_probe.py"
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 2
         }
       ]
     },
@@ -696,7 +778,8 @@
           "module": "cp7_finance_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p13_finance_probe.py"
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 8
         },
         {
           "key": "races",
@@ -704,7 +787,8 @@
           "module": "cp7_finance_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p13_finance_probe.py"
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "http",
@@ -712,7 +796,8 @@
           "module": "cp7_finance_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p13_finance_probe.py"
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "browser",
@@ -720,7 +805,8 @@
           "module": "scripts/cp7_p13_finance_browser.mjs",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p13_finance_probe.py"
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 2
         },
         {
           "key": "period_native",
@@ -728,7 +814,8 @@
           "module": "cp7_period_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p13_finance_probe.py"
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 8
         },
         {
           "key": "period_races",
@@ -736,7 +823,8 @@
           "module": "cp7_period_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p13_finance_probe.py"
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 2
         },
         {
           "key": "period_http",
@@ -744,7 +832,8 @@
           "module": "cp7_period_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p13_finance_probe.py"
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "period_browser",
@@ -752,7 +841,8 @@
           "module": "scripts/cp7_p13_period_browser.mjs",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p13_finance_probe.py"
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 2
         },
         {
           "key": "analysis_native",
@@ -760,7 +850,8 @@
           "module": "cp7_finance_analysis_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p13_finance_probe.py"
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 8
         },
         {
           "key": "analysis_races",
@@ -768,7 +859,8 @@
           "module": "cp7_finance_analysis_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p13_finance_probe.py"
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "analysis_http",
@@ -776,7 +868,8 @@
           "module": "cp7_finance_analysis_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p13_finance_probe.py"
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "analysis_browser",
@@ -784,7 +877,8 @@
           "module": "scripts/cp7_p13_analysis_browser.mjs",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p13_finance_probe.py"
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 2
         },
         {
           "key": "recost_native",
@@ -792,7 +886,8 @@
           "module": "cp7_recost_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_p13_finance_probe.py"
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 8
         },
         {
           "key": "recost_races",
@@ -800,7 +895,8 @@
           "module": "cp7_recost_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p13_finance_probe.py"
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 2
         },
         {
           "key": "recost_http",
@@ -808,7 +904,8 @@
           "module": "cp7_recost_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p13_finance_probe.py"
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "recost_browser",
@@ -816,7 +913,8 @@
           "module": "scripts/cp7_p13_recost_browser.mjs",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_p13_finance_probe.py"
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 2
         }
       ]
     },
@@ -830,7 +928,8 @@
           "module": "cp7_f03_cash_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_f03_cash_probe.py"
+          "retained_probe": "cp7_f03_cash_probe.py",
+          "expected_executions": 3
         },
         {
           "key": "cp7_f03_cash_http",
@@ -838,7 +937,8 @@
           "module": "cp7_f03_cash_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_f03_cash_probe.py"
+          "retained_probe": "cp7_f03_cash_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "cp7_f03_cash_journal_native",
@@ -846,7 +946,8 @@
           "module": "cp7_journal_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_f03_cash_probe.py"
+          "retained_probe": "cp7_f03_cash_probe.py",
+          "expected_executions": 6
         },
         {
           "key": "cp7_f03_cash_journal_http",
@@ -854,7 +955,8 @@
           "module": "cp7_journal_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_f03_cash_probe.py"
+          "retained_probe": "cp7_f03_cash_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "cp7_f03_cash_browser",
@@ -862,7 +964,8 @@
           "module": "scripts/cp7_f03_cash_browser.mjs",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_f03_cash_probe.py"
+          "retained_probe": "cp7_f03_cash_probe.py",
+          "expected_executions": 10
         },
         {
           "key": "cp7_f03_misc_native",
@@ -870,7 +973,8 @@
           "module": "cp7_misc_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_f03_misc_probe.py"
+          "retained_probe": "cp7_f03_misc_probe.py",
+          "expected_executions": 9
         },
         {
           "key": "cp7_f03_misc_races",
@@ -878,7 +982,8 @@
           "module": "cp7_misc_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_f03_misc_probe.py"
+          "retained_probe": "cp7_f03_misc_probe.py",
+          "expected_executions": 2
         },
         {
           "key": "cp7_f03_misc_http",
@@ -886,7 +991,8 @@
           "module": "cp7_misc_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_f03_misc_probe.py"
+          "retained_probe": "cp7_f03_misc_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "cp7_f03_misc_browser",
@@ -894,7 +1000,8 @@
           "module": "scripts/cp7_f03_misc_browser.mjs",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_f03_misc_probe.py"
+          "retained_probe": "cp7_f03_misc_probe.py",
+          "expected_executions": 2
         },
         {
           "key": "cp7_f03_e05_native",
@@ -902,7 +1009,8 @@
           "module": "cp7_installment_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_f03_e05_probe.py"
+          "retained_probe": "cp7_f03_e05_probe.py",
+          "expected_executions": 20
         },
         {
           "key": "cp7_f03_e05_races",
@@ -910,7 +1018,8 @@
           "module": "cp7_installment_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_f03_e05_probe.py"
+          "retained_probe": "cp7_f03_e05_probe.py",
+          "expected_executions": 3
         },
         {
           "key": "cp7_f03_e05_http",
@@ -918,7 +1027,8 @@
           "module": "cp7_installment_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_f03_e05_probe.py"
+          "retained_probe": "cp7_f03_e05_probe.py",
+          "expected_executions": 1
         },
         {
           "key": "cp7_f03_e05_browser",
@@ -926,7 +1036,8 @@
           "module": "scripts/cp7_f03_e05_browser.mjs",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_f03_e05_probe.py"
+          "retained_probe": "cp7_f03_e05_probe.py",
+          "expected_executions": 2
         }
       ]
     },
@@ -940,7 +1051,8 @@
           "module": "cp7_f03_supplier_credit_cases",
           "entry": "cases",
           "smoke": false,
-          "retained_probe": "cp7_f03_supplier_credit_cases.py"
+          "retained_probe": "cp7_f03_supplier_credit_cases.py",
+          "expected_executions": 1
         },
         {
           "key": "races",
@@ -948,7 +1060,8 @@
           "module": "cp7_f03_supplier_credit_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_f03_supplier_credit_cases.py"
+          "retained_probe": "cp7_f03_supplier_credit_cases.py",
+          "expected_executions": 1
         },
         {
           "key": "http",
@@ -956,7 +1069,8 @@
           "module": "cp7_f03_supplier_credit_cases",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_f03_supplier_credit_cases.py"
+          "retained_probe": "cp7_f03_supplier_credit_cases.py",
+          "expected_executions": 1
         },
         {
           "key": "browser",
@@ -964,7 +1078,77 @@
           "module": "scripts/cp7_f03_supplier_credit_browser.mjs",
           "entry": null,
           "smoke": false,
-          "retained_probe": "cp7_f03_supplier_credit_cases.py"
+          "retained_probe": "cp7_f03_supplier_credit_cases.py",
+          "expected_executions": 2
+        }
+      ]
+    },
+    "customer_refund": {
+      "expected_case_executions": 10,
+      "expected_smoke_executions": 0,
+      "groups": [
+        {
+          "key": "native",
+          "kind": "native",
+          "module": "cp7_f03_e03_cases",
+          "entry": "cases",
+          "smoke": false,
+          "expected_executions": 1,
+          "retained_probe": "cp7_f03_e03_probe.py"
+        },
+        {
+          "key": "refund_native",
+          "kind": "native",
+          "module": "cp7_f03_refund_cases",
+          "entry": "cases",
+          "smoke": false,
+          "expected_executions": 2,
+          "retained_probe": "cp7_f03_e03_probe.py"
+        },
+        {
+          "key": "refund_races",
+          "kind": "races",
+          "module": "cp7_f03_refund_cases",
+          "entry": null,
+          "smoke": false,
+          "expected_executions": 1,
+          "retained_probe": "cp7_f03_e03_probe.py"
+        },
+        {
+          "key": "refund_http",
+          "kind": "http",
+          "module": "cp7_f03_refund_cases",
+          "entry": null,
+          "smoke": false,
+          "expected_executions": 1,
+          "retained_probe": "cp7_f03_e03_probe.py"
+        },
+        {
+          "key": "refund_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_f03_refund_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "expected_executions": 2,
+          "retained_probe": "cp7_f03_e03_probe.py"
+        },
+        {
+          "key": "http",
+          "kind": "http",
+          "module": "cp7_f03_e03_cases",
+          "entry": null,
+          "smoke": false,
+          "expected_executions": 1,
+          "retained_probe": "cp7_f03_e03_probe.py"
+        },
+        {
+          "key": "browser",
+          "kind": "browser",
+          "module": "scripts/cp7_f03_e03_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "expected_executions": 2,
+          "retained_probe": "cp7_f03_e03_probe.py"
         }
       ]
     }

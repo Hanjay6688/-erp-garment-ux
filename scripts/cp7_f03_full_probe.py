@@ -87,7 +87,7 @@ def run():
    except Exception as exc:report.update(restore_error=str(exc),restore_traceback=traceback.format_exc(),cp6_restored=False)
   report['observed_group_count']=len(report['groups'])
   report['predeclared_group_count']=len(spec['groups'])
-  report['groups_complete']=set(report['groups'])=={g['key']for g in spec['groups']}and all(group_complete(report['groups'].get(g['key'],{}))for g in spec['groups'])
+  report['groups_complete']=set(report['groups'])=={g['key']for g in spec['groups']}and all(group_complete(report['groups'].get(g['key'],{}))and sum(report['groups'].get(g['key'],{}).get('counts',{}).values())==g['expected_executions']for g in spec['groups'])
   report['observed_case_count']=sum(sum(report['groups'].get(g['key'],{}).get('counts',{}).values())for g in spec['groups']if not g['smoke'])
   report['observed_smoke_count']=sum(sum(report['groups'].get(g['key'],{}).get('counts',{}).values())for g in spec['groups']if g['smoke'])
   complete_count=report['observed_case_count']==report['expected_case_count']and report['observed_smoke_count']==report['expected_smoke_count']

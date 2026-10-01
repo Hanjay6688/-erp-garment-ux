@@ -55,6 +55,7 @@ async function flow(ui,today,mobile){
   await ui.expect(panel).toBeHidden();await screenshot('UNCERTAIN_REPLY_FACTS_RETIRED')
   await p.unroute('**/rest/v1/rpc/erp_save_initial_import_action_v1');await p.reload();await open(ui,p)
   await ui.expect(p.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeEnabled()
+  await ui.expect(panel).toBeHidden();await ui.expect(p.getByText(f.code,{exact:true})).toBeHidden()
   let replay=null
   await p.route('**/rest/v1/rpc/erp_save_initial_import_action_v1',async route=>{replay=route.request().postDataJSON();await route.continue()})
   await p.getByRole('button',{name:'Reconcile transaksi',exact:true}).click()
