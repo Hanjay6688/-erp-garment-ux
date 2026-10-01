@@ -1,0 +1,934 @@
+{
+  "schema": "cp7-f03-full-native-manifest-v1",
+  "qualification_scope": "ALL_RETAINED_COMPONENT_CONTROLS_ON_ONE_FULL_31_ROLE_F03_STACK",
+  "unique_oracle_total_claim": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "buckets": {
+    "p09": {
+      "expected_case_executions": 132,
+      "expected_smoke_executions": 3,
+      "groups": [
+        {
+          "key": "smoke",
+          "kind": "native",
+          "module": "cp7_procurement_cases",
+          "entry": "smoke",
+          "smoke": true,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "native",
+          "kind": "native",
+          "module": "cp7_procurement_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "races",
+          "kind": "races",
+          "module": "cp7_procurement_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "http",
+          "kind": "http",
+          "module": "cp7_procurement_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "material_smoke",
+          "kind": "native",
+          "module": "cp7_material_cases",
+          "entry": "smoke",
+          "smoke": true,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "material",
+          "kind": "native",
+          "module": "cp7_material_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "material_crossflow",
+          "kind": "native",
+          "module": "cp7_material_cases",
+          "entry": "crossflow_cases",
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "material_races",
+          "kind": "races",
+          "module": "cp7_material_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "material_http",
+          "kind": "http",
+          "module": "cp7_material_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "material_count",
+          "kind": "native",
+          "module": "cp7_material_count_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "material_count_races",
+          "kind": "races",
+          "module": "cp7_material_count_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "material_count_http",
+          "kind": "http",
+          "module": "cp7_material_count_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "invoice",
+          "kind": "native",
+          "module": "cp7_invoice_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "invoice_races",
+          "kind": "races",
+          "module": "cp7_invoice_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "invoice_http",
+          "kind": "http",
+          "module": "cp7_invoice_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "combined_invoice",
+          "kind": "native",
+          "module": "cp7_invoice_document_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "combined_invoice_races",
+          "kind": "races",
+          "module": "cp7_invoice_document_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "combined_invoice_http",
+          "kind": "http",
+          "module": "cp7_invoice_document_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "browser",
+          "kind": "browser",
+          "module": "scripts/cp7_p09_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "return_smoke",
+          "kind": "native",
+          "module": "cp7_supplier_return_cases",
+          "entry": "smoke",
+          "smoke": true,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "returns",
+          "kind": "native",
+          "module": "cp7_supplier_return_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "return_races",
+          "kind": "races",
+          "module": "cp7_supplier_return_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "return_http",
+          "kind": "http",
+          "module": "cp7_supplier_return_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "receipt_reversal",
+          "kind": "native",
+          "module": "cp7_receipt_reversal_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "receipt_reversal_races",
+          "kind": "races",
+          "module": "cp7_receipt_reversal_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "receipt_reversal_http",
+          "kind": "http",
+          "module": "cp7_receipt_reversal_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "uom",
+          "kind": "native",
+          "module": "cp7_procurement_uom_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "uom_races",
+          "kind": "races",
+          "module": "cp7_procurement_uom_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        },
+        {
+          "key": "uom_http",
+          "kind": "http",
+          "module": "cp7_procurement_uom_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py"
+        }
+      ]
+    },
+    "p10": {
+      "expected_case_executions": 34,
+      "expected_smoke_executions": 0,
+      "groups": [
+        {
+          "key": "native",
+          "kind": "native",
+          "module": "cp7_fg_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p10_fg_probe.py"
+        },
+        {
+          "key": "http",
+          "kind": "http",
+          "module": "cp7_fg_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p10_fg_probe.py"
+        },
+        {
+          "key": "adjustments",
+          "kind": "native",
+          "module": "cp7_fg_adjustment_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p10_fg_probe.py"
+        },
+        {
+          "key": "adjustment_races",
+          "kind": "races",
+          "module": "cp7_fg_adjustment_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p10_fg_probe.py"
+        },
+        {
+          "key": "adjustment_http",
+          "kind": "http",
+          "module": "cp7_fg_adjustment_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p10_fg_probe.py"
+        },
+        {
+          "key": "book",
+          "kind": "native",
+          "module": "cp7_fg_book_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p10_fg_probe.py"
+        },
+        {
+          "key": "book_races",
+          "kind": "races",
+          "module": "cp7_fg_book_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p10_fg_probe.py"
+        },
+        {
+          "key": "book_http",
+          "kind": "http",
+          "module": "cp7_fg_book_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p10_fg_probe.py"
+        },
+        {
+          "key": "browser",
+          "kind": "browser",
+          "module": "scripts/cp7_p10_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p10_fg_probe.py"
+        }
+      ]
+    },
+    "p11": {
+      "expected_case_executions": 64,
+      "expected_smoke_executions": 0,
+      "groups": [
+        {
+          "key": "native",
+          "kind": "native",
+          "module": "cp7_sales_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p11_sales_probe.py"
+        },
+        {
+          "key": "http",
+          "kind": "http",
+          "module": "cp7_sales_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p11_sales_probe.py"
+        },
+        {
+          "key": "commands",
+          "kind": "native",
+          "module": "cp7_sales_command_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p11_sales_probe.py"
+        },
+        {
+          "key": "command_races",
+          "kind": "races",
+          "module": "cp7_sales_command_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p11_sales_probe.py"
+        },
+        {
+          "key": "command_http",
+          "kind": "http",
+          "module": "cp7_sales_command_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p11_sales_probe.py"
+        },
+        {
+          "key": "drafts",
+          "kind": "native",
+          "module": "cp7_sales_draft_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p11_sales_probe.py"
+        },
+        {
+          "key": "draft_races",
+          "kind": "races",
+          "module": "cp7_sales_draft_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p11_sales_probe.py"
+        },
+        {
+          "key": "draft_http",
+          "kind": "http",
+          "module": "cp7_sales_draft_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p11_sales_probe.py"
+        },
+        {
+          "key": "payments",
+          "kind": "native",
+          "module": "cp7_sales_payment_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p11_sales_probe.py"
+        },
+        {
+          "key": "payment_races",
+          "kind": "races",
+          "module": "cp7_sales_payment_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p11_sales_probe.py"
+        },
+        {
+          "key": "payment_http",
+          "kind": "http",
+          "module": "cp7_sales_payment_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p11_sales_probe.py"
+        },
+        {
+          "key": "returns",
+          "kind": "native",
+          "module": "cp7_sales_return_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p11_sales_probe.py"
+        },
+        {
+          "key": "return_races",
+          "kind": "races",
+          "module": "cp7_sales_return_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p11_sales_probe.py"
+        },
+        {
+          "key": "return_http",
+          "kind": "http",
+          "module": "cp7_sales_return_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p11_sales_probe.py"
+        },
+        {
+          "key": "browser",
+          "kind": "browser",
+          "module": "scripts/cp7_p11_sales_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p11_sales_probe.py"
+        }
+      ]
+    },
+    "p12": {
+      "expected_case_executions": 90,
+      "expected_smoke_executions": 0,
+      "groups": [
+        {
+          "key": "native",
+          "kind": "native",
+          "module": "cp7_nota_source_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "http",
+          "kind": "http",
+          "module": "cp7_nota_source_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "notes",
+          "kind": "native",
+          "module": "cp7_nota_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "note_races",
+          "kind": "races",
+          "module": "cp7_nota_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "note_http",
+          "kind": "http",
+          "module": "cp7_nota_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "admission_regression",
+          "kind": "http",
+          "module": "cp7_procurement_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "browser",
+          "kind": "browser",
+          "module": "scripts/cp7_p12_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "payroll_review",
+          "kind": "native",
+          "module": "cp7_settlement_read_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "payroll_review_http",
+          "kind": "http",
+          "module": "cp7_settlement_read_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "payroll_review_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_p12_payroll_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "settlement",
+          "kind": "native",
+          "module": "cp7_settlement_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "settlement_races",
+          "kind": "races",
+          "module": "cp7_settlement_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "settlement_http",
+          "kind": "http",
+          "module": "cp7_settlement_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "settlement_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_p12_settlement_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "attendance_read",
+          "kind": "native",
+          "module": "cp7_attendance_read_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "attendance_read_http",
+          "kind": "http",
+          "module": "cp7_attendance_read_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "attendance_read_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_p12_attendance_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "roster",
+          "kind": "native",
+          "module": "cp7_roster_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "roster_races",
+          "kind": "races",
+          "module": "cp7_roster_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "roster_http",
+          "kind": "http",
+          "module": "cp7_roster_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "roster_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_p12_roster_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "attendance_write",
+          "kind": "native",
+          "module": "cp7_attendance_write_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "attendance_write_races",
+          "kind": "races",
+          "module": "cp7_attendance_write_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "attendance_write_http",
+          "kind": "http",
+          "module": "cp7_attendance_write_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "attendance_write_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_p12_attendance_write_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "opening_payroll",
+          "kind": "native",
+          "module": "cp7_opening_payroll_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "opening_payroll_races",
+          "kind": "races",
+          "module": "cp7_opening_payroll_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "opening_payroll_http",
+          "kind": "http",
+          "module": "cp7_opening_payroll_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        },
+        {
+          "key": "opening_payroll_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_p12_opening_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py"
+        }
+      ]
+    },
+    "p13": {
+      "expected_case_executions": 50,
+      "expected_smoke_executions": 0,
+      "groups": [
+        {
+          "key": "native",
+          "kind": "native",
+          "module": "cp7_finance_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py"
+        },
+        {
+          "key": "races",
+          "kind": "races",
+          "module": "cp7_finance_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py"
+        },
+        {
+          "key": "http",
+          "kind": "http",
+          "module": "cp7_finance_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py"
+        },
+        {
+          "key": "browser",
+          "kind": "browser",
+          "module": "scripts/cp7_p13_finance_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py"
+        },
+        {
+          "key": "period_native",
+          "kind": "native",
+          "module": "cp7_period_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py"
+        },
+        {
+          "key": "period_races",
+          "kind": "races",
+          "module": "cp7_period_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py"
+        },
+        {
+          "key": "period_http",
+          "kind": "http",
+          "module": "cp7_period_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py"
+        },
+        {
+          "key": "period_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_p13_period_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py"
+        },
+        {
+          "key": "analysis_native",
+          "kind": "native",
+          "module": "cp7_finance_analysis_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py"
+        },
+        {
+          "key": "analysis_races",
+          "kind": "races",
+          "module": "cp7_finance_analysis_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py"
+        },
+        {
+          "key": "analysis_http",
+          "kind": "http",
+          "module": "cp7_finance_analysis_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py"
+        },
+        {
+          "key": "analysis_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_p13_analysis_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py"
+        },
+        {
+          "key": "recost_native",
+          "kind": "native",
+          "module": "cp7_recost_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py"
+        },
+        {
+          "key": "recost_races",
+          "kind": "races",
+          "module": "cp7_recost_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py"
+        },
+        {
+          "key": "recost_http",
+          "kind": "http",
+          "module": "cp7_recost_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py"
+        },
+        {
+          "key": "recost_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_p13_recost_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py"
+        }
+      ]
+    },
+    "cash_installments": {
+      "expected_case_executions": 61,
+      "expected_smoke_executions": 0,
+      "groups": [
+        {
+          "key": "cp7_f03_cash_native",
+          "kind": "native",
+          "module": "cp7_f03_cash_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_f03_cash_probe.py"
+        },
+        {
+          "key": "cp7_f03_cash_http",
+          "kind": "http",
+          "module": "cp7_f03_cash_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_f03_cash_probe.py"
+        },
+        {
+          "key": "cp7_f03_cash_journal_native",
+          "kind": "native",
+          "module": "cp7_journal_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_f03_cash_probe.py"
+        },
+        {
+          "key": "cp7_f03_cash_journal_http",
+          "kind": "http",
+          "module": "cp7_journal_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_f03_cash_probe.py"
+        },
+        {
+          "key": "cp7_f03_cash_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_f03_cash_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_f03_cash_probe.py"
+        },
+        {
+          "key": "cp7_f03_misc_native",
+          "kind": "native",
+          "module": "cp7_misc_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_f03_misc_probe.py"
+        },
+        {
+          "key": "cp7_f03_misc_races",
+          "kind": "races",
+          "module": "cp7_misc_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_f03_misc_probe.py"
+        },
+        {
+          "key": "cp7_f03_misc_http",
+          "kind": "http",
+          "module": "cp7_misc_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_f03_misc_probe.py"
+        },
+        {
+          "key": "cp7_f03_misc_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_f03_misc_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_f03_misc_probe.py"
+        },
+        {
+          "key": "cp7_f03_e05_native",
+          "kind": "native",
+          "module": "cp7_installment_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_f03_e05_probe.py"
+        },
+        {
+          "key": "cp7_f03_e05_races",
+          "kind": "races",
+          "module": "cp7_installment_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_f03_e05_probe.py"
+        },
+        {
+          "key": "cp7_f03_e05_http",
+          "kind": "http",
+          "module": "cp7_installment_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_f03_e05_probe.py"
+        },
+        {
+          "key": "cp7_f03_e05_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_f03_e05_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_f03_e05_probe.py"
+        }
+      ]
+    }
+  }
+}
