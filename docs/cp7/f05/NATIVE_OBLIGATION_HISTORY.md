@@ -1,5 +1,7 @@
 # P16 saved Native business-episode history
 
+Latest continuation: [Native164 correction](NATIVE164_CONTINUATION.md). Native163 on `2874698` was INCOMPLETE; its receipt and original archive are retained. The successor adds a real finance-capability lock-wait control and repairs the source-control quoting, accumulated-calendar fixture, repeated reminder source reads and orphaned browser wait. The predeclared current budget is 164; no earlier verdict is relabelled.
+
 The continuation adds a read-only facade and a current-authority UI for saved AR/material-AP episodes. The existing own-Original guard and AR/AP permission run before and after reading. The requested document must be in the complete current accepted Native source. Foreign Originals, outside sources and current domain-permission loss fail. No ERP/monitoring write, extra ERP read grant, new money computation or foreign actor/run field is added.
 
 History uses exact Native episode numbers. The first page fixes its upper episode number; later keyset pages keep it and disclose the cutoff, total, 25-row window and next cursor. Counts and rows share one SQL statement. More than 10000 saved records is refused explicitly. Closed identity, reason, source/record revision and first/last/known/closed clocks remain saved. Old conditions are labelled with their recorded time; they do not replace current ERP balances.

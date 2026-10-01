@@ -8,7 +8,7 @@ async function journey(ui,today,mobile,automaticRequired=false){
  let original=null,lastRead=null,explicitCaptures=0,clockArchives=0,initialCopyMode='AUTOMATIC',controlledDenialCount=0,byteBoundCount=0
  const state=()=>fixture('state',{actor:user.user.id}),manual=()=>panel.getByLabel('Salinan manual pertanyaan dan sumber ERP',{exact:true}),question='P17 periksa saldo 🧵 "asli" dan jangan mengarang HPP',readRpc='**/rest/v1/rpc/erp_cp7_read_analysis_v1'
  const shot=async name=>{await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);await page.screenshot({path:'cp6-proof/t3/'+name,fullPage:true});shots.push(name)}
- const checked=async action=>{const before=state(),response=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_read_analysis_v1'));await action();const r=await response;assert.equal(r.status(),200);lastRead=await r.json();assert.deepEqual(lastRead.analysis,original.analysis);assert.deepEqual(lastRead.financial_source,original.financial_source);assert.deepEqual(state(),before);return lastRead}
+ const checked=async action=>{const before=state();const[r]=await Promise.all([page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_read_analysis_v1')),action()]);assert.equal(r.status(),200);lastRead=await r.json();assert.deepEqual(lastRead.analysis,original.analysis);assert.deepEqual(lastRead.financial_source,original.financial_source);assert.deepEqual(state(),before);return lastRead}
  const prepare=async denied=>{
   // A real minute boundary may archive the Original. The operator explicitly
   // captures again; the handoff itself must never silently recapture/recalculate.

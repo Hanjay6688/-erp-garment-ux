@@ -92,6 +92,30 @@ begin
  r:=public.erp_cp7_read_analysis_v1(p_run);
  return jsonb_build_object('access',a,'analysis',r);
 end $$;
+-- Revalidate the complete current capability set after every wait. The
+-- Original was authorized by access_now; repeating its expensive source/finance
+-- reader at each metadata lock is unnecessary. Final responses still run the
+-- full reader and preserve its current-source and protected-finance checks.
+create function cp7_reminder_native.recheck(a jsonb,domain text default null)returns void
+language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
+declare current_access jsonb;k text;
+begin
+ if auth.uid()is null or coalesce(auth.jwt()->>'role','')<>'authenticated'then raise exception using errcode='42501',message='CP7_REMINDER_ACCESS_DENIED';end if;
+ current_access:=erp.get_my_access_v1();
+ if current_access->'allowed'is distinct from'true'::jsonb or coalesce(current_access->'profile'->>'role_code','')not in('OWNER','ADMIN','STAFF')then raise exception using errcode='42501',message='CP7_REMINDER_ACCESS_DENIED';end if;
+ foreach k in array array['master.product.view','production.wip.view','warehouse.stock.view','sales.invoice.view']loop
+  if not erp.has_permission(k)then raise exception using errcode='42501',message='CP7_REMINDER_ACCESS_DENIED';end if;
+ end loop;
+ if coalesce(a->'analysis'->'financial_source','null')<>'null'::jsonb then
+  if current_access->'profile'->>'role_code'not in('OWNER','ADMIN')or not erp.has_permission('finance.reports.view')then raise exception using errcode='42501',message='CP7_ANALYSIS_FINANCE_ACCESS_DENIED';end if;
+  if coalesce(a->'analysis'->'financial_source'->'report'->'close_preflight','null')<>'null'::jsonb and not erp.has_permission('finance.period_close.manage')then raise exception using errcode='42501',message='CP7_ANALYSIS_FINANCE_ACCESS_DENIED';end if;
+ end if;
+ if domain is not null then
+  if domain not in('AR','MATERIAL_AP')then raise exception 'CP7_OBLIGATION_PAYLOAD';end if;
+  if not erp.has_permission(case domain when'AR'then'finance.ar.view'else'finance.ap.view'end)then raise exception using errcode='42501',message='CP7_OBLIGATION_ACCESS_DENIED';end if;
+ end if;
+ if current_access is distinct from a->'access'then raise exception using errcode='42501',message='CP7_REMINDER_ACCESS_CHANGED';end if;
+end $$;
 create function cp7_reminder_native.workspace(p_run uuid)returns jsonb
 language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
 declare a jsonb:=cp7_reminder_native.access_now(p_run);manual jsonb;rows jsonb;
@@ -130,11 +154,11 @@ begin
  a:=cp7_reminder_native.access_now(run_id);
  if not exists(select 1 from jsonb_array_elements(a->'analysis'->'analysis'->'actions')x where x->>'key'=key)then raise exception 'CP7_REMINDER_ACTION_UNAVAILABLE';end if;
  perform pg_advisory_xact_lock(hashtextextended('CP7:REMINDER_REQUEST:'||actor::text||':'||p_request::text,0));
- again:=cp7_reminder_native.access_now(run_id);if again->'access'is distinct from a->'access'then raise exception using errcode='42501',message='CP7_REMINDER_ACCESS_CHANGED';end if;
+ perform cp7_reminder_native.recheck(a);
  select *into cached from cp7_reminder_native.requests where requests.actor=actor and request_id=p_request;
  if found then if cached.payload<>p then raise exception 'CP7_REMINDER_REQUEST_CHANGED';end if;return cp7_reminder_native.workspace(run_id)||jsonb_build_object('request_result',cached.result);end if;
  perform pg_advisory_xact_lock(hashtextextended('CP7:REMINDER_ATTENTION:'||actor::text||':'||run_id::text||':'||key,0));
- again:=cp7_reminder_native.access_now(run_id);if again->'access'is distinct from a->'access'then raise exception using errcode='42501',message='CP7_REMINDER_ACCESS_CHANGED';end if;
+ perform cp7_reminder_native.recheck(a);
  select *into t from cp7_reminder_native.attention q where q.actor=actor and q.run_id=run_id and q.action_key=key for update;
  if coalesce(t.revision,0)<>expected then raise exception 'CP7_REMINDER_STALE_REVISION';end if;
  state:=coalesce(t.state,'NEW');resume:=t.resume_at;native_id:=t.native_reminder_id;
@@ -173,14 +197,14 @@ begin
  insert into cp7_reminder_native.attention(actor,run_id,action_key,source_hash,semantic_hash,state,resume_at,native_reminder_id,revision,created_at,updated_at)
  values(actor,run_id,key,a->'analysis'->'analysis'->'snapshot'->>'source_hash',a->'analysis'->'analysis'->>'semantic_hash',state,resume,native_id,expected+1,statement_timestamp(),statement_timestamp())
  on conflict on constraint attention_pkey do update set state=excluded.state,resume_at=excluded.resume_at,native_reminder_id=excluded.native_reminder_id,revision=excluded.revision,updated_at=excluded.updated_at;
- again:=cp7_reminder_native.access_now(run_id);if again->'access'is distinct from a->'access'then raise exception using errcode='42501',message='CP7_REMINDER_ACCESS_CHANGED';end if;
+ perform cp7_reminder_native.recheck(a);
  response:=jsonb_build_object('request_id',p_request,'run_id',run_id,'action_key',key,'revision',(expected+1)::text,'status','COMMITTED');
  insert into cp7_reminder_native.requests values(actor,p_request,p,response,statement_timestamp());
  return cp7_reminder_native.workspace(run_id)||jsonb_build_object('request_result',response);
 end $$;
 create function cp7_reminder_native.manual_source(p_run uuid)returns jsonb
 language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
-declare a jsonb:=cp7_reminder_native.access_now(p_run);items jsonb;expected bigint;
+declare a jsonb:=erp.get_my_access_v1();items jsonb;expected bigint;
 begin
  -- Run the unchanged Native own-user guard, then read only linked own rows.
  -- Native's200-row management page must not truncate this source merely
@@ -191,7 +215,7 @@ begin
   'cancelled_at',r.cancelled_at,'cancellation_reason',r.cancellation_reason,
   'created_at',r.created_at,'updated_at',r.updated_at,'row_version',r.row_version::text)order by r.id),'[]')into items
  from erp.manual_reminders r join cp7_reminder_native.attention t on t.native_reminder_id=r.id
- where t.actor=auth.uid()and t.run_id=p_run and r.owner_user_id=(a->'access'->'profile'->>'id')::uuid;
+ where t.actor=auth.uid()and t.run_id=p_run and r.owner_user_id=(a->'profile'->>'id')::uuid;
  select count(*)into expected from cp7_reminder_native.attention where actor=auth.uid()and run_id=p_run and native_reminder_id is not null;
  if expected<>jsonb_array_length(items)then raise exception 'CP7_REMINDER_NATIVE_BINDING_UNAVAILABLE';end if;
  return jsonb_build_object('items',items);
@@ -200,6 +224,7 @@ alter function cp7_reminder_native.immutable_request()owner to cp7_reminder;
 alter function cp7_reminder_native.guard_attention()owner to cp7_reminder;
 alter function cp7_reminder_native.exact_numbers(jsonb)owner to cp7_reminder;
 alter function cp7_reminder_native.access_now(uuid)owner to cp7_reminder;
+alter function cp7_reminder_native.recheck(jsonb,text)owner to cp7_reminder;
 alter function cp7_reminder_native.workspace(uuid)owner to cp7_reminder;
 alter function cp7_reminder_native.command(jsonb,uuid)owner to cp7_reminder;
 alter function cp7_reminder_native.manual_source(uuid)owner to cp7_reminder;

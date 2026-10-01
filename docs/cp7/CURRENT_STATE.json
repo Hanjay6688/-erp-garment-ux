@@ -656,7 +656,7 @@
   "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
   "latest_tested_scope": "Native financial readers12 PASS onf31b7a7: native3, realAuthHTTP1, browser8; package/restore/advisors/Auth cleanup and AR visual evidence retained. Counts overlap prior6/8/10.",
   "latest_tested_source": "f31b7a70e9f6330f7922fcbb2e8527320f4c5df2",
-  "next_action": "Finish exact Native161 diagnostic/evidence and Native163 successor, verify compile/security/browser failures. Continue authoritative material/model/apply, report lifecycle, other P16 obligations/rules and F06 without whole-family self-acceptance.",
+  "next_action": "Qualify Native164 correction of Native163:105Native,21races,14AuthHTTP,24browser. Preserve all historical failures and require primary/Auth cleanup. Continue material/model/apply, report lifecycle, other P16 obligations and F06; no self-acceptance or production go.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -1157,5 +1157,26 @@
       "artifact_sha256": "166e8ae548dcf8651c5bbc9dd8d7cab2a0cb1dbd92130c37d640649ccf80e7b4",
       "fix": "Source scripts belong to auditor checkout; run scripts/cp7_native155_retained_receipt.py from auditor, rather than the frozen writer product checkout."
     }
+  },
+  "f05_native164_continuation": {
+    "status": "IMPLEMENTED_NATIVE_PENDING",
+    "parent_source": "2874698c5f2c47399e2e5c5f03d7350fb2b9ee9a",
+    "original_failure_receipt": "docs/cp7/evidence/f05-native-history/first163-2874698/RECEIPT.json",
+    "expected_counts": {
+      "native": 105,
+      "races": 21,
+      "http": 14,
+      "browser": 24
+    },
+    "repairs": [
+      "history source dollar quoting",
+      "calendar includes all retained WIP plus120minutes",
+      "current full capability recheck at each lock without repeated source reconstruction",
+      "AI concurrent action/response promise handling"
+    ],
+    "new_negative_control": "Actual reminder-request advisory wait with finance.period_close.manage revoked; no metadata commit",
+    "native_qualified": false,
+    "independent_acceptance": false,
+    "production_go": false
   }
 }

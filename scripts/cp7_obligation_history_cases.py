@@ -30,7 +30,7 @@ def cases(cur,today):
   # suite. Restore the actual source before reading saved UNKNOWN history.
   definition=cur.execute("select pg_get_functiondef('cp7_reminder_native.receivable_source()'::regprocedure)").fetchone()[0]
   try:
-   b.api.admin(cur);cur.execute("create or replace function cp7_reminder_native.receivable_source()returns jsonb language plpgsql stable security invoker set search_path=''set TimeZone='UTC'as $begin raise exception 'CP7_REMINDER_AR_SOURCE_INCOMPLETE';end$",prepare=False)
+   b.api.admin(cur);cur.execute("create or replace function cp7_reminder_native.receivable_source() returns jsonb language plpgsql stable security invoker set search_path='' set TimeZone='UTC' as $$begin raise exception 'CP7_REMINDER_AR_SOURCE_INCOMPLETE'; end$$",prepare=False)
    incomplete=previous.row(previous.evaluate(cur,original),f['sale']);assert incomplete['episode']['freshness']=='UNKNOWN'
   finally:b.api.admin(cur);cur.execute(definition,prepare=False)
   saved_unknown=signature(cur);unknown=history(cur,payload(original,f['sale']));last=unknown['rows'][0]
@@ -82,7 +82,39 @@ def races(tools,today):
   assert isinstance(result,str)and'CP7_OBLIGATION_ACCESS_DENIED'in result,result
   with tools.connect()as conn,conn.cursor()as cur:assert signature(cur)==saved
   return dict(status='PASS',current_AR_only_revoked_during_actual_observed_history_read_lock_refuses=True,all_monitoring_metadata_unchanged=True)
- return previous.races(tools,today)+[('P16_HISTORY_RACE_CURRENT_AR_WAIT',revoke_history)]
+ def revoke_finance_at_request_wait():
+  from cp7_analysis_finance_cases import admin_actor
+  with tools.connect()as conn,conn.cursor()as cur:
+   parent.setup(cur,today);subject,role=admin_actor(cur,parent)
+   original=parent.capture(cur,today,subject=subject)
+   assert original['financial_source']['report']['close_preflight']is not None
+   workspace=attention.get(cur,original['run_id'],subject)
+   intent=attention.intent(workspace);key=uuid.uuid4();conn.commit()
+  with tools.connect()as holder,holder.cursor()as held:
+   held.execute("select pg_advisory_xact_lock(hashtextextended('CP7:REMINDER_REQUEST:'||%s||':'||%s,0))",(str(subject),str(key)))
+   def send():
+    with tools.connect()as conn,conn.cursor()as cur:
+     try:result=attention.command(cur,intent,key,subject);conn.commit();return result
+     except psycopg.Error as ex:conn.rollback();return str(ex)
+   with ThreadPoolExecutor(max_workers=1)as pool:
+    job=pool.submit(send);waiting=False;deadline=time.monotonic()+10
+    try:
+     with tools.connect(autocommit=True)as inspect,inspect.cursor()as cur:
+      while time.monotonic()<deadline:
+       waiting=cur.execute("select exists(select 1 from pg_stat_activity where datname=current_database()and wait_event='advisory'and query like 'select public.erp_cp7_save_analysis_attention_v1%')").fetchone()[0]
+       if waiting:break
+       time.sleep(.03)
+     assert waiting,'P16_REAL_FINANCE_REQUEST_WAIT_NOT_OBSERVED'
+     with tools.connect()as conn,conn.cursor()as cur:
+      cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.period_close.manage'",(role,));conn.commit()
+    finally:holder.rollback()
+    result=job.result(60)
+  assert isinstance(result,str)and'CP7_ANALYSIS_FINANCE_ACCESS_DENIED'in result,result
+  with tools.connect()as conn,conn.cursor()as cur:
+   assert cur.execute('select count(*)from cp7_reminder_native.requests where actor=%s and request_id=%s',(subject,key)).fetchone()[0]==0
+   assert cur.execute('select count(*)from cp7_reminder_native.attention where actor=%s and run_id=%s',(subject,original['run_id'])).fetchone()[0]==0
+  return dict(status='PASS',current_financial_close_capability_revoked_during_actual_request_lock_wait_refuses=True,no_attention_or_request_metadata_commit=True,source_reader_deduplication_preserves_protected_Original_authority=True)
+ return previous.races(tools,today)+[('P16_HISTORY_RACE_CURRENT_AR_WAIT',revoke_history),('P16_RECHECK_RACE_CURRENT_FINANCE_REQUEST_WAIT',revoke_finance_at_request_wait)]
 def http_cases(http,today):
  def actual():
   owner=http.login('OWNER','p16-history-http');other=http.login('OWNER','p16-history-foreign')

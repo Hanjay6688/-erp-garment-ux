@@ -1,0 +1,168 @@
+{
+  "label": "CP7_NATIVE163_ORIGINAL_FAILURE",
+  "source": "2874698c5f2c47399e2e5c5f03d7350fb2b9ee9a",
+  "run_id": 36816430354,
+  "job_id": 110222379054,
+  "artifact_id": 11141997727,
+  "archive_file_id": "file_00000000d4b08208af16c63dffe4138e",
+  "archive_sha256": "87fd14ebca6cf1dfe853d5921355c3f51fabb9ca12a0d4088053f5a089c09efc",
+  "archive_bytes": 120188055,
+  "original_status": "INCOMPLETE",
+  "expected": 163,
+  "reported_observed": 139,
+  "counts": {
+    "native": {
+      "PASS": 104,
+      "INCOMPLETE": 1
+    },
+    "races": {
+      "PASS": 20
+    },
+    "http": {
+      "PASS": 14
+    },
+    "browser": null
+  },
+  "failures": {
+    "native": {
+      "P16_HISTORY_NATIVE_COMPLETE26_READONLY": {
+        "status": "INCOMPLETE",
+        "error": "current transaction is aborted, commands ignored until end of transaction block",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_obligation_history_cases.py\", line 33, in lifecycle\n    b.api.admin(cur);cur.execute(\"create or replace function cp7_reminder_native.receivable_source()returns jsonb language plpgsql stable security invoker set search_path=''set TimeZone='UTC'as $begin raise exception 'CP7_REMINDER_AR_SOURCE_INCOMPLETE';end$\",prepare=False)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.SyntaxError: syntax error at or near \"$\"\nLINE 1: ...ty invoker set search_path=''set TimeZone='UTC'as $begin rai...\n                                                             ^\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 112, in strict_group\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_obligation_history_cases.py\", line 35, in lifecycle\n    finally:b.api.admin(cur);cur.execute(definition,prepare=False)\n            ^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_ao_ap_installed.py\", line 17, in admin\n    def admin(cur):actors.admin(cur)\n                   ^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_x_independent_audit.py\", line 56, in admin\n    actors.session(cur, 'supabase_admin')\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_v2620x_internal_role_regression.py\", line 27, in session\n    cur.execute('set session authorization '+name)\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block\n"
+      }
+    },
+    "races": {},
+    "http": {},
+    "browser": {
+      "P06_BROWSER_DESKTOP_NATIVE_NETTING": {
+        "status": "INCOMPLETE",
+        "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'UNKNOWN'\n- 'SCENARIO'\n\n    at journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f04_netting_browser.mjs:26:698)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3",
+        "traceback": null
+      },
+      "P06_BROWSER_MOBILE_NATIVE_NETTING": {
+        "status": "INCOMPLETE",
+        "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'UNKNOWN'\n- 'SCENARIO'\n\n    at journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f04_netting_browser.mjs:26:698)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3",
+        "traceback": null
+      },
+      "P16_BROWSER_MOBILE_CURRENT_NATIVE_MATERIAL_AP": {
+        "status": "INCOMPLETE",
+        "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n500 !== 200\n\n    at journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_payable_browser.mjs:17:515)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3",
+        "traceback": null
+      },
+      "P16_BROWSER_DESKTOP_NATIVE_OBLIGATION_EPISODES": {
+        "status": "INCOMPLETE",
+        "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n500 !== 200\n\n    at observe (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_episode_browser.mjs:12:261)\n    at async journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_episode_browser.mjs:16:11)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3",
+        "traceback": null
+      },
+      "P16_BROWSER_MOBILE_NATIVE_OBLIGATION_EPISODES": {
+        "status": "INCOMPLETE",
+        "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n500 !== 200\n\n    at observe (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_episode_browser.mjs:12:261)\n    at async journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_episode_browser.mjs:16:11)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:150:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:161:3",
+        "traceback": null
+      }
+    }
+  },
+  "browser_host_exit": 1,
+  "browser_auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      22,
+      22,
+      44,
+      44
+    ],
+    "restored": false
+  },
+  "browser_planned": [
+    "P17_BROWSER_DESKTOP_NATIVE_AUTOMATIC_HANDOFF",
+    "P17_BROWSER_MOBILE_NATIVE_AUTOMATIC_HANDOFF",
+    "P05_BROWSER_DESKTOP_NATIVE_HISTORY",
+    "P05_BROWSER_MOBILE_CURRENT_AUTH",
+    "P06_BROWSER_DESKTOP_NATIVE_PROFILE",
+    "P06_BROWSER_MOBILE_NATIVE_PROFILE",
+    "P06_BROWSER_DESKTOP_NATIVE_NETTING",
+    "P06_BROWSER_MOBILE_NATIVE_NETTING",
+    "P14_BROWSER_DESKTOP_SHARED_ANALYSIS",
+    "P14_BROWSER_MOBILE_SHARED_ANALYSIS",
+    "P15_BROWSER_DESKTOP_DURABLE_SERVER_ARCHIVE",
+    "P15_BROWSER_MOBILE_DURABLE_SERVER_ARCHIVE",
+    "P16_BROWSER_DESKTOP_NATIVE_ATTENTION",
+    "P16_BROWSER_MOBILE_NATIVE_ATTENTION",
+    "P16_BROWSER_DESKTOP_CURRENT_NATIVE_AR",
+    "P16_BROWSER_MOBILE_CURRENT_NATIVE_AR",
+    "P16_BROWSER_DESKTOP_CURRENT_NATIVE_MATERIAL_AP",
+    "P16_BROWSER_MOBILE_CURRENT_NATIVE_MATERIAL_AP",
+    "P16_BROWSER_DESKTOP_NATIVE_OBLIGATION_EPISODES",
+    "P16_BROWSER_MOBILE_NATIVE_OBLIGATION_EPISODES",
+    "P17_BROWSER_DESKTOP_NATIVE_HANDOFF",
+    "P17_BROWSER_MOBILE_NATIVE_HANDOFF",
+    "P16_BROWSER_DESKTOP_NATIVE_SAVED_EPISODE_HISTORY",
+    "P16_BROWSER_MOBILE_NATIVE_SAVED_EPISODE_HISTORY"
+  ],
+  "browser_observed": [
+    "P17_BROWSER_DESKTOP_NATIVE_AUTOMATIC_HANDOFF",
+    "P17_BROWSER_MOBILE_NATIVE_AUTOMATIC_HANDOFF",
+    "P05_BROWSER_DESKTOP_NATIVE_HISTORY",
+    "P05_BROWSER_MOBILE_CURRENT_AUTH",
+    "P06_BROWSER_DESKTOP_NATIVE_PROFILE",
+    "P06_BROWSER_MOBILE_NATIVE_PROFILE",
+    "P06_BROWSER_DESKTOP_NATIVE_NETTING",
+    "P06_BROWSER_MOBILE_NATIVE_NETTING",
+    "P14_BROWSER_DESKTOP_SHARED_ANALYSIS",
+    "P14_BROWSER_MOBILE_SHARED_ANALYSIS",
+    "P15_BROWSER_DESKTOP_DURABLE_SERVER_ARCHIVE",
+    "P15_BROWSER_MOBILE_DURABLE_SERVER_ARCHIVE",
+    "P16_BROWSER_DESKTOP_NATIVE_ATTENTION",
+    "P16_BROWSER_MOBILE_NATIVE_ATTENTION",
+    "P16_BROWSER_DESKTOP_CURRENT_NATIVE_AR",
+    "P16_BROWSER_MOBILE_CURRENT_NATIVE_AR",
+    "P16_BROWSER_DESKTOP_CURRENT_NATIVE_MATERIAL_AP",
+    "P16_BROWSER_MOBILE_CURRENT_NATIVE_MATERIAL_AP",
+    "P16_BROWSER_DESKTOP_NATIVE_OBLIGATION_EPISODES",
+    "P16_BROWSER_MOBILE_NATIVE_OBLIGATION_EPISODES",
+    "P17_BROWSER_DESKTOP_NATIVE_HANDOFF"
+  ],
+  "cp6_restored": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "diagnosis": [
+    "Native history incomplete-source control used invalid dollar quoting; its aborted-transaction cleanup obscured the original syntax error.",
+    "Three retained global WIP origins require135minutes but the positive netting browser fixture selected only120minutes. UNKNOWN was the correct result for that calendar.",
+    "Repeated Original source/finance reads inside reminder metadata operations exceeded actual PostgREST statement_timeout.",
+    "Unhandled page.waitForResponse rejection during AI handoff terminated Node before remaining cases and Auth cleanup."
+  ],
+  "original_reports": {
+    "P06_NETTING_MOBILE_FAILURE.json": {
+      "sha256": "0bf653c76ef578178e07d79634b8eaa883ef2075280fd2a9b9f721fe9ab8d670",
+      "bytes": 933737
+    },
+    "P16_EP_MOBILE_FAILURE.json": {
+      "sha256": "830745dd0ae74dee8d5c6c36a9da086830100b80a3cc97756f9feaeb2b7113f2",
+      "bytes": 1788115
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "sha256": "7bef59e8c4c2fccfaaa98a71ec37fe27031e510f55e5af95ade9845a9fec6598",
+      "bytes": 360426
+    },
+    "P06_NETTING_DESKTOP_FAILURE.json": {
+      "sha256": "763d0833d9ccfcbb53bd79a1a389aed915e83c3f2a4b4204a59b22179e18a6dd",
+      "bytes": 817215
+    },
+    "CP7_F05_NATIVE_ATTENTION.json": {
+      "sha256": "3e50fda311fd985c7c3432ff7b837b49c3619725df84e5abf646f7996b05bbfb",
+      "bytes": 347580
+    },
+    "P16_EP_DESKTOP_FAILURE.json": {
+      "sha256": "8250c3c74af4fbc0cf8fe5f162115d1f2ad7840eb4c27050cb487bcae9b86ccb",
+      "bytes": 1645760
+    },
+    "P16_AP_MOBILE_FAILURE.json": {
+      "sha256": "c55d81da837b02b809a2c5a0f32f34203350f659d0344857a81b9ebb65f28dee",
+      "bytes": 3399130
+    }
+  }
+}

@@ -64,8 +64,7 @@ declare a jsonb:=cp7_reminder_native.obligation_access(p);again jsonb;actor uuid
 begin
  if p_request is null or p_lookup is null then raise exception 'CP7_OBLIGATION_REQUEST_REQUIRED';end if;
  perform pg_advisory_xact_lock(hashtextextended('CP7:REMINDER_REQUEST:'||actor::text||':'||p_request::text,0));
- again:=cp7_reminder_native.obligation_access(p);
- if again->'access'is distinct from a->'access'then raise exception using errcode='42501',message='CP7_OBLIGATION_ACCESS_CHANGED';end if;
+ perform cp7_reminder_native.recheck(a,domain);
  select *into cached from cp7_reminder_native.requests r where r.actor=actor and r.request_id=p_request;
  if found then
   if cached.payload<>p then raise exception 'CP7_REMINDER_REQUEST_CHANGED';end if;
@@ -79,8 +78,7 @@ begin
    -- Shared business identity across authorized actors; source is read only
    -- after this lock, so an older pre-wait snapshot cannot overwrite recovery.
    perform pg_advisory_xact_lock(hashtextextended('CP7:OBLIGATION_DOMAIN:'||domain,0));
-   again:=cp7_reminder_native.obligation_access(p);
-   if again->'access'is distinct from a->'access'then raise exception using errcode='42501',message='CP7_OBLIGATION_ACCESS_CHANGED';end if;
+   perform cp7_reminder_native.recheck(a,domain);
    begin
     source:=case domain when'AR'then cp7_reminder_native.receivable_source()else cp7_reminder_native.payable_source()end;
    exception when raise_exception then
@@ -139,8 +137,7 @@ begin
    result:=jsonb_build_object('request_id',p_request,'status','COMMITTED','domain',domain,'source_status',source_status,
     'source_hash',source_hash,'as_of',as_of,'source_read_at',source->>'read_at','observed_at',at,'source_total',source->>'total','rows',observations);
   end if;
-  again:=cp7_reminder_native.obligation_access(p);
-  if again->'access'is distinct from a->'access'then raise exception using errcode='42501',message='CP7_OBLIGATION_ACCESS_CHANGED';end if;
+  perform cp7_reminder_native.recheck(a,domain);
   insert into cp7_reminder_native.requests values(actor,p_request,p,result,statement_timestamp());
  end if;
  again:=cp7_reminder_native.obligation_access(p);

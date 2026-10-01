@@ -18,7 +18,7 @@ def extension():return '\n'.join((ROOT/'scripts/cp7-src'/p).read_text()for p in 
 def bundle():return predecessor.bundle()+'\n'+extension()
 def verify(cur):
  predecessor.verify(cur)
- expected={'immutable_request':'v','guard_attention':'v','exact_numbers':'i','access_now':'v','workspace':'v','command':'v','manual_source':'v','request_status':'v','receivable_source':'s','receivable_conditions':'v','payable_exact_numbers':'i','payable_source':'s','payable_conditions':'v','guard_obligation_episode':'v','obligation_access':'v','obligation_evaluate':'v','obligation_history':'v'}
+ expected={'immutable_request':'v','guard_attention':'v','exact_numbers':'i','access_now':'v','recheck':'v','workspace':'v','command':'v','manual_source':'v','request_status':'v','receivable_source':'s','receivable_conditions':'v','payable_exact_numbers':'i','payable_source':'s','payable_conditions':'v','guard_obligation_episode':'v','obligation_access':'v','obligation_evaluate':'v','obligation_history':'v'}
  rows=cur.execute("select p.oid::regprocedure::text,p.proname,pg_get_userbyid(p.proowner),p.prosecdef,p.proconfig,p.provolatile from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_reminder_native'").fetchall()
  assert len(rows)==len(expected),rows
  for sig,name,owner,definer,config,volatility in rows:
