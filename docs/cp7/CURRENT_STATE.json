@@ -1541,7 +1541,7 @@
     "browser_format_repair": "Canonical zero-second datetime-local value matches existing E03 helper; same exact instant and fixed186 cases"
   },
   "f04_native_plan_actual": {
-    "status": "NATIVE35_FIRST_INCOMPLETE30_FIXTURE_REPAIRED_RERUN_REQUIRED",
+    "status": "NATIVE35_SECOND_INCOMPLETE31_QC_POOL_FIXTURE_REPAIRED_RERUN_REQUIRED",
     "case_budget": {
       "database": 22,
       "actual_races": 7,
@@ -1580,6 +1580,28 @@
       }
     },
     "first_original": "docs/cp7/evidence/plan-native/actual35-fixture-failure-50c4e46/RECEIPT.json",
-    "fixture_repair": "Return to existing administrative preparation before private table/corruption work; reconcile Native pickup2 into two batches, finish1; no Native definition or SELECT grant change"
+    "fixture_repair": "Return to existing administrative preparation before private table/corruption work; reconcile Native pickup2 into two batches, finish1; no Native definition or SELECT grant change",
+    "second_source": "97b0f46e66067eb90742e7e88837fa0294406ce9",
+    "second_tree": "ce895442695cca14f999f490d66fc845f10fdfdb",
+    "second_run": 36916120153,
+    "second_job": 110550389202,
+    "second_counts": {
+      "database": {
+        "PASS": 20,
+        "INCOMPLETE": 2
+      },
+      "races": {
+        "PASS": 7
+      },
+      "Auth_HTTP": {
+        "PASS": 2
+      },
+      "browser": {
+        "PASS": 2,
+        "INCOMPLETE": 2
+      }
+    },
+    "second_fixture_repair": "ALL_READY closes the current returned-one-piece QC pool, not the whole linked two-piece group; WIP1/FG1 expected unchanged",
+    "second_original_status": "DOWNLOAD_RETENTION_PENDING"
   }
 }
