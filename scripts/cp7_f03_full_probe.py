@@ -36,7 +36,7 @@ def run():
   provider_sha256={g['key']:hashlib.sha256((bundle.ROOT/(g['module']if g['kind']=='browser'else'scripts/'+g['module']+'.py')).read_bytes()).hexdigest()for g in spec['groups']},
   retained_probe_sha256={p:hashlib.sha256((bundle.ROOT/'scripts'/p).read_bytes()).hexdigest()for p in sorted({g['retained_probe']for g in spec['groups']})},
   scope=manifest['qualification_scope'],expected_case_count=spec['expected_case_executions'],
-  expected_smoke_count=spec['expected_smoke_executions'],predeclared_groups=spec['groups'],
+  expected_smoke_count=spec['expected_smoke_executions'],expected_group_executions={g['key']:g['expected_executions']for g in spec['groups']},predeclared_groups=spec['groups'],
   private_role_count=len(bundle.ROLES),groups={});installed=False
  assert report['private_role_count']==31,'FULL_F03_ROLE_STACK_CHANGED_REQUIRES_EXPLICIT_REVIEW'
  try:
