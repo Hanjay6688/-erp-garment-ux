@@ -1,0 +1,32 @@
+{
+  "schema": "cp7-native-qualification-receipt-v1",
+  "status": "INCOMPLETE_RETAINED_FIRST_NATIVE10",
+  "source_sha": "e49c584a556432b1798de04cb0d9af8ee648b51a",
+  "run_id": 36848063294,
+  "job_id": 110322870047,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36848063294",
+  "expected_execution_count": 10,
+  "observed_execution_count": 10,
+  "counts": {
+    "PASS": 7,
+    "INCOMPLETE": 3
+  },
+  "actual_native_refund_controls": {
+    "legacy_return_credit_refund_inverse": "PASS",
+    "imported_credit_refund_inverse": "PASS",
+    "both_actual_source_credit_waits_one_refund_effect": "PASS"
+  },
+  "incomplete_controls": {
+    "http": "Fixture attempted absent VIEWER role; real GUDANG non-financial role replaces it without changing product ACL.",
+    "desktop": "After full reload the test did not reopen the import route; the exact durable envelope was preserved and the first refund committed once.",
+    "mobile": "The second native batch imported the same unique brand name as desktop; fixture names must belong to the new batch."
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "console_errors": 0,
+  "auth_cleanup_failures": [],
+  "money_stock_guards_unchanged": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false
+}

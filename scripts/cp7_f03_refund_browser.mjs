@@ -2,14 +2,16 @@ import assert from 'node:assert/strict'
 import {execFileSync} from 'node:child_process'
 import {mkdirSync,writeFileSync} from 'node:fs'
 const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_f03_refund_browser_fixture.py',op],{cwd:'../writer',input:JSON.stringify(p),encoding:'utf8',maxBuffer:8*1024*1024}).trim().split('\n').at(-1))
-async function open(ui,p,batch){
+async function open(ui,p,batch=null){
  const menu=p.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click()
  const link=p.getByRole('button',{name:'• Impor data awal',exact:true})
  if(!await link.isVisible())await p.locator('.sidebar .nav-main').filter({hasText:'Pengaturan & Audit'}).click()
  await link.click();await ui.expect(p.getByRole('heading',{name:'Impor data awal',exact:true})).toBeVisible()
  await ui.expect(p.getByRole('button',{name:'Muat ulang',exact:true})).toBeEnabled()
- await p.getByLabel('Batch impor',{exact:true}).selectOption(batch)
- await ui.expect(p.getByText('Sudah disahkan',{exact:false})).toBeVisible()
+ if(batch){
+  await p.getByLabel('Batch impor',{exact:true}).selectOption(batch)
+  await ui.expect(p.getByText('Sudah disahkan',{exact:false})).toBeVisible()
+ }
 }
 async function flow(ui,today,mobile){
  const user=await ui.login('OWNER',{label:'f03-source-refund-'+(mobile?'mobile':'desktop'),mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'})
@@ -50,7 +52,7 @@ async function flow(ui,today,mobile){
   assert.equal(pending.length,1);assert.equal(pending[0].id,sent.p_client_request_id);assert.deepEqual(pending[0].payload,sent.p_payload)
   const committed=fixture('read',f);assert.equal(committed.refund_events,1);assert.equal(committed.bank,'90.00');assert.equal(committed.company_returned_pcs,3);assert.equal(committed.credits[0].remaining_amount,'20.00')
   await ui.expect(panel).toBeHidden();await screenshot('UNCERTAIN_REPLY_FACTS_RETIRED')
-  await p.unroute('**/rest/v1/rpc/erp_save_initial_import_action_v1');await p.reload()
+  await p.unroute('**/rest/v1/rpc/erp_save_initial_import_action_v1');await p.reload();await open(ui,p)
   await ui.expect(p.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeEnabled()
   let replay=null
   await p.route('**/rest/v1/rpc/erp_save_initial_import_action_v1',async route=>{replay=route.request().postDataJSON();await route.continue()})

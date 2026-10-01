@@ -10,8 +10,13 @@ import psycopg
 import cp6_bb_probe as bb
 
 def prepare(cur,today):
+ masters=bb.product_masters()
+ # Desktop and mobile run in the same disposable database. Names with
+ # native uniqueness constraints must belong to this fixture's batch.
+ masters['BRAND'][0]['brand_name']='E03 brand {C}'
+ masters['MODEL'][0]['model_name']='E03 model {C}'
  f=bb.financial_fixture(cur,today,legacy=[('CUSTOMER_RECEIVABLE','LEGACY-E03-PAID','100.00')],
-  rights=[('E03-RETURN','LEGACY-E03-PAID','3','10.00','6.00')],extra=bb.product_masters())
+  rights=[('E03-RETURN','LEGACY-E03-PAID','3','10.00','6.00')],extra=masters)
  w=bb.ws(cur,f['batch']);f.update(today=str(today),right_id=w['sale_return_rights'][0]['id'],
   location_id=str(cur.execute('select id from erp.locations where location_code=%s',(f['code']+'G',)).fetchone()[0]),
   before_accounts=bb.gl(cur),before_bank=str(bb.bank(cur,f)))
@@ -90,7 +95,7 @@ def races(tools,today):
 
 def http_cases(http,today):
  def source_refund():
-  owner=http.login('OWNER','f03-e03-refund');viewer=http.login('VIEWER','f03-e03-refund-viewer')
+  owner=http.login('OWNER','f03-e03-refund');warehouse=http.login('GUDANG','f03-e03-refund-warehouse')
   with http.connect()as conn,conn.cursor()as cur:
    f=prepare(cur,today);p=receive_payload(cur,f);conn.commit()
   args=dict(p_action='OPENING_RETURN',p_payload=p,p_client_request_id=str(uuid.uuid4()))
@@ -99,7 +104,7 @@ def http_cases(http,today):
   with http.connect()as conn,conn.cursor()as cur:p=refund_payload(cur,f,first['body']['credit_id']);conn.commit()
   args=dict(p_action='CUSTOMER_CREDIT',p_payload=p,p_client_request_id=str(uuid.uuid4()))
   assert http.anon_rpc('erp_save_initial_import_action_v1',args)['status']in(401,403)
-  assert viewer.rpc('erp_save_initial_import_action_v1',args)['status']==403
+  assert warehouse.rpc('erp_save_initial_import_action_v1',args)['status']==403
   one=owner.rpc('erp_save_initial_import_action_v1',args);assert one['status']==200,one
   assert owner.rpc('erp_save_initial_import_action_v1',args)['body']==one['body']
   with http.connect()as conn,conn.cursor()as cur:
@@ -108,5 +113,5 @@ def http_cases(http,today):
   assert owner.rpc('erp_save_initial_import_action_v1',args)['status']==403
   assert owner.rpc('erp_get_initial_import_workspace_v1',dict(p_batch_id=f['batch']))['status']==403
   return dict(status='PASS',actual_Auth_HTTP=True,lawful_source_return3_credit30_refund10_remaining20_bank90=True,
-   exact_UUID_replay_once=True,anonymous_viewer_current_deactivation_denied=True,current_authority_before_cached_refund=True)
+   exact_UUID_replay_once=True,anonymous_warehouse_current_deactivation_denied=True,current_authority_before_cached_refund=True)
  return [('F03_E03_REAL_HTTP_SOURCE_REFUND',source_refund)]
