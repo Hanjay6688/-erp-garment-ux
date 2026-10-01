@@ -1,5 +1,9 @@
 # F03 independent audit checkpoint — incomplete
 
+> Historical checkpoint, superseded by [the completed independent F03 audit](F03_INDEPENDENT_AUDIT_20261001.md).
+> Its original limitations and approval rejection are retained below. Final
+> disposition: INDEPENDENT_ACCEPTED_F03_CONTRACT_SCOPE; production_go=false.
+
 Frozen product candidate: `eb6b8682e97e94c95f89d431ab81974c54ddcbaf`.
 Audit branch: `audit/f03-independent-20261001` (local; publication was rejected by automatic approval review).
 

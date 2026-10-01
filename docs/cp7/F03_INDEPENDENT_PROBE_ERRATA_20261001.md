@@ -42,3 +42,11 @@ those loopback listener ports to be free before installation/probing. It does
 not terminate unknown processes, alter any product file, weaken cleanup, or
 change the retained business cases. The initial INCOMPLETE receipt remains
 preserved; a successful retry is required and reported separately.
+
+## Completed corrections
+
+The corrected independent run36912838566 passes23/23 at120dfe3.
+The isolated retained-browser run36915203087 passes8/8 atcc64cb1 with the
+same business providers, available reserved ports and full cleanup/restoration.
+Both original incomplete receipts remain archived beside the successful receipts.
+No product change was needed for either correction.
