@@ -56,6 +56,7 @@ async function flow(ui,today,mobile){
   await ws.getByRole('button',{name:'Muat ulang kredit supplier',exact:true}).click();const request=await own,current=await request.response()
   assert.equal(current.status(),403);const refusal=await current.json();assert.equal(refusal.code,'42501');assert.equal(refusal.message,'PERMISSION_DENIED: finance.ap.view')
   await ui.expect(ws.getByRole('heading',{name:'Utang pembelian',exact:true})).toBeHidden();await ui.expect(ws.getByRole('heading',{name:'Kredit retur',exact:true})).toBeHidden();assert.deepEqual(state(),original)
+  await ui.expect(ws.getByText('Workspace authoritative sudah dimuat ulang.',{exact:true})).toHaveCount(0)
   await capture('CURRENT_AUTHORITY_REFUSAL_FACTS_RETIRED')
   fixture('restore',revoked);revoked=null;await ws.getByRole('button',{name:'Muat ulang kredit supplier',exact:true}).click()
   await ui.expect(ws.getByLabel('Alasan pengalihan kredit',{exact:true})).toHaveValue('Catatan operator disimpan ketika akses fakta ditolak')

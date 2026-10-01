@@ -33,7 +33,7 @@ def functions(cur):
 def verify(cur):
     # Accepted CP6 and F02 verification ran before the declared extension. Once
     # it is installed, all function definitions/ACLs must match the captured
-    # installation, including the two explicitly replaced predecessor guards.
+    # installation, including the exact declared predecessor admission guards.
     assert INSTALLED_FUNCTIONS is not None and functions(cur)==INSTALLED_FUNCTIONS,'P09_INSTALLED_FUNCTION_OR_ACL_CHANGED'
     assert cur.execute("select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_procurement' and (p.prosecdef is distinct from (p.proname in('reverse_receipt_locked','validate_uom_lines')) or pg_get_userbyid(p.proowner)<>case when p.proname='reverse_receipt_locked' then 'postgres' when p.proname in('command','reverse_request','save_draft_request') then 'cp7_procure_write' else 'cp7_procure_read' end or p.proconfig is distinct from array['search_path=\"\"'])").fetchone()[0]==0
     for name,role in [('erp_cp7_get_procurement_v1','cp7_procure_read'),('erp_cp7_get_procurement_options_v1','cp7_procure_read'),('erp_cp7_get_procurement_uom_v1','cp7_procure_read'),('erp_cp7_save_procurement_v1','cp7_procure_write'),
@@ -59,6 +59,9 @@ def install(cur):
     INSTALLED_FUNCTIONS=functions(cur)
     changed={s for s,v in pre_functions.items() if INSTALLED_FUNCTIONS.get(s,{}).get('definition')!=v['definition']}
     assert changed==set(bundle.REPLACED),('P09_UNDECLARED_PREDECESSOR_CHANGE',changed)
+    for signature in bundle.credit_guard.SIGNATURES:
+        assert originals[signature]==bundle.credit_guard.accepted(signature),('P09_CREDIT_ORIGINAL_CHANGED',signature)
+        assert cur.execute('select pg_get_functiondef(%s::regprocedure)',(signature,)).fetchone()[0]==bundle.credit_guard.patched(signature),('P09_CREDIT_ADMISSION_DELTA_CHANGED',signature)
     grants={s:{(r,'EXECUTE',False) for r in ('cp7_procure_read','cp7_procure_write','cp7_material_read','cp7_material_write','cp7_invoice_read','cp7_invoice_write','cp7_return_read','cp7_return_write')} for s in ('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)')}
     grants.update({s:{('cp7_procure_write','EXECUTE',False)} for s in ('erp.save_material_purchase_draft_v2(jsonb,uuid,bigint)','erp.post_material_purchase_v2(uuid,uuid,bigint,text)')})
     grants.update({s:{('cp7_material_write','EXECUTE',False)} for s in ('erp.save_material_transfer_draft_v2(jsonb,uuid,bigint)','erp.post_material_transfer_v2(uuid,uuid,bigint,text)','erp.reverse_material_transfer_v2(uuid,text,uuid,bigint)','erp.save_material_adjustment_draft_v2(jsonb,uuid,bigint)','erp.post_material_adjustment_v2(uuid,uuid,bigint,text)','erp.reverse_material_adjustment_v2(uuid,text,uuid,bigint)')})

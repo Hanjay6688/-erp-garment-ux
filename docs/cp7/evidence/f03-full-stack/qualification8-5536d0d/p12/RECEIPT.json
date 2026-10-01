@@ -1,0 +1,577 @@
+{
+  "schema": "cp7-f03-full-component-source-receipt-v1",
+  "bucket": "p12",
+  "source_commit": "5536d0deec52d33dc6becbdd6d92087a4678a6ba",
+  "source_tree": "64a01e2dc72d3a8c8a4592d779a0ad5d6ebcf489",
+  "bundle_sha256": "eb86b6300f1ebf8e429edef2f4dfb0dc80ec24978c8809de53e7f2e3e7a729e5",
+  "manifest_sha256": "44b9a49e717d2845f6e97c2264e1d37459f2ec858bb9a05485e7cf843dfc6f1b",
+  "workflow_run": 36855629461,
+  "workflow_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36855629461",
+  "job_id": 110347325678,
+  "job_conclusion": "success",
+  "component_status": "PASS",
+  "expected_case_executions": 90,
+  "observed_case_executions": 90,
+  "observed_smokes": 0,
+  "groups": {
+    "native": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 5
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "notes": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 7
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "note_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 3
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": 0,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "note_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "admission_regression": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "console_errors": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": []
+    },
+    "payroll_review": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 4
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "payroll_review_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "payroll_review_browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "console_errors": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": []
+    },
+    "settlement": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 7
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "settlement_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 4
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": 0,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "settlement_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "settlement_browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 3
+      },
+      "console_errors": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": []
+    },
+    "attendance_read": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 6
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "attendance_read_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "attendance_read_browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "console_errors": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": []
+    },
+    "roster": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 6
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "roster_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 3
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": 0,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "roster_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "roster_browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "console_errors": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": []
+    },
+    "attendance_write": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 10
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "attendance_write_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 4
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": 0,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "attendance_write_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "attendance_write_browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "console_errors": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": []
+    },
+    "opening_payroll": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 5
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "opening_payroll_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": 0,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "opening_payroll_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "opening_payroll_browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "console_errors": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": []
+    }
+  },
+  "failures": [],
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "known_pg_cron_restore_errors": 19,
+  "archive": {
+    "id": 11158499303,
+    "bytes": 7839190,
+    "sha256": "bf6a68083f5cf4ec6595cbc4b88169600bc47760a640952516b498e3d464a789",
+    "durable_file_id": "file_00000000c880821182330f08b27e3552"
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "counts_are_overlapping_executions_not_unique_oracles": true
+}

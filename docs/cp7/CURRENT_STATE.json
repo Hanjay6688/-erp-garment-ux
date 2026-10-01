@@ -355,6 +355,7 @@
     "visual_review": true
   },
   "f03_full_component_qualification": {
+    "current_repeat_required_after_authority_guard": true,
     "declared_case_executions": {
       "cash_installments": 61,
       "customer_refund": 10,
@@ -368,6 +369,9 @@
     "full_family_acceptance": false,
     "handoff": "docs/cp7/F03_FULL_STACK_QUALIFICATION.md",
     "independent_acceptance": false,
+    "latest_receipts": "docs/cp7/evidence/f03-full-stack/qualification8-5536d0d",
+    "latest_run": 36855629461,
+    "latest_source": "5536d0deec52d33dc6becbdd6d92087a4678a6ba",
     "manifest": "scripts/cp7_f03_full_manifest.json",
     "per_group_expected_counts_pinned": true,
     "priority": "F03_BEFORE_REMAINING_F04_F05",
@@ -377,7 +381,7 @@
     "retained_run": 36850513509,
     "retained_source": "37bf7d236e9e2803ff8be4bc61929e2ffec0c3c5",
     "separate_p09_smokes": 3,
-    "status": "FIRST_FULL_STACK_FIVE_COMPONENT_BUCKETS_PASS_CASH_TIMING_ORACLE_REPAIRED_RETEST_PENDING",
+    "status": "SEVEN_OF_EIGHT_CURRENT_STACK_BUCKETS_PASS_AT_5536_CUSTOMER_BROWSER_FIXTURE_INCOMPLETE",
     "unique_oracle_total_claim": false,
     "workflow": ".github/workflows/cp7-f03-full.yml"
   },
@@ -449,6 +453,8 @@
       "races": 1
     },
     "accepted_money_stock_HPP_native_functions_changed": false,
+    "actual_wait_authority_receipt": "docs/cp7/evidence/f03-supplier-credit/authority-before5-d4096ca/RECEIPT.json",
+    "actual_wait_authority_status": "FIVE_CONFIRMED_NATIVE_COUNTEREXAMPLES_AT_D4096CA_REPAIR_WRITTEN_REPEAT_PENDING",
     "after_focused_tests": 73,
     "before": {
       "FAIL": 5,
@@ -458,6 +464,10 @@
     "full_family_acceptance": false,
     "handoff": "docs/cp7/F03_SUPPLIER_CREDIT_CONTINUATION.md",
     "independent_acceptance": false,
+    "native5_job": 110347325874,
+    "native5_receipt": "docs/cp7/evidence/f03-full-stack/qualification8-5536d0d/supplier_credit/RECEIPT.json",
+    "native5_run": 36855629461,
+    "native5_status": "WRITER_QUALIFIED_FIVE_AT_5536",
     "production_go": false,
     "status": "FRONTEND_CONFIRMED_COUNTEREXAMPLES_REPAIRED_NATIVE5_REPEAT_PENDING"
   },
@@ -1019,7 +1029,7 @@
   "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
   "latest_tested_scope": "Native financial readers12 PASS onf31b7a7: native3, realAuthHTTP1, browser8; package/restore/advisors/Auth cleanup and AR visual evidence retained. Counts overlap prior6/8/10.",
   "latest_tested_source": "f31b7a70e9f6330f7922fcbb2e8527320f4c5df2",
-  "next_action": "Qualify Native model31 and replay the corrected Native164 on the same integrated candidate. Finish material/recipe/source/draft/apply in P08 and F03 remaining combined journeys, then F05 report publication/revisions and all obligation domains/rules; prepare one frozen candidate for independent F06 audit. CP6 is independently accepted and locked; hosted remains deferred.",
+  "next_action": "Qualify exact supplier admission repair under six actual request/source/target/accounting waits and the full F03 stack, close current E03 time-input fixture, then finish F03 charter mapping before remaining F04/F05.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",

@@ -18,3 +18,6 @@ Remaining execution order:
 4. Freeze one complete candidate for combined Native/Auth/browser, scale and recovery proof, then independent F06 audit. Writer checks are not independent acceptance.
 
 The live state ledger now distinguishes qualified bounded work from open family scope. Pending permissions, missing business inputs and unknown facts stay explicit. No merge to main, hosted operation, delivery or production go is implied.
+
+
+F03 continuation: the same-source full suite at5536d0d qualifies seven complete components, including all61 cash/installment controls and Native paid supplier credit5. One customer-custody zero-second browser-input fixture is corrected with its original failure retained. A subsequent five-case exact-worker audit atd4096ca confirms a real current-authority gap in the accepted supplier-credit request/allocator after lock waits. The successor has written narrow, hash-pinned CP7 admission deltas, retained all five actual counterexamples, and added an accounting-wait control. Qualify those six and repeat the full F03 stack before marking the transaction implementation ready. Do not move to new F04/F05 feature work or claim full acceptance while this confirmed gap remains unqualified.

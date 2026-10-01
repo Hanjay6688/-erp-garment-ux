@@ -1,0 +1,322 @@
+{
+  "schema": "cp7-f03-full-component-source-receipt-v1",
+  "bucket": "p13",
+  "source_commit": "5536d0deec52d33dc6becbdd6d92087a4678a6ba",
+  "source_tree": "64a01e2dc72d3a8c8a4592d779a0ad5d6ebcf489",
+  "bundle_sha256": "eb86b6300f1ebf8e429edef2f4dfb0dc80ec24978c8809de53e7f2e3e7a729e5",
+  "manifest_sha256": "44b9a49e717d2845f6e97c2264e1d37459f2ec858bb9a05485e7cf843dfc6f1b",
+  "workflow_run": 36855629461,
+  "workflow_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36855629461",
+  "job_id": 110347325763,
+  "job_conclusion": "success",
+  "component_status": "PASS",
+  "expected_case_executions": 50,
+  "observed_case_executions": 50,
+  "observed_smokes": 0,
+  "groups": {
+    "native": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 8
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": 0,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "console_errors": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": []
+    },
+    "period_native": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 8
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "period_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": 0,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "period_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "period_browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "console_errors": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": []
+    },
+    "analysis_native": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 8
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "analysis_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": 0,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "analysis_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "analysis_browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "console_errors": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": []
+    },
+    "recost_native": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 8
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "recost_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": 0,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "recost_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "recost_browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "console_errors": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": []
+    }
+  },
+  "failures": [],
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "known_pg_cron_restore_errors": 19,
+  "archive": {
+    "id": 11158968745,
+    "bytes": 11425117,
+    "sha256": "be7c2885ac4e4065bfea81f5cf0dedf936877949b9e47ebc30a70f146e80c5ca",
+    "durable_file_id": "file_0000000065d0820781c2f9b81e197d37"
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "counts_are_overlapping_executions_not_unique_oracles": true
+}

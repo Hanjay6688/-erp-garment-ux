@@ -33,3 +33,11 @@ it('clears a failed-refresh notice only after a later current source read comple
  expect(recovery.error).toContain('refresh authoritative gagal');await act(async()=>{expect(recovery.finishRead(current!)).toBe(true)})
  expect(recovery.error).toBe('');expect(recovery.writerLocked).toBe(false);expect(h.send).toHaveBeenCalledTimes(1)
 })
+it('retires a prior successful-read notice as soon as a newer read or shared invalidation retires its proof',async()=>{
+ await mount();const h=handlers(async()=>{const ticket=recovery.beginRead();return recovery.finishRead(ticket)})
+ await act(async()=>{expect(await run(h)).toBe(true)});expect(recovery.notice).toContain('sudah dimuat ulang')
+ await act(async()=>{recovery.beginRead()});expect(recovery.notice).toBe('');expect(recovery.writerLocked).toBe(true)
+ await act(async()=>{const ticket=recovery.beginRead();expect(recovery.finishRead(ticket)).toBe(true);expect(await run(h)).toBe(true)})
+ expect(recovery.notice).toContain('sudah dimuat ulang');await act(async()=>window.dispatchEvent(new StorageEvent('storage',{key:null})))
+ expect(recovery.notice).toBe('');expect(recovery.writerLocked).toBe(true);expect(h.send).toHaveBeenCalledTimes(2)
+})

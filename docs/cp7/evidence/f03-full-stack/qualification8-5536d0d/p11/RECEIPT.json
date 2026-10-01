@@ -1,0 +1,283 @@
+{
+  "schema": "cp7-f03-full-component-source-receipt-v1",
+  "bucket": "p11",
+  "source_commit": "5536d0deec52d33dc6becbdd6d92087a4678a6ba",
+  "source_tree": "64a01e2dc72d3a8c8a4592d779a0ad5d6ebcf489",
+  "bundle_sha256": "eb86b6300f1ebf8e429edef2f4dfb0dc80ec24978c8809de53e7f2e3e7a729e5",
+  "manifest_sha256": "44b9a49e717d2845f6e97c2264e1d37459f2ec858bb9a05485e7cf843dfc6f1b",
+  "workflow_run": 36855629461,
+  "workflow_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36855629461",
+  "job_id": 110347325773,
+  "job_conclusion": "success",
+  "component_status": "PASS",
+  "expected_case_executions": 64,
+  "observed_case_executions": 64,
+  "observed_smokes": 0,
+  "groups": {
+    "native": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 8
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "commands": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 6
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "command_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": 0,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "command_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "drafts": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 7
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "draft_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": 0,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "draft_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "payments": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 8
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "payment_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 3
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": 0,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "payment_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "returns": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 11
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": null,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "return_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 3
+      },
+      "console_errors": null,
+      "auth_counts": null,
+      "database_remaining": 0,
+      "cleanup_failures": null,
+      "auth_cleanup_failures": null
+    },
+    "return_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "console_errors": null,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": null
+    },
+    "browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 10
+      },
+      "console_errors": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_cleanup_failures": []
+    }
+  },
+  "failures": [],
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "known_pg_cron_restore_errors": 19,
+  "archive": {
+    "id": 11159128463,
+    "bytes": 8204002,
+    "sha256": "c30a2bf108dc8e79e93ad26dcfc7b34e31b524641b418770a836260dd96850fb",
+    "durable_file_id": "file_000000007804820788d3544d5809174e"
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "counts_are_overlapping_executions_not_unique_oracles": true
+}

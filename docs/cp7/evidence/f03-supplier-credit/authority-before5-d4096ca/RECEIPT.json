@@ -1,0 +1,35 @@
+{
+  "schema": "cp7-native-current-authority-counterexample-v1",
+  "status": "CONFIRMED_FIVE_ACTUAL_COUNTEREXAMPLES",
+  "source_commit": "d4096cae0866968ef9133a1e59d8dfb8331b14e1",
+  "source_tree": "e3db2a15067b34e6d2038412545aba5dd0c61d9e",
+  "bundle_sha256": "eb86b6300f1ebf8e429edef2f4dfb0dc80ec24978c8809de53e7f2e3e7a729e5",
+  "run_id": 36857188482,
+  "job_id": 110352392528,
+  "job_conclusion": "failure",
+  "counts": {
+    "FAIL": 5
+  },
+  "case_ids": [
+    "F03_CREDIT_AUTHORITY_CACHED_REQUEST",
+    "F03_CREDIT_AUTHORITY_FRESH_REQUEST",
+    "F03_CREDIT_AUTHORITY_SOURCE_ROW",
+    "F03_CREDIT_AUTHORITY_TARGET_ROW",
+    "F03_CREDIT_ACTOR_REVOKED_DURING_CACHED_REQUEST"
+  ],
+  "meaning": "Three fresh credit requests commit after actual permission revocation while blocked; cached permission and deactivated-user requests still disclose a replay. These are Native calls with fixture claims, not real Auth/HTTP or independent audit.",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "known_pg_cron_restore_errors": 19,
+  "archive": {
+    "id": 11159360395,
+    "sha256": "d25a42ba7b082c8c4d8ec401fbcb63c04f66fc33fd2afa3c4ccf7cb35c0c0e97",
+    "bytes": 1634421,
+    "durable_file_id": "file_000000002a148207a8c4845486dcbc19"
+  },
+  "product_fix_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -3,7 +3,9 @@ import {execFileSync} from 'node:child_process'
 import {mkdirSync,writeFileSync} from 'node:fs'
 
 const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_f03_e03_browser_fixture.py',op,JSON.stringify(p)],{cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim().split('\n').at(-1))
-const wib=iso=>new Date(new Date(iso).getTime()+7*60*60*1000).toISOString().slice(0,19)
+// Chromium normalizes exact zero seconds to minute form. Preserve nonzero
+// Native seconds while using the canonical DOM value for an exact minute.
+const wib=iso=>new Date(new Date(iso).getTime()+7*60*60*1000).toISOString().slice(0,19).replace(/:00$/,'')
 async function open(ui,p) {
   await ui.expect(p.locator('.sidebar .nav-main').filter({hasText:'Gudang'})).toBeAttached()
   const menu=p.getByRole('button',{name:'Buka menu',exact:true})

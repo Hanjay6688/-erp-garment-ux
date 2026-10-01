@@ -43,7 +43,7 @@ export function useProductionMutation(domain: ProductionDomain) {
   const readScope = useRef(scope)
   const supported = productionLockManager() !== null
 
-  const invalidate = useCallback(() => { readyRef.current = false; setReady(false) }, [])
+  const invalidate = useCallback(() => { readyRef.current = false; setReady(false); setNotice('') }, [])
   const synchronize = useCallback(() => {
     invalidate()
     setObserved(readProductionRecovery(scope))
