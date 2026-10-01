@@ -59,6 +59,18 @@ function assertSemantics(x:AnalysisResult){
  for(const r of x.recommendations){for(const f of[r.actual_fg,r.target_qty,r.q_base,r.q_conditional,r.suggested_new,r.rounding_extra,r.feasible_new,r.unresolved_qty])pcs(f)
   if(r.production_state!=='ACTIVE'&&[r.suggested_new,r.feasible_new].some(f=>numeric(f)&&pcs(f)!==0n))fail()
  }
+ if(!unique(x.material_needs.map(m=>JSON.stringify([m.target_key,m.material_key]))))fail()
+ for(const m of x.material_needs){
+  const target=targets.get(m.target_key),facts=[m.gross,m.installed_proven,m.unused_allocated_proven,m.additional_external]
+  if(!target||new Set(facts.map(f=>f.unit)).size!==1||m.material_key===null&&facts.some(numeric))fail()
+  if(m.material_key?.startsWith('NO_ACCESSORY:')){
+   if(target.target.kind!=='PRODUCT'||m.material_key!==`NO_ACCESSORY:${target.target.product_id}`||facts.some(f=>f.state!=='KNOWN'||!numeric(f)||!/^0(?:\.0+)?$/.test(f.value)||f.unit!=='ACCESSORY_BASE_UNIT'||!f.refs.some(r=>r.kind==='erp.accessory_bom_versions')))fail()
+  }
+  if(m.material_key?.startsWith('ACCESSORY_CATEGORY:')){
+   const category=m.material_key.slice('ACCESSORY_CATEGORY:'.length)
+   if(!m.gross.refs.some(r=>r.kind==='erp.accessory_categories'&&r.id===category)||!m.gross.refs.some(r=>r.kind==='erp.accessory_bom_items')||!m.gross.refs.some(r=>r.kind==='erp.accessory_bom_versions'))fail()
+  }
+ }
  for(const a of x.actions){if(a.source_keys.some(k=>!sources.has(k))||a.target_keys.some(k=>!targets.has(k))||a.intent==='START_NEW'&&a.target_keys.some(k=>targets.get(k)?.production_state!=='ACTIVE'))fail()}
  for(const t of x.timeline){if(!targets.has(t.target_key)||t.timing_basis==='DATE_POLICY'&&!t.timing_policy_id||t.timing_basis==='TIMESTAMP_EVIDENCE'&&!t.event_refs.length)fail()}
  for(const m of x.metrics){if(m.scope_kind==='TARGET'&&!targets.has(m.scope_key)||m.period_start>m.period_end)fail()}
@@ -111,7 +123,9 @@ export function analysisReport(r:NativeAnalysis){const x=r.analysis;return[
  ...x.metrics.map(m=>`${analysisMetricLabel(m,r)}: ${formatFact(m.value)}; periode ${m.period_start} sampai ${m.period_end}; sumber ${m.value.refs.map(s=>`${s.kind}/${s.id}@${s.revision}`).join('; ')}.`),
  'Barang dalam proses tetap terpisah dari stok jadi. Alokasi memakai satu hasil untuk seluruh produk.',
  ...x.sources.map(s=>`${s.source_key}: fisik ${formatFact(s.physical_remaining)}; proyeksi ${formatFact(s.eligible_projected)}; dibagi ${formatFact(s.allocated)}; siap ${s.eta??'belum diketahui'} (${s.eta_basis}).`),
+ ...x.material_needs.map(m=>`${r.labels.find(l=>l.key===m.target_key)?.sku??'Produk'} · ${m.reason} Kebutuhan BOM ${formatFact(m.gross)}; terpasang terbukti ${formatFact(m.installed_proven)}; sisa layak teralokasi ${formatFact(m.unused_allocated_proven)}; tambahan eksternal ${formatFact(m.additional_external)}. Sumber ${m.gross.refs.map(s=>`${s.kind}/${s.id}@${s.revision}`).join('; ')}.`),
  'Bahan untuk produksi baru belum terbukti. Issue bahan bukan bukti pemasangan.',
+ 'Kebutuhan BOM bukan bukti bahan sudah siap.',
  ...(r.finance?[`Keuangan: ${r.finance.report.snapshot.data_confidence.status}. Periode jurnal ${r.finance.dates.from} sampai ${r.finance.dates.to}; posisi buku per ${r.finance.dates.as_of}. Angka berlabel NATIVE_FINANCE berasal dari laporan keuangan ERP yang sama.`,
   'Pengetahuan keuangan memakai catatan yang diketahui sekarang. Pengetahuan historis belum direkonstruksi; eksposur pemasok memakai keadaan operasional sekarang. Nilai tercatat dapat diperiksa, tetapi laba dan penilaian persediaan tetap belum diketahui bila kesiapan keuangan terblokir atau menunggu perhitungan HPP.',
   ...r.finance.report.snapshot.data_confidence.blockers.map(b=>`PENGHALANG KEUANGAN: ${b.reason}; cakupan ${b.scope}; tanggal ${b.impact_date??'keadaan sekarang'}; sumber ${JSON.stringify(b.reference)}.`)]:['Keuangan, HPP, utang, piutang dan jatuh tempo belum tercakup pada analisis ini.']),

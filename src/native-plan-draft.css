@@ -1,11 +1,12 @@
-.native-plan-controls { min-width: 0; margin-top: 1rem; padding: 1rem; border: 1px solid var(--border, #d9dfe8); border-radius: .6rem; }
+.native-plan-controls { min-width: 0; margin-top: 1rem; padding: 1rem; border: 1px solid var(--line, #293047); border-radius: .6rem; }
 .native-plan-controls header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .75rem; }
 .native-plan-controls fieldset { min-width: 0; display: grid; gap: .75rem; padding: .8rem; }
 .native-plan-controls label { display: grid; gap: .3rem; overflow-wrap: anywhere; }
 .native-plan-controls input:not([type="checkbox"]), .native-plan-controls select, .native-plan-controls textarea { width: 100%; min-width: 0; box-sizing: border-box; }
-.native-plan-controls article { min-width: 0; padding: .7rem; border-bottom: 1px solid var(--border, #d9dfe8); }
+.native-plan-controls input[type="checkbox"] { width: 18px; height: 18px; padding: 0; justify-self: start; accent-color: var(--accent, #8894e8); }
+.native-plan-controls article { min-width: 0; padding: .7rem; border-bottom: 1px solid var(--line, #293047); }
 .native-plan-controls nav, .native-plan-controls nav span { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
-.native-plan-result { overflow-wrap: anywhere; margin: .75rem 0; padding: .7rem; background: var(--surface-muted, #f6f8fb); border-radius: .4rem; }
+.native-plan-result { overflow-wrap: anywhere; margin: .75rem 0; padding: .7rem; background: var(--panel-2, #151b2c); color: var(--text, #e8ecf6); border-radius: .4rem; }
 .native-plan-recovery { overflow-wrap: anywhere; padding: .7rem; border: 1px solid #bc7916; }
 .native-plan-result dl > div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .35rem 1rem; margin: .5rem 0; }
 .native-plan-result dd { margin: 0; }

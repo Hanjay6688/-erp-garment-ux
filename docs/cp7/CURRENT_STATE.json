@@ -1422,7 +1422,7 @@
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "version": "cp7.integration-entry.v1",
   "f05_native_publications": {
-    "status": "NATIVE140_QUALIFIED_CLOCK186_INCOMPLETE185_BROWSER_FORMAT_REPAIRED",
+    "status": "NATIVE140_AND186_ALL_PASS_EXACT_ORIGINALS_RETAINED",
     "parent_source": "a8b7f3a055a1fee51af1387d44ff1f1a6ab9593d",
     "source_functions_owned": "cp7_analysis_native",
     "native_business_DML": false,
@@ -1437,7 +1437,7 @@
     },
     "source_stability_assertion": "40 public Owner/finance Original reads under eight SQL planning configurations, no acceptance of SourceChanged",
     "local_test_classification": "STAND_IN_UI_PARSER_NOT_NATIVE",
-    "remaining": "Exact repaired Native140/186 qualification and all remaining F04/F05 contracts; no full family or independent acceptance",
+    "remaining": "BOM-composed152/198 runtime and remaining material/model/other-domain obligation/policy/delivery contracts; full family and independent acceptance open",
     "independent_acceptance": false,
     "full_family_acceptance": false,
     "production_go": false,
@@ -1462,7 +1462,7 @@
         "INCOMPLETE": 2
       }
     },
-    "financial_40_reads_actual": "PASS_ALL40_ON_77ea697_AND_PURE_CLOCK_EXPIRY_CONTROLS",
+    "financial_40_reads_actual": "ALL40_PASS_ON_97b0f46_IN_BOTH_COMPLETE_QUALIFIERS_PLUS_CLOCK_BOUNDARY_CONTROLS",
     "repair": "Compare exact three period values instead of JSON member order; keep UNKNOWN assertion and compare known zero numerically; second period ends yesterday because ongoing-day history is forbidden",
     "local_repair_tests": 51,
     "repair_source": "52bbfa33cd802ab039863ef8584fc93f47130f28",
@@ -1538,10 +1538,32 @@
       }
     },
     "clock_186_original": "docs/cp7/evidence/f05-native-publication/clock186-browser-failure-77ea697/RECEIPT.json",
-    "browser_format_repair": "Canonical zero-second datetime-local value matches existing E03 helper; same exact instant and fixed186 cases"
+    "browser_format_repair": "Canonical zero-second datetime-local value matches existing E03 helper; same exact instant and fixed186 cases",
+    "qualified_source": "97b0f46e66067eb90742e7e88837fa0294406ce9",
+    "qualified_tree": "ce895442695cca14f999f490d66fc845f10fdfdb",
+    "qualified140_run": 36916119975,
+    "qualified140_job": 110550387898,
+    "qualified140_counts": {
+      "database": 98,
+      "races": 19,
+      "Auth_HTTP": 11,
+      "browser": 12,
+      "total": 140
+    },
+    "qualified140_original": "docs/cp7/evidence/f05-native-publication/qualified140-97b0f46/RECEIPT.json",
+    "qualified186_run": 36916119941,
+    "qualified186_job": 110550386705,
+    "qualified186_counts": {
+      "database": 119,
+      "races": 25,
+      "Auth_HTTP": 16,
+      "browser": 26,
+      "total": 186
+    },
+    "qualified186_original": "docs/cp7/evidence/f05-native-publication/qualified186-97b0f46/RECEIPT.json"
   },
   "f04_native_plan_actual": {
-    "status": "NATIVE35_SECOND_INCOMPLETE31_QC_POOL_FIXTURE_REPAIRED_RERUN_REQUIRED",
+    "status": "NATIVE35_RUNTIME_PASS_WRITER_VISUAL_READABILITY_FIX_SUCCESSOR_PENDING",
     "case_budget": {
       "database": 22,
       "actual_races": 7,
@@ -1558,7 +1580,7 @@
     "full_family_acceptance": false,
     "independent_acceptance": false,
     "production_go": false,
-    "remaining": "Fixed Native35 DB/races/Auth/browser/installation/restoration; full material recipe and model integration",
+    "remaining": "Successor35 readability and composed BOM regression; remaining full material/source feasibility and reviewed model integration",
     "first_source": "50c4e46a9a9388d4644414a68df5d0e59f00671f",
     "first_tree": "b20486ef43fbb1cec9515ec8fad8fb5b60016618",
     "first_run": 36912512176,
@@ -1602,6 +1624,48 @@
       }
     },
     "second_fixture_repair": "ALL_READY closes the current returned-one-piece QC pool, not the whole linked two-piece group; WIP1/FG1 expected unchanged",
-    "second_original_status": "DOWNLOAD_RETENTION_PENDING"
+    "second_original_status": "RETAINED_EXACT",
+    "qualified_source": "b4a25340673345640d2c71989d66040f1ff1d9c9",
+    "qualified_tree": "6efe445762e43a2bbe858717f7c64c8d404443e7",
+    "qualified_run": 36918257875,
+    "qualified_job": 110557545879,
+    "qualified_counts": {
+      "database": 22,
+      "races": 7,
+      "Auth_HTTP": 2,
+      "browser": 4,
+      "total": 35
+    },
+    "qualified_original": "docs/cp7/evidence/plan-native/qualified35-actual-b4a2534/RECEIPT.json",
+    "second_original": "docs/cp7/evidence/plan-native/actual35-qc-fixture-failure-97b0f46/RECEIPT.json",
+    "visual_review": "LOW_CONTRAST_NATIVE_RESULT_FOUND_TOKEN_REPAIR_AND_SAME35_BROWSER_CONTRAST_RETEST_REQUIRED"
+  },
+  "f04_native_material_requirements": {
+    "status": "COMPLETE_SOURCE_UI_QUALIFIER_CANDIDATE_NATIVE152198_PENDING",
+    "core_source": "057d15de92cc4abad4b59704720c9a668db13414",
+    "composer": "scripts/cp7-src/planning/material-requirements.sql",
+    "consumer": "src/NativeMaterialNeedsView.tsx",
+    "contract": "docs/cp7/f04/NATIVE_MATERIAL_REQUIREMENTS.md",
+    "local_affected_pass": 40,
+    "local_typescript_build_security": "PASS_STAND_IN_NOT_NATIVE",
+    "predeclared_extension": {
+      "database": 8,
+      "races": 1,
+      "Auth_HTTP": 1,
+      "browser": 2,
+      "total": 12
+    },
+    "successor_budgets": {
+      "analysis": 152,
+      "attention": 198,
+      "plan_regression": 35
+    },
+    "actual_Native_scope": "Exact root current accessory BOM, base unit and active category; missing UNKNOWN, explicit empty accessory0, conditional gross ASSUMED; lawfully effective-dated successor",
+    "synthetic_only_oracles": "O09 installed60/unused20 and O10 material60 are labelled trusted kernel counterfixtures, not Native installed events",
+    "Native_table_capability": "Only three declared SELECT grants to existing capture; no DML or Native money/HPP engine",
+    "remaining": "Actual152198 and35; full fabric recipe, verified installed/eligible allocated sources, material feasibility and reviewed model integration",
+    "production_go": false,
+    "full_family_acceptance": false,
+    "independent_acceptance": false
   }
 }

@@ -15,6 +15,7 @@ import {readAttentionRequest} from './nativeAnalysisAttention'
 import {readNativeDemandRequest} from './nativeDemandHistory'
 import {analysisArchiveKey} from './nativeAnalysisArchive'
 import type {NativeDemandQuery} from './nativeDemandHistory'
+import {materialAnalysisStandin} from '../tests/fixtures/nativeMaterialNeeds'
 const state=vi.hoisted(()=>({auth:null as unknown}))
 const client=vi.hoisted(()=>({rpc:vi.fn()}))
 vi.mock('./auth/AuthProvider',()=>({useAuth:()=>state.auth}));vi.mock('./lib/supabase',()=>({getUatSupabaseClient:()=>client}))
@@ -27,6 +28,16 @@ afterEach(async()=>{await act(async()=>root.unmount());container.remove();localS
 async function render(query=q){await act(async()=>root.render(<NativeAnalysisPanel query={query} onSourceReadStart={start} onSourceReadEnd={end} onClose={close}/>))}
 async function click(text:string){const b=[...container.querySelectorAll('button')].find(b=>b.textContent===text)!;expect(b).toBeTruthy();await act(async()=>b.click())}
 async function fill(text:string){const e=container.querySelector<HTMLTextAreaElement>('[aria-label="Pertanyaan analisis ERP"]')!;await act(async()=>{Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype,'value')!.set!.call(e,text);e.dispatchEvent(new Event('input',{bubbles:true}))})}
+it('shows one source-bound BOM and honest installation unknown in production/report without another source request',async()=>{
+ client.rpc.mockImplementation(async(_name:string,args:{p_request:string})=>({data:materialAnalysisStandin(wire(args.p_request)),error:null}));await render();await click('Ambil analisis ERP terbaru')
+ const materials=container.querySelector('[aria-label="Kebutuhan bahan dari BOM ERP"]')!;expect(materials.textContent).toContain('Kancing');expect(materials.textContent).toContain('Pengeluaran bukan pemasangan');expect(materials.textContent).toContain('186');expect(materials.textContent).toContain('Belum diketahui');expect(materials.textContent).toContain('erp.accessory_bom_items')
+ await click('Laporan');expect(container.querySelector('[aria-label="Isi laporan ERP"]')!.textContent).toContain('Kancing');await click('Produksi');expect(client.rpc).toHaveBeenCalledTimes(1)
+})
+it('retires the BOM receipt during held source read and after current403',async()=>{
+ client.rpc.mockImplementation(async(_name:string,args:{p_request:string})=>({data:materialAnalysisStandin(wire(args.p_request)),error:null}));await render();await click('Ambil analisis ERP terbaru');expect(container.querySelector('[aria-label="Kebutuhan bahan dari BOM ERP"]')).toBeTruthy()
+ let finish!:(v:unknown)=>void;client.rpc.mockImplementation(()=>new Promise(r=>{finish=r}));await click('Periksa sumber analisis');expect(container.querySelector('[aria-label="Kebutuhan bahan dari BOM ERP"]')).toBeNull()
+ await act(async()=>finish({data:null,error:{code:'42501',message:'CP7_ACCESS_DENIED'}}));expect(container.querySelector('[aria-label="Kebutuhan bahan dari BOM ERP"]')).toBeNull();expect(container.querySelector('[role=alert]')).toBeTruthy()
+})
 it('shares one server analysis across production/report/reminder/AI; tabs and search never recapture or reallocate',async()=>{
  client.rpc.mockImplementation(async(_name:string,args:{p_request:string})=>({data:wire(args.p_request),error:null}));await render();expect(client.rpc).not.toHaveBeenCalled();await click('Ambil analisis ERP terbaru');expect(container.querySelector('.native-analysis-result')).toBeTruthy()
  for(const tab of['Laporan','Pengingat','Tanya AI','Produksi'])await click(tab)

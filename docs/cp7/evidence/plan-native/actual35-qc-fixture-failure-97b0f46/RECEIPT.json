@@ -1,0 +1,76 @@
+{
+  "source": "97b0f46e66067eb90742e7e88837fa0294406ce9",
+  "tree": "ce895442695cca14f999f490d66fc845f10fdfdb",
+  "run": 36916120153,
+  "job": 110550389202,
+  "artifact": 11190261055,
+  "file_id": "file_0000000008208207a2423ac1ec63886a",
+  "folder": "plan-native/actual35-qc-fixture-failure-97b0f46",
+  "report": "CP7_F04_NATIVE_PLANS.json",
+  "archive_bytes": 17145153,
+  "archive_sha256": "6df69e7e04c73c32df03b01284abf8e738ba32fff5bf7d6e686683b84d00de55",
+  "source_bundle_sha256": "768631c5eb5a0705c5d563842d6e021071c71b0e5426b92a99f58a74c36182d2",
+  "status": "INCOMPLETE",
+  "observed_case_count": 35,
+  "groups": {
+    "native": {
+      "PASS": 20,
+      "INCOMPLETE": 2
+    },
+    "races": {
+      "PASS": 7
+    },
+    "http": {
+      "PASS": 2
+    },
+    "browser": {
+      "PASS": 2,
+      "INCOMPLETE": 2
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "console_errors": 0,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "auth_cleanup_failures": [],
+  "database_remaining": 0,
+  "original_member_hashes": {
+    "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+    "CP7_F04_NATIVE_PLANS.json": "626a5195188d8a46f0e471baa3718dbbaa0ea004b96836cd18d61c6dcddd85e2",
+    "P08_NATIVE_DESKTOP_ACTUAL_FAILURE.json": "7de8f1c156bf5d875b004ad375df8092c7daa301516192b16aa109174fa8d38b",
+    "P08_NATIVE_MOBILE_ACTUAL_FAILURE.json": "de0d5ae9114b0ae52b0217c18dceb3b005c4e5e04c228e92b8cbdc194149156b",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "T3_BACKUP_RESTORE_DRILL.json": "e9874854c272aed2c66eaba1e25be13d0b6fb4610f463c43967e4c4884357033",
+    "T3_PACKAGE_INSTALL.json": "76c5698accdbbddb68ebe3f073baa9ac8aefcaa1e2be9b7a56abd0dfbc6c0c53"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

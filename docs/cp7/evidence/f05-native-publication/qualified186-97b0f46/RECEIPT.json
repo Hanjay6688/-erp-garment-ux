@@ -1,0 +1,73 @@
+{
+  "source": "97b0f46e66067eb90742e7e88837fa0294406ce9",
+  "tree": "ce895442695cca14f999f490d66fc845f10fdfdb",
+  "run": 36916119941,
+  "job": 110550386705,
+  "artifact": 11191073706,
+  "file_id": "file_000000002504820785cadf6dd69a4628",
+  "folder": "f05-native-publication/qualified186-97b0f46",
+  "report": "CP7_F05_NATIVE_ATTENTION.json",
+  "archive_bytes": 195425453,
+  "archive_sha256": "d4a84bb4b640e0daa20c52cbd6a6d97506f0cafc1a5505c7b840024638c088bc",
+  "source_bundle_sha256": "71aecd9d5a2897fc8ec637276486d9b6d77d38915249c58b9b17a2e69bb433c1",
+  "status": "PASS",
+  "observed_case_count": 186,
+  "groups": {
+    "native": {
+      "PASS": 119
+    },
+    "races": {
+      "PASS": 25
+    },
+    "http": {
+      "PASS": 16
+    },
+    "browser": {
+      "PASS": 26
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "console_errors": 0,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "auth_cleanup_failures": [],
+  "database_remaining": 0,
+  "original_member_hashes": {
+    "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+    "CP7_F05_NATIVE_ATTENTION.json": "b14056486481e08b8cb387c47753a921974c500276c79b54f1f7e05d1545ee1d",
+    "CP7_NATIVE155_HANDOFF_DIAGNOSTIC.json": "e8b61f251d8ac2e4442cee2d17e69fc40f7c44e7a547b0107e8a47be5a895c40",
+    "T3_BACKUP_RESTORE_DRILL.json": "8d40d79439d4a608badced1e960df222d981154fb7f8d4edeeacab8eaee80358",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "T3_PACKAGE_INSTALL.json": "c018196608e6c35e670c6fb762f4cb59b703c205e3ecf022a809f716394fa87d"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

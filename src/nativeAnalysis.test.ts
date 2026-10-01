@@ -4,11 +4,25 @@ import frozenSchemaText from '../docs/cp7/framework-v2/contracts/analysis.schema
 import fixture from '../tests/fixtures/nativeAnalysisStandin.json'
 import {parseNativeAnalysis,assertSameAnalysis,analysisReport,analysisPrompt} from './nativeAnalysis'
 import type {NativeDemandQuery} from './nativeDemandHistory'
+import {materialAnalysisStandin} from '../tests/fixtures/nativeMaterialNeeds'
 
 // Generated with real Native column names in PGLite. This is receiver test
 // input, not real-Auth qualification or factory data; Native CI is separate.
 const q=fixture.query as NativeDemandQuery,actor=fixture.analysis.scope.actor_scope_id
 const parse=(v:unknown)=>parseNativeAnalysis(v,q,actor)
+it('preserves BOM quantity, assumptions and references without turning unknown installation into zero',()=>{
+ const r=parse(materialAnalysisStandin()),m=r.analysis.material_needs[0],report=analysisReport(r)
+ expect(m.gross).toMatchObject({state:'ASSUMED',value:'186.000000',unit:'PCS'})
+ expect(m.installed_proven.state).toBe('UNKNOWN');expect(m.unused_allocated_proven.state).toBe('UNKNOWN');expect(m.additional_external.state).toBe('UNKNOWN')
+ expect(report).toContain('Kancing');expect(report).toContain('Pengeluaran bukan pemasangan');expect(report).toContain('erp.accessory_bom_items');expect(analysisPrompt(r,'Periksa bahan')).toContain(report)
+})
+it('rejects dangling or duplicate material scope, mixed units, wrong category proof and unlinked numeric zero',()=>{
+ const bad=materialAnalysisStandin();bad.analysis.material_needs[0].target_key='foreign-root:foreign-size';expect(()=>parse(bad)).toThrow()
+ const duplicate=materialAnalysisStandin();duplicate.analysis.material_needs.push(structuredClone(duplicate.analysis.material_needs[0]));expect(()=>parse(duplicate)).toThrow()
+ const unit=materialAnalysisStandin();unit.analysis.material_needs[0].installed_proven.unit='KG';expect(()=>parse(unit)).toThrow()
+ const category=materialAnalysisStandin();category.analysis.material_needs[0].gross.refs=category.analysis.material_needs[0].gross.refs.filter(r=>r.kind!=='erp.accessory_categories');expect(()=>parse(category)).toThrow()
+ const missing=materialAnalysisStandin();missing.analysis.material_needs[0].material_key=null;expect(()=>parse(missing)).toThrow()
+})
 it('keeps the exact frozen schema and accepts source-derived operational PARTIAL with honest material/financial unknowns',()=>{
  expect(bundledSchemaText).toBe(frozenSchemaText)
  const r=parse(fixture);expect(r.analysis.status).toBe('PARTIAL');expect(r.analysis.recommendations[0].q_base).toMatchObject({value:'0'});expect(r.analysis.material_needs[0].additional_external.state).toBe('UNKNOWN');expect(r.labels[0].sku).toBeTruthy()

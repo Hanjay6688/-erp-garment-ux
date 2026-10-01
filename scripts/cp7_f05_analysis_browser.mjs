@@ -3,6 +3,7 @@ import {execFileSync} from 'node:child_process'
 import {mkdirSync,writeFileSync} from 'node:fs'
 import {cases as previousCases} from './cp7_f04_netting_browser.mjs'
 import {cases as publicationCases} from './cp7_f05_publication_browser.mjs'
+import {cases as materialCases} from './cp7_f04_material_browser.mjs'
 const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_f05_analysis_browser_fixture.py',op],{input:JSON.stringify(p),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
 async function navigate(page){await page.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).waitFor({state:'attached'});const menu=page.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click();const link=page.getByRole('button',{name:'• Ringkasan Barang Jadi',exact:true});if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).click();await link.click()}
 async function shot(ui,page,name){await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);await page.screenshot({path:'cp6-proof/t3/'+name,fullPage:true})}
@@ -49,4 +50,4 @@ async function archiveJourney(ui,today,mobile){
  }catch(e){writeFileSync(`cp6-proof/t3/P15_SERVER_ARCHIVE_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),text:await panel.innerText().catch(()=>''),original},null,2));await page.screenshot({path:`cp6-proof/t3/P15_SERVER_ARCHIVE_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}
  finally{fixture('restore',{actor:user.user.id});await user.context.close()}
 }
-export function cases(ui,today){return[...previousCases(ui,today),['P14_BROWSER_DESKTOP_SHARED_ANALYSIS',()=>journey(ui,today,false)],['P14_BROWSER_MOBILE_SHARED_ANALYSIS',()=>journey(ui,today,true)],['P15_BROWSER_DESKTOP_DURABLE_SERVER_ARCHIVE',()=>archiveJourney(ui,today,false)],['P15_BROWSER_MOBILE_DURABLE_SERVER_ARCHIVE',()=>archiveJourney(ui,today,true)],...publicationCases(ui,today)]}
+export function cases(ui,today){return[...previousCases(ui,today),['P14_BROWSER_DESKTOP_SHARED_ANALYSIS',()=>journey(ui,today,false)],['P14_BROWSER_MOBILE_SHARED_ANALYSIS',()=>journey(ui,today,true)],['P15_BROWSER_DESKTOP_DURABLE_SERVER_ARCHIVE',()=>archiveJourney(ui,today,false)],['P15_BROWSER_MOBILE_DURABLE_SERVER_ARCHIVE',()=>archiveJourney(ui,today,true)],...publicationCases(ui,today),...materialCases(ui,today)]}

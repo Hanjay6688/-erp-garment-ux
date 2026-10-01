@@ -1,0 +1,19 @@
+import {formatFact} from './cp7/workspace'
+import type {NativeAnalysis} from './nativeAnalysis'
+
+// Display the shared receipt; never infer installation/allocation from stock.
+export default function NativeMaterialNeedsView({data,visibleTargets}:{data:NativeAnalysis;visibleTargets:string[]}){
+ const rows=data.analysis.material_needs.filter(m=>visibleTargets.includes(m.target_key))
+ return <section aria-label="Kebutuhan bahan dari BOM ERP">
+  <h3>Kebutuhan bahan</h3>
+  <p>Kebutuhan mengikuti BOM dan jumlah rencana. Bahan yang dikeluarkan belum tentu terpasang. Sisa gudang belum tentu dialokasikan ke pekerjaan ini.</p>
+  {rows.map((m,i)=><article key={`${m.target_key}:${m.material_key}:${i}`}>
+   <h4>{data.labels.find(l=>l.key===m.target_key)?.sku??'Produk'} · bahan untuk rencana</h4>
+   <p>{m.reason}</p><p>Kebutuhan BOM: <strong>{formatFact(m.gross)}</strong>.</p>
+   <p>Terpasang terbukti: {formatFact(m.installed_proven)}. Sisa layak yang sudah dialokasikan: {formatFact(m.unused_allocated_proven)}. Tambahan dari luar: {formatFact(m.additional_external)}.</p>
+   <details><summary>Sumber kebutuhan bahan</summary>{m.gross.refs.map((r,j)=><p key={`${r.kind}:${r.id}:${j}`}>{r.kind} · {r.id} · versi {r.revision??'belum tercatat'}</p>)}</details>
+  </article>)}
+  {!rows.length?<p>Tidak ada baris kebutuhan bahan pada hasil yang ditampilkan.</p>:null}
+  <p>Angka aksesori nol hanya berlaku bila BOM tercatat tanpa aksesori. Kain, kapasitas, dan kesiapan pekerjaan tetap diperiksa terpisah.</p>
+ </section>
+}

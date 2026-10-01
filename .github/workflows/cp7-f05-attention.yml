@@ -30,6 +30,10 @@ name: CP7 F05 Native Durable Attention
     - scripts/cp7_f05_analysis_*
     - scripts/cp7_analysis_*
     - src/NativeAnalysis*
+    - src/NativeMaterialNeedsView.tsx
+    - tests/fixtures/nativeMaterialNeeds.ts
+    - scripts/cp7_material_need_cases.py
+    - scripts/cp7_f04_material_browser*
     - src/nativeAnalysis*
     - src/native-analysis.css
     - src/cp7/native-analysis.schema.json

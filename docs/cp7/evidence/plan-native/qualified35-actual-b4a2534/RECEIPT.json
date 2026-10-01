@@ -1,0 +1,83 @@
+{
+  "source": "b4a25340673345640d2c71989d66040f1ff1d9c9",
+  "tree": "6efe445762e43a2bbe858717f7c64c8d404443e7",
+  "run": 36918257875,
+  "job": 110557545879,
+  "artifact": 11190434314,
+  "file_id": "file_00000000f91882079c7aa6d78625e2b3",
+  "folder": "plan-native/qualified35-actual-b4a2534",
+  "report": "CP7_F04_NATIVE_PLANS.json",
+  "archive_bytes": 18720174,
+  "archive_sha256": "409ef597ece61aa41ec054e2e15d8c9d9345f1e0b525977175e7e7643c14f9da",
+  "source_bundle_sha256": "768631c5eb5a0705c5d563842d6e021071c71b0e5426b92a99f58a74c36182d2",
+  "status": "PASS",
+  "observed_case_count": 35,
+  "groups": {
+    "native": {
+      "PASS": 22
+    },
+    "races": {
+      "PASS": 7
+    },
+    "http": {
+      "PASS": 2
+    },
+    "browser": {
+      "PASS": 4
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "console_errors": 0,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "auth_cleanup_failures": [],
+  "database_remaining": 0,
+  "original_member_hashes": {
+    "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+    "CP7_F04_NATIVE_PLANS.json": "ba3b33f4d56f2ca77593211cc3ec6739f9cc379a9675d9b97de4264969441b2e",
+    "T3_BACKUP_RESTORE_DRILL.json": "443abbec2269a51f32c3e24630f142ccaa147873afefdd4d33bc1cd7265c1c2c",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "T3_PACKAGE_INSTALL.json": "62ca2548b4fd60f31a6252f224d2b1e27ebbe853402d47550d07960b9fa1a375"
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "screenshot_member_hashes": {
+    "P08_ACTUAL_PARTIAL_QC_DESKTOP_ACTUAL.png": "6918464540108c26e18cf6af6cd4a9fb8365f048627d3d75e382d00b20b07410",
+    "P08_ACTUAL_UNPOSTED_DESKTOP_ACTUAL.png": "72abf463ef09a8a814ac945b97c1589d13bb6795771933ade305131d6638e7bc",
+    "P08_ACTUAL_UNPOSTED_MOBILE_ACTUAL.png": "394345dee70ef2eac66aff00a0b537a19186c98616277c4f1aa62df7c7a062ca",
+    "P08_ACTUAL_PARTIAL_QC_MOBILE_ACTUAL.png": "c98314c41a1829459649d860f02e10a8bcb7db93d353fbdb0e5e5be042e58d5f"
+  },
+  "writer_visual_review": {
+    "status": "FIX_REQUIRED",
+    "finding": "Native result uses undefined surface-muted fallback light background with inherited light text. Physical35 and restoration pass; readable colors need successor Native35 desktop/mobile qualification.",
+    "independent_demo_alignment": false
+  }
+}
