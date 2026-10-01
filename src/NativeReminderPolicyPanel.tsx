@@ -1,0 +1,65 @@
+import {useEffect,useMemo,useRef,useState} from 'react'
+import {useAuth} from './auth/AuthProvider'
+import {getUatSupabaseClient} from './lib/supabase'
+import {normalizeClientError} from './lib/clientError'
+import {formatCp6WibDateTime} from './cp6BusinessTime'
+import {assertSameAnalysis,type NativeAnalysis,type AnalysisFinanceAccess} from './nativeAnalysis'
+import {productionLockManager,productionLockName,readProductionRecovery,hasProductionPending} from './productionRecovery'
+import {reminderRuleLabels,parseReminderPolicyConfig,parseNativeReminderPolicy,readReminderPolicyRequest,persistReminderPolicyRequest,clearReminderPolicyRequest,reminderPolicyRequestKey,type NativeReminderPolicy,type ReminderRule,type ReminderPolicyConfig,type ReminderPolicyRequest} from './nativeReminderPolicy'
+
+type Props={context:NativeAnalysis|null;generation:number;blocked:boolean;access:AnalysisFinanceAccess;onReadStart:()=>number;isReadCurrent:(n:number)=>boolean;onReadEnd:(n:number)=>void;onAnalysis:(a:NativeAnalysis,n:number)=>void;requireClear:()=>void}
+type Form={rule:ReminderRule;scope:'GLOBAL'|'TARGET';target:string;enabled:''|'true'|'false';threshold:string;unit:string;cooldown:string;quiet:''|'true'|'false';starts:string;ends:string;reason:string}
+const empty:Form={rule:'PRODUCTION_GAP',scope:'GLOBAL',target:'',enabled:'',threshold:'',unit:'',cooldown:'',quiet:'',starts:'',ends:'',reason:''}
+const tri=(v:Form['enabled'])=>v===''?null:v==='true'
+export default function NativeReminderPolicyPanel(props:Props){
+ const{runtime,identity}=useAuth()
+ if(runtime.mode!=='DISPOSABLE_TEST'||identity.status!=='AUTHORIZED'||!['master.product.view','production.wip.view','warehouse.stock.view','sales.invoice.view'].every(p=>identity.permissions.includes(p)))return null
+ return <Policies {...props} projectRef={runtime.projectRef} profileId={identity.profile.id} actor={identity.profile.authUserId}/>
+}
+function Policies(props:Props&{projectRef:string;profileId:string;actor:string}){
+ const{runtime}=useAuth();if(runtime.mode!=='DISPOSABLE_TEST')throw Error('Sesi pengaturan pengingat belum siap.')
+ const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),scope='analysis:'+props.projectRef+':'+props.profileId,productionScope='erp:'+props.projectRef+':'+props.profileId
+ const mounted=useRef(true),active=useRef<number|null>(null)
+ const[form,setForm]=useState<Form>(empty),[reviewed,setReviewed]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState(''),[message,setMessage]=useState('')
+ const[facts,setFacts]=useState<{generation:number;data:NativeReminderPolicy|null}>({generation:-1,data:null}),[recovery,setRecovery]=useState(()=>readReminderPolicyRequest(scope))
+ useEffect(()=>{mounted.current=true;return()=>{mounted.current=false}},[])
+ useEffect(()=>{const listener=(e:StorageEvent)=>{if(e.key===null||e.key===reminderPolicyRequestKey(scope)){setRecovery(readReminderPolicyRequest(scope));setFacts({generation:-1,data:null});setReviewed(false)}};addEventListener('storage',listener);return()=>removeEventListener('storage',listener)},[scope])
+ const current=(n:number)=>mounted.current&&props.isReadCurrent(n),data=facts.generation===props.generation?facts.data:null,blocked=props.blocked||busy||Boolean(recovery.error||recovery.pending)
+ const row=data?.rows.find(r=>r.rule_id===form.rule&&r.scope_kind===form.scope&&r.scope_key===(form.scope==='GLOBAL'?'*':form.target))
+ const edit=(changes:Partial<Form>)=>{setForm(f=>({...f,...changes}));setReviewed(false);setMessage('')}
+ const perform=async(operation:(n:number)=>Promise<void>)=>{if(active.current!==null)return;const n=props.onReadStart();active.current=n;setBusy(true);setFacts({generation:-1,data:null});setReviewed(false);setError('');setMessage('');try{await operation(n)}catch(e){if(current(n))setError(normalizeClientError(e).message)}finally{if(mounted.current){setBusy(false);setRecovery(readReminderPolicyRequest(scope))}if(active.current===n)active.current=null;props.onReadEnd(n)}}
+ const load=()=>{const original=props.context;void perform(async n=>{props.requireClear();if(!original)throw Error('Muat analisis ERP terlebih dahulu.');const r=await client.rpc('erp_cp7_get_reminder_policy_v1',{p_run:original.runId});if(!current(n))return;if(r.error)throw r.error;const parsed=parseNativeReminderPolicy(r.data,original.query,props.actor,props.access);assertSameAnalysis(original,parsed.analysis);setFacts({generation:n,data:parsed});props.onAnalysis(parsed.analysis,n)})}
+ const send=(request:ReminderPolicyRequest,lookup=false)=>void perform(async n=>{
+  props.requireClear();const manager=productionLockManager();if(!manager)throw Error('Perubahan pengaturan membutuhkan pengunci tab. Pengaturan masih dapat dibaca.')
+  await manager.request(productionLockName(productionScope),{mode:'exclusive',ifAvailable:true},async lock=>{if(!lock)throw Error('Ada transaksi ERP di tab lain. Tunggu selesai.');if(!current(n))return;const shared=readProductionRecovery(productionScope);if(shared.corrupted||!lookup&&hasProductionPending(shared))throw Error('Pastikan hasil transaksi ERP yang tertunda terlebih dahulu.')
+   persistReminderPolicyRequest(scope,request);setRecovery(readReminderPolicyRequest(scope));const args={p_payload:request.payload,p_request:request.id};const r=lookup?await client.rpc('erp_cp7_get_reminder_policy_request_v1',args):await client.rpc('erp_cp7_save_reminder_policy_v1',args);if(!current(n))return;if(r.error)throw r.error
+   const parsed=parseNativeReminderPolicy(r.data,request.query,props.actor,props.access,request);clearReminderPolicyRequest(scope,request.id);setRecovery(readReminderPolicyRequest(scope));setFacts({generation:n,data:parsed});props.onAnalysis(parsed.analysis,n);setMessage(parsed.result?.status==='COMMITTED'?'Versi pengaturan tersimpan. Versi sebelumnya tetap utuh.':'Permintaan lama belum tersimpan dan sudah ditutup. Periksa pengaturan sebelum membuat perubahan baru.')
+  })
+ })
+ const retry=(lookup:boolean)=>{try{const held=readReminderPolicyRequest(scope);setRecovery(held);if(!held.pending)throw Error(held.error??'Permintaan pengaturan tidak tersedia.');send(held.pending,lookup)}catch(e){setError(normalizeClientError(e).message)}}
+ const config=():ReminderPolicyConfig=>parseReminderPolicyConfig({enabled:tri(form.enabled),threshold_value:form.threshold===''?null:form.threshold,threshold_unit:form.rule==='PRODUCTION_GAP'?'PCS':['AR_DUE','AP_DUE'].includes(form.rule)?'DAY':form.unit||null,cooldown_minutes:form.cooldown===''?null:form.cooldown,quiet:{enabled:tri(form.quiet),starts_at:form.quiet==='true'?form.starts:null,ends_at:form.quiet==='true'?form.ends:null,timezone:'Asia/Jakarta'}},form.rule)
+ const save=()=>{try{props.requireClear();const held=readReminderPolicyRequest(scope);if(held.error||held.pending)throw Error(held.error??'Pastikan permintaan pengaturan yang tertunda.');const original=props.context;if(!data?.manageAllowed||!original||original.state!=='UNCHANGED'||!reviewed||!form.reason.trim())throw Error('Muat sumber terbaru, isi alasan, lalu tinjau pengaturan.');send({id:crypto.randomUUID(),query:original.query,payload:{run_id:original.runId,rule_id:form.rule,scope_kind:form.scope,scope_key:form.scope==='GLOBAL'?'*':form.target,expected_revision:row?.revision??'0',config:config(),reason:form.reason}})}catch(e){setError(normalizeClientError(e).message)}}
+ const adopt=()=>{if(!row)return;const c=row.config;setForm(f=>({...f,enabled:c.enabled===null?'':String(c.enabled) as Form['enabled'],threshold:c.threshold_value??'',unit:c.threshold_unit??'',cooldown:c.cooldown_minutes??'',quiet:c.quiet.enabled===null?'':String(c.quiet.enabled) as Form['quiet'],starts:c.quiet.starts_at??'',ends:c.quiet.ends_at??''}));setReviewed(false)}
+ return <section aria-label="Pengaturan aturan pengingat"><h3>Aturan pengingat</h3><p>Kosong berarti belum diatur. Nol adalah nilai yang sengaja dipilih. Mematikan aturan berbeda dari keduanya.</p><p>Perubahan menyimpan versi baru beserta alasannya. Pesan belum dikirim.</p>
+  <button disabled={blocked||!props.context}onClick={load}>Muat pengaturan pengingat</button>
+  {error?<p role="alert">{error}</p>:null}{recovery.error?<p role="alert">{recovery.error}</p>:null}{message?<p role="status">{message}</p>:null}
+  {recovery.pending?<aside><p>Hasil perubahan pengaturan belum diketahui. Permintaan yang sama dipertahankan.</p><button disabled={props.blocked||busy}onClick={()=>retry(false)}>Ulangi permintaan pengaturan yang sama</button><button disabled={props.blocked||busy}onClick={()=>retry(true)}>Pastikan hasil pengaturan di server</button></aside>:null}
+  {data?<><p>Pengaturan diperiksa {formatCp6WibDateTime(data.readAt)}. {data.rows.length} pengaturan tersimpan.</p>
+   <label>Aturan yang diperiksa<select aria-label="Aturan yang diperiksa"value={form.rule}disabled={blocked}onChange={e=>{const r=e.target.value as ReminderRule;edit({rule:r,...(['AR_DUE','AP_DUE'].includes(r)?{scope:'GLOBAL',target:''}:{})})}}>{data.rules.map(r=><option key={r}value={r}>{reminderRuleLabels[r]}</option>)}</select></label>
+   <label>Lingkup pengingat<select aria-label="Lingkup pengingat"value={form.scope}disabled={blocked||['AR_DUE','AP_DUE'].includes(form.rule)}onChange={e=>edit({scope:e.target.value as Form['scope']})}><option value="GLOBAL">Semua barang</option>{!['AR_DUE','AP_DUE'].includes(form.rule)?<option value="TARGET">Barang tertentu</option>:null}</select></label>
+   {form.scope==='TARGET'?<label>Barang untuk aturan<select aria-label="Barang untuk aturan"value={form.target}disabled={blocked}onChange={e=>edit({target:e.target.value})}><option value="">Pilih barang</option>{data.analysis.labels.map(l=><option key={l.key}value={l.key}>{l.sku} · {l.name}</option>)}</select></label>:null}
+   {row?<><p>Versi tersimpan {row.revision}. Alasan: {row.reason}. Status: {row.config.enabled===null?'belum diatur':row.config.enabled?'aktif':'dimatikan'}. Batas: {row.config.threshold_value??'belum diatur'} {row.config.threshold_unit??''}. Jeda: {row.config.cooldown_minutes??'belum diatur'} menit.</p><button disabled={blocked}onClick={adopt}>Isi formulir dari versi tersimpan</button></>:<p>Belum ada pengaturan pada lingkup ini. Untuk barang tertentu, aturan umum tetap tersedia bila belum ada pengaturan khusus. Nilai kosong pada versi khusus tidak otomatis diisi dari aturan umum.</p>}
+   {data.manageAllowed?<fieldset disabled={blocked}><legend>Perubahan yang ditinjau</legend>
+    <label>Status aturan<select aria-label="Status aturan"value={form.enabled}onChange={e=>edit({enabled:e.target.value as Form['enabled']})}><option value="">Belum diatur</option><option value="true">Aktif</option><option value="false">Dimatikan</option></select></label>
+    <label>Batas pengingat · {['AR_DUE','AP_DUE'].includes(form.rule)?'hari lewat jatuh tempo':'jumlah'}<input aria-label="Batas pengingat"inputMode="decimal"value={form.threshold}onChange={e=>edit({threshold:e.target.value})}/></label>
+    {form.rule==='ACCESSORY_NEED'?<label>Satuan dasar aksesori<input aria-label="Satuan dasar aksesori"value={form.unit}onChange={e=>edit({unit:e.target.value})}/></label>:<p>Satuan: {form.rule==='PRODUCTION_GAP'?'PCS':'hari'}.</p>}
+    <label>Jeda pengingat · menit<input aria-label="Jeda pengingat dalam menit"inputMode="numeric"value={form.cooldown}onChange={e=>edit({cooldown:e.target.value})}/></label>
+    <label>Waktu tenang<select aria-label="Waktu tenang"value={form.quiet}onChange={e=>edit({quiet:e.target.value as Form['quiet']})}><option value="">Belum diatur</option><option value="false">Tanpa waktu tenang</option><option value="true">Gunakan waktu tenang</option></select></label>
+    {form.quiet==='true'?<><label>Mulai waktu tenang · WIB<input aria-label="Mulai waktu tenang WIB"type="time"value={form.starts}onChange={e=>edit({starts:e.target.value})}/></label><label>Akhir waktu tenang · WIB<input aria-label="Akhir waktu tenang WIB"type="time"value={form.ends}onChange={e=>edit({ends:e.target.value})}/></label></>:null}
+    <label>Alasan perubahan pengingat<textarea aria-label="Alasan perubahan pengingat"maxLength={1000}value={form.reason}onChange={e=>edit({reason:e.target.value})}/></label>
+    <label><input aria-label="Pengaturan pengingat sudah ditinjau"type="checkbox"checked={reviewed}onChange={e=>setReviewed(e.target.checked)}/>Saya sudah meninjau nilai dan lingkup perubahan.</label>
+    <button disabled={!reviewed||!form.reason.trim()||props.context?.state!=='UNCHANGED'||form.scope==='TARGET'&&!form.target}onClick={save}>Simpan versi pengaturan pengingat</button>
+   </fieldset>:<p>Perubahan pengaturan memerlukan hak pengelolaan master dari pemilik atau admin ERP.</p>}
+  </>:null}
+ </section>
+}

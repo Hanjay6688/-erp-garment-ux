@@ -1715,5 +1715,45 @@
     "first198_original": "docs/cp7/evidence/f04-native-material/first198-shared-master-40ec442/RECEIPT.json",
     "fixture_review_fix": "Retain entire selected work config; actual current public supply capture + existing public schedule CAS after economic master changes; no policy reactivation",
     "superseded_inference": "70851106 consent version change was incorrect; retained Native Original shows ACTIVE production and selected targets"
+  },
+  "f05_native_rule_policy": {
+    "status": "SOURCE_AND_UI_CANDIDATE_NATIVE218_PREDECLARED_NOT_YET_QUALIFIED",
+    "contract": "cp7.native-rule-policy-workspace.v1",
+    "policy_rules": [
+      "PRODUCTION_GAP",
+      "ACCESSORY_NEED",
+      "AR_DUE",
+      "AP_DUE"
+    ],
+    "whole_target_version_overrides_global": true,
+    "NULL_zero_disabled_distinct": true,
+    "versioned_history_immutable": true,
+    "WIB_quiet_and_cooldown": "EXPLICIT_NULLABLE_LOCAL_PREVIEW_TIMING_NO_DELIVERY",
+    "local_receiver_DOM": {
+      "PASS": 40,
+      "Native_proof": false
+    },
+    "typescript_build_security": "PASS",
+    "additional_case_budget": {
+      "database": 12,
+      "actual_races": 3,
+      "Auth_HTTP": 3,
+      "browser": 2,
+      "total": 20
+    },
+    "composed_case_budget": {
+      "database": 139,
+      "actual_races": 29,
+      "Auth_HTTP": 20,
+      "browser": 30,
+      "total": 218
+    },
+    "analysis_retained_budget": 152,
+    "new_ERP_grants": false,
+    "Native_business_DML": false,
+    "independent_acceptance": false,
+    "full_family_acceptance": false,
+    "production_go": false,
+    "remaining": "Native218 proof; condition producers and complete obligation domains; local-sink binding/fencing/suppression"
   }
 }

@@ -7,6 +7,7 @@ import{cases as payableCases}from'./cp7_f05_payable_browser.mjs'
 import{cases as episodeCases}from'./cp7_f05_episode_browser.mjs'
 import{cases as aiCases,automaticCases as aiAutomaticCases}from'./cp7_f05_ai_browser.mjs'
 import{cases as historyCases}from'./cp7_f05_history_browser.mjs'
+import{cases as policyCases}from'./cp7_f05_policy_browser.mjs'
 const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_f05_analysis_browser_fixture.py',op],{input:JSON.stringify(p),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
 const observed=p=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_f05_attention_browser_fixture.py','state'],{input:JSON.stringify(p),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
 const sourceDiagnostic=p=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_f05_attention_browser_fixture.py','source'],{input:JSON.stringify(p),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
@@ -38,4 +39,4 @@ async function journey(ui,today,mobile){
  }catch(e){let source=null;try{if(original)source=sourceDiagnostic({actor:user.user.id,run:original.run_id})}catch(d){source={diagnostic_error:String(d)}}writeFileSync(`cp6-proof/t3/P16_ATTENTION_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),text:await panel.innerText().catch(()=>''),lost,original,lastResponse,source},null,2));await page.screenshot({path:`cp6-proof/t3/P16_ATTENTION_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}
  finally{fixture('restore',{actor:user.user.id});await user.context.close()}
 }
-export function cases(ui,today){return[...aiAutomaticCases(ui,today),...originalCases(ui,today),['P16_BROWSER_DESKTOP_NATIVE_ATTENTION',()=>journey(ui,today,false)],['P16_BROWSER_MOBILE_NATIVE_ATTENTION',()=>journey(ui,today,true)],...receivableCases(ui,today),...payableCases(ui,today),...episodeCases(ui,today),...aiCases(ui,today),...historyCases(ui,today)]}
+export function cases(ui,today){return[...aiAutomaticCases(ui,today),...originalCases(ui,today),['P16_BROWSER_DESKTOP_NATIVE_ATTENTION',()=>journey(ui,today,false)],['P16_BROWSER_MOBILE_NATIVE_ATTENTION',()=>journey(ui,today,true)],...receivableCases(ui,today),...payableCases(ui,today),...episodeCases(ui,today),...aiCases(ui,today),...historyCases(ui,today),...policyCases(ui,today)]}
