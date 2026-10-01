@@ -3,6 +3,7 @@ from pathlib import Path
 import hashlib,json,traceback,sys
 from functools import partial
 import psycopg
+import cp7_restore_state as restore_state
 import cp7_payroll_bundle as source_bundle
 import cp7_nota_bundle as bundle
 import cp7_misc_bundle as misc_bundle
@@ -139,7 +140,7 @@ def run(with_review=False,with_settlement=False,with_attendance=False,with_roste
     installed=False
     try:
         with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
-            p09.wip.policy.bf.verified(cur);before=package.boundary.snapshot(cur);public_before=native.public_state(cur);conn.rollback()
+            p09.wip.policy.bf.verified(cur);restore_before=restore_state.capture(cur,package.boundary.snapshot,native.public_state,p09.functions);before=restore_before['boundary'];public_before=restore_before['public'];conn.rollback()
             originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)
             internal_before=cur.execute("select pg_get_functiondef('erp.require_internal()'::regprocedure)").fetchone()[0]
             cur.execute(fg_bundle.extension(),prepare=False);cur.execute(source_bundle.extension(),prepare=False);cur.execute(bundle.extension(),prepare=False)
@@ -239,7 +240,7 @@ def run(with_review=False,with_settlement=False,with_attendance=False,with_roste
                 for definition in originals.values():cur.execute(definition,prepare=False)
                 for role in (('cp7_installment_write','cp7_installment_read','cp7_misc_write','cp7_misc_read') if with_settlement else ())+(('cp7_attendance_write',) if with_attendance_write else ())+(('cp7_roster_write',) if with_roster else ())+(('cp7_attendance_read',) if with_attendance else ())+(('cp7_payroll_write',) if with_settlement else ())+('cp7_nota_write','cp7_payroll_header','cp7_payroll_read','cp7_fg_write','cp7_fg_read','cp7_return_write','cp7_return_read','cp7_invoice_write','cp7_invoice_read','cp7_material_write','cp7_material_read','cp7_procure_write','cp7_procure_read','cp7_policy','cp7_capture'):
                     cur.execute('drop owned by '+role+' cascade;drop role '+role,prepare=False)
-                conn.commit();report['cp6_restored']=package.boundary.snapshot(cur)==before and native.public_state(cur)==public_before
+                conn.commit();report['cp6_restored']=restore_state.prove(cur,restore_before,package.boundary.snapshot,native.public_state,p09.functions,report)
                 conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
             report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta']
             report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or (d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and (f.get('metadata') or {}).get('schema') in ('cp7_attendance','cp7_payroll','cp7_fg','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice') for f in d.get('added',[])))

@@ -1,6 +1,7 @@
 """Bounded native report/archive reader; no finance/close writer acceptance."""
 import hashlib,json,traceback
 import psycopg
+import cp7_restore_state as restore_state
 import cp7_finance_bundle as bundle
 import cp7_finance_cases as cases
 import cp7_period_bundle as periods
@@ -37,7 +38,7 @@ def run(include_period=False,include_analysis=False,include_recost=False):
  if include_recost:report.update(label='CP7_P13_RECOST',scope='ACCEPTED_NATIVE_RECOST_BOUNDED_COMMAND_AND_QUEUE_STATUS_WITH_EXACT_REPLAY')
  try:
   with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
-   p09.wip.policy.bf.verified(cur);before=package.boundary.snapshot(cur);public_before=native.public_state(cur);conn.rollback();originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)
+   p09.wip.policy.bf.verified(cur);restore_before=restore_state.capture(cur,package.boundary.snapshot,native.public_state,p09.functions);before=restore_before['boundary'];public_before=restore_before['public'];conn.rollback();originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)
    internal_before=cur.execute("select pg_get_functiondef('erp.require_internal()'::regprocedure)").fetchone()[0]
    cur.execute(bundle.cp7_sales_bundle.extension()+'\n'+bundle.extension()+'\n'+periods.extension()+'\n'+recost.extension(),prepare=False);after=p09.functions(cur)
    path=cur.execute('show search_path').fetchone()[0];cur.execute("select set_config('search_path','',true)");grants={}
@@ -77,7 +78,7 @@ def run(include_period=False,include_analysis=False,include_recost=False):
    with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
     for definition in originals.values():cur.execute(definition,prepare=False)
     for role in ('cp7_recost_write','cp7_recost_read','cp7_period_write','cp7_period_read','cp7_finance_read','cp7_sales_write','cp7_sales_read','cp7_return_write','cp7_return_read','cp7_invoice_write','cp7_invoice_read','cp7_material_write','cp7_material_read','cp7_procure_write','cp7_procure_read','cp7_policy','cp7_capture'):cur.execute('drop owned by '+role+' cascade;drop role '+role,prepare=False)
-    conn.commit();report['cp6_restored']=package.boundary.snapshot(cur)==before and native.public_state(cur)==public_before;conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
+    conn.commit();report['cp6_restored']=restore_state.prove(cur,restore_before,package.boundary.snapshot,native.public_state,p09.functions,report);conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
    report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta'];report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or(d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and(f.get('metadata')or{}).get('schema')in('cp7_recost','cp7_period','cp7_sales','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice')for f in d.get('added',[])))
   group_names=['native','races','http','browser']
   if include_period:group_names+=['period_native','period_races','period_http','period_browser']

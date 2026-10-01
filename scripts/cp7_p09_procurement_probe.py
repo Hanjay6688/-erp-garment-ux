@@ -2,6 +2,7 @@
 from pathlib import Path
 import hashlib,json,traceback
 import psycopg
+import cp7_restore_state as restore_state
 import cp7_procurement_bundle as bundle
 import cp7_procurement_cases as cases
 import cp7_material_cases as material
@@ -85,7 +86,7 @@ def run():
     installed=False
     try:
         with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
-            wip.policy.bf.verified(cur);before=package.boundary.snapshot(cur);public_before=native.public_state(cur);conn.rollback()
+            wip.policy.bf.verified(cur);restore_before=restore_state.capture(cur,package.boundary.snapshot,native.public_state,functions);before=restore_before['boundary'];public_before=restore_before['public'];conn.rollback()
             originals,installation=install(cur);report.update(installation)
             conn.commit();installed=True;verify(cur);conn.rollback()
         report['advisors_with_cp7']=advisors(package.boundary.PG)
@@ -127,7 +128,7 @@ def run():
             with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
                 for definition in originals.values():cur.execute(definition,prepare=False)
                 cur.execute('drop owned by cp7_return_write cascade;drop role cp7_return_write;drop owned by cp7_return_read cascade;drop role cp7_return_read;drop owned by cp7_invoice_write cascade;drop role cp7_invoice_write;drop owned by cp7_invoice_read cascade;drop role cp7_invoice_read;drop owned by cp7_material_write cascade;drop role cp7_material_write;drop owned by cp7_material_read cascade;drop role cp7_material_read;drop owned by cp7_procure_write cascade;drop role cp7_procure_write;drop owned by cp7_procure_read cascade;drop role cp7_procure_read;drop owned by cp7_policy cascade;drop role cp7_policy;drop owned by cp7_capture cascade;drop role cp7_capture',prepare=False);conn.commit()
-                report['cp6_restored']=package.boundary.snapshot(cur)==before and native.public_state(cur)==public_before
+                report['cp6_restored']=restore_state.prove(cur,restore_before,package.boundary.snapshot,native.public_state,functions,report)
                 conn.rollback();wip.policy.bf.verified(cur);conn.rollback()
             report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}))
             d=report['advisor_delta'];report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or (d['status']=='REVIEW_REQUIRED' and all(

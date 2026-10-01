@@ -1,0 +1,58 @@
+{
+  "schema": "cp7-native-current-authority-qualified-receipt-v1",
+  "status": "WRITER_QUALIFIED_SIX_ACTUAL_NATIVE_WAITS",
+  "source_commit": "687d0e0200b668150760ab9780e4717cad929f3d",
+  "source_tree": "44536a76b1dd7ea052bc9998a7a1d9a70acd165f",
+  "bundle_sha256": "6df48df8bbf7113636ce504b2f1f894b43a6444f803ba71a0007c18b32f6907c",
+  "run_id": 36859093720,
+  "job_id": 110358594661,
+  "job_conclusion": "success",
+  "counts": {
+    "PASS": 6
+  },
+  "case_ids": [
+    "F03_CREDIT_AUTHORITY_CACHED_REQUEST",
+    "F03_CREDIT_AUTHORITY_FRESH_REQUEST",
+    "F03_CREDIT_AUTHORITY_SOURCE_ROW",
+    "F03_CREDIT_AUTHORITY_TARGET_ROW",
+    "F03_CREDIT_AUTHORITY_JOURNAL_ROW",
+    "F03_CREDIT_ACTOR_REVOKED_DURING_CACHED_REQUEST"
+  ],
+  "Native_permission_denial_sqlstate": "42501",
+  "inactive_actor_denial": "P0001: OWNER or ADMIN access required",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "known_pg_cron_restore_errors": 19,
+  "all_unaffected_predecessor_definitions_owners_ACLs_unchanged": true,
+  "exact_native_admission_changes": {
+    "erp.require_internal()": {
+      "before_sha256": "5dffcd53c0a5de609ae41482ca246d2afc806b9d92241253d680cf5c7fe1612e",
+      "after_sha256": "1aea98ba94ef621c842f27d3a5f495b60e84068c51c4fa15ff4dd804356cfa6b"
+    },
+    "erp.bc_guard_zone_location_v1()": {
+      "before_sha256": "95ff4304ba90c3214a4fb718278d06f716bf3213170fa0f1cb3ab8a5375e4c26",
+      "after_sha256": "e68acd9c073950f95135fcb7d38e35d834044ac737b5236e238cb3973f2a77f5"
+    },
+    "public.erp_save_supplier_credit_v1(jsonb,uuid)": {
+      "before_sha256": "26d6a5024fe1caf7b50a5f9b516d454baeaf94353ee84f90f454d7bcd6a4624c",
+      "after_sha256": "8991727ce86f954d1a7f87117ea75a12f365a1c73d897e694e71932287008e47"
+    },
+    "erp.bf_supplier_credit_allocate_v1(jsonb,uuid)": {
+      "before_sha256": "9f3e2c02b022f2288d4ffcf8c21a1da07783e82cf11c6da5484189282daa8db0",
+      "after_sha256": "bd48eef575c4d2ebe856b2dcb9880c063e1b963105ce6b660d652d87c1a46af8"
+    }
+  },
+  "original_five_counterexamples": "docs/cp7/evidence/f03-supplier-credit/authority-before5-d4096ca/RECEIPT.json",
+  "archive": {
+    "id": 11161500526,
+    "sha256": "e48301a8dec24f49f7b1e64285d7d7a3202edfa84201180f3f9c795712da87fc",
+    "bytes": 1634145,
+    "durable_file_id": "file_00000000fb3c8211b179cdb7e002128c"
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "Native_fixture_claims_not_real_Auth_HTTP": true
+}

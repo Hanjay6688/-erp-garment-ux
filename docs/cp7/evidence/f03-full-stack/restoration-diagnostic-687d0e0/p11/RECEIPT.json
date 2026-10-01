@@ -1,0 +1,22 @@
+{
+  "schema": "cp7-original-incomplete-restoration-receipt-v1",
+  "bucket": "p11",
+  "source_commit": "687d0e0200b668150760ab9780e4717cad929f3d",
+  "source_tree": "44536a76b1dd7ea052bc9998a7a1d9a70acd165f",
+  "bundle_sha256": "6df48df8bbf7113636ce504b2f1f894b43a6444f803ba71a0007c18b32f6907c",
+  "run_id": 36859093941,
+  "functional_groups_complete": true,
+  "observed_cases": 64,
+  "overall_status": "INCOMPLETE",
+  "cp6_restored": false,
+  "advisor_gate": true,
+  "diagnostic": "Original qualifier did not preserve before/after restoration differences. Candidate must prove ERP/platform/Auth/schema ACL, every public signature/hash and row hash, and every definition/owner/ACL; canonical ordering may only normalize the frozen reader aggregate ordering.",
+  "archive": {
+    "id": 11160627341,
+    "bytes": 8238737,
+    "sha256": "4ff03d5292be2c495ae9f15f83a32f7876334bd2ff64c910fe33f2f54f8c5ca5",
+    "durable_file_id": "file_00000000525482118b613698122331a2"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

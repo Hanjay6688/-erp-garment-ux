@@ -2,6 +2,7 @@
 from pathlib import Path
 import hashlib,json,traceback
 import psycopg
+import cp7_restore_state as restore_state
 import cp7_sales_bundle as bundle
 import cp7_sales_cases as cases
 import cp7_sales_command_cases as commands
@@ -32,7 +33,7 @@ def run():
  installed=False
  try:
   with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
-   p09.wip.policy.bf.verified(cur);before=package.boundary.snapshot(cur);public_before=native.public_state(cur);conn.rollback()
+   p09.wip.policy.bf.verified(cur);restore_before=restore_state.capture(cur,package.boundary.snapshot,native.public_state,p09.functions);before=restore_before['boundary'];public_before=restore_before['public'];conn.rollback()
    originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)
    internal_before=cur.execute("select pg_get_functiondef('erp.require_internal()'::regprocedure)").fetchone()[0]
    cur.execute(bundle.extension(),prepare=False);after=p09.functions(cur)
@@ -70,7 +71,7 @@ def run():
     for definition in originals.values():cur.execute(definition,prepare=False)
     for role in ('cp7_sales_write','cp7_sales_read','cp7_return_write','cp7_return_read','cp7_invoice_write','cp7_invoice_read','cp7_material_write','cp7_material_read','cp7_procure_write','cp7_procure_read','cp7_policy','cp7_capture'):
      cur.execute('drop owned by '+role+' cascade;drop role '+role,prepare=False)
-    conn.commit();report['cp6_restored']=package.boundary.snapshot(cur)==before and native.public_state(cur)==public_before;conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
+    conn.commit();report['cp6_restored']=restore_state.prove(cur,restore_before,package.boundary.snapshot,native.public_state,p09.functions,report);conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
    report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta']
    report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or (d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and (f.get('metadata') or {}).get('schema') in ('cp7_sales','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice') for f in d.get('added',[])))
   groups=[report.get(k,{}) for k in ('native','http','commands','command_races','command_http','drafts','draft_races','draft_http','payments','payment_races','payment_http','returns','return_races','return_http','browser')];report['observed_case_count']=sum(sum(g.get('counts',{}).values()) for g in groups)
