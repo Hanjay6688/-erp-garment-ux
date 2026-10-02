@@ -64,4 +64,44 @@ async function flow(ui,today,mobile,micro=false){
  }catch(error){mkdirSync('cp6-proof/t3',{recursive:true});let observed;try{observed=fixture('read',f)}catch(e){observed={error:String(e)}}writeFileSync(`cp6-proof/t3/NOTE_${suffix}_FAILURE.json`,JSON.stringify({error:String(error),stack:error.stack,first,replay,lost,routeDone,replies,text:await p.locator('body').innerText().catch(()=>''),observed},null,2));await p.screenshot({path:`cp6-proof/t3/NOTE_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw error}
  finally{if(peer)await peer.close().catch(()=>{});await user.context.close()}
 }
-export async function cases(ui,today){const tests=[['NOTE_BROWSER_DESKTOP',()=>flow(ui,today,false)],['NOTE_BROWSER_MOBILE_LOST_REPLY',()=>flow(ui,today,true)],['NOTE_BROWSER_DESKTOP_MICROSECOND_GUARD',()=>flow(ui,today,false,true)],['NOTE_BROWSER_MOBILE_MICROSECOND_GUARD',()=>flow(ui,today,true,true)]];const manifest=JSON.parse(readFileSync(new URL('./cp7_note_correction_manifest.json',import.meta.url),'utf8'));assert.deepEqual(tests.map(([name])=>name),manifest.groups.browser);return tests}
+async function duplicateFlow(ui,today){
+ const f=fixture('prepare_duplicate',{today}),user=await ui.login('OWNER',{label:'note-duplicate-lines',mobile:false,timezoneId:'Asia/Jakarta'}),p=user.page,ws=p.locator('.csales')
+ let request,reply
+ try{
+  const before=fixture('read_duplicate',f);assert.equal(before.available,85);assert.equal(Number(before.document.qty_pcs),15)
+  const second=before.document.items.findIndex(i=>i.id===f.source_lines[1].item_id);assert.ok(second>=0)
+  await open(ui,p);await ws.getByLabel('Cari invoice',{exact:true}).fill(f.tag);await ws.getByRole('button',{name:'Cari invoice',exact:true}).click()
+  const invoice=ws.getByRole('region',{name:'Daftar invoice'}).locator('.cproc-receipt');await ui.expect(invoice).toHaveCount(1);await invoice.click()
+  await ws.getByRole('button',{name:'Benerin nota',exact:true}).click();const form=ws.getByRole('form',{name:'Benerin nota',exact:true})
+  await ui.expect(form.getByLabel(`Jumlah invoice ${second+1}`,{exact:true})).toHaveValue('10');await form.getByLabel(`Jumlah invoice ${second+1}`,{exact:true}).fill('6')
+  await form.getByLabel('Alasan simpan invoice',{exact:true}).fill('SKU sama dua baris: baris lima tetap, baris sepuluh sebenarnya enam')
+  await form.getByLabel('Pembetulan nota sudah diperiksa',{exact:true}).check()
+  const committed=p.waitForResponse(r=>r.url().includes('/rest/v1/rpc/erp_cp7_correct_note_v1')&&r.request().method()==='POST',{timeout:20000})
+  await form.getByRole('button',{name:'Simpan pembetulan nota',exact:true}).click();const response=await committed;request=response.request().postDataJSON();reply={status:response.status(),body:await response.json()}
+  assert.equal(reply.status,200,JSON.stringify(reply));assert.equal(reply.body.kind,'COMMITTED_OUTCOME');assert.equal(reply.body.request_id,request.p_request);assert.equal(reply.body.previous_sale_id,f.root_sale)
+  assert.deepEqual(request.p_payload.item_lineage,before.document.items.map(i=>i.id));await ui.expect(form).toHaveCount(0)
+  await ui.expect(ws.getByRole('complementary',{name:'Rincian invoice'})).toContainText('11 PCS dalam invoice')
+  const after=fixture('read_duplicate',f);assert.equal(after.available,89);assert.equal(after.history.history.length,1);assert.deepEqual(after.original_facts,f.original_facts)
+  assert.deepEqual(after.main.map(r=>Number(r.physical_delta)),[-5,-6]);assert.deepEqual(after.main.map(r=>Number(r.book_physical_after)),[95,89]);assert.deepEqual(after.lot.map(r=>Number(r.physical_delta)),[-5,-6])
+  await open(ui,p,'Mutasi Barang Jadi · Vivo','Gudang');const fg=p.locator('.cfgb'),brand=fg.locator('.cfgb-filter').first()
+  if(!await brand.getAttribute('open'))await brand.locator('summary').click();const clear=brand.getByRole('button',{name:'Semua merek',exact:true});if(await clear.isEnabled())await clear.click();await brand.locator('summary').click()
+  await fg.getByLabel('Cari buku mutasi',{exact:true}).fill(f.sku);await fg.getByRole('button',{name:'Terapkan filter buku',exact:true}).click()
+  for(let index=0;index<f.source_lines.length;index++){
+   const card=fg.locator(`[data-movement-id="${f.source_lines[index].movement_id}"]`);await ui.expect(card).toHaveCount(1);await ui.expect(card).toContainText('Nota dibetulkan 1 kali')
+   await ui.expect(card.locator('.cfgb-balances > div').filter({has:p.getByText('Perubahan fisik',{exact:true})}).locator('dd')).toHaveText(`${[-5,-6][index]} PCS`)
+   await ui.expect(card.locator('.cfgb-balances > div').filter({has:p.getByText('Akhir buku',{exact:true})}).locator('dd')).toHaveText(`${[95,89][index]} PCS`)
+  }
+  await ui.expect(fg.locator('[role="alert"]')).toHaveCount(0);mkdirSync('cp6-proof/t3',{recursive:true});await p.screenshot({path:'cp6-proof/t3/NOTE_DUPLICATE_SKU_MAIN_BOOK.png',fullPage:true})
+  await open(ui,p,'Kartu Stok FG','Gudang');const stock=p.locator('.cfg');await stock.getByLabel('Cari barang jadi',{exact:true}).fill(f.sku);await stock.getByLabel('Sertakan stok habis',{exact:true}).check();await stock.getByRole('button',{name:'Cari stok',exact:true}).click()
+  const position=stock.locator('.cfg-position');await ui.expect(position).toHaveCount(1);await position.locator('button').click();const ledger=stock.locator('.cfg-ledger')
+  for(let index=0;index<2;index++){
+   const card=ledger.locator('.cfg-movement').filter({hasText:`perubahan asal di lot ini ${[-5,-10][index]} PCS`});await ui.expect(card).toHaveCount(1)
+   await ui.expect(card.locator('dl > div').filter({has:p.getByText('Perubahan fisik',{exact:true})}).locator('dd')).toHaveText(String([-5,-6][index]))
+  }
+  await ui.expect(ledger.locator('[role="alert"]')).toHaveCount(0);await p.screenshot({path:'cp6-proof/t3/NOTE_DUPLICATE_SKU_LOT_CARD.png',fullPage:true})
+  writeFileSync('cp6-proof/t3/NOTE_DUPLICATE_SKU_NATIVE_PROOF.json',JSON.stringify({request,reply,before,after},null,2))
+  return{status:'PASS',real_UI_Auth_HTTP_native_owning_correction:true,same_SKU_two_native_lines5_10_to5_6:true,exact_original_item_ids_sent:true,two_main_DOM_deltas_minus5_minus6:true,two_main_DOM_balances95_89:true,two_lot_DOM_deltas_minus5_minus6:true,current_stock89_and_originals_immutable:true,screenshots:['NOTE_DUPLICATE_SKU_MAIN_BOOK.png','NOTE_DUPLICATE_SKU_LOT_CARD.png']}
+ }catch(error){mkdirSync('cp6-proof/t3',{recursive:true});let observed;try{observed=fixture('read_duplicate',f)}catch(e){observed={error:String(e)}}writeFileSync('cp6-proof/t3/NOTE_DUPLICATE_SKU_FAILURE.json',JSON.stringify({error:String(error),stack:error.stack,request,reply,text:await p.locator('body').innerText().catch(()=>''),observed},null,2));await p.screenshot({path:'cp6-proof/t3/NOTE_DUPLICATE_SKU_FAILURE.png',fullPage:true}).catch(()=>{});throw error}
+ finally{await user.context.close()}
+}
+export async function cases(ui,today){const tests=[['NOTE_BROWSER_DESKTOP',()=>flow(ui,today,false)],['NOTE_BROWSER_MOBILE_LOST_REPLY',()=>flow(ui,today,true)],['NOTE_BROWSER_DESKTOP_MICROSECOND_GUARD',()=>flow(ui,today,false,true)],['NOTE_BROWSER_MOBILE_MICROSECOND_GUARD',()=>flow(ui,today,true,true)],['NOTE_BROWSER_DUPLICATE_SKU_LINES',()=>duplicateFlow(ui,today)]];const manifest=JSON.parse(readFileSync(new URL('./cp7_note_correction_manifest.json',import.meta.url),'utf8'));assert.deepEqual(tests.map(([name])=>name),manifest.groups.browser);return tests}

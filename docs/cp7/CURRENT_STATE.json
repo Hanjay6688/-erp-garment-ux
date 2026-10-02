@@ -6,7 +6,7 @@
   "accepted_product_commit": "434b18215f57dd7a361ca621341488d3c31e9703",
   "accepted_tree": "20f23f598334b52b6ee5fed8acc356d499a43705",
   "active_contract_ledger": "docs/cp7/F03_REMAINING_CONTRACT.md",
-  "active_family": "F04_F05_REMAINING_CONTRACTS",
+  "active_family": "F03_DUPLICATE_LINE_REPAIR_THEN_F04_F05_P18_P21",
   "cash_connected_reader": {
     "cash_writer": false,
     "first_counts": {
@@ -56,7 +56,13 @@
     "production_go": false,
     "protected_files": [
       "src/ConnectedProcurementPage.tsx",
-      "docs/cp7/TRANSACTION_CORRECTION_COVERAGE.md"
+      "docs/cp7/TRANSACTION_CORRECTION_COVERAGE.md",
+      "src/ConnectedMaterialsPage.tsx",
+      "src/ConnectedMaterialsPage.dom.test.tsx",
+      "src/productionRecovery.ts",
+      "src/types/database.preconnect.ts",
+      "scripts/check-source-ownership.mjs",
+      "scripts/check-access-catalog.mjs"
     ],
     "received": "2026-10-02T20:07:33+07:00",
     "remaining_Gpt_notes": [
@@ -72,7 +78,9 @@
       "material_name_only_rename",
       "corrected_material_stock_book"
     ],
-    "status": "OWNER_RELAYED_IN_PROGRESS_NO_IMPORTED_OR_SELF_VERIFIED_NATIVE_QUALIFICATION"
+    "status": "OWNER_RELAYED_IN_PROGRESS_NO_IMPORTED_OR_SELF_VERIFIED_NATIVE_QUALIFICATION",
+    "latest_owner_relay": "Duplicate-SKU5/10 correction to5/6 independently reproduced as -11/0, source detail fetched read-only from Claude docs/cp7/RECEIPT_CORRECTION.md; no WIP imported.",
+    "GPT_current_repair": "Exact immutable per-item identity and Native return lineage, complete Native40 pending"
   },
   "connected_attendance_candidate": {
     "counts": {
@@ -98,7 +106,7 @@
     "publish": false,
     "whatsapp": false
   },
-  "cp6": "CLOSED_CONTRACT_SCOPE",
+  "cp6": "CLOSED_CONTRACT_SCOPE_HOLD_NO_DEPLOYMENT",
   "cp6_independent_readiness_lock": {
     "audit_commit": "bfb38c54ef89f058a44ce41bc0edb1462e97e6d9",
     "cp7_merge": "ef792a76cc64c3266bfc99d80f9a63f8054518b1",
@@ -116,7 +124,7 @@
     "source": "Current conversation: approved1000, pay600, remaining400 on the same payroll, then400; owner: ok setuju, lanjutin sisanya ya cp7 sampe beres",
     "status": "IMPLEMENTED_WRITER_NATIVE_AUTH_BROWSER26_PASS"
   },
-  "execution_priority": "Owning note correction Native30 and all8 full F03 buckets qualified on exact retained source; preserve these Originals, finish connected Native cutting analyzer/model plus remaining F04/F05/P18-P21 without claiming independent acceptance or production GO.",
+  "execution_priority": "Qualify exact-line owning correction Native40, qualify observation44 and policy/model53, diagnose retained Native284500, then complete Native consumers/material/full P18-P21; preserve independent source-bound predecessors and Claude ownership.",
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
   "f02_independent_handoff": "https://github.com/Hanjay6688/-erp-garment-ux/blob/09990020355fb7329fbc7b8710692bf1357d2401/audits/cp7_f02_20260929/HANDOFF.md",
@@ -513,19 +521,21 @@
       "exact_read_only_Native_owner_report_overlay": true,
       "manifest": "scripts/cp7_note_correction_manifest.json",
       "native_money_stock_HPP_writers_unchanged": true,
-      "native_qualification": "NATIVE30_PASS_AT_41BFE11_EXACT_SQL_190994",
+      "native_qualification": "PREDECESSOR_NATIVE30_RETAINED_CURRENT_SOURCE_UNQUALIFIED",
       "private_immutable_funding_replay": true,
       "production_go": false,
       "qualified_native_money_cases": 0,
       "required_counts": {
-        "browser": 2,
-        "http": 2,
-        "native": 22,
-        "races": 4
+        "native": 28,
+        "races": 4,
+        "http": 3,
+        "browser": 5
       },
-      "status": "AWAITING_NATIVE30"
+      "status": "SOURCE_LINEAGE_REPAIRED_NATIVE40_PENDING",
+      "owning_command_body_changed": true,
+      "six_Native_financial_helpers_unchanged": true
     },
-    "current_native_economic_qualification": true,
+    "current_native_economic_qualification": false,
     "current_seven_retained_buckets_qualified": {
       "buckets": {
         "cash_installments": {
@@ -1106,7 +1116,7 @@
       "same_existing_mandatory_oracle": true,
       "status": "PREDECLARED_PENDING"
     },
-    "native_predeclared_case_executions": 30,
+    "native_predeclared_case_executions": 40,
     "p13_same_product_regression": {
       "job_id": 110787301933,
       "observed_case_count": 50,
@@ -1157,7 +1167,7 @@
       "source_commit": "86c9620575a9c56a078c4a6f651d4dc14412d693",
       "status": "INCOMPLETE_INSTALL_VERIFIER_BEFORE_CASE_EXECUTION"
     },
-    "status": "OWNING_NATIVE30_AND_ALL_EIGHT_F03_BUCKETS_WRITER_PASS_SOURCE_SPECIFIC",
+    "status": "NEW_DUPLICATE_SKU_FINDING_SOURCE_REPAIRED_COMPLETE_NATIVE40_PENDING",
     "third_failed_native": {
       "observed_case_count": 0,
       "receipt": "docs/cp7/evidence/note-correction/failed-install-27cbaee4/RECEIPT.json",
@@ -1392,7 +1402,8 @@
     "literal_planner_run": 36869047004,
     "literal_planner_source": "e63fc18b4e1b4c47f26cf4de6daed5b324f9490b",
     "production_go": false,
-    "status": "QUALIFIED_READY_FOR_INDEPENDENT_AUDIT"
+    "status": "NEW_SAME_SKU_NOTE_FINDING_REPAIR_NATIVE40_PENDING",
+    "preceding_qualified_status": "QUALIFIED_READY_FOR_INDEPENDENT_AUDIT"
   },
   "f03_x04": {
     "counts": {
@@ -1976,37 +1987,40 @@
     "status": "NATIVE284_COMPLETED_INCOMPLETE_ORIGINAL_PROJECTION_PENDING"
   },
   "f05_native_analysis_latest_regression": {
-    "auth_users_after": 0,
-    "auth_users_before": 0,
+    "status": "NATIVE_WRITER_QUALIFIED",
+    "source_commit": "2f4e454890e1506aa798c14707e8ae9c23a5452f",
+    "source_tree": "0483ac2c3dbc47b0798f865f661e335264ddc28f",
+    "run_id": 37018265410,
+    "job_id": 110874445684,
+    "artifact_id": 11232248873,
+    "source_bundle_sha256": "b9b360a2090fe7c62eb5a770e5bdf65286705a5b849a9164703926cd9365ddc9",
+    "expected_case_count": 152,
+    "observed_case_count": 152,
     "counts": {
-      "browser": {
-        "PASS": 14
-      },
-      "http": {
-        "PASS": 12
-      },
       "native": {
         "PASS": 106
       },
       "races": {
         "PASS": 20
+      },
+      "http": {
+        "PASS": 12
+      },
+      "browser": {
+        "PASS": 14
       }
     },
-    "expected_case_count": 152,
-    "job_id": 110729002602,
-    "observed_case_count": 152,
     "package_gate": {
-      "backup_restore_drill": true,
       "installed": true,
       "primary_unchanged": true,
+      "backup_restore_drill": true,
       "security_advisors": true,
       "writer_runtime": true
     },
-    "receipt": "docs/cp7/evidence/f05-native-publication/qualified152-556c5e0/RECEIPT.json",
-    "run_id": 36972420485,
-    "source_commit": "556c5e0ca006b9b8705f6a2aca1d25a52166b979",
-    "source_tree": "efad5d6b32e7d6c9985a6a13cf327330443e9b74",
-    "status": "NATIVE_WRITER_QUALIFIED"
+    "primary_unchanged": true,
+    "auth_users_before": 0,
+    "auth_users_after": 0,
+    "receipt": "docs/cp7/evidence/f05-native-analysis/qualified152-2f4e454/RECEIPT.json"
   },
   "f05_native_archives": {
     "consumer": "src/NativeAnalysisPanel.tsx",
@@ -2727,7 +2741,15 @@
     "qualified_source_commit": "bf99cec13925f89af58e9398ee7afc02248510b6",
     "qualified_source_tree": "61344f797f7acf24fd6ab6c57e863e1eb2411b5c",
     "required_case_count": 284,
-    "status": "SOURCEbf99cec_NATIVE_COMPLETE284_PASS_EXACT_ARTIFACT_PROJECTION_REQUIRED"
+    "status": "SOURCEbf99cec_NATIVE_COMPLETE284_PASS_EXACT_ARTIFACT_PROJECTION_REQUIRED",
+    "latest_composition": {
+      "status": "NATIVE284_INCOMPLETE_TWO_FINAL_BROWSER_REAL500_CAUSE_UNRESOLVED",
+      "run_id": 37018264861,
+      "source": "2f4e454890e1506aa798c14707e8ae9c23a5452f",
+      "exact_artifact_projection_manifest": "docs/cp7/native284_artifact_projection.json",
+      "failed_original_retention": "PENDING_READ_ONLY_COMPLETED_ARTIFACT_PROJECTION",
+      "previous_qualified_Original_unchanged": true
+    }
   },
   "f05_takeover_reference": {
     "branch": "cp7/f05-consumers-shell-20260930",
@@ -2742,7 +2764,7 @@
   "family_status": {
     "F01_P00_P02": "WRITER_T1_BOUNDED_FOUNDATION_PASS_INDEPENDENT_PENDING",
     "F02_P03_P04": "WRITER_REPAIR_VERIFIED_53_CASES_INDEPENDENT_HOLD",
-    "F03_P09_P13": "WRITER_QUALIFIED_READY_FOR_INDEPENDENT_AUDIT_ALL_EIGHT_NATIVE_BUCKETS_PASS",
+    "F03_P09_P13": "EIGHT_PREDECESSOR_NATIVE_BUCKETS_RETAINED_NEW_NOTE_LINEAGE_REPAIR_NATIVE40_PENDING",
     "F04_P05_P08": "NATIVE_NETTING82_WRITER_PASS_MODEL31_IMPLEMENTED_NATIVE_PENDING_MATERIAL_APPLY_OPEN",
     "F05_P14_P17": "NATIVE_CORE164_WRITER_PASS_REPORT_PUBLICATION_OTHER_RULE_DOMAINS_OPEN",
     "F06_P18_P21": "PLANNED"
@@ -2796,7 +2818,7 @@
     "source_bundle_sha256": "04289ce0fe6d268844217a66437d0e7d08a4c51a7ce5725624f9990f4337fb79",
     "status": "LOCAL_845_PASS_DECLARED_NATIVE21_PENDING"
   },
-  "last_writer_checkpoint": "2026-10-02: Native36 first attempt INCOMPLETE (24DB/4race/3HTTP PASS; multi-lot witness and browser/cleanup incomplete), exact Original retained and witness repairs pending fresh36. Cutting34 third browser witness order repaired, fresh34 required. Standalone observation Native44 implemented with5 synthetic SQL controls PASS, no trained model/main registration. Claude protected files untouched. Full F04/F05/P18–P21 and production GO remain open.",
+  "last_writer_checkpoint": "2026-10-02: independent duplicate-SKU product bug repaired with exact immutable invoice/return line identity, full Native40 pending; local30 PASS. Cutting input Native34 qualified13b, observation44 incomplete retained; standalone policy/model Native53 candidate. Analysis152 qualified2f4 exact retained; complete284 two late500 failures require exact diagnostics. Claude latest shared files protected. CP6 HOLD/audit_complete=false/production_go=false; full CP7 remains open.",
   "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
   "latest_tested_scope": "F03 owning30 and full8 source-bound proof preserved; latest analysis152 PASS. Complete284 stops after three individually PASS admission controls with physical public-function order mismatch; full mandatory suite unrun. Cutting23 has21 PASS/2 browser Locator errors. Both repairs require complete fresh runs. Full CP7 and production acceptance remain open.",
   "latest_tested_source": "2dced3d393dd2f3073de1dc3706c62581f52b9c6",
@@ -3013,7 +3035,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Qualify prospective input Native34 without dropping predecessor23; build genuine prospective observation/policy/model producer and complete material/P18-P21; retain Claude ownership and integrate only its source-bound qualification. Preserve all financial-period guards and do not infer a three-month owner rule from a three-month example.",
+  "next_action": "Run complete Native40 exact-line correction with all predecessor tests and restoration gates; Native44/53 genuine policy-model qualification; retain/diagnose exact failed284500 before concrete repair; build ordinary Native learning/material consumers and full P18-P21. No Claude WIP import, main merge, hosted install or production GO.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -3517,7 +3539,8 @@
     "qualified_job": 110845471837,
     "qualified_native_shell_source": "7bff651d0607e766545e57b796c2b7fd18f47dcd",
     "qualified_run": 37009472193,
-    "status": "SESSION_BOUND_NATIVE_AUTHORITY_CONTROL_PASS_AT7bff651"
+    "status": "SESSION_BOUND_NATIVE_AUTHORITY_CONTROL_PASS_AT7bff651",
+    "latest_full_shell_CodeQL": "PASS_AT13bafb9_RUN37023166369"
   },
   "shell_import": {
     "base": "da20943c25cafe887d96943428fc157f80839e24",
@@ -3546,7 +3569,7 @@
   "version": "cp7.integration-entry.v1",
   "prospective_cutting_inputs_latest": {
     "scope": "STANDALONE_DISPOSABLE_CANDIDATE",
-    "status": "BROWSER_WITNESS_ORDER_REPAIRED_NATIVE34_PENDING",
+    "status": "STANDALONE_NATIVE34_QUALIFIED_13bafb9",
     "first_run": 37013859341,
     "first_source": "8fb0525bb796aa12a4f1ca640abd66976df68e5b",
     "counts": {
@@ -3573,51 +3596,86 @@
     "second_receipt": "docs/cp7/evidence/f04-native-history/cutting-input-incomplete34-4d4d54d/RECEIPT.json",
     "post_revocation_hash": "EVERY_NATIVE_BOUNDARY_MEMBER_NO_OMISSIONS",
     "third_run": 37018264904,
-    "third_receipt": "docs/cp7/evidence/f04-native-history/cutting-input-incomplete34-2f4e454/RECEIPT.json"
-  },
-  "f03_note_presentation_candidate": {
-    "status": "NATIVE36_INCOMPLETE_ORIGINAL_RETAINED_REPAIRS_PENDING",
-    "financial_writer_sha256_unchanged": "4b1a48763fed395fdbd9f59bcce17dd58e701227436bb7af5cea171e432bffed",
-    "required_counts": {
-      "native": 25,
+    "third_receipt": "docs/cp7/evidence/f04-native-history/cutting-input-incomplete34-2f4e454/RECEIPT.json",
+    "qualified_run": 37023165963,
+    "qualified_source": "13bafb9897fb2137a26e2eea16b06b0f131aff81",
+    "qualified_receipt": "docs/cp7/evidence/f04-native-history/cutting-input-qualified34-13bafb9/RECEIPT.json",
+    "qualified_counts": {
+      "native": 21,
       "races": 4,
       "http": 3,
-      "browser": 4
+      "browser": 6
     },
-    "scope": [
-      "per_lot_effective_cards_and_all_suffix_balances",
-      "immutable_actor_UUID_current_profile_label",
-      "multi_lot_multi_line_atomic_native_proof",
-      "dedicated_actual_browser_microsecond_guards"
-    ],
+    "all_package_cleanup_gates_pass": true,
+    "auth_users_before": 0,
+    "auth_users_after": 0,
+    "console_errors": 0
+  },
+  "f03_note_presentation_candidate": {
+    "status": "EXACT_INVOICE_RETURN_LINEAGE_SOURCE_REPAIRED_NATIVE40_PENDING",
+    "preceding36": {
+      "status": "NATIVE36_INCOMPLETE_ORIGINAL_RETAINED_REPAIRS_PENDING",
+      "financial_writer_sha256_unchanged": "4b1a48763fed395fdbd9f59bcce17dd58e701227436bb7af5cea171e432bffed",
+      "required_counts": {
+        "native": 25,
+        "races": 4,
+        "http": 3,
+        "browser": 4
+      },
+      "scope": [
+        "per_lot_effective_cards_and_all_suffix_balances",
+        "immutable_actor_UUID_current_profile_label",
+        "multi_lot_multi_line_atomic_native_proof",
+        "dedicated_actual_browser_microsecond_guards"
+      ],
+      "manifest": "scripts/cp7_note_correction_manifest.json",
+      "contract": "docs/cp7/NOTE_CORRECTION_PRESENTATION.md",
+      "owner_HPP_age_policy": "UNRESOLVED_NO_NEW_CUTOFF_OR_CLOSED_PERIOD_REOPENING",
+      "full_family_acceptance": false,
+      "production_go": false,
+      "native_run": 37018264734,
+      "source_commit": "2f4e454890e1506aa798c14707e8ae9c23a5452f",
+      "source_full_shell_CodeQL": "PASS",
+      "failed_counts": {
+        "native": {
+          "PASS": 24,
+          "INCOMPLETE": 1
+        },
+        "races": {
+          "PASS": 4
+        },
+        "http": {
+          "PASS": 3
+        },
+        "browser": null
+      },
+      "failed_receipt": "docs/cp7/evidence/owning-note-correction/incomplete36-2f4e454/RECEIPT.json",
+      "failed_primary_unchanged": false,
+      "failed_Auth_users_after": 3,
+      "qualified_previous_financial_writer_unchanged": true
+    },
+    "required_counts": {
+      "native": 28,
+      "races": 4,
+      "http": 3,
+      "browser": 5
+    },
+    "latest36_incomplete_receipt": "docs/cp7/evidence/owning-note-correction/incomplete36-13bafb9/RECEIPT.json",
+    "latest36_all4browsers_pass": true,
+    "latest36_all_cleanup_gates_pass": true,
+    "latest36_failed_oracle": "single_lot_availability_incorrectly_used_as_all_lot_total",
+    "local_control_tests_pass": 30,
+    "owning_command_body_changed": true,
+    "six_Native_financial_helpers_unchanged": true,
+    "explicit_lineage_deletion_reorder_repeat_return_identity": true,
     "manifest": "scripts/cp7_note_correction_manifest.json",
     "contract": "docs/cp7/NOTE_CORRECTION_PRESENTATION.md",
     "owner_HPP_age_policy": "UNRESOLVED_NO_NEW_CUTOFF_OR_CLOSED_PERIOD_REOPENING",
     "full_family_acceptance": false,
-    "production_go": false,
-    "native_run": 37018264734,
-    "source_commit": "2f4e454890e1506aa798c14707e8ae9c23a5452f",
-    "source_full_shell_CodeQL": "PASS",
-    "failed_counts": {
-      "native": {
-        "PASS": 24,
-        "INCOMPLETE": 1
-      },
-      "races": {
-        "PASS": 4
-      },
-      "http": {
-        "PASS": 3
-      },
-      "browser": null
-    },
-    "failed_receipt": "docs/cp7/evidence/owning-note-correction/incomplete36-2f4e454/RECEIPT.json",
-    "failed_primary_unchanged": false,
-    "failed_Auth_users_after": 3,
-    "qualified_previous_financial_writer_unchanged": true
+    "production_go": false
   },
   "native_cutting_observation_candidate": {
-    "status": "LOCAL5_PASS_NATIVE44_PENDING",
+    "status": "NATIVE44_INCOMPLETE_POSTED_OUTPUT_DECIMAL_ORACLE_REPAIRED",
     "required_counts": {
       "native": 28,
       "races": 6,
@@ -3628,6 +3686,46 @@
     "observation_connected_consumer": false,
     "trained_model": false,
     "contract": "docs/cp7/f04/NATIVE_CUTTING_OBSERVATION_CANDIDATE.md",
+    "full_family_acceptance": false,
+    "production_go": false,
+    "failed_run": 37023165739,
+    "failed_receipt": "docs/cp7/evidence/f04-native-history/cutting-observation-incomplete44-13bafb9/RECEIPT.json",
+    "failed_counts": {
+      "native": {
+        "PASS": 27,
+        "INCOMPLETE": 1
+      },
+      "races": {
+        "PASS": 6
+      },
+      "http": {
+        "PASS": 4
+      },
+      "browser": {
+        "PASS": 6
+      }
+    },
+    "all_cleanup_gates_pass": true,
+    "auth_users_after": 0,
+    "complete_native44_still_required": true
+  },
+  "audit_complete": false,
+  "native_cutting_model_candidate": {
+    "status": "LOCAL5_SYNTHETIC_SQL_PASS_REAL_NATIVE53_PENDING",
+    "required_counts": {
+      "native": 34,
+      "races": 8,
+      "http": 5,
+      "browser": 6
+    },
+    "preserve_every44": true,
+    "contract": "docs/cp7/f04/NATIVE_CUTTING_MODEL_CANDIDATE.md",
+    "manifest": "docs/cp7/f04/native_cutting_model_native53_manifest.json",
+    "main_bundle_registration": false,
+    "model_connected_consumer": false,
+    "factory_accuracy_qualification": false,
+    "complete_prospective_actor_scope": true,
+    "explicit_scope_cap_refusal": 20000,
     "full_family_acceptance": false,
     "production_go": false
   }

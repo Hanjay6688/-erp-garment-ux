@@ -1,4 +1,4 @@
-# Native cutting observations — standalone candidate, Native44 pending
+# Native cutting observations — standalone candidate, Native44 incomplete
 
 observations.sql is unregistered in the main planning/input bundles and has no connected observer consumer. Its separately declared Native44 installer adds it after the prospective input candidate. Model training, temporal policy production and prediction/analyzer consumption remain open.
 
@@ -11,3 +11,5 @@ Real capture time is used for knowledge. Repeated capture keeps the Native slice
 Five local controls with explicit synthetic Native/Auth tables passed. They include Native-shaped source projection, zero-versus-missing output, exact unit and unknown width, late/cancelled/removed/physical-change invalidation, immutable Originals, exact request recovery, closed caller fields, current versions/rights and no stub-business-row change. They confer zero real Native/Auth/factory credit.
 
 Native44 preserves all34 and adds7 actual Native controls,2 observed races and1 real Auth HTTP. Its6 browsers are the retained source/input journeys, not a new observer UI or model journey. The manifest freezes28/6/4/6 and every original install/restore/backup/primary/advisor/current-Auth-cleanup gate. Qualification remains open until the complete run passes. Final model policy/holdout and ordinary observer/analyzer UI still require separate proof.
+
+At13bafb9/run37023165739,27DB/6races/4HTTP/6browsers PASS and one posted-output assertion fails; all restore/primary/backup/advisor/Auth-cleanup gates pass with Auth0→0. Exact failed Original is retained in evidence/f04-native-history/cutting-observation-incomplete44-13bafb9/. The decimal oracle now compares actual PCS/consumption numerically and prints the complete Native response on failure. Fresh complete44 is mandatory; failure is not yet declared formatting-only. Separate input Native34 at13bafb9/run37023165963 qualifies all21/4/3/6.

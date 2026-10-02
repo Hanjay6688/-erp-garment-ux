@@ -18,7 +18,8 @@ def ready(cur,today,subject=None):
 def cases(cur,today):
  def posted():
   f=ready(cur,today);before=b.boundary.snapshot(cur);out=send(cur,payload(cur,f));r=out['result']['observation']['records'][0]
-  assert r['native_valid']and r['actual_pcs']=='60'and r['consumed']=='60'and r['width_cm']is None
+  assert r['native_valid'],r
+  assert inputs.D(r['actual_pcs'])==inputs.D(60)and inputs.D(r['consumed'])==inputs.D(60)and r['width_cm']is None,r
   unit=cur.execute('select m.unit_code from erp.material_rolls x join erp.materials m on m.id=x.material_id where x.id=%s',(f['roll'],)).fetchone()[0];assert r['context']['unit']==unit
   assert out['original_matches_current_native']and out['original_matches_current_inputs']and b.boundary.snapshot(cur)==before
   assert cur.execute('select sum(qty_signed),sum(qty_signed*unit_cost_snapshot)from erp.material_stock_movements where material_id=%s',(f['material'],)).fetchone()==(inputs.D(40),inputs.D(400))

@@ -12,7 +12,11 @@ def main():
  with psycopg.connect(target)as conn,conn.cursor()as cur:
   had=cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]
   if not had:cur.execute('grant usage on schema erp to authenticated')
-  if op=='prepare':
+  if op=='prepare_duplicate':
+   f=cases.duplicate_fixture(cur,date.fromisoformat(p['today']));f['today']=p['today'];out=f
+  elif op=='read_duplicate':
+   h=cases.history(cur,p['root_sale']);f=dict(p,sale=h['current_sale_id']);out=dict(history=h,document=cases.source.read(cur,f)['detail'],**cases.duplicate_read(cur,f),original_facts=cases.unchanged_facts(cur,p['root_sale']))
+  elif op=='prepare':
    f=cases.e01.production(cur,date.fromisoformat(p['today']));f['today']=p['today'];f['before_note_accounts']={k:str(v)for k,v in cases.cmd.accounts(cur).items()};
    if p.get('microsecond_guard'):
     f['sale_at']=cur.execute("select date_trunc('second',clock_timestamp())-interval '5 minutes'+interval '123456 microseconds'").fetchone()[0].isoformat();f['bad_effective_at']=cur.execute("select to_char((%s::timestamptz+interval '1 microsecond')at time zone 'UTC','YYYY-MM-DD\"T\"HH24:MI:SS.US\"Z\"')",(f['sale_at'],)).fetchone()[0]

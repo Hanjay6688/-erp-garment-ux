@@ -20,7 +20,7 @@ MANIFEST=json.loads((ownership.bundle.ROOT/'scripts/cp7_note_correction_manifest
 assert MANIFEST['schema']=='cp7-owning-note-correction-native-manifest-v1'
 REQUIRED=MANIFEST['required_counts']
 EXPECTED=MANIFEST['expected_case_executions']
-assert EXPECTED==36==sum(REQUIRED.values())
+assert EXPECTED==40==sum(REQUIRED.values())
 
 def correct(cur,p,version,key=None,subject=None):
  auth.actor(cur,subject)
@@ -54,6 +54,61 @@ def edit(cur,f,qty=None,price=None):
 def posted(cur,f,qty='4',price='20'):
  drafts.create(cur,f,drafts.payload(f,qty,price));p,v=cmd.review(cur,f);cmd.command(cur,'POST',p,v);return f
 
+def duplicate_fixture(cur,today,different_prices=False):
+ import cp7_fg_book_cases as native_book
+ f=stock(cur,today,100);p=drafts.payload(f,'5','10');p['items'].append(dict(p['items'][0],qty_pcs='10',unit_price_snapshot='20'if different_prices else'10'))
+ drafts.create(cur,f,p);review,v=cmd.review(cur,f);cmd.command(cur,'POST',review,v)
+ f['root_sale']=f['sale'];f['original_facts']=unchanged_facts(cur,f['sale'])
+ source_rows=cur.execute("select m.id,i.id,i.qty_pcs from erp.fg_stock_movements m join erp.sales_items i on i.id=m.source_id where i.sale_id=%s and m.movement_type='SALE'order by i.qty_pcs",(f['sale'],)).fetchall()
+ assert len(source_rows)==2 and[source_rows[0][2],source_rows[1][2]]==[5,10],source_rows
+ f['source_lines']=[dict(movement_id=str(m),item_id=str(i),original_qty=str(q))for m,i,q in source_rows]
+ # Ordinary accepted owner move, not a rewrite of physical clocks/quantities.
+ w=native_book.read(cur,f);native_book.command(cur,'MOVE',native_book.move_payload(w,f['source_lines'][0]['movement_id'],f['source_lines'][1]['movement_id']))
+ return f
+
+def duplicate_edit(cur,f,qty='6'):
+ p,v=edit(cur,f);d=source.read(cur,f)['detail'];p['item_lineage']=[i['id']for i in d['items']]
+ target=next(i['item_id']for i in f['source_lines']if i['original_qty']=='10')
+ for index,i in enumerate(d['items']):
+  if i['id']==target:p['items'][index]['qty_pcs']=qty
+ return p,v
+
+def duplicate_read(cur,f):
+ main=complete_book(cur,f);card=complete_lot_card(cur,f)
+ return dict(main=[main[x['movement_id']]for x in f['source_lines']],lot=[card[x['movement_id']]for x in f['source_lines']],available=cmd.available(cur,f))
+
+def duplicate_cases(cur,today):
+ def lines():
+  f=duplicate_fixture(cur,today);p,v=duplicate_edit(cur,f);out=correct(cur,p,v);f['sale']=out['sale_id'];got=duplicate_read(cur,f)
+  assert[D(r['physical_delta'])for r in got['main']]==[D(-5),D(-6)],got
+  assert[D(r['book_physical_after'])for r in got['main']]==[D(95),D(89)],got
+  assert[D(r['physical_delta'])for r in got['lot']]==[D(-5),D(-6)]and got['available']==89,got
+  assert unchanged_facts(cur,f['root_sale'])==f['original_facts']
+  return dict(status='PASS',actual_duplicate_SKU5_10_to5_6=True,two_main_card_deltas_minus5_minus6_and_balances95_89=True,both_per_lot_deltas_correct=True,owner_manual_order_preserved=True,original_posted_facts_immutable=True)
+ def delete_reorder():
+  f=duplicate_fixture(cur,today);p,v=duplicate_edit(cur,f);p['items'].reverse();p['item_lineage'].reverse();out=correct(cur,p,v);f['sale']=out['sale_id'];assert[D(r['physical_delta'])for r in duplicate_read(cur,f)['main']]==[D(-5),D(-6)]
+  p,v=edit(cur,f);d=source.read(cur,f)['detail'];keep=next((index,i)for index,i in enumerate(d['items'])if D(i['qty_pcs'])==6)
+  p['items']=[p['items'][keep[0]]];p['item_lineage']=[keep[1]['id']];out=correct(cur,p,v);f['sale']=out['sale_id'];got=duplicate_read(cur,f)
+  assert[D(r['physical_delta'])for r in got['main']]==[D(0),D(-6)]and[D(r['book_physical_after'])for r in got['main']]==[D(100),D(94)],got
+  assert unchanged_facts(cur,f['root_sale'])==f['original_facts']
+  return dict(status='PASS',explicit_reorder_and_repeated_revision_preserve_line_identity=True,deleting_first_duplicate_does_not_shift_second_into_first_card=True,original_line5_effective0_and_line10_effective_minus6=True,book_balances100_94_and_immutable_originals=True)
+ def returned_line():
+  f=duplicate_fixture(cur,today,True);f['allocations']=returned.read(cur,f)['page']['rows'];line=next(i for i in f['source_lines']if i['original_qty']=='10');allocation=next(a for a in f['allocations']if a['sale_item_id']==line['item_id'])
+  f['bank']=str(source.bc.bank_account(cur,'NOTE-DUP-'+uuid.uuid4().hex[:8]))
+  returned.payments.pay(cur,f,'50');p,v=returned.payload(cur,f,qty='4',refund='80',allocation=allocation['allocation_id'],destination=f['location'])
+  first=next(a for a in f['allocations']if a['sale_item_id']==f['source_lines'][0]['item_id'])
+  p['items'].append(dict(p['items'][0],allocation_id=first['allocation_id'],qty_pcs='1',refund_amount='10'));cmd.command(cur,'RETURN',p,v)
+  return_sources=cur.execute("select m.id,i.qty_pcs from erp.fg_stock_movements m join erp.sales_return_items i on i.id=m.source_id join erp.sales_returns h on h.id=i.return_id where h.sale_id=%s and m.movement_type='SALE_RETURN'order by i.qty_pcs",(f['sale'],)).fetchall();assert[q for _,q in return_sources]==[1,4],return_sources
+  bad,v=duplicate_edit(cur,f,'3');before=snapshot(cur);auth.refused(cur,lambda:correct(cur,bad,v),'CP7_NOTE_RETURN_ALLOCATION_CHANGED');assert snapshot(cur)==before
+  good,v=duplicate_edit(cur,f);out=correct(cur,good,v);f['sale']=out['sale_id'];d=source.read(cur,f)['detail'];got=duplicate_read(cur,f)
+  assert D(d['financial']['gross_total'])==170 and D(d['financial']['paid_total'])==50 and D(d['financial']['return_total'])==90 and D(d['financial']['open_balance'])==30,d
+  items=cur.execute("select i.qty_pcs,i.unit_price_snapshot,r.qty_pcs,r.refund_amount from erp.sales_returns h join erp.sales_return_items r on r.return_id=h.id join erp.sale_stock_allocations a on a.id=r.sale_stock_allocation_id join erp.sales_items i on i.id=a.sale_item_id where h.sale_id=%s and h.status='POSTED'order by i.unit_price_snapshot",(f['sale'],)).fetchall()
+  assert items==[(5,D(10),1,D(10)),(6,D(20),4,D(80))]and got['available']==94,items
+  current_book=complete_book(cur,f);assert[D(current_book[str(m)]['physical_delta'])for m,_ in return_sources]==[D(1),D(4)],current_book
+  assert[D(r['physical_delta'])for r in got['main']]==[D(-5),D(-6)]and unchanged_facts(cur,f['root_sale'])==f['original_facts']
+  return dict(status='PASS',duplicate_SKU_different_prices_both_returns_stay_on_exact_original_lines=True,invoice170_cash50_return90_AR30_stock94=True,two_same_event_return_cards_remain_separate_plus1_plus4=True,invalid_qty3_below_return4_rolls_back_stock_cash_AR_journal_HPP_and_private_lineage=True)
+ return [('NOTE_DUPLICATE_SKU_LINES',lines),('NOTE_DUPLICATE_SKU_DELETE_REORDER',delete_reorder),('NOTE_DUPLICATE_SKU_RETURN_ATOMIC',returned_line)]
+
 def stock(cur,today,qty=1200,at=None):
  at=at or source.fg.ax.r1.now(cur)-timedelta(hours=2)
  product,_=source.fg.ax.owner_only_model_product(cur,effective_from=at-timedelta(days=1))
@@ -81,7 +136,7 @@ def unchanged_facts(cur,sale):
 
 def snapshot(cur):
  b.api.admin(cur)
- return dict(native=b.boundary.snapshot(cur),metadata=cur.execute("select jsonb_build_object('requests',(select coalesce(jsonb_agg(to_jsonb(r)order by actor,request_id),'[]')from cp7_note.requests r),'revisions',(select coalesce(jsonb_agg(to_jsonb(r)order by id),'[]')from cp7_note.revisions r),'context',(select coalesce(jsonb_agg(to_jsonb(r)),'[]')from cp7_note.context r),'journal_restatements',(select coalesce(jsonb_agg(to_jsonb(r)order by inverse_journal_id),'[]')from cp7_note.journal_restatements r),'payment_replays',(select coalesce(jsonb_agg(to_jsonb(r)order by previous_payment_id),'[]')from cp7_note.payment_replays r),'links',(select coalesce(jsonb_agg(to_jsonb(r)order by member_id),'[]')from cp7_fg.correction_movements r))").fetchone()[0])
+ return dict(native=b.boundary.snapshot(cur),metadata=cur.execute("select jsonb_build_object('requests',(select coalesce(jsonb_agg(to_jsonb(r)order by actor,request_id),'[]')from cp7_note.requests r),'revisions',(select coalesce(jsonb_agg(to_jsonb(r)order by id),'[]')from cp7_note.revisions r),'context',(select coalesce(jsonb_agg(to_jsonb(r)),'[]')from cp7_note.context r),'journal_restatements',(select coalesce(jsonb_agg(to_jsonb(r)order by inverse_journal_id),'[]')from cp7_note.journal_restatements r),'payment_replays',(select coalesce(jsonb_agg(to_jsonb(r)order by previous_payment_id),'[]')from cp7_note.payment_replays r),'links',(select coalesce(jsonb_agg(to_jsonb(r)order by member_id),'[]')from cp7_fg.correction_movements r),'item_lineage',(select coalesce(jsonb_agg(to_jsonb(r)order by replacement_item_id),'[]')from cp7_note.item_lineage r))").fetchone()[0])
 
 def inverse_date_truth(cur):
  rows=cur.execute("select check_name,issue_count from erp.run_v267_financial_truth_checks()where check_name='V2620U_JOURNAL_REVERSAL_BUSINESS_DATE'").fetchall()
@@ -299,7 +354,8 @@ def cases(cur,today):
   assert(effective_a['physical_delta'],effective_a['original_physical_delta'])==('-3','-2')and(effective_b['physical_delta'],effective_b['original_physical_delta'])==('-3','0')
   assert all(r['lot_id']==f['lot']for r in effective_a['audit_movements'])and all(r['lot_id']==lot_b for r in effective_b['audit_movements'])
   alloc=cur.execute('select count(distinct a.lot_id),sum(a.qty_pcs)from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id where i.sale_id=%s',(out['sale_id'],)).fetchone()
-  assert alloc==(2,D(6))and cmd.available(cur,f)==2 and unchanged_facts(cur,original)==facts
+  total=cur.execute("select sum(qty_signed)from erp.fg_stock_movements where product_id=%s and location_id=%s and quality_grade='GRADE_A'",(f['product'],f['location'])).fetchone()[0]
+  assert alloc==(2,D(6))and cmd.available(cur,f)==0 and cmd.available(cur,dict(f,lot=lot_b))==2 and total==2 and unchanged_facts(cur,original)==facts,(alloc,total,a,z)
   assert source.read(cur,f)['detail']['financial']['gross_total']=='120.00'
   return dict(status='PASS',real_Native_two_lot_allocation_3plus3=True,original_lot_only2_preserved=True,new_lot_card_original0_effective_minus3=True,old_lot_card_original_minus2_effective_minus3=True,per_lot_balances0_and2_reconcile_to_current2=True,no_cross_lot_audit_or_money_mutation=True)
  def multi_line():
@@ -327,6 +383,7 @@ def cases(cur,today):
  tests += [('NOTE_PREPAYMENT_REPLAY',wallet_replay),('NOTE_PREPAYMENT_OVERPAYMENT_ATOMIC',wallet_overpaid),('NOTE_ECONOMIC_REPORT_RESTATEMENT',economic_report),('NOTE_EXACT_TIME_SOURCE_ORDER',exact_order)]
  tests += [('NOTE_OLD_CASH_RETURN_REPORT',lambda:cross_period_funding(False)),('NOTE_OLD_ADVANCE_CASH_REPORT',lambda:cross_period_funding(True))]
  tests += [('NOTE_MULTI_LOT_CARD',multi_lot),('NOTE_MULTI_LINE_ATOMIC',multi_line),('NOTE_CORRECTION_ACTOR',actor_name)]
+ tests += duplicate_cases(cur,today)
  assert [name for name,_ in tests]==MANIFEST['groups']['native']
  return tests
 
