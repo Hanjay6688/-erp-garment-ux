@@ -1,0 +1,9 @@
+# Prospective cutting inputs — uninstalled candidate
+
+`inputs.sql` is not registered in the Native bundle or called by the UI. Its declared public wrappers are unavailable in the installed product. Three local SQL controls use explicitly synthetic Native/Auth stubs; they add zero real Native, Auth or factory qualification credit.
+
+The adapter derives actual group/PO, pattern/revision, roll/material identities, size IDs and unit from the Native source. An operator may explicitly review the material family, marker, planned drawing ratio and optional measured width. Neither actual output, arbitrary source flags, unit, completeness, interval nor an invented clock is accepted from the caller. An unknown width stays null. The metadata does not write any Native business table or alter Native SAVE/POST.
+
+Each reviewed version is immutable and records its real knowledge time. Recording a plan today for a year-old cutting group does not make that plan known a year ago. An actor owns its Originals. Current permissions are checked again after request/group waits, before cached or sealed-negative responses and before returning the current source. A new metadata write checks Native group version and private plan version, then compares the complete Native source again before commit. Exact request UUID/payload replay and sealed absent lookup are preserved; current workspace is freshly read.
+
+Required before registration: actual Native schema/read-grant verification, all-member/ACL/trigger verification, real Native positive/negative cases, observed races, current Auth HTTP and an ordinary connected desktop/mobile consumer including committed-reply-loss recovery. Future learning must collect complete current-source observations and policy history with genuine prospective clocks. A successful input capture by itself is not a model, a physical remainder measurement or full F04 acceptance.

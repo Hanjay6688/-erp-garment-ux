@@ -1,6 +1,18 @@
 # Active writer continuation · 1Oct2026
 
-## Latest controlling checkpoint · 2Oct2026 · Native152 PASS; complete284 and cutting23 repair
+## Latest controlling checkpoint · 2Oct2026 · actual Cutting23 and repaired complete284 qualified
+
+At7bff651/run37006145866, all23 cutting/history cases PASS:15 DB/2 actual races/2 Auth-HTTP/4 browser, zero console errors, all install/restore/primary/backup/advisor/runtime gates and Auth0→0. Both actual desktop and mobile journeys preserve Native draft→POST60, raw100→40/value1000→400, dirty-form protection, exact UUID recovery after reload and current403 retirement. Exact Original and every archive member hash are retained in evidence/f04-native-history/cutting-consumer-qualified23-7bff651/. Every failed predecessor remains unchanged. This qualifies the source consumer, not a learned range or full F04.
+
+Pixel inspection of that actual mobile capture reveals unreadable dark hero text and light pattern text on a light card. A scoped surface/color repair adds six actual computed contrast assertions to the same two Native journeys, with no removed assertions, case credit or timeout change. Successor23 remains required for this visual change; independent demo alignment remains open.
+
+Owning correction30 at2dced3/run37002543400 passes22 DB/4 races/2 Auth-HTTP/2 browser with all gates, exact Originals retained in evidence/owning-note-correction/qualified30-2dced3d/. Its stock/financial SQL is unchanged and adds no unique-case credit. Current analysis152 remains qualified at2dced3 with its verified71MB exact artifact projection. Complete284 atbf99cec/run37004744295 now passes179 DB/40 actual races/29 Auth-HTTP/36 browser, zero console errors and all gates/Auth0→0. The early3 admission repeats retain zero extra case credit. Its exact343931054-byte archive is pinned in native284_artifact_projection.json for completed-artifact-only read-only projection; exact retention is still pending. Every failed Original remains unchanged. This closes this bounded runtime repair, not full F04/F05/P18–P21.
+
+The actual Native Shell authority control passes at7bff651. Overall Shell remains INCOMPLETE1222 PASS/1 failed because the private cutting test used SET ROLE in a different psql session from its denied call. The test now executes the denied call under that role in the same session; no product privilege changed. Six learning and three prospective-input synthetic SQL controls pass locally; both adapters remain uninstalled and add zero Native/Auth/factory qualification. See f04/PROSPECTIVE_CUTTING_INPUT_CANDIDATE.md.
+
+Next: retain exact full284 and finish corrected Shell/contrast qualification, then continue actual prospective cutting input/history/model, material feasibility and P18–P21. No main merge, hosted installation, independent acceptance or production GO.
+
+## Retained preceding checkpoint · 2Oct2026 · Native152 PASS; complete284 and cutting23 repair
 
 At2dced3d/run37002543380, all152 analysis cases pass (106 DB/20 races/12 Auth-HTTP/14 browser), zero console errors and every install/restore/primary/backup/advisor/Auth gate. The exact71MB artifact requires a read-only projection; its digest and source are pinned in native152_artifact_projection.json. This does not qualify complete284 or full F04/F05.
 
