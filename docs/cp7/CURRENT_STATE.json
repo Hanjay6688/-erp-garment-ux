@@ -2278,7 +2278,9 @@
       "candidate": 903,
       "restored_original": 1943
     },
-    "complete_Native284_qualification": false
+    "complete_Native284_qualification": false,
+    "next_measurement": "PREDECLARED_EXISTING_7_STAGES_PLUS_3_NATIVE_REMINDER_SOURCE_STAGES",
+    "Native_obligation_measurement_durable_writes": 0
   },
   "native_analysis_regression_6d2dbc4": {
     "status": "NATIVE152_WRITER_QUALIFIED",
@@ -2324,6 +2326,12 @@
     "production_go": false,
     "Native_HTTP_timeout_changed": false,
     "Native_business_grants_changed": false,
-    "money_stock_HPP_formula_changed": false
+    "money_stock_HPP_formula_changed": false,
+    "source_commit": "556c5e0ca006b9b8705f6a2aca1d25a52166b979",
+    "source_tree": "efad5d6b32e7d6c9985a6a13cf327330443e9b74",
+    "complete_Native284_run_id": 36972420528,
+    "complete_Native284_status": "QUEUED_AWAITS_ACTUAL_RESULT",
+    "main_Native152_run_id": 36972420485,
+    "focused_Native7_run_id": 36972420474
   }
 }

@@ -37,4 +37,6 @@ Actual physical/financial measurement at2f504ff/run36971273331 completes all49 r
 
 This concrete workload identifies pure netting as the dominant measured compiler cost. It supports testing one-pass match aggregation and immutable pair reuse; it does not claim p95, LARGE completeness or complete Native284 success. Financial/current-source rechecks remain mandatory.
 
+After the proven pure-netting promotion, the next instrument retains all seven prior reads and adds three separately bounded Native reminder-source reads: sales AR, material AP and other obligations, through the existing private principal and same actual current actor. It records complete document/condition/page counts and actual SQL failures. No analysis, episode or claim is created. This distinguishes remaining obligation producer cost from protected Original/finance read cost without changing any product permission, source fence or real HTTP setting. Complete Native284 on556c5e0/run36972420528 remains required.
+
 The main Native152 regression also passes on6d2dbc4/run36966030893:106 DB/20 races/12 Auth-HTTP/14 browser, all install/restore/primary/backup/advisor and Auth0→0 gates. Its exact Original is retained in `evidence/f05-native-publication/qualified152-6d2dbc4/`. It neither replaces Native284 nor qualifies the diagnostic's emitter as a product case.

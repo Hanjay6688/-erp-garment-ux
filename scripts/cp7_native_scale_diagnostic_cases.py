@@ -50,6 +50,10 @@ def measure(cur, query, actor):
                     row.update(recommendations=len(value.get('recommendations', [])),
                                timeline_rows=len(value.get('timeline', [])),
                                fact_count=value.get('snapshot', {}).get('fact_count'))
+                elif stage.startswith('NATIVE_REMINDER_'):
+                    row.update(document_rows=len(value.get('rows', [])),
+                               condition_rows=len(value.get('conditions', [])),
+                               page_count=len(value.get('pages', [])))
                 report['steps'].append(row)
                 cur.execute('release savepoint diagnostic_stage')
                 return raw
@@ -80,6 +84,16 @@ def measure(cur, query, actor):
                  "select cp7_analysis_native.financial_source(cp7_planning.history_query(%s::jsonb),(%s::jsonb->>'captured_at')::timestamptz)::text",
                  (q, source))
         read('OPERATIONS_SOURCE', 'select cp7_analysis_native.source()::text', ())
+        # Observe each protected Native obligation producer independently.
+        # These are pure reads of the same actual actor/fixtures, with no saved
+        # analysis, episode, claim or Native business write introduced.
+        cur.execute('set local role cp7_reminder')
+        read('NATIVE_REMINDER_SALES_AR',
+             'select cp7_reminder_native.receivable_source()::text', ())
+        read('NATIVE_REMINDER_MATERIAL_AP',
+             'select cp7_reminder_native.payable_source()::text', ())
+        read('NATIVE_REMINDER_OTHER_OBLIGATIONS',
+             'select cp7_reminder_native.other_obligation_source()::text', ())
     except psycopg.Error as error:
         report.update(principal_error=dict(sqlstate=error.sqlstate, error=error.diag.message_primary))
     finally:
