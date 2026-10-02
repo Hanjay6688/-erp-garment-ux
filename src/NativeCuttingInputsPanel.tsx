@@ -4,7 +4,7 @@ import {getUatSupabaseClient} from './lib/supabase'
 import {normalizeClientError} from './lib/clientError'
 import {formatCp6WibDateTime} from './cp6BusinessTime'
 import {cuttingInputKey,heldCuttingInput,holdCuttingInput,releaseCuttingInput,parseCuttingInputWorkspace,parseCuttingInputCommand,validateCuttingInputPayload,type CuttingFamily,type CuttingInputPayload,type CuttingInputWorkspace} from './nativeCuttingInputs'
-type Props={groupId:string|null;sourceKey:string;parentBusy:boolean}
+type Props={groupId:string|null;sourceKey:string;parentBusy:boolean;onAuthorityLost?:()=>void}
 const required=['production.cutting.view','master.product.view','production.wip.view','warehouse.stock.view','sales.invoice.view']
 type Form={marker:string;mix:Record<string,string>;rolls:Record<string,CuttingFamily&{width:string}>;reviewed:boolean}
 const empty:Form={marker:'',mix:{},rolls:{},reviewed:false}
@@ -14,7 +14,7 @@ export default function NativeCuttingInputsPanel(props:Props){
  if(runtime.mode!=='DISPOSABLE_TEST'||identity.status!=='AUTHORIZED'||!['OWNER','ADMIN'].includes(identity.profile.role)||!required.every(p=>identity.permissions.includes(p)))return null
  return <Workspace {...props} key={`${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`}/>
 }
-function Workspace({groupId,sourceKey,parentBusy}:Props){
+function Workspace({groupId,sourceKey,parentBusy,onAuthorityLost}:Props){
  const{runtime,identity}=useAuth();if(runtime.mode!=='DISPOSABLE_TEST'||identity.status!=='AUTHORIZED')throw Error('Sesi rencana potong belum siap.')
  const scope=runtime.projectRef+':'+identity.profile.id,client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),seq=useRef(0)
  const[data,setData]=useState<{binding:string;value:CuttingInputWorkspace}|null>(null),[form,setForm]=useState<Form>(empty),[held,setHeld]=useState(()=>heldCuttingInput(scope)),[busy,setBusy]=useState(false),[error,setError]=useState(''),[message,setMessage]=useState('')
@@ -24,7 +24,7 @@ function Workspace({groupId,sourceKey,parentBusy}:Props){
  const visible=data?.binding===binding&&!busy&&!parentBusy?data.value:null
  const publish=(w:CuttingInputWorkspace,bound:string)=>{if(groupId!==null&&w.requested_group_id!==groupId){setMessage('Permintaan lama selesai. Muat potongan yang sekarang dipilih.');return}setData({binding:bound,value:w})}
  const load=async()=>{const readGroup=groupId??data?.value.requested_group_id;if(!readGroup||parentBusy)return;const n=++seq.current,bound=current.current;setData(null);setError('');setMessage('');setBusy(true)
-  try{const r=await client.rpc('erp_cp7_get_cutting_input_workspace_v1',{p_group:readGroup});if(n!==seq.current||bound!==current.current)return;if(r.error)throw r.error;publish(parseCuttingInputWorkspace(r.data,readGroup),bound)}catch(e){if(n===seq.current)setError(normalizeClientError(e).message)}finally{if(n===seq.current)setBusy(false)}
+  try{const r=await client.rpc('erp_cp7_get_cutting_input_workspace_v1',{p_group:readGroup});if(n!==seq.current||bound!==current.current)return;if(r.error)throw r.error;publish(parseCuttingInputWorkspace(r.data,readGroup),bound)}catch(e){if(n===seq.current){const failure=normalizeClientError(e);setError(failure.message);if(['FORBIDDEN','AUTH_REQUIRED'].includes(failure.code))onAuthorityLost?.()}}finally{if(n===seq.current)setBusy(false)}
  }
  const adopt=()=>{if(!visible?.anchor)return;const saved=visible.record;setForm({marker:saved?.values.rolls[0]?.context.marker_key??'',mix:Object.fromEntries(visible.anchor.size_ids.map(s=>[s,saved?.values.planned_mix.find(x=>x.size_id===s)?.drawings??''])),rolls:Object.fromEntries(visible.anchor.rolls.map(r=>{const old=saved?.values.rolls.find(x=>x.roll_id===r.roll_id);return[r.roll_id,{brand:old?.context.family.brand??'',mill:old?.context.family.mill??'',variant:old?.context.family.variant??'',spec_revision:old?.context.family.spec_revision??'',width:old?.width_cm??''}]})),reviewed:false})}
  const act=async(lookup=false)=>{
@@ -34,7 +34,7 @@ function Workspace({groupId,sourceKey,parentBusy}:Props){
    if(!lookup){const payload:CuttingInputPayload={group_id:w!.group!.id,expected_group_version:w!.group!.version,expected_input_version:w!.record?.version??null,marker_key:form.marker,planned_mix:w!.anchor!.size_ids.map(s=>({size_id:s,drawings:form.mix[s]??''})),roll_inputs:w!.anchor!.rolls.map(r=>({roll_id:r.roll_id,family:{brand:form.rolls[r.roll_id]?.brand??'',mill:form.rolls[r.roll_id]?.mill??'',variant:form.rolls[r.roll_id]?.variant??'',spec_revision:form.rolls[r.roll_id]?.spec_revision??''},width_cm:form.rolls[r.roll_id]?.width||null})),explicit_review:true};request={id:crypto.randomUUID(),payload:validateCuttingInputPayload(payload)};holdCuttingInput(scope,request)}
    setHeld(heldCuttingInput(scope));const r=lookup?await client.rpc('erp_cp7_get_cutting_input_request_v1',{p_payload:request!.payload,p_request:request!.id}):await client.rpc('erp_cp7_record_cutting_inputs_v1',{p_payload:request!.payload,p_request:request!.id})
    if(n!==seq.current||bound!==current.current)return;if(r.error)throw r.error;const result=parseCuttingInputCommand(r.data,request!);releaseCuttingInput(scope,request!);setHeld(heldCuttingInput(scope));publish(result.current,bound);setForm(old=>({...old,reviewed:false}));setMessage(result.result.status==='COMMITTED'?'Rencana tercatat. Transaksi potong tetap mengikuti Simpan dan Post.':'Permintaan tadi belum tersimpan dan sudah ditutup. Periksa sumber sebelum menyimpan dengan permintaan baru.')
-  }catch(e){if(n===seq.current){setError(normalizeClientError(e).message);setHeld(heldCuttingInput(scope))}}finally{if(n===seq.current)setBusy(false)}
+  }catch(e){if(n===seq.current){const failure=normalizeClientError(e);setError(failure.message);if(['FORBIDDEN','AUTH_REQUIRED'].includes(failure.code))onAuthorityLost?.();setHeld(heldCuttingInput(scope))}}finally{if(n===seq.current)setBusy(false)}
  }
  const canEdit=Boolean(visible?.can_record)&&identity.permissions.includes('production.cutting.edit_draft')&&!held.pending&&!held.error
  return <section className="ccut-card wide" aria-label="Rencana bahan sebelum potong"><header><span>RENCANA POTONG</span><strong>Bahan dan susunan ukuran</strong></header><p>Catat rencana sebelum kain dipotong. Lebar boleh kosong. Catatan yang baru dibuat setelah pemotongan tetap diberi waktu pencatatan yang sebenarnya.</p>

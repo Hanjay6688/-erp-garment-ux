@@ -3639,7 +3639,9 @@
     "historical_final_material_price_year_case_qualified": false,
     "posted_used_receipt_quantity_roll_correction_complete": false,
     "safe_refusal_is_not_complete_correction_usability": true,
-    "wrong_material_identity_reassignment_complete": false
+    "wrong_material_identity_reassignment_complete": false,
+    "current_registered_receipt32": "docs/cp7/evidence/receipt-correction/qualified32-e873462/RECEIPT.json",
+    "year_final_price_proof": "RF_INVOICE_PRICE_AFTER_SALE proves final invoice replacement with sale/return costs; RF_YEAR_HISTORY_364 proves year-old quantity and every suffix. A literal year-old already-final invoice case remains required; neither result is relabelled as the other."
   },
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "version": "cp7.integration-entry.v1",
@@ -3688,7 +3690,7 @@
     "console_errors": 0
   },
   "f03_note_presentation_candidate": {
-    "status": "NATIVE40_INCOMPLETE38_PASS_TWO_ACTUAL_DESKTOP_STATEMENT_TIMEOUTS",
+    "status": "NATIVE40_QUALIFIED_ATddac4e2_CURRENT_REGISTERED_COMPOSITION_REPEAT_PENDING",
     "preceding36": {
       "status": "NATIVE36_INCOMPLETE_ORIGINAL_RETAINED_REPAIRS_PENDING",
       "financial_writer_sha256_unchanged": "4b1a48763fed395fdbd9f59bcce17dd58e701227436bb7af5cea171e432bffed",
@@ -3782,7 +3784,20 @@
       0,
       0
     ],
-    "statement_timeout_NOT_raised": true
+    "statement_timeout_NOT_raised": true,
+    "qualified40": {
+      "source_commit": "ddac4e2c3ec07a21df0f7ff4b91c88aa75d1febb",
+      "run_id": 37037364406,
+      "counts": {
+        "native": 28,
+        "races": 4,
+        "http": 3,
+        "browser": 5
+      },
+      "receipt": "docs/cp7/evidence/owning-note-correction/qualified40-ddac4e2/RECEIPT.json",
+      "all_package_and_cleanup_gates_pass": true,
+      "console_errors": 0
+    }
   },
   "native_cutting_observation_candidate": {
     "status": "STANDALONE_NATIVE44_QUALIFIED_EXACT_ORIGINAL_RETAINED_AT3c05905",
@@ -3793,7 +3808,7 @@
       "browser": 6
     },
     "main_bundle_registration": true,
-    "observation_connected_consumer": false,
+    "observation_connected_consumer": "NATIVE57_QUALIFIED_ATe873_COMPLETE_PARENT_AUTHORITY_SUCCESSOR_PENDING",
     "trained_model": false,
     "contract": "docs/cp7/f04/NATIVE_CUTTING_OBSERVATION_CANDIDATE.md",
     "full_family_acceptance": false,
@@ -3843,7 +3858,7 @@
     "contract": "docs/cp7/f04/NATIVE_CUTTING_MODEL_CANDIDATE.md",
     "manifest": "docs/cp7/f04/native_cutting_model_native53_manifest.json",
     "main_bundle_registration": true,
-    "model_connected_consumer": "IMPLEMENTED_NATIVE57_PENDING",
+    "model_connected_consumer": "NATIVE57_QUALIFIED_ATe873_COMPLETE_PARENT_AUTHORITY_SUCCESSOR_PENDING",
     "factory_accuracy_qualification": false,
     "complete_prospective_actor_scope": true,
     "explicit_scope_cap_refusal": 20000,
@@ -3870,7 +3885,9 @@
     },
     "consumer_expected_case_count": 57,
     "local_DOM_receiver_tests": 7,
-    "automatic_activation": false
+    "automatic_activation": false,
+    "consumer_qualified_source": "e873462c7372c23e86e48c33ebf3de386b0c9dec",
+    "consumer_qualified_receipt": "docs/cp7/evidence/f04-native-history/cutting-learning-qualified57-e873462/RECEIPT.json"
   },
   "execution_environment": "LOCAL_WORKSPACE_RECOVERED_AT_REMOTE8f8253d_REPOSITORY_AND_CI_CONTINUE",
   "shell_note_lineage_control_repair": {
@@ -3945,5 +3962,59 @@
     },
     "F03_full_P13_E03_and_other_six_components": "PASS_SEVEN_OF_EIGHT_P09_INCOMPLETE_SOURCE_SELECTOR_AND_UNREGISTERED_V2",
     "remaining_fixes": "Exact Invoice supplier region locator; register receipt/P09 ledger v2; retain historical close cutoff when no current physical delta window is requested"
+  },
+  "latest_registered_receipt_and_learning": {
+    "source_commit": "e873462c7372c23e86e48c33ebf3de386b0c9dec",
+    "source_tree": "39863f36fccf9be7aa79ac09a245d154ac07c293",
+    "receipt32": {
+      "status": "NATIVE_WRITER_QUALIFIED_MAIN_P09_F03_COMPOSITION",
+      "run_id": 37043056851,
+      "counts": {
+        "native": 26,
+        "races": 3,
+        "http": 1,
+        "browser": 2
+      },
+      "receipt": "docs/cp7/evidence/receipt-correction/qualified32-e873462/RECEIPT.json"
+    },
+    "learning57": {
+      "status": "NATIVE_WRITER_QUALIFIED_SOURCE_BOUND_BEFORE_COMPLETE_PARENT_AUTHORITY_REPAIR",
+      "run_id": 37043056876,
+      "counts": {
+        "native": 34,
+        "races": 8,
+        "http": 5,
+        "browser": 10
+      },
+      "receipt": "docs/cp7/evidence/f04-native-history/cutting-learning-qualified57-e873462/RECEIPT.json",
+      "factory_accuracy_qualified": false
+    },
+    "all_install_restore_primary_backup_advisor_runtime_Auth_cleanup_gates_pass": true,
+    "Auth_users_before_after": [
+      0,
+      0
+    ],
+    "failed_receipt31_of32_retained": "docs/cp7/evidence/receipt-correction/incomplete32-c5c0826/RECEIPT.json",
+    "independent_acceptance": false,
+    "full_family_acceptance": false,
+    "production_go": false
+  },
+  "cutting_page_current_authority_repair": {
+    "status": "LOCAL56_PASS_BUILD_SECURITY_PASS_COMPLETE_NATIVE57_REPEAT_REQUIRED",
+    "confirmed_predecessor": "e873462c7372c23e86e48c33ebf3de386b0c9dec",
+    "counterexamples": "Both fresh learning403 and fresh parent403 left the old Native roll catalog visible. Two added regression cases failed before repair.",
+    "repair": "Retire parent workspace, row quantities, own-source-bound children and old async replies after current authority refusal; bind parent facts to actor/permission generation; retain own typed notes and immutable exact recovery intents.",
+    "budget_unchanged": {
+      "native": 34,
+      "races": 8,
+      "http": 5,
+      "browser": 10
+    },
+    "complete_current403_parent_sibling_assertions_added_to_eight_existing_browser_journeys": true,
+    "Native_product_SQL_or_grants_changed": false,
+    "contract": "docs/cp7/CUTTING_PAGE_AUTHORITY.md",
+    "full_family_acceptance": false,
+    "independent_acceptance": false,
+    "production_go": false
   }
 }

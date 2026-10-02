@@ -10,6 +10,11 @@ name: CP7 F04 Prospective Cutting Inputs
     - src/NativeCuttingInputsPanel*
     - src/nativeCuttingInputs*
     - .github/workflows/cp7-f04-cutting-inputs.yml
+    - src/ConnectedCuttingPage.tsx
+    - src/CuttingPatternPicker.tsx
+    - scripts/cp7_cutting_yield_browser.mjs
+    - scripts/cp7_cutting_input_browser.mjs
+    - src/NativeCuttingYieldPanel.tsx
 permissions:
   contents: read
   actions: read

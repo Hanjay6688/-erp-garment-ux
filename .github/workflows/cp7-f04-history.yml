@@ -20,6 +20,10 @@ name: CP7 F04 Native Demand History
     - src/native-demand-history.css
     - src/ConnectedFgStockPage*
     - .github/workflows/cp7-f04-history.yml
+    - src/ConnectedCuttingPage.tsx
+    - src/CuttingPatternPicker.tsx
+    - scripts/cp7_cutting_yield_browser.mjs
+    - scripts/cp7_cutting_input_browser.mjs
 permissions:
   contents: read
   actions: read

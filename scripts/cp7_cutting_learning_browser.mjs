@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import {execFileSync} from 'node:child_process'
 import {mkdirSync,writeFileSync} from 'node:fs'
 import {cases as previous} from './cp7_cutting_input_browser.mjs'
-import {openCutting} from './cp7_cutting_yield_browser.mjs'
+import {openCutting,retiredPage} from './cp7_cutting_yield_browser.mjs'
 const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_cutting_learning_browser_fixture.py',op],{input:JSON.stringify(p),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
 const trim=v=>v.includes('.')?v.replace(/0+$/,'').replace(/\.$/,''):v
 async function select(ui,page,f,mobile) {
@@ -95,12 +95,12 @@ async function journey(ui,today,mobile,cohort) {
     assert.equal(state().native_hash,economicBefore.native_hash)
     await image(ui,page,'CUT_LEARNING_'+suffix+'.png')
     {
-      fixture('deactivate',{actor});const revoked=state(),fresh=page.waitForRequest(r=>r.url().endsWith('/rpc/erp_cp7_get_cutting_input_workspace_v1'))
+      await notes.fill('ISIAN SAAT IZIN DIPERIKSA');fixture('deactivate',{actor});const revoked=state(),fresh=page.waitForRequest(r=>r.url().endsWith('/rpc/erp_cp7_get_cutting_input_workspace_v1'))
       await panel.getByRole('button',{name:'Periksa sumber penilaian',exact:true}).click();const denied=await (await fresh).response();assert.equal(denied.status(),403)
-      await ui.expect(panel.locator('[data-cutting-assessment]')).toHaveCount(0);await ui.expect(panel.locator('[data-cutting-policy]')).toHaveCount(0);assert.equal(state().native_hash,revoked.native_hash)
+      await ui.expect(panel.locator('[data-cutting-assessment]')).toHaveCount(0);await ui.expect(panel.locator('[data-cutting-policy]')).toHaveCount(0);await retiredPage(ui,page,notes);assert.equal(state().native_hash,revoked.native_hash)
     }
-    return {status:'PASS',mobile,actual_Native_cohort:cohort,real_clock_prospective_policy_and_POST_observation:!cohort,exact_lost_UUID_and_Original:mobile,complete_disjoint3_4_3_width51_and_unknown_width48_54:cohort,no_Native_stock_cash_AR_HPP_write:true,current403_and_old_quantitative_retirement:true,screenshot:'CUT_LEARNING_'+suffix+'.png'}
-  } catch(e) {mkdirSync('cp6-proof/t3',{recursive:true});writeFileSync('cp6-proof/t3/CUT_LEARNING_'+suffix+'_FAILURE.json',JSON.stringify({error:String(e),stack:e.stack,text:await panel.innerText().catch(()=>''),lost},null,2));await page.screenshot({path:'cp6-proof/t3/CUT_LEARNING_'+suffix+'_FAILURE.png',fullPage:true}).catch(()=>{});throw e}
+    return {current403_retires_parent_siblings_and_preserves_own_notes:true,status:'PASS',mobile,actual_Native_cohort:cohort,real_clock_prospective_policy_and_POST_observation:!cohort,exact_lost_UUID_and_Original:mobile,complete_disjoint3_4_3_width51_and_unknown_width48_54:cohort,no_Native_stock_cash_AR_HPP_write:true,current403_and_old_quantitative_retirement:true,screenshot:'CUT_LEARNING_'+suffix+'.png'}
+  } catch(e) {mkdirSync('cp6-proof/t3',{recursive:true});writeFileSync('cp6-proof/t3/CUT_LEARNING_'+suffix+'_FAILURE.json',JSON.stringify({error:String(e),stack:e.stack,text:await panel.innerText().catch(()=>''),parent_text:await page.locator('.connected-cutting-page').innerText().catch(()=>''),lost},null,2));await page.screenshot({path:'cp6-proof/t3/CUT_LEARNING_'+suffix+'_FAILURE.png',fullPage:true}).catch(()=>{});throw e}
   finally {fixture('restore',{actor});await user.context.close()}
 }
 export function cases(ui,today){return previous(ui,today).concat([

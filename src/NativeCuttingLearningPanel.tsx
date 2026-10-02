@@ -6,7 +6,7 @@ import {formatCp6WibDateTime} from './cp6BusinessTime'
 import {cuttingInputChangedEvent, cuttingInputKey, heldCuttingInput, parseCuttingInputWorkspace, type CuttingInputWorkspace} from './nativeCuttingInputs'
 import {cuttingLearningKey, heldLearning, holdLearning, releaseLearning, parseLearningReply, parseModelWorkspace, validateLearningIntent, type LearningReply, type ModelWorkspace} from './nativeCuttingLearning'
 
-type Props = {groupId:string|null; sourceKey:string; parentBusy:boolean}
+type Props = {groupId:string|null; sourceKey:string; parentBusy:boolean; onAuthorityLost?:()=>void}
 type PolicyForm = {coverage:string; train:string; calibration:string; holdout:string; reviewed:boolean}
 const empty:PolicyForm={coverage:'',train:'',calibration:'',holdout:'',reviewed:false}
 const required=['production.cutting.view','master.product.view','production.wip.view','warehouse.stock.view','sales.invoice.view']
@@ -35,7 +35,7 @@ export default function NativeCuttingLearningPanel(props:Props) {
   if(runtime.mode!=='DISPOSABLE_TEST'||identity.status!=='AUTHORIZED'||!['OWNER','ADMIN'].includes(identity.profile.role)||!required.every(p=>identity.permissions.includes(p))) return null
   return <Workspace {...props} key={`${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`}/>
 }
-function Workspace({groupId,sourceKey,parentBusy}:Props) {
+function Workspace({groupId,sourceKey,parentBusy,onAuthorityLost}:Props) {
   const {runtime,identity}=useAuth()
   if(runtime.mode!=='DISPOSABLE_TEST'||identity.status!=='AUTHORIZED') throw Error('Sesi penilaian potong belum siap.')
   const scope=runtime.projectRef+':'+identity.profile.id,actor=identity.profile.authUserId
@@ -88,7 +88,7 @@ function Workspace({groupId,sourceKey,parentBusy}:Props) {
         publish(model.input,model,null,bound)
       } else publish(input,null,null,bound)
       setRoll(choice)
-    } catch(e) {if(n===seq.current) setError(normalizeClientError(e).message)}
+    } catch(e) {if(n===seq.current) {const failure=normalizeClientError(e);setError(failure.message);if(['FORBIDDEN','AUTH_REQUIRED'].includes(failure.code)) onAuthorityLost?.()}}
     finally {if(n===seq.current) setBusy(false)}
   }
   const act=async(action:'OBSERVATION'|'POLICY'|'CHECK'|'RECOVER')=>{
@@ -142,7 +142,7 @@ function Workspace({groupId,sourceKey,parentBusy}:Props) {
         publish(input,null,{...reply,currentOriginal:matches},bound)
         if(!matches) setMessage('Catatan lama berhasil dipulihkan. Sumber sudah berubah; muat sumber untuk menilai potongan sekarang.')
       }
-    } catch(e) {if(n===seq.current){setError(normalizeClientError(e).message);setHeld(heldLearning(scope))}}
+    } catch(e) {if(n===seq.current){const failure=normalizeClientError(e);setError(failure.message);setHeld(heldLearning(scope));if(['FORBIDDEN','AUTH_REQUIRED'].includes(failure.code)) onAuthorityLost?.()}}
     finally {if(n===seq.current) setBusy(false)}
   }
   const e=visible?.reply?.currentOriginal?visible.reply.assessment:null,o=visible?.reply?.currentOriginal?visible.reply.observation:null

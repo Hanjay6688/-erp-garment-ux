@@ -35,5 +35,6 @@
   "factory_model_qualification": false,
   "must_pass_all_install_restore_primary_backup_advisor_runtime_current_Auth_cleanup_gates": true,
   "production_go": false,
-  "preserve_every_predecessor53": true
+  "preserve_every_predecessor53": true,
+  "current403_checks_complete_parent_and_siblings_preserving_operator_notes": true
 }

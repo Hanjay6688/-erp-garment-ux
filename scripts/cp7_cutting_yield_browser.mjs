@@ -27,6 +27,15 @@ export async function openCutting(ui,page,mobile){
  if(!await link.isVisible()){const branch=page.locator('.sidebar .nav-main').filter({hasText:'Produksi'});await ui.expect(branch).toBeVisible();await branch.click()}
  await ui.expect(link).toBeVisible();await link.click()
 }
+export async function retiredPage(ui,page,notes) {
+ await ui.expect(page.locator('.ccut-roll-catalog button')).toHaveCount(0)
+ await ui.expect(page.locator('.ccut-drafts > button')).toHaveCount(0)
+ await ui.expect(page.locator('.ccut-table-wrap')).toHaveCount(0)
+ await ui.expect(page.locator('.ccut-review strong')).toHaveText(['—','—','—','—','—'])
+ await ui.expect(page.locator('[data-cutting-actual],[data-cutting-input-record],[data-cutting-assessment],[data-cutting-policy]')).toHaveCount(0)
+ await ui.expect(page.getByRole('button',{name:'Post ke WIP Potongan',exact:true})).toBeDisabled()
+ assert.equal(await notes.inputValue(),'ISIAN SAAT IZIN DIPERIKSA')
+}
 async function cuttingJourney(ui,today,mobile){
  const user=await ui.login('OWNER',{label:'native-cutting-yield-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'}),page=user.page,f=fixture('cut_prepare',{today}),suffix=mobile?'MOBILE':'DESKTOP',screenshots=[]
  const panel=page.getByRole('region',{name:'Sumber hasil potong',exact:true});let lost=null
@@ -46,10 +55,10 @@ async function cuttingJourney(ui,today,mobile){
   await ui.expect(panel.getByRole('button',{name:'Pulihkan pembacaan hasil potong',exact:true})).toBeEnabled();const response=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_capture_cutting_yield_v1'));await panel.getByRole('button',{name:'Pulihkan pembacaan hasil potong',exact:true}).click();const reply=await response;assert.equal(reply.status(),200);assert.deepEqual(reply.request().postDataJSON(),lost.envelope);assert.deepEqual(await reply.json(),lost.body)
   await ui.expect(panel.locator('[data-cutting-actual]')).toContainText('hasil potong 60 PCS');await ui.expect(panel).toContainText('Belum dapat dinilai.');assert.equal(lost.body.rows[0].interval,null);assert.equal(lost.body.rows[0].recorded_width_cm,null);assert.equal(lost.body.rows[0].planned_mix,null);assert.equal(state().native_hash,afterPost.native_hash);assert.equal(state().own_runs,2)
   const text_contrast=await readableCutting(page);await capture(ui,page,`CUTTING_SOURCE_RECOVERED_${suffix}.png`);screenshots.push(`CUTTING_SOURCE_RECOVERED_${suffix}.png`)
-  fixture('deactivate',{actor:user.user.id});const afterDeactivation=state();assert.equal(Number(afterDeactivation.raw_qty),40);assert.equal(Number(afterDeactivation.raw_value),400);const denied=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_read_cutting_yield_v1'));await panel.getByRole('button',{name:'Periksa sumber hasil potong',exact:true}).click();assert.equal((await denied).status(),403);await ui.expect(panel.locator('[data-cutting-actual]')).toHaveCount(0);assert.equal(state().native_hash,afterDeactivation.native_hash)
+  await notes.fill('ISIAN SAAT IZIN DIPERIKSA');fixture('deactivate',{actor:user.user.id});const afterDeactivation=state();assert.equal(Number(afterDeactivation.raw_qty),40);assert.equal(Number(afterDeactivation.raw_value),400);const denied=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_read_cutting_yield_v1'));await panel.getByRole('button',{name:'Periksa sumber hasil potong',exact:true}).click();assert.equal((await denied).status(),403);await ui.expect(panel.locator('[data-cutting-actual]')).toHaveCount(0);await retiredPage(ui,page,notes);assert.equal(state().native_hash,afterDeactivation.native_hash)
   await capture(ui,page,`CUTTING_SOURCE_CURRENT_AUTH_${suffix}.png`);screenshots.push(`CUTTING_SOURCE_CURRENT_AUTH_${suffix}.png`)
-  return{status:'PASS',actual_Native_draft_to_POST60_raw100_to40_value1000_to400:true,source_read_leaves_dirty_form_and_native_economics_unchanged:true,lost_committed_read_identical_UUID_replay_one_Original_after_posted_draft_leaves_picker:true,source_width_mix_range_missingness_not_imputed:true,current_deactivation403_retires_source_facts:true,text_contrast,screenshots}
- }catch(e){writeFileSync(`cp6-proof/t3/CUTTING_SOURCE_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),text:await panel.innerText().catch(()=>''),lost},null,2));await page.screenshot({path:`cp6-proof/t3/CUTTING_SOURCE_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}
+  return{current403_retires_parent_siblings_and_preserves_own_notes:true,status:'PASS',actual_Native_draft_to_POST60_raw100_to40_value1000_to400:true,source_read_leaves_dirty_form_and_native_economics_unchanged:true,lost_committed_read_identical_UUID_replay_one_Original_after_posted_draft_leaves_picker:true,source_width_mix_range_missingness_not_imputed:true,current_deactivation403_retires_source_facts:true,text_contrast,screenshots}
+ }catch(e){writeFileSync(`cp6-proof/t3/CUTTING_SOURCE_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),text:await panel.innerText().catch(()=>''),parent_text:await page.locator('.connected-cutting-page').innerText().catch(()=>''),lost},null,2));await page.screenshot({path:`cp6-proof/t3/CUTTING_SOURCE_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}
  finally{fixture('restore',{actor:user.user.id});await user.context.close()}
 }
 export function cases(ui,today){return history.cases(ui,today).concat([['CUTTING_SOURCE_BROWSER_DESKTOP',()=>cuttingJourney(ui,today,false)],['CUTTING_SOURCE_BROWSER_MOBILE',()=>cuttingJourney(ui,today,true)]])}

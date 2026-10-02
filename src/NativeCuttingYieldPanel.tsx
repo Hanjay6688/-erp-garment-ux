@@ -5,13 +5,13 @@ import {normalizeClientError} from './lib/clientError'
 import {formatCp6WibDateTime} from './cp6BusinessTime'
 import {parseNativeCuttingYield,readCuttingYieldRequest,persistCuttingYieldRequest,clearCuttingYieldRequest,cuttingYieldRequestKey,type NativeCuttingYield} from './nativeCuttingYield'
 const required=['production.cutting.view','master.product.view','production.wip.view','warehouse.stock.view','sales.invoice.view']
-type Props={groupId:string|null;sourceKey:string;parentBusy:boolean}
+type Props={groupId:string|null;sourceKey:string;parentBusy:boolean;onAuthorityLost?:()=>void}
 export default function NativeCuttingYieldPanel(props:Props){
  const{runtime,identity}=useAuth()
  if(runtime.mode!=='DISPOSABLE_TEST'||identity.status!=='AUTHORIZED'||!['OWNER','ADMIN'].includes(identity.profile.role)||!required.every(p=>identity.permissions.includes(p)))return null
  return <Workspace {...props} key={`${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`}/>
 }
-function Workspace({groupId,sourceKey,parentBusy}:Props){
+function Workspace({groupId,sourceKey,parentBusy,onAuthorityLost}:Props){
  const{runtime,identity}=useAuth();if(runtime.mode!=='DISPOSABLE_TEST'||identity.status!=='AUTHORIZED')throw Error('Sesi sumber potong belum siap.')
  const scope=runtime.projectRef+':'+identity.profile.id,client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),seq=useRef(0)
  const[held,setHeld]=useState(()=>readCuttingYieldRequest(scope)),[data,setData]=useState<{binding:string;groupId:string;value:NativeCuttingYield}|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState('')
@@ -24,11 +24,11 @@ function Workspace({groupId,sourceKey,parentBusy}:Props){
    const request=retry?pending.pending!:{id:crypto.randomUUID(),groupId:groupId!};if(!retry)persistCuttingYieldRequest(scope,request);setHeld(readCuttingYieldRequest(scope))
    const r=await client.rpc('erp_cp7_capture_cutting_yield_v1',{p_query:{group_ids:[request.groupId]},p_request:request.id});if(n!==seq.current||bound!==current.current)return;if(r.error)throw r.error
    const value=parseNativeCuttingYield(r.data,request.groupId);if(value.requestId!==request.id)throw Error('Permintaan sumber potong tidak cocok.');clearCuttingYieldRequest(scope,request);setHeld(readCuttingYieldRequest(scope));if(groupId!==null&&request.groupId!==groupId){setError('Permintaan lama selesai. Muat sumber potongan yang sekarang dipilih.');return}setData({binding:bound,groupId:request.groupId,value})
-  }catch(e){if(n===seq.current){setError(normalizeClientError(e).message);setHeld(readCuttingYieldRequest(scope))}}finally{if(n===seq.current)setBusy(false)}
+  }catch(e){if(n===seq.current){const failure=normalizeClientError(e);setError(failure.message);if(['FORBIDDEN','AUTH_REQUIRED'].includes(failure.code))onAuthorityLost?.();setHeld(readCuttingYieldRequest(scope))}}finally{if(n===seq.current)setBusy(false)}
  }
  const check=async()=>{if(!data||parentBusy)return;const n=++seq.current,bound=current.current,run=data.value.runId,readGroup=data.groupId;setData(null);setBusy(true);setError('')
   try{const r=await client.rpc('erp_cp7_read_cutting_yield_v1',{p_run:run});if(n!==seq.current||bound!==current.current)return;if(r.error)throw r.error;const value=parseNativeCuttingYield(r.data,readGroup);if(value.runId!==run)throw Error('Arsip sumber potong tidak cocok.');setData({binding:bound,groupId:readGroup,value})}
-  catch(e){if(n===seq.current)setError(normalizeClientError(e).message)}finally{if(n===seq.current)setBusy(false)}
+  catch(e){if(n===seq.current){const failure=normalizeClientError(e);setError(failure.message);if(['FORBIDDEN','AUTH_REQUIRED'].includes(failure.code))onAuthorityLost?.()}}finally{if(n===seq.current)setBusy(false)}
  }
  const visible=data?.binding===binding&&!busy&&!parentBusy?data.value:null
  return <section className="ccut-card wide" aria-label="Sumber hasil potong"><header><span>HASIL POTONG · DATA ERP</span><strong>Hasil per roll</strong></header><p>Hasil tersimpan dan pemakaian bahan dibaca dari potongan asli. Pilih draft atau potongan yang baru disimpan untuk memeriksanya.</p>
