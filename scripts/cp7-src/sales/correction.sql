@@ -278,8 +278,8 @@ begin
     where i.sale_id=replaced and i.product_id=(line->>'product_id')::uuid and x.lot_id=(line->>'lot_id')::uuid
      and x.location_id=(line->>'allocation_location_id')::uuid
      and x.sale_item_id=(select l.replacement_item_id from cp7_note.item_lineage l
-      join erp.sale_stock_allocations old on old.sale_item_id=l.previous_item_id
-      where old.id=(line->>'sale_stock_allocation_id')::uuid and l.replacement_item_id=x.sale_item_id)
+      join erp.sale_stock_allocations prior_allocation on prior_allocation.sale_item_id=l.previous_item_id
+      where prior_allocation.id=(line->>'sale_stock_allocation_id')::uuid and l.replacement_item_id=x.sale_item_id)
      and not exists(select 1 from erp.sales_return_items z where z.return_id=new_return and z.sale_stock_allocation_id=x.id)
      and x.qty_pcs>=
       (line->>'qty_pcs')::integer+coalesce((select sum(z.qty_pcs)from erp.sales_return_items z where z.sale_stock_allocation_id=x.id),0)

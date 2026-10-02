@@ -107,6 +107,12 @@ def project(manifest_path, destination):
                 assert hashlib.sha256(raw).hexdigest() == expected['sha256']
                 (diagnostic_target / member).write_bytes(raw)
                 diagnostics[member] = expected
+                if member.endswith('_FAILURE.json'):
+                    diagnostic = json.loads(raw)
+                    print(json.dumps(dict(exact_failure_diagnostic=member,
+                                          original_error=diagnostic.get('error'),
+                                          visible_panel_text=str(diagnostic.get('text', ''))[:12000]),
+                                     ensure_ascii=False))
     projection = dict(
         contract='cp7.exact-native-artifact-projection.v1',
         status='EXACT_ORIGINAL_REPORTS_RETAINED',

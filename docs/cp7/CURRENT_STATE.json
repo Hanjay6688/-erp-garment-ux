@@ -80,7 +80,23 @@
     ],
     "status": "OWNER_RELAYED_IN_PROGRESS_NO_IMPORTED_OR_SELF_VERIFIED_NATIVE_QUALIFICATION",
     "latest_owner_relay": "Duplicate-SKU5/10 correction to5/6 independently reproduced as -11/0, source detail fetched read-only from Claude docs/cp7/RECEIPT_CORRECTION.md; no WIP imported.",
-    "GPT_current_repair": "Exact immutable per-item identity and Native return lineage, complete Native40 pending"
+    "GPT_current_repair": "Exact immutable per-item identity and Native return lineage, complete Native40 pending",
+    "latest_verified_candidate": {
+      "source_commit": "415b76a62f071f0d763e8de746423f9ec0bb9d54",
+      "source_tree": "6556e04a632d49901ab9f28c7246f5265b4466e5",
+      "run_id": 37026064573,
+      "job_id": 110900874732,
+      "observed_case_count": 28,
+      "required_counts": {
+        "native": 22,
+        "races": 3,
+        "http": 1,
+        "browser": 2
+      },
+      "status": "CI_NATIVE28_PASS_VERIFIED_FROM_COMPLETED_JOB_LOGS_NO_IMPORT_YET",
+      "no_independent_or_hosted_acceptance": true
+    },
+    "old_cutting_test_comparison": "Claude branchf1e11a still SET ROLE in a different Native psql session from evaluate; current GPT3c code does SET ROLE and the denied call within one invocation, unchanged9 private function/role checks. Source13b full Shell and CodeQL PASS; do not repeat implementation."
   },
   "connected_attendance_candidate": {
     "counts": {
@@ -2749,6 +2765,16 @@
       "exact_artifact_projection_manifest": "docs/cp7/native284_artifact_projection.json",
       "failed_original_retention": "PENDING_READ_ONLY_COMPLETED_ARTIFACT_PROJECTION",
       "previous_qualified_Original_unchanged": true
+    },
+    "latest_completed_qualified_repeat": {
+      "run_id": 37023166457,
+      "source_commit": "13bafb9897fb2137a26e2eea16b06b0f131aff81",
+      "source_tree": "1c2dddae0fa188932273b4afbb1d24a6349ac0ae",
+      "source_bundle_sha256": "a99e8db22c59cb22926dcc9f828b58885cad79893d0c59593a96f941f8e0b933",
+      "observed_case_count": 284,
+      "status": "COMPLETE284_PASS_EXACT348MB_RETENTION_PROJECTION_PENDING",
+      "projection_manifest": "docs/cp7/native284_latest_qualified_artifact_projection.json",
+      "current3c_changed_note_source_qualification": false
     }
   },
   "f05_takeover_reference": {
@@ -2818,7 +2844,7 @@
     "source_bundle_sha256": "04289ce0fe6d268844217a66437d0e7d08a4c51a7ce5725624f9990f4337fb79",
     "status": "LOCAL_845_PASS_DECLARED_NATIVE21_PENDING"
   },
-  "last_writer_checkpoint": "2026-10-02: independent duplicate-SKU product bug repaired with exact immutable invoice/return line identity, full Native40 pending; local30 PASS. Cutting input Native34 qualified13b, observation44 incomplete retained; standalone policy/model Native53 candidate. Analysis152 qualified2f4 exact retained; complete284 two late500 failures require exact diagnostics. Claude latest shared files protected. CP6 HOLD/audit_complete=false/production_go=false; full CP7 remains open.",
+  "last_writer_checkpoint": "2026-10-02T22:50+07:00: Native40 first admission at3c05905 caught SQL alias old colliding with PLpgSQL old request record; renamed prior_allocation without guard/formula changes, fresh complete40 mandatory. Isolated40 first failed Original pinned for read-only retention. Native284 at13b all284 PASS with same bundle as failed2f; both exact artifacts retained through projection, failure cause still checked. Claude receipt28 independently checked from CI415b; older cutting permission test differs from fixed current writer13b Shell. Local execution environment offline; remote API work and CI continue. No Claude WIP imported, CP6 HOLD/audit_complete=false/production_go=false.",
   "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
   "latest_tested_scope": "F03 owning30 and full8 source-bound proof preserved; latest analysis152 PASS. Complete284 stops after three individually PASS admission controls with physical public-function order mismatch; full mandatory suite unrun. Cutting23 has21 PASS/2 browser Locator errors. Both repairs require complete fresh runs. Full CP7 and production acceptance remain open.",
   "latest_tested_source": "2dced3d393dd2f3073de1dc3706c62581f52b9c6",
@@ -3672,7 +3698,16 @@
     "contract": "docs/cp7/NOTE_CORRECTION_PRESENTATION.md",
     "owner_HPP_age_policy": "UNRESOLVED_NO_NEW_CUTOFF_OR_CLOSED_PERIOD_REOPENING",
     "full_family_acceptance": false,
-    "production_go": false
+    "production_go": false,
+    "first40_admission_failure": {
+      "run_id": 37028887837,
+      "source_commit": "3c05905318c6417ac22d8055e05d284dbcf5bbb7",
+      "observed_required_case_count": 0,
+      "error": "PLpgSQL old request record versus SQL alias old.sale_item_id",
+      "source_repair": "rename SQL alias prior_allocation; every allocation/current identity/capacity/financial/rollback guard unchanged",
+      "projection_manifest": "docs/cp7/native40_incomplete_artifact_projection.json",
+      "complete40_still_required": true
+    }
   },
   "native_cutting_observation_candidate": {
     "status": "NATIVE44_INCOMPLETE_POSTED_OUTPUT_DECIMAL_ORACLE_REPAIRED",
@@ -3728,5 +3763,6 @@
     "explicit_scope_cap_refusal": 20000,
     "full_family_acceptance": false,
     "production_go": false
-  }
+  },
+  "execution_environment": "LOCAL_EXECUTION_OFFLINE_REMOTE_REPOSITORY_AND_CI_WORK_CONTINUES"
 }
