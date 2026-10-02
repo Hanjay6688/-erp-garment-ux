@@ -9,6 +9,7 @@ name: CP7 Owning Historical Note Correction
     - scripts/cp7_*bundle.py
     - src/**
     - .github/workflows/cp7-note-correction.yml
+    - scripts/cp7_note_http_trace.py
 permissions:
   contents: read
   actions: read

@@ -1,6 +1,16 @@
 # Active writer continuation · 2Oct2026
 
-## Latest controlling checkpoint · registered Native32/57 PASS, parent authority successor
+## Latest controlling checkpoint · complete cutting57 qualified; note HTTP timeout open
+
+Actual Native57 on e99f121d/tree d9245347, run37046014731/job110967509358 qualifies all34DB/8race/5Auth-HTTP/10browser, including complete parent/sibling factual retirement in all eight existing cutting current403 journeys. Every installation/restoration/unchanged-primary/proven-backup/advisor/runtime/Auth0→0 gate passes; console errors are zero. Exact runtime Originals and all ZIP-member hashes are retained in evidence/f04-native-history/cutting-learning-qualified57-e99f121/. This closes the confirmed parent authority defect; factory prediction accuracy, independent/demo and full F04 remain open.
+
+Main registered e873 note run37043056790/job110957629347 completed all40 but only37 PASS:28DB/4race/3Auth-HTTP/2browser. Desktop ordinary, mobile lost reply and desktop microsecond journeys return actual500, with57014 statement timeouts in the latter two diagnostics. Runtime gate is false; every other install/restore/primary/backup/advisor/Auth0→0 gate passes. Exact failure Original and archive/member digests are retained in evidence/owning-note-correction/incomplete40-e873462/. Prior qualified ddac40 still proves duplicate-SKU -5/-6, correct main/per-lot balances and atomicity at its source; it does not close recurring current HTTP timeouts.
+
+Add a read-only disposable-session monitor immediately before the four ordinary commands. It samples actual pg_stat_activity wait/state/elapsed time plus static server function line frames, emitting no SQL/claims/payload/credentials/raw logs. No function, grant, financial algorithm, role or8s timeout changes. This is diagnostic evidence with zero Native exit credit; full40 and all gates remain required. Paired private JIT timing provides no evidence of a JIT cause. See NOTE_HTTP_TIMEOUT.md. All eight main-registered e873 F03 jobs at37043056781 completed success; exact source Originals are being retained separately.
+
+Claude receipt32 remains main-registered and qualified at e873 without changing its SQL. Preserve his additive shared files and ongoing branch. Literal prior-year already-FINAL price, material/recipe feasibility, complete P18/P19/P21, independent/demo and full-family exits remain open. CP6 HOLD; audit_complete=false; production_go=false. No main merge or hosted installation.
+
+## Retained preceding checkpoint · registered Native32/57 PASS, parent authority successor
 
 Source e873462c/tree39863f36 passes the actual main-registered receipt32 (26 DB/3 race/1 Auth-HTTP/2 browser, run37043056851) and ordinary learning57 (34 DB/8 race/5 Auth-HTTP/10 browser, run37043056876). Every installation, Native/public/Auth restoration, unchanged primary, proven backup, advisor, runtime and Auth0→0 gate passes; console errors are zero. Exact Originals, archive and all-member hashes are retained in evidence/receipt-correction/qualified32-e873462/ and evidence/f04-native-history/cutting-learning-qualified57-e873462/. The prior c5 receipt31/32 Original is retained in incomplete32-c5c0826/.
 

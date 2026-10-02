@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import {execFileSync} from 'node:child_process'
+import {execFileSync,spawn} from 'node:child_process'
 import {mkdirSync,writeFileSync,readFileSync} from 'node:fs'
 const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_note_correction_browser_fixture.py',op,JSON.stringify(p)],{cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim().split('\n').at(-1))
 async function open(ui,p,title='Penjualan & Invoice',section='Penjualan'){
@@ -9,7 +9,7 @@ async function open(ui,p,title='Penjualan & Invoice',section='Penjualan'){
 }
 async function flow(ui,today,mobile,micro=false){
  const f=fixture('prepare',{today,microsecond_guard:micro}),user=await ui.login('OWNER',{label:'note-'+mobile+'-'+micro,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'}),p=user.page,ws=p.locator('.csales'),suffix=(mobile?'MOBILE':'DESKTOP')+(micro?'_MICROSECOND':'')
- let peer,first,replay,lost=false,routeDone=false;const replies=[];const peerErrors=[];let peerWrites=0
+ let peer,first,replay,trace,traceFinished,lost=false,routeDone=false;const replies=[];const peerErrors=[];let peerWrites=0
  const select=async page=>{const w=page.locator('.csales');await w.getByLabel('Cari invoice',{exact:true}).fill(f.tag);await w.getByRole('button',{name:'Cari invoice',exact:true}).click();const row=w.getByRole('region',{name:'Daftar invoice'}).locator('.cproc-receipt');await ui.expect(row).toHaveCount(1);await row.click();await ui.expect(w.getByRole('complementary',{name:'Rincian invoice'})).toContainText('Sisa pembayaran Rp175')}
  try{
   const before=fixture('read',f);assert.equal(before.available,45);assert.equal(before.document.qty_pcs,'20')
@@ -33,6 +33,9 @@ async function flow(ui,today,mobile,micro=false){
   // The form is retired after the owning transaction's actual reply is
   // validated. Five seconds of an in-flight transaction is not a failed save.
   const committed=mobile||micro?null:p.waitForResponse(r=>r.url().includes('/rest/v1/rpc/erp_cp7_correct_note_v1')&&r.request().method()==='POST',{timeout:20000})
+  trace=spawn('python',['../auditor/scripts/cp7_note_http_trace.py',suffix],{cwd:'../writer',stdio:['ignore','pipe','ignore']})
+  traceFinished=new Promise(resolve=>{trace.once('exit',resolve);trace.once('error',resolve)})
+  await new Promise(resolve=>{const timer=setTimeout(resolve,2000);const ready=()=>{clearTimeout(timer);resolve()};trace.stdout.once('data',ready);trace.once('exit',ready);trace.once('error',ready)})
   await form.getByRole('button',{name:'Simpan pembetulan nota',exact:true}).click()
   if(committed){const response=await committed;assert.equal(response.status(),200);const body=await response.json();assert.equal(body.kind,'COMMITTED_OUTCOME');assert.equal(body.action,'CORRECT');assert.equal(body.request_id,response.request().postDataJSON().p_request);assert.equal(body.previous_sale_id,f.root_sale);assert.equal(body.revision,'1')}
   if(mobile&&!micro){
@@ -62,7 +65,7 @@ async function flow(ui,today,mobile,micro=false){
   assert.equal(after.lot_cards.flatMap(x=>x.sale_rows).reduce((sum,r)=>sum+Number(r.original_physical_delta),0),-20);assert.equal(after.lot_cards.flatMap(x=>x.sale_rows).reduce((sum,r)=>sum+Number(r.physical_delta),0),-16);await p.screenshot({path:`cp6-proof/t3/NOTE_CORRECTED_LOT_${suffix}.png`,fullPage:true})
   return{status:'PASS',mobile,real_UI_Auth_HTTP_native_owning_correction:true,native_production_fixture_not_browser_production_claim:true,qty20_to16:true,cash200_and_return125_retained:true,AR75_COGS165_FG49_value735:true,immutable_original_and_one_revision:true,corrected_source_main_book:true,corrected_lot_card_original_and_effective:true,current_actor_display_visible:true,dedicated_actual_browser_one_microsecond_guard_identical_UUID_recovery:micro,lost_commit_reply_identical_UUID_reconcile:mobile?true:null,other_tab_cannot_write_or_clear_uncertain_request:mobile?true:null,screenshots:[`NOTE_CORRECTION_${suffix}.png`,`NOTE_CORRECTED_BOOK_${suffix}.png`]}
  }catch(error){mkdirSync('cp6-proof/t3',{recursive:true});let observed;try{observed=fixture('read',f)}catch(e){observed={error:String(e)}}writeFileSync(`cp6-proof/t3/NOTE_${suffix}_FAILURE.json`,JSON.stringify({error:String(error),stack:error.stack,first,replay,lost,routeDone,replies,text:await p.locator('body').innerText().catch(()=>''),observed},null,2));await p.screenshot({path:`cp6-proof/t3/NOTE_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw error}
- finally{if(peer)await peer.close().catch(()=>{});await user.context.close()}
+ finally{if(trace&&trace.exitCode===null){trace.kill('SIGUSR1');await traceFinished}if(peer)await peer.close().catch(()=>{});await user.context.close()}
 }
 async function duplicateFlow(ui,today){
  const f=fixture('prepare_duplicate',{today}),user=await ui.login('OWNER',{label:'note-duplicate-lines',mobile:false,timezoneId:'Asia/Jakarta'}),p=user.page,ws=p.locator('.csales')
