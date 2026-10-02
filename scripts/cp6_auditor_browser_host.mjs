@@ -103,13 +103,17 @@ async function start() {
   // Each retained browser group gets its own kernel-assigned loopback port.
   // A predecessor's socket cannot block the next isolated group (EADDRINUSE).
   // The copy, Auth server, permissions and network allowlist are unchanged.
-  await new Promise((ok, no) => { proxy.once('error', no); proxy.listen(0, '127.0.0.1', ok) })
-  const address=proxy.address();assert.ok(address&&typeof address==='object'&&address.address==='127.0.0.1'&&address.port>0)
+  let address
+  do{
+   await new Promise((ok,no)=>{proxy.once('error',no);proxy.listen(0,'127.0.0.1',ok)})
+   address=proxy.address();assert.ok(address&&typeof address==='object'&&address.address==='127.0.0.1'&&address.port>=32768&&address.port<=65535)
+   if([54321,54322,54323,54329].includes(address.port))await new Promise(ok=>proxy.close(ok))
+  }while(!proxy.listening)
   api='http://127.0.0.1:'+address.port
   report.loopback_api_origin=api
   await expect.poll(async () => { try { return (await fetch(`http://127.0.0.1:${restPort}/`)).status } catch { return 0 } }, { timeout: 30000 }).toBe(200)
   const safeEnv = Object.fromEntries(['PATH', 'HOME', 'CI', 'TMPDIR', 'RUNNER_TEMP', 'PLAYWRIGHT_BROWSERS_PATH'].filter(k => process.env[k]).map(k => [k, process.env[k]]))
-  execFileSync('npm', ['run', 'build:cp6-disposable'], { env: { ...safeEnv, VITE_ERP_RUNTIME_MODE: 'DISPOSABLE_TEST', VITE_SUPABASE_URL: api,
+  execFileSync('npm', ['run', 'build:cp6-disposable'], { env: { ...safeEnv, VITE_ERP_RUNTIME_MODE: 'DISPOSABLE_TEST', VITE_SUPABASE_URL: api,VITE_DISPOSABLE_API_PORT:String(address.port),
     VITE_SUPABASE_ANON_KEY: anon }, stdio: ['ignore', 'pipe', 'pipe'] })
   preview = spawn(resolve('node_modules/.bin/vite'), ['preview', '--outDir', 'cp6-ui-build', '--host', '127.0.0.1', '--port', '4176', '--strictPort'],
     { env: safeEnv, stdio: 'ignore' })

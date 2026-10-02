@@ -1,0 +1,66 @@
+{
+  "source_commit": "0ca02f1bd33e38d1c290a3abf4abfabc385ce079",
+  "source_tree": "6f6d9c24ea317d02389fadfacc07cb5f87749212",
+  "run_id": 36948049158,
+  "job_id": 110654502885,
+  "artifact_id": 11202514834,
+  "file_id": "file_00000000dc00820799265a2e8b2ed229",
+  "archive_bytes": 1693960,
+  "archive_sha256": "4218e9afe2d844c1f0205f44a60d66d523b2c80c8fea2204ce1a5e74a2ff3fec",
+  "status": "INCOMPLETE",
+  "source_bundle_sha256": "3e151668b40a0f3d62b88b5399cca7c2edb80947073518e9f0dbcd317b63556b",
+  "expected_case_count": 247,
+  "observed_case_count": 215,
+  "counts": {
+    "native": {
+      "PASS": 157
+    },
+    "races": {
+      "PASS": 33,
+      "INCOMPLETE": 1
+    },
+    "http": {
+      "PASS": 22,
+      "INCOMPLETE": 2
+    },
+    "browser": null
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "primary_unchanged": true,
+  "browser_start_failure": "EXACT_DISPOSABLE_BUILD_PORT_DECLARATION_REQUIRED",
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "members": {
+    "CLONE_install.connection-fence.txt": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981",
+    "CLONE_install.clone-erp.sql": "5190cee9740cd5540682d1cf18fbdddd3b311184ea980729b62e1454af6b34ca",
+    "CLONE_install.database-identity.txt": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2",
+    "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+    "CLONE_install.source-erp.sql": "5190cee9740cd5540682d1cf18fbdddd3b311184ea980729b62e1454af6b34ca",
+    "CLONE_install.txt": "4c1a502aa702d147369c26d53e677ca881578d6d801803b12c4e5cbe81772390",
+    "CP7_F05_NATIVE_ATTENTION.json": "4e6707009715fa45a509bb63fd7721b180418c12fe6ccae7271217b86d04b8c9",
+    "CP7_NATIVE155_HANDOFF_DIAGNOSTIC.json": "e8b61f251d8ac2e4442cee2d17e69fc40f7c44e7a547b0107e8a47be5a895c40",
+    "T3_BACKUP_RESTORE_DRILL.json": "6bb73360a8915806e7599a7e133de48744e04b353388ca0909de5524cafb3e9e",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "T3_PACKAGE_INSTALL.json": "0b02ad8766fa7acdd0cd04e115e1e3b2d51001e3658cb029c3b213ff933a0ff2",
+    "retained-native155-928332d/ALIGNED_CHAIN.json.gz": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+    "retained-native155-928332d/CP7_F05_NATIVE_ATTENTION.json.gz": "167b85f843eb4e5f9b3a0b2ceac7e1ec7de652c69599a0be3ed397ab5a8e5251",
+    "retained-native155-928332d/RECEIPT.json": "f4501c91a666ca35d54d8dfc1db17113d55ab01928c8cbe8df7fcf7c5f92d2aa",
+    "retained-native155-928332d/T3_BACKUP_RESTORE_DRILL.json.gz": "9a3f401edbd8b52797e95da57d8849fc74c33a8d6aaca0b09ca3154fe43af8d4",
+    "retained-native155-928332d/T3_PACKAGE_FILES_INSTALL.json.gz": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+    "retained-native155-928332d/T3_PACKAGE_INSTALL.json.gz": "3a9adce7324db1bc13c973643f96cca9b7b162cd6888e1272400edaafbec0bd4"
+  }
+}

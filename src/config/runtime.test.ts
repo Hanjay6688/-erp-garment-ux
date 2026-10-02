@@ -153,4 +153,17 @@ describe('owner-authorized disposable application target', () => {
     expect(errorCode(() => parseRuntimeConfig({ ...environment, VITE_ERP_RUNTIME_MODE: 'UAT_AUTH_SIMULATION' }, build)))
       .toBe('UAT_URL_INVALID')
   })
+  it('binds a kernel-assigned disposable proxy to one explicit loopback origin',()=>{
+    const e={...environment,VITE_DISPOSABLE_API_PORT:'40015',VITE_SUPABASE_URL:'http://127.0.0.1:40015'}
+    expect(parseRuntimeConfig(e,build)).toMatchObject({mode:'DISPOSABLE_TEST',supabaseUrl:e.VITE_SUPABASE_URL})
+    for(const [port,url]of[
+      ['40016',e.VITE_SUPABASE_URL],['040015',e.VITE_SUPABASE_URL],['65536','http://127.0.0.1:65536'],
+      ['54321','http://127.0.0.1:54321'],['54329','http://127.0.0.1:54329'],['22','http://127.0.0.1:22'],
+      ['40015','http://localhost:40015'],['40015','http://127.1:40015'],['40015',e.VITE_SUPABASE_URL+'/'],
+      ['40015',e.VITE_SUPABASE_URL+'?target=hosted'],['40015','http://127.0.0.1:40015@evil.example'],
+      ['40015','https://'+ERP_ENTENG_UAT_PROJECT_REF+'.supabase.co'],
+    ])expect(errorCode(()=>parseRuntimeConfig({...e,VITE_DISPOSABLE_API_PORT:port,VITE_SUPABASE_URL:url},build))).toBe('DISPOSABLE_TARGET_FORBIDDEN')
+    expect(errorCode(()=>parseRuntimeConfig(e))).toBe('DISPOSABLE_BUILD_REQUIRED')
+    expect(errorCode(()=>parseRuntimeConfig({...e,VITE_ERP_RUNTIME_MODE:'UAT_AUTH_SIMULATION'},build))).toBe('UAT_URL_INVALID')
+  })
 })

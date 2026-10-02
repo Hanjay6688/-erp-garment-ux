@@ -47,6 +47,7 @@ export type ConnectedRuntimeConfig = UatRuntimeConfig | DisposableRuntimeConfig
 export type RuntimeConfig = DemoRuntimeConfig | ConnectedRuntimeConfig
 export type RuntimeEnvironment = {
   VITE_ERP_RUNTIME_MODE?: string
+  VITE_DISPOSABLE_API_PORT?: string
   VITE_SUPABASE_URL?: string
   VITE_SUPABASE_PUBLISHABLE_KEY?: string
   VITE_SUPABASE_ANON_KEY?: string
@@ -205,7 +206,11 @@ export function parseRuntimeConfig(environment: RuntimeEnvironment, testBuild?: 
   if (!rawUrl) {
     throw new RuntimeConfigError('UAT_URL_REQUIRED', 'VITE_SUPABASE_URL wajib untuk mode UAT.')
   }
-  if (disposable && rawUrl !== 'http://127.0.0.1:54328') {
+  const disposablePort = envString(environment, 'VITE_DISPOSABLE_API_PORT') || '54328'
+  const validDisposablePort = /^(?:[1-9][0-9]{4})$/.test(disposablePort)
+    && Number(disposablePort) >= 32768 && Number(disposablePort) <= 65535
+    && !['54321', '54322', '54323', '54329'].includes(disposablePort)
+  if (disposable && (!validDisposablePort || rawUrl !== 'http://127.0.0.1:' + disposablePort)) {
     throw new RuntimeConfigError('DISPOSABLE_TARGET_FORBIDDEN', 'Target uji wajib memakai API disposable di loopback yang ditentukan.')
   }
   const supabaseUrl = disposable ? rawUrl : validateUatUrl(rawUrl)
