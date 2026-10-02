@@ -1,8 +1,8 @@
-"""Separate prospective Native model producer, no main-bundle registration."""
+"""Separate prospective Native model producer, registered once in main planning."""
 import hashlib
 import cp7_cutting_observation_bundle as previous
 ROOT,predecessor,ROLES,GRANTS=previous.ROOT,previous.predecessor,previous.ROLES,previous.GRANTS
-def extension():return previous.extension()+'\n'+(ROOT/'scripts/cp7-src/cutting-yield/model-producer.sql').read_text()
+def extension():return previous.extension()
 def bundle():return predecessor.bundle()+'\n'+extension()
 def verify(cur):
  previous.verify(cur)

@@ -1,10 +1,10 @@
-"""Prospective input candidate, separately qualified before final composition."""
+"""Prospective input candidate, qualified prospective input, registered in the main planner."""
 import hashlib
 import cp7_planning_bundle as planning
 predecessor=planning.predecessor
 ROOT,ROLES,GRANTS=planning.ROOT,planning.ROLES,planning.GRANTS
 FILES=('cutting-yield/learning-kernel.sql','cutting-yield/inputs.sql')
-def extension():return planning.extension()+'\n'+'\n'.join((ROOT/'scripts/cp7-src'/p).read_text()for p in FILES)
+def extension():return planning.extension()
 def bundle():return predecessor.bundle()+'\n'+extension()
 def verify(cur):
  planning.verify(cur)

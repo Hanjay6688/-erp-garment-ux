@@ -52,14 +52,15 @@ def run():
    path=cur.execute('show search_path').fetchone()[0];cur.execute("select set_config('search_path','',true)")
    rf_grants={str(cur.execute('select %s::regprocedure::text',(signature,)).fetchone()[0]):rights for signature,rights in rf_bundle.GRANTS.items()}
    cur.execute("select set_config('search_path',%s,true)",(path,))
-   cur.execute(rf_bundle.sql(),prepare=False);final=p09.functions(cur)
+   # Receipt SQL is now registered once in the P09 base, inherited by F03.
+   rf_verify.verify(cur);final=p09.functions(cur)
    for signature,old in after.items():
     new=final[signature];assert new['definition']==old['definition'] and new['owner']==old['owner'],('RF_UNDECLARED_CHANGE',signature)
     assert {tuple(x) for x in new['acl'] or []}=={tuple(x) for x in old['acl'] or []}|rf_grants.get(signature,set()),('RF_UNDECLARED_GRANT',signature)
    assert set(rf_grants)<=set(after),('RF_DECLARED_GRANT_TARGET_MISSING',sorted(set(rf_grants)-set(after)))
    for table,rights in rf_bundle.TABLE_GRANTS.items():
     for right in rights:assert cur.execute("select has_table_privilege('postgres',%s,%s)",(table,right)).fetchone()[0],('RF_DECLARED_TABLE_GRANT',table,right)
-   report['table_acl_before']=tables_before
+   report['table_acl_after_registered_P09_composition']=tables_before
    p09.INSTALLED_FUNCTIONS=final;report['all_predecessor_definitions_owners_unchanged']=True
    report['receipt_correction_ownership']=rf_verify.verify(cur);conn.commit();installed=True;verify(cur);conn.rollback()
   report['advisors_with_cp7']=advisors(package.boundary.PG)

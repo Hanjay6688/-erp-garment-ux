@@ -109,7 +109,7 @@ async function supplierInvoice(ui,today,mobile) {
   const p=user.page;await openPage(ui,p)
   await p.getByLabel('Cari penerimaan',{exact:true}).fill(f.tag);await p.getByRole('button',{name:'Cari penerimaan',exact:true}).click()
   const receipt=p.locator('.cproc-receipt').filter({hasText:f.tag});await ui.expect(receipt).toHaveCount(1);await ui.expect(receipt).toBeEnabled();await receipt.click()
-  const panel=p.locator('.cproc-invoices');await ui.expect(panel).toContainText('Penerimaan '+f.tag)
+  const panel=p.getByRole('region',{name:'Invoice supplier',exact:true});await ui.expect(panel).toContainText('Penerimaan '+f.tag)
   async function enter(n,qty,price) {
    const add=panel.getByRole('button',{name:'Catat invoice supplier',exact:true});await ui.expect(add).toBeEnabled();await add.click()
    await panel.getByLabel('Nomor invoice supplier',{exact:true}).fill(f.tag+'-UI-INVOICE-'+n)
@@ -314,7 +314,7 @@ async function materialCount(ui,today,mobile){
 async function combinedInvoice(ui,today,mobile){
  const f=fixture('create_combined_invoice',{today}),user=await ui.login('OWNER',{label:'cp7-combined-invoice-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'})
  try{
-  const p=user.page,panel=p.locator('.cproc-invoices'),number=f.tag+'-UI-COMBINED'
+  const p=user.page,panel=p.getByRole('region',{name:'Invoice supplier',exact:true}),number=f.tag+'-UI-COMBINED'
   await openPage(ui,p);await p.getByLabel('Cari penerimaan',{exact:true}).fill(f.tag);await p.getByRole('button',{name:'Cari penerimaan',exact:true}).click()
   const receipt=p.locator('.cproc-receipt').filter({hasText:f.tag});await ui.expect(receipt).toHaveCount(1);await ui.expect(receipt).toBeEnabled();await receipt.click()
   await ui.expect(panel).toContainText('Penerimaan '+f.tag);await panel.getByRole('button',{name:'Gabungkan penerimaan dalam invoice',exact:true}).click()

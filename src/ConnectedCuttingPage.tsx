@@ -1,6 +1,7 @@
 import SkuWaveReferences from './SkuWaveReferences'
 import NativeCuttingYieldPanel from './NativeCuttingYieldPanel'
 import NativeCuttingInputsPanel from './NativeCuttingInputsPanel'
+import NativeCuttingLearningPanel from './NativeCuttingLearningPanel'
 import { isConnectedRuntime } from './config/runtime'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { AlertTriangle, Check, Database, FilePenLine, LoaderCircle, RefreshCw, Search, Trash2 } from 'lucide-react'
@@ -344,6 +345,7 @@ export default function ConnectedCuttingPage() {
 
         <NativeCuttingYieldPanel groupId={draftId ?? lastCommittedGroupId} sourceKey={JSON.stringify([draftId,draftVersion,orderId,pattern,selectedRolls,slots,yields,cutAt])} parentBusy={mutation.writerLocked}/>
         <NativeCuttingInputsPanel groupId={draftId ?? lastCommittedGroupId} sourceKey={JSON.stringify([draftId,draftVersion,orderId,pattern,selectedRolls,slots,yields,cutAt])} parentBusy={mutation.writerLocked}/>
+        <NativeCuttingLearningPanel groupId={draftId ?? lastCommittedGroupId} sourceKey={JSON.stringify([draftId,draftVersion,orderId,pattern,selectedRolls,slots,yields,cutAt])} parentBusy={mutation.writerLocked}/>
         <section className="ccut-review"><div><span>ROLL</span><strong>{selected.length}</strong></div><div><span>KELUAR</span><strong>{totalIssued.toFixed(2)}</strong></div><div><span>TERPAKAI</span><strong>{display(totalConsumed, 2)}</strong></div><div><span>SISA</span><strong>{display(totalRemaining, 2)}</strong></div><div><span>HASIL</span><strong>{display(totalPieces)} pcs</strong></div></section>
         <footer className="ccut-actions"><span>{draftId ? `Draft ${draftId.slice(0, 8)} · row version ${draftVersion}` : 'Transaksi baru · ID dibuat backend'}</span><div>{draftId && <button className="danger" disabled={Boolean(selectionIssue) || !canEdit || mutation.writerLocked} onClick={() => void removeDraft()}><Trash2/> Hapus draft</button>}<button disabled={Boolean(selectionIssue) || !formValid || mutation.writerLocked || (draftId ? !canEdit : !canCreate)} onClick={() => void save('SAVE_DRAFT')}>Simpan draft</button><button className="primary" disabled={Boolean(selectionIssue) || !formValid || mutation.writerLocked || (draftId ? !canEdit : !canCreate) || !canPost} onClick={() => void save('POST')}>{saving ? <LoaderCircle className="spin"/> : <Check/>} Post ke WIP Potongan</button></div></footer>
       </main>

@@ -78,25 +78,42 @@
       "material_name_only_rename",
       "corrected_material_stock_book"
     ],
-    "status": "OWNER_RELAYED_IN_PROGRESS_NO_IMPORTED_OR_SELF_VERIFIED_NATIVE_QUALIFICATION",
+    "status": "CLAUDE_QUALIFIED32_SOURCE_IMPORTED_ADDITIVELY_MAIN_P09_REGISTRATION_REQUALIFICATION_PENDING",
     "latest_owner_relay": "Duplicate-SKU5/10 correction to5/6 independently reproduced as -11/0, source detail fetched read-only from Claude docs/cp7/RECEIPT_CORRECTION.md; no WIP imported.",
-    "GPT_current_repair": "Exact immutable per-item identity and Native return lineage, complete Native40 pending",
+    "GPT_current_repair": "Native40 atddac proves exact main/per-lot5/6 line identity, return allocation, atomicity and actual UI; registered composition requalification pending",
     "latest_verified_candidate": {
-      "source_commit": "415b76a62f071f0d763e8de746423f9ec0bb9d54",
-      "source_tree": "6556e04a632d49901ab9f28c7246f5265b4466e5",
-      "run_id": 37026064573,
-      "job_id": 110900874732,
-      "observed_case_count": 28,
-      "required_counts": {
-        "native": 22,
-        "races": 3,
-        "http": 1,
-        "browser": 2
+      "source_commit": "08d1967440571019ce81a8d2347df30743860242",
+      "source_tree": "6336568536c31af55e6361517c56390b91623488",
+      "run_id": 37032710947,
+      "job_id": 110923245617,
+      "observed_case_count": 32,
+      "counts": {
+        "native": {
+          "PASS": 26
+        },
+        "races": {
+          "PASS": 3
+        },
+        "http": {
+          "PASS": 1
+        },
+        "browser": {
+          "PASS": 2
+        }
       },
-      "status": "CI_NATIVE28_PASS_VERIFIED_FROM_COMPLETED_JOB_LOGS_NO_IMPORT_YET",
-      "no_independent_or_hosted_acceptance": true
+      "receipt": "docs/cp7/evidence/receipt-correction/qualified32-08d1967/RECEIPT.json"
     },
-    "old_cutting_test_comparison": "Claude branchf1e11a still SET ROLE in a different Native psql session from evaluate; current GPT3c code does SET ROLE and the denied call within one invocation, unchanged9 private function/role checks. Source13b full Shell and CodeQL PASS; do not repeat implementation."
+    "old_cutting_test_comparison": "Claude branchf1e11a still SET ROLE in a different Native psql session from evaluate; current GPT3c code does SET ROLE and the denied call within one invocation, unchanged9 private function/role checks. Source13b full Shell and CodeQL PASS; do not repeat implementation.",
+    "imported_code_source": "08d1967440571019ce81a8d2347df30743860242",
+    "imported_record_document_source": "09e00453",
+    "main_P09_registered": true,
+    "latest_imported32_repeat": {
+      "source": "c5c08262559449aad6d11a936e00f6d6f48bd964",
+      "run_id": 37040485992,
+      "status": "INCOMPLETE_ONE_CURRENT_DAY_FIXTURE_FUTURE_AT10AM",
+      "fix": "Use real past timestamp on the same Native business date; unchanged future-event guard and32 budget",
+      "production_go": false
+    }
   },
   "connected_attendance_candidate": {
     "counts": {
@@ -537,7 +554,7 @@
       "exact_read_only_Native_owner_report_overlay": true,
       "manifest": "scripts/cp7_note_correction_manifest.json",
       "native_money_stock_HPP_writers_unchanged": true,
-      "native_qualification": "PREDECESSOR_NATIVE30_RETAINED_CURRENT_SOURCE_UNQUALIFIED",
+      "native_qualification": "SOURCE_BOUND_DDAC_NATIVE40_PASSED_NEW_COMPOSITION_PENDING",
       "private_immutable_funding_replay": true,
       "production_go": false,
       "qualified_native_money_cases": 0,
@@ -547,7 +564,7 @@
         "http": 3,
         "browser": 5
       },
-      "status": "SOURCE_LINEAGE_REPAIRED_NATIVE40_PENDING",
+      "status": "EXACT_LINE_IDENTITY_40_QUALIFIED_PRIOR_SOURCE_COMBINED_REGISTRATION_REQUALIFICATION_REQUIRED",
       "owning_command_body_changed": true,
       "six_Native_financial_helpers_unchanged": true
     },
@@ -1183,13 +1200,43 @@
       "source_commit": "86c9620575a9c56a078c4a6f651d4dc14412d693",
       "status": "INCOMPLETE_INSTALL_VERIFIER_BEFORE_CASE_EXECUTION"
     },
-    "status": "NEW_DUPLICATE_SKU_FINDING_SOURCE_REPAIRED_COMPLETE_NATIVE40_PENDING",
+    "status": "OWNING_NATIVE40_QUALIFIED_AT_DDAC_NEW_REGISTERED_RECEIPT_COMPOSITION_PENDING",
     "third_failed_native": {
       "observed_case_count": 0,
       "receipt": "docs/cp7/evidence/note-correction/failed-install-27cbaee4/RECEIPT.json",
       "repair": "Explicitly pin six derived private helper owners to postgres; preserve exact Native security/config; emit actual failed properties for diagnosis. Native confirmation pending.",
       "run_id": 36988164670,
       "source_commit": "27cbaee41fdd5407fbe604f86b88c962a0ea40cb"
+    },
+    "latest_complete_owning40": {
+      "run_id": 37037364406,
+      "job_id": 110938763744,
+      "source_commit": "ddac4e2c3ec07a21df0f7ff4b91c88aa75d1febb",
+      "source_tree": "efdaae4744e57eaf6a7d4f8eadbb8a9134dc69d5",
+      "source_bundle_sha256": "042b2256952c99b0c9af355b166ba6f9cc3a6eaf5b2bf736e41385bb55820ef0",
+      "observed_case_count": 40,
+      "counts": {
+        "native": {
+          "PASS": 28
+        },
+        "races": {
+          "PASS": 4
+        },
+        "http": {
+          "PASS": 3
+        },
+        "browser": {
+          "PASS": 5
+        }
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "receipt": "docs/cp7/evidence/owning-note-correction/qualified40-ddac4e2/RECEIPT.json"
     }
   },
   "f03_journal_source": {
@@ -3062,7 +3109,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Run complete Native40 exact-line correction with all predecessor tests and restoration gates; Native44/53 genuine policy-model qualification; retain/diagnose exact failed284500 before concrete repair; build ordinary Native learning/material consumers and full P18-P21. No Claude WIP import, main merge, hosted install or production GO.",
+  "next_action": "Qualify registered receipt32, owning40, complete F03 retained components and ordinary F04 learning57 with all Native gates; retain every failed Original. Continue material feasibility, F05/P18-P21 and independent/demo acceptance. No main merge, hosted write or production GO.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -3510,7 +3557,9 @@
       "races": 4
     },
     "source": "scripts/cp7-src/cutting-yield/inputs.sql",
-    "status": "STANDALONE_NATIVE34_CANDIDATE_AND_CONNECTED_UI_LOCAL_CONTROLS_COMPLETE_NATIVE_QUALIFICATION_REQUIRED"
+    "status": "STANDALONE_NATIVE34_CANDIDATE_AND_CONNECTED_UI_LOCAL_CONTROLS_COMPLETE_NATIVE_QUALIFICATION_REQUIRED",
+    "main_bundle_registration": true,
+    "main_bundle_registration_qualification": "REGISTERED_ONCE_SOURCE_ONLY_COMPLETE_COMPOSITION_PENDING"
   },
   "receivables_candidate": {
     "actual_cases_pass": 12,
@@ -3743,7 +3792,7 @@
       "http": 4,
       "browser": 6
     },
-    "main_bundle_registration": false,
+    "main_bundle_registration": true,
     "observation_connected_consumer": false,
     "trained_model": false,
     "contract": "docs/cp7/f04/NATIVE_CUTTING_OBSERVATION_CANDIDATE.md",
@@ -3778,7 +3827,8 @@
     },
     "projection_manifest": "docs/cp7/native_cutting_observation44_artifact_projection.json",
     "qualified_source": "3c05905318c6417ac22d8055e05d284dbcf5bbb7",
-    "qualified_receipt": "docs/cp7/evidence/f04-native-history/cutting-observation-qualified44-3c05905/RECEIPT.json"
+    "qualified_receipt": "docs/cp7/evidence/f04-native-history/cutting-observation-qualified44-3c05905/RECEIPT.json",
+    "main_bundle_registration_qualification": "REGISTERED_ONCE_SOURCE_ONLY_COMPLETE_COMPOSITION_PENDING"
   },
   "audit_complete": false,
   "native_cutting_model_candidate": {
@@ -3792,8 +3842,8 @@
     "preserve_every44": true,
     "contract": "docs/cp7/f04/NATIVE_CUTTING_MODEL_CANDIDATE.md",
     "manifest": "docs/cp7/f04/native_cutting_model_native53_manifest.json",
-    "main_bundle_registration": false,
-    "model_connected_consumer": false,
+    "main_bundle_registration": true,
+    "model_connected_consumer": "IMPLEMENTED_NATIVE57_PENDING",
     "factory_accuracy_qualification": false,
     "complete_prospective_actor_scope": true,
     "explicit_scope_cap_refusal": 20000,
@@ -3808,7 +3858,19 @@
     },
     "projection_manifest": "docs/cp7/native_cutting_model53_artifact_projection.json",
     "qualified_source": "3c05905318c6417ac22d8055e05d284dbcf5bbb7",
-    "qualified_receipt": "docs/cp7/evidence/f04-native-history/cutting-model-qualified53-3c05905/RECEIPT.json"
+    "qualified_receipt": "docs/cp7/evidence/f04-native-history/cutting-model-qualified53-3c05905/RECEIPT.json",
+    "main_bundle_registration_qualification": "REGISTERED_ONCE_SOURCE_ONLY_COMPLETE_COMPOSITION_PENDING",
+    "consumer": "src/NativeCuttingLearningPanel.tsx",
+    "consumer_manifest": "docs/cp7/f04/native_cutting_learning_native57_manifest.json",
+    "consumer_required_counts": {
+      "native": 34,
+      "races": 8,
+      "http": 5,
+      "browser": 10
+    },
+    "consumer_expected_case_count": 57,
+    "local_DOM_receiver_tests": 7,
+    "automatic_activation": false
   },
   "execution_environment": "LOCAL_WORKSPACE_RECOVERED_AT_REMOTE8f8253d_REPOSITORY_AND_CI_CONTINUE",
   "shell_note_lineage_control_repair": {
@@ -3824,7 +3886,7 @@
     "qualified_files": 135
   },
   "note_command_runtime_diagnostic_candidate": {
-    "status": "ACTUAL_NATIVE_COMMAND_TIMING_EXPERIMENT_PREDECLARED_RUNTIME_PENDING",
+    "status": "PAIRED_ACTUAL_COMMAND_MEASUREMENTS_COMPLETE_ZERO_PRODUCT_CREDIT",
     "provider": "scripts/cp7_note_command_diagnostic_cases.py",
     "workflow": ".github/workflows/cp7-note-command-diagnostic.yml",
     "predeclared_actual_E01_checkpoints": [
@@ -3842,7 +3904,19 @@
     "required_measurements": 4,
     "instrument_emission_cases": 1,
     "Native_product_exit_case_credit": 0,
-    "production_go": false
+    "production_go": false,
+    "run_id": 37040295693,
+    "source_commit": "77307d55e39e4a3754d4469e523c0e0820570e31",
+    "default_JIT_on_ms": [
+      1159,
+      1165
+    ],
+    "transaction_local_JIT_off_ms": [
+      1150,
+      1154
+    ],
+    "cause_inferred": false,
+    "product_JIT_timeout_or_financial_algorithm_changed": false
   },
   "f03_current_browser_reconciliation": {
     "product_SQL_changed": false,
@@ -3854,5 +3928,22 @@
       37030449629
     ],
     "no_dropped_assertions": true
+  },
+  "latest_integration_fixture_retests": {
+    "source": "77307d55e39e4a3754d4469e523c0e0820570e31",
+    "P18_focused9": {
+      "run_id": 37040295827,
+      "status": "PASS"
+    },
+    "capacity5": {
+      "run_id": 37040295787,
+      "status": "PASS"
+    },
+    "E01": {
+      "run_id": 37040295679,
+      "status": "PASS"
+    },
+    "F03_full_P13_E03_and_other_six_components": "PASS_SEVEN_OF_EIGHT_P09_INCOMPLETE_SOURCE_SELECTOR_AND_UNREGISTERED_V2",
+    "remaining_fixes": "Exact Invoice supplier region locator; register receipt/P09 ledger v2; retain historical close cutoff when no current physical delta window is requested"
   }
 }

@@ -1,4 +1,4 @@
-name: CP7 F04 Prospective Native Cutting Model Producer
+name: CP7 F04 Prospective Native Cutting Model and Consumer
 'on':
   push:
     branches:
@@ -10,6 +10,10 @@ name: CP7 F04 Prospective Native Cutting Model Producer
     - scripts/cp7_cutting_input_*
     - src/NativeCuttingInputsPanel*
     - src/nativeCuttingInputs*
+    - scripts/cp7_cutting_learning_*
+    - src/NativeCuttingLearningPanel*
+    - src/nativeCuttingLearning*
+    - docs/cp7/f04/native_cutting_learning_native57_manifest.json
     - .github/workflows/cp7-f04-cutting-model.yml
 permissions:
   contents: read

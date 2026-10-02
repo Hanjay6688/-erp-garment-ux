@@ -41,7 +41,9 @@ def physical(cur, f):
 
 
 def ready_report(cur, today, *physical):
-    report = finance.fixture_read(cur, today, *physical)
+    # Historical close worksheets deliberately ask for their own cutoff.
+    # Only current transaction deltas need the physical-event date window.
+    report = finance.fixture_read(cur, today, *physical) if physical else finance.read(cur, today)
     assert report['snapshot']['data_confidence']['status'] == 'READY', ('E01_REPORT_NOT_READY', report['snapshot']['data_confidence'])
     return report
 

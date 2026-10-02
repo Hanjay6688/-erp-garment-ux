@@ -1,8 +1,8 @@
-"""Separately installed Native observation candidate; main planning unchanged."""
+"""Separately installed Native observation candidate; main planning registration."""
 import hashlib
 import cp7_cutting_input_bundle as inputs
 ROOT,predecessor,ROLES,GRANTS=inputs.ROOT,inputs.predecessor,inputs.ROLES,inputs.GRANTS
-def extension():return inputs.extension()+'\n'+(ROOT/'scripts/cp7-src/cutting-yield/observations.sql').read_text()
+def extension():return inputs.extension()
 def bundle():return predecessor.bundle()+'\n'+extension()
 def verify(cur):
  inputs.verify(cur)
