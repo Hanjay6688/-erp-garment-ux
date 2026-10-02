@@ -1,4 +1,4 @@
-# Owning-note presentation continuation — Native36 pending
+# Owning-note presentation continuation — Native36 incomplete, repairs pending
 
 The qualified owning financial writer in correction.sql remains byte-identical to source2dced3d/run37002543400: SHA256 4b1a48763fed395fdbd9f59bcce17dd58e701227436bb7af5cea171e432bffed. This candidate adds read projections and connected displays; it does not edit posted facts, Native formulas or permissions. The accepted original financial helper/report overlay and all earlier failed/qualified Originals remain unchanged.
 
@@ -17,3 +17,9 @@ The inherited Native rule remains controlling: physical inverses and replacement
 The <=3-month HPP limit appears as an unresolved question in the tester HANDOFF, not a verified owner decision. The requirement registry describes an example of an invoice arriving1–3 months later; that example is not a maximum correction age. No new three-month cutoff or financial-period reopening has been invented here. Whether to introduce a separate owner-controlled HPP age policy remains an explicit contract decision before full CP7 acceptance. Claude's final-invoice/receipt correction is separate work in claude/new-session-deapao, not imported or audited by this candidate.
 
 Production GO, full F03/F04/F05/P18–P21 and independent/demo acceptance remain open.
+
+## First Native36 attempt retained
+
+Source2f4e454/run37018264734 passed24DB/4actual races/3AuthHTTP. Every30/364 main and per-lot suffix check, multi-line atomic correction and current actor/HTTP proof passed. The multi-lot case stopped on an ambiguous allocation-column witness before its allocation proof, so it remains unqualified. Browser desktop committed correctly then selected three Native production lots as if there were one; subsequent lost-reply/microsecond cases did not establish a completed real RPC response. The browser host stopped before cleanup, leaving primary_unchanged=false and Auth0→3. All failed gates and immutable Originals are retained in evidence/owning-note-correction/incomplete36-2f4e454/.
+
+The witness now qualifies a.qty_pcs, selects each exact Native lot including exhausted lots, and captures real RPC status/body before checking lost-reply or deliberately altered microsecond recovery. The unchanged36 budget and complete restoration/Auth gates are required; no failed case, Native field, permission or timeout has been removed.

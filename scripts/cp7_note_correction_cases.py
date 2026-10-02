@@ -291,7 +291,7 @@ def cases(cur,today):
   at=source.fg.ax.r1.now(cur)-timedelta(hours=4);f=stock(cur,today,3,at)
   receipt=source.fg.ax.post(cur,dict(source_kind='FOUND_AT_OPNAME',product_id=f['product'],location_id=f['location'],qty_pcs=5,physical_at=(at+timedelta(hours=1)).isoformat(),reason='Second independently valued physical lot for allocation oracle',owner_unit_value='10',owner_value_reason='Explicit value10 for this separate stock source'))
   b.api.admin(cur);lot_b=str(cur.execute('select lot_id from erp.fg_unsourced_receipts_v1 where id=%s',(receipt['receipt_id'],)).fetchone()[0]);f['sale_at']=(at+timedelta(hours=2)).isoformat();posted(cur,f,'2')
-  original=f['sale'];facts=unchanged_facts(cur,original);initial=list(cur.execute('select lot_id,qty_pcs from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id where i.sale_id=%s',(original,)).fetchall())
+  original=f['sale'];facts=unchanged_facts(cur,original);initial=list(cur.execute('select a.lot_id,a.qty_pcs from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id where i.sale_id=%s',(original,)).fetchall())
   assert initial==[(uuid.UUID(f['lot']),D(2))],initial
   p,v=edit(cur,f,'6');out=correct(cur,p,v);f['sale']=out['sale_id'];a=lot_card(cur,f);z=lot_card(cur,dict(f,lot=lot_b))
   assert(a['balances']['physical_qty'],z['balances']['physical_qty'])==('0','2'),(a,z)

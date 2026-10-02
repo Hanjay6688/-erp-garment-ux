@@ -9,7 +9,7 @@ async function open(ui,p,title='Penjualan & Invoice',section='Penjualan'){
 }
 async function flow(ui,today,mobile,micro=false){
  const f=fixture('prepare',{today,microsecond_guard:micro}),user=await ui.login('OWNER',{label:'note-'+mobile+'-'+micro,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'}),p=user.page,ws=p.locator('.csales'),suffix=(mobile?'MOBILE':'DESKTOP')+(micro?'_MICROSECOND':'')
- let peer,first,replay,lost=false;const peerErrors=[];let peerWrites=0
+ let peer,first,replay,lost=false,routeDone=false;const replies=[];const peerErrors=[];let peerWrites=0
  const select=async page=>{const w=page.locator('.csales');await w.getByLabel('Cari invoice',{exact:true}).fill(f.tag);await w.getByRole('button',{name:'Cari invoice',exact:true}).click();const row=w.getByRole('region',{name:'Daftar invoice'}).locator('.cproc-receipt');await ui.expect(row).toHaveCount(1);await row.click();await ui.expect(w.getByRole('complementary',{name:'Rincian invoice'})).toContainText('Sisa pembayaran Rp175')}
  try{
   const before=fixture('read',f);assert.equal(before.available,45);assert.equal(before.document.qty_pcs,'20')
@@ -19,20 +19,29 @@ async function flow(ui,today,mobile,micro=false){
   await ui.expect(form.getByLabel('Nomor draft invoice',{exact:true})).toHaveAttribute('readonly','');await ui.expect(form.getByLabel('Waktu draft invoice WIB',{exact:true})).toHaveAttribute('readonly','')
   await form.getByLabel('Jumlah invoice 1',{exact:true}).fill('16');await form.getByLabel('Alasan simpan invoice',{exact:true}).fill('Jumlah yang benar16 PCS; pembayaran dan retur tetap sama')
   await ui.expect(form.getByRole('button',{name:'Simpan pembetulan nota',exact:true})).toBeDisabled();await form.getByLabel('Pembetulan nota sudah diperiksa',{exact:true}).check()
-  if(micro)await p.route('**/rest/v1/rpc/erp_cp7_correct_note_v1',async route=>{if(!lost){first=route.request().postDataJSON();const response=await route.fetch();assert.equal(response.status(),200);const actual=await response.json();assert.notEqual(actual.effective_at,f.bad_effective_at);lost=true;await route.fulfill({response,json:{...actual,effective_at:f.bad_effective_at}})}else{replay=route.request().postDataJSON();await route.continue()}})
-  if(mobile&&!micro)await p.route('**/rest/v1/rpc/erp_cp7_correct_note_v1',async route=>{const body=route.request().postDataJSON();if(!lost){first=body;const response=await route.fetch();if(response.status()!==200){await route.fulfill({response});return}lost=true;await route.abort('failed')}else{replay=body;await route.continue()}})
+  if(micro||mobile)await p.route('**/rest/v1/rpc/erp_cp7_correct_note_v1',async route=>{
+   try{
+    const body=route.request().postDataJSON();if(lost){replay=body;await route.continue();return}
+    first=body;const response=await route.fetch(),actual=await response.json();replies.push({status:response.status(),body:actual})
+    if(response.status()!==200){await route.fulfill({response});return}
+    lost=true
+    if(micro){assert.notEqual(actual.effective_at,f.bad_effective_at);await route.fulfill({response,json:{...actual,effective_at:f.bad_effective_at}})}
+    else await route.abort('failed')
+   }catch(e){replies.push({route_error:String(e)});await route.abort('failed').catch(()=>{})}
+   finally{routeDone=true}
+  })
   // The form is retired after the owning transaction's actual reply is
   // validated. Five seconds of an in-flight transaction is not a failed save.
   const committed=mobile||micro?null:p.waitForResponse(r=>r.url().includes('/rest/v1/rpc/erp_cp7_correct_note_v1')&&r.request().method()==='POST',{timeout:20000})
   await form.getByRole('button',{name:'Simpan pembetulan nota',exact:true}).click()
   if(committed){const response=await committed;assert.equal(response.status(),200);const body=await response.json();assert.equal(body.kind,'COMMITTED_OUTCOME');assert.equal(body.action,'CORRECT');assert.equal(body.request_id,response.request().postDataJSON().p_request);assert.equal(body.previous_sale_id,f.root_sale);assert.equal(body.revision,'1')}
   if(mobile&&!micro){
-   await ui.expect.poll(()=>lost,{timeout:20000}).toBe(true);const other=peer.locator('.csales');await ui.expect(other.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeVisible();await ui.expect(other.getByRole('button',{name:'Benerin nota',exact:true})).toBeDisabled()
+   await ui.expect.poll(()=>routeDone,{timeout:20000}).toBe(true);assert.equal(replies[0]?.status,200,JSON.stringify(replies));assert.equal(lost,true);const other=peer.locator('.csales');await ui.expect(other.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeVisible();await ui.expect(other.getByRole('button',{name:'Benerin nota',exact:true})).toBeDisabled()
    await other.getByRole('button',{name:'Muat ulang invoice',exact:true}).click();const pending=await peer.evaluate(()=>Object.entries(localStorage).filter(([k])=>k.startsWith('erp.production.SALES.pending-mutation.v1:')).map(([,v])=>JSON.parse(v)));assert.equal(pending.length,1);assert.equal(pending[0].action,'CORRECT');assert.equal(pending[0].id,first.p_request);assert.deepEqual(pending[0].payload.document,first.p_payload)
    await p.reload();await open(ui,p);await ws.getByRole('button',{name:'Reconcile transaksi',exact:true}).click();await ui.expect(ws.getByRole('button',{name:'Reconcile transaksi',exact:true})).toHaveCount(0);assert.deepEqual(replay,first);assert.equal(peerWrites,0);assert.deepEqual(peerErrors,[])
   }
   if(micro){
-   await ui.expect(ws.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeVisible();assert.equal(lost,true)
+   await ui.expect.poll(()=>routeDone,{timeout:20000}).toBe(true);assert.equal(replies[0]?.status,200,JSON.stringify(replies));assert.equal(lost,true);await ui.expect(ws.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeVisible()
    const actual=fixture('read',f);assert.equal(actual.history.history.length,1);assert.equal(actual.available,49)
    const pending=await p.evaluate(()=>Object.entries(localStorage).filter(([k])=>k.startsWith('erp.production.SALES.pending-mutation.v1:')).map(([,v])=>JSON.parse(v)));assert.equal(pending.length,1);assert.equal(pending[0].id,first.p_request);assert.deepEqual(pending[0].payload.document,first.p_payload)
    await ws.getByRole('button',{name:'Reconcile transaksi',exact:true}).click();await ui.expect(ws.getByRole('button',{name:'Reconcile transaksi',exact:true})).toHaveCount(0);assert.deepEqual(replay,first);assert.equal(fixture('read',f).history.history.length,1)
@@ -44,9 +53,15 @@ async function flow(ui,today,mobile,micro=false){
   mkdirSync('cp6-proof/t3',{recursive:true});await ui.expect.poll(()=>ws.evaluate(el=>{const r=el.getBoundingClientRect();return r.left>=0&&r.right<=innerWidth+1&&document.documentElement.scrollWidth<=innerWidth+1})).toBe(true);await p.screenshot({path:`cp6-proof/t3/NOTE_CORRECTION_${suffix}.png`,fullPage:true})
   await open(ui,p,'Mutasi Barang Jadi · Vivo','Gudang');const fg=p.locator('.cfgb');const brand=fg.locator('.cfgb-filter').first();if(!await brand.getAttribute('open'))await brand.locator('summary').click();const clear=brand.getByRole('button',{name:'Semua merek',exact:true});if(await clear.isEnabled())await clear.click();await brand.locator('summary').click()
   await fg.getByLabel('Cari buku mutasi',{exact:true}).fill(f.sku);await fg.getByRole('button',{name:'Terapkan filter buku',exact:true}).click();await ui.expect(fg).toContainText('Nota dibetulkan 1 kali');await ui.expect(fg.locator('[role="alert"]')).toHaveCount(0);await ui.expect.poll(()=>fg.evaluate(el=>{const r=el.getBoundingClientRect();return r.left>=0&&r.right<=innerWidth+1&&document.documentElement.scrollWidth<=innerWidth+1})).toBe(true);await p.screenshot({path:`cp6-proof/t3/NOTE_CORRECTED_BOOK_${suffix}.png`,fullPage:true})
-  await open(ui,p,'Kartu Stok FG','Gudang');const lotCard=p.locator('.cfg');await lotCard.getByLabel('Cari barang jadi',{exact:true}).fill(f.sku);await lotCard.getByRole('button',{name:'Cari stok',exact:true}).click();await ui.expect(lotCard.locator('.cfg-position')).toHaveCount(1);await lotCard.locator('.cfg-position button').click();await ui.expect(lotCard.locator('.cfg-ledger')).toContainText('Nota dibetulkan 1 kali');await ui.expect(lotCard.locator('.cfg-ledger')).toContainText('perubahan asal di lot ini -20 PCS');await ui.expect(lotCard.locator('.cfg-ledger [role="alert"]')).toHaveCount(0);await p.screenshot({path:`cp6-proof/t3/NOTE_CORRECTED_LOT_${suffix}.png`,fullPage:true})
+  await open(ui,p,'Kartu Stok FG','Gudang');const lotCard=p.locator('.cfg');await lotCard.getByLabel('Cari barang jadi',{exact:true}).fill(f.sku);await lotCard.getByLabel('Sertakan stok habis',{exact:true}).check();await lotCard.getByRole('button',{name:'Cari stok',exact:true}).click();assert.ok(after.lot_cards.length)
+  for(const target of after.lot_cards){
+   const position=lotCard.locator('.cfg-position').filter({hasText:target.lot_number});await ui.expect(position).toHaveCount(1);await position.locator('button').click();const ledger=lotCard.locator('.cfg-ledger');await ui.expect(ledger).toContainText(target.lot_number);await ui.expect(ledger).toContainText('Nota dibetulkan 1 kali')
+   for(const row of target.sale_rows){await ui.expect(ledger).toContainText(`perubahan asal di lot ini ${Number(row.original_physical_delta)} PCS`);await ui.expect(ledger).toContainText(String(Number(row.physical_delta)))}
+   await ui.expect(ledger.locator('[role="alert"]')).toHaveCount(0)
+  }
+  assert.equal(after.lot_cards.flatMap(x=>x.sale_rows).reduce((sum,r)=>sum+Number(r.original_physical_delta),0),-20);assert.equal(after.lot_cards.flatMap(x=>x.sale_rows).reduce((sum,r)=>sum+Number(r.physical_delta),0),-16);await p.screenshot({path:`cp6-proof/t3/NOTE_CORRECTED_LOT_${suffix}.png`,fullPage:true})
   return{status:'PASS',mobile,real_UI_Auth_HTTP_native_owning_correction:true,native_production_fixture_not_browser_production_claim:true,qty20_to16:true,cash200_and_return125_retained:true,AR75_COGS165_FG49_value735:true,immutable_original_and_one_revision:true,corrected_source_main_book:true,corrected_lot_card_original_and_effective:true,current_actor_display_visible:true,dedicated_actual_browser_one_microsecond_guard_identical_UUID_recovery:micro,lost_commit_reply_identical_UUID_reconcile:mobile?true:null,other_tab_cannot_write_or_clear_uncertain_request:mobile?true:null,screenshots:[`NOTE_CORRECTION_${suffix}.png`,`NOTE_CORRECTED_BOOK_${suffix}.png`]}
- }catch(error){mkdirSync('cp6-proof/t3',{recursive:true});let observed;try{observed=fixture('read',f)}catch(e){observed={error:String(e)}}writeFileSync(`cp6-proof/t3/NOTE_${suffix}_FAILURE.json`,JSON.stringify({error:String(error),stack:error.stack,text:await p.locator('body').innerText().catch(()=>''),observed},null,2));await p.screenshot({path:`cp6-proof/t3/NOTE_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw error}
+ }catch(error){mkdirSync('cp6-proof/t3',{recursive:true});let observed;try{observed=fixture('read',f)}catch(e){observed={error:String(e)}}writeFileSync(`cp6-proof/t3/NOTE_${suffix}_FAILURE.json`,JSON.stringify({error:String(error),stack:error.stack,first,replay,lost,routeDone,replies,text:await p.locator('body').innerText().catch(()=>''),observed},null,2));await p.screenshot({path:`cp6-proof/t3/NOTE_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw error}
  finally{if(peer)await peer.close().catch(()=>{});await user.context.close()}
 }
 export async function cases(ui,today){const tests=[['NOTE_BROWSER_DESKTOP',()=>flow(ui,today,false)],['NOTE_BROWSER_MOBILE_LOST_REPLY',()=>flow(ui,today,true)],['NOTE_BROWSER_DESKTOP_MICROSECOND_GUARD',()=>flow(ui,today,false,true)],['NOTE_BROWSER_MOBILE_MICROSECOND_GUARD',()=>flow(ui,today,true,true)]];const manifest=JSON.parse(readFileSync(new URL('./cp7_note_correction_manifest.json',import.meta.url),'utf8'));assert.deepEqual(tests.map(([name])=>name),manifest.groups.browser);return tests}

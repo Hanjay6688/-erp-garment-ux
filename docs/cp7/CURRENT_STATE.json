@@ -2796,7 +2796,7 @@
     "source_bundle_sha256": "04289ce0fe6d268844217a66437d0e7d08a4c51a7ce5725624f9990f4337fb79",
     "status": "LOCAL_845_PASS_DECLARED_NATIVE21_PENDING"
   },
-  "last_writer_checkpoint": "2026-10-02: repaired Native284 exact343MB Original and all-member digests retained; readability Native23 and complete Shell/CodeQL qualified at266f2b5. Prospective input Native34 standalone candidate now has real consumer, private current-source/permission/UUID/CAS fences and local controls; Native qualification pending. Claude owns receipt/invoice/name/material-book correction and two files are protected. Full F04/F05/P18-P21 remains incomplete.",
+  "last_writer_checkpoint": "2026-10-02: Native36 first attempt INCOMPLETE (24DB/4race/3HTTP PASS; multi-lot witness and browser/cleanup incomplete), exact Original retained and witness repairs pending fresh36. Cutting34 third browser witness order repaired, fresh34 required. Standalone observation Native44 implemented with5 synthetic SQL controls PASS, no trained model/main registration. Claude protected files untouched. Full F04/F05/P18–P21 and production GO remain open.",
   "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
   "latest_tested_scope": "F03 owning30 and full8 source-bound proof preserved; latest analysis152 PASS. Complete284 stops after three individually PASS admission controls with physical public-function order mismatch; full mandatory suite unrun. Cutting23 has21 PASS/2 browser Locator errors. Both repairs require complete fresh runs. Full CP7 and production acceptance remain open.",
   "latest_tested_source": "2dced3d393dd2f3073de1dc3706c62581f52b9c6",
@@ -3546,7 +3546,7 @@
   "version": "cp7.integration-entry.v1",
   "prospective_cutting_inputs_latest": {
     "scope": "STANDALONE_DISPOSABLE_CANDIDATE",
-    "status": "SECOND_BROWSER_ORACLE_REPAIRED_NATIVE34_PENDING",
+    "status": "BROWSER_WITNESS_ORDER_REPAIRED_NATIVE34_PENDING",
     "first_run": 37013859341,
     "first_source": "8fb0525bb796aa12a4f1ca640abd66976df68e5b",
     "counts": {
@@ -3571,10 +3571,12 @@
     "production_go": false,
     "second_run": 37015978383,
     "second_receipt": "docs/cp7/evidence/f04-native-history/cutting-input-incomplete34-4d4d54d/RECEIPT.json",
-    "post_revocation_hash": "EVERY_NATIVE_BOUNDARY_MEMBER_NO_OMISSIONS"
+    "post_revocation_hash": "EVERY_NATIVE_BOUNDARY_MEMBER_NO_OMISSIONS",
+    "third_run": 37018264904,
+    "third_receipt": "docs/cp7/evidence/f04-native-history/cutting-input-incomplete34-2f4e454/RECEIPT.json"
   },
   "f03_note_presentation_candidate": {
-    "status": "LOCAL23_PASS_NATIVE36_PENDING",
+    "status": "NATIVE36_INCOMPLETE_ORIGINAL_RETAINED_REPAIRS_PENDING",
     "financial_writer_sha256_unchanged": "4b1a48763fed395fdbd9f59bcce17dd58e701227436bb7af5cea171e432bffed",
     "required_counts": {
       "native": 25,
@@ -3591,6 +3593,41 @@
     "manifest": "scripts/cp7_note_correction_manifest.json",
     "contract": "docs/cp7/NOTE_CORRECTION_PRESENTATION.md",
     "owner_HPP_age_policy": "UNRESOLVED_NO_NEW_CUTOFF_OR_CLOSED_PERIOD_REOPENING",
+    "full_family_acceptance": false,
+    "production_go": false,
+    "native_run": 37018264734,
+    "source_commit": "2f4e454890e1506aa798c14707e8ae9c23a5452f",
+    "source_full_shell_CodeQL": "PASS",
+    "failed_counts": {
+      "native": {
+        "PASS": 24,
+        "INCOMPLETE": 1
+      },
+      "races": {
+        "PASS": 4
+      },
+      "http": {
+        "PASS": 3
+      },
+      "browser": null
+    },
+    "failed_receipt": "docs/cp7/evidence/owning-note-correction/incomplete36-2f4e454/RECEIPT.json",
+    "failed_primary_unchanged": false,
+    "failed_Auth_users_after": 3,
+    "qualified_previous_financial_writer_unchanged": true
+  },
+  "native_cutting_observation_candidate": {
+    "status": "LOCAL5_PASS_NATIVE44_PENDING",
+    "required_counts": {
+      "native": 28,
+      "races": 6,
+      "http": 4,
+      "browser": 6
+    },
+    "main_bundle_registration": false,
+    "observation_connected_consumer": false,
+    "trained_model": false,
+    "contract": "docs/cp7/f04/NATIVE_CUTTING_OBSERVATION_CANDIDATE.md",
     "full_family_acceptance": false,
     "production_go": false
   }
