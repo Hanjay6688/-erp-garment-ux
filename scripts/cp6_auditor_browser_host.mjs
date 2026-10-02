@@ -34,7 +34,8 @@ const phase = (process.env.AUDITOR_BROWSER_PHASE || 'after').toUpperCase(), toda
 const anon = process.env.SUPABASE_ANON_KEY, service = process.env.SUPABASE_SERVICE_ROLE_KEY
 assert.ok(script && db && out && anon && service, 'AUDITOR_BROWSER_ENVIRONMENT')
 assert.match(db, /\/cp6_auditor_browser$/, 'AUDITOR_BROWSER_ONLY_ON_ITS_COPY')
-const origin = 'http://127.0.0.1:4176', api = 'http://127.0.0.1:54328', restPort = 54329, authPort = 54321
+const origin = 'http://127.0.0.1:4176', restPort = 54329, authPort = 54321
+let api
 const VOCABULARY = ['PASS', 'FAIL', 'COUNTEREXAMPLE', 'INCOMPLETE']
 const secrets = [anon, service], users = []
 const report = { status: 'INCOMPLETE', label: 'AUDITOR_SCENARIO', mode: 'BROWSER', phase, planned: [], cases: {}, console_errors: [],
@@ -99,7 +100,13 @@ async function start() {
     })
     upstream.on('error', () => { if (!res.headersSent) res.writeHead(502, cors); res.end() }); req.pipe(upstream)
   })
-  await new Promise((ok, no) => { proxy.once('error', no); proxy.listen(54328, '127.0.0.1', ok) })
+  // Each retained browser group gets its own kernel-assigned loopback port.
+  // A predecessor's socket cannot block the next isolated group (EADDRINUSE).
+  // The copy, Auth server, permissions and network allowlist are unchanged.
+  await new Promise((ok, no) => { proxy.once('error', no); proxy.listen(0, '127.0.0.1', ok) })
+  const address=proxy.address();assert.ok(address&&typeof address==='object'&&address.address==='127.0.0.1'&&address.port>0)
+  api='http://127.0.0.1:'+address.port
+  report.loopback_api_origin=api
   await expect.poll(async () => { try { return (await fetch(`http://127.0.0.1:${restPort}/`)).status } catch { return 0 } }, { timeout: 30000 }).toBe(200)
   const safeEnv = Object.fromEntries(['PATH', 'HOME', 'CI', 'TMPDIR', 'RUNNER_TEMP', 'PLAYWRIGHT_BROWSERS_PATH'].filter(k => process.env[k]).map(k => [k, process.env[k]]))
   execFileSync('npm', ['run', 'build:cp6-disposable'], { env: { ...safeEnv, VITE_ERP_RUNTIME_MODE: 'DISPOSABLE_TEST', VITE_SUPABASE_URL: api,
@@ -119,7 +126,7 @@ async function context({ mobile = false, timezoneId = 'Asia/Jakarta' } = {}) {
   return { ctx, page }
 }
 const ui = {
-  origin, api, today, expect, sql,
+  origin, get api(){return api}, today, expect, sql,
   async anonPage(opts = {}) { const { ctx, page } = await context(opts); await page.goto(origin); return { page, context: ctx } },
   anonRpc: (name, args) => rpc(null, name, args),
   async login(role, { label = 'auditor', ...opts } = {}) {
@@ -170,7 +177,8 @@ try {
 } finally {
   report.stage = 'CLEANUP'
   try { await browser?.close() } catch { /* recorded by the status */ }
-  preview?.kill(); proxy?.close()
+  preview?.kill()
+  if(proxy?.listening){proxy.closeAllConnections();await new Promise(ok=>proxy.close(ok))}
   for (const user of users) {
     try { const r = await auth('admin/users/' + user.id, undefined, true, 'DELETE'); if (![200, 204].includes(r.status)) report.auth_cleanup_failures.push(user.label) }
     catch { report.auth_cleanup_failures.push(user.label) }

@@ -1845,5 +1845,27 @@
     "independent_acceptance": false,
     "full_family_acceptance": false,
     "production_go": false
+  },
+  "native_browser_completion_repair": {
+    "date": "2026-10-02",
+    "policy_source": "6a4ae621556719f7e56442d283795b0a26a9cb40",
+    "run_id": 36943511294,
+    "status": "INCOMPLETE",
+    "formal_observed": 188,
+    "required": 218,
+    "native_pass": 139,
+    "race_pass": 29,
+    "http_pass": 20,
+    "primary_unchanged": false,
+    "browser_auth_restored": false,
+    "reason": "Browser checked recovery before actual intercepted Native commit reply completed; unhandled route disposal aborted cleanup",
+    "repair_document": "NATIVE_BROWSER_COMPLETION_REPAIR.md",
+    "retained_originals": "evidence/f05-native-policy/third188-browser-pending-6a4ae62/",
+    "f03_latest_p13_run": 36944481513,
+    "f03_latest_p13_status": "INCOMPLETE_48_OF_50_FIXED_PROXY_PORT_OCCUPIED",
+    "successor_fixed_attention_required": 247,
+    "full_f03_required": true,
+    "product_financial_changes": false,
+    "production_go": false
   }
 }
