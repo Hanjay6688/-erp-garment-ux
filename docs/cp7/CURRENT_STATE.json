@@ -1220,7 +1220,7 @@
   "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
   "latest_tested_scope": "F03 all-eight writer regression PASS; F05 Native269 incomplete, not full F04/F05 acceptance",
   "latest_tested_source": "656e4fd5944b6061a87fd0a388d2b928563ac398",
-  "next_action": "Qualify repaired Native269 and additive Native284 report appendix; complete remaining F04 Native analyzer/material scope and P18-P21. F03 writer exit stays qualified.",
+  "next_action": "Qualify Native284 with protected metadata read deduplication; finish remaining F04 Native analyzer/material scope and P18-P21. F03 writer exit stays qualified.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -1968,11 +1968,11 @@
   },
   "f05_native_other_obligations": {
     "status": "NATIVE_WRITER_INCOMPLETE",
-    "source_commit": "656e4fd5944b6061a87fd0a388d2b928563ac398",
-    "source_tree": "d0a70ed59c8dedbe88ab0b16a214a4da4201449a",
-    "run_id": 36953696884,
+    "source_commit": "2c6f014113b49690d105c1b5ba9fcfc2a8bb7828",
+    "source_tree": "24e6f4bc2a1e26dee3a6d5eaae20e9a32cf49af4",
+    "run_id": 36958885075,
     "expected_case_count": 269,
-    "observed_case_count": 235,
+    "observed_case_count": 269,
     "required_case_counts": {
       "native": 171,
       "races": 37,
@@ -1981,8 +1981,7 @@
     },
     "counts": {
       "native": {
-        "PASS": 166,
-        "INCOMPLETE": 5
+        "PASS": 171
       },
       "races": {
         "PASS": 37
@@ -1991,37 +1990,62 @@
         "PASS": 26,
         "INCOMPLETE": 1
       },
-      "browser": null
-    },
-    "browser_observed_counts": {
-      "PASS": 30,
-      "INCOMPLETE": 4,
-      "FAIL": 0
+      "browser": {
+        "PASS": 32,
+        "INCOMPLETE": 2
+      }
     },
     "package_gate": {
       "installed": true,
-      "primary_unchanged": false,
+      "primary_unchanged": true,
       "backup_restore_drill": true,
       "security_advisors": true,
       "writer_runtime": false
     },
     "auth_users_before": 0,
-    "auth_users_after": 32,
-    "receipt": "docs/cp7/evidence/f05-other-obligations/first-incomplete-656e4fd/RECEIPT.json",
-    "repair_status": "SOURCE_REPAIRED_FIXED_NATIVE269_RERUN_REQUIRED",
+    "auth_users_after": 0,
+    "pass_count": 266,
+    "receipt": "docs/cp7/evidence/f05-other-obligations/second-incomplete-2c6f014/RECEIPT.json",
+    "previous_incomplete": {
+      "source_commit": "656e4fd5944b6061a87fd0a388d2b928563ac398",
+      "run_id": 36953696884,
+      "counts": {
+        "native": {
+          "PASS": 166,
+          "INCOMPLETE": 5
+        },
+        "races": {
+          "PASS": 37
+        },
+        "http": {
+          "PASS": 26,
+          "INCOMPLETE": 1
+        },
+        "browser": null
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": false,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "auth_users_after": 32,
+      "receipt": "docs/cp7/evidence/f05-other-obligations/first-incomplete-656e4fd/RECEIPT.json"
+    },
+    "repair_status": "PROTECTED_METADATA_READ_DEDUPLICATION_IMPLEMENTED_NATIVE284_RETEST_REQUIRED",
     "repair_scope": [
-      "Native opening and receipt array extraction before concatenation",
-      "Reuse fenced final episode source; cached and negative reads remain fresh",
-      "Lawful managed payroll and real paid-accessory inverse fixtures",
-      "Mandatory vendor-rate receipt estimate stays unknown final AP",
-      "Browser waits for actual committed-response loss and cleans routes"
+      "Private policy response reuses post-wait protected Original with fresh capability checks",
+      "Private local claim response reuses final source hash fence; replay and absent lookup always read fresh",
+      "Private workspace rechecks captured empty and populated domains; no public source injection",
+      "Record actual HTTP and browser RPC elapsed time without changing Native timeout"
     ],
     "full_family_acceptance": false,
     "independent_acceptance": false,
     "production_go": false
   },
   "f05_obligation_report_candidate": {
-    "status": "IMPLEMENTED_SOURCE_LOCAL_VERIFICATION_NATIVE284_REQUIRED",
+    "status": "NATIVE284_RUNNING_PRE_METADATA_DEDUPLICATION",
     "case_counts": {
       "native": 179,
       "races": 40,
@@ -2034,6 +2058,41 @@
     "contract": "docs/cp7/f05/NATIVE_OBLIGATION_REPORT_APPENDIX.md",
     "full_family_acceptance": false,
     "independent_acceptance": false,
-    "production_go": false
+    "production_go": false,
+    "source_commit": "6bdddbe2cea7b1a8e284bfc2ce0a84f896f0e0f1",
+    "run_id": 36960176714
+  },
+  "f05_native_analysis_latest_regression": {
+    "status": "NATIVE_WRITER_QUALIFIED",
+    "source_commit": "6bdddbe2cea7b1a8e284bfc2ce0a84f896f0e0f1",
+    "source_tree": "20adbfd4e10074082091d4733428565db2c055d5",
+    "run_id": 36960176608,
+    "expected_case_count": 152,
+    "observed_case_count": 152,
+    "required_case_counts": null,
+    "counts": {
+      "native": {
+        "PASS": 106
+      },
+      "races": {
+        "PASS": 20
+      },
+      "http": {
+        "PASS": 12
+      },
+      "browser": {
+        "PASS": 14
+      }
+    },
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "auth_users_before": 0,
+    "auth_users_after": 0,
+    "receipt": "docs/cp7/evidence/f05-native-publication/qualified152-6bdddbe/RECEIPT.json"
   }
 }

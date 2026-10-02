@@ -72,18 +72,24 @@ language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
   order by rule_id,scope_kind,scope_key),'[]'::jsonb)from visible
 $$;
 
-create function cp7_reminder_native.policy_workspace(p_run uuid)returns jsonb
+create function cp7_reminder_native.policy_workspace(p_run uuid,p_current_access jsonb default null)returns jsonb
 language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
-declare a jsonb:=cp7_reminder_native.access_now(p_run);rows jsonb;again jsonb;allowed jsonb;
+declare a jsonb;rows jsonb;allowed jsonb;
 begin
+ -- Only the private command can supply its protected, post-wait Original.
+ -- Public reads and every replay still perform a fresh Native source read.
+ a:=case when p_current_access is null then cp7_reminder_native.access_now(p_run)else p_current_access end;
+ if a->'analysis'->>'run_id'is distinct from p_run::text
+  or a->'analysis'->'analysis'->'scope'->>'actor_scope_id'is distinct from auth.uid()::text then
+  raise exception using errcode='42501',message='CP7_RULE_POLICY_ACCESS_CHANGED';end if;
+ perform cp7_reminder_native.recheck(a);
  rows:=cp7_reminder_native.policy_rows(a);
  if jsonb_array_length(rows)>4000 then raise exception 'CP7_RULE_POLICY_SCOPE_INCOMPLETE';end if;
  select jsonb_agg(rule order by rule)into allowed from unnest(array['PRODUCTION_GAP','ACCESSORY_NEED','AR_DUE','AP_DUE'])rule
   where rule not in('AR_DUE','AP_DUE')or erp.has_permission(case rule when'AR_DUE'then'finance.ar.view'else'finance.ap.view'end);
- again:=cp7_reminder_native.access_now(p_run);
- if again->'access'is distinct from a->'access'then raise exception using errcode='42501',message='CP7_RULE_POLICY_ACCESS_CHANGED';end if;
+ perform cp7_reminder_native.recheck(a);
  return jsonb_build_object('contract_version','cp7.native-rule-policy-workspace.v1','actor_scope_id',auth.uid(),
-  'analysis',again->'analysis','allowed_rules',allowed,'rows',rows,'page_complete',true,'total',jsonb_array_length(rows)::text,
+  'analysis',a->'analysis','allowed_rules',allowed,'rows',rows,'page_complete',true,'total',jsonb_array_length(rows)::text,
   'source_hash',encode(pg_catalog.sha256(convert_to(rows::text,'UTF8')),'hex'),
   'read_at',clock_timestamp(),'manage_allowed',a->'access'->'profile'->>'role_code'in('OWNER','ADMIN')and erp.has_permission('master.product.manage'),
   'missing_policy','UNCONFIGURED_NOT_ZERO_NOT_DISABLED','external_delivery_enabled',false);
@@ -143,7 +149,7 @@ end $$;
 create function cp7_reminder_native.policy_command(p jsonb,p_request uuid,p_lookup boolean)returns jsonb
 language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
 #variable_conflict use_variable
-declare a jsonb;again jsonb;actor uuid:=auth.uid();cached cp7_reminder_native.requests%rowtype;
+declare a jsonb;again jsonb;current_access jsonb;actor uuid:=auth.uid();cached cp7_reminder_native.requests%rowtype;
  old cp7_reminder_native.rule_policies%rowtype;inserted cp7_reminder_native.rule_policies%rowtype;result jsonb;expected bigint;
 begin
  if p_request is null or p_lookup is null or jsonb_typeof(p)is distinct from'object'
@@ -169,6 +175,7 @@ begin
   again:=cp7_reminder_native.access_now((p->>'run_id')::uuid);
   if again->'access'is distinct from a->'access'then raise exception using errcode='42501',message='CP7_RULE_POLICY_ACCESS_CHANGED';end if;
   if again->'analysis'->>'source_state'<>'UNCHANGED'then raise exception using errcode='40001',message='CP7_RULE_POLICY_SOURCE_CHANGED';end if;
+  current_access:=again;
   select *into old from cp7_reminder_native.rule_policies r where r.rule_id=p->>'rule_id'and r.scope_kind=p->>'scope_kind'
    and r.scope_key=p->>'scope_key'order by r.revision desc limit 1;
   if coalesce(old.revision,0)<>expected then raise exception using errcode='40001',message='CP7_RULE_POLICY_STALE_REVISION';end if;
@@ -179,7 +186,7 @@ begin
   insert into cp7_reminder_native.requests values(actor,p_request,p,result,clock_timestamp());
  end if;
  perform cp7_reminder_native.policy_scope_access(a,p);
- again:=cp7_reminder_native.policy_workspace((p->>'run_id')::uuid);
+ again:=cp7_reminder_native.policy_workspace((p->>'run_id')::uuid,current_access);
  if again->'analysis'->>'source_state'<>'UNCHANGED'and result->>'status'='COMMITTED'and cached.actor is null then
   raise exception using errcode='40001',message='CP7_RULE_POLICY_SOURCE_CHANGED';end if;
  return again||jsonb_build_object('request_result',result);
@@ -188,12 +195,12 @@ end $$;
 alter function cp7_reminder_native.policy_validate(text,jsonb)owner to cp7_reminder;
 alter function cp7_reminder_native.policy_scope_access(jsonb,jsonb)owner to cp7_reminder;
 alter function cp7_reminder_native.policy_rows(jsonb)owner to cp7_reminder;
-alter function cp7_reminder_native.policy_workspace(uuid)owner to cp7_reminder;
+alter function cp7_reminder_native.policy_workspace(uuid,jsonb)owner to cp7_reminder;
 alter function cp7_reminder_native.policy_resolve(jsonb,text,text)owner to cp7_reminder;
 alter function cp7_reminder_native.policy_timing(jsonb,timestamptz,timestamptz)owner to cp7_reminder;
 alter function cp7_reminder_native.policy_command(jsonb,uuid,boolean)owner to cp7_reminder;
 revoke all on function cp7_reminder_native.policy_validate(text,jsonb),cp7_reminder_native.policy_scope_access(jsonb,jsonb),
- cp7_reminder_native.policy_rows(jsonb),cp7_reminder_native.policy_workspace(uuid),cp7_reminder_native.policy_resolve(jsonb,text,text),
+ cp7_reminder_native.policy_rows(jsonb),cp7_reminder_native.policy_workspace(uuid,jsonb),cp7_reminder_native.policy_resolve(jsonb,text,text),
  cp7_reminder_native.policy_timing(jsonb,timestamptz,timestamptz),cp7_reminder_native.policy_command(jsonb,uuid,boolean)
  from public,anon,authenticated,service_role;
 grant create on schema public to cp7_reminder;

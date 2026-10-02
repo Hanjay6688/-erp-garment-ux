@@ -105,7 +105,7 @@ end $$;
 create function cp7_reminder_native.local_preview_command(p jsonb,p_request uuid,p_lookup boolean)returns jsonb
 language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
 #variable_conflict use_variable
-declare actor uuid:=auth.uid();a jsonb;source jsonb;r jsonb;cached cp7_reminder_native.requests%rowtype;
+declare actor uuid:=auth.uid();a jsonb;source jsonb;final_source jsonb;r jsonb;cached cp7_reminder_native.requests%rowtype;
  binding cp7_reminder_native.local_bindings%rowtype;claim cp7_reminder_native.local_claims%rowtype;episode cp7_reminder_native.rule_episodes%rowtype;
  result jsonb;timing jsonb;last_local timestamptz;at timestamptz;occurrence text;body text;policy_id uuid;attempt bigint;
 begin
@@ -162,6 +162,7 @@ begin
    if r is null or r->>'eligibility'<>'LOCAL_PREVIEW_ELIGIBLE'or timing->>'status'<>'READY'then
     raise exception using errcode='40001',message='CP7_LOCAL_COOLDOWN_OR_QUIET';end if;
    at:=(source->>'read_at')::timestamptz;
+   final_source:=source;
    body:='PRATINJAU LOKAL — BELUM DIKIRIM'||chr(10)||case r->>'rule_id'
     when'PRODUCTION_GAP'then'Kebutuhan produksi'when'ACCESSORY_NEED'then'Kebutuhan aksesori'
     when'AR_DUE'then'Piutang jatuh tempo'else'Utang jatuh tempo'end||chr(10)||(r->>'label')||chr(10)||
@@ -184,8 +185,12 @@ begin
   if claim.id is null then raise exception using errcode='42501',message='CP7_LOCAL_CLAIM_UNAVAILABLE';end if;
   perform cp7_reminder_native.local_recheck(a,claim.rule_id,claim.condition_key);
  end if;
- source:=cp7_reminder_native.condition_source((p->>'run_id')::uuid);
+ -- The new claim has already read and fenced the complete Native source after
+ -- its last wait. It writes only monitoring metadata. Replays and negative
+ -- lookups have no such source and must obtain a fresh protected source here.
+ source:=case when final_source is null then cp7_reminder_native.condition_source((p->>'run_id')::uuid)else final_source end;
  return jsonb_build_object('contract_version','cp7.local-preview-command.v1','actor_scope_id',actor,'source',source,'result',result,
+  'current_access',a,
   'claim',case when claim.id is null then null else jsonb_build_object('id',claim.id,'status',claim.status,'occurrence_key',claim.occurrence_key,
    'binding_id',claim.binding_id,'environment',claim.environment,'condition_key',claim.condition_key,'episode_id',claim.episode_id,
    'policy_id',claim.policy_id,'source_hash',claim.source_hash,'body_sha256',claim.body_sha256,
@@ -294,13 +299,31 @@ begin
   'original_local_status',claim.status,'external_delivery_enabled',false,'sent',false,'business_resolved_by_delivery',false);
 end $$;
 
-create function cp7_reminder_native.local_workspace(p_run uuid)returns jsonb
+create function cp7_reminder_native.local_workspace(p_run uuid,p_current_source jsonb default null,p_current_access jsonb default null)returns jsonb
 language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
 #variable_conflict use_variable
-declare a jsonb:=cp7_reminder_native.local_access(p_run);actor uuid:=auth.uid();source jsonb;binding cp7_reminder_native.local_bindings%rowtype;
- claims jsonb;r text;
+declare a jsonb;actor uuid:=auth.uid();source jsonb;binding cp7_reminder_native.local_bindings%rowtype;
+ claims jsonb;r text;k text;d text;
 begin
- source:=cp7_reminder_native.condition_source(p_run);
+ if(p_current_source is null)is distinct from(p_current_access is null)then raise exception 'CP7_LOCAL_PRIVATE_SOURCE_PAIR';end if;
+ if p_current_source is null then
+  source:=cp7_reminder_native.condition_source(p_run);
+  a:=jsonb_build_object('access',erp.get_my_access_v1(),'analysis',source->'analysis');
+ else source:=p_current_source;a:=p_current_access;end if;
+ if source->>'contract_version'is distinct from'cp7.native-rule-conditions.v2'
+  or source->>'actor_scope_id'is distinct from actor::text
+  or source->'analysis'->>'run_id'is distinct from p_run::text then
+  raise exception using errcode='42501',message='CP7_LOCAL_CONDITION_UNAVAILABLE';end if;
+ perform cp7_reminder_native.local_recheck(a);
+ -- Recheck every captured domain, including authorized empty domains. The
+ -- optional pair is private and never permits old facts after narrower rights.
+ for k,d in select key,value from jsonb_each_text('{"sales_ar":"SALES_AR","material_ap":"MATERIAL_AP","opening_ar":"OPENING_AR","opening_ap":"OPENING_AP","payroll_ap":"PAYROLL_AP","accessory_ap":"ACCESSORY_AP","laundry_ap":"LAUNDRY_AP"}'::jsonb)loop
+  if source->'coverage'->>k is distinct from'EXCLUDED_BY_CURRENT_RIGHTS'
+   and not cp7_reminder_native.condition_domain_access(d)then
+   raise exception using errcode='42501',message='CP7_LOCAL_CONDITION_DOMAIN_DENIED';end if;
+ end loop;
+ if exists(select 1 from jsonb_array_elements(source->'rows')x where not cp7_reminder_native.condition_domain_access(x->>'domain'))then
+  raise exception using errcode='42501',message='CP7_LOCAL_CONDITION_DOMAIN_DENIED';end if;
  select *into binding from cp7_reminder_native.local_bindings q where q.actor=actor order by q.revision desc limit 1;
  if binding.id is not null then for r in select jsonb_array_elements_text(binding.rules)loop perform cp7_reminder_native.local_recheck(a,r);end loop;end if;
  select coalesce(jsonb_agg(jsonb_build_object('id',q.id,'run_id',q.run_id,'status',q.status,'occurrence_key',q.occurrence_key,
@@ -328,7 +351,9 @@ begin
  when'OUTCOME'then result:=cp7_reminder_native.local_finish(p,p_request,p_lookup);
  when'RESOLUTION'then result:=cp7_reminder_native.local_manual_resolution(p,p_request,p_lookup);
  else raise exception 'CP7_LOCAL_OPERATION';end case;
- workspace:=cp7_reminder_native.local_workspace((p->>'run_id')::uuid);
+ workspace:=cp7_reminder_native.local_workspace((p->>'run_id')::uuid,
+  case when operation='PREVIEW'then result->'source'else null end,
+  case when operation='PREVIEW'then result->'current_access'else null end);
  if result->'result'->>'claim_id'is not null and not exists(select 1 from jsonb_array_elements(workspace->'claims')x
   where x->>'id'=result->'result'->>'claim_id')then raise exception using errcode='42501',message='CP7_LOCAL_CONDITION_UNAVAILABLE';end if;
  return jsonb_build_object('contract_version','cp7.native-local-command.v1','actor_scope_id',auth.uid(),'operation',operation,
@@ -336,9 +361,9 @@ begin
 end $$;
 
 alter function cp7_reminder_native.local_manual_resolution(jsonb,uuid,boolean)owner to cp7_reminder;
-alter function cp7_reminder_native.local_workspace(uuid)owner to cp7_reminder;
+alter function cp7_reminder_native.local_workspace(uuid,jsonb,jsonb)owner to cp7_reminder;
 alter function cp7_reminder_native.local_command(jsonb,uuid,text,boolean)owner to cp7_reminder;
-revoke all on function cp7_reminder_native.local_manual_resolution(jsonb,uuid,boolean),cp7_reminder_native.local_workspace(uuid),cp7_reminder_native.local_command(jsonb,uuid,text,boolean)
+revoke all on function cp7_reminder_native.local_manual_resolution(jsonb,uuid,boolean),cp7_reminder_native.local_workspace(uuid,jsonb,jsonb),cp7_reminder_native.local_command(jsonb,uuid,text,boolean)
  from public,anon,authenticated,service_role;
 grant create on schema public to cp7_reminder;
 create function public.erp_cp7_get_local_reminders_v1(p_run uuid)returns jsonb

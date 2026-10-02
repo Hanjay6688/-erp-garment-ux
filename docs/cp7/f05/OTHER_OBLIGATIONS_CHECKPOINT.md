@@ -15,3 +15,9 @@ Local TypeScript, Python/Node syntax, whitespace and 38 receiver/DOM/runtime tes
 F03 remains writer-qualified. All eight complete F03 buckets passed again at656e4fd/run36953696925 with exact restoration, primary/advisor/backup gates and Auth0→0; their source-bound Originals are retained under `../evidence/f03-full/qualified-656e4fd/`. Counts overlap and are not a unique-oracle total. Native269 qualification and cleanup, business report composition, P18 integration, P19 scale/recovery, independent demo comparison/audit and combined installer remain open. This candidate is not full F04/F05 acceptance, production go or hosted installation.
 
 VENI. VIDI. VICI. ERP. Reliable data adalah dewa. Keuangan—termasuk laporan—stok, dan HPP adalah raja.
+
+## Second complete Native269 and metadata read repair
+
+At2c6f014/run36958885075 all269 planned executions are observed:171 DB and37 actual races pass,26 of27 Auth/HTTP and32 of34 browser pass. Three actual statement timeouts remain, with266 PASS in total. Every restore component, primary, backup and advisor gate passes; Auth0→0. Exact Original root reports and every zip member digest are retained in `../evidence/f05-other-obligations/second-incomplete-2c6f014/`. The earlier false gates remain in the first Original; they are not rewritten.
+
+The remaining timeouts arise in repeated protected Original reads during policy and local preview responses. The repair reuses the source already completely authorized and hash-fenced after the last wait, retains fresh replay/negative lookup reads and rechecks every captured fine domain before response. Native timeout, all284 composed cases and every money/stock/HPP/Auth gate stay fixed. See `NATIVE_METADATA_READ_REPAIR.md`; no Native PASS is claimed until the composed rerun completes.

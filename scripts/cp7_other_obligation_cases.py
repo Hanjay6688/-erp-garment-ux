@@ -7,7 +7,7 @@ cases are declared before execution. Native setup writers are accepted controls.
 from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta
 from decimal import Decimal
-import json,uuid
+import json,time,uuid
 import psycopg
 import cp7_rule_source_cases as previous
 import cp7_other_obligation_bundle as bundle
@@ -253,8 +253,8 @@ def http_cases(http,today):
   binding=owner.rpc('erp_cp7_save_local_binding_v1',dict(p_payload=previous.binding_payload(e,rules=['AP_DUE']),p_request=str(uuid.uuid4())));assert binding['status']==200,binding
   s=read(owner,e);r=owner.rpc('erp_cp7_evaluate_rule_episodes_v1',dict(p_payload=dict(run_id=e['run_id'],source_hash=s['source_hash']),p_request=str(uuid.uuid4())));assert r['status']==200,r
   p=dict(run_id=e['run_id'],condition_key=key('LAUNDRY_AP',f['invoice']),source_hash=s['source_hash'],binding_id=binding['body']['workspace']['binding']['id'])
-  r=owner.rpc('erp_cp7_claim_local_preview_v1',dict(p_payload=p,p_request=str(uuid.uuid4())));assert r['status']==200,r;c=previous.claim_row(r['body'])
+  started=time.monotonic();r=owner.rpc('erp_cp7_claim_local_preview_v1',dict(p_payload=p,p_request=str(uuid.uuid4())));elapsed_ms=round((time.monotonic()-started)*1000);assert r['status']==200,r;c=previous.claim_row(r['body'])
   assert 'Sisa tagihan: 17312.90 IDR'in c['body']and'Sisa tagihan: 0'not in c['body']
   assert 'Jatuh tempo tercatat: '+str(f['day'])in c['body']and not r['body']['workspace']['sent']
-  return dict(status='PASS',actual_Auth_current_Native_invoice_local_UTF8_body_copies_remaining_due_no_provider_or_SENT=True)
+  return dict(status='PASS',actual_Auth_current_Native_invoice_local_UTF8_body_copies_remaining_due_no_provider_or_SENT=True,actual_PostgREST_claim_elapsed_ms=elapsed_ms,Native_statement_timeout_unchanged=True)
  return previous.http_cases(http,today)+[('P16_OTHER_HTTP_'+n,f)for n,f in zip(HTTP_NAMES,(payroll_auth,exact_http,local_invoice))]
