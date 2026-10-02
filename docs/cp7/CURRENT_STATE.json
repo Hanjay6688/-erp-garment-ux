@@ -140,7 +140,7 @@
     "source": "Current conversation: approved1000, pay600, remaining400 on the same payroll, then400; owner: ok setuju, lanjutin sisanya ya cp7 sampe beres",
     "status": "IMPLEMENTED_WRITER_NATIVE_AUTH_BROWSER26_PASS"
   },
-  "execution_priority": "Qualify exact-line owning correction Native40, qualify observation44 and policy/model53, diagnose retained Native284500, then complete Native consumers/material/full P18-P21; preserve independent source-bound predecessors and Claude ownership.",
+  "execution_priority": "Finish actual Native40 statement-timeout diagnosis; Native34 inputs/44 observations/53 model are source-bound qualified with exact Originals. Compose Claude qualified28 receipt work carefully, connect observation/model consumers, and complete remaining F04/F05/P18-P21. CP6 HOLD and audit_complete/production_go remain false.",
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
   "f02_independent_handoff": "https://github.com/Hanjay6688/-erp-garment-ux/blob/09990020355fb7329fbc7b8710692bf1357d2401/audits/cp7_f02_20260929/HANDOFF.md",
@@ -3639,7 +3639,7 @@
     "console_errors": 0
   },
   "f03_note_presentation_candidate": {
-    "status": "EXACT_INVOICE_RETURN_LINEAGE_SOURCE_REPAIRED_NATIVE40_PENDING",
+    "status": "NATIVE40_INCOMPLETE38_PASS_TWO_ACTUAL_DESKTOP_STATEMENT_TIMEOUTS",
     "preceding36": {
       "status": "NATIVE36_INCOMPLETE_ORIGINAL_RETAINED_REPAIRS_PENDING",
       "financial_writer_sha256_unchanged": "4b1a48763fed395fdbd9f59bcce17dd58e701227436bb7af5cea171e432bffed",
@@ -3708,10 +3708,35 @@
       "source_repair": "rename SQL alias prior_allocation; every allocation/current identity/capacity/financial/rollback guard unchanged",
       "projection_manifest": "docs/cp7/native40_incomplete_artifact_projection.json",
       "complete40_still_required": true
-    }
+    },
+    "latest40_run": 37030449973,
+    "latest40_source": "088440c932b520c3cc483584131241cb5b087b42",
+    "latest40_counts": {
+      "native": {
+        "PASS": 28
+      },
+      "races": {
+        "PASS": 4
+      },
+      "http": {
+        "PASS": 3
+      },
+      "browser": {
+        "PASS": 3,
+        "INCOMPLETE": 2
+      }
+    },
+    "latest40_receipt": "docs/cp7/evidence/owning-note-correction/incomplete40-088440c/RECEIPT.json",
+    "duplicate_SKU_UI_actual_minus5_minus6_balances95_89": true,
+    "latest40_all_cleanup_gates_pass": true,
+    "latest40_Auth_users": [
+      0,
+      0
+    ],
+    "statement_timeout_NOT_raised": true
   },
   "native_cutting_observation_candidate": {
-    "status": "STANDALONE_NATIVE44_PASS_AT3c05905_EXACT_RETENTION_PENDING",
+    "status": "STANDALONE_NATIVE44_QUALIFIED_EXACT_ORIGINAL_RETAINED_AT3c05905",
     "required_counts": {
       "native": 28,
       "races": 6,
@@ -3743,7 +3768,7 @@
     },
     "all_cleanup_gates_pass": true,
     "auth_users_after": 0,
-    "complete_native44_still_required": true,
+    "complete_native44_still_required": false,
     "qualified_run": 37028887887,
     "qualified_counts": {
       "native": 28,
@@ -3751,11 +3776,13 @@
       "http": 4,
       "browser": 6
     },
-    "projection_manifest": "docs/cp7/native_cutting_observation44_artifact_projection.json"
+    "projection_manifest": "docs/cp7/native_cutting_observation44_artifact_projection.json",
+    "qualified_source": "3c05905318c6417ac22d8055e05d284dbcf5bbb7",
+    "qualified_receipt": "docs/cp7/evidence/f04-native-history/cutting-observation-qualified44-3c05905/RECEIPT.json"
   },
   "audit_complete": false,
   "native_cutting_model_candidate": {
-    "status": "STANDALONE_NATIVE53_PASS_AT3c05905_EXACT_RETENTION_PENDING",
+    "status": "STANDALONE_NATIVE53_QUALIFIED_EXACT_ORIGINAL_RETAINED_AT3c05905",
     "required_counts": {
       "native": 34,
       "races": 8,
@@ -3779,16 +3806,53 @@
       "http": 5,
       "browser": 6
     },
-    "projection_manifest": "docs/cp7/native_cutting_model53_artifact_projection.json"
+    "projection_manifest": "docs/cp7/native_cutting_model53_artifact_projection.json",
+    "qualified_source": "3c05905318c6417ac22d8055e05d284dbcf5bbb7",
+    "qualified_receipt": "docs/cp7/evidence/f04-native-history/cutting-model-qualified53-3c05905/RECEIPT.json"
   },
-  "execution_environment": "LOCAL_EXECUTION_OFFLINE_REMOTE_REPOSITORY_AND_CI_WORK_CONTINUES",
+  "execution_environment": "LOCAL_WORKSPACE_RECOVERED_AT_REMOTE8f8253d_REPOSITORY_AND_CI_CONTINUE",
   "shell_note_lineage_control_repair": {
-    "status": "NATIVE_PG16_STUB_OWNERSHIP_REPAIRED_FRESH_SHELL_PENDING",
+    "status": "FULL_NATIVE_PG16_SHELL_135_FILES1251_TESTS_AND_SECURITY_BUILD_CODEQL_PASS_AT8f8253d",
     "source": "3c05905318c6417ac22d8055e05d284dbcf5bbb7",
     "run_id": 37028886191,
     "other_pass": 1247,
     "failed": 4,
     "product_SQL_changed": false,
-    "fixture_only": "Explicit postgres schema/table ownership emulates real Native owner in both PGlite and NativePG16; no privilege grant, dropped assertion or actual Native credit."
+    "fixture_only": "Explicit postgres schema/table ownership emulates real Native owner in both PGlite and NativePG16; no privilege grant, dropped assertion or actual Native credit.",
+    "qualified_run": 37031669134,
+    "qualified_tests": 1251,
+    "qualified_files": 135
+  },
+  "note_command_runtime_diagnostic_candidate": {
+    "status": "ACTUAL_NATIVE_COMMAND_TIMING_EXPERIMENT_PREDECLARED_RUNTIME_PENDING",
+    "provider": "scripts/cp7_note_command_diagnostic_cases.py",
+    "workflow": ".github/workflows/cp7-note-command-diagnostic.yml",
+    "predeclared_actual_E01_checkpoints": [
+      1,
+      4
+    ],
+    "experiments": [
+      "UNCHANGED_PRODUCT_DEFAULT",
+      "TRANSACTION_LOCAL_JIT_DISABLED"
+    ],
+    "same_UUID_payload_per_checkpoint": true,
+    "statement_timeout": "8s",
+    "Native_HTTP_timeout_changed": false,
+    "product_SQL_definitions_changed": false,
+    "required_measurements": 4,
+    "instrument_emission_cases": 1,
+    "Native_product_exit_case_credit": 0,
+    "production_go": false
+  },
+  "f03_current_browser_reconciliation": {
+    "product_SQL_changed": false,
+    "capacity_redye": "Bind actual v2 ledger RPC and compare every complete current row, balance and identity under existing rights; Native5 repeat required for both.",
+    "p18": "Bind fresh post-deactivation request objects and403 responses; old in-flight200 cannot satisfy the current-authority witness. Full9 repeat required.",
+    "failed_runs": [
+      37030449817,
+      37030450209,
+      37030449629
+    ],
+    "no_dropped_assertions": true
   }
 }

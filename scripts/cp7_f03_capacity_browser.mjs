@@ -38,7 +38,7 @@ async function journey(ui,today,mobile){
     assert.equal(fixture('verify-pages',{...f,pages,ops:mobile}).status,'PASS')
     if(mobile){
       assert.ok(!(await ws.innerText()).includes('Rp'))
-      response=p.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_get_fg_ledger_v1'))
+      response=p.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_get_fg_ledger_v2'))
       await ws.locator('.cfg-position').last().getByRole('button',{name:/^Lihat mutasi /}).click()
       read=await response;assert.equal(read.status(),200)
       assert.equal(fixture('verify-card',{...f,card:await read.json()}).status,'PASS')

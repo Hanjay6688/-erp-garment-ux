@@ -9,7 +9,7 @@
   "source_bundle_sha256": "fb5826aab64d4d23d2c622a29b4e10dab89dc38e009f77e8a8ea00f123d8120a",
   "zip_bytes": 9934548,
   "zip_sha256": "cb60356c3dbaf27f2852f4b8bcb99c6a6c261c94f07c16ac390384a6fad97e84",
-  "runtime_report": "CP7_F04_NATIVE_HISTORY.json",
+  "runtime_report": "CP7_F04_NATIVE_CUTTING_OBSERVATIONS.json",
   "expected_status": "PASS",
   "expected_case_count": 44,
   "required_case_counts": {

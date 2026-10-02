@@ -1,0 +1,33 @@
+{
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "run_id": 37030449973,
+  "job_id": 110915643151,
+  "artifact_id": 11238197510,
+  "artifact_name": "cp7-note-correction",
+  "source_commit": "088440c932b520c3cc483584131241cb5b087b42",
+  "source_tree": "2655a0bba03032ddb32c771d7173cb2c6da2c78d",
+  "source_bundle_sha256": "042b2256952c99b0c9af355b166ba6f9cc3a6eaf5b2bf736e41385bb55820ef0",
+  "zip_bytes": 8800816,
+  "zip_sha256": "7935dbc44691808c6b3e50e7ff7b63e8696ff7f455ac0f085f1f9fc38b4037a2",
+  "runtime_report": "CP7_NOTE_CORRECTION.json",
+  "expected_status": "INCOMPLETE",
+  "expected_case_count": 40,
+  "required_case_counts": {
+    "native": 28,
+    "races": 4,
+    "http": 3,
+    "browser": 5
+  },
+  "retain_diagnostic_members": [
+    {
+      "name": "NOTE_DESKTOP_FAILURE.json",
+      "bytes": 21651,
+      "sha256": "98435137d14939d8582c5937e4c6f5fb2414fa26c8b3d6193101b6c777364723"
+    },
+    {
+      "name": "NOTE_DESKTOP_MICROSECOND_FAILURE.json",
+      "bytes": 22972,
+      "sha256": "ae3c8f89c17a78c2a6694bace227f0273a694b78431bc083cb97a6e58b3e00df"
+    }
+  ]
+}

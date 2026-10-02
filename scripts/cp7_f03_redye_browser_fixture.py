@@ -26,7 +26,12 @@ def main():
             actual=p['card']
             assert actual['page']['offset']==0 and actual['page']['limit']==25
             assert actual['page']['next_offset'] is None
-            expected=cases.x04.fg.ledger(cur,cases.position(p),offset=0,limit=25)
+            assert actual['contract_version']=='cp7.fg-ledger.v2'
+            position=cases.position(p)
+            cases.x04.fg.p02.actor(cur)
+            query=dict(product_id=position['product'],lot_id=position['lot'],location_id=position['location'],quality_grade='GRADE_A',purpose='CARD',limit=25,offset=0)
+            expected=cur.execute('select public.erp_cp7_get_fg_ledger_v2(%s::jsonb)',(json.dumps(query),)).fetchone()[0]
+            cases.b.api.admin(cur)
             assert cases.x04.canonical_card(actual['page'])==cases.x04.canonical_card(expected['page'])
             assert actual['balances']==expected['balances'] and actual['position']==expected['position']
             out=dict(status='PASS',exact_native_public_reader_card_match=True)

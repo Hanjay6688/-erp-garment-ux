@@ -42,7 +42,11 @@ def main():
         elif op=='verify-card':
             card=p['card'];assert card['financial_captured'] is False;cases.no_money(card)
             assert card['position']['lot_id'] in p['lots'] and card['balances']['physical_qty']=='1'
-            expected=cases.fg.ledger(cur,dict(p,lot=card['position']['lot_id']))
+            assert card['contract_version']=='cp7.fg-ledger.v2'
+            cases.auth.actor(cur)
+            query=dict(product_id=p['product'],lot_id=card['position']['lot_id'],location_id=p['location'],quality_grade='GRADE_A',purpose='CARD',limit=25,offset=0)
+            expected=cur.execute('select public.erp_cp7_get_fg_ledger_v2(%s::jsonb)',(json.dumps(query),)).fetchone()[0]
+            cases.b.api.admin(cur)
             strip=lambda x:[{k:v for k,v in r.items() if k!='valuation'} for r in x['page']['rows']]
             assert cases.x04.canonical_card(strip(card))==cases.x04.canonical_card(strip(expected))
             out=dict(status='PASS',actual_card_redacted=True)
