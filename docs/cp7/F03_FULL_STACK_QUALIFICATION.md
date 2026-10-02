@@ -1,5 +1,11 @@
 # F03 first: full retained component qualification
 
+## Current exact guard source15aca456
+
+Run37061659744 qualifies all eight buckets on source15aca45680e01740faf2523fbbb63609e81e41ba/tree57338a9d7796d931c52ad26f7705c7c0435d95b4 and bundle02a450d332e65dfba2f1f9d08ed0e680f5f0ec3424553820d5650988f16abbb3. The table below retains the exact declared execution budgets. Every installation, original boundary restoration, Auth0→0, unchanged-primary, proven-backup and advisor gate passes. Unmodified runtime Originals, source hashes and every archive-member hash are retained in evidence/f03-full/all-eight-qualified-15aca45/.
+
+These eight overlapping control buckets do not qualify the separate current owning-note Native40 or F05 Native284 HTTP/browser journeys, close their intermittent timeout cause, or grant full-family/independent/production acceptance. Claude's unfinished receipt/final-price section remains deferred by owner instruction. Earlier source results and failures below are historical checkpoints.
+
 The owner asked why F03 was not completed before F04/F05. The writer corrected the order: finish F03 transactions, money, stock, HPP and financial controls first. Qualified F04/F05 work is retained; remaining feature work follows F03. The old writer is already stopped. No search for that writer or hosted deployment is required.
 
 This candidate adds a repeatable full-component qualifier. Each job installs **the same explicit 31-role F03 stack**, then executes all controls from its retained component probes against that stack. The declared manifest is `scripts/cp7_f03_full_manifest.json`, the runner is `scripts/cp7_f03_full_probe.py`, and the pinned disposable workflow is `.github/workflows/cp7-f03-full.yml`. No accepted CP6 package, frozen framework, product database function, money calculation or production ACL changes in this increment.
@@ -21,7 +27,7 @@ The writer cannot close the family solely by passing these buckets. The source-b
 
 Every bucket requires every declared group, its own exact execution count as well as exact bucket/smoke counts, PASS-only case results, zero browser console errors, restored Auth counts, no cleanup failures or leftover databases, unchanged predecessor definitions/owners outside the exact declared guard patches, only declared execute grants, restored CP6/catalog data and the existing advisor gate. The accepted installer also performs the primary-database and backup/restore drill; that drill's known pg_cron restoration exceptions remain reported. A first failure is retained before a correction is qualified.
 
-Current state: **the first five complete P09-P13 buckets PASS on 37bf7d2; the cash bucket retains60 PASS/one browser timing INCOMPLETE**. Its corrected actual-commit wait and the supplier-page factual retirement repair now require the current-source eight-bucket repeat. Native paid supplier credit5 remains pending. Syntax and provider/manifest/matrix checks pass. No full-family acceptance, independent acceptance or production go is claimed.
+Historical37bf7d2 checkpoint: **the first five complete P09-P13 buckets PASS; the cash bucket retains60 PASS/one browser timing INCOMPLETE**. Its corrected actual-commit wait and supplier-page factual retirement repair required a subsequent eight-bucket repeat; Native paid supplier credit5 was then pending. This predecessor is retained rather than substituted for the current qualified source above. No full-family acceptance, independent acceptance or production go is claimed.
 
 The repaired source-refund Native10 is a separate current run. Its first execution on `e49c584` retained seven PASS and three INCOMPLETE: absent VIEWER fixture role, import route not reopened after reload, and a duplicate brand name in the second browser fixture. The correction uses the real GUDANG role for the non-financial access refusal, explicitly reopens the route before exact reconciliation, and namespaces each fixture's unique Native master names. Product money/stock guards were not changed. See `evidence/f03-e03-refund/first10-e49c584/RECEIPT.json`.
 
