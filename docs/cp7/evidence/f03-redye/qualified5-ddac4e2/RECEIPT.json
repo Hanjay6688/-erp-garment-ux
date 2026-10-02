@@ -1,0 +1,136 @@
+{
+  "run_id": 37037364449,
+  "job_id": 110938764033,
+  "artifact_id": 11240857534,
+  "artifact_name": "cp7-f03-redye",
+  "source_commit": "ddac4e2c3ec07a21df0f7ff4b91c88aa75d1febb",
+  "source_tree": "efdaae4744e57eaf6a7d4f8eadbb8a9134dc69d5",
+  "expected_status": "PASS",
+  "zip_bytes": 5679901,
+  "zip_sha256": "b2ca3c44f07c947e8124512e31d7440447ea5fcd896ff1d575bca404465a5f02",
+  "runtime_report": "CP7_F03_REDYE.json",
+  "expected_case_count": 5,
+  "required_case_counts": null,
+  "status": "NATIVE_WRITER_QUALIFIED",
+  "source_bundle_sha256": "042b2256952c99b0c9af355b166ba6f9cc3a6eaf5b2bf736e41385bb55820ef0",
+  "observed_case_count": 5,
+  "counts": {
+    "native": {
+      "PASS": 2
+    },
+    "races": null,
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "failures": {
+    "native": {},
+    "races": {},
+    "http": {},
+    "browser": {}
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "original_reports_gzip_sha256": "930445b2f17b9ba806c52ff569667ddb82c8856e28d6a2e9dfb01c7bebbaf50f",
+  "original_root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_F03_REDYE.json": {
+      "bytes": 308932,
+      "sha256": "3e539412f5ade4034f8ed55c4add714505039de8848ed7155fcdc49494da75f3"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "ba2ac535a677aa20e57f68acb9b715bf4db585c02a88f99849128b844c75eb14"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360419,
+      "sha256": "c05c82bf99e8cf7dde1169e0e6a08ac00e01d9bf976f32f8edc6c2526ac3f2fe"
+    }
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385602,
+      "sha256": "8cb09369cfbff6d37eb862bb0acb91f11e33e6f2d0f9c86b128ba0a4d8399699"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385602,
+      "sha256": "8cb09369cfbff6d37eb862bb0acb91f11e33e6f2d0f9c86b128ba0a4d8399699"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "c35f94e7aaa7762357e203bd388b804f54775554c2466acf16b3826508544d08"
+    },
+    "CP7_F03_REDYE.json": {
+      "bytes": 308932,
+      "sha256": "3e539412f5ade4034f8ed55c4add714505039de8848ed7155fcdc49494da75f3"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "ba2ac535a677aa20e57f68acb9b715bf4db585c02a88f99849128b844c75eb14"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360419,
+      "sha256": "c05c82bf99e8cf7dde1169e0e6a08ac00e01d9bf976f32f8edc6c2526ac3f2fe"
+    },
+    "X04_REDYE_FG_DESKTOP.png": {
+      "bytes": 584366,
+      "sha256": "739725a4b5b730be24b75ee6848fcaf87b5521b82d83a7d810113ea635805412"
+    },
+    "X04_REDYE_FG_MOBILE.png": {
+      "bytes": 409732,
+      "sha256": "c26c2a28a7e9457a0c4f91c87ff07f1607d4ed3a3e7e63a05f8b044ab747d1cf"
+    },
+    "X04_REDYE_REPORT_DESKTOP.png": {
+      "bytes": 1800501,
+      "sha256": "4478c1991f94ed8795c5e95d4b785b29525b67df2881714d2104ffa172c0bf31"
+    },
+    "X04_REDYE_REPORT_MOBILE.png": {
+      "bytes": 1323903,
+      "sha256": "79aa63fbe5c3ae76ecb079b98d64e985b880fd7623c3527273f1bcf64955ea3c"
+    }
+  },
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

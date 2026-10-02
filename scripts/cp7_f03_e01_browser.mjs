@@ -163,7 +163,7 @@ async function journey(ui,today,mobile) {
     await open(ui,p,'Laporan & Tutup Buku','Keuangan')
     const report=p.locator('.cfinance-report')
     await ui.expect(report.getByRole('button',{name:'Tampilkan laporan',exact:true})).toBeEnabled()
-    for(const name of ['Periode laporan dari','Periode laporan sampai','Posisi laporan pada']) await report.getByLabel(name,{exact:true}).fill(today)
+    for(const [name,key] of [['Periode laporan dari','from'],['Periode laporan sampai','to'],['Posisi laporan pada','as_of']]) await report.getByLabel(name,{exact:true}).fill(returned.report_query[key])
     await report.getByRole('button',{name:'Tampilkan laporan',exact:true}).click()
     const performance=report.getByRole('region',{name:'Kinerja keuangan tercatat'}), position=report.getByRole('region',{name:'Posisi keuangan tercatat'})
     for(const [label,key] of [['Penjualan menurut jurnal','sales_revenue_gl'],['Harga pokok penjualan','cogs_gl'],['Laba kotor','gross_profit']]) await ui.expect(performance.locator('.cproc-total').filter({has:p.getByText(label,{exact:true})}).locator('strong')).toHaveText(money(returned.report.snapshot.performance[key]))

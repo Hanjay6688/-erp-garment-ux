@@ -25,11 +25,8 @@ def prepare(cur, today):
     return f
 
 
-def measure(cur, f, disable_jit, key):
+def measure(cur, f, disable_jit, key, payload, version, before):
     cases.b.api.admin(cur)
-    payload, version = cases.edit(cur, f, '16')
-    payload['item_lineage'] = [i['id'] for i in cases.source.read(cur, f)['detail']['items']]
-    before = cases.snapshot(cur)
     measurement = dict(experiment='TRANSACTION_LOCAL_JIT_DISABLED' if disable_jit else 'UNCHANGED_PRODUCT_DEFAULT',
                        diagnostic_only=True, product_qualification=False, statement_timeout='8s',
                        Native_HTTP_timeout_changed=False)
@@ -73,9 +70,16 @@ def cases_provider(cur, today):
         for checkpoint in (1, 4):
             for _ in range(checkpoint - (0 if f is None else 1)):
                 f = prepare(cur, today)
+            # snapshot serializes timestamps in UTC. Take it before reading
+            # the review token, and reuse the exact same payload in both
+            # experiments. Otherwise the first attempt only measures a
+            # timezone-dependent review refusal, not the owning command.
+            before = cases.snapshot(cur)
+            payload, version = cases.edit(cur, f, '16')
+            payload['item_lineage'] = [i['id'] for i in cases.source.read(cur, f)['detail']['items']]
             key = uuid.uuid4()
             for disable_jit in (False, True):
-                row = dict(actual_E01_fixtures=checkpoint, **measure(cur, f, disable_jit, key))
+                row = dict(actual_E01_fixtures=checkpoint, **measure(cur, f, disable_jit, key, payload, version, before))
                 measurements.append(row)
                 print('CP7_NOTE_COMMAND_MEASUREMENT ' + json.dumps(row), flush=True)
         return dict(status='PASS', diagnostic_emission_and_exact_rollback_only=True,

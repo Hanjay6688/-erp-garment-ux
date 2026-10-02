@@ -62,7 +62,7 @@ def outgoing(f, custody):
 
 def observe(cur, f):
     c = cur.execute("select c.id::text,c.out_document_id::text,coalesce(d.status='POSTED',false) from erp.bc_customer_custody_v1 c left join erp.bc_documents_v1 d on d.id=c.out_document_id where c.customer_id=%s and c.description=%s order by c.id", (f['customer'], f['custody_description'])).fetchall()
-    return dict(protected=protected(cur), accounts=e01.cmd.accounts(cur), accessory_qty=bc.stock(cur, f['service_accessory']['material'], f['service_accessory']['main']), custody=[dict(id=i,out_document=o,returned=r) for i,o,r in c], report=e01.ready_report(cur, f['today']), fg=e01.physical(cur, f), invoice=e01.source.read(cur, f)['detail']['financial'])
+    return dict(protected=protected(cur), accounts=e01.cmd.accounts(cur), accessory_qty=bc.stock(cur, f['service_accessory']['material'], f['service_accessory']['main']), custody=[dict(id=i,out_document=o,returned=r) for i,o,r in c], report=e01.ready_report(cur, f['today'], f['sale_at'], f['service_in_at'], f['service_use_at'], f['service_out_at']), fg=e01.physical(cur, f), invoice=e01.source.read(cur, f)['detail']['financial'])
 
 
 def assert_service(cur, f, before, returned):

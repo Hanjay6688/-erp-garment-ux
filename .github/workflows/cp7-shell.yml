@@ -26,6 +26,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: python3 scripts/cp7_contract_receipt.py
+      - run: python3 scripts/cp7_native_fixture_window_test.py
       - run: npm test
       - run: npm run test:security
       - run: npm run build

@@ -33,13 +33,13 @@ describe('material transfer connected boundary',()=>{
  it('opens an accessory ledger with a null roll and offers its ordinary warehouse transfer',async()=>{
   server();const original=client.rpc.getMockImplementation()!
   client.rpc.mockImplementation(async(name:string,args:Record<string,unknown>)=>{
-   if(name==='erp_cp7_get_material_ledger_v1')return {data:{contract_version:'cp7.material-ledger.v1',material_id:id,roll_id:null,location_id:id,read_at:at,financial_captured:true,history_basis:'CURRENT_RESTATED_NOT_AS_KNOWN',page:page([])},error:null}
+   if(name==='erp_cp7_get_material_ledger_v2')return {data:{contract_version:'cp7.material-ledger.v2',material_id:id,roll_id:null,location_id:id,read_at:at,financial_captured:true,history_basis:'CORRECTED_EFFECTIVE_ROWS_CURRENT_RESTATED',page:page([])},error:null}
    if(name==='erp_cp7_get_material_locations_v1')return {data:{contract_version:'cp7.material-locations.v1',...page([{id:to,code:'TO',name:'Gudang tujuan'}])},error:null}
    const r=await original(name,args)
    if(name==='erp_cp7_get_materials_v1'){Object.assign(r.data.page.rows[0],{material_type:'ACCESSORY',material_name:'Kancing',unit_code:'PCS',roll_id:null,roll_number:null});r.data.totals_by_unit[0].unit_code='PCS'}
    return r
   });await mount();await click('Mutasi Kancing')
-  expect(client.rpc.mock.calls.find(([n])=>n==='erp_cp7_get_material_ledger_v1')?.[1].p_roll).toBeNull()
+  expect(client.rpc.mock.calls.find(([n])=>n==='erp_cp7_get_material_ledger_v2')?.[1].p_roll).toBeNull()
   expect(container.textContent).not.toContain('Roll belum diketahui');expect(button('Pindahkan Kancing').disabled).toBe(false);await click('Pindahkan Kancing')
   expect(container.querySelector('form')?.textContent).toBeTruthy();expect(container.textContent).toContain('Jumlah (PCS)')
  })

@@ -1,5 +1,15 @@
 # Active writer continuation · 2Oct2026
 
+## Current checkpoint · Claude Native32 integrated; complete Native40 retained
+
+Complete owning-note Native40 at ddac4e2c/run37037364406 passes28 DB/4 races/3 Auth-HTTP/5 browsers with all restoration, backup, primary and advisor gates, Auth0→0 and zero console errors. Exact Original and archive digests are retained under evidence/owning-note-correction/qualified40-ddac4e2/. The preceding38/40 timeout Original remains; a successful repeat does not establish the cause of intermittent8s timeouts. The separate timing experiment at37037364612 was inconclusive: its default attempt measured a timezone-dependent review-token refusal rather than command execution. Its source now takes the UTC snapshot before obtaining the token and reuses one exact payload/key for both rolled-back attempts. No product command/JIT/timeout changes follow from it.
+
+Claude source08d19674 (document-only record09e00453) is integrated additively:26 DB/3 races/1 Auth-HTTP/2 browsers pass in source-bound run37032710947. Exact Original retained under evidence/receipt-correction/qualified32-08d1967/. Shared procurement/material pages, recovery types and RPC/source catalogs are composed, preserving the writer's note lineage and cutting-input catalog. The source-qualified receipt package remains separately installed; complete combined qualification and independent acceptance are still required. Existing unsupported receipt paths remain explicit in RECEIPT_CORRECTION.md.
+
+The retained redye Native5 repeat atddac/run37037364449 passes2 DB/1 Auth-HTTP/2 browsers after the actual v2 ledger watcher repair. Capacity5, P18 focused9, P13 and E03 repeats crossed midnight in Asia/Jakarta and exposed test windows excluding original Native economic events. Fixture report queries now derive their start from the actual physical timestamps and their end/as_of from the real Native clock in Asia/Jakarta, including browser date fields. Native dates, writers, expected money, guards and budgets remain unchanged. Four date-edge controls are local fixture checks with zero Native credit; fresh complete affected runs remain mandatory.
+
+F04 ordinary observation/model consumer and main registration, F05/P18–P21, independent/demo acceptance remain open. CP6 HOLD, audit_complete=false, production_go=false.
+
 ## Current controlling checkpoint · Native40 actual UI repair and retained Native44/53
 
 At088440c/run37030449973 the complete Native40 executes all40:28 DB,4 races,3 Auth/HTTP and3 browser PASS;2 desktop owning-command replies are actual500 statement timeouts. Exact Original, every archive member digest, both complete failure diagnostics and actual duplicate-SKU captures are retained in evidence/owning-note-correction/incomplete40-088440c/. All restoration/primary/backup/advisor gates pass and Auth0→0; runtime remains false. The duplicate-SKU ordinary UI passes -5/-6 with main balances95/89 and correct per-lot cards. Native deletion/reorder/repeated correction, different-price returns and whole-command refusal rollback pass. This is38 passing executions, not40 qualification or complete F03.

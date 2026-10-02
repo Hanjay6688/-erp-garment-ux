@@ -1,0 +1,58 @@
+{
+  "schema": "cp7-receipt-correction-native-manifest-v1",
+  "qualification_scope": "Posted material receipt corrected after real use: immutable source receipt, source-time Native inverse and exact replacement, same physical rolls kept, wrong-material cutting use re-attributed at its own time, chronological material recost, PO HPP/GL, supplier payment replay (opening-advance funding kept; excess as supplier credit cut from another nota of the same supplier), posted supplier invoices (including one shared with other receipts) reversed and re-posted at their own dates, correction into a closed period, effective material card, material-name typo fix on the same material, current authority, actual Auth HTTP, browser and competing transactions",
+  "production_go": false,
+  "independent_acceptance": false,
+  "groups": {
+    "native": [
+      "RF_QTY_DOWN_AFTER_CUTTING",
+      "RF_QTY_UP_AFTER_CUTTING",
+      "RF_PRICE_AFTER_SALE_AND_RETURN",
+      "RF_WRONG_MATERIAL_AFTER_CUTTING",
+      "RF_WRONG_MATERIAL_AND_PRICE",
+      "RF_ROLL_COUNT_TYPO_UNUSED_ROLL",
+      "RF_REMOVED_ROLL_USED_REFUSED",
+      "RF_ROLL_BELOW_USE_REFUSED",
+      "RF_PAYMENT_REPLAY",
+      "RF_PAID_EXCEEDS_CORRECTED_REFUSED",
+      "RF_OVERPAID_CREDIT_TO_NEXT_NOTA",
+   "RF_OPENING_ADVANCE_PAYMENT_REPLAY",
+      "RF_INVOICE_PRICE_AFTER_SALE",
+      "RF_INVOICED_QTY_DOWN_WITH_PAYMENT",
+      "RF_INVOICE_INCOMPLETE_REFUSED",
+   "RF_SHARED_INVOICE_CORRECTED",
+   "RF_CLOSED_PERIOD_CORRECTION",
+      "RF_REPEATED_REVISIONS",
+      "RF_REPLAY_SAME_REQUEST",
+      "RF_REVIEW_CHANGED_REFUSED",
+      "RF_ACCESS_CURRENT_AUTHORITY",
+      "RF_YEAR_HISTORY_364",
+      "RF_LATE_FAILURE_ATOMIC",
+      "RF_ACCESSORY_LINE_QTY",
+      "RF_MATERIAL_NAME_TYPO",
+      "RF_MATERIAL_NAME_REFUSALS"
+    ],
+    "races": [
+      "RF_RACE_TWO_REQUESTS",
+      "RF_RACE_SAME_UUID",
+      "RF_RACE_CUTTING_USE"
+    ],
+    "http": [
+      "RF_HTTP_COMMAND_REPLAY_AUTH"
+    ],
+    "browser": [
+      "RF_BROWSER_DESKTOP",
+      "RF_BROWSER_MOBILE"
+    ]
+  },
+  "required_counts": {
+    "native": 26,
+    "races": 3,
+    "http": 1,
+    "browser": 2
+  },
+  "expected_case_executions": 32,
+  "unique_oracle_total_claim": false,
+  "frozen_cp6_modifications": false,
+  "native_definitions_changed": false
+}
