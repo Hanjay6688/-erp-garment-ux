@@ -122,6 +122,7 @@ export type PreconnectDatabase = {
       erp_cp7_save_material_count_v1: { Args: { p_action: string; p_payload: Json; p_request: string; p_expected: string | null }; Returns: Json }
       erp_cp7_get_fg_book_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_fg_book_v2: { Args: { p_query: Json }; Returns: Json }
+      erp_cp7_get_note_correction_v2: { Args: { p_sale: string }; Returns: Json }
       erp_cp7_get_note_correction_v1: { Args: { p_sale: string }; Returns: Json }
       erp_cp7_correct_note_v1: { Args: { p_payload: Json; p_request: string; p_expected: string }; Returns: Json }
       erp_cp7_get_fg_book_options_v1: { Args: { p_kind: string; p_q: string; p_offset: number; p_limit: number }; Returns: Json }
@@ -129,6 +130,7 @@ export type PreconnectDatabase = {
       erp_cp7_get_fg_adjustments_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_save_fg_adjustment_v1: { Args: { p_action: string; p_payload: Json; p_request: string; p_expected: string | null }; Returns: Json }
       erp_cp7_get_fg_v1: { Args: { p_query: Json }; Returns: Json }
+      erp_cp7_get_fg_ledger_v2: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_fg_ledger_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_materials_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_material_ledger_v1: { Args: { p_material: string; p_roll: string | null; p_location: string; p_offset: number; p_limit: number }; Returns: Json }

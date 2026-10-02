@@ -1,5 +1,13 @@
 # Active writer continuation · 1Oct2026
 
+## Current continuation · per-lot/actor Native36 candidate and cutting Native34 oracle repair
+
+The owning financial correction.sql stays byte-identical to qualified30 source2dced3d. New read-only lot/actor projections and connected displays are implemented; 23 focused local controls, TypeScript, security/ownership and build/client-secret scan PASS. Native36 is predeclared25/4/3/4, preserving all30 and strengthening complete30/364 per-lot suffixes. New real multi-lot/multi-line/actor/HTTP and two actual microsecond browser controls remain unqualified until the complete Native run passes. See NOTE_CORRECTION_PRESENTATION.md, including the unresolved owner HPP age-policy question; no closed period was reopened.
+
+Cutting input second34 at4d4d54d/run37015978383 passed21DB/4races/3HTTP and four retained browsers. The two input browsers reached real metadata commit/recovery/Native POST, then failed an incorrect pre-revocation versus post-revocation Native hash oracle. Exact Original retained in evidence/f04-native-history/cutting-input-incomplete34-4d4d54d/. The test now pins the full hash after the explicit user-revocation fixture control and requires the403 read to preserve every member of it. No table is excluded or source/control authority relaxed. Complete34 remains mandatory.
+
+Claude ownership still protects ConnectedProcurementPage.tsx and TRANSACTION_CORRECTION_COVERAGE.md; neither is changed. Main planning now inherits the new declared F03 read projections, so prior284 qualification remains source-bound and a fresh composition run is required. Prior qualified/failed Originals remain intact. Full CP7/independent/demo/hosted GO stays open.
+
 ## Current continuation · Native34 browser admission repaired, qualification pending
 
 Source8fb0525/run37013859341 completed32/34: all21DB/4races/3HTTP and four retained browsers PASS. The two new input journeys stopped at a disabled form caused by a nonexistent frontend permission key. Actual Original retained in evidence/f04-native-history/cutting-input-incomplete34-8fb0525/. Both SQL and frontend now require the existing production.cutting.edit_draft capability; no Native permission grant changed. Six receiver/DOM plus four SQL local controls PASS; these add zero Native case credit. A fresh complete34 is required. Both8fb Shell runs37013857135/37013859734 PASS. Claude ownership and all qualified F03/F05 source boundaries remain unchanged.

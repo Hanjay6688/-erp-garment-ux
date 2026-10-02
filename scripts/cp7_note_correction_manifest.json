@@ -26,7 +26,10 @@
       "NOTE_ECONOMIC_REPORT_RESTATEMENT",
       "NOTE_EXACT_TIME_SOURCE_ORDER",
       "NOTE_OLD_CASH_RETURN_REPORT",
-      "NOTE_OLD_ADVANCE_CASH_REPORT"
+      "NOTE_OLD_ADVANCE_CASH_REPORT",
+      "NOTE_MULTI_LOT_CARD",
+      "NOTE_MULTI_LINE_ATOMIC",
+      "NOTE_CORRECTION_ACTOR"
     ],
     "races": [
       "NOTE_RACE_TWO_REQUESTS",
@@ -36,22 +39,25 @@
     ],
     "http": [
       "NOTE_HTTP_COMMAND_REPLAY_AUTH",
-      "NOTE_HTTP_CORRECTED_BOOK"
+      "NOTE_HTTP_CORRECTED_BOOK",
+      "NOTE_HTTP_LOT_AND_ACTOR"
     ],
     "browser": [
       "NOTE_BROWSER_DESKTOP",
-      "NOTE_BROWSER_MOBILE_LOST_REPLY"
+      "NOTE_BROWSER_MOBILE_LOST_REPLY",
+      "NOTE_BROWSER_DESKTOP_MICROSECOND_GUARD",
+      "NOTE_BROWSER_MOBILE_MICROSECOND_GUARD"
     ]
   },
   "required_counts": {
-    "native": 22,
+    "native": 25,
     "races": 4,
-    "http": 2,
-    "browser": 2
+    "http": 3,
+    "browser": 4
   },
-  "expected_case_executions": 30,
+  "expected_case_executions": 36,
   "unique_oracle_total_claim": false,
   "frozen_cp6_modifications": false,
   "native_private_role_count": 31,
-  "predeclared_expansion": "Keep every original28 ID and strengthen existing report/prepayment oracles; add two mandatory cross-month funding/report cases. Exact read-only Native owner report overlay is separately attested and restored; frozen CP6 release files and all money/stock writers unchanged."
+  "predeclared_expansion": "Keep every original28 ID and strengthen existing report/prepayment oracles; add two mandatory cross-month funding/report cases. Exact read-only Native owner report overlay is separately attested and restored; frozen CP6 release files and all money/stock writers unchanged. Retain all30; add actual multi-lot allocation, multi-line atomic cash/invoice, immutable actor/current-name projection, real Auth per-lot/actor and two dedicated actual browser microsecond-response fault guards. Financial correction.sql remains byte-identical; original Native readers/writers/permissions unchanged."
 }

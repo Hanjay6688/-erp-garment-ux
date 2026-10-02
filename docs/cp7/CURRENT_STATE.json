@@ -3546,7 +3546,7 @@
   "version": "cp7.integration-entry.v1",
   "prospective_cutting_inputs_latest": {
     "scope": "STANDALONE_DISPOSABLE_CANDIDATE",
-    "status": "BROWSER_PERMISSION_REPAIRED_NATIVE34_PENDING",
+    "status": "SECOND_BROWSER_ORACLE_REPAIRED_NATIVE34_PENDING",
     "first_run": 37013859341,
     "first_source": "8fb0525bb796aa12a4f1ca640abd66976df68e5b",
     "counts": {
@@ -3567,6 +3567,30 @@
     "first_receipt": "docs/cp7/evidence/f04-native-history/cutting-input-incomplete34-8fb0525/RECEIPT.json",
     "native_permission": "production.cutting.edit_draft",
     "local_controls": 10,
+    "full_family_acceptance": false,
+    "production_go": false,
+    "second_run": 37015978383,
+    "second_receipt": "docs/cp7/evidence/f04-native-history/cutting-input-incomplete34-4d4d54d/RECEIPT.json",
+    "post_revocation_hash": "EVERY_NATIVE_BOUNDARY_MEMBER_NO_OMISSIONS"
+  },
+  "f03_note_presentation_candidate": {
+    "status": "LOCAL23_PASS_NATIVE36_PENDING",
+    "financial_writer_sha256_unchanged": "4b1a48763fed395fdbd9f59bcce17dd58e701227436bb7af5cea171e432bffed",
+    "required_counts": {
+      "native": 25,
+      "races": 4,
+      "http": 3,
+      "browser": 4
+    },
+    "scope": [
+      "per_lot_effective_cards_and_all_suffix_balances",
+      "immutable_actor_UUID_current_profile_label",
+      "multi_lot_multi_line_atomic_native_proof",
+      "dedicated_actual_browser_microsecond_guards"
+    ],
+    "manifest": "scripts/cp7_note_correction_manifest.json",
+    "contract": "docs/cp7/NOTE_CORRECTION_PRESENTATION.md",
+    "owner_HPP_age_policy": "UNRESOLVED_NO_NEW_CUTOFF_OR_CLOSED_PERIOD_REOPENING",
     "full_family_acceptance": false,
     "production_go": false
   }
