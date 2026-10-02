@@ -12,6 +12,11 @@ name: CP7 F05 Native Durable Attention
     - scripts/cp7_obligation_episode_cases.py
     - scripts/cp7_obligation_history_cases.py
     - scripts/cp7_rule_policy_cases.py
+    - scripts/cp7_rule_source_*
+    - scripts/cp7_f05_rule_browser*
+    - src/NativeRuleSourcePanel*
+    - src/nativeRuleSource*
+    - tests/fixtures/nativeRuleSource.ts
     - scripts/cp7_f05_policy_browser*
     - src/NativeReminderPolicyPanel*
     - src/nativeReminderPolicy*
@@ -72,7 +77,7 @@ jobs:
   phase:
     name: Original analysis, own-user Native reminders and current Auth
     runs-on: ubuntu-24.04
-    timeout-minutes: 75
+    timeout-minutes: 90
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
       CP6_AC_INDEPENDENT_CONFIRM: postgres

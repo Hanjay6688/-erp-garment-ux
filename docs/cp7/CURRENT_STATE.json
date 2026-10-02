@@ -1820,5 +1820,30 @@
     "status": "ACTUAL_HTTP_CUMULATIVE_FIXTURE_REPAIR_NATIVE_RETEST_REQUIRED",
     "production_go": false,
     "independent_acceptance": false
+  },
+  "f05_rule_source_local_preview_candidate": {
+    "status": "COMPLETE_BOUNDED_CANDIDATE_NATIVE247_RETEST_REQUIRED",
+    "predecessor_policy_source": "6a4ae621556719f7e56442d283795b0a26a9cb40",
+    "contract": "docs/cp7/f05/NATIVE_RULE_SOURCE_LOCAL_PREVIEW.md",
+    "predeclared_native_groups": {
+      "native": 157,
+      "races": 34,
+      "http": 24,
+      "browser": 32
+    },
+    "predeclared_native_total": 247,
+    "retained_predecessor_executions": 218,
+    "added_executions": 29,
+    "local_tests": 48,
+    "typescript": "PASS",
+    "build": "PASS",
+    "security": "PASS",
+    "read_only_native_grants_unchanged": true,
+    "external_delivery_enabled": false,
+    "scheduler_enabled": false,
+    "other_obligations": "EXPLICITLY_NOT_COMPOSED",
+    "independent_acceptance": false,
+    "full_family_acceptance": false,
+    "production_go": false
   }
 }

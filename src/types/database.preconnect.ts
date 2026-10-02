@@ -57,6 +57,16 @@ export type PreconnectDatabase = {
       erp_cp7_evaluate_obligation_episodes_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_get_obligation_episode_request_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_get_obligation_episode_history_v1: { Args: { p_payload: Json }; Returns: Json }
+      erp_cp7_get_rule_conditions_v1: { Args: { p_run: string }; Returns: Json }
+      erp_cp7_evaluate_rule_episodes_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
+      erp_cp7_get_rule_episode_request_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
+      erp_cp7_get_local_reminders_v1: { Args: { p_run: string }; Returns: Json }
+      erp_cp7_save_local_binding_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
+      erp_cp7_claim_local_preview_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
+      erp_cp7_finish_local_preview_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
+      erp_cp7_resolve_local_preview_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
+      erp_cp7_get_local_reminder_request_v1: { Args: { p_payload: Json; p_request: string; p_operation: string }; Returns: Json }
+      erp_cp7_get_reminder_policy_history_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_reminder_policy_v1: { Args: { p_run: string }; Returns: Json }
       erp_cp7_save_reminder_policy_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_get_reminder_policy_request_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
