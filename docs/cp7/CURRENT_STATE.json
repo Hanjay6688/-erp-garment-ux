@@ -2059,9 +2059,9 @@
     "full_family_acceptance": false,
     "independent_acceptance": false,
     "production_go": false,
-    "source_commit": "6bdddbe2cea7b1a8e284bfc2ce0a84f896f0e0f1",
-    "run_id": 36960176714,
-    "source_tree": "20adbfd4e10074082091d4733428565db2c055d5",
+    "source_commit": "466180aca878b775afc73a91d54c1217d910d80d",
+    "run_id": 36963316962,
+    "source_tree": "25066ff287ab34f0d642ef13981b2c7b16f77a18",
     "counts": {
       "native": {
         "PASS": 179
@@ -2070,12 +2070,12 @@
         "PASS": 40
       },
       "http": {
-        "PASS": 27,
-        "INCOMPLETE": 2
+        "PASS": 28,
+        "INCOMPLETE": 1
       },
       "browser": {
-        "PASS": 29,
-        "INCOMPLETE": 7
+        "PASS": 28,
+        "INCOMPLETE": 8
       }
     },
     "package_gate": {
@@ -2089,11 +2089,35 @@
     "auth_users_after": 0,
     "pass_count": 275,
     "observed_case_count": 284,
-    "receipt": "docs/cp7/evidence/f05-obligation-report/first-incomplete-6bdddbe/RECEIPT.json",
+    "receipt": "docs/cp7/evidence/f05-obligation-report/second-incomplete-466180a/RECEIPT.json",
     "repair_source": "466180aca878b775afc73a91d54c1217d910d80d",
     "repair_run_id": 36963316962,
-    "repair_status": "NATIVE284_RUNNING_METADATA_READ_DEDUPLICATION",
-    "remaining": "Actual HTTP/browser statement timeouts; all new Native report DB/race/HTTP cases pass, full composed gate remains incomplete"
+    "repair_status": "NATIVE284_INCOMPLETE_INITIAL_CAPTURE_AND_EPISODE_TIMEOUTS",
+    "remaining": "Actual Native accumulated-fixture source/compile cost; one HTTP episode evaluation and eight initial browser captures time out. Native7 same-bundle success does not replace complete284.",
+    "prior_incomplete_original": {
+      "source_commit": "6bdddbe2cea7b1a8e284bfc2ce0a84f896f0e0f1",
+      "source_tree": "20adbfd4e10074082091d4733428565db2c055d5",
+      "run_id": 36960176714,
+      "counts": {
+        "native": {
+          "PASS": 179
+        },
+        "races": {
+          "PASS": 40
+        },
+        "http": {
+          "PASS": 27,
+          "INCOMPLETE": 2
+        },
+        "browser": {
+          "PASS": 29,
+          "INCOMPLETE": 7
+        }
+      },
+      "pass_count": 275,
+      "observed_case_count": 284,
+      "receipt": "docs/cp7/evidence/f05-obligation-report/first-incomplete-6bdddbe/RECEIPT.json"
+    }
   },
   "f05_native_analysis_latest_regression": {
     "status": "NATIVE_WRITER_QUALIFIED",
@@ -2129,8 +2153,32 @@
     "receipt": "docs/cp7/evidence/f05-native-publication/qualified152-6bdddbe/RECEIPT.json"
   },
   "p18_e01_consumer_bridge": {
-    "status": "IMPLEMENTED_FOCUSED_NATIVE7_QUALIFICATION_REQUIRED",
+    "status": "FOCUSED_NATIVE7_WRITER_QUALIFIED_NOT_FULL_P18",
     "contract": "docs/cp7/P18_E01_CONSUMER_BRIDGE.md",
+    "source_commit": "6d2dbc482f999f86a9588951203279f6ee4c76a4",
+    "source_tree": "9599a973494be68768b6b50b6575a30b08e4dcb7",
+    "run_id": 36966030887,
+    "job_id": 110709857376,
+    "source_bundle_sha256": "19ca4d5868f0a448405cdcc4eec71771d6cc538327293e106a73c7fde4693fdb",
+    "receipt": "docs/cp7/evidence/p18-e01-bridge/qualified7-6d2dbc4/RECEIPT.json",
+    "counts": {
+      "native": {
+        "PASS": 3
+      },
+      "races": {
+        "PASS": 1
+      },
+      "http": {
+        "PASS": 1
+      },
+      "browser": {
+        "PASS": 2
+      }
+    },
+    "all_install_restore_primary_backup_advisor_gates": true,
+    "auth_users_before": 0,
+    "auth_users_after": 0,
+    "console_errors": 0,
     "required_case_counts": {
       "native": 3,
       "races": 1,
@@ -2144,6 +2192,22 @@
     "full_P18_acceptance": false,
     "full_family_acceptance": false,
     "independent_acceptance": false,
+    "production_go": false
+  },
+  "native_read_stage_diagnostic": {
+    "status": "IMPLEMENTED_AWAITING_ACTUAL_RUNTIME_MEASUREMENTS",
+    "contract": "docs/cp7/f05/NATIVE_READ_STAGE_DIAGNOSTIC.md",
+    "fixture_checkpoints": [
+      0,
+      1,
+      4,
+      12
+    ],
+    "diagnostic_only": true,
+    "product_qualification": false,
+    "full_P19_acceptance": false,
+    "Native_HTTP_timeout_changed": false,
+    "Native284_gate_retained": true,
     "production_go": false
   }
 }
