@@ -20,7 +20,11 @@
       "NOTE_CHILD_REVIEW_CHANGED",
       "NOTE_REPLAY_CURRENT_AUTHORITY",
       "NOTE_PRIVATE_CLOSED_FIELDS",
-      "NOTE_SAME_DAY_CHRONOLOGY"
+      "NOTE_SAME_DAY_CHRONOLOGY",
+      "NOTE_PREPAYMENT_REPLAY",
+      "NOTE_PREPAYMENT_OVERPAYMENT_ATOMIC",
+      "NOTE_ECONOMIC_REPORT_RESTATEMENT",
+      "NOTE_EXACT_TIME_SOURCE_ORDER"
     ],
     "races": [
       "NOTE_RACE_TWO_REQUESTS",
@@ -38,12 +42,12 @@
     ]
   },
   "required_counts": {
-    "native": 16,
+    "native": 20,
     "races": 4,
     "http": 2,
     "browser": 2
   },
-  "expected_case_executions": 24,
+  "expected_case_executions": 28,
   "unique_oracle_total_claim": false,
   "frozen_cp6_modifications": false,
   "native_private_role_count": 31

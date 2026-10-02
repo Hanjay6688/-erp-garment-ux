@@ -11,13 +11,16 @@ import psycopg
 import cp7_sales_draft_cases as drafts
 import cp7_sales_return_cases as returned
 import cp7_f03_e01_cases as e01
+import cp7_finance_cases as finance
+import cp6_ao_ap_installed as imports
+import cp6_initial_import_prepayment_trial as prepaid
 import cp7_note_correction_verify as ownership
 cmd,source,b,auth=drafts.cmd,drafts.source,drafts.b,drafts.auth
 MANIFEST=json.loads((ownership.bundle.ROOT/'scripts/cp7_note_correction_manifest.json').read_text())
 assert MANIFEST['schema']=='cp7-owning-note-correction-native-manifest-v1'
 REQUIRED=MANIFEST['required_counts']
 EXPECTED=MANIFEST['expected_case_executions']
-assert EXPECTED==24==sum(REQUIRED.values())
+assert EXPECTED==28==sum(REQUIRED.values())
 
 def correct(cur,p,version,key=None,subject=None):
  auth.actor(cur,subject)
@@ -60,7 +63,25 @@ def unchanged_facts(cur,sale):
 
 def snapshot(cur):
  b.api.admin(cur)
- return dict(native=b.boundary.snapshot(cur),metadata=cur.execute("select jsonb_build_object('requests',(select coalesce(jsonb_agg(to_jsonb(r)order by actor,request_id),'[]')from cp7_note.requests r),'revisions',(select coalesce(jsonb_agg(to_jsonb(r)order by id),'[]')from cp7_note.revisions r),'context',(select coalesce(jsonb_agg(to_jsonb(r)),'[]')from cp7_note.context r),'links',(select coalesce(jsonb_agg(to_jsonb(r)order by member_id),'[]')from cp7_fg.correction_movements r))").fetchone()[0])
+ return dict(native=b.boundary.snapshot(cur),metadata=cur.execute("select jsonb_build_object('requests',(select coalesce(jsonb_agg(to_jsonb(r)order by actor,request_id),'[]')from cp7_note.requests r),'revisions',(select coalesce(jsonb_agg(to_jsonb(r)order by id),'[]')from cp7_note.revisions r),'context',(select coalesce(jsonb_agg(to_jsonb(r)),'[]')from cp7_note.context r),'journal_restatements',(select coalesce(jsonb_agg(to_jsonb(r)order by inverse_journal_id),'[]')from cp7_note.journal_restatements r),'links',(select coalesce(jsonb_agg(to_jsonb(r)order by member_id),'[]')from cp7_fg.correction_movements r))").fetchone()[0])
+
+def inverse_date_truth(cur):
+ rows=cur.execute("select check_name,issue_count from erp.run_v267_financial_truth_checks()where check_name='V2620U_JOURNAL_REVERSAL_BUSINESS_DATE'").fetchall()
+ assert rows==[('V2620U_JOURNAL_REVERSAL_BUSINESS_DATE',0)],rows
+
+def period_accounts(cur,start,end,clock):
+ assert clock in ('economic_date','transaction_date')
+ return {str(k):v for k,v in cur.execute('select l.account_id,sum(l.debit-l.credit)from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where j.status in(\'POSTED\',\'REVERSED\')and j.'+clock+' between %s and %s group by l.account_id having sum(l.debit-l.credit)<>0',(start,end))}
+
+def wallet_note(cur,today):
+ f=stock(cur,today,10,source.fg.ax.r1.now(cur)-timedelta(days=2));posted(cur,f)
+ w=prepaid.fixture(imports,cur,today,'CUSTOMER',party=f['customer'],bill=None)
+ prepaid.manage(imports,cur,w,'APPLY',today-timedelta(days=1),target_id=f['sale'],amount='25')
+ f['bank']=str(source.bc.bank_account(cur,'NOTE-WALLET-'+uuid.uuid4().hex[:8]))
+ returned.payments.pay(cur,f,'5')
+ assert source.read(cur,f)['detail']['financial']['paid_total']=='30.00'
+ assert prepaid.state(imports,cur,w)['remaining_amount']=='42.25'and prepaid.bank(cur,w)==100
+ return f,w
 
 def year(cur,today,count):
  first=source.fg.ax.r1.now(cur)-timedelta(days=366,hours=1)
@@ -98,6 +119,7 @@ def cases(cur,today):
   assert e01.physical(cur,f)==49;e01.expect_delta(cur,f,before,75,275,-165,165,200)
   assert unchanged_facts(cur,original)==facts and cur.execute('select status from erp.sales_payments where id=%s',(paid['payment_id'],)).fetchone()[0]=='REVERSED'and cur.execute('select status from erp.sales_returns where id=%s',(ret['return_id'],)).fetchone()[0]=='REVERSED'
   assert len(history(cur,original)['history'])==1
+  inverse_date_truth(cur)
   return dict(status='PASS',actual_native_receipt_cut_sewing_accessory_laundry_QC_cost_source=True,invoice_500_to400=True,retur125_and_cash200_preserved=True,net275_AR75_cash200_COGS165_FG49_value735=True,original_posted_items_immutable=True,atomic_nota_stock_AR_journal_HPP=True)
  def other_warehouse():
   f=returned.fixture(cur,today);ret=returned.returned(cur,f,grade='GRADE_B');returned.payments.pay(cur,f,'30');p,v=edit(cur,f,'3');out=correct(cur,p,v);f['sale']=out['sale_id']
@@ -125,6 +147,8 @@ def cases(cur,today):
   p,v=edit(cur,f,'3');out=correct(cur,p,v);assert cur.execute("select id,economic_date,transaction_date from erp.journal_entries where source_type='SALE'and source_id=%s",(original,)).fetchall()==original_journals
   assert cur.execute('select closed_through from erp.accounting_period_control where singleton_id=1').fetchone()[0]==closed_through
   journals=cur.execute("select economic_date,transaction_date from erp.journal_entries where source_type='SALE'and source_id=%s",(out['sale_id'],)).fetchall();assert journals and all(e==cur.execute("select (%s::timestamptz at time zone 'Asia/Jakarta')::date",(f['sale_at'],)).fetchone()[0]and t>closed_through for e,t in journals)
+  moved=cur.execute('select e.economic_date,e.transaction_date from cp7_note.journal_restatements r join erp.journal_entries e on e.id=r.effective_journal_id where r.previous_sale_id=%s',(original,)).fetchall()
+  assert moved and all(e==original_journals[0][1]and t>closed_through for e,t in moved);inverse_date_truth(cur)
   return dict(status='PASS',accepted_native_economic_date_and_open_GL_date_rule_retained=True,no_closed_period_reopened=True,no_old_journal_date_rewritten=True)
  def injected():
   f=returned.fixture(cur,today);returned.returned(cur,f);returned.payments.pay(cur,f,'30');p,v=edit(cur,f,'3');before=snapshot(cur)
@@ -157,8 +181,54 @@ def cases(cur,today):
   f=stock(cur,today,100,source.fg.ax.r1.now(cur)-timedelta(days=2));posted(cur,f,'24');later=dict(f,tag=f['tag']+'-PM',sale_at=(source.fg.ax.r1.now(cur)-timedelta(days=2)+timedelta(hours=5)).isoformat());posted(cur,later,'12');before=complete_book(cur,f);p,v=edit(cur,f,'12');correct(cur,p,v);after=complete_book(cur,f)
   later_row=next(r for r in before.values()if r['movement_type']=='SALE'and r['physical_at']==source.read(cur,later)['detail']['physical_at']);assert after[later_row['id']]['physical_at']==later_row['physical_at']and D(after[later_row['id']]['book_physical_after'])==D(later_row['book_physical_after'])+12
   return dict(status='PASS',morning_and_afternoon_events_remain_distinct=True,later_same_day_balance_updated=True,recorded_clock_not_backdated=True)
+ def wallet_replay():
+  f,w=wallet_note(cur,today);root=f['sale'];old_wallet=cur.execute('select to_jsonb(a)from erp.initial_import_prepayments a where id=%s',(w['advance'],)).fetchone()[0]
+  old_payment=cur.execute('select p.id,to_jsonb(p)-\'status\',to_jsonb(l),to_jsonb(j)from erp.initial_import_prepayment_payments l join erp.sales_payments p on p.id=l.payment_id join erp.sales_payment_posting_facts j on j.payment_id=p.id where l.advance_id=%s and p.status=\'POSTED\'',(w['advance'],)).fetchone()
+  before=cmd.accounts(cur);p,v=edit(cur,f,'3');key=uuid.uuid4();out=correct(cur,p,v,key);f['sale']=out['sale_id'];d=source.read(cur,f)['detail']
+  assert d['financial']['net_total']=='60.00'and d['financial']['paid_total']=='30.00'and d['financial']['open_balance']=='30.00'and cmd.available(cur,f)==7
+  assert cmd.delta(before,cmd.accounts(cur))=={cmd.mapping(cur,'AR_CUSTOMER'):D('-20'),cmd.mapping(cur,'SALES_REVENUE'):D('20'),cmd.mapping(cur,'FG_INVENTORY'):D('10'),cmd.mapping(cur,'COGS'):D('-10')}
+  assert prepaid.state(imports,cur,w)['remaining_amount']=='42.25'and prepaid.bank(cur,w)==100
+  assert cur.execute('select to_jsonb(a)from erp.initial_import_prepayments a where id=%s',(w['advance'],)).fetchone()[0]==old_wallet
+  retained=cur.execute('select to_jsonb(p)-\'status\',to_jsonb(l),to_jsonb(j)from erp.sales_payments p join erp.initial_import_prepayment_payments l on l.payment_id=p.id join erp.sales_payment_posting_facts j on j.payment_id=p.id where p.id=%s',(old_payment[0],)).fetchone();assert retained==old_payment[1:]
+  new=cur.execute('select p.amount,p.payment_date,p.cash_account_id,p.payment_method,p.replaces_payment_id,l.advance_id from erp.sales_payments p join erp.initial_import_prepayment_payments l on l.payment_id=p.id where p.sale_id=%s and p.status=\'POSTED\'',(f['sale'],)).fetchone()
+  assert new and new[0]==D('25')and new[2]is None and new[3]=='OPENING_ADVANCE'and str(new[4])==str(old_payment[0])and str(new[5])==str(w['advance'])
+  assert new[1].isoformat()==old_payment[1]['payment_date']or new[1]==cur.execute('select payment_date from erp.sales_payments where id=%s',(old_payment[0],)).fetchone()[0]
+  before_replay=snapshot(cur);assert correct(cur,p,v,key)==out and snapshot(cur)==before_replay;checks=prepaid.truth(cur)
+  return dict(status='PASS',native_customer_advance67_25_applied25_cash5=True,corrected_invoice60_paid30_AR30=True,wallet_remaining42_25_unchanged=True,original_opening_payment_snapshot_posting_fact_immutable=True,linked_native_reallocation_to_same_wallet=True,no_invented_cash=True,same_UUID_once=True,truth_checks=checks,root_sale_id=root)
+ def wallet_overpaid():
+  f,w=wallet_note(cur,today);p,v=edit(cur,f,'1');before=snapshot(cur);wallet=prepaid.state(imports,cur,w)
+  auth.refused(cur,lambda:correct(cur,p,v),'exceeds exact remaining receivable');assert snapshot(cur)==before and prepaid.state(imports,cur,w)==wallet and prepaid.bank(cur,w)==100
+  return dict(status='PASS',prepaid25_and_cash5_cannot_fit_invoice20=True,all_stock_cash_wallet_AR_HPP_journal_lineage_rolled_back=True)
+ def economic_report():
+  month_start=today.replace(day=1);old_end=month_start-timedelta(days=1);old_start=old_end.replace(day=1)
+  source.fg.ax.boundary.historical.prior.set_open_period(cur,old_start-timedelta(days=1))
+  at=source.fg.ax.r1.now(cur).replace(year=old_start.year,month=old_start.month,day=4,hour=1,minute=0,second=0,microsecond=0)
+  f=stock(cur,today,10,at);posted(cur,f);root=f['sale'];original=unchanged_facts(cur,root)
+  prior_economic=period_accounts(cur,old_start,old_end,'economic_date');prior_GL=period_accounts(cur,old_start,old_end,'transaction_date');current=period_accounts(cur,month_start,today,'economic_date')
+  old_report=finance.read(cur,old_end,**{'from':str(old_start),'as_of':str(today)});current_report=finance.read(cur,today,**{'from':str(month_start)})
+  p,v=edit(cur,f,'3');correct(cur,p,v)
+  wanted={cmd.mapping(cur,'AR_CUSTOMER'):D('-20'),cmd.mapping(cur,'SALES_REVENUE'):D('20'),cmd.mapping(cur,'FG_INVENTORY'):D('10'),cmd.mapping(cur,'COGS'):D('-10')}
+  assert cmd.delta(prior_economic,period_accounts(cur,old_start,old_end,'economic_date'))==wanted
+  assert cmd.delta(prior_GL,period_accounts(cur,old_start,old_end,'transaction_date'))==wanted
+  assert period_accounts(cur,month_start,today,'economic_date')==current
+  new_report=finance.read(cur,old_end,**{'from':str(old_start),'as_of':str(today)});now_report=finance.read(cur,today,**{'from':str(month_start)})
+  assert finance.change(old_report,new_report,'performance','sales_revenue_gl')==D('-20')and finance.change(old_report,new_report,'performance','cogs_gl')==D('-10')
+  assert now_report['snapshot']['performance']==current_report['snapshot']['performance']
+  assert unchanged_facts(cur,root)==original;inverse_date_truth(cur)
+  sums=cur.execute('select l.account_id,sum(l.debit-l.credit)from cp7_note.journal_restatements r join erp.journal_lines l on l.journal_entry_id in(r.neutral_journal_id,r.effective_journal_id)where r.previous_sale_id=%s group by l.account_id',(root,)).fetchall()
+  assert sums and all(value==0 for _,value in sums)
+  return dict(status='PASS',original_open_period_AR_minus20_revenue_minus20_FG_plus10_COGS_minus10=True,owner_native_report_reconciled=True,current_economic_period_no_repeat=True,exact_line_reclassification_pair_gl_neutral=True,native_generic_inverse_business_date_check_zero=True,original_fact_dates_not_rewritten=True)
+ def exact_order():
+  f=stock(cur,today,100,source.fg.ax.r1.now(cur)-timedelta(days=2));posted(cur,f,'24');later=dict(f,tag=f['tag']+'-EXACT');posted(cur,later,'12')
+  before=complete_book(cur,f);p,v=edit(cur,f,'12');correct(cur,p,v);after=complete_book(cur,f)
+  ident=str(cur.execute("select m.id from erp.fg_stock_movements m join erp.sales_items i on i.id=m.source_id where i.sale_id=%s and m.movement_type='SALE'",(later['sale'],)).fetchone()[0])
+  assert after[ident]['physical_at']==before[ident]['physical_at']==source.read(cur,later)['detail']['physical_at']
+  for field in ('book_physical_after','official_physical_after'):assert D(after[ident][field])-D(before[ident][field])==12
+  assert all(after[i]['book_order']==r['book_order']for i,r in before.items())
+  return dict(status='PASS',two_distinct_native_notes_same_exact_physical_time=True,original_recorded_order_and_manual_ranks_preserved=True,later_main_and_official_balances_plus12=True)
  tests=[('YEAR_30',lambda:year(cur,today,30)),('YEAR_364',lambda:year(cur,today,364)),('REPEATED_REVISIONS',repeat),('FULL_NATIVE_FINANCIAL',financial),('RETURN_OTHER_WAREHOUSE',other_warehouse),('EXACT_CENTS',cents),('ADDED_SKU_MAIN_BOOK',sku),('HISTORICAL_NEGATIVE',negative),('CLOSED_PERIOD_NATIVE_RULE',closed),('LATE_FAILURE_ATOMIC',injected),('OVERPAYMENT_ATOMIC',overpaid),('RETURN_CAPACITY_ATOMIC',allocation),('CHILD_REVIEW_CHANGED',review),('REPLAY_CURRENT_AUTHORITY',request_access),('PRIVATE_CLOSED_FIELDS',private),('SAME_DAY_CHRONOLOGY',same_day)]
  tests=[('NOTE_'+name,fn)for name,fn in tests]
+ tests += [('NOTE_PREPAYMENT_REPLAY',wallet_replay),('NOTE_PREPAYMENT_OVERPAYMENT_ATOMIC',wallet_overpaid),('NOTE_ECONOMIC_REPORT_RESTATEMENT',economic_report),('NOTE_EXACT_TIME_SOURCE_ORDER',exact_order)]
  assert [name for name,_ in tests]==MANIFEST['groups']['native']
  return tests
 

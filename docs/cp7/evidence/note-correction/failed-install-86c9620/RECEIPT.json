@@ -1,0 +1,56 @@
+{
+  "run_id": 36986095473,
+  "job_id": 110771352684,
+  "artifact_id": 11217906402,
+  "source_commit": "86c9620575a9c56a078c4a6f651d4dc14412d693",
+  "source_tree": "993b6c1a58564532ef754e5a561e55cabd86bd47",
+  "archive_bytes": 1627325,
+  "archive_sha256": "89309f8c1757f547c50af654cdee63987db2b78797f6764464ab12925308c8b8",
+  "members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385606,
+      "sha256": "3017109e58578e88d5da64eccf134d162b686253ed163e921f4adeec84e2bdbf"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385606,
+      "sha256": "3017109e58578e88d5da64eccf134d162b686253ed163e921f4adeec84e2bdbf"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "b66c9ae7bec31f3af15194332e3415635bab253058507a694fe7be6c5eeaa8c1"
+    },
+    "CP7_NOTE_CORRECTION.json": {
+      "bytes": 41402,
+      "sha256": "68780dca62c8f770499732548265d3dc4f682639f685101f6cf72e1c61bc18f5"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10525,
+      "sha256": "72bc9a2ffac786a74698f3766190902f8d2303f999f5be2ba12163ce46c938d6"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360428,
+      "sha256": "2fb594a807695cbe78a42066dd27d6107e23af43235c8e49e0013cfa3b4efaac"
+    }
+  },
+  "status": "INCOMPLETE_INSTALL_VERIFIER_BEFORE_CASE_EXECUTION",
+  "economic_correction_commands": 0,
+  "qualification_credit": 0,
+  "cause": "Verifier assumed all private helpers SECURITY DEFINER; frozen Native reverse_fg_movement is SECURITY INVOKER. Compare each helper security/config to its exact installed Native source instead.",
+  "original_error": "('NOTE_SCOPED_HELPER', 'cp7_note.reverse_fg_movement(uuid,text)')"
+}

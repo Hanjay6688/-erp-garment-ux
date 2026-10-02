@@ -18,13 +18,14 @@ def verify(cur):
   definition=cur.execute('select pg_get_functiondef(%s::regprocedure)',(signature,)).fetchone()[0]
   assert hashlib.sha256(definition.encode()).hexdigest()==rows[signature],('NOTE_NATIVE_DEFINITION_CHANGED',signature)
   private=signature.replace('erp.','cp7_note.',1)
-  owner,secdef,body=cur.execute('select pg_get_userbyid(proowner),prosecdef,prosrc from pg_proc where oid=%s::regprocedure',(private,)).fetchone()
-  assert owner=='postgres' and secdef and 'perform cp7_note.require_context();'in body,('NOTE_SCOPED_HELPER',private)
+  native_security=cur.execute('select prosecdef,proconfig from pg_proc where oid=%s::regprocedure',(signature,)).fetchone()
+  owner,secdef,config,body=cur.execute('select pg_get_userbyid(proowner),prosecdef,proconfig,prosrc from pg_proc where oid=%s::regprocedure',(private,)).fetchone()
+  assert owner=='postgres' and (secdef,config)==native_security and 'perform cp7_note.require_context();'in body,('NOTE_SCOPED_HELPER',private)
  for who in ('anon','authenticated','service_role','cp7_capture','cp7_sales_read','cp7_fg_write'):
   assert not cur.execute("select has_schema_privilege(%s,'cp7_note','USAGE')",(who,)).fetchone()[0],('NOTE_PRIVATE_SCHEMA',who)
   for signature in SIGNATURES:
    assert not cur.execute("select has_function_privilege(%s,%s,'EXECUTE')",(who,signature.replace('erp.','cp7_note.',1))).fetchone()[0],('NOTE_PRIVATE_HELPER',who,signature)
-  for table in ('cp7_note.requests','cp7_note.revisions','cp7_note.context','cp7_note.helper_sources','cp7_fg.correction_movements'):
+  for table in ('cp7_note.requests','cp7_note.revisions','cp7_note.context','cp7_note.helper_sources','cp7_note.journal_restatements','cp7_fg.correction_movements'):
    assert not cur.execute("select has_table_privilege(%s,%s,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER')",(who,table)).fetchone()[0],('NOTE_PRIVATE_TABLE',who,table)
  for signature in ('public.erp_cp7_get_note_correction_v1(uuid)','public.erp_cp7_correct_note_v1(jsonb,uuid,text)'):
   assert cur.execute("select pg_get_userbyid(proowner),prosecdef,provolatile::text,proconfig from pg_proc where oid=%s::regprocedure",(signature,)).fetchone()==('cp7_sales_write',True,'v',['search_path=""']),('NOTE_PUBLIC_OWNER',signature)

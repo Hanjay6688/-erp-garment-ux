@@ -1220,7 +1220,7 @@
   "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
   "latest_tested_scope": "F03 all-eight writer exit preserved; repaired Native284 all284 PASS, main152 and actual E01 bridge7 PASS with exact Original/restoration/primary/backup/advisor/Auth gates. Counts overlap; full F04/F05 acceptance remains open.",
   "latest_tested_source": "656e4fd5944b6061a87fd0a388d2b928563ac398",
-  "next_action": "Qualify owning note correction on actual disposable Native PostgreSQL/Auth/HTTP/browser, retain exact failed or passed Originals, run unchanged eight F03 buckets and composed Native284; continue Native F04 producer/material gaps while those jobs run.",
+  "next_action": "Qualify all predeclared Native28 owning-note cases and unchanged full F03/Native284 candidate; repair actual failures without case waivers, then continue remaining F04 learning/material and F05 delivery/readiness plus P18-P21.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -2418,7 +2418,7 @@
     "prior_f03_qualified_scope_preserved": true,
     "local_dom_tests": 58,
     "local_build": "PASS",
-    "native_predeclared_case_executions": 24,
+    "native_predeclared_case_executions": 28,
     "production_go": false,
     "independent_acceptance": false,
     "first_failed_native": {
@@ -2429,6 +2429,21 @@
       "receipt": "docs/cp7/evidence/note-correction/failed-install-98e73f0/RECEIPT.json",
       "reason": "AB canonical statement-time clock missing from private date derivation",
       "repair": "Handle accepted statement_timestamp() form; no Native helper, rule, case or assertion changed"
+    },
+    "second_failed_native": {
+      "run_id": 36986095473,
+      "source_commit": "86c9620575a9c56a078c4a6f651d4dc14412d693",
+      "observed_case_count": 0,
+      "status": "INCOMPLETE_INSTALL_VERIFIER_BEFORE_CASE_EXECUTION",
+      "receipt": "docs/cp7/evidence/note-correction/failed-install-86c9620/RECEIPT.json",
+      "reason": "Verifier incorrectly required SECURITY DEFINER for frozen Native SECURITY INVOKER FG inverse",
+      "repair": "Preserve and verify exact installed Native security mode and config, unchanged original hashes and private context fence"
+    },
+    "pending_extension": {
+      "customer_prepaid_wallet": "Same Native original wallet, original amount/date, unchanged opening and no fabricated cash; predeclared qualification pending",
+      "journal_economic_period": "Canonical Native inverse dates preserved; linked exact-line neutral/effective pair; original-period report and GL/economic Native qualification pending",
+      "additional_case_executions": 4,
+      "total_case_executions": 28
     }
   }
 }

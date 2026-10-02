@@ -1,0 +1,21 @@
+{
+  "status": "CANDIDATE_SQL_CREATE_AND_SOURCE_PASS_NATIVE_PENDING",
+  "prior_local_ui_validation": "LOCAL_VALIDATION.json: original 58 cases remain unchanged source evidence",
+  "python_ast": "PASS",
+  "manifest_count": 28,
+  "native_execution": "PENDING",
+  "sql_create_control": {
+    "status": "PASS",
+    "engine": "PGlite PostgreSQL18 syntax control",
+    "native_economic_commands": 0,
+    "qualification_credit": 0
+  },
+  "source_hashes": {
+    "scripts/cp7-src/sales/correction.sql": "2004e63e934fb08421a66f1402c7e84b5db7df7fae020dc01da901dcc042793e",
+    "scripts/cp7_note_correction_verify.py": "f35ac9920c3e2cd174b32e24deb23efce40ef48a4ad91e9f2bbb30e3f1a3c892",
+    "scripts/cp7_note_correction_cases.py": "1d4b3812ccc620071011e8a16b6c7f40849b1ab2a253d273f85f58b05f8312dd",
+    "scripts/cp7_note_correction_manifest.json": "030669a01af40b4b821fb40341c6bc7f4b895e00d341cb89276fd6b88cd1ec3c"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

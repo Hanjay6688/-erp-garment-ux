@@ -19,24 +19,39 @@ create table cp7_note.context(
  source_sale_id uuid not null,primary key(backend_pid,transaction_id)
 );
 create table cp7_note.helper_sources(native_signature text primary key,native_definition_sha256 text not null);
+create table cp7_note.journal_restatements(
+ inverse_journal_id uuid primary key references erp.journal_entries,
+ source_journal_id uuid not null unique references erp.journal_entries,
+ previous_sale_id uuid not null references erp.sales_headers,
+ neutral_journal_id uuid not null unique references erp.journal_entries,
+ effective_journal_id uuid not null unique references erp.journal_entries,
+ native_economic_date date not null,corrected_economic_date date not null,
+ recorded_at timestamptz not null default clock_timestamp()
+);
+create index note_journal_source on cp7_note.journal_restatements(previous_sale_id);
 alter table cp7_note.requests owner to cp7_sales_write;
 alter table cp7_note.revisions owner to cp7_sales_write;
 alter table cp7_note.context owner to cp7_sales_write;
 alter table cp7_note.helper_sources owner to cp7_sales_write;
+alter table cp7_note.journal_restatements owner to cp7_sales_write;
 alter table cp7_note.requests enable row level security;
 alter table cp7_note.revisions enable row level security;
 alter table cp7_note.context enable row level security;
 alter table cp7_note.helper_sources enable row level security;
+alter table cp7_note.journal_restatements enable row level security;
 create policy private_requests on cp7_note.requests for all using(false)with check(false);
 create policy private_revisions on cp7_note.revisions for all using(false)with check(false);
 create policy private_context on cp7_note.context for all using(false)with check(false);
 create policy private_helper_sources on cp7_note.helper_sources for all using(false)with check(false);
+create policy private_journal_restatements on cp7_note.journal_restatements for all using(false)with check(false);
 revoke all on all tables in schema cp7_note from public,anon,authenticated,service_role,cp7_capture;
 
 create function cp7_note.immutable_revision()returns trigger
 language plpgsql security invoker set search_path=''as $$
 begin raise exception 'CP7_NOTE_POSTED_REVISION_IMMUTABLE';end $$;
 create trigger immutable_revision before update or delete on cp7_note.revisions
+ for each row execute function cp7_note.immutable_revision();
+create trigger immutable_journal_restatement before update or delete on cp7_note.journal_restatements
  for each row execute function cp7_note.immutable_revision();
 
 create function cp7_note.access_now()returns jsonb
@@ -63,9 +78,49 @@ begin
   raise exception using errcode='42501',message='CP7_NOTE_PRIVATE_CONTEXT_REQUIRED';end if;
 end $$;
 
+-- Generic Native reversals keep their accepted current economic date, posting
+-- fact and lineage. A source-owned pair moves that exact inverse's economic
+-- effect to the original date without changing one Native line or whole-ledger
+-- amount. Native post_journal retains its closed-period/open-GL-date rule.
+create function cp7_note.restate_reversal(p_source uuid,p_inverse uuid,p_reason text)returns void
+language plpgsql volatile security definer set search_path=''as $$
+declare original erp.journal_entries%rowtype;inverse erp.journal_entries%rowtype;
+ leaf uuid;neutral uuid;effective uuid;lines jsonb;
+begin
+ perform cp7_note.require_context();
+ select source_sale_id into strict leaf from cp7_note.context
+  where backend_pid=pg_backend_pid()and transaction_id=txid_current()and actor=auth.uid();
+ select *into strict original from erp.journal_entries where id=p_source;
+ select *into strict inverse from erp.journal_entries where id=p_inverse;
+ if original.status<>'REVERSED'or inverse.status<>'POSTED'
+  or inverse.source_type<>'JOURNAL_REVERSAL'or inverse.source_id<>original.id
+  or inverse.reversal_of_id is distinct from original.id
+  or not(original.source_type='SALE'and original.source_id=leaf
+   or original.source_type='SALES_RETURN'and exists(select 1 from erp.sales_returns where id=original.source_id and sale_id=leaf)
+   or original.source_type='SALES_PAYMENT'and exists(select 1 from erp.sales_payments where id=original.source_id and sale_id=leaf))then
+  raise exception 'CP7_NOTE_JOURNAL_SOURCE_CHANGED';end if;
+ if original.economic_date=inverse.economic_date then return;end if;
+ -- Undo the inverse only in its current economic period, from its exact lines.
+ select jsonb_agg(jsonb_build_object('account_id',j.account_id,'debit',j.credit,'credit',j.debit,
+  'description',j.description,'customer_id',j.customer_id,'vendor_id',j.vendor_id,
+  'contractor_id',j.contractor_id,'po_id',j.po_id,'product_id',j.product_id)order by j.id)into lines
+ from erp.journal_lines j where j.journal_entry_id=inverse.id;
+ neutral:=erp.post_journal('NOTE_REVERSAL_TIME_NEUTRAL',inverse.id,inverse.economic_date,
+  'Pembetulan nota: pindahkan waktu ekonomi pembalikan | '||p_reason,lines);
+ -- Apply the same inverse exactly in the original economic period.
+ select jsonb_agg(jsonb_build_object('account_id',j.account_id,'debit',j.debit,'credit',j.credit,
+  'description',j.description,'customer_id',j.customer_id,'vendor_id',j.vendor_id,
+  'contractor_id',j.contractor_id,'po_id',j.po_id,'product_id',j.product_id)order by j.id)into lines
+ from erp.journal_lines j where j.journal_entry_id=inverse.id;
+ effective:=erp.post_journal('NOTE_REVERSAL_EFFECTIVE',inverse.id,original.economic_date,
+  'Pembetulan nota: waktu ekonomi kejadian asal | '||p_reason,lines);
+ insert into cp7_note.journal_restatements values(inverse.id,original.id,leaf,neutral,effective,
+  inverse.economic_date,original.economic_date,clock_timestamp());
+end $$;
+
 -- Copy the actual accepted Native definitions into this private namespace.
--- Original definitions/owners/ACLs are untouched. Change only inverse dates,
--- calls to these same scoped inverse helpers, and the private admission fence.
+-- Original definitions/owners/ACLs are untouched. Scope physical/HPP inverse
+-- dates, exact-line economic reclassification, helper calls and admission.
 do $derive$
 declare signature text;definition text;body text;changed text;name text;
 begin
@@ -87,10 +142,9 @@ begin
    if body!~*'\mcurrent_date\M'and strpos(body,'statement_timestamp() AT TIME ZONE')=0
     and strpos(body,'erp._cp3_business_date(current_timestamp)')=0
     and strpos(body,'erp._cp3_business_date(statement_timestamp())')=0 then raise exception 'CP7_NOTE_NATIVE_JOURNAL_CLOCK_CHANGED';end if;
-   changed:=regexp_replace(changed,'\m[Cc][Uu][Rr][Rr][Ee][Nn][Tt]_[Dd][Aa][Tt][Ee]\M','v_old.economic_date','g');
-   changed:=replace(changed,$$((statement_timestamp() AT TIME ZONE 'Asia/Jakarta'::text))::date$$,'v_old.economic_date');
-   changed:=replace(changed,'erp._cp3_business_date(current_timestamp)','v_old.economic_date');
-   changed:=replace(changed,'erp._cp3_business_date(statement_timestamp())','v_old.economic_date');
+   if strpos(body,'RETURN v_new_id;')=0 then raise exception 'CP7_NOTE_NATIVE_JOURNAL_RETURN_CHANGED';end if;
+   changed:=replace(changed,'RETURN v_new_id;',
+    'PERFORM cp7_note.restate_reversal(p_journal_entry_id,v_new_id,p_reason); RETURN v_new_id;');
   elsif name in('reverse_sale','reverse_sales_return')then
    if strpos(body,'statement_timestamp() AT TIME ZONE')=0 then raise exception 'CP7_NOTE_NATIVE_HPP_CLOCK_CHANGED';end if;
    changed:=replace(changed,$$((statement_timestamp() AT TIME ZONE 'Asia/Jakarta'::text))::date$$,
@@ -162,13 +216,13 @@ begin
  if exists(select 1 from erp.sales_payments where sale_id=leaf and status='DRAFT')
   or exists(select 1 from erp.sales_returns where sale_id=leaf and status='DRAFT')then
   raise exception 'CP7_NOTE_PENDING_CHILD_REVIEW_REQUIRED';end if;
- select coalesce(jsonb_agg(to_jsonb(p)order by p.payment_date,p.id),'[]')into paid from erp.sales_payments p where p.sale_id=leaf and p.status='POSTED';
+ select coalesce(jsonb_agg(to_jsonb(p)||jsonb_build_object('advance_id',l.advance_id)order by p.payment_date,p.id),'[]')into paid
+ from erp.sales_payments p left join erp.initial_import_prepayment_payments l on l.payment_id=p.id
+ where p.sale_id=leaf and p.status='POSTED';
  select coalesce(jsonb_agg(to_jsonb(r)||jsonb_build_object('items',
   (select jsonb_agg(to_jsonb(i)||jsonb_build_object('allocation_location_id',x.location_id)order by i.id)
     from erp.sales_return_items i join erp.sale_stock_allocations x on x.id=i.sale_stock_allocation_id where i.return_id=r.id))order by r.physical_at,r.id),'[]')into returns
  from erp.sales_returns r where r.sale_id=leaf and r.status='POSTED';
- if exists(select 1 from erp.initial_import_prepayment_payments p join erp.sales_payments s on s.id=p.payment_id where s.sale_id=leaf and s.status='POSTED')then
-  raise exception 'CP7_NOTE_PREPAYMENT_OWNING_REALLOCATION_REQUIRED';end if;
  select array_agg(m.id)into before_movements from erp.fg_stock_movements m where
   (m.source_type='SALE_ITEM'and exists(select 1 from erp.sales_items i where i.id=m.source_id and i.sale_id=leaf)
    or m.source_type='SALES_RETURN_ITEM'and exists(select 1 from erp.sales_return_items i join erp.sales_returns r on r.id=i.return_id where i.id=m.source_id and r.sale_id=leaf and r.status='POSTED'))
@@ -215,6 +269,14 @@ begin
   values(replaced,left(payment.value->>'payment_number',38)||' · K-'||left(p_request::text,8),
    (payment.value->>'payment_date')::timestamptz,(payment.value->>'amount')::numeric,(payment.value->>'cash_account_id')::uuid,
    payment.value->>'payment_method',payment.value->>'reference_number',payment.value->>'notes','DRAFT',erp.current_app_user_id(),(payment.value->>'id')::uuid)returning id into new_payment;
+  if payment.value->>'advance_id'is not null then
+   -- Same original wallet and amount. Accepted Native funding validation locks
+   -- it, checks its actual remaining amount/customer/source snapshot and dates,
+   -- and posts liability/AR rather than cash. No opening balance is edited.
+   insert into erp.initial_import_prepayment_payments(payment_id,advance_id,sales_payment_id,payment_snapshot)
+   select new_payment,(payment.value->>'advance_id')::uuid,new_payment,to_jsonb(p)-'status'
+   from erp.sales_payments p where p.id=new_payment;
+  end if;
   perform erp.post_sales_payment(new_payment);
  end loop;
  -- Collapse compensating movements under their original source card. A newly
