@@ -87,10 +87,12 @@ export function parseReceiptCorrectionOutcome(v: unknown, request: string, sourc
 export type DraftRoll = { key: string; replaces: string | null; number: string; qty: string; minQty: string; locked: boolean }
 export type DraftLine = { key: string; replaces: string | null; materialId: string; materialName: string; materialType: string; unitCode: string; qty: string; minQty: string; price: string; priceState: string; priceSource: string; rolls: DraftRoll[] }
 export type DraftInvoiceLine = { replaces: string; itemId: string; qty: string; price: string; discount: string }
-export type DraftInvoice = { replaces: string; number: string; date: string; lines: DraftInvoiceLine[] }
+export type DraftInvoice = { replaces: string; number: string; date: string; lines: DraftInvoiceLine[]; head?: { number: string; date: string; dueDate: string } }
 export type DraftCredit = { purchaseId: string; amount: string }
-/** Header fields typed on the receipt (delivery-note number, due date); empty = clear. */
-export type DraftHeader = { supplierInvoiceNumber: string; dueDate: string }
+/** The receipt (delivery-note) number as typed, without the revision suffix. */
+export type DraftHeader = { purchaseNumber: string }
+const receiptBase = (n: string) => n.replace(/ · R\d+-[0-9a-f]{8}$/, ''), invoiceBase = (n: string) => n.replace(/ · R\d+$/, '')
+export const draftHeader = (w: ReceiptCorrectionWorkspace): DraftHeader => ({ purchaseNumber: receiptBase(w.purchase.purchase_number) })
 // Exact money: decimals as integer micro-units, rounded to cents like the database (half away from zero).
 const micros = (s: string) => { const [w, f = ''] = s.trim().replace(',', '.').split('.'); return BigInt(w || '0') * 1000000n + BigInt((f + '000000').slice(0, 6)) }
 const cents = (scaled: bigint, scale: bigint) => (scaled >= 0n ? (scaled + scale / 2n) / scale : -((-scaled + scale / 2n) / scale))
@@ -120,7 +122,7 @@ export function correctionDraft(w: ReceiptCorrectionWorkspace): DraftLine[] {
 }
 /** Every posted supplier invoice of the receipt, line by line, as it now reads. */
 export function correctionInvoices(w: ReceiptCorrectionWorkspace): DraftInvoice[] {
-  return w.invoices.map(v => ({ replaces: v.invoice_id, number: v.invoice_number, date: v.invoice_date,
+  return w.invoices.map(v => ({ replaces: v.invoice_id, number: v.invoice_number, date: v.invoice_date, head: { number: invoiceBase(v.invoice_number), date: v.invoice_date, dueDate: v.due_date ?? '' },
     lines: v.lines.map(l => ({ replaces: l.invoice_line_id, itemId: l.purchase_item_id, qty: plain(l.qty_invoiced), price: plain(l.unit_price), discount: plain(l.discount_amount) })) }))
 }
 /** The exact command payload, or the reason it cannot be sent yet. */
@@ -170,7 +172,15 @@ export function correctionPayload(w: ReceiptCorrectionWorkspace, lines: DraftLin
       invoiced.set(l.itemId, (invoiced.get(l.itemId) ?? 0) + Number(qty))
       outLines.push({ replaces_invoice_line_id: l.replaces, qty_invoiced: qty, unit_price: price, discount_amount: discount })
     }
-    outInvoices.push({ replaces_invoice_id: v.replaces, lines: outLines })
+    // Supplier invoice number, date and due date as typed: sent only when changed.
+    const fix: Record<string, string> = {}
+    if (v.head) {
+      const number = v.head.number.trim(), date = v.head.date.trim(), due = v.head.dueDate.trim()
+      if (number !== invoiceBase(doc.invoice_number)) { if (!number || number.length > 90) return { payload: null, problem: `Nomor invoice ${v.number} belum benar.` }; fix.invoice_number = number }
+      if (date !== doc.invoice_date) { if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return { payload: null, problem: `Tanggal invoice ${v.number} belum benar.` }; fix.invoice_date = date }
+      if (due !== (doc.due_date ?? '')) { if (due && !/^\d{4}-\d{2}-\d{2}$/.test(due)) return { payload: null, problem: `Jatuh tempo invoice ${v.number} belum benar.` }; fix.due_date = due }
+    }
+    outInvoices.push({ replaces_invoice_id: v.replaces, ...fix, lines: outLines })
   }
   for (const [item, qty] of invoiced) {
     const line = lines.find(x => x.replaces === item)!
@@ -192,16 +202,14 @@ export function correctionPayload(w: ReceiptCorrectionWorkspace, lines: DraftLin
     if (!w.credit_targets.length) return { payload: null, problem: `Sudah dibayar Rp${excess} lebih dari total yang benar. Belum ada nota lain dari supplier ini yang masih punya sisa utang; simpan pembetulan setelah nota berikutnya dicatat.` }
     if (money(sum / 10000n) !== excess) return { payload: null, problem: `Kelebihan bayar Rp${excess} harus ditempel penuh ke nota lain dari supplier yang sama (sekarang Rp${money(sum / 10000n)}).` }
   }
-  // Delivery-note number and due date: sent only when changed; with a posted supplier invoice they follow the invoice.
+  // Receipt (delivery-note) number as typed: sent only when changed.
   const head: Record<string, string> = {}
   if (header) {
-    const number = header.supplierInvoiceNumber.trim(), due = header.dueDate.trim()
-    if (number !== (w.purchase.supplier_invoice_number ?? '')) head.supplier_invoice_number = number
-    if (due !== (w.purchase.due_date ?? '')) {
-      if (due && !/^\d{4}-\d{2}-\d{2}$/.test(due)) return { payload: null, problem: 'Tanggal jatuh tempo belum benar.' }
-      head.due_date = due
+    const number = header.purchaseNumber.trim()
+    if (number !== receiptBase(w.purchase.purchase_number)) {
+      if (!number || number.length > 40) return { payload: null, problem: 'Nomor surat jalan harus 1–40 huruf.' }
+      head.purchase_number = number
     }
-    if (Object.keys(head).length && w.invoices.length) return { payload: null, problem: 'Penerimaan ini sudah punya invoice supplier; nomor dan jatuh tempo mengikuti invoice. Betulkan di baris invoice.' }
   }
   return { payload: { purchase_id: w.current_purchase_id, review_token: w.review_token, change_reason: reason.trim(), lines: out, ...head, ...(outInvoices.length ? { invoices: outInvoices } : {}), ...(outCredits.length ? { credit_allocations: outCredits } : {}) }, problem: null }
 }
@@ -275,7 +283,9 @@ const refusalLabels: Record<string, string> = {
   CP7_RECEIPT_FIX_LINE_BELOW_USE: 'Jumlah barang tidak boleh di bawah jumlah yang sudah keluar dari gudang penerimaan',
   CP7_RECEIPT_FIX_ROLL_USE_UNSUPPORTED: 'Roll ini sudah dipakai selain untuk potong. Untuk salah bahan, batalkan pemakaian itu dulu, betulkan penerimaan, lalu catat ulang pemakaiannya',
   CP7_RECEIPT_FIX_ROLL_NUMBER_TAKEN: 'Nomor roll sudah dipakai roll lain dari bahan yang sama (roll baru juga tidak boleh memakai nomor yang sekarang masih dipakai)',
-  CP7_RECEIPT_FIX_HEADER_FOLLOWS_INVOICE: 'Penerimaan ini sudah punya invoice supplier; nomor dan jatuh tempo mengikuti invoice. Betulkan di baris invoice.',
+  CP7_RECEIPT_FIX_PURCHASE_NUMBER_TAKEN: 'Nomor surat jalan ini sudah dipakai penerimaan lain',
+  CP7_RECEIPT_FIX_PURCHASE_NUMBER_LENGTH: 'Nomor surat jalan harus 1–40 huruf.',
+  CP7_RECEIPT_FIX_INVOICE_NUMBER_TAKEN: 'Nomor invoice ini sudah dipakai invoice lain dari supplier yang sama',
   CP7_RECEIPT_FIX_ROLL_LINEAGE: `Daftar roll ${changed}`,
   CP7_RECEIPT_FIX_ITEM_LINEAGE: `Daftar barang ${changed}`,
   CP7_RECEIPT_FIX_MATERIAL_KIND_CHANGED: 'Bahan pengganti harus jenis dan satuan yang sama dengan bahan semula.',

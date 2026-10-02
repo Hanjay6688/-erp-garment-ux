@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { correctionDraft, correctionExcess, correctionRefusal, correctionInvoices, correctionPayload, materialNamePayload, parseMaterialNameOutcome, parseMaterialNameWorkspace, parseMaterialCard, parseReceiptCorrectionOutcome, parseReceiptCorrectionWorkspace } from './receiptCorrectionContract'
+import { correctionDraft, correctionExcess, correctionRefusal, draftHeader, correctionInvoices, correctionPayload, materialNamePayload, parseMaterialNameOutcome, parseMaterialNameWorkspace, parseMaterialCard, parseReceiptCorrectionOutcome, parseReceiptCorrectionWorkspace } from './receiptCorrectionContract'
 
 const ids = { root: '11111111-1111-4111-8111-111111111111', rep: '22222222-2222-4222-8222-222222222222', item: '33333333-3333-4333-8333-333333333333', mat: '44444444-4444-4444-8444-444444444444', roll: '55555555-5555-4555-8555-555555555555', sup: '66666666-6666-4666-8666-666666666666', loc: '77777777-7777-4777-8777-777777777777', rev: '88888888-8888-4888-8888-888888888888' }
 const at = '2026-09-29T03:00:00+00:00'
@@ -37,7 +37,7 @@ describe('receipt correction contract', () => {
   })
   it('corrects every posted supplier invoice with the receipt and refuses invoicing more than received', () => {
     const w = parseReceiptCorrectionWorkspace(workspace(false, true), ids.root), lines = correctionDraft(w), invoices = correctionInvoices(w)
-    expect(invoices).toEqual([{ replaces: inv.id, number: 'INV-7', date: '2026-09-29', lines: [{ replaces: inv.line, itemId: ids.item, qty: '100', price: '12', discount: '0' }] }])
+    expect(invoices).toEqual([{ replaces: inv.id, number: 'INV-7', date: '2026-09-29', head: { number: 'INV-7', date: '2026-09-29', dueDate: '' }, lines: [{ replaces: inv.line, itemId: ids.item, qty: '100', price: '12', discount: '0' }] }])
     expect(correctionPayload(w, lines, 'Harga final salah ketik').problem).toContain('invoice')
     invoices[0].lines[0].price = '11'
     expect(correctionPayload(w, lines, 'Harga final salah ketik', invoices).payload).toMatchObject({ lines: [{ price_state: 'ESTIMATED', price_source: 'MANUAL_ESTIMATE' }],
@@ -77,12 +77,17 @@ describe('receipt correction contract', () => {
     lines[0].rolls.push({ key: 'new', replaces: null, number: 'R1-BENAR', qty: '5', minQty: '0', locked: false })
     expect(correctionPayload(w, lines, 'Nomor roll salah ketik').problem).toBe('Nomor roll R1-BENAR dipakai lebih dari sekali.')
     lines[0].rolls.pop()
-    const head = (n: string, d: string) => correctionPayload(w, lines, 'Surat jalan salah ketik', [], [], { supplierInvoiceNumber: n, dueDate: d })
-    expect(head('', '').payload).not.toHaveProperty('supplier_invoice_number')
-    expect(head('SJ-21', '2026-10-30').payload).toMatchObject({ supplier_invoice_number: 'SJ-21', due_date: '2026-10-30' })
-    expect(head('', '30-10-2026').problem).toBe('Tanggal jatuh tempo belum benar.')
-    const invoiced = parseReceiptCorrectionWorkspace(workspace(false, true), ids.root)
-    expect(correctionPayload(invoiced, correctionDraft(invoiced), 'Surat jalan salah ketik', correctionInvoices(invoiced), [], { supplierInvoiceNumber: 'SJ-21', dueDate: '' }).problem).toContain('mengikuti invoice')
+    const head = (n: string) => correctionPayload(w, lines, 'Nomor surat jalan salah ketik', [], [], { purchaseNumber: n })
+    expect(head('SJ-1').payload).not.toHaveProperty('purchase_number')
+    expect(head(' SJ-10 ').payload).toMatchObject({ purchase_number: 'SJ-10' })
+    expect(head('').problem).toBe('Nomor surat jalan harus 1–40 huruf.')
+    const revised = parseReceiptCorrectionWorkspace(workspace(true), ids.root)
+    expect(correctionPayload(revised, correctionDraft(revised), 'Nomor surat jalan salah ketik', [], [], draftHeader(revised)).payload).not.toHaveProperty('purchase_number')
+    const invoiced = parseReceiptCorrectionWorkspace(workspace(false, true), ids.root), drafts = correctionInvoices(invoiced)
+    expect(drafts[0].head).toEqual({ number: invoiced.invoices[0].invoice_number, date: invoiced.invoices[0].invoice_date, dueDate: invoiced.invoices[0].due_date ?? '' })
+    drafts[0].head = { number: 'INV-BENAR', date: '2026-09-30', dueDate: '' }
+    const fixed = correctionPayload(invoiced, correctionDraft(invoiced), 'Nomor invoice salah ketik', drafts)
+    expect((fixed.payload?.invoices as Record<string, unknown>[])[0]).toMatchObject({ invoice_number: 'INV-BENAR', invoice_date: '2026-09-30' })
   })
   it('turns a payment above the corrected total into credit cut from another nota of the same supplier', () => {
     const next = { purchase_id: ids.rev, purchase_number: 'SJ-2', physical_at: at, remaining: '1000.00' }

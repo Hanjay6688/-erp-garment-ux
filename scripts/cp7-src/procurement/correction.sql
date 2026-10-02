@@ -454,13 +454,12 @@ declare a jsonb;old cp7_receipt_fix.requests%rowtype;h erp.material_purchase_hea
  rev_id uuid;tmp text;previous_doc jsonb;corrected_doc jsonb;pending jsonb:='[]';
  inv_ids uuid[];inv jsonb;il jsonb;old_new jsonb:='{}';inv_lines jsonb;new_inv uuid;invoiced jsonb:='{}';
  paid_total numeric:=0;excess numeric:=0;credits jsonb:='[]';credit jsonb;target erp.material_purchase_headers%rowtype;
- left_on_receipt numeric;part numeric;piece integer:=0;queue jsonb;related uuid[]:='{}';other_paid jsonb:='[]';pay jsonb;
+ left_on_receipt numeric;part numeric;piece integer:=0;queue jsonb;related uuid[]:='{}';other_paid jsonb:='[]';pay jsonb;base text;inv_base text;
 begin
  if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
  a:=cp7_receipt_fix.access_now();
  if jsonb_typeof(p_payload)is distinct from'object'or not p_payload?&array['purchase_id','review_token','change_reason','lines']
-  or exists(select 1 from jsonb_object_keys(p_payload)k where k not in('purchase_id','review_token','change_reason','lines','invoices','credit_allocations','notes','supplier_invoice_number','due_date'))
-  or nullif(p_payload->>'due_date','')!~'^[0-9]{4}-[0-9]{2}-[0-9]{2}$'or length(p_payload->>'supplier_invoice_number')>100
+  or exists(select 1 from jsonb_object_keys(p_payload)k where k not in('purchase_id','review_token','change_reason','lines','invoices','credit_allocations','notes','purchase_number'))
   or p_payload?'credit_allocations'and(jsonb_typeof(p_payload->'credit_allocations')is distinct from'array'or jsonb_array_length(p_payload->'credit_allocations')>20)
   or jsonb_typeof(p_payload->'lines')is distinct from'array'or jsonb_array_length(p_payload->'lines')not between 1 and 100
   or p_payload?'invoices'and(jsonb_typeof(p_payload->'invoices')is distinct from'array'or jsonb_array_length(p_payload->'invoices')>20)
@@ -576,12 +575,19 @@ begin
    or exists(select 1 from erp.material_rolls x where x.material_id=r.m and x.roll_number=r.n
     and not(coalesce(r.rid in(select rid from kept),false)and x.id in(select rid from kept)));
  if tmp is not null then raise exception 'CP7_RECEIPT_FIX_ROLL_NUMBER_TAKEN %',tmp;end if;
- -- Header fields typed on the receipt. With a posted supplier invoice they
- -- follow the invoice (Native), so they are corrected on the invoice instead.
- if cardinality(coalesce(inv_ids,'{}'))>0 and(
-   p_payload?'supplier_invoice_number'and nullif(btrim(p_payload->>'supplier_invoice_number'),'')is distinct from h.supplier_invoice_number
-   or p_payload?'due_date'and nullif(p_payload->>'due_date','')::date is distinct from h.due_date)then
-  raise exception 'CP7_RECEIPT_FIX_HEADER_FOLLOWS_INVOICE';end if;
+ -- The receipt (delivery-note) number as typed: a typo is corrected on the
+ -- replacement and every later revision. The number of another receipt is
+ -- a different document, never taken over here.
+ base:=regexp_replace(h.purchase_number,' · R[0-9]+-[0-9a-f]{8}$','');
+ if p_payload?'purchase_number'then
+  if length(btrim(p_payload->>'purchase_number'))not between 1 and 40 then raise exception using errcode='22023',message='CP7_RECEIPT_FIX_PURCHASE_NUMBER_LENGTH';end if;
+  if btrim(p_payload->>'purchase_number')<>base then
+   base:=btrim(p_payload->>'purchase_number');
+   if exists(select 1 from erp.material_purchase_headers x where(x.purchase_number=base or regexp_replace(x.purchase_number,' · R[0-9]+-[0-9a-f]{8}$','')=base)
+     and x.id<>root and x.id not in(select replacement_purchase_id from cp7_receipt_fix.revisions where root_purchase_id=root))then
+    raise exception 'CP7_RECEIPT_FIX_PURCHASE_NUMBER_TAKEN %',base;end if;
+  end if;
+ end if;
  -- Rolls the corrected document no longer contains must never have been used.
  for old_roll in select*from erp.material_rolls where id=any(coalesce(old_rolls,'{}'))and not(id=any(seen_rolls))order by id loop
   if (cp7_receipt_fix.roll_use(old_roll.id,h.location_id)->>'min_qty')::numeric>0
@@ -609,7 +615,9 @@ begin
  then raise exception 'CP7_RECEIPT_FIX_INVOICE_SET';end if;
  for inv in select value from jsonb_array_elements(coalesce(p_payload->'invoices','[]'))loop
   if jsonb_typeof(inv)is distinct from'object'or not inv?&array['replaces_invoice_id','lines']
-   or exists(select 1 from jsonb_object_keys(inv)k where k not in('replaces_invoice_id','lines','notes'))
+   or exists(select 1 from jsonb_object_keys(inv)k where k not in('replaces_invoice_id','lines','notes','invoice_number','invoice_date','due_date'))
+   or nullif(inv->>'invoice_date','')!~'^[0-9]{4}-[0-9]{2}-[0-9]{2}$'or nullif(inv->>'due_date','')!~'^[0-9]{4}-[0-9]{2}-[0-9]{2}$'
+   or inv?'invoice_number'and length(btrim(inv->>'invoice_number'))not between 1 and 90
    or jsonb_typeof(inv->'lines')is distinct from'array'or jsonb_array_length(inv->'lines')not between 1 and 100
    or exists(select 1 from jsonb_each(inv)e where e.key<>'lines'and jsonb_typeof(e.value)not in('string','null'))
   then raise exception using errcode='22023',message='CP7_RECEIPT_FIX_FIELDS';end if;
@@ -617,6 +625,13 @@ begin
     is distinct from(select array_agg(l.id order by l.id)from erp.material_supplier_invoice_lines l join erp.material_purchase_items i on i.id=l.purchase_item_id
      where l.invoice_id=(inv->>'replaces_invoice_id')::uuid and i.purchase_id=h.id)
   then raise exception 'CP7_RECEIPT_FIX_INVOICE_LINE_SET';end if;
+  -- A typed supplier invoice number is corrected on the re-posted invoice; the
+  -- number of another invoice of the supplier is never taken over.
+  if inv?'invoice_number'and btrim(inv->>'invoice_number')<>(select regexp_replace(v.invoice_number,' · R[0-9]+$','')from erp.material_supplier_invoices v where v.id=(inv->>'replaces_invoice_id')::uuid)
+   and exists(with recursive chain(id)as(select(inv->>'replaces_invoice_id')::uuid union select r.previous_invoice_id from cp7_receipt_fix.invoice_replays r join chain c on r.replacement_invoice_id=c.id)
+    select 1 from erp.material_supplier_invoices x join erp.material_supplier_invoices v on v.id=(inv->>'replaces_invoice_id')::uuid
+    where x.supplier_id=v.supplier_id and regexp_replace(x.invoice_number,' · R[0-9]+$','')=btrim(inv->>'invoice_number')and x.id not in(select id from chain))then
+   raise exception 'CP7_RECEIPT_FIX_INVOICE_NUMBER_TAKEN %',btrim(inv->>'invoice_number');end if;
   for il in select value from jsonb_array_elements(inv->'lines')loop
    if jsonb_typeof(il)is distinct from'object'or not il?&array['replaces_invoice_line_id','qty_invoiced','unit_price']
     or exists(select 1 from jsonb_object_keys(il)k where k not in('replaces_invoice_line_id','qty_invoiced','unit_price','discount_amount','notes'))
@@ -721,11 +736,10 @@ begin
  -- Replacement document through the accepted Native draft writer. Rolls of the
  -- same material are re-attached below; their placeholder draft rows exist only
  -- inside this transaction and never receive stock.
- draft:=jsonb_build_object('purchase_number',left((select purchase_number from erp.material_purchase_headers where id=root),40)||' · R'||rev_no::text||'-'||left(p_request::text,8),
+ draft:=jsonb_build_object('purchase_number',left(base,40)||' · R'||rev_no::text||'-'||left(p_request::text,8),
   'supplier_id',h.supplier_id,'location_id',h.location_id,'physical_at',h.physical_at,
   'notes',coalesce(nullif(p_payload->>'notes',''),h.notes),
-  'supplier_invoice_number',case when p_payload?'supplier_invoice_number'then nullif(btrim(p_payload->>'supplier_invoice_number'),'')else h.supplier_invoice_number end,
-  'due_date',case when p_payload?'due_date'then nullif(p_payload->>'due_date','')::date else h.due_date end,
+  'supplier_invoice_number',h.supplier_invoice_number,'due_date',h.due_date,
   'change_reason','Benerin penerimaan '||h.purchase_number||': '||why,
   'lines',(select jsonb_agg(jsonb_build_object('material_id',l->>'material_id','unit_price',l->>'unit_price','price_state',l->>'price_state',
     'price_source',l->>'price_source','lot_number',l->>'lot_number','notes',l->>'notes')
@@ -864,10 +878,14 @@ begin
   -- Supplier invoice numbers are unique per supplier, reversed ones included:
   -- the next free revision suffix of the same base number (a shared invoice
   -- can already carry one from another receipt's correction).
-  select jsonb_build_object('invoice_number',left(regexp_replace(v.invoice_number,' · R[0-9]+$',''),90)||' · R'||(select coalesce(max((regexp_match(x.invoice_number,' · R([0-9]+)$'))[1]::bigint),0)+1
-    from erp.material_supplier_invoices x where x.supplier_id=v.supplier_id
-     and regexp_replace(x.invoice_number,' · R[0-9]+$','')=left(regexp_replace(v.invoice_number,' · R[0-9]+$',''),90))::text,'supplier_id',v.supplier_id,
-    'invoice_date',v.invoice_date,'received_at',v.received_at,'due_date',v.due_date,'notes',coalesce(nullif(inv->>'notes',''),v.notes),
+  select left(coalesce(nullif(btrim(inv->>'invoice_number'),''),regexp_replace(v.invoice_number,' · R[0-9]+$','')),90)into inv_base
+  from erp.material_supplier_invoices v where v.id=(inv->>'replaces_invoice_id')::uuid;
+  select jsonb_build_object('invoice_number',inv_base||' · R'||(select coalesce(max((regexp_match(x.invoice_number,' · R([0-9]+)$'))[1]::bigint),0)+1
+    from erp.material_supplier_invoices x where x.supplier_id=v.supplier_id and regexp_replace(x.invoice_number,' · R[0-9]+$','')=inv_base)::text,'supplier_id',v.supplier_id,
+    -- Invoice date and due date as typed on the supplier invoice; the Native
+    -- writer posts the corrected invoice at its corrected book date.
+    'invoice_date',coalesce(nullif(inv->>'invoice_date','')::date,v.invoice_date),'received_at',v.received_at,
+    'due_date',case when inv?'due_date'then nullif(inv->>'due_date','')::date else v.due_date end,'notes',coalesce(nullif(inv->>'notes',''),v.notes),
     'change_reason','Benerin penerimaan '||h.purchase_number||': '||why,'lines',inv_lines)into draft
   from erp.material_supplier_invoices v where v.id=(inv->>'replaces_invoice_id')::uuid;
   result:=erp.save_material_supplier_invoice_draft_v2(draft,md5(auth.uid()::text||':RECEIPT_FIX_INVOICE:'||p_request::text||':'||(inv->>'replaces_invoice_id'))::uuid,null);

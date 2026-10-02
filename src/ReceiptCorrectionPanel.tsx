@@ -7,7 +7,7 @@ import { formatCp6WibDateTime } from './cp6BusinessTime'
 import { useProductionMutation, type ProductionMutationHandlers } from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import { formatReceiptDecimal as numberText, parseProcurementOptions, procurementObject, type ProcurementOption } from './procurementContract'
-import { blockerLabels, correctionDraft, correctionRefusal, correctionExcess, correctionInvoices, correctionPayload, parseReceiptCorrectionOutcome, parseReceiptCorrectionWorkspace, type DraftCredit, type DraftHeader, type DraftInvoice, type DraftLine, type ReceiptCorrectionWorkspace } from './receiptCorrectionContract'
+import { blockerLabels, correctionDraft, correctionRefusal, correctionExcess, correctionInvoices, correctionPayload, draftHeader, parseReceiptCorrectionOutcome, parseReceiptCorrectionWorkspace, type DraftCredit, type DraftHeader, type DraftInvoice, type DraftLine, type ReceiptCorrectionWorkspace } from './receiptCorrectionContract'
 import type { Json } from './types/database.preconnect'
 
 type Props = { purchaseId: string | null; receiptRevision?: string | null; onReceiptUpdated: (purchaseId: string) => Promise<boolean> }
@@ -65,6 +65,7 @@ function CorrectionWorkspace({ purchaseId, receiptRevision, onReceiptUpdated }: 
   const built = data && lines ? correctionPayload(data, lines, reason, invoices, credits, header ?? undefined) : null
   const excess = data && lines ? correctionExcess(data, lines, invoices) : null
   const change = (key: string, fn: (l: DraftLine) => DraftLine) => setLines(ls => ls ? ls.map(l => l.key === key ? fn(l) : l) : ls)
+  const changeHead = (invoice: string, field: 'number' | 'date' | 'dueDate', value: string) => { setChecked(false); setInvoices(vs => vs.map(v => v.replaces !== invoice || !v.head ? v : { ...v, head: { ...v.head, [field]: value } })) }
   const changeInvoice = (invoice: string, line: string, field: 'qty' | 'price' | 'discount', value: string) => { setChecked(false); setInvoices(vs => vs.map(v => v.replaces !== invoice ? v : { ...v, lines: v.lines.map(l => l.replaces === line ? { ...l, [field]: value } : l) })) }
   // A pending result stays reachable after reload even before a receipt is selected (the receipt list is locked meanwhile).
   if (!purchaseId && !mutation.pending && !mutation.error) return null
@@ -78,7 +79,7 @@ function CorrectionWorkspace({ purchaseId, receiptRevision, onReceiptUpdated }: 
       {data.blockers.length ? <div role="alert"><p>Penerimaan ini belum bisa dibenerin:</p><ul>{data.blockers.map(b => <li key={b.code}>{blockerLabels[b.code] ?? b.code}</li>)}</ul></div> : null}
       {data.payments.some(p => p.status === 'POSTED') ? <p className="cproc-help">Pembayaran supplier Rp{numberText(data.paid_total)} dipindahkan ke dokumen yang benar dengan tanggal pembayaran aslinya. Kalau total yang benar lebih kecil, kelebihannya jadi kredit yang dipotong ke nota lain dari supplier yang sama.</p> : null}
       {data.invoices.length ? <p className="cproc-help">Penerimaan ini sudah punya invoice supplier ({data.invoices.map(v => v.invoice_number).join(', ')}). Invoice ikut dibetulkan: yang lama dibatalkan dan yang benar dicatat ulang dengan tanggal invoice yang sama.</p> : null}
-      {data.can_correct && !lines ? <button className="primary-btn" type="button" disabled={locked} onClick={() => { setLines(correctionDraft(data)); setInvoices(correctionInvoices(data)); setHeader({ supplierInvoiceNumber: data.purchase.supplier_invoice_number ?? '', dueDate: data.purchase.due_date ?? '' }); setChecked(false) }}>Benerin penerimaan</button> : null}
+      {data.can_correct && !lines ? <button className="primary-btn" type="button" disabled={locked} onClick={() => { setLines(correctionDraft(data)); setInvoices(correctionInvoices(data)); setHeader(draftHeader(data)); setChecked(false) }}>Benerin penerimaan</button> : null}
       {lines ? <form onSubmit={e => { e.preventDefault(); if (built?.payload && checked && !locked && !stale) void run('CORRECT', { document: built.payload as Json, expected_version: data.purchase.row_version }, null, handlers) }}>
         {stale ? <p role="alert">Penerimaan sudah berubah. Tutup formulir dan muat ulang.</p> : null}
         <fieldset disabled={locked || stale}>
@@ -96,6 +97,10 @@ function CorrectionWorkspace({ purchaseId, receiptRevision, onReceiptUpdated }: 
           {invoices.length ? <section className="cproc-line" aria-label="Invoice supplier yang ikut dibetulkan"><h3>Invoice supplier</h3>
             <p className="cproc-help">Harga final dan jumlah ditagih mengikuti invoice yang benar. HPP, nilai stok, dan utang dihitung ulang sejak tanggal invoice; tidak ada selisih yang dicatat di hari ini.</p>
             {invoices.map((v, vi) => <div key={v.replaces}><h4>{v.number} · tanggal invoice {v.date.split('-').reverse().join('-')}</h4>
+              {v.head ? <div className="cproc-grid">
+                <label>Nomor invoice supplier<input aria-label={`Nomor invoice benar ${vi + 1}`} maxLength={90} value={v.head.number} onChange={e => changeHead(v.replaces, 'number', e.target.value)}/></label>
+                <label>Tanggal invoice<input aria-label={`Tanggal invoice benar ${vi + 1}`} type="date" value={v.head.date} onChange={e => changeHead(v.replaces, 'date', e.target.value)}/></label>
+                <label>Jatuh tempo<input aria-label={`Jatuh tempo invoice benar ${vi + 1}`} type="date" value={v.head.dueDate} onChange={e => changeHead(v.replaces, 'dueDate', e.target.value)}/></label></div> : null}
               {data.invoices.find(x => x.invoice_id === v.replaces)?.other_receipts.length ? <p className="cproc-help">Invoice ini juga mencakup {data.invoices.find(x => x.invoice_id === v.replaces)!.other_receipts.map(o => o.purchase_number).join(', ')}. Baris penerimaan itu ikut dicatat ulang apa adanya, dan pembayarannya dipindah utuh dengan tanggal aslinya.</p> : null}
               {v.lines.map((x, li) => <div className="cproc-inline" key={x.replaces}><span>{lines.find(l => l.replaces === x.itemId)?.materialName ?? 'Barang'}</span>
                 <label>Jumlah ditagih<input aria-label={`Jumlah ditagih invoice ${vi + 1}.${li + 1}`} inputMode="decimal" value={x.qty} onChange={e => changeInvoice(v.replaces, x.replaces, 'qty', e.target.value)}/></label>
@@ -109,10 +114,8 @@ function CorrectionWorkspace({ purchaseId, receiptRevision, onReceiptUpdated }: 
                 onChange={e => { const amount = e.target.value; setChecked(false); setCredits(cs => [...cs.filter(c => c.purchaseId !== t.purchase_id), { purchaseId: t.purchase_id, amount }]) }}/></label></div>)
               : <p role="alert">Belum ada nota lain dari supplier ini yang masih punya sisa utang. Simpan pembetulan setelah nota berikutnya dicatat.</p>}
           </section> : null}
-          {header ? <section className="cproc-line" aria-label="Data surat jalan"><h3>Surat jalan supplier</h3>
-            {data.invoices.length ? <p className="cproc-help">Sudah ada invoice supplier: nomor dan jatuh tempo mengikuti invoice. Betulkan di baris invoice.</p> : <div className="cproc-grid">
-              <label>Nomor surat jalan / nota supplier<input aria-label="Nomor surat jalan supplier yang benar" maxLength={100} value={header.supplierInvoiceNumber} onChange={e => { const v = e.target.value; setChecked(false); setHeader(h => h && { ...h, supplierInvoiceNumber: v }) }}/></label>
-              <label>Jatuh tempo<input aria-label="Jatuh tempo yang benar" type="date" value={header.dueDate} onChange={e => { const v = e.target.value; setChecked(false); setHeader(h => h && { ...h, dueDate: v }) }}/></label></div>}
+          {header ? <section className="cproc-line" aria-label="Data surat jalan"><h3>Surat jalan</h3>
+            <label>Nomor surat jalan{header.purchaseNumber.trim() !== draftHeader(data).purchaseNumber ? ` · tadinya ${draftHeader(data).purchaseNumber}` : ''}<input aria-label="Nomor surat jalan yang benar" maxLength={40} value={header.purchaseNumber} onChange={e => { const v = e.target.value; setChecked(false); setHeader({ purchaseNumber: v }) }}/></label>
           </section> : null}
           <label>Alasan pembetulan<input aria-label="Alasan pembetulan penerimaan" value={reason} maxLength={500} onChange={e => { setReason(e.target.value); setChecked(false) }}/></label>
           {built?.problem ? <p role="alert">{built.problem}</p> : null}

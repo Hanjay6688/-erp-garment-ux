@@ -338,12 +338,15 @@ def cases(cur,today):
           effects_on_receipt_date_only=True,all_integrity_checks_unchanged=True)
     def opening_advance():
         """Receipt paid 60 from the supplier's opening advance (uang muka saldo awal) and 400 cash, corrected twice."""
-        f=roll_receipt(cur,today,rolls=('100',),day_offset=3);late=roll_receipt(cur,today,rolls=('100',),day_offset=0);early=roll_receipt(cur,today,rolls=('100',),day_offset=2)
+        # Every date is in the past at any hour (a receipt at today 10:00 WIB is
+        # refused as future before 10:00): cutover today-2, advance used today-2,
+        # the later nota received today-1, the earlier one today-4.
+        f=roll_receipt(cur,today,rolls=('100',),day_offset=3);late=roll_receipt(cur,today,rolls=('100',),day_offset=1);early=roll_receipt(cur,today,rolls=('100',),day_offset=4)
         aa.prior.set_open_period(cur,today-timedelta(days=5));masters=bc.fixture(cur,today,purchase=False,zones=False)
         cash_pay=bc.supplier_payment(cur,f['purchase'],'400',masters['cash'],f['day']);bc.internal(cur,'post_supplier_payment',cash_pay);b.api.admin(cur)
         supplier=cur.execute('select supplier_id from erp.material_purchase_headers where id=%s',(f['purchase'],)).fetchone()[0]
-        w=prepaid.fixture(imports,cur,today,'SUPPLIER',party=supplier,bill=None)
-        prepaid.manage(imports,cur,w,'APPLY',today-timedelta(days=1),target_id=f['purchase'],amount='60');b.api.admin(cur)
+        w=prepaid.fixture(imports,cur,today-timedelta(days=1),'SUPPLIER',party=supplier,bill=None)
+        prepaid.manage(imports,cur,w,'APPLY',today-timedelta(days=2),target_id=f['purchase'],amount='60');b.api.admin(cur)
         advance_pay=cur.execute('select payment_id from erp.initial_import_prepayment_payments where advance_id=%s',(w['advance'],)).fetchone()[0]
         cash=lambda:cur.execute("select sum(l.debit-l.credit) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id join erp.cash_accounts c on c.coa_account_id=l.account_id where c.id=%s and j.status in('POSTED','REVERSED')",(masters['cash'],)).fetchone()[0]
         state=lambda pid:cur.execute("select round(erp.material_purchase_payable_total(h.id),2),coalesce((select sum(amount) from erp.supplier_payments where purchase_id=h.id and status='POSTED'),0),h.payment_status from erp.material_purchase_headers h where h.id=%s",(pid,)).fetchone()
@@ -587,19 +590,43 @@ def cases(cur,today):
           duplicate_number_refused=True,new_roll_cannot_take_existing_number=True,lineage_previous_and_corrected_number=True,no_stock_or_ledger_effect=True,
           all_integrity_checks_unchanged=True)
     def header_typo():
-        """Supplier delivery-note number and due date typed wrong; with a posted supplier invoice they follow the invoice."""
-        f=roll_receipt(cur,today,rolls=('100',));before,chk=ledger(cur),checks(cur);w=ws(cur,f['purchase'])
-        due=str(f['day']+timedelta(days=30))
-        out=fix(cur,dict(payload(w,reason='Nomor surat jalan supplier dan jatuh tempo salah ketik'),supplier_invoice_number='SJ-'+f['tag']+'-21',due_date=due),w['purchase']['row_version'])
-        head=cur.execute('select supplier_invoice_number,due_date::text,physical_at=%s from erp.material_purchase_headers where id=%s',(w['purchase']['physical_at'],out['purchase_id'])).fetchone()
-        assert head==('SJ-'+f['tag']+'-21',due,True),head
-        h=ws(cur,f['purchase'])['history'][0]
-        assert (h['previous_document']['supplier_invoice_number'],h['corrected_document']['supplier_invoice_number'],h['corrected_document']['due_date'])==(w['purchase']['supplier_invoice_number'],'SJ-'+f['tag']+'-21',due),h
-        assert ledger_delta(before,ledger(cur))=={};same_checks(chk,checks(cur))
-        g=invoiced_production(cur,today);wg=ws(cur,g['purchase'])
-        refused(cur,lambda:fix(cur,dict(payload(wg),invoices=invoices(wg),supplier_invoice_number='SJ-LAIN'),wg['purchase']['row_version']),'CP7_RECEIPT_FIX_HEADER_FOLLOWS_INVOICE')
-        return dict(status='PASS',delivery_note_number_and_due_date_corrected=True,history_keeps_previous_header=True,no_ledger_effect=True,
-          invoiced_receipt_header_follows_invoice_refused=True)
+        """The receipt (delivery-note) number typed wrong; later revisions keep the corrected number."""
+        f=roll_receipt(cur,today,rolls=('100',));other=roll_receipt(cur,today,rolls=('10',))
+        number=lambda pid:cur.execute('select purchase_number from erp.material_purchase_headers where id=%s',(pid,)).fetchone()[0]
+        old,taken,fixed=number(f['purchase']),number(other['purchase']),f['tag']+'-SJ-BENAR'
+        before,chk=ledger(cur),checks(cur);w=ws(cur,f['purchase'])
+        refused(cur,lambda:fix(cur,dict(payload(w),purchase_number=taken),w['purchase']['row_version']),'CP7_RECEIPT_FIX_PURCHASE_NUMBER_TAKEN')
+        out=fix(cur,dict(payload(w,reason='Nomor surat jalan salah ketik'),purchase_number=' '+fixed+' '),w['purchase']['row_version'])
+        assert number(out['purchase_id']).startswith(fixed+' · R1-') and number(f['purchase'])==old,(number(out['purchase_id']),old)
+        assert ledger_delta(before,ledger(cur))=={},ledger_delta(before,ledger(cur))
+        w2=ws(cur,f['purchase']);out2=fix(cur,payload(w2,line=lambda n,i:i['rolls'][0].update(qty='90')),w2['purchase']['row_version'])
+        assert number(out2['purchase_id']).startswith(fixed+' · R2-'),number(out2['purchase_id'])
+        h=ws(cur,f['purchase'])['history']
+        assert (h[0]['previous_document']['purchase_number'],h[0]['corrected_document']['purchase_number'][:len(fixed)])==(old,fixed),h[0]
+        assert ledger_delta(before,ledger(cur))=={'MATERIAL_INVENTORY':D(-100),'AP_SUPPLIER':D(100)},ledger_delta(before,ledger(cur))
+        same_checks(chk,checks(cur));reversal_dates(cur)
+        return dict(status='PASS',delivery_note_number_typo_corrected=True,later_revision_keeps_corrected_number=True,
+          number_of_another_receipt_refused=True,source_receipt_number_kept_in_history=True,no_ledger_effect_for_number_only=True,all_integrity_checks_unchanged=True)
+    def invoice_header_typo():
+        """A posted supplier invoice with the wrong number, date and due date."""
+        f=invoice.fixture(cur,today);invoice.finalize(cur,f);other=invoice.fixture(cur,today);invoice.finalize(cur,other);b.api.admin(cur)
+        pid=f['receipt']['purchase_id'];w=ws(cur,pid);v=w['invoices'][0]
+        other_number=cur.execute('select v.invoice_number from erp.material_supplier_invoices v join erp.material_supplier_invoice_lines l on l.invoice_id=v.id join erp.material_purchase_items i on i.id=l.purchase_item_id where i.purchase_id=%s',(other['receipt']['purchase_id'],)).fetchone()[0]
+        refused(cur,lambda:fix(cur,dict(payload(w),invoices=[dict(x,invoice_number=other_number) for x in invoices(w)]),w['purchase']['row_version']),'CP7_RECEIPT_FIX_INVOICE_NUMBER_TAKEN')
+        before,dated,chk=ledger(cur),by_date(cur),checks(cur)
+        day=datetime.fromisoformat(v['invoice_date']).date();new_day,due=day+timedelta(days=1),day+timedelta(days=30)
+        inv=[dict(x,invoice_number=f['tag']+'-INV-BENAR',invoice_date=str(new_day),due_date=str(due)) for x in invoices(w)]
+        fix(cur,dict(payload(w,reason='Nomor, tanggal dan jatuh tempo invoice supplier salah ketik'),invoices=inv),w['purchase']['row_version'])
+        new=cur.execute('select v.invoice_number,v.invoice_date,v.due_date,v.status from cp7_receipt_fix.invoice_replays r join erp.material_supplier_invoices v on v.id=r.replacement_invoice_id where r.previous_invoice_id=%s',(v['invoice_id'],)).fetchone()
+        assert new==(f['tag']+'-INV-BENAR · R1',new_day,due,'POSTED'),new
+        assert cur.execute('select status from erp.material_supplier_invoices where id=%s',(v['invoice_id'],)).fetchone()[0]=='REVERSED'
+        assert ledger_delta(before,ledger(cur))=={},ledger_delta(before,ledger(cur))
+        # The same amounts move from the typed date to the corrected invoice date.
+        dd=dated_delta(dated,by_date(cur))
+        assert set(dd)=={day,new_day} and dd[day]=={k:-x for k,x in dd[new_day].items()} and dd[new_day],dd
+        same_checks(chk,checks(cur));reversal_dates(cur)
+        return dict(status='PASS',supplier_invoice_number_date_due_corrected=True,same_amounts_move_to_corrected_invoice_date=True,
+          number_of_another_invoice_refused=True,old_invoice_reversed=True,all_integrity_checks_unchanged=True)
     def sku_typo():
         """The code (SKU) of the same material typed wrong; nothing else changes."""
         f=production(cur,today);other=clone(cur,'cp7-sku-b');before,chk=ledger(cur),checks(cur)
@@ -662,7 +689,7 @@ def cases(cur,today):
           unit_or_other_identity_field_refused=True,staff_refused=True,anonymous_denied=True,deactivated_admin_refused=True,refusals_without_effect=True)
     tests=[('RF_QTY_DOWN_AFTER_CUTTING',qty_down),('RF_QTY_UP_AFTER_CUTTING',qty_up),('RF_PRICE_AFTER_SALE_AND_RETURN',price_after_sale),
       ('RF_WRONG_MATERIAL_AFTER_CUTTING',lambda:wrong_material()),('RF_WRONG_MATERIAL_AND_PRICE',lambda:wrong_material('12')),
-      ('RF_ROLL_COUNT_TYPO_UNUSED_ROLL',roll_count),('RF_REMOVED_ROLL_USED_REFUSED',removed_used),('RF_ROLL_BELOW_USE_REFUSED',below_use),('RF_ROLL_NUMBER_TYPO_USED_ROLL',roll_number_typo),('RF_HEADER_TYPO',header_typo),
+      ('RF_ROLL_COUNT_TYPO_UNUSED_ROLL',roll_count),('RF_REMOVED_ROLL_USED_REFUSED',removed_used),('RF_ROLL_BELOW_USE_REFUSED',below_use),('RF_ROLL_NUMBER_TYPO_USED_ROLL',roll_number_typo),('RF_HEADER_TYPO',header_typo),('RF_INVOICE_HEADER_TYPO',invoice_header_typo),
       ('RF_PAYMENT_REPLAY',lambda:paid('300',True)),('RF_PAID_EXCEEDS_CORRECTED_REFUSED',lambda:paid('1000',False)),('RF_OVERPAID_CREDIT_TO_NEXT_NOTA',overpaid_credit),('RF_OPENING_ADVANCE_PAYMENT_REPLAY',opening_advance),
       ('RF_INVOICE_PRICE_AFTER_SALE',invoice_price_after_sale),('RF_INVOICED_QTY_DOWN_WITH_PAYMENT',invoiced_qty_down),
       ('RF_INVOICE_INCOMPLETE_REFUSED',invoice_refusals),('RF_SHARED_INVOICE_CORRECTED',shared_invoice),('RF_CLOSED_PERIOD_CORRECTION',closed_period),('RF_REPEATED_REVISIONS',repeated),('RF_REPLAY_SAME_REQUEST',replay),
