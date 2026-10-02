@@ -19,6 +19,12 @@ def measure(cur, query, actor):
     cur.execute('savepoint native_read_measurements')
     try:
         cases.auth.actor(cur, actor)
+        claims = cur.execute("select current_setting('request.jwt.claims',true)").fetchone()[0]
+        # The ordinary fixture helper changes SESSION AUTHORIZATION, rather
+        # than ROLE. Restore the isolated administrator before selecting the
+        # exact private definer principal; retain the same actual actor claims.
+        cases.b.api.admin(cur)
+        cur.execute("select set_config('request.jwt.claims',%s,true)", (claims,))
         cur.execute('set local role cp7_capture')
         cur.execute("set local statement_timeout='8s'")
         cur.execute("set local lock_timeout='2s'")
@@ -85,7 +91,9 @@ def measure(cur, query, actor):
 def cases_provider(cur, today):
     def emission():
         observations, prepared = [], 0
-        subject = cases.auth.id(cur, 'OWNER')
+        cases.auth.actor(cur)
+        subject = str(cur.execute('select auth.uid()').fetchone()[0])
+        cases.b.api.admin(cur)
         for target in CHECKPOINTS:
             while prepared < target:
                 cases.setup(cur, today)

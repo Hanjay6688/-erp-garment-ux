@@ -2195,7 +2195,7 @@
     "production_go": false
   },
   "native_read_stage_diagnostic": {
-    "status": "IMPLEMENTED_AWAITING_ACTUAL_RUNTIME_MEASUREMENTS",
+    "status": "FIRST_EMITTER_INCOMPLETE_UID_PRINCIPAL_REPAIR_AWAITS_MEASUREMENT",
     "contract": "docs/cp7/f05/NATIVE_READ_STAGE_DIAGNOSTIC.md",
     "fixture_checkpoints": [
       0,
@@ -2208,6 +2208,38 @@
     "full_P19_acceptance": false,
     "Native_HTTP_timeout_changed": false,
     "Native284_gate_retained": true,
+    "production_go": false,
+    "first_run_id": 36968778412,
+    "first_source_commit": "565ed2a1b044d57bd9c9816ff8696ae52b846ca9",
+    "first_receipt": "docs/cp7/evidence/native-read-diagnostic/first-incomplete-565ed2a/RECEIPT.json",
+    "observed_Native_exit_case_count": 0
+  },
+  "native_analysis_regression_6d2dbc4": {
+    "status": "NATIVE152_WRITER_QUALIFIED",
+    "source_commit": "6d2dbc482f999f86a9588951203279f6ee4c76a4",
+    "source_tree": "9599a973494be68768b6b50b6575a30b08e4dcb7",
+    "run_id": 36966030893,
+    "counts": {
+      "native": {
+        "PASS": 106
+      },
+      "races": {
+        "PASS": 20
+      },
+      "http": {
+        "PASS": 12
+      },
+      "browser": {
+        "PASS": 14
+      }
+    },
+    "all_install_restore_primary_backup_advisor_gates": true,
+    "auth_users_before": 0,
+    "auth_users_after": 0,
+    "receipt": "docs/cp7/evidence/f05-native-publication/qualified152-6d2dbc4/RECEIPT.json",
+    "Native284_gate_retained": true,
+    "full_family_acceptance": false,
+    "independent_acceptance": false,
     "production_go": false
   }
 }

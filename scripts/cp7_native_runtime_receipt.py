@@ -29,6 +29,10 @@ def retain(archive, metadata, destination):
         assert str(identity['run_id']) == str(metadata['run_id'])
         assert report['status'] == metadata['expected_status']
         assert report['expected_case_count'] == metadata['expected_case_count']
+        diagnostic = metadata.get('diagnostic_only', False)
+        if diagnostic:
+            assert report['diagnostic_only'] is True and report['product_qualification'] is False
+            assert report['full_family_acceptance'] is False and report['full_P19_acceptance'] is False
         counts = {g: report.get(g, {}).get('counts') for g in ('native', 'races', 'http', 'browser')}
         failures = {}
         for group in counts:
@@ -37,7 +41,7 @@ def retain(archive, metadata, destination):
                                if value.get('status') != 'PASS'}
         if report['status'] == 'PASS':
             assert report['observed_case_count'] == report['expected_case_count']
-            assert all(set(c or {}) == {'PASS'} for c in counts.values())
+            assert all(set(c or {}) == {'PASS'} for c in counts.values() if c is not None or not diagnostic)
             assert all(package['gate'].values())
             assert report['cp6_restored'] and all(report['restore_components'].values())
             assert report['advisor_gate']
@@ -47,8 +51,10 @@ def retain(archive, metadata, destination):
         original_bytes = json.dumps(envelope, ensure_ascii=False, separators=(',', ':')).encode('UTF8')
         original_path = destination / 'ORIGINAL_REPORTS.json.gz'
         original_path.write_bytes(gzip.compress(original_bytes, mtime=0))
+        receipt_status = ('DIAGNOSTIC_EMISSION_COMPLETE' if report['status'] == 'PASS' else 'DIAGNOSTIC_INCOMPLETE') if diagnostic else (
+            'NATIVE_WRITER_QUALIFIED' if report['status'] == 'PASS' else 'NATIVE_WRITER_INCOMPLETE')
         receipt = dict(metadata,
-                       status='NATIVE_WRITER_QUALIFIED' if report['status'] == 'PASS' else 'NATIVE_WRITER_INCOMPLETE',
+                       status=receipt_status,
                        source_bundle_sha256=report['source_sha256'],
                        observed_case_count=report['observed_case_count'],
                        required_case_counts=report.get('required_case_counts'), counts=counts,

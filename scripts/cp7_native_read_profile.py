@@ -27,6 +27,9 @@ def main():
         with psycopg.connect(target) as conn, conn.cursor() as cur:
             cur.execute('set transaction read only')
             cases.auth.actor(cur, p['actor'])
+            claims = cur.execute("select current_setting('request.jwt.claims',true)").fetchone()[0]
+            cases.b.api.admin(cur)
+            cur.execute("select set_config('request.jwt.claims',%s,true)", (claims,))
             # Matches the security-definer producer's actual private principal.
             cur.execute('set local role cp7_capture')
             cur.execute("set local statement_timeout='8s'")
