@@ -1,0 +1,55 @@
+{
+  "run_id": 36985230892,
+  "job_id": 110768634663,
+  "artifact_id": 11217371112,
+  "source_commit": "98e73f093c39a3437e4fb49788beede38a3be06f",
+  "source_tree": "5862759f83865816de48feebf25fd4f6cbc8efd7",
+  "archive_bytes": 1626805,
+  "archive_sha256": "b27c32f165dbf32f384b0c272073d5b5886ff44f94f1e04dc32c96d390dbffc0",
+  "members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385607,
+      "sha256": "2f5ee823974a049cb8662783fb438eef9700a8dff7005801cd3080c620ebb3f8"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385607,
+      "sha256": "2f5ee823974a049cb8662783fb438eef9700a8dff7005801cd3080c620ebb3f8"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "00d06a696b9efdfffe15f3d1556bcc422202315a77ca817e6c76c3ee987066b4"
+    },
+    "CP7_NOTE_CORRECTION.json": {
+      "bytes": 32500,
+      "sha256": "49b4d415377d2129a1d3ecc913e7b0182027d552e0e5cafeec562d316b626f19"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "09ff5819771f6830abafdaabbdba49d6cc12ed798077a10dc94d0854246fcf70"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360428,
+      "sha256": "6342484fad00982804e556d3193e6003d7abfaf7fa0b32ede7c15be2df30dd63"
+    }
+  },
+  "status": "INCOMPLETE_INSTALL_BEFORE_CASE_EXECUTION",
+  "economic_correction_commands": 0,
+  "qualification_credit": 0,
+  "cause": "Frozen AB changes internal journal economic clock from current_timestamp to statement_timestamp(); private historical-date derivation omitted this exact accepted form."
+}

@@ -2420,6 +2420,15 @@
     "local_build": "PASS",
     "native_predeclared_case_executions": 24,
     "production_go": false,
-    "independent_acceptance": false
+    "independent_acceptance": false,
+    "first_failed_native": {
+      "run_id": 36985230892,
+      "source_commit": "98e73f093c39a3437e4fb49788beede38a3be06f",
+      "observed_case_count": 0,
+      "status": "INCOMPLETE_INSTALL_BEFORE_CASE_EXECUTION",
+      "receipt": "docs/cp7/evidence/note-correction/failed-install-98e73f0/RECEIPT.json",
+      "reason": "AB canonical statement-time clock missing from private date derivation",
+      "repair": "Handle accepted statement_timestamp() form; no Native helper, rule, case or assertion changed"
+    }
   }
 }

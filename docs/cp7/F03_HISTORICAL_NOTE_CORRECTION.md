@@ -29,3 +29,7 @@ The unchanged eight F03 qualification buckets and composed Native284 attention s
 ## Remaining CP7
 
 Finish Native F04 learning/material sources, F05 family delivery/readiness and complete P18–P21 integration, performance, independent demo and installation qualification. Independent family acceptance and production GO remain open. Hosted ERP is unchanged.
+
+## First Native failure retained
+
+Source `98e73f0` installed the frozen CP6 path and passed primary/backup/security installer gates, but refused the new extension before executing any correction case. AB uses `erp._cp3_business_date(statement_timestamp())` in the internal journal inverse; the candidate had only handled its earlier `current_timestamp` spelling. The private derivation now handles the exact accepted AB clock and keeps the original Native helper untouched. Original report, archive/member hashes and failure receipt are retained in `evidence/note-correction/failed-install-98e73f0`. Case count and all assertions are unchanged; qualification remains pending.

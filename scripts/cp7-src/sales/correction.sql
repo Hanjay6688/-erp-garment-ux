@@ -85,10 +85,12 @@ begin
    changed:=replace(changed,'clock_timestamp()','m.physical_at');
   elsif name='_cp3_r4_reverse_journal_internal'then
    if body!~*'\mcurrent_date\M'and strpos(body,'statement_timestamp() AT TIME ZONE')=0
-    and strpos(body,'erp._cp3_business_date(current_timestamp)')=0 then raise exception 'CP7_NOTE_NATIVE_JOURNAL_CLOCK_CHANGED';end if;
+    and strpos(body,'erp._cp3_business_date(current_timestamp)')=0
+    and strpos(body,'erp._cp3_business_date(statement_timestamp())')=0 then raise exception 'CP7_NOTE_NATIVE_JOURNAL_CLOCK_CHANGED';end if;
    changed:=regexp_replace(changed,'\m[Cc][Uu][Rr][Rr][Ee][Nn][Tt]_[Dd][Aa][Tt][Ee]\M','v_old.economic_date','g');
    changed:=replace(changed,$$((statement_timestamp() AT TIME ZONE 'Asia/Jakarta'::text))::date$$,'v_old.economic_date');
    changed:=replace(changed,'erp._cp3_business_date(current_timestamp)','v_old.economic_date');
+   changed:=replace(changed,'erp._cp3_business_date(statement_timestamp())','v_old.economic_date');
   elsif name in('reverse_sale','reverse_sales_return')then
    if strpos(body,'statement_timestamp() AT TIME ZONE')=0 then raise exception 'CP7_NOTE_NATIVE_HPP_CLOCK_CHANGED';end if;
    changed:=replace(changed,$$((statement_timestamp() AT TIME ZONE 'Asia/Jakarta'::text))::date$$,
