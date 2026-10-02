@@ -1,5 +1,7 @@
 # Owning-note read authority
 
+The separate E01 successor reveals a fresh-read gap while a pending command exists: a valid newly authorized invoice is still hidden. The shared hook now separates source-read readiness from write readiness while retaining exact parent tickets, unchanged pending UUID/payload and all write locks. Local24 controls and full1143 application tests/build/security pass; complete new Native qualification is required. See PENDING_SOURCE_READ.md. Earlier note40 success below belongs to source15aca456 before this shared-hook correction.
+
 ## Confirmed defect and repair
 
 Three source counterexamples fail before this repair: a held read ticket remains current after explicit invalidation with the same recovery signature; a shared SALES invalidation leaves the old Native invoice and financial values visible; a delayed correction-history reply can then publish facts whose parent read has been retired. The correction form must retain the operator's unsent quantities and reason while retiring those source facts.
@@ -12,11 +14,13 @@ The existing Native40 mobile lost-reply/two-tab case now additionally requires t
 
 ## Source qualification
 
+Actual guard source15aca456/tree57338a9d now qualifies complete Native40 at37061659616/job111019496644 with the strengthened mobile peer source-retirement oracle, exact UUID/payload and one-commit recovery. All28 DB/4 race/3 Auth-HTTP/5 browser and every package/restoration/primary/backup/advisor/runtime/Auth0→0 gate pass; console errors are zero. Full Native Shell1278, integrated receipt32 and cutting57 also qualify that source. Exact note Original: evidence/owning-note-correction/qualified40-15aca45/. This qualifies the repaired product paths; the separate corrected E01 four-journey scenario remains under actual qualification.
+
 The separate E01 four-journey regression at15aca456 retains3/4 because its historical mobile peer assertion requires a return button that the source-retirement repair correctly removes. Its corrected oracle now explicitly checks absent old invoice/money/actions, disabled create, current recovery and zero peer writes before a fresh read, while preserving exact pending UUID/payload and every committed financial value. No product change or case-budget reduction accompanies it; a complete new Native4 remains required. See E01_READ_AUTHORITY_SCENARIO.md and the retained failure Original.
 
 The three counterexamples fail against the predecessor source; the repaired application suite passes1142 tests in118 files, including the exact-parent-ticket regression. Build and the full security/ownership/access catalog checks pass. Local PostgreSQL is unavailable, so this application-only result does not claim the full PostgreSQL suite.
 
-The source repair still requires a new complete Native40 and combined Shell, receipt32 and cutting57 qualification because the shared read hook is used by other writers. Source34d7e2e passed complete Native40 before this repair: run37047744469/job110973248260, exact Original under evidence/owning-note-correction/qualified40-34d7e2e/. That preceding run does not qualify the new UI source.
+Source34d7e2e passed complete Native40 before this repair: run37047744469/job110973248260, exact Original under evidence/owning-note-correction/qualified40-34d7e2e/. That preceding run does not qualify the new UI source; the exact15aca456 qualifications above provide the repaired product's source-bound proof.
 
 Financial SQL, Native timeouts, RPC definitions and access grants are unchanged. Claude owns posted receipt/final supplier-price/name correction; his further integration is deferred until his section is finished. No parallel receipt/year-price or receipt-sale join provider is added here.
 

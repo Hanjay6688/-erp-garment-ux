@@ -14,8 +14,27 @@
       "runtime_report": "CP7_F05_NATIVE_ATTENTION.json",
       "expected_status": "INCOMPLETE",
       "expected_case_count": 284,
-      "required_case_counts": {"native": 179, "races": 40, "http": 29, "browser": 36},
-      "expected_counts": {"native": {"PASS": 179}, "races": {"PASS": 40}, "http": {"PASS": 29}, "browser": {"PASS": 31, "INCOMPLETE": 5}},
+      "required_case_counts": {
+        "native": 179,
+        "races": 40,
+        "http": 29,
+        "browser": 36
+      },
+      "expected_counts": {
+        "native": {
+          "PASS": 179
+        },
+        "races": {
+          "PASS": 40
+        },
+        "http": {
+          "PASS": 29
+        },
+        "browser": {
+          "PASS": 31,
+          "INCOMPLETE": 5
+        }
+      },
       "artifact_retention_only": true,
       "new_execution_case_credit": 0
     },
@@ -31,8 +50,61 @@
       "runtime_report": "CP7_F05_NATIVE_ATTENTION.json",
       "expected_status": "PASS",
       "expected_case_count": 284,
-      "required_case_counts": {"native": 179, "races": 40, "http": 29, "browser": 36},
-      "expected_counts": {"native": {"PASS": 179}, "races": {"PASS": 40}, "http": {"PASS": 29}, "browser": {"PASS": 36}},
+      "required_case_counts": {
+        "native": 179,
+        "races": 40,
+        "http": 29,
+        "browser": 36
+      },
+      "expected_counts": {
+        "native": {
+          "PASS": 179
+        },
+        "races": {
+          "PASS": 40
+        },
+        "http": {
+          "PASS": 29
+        },
+        "browser": {
+          "PASS": 36
+        }
+      },
+      "artifact_retention_only": true,
+      "new_execution_case_credit": 0
+    },
+    "f05-15aca-qualified284": {
+      "source_commit": "15aca45680e01740faf2523fbbb63609e81e41ba",
+      "source_tree": "57338a9d7796d931c52ad26f7705c7c0435d95b4",
+      "run_id": 37061659770,
+      "job_id": 111019496822,
+      "artifact_id": 11252337076,
+      "artifact_name": "cp7-f05-attention",
+      "zip_bytes": 347887394,
+      "zip_sha256": "7cc1d2cf2a3cded208c933305815a3a316cb9efec714f57869c372131d4ee4bb",
+      "runtime_report": "CP7_F05_NATIVE_ATTENTION.json",
+      "expected_status": "PASS",
+      "expected_case_count": 284,
+      "required_case_counts": {
+        "native": 179,
+        "races": 40,
+        "http": 29,
+        "browser": 36
+      },
+      "expected_counts": {
+        "native": {
+          "PASS": 179
+        },
+        "races": {
+          "PASS": 40
+        },
+        "http": {
+          "PASS": 29
+        },
+        "browser": {
+          "PASS": 36
+        }
+      },
       "artifact_retention_only": true,
       "new_execution_case_credit": 0
     }

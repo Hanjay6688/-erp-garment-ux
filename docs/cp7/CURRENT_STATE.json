@@ -2474,7 +2474,46 @@
     "receipt": "docs/cp7/evidence/f05-native-attention/local/RECEIPT.json",
     "scope": "Actor-bound review attention on one immutable analysis; delegated unchanged Native own-user manual reminder writers",
     "status": "QUALIFIED_BOUNDED_NATIVE164_ALL_PASS",
-    "tested_source": "81fcd4477efcd9f2c46f5a395c118a11d5868707"
+    "tested_source": "81fcd4477efcd9f2c46f5a395c118a11d5868707",
+    "latest_guard_284_qualification": {
+      "source_commit": "15aca45680e01740faf2523fbbb63609e81e41ba",
+      "source_tree": "57338a9d7796d931c52ad26f7705c7c0435d95b4",
+      "run_id": 37061659770,
+      "job_id": 111019496822,
+      "artifact_id": 11252337076,
+      "artifact_name": "cp7-f05-attention",
+      "zip_bytes": 347887394,
+      "zip_sha256": "7cc1d2cf2a3cded208c933305815a3a316cb9efec714f57869c372131d4ee4bb",
+      "runtime_report": "CP7_F05_NATIVE_ATTENTION.json",
+      "expected_status": "PASS",
+      "expected_case_count": 284,
+      "required_case_counts": {
+        "native": 179,
+        "races": 40,
+        "http": 29,
+        "browser": 36
+      },
+      "expected_counts": {
+        "native": {
+          "PASS": 179
+        },
+        "races": {
+          "PASS": 40
+        },
+        "http": {
+          "PASS": 29
+        },
+        "browser": {
+          "PASS": 36
+        }
+      },
+      "artifact_retention_only": true,
+      "new_execution_case_credit": 0,
+      "actual_run_job_and_runtime_log_PASS": true,
+      "source_bundle_sha256": "1c81bf8164d67aeadb17dc79d975e757a32a45063b11806d6fedb00ae3f84bf3",
+      "exact_original_retention": "PENDING_READ_ONLY_PROJECTION_VERIFICATION"
+    },
+    "latest_guard_284_does_not_qualify_new_pending_read_hook": true
   },
   "f05_native_episode_history": {
     "build_source": "0981de990e1cb9b936a05b10856baf0139291fde",
@@ -4028,7 +4067,7 @@
     "console_errors": 0
   },
   "f03_note_presentation_candidate": {
-    "status": "NEW_OWNED_UI_NOTE40_INCOMPLETE37_OF40_ACTUAL_INTERNAL_GUARD_HOT_FRAMES_REPAIR_CANDIDATE",
+    "status": "FULL_NATIVE40_AT_GUARD_SOURCE15ACA456_QUALIFIED_PRECEDING_FAILURES_RETAINED",
     "preceding36": {
       "status": "NATIVE36_INCOMPLETE_ORIGINAL_RETAINED_REPAIRS_PENDING",
       "financial_writer_sha256_unchanged": "4b1a48763fed395fdbd9f59bcce17dd58e701227436bb7af5cea171e432bffed",
@@ -4098,8 +4137,8 @@
       "projection_manifest": "docs/cp7/native40_incomplete_artifact_projection.json",
       "complete40_still_required": true
     },
-    "latest40_run": 37030449973,
-    "latest40_source": "088440c932b520c3cc483584131241cb5b087b42",
+    "latest40_run": 37061659616,
+    "latest40_source": "15aca45680e01740faf2523fbbb63609e81e41ba",
     "latest40_counts": {
       "native": {
         "PASS": 28
@@ -4115,7 +4154,7 @@
         "INCOMPLETE": 2
       }
     },
-    "latest40_receipt": "docs/cp7/evidence/owning-note-correction/incomplete40-088440c/RECEIPT.json",
+    "latest40_receipt": "docs/cp7/evidence/owning-note-correction/qualified40-15aca45/RECEIPT.json",
     "duplicate_SKU_UI_actual_minus5_minus6_balances95_89": true,
     "latest40_all_cleanup_gates_pass": true,
     "latest40_Auth_users": [
@@ -4213,6 +4252,101 @@
       "auth_users_after": 0,
       "receipt": "docs/cp7/evidence/owning-note-correction/incomplete40-0dec1c1/RECEIPT.json",
       "UI_peer_oracle_qualified": false
+    },
+    "latest_qualified_source": "15aca45680e01740faf2523fbbb63609e81e41ba",
+    "latest_qualified_run": 37061659616,
+    "latest_qualified_receipt": {
+      "source_commit": "15aca45680e01740faf2523fbbb63609e81e41ba",
+      "source_tree": "57338a9d7796d931c52ad26f7705c7c0435d95b4",
+      "run_id": 37061659616,
+      "job_id": 111019496644,
+      "counts": {
+        "native": {
+          "PASS": 28
+        },
+        "races": {
+          "PASS": 4
+        },
+        "http": {
+          "PASS": 3
+        },
+        "browser": {
+          "PASS": 5
+        }
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "receipt": "docs/cp7/evidence/owning-note-correction/qualified40-15aca45/RECEIPT.json",
+      "actual_success_trace": {
+        "NOTE_DESKTOP_HTTP_TRACE.json": {
+          "command_samples": 22,
+          "maximum_observed_query_elapsed_ms": 2174.423,
+          "observed_waits": [
+            [
+              "None",
+              "None"
+            ]
+          ],
+          "server_function_frames": [],
+          "monitor_lifetime_ms_not_command_duration": 6889,
+          "diagnostic_only": true,
+          "Native_exit_case_credit": 0
+        },
+        "NOTE_DESKTOP_MICROSECOND_HTTP_TRACE.json": {
+          "command_samples": 17,
+          "maximum_observed_query_elapsed_ms": 1676.913,
+          "observed_waits": [
+            [
+              "None",
+              "None"
+            ]
+          ],
+          "server_function_frames": [],
+          "monitor_lifetime_ms_not_command_duration": 7595,
+          "diagnostic_only": true,
+          "Native_exit_case_credit": 0
+        },
+        "NOTE_MOBILE_HTTP_TRACE.json": {
+          "command_samples": 16,
+          "maximum_observed_query_elapsed_ms": 1561.253,
+          "observed_waits": [
+            [
+              "None",
+              "None"
+            ]
+          ],
+          "server_function_frames": [],
+          "monitor_lifetime_ms_not_command_duration": 8099,
+          "diagnostic_only": true,
+          "Native_exit_case_credit": 0
+        },
+        "NOTE_MOBILE_MICROSECOND_HTTP_TRACE.json": {
+          "command_samples": 17,
+          "maximum_observed_query_elapsed_ms": 1673.279,
+          "observed_waits": [
+            [
+              "None",
+              "None"
+            ]
+          ],
+          "server_function_frames": [],
+          "monitor_lifetime_ms_not_command_duration": 7283,
+          "diagnostic_only": true,
+          "Native_exit_case_credit": 0
+        }
+      },
+      "sampled_elapsed_is_lower_bound_not_exact_duration": true,
+      "preceding_timeout_cause_closed": false
+    },
+    "preceding_first40_latest_fields": {
+      "latest40_source": "088440c932b520c3cc483584131241cb5b087b42",
+      "latest40_run": 37030449973,
+      "latest40_receipt": "docs/cp7/evidence/owning-note-correction/incomplete40-088440c/RECEIPT.json"
     }
   },
   "native_cutting_observation_candidate": {
@@ -4490,7 +4624,7 @@
     "statement_timeout_cause_closed": false
   },
   "note_read_authority_repair": {
-    "status": "FULL_NATIVE_SHELL1273_PASS_RECEIPT32_CUTTING57_PASS_NOTE40_THREE_ACTUAL_TIMEOUTS_UNQUALIFIED",
+    "status": "PRECEDING_GUARD_NATIVE40_PASS_NEW_SHARED_HOOK_PENDING_READ_REPAIR_REQUIRES_CURRENT_NATIVE",
     "contract": "docs/cp7/NOTE_READ_AUTHORITY.md",
     "confirmed_pre_repair_counterexamples": 3,
     "read_invalidation_retires_all_prior_tickets": true,
@@ -4510,17 +4644,21 @@
     "security_pass": true,
     "local_full_PostgreSQL_suite_claim": false,
     "required_successors": [
+      "E01_4",
       "owning_note40",
-      "full_PostgreSQL_Shell",
+      "F05_284",
+      "all_eight_F03",
       "receipt32",
-      "cutting_learning57"
+      "cutting57",
+      "P18_9",
+      "full_Native_Shell"
     ],
     "product_SQL_RPC_grants_or_timeouts_changed": false,
     "Claude_product_files_changed": false,
     "production_go": false,
     "source_commit": "0dec1c1dd2ed1558efbd416684687eda362616a6",
     "source_tree": "fa555adb4f204d17ef3b1392677b5975eeaabbf6",
-    "owning_note40_run": 37052402095,
+    "owning_note40_run": 37061659616,
     "full_PostgreSQL_Shell_pass": true,
     "full_PostgreSQL_Shell_run": 37052401676,
     "both_CodeQL_jobs_pass": true,
@@ -4583,6 +4721,180 @@
         "writer_runtime": true
       },
       "receipt": "docs/cp7/evidence/f04-native-history/cutting-learning-qualified57-435e9e0/RECEIPT.json"
+    },
+    "latest_qualified_source": "15aca45680e01740faf2523fbbb63609e81e41ba",
+    "latest_note40": {
+      "source_commit": "15aca45680e01740faf2523fbbb63609e81e41ba",
+      "source_tree": "57338a9d7796d931c52ad26f7705c7c0435d95b4",
+      "run_id": 37061659616,
+      "job_id": 111019496644,
+      "counts": {
+        "native": {
+          "PASS": 28
+        },
+        "races": {
+          "PASS": 4
+        },
+        "http": {
+          "PASS": 3
+        },
+        "browser": {
+          "PASS": 5
+        }
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "receipt": "docs/cp7/evidence/owning-note-correction/qualified40-15aca45/RECEIPT.json",
+      "actual_success_trace": {
+        "NOTE_DESKTOP_HTTP_TRACE.json": {
+          "command_samples": 22,
+          "maximum_observed_query_elapsed_ms": 2174.423,
+          "observed_waits": [
+            [
+              "None",
+              "None"
+            ]
+          ],
+          "server_function_frames": [],
+          "monitor_lifetime_ms_not_command_duration": 6889,
+          "diagnostic_only": true,
+          "Native_exit_case_credit": 0
+        },
+        "NOTE_DESKTOP_MICROSECOND_HTTP_TRACE.json": {
+          "command_samples": 17,
+          "maximum_observed_query_elapsed_ms": 1676.913,
+          "observed_waits": [
+            [
+              "None",
+              "None"
+            ]
+          ],
+          "server_function_frames": [],
+          "monitor_lifetime_ms_not_command_duration": 7595,
+          "diagnostic_only": true,
+          "Native_exit_case_credit": 0
+        },
+        "NOTE_MOBILE_HTTP_TRACE.json": {
+          "command_samples": 16,
+          "maximum_observed_query_elapsed_ms": 1561.253,
+          "observed_waits": [
+            [
+              "None",
+              "None"
+            ]
+          ],
+          "server_function_frames": [],
+          "monitor_lifetime_ms_not_command_duration": 8099,
+          "diagnostic_only": true,
+          "Native_exit_case_credit": 0
+        },
+        "NOTE_MOBILE_MICROSECOND_HTTP_TRACE.json": {
+          "command_samples": 17,
+          "maximum_observed_query_elapsed_ms": 1673.279,
+          "observed_waits": [
+            [
+              "None",
+              "None"
+            ]
+          ],
+          "server_function_frames": [],
+          "monitor_lifetime_ms_not_command_duration": 7283,
+          "diagnostic_only": true,
+          "Native_exit_case_credit": 0
+        }
+      },
+      "sampled_elapsed_is_lower_bound_not_exact_duration": true,
+      "preceding_timeout_cause_closed": false
+    },
+    "preceding_owned_UI40_run": 37052402095,
+    "latest_full_Native_Shell": {
+      "run_id": 37061657821,
+      "test_files": 138,
+      "tests": 1278,
+      "isolated_guard_controls": 5,
+      "browser_shell_checks": 6,
+      "jobs": [
+        {
+          "id": 111019489876,
+          "name": "shell",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 111019490235,
+          "name": "CP7 CodeQL javascript-typescript",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 111019490248,
+          "name": "CP7 CodeQL actions",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ],
+      "receipt": "docs/cp7/evidence/shell/qualified1278-15aca45/RECEIPT.json"
+    },
+    "latest_receipt32": {
+      "source_commit": "15aca45680e01740faf2523fbbb63609e81e41ba",
+      "source_tree": "57338a9d7796d931c52ad26f7705c7c0435d95b4",
+      "run_id": 37061659782,
+      "job_id": 111019498148,
+      "counts": {
+        "native": {
+          "PASS": 26
+        },
+        "races": {
+          "PASS": 3
+        },
+        "http": {
+          "PASS": 1
+        },
+        "browser": {
+          "PASS": 2
+        }
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "receipt": "docs/cp7/evidence/receipt-correction/qualified32-15aca45/RECEIPT.json"
+    },
+    "latest_cutting57": {
+      "source_commit": "15aca45680e01740faf2523fbbb63609e81e41ba",
+      "source_tree": "57338a9d7796d931c52ad26f7705c7c0435d95b4",
+      "run_id": 37061659760,
+      "job_id": 111019496261,
+      "counts": {
+        "native": {
+          "PASS": 34
+        },
+        "races": {
+          "PASS": 8
+        },
+        "http": {
+          "PASS": 5
+        },
+        "browser": {
+          "PASS": 10
+        }
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "receipt": "docs/cp7/evidence/f04-native-history/cutting-learning-qualified57-15aca45/RECEIPT.json"
     }
   },
   "shell_note_read_authority_predecessor": {
@@ -4619,7 +4931,7 @@
     "production_go": false
   },
   "guard_predicate_order_candidate": {
-    "status": "FULL_NATIVE_SHELL1278_CUTTING57_RECEIPT32_ALL_EIGHT_F03_PASS_ACTUAL_NOTE40_F05_284_REQUIRED",
+    "status": "ALL_MANDATORY_GUARD_SOURCE_NATIVE_SUITES_PASS_F05_ORIGINAL_RETENTION_PENDING_SUBSEQUENT_READ_HOOK_REPAIR_SEPARATE",
     "contract": "docs/cp7/GUARD_PREDICATE_ORDER.md",
     "actual_failed_source": "0dec1c1dd2ed1558efbd416684687eda362616a6",
     "actual_failed_run": 37052402095,
@@ -4645,10 +4957,7 @@
     "original_CP6_release_files_changed": false,
     "new_isolated_guard_controls": 5,
     "local_guard_controls_claim": "NOT_RUN_LOCALLY_POSTGRES_AND_WASM_UNAVAILABLE",
-    "required_successors": [
-      "note40",
-      "F05_attention284"
-    ],
+    "required_successors": [],
     "cause_closed": false,
     "production_go": false,
     "source_commit": "15aca45680e01740faf2523fbbb63609e81e41ba",
@@ -4840,7 +5149,137 @@
       },
       "receipt": "docs/cp7/evidence/receipt-correction/qualified32-15aca45/RECEIPT.json"
     },
-    "deferred_Claude_scope_imported": false
+    "deferred_Claude_scope_imported": false,
+    "note40": {
+      "source_commit": "15aca45680e01740faf2523fbbb63609e81e41ba",
+      "source_tree": "57338a9d7796d931c52ad26f7705c7c0435d95b4",
+      "run_id": 37061659616,
+      "job_id": 111019496644,
+      "counts": {
+        "native": {
+          "PASS": 28
+        },
+        "races": {
+          "PASS": 4
+        },
+        "http": {
+          "PASS": 3
+        },
+        "browser": {
+          "PASS": 5
+        }
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "receipt": "docs/cp7/evidence/owning-note-correction/qualified40-15aca45/RECEIPT.json",
+      "actual_success_trace": {
+        "NOTE_DESKTOP_HTTP_TRACE.json": {
+          "command_samples": 22,
+          "maximum_observed_query_elapsed_ms": 2174.423,
+          "observed_waits": [
+            [
+              "None",
+              "None"
+            ]
+          ],
+          "server_function_frames": [],
+          "monitor_lifetime_ms_not_command_duration": 6889,
+          "diagnostic_only": true,
+          "Native_exit_case_credit": 0
+        },
+        "NOTE_DESKTOP_MICROSECOND_HTTP_TRACE.json": {
+          "command_samples": 17,
+          "maximum_observed_query_elapsed_ms": 1676.913,
+          "observed_waits": [
+            [
+              "None",
+              "None"
+            ]
+          ],
+          "server_function_frames": [],
+          "monitor_lifetime_ms_not_command_duration": 7595,
+          "diagnostic_only": true,
+          "Native_exit_case_credit": 0
+        },
+        "NOTE_MOBILE_HTTP_TRACE.json": {
+          "command_samples": 16,
+          "maximum_observed_query_elapsed_ms": 1561.253,
+          "observed_waits": [
+            [
+              "None",
+              "None"
+            ]
+          ],
+          "server_function_frames": [],
+          "monitor_lifetime_ms_not_command_duration": 8099,
+          "diagnostic_only": true,
+          "Native_exit_case_credit": 0
+        },
+        "NOTE_MOBILE_MICROSECOND_HTTP_TRACE.json": {
+          "command_samples": 17,
+          "maximum_observed_query_elapsed_ms": 1673.279,
+          "observed_waits": [
+            [
+              "None",
+              "None"
+            ]
+          ],
+          "server_function_frames": [],
+          "monitor_lifetime_ms_not_command_duration": 7283,
+          "diagnostic_only": true,
+          "Native_exit_case_credit": 0
+        }
+      },
+      "sampled_elapsed_is_lower_bound_not_exact_duration": true,
+      "preceding_timeout_cause_closed": false
+    },
+    "separate_E01_scenario_successor_required": true,
+    "F05_attention284": {
+      "source_commit": "15aca45680e01740faf2523fbbb63609e81e41ba",
+      "source_tree": "57338a9d7796d931c52ad26f7705c7c0435d95b4",
+      "run_id": 37061659770,
+      "job_id": 111019496822,
+      "artifact_id": 11252337076,
+      "artifact_name": "cp7-f05-attention",
+      "zip_bytes": 347887394,
+      "zip_sha256": "7cc1d2cf2a3cded208c933305815a3a316cb9efec714f57869c372131d4ee4bb",
+      "runtime_report": "CP7_F05_NATIVE_ATTENTION.json",
+      "expected_status": "PASS",
+      "expected_case_count": 284,
+      "required_case_counts": {
+        "native": 179,
+        "races": 40,
+        "http": 29,
+        "browser": 36
+      },
+      "expected_counts": {
+        "native": {
+          "PASS": 179
+        },
+        "races": {
+          "PASS": 40
+        },
+        "http": {
+          "PASS": 29
+        },
+        "browser": {
+          "PASS": 36
+        }
+      },
+      "artifact_retention_only": true,
+      "new_execution_case_credit": 0,
+      "actual_run_job_and_runtime_log_PASS": true,
+      "source_bundle_sha256": "1c81bf8164d67aeadb17dc79d975e757a32a45063b11806d6fedb00ae3f84bf3",
+      "exact_original_retention": "PENDING_READ_ONLY_PROJECTION_VERIFICATION"
+    },
+    "required_evidence_retention": [
+      "F05_attention284_15aca_Original"
+    ]
   },
   "f05_http_runtime_trace_candidate": {
     "contract": "docs/cp7/F05_HTTP_TIMEOUT.md",
@@ -4861,7 +5300,7 @@
     "production_go": false
   },
   "E01_peer_read_authority_scenario": {
-    "status": "EXACT3_OF4_RETAINED_SCENARIO_REPAIR_REQUIRES_COMPLETE_NATIVE4",
+    "status": "SCENARIO_RETIREMENT_FIXED_SECOND_NATIVE3_OF4_REVEALS_REAL_PRODUCT_REFETCH_GAP",
     "contract": "docs/cp7/E01_READ_AUTHORITY_SCENARIO.md",
     "failed_source": "15aca45680e01740faf2523fbbb63609e81e41ba",
     "failed_run": 37061659715,
@@ -4890,6 +5329,42 @@
     "Claude_unfinished_scope_imported": false,
     "production_go": false,
     "local_existing_Sales_DOM_tests_pass": 16,
-    "local_scenario_syntax_pass": true
+    "local_scenario_syntax_pass": true,
+    "second_failure_receipt": "docs/cp7/evidence/f03-e01/incomplete4-8e6100e/RECEIPT.json",
+    "second_failure_is_product_read_visibility": true,
+    "shared_hook_repair_contract": "docs/cp7/PENDING_SOURCE_READ.md"
+  },
+  "pending_source_read_repair": {
+    "status": "TWO_COUNTEREXAMPLES_FAIL_BEFORE_FULL_LOCAL1143_PASS_AFTER_COMPLETE_NATIVE_QUALIFICATION_REQUIRED",
+    "contract": "docs/cp7/PENDING_SOURCE_READ.md",
+    "actual_failed_source": "8e6100eb7cc8948b8c3007050929d53f91003ca4",
+    "actual_failed_run": 37064288854,
+    "actual_failed_job": 111028119922,
+    "failure_receipt": "docs/cp7/evidence/f03-e01/incomplete4-8e6100e/RECEIPT.json",
+    "counterexamples": 2,
+    "completed_source_read_distinct_from_write_readiness": true,
+    "read_signature_scope_session_sequence_fences_preserved": true,
+    "current_pending_UUID_payload_immutable": true,
+    "finishRead_return_still_write_readiness": true,
+    "pending_read_never_unlocks_writer": true,
+    "local_hook_and_sales_controls": 24,
+    "local_application_tests": 1143,
+    "local_application_files": 118,
+    "build_pass": true,
+    "security_pass": true,
+    "local_Native_PostgreSQL_claim": false,
+    "required_successors": [
+      "E01_4",
+      "owning_note40",
+      "F05_284",
+      "all_eight_F03",
+      "receipt32",
+      "cutting57",
+      "P18_9",
+      "full_Native_Shell"
+    ],
+    "Native_SQL_money_grants_or_timeouts_changed": false,
+    "Claude_product_files_changed": false,
+    "production_go": false
   }
 }

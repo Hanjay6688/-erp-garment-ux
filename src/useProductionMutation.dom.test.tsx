@@ -57,3 +57,15 @@ it('binds a child read to the exact completed parent proof and retires it on a s
  await act(async()=>{expect(recovery.finishRead(ticket!)).toBe(false)})
  expect(recovery.writerLocked).toBe(true)
 })
+it('allows an exact fresh source read during uncertain recovery while preserving the pending command and write lock',async()=>{
+ await mount();const h=handlers(async()=>false);h.send=vi.fn(async()=>{throw Error('Reply lost after commit')})
+ await act(async()=>{expect(await run(h)).toBe(false)})
+ const pending=structuredClone(readProductionRecovery('disposable:actor-1').pending)
+ expect(recovery.workspaceStale).toBe(true);expect(recovery.currentReadTicket()).toBeNull()
+ let ticket:ReturnType<typeof recovery.beginRead>
+ await act(async()=>{ticket=recovery.beginRead();expect(recovery.finishRead(ticket)).toBe(false)})
+ expect(recovery.workspaceStale).toBe(false);expect(recovery.currentReadTicket()).toEqual(ticket!);expect(recovery.isReadCurrent(ticket!)).toBe(true)
+ expect(recovery.writerLocked).toBe(true);await act(async()=>{expect(await run(h)).toBe(false)})
+ expect(h.send).toHaveBeenCalledTimes(1);expect(readProductionRecovery('disposable:actor-1').pending).toEqual(pending)
+ await act(async()=>recovery.invalidate());expect(recovery.workspaceStale).toBe(true);expect(recovery.currentReadTicket()).toBeNull();expect(recovery.isReadCurrent(ticket!)).toBe(false)
+})

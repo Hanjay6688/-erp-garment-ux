@@ -6,6 +6,7 @@ import ConnectedSalesPage from './ConnectedSalesPage'
 import {parseSalesRead,parseSalesOutcome} from './salesReadContract'
 import {parseNoteCorrectionOutcome,parseNoteCorrectionWorkspace} from './noteCorrectionContract'
 import {recoveryIdentity} from '../tests/fixtures/productionRecovery'
+import {readProductionRecovery} from './productionRecovery'
 const state=vi.hoisted(()=>({auth:null as unknown}))
 const client=vi.hoisted(()=>({rpc:vi.fn()}))
 vi.mock('./auth/AuthProvider',()=>({useAuth:()=>state.auth}))
@@ -51,7 +52,7 @@ function draftData(selected=false,state='DRAFT'){
  return x
 }
 const button=(label:string)=>[...container.querySelectorAll('button')].find(x=>x.textContent===label)!
-function allowCommands(){const a=structuredClone(recoveryIdentity);a.identity.permissions.push('sales.invoice.view','finance.ar.view','sales.invoice.post','sales.invoice.edit_draft');state.auth=a}
+function allowCommands(create=false){const a=structuredClone(recoveryIdentity);a.identity.permissions.push('sales.invoice.view','finance.ar.view','sales.invoice.post','sales.invoice.edit_draft');if(create)a.identity.permissions.push('sales.invoice.create');state.auth=a}
 describe('P11 reviewed native draft commands',()=>{
  it('requires review and binds POST to exact invoice, bigint revision and token',async()=>{
   allowCommands();let state='DRAFT';client.rpc.mockImplementation(async(name,args)=>{
@@ -63,12 +64,19 @@ describe('P11 reviewed native draft commands',()=>{
   expect(sent.p_expected).toBe('9007199254740993');expect(sent.p_payload).toEqual({sale_id:id,review_token:'a'.repeat(32),change_reason:'Invoice dan barang sudah diperiksa'});expect(container.textContent).toContain('Sisa pembayaran Rp80');expect(button('Sahkan invoice')).toBeUndefined()
  })
  it('retains and reconciles the identical request after a lost commit reply and remount',async()=>{
-  allowCommands();let lost=false,state='DRAFT';client.rpc.mockImplementation(async(name,args)=>{
+  allowCommands(true);let lost=false,state='DRAFT';client.rpc.mockImplementation(async(name,args)=>{
    if(name==='erp_cp7_get_sales_v1')return {data:draftData(!!args.p_query.sale_id,state),error:null}
    state='CANCELLED';if(!lost){lost=true;throw Error('Reply lost after commit')}
    return {data:{contract_version:'cp7.sales-outcome.v1',kind:'COMMITTED_OUTCOME',action:args.p_action,request_id:args.p_request,sale_id:id,status:state,row_version:'9007199254740994'},error:null}
   });await mount();await click(container.querySelector<HTMLButtonElement>('.cproc-receipt')!);await act(async()=>container.querySelector<HTMLInputElement>('[aria-label="Invoice sudah diperiksa"]')!.click());await click(button('Batalkan draft invoice'))
-  expect(button('Reconcile transaksi')).toBeDefined();await act(async()=>root.unmount());root=createRoot(container);await mount();await click(button('Reconcile transaksi'))
+  expect(button('Reconcile transaksi')).toBeDefined()
+  const pending=structuredClone(readProductionRecovery('disposable:actor-1').pending)
+  expect(container.querySelectorAll('.cproc-receipt')).toHaveLength(0)
+  await click(reload());expect(container.querySelector('[aria-label="Rincian invoice"]')!.textContent).toContain('Draft dibatalkan');expect(container.querySelectorAll('.cproc-receipt')).toHaveLength(1)
+  expect(button('Buat invoice').disabled).toBe(true)
+  expect(button('Reconcile transaksi')).toBeDefined();expect(button('Sahkan invoice')).toBeUndefined();expect(button('Batalkan draft invoice')).toBeUndefined()
+  expect(client.rpc.mock.calls.filter(([n])=>n==='erp_cp7_save_sale_v1')).toHaveLength(1);expect(readProductionRecovery('disposable:actor-1').pending).toEqual(pending)
+  await act(async()=>root.unmount());root=createRoot(container);await mount();await click(button('Reconcile transaksi'))
   const sends=client.rpc.mock.calls.filter(([n])=>n==='erp_cp7_save_sale_v1');expect(sends).toHaveLength(2);expect(sends[1][1]).toEqual(sends[0][1]);expect(button('Reconcile transaksi')).toBeUndefined();expect(container.textContent).toContain('Draft dibatalkan')
  })
  it('rejects a success receipt for a different document or wrong transition',()=>{
