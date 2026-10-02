@@ -23,7 +23,7 @@ def run():
   source_tree=subprocess.check_output(['git','rev-parse','HEAD^{tree}'],cwd=bundle.ROOT,text=True).strip(),
   f03_source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),source_sha256=rf_bundle.sha256(),
   expected_case_count=cases.EXPECTED,required_case_counts=cases.REQUIRED,
-  scope='OWNING_POSTED_RECEIPT_CORRECTION_AFTER_USE_SOURCE_TIME_INVERSE_REPLACEMENT_SAME_ROLLS_MATERIAL_REATTRIBUTION_RECOST_HPP_GL_PAYMENT_REPLAY_EFFECTIVE_CARD_AND_CURRENT_AUTHORITY');installed=False
+  scope='OWNING_POSTED_RECEIPT_CORRECTION_AFTER_USE_SOURCE_TIME_INVERSE_REPLACEMENT_SAME_ROLLS_MATERIAL_REATTRIBUTION_RECOST_HPP_GL_PAYMENT_AND_SUPPLIER_INVOICE_REPLAY_EFFECTIVE_CARD_MATERIAL_NAME_TYPO_AND_CURRENT_AUTHORITY');installed=False
  report['manifest_sha256']=hashlib.sha256(MANIFEST.read_bytes()).hexdigest()
  report['predeclared_case_ids']=cases.MANIFEST['groups']
  report['provider_sha256']={p:hashlib.sha256((bundle.ROOT/'scripts'/p).read_bytes()).hexdigest() for p in('cp7_receipt_correction_cases.py','cp7_receipt_correction_verify.py','cp7_receipt_correction_browser.mjs','cp7_receipt_correction_browser_fixture.py')}
@@ -48,10 +48,15 @@ def run():
    # The receipt correction itself: every existing function keeps its exact
    # definition and owner; only the declared composition grants are added.
    tables_before={t:cur.execute("select coalesce(relacl::text,'') from pg_class where oid=%s::regclass",(t,)).fetchone()[0] for t in rf_bundle.TABLE_GRANTS}
+   # Declared signatures are compared in their catalog spelling (regprocedure quotes keywords such as "decimal").
+   path=cur.execute('show search_path').fetchone()[0];cur.execute("select set_config('search_path','',true)")
+   rf_grants={str(cur.execute('select %s::regprocedure::text',(signature,)).fetchone()[0]):rights for signature,rights in rf_bundle.GRANTS.items()}
+   cur.execute("select set_config('search_path',%s,true)",(path,))
    cur.execute(rf_bundle.sql(),prepare=False);final=p09.functions(cur)
    for signature,old in after.items():
     new=final[signature];assert new['definition']==old['definition'] and new['owner']==old['owner'],('RF_UNDECLARED_CHANGE',signature)
-    assert {tuple(x) for x in new['acl'] or []}=={tuple(x) for x in old['acl'] or []}|rf_bundle.GRANTS.get(signature,set()),('RF_UNDECLARED_GRANT',signature)
+    assert {tuple(x) for x in new['acl'] or []}=={tuple(x) for x in old['acl'] or []}|rf_grants.get(signature,set()),('RF_UNDECLARED_GRANT',signature)
+   assert set(rf_grants)<=set(after),('RF_DECLARED_GRANT_TARGET_MISSING',sorted(set(rf_grants)-set(after)))
    for table,rights in rf_bundle.TABLE_GRANTS.items():
     for right in rights:assert cur.execute("select has_table_privilege('postgres',%s,%s)",(table,right)).fetchone()[0],('RF_DECLARED_TABLE_GRANT',table,right)
    report['table_acl_before']=tables_before
