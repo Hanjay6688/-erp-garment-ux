@@ -41,9 +41,9 @@ def run():
   # of year-history notes. This repeats an existing mandatory economic oracle
   # in an isolated restored group; it grants zero required/unique case credit.
   report['composition_smoke']=native.strict_group('CP7_NOTE_COMPOSITION_ADMISSION_SMOKE',
-   lambda cur,today:[(name,operation)for name,operation in cases.cases(cur,today)if name=='NOTE_FULL_NATIVE_FINANCIAL'],verify)
+   lambda cur,today:[(name,operation)for name,operation in cases.cases(cur,today)if name in('NOTE_FULL_NATIVE_FINANCIAL','NOTE_PREPAYMENT_REPLAY','NOTE_ECONOMIC_REPORT_RESTATEMENT')],verify)
   report['composition_smoke_required_case_credit']=0
-  assert report['composition_smoke'].get('status')in('PASS','RUN_COMPLETE')and report['composition_smoke'].get('counts')=={'PASS':1},'NOTE_COMPOSITION_ADMISSION_SMOKE_FAILED'
+  assert report['composition_smoke'].get('status')in('PASS','RUN_COMPLETE')and report['composition_smoke'].get('counts')=={'PASS':3},'NOTE_COMPOSITION_ADMISSION_SMOKE_FAILED'
   report['native']=native.strict_group('CP7_NOTE_CORRECTION',cases.cases,verify)
   report['races']=modes.run_races(cases,verify,'cp7_note_correction')
   report['http']=modes.run_http(cases,verify,'cp7_note_correction')

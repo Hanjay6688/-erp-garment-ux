@@ -1,0 +1,157 @@
+{
+  "run_id": 36993361409,
+  "artifact_id": 11220758807,
+  "archive_bytes": 11405806,
+  "archive_sha256": "d42cc23fe728859c6dce8edfe109334f3eb5b3cccbe56e552df66df5f932a74c",
+  "source_commit": "b363fcb7daf03727ad20575cdb33510a9ce00447",
+  "source_tree": "2a2fd022ccab6c8564c09772a1bd45bac1f29856",
+  "bundle_sha256": "1d8db71b60432bc1707c9da2e89b7a9ee8d1b8735673459463b99870dfb5ae63",
+  "expected_case_count": 50,
+  "observed_case_count": 50,
+  "groups": {
+    "native": {
+      "PASS": 8
+    },
+    "races": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    },
+    "period_native": {
+      "PASS": 8
+    },
+    "period_races": {
+      "PASS": 2
+    },
+    "period_http": {
+      "PASS": 1
+    },
+    "period_browser": {
+      "PASS": 2
+    },
+    "analysis_native": {
+      "PASS": 8
+    },
+    "analysis_races": {
+      "PASS": 1
+    },
+    "analysis_http": {
+      "PASS": 1
+    },
+    "analysis_browser": {
+      "PASS": 2
+    },
+    "recost_native": {
+      "PASS": 8
+    },
+    "recost_races": {
+      "PASS": 2
+    },
+    "recost_http": {
+      "PASS": 1
+    },
+    "recost_browser": {
+      "PASS": 2
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "all_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385612,
+      "sha256": "aaf389c6cdf7e504d4fcdedb9d5f3ff6601fc66958a44f1cdc6baa493d1e2cb0"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385612,
+      "sha256": "aaf389c6cdf7e504d4fcdedb9d5f3ff6601fc66958a44f1cdc6baa493d1e2cb0"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "33a4356066efbbb76424572ea1677daa073913898bba5500082710595bf72377"
+    },
+    "CP7_F03_FULL_P13.json": {
+      "bytes": 339106,
+      "sha256": "5041b70f34656583b012c9162d572df4f3e1a70b1e1493bfceb90ffb6e287620"
+    },
+    "P13_ANALYSIS_DESKTOP.png": {
+      "bytes": 2543065,
+      "sha256": "c7a030ec3e8f55a3e5b29f082d1e8ac3d4cd469aa74da5ad34e8024dac370b35"
+    },
+    "P13_ANALYSIS_MOBILE.png": {
+      "bytes": 1958579,
+      "sha256": "1cc848df0b659f2e85bd5fdfeb85651a7f18ca10256864a9085e48456c4f643a"
+    },
+    "P13_PERIOD_DESKTOP.png": {
+      "bytes": 1355100,
+      "sha256": "593b2f35b86f9fd27a077f201b0f900dd7f0479ae3f6c2c79be7ba574879b55c"
+    },
+    "P13_PERIOD_MOBILE.png": {
+      "bytes": 1073530,
+      "sha256": "efe971be0b5a00bba9dac5b0b003d44d7f3d6cc25c09a13431a39d32953ab33c"
+    },
+    "P13_RECOST_DESKTOP.png": {
+      "bytes": 333783,
+      "sha256": "b0cb0be1dc5ff3670148a76b8a7ca1b16a597e15ebf2de86778f90425ade2a02"
+    },
+    "P13_RECOST_MOBILE.png": {
+      "bytes": 249913,
+      "sha256": "78bee869bceb9a08b041c72f13589f88df045836695b6938b0d3c36c7474fd1b"
+    },
+    "P13_REPORT_DESKTOP.png": {
+      "bytes": 1432830,
+      "sha256": "31e686a37cde906826c44e4bdea1734c66eb896fe9cebcc14ee471085e5307d3"
+    },
+    "P13_REPORT_MOBILE.png": {
+      "bytes": 1053879,
+      "sha256": "97bfd931be27ec5f30e319fc1f42d9af6eecf777e4fd2449b3e1f13d77635179"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "9df2f85afeefbaa6de60152a77ad878865e9650231b78c193a1e2446ab3888ed"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360415,
+      "sha256": "7e05c4f4e9e5c3b150cfe9d72a9c21910c00a74de3b4c7772dad294f0ac8d5c0"
+    }
+  },
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "production_go": false,
+  "new_owner_report_and_funding_candidate_requires_requalification": true
+}
