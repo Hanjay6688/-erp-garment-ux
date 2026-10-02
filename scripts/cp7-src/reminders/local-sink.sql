@@ -50,6 +50,16 @@ begin
  return a;
 end $$;
 
+-- Recheck the actual current capabilities after every wait without rereading
+-- the expensive immutable Original for each rule. The initial authorization
+-- and the final source/workspace still use the full protected Native reader.
+create function cp7_reminder_native.local_recheck(a jsonb,rule text default null)returns void
+language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
+begin
+ perform cp7_reminder_native.policy_scope_access(a,jsonb_build_object('rule_id',coalesce(rule,'PRODUCTION_GAP'),'scope_kind','GLOBAL','scope_key','*'));
+
+end $$;
+
 create function cp7_reminder_native.local_binding_command(p jsonb,p_request uuid,p_lookup boolean)returns jsonb
 language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
 #variable_conflict use_variable
@@ -66,15 +76,15 @@ begin
   or btrim(p->>'label')=''or length(p->>'label')>120 or btrim(p->>'reason')=''or length(p->>'reason')>1000
   or p->>'expected_revision'!~'^(0|[1-9][0-9]{0,18})$'or(p->>'expected_revision')::numeric>9223372036854775806 then raise exception 'CP7_LOCAL_BINDING_PAYLOAD';end if;
  a:=cp7_reminder_native.local_access((p->>'run_id')::uuid);expected:=(p->>'expected_revision')::bigint;
- for r in select jsonb_array_elements_text(p->'rules')loop perform cp7_reminder_native.local_access((p->>'run_id')::uuid,r);end loop;
+ for r in select jsonb_array_elements_text(p->'rules')loop perform cp7_reminder_native.local_recheck(a,r);end loop;
  perform pg_advisory_xact_lock(hashtextextended('CP7:REMINDER_REQUEST:'||actor::text||':'||p_request::text,0));perform cp7_reminder_native.recheck(a);
  select *into cached from cp7_reminder_native.requests q where q.actor=actor and q.request_id=p_request;
  if found then if cached.payload<>p then raise exception 'CP7_REMINDER_REQUEST_CHANGED';end if;result:=cached.result;
  elsif p_lookup then result:=jsonb_build_object('request_id',p_request,'status','NOT_COMMITTED','binding_id',null,'revision',null);
   insert into cp7_reminder_native.requests values(actor,p_request,p,result,clock_timestamp());
  else
-  perform pg_advisory_xact_lock(hashtextextended('CP7:LOCAL_BINDING:'||actor::text,0));perform cp7_reminder_native.local_access((p->>'run_id')::uuid);
-  for r in select jsonb_array_elements_text(p->'rules')loop perform cp7_reminder_native.local_access((p->>'run_id')::uuid,r);end loop;
+  perform pg_advisory_xact_lock(hashtextextended('CP7:LOCAL_BINDING:'||actor::text,0));perform cp7_reminder_native.local_recheck(a);
+  for r in select jsonb_array_elements_text(p->'rules')loop perform cp7_reminder_native.local_recheck(a,r);end loop;
   select *into old from cp7_reminder_native.local_bindings q where q.actor=actor order by q.revision desc limit 1;
   if coalesce(old.revision,0)<>expected then raise exception using errcode='40001',message='CP7_LOCAL_BINDING_STALE';end if;
   insert into cp7_reminder_native.local_bindings(actor,revision,previous_id,enabled,label,environment,rules,reason,created_at)
@@ -82,8 +92,8 @@ begin
   result:=jsonb_build_object('request_id',p_request,'status','COMMITTED','binding_id',inserted.id,'revision',inserted.revision::text);
   insert into cp7_reminder_native.requests values(actor,p_request,p,result,clock_timestamp());
  end if;
- perform cp7_reminder_native.local_access((p->>'run_id')::uuid);
- for r in select jsonb_array_elements_text(p->'rules')loop perform cp7_reminder_native.local_access((p->>'run_id')::uuid,r);end loop;
+ perform cp7_reminder_native.local_recheck(a);
+ for r in select jsonb_array_elements_text(p->'rules')loop perform cp7_reminder_native.local_recheck(a,r);end loop;
  select *into old from cp7_reminder_native.local_bindings q where q.actor=actor order by q.revision desc limit 1;
  return jsonb_build_object('contract_version','cp7.local-binding-command.v1','actor_scope_id',actor,'result',result,
   'binding',case when old.id is null then null else jsonb_build_object('id',old.id,'revision',old.revision::text,'previous_id',old.previous_id,
@@ -115,7 +125,7 @@ begin
   if source->>'source_hash'<>p->>'source_hash'then raise exception using errcode='40001',message='CP7_LOCAL_SOURCE_CHANGED';end if;
   select x.value into r from jsonb_array_elements(source->'rows')x where x.value->>'key'=p->>'condition_key';
   if r is null or not(binding.rules?(r->>'rule_id'))then raise exception using errcode='42501',message='CP7_LOCAL_CONDITION_UNAVAILABLE';end if;
-  perform cp7_reminder_native.local_access((p->>'run_id')::uuid,r->>'rule_id');
+  perform cp7_reminder_native.local_recheck(a,r->>'rule_id');
   perform pg_advisory_xact_lock(hashtextextended('CP7:RULE_EPISODES:CURRENT_SOURCE',0));perform cp7_reminder_native.recheck(a);
   select *into episode from cp7_reminder_native.rule_episodes q where q.condition_key=r->>'key'and q.state='ACTIVE';
   if episode.id is null or episode.last_observed_at is null or not exists(select 1 from cp7_reminder_native.rule_observations q
@@ -168,7 +178,7 @@ begin
  if result->>'claim_id'is not null then
   select *into claim from cp7_reminder_native.local_claims q where q.id=(result->>'claim_id')::uuid and q.actor=actor;
   if claim.id is null then raise exception using errcode='42501',message='CP7_LOCAL_CLAIM_UNAVAILABLE';end if;
-  perform cp7_reminder_native.local_access((p->>'run_id')::uuid,claim.rule_id);
+  perform cp7_reminder_native.local_recheck(a,claim.rule_id);
  end if;
  source:=cp7_reminder_native.condition_source((p->>'run_id')::uuid);
  return jsonb_build_object('contract_version','cp7.local-preview-command.v1','actor_scope_id',actor,'source',source,'result',result,
@@ -200,7 +210,7 @@ begin
   perform pg_advisory_xact_lock(hashtextextended('CP7:RULE_EPISODES:CURRENT_SOURCE',0));perform cp7_reminder_native.recheck(a);
   select *into claim from cp7_reminder_native.local_claims q where q.id=(p->>'claim_id')::uuid and q.actor=actor for update;
   if claim.id is null or claim.fence::text<>p->>'fence'then raise exception using errcode='42501',message='CP7_LOCAL_FENCE_DENIED';end if;
-  perform cp7_reminder_native.local_access((p->>'run_id')::uuid,claim.rule_id);
+  perform cp7_reminder_native.local_recheck(a,claim.rule_id);
   source:=cp7_reminder_native.condition_source((p->>'run_id')::uuid);select x.value into r from jsonb_array_elements(source->'rows')x where x.value->>'key'=claim.condition_key;
   if r is null then raise exception using errcode='42501',message='CP7_LOCAL_CONDITION_UNAVAILABLE';end if;
   select *into binding from cp7_reminder_native.local_bindings q where q.actor=actor order by q.revision desc limit 1;
@@ -224,12 +234,14 @@ begin
  end if;
  select *into claim from cp7_reminder_native.local_claims q where q.id=(p->>'claim_id')::uuid and q.actor=actor;
  if claim.id is null or claim.fence::text<>p->>'fence'then raise exception using errcode='42501',message='CP7_LOCAL_FENCE_DENIED';end if;
- perform cp7_reminder_native.local_access((p->>'run_id')::uuid,claim.rule_id);perform cp7_reminder_native.recheck(a);
+ perform cp7_reminder_native.local_recheck(a,claim.rule_id);perform cp7_reminder_native.recheck(a);
  return jsonb_build_object('contract_version','cp7.local-outcome-command.v1','actor_scope_id',actor,'result',result,
   'current_local_status',claim.status,'external_delivery_enabled',false,'sent',false,'business_resolved_by_delivery',false);
 end $$;
 
 alter function cp7_reminder_native.guard_local_claim()owner to cp7_reminder;
+alter function cp7_reminder_native.local_recheck(jsonb,text)owner to cp7_reminder;
+revoke all on function cp7_reminder_native.local_recheck(jsonb,text)from public,anon,authenticated,service_role;
 alter function cp7_reminder_native.local_access(uuid,text)owner to cp7_reminder;
 alter function cp7_reminder_native.local_binding_command(jsonb,uuid,boolean)owner to cp7_reminder;
 alter function cp7_reminder_native.local_preview_command(jsonb,uuid,boolean)owner to cp7_reminder;
@@ -259,7 +271,7 @@ begin
   perform pg_advisory_xact_lock(hashtextextended('CP7:RULE_EPISODES:CURRENT_SOURCE',0));perform cp7_reminder_native.recheck(a);
   select *into claim from cp7_reminder_native.local_claims q where q.id=(p->>'claim_id')::uuid and q.actor=actor for update;
   if claim.id is null or claim.fence::text<>p->>'fence'then raise exception using errcode='42501',message='CP7_LOCAL_FENCE_DENIED';end if;
-  perform cp7_reminder_native.local_access((p->>'run_id')::uuid,claim.rule_id);
+  perform cp7_reminder_native.local_recheck(a,claim.rule_id);
   source:=cp7_reminder_native.condition_source((p->>'run_id')::uuid);
   if not exists(select 1 from jsonb_array_elements(source->'rows')x where x->>'key'=claim.condition_key)then
    raise exception using errcode='42501',message='CP7_LOCAL_CONDITION_UNAVAILABLE';end if;
@@ -273,7 +285,7 @@ begin
  end if;
  select *into claim from cp7_reminder_native.local_claims q where q.id=(p->>'claim_id')::uuid and q.actor=actor;
  if claim.id is null or claim.fence::text<>p->>'fence'then raise exception using errcode='42501',message='CP7_LOCAL_FENCE_DENIED';end if;
- perform cp7_reminder_native.local_access((p->>'run_id')::uuid,claim.rule_id);perform cp7_reminder_native.recheck(a);
+ perform cp7_reminder_native.local_recheck(a,claim.rule_id);perform cp7_reminder_native.recheck(a);
  return jsonb_build_object('contract_version','cp7.local-resolution-command.v1','actor_scope_id',actor,'result',result,
   'original_local_status',claim.status,'external_delivery_enabled',false,'sent',false,'business_resolved_by_delivery',false);
 end $$;
@@ -286,7 +298,7 @@ declare a jsonb:=cp7_reminder_native.local_access(p_run);actor uuid:=auth.uid();
 begin
  source:=cp7_reminder_native.condition_source(p_run);
  select *into binding from cp7_reminder_native.local_bindings q where q.actor=actor order by q.revision desc limit 1;
- if binding.id is not null then for r in select jsonb_array_elements_text(binding.rules)loop perform cp7_reminder_native.local_access(p_run,r);end loop;end if;
+ if binding.id is not null then for r in select jsonb_array_elements_text(binding.rules)loop perform cp7_reminder_native.local_recheck(a,r);end loop;end if;
  select coalesce(jsonb_agg(jsonb_build_object('id',q.id,'run_id',q.run_id,'status',q.status,'occurrence_key',q.occurrence_key,
   'binding_id',q.binding_id,'environment',q.environment,'condition_key',q.condition_key,'rule_id',q.rule_id,'episode_id',q.episode_id,
   'policy_id',q.policy_id,'source_hash',q.source_hash,'body_sha256',q.body_sha256,

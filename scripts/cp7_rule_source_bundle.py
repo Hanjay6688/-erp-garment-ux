@@ -7,7 +7,7 @@ ROLES=previous.ROLES
 GRANTS=previous.GRANTS
 TABLE_GRANTS=previous.TABLE_GRANTS
 FUNCTIONS=dict(policy_history='v',condition_policy='i',condition_rows='i',condition_source='v',guard_rule_episode='v',rule_episode_evaluate='v',
- guard_local_claim='v',local_access='v',local_binding_command='v',local_preview_command='v',local_finish='v',local_manual_resolution='v',local_workspace='v',local_command='v')
+ guard_local_claim='v',local_access='v',local_recheck='v',local_binding_command='v',local_preview_command='v',local_finish='v',local_manual_resolution='v',local_workspace='v',local_command='v')
 TABLES=('rule_episodes','rule_observations','local_bindings','local_claims','local_resolutions')
 PUBLIC=('public.erp_cp7_get_reminder_policy_history_v1(jsonb)','public.erp_cp7_get_rule_conditions_v1(uuid)',
  'public.erp_cp7_evaluate_rule_episodes_v1(jsonb,uuid)','public.erp_cp7_get_rule_episode_request_v1(jsonb,uuid)',

@@ -224,7 +224,7 @@ def races(tools,today):
    def send():
     with tools.connect()as conn,conn.cursor()as cur:
      try:r=command(cur,'BINDING',p,request,subject);conn.commit();return r
-     except psycopg.Error as ex:conn.rollback();return str(ex)
+     except psycopg.Error as ex:conn.rollback();return (ex.sqlstate,str(ex))
    with ThreadPoolExecutor(max_workers=1)as pool:
     job=pool.submit(send)
     try:
@@ -232,7 +232,7 @@ def races(tools,today):
      with tools.connect()as conn,conn.cursor()as cur:cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.ar.view'",(role,));conn.commit()
     finally:holder.rollback()
     r=job.result(90)
-  assert isinstance(r,str)and('CP7_REMINDER_AR_ACCESS_DENIED'in r or'CP7_REMINDER_ACCESS_CHANGED'in r),r
+  assert isinstance(r,tuple)and r[0]=='42501'and(r[1].split('\n',1)[0]in('CP7_OBLIGATION_ACCESS_DENIED','CP7_REMINDER_ACCESS_CHANGED')),r
   with tools.connect()as conn,conn.cursor()as cur:assert cur.execute('select count(*)from cp7_reminder_native.local_bindings where actor=%s',(subject,)).fetchone()[0]==0 and cur.execute('select count(*)from cp7_reminder_native.requests where actor=%s and request_id=%s',(subject,request)).fetchone()[0]==0
   return dict(status='PASS',current_AR_permission_loss_during_observed_binding_wait_no_binding_or_receipt=True)
  def callback_heal():

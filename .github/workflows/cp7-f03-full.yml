@@ -5,6 +5,7 @@ name: CP7 F03 Full Retained Components
     - cp7/integration
     paths:
     - scripts/cp7_f03_*
+    - scripts/cp6_auditor_browser_host.mjs
     - scripts/cp7-src/**
     - scripts/cp7_*bundle.py
     - src/**

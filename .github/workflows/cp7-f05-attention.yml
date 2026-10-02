@@ -5,6 +5,7 @@ name: CP7 F05 Native Durable Attention
     - cp7/integration
     paths:
     - scripts/cp7_f05_attention_*
+    - scripts/cp6_auditor_browser_host.mjs
     - scripts/cp7_attention_*
     - scripts/cp7_f05_receivable_*
     - scripts/cp7_f05_payable_*
