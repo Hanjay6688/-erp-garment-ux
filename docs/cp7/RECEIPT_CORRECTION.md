@@ -8,7 +8,7 @@ Owner perlu membetulkan penerimaan bahan yang **sudah diposting dan sudah dipaka
 
 | Kasus owner | Yang dilakukan sistem | Kasus uji |
 |---|---|---|
-| Jumlah roll/qty salah ketik (turun atau naik), sesudah dipotong | Penerimaan asal dibalik pada waktu fisiknya sendiri. Penerimaan pengganti yang persis diposting pada waktu yang sama. Roll fisik yang sama dipakai (id roll tetap), jadi potongan, transfer, dan kartu tetap menunjuk roll yang sama. Recost bahan, HPP PO, dan GL dihitung dari tanggal barang datang. | `RF_QTY_DOWN_AFTER_CUTTING`, `RF_QTY_UP_AFTER_CUTTING`, `RF_YEAR_HISTORY_364` |
+| Jumlah roll/qty salah ketik (turun atau naik), sesudah dipotong | Penerimaan asal dibalik pada waktu fisiknya sendiri. Penerimaan pengganti yang persis diposting pada waktu yang sama. Roll fisik yang sama dipakai (id roll tetap), jadi potongan, transfer, dan riwayat keluar-masuk bahan tetap menunjuk roll yang sama. Recost bahan, HPP PO, dan GL dihitung dari tanggal barang datang. | `RF_QTY_DOWN_AFTER_CUTTING`, `RF_QTY_UP_AFTER_CUTTING`, `RF_YEAR_HISTORY_364` |
 | Jumlah roll salah (3 tertulis, datang 2) | Roll yang belum terpakai ditutup (lineage `REMOVED`). Roll terpakai tidak bisa dihapus. | `RF_ROLL_COUNT_TYPO_UNUSED_ROLL`, `RF_REMOVED_ROLL_USED_REFUSED` |
 | Jumlah dibetulkan di bawah yang sudah terpakai | Ditolak dengan angka pemakaian | `RF_ROLL_BELOW_USE_REFUSED` |
 | Harga penerimaan salah (sesudah dipotong, dijual, diretur) | Selisih masuk bahan sisa, barang jadi, dan HPP penjualan sesuai posisi barangnya | `RF_PRICE_AFTER_SALE_AND_RETURN` |
@@ -17,7 +17,7 @@ Owner perlu membetulkan penerimaan bahan yang **sudah diposting dan sudah dipaka
 | Pembayaran supplier sudah ada | Dibalik lalu diputar ulang ke dokumen yang benar dengan tanggal dan jumlah aslinya. Tidak ada uang yang berubah. Kalau yang dibayar lebih besar dari total yang benar, permintaan ditolak (alur refund supplier tidak dikarang). | `RF_PAYMENT_REPLAY`, `RF_PAID_EXCEEDS_CORRECTED_REFUSED` |
 | Nama bahan salah ketik | Hanya `material_name` yang berubah pada bahan yang sama. SKU, jenis, satuan, kategori, stok, biaya, roll, dan mutasi tetap. Nama yang sudah dipakai bahan lain ditolak, karena itu masalah identitas, bukan typo. | `RF_MATERIAL_NAME_TYPO`, `RF_MATERIAL_NAME_REFUSALS` |
 
-Kasus lain: `RF_REPEATED_REVISIONS` (R1, R2: yang terakhir berlaku, satu baris kartu), `RF_REPLAY_SAME_REQUEST` (satu UUID, satu efek), `RF_REVIEW_CHANGED_REFUSED` (data berubah sesudah ditinjau), `RF_ACCESS_CURRENT_AUTHORITY`, `RF_LATE_FAILURE_ATOMIC` (gagal di langkah terakhir: tidak ada efek tersisa), `RF_ACCESSORY_LINE_QTY` (aksesori dalam satuan dasar; GRNI ikut), `RF_INVOICE_SHARED_OR_INCOMPLETE_REFUSED`, tiga race (`RF_RACE_*`), satu HTTP Auth nyata, dan dua alur browser (desktop serta HP dengan balasan hilang lalu reconcile; di desktop juga ada pembetulan nama).
+Kasus lain: `RF_REPEATED_REVISIONS` (R1, R2: yang terakhir berlaku, tetap satu baris di riwayat keluar-masuk bahan), `RF_REPLAY_SAME_REQUEST` (satu UUID, satu efek), `RF_REVIEW_CHANGED_REFUSED` (data berubah sesudah ditinjau), `RF_ACCESS_CURRENT_AUTHORITY`, `RF_LATE_FAILURE_ATOMIC` (gagal di langkah terakhir: tidak ada efek tersisa), `RF_ACCESSORY_LINE_QTY` (aksesori dalam satuan dasar; GRNI ikut), `RF_INVOICE_SHARED_OR_INCOMPLETE_REFUSED`, tiga race (`RF_RACE_*`), satu HTTP Auth nyata, dan dua alur browser (desktop serta HP dengan balasan hilang lalu reconcile; di desktop juga ada pembetulan nama).
 
 Oracle integritas di setiap kasus utama: semua `erp.run_v*_checks()` sebelum dan sesudah **tidak berubah**, `V2620U_JOURNAL_REVERSAL_BUSINESS_DATE = 0`, dan perubahan buku besar per akun (dan per tanggal ekonomi pada kasus invoice) sama persis dengan angka yang ditulis sebelum kasus dijalankan.
 
@@ -26,7 +26,7 @@ Oracle integritas di setiap kasus utama: semua `erp.run_v*_checks()` sebelum dan
 - Satu perintah atomik `erp_cp7_correct_receipt_v1(payload, request_id, expected_version)` dengan token tinjauan (`review_token`). Kalau data berubah sesudah ditinjau, ditolak `CP7_RECEIPT_FIX_REVIEW_CHANGED`.
 - Semua efek stok, biaya, HPP, AP, dan jurnal memakai writer Native yang sudah diterima. Tidak ada definisi, owner, atau ACL Native yang diubah.
 - Dokumen asal tetap immutable sebagai riwayat. Riwayat revisi, lineage roll, lineage pemakaian, pemindahan tanggal jurnal, replay pembayaran, replay invoice, dan riwayat nama semuanya ada di skema privat `cp7_receipt_fix`, dengan trigger immutable.
-- Kartu bahan v2 (`erp_cp7_get_material_ledger_v2`): baris penerimaan asal menampilkan jumlah yang berlaku (misalnya 80, asli 100), dan saldo berjalan sesudahnya ikut berubah. Baris mentah tetap bisa dilihat sebagai anggota audit.
+- Riwayat keluar-masuk bahan (panel **Mutasi** di halaman Bahan & Roll; RPC `erp_cp7_get_material_ledger_v2`): baris penerimaan asal menampilkan jumlah yang berlaku (misalnya 80, asli 100), dan saldo berjalan sesudahnya ikut berubah. Baris mentah tetap bisa dilihat sebagai anggota audit.
 - Tanggal jurnal: pembalikan Native bertanggal hari ini. Efek pastinya dipindah ke tanggal ekonomi asal lewat pasangan jurnal netral (hari ini) dan efektif (tanggal asal).
 - Untuk invoice, tanggal per efek (tanggal invoice, hari produksi, hari jual) diukur dengan **dry run Native** yang di-rollback: invoice yang sama diposting ulang pada tanggal bukunya sendiri. Hasilnya harus persis kebalikan pembalikan Native per akun dan dimensi. Kalau tidak sama, ditolak `CP7_RECEIPT_FIX_INVOICE_RESTATEMENT_MISMATCH`.
 
@@ -45,7 +45,7 @@ Oracle integritas di setiap kasus utama: semua `erp.run_v*_checks()` sebelum dan
 - SQL: `scripts/cp7-src/procurement/correction.sql`, `scripts/cp7-src/procurement/material-name.sql`
 - Harness: `scripts/cp7_receipt_correction_{manifest.json,cases.py,bundle.py,verify.py,probe.py,browser.mjs,browser_fixture.py}`, workflow `.github/workflows/cp7-receipt-correction.yml`
 - UI: `src/ReceiptCorrectionPanel.tsx` (di Pembelian & Penerimaan), `src/MaterialNamePanel.tsx` (di Bahan & Roll, kolom mutasi), `src/receiptCorrectionContract.ts` (+ tes)
-- File bersama yang ikut disentuh (mohon diketahui GPT): `src/ConnectedProcurementPage.tsx`, `src/ConnectedMaterialsPage.tsx` (+ dom test), `src/productionRecovery.ts` (domain `RECEIPT_CORRECTION`, `MATERIAL_NAME`), `src/types/database.preconnect.ts`, `scripts/check-source-ownership.mjs`, `scripts/check-access-catalog.mjs` (registrasi 5 RPC browser baru; kartu bahan v1 → v2).
+- File bersama yang ikut disentuh (mohon diketahui GPT): `src/ConnectedProcurementPage.tsx`, `src/ConnectedMaterialsPage.tsx` (+ dom test), `src/productionRecovery.ts` (domain `RECEIPT_CORRECTION`, `MATERIAL_NAME`), `src/types/database.preconnect.ts`, `scripts/check-source-ownership.mjs`, `scripts/check-access-catalog.mjs` (registrasi 5 RPC browser baru; RPC riwayat Mutasi bahan v1 → v2).
 
 ## Temuan untuk GPT (koreksi nota, bukan scope saya)
 
