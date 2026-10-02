@@ -13,4 +13,17 @@ Owner asks whether other transactions stay safe under changes: a prior-year wron
 
 Owning sale-note correction is separately qualified Native30, including all30/364 later stock balances, cash/return/advance and owner-report conservation. It does not qualify the material cases above. The all-eight F03 component PASS remains source-bound evidence for its declared lifecycle, not a claim that every posted document has an arbitrary edit capability. Independent acceptance and hosted installation remain open. Keep these cases visible in full P18–P21 and the owner-facing completion report.
 
+## Tambahan: koreksi bahan di cabang `claude/new-session-deapao` (kandidat, belum diterima auditor)
+
+Baris tabel di atas tidak diubah. Untuk kasus bahan, sekarang ada perintah pemilik "Benerin penerimaan" dan "Benerin nama bahan". Rincian, batas, dan bukti ada di `docs/cp7/RECEIPT_CORRECTION.md`.
+
+| Kasus di atas | Kasus uji yang menjawabnya |
+|---|---|
+| Posted receipt quantity / roll count | `RF_QTY_DOWN_AFTER_CUTTING`, `RF_QTY_UP_AFTER_CUTTING`, `RF_ROLL_COUNT_TYPO_UNUSED_ROLL`, `RF_YEAR_HISTORY_364` (+ penolakan `RF_REMOVED_ROLL_USED_REFUSED`, `RF_ROLL_BELOW_USE_REFUSED`) |
+| Wrong material identity after posting/use | `RF_WRONG_MATERIAL_AFTER_CUTTING`, `RF_WRONG_MATERIAL_AND_PRICE` (pemakaian potong; pemakaian lain ditolak dengan nama pemakaiannya) |
+| Already-final material price correction | `RF_PRICE_AFTER_SALE_AND_RETURN` (harga final di penerimaan), `RF_INVOICE_PRICE_AFTER_SALE` dan `RF_INVOICED_QTY_DOWN_WITH_PAYMENT` (harga final di invoice supplier, setiap efek pada tanggalnya sendiri) |
+| Typo in the same material's name | `RF_MATERIAL_NAME_TYPO`, `RF_MATERIAL_NAME_REFUSALS` (hanya nama; nama bahan lain ditolak sebagai masalah identitas) |
+
+Status bukti: lihat tabel "Bukti CI" di dokumen itu (run gagal tetap tercatat). `production_go=false`.
+
 **VENI. VIDI. VICI. ERP. Reliable data adalah dewa. Keuangan—termasuk laporan—stok, dan HPP adalah raja.**

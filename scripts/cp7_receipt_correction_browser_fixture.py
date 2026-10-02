@@ -22,9 +22,9 @@ def main():
    w=cases.ws(cur,p['purchase'])
    out=dict(workspace=w,raw=[str(x) for x in cases.raw(cur,p['material'])],hpp=[str(x) for x in cases.hpp(cur,dict(po=p['po']))],
      facts=cases.facts(cur,p['purchase']),card=cases.full_card(cur,p['material'],p['roll'],p['raw_location']),
-     requests=cur.execute('select count(*) from cp7_receipt_fix.requests').fetchone()[0],
+     requests=cur.execute("select count(*) from cp7_receipt_fix.requests where payload->>'purchase_id'=%s",(p['purchase'],)).fetchone()[0],
      material_name=cur.execute('select material_name from erp.materials where id=%s',(p['material'],)).fetchone()[0],
-     name_requests=cur.execute('select count(*) from cp7_receipt_fix.name_requests').fetchone()[0])
+     name_requests=cur.execute("select count(*) from cp7_receipt_fix.name_requests where payload->>'material_id'=%s",(p['material'],)).fetchone()[0])
   else:raise ValueError('UNKNOWN_RECEIPT_BROWSER_FIXTURE_OPERATION')
   cases.b.api.admin(cur)
   if not had:cur.execute('revoke usage on schema erp from authenticated')

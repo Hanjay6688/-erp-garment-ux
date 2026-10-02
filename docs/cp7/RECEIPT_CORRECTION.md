@@ -61,4 +61,10 @@ Total akhir benar, tetapi baris kedua (yang bisa sudah dipisah owner di buku per
 
 ## Bukti CI
 
-(diisi setelah run workflow `cp7-receipt-correction` selesai; run yang gagal tetap dicatat FAIL)
+Workflow `.github/workflows/cp7-receipt-correction.yml`, artefak `cp7-receipt-correction` (`cp6-proof/t3/CP7_RECEIPT_CORRECTION.json`). Run yang gagal tetap dicatat.
+
+| Run | Commit | Hasil | Catatan |
+|---|---|---|---|
+| [37019103974](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37019103974) | `1baa7ce9` | **FAIL** (0 kasus berjalan) | Probe berhenti di `RF_UNDECLARED_GRANT`: katalog menulis `cp7_procurement."decimal"(jsonb,boolean)` (pakai tanda kutip), sedangkan grant yang dideklarasikan tanpa kutip. Diperbaiki di `61c36bbe`. |
+| [37021304465](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37021304465) | `61c36bbe` | **FAIL** (INCOMPLETE) | Native **22/22 PASS** (termasuk `RF_YEAR_HISTORY_364`, tiga kasus invoice, dua kasus nama bahan), race **3/3 PASS**, HTTP Auth nyata **1/1 PASS**, CP6 dipulihkan, advisor gate lolos. Browser **0/2**: (a) desktop: halaman tetap menampilkan penerimaan lama sesudah disimpan, karena panel meminta reload halaman saat envelope masih tercatat pending; (b) HP: sesudah reload, daftar penerimaan terkunci oleh hasil yang belum diketahui, sementara tombol Reconcile hanya ada di panel yang perlu memilih penerimaan dulu. Dua-duanya bug UI nyata dan diperbaiki di `4990c57f`. |
+| [37024948067](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37024948067) | `4990c57f` | **FAIL** (INCOMPLETE) | Native 22/22, race 3/3, HTTP 1/1 PASS. Browser desktop **PASS** (termasuk pembetulan nama bahan di halaman Bahan & Roll). Browser HP INCOMPLETE di `requests 2 !== 1`: fixture menghitung seluruh tabel permintaan, padahal permintaan dari alur desktop masih ada. Hitungan dipersempit ke penerimaan ini (dan bahan ini untuk nama); maksud oracle tetap sama: satu permintaan untuk satu penerimaan, juga sesudah balasan hilang dan reconcile. |
