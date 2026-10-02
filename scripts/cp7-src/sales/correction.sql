@@ -154,6 +154,10 @@ begin
   definition:=replace(definition,body,changed);
   definition:=replace(definition,'FUNCTION erp.'||name||'(','FUNCTION cp7_note.'||name||'(');
   execute definition;
+  -- The disposable accepted installer is deliberately not postgres. Private
+  -- copies run only under the admitted owning command; pin ownership rather
+  -- than inherit the installer identity. Preserve Native security/config.
+  execute format('alter function cp7_note.%I(uuid,text)owner to postgres',name);
   insert into cp7_note.helper_sources values(signature,encode(pg_catalog.sha256(convert_to(pg_get_functiondef(signature::regprocedure),'UTF8')),'hex'));
  end loop;
 end $derive$;

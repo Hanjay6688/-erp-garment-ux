@@ -1,0 +1,56 @@
+{
+  "run_id": 36988164670,
+  "job_id": 110777864453,
+  "artifact_id": 11218720858,
+  "source_commit": "27cbaee41fdd5407fbe604f86b88c962a0ea40cb",
+  "source_tree": "9cffe671b647375b82053ec8446ad90728d7827a",
+  "archive_bytes": 1627636,
+  "archive_sha256": "ec1295b5e9860696e9ec643a2a439e1cc24b023eed17a93bc06170cd3278b174",
+  "members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385610,
+      "sha256": "21e60fe8cf1d68f13652f5cd3bd90954760911be1363eea7d3827309d2733150"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385610,
+      "sha256": "21e60fe8cf1d68f13652f5cd3bd90954760911be1363eea7d3827309d2733150"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "55284ecbad2c7e2b282dfedec46d0ba02bb14e0128f05b48311116874766bf7e"
+    },
+    "CP7_NOTE_CORRECTION.json": {
+      "bytes": 41610,
+      "sha256": "e59f82cc5bcc6bd8075f84797fd9bb66bb9008bb30c227f9e747dcca6ce71033"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "fdfc49c53a4f8693b7de7d96fa5a5ee4f73cf5dd27d547dd4782aa2df73d6618"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360428,
+      "sha256": "e8c88fe7897e59d24babd4decd988255d859bc9ca1879236ae181aa2f2a03586"
+    }
+  },
+  "status": "INCOMPLETE_INSTALL_VERIFIER_BEFORE_CASE_EXECUTION",
+  "economic_correction_commands": 0,
+  "qualification_credit": 0,
+  "original_error": "('NOTE_SCOPED_HELPER', 'cp7_note.reverse_fg_movement(uuid,text)')",
+  "diagnostic": "Same private FG helper verification refused after security-mode comparison repair; accepted non-postgres installer ownership was not pinned for derived private copies. Explicitly pin all six private copies to postgres and include actual owner/security/config/context-fence diagnostics on refusal. Root cause still requires Native confirmation."
+}

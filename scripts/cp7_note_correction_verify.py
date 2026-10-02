@@ -20,7 +20,7 @@ def verify(cur):
   private=signature.replace('erp.','cp7_note.',1)
   native_security=cur.execute('select prosecdef,proconfig from pg_proc where oid=%s::regprocedure',(signature,)).fetchone()
   owner,secdef,config,body=cur.execute('select pg_get_userbyid(proowner),prosecdef,proconfig,prosrc from pg_proc where oid=%s::regprocedure',(private,)).fetchone()
-  assert owner=='postgres' and (secdef,config)==native_security and 'perform cp7_note.require_context();'in body,('NOTE_SCOPED_HELPER',private)
+  assert owner=='postgres' and (secdef,config)==native_security and 'perform cp7_note.require_context();'in body,('NOTE_SCOPED_HELPER',private,{'owner':owner,'private_security':(secdef,config),'native_security':native_security,'private_context_fence':'perform cp7_note.require_context();'in body})
  for who in ('anon','authenticated','service_role','cp7_capture','cp7_sales_read','cp7_fg_write'):
   assert not cur.execute("select has_schema_privilege(%s,'cp7_note','USAGE')",(who,)).fetchone()[0],('NOTE_PRIVATE_SCHEMA',who)
   for signature in SIGNATURES:

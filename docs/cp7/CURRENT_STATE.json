@@ -2444,6 +2444,13 @@
       "journal_economic_period": "Canonical Native inverse dates preserved; linked exact-line neutral/effective pair; original-period report and GL/economic Native qualification pending",
       "additional_case_executions": 4,
       "total_case_executions": 28
+    },
+    "third_failed_native": {
+      "run_id": 36988164670,
+      "source_commit": "27cbaee41fdd5407fbe604f86b88c962a0ea40cb",
+      "observed_case_count": 0,
+      "receipt": "docs/cp7/evidence/note-correction/failed-install-27cbaee4/RECEIPT.json",
+      "repair": "Explicitly pin six derived private helper owners to postgres; preserve exact Native security/config; emit actual failed properties for diagnosis. Native confirmation pending."
     }
   }
 }
