@@ -33,7 +33,7 @@ declare n jsonb:=cp7_netting_native.build(c,q);scenario jsonb:=n->'schedule_run_
  refs jsonb;row_aids jsonb;plan_refs jsonb:='[]';plan_aids jsonb:='[]';assumptions jsonb:='[]';sources jsonb:='[]';recommendations jsonb:='[]';
  edges jsonb:='[]';actions jsonb:='[]';timeline jsonb:='[]';models jsonb:='[]';materials jsonb:='[]';metrics jsonb:='[]';
  dependencies jsonb:='[]';warnings jsonb:='["MATERIAL_FEASIBILITY_NOT_PROVEN","ADAPTIVE_MODEL_PROMOTION_NOT_PROVEN","FINANCIAL_DOMAIN_NOT_CAPTURED"]';
- known_targets jsonb:='{}';v jsonb;part jsonb;k text;part_hash text;count_facts integer:=0;part_count integer;
+ known_targets jsonb:='{}';target_timeline jsonb;v jsonb;part jsonb;k text;part_hash text;count_facts integer:=0;part_count integer;
  complete boolean:=c->>'status'='COMPLETE'and wip->>'status'='COMPLETE';hash text:=cp7_analysis_native.fingerprint(c);
  allocation_known boolean:=n->'allocation'->>'status'='SCENARIO';allocated numeric;load numeric;captured text:=c->>'captured_at';
  supply_match text;scenario_revision bigint:=coalesce((c->'schedule'->>'revision')::bigint,0);
@@ -106,31 +106,32 @@ begin
    'source_keys','[]'::jsonb,'target_keys',jsonb_build_array(r->'target_key'),'primary_reason','MATERIAL_FEASIBILITY_NOT_PROVEN',
    'conditional',true,'source_links',refs,'display_priority',jsonb_build_object('rank',null,'lane','REVIEW_DATA',
     'basis',jsonb_build_array('Periksa bahan dan batas produksi baru'),'rule_version','native-review-1')));
-  for event in select value from jsonb_array_elements(coalesce(r->'timeline'->'events','[]'))loop
-   -- Each chronological Native kernel event is retained as an intraday row;
-   -- same-day events are not collapsed into a fabricated end-day net.
-   e:=event->'event';
-   supply_match:=null;
-   if e->>'kind'='SUPPLY'then
-    select x->>'match'into supply_match from jsonb_array_elements(coalesce(n->'allocation'->'allocation'->'edges','[]'))x
-     where 'supply-'||(x->>'key')=e->>'key'and x->>'target_key'=r->>'target_key';
-    if supply_match is null and exists(select 1 from jsonb_array_elements(n->'match_results')x
-     where 'supply-'||(x->>'position_key')=e->>'key'and x->>'target_key'=r->>'target_key'and x->'result'->>'match'='CONFIRMED_TARGET')then
-     supply_match:='CONFIRMED_TARGET';end if;
-   end if;
-   timeline:=timeline||jsonb_build_array(jsonb_build_object('date',((e->>'at')::timestamptz at time zone 'Asia/Jakarta')::date::text,
-    'target_key',r->'target_key','demand',cp7_analysis_native.fact(case when e->>'kind'='DEMAND'then e->>'qty_pcs'else '0'end,'PCS',e->'refs',row_aids),
-    'directed_supply',cp7_analysis_native.fact(case when e->>'kind'='DEMAND'or supply_match='CANDIDATE_MATCH'then '0'
-     when supply_match='CONFIRMED_TARGET'then e->>'qty_pcs'else null end,'PCS',e->'refs',row_aids),
-    'candidate_supply',cp7_analysis_native.fact(case when e->>'kind'='DEMAND'or supply_match='CONFIRMED_TARGET'then '0'
-     when supply_match='CANDIDATE_MATCH'then e->>'qty_pcs'else null end,'PCS',e->'refs',row_aids),
-    'proposed_new_supply',cp7_analysis_native.fact(null,'PCS',e->'refs'),'balance_end',cp7_analysis_native.fact(event->>'balance_pcs','PCS',e->'refs',row_aids),
-    'mode','BACKLOG','assumed',true,'unmet_demand',cp7_analysis_native.fact(event->>'new_unmet_pcs','PCS',e->'refs',row_aids),
-    'backlog_qty',cp7_analysis_native.fact(case when event->>'balance_pcs'is not null then greatest(0,-(event->>'balance_pcs')::numeric)::text else null end,'PCS',e->'refs',row_aids),
-    'min_intraday_balance',cp7_analysis_native.fact(r->'timeline'->>'minimum_balance_pcs','PCS',e->'refs',row_aids),
+  -- Build each chronological row once in original event order. Repeated
+  -- concatenation copied the entire growing multi-target timeline per event.
+  -- This aggregate retains every row, field, reference and decimal operand.
+  with events as materialized(
+   select x.value event,x.value->'event' e,x.ordinality ordinal
+    from jsonb_array_elements(coalesce(r->'timeline'->'events','[]'))with ordinality x),
+  classified as materialized(
+   select events.*,case when events.e->>'kind'='SUPPLY'then coalesce(
+    (select x->>'match'from jsonb_array_elements(coalesce(n->'allocation'->'allocation'->'edges','[]'))x
+     where 'supply-'||(x->>'key')=events.e->>'key'and x->>'target_key'=r->>'target_key'limit 1),
+    case when exists(select 1 from jsonb_array_elements(n->'match_results')x
+     where 'supply-'||(x->>'position_key')=events.e->>'key'and x->>'target_key'=r->>'target_key'and x->'result'->>'match'='CONFIRMED_TARGET')then'CONFIRMED_TARGET'end)
+    else null end supply_match from events)
+  select coalesce(jsonb_agg(jsonb_build_object('date',((t.e->>'at')::timestamptz at time zone 'Asia/Jakarta')::date::text,
+    'target_key',r->'target_key','demand',cp7_analysis_native.fact(case when t.e->>'kind'='DEMAND'then t.e->>'qty_pcs'else '0'end,'PCS',t.e->'refs',row_aids),
+    'directed_supply',cp7_analysis_native.fact(case when t.e->>'kind'='DEMAND'or t.supply_match='CANDIDATE_MATCH'then '0'
+     when t.supply_match='CONFIRMED_TARGET'then t.e->>'qty_pcs'else null end,'PCS',t.e->'refs',row_aids),
+    'candidate_supply',cp7_analysis_native.fact(case when t.e->>'kind'='DEMAND'or t.supply_match='CONFIRMED_TARGET'then '0'
+     when t.supply_match='CANDIDATE_MATCH'then t.e->>'qty_pcs'else null end,'PCS',t.e->'refs',row_aids),
+    'proposed_new_supply',cp7_analysis_native.fact(null,'PCS',t.e->'refs'),'balance_end',cp7_analysis_native.fact(t.event->>'balance_pcs','PCS',t.e->'refs',row_aids),
+    'mode','BACKLOG','assumed',true,'unmet_demand',cp7_analysis_native.fact(t.event->>'new_unmet_pcs','PCS',t.e->'refs',row_aids),
+    'backlog_qty',cp7_analysis_native.fact(case when t.event->>'balance_pcs'is not null then greatest(0,-(t.event->>'balance_pcs')::numeric)::text else null end,'PCS',t.e->'refs',row_aids),
+    'min_intraday_balance',cp7_analysis_native.fact(r->'timeline'->>'minimum_balance_pcs','PCS',t.e->'refs',row_aids),
     'first_gap_at',r->'timeline'->'first_known_gap'->'at','timing_basis','DATE_POLICY',
-    'timing_policy_id','selected-native-each24h-from-capture-1','event_refs',e->'refs'));
-  end loop;
+    'timing_policy_id','selected-native-each24h-from-capture-1','event_refs',t.e->'refs')order by t.ordinal),'[]'::jsonb)into target_timeline from classified t;
+  timeline:=timeline||target_timeline;
  end loop;
  for e in select value from jsonb_array_elements(coalesce(n->'allocation'->'allocation'->'edges','[]'))loop
   if not(known_targets? (e->>'target_key'))then raise exception 'CP7_ANALYSIS_EDGE_TARGET_UNPROVEN';end if;

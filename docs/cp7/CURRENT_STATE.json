@@ -2396,11 +2396,36 @@
         "PASS": 40
       }
     },
+    "current_incomplete_original": {
+      "counts": {
+        "browser": {
+          "INCOMPLETE": 3,
+          "PASS": 33
+        },
+        "http": {
+          "PASS": 29
+        },
+        "native": {
+          "PASS": 179
+        },
+        "races": {
+          "PASS": 40
+        }
+      },
+      "expected_case_count": 284,
+      "job_id": 110802228117,
+      "pass_count": 281,
+      "production_go": false,
+      "receipt": "docs/cp7/evidence/f05-native284/required284-incomplete-4ca93db/RECEIPT.json",
+      "run_id": 36995839646,
+      "source_commit": "4ca93db345860dfce5dec8d745e4a89cea1389b5",
+      "writer_runtime": false
+    },
     "expected_case_count": 284,
     "full_family_acceptance": false,
     "independent_acceptance": false,
     "job_id": 110729002709,
-    "latest_status": "PASS_284_OF284_ALL_GATES",
+    "latest_status": "CURRENT_EXPANDED_CANDIDATE_INCOMPLETE_281_OF284_TIMEOUT_REPAIR_PENDING",
     "observed_case_count": 284,
     "package_gate": {
       "backup_restore_drill": true,
@@ -2437,10 +2462,39 @@
     },
     "production_go": false,
     "receipt": "docs/cp7/evidence/f05-obligation-report/qualified284-556c5e0/RECEIPT.json",
-    "remaining": "Full F04 analyzer/material scope and full P18-P21 remain open; this fixed284 Native writer package is complete.",
+    "remaining": "Current expanded candidate must pass fresh complete284; no prior-source substitution. F04 learning/material/full P18-P21 remain open.",
     "repair_run_id": 36972420528,
     "repair_source": "556c5e0ca006b9b8705f6a2aca1d25a52166b979",
     "repair_status": "PURE_NETTING_REPAIR_QUALIFIED_ALL_SIX_PREVIOUS_TIMEOUTS_PASS",
+    "retained_qualified_predecessor": {
+      "counts": {
+        "browser": {
+          "PASS": 36
+        },
+        "http": {
+          "PASS": 29
+        },
+        "native": {
+          "PASS": 179
+        },
+        "races": {
+          "PASS": 40
+        }
+      },
+      "job_id": 110729002709,
+      "package_gate": {
+        "backup_restore_drill": true,
+        "installed": true,
+        "primary_unchanged": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "pass_count": 284,
+      "receipt": "docs/cp7/evidence/f05-obligation-report/qualified284-556c5e0/RECEIPT.json",
+      "run_id": 36972420528,
+      "source_commit": "556c5e0ca006b9b8705f6a2aca1d25a52166b979",
+      "source_tree": "efad5d6b32e7d6c9985a6a13cf327330443e9b74"
+    },
     "run_id": 36972420528,
     "second_incomplete_original": {
       "counts": {
@@ -2581,6 +2635,16 @@
     "status": "COMPLETE_BOUNDED_CANDIDATE_NATIVE247_RETEST_REQUIRED",
     "typescript": "PASS"
   },
+  "f05_source_admission_timeline_repair": {
+    "Native_HTTP_timeout_changed": false,
+    "contract": "docs/cp7/f05/NATIVE_SOURCE_ADMISSION_TIMELINE_REPAIR.md",
+    "extra_case_credit": 0,
+    "full_family_acceptance": false,
+    "local_control_rows": 2700,
+    "production_go": false,
+    "required_case_count": 284,
+    "status": "LOCAL_STRUCTURAL_CONTROLS_PASS_NATIVE_PENDING"
+  },
   "f05_takeover_reference": {
     "branch": "cp7/f05-consumers-shell-20260930",
     "handoff": "docs/cp7/f05/WRITER_NEXT.md",
@@ -2648,7 +2712,7 @@
     "source_bundle_sha256": "04289ce0fe6d268844217a66437d0e7d08a4c51a7ce5725624f9990f4337fb79",
     "status": "LOCAL_845_PASS_DECLARED_NATIVE21_PENDING"
   },
-  "last_writer_checkpoint": "2026-10-02: F03 all eight buckets PASS at656e4fd; F05 Native269 INCOMPLETE235/269 retained, fixed-count source repair requires fresh Native qualification. Appendix284 remains separate local work.",
+  "last_writer_checkpoint": "2026-10-02: owning30 twice/full8 F03/owning-consumer9 qualified; current expanded Native284281/284 and connected-cutting23 21/23 incomplete Originals retained; real source-admission/timeline and fixture-protocol repairs require fresh Native qualification.",
   "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
   "latest_tested_scope": "F03 all-eight writer exit preserved; repaired Native284 all284 PASS, main152 and actual E01 bridge7 PASS with exact Original/restoration/primary/backup/advisor/Auth gates. Counts overlap; full F04/F05 acceptance remains open.",
   "latest_tested_source": "656e4fd5944b6061a87fd0a388d2b928563ac398",
@@ -2726,7 +2790,35 @@
     "all_original17_preserved": true,
     "all_original21_preserved": true,
     "consumer": "src/NativeCuttingYieldPanel.tsx",
-    "consumer_status": "LOCAL45_RELATED_TESTS_BUILD_AND_SECRET_SCAN_PASS_NATIVE23_PENDING",
+    "consumer_incomplete_original": {
+      "artifact_id": 11224136075,
+      "counts": {
+        "browser": {
+          "INCOMPLETE": 2,
+          "PASS": 2
+        },
+        "http": {
+          "PASS": 2
+        },
+        "native": {
+          "PASS": 15
+        },
+        "races": {
+          "PASS": 2
+        }
+      },
+      "expected_case_count": 23,
+      "expected_status": "INCOMPLETE",
+      "job_id": 110817243899,
+      "receipt": "docs/cp7/evidence/f04-native-history/cutting-consumer-incomplete23-abcbefc/RECEIPT.json",
+      "run_id": 37000620425,
+      "runtime_report": "CP7_F04_NATIVE_HISTORY.json",
+      "source_commit": "abcbefc06aa05a796107a2e606a045b4b7098f4f",
+      "source_tree": "0a5e867f3e9025118d4f7e59150455ca928dafab",
+      "zip_bytes": 6296910,
+      "zip_sha256": "c4b7a1e523dabab7ae99399eb0fff1101f006aa18ceca83ccdd091dce413593c"
+    },
+    "consumer_status": "FIRST_NATIVE23_INCOMPLETE21_PASS_2_FIXTURE_PROTOCOL_FAILURES_REPAIR_PENDING",
     "f05_preview_tests": 47,
     "full_family_acceptance": false,
     "job_id": 110808686869,
@@ -2816,7 +2908,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Qualify connected Native cutting source23 while preserving exact owning30/full8 F03/consumer9 Originals. Retain exact incomplete Native284 at4ca93db and repair actual HTTP500 causes without raising timeouts or waiving cases; continue Native cutting learning/material and complete P18-P21.",
+  "next_action": "Qualify actual F05 source-admission/timeline repair against complete284 and cutting fixture repair against23; preserve source-bound owning30/full8 F03/consumer9 proofs; finish prospective Native cutting learning/material and full P18-P21 without claiming independent or hosted GO.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",

@@ -1,0 +1,10 @@
+{
+  "projection_run_id": 37000620393,
+  "projection_artifact_id": 11222984844,
+  "projection_archive_bytes": 477434,
+  "projection_archive_sha256": "059d5eee3f50f17a668f307c5f67a85fba4d2e959d82a07e8edbb16db9930343",
+  "original_source_commit": "4ca93db345860dfce5dec8d745e4a89cea1389b5",
+  "Original_Native_reexecutions": 0,
+  "full_family_acceptance": false,
+  "production_go": false
+}

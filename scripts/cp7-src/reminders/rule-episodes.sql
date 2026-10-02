@@ -39,7 +39,7 @@ begin
  if p_request is null or p_lookup is null or jsonb_typeof(p)is distinct from'object'or not(p?&array['run_id','source_hash'])
   or(select count(*)from jsonb_object_keys(p))<>2 or exists(select 1 from jsonb_each(p)e where jsonb_typeof(e.value)<>'string')
   or p->>'source_hash'!~'^[0-9a-f]{64}$'then raise exception 'CP7_RULE_EPISODE_PAYLOAD';end if;
- a:=cp7_reminder_native.access_now((p->>'run_id')::uuid);
+ a:=cp7_reminder_native.original_authority((p->>'run_id')::uuid);
  perform pg_advisory_xact_lock(hashtextextended('CP7:REMINDER_REQUEST:'||actor::text||':'||p_request::text,0));perform cp7_reminder_native.recheck(a);
  select *into cached from cp7_reminder_native.requests q where q.actor=actor and q.request_id=p_request;
  if found then

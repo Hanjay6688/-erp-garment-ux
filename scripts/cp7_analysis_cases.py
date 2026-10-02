@@ -62,7 +62,10 @@ def cases(cur,today):
   assert x['allocation_edges'][0]['input_qty']['value']=='8'and x['allocation_edges'][0]['projected_output_qty']['value']=='7'
   assert x['sources'][0]['physical_remaining']['value']=='8'and x['status']=='PARTIAL'
   assert b.boundary.snapshot(cur)==before
-  return dict(status='PASS',unchanged_frozen_schema_and_semantic_validator=True,native8_projected7_target100_gap93_no_business_DML=True)
+  from cp7_timeline_compile_equivalence import compare
+  equivalence=compare(cur,e['run_id'],b.api)
+  assert b.boundary.snapshot(cur)==before
+  return dict(status='PASS',unchanged_frozen_schema_and_semantic_validator=True,native8_projected7_target100_gap93_no_business_DML=True,complete_compiler_exact_predecessor_equivalence=equivalence)
  def unreviewed():
   f,root,s,p=setup(cur,today,False);x=checked(capture(cur,today));r=recommendation(x,root)
   assert r['q_base']['state']=='UNKNOWN'and not x['allocation_edges']

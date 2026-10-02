@@ -119,7 +119,7 @@ end $$;
 
 create function cp7_reminder_native.condition_source(p_run uuid)returns jsonb
 language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
-declare a jsonb:=cp7_reminder_native.access_now(p_run);again jsonb;source jsonb;policies jsonb;rows jsonb;at timestamptz;coverage jsonb;stable_rows jsonb;definitions jsonb;
+declare a jsonb:=cp7_reminder_native.original_authority(p_run);again jsonb;source jsonb;policies jsonb;rows jsonb;at timestamptz;coverage jsonb;stable_rows jsonb;definitions jsonb;
 begin
  perform cp7_reminder_native.recheck(a);
  -- One statement/MVCC snapshot supplies all financial pages and policy rows.
@@ -141,7 +141,7 @@ begin
  if exists(select 1 from jsonb_array_elements(rows)x where not cp7_reminder_native.condition_domain_access(x->>'domain'))then raise exception using errcode='42501',message='CP7_RULE_CONDITION_DOMAIN_CHANGED';end if;
  select coalesce(jsonb_agg(x.value-'policy_timing'-'eligibility'order by x.value->>'key'),'[]')into stable_rows from jsonb_array_elements(rows)x;
  select jsonb_object_agg(sig,encode(pg_catalog.sha256(convert_to(pg_get_functiondef(sig::regprocedure),'UTF8')),'hex'))into definitions
-  from unnest(array['cp7_reminder_native.condition_source(uuid)','cp7_reminder_native.condition_rows(jsonb,jsonb,jsonb,jsonb,timestamp with time zone)',
+  from unnest(array['cp7_reminder_native.original_authority(uuid)','cp7_reminder_native.condition_source(uuid)','cp7_reminder_native.condition_rows(jsonb,jsonb,jsonb,jsonb,timestamp with time zone)',
    'cp7_reminder_native.condition_policy(jsonb,jsonb,timestamp with time zone)','cp7_reminder_native.policy_resolve(jsonb,text,text)',
    'cp7_reminder_native.policy_timing(jsonb,timestamp with time zone,timestamp with time zone)',
    'cp7_reminder_native.receivable_source()','cp7_reminder_native.payable_source()',

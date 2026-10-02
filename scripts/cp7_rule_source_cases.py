@@ -87,7 +87,25 @@ def cases(cur,today):
   assert s['coverage']['accessory_ap']=='COMPLETE_NATIVE_RETURN_CARRY_SCOPE_UNKNOWN_UNALLOCATED_BALANCE_RETAINED'
   assert s['coverage']['laundry_ap']=='COMPLETE_NATIVE_INVOICE_RECEIPT_AND_OPENING_UNINVOICED_SCOPE_UNKNOWN_PENDING_RETAINED'
   assert not s['full_family_acceptance']and b.boundary.snapshot(cur)==before
-  return dict(status='PASS',actual_current_Native_AR_recorded_due_and_exact_original_production_material_facts=True,stable_semantic_source_hash_no_clock_noise_no_hidden_complete_claim=True)
+  # This admission helper can inspect only the current actor's immutable
+  # identity/capability flags. It must not replace the final fresh Native read.
+  auth.actor(cur);claims=cur.execute("select current_setting('request.jwt.claims',true)").fetchone()[0]
+  b.api.admin(cur);cur.execute('savepoint authority_fresh_read_control')
+  try:
+   cur.execute("select set_config('request.jwt.claims',%s,true)",(claims,));cur.execute('set local role cp7_reminder')
+   pocket=cur.execute('select cp7_reminder_native.original_authority(%s)',(e['run_id'],)).fetchone()[0]
+   assert pocket['analysis']['analysis']['semantic_hash']==e['analysis']['semantic_hash']
+   assert [r['target']['key']for r in pocket['analysis']['analysis']['recommendations']]==[r['target']['key']for r in e['analysis']['recommendations']]
+   assert 'source_state'not in pocket['analysis']and all(set(r)=={'target'}and set(r['target'])=={'key'}for r in pocket['analysis']['analysis']['recommendations'])
+   b.api.admin(cur)
+   cur.execute("create or replace function cp7_analysis_native.source(q jsonb)returns jsonb language plpgsql stable security invoker set search_path=''set TimeZone='UTC'as $$begin raise exception 'CP7_TEST_FRESH_NATIVE_READER_REQUIRED';end $$",prepare=False)
+   cur.execute("select set_config('request.jwt.claims',%s,true)",(claims,));cur.execute('set local role cp7_reminder')
+   assert cur.execute('select cp7_reminder_native.original_authority(%s)',(e['run_id'],)).fetchone()[0]==pocket
+   auth.refused(cur,lambda:source(cur,e),'CP7_TEST_FRESH_NATIVE_READER_REQUIRED')
+  finally:
+   cur.execute('rollback to savepoint authority_fresh_read_control');cur.execute('release savepoint authority_fresh_read_control');b.api.admin(cur)
+  assert source(cur,e)['analysis']==s['analysis']and b.boundary.snapshot(cur)==before
+  return dict(status='PASS',actual_current_Native_AR_recorded_due_and_exact_original_production_material_facts=True,stable_semantic_source_hash_no_clock_noise_no_hidden_complete_claim=True,private_admission_contains_only_original_identity_targets_capability_flags=True,failed_fresh_Native_reader_cannot_be_replaced_by_private_admission=True)
  def missing_zero():
   f,e,key=due_fixture(cur,today,False);s=source(cur,e);r=row(s,key);assert r['state']=='DATA_REVIEW'and r['value']['state']=='UNKNOWN'and not r['business_resolved']
   ar.sales.payment(cur,dict(f,tag=f['tag']+'-final'),today,'300');r=row(source(cur,e),key);assert r['state']=='RESOLVED'and r['business_resolved']and r['value']['state']=='UNKNOWN'

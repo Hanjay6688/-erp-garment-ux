@@ -202,7 +202,10 @@ begin
    then raise exception 'CP7_OBLIGATION_REPORT_REVISION';end if;
   if(p->>'expected_revision')::numeric>=9223372036854775807 then raise exception 'CP7_OBLIGATION_REPORT_REVISION';end if;
  end if;
- a:=cp7_reminder_native.access_now((p->>'run_id')::uuid);
+ a:=cp7_reminder_native.original_authority((p->>'run_id')::uuid);
+ -- Admission validates only immutable identity. New publication replaces
+ -- this base with the complete current, protected preview after all waits;
+ -- cached documents also perform their full current-source reader.
  b:=cp7_reminder_native.obligation_report_base((p->>'publication_id')::uuid,a->'analysis');
  if b->>'run_id'<>p->>'run_id' then raise exception 'CP7_OBLIGATION_REPORT_ORIGINAL_CHANGED';end if;
  perform pg_advisory_xact_lock(hashtextextended('CP7:OBLIGATION_REPORT_REQUEST:'||auth.uid()::text||':'||p_request::text,0));

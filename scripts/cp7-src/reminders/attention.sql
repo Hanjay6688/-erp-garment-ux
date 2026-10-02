@@ -92,6 +92,51 @@ begin
  r:=public.erp_cp7_read_analysis_v1(p_run);
  return jsonb_build_object('access',a,'analysis',r);
 end $$;
+-- Private admission only: authorize the own immutable Original without
+-- compiling or copying its multi-megabyte result or re-reading Native facts.
+-- This is never a public result/current-source claim. Every consuming command
+-- still reads and fences the full current source before returning any facts.
+grant usage,create on schema cp7_reminder_native to cp7_capture;
+create function cp7_reminder_native.original_authority(p_run uuid)returns jsonb
+language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
+declare a jsonb;k text;original jsonb;financial boolean;close_required boolean;
+begin
+ if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
+ if auth.uid()is null or coalesce(auth.jwt()->>'role','')<>'authenticated'then raise exception using errcode='42501',message='CP7_REMINDER_ACCESS_DENIED';end if;
+ a:=erp.get_my_access_v1();
+ if a->'allowed'is distinct from'true'::jsonb then raise exception using errcode='42501',message='CP7_REMINDER_ACCESS_DENIED';end if;
+ if coalesce(a->'profile'->>'role_code','')not in('OWNER','ADMIN','STAFF')then raise exception using errcode='42501',message='CP7_REMINDER_INTERNAL_ROLE_REQUIRED';end if;
+ foreach k in array array['master.product.view','production.wip.view','warehouse.stock.view','sales.invoice.view']loop
+  if not erp.has_permission(k)then raise exception using errcode='42501',message='CP7_REMINDER_ACCESS_DENIED';end if;
+ end loop;
+ select jsonb_build_object('run_id',r.id,'analysis',jsonb_build_object(
+   'snapshot',jsonb_build_object('source_hash',r.result->'snapshot'->'source_hash'),
+   'semantic_hash',r.result->'semantic_hash',
+   'scope',jsonb_build_object('actor_scope_id',r.actor),
+   'recommendations',coalesce((select jsonb_agg(jsonb_build_object('target',jsonb_build_object('key',x.value->'target'->'key'))order by x.n)
+    from jsonb_array_elements(r.result->'recommendations')with ordinality x(value,n)),'[]'::jsonb))),
+  coalesce(r.facts->'financial_source','null')<>'null'::jsonb,
+  coalesce(r.facts->'financial_source'->'report'->'close_preflight','null')<>'null'::jsonb
+ into original,financial,close_required from cp7_analysis_native.runs r where r.id=p_run and r.actor=auth.uid();
+ if original is null then raise exception using errcode='42501',message='CP7_ANALYSIS_RUN_UNAVAILABLE';end if;
+ if financial and(a->'profile'->>'role_code'not in('OWNER','ADMIN')or not erp.has_permission('finance.reports.view'))
+  or close_required and not erp.has_permission('finance.period_close.manage')then raise exception using errcode='42501',message='CP7_ANALYSIS_FINANCE_ACCESS_DENIED';end if;
+ -- Presence flags suffice for the post-wait capability guard. No financial
+ -- amounts, cached condition rows or presumed freshness leave this helper.
+ original:=original||jsonb_build_object('financial_source',case when financial then
+  jsonb_build_object('report',jsonb_build_object('close_preflight',case when close_required then'{}'::jsonb else null end))else null end);
+ foreach k in array array['master.product.view','production.wip.view','warehouse.stock.view','sales.invoice.view']loop
+  if not erp.has_permission(k)then raise exception using errcode='42501',message='CP7_REMINDER_ACCESS_DENIED';end if;
+ end loop;
+ if financial and not erp.has_permission('finance.reports.view')or close_required and not erp.has_permission('finance.period_close.manage')
+  then raise exception using errcode='42501',message='CP7_ANALYSIS_FINANCE_ACCESS_DENIED';end if;
+ if erp.get_my_access_v1()is distinct from a then raise exception using errcode='42501',message='CP7_REMINDER_ACCESS_CHANGED';end if;
+ return jsonb_build_object('access',a,'analysis',original);
+end $$;
+alter function cp7_reminder_native.original_authority(uuid)owner to cp7_capture;
+revoke create on schema cp7_reminder_native from cp7_capture;
+revoke all on function cp7_reminder_native.original_authority(uuid)from public,anon,authenticated,service_role;
+grant execute on function cp7_reminder_native.original_authority(uuid)to cp7_reminder;
 -- Revalidate the complete current capability set after every wait. The
 -- Original was authorized by access_now; repeating its expensive source/finance
 -- reader at each metadata lock is unnecessary. Final responses still run the

@@ -1,7 +1,7 @@
 """Disposable-only native history/UI fixture; no business fact fabrication."""
 from datetime import date
 from urllib.parse import urlparse
-import os,sys,json
+import os,sys,json,contextlib
 import psycopg
 import cp7_planning_history_cases as cases
 import cp7_f03_e01_cases as e01
@@ -16,7 +16,11 @@ def main():
   acl=cur.execute("select nspacl::text from pg_namespace where nspname='erp'").fetchone()[0]
   if not had:cur.execute('grant usage on schema erp to authenticated')
   if op=='prepare':out=cases.fixture(cur,date.fromisoformat(p['today']))
-  elif op=='cut_prepare':out=e01.production(cur,date.fromisoformat(p['today']),cutting_draft_only=True)
+  elif op=='cut_prepare':
+   # Production emits diagnostic checkpoints. Keep the fixture protocol a
+   # single JSON result; preserve those diagnostics on stderr for the receipt.
+   with contextlib.redirect_stdout(sys.stderr):
+    out=e01.production(cur,date.fromisoformat(p['today']),cutting_draft_only=True)
   elif op=='cut_state':
    f=p['fixture'];cases.b.api.admin(cur)
    qty,value=cur.execute('select sum(qty_signed),sum(qty_signed*unit_cost_snapshot)from erp.material_stock_movements where material_id=%s',(f['material'],)).fetchone()

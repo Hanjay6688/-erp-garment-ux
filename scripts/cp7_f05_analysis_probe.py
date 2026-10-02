@@ -71,6 +71,17 @@ def run(attention=False,p18_e01=False):
    report['combined_declared_table_grants']=candidate.TABLE_GRANTS
    conn.commit();installed=True;checker(cur);conn.rollback()
   report['advisors_with_cp7']=advisors(package.boundary.PG)
+  if attention:
+   # Repeat three existing mandatory controls first to reject a bad private
+   # admission/compiler change before the long aggregate. No extra case credit.
+   early=('P14_NATIVE_ANALYSIS_FROZEN_NATIVE','P16_RULE_SOURCE_EXACT_CURRENT_SOURCE','P15_OBLIGATION_REPORT_NATIVE_EXACT_DATED_NATIVE')
+   def admission(cur,today):
+    selected=[(name,operation)for name,operation in case_provider.cases(cur,today)if name in early]
+    assert len(selected)==3,('ATTENTION_ADMISSION_REQUIRED_CONTROLS',early,[name for name,_ in selected])
+    return selected
+   report['source_admission']=native.strict_group('CP7_ATTENTION_SOURCE_ADMISSION',admission,checker)
+   report['source_admission_required_case_credit']=0
+   assert report['source_admission'].get('status')in('PASS','RUN_COMPLETE')and report['source_admission'].get('counts')=={'PASS':3},'ATTENTION_SOURCE_ADMISSION_FAILED'
   with exact_public_catalog(native)as catalog_audit:
    report['native']=native.strict_group('CP7_P18_E01_BRIDGE'if p18_e01 else'CP7_F05_ATTENTION'if attention else'CP7_F05_ANALYSIS',case_provider.cases,checker)
   report['native_public_catalog_comparison']=catalog_audit

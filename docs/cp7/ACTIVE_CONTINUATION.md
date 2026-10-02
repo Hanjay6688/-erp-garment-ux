@@ -1,6 +1,18 @@
 # Active writer continuation · 1Oct2026
 
-## Latest controlling checkpoint: complete Native284 qualified
+## Latest controlling checkpoint · 2Oct2026 · F05 timeout repair / cutting consumer qualification
+
+Owning note correction Native30 is qualified twice at41bfe11/run36996180995 and45e06d7/run36997888603. All eight full F03 buckets are qualified at4ca93db/run36995839444. The financial/stock SQL bundle remains190994c487cd9241313ab7e32cea273fcb763f40dd0d48b2ca238604978ebafd. The exact focused owning-note consumer bridge passes Native9 at45e06d7/run36997888732. Preserve these Originals; they do not grant full P18/independent/production acceptance.
+
+The newer complete Native284 at4ca93db/run36995839646 observes281 PASS and3 browser INCOMPLETE due actual8s statement timeouts. All179 DB/40 races/29 HTTP pass and all restore/primary/backup/advisor/Auth0→0 gates pass, runtime false. Exact Original roots and every320MB archive member hash are retained in `evidence/f05-native284/required284-incomplete-4ca93db/`. Do not present the older556c5e0 qualified284 as qualification of the current expanded correction candidate.
+
+The connected cutting consumer atabcbefc/run37000620425 observes21 PASS/2 browser INCOMPLETE: fixture checkpoint output broke its single-JSON protocol before the two actual UI journeys began. Every retained Native/HTTP/race case and the original history browsers pass; restore/primary/backup/advisor gates pass. Its exact Original is retained in `evidence/f04-native-history/cutting-consumer-incomplete23-abcbefc/`. The fixture now sends diagnostic checkpoints to stderr without dropping them or loosening the assertions; fresh Native23 is required.
+
+Current product repair admits the immutable own Original through a private identity/capability projection; it keeps complete post-wait Native reads, protected finance, targeted policy visibility, source hashes and exact UUID replay. Analysis timeline now aggregates each target's events in original order instead of repeatedly copying the entire growing timeline. Exact2700-row SQL predecessor equivalence and private current-capability controls pass locally, TypeScript/ownership/access checks pass. These are structural controls with zero Native qualification credit. The mandatory Native P14 case also compares the entire saved compiler JSON with the predecessor in a rolled-back savepoint. Three pre-existing admission controls run first, with zero extra case credit, before the unchanged284-case suite. Neither timeouts nor mandatory cases are increased/waived. See `f05/NATIVE_SOURCE_ADMISSION_TIMELINE_REPAIR.md`.
+
+Next: qualify this repair against all284 and cutting23, continue F04 prospective cutting learning/material feasibility and full P18–P21. No main merge, hosted installation, WhatsApp, independent acceptance or production GO is authorized.
+
+## Retained predecessor checkpoint: complete Native284 qualified
 
 Repaired product556c5e0/treeefad5d6 passes complete Native284 at run36972420528/job110729002709:179 DB/40 actual races/29 real Auth-HTTP/36 browser,284/284 PASS and zero console errors. All install/restoration/primary/backup/advisor gates pass, Auth0→0. Every prior timeout passes; earlier failed Originals remain unchanged. Exact six root reports and189 archive member hashes are retained in `evidence/f05-obligation-report/qualified284-556c5e0/`, with the original349MB archive digest verified through read-only projection53b054d8/run36977165130. Projection executes no product cases and touches no database.
 
