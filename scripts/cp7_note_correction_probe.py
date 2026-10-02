@@ -36,6 +36,13 @@ def run():
     assert{tuple(x)for x in new['acl']or[]}=={tuple(x)for x in old['acl']or[]}|grants.get(signature,set()),('NOTE_UNDECLARED_NATIVE_GRANT',signature)
    p09.INSTALLED_FUNCTIONS=after;report['all_other_predecessor_definitions_and_owners_unchanged']=True;report['combined_declared_execute_grants']={k:sorted(v)for k,v in grants.items()};report['native_note_ownership']=cases.ownership.verify(cur);conn.commit();installed=True;verify(cur);conn.rollback()
   report['advisors_with_cp7']=advisors(package.boundary.PG)
+  # A rejected owning command must be diagnosed before constructing hundreds
+  # of year-history notes. This repeats an existing mandatory economic oracle
+  # in an isolated restored group; it grants zero required/unique case credit.
+  report['composition_smoke']=native.strict_group('CP7_NOTE_COMPOSITION_ADMISSION_SMOKE',
+   lambda cur,today:[(name,operation)for name,operation in cases.cases(cur,today)if name=='NOTE_FULL_NATIVE_FINANCIAL'],verify)
+  report['composition_smoke_required_case_credit']=0
+  assert report['composition_smoke'].get('status')in('PASS','RUN_COMPLETE')and report['composition_smoke'].get('counts')=={'PASS':1},'NOTE_COMPOSITION_ADMISSION_SMOKE_FAILED'
   report['native']=native.strict_group('CP7_NOTE_CORRECTION',cases.cases,verify)
   report['races']=modes.run_races(cases,verify,'cp7_note_correction')
   report['http']=modes.run_http(cases,verify,'cp7_note_correction')

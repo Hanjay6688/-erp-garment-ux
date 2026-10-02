@@ -2472,7 +2472,15 @@
       "receipt": "docs/cp7/evidence/note-correction/legacy22-37df58a/RECEIPT.json",
       "owning_note_economic_qualification_credit": 0
     },
-    "internal_composition_candidate": "Explicit private metadata ownership and narrow CP7-only invocation/context/lineage grants; all ordinary callers remain denied and all Native original hashes/ACLs unchanged. Native28/bridge9 pending."
+    "internal_composition_candidate": "Explicit private metadata ownership and narrow CP7-only invocation/context/lineage grants; all ordinary callers remain denied and all Native original hashes/ACLs unchanged. Native28/bridge9 pending.",
+    "native_admission_smoke": {
+      "status": "PREDECLARED_PENDING",
+      "oracle": "NOTE_FULL_NATIVE_FINANCIAL",
+      "purpose": "Diagnose a rejected command before expensive year-history fixture construction",
+      "same_existing_mandatory_oracle": true,
+      "required_case_credit": 0,
+      "all_28_required_cases_still_execute_after_pass": true
+    }
   },
   "p18_owning_note_consumer_bridge_candidate": {
     "status": "NATIVE9_PREDECLARED_PENDING",
