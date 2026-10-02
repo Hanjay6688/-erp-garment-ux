@@ -45,6 +45,7 @@ try {
   // four browser-safe values can participate in the bundle.
   const runtime = parseRuntimeConfig({
     VITE_ERP_RUNTIME_MODE: import.meta.env.VITE_ERP_RUNTIME_MODE,
+    VITE_DISPOSABLE_API_PORT: import.meta.env.VITE_DISPOSABLE_API_PORT,
     VITE_SUPABASE_URL: import.meta.env.VITE_SUPABASE_URL,
     VITE_SUPABASE_PUBLISHABLE_KEY: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
     VITE_SUPABASE_ANON_KEY: import.meta.env.VITE_SUPABASE_ANON_KEY,

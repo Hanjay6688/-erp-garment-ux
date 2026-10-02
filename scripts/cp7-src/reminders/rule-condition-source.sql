@@ -1,3 +1,27 @@
+-- Closed domain routing also guards cached facts after narrower rights revoke.
+create function cp7_reminder_native.condition_domain(p_key text)returns text
+language plpgsql immutable security invoker set search_path=''set TimeZone='UTC'as $$
+begin
+ if p_key like'PRODUCTION_GAP:%'then return'PRODUCTION';end if;
+ if p_key like'ACCESSORY_NEED:%'then return'ACCESSORY';end if;
+ if p_key like'AR_DUE:OPENING_AR:%'then return'OPENING_AR';end if;
+ if p_key like'AR_DUE:%'and split_part(p_key,':',2)~'^[0-9a-f-]{36}$'then return'SALES_AR';end if;
+ if p_key like'AP_DUE:MATERIAL:%'then return'MATERIAL_AP';end if;
+ if p_key like'AP_DUE:%'and split_part(p_key,':',2)in('OPENING_AP','PAYROLL_AP','ACCESSORY_AP','LAUNDRY_AP','LAUNDRY_RECEIPT','LAUNDRY_OPENING_UNINVOICED')then return split_part(p_key,':',2);end if;
+ raise exception 'CP7_RULE_CONDITION_DOMAIN_INVALID';
+end $$;
+create function cp7_reminder_native.condition_domain_access(p_domain text)returns boolean
+language plpgsql stable security invoker set search_path=''set TimeZone='UTC'as $$
+begin
+ if p_domain in('PRODUCTION','ACCESSORY')then return true;end if;
+ if p_domain in('SALES_AR','OPENING_AR')then return erp.has_permission('finance.ar.view');end if;
+ if p_domain in('MATERIAL_AP','OPENING_AP')then return erp.has_permission('finance.ap.view');end if;
+ if p_domain='PAYROLL_AP'then return erp.has_permission('finance.ap.view')and erp.has_permission('finance.payroll.view');end if;
+ if p_domain='ACCESSORY_AP'then return erp.has_permission('finance.ap.view')and erp.has_permission('warehouse.accessory.view')and(erp.has_permission('finance.hpp.view')or erp.has_permission('finance.hpp.manage'));end if;
+ if p_domain in('LAUNDRY_AP','LAUNDRY_RECEIPT','LAUNDRY_OPENING_UNINVOICED')then return erp.has_permission('finance.ap.view')and erp.has_permission('production.laundry.view')and(erp.has_permission('finance.hpp.view')or erp.has_permission('finance.hpp.manage'));end if;
+ raise exception 'CP7_RULE_CONDITION_DOMAIN_INVALID';
+end $$;
+
 -- Current conditions use the same authorized Native facts. No task, policy or
 -- delivery flag can resolve a business condition. No business DML is added.
 create function cp7_reminder_native.condition_policy(row_source jsonb,policies jsonb,p_at timestamptz)returns jsonb
@@ -33,7 +57,7 @@ begin
   row_source:=jsonb_build_object('key','PRODUCTION_GAP:'||(r->'target'->>'key'),'rule_id','PRODUCTION_GAP',
    'target_key',r->'target'->'key','source_id',r->'target'->'product_id','material_key',null,
    'source_hash',e->'analysis'->>'semantic_hash','state',state,'reason',reason,'value',value,
-   'production_state',r->'production_state','business_resolved',resolved,'scope','CURRENT_EXACT_SIZE_ANALYSIS','label',label);
+   'production_state',r->'production_state','business_resolved',resolved,'domain','PRODUCTION','financial_source',null,'economic_state','NOT_APPLICABLE','scope','CURRENT_EXACT_SIZE_ANALYSIS','label',label);
   out_rows:=out_rows||jsonb_build_array(cp7_reminder_native.condition_policy(row_source,policies,p_at));
  end loop;
  for r in select x.value from jsonb_array_elements(e->'analysis'->'material_needs')x loop
@@ -47,7 +71,7 @@ begin
   row_source:=jsonb_build_object('key','ACCESSORY_NEED:'||(r->>'target_key')||':'||coalesce(r->>'material_key','UNKNOWN_BOM'),
    'rule_id','ACCESSORY_NEED','target_key',r->'target_key','source_id',split_part(r->>'target_key',':',1),
    'material_key',r->'material_key','source_hash',e->'analysis'->>'semantic_hash','state',state,'reason',reason,
-   'value',value,'production_state',null,'business_resolved',resolved,'scope','CURRENT_NATIVE_ACCESSORY_BOM_INSTALLATION_AND_ALLOCATION','label',label);
+   'value',value,'production_state',null,'business_resolved',resolved,'domain','ACCESSORY','financial_source',null,'economic_state','NOT_APPLICABLE','scope','CURRENT_NATIVE_ACCESSORY_BOM_INSTALLATION_AND_ALLOCATION','label',label);
   out_rows:=out_rows||jsonb_build_array(cp7_reminder_native.condition_policy(row_source,policies,p_at));
  end loop;
  if ar is not null and ar<>'null'::jsonb then
@@ -63,7 +87,10 @@ begin
    if value->>'state'='KNOWN'then value:=value||jsonb_build_object('value',greatest(0,days::integer)::text);else value:=value||jsonb_build_object('reason',c->>'state');end if;
    row_source:=jsonb_build_object('key','AR_DUE:'||(c->>'source_id'),'rule_id','AR_DUE','target_key',null,'source_id',c->'source_id',
     'material_key',null,'source_hash',c->'native_source_hash','state',state,'reason',c->'state','value',value,'production_state',null,
-    'business_resolved',c->'business_resolved','scope','NATIVE_SALES_RECEIVABLE_ONLY','label',d->>'number'||' · '||(d->>'customer_name'));
+    'business_resolved',c->'business_resolved','domain','SALES_AR','economic_state',case when c->>'state'in('DRAFT_ONLY','INACTIVE_DOCUMENT')then'INACTIVE'when c->'business_resolved'='true'::jsonb then'SETTLED'when d->'financial'->>'open_balance'is not null and(d->'financial'->>'open_balance')::numeric>0 then'OPEN'else'UNKNOWN'end,
+    'financial_source',jsonb_build_object('remaining',jsonb_build_object('state',case when d->'financial'->>'open_balance'is null then'UNKNOWN'else'KNOWN'end,'unit','IDR','refs',value->'refs')||case when d->'financial'->>'open_balance'is null then jsonb_build_object('reason','ACCEPTED_NATIVE_REMAINING_NOT_AVAILABLE')else jsonb_build_object('value',d->'financial'->>'open_balance')end,
+     'recorded_due_date',due,'document',cp7_reminder_native.exact_numbers(d),'document_sha256',encode(pg_catalog.sha256(convert_to(d::text,'UTF8')),'hex'),'revision_basis','NATIVE_ROW_VERSION'),
+    'scope','NATIVE_SALES_RECEIVABLE_ONLY','label',d->>'number'||' · '||(d->>'customer_name'));
    out_rows:=out_rows||jsonb_build_array(cp7_reminder_native.condition_policy(row_source,policies,p_at));
   end loop;
  end if;
@@ -78,7 +105,10 @@ begin
    if value->>'state'='KNOWN'then value:=value||jsonb_build_object('value',greatest(0,days::integer)::text);else value:=value||jsonb_build_object('reason',c->>'state');end if;
    row_source:=jsonb_build_object('key','AP_DUE:MATERIAL:'||source_key,'rule_id','AP_DUE','target_key',null,'source_id',source_key,
     'material_key',null,'source_hash',c->'native_source_hash','state',state,'reason',c->'state','value',value,'production_state',null,
-    'business_resolved',c->'business_resolved','scope','NATIVE_MATERIAL_PAYABLE_ONLY','label',d->'liability'->>'purchase_number'||' · '||coalesce(d->'liability'->>'supplier_name','Pemasok'));
+    'business_resolved',c->'business_resolved','domain','MATERIAL_AP','economic_state',case when c->>'state'in('DRAFT_ONLY','INACTIVE_DOCUMENT')then'INACTIVE'when c->'business_resolved'='true'::jsonb then'SETTLED'when c->>'state'='INVOICE_PENDING'then'UNKNOWN'when d->'balance'->>'remaining'is not null and(d->'balance'->>'remaining')::numeric>0 then'OPEN'else'UNKNOWN'end,
+    'financial_source',jsonb_build_object('remaining',jsonb_build_object('state',case when c->>'state'='INVOICE_PENDING'or d->'balance'->>'remaining'is null then'UNKNOWN'else'KNOWN'end,'unit','IDR','refs',value->'refs')||case when c->>'state'='INVOICE_PENDING'or d->'balance'->>'remaining'is null then jsonb_build_object('reason','ACCEPTED_FINAL_NATIVE_REMAINING_NOT_AVAILABLE')else jsonb_build_object('value',d->'balance'->>'remaining')end,
+     'recorded_due_date',due,'document',cp7_reminder_native.exact_numbers(d),'document_sha256',encode(pg_catalog.sha256(convert_to(d::text,'UTF8')),'hex'),'revision_basis','NATIVE_ROW_VERSION'),
+    'scope','NATIVE_MATERIAL_PAYABLE_ONLY','label',d->'liability'->>'purchase_number'||' · '||coalesce(d->'liability'->>'supplier_name','Pemasok'));
    out_rows:=out_rows||jsonb_build_array(cp7_reminder_native.condition_policy(row_source,policies,p_at));
   end loop;
  end if;
@@ -96,33 +126,45 @@ begin
  -- The existing accepted readers retain their own current domain checks.
  select jsonb_build_object('ar',case when erp.has_permission('finance.ar.view')then cp7_reminder_native.receivable_source()else null end,
   'ap',case when erp.has_permission('finance.ap.view')then cp7_reminder_native.payable_source()else null end,
-  'policies',cp7_reminder_native.policy_rows(a),'captured_at',clock_timestamp())into source;
+  'other',cp7_reminder_native.other_obligation_source(),'policies',cp7_reminder_native.policy_rows(a),'captured_at',clock_timestamp())into source;
  at:=(source->>'captured_at')::timestamptz;policies:=source->'policies';
  again:=cp7_reminder_native.access_now(p_run);perform cp7_reminder_native.recheck(a);
  if cp7_reminder_native.policy_rows(again)is distinct from policies then raise exception using errcode='40001',message='CP7_RULE_CONDITION_POLICY_CHANGED';end if;
  rows:=cp7_reminder_native.condition_rows(again->'analysis',source->'ar',source->'ap',policies,at);
+ select rows||coalesce(jsonb_agg(cp7_reminder_native.condition_policy(x.value,policies,at)order by x.value->>'key'),'[]')into rows from jsonb_array_elements(source->'other'->'rows')x;
  coverage:=jsonb_build_object('production','COMPLETE_AUTHORIZED_ORIGINAL','accessory','COMPLETE_AUTHORIZED_ORIGINAL_UNKNOWN_INSTALLATION_RETAINED',
   'sales_ar',case when source->'ar'='null'::jsonb then'EXCLUDED_BY_CURRENT_RIGHTS'else'COMPLETE_NATIVE_DOCUMENT_SCOPE'end,
   'material_ap',case when source->'ap'='null'::jsonb then'EXCLUDED_BY_CURRENT_RIGHTS'else'COMPLETE_NATIVE_DOCUMENT_SCOPE'end,
-  'opening_ar','NOT_COMPOSED','opening_ap','NOT_COMPOSED','payroll_ap','NOT_COMPOSED','accessory_ap','NOT_COMPOSED','laundry_ap','NOT_COMPOSED');
+  'opening_ar',source->'other'->'coverage'->'opening_ar','opening_ap',source->'other'->'coverage'->'opening_ap',
+  'payroll_ap',source->'other'->'coverage'->'payroll_ap','accessory_ap',source->'other'->'coverage'->'accessory_ap','laundry_ap',source->'other'->'coverage'->'laundry_ap');
+ if jsonb_array_length(rows)>15000 or octet_length(rows::text)>8000000 or(select count(distinct x->>'key')from jsonb_array_elements(rows)x)<>jsonb_array_length(rows)then raise exception 'CP7_RULE_CONDITION_SCOPE_INCOMPLETE';end if;
+ if exists(select 1 from jsonb_array_elements(rows)x where not cp7_reminder_native.condition_domain_access(x->>'domain'))then raise exception using errcode='42501',message='CP7_RULE_CONDITION_DOMAIN_CHANGED';end if;
  select coalesce(jsonb_agg(x.value-'policy_timing'-'eligibility'order by x.value->>'key'),'[]')into stable_rows from jsonb_array_elements(rows)x;
  select jsonb_object_agg(sig,encode(pg_catalog.sha256(convert_to(pg_get_functiondef(sig::regprocedure),'UTF8')),'hex'))into definitions
   from unnest(array['cp7_reminder_native.condition_source(uuid)','cp7_reminder_native.condition_rows(jsonb,jsonb,jsonb,jsonb,timestamp with time zone)',
    'cp7_reminder_native.condition_policy(jsonb,jsonb,timestamp with time zone)','cp7_reminder_native.policy_resolve(jsonb,text,text)',
    'cp7_reminder_native.policy_timing(jsonb,timestamp with time zone,timestamp with time zone)',
-   'cp7_reminder_native.receivable_source()','cp7_reminder_native.payable_source()'])sig;
- return jsonb_build_object('contract_version','cp7.native-rule-conditions.v1','actor_scope_id',auth.uid(),'analysis',again->'analysis',
+   'cp7_reminder_native.receivable_source()','cp7_reminder_native.payable_source()',
+   'cp7_reminder_native.condition_domain(text)','cp7_reminder_native.condition_domain_access(text)',
+   'cp7_reminder_native.other_access()','cp7_reminder_native.other_money(text,uuid,text)',
+   'cp7_reminder_native.other_document(text,uuid,text,date,jsonb,text,jsonb,date)',
+   'cp7_reminder_native.other_opening(boolean,boolean,date)','cp7_reminder_native.other_payroll(date)',
+   'cp7_reminder_native.other_accessory(date)','cp7_reminder_native.other_laundry(date)',
+   'cp7_reminder_native.other_laundry_pending(date)','cp7_reminder_native.other_obligation_source()'])sig;
+ return jsonb_build_object('contract_version','cp7.native-rule-conditions.v2','actor_scope_id',auth.uid(),'analysis',again->'analysis',
   'policy_rows',policies,'rows',rows,'page_complete',true,'total',jsonb_array_length(rows)::text,'coverage',coverage,
   'source_hash',encode(pg_catalog.sha256(convert_to(jsonb_build_object('analysis_hash',again->'analysis'->'analysis'->'semantic_hash',
    'analysis_source_state',again->'analysis'->'source_state','ar_hash',source->'ar'->'source_hash','ap_hash',source->'ap'->'source_hash',
-   'policies',policies,'coverage',coverage,'conditions',stable_rows,'source_definitions',definitions)::text,'UTF8')),'hex'),'read_at',at,'external_delivery_enabled',false,
+   'other_hash',source->'other'->'source_hash','policies',policies,'coverage',coverage,'conditions',stable_rows,'source_definitions',definitions)::text,'UTF8')),'hex'),'read_at',at,'external_delivery_enabled',false,
   'full_family_acceptance',false,'meaning','CURRENT_SOURCE_CONDITION_SEPARATE_FROM_ATTENTION_DELIVERY_AND_ORIGINAL');
 end $$;
 
+alter function cp7_reminder_native.condition_domain(text)owner to cp7_reminder;
+alter function cp7_reminder_native.condition_domain_access(text)owner to cp7_reminder;
 alter function cp7_reminder_native.condition_policy(jsonb,jsonb,timestamptz)owner to cp7_reminder;
 alter function cp7_reminder_native.condition_rows(jsonb,jsonb,jsonb,jsonb,timestamptz)owner to cp7_reminder;
 alter function cp7_reminder_native.condition_source(uuid)owner to cp7_reminder;
-revoke all on function cp7_reminder_native.condition_policy(jsonb,jsonb,timestamptz),cp7_reminder_native.condition_rows(jsonb,jsonb,jsonb,jsonb,timestamptz),
+revoke all on function cp7_reminder_native.condition_domain(text),cp7_reminder_native.condition_domain_access(text),cp7_reminder_native.condition_policy(jsonb,jsonb,timestamptz),cp7_reminder_native.condition_rows(jsonb,jsonb,jsonb,jsonb,timestamptz),
  cp7_reminder_native.condition_source(uuid)from public,anon,authenticated,service_role;
 grant create on schema public to cp7_reminder;
 create function public.erp_cp7_get_rule_conditions_v1(p_run uuid)returns jsonb

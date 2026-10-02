@@ -16,15 +16,19 @@ AP_TABLES=('erp.v_material_purchase_liability_status','erp.material_purchase_hea
 TABLE_GRANTS={**predecessor.TABLE_GRANTS,'cp7_reminder':{'erp.manual_reminders':'SELECT'},'cp7_payable_read':{name:'SELECT'for name in AP_TABLES}}
 def extension():return '\n'.join((ROOT/'scripts/cp7-src'/p).read_text()for p in FILES)
 def bundle():return predecessor.bundle()+'\n'+extension()
-def verify(cur,extension_functions=None,extension_tables=(),extension_public=()):
+def verify(cur,extension_functions=None,extension_tables=(),extension_public=(),extension_function_contracts=None):
  predecessor.verify(cur)
  expected={'immutable_request':'v','guard_attention':'v','exact_numbers':'i','access_now':'v','recheck':'v','workspace':'v','command':'v','manual_source':'v','request_status':'v','receivable_source':'s','receivable_conditions':'v','payable_exact_numbers':'i','payable_source':'s','payable_conditions':'v','guard_obligation_episode':'v','obligation_access':'v','obligation_evaluate':'v','obligation_history':'v'}
  expected.update(policy_validate='i',policy_scope_access='v',policy_rows='s',policy_workspace='v',policy_resolve='i',policy_timing='i',policy_command='v')
  expected.update(extension_functions or{})
+ contracts={name:('cp7_payable_read'if name in('payable_source','payable_exact_numbers')else'cp7_reminder',name=='payable_source')for name in expected}
+ for name,contract in(extension_function_contracts or{}).items():
+  assert name in(extension_functions or{})and len(contract)==2,(name,contract)
+  contracts[name]=contract
  rows=cur.execute("select p.oid::regprocedure::text,p.proname,pg_get_userbyid(p.proowner),p.prosecdef,p.proconfig,p.provolatile from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_reminder_native'").fetchall()
  assert len(rows)==len(expected),rows
  for sig,name,owner,definer,config,volatility in rows:
-  assert owner==('cp7_payable_read'if name in('payable_source','payable_exact_numbers')else'cp7_reminder')and definer==(name=='payable_source')and expected.get(name)==volatility and'search_path=\"\"'in(config or[])and'TimeZone=UTC'in(config or[]),(sig,owner,definer,config,volatility)
+  assert(owner,definer)==contracts[name]and expected.get(name)==volatility and'search_path=\"\"'in(config or[])and'TimeZone=UTC'in(config or[]),(sig,owner,definer,config,volatility)
   for who in('anon','authenticated','service_role'):assert not cur.execute('select has_function_privilege(%s,%s,\'EXECUTE\')',(who,sig)).fetchone()[0]
  for table in('attention','requests','obligation_episodes','obligation_observations','rule_policies',*extension_tables):
   for who in('anon','authenticated','service_role'):

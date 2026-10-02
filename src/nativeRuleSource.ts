@@ -4,8 +4,11 @@ import type {NativeDemandQuery} from './nativeDemandHistory'
 import type {FactValue} from './cp7/contract'
 import {financeDate} from './financeReportContract'
 
-export type RuleRights={ar:boolean;ap:boolean}
-export type RuleCondition={key:string;rule_id:ReminderRule;target_key:string|null;source_id:string;material_key:string|null;source_hash:string;state:'ACTIVE'|'RESOLVED'|'NO_CURRENT_GAP'|'DATA_REVIEW'|'SOURCE_CHANGED';reason:string;value:FactValue;production_state:string|null;business_resolved:boolean;scope:string;label:string;policy_binding:{rule_id:ReminderRule;target_key:string|null;basis:'MISSING'|'GLOBAL'|'EXACT_TARGET';policy:ReminderPolicyRow|null};policy_timing:{status:string;ready:boolean;checked_at:string;next_at:string|null;meaning:'LOCAL_PREVIEW_ELIGIBILITY_ONLY_NOT_DELIVERY_OR_BUSINESS_RESOLUTION'};eligibility:string;delivery_sent:false;eligibility_meaning:'LOCAL_PREVIEW_ONLY_NOT_BUSINESS_RESOLUTION'}
+export type RuleRights={ar:boolean;ap:boolean;payroll?:boolean;accessoryPayables?:boolean;laundry?:boolean}
+export const ruleDomains=['PRODUCTION','ACCESSORY','SALES_AR','MATERIAL_AP','OPENING_AR','OPENING_AP','PAYROLL_AP','ACCESSORY_AP','LAUNDRY_AP','LAUNDRY_RECEIPT','LAUNDRY_OPENING_UNINVOICED'] as const
+export type RuleDomain=typeof ruleDomains[number]
+export type NativeObligationFinancial={remaining:FactValue;recorded_due_date:string|null;document:Record<string,unknown>;document_sha256:string;revision_basis:'NATIVE_ROW_VERSION'|'NATIVE_DOCUMENT_CONTENT_SHA256'}
+export type RuleCondition={domain:RuleDomain;economic_state:'NOT_APPLICABLE'|'OPEN'|'SETTLED'|'UNKNOWN'|'INACTIVE';financial_source:NativeObligationFinancial|null;key:string;rule_id:ReminderRule;target_key:string|null;source_id:string;material_key:string|null;source_hash:string;state:'ACTIVE'|'RESOLVED'|'NO_CURRENT_GAP'|'DATA_REVIEW'|'SOURCE_CHANGED';reason:string;value:FactValue;production_state:string|null;business_resolved:boolean;scope:string;label:string;policy_binding:{rule_id:ReminderRule;target_key:string|null;basis:'MISSING'|'GLOBAL'|'EXACT_TARGET';policy:ReminderPolicyRow|null};policy_timing:{status:string;ready:boolean;checked_at:string;next_at:string|null;meaning:'LOCAL_PREVIEW_ELIGIBILITY_ONLY_NOT_DELIVERY_OR_BUSINESS_RESOLUTION'};eligibility:string;delivery_sent:false;eligibility_meaning:'LOCAL_PREVIEW_ONLY_NOT_BUSINESS_RESOLUTION'}
 export type RuleSource={analysis:NativeAnalysis;policyRows:ReminderPolicyRow[];rows:RuleCondition[];hash:string;readAt:string;coverage:Record<string,string>}
 export type RuleEpisode={id:string;number:string;previous_id:string|null;state:'ACTIVE'|'RESOLVED';freshness:'KNOWN'|'ASSUMED'|'UNKNOWN';first_observed_at:string;last_observed_at:string;resolved_at:string|null}
 export type RuleObservation={condition:RuleCondition;episode:RuleEpisode|null;transition:string}
@@ -27,18 +30,62 @@ const stamp=(v:unknown):v is string=>typeof v==='string'&&financeDate(v.slice(0,
 const canonical=(v:unknown):string=>JSON.stringify(v===null||typeof v!=='object'?v:Array.isArray(v)?v.map(x=>JSON.parse(canonical(x))):Object.fromEntries(Object.entries(v).sort(([a],[b])=>a.localeCompare(b)).map(([k,x])=>[k,JSON.parse(canonical(x))])))
 const rules=(rights:RuleRights):ReminderRule[]=>reminderRuleIds.filter(r=>r==='AR_DUE'?rights.ar:r==='AP_DUE'?rights.ap:true)
 const compare=(a:string,b:string)=>{if(!/^\d+(\.\d+)?$/.test(a)||!/^\d+(\.\d+)?$/.test(b)||a.length>80||b.length>80)fail();const[ai,af='']=a.split('.'),[bi,bf='']=b.split('.'),n=Math.max(af.length,bf.length),x=BigInt(ai+af.padEnd(n,'0')),y=BigInt(bi+bf.padEnd(n,'0'));return x<y?-1:x>y?1:0}
+const financialKinds:Record<string,string[]>={OPENING_AR:['ACCEPTED_BB_OPENING_BALANCE','ACCEPTED_NATIVE_LEGACY_OPENING_BALANCE'],OPENING_AP:['ACCEPTED_BB_OPENING_BALANCE','ACCEPTED_NATIVE_LEGACY_OPENING_BALANCE'],PAYROLL_AP:['ACCEPTED_E05_NATIVE_PAYROLL_INSTALLMENT'],ACCESSORY_AP:['ACCEPTED_BC_ACCESSORY_RETURN_CARRY','ACCEPTED_BC_NATIVE_UNPAID_CARRY'],LAUNDRY_AP:['ACCEPTED_BD_NATIVE_VENDOR_PAYABLE'],LAUNDRY_RECEIPT:['ACCEPTED_BD_LAUNDRY_RECEIPT','ACCEPTED_BD_RECEIPT_FULL_NATIVE_INVOICES_PAID'],LAUNDRY_OPENING_UNINVOICED:['ACCEPTED_BD_OPENING_UNINVOICED','ACCEPTED_BD_OPENING_FULL_NATIVE_INVOICES_PAID']}
+const domainAllowed=(d:RuleDomain,r:RuleRights)=>d==='PRODUCTION'||d==='ACCESSORY'?true:d==='SALES_AR'||d==='OPENING_AR'?r.ar:d==='PAYROLL_AP'?r.ap&&r.payroll===true:d==='ACCESSORY_AP'?r.ap&&r.accessoryPayables===true:['LAUNDRY_AP','LAUNDRY_RECEIPT','LAUNDRY_OPENING_UNINVOICED'].includes(d)?r.ap&&r.laundry===true:r.ap
+const signedDecimal=(v:unknown):v is string=>typeof v==='string'&&/^-?(0|[1-9][0-9]{0,23})(\.[0-9]{1,12})?$/.test(v)
+const sign=(v:string)=>compare(v.replace(/^-/,'') ,'0')===0?0:v.startsWith('-')?-1:1
+const sameMoney=(a:unknown,b:unknown)=>signedDecimal(a)&&signedDecimal(b)&&sign(a)===sign(b)&&compare(a.replace(/^-/,''),b.replace(/^-/,''))===0
+function copiedNativeFinancial(domain:RuleDomain,document:Record<string,unknown>,m:Record<string,unknown>,due:unknown){
+ const record=(x:unknown)=>x!==null&&typeof x==='object'&&!Array.isArray(x)?x as Record<string,unknown>:{}
+ let native:unknown=null,recorded:unknown=null
+ if(domain==='SALES_AR'){native=record(document.financial).open_balance;recorded=document.due_date}
+ else if(domain==='MATERIAL_AP'){native=record(document.balance).remaining;recorded=document.due_date}
+ else if(domain==='PAYROLL_AP')native=record(document.native_installment).remaining_amount
+ else if(domain==='OPENING_AR'||domain==='OPENING_AP'){
+  if(Object.hasOwn(document,'remaining_amount')){native=document.remaining_amount;recorded=document.due_date}
+  else{native=record(document.native_vendor_document).remaining
+   const h=record(document.header)
+   if(native===undefined&&h.status==='SETTLED'&&sameMoney(h.original_amount,h.settled_amount))native='0'
+  }
+ }else if(domain==='ACCESSORY_AP'&&m.state==='KNOWN'){
+  const links=document.payroll_allocations,e=record(document.event)
+  if(e.document_status!=='POSTED'||!Array.isArray(links)||links.some(x=>record(record(x).native_payroll).status!=='PAID')||sign(m.value as string)===0&&!links.length)fail()
+  native=document.native_allocatable_remaining
+ }else if(domain==='LAUNDRY_AP'){native=record(document.native_document).remaining;recorded=record(document.header).due_date}
+ else if(['LAUNDRY_RECEIPT','LAUNDRY_OPENING_UNINVOICED'].includes(domain)&&m.state==='KNOWN'){
+  const links=document.native_invoices
+  if(document.invoiced!==true||!Array.isArray(links)||!links.length||links.some(x=>record(x).native_status!=='PAID'))fail()
+  native='0'
+ }
+ const pendingMaterial=domain==='MATERIAL_AP'&&record(document.condition).state==='INVOICE_PENDING'
+ if(due!==(recorded??null)||m.state==='KNOWN'&&!sameMoney(m.value,native)||m.state==='UNKNOWN'&&signedDecimal(native)&&!pendingMaterial&&!['ACCESSORY_AP','LAUNDRY_RECEIPT','LAUNDRY_OPENING_UNINVOICED'].includes(domain))fail()
+}
+function nativeDocument(v:unknown):Record<string,unknown>{let nodes=0;const walk=(x:unknown,depth:number)=>{if(++nodes>250000||depth>30||typeof x==='number'||typeof x==='undefined')fail();if(x!==null&&typeof x==='object'){for(const y of Object.values(x))walk(y,depth+1)}else if(x!==null&&!['string','boolean'].includes(typeof x))fail()};if(!v||typeof v!=='object'||Array.isArray(v)||JSON.stringify(v).length>8000000)fail();walk(v,0);return v as Record<string,unknown>}
+function financial(v:unknown,domain:RuleDomain,id:string,dayRefs:unknown):NativeObligationFinancial{
+ const f=closed(v,['remaining','recorded_due_date','document','document_sha256','revision_basis']),m=closed(f.remaining,['state','unit','refs',...((f.remaining as {state?:string})?.state==='KNOWN'?['value']:['reason'])])
+ if(!['KNOWN','UNKNOWN'].includes(String(m.state))||m.unit!=='IDR'||m.state==='KNOWN'&&!signedDecimal(m.value)||m.state==='UNKNOWN'&&(typeof m.reason!=='string'||!m.reason)||canonical(m.refs)!==canonical(dayRefs)||f.recorded_due_date!==null&&!financeDate(f.recorded_due_date)||!hash(f.document_sha256)||f.revision_basis!==(['SALES_AR','MATERIAL_AP'].includes(domain)?'NATIVE_ROW_VERSION':'NATIVE_DOCUMENT_CONTENT_SHA256'))fail()
+ if(!Array.isArray(m.refs)||m.refs.length!==1)fail();const ref=closed((m.refs as unknown[])[0],['kind','id','revision']);if(ref.id!==id||f.revision_basis==='NATIVE_DOCUMENT_CONTENT_SHA256'&&ref.revision!==f.document_sha256)fail();copiedNativeFinancial(domain,nativeDocument(f.document),m,f.recorded_due_date)
+ return structuredClone(f) as NativeObligationFinancial
+}
 function condition(v:unknown,analysis:NativeAnalysis,policies:ReminderPolicyRow[],rights:RuleRights,historical=false):RuleCondition{
- const r=closed(v,['key','rule_id','target_key','source_id','material_key','source_hash','state','reason','value','production_state','business_resolved','scope','label','policy_binding','policy_timing','eligibility','delivery_sent','eligibility_meaning'])
+ const r=closed(v,['key','rule_id','target_key','source_id','material_key','source_hash','state','reason','value','production_state','business_resolved','scope','label','policy_binding','policy_timing','eligibility','delivery_sent','eligibility_meaning','domain','economic_state','financial_source'])
  if(!rules(rights).includes(r.rule_id as ReminderRule)||typeof r.key!=='string'||!r.key||!uuid(r.source_id)||!hash(r.source_hash)||!Object.hasOwn(ruleConditionLabels,String(r.state))||typeof r.reason!=='string'||!r.reason||typeof r.scope!=='string'||!r.scope||typeof r.label!=='string'||!r.label.trim()||r.delivery_sent!==false||r.eligibility_meaning!=='LOCAL_PREVIEW_ONLY_NOT_BUSINESS_RESOLUTION'||!Object.hasOwn(ruleEligibilityLabels,String(r.eligibility))||typeof r.business_resolved!=='boolean')fail()
- const rule=r.rule_id as ReminderRule,target=r.target_key as string|null
+ const rule=r.rule_id as ReminderRule,target=r.target_key as string|null,domain=r.domain as RuleDomain
+ if(!ruleDomains.includes(domain)||!domainAllowed(domain,rights)||!['NOT_APPLICABLE','OPEN','SETTLED','UNKNOWN','INACTIVE'].includes(String(r.economic_state))||rule!==(domain==='PRODUCTION'?'PRODUCTION_GAP':domain==='ACCESSORY'?'ACCESSORY_NEED':['SALES_AR','OPENING_AR'].includes(domain)?'AR_DUE':'AP_DUE'))fail()
  if(['PRODUCTION_GAP','ACCESSORY_NEED'].includes(rule)?typeof target!=='string'||!analysis.labels.some(l=>l.key===target)||target.split(':')[0]!==r.source_id:target!==null)fail()
  if(rule==='PRODUCTION_GAP'?(r.key!=='PRODUCTION_GAP:'+target||r.material_key!==null||!['ACTIVE','PAUSED','STOPPED'].includes(String(r.production_state))):r.production_state!==null)fail()
  if(rule==='ACCESSORY_NEED'?(r.material_key!==null&&typeof r.material_key!=='string'||r.key!=='ACCESSORY_NEED:'+target+':'+(r.material_key??'UNKNOWN_BOM')):r.material_key!==null)fail()
- if(rule==='AR_DUE'&&r.key!=='AR_DUE:'+r.source_id||rule==='AP_DUE'&&r.key!=='AP_DUE:MATERIAL:'+r.source_id)fail()
+ if(['AR_DUE','AP_DUE'].includes(rule)&&r.key!==(domain==='SALES_AR'?'AR_DUE:'+r.source_id:domain==='MATERIAL_AP'?'AP_DUE:MATERIAL:'+r.source_id:rule+':'+domain+':'+r.source_id))fail()
+ if(r.scope!==(domain==='PRODUCTION'?'CURRENT_EXACT_SIZE_ANALYSIS':domain==='ACCESSORY'?'CURRENT_NATIVE_ACCESSORY_BOM_INSTALLATION_AND_ALLOCATION':domain==='SALES_AR'?'NATIVE_SALES_RECEIVABLE_ONLY':domain==='MATERIAL_AP'?'NATIVE_MATERIAL_PAYABLE_ONLY':'CURRENT_ACCEPTED_NATIVE_'+domain))fail()
  const value=r.value as FactValue
  if(rule==='PRODUCTION_GAP'){const original=analysis.analysis.recommendations.find(x=>x.target.key===target)!;if(canonical(value)!==canonical(original.q_conditional)||r.production_state!==original.production_state)fail()}
  else if(rule==='ACCESSORY_NEED'){const original=analysis.analysis.material_needs.find(x=>x.target_key===target&&x.material_key===r.material_key);if(!original||canonical(value)!==canonical(original.additional_external))fail()}
- else{const f=closed(value,['state','unit','refs',...((value as {state?:string})?.state==='KNOWN'?['value']:['reason'])]);if(!['KNOWN','UNKNOWN'].includes(String(f.state))||f.unit!=='DAY'||!Array.isArray(f.refs)||f.refs.length!==1||f.state==='UNKNOWN'&&(typeof f.reason!=='string'||!f.reason))fail();const ref=closed((f.refs as unknown[])[0],['kind','id','revision']);if(ref.kind!==(rule==='AR_DUE'?'ACCEPTED_P11_NATIVE_SALE':'ACCEPTED_BF_NATIVE_MATERIAL_PAYABLE')||ref.id!==r.source_id||!uint(ref.revision)||ref.revision==='0'||f.state==='KNOWN'&&(!uint(f.value)||BigInt(f.value)>3652059n))fail()}
+ else{const f=closed(value,['state','unit','refs',...((value as {state?:string})?.state==='KNOWN'?['value']:['reason'])]);if(!['KNOWN','UNKNOWN'].includes(String(f.state))||f.unit!=='DAY'||!Array.isArray(f.refs)||f.refs.length!==1||f.state==='UNKNOWN'&&(typeof f.reason!=='string'||!f.reason))fail();const ref=closed((f.refs as unknown[])[0],['kind','id','revision']);if(ref.id!==r.source_id||(['SALES_AR','MATERIAL_AP'].includes(domain)?ref.kind!==(domain==='SALES_AR'?'ACCEPTED_P11_NATIVE_SALE':'ACCEPTED_BF_NATIVE_MATERIAL_PAYABLE')||!uint(ref.revision)||ref.revision==='0':!financialKinds[domain]?.includes(String(ref.kind))||!hash(ref.revision))||f.state==='KNOWN'&&(!uint(f.value)||BigInt(f.value)>3652059n))fail()}
+ if(['PRODUCTION_GAP','ACCESSORY_NEED'].includes(rule)){if(r.financial_source!==null||r.economic_state!=='NOT_APPLICABLE')fail()}
+ else{const f=financial(r.financial_source,domain,r.source_id as string,value.refs),m=f.remaining,n='value'in m?sign(m.value):null
+  if(r.business_resolved?(m.state!=='KNOWN'||n!==0||r.economic_state!=='SETTLED'):r.economic_state==='SETTLED')fail()
+  if(r.economic_state==='OPEN'&&(m.state!=='KNOWN'||n!==1)||r.state==='ACTIVE'&&(r.economic_state!=='OPEN'||value.state!=='KNOWN'||f.recorded_due_date===null)||r.economic_state==='INACTIVE'&&r.state!=='NO_CURRENT_GAP'||value.state==='KNOWN'&&f.recorded_due_date===null)fail()
+ }
  const known=value.state==='KNOWN'||value.state==='ASSUMED',num=known&&'value'in value?value.value:null
  if(['PRODUCTION_GAP','ACCESSORY_NEED'].includes(rule)){
   const state=!known?'DATA_REVIEW':compare(num!,'0')>0?'ACTIVE':value.state==='ASSUMED'?'NO_CURRENT_GAP':'RESOLVED'
@@ -55,10 +102,10 @@ function condition(v:unknown,analysis:NativeAnalysis,policies:ReminderPolicyRow[
 }
 export function parseRuleSource(v:unknown,q:NativeDemandQuery,actor:string,finance:AnalysisFinanceAccess,rights:RuleRights):RuleSource{
  const e=closed(v,['contract_version','actor_scope_id','analysis','policy_rows','rows','page_complete','total','coverage','source_hash','read_at','external_delivery_enabled','full_family_acceptance','meaning'])
- if(e.contract_version!=='cp7.native-rule-conditions.v1'||e.actor_scope_id!==actor||e.page_complete!==true||e.external_delivery_enabled!==false||e.full_family_acceptance!==false||e.meaning!=='CURRENT_SOURCE_CONDITION_SEPARATE_FROM_ATTENTION_DELIVERY_AND_ORIGINAL'||!hash(e.source_hash)||!stamp(e.read_at)||!uint(e.total)||BigInt(e.total)>15000n||!Array.isArray(e.rows)||e.rows.length!==Number(e.total)||!Array.isArray(e.policy_rows)||e.policy_rows.length>4000)fail()
+ if(e.contract_version!=='cp7.native-rule-conditions.v2'||e.actor_scope_id!==actor||e.page_complete!==true||e.external_delivery_enabled!==false||e.full_family_acceptance!==false||e.meaning!=='CURRENT_SOURCE_CONDITION_SEPARATE_FROM_ATTENTION_DELIVERY_AND_ORIGINAL'||!hash(e.source_hash)||!stamp(e.read_at)||!uint(e.total)||BigInt(e.total)>15000n||!Array.isArray(e.rows)||e.rows.length!==Number(e.total)||!Array.isArray(e.policy_rows)||e.policy_rows.length>4000)fail()
  const analysis=parseNativeAnalysis(e.analysis,q,actor,finance),targets=new Set(analysis.labels.map(l=>l.key)),policies=(e.policy_rows as unknown[]).map(r=>parseReminderPolicyRow(r,rules(rights),targets));if(new Set(policies.map(r=>JSON.stringify([r.rule_id,r.scope_kind,r.scope_key]))).size!==policies.length)fail()
  const coverage=closed(e.coverage,['production','accessory','sales_ar','material_ap','opening_ar','opening_ap','payroll_ap','accessory_ap','laundry_ap'])
- if(coverage.production!=='COMPLETE_AUTHORIZED_ORIGINAL'||coverage.accessory!=='COMPLETE_AUTHORIZED_ORIGINAL_UNKNOWN_INSTALLATION_RETAINED'||coverage.sales_ar!==(rights.ar?'COMPLETE_NATIVE_DOCUMENT_SCOPE':'EXCLUDED_BY_CURRENT_RIGHTS')||coverage.material_ap!==(rights.ap?'COMPLETE_NATIVE_DOCUMENT_SCOPE':'EXCLUDED_BY_CURRENT_RIGHTS')||['opening_ar','opening_ap','payroll_ap','accessory_ap','laundry_ap'].some(k=>coverage[k]!=='NOT_COMPOSED'))fail()
+ if(coverage.production!=='COMPLETE_AUTHORIZED_ORIGINAL'||coverage.accessory!=='COMPLETE_AUTHORIZED_ORIGINAL_UNKNOWN_INSTALLATION_RETAINED'||coverage.sales_ar!==(rights.ar?'COMPLETE_NATIVE_DOCUMENT_SCOPE':'EXCLUDED_BY_CURRENT_RIGHTS')||coverage.material_ap!==(rights.ap?'COMPLETE_NATIVE_DOCUMENT_SCOPE':'EXCLUDED_BY_CURRENT_RIGHTS')||coverage.opening_ar!==(rights.ar?'COMPLETE_NATIVE_DOCUMENT_SCOPE_CONTRACTOR_CASH_ADVANCE_EXCLUDED':'EXCLUDED_BY_CURRENT_RIGHTS')||coverage.opening_ap!==(rights.ap?'COMPLETE_NATIVE_DOCUMENT_SCOPE_CONTRACTOR_CASH_ADVANCE_EXCLUDED':'EXCLUDED_BY_CURRENT_RIGHTS')||coverage.payroll_ap!==(rights.ap&&rights.payroll===true?'COMPLETE_NATIVE_DOCUMENT_SCOPE':'EXCLUDED_BY_CURRENT_RIGHTS')||coverage.accessory_ap!==(rights.ap&&rights.accessoryPayables===true?'COMPLETE_NATIVE_RETURN_CARRY_SCOPE_UNKNOWN_UNALLOCATED_BALANCE_RETAINED':'EXCLUDED_BY_CURRENT_RIGHTS')||coverage.laundry_ap!==(rights.ap&&rights.laundry===true?'COMPLETE_NATIVE_INVOICE_RECEIPT_AND_OPENING_UNINVOICED_SCOPE_UNKNOWN_PENDING_RETAINED':'EXCLUDED_BY_CURRENT_RIGHTS'))fail()
  const rows=(e.rows as unknown[]).map(r=>condition(r,analysis,policies,rights));if(new Set(rows.map(r=>r.key)).size!==rows.length||rows.filter(r=>r.rule_id==='PRODUCTION_GAP').length!==analysis.analysis.recommendations.length||rows.filter(r=>r.rule_id==='ACCESSORY_NEED').length!==analysis.analysis.material_needs.length)fail()
  return{analysis,policyRows:policies,rows,hash:e.source_hash as string,readAt:e.read_at as string,coverage:coverage as Record<string,string>}
 }
@@ -75,7 +122,7 @@ export function parseRuleObservations(v:unknown,r:RuleRequest,actor:string,finan
  });if(res.status==='COMMITTED'&&e.result_freshness==='CURRENT_SOURCE'&&rows.length!==source.rows.length)fail()
  return{source,status:res.status as RuleObservationResult['status'],rows,freshness:e.result_freshness as RuleObservationResult['freshness']}
 }
-export const localPreviewBody=(r:RuleCondition)=>['PRATINJAU LOKAL — BELUM DIKIRIM',reminderRuleLabels[r.rule_id],r.label,('value'in r.value?r.value.value:'Belum diketahui')+' '+r.value.unit,r.value.state==='ASSUMED'?'Berdasarkan skenario yang dipilih.':'Berdasarkan sumber ERP yang diperiksa.','Ini pratinjau lokal. Masalah tetap diperiksa dari transaksi ERP.'].join('\n')
+export const localPreviewBody=(r:RuleCondition)=>['PRATINJAU LOKAL — BELUM DIKIRIM',reminderRuleLabels[r.rule_id],r.label,('value'in r.value?r.value.value:'Belum diketahui')+' '+r.value.unit,...(r.financial_source?['Sisa tagihan: '+('value'in r.financial_source.remaining?r.financial_source.remaining.value:'Belum diketahui')+' IDR','Jatuh tempo tercatat: '+(r.financial_source.recorded_due_date??'Belum diketahui')]:[]),r.value.state==='ASSUMED'?'Berdasarkan skenario yang dipilih.':'Berdasarkan sumber ERP yang diperiksa.','Ini pratinjau lokal. Masalah tetap diperiksa dari transaksi ERP.'].join('\n')
 export async function parseLocalWorkspace(v:unknown,q:NativeDemandQuery,actor:string,finance:AnalysisFinanceAccess,rights:RuleRights):Promise<LocalWorkspace>{
  const e=closed(v,['contract_version','actor_scope_id','source','binding','claims','page_complete','total','external_delivery_enabled','scheduler_enabled','sent'])
  if(e.contract_version!=='cp7.native-local-workspace.v1'||e.actor_scope_id!==actor||e.external_delivery_enabled!==false||e.scheduler_enabled!==false||e.sent!==false||e.page_complete!==true||!uint(e.total)||BigInt(e.total)>4000n||!Array.isArray(e.claims)||e.claims.length!==Number(e.total))fail()

@@ -14,6 +14,8 @@ name: CP7 F05 Native Durable Attention
     - scripts/cp7_obligation_history_cases.py
     - scripts/cp7_rule_policy_cases.py
     - scripts/cp7_rule_source_*
+    - scripts/cp7_other_obligation_*
+    - scripts/cp7_f05_other_browser*
     - scripts/cp7_f05_rule_browser*
     - src/NativeRuleSourcePanel*
     - src/nativeRuleSource*

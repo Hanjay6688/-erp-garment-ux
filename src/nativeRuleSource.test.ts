@@ -1,12 +1,31 @@
 // @vitest-environment jsdom
 import {afterEach,it,expect,vi} from 'vitest'
 import {reportCrypto,reportBodyDigest} from '../tests/fixtures/reportCrypto.mjs'
-import {ruleSourceFixture,localWorkspaceFixture,ruleFixtureActor,ruleFixtureId,ruleFixtureClock} from '../tests/fixtures/nativeRuleSource'
+import {ruleSourceFixture,payrollRuleSourceFixture,localWorkspaceFixture,ruleFixtureActor,ruleFixtureId,ruleFixtureClock} from '../tests/fixtures/nativeRuleSource'
 import {parseRuleSource,parseRuleObservations,parseLocalWorkspace,localPreviewBody,persistRuleRequest,readRuleRequest,clearRuleRequest,ruleRequestKey,type RuleRequest} from './nativeRuleSource'
 import original from '../tests/fixtures/nativeAnalysisStandin.json'
 import type {NativeDemandQuery} from './nativeDemandHistory'
 const q=original.query as NativeDemandQuery,finance={ownerReports:false,preflight:false},rights={ar:true,ap:true}
 afterEach(()=>{localStorage.clear();vi.unstubAllGlobals()})
+it('preserves exact Native decimal text and an open debt whose due date is unknown',()=>{
+ const wire=payrollRuleSourceFixture(),r=parseRuleSource(wire,q,ruleFixtureActor,finance,{...rights,payroll:true}).rows.at(-1)!
+ expect(r.financial_source?.remaining).toMatchObject({state:'KNOWN',value:'9007199254740993.01',unit:'IDR'})
+ expect(r.economic_state).toBe('OPEN');expect(r.value.state).toBe('UNKNOWN');expect(r.business_resolved).toBe(false)
+ const invalid=structuredClone(wire);invalid.rows.at(-1)!.business_resolved=true
+ expect(()=>parseRuleSource(invalid,q,ruleFixtureActor,finance,{...rights,payroll:true})).toThrow()
+ expect(()=>parseRuleSource(wire,q,ruleFixtureActor,finance,rights)).toThrow()
+})
+it('refuses lossy numeric money, fabricated Native revision and allocation described as settlement',()=>{
+ for(const change of [
+  (r:Record<string,unknown>)=>{const f=r.financial_source as Record<string,unknown>;f.document={remaining_amount:9007199254740993}},
+  (r:Record<string,unknown>)=>{const f=r.financial_source as Record<string,unknown>;f.revision_basis='NATIVE_ROW_VERSION'},
+  (r:Record<string,unknown>)=>{r.economic_state='SETTLED'},
+  (r:Record<string,unknown>)=>{r.state='ACTIVE';r.eligibility='LOCAL_PREVIEW_ELIGIBLE'},
+  (r:Record<string,unknown>)=>{const f=r.financial_source as Record<string,unknown>;f.remaining={...(f.remaining as object),value:'400.00'}},
+  (r:Record<string,unknown>)=>{const f=r.financial_source as Record<string,unknown>;f.recorded_due_date='2026-09-26'},
+  (r:Record<string,unknown>)=>{const f=r.financial_source as Record<string,unknown>;const m=f.remaining as Record<string,unknown>;f.remaining={state:'UNKNOWN',unit:'IDR',reason:'NOT_AVAILABLE',refs:m.refs};r.economic_state='UNKNOWN'},
+ ]){const wire=payrollRuleSourceFixture();change(wire.rows.at(-1)! as unknown as Record<string,unknown>);expect(()=>parseRuleSource(wire,q,ruleFixtureActor,finance,{...rights,payroll:true})).toThrow()}
+})
 it('preserves assumed zero as scenario-only and unknown accessory supply as unresolved',()=>{const s=parseRuleSource(ruleSourceFixture(),q,ruleFixtureActor,finance,rights);expect(s.rows[0].state).toBe('NO_CURRENT_GAP');expect(s.rows[0].business_resolved).toBe(false);expect(s.rows[1].state).toBe('DATA_REVIEW');expect(s.rows[1].value.state).toBe('UNKNOWN');expect(s.rows[1].business_resolved).toBe(false);expect(s.analysis.analysis).toEqual(original.analysis);const altered=ruleSourceFixture();altered.rows[0].business_resolved=true;expect(()=>parseRuleSource(altered,q,ruleFixtureActor,finance,rights)).toThrow()})
 it('refuses hidden domains, forged Original values, duplicate conditions, partial coverage and changed threshold units',()=>{const base=ruleSourceFixture();const changes:[string,(v:typeof base)=>void][]=[['actor',v=>{v.actor_scope_id=ruleFixtureId(989)}],['duplicate',v=>{v.rows.push(v.rows[0]);v.total='4'}],['partial',v=>{v.page_complete=false}],['coverage',v=>{v.coverage.opening_ar='COMPLETE_NATIVE_DOCUMENT_SCOPE'}],['unit',v=>{v.rows[2].policy_binding.policy!.config.threshold_unit='PCS'}]];for(const[label,alter]of changes){const v=structuredClone(base);alter(v);expect(()=>parseRuleSource(v,q,ruleFixtureActor,finance,rights),label).toThrow()}expect(()=>parseRuleSource(base,q,ruleFixtureActor,finance,{ar:false,ap:true}),'current AR rights').toThrow()})
 it('recovers a historical exact episode receipt with its old policy version without making it current',()=>{const source=ruleSourceFixture(),r:RuleRequest={id:ruleFixtureId(74),query:q,operation:'EPISODES',payload:{run_id:original.run_id,source_hash:source.source_hash}},old=structuredClone(source.rows[2]),row=source.policy_rows[0];row.policy_id=ruleFixtureId(75);row.revision='2';row.previous_id=old.policy_binding.policy!.policy_id;row.config.enabled=false;source.source_hash='5'.repeat(64);source.rows[2].policy_binding.policy=row;source.rows[2].policy_timing.status='DISABLED';source.rows[2].policy_timing.ready=false;source.rows[2].eligibility='DISABLED';const wire={contract_version:'cp7.native-rule-observations.v1',actor_scope_id:ruleFixtureActor,source,result:{request_id:r.id,status:'COMMITTED',source_hash:r.payload.source_hash,rows:[{condition:old,episode:{id:ruleFixtureId(76),number:'1',previous_id:null,state:'ACTIVE',freshness:'KNOWN',first_observed_at:ruleFixtureClock,last_observed_at:ruleFixtureClock,resolved_at:null},transition:'OPENED'}]},result_freshness:'HISTORICAL_SOURCE_CHANGED',external_delivery_enabled:false,business_DML:false};const e=parseRuleObservations(wire,r,ruleFixtureActor,finance,rights);expect(e.freshness).toBe('HISTORICAL_SOURCE_CHANGED');expect(e.rows[0].episode?.state).toBe('ACTIVE');expect(e.source.rows[2].eligibility).toBe('DISABLED')})

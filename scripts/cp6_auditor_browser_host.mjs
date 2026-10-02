@@ -119,6 +119,12 @@ async function start() {
     { env: safeEnv, stdio: 'ignore' })
   await expect.poll(async () => { try { return (await fetch(origin)).status } catch { return 0 } }, { timeout: 30000 }).toBe(200)
   browser = await chromium.launch()
+  // Verify the built entry point and runtime guard before creating Auth users.
+  // A startup rejection is a START failure, not a timed-out business scenario.
+  const initial=await context()
+  try{await initial.page.goto(origin);await expect(initial.page.getByLabel('Email akun ERP')).toBeVisible();report.disposable_entry_bootstrap=true}
+  catch(e){report.disposable_entry_text=safe(await initial.page.locator('body').innerText().catch(()=>'' )).slice(0,1000);throw e}
+  finally{await initial.ctx.close()}
 }
 async function context({ mobile = false, timezoneId = 'Asia/Jakarta' } = {}) {
   const ctx = await browser.newContext({ viewport: mobile ? { width: 390, height: 844 } : { width: 1440, height: 1000 }, timezoneId,

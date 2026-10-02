@@ -56,7 +56,10 @@ begin
    select *into episode from cp7_reminder_native.rule_episodes q where q.condition_key=r->>'key'and q.state='ACTIVE'for update;
    transition:='OBSERVED_NO_ACTIVE_EPISODE';freshness:=case when r->>'state'in('DATA_REVIEW','SOURCE_CHANGED')then'UNKNOWN'
     when r->'value'->>'state'='ASSUMED'then'ASSUMED'else'KNOWN'end;
-   if r->>'state'='ACTIVE'and episode.id is null then
+   if(r->>'state'='ACTIVE'or r->>'economic_state'='OPEN'or(r->>'state'='DATA_REVIEW'and r->>'domain'in(
+    'OPENING_AR','OPENING_AP','PAYROLL_AP','ACCESSORY_AP','LAUNDRY_AP','LAUNDRY_RECEIPT','LAUNDRY_OPENING_UNINVOICED')))and episode.id is null then
+    -- A real Native document with unresolved evidence gets an UNKNOWN review
+    -- episode, not an invented overdue amount or a delivery permission.
     select *into previous from cp7_reminder_native.rule_episodes q where q.condition_key=r->>'key'order by q.episode_number desc limit 1;
     insert into cp7_reminder_native.rule_episodes(condition_key,rule_id,episode_number,previous_id,state,freshness,condition_state,first_observed_at,last_observed_at)
      values(r->>'key',r->>'rule_id',coalesce(previous.episode_number,0)+1,previous.id,'ACTIVE',freshness,r->>'state',at,at)returning *into episode;
@@ -86,8 +89,7 @@ begin
  -- Cached observation is visible only when its domain still appears in the
  -- caller's current authorized source. Source-changed results remain history,
  -- never current business resolution or a delivery permission.
- if exists(select 1 from jsonb_array_elements(result->'rows')x where x->'condition'->>'rule_id'='AR_DUE'and not erp.has_permission('finance.ar.view')
-  or x->'condition'->>'rule_id'='AP_DUE'and not erp.has_permission('finance.ap.view'))then raise exception using errcode='42501',message='CP7_RULE_EPISODE_DOMAIN_DENIED';end if;
+ if exists(select 1 from jsonb_array_elements(result->'rows')x where not cp7_reminder_native.condition_domain_access(cp7_reminder_native.condition_domain(x->'condition'->>'key')))then raise exception using errcode='42501',message='CP7_RULE_EPISODE_DOMAIN_DENIED';end if;
  return jsonb_build_object('contract_version','cp7.native-rule-observations.v1','actor_scope_id',actor,'source',source,'result',result,
   'result_freshness',case when result->>'source_hash'=source->>'source_hash'then'CURRENT_SOURCE'else'HISTORICAL_SOURCE_CHANGED'end,
   'external_delivery_enabled',false,'business_DML',false);

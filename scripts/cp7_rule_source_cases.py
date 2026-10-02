@@ -81,7 +81,12 @@ def cases(cur,today):
   for r in s['rows']:
    if r['rule_id']=='PRODUCTION_GAP':assert r['value']==next(a['q_conditional']for a in e['analysis']['recommendations']if a['target']['key']==r['target_key'])
    if r['rule_id']=='ACCESSORY_NEED':assert r['value']==next(a['additional_external']for a in e['analysis']['material_needs']if a['target_key']==r['target_key']and a['material_key']==r['material_key'])
-  assert all(s['coverage'][k]=='NOT_COMPOSED'for k in('opening_ar','opening_ap','payroll_ap','accessory_ap','laundry_ap'))and not s['full_family_acceptance']and b.boundary.snapshot(cur)==before
+  assert s['contract_version']=='cp7.native-rule-conditions.v2'
+  assert s['coverage']['opening_ar']==s['coverage']['opening_ap']=='COMPLETE_NATIVE_DOCUMENT_SCOPE_CONTRACTOR_CASH_ADVANCE_EXCLUDED'
+  assert s['coverage']['payroll_ap']=='COMPLETE_NATIVE_DOCUMENT_SCOPE'
+  assert s['coverage']['accessory_ap']=='COMPLETE_NATIVE_RETURN_CARRY_SCOPE_UNKNOWN_UNALLOCATED_BALANCE_RETAINED'
+  assert s['coverage']['laundry_ap']=='COMPLETE_NATIVE_INVOICE_RECEIPT_AND_OPENING_UNINVOICED_SCOPE_UNKNOWN_PENDING_RETAINED'
+  assert not s['full_family_acceptance']and b.boundary.snapshot(cur)==before
   return dict(status='PASS',actual_current_Native_AR_recorded_due_and_exact_original_production_material_facts=True,stable_semantic_source_hash_no_clock_noise_no_hidden_complete_claim=True)
  def missing_zero():
   f,e,key=due_fixture(cur,today,False);s=source(cur,e);r=row(s,key);assert r['state']=='DATA_REVIEW'and r['value']['state']=='UNKNOWN'and not r['business_resolved']
