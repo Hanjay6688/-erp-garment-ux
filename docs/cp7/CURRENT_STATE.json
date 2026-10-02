@@ -3543,5 +3543,31 @@
     "wrong_material_identity_reassignment_complete": false
   },
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
-  "version": "cp7.integration-entry.v1"
+  "version": "cp7.integration-entry.v1",
+  "prospective_cutting_inputs_latest": {
+    "scope": "STANDALONE_DISPOSABLE_CANDIDATE",
+    "status": "BROWSER_PERMISSION_REPAIRED_NATIVE34_PENDING",
+    "first_run": 37013859341,
+    "first_source": "8fb0525bb796aa12a4f1ca640abd66976df68e5b",
+    "counts": {
+      "native": {
+        "PASS": 21
+      },
+      "races": {
+        "PASS": 4
+      },
+      "http": {
+        "PASS": 3
+      },
+      "browser": {
+        "PASS": 4,
+        "INCOMPLETE": 2
+      }
+    },
+    "first_receipt": "docs/cp7/evidence/f04-native-history/cutting-input-incomplete34-8fb0525/RECEIPT.json",
+    "native_permission": "production.cutting.edit_draft",
+    "local_controls": 10,
+    "full_family_acceptance": false,
+    "production_go": false
+  }
 }

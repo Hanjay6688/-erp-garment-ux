@@ -32,7 +32,7 @@ declare a jsonb;
 begin
  if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
  a:=cp7_cutting_yield.access_now();
- if writing and erp.has_permission('production.cutting.edit')is distinct from true then
+ if writing and erp.has_permission('production.cutting.edit_draft')is distinct from true then
   raise exception using errcode='42501',message='CP7_CUTTING_INPUT_WRITE_DENIED';end if;
  return a;
 end $$;
@@ -144,7 +144,7 @@ begin
   'group',s->'group','anchor',current_anchor,'record',case when r.id is null then null else cp7_cutting_inputs.record_view(r)end,
   'record_matches_native_identity',r.id is not null and coalesce(r.native_anchor=current_anchor,false),
   'preknown_before_physical',r.id is not null and coalesce(r.known_at<(s->'group'->>'physical_at')::timestamptz,false),
-  'can_record',current_anchor is not null and erp.has_permission('production.cutting.edit')is true,
+  'can_record',current_anchor is not null and erp.has_permission('production.cutting.edit_draft')is true,
   'model_qualified',false,'automatic_activation',false,'business_write',false,'production_go',false);
 end $$;
 

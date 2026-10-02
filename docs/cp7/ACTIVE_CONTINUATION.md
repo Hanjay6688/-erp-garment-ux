@@ -1,5 +1,9 @@
 # Active writer continuation · 1Oct2026
 
+## Current continuation · Native34 browser admission repaired, qualification pending
+
+Source8fb0525/run37013859341 completed32/34: all21DB/4races/3HTTP and four retained browsers PASS. The two new input journeys stopped at a disabled form caused by a nonexistent frontend permission key. Actual Original retained in evidence/f04-native-history/cutting-input-incomplete34-8fb0525/. Both SQL and frontend now require the existing production.cutting.edit_draft capability; no Native permission grant changed. Six receiver/DOM plus four SQL local controls PASS; these add zero Native case credit. A fresh complete34 is required. Both8fb Shell runs37013857135/37013859734 PASS. Claude ownership and all qualified F03/F05 source boundaries remain unchanged.
+
 ## Latest controlling checkpoint · 2Oct2026 · repaired Native284 Original retained; prospective input candidate
 
 Repaired complete284 atbf99cec/run37004744295 is qualified179/40/29/36, zero console errors and all gates/Auth0→0. Exact343931054-byte archive digest, every member digest and unmodified root Originals are now retained in evidence/f05-native284/qualified284-bf99cec/ using completed-artifact-only projection266f2b5/run37009475352. The projection has zero database access or product-case credit. Earlier failed Originals remain unchanged.

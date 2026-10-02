@@ -26,7 +26,7 @@ beforeAll(async () => {
       declare r public.control_cutting_access%rowtype;
       begin select *into r from public.control_cutting_access;if not r.allowed then raise exception 'CONTROL_CURRENT_ACCESS_DENIED';end if;
        return jsonb_build_object('actor',r.actor,'allowed',r.allowed);end$$;
-    create function erp.has_permission(p text)returns boolean language sql as $$select write_allowed from public.control_cutting_access$$;
+    create function erp.has_permission(p text)returns boolean language sql as $$select write_allowed and p='production.cutting.edit_draft' from public.control_cutting_access$$;
     create table erp.cutting_groups(id uuid,po_id uuid,row_version bigint,cut_at timestamptz,material_issue_posted boolean,pattern_id uuid,pattern_revision_snapshot text);
     create table erp.sizes(id uuid,size_code text);
     insert into erp.sizes values('${size}','SIZE-REAL');
