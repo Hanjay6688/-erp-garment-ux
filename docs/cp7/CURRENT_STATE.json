@@ -1218,9 +1218,9 @@
   },
   "last_writer_checkpoint": "2026-10-02: F03 all eight buckets PASS at656e4fd; F05 Native269 INCOMPLETE235/269 retained, fixed-count source repair requires fresh Native qualification. Appendix284 remains separate local work.",
   "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
-  "latest_tested_scope": "F03 all-eight writer regression PASS; F05 Native269 incomplete, not full F04/F05 acceptance",
+  "latest_tested_scope": "F03 all-eight writer exit preserved; repaired Native284 all284 PASS, main152 and actual E01 bridge7 PASS with exact Original/restoration/primary/backup/advisor/Auth gates. Counts overlap; full F04/F05 acceptance remains open.",
   "latest_tested_source": "656e4fd5944b6061a87fd0a388d2b928563ac398",
-  "next_action": "Qualify Native284 with protected metadata read deduplication; finish remaining F04 Native analyzer/material scope and P18-P21. F03 writer exit stays qualified.",
+  "next_action": "Finish remaining F04 Native analyzer/material source contracts, then full P18-P21; complete Native284 performance repair is qualified and does not require another unchanged rerun. F03 writer exit stays qualified.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -2045,7 +2045,7 @@
     "production_go": false
   },
   "f05_obligation_report_candidate": {
-    "status": "NATIVE_WRITER_INCOMPLETE",
+    "status": "NATIVE_WRITER_QUALIFIED_COMPLETE284_NOT_FULL_FAMILY",
     "case_counts": {
       "native": 179,
       "races": 40,
@@ -2059,9 +2059,9 @@
     "full_family_acceptance": false,
     "independent_acceptance": false,
     "production_go": false,
-    "source_commit": "6d2dbc482f999f86a9588951203279f6ee4c76a4",
-    "run_id": 36966030891,
-    "source_tree": "9599a973494be68768b6b50b6575a30b08e4dcb7",
+    "source_commit": "556c5e0ca006b9b8705f6a2aca1d25a52166b979",
+    "run_id": 36972420528,
+    "source_tree": "efad5d6b32e7d6c9985a6a13cf327330443e9b74",
     "counts": {
       "native": {
         "PASS": 179
@@ -2070,12 +2070,10 @@
         "PASS": 40
       },
       "http": {
-        "PASS": 28,
-        "INCOMPLETE": 1
+        "PASS": 29
       },
       "browser": {
-        "PASS": 31,
-        "INCOMPLETE": 5
+        "PASS": 36
       }
     },
     "package_gate": {
@@ -2083,17 +2081,17 @@
       "primary_unchanged": true,
       "backup_restore_drill": true,
       "security_advisors": true,
-      "writer_runtime": false
+      "writer_runtime": true
     },
     "auth_users_before": 0,
     "auth_users_after": 0,
-    "pass_count": 278,
+    "pass_count": 284,
     "observed_case_count": 284,
-    "receipt": "docs/cp7/evidence/f05-obligation-report/third-incomplete-6d2dbc4/RECEIPT.json",
-    "repair_source": "466180aca878b775afc73a91d54c1217d910d80d",
-    "repair_run_id": 36963316962,
-    "repair_status": "NATIVE284_INCOMPLETE_INITIAL_CAPTURE_AND_EPISODE_TIMEOUTS",
-    "remaining": "One actual Native invoice HTTP episode evaluation, two local-rule browser episode evaluations, other-obligation mobile capture and both appendix captures time out. Complete284 remains mandatory; current focused7 and main152 do not replace it.",
+    "receipt": "docs/cp7/evidence/f05-obligation-report/qualified284-556c5e0/RECEIPT.json",
+    "repair_source": "556c5e0ca006b9b8705f6a2aca1d25a52166b979",
+    "repair_run_id": 36972420528,
+    "repair_status": "PURE_NETTING_REPAIR_QUALIFIED_ALL_SIX_PREVIOUS_TIMEOUTS_PASS",
+    "remaining": "Full F04 analyzer/material scope and full P18-P21 remain open; this fixed284 Native writer package is complete.",
     "prior_incomplete_original": {
       "source_commit": "6bdddbe2cea7b1a8e284bfc2ce0a84f896f0e0f1",
       "source_tree": "20adbfd4e10074082091d4733428565db2c055d5",
@@ -2142,8 +2140,45 @@
       "observed_case_count": 284,
       "receipt": "docs/cp7/evidence/f05-obligation-report/second-incomplete-466180a/RECEIPT.json"
     },
-    "job_id": 110709857622,
-    "latest_status": "NATIVE284_INCOMPLETE_SIX_ACTUAL_TIMEOUTS"
+    "job_id": 110729002709,
+    "latest_status": "PASS_284_OF284_ALL_GATES",
+    "third_incomplete_original": {
+      "source_commit": "6d2dbc482f999f86a9588951203279f6ee4c76a4",
+      "source_tree": "9599a973494be68768b6b50b6575a30b08e4dcb7",
+      "run_id": 36966030891,
+      "job_id": 110709857622,
+      "counts": {
+        "native": {
+          "PASS": 179
+        },
+        "races": {
+          "PASS": 40
+        },
+        "http": {
+          "PASS": 28,
+          "INCOMPLETE": 1
+        },
+        "browser": {
+          "PASS": 31,
+          "INCOMPLETE": 5
+        }
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "auth_users_before": 0,
+      "auth_users_after": 0,
+      "pass_count": 278,
+      "observed_case_count": 284,
+      "receipt": "docs/cp7/evidence/f05-obligation-report/third-incomplete-6d2dbc4/RECEIPT.json",
+      "latest_status": "NATIVE284_INCOMPLETE_SIX_ACTUAL_TIMEOUTS"
+    },
+    "source_bundle_sha256": "b1849d8276e6b0eeeed11dbf3c2128c2236624202e0be7d5994cbc1c8a93fc3e",
+    "console_errors": 0
   },
   "f05_native_analysis_latest_regression": {
     "status": "NATIVE_WRITER_QUALIFIED",
@@ -2341,7 +2376,7 @@
     "production_go": false
   },
   "f05_pure_netting_performance_repair": {
-    "status": "SOURCE_READY_AWAITS_COMPLETE_NATIVE284",
+    "status": "NATIVE_WRITER_QUALIFIED_COMPLETE284",
     "contract": "docs/cp7/f05/NATIVE_PURE_NETTING_REPAIR.md",
     "source": "scripts/cp7-src/planning/netting.sql",
     "change": "ONE_PASS_ORIGINAL_ORDER_MATCH_AGGREGATION_LOCAL_IMMUTABLE_PAIR_REUSE_DUPLICATE_KEY_FALLBACK",
@@ -2360,10 +2395,18 @@
     "source_commit": "556c5e0ca006b9b8705f6a2aca1d25a52166b979",
     "source_tree": "efad5d6b32e7d6c9985a6a13cf327330443e9b74",
     "complete_Native284_run_id": 36972420528,
-    "complete_Native284_status": "IN_PROGRESS_AWAITS_ACTUAL_RESULT",
+    "complete_Native284_status": "PASS_284_OF284_ALL_GATES",
     "main_Native152_run_id": 36972420485,
     "focused_Native7_run_id": 36972420474,
     "main_Native152_status": "PASS_152_OF152_ALL_GATES",
-    "focused_Native7_status": "PASS_7_OF7_ALL_GATES"
+    "focused_Native7_status": "PASS_7_OF7_ALL_GATES",
+    "complete_Native284_receipt": "docs/cp7/evidence/f05-obligation-report/qualified284-556c5e0/RECEIPT.json",
+    "complete_Native284_job_id": 110729002709,
+    "original_zip_sha256": "18e23f9f59f519ab2ff0a807ac052075571083202427bb051a22f4f8d4df3e63",
+    "fixed_prior_timeout_count": 6,
+    "measured_full_analysis_original_ms": 1934,
+    "measured_full_analysis_candidate_ms": 903,
+    "measured_full_analysis_restored_original_ms": 1943,
+    "measurement_scope": "12_ACTUAL_NATIVE_E01_JOURNEYS_PLUS12_NATIVE_PLANNER_FIXTURES_NOT_FACTORY_P95"
   }
 }

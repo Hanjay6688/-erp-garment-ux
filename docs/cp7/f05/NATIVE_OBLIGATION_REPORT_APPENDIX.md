@@ -11,3 +11,7 @@ The fixed qualification budget is284:179 database,40 actual races,29 Auth/HTTP a
 Local verification:45 affected report/analysis/parser/DOM tests and TypeScript/Python/Node checks pass. The disposable client build and secret scan passed. Source/access ownership retains the exact literal boundary checks and declares the five new authenticated appendix RPCs; no dynamic RPC or direct table access is allowed. An earlier concurrent local run observed44/45 because the test checked asynchronous digest recovery after a fixed20ms delay; its repaired assertion waits for the actual bounded recovery completion. The same45 rerun passes. Native284 and all restore/primary/advisor/backup/Auth cleanup gates remain required. The standalone Native269 repair is running separately at2c6f014. Full F04/F05, P18–P21, independent audit/demo alignment and production go remain open.
 
 VENI. VIDI. VICI. ERP. Reliable data adalah dewa. Keuangan—termasuk laporan—stok, dan HPP adalah raja.
+
+## Complete repaired Native284 qualification
+
+Source556c5e0/treeefad5d6, run36972420528/job110729002709 passes179 DB/40 actual races/29 real Auth-HTTP/36 browser:284/284, zero console errors, every install/restoration/primary/backup/advisor gate and Auth0→0. Exact source-bound Originals and transport provenance are retained in `../evidence/f05-obligation-report/qualified284-556c5e0/`. All earlier incomplete reports remain unchanged. This qualifies the fixed Native284 writer scope, including all six prior timeouts; it does not grant full F04/F05/P18-P21, independent or production acceptance.

@@ -1,5 +1,17 @@
 # Active writer continuation · 1Oct2026
 
+## Latest controlling checkpoint: complete Native284 qualified
+
+Repaired product556c5e0/treeefad5d6 passes complete Native284 at run36972420528/job110729002709:179 DB/40 actual races/29 real Auth-HTTP/36 browser,284/284 PASS and zero console errors. All install/restoration/primary/backup/advisor gates pass, Auth0→0. Every prior timeout passes; earlier failed Originals remain unchanged. Exact six root reports and189 archive member hashes are retained in `evidence/f05-obligation-report/qualified284-556c5e0/`, with the original349MB archive digest verified through read-only projection53b054d8/run36977165130. Projection executes no product cases and touches no database.
+
+The same repaired product also qualifies the complete main152 and focused actual E01 bridge7 with every gate. Before/candidate/restored-original equivalence4c726f3/run36971712046 proves all12 complete JSON comparisons byte-identical. Complete analysis1934→903ms (about53% faster) at12 actual E01 journeys plus12 planner fixtures; this is a bounded measurement, not factory p95. Current rights, complete financial/source fences, Native HTTP budget, formulas and accepted Supabase bytes are unchanged. See `f05/NATIVE_PURE_NETTING_REPAIR.md`.
+
+F03 stays writer-qualified. Remaining active work is full F04 Native cutting analyzer/material feasibility, then complete F05/P18-P21 acceptance. Independent demo/audit and hosted installation are still open. Do not repeat unchanged Native284 or reopen F03 to obtain evidence already retained. No main merge, hosted installation or production GO follows from this writer result.
+
+## Prior checkpoints: retained history
+
+The entries below describe earlier source-bound checkpoints. The latest controlling checkpoint above and CURRENT_STATE.json govern current status.
+
 Owner direction: finish F03–F05, preserve every ERP rule and source-bound proof, and defer hosted installation until CP7. Sole writer continues on `cp7/integration`. **VENI. VIDI. VICI. ERP. Reliable data adalah dewa. Keuangan—termasuk laporan—stok, dan HPP adalah raja.**
 
 ## Latest checkpoint · 2Oct2026
