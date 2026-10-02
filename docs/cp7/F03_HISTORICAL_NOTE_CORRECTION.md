@@ -61,3 +61,9 @@ The related legacy combined22 regression at `37df58a` is PASS with exact restore
 ## Early Native economic admission check
 
 Before constructing the 30/364 later-note histories, the same mandatory `NOTE_FULL_NATIVE_FINANCIAL` oracle now runs once in its own disposable/restored group. A broken owning command fails early with its exact economic/source error. This repeats one existing oracle, carries zero required/unique-case credit, and does not replace or remove any of the 28 required executions. Once it passes, the complete predeclared Native28 suite still runs with unchanged timeouts, restore, original source/permission and current Auth gates.
+
+## First complete required28 execution — preserved INCOMPLETE
+
+Source `37df58a` / run `36988804560` / job `110779911780` installed the candidate and attempted all28 mandatory cases. Native20/races4/HTTP2/browser2 were INCOMPLETE, principally because the private invoker reader access was denied before the owning operation. Required economic qualification credit is zero. CP6 restoration and advisor gates passed. The exact Original roots, all archive-member hashes, actual errors and runtime identities are retained in `evidence/note-correction/first-required28-incomplete-37df58a/RECEIPT.json`. Later private composition repairs do not convert this Original into PASS.
+
+The historical-negative case also encountered the accepted unsourced-stock valuation refusal while preparing its second, old physical receipt. Its model became known later than that receipt. The fixture now supplies an explicit owner value10 and reason, as its first receipt already did. The product rule, stock quantities, dates, required refusal oracle and all28 case IDs remain unchanged. This correction earns no qualification credit before the Native rerun.

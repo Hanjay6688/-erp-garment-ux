@@ -82,6 +82,15 @@
     },
     "http": {
       "PASS": 4
+    },
+    "sales_browser": {
+      "PASS": 2
+    },
+    "opening_payroll_browser": {
+      "PASS": 2
+    },
+    "finance_browser": {
+      "PASS": 2
     }
   },
   "cp6_restored": true,

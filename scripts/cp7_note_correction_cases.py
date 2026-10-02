@@ -137,7 +137,7 @@ def cases(cur,today):
   remaining=[str(r[0])for r in cur.execute('select id from erp.fg_stock_movements order by book_order,id')if str(r[0])in old_order];assert remaining==old_order
   return dict(status='PASS',added_physical_SKU_has_own_card_at_original_note=True,other_SKU_later_balances_shift_minus3=True,no_manual_book_reset_or_relative_order_loss=True)
  def negative():
-  first=source.fg.ax.r1.now(cur)-timedelta(days=30);f=stock(cur,today,10,first);posted(cur,f,'8');later=source.fg.ax.post(cur,dict(source_kind='FOUND_AT_OPNAME',product_id=f['product'],location_id=f['location'],qty_pcs=10,physical_at=(first+timedelta(days=2)).isoformat(),reason='Later real stock is not available at the original time'))
+  first=source.fg.ax.r1.now(cur)-timedelta(days=30);f=stock(cur,today,10,first);posted(cur,f,'8');later=source.fg.ax.post(cur,dict(source_kind='FOUND_AT_OPNAME',product_id=f['product'],location_id=f['location'],qty_pcs=10,physical_at=(first+timedelta(days=2)).isoformat(),reason='Later real stock is not available at the original time',owner_unit_value='10',owner_value_reason='Declared independent value for the later physical receipt; the future valuation model is not a historical cost source'))
   assert int(cur.execute('select sum(qty_signed)from erp.fg_stock_movements where product_id=%s',(f['product'],)).fetchone()[0])==12
   p,v=edit(cur,f,'12');before=snapshot(cur);auth.refused(cur,lambda:correct(cur,p,v),'stok historis');assert snapshot(cur)==before
   return dict(status='PASS',current_stock_positive12_but_original_time_only10=True,historical_negative_refused_atomically=True)

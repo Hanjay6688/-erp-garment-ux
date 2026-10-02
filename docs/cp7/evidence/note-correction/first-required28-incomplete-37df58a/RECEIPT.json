@@ -1,0 +1,287 @@
+{
+  "run_id": 36988804560,
+  "job_id": 110779911780,
+  "artifact_id": 11219433745,
+  "archive_bytes": 2431867,
+  "archive_sha256": "0fcf90788c7716f8eea634d527ff6004bdf1cca950c2f3030ea3e4e4a30e71a0",
+  "members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385620,
+      "sha256": "b8949799320fa3b13c160b331af6ed9d9ebb66077909303fffeaa7a1ef98c9c2"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385620,
+      "sha256": "b8949799320fa3b13c160b331af6ed9d9ebb66077909303fffeaa7a1ef98c9c2"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "51918b11938e7d2895f89f59d0a94ab21aa9e35587285da21b3467ddae9601f9"
+    },
+    "CP7_NOTE_CORRECTION.json": {
+      "bytes": 346941,
+      "sha256": "8794b9fa4439145a1f324cb77e6b9c5df546b53655412a742d3561483257c405"
+    },
+    "NOTE_DESKTOP_FAILURE.json": {
+      "bytes": 42061,
+      "sha256": "d4e477c0f0eeeab36f5559a70d8e92cf9d85c7e79cb9b2473c178c90a90d565d"
+    },
+    "NOTE_DESKTOP_FAILURE.png": {
+      "bytes": 431294,
+      "sha256": "063b5a84de82b783f347e519e901d89cb59673a0c81aba483287c43adaa4aaef"
+    },
+    "NOTE_MOBILE_FAILURE.json": {
+      "bytes": 33777,
+      "sha256": "8326209be84d04fe6ed283529029ea7f4f909c85d921fc6c169de38ec7a06b3c"
+    },
+    "NOTE_MOBILE_FAILURE.png": {
+      "bytes": 356141,
+      "sha256": "a49755b94e903c39d353c9e4ba6425ff9ca46bcb94eb67fc52dda9762e13b750"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "f04d0503a12cb0cf07214ff6316d6bed036e4815830faeb176a525e6b7375773"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360428,
+      "sha256": "4031e2f78f123a0184f78699640f750290ae985aad9bd32d372847e7d147e3cd"
+    }
+  },
+  "source_commit": "37df58a1f748cd9acc8c7c4f66598ff1ee1b44b0",
+  "source_tree": "fd34d3e933f725c66aed59015314f249cebc0aa4",
+  "product_bundle_sha256": "761ed6945100d860c8e47e446ed4a6069bad8e7a227f413127f94be2b6958fd2",
+  "manifest_sha256": "030669a01af40b4b821fb40341c6bc7f4b895e00d341cb89276fd6b88cd1ec3c",
+  "status": "INCOMPLETE",
+  "expected_case_count": 28,
+  "observed_case_count": 28,
+  "groups": {
+    "native": {
+      "INCOMPLETE": 20
+    },
+    "races": {
+      "INCOMPLETE": 4
+    },
+    "http": {
+      "INCOMPLETE": 2
+    },
+    "browser": {
+      "INCOMPLETE": 2
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "required_case_counts_pass": false,
+  "qualification_scope": "First complete owning-note execution: all28 INCOMPLETE. Owning command and history refused private access_now before economic effects. One historical-negative fixture additionally lacked explicit owner valuation; Native money, stock and HPP are not qualified by this run.",
+  "retained_originals": {
+    "ALIGNED_CHAIN.json": {
+      "path": "docs/cp7/evidence/note-correction/first-required28-incomplete-37df58a/ALIGNED_CHAIN.json.gz",
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "gzip_bytes": 4731,
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a"
+    },
+    "CP7_NOTE_CORRECTION.json": {
+      "path": "docs/cp7/evidence/note-correction/first-required28-incomplete-37df58a/CP7_NOTE_CORRECTION.json.gz",
+      "bytes": 346941,
+      "sha256": "8794b9fa4439145a1f324cb77e6b9c5df546b53655412a742d3561483257c405",
+      "gzip_bytes": 24435,
+      "gzip_sha256": "f5c55e49d2afa17ef1fe436bd3796276cd70a37592d0ae3b513d19e3a8364f9d"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "path": "docs/cp7/evidence/note-correction/first-required28-incomplete-37df58a/T3_PACKAGE_INSTALL.json.gz",
+      "bytes": 360428,
+      "sha256": "4031e2f78f123a0184f78699640f750290ae985aad9bd32d372847e7d147e3cd",
+      "gzip_bytes": 11400,
+      "gzip_sha256": "a158ebfc182789fa35df2a66018a86ac1df03d21e56941a915aaec7e823787be"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "path": "docs/cp7/evidence/note-correction/first-required28-incomplete-37df58a/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "path": "docs/cp7/evidence/note-correction/first-required28-incomplete-37df58a/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "bytes": 10524,
+      "sha256": "f04d0503a12cb0cf07214ff6316d6bed036e4815830faeb176a525e6b7375773",
+      "gzip_bytes": 1826,
+      "gzip_sha256": "7b7173e38ecdb8f018e13d521af59b5247e6bceac9da503de1f6fec9654c7731"
+    },
+    "NOTE_DESKTOP_FAILURE.json": {
+      "path": "docs/cp7/evidence/note-correction/first-required28-incomplete-37df58a/NOTE_DESKTOP_FAILURE.json.gz",
+      "bytes": 42061,
+      "sha256": "d4e477c0f0eeeab36f5559a70d8e92cf9d85c7e79cb9b2473c178c90a90d565d",
+      "gzip_bytes": 5895,
+      "gzip_sha256": "fb468b3aec4befa7c74400a59b8f314860a52a88c2fb7eef92bd1ebd4844633d"
+    },
+    "NOTE_MOBILE_FAILURE.json": {
+      "path": "docs/cp7/evidence/note-correction/first-required28-incomplete-37df58a/NOTE_MOBILE_FAILURE.json.gz",
+      "bytes": 33777,
+      "sha256": "8326209be84d04fe6ed283529029ea7f4f909c85d921fc6c169de38ec7a06b3c",
+      "gzip_bytes": 5557,
+      "gzip_sha256": "82beb2c692b7d14b8d31a5a09e20ebe3c211ea7f68999c45097a581f6c1cbb11"
+    }
+  },
+  "failures": [
+    {
+      "group": "native",
+      "case": "NOTE_YEAR_30",
+      "status": "INCOMPLETE",
+      "error": "permission denied for function access_now\nCONTEXT:  PL/pgSQL function cp7_note.access_now() line 4 at IF\nPL/pgSQL function cp7_note.command(jsonb,uuid,text) line 8 at assignment\nSQL function \"erp_cp7_correct_note_v1\" statement 1"
+    },
+    {
+      "group": "native",
+      "case": "NOTE_YEAR_364",
+      "status": "INCOMPLETE",
+      "error": "permission denied for function access_now\nCONTEXT:  PL/pgSQL function cp7_note.access_now() line 4 at IF\nPL/pgSQL assignment \"a:=cp7_note.access_now()\"\nPL/pgSQL function cp7_note.command(jsonb,uuid,text) line 8 at assignment\nSQL function \"erp_cp7_correct_note_v1\" statement 1"
+    },
+    {
+      "group": "native",
+      "case": "NOTE_REPEATED_REVISIONS",
+      "status": "INCOMPLETE",
+      "error": "permission denied for function access_now\nCONTEXT:  PL/pgSQL function cp7_note.access_now() line 4 at IF\nPL/pgSQL assignment \"a:=cp7_note.access_now()\"\nPL/pgSQL function cp7_note.command(jsonb,uuid,text) line 8 at assignment\nSQL function \"erp_cp7_correct_note_v1\" statement 1"
+    },
+    {
+      "group": "native",
+      "case": "NOTE_FULL_NATIVE_FINANCIAL",
+      "status": "INCOMPLETE",
+      "error": "permission denied for function access_now\nCONTEXT:  PL/pgSQL function cp7_note.access_now() line 4 at IF\nPL/pgSQL assignment \"a:=cp7_note.access_now()\"\nPL/pgSQL function cp7_note.command(jsonb,uuid,text) line 8 at assignment\nSQL function \"erp_cp7_correct_note_v1\" statement 1"
+    },
+    {
+      "group": "native",
+      "case": "NOTE_RETURN_OTHER_WAREHOUSE",
+      "status": "INCOMPLETE",
+      "error": "permission denied for function access_now\nCONTEXT:  PL/pgSQL function cp7_note.access_now() line 4 at IF\nPL/pgSQL assignment \"a:=cp7_note.access_now()\"\nPL/pgSQL function cp7_note.command(jsonb,uuid,text) line 8 at assignment\nSQL function \"erp_cp7_correct_note_v1\" statement 1"
+    },
+    {
+      "group": "native",
+      "case": "NOTE_EXACT_CENTS",
+      "status": "INCOMPLETE",
+      "error": "permission denied for function access_now\nCONTEXT:  PL/pgSQL function cp7_note.access_now() line 4 at IF\nPL/pgSQL assignment \"a:=cp7_note.access_now()\"\nPL/pgSQL function cp7_note.command(jsonb,uuid,text) line 8 at assignment\nSQL function \"erp_cp7_correct_note_v1\" statement 1"
+    },
+    {
+      "group": "native",
+      "case": "NOTE_ADDED_SKU_MAIN_BOOK",
+      "status": "INCOMPLETE",
+      "error": "permission denied for function access_now\nCONTEXT:  PL/pgSQL function cp7_note.access_now() line 4 at IF\nPL/pgSQL assignment \"a:=cp7_note.access_now()\"\nPL/pgSQL function cp7_note.command(jsonb,uuid,text) line 8 at assignment\nSQL function \"erp_cp7_correct_note_v1\" statement 1"
+    },
+    {
+      "group": "native",
+      "case": "NOTE_HISTORICAL_NEGATIVE",
+      "status": "INCOMPLETE",
+      "error": "FG_UNSOURCED_VALUE_REQUIRED: tidak ada pembanding HPP; owner wajib mengisi nilai per pcs dengan alasan\nDETAIL:  {\"tier\": \"OWNER_INPUT_REQUIRED\", \"method\": null, \"reason\": \"Tidak ada lot pembanding bernilai; owner wajib mengisi nilai per pcs dengan alasan (tidak pernah Rp0 otomatis).\", \"unit_value\": null, \"physical_at\": \"2026-09-04T09:39:18.941236+00:00\"}\nCONTEXT:  PL/pgSQL function erp.post_fg_unsourced_receipt_v1(jsonb,uuid) line 138 at RAISE\nSQL function \"erp_post_fg_unsourced_receipt_v1\" statement 1"
+    },
+    {
+      "group": "native",
+      "case": "NOTE_CLOSED_PERIOD_NATIVE_RULE",
+      "status": "INCOMPLETE",
+      "error": "permission denied for function access_now\nCONTEXT:  PL/pgSQL function cp7_note.access_now() line 4 at IF\nPL/pgSQL assignment \"a:=cp7_note.access_now()\"\nPL/pgSQL function cp7_note.command(jsonb,uuid,text) line 8 at assignment\nSQL function \"erp_cp7_correct_note_v1\" statement 1"
+    },
+    {
+      "group": "native",
+      "case": "NOTE_LATE_FAILURE_ATOMIC",
+      "status": "INCOMPLETE",
+      "error": "('NOTE_TEST_INJECTED_AFTER_STOCK_CASH_JOURNAL_HPP', 'permission denied for function access_now')"
+    },
+    {
+      "group": "native",
+      "case": "NOTE_OVERPAYMENT_ATOMIC",
+      "status": "INCOMPLETE",
+      "error": "('exceeds exact remaining receivable', 'permission denied for function access_now')"
+    },
+    {
+      "group": "native",
+      "case": "NOTE_RETURN_CAPACITY_ATOMIC",
+      "status": "INCOMPLETE",
+      "error": "('CP7_NOTE_RETURN_ALLOCATION_CHANGED', 'permission denied for function access_now')"
+    },
+    {
+      "group": "native",
+      "case": "NOTE_CHILD_REVIEW_CHANGED",
+      "status": "INCOMPLETE",
+      "error": "('CP7_NOTE_REVIEW_CHANGED', 'permission denied for function access_now')"
+    },
+    {
+      "group": "native",
+      "case": "NOTE_REPLAY_CURRENT_AUTHORITY",
+      "status": "INCOMPLETE",
+      "error": "permission denied for function access_now\nCONTEXT:  PL/pgSQL function cp7_note.access_now() line 4 at IF\nPL/pgSQL assignment \"a:=cp7_note.access_now()\"\nPL/pgSQL function cp7_note.command(jsonb,uuid,text) line 8 at assignment\nSQL function \"erp_cp7_correct_note_v1\" statement 1"
+    },
+    {
+      "group": "native",
+      "case": "NOTE_PRIVATE_CLOSED_FIELDS",
+      "status": "INCOMPLETE",
+      "error": "('CP7_SALES_DRAFT_FIELDS', 'permission denied for function access_now')"
+    },
+    {
+      "group": "native",
+      "case": "NOTE_SAME_DAY_CHRONOLOGY",
+      "status": "INCOMPLETE",
+      "error": "permission denied for function access_now\nCONTEXT:  PL/pgSQL function cp7_note.access_now() line 4 at IF\nPL/pgSQL assignment \"a:=cp7_note.access_now()\"\nPL/pgSQL function cp7_note.command(jsonb,uuid,text) line 8 at assignment\nSQL function \"erp_cp7_correct_note_v1\" statement 1"
+    },
+    {
+      "group": "native",
+      "case": "NOTE_PREPAYMENT_REPLAY",
+      "status": "INCOMPLETE",
+      "error": "permission denied for function access_now\nCONTEXT:  PL/pgSQL function cp7_note.access_now() line 4 at IF\nPL/pgSQL assignment \"a:=cp7_note.access_now()\"\nPL/pgSQL function cp7_note.command(jsonb,uuid,text) line 8 at assignment\nSQL function \"erp_cp7_correct_note_v1\" statement 1"
+    },
+    {
+      "group": "native",
+      "case": "NOTE_PREPAYMENT_OVERPAYMENT_ATOMIC",
+      "status": "INCOMPLETE",
+      "error": "('exceeds exact remaining receivable', 'permission denied for function access_now')"
+    },
+    {
+      "group": "native",
+      "case": "NOTE_ECONOMIC_REPORT_RESTATEMENT",
+      "status": "INCOMPLETE",
+      "error": "permission denied for function access_now\nCONTEXT:  PL/pgSQL function cp7_note.access_now() line 4 at IF\nPL/pgSQL assignment \"a:=cp7_note.access_now()\"\nPL/pgSQL function cp7_note.command(jsonb,uuid,text) line 8 at assignment\nSQL function \"erp_cp7_correct_note_v1\" statement 1"
+    },
+    {
+      "group": "native",
+      "case": "NOTE_EXACT_TIME_SOURCE_ORDER",
+      "status": "INCOMPLETE",
+      "error": "permission denied for function access_now\nCONTEXT:  PL/pgSQL function cp7_note.access_now() line 4 at IF\nPL/pgSQL assignment \"a:=cp7_note.access_now()\"\nPL/pgSQL function cp7_note.command(jsonb,uuid,text) line 8 at assignment\nSQL function \"erp_cp7_correct_note_v1\" statement 1"
+    },
+    {
+      "group": "http",
+      "case": "NOTE_HTTP_COMMAND_REPLAY_AUTH",
+      "status": "INCOMPLETE",
+      "error": "{'status': 403, 'body': {'code': '42501', 'details': None, 'hint': None, 'message': 'permission denied for function access_now'}}"
+    },
+    {
+      "group": "http",
+      "case": "NOTE_HTTP_CORRECTED_BOOK",
+      "status": "INCOMPLETE",
+      "error": "permission denied for function access_now\nCONTEXT:  PL/pgSQL function cp7_note.access_now() line 4 at IF\nPL/pgSQL function cp7_note.command(jsonb,uuid,text) line 8 at assignment\nSQL function \"erp_cp7_correct_note_v1\" statement 1"
+    },
+    {
+      "group": "browser",
+      "case": "NOTE_BROWSER_DESKTOP",
+      "status": "INCOMPLETE",
+      "error": "Error: Command failed: python ../auditor/scripts/cp7_note_correction_browser_fixture.py read {\"material\":\"e1c2c82a-42fd-4552-8597-946ef3e50c6b\",\"location\":\"fc0133b1-36f9-43ff-bd43-d632736b750d\",\"payload\":{\"purchase_number\":\"P09-cae98b0b942c\",\"supplier_id\":\"c8c30000-0000-4000-8000-000000000001\",\"location_id\":\"11d6dec6-4c78-4738-8fac-fdb4aa66d392\",\"physical_at\":\"2026-09-29T10:00:00+07:00\",\"change_reason\":\"P09 declared receipt\",\"lines\":[{\"material_id\":\"e1c2c82a-42fd-4552-8597-946ef3e50c6b\",\"qty\":\"100\",\"unit_price\":\"10\",\"price_state\":\"FINAL\",\"price_source\":\"SUPPLIER_INVOICE\",\"rolls\":[{\"roll_number\":\"P09-cae98b0b942c-R\",\"qty\":\"100\"}]}]},\"day\":\"2026-09-29\",\"tag\":\"E01-60dd1ab18956\",\"trace\":[{\"checkpoint\":\"RECEIPT\",\"raw_qty\":100,\"raw_value\":1000,\"supplier_ap\":1000,\"grni\":0},{\"checkpoint\":\"CUTTING\",\"raw_qty\":40,\"raw_value\":400,\"consumed_value\":600,\"produced_pcs\":60},{\"checkpoint\":\"SEWING\",\"legs\":[30,30],\"cost\":120,\"completion_ids\":[\"239cc456-a630-482d-9bf8-aad613fcda24\",\"77e841f9-3790-42a4-ae77-4dac21a24e28\"]},{\"checkpoint\":\"LAUNDRY_QC\",\"laundry_legs\":[30,30],\"qc\":[20,40],\"fg\":60},{\"checkpoint\":\"FINAL_FG\",\"fg\":60,\"value\":900,\"hpp\":15,\"wip\":0,\"raw\":600,\"sewing\":120,\"accessory\":60,\"laundry\":120,\"current_hpp_components\":{\"ACCESSORY\":\"60.000000\",\"LABOR\":\"120.000000\",\"LAUNDRY\":\"120.000000\",\"MATERIAL\":\"600.000000\"},\"hpp_completeness\":{\"po_id\":\"d28d1fb1-c25c-46f7-901b-dd0a2d76eb31\",\"po_number\":\"E01-60dd1ab18956\",\"po_status\":\"FINISHED\",\"hpp_per_pcs\":15,\"is_adjusted\":false,\"latest_hpp_at\":\"2026-10-02T16:40:15.497417+07:00\",\"qty_basis_pcs\":60,\"display_status\":\"LENGKAP_BERDASARKAN_DATA_SAAT_INI\",\"pending_reasons\":[],\"current_hpp_total\":900,\"engine_cost_state\":\"ACTUAL\",\"pending_reason_count\":0}},{\"checkpoint\":\"NOTA_PAYROLL\",\"note\":\"aa149d3a-d5c4-49a9-9199-58d18affa030\",\"payroll\":\"2ac2b92d-0598-4eef-90fe-89de52162916\",\"labor\":120,\"accessory_reimbursement\":60,\"approved_unpaid\":180,\"same_request_once\":true,\"stock_hpp_journals_unchanged\":true},{\"checkpoint\":\"REPORT_READY\",\"confidence\":{\"info\":[],\"as_of\":\"2026-10-02\",\"engine\":\"PERIOD_READINESS_V1\",\"filing\":null,\"status\":\"READY\",\"blockers\":[],\"window_from\":\"2026-09-29\",\"failed_checks\":[],\"closed_through\":\"2026-09-28\",\"warning_issue_count\":\"0\",\"changed_since_filing\":false,\"critical_issue_count\":\"0\",\"pending_cost_recalc_count\":\"0\"},\"seed_completion\":{\"attendance\":[{\"contractor\":\"a1000000-0000-0000-0000-000000000001\",\"days\":4,\"lines\":4,\"periods\":[{\"start\":\"2026-09-29\",\"end\":\"2026-10-02\",\"period_id\":\"2547f88a-59c2-433c-947b-48c6ec39f1cd\",\"row_version\":3,\"days\":4,\"lines\":4}],\"occupied\":[],\"posted_drafts\":[]},{\"contractor\":\"a1000000-0000-0000-0000-000000000002\",\"days\":4,\"lines\":4,\"periods\":[{\"start\":\"2026-09-29\",\"end\":\"2026-10-02\",\"period_id\":\"29748af6-23a7-486f-b960-3a683b92767d\",\"row_version\":3,\"days\":4,\"lines\":4}],\"occupied\":[],\"posted_drafts\":[]},{\"contractor\":\"a1000000-0000-0000-0000-000000000003\",\"days\":4,\"lines\":4,\"periods\":[{\"start\":\"2026-09-29\",\"end\":\"2026-10-02\",\"period_id\":\"99b753f9-09ad-4c22-a04a-6efd5119f7fa\",\"row_v"
+    },
+    {
+      "group": "browser",
+      "case": "NOTE_BROWSER_MOBILE_LOST_REPLY",
+      "status": "INCOMPLETE",
+      "error": "Error: Command failed: python ../auditor/scripts/cp7_note_correction_browser_fixture.py read {\"material\":\"64a32075-5f66-4375-a449-7b41dad31c18\",\"location\":\"b6f898fd-a197-4bd7-b0a1-fff84ea819e3\",\"payload\":{\"purchase_number\":\"P09-051fea5bea92\",\"supplier_id\":\"c8c30000-0000-4000-8000-000000000001\",\"location_id\":\"7d9e46c1-dae9-48a2-bb1b-4c101051c845\",\"physical_at\":\"2026-09-29T10:00:00+07:00\",\"change_reason\":\"P09 declared receipt\",\"lines\":[{\"material_id\":\"64a32075-5f66-4375-a449-7b41dad31c18\",\"qty\":\"100\",\"unit_price\":\"10\",\"price_state\":\"FINAL\",\"price_source\":\"SUPPLIER_INVOICE\",\"rolls\":[{\"roll_number\":\"P09-051fea5bea92-R\",\"qty\":\"100\"}]}]},\"day\":\"2026-09-29\",\"tag\":\"E01-9be5b5b830a7\",\"trace\":[{\"checkpoint\":\"RECEIPT\",\"raw_qty\":100,\"raw_value\":1000,\"supplier_ap\":1000,\"grni\":0},{\"checkpoint\":\"CUTTING\",\"raw_qty\":40,\"raw_value\":400,\"consumed_value\":600,\"produced_pcs\":60},{\"checkpoint\":\"SEWING\",\"legs\":[30,30],\"cost\":120,\"completion_ids\":[\"d77ca447-1683-44e4-8ab2-5862e0e822a1\",\"a3217287-e391-4202-b527-c6b7a8ec0a2a\"]},{\"checkpoint\":\"LAUNDRY_QC\",\"laundry_legs\":[30,30],\"qc\":[20,40],\"fg\":60},{\"checkpoint\":\"FINAL_FG\",\"fg\":60,\"value\":900,\"hpp\":15,\"wip\":0,\"raw\":600,\"sewing\":120,\"accessory\":60,\"laundry\":120,\"current_hpp_components\":{\"ACCESSORY\":\"60.000000\",\"LABOR\":\"120.000000\",\"LAUNDRY\":\"120.000000\",\"MATERIAL\":\"600.000000\"},\"hpp_completeness\":{\"po_id\":\"1ab810de-c39e-4e85-be69-fd609864971a\",\"po_number\":\"E01-9be5b5b830a7\",\"po_status\":\"FINISHED\",\"hpp_per_pcs\":15,\"is_adjusted\":false,\"latest_hpp_at\":\"2026-10-02T16:40:19.865506+07:00\",\"qty_basis_pcs\":60,\"display_status\":\"LENGKAP_BERDASARKAN_DATA_SAAT_INI\",\"pending_reasons\":[],\"current_hpp_total\":900,\"engine_cost_state\":\"ACTUAL\",\"pending_reason_count\":0}},{\"checkpoint\":\"NOTA_PAYROLL\",\"note\":\"99dd0188-b6ee-4b03-a44f-f79847672904\",\"payroll\":\"f73b7acd-37f5-4bd3-a7f9-bc0b80a1b207\",\"labor\":120,\"accessory_reimbursement\":60,\"approved_unpaid\":180,\"same_request_once\":true,\"stock_hpp_journals_unchanged\":true},{\"checkpoint\":\"REPORT_READY\",\"confidence\":{\"info\":[],\"as_of\":\"2026-10-02\",\"engine\":\"PERIOD_READINESS_V1\",\"filing\":null,\"status\":\"READY\",\"blockers\":[],\"window_from\":\"2026-09-29\",\"failed_checks\":[],\"closed_through\":\"2026-09-28\",\"warning_issue_count\":\"0\",\"changed_since_filing\":false,\"critical_issue_count\":\"0\",\"pending_cost_recalc_count\":\"0\"},\"seed_completion\":{\"attendance\":[],\"approved\":[],\"work_payrolls\":[],\"refused\":[]}}],\"purchase\":\"5a177662-90f1-4d93-886a-7f783350a4d7\",\"roll\":\"04e8cef4-2527-4b9f-98c6-e59c7ee75b89\",\"po\":\"1ab810de-c39e-4e85-be69-fd609864971a\",\"model\":\"8747e753-9003-4345-bb39-059a11caf135\",\"contractor\":\"43bb1b64-dcb9-4bf6-8706-00e4d93f1bfb\",\"product\":\"9f93ec9e-66f7-4ede-b901-03899196085e\",\"sku\":\"E01-9be5b5b830a7\",\"raw_location\":\"7d9e46c1-dae9-48a2-bb1b-4c101051c845\",\"destination\":\"b6f898fd-a197-4bd7-b0a1-fff84ea819e3\",\"production_day\":\"2026-09-30\",\"group\":\"b6a4c0e1-e2be-4c45-b031-fe450cf160e4\",\"batch\":\"db66f3e9-dd61-4a7b-ac66-b8247209be40\",\"vendor\":\"1993082f-5275-4c41-b13f-c31afce5296c\",\"receipts\":[{\"line\":\"263bcaac-"
+    }
+  ]
+}

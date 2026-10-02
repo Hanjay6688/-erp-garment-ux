@@ -189,7 +189,14 @@ def cases(cur, today):
         assert Decimal(financial['financial_position']['customer_ar']) - Decimal(c['original']['financial_source']['report']['snapshot']['financial_position']['customer_ar']) == -100
         current_source = rules.source(cur, fresh)
         assert rules.row(current_source, 'AR_DUE:' + f['sale'])['financial_source']['remaining']['value'] == '75.00'
-        assert not any(r['key'] == 'AR_DUE:' + old_sale and not r['business_resolved'] for r in current_source['rows'])
+        # A reversed note is inactive, not paid. The accepted reader deliberately
+        # leaves its balance unknown and business_resolved false; only an active
+        # Native receivable with actual zero balance proves settlement.
+        old_ar = rules.row(current_source, 'AR_DUE:' + old_sale)
+        assert old_ar['state'] == 'NO_CURRENT_GAP' and old_ar['economic_state'] == 'INACTIVE', old_ar
+        assert old_ar['reason'] == 'INACTIVE_DOCUMENT' and not old_ar['business_resolved'], old_ar
+        assert old_ar['financial_source']['remaining']['state'] == 'UNKNOWN', old_ar
+        assert 'value' not in old_ar['financial_source']['remaining'], old_ar
         new_base = reports.base(cur, fresh)
         payload = reports.payload(reports.preview(cur, new_base), c['appendix'], title='E01 nota dibetulkan, kas dan retur tetap')
         successor = reports.checked(reports.command(cur, payload), payload)
