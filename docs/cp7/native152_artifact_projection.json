@@ -1,0 +1,21 @@
+{
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "run_id": 37002543380,
+  "job_id": 110823303924,
+  "artifact_id": 11224667751,
+  "artifact_name": "cp7-f05-analysis",
+  "source_commit": "2dced3d393dd2f3073de1dc3706c62581f52b9c6",
+  "source_tree": "9d9ab4e91ce22396f8102a2bff876a0a36fc255c",
+  "source_bundle_sha256": "2171fea797b20d547c7cc26a421c2483509bad1ee6584dc2e7aaae7edcbf5979",
+  "zip_bytes": 71602533,
+  "zip_sha256": "b3aa8e5deae7e5d27f6cd5d30d0933e3cf5d46c9b86642a81df8fc5bba88a8fe",
+  "runtime_report": "CP7_F05_NATIVE_ANALYSIS.json",
+  "expected_status": "PASS",
+  "expected_case_count": 152,
+  "required_case_counts": {
+    "native": 106,
+    "races": 20,
+    "http": 12,
+    "browser": 14
+  }
+}

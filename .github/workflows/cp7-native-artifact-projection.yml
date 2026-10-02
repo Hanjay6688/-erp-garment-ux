@@ -6,6 +6,7 @@ name: CP7 Completed Native Artifact Projection
     paths:
       - scripts/cp7_native_artifact_projection.py
       - docs/cp7/native284_artifact_projection.json
+      - docs/cp7/native152_artifact_projection.json
       - .github/workflows/cp7-native-artifact-projection.yml
 permissions:
   contents: read
@@ -18,13 +19,15 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           persist-credentials: false
-      - name: Retain original completed Native284 reports and every member hash
+      - name: Retain completed Native reports and every member hash without ERP access
         env:
           GH_TOKEN: ${{ github.token }}
-        run: python scripts/cp7_native_artifact_projection.py docs/cp7/native284_artifact_projection.json cp7-proof/native284
+        run: |
+          python scripts/cp7_native_artifact_projection.py docs/cp7/native284_artifact_projection.json cp7-proof/native284
+          python scripts/cp7_native_artifact_projection.py docs/cp7/native152_artifact_projection.json cp7-proof/native152
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: cp7-native284-exact-original-reports
-          path: cp7-proof/native284/
+          path: cp7-proof/
           if-no-files-found: error
           retention-days: 90

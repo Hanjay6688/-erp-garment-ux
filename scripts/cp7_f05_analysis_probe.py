@@ -79,7 +79,13 @@ def run(attention=False,p18_e01=False):
     selected=[(name,operation)for name,operation in case_provider.cases(cur,today)if name in early]
     assert len(selected)==3,('ATTENTION_ADMISSION_REQUIRED_CONTROLS',early,[name for name,_ in selected])
     return selected
-   report['source_admission']=native.strict_group('CP7_ATTENTION_SOURCE_ADMISSION',admission,checker)
+   # The frozen reader's jsonb_agg ORDER BY 1 is a constant. The compiler
+   # equivalence control rolls back CREATE OR REPLACE, which may reorder pg_proc
+   # physically. Apply the same all-member/hash comparator as the full group;
+   # retain the raw-order witness and keep every restoration/cleanup gate.
+   with exact_public_catalog(native)as admission_catalog_audit:
+    report['source_admission']=native.strict_group('CP7_ATTENTION_SOURCE_ADMISSION',admission,checker)
+   report['source_admission_public_catalog_comparison']=admission_catalog_audit
    report['source_admission_required_case_credit']=0
    assert report['source_admission'].get('status')in('PASS','RUN_COMPLETE')and report['source_admission'].get('counts')=={'PASS':3},'ATTENTION_SOURCE_ADMISSION_FAILED'
   with exact_public_catalog(native)as catalog_audit:

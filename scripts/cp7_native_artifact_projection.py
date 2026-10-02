@@ -72,7 +72,14 @@ def project(manifest_path, destination):
     with zipfile.ZipFile(archive) as source:
         report = json.loads(source.read(manifest['runtime_report']))
     assert report['source_sha256'] == manifest['source_bundle_sha256']
-    assert report['required_case_counts'] == manifest['required_case_counts']
+    if 'required_case_counts' in report:
+        assert report['required_case_counts'] == manifest['required_case_counts']
+    else:
+        # Older fixed analysis reports omit this redundant budget field. Pin
+        # their complete successful group counts to the explicit manifest.
+        assert manifest['expected_status'] == 'PASS'
+        assert {g: report[g]['counts'] for g in manifest['required_case_counts']} == {
+            g: {'PASS': n} for g, n in manifest['required_case_counts'].items()}
     if manifest['expected_status'] == 'PASS':
         assert report['browser']['console_errors'] == 0
     metadata = {key: manifest[key] for key in (
